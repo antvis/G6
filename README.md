@@ -9,12 +9,12 @@ Relational data visualization framework.
 * Easy to use graphics, interactive extension mechanism
 * Complete data to the graphic mapping syntax
 * Delicate, simple, easy to use diagram
-* It contains high efficiency, the layout of the algorithm
+* It contains high efficiency, layout algorithm
 * Contains basic diagram editor
 
 ## Supporting environment
 
-* Modern browsers and Internet explorer 9 or more.。
+* Modern browsers and Internet explorer 9 and above
 
 ## Install
 
