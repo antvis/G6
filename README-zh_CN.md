@@ -2,7 +2,7 @@
 
 关系数据可视化框架。
 
-[README in English](README)
+[README in English](README.md)
 
 ## 特性
 

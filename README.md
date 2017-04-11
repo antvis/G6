@@ -2,7 +2,7 @@
 
 Relational data visualization framework.
 
-[中文 README](README-zh_CN)
+[中文 README](README-zh_CN.md)
 
 ## Features
 
