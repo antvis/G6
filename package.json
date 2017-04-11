@@ -1,6 +1,6 @@
 {
   "name": "g6js",
-  "version": "0.2.3-beta.7",
+  "version": "1.0.0",
   "description": "net visualization framework",
   "keywords": [
     "g6",
@@ -9,11 +9,13 @@
     "digraph"
   ],
   "homepage": "https://github.com/antvis/g6",
-  "author": "dori <418466938@qq.com>",
+  "authors": [
+    "dori <418466938@qq.com>",
+    "leungwensen <leungwensen@gmail.com>",
+    "dxq613 <dxq613@gmail.com>"
+  ],
   "contributors": [
-    "dxq613 <dxq613@gmail.com>",
-    "minnuo <audrey.tm@alibaba-inc.com>",
-    "leungwensen <leungwensen@gmail.com>"
+    "minnuo <audrey.tm@alibaba-inc.com>"
   ],
   "repository": {
     "type": "git",
