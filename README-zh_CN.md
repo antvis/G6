@@ -24,9 +24,9 @@ npm install @antv/g6
 
 ## 链接
 
-[G6 快速上手](https://antv.alipay.com/g6/doc/index.html);
-[G6 使用教程](https://antv.alipay.com/g6/doc/tutorial/base.html);
-[G6 图表示例](https://antv.alipay.com/g6/demo/index.html);
-[G6 API手册](https://antv.alipay.com/g6/api/index.html);
-[G6 更新日志](https://antv.alipay.com/g6/doc/history.html);
-[G6 在线编辑工具](https://antv.alipay.com/g6/tools/index.html);
+* [G6 快速上手](https://antv.alipay.com/g6/doc/index.html)
+* [G6 使用教程](https://antv.alipay.com/g6/doc/tutorial/base.html)
+* [G6 图表示例](https://antv.alipay.com/g6/demo/index.html)
+* [G6 API手册](https://antv.alipay.com/g6/api/index.html)
+* [G6 更新日志](https://antv.alipay.com/g6/doc/history.html)
+* [G6 在线编辑工具](https://antv.alipay.com/g6/tools/index.html)
