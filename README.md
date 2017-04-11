@@ -8,7 +8,7 @@ Relational data visualization framework.
 
 * Easy to use graphics, interactive extension mechanism
 * Complete data to the graphic mapping syntax
-* Delicate, simple, easy to use, the relationship between rich tutu
+* Delicate, simple, easy to use diagram
 * It contains high efficiency, the layout of the algorithm
 * Contains basic diagram editor
 
