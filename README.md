@@ -6,10 +6,7 @@ Relational data visualization framework.
 
 ## Features
 
-* Easy to use graphics, interactive extension mechanism
-* Complete data to the graphic mapping syntax
-* Delicate, simple, easy to use diagram
-* Contains efficient graph drawing algorithms
+* Easy to use graph middleware
 * Contains basic diagram editor
 
 ## Supporting environment
