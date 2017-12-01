@@ -23797,7 +23797,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Monitor = __webpack_require__(59);
 	var config = {
 	  g6: true,
-	  version: '1.2.1-beta.7',
+	  version: '1.2.1-beta.11',
 	  page_type: 'syslog'
 	};
 	// 延迟发送请求
