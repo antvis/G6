@@ -2,15 +2,69 @@
 
 ---
 
-## v1.1.1
+## v1.2.1
 
-* fix:     修复 changeData 后应重新绑事件
+* feat:    新增 layout 接口
+
+## v1.2.0
+
+* fix:     修复 nodeActivedBoxStyle 拼写错误
+* fix:     修复 删除环时报错
+* fix:     修复 右键后再移动鼠标触发 dragstart
+* feat:    新增 统一布局机制到 Graph
+* feat:    新增 插件机制
+* feat:    新增 数据过滤机制
+* feat:    新增 激活态接口
+* feat:    新增 行为 wheelZoomAutoLabel
+* feat:    新增 graph 配置项 preciseAnchor
+* remove:  移除 Global.preciseAnchor
+* remove:  移除 Layout.Flow、Layout.Force
+* improve: 改进 html 容器策略
+
+## v1.1.6
+
+* fix:     修复 布局算法包中的打包问题
+
+## v1.1.5
+
+* fix:     修复 dragCanvas 在 mousemove 才设置拾取实效，否则会影响点击事件
+* fix:     修复 将 node 的 activeRectBox 的拾取设置为false
+
+## v1.1.4
+
+`2017-08-15`
+
+* feat:    新增 graph.invertPoint() 转置点
+* feat:    新增 锚点第三个配置参数 此后锚点支持设置样式、悬浮样式、是否可以连接
+* feat:    新增 item.getGroup()
+* feat:    新增 事件 afteritemrender、itemremove、itemadd
+* feat:    新增 行为信号量 behaviourSignal
+* improve: 改进 画布聚焦时 mouseWheel 才生效
+
+## v1.1.3
+
+`2017-08-8`
+
+* feat:    新增 Graph 配置项 useNodeSortGroup，用于配置节点组是否使用排序组
+* feat:    新增 Global.nodeDelegationStyle, Global.edgeDelegationStyle 边和节点可独立配置委托图形
+* fix:     修复 事件 itemremove 销毁前触发
+
+## v1.1.2
+
+`2017-08-01`
+
+* feat:    新增 行为 dragBlankX dragBlankY
+
+## v1.1.1
+`2017-07-18`
+
 * improve: 改进 添加 dragNode 保护机制
 
 ## v1.1.0
 
 `2017-07-05`
 
+* feat:    新增 HTML 节点
 * feat:    新增 映射支持直接传入 callback
 * feat:    新增 Graph 接口 updateMatrix、changeSize、showAnchor、hideAnchor、updataNodesPosition
 * feat:    新增 工具方法 Util.isNode()、Util.isEdge()
@@ -66,7 +120,6 @@
 * fix:     修复 Object.values => Util.getObjectValues
 * fix:     修复 anchorPoints 为 auto 时，edge上就算传了anchorpoint，也返回截取点
 * fix:     修复 tree 更新接口 Bug
-* feat:    新增 HTML 节点
 * improve: 改进 位置信息用 group.transfrom() 来表示
 
 ## v1.0.1
@@ -114,7 +167,7 @@
 `2017-03-2`
 
 * fix:     修复 dragable 可用于控制默认模式下是否可拖动画布
-* feat:    新增 graph.converPoint() 转置点方法
+* feat:    新增 graph.converPoint() 反置点方法
 * feat:    新增 graph.autoSize()
 * feat:    新增 rightmousedown leftmousedown wheeldown 事件
 * improve: 改进 用tyr catch 防御getPoint由于path长度为零出错
