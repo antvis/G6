@@ -8,7 +8,8 @@
     "graph",
     "digraph"
   ],
-  "main": "dist/index.js",
+  "main": "./index.js",
+  "browser": "./g6-plugins.min.js",
   "homepage": "https://github.com/antvis/g6",
   "authors": [
     "dori <418466938@qq.com>",
