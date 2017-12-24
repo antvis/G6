@@ -2,6 +2,11 @@
 
 ---
 
+## v1.2.2
+
+* feat:    新增 autoLayout 配置项，以决定渲染完后是否自动布局，默认为 true
+* improve: 改进 removeItem 里，destroy后再 delete itemcache
+
 ## v1.2.1
 
 * feat:    新增 layout 接口
