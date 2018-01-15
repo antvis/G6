@@ -2,6 +2,10 @@
 
 ---
 
+## v1.2.4
+
+* fix:     修复 windows 下首次进入画布 mousedown 触发 dragstart
+
 ## v1.2.3
 
 * fix:     修复 repeat 动画 bug 
