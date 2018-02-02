@@ -5,6 +5,7 @@
 ## v1.2.5
 
 * fix:     修复 clickFocus bug
+* fix:     修复 tooltip 显示 bug
 
 ## v1.2.4
 
