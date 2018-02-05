@@ -6,6 +6,7 @@
 
 * fix:     修复 clickFocus bug
 * fix:     修复 tooltip 显示 bug
+* feat:    新增 开发一些图查询接口
 
 ## v1.2.4
 
