@@ -2,30 +2,6 @@
 
 ---
 
-## v1.2.6
-
-* fix:     修复 autoText 触发时机
-
-## v1.2.5
-
-* fix:     修复 clickFocus bug
-* fix:     修复 tooltip 显示 bug
-* feat:    新增 开发一些图查询接口
-
-## v1.2.4
-
-* fix:     修复 windows 下首次进入画布 mousedown 触发 dragstart
-* feat:    新增 行为继承
-
-## v1.2.3
-
-* fix:     修复 repeat 动画 bug 
-
-## v1.2.2
-
-* feat:    新增 autoLayout 配置项，以决定渲染完后是否自动布局，默认为 true
-* improve: 改进 removeItem 里，destroy后再 delete itemcache
-
 ## v1.2.1
 
 * feat:    新增 layout 接口
