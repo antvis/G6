@@ -1,5 +1,7 @@
 # G6
 
+[![Join the chat at https://gitter.im/antvis/g6-english](https://badges.gitter.im/antvis/g6-english.svg)](https://gitter.im/antvis/g6-english?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Relational data visualization framework.
 
 [中文 README](README-zh_CN.md)
