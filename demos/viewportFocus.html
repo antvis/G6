@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>视口-聚焦</title>
+</head>
+
+<body>
+  <button id="focus_node1">聚焦节点1</button>
+  <button id="focus_node2">聚焦节点2</button>
+  <div id="mountNode"></div>
+  <script src="../build/g6.js"></script>
+  <script>
+    const data = {
+      nodes: [{
+        id: 'node1',
+        x: 100,
+        y: 200,
+        label: '节点1',
+      }, {
+        id: 'node2',
+        x: 300,
+        y: 200,
+        label: '节点2',
+      }],
+      edges: [{
+        id: 'edge1',
+        target: 'node2',
+        source: 'node1'
+      }]
+    };
+    const graph = new G6.Graph({
+      container: 'mountNode',
+      fitView: 'cc',
+      height: window.innerHeight,
+      fitView: 'cc'
+    });
+    graph.read(data);
+
+    document.getElementById('focus_node1').onclick = () => {
+      graph.focus('node1');
+    };
+    document.getElementById('focus_node2').onclick = () => {
+      graph.focus('node2');
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>快速上手-树图</title>
+</head>
+
+<body>
+  <div id="mountNode"></div>
+  <script src="../build/g6.js"></script>
+  <script>
+    const data = {
+      roots: [{
+        label: 'root',
+        children: [{
+          label: 'child1',
+          children: [
+            {
+              label: 'child\n1.1'
+            }
+          ]
+        }, {
+          label: 'child2'
+        }]
+      }]
+    };
+    const tree = new G6.Tree({
+      container: 'mountNode',
+      width: 500,
+      height: 500,
+      fitView: 'cc'
+    });
+    tree.read(data);
+  </script>
+</body>
+</html>

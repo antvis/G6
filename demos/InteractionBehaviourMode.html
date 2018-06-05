@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>交互-模式与行为</title>
+</head>
+
+<body>
+  <button id="changeMode">切换模式</button>
+  <div id="mountNode"></div>
+  说明：事件在 G6 中是粒度最小的交互接口，一般最简单的交互，我们可以直接通过写事件完成。但在一些交互非常复杂的场景里，我们往往比较难管理各个事件之间信号量的传递。针对复杂交互的场景，G6 总结了一套行为模式的解决方案。
+  </br>
+  </br>
+  这套方案简单介绍就是：事件组成行为，行为构成模式。我们可以通过事件实现任何粒度的交互组成行为，再通过不同行为的组合，得出模式。通过模式的切换，我们可以将不同的交互很轻易分离开来，从而规避大量信号量的传递。
+  <script src="../build/g6.js"></script>
+  <script>
+    // 注册鼠标进入节点变红的行为
+    G6.registerBehaviour('mouseEnterFillRed', graph => {
+      graph.behaviourOn('node:mouseenter', ev => {
+        graph.update(ev.item, {
+          color: 'red'
+        });
+      });
+    });
+
+    // 注册鼠标进入节点变绿的行为
+    G6.registerBehaviour('mouseEnterFillGreen', graph => {
+      graph.behaviourOn('node:mouseenter', ev => {
+        graph.update(ev.item, {
+          color: 'green'
+        });
+      });
+    });
+
+    // 注册鼠标移出节点变原色的行为
+    G6.registerBehaviour('mouseLeaveResetFill', graph => {
+      graph.behaviourOn('node:mouseleave', ev => {
+        graph.update(ev.item, {
+          color: '#1890FF'
+        });
+      });
+    });
+    const data = {
+      nodes: [{
+        id: '事件',
+        x: 80,
+        y: 150,
+      }, {
+        id: '行为',
+        x: 200,
+        y: 150
+      }, {
+        id: '模式',
+        x: 320,
+        y: 150
+      }],
+      edges: [{
+        source: '事件',
+        target: '行为',
+        label: '组成'
+      }, {
+        source: '行为',
+        target: '模式',
+        label: '组成'
+      }]
+    };
+    let mode = 'red';
+    const graph = new G6.Graph({
+      container: 'mountNode',
+      fitView: 'cc',
+      height: window.innerHeight,
+      modes: {
+        red: ['mouseEnterFillRed', 'mouseLeaveResetFill'],
+        green: ['mouseEnterFillGreen', 'mouseLeaveResetFill']
+      },
+      mode,
+    });
+    graph.node({
+      label(model) {
+        return model.id;
+      }
+    });
+    graph.edge({
+      style() {
+        return {
+          endArrow: true
+        };
+      }
+    });
+    graph.read(data);
+
+    // 点击按钮切换模式
+    document.getElementById('changeMode').onclick = () => {
+      if (mode === 'red') {
+        graph.changeMode('green');
+        mode = 'green';
+      } else {
+        graph.changeMode('red');
+        mode = 'red';
+      }
+    };
+  </script>
+</body>
+</html>

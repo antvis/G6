@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>默认-群组</title>
+</head>
+<body>
+<div id="mountNode"></div>
+<script src="../build/g6.js"></script>
+<script>
+const data = {
+  nodes: [{
+    id: 'node1',
+    x: 100,
+    y: 200,
+    label: '节点1',
+    parent: 'group1'
+  },{
+    id: 'node2',
+    x: 300,
+    y: 200,
+    label: '节点2',
+    parent: 'group1'
+  },{
+    id: 'node3',
+    x: 100,
+    y: 300,
+    label: '节点3',
+    parent: 'group2'
+  },{
+    id: 'node4',
+    x: 300,
+    y: 300,
+    label: '节点4',
+    parent: 'group2'
+  }],
+  edges: [{
+    id: 'edge1',
+    target: 'node2',
+    source: 'node1'
+  }],
+  groups: [{
+    id: 'group1',
+    label: '展开群组'
+  },{
+    id: 'group2',
+    label: '折叠群组',
+    collapsed: true
+  }]
+};
+const graph = new G6.Graph({
+  container: 'mountNode',
+  fitView: 'cc',
+  height: window.innerHeight
+});
+graph.read(data);
+
+</script>
+</body>
+</html>

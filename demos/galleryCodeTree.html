@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>画廊-函数生成树</title>
+</head>
+<body>
+<div id="mountNode" ></div>
+<p>创意来源：https://www.rosettacode.org/wiki/Fractal_tree#JavaScript</p>
+<script src="../build/g6.js"></script>
+<script>
+const getTreeData = (x1, y1, angle, depth, nodes = [], edges = []) => {
+  const deg_to_rad = Math.PI / 180;
+  if (depth !== 0){
+    const x2 = x1 + (Math.cos(angle * deg_to_rad) * depth * 10.0);
+    const y2 = y1 + (Math.sin(angle * deg_to_rad) * depth * 10.0);
+    const id1 = G6.Util.guid();
+    const id2 = G6.Util.guid();
+    nodes.push({
+      id: id1,
+      x: x1,
+      y: y1
+    });
+    nodes.push({
+      id: id2,
+      x: x2,
+      y: y2
+    });
+    edges.push({
+      source: id1,
+      target: id2
+    });
+    getTreeData(x2, y2, angle - 30, depth - 1, nodes, edges);
+    getTreeData(x2, y2, angle + 30, depth - 1, nodes, edges);
+  }
+  return {
+    nodes,
+    edges,
+  }
+};
+const data = getTreeData(0, 0, -90, 9);
+const graph = new G6.Graph({
+  container: 'mountNode',
+  fitView: 'autoZoom',
+  height: window.innerHeight
+});
+graph.node({
+  size: 2
+});
+graph.read(data);
+
+</script>
+</body>
+</html>

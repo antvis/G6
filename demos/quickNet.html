@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>快速上手-网图</title>
+</head>
+
+<body>
+  <div id="mountNode"></div>
+  <script src="../build/g6.js"></script>
+  <script>
+    const data = {
+      nodes: [{
+        id: 'node1',
+        x: 100,
+        y: 200
+      }, {
+        id: 'node2',
+        x: 300,
+        y: 200
+      }],
+      edges: [{
+        target: 'node2',
+        source: 'node1'
+      }]
+    };
+    const graph = new G6.Graph({
+      container: 'mountNode',
+      width: 500,
+      height: 500
+    });
+    graph.read(data);
+  </script>
+</body>
+</html>

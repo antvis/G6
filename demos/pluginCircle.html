@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>插件-布局-圆形</title>
+</head>
+
+<body>
+  <div id="mountNode"></div>
+  <script src="../build/g6.js"></script>
+  <script src="../build/utilRandomData.js"></script>
+  <script src="../build/layoutCircle.js"></script>
+  <script>
+    const Plugin = window.LayoutCircle;
+    const Util = G6.Util;
+    const data = Util.createCyclicData(30);
+    const graph = new G6.Graph({
+      container: 'mountNode',
+      fitView: 'cc',
+      height: window.innerHeight,
+      plugins: [new Plugin()]
+    });
+    graph.node({
+      size: 16
+    });
+    graph.read(data);
+  </script>
+</body>
+</html>

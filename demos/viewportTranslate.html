@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>视口-平移</title>
+</head>
+
+<body>
+  <div id="mountNode"></div>
+  <script src="../build/g6.js"></script>
+  <script>
+    const data = {
+      nodes: [{
+        id: 'node1',
+        x: 100,
+        y: 200
+      }, {
+        id: 'node2',
+        x: 300,
+        y: 200
+      }],
+      edges: [{
+        id: 'edge1',
+        target: 'node2',
+        source: 'node1'
+      }]
+    };
+    const graph = new G6.Graph({
+      container: 'mountNode',
+      fitView: 'cc',
+      height: window.innerHeight,
+    });
+    graph.read(data);
+    let lastPoint;
+    graph.on('drag', ev => {
+      if (lastPoint) {
+        graph.translate(ev.domX - lastPoint.x, ev.domY - lastPoint.y);
+      }
+      lastPoint = {
+        x: ev.domX,
+        y: ev.domY
+      };
+    });
+    graph.on('dragend', ev => {
+      lastPoint = undefined;
+    });
+  </script>
+</body>
+</html>

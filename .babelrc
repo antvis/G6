@@ -1,0 +1,15 @@
+{
+  "plugins": [
+    "transform-object-rest-spread",
+    "transform-remove-strict-mode"
+  ],
+  "presets": [
+    [
+      "env",
+      {
+        "loose": true,
+        "modules": false
+      }
+    ]
+  ]
+}

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>紧凑树</title>
+  <style>
+    ::-webkit-scrollbar {
+      display: none;
+    }
+
+    html,
+    body {
+      overflow: hidden;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="mountNode"></div>
+  <script>/*Fixing iframe window.innerHeight 0 issue in Safari*/document.body.clientHeight;</script>
+  <script src="./assets/jquery-3.2.1.min.js"></script>
+  <script src="../build/g6.js"></script>
+  <script type="text/javascript">
+    G6.registerNode('treeNode', {
+      anchor: [
+        [ 0, 0.5 ],
+        [ 1, 0.5 ]
+      ]
+    });
+    G6.registerEdge('smooth', {
+      getPath(item) {
+        const points = item.getPoints();
+        const start = points[0];
+        const end = points[points.length - 1];
+        const hgap = Math.abs(end.x - start.x);
+        if (end.x > start.x) {
+          return [
+            [ 'M', start.x, start.y ],
+            [ 'C', start.x + hgap / 4, start.y, end.x - hgap / 2, end.y, end.x, end.y ]
+          ];
+        }
+        return [
+          [ 'M', start.x, start.y ],
+          [ 'C', start.x - hgap / 4, start.y, end.x + hgap / 2, end.y, end.x, end.y ]
+        ];
+      }
+    });
+
+    $.getJSON('./assets/data/modeling-methods.json', function (data) {
+      var layout = new G6.Layouts.CompactBoxTree({
+        // direction: 'LR', // 方向（LR/RL/H/TB/BT/V）
+        getHGap: function getHGap() /* d */ {
+          // 横向间距
+          return 100;
+        },
+        getVGap: function getVGap() /* d */ {
+          // 竖向间距
+          return 10;
+        }
+      })
+      var tree = new G6.Tree({
+        id: 'mountNode', // 容器ID
+        height: window.innerHeight, // 画布高
+        layout,
+        fitView: 'autoZoom' // 自动缩放
+      });
+      tree.node({
+        shape: 'treeNode',
+        size: 8
+      }).label(function (obj) {
+        return obj.name;
+      });
+      tree.edge({
+        shape: 'smooth'
+      });
+      tree.on('afterchange', ()=>{
+        tree.getNodes().forEach(node=>{
+          const model = node.getModel();
+          const label = node.getLabel();
+          const keyShape = node.getKeyShape();
+          const children = node.getChildren();
+          const parent = node.getParent();
+          const box = keyShape.getBBox();
+          const labelBox = label.getBBox();
+          let dx = (box.maxX - box.minX + labelBox.maxX - labelBox.minX) / 2+ 8;
+          let dy = 0;
+          if (children.length != 0) {
+            dx = -dx;
+          }
+          label.translate(dx, dy);
+        });
+        tree.draw();
+      });
+      tree.read({ roots: [data] });
+    });
+  </script>
+</body>
+
+</html>

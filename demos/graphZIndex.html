@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>图-调整层级</title>
+</head>
+
+<body>
+  <div id="mountNode"></div>
+  <script src="../build/g6.js"></script>
+  <script>
+    const nodes = [];
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    const num = 500;
+    for (let index = 0; index < num; index++) {
+      nodes.push({
+        x: width * Math.random(),
+        y: height * Math.random(),
+      });
+    }
+    const data = {
+      nodes,
+    };
+    const graph = new G6.Graph({
+      container: 'mountNode',
+      width,
+      height,
+    });
+    graph.node({
+      style: {
+        fillOpacity: 0.8
+      }
+    });
+    graph.read(data);
+    graph.on('node:mouseenter', ev => {
+      const { item } = ev;
+      graph.toFront(item);
+      graph.update(item, {
+        style: {
+          fill: 'red'
+        }
+      });
+    });
+    graph.on('node:mouseleave', ev => {
+      const { item } = ev;
+      graph.toBack(item);
+      graph.update(item, {
+        style: {
+          fill: '#1890FF'
+        }
+      });
+    });
+  </script>
+</body>
+</html>

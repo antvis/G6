@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>图-更改画布尺寸</title>
+</head>
+
+<body>
+  <button id="changeSize">更改画布尺寸</button>
+  <div id="mountNode"></div>
+  <script src="../build/g6.js"></script>
+  <script>
+    const data = {
+      nodes: [{
+        id: 'node1',
+        x: 100,
+        y: 200
+      }, {
+        id: 'node2',
+        x: 300,
+        y: 200
+      }],
+      edges: [{
+        id: 'edge1',
+        target: 'node2',
+        source: 'node1'
+      }]
+    };
+    const graph = new G6.Graph({
+      container: 'mountNode',
+      fitView: 'cc',
+      height: window.innerHeight,
+    });
+    graph.read(data);
+    graph.css({
+      border: '1px solid red',
+    });
+    document.getElementById('changeSize').onclick = () => {
+      graph.changeSize(250 + 250 * Math.random(), 250 + 250 * Math.random());
+      graph.setFitView('cc');
+    };
+
+  </script>
+</body>
+
+</html>
