@@ -8,7 +8,8 @@ G6 是一个图可视化框架。它提供了一套图可视化的基础设置�
 
 [详情见 G6 官方站点](https://antv.alipay.com/zh-cn/g6/1.x/index.html)
 
-![](https://gw.alipayobjects.com/zos/rmsportal/nzmycBewjfxKDbepTDlT.gif | width=300)![](https://gw.alipayobjects.com/zos/rmsportal/nzmycBewjfxKDbepTDlT.gif | width=370)
+![](https://gw.alipayobjects.com/zos/rmsportal/HQxYguinFOMIXrGQOABY.gif)
+![](https://gw.alipayobjects.com/zos/rmsportal/JoZlKzpKunychGozAWKz.gif)
 
 ## [G6-Editor](https://yuque.com/antv/g6-editor)
 
