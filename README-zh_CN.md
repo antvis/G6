@@ -12,8 +12,8 @@ G6 是一个图可视化框架。它提供了一套图可视化的基础设置�
 
 ## [G6-Editor](https://yuque.com/antv/g6-editor)
 
-![](https://gw.alipayobjects.com/zos/rmsportal/nzmycBewjfxKDbepTDlT.gif)
-![](https://gw.alipayobjects.com/zos/rmsportal/WVqnbgJmamdahbAuDpBL.gif)
+<img src="https://gw.alipayobjects.com/zos/rmsportal/nzmycBewjfxKDbepTDlT.gif" width=560>
+<img src="https://gw.alipayobjects.com/zos/rmsportal/WVqnbgJmamdahbAuDpBL.gif" width=560>
 
 ## G6-Analyser [coming soon]
 
