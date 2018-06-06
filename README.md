@@ -12,8 +12,8 @@ G6 is a graph visualization framework. It provides a set of base mechanisms, hel
 
 ## [G6-Editor](https://yuque.com/antv/g6-editor)
 
-![](https://gw.alipayobjects.com/zos/rmsportal/nzmycBewjfxKDbepTDlT.gif)
-![](https://gw.alipayobjects.com/zos/rmsportal/WVqnbgJmamdahbAuDpBL.gif)
+<img src="https://gw.alipayobjects.com/zos/rmsportal/nzmycBewjfxKDbepTDlT.gif" width=560>
+<img src="https://gw.alipayobjects.com/zos/rmsportal/WVqnbgJmamdahbAuDpBL.gif" width=560>
 
 ## G6-Analyser [coming soon]
 
