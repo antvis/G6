@@ -110,7 +110,7 @@ BREAKING CHANGE:
 
 ## 发布管理
 
-g2 基于 [semver] 语义化版本号进行发布。
+g6 基于 [semver] 语义化版本号进行发布。
 
 `master` 分支为当前稳定发布的版本。
 
