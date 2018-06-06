@@ -108,7 +108,7 @@ Look at [these files](https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJyg
 
 ## Release
 
-g2 uses semantic versioning in release process based on [semver].
+g6 uses semantic versioning in release process based on [semver].
 
 ### Branch Strategy
 
