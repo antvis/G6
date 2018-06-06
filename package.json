@@ -4,7 +4,7 @@
   "description": "graph visualization frame work, graph editor, graph analyser",
   "main": "lib/index.js",
   "browser": "build/g6.js",
-  "module": "src/g6.js",
+  "module": "src/index.js",
   "homepage": "https://github.com/antvis/g6",
   "author": "https://github.com/orgs/antvis/people",
   "repository": {
