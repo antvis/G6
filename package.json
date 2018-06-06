@@ -66,7 +66,7 @@
     "get-port": "~3.2.0",
     "home": "~1.0.1",
     "html2canvas": "*",
-    "jquery": "~2.1.4",
+    "jquery": "^3.3.1",
     "jszip": "~3.1.5",
     "nightmare": "~2.10.0",
     "nunjucks": "~3.0.1",
