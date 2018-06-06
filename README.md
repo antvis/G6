@@ -8,15 +8,17 @@ G6 is a graph visualization framework. It provides a set of base mechanisms, hel
 
 [More details about G6.](https://antv.alipay.com/zh-cn/g6/1.x/index.html)
 
-<img src="https://gw.alipayobjects.com/zos/rmsportal/HQxYguinFOMIXrGQOABY.gif" width="300"/><img src="https://gw.alipayobjects.com/zos/rmsportal/JoZlKzpKunychGozAWKz.gif" width="370"/>
+<img src="https://gw.alipayobjects.com/zos/rmsportal/HQxYguinFOMIXrGQOABY.gif" width="300"/>
+<img src="https://gw.alipayobjects.com/zos/rmsportal/JoZlKzpKunychGozAWKz.gif" width="370"/>
 
 ## [G6-Editor](https://yuque.com/antv/g6-editor)
 
-<img src="https://gw.alipayobjects.com/zos/rmsportal/nzmycBewjfxKDbepTDlT.gif" width="670"/><img src="https://gw.alipayobjects.com/zos/rmsportal/WVqnbgJmamdahbAuDpBL.gif" width="670"/>
+![](https://gw.alipayobjects.com/zos/rmsportal/nzmycBewjfxKDbepTDlT.gif)
+![](https://gw.alipayobjects.com/zos/rmsportal/WVqnbgJmamdahbAuDpBL.gif)
 
 ## G6-Analyser [coming soon]
 
-<img src="https://gw.alipayobjects.com/zos/rmsportal/GxupfuhWyMZWwPWWYgaO.gif" width="670"/>
+![](https://gw.alipayobjects.com/zos/rmsportal/GxupfuhWyMZWwPWWYgaO.gif)
 
 ## Installation
 
