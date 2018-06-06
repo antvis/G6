@@ -6,6 +6,10 @@
 
 * feat:    新增 layout 接口
 
+## v1.2.1
+
+* feat:    新增 layout 接口
+
 ## v1.2.0
 
 * fix:     修复 nodeActivedBoxStyle 拼写错误
