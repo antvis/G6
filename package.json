@@ -1,7 +1,7 @@
 {
   "name": "@antv/g6",
   "version": "2.0.0",
-  "description": "graph visualization frame work",
+  "description": "graph visualization frame work ",
   "main": "lib/index.js",
   "browser": "build/g6.js",
   "module": "src/index.js",
