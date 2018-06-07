@@ -1,7 +1,7 @@
 {
   "name": "@antv/g6",
   "version": "2.0.0",
-  "description": "graph visualization frame work, graph editor, graph analyser",
+  "description": "graph visualization frame work",
   "main": "lib/index.js",
   "browser": "build/g6.js",
   "module": "src/index.js",
@@ -24,17 +24,14 @@
   "contributors": [
     {
       "email": "leanne06204@163.com",
-      "name": "夏柘",
       "url": "https://github.com/AceLeeWinnie"
     },
     {
       "email": "wyueliu@gmail.com",
-      "name": "敏岳",
       "url": "https://github.com/liuwuyue"
     },
     {
       "email": "deggs.k@gmail.com",
-      "name": "大知",
       "url": "https://github.com/deggs7"
     }
   ],
