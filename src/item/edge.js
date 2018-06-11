@@ -67,6 +67,8 @@ class Edge extends Item {
       const keyShape = this.keyShape;
       const shapeObj = this.shapeObj;
       keyShape.attr('path', shapeObj.getPath(this));
+    } else {
+      this.draw();
     }
     this._afterDraw();
   }
