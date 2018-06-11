@@ -6,6 +6,7 @@
  */
 const G6 = require('@antv/g6');
 const Util = G6.Util;
+
 G6.registerEdge('quadraticCurve', {
   getPath(item) {
     const points = item.getPoints();
@@ -17,10 +18,11 @@ G6.registerEdge('quadraticCurve', {
     const cpd = !Util.isNil(model.cpd) ? model.cpd : 0.5; // 向量方向长度系数
     const v1 = [ (end.x + start.x) * 0.5 - start.x, (end.y + start.y) * 0.5 - start.y ];
     const v2 = [ -v1[1] * cpd, v1[0] * cpd ];
+
     // 控制点
     const cp = {
       x: v1[0] + v2[0] + start.x,
-      y: v2[1] + v2[1] + start.y
+      y: v1[1] + v2[1] + start.y
     };
     const sp = source.getLinkPoints(cp)[0];
     const tp = target.getLinkPoints(cp)[0];
