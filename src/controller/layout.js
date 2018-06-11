@@ -56,6 +56,7 @@ class Controller extends Base {
   layout() {
     const graph = this.graph;
     const processer = this.processer;
+    graph.emit('beforelayout');
     const nodes = graph.getNodes()
       .filter(node => {
         return node.isVisible();
@@ -72,6 +73,7 @@ class Controller extends Base {
       });
     graph._executeLayout(processer, nodes, edges);
     graph.updateNodePosition();
+    graph.emit('afterlayout');
   }
   getLayoutProcesser() {
     return this.processer;
