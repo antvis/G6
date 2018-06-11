@@ -7,6 +7,7 @@
 `2018-06-11`
 
 * fix:      reDraw edge after layout
+* feat:     add quadraticCurve config cpd
 * feat:     add beforelayout && afterlayout event
 * chore:    .travis.yml add add Node.js
 * chore:    .travis.yml cache node_modules
