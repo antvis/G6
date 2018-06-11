@@ -4,6 +4,15 @@
 
 ## v2.0.0
 
+`2018-06-11`
+
+* fix:      reDraw edge after layout
+* feat:     add beforelayout && afterlayout event
+* chore:    .travis.yml add add Node.js
+* chore:    .travis.yml cache node_modules
+
+## v2.0.0
+
 `2018-06-06`
 
 * refactor: 重构架构 && 代码
