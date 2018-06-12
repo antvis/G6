@@ -23,6 +23,7 @@ const nunjucks = require('nunjucks');
 const renderString = nunjucks.renderString;
 const pkg = require('../package.json');
 
+// 判斷是否是文件，來用排除讀取到文件夾
 function isFile(source) {
   return lstatSync(source).isFile();
 }
@@ -46,9 +47,12 @@ commander
   .option('-p, --port <port>', 'specify a port number to run on', parseInt)
   .parse(process.argv);
 
+  // 开启服务器
 function startService(port) {
   const server = connect();
+  // server回调函数
   server.use((req, res, next) => {
+
     if (req.method === 'GET') {
       const pathname = parseurl(req).pathname;
       if (pathname === '/demos/index.html') {
@@ -57,7 +61,7 @@ function startService(port) {
             return extname(filename) === '.html';
           })
           .map(filename => {
-            const bn = basename(filename, '.html');
+            const bn = basename(filename, '.html');//获取对应的fileName
             const file = {
               screenshot: `/demos/assets/screenshots/${bn}.png`,
               basename: bn,
@@ -77,6 +81,7 @@ function startService(port) {
       next();
     }
   });
+
   server.use(serveStatic(process.cwd()));
   http.createServer(server).listen(port);
 
@@ -128,6 +133,7 @@ function startService(port) {
 if (commander.port) {
   startService(commander.port);
 } else {
+  // commander没有设置端口，自动获取没有指定的端口
   getPort().then(port => {
     startService(port);
   });
