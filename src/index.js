@@ -5,6 +5,7 @@
 const Shape = require('./shape/');
 const Handler = require('./handler');
 const Global = require('./global');
+const version = require('./version');
 
 const G6 = {
   Graph: require('./graph'),
@@ -20,7 +21,7 @@ const G6 = {
   registerGroup: Shape.registerGroup,
   registerGuide: Shape.registerGuide,
   registerBehaviour: Handler.registerBehaviour,
-  version: Global.version
+  version
 };
 
 G6.track = function(enable) {
