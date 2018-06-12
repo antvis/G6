@@ -2,6 +2,7 @@
  * @fileOverview global config
  * @author huangtonger@aliyun.com
  */
+const version = require('./version');
 
 module.exports = {
   trackable: true,
@@ -26,5 +27,5 @@ module.exports = {
   updateEasing: 'easeQuadOut',
   enterEasing: 'easeQuadOut',
   leaveEasing: 'easeQuadOut',
-  version: '____G6_VERSION____'
+  version
 };
