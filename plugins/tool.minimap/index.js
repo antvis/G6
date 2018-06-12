@@ -21,6 +21,10 @@ class Plugin {
       minimap.renderBackground();
       minimap.renderViewPort();
     });
+    graph.on('afterlayout', () => {
+      minimap.renderBackground();
+      minimap.renderViewPort();
+    });
     graph.on('afterviewportchange', () => {
       minimap.renderViewPort();
     });

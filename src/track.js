@@ -4,6 +4,7 @@
  */
 const Global = require('./global');
 const SERVER_URL = 'https://kcart.alipay.com/web/bi.do';
+const version = require('./version');
 
 // 延迟发送请求
 setTimeout(function() {
@@ -13,7 +14,7 @@ setTimeout(function() {
       pg: document.URL,
       r: new Date().getTime(),
       g6: true,
-      version: Global.version,
+      version,
       page_type: 'syslog'
     };
     const d = encodeURIComponent(JSON.stringify([ newObj ]));
