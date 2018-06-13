@@ -2,7 +2,7 @@
  * @fileOverview 栅格布局
  * @author huangtonger@aliyun.com
  */
-const G6 = require('@antv/g6');
+const G6 = require('../../src/index');
 const Util = G6.Util;
 
 class Layout {

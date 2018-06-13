@@ -2,7 +2,7 @@
  * @fileOverview 模拟数据生成的工具
  * @author huangtonger@aliyun.com
  */
-const G6 = require('@antv/g6');
+const G6 = require('../../src/index');
 const Util = G6.Util;
 const randomData = {
   // 生成链式图数据
