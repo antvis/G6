@@ -787,12 +787,11 @@ class Graph extends Base {
    * @return  {object} canvas dom
    */
   saveImage() {
-    const graph = this.getGraph();
     const box = this.getBBox();
     const padding = this.getFitViewPadding();
 
     return Util.graph2Canvas({
-      graph,
+      graph: this,
       width: box.width + padding[1] + padding[3],
       height: box.height + padding[0] + padding[2]
     });
