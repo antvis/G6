@@ -3,7 +3,7 @@
  * https://zh.wikipedia.org/wiki/%E6%99%AE%E6%9E%97%E5%A7%86%E7%AE%97%E6%B3%95
  * @author huangtonger@aliyun.com
  */
-const G6 = require('@antv/g6');
+const G6 = require('../../src/index');
 const { Util } = G6;
 
 let treeNodes = [];
