@@ -27,7 +27,8 @@ module.exports = {
     path: resolve(__dirname, 'build/')
   },
   externals: {
-    '@antv/g6': 'G6'
+    '@antv/g6': 'G6',
+    '../../src/index': 'G6'
   },
   module: {
     rules: [

@@ -4,7 +4,7 @@
  * d3-legend https://github.com/susielu/d3-legend
  * @author huangtonger@aliyun.com
  */
-const G6 = require('@antv/g6');
+const G6 = require('../../src/index');
 const d3 = require('d3');
 const Util = G6.Util;
 const DEFAULT_LEGEND_FILL = '#199CFB';

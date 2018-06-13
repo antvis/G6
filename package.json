@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "2.0.1-beta.1",
+  "version": "2.0.1",
   "description": "graph visualization frame work",
   "main": "lib/index.js",
   "browser": "build/g6.js",
@@ -98,10 +98,7 @@
     "screenshot": "node ./bin/screenshot.js",
     "start": "npm run dev",
     "test": "torch --compile --renderer --recursive ./test/unit",
-    "test-all": "npm run test && npm run test-cases",
-    "test-cases": "torch --compile --renderer --recursive ./test/cases",
-    "test-cases-live": "torch --compile --interactive --watch --recursive ./test/cases",
-    "test-live": "torch --compile --interactive --watch --recursive ./test/unit",
+    "test-live": "torch --compile --interactive --watch --recursive ./test/bugs/issue-308-spec.js",
     "watch": "webpack --config webpack-dev.config.js",
     "win-dev": "node ./bin/win-dev.js"
   },
