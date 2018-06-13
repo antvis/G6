@@ -98,9 +98,6 @@
     "screenshot": "node ./bin/screenshot.js",
     "start": "npm run dev",
     "test": "torch --compile --renderer --recursive ./test/unit",
-    "test-all": "npm run test && npm run test-cases",
-    "test-cases": "torch --compile --renderer --recursive ./test/cases",
-    "test-cases-live": "torch --compile --interactive --watch --recursive ./test/cases",
     "test-live": "torch --compile --interactive --watch --recursive ./test/unit",
     "watch": "webpack --config webpack-dev.config.js",
     "win-dev": "node ./bin/win-dev.js"
