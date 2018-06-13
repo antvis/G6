@@ -11,7 +11,7 @@
 
 ##### Bug Fixes
 
-* fix(plugin) minimap destroy
+* fix(plugin) minimap destroy Closes #308
 * fix(saveImage) saveImage bug
 * fix(event): fix dom coord. Closes #305
 
