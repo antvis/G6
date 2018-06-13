@@ -34,6 +34,10 @@ class Plugin {
     this.renderViewPort = () => {
       minimap.renderViewPort();
     };
+    this.minimap = minimap;
+  }
+  destroy() {
+    this.minimap.destroy();
   }
 }
 
