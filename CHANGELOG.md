@@ -2,6 +2,19 @@
 
 ---
 
+#### 2.0.2 (2018-06-13)
+
+##### New Features
+
+* chore(plugin): require g6 by src/index
+* chore(dev test): remove useless test script
+
+##### Bug Fixes
+
+* fix(plugin) minimap destroy
+* fix(saveImage) saveImage bug
+* fix(event): fix dom coord. Closes #305
+
 ## v2.0.1
 
 `2018-06-11`
