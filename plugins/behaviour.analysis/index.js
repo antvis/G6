@@ -2,7 +2,7 @@
  * @fileOverview 拓展分析交互
  * @author huangtonger@aliyun.com
  */
-const G6 = require('@antv/g6');
+const G6 = require('../../src/index');
 
 function panCanvas(graph, button = 'left') {
   let lastPoint;

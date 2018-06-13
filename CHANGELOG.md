@@ -2,7 +2,20 @@
 
 ---
 
-## v2.0.0
+#### 2.0.2 (2018-06-13)
+
+##### New Features
+
+* chore(plugin): require g6 by src/index
+* chore(dev test): remove useless test script
+
+##### Bug Fixes
+
+* fix(plugin) minimap destroy Closes #308
+* fix(saveImage) saveImage bug
+* fix(event): fix dom coord. Closes #305
+
+## v2.0.1
 
 `2018-06-11`
 
@@ -17,12 +30,6 @@
 `2018-06-06`
 
 * refactor: 重构架构 && 代码
-
-## v1.2.1
-
-`2018-04-15`
-
-* feat:     新增 layout 接口
 
 ## v1.2.1
 

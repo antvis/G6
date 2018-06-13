@@ -353,6 +353,10 @@ describe('graph test', () => {
   it('reRender', () => {
     graph.reRender();
   });
+  it('saveImage', () => {
+    const imageCanvas = graph.saveImage();
+    expect(imageCanvas.tagName).eql('CANVAS');
+  });
   it('destroy', () => {
     graph.destroy();
     expect(div.childNodes.length).equal(0);
