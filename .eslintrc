@@ -35,6 +35,9 @@
     ],
     "linebreak-style": [
       0
+    ],
+    "no-loop-func": [
+      0
     ]
   }
 }

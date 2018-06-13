@@ -2,7 +2,7 @@
  * @fileOverview DAG 分层布局
  * @author huangtonger@aliyun.com
  */
-const G6 = require('@antv/g6');
+const G6 = require('../../src/index');
 const Layout = require('./layout');
 
 G6.Layouts.Dagre = Layout;

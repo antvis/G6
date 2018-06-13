@@ -3,7 +3,7 @@
  * https://zh.wikipedia.org/wiki/%E9%98%BF%E5%9F%BA%E7%B1%B3%E5%BE%B7%E8%9E%BA%E7%BA%BF
  * @author huangtonger@aliyun.com
  */
-const G6 = require('@antv/g6');
+const G6 = require('../../src/index');
 const Util = G6.Util;
 
 class Layout {
