@@ -292,13 +292,14 @@ class Controller extends Base {
     const point = this._parsePoint(canvasPoint.x, canvasPoint.y);
     const shape = canvas.getShape(canvasPoint.x, canvasPoint.y);
     const item = graph.getItemByShape(shape);
+    const pixelRatio = canvas.get('pixelRatio');
     return {
       item,
       shape,
       x: point.x,
       y: point.y,
-      domX: ev.offsetX,
-      domY: ev.offsetY,
+      domX: canvasPoint.x / pixelRatio,
+      domY: canvasPoint.y / pixelRatio,
       domEvent: ev
     };
   }
