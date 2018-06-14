@@ -13,19 +13,21 @@ const G6 = {
   Util: require('./util/'),
   Layouts: require('./layouts/'),
   G: require('@antv/g'),
-  Global,
   Plugins: {},
+  Global,
   Shape,
   registerNode: Shape.registerNode,
   registerEdge: Shape.registerEdge,
   registerGroup: Shape.registerGroup,
   registerGuide: Shape.registerGuide,
   registerBehaviour: Handler.registerBehaviour,
-  version
-};
-
-G6.track = function(enable) {
-  Global.trackable = enable;
+  version,
+  getG() {
+    return require('@antv/g');
+  },
+  track(enable) {
+    Global.trackable = enable;
+  }
 };
 require('./track');
 

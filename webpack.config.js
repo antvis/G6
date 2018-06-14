@@ -2,7 +2,6 @@ const webpack = require('webpack');
 const resolve = require('path').resolve;
 const shelljs = require('shelljs');
 const _ = require('lodash');
-const pkg = require('./package.json');
 
 const entry = {
   G6: './src/index.js',
