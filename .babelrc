@@ -1,7 +1,7 @@
 {
   "plugins": [
     "transform-object-rest-spread",
-    "transform-remove-strict-mode"
+    "transform-remove-strict-mode",
   ],
   "presets": [
     [

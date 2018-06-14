@@ -2,7 +2,13 @@ module.exports = {
   babelrc: {
     plugins: [
       'transform-object-rest-spread',
-      'transform-remove-strict-mode'
+      'transform-remove-strict-mode',
+      ["module-resolver", {
+        "alias": {
+          '@antv/g6': '../../src/index'
+        },
+      }],
+      // ["module-rewrite", { '@antv/g6': "../../src/index" }]
     ],
     presets: [
       [
@@ -13,7 +19,7 @@ module.exports = {
         }
       ]
     ],
-    sourceMaps: 'inline'
+    sourceMaps: 'inline',
   },
   extensions: ['.js'],
   include: [

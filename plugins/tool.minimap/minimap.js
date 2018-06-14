@@ -2,7 +2,7 @@
  * @fileOverview minimap
  * @author huangtonger@aliyun.com
  */
-const G6 = require('../../src/index');
+const G6 = require('@antv/g6');
 const { Util, G } = G6;
 const Canvas = G.Canvas;
 

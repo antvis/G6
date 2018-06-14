@@ -10,7 +10,7 @@
  * node.rank  分层权重
  * node.label 节点标签
  */
-const G6 = require('../../src/index');
+const G6 = require('@antv/g6');
 const maxSpanningForest = require('./maxSpanningForest');
 const d3 = require('d3');
 const { forceSimulation, forceLink, forceManyBody, forceCenter, forceCollide } = d3;
