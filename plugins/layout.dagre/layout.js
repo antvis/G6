@@ -3,7 +3,7 @@
  * dagre layout wiki: https://github.com/cpettitt/dagre/wiki
  * @author huangtonger@aliyun.com
  */
-const G6 = require('../../src/index');
+const G6 = require('@antv/g6');
 const dagre = require('dagre');
 const { Util } = G6;
 

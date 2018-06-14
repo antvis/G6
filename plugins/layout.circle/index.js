@@ -3,7 +3,7 @@
  * @author huangtonger@aliyun.com
  */
 
-const G6 = require('../../src/index');
+const G6 = require('@antv/g6');
 const Layout = require('./layout');
 
 G6.Layouts.Circle = Layout;
