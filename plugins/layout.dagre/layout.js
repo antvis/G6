@@ -65,7 +65,7 @@ class Layout {
     g.edges().forEach((e, i) => {
       const edge = g.edge(e);
       if (useEdgeControlPoint) {
-        edges[i].controlPoints = edge.points;
+        edges[i].controlPoints = edge.points.slice(1, edge.points.length - 1);
       }
     });
   }
