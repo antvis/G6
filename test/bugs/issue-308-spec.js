@@ -1,5 +1,6 @@
 const G6 = require('../../src/index');
 const expect = require('chai').expect;
+require('../../plugins/index');
 
 describe('issue-308-spec', () => {
   const div = G6.Util.createDOM(`
@@ -8,7 +9,6 @@ describe('issue-308-spec', () => {
     <div id="minimap"></div>
   </div>
   `);
-  require('../../plugins/index');
   document.body.appendChild(div);
   const plugin = new G6.Plugins['tool.minimap']({
     container: 'minimap',

@@ -3,12 +3,14 @@ module.exports = {
     plugins: [
       'transform-object-rest-spread',
       'transform-remove-strict-mode',
-      ["module-resolver", {
-        "alias": {
-          '@antv/g6': '../../src/index'
-        },
-      }],
-      // ["module-rewrite", { '@antv/g6': "../../src/index" }]
+      [
+        "module-resolver",
+        {
+          "alias": {
+            '@antv/g6': './src/index'
+          },
+        }
+      ],
     ],
     presets: [
       [
@@ -23,6 +25,8 @@ module.exports = {
   },
   extensions: ['.js'],
   include: [
+    'src/**/*.js',
+    'plugins/**/*.js',
     'node_modules/**/src/gl-matrix/**/*.js '
   ],
   exclude: [
