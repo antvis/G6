@@ -41,16 +41,6 @@ module.exports = {
             babelrc: true
           }
         }
-      },
-      {
-        test: /global\.js$/,
-        use: {
-          loader: 'string-replace-loader',
-          options: {
-            search: '____G6_VERSION____',
-            replace: pkg.version
-          }
-        }
       }
     ]
   },
