@@ -87,11 +87,9 @@ class Node extends Item {
     let points = [];
     if (Util.isEmpty(anchorPoints)) {
       // get link point if there are no default anchors
-      let type = anchor.type || defaultIntersectBox;
-      if (Util.isFunction(type)) {
-        type = type(this);
-      }
-      switch (type) {
+      const intersectBox = anchor.intersectBox || anchor.type || defaultIntersectBox;
+
+      switch (intersectBox) {
         case 'rect':
           points = [ Util.getIntersectPointRect(bbox, point) ];
           break;
