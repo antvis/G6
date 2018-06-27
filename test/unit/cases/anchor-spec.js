@@ -129,7 +129,7 @@ describe('anchor user case test', () => {
   it('node anchor getLinkPoint when default anchor type rect ', () => {
     G6.registerNode('test', {
       anchor: {
-        type: 'rect'
+        intersectBox: 'rect'
       }
     });
 
