@@ -32,6 +32,13 @@ class Base extends EventEmitter {
     this.removeAllListeners();
     this.destroyed = true;
   }
+
+  getConstructor(CanvasCons, SvgCons, render) {
+    if (render === 'svg') {
+      return SvgCons;
+    }
+    return CanvasCons;
+  }
 }
 
 module.exports = Base;

@@ -106,7 +106,7 @@
     "run": []
   },
   "dependencies": {
-    "@antv/g": "~2.1.0",
+    "@antv/g": "^3.0.0-beta.4",
     "@antv/hierarchy": "~0.3.13",
     "ant-design-palettes": "~1.1.2",
     "d3": "^5.4.0",
