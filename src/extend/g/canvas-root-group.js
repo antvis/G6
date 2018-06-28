@@ -7,10 +7,11 @@ const G = require('@antv/g');
 const Util = require('../../util/');
 
 const Group = function(cfg) {
-  Group.superclass.constructor.call(this, cfg);
+  G.canvas.Group.superclass.constructor.call(this, cfg.canvas);
+  this.set('children', []);
 };
 
-Util.extend(Group, G.Group);
+Util.extend(Group, G.canvas.Group);
 
 Util.augment(Group, {
   drawInner(context) {
