@@ -6,13 +6,15 @@
 require('./extend/g/canvas');
 require('./extend/g/group');
 require('./extend/g/shape');
-require('./extend/g/html');
+// require('./extend/g/html');
 const Base = require('./base');
 const Item = require('./item/');
 const Shape = require('./shape/');
 const Util = require('./util/');
 const G = require('@antv/g');
-const RootGroup = require('./extend/g/root-group');
+// const G = require('./renderer2d');
+const CanvasRootGroup = require('./extend/g/canvas-root-group');
+const SvgRootGroup = require('./extend/g/svg-root-group');
 const LayoutMixin = require('./mixin/layout');
 const MappingMixin = require('./mixin/mapping');
 const QueryMixin = require('./mixin/query');
@@ -22,7 +24,8 @@ const FilterMixin = require('./mixin/filter');
 const AnimateMixin = require('./mixin/animate');
 const FitView = require('./mixin/fit-view');
 const ForceFit = require('./mixin/force-fit');
-const Canvas = G.Canvas;
+const Canvas = G.canvas.Canvas;
+const SVG = G.svg.Canvas;
 const Mixins = [ FilterMixin, MappingMixin, QueryMixin, AnimateMixin, ForceFit, LayoutMixin, FitView, EventMixin, ModeMixin ];
 const TAB_INDEX = 20;
 class Graph extends Base {
@@ -105,7 +108,8 @@ class Graph extends Base {
       _dataMap: {},
       _itemMap: {},
       _data: {},
-      _delayRunObj: {}
+      _delayRunObj: {},
+      render: 'svg'
     };
   }
 
@@ -185,6 +189,7 @@ class Graph extends Base {
     const width = this.get('width');
     const height = this.get('height');
     const fontFamily = this.get('fontFamily');
+    const render = this.get('render');
     const canvasCfg = {
       width,
       height,
@@ -192,8 +197,21 @@ class Graph extends Base {
       eventEnable: false,
       containerDOM: graphContainer
     };
-    const canvas = new Canvas(canvasCfg);
-    const frontCanvas = new Canvas(canvasCfg);
+
+    const Constructor = this.getConstructor(Canvas, SVG, render);
+    const canvas = new Constructor(canvasCfg);
+    const frontCanvas = new Constructor(canvasCfg);
+
+    // let canvas;
+    // let frontCanvas;
+    // if (render === 'svg') {
+    //   canvas = new SVG(canvasCfg);
+    //   frontCanvas = new SVG(canvasCfg);
+    // } else {
+    //   canvas = new Canvas(canvasCfg);
+    //   frontCanvas = new Canvas(canvasCfg);
+    // }
+
     const frontEl = frontCanvas.get('el');
     const htmlElementContaniner = graphContainer.appendChild(Util.createDOM('<div class="graph-container-html-Elements"></div>'));
     canvas.on('beforedraw', () => {
@@ -208,6 +226,7 @@ class Graph extends Base {
     htmlElementContaniner.style.position = 'absolute';
     htmlElementContaniner.style.top = 0;
     htmlElementContaniner.style.left = 0;
+
     this.set('_canvas', canvas);
     this.set('_frontCanvas', frontCanvas);
     this.set('_htmlElementContaniner', htmlElementContaniner);
@@ -216,8 +235,11 @@ class Graph extends Base {
     mouseEventWarrper.style['user-select'] = 'none';
     mouseEventWarrper.setAttribute('tabindex', TAB_INDEX);
     canvas.set('htmlElementContaniner', htmlElementContaniner);
+
+    const RootGroup = this.getConstructor(CanvasRootGroup, SvgRootGroup, render);
     const rootGroup = canvas.addGroup(RootGroup);
     const frontRootGroup = frontCanvas.addGroup(RootGroup);
+
     const itemGroup = rootGroup.addGroup();
     this.set('_itemGroup', itemGroup);
     this.set('_rootGroup', rootGroup);

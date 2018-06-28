@@ -36,6 +36,6 @@ Util.augment(Mixin, {
   }
 });
 
-Util.mixin(G.Shape, [ Mixin ]);
+Util.mixin(G.canvas.Shape, [ Mixin ]);
 
 module.exports = Mixin;
