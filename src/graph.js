@@ -189,7 +189,6 @@ class Graph extends Base {
     const width = this.get('width');
     const height = this.get('height');
     const fontFamily = this.get('fontFamily');
-    const render = this.get('render');
     const canvasCfg = {
       width,
       height,
@@ -198,19 +197,9 @@ class Graph extends Base {
       containerDOM: graphContainer
     };
 
-    const Constructor = this.getConstructor(Canvas, SVG, render);
+    const Constructor = this.getConstructor(Canvas, SVG);
     const canvas = new Constructor(canvasCfg);
     const frontCanvas = new Constructor(canvasCfg);
-
-    // let canvas;
-    // let frontCanvas;
-    // if (render === 'svg') {
-    //   canvas = new SVG(canvasCfg);
-    //   frontCanvas = new SVG(canvasCfg);
-    // } else {
-    //   canvas = new Canvas(canvasCfg);
-    //   frontCanvas = new Canvas(canvasCfg);
-    // }
 
     const frontEl = frontCanvas.get('el');
     const htmlElementContaniner = graphContainer.appendChild(Util.createDOM('<div class="graph-container-html-Elements"></div>'));
@@ -236,7 +225,7 @@ class Graph extends Base {
     mouseEventWarrper.setAttribute('tabindex', TAB_INDEX);
     canvas.set('htmlElementContaniner', htmlElementContaniner);
 
-    const RootGroup = this.getConstructor(CanvasRootGroup, SvgRootGroup, render);
+    const RootGroup = this.getConstructor(CanvasRootGroup, SvgRootGroup);
     const rootGroup = canvas.addGroup(RootGroup);
     const frontRootGroup = frontCanvas.addGroup(RootGroup);
 
@@ -362,6 +351,18 @@ class Graph extends Base {
     items.forEach(item => {
       item && !item.destroyed && item.destroy();
     });
+  }
+  /**
+   * @param  {function} CanvasCons option 1
+   * @param  {function} SvgCons option 2
+   * @return {function} function
+   */
+  getConstructor(CanvasCons, SvgCons) {
+    const render = this.get('render');
+    if (render === 'svg') {
+      return SvgCons;
+    }
+    return CanvasCons;
   }
   /**
    * @param  {string} type item type
