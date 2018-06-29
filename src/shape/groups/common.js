@@ -71,5 +71,8 @@ Shape.registerGroup('common', {
     const keyShape = this.drawKeyShape(item, x, y, width, height);
     this.drawLabel(item, x, y);
     return keyShape;
+  },
+  anchor: {
+    intersectBox: 'rect'
   }
 });
