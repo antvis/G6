@@ -4,7 +4,7 @@
  */
 const G6 = require('@antv/g6');
 const { Util, G } = G6;
-const Canvas = G.Canvas;
+const Canvas = G.canvas.Canvas;
 
 class Minimap {
   constructor(options) {
