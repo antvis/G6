@@ -6,7 +6,7 @@ require('./extend/g/html');
 require('./extend/g/canvas');
 require('./extend/g/group');
 require('./extend/g/shape');
-// require('./extend/g/html');
+require('./extend/g/html');
 const Base = require('./base');
 const Item = require('./item/');
 const Shape = require('./shape/');
