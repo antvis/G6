@@ -10,7 +10,7 @@ const width = 500;
 const height = 200;
 const dom = document.createElement('div');
 document.body.appendChild(dom);
-const canvas = new G.Canvas({
+const canvas = new G.canvas.Canvas({
   containerDOM: dom,
   width,
   height,
