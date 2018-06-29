@@ -5,7 +5,7 @@ require('../../../../src/extend/g/group');
 div.id = 'extend-group-spec';
 document.body.appendChild(div);
 describe('extend group test', () => {
-  const canvas = new G.Canvas({
+  const canvas = new G.canvas.Canvas({
     containerDOM: div
   });
   const group = canvas.addGroup();
