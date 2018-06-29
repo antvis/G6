@@ -13,13 +13,7 @@ module.exports = {
       ],
     ],
     presets: [
-      [
-        'env',
-        {
-          'loose': true,
-          'modules': false
-        }
-      ]
+      'env'
     ],
     sourceMaps: 'inline',
   },
@@ -27,7 +21,7 @@ module.exports = {
   include: [
     'src/**/*.js',
     'plugins/**/*.js',
-    'node_modules/**/src/gl-matrix/**/*.js '
+    'node_modules/**/src/gl-matrix/**/*.js'
   ],
   exclude: [
     'bower_components/**/*.js',

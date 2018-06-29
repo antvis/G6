@@ -6,13 +6,15 @@ const Shape = require('./shape/');
 const Handler = require('./handler');
 const Global = require('./global');
 const version = require('./version');
+const G = require('@antv/g');
 
 const G6 = {
   Graph: require('./graph'),
   Tree: require('./tree'),
   Util: require('./util/'),
   Layouts: require('./layouts/'),
-  G: require('@antv/g'),
+ // G: require('@antv/g'),
+  G,
   Plugins: {},
   Global,
   Shape,
