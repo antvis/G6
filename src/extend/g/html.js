@@ -9,7 +9,7 @@ const Html = function(cfg) {
   Html.superclass.constructor.call(this, cfg);
 };
 
-Util.extend(Html, G.Shape);
+Util.extend(Html, G.canvas.Shape);
 
 Html.ATTRS = {
   x: 0,
@@ -18,7 +18,7 @@ Html.ATTRS = {
   height: 0
 };
 
-Util.extend(Html, G.Shape);
+Util.extend(Html, G.canvas.Shape);
 
 Util.augment(Html, {
   canFill: true,
@@ -157,6 +157,7 @@ Util.augment(Html, {
     Html.superclass.destroy.call(this);
   }
 });
-G.Shape.Html = Html;
+G.canvas.Shape.Html = Html;
+G.svg.Shape.Html = Html;
 
 module.exports = Html;
