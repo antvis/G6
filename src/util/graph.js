@@ -59,7 +59,7 @@ module.exports = {
       const graphPixelRatio = graphCanvas.get('pixelRatio');
       tranScale = pixelRatio / graphPixelRatio;
       graphCanvas.scale(tranScale, tranScale);
-      const Constructor = graph.getConstructor(Canvas, SVG, graph.get('render'));
+      const Constructor = graph.getConstructor(Canvas, SVG);
       canvas = new Constructor({
         containerDOM,
         width: width * tranScale,
