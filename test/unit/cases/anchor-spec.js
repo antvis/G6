@@ -1,6 +1,6 @@
 const G6 = require('../../../src/index');
 const Global = require('../../../src/global');
-const Graph = G6.Graph;
+const Graph  = G6.Graph;
 const expect = require('chai').expect;
 const Util = require('../../../src/util/');
 const data = require('../../fixtures/sample-graph-data.json');

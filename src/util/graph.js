@@ -59,7 +59,8 @@ module.exports = {
       const graphPixelRatio = graphCanvas.get('pixelRatio');
       tranScale = pixelRatio / graphPixelRatio;
       graphCanvas.scale(tranScale, tranScale);
-      canvas = new Canvas({
+      const Constructor = graph.getConstructor(Canvas, SVG, graph.get('render'));
+      canvas = new Constructor({
         containerDOM,
         width: width * tranScale,
         height: height * tranScale
@@ -86,82 +87,8 @@ module.exports = {
       canvas.matrix = BaseUtil.cloneDeep(graph.getMatrix());
     }
     graphCanvas.beforeDraw();
-    // graphCanvas.draw();
-    // graphCanvas.constructor.superclass.draw.call(graphCanvas, miniMapCanvasContext);
-    graphCanvas.draw();
-    // graphCanvas.superclass.constructor.draw.call(graphCanvas, miniMapCanvasContext);
-    graphCanvas.set('context', graphCanvasContext);
-    graph.set('width', graphWidth);
-    graph.set('height', graphHeight);
-    graph.set('maxZoom', maxZoom);
-    graph.set('minZoom', minZoom);
-    graph.updateMatrix(matrixCache);
-    if (tranScale) {
-      afterTransform(graph);
-      graphCanvas.scale(1 / tranScale, 1 / tranScale);
-    }
-    graph._events = events;
-    graphCanvas.beforeDraw();
-    graphCanvas.draw();
-    // graphCanvas.constructor.superclass.draw.call(graphCanvas, graphCanvasContext);
-    // graphCanvas.superclass.constructor.draw.call(graphCanvas, graphCanvasContext);
-    return canvas.get('el');
-  },
-  /**
-   * graph to SVG
-   * @param  {object}  options item
-   * @return {domobject} canvas
-   */
-  graph2svg(options) {
-    options = BaseUtil.mix({
-      graph: null,
-      width: null,
-      height: null,
-      canvas: null,
-      minMaxZoom: Infinity,
-      minMinZoom: 0,
-      pixelRatio: 2,
-      beforeTransform() {},
-      afterTransform() {}
-    }, options);
-    let { graph, width, height, canvas, minMaxZoom, minMinZoom, pixelRatio, beforeTransform, afterTransform } = options;
-    const graphCanvas = graph.getCanvas();
-    let tranScale;
-    if (!canvas) {
-      const containerDOM = DomUtil.createDOM('<svg></svg>');
-      const graphPixelRatio = graphCanvas.get('pixelRatio');
-      tranScale = pixelRatio / graphPixelRatio;
-      graphCanvas.scale(tranScale, tranScale);
-      canvas = new SVG({
-        containerDOM,
-        width: width * tranScale,
-        height: height * tranScale
-      });
-    }
-    const miniMapCanvasContext = canvas.get('context');
-    const graphCanvasContext = graphCanvas.get('context');
-    const graphWidth = graph.get('width');
-    const graphHeight = graph.get('height');
-    const matrixCache = BaseUtil.cloneDeep(graph.getMatrix());
-    const maxZoom = graph.get('maxZoom');
-    const minZoom = graph.get('minZoom');
-    const events = graph._events;
+    graphCanvas.constructor.superclass.draw.call(graphCanvas, graphCanvasContext);
 
-    graph.set('maxZoom', minMaxZoom);
-    graph.set('minZoom', minMinZoom);
-    graph.set('width', width);
-    graph.set('height', height);
-    graph._events = []; // tamper with the event
-    if (graph.getItems().length > 0) {
-      beforeTransform(graph);
-      graphCanvas.set('context', miniMapCanvasContext);
-      graph.autoZoom();
-      canvas.matrix = BaseUtil.cloneDeep(graph.getMatrix());
-    }
-    graphCanvas.beforeDraw();
-    graphCanvas.draw();
-    // raphCanvas.constructor.superclass.draw.call(graphCanvas, miniMapCanvasContext);
-    // graphCanvas.superclass.constructor.draw.call(graphCanvas, miniMapCanvasContext);
     graphCanvas.set('context', graphCanvasContext);
     graph.set('width', graphWidth);
     graph.set('height', graphHeight);
@@ -175,8 +102,6 @@ module.exports = {
     graph._events = events;
     graphCanvas.beforeDraw();
     graphCanvas.draw();
-    // graphCanvas.constructor.superclass.draw.call(graphCanvas, graphCanvasContext);
-    // graphCanvas.superclass.constructor.draw.call(graphCanvas, graphCanvasContext);
     return canvas.get('el');
   }
 };
