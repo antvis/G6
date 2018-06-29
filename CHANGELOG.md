@@ -2,15 +2,22 @@
 
 ---
 
-#### 2.0.2 (2018-06-13)
+#### 2.0.3
 
-##### New Features
+`2018-06-29`
+
+* feat: update g to 3.0.x. Closes #346
+* fix: group should use rect intersect box. Close #297
+* fix(plugin): dagre edge controlpoints remove start point and end point
+* style: remove some annotations
+* chore: update torchjs && improve demo name
+
+#### 2.0.2
+
+`2018-06-13`
 
 * chore(plugin): require g6 by src/index
 * chore(dev test): remove useless test script
-
-##### Bug Fixes
-
 * fix(plugin) minimap destroy Closes #308
 * fix(saveImage) saveImage bug
 * fix(event): fix dom coord. Closes #305
