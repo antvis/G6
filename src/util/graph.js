@@ -88,7 +88,8 @@ module.exports = {
     graphCanvas.beforeDraw();
     // graphCanvas.draw();
     // graphCanvas.constructor.superclass.draw.call(graphCanvas, miniMapCanvasContext);
-    graphCanvas.superclass.constructor.draw.call(graphCanvas, miniMapCanvasContext);
+    graphCanvas.draw();
+    // graphCanvas.superclass.constructor.draw.call(graphCanvas, miniMapCanvasContext);
     graphCanvas.set('context', graphCanvasContext);
     graph.set('width', graphWidth);
     graph.set('height', graphHeight);
@@ -101,9 +102,9 @@ module.exports = {
     }
     graph._events = events;
     graphCanvas.beforeDraw();
-    // graphCanvas.draw();
+    graphCanvas.draw();
     // graphCanvas.constructor.superclass.draw.call(graphCanvas, graphCanvasContext);
-    graphCanvas.superclass.constructor.draw.call(graphCanvas, graphCanvasContext);
+    // graphCanvas.superclass.constructor.draw.call(graphCanvas, graphCanvasContext);
     return canvas.get('el');
   },
   /**
@@ -158,9 +159,9 @@ module.exports = {
       canvas.matrix = BaseUtil.cloneDeep(graph.getMatrix());
     }
     graphCanvas.beforeDraw();
-    // graphCanvas.draw();
+    graphCanvas.draw();
     // raphCanvas.constructor.superclass.draw.call(graphCanvas, miniMapCanvasContext);
-    graphCanvas.superclass.constructor.draw.call(graphCanvas, miniMapCanvasContext);
+    // graphCanvas.superclass.constructor.draw.call(graphCanvas, miniMapCanvasContext);
     graphCanvas.set('context', graphCanvasContext);
     graph.set('width', graphWidth);
     graph.set('height', graphHeight);
@@ -175,7 +176,7 @@ module.exports = {
     graphCanvas.beforeDraw();
     graphCanvas.draw();
     // graphCanvas.constructor.superclass.draw.call(graphCanvas, graphCanvasContext);
-    graphCanvas.superclass.constructor.draw.call(graphCanvas, graphCanvasContext);
+    // graphCanvas.superclass.constructor.draw.call(graphCanvas, graphCanvasContext);
     return canvas.get('el');
   }
 };

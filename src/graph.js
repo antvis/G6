@@ -2,7 +2,7 @@
  * @fileOverview graph
  * @author huangtonger@aliyun.com
  */
-
+require('./extend/g/html');
 require('./extend/g/canvas');
 require('./extend/g/group');
 require('./extend/g/shape');
@@ -109,7 +109,7 @@ class Graph extends Base {
       _itemMap: {},
       _data: {},
       _delayRunObj: {},
-      render: 'svg'
+      render: 'canvas'
     };
   }
 
