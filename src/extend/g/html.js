@@ -158,6 +158,5 @@ Util.augment(Html, {
   }
 });
 G.canvas.Shape.Html = Html;
-G.svg.Shape.Html = Html;
 
 module.exports = Html;
