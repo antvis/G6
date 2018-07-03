@@ -219,10 +219,10 @@ class Graph extends Base {
     this.set('_canvas', canvas);
     this.set('_frontCanvas', frontCanvas);
     this.set('_htmlElementContaniner', htmlElementContaniner);
-    const mouseEventWarrper = this.getMouseEventWarrper();
-    mouseEventWarrper.style.outline = 'none';
-    mouseEventWarrper.style['user-select'] = 'none';
-    mouseEventWarrper.setAttribute('tabindex', TAB_INDEX);
+    const mouseEventWrapper = this.getMouseEventWrapper();
+    mouseEventWrapper.style.outline = 'none';
+    mouseEventWrapper.style['user-select'] = 'none';
+    mouseEventWrapper.setAttribute('tabindex', TAB_INDEX);
     canvas.set('htmlElementContaniner', htmlElementContaniner);
 
     const RootGroup = this.getConstructor(CanvasRootGroup, SvgRootGroup);
@@ -247,7 +247,11 @@ class Graph extends Base {
   _refresh() {
 
   }
-  getMouseEventWarrper() {
+  getKeyboardEventWrapper() {
+    const keyboardEventWrapper = this.get('keyboardEventWrapper');
+    return keyboardEventWrapper ? keyboardEventWrapper : this.getMouseEventWrapper();
+  }
+  getMouseEventWrapper() {
     return this.get('_htmlElementContaniner');
   }
   /**

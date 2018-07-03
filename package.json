@@ -1,10 +1,8 @@
 {
   "name": "@antv/g6",
-  "version": "2.0.3",
+  "version": "2.0.4-beta.1",
   "description": "graph visualization frame work",
-  "main": "lib/index.js",
-  "browser": "build/g6.js",
-  "module": "src/index.js",
+  "main": "build/g6.js",
   "homepage": "https://github.com/antvis/g6",
   "author": "https://github.com/orgs/antvis/people",
   "repository": {
@@ -98,7 +96,7 @@
     "screenshot": "node ./bin/screenshot.js",
     "start": "npm run dev",
     "test": "torch --compile --renderer --recursive ./test/unit",
-    "test-live": "torch --compile --interactive --watch --recursive ./test/",
+    "test-live": "torch --compile --interactive --watch --recursive ./test/unit/plugins/minimap-spec.js",
     "watch": "webpack --config webpack-dev.config.js",
     "win-dev": "node ./bin/win-dev.js"
   },
