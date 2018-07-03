@@ -25,7 +25,7 @@ graph.source(Util.cloneDeep(data));
 graph.render();
 const nodePoint = { x: 209, y: 161 };
 const emptyPoint = { x: 188, y: 86 };
-const el = graph.getMouseEventWarrper();
+const el = graph.getMouseEventWrapper();
 Util.modifyCSS(el, {
   border: '1px solid red'
 });

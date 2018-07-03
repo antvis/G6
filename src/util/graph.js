@@ -86,10 +86,10 @@ module.exports = {
       graph.autoZoom();
       canvas.matrix = BaseUtil.cloneDeep(graph.getMatrix());
     }
-    graphCanvas.beforeDraw();
-    graphCanvas.constructor.superclass.draw.call(graphCanvas, graphCanvasContext);
 
-    graphCanvas.set('context', graphCanvasContext);
+    graphCanvas.set('context', miniMapCanvasContext);
+    graphCanvas.beforeDraw();
+    graphCanvas.constructor.superclass.draw.call(graphCanvas, miniMapCanvasContext);
     graph.set('width', graphWidth);
     graph.set('height', graphHeight);
     graph.set('maxZoom', maxZoom);
@@ -100,7 +100,7 @@ module.exports = {
       graphCanvas.scale(1 / tranScale, 1 / tranScale);
     }
     graph._events = events;
-    graphCanvas.beforeDraw();
+    graphCanvas.set('context', graphCanvasContext);
     graphCanvas.draw();
     return canvas.get('el');
   }
