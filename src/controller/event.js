@@ -53,8 +53,7 @@ class Controller extends Base {
   }
   _registerKeyboardEvents() {
     const graph = this.graph;
-    const keyboardEventWrapper = graph.get('keyboardEventWrapper');
-    const el = keyboardEventWrapper ? keyboardEventWrapper : graph.getMouseEventWarrper();
+    const el = graph.getKeyboardEventWrapper();
     const _events = this._domEvents;
     const keyboardEnable = graph.get('keyboardEnable');
 
@@ -73,7 +72,7 @@ class Controller extends Base {
   _registerMouseEvents() {
     const graph = this.graph;
     const self = this;
-    const el = graph.getMouseEventWarrper();
+    const el = graph.getMouseEventWrapper();
     const _events = this._domEvents;
     Util.each(MouseEventTypes, item => {
       _events.push(Util.addEventListener(el, item, ev => {
