@@ -26,7 +26,7 @@ const randomData = {
       edges
     };
   },
-  // 生成愿数据
+  // 生成圆数据
   createCyclicData(num) {
     const data = randomData.createChainData(num);
     const { nodes, edges } = data;
