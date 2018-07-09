@@ -7,35 +7,16 @@ const MAX_LEVEL = 5;
 const G = require('@antv/g');
 
 const BaseUtil = {
-  each: require('lodash/each'),
-  isObject: require('lodash/isObject'),
-  isNumber: require('lodash/isNumber'),
-  isString: require('lodash/isString'),
-  isFunction: require('lodash/isFunction'),
-  isBoolean: require('lodash/isBoolean'),
-  isEmpty: require('lodash/isEmpty'),
+  ...G.CommonUtil,
   lowerFirst: require('lodash/lowerFirst'),
-  upperFirst: require('lodash/upperFirst'),
-  upperCase: require('lodash/upperCase'),
-  isNil: require('lodash/isNil'),
-  isArray: require('lodash/isArray'),
   isPlainObject: require('lodash/isPlainObject'),
-  toArray: require('lodash/toArray'),
   indexOf: require('lodash/indexOf'),
-  clone: require('lodash/clone'),
   cloneDeep: require('lodash/cloneDeep'),
-  merge: require('lodash/merge'),
   round: require('lodash/round'),
   filter: require('lodash/filter'),
   throttle: require('lodash/throttle'),
   debounce: require('lodash/debounce'),
-  isEqualWith: require('lodash/isEqualWith'),
-  isEqual: require('lodash/isEqual'),
-  replace: require('lodash/replace'),
-  union: require('lodash/union'),
   uniq: require('lodash/uniq'),
-  extend: G.CommonUtil.extend,
-  augment: G.CommonUtil.augment,
 
   /**
    * traverse tree

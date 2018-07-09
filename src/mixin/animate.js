@@ -28,6 +28,7 @@ Mixin.CFG = {
     const centerY = (box.minY + box.maxY) / 2;
     Util.scaleIn(group, centerX, centerY);
   },
+
   _leaveAnimate(item) {
     const group = item.getGraphicGroup();
     const matrix = group.getMatrix();

@@ -200,6 +200,34 @@ class Tree extends Graph {
     this.updateItem(item, model);
 
     if (item.isNode) {
+
+      // deal collapsed
+      if ('collapsed' in model) {
+        if (model.collapsed) {
+          item.deepEach(child => {
+            child.hide();
+            child.getEdges().forEach(edge => {
+              edge.hide();
+            });
+          });
+        } else {
+          item.deepEach(child => {
+            child.show();
+            child.getEdges(edge => {
+              const model = edge.getModel();
+              return model.target === child.id;
+            }).forEach(edge => {
+              edge.show();
+            });
+          }, parent => {
+            if (!parent.model.collapsed) {
+              return parent.getChildren();
+            }
+            return null;
+          });
+        }
+      }
+
       // exchange parent
       if (model.parent) {
         const originParent = this.find(originModel.id);
@@ -229,33 +257,6 @@ class Tree extends Graph {
           this.addItems('node', data.nodes);
           this.addItems('edge', data.edges);
         });
-      }
-
-      // deal collapsed
-      if ('collapsed' in model) {
-        if (model.collapsed) {
-          item.deepEach(child => {
-            child.hide();
-            child.getEdges().forEach(edge => {
-              edge.hide();
-            });
-          });
-        } else {
-          item.deepEach(child => {
-            child.show();
-            child.getEdges(edge => {
-              const model = edge.getModel();
-              return model.target === child.id;
-            }).forEach(edge => {
-              edge.show();
-            });
-          }, parent => {
-            if (!parent.model.collapsed) {
-              return parent.getChildren();
-            }
-            return null;
-          });
-        }
       }
 
       // set node nth
