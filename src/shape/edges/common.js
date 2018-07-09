@@ -10,7 +10,7 @@ const Global = require('../../global');
 Shape.registerEdge('common', {
   draw(item) {
     const keyShape = this.drawKeyShape(item);
-    this.drawLabel(item);
+    this.drawLabel(item, keyShape);
     return keyShape;
   },
   drawKeyShape(item) {
@@ -48,13 +48,11 @@ Shape.registerEdge('common', {
     const model = item.getModel();
     return model.label;
   },
-  drawLabel(item) {
+  drawLabel(item, keyShape) {
     let label = this.getLabel(item);
     const group = item.getGraphicGroup();
     const model = item.getModel();
-    const keyShape = group.findBy(child => {
-      return child.isKeyShape;
-    });
+
     if (label) {
       const center = keyShape.getPoint(0.5);
       const attrs = Util.mix(true, {}, Global.labelStyle, center);
