@@ -10,7 +10,6 @@ const Global = require('../../global');
 Shape.registerEdge('common', {
   draw(item) {
     const keyShape = this.drawKeyShape(item);
-    keyShape.isKeyShape = true;
     this.drawLabel(item);
     return keyShape;
   },
