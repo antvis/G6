@@ -71,7 +71,14 @@ class Controller extends Base {
       .map(edge => {
         return edge.getModel();
       });
-    graph._executeLayout(processer, nodes, edges);
+    const groups = graph.getGroups()
+    .filter(group => {
+      return group.isVisible();
+    })
+    .map(group => {
+      return group.getModel();
+    });
+    graph._executeLayout(processer, nodes, edges, groups);
     graph.updateNodePosition();
     graph.emit('afterlayout');
   }

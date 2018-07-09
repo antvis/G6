@@ -138,12 +138,13 @@ class Graph extends Base {
   initEvent() {
 
   }
-  _executeLayout(processer, nodes, edges) {
+  _executeLayout(processer, nodes, edges, groups) {
     if (Util.isFunction(processer)) {
       processer(nodes, edges, this);
     } else if (Util.isObject(processer)) {
       processer.nodes = nodes;
       processer.edges = edges;
+      processer.groups = groups;
       processer.graph = this;
       processer.execute();
     }
