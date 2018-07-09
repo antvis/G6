@@ -63,6 +63,7 @@ class Edge extends Item {
   layoutUpdate() {
     const group = this.getGraphicGroup();
     const children = group.get('children');
+    this._beforeDraw();
     if (children.length === 1) {
       const keyShape = this.keyShape;
       const shapeObj = this.shapeObj;

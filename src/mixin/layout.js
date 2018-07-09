@@ -43,7 +43,7 @@ Mixin.AUGMENT = {
    * @return {Graph} this
    */
   updateNodePosition() {
-    const nodes = this.getItems();
+    const nodes = this.getNodes();
     const groups = this.getGroups();
     const edges = this.getEdges();
     nodes.forEach(node => {
