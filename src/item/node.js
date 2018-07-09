@@ -36,6 +36,7 @@ class Node extends Item {
     super._afterDraw();
   }
   layoutUpdate() {
+    this._beforeDraw();
     this._afterDraw();
   }
   getEdges(callback) {
