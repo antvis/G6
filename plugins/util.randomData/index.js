@@ -36,6 +36,18 @@ const randomData = {
       target: nodes[0].id
     });
     return data;
+  },
+  // generate num * num nodes withou edges
+  createNodesData(num, nodes = [], edges = []) {
+    for (let index = 0; index < num * num; index++) {
+      nodes.push({
+        id: index
+      });
+    }
+    return {
+      nodes,
+      edges
+    };
   }
 };
 Util.mix(Util, randomData);
