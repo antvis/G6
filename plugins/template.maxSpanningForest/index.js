@@ -12,37 +12,24 @@
  */
 const G6 = require('@antv/g6');
 const maxSpanningForest = require('./maxSpanningForest');
-const d3 = require('d3');
-const { forceSimulation, forceLink, forceManyBody, forceCenter, forceCollide } = d3;
+const Layout = require('../layout.forceAtlas2/layout');
 const Util = G6.Util;
 
 class Plugin {
   constructor(options) {
     Util.mix(this, {
-      layout(nodes, edges, graph) {
-        const width = graph.getWidth();
-        const height = graph.getHeight();
-        const simulation = forceSimulation(nodes)
-          .force('charge', forceManyBody().distanceMax(width * 3))
-          .force('link', forceLink(Util.cloneDeep(edges))
-            .id(model => {
-              return model.id;
-            })
-            .strength(1)
-          )
-          .force('center', forceCenter(width / 2, height / 2))
-          .force('collision', forceCollide().radius(model => {
-            return model.width / 2 * 1.2;
-          }));
-        simulation.stop();
-        for (let i = 0, n = Math.ceil(Math.log(simulation.alphaMin()) / Math.log(1 - simulation.alphaDecay())); i < n; ++i) {
-          simulation.tick();
-        }
-        nodes.forEach(node => {
-          delete node.vx;
-          delete node.vy;
-        });
-      },
+      layout: new Layout({
+        kr: 50,
+        kg: 1.0,
+        mode: 'common',
+        prev_overlapping: true,
+        dissuade_hubs: false,
+        max_iteration: 500,
+        barnes_hut: false,
+        ks: 0.1,
+        ksmax: 10,
+        tao: 0.1
+      }),
       ...options
     });
   }
@@ -56,7 +43,10 @@ class Plugin {
     });
     graph.on('beforerender', () => {
       const data = graph.getSource();
-      const { nodes, edges } = data;
+      const {
+        nodes,
+        edges
+      } = data;
       const forest = maxSpanningForest(nodes, edges);
       forest.edges.forEach(edge => {
         edge.isTreeEdge = true;
@@ -67,7 +57,6 @@ class Plugin {
     });
   }
 }
-
 
 G6.Plugins['template.maxSpanningForest'] = Plugin;
 
