@@ -14,7 +14,8 @@
   <script src="../build/utilRandomData.js"></script>
   <script src="../build/layoutArchimeddeanSpiral.js"></script>
   <script>
-    const Plugin = window.LayoutArchimeddeanSpiral;
+    console.log(G6,G6.Plugins)
+    const Plugin = G6.Plugins['layout.archimeddeanSpiral'];
     const Util = G6.Util;
     const data = Util.createChainData(160);
     const graph = new G6.Graph({
