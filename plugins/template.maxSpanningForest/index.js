@@ -12,7 +12,7 @@
  */
 const G6 = require('@antv/g6');
 const maxSpanningForest = require('./maxSpanningForest');
-const forceAtlas2 = require('./ForceAtlas2');
+const Layout = require('../layout.forceAtlas2/layout');
 // const d3 = require('d3');
 // const {
 //   forceSimulation,
@@ -26,7 +26,7 @@ const Util = G6.Util;
 class Plugin {
   constructor(options) {
     Util.mix(this, {
-      layout(nodes, edges, graph) {
+      layout(ns, es, g) {
 
         // force atlas 2
         const params = {
@@ -39,9 +39,13 @@ class Plugin {
           barnes_hut: false,
           ks: 0.1,
           ksmax: 10,
-          tao: 0.1
+          tao: 0.1,
+          graph: g,
+          nodes: ns,
+          edges: es
         };
-        forceAtlas2(graph, nodes, edges, params);
+        const forceAtlas2 = new Layout(params);
+        forceAtlas2.execute();
 
         // d3 force directed
         // const width = graph.getWidth();
