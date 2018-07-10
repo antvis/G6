@@ -55,7 +55,7 @@ class Layout {
        * whether preventing the node overlapping
        * @type  {boolean}
        */
-      prev_overlapping: true,
+      prev_overlapping: false,
 
       /**
        * whether active the dissuade hub mode
@@ -69,7 +69,7 @@ class Layout {
        * whether active the barnes hut optimization on computing repulsive forces
        * @type  {boolean}
        */
-      barnes_hut: true,
+      barnes_hut: false,
 
       /**
        * the max iteration number
@@ -130,8 +130,8 @@ class Layout {
     for (let i = 0; i < size; i += 1) {
       nodes[i].index = i;
       nodes[i].degree = 0;
-      nodes[i].x = Math.random() * 100;
-      nodes[i].y = Math.random() * 100;
+      nodes[i].x = Math.random() * 1000;
+      nodes[i].y = Math.random() * 1000;
     }
     for (let i = 0; i < esize; i += 1) {
       const node1 = graph.find(edges[i].source).getModel();
