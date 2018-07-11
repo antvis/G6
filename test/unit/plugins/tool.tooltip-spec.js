@@ -11,9 +11,9 @@ document.body.appendChild(Util.createDOM(`
 
 describe('tooltip test', () => {
   const tooltip = new Tooltip({
-    getHtml({ item }) {
+    getTooltip() {
       return `
-        <div></div>
+        <div>dddd</div>
       `;
     }
   });
@@ -39,4 +39,5 @@ describe('tooltip test', () => {
     plugins: [ tooltip ]
   });
   graph.read(data);
+  graph.destroy();
 });
