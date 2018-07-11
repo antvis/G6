@@ -68,7 +68,7 @@ class Plugin {
   init() {
     const graph = this.graph;
     graph.on('mouseenter', ev => {
-      this.onMouseEnter(ev);
+      ev.shape && this.onMouseEnter(ev);
     });
     graph.on('mousemove', ev => {
       this.onMouseMove(ev);
@@ -87,6 +87,9 @@ class Plugin {
 
     if (tooltipHtml) {
       tooltip = Util.createDOM(tooltipHtml);
+      tooltip.css({
+        position: 'absolute'
+      });
       graphContainer.appendChild(tooltip);
     } else {
       tooltip = null;
@@ -110,7 +113,7 @@ class Plugin {
   }
   onMouseLeave() {
     if (this.tooltip) {
-      // this.tooltip.destroy();
+      this.tooltip.destroy();
       this.tooltip = null;
     }
   }
