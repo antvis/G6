@@ -37,7 +37,7 @@ Mixin.AUGMENT = {
     return itemMap._groups;
   },
   /**
-   * get groups
+   * get guides
    * @return {array} rst
    */
   getGuides() {
