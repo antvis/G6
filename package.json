@@ -35,6 +35,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
+    "@antv/scale": "^0.0.1",
     "babel-cli": "~6.26.0",
     "babel-core": "~6.26.0",
     "babel-eslint": "~8.0.3",
@@ -96,7 +97,7 @@
     "screenshot": "node ./bin/screenshot.js",
     "start": "npm run dev",
     "test": "torch --compile --renderer --recursive ./test/unit",
-    "test-live": "torch --compile --interactive --watch --recursive ./test/bugs/issue-357-spec.js",
+    "test-live": "torch --compile --interactive --watch --recursive ./test/unit",
     "watch": "webpack --config webpack-dev.config.js",
     "win-dev": "node ./bin/win-dev.js"
   },
@@ -104,6 +105,8 @@
     "run": []
   },
   "dependencies": {
+    "@antv/scale": "^0.0.1",
+    "@antv/g2": "^3.2.0",
     "@antv/g": "^3.0.0-beta.4",
     "@antv/hierarchy": "~0.3.13",
     "ant-design-palettes": "~1.1.2",
