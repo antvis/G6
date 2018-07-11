@@ -26,7 +26,9 @@ class Controller extends Base {
   addChannels(inputChannels) {
     const channels = this.channels;
     Util.each(inputChannels, (channel, name) => {
-      channels[name].input = channel;
+      channels[name] = {
+        input: channel
+      };
     });
   }
   /**
