@@ -39,5 +39,7 @@ describe('tooltip test', () => {
     plugins: [ tooltip ]
   });
   graph.read(data);
-  graph.destroy();
+  it('tooltip destroy', () => {
+    graph.destroy();
+  });
 });
