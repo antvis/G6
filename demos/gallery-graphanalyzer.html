@@ -1,0 +1,164 @@
+<!doctype html>
+<html itemscope="" itemtype="http://schema.org/SearchResultsPage" lang="en">
+
+<head>
+  <meta content="origin" name="referrer">
+  <title>test shiwu</title>
+  <script src="../build/g6.js"></script>
+  <script src="../build/templateMaxSpanningForest.js"></script>
+  <script src="../build/layoutForceAtlas2.js"></script>
+  <script src="../build/behaviourAnalysis.js"></script>
+  <script src="./assets/jquery-3.2.1.min.js"></script>
+  <script src="../build/toolD3Mapper.js"></script>
+  <script src="../build/toolFisheye.js"></script>
+
+
+  <style>
+    ul, li {
+        margin: 0;
+        padding: 0;
+    }
+
+    #myMenu{
+        color: #777;
+        list-style: none;
+        width: 150px;
+        border: 1px solid #ccc;
+        border-bottom: none;
+        position: absolute;
+        display: none;
+        background-color: #fff
+    }
+
+    #myMenu li{
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+
+    #myMenu li:hover{
+        color: #6af
+    }
+
+    #menu_detail{
+        color: #6af;
+        border-top: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+    }
+</style>
+
+</head>
+
+<body>
+  <div id='mountNode'></div>
+  <div id = 'buttonList'>
+    <button id = 'DC_map' onclick="clickDCmap()" type="button">DC</button>
+    <button id = 'BC_map' onclick="clickBCmap()" type="button">BC</button>
+    <button id = 'CC_map' onclick="clickCCmap()" type="button">CC</button>
+  </div>
+  <ul id="myMenu">
+    <li id = "menu_sources" onclick="clickNodeSources()">来源</li>
+    <li id = "menu_targets">去向</li>
+    <li id = "menu_both">来源去向</li>
+    <li id = 'menu_detail'> 查看单页分析详情</li>
+  </ul>
+  <script>
+  
+    var graph = null;
+    var clickOnNode = null;
+    // $.getJSON('../../test/fixtures/viralMarketing.json', data => {
+    $.getJSON('../../test/fixtures/view-test.json', data => {
+      const Mapper = window.ToolD3Mapper;
+      const Plugin = G6.Plugins['template.maxSpanningForest'];
+      // const Plugin = G6.Plugins['layout.forceAtlas2'];
+      const FisheyePlugin = G6.Plugins['tool.fisheye'];
+      const nodeSizeMapper = new Mapper('node', 'degree', 'size', [40, 80], {
+        legendCfg: null
+      });
+      graph = new G6.Graph({
+        id: 'mountNode', // dom id
+        fitView: 'autoZoom',
+        plugins: [new Plugin(), nodeSizeMapper, new FisheyePlugin()],
+        minZoom: 0,
+        modes: {
+          default: ['panCanvas']
+        },
+        height: 1000,
+      });
+      graph.edge({
+        style() {
+          return {
+            endArrow: true,
+            lineWidth: 2
+          };
+        }
+      });
+      graph.read(data);
+      graph.setFitView('autoZoom');
+
+      graph.on('node:mousedown', ev => {
+        const menu = document.getElementById('myMenu');
+        menu.style.display = "block";
+        menu.style.left = ev.domEvent.clientX + "px";
+        menu.style.top = ev.domEvent.clientY + "px";
+        clickOnNode = ev.item;
+      });
+    }); 
+
+  
+    function clickNodeSources(ev){
+      //draw a transparent white rect on the canvas
+      var canvas = document.getElementsByTagName("canvas")[0];
+      var ctx = canvas.getContext('2d');
+      ctx.fillStyle = "rgba(255,255,255,0.7)";
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+
+      //extract the relative nodes and edges
+      var relativeEdges = [], relativeNodes = [];
+      var re_id = 0, rn_id = 0;
+      const edges = graph.getEdges();
+      for(let i = 0; i < edges.length; i += 1) {
+        if(edges[i].target === clickOnNode.id){
+          relativeEdges[re_id] = edges[i].getModel;
+          re_id ++;
+        }
+      }
+      for(let i = 0; i < relativeEdges.length; i += 1){
+        relativeNodes[rn_id] = graph.find(relativeEdges[i].source);
+        rn_id ++;
+      }
+      //redraw the relative nodes and edges
+      var sub_data = { nodes: relativeNodes, edges: relativeEdges }; 
+      var subGraph = new G6.Graph({
+        id: 'mountNode', // dom id
+        fitView: 'autoZoom',
+        // plugins: [nodeSizeMapper],//, new FisheyePlugin()
+        minZoom: 0,
+        modes: {
+          default: ['panCanvas']
+        },
+        height: 1000,
+      });
+      subGraph.edge({
+        style() {
+          return {
+            endArrow: true,
+            lineWidth: 2
+          };
+        }
+      });
+      subGraph.read(sub_data);
+      console.log(subGraph);
+    }
+
+    function clickDCmap() {
+      nodeSizeMapper = new Mapper('node', 'degree', 'size', [40, 80], {
+        legendCfg: null
+      });
+    }
+    function clickBCmap(){
+
+    }
+
+  </script>
+
+</body>
