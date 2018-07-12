@@ -9,6 +9,7 @@ module.exports = {
   'template.maxSpanningForest': require('./template.maxSpanningForest/'),
   'tool.d3.mapper': require('./tool.d3.mapper/'),
   'tool.minimap': require('./tool.minimap/'),
+  'tool.tooltip': require('./tool.tooltip/'),
   'tool.fisheye': require('./tool.fisheye/'),
   'util.randomData': require('./util.randomData/')
 };
