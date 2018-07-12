@@ -5,14 +5,12 @@
   <meta content="origin" name="referrer">
   <title>test shiwu</title>
   <script src="../build/g6.js"></script>
-  <script src="../build/templateMaxSpanningForest.js"></script>
-  <script src="../build/layoutForceAtlas2.js"></script>
-  <script src="../build/behaviourAnalysis.js"></script>
+  <script src="../build/plugin.template.maxSpanningForest.js"></script>
+  <script src="../build/plugin.layout.forceAtlas2.js"></script>
+  <script src="../build/plugin.behaviour.analysis.js"></script>
+  <script src="../build/plugin.tool.d3.mapper.js"></script>
+  <script src="../build/plugin.tool.fisheye.js"></script>
   <script src="./assets/jquery-3.2.1.min.js"></script>
-  <script src="../build/toolD3Mapper.js"></script>
-  <script src="../build/toolFisheye.js"></script>
-
-
   <style>
     ul, li {
         margin: 0;
@@ -65,9 +63,8 @@
   
     var graph = null;
     var clickOnNode = null;
-    // $.getJSON('../../test/fixtures/viralMarketing.json', data => {
-    $.getJSON('../../test/fixtures/view-test.json', data => {
-      const Mapper = window.ToolD3Mapper;
+    $.getJSON('./assets/data/view-test.json', data => {
+      const Mapper = G6.Plugins['tool.d3.mapper'];
       const Plugin = G6.Plugins['template.maxSpanningForest'];
       // const Plugin = G6.Plugins['layout.forceAtlas2'];
       const FisheyePlugin = G6.Plugins['tool.fisheye'];
@@ -147,7 +144,6 @@
         }
       });
       subGraph.read(sub_data);
-      console.log(subGraph);
     }
 
     function clickDCmap() {
