@@ -34,9 +34,10 @@ Shape.registerEdge('common', {
   },
   getStyle(item) {
     const model = item.getModel();
-    return Util.mix(true, {}, Global.edgeStyle, {
+    return Util.mix(true, {}, {
       stroke: this.getColor(item),
       strokeOpacity: 0.92,
+      lineAppendWidth: 4,
       lineWidth: this.getSize(item)
     }, model.style);
   },
