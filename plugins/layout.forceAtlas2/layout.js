@@ -97,7 +97,7 @@ class Layout {
       tao: 0.1
     }, options);
   }
-  // 执行布局
+  // execute the layout
   execute() {
     let {
       graph,
@@ -114,6 +114,9 @@ class Layout {
       ksmax,
       tao
     } = this;
+
+    if (!barnes_hut && nodes.length > 300) barnes_hut = true;
+    else if (barnes_hut && nodes.length <= 300) barnes_hut = false;
 
     const width = this.width ? this.width : graph.getWidth();
     const height = this.height ? this.height : graph.getHeight();
