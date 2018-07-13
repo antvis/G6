@@ -8,8 +8,11 @@
   <script src="../build/plugin.template.maxSpanningForest.js"></script>
   <script src="../build/plugin.layout.forceAtlas2.js"></script>
   <script src="../build/plugin.behaviour.analysis.js"></script>
-  <script src="../build/plugin.tool.d3.mapper.js"></script>
+  <script src="../build/plugin.tool.mapper.js"></script>
   <script src="../build/plugin.tool.fisheye.js"></script>
+  <script src="../build/plugin.util.extractSubgraph.js"></script>
+  <script src="../build/plugin.tool.highlightSubgraph.js"></script>
+  <script src="../build/plugin.edge.quadraticCurve.js"></script>
   <script src="./assets/jquery-3.2.1.min.js"></script>
   <style>
     ul, li {
@@ -64,7 +67,7 @@
   
     var graph = null;
     var clickOnNode = null;
-    $.getJSON('../../demo/data/view-test.json', data => {
+    $.getJSON('./assets/data/view-test.json', data => {
       const Mapper = G6.Plugins['tool.mapper']
 
       const Plugin = G6.Plugins['template.maxSpanningForest'];
@@ -100,7 +103,7 @@
       graph.node({
         label(model) {
           return {
-            text: model.pageName,
+            text: model.id,
             fill: 'black',
             stroke: '#fff',
             lineWidth: 4
