@@ -9,7 +9,6 @@ const Legend = require('@antv/g2/src/component/legend');
 const Color = require('@antv/g2/src/component/legend/color');
 const Size = require('@antv/g2/src/component/legend/size');
 const Attr = require('@antv/attr');
-// const ColorUtil = require('@antv/attr/src/color-util');
 const Util = G6.Util;
 const Scale = require('@antv/scale');
 const G = require('@antv/g');
@@ -79,30 +78,8 @@ class Plugin {
         this._createScale(graph.parseSource(data));
         this._mapping();
         this.legendCfg && this._createLegend(graph.parseSource(data));
-        // graph.on('changesize', () => {
-        //   this.updateLegendPosition();
-        // });
       }
     });
-    // graph.on('beforerender', () => {
-    //   if (this._checkInput()) {
-    //     const legendCfg = this.legendCfg;
-    //     this._createScale();
-    //     this._mapping();
-    //     legendCfg && this._createLegend();
-    //     graph.on('changesize', () => {
-    //       this.updateLegendPosition();
-    //     });
-    //   }
-    // });
-    // graph.on('afterclear', () => {
-    //   const legendCanvas = this.legendCanvas;
-    //   const filterCallback = this.filterCallback;
-    //   const graph = this.graph;
-    //   const itemType = this.itemType;
-    //   graph['remove' + itemType + 'Filter'](filterCallback);// Util.ucfirst(itemType)
-    //   legendCanvas.destroy();
-    // });
   }
   _trainCategoryScale(itemType, data) {
     const dim = this.dim;

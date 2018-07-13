@@ -718,7 +718,7 @@ class Graph extends Base {
   show(item) {
     item = this.getItem(item);
     if (item.isEdge) {
-      item.isVisible() && item.isVisible() && item.show();
+      item.getSource().isVisible() && item.getTarget().isVisible() && item.show();
     } else {
       item.show();
     }
