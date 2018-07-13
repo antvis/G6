@@ -102,14 +102,13 @@ class Graph extends Base {
        * @type {string}
        */
       defaultIntersectBox: 'circle',
-      firstRender: true,
+      render: 'canvas',
       _controllers: {},
       _timers: {},
       _dataMap: {},
       _itemMap: {},
       _data: {},
-      _delayRunObj: {},
-      render: 'canvas'
+      _delayRunObj: {}
     };
   }
 

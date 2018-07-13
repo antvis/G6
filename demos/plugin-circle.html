@@ -11,17 +11,16 @@
 <body>
   <div id="mountNode"></div>
   <script src="../build/g6.js"></script>
-  <script src="../build/utilRandomData.js"></script>
-  <script src="../build/layoutCircle.js"></script>
+  <script src="../build/plugin.util.randomData.js"></script>
+  <script src="../build/plugin.layout.circle.js"></script>
   <script>
-    const Plugin = window.LayoutCircle;
     const Util = G6.Util;
     const data = Util.createCyclicData(30);
     const graph = new G6.Graph({
       container: 'mountNode',
       fitView: 'cc',
       height: window.innerHeight,
-      plugins: [new Plugin()]
+      plugins: [new G6.Plugins['layout.circle']()]
     });
     graph.node({
       size: 16
