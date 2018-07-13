@@ -12,7 +12,7 @@ class Tool {
        * radius
        * @type  {number}
        */
-      radius: 300,
+      radius: 100,
 
       /**
        * defualt zoom center
