@@ -11,14 +11,14 @@
 <body>
   <div id="mountNode"></div>
   <script src="../build/g6.js"></script>
-  <script src="../build/g6Plugins.js"></script>
+  <script src="../build/plugins.js"></script>
   <script>
     G6.registerNode('rect', {
       getPath(item) {
         const width = 100;   // 一半宽
         const height = 40;  // 一半高
         return G6.Util.getRectPath(-width/2, -height/2, width, height, 10);
-      }
+      },
     });
     const data = {
       nodes: [{
@@ -51,10 +51,11 @@
     };
     const graph = new G6.Graph({
       container: 'mountNode',
-      plugins: [new G6.Plugins['layout.dagre']()],
+      fitView: 'cc',
       width: 500,
       height: 500,
-      defaultIntersectBox: 'rect' // 使用
+      plugins: [new G6.Plugins['layout.dagre']()],
+      defaultIntersectBox: 'rect' // 使用矩形包围盒
     });
     graph.node({
       shape: 'rect',

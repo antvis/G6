@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "2.0.4-beta.3",
+  "version": "2.0.4",
   "description": "graph visualization frame work",
   "main": "build/g6.js",
   "homepage": "https://github.com/antvis/g6",
@@ -97,7 +97,7 @@
     "screenshot": "node ./bin/screenshot.js",
     "start": "npm run dev",
     "test": "torch --compile --renderer --recursive ./test/unit",
-    "test-live": "torch --compile --interactive --watch --recursive ./test/unit",
+    "test-live": "torch --compile --interactive --watch --recursive ./test/unit/plugins/tool.tooltip-spec.js",
     "watch": "webpack --config webpack-dev.config.js",
     "win-dev": "node ./bin/win-dev.js"
   },

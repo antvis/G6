@@ -2,6 +2,18 @@
 
 ---
 
+#### 2.0.4
+
+`2018-07-12`
+
+* feat: layout export group.Closes #355
+* feat(plugin): add tool.tooltip. Closes #360.
+* style: change the calling way of forceAtlas2 on template.maxSpanningForest
+* fix: origin tree data collapsed is true tree edge visible bug.Closes #357
+* fix: remove the forceAtlas.js in template.maxSpanningForest, use forceAtlas from layout.forceAtlas2
+* fix: add demos: plugin-fisheye, plugin-forceAtlas2, gallery-graphanalyzer
+* fix: add demos: plugin-forceAtlas2, plugin-fisheye
+
 #### 2.0.3
 
 `2018-06-29`
