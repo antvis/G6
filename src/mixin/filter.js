@@ -55,6 +55,8 @@ Mixin.AUGMENT = {
     items.forEach(item => {
       if (filteredItems.indexOf(item) === -1) {
         item.hide();
+      } else {
+        item.show();
       }
     });
     this.draw();

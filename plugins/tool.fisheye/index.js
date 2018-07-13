@@ -4,6 +4,7 @@
  */
 
 const G6 = require('@antv/g6');
+const Util = G6.Util;
 const Fisheye = require('./tool');
 class Plugin {
   constructor(options) {
@@ -16,7 +17,8 @@ class Plugin {
         graph,
         ...this.options
       });
-      graph.on('mousemove', ev => {
+      graph.on('mousemove', Util.throttle(ev => {
+      // graph.on('mousemove', ev => {
         const nodes = graph.getNodes();
         const size = nodes.length;
         for (let i = 0; i < size; i += 1) {
@@ -25,7 +27,8 @@ class Plugin {
         }
         fisheye.zoom(ev.x, ev.y);
         graph.changeLayout();
-      });
+      }, 10)
+    );
     });
   }
 }
