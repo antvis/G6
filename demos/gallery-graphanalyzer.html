@@ -5,18 +5,12 @@
   <meta content="origin" name="referrer">
   <title>test shiwu</title>
   <script src="../build/g6.js"></script>
-  <script src="../build/templateMaxSpanningForest.js"></script>
-  <script src="../build/layoutForceAtlas2.js"></script>
-  <script src="../build/behaviourAnalysis.js"></script>
+  <script src="../build/plugin.template.maxSpanningForest.js"></script>
+  <script src="../build/plugin.layout.forceAtlas2.js"></script>
+  <script src="../build/plugin.behaviour.analysis.js"></script>
+  <script src="../build/plugin.tool.d3.mapper.js"></script>
+  <script src="../build/plugin.tool.fisheye.js"></script>
   <script src="./assets/jquery-3.2.1.min.js"></script>
-  <script src="../build/toolD3Mapper.js"></script>
-  <script src="../build/toolMapper.js"></script>
-  <script src="../build/toolFisheye.js"></script>
-  <script src="../build/utilExtractSubgraph.js"></script>
-  <script src="../build/toolHighlightSubgraph.js"></script>
-  <script src="../build/edgeQuadraticCurve.js"></script>
-
-
   <style>
     ul, li {
         margin: 0;
@@ -70,11 +64,9 @@
   
     var graph = null;
     var clickOnNode = null;
-    // $.getJSON('../../test/fixtures/viralMarketing.json', data => {
-    $.getJSON('../../test/fixtures/view-test.json', data => {
-    // $.getJSON('../../test/fixtures/antv_data.json', data => {
-      // const Mapper = G6.Plugins['tool.d3.mapper']
+    $.getJSON('../../demo/data/view-test.json', data => {
       const Mapper = G6.Plugins['tool.mapper']
+
       const Plugin = G6.Plugins['template.maxSpanningForest'];
       const Highlighter = G6.Plugins['tool.highlightSubgraph'];
       // const Plugin = G6.Plugins['layout.forceAtlas2'];
@@ -83,14 +75,6 @@
       const edgeSizeMapper = new Mapper('edge', 'userview', 'size', [2, 20], {
         legendCfg: null
       });
-      // const edgeColorMapper = new Mapper('edge', 'userview', 'color', ['#BAE7FF', '#1890FF', '#0050B3'], {
-      //   legendCfg: null
-      // });
-      // const nodeColorMapper = new Mapper('node', 'test_class', 'color', ['green', 'red', 'yellow', 'pink', 'blue'], {
-      //   scaleCfg: {
-      //     type: 'Ordinal'
-      //   }
-      // }); 
       const nodeColorMapper = new Mapper('node', 'stayTime', 'color', ['#BAE7FF', '#1890FF', '#0050B3']); 
       const highlighter = new Highlighter();
 
@@ -98,7 +82,7 @@
         id: 'mountNode', // dom id
         fitView: 'cc',
         plugins: [new Plugin({max_iteration: 10, kg: 30, prev_overlapping: true}), 
-        nodeSizeMapper, nodeColorMapper,  edgeSizeMapper, // edgeColorMapper,
+        nodeSizeMapper, nodeColorMapper,  edgeSizeMapper,
         new FisheyePlugin({radius: 200}), highlighter],
         minZoom: 0,
         modes: {
@@ -111,8 +95,7 @@
           return {
             endArrow: true
           };
-        }// ,
-        // shape: 'quadraticCurve'
+        }
       });
       graph.node({
         label(model) {

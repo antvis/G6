@@ -10,8 +10,11 @@ const entry = {
 
 shelljs.ls(resolve(__dirname, 'plugins')).forEach(pluginPath => {
   if (pluginPath !== 'index.js') {
-    const moduleName = _.upperFirst(_.camelCase(pluginPath));
+    const moduleName = 'plugin.' + pluginPath;
     entry[moduleName] = `./plugins/${pluginPath}/index.js`;
+  } else {
+    const moduleName = 'plugins';
+    entry[moduleName] = './plugins/index.js';
   }
 });
 
@@ -26,8 +29,12 @@ module.exports = {
     path: resolve(__dirname, 'build/')
   },
   externals: {
-    '@antv/g6': 'G6',
-    '../../src/index': 'G6'
+    '@antv/g6': {
+      root: 'G6',
+      commonjs2: '@antv/g6',
+      commonjs: '@antv/g6',
+      amd: '@antv/g6'
+    }
   },
   module: {
     rules: [
