@@ -46,6 +46,8 @@ Mixin.AUGMENT = {
     const nodes = this.getNodes();
     const groups = this.getGroups();
     const edges = this.getEdges();
+    const guides = this.getGuides();
+
     nodes.forEach(node => {
       node.layoutUpdate();
     });
@@ -54,6 +56,9 @@ Mixin.AUGMENT = {
     });
     edges.forEach(edge => {
       edge.layoutUpdate();
+    });
+    guides.forEach(guide => {
+      guide.layoutUpdate();
     });
     this.draw();
     return this;
