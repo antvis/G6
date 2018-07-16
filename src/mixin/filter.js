@@ -21,7 +21,7 @@ Mixin.AUGMENT = {
       this.set('filters', [ filters ]);
     }
     this.on('afterchange', () => {
-      !this.destroyed && this.filter();
+      filters.length > 0 && !this.destroyed && this.filter();
     });
   },
   /**
