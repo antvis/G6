@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>插件-布局-Dagre</title>
+</head>
+
+<body>
+  <div id="mountNode"></div>
+  <script src="../build/g6.js"></script>
+  <script src="../build/plugin.layout.dagre.js"></script>
+  <script>
+    const data = {
+      nodes: [{
+        id: 'node1',
+      }, {
+        id: 'node2',
+      }, {
+        id: 'node3',
+      }, {
+        id: 'node4',
+      },{
+        id: 'node5',
+      }],
+      edges: [{
+        source: 'node1',
+        target: 'node2'
+      },{
+        source: 'node1',
+        target: 'node3'
+      },{
+        source: 'node3',
+        target: 'node4'
+      },{
+        source: 'node2',
+        target: 'node4'
+      },{
+        source: 'node4',
+        target: 'node5'
+      }]
+    };
+    const graph = new G6.Graph({
+      container: 'mountNode',
+      fitView: 'cc',
+      width: 500,
+      height: 500,
+      plugins: [new G6.Plugins['layout.dagre']()],
+    });
+    graph.read(data);
+  </script>
+</body>
+</html>
