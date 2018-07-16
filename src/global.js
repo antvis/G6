@@ -7,11 +7,8 @@ const version = require('./version');
 module.exports = {
   trackable: true,
   defaultNodeSize: 40,
-  defaultGuideSize: 100,
   nodeStyle: {
     lineWidth: 1
-  },
-  guideStyle: {
   },
   labelStyle: {
     fill: '#595959',
