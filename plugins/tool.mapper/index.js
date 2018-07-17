@@ -6,80 +6,86 @@
  */
 const G6 = require('@antv/g6');
 const Legend = require('@antv/g2/src/component/legend');
+const Color = require('@antv/g2/src/component/legend/color');
+const Size = require('@antv/g2/src/component/legend/size');
+const Attr = require('@antv/attr');
 const Util = G6.Util;
-const Canvas = require('../../src/extend/g/canvas');
 const Scale = require('@antv/scale');
-// const d3 = require('d3');
+const G = require('@antv/g');
+const Canvas = G.canvas.Canvas;
+const SVG = G.svg.Canvas;
 
 class Plugin {
-  constructor(options) {
+  constructor(itemType, dim, channel, range, otherCfg) {
     Util.mix(this, {
       /**
-      * 子项类型
-      * @type  {String}
-      */
+       * 子项类型
+       * @type  {String}
+       */
       itemType: null,
 
       /**
-      * 数据纬度
-      * @type  {String}
-      */
+       * 数据纬度
+       * @type  {String}
+       */
       dim: null,
 
       /**
-      * 映射域
-      * @type  {Array}
-      */
-      range: null,
+       * 映射域
+       * @type  {Array}
+       */
+      range: [ 0, 1 ],
 
       /**
-      * 视觉通道
-      * @type  {String}
-      */
+       * 视觉通道
+       * @type  {String}
+       */
       channel: null,
 
       /**
-      * 度量配置
-      * @type  {Object}
-      */
+       * 度量配置
+       * @type  {object}
+       */
       scaleCfg: {},
 
       /**
-      * 图例配置
-      * @type  {Object}
-      */
-      legendCfg: {}
-    }, options);
+       * 图例配置
+       * @type  {object}
+       */
+      legendCfg: {
+        legendTitle: ''
+      },
+
+      /**
+       * 是否数据对齐
+       * @type  {boolean}
+       */
+      nice: true
+    }, {
+      itemType,
+      dim,
+      channel,
+      range
+    }, otherCfg);
   }
   init() {
-    const graph = this.get('graph');
-    graph.on('beforerender', () => {
-      if (this._checkInput()) {
-        const legendCfg = this.get('legendCfg');
-        this._createScale();
+    const graph = this.graph;
+    graph.on('beforechange', ev => {
+      if (ev.action === 'changeData') {
+        const {
+          data
+        } = ev;
+        this._createScale(graph.parseSource(data));
         this._mapping();
-        legendCfg && this._createLegend();
-        graph.on('changesize', () => {
-          this.updateLegendPosition();
-        });
+        this.legendCfg && this._createLegend(graph.parseSource(data));
       }
     });
-    graph.on('afterclear', () => {
-      const legendCanvas = this.get('legendCanvas');
-      const filterCallback = this.get('filterCallback');
-      const graph = this.get('graph');
-      const itemType = this.get('itemType');
-      graph['remove' + Util.ucfirst(itemType) + 'Filter'](filterCallback);
-      legendCanvas.destroy();
-    });
   }
-  _trainCategoryScale(itemType) {
-    const dim = this.get('dim');
-    const graph = this.get('graph');
-    const itemModels = graph.get(itemType + 's');
+  _trainCategoryScale(itemType, data) {
+    const dim = this.dim;
     const domainMap = {};
     const domain = [];
-    Util.each(itemModels, model => {
+    data.forEach(model => {
       if (!domainMap[model[dim]]) {
         domainMap[model[dim]] = true;
         domain.push(model[dim]);
@@ -87,12 +93,10 @@ class Plugin {
     });
     return domain;
   }
-  _trainNumberScale(itemType) {
-    const dim = this.get('dim');
-    const graph = this.get('graph');
-    const itemModels = graph.getComputedStyle(itemType + 's');
+  _trainNumberScale(itemType, data) {
+    const dim = this.dim;
     const domain = [ Infinity, -Infinity ];
-    Util.each(itemModels, model => {
+    data.forEach(model => {
       if (domain[0] > model[dim]) {
         domain[0] = model[dim];
       }
@@ -102,12 +106,9 @@ class Plugin {
     });
     return domain;
   }
-  _getScaleType() {
-    const itemType = this.get('itemType');
-    const dim = this.get('dim');
-    const graph = this.get('graph');
-    const data = graph.get(itemType + 's');
-    const scaleCfg = this.get('scaleCfg');
+  _getScaleType(data) {
+    const dim = this.dim;
+    const scaleCfg = this.scaleCfg;
     if (!scaleCfg.type) {
       if (Util.isNumber(data[0][dim])) {
         scaleCfg.type = 'linear';
@@ -115,24 +116,38 @@ class Plugin {
         scaleCfg.type = 'oridinal';
       }
     }
-    return Util.ucfirsts(scaleCfg.type);
+    return Util.upperFirst(scaleCfg.type);
   }
-  _createScale() {
-    const itemType = this.get('itemType');
-    const scaleCfg = this.get('scaleCfg');
-    const scaleType = this._getScaleType();
-    const scale = new Scale['scale' + scaleType]();
-    const range = this.getComputedStyle('range');
-    const nice = scaleCfg.nice;
+  _scaleConsSelector(scaleType, scaleCfg) {
+    switch (scaleType) {
+      case 'Linear':
+        return new Scale.Linear(scaleCfg);
+      case 'Log':
+        return new Scale.Log(scaleCfg);
+      case 'Pow':
+        return new Scale.Pow(scaleCfg);
+      default:
+        return new Scale.Linear(scaleCfg);
+    }
+  }
+  _createScale(sourceData) {
+    const itemType = this.itemType;
+    const data = sourceData[itemType + 's'];
+    const scaleCfg = this.scaleCfg;
+    const scaleType = this._getScaleType(data);
+    const scale = this._scaleConsSelector(scaleType, scaleCfg);
+    const range = this.range;
+    scale.nice = scaleCfg.nice;
     let domain = scaleCfg.domain;
-    scale.range(range);
+    scale.range = range;
     if (!domain) {
       if (scaleType === 'Ordinal') {
-        domain = this._trainCategoryScale(itemType, scale);
+        domain = this._trainCategoryScale(itemType, data);
       } else {
-        domain = this._trainNumberScale(itemType, scale);
+        domain = this._trainNumberScale(itemType, data);
       }
     }
+
     const rangeLength = range.length;
     const domainLength = domain.length;
     if (rangeLength !== domainLength) {
@@ -150,64 +165,98 @@ class Plugin {
         domain[0] = -1;
       }
     }
-    scale.domain(domain);
-    if (nice !== false && scale.nice) {
-      scale.nice();
-    }
+    scale.values = domain;
+    scale.min = domain[0];
+    scale.max = domain[domain.length - 1];
     Util.isFunction(scaleCfg.callback) && scaleCfg.callback(scale, domain);
-    this.set('scale', scale);
+    this.scale = scale;
 
   }
-  _createLegend() {
-    const scaleType = this._getScaleType();
-    const channel = this.get('channel');
-    const graph = this.get('graph');
-    const graphContainer = graph.get('graphContainer');
-    const canvas = new Canvas({
-      containerDOM: graphContainer,
-      width: 200,
-      height: 200
+  _createLegend(sourceData) {
+    const itemType = this.itemType;
+    const data = sourceData[itemType + 's'];
+    const scaleType = this._getScaleType(data);
+    const channel = this.channel;
+    const graph = this.graph;
+
+    const legendContainer = Util.createDOM('<div class="legend-container"></div>', {
+      position: 'relative'
+    });
+    const container = graph.getGraphContainer();
+    container.appendChild(legendContainer);
+    const Constructor = graph.getConstructor(Canvas, SVG);
+    const canvas = new Constructor({
+      containerId: 'legend',
+      width: 500,
+      height: 500
     });
     let legend;
     if (scaleType === 'Ordinal') {
-      legend = this._createLegend(canvas);
+      legend = this._createCatLegend(canvas);
     } else {
       if (channel === 'color') {
         legend = this._createContinuousColorLegend(canvas);
       } else {
         legend = this._createContinuousSizeLegend(canvas);
       }
+      // the listener to filter nodes and edges
+      const slider = legend.get('slider');
+      slider.on('sliderchange', Util.throttle(ev => {
+        const domain = this.scale.values;
+        const cur_range = ev.range;
+        const dim = this.dim;
+        graph.addFilter(item => {
+          if (item.isNode) {
+            const val = item.model[dim];
+            const percent = 100 * (val - domain[0]) / (domain[domain.length - 1] - domain[0]);
+            if (percent > cur_range[1] || percent < cur_range[0]) return false;
+            return true;
+          } else if (item.isEdge) {
+            const source_val = item.source.model[dim];
+            const source_percent = 100 * (source_val - domain[0]) / (domain[domain.length - 1] - domain[0]);
+            const source_visible = (source_percent <= cur_range[1] && source_percent >= cur_range[0]);
+            const target_val = item.target.model[dim];
+            const target_percent = 100 * (target_val - domain[0]) / (domain[domain.length - 1] - domain[0]);
+            const target_visible = (target_percent <= cur_range[1] && target_percent >= cur_range[0]);
+            if (!source_visible || !target_visible) return false;
+            return true;
+          }
+        });
+        graph.filter();
+      }, 100));
     }
+
+
     const bbox = legend.getBBox();
     const padding = 6;
     const legendWidth = bbox.maxX - bbox.minX;
     const legendHeight = bbox.maxY - bbox.minY;
     legend.move(-bbox.minX + padding, -bbox.minY + padding);
     canvas.changeSize(legendWidth + 2 * padding, legendHeight + 2 * padding);
-    this.set('legend', legend);
-    this.set('legendCanvas', canvas);
-    this.set('legendWidth', legendWidth);
-    this.set('legendHeight', legendHeight);
+    this.legend = legend;
+    this.legendCanvas = canvas;
+    this.legendWidth = legendWidth;
+    this.legendHeight = legendHeight;
     canvas.draw();
   }
   updateLegendPosition() {
-    const legend = this.get('legend');
+    const legend = this.legend;
     if (!legend) {
       return;
     }
-    const canvas = this.get('legendCanvas');
-    const legendCfg = this.getComputedStyle('legendCfg');
+    const canvas = this.legendCanvas;
+    const legendCfg = this.legendCfg;
     const marginTop = legendCfg.marginTop ? legendCfg.marginTop : 0;
     const marginLeft = legendCfg.marginLeft ? legendCfg.marginLeft : 0;
     const marginBottom = legendCfg.marginBottom ? legendCfg.marginBottom : 0;
     const marginRight = legendCfg.marginRight ? legendCfg.marginRight : 0;
     const position = legendCfg.position ? legendCfg.position : 'br';
-    const graph = this.get('graph');
+    const graph = this.graph;
     const graphWidth = graph.get('width');
     const graphHeight = graph.get('height');
     const el = canvas.get('el');
-    const legendWidth = this.get('legendWidth');
-    const legendHeight = this.get('legendHeight');
+    const legendWidth = this.legendWidth;
+    const legendHeight = this.legendHeight;
 
     const tl = Util.getNineBoxPosition(position, {
       x: 0,
@@ -221,11 +270,11 @@ class Plugin {
     el.style.left = tl.x + 'px';
   }
   _createCatLegend(canvas) {
-    const scale = this.get('scale');
-    const range = scale.range();
-    const domain = scale.domain();
-    const itemType = this.get('itemType');
-    const legendCfg = this.get('legendCfg');
+    const scale = this.scale;
+    const range = scale.range;
+    const domain = scale.values;
+    const itemType = this.itemType;
+    const legendCfg = this.legendCfg;
     const items = [];
     const cfg = Util.mix({
       items,
@@ -249,127 +298,135 @@ class Plugin {
     return legend;
   }
   _createContinuousColorLegend(canvas) {
-    const itemType = this.get('itemType');
-    const scale = this.get('scale');
-    const range = scale.range();
-    const domain = scale.domain();
-    const domainStep = (domain[domain.length - 1] - domain[0]) / (range.length - 1);
-    const legendCfg = this.get('legendCfg');
+    const itemType = this.itemType;
+    const scale = this.scale;
+    const range = scale.range;
+    const domain = scale.values;
+    const legendCfg = this.legendCfg;
+    let lengendTitle = legendCfg.legendTitle;
+    if (lengendTitle === '') {
+      lengendTitle = this.dim;
+    }
     const items = [];
-    const cfg = Util.mix({
-      items,
-      theme: 'gradient',
-      attrType: 'color',
-      titleText: itemType,
-      title: {
-        fill: '#333',
-        textBaseline: 'bottom'
-      },
-      width: 15,
-      height: 150
-    }, legendCfg);
-    Util.each(range, (value, i) => {
-      const name = domain[0] + domainStep * i;
+
+    Util.each(range, (val, i) => {
+      const percent = (domain[i] - scale.min) / (scale.max - scale.min);
       items.push({
-        name,
-        value: i / (range.length - 1),
-        color: value
+        text: domain[i],
+        attrValue: val,
+        value: domain[i],
+        scaleValue: percent
       });
     });
-    const legend = canvas.addGroup(Legend.Continuous, cfg);
-    this.reBindLegendUI(legend, scale);
+
+    const cfg = Util.mix({
+      items,
+      layout: 'horizontal',
+      titleText: itemType,
+      title: {
+        text: lengendTitle,
+        fill: '#333',
+        textBaseline: 'middle'
+      },
+      width: 150,
+      height: 15
+    }, legendCfg);
+    const legend = canvas.addGroup(Color, cfg);
+
     return legend;
   }
   _createContinuousSizeLegend(canvas) {
-    const itemType = this.get('itemType');
-    const scale = this.get('scale');
-    const range = scale.range();
-    const domain = scale.domain();
+    const itemType = this.itemType;
+    const scale = this.scale;
+    const range = scale.range;
+    const domain = scale.values;
     const domainStep = (domain[domain.length - 1] - domain[0]) / (range.length - 1);
-    const legendCfg = this.get('legendCfg');
+    const legendCfg = this.legendCfg;
+    let lengendTitle = legendCfg.legendTitle;
+    if (lengendTitle === '') {
+      lengendTitle = this.dim;
+    }
     const items = [];
-    Util.each(range, (value, i) => {
-      const name = domain[0] + domainStep * i;
+    Util.each(range, (val, i) => {
+      const dom = domain[0] + domainStep * i;
       items.push({
-        name,
-        value: i / (range.length - 1)
+        text: dom,
+        attrValue: val,
+        value: dom
       });
     });
     const cfg = Util.mix({
       items,
+      layout: 'horizontal',
       attrType: 'size',
       titleText: itemType,
       title: {
+        text: lengendTitle,
         fill: '#333',
-        textBaseline: 'bottom'
+        textBaseline: 'middle'
       },
-      width: 15,
-      height: 150
+      width: 150,
+      height: 15
     }, legendCfg);
-    const legend = canvas.addGroup(Legend.Continuous, cfg);
-    this.reBindLegendUI(legend, scale);
+    const legend = canvas.addGroup(Size, cfg);
     return legend;
   }
   _mapping() {
-    const graph = this.get('graph');
-    const dim = this.get('dim');
-    const itemType = this.get('itemType');
-    const scale = this.get('scale');
-    const channel = this.get('channel');
+    const graph = this.graph;
+    const dim = this.dim;
+    const itemType = this.itemType;
+    const scale = this.scale;
+    const channel = this.channel;
+
+    const domain = scale.values;
+    const range = scale.range;
+    let color;
+    if (channel === 'color') {
+      const colorScale = this._scaleSelector(scale.type, domain);
+      color = new Attr.Color({
+        scales: [ colorScale ],
+        values: range
+      });
+    }
     graph[itemType]()[channel](model => {
       if (itemType === 'node' && channel === 'size') {
-        return scale(model[dim]) * 2;
+        return scale.scale(model[dim]) * 2;
+      } else if (channel === 'color') {
+        return color.mapping(model[dim])[0];
+      } else if (itemType === 'edge' && channel === 'size') {
+        return scale.scale(model[dim]);
       }
-      return scale(model[dim]);
+      return scale.scale(model[dim]);
     });
-  }
-  reBindLegendUI(legend, scale) {
-    const graph = this.get('graph');
-    const dim = this.get('dim');
-    const itemType = this.get('itemType');
-    const domain = scale.domain();
-    const domainMin = domain[0];
-    const domainMax = domain[domain.length - 1];
-    const domainFilter = [ domainMin, domainMax ];
-    const rangeElement = legend.get('rangeElemeng');
-    const legendCfg = this.get('legendCfg');
-    const callback = model => {
-      return model[dim] >= domainFilter[0] && model[dim] <= domainFilter[1];
-    };
-    const trigerWidth = legendCfg.trigerWidth ? legendCfg.trigerWidth : 16;
-    const trigerMarginLeft = legendCfg.trigerMarginLeft ? legendCfg.trigerMarginLeft : trigerWidth / 2;
-    legend.get('minTextElement').translate(trigerMarginLeft, -(16 - trigerWidth) / 2);
-    legend.get('maxTextElement').translate(trigerMarginLeft, +(16 - trigerWidth) / 2);
-    graph['add' + Util.ucfirst(itemType) + 'Filter'](callback);
-    rangeElement.on('rangeChange', ev => {
-      domainFilter[0] = domainMin + (domainMax - domainMin) * (ev.range[0] / 100);
-      domainFilter[1] = domainMin + (domainMax - domainMin) * (ev.range[1] / 100);
-      graph.BiquadFilterNode(itemType);
-    });
-    legend._updateElement = function(min, max) {
-      min = Number(min);
-      max = Number(max);
-      const minTextElement = legend.get('minTextElement');
-      const maxTextElement = legend.get('maxTextElement');
-      const minText = legendCfg.formatter ? legendCfg.formatter(min) : min;
-      const maxText = legendCfg.formatter ? legendCfg.formmater(max) : max;
-      minTextElement.attr('text', minText + '');
-      maxTextElement.attr('text', maxText + '');
-      if (legend.get('attrType') === 'color') {
-        const minButtonElement = legend.get('minButtonElement');
-        const maxButtonElement = legend.get('maxButtonElement');
-        minButtonElement.attr('fill', scale(min));
-        maxButtonElement.attr('fill', scale(max));
-      }
-    };
-    legend._updateElement(domainMin, domainMax);
-    this.set('filterCallback', callback);
   }
   _checkInput() {
-    const itemType = this.get('itemType');
-    const graph = this.get('graph');
+    const itemType = this.itemType;
+    const graph = this.graph;
     const itemModels = graph.get(itemType + 's');
     return graph && itemModels && itemModels.length > 0;
+  }
+  _scaleSelector(type, domain) {
+    const params = {
+      min: domain[0],
+      max: domain[domain.length - 1]
+    };
+    switch (type) {
+      case 'Linear':
+        return Scale.linear({
+          min: domain[0],
+          max: domain[domain.length - 1]
+        });
+      case 'Identity':
+        return Scale.identity({
+          value: 'red'
+        });
+      case 'Ordinal':
+        return Scale.cat({
+          values: domain
+        });
+      default:
+        return Scale.linear(params);
+    }
   }
 }
 
