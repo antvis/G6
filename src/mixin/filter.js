@@ -21,7 +21,7 @@ Mixin.AUGMENT = {
       this.set('filters', [ filters ]);
     }
     this.on('afterchange', () => {
-      !this.destroyed && this.filter();
+      filters.length > 0 && !this.destroyed && this.filter();
     });
   },
   /**
@@ -55,6 +55,8 @@ Mixin.AUGMENT = {
     items.forEach(item => {
       if (filteredItems.indexOf(item) === -1) {
         item.hide();
+      } else {
+        item.show();
       }
     });
     this.draw();

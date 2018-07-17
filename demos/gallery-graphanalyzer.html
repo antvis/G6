@@ -8,8 +8,11 @@
   <script src="../build/plugin.template.maxSpanningForest.js"></script>
   <script src="../build/plugin.layout.forceAtlas2.js"></script>
   <script src="../build/plugin.behaviour.analysis.js"></script>
-  <script src="../build/plugin.tool.d3.mapper.js"></script>
+  <script src="../build/plugin.tool.mapper.js"></script>
   <script src="../build/plugin.tool.fisheye.js"></script>
+  <script src="../build/plugin.util.extractSubgraph.js"></script>
+  <script src="../build/plugin.tool.highlightSubgraph.js"></script>
+  <script src="../build/plugin.edge.quadraticCurve.js"></script>
   <script src="./assets/jquery-3.2.1.min.js"></script>
   <style>
     ul, li {
@@ -48,15 +51,11 @@
 
 <body>
   <div id='mountNode'></div>
-  <div id = 'buttonList'>
-    <button id = 'DC_map' onclick="clickDCmap()" type="button">DC</button>
-    <button id = 'BC_map' onclick="clickBCmap()" type="button">BC</button>
-    <button id = 'CC_map' onclick="clickCCmap()" type="button">CC</button>
-  </div>
+  <div id='legend'></div>
   <ul id="myMenu">
-    <li id = "menu_sources" onclick="clickNodeSources()">来源</li>
-    <li id = "menu_targets">去向</li>
-    <li id = "menu_both">来源去向</li>
+    <li id = "menu_sources" onclick="clickMenu(this)">来源</li>
+    <li id = "menu_targets" onclick="clickMenu(this)">去向</li>
+    <li id = "menu_both" onclick="clickMenu(this)">来源去向</li>
     <li id = 'menu_detail'> 查看单页分析详情</li>
   </ul>
   <script>
@@ -64,17 +63,25 @@
     var graph = null;
     var clickOnNode = null;
     $.getJSON('./assets/data/view-test.json', data => {
-      const Mapper = G6.Plugins['tool.d3.mapper'];
+      const Mapper = G6.Plugins['tool.mapper']
+
       const Plugin = G6.Plugins['template.maxSpanningForest'];
+      const Highlighter = G6.Plugins['tool.highlightSubgraph'];
       // const Plugin = G6.Plugins['layout.forceAtlas2'];
       const FisheyePlugin = G6.Plugins['tool.fisheye'];
-      const nodeSizeMapper = new Mapper('node', 'degree', 'size', [40, 80], {
+      const nodeSizeMapper = new Mapper('node', 'userview', 'size', [20, 50]);
+      const edgeSizeMapper = new Mapper('edge', 'userview', 'size', [2, 20], {
         legendCfg: null
       });
+      const nodeColorMapper = new Mapper('node', 'stayTime', 'color', ['#BAE7FF', '#1890FF', '#0050B3']); 
+      const highlighter = new Highlighter();
+
       graph = new G6.Graph({
         id: 'mountNode', // dom id
-        fitView: 'autoZoom',
-        plugins: [new Plugin(), nodeSizeMapper, new FisheyePlugin()],
+        fitView: 'cc',
+        plugins: [new Plugin({max_iteration: 10, kg: 30, prev_overlapping: true}), 
+        nodeSizeMapper, nodeColorMapper,  edgeSizeMapper,
+        new FisheyePlugin({radius: 200}), highlighter],
         minZoom: 0,
         modes: {
           default: ['panCanvas']
@@ -84,68 +91,62 @@
       graph.edge({
         style() {
           return {
-            endArrow: true,
-            lineWidth: 2
+            endArrow: true
           };
+        }
+      });
+      graph.node({
+        label(model) {
+          return {
+            text: model.id,
+            fill: 'black',
+            stroke: '#fff',
+            lineWidth: 4
+          }
         }
       });
       graph.read(data);
-      graph.setFitView('autoZoom');
 
-      graph.on('node:mousedown', ev => {
-        const menu = document.getElementById('myMenu');
-        menu.style.display = "block";
-        menu.style.left = ev.domEvent.clientX + "px";
-        menu.style.top = ev.domEvent.clientY + "px";
-        clickOnNode = ev.item;
+      graph.on('click', ({shape, item, domEvent}) => {
+        if(shape && item.isNode) {
+          const menu = document.getElementById('myMenu');
+          menu.style.display = "block";
+          menu.style.left = domEvent.clientX + "px";
+          menu.style.top = domEvent.clientY + "px";
+          clickOnNode = item;
+        } else {
+          const menu = document.getElementById('myMenu');
+          menu.style.display = 'none';
+          graph.restoreGraph();
+        }
+
       });
     }); 
 
+    const Util = G6.Util;
   
-    function clickNodeSources(ev){
-      //draw a transparent white rect on the canvas
+    function clickMenu(ev){
+      let type = 'in';
+      switch(ev.id){
+        case 'menu_sources': 
+          type = 'in';
+          break;
+        case 'menu_targets':
+          type = 'out';
+          break;
+        case 'menu_both':
+          type = 'bi';
+          break;
+        default:
+          break;
+      }
+      const { re_nodes, re_edges } = Util.extract(graph, type, 1, [clickOnNode]);
+      graph.highlightSubgraph({re_nodes, re_edges});
+
+      const menu = document.getElementById('myMenu');
+      menu.style.display = 'none';
       var canvas = document.getElementsByTagName("canvas")[0];
-      var ctx = canvas.getContext('2d');
-      ctx.fillStyle = "rgba(255,255,255,0.7)";
-      ctx.fillRect(0,0,canvas.width,canvas.height);
-
-      //extract the relative nodes and edges
-      var relativeEdges = [], relativeNodes = [];
-      var re_id = 0, rn_id = 0;
-      const edges = graph.getEdges();
-      for(let i = 0; i < edges.length; i += 1) {
-        if(edges[i].target === clickOnNode.id){
-          relativeEdges[re_id] = edges[i].getModel;
-          re_id ++;
-        }
-      }
-      for(let i = 0; i < relativeEdges.length; i += 1){
-        relativeNodes[rn_id] = graph.find(relativeEdges[i].source);
-        rn_id ++;
-      }
-      //redraw the relative nodes and edges
-      var sub_data = { nodes: relativeNodes, edges: relativeEdges }; 
-      var subGraph = new G6.Graph({
-        id: 'mountNode', // dom id
-        fitView: 'autoZoom',
-        // plugins: [nodeSizeMapper],//, new FisheyePlugin()
-        minZoom: 0,
-        modes: {
-          default: ['panCanvas']
-        },
-        height: 1000,
-      });
-      subGraph.edge({
-        style() {
-          return {
-            endArrow: true,
-            lineWidth: 2
-          };
-        }
-      });
-      subGraph.read(sub_data);
     }
-
     function clickDCmap() {
       nodeSizeMapper = new Mapper('node', 'degree', 'size', [40, 80], {
         legendCfg: null
