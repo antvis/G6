@@ -24,21 +24,13 @@ Shape.registerEdge('common', {
       })
     });
   },
-  getSize(item) {
-    const model = item.getModel();
-    return model.size || 1;
-  },
-  getColor(item) {
-    const model = item.getModel();
-    return model.color || '#A3B1BF';
-  },
   getStyle(item) {
     const model = item.getModel();
     return Util.mix(true, {}, {
-      stroke: this.getColor(item),
+      stroke: model.color || '#A3B1BF',
       strokeOpacity: 0.92,
       lineAppendWidth: 4,
-      lineWidth: this.getSize(item)
+      lineWidth: model.size || 1
     }, model.style);
   },
   getPath(item) {
