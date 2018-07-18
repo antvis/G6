@@ -144,7 +144,11 @@ class Node extends Item {
     } else if (Util.isFunction(anchor)) {
       points = anchor(this);
     } else {
-      points = anchor.points;
+      if (Util.isFunction(anchor.points)) {
+        points = anchor.points(this);
+      } else {
+        points = anchor.points;
+      }
     }
     Util.each(points, (pointArr, index) => {
       const anchorPoint = Util.mix({

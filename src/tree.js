@@ -29,6 +29,16 @@ class Tree extends Graph {
         this._setVisibleByCollapsed(rootItem);
       });
     });
+    // this.on('afterchange', () => {
+    //   const roots = this.getRoots();
+    //   roots.forEach(root => {
+    //     root.hierarchy = 1;
+    //     root.deepEach(child => {
+    //       const parent = child.getParent();
+    //       child.hierarchy = parent.hierarchy + 1;
+    //     });
+    //   });
+    // });
   }
   _executeLayout(processer) {
     const source = this.get('_sourceData');
@@ -39,6 +49,18 @@ class Tree extends Graph {
       processer.graph = this;
       processer.execute();
     }
+  }
+  getHierarchy(item) {
+    item = this.getItem(item);
+    const dataMap = this.get('_dataMap');
+    const model = item.getModel();
+    let { parent } = model;
+    let hierarchy = 1;
+    while (parent) {
+      parent = dataMap[parent].parent;
+      hierarchy++;
+    }
+    return hierarchy;
   }
   parseSource(data) {
     const roots = data.roots;
