@@ -584,7 +584,7 @@ class Graph extends Base {
     return this;
   }
   /**
-   * @param {String|Item} item target item
+   * @param {String|Item|Undefined} item target item
    * @param {object} model data model
    * @return {Graph} this
    */

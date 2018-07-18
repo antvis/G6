@@ -23,7 +23,7 @@
   <script src="../build/plugin.tool.d3.mapper.js"></script>
   <script>
     $.getJSON('./assets/data/xiaomi.json', data => {
-      const Mapper = window.ToolD3Mapper;
+      const Mapper = G6.Plugins['tool.d3.mapper'];
       const { forceSimulation, forceLink, forceManyBody, forceX, forceY, forceCollide } = d3;
       const nodeMap = {};
       const nodeSizeMapper = new Mapper('node', 'degree', 'size', [8, 48], {
