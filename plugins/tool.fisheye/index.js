@@ -18,7 +18,6 @@ class Plugin {
         ...this.options
       });
       graph.on('mousemove', Util.throttle(ev => {
-      // graph.on('mousemove', ev => {
         const nodes = graph.getNodes();
         const size = nodes.length;
         for (let i = 0; i < size; i += 1) {
@@ -26,7 +25,7 @@ class Plugin {
           nodes[i].getModel().y = nodes[i].getModel().ori_y;
         }
         fisheye.zoom(ev.x, ev.y);
-        graph.changeLayout();
+        graph.updateNodePosition();
       }, 10)
     );
     });
