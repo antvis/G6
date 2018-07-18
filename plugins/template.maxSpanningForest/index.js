@@ -20,16 +20,16 @@ class Plugin {
     Util.mix(this, {
       layout: new Layout({
         kr: 50,
-        kg: 1.0,
+        kg: 8.0,
         mode: 'common',
         prev_overlapping: true,
         dissuade_hubs: false,
-        max_iteration: 500,
-        barnes_hut: false,
+        max_iteration: 1000,
+        barnes_hut: true,
         ks: 0.1,
         ksmax: 10,
         tao: 0.1
-      }),
+      }, options),
       ...options
     });
   }
