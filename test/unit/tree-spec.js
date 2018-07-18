@@ -1,3 +1,4 @@
+require('../../plugins/');
 const Tree = require('../../src/tree');
 // const Layouts = require('../../src/layouts/');
 const expect = require('chai').expect;
@@ -9,6 +10,9 @@ const tree = new Tree({
   container: div,
   height: 600,
   fitView: 'cc',
+  modes: {
+    default: [ 'panCanvas' ]
+  },
   animate: false
 });
 tree.node().label(model => {
