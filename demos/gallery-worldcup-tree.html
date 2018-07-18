@@ -25,11 +25,11 @@
       height: 60,
       anchor: {
         intersectBox: 'rect',
-        points(item) {
-          const hierarchy = item.getHierarchy();
-          const parent = item.getParent();
+        points(node) {
+          const hierarchy = node.getHierarchy();
+          const parent = node.getParent();
           if(parent && hierarchy > 2) {
-            const bbox = item.getBBox();
+            const bbox = node.getBBox();
             const parentBBox = parent.getBBox();
             if(parentBBox.centerY > bbox.centerY) {
               return [
@@ -56,7 +56,9 @@
       getScoreTextStyle() {
         return {
           textAlign: 'center',
-          fontWeight: 900
+          fontWeight: 900,
+          fontSize: 14,
+          fill: '#000'
         };
       },
       getTeamNameTextStyle() {
@@ -102,29 +104,26 @@
         });
         group.addShape('text', {
           attrs: {
+            ...teamNameTextStyle,
             x: 28,
             y: 52,
-            textAlign: 'center',
             text: model.teamA,
-            fill: 'black'
           }
         });
         group.addShape('text', {
           attrs: {
+            ...teamNameTextStyle,
             x: 106,
             y: 52,
-            textAlign: 'center',
             text: model.teamB,
-            fill: 'black'
           }
         });
         group.addShape('text', {
           attrs: {
+            ...scoreTextStyle,
             x: 67,
             y: 52,
-            textAlign: 'center',
             text: model.scoreA + ' : '+ model.scoreB,
-            fill: 'black'
           }
         });
         return keyShape;
