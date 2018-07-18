@@ -1,9 +1,10 @@
 /**
- * @fileOverview extend quadraticCurve
+ * @fileOverview quadraticCurve
  * model configurable:
- * cpd control point distance detail {number} could be 0 ~ 1
+ * cpd - control point distance detail {number} could be 0 ~ 1
  * @author huangtonger@aliyun.com
  */
+
 const G6 = require('@antv/g6');
 const Util = G6.Util;
 

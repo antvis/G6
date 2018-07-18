@@ -258,6 +258,10 @@ class Item {
   getGraphicGroup() {
     return this.group;
   }
+  getHierarchy() {
+    const graph = this.graph;
+    return graph.getHierarchy(this);
+  }
   getParent() {
     const model = this.model;
     const itemMap = this.itemMap;
