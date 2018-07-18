@@ -109,7 +109,6 @@
     "@antv/g2": "^3.2.0",
     "@antv/g": "~3.0.0-beta.8",
     "@antv/hierarchy": "~0.3.13",
-    "ant-design-palettes": "~1.1.2",
     "d3": "^5.4.0",
     "d3-svg-legend": "^2.25.6",
     "dagre": "~0.8.2",
