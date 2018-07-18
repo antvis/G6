@@ -239,6 +239,7 @@ class Plugin {
       }
       return scale(model[dim]);
     };
+    graph[itemType](mapper);
   }
 }
 
