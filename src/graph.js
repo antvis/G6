@@ -718,10 +718,16 @@ class Graph extends Base {
    */
   show(item) {
     item = this.getItem(item);
-    item.show();
+    if (item.isEdge) {
+      item.getSource().isVisible() && item.getTarget().isVisible() && item.show();
+    } else {
+      item.show();
+    }
     if (item.isNode) {
       item.getEdges().forEach(edge => {
-        edge.show();
+        const source = edge.getSource();
+        const target = edge.getTarget();
+        source.isVisible() && target.isVisible() && edge.show();
       });
     }
     if (item.isGroup) {

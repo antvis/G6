@@ -10,6 +10,7 @@ const Util = G6.Util;
 const DEFAULT_LEGEND_FILL = '#199CFB';
 const DEFAULT_LEGEND_STROKE = '#199CFB';
 const d3Legend = require('d3-svg-legend');
+
 Util.mix(d3, d3Legend);
 
 class Plugin {
@@ -238,7 +239,6 @@ class Plugin {
       }
       return scale(model[dim]);
     };
-    graph[itemType](mapper);
   }
 }
 
