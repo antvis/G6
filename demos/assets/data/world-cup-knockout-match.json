@@ -1,0 +1,127 @@
+{
+  "roots": [{
+    "teamA": "法国",
+    "flagA": "https://gw.alipayobjects.com/zos/rmsportal/yHYaCVIPRwEmmjbNqJjW.jpg",
+    "teamB": "克罗地亚",
+    "flagB": "https://gw.alipayobjects.com/zos/rmsportal/LJoAlBjTxagRLoNgSVmU.jpg",
+    "scoreA": 4,
+    "scoreB": 2,
+    "children": [{
+      "teamA": "法国",
+      "flagA": "https://gw.alipayobjects.com/zos/rmsportal/yHYaCVIPRwEmmjbNqJjW.jpg",
+      "teamB": "比利时",
+      "flagB": "https://gw.alipayobjects.com/zos/rmsportal/tUwmQwmljZAvTXtljXcV.jpg",
+      "scoreA": 1,
+      "scoreB": 0,
+      "children": [
+        {
+          "teamA": "法国",
+          "flagA": "https://gw.alipayobjects.com/zos/rmsportal/yHYaCVIPRwEmmjbNqJjW.jpg",
+          "teamB": "乌拉圭",
+          "flagB": "https://gw.alipayobjects.com/zos/rmsportal/uSxNUKLbgrtfTteNiqZG.jpg",
+          "scoreA": 2,
+          "scoreB": 0,
+          "children": [{
+            "teamA": "乌拉圭",
+            "flagA": "https://gw.alipayobjects.com/zos/rmsportal/uSxNUKLbgrtfTteNiqZG.jpg",
+            "teamB": "葡萄牙",
+            "flagB": "https://gw.alipayobjects.com/zos/rmsportal/XrvetbWkjkODIUeQrYtu.jpg",
+            "scoreA": 2,
+            "scoreB": 1
+          }, {
+            "teamA": "法国",
+            "flagA": "https://gw.alipayobjects.com/zos/rmsportal/yHYaCVIPRwEmmjbNqJjW.jpg",
+            "teamB": "阿根廷",
+            "flagB": "https://gw.alipayobjects.com/zos/rmsportal/IpMPXjjaNVXeORHlkDRa.jpg",
+            "scoreA": 4,
+            "scoreB": 3
+          }]
+        },
+        {
+          "teamA": "比利时",
+          "flagA": "https://gw.alipayobjects.com/zos/rmsportal/tUwmQwmljZAvTXtljXcV.jpg",
+          "teamB": "巴西",
+          "flagB": "https://gw.alipayobjects.com/zos/rmsportal/kPbSJtcjvzRsIKkfRUlf.jpg",
+          "scoreA": 2,
+          "scoreB": 1,
+          "children": [{
+            "teamA": "巴西",
+            "flagA": "https://gw.alipayobjects.com/zos/rmsportal/kPbSJtcjvzRsIKkfRUlf.jpg",
+            "teamB": "墨西哥",
+            "flagB": "https://gw.alipayobjects.com/zos/rmsportal/ydzEtrSCJcNopBithjxQ.jpg",
+            "scoreA": 2,
+            "scoreB": 0
+          }, {
+            "teamA": "比利时",
+            "flagA": "https://gw.alipayobjects.com/zos/rmsportal/tUwmQwmljZAvTXtljXcV.jpg",
+            "teamB": "日本",
+            "flagB": "https://gw.alipayobjects.com/zos/rmsportal/pbaukmqzXXDkIKohbYdc.jpg",
+            "scoreA": 3,
+            "scoreB": 2
+          }]
+        }
+      ]
+    }, {
+      "teamA": "克罗地亚",
+      "flagA": "https://gw.alipayobjects.com/zos/rmsportal/LJoAlBjTxagRLoNgSVmU.jpg",
+      "teamB": "英格兰",
+      "flagB": "https://gw.alipayobjects.com/zos/rmsportal/JCNbCBCVPOsRkJtEfYXV.jpg",
+      "scoreA": 2,
+      "scoreB": 1,
+      "children": [
+        {
+          "teamA": "克罗地亚",
+          "flagA": "https://gw.alipayobjects.com/zos/rmsportal/LJoAlBjTxagRLoNgSVmU.jpg",
+          "teamB": "俄罗斯",
+          "flagB": "https://gw.alipayobjects.com/zos/rmsportal/sBdizLiYPYNwlpCYPIFE.jpg",
+          "scoreA": 6,
+          "scoreB": 5,
+          "children": [
+            {
+              "teamA": "克罗地亚",
+              "flagA": "https://gw.alipayobjects.com/zos/rmsportal/LJoAlBjTxagRLoNgSVmU.jpg",
+              "teamB": "丹麦",
+              "flagB": "https://gw.alipayobjects.com/zos/rmsportal/EkBBCGWmUTBdzCjjeXak.jpg",
+              "scoreA": 4,
+              "scoreB": 3
+            },
+            {
+              "teamA": "俄罗斯",
+              "flagA": "https://gw.alipayobjects.com/zos/rmsportal/sBdizLiYPYNwlpCYPIFE.jpg",
+              "teamB": "西班牙",
+              "flagB": "https://gw.alipayobjects.com/zos/rmsportal/gTlBQOQMUZYJjRUdrKtu.jpg",
+              "scoreA": 5,
+              "scoreB": 4
+            }
+          ]
+        },
+        {
+          "teamA": "英格兰",
+          "flagA": "https://gw.alipayobjects.com/zos/rmsportal/JCNbCBCVPOsRkJtEfYXV.jpg",
+          "teamB": "瑞典",
+          "flagB": "https://gw.alipayobjects.com/zos/rmsportal/hqSMLtdmjIBHjxcCyLdw.jpg",
+          "scoreA": 2,
+          "scoreB": 0,
+          "children": [
+            {
+              "teamA": "瑞典",
+              "flagA": "https://gw.alipayobjects.com/zos/rmsportal/hqSMLtdmjIBHjxcCyLdw.jpg",
+              "teamB": "瑞士",
+              "flagB": "https://gw.alipayobjects.com/zos/rmsportal/eYZkxeUScNXwOHgcybbw.jpg",
+              "scoreA": 1,
+              "scoreB": 0
+            },
+            {
+              "teamA": "英格兰",
+              "flagA": "https://gw.alipayobjects.com/zos/rmsportal/JCNbCBCVPOsRkJtEfYXV.jpg",
+              "teamB": "哥伦比亚",
+              "flagB": "https://gw.alipayobjects.com/zos/rmsportal/KbtaPGKCnDYohqKyTBRV.jpg",
+              "scoreA": 5,
+              "scoreB": 4
+            }
+          ]
+        }
+      ]
+    }]
+  }]
+}

@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>画廊-</title>
+  <title>画廊- 2018 世界杯淘汰赛</title>
 </head>
 
 <body>
@@ -18,272 +18,150 @@
   </style>
   <div id="mountNode"></div>
   <script src="../build/g6.js"></script>
+  <script src="./assets/jquery-3.2.1.min.js"></script>
   <script src="../build/plugin.edge.polyline.js"></script>
   <script>
-    G6.registerNode('card', {
-      width: 134,
-      height: 60,
-      anchor: {
-        intersectBox: 'rect',
-        points(node) {
-          const hierarchy = node.getHierarchy();
-          const parent = node.getParent();
-          if(parent && hierarchy > 2) {
-            const bbox = node.getBBox();
-            const parentBBox = parent.getBBox();
-            if(parentBBox.centerY > bbox.centerY) {
-              return [
-                [0, 0.5],
-                [1, 0.5],
-                [0.5, 1]
-              ]
-            } else {
-              return [
-                [0, 0.5],
-                [1, 0.5],
-                [0.5, 0],
-              ]
+    $.getJSON('./assets/data/world-cup-knockout-match.json', data => {
+      G6.registerNode('card', {
+        width: 134,
+        height: 60,
+        anchor: {
+          intersectBox: 'rect',
+          points(node) {
+            const hierarchy = node.getHierarchy();
+            const parent = node.getParent();
+            if(parent && hierarchy > 2) {
+              const bbox = node.getBBox();
+              const parentBBox = parent.getBBox();
+              if(parentBBox.centerY > bbox.centerY) {
+                return [
+                  [0, 0.5],
+                  [1, 0.5],
+                  [0.5, 1]
+                ]
+              } else {
+                return [
+                  [0, 0.5],
+                  [1, 0.5],
+                  [0.5, 0],
+                ]
+              }
             }
+            return [
+              [0, 0.5],
+              [1, 0.5],
+              [0.5, 0],
+              [0.5, 1]
+            ]
           }
-          return [
-            [0, 0.5],
-            [1, 0.5],
-            [0.5, 0],
-            [0.5, 1]
-          ]
+        },
+        getScoreTextStyle() {
+          return {
+            textAlign: 'center',
+            fontWeight: 900,
+            fontSize: 14,
+            fill: '#000'
+          };
+        },
+        getTeamNameTextStyle() {
+          return {
+            textAlign: 'center',
+            fontSize: 12,
+            fill: 'rgba(0, 0, 0, 0.45)'
+          };
+        },
+        draw(item) {
+          const group = item.getGraphicGroup();
+          const model = item.getModel();
+          const scoreTextStyle = this.getScoreTextStyle(item);
+          const teamNameTextStyle = this.getTeamNameTextStyle(item);
+          const width = this.width;
+          const height = this.height;
+          const keyShape = group.addShape('rect', {
+            attrs: {
+              x: 0,
+              y: 0,
+              width,
+              height,
+              fill: '#fff',
+              radius: 4,
+            }
+          });
+          group.addShape('image', {
+            attrs: {
+              x: 8,
+              y: 8,
+              width: 40,
+              height: 24,
+              img: model.flagA
+            }
+          });
+          group.addShape('image', {
+            attrs: {
+              x: 86,
+              y: 8,
+              width: 40,
+              height: 24,
+              img: model.flagB
+            }
+          });
+          group.addShape('text', {
+            attrs: {
+              ...teamNameTextStyle,
+              x: 28,
+              y: 52,
+              text: model.teamA,
+            }
+          });
+          group.addShape('text', {
+            attrs: {
+              ...teamNameTextStyle,
+              x: 106,
+              y: 52,
+              text: model.teamB,
+            }
+          });
+          group.addShape('text', {
+            attrs: {
+              ...scoreTextStyle,
+              x: 67,
+              y: 52,
+              text: model.scoreA + ' : '+ model.scoreB,
+            }
+          });
+          return keyShape;
         }
-      },
-      getScoreTextStyle() {
-        return {
-          textAlign: 'center',
-          fontWeight: 900,
-          fontSize: 14,
-          fill: '#000'
-        };
-      },
-      getTeamNameTextStyle() {
-        return {
-          textAlign: 'center',
-          fill: 'rgba(0, 0, 0, 0.45)'
-        };
-      },
-      draw(item) {
-        const group = item.getGraphicGroup();
-        const model = item.getModel();
-        const scoreTextStyle = this.getScoreTextStyle(item);
-        const teamNameTextStyle = this.getTeamNameTextStyle(item);
-        const width = this.width;
-        const height = this.height;
-        const keyShape = group.addShape('rect', {
-          attrs: {
-            x: 0,
-            y: 0,
-            width,
-            height,
-            fill: '#fff',
-            radius: 4,
-          }
-        });
-        group.addShape('image', {
-          attrs: {
-            x: 8,
-            y: 8,
-            width: 40,
-            height: 24,
-            img: model.flagA
-          }
-        });
-        group.addShape('image', {
-          attrs: {
-            x: 86,
-            y: 8,
-            width: 40,
-            height: 24,
-            img: model.flagB
-          }
-        });
-        group.addShape('text', {
-          attrs: {
-            ...teamNameTextStyle,
-            x: 28,
-            y: 52,
-            text: model.teamA,
-          }
-        });
-        group.addShape('text', {
-          attrs: {
-            ...teamNameTextStyle,
-            x: 106,
-            y: 52,
-            text: model.teamB,
-          }
-        });
-        group.addShape('text', {
-          attrs: {
-            ...scoreTextStyle,
-            x: 67,
-            y: 52,
-            text: model.scoreA + ' : '+ model.scoreB,
-          }
-        });
-        return keyShape;
-      }
-    });
-    const data = {
-      roots: [{
-        teamA: '法国',
-        flagA: 'https://gw.alipayobjects.com/zos/rmsportal/yHYaCVIPRwEmmjbNqJjW.jpg',
-        teamB: '克罗地亚',
-        flagB: 'https://gw.alipayobjects.com/zos/rmsportal/LJoAlBjTxagRLoNgSVmU.jpg',
-        scoreA: 4,
-        scoreB: 2,
-        children: [{
-          teamA: '法国',
-          flagA: 'https://gw.alipayobjects.com/zos/rmsportal/yHYaCVIPRwEmmjbNqJjW.jpg',
-          teamB: '比利时',
-          flagB: 'https://gw.alipayobjects.com/zos/rmsportal/tUwmQwmljZAvTXtljXcV.jpg',
-          scoreA: 1,
-          scoreB: 0,
-          children: [
-            {
-              teamB: '克罗地亚',
-              flagB: 'https://gw.alipayobjects.com/zos/rmsportal/LJoAlBjTxagRLoNgSVmU.jpg',
-              teamB: '英格兰',
-              flagB: 'https://gw.alipayobjects.com/zos/rmsportal/JCNbCBCVPOsRkJtEfYXV.jpg',
-              scoreA: 2,
-              scoreB: 1,
-              children: [{
-                teamA: '巴西',
-                flagA: 'https://gw.alipayobjects.com/zos/rmsportal/kPbSJtcjvzRsIKkfRUlf.jpg',
-                teamB: '法国',
-                flagB: 'https://gw.alipayobjects.com/zos/rmsportal/yHYaCVIPRwEmmjbNqJjW.jpg',
-                scoreA: 2,
-                scoreB: 0,
-              }, {
-                teamA: '巴西',
-                flagA: 'https://gw.alipayobjects.com/zos/rmsportal/kPbSJtcjvzRsIKkfRUlf.jpg',
-                teamB: '法国',
-                flagB: 'https://gw.alipayobjects.com/zos/rmsportal/yHYaCVIPRwEmmjbNqJjW.jpg',
-                scoreA: 2,
-                scoreB: 0,
-              }]
-            },
-            {
-              teamA: '巴西',
-              flagA: 'https://gw.alipayobjects.com/zos/rmsportal/kPbSJtcjvzRsIKkfRUlf.jpg',
-              teamB: '法国',
-              flagB: 'https://gw.alipayobjects.com/zos/rmsportal/yHYaCVIPRwEmmjbNqJjW.jpg',
-              scoreA: 2,
-              scoreB: 0,
-              children: [{
-                teamA: '巴西',
-                flagA: 'https://gw.alipayobjects.com/zos/rmsportal/kPbSJtcjvzRsIKkfRUlf.jpg',
-                teamB: '法国',
-                flagB: 'https://gw.alipayobjects.com/zos/rmsportal/yHYaCVIPRwEmmjbNqJjW.jpg',
-                scoreA: 2,
-                scoreB: 0,
-              }, {
-                teamA: '巴西',
-                flagA: 'https://gw.alipayobjects.com/zos/rmsportal/kPbSJtcjvzRsIKkfRUlf.jpg',
-                teamB: '法国',
-                flagB: 'https://gw.alipayobjects.com/zos/rmsportal/yHYaCVIPRwEmmjbNqJjW.jpg',
-                scoreA: 2,
-                scoreB: 0,
-              }]
-            }
-          ]
-        }, {
-          teamA: '克罗地亚',
-          flagA: 'https://gw.alipayobjects.com/zos/rmsportal/LJoAlBjTxagRLoNgSVmU.jpg',
-          teamB: '英格兰',
-          flagB: 'https://gw.alipayobjects.com/zos/rmsportal/JCNbCBCVPOsRkJtEfYXV.jpg',
-          scoreA: 2,
-          scoreB: 1,
-          children: [
-            {
-              teamA: '克罗地亚',
-              flagA: 'https://gw.alipayobjects.com/zos/rmsportal/LJoAlBjTxagRLoNgSVmU.jpg',
-              teamB: '俄罗斯',
-              flagB: 'https://gw.alipayobjects.com/zos/rmsportal/sBdizLiYPYNwlpCYPIFE.jpg',
-              scoreA: 6,
-              scoreB: 5,
-              children: [
-                {
-                  teamA: '克罗地亚',
-                  flagA: 'https://gw.alipayobjects.com/zos/rmsportal/LJoAlBjTxagRLoNgSVmU.jpg',
-                  teamB: '丹麦',
-                  flagB: 'https://gw.alipayobjects.com/zos/rmsportal/EkBBCGWmUTBdzCjjeXak.jpg',
-                  scoreA: 4,
-                  scoreB: 3,
-                },
-                {
-                  teamA: '俄罗斯',
-                  flagA: 'https://gw.alipayobjects.com/zos/rmsportal/sBdizLiYPYNwlpCYPIFE.jpg',
-                  teamB: '西班牙',
-                  flagB: 'https://gw.alipayobjects.com/zos/rmsportal/gTlBQOQMUZYJjRUdrKtu.jpg',
-                  scoreA: 5,
-                  scoreB: 4,
-                }
-              ]
-            },
-            {
-              teamA: '英格兰',
-              flagA: 'https://gw.alipayobjects.com/zos/rmsportal/JCNbCBCVPOsRkJtEfYXV.jpg',
-              teamB: '瑞典',
-              flagB: 'https://gw.alipayobjects.com/zos/rmsportal/hqSMLtdmjIBHjxcCyLdw.jpg',
-              scoreA: 2,
-              scoreB: 0,
-              children: [
-                {
-                  teamA: '瑞典',
-                  flagA: 'https://gw.alipayobjects.com/zos/rmsportal/hqSMLtdmjIBHjxcCyLdw.jpg',
-                  teamB: '瑞士',
-                  flagB: 'https://gw.alipayobjects.com/zos/rmsportal/eYZkxeUScNXwOHgcybbw.jpg',
-                  scoreA: 1,
-                  scoreB: 0,
-                },
-                {
-                  teamA: '英格兰',
-                  flagA: 'https://gw.alipayobjects.com/zos/rmsportal/JCNbCBCVPOsRkJtEfYXV.jpg',
-                  teamB: '哥伦比亚',
-                  flagB: 'https://gw.alipayobjects.com/zos/rmsportal/KbtaPGKCnDYohqKyTBRV.jpg',
-                  scoreA: 5,
-                  scoreB: 4,
-                }
-              ]
-            }
-          ]
-        }]
-      }]
-    };
-    const layout = new G6.Layouts.CompactBoxTree({
-      direction: 'V',
-      getHGap() {
-        return 12;
-      },
-      getVGap() {
-        return 16;
-      }
-    });
-    const tree = new G6.Tree({
-      container: 'mountNode',
-      width: 760,
-      height: 744,
-      layout,
-      fitView: 'cc'
-    });
-    tree.node({
-      shape: 'card'
-    });
-    tree.edge({
-      shape: 'polyline-round',
-      style: {
-        stroke: 'white',
-        lineWidth: 1,
-        strokeOpacity: 1
-      }
-    });
-    tree.read(data);
+      });
+      const layout = new G6.Layouts.CompactBoxTree({
+        direction: 'V',
+        getHGap() {
+          return 12;
+        },
+        getVGap() {
+          return 16;
+        }
+      });
+      const tree = new G6.Tree({
+        container: 'mountNode',
+        width: 760,
+        height: 744,
+        layout,
+        fitView: 'cc'
+      });
+      tree.node({
+        shape: 'card'
+      });
+      tree.edge({
+        shape: 'polyline-round',
+        style: {
+          stroke: 'white',
+          lineWidth: 1,
+          strokeOpacity: 1
+        }
+      });
+      tree.read(data);
+    })
+
   </script>
 </body>
 </html>
