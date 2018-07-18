@@ -28,6 +28,7 @@ const Canvas = G.canvas.Canvas;
 const SVG = G.svg.Canvas;
 const Mixins = [ FilterMixin, MappingMixin, QueryMixin, AnimateMixin, ForceFit, LayoutMixin, FitView, EventMixin, ModeMixin ];
 const TAB_INDEX = 20;
+
 class Graph extends Base {
   /**
    * Access to the default configuration properties
