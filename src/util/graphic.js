@@ -5,7 +5,6 @@
 
 const MathUtil = require('./math');
 const BaseUtil = require('./base');
-const Palettes = require('ant-design-palettes');
 const GraphicUtil = {
   /**
    * get nine block box location
@@ -220,8 +219,7 @@ const GraphicUtil = {
     const children = group.get('children');
     BaseUtil.Array.remove(children, element);
     children.push(element);
-  },
-  Palettes
+  }
 };
 
 module.exports = GraphicUtil;

@@ -28,17 +28,12 @@ Shape.registerNode('common', {
   },
   getStyle(item) {
     const model = item.getModel();
-    const color = this.getColor(item);
-    const palettes = Util.Palettes.generate(color);
-    return Util.mix(true, {}, Global.nodeStyle, {
-      fill: palettes[4],
-      fillOpacity: 0.92,
-      stroke: palettes[6]
+    return Util.mix(true, {
+      lineWidth: 1,
+      fill: model.color || '#40a9ff',
+      stroke: model.color || '#096dd9',
+      fillOpacity: 0.92
     }, model.style);
-  },
-  getColor(item) {
-    const model = item.getModel();
-    return model.color || '#1890FF';
   },
   getLabel(item) {
     const model = item.getModel();
