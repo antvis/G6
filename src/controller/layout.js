@@ -16,9 +16,10 @@ class Controller extends Base {
 
       /**
        * if auto layout afterchange
-       * @type {boolean}
+       * @type {boolean|string}
+       * could be true false 'once'
        */
-      auto: true,
+      auto: 'once',
 
       /**
        * layout processer
@@ -45,8 +46,15 @@ class Controller extends Base {
         model.height = bbox.height;
       }
     });
-    graph.on('afterchange', () => {
-      this.auto && !graph.destroyed && this.layout();
+    graph.on('afterchange', ({ action }) => {
+      const auto = this.auto;
+      if (auto === 'once') {
+        if (action === 'changeData') {
+          !graph.destroyed && this.layout();
+        }
+      } else {
+        this.auto && !graph.destroyed && this.layout();
+      }
     });
   }
   changeLayout(processer) {

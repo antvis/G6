@@ -13,6 +13,7 @@
   <script src="../build/plugin.util.extractSubgraph.js"></script>
   <script src="../build/plugin.tool.highlightSubgraph.js"></script>
   <script src="../build/plugin.edge.quadraticCurve.js"></script>
+  <script src="../build/plugin.tool.minimap.js"></script>
   <script src="./assets/jquery-3.2.1.min.js"></script>
   <style>
     ul, li {
@@ -58,6 +59,7 @@
     <li id = "menu_both" onclick="clickMenu(this)">来源去向</li>
     <li id = 'menu_detail'> 查看单页分析详情</li>
   </ul>
+  <div id="minimap" style="border: 1px solid #999; position: absolute; top: 0px;"></div>
   <script>
   
     var graph = null;
@@ -69,18 +71,31 @@
       const Highlighter = G6.Plugins['tool.highlightSubgraph'];
       // const Plugin = G6.Plugins['layout.forceAtlas2'];
       const FisheyePlugin = G6.Plugins['tool.fisheye'];
-      const nodeSizeMapper = new Mapper('node', 'userview', 'size', [20, 50]);
+      const nodeSizeMapper = new Mapper('node', 'userview', 'size', [20, 50], {
+        legendCfg: {
+          scale: 0.5
+        }
+      });
       const edgeSizeMapper = new Mapper('edge', 'userview', 'size', [2, 20], {
         legendCfg: null
       });
-      const nodeColorMapper = new Mapper('node', 'stayTime', 'color', ['#BAE7FF', '#1890FF', '#0050B3']); 
+      const nodeColorMapper = new Mapper('node', 'stayTime', 'color', ['#BAE7FF', '#1890FF', '#0050B3'], {
+        legendCfg: {
+          scale: 0.5
+        }
+      }); 
+      const minimapPlugin = new G6.Plugins['tool.minimap']({
+        container: 'minimap',
+        width: 180,
+        height: 120
+      });
       const highlighter = new Highlighter();
 
       graph = new G6.Graph({
         id: 'mountNode', // dom id
         fitView: 'cc',
-        plugins: [new Plugin({max_iteration: 10, kg: 30, prev_overlapping: true}), 
-        nodeSizeMapper, nodeColorMapper,  edgeSizeMapper,
+        plugins: [new Plugin({max_iteration: 600, kg: 10, prev_overlapping: true}), 
+        nodeSizeMapper, nodeColorMapper,  edgeSizeMapper,minimapPlugin,
         new FisheyePlugin({radius: 200}), highlighter],
         minZoom: 0,
         modes: {
@@ -103,9 +118,38 @@
             stroke: '#fff',
             lineWidth: 4
           }
+        },
+        style: {
+          stroke: '#fff',
+          lineWidth: 2
         }
       });
       graph.read(data);
+      
+      const edges = graph.getEdges();
+      for(let i = 0; i < edges.length; i += 1){
+        const model = edges[i].getModel();
+        if(!model.isTreeEdge || typeof model.isTreeEdge == "undefined") model.shape = 'quadraticCurve';
+      }
+
+      graph.on('node:mouseenter', ev => {
+        graph.update(ev.item, {
+          style: {
+            stroke: '#fff',
+            lineWidth: 2,
+            shadowColor: '#6a80aa',
+            shadowBlur: 20
+          }
+        });
+      });
+      graph.on('node:mouseleave', ev => {
+        graph.update(ev.item, {
+          style: {
+            stroke: '#fff',
+            lineWidth: 2
+          }
+        });
+      });
 
       graph.on('click', ({shape, item, domEvent}) => {
         if(shape && item.isNode) {
