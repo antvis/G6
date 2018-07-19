@@ -19,8 +19,8 @@
 
 <body>
   <div id='mountNode' style='background-color:rgb(57,64,77);width:736px'>
-    <h3 style='color:white;margin:20pt;padding-top:20pt'>2014 世界杯关注度、胜负分析</h3>
-    <p style='color:rgb(126,131,139);margin:20pt;margin-top:-10pt'>该图为 2014 年世界杯期间的相关数据。图上点越大代表该国球队关注的人数越多，连线代表双方有对战，箭头代表胜方，双箭头代表双方均有赢。</p>
+    <h3 style='color:white;margin:20pt;padding-top:20pt'>2018 世界杯关注度、胜负分析</h3>
+    <p style='color:rgb(126,131,139);margin:20pt;margin-top:-10pt'>该图为 2018 年世界杯期间的相关数据。图上点越大代表该国球队关注的人数越多，连线代表双方有对战，箭头代表胜方，双箭头代表双方均有赢。</p>
   </div>
   
   <div id='legend'></div>
@@ -28,7 +28,6 @@
 
   
     var graph = null;
-    var clickOnNode = null;
     $.getJSON('./assets/data/world-cup2018.json', data => {
       const nodes = data.nodes;
       const edges = data.edges;
@@ -53,13 +52,14 @@
 
       const Mapper = G6.Plugins['tool.mapper'];
       const Plugin = G6.Plugins['layout.forceAtlas2'];
-      const nodeSizeMapper = new Mapper('node', 'degree', 'size', [30, 50], {legendCfg: null});
-      const nodeColorMapper = new Mapper('node', 'degree', 'color', ['#166dac', '#008cec'], {legendCfg: null}); 
+      const nodeSizeMapper = new Mapper('node', 'indegree', 'size', [30, 50], {legendCfg: null});
+      const nodeColorMapper = new Mapper('node', 'indegree', 'color', ['#166dac', '#008cec'], {legendCfg: null}); 
       const FisheyePlugin = G6.Plugins['tool.fisheye'];
       graph = new G6.Graph({
         id: 'mountNode', // dom id
         fitView: 'autoZoom',
-        plugins: [new Plugin({max_iteration: 1000, kg: 5, kr: 40, prev_overlapping: true}),  new FisheyePlugin(),
+        plugins: [new Plugin({max_iteration: 1000, kg: 2, kr: 40, prev_overlapping: true}), 
+         new FisheyePlugin({radius: 200}),
          nodeSizeMapper, nodeColorMapper
         ],
         minZoom: 0,
@@ -67,19 +67,15 @@
           default: ['panCanvas']
         },
         width: 736,
-        height: 800
+        height: 600
       });
       graph.edge({
         style(model) {
-          if(model.directed) return{
-            stroke: '#A3B1BF',
-            lineWidth: 2,
-            endArrow: true
-          };
           return{
             stroke: '#A3B1BF',
-            lineWidth: 2
-          }
+            lineWidth: 2,
+            endArrow: model.directed
+          };
         }
       });
       graph.node({
@@ -108,12 +104,22 @@
 
       var parent = document.getElementById('mountNode');
       var img = document.createElement("img");
-      img.src = './assets/data/legend.png';
-      img.setAttribute('width', 300);
-      img.style.setProperty('margin', '20pt');
-      img.style.setProperty('margin-top', '-100pt');
+      img.src = './assets/data/footer.png';
+      img.setAttribute('width', 120);
+      img.style.setProperty('margin', '0pt');
+      img.style.setProperty('margin-top', '-120pt');
       img.style.setProperty('position', 'absolute');
       parent.appendChild(img);
+
+      var footer = document.createElement("a");
+      footer.style.setProperty('margin', '20pt');
+      footer.style.setProperty('margin-top', '-30pt');
+      footer.style.setProperty('position', 'absolute');
+      footer.style.setProperty('color', 'rgb(126,131,139)');
+      footer.style.setProperty('text-decoration', 'none');
+      footer.innerHTML = '|   数据来源：2018 FIFA 官网';
+      footer.href = 'https://www.fifa.com/worldcup/';
+      parent.appendChild(footer);
     });
 
 

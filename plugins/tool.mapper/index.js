@@ -53,7 +53,8 @@ class Plugin {
        * @type  {object}
        */
       legendCfg: {
-        legendTitle: ''
+        legendTitle: '',
+        scale: 1
       },
 
       /**
@@ -307,6 +308,9 @@ class Plugin {
     if (lengendTitle === '') {
       lengendTitle = this.dim;
     }
+    if (legendCfg.scale <= 0 || typeof legendCfg.scale === 'undefined') {
+      legendCfg.scale = 1;
+    }
     const items = [];
 
     Util.each(range, (val, i) => {
@@ -328,8 +332,8 @@ class Plugin {
         fill: '#333',
         textBaseline: 'middle'
       },
-      width: 150,
-      height: 15
+      width: 150 * legendCfg.scale,
+      height: 15 // * legendCfg.scale
     }, legendCfg);
     const legend = canvas.addGroup(Color, cfg);
 
@@ -346,12 +350,15 @@ class Plugin {
     if (lengendTitle === '') {
       lengendTitle = this.dim;
     }
+    if (legendCfg.scale <= 0 || typeof legendCfg.scale === 'undefined') {
+      legendCfg.scale = 1;
+    }
     const items = [];
     Util.each(range, (val, i) => {
       const dom = domain[0] + domainStep * i;
       items.push({
         text: dom,
-        attrValue: val,
+        attrValue: val * legendCfg.scale,
         value: dom
       });
     });
@@ -365,8 +372,8 @@ class Plugin {
         fill: '#333',
         textBaseline: 'middle'
       },
-      width: 150,
-      height: 15
+      width: 150 * legendCfg.scale,
+      height: 15 * legendCfg.scale
     }, legendCfg);
     const legend = canvas.addGroup(Size, cfg);
     return legend;
