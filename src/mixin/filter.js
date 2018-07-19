@@ -20,8 +20,8 @@ Mixin.AUGMENT = {
     if (Util.isFunction(filters)) {
       this.set('filters', [ filters ]);
     }
-    this.on('afterchange', () => {
-      filters.length > 0 && !this.destroyed && this.filter();
+    this.on('afterchange', ({ action }) => {
+      filters.length > 0 && action === 'changeData' && !this.destroyed && this.filter();
     });
   },
   /**

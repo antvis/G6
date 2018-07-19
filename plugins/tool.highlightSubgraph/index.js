@@ -11,7 +11,7 @@ G6.registerGuide('mask', {
     const group = item.getGraphicGroup();
     const graph = item.getGraph();
     const box = graph.getBBox();
-    // const height = graph.getHeight();
+
     return group.addShape('rect', {
       attrs: {
         x: box.minX - 100,
@@ -80,7 +80,6 @@ class Plugin {
         Util.each(es, e => {
           if (i.id === e.id) {
             this.toFront(i, group);
-            i.getModel().shape = 'quadraticCurve';
           }
         });
       }
@@ -104,12 +103,11 @@ class Plugin {
         Util.each(es, e => {
           if (edge.id === e.id) {
             edge.show();
-            edge.getModel().shape = 'quadraticCurve';
           }
         });
       }
     });
-    this.changeLayout();
+    this.draw();
   }
   restoreGraph() {
     // hide the mask
@@ -127,12 +125,11 @@ class Plugin {
     // hide the edges, which are not tree edges
     const edges = this.getEdges();
     Util.each(edges, edge => {
-      edge.getModel().shape = 'edge';
       if (edge.isVisible() && !edge.getModel().isTreeEdge) {
         edge.hide();
       }
     });
-    this.changeLayout();
+    this.draw();
   }
 }
 

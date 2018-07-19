@@ -12,13 +12,13 @@ class Layout {
   constructor(options) {
     Util.mix(this, {
       /**
-       * 宽
+       * width
        * @type  {number}
        */
       width: null,
 
       /**
-       * 高
+       * height
        * @type  {number}
        */
       height: null,
@@ -181,7 +181,6 @@ class Layout {
       const res = this.updatePos(size, nodes, Forces, pre_Forces, SG, ks, ksmax, tao);
       nodes = res[0];
       SG = res[1];
-
       iter -= 1;
     } while (iter > 0);
     // record the layout positions, in order to restore the positions after fisheye zooming
@@ -341,7 +340,9 @@ class Layout {
 
     let pre_SG = SG;
     SG = tao * traG / swgG;
-    SG > (0.5 * pre_SG) ? (0.5 * pre_SG) : SG;
+    if (pre_SG !== 0) {
+      SG = SG > (1.5 * pre_SG) ? (1.5 * pre_SG) : SG;
+    }
     // update the node positions
     for (let i = 0; i < size; i += 1) {
       let Sn = ks * SG / (1 + SG * Math.sqrt(swgns[i]));
