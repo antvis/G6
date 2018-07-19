@@ -59,8 +59,8 @@
         id: 'mountNode', // dom id
         fitView: 'autoZoom',
         plugins: [new Plugin({max_iteration: 1000, kg: 2, kr: 40, prev_overlapping: true}), 
-         new FisheyePlugin({radius: 200}),
-         nodeSizeMapper, nodeColorMapper
+          new FisheyePlugin({radius: 200}),
+          nodeSizeMapper, nodeColorMapper
         ],
         minZoom: 0,
         modes: {
@@ -105,7 +105,7 @@
       var parent = document.getElementById('mountNode');
       var img = document.createElement("img");
       img.src = './assets/data/footer.png';
-      img.setAttribute('width', 120);
+      img.setAttribute('width', 130);
       img.style.setProperty('margin', '0pt');
       img.style.setProperty('margin-top', '-120pt');
       img.style.setProperty('position', 'absolute');
