@@ -19,7 +19,7 @@ class Controller extends Base {
        * @type {boolean|string}
        * could be true false 'once'
        */
-      auto: 'once',
+      auto: true,
 
       /**
        * layout processer
