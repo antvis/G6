@@ -19,7 +19,7 @@ class Plugin {
   constructor(itemType, dim, channel, range, otherCfg) {
     Util.mix(this, {
       /**
-       * 子项类型
+       * the type of the item, 'node'/'edge'
        * @type  {String}
        */
       itemType: null,
@@ -114,7 +114,7 @@ class Plugin {
       if (Util.isNumber(data[0][dim])) {
         scaleCfg.type = 'linear';
       } else {
-        scaleCfg.type = 'oridinal';
+        scaleCfg.type = 'ordinal';
       }
     }
     return Util.upperFirst(scaleCfg.type);
@@ -284,6 +284,7 @@ class Plugin {
     Util.each(range, (value, i) => {
       items.push({
         name: domain[i],
+        value: domain[i],
         color: value,
         type: itemType === 'node' ? 'circle' : 'line',
         layout: 'vertical',
@@ -389,7 +390,7 @@ class Plugin {
     const range = scale.range;
     let color;
     if (channel === 'color') {
-      const colorScale = this._scaleSelector(scale.type, domain);
+      const colorScale = this._scaleSelector(Util.upperFirst(scale.type), domain);
       color = new Attr.Color({
         scales: [ colorScale ],
         values: range

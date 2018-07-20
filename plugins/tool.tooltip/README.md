@@ -1,6 +1,6 @@
 ## Tooltip 
 
-Tooltip is used to help users to get the data of detailed information. This plugin help developer to quickly locate tooltip position.
+Tooltip helps users to get the detailed information. This plugin helps developers locate tooltip position quickly.
 
 ## use
 
