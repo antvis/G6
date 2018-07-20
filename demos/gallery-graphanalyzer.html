@@ -14,6 +14,7 @@
   <script src="../build/plugin.tool.highlightSubgraph.js"></script>
   <script src="../build/plugin.edge.quadraticCurve.js"></script>
   <script src="../build/plugin.tool.minimap.js"></script>
+  <script src="../build/plugin.tool.textDisplay.js"></script>
   <script src="./assets/jquery-3.2.1.min.js"></script>
   <style>
     ul, li {
@@ -90,16 +91,17 @@
         height: 120
       });
       const highlighter = new Highlighter();
+      const textDisplay = new G6.Plugins['tool.textDisplay']();
 
       graph = new G6.Graph({
         id: 'mountNode', // dom id
         fitView: 'cc',
         plugins: [new Plugin({max_iteration: 600, kg: 10, prev_overlapping: true}), 
         nodeSizeMapper, nodeColorMapper,  edgeSizeMapper,minimapPlugin,
-        new FisheyePlugin({radius: 200}), highlighter],
+        new FisheyePlugin({radius: 200}), highlighter, textDisplay],
         minZoom: 0,
         modes: {
-          default: ['panCanvas']
+          default: ['panCanvas', 'wheelZoom' ]
         },
         height: 1000,
       });

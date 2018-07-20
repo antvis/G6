@@ -17,8 +17,9 @@ Util.augment(Group, {
   drawInner(context) {
     this.deepEach(child => {
       const freezePoint = child.get('freezePoint');
+      const freezable = this.get('freezable');
       const scale = this.getMatrix()[0];
-      if (child.isShape && freezePoint && child.get('visible')) {
+      if (freezable !== false && child.isShape && freezePoint && child.get('visible')) {
         child.initTransform();
         child.transform([
           [ 't', -freezePoint.x, -freezePoint.y ],
