@@ -3,7 +3,7 @@
 
 <head>
   <meta content="origin" name="referrer">
-  <title>test shiwu</title>
+  <title>graph analyzer</title>
   <script src="../build/g6.js"></script>
   <script src="../build/plugin.template.maxSpanningForest.js"></script>
   <script src="../build/plugin.layout.forceAtlas2.js"></script>
@@ -13,39 +13,43 @@
   <script src="../build/plugin.util.extractSubgraph.js"></script>
   <script src="../build/plugin.tool.highlightSubgraph.js"></script>
   <script src="../build/plugin.edge.quadraticCurve.js"></script>
+  <script src="../build/plugin.tool.minimap.js"></script>
+  <script src="../build/plugin.tool.textDisplay.js"></script>
   <script src="./assets/jquery-3.2.1.min.js"></script>
   <style>
-    ul, li {
-        margin: 0;
-        padding: 0;
+    ul,
+    li {
+      margin: 0;
+      padding: 0;
     }
 
-    #myMenu{
-        color: #777;
-        list-style: none;
-        width: 150px;
-        border: 1px solid #ccc;
-        border-bottom: none;
-        position: absolute;
-        display: none;
-        background-color: #fff
+    #myMenu {
+      color: #777;
+      list-style: none;
+      width: 150px;
+      border: 1px solid #ccc;
+      border-bottom: none;
+      position: absolute;
+      display: none;
+      background-color: #fff
     }
 
-    #myMenu li{
-        padding: 5px 10px;
-        cursor: pointer;
+    #myMenu li {
+      padding: 5px 10px;
+      cursor: pointer;
     }
 
-    #myMenu li:hover{
-        color: #6af
+    #myMenu li:hover {
+      color: #6af
     }
 
-    #menu_detail{
-        color: #6af;
-        border-top: 1px solid #ccc;
-        border-bottom: 1px solid #ccc;
+    #menu_detail {
+      color: #6af;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
     }
-</style>
+
+  </style>
 
 </head>
 
@@ -53,13 +57,13 @@
   <div id='mountNode'></div>
   <div id='legend'></div>
   <ul id="myMenu">
-    <li id = "menu_sources" onclick="clickMenu(this)">来源</li>
-    <li id = "menu_targets" onclick="clickMenu(this)">去向</li>
-    <li id = "menu_both" onclick="clickMenu(this)">来源去向</li>
-    <li id = 'menu_detail'> 查看单页分析详情</li>
+    <li id="menu_sources" onclick="clickMenu(this)">来源</li>
+    <li id="menu_targets" onclick="clickMenu(this)">去向</li>
+    <li id="menu_both" onclick="clickMenu(this)">来源去向</li>
+    <li id='menu_detail'> 查看单页分析详情</li>
   </ul>
+  <div id="minimap" style="border: 1px solid #999; position: absolute; top: 0px;"></div>
   <script>
-  
     var graph = null;
     var clickOnNode = null;
     $.getJSON('./assets/data/view-test.json', data => {
@@ -69,22 +73,43 @@
       const Highlighter = G6.Plugins['tool.highlightSubgraph'];
       // const Plugin = G6.Plugins['layout.forceAtlas2'];
       const FisheyePlugin = G6.Plugins['tool.fisheye'];
-      const nodeSizeMapper = new Mapper('node', 'userview', 'size', [20, 50]);
+      const nodeSizeMapper = new Mapper('node', 'userview', 'size', [20, 50], {
+        legendCfg: {
+          scale: 0.5
+        }
+      });
       const edgeSizeMapper = new Mapper('edge', 'userview', 'size', [2, 20], {
         legendCfg: null
       });
-      const nodeColorMapper = new Mapper('node', 'stayTime', 'color', ['#BAE7FF', '#1890FF', '#0050B3']); 
+      const nodeColorMapper = new Mapper('node', 'stayTime', 'color', ['#BAE7FF', '#1890FF', '#0050B3'], {
+        legendCfg: {
+          scale: 0.5
+        }
+      });
+      const minimapPlugin = new G6.Plugins['tool.minimap']({
+        container: 'minimap',
+        width: 180,
+        height: 120
+      });
       const highlighter = new Highlighter();
+      const textDisplay = new G6.Plugins['tool.textDisplay']();
 
       graph = new G6.Graph({
         id: 'mountNode', // dom id
         fitView: 'cc',
-        plugins: [new Plugin({max_iteration: 10, kg: 30, prev_overlapping: true}), 
-        nodeSizeMapper, nodeColorMapper,  edgeSizeMapper,
-        new FisheyePlugin({radius: 200}), highlighter],
+        plugins: [new Plugin({
+            max_iteration: 600,
+            kg: 10,
+            prev_overlapping: true
+          }),
+          nodeSizeMapper, nodeColorMapper, edgeSizeMapper, minimapPlugin,
+          new FisheyePlugin({
+            radius: 200
+          }), highlighter, textDisplay
+        ],
         minZoom: 0,
         modes: {
-          default: ['panCanvas']
+          default: ['panCanvas', 'wheelZoom']
         },
         height: 1000,
       });
@@ -103,32 +128,74 @@
             stroke: '#fff',
             lineWidth: 4
           }
+        },
+        style: {
+          stroke: '#fff',
+          lineWidth: 2
         }
       });
       graph.read(data);
 
-      graph.on('click', ({shape, item, domEvent}) => {
-        if(shape && item.isNode) {
+      const edges = graph.getEdges();
+      for (let i = 0; i < edges.length; i += 1) {
+        const model = edges[i].getModel();
+        if (!model.isTreeEdge || typeof model.isTreeEdge == "undefined") model.shape = 'quadraticCurve';
+      }
+
+      graph.on('node:mouseenter', ev => {
+        graph.update(ev.item, {
+          style: {
+            stroke: '#fff',
+            lineWidth: 2,
+            shadowColor: '#6a80aa',
+            shadowBlur: 20
+          }
+        });
+      });
+      graph.on('node:mouseleave', ev => {
+        graph.update(ev.item, {
+          style: {
+            stroke: '#fff',
+            lineWidth: 2
+          }
+        });
+      });
+
+      graph.on('click', ({
+        shape,
+        item,
+        domEvent
+      }) => {
+        if (shape && item.isNode) {
           const menu = document.getElementById('myMenu');
           menu.style.display = "block";
           menu.style.left = domEvent.clientX + "px";
           menu.style.top = domEvent.clientY + "px";
           clickOnNode = item;
+          graph.draw();
         } else {
           const menu = document.getElementById('myMenu');
           menu.style.display = 'none';
+          // restore the highlighted graph and hide the edges which are not tree edges.
           graph.restoreGraph();
+          const edges = graph.getEdges();
+          Util.each(edges, edge => {
+            if (edge.isVisible() && !edge.getModel().isTreeEdge) {
+              edge.hide();
+            }
+          });
+          graph.draw();
         }
 
       });
-    }); 
+    });
 
     const Util = G6.Util;
-  
-    function clickMenu(ev){
+
+    function clickMenu(ev) {
       let type = 'in';
-      switch(ev.id){
-        case 'menu_sources': 
+      switch (ev.id) {
+        case 'menu_sources':
           type = 'in';
           break;
         case 'menu_targets':
@@ -140,22 +207,32 @@
         default:
           break;
       }
-      const { re_nodes, re_edges } = Util.extract(graph, type, 1, [clickOnNode]);
-      graph.highlightSubgraph({re_nodes, re_edges});
+      const {
+        re_nodes,
+        re_edges
+      } = Util.extract(graph, type, 1, [clickOnNode]);
+      graph.highlightSubgraph({
+        re_nodes,
+        re_edges
+      });
+      // show the hided edge, which is not tree edge and it is in the es
+      // and the source and targert of the edge are both visible
+      const edges = graph.getEdges();
+      Util.each(edges, edge => {
+        if (!edge.isVisible() && !edge.getModel().isTreeEdge &&
+          edge.getSource().isVisible() && edge.getTarget().isVisible()) {
+          Util.each(re_edges, e => {
+            if (edge.id === e.id) {
+              edge.show();
+            }
+          });
+        }
+      });
 
       const menu = document.getElementById('myMenu');
       menu.style.display = 'none';
       var canvas = document.getElementsByTagName("canvas")[0];
     }
-    function clickDCmap() {
-      nodeSizeMapper = new Mapper('node', 'degree', 'size', [40, 80], {
-        legendCfg: null
-      });
-    }
-    function clickBCmap(){
-
-    }
-
   </script>
 
 </body>

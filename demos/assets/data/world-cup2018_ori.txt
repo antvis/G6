@@ -1,6 +1,6 @@
 Russia       5-0   Saudi Arabia
 Egypt         0-1   Uruguay
- Russia        3-1   Egypt
+Russia        3-1   Egypt
 Uruguay       1-0   Saudi Arabia
 Uruguay       3-0   Russia        
 Saudi Arabia  2-1   Egypt

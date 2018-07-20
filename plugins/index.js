@@ -11,5 +11,6 @@ module.exports = {
   'tool.minimap': require('./tool.minimap/'),
   'tool.tooltip': require('./tool.tooltip/'),
   'tool.fisheye': require('./tool.fisheye/'),
+  'tool.textDisplay': require('./tool.textDisplay/'),
   'util.randomData': require('./util.randomData/')
 };
