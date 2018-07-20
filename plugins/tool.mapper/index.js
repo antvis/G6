@@ -19,7 +19,7 @@ class Plugin {
   constructor(itemType, dim, channel, range, otherCfg) {
     Util.mix(this, {
       /**
-       * 子项类型
+       * the type of the item, 'node'/'edge'
        * @type  {String}
        */
       itemType: null,
@@ -53,7 +53,8 @@ class Plugin {
        * @type  {object}
        */
       legendCfg: {
-        legendTitle: ''
+        legendTitle: '',
+        scale: 1
       },
 
       /**
@@ -113,7 +114,7 @@ class Plugin {
       if (Util.isNumber(data[0][dim])) {
         scaleCfg.type = 'linear';
       } else {
-        scaleCfg.type = 'oridinal';
+        scaleCfg.type = 'ordinal';
       }
     }
     return Util.upperFirst(scaleCfg.type);
@@ -283,6 +284,7 @@ class Plugin {
     Util.each(range, (value, i) => {
       items.push({
         name: domain[i],
+        value: domain[i],
         color: value,
         type: itemType === 'node' ? 'circle' : 'line',
         layout: 'vertical',
@@ -307,6 +309,9 @@ class Plugin {
     if (lengendTitle === '') {
       lengendTitle = this.dim;
     }
+    if (legendCfg.scale <= 0 || typeof legendCfg.scale === 'undefined') {
+      legendCfg.scale = 1;
+    }
     const items = [];
 
     Util.each(range, (val, i) => {
@@ -328,8 +333,8 @@ class Plugin {
         fill: '#333',
         textBaseline: 'middle'
       },
-      width: 150,
-      height: 15
+      width: 150 * legendCfg.scale,
+      height: 15 // * legendCfg.scale
     }, legendCfg);
     const legend = canvas.addGroup(Color, cfg);
 
@@ -346,12 +351,15 @@ class Plugin {
     if (lengendTitle === '') {
       lengendTitle = this.dim;
     }
+    if (legendCfg.scale <= 0 || typeof legendCfg.scale === 'undefined') {
+      legendCfg.scale = 1;
+    }
     const items = [];
     Util.each(range, (val, i) => {
       const dom = domain[0] + domainStep * i;
       items.push({
         text: dom,
-        attrValue: val,
+        attrValue: val * legendCfg.scale,
         value: dom
       });
     });
@@ -365,8 +373,8 @@ class Plugin {
         fill: '#333',
         textBaseline: 'middle'
       },
-      width: 150,
-      height: 15
+      width: 150 * legendCfg.scale,
+      height: 15 * legendCfg.scale
     }, legendCfg);
     const legend = canvas.addGroup(Size, cfg);
     return legend;
@@ -382,7 +390,7 @@ class Plugin {
     const range = scale.range;
     let color;
     if (channel === 'color') {
-      const colorScale = this._scaleSelector(scale.type, domain);
+      const colorScale = this._scaleSelector(Util.upperFirst(scale.type), domain);
       color = new Attr.Color({
         scales: [ colorScale ],
         values: range
