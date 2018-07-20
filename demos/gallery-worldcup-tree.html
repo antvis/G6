@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>画廊- 2018 世界杯淘汰赛</title>
+  <title>画廊-2018 世界杯淘汰赛</title>
 </head>
 
 <body>
@@ -23,60 +23,22 @@
   <script>
     $.getJSON('./assets/data/world-cup-knockout-match.json', data => {
       G6.registerNode('card', {
-        width: 134,
-        height: 60,
-        anchor: {
-          intersectBox: 'rect',
-          points(node) {
-            const hierarchy = node.getHierarchy();
-            const parent = node.getParent();
-            if(parent && hierarchy > 2) {
-              const bbox = node.getBBox();
-              const parentBBox = parent.getBBox();
-              if(parentBBox.centerY > bbox.centerY) {
-                return [
-                  [0, 0.5],
-                  [1, 0.5],
-                  [0.5, 1]
-                ]
-              } else {
-                return [
-                  [0, 0.5],
-                  [1, 0.5],
-                  [0.5, 0],
-                ]
-              }
-            }
-            return [
-              [0, 0.5],
-              [1, 0.5],
-              [0.5, 0],
-              [0.5, 1]
-            ]
-          }
-        },
-        getScoreTextStyle() {
-          return {
+        draw(item) {
+          const group = item.getGraphicGroup();
+          const model = item.getModel();
+          const scoreTextStyle = {
             textAlign: 'center',
             fontWeight: 900,
             fontSize: 14,
             fill: '#000'
           };
-        },
-        getTeamNameTextStyle() {
-          return {
+          const teamNameTextStyle = {
             textAlign: 'center',
             fontSize: 12,
             fill: 'rgba(0, 0, 0, 0.45)'
           };
-        },
-        draw(item) {
-          const group = item.getGraphicGroup();
-          const model = item.getModel();
-          const scoreTextStyle = this.getScoreTextStyle(item);
-          const teamNameTextStyle = this.getTeamNameTextStyle(item);
-          const width = this.width;
-          const height = this.height;
+          const width = 134;
+          const height = 60;
           const keyShape = group.addShape('rect', {
             attrs: {
               x: 0,
@@ -130,6 +92,33 @@
             }
           });
           return keyShape;
+        },
+        anchor(node) {
+          const hierarchy = node.getHierarchy();
+          const parent = node.getParent();
+          if(parent && hierarchy > 2) {
+            const bbox = node.getBBox();
+            const parentBBox = parent.getBBox();
+            if(parentBBox.centerY > bbox.centerY) {
+              return [
+                [0, 0.5],
+                [1, 0.5],
+                [0.5, 1]
+              ]
+            } else {
+              return [
+                [0, 0.5],
+                [1, 0.5],
+                [0.5, 0],
+              ]
+            }
+          }
+          return [
+            [0, 0.5],
+            [1, 0.5],
+            [0.5, 0],
+            [0.5, 1]
+          ]
         }
       });
       const layout = new G6.Layouts.CompactBoxTree({
@@ -152,7 +141,7 @@
         shape: 'card'
       });
       tree.edge({
-        shape: 'polyline-round',
+        shape: 'polyline',
         style: {
           stroke: 'white',
           lineWidth: 1,
@@ -161,7 +150,6 @@
       });
       tree.read(data);
     })
-
   </script>
 </body>
 </html>
