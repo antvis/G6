@@ -11,6 +11,9 @@ class Plugin {
     Util.mix(this, options);
   }
   init() {
+    this.graph.on('afterchange', () => {
+      this.textDisplay();
+    });
     this.graph.on('afterzoom', () => {
       this.textDisplay();
     });
