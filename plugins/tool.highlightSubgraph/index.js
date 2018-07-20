@@ -93,20 +93,6 @@ class Plugin {
         });
       }
     });
-
-    // show the hided edge, which is not tree edge and it is in the es
-    // and the source and targert of the edge are both visible
-    const edges = this.getEdges();
-    Util.each(edges, edge => {
-      if (!edge.isVisible() && !edge.getModel().isTreeEdge
-        && edge.getSource().isVisible() && edge.getTarget().isVisible()) {
-        Util.each(es, e => {
-          if (edge.id === e.id) {
-            edge.show();
-          }
-        });
-      }
-    });
     this.draw();
   }
   restoreGraph() {
@@ -122,13 +108,6 @@ class Plugin {
     if (mask !== undefined) {
       mask.hide();
     }
-    // hide the edges, which are not tree edges
-    const edges = this.getEdges();
-    Util.each(edges, edge => {
-      if (edge.isVisible() && !edge.getModel().isTreeEdge) {
-        edge.hide();
-      }
-    });
     this.draw();
   }
 }
