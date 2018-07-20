@@ -1,0 +1,71 @@
+<!doctype html>
+<html itemscope="" itemtype="http://schema.org/SearchResultsPage" lang="en">
+
+<head>
+  <meta content="origin" name="referrer">
+  <title>text display</title>
+  <script src="../build/g6.js"></script>
+  <script src="../build/plugin.behaviour.analysis.js"></script>
+  <script src="../build/plugin.tool.textDisplay.js"></script>
+  <script src="./assets/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+  <div id='mountNode'></div>
+  <script>
+    const data = {
+      nodes: [{
+        id: 'node1',
+        x: 100,
+        y: 200,
+        size: 100
+      }, {
+        id: 'node2',
+        x: 300,
+        y: 200,
+        size: 10
+      }, {
+        id: 'node3',
+        x: 100,
+        y: 100,
+        size: 50
+      }, {
+        id: 'node4',
+        x: 300,
+        y: 100,
+        size: 20
+      }],
+      edges: [{
+        target: 'node2',
+        source: 'node1'
+      }, {
+        target: 'node3',
+        source: 'node2'
+      }, {
+        target: 'node4',
+        source: 'node3'
+      }, {
+        target: 'node1',
+        source: 'node4'
+      }, ]
+    };
+
+    const textDisplay = new G6.Plugins['tool.textDisplay']();
+    graph = new G6.Graph({
+      id: 'mountNode', // dom id
+      plugins: [textDisplay],
+      height: 1000,
+    });
+    graph.node({
+      label(model) {
+        return {
+          text: model.id,
+          stroke: '#fff',
+          lineWidth: 4
+        }
+      }
+    });
+    graph.read(data);
+
+  </script>
+</body>

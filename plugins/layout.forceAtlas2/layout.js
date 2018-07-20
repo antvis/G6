@@ -183,11 +183,6 @@ class Layout {
       SG = res[1];
       iter -= 1;
     } while (iter > 0);
-    // record the layout positions, in order to restore the positions after fisheye zooming
-    for (let i = 0; i < size; i++) {
-      nodes[i].ori_x = nodes[i].x;
-      nodes[i].ori_y = nodes[i].y;
-    }
   }
   getAttrForces(graph, nodes, edges, size, esize, prev_overlapping, dissuade_hubs, mode, iter, prevo_iter, Forces) {
     for (let i = 0; i < esize; i += 1) {
