@@ -66,9 +66,9 @@
   <script>
     var graph = null;
     var clickOnNode = null;
+
     $.getJSON('./assets/data/view-test.json', data => {
       const Mapper = G6.Plugins['tool.mapper']
-
       const Plugin = G6.Plugins['template.maxSpanningForest'];
       const Highlighter = G6.Plugins['tool.highlightSubgraph'];
       // const Plugin = G6.Plugins['layout.forceAtlas2'];
