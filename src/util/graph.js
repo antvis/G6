@@ -73,8 +73,9 @@ module.exports = {
     const matrixCache = BaseUtil.cloneDeep(graph.getMatrix());
     const maxZoom = graph.get('maxZoom');
     const minZoom = graph.get('minZoom');
+    const rootGroup = graph.getRootGroup();
     const events = graph._events;
-
+    rootGroup.setSilent('freezable', false);
     graph.set('maxZoom', minMaxZoom);
     graph.set('minZoom', minMinZoom);
     graph.set('width', width);
@@ -90,6 +91,7 @@ module.exports = {
     graphCanvas.set('context', miniMapCanvasContext);
     graphCanvas.beforeDraw();
     graphCanvas.constructor.superclass.draw.call(graphCanvas, miniMapCanvasContext);
+    rootGroup.setSilent('freezable', true);
     graph.set('width', graphWidth);
     graph.set('height', graphHeight);
     graph.set('maxZoom', maxZoom);
