@@ -3,6 +3,7 @@
  * @author huangtonger@aliyun.com
  */
 const G6 = require('@antv/g6');
+const Util = G6.Util;
 
 function panCanvas(graph, button = 'left') {
   let lastPoint;
@@ -69,7 +70,9 @@ G6.registerBehaviour('panNode', graph => {
   let dx;
   let dy;
   graph.on('node:dragstart', ev => {
-    const { item } = ev;
+    const {
+      item
+    } = ev;
     const model = item.getModel();
     node = item;
     dx = model.x - ev.x;
@@ -90,4 +93,41 @@ G6.registerBehaviour('panNode', graph => {
     node = undefined;
     graph.forcePreventAnimate(false);
   });
+});
+
+// wheel zoom
+G6.registerBehaviour('wheelZoom', graph => {
+  let timeout;
+  graph.behaviourOn('mousewheel', ev => {
+    const { domEvent } = ev;
+    domEvent.preventDefault();
+  });
+  graph.behaviourOn('mousewheel', Util.throttle(update, 16));
+
+  function update(ev) {
+    const {
+      domEvent
+    } = ev;
+    const delta = domEvent.wheelDelta;
+    const times = 1.05;
+    if (Math.abs(delta) > 10) { // 控制灵敏度
+      const originScale = graph.getMatrix()[0];
+      if (delta > 0) {
+        graph.zoom({
+          x: ev.x,
+          y: ev.y
+        }, originScale * times);
+      } else {
+        graph.zoom({
+          x: ev.x,
+          y: ev.y
+        }, originScale * (1 / times));
+      }
+    }
+    timeout && clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      timeout = undefined;
+    }, 50);
+    graph.emit('afterzoom');
+  }
 });
