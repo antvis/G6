@@ -76,7 +76,8 @@
     "torchjs": "~2.0.3",
     "uglify-js": "~3.1.10",
     "webpack": "~4.10.2",
-    "webpack-cli": "~3.0.0"
+    "webpack-cli": "~3.0.0",
+    "worker-loader": "^2.0.0"
   },
   "scripts": {
     "build": "webpack",
