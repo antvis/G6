@@ -18,18 +18,22 @@ const Util = G6.Util;
 class Plugin {
   constructor(options) {
     Util.mix(this, {
-      layout: new Layout({
-        kr: 50,
-        kg: 8.0,
-        mode: 'common',
-        prev_overlapping: true,
-        dissuade_hubs: false,
-        max_iteration: 1000,
-        barnes_hut: true,
-        ks: 0.1,
-        ksmax: 10,
-        tao: 0.1
-      }, options),
+      layout: {
+        auto: 'once', // true false once
+        processer: new Layout({
+          kr: 50,
+          kg: 8.0,
+          mode: 'common',
+          prev_overlapping: true,
+          dissuade_hubs: false,
+          max_iteration: 1000,
+          barnes_hut: true,
+          ks: 0.1,
+          ksmax: 10,
+          tao: 0.1,
+          ...options
+        })
+      },
       ...options
     });
   }
