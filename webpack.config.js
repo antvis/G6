@@ -47,6 +47,10 @@ module.exports = {
             babelrc: true
           }
         }
+      },
+      {
+        test: /\.worker.js$/,
+        loader: 'worker-loader'
       }
     ]
   },
