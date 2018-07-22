@@ -39,12 +39,3 @@ extend('RootGroup', 'Group', {
     this.constructor.superclass.drawInner.call(this, context);
   }
 });
-// const Group = function(cfg) {
-//   G.canvas.Group.canvasElement.constructor.call(this, cfg);
-// };
-
-// Util.extend(Group, G.canvas.Group);
-
-// Util.augment(Group, );
-// G.canvas.RootGroup = Group;
-// module.exports = Group;
