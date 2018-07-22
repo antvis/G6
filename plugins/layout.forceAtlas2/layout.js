@@ -4,7 +4,7 @@
  */
 const G6 = require('@antv/g6');
 const Util = G6.Util;
-const Worker = require('worker-loader?name=[name].js!./layout.worker');
+const Worker = require('./layout.worker');
 
 // import StaticsWorker from 'worker-loader?inline!./statistics.worker.js';
 class Layout {
