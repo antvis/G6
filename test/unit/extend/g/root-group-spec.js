@@ -4,7 +4,7 @@ const div = document.createElement('div');
 require('../../../../src/extend/g/group');
 require('../../../../src/extend/g/root-group');
 const RootGroup = G.canvas.RootGroup;
-console.log(G, RootGroup);
+
 div.id = 'extend-root-group-spec';
 document.body.appendChild(div);
 describe('freeze size group test', () => {
