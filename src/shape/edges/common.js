@@ -6,6 +6,33 @@
 const Shape = require('../shape');
 const Util = require('../../util/');
 const Global = require('../../global');
+const MIN_ARROW_SIZE = 6;
+const defaultArrow = {
+  fill(item) {
+    const keyShape = item.getKeyShape();
+    return keyShape.attr('stroke');
+  },
+  path(item) {
+    const keyShape = item.getKeyShape();
+    let lineWidth = keyShape.attr('lineWidth');
+    lineWidth = lineWidth > MIN_ARROW_SIZE ? lineWidth : MIN_ARROW_SIZE;
+    return [
+      [ 'M', -lineWidth * 2, lineWidth ],
+      [ 'L', 0, 0 ],
+      [ 'L', -lineWidth * 2, -lineWidth ],
+      [ 'Z' ]
+    ];
+  },
+  dindent(item) {
+    const keyShape = item.getKeyShape();
+    const lineWidth = keyShape.attr('lineWidth');
+    return lineWidth > MIN_ARROW_SIZE ? lineWidth : MIN_ARROW_SIZE;
+  },
+  stroke() {
+    return;
+  }
+};
+
 
 Shape.registerEdge('common', {
   draw(item) {
@@ -73,6 +100,26 @@ Shape.registerEdge('common', {
         })
       });
       Util.toFront(label);
+    }
+  },
+  startArrow: {
+    ...defaultArrow,
+    tangent(item) {
+      const keyShape = item.getKeyShape();
+      return keyShape.getStartTangent();
+    },
+    ratio() {
+      return 0;
+    }
+  },
+  endArrow: {
+    ...defaultArrow,
+    tangent(item) {
+      const keyShape = item.getKeyShape();
+      return keyShape.getEndTangent();
+    },
+    ratio() {
+      return 1;
     }
   }
 });

@@ -338,9 +338,11 @@ describe('graph test', () => {
       source: 'node1',
       target: {
         x: 50,
-        y: 50
+        y: 100
       }
     });
+    graph.zoom(1);
+    graph.setFitView('cc');
     graph.hide(graph.find('node1-domCenter'));
     expect(graph.find('node1-domCenter').getGraphicGroup().get('visible')).equal(false);
     graph.hide(graph.find('node1'));
@@ -349,6 +351,12 @@ describe('graph test', () => {
     graph.hide('group1');
     expect(graph.find('group1').getGraphicGroup().get('visible')).equal(false);
     expect(graph.find('domCenter').getGraphicGroup().get('visible')).equal(false);
+  });
+  it('endArrow', () => {
+    graph.update('node1-domCenter', {
+      endArrow: true,
+      startArrow: true
+    });
   });
   it('reRender', () => {
     graph.reRender();
