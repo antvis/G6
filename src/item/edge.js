@@ -35,8 +35,25 @@ class Edge extends Item {
     if (!this.linkedItemVisible()) {
       this.hide();
     }
+    // this._addArrow();
     super._afterDraw();
   }
+  // _addArrow() {
+  //   const model = this.model;
+  //   const keyShape = this.keyShape;
+  //   const styleEndArrow = keyShape.attr('endArrow');
+  //   const styleStartArrow = keyShape.attr('startArrow');
+  //   const endArrow = model.endArrow || styleEndArrow;
+  //   const startArrow = model.startArrow || styleStartArrow;
+  //   // styleStartArrow && keyShape.attr('startArrow', null);
+  //   // styleEndArrow && keyShape.attr('endArrow', null);
+  //   endArrow && this._drawEndArrow();
+  // }
+  // _drawEndArrow() {
+  //   const keyShape = this.keyShape;
+  //   const Marker = this.getGraph.getConstructor();
+  //   // keyShape.attr('endArrow', new );
+  // }
   _getControlPoints() {
     const controlPoints = this.model.controlPoints;
     if (Util.isArray(controlPoints)) {
