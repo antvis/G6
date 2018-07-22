@@ -18,8 +18,6 @@ Html.ATTRS = {
   height: 0
 };
 
-Util.extend(Html, G.canvas.Shape);
-
 Util.augment(Html, {
   canFill: true,
   type: 'html',
