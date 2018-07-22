@@ -5,7 +5,6 @@
 
 const BaseUtil = require('./base');
 const DomUtil = require('./dom');
-const G = require('@antv/g');
 
 module.exports = {
   /**
