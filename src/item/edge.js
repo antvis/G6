@@ -51,12 +51,11 @@ class Edge extends Item {
     endArrow && this._drawArrow(shapeObj.endArrow, 'end');
     startArrow && this._drawArrow(shapeObj.startArrow, 'start');
   }
-  _drawArrow({ path, dindent, tangent, ratio, fill, stroke }, type) {
+  _drawArrow({ path, dindent, tangent, ratio, style }, type) {
     tangent = tangent(this);
     dindent = dindent(this);
     path = path(this);
-    fill = fill(this);
-    stroke = stroke(this);
+    style = style(this);
     ratio = ratio();
     const group = this.group;
     const keyShape = this.keyShape;
@@ -70,8 +69,7 @@ class Edge extends Item {
         symbol: () => {
           return path;
         },
-        fill,
-        stroke
+        ...style
       }
     });
     const x = tangent[1][0] - tangent[0][0];
