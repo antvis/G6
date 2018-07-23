@@ -11,6 +11,7 @@ const Size = require('@antv/g2/src/component/legend/size');
 const Attr = require('@antv/attr');
 const Util = G6.Util;
 const Scale = require('@antv/scale');
+
 class Plugin {
   constructor(itemType, dim, channel, range, otherCfg) {
     Util.mix(this, {

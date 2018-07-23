@@ -195,6 +195,7 @@ class Layout {
       worker.terminate();
       loading.style.display = 'none';
       onLayoutComplete();
+
     };
   }
 }
