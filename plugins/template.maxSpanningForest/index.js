@@ -1,14 +1,11 @@
 /**
  * @fileOverview 图分析模版
  * @author huangtonger@aliyun.com
- * 保留字段:
- * node.vx, node.vy, node.x, node.y
- * node.to, node.from
- * node.visited, node.edges, node.links
- * edge.isTreeEdge、edge.lineWidth
- * 可配置字段:
- * node.rank  分层权重
- * node.label 节点标签
+ * read only:
+ * edge.isTreeEdge
+ * read && write:
+ * node.rank - node rank the max rank would be the root node
+ * edge.weight - edge weight
  */
 const G6 = require('@antv/g6');
 const maxSpanningForest = require('./maxSpanningForest');
@@ -21,7 +18,7 @@ class Plugin {
       layout: {
         auto: 'once', // true false once
         processer: new Layout({
-          kr: 50,
+          kr: 120,
           kg: 8.0,
           mode: 'common',
           prev_overlapping: true,
@@ -47,13 +44,26 @@ class Plugin {
     });
     graph.on('beforerender', () => {
       const data = graph.getSource();
-      const {
+      let {
         nodes,
         edges
       } = data;
+      nodes = nodes.map((node, index) => {
+        return {
+          ...node,
+          index
+        };
+      });
+      edges = edges.map((edge, index) => {
+        return {
+          ...edge,
+          index
+        };
+      });
       const forest = maxSpanningForest(nodes, edges);
       forest.edges.forEach(edge => {
-        edge.isTreeEdge = true;
+        const { index } = edge;
+        data.edges[index].isTreeEdge = true;
       });
       graph.addFilter(item => {
         return !item.isEdge || item.getModel().isTreeEdge;
