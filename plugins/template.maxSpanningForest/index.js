@@ -41,6 +41,7 @@ class Plugin {
       if (!layout) {
         graph.set('layout', this.layout);
       }
+      this.graph.activeItem = this.activeItem;
     });
     graph.on('beforerender', () => {
       const data = graph.getSource();
@@ -71,12 +72,12 @@ class Plugin {
         return !item.isEdge || item.getModel().isTreeEdge;
       });
 
-      this.postProcess();
+      this.setStyle();
+      this.setListener();
     });
   }
-  postProcess() {
+  setStyle() {
     const graph = this.graph;
-    let clickOnNode = null;
     const data = graph.getSource();
     const {
       edges
@@ -90,7 +91,8 @@ class Plugin {
       style() {
         return {
           endArrow: true,
-          strokeOpacity: 0.8
+          stroke: '#4F7DAB',
+          strokeOpacity: 0.65
         };
       }
     });
@@ -108,23 +110,61 @@ class Plugin {
         lineWidth: 2
       }
     });
-
-    graph.on('node:mouseenter', ev => {
-      graph.update(ev.item, {
-        style: {
-          stroke: '#fff',
-          lineWidth: 2,
-          shadowColor: '#6a80aa',
-          shadowBlur: 20
-        }
-      });
+  }
+  activeItem(item) {
+    if (Util.isString(item)) {
+      this.find(item);
+    }
+    let style = {};
+    if (item.type === 'node') {
+      style = {
+        stroke: '#fff',
+        lineWidth: 2,
+        shadowColor: '#6a80aa',
+        shadowBlur: 20
+      };
+    } else if (item.type === 'edge') {
+      style = {
+        endArrow: true,
+        stroke: '#000',
+        strokeOpacity: 0.65
+      };
+    } else return;
+    this.update(item, {
+      style
     });
-    graph.on('node:mouseleave', ev => {
-      graph.update(ev.item, {
-        style: {
-          stroke: '#fff',
-          lineWidth: 2
+  }
+  setListener() {
+    let clickOnNode = null;
+    const graph = this.graph;
+    graph.on('mouseenter', item => {
+      if (item.item != null) {
+        graph.activeItem(item.item);
+      }
+
+    });
+    graph.on('mouseleave', item => {
+      let style = {};
+      if (item.item != null) {
+        switch (item.item.type) {
+          case 'node':
+            style = {
+              stroke: '#fff',
+              lineWidth: 2
+            };
+            break;
+          case 'edge':
+            style = {
+              endArrow: true,
+              stroke: '#4F7DAB',
+              strokeOpacity: 0.65
+            };
+            break;
+          default: break;
         }
+      }
+      graph.update(item.item, {
+        style
       });
     });
 

@@ -278,6 +278,36 @@ Mixin.AUGMENT = {
     }
     return this;
   },
+  navigateNode(item) {
+    if (Util.isString(item)) {
+      item = this.find(item);
+    }
+    let dx = 0;
+    let dy = 0;
+    if (item) {
+      const point = item.getCenter();
+      const rootGroup = this.get('_rootGroup');
+      const matrix = rootGroup.getMatrix();
+      const padding = 16;
+      const width = this.get('width') - padding;
+      const height = this.get('height') - padding;
+      const bbox = item.getBBox();
+      const node_hwidth = (bbox.maxX - bbox.minX) / 2;
+      const node_hheight = (bbox.maxX - bbox.minX) / 2;
+      if (matrix[0] * point.x < 0) {
+        dx = -matrix[6] + matrix[0] * node_hwidth - matrix[0] * point.x;
+      } else if (matrix[0] * point.x > width) {
+        dx = -matrix[6] + width - matrix[0] * node_hwidth - matrix[0] * point.x;
+      }
+      if (matrix[0] * point.y < 0) {
+        dy = -matrix[7] + matrix[0] * node_hheight - matrix[0] * point.y;
+      } else if (matrix[0] * point.y > height) {
+        dy = -matrix[7] + height - matrix[0] * node_hheight - matrix[0] * point.y;
+      }
+    }
+    this.translate(dx, dy);
+    return this;
+  },
   /**
    * @param {object} point graph point
    * @return {Graph} this
