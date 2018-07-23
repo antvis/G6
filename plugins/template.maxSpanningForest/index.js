@@ -90,7 +90,8 @@ class Plugin {
       style() {
         return {
           endArrow: true,
-          strokeOpacity: 0.8
+          stroke: '#4F7DAB',
+          strokeOpacity: 0.65
         };
       }
     });
@@ -114,8 +115,8 @@ class Plugin {
         style: {
           stroke: '#fff',
           lineWidth: 2,
-          shadowColor: '#6a80aa',
-          shadowBlur: 20
+          shadowColor: '#4F7DAB',
+          shadowBlur: 8
         }
       });
     });

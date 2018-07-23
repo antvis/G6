@@ -95,7 +95,7 @@
           scale: 0.5
         }
       });
-      const edgeSizeMapper = new Mapper('edge', 'userview', 'size', [2, 20], {
+      const edgeSizeMapper = new Mapper('edge', 'userview', 'size', [1, 16], {
         legendCfg: null
       });
       const nodeColorMapper = new Mapper('node', 'stayTime', 'color', ['#BAE7FF', '#1890FF', '#0050B3'], {
@@ -127,7 +127,6 @@
         height: 1000,
       });
       graph.read(data);
-
       const minimap = document.getElementById('minimap');
       const legend = document.getElementById('legend');
       if (minimap !== undefined) minimap.style.display = 'none';
