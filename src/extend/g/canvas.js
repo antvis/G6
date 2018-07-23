@@ -18,6 +18,7 @@ Util.augment(Mixin, {
   }
 });
 
-Util.mixin(G.Canvas, [ Mixin ]);
+Util.mixin(G.canvas.Canvas, [ Mixin ]);
+Util.mixin(G.svg.Canvas, [ Mixin ]);
 
 module.exports = Mixin;
