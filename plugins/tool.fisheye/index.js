@@ -23,6 +23,7 @@ class Plugin {
       graph.on('mousemove', Util.throttle(ev => {
         const nodes = graph.getNodes();
         const size = nodes.length;
+        if (this.ori_xs.length !== size) return;
         for (let i = 0; i < size; i += 1) {
           nodes[i].getModel().x = this.ori_xs[i];
           nodes[i].getModel().y = this.ori_ys[i];
