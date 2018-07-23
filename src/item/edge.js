@@ -60,7 +60,11 @@ class Edge extends Item {
     ratio = ratio();
     const group = this.group;
     const keyShape = this.keyShape;
-    const keyShapePath = keyShape.attr('path');
+    const point = keyShape.getPoint(ratio);
+    if (!point) {
+      return;
+    }
+    const keyShapePath = Util.cloneDeep(keyShape.attr('path'));
     const marker = group.addShape('marker', {
       attrs: {
         symbol: () => {
@@ -70,12 +74,11 @@ class Edge extends Item {
         stroke
       }
     });
-    const point = keyShape.getPoint(ratio);
     const x = tangent[1][0] - tangent[0][0];
     const y = tangent[1][1] - tangent[0][1];
     const tangentLength = Math.sqrt(x * x + y * y);
     const dindentRatio = dindent / tangentLength;
-    const vDindent = [ x * dindentRatio, y * dindentRatio ];
+    const vDindent = [ -x * dindentRatio, -y * dindentRatio ];
     let deg = 0;
     const tan = Math.atan(x / y);
     if (y === 0 && x < 0) {
@@ -126,19 +129,19 @@ class Edge extends Item {
       y: point.y
     };
   }
-  layoutUpdate() {
-    const group = this.getGraphicGroup();
-    const children = group.get('children');
-    this._beforeDraw();
-    if (children.length === 1) {
-      const keyShape = this.keyShape;
-      const shapeObj = this.shapeObj;
-      keyShape.attr('path', shapeObj.getPath(this));
-    } else {
-      this.draw();
-    }
-    this._afterDraw();
-  }
+  // layoutUpdate() {
+  //   const group = this.getGraphicGroup();
+  //   const children = group.get('children');
+  //   this._beforeDraw();
+  //   if (children.length === 1) {
+  //     const keyShape = this.keyShape;
+  //     const shapeObj = this.shapeObj;
+  //     keyShape.attr('path', shapeObj.getPath(this));
+  //   } else {
+  //     this.draw();
+  //   }
+  //   this._afterDraw();
+  // }
   linkedItemVisible() {
     const source = this.source;
     const target = this.target;
