@@ -176,7 +176,12 @@
       id: 'mountNode',             // dom id
       fitView: 'cc',
       height: window.innerHeight,
-      plugins: [plugin],
+      plugins: [ plugin ],
+    });
+    graph.edge({
+      label(model) {
+        return parseInt(model.weight);
+      }
     });
     graph.read(data);
   </script>
