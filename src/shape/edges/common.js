@@ -8,10 +8,6 @@ const Util = require('../../util/');
 const Global = require('../../global');
 const MIN_ARROW_SIZE = 6;
 const defaultArrow = {
-  fill(item) {
-    const keyShape = item.getKeyShape();
-    return keyShape.attr('stroke');
-  },
   path(item) {
     const keyShape = item.getKeyShape();
     let lineWidth = keyShape.attr('lineWidth');
@@ -28,11 +24,15 @@ const defaultArrow = {
     const lineWidth = keyShape.attr('lineWidth');
     return lineWidth > MIN_ARROW_SIZE ? lineWidth : MIN_ARROW_SIZE;
   },
-  stroke() {
-    return;
+  style(item) {
+    const keyShape = item.getKeyShape();
+    const { strokeOpacity, stroke } = keyShape.get('attrs');
+    return {
+      fillOpacity: strokeOpacity,
+      fill: stroke
+    };
   }
 };
-
 
 Shape.registerEdge('common', {
   draw(item) {
