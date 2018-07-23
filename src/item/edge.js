@@ -35,25 +35,74 @@ class Edge extends Item {
     if (!this.linkedItemVisible()) {
       this.hide();
     }
-    // this._addArrow();
+    this._addArrow();
     super._afterDraw();
   }
-  // _addArrow() {
-  //   const model = this.model;
-  //   const keyShape = this.keyShape;
-  //   const styleEndArrow = keyShape.attr('endArrow');
-  //   const styleStartArrow = keyShape.attr('startArrow');
-  //   const endArrow = model.endArrow || styleEndArrow;
-  //   const startArrow = model.startArrow || styleStartArrow;
-  //   // styleStartArrow && keyShape.attr('startArrow', null);
-  //   // styleEndArrow && keyShape.attr('endArrow', null);
-  //   endArrow && this._drawEndArrow();
-  // }
-  // _drawEndArrow() {
-  //   const keyShape = this.keyShape;
-  //   const Marker = this.getGraph.getConstructor();
-  //   // keyShape.attr('endArrow', new );
-  // }
+  _addArrow() {
+    const model = this.model;
+    const keyShape = this.keyShape;
+    const shapeObj = this.shapeObj;
+    const styleEndArrow = keyShape.attr('endArrow');
+    const styleStartArrow = keyShape.attr('startArrow');
+    const endArrow = model.endArrow || styleEndArrow;
+    const startArrow = model.startArrow || styleStartArrow;
+    styleStartArrow && keyShape.attr('startArrow', null);
+    styleEndArrow && keyShape.attr('endArrow', null);
+    endArrow && this._drawArrow(shapeObj.endArrow, 'end');
+    startArrow && this._drawArrow(shapeObj.startArrow, 'start');
+  }
+  _drawArrow({ path, dindent, tangent, ratio, fill, stroke }, type) {
+    tangent = tangent(this);
+    dindent = dindent(this);
+    path = path(this);
+    fill = fill(this);
+    stroke = stroke(this);
+    ratio = ratio();
+    const group = this.group;
+    const keyShape = this.keyShape;
+    const keyShapePath = keyShape.attr('path');
+    const marker = group.addShape('marker', {
+      attrs: {
+        symbol: () => {
+          return path;
+        },
+        fill,
+        stroke
+      }
+    });
+    const point = keyShape.getPoint(ratio);
+    const x = tangent[1][0] - tangent[0][0];
+    const y = tangent[1][1] - tangent[0][1];
+    const tangentLength = Math.sqrt(x * x + y * y);
+    const dindentRatio = dindent / tangentLength;
+    const vDindent = [ x * dindentRatio, y * dindentRatio ];
+    let deg = 0;
+    const tan = Math.atan(x / y);
+    if (y === 0 && x < 0) {
+      deg = Math.PI;
+    } else if (x > 0 && y > 0) {
+      deg = Math.PI / 2 - tan;
+    } else if (x < 0 && y < 0) {
+      deg = -Math.PI / 2 - tan;
+    } else if (x >= 0 && y < 0) {
+      deg = -tan - Math.PI / 2;
+    } else if (x <= 0 && y > 0) {
+      deg = Math.PI / 2 - tan;
+    }
+    marker.rotate(deg);
+    marker.translate(point.x, point.y);
+    if (type === 'end') {
+      const lastSegment = keyShapePath[keyShapePath.length - 1];
+      lastSegment[lastSegment.length - 1] = vDindent[1] + point.y;
+      lastSegment[lastSegment.length - 2] = vDindent[0] + point.x;
+    } else {
+      const startSegment = keyShapePath[0];
+      startSegment[startSegment.length - 1] = vDindent[1] + point.y;
+      startSegment[startSegment.length - 2] = vDindent[0] + point.x;
+    }
+
+    keyShape.attr('path', keyShapePath);
+  }
   _getControlPoints() {
     const controlPoints = this.model.controlPoints;
     if (Util.isArray(controlPoints)) {
