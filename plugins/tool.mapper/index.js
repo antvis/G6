@@ -11,9 +11,6 @@ const Size = require('@antv/g2/src/component/legend/size');
 const Attr = require('@antv/attr');
 const Util = G6.Util;
 const Scale = require('@antv/scale');
-const G = require('@antv/g');
-const Canvas = G.canvas.Canvas;
-const SVG = G.svg.Canvas;
 
 class Plugin {
   constructor(itemType, dim, channel, range, otherCfg) {
@@ -185,7 +182,7 @@ class Plugin {
     });
     const container = graph.getGraphContainer();
     container.appendChild(legendContainer);
-    const Constructor = graph.getConstructor(Canvas, SVG);
+    const Constructor = graph.getConstructor('Canvas');
     const canvas = new Constructor({
       containerId: 'legend',
       width: 500,
