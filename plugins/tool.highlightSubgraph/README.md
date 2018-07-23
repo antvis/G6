@@ -2,6 +2,15 @@
 
 Highlight a subgraph and weaken the rest of the graph.
 
+interface:
+- highlightSubgraph(hl_items)
+  hightlight a subgraph
+  params:
+  - hl_items: the items which will be highlighted
+
+- restoreGraph()
+  restore the graph to the un-lighlighted style.
+
 ## use
 
 simple use.
