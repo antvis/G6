@@ -141,7 +141,6 @@ class Plugin {
       if (item.item != null) {
         graph.activeItem(item.item);
       }
-
     });
     graph.on('mouseleave', item => {
       let style = {};
