@@ -5,9 +5,6 @@
 
 const BaseUtil = require('./base');
 const DomUtil = require('./dom');
-const G = require('@antv/g');
-const Canvas = G.canvas.Canvas;
-const SVG = G.svg.Canvas;
 
 module.exports = {
   /**
@@ -59,7 +56,7 @@ module.exports = {
       const graphPixelRatio = graphCanvas.get('pixelRatio');
       tranScale = pixelRatio / graphPixelRatio;
       graphCanvas.scale(tranScale, tranScale);
-      const Constructor = graph.getConstructor(Canvas, SVG);
+      const Constructor = graph.getConstructor('Canvas');
       canvas = new Constructor({
         containerDOM,
         width: width * tranScale,
