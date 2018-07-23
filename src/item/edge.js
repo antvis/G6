@@ -46,8 +46,8 @@ class Edge extends Item {
     const styleStartArrow = keyShape.attr('startArrow');
     const endArrow = model.endArrow || styleEndArrow;
     const startArrow = model.startArrow || styleStartArrow;
-    styleStartArrow && keyShape.attr('startArrow', null);
-    styleEndArrow && keyShape.attr('endArrow', null);
+    styleStartArrow && keyShape.attr('startArrow', false);
+    styleEndArrow && keyShape.attr('endArrow', false);
     endArrow && this._drawArrow(shapeObj.endArrow, 'end');
     startArrow && this._drawArrow(shapeObj.startArrow, 'start');
   }
@@ -101,7 +101,6 @@ class Edge extends Item {
       startSegment[startSegment.length - 1] = vDindent[1] + point.y;
       startSegment[startSegment.length - 2] = vDindent[0] + point.x;
     }
-
     keyShape.attr('path', keyShapePath);
   }
   _getControlPoints() {
