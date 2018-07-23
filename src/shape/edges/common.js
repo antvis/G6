@@ -6,7 +6,7 @@
 const Shape = require('../shape');
 const Util = require('../../util/');
 const Global = require('../../global');
-const MIN_ARROW_SIZE = 6;
+const MIN_ARROW_SIZE = 10 / 3;
 const defaultArrow = {
   fill(item) {
     const keyShape = item.getKeyShape();
@@ -16,17 +16,21 @@ const defaultArrow = {
     const keyShape = item.getKeyShape();
     let lineWidth = keyShape.attr('lineWidth');
     lineWidth = lineWidth > MIN_ARROW_SIZE ? lineWidth : MIN_ARROW_SIZE;
+    const halfWidth = lineWidth * 10 / 3;
+    const halfHeight = lineWidth * 4 / 3;
+    const radius = lineWidth * 4;
     return [
-      [ 'M', -lineWidth * 2, lineWidth ],
+      [ 'M', -halfWidth, halfHeight ],
       [ 'L', 0, 0 ],
-      [ 'L', -lineWidth * 2, -lineWidth ],
+      [ 'L', -halfWidth, -halfHeight ],
+      [ 'A', radius, radius, 0, 0, 1, -halfWidth, halfHeight ],
       [ 'Z' ]
     ];
   },
   dindent(item) {
     const keyShape = item.getKeyShape();
     const lineWidth = keyShape.attr('lineWidth');
-    return lineWidth > MIN_ARROW_SIZE ? lineWidth : MIN_ARROW_SIZE;
+    return (lineWidth > MIN_ARROW_SIZE ? lineWidth : MIN_ARROW_SIZE) * 1.2;
   },
   stroke() {
     return;
