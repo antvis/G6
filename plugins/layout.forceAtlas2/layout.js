@@ -160,6 +160,7 @@ class Layout {
       graph.changeLayout();
       const fitView = graph.get('fitView');
       fitView && graph.setFitView(fitView);
+      worker.terminate();
     };
   }
 }
