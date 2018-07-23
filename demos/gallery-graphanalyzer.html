@@ -11,6 +11,7 @@
   <script src="../build/plugin.tool.mapper.js"></script>
   <script src="../build/plugin.tool.fisheye.js"></script>
   <script src="../build/plugin.util.extractSubgraph.js"></script>
+  <!-- <script src="../build/plugin.util.maxSpanningForest.js"></script> -->
   <script src="../build/plugin.tool.highlightSubgraph.js"></script>
   <script src="../build/plugin.edge.quadraticCurve.js"></script>
   <script src="../build/plugin.tool.minimap.js"></script>
@@ -94,10 +95,13 @@
       const highlighter = new Highlighter();
       const textDisplay = new G6.Plugins['tool.textDisplay']();
 
+      const Util = G6.Util;
+
       graph = new G6.Graph({
         id: 'mountNode', // dom id
         fitView: 'cc',
-        plugins: [new Plugin({
+        plugins: [
+          new Plugin({
             max_iteration: 600,
             kg: 10,
             prev_overlapping: true
@@ -135,6 +139,7 @@
         }
       });
       graph.read(data);
+      // Util.maxSpanningForest(graph, {});
 
       const edges = graph.getEdges();
       for (let i = 0; i < edges.length; i += 1) {
@@ -190,7 +195,6 @@
       });
     });
 
-    const Util = G6.Util;
 
     function clickMenu(ev) {
       let type = 'in';
