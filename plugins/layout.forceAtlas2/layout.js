@@ -93,7 +93,13 @@ class Layout {
        * the tolerance for the global swinging
        * @type  {number}
        */
-      tao: 0.1
+      tao: 0.1,
+
+      /**
+       * the function of layout complete listener, display the legend and minimap after layout
+       * @type  {function}
+       */
+      onLayoutComplete: null
     }, options);
   }
   // execute the layout
@@ -111,7 +117,8 @@ class Layout {
       max_iteration,
       ks,
       ksmax,
-      tao
+      tao,
+      onLayoutComplete
     } = this;
 
 
@@ -147,6 +154,31 @@ class Layout {
       widths
     };
 
+    // a loading dom before worker
+    const loading = document.createElement('div');
+    loading.id = 'loading';
+    loading.style.setProperty('background-color', '#fff');
+    loading.style.setProperty('position', 'absolute');
+    const parent = graph.getGraphContainer();
+    loading.style.setProperty('width', parent.width() + 'px');
+    loading.style.setProperty('height', parent.height() + 'px');
+    loading.style.setProperty('margin-top', (-parent.height()) + 'px');
+    parent.appendChild(loading);
+    // the loading image
+    const loading_img = document.createElement('img');
+    loading_img.src = 'https://gw.alipayobjects.com/zos/rmsportal/mnEmjOmrHbghTsZNeTmI.gif';
+    loading_img.style.setProperty('width', 200 + 'px');
+    loading_img.style.setProperty('height', 200 + 'px');
+    const Cw = loading_img.offsetWidth;
+    const Pw = loading.offsetWidth;
+    const left = (Pw - Cw) / 2;
+    loading_img.style.setProperty('margin-left', left + 'px');
+    const Ch = loading_img.offsetHeight;
+    const Ph = loading.offsetHeight;
+    const top = (Ph - Ch) / 2;
+    loading_img.style.setProperty('margin-top', top + 'px');
+    loading.appendChild(loading_img);
+
     const worker = new Worker();// { type: 'module' }
     worker.postMessage(obj);
     worker.onmessage = function(event) {
@@ -161,6 +193,8 @@ class Layout {
       const fitView = graph.get('fitView');
       fitView && graph.setFitView(fitView);
       worker.terminate();
+      loading.style.display = 'none';
+      onLayoutComplete();
     };
   }
 }
