@@ -7,14 +7,12 @@ require('./extend/g/canvas');
 require('./extend/g/group');
 require('./extend/g/shape');
 require('./extend/g/html');
+
 const Base = require('./base');
 const Item = require('./item/');
 const Shape = require('./shape/');
 const Util = require('./util/');
 const G = require('@antv/g');
-// const G = require('./renderer2d');
-const CanvasRootGroup = require('./extend/g/canvas-root-group');
-const SvgRootGroup = require('./extend/g/svg-root-group');
 const LayoutMixin = require('./mixin/layout');
 const MappingMixin = require('./mixin/mapping');
 const QueryMixin = require('./mixin/query');
@@ -24,8 +22,6 @@ const FilterMixin = require('./mixin/filter');
 const AnimateMixin = require('./mixin/animate');
 const FitView = require('./mixin/fit-view');
 const ForceFit = require('./mixin/force-fit');
-const Canvas = G.canvas.Canvas;
-const SVG = G.svg.Canvas;
 const Mixins = [ FilterMixin, MappingMixin, QueryMixin, AnimateMixin, ForceFit, LayoutMixin, FitView, EventMixin, ModeMixin ];
 const TAB_INDEX = 20;
 
@@ -198,9 +194,9 @@ class Graph extends Base {
       containerDOM: graphContainer
     };
 
-    const Constructor = this.getConstructor(Canvas, SVG);
-    const canvas = new Constructor(canvasCfg);
-    const frontCanvas = new Constructor(canvasCfg);
+    const Canvas = this.getConstructor('Canvas');
+    const canvas = new Canvas(canvasCfg);
+    const frontCanvas = new Canvas(canvasCfg);
 
     const frontEl = frontCanvas.get('el');
     const htmlElementContaniner = graphContainer.appendChild(Util.createDOM('<div class="graph-container-html-Elements"></div>'));
@@ -226,7 +222,7 @@ class Graph extends Base {
     mouseEventWrapper.setAttribute('tabindex', TAB_INDEX);
     canvas.set('htmlElementContaniner', htmlElementContaniner);
 
-    const RootGroup = this.getConstructor(CanvasRootGroup, SvgRootGroup);
+    const RootGroup = this.getConstructor('RootGroup');
     const rootGroup = canvas.addGroup(RootGroup);
     const frontRootGroup = frontCanvas.addGroup(RootGroup);
 
@@ -358,16 +354,15 @@ class Graph extends Base {
     });
   }
   /**
-   * @param  {function} CanvasCons option 1
-   * @param  {function} SvgCons option 2
+   * @param  {string} name option 1
    * @return {function} function
    */
-  getConstructor(CanvasCons, SvgCons) {
+  getConstructor(name) {
     const render = this.get('render');
     if (render === 'svg') {
-      return SvgCons;
+      return G.svg[name];
     }
-    return CanvasCons;
+    return G.canvas[name];
   }
   /**
    * @param  {string} type item type
