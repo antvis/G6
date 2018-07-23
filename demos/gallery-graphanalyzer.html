@@ -117,20 +117,8 @@
         id: 'mountNode', // dom id
         fitView: 'cc',
         plugins: [
-<<<<<<< Updated upstream
           maxSpanningForest, nodeSizeMapper, nodeColorMapper, edgeSizeMapper, minimapPlugin, highlighter,
           textDisplay, fisheye
-=======
-          new Plugin({
-            max_iteration: 600,
-            kg: 10,
-            prev_overlapping: true
-          }),
-          nodeSizeMapper, nodeColorMapper, edgeSizeMapper, minimapPlugin,
-          new FisheyePlugin({
-            radius: 200
-          }), highlighter, textDisplay
->>>>>>> Stashed changes
         ],
         minZoom: 0,
         modes: {
@@ -139,59 +127,12 @@
         height: 1000,
       });
       graph.read(data);
-      // Util.maxSpanningForest(graph, {});
 
       const minimap = document.getElementById('minimap');
       const legend = document.getElementById('legend');
       if (minimap !== undefined) minimap.style.display = 'none';
       if (legend !== undefined) legend.style.display = 'none';
     });
-
-<<<<<<< Updated upstream
-=======
-
-    function clickMenu(ev) {
-      let type = 'in';
-      switch (ev.id) {
-        case 'menu_sources':
-          type = 'in';
-          break;
-        case 'menu_targets':
-          type = 'out';
-          break;
-        case 'menu_both':
-          type = 'bi';
-          break;
-        default:
-          break;
-      }
-      const {
-        re_nodes,
-        re_edges
-      } = Util.extract(graph, type, 1, [clickOnNode]);
-      graph.highlightSubgraph({
-        re_nodes,
-        re_edges
-      });
-      // show the hided edge, which is not tree edge and it is in the es
-      // and the source and targert of the edge are both visible
-      const edges = graph.getEdges();
-      Util.each(edges, edge => {
-        if (!edge.isVisible() && !edge.getModel().isTreeEdge &&
-          edge.getSource().isVisible() && edge.getTarget().isVisible()) {
-          Util.each(re_edges, e => {
-            if (edge.id === e.id) {
-              edge.show();
-            }
-          });
-        }
-      });
-
-      const menu = document.getElementById('myMenu');
-      menu.style.display = 'none';
-      var canvas = document.getElementsByTagName("canvas")[0];
-    }
->>>>>>> Stashed changes
   </script>
 
 </body>
