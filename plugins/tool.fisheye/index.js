@@ -36,8 +36,9 @@ class Plugin {
     const cacheLocation = Util.debounce(ev => {
       const nodes = graph.getNodes();
       const size = nodes.length;
-      if (ev === undefined) {
+      if (ev === undefined || ev.item === undefined) {
         for (let i = 0; i < size; i++) {
+          if (nodes[i].getModel().x === undefined) return;
           this.ori_xs[i] = nodes[i].getModel().x;
           this.ori_ys[i] = nodes[i].getModel().y;
         }
