@@ -50,7 +50,7 @@ class Plugin {
        * @type  {object}
        */
       legendCfg: {
-        domId: 'legend_container',
+        comtainerId: 'legend_container',
         legendTitle: '',
         scale: 1
       },
@@ -177,19 +177,19 @@ class Plugin {
     const scaleType = this._getScaleType(data);
     const channel = this.channel;
     const graph = this.graph;
-    let dom_id = this.legendCfg.domId;
+    let comtainerId = this.legendCfg.comtainerId;
 
-    if (dom_id === undefined) {
-      dom_id = 'legend_container';
-      let legendContainer = document.getElementById(dom_id);
-      legendContainer = Util.createDOM('<div id="' + dom_id + '"class="legend-container"></div>');
+    if (comtainerId === undefined) {
+      comtainerId = 'legend_container';
+      let legendContainer = document.getElementById(comtainerId);
+      legendContainer = Util.createDOM('<div id="' + comtainerId + '"class="legend-container"></div>');
       const container = graph.getGraphContainer();
       container.appendChild(legendContainer);
     }
 
     const Constructor = graph.getConstructor('Canvas');
     const canvas = new Constructor({
-      containerId: dom_id, // dom_id,
+      containerId: comtainerId, // dom_id,
       width: 500,
       height: 500
     });
