@@ -6,7 +6,7 @@
 const Shape = require('../shape');
 const Util = require('../../util/');
 const Global = require('../../global');
-const MIN_ARROW_SIZE = 10 / 3;
+const MIN_ARROW_SIZE = 3;
 const defaultArrow = {
   path(item) {
     const keyShape = item.getKeyShape();
@@ -26,7 +26,7 @@ const defaultArrow = {
   dindent(item) {
     const keyShape = item.getKeyShape();
     const lineWidth = keyShape.attr('lineWidth');
-    return (lineWidth > MIN_ARROW_SIZE ? lineWidth : MIN_ARROW_SIZE) * 1.2;
+    return (lineWidth > MIN_ARROW_SIZE ? lineWidth : MIN_ARROW_SIZE) * 3.1;
   },
   style(item) {
     const keyShape = item.getKeyShape();
