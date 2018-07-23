@@ -158,6 +158,8 @@ class Layout {
         model.y = this.nodes[i].y;
       }
       graph.changeLayout();
+      const fitView = graph.get('fitView');
+      fitView && graph.setFitView(fitView);
     };
   }
 }
