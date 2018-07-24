@@ -30,9 +30,18 @@ class Plugin {
           const tooltip = model.tooltip;
           if (tooltip) {
             let lis = '';
-            tooltip.forEach(subTooltip => {
-              lis += '<li style="font-size: 12px;list-style-type: none;"><span>' + subTooltip[0] + '</span>: ' + subTooltip[1] + '</li>';
-            });
+            let title = item.type;
+            if (Util.isArray()) {
+              tooltip.forEach(subTooltip => {
+                lis += '<li style="font-size: 12px;list-style-type: none;"><span>' + subTooltip[0] + '</span>: ' + subTooltip[1] + '</li>';
+              });
+            } else {
+              title = tooltip.title;
+              tooltip.list.forEach(subTooltip => {
+                lis += '<li style="font-size: 12px;list-style-type: none;"><span>' + subTooltip[0] + '</span>: ' + subTooltip[1] + '</li>';
+              });
+            }
+
             return `
               <div class="g6-tooltip" style="
                 position: absolute;
@@ -48,7 +57,7 @@ class Plugin {
               ">
                 <h4 class="g6-tooltip-title" style="
                   margin: 0;
-                ">${item.type}</h4>
+                ">${title}</h4>
                 <ul class="g6-tooltip-list" style="
                   padding: 0;
                   margin: 0;
@@ -136,6 +145,9 @@ class Plugin {
       return domX - w0 - dx + 'px';
     }
     return domX + dx + 'px';
+  }
+  destroy() {
+    this.tooltip && this.tooltip.destroy();
   }
 }
 
