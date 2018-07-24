@@ -9,52 +9,12 @@
   <script src="../build/plugin.tool.mapper.js"></script>
   <script src="../build/plugin.tool.minimap.js"></script>
   <script src="./assets/jquery-3.2.1.min.js"></script>
-  <style>
-    ul,
-    li {
-      margin: 0;
-      padding: 0;
-    }
-
-    #myMenu {
-      color: #777;
-      list-style: none;
-      width: 150px;
-      border: 1px solid #ccc;
-      border-bottom: none;
-      position: absolute;
-      display: none;
-      background-color: #fff
-    }
-
-    #myMenu li {
-      padding: 5px 10px;
-      cursor: pointer;
-    }
-
-    #myMenu li:hover {
-      color: #6af
-    }
-
-    #menu_detail {
-      color: #6af;
-      border-top: 1px solid #ccc;
-      border-bottom: 1px solid #ccc;
-    }
-
-  </style>
 
 </head>
 
 <body>
   <div id='mountNode'></div>
   <div id='legend'></div>
-  <ul id="myMenu">
-    <li id="menu_sources">来源</li>
-    <li id="menu_targets">去向</li>
-    <li id="menu_both">来源去向</li>
-    <li id='menu_detail'> 查看单页分析详情</li>
-  </ul>
   <div id="minimap" style="border: 1px solid #999; position: absolute; top: 0px;"></div>
   <script>
     var graph = null;
@@ -81,6 +41,8 @@
       const nodeSizeMapper = new Mapper('node', 'userview', 'size', [20, 50], {
         legendCfg: {
           containerId: 'legend',
+          legendTitle: 'UV',
+          legendLayout: 'vertical'
         }
       });
       const edgeSizeMapper = new Mapper('edge', 'userview', 'size', [1, 16], {
@@ -89,6 +51,8 @@
       const nodeColorMapper = new Mapper('node', 'stayTime', 'color', ['#BAE7FF', '#1890FF', '#0050B3'], {
         legendCfg: {
           containerId: 'legend',
+          legendTitle: 'Stay Time',
+          legendLayout: 'vertical'
         }
       });
       const minimapPlugin = new G6.Plugins['tool.minimap']({
@@ -110,6 +74,7 @@
         },
         height: 600,
       });
+      graph.createMenu();
       graph.read(data);
       const minimap = document.getElementById('minimap');
       const legend = document.getElementById('legend');
