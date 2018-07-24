@@ -17,6 +17,16 @@ require('../tool.fisheye/');
 require('../util.extractSubgraph/');
 require('../edge.quadraticCurve/');
 require('../behaviour.analysis/');
+let pre_navi = {};
+const node_style = {
+  stroke: '#fff',
+  lineWidth: 2
+};
+const edge_style = {
+  endArrow: true,
+  stroke: '#4F7DAB',
+  strokeOpacity: 0.65
+};
 
 class Plugin {
   constructor(options) {
@@ -142,11 +152,7 @@ class Plugin {
 
     graph.edge({
       style() {
-        return {
-          endArrow: true,
-          stroke: '#4F7DAB',
-          strokeOpacity: 0.65
-        };
+        return edge_style;
       }
     });
     graph.node({
@@ -158,10 +164,7 @@ class Plugin {
           lineWidth: 4
         };
       },
-      style: {
-        stroke: '#fff',
-        lineWidth: 2
-      }
+      style: node_style
     });
   }
   activeItem(item) {
@@ -169,6 +172,7 @@ class Plugin {
       item = this.find(item);
     }
     let style = {};
+    let pre_style = {};
     if (item.type === 'node') {
       style = {
         stroke: '#fff',
@@ -176,44 +180,34 @@ class Plugin {
         shadowColor: '#6a80aa',
         shadowBlur: 20
       };
+      pre_style = node_style;
     } else if (item.type === 'edge edge') {
       style = {
         endArrow: true,
         stroke: '#000',
         strokeOpacity: 0.65
       };
+      pre_style = edge_style;
     } else return;
 
-    // // unactive the others
-    // const items = this.getItems();
-    // const common_nodestyle = {
-    //   stroke: '#fff',
-    //   lineWidth: 2
-    // };
-    // const common_edgestyle = {
-    //   endArrow: true,
-    //   stroke: '#4F7DAB',
-    //   strokeOpacity: 0.65
-    // };
-    // Util.each(items, it => {
-    //   let common_style;
-    //   if (it.type === 'node') common_style = common_nodestyle;
-    //   else if (it.type === 'edge') common_style = common_edgestyle;
-    //   else return;
-    //   this.update(it, { common_style });
-    // });
+    // // unactive the previous navigate node
+    if (pre_navi !== {} && pre_navi !== null && pre_navi !== undefined) {
+      this.update(pre_navi.item, {
+        style: pre_navi.style
+      });
+    }
+
     this.update(item, {
       style
     });
+    pre_navi = { item, style: pre_style };
   }
   setListener() {
     let clickOnNode = null;
     const graph = this.graph;
     graph.on('mouseenter', item => {
       if (item.item != null) {
-        // graph.activeItem(item.item);
-        graph.activeItem('_activity_fd_75660');
-        graph.navigate('_activity_fd_75660');
+        graph.activeItem(item.item);
       }
     });
     graph.on('mouseleave', item => {
@@ -221,17 +215,10 @@ class Plugin {
       if (item.item != null) {
         switch (item.item.type) {
           case 'node':
-            style = {
-              stroke: '#fff',
-              lineWidth: 2
-            };
+            style = node_style;
             break;
           case 'edge':
-            style = {
-              endArrow: true,
-              stroke: '#4F7DAB',
-              strokeOpacity: 0.65
-            };
+            style = edge_style;
             break;
           default:
             break;
