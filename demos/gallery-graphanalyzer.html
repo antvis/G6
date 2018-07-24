@@ -6,15 +6,8 @@
   <title>graph analyzer</title>
   <script src="../build/g6.js"></script>
   <script src="../build/plugin.template.maxSpanningForest.js"></script>
-  <script src="../build/plugin.behaviour.analysis.js"></script>
   <script src="../build/plugin.tool.mapper.js"></script>
-  <script src="../build/plugin.tool.fisheye.js"></script>
-  <script src="../build/plugin.util.extractSubgraph.js"></script>
-  <!-- <script src="../build/plugin.util.maxSpanningForest.js"></script> -->
-  <script src="../build/plugin.tool.highlightSubgraph.js"></script>
-  <script src="../build/plugin.edge.quadraticCurve.js"></script>
   <script src="../build/plugin.tool.minimap.js"></script>
-  <script src="../build/plugin.tool.textDisplay.js"></script>
   <script src="./assets/jquery-3.2.1.min.js"></script>
   <style>
     ul,
@@ -71,8 +64,6 @@
       //the plugins
       const Mapper = G6.Plugins['tool.mapper'];
       const MaxSpanningForestPlugin = G6.Plugins['template.maxSpanningForest'];
-      const Highlighter = G6.Plugins['tool.highlightSubgraph'];
-      const FisheyePlugin = G6.Plugins['tool.fisheye'];
       //the instances of plugins
       const maxSpanningForest = new MaxSpanningForestPlugin({
         layoutCfg: {
@@ -87,13 +78,9 @@
           }
         }
       });
-      const fisheye = new FisheyePlugin({
-        radius: 200
-      });
       const nodeSizeMapper = new Mapper('node', 'userview', 'size', [20, 50], {
         legendCfg: {
-          comtainerId: 'legend',
-          scale: 0.5
+          containerId: 'legend',
         }
       });
       const edgeSizeMapper = new Mapper('edge', 'userview', 'size', [1, 16], {
@@ -101,8 +88,7 @@
       });
       const nodeColorMapper = new Mapper('node', 'stayTime', 'color', ['#BAE7FF', '#1890FF', '#0050B3'], {
         legendCfg: {
-          comtainerId: 'legend',
-          scale: 0.5
+          containerId: 'legend',
         }
       });
       const minimapPlugin = new G6.Plugins['tool.minimap']({
@@ -110,23 +96,19 @@
         width: 180,
         height: 120
       });
-      const highlighter = new Highlighter();
-      const textDisplay = new G6.Plugins['tool.textDisplay']();
 
       const Util = G6.Util;
 
       graph = new G6.Graph({
         id: 'mountNode', // dom id
-        // fitView: 'cc',
+        fitView: 'cc',
         plugins: [
-          maxSpanningForest, nodeSizeMapper, nodeColorMapper, edgeSizeMapper, minimapPlugin, highlighter,
-          textDisplay, fisheye
+          maxSpanningForest, nodeSizeMapper, nodeColorMapper, edgeSizeMapper, minimapPlugin
         ],
-        minZoom: 0,
         modes: {
           default: ['panCanvas', 'wheelZoom']
         },
-        height: 1000,
+        height: 600,
       });
       graph.read(data);
       const minimap = document.getElementById('minimap');
@@ -135,5 +117,4 @@
       if (legend !== undefined) legend.style.display = 'none';
     });
   </script>
-
 </body>
