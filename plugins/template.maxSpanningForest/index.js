@@ -17,6 +17,16 @@ require('../tool.fisheye/');
 require('../util.extractSubgraph/');
 require('../edge.quadraticCurve/');
 require('../behaviour.analysis/');
+let pre_navi = {};
+const node_style = {
+  stroke: '#fff',
+  lineWidth: 2
+};
+const edge_style = {
+  endArrow: true,
+  stroke: '#4F7DAB',
+  strokeOpacity: 0.65
+};
 
 class Plugin {
   constructor(options) {
@@ -56,6 +66,7 @@ class Plugin {
         graph.set('layout', this.layout);
       }
       this.graph.activeItem = this.activeItem;
+      this.graph.createMenu = this.createMenu;
     });
     graph.on('beforerender', () => {
       const data = graph.getSource();
@@ -90,6 +101,44 @@ class Plugin {
       this.setListener();
     });
   }
+  createMenu(detailListener) {
+    const hover_color = '#6af';
+    const custom_color = '#777';
+    const li_style = 'padding: 5px 10px; cursor: pointer;';
+    const menuHtml = `<ul id="menu" style = "
+      color: ` + custom_color + `;
+      list-style: none;
+      width: 150px;
+      border: 1px solid #ccc;
+      position: absolute;
+      display: none;
+      background-color: #fff">
+    <li id="menu_sources" class = "menu_li" style = "` + li_style + `  color: #777;">来源</li>
+    <li id="menu_targets" class = "menu_li" style = "` + li_style + `  color: #777;">去向</li>
+    <li id="menu_both" class = "menu_li" style = "` + li_style + `  color: #777;">来源去向</li>
+    <li id='menu_detail' class = "menu_li" style = "` + li_style + `
+      color: #6af;
+      border-top: 1px solid #ccc;">查看单页分析详情</li></ul>`;
+
+    const menu = Util.createDOM(menuHtml);
+    const body = document.getElementsByTagName('body')[0];
+    body.appendChild(menu);
+
+    const lis = document.getElementsByClassName('menu_li');
+    for (let i = 0; i < lis.length - 1; i += 1) {
+      lis[i].addEventListener('mouseover', function() {
+        this.style.setProperty('color', hover_color);
+      });
+      lis[i].addEventListener('mouseout', function() {
+        this.style.setProperty('color', custom_color);
+      });
+    }
+
+    if (detailListener !== undefined) {
+      const detail_menu = document.getElementById('menu_detail');
+      detail_menu.addEventListener('click', detailListener);
+    }
+  }
   setStyle() {
     const graph = this.graph;
     const data = graph.getSource();
@@ -103,11 +152,7 @@ class Plugin {
 
     graph.edge({
       style() {
-        return {
-          endArrow: true,
-          stroke: '#4F7DAB',
-          strokeOpacity: 0.65
-        };
+        return edge_style;
       }
     });
     graph.node({
@@ -119,17 +164,15 @@ class Plugin {
           lineWidth: 4
         };
       },
-      style: {
-        stroke: '#fff',
-        lineWidth: 2
-      }
+      style: node_style
     });
   }
   activeItem(item) {
     if (Util.isString(item)) {
-      this.find(item);
+      item = this.find(item);
     }
     let style = {};
+    let pre_style = {};
     if (item.type === 'node') {
       style = {
         stroke: '#fff',
@@ -137,64 +180,66 @@ class Plugin {
         shadowColor: '#6a80aa',
         shadowBlur: 20
       };
-    } else if (item.type === 'edge') {
+      pre_style = node_style;
+    } else if (item.type === 'edge edge') {
       style = {
         endArrow: true,
         stroke: '#000',
         strokeOpacity: 0.65
       };
+      pre_style = edge_style;
     } else return;
+
+    // // unactive the previous navigate node
+    if (pre_navi !== {} && pre_navi !== null && pre_navi !== undefined) {
+      this.update(pre_navi.item, {
+        style: pre_navi.style
+      });
+    }
+
     this.update(item, {
       style
     });
+    pre_navi = { item, style: pre_style };
   }
   setListener() {
     let clickOnNode = null;
     const graph = this.graph;
-    graph.on('mouseenter', item => {
+    graph.on('node:mouseenter', item => {
       if (item.item != null) {
         graph.activeItem(item.item);
       }
     });
-    graph.on('mouseleave', item => {
-      let style = {};
-      if (item.item != null) {
-        switch (item.item.type) {
-          case 'node':
-            style = {
-              stroke: '#fff',
-              lineWidth: 2
-            };
-            break;
-          case 'edge':
-            style = {
-              endArrow: true,
-              stroke: '#4F7DAB',
-              strokeOpacity: 0.65
-            };
-            break;
-          default: break;
-        }
-      }
+    graph.on('node:mouseleave', item => {
       graph.update(item.item, {
-        style
+        style: node_style
       });
     });
 
+    graph.on('edge:mouseenter', item => {
+      if (item.item != null) {
+        graph.activeItem(item.item);
+      }
+    });
+    graph.on('edge:mouseleave', item => {
+      graph.update(item.item, {
+        style: edge_style
+      });
+    });
+
+    const menu = document.getElementById('menu');
     graph.on('click', ({
       shape,
       item,
       domEvent
     }) => {
       if (shape && item.isNode) {
-        const menu = document.getElementById('myMenu');
         menu.style.display = 'block';
         menu.style.left = domEvent.clientX + 'px';
         menu.style.top = domEvent.clientY + 'px';
         clickOnNode = item;
         graph.draw();
       } else {
-        const menu = document.getElementById('myMenu');
         menu.style.display = 'none';
         // restore the highlighted graph and hide the edges which are not tree edges.
         graph.restoreGraph();
@@ -209,7 +254,6 @@ class Plugin {
 
     });
 
-    const menu = document.getElementById('myMenu');
     menu.addEventListener('click', function(ev) {
       let type = 'in';
       switch (ev.target.id) {
@@ -223,7 +267,7 @@ class Plugin {
           type = 'bi';
           break;
         default:
-          break;
+          return;
       }
       const {
         re_nodes,
