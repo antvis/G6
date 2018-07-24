@@ -51,7 +51,7 @@ class Plugin {
        */
       legendCfg: {
         legendTitle: '',
-        lengedLayout: 'horizontal' // horizontal or vertical
+        layout: 'horizontal' // horizontal or vertical
       },
 
       /**
@@ -291,7 +291,7 @@ class Plugin {
         value: domain[i],
         color: value,
         type: itemType === 'node' ? 'circle' : 'line',
-        layout: legendCfg.lengedLayout,
+        layout: legendCfg.layout,
         marker: {
           symbol: 'circle',
           radius: 5,
@@ -309,16 +309,16 @@ class Plugin {
     return legend;
   }
   _createContinuousColorLegend(canvas) {
-    const itemType = this.itemType;
     const scale = this.scale;
     const range = scale.range;
     const domain = scale.values;
     const legendCfg = this.legendCfg;
-    let legendTitle = legendCfg.legendTitle;
+    // let legendTitle = legendCfg.legendTitle;
+    let legendTitle = legendCfg.title;
     if (legendTitle === '' || legendTitle === undefined) {
       legendTitle = this.dim;
     }
-    let legendLayout = legendCfg.legendLayout;
+    let legendLayout = legendCfg.layout;
     if (legendLayout === '' || legendLayout === undefined) {
       legendLayout = 'horizontal';
     }
@@ -349,34 +349,31 @@ class Plugin {
         scaleValue: percent
       });
     });
-    const cfg = Util.mix({
+    const cfg = {
       items,
       layout: legendLayout,
-      titleText: itemType,
       title: {
         text: legendTitle,
-        fill: '#333',
-        textBaseline: 'middle'
+        fill: '#333'
       },
       width: legendWidth,
-      height: legendHeight // * legendCfg.scale
-    }, legendCfg);
+      height: legendHeight
+    };
     const legend = canvas.addGroup(Color, cfg);
 
     return legend;
   }
   _createContinuousSizeLegend(canvas) {
-    const itemType = this.itemType;
     const scale = this.scale;
     const range = scale.range;
     const domain = scale.values;
     const domainStep = (domain[domain.length - 1] - domain[0]) / (range.length - 1);
     const legendCfg = this.legendCfg;
-    let legendTitle = legendCfg.legendTitle;
+    let legendTitle = legendCfg.title;
     if (legendTitle === '' || legendTitle === undefined) {
       legendTitle = this.dim;
     }
-    let legendLayout = legendCfg.legendLayout;
+    let legendLayout = legendCfg.layout;
     if (legendLayout === '' || legendLayout === undefined) {
       legendLayout = 'horizontal';
     }
@@ -406,19 +403,17 @@ class Plugin {
         value: item_text // the number label of the slider
       });
     });
-    const cfg = Util.mix({
+    const cfg = {
       items,
       layout: legendLayout,
       attrType: 'size',
-      titleText: itemType,
       title: {
         text: legendTitle,
-        fill: '#333',
-        textBaseline: 'middle'
+        fill: '#333'
       },
       width: legendWidth,
       height: legendHeight
-    }, legendCfg);
+    };
     const legend = canvas.addGroup(Size, cfg);
     return legend;
   }

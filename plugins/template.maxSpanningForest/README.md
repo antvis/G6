@@ -17,13 +17,39 @@ parameter for this plugin:
   - kg: the gravity parameter for layout. The larger kg, more compact the graph, expecialy for the isolated subgraphs.
   - prev_overlapping: whether preventing the node overlapping
   - onLayoutComplete: a listener for layout completement. When the layout is complete, the loading div and img disappear.
+- menuCfg: the configuration for menu
+  example: 
+    const menuCfg = {
+      lists: [{
+        html: '来源',
+        callBack: 'showSource',
+      },
+      {
+        html: '去向',
+        callBack: 'showTargets',
+      },
+      {
+        html: '来源去向',
+        callBack: 'showAll',
+      },
+      {
+        html: '查看。。。。',
+        callBack: function() {console.log('aaa')},
+      }],
+    };
+    - lists: an array of menu lis
+      - html: the html of the li
+      - callBack: the onclick listener of the li, could be string or a function. If it is a string, it must be a existing function name in menu.js.
 
 To navigate an item (a node or edge) by id or item, if this item is not in the view, the whole graph will translate a shortest distance to make the node in the view:
   graph.activeItem(item); // item or id
   graph.navigate(item); // item or id
 
 To create the menu which follows the mouse click:
-  graph.createMenu(func); //func is the onclick listener for the li '查看单页分析详情'
+  graph.createMenu(func, container_id); 
+    params: 
+    - func is the onclick listener for the li '查看单页分析详情'
+    - container_id is the DOM id of the menu container.
   
 ## use
 
