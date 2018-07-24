@@ -50,7 +50,7 @@ class Plugin {
        * @type  {object}
        */
       legendCfg: {
-        comtainerId: 'legend_container',
+        legendTitle: '',
         lengedLayout: 'horizontal' // horizontal or vertical
       },
 
