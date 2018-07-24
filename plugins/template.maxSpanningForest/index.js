@@ -56,6 +56,7 @@ class Plugin {
         graph.set('layout', this.layout);
       }
       this.graph.activeItem = this.activeItem;
+      this.graph.createMenu = this.createMenu;
     });
     graph.on('beforerender', () => {
       const data = graph.getSource();
@@ -89,6 +90,44 @@ class Plugin {
       this.setStyle();
       this.setListener();
     });
+  }
+  createMenu(detailListener) {
+    const hover_color = '#6af';
+    const custom_color = '#777';
+    const li_style = 'padding: 5px 10px; cursor: pointer;';
+    const menuHtml = `<ul id="menu" style = "
+      color: ` + custom_color + `;
+      list-style: none;
+      width: 150px;
+      border: 1px solid #ccc;
+      position: absolute;
+      display: none;
+      background-color: #fff">
+    <li id="menu_sources" class = "menu_li" style = "` + li_style + `  color: #777;">来源</li>
+    <li id="menu_targets" class = "menu_li" style = "` + li_style + `  color: #777;">去向</li>
+    <li id="menu_both" class = "menu_li" style = "` + li_style + `  color: #777;">来源去向</li>
+    <li id='menu_detail' class = "menu_li" style = "` + li_style + `
+      color: #6af;
+      border-top: 1px solid #ccc;">查看单页分析详情</li></ul>`;
+
+    const menu = Util.createDOM(menuHtml);
+    const body = document.getElementsByTagName('body')[0];
+    body.appendChild(menu);
+
+    const lis = document.getElementsByClassName('menu_li');
+    for (let i = 0; i < lis.length - 1; i += 1) {
+      lis[i].addEventListener('mouseover', function() {
+        this.style.setProperty('color', hover_color);
+      });
+      lis[i].addEventListener('mouseout', function() {
+        this.style.setProperty('color', custom_color);
+      });
+    }
+
+    if (detailListener !== undefined) {
+      const detail_menu = document.getElementById('menu_detail');
+      detail_menu.addEventListener('click', detailListener);
+    }
   }
   setStyle() {
     const graph = this.graph;
@@ -127,7 +166,7 @@ class Plugin {
   }
   activeItem(item) {
     if (Util.isString(item)) {
-      this.find(item);
+      item = this.find(item);
     }
     let style = {};
     if (item.type === 'node') {
@@ -137,13 +176,32 @@ class Plugin {
         shadowColor: '#6a80aa',
         shadowBlur: 20
       };
-    } else if (item.type === 'edge') {
+    } else if (item.type === 'edge edge') {
       style = {
         endArrow: true,
         stroke: '#000',
         strokeOpacity: 0.65
       };
     } else return;
+
+    // // unactive the others
+    // const items = this.getItems();
+    // const common_nodestyle = {
+    //   stroke: '#fff',
+    //   lineWidth: 2
+    // };
+    // const common_edgestyle = {
+    //   endArrow: true,
+    //   stroke: '#4F7DAB',
+    //   strokeOpacity: 0.65
+    // };
+    // Util.each(items, it => {
+    //   let common_style;
+    //   if (it.type === 'node') common_style = common_nodestyle;
+    //   else if (it.type === 'edge') common_style = common_edgestyle;
+    //   else return;
+    //   this.update(it, { common_style });
+    // });
     this.update(item, {
       style
     });
@@ -153,7 +211,9 @@ class Plugin {
     const graph = this.graph;
     graph.on('mouseenter', item => {
       if (item.item != null) {
-        graph.activeItem(item.item);
+        // graph.activeItem(item.item);
+        graph.activeItem('_activity_fd_75660');
+        graph.navigate('_activity_fd_75660');
       }
     });
     graph.on('mouseleave', item => {
@@ -173,7 +233,8 @@ class Plugin {
               strokeOpacity: 0.65
             };
             break;
-          default: break;
+          default:
+            break;
         }
       }
       graph.update(item.item, {
@@ -181,20 +242,19 @@ class Plugin {
       });
     });
 
+    const menu = document.getElementById('menu');
     graph.on('click', ({
       shape,
       item,
       domEvent
     }) => {
       if (shape && item.isNode) {
-        const menu = document.getElementById('myMenu');
         menu.style.display = 'block';
         menu.style.left = domEvent.clientX + 'px';
         menu.style.top = domEvent.clientY + 'px';
         clickOnNode = item;
         graph.draw();
       } else {
-        const menu = document.getElementById('myMenu');
         menu.style.display = 'none';
         // restore the highlighted graph and hide the edges which are not tree edges.
         graph.restoreGraph();
@@ -209,7 +269,6 @@ class Plugin {
 
     });
 
-    const menu = document.getElementById('myMenu');
     menu.addEventListener('click', function(ev) {
       let type = 'in';
       switch (ev.target.id) {
@@ -223,7 +282,7 @@ class Plugin {
           type = 'bi';
           break;
         default:
-          break;
+          return;
       }
       const {
         re_nodes,

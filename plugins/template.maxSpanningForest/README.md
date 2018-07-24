@@ -18,9 +18,12 @@ parameter for this plugin:
   - prev_overlapping: whether preventing the node overlapping
   - onLayoutComplete: a listener for layout completement. When the layout is complete, the loading div and img disappear.
 
-To navigate a node by id or item, if this item is not in the view, the whole graph will translate a shortest distance to make the node in the view:
+To navigate an item (a node or edge) by id or item, if this item is not in the view, the whole graph will translate a shortest distance to make the node in the view:
   graph.activeItem(item); // item or id
-  graph.navigateNode(item); // item or id
+  graph.navigate(item); // item or id
+
+To create the menu which follows the mouse click:
+  graph.createMenu(func); //func is the onclick listener for the li '查看单页分析详情'
   
 ## use
 
