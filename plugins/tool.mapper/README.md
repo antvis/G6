@@ -1,16 +1,20 @@
 ## mapper
 
-Associate the input range with the @antv/scale, @antv/attr and @antv/g2/src/component/legend
-constructor parameters:
+Associate the input range with the @antv/scale, @antv/attr and @antv/g2/src/component/legend.
+Constructor parameters:
 - itemType: 'node'/'edge. The type of the item being mapped.
-- dim: the dimension of the edge. e.g. 'class'
-- range: the range the of mapping result. e.g. [ 0, 1 ], ['#BAE7FF', '#1890FF', '#0050B3']
-- channel: the visual channel. e.g.'size', 'color'
+- dim: the dimension of the edge. e.g. 'class'.
+- range: the range the of mapping result. e.g. [ 0, 1 ], ['#BAE7FF', '#1890FF', '#0050B3'].
+- channel: the visual channel. e.g.'size', 'color'.
 - othercfg:
-  - scaleCfg: the configuration of the scale
-  - legendCfg: the configuration of the legend
+  - scaleCfg: the configuration of the scale.
+  - legendCfg: the configuration of the legend.
     null: no lengend.
     scale: scaling the size of the legend.
+    formatter: a function for formatting the number label of the slider.
+    legendTitle: the title of the legend.
+    legendLayout: the layout way of the legend.'horizontal'/'vertical'
+    legendWdith and lengedHeight: the size of the legend. Defualt: 150*15 for horizontal layout, 15*150 for vertical layout.
 
 ## use
 
