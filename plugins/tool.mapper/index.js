@@ -51,7 +51,7 @@ class Plugin {
        */
       legendCfg: {
         legendTitle: '',
-        scale: 1
+        lengedLayout: 'horizontal' // horizontal or vertical
       },
 
       /**
@@ -111,7 +111,7 @@ class Plugin {
       if (Util.isNumber(data[0][dim])) {
         scaleCfg.type = 'linear';
       } else {
-        scaleCfg.type = 'ordinal';
+        scaleCfg.type = 'category';
       }
     }
     return Util.upperFirst(scaleCfg.type);
@@ -139,7 +139,7 @@ class Plugin {
     let domain = scaleCfg.domain;
     scale.range = range;
     if (!domain) {
-      if (scaleType === 'Ordinal') {
+      if (scaleType === 'Category') {
         domain = this._trainCategoryScale(itemType, data);
       } else {
         domain = this._trainNumberScale(itemType, data);
@@ -178,7 +178,6 @@ class Plugin {
     const graph = this.graph;
     const containerId = this.legendCfg.containerId;
     let legendContainer;
-
     if (containerId === undefined) {
       legendContainer = Util.createDOM('<div class="legend-container"></div>');
       const container = graph.getGraphContainer();
@@ -193,7 +192,7 @@ class Plugin {
       height: 500
     });
     let legend;
-    if (scaleType === 'Ordinal') {
+    if (scaleType === 'Category') {
       legend = this._createCatLegend(canvas);
     } else {
       if (channel === 'color') {
@@ -278,6 +277,10 @@ class Plugin {
     const itemType = this.itemType;
     const legendCfg = this.legendCfg;
     const items = [];
+    let lengendTitle = legendCfg.title;
+    if (lengendTitle === '' || lengendTitle === undefined) {
+      lengendTitle = this.dim;
+    }
     const cfg = Util.mix({
       items,
       checkable: false
@@ -288,11 +291,16 @@ class Plugin {
         value: domain[i],
         color: value,
         type: itemType === 'node' ? 'circle' : 'line',
-        layout: 'vertical',
+        layout: legendCfg.lengedLayout,
         marker: {
           symbol: 'circle',
           radius: 5,
           fill: value
+        },
+        title: {
+          text: lengendTitle,
+          fill: '#333',
+          textBaseline: 'middle'
         },
         checked: true
       });
@@ -306,36 +314,52 @@ class Plugin {
     const range = scale.range;
     const domain = scale.values;
     const legendCfg = this.legendCfg;
-    let lengendTitle = legendCfg.legendTitle;
-    if (lengendTitle === '') {
-      lengendTitle = this.dim;
+    let legendTitle = legendCfg.legendTitle;
+    if (legendTitle === '' || legendTitle === undefined) {
+      legendTitle = this.dim;
     }
-    if (legendCfg.scale <= 0 || typeof legendCfg.scale === 'undefined') {
-      legendCfg.scale = 1;
+    let legendLayout = legendCfg.legendLayout;
+    if (legendLayout === '' || legendLayout === undefined) {
+      legendLayout = 'horizontal';
     }
-    const items = [];
 
+    let legendWidth = legendCfg.lengedWidth;
+    let legendHeight = legendCfg.legendHeight;
+    if (legendWidth === null || legendWidth === undefined) {
+      if (legendLayout === 'horizontal') {
+        legendWidth = 150;
+        legendHeight = 15;
+      } else {
+        legendWidth = 15;
+        legendHeight = 150;
+      }
+    }
+
+    const items = [];
     Util.each(range, (val, i) => {
       const percent = (domain[i] - scale.min) / (scale.max - scale.min);
+      let item_text = domain[i];
+      if (legendCfg.formatter !== undefined && legendCfg.formmater !== null) {
+        item_text = legendCfg.formatter(domain[i]);
+      }
       items.push({
         text: domain[i],
         attrValue: val,
-        value: domain[i],
+        value: item_text, // the number label of the slider
         scaleValue: percent
       });
     });
-
     const cfg = Util.mix({
       items,
-      layout: 'horizontal',
+      layout: legendLayout,
       titleText: itemType,
       title: {
-        text: lengendTitle,
+        text: legendTitle,
         fill: '#333',
         textBaseline: 'middle'
       },
-      width: 150 * legendCfg.scale,
-      height: 15 // * legendCfg.scale
+      width: legendWidth,
+      height: legendHeight // * legendCfg.scale
     }, legendCfg);
     const legend = canvas.addGroup(Color, cfg);
 
@@ -348,34 +372,52 @@ class Plugin {
     const domain = scale.values;
     const domainStep = (domain[domain.length - 1] - domain[0]) / (range.length - 1);
     const legendCfg = this.legendCfg;
-    let lengendTitle = legendCfg.legendTitle;
-    if (lengendTitle === '') {
-      lengendTitle = this.dim;
+    let legendTitle = legendCfg.legendTitle;
+    if (legendTitle === '' || legendTitle === undefined) {
+      legendTitle = this.dim;
     }
-    if (legendCfg.scale <= 0 || typeof legendCfg.scale === 'undefined') {
-      legendCfg.scale = 1;
+    let legendLayout = legendCfg.legendLayout;
+    if (legendLayout === '' || legendLayout === undefined) {
+      legendLayout = 'horizontal';
     }
+
+    let legendWidth = legendCfg.lengedWidth;
+    let legendHeight = legendCfg.legendHeight;
+    if (legendWidth === null || legendWidth === undefined) {
+      if (legendLayout === 'horizontal') {
+        legendWidth = 150;
+        legendHeight = 15;
+      } else {
+        legendWidth = 15;
+        legendHeight = 150;
+      }
+    }
+
     const items = [];
     Util.each(range, (val, i) => {
       const dom = domain[0] + domainStep * i;
+      let item_text = dom;
+      if (legendCfg.formatter !== undefined && legendCfg.formmater !== null) {
+        item_text = legendCfg.formatter(dom);
+      }
       items.push({
         text: dom,
-        attrValue: val * legendCfg.scale,
-        value: dom
+        attrValue: val,
+        value: item_text // the number label of the slider
       });
     });
     const cfg = Util.mix({
       items,
-      layout: 'horizontal',
+      layout: legendLayout,
       attrType: 'size',
       titleText: itemType,
       title: {
-        text: lengendTitle,
+        text: legendTitle,
         fill: '#333',
         textBaseline: 'middle'
       },
-      width: 150 * legendCfg.scale,
-      height: 15 * legendCfg.scale
+      width: legendWidth,
+      height: legendHeight
     }, legendCfg);
     const legend = canvas.addGroup(Size, cfg);
     return legend;
@@ -429,13 +471,18 @@ class Plugin {
         return Scale.identity({
           value: 'red'
         });
-      case 'Ordinal':
+      case 'Category':
         return Scale.cat({
           values: domain
         });
       default:
         return Scale.linear(params);
     }
+  }
+  destroy() {
+    this.legend.destroy();
+    this.legendCanvas.destroy();
+    this.scale.destroy();
   }
 }
 
