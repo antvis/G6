@@ -205,27 +205,25 @@ class Plugin {
   setListener() {
     let clickOnNode = null;
     const graph = this.graph;
-    graph.on('mouseenter', item => {
+    graph.on('node:mouseenter', item => {
       if (item.item != null) {
         graph.activeItem(item.item);
       }
     });
-    graph.on('mouseleave', item => {
-      let style = {};
-      if (item.item != null) {
-        switch (item.item.type) {
-          case 'node':
-            style = node_style;
-            break;
-          case 'edge':
-            style = edge_style;
-            break;
-          default:
-            break;
-        }
-      }
+    graph.on('node:mouseleave', item => {
       graph.update(item.item, {
-        style
+        style: node_style
+      });
+    });
+
+    graph.on('edge:mouseenter', item => {
+      if (item.item != null) {
+        graph.activeItem(item.item);
+      }
+    });
+    graph.on('edge:mouseleave', item => {
+      graph.update(item.item, {
+        style: edge_style
       });
     });
 
