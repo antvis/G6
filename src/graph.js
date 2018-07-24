@@ -53,18 +53,6 @@ class Graph extends Base {
       height: undefined,
 
       /**
-       * Modes list
-       * @type {object}
-       */
-      modes: {},
-
-      /**
-       * Current mode
-       * @type {string}
-       */
-      mode: 'default',
-
-      /**
        * Plugins
        * @type {array}
        */
@@ -148,9 +136,12 @@ class Graph extends Base {
   _pluginInit() {
     const plugins = this.get('plugins');
     plugins.forEach(plugin => {
-      plugin.graph = this;
-      plugin.init && plugin.init();
+      this._initPlugin(plugin);
     });
+  }
+  _initPlugin(plugin) {
+    plugin.graph = this;
+    plugin.init && plugin.init();
   }
   _getTimer(name) {
     return this.get('_timers')[name];
@@ -250,6 +241,14 @@ class Graph extends Base {
   }
   getMouseEventWrapper() {
     return this.get('_htmlElementContaniner');
+  }
+  /**
+   * @param  {object} plugin - plugin instance
+   */
+  addPlugin(plugin) {
+    const plugins = this.get('plugins');
+    this._initPlugin(plugin);
+    plugins.push(plugin);
   }
   /**
    * @return  {domobject} graphcontainer

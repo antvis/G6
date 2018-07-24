@@ -10,7 +10,8 @@ Mixin.CFG = {
     * mode list  key - value, key - mode name, value - behaviors
     * @type {object}
     */
-  modes: null,
+  modes: {},
+
   /**
     * current mode name
     * @type {string}
