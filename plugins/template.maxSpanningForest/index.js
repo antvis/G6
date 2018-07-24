@@ -11,6 +11,12 @@ const G6 = require('@antv/g6');
 const maxSpanningForest = require('./maxSpanningForest');
 const Layout = require('../layout.forceAtlas2/layout');
 const Util = G6.Util;
+require('../tool.textDisplay/');
+require('../tool.highlightSubgraph/');
+require('../tool.fisheye/');
+require('../util.extractSubgraph/');
+require('../edge.quadraticCurve/');
+require('../behaviour.analysis/');
 
 class Plugin {
   constructor(options) {
@@ -36,6 +42,14 @@ class Plugin {
   }
   init() {
     const graph = this.graph;
+    const highlighter = new G6.Plugins['tool.highlightSubgraph']();
+    const fisheye = new G6.Plugins['tool.fisheye']({
+      radius: 200
+    });
+    const textDisplay = new G6.Plugins['tool.textDisplay']();
+    graph.addPlugin(highlighter);
+    graph.addPlugin(fisheye);
+    graph.addPlugin(textDisplay);
     graph.on('beforeinit', () => {
       const layout = graph.get('layout');
       if (!layout) {
