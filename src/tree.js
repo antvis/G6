@@ -257,7 +257,12 @@ class Tree extends Graph {
         const newParent = this.find(model.parent);
         const newParentModel = newParent.getModel();
         Util.Array.remove(originParentModel.children, itemModel);
-        newParentModel.push(itemModel);
+        if (newParentModel.children) {
+          newParentModel.children.push(itemModel);
+        } else {
+          newParentModel.children = [ itemModel ];
+        }
+
         this.find(newParentModel.id).forceUpdate();
       }
 

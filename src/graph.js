@@ -695,15 +695,22 @@ class Graph extends Base {
       item.getEdges().forEach(edge => {
         edge.hide();
       });
-      item.getInnerEdges().forEach(edge => {
-        edge.hide();
-      });
+      // item.getInnerEdges().forEach(edge => {
+      //   edge.hide();
+      // });
       item.deepEach(child => {
         child.hide();
       });
     }
     this.draw();
     return this;
+  }
+  _tryShowEdge(edge) {
+    const source = edge.getSource();
+    const target = edge.getTarget();
+    return (source.linkable && source.isVisible() || !source.linkable)
+    && (target.linkable && target.isVisible() || !target.linkable)
+    && edge.show();
   }
   /**
    * show item
@@ -713,24 +720,22 @@ class Graph extends Base {
   show(item) {
     item = this.getItem(item);
     if (item.isEdge) {
-      item.getSource().isVisible() && item.getTarget().isVisible() && item.show();
+      this._tryShowEdge(item);
     } else {
       item.show();
     }
     if (item.isNode) {
       item.getEdges().forEach(edge => {
-        const source = edge.getSource();
-        const target = edge.getTarget();
-        source.isVisible() && target.isVisible() && edge.show();
+        this._tryShowEdge(edge);
       });
     }
     if (item.isGroup) {
       item.getEdges().forEach(edge => {
-        edge.show();
+        this._tryShowEdge(edge);
       });
-      item.getInnerEdges().forEach(edge => {
-        edge.show();
-      });
+      // item.getInnerEdges().forEach(edge => {
+      //   edge.show();
+      // });
       item.deepEach(child => {
         child.show();
       });
