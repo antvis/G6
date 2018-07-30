@@ -18,7 +18,6 @@ require('../tool.fisheye/');
 require('../util.extractSubgraph/');
 require('../edge.quadraticCurve/');
 require('../behaviour.analysis/');
-let pre_navi = {};
 const node_style = {
   stroke: '#696969',
   strokeOpacity: 0.4,
@@ -51,6 +50,7 @@ class Plugin {
         })
       },
       menu: null,
+      pre_navi: {},
       ...options
     });
   }
@@ -134,7 +134,7 @@ class Plugin {
       style: node_style
     });
   }
-  activeItem(item) {
+  activeItem(item, pre_navi) {
     if (Util.isString(item)) {
       item = this.find(item);
     }
@@ -174,16 +174,16 @@ class Plugin {
   }
   setListener() {
     const graph = this.graph;
-    graph.on('node:mouseenter', item => {
-      if (item.item != null) {
-        graph.activeItem(item.item);
+    graph.on('node:mouseenter', ev => {
+      if (ev.item != null) {
+        graph.activeItem(ev.item, this.pre_navi);
       }
       graph.css({
         cursor: 'pointer'
       });
     });
-    graph.on('node:mouseleave', item => {
-      graph.update(item.item, {
+    graph.on('node:mouseleave', ev => {
+      graph.update(ev.item, {
         style: node_style
       });
       graph.css({
@@ -191,25 +191,25 @@ class Plugin {
       });
     });
 
-    graph.on('edge:mouseenter', item => {
-      if (item.item != null) {
-        graph.activeItem(item.item);
+    graph.on('edge:mouseenter', ev => {
+      if (ev.item != null) {
+        graph.activeItem(ev.item, this.pre_navi);
       }
     });
-    graph.on('edge:mouseleave', item => {
-      graph.update(item.item, {
+    graph.on('edge:mouseleave', ev => {
+      graph.update(ev.item, {
         style: edge_style
       });
     });
 
     graph.on('click', ({
       shape,
-      item,
-      domEvent
+      item
     }) => {
       if (shape && item.isNode) {
-        this.menu.show(item, domEvent.pageX, domEvent.pageY);
-        // clickOnNode = item;
+        const menu_x = item.getModel().x * graph.getMatrix()[0] + graph.getMatrix()[6];
+        const menu_y = item.getModel().y * graph.getMatrix()[0] + graph.getMatrix()[7];
+        this.menu.show(item, menu_x, menu_y);
         graph.draw();
       } else {
         this.menu.hide();
