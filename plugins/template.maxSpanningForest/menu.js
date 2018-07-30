@@ -28,17 +28,9 @@ class Menu {
     const menuCfg = this.menuCfg;
     const container_id = this.container_id;
 
-    const hover_color = '#6af';
-    const custom_color = '#777';
-    const li_style = 'padding-top:5px; padding-bottom:5px; cursor: pointer;';
     const menuHtml = `<ul class="menu" style = "
-      color: ` + custom_color + `;
-      list-style: none;
-      width: 150px;
-      border: 1px solid #ccc;
       position: absolute;
-      display: none;
-      background-color: #fff"></ul>`;
+      display: none;"></ul>`;
     const menu = Util.createDOM(menuHtml);
     let parent = graph.getGraphContainer();
     if (container_id !== '' && container_id !== undefined) {
@@ -48,7 +40,7 @@ class Menu {
 
     const list = menuCfg.lists;
     for (let i = 0; i < list.length; i += 1) {
-      const liHtml = '<li class = "menu_li" style = "' + li_style + ' color: #777;">' + list[i].html + '</li>';
+      const liHtml = '<li class = "menu_li">' + list[i].html + '</li>';
       const li = Util.createDOM(liHtml);
       menu.appendChild(li);
       li.on('click', () => {
@@ -59,12 +51,6 @@ class Menu {
         if (Util.isFunction(list[i].callBack)) {
           list[i].callBack(node);
         }
-      });
-      li.addEventListener('mouseover', function() {
-        this.style.setProperty('color', hover_color);
-      });
-      li.addEventListener('mouseout', function() {
-        this.style.setProperty('color', custom_color);
       });
     }
     this.menu = menu;
