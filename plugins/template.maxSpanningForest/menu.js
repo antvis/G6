@@ -31,7 +31,7 @@ class Menu {
     const hover_color = '#6af';
     const custom_color = '#777';
     const li_style = 'padding-top:5px; padding-bottom:5px; cursor: pointer;';
-    const menuHtml = `<ul id="menu" style = "
+    const menuHtml = `<ul class="menu" style = "
       color: ` + custom_color + `;
       list-style: none;
       width: 150px;
