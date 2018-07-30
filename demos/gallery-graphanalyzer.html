@@ -24,8 +24,30 @@
       //the plugins
       const Mapper = G6.Plugins['tool.mapper'];
       const MaxSpanningForestPlugin = G6.Plugins['template.maxSpanningForest'];
+
+      const menuCfg = {
+        lists: [{
+            html: '来源',
+            callBack: 'showSource',
+          },
+          {
+            html: '去向',
+            callBack: 'showTargets',
+          },
+          {
+            html: '来源去向',
+            callBack: 'showAll',
+          },
+          {
+            html: '查看。。。。',
+            callBack: function() {console.log('aaa')},
+          },
+        ],
+      };
+
       //the instances of plugins
       const maxSpanningForest = new MaxSpanningForestPlugin({
+        menuCfg,
         layoutCfg: {
           max_iteration: 600,
           kg: 10,
@@ -41,8 +63,8 @@
       const nodeSizeMapper = new Mapper('node', 'userview', 'size', [20, 50], {
         legendCfg: {
           containerId: 'legend',
-          legendTitle: 'UV',
-          legendLayout: 'vertical'
+          title: 'UV',
+          layout: 'vertical'
         }
       });
       const edgeSizeMapper = new Mapper('edge', 'userview', 'size', [1, 16], {
@@ -51,8 +73,8 @@
       const nodeColorMapper = new Mapper('node', 'stayTime', 'color', ['#BAE7FF', '#1890FF', '#0050B3'], {
         legendCfg: {
           containerId: 'legend',
-          legendTitle: 'Stay Time',
-          legendLayout: 'vertical'
+          title: 'Stay Time',
+          layout: 'vertical'
         }
       });
       const minimapPlugin = new G6.Plugins['tool.minimap']({
@@ -74,12 +96,12 @@
         },
         height: 600,
       });
-      graph.createMenu();
       graph.read(data);
       const minimap = document.getElementById('minimap');
       const legend = document.getElementById('legend');
       if (minimap !== undefined) minimap.style.display = 'none';
       if (legend !== undefined) legend.style.display = 'none';
     });
+
   </script>
 </body>
