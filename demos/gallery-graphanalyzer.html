@@ -94,13 +94,16 @@
         modes: {
           default: ['panCanvas', 'wheelZoom']
         },
-        height: 600,
+        height: 500,
       });
       graph.read(data);
       const minimap = document.getElementById('minimap');
       const legend = document.getElementById('legend');
       if (minimap !== undefined) minimap.style.display = 'none';
       if (legend !== undefined) legend.style.display = 'none';
+      setTimeout(()=>{
+        graph.destroy();
+      }, 1000)
     });
 
   </script>
