@@ -18,7 +18,6 @@ require('../tool.fisheye/');
 require('../util.extractSubgraph/');
 require('../edge.quadraticCurve/');
 require('../behaviour.analysis/');
-// let pre_navi = {};
 const node_style = {
   stroke: '#696969',
   strokeOpacity: 0.4,
@@ -194,7 +193,7 @@ class Plugin {
 
     graph.on('edge:mouseenter', ev => {
       if (ev.item != null) {
-        graph.activeItem(ev.item);
+        graph.activeItem(ev.item, this.pre_navi);
       }
     });
     graph.on('edge:mouseleave', ev => {
