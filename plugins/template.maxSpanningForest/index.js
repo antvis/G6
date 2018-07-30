@@ -11,6 +11,7 @@ const G6 = require('@antv/g6');
 const maxSpanningForest = require('./maxSpanningForest');
 const Layout = require('../layout.forceAtlas2/layout');
 const Util = G6.Util;
+const Menu = require('./menu');
 require('../tool.textDisplay/');
 require('../tool.highlightSubgraph/');
 require('../tool.fisheye/');
@@ -19,8 +20,9 @@ require('../edge.quadraticCurve/');
 require('../behaviour.analysis/');
 let pre_navi = {};
 const node_style = {
-  stroke: '#fff',
-  lineWidth: 2
+  stroke: '#696969',
+  strokeOpacity: 0.4,
+  lineWidth: 1
 };
 const edge_style = {
   endArrow: true,
@@ -31,6 +33,7 @@ const edge_style = {
 class Plugin {
   constructor(options) {
     Util.mix(this, {
+      menuCfg: null,
       layout: {
         auto: 'once', // true false once
         processer: new Layout({
@@ -47,6 +50,7 @@ class Plugin {
           ...options.layoutCfg
         })
       },
+      menu: null,
       ...options
     });
   }
@@ -66,7 +70,6 @@ class Plugin {
         graph.set('layout', this.layout);
       }
       this.graph.activeItem = this.activeItem;
-      this.graph.createMenu = this.createMenu;
     });
     graph.on('beforerender', () => {
       const data = graph.getSource();
@@ -99,45 +102,9 @@ class Plugin {
 
       this.setStyle();
       this.setListener();
+      const menuCfg = this.menuCfg;
+      this.menu = new Menu({ menuCfg, graph });
     });
-  }
-  createMenu(detailListener) {
-    const hover_color = '#6af';
-    const custom_color = '#777';
-    const li_style = 'padding: 5px 10px; cursor: pointer;';
-    const menuHtml = `<ul id="menu" style = "
-      color: ` + custom_color + `;
-      list-style: none;
-      width: 150px;
-      border: 1px solid #ccc;
-      position: absolute;
-      display: none;
-      background-color: #fff">
-    <li id="menu_sources" class = "menu_li" style = "` + li_style + `  color: #777;">来源</li>
-    <li id="menu_targets" class = "menu_li" style = "` + li_style + `  color: #777;">去向</li>
-    <li id="menu_both" class = "menu_li" style = "` + li_style + `  color: #777;">来源去向</li>
-    <li id='menu_detail' class = "menu_li" style = "` + li_style + `
-      color: #6af;
-      border-top: 1px solid #ccc;">查看单页分析详情</li></ul>`;
-
-    const menu = Util.createDOM(menuHtml);
-    const body = document.getElementsByTagName('body')[0];
-    body.appendChild(menu);
-
-    const lis = document.getElementsByClassName('menu_li');
-    for (let i = 0; i < lis.length - 1; i += 1) {
-      lis[i].addEventListener('mouseover', function() {
-        this.style.setProperty('color', hover_color);
-      });
-      lis[i].addEventListener('mouseout', function() {
-        this.style.setProperty('color', custom_color);
-      });
-    }
-
-    if (detailListener !== undefined) {
-      const detail_menu = document.getElementById('menu_detail');
-      detail_menu.addEventListener('click', detailListener);
-    }
   }
   setStyle() {
     const graph = this.graph;
@@ -161,7 +128,7 @@ class Plugin {
           text: model.id,
           fill: 'black',
           stroke: '#fff',
-          lineWidth: 4
+          lineWidth: 2.5
         };
       },
       style: node_style
@@ -176,16 +143,16 @@ class Plugin {
     if (item.type === 'node') {
       style = {
         stroke: '#fff',
-        lineWidth: 2,
+        lineWidth: 1,
         shadowColor: '#6a80aa',
         shadowBlur: 20
       };
       pre_style = node_style;
-    } else if (item.type === 'edge edge') {
+    } else if (item.type === 'edge') {
       style = {
         endArrow: true,
-        stroke: '#000',
-        strokeOpacity: 0.65
+        stroke: '#4C7295',
+        strokeOpacity: 1
       };
       pre_style = edge_style;
     } else return;
@@ -200,19 +167,27 @@ class Plugin {
     this.update(item, {
       style
     });
-    pre_navi = { item, style: pre_style };
+    pre_navi = {
+      item,
+      style: pre_style
+    };
   }
   setListener() {
-    let clickOnNode = null;
     const graph = this.graph;
     graph.on('node:mouseenter', item => {
       if (item.item != null) {
         graph.activeItem(item.item);
       }
+      graph.css({
+        cursor: 'pointer'
+      });
     });
     graph.on('node:mouseleave', item => {
       graph.update(item.item, {
         style: node_style
+      });
+      graph.css({
+        cursor: '-webkit-grab'
       });
     });
 
@@ -227,20 +202,17 @@ class Plugin {
       });
     });
 
-    const menu = document.getElementById('menu');
     graph.on('click', ({
       shape,
       item,
       domEvent
     }) => {
       if (shape && item.isNode) {
-        menu.style.display = 'block';
-        menu.style.left = domEvent.clientX + 'px';
-        menu.style.top = domEvent.clientY + 'px';
-        clickOnNode = item;
+        this.menu.show(item, domEvent.pageX, domEvent.pageY);
+        // clickOnNode = item;
         graph.draw();
       } else {
-        menu.style.display = 'none';
+        this.menu.hide();
         // restore the highlighted graph and hide the edges which are not tree edges.
         graph.restoreGraph();
         const edges = graph.getEdges();
@@ -253,45 +225,6 @@ class Plugin {
       }
 
     });
-
-    menu.addEventListener('click', function(ev) {
-      let type = 'in';
-      switch (ev.target.id) {
-        case 'menu_sources':
-          type = 'in';
-          break;
-        case 'menu_targets':
-          type = 'out';
-          break;
-        case 'menu_both':
-          type = 'bi';
-          break;
-        default:
-          return;
-      }
-      const {
-        re_nodes,
-        re_edges
-      } = Util.extract(graph, type, 1, [ clickOnNode ]);
-      graph.highlightSubgraph({
-        re_nodes,
-        re_edges
-      });
-      // show the hided edge, which is not tree edge and it is in the es
-      // and the source and targert of the edge are both visible
-      const edges = graph.getEdges();
-      Util.each(edges, edge => {
-        if (!edge.isVisible() && !edge.getModel().isTreeEdge &&
-          edge.getSource().isVisible() && edge.getTarget().isVisible()) {
-          Util.each(re_edges, e => {
-            if (edge.id === e.id) {
-              edge.show();
-            }
-          });
-        }
-      });
-      menu.style.display = 'none';
-    }, false);
   }
 }
 
