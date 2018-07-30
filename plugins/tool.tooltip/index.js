@@ -31,7 +31,7 @@ class Plugin {
           if (tooltip) {
             let lis = '';
             let title = item.type;
-            if (Util.isArray()) {
+            if (Util.isArray(tooltip)) {
               tooltip.forEach(subTooltip => {
                 lis += '<li style="font-size: 12px;list-style-type: none;"><span>' + subTooltip[0] + '</span>: ' + subTooltip[1] + '</li>';
               });

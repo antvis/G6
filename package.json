@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "2.0.5-beta.5",
+  "version": "2.0.5-beta.8",
   "description": "graph visualization frame work",
   "main": "build/g6.js",
   "homepage": "https://github.com/antvis/g6",
@@ -107,7 +107,7 @@
   },
   "dependencies": {
     "@antv/scale": "^0.0.1",
-    "@antv/g2": "^3.2.0",
+    "@antv/g2": "^3.2.6-beta.1",
     "@antv/g": "~3.0.0-beta.8",
     "@antv/hierarchy": "~0.3.13",
     "d3": "^5.4.0",
