@@ -69,7 +69,9 @@ class Plugin {
       if (!layout) {
         graph.set('layout', this.layout);
       }
-      this.graph.activeItem = this.activeItem;
+      this.graph.activeItem = item => {
+        this.activeItem(item);
+      };
     });
     graph.on('beforerender', () => {
       const data = graph.getSource();
@@ -134,9 +136,11 @@ class Plugin {
       style: node_style
     });
   }
-  activeItem(item, pre_navi) {
+  activeItem(item) {
+    const graph = this.graph;
+    const pre_navi = this.pre_navi;
     if (Util.isString(item)) {
-      item = this.find(item);
+      item = graph.find(item);
     }
     let style = {};
     let pre_style = {};
@@ -157,17 +161,17 @@ class Plugin {
       pre_style = edge_style;
     } else return;
 
-    // // unactive the previous navigate node
-    if (pre_navi !== {} && pre_navi !== null && pre_navi !== undefined) {
-      this.update(pre_navi.item, {
+    // unactive the previous navigate node
+    if (pre_navi !== {} && pre_navi !== null && pre_navi !== undefined && pre_navi.item !== null) {
+      graph.update(pre_navi.item, {
         style: pre_navi.style
       });
     }
 
-    this.update(item, {
+    graph.update(item, {
       style
     });
-    pre_navi = {
+    this.pre_navi = {
       item,
       style: pre_style
     };
@@ -176,7 +180,7 @@ class Plugin {
     const graph = this.graph;
     graph.on('node:mouseenter', ev => {
       if (ev.item != null) {
-        graph.activeItem(ev.item, this.pre_navi);
+        graph.activeItem(ev.item);
       }
       graph.css({
         cursor: 'pointer'
@@ -193,7 +197,7 @@ class Plugin {
 
     graph.on('edge:mouseenter', ev => {
       if (ev.item != null) {
-        graph.activeItem(ev.item, this.pre_navi);
+        graph.activeItem(ev.item);
       }
     });
     graph.on('edge:mouseleave', ev => {
