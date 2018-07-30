@@ -30,22 +30,7 @@ class Menu {
 
     const hover_color = '#6af';
     const custom_color = '#777';
-    const li_style = 'padding-top:5px; padding-bottom:5px; margin-left: -25px; cursor: pointer;';
-    // const menuHtml = `<ul id="menu" style = "
-    //   color: ` + custom_color + `;
-    //   list-style: none;
-    //   width: 150px;
-    //   border: 1px solid #ccc;
-    //   position: absolute;
-    //   display: none;
-    //   background-color: #fff">
-    // <li id="menu_sources" class = "menu_li" style = "` + li_style + `  color: #777;">来源</li>
-    // <li id="menu_targets" class = "menu_li" style = "` + li_style + `  color: #777;">去向</li>
-    // <li id="menu_both" class = "menu_li" style = "` + li_style + `  color: #777;">来源去向</li>
-    // <li id='menu_detail' class = "menu_li" style = "` + li_style + `
-    //   color: #6af;
-    //   border-top: 1px solid #ccc;">查看单页分析详情</li></ul>`;
-
+    const li_style = 'padding-top:5px; padding-bottom:5px; cursor: pointer;';
     const menuHtml = `<ul id="menu" style = "
       color: ` + custom_color + `;
       list-style: none;
