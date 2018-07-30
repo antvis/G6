@@ -475,9 +475,7 @@ class Plugin {
     }
   }
   destroy() {
-    this.legend.destroy();
-    this.legendCanvas.destroy();
-    this.scale.destroy();
+    this.legendCanvas && this.legendCanvas.destroy();
   }
 }
 
