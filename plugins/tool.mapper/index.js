@@ -177,8 +177,8 @@ class Plugin {
     const channel = this.channel;
     const graph = this.graph;
     const containerId = this.legendCfg.containerId;
-    let legendContainer;
-    if (containerId === undefined) {
+    let legendContainer = this.legendCfg.container;
+    if (containerId === undefined && legendContainer === undefined) {
       legendContainer = Util.createDOM('<div class="legend-container"></div>');
       const container = graph.getGraphContainer();
       container.appendChild(legendContainer);
