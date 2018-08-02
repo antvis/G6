@@ -6,6 +6,7 @@ require('./extend/g/html');
 require('./extend/g/canvas');
 require('./extend/g/group');
 require('./extend/g/shape');
+require('./extend/g/root-group');
 require('./extend/g/html');
 
 const Base = require('./base');
@@ -733,9 +734,6 @@ class Graph extends Base {
       item.getEdges().forEach(edge => {
         this._tryShowEdge(edge);
       });
-      // item.getInnerEdges().forEach(edge => {
-      //   edge.show();
-      // });
       item.deepEach(child => {
         child.show();
       });
