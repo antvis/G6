@@ -66,7 +66,18 @@
           });
         }
       };
-      const template = new Template();
+      const template = new Template({
+        fisheye: false,
+        interactive: false,
+        textDisplay: false,
+        node_label: null,
+        edge_style(model) {
+          return {
+            stroke: graph.find(model.target).getModel().color,
+            strokeOpacity: 0.8
+          };
+        }
+      });
       const graph = new G6.Graph({
         id: 'mountNode',             // dom id
         height: window.innerHeight,
@@ -104,14 +115,6 @@
       const spiral = new G6.Layouts['ArchimeddeanSpiral']({
         sort(a, b) {
           return b.weight - a.weight;
-        }
-      });
-      graph.edge({
-        style(model) {
-          return {
-            stroke: graph.find(model.target).getModel().color,
-            strokeOpacity: 0.8
-          };
         }
       });
       graph.read(data);

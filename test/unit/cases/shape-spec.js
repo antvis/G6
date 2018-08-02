@@ -6,39 +6,6 @@ const div = document.createElement('div');
 document.body.appendChild(div);
 // graph.zoom({ x: 10, y: 10 }, 4);
 describe('shape user cases test', () => {
-  it('html node', () => {
-    const graph = new Graph({
-      container: div,
-      width: 500,
-      height: 500
-    });
-    graph.zoom(0.5);
-    graph.source({
-      nodes: [{
-        id: 'node1',
-        x: 100,
-        y: 100,
-        shape: 'html',
-        html: '<div id="html1">html 1</div>'
-      }, {
-        id: 'node2',
-        x: 200,
-        y: 100,
-        shape: 'html',
-        html: '<div id="html2">html 2</div>'
-      }],
-      edges: [{
-        source: 'node1',
-        target: 'node2'
-      }]
-    });
-    graph.render();
-    expect(document.getElementById('html1')).not.equal(null);
-    expect(document.getElementById('html2')).not.equal(null);
-    graph.destroy();
-    expect(document.getElementById('html1')).equal(null);
-    expect(document.getElementById('html2')).equal(null);
-  });
   it('default shape', () => {
     Shape.registerNode('customNode', {
       draw(item) {

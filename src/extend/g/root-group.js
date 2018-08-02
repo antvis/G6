@@ -6,29 +6,20 @@
 const G = require('@antv/g');
 const Util = require('../../util/');
 
-function extend(child, parent, augment) {
-  const canvasElement = function(cfg) {
-    canvasElement.superclass.constructor.call(this, cfg);
-  };
-  const svgElement = function(cfg) {
-    svgElement.superclass.constructor.call(this, cfg);
-  };
-  Util.extend(canvasElement, G.canvas[parent]);
-  Util.extend(svgElement, G.svg[parent]);
-  Util.augment(canvasElement, augment);
-  Util.augment(svgElement, augment);
-  G.canvas[child] = canvasElement;
-  G.svg[child] = svgElement;
-}
+const Group = function(cfg) {
+  Group.superclass.constructor.call(this, cfg);
+};
 
-extend('RootGroup', 'Group', {
+Util.extend(Group, G.Group);
+
+Util.augment(Group, {
   drawInner(context) {
     this.deepEach(child => {
       const freezePoint = child.get('freezePoint');
       const freezable = this.get('freezable');
       const scale = this.getMatrix()[0];
       if (freezable !== false && child.isShape && freezePoint && child.get('visible')) {
-        child.initTransform();
+        child.resetMatrix(freezePoint, scale);
         child.transform([
           [ 't', -freezePoint.x, -freezePoint.y ],
           [ 's', 1 / scale, 1 / scale ],
@@ -39,3 +30,5 @@ extend('RootGroup', 'Group', {
     this.constructor.superclass.drawInner.call(this, context);
   }
 });
+
+module.exports = Group;

@@ -11,18 +11,6 @@ const Mixin = function() {};
 
 Util.augment(Mixin, {
   /**
-   * get shape init attrs
-   * @return {object} rst
-   */
-  getAttrs() {
-    const attrs = this.get('attrs');
-    const rst = {};
-    Util.each(attrs, (v, k) => {
-      rst[k] = this.attr(k);
-    });
-    return rst;
-  },
-  /**
    * Check contains the specified class
    * @param   {String}      className class name
    * @return  {Boolean}     boolean
@@ -36,7 +24,6 @@ Util.augment(Mixin, {
   }
 });
 
-Util.mixin(G.canvas.Shape, [ Mixin ]);
-Util.mixin(G.svg.Shape, [ Mixin ]);
+Util.mixin(G.Shape, [ Mixin ]);
 
 module.exports = Mixin;

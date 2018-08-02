@@ -18,21 +18,25 @@ require('../tool.fisheye/');
 require('../util.extractSubgraph/');
 require('../edge.quadraticCurve/');
 require('../behaviour.analysis/');
-const node_style = {
-  stroke: '#696969',
-  strokeOpacity: 0.4,
-  lineWidth: 1
-};
-const edge_style = {
-  endArrow: true,
-  stroke: '#4F7DAB',
-  strokeOpacity: 0.65
-};
 
 class Plugin {
   constructor(options) {
-    Util.mix(this, {
-      menuCfg: null,
+    options = options ? options : {};
+    Util.mix(true, this, {
+      menuCfg: {
+        lists: [{
+          html: '来源',
+          callBack: 'showSource'
+        },
+        {
+          html: '去向',
+          callBack: 'showTargets'
+        },
+        {
+          html: '来源去向',
+          callBack: 'showAll'
+        }]
+      },
       layout: {
         auto: 'once', // true false once
         processer: new Layout({
@@ -49,21 +53,46 @@ class Plugin {
           ...options.layoutCfg
         })
       },
+      fisheye: true,
       menu: null,
       pre_navi: {},
+      edge_style: {
+        endArrow: true,
+        stroke: '#4F7DAB',
+        strokeOpacity: 0.65
+      },
+      node_style: {
+        stroke: '#696969',
+        strokeOpacity: 0.4,
+        lineWidth: 1
+      },
+      node_label(model) {
+        return {
+          text: model.id,
+          fill: 'black',
+          stroke: '#fff',
+          lineWidth: 2.5
+        };
+      },
+      interactive: true,
+      textDisplay: true,
       ...options
     });
   }
   init() {
     const graph = this.graph;
     const highlighter = new G6.Plugins['tool.highlightSubgraph']();
-    const fisheye = new G6.Plugins['tool.fisheye']({
-      radius: 200
-    });
-    const textDisplay = new G6.Plugins['tool.textDisplay']();
+    if (this.fisheye) {
+      const fisheye = new G6.Plugins['tool.fisheye']({
+        radius: 200
+      });
+      graph.addPlugin(fisheye);
+    }
+    if (this.textDisplay) {
+      const textDisplay = new G6.Plugins['tool.textDisplay']();
+      graph.addPlugin(textDisplay);
+    }
     graph.addPlugin(highlighter);
-    graph.addPlugin(fisheye);
-    graph.addPlugin(textDisplay);
     graph.on('beforeinit', () => {
       const layout = graph.get('layout');
       if (!layout) {
@@ -103,7 +132,7 @@ class Plugin {
       });
 
       this.setStyle();
-      this.setListener();
+      this.interactive && this.setListener();
       const menuCfg = this.menuCfg;
       this.menu = new Menu({ menuCfg, graph });
     });
@@ -118,22 +147,12 @@ class Plugin {
       const model = edges[i];
       if (!model.isTreeEdge || typeof model.isTreeEdge === 'undefined') model.shape = 'quadraticCurve';
     }
-
     graph.edge({
-      style() {
-        return edge_style;
-      }
+      style: this.edge_style
     });
     graph.node({
-      label(model) {
-        return {
-          text: model.id,
-          fill: 'black',
-          stroke: '#fff',
-          lineWidth: 2.5
-        };
-      },
-      style: node_style
+      label: this.node_label,
+      style: this.node_style
     });
   }
   activeItem(item) {
@@ -151,14 +170,14 @@ class Plugin {
         shadowColor: '#6a80aa',
         shadowBlur: 20
       };
-      pre_style = node_style;
+      pre_style = this.node_style;
     } else if (item.type === 'edge') {
       style = {
         endArrow: true,
         stroke: '#4C7295',
         strokeOpacity: 1
       };
-      pre_style = edge_style;
+      pre_style = this.edge_style;
     } else return;
 
     // unactive the previous navigate node
@@ -188,7 +207,7 @@ class Plugin {
     });
     graph.on('node:mouseleave', ev => {
       graph.update(ev.item, {
-        style: node_style
+        style: this.node_style
       });
       graph.css({
         cursor: '-webkit-grab'
@@ -202,7 +221,7 @@ class Plugin {
     });
     graph.on('edge:mouseleave', ev => {
       graph.update(ev.item, {
-        style: edge_style
+        style: this.edge_style
       });
     });
 

@@ -2,12 +2,8 @@
  * @fileOverview graph
  * @author huangtonger@aliyun.com
  */
-require('./extend/g/html');
-require('./extend/g/canvas');
 require('./extend/g/group');
 require('./extend/g/shape');
-require('./extend/g/root-group');
-require('./extend/g/html');
 
 const Base = require('./base');
 const Item = require('./item/');
@@ -88,7 +84,7 @@ class Graph extends Base {
        * @type {string}
        */
       defaultIntersectBox: 'circle',
-      render: 'canvas',
+      renderer: 'canvas',
       _controllers: {},
       _timers: {},
       _dataMap: {},
@@ -178,23 +174,22 @@ class Graph extends Base {
     const width = this.get('width');
     const height = this.get('height');
     const fontFamily = this.get('fontFamily');
+    const renderer = this.get('renderer');
     const canvasCfg = {
       width,
       height,
       fontFamily,
+      renderer,
       eventEnable: false,
       containerDOM: graphContainer
     };
 
-    const Canvas = this.getConstructor('Canvas');
+    const Canvas = G.Canvas;
     const canvas = new Canvas(canvasCfg);
     const frontCanvas = new Canvas(canvasCfg);
 
     const frontEl = frontCanvas.get('el');
     const htmlElementContaniner = graphContainer.appendChild(Util.createDOM('<div class="graph-container-html-Elements"></div>'));
-    canvas.on('beforedraw', () => {
-      this.emit('beforecanvasdraw');
-    });
     frontEl.style.position = 'absolute';
     frontEl.style.top = 0;
     frontEl.style.left = 0;
@@ -214,9 +209,8 @@ class Graph extends Base {
     mouseEventWrapper.setAttribute('tabindex', TAB_INDEX);
     canvas.set('htmlElementContaniner', htmlElementContaniner);
 
-    const RootGroup = this.getConstructor('RootGroup');
-    const rootGroup = canvas.addGroup(RootGroup);
-    const frontRootGroup = frontCanvas.addGroup(RootGroup);
+    const rootGroup = canvas.addGroup();
+    const frontRootGroup = frontCanvas.addGroup();
 
     const itemGroup = rootGroup.addGroup();
     this.set('_itemGroup', itemGroup);
@@ -352,17 +346,6 @@ class Graph extends Base {
     items.forEach(item => {
       item && !item.destroyed && item.destroy();
     });
-  }
-  /**
-   * @param  {string} name option 1
-   * @return {function} function
-   */
-  getConstructor(name) {
-    const render = this.get('render');
-    if (render === 'svg') {
-      return G.svg[name];
-    }
-    return G.canvas[name];
   }
   /**
    * @param  {string} type item type
