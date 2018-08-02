@@ -77,7 +77,5 @@ Util.augment(Mixin, {
   }
 });
 
-Util.mixin(G.canvas.Group, [ Mixin ]);
-Util.mixin(G.svg.Group, [ Mixin ]);
-
+Util.mixin(G.Group, [ Mixin ]);
 module.exports = Mixin;

@@ -13,7 +13,6 @@ const G6 = {
   Tree: require('./tree'),
   Util: require('./util/'),
   Layouts: require('./layouts/'),
- // G: require('@antv/g'),
   G,
   Plugins: {},
   Global,
@@ -24,9 +23,6 @@ const G6 = {
   registerGuide: Shape.registerGuide,
   registerBehaviour: Handler.registerBehaviour,
   version,
-  getG() {
-    return require('@antv/g');
-  },
   track(enable) {
     Global.trackable = enable;
   }

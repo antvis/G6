@@ -4,7 +4,7 @@
  */
 const G6 = require('@antv/g6');
 const { Util, G } = G6;
-const Canvas = G.canvas.Canvas;
+const Canvas = G.Canvas;
 
 class Minimap {
   constructor(options) {
@@ -247,7 +247,7 @@ class Minimap {
       height,
       canvas: miniMapCanvas
     });
-    this.miniMapMatrix = miniMapCanvas.matrix;
+    this.miniMapMatrix = miniMapCanvas.getMatrix();
   }
   renderViewPort(graph) {
     if (!graph) {
@@ -256,6 +256,7 @@ class Minimap {
     if (graph.getItems().length === 0) {
       return;
     }
+
     const viewportWindow = this.viewportWindow;
     const viewportCanvas = this.viewportCanvas;
     const viewportBack = this.viewportBack;
