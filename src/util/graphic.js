@@ -5,7 +5,25 @@
 
 const MathUtil = require('./math');
 const BaseUtil = require('./base');
+
 const GraphicUtil = {
+  getAutoZoomMatrix(box1, box2, padding, limitRtio) {
+    const matrix = [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ];
+    const width = box1.maxX - box1.minX;
+    const height = box1.maxY - box1.minY;
+    const centerX = (box2.maxX + box2.minX) / 2;
+    const centerY = (box2.maxY + box2.minY) / 2;
+    const cWidth = width - padding[1] - padding[3];
+    const cHeight = height - padding[0] - padding[2];
+    const bWidth = box2.maxX - box2.minX;
+    const bHeight = box2.maxY - box2.minY;
+    let ratio = Math.min(cHeight / bHeight, cWidth / bWidth);
+    if (limitRtio) ratio = limitRtio(ratio);
+    MathUtil.mat3.translate(matrix, matrix, [ -centerX, -centerY ]);
+    MathUtil.mat3.scale(matrix, matrix, [ ratio, ratio ]);
+    MathUtil.mat3.translate(matrix, matrix, [ width / 2, height / 2 ]);
+    return matrix;
+  },
   /**
    * get nine block box location
    * @param  {string} position could be 'tl' 'lc' 'bl' 'cc' 'tc' 'tr' 'rc' 'br' 'bc' default to be 'tl'

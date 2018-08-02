@@ -81,21 +81,29 @@ Mixin.AUGMENT = {
     if (!padding) {
       padding = this.getFitViewPadding();
     }
-    const matrix = [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ];
     const width = this.get('width');
     const height = this.get('height');
     const box = this.getBBox();
-    const centerX = (box.maxX + box.minX) / 2;
-    const centerY = (box.maxY + box.minY) / 2;
-    const cWidth = width - padding[1] - padding[3];
-    const cHeight = height - padding[0] - padding[2];
-    const bWidth = box.maxX - box.minX;
-    const bHeight = box.maxY - box.minY;
-    let ratio = Math.min(cHeight / bHeight, cWidth / bWidth);
-    ratio = this._getZoomRatio(ratio);
-    Util.mat3.translate(matrix, matrix, [ -centerX, -centerY ]);
-    Util.mat3.scale(matrix, matrix, [ ratio, ratio ]);
-    Util.mat3.translate(matrix, matrix, [ width / 2, height / 2 ]);
+    const matrix = Util.getAutoZoomMatrix({
+      minX: 0,
+      minY: 0,
+      maxX: width,
+      maxY: height
+    }, box, padding, ratio => {
+      return this._getZoomRatio(ratio);
+    });
+
+    // const centerX = (box.maxX + box.minX) / 2;
+    // const centerY = (box.maxY + box.minY) / 2;
+    // const cWidth = width - padding[1] - padding[3];
+    // const cHeight = height - padding[0] - padding[2];
+    // const bWidth = box.maxX - box.minX;
+    // const bHeight = box.maxY - box.minY;
+    // let ratio = Math.min(cHeight / bHeight, cWidth / bWidth);
+    // ratio = this._getZoomRatio(ratio);
+    // Util.mat3.translate(matrix, matrix, [ -centerX, -centerY ]);
+    // Util.mat3.scale(matrix, matrix, [ ratio, ratio ]);
+    // Util.mat3.translate(matrix, matrix, [ width / 2, height / 2 ]);
     this.updateMatrix(matrix);
   },
   /**

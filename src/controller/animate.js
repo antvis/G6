@@ -24,15 +24,11 @@ function getElements(map, parent, count) {
     }
     if (!Util.isNil(id)) {
       const stash = {
-        matrixStash: Util.clone(child.getMatrix()),
+        matrixStash: Util.cloneDeep(child.getMatrix()),
         element: child
       };
       if (child.isShape) {
-        const attrs = child.get('attrs');
-        stash.attrsStash = {};
-        Util.each(attrs, (v, k) => {
-          stash.attrsStash[k] = child.attr(k);
-        });
+        stash.attrsStash = Util.cloneDeep(child.attr());
       }
       map[id] = stash;
     }
@@ -67,14 +63,14 @@ class Controller extends Base {
     group.deepEach(element => {
       const id = element.gid;
       const stash = {
-        matrix: Util.clone(element.getMatrix())
+        matrix: Util.cloneDeep(element.getMatrix())
       };
       if (element.isItemContainer) {
         stash.enterAnimate = item.getEnterAnimate();
         stash.leaveAnimate = item.getLeaveAnimate();
       }
       if (element.isShape) {
-        stash.attrs = element.getAttrs();
+        stash.attrs = Util.cloneDeep(element.attr());
       }
       stash.item = item;
       keyFrameCache[id] = stash;

@@ -5,7 +5,7 @@ require('../../../../src/extend/g/shape');
 div.id = 'extend-shape-spec';
 document.body.appendChild(div);
 describe('extend shape test', () => {
-  const canvas = new G.canvas.Canvas({
+  const canvas = new G.Canvas({
     containerDOM: div
   });
   const rectAttrs = {
