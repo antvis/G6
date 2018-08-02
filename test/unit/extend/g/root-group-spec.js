@@ -2,13 +2,12 @@ const expect = require('chai').expect;
 const G = require('@antv/g');
 const div = document.createElement('div');
 require('../../../../src/extend/g/group');
-require('../../../../src/extend/g/root-group');
-const RootGroup = G.canvas.RootGroup;
+const RootGroup = require('../../../../src/extend/g/root-group');
 
 div.id = 'extend-root-group-spec';
 document.body.appendChild(div);
 describe('freeze size group test', () => {
-  const canvas = new G.canvas.Canvas({
+  const canvas = new G.Canvas({
     containerDOM: div
   });
   const rootGroup = canvas.addGroup(RootGroup);

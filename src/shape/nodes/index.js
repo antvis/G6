@@ -4,6 +4,5 @@
  */
 
 module.exports = {
-  common: require('./common'),
-  html: require('./html')
+  common: require('./common')
 };

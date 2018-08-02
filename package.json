@@ -97,7 +97,7 @@
     "screenshot": "node ./bin/screenshot.js",
     "start": "npm run dev",
     "test": "torch --compile --renderer --recursive ./test/unit",
-    "test-live": "torch --compile --interactive --watch --recursive ./test/unit/plugins/tool.tooltip-spec.js",
+    "test-live": "torch --compile --interactive --watch --recursive ./test/unit/",
     "watch": "webpack --config webpack-dev.config.js",
     "win-dev": "node ./bin/win-dev.js"
   },
@@ -106,8 +106,8 @@
   },
   "dependencies": {
     "@antv/scale": "^0.0.1",
-    "@antv/g2": "^3.2.6-beta.1",
-    "@antv/g": "~3.0.0-beta.8",
+    "@antv/g2": "~3.2.7-beta",
+    "@antv/g": "~3.1.0-beta.3",
     "@antv/hierarchy": "~0.3.13",
     "d3": "^5.4.0",
     "d3-svg-legend": "^2.25.6",

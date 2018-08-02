@@ -99,7 +99,7 @@ class Layout {
        * the function of layout complete listener, display the legend and minimap after layout
        * @type  {function}
        */
-      onLayoutComplete: null
+      onLayoutComplete: () => {}
     }, options);
   }
   // execute the layout
@@ -120,7 +120,6 @@ class Layout {
       tao,
       onLayoutComplete
     } = this;
-
 
     if (!barnes_hut && nodes.length > 300) barnes_hut = true;
     else if (barnes_hut && nodes.length <= 300) barnes_hut = false;

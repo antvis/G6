@@ -64,11 +64,9 @@ class Edge extends Item {
       return;
     }
     const keyShapePath = Util.cloneDeep(keyShape.attr('path'));
-    const marker = group.addShape('marker', {
+    const marker = group.addShape('path', {
       attrs: {
-        symbol: () => {
-          return path;
-        },
+        path,
         ...style
       }
     });

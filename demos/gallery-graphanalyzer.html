@@ -24,30 +24,8 @@
       //the plugins
       const Mapper = G6.Plugins['tool.mapper'];
       const MaxSpanningForestPlugin = G6.Plugins['template.maxSpanningForest'];
-
-      const menuCfg = {
-        lists: [{
-            html: '来源',
-            callBack: 'showSource',
-          },
-          {
-            html: '去向',
-            callBack: 'showTargets',
-          },
-          {
-            html: '来源去向',
-            callBack: 'showAll',
-          },
-          {
-            html: '查看。。。。',
-            callBack: function() {console.log('aaa')},
-          },
-        ],
-      };
-
       //the instances of plugins
       const maxSpanningForest = new MaxSpanningForestPlugin({
-        menuCfg,
         layoutCfg: {
           max_iteration: 600,
           kg: 10,
