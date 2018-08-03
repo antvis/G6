@@ -128,6 +128,5 @@ G6.registerBehaviour('wheelZoom', graph => {
     timeout = setTimeout(() => {
       timeout = undefined;
     }, 50);
-    graph.emit('afterzoom');
   }
 });

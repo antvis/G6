@@ -66,10 +66,6 @@ Shape.registerNode('common', {
     }
     return group.addShape('text', {
       class: 'label',
-      freezePoint: {
-        x: 0,
-        y: 0
-      },
       attrs
     });
   },
