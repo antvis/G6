@@ -7,6 +7,14 @@ const MathUtil = require('./math');
 const BaseUtil = require('./base');
 
 const GraphicUtil = {
+  /**
+   * set box1 into box2
+   * @param  {object} box1 - box1
+   * @param  {object} box2 - box2
+   * @param  {array} padding - autozoom padding
+   * @param  {function} limitRtio - limit ratio callback
+   * @return {object} matrix
+   */
   getAutoZoomMatrix(box1, box2, padding, limitRtio) {
     const matrix = [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ];
     const width = box1.maxX - box1.minX;

@@ -14,7 +14,7 @@ G6.registerEdge('flowingEdge', {
   afterDraw(item) {
     const keyShape = item.getKeyShape();
     keyShape.attr('lineDash', [10, 10]);
-    keyShape.attr('lineDashOffset', 0)
+    keyShape.attr('lineDashOffset', 0);
     keyShape.animate({
       lineDashOffset: -20,
       repeat: true

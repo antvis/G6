@@ -51,37 +51,11 @@ Mixin.AUGMENT = {
         graph: this
       });
       controllers.animate = animateController;
+      const animateDraw = Util.debounce(() => {
+        animateController.run();
+      }, 16);
+      this.set('_animateDraw', animateDraw);
     }
-    const simpleDraw = () => {
-      canvas.draw();
-      frontCanvas.draw();
-    };
-    const animateDraw = Util.debounce(() => {
-      animateController.run();
-    }, 16);
-    if (animateController) {
-      let updateStashTimeout;
-      this.draw = () => {
-        const forcePreventAnimate = this.get('forcePreventAnimate');
-        if (forcePreventAnimate) {
-          if (updateStashTimeout) {
-            clearTimeout(updateStashTimeout);
-          }
-          updateStashTimeout = setTimeout(() => {
-            animateController.updateStash();
-          }, 16);
-          simpleDraw();
-        } else {
-          animateDraw();
-        }
-      };
-    } else {
-      this.draw = simpleDraw;
-    }
-  },
-  drawFrontCanvas() {
-    const frontCanvas = this.get('_frontCanvas');
-    frontCanvas.draw();
   }
 };
 
