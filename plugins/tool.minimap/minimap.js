@@ -232,8 +232,6 @@ class Minimap {
     this.viewPort = viewPort;
     this.controlLayer = controlLayer;
   }
-  // 1. 为了防止画面闪烁 2. 为了缩略图中元素最小尺寸可控；所以这里采取了一种比较 hack 的方式绘制缩略图
-  // 大体思路是将 graph canvas 的 context 篡改为 minimap canvas 的 context，然后用 graph 的 canvas 去画
   renderBackground(graph) {
     if (!graph) {
       graph = this.getGraph();
@@ -247,7 +245,7 @@ class Minimap {
       height,
       canvas: miniMapCanvas
     });
-    this.miniMapMatrix = miniMapCanvas.getMatrix();
+    this.miniMapMatrix = miniMapCanvas.matrix;
   }
   renderViewPort(graph) {
     if (!graph) {

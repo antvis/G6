@@ -54,10 +54,11 @@ module.exports = {
       beforeTransform,
       afterTransform } = options;
     const graphCanvas = graph.getCanvas();
-    const graphBBox = graph.getCanvas().getBBox();
+    const graphBBox = graph.getBBox();
     const padding = graph.getFitViewPadding();
     const renderer = graph.get('renderer');
     const children = graphCanvas.get('children');
+    const matrixCache = BaseUtil.cloneDeep(graph.getMatrix());
     if (!canvas) {
       const containerDOM = DomUtil.createDOM('<canvas></canvas>');
       canvas = new G.Canvas({
@@ -73,10 +74,12 @@ module.exports = {
       maxY: height
     }, graphBBox, padding);
     beforeTransform(graph);
+    graph.setMatrix(matrix);
     canvas.set('renderer', renderer);
-    canvas.set('children', children);
-    canvas.setMatrix(matrix);
+    canvas.set('children', BaseUtil.cloneDeep(children));
+    canvas.matrix = matrix;
     canvas.draw();
+    graph.setMatrix(matrixCache);
     afterTransform(graph);
     return canvas.get('el');
   }

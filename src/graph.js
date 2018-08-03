@@ -17,9 +17,10 @@ const EventMixin = require('./mixin/event');
 const ModeMixin = require('./mixin/mode');
 const FilterMixin = require('./mixin/filter');
 const AnimateMixin = require('./mixin/animate');
+const DrawMixin = require('./mixin/draw');
 const FitView = require('./mixin/fit-view');
 const ForceFit = require('./mixin/force-fit');
-const Mixins = [ FilterMixin, MappingMixin, QueryMixin, AnimateMixin, ForceFit, LayoutMixin, FitView, EventMixin, ModeMixin ];
+const Mixins = [ FilterMixin, MappingMixin, QueryMixin, AnimateMixin, DrawMixin, ForceFit, LayoutMixin, FitView, EventMixin, ModeMixin ];
 const TAB_INDEX = 20;
 
 class Graph extends Base {
@@ -84,11 +85,18 @@ class Graph extends Base {
        * @type {string}
        */
       defaultIntersectBox: 'circle',
+
+      /**
+       * renderer canvas or svg
+       * @type {string}
+       */
       renderer: 'canvas',
+
       _controllers: {},
       _timers: {},
       _dataMap: {},
       _itemMap: {},
+      _freezMap: {},
       _data: {},
       _delayRunObj: {}
     };
@@ -189,25 +197,22 @@ class Graph extends Base {
     const frontCanvas = new Canvas(canvasCfg);
 
     const frontEl = frontCanvas.get('el');
-    const htmlElementContaniner = graphContainer.appendChild(Util.createDOM('<div class="graph-container-html-Elements"></div>'));
     frontEl.style.position = 'absolute';
     frontEl.style.top = 0;
     frontEl.style.left = 0;
-    htmlElementContaniner.style.overflow = 'hidden';
-    htmlElementContaniner.style.width = width + 'px';
-    htmlElementContaniner.style.height = height + 'px';
-    htmlElementContaniner.style.position = 'absolute';
-    htmlElementContaniner.style.top = 0;
-    htmlElementContaniner.style.left = 0;
+    frontEl.style.overflow = 'hidden';
+    frontEl.style.width = width + 'px';
+    frontEl.style.height = height + 'px';
+    frontEl.style.position = 'absolute';
+    frontEl.style.top = 0;
+    frontEl.style.left = 0;
 
     this.set('_canvas', canvas);
     this.set('_frontCanvas', frontCanvas);
-    this.set('_htmlElementContaniner', htmlElementContaniner);
     const mouseEventWrapper = this.getMouseEventWrapper();
     mouseEventWrapper.style.outline = 'none';
     mouseEventWrapper.style['user-select'] = 'none';
     mouseEventWrapper.setAttribute('tabindex', TAB_INDEX);
-    canvas.set('htmlElementContaniner', htmlElementContaniner);
 
     const rootGroup = canvas.addGroup();
     const frontRootGroup = frontCanvas.addGroup();
@@ -235,7 +240,7 @@ class Graph extends Base {
     return keyboardEventWrapper ? keyboardEventWrapper : this.getMouseEventWrapper();
   }
   getMouseEventWrapper() {
-    return this.get('_htmlElementContaniner');
+    return this.get('_frontCanvas').get('el');
   }
   /**
    * @param  {object} plugin - plugin instance
@@ -749,15 +754,10 @@ class Graph extends Base {
     }
     const canvas = this.get('_canvas');
     const frontCanvas = this.get('_frontCanvas');
-    const htmlElementContaniner = this.get('_htmlElementContaniner');
     if (width !== this.get('width') || height !== this.get('height')) {
       this.emit('beforechangesize');
       canvas.changeSize(width, height);
       frontCanvas.changeSize(width, height);
-      htmlElementContaniner.css({
-        width: width + 'px',
-        height: height + 'px'
-      });
 
       this.set('width', width);
       this.set('height', height);

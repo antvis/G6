@@ -92,18 +92,6 @@ Mixin.AUGMENT = {
     }, box, padding, ratio => {
       return this._getZoomRatio(ratio);
     });
-
-    // const centerX = (box.maxX + box.minX) / 2;
-    // const centerY = (box.maxY + box.minY) / 2;
-    // const cWidth = width - padding[1] - padding[3];
-    // const cHeight = height - padding[0] - padding[2];
-    // const bWidth = box.maxX - box.minX;
-    // const bHeight = box.maxY - box.minY;
-    // let ratio = Math.min(cHeight / bHeight, cWidth / bWidth);
-    // ratio = this._getZoomRatio(ratio);
-    // Util.mat3.translate(matrix, matrix, [ -centerX, -centerY ]);
-    // Util.mat3.scale(matrix, matrix, [ ratio, ratio ]);
-    // Util.mat3.translate(matrix, matrix, [ width / 2, height / 2 ]);
     this.updateMatrix(matrix);
   },
   /**
@@ -118,15 +106,12 @@ Mixin.AUGMENT = {
    * @return {Graph} this
    */
   updateMatrix(matrix) {
-    const rootGroup = this.get('_rootGroup');
-    const frontRootGroup = this.get('_frontRootGroup');
     const ev = {
       updateMatrix: matrix,
       originMatrix: this.getMatrix()
     };
     this.emit('beforeviewportchange', ev);
-    rootGroup.setMatrix(matrix);
-    frontRootGroup.setMatrix(matrix);
+    this.setMatrix(matrix);
     this.emit('afterviewportchange', ev);
     this.draw();
     return this;
@@ -199,6 +184,15 @@ Mixin.AUGMENT = {
   getMatrix() {
     const rootGroup = this.get('_rootGroup');
     return rootGroup.getMatrix();
+  },
+  /**
+   * @param {object} matrix - matrix
+   */
+  setMatrix(matrix) {
+    const rootGroup = this.get('_rootGroup');
+    const frontRootGroup = this.get('_frontRootGroup');
+    rootGroup.setMatrix(matrix);
+    frontRootGroup.setMatrix(matrix);
   },
   /**
    * @param {object} domPoint domPoint

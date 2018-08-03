@@ -17,10 +17,11 @@ describe('extend shape test', () => {
   };
   const rect = canvas.addShape('rect', {
     attrs: rectAttrs,
-    zIndex: 0
+    zIndex: 0,
+    class: 'aaa'
   });
-  it('getAttrs', () => {
-    expect(rect.getAttrs()).eqls(rectAttrs);
+  it('hasClass', () => {
+    expect(rect.hasClass('aaa')).eql(true);
   });
   it('destroy test canvas', () => {
     canvas.destroy();
