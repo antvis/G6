@@ -153,15 +153,16 @@ class Layout {
       widths
     };
 
-    // a loading dom before worker
+   // a loading dom before worker
     const loading = document.createElement('div');
     loading.id = 'loading';
     loading.style.setProperty('background-color', '#fff');
     loading.style.setProperty('position', 'absolute');
-    const parent = graph.getGraphContainer();
-    loading.style.setProperty('width', parent.width() + 'px');
-    loading.style.setProperty('height', parent.height() + 'px');
-    loading.style.setProperty('margin-top', (-parent.height()) + 'px');
+    const parent = graph.getGraphContainer().parentNode;
+    loading.style.setProperty('width', parent.offsetWidth + 'px');
+    loading.style.setProperty('height', parent.offsetHeight + 'px');
+    loading.style.setProperty('margin-top', (-parent.offsetHeight) + 'px');
+    loading.style.zIndex = 999;
     parent.appendChild(loading);
     // the loading image
     const loading_img = document.createElement('img');

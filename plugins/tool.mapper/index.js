@@ -58,7 +58,8 @@ class Plugin {
        * 是否数据对齐
        * @type  {boolean}
        */
-      nice: true
+      nice: true,
+      cur_range: [ 0, 100 ]
     }, {
       itemType,
       dim,
@@ -201,27 +202,32 @@ class Plugin {
       }
       // the listener to filter nodes and edges
       const slider = legend.get('slider');
-      slider.on('sliderchange', Util.throttle(ev => {
+      graph.on('afterlayout', () => {
         const domain = this.scale.values;
-        const cur_range = ev.range;
         const dim = this.dim;
         graph.addFilter(item => {
           if (item.isNode) {
             const val = item.model[dim];
             const percent = 100 * (val - domain[0]) / (domain[domain.length - 1] - domain[0]);
-            if (percent > cur_range[1] || percent < cur_range[0]) return false;
+            if (percent > this.cur_range[1] || percent < this.cur_range[0]) {
+              return false;
+            }
             return true;
           } else if (item.isEdge) {
             const source_val = item.source.model[dim];
             const source_percent = 100 * (source_val - domain[0]) / (domain[domain.length - 1] - domain[0]);
-            const source_visible = (source_percent <= cur_range[1] && source_percent >= cur_range[0]);
+            const source_visible = (source_percent <= this.cur_range[1] && source_percent >= this.cur_range[0]);
             const target_val = item.target.model[dim];
             const target_percent = 100 * (target_val - domain[0]) / (domain[domain.length - 1] - domain[0]);
-            const target_visible = (target_percent <= cur_range[1] && target_percent >= cur_range[0]);
+            const target_visible = (target_percent <= this.cur_range[1] && target_percent >= this.cur_range[0]);
             if (!source_visible || !target_visible) return false;
             return true;
           }
         });
+      });
+
+      slider.on('sliderchange', Util.throttle(ev => {
+        this.cur_range = ev.range;
         graph.filter();
       }, 100));
     }
@@ -338,7 +344,7 @@ class Plugin {
     Util.each(range, (val, i) => {
       const percent = (domain[i] - scale.min) / (scale.max - scale.min);
       let item_text = domain[i];
-      if (legendCfg.formatter !== undefined && legendCfg.formmater !== null) {
+      if (legendCfg.formatter !== undefined && legendCfg.formatter !== null) {
         item_text = legendCfg.formatter(domain[i]);
       }
       items.push({
