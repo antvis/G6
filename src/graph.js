@@ -98,7 +98,7 @@ class Graph extends Base {
     const cfg = {};
 
     Mixins.forEach(Mixin => {
-      Util.mix(cfg, Mixin.CFG, inputCfg);
+      Util.mix(cfg, Util.cloneDeep(Mixin.CFG), inputCfg);
     });
     super(cfg);
     // plugin should init before all

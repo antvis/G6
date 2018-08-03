@@ -25,7 +25,7 @@
       const Mapper = G6.Plugins['tool.mapper'];
       const MaxSpanningForestPlugin = G6.Plugins['template.maxSpanningForest'];
       //the instances of plugins
-      const maxSpanningForest = new MaxSpanningForestPlugin({
+      let maxSpanningForest = new MaxSpanningForestPlugin({
         layoutCfg: {
           max_iteration: 600,
           kg: 10,
@@ -38,24 +38,34 @@
           }
         }
       });
-      const nodeSizeMapper = new Mapper('node', 'userview', 'size', [20, 50], {
+      let nodeSizeMapper = new Mapper('node', 'userview', 'size', [20, 50], {
         legendCfg: {
           containerId: 'legend',
           title: 'UV',
-          layout: 'horizontal'
+          layout: 'horizontal',
+          // formatter: function(num) {
+          //   console.log(num);
+          //   num = num * num;
+          //   if (num >= 100000000) {
+          //     return num / 100000000 + '亿';
+          //   } if (num >= 10000) {
+          //     return num / 10000 + '万';
+          //   }
+          // return num;
+          // }
         }
       });
-      const edgeSizeMapper = new Mapper('edge', 'userview', 'size', [1, 16], {
+      let edgeSizeMapper = new Mapper('edge', 'userview', 'size', [1, 16], {
         legendCfg: null
       });
-      const nodeColorMapper = new Mapper('node', 'stayTime', 'color', ['#BAE7FF', '#1890FF', '#0050B3'], {
+      let nodeColorMapper = new Mapper('node', 'stayTime', 'color', ['#BAE7FF', '#1890FF', '#0050B3'], {
         legendCfg: {
           containerId: 'legend',
           title: 'Stay Time',
           layout: 'horizontal'
         }
       });
-      const minimapPlugin = new G6.Plugins['tool.minimap']({
+      let minimapPlugin = new G6.Plugins['tool.minimap']({
         container: 'minimap',
         width: 180,
         height: 120
@@ -67,7 +77,7 @@
         id: 'mountNode', // dom id
         fitView: 'cc',
         plugins: [
-          maxSpanningForest, nodeSizeMapper, nodeColorMapper, edgeSizeMapper, minimapPlugin
+          maxSpanningForest, nodeColorMapper, minimapPlugin, edgeSizeMapper, nodeSizeMapper, 
         ],
         modes: {
           default: ['panCanvas', 'wheelZoom']
@@ -79,9 +89,7 @@
       const legend = document.getElementById('legend');
       if (minimap !== undefined) minimap.style.display = 'none';
       if (legend !== undefined) legend.style.display = 'none';
-      // setTimeout(()=>{
-      //   graph.destroy();
-      // }, 1000)
+
     });
 
   </script>
