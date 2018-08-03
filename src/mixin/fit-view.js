@@ -106,12 +106,16 @@ Mixin.AUGMENT = {
    * @return {Graph} this
    */
   updateMatrix(matrix) {
+    const originMatrix = this.getMatrix();
     const ev = {
       updateMatrix: matrix,
-      originMatrix: this.getMatrix()
+      originMatrix
     };
+    const zoomBool = originMatrix[0] !== matrix[0];
     this.emit('beforeviewportchange', ev);
+    zoomBool && this.emit('beforezoom', ev);
     this.setMatrix(matrix);
+    zoomBool && this.emit('afterzoom', ev);
     this.emit('afterviewportchange', ev);
     this.draw();
     return this;
