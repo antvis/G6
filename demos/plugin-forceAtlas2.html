@@ -15,19 +15,19 @@
   <script>
     $.getJSON('../../test/fixtures/viralMarketing.json', data => {
       const Plugin = G6.Plugins['layout.forceAtlas2'];
-      const layout_params = {
-        max_iteration: 1500,
-        prev_overlapping: true,
+      const layoutParams = {
+        maxIteration: 1500,
+        prevOverlapping: true,
         kr: 15,
         mode: 'normal',
-        barnes_hut: false, // may be counter-productive on small networks
+        barnesHut: false, // may be counter-productive on small networks
         ks: 0.1,
-        dissuade_hubs: false
+        dissuadeHubs: false
       };
       graph = new G6.Graph({
         id: 'mountNode', // dom id
         fitView: 'autoZoom',
-        plugins: [new Plugin(layout_params)],
+        plugins: [new Plugin(layoutParams)],
         minZoom: 0,
         modes: {
           default: ['panCanvas']
