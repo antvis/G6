@@ -76,7 +76,10 @@
           const labelBox = label.getBBox();
           let dx = (box.maxX - box.minX + labelBox.maxX - labelBox.minX) / 2+ 8;
           let dy = 0;
-          label.translate(dx, dy);
+          label.attr({
+            x: dx,
+            y: dy
+          });
         });
         tree.draw();
       });

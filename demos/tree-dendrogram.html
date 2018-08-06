@@ -90,7 +90,10 @@
           if (children.length != 0) {
             dx = -dx;
           }
-          label.translate(dx, dy);
+          label.attr({
+            x: dx,
+            y: dy
+          });
         });
         tree.draw();
       });
@@ -98,6 +101,9 @@
       // 加载数据
       // 渲染树图
       tree.read({ roots: [data] });
+      // tree.on('click', ev=>{
+      //   console.log(ev.shape)
+      // });
     });
   </script>
 </body>

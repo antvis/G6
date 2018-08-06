@@ -88,7 +88,10 @@
           if (children.length != 0) {
             dx = -dx;
           }
-          label.translate(dx, dy);
+          label.attr({
+            x: dx,
+            y: dy
+          });
         });
         tree.draw();
       });

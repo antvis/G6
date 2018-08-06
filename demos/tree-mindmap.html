@@ -99,7 +99,10 @@
           } else {
             dx = 0;
           }
-          label.translate(dx, dy);
+          label.attr({
+            x: dx,
+            y: dy
+          });
         });
         tree.draw();
       });
