@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "2.0.5-beta.17",
+  "version": "2.0.5-beta.27",
   "description": "graph visualization frame work",
   "main": "build/g6.js",
   "homepage": "https://github.com/antvis/g6",
@@ -94,6 +94,7 @@
     "lint-fix": "eslint --ext .html,.js --fix ./",
     "mkdir-dist": "node ./bin/mkdir-dist.js",
     "prepublishOnly": "npm run build-lib && npm run dist && node ./bin/version.js",
+    "publish": "tnpm sync",
     "screenshot": "node ./bin/screenshot.js",
     "start": "npm run dev",
     "test": "torch --compile --renderer --recursive ./test/unit",
