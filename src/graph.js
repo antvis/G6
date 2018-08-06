@@ -684,9 +684,6 @@ class Graph extends Base {
       item.getEdges().forEach(edge => {
         edge.hide();
       });
-      // item.getInnerEdges().forEach(edge => {
-      //   edge.hide();
-      // });
       item.deepEach(child => {
         child.hide();
       });
