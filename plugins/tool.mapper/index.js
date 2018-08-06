@@ -59,7 +59,7 @@ class Plugin {
        * @type  {boolean}
        */
       nice: true,
-      cur_range: [ 0, 100 ]
+      curRange: [ 0, 100 ]
     }, {
       itemType,
       dim,
@@ -202,32 +202,30 @@ class Plugin {
       }
       // the listener to filter nodes and edges
       const slider = legend.get('slider');
-      graph.on('afterlayout', () => {
-        const domain = this.scale.values;
-        const dim = this.dim;
-        graph.addFilter(item => {
-          if (item.isNode) {
-            const val = item.model[dim];
-            const percent = 100 * (val - domain[0]) / (domain[domain.length - 1] - domain[0]);
-            if (percent > this.cur_range[1] || percent < this.cur_range[0]) {
-              return false;
-            }
-            return true;
-          } else if (item.isEdge) {
-            const source_val = item.source.model[dim];
-            const source_percent = 100 * (source_val - domain[0]) / (domain[domain.length - 1] - domain[0]);
-            const source_visible = (source_percent <= this.cur_range[1] && source_percent >= this.cur_range[0]);
-            const target_val = item.target.model[dim];
-            const target_percent = 100 * (target_val - domain[0]) / (domain[domain.length - 1] - domain[0]);
-            const target_visible = (target_percent <= this.cur_range[1] && target_percent >= this.cur_range[0]);
-            if (!source_visible || !target_visible) return false;
-            return true;
+      const domain = this.scale.values;
+      const dim = this.dim;
+      graph.addFilter(item => {
+        if (item.isNode) {
+          const val = item.model[dim];
+          const percent = 100 * (val - domain[0]) / (domain[domain.length - 1] - domain[0]);
+          if (percent > this.curRange[1] || percent < this.curRange[0]) {
+            return false;
           }
-        });
+          return true;
+        } else if (item.isEdge) {
+          const sourceVal = item.source.model[dim];
+          const sourcePercent = 100 * (sourceVal - domain[0]) / (domain[domain.length - 1] - domain[0]);
+          const sourceVisible = (sourcePercent <= this.curRange[1] && sourcePercent >= this.curRange[0]);
+          const targetVal = item.target.model[dim];
+          const targetPercent = 100 * (targetVal - domain[0]) / (domain[domain.length - 1] - domain[0]);
+          const targetVisible = (targetPercent <= this.curRange[1] && targetPercent >= this.curRange[0]);
+          if (!sourceVisible || !targetVisible) return false;
+          return true;
+        }
       });
 
       slider.on('sliderchange', Util.throttle(ev => {
-        this.cur_range = ev.range;
+        this.curRange = ev.range;
         graph.filter();
       }, 100));
     }
@@ -343,14 +341,14 @@ class Plugin {
     const items = [];
     Util.each(range, (val, i) => {
       const percent = (domain[i] - scale.min) / (scale.max - scale.min);
-      let item_text = domain[i];
+      let itemText = domain[i];
       if (legendCfg.formatter !== undefined && legendCfg.formatter !== null) {
-        item_text = legendCfg.formatter(domain[i]);
+        itemText = legendCfg.formatter(domain[i]);
       }
       items.push({
         text: domain[i],
         attrValue: val,
-        value: item_text, // the number label of the slider
+        value: itemText, // the number label of the slider
         scaleValue: percent
       });
     });
@@ -398,14 +396,14 @@ class Plugin {
     const items = [];
     Util.each(range, (val, i) => {
       const dom = domain[0] + domainStep * i;
-      let item_text = dom;
+      let itemText = dom;
       if (legendCfg.formatter !== undefined && legendCfg.formmater !== null) {
-        item_text = legendCfg.formatter(dom);
+        itemText = legendCfg.formatter(dom);
       }
       items.push({
         text: dom,
         attrValue: val,
-        value: item_text // the number label of the slider
+        value: itemText // the number label of the slider
       });
     });
     const cfg = {

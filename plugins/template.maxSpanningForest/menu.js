@@ -9,7 +9,7 @@ const Util = G6.Util;
 class Menu {
   constructor(options) {
     Util.mix(this, {
-      container_id: '',
+      containerId: '',
       clickType: 'in'
     }, options);
     this.createMenu();
@@ -26,15 +26,15 @@ class Menu {
   createMenu() {
     const graph = this.graph;
     const menuCfg = this.menuCfg;
-    const container_id = this.container_id;
+    const containerId = this.containerId;
 
     const menuHtml = `<ul class="menu" style = "
       position: absolute;
       display: none;"></ul>`;
     const menu = Util.createDOM(menuHtml);
     let parent = graph.getGraphContainer();
-    if (container_id !== '' && container_id !== undefined) {
-      parent = document.getElementById(container_id);
+    if (containerId !== '' && containerId !== undefined) {
+      parent = document.getElementById(containerId);
     }
     parent.appendChild(menu);
 
@@ -62,12 +62,12 @@ class Menu {
   showSource(node) {
     const graph = this.graph;
     const {
-      re_nodes,
-      re_edges
+      reNodes,
+      reEdges
     } = Util.extract(graph, 'in', 1, [ node ]);
     graph.highlightSubgraph({
-      re_nodes,
-      re_edges
+      reNodes,
+      reEdges
     });
     // show the hided edge, which is not tree edge and it is in the es
     // and the source and targert of the edge are both visible
@@ -75,7 +75,7 @@ class Menu {
     Util.each(edges, edge => {
       if (!edge.isVisible() && !edge.getModel().isTreeEdge &&
         edge.getSource().isVisible() && edge.getTarget().isVisible()) {
-        Util.each(re_edges, e => {
+        Util.each(reEdges, e => {
           if (edge.id === e.id) {
             edge.show();
           }
@@ -89,12 +89,12 @@ class Menu {
   showTargets(node) {
     const graph = this.graph;
     const {
-      re_nodes,
-      re_edges
+      reNodes,
+      reEdges
     } = Util.extract(graph, 'out', 1, [ node ]);
     graph.highlightSubgraph({
-      re_nodes,
-      re_edges
+      reNodes,
+      reEdges
     });
     // show the hided edge, which is not tree edge and it is in the es
     // and the source and targert of the edge are both visible
@@ -102,7 +102,7 @@ class Menu {
     Util.each(edges, edge => {
       if (!edge.isVisible() && !edge.getModel().isTreeEdge &&
         edge.getSource().isVisible() && edge.getTarget().isVisible()) {
-        Util.each(re_edges, e => {
+        Util.each(reEdges, e => {
           if (edge.id === e.id) {
             edge.show();
           }
@@ -115,12 +115,12 @@ class Menu {
   showAll(node) {
     const graph = this.graph;
     const {
-      re_nodes,
-      re_edges
+      reNodes,
+      reEdges
     } = Util.extract(graph, 'bi', 1, [ node ]);
     graph.highlightSubgraph({
-      re_nodes,
-      re_edges
+      reNodes,
+      reEdges
     });
     // show the hided edge, which is not tree edge and it is in the es
     // and the source and targert of the edge are both visible
@@ -128,7 +128,7 @@ class Menu {
     Util.each(edges, edge => {
       if (!edge.isVisible() && !edge.getModel().isTreeEdge &&
         edge.getSource().isVisible() && edge.getTarget().isVisible()) {
-        Util.each(re_edges, e => {
+        Util.each(reEdges, e => {
           if (edge.id === e.id) {
             edge.show();
           }

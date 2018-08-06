@@ -9,8 +9,8 @@ const Fisheye = require('./tool');
 class Plugin {
   constructor(options) {
     Util.mix(this, {
-      ori_xs: [],
-      ori_ys: []
+      oriXs: [],
+      oriYs: []
     }, options);
   }
   init() {
@@ -23,10 +23,10 @@ class Plugin {
       graph.on('mousemove', Util.throttle(ev => {
         const nodes = graph.getNodes();
         const size = nodes.length;
-        if (this.ori_xs.length !== size) return;
+        if (this.oriXs.length !== size) return;
         for (let i = 0; i < size; i += 1) {
-          nodes[i].getModel().x = this.ori_xs[i];
-          nodes[i].getModel().y = this.ori_ys[i];
+          nodes[i].getModel().x = this.oriXs[i];
+          nodes[i].getModel().y = this.oriYs[i];
         }
         fisheye.zoom(ev.x, ev.y);
         graph.updateNodePosition();
@@ -39,16 +39,16 @@ class Plugin {
       if (ev === undefined || ev.item === undefined) {
         for (let i = 0; i < size; i++) {
           if (nodes[i].getModel().x === undefined) return;
-          this.ori_xs[i] = nodes[i].getModel().x;
-          this.ori_ys[i] = nodes[i].getModel().y;
+          this.oriXs[i] = nodes[i].getModel().x;
+          this.oriYs[i] = nodes[i].getModel().y;
         }
       } else if (ev.item.type !== 'node' || (!ev.updateModel.x && !ev.updateModel.y)) return;
       else {
         const item = graph.find(ev.originModel.id);
         for (let i = 0; i < size; i++) {
           if (nodes[i].getModel().id === item.id) {
-            this.ori_x[i] = ev.updateModel.x;
-            this.ori_y[i] = ev.updateModel.y;
+            this.oriXs[i] = ev.updateModel.x;
+            this.oriYs[i] = ev.updateModel.y;
           }
         }
       }
