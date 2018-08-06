@@ -42,9 +42,9 @@ class Tool {
       const dist = Math.hypot(node.x - center[0], node.y - center[1]);
       if (dist < radius) {
         // take the center as the origin
-        const moved_coords = [ node.x - center[0], node.y - center[1] ];
+        const movedCoords = [ node.x - center[0], node.y - center[1] ];
         // transform to polar coordinates
-        const { p, theta } = Rect2Polar(moved_coords[0], moved_coords[1]);
+        const { p, theta } = Rect2Polar(movedCoords[0], movedCoords[1]);
         const pf = radius * (((d + 1) * (p / radius)) / (d * (p / radius) + 1)); // after fisheye zooming
         // transform to rect coordinates
         const { x, y } = Polar2Rect(pf, theta);

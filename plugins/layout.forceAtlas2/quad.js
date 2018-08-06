@@ -24,7 +24,7 @@ class Quad {
      * the mass center of this quad
      * @type  {number}
      */
-    this.mass_center = params.mass_center;
+    this.massCenter = params.massCenter;
     /**
      * the mass of this quad
      * @type  {number}
