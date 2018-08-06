@@ -3,10 +3,10 @@
 Highlight a subgraph and weaken the rest of the graph.
 
 interface:
-- highlightSubgraph(hl_items)
+- highlightSubgraph(hlItems)
   hightlight a subgraph
   params:
-  - hl_items: the items which will be highlighted
+  - hlItems: the items which will be highlighted
 
 - restoreGraph()
   restore the graph to the un-lighlighted style.
@@ -58,7 +58,7 @@ const graph = new G6.Graph({
 graph.read(data);
 const nodes = graph.getNodes();
 const edges = graph.getEdges();
-const re_nodes = [nodes[0], nodes[1]];
-const re_edges = [edges[0]];
-graph.highlightSubgraph({re_nodes, re_edges});
+const reNodes = [nodes[0], nodes[1]];
+const reEdges = [edges[0]];
+graph.highlightSubgraph({reNodes, reEdges});
 ```

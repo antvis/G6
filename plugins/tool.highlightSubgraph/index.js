@@ -35,11 +35,11 @@ class Plugin {
       this.graph.restoreGraph = this.restoreGraph;
     });
   }
-  highlightSubgraph(hl_items) {
+  highlightSubgraph(hlItems) {
     this.restoreGraph();
     // sort the group items
-    const ns = hl_items.re_nodes;
-    const es = hl_items.re_edges;
+    const ns = hlItems.reNodes;
+    const es = hlItems.reEdges;
     const group = this.getItemGroup();
     const items = this.getItems();
     Util.each(items, i => {
