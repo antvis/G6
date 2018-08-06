@@ -68,11 +68,17 @@ Util.augment(Mixin, {
    * @return {object}  this
    */
   clear(bool) {
-    const children = this.get('children');
-    bool = bool !== false;
-    while (children.length !== 0) {
-      children[children.length - 1].remove(bool);
+    // const children = this.get('children');
+    // bool = bool !== false;
+    // while (children.length !== 0) {
+    //   children[children.length - 1].remove(bool);
+    // }
+    // return this;
+    const children = this._cfg.children;
+    for (let i = children.length - 1; i >= 0; i--) {
+      children[i].remove(bool);
     }
+    this._cfg.children = [];
     return this;
   }
 });
