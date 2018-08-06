@@ -81,7 +81,7 @@
   "scripts": {
     "build": "webpack",
     "build-lib": "babel src --out-dir lib",
-    "ci": "npm run lint && npm run test",
+    "ci": "npm run lint && npm run build && npm run test",
     "copy": "node ./bin/cp-dist.js",
     "coverage": "npm run coverage-generator && npm run coverage-viewer",
     "coverage-generator": "torch --compile --coverage --renderer --recursive --source-pattern index.js,src/**/*.js test/unit",
