@@ -77,14 +77,14 @@ class Body {
   }
   // returns a new body
   add(bo) {
-    const nenw_mass = this.mass + bo.mass;
-    const x = (this.rx * this.mass + bo.rx * bo.mass) / nenw_mass;
-    const y = (this.ry * this.mass + bo.ry * bo.mass) / nenw_mass;
+    const nenwMass = this.mass + bo.mass;
+    const x = (this.rx * this.mass + bo.rx * bo.mass) / nenwMass;
+    const y = (this.ry * this.mass + bo.ry * bo.mass) / nenwMass;
     const dg = this.degree + bo.degree;
     const params = {
       rx: x,
       ry: y,
-      mass: nenw_mass,
+      mass: nenwMass,
       degree: dg
     };
     return new Body(params);
