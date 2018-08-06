@@ -13,9 +13,9 @@ template.maxSpanningForest for jiuselu graph analyzer, which is a plugin for gra
 
 parameter for this plugin:
 - layoutCfg: the configuration for layout.
-  - max_iteration: the number of iteration for terminating the layout algorithm
+  - maxIteration: the number of iteration for terminating the layout algorithm
   - kg: the gravity parameter for layout. The larger kg, more compact the graph, expecialy for the isolated subgraphs.
-  - prev_overlapping: whether preventing the node overlapping
+  - prevOverlapping: whether preventing the node overlapping
   - onLayoutComplete: a listener for layout completement. When the layout is complete, the loading div and img disappear.
 - menuCfg: the configuration for menu
   example: 
@@ -46,10 +46,10 @@ To navigate an item (a node or edge) by id or item, if this item is not in the v
   graph.navigate(item); // item or id
 
 To create the menu which follows the mouse click:
-  graph.createMenu(func, container_id); 
+  graph.createMenu(func, containerId); 
     params: 
     - func is the onclick listener for the li '查看单页分析详情'
-    - container_id is the DOM id of the menu container.
+    - containerId is the DOM id of the menu container.
   
 ## use
 
@@ -60,9 +60,9 @@ const MaxSpanningForestPlugin = G6.Plugins['template.maxSpanningForest'];
 //the instances of plugins
 const maxSpanningForest = new MaxSpanningForestPlugin({
   layoutCfg: {
-    max_iteration: 600,
+    maxIteration: 600,
     kg: 10,
-    prev_overlapping: true,
+    prevOverlapping: true,
     onLayoutComplete: function () {
       const minimap = document.getElementById('minimap');
       const legend = document.getElementById('legend');

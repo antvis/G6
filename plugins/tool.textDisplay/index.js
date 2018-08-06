@@ -26,10 +26,10 @@ class Plugin {
       const model = node.getModel();
       const label = node.getLabel();
       const labelBox = label.getBBox();
-      const label_width = labelBox.maxX - labelBox.minX;
-      const node_width = model.size * scale;
-      if (label_width === 0) return;
-      const ratio = label_width / node_width;
+      const labelWidth = labelBox.maxX - labelBox.minX;
+      const nodeWidth = model.size * scale;
+      if (labelWidth === 0) return;
+      const ratio = labelWidth / nodeWidth;
       if (ratio > 2) {
         label.hide();
       } else {
