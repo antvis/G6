@@ -14,6 +14,9 @@ class Plugin {
     this.graph.on('afterchange', () => {
       this.textDisplay();
     });
+    this.graph.on('afterviewportchange', () => {
+      this.textDisplay();
+    });
     this.graph.on('afterzoom', () => {
       this.textDisplay();
     });
@@ -23,8 +26,8 @@ class Plugin {
     const nodes = graph.getNodes();
     const scale = graph.getMatrix()[0];
     Util.each(nodes, node => {
-      const model = node.getModel();
       const label = node.getLabel();
+      const model = node.getModel();
       const labelBox = label.getBBox();
       const label_width = labelBox.maxX - labelBox.minX;
       const node_width = model.size * scale;
@@ -35,8 +38,8 @@ class Plugin {
       } else {
         label.show();
       }
-      graph.draw();
     });
+    graph.draw();
   }
 }
 

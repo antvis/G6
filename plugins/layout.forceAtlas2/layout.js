@@ -166,14 +166,14 @@ class Layout {
     // the loading image
     const loading_img = document.createElement('img');
     loading_img.src = 'https://gw.alipayobjects.com/zos/rmsportal/mnEmjOmrHbghTsZNeTmI.gif';
-    loading_img.style.setProperty('width', 200 + 'px');
-    loading_img.style.setProperty('height', 200 + 'px');
-    const Cw = loading_img.offsetWidth;
-    const Pw = loading.offsetWidth;
+    loading_img.style.setProperty('width', 120 + 'px');
+    loading_img.style.setProperty('height', 120 + 'px');
+    const Cw = 120;
+    const Pw = parent.width();
     const left = (Pw - Cw) / 2;
     loading_img.style.setProperty('margin-left', left + 'px');
-    const Ch = loading_img.offsetHeight;
-    const Ph = loading.offsetHeight;
+    const Ch = 120;
+    const Ph = parent.height();
     const top = (Ph - Ch) / 2;
     loading_img.style.setProperty('margin-top', top + 'px');
     loading.appendChild(loading_img);
