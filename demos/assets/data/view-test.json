@@ -1,114 +1,133 @@
 {
   "nodes": [{
     "id": "1965",
+    "viewName": "aaaaaaaaaaaaaaaaaaaa",
     "userview": 606,
     "pageview": 1723,
     "stayTime": 40,
     "class" : "a"
   }, {
     "id": "1966",
+    "viewName": "aaaaaaaaaaaaaaaaaaaa",
     "userview": 627,
     "pageview": 907,
     "stayTime": 11,
     "class" : "a"
   }, {
     "id": "1967",
+    "viewName": "aaaaaaaaaaaaaaaaaaaa",
     "userview": 56,
     "pageview": 107,
     "stayTime": 10,
     "class" : "a"
   }, {
     "id": "1968",
+    "viewName": "aaaaaaaaaaaaaaaaaaaa",
     "userview": 31,
     "pageview": 40,
     "stayTime": 10,
     "class" : "a"
   }, {
     "id": "2003",
+    "viewName": "aaaaaaaaaaaaaaaaaaaa",
     "userview": 31,
     "pageview": 46,
     "stayTime": 28,
     "class" : "a"
   }, {
     "id": "2060",
+    "viewName": "aaaaaaaaaaaaaaaaaaaa",
     "userview": 5,
     "pageview": 8,
     "stayTime": 7,
     "class" : "a"
   }, {
     "id": "2303",
+    "viewName": "aaaaaaaaaaaaaaaaaaaa",
     "userview": 117,
     "pageview": 299,
     "stayTime": 3,
     "class" : "a"
   }, {
     "id": "2304",
+    "viewName": "aaaaaaaaaaaaaaaaaaaa",
     "userview": 35,
     "pageview": 96,
     "stayTime": 2,
     "class" : "a"
   }, {
     "id": "2316",
+    "viewName": "aaaaaaaaaaaaaaaaaaaa",
     "userview": 1258,
     "pageview": 2011,
     "stayTime": 5,
     "class" : "a"
   }, {
     "id": "3041",
+    "viewName": "aaaaaaaaaaaaaaaaaaaa",
     "userview": 759,
     "pageview": 3337,
     "stayTime": 5,
     "class" : "a"
   }, {
     "id": "3042",
+    "viewName": "aaaaaaaaaaaaaaaaaaaa",
     "userview": 64,
     "pageview": 246,
     "stayTime": 7,
     "class" : "c"
   }, {
     "id": "3077",
+    "viewName": "aaaaaaaaaaaaaaaaaaaa",
     "userview": 404,
     "pageview": 1422,
     "stayTime": 4,
     "class" : "c"
   }, {
     "id": "3078",
+    "viewName": "aaaaaaaaaaaaaaaaaaaa",
     "userview": 8,
     "pageview": 10,
     "stayTime": 2,
     "class" : "c"
   }, {
     "id": "3081",
+    "viewName": "aaaaaaaaaaaaaaaaaaaa",
     "userview": 134,
     "pageview": 506,
     "stayTime": 8,
     "class" : "c"
   }, {
     "id": "3083",
+    "viewName": "aaaaaaaaaaaaaaaaaaaa",
     "userview": 24,
     "pageview": 70,
     "stayTime": 12,
     "class" : "c"
   }, {
     "id": "3084",
+    "viewName": "aaaaaaaaaa",
     "userview": 5,
     "pageview": 7,
     "stayTime": 31,
     "class" : "b"
   }, {
     "id": "3328",
+    "viewName": "aaaaaaaaaaaaaaaaaaaa",
     "userview": 31,
     "pageview": 44,
     "stayTime": 11,
     "class" : "b"
   }, {
     "id": "3413",
+    "viewName": "aaaaaaaaaaaaaaaaaaaa",
     "userview": 130,
     "pageview": 215,
     "stayTime": 4,
     "class" : "b"
   }, {
     "id": "3589",
+    "viewName": "aaaaaaaaaaaaaaaaaaaa",
     "userview": 35,
     "pageview": 52,
     "stayTime": 35,
