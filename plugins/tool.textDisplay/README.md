@@ -1,6 +1,6 @@
 ## textDisplay
 
-Hide the labels when the width of the text are 2 times bigger than the parent node.
+Hide the labels when the width of the text is 2 times bigger than the parent node.
 
 
 ## use
