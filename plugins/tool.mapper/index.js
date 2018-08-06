@@ -239,36 +239,6 @@ class Plugin {
     this.legendHeight = legendHeight;
     canvas.draw();
   }
-  updateLegendPosition() {
-    const legend = this.legend;
-    if (!legend) {
-      return;
-    }
-    const canvas = this.legendCanvas;
-    const legendCfg = this.legendCfg;
-    const marginTop = legendCfg.marginTop ? legendCfg.marginTop : 0;
-    const marginLeft = legendCfg.marginLeft ? legendCfg.marginLeft : 0;
-    const marginBottom = legendCfg.marginBottom ? legendCfg.marginBottom : 0;
-    const marginRight = legendCfg.marginRight ? legendCfg.marginRight : 0;
-    const position = legendCfg.position ? legendCfg.position : 'br';
-    const graph = this.graph;
-    const graphWidth = graph.get('width');
-    const graphHeight = graph.get('height');
-    const el = canvas.get('el');
-    const legendWidth = this.legendWidth;
-    const legendHeight = this.legendHeight;
-
-    const tl = Util.getNineBoxPosition(position, {
-      x: 0,
-      y: 0,
-      width: graphWidth,
-      height: graphHeight
-    }, legendWidth, legendHeight, [ marginTop, marginRight, marginBottom, marginLeft ]);
-
-    el.style.position = 'absolute';
-    el.style.top = tl.y + 'px';
-    el.style.left = tl.x + 'px';
-  }
   _createCatLegend(canvas) {
     const scale = this.scale;
     const range = scale.range;
@@ -312,7 +282,6 @@ class Plugin {
     const range = scale.range;
     const domain = scale.values;
     const legendCfg = this.legendCfg;
-    // let legendTitle = legendCfg.legendTitle;
     let legendTitle = legendCfg.title;
     if (legendTitle === '' || legendTitle === undefined) {
       legendTitle = this.dim;
@@ -444,12 +413,6 @@ class Plugin {
       return scale.scale(model[dim]);
     });
   }
-  _checkInput() {
-    const itemType = this.itemType;
-    const graph = this.graph;
-    const itemModels = graph.get(itemType + 's');
-    return graph && itemModels && itemModels.length > 0;
-  }
   _scaleSelector(type, domain) {
     const params = {
       min: domain[0],
@@ -460,10 +423,6 @@ class Plugin {
         return Scale.linear({
           min: domain[0],
           max: domain[domain.length - 1]
-        });
-      case 'Identity':
-        return Scale.identity({
-          value: 'red'
         });
       case 'Category':
         return Scale.cat({
