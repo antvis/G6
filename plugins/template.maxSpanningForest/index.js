@@ -43,10 +43,10 @@ class Plugin {
           kr: 120,
           kg: 8.0,
           mode: 'common',
-          prev_overlapping: true,
-          dissuade_hubs: false,
-          max_iteration: 1000,
-          barnes_hut: true,
+          prevOverlapping: true,
+          dissuadeHubs: false,
+          maxIteration: 1000,
+          barnesHut: true,
           ks: 0.1,
           ksmax: 10,
           tao: 0.1,
@@ -55,13 +55,13 @@ class Plugin {
       },
       fisheye: true,
       menu: null,
-      pre_navi: {},
-      edge_style: {
+      preNavi: {},
+      edgeStyle: {
         endArrow: true,
         stroke: '#4F7DAB',
         strokeOpacity: 0.65
       },
-      node_style: {
+      nodeStyle: {
         stroke: '#696969',
         strokeOpacity: 0.4,
         lineWidth: 1
@@ -148,21 +148,21 @@ class Plugin {
       if (!model.isTreeEdge || typeof model.isTreeEdge === 'undefined') model.shape = 'quadraticCurve';
     }
     graph.edge({
-      style: this.edge_style
+      style: this.edgeStyle
     });
     graph.node({
       label: this.node_label,
-      style: this.node_style
+      style: this.nodeStyle
     });
   }
   activeItem(item) {
     const graph = this.graph;
-    const pre_navi = this.pre_navi;
+    const preNavi = this.preNavi;
     if (Util.isString(item)) {
       item = graph.find(item);
     }
     let style = {};
-    let pre_style = {};
+    let preStyle = {};
     if (item.type === 'node') {
       style = {
         stroke: '#fff',
@@ -170,29 +170,29 @@ class Plugin {
         shadowColor: '#6a80aa',
         shadowBlur: 20
       };
-      pre_style = this.node_style;
+      preStyle = this.nodeStyle;
     } else if (item.type === 'edge') {
       style = {
         endArrow: true,
         stroke: '#4C7295',
         strokeOpacity: 1
       };
-      pre_style = this.edge_style;
+      preStyle = this.edgeStyle;
     } else return;
 
     // unactive the previous navigate node
-    if (pre_navi !== {} && pre_navi !== null && pre_navi !== undefined && pre_navi.item !== null) {
-      graph.update(pre_navi.item, {
-        style: pre_navi.style
+    if (preNavi !== {} && preNavi !== null && preNavi !== undefined && preNavi.item !== null) {
+      graph.update(preNavi.item, {
+        style: preNavi.style
       });
     }
 
     graph.update(item, {
       style
     });
-    this.pre_navi = {
+    this.preNavi = {
       item,
-      style: pre_style
+      style: preStyle
     };
   }
   setListener() {
@@ -207,7 +207,7 @@ class Plugin {
     });
     graph.on('node:mouseleave', ev => {
       graph.update(ev.item, {
-        style: this.node_style
+        style: this.nodeStyle
       });
       graph.css({
         cursor: '-webkit-grab'
@@ -221,7 +221,7 @@ class Plugin {
     });
     graph.on('edge:mouseleave', ev => {
       graph.update(ev.item, {
-        style: this.edge_style
+        style: this.edgeStyle
       });
     });
 
@@ -230,9 +230,9 @@ class Plugin {
       item
     }) => {
       if (shape && item.isNode) {
-        const menu_x = item.getModel().x * graph.getMatrix()[0] + graph.getMatrix()[6];
-        const menu_y = item.getModel().y * graph.getMatrix()[0] + graph.getMatrix()[7];
-        this.menu.show(item, menu_x, menu_y);
+        const menuX = item.getModel().x * graph.getMatrix()[0] + graph.getMatrix()[6];
+        const menuY = item.getModel().y * graph.getMatrix()[0] + graph.getMatrix()[7];
+        this.menu.show(item, menuX, menuY);
         graph.draw();
       } else {
         this.menu.hide();

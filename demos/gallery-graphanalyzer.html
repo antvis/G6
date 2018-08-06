@@ -27,9 +27,9 @@
       //the instances of plugins
       let maxSpanningForest = new MaxSpanningForestPlugin({
         layoutCfg: {
-          max_iteration: 600,
+          maxIteration: 600,
           kg: 10,
-          prev_overlapping: true,
+          prevOverlapping: true,
           onLayoutComplete: function () {
             const minimap = document.getElementById('minimap');
             const legend = document.getElementById('legend');
@@ -84,12 +84,11 @@
         },
         height: 500,
       });
-      graph.read(data);
+      graph.read(Util.cloneDeep(data));
       const minimap = document.getElementById('minimap');
       const legend = document.getElementById('legend');
       if (minimap !== undefined) minimap.style.display = 'none';
       if (legend !== undefined) legend.style.display = 'none';
-
     });
 
   </script>
