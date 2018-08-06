@@ -16,8 +16,8 @@ G6.registerGuide('mask', {
       attrs: {
         x: box.minX - 100,
         y: box.minY - 100,
-        width: box.maxX * 1.5,
-        height: box.maxY * 1.5,
+        width: (box.maxX - box.minX) * 1.2,
+        height: (box.maxY - box.minY) * 1.2,
         fill: 'rgba(255, 255, 255, 0.8)'
       },
       capture: false
