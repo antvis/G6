@@ -76,7 +76,7 @@ module.exports = {
     beforeTransform(graph);
     graph.setMatrix(matrix);
     canvas.set('renderer', renderer);
-    canvas.set('children', BaseUtil.cloneDeep(children));
+    canvas.set('children', children);
     canvas.matrix = matrix;
     canvas.draw();
     graph.setMatrix(matrixCache);

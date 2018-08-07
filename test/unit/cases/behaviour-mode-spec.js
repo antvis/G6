@@ -35,8 +35,8 @@ describe('graph behaviour-mode user cases test', () => {
     graph.source(Util.cloneDeep(data));
     graph.render();
 
-    const el = graph.get('_frontCanvas').get('el');
-    const canvas = graph.get('_frontCanvas');
+    const canvas = graph.getCanvas();
+    const el = canvas.get('el');
     const point = { x: 10, y: 20 };
     const client = canvas.getClientByPoint(point.x, point.y);
     click(client, el);

@@ -227,24 +227,16 @@ const GraphicUtil = {
   /**
    * element to back
    * @param  {object} element g shape or group
-   * @param  {object} group g group
    */
-  toBack(element, group) {
-    !group && (group = element.getParent());
-    const children = group.get('children');
-    BaseUtil.Array.remove(children, element);
-    children.unshift(element);
+  toBack(element) {
+    element.toBack();
   },
   /**
    * element to front
    * @param  {object} element g shape or group
-   * @param  {object} group g group
    */
-  toFront(element, group) {
-    !group && (group = element.getParent());
-    const children = group.get('children');
-    BaseUtil.Array.remove(children, element);
-    children.push(element);
+  toFront(element) {
+    element.toFront();
   }
 };
 
