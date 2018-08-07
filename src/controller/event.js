@@ -257,16 +257,8 @@ class Controller extends Base {
   _processEventObj(ev) {
     const graph = this.graph;
     const canvas = graph.get('_canvas');
-    const frontCanvas = graph.get('_frontCanvas');
     const evObj = this._getEventObj(ev, canvas);
-    const frontEvObj = this._getEventObj(ev, frontCanvas);
 
-    // frontEvObj is the first
-    if (frontEvObj.shape) {
-      evObj.shape = frontEvObj.shape;
-      evObj.item = frontEvObj.item;
-    }
-    evObj.frontEvObj = frontEvObj;
     this._currentEventObj = evObj;
   }
   // transform point position by pixel Ratio
