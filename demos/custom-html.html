@@ -4,43 +4,57 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>自定义-绘制</title>
+  <title>自定义- HTML 绘制</title>
 </head>
 <body>
 <div id="mountNode"></div>
 <script src="../build/g6.js"></script>
 <script>
-const data = {
-  "nodes": [
-    {
-      "shape": "customNode",
-      "id": "node1"
+  const data = {
+    nodes: [{
+      id: 'node1',
+      x: 100,
+      y: 200
+    }, {
+      id: 'node2',
+      x: 300,
+      y: 200
+    }],
+    edges: [{
+      target: 'node2',
+      source: 'node1'
+    }]
+  };
+
+  G6.registerNode('customNode', {
+    draw(item){
+      const group = item.getGraphicGroup();
+      const html = G6.Util.createDOM('<div>这里是 HTML 节点</div>');
+      html.on('click', ()=>{
+        console.log(3333)
+      });
+      return group.addShape('dom', {
+        attrs: {
+          x: 0,
+          y: 0,
+          width: 100,
+          height: 100,
+          html
+        }
+      });
     }
-  ],
-};
+  });
 
-G6.registerNode('customNode', {
-  draw(item){
-    const group = item.getGraphicGroup();
-    return group.addShape('dom', {
-      attrs: {
-        x: 100,
-        y: 100,
-        width: 100,
-        height: 100,
-        stroke: 'red'
-      }
-    });
-  }
-});
-
-const graph = new G6.Graph({
-  container: 'mountNode',  // 容器ID
-  fitView: 'cc',
-  height: window.innerHeight
-});
-graph.read(data);
-
+  const graph = new G6.Graph({
+    container: 'mountNode',  // 容器ID
+    fitView: 'cc',
+    renderer: 'svg',
+    height: window.innerHeight
+  });
+  graph.node({
+    shape: 'customNode'
+  });
+  graph.read(data);
 </script>
 </body>
 </html>
