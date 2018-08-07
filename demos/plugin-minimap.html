@@ -16,6 +16,11 @@
   <script src="../build/g6.js"></script>
   <script src="../build/plugin.tool.minimap.js"></script>
   <script>
+    const minimap = new G6.Plugins['tool.minimap']({
+      container: 'minimap',
+      width: 180,
+      height: 120
+    });
     G6.registerNode('custom', {
       draw(item) {
         const group = item.getGraphicGroup();
@@ -66,7 +71,7 @@
       container: 'mountNode',
       fitView: 'cc',
       height: window.innerHeight,
-      plugins: [ plugin ]
+      plugins: [ minimap ]
     });
     graph.read(data);
   </script>

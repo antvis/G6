@@ -43,11 +43,10 @@ Mixin.AUGMENT = {
     const controllers = this.get('_controllers');
     const animate = this.get('animate');
     const canvas = this.get('_canvas');
-    const frontCanvas = this.get('_frontCanvas');
     let animateController;
     if (animate) {
       animateController = new Animate({
-        canvases: [ canvas, frontCanvas ],
+        canvases: [ canvas ],
         graph: this
       });
       controllers.animate = animateController;

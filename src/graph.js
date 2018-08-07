@@ -194,33 +194,23 @@ class Graph extends Base {
 
     const Canvas = G.Canvas;
     const canvas = new Canvas(canvasCfg);
-    const frontCanvas = new Canvas(canvasCfg);
-
-    const frontEl = frontCanvas.get('el');
-    frontEl.style.position = 'absolute';
-    frontEl.style.top = 0;
-    frontEl.style.left = 0;
-    frontEl.style.overflow = 'hidden';
-    frontEl.style.width = width + 'px';
-    frontEl.style.height = height + 'px';
-    frontEl.style.position = 'absolute';
-    frontEl.style.top = 0;
-    frontEl.style.left = 0;
+    const el = canvas.get('el');
+    el.style.position = 'absolute';
+    el.style.top = 0;
+    el.style.left = 0;
+    el.style.overflow = 'hidden';
 
     this.set('_canvas', canvas);
-    this.set('_frontCanvas', frontCanvas);
     const mouseEventWrapper = this.getMouseEventWrapper();
     mouseEventWrapper.style.outline = 'none';
     mouseEventWrapper.style['user-select'] = 'none';
     mouseEventWrapper.setAttribute('tabindex', TAB_INDEX);
 
     const rootGroup = canvas.addGroup();
-    const frontRootGroup = frontCanvas.addGroup();
 
     const itemGroup = rootGroup.addGroup();
     this.set('_itemGroup', itemGroup);
     this.set('_rootGroup', rootGroup);
-    this.set('_frontRootGroup', frontRootGroup);
   }
   _initData() {
     this.set('_dataMap', {});
@@ -240,7 +230,7 @@ class Graph extends Base {
     return keyboardEventWrapper ? keyboardEventWrapper : this.getMouseEventWrapper();
   }
   getMouseEventWrapper() {
-    return this.get('_frontCanvas').get('el');
+    return this.get('_canvas').get('el');
   }
   /**
    * @param  {object} plugin - plugin instance
@@ -398,18 +388,6 @@ class Graph extends Base {
     return this.get('_itemGroup');
   }
   /**
-   * @return {G.Group} frontRootGroup
-   */
-  getFrontRootGroup() {
-    return this.get('_frontRootGroup');
-  }
-  /**
-   * @return {G.Canvas} canvas
-   */
-  getFrontCanvas() {
-    return this.get('_frontCanvas');
-  }
-  /**
    * @param  {object} data source data
    * @return {Graph} this
    */
@@ -451,7 +429,6 @@ class Graph extends Base {
    */
   destroy() {
     const canvas = this.get('_canvas');
-    const frontCanvas = this.get('_frontCanvas');
     const graphContainer = this.get('_graphContainer');
     const controllers = this.get('_controllers');
     const timers = this.get('_timers');
@@ -467,7 +444,6 @@ class Graph extends Base {
       plugin.destroy && plugin.destroy();
     });
     canvas && canvas.destroy();
-    frontCanvas && frontCanvas.destroy();
     graphContainer.destroy();
     window.removeEventListener('resize', windowForceResizeEvent);
     super.destroy();
@@ -750,11 +726,9 @@ class Graph extends Base {
       return;
     }
     const canvas = this.get('_canvas');
-    const frontCanvas = this.get('_frontCanvas');
     if (width !== this.get('width') || height !== this.get('height')) {
       this.emit('beforechangesize');
       canvas.changeSize(width, height);
-      frontCanvas.changeSize(width, height);
 
       this.set('width', width);
       this.set('height', height);
