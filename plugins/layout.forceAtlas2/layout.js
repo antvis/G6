@@ -54,7 +54,7 @@ class Layout {
        * whether preventing the node overlapping
        * @type  {boolean}
        */
-      prev_overlapping: false,
+      prevOverlapping: false,
 
       /**
        * whether active the dissuade hub mode
@@ -62,19 +62,19 @@ class Layout {
        * a more central position than hubs (nodes with a high outdegree)
        * @type  {boolean}
        */
-      dissuade_hubs: false,
+      dissuadeHubs: false,
 
       /**
        * whether active the barnes hut optimization on computing repulsive forces
        * @type  {boolean}
        */
-      barnes_hut: false,
+      barnesHut: false,
 
       /**
        * the max iteration number
        * @type  {number}
        */
-      max_iteration: 1500,
+      maxIteration: 1500,
 
       /**
        * control the global velocity
@@ -111,18 +111,18 @@ class Layout {
       kr,
       kg,
       mode,
-      prev_overlapping,
-      dissuade_hubs,
-      barnes_hut,
-      max_iteration,
+      prevOverlapping,
+      dissuadeHubs,
+      barnesHut,
+      maxIteration,
       ks,
       ksmax,
       tao,
       onLayoutComplete
     } = this;
 
-    if (!barnes_hut && nodes.length > 300) barnes_hut = true;
-    else if (barnes_hut && nodes.length <= 300) barnes_hut = false;
+    if (!barnesHut && nodes.length > 300) barnesHut = true;
+    else if (barnesHut && nodes.length <= 300) barnesHut = false;
 
     const width = this.width ? this.width : graph.getWidth();
     const height = this.height ? this.height : graph.getHeight();
@@ -142,10 +142,10 @@ class Layout {
       kr,
       kg,
       mode,
-      prev_overlapping,
-      dissuade_hubs,
-      barnes_hut,
-      max_iteration,
+      prevOverlapping,
+      dissuadeHubs,
+      barnesHut,
+      maxIteration,
       ks,
       ksmax,
       tao,
@@ -153,38 +153,39 @@ class Layout {
       widths
     };
 
-    // a loading dom before worker
+   // a loading dom before worker
     const loading = document.createElement('div');
     loading.id = 'loading';
     loading.style.setProperty('background-color', '#fff');
     loading.style.setProperty('position', 'absolute');
-    const parent = graph.getGraphContainer();
-    loading.style.setProperty('width', parent.width() + 'px');
-    loading.style.setProperty('height', parent.height() + 'px');
-    loading.style.setProperty('margin-top', (-parent.height()) + 'px');
+    const parent = graph.getGraphContainer().parentNode;
+    loading.style.setProperty('width', parent.offsetWidth + 'px');
+    loading.style.setProperty('height', parent.offsetHeight + 'px');
+    loading.style.setProperty('margin-top', (-parent.offsetHeight) + 'px');
+    loading.style.zIndex = 999;
     parent.appendChild(loading);
     // the loading image
-    const loading_img = document.createElement('img');
-    loading_img.src = 'https://gw.alipayobjects.com/zos/rmsportal/mnEmjOmrHbghTsZNeTmI.gif';
-    loading_img.style.setProperty('width', 120 + 'px');
-    loading_img.style.setProperty('height', 120 + 'px');
-    const Cw = 120;
-    const Pw = parent.width();
+    const loadingImg = document.createElement('img');
+    loadingImg.src = 'https://gw.alipayobjects.com/zos/rmsportal/mnEmjOmrHbghTsZNeTmI.gif';
+    loadingImg.style.setProperty('width', 200 + 'px');
+    loadingImg.style.setProperty('height', 200 + 'px');
+    const Cw = loadingImg.offsetWidth;
+    const Pw = loading.offsetWidth;
     const left = (Pw - Cw) / 2;
-    loading_img.style.setProperty('margin-left', left + 'px');
-    const Ch = 120;
-    const Ph = parent.height();
+    loadingImg.style.setProperty('margin-left', left + 'px');
+    const Ch = loadingImg.offsetHeight;
+    const Ph = loading.offsetHeight;
     const top = (Ph - Ch) / 2;
-    loading_img.style.setProperty('margin-top', top + 'px');
-    loading.appendChild(loading_img);
+    loadingImg.style.setProperty('margin-top', top + 'px');
+    loading.appendChild(loadingImg);
 
     const worker = new Worker();// { type: 'module' }
     worker.postMessage(obj);
     worker.onmessage = function(event) {
       this.nodes = event.data;
-      const graph_nodes = graph.getNodes();
+      const graphNodes = graph.getNodes();
       for (let i = 0; i < size; i += 1) {
-        const model = graph_nodes[i].getModel();
+        const model = graphNodes[i].getModel();
         model.x = this.nodes[i].x;
         model.y = this.nodes[i].y;
       }
