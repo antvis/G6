@@ -79,6 +79,7 @@
     "worker-loader": "^2.0.0"
   },
   "scripts": {
+    "update": "rm -rf node_modules/ && tnpm i && rm -rf build && tnpm run build",
     "build": "webpack",
     "build-lib": "babel src --out-dir lib",
     "ci": "npm run lint && npm run test",
