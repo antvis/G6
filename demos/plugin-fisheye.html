@@ -32,13 +32,13 @@
         nodes.forEach((node, index) => {
           if (parseInt(index / col) % 2 === 0) {
             node.x = (col - index % col) * hgap;
-            node.ori_x = node.x;
+            node.oriX = node.x;
           } else {
             node.x = index % col * hgap + hgap;
-            node.ori_x = node.x;
+            node.oriX = node.x;
           }
           node.y = parseInt(index / col) * vgap + vgap / 2;
-          node.ori_y = node.y;
+          node.oriY = node.y;
         });
       }
     });
