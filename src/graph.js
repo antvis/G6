@@ -90,7 +90,7 @@ class Graph extends Base {
        * renderer canvas or svg
        * @type {string}
        */
-      renderer: 'canvas',
+      renderer: 'svg',
 
       _controllers: {},
       _timers: {},
