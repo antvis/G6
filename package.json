@@ -79,6 +79,7 @@
     "worker-loader": "^2.0.0"
   },
   "scripts": {
+    "update": "rm -rf node_modules/ && tnpm i && rm -rf build && tnpm run build",
     "build": "webpack",
     "build-lib": "babel src --out-dir lib",
     "ci": "npm run lint && npm run test",
@@ -106,8 +107,8 @@
   },
   "dependencies": {
     "@antv/scale": "^0.0.1",
-    "@antv/g2": "~3.2.7-beta",
-    "@antv/g": "~3.1.0-beta.3",
+    "@antv/g2": "~3.2.7-beta.5",
+    "@antv/g": "~3.1.0-beta.7",
     "@antv/hierarchy": "~0.3.13",
     "d3": "^5.4.0",
     "d3-svg-legend": "^2.25.6",
