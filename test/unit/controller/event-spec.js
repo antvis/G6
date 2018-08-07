@@ -29,7 +29,7 @@ const el = graph.getMouseEventWrapper();
 Util.modifyCSS(el, {
   border: '1px solid red'
 });
-const canvas = graph.get('_frontCanvas');
+const canvas = graph.getCanvas();
 
 const client = getClientByPoint(canvas, nodePoint.x, nodePoint.y);
 
