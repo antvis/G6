@@ -30,8 +30,6 @@ onmessage = function(event) {
   for (let i = 0; i < size; i += 1) {
     idmap[nodes[i].id] = i;
     degrees[i] = 0;
-    // nodes[i].index = i;
-    // nodes[i].degree = 0;
     nodes[i].x = Math.random() * 1000;
     nodes[i].y = Math.random() * 1000;
   }
@@ -45,10 +43,6 @@ onmessage = function(event) {
         node2 = nodes[j];
       }
     }
-    // // const node1 = graph.find(edges[i].source).getModel();
-    // // const node2 = graph.find(edges[i].target).getModel();
-    // nodes[node1.index].degree += 1;
-    // nodes[node2.index].degree += 1;
     degrees[idmap[node1.id]] += 1;
     degrees[idmap[node2.id]] += 1;
   }
