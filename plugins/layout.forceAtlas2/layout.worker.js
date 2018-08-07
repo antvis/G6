@@ -8,10 +8,10 @@ onmessage = function(event) {
     kr,
     kg,
     mode,
-    prev_overlapping,
-    dissuade_hubs,
-    barnes_hut,
-    max_iteration,
+    prevOverlapping,
+    dissuadeHubs,
+    barnesHut,
+    maxIteration,
     ks,
     ksmax,
     tao,
@@ -30,8 +30,6 @@ onmessage = function(event) {
   for (let i = 0; i < size; i += 1) {
     idmap[nodes[i].id] = i;
     degrees[i] = 0;
-    // nodes[i].index = i;
-    // nodes[i].degree = 0;
     nodes[i].x = Math.random() * 1000;
     nodes[i].y = Math.random() * 1000;
   }
@@ -45,24 +43,20 @@ onmessage = function(event) {
         node2 = nodes[j];
       }
     }
-    // // const node1 = graph.find(edges[i].source).getModel();
-    // // const node2 = graph.find(edges[i].target).getModel();
-    // nodes[node1.index].degree += 1;
-    // nodes[node2.index].degree += 1;
     degrees[idmap[node1.id]] += 1;
     degrees[idmap[node2.id]] += 1;
   }
 
-  const kr_prime = 100;
-  let iter = max_iteration;
-  const prevo_iter = 50;
+  const krPrime = 100;
+  let iter = maxIteration;
+  const prevoIter = 50;
   let Forces = [];
-  const pre_Forces = [];
+  const preForces = [];
   for (let i = 0; i < size; i += 1) {
     Forces[2 * i] = 0;
     Forces[2 * i + 1] = 0;
 
-    if (barnes_hut) {
+    if (barnesHut) {
       let params = {
         id: i,
         rx: nodes[i].x,
@@ -78,22 +72,22 @@ onmessage = function(event) {
 
   do {
     for (let i = 0; i < size; i += 1) {
-      pre_Forces[2 * i] = Forces[2 * i];
-      pre_Forces[2 * i + 1] = Forces[2 * i + 1];
+      preForces[2 * i] = Forces[2 * i];
+      preForces[2 * i + 1] = Forces[2 * i + 1];
       Forces[2 * i] = 0;
       Forces[2 * i + 1] = 0;
     }
     //   // attractive forces, existing on every actual edge
-    Forces = getAttrForces(nodes, edges, size, esize, prev_overlapping, dissuade_hubs, mode, iter, prevo_iter, Forces, widths, idmap, degrees);
+    Forces = getAttrForces(nodes, edges, size, esize, prevOverlapping, dissuadeHubs, mode, iter, prevoIter, Forces, widths, idmap, degrees);
     // //   // repulsive forces and Gravity, existing on every node pair
-    // //   // if prev_overlapping, using the no-optimized method in the last prevo_iter instead.
-    if (barnes_hut && ((prev_overlapping && iter > prevo_iter) || !prev_overlapping)) {
-      Forces = getOptRepGraForces(nodes, edges, size, esize, prev_overlapping, dissuade_hubs, mode, iter, prevo_iter, Forces, kr, kr_prime, kg, center, bodies, degrees);
+    // //   // if prevOverlapping, using the no-optimized method in the last prevoIter instead.
+    if (barnesHut && ((prevOverlapping && iter > prevoIter) || !prevOverlapping)) {
+      Forces = getOptRepGraForces(nodes, edges, size, esize, prevOverlapping, dissuadeHubs, mode, iter, prevoIter, Forces, kr, krPrime, kg, center, bodies, degrees);
     } else {
-      Forces = getRepGraForces(nodes, edges, size, esize, prev_overlapping, dissuade_hubs, mode, iter, prevo_iter, Forces, kr, kr_prime, kg, center, widths, degrees);
+      Forces = getRepGraForces(nodes, edges, size, esize, prevOverlapping, dissuadeHubs, mode, iter, prevoIter, Forces, kr, krPrime, kg, center, widths, degrees);
     }
     //   // update the positions
-    const res = updatePos(size, nodes, Forces, pre_Forces, SG, ks, ksmax, tao, degrees);
+    const res = updatePos(size, nodes, Forces, preForces, SG, ks, ksmax, tao, degrees);
     nodes = res[0];
     SG = res[1];
     iter -= 1;
@@ -101,81 +95,75 @@ onmessage = function(event) {
   self.postMessage(nodes);
 };
 
-function getAttrForces(nodes, edges, size, esize, prev_overlapping, dissuade_hubs, mode, iter, prevo_iter, Forces, widths, idmap, degrees) {
+function getAttrForces(nodes, edges, size, esize, prevOverlapping, dissuadeHubs, mode, iter, prevoIter, Forces, widths, idmap, degrees) {
   for (let i = 0; i < esize; i += 1) {
-    // const source_node = graph.find(edges[i].source).getModel();
-    // const target_node = graph.find(edges[i].target).getModel();
-    let source_node;
-    let target_node;
-    let source_idx;
-    let target_idx;
+    // const sourceNode = graph.find(edges[i].source).getModel();
+    // const targetNode = graph.find(edges[i].target).getModel();
+    let sourceNode;
+    let targetNode;
+    let sourceIdx;
+    let targetIdx;
     for (let j = 0; j < size; j += 1) {
       if (nodes[j].id === edges[i].source) {
-        source_node = nodes[j];
-        source_idx = j;
+        sourceNode = nodes[j];
+        sourceIdx = j;
       } else if (nodes[j].id === edges[i].target) {
-        target_node = nodes[j];
-        target_idx = j;
+        targetNode = nodes[j];
+        targetIdx = j;
       }
     }
-    let dir = [ target_node.x - source_node.x, target_node.y - source_node.y ];
-    let eucli_dis = Math.hypot(dir[0], dir[1]);
-    eucli_dis = eucli_dis < 0.0001 ? 0.0001 : eucli_dis;
-    dir[0] = dir[0] / eucli_dis;
-    dir[1] = dir[1] / eucli_dis;
+    let dir = [ targetNode.x - sourceNode.x, targetNode.y - sourceNode.y ];
+    let eucliDis = Math.hypot(dir[0], dir[1]);
+    eucliDis = eucliDis < 0.0001 ? 0.0001 : eucliDis;
+    dir[0] = dir[0] / eucliDis;
+    dir[1] = dir[1] / eucliDis;
     // the force
-    if (prev_overlapping && iter < prevo_iter) eucli_dis = eucli_dis - widths[source_idx] - widths[target_idx];
-    let Fa1 = eucli_dis;
+    if (prevOverlapping && iter < prevoIter) eucliDis = eucliDis - widths[sourceIdx] - widths[targetIdx];
+    let Fa1 = eucliDis;
     let Fa2 = Fa1;
     if (mode === 'linlog') {
-      Fa1 = Math.log(1 + eucli_dis);
+      Fa1 = Math.log(1 + eucliDis);
       Fa2 = Fa1;
     }
-    if (dissuade_hubs) {
-      // Fa1 = eucli_dis / source_node.degree;
-      // Fa2 = eucli_dis / target_node.degree;
-      Fa1 = eucli_dis / degrees[source_idx];
-      Fa2 = eucli_dis / degrees[target_idx];
+    if (dissuadeHubs) {
+      Fa1 = eucliDis / degrees[sourceIdx];
+      Fa2 = eucliDis / degrees[targetIdx];
     }
-    if (prev_overlapping && iter < prevo_iter && eucli_dis <= 0) {
+    if (prevOverlapping && iter < prevoIter && eucliDis <= 0) {
       Fa1 = 0;
       Fa2 = 0;
-    } else if (prev_overlapping && iter < prevo_iter && eucli_dis > 0) {
-      Fa1 = eucli_dis;
-      Fa2 = eucli_dis;
+    } else if (prevOverlapping && iter < prevoIter && eucliDis > 0) {
+      Fa1 = eucliDis;
+      Fa2 = eucliDis;
     }
-    // Forces[2 * source_node.index] += Fa1 * dir[0];
-    // Forces[2 * target_node.index] -= Fa2 * dir[0];
-    // Forces[2 * source_node.index + 1] += Fa1 * dir[1];
-    // Forces[2 * target_node.index + 1] -= Fa2 * dir[1];
-    Forces[2 * idmap[source_node.id]] += Fa1 * dir[0];
-    Forces[2 * idmap[target_node.id]] -= Fa2 * dir[0];
-    Forces[2 * idmap[source_node.id] + 1] += Fa1 * dir[1];
-    Forces[2 * idmap[target_node.id] + 1] -= Fa2 * dir[1];
+    Forces[2 * idmap[sourceNode.id]] += Fa1 * dir[0];
+    Forces[2 * idmap[targetNode.id]] -= Fa2 * dir[0];
+    Forces[2 * idmap[sourceNode.id] + 1] += Fa1 * dir[1];
+    Forces[2 * idmap[targetNode.id] + 1] -= Fa2 * dir[1];
     dir = null;
   }
   return Forces;
 }
 
-function getRepGraForces(nodes, edges, size, esize, prev_overlapping, dissuade_hubs, mode, iter, prevo_iter, Forces, kr, kr_prime, kg, center, widths, degrees) {
+function getRepGraForces(nodes, edges, size, esize, prevOverlapping, dissuadeHubs, mode, iter, prevoIter, Forces, kr, krPrime, kg, center, widths, degrees) {
   for (let i = 0; i < size; i += 1) {
     for (let j = i + 1; j < size; j += 1) {
       let dir = [ nodes[j].x - nodes[i].x, nodes[j].y - nodes[i].y ];
-      let eucli_dis = Math.hypot(dir[0], dir[1]);
-      eucli_dis = eucli_dis < 0.0001 ? 0.0001 : eucli_dis;
-      dir[0] = dir[0] / eucli_dis;
-      dir[1] = dir[1] / eucli_dis;
+      let eucliDis = Math.hypot(dir[0], dir[1]);
+      eucliDis = eucliDis < 0.0001 ? 0.0001 : eucliDis;
+      dir[0] = dir[0] / eucliDis;
+      dir[1] = dir[1] / eucliDis;
 
-      if (prev_overlapping && iter < prevo_iter) eucli_dis = eucli_dis - widths[i] - widths[j];
+      if (prevOverlapping && iter < prevoIter) eucliDis = eucliDis - widths[i] - widths[j];
 
-      let Fr = kr * (degrees[i] + 1) * (degrees[j] + 1) / eucli_dis;
+      let Fr = kr * (degrees[i] + 1) * (degrees[j] + 1) / eucliDis;
 
-      if (prev_overlapping && iter < prevo_iter && eucli_dis < 0) {
-        Fr = kr_prime * (degrees[i] + 1) * (degrees[j] + 1);
-      } else if (prev_overlapping && iter < prevo_iter && eucli_dis === 0) {
+      if (prevOverlapping && iter < prevoIter && eucliDis < 0) {
+        Fr = krPrime * (degrees[i] + 1) * (degrees[j] + 1);
+      } else if (prevOverlapping && iter < prevoIter && eucliDis === 0) {
         Fr = 0;
-      } else if (prev_overlapping && iter < prevo_iter && eucli_dis > 0) {
-        Fr = kr * (degrees[i] + 1) * (degrees[j] + 1) / eucli_dis;
+      } else if (prevOverlapping && iter < prevoIter && eucliDis > 0) {
+        Fr = kr * (degrees[i] + 1) * (degrees[j] + 1) / eucliDis;
       }
       Forces[2 * i] -= Fr * dir[0];
       Forces[2 * j] += Fr * dir[0];
@@ -186,9 +174,9 @@ function getRepGraForces(nodes, edges, size, esize, prev_overlapping, dissuade_h
 
     // gravity
     let dir = [ nodes[i].x - center.x, nodes[i].y - center.y ];
-    const eucli_dis = Math.hypot(dir[0], dir[1]);
-    dir[0] = dir[0] / eucli_dis;
-    dir[1] = dir[1] / eucli_dis;
+    const eucliDis = Math.hypot(dir[0], dir[1]);
+    dir[0] = dir[0] / eucliDis;
+    dir[1] = dir[1] / eucliDis;
     const Fg = kg * (degrees[i] + 1);
     Forces[2 * i] -= Fg * dir[0];
     Forces[2 * i + 1] -= Fg * dir[1];
@@ -197,7 +185,7 @@ function getRepGraForces(nodes, edges, size, esize, prev_overlapping, dissuade_h
   return Forces;
 }
 
-function getOptRepGraForces(nodes, edges, size, esize, prev_overlapping, dissuade_hubs, mode, iter, prevo_iter, Forces, kr, kr_prime, kg, ct, bodies, degrees) {
+function getOptRepGraForces(nodes, edges, size, esize, prevOverlapping, dissuadeHubs, mode, iter, prevoIter, Forces, kr, krPrime, kg, ct, bodies, degrees) {
   let minx = 9e10,
     maxx = -9e10,
     miny = 9e10,
@@ -212,75 +200,75 @@ function getOptRepGraForces(nodes, edges, size, esize, prev_overlapping, dissuad
 
   let width = Math.max(maxx - minx, maxy - miny);
 
-  let quad_params = {
+  let quadParams = {
     xmid: (maxx + minx) / 2,
     ymid: (maxy + miny) / 2,
     length: width,
-    mass_center: ct,
+    massCenter: ct,
     mass: size
   };
-  let quad = new Quad(quad_params);
-  let quad_tree = new QuadTree(quad);
+  let quad = new Quad(quadParams);
+  let quadTree = new QuadTree(quad);
 
   // build the tree, insert the nodes(quads) into the tree
   for (let i = 0; i < size; i += 1) {
-    if (bodies[i].in(quad)) quad_tree.insert(bodies[i]);
+    if (bodies[i].in(quad)) quadTree.insert(bodies[i]);
   }
   // update the repulsive forces and the gravity.
   for (let i = 0; i < size; i += 1) {
     bodies[i].resetForce();
-    quad_tree.updateForce(bodies[i]);
+    quadTree.updateForce(bodies[i]);
     Forces[2 * i] -= bodies[i].fx;
     Forces[2 * i + 1] -= bodies[i].fy;
 
     // gravity
     let dir = [ nodes[i].x - ct.x, nodes[i].y - ct.y ];
-    let eucli_dis = Math.hypot(dir[0], dir[1]);
-    eucli_dis = eucli_dis < 0.0001 ? 0.0001 : eucli_dis;
-    dir[0] = dir[0] / eucli_dis;
-    dir[1] = dir[1] / eucli_dis;
+    let eucliDis = Math.hypot(dir[0], dir[1]);
+    eucliDis = eucliDis < 0.0001 ? 0.0001 : eucliDis;
+    dir[0] = dir[0] / eucliDis;
+    dir[1] = dir[1] / eucliDis;
     let Fg = kg * (degrees[i] + 1);
     Forces[2 * i] -= Fg * dir[0];
     Forces[2 * i + 1] -= Fg * dir[1];
 
-    eucli_dis = null;
+    eucliDis = null;
     Fg = null;
     dir = null;
   }
-  quad_params = null;
+  quadParams = null;
   quad = null;
-  quad_tree = null;
+  quadTree = null;
   width = null;
   return Forces;
 }
 
-function updatePos(size, nodes, Forces, pre_Forces, SG, ks, ksmax, tao, degrees) {
+function updatePos(size, nodes, Forces, preForces, SG, ks, ksmax, tao, degrees) {
   let swgns = [];
   let trans = [];
   // swg(G) and tra(G)
   let swgG = 0;
   let traG = 0;
   for (let i = 0; i < size; i += 1) {
-    const minus = [ Forces[2 * i] - pre_Forces[2 * i],
-      Forces[2 * i + 1] - pre_Forces[2 * i + 1]
+    const minus = [ Forces[2 * i] - preForces[2 * i],
+      Forces[2 * i + 1] - preForces[2 * i + 1]
     ];
-    const minus_norm = Math.hypot(minus[0], minus[1]);
-    const add = [ Forces[2 * i] + pre_Forces[2 * i],
-      Forces[2 * i + 1] + pre_Forces[2 * i + 1]
+    const minusNorm = Math.hypot(minus[0], minus[1]);
+    const add = [ Forces[2 * i] + preForces[2 * i],
+      Forces[2 * i + 1] + preForces[2 * i + 1]
     ];
-    const add_norm = Math.hypot(add[0], add[1]);
+    const addNorm = Math.hypot(add[0], add[1]);
 
-    swgns[i] = minus_norm;
-    trans[i] = add_norm / 2;
+    swgns[i] = minusNorm;
+    trans[i] = addNorm / 2;
 
     swgG += (degrees[i] + 1) * swgns[i];
     traG += (degrees[i] + 1) * trans[i];
   }
 
-  let pre_SG = SG;
+  let preSG = SG;
   SG = tao * traG / swgG;
-  if (pre_SG !== 0) {
-    SG = SG > (1.5 * pre_SG) ? (1.5 * pre_SG) : SG;
+  if (preSG !== 0) {
+    SG = SG > (1.5 * preSG) ? (1.5 * preSG) : SG;
   }
   // update the node positions
   for (let i = 0; i < size; i += 1) {
@@ -289,13 +277,13 @@ function updatePos(size, nodes, Forces, pre_Forces, SG, ks, ksmax, tao, degrees)
     absForce = absForce < 0.0001 ? 0.0001 : absForce;
     const max = ksmax / absForce;
     Sn = Sn > max ? max : Sn;
-    const Dn_x = Sn * Forces[2 * i];
-    const Dn_y = Sn * Forces[2 * i + 1];
-    nodes[i].x += Dn_x;
-    nodes[i].y += Dn_y;
+    const Dnx = Sn * Forces[2 * i];
+    const Dny = Sn * Forces[2 * i + 1];
+    nodes[i].x += Dnx;
+    nodes[i].y += Dny;
   }
   swgns = null;
   trans = null;
-  pre_SG = null;
+  preSG = null;
   return [ nodes, SG ];
 }
