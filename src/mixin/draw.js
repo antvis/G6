@@ -9,12 +9,10 @@ Mixin.AUGMENT = {
   _initDraw() {
     const controllers = this.get('_controllers');
     const canvas = this.get('_canvas');
-    const frontCanvas = this.get('_frontCanvas');
     const animateDraw = this.get('_animateDraw');
     const animateController = controllers.animate;
     const simpleDraw = () => {
       canvas.draw();
-      frontCanvas.draw();
     };
     let draw;
     if (animateDraw) {
@@ -31,10 +29,6 @@ Mixin.AUGMENT = {
       draw = simpleDraw;
     }
     this.draw = draw;
-  },
-  drawFrontCanvas() {
-    const frontCanvas = this.get('_frontCanvas');
-    frontCanvas.draw();
   }
 };
 module.exports = Mixin;
