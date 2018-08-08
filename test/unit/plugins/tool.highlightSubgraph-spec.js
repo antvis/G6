@@ -45,9 +45,27 @@ describe('highlight subgraph test', () => {
       reNodes,
       reEdges
     });
+    const items = graph.getItems();
+    let mask;
+    G6.Util.each(items, i => {
+      if (i.type === 'guide') {
+        mask = i;
+        return;
+      }
+    });
+    expect(mask.isVisible()).eql(true);
   });
   it('unhighlight', () => {
     graph.unhighlightGraph();
+    const items = graph.getItems();
+    let mask;
+    G6.Util.each(items, i => {
+      if (i.type === 'guide') {
+        mask = i;
+        return;
+      }
+    });
+    expect(mask.isVisible()).eql(false);
   });
   it('highlight again', () => {
     const nodes = graph.getNodes();
@@ -57,6 +75,15 @@ describe('highlight subgraph test', () => {
       reNodes,
       reEdges
     });
+    const items = graph.getItems();
+    let mask;
+    G6.Util.each(items, i => {
+      if (i.type === 'guide') {
+        mask = i;
+        return;
+      }
+    });
+    expect(mask.isVisible()).eql(true);
   });
   it('graph destroy', () => {
     graph.destroy();
