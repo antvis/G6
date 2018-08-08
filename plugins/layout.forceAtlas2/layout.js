@@ -182,7 +182,7 @@ class Layout {
     loadingImg.style.setProperty('margin-top', top + 'px');
     loading.appendChild(loadingImg);
 
-    const worker = new Worker();// { type: 'module' }
+    const worker = new Worker();
     worker.postMessage(obj);
     worker.onmessage = function(event) {
       this.nodes = event.data;

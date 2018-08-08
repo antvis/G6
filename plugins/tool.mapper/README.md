@@ -21,7 +21,7 @@ Constructor parameters:
 simple use.
 
 ```js
-const Mapper = G6.Plugins['tool.mapper']
+const Mapper = G6.Plugins['tool.mapper'];
 const nodeColorMapper = new Mapper('node', 'class', 'color', ['#BAE7FF', '#0050B3'], {
   legendCfg: {
     scale: 0.5
