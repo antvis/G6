@@ -21,23 +21,62 @@
       width: 180,
       height: 120
     });
+    G6.registerNode('html1', {
+      draw(item) {
+        const group = item.getGraphicGroup();
+        return group.addShape('dom', {
+          attrs: {
+            x: 0,
+            y: 0,
+            width: 100,
+            height: 100,
+            html: `<div>
+              <h1>${item.id}</h1>
+              <div>吉林省地方； </div>
+            </div>`
+          }
+        });
+      }
+    });
+    G6.registerNode('html2', {
+      draw(item) {
+        const group = item.getGraphicGroup();
+        const html = G6.Util.createDOM(`<div>
+              <h1>${item.id}</h1>
+              <div>吉林省地方； </div>
+            </div>`);
+        return group.addShape('dom', {
+          attrs: {
+            x: 0,
+            y: 0,
+            width: 100,
+            height: 100,
+            html
+          }
+        });
+      }
+    });
     const data = {
       nodes: [{
         id: 'node0',
         x: -100,
-        y: 200
+        y: 200,
+        shape: 'html1'
       }, {
         id: 'node1',
         x: 100,
-        y: 200
+        y: 200,
+        shape: 'html2'
       }, {
         id: 'node2',
         x: 300,
-        y: 200
+        y: 200,
+        shape: 'html3'
       }, {
         id: 'node3',
         x: 600,
-        y: 200
+        y: 200,
+        shape: 'html4'
       }],
       edges: [{
         target: 'node0',
@@ -54,7 +93,11 @@
       container: 'mountNode',
       fitView: 'cc',
       height: window.innerHeight,
+      renderer: 'svg',
       plugins: [ minimap ]
+    });
+    graph.node({
+      shape: 'custom'
     });
     graph.read(data);
   </script>
