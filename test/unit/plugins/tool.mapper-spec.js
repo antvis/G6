@@ -67,7 +67,7 @@ describe('node size mapper test', () => {
   });
   it('legend destroy', () => {
     graph.destroy();
-    expect(document.getElementById('nodeSizeLegend')).eql(null);
+    expect(document.getElementById('nodeSizeLegend').innerHTML).eql(originInnerHTML);
   });
 });
 
@@ -164,7 +164,7 @@ describe('node color mapper domian equals 1 test', () => {
   });
   it('legend destroy', () => {
     graph.destroy();
-    expect(document.getElementById('nodeColorLegend1')).eql(null);
+    expect(document.getElementById('nodeColorLegend1').innerHTML).eql(originInnerHTML);
   });
 });
 
@@ -219,7 +219,7 @@ describe('node color mapper domian equals 0 test', () => {
   });
   it('legend destroy', () => {
     graph.destroy();
-    expect(document.getElementById('nodeColorLegend2')).eql(null);
+    expect(document.getElementById('nodeColorLegend2').innerHTML).eql(originInnerHTML);
   });
 });
 
@@ -270,7 +270,7 @@ describe('node color mapper domian equals -1 test', () => {
   });
   it('legend destroy', () => {
     graph.destroy();
-    expect(document.getElementById('nodeColorLegend3')).eql(null);
+    expect(document.getElementById('nodeColorLegend3').innerHTML).eql(originInnerHTML);
   });
 });
 
@@ -320,6 +320,9 @@ describe('edge size mapper test', () => {
     const size2 = edge2Model.size;
     expect(size1).eql(10);
     expect(size2).eql(50);
+  });
+  it('legend destroy', () => {
+    graph.destroy();
   });
 });
 
@@ -417,7 +420,7 @@ describe('node color category mapper test', () => {
   });
   it('legend destroy', () => {
     graph.destroy();
-    expect(document.getElementById('nodeColorCatLegend')).eql(null);
+    expect(document.getElementById('nodeColorCatLegend').innerHTML).eql(originInnerHTML);
   });
 });
 
