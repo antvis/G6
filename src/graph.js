@@ -4,6 +4,7 @@
  */
 require('./extend/g/group');
 require('./extend/g/shape');
+require('./extend/g/dom');
 
 const Base = require('./base');
 const Item = require('./item/');
@@ -195,7 +196,6 @@ class Graph extends Base {
     const Canvas = G.Canvas;
     const canvas = new Canvas(canvasCfg);
     const el = canvas.get('el');
-    el.style.position = 'absolute';
     el.style.top = 0;
     el.style.left = 0;
     el.style.overflow = 'hidden';
