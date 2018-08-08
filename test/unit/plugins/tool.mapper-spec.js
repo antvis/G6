@@ -45,8 +45,10 @@ describe('node size mapper test', () => {
       source: 'node1'
     }]
   };
+  const div = document.createElement('div');
+  document.body.appendChild(div);
   const graph = new G6.Graph({
-    container: 'mountNode',
+    container: div,
     width: 500,
     height: 500,
     plugins: [ nodeSizeMapper ]
@@ -98,8 +100,10 @@ describe('node color mapper domain length test', () => {
         source: 'node1'
       }]
     };
+    const div = document.createElement('div');
+    document.body.appendChild(div);
     const graph = new G6.Graph({
-      container: 'mountNode',
+      container: div,
       width: 500,
       height: 500,
       plugins: [ nodeSizeMapper ]
@@ -140,8 +144,10 @@ describe('node color mapper domian equals 1 test', () => {
       source: 'node1'
     }]
   };
+  const div = document.createElement('div');
+  document.body.appendChild(div);
   const graph = new G6.Graph({
-    container: 'mountNode',
+    container: div,
     width: 500,
     height: 500,
     plugins: [ nodeSizeMapper ]
@@ -193,8 +199,10 @@ describe('node color mapper domian equals 0 test', () => {
       source: 'node1'
     }]
   };
+  const div = document.createElement('div');
+  document.body.appendChild(div);
   const graph = new G6.Graph({
-    container: 'mountNode',
+    container: div,
     width: 500,
     height: 500,
     plugins: [ nodeSizeMapper ]
@@ -242,8 +250,10 @@ describe('node color mapper domian equals -1 test', () => {
       source: 'node1'
     }]
   };
+  const div = document.createElement('div');
+  document.body.appendChild(div);
   const graph = new G6.Graph({
-    container: 'mountNode',
+    container: div,
     width: 500,
     height: 500,
     plugins: [ nodeSizeMapper ]
@@ -293,8 +303,10 @@ describe('edge size mapper test', () => {
       weight: 2
     }]
   };
+  const div = document.createElement('div');
+  document.body.appendChild(div);
   const graph = new G6.Graph({
-    container: 'mountNode',
+    container: div,
     width: 500,
     height: 500,
     plugins: [ edgeSizeMapper ]
@@ -341,8 +353,10 @@ describe('edge size mapper vertical test', () => {
       weight: 2
     }]
   };
+  const div = document.createElement('div');
+  document.body.appendChild(div);
   const graph = new G6.Graph({
-    container: 'mountNode',
+    container: div,
     width: 500,
     height: 500,
     plugins: [ edgeSizeMapper ]
@@ -383,8 +397,10 @@ describe('node color category mapper test', () => {
       source: 'node1'
     }]
   };
+  const div = document.createElement('div');
+  document.body.appendChild(div);
   const graph = new G6.Graph({
-    container: 'mountNode',
+    container: div,
     width: 500,
     height: 500,
     plugins: [ nodeColoreMapper ]
@@ -430,8 +446,10 @@ describe('node size mapper with formatter test', () => {
       source: 'node1'
     }]
   };
+  const div = document.createElement('div');
+  document.body.appendChild(div);
   const graph = new G6.Graph({
-    container: 'mountNode',
+    container: div,
     width: 500,
     height: 500,
     plugins: [ nodeSizeMapper ]
@@ -472,8 +490,10 @@ describe('container undefined test', () => {
         source: 'node1'
       }]
     };
+    const div = document.createElement('div');
+    document.body.appendChild(div);
     const graph = new G6.Graph({
-      container: 'mountNode',
+      container: div,
       width: 500,
       height: 500,
       plugins: [ nodeSizeMapper ]
@@ -511,8 +531,10 @@ describe('slider test', () => {
       source: 'node1'
     }]
   };
+  const div = document.createElement('div');
+  document.body.appendChild(div);
   const graph = new G6.Graph({
-    container: 'mountNode',
+    container: div,
     width: 500,
     height: 500,
     plugins: [ nodeSizeMapper ]

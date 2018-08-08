@@ -30,7 +30,11 @@ class Plugin {
       const model = node.getModel();
       const labelBox = label.getBBox();
       const labelWidth = labelBox.maxX - labelBox.minX;
-      const nodeWidth = model.size * scale;
+      let nodeWidth = model.size * scale;
+      if (model.size === undefined) {
+        const nodeBox = node.getBBox();
+        nodeWidth = nodeBox.maxX - nodeBox.minX;
+      }
       if (labelWidth === 0) return;
       const ratio = labelWidth / nodeWidth;
       if (ratio > 2) {

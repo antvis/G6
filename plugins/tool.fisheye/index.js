@@ -21,6 +21,7 @@ class Plugin {
         ...this.options
       });
       graph.on('mousemove', Util.throttle(ev => {
+        if (graph.destroyed) return;
         const nodes = graph.getNodes();
         const size = nodes.length;
         if (this.oriXs.length !== size) return;
@@ -34,6 +35,7 @@ class Plugin {
     );
     });
     const cacheLocation = Util.debounce(ev => {
+      if (graph.destroyed) return;
       const nodes = graph.getNodes();
       const size = nodes.length;
       if (ev === undefined || ev.item === undefined) {
@@ -42,8 +44,9 @@ class Plugin {
           this.oriXs[i] = nodes[i].getModel().x;
           this.oriYs[i] = nodes[i].getModel().y;
         }
-      } else if (ev.item.type !== 'node' || (!ev.updateModel.x && !ev.updateModel.y)) return;
-      else {
+      } else if (ev.item.type !== 'node' || (ev.updateModel.x === undefined && ev.updateModel.y === undefined)) {
+        return;
+      } else {
         const item = graph.find(ev.originModel.id);
         for (let i = 0; i < size; i++) {
           if (nodes[i].getModel().id === item.id) {
