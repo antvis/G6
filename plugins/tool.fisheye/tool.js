@@ -16,13 +16,13 @@ class Tool {
 
       /**
        * defualt zoom center
-       * @type  {object}
+       * @type  {array}
        */
       center: [ 0, 0 ],
 
       /**
        * defualt magnification factor
-       * @type  {object}
+       * @type  {number}
        */
       d: 1.0
     }, options);

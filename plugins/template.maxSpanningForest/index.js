@@ -237,7 +237,7 @@ class Plugin {
       } else {
         this.menu.hide();
         // restore the highlighted graph and hide the edges which are not tree edges.
-        graph.restoreGraph();
+        graph.unhighlightGraph();
         const edges = graph.getEdges();
         Util.each(edges, edge => {
           if (edge.isVisible() && !edge.getModel().isTreeEdge) {
