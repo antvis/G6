@@ -2,7 +2,7 @@ const G6 = require('../../../src/index');
 const TextDisplay = require('../../../plugins/tool.textDisplay/');
 const expect = require('chai').expect;
 
-describe('node size mapper test', () => {
+describe('text display test', () => {
   const textDisplay = new TextDisplay();
   const data = {
     nodes: [{
@@ -50,9 +50,23 @@ describe('node size mapper test', () => {
 
   it('graph change view port', () => {
     graph.emit('afterviewportchange', {});
+
+    const node1 = graph.find('node1');
+    const node1label = node1.getLabel();
+    const node3 = graph.find('node3');
+    const node3label = node3.getLabel();
+    expect(node1label.get('visible')).eql(true);
+    expect(node3label.get('visible')).eql(false);
   });
   it('graph zoom', () => {
     graph.emit('afterzoom', {});
+
+    const node1 = graph.find('node1');
+    const node1label = node1.getLabel();
+    const node3 = graph.find('node3');
+    const node3label = node3.getLabel();
+    expect(node1label.get('visible')).eql(true);
+    expect(node3label.get('visible')).eql(false);
   });
   it('graph destroy', () => {
     graph.destroy();
