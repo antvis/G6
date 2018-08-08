@@ -282,14 +282,8 @@ describe('graph test', () => {
   it('getCanvas', () => {
     expect(graph.getCanvas()).not.equal(undefined);
   });
-  it('getFrontCanvas', () => {
-    expect(graph.getFrontCanvas()).not.equal(undefined);
-  });
   it('getRootGroup', () => {
     expect(graph.getRootGroup()).not.equal(undefined);
-  });
-  it('getFrontRootGroup', () => {
-    expect(graph.getFrontRootGroup()).not.equal(undefined);
   });
   it('setFitView', () => {
     let matrix;
