@@ -8,7 +8,7 @@ interface:
   params:
   - hlItems: the items which will be highlighted
 
-- restoreGraph()
+- unhighlightGraph()
   restore the graph to the un-lighlighted style.
 
 ## use
