@@ -194,9 +194,7 @@ Mixin.AUGMENT = {
    */
   setMatrix(matrix) {
     const rootGroup = this.get('_rootGroup');
-    const frontRootGroup = this.get('_frontRootGroup');
     rootGroup.setMatrix(matrix);
-    frontRootGroup.setMatrix(matrix);
   },
   /**
    * @param {object} domPoint domPoint
