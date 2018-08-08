@@ -106,13 +106,14 @@
     "run": []
   },
   "dependencies": {
-    "@antv/scale": "^0.0.1",
-    "@antv/g2": "~3.2.7-beta.5",
     "@antv/g": "~3.1.0-beta.7",
+    "@antv/g2": "~3.2.7-beta.5",
     "@antv/hierarchy": "~0.3.13",
+    "@antv/scale": "^0.0.1",
     "d3": "^5.4.0",
     "d3-svg-legend": "^2.25.6",
     "dagre": "~0.8.2",
+    "html-to-image": "^0.0.2",
     "lodash": "~4.17.4",
     "wolfy87-eventemitter": "~5.2.4"
   },

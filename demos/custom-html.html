@@ -19,6 +19,11 @@
       id: 'node2',
       x: 300,
       y: 200
+    }, {
+      id: 'node3',
+      x: 300,
+      y: 300,
+      shape: 'common'
     }],
     edges: [{
       target: 'node2',
@@ -30,7 +35,7 @@
     draw(item){
       const group = item.getGraphicGroup();
       const html = G6.Util.createDOM('<div>这里是 HTML 节点</div>');
-      html.on('click', ()=>{
+      html.on('click', () => {
         console.log(3333)
       });
       return group.addShape('dom', {
@@ -55,6 +60,10 @@
     shape: 'customNode'
   });
   graph.read(data);
+  setTimeout(()=>{
+    graph.find('node3').getKeyShape().attr('fill', 'blue');
+    graph.draw();
+  }, 300);
 </script>
 </body>
 </html>
