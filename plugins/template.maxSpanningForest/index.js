@@ -246,7 +246,6 @@ class Plugin {
         });
         graph.draw();
       }
-
     });
   }
 }
