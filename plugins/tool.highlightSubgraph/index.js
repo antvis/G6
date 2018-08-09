@@ -32,11 +32,11 @@ class Plugin {
   init() {
     this.graph.on('afterinit', () => {
       this.graph.highlightSubgraph = this.highlightSubgraph;
-      this.graph.restoreGraph = this.restoreGraph;
+      this.graph.unhighlightGraph = this.unhighlightGraph;
     });
   }
   highlightSubgraph(hlItems) {
-    this.restoreGraph();
+    this.unhighlightGraph();
     // sort the group items
     const ns = hlItems.reNodes;
     const es = hlItems.reEdges;
@@ -95,7 +95,7 @@ class Plugin {
     });
     this.draw();
   }
-  restoreGraph() {
+  unhighlightGraph() {
     // hide the mask
     const items = this.getItems();
     let mask;
