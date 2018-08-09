@@ -49,22 +49,6 @@ const extractSubgraph = {
       reNodes,
       reEdges
     };
-  },
-  setZIndex(ns, es, minZ) {
-    const graph = this.graph;
-    const nodes = graph.getNodes();
-    const edges = graph.getEdges();
-    Util.each(nodes, node => {
-      Util.each(ns, n => {
-        if (node.id === n.id) node.getGraphicGroup().setSilent('zIndex', minZ + 2);
-      });
-    });
-    Util.each(edges, edge => {
-      Util.each(es, e => {
-        if (edge.id === e.id) edge.getGraphicGroup().setSilent('zIndex', minZ + 1);
-      });
-    });
-    graph.getItemGroup().sort();
   }
 };
 Util.mix(Util, extractSubgraph);
