@@ -179,14 +179,14 @@ class Plugin {
     if (legendContainer === undefined) {
       if (containerId === undefined) {
         legendContainer = Util.createDOM('<div class="legend-container"></div>');
+        const container = graph.getGraphContainer();
+        container.appendChild(legendContainer);
       } else {
         legendContainer = document.getElementById(containerId);
         if (legendContainer === undefined || legendContainer === null) {
           throw new Error('please set the container for the graph !');
         }
       }
-      const container = graph.getGraphContainer();
-      container.appendChild(legendContainer);
     }
 
     const canvas = new G.Canvas({
@@ -311,10 +311,11 @@ class Plugin {
       }
     }
 
+    const domainStep = (domain[domain.length - 1] - domain[0]) / (range.length - 1);
     const items = [];
     Util.each(range, (val, i) => {
-      const percent = (domain[i] - scale.min) / (scale.max - scale.min);
-      let itemText = domain[i];
+      let itemText = domain[0] + domainStep * i;
+      const percent = (itemText - domain[0]) / (domain[domain.length - 1] - domain[0]);
       if (legendCfg.formatter !== undefined && legendCfg.formatter !== null) {
         itemText = legendCfg.formatter(domain[i]);
       }
