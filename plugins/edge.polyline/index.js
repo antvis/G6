@@ -440,3 +440,5 @@ G6.registerEdge('polyline-round', {
     return getPathWithBorderRadiusByPolyline(polylinePoints, borderRadius);
   }
 }, 'polyline');
+
+module.exports = true;
