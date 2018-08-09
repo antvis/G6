@@ -159,27 +159,30 @@ class Layout {
     loading.style.setProperty('background-color', '#fff');
     loading.style.setProperty('position', 'absolute');
     const parent = graph.getGraphContainer().parentNode;
-    loading.style.setProperty('width', parent.offsetWidth + 'px');
-    loading.style.setProperty('height', parent.offsetHeight + 'px');
-    loading.style.setProperty('margin-top', (-parent.offsetHeight) + 'px');
+    const divHeight = parent.offsetHeight ? parent.offsetHeight : 600;
+    const divWidth = parent.offsetWidth ? parent.offsetWidth : 600;
+    loading.style.setProperty('width', divWidth + 'px');
+    loading.style.setProperty('height', divHeight + 'px');
+    loading.style.setProperty('margin-top', 0 + 'px');// (-parent.offsetHeight)s
     loading.style.zIndex = 999;
     parent.appendChild(loading);
     // the loading image
+    const imgSize = 200;
     const loadingImg = document.createElement('img');
     loadingImg.src = 'https://gw.alipayobjects.com/zos/rmsportal/mnEmjOmrHbghTsZNeTmI.gif';
-    loadingImg.style.setProperty('width', 200 + 'px');
-    loadingImg.style.setProperty('height', 200 + 'px');
-    const Cw = loadingImg.offsetWidth;
+    loadingImg.style.setProperty('width', imgSize + 'px');
+    loadingImg.style.setProperty('height', imgSize + 'px');
+    const Cw = imgSize;
     const Pw = loading.offsetWidth;
     const left = (Pw - Cw) / 2;
     loadingImg.style.setProperty('margin-left', left + 'px');
-    const Ch = loadingImg.offsetHeight;
+    const Ch = imgSize;
     const Ph = loading.offsetHeight;
     const top = (Ph - Ch) / 2;
     loadingImg.style.setProperty('margin-top', top + 'px');
     loading.appendChild(loadingImg);
 
-    const worker = new Worker();// { type: 'module' }
+    const worker = new Worker();
     worker.postMessage(obj);
     worker.onmessage = function(event) {
       this.nodes = event.data;
