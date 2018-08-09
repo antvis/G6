@@ -14,8 +14,8 @@
 
 <body>
   <div id='mountNode'></div>
-  <div id='legend'></div>
   <div id="minimap" style="border: 1px solid #999; position: absolute; top: 0px;"></div>
+  <div id='legend'></div>
   <script>
     var graph = null;
     var clickOnNode = null;
@@ -81,7 +81,7 @@
           nodeColorMapper, 
           edgeSizeMapper, 
           nodeSizeMapper,
-          // minimapPlugin 
+          minimapPlugin 
         ],
         modes: {
           default: ['panCanvas', 'wheelZoom']
