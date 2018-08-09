@@ -163,7 +163,7 @@ class Layout {
     const divWidth = parent.offsetWidth ? parent.offsetWidth : 600;
     loading.style.setProperty('width', divWidth + 'px');
     loading.style.setProperty('height', divHeight + 'px');
-    loading.style.setProperty('margin-top', 0 + 'px');// (-parent.offsetHeight)s
+    loading.style.setProperty('margin-top', -parent.offsetHeight + 'px');
     loading.style.zIndex = 999;
     parent.appendChild(loading);
     // the loading image
