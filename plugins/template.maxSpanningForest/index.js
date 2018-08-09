@@ -37,21 +37,12 @@ class Plugin {
           callBack: 'showAll'
         }]
       },
-      layout: {
-        auto: 'once', // true false once
-        processer: new Layout({
-          kr: 120,
-          kg: 8.0,
-          mode: 'common',
-          prevOverlapping: true,
-          dissuadeHubs: false,
-          maxIteration: 1000,
-          barnesHut: true,
-          ks: 0.1,
-          ksmax: 10,
-          tao: 0.1,
-          ...options.layoutCfg
-        })
+      layoutCfg: {
+        kr: 120,
+        kg: 8.0,
+        prevOverlapping: true,
+        maxIteration: 1000,
+        barnesHut: true
       },
       fisheye: true,
       menu: null,
@@ -61,10 +52,21 @@ class Plugin {
         stroke: '#4F7DAB',
         strokeOpacity: 0.65
       },
+      activedEdgeStyle: {
+        endArrow: true,
+        stroke: '#4C7295',
+        strokeOpacity: 1
+      },
       nodeStyle: {
         stroke: '#696969',
         strokeOpacity: 0.4,
         lineWidth: 1
+      },
+      activedNodeStyle: {
+        stroke: '#fff',
+        lineWidth: 1,
+        shadowColor: '#6a80aa',
+        shadowBlur: 20
       },
       node_label(model) {
         return {
@@ -75,12 +77,12 @@ class Plugin {
         };
       },
       interactive: true,
-      textDisplay: true,
-      ...options
-    });
+      textDisplay: true
+    }, options);
   }
   init() {
     const graph = this.graph;
+
     const highlighter = new G6.Plugins['tool.highlightSubgraph']();
     if (this.fisheye) {
       const fisheye = new G6.Plugins['tool.fisheye']({
@@ -94,9 +96,17 @@ class Plugin {
     }
     graph.addPlugin(highlighter);
     graph.on('beforeinit', () => {
-      const layout = graph.get('layout');
+      let layout = graph.get('layout');
       if (!layout) {
-        graph.set('layout', this.layout);
+        const { kr, kg, prevOverlapping, maxIteration, barnesHut } = this.layoutCfg;
+        layout = {
+          auto: 'once', // true false once
+          processer: new Layout({
+            kr, kg, prevOverlapping,
+            maxIteration, barnesHut
+          })
+        };
+        graph.set('layout', layout);
       }
       this.graph.activeItem = item => {
         this.activeItem(item);
@@ -134,7 +144,9 @@ class Plugin {
       this.setStyle();
       this.interactive && this.setListener();
       const menuCfg = this.menuCfg;
-      this.menu = new Menu({ menuCfg, graph });
+      if (menuCfg !== null) {
+        this.menu = new Menu({ menuCfg, graph });
+      }
     });
   }
   setStyle() {
@@ -164,19 +176,10 @@ class Plugin {
     let style = {};
     let preStyle = {};
     if (item.type === 'node') {
-      style = {
-        stroke: '#fff',
-        lineWidth: 1,
-        shadowColor: '#6a80aa',
-        shadowBlur: 20
-      };
+      style = this.activedNodeStyle;
       preStyle = this.nodeStyle;
     } else if (item.type === 'edge') {
-      style = {
-        endArrow: true,
-        stroke: '#4C7295',
-        strokeOpacity: 1
-      };
+      style = this.activedEdgeStyle;
       preStyle = this.edgeStyle;
     } else return;
 
@@ -229,22 +232,24 @@ class Plugin {
       shape,
       item
     }) => {
-      if (shape && item.isNode) {
-        const menuX = item.getModel().x * graph.getMatrix()[0] + graph.getMatrix()[6];
-        const menuY = item.getModel().y * graph.getMatrix()[0] + graph.getMatrix()[7];
-        this.menu.show(item, menuX, menuY);
-        graph.draw();
-      } else {
-        this.menu.hide();
-        // restore the highlighted graph and hide the edges which are not tree edges.
-        graph.restoreGraph();
-        const edges = graph.getEdges();
-        Util.each(edges, edge => {
-          if (edge.isVisible() && !edge.getModel().isTreeEdge) {
-            edge.hide();
-          }
-        });
-        graph.draw();
+      if (this.menuCfg !== null) {
+        if (shape && item.isNode) {
+          const menuX = item.getModel().x * graph.getMatrix()[0] + graph.getMatrix()[6];
+          const menuY = item.getModel().y * graph.getMatrix()[0] + graph.getMatrix()[7];
+          this.menu.show(item, menuX, menuY);
+          graph.draw();
+        } else {
+          this.menu.hide();
+          // restore the highlighted graph and hide the edges which are not tree edges.
+          graph.unhighlightGraph();
+          const edges = graph.getEdges();
+          Util.each(edges, edge => {
+            if (edge.isVisible() && !edge.getModel().isTreeEdge) {
+              edge.hide();
+            }
+          });
+          graph.draw();
+        }
       }
 
     });

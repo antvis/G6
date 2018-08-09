@@ -45,8 +45,10 @@ describe('node size mapper test', () => {
       source: 'node1'
     }]
   };
+  const div = document.createElement('div');
+  document.body.appendChild(div);
   const graph = new G6.Graph({
-    container: 'mountNode',
+    container: div,
     width: 500,
     height: 500,
     plugins: [ nodeSizeMapper ]
@@ -65,7 +67,7 @@ describe('node size mapper test', () => {
   });
   it('legend destroy', () => {
     graph.destroy();
-    expect(document.getElementById('nodeSizeLegend')).eql(null);
+    expect(document.getElementById('nodeSizeLegend').innerHTML).eql(originInnerHTML);
   });
 });
 
@@ -98,8 +100,10 @@ describe('node color mapper domain length test', () => {
         source: 'node1'
       }]
     };
+    const div = document.createElement('div');
+    document.body.appendChild(div);
     const graph = new G6.Graph({
-      container: 'mountNode',
+      container: div,
       width: 500,
       height: 500,
       plugins: [ nodeSizeMapper ]
@@ -140,8 +144,10 @@ describe('node color mapper domian equals 1 test', () => {
       source: 'node1'
     }]
   };
+  const div = document.createElement('div');
+  document.body.appendChild(div);
   const graph = new G6.Graph({
-    container: 'mountNode',
+    container: div,
     width: 500,
     height: 500,
     plugins: [ nodeSizeMapper ]
@@ -158,7 +164,7 @@ describe('node color mapper domian equals 1 test', () => {
   });
   it('legend destroy', () => {
     graph.destroy();
-    expect(document.getElementById('nodeColorLegend1')).eql(null);
+    expect(document.getElementById('nodeColorLegend1').innerHTML).eql(originInnerHTML);
   });
 });
 
@@ -193,8 +199,10 @@ describe('node color mapper domian equals 0 test', () => {
       source: 'node1'
     }]
   };
+  const div = document.createElement('div');
+  document.body.appendChild(div);
   const graph = new G6.Graph({
-    container: 'mountNode',
+    container: div,
     width: 500,
     height: 500,
     plugins: [ nodeSizeMapper ]
@@ -211,7 +219,7 @@ describe('node color mapper domian equals 0 test', () => {
   });
   it('legend destroy', () => {
     graph.destroy();
-    expect(document.getElementById('nodeColorLegend2')).eql(null);
+    expect(document.getElementById('nodeColorLegend2').innerHTML).eql(originInnerHTML);
   });
 });
 
@@ -242,8 +250,10 @@ describe('node color mapper domian equals -1 test', () => {
       source: 'node1'
     }]
   };
+  const div = document.createElement('div');
+  document.body.appendChild(div);
   const graph = new G6.Graph({
-    container: 'mountNode',
+    container: div,
     width: 500,
     height: 500,
     plugins: [ nodeSizeMapper ]
@@ -260,7 +270,7 @@ describe('node color mapper domian equals -1 test', () => {
   });
   it('legend destroy', () => {
     graph.destroy();
-    expect(document.getElementById('nodeColorLegend3')).eql(null);
+    expect(document.getElementById('nodeColorLegend3').innerHTML).eql(originInnerHTML);
   });
 });
 
@@ -293,8 +303,10 @@ describe('edge size mapper test', () => {
       weight: 2
     }]
   };
+  const div = document.createElement('div');
+  document.body.appendChild(div);
   const graph = new G6.Graph({
-    container: 'mountNode',
+    container: div,
     width: 500,
     height: 500,
     plugins: [ edgeSizeMapper ]
@@ -308,6 +320,9 @@ describe('edge size mapper test', () => {
     const size2 = edge2Model.size;
     expect(size1).eql(10);
     expect(size2).eql(50);
+  });
+  it('legend destroy', () => {
+    graph.destroy();
   });
 });
 
@@ -341,8 +356,10 @@ describe('edge size mapper vertical test', () => {
       weight: 2
     }]
   };
+  const div = document.createElement('div');
+  document.body.appendChild(div);
   const graph = new G6.Graph({
-    container: 'mountNode',
+    container: div,
     width: 500,
     height: 500,
     plugins: [ edgeSizeMapper ]
@@ -383,8 +400,10 @@ describe('node color category mapper test', () => {
       source: 'node1'
     }]
   };
+  const div = document.createElement('div');
+  document.body.appendChild(div);
   const graph = new G6.Graph({
-    container: 'mountNode',
+    container: div,
     width: 500,
     height: 500,
     plugins: [ nodeColoreMapper ]
@@ -401,7 +420,7 @@ describe('node color category mapper test', () => {
   });
   it('legend destroy', () => {
     graph.destroy();
-    expect(document.getElementById('nodeColorCatLegend')).eql(null);
+    expect(document.getElementById('nodeColorCatLegend').innerHTML).eql(originInnerHTML);
   });
 });
 
@@ -430,8 +449,10 @@ describe('node size mapper with formatter test', () => {
       source: 'node1'
     }]
   };
+  const div = document.createElement('div');
+  document.body.appendChild(div);
   const graph = new G6.Graph({
-    container: 'mountNode',
+    container: div,
     width: 500,
     height: 500,
     plugins: [ nodeSizeMapper ]
@@ -472,8 +493,10 @@ describe('container undefined test', () => {
         source: 'node1'
       }]
     };
+    const div = document.createElement('div');
+    document.body.appendChild(div);
     const graph = new G6.Graph({
-      container: 'mountNode',
+      container: div,
       width: 500,
       height: 500,
       plugins: [ nodeSizeMapper ]
@@ -511,8 +534,10 @@ describe('slider test', () => {
       source: 'node1'
     }]
   };
+  const div = document.createElement('div');
+  document.body.appendChild(div);
   const graph = new G6.Graph({
-    container: 'mountNode',
+    container: div,
     width: 500,
     height: 500,
     plugins: [ nodeSizeMapper ]

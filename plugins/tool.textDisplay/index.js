@@ -24,13 +24,17 @@ class Plugin {
   textDisplay() {
     const graph = this.graph;
     const nodes = graph.getNodes();
-    const scale = graph.getMatrix()[0];
     Util.each(nodes, node => {
       const label = node.getLabel();
       const model = node.getModel();
       const labelBox = label.getBBox();
       const labelWidth = labelBox.maxX - labelBox.minX;
-      const nodeWidth = model.size * scale;
+      const nodeBox = node.getBBox();
+      let nodeWidth = nodeBox.maxX - nodeBox.minX;
+      if (model.size === undefined) {
+        const nodeBox = node.getBBox();
+        nodeWidth = nodeBox.maxX - nodeBox.minX;
+      }
       if (labelWidth === 0) return;
       const ratio = labelWidth / nodeWidth;
       if (ratio > 2) {
