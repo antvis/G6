@@ -11,6 +11,7 @@ const domToImage = require('dom-to-image');
 const Mixin = function() {};
 
 Util.augment(Mixin, {
+  createPath() {},
   drawInner(context) {
     let { html, x, y, width, height } = this._attrs;
     const canvas = this.get('canvas');

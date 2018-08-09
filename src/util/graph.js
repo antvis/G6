@@ -74,9 +74,11 @@ module.exports = {
     }, graphBBox, padding);
     beforeTransform(graph);
     graph.setMatrix(matrix);
-    canvas.set('children', BaseUtil.cloneDeep(children));
+    canvas.set('children', children);
     canvas.matrix = matrix;
-    canvas.draw();
+    // canvas.draw();
+    canvas._cfg.painter.beforeDraw();
+    canvas._cfg.painter._drawGroup(canvas);
     graph.setMatrix(matrixCache);
     afterTransform(graph);
     return canvas.get('el');
