@@ -159,11 +159,11 @@ class Layout {
     loading.style.setProperty('background-color', '#fff');
     loading.style.setProperty('position', 'absolute');
     const parent = graph.getGraphContainer().parentNode;
-    const divHeight = parent.offsetHeight ? parent.offsetHeight : 500;
-    const divWidth = parent.offsetWidth ? parent.offsetWidth : 500;
+    const divHeight = parent.offsetHeight ? parent.offsetHeight : 600;
+    const divWidth = parent.offsetWidth ? parent.offsetWidth : 600;
     loading.style.setProperty('width', divWidth + 'px');
     loading.style.setProperty('height', divHeight + 'px');
-    loading.style.setProperty('margin-top', (-parent.offsetHeight) + 'px');
+    loading.style.setProperty('margin-top', 0 + 'px');// (-parent.offsetHeight)s
     loading.style.zIndex = 999;
     parent.appendChild(loading);
     // the loading image
