@@ -1,6 +1,7 @@
 module.exports = {
   'behaviour.analysis': require('./behaviour.analysis/'),
   'edge.quadraticCurve': require('./edge.quadraticCurve/'),
+  'edge.polyline': require('./edge.polyline'),
   'layout.archimeddeanSpiral': require('./layout.archimeddeanSpiral/'),
   'layout.circle': require('./layout.circle/'),
   'layout.dagre': require('./layout.dagre/'),
