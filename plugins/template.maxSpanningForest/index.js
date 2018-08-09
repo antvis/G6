@@ -251,7 +251,6 @@ class Plugin {
           graph.draw();
         }
       }
-
     });
   }
 }

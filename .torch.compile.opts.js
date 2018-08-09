@@ -13,7 +13,7 @@ module.exports = {
       ],
     ],
     presets: [
-      'env'
+      'env',
     ],
     sourceMaps: 'inline',
   },
