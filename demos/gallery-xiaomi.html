@@ -19,6 +19,7 @@
   <script src="./assets/d3-4.13.0.min.js"></script>
   <script src="./assets/d3-legend-2.25.6.min.js"></script>
   <script src="../build/g6.js"></script>
+  <script src="../build/plugin.tool.minimap.js"></script>
   <script src="../build/plugin.behaviour.analysis.js"></script>
   <script src="../build/plugin.tool.d3.mapper.js"></script>
   <script>
@@ -35,7 +36,11 @@
       const graph = new G6.Graph({
         container: 'mountNode',
         height: window.innerHeight,
-        plugins: [nodeSizeMapper, nodeColorMapper],
+        plugins: [nodeSizeMapper, nodeColorMapper, new G6.Plugins['tool.minimap']({
+          container: 'minimap',
+          width: 180,
+          height: 120
+        })],
         modes: {
           default: ['rightPanCanvas']
         },
@@ -55,6 +60,7 @@
               .force('x', forceX())
               .on('tick', () => {
                 graph.updateNodePosition();
+                graph.emit('afterlayout');
               });
           }
         }

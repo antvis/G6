@@ -56,7 +56,6 @@ module.exports = {
     const graphCanvas = graph.getCanvas();
     const graphBBox = graph.getBBox();
     const padding = graph.getFitViewPadding();
-    const renderer = graph.get('renderer');
     const children = graphCanvas.get('children');
     const matrixCache = BaseUtil.cloneDeep(graph.getMatrix());
     if (!canvas) {
@@ -75,10 +74,11 @@ module.exports = {
     }, graphBBox, padding);
     beforeTransform(graph);
     graph.setMatrix(matrix);
-    canvas.set('renderer', renderer);
     canvas.set('children', children);
     canvas.matrix = matrix;
-    canvas.draw();
+    // canvas.draw();
+    canvas._cfg.painter.beforeDraw();
+    canvas._cfg.painter._drawGroup(canvas);
     graph.setMatrix(matrixCache);
     afterTransform(graph);
     return canvas.get('el');
