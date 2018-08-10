@@ -61,6 +61,19 @@ Util.augment(Mixin, {
   sortBy(callback) {
     const children = this.get('children');
     this.set('children', Util.radixSort(children, callback));
+  },
+  /**
+   * clear inner elements
+   * @param  {boolean} bool if destroy child
+   * @return {object}  this
+   */
+  clear(bool) {
+    const children = this._cfg.children;
+    for (let i = children.length - 1; i >= 0; i--) {
+      children[i].remove(bool);
+    }
+    this._cfg.children = [];
+    return this;
   }
 });
 
