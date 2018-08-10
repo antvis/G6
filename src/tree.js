@@ -5,6 +5,7 @@
 
 const Util = require('./util/');
 const Graph = require('./graph');
+const Global = require('./global');
 const Layouts = require('./layouts/');
 
 class Tree extends Graph {

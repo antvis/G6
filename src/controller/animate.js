@@ -5,7 +5,6 @@
 
 const Base = require('./base');
 const Util = require('../util/');
-const Global = require('../global');
 
 /**
  * depth traversal and copy the graphics
@@ -25,7 +24,8 @@ function getElements(map, parent, count) {
     if (!Util.isNil(id)) {
       const stash = {
         matrixStash: Util.cloneDeep(child.getMatrix()),
-        element: child
+        element: child,
+        visible: child.get('visible')
       };
       if (child.isShape) {
         stash.attrsStash = Util.cloneDeep(child.attr());
@@ -34,13 +34,6 @@ function getElements(map, parent, count) {
     }
   });
   return count;
-}
-
-function updateAnimate(element, props) {
-  element.set('capture', false);
-  element.animate(props, Global.updateDuration, Global.updateEasing, function() {
-    element.set('capture', true);
-  });
 }
 
 class Controller extends Base {
@@ -102,6 +95,8 @@ class Controller extends Base {
     this.updateElements = updateElements;
   }
   _addTween() {
+    const graph = this.graph;
+    const updateAnimate = graph.get('_updateAnimate');
     const enterElements = this.enterElements;
     const leaveElements = this.leaveElements;
     const updateElements = this.updateElements;
@@ -131,11 +126,17 @@ class Controller extends Base {
       const subStash0 = stash0[elementId];
       const e1 = subStash1.element;
       const e0 = subStash0.element;
+      let visibleAction = 'none';
+      if (subStash1.visible && !subStash0.visible) {
+        visibleAction = 'show';
+      } else if (!subStash1.visible && subStash0.visible) {
+        visibleAction = 'hide';
+      }
       if (subStash0.attrsStash) {
         e1.attr(subStash0.attrsStash);
       }
       e1.setMatrix(subStash0.matrixStash);
-      updateAnimate(e1, Util.mix({}, keyFrame.attrs, { matrix: keyFrame.matrix }));
+      updateAnimate(e1, Util.mix({}, keyFrame.attrs, { matrix: keyFrame.matrix }), visibleAction);
       if (e0 !== e1) {
         e0.remove();
       }
