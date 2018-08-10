@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "2.1.0-beta.5",
+  "version": "2.1.0-beta.6",
   "description": "graph visualization frame work",
   "main": "build/g6.js",
   "homepage": "https://github.com/antvis/g6",
@@ -90,6 +90,7 @@
     "demos": "electron ./demos/app.js",
     "demos-web": "node ./demos/app.js --web --port 2046",
     "dev": "npm run watch & npm run demos-web",
+    "publish": "node ./bin/publish.js",
     "dist": "npm run mkdir-dist && npm run build && npm run copy",
     "lint": "eslint --ext .js ./src",
     "lint-fix": "eslint --ext .html,.js --fix ./",
