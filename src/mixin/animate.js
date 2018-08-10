@@ -4,6 +4,7 @@
  */
 
 const Util = require('../util/');
+const Global = require('../global');
 const Animate = require('../controller/animate');
 const Mixin = {};
 Mixin.INIT = '_initAnimate';
@@ -22,8 +23,7 @@ Mixin.CFG = {
 
   _enterAnimate(item) {
     const group = item.getGraphicGroup();
-    const matrix = group.getMatrix();
-    const box = Util.getBBox(group, matrix); // need apply self matrix
+    const box = item.getBBox();
     const centerX = (box.minX + box.maxX) / 2;
     const centerY = (box.minY + box.maxY) / 2;
     Util.scaleIn(group, centerX, centerY);
@@ -31,11 +31,36 @@ Mixin.CFG = {
 
   _leaveAnimate(item) {
     const group = item.getGraphicGroup();
-    const matrix = group.getMatrix();
-    const box = Util.getBBox(group, matrix); // need apply self matrix
+    const box = item.getBBox();
     const centerX = (box.minX + box.maxX) / 2;
     const centerY = (box.minY + box.maxY) / 2;
-    Util.scaleOut(group, centerX, centerY);
+    Util.scaleOut(group, centerX, centerY, function() {
+      group.remove();
+    });
+  },
+
+  _updateAnimate(element, props, visibleAction) {
+    if (visibleAction === 'show') {
+      const item = element.item;
+      const box = item.getBBox();
+      const centerX = (box.minX + box.maxX) / 2;
+      const centerY = (box.minY + box.maxY) / 2;
+      Util.scaleIn(element, centerX, centerY);
+    } else if (visibleAction === 'hide') {
+      element.show();
+      const item = element.item;
+      const box = item.getBBox();
+      const centerX = (box.minX + box.maxX) / 2;
+      const centerY = (box.minY + box.maxY) / 2;
+      Util.scaleOut(element, centerX, centerY, function() {
+        element.hide();
+      });
+    } else {
+      element.set('capture', false);
+      element.animate(props, Global.updateDuration, Global.updateEasing, function() {
+        element.set('capture', true);
+      });
+    }
   }
 };
 Mixin.AUGMENT = {

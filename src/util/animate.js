@@ -33,17 +33,13 @@ module.exports = {
    * @param  {object}  centerX scale centerX
    * @param  {object}  centerY scale centerY
    */
-  scaleOut(element, x, y, centerX, centerY) {
-    centerX = centerX ? centerX : x;
-    centerY = centerY ? centerY : y;
+  scaleOut(element, x, y, callback) {
     element && !element.get('destroyed') && element.animate({
       transform: [
-        [ 't', -centerX, -centerY ],
+        [ 't', -x, -y ],
         [ 's', 0.01, 0.01 ],
         [ 't', x, y ]
       ]
-    }, Global.leaveDuration, Global.leaveEasing, function() {
-      element.remove();
-    });
+    }, Global.leaveDuration, Global.leaveEasing, callback);
   }
 };
