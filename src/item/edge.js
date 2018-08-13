@@ -59,11 +59,13 @@ class Edge extends Item {
     ratio = ratio();
     const group = this.group;
     const keyShape = this.keyShape;
+    const keyShapePath = Util.parsePathString(Util.cloneDeep(keyShape.attr('path')));
+    const lastSegment = keyShapePath[keyShapePath.length - 1];
+    const startSegment = keyShapePath[0];
     const point = keyShape.getPoint(ratio);
-    if (!point) {
+    if (!point || isNaN(point.x)) {
       return;
     }
-    const keyShapePath = Util.cloneDeep(keyShape.attr('path'));
     const marker = group.addShape('path', {
       attrs: {
         path,
@@ -91,11 +93,9 @@ class Edge extends Item {
     marker.rotate(deg);
     marker.translate(point.x, point.y);
     if (type === 'end') {
-      const lastSegment = keyShapePath[keyShapePath.length - 1];
       lastSegment[lastSegment.length - 1] = vDindent[1] + point.y;
       lastSegment[lastSegment.length - 2] = vDindent[0] + point.x;
     } else {
-      const startSegment = keyShapePath[0];
       startSegment[startSegment.length - 1] = vDindent[1] + point.y;
       startSegment[startSegment.length - 2] = vDindent[0] + point.x;
     }
@@ -124,19 +124,6 @@ class Edge extends Item {
       y: point.y
     };
   }
-  // layoutUpdate() {
-  //   const group = this.getGraphicGroup();
-  //   const children = group.get('children');
-  //   this._beforeDraw();
-  //   if (children.length === 1) {
-  //     const keyShape = this.keyShape;
-  //     const shapeObj = this.shapeObj;
-  //     keyShape.attr('path', shapeObj.getPath(this));
-  //   } else {
-  //     this.draw();
-  //   }
-  //   this._afterDraw();
-  // }
   linkedItemVisible() {
     const source = this.source;
     const target = this.target;

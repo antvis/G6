@@ -426,7 +426,7 @@ G6.registerEdge('polyline', {
 });
 
 G6.registerEdge('polyline-round', {
-  borderRadius: 10,
+  borderRadius: 9,
   getPathByPoints(points, source, target) {
     const polylinePoints = simplifyPolyline(
       getPolylinePoints(points[0], points[points.length - 1], source, target, this.offset)
