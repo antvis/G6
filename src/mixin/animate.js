@@ -22,6 +22,7 @@ Mixin.CFG = {
   forcePreventAnimate: false,
 
   _enterAnimate(item) {
+    if (!item.getKeyShape()) return;
     const group = item.getGraphicGroup();
     const box = item.getBBox();
     const centerX = (box.minX + box.maxX) / 2;
@@ -30,6 +31,7 @@ Mixin.CFG = {
   },
 
   _leaveAnimate(item) {
+    if (!item.getKeyShape()) return;
     const group = item.getGraphicGroup();
     const box = item.getBBox();
     const centerX = (box.minX + box.maxX) / 2;
