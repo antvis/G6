@@ -5,7 +5,6 @@
 
 const Util = require('./util/');
 const Graph = require('./graph');
-const Global = require('./global');
 const Layouts = require('./layouts/');
 
 class Tree extends Graph {
@@ -30,16 +29,6 @@ class Tree extends Graph {
         this._setVisibleByCollapsed(rootItem);
       });
     });
-    // this.on('afterchange', () => {
-    //   const roots = this.getRoots();
-    //   roots.forEach(root => {
-    //     root.hierarchy = 1;
-    //     root.deepEach(child => {
-    //       const parent = child.getParent();
-    //       child.hierarchy = parent.hierarchy + 1;
-    //     });
-    //   });
-    // });
   }
   _executeLayout(processer) {
     const source = this.get('_sourceData');

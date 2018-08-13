@@ -18,6 +18,7 @@ function getElements(map, parent, count) {
   Util.each(children, function(child) {
     count++;
     const id = child.gid;
+
     if (child.isGroup) {
       count = getElements(map, child, count);
     }
@@ -104,9 +105,10 @@ class Controller extends Base {
     const stash1 = this.stash1;
     const keyFrameCache = this.keyFrameCache;
 
-    Util.each(enterElements, function(elementId) {
+    enterElements.forEach(function(elementId) {
       const keyFrame = keyFrameCache[elementId];
       const enterAnimate = keyFrame.enterAnimate;
+
       if (enterAnimate) {
         enterAnimate(keyFrame.item, stash0.element, stash1.element);
       }
