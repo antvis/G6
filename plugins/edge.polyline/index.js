@@ -6,11 +6,6 @@
 const G6 = require('@antv/g6');
 const Util = G6.Util;
 
-const DEFAULT_STYLE = {
-  offset: 10,
-  borderRadius: 10
-};
-
 function isHorizontalPort(port, bbox) {
   const dx = Math.abs(port.x - bbox.centerX);
   const dy = Math.abs(port.y - bbox.centerY);
@@ -416,6 +411,7 @@ function getPathWithBorderRadiusByPolyline(points, borderRadius) {
 }
 
 G6.registerEdge('polyline', {
+  offset: 10,
   getPath(item) {
     const points = this.getPoints(item);
     const source = item.getSource();
@@ -426,21 +422,20 @@ G6.registerEdge('polyline', {
     return item.getPoints();
   },
   getPathByPoints(points, source, target) {
-    const { offset } = Util.merge({}, DEFAULT_STYLE);
-    const polylinePoints = getPolylinePoints(points[0], points[points.length - 1], source, target, offset);
+    const polylinePoints = getPolylinePoints(points[0], points[points.length - 1], source, target, this.offset);
     // FIXME default
     return Util.pointsToPolygon(polylinePoints);
   }
 });
 
 G6.registerEdge('polyline-round', {
+  borderRadius: 9,
   getPathByPoints(points, source, target) {
-    const { offset, borderRadius } = Util.merge({}, DEFAULT_STYLE);
     const polylinePoints = simplifyPolyline(
-      getPolylinePoints(points[0], points[points.length - 1], source, target, offset)
+      getPolylinePoints(points[0], points[points.length - 1], source, target, this.offset)
     );
     // FIXME default
-    return getPathWithBorderRadiusByPolyline(polylinePoints, borderRadius);
+    return getPathWithBorderRadiusByPolyline(polylinePoints, this.borderRadius);
   }
 }, 'polyline');
 

@@ -88,6 +88,7 @@ class Item {
     group.id = model.id;
     group.itemType = type;
     group.model = model;
+    group.item = this;
   }
   _calculateBBox() {
     const keyShape = this.keyShape;
@@ -115,6 +116,11 @@ class Item {
     const shapeObj = this.shapeObj;
     const graph = this.graph;
     return shapeObj.leaveAnimate ? shapeObj.leaveAnimate : graph.get('_leaveAnimate');
+  }
+  getUpdateAnimate() {
+    const shapeObj = this.shapeObj;
+    const graph = this.graph;
+    return shapeObj.updateAnimate ? shapeObj.updateAnimate : graph.get('_updateAnimate');
   }
   _setShapeObj() {
     const graph = this.graph;
