@@ -30,8 +30,7 @@ module.exports = {
    * @param  {object}  element g element
    * @param  {object}  x to x
    * @param  {object}  y to y
-   * @param  {object}  centerX scale centerX
-   * @param  {object}  centerY scale centerY
+   * @param  {function} callback callback when animate finshed
    */
   scaleOut(element, x, y, callback) {
     element && !element.get('destroyed') && element.animate({
