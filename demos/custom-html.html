@@ -9,6 +9,7 @@
 <body>
 <div id="mountNode"></div>
 <script src="../build/g6.js"></script>
+<script src="../build/plugins.js"></script>
 <script>
   const data = {
     nodes: [{
@@ -35,9 +36,6 @@
     draw(item){
       const group = item.getGraphicGroup();
       const html = G6.Util.createDOM('<div>这里是 HTML 节点</div>');
-      html.on('click', () => {
-        console.log(3333)
-      });
       return group.addShape('dom', {
         attrs: {
           x: 0,
@@ -54,16 +52,18 @@
     container: 'mountNode',  // 容器ID
     fitView: 'cc',
     renderer: 'svg',
+    modes: {
+      default: ['panCanvas', 'wheelZoom']
+    },
     height: window.innerHeight
   });
   graph.node({
     shape: 'customNode'
   });
   graph.read(data);
-  setTimeout(()=>{
-    graph.find('node3').getKeyShape().attr('fill', 'blue');
-    graph.draw();
-  }, 300);
+  graph.on('click', ev=>{
+    console.log(ev.shape);
+  });
 </script>
 </body>
 </html>
