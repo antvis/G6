@@ -62,7 +62,7 @@ describe('fisheye test', () => {
       clientX: clientPoint.x - 100,
       clientY: clientPoint.y
     });
-    expect([ node1Model.x, node1Model.y ]).eql([ 130, 200 ]);
+    expect([ node1Model.x, node1Model.y ]).eql([ 100, 200 ]);
 
     graph.update('node3', {
       x: -50,
@@ -82,7 +82,7 @@ describe('fisheye test', () => {
       clientX: clientPoint3.x,
       clientY: clientPoint3.y
     });
-    expect([ node1Model.x, node1Model.y ]).eql([ 130, 200 ]);
+    expect([ node1Model.x, node1Model.y ]).eql([ 100, 200 ]);
     expect(div.childNodes.length).not.eql(0);
   });
 
@@ -177,7 +177,7 @@ describe('fisheye test', () => {
         clientX: clientPoint.x,
         clientY: clientPoint.y
       });
-      expect([ node1Model.x, node1Model.y ]).eql([ 130, 200 ]);
+      expect([ node1Model.x, node1Model.y ]).eql([ 100, 200 ]);
       expect(div.childNodes.length).not.eql(0);
       done();
     }, 100);
