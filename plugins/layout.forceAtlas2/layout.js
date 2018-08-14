@@ -5,6 +5,7 @@
 const G6 = require('@antv/g6');
 const Util = G6.Util;
 const Worker = require('./layout.worker');
+const ForceCal = require('./forceCalculator');
 
 // import StaticsWorker from 'worker-loader?inline!./statistics.worker.js';
 class Layout {
@@ -99,12 +100,18 @@ class Layout {
        * the function of layout complete listener, display the legend and minimap after layout
        * @type  {function}
        */
-      onLayoutComplete: () => {}
+      onLayoutComplete: () => {},
+
+      /**
+       * activate the webworker for this algorithm or not
+       * @type  {boolean}
+       */
+      useWorker: true
     }, options);
   }
   // execute the layout
   execute() {
-    let {
+    const {
       graph,
       nodes,
       edges,
@@ -121,9 +128,6 @@ class Layout {
       onLayoutComplete
     } = this;
 
-    if (!barnesHut && nodes.length > 300) barnesHut = true;
-    else if (barnesHut && nodes.length <= 300) barnesHut = false;
-
     const width = this.width ? this.width : graph.getWidth();
     const height = this.height ? this.height : graph.getHeight();
     const center = this.center ? this.center : {
@@ -134,7 +138,7 @@ class Layout {
     const widths = [];
     const size = nodes.length;
     for (let i = 0; i < size; i += 1) {
-      widths[i] = graph.getNodes()[i].getBBox().maxX;
+      widths[i] = (graph.getNodes()[i].getBBox().maxX - graph.getNodes()[i].getBBox().minX) / 2;
     }
     const obj = {
       nodes,
@@ -182,10 +186,27 @@ class Layout {
     loadingImg.style.setProperty('margin-top', top + 'px');
     loading.appendChild(loadingImg);
 
-    const worker = new Worker();
-    worker.postMessage(obj);
-    worker.onmessage = function(event) {
-      this.nodes = event.data;
+    if (this.useWorker) {
+      const worker = new Worker();
+      worker.postMessage(obj);
+      worker.onmessage = function(event) {
+        this.nodes = event.data;
+        const graphNodes = graph.getNodes();
+        for (let i = 0; i < size; i += 1) {
+          const model = graphNodes[i].getModel();
+          model.x = this.nodes[i].x;
+          model.y = this.nodes[i].y;
+        }
+        graph.changeLayout();
+        const fitView = graph.get('fitView');
+        fitView && graph.setFitView(fitView);
+        worker.terminate();
+        loading.style.display = 'none';
+        onLayoutComplete();
+      };
+    } else {
+      const forceCal = new ForceCal();
+      this.nodes = forceCal.updateNodesByForces(obj);
       const graphNodes = graph.getNodes();
       for (let i = 0; i < size; i += 1) {
         const model = graphNodes[i].getModel();
@@ -195,11 +216,9 @@ class Layout {
       graph.changeLayout();
       const fitView = graph.get('fitView');
       fitView && graph.setFitView(fitView);
-      worker.terminate();
       loading.style.display = 'none';
       onLayoutComplete();
-
-    };
+    }
   }
 }
 module.exports = Layout;
