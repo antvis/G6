@@ -98,8 +98,8 @@
     "prepublishOnly": "npm run build-lib && npm run dist && node ./bin/version.js",
     "screenshot": "node ./bin/screenshot.js",
     "start": "npm run dev",
-    "test": "torch --compile --renderer --recursive ./test/unit",
-    "test-live": "torch --compile --interactive --watch --recursive ./test/unit/",
+    "test": "torch --compile --renderer --recursive ./test/unit/plugins/",
+    "test-live": "torch --compile --interactive --watch --recursive ./test/unit/plugins/",
     "watch": "webpack --config webpack-dev.config.js",
     "win-dev": "node ./bin/win-dev.js"
   },
