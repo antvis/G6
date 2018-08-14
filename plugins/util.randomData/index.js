@@ -5,8 +5,10 @@
 const G6 = require('@antv/g6');
 const Util = G6.Util;
 const randomData = {
-  // 生成链式图数据
-  createChainData(num, nodes = [], edges = []) {
+  // generate chain graph data
+  createChainData(num) {
+    const nodes = [];
+    const edges = [];
     for (let index = 0; index < num; index++) {
       nodes.push({
         id: index
@@ -26,7 +28,7 @@ const randomData = {
       edges
     };
   },
-  // 生成圆数据
+  // generate cyclic graph data
   createCyclicData(num) {
     const data = randomData.createChainData(num);
     const { nodes, edges } = data;
@@ -37,16 +39,16 @@ const randomData = {
     });
     return data;
   },
-  // generate num * num nodes withou edges
-  createNodesData(num, nodes = [], edges = []) {
+  // generate num * num nodes without edges
+  createNodesData(num) {
+    const nodes = [];
     for (let index = 0; index < num * num; index++) {
       nodes.push({
         id: index
       });
     }
     return {
-      nodes,
-      edges
+      nodes
     };
   }
 };

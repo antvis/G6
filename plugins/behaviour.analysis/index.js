@@ -12,14 +12,14 @@ function panCanvas(graph, button = 'left') {
       ev.domEvent.preventDefault();
     });
   }
-  graph.behaviourOn('mousedown', ev => {
-    if (button === 'left' && ev.domEvent.button === 0 || button === 'right' && ev.domEvent.button === 2) {
-      lastPoint = {
-        x: ev.domX,
-        y: ev.domY
-      };
-    }
-  });
+  // graph.behaviourOn('mousedown', ev => {
+  //   if (button === 'left' && ev.domEvent.button === 0 || button === 'right' && ev.domEvent.button === 2) {
+  //     lastPoint = {
+  //       x: ev.domX,
+  //       y: ev.domY
+  //     };
+  //   }
+  // });
   graph.behaviourOn('canvas:mouseenter', () => {
     graph.css({
       cursor: '-webkit-grab'
@@ -130,3 +130,5 @@ G6.registerBehaviour('wheelZoom', graph => {
     }, 50);
   }
 });
+
+module.exports = true;

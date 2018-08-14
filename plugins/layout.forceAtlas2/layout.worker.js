@@ -1,6 +1,7 @@
 const Body = require('./body');
 const Quad = require('./quad');
 const QuadTree = require('./quadTree');
+
 onmessage = function(event) {
   let {
     nodes,

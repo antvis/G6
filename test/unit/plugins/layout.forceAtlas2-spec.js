@@ -1,5 +1,5 @@
 // const G6 = require('../../../src/index');
-// const Layout = require('../../../build/plugin.layout.forceAtlas2');
+// const Layout = require('../../../plugins/layout.forceAtlas2/');
 // const expect = require('chai').expect;
 // const Util = G6.Util;
 

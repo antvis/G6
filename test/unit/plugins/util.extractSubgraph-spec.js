@@ -1,8 +1,7 @@
 const G6 = require('../../../src/index');
-const Extractor = require('../../../plugins/util.extractSubgraph/');
 const expect = require('chai').expect;
 const Util = G6.Util;
-
+require('../../../plugins/util.extractSubgraph/');
 describe('extract subgraph test', () => {
   const data = {
     nodes: [{
