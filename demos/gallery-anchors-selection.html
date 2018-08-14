@@ -44,7 +44,7 @@
       }, {
         id: '入 hdfs',
       },{
-        id: '入 hdfs2',
+        id: '入 hdfs 2',
       }, {
         id: 'hive 计算',
       },{
@@ -58,12 +58,12 @@
         target: '入 hdfs'
       },{
         source: '收集日志',
-        target: '入 hdfs2'
+        target: '入 hdfs 2'
       },{
         source: '入 hdfs',
         target: 'hive 计算'
       },{
-        source: '入 hdfs2',
+        source: '入 hdfs 2',
         target: 'hive 计算'
       },{
         source: '入 es 集群',
@@ -87,18 +87,18 @@
         return model.id;
       },
       style: {
-        stroke: '#00C0A5',
-        fill: '#92949F',
+        stroke: '#ddf',
+        fill: '#6694FF',
         fillOpacity: 0.45,
         lineWidth: 2
       }
     });
     graph.edge({
-      shape: 'polyline',
+      // shape: 'polyline',
       style: {
         endArrow: true,
-        stroke: 'grey',
-        lineWidth: 1,
+        stroke: '#bbb',
+        lineWidth: 1.5,
         strokeOpacity: 1
       }
     });
