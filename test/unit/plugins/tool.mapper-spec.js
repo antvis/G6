@@ -109,6 +109,7 @@ describe('node color mapper domain length test', () => {
       plugins: [ nodeSizeMapper ]
     });
     graph.read(data);
+    graph.destroy();
   };
 
   it('legend render', () => {
@@ -373,6 +374,7 @@ describe('edge size mapper vertical test', () => {
     const size2 = edge2Model.size;
     expect(size1).eql(10);
     expect(size2).eql(50);
+    graph.destroy();
   });
 });
 
@@ -465,6 +467,7 @@ describe('node size mapper with formatter test', () => {
     const size2 = node2Model.size / 2;
     expect(size1).eql(10);
     expect(size2).eql(50);
+    graph.destroy();
   });
 });
 
@@ -502,7 +505,7 @@ describe('container undefined test', () => {
       plugins: [ nodeSizeMapper ]
     });
     graph.read(data);
-
+    graph.destroy();
   };
 
   it('legend render', () => {
@@ -548,5 +551,6 @@ describe('slider test', () => {
     const slider = nodeSizeMapper.legend.get('slider');
     slider.emit('sliderchange', { range: [ 0, 50 ] });
     expect(document.getElementById('sliderChangeTestDiv')).not.eql(undefined);
+    graph.destroy();
   });
 });
