@@ -85,7 +85,7 @@
     "ci": "npm run lint && npm run test",
     "copy": "node ./bin/cp-dist.js",
     "coverage": "npm run coverage-generator && npm run coverage-viewer",
-    "coverage-generator": "torch --compile --coverage --renderer --recursive --source-pattern index.js,src/**/*.js test/unit/plugins/template.maxSpanningForest-spec.js",
+    "coverage-generator": "torch --compile --coverage --renderer --recursive --source-pattern index.js,src/**/*.js test/unit",
     "coverage-viewer": "torch-coverage",
     "demos": "electron ./demos/app.js",
     "demos-web": "node ./demos/app.js --web --port 2046",
