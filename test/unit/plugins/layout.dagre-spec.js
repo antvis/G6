@@ -17,7 +17,11 @@ describe('plugin layout dagre', () => {
       fitView: 'cc',
       width: 500,
       height: 500,
-      plugins: [ new Plugin() ]
+      plugins: [ new Plugin({
+        nodesep() {
+          return 10;
+        }
+      }) ]
     });
     graph.node({
       size: 16

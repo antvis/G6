@@ -1,6 +1,9 @@
 const G6 = require('../../../src/index');
-const expect = require('chai').expect;
+const chai = require('chai');
+const expect = chai.expect;
 const Util = G6.Util;
+const chaiAlmost = require('chai-almost');
+chai.use(chaiAlmost());
 document.body.appendChild(Util.createDOM(`
   <div id='mountNode'></div>
 `));
@@ -47,7 +50,7 @@ describe('plugin layout circle avoidOverlap is true', () => {
       size: 16
     });
     graph.read(data);
-    expect(graph.find(0).getModel().x).eql(249.99999999999994);
+    expect(graph.find(0).getModel().x).to.almost.eql(249.99999999999997);
     expect(graph.find(0).getModel().y).eql(17);
     graph.destroy();
   });
@@ -71,8 +74,32 @@ describe('plugin layout circle radius is number', () => {
       size: 16
     });
     graph.read(data);
-    expect(graph.find(0).getModel().x).eql(249.99999999999994);
-    expect(graph.find(0).getModel().y).eql(17);
+    expect(graph.find(0).getModel().x).to.almost.eql(249.99999999999994);
+    expect(graph.find(0).getModel().y).eql(150);
+    graph.destroy();
+  });
+});
+
+describe('plugin layout circle nodes.length <= 1', () => {
+  it('layout', () => {
+    const Plugin = G6.Plugins['layout.circle'];
+    const graph = new G6.Graph({
+      container: 'mountNode',
+      fitView: 'cc',
+      width: 500,
+      height: 500,
+      plugins: [ new Plugin({
+        radius: 100
+      }) ]
+    });
+    graph.node({
+      size: 16
+    });
+    graph.read({
+      nodes: [{
+        id: 'node1'
+      }]
+    });
     graph.destroy();
   });
 });

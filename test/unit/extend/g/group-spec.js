@@ -22,7 +22,8 @@ describe('extend group test', () => {
   });
   const shape2 = group.addShape('rect', {
     attrs: rectAttrs,
-    zIndex: 2
+    zIndex: 2,
+    class: 'aa'
   });
   const shape3 = group.addShape('rect', {
     attrs: rectAttrs,
@@ -44,6 +45,10 @@ describe('extend group test', () => {
     children.forEach((child, index) => {
       expect(child.get('zIndex')).equal(index);
     });
+  });
+  it('hasClass', () => {
+    expect(shape2.hasClass('aa')).eql(true);
+    expect(shape1.hasClass('aa')).eql(false);
   });
   it('clear', () => {
     group.clear(false);

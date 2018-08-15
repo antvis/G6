@@ -69,6 +69,13 @@ describe('behaviour analysis test', () => {
       x: 50,
       y: 50
     });
+    graph.emit('contextmenu', {
+      domEvent: {
+        preventDefault() {
+
+        }
+      }
+    });
     Simulate.simulate(mouseEventWrapper, 'mousedown', {
       clientX: clientPoint.x,
       clientY: clientPoint.y,
@@ -140,6 +147,10 @@ describe('behaviour analysis test', () => {
     graph.removeBehaviour([ 'panBlank' ]);
     graph.updateMatrix([ 1, 0, 0, 0, 1, 0, 0, 0, 1 ]);
   });
+  it('rightPanBlank', () => {
+    graph.addBehaviour([ 'rightPanBlank' ]);
+    graph.removeBehaviour([ 'rightPanBlank' ]);
+  });
   it('panNode', () => {
     graph.addBehaviour([ 'panNode' ]);
     const clientPoint = graph.getClientPoint({
@@ -163,42 +174,38 @@ describe('behaviour analysis test', () => {
       clientY: clientPoint.y
     });
     expect(graph.find('node1').getModel().x).eql(245);
-    graph.removeBehaviour([ 'panBlank' ]);
+    Simulate.simulate(mouseEventWrapper, 'mouseleave', {
+      clientX: clientPoint.x + 600,
+      clientY: clientPoint.y + 600
+    });
+    graph.removeBehaviour([ 'panNode' ]);
   });
   it('wheelZoom', done => {
-    const times = 2;
     graph.addBehaviour([ 'wheelZoom' ]);
-    for (let index = 0; index < times; index++) {
-      setTimeout(() => {
-        graph.emit('mousewheel', {
-          domEvent: {
-            preventDefault() {
+    graph.emit('mousewheel', {
+      domEvent: {
+        preventDefault() {
 
-            },
-            wheelDelta: 11
-          },
-          x: 50,
-          y: 50
-        });
-      }, 30 * index);
-    }
-    for (let index = 0; index < times; index++) {
-      setTimeout(() => {
-        graph.emit('mousewheel', {
-          domEvent: {
-            preventDefault() {
+        },
+        wheelDelta: 11
+      },
+      x: 50,
+      y: 50
+    });
+    setTimeout(() => {
+      graph.emit('mousewheel', {
+        domEvent: {
+          preventDefault() {
 
-            },
-            wheelDelta: 2
           },
-          x: 50,
-          y: 50
-        });
-        if (index === times - 1) {
-          done();
-        }
-      }, 30 * (index + times));
-    }
+          wheelDelta: 1
+        },
+        x: 50,
+        y: 50
+      });
+      done();
+    }, 100);
+
   });
   it('destroy', () => {
     graph.destroy();
