@@ -413,7 +413,7 @@ class Plugin {
     }
     graph[itemType]()[channel](model => {
       if (itemType === 'node' && channel === 'size') {
-        return scale.scale(model[dim]) * 2;
+        return scale.scale(model[dim]);
       } else if (channel === 'color') {
         return color.mapping(model[dim])[0];
       }

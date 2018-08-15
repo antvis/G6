@@ -428,6 +428,7 @@ class Graph extends Base {
    * @return {Graph} this
    */
   destroy() {
+    this.emit('beforedestroy');
     const canvas = this.get('_canvas');
     const graphContainer = this.get('_graphContainer');
     const controllers = this.get('_controllers');
@@ -446,6 +447,7 @@ class Graph extends Base {
     canvas && canvas.destroy();
     graphContainer.destroy();
     window.removeEventListener('resize', windowForceResizeEvent);
+    this.emit('afterdestroy');
     super.destroy();
     return this;
   }

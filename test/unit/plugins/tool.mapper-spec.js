@@ -5,7 +5,7 @@ const Util = G6.Util;
 
 document.body.appendChild(Util.createDOM(`
 <div>
-  <div id='mountNode'></div>
+  <div id='mapperMountNode'></div>
   <div id="nodeSizeLegend"></div>
   <div id="nodeColorLegend"></div>
   <div id="nodeColorLegend1"></div>
@@ -62,8 +62,8 @@ describe('node size mapper test', () => {
     const node2Model = graph.find('node2').getModel();
     const size1 = node1Model.size / 2;
     const size2 = node2Model.size / 2;
-    expect(size1).eql(10);
-    expect(size2).eql(50);
+    expect(size1).eql(5);
+    expect(size2).eql(25);
   });
   it('legend destroy', () => {
     graph.destroy();
@@ -465,8 +465,8 @@ describe('node size mapper with formatter test', () => {
     const node2Model = graph.find('node2').getModel();
     const size1 = node1Model.size / 2;
     const size2 = node2Model.size / 2;
-    expect(size1).eql(10);
-    expect(size2).eql(50);
+    expect(size1).eql(5);
+    expect(size2).eql(25);
     graph.destroy();
   });
 });
