@@ -1,30 +1,30 @@
 const G6 = require('../../../src/index');
-const Mapper = require('../../../plugins/tool.mapper/');
+const Mapper = require('../../../plugins/tool.d3.mapper/');
 const expect = require('chai').expect;
 const Util = G6.Util;
 const container = Util.createDOM(`
 <div>
   <div id='mountNode'></div>
-  <div id="nodeSizeLegend"></div>
-  <div id="nodeColorLegend"></div>
-  <div id="nodeColorLegend1"></div>
-  <div id="nodeColorLegend2"></div>
-  <div id="nodeColorLegend3"></div>
-  <div id="nodeColorCatLegend"></div>
-  <div id="nodeSizeFormatLegend"></div>
-  <div id="sliderChangeTestDiv"></div>
+  <div id="d3NodeSizeLegend"></div>
+  <div id="d3NodeColorLegend"></div>
+  <div id="d3NodeColorLegend1"></div>
+  <div id="d3NodeColorLegend2"></div>
+  <div id="d3NodeColorLegend3"></div>
+  <div id="d3NodeColorCatLegend"></div>
+  <div id="d3NodeSizeFormatLegend"></div>
+  <div id="d3SliderChangeTestDiv"></div>
 </div>
 `);
 document.body.appendChild(container);
 
-describe('node size mapper test', () => {
-  const originInnerHTML = document.getElementById('nodeSizeLegend').innerHTML;
+describe('d3 node size mapper test', () => {
+  const originInnerHTML = document.getElementById('d3NodeSizeLegend').innerHTML;
   const nodeSizeMapper = new Mapper('node', 'weight', 'size', [ 10, 50 ], {
     scaleCfg: {
       type: 'log'
     },
     legendCfg: {
-      containerId: 'nodeSizeLegend',
+      containerId: 'd3NodeSizeLegend',
       layout: 'horizontal'
     }
   });
@@ -55,76 +55,30 @@ describe('node size mapper test', () => {
   });
   graph.read(data);
   it('legend render', () => {
-    expect(document.getElementById('nodeSizeLegend').innerHTML).not.eql(originInnerHTML);
+    expect(document.getElementById('d3NodeSizeLegend').innerHTML).not.eql(originInnerHTML);
   });
   it('node size mapper', () => {
     const node1Model = graph.find('node1').getModel();
     const node2Model = graph.find('node2').getModel();
-    const size1 = node1Model.size / 2;
-    const size2 = node2Model.size / 2;
+    const size1 = node1Model.size;
+    const size2 = node2Model.size;
     expect(size1).eql(10);
     expect(size2).eql(50);
   });
   it('legend destroy', () => {
     graph.destroy();
-    expect(document.getElementById('nodeSizeLegend').innerHTML).eql(originInnerHTML);
+    expect(document.getElementById('d3NodeSizeLegend').innerHTML).eql(originInnerHTML);
   });
 });
 
-// describe('node color mapper domain length test', () => {
-//   const fn = function() {
-//     const nodeSizeMapper = new Mapper('node', 'class', 'color', [ '#ff0000', '#00ff00' ], {
-//       legendCfg: {
-//         layout: 'vertical'
-//       }
-//     });
-//     const data = {
-//       nodes: [{
-//         id: 'node1',
-//         x: 100,
-//         y: 200,
-//         class: 'class1'
-//       }, {
-//         id: 'node2',
-//         x: 300,
-//         y: 200,
-//         class: 'class2'
-//       }, {
-//         id: 'node3',
-//         x: 400,
-//         y: 200,
-//         class: 'class3'
-//       }],
-//       edges: [{
-//         target: 'node2',
-//         source: 'node1'
-//       }]
-//     };
-//     const div = document.createElement('div');
-//     document.body.appendChild(div);
-//     const graph = new G6.Graph({
-//       container: div,
-//       width: 500,
-//       height: 500,
-//       plugins: [ nodeSizeMapper ]
-//     });
-//     graph.read(data);
-//     graph.destroy();
-//   };
-
-//   it('legend render', () => {
-//     expect(fn).to.Throw();
-//   });
-// });
-
-describe('node color mapper domian equals 1 test', () => {
-  const originInnerHTML = document.getElementById('nodeColorLegend1').innerHTML;
+describe('d3 node color mapper domian equals 1 test', () => {
+  const originInnerHTML = document.getElementById('d3NodeColorLegend1').innerHTML;
   const nodeSizeMapper = new Mapper('node', 'weight', 'color', [ '#ff0000', '#00ff00' ], {
     scaleCfg: {
       type: 'pow'
     },
     legendCfg: {
-      containerId: 'nodeColorLegend1',
+      containerId: 'd3NodeColorLegend1',
       layout: 'vertical'
     }
   });
@@ -155,28 +109,28 @@ describe('node color mapper domian equals 1 test', () => {
   });
   graph.read(data);
   it('legend render', () => {
-    expect(document.getElementById('nodeColorLegend1').innerHTML).not.eql(originInnerHTML);
+    expect(document.getElementById('d3NodeColorLegend1').innerHTML).not.eql(originInnerHTML);
   });
   it('node color mapper', () => {
     const node1Model = graph.find('node1').getModel();
     const node2Model = graph.find('node2').getModel();
-    expect(node1Model.color).eql('#00ff00');
-    expect(node2Model.color).eql('#00ff00');
+    expect(node1Model.color).eql('rgb(0, 255, 0)');
+    expect(node2Model.color).eql('rgb(0, 255, 0)');
   });
   it('legend destroy', () => {
     graph.destroy();
-    expect(document.getElementById('nodeColorLegend1').innerHTML).eql(originInnerHTML);
+    expect(document.getElementById('d3NodeColorLegend1').innerHTML).eql(originInnerHTML);
   });
 });
 
-describe('node color mapper domian equals 0 test', () => {
-  const originInnerHTML = document.getElementById('nodeColorLegend2').innerHTML;
+describe('d3 node color mapper domian equals 0 test', () => {
+  const originInnerHTML = document.getElementById('d3NodeColorLegend2').innerHTML;
   const nodeSizeMapper = new Mapper('node', 'weight', 'color', [ '#ff0000', '#00ff00' ], {
     scaleCfg: {
       type: 'pow'
     },
     legendCfg: {
-      containerId: 'nodeColorLegend2',
+      containerId: 'd3NodeColorLegend2',
       layout: '',
       formatter: num => {
         return num * num;
@@ -210,28 +164,28 @@ describe('node color mapper domian equals 0 test', () => {
   });
   graph.read(data);
   it('legend render', () => {
-    expect(document.getElementById('nodeColorLegend2').innerHTML).not.eql(originInnerHTML);
+    expect(document.getElementById('d3NodeColorLegend2').innerHTML).not.eql(originInnerHTML);
   });
   it('node color mapper', () => {
     const node1Model = graph.find('node1').getModel();
     const node2Model = graph.find('node2').getModel();
-    expect(node1Model.color).eql('#00ff00');
-    expect(node2Model.color).eql('#00ff00');
+    expect(node1Model.color).eql('rgb(0, 255, 0)');
+    expect(node2Model.color).eql('rgb(0, 255, 0)');
   });
   it('legend destroy', () => {
     graph.destroy();
-    expect(document.getElementById('nodeColorLegend2').innerHTML).eql(originInnerHTML);
+    expect(document.getElementById('d3NodeColorLegend2').innerHTML).eql(originInnerHTML);
   });
 });
 
-describe('node color mapper domian equals -1 test', () => {
-  const originInnerHTML = document.getElementById('nodeColorLegend3').innerHTML;
+describe('d3 node color mapper domian equals -1 test', () => {
+  const originInnerHTML = document.getElementById('d3NodeColorLegend3').innerHTML;
   const nodeSizeMapper = new Mapper('node', 'weight', 'color', [ '#ff0000', '#00ff00' ], {
     scaleCfg: {
       type: 'pow'
     },
     legendCfg: {
-      containerId: 'nodeColorLegend3'
+      containerId: 'd3NodeColorLegend3'
     }
   });
   const data = {
@@ -261,22 +215,22 @@ describe('node color mapper domian equals -1 test', () => {
   });
   graph.read(data);
   it('legend render', () => {
-    expect(document.getElementById('nodeColorLegend3').innerHTML).not.eql(originInnerHTML);
+    expect(document.getElementById('d3NodeColorLegend3').innerHTML).not.eql(originInnerHTML);
   });
   it('node color mapper', () => {
     const node1Model = graph.find('node1').getModel();
     const node2Model = graph.find('node2').getModel();
-    expect(node1Model.color).eql('#ff0000');
-    expect(node2Model.color).eql('#ff0000');
+    expect(node1Model.color).eql('rgb(255, 0, 0)');
+    expect(node2Model.color).eql('rgb(255, 0, 0)');
   });
   it('legend destroy', () => {
     graph.destroy();
-    expect(document.getElementById('nodeColorLegend3').innerHTML).eql(originInnerHTML);
+    expect(document.getElementById('d3NodeColorLegend3').innerHTML).eql(originInnerHTML);
   });
 });
 
 
-describe('edge size mapper test', () => {
+describe('d3 edge size mapper test', () => {
   const edgeSizeMapper = new Mapper('edge', 'weight', 'size', [ 10, 50 ], {
     legendCfg: null
   });
@@ -327,7 +281,7 @@ describe('edge size mapper test', () => {
   });
 });
 
-describe('edge size mapper vertical test', () => {
+describe('d3 edge size mapper vertical test', () => {
   const edgeSizeMapper = new Mapper('edge', 'weight', 'size', [ 10, 50 ], {
     legendCfg: {
       layout: 'vertical'
@@ -378,11 +332,11 @@ describe('edge size mapper vertical test', () => {
   });
 });
 
-describe('node color category mapper test', () => {
-  const originInnerHTML = document.getElementById('nodeColorCatLegend').innerHTML;
+describe('d3 node color category mapper test', () => {
+  const originInnerHTML = document.getElementById('d3NodeColorCatLegend').innerHTML;
   const nodeColoreMapper = new Mapper('node', 'class', 'color', [ '#ff0000', '#00ff00' ], {
     legendCfg: {
-      containerId: 'nodeColorCatLegend'
+      containerId: 'd3NodeColorCatLegend'
     }
   });
   const data = {
@@ -412,7 +366,7 @@ describe('node color category mapper test', () => {
   });
   graph.read(data);
   it('legend render', () => {
-    expect(document.getElementById('nodeColorCatLegend').innerHTML).not.eql(originInnerHTML);
+    expect(document.getElementById('d3NodeColorCatLegend').innerHTML).not.eql(originInnerHTML);
   });
   it('node color mapper', () => {
     const node1Model = graph.find('node1').getModel();
@@ -422,11 +376,11 @@ describe('node color category mapper test', () => {
   });
   it('legend destroy', () => {
     graph.destroy();
-    expect(document.getElementById('nodeColorCatLegend').innerHTML).eql(originInnerHTML);
+    expect(document.getElementById('d3NodeColorCatLegend').innerHTML).eql(originInnerHTML);
   });
 });
 
-describe('node size mapper with formatter test', () => {
+describe('d3 node size mapper with formatter test', () => {
   const nodeSizeMapper = new Mapper('node', 'weight', 'size', [ 10, 50 ], {
     legendCfg: {
       formatter: num => {
@@ -463,8 +417,8 @@ describe('node size mapper with formatter test', () => {
   it('node size mapper', () => {
     const node1Model = graph.find('node1').getModel();
     const node2Model = graph.find('node2').getModel();
-    const size1 = node1Model.size / 2;
-    const size2 = node2Model.size / 2;
+    const size1 = node1Model.size;
+    const size2 = node2Model.size;
     expect(size1).eql(10);
     expect(size2).eql(50);
     graph.destroy();
@@ -472,7 +426,7 @@ describe('node size mapper with formatter test', () => {
 });
 
 
-describe('container undefined test', () => {
+describe('d3 container undefined test', () => {
   const fn = function() {
     const nodeSizeMapper = new Mapper('node', 'weight', 'size', [ 10, 50 ], {
       legendCfg: {
@@ -510,51 +464,5 @@ describe('container undefined test', () => {
 
   it('legend render', () => {
     expect(fn).to.Throw();
-  });
-});
-
-
-describe('slider test', () => {
-  const nodeSizeMapper = new Mapper('node', 'weight', 'size', [ 10, 50 ], {
-    legendCfg: {
-      containerId: 'sliderChangeTestDiv'
-    }
-  });
-  const data = {
-    nodes: [{
-      id: 'node1',
-      x: 100,
-      y: 200,
-      weight: 1
-    }, {
-      id: 'node2',
-      x: 300,
-      y: 200,
-      weight: 3
-    }],
-    edges: [{
-      target: 'node2',
-      source: 'node1'
-    }]
-  };
-  const div = document.createElement('div');
-  document.body.appendChild(div);
-  const graph = new G6.Graph({
-    container: div,
-    width: 500,
-    height: 500,
-    plugins: [ nodeSizeMapper ]
-  });
-  graph.read(data);
-
-  it('legend sliderchange', () => {
-    const slider = nodeSizeMapper.legend.get('slider');
-    slider.emit('sliderchange', { range: [ 0, 50 ] });
-    expect(document.getElementById('sliderChangeTestDiv')).not.eql(undefined);
-    graph.destroy();
-  });
-
-  it('remove container', () => {
-    container.destroy();
   });
 });
