@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>测试</title>
+</head>
+
+<body>
+  <div id="mountNode"></div>
+  <script src="../build/g6.js"></script>
+  <script>
+    // 详细文档见 ： https://antv.alipay.com/g6/doc/index.html
+    const data = {"name":"Modeling Methods","children":[{"name":"Classification","children":[{"name":"Logistic regression"},{"name":"Linear discriminant analysis"},{"name":"Rules"},{"name":"Decision trees"},{"name":"Naive Bayes"},{"name":"K nearest neighbor"},{"name":"Probabilistic neural network"},{"name":"Support vector machine"}]},{"name":"Consensus","children":[{"name":"Models diversity","children":[{"name":"Different initializations"},{"name":"Different parameter choices"},{"name":"Different architectures"},{"name":"Different modeling methods"},{"name":"Different training sets"},{"name":"Different feature sets"}]},{"name":"Methods","children":[{"name":"Classifier selection"},{"name":"Classifier fusion"}]},{"name":"Common","children":[{"name":"Bagging"},{"name":"Boosting"},{"name":"AdaBoost"}]}]},{"name":"Regression","children":[{"name":"Multiple linear regression"},{"name":"Partial least squares"},{"name":"Multi-layer feedforward neural network"},{"name":"General regression neural network"},{"name":"Support vector regression"}]}]};
+
+    var layout = new G6.Layouts.CompactBoxTree({
+      // direction: 'LR', // 方向（LR/RL/H/TB/BT/V）
+      getHGap: function getHGap() /* d */ {
+        // 横向间距
+        return 100;
+      },
+      getVGap: function getVGap() /* d */ {
+        // 竖向间距
+        return 10;
+      },
+    });
+    var tree = new G6.Tree({
+      id: 'mountNode', // 容器ID
+      height: window.innerHeight, // 画布高
+      layout: layout,
+      fitView: 'autoZoom', // 自动缩放
+    });
+    tree
+      .node({
+        shape: 'treeNode',
+        size: 8,
+      })
+
+    tree.edge({
+      shape: 'smooth',
+    });
+
+
+    tree.on('node:mouseenter', ev => {
+        console.log('mouseenter')
+      tree.simpleUpdate(ev.item, {
+        color: 'orange',
+      });
+    });
+    tree.on('node:mouseleave', ev => {
+      console.log('mouseleave')
+      tree.simpleUpdate(ev.item, {
+        color: 'blue',
+      });
+    });
+    tree.read({
+      roots: [data],
+    });
+  </script>
+</body>
+</html>
+
