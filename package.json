@@ -85,7 +85,7 @@
     "ci": "npm run lint && npm run test",
     "copy": "node ./bin/cp-dist.js",
     "coverage": "npm run coverage-generator && npm run coverage-viewer",
-    "coverage-generator": "torch --compile --coverage --renderer --recursive --source-pattern index.js,src/**/*.js test/unit",
+    "coverage-generator": "torch --compile --coverage --renderer --recursive --source-pattern index.js,src/**/*.js test/unit/plugins/template.maxSpanningForest-spec.js",
     "coverage-viewer": "torch-coverage",
     "demos": "electron ./demos/app.js",
     "demos-web": "node ./demos/app.js --web --port 2046",
@@ -99,7 +99,7 @@
     "screenshot": "node ./bin/screenshot.js",
     "start": "npm run dev",
     "test": "torch --compile --renderer --recursive ./test/unit",
-    "test-live": "torch --compile --interactive --watch --recursive ./test/unit/plugins/layout.forceAtlas2-spec.js",
+    "test-live": "torch --compile --interactive --watch --recursive ./test/unit/plugins/",
     "watch": "webpack --config webpack-dev.config.js",
     "win-dev": "node ./bin/win-dev.js"
   },
