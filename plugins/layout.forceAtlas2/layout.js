@@ -156,37 +156,40 @@ class Layout {
       center,
       widths
     };
-
-   // a loading dom before worker
-    const loading = document.createElement('div');
-    loading.id = 'loading';
-    loading.style.setProperty('background-color', '#fff');
-    loading.style.setProperty('position', 'absolute');
-    const parent = graph.getGraphContainer().parentNode;
-    const divHeight = parent.offsetHeight ? parent.offsetHeight : 600;
-    const divWidth = parent.offsetWidth ? parent.offsetWidth : 600;
-    loading.style.setProperty('width', divWidth + 'px');
-    loading.style.setProperty('height', divHeight + 'px');
-    loading.style.setProperty('margin-top', -parent.offsetHeight + 'px');
-    loading.style.zIndex = 999;
-    parent.appendChild(loading);
-    // the loading image
-    const imgSize = 200;
-    const loadingImg = document.createElement('img');
-    loadingImg.src = 'https://gw.alipayobjects.com/zos/rmsportal/mnEmjOmrHbghTsZNeTmI.gif';
-    loadingImg.style.setProperty('width', imgSize + 'px');
-    loadingImg.style.setProperty('height', imgSize + 'px');
-    const Cw = imgSize;
-    const Pw = loading.offsetWidth;
-    const left = (Pw - Cw) / 2;
-    loadingImg.style.setProperty('margin-left', left + 'px');
-    const Ch = imgSize;
-    const Ph = loading.offsetHeight;
-    const top = (Ph - Ch) / 2;
-    loadingImg.style.setProperty('margin-top', top + 'px');
-    loading.appendChild(loadingImg);
-
     if (this.useWorker) {
+
+      // a loading dom before worker
+      const loading = Util.createDOM('<div></div>');
+      loading.id = 'loading';
+      loading.style.setProperty('background-color', '#fff');
+      loading.style.setProperty('position', 'absolute');
+      const parent = graph.getGraphContainer().parentNode;
+      const divHeight = parent.offsetHeight ? parent.offsetHeight : 600;
+      const divWidth = parent.offsetWidth ? parent.offsetWidth : 600;
+      loading.style.setProperty('width', divWidth + 'px');
+      loading.style.setProperty('height', divHeight + 'px');
+      loading.style.setProperty('margin-top', -parent.offsetHeight + 'px');
+      loading.style.zIndex = 999;
+      parent.appendChild(loading);
+       // the loading image
+      const imgSize = 200;
+      const loadingImg = document.createElement('img');
+      loadingImg.src = 'https://gw.alipayobjects.com/zos/rmsportal/mnEmjOmrHbghTsZNeTmI.gif';
+      loadingImg.style.setProperty('width', imgSize + 'px');
+      loadingImg.style.setProperty('height', imgSize + 'px');
+      const Cw = imgSize;
+      const Pw = loading.offsetWidth;
+      const left = (Pw - Cw) / 2;
+      loadingImg.style.setProperty('margin-left', left + 'px');
+      const Ch = imgSize;
+      const Ph = loading.offsetHeight;
+      const top = (Ph - Ch) / 2;
+      loadingImg.style.setProperty('margin-top', top + 'px');
+      loading.appendChild(loadingImg);
+      graph.on('afterdestroy', () => {
+        if (loading !== null && loading !== undefined) { loading.detroy(); }
+      });
+
       const worker = new Worker();
       worker.postMessage(obj);
       worker.onmessage = function(event) {
@@ -202,6 +205,7 @@ class Layout {
         fitView && graph.setFitView(fitView);
         worker.terminate();
         loading.style.display = 'none';
+        loading.destroy();
         onLayoutComplete();
       };
     } else {
@@ -216,7 +220,6 @@ class Layout {
       graph.changeLayout();
       const fitView = graph.get('fitView');
       fitView && graph.setFitView(fitView);
-      loading.style.display = 'none';
       onLayoutComplete();
     }
   }
