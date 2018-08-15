@@ -12,7 +12,10 @@ data.nodes.forEach(node => {
 const graph = new Graph({
   container: div,
   width: 500,
-  height: 500
+  height: 500,
+  layout() {
+
+  }
 });
 graph.source(Util.cloneDeep(data));
 graph.render();
@@ -351,6 +354,9 @@ describe('graph test', () => {
       endArrow: true,
       startArrow: true
     });
+  });
+  it('getLayout', () => {
+    graph.getLayout();
   });
   it('reRender', () => {
     graph.reRender();
