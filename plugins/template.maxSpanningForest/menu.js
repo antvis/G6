@@ -8,8 +8,7 @@ const Util = G6.Util;
 // represents a body(a point mass) and its position
 class Menu {
   constructor(options) {
-    Util.mix(this, {
-      containerId: '',
+    Util.mix(true, this, {
       clickType: 'in'
     }, options);
     this.createMenu();
@@ -26,17 +25,14 @@ class Menu {
   createMenu() {
     const graph = this.graph;
     const menuCfg = this.menuCfg;
-    const containerId = this.containerId;
 
     const menuHtml = `<ul class="menu" style = "
       position: absolute;
       display: none;"></ul>`;
     const menu = Util.createDOM(menuHtml);
-    let parent = graph.getGraphContainer();
-    if (containerId !== '' && containerId !== undefined) {
-      parent = document.getElementById(containerId);
-    }
+    const parent = graph.getGraphContainer();
     parent.appendChild(menu);
+    this.menu = menu;
 
     const list = menuCfg.lists;
     for (let i = 0; i < list.length; i += 1) {
@@ -136,7 +132,9 @@ class Menu {
       }
     });
     this.hide();
-
+  }
+  destroy() {
+    this.menu.destroy();
   }
 }
 

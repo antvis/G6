@@ -5,7 +5,7 @@ const Util = G6.Util;
 
 document.body.appendChild(Util.createDOM(`
 <div>
-  <div id='mountNode'></div>
+  <div id='minimapMountNode'></div>
   <div id="minimap"></div>
 </div>
 `));
@@ -33,7 +33,7 @@ describe('minimap test', () => {
     }]
   };
   const graph = new G6.Graph({
-    container: 'mountNode',
+    container: 'minimapMountNode',
     width: 500,
     height: 500,
     plugins: [ minimap ]
