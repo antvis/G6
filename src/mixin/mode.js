@@ -10,25 +10,23 @@ Mixin.CFG = {
     * mode list  key - value, key - mode name, value - behaviors
     * @type {object}
     */
-  modes: {},
+  modes: {
+    default: []
+  },
 
   /**
     * current mode name
     * @type {string}
     */
-  mode: 'default'
+  mode: 'default',
+  // event stash
+  _eventStash: {}
 };
 
 Mixin.INIT = '_initModes';
 Mixin.AUGMENT = {
   _initModes() {
-    this._eventStash = {};
-    let modes = this.get('modes');
     const mode = this.get('mode');
-    if (Util.isEmpty(modes)) {
-      modes = Util.cloneDeep(this.constructor.Modes);
-      this.set('modes', modes);
-    }
     this.changeMode(mode);
   },
   /**
@@ -81,6 +79,7 @@ Mixin.AUGMENT = {
     currentModes = currentModes.filter(item => {
       return removes.indexOf(item) === -1;
     });
+    modes[mode] = currentModes;
     Handler.resetMode(currentModes, this);
     return this;
   },
