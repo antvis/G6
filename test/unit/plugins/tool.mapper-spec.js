@@ -72,48 +72,49 @@ describe('node size mapper test', () => {
 });
 
 describe('node color mapper domain length test', () => {
-  const fn = function() {
-    const nodeSizeMapper = new Mapper('node', 'class', 'color', [ '#ff0000', '#00ff00' ], {
-      legendCfg: {
-        layout: 'vertical'
-      }
-    });
-    const data = {
-      nodes: [{
-        id: 'node1',
-        x: 100,
-        y: 200,
-        class: 'class1'
-      }, {
-        id: 'node2',
-        x: 300,
-        y: 200,
-        class: 'class2'
-      }, {
-        id: 'node3',
-        x: 400,
-        y: 200,
-        class: 'class3'
-      }],
-      edges: [{
-        target: 'node2',
-        source: 'node1'
-      }]
-    };
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-    const graph = new G6.Graph({
-      container: div,
-      width: 500,
-      height: 500,
-      plugins: [ nodeSizeMapper ]
-    });
-    graph.read(data);
-    graph.destroy();
+  const nodeSizeMapper = new Mapper('node', 'class', 'color', [ '#ff0000', '#00ff00' ], {
+    legendCfg: {
+      layout: 'vertical'
+    }
+  });
+  const data = {
+    nodes: [{
+      id: 'node1',
+      x: 100,
+      y: 200,
+      class: 'class1'
+    }, {
+      id: 'node2',
+      x: 300,
+      y: 200,
+      class: 'class2'
+    }, {
+      id: 'node3',
+      x: 400,
+      y: 200,
+      class: 'class3'
+    }],
+    edges: [{
+      target: 'node2',
+      source: 'node1'
+    }]
   };
+  const div = document.createElement('div');
+  document.body.appendChild(div);
+  const graph = new G6.Graph({
+    container: div,
+    width: 500,
+    height: 500,
+    plugins: [ nodeSizeMapper ]
+  });
+  graph.read(data);
 
   it('legend render', () => {
-    expect(fn).to.Throw();
+    expect(graph.find('node3').getModel().color).eql('#ff0000');
+  });
+  it('legend destroy', () => {
+    graph.destroy();
+    expect(div.innerHTML).eql('');
   });
 });
 
