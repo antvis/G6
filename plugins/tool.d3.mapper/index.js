@@ -182,6 +182,15 @@ class Plugin {
     Util.isFunction(callback) && callback(legend);
     return legend;
   }
+  _getLegendContainer() {
+    const legendCfg = this.legendCfg;
+    const { containerId } = legendCfg;
+    const graph = this.graph;
+    if (legendCfg.containerId) {
+      return document.getElementById(containerId);
+    }
+    return graph.getGraphContainer();
+  }
   _createLegend() {
     const padding = 10;
     const channel = this.channel;
@@ -190,13 +199,13 @@ class Plugin {
     const graphWidth = graph.getWidth();
     const graphHeight = graph.getHeight();
     const position = legendCfg.position ? legendCfg.position : 'br';
-    const graphContainer = graph.getGraphContainer();
+    const legendContainer = this._getLegendContainer();
     const marginTop = legendCfg.marginTop ? legendCfg.marginTop : 0;
     const marginLeft = legendCfg.marginLeft ? legendCfg.marginLeft : 0;
     const marginBottom = legendCfg.marginBottom ? legendCfg.marginBottom : 0;
     const marginRight = legendCfg.marginRight ? legendCfg.marginRight : 0;
     const legend = this._getLegend();
-    const svg = d3.select(graphContainer)
+    const svg = d3.select(legendContainer)
       .append('svg')
       .style('position', 'absolute');
     const legendCells = svg.call(legend).select('.legendCells');
@@ -225,6 +234,7 @@ class Plugin {
       .style('left', tl.x + 'px')
       .style('width', bbox.width + 'px')
       .style('height', bbox.height + 'px');
+    this.legendCanvas = svg;
   }
   _mapping() {
     const graph = this.graph;
@@ -240,6 +250,9 @@ class Plugin {
       return scale(model[dim]);
     };
     graph[itemType](mapper);
+  }
+  destroy() {
+    this.legendCanvas && this.legendCanvas.remove();
   }
 }
 

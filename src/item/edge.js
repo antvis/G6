@@ -161,7 +161,7 @@ class Edge extends Item {
 
     if (source.linkable) {
       const point = (Util.isNumber(this.model.sourceAnchor) && source.id === model.source) ? this.model.sourceAnchor : points[1];
-      const interPoint = source.getLinkPoints(point, this);
+      const interPoint = source.getLinkPoints(point);
       points[0] = interPoint[0];
     }
     if (target.linkable) {

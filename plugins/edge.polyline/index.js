@@ -390,24 +390,24 @@ function getPathWithBorderRadiusByPolyline(points, borderRadius) {
   // TODO
   const pathSegments = [];
   const startPoint = points[0];
-  pathSegments.push(`M${startPoint.x} ${startPoint.y}`);
+  pathSegments.push([ 'M', startPoint.x, startPoint.y ]);
   points.forEach((p, i) => {
     const p1 = points[i + 1];
     const p2 = points[i + 2];
     if (p1 && p2) {
       if (isBending(p, p1, p2)) {
         const [ ps, pt ] = getBorderRadiusPoints(p, p1, p2, borderRadius);
-        pathSegments.push(`L${ps.x} ${ps.y}`);
-        pathSegments.push(`Q${p1.x} ${p1.y} ${pt.x} ${pt.y}`);
-        pathSegments.push(`L${pt.x} ${pt.y}`);
+        pathSegments.push([ 'L', ps.x, ps.y ]);
+        pathSegments.push([ 'Q', p1.x, p1.y, pt.x, pt.y ]);
+        pathSegments.push([ 'L', pt.x, pt.y ]);
       } else {
-        pathSegments.push(`L${p1.x} ${p1.y}`);
+        pathSegments.push([ 'L', p1.x, p1.y ]);
       }
     } else if (p1) {
-      pathSegments.push(`L${p1.x} ${p1.y}`);
+      pathSegments.push([ 'L', p1.x, p1.y ]);
     }
   });
-  return pathSegments.join('');
+  return pathSegments;
 }
 
 G6.registerEdge('polyline', {

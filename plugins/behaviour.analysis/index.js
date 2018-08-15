@@ -5,36 +5,40 @@
 const G6 = require('@antv/g6');
 const Util = G6.Util;
 
-function panCanvas(graph, button = 'left') {
+function panCanvas(graph, button = 'left', panBlank = false) {
   let lastPoint;
   if (button === 'right') {
     graph.behaviourOn('contextmenu', ev => {
       ev.domEvent.preventDefault();
     });
   }
-  // graph.behaviourOn('mousedown', ev => {
-  //   if (button === 'left' && ev.domEvent.button === 0 || button === 'right' && ev.domEvent.button === 2) {
-  //     lastPoint = {
-  //       x: ev.domX,
-  //       y: ev.domY
-  //     };
-  //   }
-  // });
+  graph.behaviourOn('mousedown', ev => {
+    if (button === 'left' && ev.domEvent.button === 0 ||
+    button === 'right' && ev.domEvent.button === 2) {
+      if (panBlank) {
+        if (!ev.shape) {
+          lastPoint = {
+            x: ev.domX,
+            y: ev.domY
+          };
+        }
+      } else {
+        lastPoint = {
+          x: ev.domX,
+          y: ev.domY
+        };
+      }
+    }
+  });
   graph.behaviourOn('canvas:mouseenter', () => {
     graph.css({
       cursor: '-webkit-grab'
     });
   });
-  graph.behaviourOn('dragstart', ev => {
+  graph.behaviourOn('dragstart', () => {
     graph.css({
       cursor: '-webkit-grabbing'
     });
-    if (ev.domEvent.button === button) {
-      lastPoint = {
-        x: ev.domX,
-        y: ev.domY
-      };
-    }
   });
   graph.behaviourOn('drag', ev => {
     if (lastPoint) {
@@ -62,6 +66,16 @@ G6.registerBehaviour('panCanvas', panCanvas);
 // 鼠标右键平移画布交互
 G6.registerBehaviour('rightPanCanvas', graph => {
   panCanvas(graph, 'right');
+});
+
+// 鼠标拖拽画布空白处平移画布交互
+G6.registerBehaviour('panBlank', graph => {
+  panCanvas(graph, 'left', true);
+});
+
+// 鼠标右键拖拽画布空白处平移画布交互
+G6.registerBehaviour('rightPanBlank', graph => {
+  panCanvas(graph, 'right', true);
 });
 
 // 鼠标拖拽平移节点交互
