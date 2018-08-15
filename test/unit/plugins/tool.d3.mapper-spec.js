@@ -287,6 +287,7 @@ describe('d3 edge size mapper vertical test', () => {
       layout: 'vertical'
     }
   });
+  const nodeXMapper = new Mapper('node', 'x', 'size', [ 10, 50, 90 ]);
   const data = {
     nodes: [{
       id: 'node1',
@@ -317,7 +318,7 @@ describe('d3 edge size mapper vertical test', () => {
     container: div,
     width: 500,
     height: 500,
-    plugins: [ edgeSizeMapper ]
+    plugins: [ nodeXMapper, edgeSizeMapper ]
   });
   graph.read(data);
   it('edge size mapper', () => {
