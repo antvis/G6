@@ -146,11 +146,7 @@ class Plugin {
         domain = this._trainNumberScale(itemType, data);
       }
     }
-    const rangeLength = range.length;
     const domainLength = domain.length;
-    if (rangeLength !== domainLength && scaleType === 'Category') {
-      throw new Error('please set the same length of range to the domain!');
-    }
     if (domainLength === 2 && domain[0] === domain[1]) {
       if (domain[0] > 0) {
         domain[0] = 0;
