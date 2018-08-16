@@ -2,6 +2,7 @@ const G6 = require('../../../src/index');
 const Mapper = require('../../../plugins/tool.mapper/');
 const expect = require('chai').expect;
 const Util = G6.Util;
+const Simulate = require('event-simulate');
 
 document.body.appendChild(Util.createDOM(`
 <div>
@@ -72,7 +73,7 @@ describe('node size mapper test', () => {
 });
 
 describe('node color mapper domain length test', () => {
-  const nodeSizeMapper = new Mapper('node', 'class', 'color', [ '#ff0000', '#00ff00' ], {
+  const nodeColorMapper = new Mapper('node', 'class', 'color', [ '#ff0000', '#00ff00', '#0000ff' ], {
     legendCfg: {
       layout: 'vertical'
     }
@@ -93,9 +94,17 @@ describe('node color mapper domain length test', () => {
       x: 400,
       y: 200,
       class: 'class3'
+    }, {
+      id: 'node4',
+      x: 400,
+      y: 200,
+      class: 'class4'
     }],
     edges: [{
       target: 'node2',
+      source: 'node1'
+    }, {
+      target: 'node3',
       source: 'node1'
     }]
   };
@@ -105,12 +114,72 @@ describe('node color mapper domain length test', () => {
     container: div,
     width: 500,
     height: 500,
-    plugins: [ nodeSizeMapper ]
+    plugins: [ nodeColorMapper ]
   });
   graph.read(data);
 
   it('legend render', () => {
-    expect(graph.find('node3').getModel().color).eql('#ff0000');
+    expect(graph.find('node4').getModel().color).eql('#ff0000');
+  });
+  it('category filter cat 0', () => {
+
+    const legend = nodeColorMapper.legend.get('canvas');
+    const canvasEventWrapper = legend.get('el');
+    const itemsGroup = nodeColorMapper.legend.get('itemsGroup');
+    const targetItem = itemsGroup.get('children')[0];
+    const currentTarget = targetItem.get('children')[0];
+
+    const canvasPos = [ (currentTarget.getBBox().minX + currentTarget.getBBox().maxX) / 2,
+      (currentTarget.getBBox().minY + currentTarget.getBBox().maxY) / 2, 1 ];
+    const matrix = currentTarget.getTotalMatrix();
+    Util.vec3.transformMat3(canvasPos, canvasPos, matrix);
+    const clientPos = legend.getClientByPoint(canvasPos[0], canvasPos[1]);
+
+    Simulate.simulate(canvasEventWrapper, 'click', {
+      clientX: clientPos.clientX,
+      clientY: clientPos.clientY
+    });
+    expect((targetItem.get('checked')), false);
+  });
+  it('category filter cat 0 back', () => {
+
+    const legend = nodeColorMapper.legend.get('canvas');
+    const canvasEventWrapper = legend.get('el');
+    const itemsGroup = nodeColorMapper.legend.get('itemsGroup');
+    const targetItem = itemsGroup.get('children')[0];
+    const currentTarget = targetItem.get('children')[0];
+
+    const canvasPos = [ (currentTarget.getBBox().minX + currentTarget.getBBox().maxX) / 2,
+      (currentTarget.getBBox().minY + currentTarget.getBBox().maxY) / 2, 1 ];
+    const matrix = currentTarget.getTotalMatrix();
+    Util.vec3.transformMat3(canvasPos, canvasPos, matrix);
+    const clientPos = legend.getClientByPoint(canvasPos[0], canvasPos[1]);
+
+    Simulate.simulate(canvasEventWrapper, 'click', {
+      clientX: clientPos.clientX,
+      clientY: clientPos.clientY
+    });
+    expect((targetItem.get('checked')), true);
+  });
+  it('category filter cat 2', () => {
+
+    const legend = nodeColorMapper.legend.get('canvas');
+    const canvasEventWrapper = legend.get('el');
+    const itemsGroup = nodeColorMapper.legend.get('itemsGroup');
+    const targetItem = itemsGroup.get('children')[2];
+    const currentTarget = targetItem.get('children')[2];
+
+    const canvasPos = [ (currentTarget.getBBox().minX + currentTarget.getBBox().maxX) / 2,
+      (currentTarget.getBBox().minY + currentTarget.getBBox().maxY) / 2, 1 ];
+    const matrix = currentTarget.getTotalMatrix();
+    Util.vec3.transformMat3(canvasPos, canvasPos, matrix);
+    const clientPos = legend.getClientByPoint(canvasPos[0], canvasPos[1]);
+
+    Simulate.simulate(canvasEventWrapper, 'click', {
+      clientX: clientPos.clientX,
+      clientY: clientPos.clientY
+    });
+    expect((targetItem.get('checked')), false);
   });
   it('legend destroy', () => {
     graph.destroy();
