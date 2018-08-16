@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "2.1.0-beta.7",
+  "version": "2.1.0-beta.8",
   "description": "graph visualization frame work",
   "main": "build/g6.js",
   "homepage": "https://github.com/antvis/g6",
@@ -86,7 +86,7 @@
     "ci": "npm run lint && npm run test",
     "copy": "node ./bin/cp-dist.js",
     "coverage": "npm run coverage-generator && npm run coverage-viewer",
-    "coverage-generator": "torch --compile --coverage --renderer --recursive --source-pattern index.js,src/**/*.js test/unit",
+    "coverage-generator": "torch --compile --coverage --renderer --recursive --source-pattern index.js,src/**/*.js test/unit/plugins/tool.mapper-spec.js",
     "coverage-viewer": "torch-coverage",
     "demos": "electron ./demos/app.js",
     "demos-web": "node ./demos/app.js --web --port 2046",
@@ -100,7 +100,7 @@
     "screenshot": "node ./bin/screenshot.js",
     "start": "npm run dev",
     "test": "torch --compile --renderer --recursive ./test/unit",
-    "test-live": "torch --compile --interactive --watch --recursive ./test/unit/tree-spec",
+    "test-live": "torch --compile --interactive --watch --recursive ./test/unit/",
     "watch": "webpack --config webpack-dev.config.js",
     "win-dev": "node ./bin/win-dev.js"
   },
