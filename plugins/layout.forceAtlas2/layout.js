@@ -187,7 +187,7 @@ class Layout {
       loadingImg.style.setProperty('margin-top', top + 'px');
       loading.appendChild(loadingImg);
       graph.on('afterdestroy', () => {
-        if (loading !== null && loading !== undefined) { loading.detroy(); }
+        if (loading !== null && loading !== undefined) { loading.destroy(); }
       });
 
       const worker = new Worker();
