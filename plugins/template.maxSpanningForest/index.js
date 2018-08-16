@@ -42,7 +42,8 @@ class Plugin {
         kg: 8.0,
         prevOverlapping: true,
         maxIteration: 1000,
-        barnesHut: true
+        barnesHut: true,
+        useWorker: true
       },
       fisheye: true,
       menu: null,
@@ -98,12 +99,12 @@ class Plugin {
     graph.on('beforeinit', () => {
       let layout = graph.get('layout');
       if (!layout) {
-        const { kr, kg, prevOverlapping, maxIteration, barnesHut } = this.layoutCfg;
+        const { kr, kg, prevOverlapping, maxIteration, barnesHut, useWorker } = this.layoutCfg;
         layout = {
           auto: 'once', // true false once
           processer: new Layout({
             kr, kg, prevOverlapping,
-            maxIteration, barnesHut
+            maxIteration, barnesHut, useWorker
           })
         };
         graph.set('layout', layout);
@@ -147,6 +148,9 @@ class Plugin {
       if (menuCfg !== null) {
         this.menu = new Menu({ menuCfg, graph });
       }
+    });
+    graph.on('afterdestroy', () => {
+      this.menu.destroy();
     });
   }
   setStyle() {
