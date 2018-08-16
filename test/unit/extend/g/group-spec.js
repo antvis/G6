@@ -8,7 +8,9 @@ describe('extend group test', () => {
   const canvas = new G.Canvas({
     containerDOM: div
   });
-  const group = canvas.addGroup();
+  const group = canvas.addGroup({
+    class: 'gg'
+  });
   const rectAttrs = {
     x: 0,
     y: 0,
@@ -49,6 +51,8 @@ describe('extend group test', () => {
   it('hasClass', () => {
     expect(shape2.hasClass('aa')).eql(true);
     expect(shape1.hasClass('aa')).eql(false);
+    expect(group.hasClass('gg')).eql(true);
+    expect(canvas.hasClass('gg')).eql(false);
   });
   it('clear', () => {
     group.clear(false);
