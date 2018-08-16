@@ -15,9 +15,9 @@
   <div id='legend'></div>
   <script>
     const Mapper = G6.Plugins['tool.mapper']
-    const nodeColorMapper = new Mapper('node', 'class', 'color', ['#BAE7FF', '#0050B3'], {
+    const nodeColorMapper = new Mapper('node', 'class', 'color', ['#BAE7FF', '#0050B3', '#ff50B3'], {
       legendCfg: {
-        scale: 0.5
+        layout: 'vertical'
       }
     });
     const nodeSizeMapper = new Mapper('node', 'weight', 'size', [20, 40]);
@@ -48,7 +48,7 @@
         x: 300,
         y: 100,
         weight: 5,
-        class: 'class_2'
+        class: 'class_3'
       }],
       edges: [{
         target: 'node2',

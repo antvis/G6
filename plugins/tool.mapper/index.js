@@ -50,7 +50,9 @@ class Plugin {
        * @type  {object}
        */
       legendCfg: {
-        legendTitle: '',
+        title: {
+          fill: '#333'
+        },
         layout: 'horizontal' // horizontal or vertical
       },
 
@@ -184,7 +186,6 @@ class Plugin {
         }
       }
     }
-
     const canvas = new G.Canvas({
       containerId, // dom_id,
       containerDOM: legendContainer,
@@ -192,8 +193,51 @@ class Plugin {
       height: 500
     });
     let legend;
+    const domain = this.scale.values;
+    const dim = this.dim;
     if (scaleType === 'Category') {
       legend = this._createCatLegend(canvas);
+      // the listener for category legend to filter nodes and edges
+      graph.addFilter(item => {
+        if (this.curRange[0] === 0 && this.curRange[1] === 100) {
+          return true;
+        }
+        if (item.isNode) {
+          const val = item.model[dim];
+          let visible = true;
+          Util.each(this.curRange, r => {
+            const checked = r.get('checked');
+            const name = r.get('value');
+            if (!checked && name === val) {
+              visible = false;
+            }
+          });
+          return visible;
+        } else if (item.isEdge) {
+          const sourceVal = item.source.model[dim];
+          let sourceVisible = true;
+          const targetVal = item.target.model[dim];
+          let targetVisible = true;
+          Util.each(this.curRange, r => {
+            const checked = r.get('checked');
+            const name = r.get('value');
+            if (!checked && name === sourceVal) {
+              sourceVisible = false;
+            }
+            if (!checked && name === targetVal) {
+              targetVisible = false;
+            }
+          });
+          if (!sourceVisible || !targetVisible) return false;
+          return true;
+        }
+      });
+      legend.on('click', () => {
+        const itemsGroup = legend.get('itemsGroup');
+        this.curRange = itemsGroup.get('children');
+        graph.filter();
+        legend.get('canvas').draw();
+      });
     } else {
       if (channel === 'color') {
         legend = this._createContinuousColorLegend(canvas);
@@ -202,8 +246,6 @@ class Plugin {
       }
       // the listener to filter nodes and edges
       const slider = legend.get('slider');
-      const domain = this.scale.values;
-      const dim = this.dim;
       graph.addFilter(item => {
         if (item.isNode) {
           const val = item.model[dim];
@@ -223,14 +265,11 @@ class Plugin {
           return true;
         }
       });
-
       slider.on('sliderchange', Util.throttle(ev => {
         this.curRange = ev.range;
         graph.filter();
       }, 100));
     }
-
-
     const bbox = legend.getBBox();
     const padding = 6;
     const legendWidth = bbox.maxX - bbox.minX;
@@ -247,76 +286,50 @@ class Plugin {
     const scale = this.scale;
     const range = scale.range;
     const domain = scale.values;
-    const itemType = this.itemType;
-    const legendCfg = this.legendCfg;
     const items = [];
-    let lengendTitle = legendCfg.title;
-    if (lengendTitle === '' || lengendTitle === undefined) {
-      lengendTitle = this.dim;
-    }
-    const cfg = Util.mix({
-      items,
-      checkable: false
-    }, legendCfg);
-    Util.each(range, (value, i) => {
+    Util.each(range, (val, i) => {
       items.push({
-        name: domain[i],
-        value: domain[i],
-        color: value,
-        type: itemType === 'node' ? 'circle' : 'line',
-        layout: legendCfg.layout,
+        value: domain[i], // marker text
         marker: {
           symbol: 'circle',
           radius: 5,
-          fill: value
-        },
-        title: {
-          text: lengendTitle,
-          fill: '#333',
-          textBaseline: 'middle'
+          fill: val // marker color
         },
         checked: true
       });
     });
+    const cfg = Util.mix({
+      items,
+      checkable: true,
+      clickable: true
+    }, this.legendCfg);
     const legend = canvas.addGroup(Legend.Category, cfg);
     return legend;
+  }
+  _setLegendSize(cfg) {
+    if (cfg.width === null || cfg.width === undefined) {
+      if (cfg.layout === 'horizontal') {
+        cfg.width = 150;
+        cfg.height = 15;
+      } else {
+        cfg.width = 15;
+        cfg.height = 150;
+      }
+    }
+    return cfg;
   }
   _createContinuousColorLegend(canvas) {
     const scale = this.scale;
     const range = scale.range;
     const domain = scale.values;
-    const legendCfg = this.legendCfg;
-    let legendTitle = legendCfg.title;
-    if (legendTitle === '' || legendTitle === undefined) {
-      legendTitle = this.dim;
-    }
-    let legendLayout = legendCfg.layout;
-    if (legendLayout === '' || legendLayout === undefined) {
-      legendLayout = 'horizontal';
-    }
-
-    let legendWidth = legendCfg.lengedWidth;
-    let legendHeight = legendCfg.legendHeight;
-    if (legendWidth === null || legendWidth === undefined) {
-      if (legendLayout === 'horizontal') {
-        legendWidth = 150;
-        legendHeight = 15;
-      } else {
-        legendWidth = 15;
-        legendHeight = 150;
-      }
-    }
-
     const domainStep = (domain[domain.length - 1] - domain[0]) / (range.length - 1);
+    this.legendCfg = this._setLegendSize(this.legendCfg);
+
     const items = [];
     Util.each(range, (val, i) => {
-      let itemText = domain[0] + domainStep * i;
+      const itemText = domain[0] + domainStep * i;
       const percent = (itemText - domain[0]) / (domain[domain.length - 1] - domain[0]);
-      if (legendCfg.formatter !== undefined && legendCfg.formatter !== null) {
-        itemText = legendCfg.formatter(domain[i]);
-      }
       items.push({
-        text: domain[i],
         attrValue: val,
         value: itemText, // the number label of the slider
         scaleValue: percent
@@ -324,16 +337,12 @@ class Plugin {
     });
     const cfg = {
       items,
-      layout: legendLayout,
       title: {
-        text: legendTitle,
-        fill: '#333'
+        text: this.dim
       },
-      width: legendWidth,
-      height: legendHeight
+      ...this.legendCfg
     };
     const legend = canvas.addGroup(Color, cfg);
-
     return legend;
   }
   _createContinuousSizeLegend(canvas) {
@@ -341,51 +350,23 @@ class Plugin {
     const range = scale.range;
     const domain = scale.values;
     const domainStep = (domain[domain.length - 1] - domain[0]) / (range.length - 1);
-    const legendCfg = this.legendCfg;
-    let legendTitle = legendCfg.title;
-    if (legendTitle === '' || legendTitle === undefined) {
-      legendTitle = this.dim;
-    }
-    let legendLayout = legendCfg.layout;
-    if (legendLayout === '' || legendLayout === undefined) {
-      legendLayout = 'horizontal';
-    }
-
-    let legendWidth = legendCfg.lengedWidth;
-    let legendHeight = legendCfg.legendHeight;
-    if (legendWidth === null || legendWidth === undefined) {
-      if (legendLayout === 'horizontal') {
-        legendWidth = 150;
-        legendHeight = 15;
-      } else {
-        legendWidth = 15;
-        legendHeight = 150;
-      }
-    }
+    this.legendCfg = this._setLegendSize(this.legendCfg);
 
     const items = [];
     Util.each(range, (val, i) => {
       const dom = domain[0] + domainStep * i;
-      let itemText = dom;
-      if (legendCfg.formatter !== undefined && legendCfg.formmater !== null) {
-        itemText = legendCfg.formatter(dom);
-      }
       items.push({
-        text: dom,
         attrValue: val,
-        value: itemText // the number label of the slider
+        value: dom // the number label of the slider
       });
     });
     const cfg = {
       items,
-      layout: legendLayout,
       attrType: 'size',
       title: {
-        text: legendTitle,
-        fill: '#333'
+        text: this.dim
       },
-      width: legendWidth,
-      height: legendHeight
+      ...this.legendCfg
     };
     const legend = canvas.addGroup(Size, cfg);
     return legend;
@@ -413,7 +394,6 @@ class Plugin {
       } else if (channel === 'color') {
         return color.mapping(model[dim])[0];
       }
-      // itemType === 'edge' && channel === 'size'
       return scale.scale(model[dim]);
     });
   }
@@ -437,5 +417,4 @@ class Plugin {
 }
 
 G6.Plugins['tool.mapper'] = Plugin;
-
 module.exports = Plugin;

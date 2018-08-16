@@ -41,18 +41,19 @@
       let nodeSizeMapper = new Mapper('node', 'userview', 'size', [20, 50], {
         legendCfg: {
           containerId: 'legend',
-          title: 'UV',
+          title: {
+            text: 'UV',
+            fill: '#333'
+          },
           layout: 'horizontal',
-          // formatter: function(num) {
-          //   console.log(num);
-          //   num = num * num;
-          //   if (num >= 100000000) {
-          //     return num / 100000000 + '亿';
-          //   } if (num >= 10000) {
-          //     return num / 10000 + '万';
-          //   }
-          // return num;
-          // }
+          itemFormatter(text) {
+            if (text >= 100000000) {
+              return text / 100000000 + '亿';
+            } if (text >= 10000) {
+              return text / 10000 + '万';
+            }
+          return text;
+          }
         }
       });
       let edgeSizeMapper = new Mapper('edge', 'userview', 'size', [1, 16], {
@@ -61,8 +62,10 @@
       let nodeColorMapper = new Mapper('node', 'stayTime', 'color', ['#BAE7FF', '#1890FF', '#0050B3'], {
         legendCfg: {
           containerId: 'legend',
-          title: 'Stay Time',
-          layout: 'horizontal'
+          title: {
+            text: 'Stay Time'
+          },
+          layout: 'vertical'
         }
       });
       let minimapPlugin = new G6.Plugins['tool.minimap']({
