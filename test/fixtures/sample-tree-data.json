@@ -22,13 +22,6 @@
           "name": "BetweennessCentrality"
         }, {
           "name": "LinkDistance"
-        }, {
-          "name": "MaxFlowMinCut"
-        }, {
-          "name": "ShortestPaths"
-        }, {
-          "name": "SpanningTree",
-          "id": "SpanningTree"
         }]
       }, {
         "name": "optimization",
@@ -39,6 +32,7 @@
         }]
       }]
     }, {
+      "id": "animate",
       "name": "animate",
       "children": [{
         "name": "Easing"
@@ -50,37 +44,9 @@
           "name": "ArrayInterpolator"
         }, {
           "name": "ColorInterpolator"
-        }, {
-          "name": "DateInterpolator"
-        }, {
-          "name": "Interpolator"
-        }, {
-          "name": "MatrixInterpolator"
-        }, {
-          "name": "NumberInterpolator"
-        }, {
-          "name": "ObjectInterpolator"
-        }, {
-          "name": "PointInterpolator"
-        }, {
-          "name": "RectangleInterpolator"
         }]
       }, {
         "name": "ISchedulable"
-      }, {
-        "name": "Parallel"
-      }, {
-        "name": "Pause"
-      }, {
-        "name": "Scheduler"
-      }, {
-        "name": "Sequence"
-      }, {
-        "name": "Transition"
-      }, {
-        "name": "Transitioner"
-      }, {
-        "name": "TransitionEvent"
       }, {
         "name": "Tween"
       }]
