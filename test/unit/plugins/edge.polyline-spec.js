@@ -1,10 +1,9 @@
 const G6 = require('../../../src/index');
 const expect = require('chai').expect;
-const Util = G6.Util;
 require('../../../plugins/edge.polyline/');
-document.body.appendChild(Util.createDOM(`
-  <div id='mountNode'></div>
-`));
+const div = document.createElement('div');
+document.body.appendChild(div);
+
 describe('edge polyline test', () => {
   it('polyline', () => {
     const data = {
@@ -25,7 +24,7 @@ describe('edge polyline test', () => {
       }]
     };
     const graph = new G6.Graph({
-      container: 'mountNode',
+      container: div,
       width: 500,
       height: 500
     });

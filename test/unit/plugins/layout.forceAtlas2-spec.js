@@ -4,11 +4,11 @@ const expect = require('chai').expect;
 const Util = G6.Util;
 
 document.body.appendChild(Util.createDOM(`
-  <div id='mountNode'></div>
+<div id='FAMountNode'></div>
 `));
 
 describe('custom layout test', () => {
-  const originInnerHTML = document.getElementById('mountNode').innerHTML;
+  const originInnerHTML = document.getElementById('FAMountNode').innerHTML;
   const layout = new Layout({
     useWorker: false
   });
@@ -29,7 +29,7 @@ describe('custom layout test', () => {
     }]
   };
   const graph = new G6.Graph({
-    container: 'mountNode',
+    container: 'FAMountNode',
     width: 500,
     height: 500,
     plugins: [ layout ]
@@ -37,7 +37,7 @@ describe('custom layout test', () => {
 
   graph.read(data);
   it('graph render', () => {
-    expect(document.getElementById('mountNode').innerHTML).not.eql(originInnerHTML);
+    expect(document.getElementById('FAMountNode').innerHTML).not.eql(originInnerHTML);
   });
   it('layout node positions', () => {
     graph.on('afterlayout', () => {
@@ -46,12 +46,10 @@ describe('custom layout test', () => {
       expect(node1Model.y).not.eql(undefined);
     });
   });
-  // it('graph destroy', () => {
-  //   graph.on('afterlayout', () => {
-  //     graph.destroy();
-  //     expect(document.getElementById('mountNode').innerHTML).eql(originInnerHTML);
-  //   });
-  // });
+  it('graph destroy', () => {
+    graph.destroy();
+    expect(document.getElementById('FAMountNode').innerHTML).eql(originInnerHTML);
+  });
 });
 
 describe('node nonoverlapping test', () => {
@@ -82,8 +80,11 @@ describe('node nonoverlapping test', () => {
       source: 'node3'
     }]
   };
+  const div = document.createElement('div');
+  div.id = 'FAMountNode1';
+  document.body.appendChild(div);
   const graph = new G6.Graph({
-    container: 'mountNode',
+    container: 'FAMountNode1',
     width: 500,
     height: 500,
     plugins: [ layout ]
@@ -158,8 +159,11 @@ describe('barnes hut optimiazation, linlog, dissuadeHubs test', () => {
       source: 'node3'
     }]
   };
+  const div = document.createElement('div');
+  div.id = 'FAMountNode2';
+  document.body.appendChild(div);
   const graph = new G6.Graph({
-    container: 'mountNode',
+    container: 'FAMountNode2',
     width: 500,
     height: 500,
     plugins: [ layout ]
