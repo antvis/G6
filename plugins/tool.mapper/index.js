@@ -277,6 +277,7 @@ class Plugin {
     legend.move(-bbox.minX + padding, -bbox.minY + padding);
     canvas.changeSize(legendWidth + 2 * padding, legendHeight + 2 * padding);
     this.legend = legend;
+    this.legendCanvas = canvas;
     canvas.draw();
   }
   _createCatLegend(canvas) {
