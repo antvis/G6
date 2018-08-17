@@ -42,31 +42,27 @@ class Plugin {
         kr: 120,
         kg: 8.0,
         prevOverlapping: true,
-        maxIteration: 1000,
-        barnesHut: true,
+        maxIteration: 0,
+        barnesHut: false,
         useWorker: true
       },
       fisheye: true,
       menu: null,
-      preNavi: {},
       edgeStyle: {
-        endArrow: true,
         stroke: '#4F7DAB',
         strokeOpacity: 0.65
       },
       activedEdgeStyle: {
-        endArrow: true,
         stroke: '#4C7295',
         strokeOpacity: 1
       },
       nodeStyle: {
         stroke: '#696969',
         strokeOpacity: 0.4,
-        lineWidth: 1
+        shadowColor: null
       },
       activedNodeStyle: {
         stroke: '#fff',
-        lineWidth: 1,
         shadowColor: '#6a80aa',
         shadowBlur: 20
       },
@@ -176,7 +172,8 @@ class Plugin {
       if (!model.isTreeEdge || typeof model.isTreeEdge === 'undefined') model.shape = 'quadraticCurve';
     }
     graph.edge({
-      style: this.edgeStyle
+      style: this.edgeStyle,
+      endArrow: true
     });
     graph.node({
       label: this.node_label,
@@ -185,62 +182,53 @@ class Plugin {
   }
   activeItem(item) {
     const graph = this.graph;
-    const preNavi = this.preNavi;
-    if (Util.isString(item)) {
-      item = graph.find(item);
-    }
-    let style = {};
-    let preStyle = {};
-    if (item.type === 'node') {
-      style = this.activedNodeStyle;
-      preStyle = this.nodeStyle;
-    } else if (item.type === 'edge') {
-      style = this.activedEdgeStyle;
-      preStyle = this.edgeStyle;
-    } else return;
-
-    // unactive the previous navigate node
-    if (preNavi !== {} && preNavi !== null && preNavi !== undefined && preNavi.item !== null) {
-      graph.update(preNavi.item, {
-        style: preNavi.style
+    item = graph.getItem(item);
+    if (item.isNode) {
+      graph.simpleUpdate(item, {
+        style: this.activedNodeStyle
+      });
+    } else if (item.isEdge) {
+      graph.simpleUpdate(item, {
+        style: this.activedEdgeStyle
       });
     }
-    item.getKeyShape().attr(style);
-    graph.draw();
-    this.preNavi = {
-      item,
-      style: preStyle
-    };
+  }
+  unActiveItem(item) {
+    const graph = this.graph;
+    item = graph.getItem(item);
+    if (item.isNode) {
+      graph.simpleUpdate(item, {
+        style: this.nodeStyle
+      });
+    } else if (item.isEdge) {
+      graph.simpleUpdate(item, {
+        style: this.edgeStyle
+      });
+    }
   }
   setListener() {
     const graph = this.graph;
     graph.on('node:mouseenter', ev => {
-      if (ev.item != null) {
-        graph.activeItem(ev.item);
-      }
-      graph.css({
+      this.activeItem(ev.item);
+      ev.item.isNode && graph.css({
         cursor: 'pointer'
       });
     });
+    graph.on('edge:mouseenter', ev => {
+      this.activeItem(ev.item);
+    });
     graph.on('node:mouseleave', ev => {
-      ev.item.getKeyShape().attr(this.nodeStyle);
-      graph.draw();
-      graph.css({
+      this.unActiveItem(ev.item);
+      !ev.toShape && graph.css({
         cursor: '-webkit-grab'
       });
     });
-
-    graph.on('edge:mouseenter', ev => {
-      if (ev.item != null) {
-        graph.activeItem(ev.item);
-      }
-    });
     graph.on('edge:mouseleave', ev => {
-      graph.update(ev.item, {
-        style: this.edgeStyle
+      this.unActiveItem(ev.item);
+      !ev.toShape && graph.css({
+        cursor: '-webkit-grab'
       });
     });
-
     graph.on('click', ({
       shape,
       item
