@@ -35,9 +35,8 @@ class Plugin {
     const graph = this.graph;
     Util.each(freezeElements, freezeElement => {
       const freezePoint = freezeElement.get('freezePoint');
-      const freezable = graph.get('freezable');
       const scale = graph.getScale();
-      if (freezable !== false && freezeElement.isShape && freezePoint && freezeElement.get('visible')) {
+      if (freezeElement.isShape && freezePoint && freezeElement.get('visible')) {
         freezeElement.resetMatrix();
         freezeElement.transform([
           [ 't', -freezePoint.x, -freezePoint.y ],
