@@ -27,9 +27,8 @@
       //the instances of plugins
       let maxSpanningForest = new MaxSpanningForestPlugin({
         layoutCfg: {
-          maxIteration: 600,
-          kg: 10,
-          prevOverlapping: true
+          kg: 12,
+          prevOverlapping: true,
         }
       });
       let nodeSizeMapper = new Mapper('node', 'userview', 'size', [20, 50], {
@@ -39,15 +38,7 @@
             text: 'UV',
             fill: '#333'
           },
-          layout: 'horizontal',
-          itemFormatter(text) {
-            if (text >= 100000000) {
-              return text / 100000000 + '亿';
-            } if (text >= 10000) {
-              return text / 10000 + '万';
-            }
-          return text;
-          }
+          layout: 'horizontal'
         }
       });
       let edgeSizeMapper = new Mapper('edge', 'userview', 'size', [1, 16], {
@@ -65,14 +56,13 @@
       let minimapPlugin = new G6.Plugins['tool.minimap']({
         container: 'minimap',
         width: 180,
-        height: 120
+        height: 120,
       });
 
       const Util = G6.Util;
 
       graph = new G6.Graph({
         id: 'mountNode', // dom id
-        fitView: 'autoZoom',
         plugins: [
           maxSpanningForest, 
           nodeColorMapper, 
@@ -85,7 +75,13 @@
         },
         height: 500,
       });
+      console.log(data);
       graph.read(Util.cloneDeep(data));
+      setTimeout(()=>{
+        graph.update('1965', {
+          x: 10000
+        });
+      },1000 )
     });
 
   </script>
