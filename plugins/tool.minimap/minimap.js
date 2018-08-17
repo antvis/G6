@@ -239,11 +239,40 @@ class Minimap {
     const miniMapCanvas = this.miniMapCanvas;
     const width = this.width;
     const height = this.height;
+    const toSmallNodes = [];
     Util.graph2Canvas({
       graph,
       width,
       height,
-      canvas: miniMapCanvas
+      canvas: miniMapCanvas,
+      beforeTransform(minimapMatrix) {
+        const minimapScale = minimapMatrix[0];
+        const nodes = graph.getNodes();
+        nodes.forEach(node => {
+          const bbox = node.getBBox();
+          const model = node.getModel();
+          const width = bbox.width;
+          if (width * minimapScale < 2) {
+            const group = node.getGraphicGroup();
+            const originMatrix = Util.clone(group.getMatrix());
+            const minSize = 4;
+            group.transform([
+              [ 't', -model.x, -model.y ],
+              [ 's', minSize / (width * minimapScale), minSize / (width * minimapScale) ],
+              [ 't', model.x, model.y ]
+            ]);
+            toSmallNodes.push({
+              item: node,
+              originMatrix
+            });
+          }
+        });
+      },
+      afterTransform() {
+        toSmallNodes.forEach(({ item, originMatrix }) => {
+          item.getGraphicGroup().setMatrix(originMatrix);
+        });
+      }
     });
     this.miniMapMatrix = miniMapCanvas.matrix;
   }

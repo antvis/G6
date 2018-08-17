@@ -370,3 +370,14 @@ describe('graph test', () => {
     expect(div.childNodes.length).equal(0);
   });
 });
+
+// describe('graph test cfg', () => {
+//   it('container is id', () => {
+//     const graph = new Graph({
+//       id: 'graph',
+//       width: 500,
+//       height: 500
+//     });
+//     console.log(div);
+//   });
+// });
