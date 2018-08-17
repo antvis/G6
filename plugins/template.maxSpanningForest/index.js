@@ -18,6 +18,7 @@ require('../tool.fisheye/');
 require('../util.extractSubgraph/');
 require('../edge.quadraticCurve/');
 require('../behaviour.analysis/');
+require('../tool.freezeSize/');
 
 class Plugin {
   constructor(options) {
@@ -84,7 +85,6 @@ class Plugin {
   init() {
     const graph = this.graph;
 
-    const highlighter = new G6.Plugins['tool.highlightSubgraph']();
     if (this.fisheye) {
       const fisheye = new G6.Plugins['tool.fisheye']({
         radius: 200
@@ -95,7 +95,19 @@ class Plugin {
       const textDisplay = new G6.Plugins['tool.textDisplay']();
       graph.addPlugin(textDisplay);
     }
+    const highlighter = new G6.Plugins['tool.highlightSubgraph']();
+    const freezeSize = new G6.Plugins['tool.freezeSize']();
     graph.addPlugin(highlighter);
+    graph.addPlugin(freezeSize);
+    graph.on('afteritemdraw', ({ item }) => {
+      const label = item.getLabel();
+      if (label) {
+        label.set('freezePoint', {
+          x: 0,
+          y: 0
+        });
+      }
+    });
     graph.on('beforeinit', () => {
       let layout = graph.get('layout');
       if (!layout) {
