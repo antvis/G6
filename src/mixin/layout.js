@@ -40,14 +40,28 @@ Mixin.AUGMENT = {
     return this;
   },
   /**
+   * @param  {array} nodes - nodes need update position
    * @return {Graph} this
    */
-  updateNodePosition() {
-    const nodes = this.getNodes();
-    const groups = this.getGroups();
-    const edges = this.getEdges();
+  updateNodePosition(nodes) {
     const guides = this.getGuides();
-
+    let groups = [];
+    let edges = [];
+    if (nodes) {
+      nodes.forEach(node => {
+        node.getEdges().forEach(edge => {
+          edges.push(edge);
+        });
+        const parent = node.getParent();
+        parent && groups.push(parent);
+      });
+      edges = Util.uniq(edges);
+      groups = Util.uniq(groups);
+    } else {
+      nodes = this.getNodes();
+      groups = this.getGroups();
+      edges = this.getEdges();
+    }
     nodes.forEach(node => {
       node.layoutUpdate();
     });
