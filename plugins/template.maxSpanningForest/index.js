@@ -41,8 +41,8 @@ class Plugin {
         kr: 120,
         kg: 8.0,
         prevOverlapping: true,
-        maxIteration: 1000,
-        barnesHut: true,
+        maxIteration: 0,
+        barnesHut: false,
         useWorker: true
       },
       fisheye: true,

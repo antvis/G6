@@ -36,6 +36,7 @@ class Tool {
     const center = [ centerx, centery ];
     const nodes = graph.getNodes();
     const size = nodes.length;
+    const moveNodes = [];
     // pick out the nodes inside the radius
     for (let i = 0; i < size; i += 1) {
       const node = nodes[i].getModel();
@@ -49,10 +50,14 @@ class Tool {
         // transform to rect coordinates
         const { x, y } = Polar2Rect(pf, theta);
         // move back to the original origin
-        nodes[i].getModel().x = x + center[0];
-        nodes[i].getModel().y = y + center[1];
+        const model = nodes[i].getModel();
+        model.x = x + center[0];
+        model.y = y + center[1];
+        moveNodes.push(nodes[i]);
       }
     }
+    graph.updateNodePosition(moveNodes);
+    return moveNodes;
   }
 }
 
