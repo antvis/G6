@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "2.1.0-beta.8",
+  "version": "2.1.0-beta.9",
   "description": "graph visualization frame work",
   "main": "build/g6.js",
   "homepage": "https://github.com/antvis/g6",
