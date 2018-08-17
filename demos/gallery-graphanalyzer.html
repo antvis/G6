@@ -92,16 +92,6 @@
         height: 500,
       });
       graph.read(Util.cloneDeep(data));
-      // graph.getNodes().forEach(node=>{
-      //   graph.toFront(node);
-      //   // node.getGraphicGroup().toFront();
-      // });
-      // graph.on('afterchange', ()=>{
-      //   graph.getNodes().forEach(node=>{
-      //     // graph.toFront(node);
-      //     node.getGraphicGroup().toFront();
-      //   });
-      // });
       const minimap = document.getElementById('minimap');
       // const legend = document.getElementById('legend');
       if (minimap !== undefined) minimap.style.display = 'none';
