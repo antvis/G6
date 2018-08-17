@@ -31,7 +31,7 @@
           prevOverlapping: true,
         }
       });
-      let nodeSizeMapper = new Mapper('node', 'userview', 'size', [20, 50], {
+      let nodeSizeMapper = new Mapper('node', 'weight', 'size', [20, 50], {
         legendCfg: {
           containerId: 'legend',
           title: {
@@ -41,10 +41,10 @@
           layout: 'horizontal'
         }
       });
-      let edgeSizeMapper = new Mapper('edge', 'userview', 'size', [1, 16], {
+      let edgeSizeMapper = new Mapper('edge', 'weight', 'size', [1, 16], {
         legendCfg: null
       });
-      let nodeColorMapper = new Mapper('node', 'stayTime', 'color', ['#BAE7FF', '#1890FF', '#0050B3'], {
+      let nodeColorMapper = new Mapper('node', 'weight', 'color', ['#BAE7FF', '#1890FF', '#0050B3'], {
         legendCfg: {
           containerId: 'legend',
           title: {
@@ -75,13 +75,7 @@
         },
         height: 500,
       });
-      console.log(data);
       graph.read(Util.cloneDeep(data));
-      setTimeout(()=>{
-        graph.update('1965', {
-          x: 10000
-        });
-      },1000 )
     });
 
   </script>
