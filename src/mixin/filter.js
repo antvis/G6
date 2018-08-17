@@ -46,6 +46,7 @@ Mixin.AUGMENT = {
    * do filter
    */
   filter() {
+    this.emit('beforefilter');
     const filters = this.get('filters');
     const items = this.getItems();
     let filteredItems = this.getItems();
@@ -60,6 +61,7 @@ Mixin.AUGMENT = {
       }
     });
     this.draw();
+    this.emit('afterfilter');
   }
 };
 module.exports = Mixin;
