@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "2.1.0-beta.10",
+  "version": "2.1.0-beta.11",
   "description": "graph visualization frame work",
   "main": "build/g6.js",
   "homepage": "https://github.com/antvis/g6",
@@ -100,7 +100,7 @@
     "screenshot": "node ./bin/screenshot.js",
     "start": "npm run dev",
     "test": "torch --compile --renderer --recursive ./test/unit",
-    "test-live": "torch --compile --interactive --watch --recursive ./test/unit/plugins/template.maxSpanningForest-spec",
+    "test-live": "torch --compile --interactive --watch --recursive ./test/unit/util/",
     "watch": "webpack --config webpack-dev.config.js",
     "win-dev": "node ./bin/win-dev.js"
   },
@@ -108,8 +108,8 @@
     "run": []
   },
   "dependencies": {
-    "@antv/g": "~3.1.0-beta.7",
-    "@antv/g2": "~3.2.7-beta.5",
+    "@antv/g": "~3.1.0-beta.11",
+    "@antv/g2": "~3.2.7-beta.4",
     "@antv/hierarchy": "~0.3.13",
     "@antv/scale": "^0.0.1",
     "d3": "^5.4.0",

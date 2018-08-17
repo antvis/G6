@@ -40,9 +40,9 @@ describe('graph test', () => {
     });
     expect(i).equal(29);
   });
-  // it('save', () => {
-  //   expect(JSON.stringify(graph.save())).equal('{"nodes":[{"id":"node4","x":400,"y":160,"parent":"group2","index":0},{"id":"node6","x":150,"y":150,"index":2},{"id":"node8","x":90,"y":250,"parent":"group2","index":4}],"groups":[{"id":"group2","index":3}],"guides":[{"id":"guide-node2->node5","shape":"link","source":"node2","target":"node5","index":1}]}');
-  // });
+  it('save', () => {
+    graph.save();
+  });
   it('getItems', () => {
     const items = graph.getItems();
     expect(items.length).equal(10);
@@ -324,7 +324,7 @@ describe('graph test', () => {
     matrix = graph.getMatrix();
     expectToDeepAlmost(matrix, [ 2.3, 0, 0, 0, 2.3, 0, -119.4, -83.4, 1 ], 1);
   });
-  it('hide', () => {
+  it('hide && show', () => {
     graph.add('edge', {
       id: 'node1-domCenter',
       source: 'node1',
@@ -340,20 +340,34 @@ describe('graph test', () => {
     });
     graph.zoom(1);
     graph.setFitView('cc');
+
     graph.hide(graph.find('node1-domCenter'));
     expect(graph.find('node1-domCenter').getGraphicGroup().get('visible')).equal(false);
+    graph.show(graph.find('node1-domCenter'));
+    expect(graph.find('node1-domCenter').getGraphicGroup().get('visible')).equal(true);
+
     graph.hide(graph.find('node1'));
     expect(graph.find('node1').getGraphicGroup().get('visible')).equal(false);
     expect(graph.find('node1-{50,50}').getGraphicGroup().get('visible')).equal(false);
+    graph.show(graph.find('node1'));
+    expect(graph.find('node1').getGraphicGroup().get('visible')).equal(true);
+    expect(graph.find('node1-{50,50}').getGraphicGroup().get('visible')).equal(true);
+
     graph.hide('group1');
     expect(graph.find('group1').getGraphicGroup().get('visible')).equal(false);
     expect(graph.find('domCenter').getGraphicGroup().get('visible')).equal(false);
+    graph.show('group1');
+    expect(graph.find('group1').getGraphicGroup().get('visible')).equal(true);
+    expect(graph.find('domCenter').getGraphicGroup().get('visible')).equal(true);
   });
   it('endArrow', () => {
     graph.update('node1-domCenter', {
       endArrow: true,
       startArrow: true
     });
+  });
+  it('focus', () => {
+    graph.focus('node1');
   });
   it('getLayout', () => {
     graph.getLayout();

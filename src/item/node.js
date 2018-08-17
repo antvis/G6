@@ -10,9 +10,9 @@ class Node extends Item {
   constructor(cfg) {
     const defaultCfg = {
       type: 'node',
-      linkable: true,
       isNode: true,
-      zIndex: 3
+      zIndex: 3,
+      edges: []
     };
     Util.mix(defaultCfg, cfg);
     super(defaultCfg);
@@ -39,32 +39,16 @@ class Node extends Item {
     this._beforeDraw();
     this._afterDraw();
   }
-  getEdges(callback) {
-    const id = this.id;
-    const itemMap = this.itemMap;
-    const edges = itemMap._edges;
-    const rst = [];
-    Util.each(edges, edge => {
-      if (callback) {
-        if (callback(edge)) {
-          rst.push(edge);
-        }
-        return;
-      }
-      const edgeModel = edge.getModel();
-      if (id === edgeModel.target || id === edgeModel.source) {
-        rst.push(edge);
-      }
-    });
-    return rst;
+  getEdges() {
+    return this.edges;
   }
   getInEdges() {
-    return this.getEdges(edge => {
+    return this.edges.filter(edge => {
       return edge.target === this;
     });
   }
   getOutEdges() {
-    return this.getEdges(edge => {
+    return this.edges.filter(edge => {
       return edge.source === this;
     });
   }

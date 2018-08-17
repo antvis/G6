@@ -15,7 +15,6 @@ class Plugin {
     const graph = this.graph;
     graph.on('afterchange', () => {
       this._stashFreezeElement();
-      this.freezeSize();
     });
     graph.on('afterzoom', () => {
       this.freezeSize();

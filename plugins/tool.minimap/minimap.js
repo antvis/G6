@@ -209,9 +209,11 @@ class Minimap {
     }
     if (!width) {
       width = Util.getWidth(container);
+      this.width = width;
     }
     if (!height) {
       height = Util.getHeight(container);
+      this.height = height;
     }
     const minimapContainerCSS = this.minimapContainerCSS;
     minimapContainerCSS.width = width + 'px';
