@@ -72,7 +72,7 @@ module.exports = {
       maxX: width,
       maxY: height
     }, graphBBox, padding);
-    beforeTransform(graph);
+    beforeTransform(matrix, matrixCache);
     graph.setMatrix(matrix);
     canvas.set('children', children);
     canvas.matrix = matrix;
@@ -80,7 +80,7 @@ module.exports = {
     canvas._cfg.painter.beforeDraw();
     canvas._cfg.painter._drawGroup(canvas);
     graph.setMatrix(matrixCache);
-    afterTransform(graph);
+    afterTransform(matrix, matrixCache);
     return canvas.get('el');
   }
 };

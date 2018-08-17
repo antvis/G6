@@ -100,6 +100,7 @@ class Edge extends Item {
       startSegment[startSegment.length - 2] = vDindent[0] + point.x;
     }
     keyShape.attr('path', keyShapePath);
+    keyShape[type + 'Arrow'] = marker;
   }
   _getControlPoints() {
     const controlPoints = this.model.controlPoints;

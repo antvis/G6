@@ -69,13 +69,13 @@ class Layout {
        * whether active the barnes hut optimization on computing repulsive forces
        * @type  {boolean}
        */
-      barnesHut: false,
+      barnesHut: '',
 
       /**
        * the max iteration number
        * @type  {number}
        */
-      maxIteration: 1500,
+      maxIteration: 0,
 
       /**
        * control the global velocity
@@ -111,7 +111,7 @@ class Layout {
   }
   // execute the layout
   execute() {
-    const {
+    let {
       graph,
       nodes,
       edges,
@@ -120,8 +120,8 @@ class Layout {
       mode,
       prevOverlapping,
       dissuadeHubs,
-      barnesHut,
       maxIteration,
+      barnesHut,
       ks,
       ksmax,
       tao,
@@ -140,6 +140,28 @@ class Layout {
     for (let i = 0; i < size; i += 1) {
       widths[i] = (graph.getNodes()[i].getBBox().maxX - graph.getNodes()[i].getBBox().minX) / 2;
     }
+
+    if (barnesHut === '') {
+      barnesHut = false;
+      if (size > 250) {
+        barnesHut = true;
+      }
+      this.barnesHut = barnesHut;
+    }
+    if (this.maxIteration === 0) {
+      maxIteration = 250;
+      if (size <= 200 && size > 100) {
+        maxIteration = 1000;
+      } else if (size <= 300 && size > 200) {
+        maxIteration = 1500;
+      } else if (size > 300 && size <= 600) {
+        maxIteration = 2000;
+      } else if (size > 600) {
+        maxIteration = 2200;
+      }
+      this.maxIteration = maxIteration;
+    }
+
     const obj = {
       nodes,
       edges,
@@ -169,7 +191,7 @@ class Layout {
       loading.style.setProperty('width', divWidth + 'px');
       loading.style.setProperty('height', divHeight + 'px');
       loading.style.setProperty('margin-top', -parent.offsetHeight + 'px');
-      loading.style.zIndex = 999;
+      loading.style.zIndex = 3;
       parent.appendChild(loading);
        // the loading image
       const imgSize = 200;
