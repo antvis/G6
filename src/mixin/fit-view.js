@@ -190,6 +190,12 @@ Mixin.AUGMENT = {
     return rootGroup.getMatrix();
   },
   /**
+   * @return {number} scale
+   */
+  getScale() {
+    return this.getMatrix()[0];
+  },
+  /**
    * @param {object} matrix - matrix
    */
   setMatrix(matrix) {

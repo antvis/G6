@@ -98,6 +98,9 @@ describe('tree test', () => {
     });
     expect(tree.find('addNode.2')).not.equal(undefined);
     expect(tree.find('addNode.1')).equal(undefined);
+    tree.update('addNode', {
+      nth: 1
+    });
   });
   it('remove', () => {
     tree.remove('analytics');
@@ -108,23 +111,23 @@ describe('tree test', () => {
   });
   it('getHierarchy', () => {
     expect(tree.getHierarchy('root')).equal(1);
+    expect(tree.getHierarchy('addNode')).equal(2);
   });
   it('getNth', () => {
-    expect(tree.getNth('addNode')).equal(1);
-  });
-  it('setNodeNth', () => {
-    tree.setNodeNth('animate', 1);
-    // expect(tree.getNth('addNode')).equal(1);
+    expect(tree.getNth('addNode')).equal(0);
   });
   it('save', () => {
     expect(tree.save().roots.length).equal(1);
+  });
+  it('getRoots', () => {
+    expect(tree.getRoots()[0].id).equal('root');
   });
   it('changeLayout', () => {
     tree.changeLayout(() => {
 
     });
   });
-  // it('destroy test graph', () => {
-  //   tree.destroy();
-  // });
+  it('destroy test graph', () => {
+    tree.destroy();
+  });
 });
