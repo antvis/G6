@@ -39,8 +39,8 @@ class Plugin {
         }]
       },
       layoutCfg: {
-        kr: 120,
-        kg: 8.0,
+        kr: 0,
+        kg: 0,
         prevOverlapping: true,
         maxIteration: 0,
         barnesHut: false,
