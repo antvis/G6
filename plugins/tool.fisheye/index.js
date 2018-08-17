@@ -32,7 +32,7 @@ class Plugin {
         }
         graph.updateNodePosition(this.preMoveNodes);
         this.preMoveNodes = fisheye.zoom(ev.x, ev.y);
-      }, 16)
+      }, 30)
     );
     });
     const cacheLocation = Util.debounce(ev => {
@@ -49,7 +49,7 @@ class Plugin {
       } else {
         this.oriPos.set(ev.originModel.id, { x: ev.updateModel.x, y: ev.updateModel.y });
       }
-    }, 16);
+    }, 30);
     // record the layout positions, in order to restore the positions after fisheye zooming
     graph.on('afterchange', cacheLocation);
     graph.on('afterlayout', cacheLocation);

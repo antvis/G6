@@ -278,8 +278,6 @@ class Plugin {
     canvas.changeSize(legendWidth + 2 * padding, legendHeight + 2 * padding);
     this.legend = legend;
     this.legendCanvas = canvas;
-    this.legendWidth = legendWidth;
-    this.legendHeight = legendHeight;
     canvas.draw();
   }
   _createCatLegend(canvas) {
@@ -308,13 +306,26 @@ class Plugin {
   }
   _getLegendCfg(defaultCfg) {
     const legendCfg = this.legendCfg;
-    if (Util.isNil(legendCfg.width)) {
+    if (Util.isNil(legendCfg.width) && Util.isNil(legendCfg.height)) {
       if (legendCfg.layout === 'horizontal') {
         legendCfg.width = 150;
         legendCfg.height = 15;
       } else {
         legendCfg.width = 15;
         legendCfg.height = 150;
+      }
+    }
+    if (!Util.isNil(legendCfg.width) && Util.isNil(legendCfg.height)) {
+      if (legendCfg.layout === 'horizontal') {
+        legendCfg.height = legendCfg.width / 10;
+      } else {
+        legendCfg.height = legendCfg.width * 10;
+      }
+    } else if (Util.isNil(legendCfg.width) && !Util.isNil(legendCfg.height)) {
+      if (legendCfg.layout === 'horizontal') {
+        legendCfg.width = legendCfg.height * 10;
+      } else {
+        legendCfg.width = legendCfg.height / 10;
       }
     }
     return Util.mix(true, {}, defaultCfg, legendCfg);
