@@ -29,13 +29,7 @@
         layoutCfg: {
           maxIteration: 600,
           kg: 10,
-          prevOverlapping: true,
-          onLayoutComplete: function () {
-            const minimap = document.getElementById('minimap');
-            const legend = document.getElementById('legend');
-            if (minimap !== undefined) minimap.style.display = 'block';
-            if (legend !== undefined) legend.style.display = 'block';
-          }
+          prevOverlapping: true
         }
       });
       let nodeSizeMapper = new Mapper('node', 'userview', 'size', [20, 50], {
@@ -92,10 +86,6 @@
         height: 500,
       });
       graph.read(Util.cloneDeep(data));
-      const minimap = document.getElementById('minimap');
-      // const legend = document.getElementById('legend');
-      if (minimap !== undefined) minimap.style.display = 'none';
-      // if (legend !== undefined) legend.style.display = 'none';
     });
 
   </script>
