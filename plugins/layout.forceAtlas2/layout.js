@@ -35,13 +35,13 @@ class Layout {
        * larger the kr, looser the layout
        * @type  {number}
        */
-      kr: 10,
+      kr: 0,
 
       /**
        * the parameter for gravity forces
        * @type  {number}
        */
-      kg: 1.0,
+      kg: 1,
 
       /**
        * modes:
@@ -150,18 +150,20 @@ class Layout {
     }
     if (this.maxIteration === 0) {
       maxIteration = 250;
-      if (size <= 200 && size > 100) {
-        maxIteration = 1000;
-      } else if (size <= 300 && size > 200) {
-        maxIteration = 1500;
-      } else if (size > 300 && size <= 600) {
-        maxIteration = 2000;
-      } else if (size > 600) {
-        maxIteration = 2200;
-      }
+      if (size <= 200 && size > 100) maxIteration = 1000;
+      else if (size > 200) maxIteration = 1200;
       this.maxIteration = maxIteration;
     }
-
+    if (kr === 0) {
+      kr = 50;
+      if (size > 100 && size <= 500) kr = 20;
+      else if (size > 500) kr = 1;
+    }
+    if (kg === 0) {
+      kg = 20;
+      if (size > 100 && size <= 500) kg = 10;
+      else if (size > 500) kg = 1;
+    }
     const obj = {
       nodes,
       edges,
@@ -191,7 +193,7 @@ class Layout {
       loading.style.setProperty('width', divWidth + 'px');
       loading.style.setProperty('height', divHeight + 'px');
       loading.style.setProperty('margin-top', -parent.offsetHeight + 'px');
-      loading.style.zIndex = 3;
+      loading.style.zIndex = 4;
       parent.appendChild(loading);
        // the loading image
       const imgSize = 200;
