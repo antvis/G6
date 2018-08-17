@@ -15,6 +15,8 @@ class Plugin {
   }
   init() {
     const graph = this.graph;
+    this.oriPos = new Map();
+    this.preMoveNodes = [];
     graph.on('beforeinit', () => {
       const fisheye = new Fisheye({
         graph,
@@ -24,14 +26,15 @@ class Plugin {
         if (graph.destroyed) return;
         const nodes = graph.getNodes();
         const size = nodes.length;
-        if (this.oriXs.length !== size) return;
-        for (let i = 0; i < size; i += 1) {
-          nodes[i].getModel().x = this.oriXs[i];
-          nodes[i].getModel().y = this.oriYs[i];
+        if (this.oriPos.size !== size) return;
+        for (let i = 0; i < this.preMoveNodes.length; i += 1) {
+          const preModel = this.preMoveNodes[i].getModel();
+          preModel.x = this.oriPos.get(this.preMoveNodes[i].id).x;
+          preModel.y = this.oriPos.get(this.preMoveNodes[i].id).y;
         }
-        fisheye.zoom(ev.x, ev.y);
-        graph.updateNodePosition();
-      }, 10)
+        graph.updateNodePosition(this.preMoveNodes);
+        this.preMoveNodes = fisheye.zoom(ev.x, ev.y);
+      }, 16)
     );
     });
     const cacheLocation = Util.debounce(ev => {
@@ -41,19 +44,12 @@ class Plugin {
       if (ev === undefined || ev.item === undefined) {
         for (let i = 0; i < size; i++) {
           if (nodes[i].getModel().x === undefined) return;
-          this.oriXs[i] = nodes[i].getModel().x;
-          this.oriYs[i] = nodes[i].getModel().y;
+          this.oriPos.set(nodes[i].id, { x: nodes[i].getModel().x, y: nodes[i].getModel().y });
         }
       } else if (ev.item.type !== 'node' || (ev.updateModel.x === undefined && ev.updateModel.y === undefined)) {
         return;
       } else {
-        const item = graph.find(ev.originModel.id);
-        for (let i = 0; i < size; i++) {
-          if (nodes[i].getModel().id === item.id) {
-            this.oriXs[i] = ev.updateModel.x;
-            this.oriYs[i] = ev.updateModel.y;
-          }
-        }
+        this.oriPos.set(ev.originModel.id, { x: ev.updateModel.x, y: ev.updateModel.y });
       }
     }, 16);
     // record the layout positions, in order to restore the positions after fisheye zooming

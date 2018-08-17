@@ -49,11 +49,10 @@
     $.getJSON('../../test/fixtures/viralMarketing.json', data => {
       const Plugin = G6.Plugins['layout.forceAtlas2'];
       const layoutParams = {
-        maxIteration: 2000,
         prevOverlapping: true,
-        kr: 8,
+        kr: 20,
         mode: 'normal',
-        barnesHut: false, // may be counter-productive on small networks
+        // barnesHut: false, // may be counter-productive on small networks
         ks: 0.1,
         dissuadeHubs: false
       };
