@@ -66,7 +66,8 @@ describe('maxSpanningForest test', () => {
     expect(node1Model.y).not.eql(undefined);
   });
   it('mouseenter a node', () => {
-    const node1Model = graph.find('node1').getModel();
+    const node1 = graph.find('node1');
+    const node1Model = node1.getModel();
     const clientPoint = graph.getClientPoint(node1Model);
     Simulate.simulate(mouseEventWrapper, 'mousedown', {
       clientX: clientPoint.x - 50,
@@ -80,16 +81,17 @@ describe('maxSpanningForest test', () => {
       clientX: clientPoint.x,
       clientY: clientPoint.y
     });
-    expect(node1Model.style.stroke).eql('#fff');
+    expect(node1.getKeyShape().attr('stroke')).eql('#fff');
   });
   it('mouseleave a node', () => {
-    const node1Model = graph.find('node1').getModel();
+    const node1 = graph.find('node1');
+    const node1Model = node1.getModel();
     const clientPoint = graph.getClientPoint(node1Model);
     Simulate.simulate(mouseEventWrapper, 'mousemove', {
       clientX: clientPoint.x,
       clientY: clientPoint.y - 50
     });
-    expect(node1Model.style.stroke).eql('#696969');
+    expect(node1.getKeyShape().attr('stroke')).eql('#696969');
   });
 
   it('mouseenter an edge', () => {
@@ -109,8 +111,7 @@ describe('maxSpanningForest test', () => {
       clientX: clientPoint.x,
       clientY: clientPoint.y
     });
-    const edgeModel = edge.getModel();
-    expect(edgeModel.style.stroke).eql('#4C7295');
+    expect(edge.getKeyShape().attr('stroke')).eql('#4C7295');
   });
   it('mouseleave an edge', () => {
     const edge = graph.getEdges()[0];
@@ -170,8 +171,8 @@ describe('fisheye test', () => {
 
   it('active item string', () => {
     graph.activeItem('node1');
-    const node1Model = graph.find('node1').getModel();
-    expect(node1Model.style.stroke).eql('#fff');
+    const node1 = graph.find('node1');
+    expect(node1.getKeyShape().attr('stroke')).eql('#fff');
   });
   it('active string for nothing', () => {
     const item = { type: 'nothing' };

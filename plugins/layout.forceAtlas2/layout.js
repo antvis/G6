@@ -159,11 +159,11 @@ class Layout {
       if (size > 100 && size <= 500) kr = 20;
       else if (size > 500) kr = 1;
     }
-    // if (kg === 0) {
-    //   kg = 20;
-    //   if (size > 100 && size <= 500) kg = 35;
-    //   else if (size > 500) kg = 50;
-    // }
+    if (kg === 0) {
+      kg = 20;
+      if (size > 100 && size <= 500) kg = 10;
+      else if (size > 500) kg = 1;
+    }
     const obj = {
       nodes,
       edges,
