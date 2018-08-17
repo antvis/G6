@@ -205,10 +205,8 @@ class Plugin {
         style: preNavi.style
       });
     }
-
-    graph.update(item, {
-      style
-    });
+    item.getKeyShape().attr(style);
+    graph.draw();
     this.preNavi = {
       item,
       style: preStyle
@@ -225,9 +223,8 @@ class Plugin {
       });
     });
     graph.on('node:mouseleave', ev => {
-      graph.update(ev.item, {
-        style: this.nodeStyle
-      });
+      ev.item.getKeyShape().attr(this.nodeStyle);
+      graph.draw();
       graph.css({
         cursor: '-webkit-grab'
       });
