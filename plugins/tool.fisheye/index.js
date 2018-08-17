@@ -9,8 +9,6 @@ const Fisheye = require('./tool');
 class Plugin {
   constructor(options) {
     Util.mix(this, {
-      oriXs: [],
-      oriYs: []
     }, options);
   }
   init() {
