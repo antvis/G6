@@ -190,9 +190,9 @@ class Layout {
       const divWidth = parent.offsetWidth ? parent.offsetWidth : 600;
       loading.style.setProperty('width', divWidth + 'px');
       loading.style.setProperty('height', divHeight + 'px');
-      loading.style.setProperty('margin-top', -parent.parentNode.offsetHeight + 'px');
+      loading.style.setProperty('margin-top', -parent.offsetHeight + 'px');
       loading.style.zIndex = 3;
-      parent.parentNode.appendChild(loading);
+      parent.appendChild(loading);
        // the loading image
       const imgSize = 200;
       const loadingImg = document.createElement('img');
