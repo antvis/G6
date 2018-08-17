@@ -14,7 +14,9 @@ document.body.appendChild(Util.createDOM(`
 describe('minimap test', () => {
   const originInnerHTML = document.getElementById('minimap').innerHTML;
   const minimap = new Minimap({
-    container: 'minimap'
+    container: 'minimap',
+    width: 100,
+    height: 100
   });
   const data = {
     nodes: [{
@@ -41,8 +43,6 @@ describe('minimap test', () => {
     plugins: [ minimap ]
   });
   graph.read(data);
-  graph.remove('node1');
-  graph.remove('node2');
   it('minimap render', () => {
     expect(document.getElementById('minimap').innerHTML).not.eql(originInnerHTML);
   });
@@ -77,6 +77,11 @@ describe('minimap test', () => {
   });
   it('renderViewPort', () => {
     minimap.renderViewPort();
+  });
+  it('over min node size', () => {
+    graph.update('node1', {
+      x: 10000
+    });
   });
   it('minimap destroy', () => {
     graph.destroy();
