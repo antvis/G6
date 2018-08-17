@@ -28,12 +28,6 @@
       let maxSpanningForest = new MaxSpanningForestPlugin({
         layoutCfg: {
           prevOverlapping: true,
-          onLayoutComplete: function () {
-            const minimap = document.getElementById('minimap');
-            const legend = document.getElementById('legend');
-            if (minimap !== undefined) minimap.style.display = 'block';
-            if (legend !== undefined) legend.style.display = 'block';
-          }
         }
       });
       let nodeSizeMapper = new Mapper('node', 'userview', 'size', [15, 50], {
@@ -71,7 +65,7 @@
       let minimapPlugin = new G6.Plugins['tool.minimap']({
         container: 'minimap',
         width: 180,
-        height: 120
+        height: 120,
       });
 
       const Util = G6.Util;

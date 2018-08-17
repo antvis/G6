@@ -26,15 +26,12 @@ class Plugin {
     const nodes = graph.getNodes();
     Util.each(nodes, node => {
       const label = node.getLabel();
-      const model = node.getModel();
       const labelBox = label.getBBox();
-      const labelWidth = labelBox.maxX - labelBox.minX;
+      const scale = graph.getScale();
+      const labelWidth = (labelBox.maxX - labelBox.minX) * (1 / scale);
       const nodeBox = node.getBBox();
-      let nodeWidth = nodeBox.maxX - nodeBox.minX;
-      if (model.size === undefined) {
-        const nodeBox = node.getBBox();
-        nodeWidth = nodeBox.maxX - nodeBox.minX;
-      }
+      const nodeWidth = nodeBox.maxX - nodeBox.minX;
+
       if (labelWidth === 0) return;
       const ratio = labelWidth / nodeWidth;
       if (ratio > 2) {

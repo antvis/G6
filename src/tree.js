@@ -137,7 +137,7 @@ class Tree extends Graph {
    * @param {object} node item node
    * @param {object} nth nth
    */
-  setNodeNth(node, nth) {
+  _setNodeNth(node, nth) {
     node = this.getItem(node);
     const model = node.getModel();
     const parent = node.getParent();
@@ -193,7 +193,7 @@ class Tree extends Graph {
       this._setVisibleByCollapsed(item);
       // set node nth
       if (!Util.isNil(model.nth)) {
-        this.setNodeNth(item, model.nth);
+        this._setNodeNth(item, model.nth);
       }
       this.find(parent.id).forceUpdate();
     } else {
@@ -308,7 +308,7 @@ class Tree extends Graph {
 
       // set node nth
       if (!Util.isNil(model.nth)) {
-        this.setNodeNth(item, model.nth);
+        this._setNodeNth(item, model.nth);
       }
       const parentItem = this.find(itemModel.parent);
       parentItem && parentItem.forceUpdate();

@@ -28,6 +28,10 @@ class Plugin {
     graph.on('afterviewportchange', () => {
       minimap.renderViewPort();
     });
+    graph.on('afterfilter', () => {
+      minimap.renderBackground();
+      minimap.renderViewPort();
+    });
     this.renderBackground = () => {
       minimap.renderBackground();
     };
