@@ -27,7 +27,6 @@
       //the instances of plugins
       let maxSpanningForest = new MaxSpanningForestPlugin({
         layoutCfg: {
-          kg: 12,
           prevOverlapping: true,
           onLayoutComplete: function () {
             const minimap = document.getElementById('minimap');
@@ -37,14 +36,15 @@
           }
         }
       });
-      let nodeSizeMapper = new Mapper('node', 'userview', 'size', [20, 50], {
+      let nodeSizeMapper = new Mapper('node', 'userview', 'size', [15, 50], {
         legendCfg: {
           containerId: 'legend',
+          height: 100,
           title: {
             text: 'UV',
             fill: '#333'
           },
-          layout: 'horizontal',
+          layout: 'vertical',
           itemFormatter(text) {
             if (text >= 100000000) {
               return text / 100000000 + '亿';
@@ -55,7 +55,7 @@
           }
         }
       });
-      let edgeSizeMapper = new Mapper('edge', 'userview', 'size', [1, 16], {
+      let edgeSizeMapper = new Mapper('edge', 'userview', 'size', [1, 8], {
         legendCfg: null
       });
       let nodeColorMapper = new Mapper('node', 'stayTime', 'color', ['#BAE7FF', '#1890FF', '#0050B3'], {
@@ -64,7 +64,8 @@
           title: {
             text: 'Stay Time'
           },
-          layout: 'vertical'
+          layout: 'horizontal',
+          width: 100,
         }
       });
       let minimapPlugin = new G6.Plugins['tool.minimap']({
@@ -77,7 +78,7 @@
 
       graph = new G6.Graph({
         id: 'mountNode', // dom id
-        fitView: 'autoZoom',
+        // fitView: 'autoZoom',
         plugins: [
           maxSpanningForest, 
           nodeColorMapper, 
@@ -90,11 +91,16 @@
         },
         height: 500,
       });
-      graph.read(Util.cloneDeep(data));
-      // graph.getNodes().forEach(node=>{
-      //   graph.toFront(node);
-      //   // node.getGraphicGroup().toFront();
+      // graph.on('afterrender', ()=>{
+      //   const nodes = graph.getNodes();
+      //   let centerNode = nodes[0];
+      //   nodes.forEach(node => {
+      //     if(centerNode.getModel().userview < node.getModel().userview) centerNode = node;
+      //   });
+      //   graph.focus(centerNode);
       // });
+      graph.read(Util.cloneDeep(data));
+
       // graph.on('afterchange', ()=>{
       //   graph.getNodes().forEach(node=>{
       //     // graph.toFront(node);
