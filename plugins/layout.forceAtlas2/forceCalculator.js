@@ -5,13 +5,7 @@ const QuadTree = require('./quadTree');
 class ForceCalculator {
 
   updateNodesByForces(data) {
-    let {
-      nodes,
-      edges,
-      maxIteration,
-      barnesHut,
-      prune
-    } = data;
+    let { nodes, edges, maxIteration, barnesHut, prune } = data;
 
     const size = nodes.length;
     const esize = edges.length;
@@ -47,7 +41,9 @@ class ForceCalculator {
       degrees[idMap[node2.id]] += 1;
     }
 
-    nodes = this.iterate(data, size, esize, idMap, degrees, maxIteration, prune, barnesHut, edgeEndsIdMap);
+    let iteration = maxIteration;
+    const iterateParam = { data, size, esize, idMap, degrees, iteration, prune, barnesHut, edgeEndsIdMap };
+    nodes = this.iterate(iterateParam);
 
     // if prune, place the leaves around their parents, and then re-layout for several iterations.
     if (prune) {
@@ -63,28 +59,19 @@ class ForceCalculator {
       }
       prune = false;
       barnesHut = false;
-      nodes = this.iterate(data, size, esize, idMap, degrees, 150, prune, barnesHut, edgeEndsIdMap);
+      iteration = 100;
+      const iterateParamAfterPrune = { data, size, esize, idMap, degrees, iteration, prune, barnesHut, edgeEndsIdMap };
+      nodes = this.iterate(iterateParamAfterPrune);
     }
     return nodes;
   }
-  iterate(data, size, esize, idMap, degrees, maxIteration, prune, barnesHut, edgeEndsIdMap) {
-    let {
-      nodes,
-      ks,
-      kr,
-      kg,
-      mode,
-      prevOverlapping,
-      dissuadeHubs,
-      ksmax,
-      tao,
-      center,
-      widths
-    } = data;
+  iterate(params) {
+    const { data, size, esize, idMap, degrees, iteration, prune, barnesHut, edgeEndsIdMap } = params;
+    let { nodes, ks, kr, kg, mode, prevOverlapping, dissuadeHubs, ksmax, tao, center, widths } = data;
 
     let SG = 0;
     const krPrime = 100;
-    let iter = maxIteration;
+    let iter = iteration;
     const prevoIter = 50;
     let Forces = [];
     const preForces = [];
