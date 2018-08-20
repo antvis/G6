@@ -83,7 +83,7 @@ class Plugin {
 
     if (this.fisheye) {
       const fisheye = new G6.Plugins['tool.fisheye']({
-        radius: 200
+        radius: 100
       });
       graph.addPlugin(fisheye);
     }
@@ -184,9 +184,8 @@ class Plugin {
     const graph = this.graph;
     item = graph.getItem(item);
     if (item.isNode) {
-      graph.simpleUpdate(item, {
-        style: this.activedNodeStyle
-      });
+      item.getKeyShape().attr(this.activedNodeStyle);
+      graph.draw();
     } else if (item.isEdge) {
       graph.simpleUpdate(item, {
         style: this.activedEdgeStyle
@@ -197,9 +196,8 @@ class Plugin {
     const graph = this.graph;
     item = graph.getItem(item);
     if (item.isNode) {
-      graph.simpleUpdate(item, {
-        style: this.nodeStyle
-      });
+      item.getKeyShape().attr(this.nodeStyle);
+      graph.draw();
     } else if (item.isEdge) {
       graph.simpleUpdate(item, {
         style: this.edgeStyle

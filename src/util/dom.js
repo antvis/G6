@@ -15,18 +15,18 @@ BaseUtil.mix(DomUtil, G.DomUtil, {
    * @return {object} - event object that has remove function
    */
   addEventListener(target, eventType, callback) {
-    if (target.addEventListener) {
-      target.addEventListener(eventType, callback, false);
-      return {
-        remove() {
-          target.removeEventListener(eventType, callback, false);
-        }
-      };
-    } else if (target.attachEvent) {
+    if (target.attachEvent) {
       target.attachEvent('on' + eventType, callback);
       return {
         remove() {
           target.detachEvent('on' + eventType, callback);
+        }
+      };
+    } else if (target.addEventListener) {
+      target.addEventListener(eventType, callback, false);
+      return {
+        remove() {
+          target.removeEventListener(eventType, callback, false);
         }
       };
     }
@@ -71,9 +71,6 @@ BaseUtil.mix(DomUtil, G.DomUtil, {
     };
     dom.off = function(eventType, callback) {
       dom.removeEventListener(eventType, callback);
-    };
-    dom.attr = function(attrName) {
-      return dom.getAttribute(attrName);
     };
     dom.css(css);
     return dom;
