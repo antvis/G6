@@ -158,6 +158,10 @@ class Layout {
       }
       this.barnesHut = barnesHut;
     }
+    if (prune === '') {
+      if (size > 100) prune = true;
+      else prune = false;
+    }
     if (this.maxIteration === 0 && !prune) {
       maxIteration = 250;
       if (size <= 200 && size > 100) maxIteration = 1000;
@@ -179,10 +183,6 @@ class Layout {
       kg = 20;
       if (size > 100 && size <= 500) kg = 10;
       else if (size > 500) kg = 1;
-    }
-    if (prune === '') {
-      if (size > 100) prune = true;
-      else prune = false;
     }
     const obj = {
       nodes,
