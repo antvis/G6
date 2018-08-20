@@ -28,9 +28,10 @@
       let maxSpanningForest = new MaxSpanningForestPlugin({
         layoutCfg: {
           prevOverlapping: true,
+          maxIteration: 300
         }
       });
-      let nodeSizeMapper = new Mapper('node', 'userview', 'size', [15, 50], {
+      let nodeSizeMapper = new Mapper('node', 'weight', 'size', [15, 50], {
         legendCfg: {
           containerId: 'legend',
           height: 100,
@@ -49,10 +50,10 @@
           }
         }
       });
-      let edgeSizeMapper = new Mapper('edge', 'userview', 'size', [1, 8], {
+      let edgeSizeMapper = new Mapper('edge', 'weight', 'size', [1, 8], {
         legendCfg: null
       });
-      let nodeColorMapper = new Mapper('node', 'stayTime', 'color', ['#BAE7FF', '#1890FF', '#0050B3'], {
+      let nodeColorMapper = new Mapper('node', 'weight', 'color', ['#BAE7FF', '#1890FF', '#0050B3'], {
         legendCfg: {
           containerId: 'legend',
           title: {
@@ -101,7 +102,7 @@
       //     node.getGraphicGroup().toFront();
       //   });
       // });
-      const minimap = document.getElementById('minimap');
+      // const minimap = document.getElementById('minimap');
       // const legend = document.getElementById('legend');
       // if (minimap !== undefined) minimap.style.display = 'none';
       // if (legend !== undefined) legend.style.display = 'none';
