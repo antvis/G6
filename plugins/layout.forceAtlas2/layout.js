@@ -158,12 +158,18 @@ class Layout {
       }
       this.barnesHut = barnesHut;
     }
-    if (this.maxIteration === 0) {
+    if (this.maxIteration === 0 && !prune) {
       maxIteration = 250;
       if (size <= 200 && size > 100) maxIteration = 1000;
       else if (size > 200) maxIteration = 1200;
       this.maxIteration = maxIteration;
+    } else if (this.maxIteration === 0 && prune) {
+      maxIteration = 100;
+      if (size <= 200 && size > 100) maxIteration = 500;
+      else if (size > 200) maxIteration = 900;
+      this.maxIteration = maxIteration;
     }
+
     if (kr === 0) {
       kr = 50;
       if (size > 100 && size <= 500) kr = 20;

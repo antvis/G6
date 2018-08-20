@@ -20,7 +20,6 @@ class ForceCalculator {
     const idMap = {};
     const edgeEndsIdMap = {};
 
-
     const Es = [];
     for (let i = 0; i < size; i += 1) {
       idMap[nodes[i].id] = i;
@@ -48,78 +47,29 @@ class ForceCalculator {
       degrees[idMap[node2.id]] += 1;
     }
 
-    // page rank
-    // const alpha = 0.9;
-    // const pageRankIter = 200;
-    // const reNodeIds = [];
-    // for (let i = 0; i < size; i++) {
-    //   const ren = [];
-    //   for (let j = 0; j < esize; j++) {
-    //     if (edges[j].source === nodes[i].id) ren.push(idMap[edges[j].target]);
-    //     if (edges[j].target === nodes[i].id) ren.push(idMap[edges[j].source]);
-    //   }
-    //   reNodeIds.push(ren);
-    // }
-
-    // let it = 0;
-    // do {
-    //   for (let i = 0; i < size; i += 1) {
-    //     let xsum = 0,
-    //       ysum = 0;
-    //     for (let j = 0; j < degrees[i]; j += 1) {
-    //       xsum += 1 / degrees[i] * Es[reNodeIds[i][j]].x;
-    //       ysum += 1 / degrees[i] * Es[reNodeIds[i][j]].y;
-    //     }
-    //     if (isNaN(xsum)) xsum = 0;
-    //     if (isNaN(ysum)) ysum = 0;
-    //     Es[i].x = nodes[i].x + alpha * xsum;
-    //     Es[i].y = nodes[i].y + alpha * ysum;
-    //   }
-    //   it++;
-    // } while (it < pageRankIter);
-    // for (let i = 0; i < size; i += 1) {
-    //   nodes[i].x = Es[i].x - nodes[i].x;
-    //   nodes[i].y = Es[i].y - nodes[i].y;
-    // }
-
-    // const pIndicates = [];
-    // if (prune) {
-    //   for (let i = 0; i < degrees.length; i += 1) {
-    //     if (degrees[i] === 1) {
-    //       pIndicates[i] = true;
-    //     } else {
-    //       pIndicates[i] = false;
-    //     }
-    //   }
-    // }
-
-    nodes = this.iterate(data, size, esize, idMap, degrees, maxIteration, prune, barnesHut);
+    nodes = this.iterate(data, size, esize, idMap, degrees, maxIteration, prune, barnesHut, edgeEndsIdMap);
 
     // if prune, place the leaves around their parents, and then re-layout for several iterations.
     if (prune) {
-      for (let i = 0; i < degrees.length; i += 1) {
-        if (degrees[i] === 1) {
-          for (let j = 0; j < edges.length; j += 1) {
-            if (edges[j].source === nodes[i].id) {
-              nodes[i].x = nodes[edgeEndsIdMap[j].targetIdx].x;
-              nodes[i].y = nodes[edgeEndsIdMap[j].targetIdx].y;
-            } else if (edges[j].target === nodes[i].id) {
-              nodes[i].x = nodes[edgeEndsIdMap[j].sourceIdx].x;
-              nodes[i].y = nodes[edgeEndsIdMap[j].sourceIdx].y;
-            }
-          }
+      for (let j = 0; j < esize; j += 1) {
+        if (degrees[edgeEndsIdMap[j].sourceIdx] <= 1) {
+          nodes[edgeEndsIdMap[j].sourceIdx].x = nodes[edgeEndsIdMap[j].targetIdx].x;
+          nodes[edgeEndsIdMap[j].sourceIdx].y = nodes[edgeEndsIdMap[j].targetIdx].y;
+
+        } else if (degrees[edgeEndsIdMap[j].targetIdx] <= 1) {
+          nodes[edgeEndsIdMap[j].targetIdx].x = nodes[edgeEndsIdMap[j].sourceIdx].x;
+          nodes[edgeEndsIdMap[j].targetIdx].y = nodes[edgeEndsIdMap[j].sourceIdx].y;
         }
       }
       prune = false;
       barnesHut = false;
-      nodes = this.iterate(data, size, esize, idMap, degrees, 50, prune, barnesHut);
+      nodes = this.iterate(data, size, esize, idMap, degrees, 150, prune, barnesHut, edgeEndsIdMap);
     }
     return nodes;
   }
-  iterate(data, size, esize, idMap, degrees, maxIteration, prune, barnesHut) {
+  iterate(data, size, esize, idMap, degrees, maxIteration, prune, barnesHut, edgeEndsIdMap) {
     let {
       nodes,
-      edges,
       ks,
       kr,
       kg,
@@ -166,46 +116,42 @@ class ForceCalculator {
         Forces[2 * i + 1] = 0;
       }
         // attractive forces, existing on every actual edge
-      Forces = this.getAttrForces(nodes, edges, size, esize, prevOverlapping, dissuadeHubs, mode, iter, prevoIter, Forces, widths, idMap, degrees, prune);
+      const attrForceParam = { nodes, esize, prevOverlapping, dissuadeHubs, mode, iter, prevoIter, Forces, widths, idMap, degrees, prune, edgeEndsIdMap };
+      Forces = this.getAttrForces(attrForceParam);
         // repulsive forces and Gravity, existing on every node pair
         // if prevOverlapping, using the no-optimized method in the last prevoIter instead.
       if (barnesHut && ((prevOverlapping && iter > prevoIter) || !prevOverlapping)) {
-        Forces = this.getOptRepGraForces(nodes, edges, size, esize, prevOverlapping, dissuadeHubs, mode, iter, prevoIter, Forces, kr, krPrime, kg, center, bodies, degrees, prune);
+        const optRepGraForceParam = { nodes, size, Forces, kg, center, bodies, degrees, prune };
+        Forces = this.getOptRepGraForces(optRepGraForceParam);
       } else {
-        Forces = this.getRepGraForces(nodes, edges, size, esize, prevOverlapping, dissuadeHubs, mode, iter, prevoIter, Forces, kr, krPrime, kg, center, widths, degrees, prune);
+        const repGraForceParam = { nodes, size, prevOverlapping, iter, prevoIter, Forces, kr, krPrime, kg, center, widths, degrees, prune };
+        Forces = this.getRepGraForces(repGraForceParam);
       }
       //   // update the positions
-      const res = this.updatePos(size, nodes, Forces, preForces, SG, ks, ksmax, tao, degrees, prune);
+      const updatePosParam = { size, nodes, Forces, preForces, SG, ks, ksmax, tao, degrees, prune };
+      const res = this.updatePos(updatePosParam);
       nodes = res[0];
       SG = res[1];
       iter -= 1;
     } while (iter > 0);
     return nodes;
   }
-  getAttrForces(nodes, edges, size, esize, prevOverlapping, dissuadeHubs, mode, iter, prevoIter, Forces, widths, idMap, degrees, prune) {
+  getAttrForces(params) {
+    const { nodes, esize, prevOverlapping, dissuadeHubs, mode, iter, prevoIter, Forces, widths, idMap, degrees, prune, edgeEndsIdMap } = params;
     for (let i = 0; i < esize; i += 1) {
-      let sourceNode;
-      let targetNode;
-      let sourceIdx;
-      let targetIdx;
-      for (let j = 0; j < size; j += 1) {
-        if (nodes[j].id === edges[i].source) {
-          sourceNode = nodes[j];
-          sourceIdx = j;
-        } else if (nodes[j].id === edges[i].target) {
-          targetNode = nodes[j];
-          targetIdx = j;
-        }
-      }
+      const sourceNode = nodes[edgeEndsIdMap[i].sourceIdx];
+      const sourceIdx = edgeEndsIdMap[i].sourceIdx;
+      const targetNode = nodes[edgeEndsIdMap[i].targetIdx];
+      const targetIdx = edgeEndsIdMap[i].targetIdx;
 
-      if (prune && (degrees[sourceIdx] === 1 || degrees[targetIdx] === 1)) continue;
+      if (prune && (degrees[sourceIdx] <= 1 || degrees[targetIdx] <= 1)) continue;
 
       let dir = [ targetNode.x - sourceNode.x, targetNode.y - sourceNode.y ];
       let eucliDis = Math.hypot(dir[0], dir[1]);
       eucliDis = eucliDis < 0.0001 ? 0.0001 : eucliDis;
       dir[0] = dir[0] / eucliDis;
       dir[1] = dir[1] / eucliDis;
-    // the force
+
       if (prevOverlapping && iter < prevoIter) eucliDis = eucliDis - widths[sourceIdx] - widths[targetIdx];
       let Fa1 = eucliDis;
       let Fa2 = Fa1;
@@ -232,11 +178,12 @@ class ForceCalculator {
     }
     return Forces;
   }
-  getRepGraForces(nodes, edges, size, esize, prevOverlapping, dissuadeHubs, mode, iter, prevoIter, Forces, kr, krPrime, kg, center, widths, degrees, prune) {
+  getRepGraForces(params) {
+    const { nodes, size, prevOverlapping, iter, prevoIter, Forces, kr, krPrime, kg, center, widths, degrees, prune } = params;
     for (let i = 0; i < size; i += 1) {
       for (let j = i + 1; j < size; j += 1) {
 
-        if (prune && (degrees[i] === 1 || degrees[j] === 1)) continue;
+        if (prune && (degrees[i] <= 1 || degrees[j] <= 1)) continue;
 
         let dir = [ nodes[j].x - nodes[i].x, nodes[j].y - nodes[i].y ];
         let eucliDis = Math.hypot(dir[0], dir[1]);
@@ -275,13 +222,14 @@ class ForceCalculator {
     return Forces;
   }
 
-  getOptRepGraForces(nodes, edges, size, esize, prevOverlapping, dissuadeHubs, mode, iter, prevoIter, Forces, kr, krPrime, kg, ct, bodies, degrees, prune) {
+  getOptRepGraForces(params) {
+    const { nodes, size, Forces, kg, center, bodies, degrees, prune } = params;
     let minx = 9e10,
       maxx = -9e10,
       miny = 9e10,
       maxy = -9e10;
     for (let i = 0; i < size; i += 1) {
-      if (prune && (degrees[i] === 1)) continue;
+      if (prune && (degrees[i] <= 1)) continue;
       bodies[i].setPos(nodes[i].x, nodes[i].y);
       if (nodes[i].x >= maxx) maxx = nodes[i].x;
       if (nodes[i].x <= minx) minx = nodes[i].x;
@@ -295,7 +243,7 @@ class ForceCalculator {
       xmid: (maxx + minx) / 2,
       ymid: (maxy + miny) / 2,
       length: width,
-      massCenter: ct,
+      massCenter: center,
       mass: size
     };
     let quad = new Quad(quadParams);
@@ -304,14 +252,14 @@ class ForceCalculator {
   // build the tree, insert the nodes(quads) into the tree
     for (let i = 0; i < size; i += 1) {
 
-      if (prune && (degrees[i] === 1)) continue;
+      if (prune && (degrees[i] <= 1)) continue;
 
       if (bodies[i].in(quad)) quadTree.insert(bodies[i]);
     }
   // update the repulsive forces and the gravity.
     for (let i = 0; i < size; i += 1) {
 
-      if (prune && (degrees[i] === 1)) continue;
+      if (prune && (degrees[i] <= 1)) continue;
 
       bodies[i].resetForce();
       quadTree.updateForce(bodies[i]);
@@ -319,7 +267,7 @@ class ForceCalculator {
       Forces[2 * i + 1] -= bodies[i].fy;
 
     // gravity
-      let dir = [ nodes[i].x - ct.x, nodes[i].y - ct.y ];
+      let dir = [ nodes[i].x - center.x, nodes[i].y - center.y ];
       let eucliDis = Math.hypot(dir[0], dir[1]);
       eucliDis = eucliDis < 0.0001 ? 0.0001 : eucliDis;
       dir[0] = dir[0] / eucliDis;
@@ -339,7 +287,8 @@ class ForceCalculator {
     return Forces;
   }
 
-  updatePos(size, nodes, Forces, preForces, SG, ks, ksmax, tao, degrees, prune) {
+  updatePos(params) {
+    let { size, nodes, Forces, preForces, SG, ks, ksmax, tao, degrees, prune } = params;
     let swgns = [];
     let trans = [];
   // swg(G) and tra(G)
@@ -347,7 +296,7 @@ class ForceCalculator {
     let traG = 0;
     for (let i = 0; i < size; i += 1) {
 
-      if (prune && (degrees[i] === 1)) continue;
+      if (prune && (degrees[i] <= 1)) continue;
 
       const minus = [ Forces[2 * i] - preForces[2 * i],
         Forces[2 * i + 1] - preForces[2 * i + 1]
@@ -373,7 +322,7 @@ class ForceCalculator {
   // update the node positions
     for (let i = 0; i < size; i += 1) {
 
-      if (prune && (degrees[i] === 1)) continue;
+      if (prune && (degrees[i] <= 1)) continue;
 
       let Sn = ks * SG / (1 + SG * Math.sqrt(swgns[i]));
       let absForce = Math.hypot(Forces[2 * i], Forces[2 * i + 1]);
