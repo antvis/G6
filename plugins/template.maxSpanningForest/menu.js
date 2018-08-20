@@ -56,79 +56,32 @@ class Menu {
     return this.node;
   }
   showSource(node) {
-    const graph = this.graph;
-    const {
-      reNodes,
-      reEdges
-    } = Util.extract(graph, 'in', 1, [ node ]);
-    graph.highlightSubgraph({
-      reNodes,
-      reEdges
-    });
-    // show the hided edge, which is not tree edge and it is in the es
-    // and the source and targert of the edge are both visible
-    const edges = graph.getEdges();
-    Util.each(edges, edge => {
-      if (!edge.isVisible() && !edge.getModel().isTreeEdge &&
-        edge.getSource().isVisible() && edge.getTarget().isVisible()) {
-        Util.each(reEdges, e => {
-          if (edge.id === e.id) {
-            edge.show();
-          }
-        });
-      }
-    });
-    this.hide();
-
+    this._showEdge('in', 1, [ node ]);
   }
 
   showTargets(node) {
-    const graph = this.graph;
-    const {
-      reNodes,
-      reEdges
-    } = Util.extract(graph, 'out', 1, [ node ]);
-    graph.highlightSubgraph({
-      reNodes,
-      reEdges
-    });
-    // show the hided edge, which is not tree edge and it is in the es
-    // and the source and targert of the edge are both visible
-    const edges = graph.getEdges();
-    Util.each(edges, edge => {
-      if (!edge.isVisible() && !edge.getModel().isTreeEdge &&
-        edge.getSource().isVisible() && edge.getTarget().isVisible()) {
-        Util.each(reEdges, e => {
-          if (edge.id === e.id) {
-            edge.show();
-          }
-        });
-      }
-    });
-    this.hide();
-
+    this._showEdge('out', 1, [ node ]);
   }
   showAll(node) {
+    this._showEdge('bi', 1, [ node ]);
+  }
+  _showEdge(type, step, focusNodes) {
     const graph = this.graph;
     const {
       reNodes,
       reEdges
-    } = Util.extract(graph, 'bi', 1, [ node ]);
+    } = Util.extract(graph, type, step, focusNodes);
     graph.highlightSubgraph({
       reNodes,
       reEdges
     });
     // show the hided edge, which is not tree edge and it is in the es
     // and the source and targert of the edge are both visible
-    const edges = graph.getEdges();
-    Util.each(edges, edge => {
-      if (!edge.isVisible() && !edge.getModel().isTreeEdge &&
-        edge.getSource().isVisible() && edge.getTarget().isVisible()) {
-        Util.each(reEdges, e => {
-          if (edge.id === e.id) {
-            edge.show();
-          }
-        });
+    reEdges.forEach(edgeObj => {
+      const edge = graph.find(edgeObj.id);
+      if (!edge.isVisible() && !edge.getModel().isTreeEdge) {
+        edge.show();
+        graph.simpleUpdate(edge);
       }
     });
     this.hide();
