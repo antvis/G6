@@ -106,7 +106,16 @@ class Layout {
        * activate the webworker for this algorithm or not
        * @type  {boolean}
        */
-      useWorker: true
+      useWorker: true,
+
+      /**
+       * activate prune or not.
+       * prune the leaves during most iterations, layout the leaves in the last 50 iteraitons.
+       * if prune === '', it will be activated when the nodes number > 100
+       * note that it will reduce the quality of the layout
+       * @type  {boolean}
+       */
+      prune: ''
     }, options);
   }
   // execute the layout
@@ -125,7 +134,8 @@ class Layout {
       ks,
       ksmax,
       tao,
-      onLayoutComplete
+      onLayoutComplete,
+      prune
     } = this;
 
     const width = this.width ? this.width : graph.getWidth();
@@ -148,12 +158,22 @@ class Layout {
       }
       this.barnesHut = barnesHut;
     }
-    if (this.maxIteration === 0) {
+    if (prune === '') {
+      if (size > 100) prune = true;
+      else prune = false;
+    }
+    if (this.maxIteration === 0 && !prune) {
       maxIteration = 250;
       if (size <= 200 && size > 100) maxIteration = 1000;
       else if (size > 200) maxIteration = 1200;
       this.maxIteration = maxIteration;
+    } else if (this.maxIteration === 0 && prune) {
+      maxIteration = 100;
+      if (size <= 200 && size > 100) maxIteration = 500;
+      else if (size > 200) maxIteration = 950;
+      this.maxIteration = maxIteration;
     }
+
     if (kr === 0) {
       kr = 50;
       if (size > 100 && size <= 500) kr = 20;
@@ -178,7 +198,8 @@ class Layout {
       ksmax,
       tao,
       center,
-      widths
+      widths,
+      prune
     };
     if (this.useWorker) {
 
