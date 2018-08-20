@@ -40,13 +40,12 @@ class Plugin {
     // sort the group items
     const ns = hlItems.reNodes;
     const es = hlItems.reEdges;
-    const group = this.getItemGroup();
     const items = this.getItems();
     Util.each(items, i => {
       if (i.type === 'edge') {
         Util.each(es, e => {
           if (i.id !== e.id) {
-            this.toFront(i, group);
+            this.toFront(i);
           }
         });
       }
@@ -55,7 +54,7 @@ class Plugin {
       if (i.type === 'node') {
         Util.each(ns, n => {
           if (i.id !== n.id) {
-            this.toFront(i, group);
+            this.toFront(i);
           }
         });
       }
@@ -64,7 +63,7 @@ class Plugin {
     Util.each(items, i => {
       if (i.type === 'guide') {
         mask = i;
-        this.toFront(i, group);
+        this.toFront(i);
         return;
       }
     });
@@ -72,14 +71,14 @@ class Plugin {
       mask = this.add('guide', {
         shape: 'mask'
       });
-      this.toFront(mask, group);
+      this.toFront(mask);
     }
     mask.show();
     Util.each(items, i => {
       if (i.type === 'edge') {
         Util.each(es, e => {
           if (i.id === e.id) {
-            this.toFront(i, group);
+            this.toFront(i);
           }
         });
       }
@@ -88,7 +87,7 @@ class Plugin {
       if (i.type === 'node') {
         Util.each(ns, n => {
           if (i.id === n.id) {
-            this.toFront(i, group);
+            this.toFront(i);
           }
         });
       }
