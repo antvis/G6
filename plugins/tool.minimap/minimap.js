@@ -209,9 +209,11 @@ class Minimap {
     }
     if (!width) {
       width = Util.getWidth(container);
+      this.width = width;
     }
     if (!height) {
       height = Util.getHeight(container);
+      this.height = height;
     }
     const minimapContainerCSS = this.minimapContainerCSS;
     minimapContainerCSS.width = width + 'px';
@@ -240,6 +242,8 @@ class Minimap {
     const width = this.width;
     const height = this.height;
     const toSmallNodes = [];
+    const minSize = 2;
+
     Util.graph2Canvas({
       graph,
       width,
@@ -252,10 +256,9 @@ class Minimap {
           const bbox = node.getBBox();
           const model = node.getModel();
           const width = bbox.width;
-          if (width * minimapScale < 2) {
+          if (width * minimapScale < minSize) {
             const group = node.getGraphicGroup();
             const originMatrix = Util.clone(group.getMatrix());
-            const minSize = 4;
             group.transform([
               [ 't', -model.x, -model.y ],
               [ 's', minSize / (width * minimapScale), minSize / (width * minimapScale) ],

@@ -41,10 +41,6 @@ parameter for this plugin:
       - html: the html of the li
       - callBack: the onclick listener of the li, could be string or a function. If it is a string, it must be a existing function name in menu.js.
 
-To navigate an item (a node or edge) by id or item, if this item is not in the view, the whole graph will translate a shortest distance to make the node in the view:
-  graph.activeItem(item); // item or id
-  graph.navigate(item); // item or id
-
 To create the menu which follows the mouse click:
   graph.createMenu(func, containerId); 
     params: 
