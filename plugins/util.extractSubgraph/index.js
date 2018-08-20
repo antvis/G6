@@ -1,7 +1,5 @@
 /**
- * @fileOverview G6 Mapper Plugin base on d3 tech stack
- * d3-scale  https://github.com/d3/d3-scale
- * d3-legend https://github.com/susielu/d3-legend
+ * @fileOverview extractSubgraph
  * @author shiwu.wyy@antfin.com
  */
 

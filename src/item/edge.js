@@ -16,6 +16,25 @@ class Edge extends Item {
     Util.mix(defaultCfg, cfg);
     super(defaultCfg);
   }
+  _init() {
+    this._cacheEdges();
+    super._init();
+  }
+  // cache edge into node
+  _cacheEdges() {
+    const itemMap = this.itemMap;
+    const model = this.model;
+    const source = itemMap[model.source];
+    const target = itemMap[model.target];
+    if (source && source.isItem) {
+      source.edges.push(this);
+      source.edges = Util.uniq(source.edges);
+    }
+    if (target && target.isItem) {
+      target.edges.push(this);
+      target.edges = Util.uniq(target.edges);
+    }
+  }
   _beforeDraw() {
     const model = this.model;
     const itemMap = this.itemMap;
@@ -59,7 +78,7 @@ class Edge extends Item {
     ratio = ratio();
     const group = this.group;
     const keyShape = this.keyShape;
-    const keyShapePath = Util.parsePathString(Util.cloneDeep(keyShape.attr('path')));
+    const keyShapePath = Util.parsePathString(keyShape.attr('path'));
     const lastSegment = keyShapePath[keyShapePath.length - 1];
     const startSegment = keyShapePath[0];
     const point = keyShape.getPoint(ratio);
@@ -100,7 +119,7 @@ class Edge extends Item {
       startSegment[startSegment.length - 2] = vDindent[0] + point.x;
     }
     keyShape.attr('path', keyShapePath);
-    keyShape[type + 'Arrow'] = marker;
+    this[type + 'Arrow'] = marker;
   }
   _getControlPoints() {
     const controlPoints = this.model.controlPoints;
@@ -113,7 +132,7 @@ class Edge extends Item {
     return super._shouldDraw() && this.linkedItemVisible();
   }
   _getPoint(point) {
-    if (point.linkable) {
+    if (point.isItem) {
       const box = point.getBBox();
       return {
         x: box.centerX,
@@ -160,17 +179,26 @@ class Edge extends Item {
     const points = [ sourcePoint ].concat(controlPoints).concat([ targetPoint ]);
     const psl = points.length;
 
-    if (source.linkable) {
+    if (source.isItem) {
       const point = (Util.isNumber(this.model.sourceAnchor) && source.id === model.source) ? this.model.sourceAnchor : points[1];
       const interPoint = source.getLinkPoints(point);
       points[0] = interPoint[0];
     }
-    if (target.linkable) {
+    if (target.isItem) {
       const point = (Util.isNumber(this.model.targetAnchor) && target.id === model.target) ? this.model.targetAnchor : points[psl - 2];
       const interPoint = target.getLinkPoints(point);
       points[psl - 1] = interPoint[0];
     }
     return points;
+  }
+  destroy() {
+    const itemMap = this.itemMap;
+    const model = this.model;
+    const source = itemMap[model.source];
+    const target = itemMap[model.target];
+    source && source.isItem && Util.Array.remove(source.edges, this);
+    target && target.isItem && Util.Array.remove(target.edges, this);
+    super.destroy();
   }
 }
 

@@ -248,31 +248,32 @@ describe('graph destroyed cacheLocation test', () => {
 });
 
 
-describe('graph destroyed mousemove test', () => {
-  const fisheye = new Fisheye();
-  const div = document.createElement('div');
-  div.id = 'fisheyeMountNode2';
-  document.body.appendChild(div);
-  const graph = new G6.Graph({
-    container: 'fisheyeMountNode2',
-    width: 500,
-    height: 500
-  });
+// describe('graph destroyed mousemove test', () => {
+//   const fisheye = new Fisheye();
+//   const div = document.createElement('div');
+//   div.id = 'fisheyeMountNode2';
+//   document.body.appendChild(div);
+//   const graph = new G6.Graph({
+//     container: 'fisheyeMountNode2',
+//     width: 500,
+//     height: 500,
+//     plugins: [ fisheye ]
+//   });
 
-  const mouseEventWrapper = graph.getMouseEventWrapper();
-  graph.destroy();
+//   const mouseEventWrapper = graph.getMouseEventWrapper();
+//   graph.destroy();
 
-  it('fisheye mouse move on node', () => {
-    Simulate.simulate(mouseEventWrapper, 'mousemove', {
-      clientX: 100 - 50,
-      clientY: 200
-    });
-    Simulate.simulate(mouseEventWrapper, 'mousemove', {
-      clientX: 100,
-      clientY: 200
-    });
-  });
-});
+//   it('fisheye mouse move on node', () => {
+//     Simulate.simulate(mouseEventWrapper, 'mousemove', {
+//       clientX: 100 - 50,
+//       clientY: 200
+//     });
+//     Simulate.simulate(mouseEventWrapper, 'mousemove', {
+//       clientX: 100,
+//       clientY: 200
+//     });
+//   });
+// });
 
 
 describe('node position undefined test', () => {

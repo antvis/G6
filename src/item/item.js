@@ -57,7 +57,13 @@ class Item {
        * cache model for diff
        * @type {object}
        */
-      modelCache: {}
+      modelCache: {},
+
+      /**
+       * is item
+       * @type {boolean}
+       */
+      isItem: true
     };
     Util.mix(this, defaultCfg, cfg);
     this._init();
@@ -250,10 +256,10 @@ class Item {
     return (this.bbox || this._calculateBBox());
   }
   layoutUpdate() {
-    this.draw();
+    this.isVisible() && this.draw();
   }
   update() {
-    this.draw();
+    this.isVisible() && this.draw();
   }
   getModel() {
     return this.model;
