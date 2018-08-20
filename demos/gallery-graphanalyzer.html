@@ -21,6 +21,7 @@
     var clickOnNode = null;
 
     $.getJSON('./assets/data/view-test.json', data => {
+    // $.getJSON('./assets/data/view-test-antv.json', data => {
       //the plugins
       const Mapper = G6.Plugins['tool.mapper'];
       const MaxSpanningForestPlugin = G6.Plugins['template.maxSpanningForest'];
@@ -28,7 +29,7 @@
       let maxSpanningForest = new MaxSpanningForestPlugin({
         layoutCfg: {
           prevOverlapping: true,
-          maxIteration: 300
+          prune: true
         }
       });
       let nodeSizeMapper = new Mapper('node', 'weight', 'size', [15, 50], {
