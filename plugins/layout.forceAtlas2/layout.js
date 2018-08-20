@@ -170,7 +170,7 @@ class Layout {
     } else if (this.maxIteration === 0 && prune) {
       maxIteration = 100;
       if (size <= 200 && size > 100) maxIteration = 500;
-      else if (size > 200) maxIteration = 900;
+      else if (size > 200) maxIteration = 950;
       this.maxIteration = maxIteration;
     }
 
