@@ -8,54 +8,138 @@ class ForceCalculator {
     let {
       nodes,
       edges,
+      maxIteration,
+      barnesHut,
+      prune
+    } = data;
+
+    const size = nodes.length;
+    const esize = edges.length;
+
+    const degrees = [];
+    const idMap = {};
+    const edgeEndsIdMap = {};
+
+
+    const Es = [];
+    for (let i = 0; i < size; i += 1) {
+      idMap[nodes[i].id] = i;
+      degrees[i] = 0;
+      if (nodes[i].x === undefined || isNaN(nodes[i].x)) { nodes[i].x = Math.random() * 1000; }
+      if (nodes[i].y === undefined || isNaN(nodes[i].y)) { nodes[i].y = Math.random() * 1000; }
+      Es.push({ x: nodes[i].x, y: nodes[i].y });
+    }
+    for (let i = 0; i < esize; i += 1) {
+      let node1;
+      let node2;
+      let sIdx = 0,
+        tIdx = 0;
+      for (let j = 0; j < size; j += 1) {
+        if (nodes[j].id === edges[i].source) {
+          node1 = nodes[j];
+          sIdx = j;
+        } else if (nodes[j].id === edges[i].target) {
+          node2 = nodes[j];
+          tIdx = j;
+        }
+        edgeEndsIdMap[i] = { sourceIdx: sIdx, targetIdx: tIdx };
+      }
+      degrees[idMap[node1.id]] += 1;
+      degrees[idMap[node2.id]] += 1;
+    }
+
+    // page rank
+    // const alpha = 0.9;
+    // const pageRankIter = 200;
+    // const reNodeIds = [];
+    // for (let i = 0; i < size; i++) {
+    //   const ren = [];
+    //   for (let j = 0; j < esize; j++) {
+    //     if (edges[j].source === nodes[i].id) ren.push(idMap[edges[j].target]);
+    //     if (edges[j].target === nodes[i].id) ren.push(idMap[edges[j].source]);
+    //   }
+    //   reNodeIds.push(ren);
+    // }
+
+    // let it = 0;
+    // do {
+    //   for (let i = 0; i < size; i += 1) {
+    //     let xsum = 0,
+    //       ysum = 0;
+    //     for (let j = 0; j < degrees[i]; j += 1) {
+    //       xsum += 1 / degrees[i] * Es[reNodeIds[i][j]].x;
+    //       ysum += 1 / degrees[i] * Es[reNodeIds[i][j]].y;
+    //     }
+    //     if (isNaN(xsum)) xsum = 0;
+    //     if (isNaN(ysum)) ysum = 0;
+    //     Es[i].x = nodes[i].x + alpha * xsum;
+    //     Es[i].y = nodes[i].y + alpha * ysum;
+    //   }
+    //   it++;
+    // } while (it < pageRankIter);
+    // for (let i = 0; i < size; i += 1) {
+    //   nodes[i].x = Es[i].x - nodes[i].x;
+    //   nodes[i].y = Es[i].y - nodes[i].y;
+    // }
+
+    // const pIndicates = [];
+    // if (prune) {
+    //   for (let i = 0; i < degrees.length; i += 1) {
+    //     if (degrees[i] === 1) {
+    //       pIndicates[i] = true;
+    //     } else {
+    //       pIndicates[i] = false;
+    //     }
+    //   }
+    // }
+
+    nodes = this.iterate(data, size, esize, idMap, degrees, maxIteration, prune, barnesHut);
+
+    // if prune, place the leaves around their parents, and then re-layout for several iterations.
+    if (prune) {
+      for (let i = 0; i < degrees.length; i += 1) {
+        if (degrees[i] === 1) {
+          for (let j = 0; j < edges.length; j += 1) {
+            if (edges[j].source === nodes[i].id) {
+              nodes[i].x = nodes[edgeEndsIdMap[j].targetIdx].x;
+              nodes[i].y = nodes[edgeEndsIdMap[j].targetIdx].y;
+            } else if (edges[j].target === nodes[i].id) {
+              nodes[i].x = nodes[edgeEndsIdMap[j].sourceIdx].x;
+              nodes[i].y = nodes[edgeEndsIdMap[j].sourceIdx].y;
+            }
+          }
+        }
+      }
+      prune = false;
+      barnesHut = false;
+      nodes = this.iterate(data, size, esize, idMap, degrees, 50, prune, barnesHut);
+    }
+    return nodes;
+  }
+  iterate(data, size, esize, idMap, degrees, maxIteration, prune, barnesHut) {
+    let {
+      nodes,
+      edges,
+      ks,
       kr,
       kg,
       mode,
       prevOverlapping,
       dissuadeHubs,
-      barnesHut,
-      maxIteration,
-      ks,
       ksmax,
       tao,
       center,
       widths
     } = data;
 
-    const size = nodes.length;
-    const esize = edges.length;
-
     let SG = 0;
-    const bodies = [];
-    const degrees = [];
-    const idmap = {};
-
-    for (let i = 0; i < size; i += 1) {
-      idmap[nodes[i].id] = i;
-      degrees[i] = 0;
-      if (nodes[i].x === undefined || isNaN(nodes[i].x)) { nodes[i].x = Math.random() * 1000; }
-      if (nodes[i].y === undefined || isNaN(nodes[i].y)) { nodes[i].y = Math.random() * 1000; }
-    }
-
-    for (let i = 0; i < esize; i += 1) {
-      let node1;
-      let node2;
-      for (let j = 0; j < size; j += 1) {
-        if (nodes[j].id === edges[i].source) {
-          node1 = nodes[j];
-        } else if (nodes[j].id === edges[i].target) {
-          node2 = nodes[j];
-        }
-      }
-      degrees[idmap[node1.id]] += 1;
-      degrees[idmap[node2.id]] += 1;
-    }
-
     const krPrime = 100;
     let iter = maxIteration;
     const prevoIter = 50;
     let Forces = [];
     const preForces = [];
+    const bodies = [];
+
     for (let i = 0; i < size; i += 1) {
       Forces[2 * i] = 0;
       Forces[2 * i + 1] = 0;
@@ -81,27 +165,25 @@ class ForceCalculator {
         Forces[2 * i] = 0;
         Forces[2 * i + 1] = 0;
       }
-      //   // attractive forces, existing on every actual edge
-      Forces = this.getAttrForces(nodes, edges, size, esize, prevOverlapping, dissuadeHubs, mode, iter, prevoIter, Forces, widths, idmap, degrees);
-      // //   // repulsive forces and Gravity, existing on every node pair
-      // //   // if prevOverlapping, using the no-optimized method in the last prevoIter instead.
+        // attractive forces, existing on every actual edge
+      Forces = this.getAttrForces(nodes, edges, size, esize, prevOverlapping, dissuadeHubs, mode, iter, prevoIter, Forces, widths, idMap, degrees, prune);
+        // repulsive forces and Gravity, existing on every node pair
+        // if prevOverlapping, using the no-optimized method in the last prevoIter instead.
       if (barnesHut && ((prevOverlapping && iter > prevoIter) || !prevOverlapping)) {
-        Forces = this.getOptRepGraForces(nodes, edges, size, esize, prevOverlapping, dissuadeHubs, mode, iter, prevoIter, Forces, kr, krPrime, kg, center, bodies, degrees);
+        Forces = this.getOptRepGraForces(nodes, edges, size, esize, prevOverlapping, dissuadeHubs, mode, iter, prevoIter, Forces, kr, krPrime, kg, center, bodies, degrees, prune);
       } else {
-        Forces = this.getRepGraForces(nodes, edges, size, esize, prevOverlapping, dissuadeHubs, mode, iter, prevoIter, Forces, kr, krPrime, kg, center, widths, degrees);
+        Forces = this.getRepGraForces(nodes, edges, size, esize, prevOverlapping, dissuadeHubs, mode, iter, prevoIter, Forces, kr, krPrime, kg, center, widths, degrees, prune);
       }
       //   // update the positions
-      const res = this.updatePos(size, nodes, Forces, preForces, SG, ks, ksmax, tao, degrees);
+      const res = this.updatePos(size, nodes, Forces, preForces, SG, ks, ksmax, tao, degrees, prune);
       nodes = res[0];
       SG = res[1];
       iter -= 1;
     } while (iter > 0);
     return nodes;
   }
-  getAttrForces(nodes, edges, size, esize, prevOverlapping, dissuadeHubs, mode, iter, prevoIter, Forces, widths, idmap, degrees) {
+  getAttrForces(nodes, edges, size, esize, prevOverlapping, dissuadeHubs, mode, iter, prevoIter, Forces, widths, idMap, degrees, prune) {
     for (let i = 0; i < esize; i += 1) {
-    // const sourceNode = graph.find(edges[i].source).getModel();
-    // const targetNode = graph.find(edges[i].target).getModel();
       let sourceNode;
       let targetNode;
       let sourceIdx;
@@ -115,6 +197,9 @@ class ForceCalculator {
           targetIdx = j;
         }
       }
+
+      if (prune && (degrees[sourceIdx] === 1 || degrees[targetIdx] === 1)) continue;
+
       let dir = [ targetNode.x - sourceNode.x, targetNode.y - sourceNode.y ];
       let eucliDis = Math.hypot(dir[0], dir[1]);
       eucliDis = eucliDis < 0.0001 ? 0.0001 : eucliDis;
@@ -139,17 +224,20 @@ class ForceCalculator {
         Fa1 = eucliDis;
         Fa2 = eucliDis;
       }
-      Forces[2 * idmap[sourceNode.id]] += Fa1 * dir[0];
-      Forces[2 * idmap[targetNode.id]] -= Fa2 * dir[0];
-      Forces[2 * idmap[sourceNode.id] + 1] += Fa1 * dir[1];
-      Forces[2 * idmap[targetNode.id] + 1] -= Fa2 * dir[1];
+      Forces[2 * idMap[sourceNode.id]] += Fa1 * dir[0];
+      Forces[2 * idMap[targetNode.id]] -= Fa2 * dir[0];
+      Forces[2 * idMap[sourceNode.id] + 1] += Fa1 * dir[1];
+      Forces[2 * idMap[targetNode.id] + 1] -= Fa2 * dir[1];
       dir = null;
     }
     return Forces;
   }
-  getRepGraForces(nodes, edges, size, esize, prevOverlapping, dissuadeHubs, mode, iter, prevoIter, Forces, kr, krPrime, kg, center, widths, degrees) {
+  getRepGraForces(nodes, edges, size, esize, prevOverlapping, dissuadeHubs, mode, iter, prevoIter, Forces, kr, krPrime, kg, center, widths, degrees, prune) {
     for (let i = 0; i < size; i += 1) {
       for (let j = i + 1; j < size; j += 1) {
+
+        if (prune && (degrees[i] === 1 || degrees[j] === 1)) continue;
+
         let dir = [ nodes[j].x - nodes[i].x, nodes[j].y - nodes[i].y ];
         let eucliDis = Math.hypot(dir[0], dir[1]);
         eucliDis = eucliDis < 0.0001 ? 0.0001 : eucliDis;
@@ -187,12 +275,13 @@ class ForceCalculator {
     return Forces;
   }
 
-  getOptRepGraForces(nodes, edges, size, esize, prevOverlapping, dissuadeHubs, mode, iter, prevoIter, Forces, kr, krPrime, kg, ct, bodies, degrees) {
+  getOptRepGraForces(nodes, edges, size, esize, prevOverlapping, dissuadeHubs, mode, iter, prevoIter, Forces, kr, krPrime, kg, ct, bodies, degrees, prune) {
     let minx = 9e10,
       maxx = -9e10,
       miny = 9e10,
       maxy = -9e10;
     for (let i = 0; i < size; i += 1) {
+      if (prune && (degrees[i] === 1)) continue;
       bodies[i].setPos(nodes[i].x, nodes[i].y);
       if (nodes[i].x >= maxx) maxx = nodes[i].x;
       if (nodes[i].x <= minx) minx = nodes[i].x;
@@ -214,10 +303,16 @@ class ForceCalculator {
 
   // build the tree, insert the nodes(quads) into the tree
     for (let i = 0; i < size; i += 1) {
+
+      if (prune && (degrees[i] === 1)) continue;
+
       if (bodies[i].in(quad)) quadTree.insert(bodies[i]);
     }
   // update the repulsive forces and the gravity.
     for (let i = 0; i < size; i += 1) {
+
+      if (prune && (degrees[i] === 1)) continue;
+
       bodies[i].resetForce();
       quadTree.updateForce(bodies[i]);
       Forces[2 * i] -= bodies[i].fx;
@@ -244,13 +339,16 @@ class ForceCalculator {
     return Forces;
   }
 
-  updatePos(size, nodes, Forces, preForces, SG, ks, ksmax, tao, degrees) {
+  updatePos(size, nodes, Forces, preForces, SG, ks, ksmax, tao, degrees, prune) {
     let swgns = [];
     let trans = [];
   // swg(G) and tra(G)
     let swgG = 0;
     let traG = 0;
     for (let i = 0; i < size; i += 1) {
+
+      if (prune && (degrees[i] === 1)) continue;
+
       const minus = [ Forces[2 * i] - preForces[2 * i],
         Forces[2 * i + 1] - preForces[2 * i + 1]
       ];
@@ -274,6 +372,9 @@ class ForceCalculator {
     }
   // update the node positions
     for (let i = 0; i < size; i += 1) {
+
+      if (prune && (degrees[i] === 1)) continue;
+
       let Sn = ks * SG / (1 + SG * Math.sqrt(swgns[i]));
       let absForce = Math.hypot(Forces[2 * i], Forces[2 * i + 1]);
       absForce = absForce < 0.0001 ? 0.0001 : absForce;
