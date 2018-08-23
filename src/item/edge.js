@@ -60,15 +60,17 @@ class Edge extends Item {
   _addArrow() {
     const model = this.model;
     const keyShape = this.keyShape;
-    const shapeObj = this.shapeObj;
-    const styleEndArrow = keyShape.attr('endArrow');
-    const styleStartArrow = keyShape.attr('startArrow');
-    const endArrow = model.endArrow || styleEndArrow;
-    const startArrow = model.startArrow || styleStartArrow;
-    styleStartArrow && keyShape.attr('startArrow', false);
-    styleEndArrow && keyShape.attr('endArrow', false);
-    endArrow && this._drawArrow(shapeObj.endArrow, 'end');
-    startArrow && this._drawArrow(shapeObj.startArrow, 'start');
+    if (keyShape.get('type') === 'path') {
+      const shapeObj = this.shapeObj;
+      const styleEndArrow = keyShape.attr('endArrow');
+      const styleStartArrow = keyShape.attr('startArrow');
+      const endArrow = model.endArrow || styleEndArrow;
+      const startArrow = model.startArrow || styleStartArrow;
+      styleStartArrow && keyShape.attr('startArrow', false);
+      styleEndArrow && keyShape.attr('endArrow', false);
+      endArrow && this._drawArrow(shapeObj.endArrow, 'end');
+      startArrow && this._drawArrow(shapeObj.startArrow, 'start');
+    }
   }
   _drawArrow({ path, dindent, tangent, ratio, style }, type) {
     tangent = tangent(this);

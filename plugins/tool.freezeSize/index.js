@@ -35,12 +35,12 @@ class Plugin {
     const graph = this.graph;
     Util.each(freezeElements, freezeElement => {
       const freezePoint = freezeElement.get('freezePoint');
-      const scale = graph.getScale();
+      const zoom = graph.getZoom();
       if (freezeElement.isShape && freezePoint && freezeElement.get('visible')) {
         freezeElement.resetMatrix();
         freezeElement.transform([
           [ 't', -freezePoint.x, -freezePoint.y ],
-          [ 's', 1 / scale, 1 / scale ],
+          [ 's', 1 / zoom, 1 / zoom ],
           [ 't', freezePoint.x, freezePoint.y ]
         ]);
       }
