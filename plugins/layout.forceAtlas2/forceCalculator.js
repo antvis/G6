@@ -6,7 +6,9 @@ class ForceCalculator {
 
   updateNodesByForces(data) {
     let { nodes, edges, maxIteration, barnesHut, prune } = data;
-
+    edges = edges.filter(edge => {
+      return edge.source !== edge.target;
+    });
     const size = nodes.length;
     const esize = edges.length;
 
@@ -27,6 +29,7 @@ class ForceCalculator {
       let node2;
       let sIdx = 0,
         tIdx = 0;
+
       for (let j = 0; j < size; j += 1) {
         if (nodes[j].id === edges[i].source) {
           node1 = nodes[j];

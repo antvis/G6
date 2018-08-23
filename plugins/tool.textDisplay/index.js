@@ -27,8 +27,8 @@ class Plugin {
     Util.each(nodes, node => {
       const label = node.getLabel();
       const labelBox = label.getBBox();
-      const scale = graph.getScale();
-      const labelWidth = (labelBox.maxX - labelBox.minX) * (1 / scale);
+      const zoom = graph.getZoom();
+      const labelWidth = (labelBox.maxX - labelBox.minX) * (1 / zoom);
       const nodeBox = node.getBBox();
       const nodeWidth = nodeBox.maxX - nodeBox.minX;
 

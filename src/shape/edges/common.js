@@ -12,14 +12,14 @@ const defaultArrow = {
     const keyShape = item.getKeyShape();
     let lineWidth = keyShape.attr('lineWidth');
     lineWidth = lineWidth > MIN_ARROW_SIZE ? lineWidth : MIN_ARROW_SIZE;
-    const halfWidth = lineWidth * 10 / 3;
+    const width = lineWidth * 10 / 3;
     const halfHeight = lineWidth * 4 / 3;
     const radius = lineWidth * 4;
     return [
-      [ 'M', -halfWidth, halfHeight ],
+      [ 'M', -width, halfHeight ],
       [ 'L', 0, 0 ],
-      [ 'L', -halfWidth, -halfHeight ],
-      [ 'A', radius, radius, 0, 0, 1, -halfWidth, halfHeight ],
+      [ 'L', -width, -halfHeight ],
+      [ 'A', radius, radius, 0, 0, 1, -width, halfHeight ],
       [ 'Z' ]
     ];
   },
