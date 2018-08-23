@@ -70,7 +70,6 @@ class Item {
   }
   _init() {
     this._setIndex();
-    this._mapping();
     this._setShapeObj();
     this._initGroup();
     this.draw();
@@ -188,6 +187,7 @@ class Item {
     const group = this.group;
     group.clear(!animate);
     const shapeObj = this.shapeObj;
+    this._mapping();
     const keyShape = shapeObj.draw(this);
     if (keyShape) {
       keyShape.isKeyShape = true;
