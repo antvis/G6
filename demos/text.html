@@ -5,59 +5,72 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="./assets/jquery-3.2.1.min.js"></script>
+  <script src="../build/g6.js"></script>
+  <script src="../build/plugin.layout.forceAtlas2.js"></script>
+  <script src="../build/plugin.layout.circle.js"></script>
+  <script src="../build/plugin.util.dataCleaner.js"></script>
+  <script src="../build/plugin.layout.dagre.js"></script>
+  <script src="../build/plugin.tool.tooltip.js"></script>
   <title>测试</title>
 </head>
 
 <body>
   <div id="mountNode"></div>
-  <script src="../build/g6.js"></script>
   <script>
-    // 详细文档见 ： https://antv.alipay.com/g6/doc/index.html
-    const data = {"name":"Modeling Methods","children":[{"name":"Classification","children":[{"name":"Logistic regression"},{"name":"Linear discriminant analysis"},{"name":"Rules"},{"name":"Decision trees"},{"name":"Naive Bayes"},{"name":"K nearest neighbor"},{"name":"Probabilistic neural network"},{"name":"Support vector machine"}]},{"name":"Consensus","children":[{"name":"Models diversity","children":[{"name":"Different initializations"},{"name":"Different parameter choices"},{"name":"Different architectures"},{"name":"Different modeling methods"},{"name":"Different training sets"},{"name":"Different feature sets"}]},{"name":"Methods","children":[{"name":"Classifier selection"},{"name":"Classifier fusion"}]},{"name":"Common","children":[{"name":"Bagging"},{"name":"Boosting"},{"name":"AdaBoost"}]}]},{"name":"Regression","children":[{"name":"Multiple linear regression"},{"name":"Partial least squares"},{"name":"Multi-layer feedforward neural network"},{"name":"General regression neural network"},{"name":"Support vector regression"}]}]};
-
-    var layout = new G6.Layouts.CompactBoxTree({
-      // direction: 'LR', // 方向（LR/RL/H/TB/BT/V）
-      getHGap: function getHGap() /* d */ {
-        // 横向间距
-        return 100;
+    const plugin = new G6.Plugins['tool.tooltip']();
+    const data = {
+      nodes: [{
+        id: 'node1',
+        x: 100,
+        y: 200,
+        title: 'aaa',
+      }, {
+        id: 'node2',
+        x: 300,
+        y: 200,
+        title: 'bbb',
+      }],
+      edges: [{
+        target: 'node2',
+        source: 'node1',
+      }]
+    };
+    const graph = new G6.Graph({
+      container: 'mountNode',
+      width: 500,
+      height: 500,
+      plugins: [ plugin ]
+    });
+    graph.node({
+      tooltip(model) {
+        return [
+          ['id', model.id],
+          ['x', model.x],
+          ['y', model.y],
+          ['标题', model.title]
+        ];
       },
-      getVGap: function getVGap() /* d */ {
-        // 竖向间距
-        return 10;
-      },
+      label(model) {
+        return model.title;
+      }
     });
-    var tree = new G6.Tree({
-      id: 'mountNode', // 容器ID
-      height: window.innerHeight, // 画布高
-      layout: layout,
-      fitView: 'autoZoom', // 自动缩放
+    graph.edge({
+      tooltip(model) {
+        return [
+          ['来源', model.source],
+          ['去向', model.target],
+          ['标题', model.title]
+        ];
+      }
     });
-    tree
-      .node({
-        shape: 'treeNode',
-        size: 8,
-      })
-
-    tree.edge({
-      shape: 'smooth',
-    });
-
-
-    tree.on('node:mouseenter', ev => {
-        console.log('mouseenter')
-      tree.simpleUpdate(ev.item, {
-        color: 'orange',
+    graph.read(data);
+    setTimeout(()=>{
+      console.log(22)
+      graph.update('node1', {
+        title: 'sss'
       });
-    });
-    tree.on('node:mouseleave', ev => {
-      console.log('mouseleave')
-      tree.simpleUpdate(ev.item, {
-        color: 'blue',
-      });
-    });
-    tree.read({
-      roots: [data],
-    });
+    }, 1000);
   </script>
 </body>
 </html>
