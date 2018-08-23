@@ -23,7 +23,7 @@ const defaultArrow = {
       [ 'Z' ]
     ];
   },
-  dindent(item) {
+  shorten(item) {
     const keyShape = item.getKeyShape();
     const lineWidth = keyShape.attr('lineWidth');
     return (lineWidth > MIN_ARROW_SIZE ? lineWidth : MIN_ARROW_SIZE) * 3.1;
