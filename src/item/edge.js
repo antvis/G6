@@ -72,9 +72,9 @@ class Edge extends Item {
       startArrow && this._drawArrow(shapeObj.startArrow, 'start');
     }
   }
-  _drawArrow({ path, dindent, tangent, ratio, style }, type) {
+  _drawArrow({ path, shorten, tangent, ratio, style }, type) {
     tangent = tangent(this);
-    dindent = dindent(this);
+    shorten = shorten(this);
     path = path(this);
     style = style(this);
     ratio = ratio();
@@ -96,8 +96,8 @@ class Edge extends Item {
     const x = tangent[1][0] - tangent[0][0];
     const y = tangent[1][1] - tangent[0][1];
     const tangentLength = Math.sqrt(x * x + y * y);
-    const dindentRatio = dindent / tangentLength;
-    const vDindent = [ -x * dindentRatio, -y * dindentRatio ];
+    const shortenRatio = shorten / tangentLength;
+    const vShorten = [ -x * shortenRatio, -y * shortenRatio ];
     let deg = 0;
     const tan = Math.atan(x / y);
     if (y === 0 && x < 0) {
@@ -114,11 +114,11 @@ class Edge extends Item {
     marker.rotate(deg);
     marker.translate(point.x, point.y);
     if (type === 'end') {
-      lastSegment[lastSegment.length - 1] = vDindent[1] + point.y;
-      lastSegment[lastSegment.length - 2] = vDindent[0] + point.x;
+      lastSegment[lastSegment.length - 1] = vShorten[1] + point.y;
+      lastSegment[lastSegment.length - 2] = vShorten[0] + point.x;
     } else {
-      startSegment[startSegment.length - 1] = vDindent[1] + point.y;
-      startSegment[startSegment.length - 2] = vDindent[0] + point.x;
+      startSegment[startSegment.length - 1] = vShorten[1] + point.y;
+      startSegment[startSegment.length - 2] = vShorten[0] + point.x;
     }
     keyShape.attr('path', keyShapePath);
     this[type + 'Arrow'] = marker;
