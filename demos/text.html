@@ -48,6 +48,11 @@
       shape: 'custom'
     });
     graph.read(data);
+    setTimeout(()=>{
+      graph.update('node1', {
+        title: 'sss'
+      });
+    }, 1000);
   </script>
 </body>
 </html>
