@@ -32,6 +32,10 @@ class Group extends Node {
   _shouldDraw() {
     return true;
   }
+  /**
+   * get cross group edge
+   * @return {array} edges
+   */
   getCrossEdges() {
     const allChildrenIds = [];
     const innerEdges = this.getInnerEdges();
@@ -45,6 +49,10 @@ class Group extends Node {
     });
     return Util.uniq(rst);
   }
+  /**
+   * get all inner edges
+   * @return {array} edges
+   */
   getInnerEdges() {
     const edges = [];
     this.deepEach(child => {
