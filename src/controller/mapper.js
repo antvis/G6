@@ -37,12 +37,10 @@ class Controller extends Base {
   mapping(model) {
     const channels = this.channels;
     Util.each(channels, (channel, name) => {
-      if (Util.isNil(model[name])) {
-        if (Util.isFunction(channel.input)) {
-          model[name] = channel.input(model);
-        } else if (channel.input) {
-          model[name] = channel.input;
-        }
+      if (Util.isFunction(channel.input)) {
+        model[name] = channel.input(model);
+      } else if (channel.input) {
+        model[name] = channel.input;
       }
     });
   }
