@@ -76,9 +76,11 @@ Shape.registerEdge('common', {
     let label = this.getLabel(item);
     const group = item.getGraphicGroup();
     const model = item.getModel();
-
+    const { labelOffsetX, labelOffsetY } = model;
     if (label) {
       const center = keyShape.getPoint(0.5);
+      center.x = labelOffsetX ? center.x + labelOffsetX : center.x;
+      center.y = labelOffsetY ? center.y + labelOffsetY : center.y;
       const attrs = Util.mix(true, {}, Global.labelStyle, center);
 
       if (!Util.isObject(label)) {
@@ -87,6 +89,7 @@ Shape.registerEdge('common', {
         Util.mix(attrs, label);
       }
       label = group.addShape('text', {
+        class: 'label',
         attrs
       });
       const padding = Util.toAllPadding([ 4, 8 ]);

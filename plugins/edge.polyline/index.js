@@ -413,13 +413,10 @@ function getPathWithBorderRadiusByPolyline(points, borderRadius) {
 G6.registerEdge('polyline', {
   offset: 10,
   getPath(item) {
-    const points = this.getPoints(item);
+    const points = item.getPoints();
     const source = item.getSource();
     const target = item.getTarget();
     return this.getPathByPoints(points, source, target);
-  },
-  getPoints(item) {
-    return item.getPoints();
   },
   getPathByPoints(points, source, target) {
     const polylinePoints = getPolylinePoints(points[0], points[points.length - 1], source, target, this.offset);
