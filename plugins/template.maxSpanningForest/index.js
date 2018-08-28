@@ -172,7 +172,12 @@ class Plugin {
       if (!model.isTreeEdge || typeof model.isTreeEdge === 'undefined') model.shape = 'quadraticCurve';
     }
     graph.edge({
-      style: this.edgeStyle,
+      style: model => {
+        if (model.actived) {
+          return this.activedEdgeStyle;
+        }
+        return this.edgeStyle;
+      },
       endArrow: true
     });
     graph.node({
@@ -188,7 +193,7 @@ class Plugin {
       graph.draw();
     } else if (item.isEdge) {
       graph.simpleUpdate(item, {
-        style: this.activedEdgeStyle
+        actived: true
       });
     }
   }
@@ -200,7 +205,7 @@ class Plugin {
       graph.draw();
     } else if (item.isEdge) {
       graph.simpleUpdate(item, {
-        style: this.edgeStyle
+        actived: false
       });
     }
   }
