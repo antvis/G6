@@ -67,8 +67,8 @@ Shape.registerGroup('common', {
       box.width = (childrenBBox.maxX - childrenBBox.minX) + Global.groupBackgroundPadding[3] + Global.groupBackgroundPadding[1];
       box.height = (childrenBBox.maxY - childrenBBox.minY) + Global.groupBackgroundPadding[0] + Global.groupBackgroundPadding[2];
     } else {
-      box.width = this.width;
-      box.height = this.height;
+      box.width = this.defaultWidth;
+      box.height = this.defaultHeight;
     }
     return box;
   },
@@ -80,8 +80,8 @@ Shape.registerGroup('common', {
   },
   drawCollapsed(item) {
     const box = this.getChildrenBBox(item);
-    box.width = this.width;
-    box.height = this.height;
+    box.width = this.defaultWidth;
+    box.height = this.defaultHeight;
     const keyShape = this.drawKeyShape(item, box);
     this.drawLabel(item, box.x, box.y);
     return keyShape;

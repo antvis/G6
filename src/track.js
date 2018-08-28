@@ -20,4 +20,4 @@ setTimeout(function() {
     const d = encodeURIComponent(JSON.stringify([ newObj ]));
     image.src = `${SERVER_URL}?BIProfile=merge&d=${d}`;
   }
-}, 3000);
+}, 2000);
