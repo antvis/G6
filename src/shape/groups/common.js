@@ -28,9 +28,15 @@ Shape.registerGroup('common', {
     }
     const group = item.getGraphicGroup();
     const margin = [ 8, 8 ];
+    x = x + margin[0];
+    y = y + margin[1];
+    const model = item.getModel();
+    const { labelOffsetX, labelOffsetY } = model;
+    x = labelOffsetX ? labelOffsetX + x : x;
+    y = labelOffsetY ? labelOffsetY + y : y;
     const attrs = Util.mix(true, {}, Global.labelStyle, {
-      x: x + margin[0],
-      y: y + margin[1],
+      x,
+      y,
       textAlign: 'left',
       textBaseline: 'top'
     });
@@ -40,6 +46,7 @@ Shape.registerGroup('common', {
       Util.mix(attrs, label);
     }
     group.addShape('text', {
+      class: 'label',
       attrs
     });
   },
