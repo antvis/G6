@@ -7,22 +7,14 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <script src="./assets/jquery-3.2.1.min.js"></script>
   <script src="../build/g6.js"></script>
-  <script src="../build/plugin.layout.forceAtlas2.js"></script>
-  <script src="../build/plugin.layout.circle.js"></script>
-  <script src="../build/plugin.util.dataCleaner.js"></script>
-  <script src="../build/plugin.layout.dagre.js"></script>
-  <script src="../build/plugin.tool.tooltip.js"></script>
+  <script src="../build/plugins.js"></script>
   <title>测试</title>
 </head>
 
 <body>
   <div id="mountNode"></div>
   <script>
-    G6.registerNode('custom', {
-      getHtml(){
-        return '<div>3333</div>';
-      }
-    }, 'html');
+    const plugin = new G6.Plugins['tool.grid']()
     const data = {
       nodes: [{
         id: 'node1',
@@ -42,17 +34,12 @@
       container: 'mountNode',
       width: 500,
       height: 500,
-      renderer: 'svg'
-    });
-    graph.node({
-      shape: 'custom'
+      modes: {
+        default: ['panCanvas', 'wheelZoom']
+      },
+      plugins: [plugin]
     });
     graph.read(data);
-    setTimeout(()=>{
-      graph.update('node1', {
-        title: 'sss'
-      });
-    }, 1000);
   </script>
 </body>
 </html>
