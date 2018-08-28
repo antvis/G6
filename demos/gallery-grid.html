@@ -5,14 +5,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <script src="./assets/jquery-3.2.1.min.js"></script>
-  <script src="../build/g6.js"></script>
-  <script src="../build/plugins.js"></script>
-  <title>测试</title>
+  <title>画廊-网格</title>
 </head>
 
 <body>
   <div id="mountNode"></div>
+  <script src="../build/g6.js"></script>
+  <script src="../build/plugin.tool.grid.js"></script>
+
   <script>
     const plugin = new G6.Plugins['tool.grid']()
     const data = {
@@ -34,13 +34,9 @@
       container: 'mountNode',
       width: 500,
       height: 500,
-      modes: {
-        default: ['panCanvas', 'wheelZoom']
-      },
       plugins: [plugin]
     });
     graph.read(data);
   </script>
 </body>
 </html>
-

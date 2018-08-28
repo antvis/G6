@@ -8,8 +8,10 @@ const Util = G6.Util;
 
 class Plugin {
   constructor(options) {
-    Util.mix(this, options);
-    this._freezeElements = {};
+    Util.mix(this, {
+      // cache freeze elements
+      _freezeElements: {}
+    }, options);
   }
   init() {
     const graph = this.graph;
