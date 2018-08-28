@@ -18,51 +18,34 @@
 <body>
   <div id="mountNode"></div>
   <script>
-    const plugin = new G6.Plugins['tool.tooltip']();
+    G6.registerNode('custom', {
+      getHtml(){
+        return '<div>3333</div>';
+      }
+    }, 'html');
     const data = {
       nodes: [{
         id: 'node1',
         x: 100,
-        y: 200,
-        title: 'aaa',
+        y: 200
       }, {
         id: 'node2',
         x: 300,
-        y: 200,
-        title: 'bbb',
+        y: 200
       }],
       edges: [{
         target: 'node2',
-        source: 'node1',
+        source: 'node1'
       }]
     };
     const graph = new G6.Graph({
       container: 'mountNode',
       width: 500,
       height: 500,
-      plugins: [ plugin ]
+      renderer: 'svg'
     });
     graph.node({
-      tooltip(model) {
-        return [
-          ['id', model.id],
-          ['x', model.x],
-          ['y', model.y],
-          ['标题', model.title]
-        ];
-      },
-      label(model) {
-        return model.title;
-      }
-    });
-    graph.edge({
-      tooltip(model) {
-        return [
-          ['来源', model.source],
-          ['去向', model.target],
-          ['标题', model.title]
-        ];
-      }
+      shape: 'custom'
     });
     graph.read(data);
     setTimeout(()=>{
