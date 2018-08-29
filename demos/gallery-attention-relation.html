@@ -22,8 +22,6 @@
     <h3 style='color:white; margin: 20pt 20pt 0pt; position: relative;'>2018 世界杯关注度、胜负分析</h3>
     <p style='color:rgb(126,131,139); margin:20px 100px 0px 22px'>该图为 2018 年世界杯期间的相关数据。图上点越大代表该国球队关注的人数越多，连线代表双方有对战，箭头代表胜方，双箭头代表双方均有赢。</p>
   </div>
-  
-  <div id='legend'></div>
   <script>
 
   
@@ -58,9 +56,16 @@
       graph = new G6.Graph({
         id: 'mountNode', // dom id
         fitView: 'autoZoom',
-        plugins: [new Plugin({maxIteration: 1000, kg: 2, kr: 40, prevOverlapping: true}), 
-          new FisheyePlugin({radius: 200}),
-          nodeSizeMapper, nodeColorMapper
+        plugins: [
+          new Plugin({
+            useWorker: false,
+            prevOverlapping: true
+          }), 
+          new FisheyePlugin({
+            radius: 200
+          }),
+          nodeSizeMapper, 
+          nodeColorMapper
         ],
         minZoom: 0,
         modes: {
