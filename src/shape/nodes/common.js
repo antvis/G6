@@ -52,12 +52,14 @@ Shape.registerNode('common', {
   drawLabel(item) {
     const group = item.getGraphicGroup();
     const label = this.getLabel(item);
+    const model = item.getModel();
+    const { labelOffsetX, labelOffsetY } = model;
     if (Util.isNil(label)) {
       return;
     }
     const attrs = Util.mix(true, {}, Global.labelStyle, {
-      x: 0,
-      y: 0
+      x: labelOffsetX ? labelOffsetX : 0,
+      y: labelOffsetY ? labelOffsetY : 0
     });
     if (!Util.isObject(label)) {
       attrs.text = label;

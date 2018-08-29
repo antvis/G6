@@ -1,8 +1,11 @@
 const Graph = require('../../../src/graph');
-const expect = require('chai').expect;
+const chai = require('chai');
+const expect = chai.expect;
+const chaiAlmost = require('chai-almost');
 const Util = require('../../../src/util/');
 const div = document.createElement('div');
 const data = require('../../fixtures/sample-graph-data.json');
+chai.use(chaiAlmost());
 div.id = 'cchart';
 document.body.appendChild(div);
 data.nodes.forEach(node => {
@@ -24,6 +27,16 @@ describe('edge item test', () => {
   it('getTarget', () => {
     const edge = graph.find('node2->node1');
     expect(edge.getTarget().id).equal('node1');
+  });
+  it('labeloffset', () => {
+    const edge = graph.find('node2->node1');
+    graph.update(edge, {
+      label: 'node2->node1',
+      labelOffsetX: 10,
+      labelOffsetY: 10
+    });
+    expect(edge.getLabel().attr('x')).to.almost.eql(162.23606797749977);
+    expect(edge.getLabel().attr('y')).to.almost.eql(136.11803398874991);
   });
   it('destroy', () => {
     graph.destroy();
