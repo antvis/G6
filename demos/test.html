@@ -14,32 +14,95 @@
 <body>
   <div id="mountNode"></div>
   <script>
-    const plugin = new G6.Plugins['tool.grid']()
-    const data = {
-      nodes: [{
-        id: 'node1',
-        x: 100,
-        y: 200
-      }, {
-        id: 'node2',
-        x: 300,
-        y: 200
-      }],
-      edges: [{
-        target: 'node2',
-        source: 'node1'
-      }]
-    };
-    const graph = new G6.Graph({
-      container: 'mountNode',
-      width: 500,
-      height: 500,
-      modes: {
-        default: ['panCanvas', 'wheelZoom']
-      },
-      plugins: [plugin]
-    });
-    graph.read(data);
+const dagre = new G6.Plugins['layout.dagre']({
+  rankdir: 'LR',
+  ranksep: 72
+});
+G6.registerNode('custom', {
+  anchor(item) {
+    const outEdges = item.getOutEdges();
+    const inEdges = item.getInEdges();
+    if(outEdges.length > 1) {
+      return [
+        [0, 0.5],
+        [0.5, 1],
+        [0.5, 0]
+      ];
+    }
+    if (inEdges.length > 1) {
+      return [
+        [1, 0.5],
+        [0.5, 1],
+        [0.5, 0]
+      ];
+    }
+    return [
+      [0, 0.5],
+      [1, 0.5],
+      [0.5, 1],
+      [0.5, 0]
+    ];
+  }
+});
+const data = {
+  nodes: [{
+    id: 'node1',
+ },{
+    id: 'node2',
+ },{
+    id: 'node3',
+ },{
+    id: 'node4',
+ },{
+    id: 'node5',
+ },{
+    id: 'node6',
+ }],
+  edges: [{
+    source: 'node1',
+    target: 'node2'
+ },{
+    source: 'node2',
+    target: 'node3'
+ },{
+    source: 'node2',
+    target: 'node4'
+ },{
+    source: 'node4',
+    target: 'node5'
+ },{
+    source: 'node3',
+    target: 'node5'
+ },{
+    source: 'node5',
+    target: 'node6'
+ }]
+};
+const graph = new G6.Graph({
+  container: 'mountNode',
+  width: 500,
+  height: 500,
+  fitView: 'cc',
+  plugins: [dagre]
+});
+graph.node({
+  size: 10,
+  style: {
+    lineWidth: 6,
+    strokeOpacity: 0
+  }
+});
+graph.node({
+  shape: 'custom',
+  label(model) {
+    return model.id;
+  },
+  labelOffsetY: 12
+});
+graph.edge({
+  shape: 'polyline'
+});
+graph.read(data);
   </script>
 </body>
 </html>
