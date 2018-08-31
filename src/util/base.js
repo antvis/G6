@@ -17,7 +17,6 @@ const BaseUtil = {
   throttle: require('lodash/throttle'),
   debounce: require('lodash/debounce'),
   uniq: require('lodash/uniq'),
-
   /**
    * traverse tree
    * @param  {object}      parent      parent

@@ -79,6 +79,9 @@ Shape.registerEdge('common', {
     const { labelOffsetX, labelOffsetY } = model;
     if (label) {
       const center = keyShape.getPoint(0.5);
+      if (!center) {
+        return;
+      }
       center.x = labelOffsetX ? center.x + labelOffsetX : center.x;
       center.y = labelOffsetY ? center.y + labelOffsetY : center.y;
       const attrs = Util.mix(true, {}, Global.labelStyle, center);

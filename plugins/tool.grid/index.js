@@ -157,9 +157,12 @@ class Plugin {
     return cell;
   }
   update(cfg) {
-    Util.mix(this, cfg);
-    const path = this._getPath();
     const gridEl = this.gridEl;
+    if (!gridEl) {
+      return;
+    }
+    cfg && Util.mix(this, cfg);
+    const path = this._getPath();
     const graph = this.graph;
     const zoom = graph.getZoom();
     const type = this.type;
