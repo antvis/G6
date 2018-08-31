@@ -8,6 +8,7 @@ module.exports = {
   'layout.forceAtlas2': require('./layout.forceAtlas2/'),
   'layout.grid': require('./layout.grid/'),
   'template.maxSpanningForest': require('./template.maxSpanningForest/'),
+  'template.tableSankey': require('./template.tableSankey/'),
   'tool.d3.mapper': require('./tool.d3.mapper/'),
   'tool.fisheye': require('./tool.fisheye/'),
   'tool.freezeSize': require('./tool.freezeSize/'),
@@ -17,7 +18,8 @@ module.exports = {
   'tool.minimap': require('./tool.minimap/'),
   'tool.textDisplay': require('./tool.textDisplay/'),
   'tool.tooltip': require('./tool.tooltip/'),
+  'util.backbone': require('./util.backbone/'),
   'util.dataCleaner': require('./util.dataCleaner/'),
   'util.extractSubgraph': require('./util.extractSubgraph/'),
-  'util.randomData': require('./util.randomData/')
+  'util.randomData': require('./util.randomData/'),
 };

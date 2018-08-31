@@ -333,13 +333,13 @@ class Graph extends Base {
     itemGroup.sortBy(child => {
       const id = child.id;
       const model = dataMap[id];
-      return model.index;
+      return model && model.index;
     });
   }
   _clearInner() {
     const items = this.getItems();
     items.forEach(item => {
-      item && !item.destroyed && item.destroy();
+      item && item.destroy();
     });
   }
   /**
