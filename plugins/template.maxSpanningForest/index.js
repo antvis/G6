@@ -8,7 +8,7 @@
  * edge.weight - edge weight
  */
 const G6 = require('@antv/g6');
-const maxSpanningForest = require('./maxSpanningForest');
+const maxSpanningForest = require('../util.backbone/maxSpanningForest');
 const Layout = require('../layout.forceAtlas2/layout');
 const Util = G6.Util;
 const Menu = require('./menu');
@@ -139,7 +139,7 @@ class Plugin {
           index
         };
       });
-      const forest = maxSpanningForest(nodes, edges);
+      const forest = maxSpanningForest({nodes, edges});
       forest.edges.forEach(edge => {
         const {
           index
