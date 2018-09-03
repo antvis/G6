@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>紧凑树</title>
+  <title>缩进树</title>
   <style>
     ::-webkit-scrollbar {
       display: none;
@@ -45,7 +45,7 @@
       var layout = new G6.Layouts.IndentedTree({
         direction: 'LR', // 方向（LR/RL/H）
         indent: 30, // 缩进量
-        getVGap: function getVGap() /* d */ {
+        getVGap() /* d */ {
           // 竖向间距
           return 4;
         }

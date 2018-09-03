@@ -50,7 +50,8 @@ class Plugin {
       menu: null,
       edgeStyle: {
         stroke: '#4F7DAB',
-        strokeOpacity: 0.65
+        strokeOpacity: 0.65,
+        endArrow: true
       },
       activedEdgeStyle: {
         stroke: '#4C7295',
@@ -80,7 +81,6 @@ class Plugin {
   }
   init() {
     const graph = this.graph;
-
     if (this.fisheye) {
       const fisheye = new G6.Plugins['tool.fisheye']({
         radius: 100
@@ -139,7 +139,7 @@ class Plugin {
           index
         };
       });
-      const forest = maxSpanningForest({nodes, edges});
+      const forest = maxSpanningForest({ nodes, edges });
       forest.edges.forEach(edge => {
         const {
           index
@@ -149,7 +149,6 @@ class Plugin {
       graph.addFilter(item => {
         return !item.isEdge || item.getModel().isTreeEdge;
       });
-
       this.setStyle();
       this.interactive && this.setListener();
       const menuCfg = this.menuCfg;
@@ -176,9 +175,8 @@ class Plugin {
         if (model.actived) {
           return this.activedEdgeStyle;
         }
-        return this.edgeStyle;
-      },
-      endArrow: true
+        return Util.isFunction(this.edgeStyle) ? this.edgeStyle(model) : this.edgeStyle;
+      }
     });
     graph.node({
       label: this.node_label,
