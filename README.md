@@ -1,4 +1,5 @@
 # G6: The Graph visualization framework in JavaScript.
+![](https://cdn.nlark.com/yuque/0/2018/png/156681/1535972881989-82d76a72-4457-44f1-8c4c-1fdb4da843a1.png)
 
 ![](https://img.shields.io/badge/language-javascript-red.svg)
 
@@ -8,16 +9,15 @@ G6 is a graph visualization framework. It provides a set of base mechanisms, hel
 
 [Full documentation](https://www.yuque.com/antv/g6-en)
 
-<img src="https://gw.alipayobjects.com/zos/rmsportal/HQxYguinFOMIXrGQOABY.gif" width=260><img src="https://gw.alipayobjects.com/zos/rmsportal/nAugyFgrbrUWPmDIDiQm.gif" width=370>
+
+<img src="https://cdn.nlark.com/yuque/0/2018/gif/93506/1535804360170-d3c64356-38d9-40af-a111-b39c8232e67e.gif" height=150><img src="https://cdn.nlark.com/yuque/0/2018/gif/93506/1535955277773-840190f8-836a-4bd6-875a-b3a18e6cebf1.gif" height=150><img src="https://cdn.nlark.com/yuque/0/2018/gif/93506/1535804366174-1773b93d-5fab-45b4-9651-a0e750c7ef47.gif" height=150>
+
+<img src="https://gw.alipayobjects.com/zos/rmsportal/HQxYguinFOMIXrGQOABY.gif" height=150><img src="https://gw.alipayobjects.com/zos/rmsportal/nAugyFgrbrUWPmDIDiQm.gif" height=150>
 
 ## [G6-Editor](https://yuque.com/antv/g6-editor)
 
 <img src="https://gw.alipayobjects.com/zos/rmsportal/nzmycBewjfxKDbepTDlT.gif" width=560>
 <img src="https://gw.alipayobjects.com/zos/rmsportal/WVqnbgJmamdahbAuDpBL.gif" width=560>
-
-## G6-Analyser [coming soon]
-
-![](https://gw.alipayobjects.com/zos/rmsportal/GxupfuhWyMZWwPWWYgaO.gif)
 
 ## Installation
 
