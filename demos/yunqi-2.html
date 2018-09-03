@@ -34,7 +34,7 @@
         let simulation;
         const graph = new G6.Graph({
           container: 'mountNode',
-          height: 500,
+          height: window.innerHeight, // 画布高
           fitView: 'cc',
           layout: {
             auto: 'once',
