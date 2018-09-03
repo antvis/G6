@@ -1,4 +1,5 @@
 # G6: JavaScript 图可视化引擎.
+![](https://gw.alipayobjects.com/zos/rmsportal/eWLVJWtDPsdREBKYYvfA.png)
 
 ![](https://img.shields.io/badge/language-javascript-red.svg)
 
@@ -8,7 +9,9 @@ G6 是一个图可视化框架。它提供了一套图可视化的基础设置�
 
 [完整文档](https://www.yuque.com/antv/g6)
 
-<img src="https://gw.alipayobjects.com/zos/rmsportal/HQxYguinFOMIXrGQOABY.gif" width=260><img src="https://gw.alipayobjects.com/zos/rmsportal/nAugyFgrbrUWPmDIDiQm.gif" width=370>
+<img src="https://gw.alipayobjects.com/zos/rmsportal/AuBFeGzzRRdHSKTIUYCq.gif" height=150><img src="https://cdn.nlark.com/yuque/0/2018/gif/93506/1535955277773-840190f8-836a-4bd6-875a-b3a18e6cebf1.gif" height=150><img src="https://gw.alipayobjects.com/zos/rmsportal/oJPPdGVFfHpJuEtgPqpw.gif" height=150>
+
+<img src="https://gw.alipayobjects.com/zos/rmsportal/HQxYguinFOMIXrGQOABY.gif" height=150><img src="https://gw.alipayobjects.com/zos/rmsportal/nAugyFgrbrUWPmDIDiQm.gif" height=150>
 
 ## [G6-Editor](https://yuque.com/antv/g6-editor)
 
