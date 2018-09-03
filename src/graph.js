@@ -128,15 +128,15 @@ class Graph extends Base {
   initEvent() {
 
   }
-  _executeLayout(processer, nodes, edges, groups) {
-    if (Util.isFunction(processer)) {
-      processer(nodes, edges, this);
-    } else if (Util.isObject(processer)) {
-      processer.nodes = nodes;
-      processer.edges = edges;
-      processer.groups = groups;
-      processer.graph = this;
-      processer.execute();
+  _executeLayout(processor, nodes, edges, groups) {
+    if (Util.isFunction(processor)) {
+      processor(nodes, edges, this);
+    } else if (Util.isObject(processor)) {
+      processor.nodes = nodes;
+      processor.edges = edges;
+      processor.groups = groups;
+      processor.graph = this;
+      processor.execute();
     }
   }
   _pluginInit() {

@@ -22,10 +22,10 @@ class Controller extends Base {
       auto: true,
 
       /**
-       * layout processer
+       * layout processor
        * @type {object}
        */
-      processer: null
+      processor: null
     };
   }
   constructor(cfg) {
@@ -57,13 +57,13 @@ class Controller extends Base {
       }
     });
   }
-  changeLayout(processer) {
-    this.processer = processer;
+  changeLayout(processor) {
+    this.processor = processor;
     this.layout();
   }
   layout() {
     const graph = this.graph;
-    const processer = this.processer;
+    const processor = this.getLayoutProcessor();
     graph.emit('beforelayout');
     const nodes = graph.getNodes()
       .filter(node => {
@@ -86,12 +86,12 @@ class Controller extends Base {
     .map(group => {
       return group.getModel();
     });
-    graph._executeLayout(processer, nodes, edges, groups);
+    graph._executeLayout(processor, nodes, edges, groups);
     graph.updateNodePosition();
     graph.emit('afterlayout');
   }
-  getLayoutProcesser() {
-    return this.processer;
+  getLayoutProcessor() {
+    return this.processor ? this.processor : this.processer;
   }
 }
 
