@@ -6,7 +6,7 @@
 
 G6 是一个图可视化框架。它提供了一套图可视化的基础设置，能帮助开发者搭建属于自己的图 **图分析** 应用或是 **图编辑器** 应用。
 
-[详情见 G6 官方站点](https://antv.alipay.com/zh-cn/g6/1.x/index.html)
+[完整文档](https://www.yuque.com/antv/g6)
 
 <img src="https://gw.alipayobjects.com/zos/rmsportal/HQxYguinFOMIXrGQOABY.gif" width=260><img src="https://gw.alipayobjects.com/zos/rmsportal/nAugyFgrbrUWPmDIDiQm.gif" width=370>
 

@@ -6,7 +6,7 @@
 
 G6 is a graph visualization framework. It provides a set of base mechanisms, help developers to build your own graph visualization **analysis** application or graph visualization **edit** application.
 
-[More details about G6.](https://antv.alipay.com/zh-cn/g6/1.x/index.html)
+[Full documentation](https://www.yuque.com/antv/g6-en)
 
 <img src="https://gw.alipayobjects.com/zos/rmsportal/HQxYguinFOMIXrGQOABY.gif" width=260><img src="https://gw.alipayobjects.com/zos/rmsportal/nAugyFgrbrUWPmDIDiQm.gif" width=370>
 
