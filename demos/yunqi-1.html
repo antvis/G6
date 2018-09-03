@@ -59,7 +59,7 @@
         })
         const graph = new G6.Graph({
           container: 'mountNode',
-          height: 600,
+          height: window.innerHeight, // 画布高
           fitView: 'cc',
           animate: true,
           plugins: [sankeyPlugin]
