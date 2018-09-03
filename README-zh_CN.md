@@ -1,7 +1,12 @@
-# G6: JavaScript 图可视化引擎.
 ![](https://gw.alipayobjects.com/zos/rmsportal/eWLVJWtDPsdREBKYYvfA.png)
 
 ![](https://img.shields.io/badge/language-javascript-red.svg)
+[![](https://img.shields.io/travis/antvis/g6.svg)](https://travis-ci.org/antvis/g6)
+![](https://img.shields.io/badge/language-javascript-red.svg)
+![](https://img.shields.io/badge/license-MIT-000000.svg)
+[![npm package](https://img.shields.io/npm/v/@antv/g6.svg)](https://www.npmjs.com/package/@antv/g6)
+[![NPM downloads](http://img.shields.io/npm/dm/@antv/g6.svg)](https://npmjs.org/package/@antv/g6)
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/antvis/g6.svg)](http://isitmaintained.com/project/antvis/g6 "Percentage of issues still open")
 
 [English README](README.md)
 
@@ -76,3 +81,7 @@ Please let us know how can we help. Do check out [issues](https://github.com/ant
 请让我们知道您要解决或贡献什么，所以在贡献之前请先提交 [issues](https://github.com/antvis/g6/issues) 描述 bug 或建议。
 
 成为一个贡献者前请阅读 [代码贡献规范](https://github.com/antvis/g6/blob/master/CONTRIBUTING.zh-CN.md).
+
+## License
+
+[MIT license](./LICENSE).
