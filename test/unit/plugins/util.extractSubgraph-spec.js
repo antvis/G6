@@ -39,7 +39,7 @@ describe('extract subgraph test', () => {
     const {
       reNodes,
       reEdges
-    } = Util.extract(graph, 'bi', 1, [ node ]);
+    } = Util.extract('bi', [ node ]);
     expect(reNodes.length).eql(3);
     expect(reEdges.length).eql(2);
   });
@@ -48,7 +48,7 @@ describe('extract subgraph test', () => {
     const {
       reNodes,
       reEdges
-    } = Util.extract(graph, 'in', 1, [ node ]);
+    } = Util.extract('in', [ node ]);
     expect(reNodes.length).eql(2);
     expect(reEdges.length).eql(1);
   });
@@ -57,7 +57,7 @@ describe('extract subgraph test', () => {
     const {
       reNodes,
       reEdges
-    } = Util.extract(graph, 'out', 1, [ node ]);
+    } = Util.extract('out', [ node ]);
     expect(reNodes.length).eql(2);
     expect(reEdges.length).eql(1);
   });

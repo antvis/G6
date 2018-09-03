@@ -7,7 +7,7 @@ const G6 = require('@antv/g6');
 const Util = G6.Util;
 
 const extractSubgraph = {
-  extract(graph, type, step, focusNodes) {
+  extract(type, focusNodes) {
     const reEdges = [];
     Util.each(focusNodes, fn => {
       if (type === 'in') {

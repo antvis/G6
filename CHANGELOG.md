@@ -2,6 +2,24 @@
 
 ---
 
+#### 2.1.0
+
+`2018-09-03`
+
+* feat: svg render
+* feat: plugin.layout.forceAtlas2
+* feat: plugin.tool.fisheye 
+* feat: plugin.tool.textDisplay
+* feat: plugin.tool.grid
+* feat: plugin.template.tableSankey
+* feat: plugin.edge.polyline
+
+#### 2.0.5
+
+`2018-07-12`
+
+improve: add g6 arrow
+
 #### 2.0.4
 
 `2018-07-12`
