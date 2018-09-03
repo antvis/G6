@@ -42,7 +42,7 @@ class Plugin {
       shape: 'mask',
       id: 'mask'
     });
-    items.forEach(item=>{
+    items.forEach(item => {
       this.toFront(item);
     });
   }

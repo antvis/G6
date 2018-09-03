@@ -8,6 +8,6 @@ const maxSpanningForest = require('./maxSpanningForest');
 const Util = G6.Util;
 
 const backbone = {
-  maxSpanningForest,
+  maxSpanningForest
 };
 Util.mix(Util, backbone);

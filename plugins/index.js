@@ -21,5 +21,5 @@ module.exports = {
   'util.backbone': require('./util.backbone/'),
   'util.dataCleaner': require('./util.dataCleaner/'),
   'util.extractSubgraph': require('./util.extractSubgraph/'),
-  'util.randomData': require('./util.randomData/'),
+  'util.randomData': require('./util.randomData/')
 };
