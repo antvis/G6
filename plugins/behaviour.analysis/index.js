@@ -83,14 +83,24 @@ G6.registerBehaviour('panNode', graph => {
   let node;
   let dx;
   let dy;
-  graph.on('node:dragstart', ev => {
-    const {
-      item
-    } = ev;
+  graph.on('node:mouseenter', () => {
+    graph.css({
+      cursor: 'move'
+    });
+  });
+  graph.on('node:mouseleave', () => {
+    graph.css({
+      cursor: 'default'
+    });
+  });
+  graph.on('node:dragstart', ({ item, x, y }) => {
+    graph.css({
+      cursor: 'move'
+    });
     const model = item.getModel();
     node = item;
-    dx = model.x - ev.x;
-    dy = model.y - ev.y;
+    dx = model.x - x;
+    dy = model.y - y;
     graph.forcePreventAnimate(true);
   });
   graph.on('node:drag', ev => {

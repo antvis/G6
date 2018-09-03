@@ -58,7 +58,6 @@ class Menu {
   showSource(node) {
     this._showEdge('in', 1, [ node ]);
   }
-
   showTargets(node) {
     this._showEdge('out', 1, [ node ]);
   }
@@ -70,11 +69,8 @@ class Menu {
     const {
       reNodes,
       reEdges
-    } = Util.extract(graph, type, step, focusNodes);
-    graph.highlightSubgraph({
-      reNodes,
-      reEdges
-    });
+    } = Util.extract(type, focusNodes);
+    graph.highlightSubgraph(reNodes.concat(reEdges));
     // show the hided edge, which is not tree edge and it is in the es
     // and the source and targert of the edge are both visible
     reEdges.forEach(edgeObj => {

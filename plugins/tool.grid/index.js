@@ -28,7 +28,7 @@ class Plugin {
        * grid line style
        * @type {string}
        */
-      type: 'point',
+      type: 'dot',
 
       /**
        * visible
@@ -62,7 +62,7 @@ class Plugin {
     const matrix = graph.getMatrix();
     const type = this.type;
     const lineWidth = type === 'line' ? 1 / matrix[0] : 2 / matrix[0];
-    if (type === 'point') {
+    if (type === 'dot') {
       attrs.lineDash = null;
     }
     attrs.lineWidth = lineWidth;
@@ -109,7 +109,7 @@ class Plugin {
     const type = this.type;
     return this['_get' + Util.upperFirst(type) + 'Path']();
   }
-  // get point style grid path
+  // get dot style grid path
   _getPointPath() {
     const graph = this.graph;
     const width = graph.getWidth();
@@ -157,9 +157,12 @@ class Plugin {
     return cell;
   }
   update(cfg) {
-    Util.mix(this, cfg);
-    const path = this._getPath();
     const gridEl = this.gridEl;
+    if (!gridEl) {
+      return;
+    }
+    cfg && Util.mix(this, cfg);
+    const path = this._getPath();
     const graph = this.graph;
     const zoom = graph.getZoom();
     const type = this.type;

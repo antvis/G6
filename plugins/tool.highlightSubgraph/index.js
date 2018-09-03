@@ -30,84 +30,26 @@ class Plugin {
     Util.mix(this, options);
   }
   init() {
-    this.graph.on('afterinit', () => {
+    const graph = this.graph;
+    graph.on('afterinit', () => {
       this.graph.highlightSubgraph = this.highlightSubgraph;
       this.graph.unhighlightGraph = this.unhighlightGraph;
     });
   }
-  highlightSubgraph(hlItems) {
+  highlightSubgraph(items) {
     this.unhighlightGraph();
-    // sort the group items
-    const ns = hlItems.reNodes;
-    const es = hlItems.reEdges;
-    const items = this.getItems();
-    Util.each(items, i => {
-      if (i.type === 'edge') {
-        Util.each(es, e => {
-          if (i.id !== e.id) {
-            this.toFront(i);
-          }
-        });
-      }
+    this.add('guide', {
+      shape: 'mask',
+      id: 'mask'
     });
-    Util.each(items, i => {
-      if (i.type === 'node') {
-        Util.each(ns, n => {
-          if (i.id !== n.id) {
-            this.toFront(i);
-          }
-        });
-      }
+    items.forEach(item=>{
+      this.toFront(item);
     });
-    let mask;
-    Util.each(items, i => {
-      if (i.type === 'guide') {
-        mask = i;
-        this.toFront(i);
-        return;
-      }
-    });
-    if (mask === undefined) {
-      mask = this.add('guide', {
-        shape: 'mask'
-      });
-      this.toFront(mask);
-    }
-    mask.show();
-    Util.each(items, i => {
-      if (i.type === 'edge') {
-        Util.each(es, e => {
-          if (i.id === e.id) {
-            this.toFront(i);
-          }
-        });
-      }
-    });
-    Util.each(items, i => {
-      if (i.type === 'node') {
-        Util.each(ns, n => {
-          if (i.id === n.id) {
-            this.toFront(i);
-          }
-        });
-      }
-    });
-    this.draw();
   }
   unhighlightGraph() {
     // hide the mask
-    const items = this.getItems();
-    let mask;
-    Util.each(items, i => {
-      if (i.type === 'guide') {
-        mask = i;
-        return;
-      }
-    });
-    if (mask !== undefined) {
-      mask.hide();
-    }
-    this.draw();
+    const mask = this.find('mask');
+    mask && this.remove(mask);
   }
 }
 

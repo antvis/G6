@@ -30,7 +30,7 @@ Mixin.AUGMENT = {
       return layout;
     } else if (Util.isFunction(layout) || Util.isObject(layout)) {
       return {
-        processer: layout
+        processor: layout
       };
     }
     return null;
@@ -77,12 +77,12 @@ Mixin.AUGMENT = {
     this.draw();
     return this;
   },
-  changeLayout(processer) {
-    this._getController('layout').changeLayout(processer);
+  changeLayout(processor) {
+    this._getController('layout').changeLayout(processor);
     return this;
   },
   getLayout() {
-    return this._getController('layout').getLayoutProcesser();
+    return this._getController('layout').getLayoutProcessor();
   }
 };
 
