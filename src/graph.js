@@ -128,15 +128,15 @@ class Graph extends Base {
   initEvent() {
 
   }
-  _executeLayout(processer, nodes, edges, groups) {
-    if (Util.isFunction(processer)) {
-      processer(nodes, edges, this);
-    } else if (Util.isObject(processer)) {
-      processer.nodes = nodes;
-      processer.edges = edges;
-      processer.groups = groups;
-      processer.graph = this;
-      processer.execute();
+  _executeLayout(processor, nodes, edges, groups) {
+    if (Util.isFunction(processor)) {
+      processor(nodes, edges, this);
+    } else if (Util.isObject(processor)) {
+      processor.nodes = nodes;
+      processor.edges = edges;
+      processor.groups = groups;
+      processor.graph = this;
+      processor.execute();
     }
   }
   _pluginInit() {
@@ -333,13 +333,13 @@ class Graph extends Base {
     itemGroup.sortBy(child => {
       const id = child.id;
       const model = dataMap[id];
-      return model.index;
+      return model && model.index;
     });
   }
   _clearInner() {
     const items = this.getItems();
     items.forEach(item => {
-      item && !item.destroyed && item.destroy();
+      item && item.destroy();
     });
   }
   /**

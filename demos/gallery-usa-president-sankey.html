@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>画廊-美国总统信息桑基图</title>
+</head>
+
+<body>
+  <div id="mountNode"></div>
+  <script src="./assets/jquery-3.2.1.min.js"></script>
+  <script src="../build/g6.js"></script>
+  <script src="../build/plugin.template.tableSankey.js"></script>
+  <script>
+    $.getJSON('./assets/data/usa-president.json', table => {
+      const sankeyPlugin = new G6.Plugins['template.tableSankey']({
+        table,
+        fields: ['president', 'birth_place', 'age_decade', 'party', 'sgin'],
+        onBeforeRender(graph) {
+          graph.node({
+            color() {
+              const colors = ['#FD8C3D', '#D83F43', '#F7BED6', '#E487C7', '#46A848', '#D83F43', '#3B85BA', '#48335B', '#B7CDE9'];
+              return colors[parseInt(colors.length * Math.random())];
+            },
+            style: {
+              stroke: '#616161'
+            }
+          });
+          graph.edge({
+            style: {
+              stroke: 'rgb(0, 0, 0)',
+              strokeOpacity: 0.2
+            }
+          });
+        }
+      })
+      const graph = new G6.Graph({
+        container: 'mountNode',
+        height: 600,
+        fitView: 'cc',
+        animate: true,
+        plugins: [ sankeyPlugin ]
+      });
+    });
+  </script>
+</body>
+</html>

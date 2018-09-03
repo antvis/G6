@@ -70,7 +70,6 @@ class Item {
   }
   _init() {
     this._setIndex();
-    this._setShapeObj();
     this._initGroup();
     this.draw();
   }
@@ -162,7 +161,6 @@ class Item {
       item: this
     });
     this.updateCollapsedParent();
-    this._setShapeObj();
   }
   _shouldDraw() {
     return true;
@@ -186,8 +184,9 @@ class Item {
     const animate = this.animate;
     const group = this.group;
     group.clear(!animate);
-    const shapeObj = this.shapeObj;
     this._mapping();
+    this._setShapeObj();
+    const shapeObj = this.shapeObj;
     const keyShape = shapeObj.draw(this);
     if (keyShape) {
       keyShape.isKeyShape = true;

@@ -30,14 +30,14 @@ class Tree extends Graph {
       });
     });
   }
-  _executeLayout(processer) {
+  _executeLayout(processor) {
     const source = this.get('_sourceData');
-    if (Util.isFunction(processer)) {
-      processer(source.roots, this);
-    } else if (Util.isObject(processer)) {
-      processer.roots = source.roots;
-      processer.graph = this;
-      processer.execute();
+    if (Util.isFunction(processor)) {
+      processor(source.roots, this);
+    } else if (Util.isObject(processor)) {
+      processor.roots = source.roots;
+      processor.graph = this;
+      processor.execute();
     }
   }
   getHierarchy(item) {
