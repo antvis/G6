@@ -10,7 +10,7 @@ G6 is a graph visualization framework. It provides a set of base mechanisms, hel
 [Full documentation](https://www.yuque.com/antv/g6-en)
 
 
-<img src="https://gw.alipayobjects.com/zos/rmsportal/AuBFeGzzRRdHSKTIUYCq.gif" height=150><img src="https://cdn.nlark.com/yuque/0/2018/gif/93506/1535955277773-840190f8-836a-4bd6-875a-b3a18e6cebf1.gif" height=150><img src="https://gw.alipayobjects.com/zos/rmsportal/oJPPdGVFfHpJuEtgPqpw.gif" height=150>
+<img src="https://user-images.githubusercontent.com/6113694/44995293-02858600-afd5-11e8-840c-349e4730d63d.gif" height=150><img src="https://cdn.nlark.com/yuque/0/2018/gif/93506/1535955277773-840190f8-836a-4bd6-875a-b3a18e6cebf1.gif" height=150><img src="https://user-images.githubusercontent.com/6113694/44995332-2ba61680-afd5-11e8-8cab-db0e9d08ceb7.gif" height=150>
 
 <img src="https://gw.alipayobjects.com/zos/rmsportal/HQxYguinFOMIXrGQOABY.gif" height=150><img src="https://gw.alipayobjects.com/zos/rmsportal/nAugyFgrbrUWPmDIDiQm.gif" height=150>
 
