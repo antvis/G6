@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "2.1.0-beta.19",
+  "version": "2.1.0-beta.21",
   "description": "graph visualization frame work",
   "main": "build/g6.js",
   "homepage": "https://github.com/antvis/g6",
@@ -73,6 +73,7 @@
     "radixsort": "~1.0.0",
     "serve-static": "~1.13.2",
     "shelljs": "~0.7.8",
+    "svgson": "^2.1.1",
     "torchjs": "~2.0.3",
     "uglify-js": "~3.1.10",
     "webpack": "~4.10.2",
@@ -100,7 +101,7 @@
     "screenshot": "node ./bin/screenshot.js",
     "start": "npm run dev",
     "test": "torch --compile --renderer --recursive ./test/unit",
-    "test-live": "torch --compile --interactive --watch --recursive ./test/unit/item/",
+    "test-live": "torch --compile --interactive --watch --recursive ./test/test-spec.js",
     "watch": "webpack --config webpack-dev.config.js",
     "win-dev": "node ./bin/win-dev.js"
   },
@@ -108,11 +109,12 @@
     "run": []
   },
   "dependencies": {
-    "@antv/g": "~3.1.0-beta.11",
-    "@antv/g2": "~3.2.7-beta.4",
+    "@antv/g": "~3.1.0",
+    "@antv/g2": "~3.2.7",
     "@antv/hierarchy": "~0.3.13",
     "@antv/scale": "^0.0.1",
     "d3": "^5.4.0",
+    "d3-sankey": "^0.7.1",
     "d3-svg-legend": "^2.25.6",
     "dagre": "~0.8.2",
     "dom-to-image": "^2.6.0",

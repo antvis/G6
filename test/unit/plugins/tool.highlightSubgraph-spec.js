@@ -41,48 +41,24 @@ describe('highlight subgraph test', () => {
     const edges = graph.getEdges();
     const reNodes = [ nodes[0], nodes[1] ];
     const reEdges = [ edges[0] ];
-    graph.highlightSubgraph({
-      reNodes,
-      reEdges
-    });
+    graph.highlightSubgraph(reNodes.concat(reEdges));
     const items = graph.getItems();
-    let mask;
-    G6.Util.each(items, i => {
-      if (i.type === 'guide') {
-        mask = i;
-        return;
-      }
-    });
+    const mask = graph.find('mask');
     expect(mask.isVisible()).eql(true);
   });
   it('unhighlight', () => {
     graph.unhighlightGraph();
     const items = graph.getItems();
-    let mask;
-    G6.Util.each(items, i => {
-      if (i.type === 'guide') {
-        mask = i;
-        return;
-      }
-    });
-    expect(mask.isVisible()).eql(false);
+    const mask = graph.find('mask');
+    expect(mask).eql(undefined);
   });
   it('highlight again', () => {
     const nodes = graph.getNodes();
     const reNodes = [ nodes[0] ];
     const reEdges = [ ];
-    graph.highlightSubgraph({
-      reNodes,
-      reEdges
-    });
+    graph.highlightSubgraph(reNodes.concat(reEdges));
     const items = graph.getItems();
-    let mask;
-    G6.Util.each(items, i => {
-      if (i.type === 'guide') {
-        mask = i;
-        return;
-      }
-    });
+    const mask = graph.find('mask');
     expect(mask.isVisible()).eql(true);
   });
   it('graph destroy', () => {
