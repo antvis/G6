@@ -1,4 +1,4 @@
-# G6: The Graph visualization framework in JavaScript.
+# G6: A Graph visualization framework in JavaScript.
 ![](https://gw.alipayobjects.com/zos/rmsportal/eWLVJWtDPsdREBKYYvfA.png)
 
 ![](https://img.shields.io/badge/language-javascript-red.svg)
