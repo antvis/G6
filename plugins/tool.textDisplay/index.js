@@ -20,9 +20,9 @@ class Plugin {
     this.graph.on('afterzoom', () => {
       this.textDisplay();
     });
-    this.graph.textDisplay = ()=>{
+    this.graph.textDisplay = () => {
       this.textDisplay();
-    }
+    };
   }
   textDisplay() {
     const graph = this.graph;

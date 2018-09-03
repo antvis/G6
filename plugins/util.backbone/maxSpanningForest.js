@@ -6,7 +6,7 @@ const G6 = require('@antv/g6');
 const { Util } = G6;
 const maxSpanningTree = require('./maxSpanningTree');
 
-function maxSpanningForest({nodes, edges}) {
+function maxSpanningForest({ nodes, edges }) {
   const connectedSubsets = [];
   const forest = {
     nodes: [],
