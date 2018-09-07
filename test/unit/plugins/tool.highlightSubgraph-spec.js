@@ -50,7 +50,7 @@ describe('highlight subgraph test', () => {
     graph.unhighlightGraph();
     const items = graph.getItems();
     const mask = graph.find('mask');
-    expect(mask).eql(undefined);
+    expect(mask.isVisible()).eql(false);
   });
   it('highlight again', () => {
     const nodes = graph.getNodes();

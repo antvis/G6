@@ -27,6 +27,7 @@ G6.registerGuide('mask', {
 
 class Plugin {
   constructor(options) {
+    this.items = []
     Util.mix(this, options);
   }
   init() {
@@ -37,19 +38,33 @@ class Plugin {
     });
   }
   highlightSubgraph(items) {
-    this.unhighlightGraph();
-    this.add('guide', {
-      shape: 'mask',
-      id: 'mask'
-    });
+    const mask = this.find('mask')
+    if (mask) {
+      mask && this.show(mask)
+    } else {
+      this.add('guide', {
+        shape: 'mask',
+        id: 'mask'
+      })
+    }
+    
     items.forEach(item => {
-      this.toFront(item);
-    });
+      this.toFront(item)
+    })
+    this.items = items
   }
   unhighlightGraph() {
     // hide the mask
-    const mask = this.find('mask');
-    mask && this.remove(mask);
+    const mask = this.find('mask')
+    mask && this.hide(mask)
+
+    if (this.items.length <= 0) {
+      return
+    }
+
+    this.items.forEach(item => {
+      this.toBack(item)
+    })
   }
 }
 
