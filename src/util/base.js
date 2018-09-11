@@ -4,7 +4,7 @@
  * @see https://github.com/lodash/lodash
  */
 const MAX_LEVEL = 5;
-const G = require('@antv/g');
+const G = require('@antv/g/lib');
 
 const BaseUtil = {
   ...G.CommonUtil,
