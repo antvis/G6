@@ -3,7 +3,7 @@
  * @author huangtonger@aliyun.com
  */
 
-const G = require('@antv/g');
+const G = require('@antv/g/lib');
 const BaseUtil = require('./base');
 const tolerance = 0.001;
 const MathUtil = {

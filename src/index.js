@@ -6,7 +6,7 @@ const Shape = require('./shape/');
 const Handler = require('./handler');
 const Global = require('./global');
 const version = require('./version');
-const G = require('@antv/g');
+const G = require('@antv/g/lib');
 
 const G6 = {
   Graph: require('./graph'),
