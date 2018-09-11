@@ -137,7 +137,7 @@ class Controller extends Base {
       if (subStash0.attrsStash) {
         e1.attr(subStash0.attrsStash);
       }
-      e1.setMatrix(subStash0.matrixStash);
+      e1.setMatrix(Util.cloneDeep(subStash0.matrixStash));
       updateAnimate(e1, Util.mix({}, keyFrame.attrs, { matrix: keyFrame.matrix }), visibleAction);
       if (e0 !== e1) {
         e0.remove();

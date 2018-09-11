@@ -21,9 +21,6 @@ module.exports = {
   include: [
     'src/**/*.js',
     'plugins/**/*.js',
-    'node_modules/**/src/gl-matrix/**/*.js'
   ],
-  exclude: [
-    'bower_components/**/*.js',
-  ]
+  exclude: /(node_modules|bower_components)/,
 }

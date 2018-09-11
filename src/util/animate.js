@@ -6,14 +6,11 @@ module.exports = {
    * @param  {object}  element g element
    * @param  {object}  x to x
    * @param  {object}  y to y
-   * @param  {object}  centerX scale centerX
-   * @param  {object}  centerY scale centerY
+   * @param  {function} callback callback when animate finshed
    */
-  scaleIn(element, x, y, centerX, centerY) {
-    centerX = centerX ? centerX : x;
-    centerY = centerY ? centerY : y;
+  scaleIn(element, x, y, callback) {
     element.transform([
-      [ 't', -centerX, -centerY ],
+      [ 't', -x, -y ],
       [ 's', 0.01, 0.01 ],
       [ 't', x, y ]
     ]);
@@ -21,9 +18,9 @@ module.exports = {
       transform: [
         [ 't', -x, -y ],
         [ 's', 100, 100 ],
-        [ 't', centerX, centerY ]
+        [ 't', x, y ]
       ]
-    }, Global.enterDuration, Global.enterEasing);
+    }, Global.enterDuration, Global.enterEasing, callback);
   },
   /**
    * scale out animate
