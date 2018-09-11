@@ -14,155 +14,52 @@
 <body>
   <div id="mountNode"></div>
   <script>
-    const testData = {"data":{"pies":[{"children":[{"children":[{"children":[{"children":[{"children":[{"children":[{"children":[{"children":[{"children":[],"name":"支付成功","operation":"bindpaysucc","percentBefore":100.0,"percentUp":2.89809,"total":184}],"name":"支付","operation":"bindpay","percentBefore":76.34855,"percentPie":100.0,"percentUp":2.89809,"total":184}],"name":"绑卡","operation":"bind","percentBefore":71.30178,"percentPie":76.34855,"percentUp":3.79587,"total":241}],"name":"填写银行卡信息","operation":"check","percentBefore":93.11295,"percentPie":71.30178,"percentUp":5.32367,"total":338}],"name":"设置或输入密码","operation":"validate","percentBefore":60.90604,"percentPie":93.11295,"percentUp":5.71744,"total":363}],"name":"填写银行卡号","operation":"cardtype","percentBefore":9.38731,"percentPie":60.90604,"percentUp":9.38731,"total":596}],"name":"绑卡并支付","operation":"update_bindpay","percentPie":9.38731,"percentUp":100.0,"total":6349}],"name":"用户无绑卡","operation":"tradenotbind","percentBefore":29.02113,"percentPie":100.0,"total":1213992},{"children":[{"children":[{"children":[{"children":[],"name":"支付成功","operation":"paypasssucc","percentBefore":75.40887,"percentUp":29.76881,"total":822569},{"children":[{"children":[],"name":"支付成功","operation":"paypasssmssucc","percentBefore":77.10538,"percentUp":4.64847,"total":128446}],"name":"输入验证码","operation":"paypasssms","percentBefore":15.27165,"percentPie":77.10538,"percentUp":6.02872,"total":166585}],"name":"支付密码","operation":"paypass","percentBefore":39.47653,"percentPie":90.68052,"percentUp":39.47653,"total":1090812},{"children":[{"children":[],"name":"支付成功","operation":"ringpaypasssucc","percentBefore":95.01526,"percentUp":0.13521,"total":3736},{"children":[{"children":[],"name":"支付成功","operation":"ringpaypasssmssucc","percentBefore":80.95238,"percentUp":0.00369,"total":102}],"name":"输入验证码","operation":"ringpaypasssms","percentBefore":3.20448,"percentPie":80.95238,"percentUp":0.00456,"total":126}],"name":"手环免密","operation":"ringpaypass","percentBefore":0.1423,"percentPie":98.21974,"percentUp":0.1423,"total":3932},{"children":[{"children":[],"name":"支付成功","operation":"fingerpaypasssucc","percentBefore":87.5014,"percentUp":50.88385,"total":1406018},{"children":[{"children":[],"name":"支付成功","operation":"fingerpaypasssmssucc","percentBefore":76.08684,"percentUp":3.15429,"total":87159}],"name":"输入验证码","operation":"fingerpaypasssms","percentBefore":7.12897,"percentPie":76.08684,"percentUp":4.14564,"total":114552}],"name":"指纹免密","operation":"fingerpaypass","percentBefore":58.15204,"percentPie":94.63037,"percentUp":58.15204,"total":1606852}],"name":"仅支付","operation":"payonly","percentPie":97.77087,"percentUp":100.0,"total":2763191}],"name":"用户有绑卡","operation":"tradebind","percentBefore":70.97887,"percentPie":100.0,"total":2969139}],"name":"创建订单","operation":"trade","percentPie":100.0,"total":4183131}],"successRateMap":{"支付成功率":58.52587,"仅支付成功率":82.44915,"绑卡并支付成功率":0.01516,"绑卡成功率":3.79587}}};
-    var data = {
-      roots: testData.data.pies
-    };
-    function numberWithCommas(x) {
-      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    }
-    G6.registerNode("treeNode", {
-      anchor: [
-        [0, 0.3], // 左中
-        [1, 0.3] // 右中
-      ],
-      draw(item) {
-        const group = item.getGraphicGroup();
-        const model = item.getModel();
-
-        var successPercent = model.percentPie || 100;
-        var success = successPercent / 100 * 360;
-        //成功扇形图
-        group.addShape("fan", {
-          attrs: {
-            x: 0,
-            y: 0,
-            rs: 30,
-            re: 10, 
-            startAngle: Math.PI / 180 * 0 + Math.PI / 180 * 270,
-            endAngle: Math.PI / 180 * success + Math.PI / 180 * 270,
-            // clockwise: false,
-            fill: "#a9ce97"
-          }
-        });
-        console.log({
-          x: 0,
-            y: 0,
-            rs: 30,
-            re: 10, 
-            startAngle: Math.PI / 180 * 0 + Math.PI / 180 * 270,
-            endAngle: Math.PI / 180 * success + Math.PI / 180 * 270,
-        })
-        //失败扇形图
-        const fan = group.addShape("fan", {
-          attrs: {
-            x: 0,
-            y: 0,
-            rs: 30,
-            re: 10,
-            startAngle: Math.PI / 180 * success + Math.PI / 180 * 270,
-            endAngle: Math.PI / 180 * 360 + Math.PI / 180 * 270,
-            // clockwise: false,
-            fill: "#f5b296"
-          }
-        });
-        group.addShape("text", {
-          attrs: {
-            x: 0,
-            y: 45,
-            text: model.name,
-            fontSize: 12,
-            fill: "#ccc",
-            textAlign: "center"
-          }
-        });
-        group.addShape("text", {
-          attrs: {
-            x: 0,
-            y: 60,
-            text: numberWithCommas(model.total),
-            fontSize: 12,
-            fill: "#333",
-            textAlign: "center"
-          }
-        });
-        group.addShape("text", {
-          attrs: {
-            x: 0,
-            y: 75,
-            text: model.percentUp ? model.percentUp.toFixed(2) + "%" : "",
-            fontSize: 12,
-            fill: "#333",
-            textAlign: "center"
-          }
-        });
-        if (model.percentBefore) {
-          group.addShape("text", {
-            attrs: {
-              x: -72,
-              y: 8,
-              text: model.percentBefore ? model.percentBefore.toFixed(2) + "%" : "",
-              fontSize: 12,
-              fill: "#333",
-              textAlign: "left"
+    const data = {
+      roots: [{
+        label: 'root',
+        children: [{
+          label: 'child1',
+          children: [
+            {
+              label: 'child\n1.1'
             }
-          });
-        }
-        return fan;
-      }
-    });
-
-    G6.registerEdge("smooth", {
-      getPath(item) {
-        const points = item.getPoints();
-        const start = points[0];
-        const end = points[points.length - 1];
-        const hgap = Math.abs(end.x - start.x);
-        if (end.x > start.x) {
-          return [
-            ["M", start.x, start.y],
-            [
-              "C",
-              start.x + hgap / 4,
-              start.y,
-              end.x - hgap / 2,
-              end.y,
-              end.x,
-              end.y
-            ]
-          ];
-        }
-        return [
-          ["M", start.x, start.y],
-          ["C", start.x - hgap / 4, start.y, end.x + hgap / 2, end.y, end.x, end.y]
-        ];
-      }
-    });
-    const layout = new G6.Layouts.CompactBoxTree({
-      getHGap: function getHGap() {
-        return 60;
-      },
-      getVGap: function getVGap() {
-        return 10;
-      }
-    });
+          ]
+        }, {
+          label: 'child2'
+        }]
+      }]
+    };
     const tree = new G6.Tree({
-      container: 'mountNode', // 容器ID
-      height: 820, // 画布高
-      layout,
-      fitView: "autoZoom" // 自动缩放
-    });
-    tree.node({
-      shape: "treeNode"
-    });
-    tree.edge({
-      shape: "smooth"
+      container: 'mountNode',
+      width: 500,
+      height: 500,
+      fitView: 'cc',
+      animate: true,
+      plugins: [new G6.Plugins['tool.highlightSubgraph']()]
     });
     tree.read(data);
-    tree.on("click", ev => {
-      console.log(ev.item);
-      console.log(ev);
-    });
+
+  tree.on('node:mouseenter', evt => {
+    console.log('node:mouseenter');
+    tree.highlightSubgraph([ evt.item ]);
+  });
+  tree.on('node:mouseleave', () => {
+    console.log('node:mouseleave');
+    tree.unhighlightGraph();
+  });
+  tree.on('node:click', ev => {
+    const item = ev.item;
+    const model = item.getModel();
+    if(model.collapsed){
+      tree.update(item, {
+        collapsed: false,
+      });
+    } else {
+      tree.update(item, {
+        collapsed: true,
+      });
+    }
+  });
   </script>
 </body>
 </html>
