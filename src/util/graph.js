@@ -6,7 +6,7 @@
 const BaseUtil = require('./base');
 const DomUtil = require('./dom');
 const GraphicUtil = require('./graphic');
-const G = require('@antv/g');
+const G = require('@antv/g/lib');
 
 module.exports = {
   /**
