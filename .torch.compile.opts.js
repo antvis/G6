@@ -1,7 +1,7 @@
 module.exports = {
   babelrc: {
     plugins: [
-      'transform-object-rest-spread',
+      '@babel/plugin-proposal-object-rest-spread',
       'transform-remove-strict-mode',
       [
         "module-resolver",
@@ -13,7 +13,7 @@ module.exports = {
       ],
     ],
     presets: [
-      'env',
+      "@babel/preset-env",
     ],
     sourceMaps: 'inline',
   },
@@ -22,5 +22,5 @@ module.exports = {
     'src/**/*.js',
     'plugins/**/*.js',
   ],
-  exclude: /(node_modules|bower_components)/,
+  exclude: /(node_modules|bower_components)/
 }
