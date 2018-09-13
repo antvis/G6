@@ -6,23 +6,40 @@
 const G6 = require('@antv/g6');
 const Util = G6.Util;
 
+function getMaskRect(graph) {
+  const width = graph.getWidth();
+  const height = graph.getHeight();
+  const tl = graph.getPointByDom({
+    x: 0,
+    y: 0
+  });
+  const br = graph.getPointByDom({
+    x: width,
+    y: height
+  });
+  return {
+    x: tl.x,
+    y: tl.y,
+    width: br.x - tl.x,
+    height: br.y - tl.y
+  };
+}
+
 G6.registerGuide('mask', {
   draw(item) {
     const group = item.getGraphicGroup();
     const graph = item.getGraph();
-    const box = graph.getBBox();
-
+    const maskRect = getMaskRect(graph);
     return group.addShape('rect', {
       attrs: {
-        x: box.minX - 100,
-        y: box.minY - 100,
-        width: (box.maxX - box.minX) * 1.4,
-        height: (box.maxY - box.minY) * 1.4,
-        fill: 'rgba(255, 255, 255, 0.8)'
+        ...maskRect,
+        fill: 'rgb(255, 255, 255)',
+        fillOpacity: 0.8
       },
       capture: false
     });
-  }
+  },
+  bboxCalculation: false
 });
 
 class Plugin {
@@ -34,22 +51,40 @@ class Plugin {
     graph.on('afterinit', () => {
       this.graph.highlightSubgraph = this.highlightSubgraph;
       this.graph.unhighlightGraph = this.unhighlightGraph;
+
+    });
+    graph.on('afterchange', () => {
+      let mask = graph.find('mask');
+      if (!mask) {
+        mask = graph.add('guide', {
+          shape: 'mask',
+          id: 'mask'
+        });
+        mask.hide();
+      }
+    });
+    graph.on('afterviewportchange', () => {
+      const mask = graph.find('mask');
+      if (mask) {
+        mask.forceUpdate();
+      }
     });
   }
   highlightSubgraph(items) {
     this.unhighlightGraph();
-    this.add('guide', {
-      shape: 'mask',
-      id: 'mask'
-    });
+    const mask = this.find('mask');
+    mask.toFront();
+    mask.show();
     items.forEach(item => {
-      this.toFront(item);
+      const group = item.getGraphicGroup();
+      group.toFront();
     });
+    this.draw();
   }
   unhighlightGraph() {
     // hide the mask
-    const mask = this.find('mask');
-    mask && this.remove(mask);
+    this.find('mask').hide();
+    this.draw();
   }
 }
 

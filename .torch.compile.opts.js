@@ -20,10 +20,7 @@ module.exports = {
   extensions: ['.js'],
   include: [
     'src/**/*.js',
-    'plugins/**/*.js'
+    'plugins/**/*.js',
   ],
-  exclude: [
-    'bower_components/**/*.js',
-    'node_modules/**/*.js',
-  ]
+  exclude: /(node_modules|bower_components)/
 }
