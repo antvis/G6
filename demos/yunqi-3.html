@@ -16,7 +16,7 @@
 
 <body>
   <div id="mountNode" style="position: relative;">
-    <img class="legend" width="220" src="https://gw.alipayobjects.com/zos/rmsportal/AuLKMNbRvKidugdUCaXz.png" style="position: absolute;right: 120px;"/>
+    <img class="legend" width="220" src="https://gw.alipayobjects.com/zos/rmsportal/AuLKMNbRvKidugdUCaXz.png" style="position: absolute;right: 320px;"/>
   </div>
   <script>
     $.getJSON('./assets/data/link-data.json', data => {
@@ -25,8 +25,9 @@
         container: 'mountNode',
         height: window.innerHeight, // 画布高
         plugins: [
-          new G6.Plugins['tool.fisheye'], 
-          new G6.Plugins['tool.highlightSubgraph'],
+        new G6.Plugins['tool.highlightSubgraph'](),
+          new G6.Plugins['tool.fisheye'](), 
+          
         ],
         fitView:'autoZoom',
       });
@@ -47,7 +48,7 @@
       graph.read(data);
       // 画布向左偏移 1/6 的画布kuandu
       const width = graph.getWidth();
-      graph.translate(-width/7, 0);
+      graph.translate(-width/6, 0);
       // 隐藏所有边
       graph.getEdges().forEach(edge=>{
         graph.hide(edge);
