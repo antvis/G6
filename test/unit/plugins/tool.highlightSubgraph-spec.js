@@ -35,29 +35,26 @@ describe('highlight subgraph test', () => {
     plugins: [ highlighter ]
   });
   graph.read(data);
-
   it('highlight', () => {
     const nodes = graph.getNodes();
     const edges = graph.getEdges();
     const reNodes = [ nodes[0], nodes[1] ];
     const reEdges = [ edges[0] ];
     graph.highlightSubgraph(reNodes.concat(reEdges));
-    const items = graph.getItems();
     const mask = graph.find('mask');
     expect(mask.isVisible()).eql(true);
+    graph.translate(100, 0);
   });
   it('unhighlight', () => {
     graph.unhighlightGraph();
-    const items = graph.getItems();
     const mask = graph.find('mask');
-    expect(mask).eql(undefined);
+    expect(mask.isVisible()).eql(false);
   });
   it('highlight again', () => {
     const nodes = graph.getNodes();
     const reNodes = [ nodes[0] ];
     const reEdges = [ ];
     graph.highlightSubgraph(reNodes.concat(reEdges));
-    const items = graph.getItems();
     const mask = graph.find('mask');
     expect(mask.isVisible()).eql(true);
   });
