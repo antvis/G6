@@ -33,7 +33,14 @@ Mixin.CFG = {
 Mixin.AUGMENT = {
   getBBox() {
     const itemGroup = this.get('_itemGroup');
-    return itemGroup.getBBox();
+    const itemMap = this.get('_itemMap');
+    let children = itemGroup.get('children');
+    children = children.filter(child => {
+      const item = itemMap[child.id];
+      const shapeObj = item.getShapeObj();
+      return shapeObj.bboxCalculation !== false;
+    });
+    return Util.getChildrenBBox(children);
   },
   getFitViewPadding() {
     return Util.toAllPadding(this.get('fitViewPadding'));

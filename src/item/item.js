@@ -307,6 +307,14 @@ class Item {
       return item.model.parent === id;
     });
   }
+  toFront() {
+    const group = this.group;
+    group.toFront();
+  }
+  toBack() {
+    const group = this.group;
+    group.toBack();
+  }
   destroy() {
     if (!this.destroyed) {
       const animate = this.animate;
