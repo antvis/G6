@@ -1,7 +1,11 @@
-# G6: JavaScript 图可视化引擎.
-![](https://gw.alipayobjects.com/zos/rmsportal/eWLVJWtDPsdREBKYYvfA.png)
+![](https://user-images.githubusercontent.com/6113694/45008751-ea465300-b036-11e8-8e2a-166cbb338ce2.png)
 
+[![](https://img.shields.io/travis/antvis/g6.svg)](https://travis-ci.org/antvis/g6)
 ![](https://img.shields.io/badge/language-javascript-red.svg)
+![](https://img.shields.io/badge/license-MIT-000000.svg)
+[![npm package](https://img.shields.io/npm/v/@antv/g6.svg)](https://www.npmjs.com/package/@antv/g6)
+[![NPM downloads](http://img.shields.io/npm/dm/@antv/g6.svg)](https://npmjs.org/package/@antv/g6)
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/antvis/g6.svg)](http://isitmaintained.com/project/antvis/g6 "Percentage of issues still open")
 
 [English README](README.md)
 
@@ -9,7 +13,7 @@ G6 是一个图可视化框架。它提供了一套图可视化的基础设置�
 
 [完整文档](https://www.yuque.com/antv/g6)
 
-<img src="https://gw.alipayobjects.com/zos/rmsportal/AuBFeGzzRRdHSKTIUYCq.gif" height=150><img src="https://cdn.nlark.com/yuque/0/2018/gif/93506/1535955277773-840190f8-836a-4bd6-875a-b3a18e6cebf1.gif" height=150><img src="https://gw.alipayobjects.com/zos/rmsportal/oJPPdGVFfHpJuEtgPqpw.gif" height=150>
+<img src="https://user-images.githubusercontent.com/6113694/44995293-02858600-afd5-11e8-840c-349e4730d63d.gif" height=150><img src="https://cdn.nlark.com/yuque/0/2018/gif/93506/1535955277773-840190f8-836a-4bd6-875a-b3a18e6cebf1.gif" height=150><img src="https://user-images.githubusercontent.com/6113694/44995332-2ba61680-afd5-11e8-8cab-db0e9d08ceb7.gif" height=150>
 
 <img src="https://gw.alipayobjects.com/zos/rmsportal/HQxYguinFOMIXrGQOABY.gif" height=150><img src="https://gw.alipayobjects.com/zos/rmsportal/nAugyFgrbrUWPmDIDiQm.gif" height=150>
 
@@ -76,3 +80,7 @@ Please let us know how can we help. Do check out [issues](https://github.com/ant
 请让我们知道您要解决或贡献什么，所以在贡献之前请先提交 [issues](https://github.com/antvis/g6/issues) 描述 bug 或建议。
 
 成为一个贡献者前请阅读 [代码贡献规范](https://github.com/antvis/g6/blob/master/CONTRIBUTING.zh-CN.md).
+
+## License
+
+[MIT license](./LICENSE).

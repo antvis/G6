@@ -4,7 +4,7 @@
  * @ignore
  */
 
-const G = require('@antv/g');
+const G = require('@antv/g/lib');
 const Util = require('../../util/');
 const Mixin = function() {};
 
