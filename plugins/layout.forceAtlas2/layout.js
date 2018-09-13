@@ -246,6 +246,7 @@ class Layout {
           model.y = this.nodes[i].y;
         }
         graph.updateNodePosition();
+        graph.emit('afterlayout');
         const fitView = graph.get('fitView');
         fitView && graph.setFitView(fitView);
         worker.terminate();
@@ -263,6 +264,7 @@ class Layout {
         model.y = this.nodes[i].y;
       }
       graph.updateNodePosition();
+      graph.emit('afterlayout');
       const fitView = graph.get('fitView');
       fitView && graph.setFitView(fitView);
       onLayoutComplete();

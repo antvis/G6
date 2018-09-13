@@ -61,10 +61,7 @@ Mixin.CFG = {
         element.hide();
       });
     } else {
-      element.set('capture', false);
-      element.animate(props, Global.updateDuration, Global.updateEasing, function() {
-        element.set('capture', true);
-      });
+      element.animate(props, Global.updateDuration, Global.updateEasing);
     }
   }
 };
@@ -82,7 +79,7 @@ Mixin.AUGMENT = {
       controllers.animate = animateController;
       const animateDraw = Util.debounce(() => {
         animateController.run();
-      }, 16);
+      }, 450);
       this.set('_animateDraw', animateDraw);
     }
   }
