@@ -36,6 +36,7 @@ function panCanvas(graph, button = 'left', panBlank = false) {
     });
   });
   graph.behaviourOn('dragstart', () => {
+    graph.forcePreventAnimate(true);
     graph.css({
       cursor: '-webkit-grabbing'
     });
@@ -54,6 +55,7 @@ function panCanvas(graph, button = 'left', panBlank = false) {
     graph.css({
       cursor: '-webkit-grab'
     });
+    graph.forcePreventAnimate(false);
   });
   graph.behaviourOn('canvas:mouseleave', () => {
     lastPoint = undefined;
