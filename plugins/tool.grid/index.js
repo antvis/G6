@@ -110,7 +110,7 @@ class Plugin {
     return this['_get' + Util.upperFirst(type) + 'Path']();
   }
   // get dot style grid path
-  _getPointPath() {
+  _getDotPath() {
     const graph = this.graph;
     const width = graph.getWidth();
     const height = graph.getHeight();
