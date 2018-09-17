@@ -1,6 +1,15 @@
+
 # ChangeLog
 
 ---
+
+#### 2.1.1
+
+`2018-09-17`
+
+* fix: tool.highlightSubgraph calculate box bug
+* fix: plugin.grid.Closes #479
+* chore(dev): upgrade babel & torchjs
 
 #### 2.1.0
 
