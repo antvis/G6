@@ -30,11 +30,12 @@ G6.registerGuide('mask', {
     const group = item.getGraphicGroup();
     const graph = item.getGraph();
     const maskRect = getMaskRect(graph);
+    const model = item.getModel();
+    const { style } = model;
     return group.addShape('rect', {
       attrs: {
         ...maskRect,
-        fill: 'rgb(255, 255, 255)',
-        fillOpacity: 0.8
+        ...style
       },
       capture: false
     });
@@ -44,7 +45,12 @@ G6.registerGuide('mask', {
 
 class Plugin {
   constructor(options) {
-    Util.mix(this, options);
+    Util.mix(this, {
+      maskStyle: {
+        fill: 'rgb(255, 255, 255)',
+        fillOpacity: 0.8
+      }
+    }, options);
   }
   init() {
     const graph = this.graph;
@@ -58,7 +64,8 @@ class Plugin {
       if (!mask) {
         mask = graph.add('guide', {
           shape: 'mask',
-          id: 'mask'
+          id: 'mask',
+          style: this.maskStyle
         });
         mask.hide();
       }

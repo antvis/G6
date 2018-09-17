@@ -14,43 +14,184 @@
 <body>
   <div id="mountNode"></div>
   <script>
-    const data = {
-      roots: [{
-        label: 'root',
-        children: [{
-          label: 'child1',
+console.log(G6.version);
+G6.registerNode('card', {
+  collapseButtonUrl:
+    'https://gw.alipayobjects.com/zos/rmsportal/GGzWwlTjflbJHmXhjMXg.svg',
+  expandButtonUrl:
+    'https://gw.alipayobjects.com/zos/rmsportal/DzWdTiwanggjaWKwcnWZ.svg',
+  draw(item) {
+    const group = item.getGraphicGroup();
+    const { main, value, percent, type, collapsed, children } = item.getModel();
+    const width = 170;
+    const height = 80;
+    const buttonWidth = 14;
+    const buttonHeight = 14;
+    let button = '';
+    if (children && children.length > 0) {
+      button =
+        '<img class="ce-button" src=' +
+        (collapsed ? this.expandButtonUrl : this.collapseButtonUrl) +
+        '>';
+    }
+    const html = G6.Util.createDOM(`
+      <div class="card-container">
+        <h1 class="main-text">${main}</h1>
+        <p>
+          <span class="value-text">${value}</span>
+          <span class="percent-text">${percent}</span>
+        </p>
+      </div>
+    `);
+    const keyShape = group.addShape('dom', {
+      attrs: {
+        x: 0,
+        y: 0,
+        width,
+        height,
+        html,
+      },
+    });
+    group.addShape('dom', {
+      attrs: {
+        x: width / 2 - buttonWidth / 2,
+        y: height - buttonHeight + 2,
+        width: buttonWidth,
+        height: buttonHeight,
+        html: button,
+      },
+    });
+    return group;
+  },
+  anchor: [[0.5, 0], [0.5, 1]],
+});
+const data = {
+  roots: [
+    {
+      main: '主指标一',
+      value: 123111,
+      percent: '100%',
+      type: '1',
+      children: [
+        {
+          main: '指标 1',
+          value: 12312,
+          percent: '39%',
+          type: '2',
           children: [
             {
-              label: 'child\n1.1'
-            }
-          ]
-        }, {
-          label: 'child2'
-        }]
-      }]
-    };
-    const tree = new G6.Tree({
-      container: 'mountNode',
-      width: 500,
-      height: 500,
-      fitView: 'cc',
-      animate: true,
-      plugins: [new G6.Plugins['tool.highlightSubgraph']()]
-    });
-    tree.read(data);
-
-  tree.on('node:mouseenter', evt => {
-    console.log('node:mouseenter');
-    tree.highlightSubgraph([ evt.item ]);
-  });
-  tree.on('node:mouseleave', () => {
-    console.log('node:mouseleave');
-    tree.unhighlightGraph();
-  });
-  tree.on('node:click', ev => {
-    const item = ev.item;
-    const model = item.getModel();
-    if(model.collapsed){
+              main: '指标 1.1',
+              value: 111,
+              percent: '90%',
+              type: '3',
+              children: [
+                {
+                  main: '指标 1.11',
+                  value: 111,
+                  percent: '90%',
+                  type: '113',
+                },
+                {
+                  main: '指标 1.12',
+                  value: 111,
+                  percent: '90%',
+                  type: '14',
+                },
+              ],
+            },
+            {
+              main: '指标 1.2',
+              value: 111,
+              percent: '90%',
+              type: '4',
+              children: [
+                {
+                  main: '指标 1.21',
+                  value: 111,
+                  percent: '90%',
+                  type: '5',
+                },
+                {
+                  main: '指标 1.22',
+                  value: 111,
+                  percent: '90%',
+                  type: '6',
+                },
+                {
+                  main: '指标 1.23',
+                  value: 111,
+                  percent: '90%',
+                  type: '7',
+                },
+                {
+                  main: '指标 1.24',
+                  value: 111,
+                  percent: '90%',
+                  type: '8',
+                },
+              ],
+            },
+            {
+              main: '指标 1.3',
+              value: 111,
+              percent: '90%',
+              type: '9',
+            },
+            {
+              main: '指标 1.4',
+              value: 111,
+              percent: '90%',
+              type: '10',
+            },
+          ],
+        },
+        {
+          main: '指标 2',
+          value: 12312,
+          percent: '79%',
+          type: '11',
+        },
+        {
+          main: '指标 3',
+          value: 12312,
+          percent: '79%',
+          type: '12',
+        },
+      ],
+    },
+  ],
+};
+const tree = new G6.Tree({
+  container: 'mountNode',
+  height: 500,
+  renderer: 'svg',
+  layout: new G6.Layouts.CompactBoxTree({
+    // direction: 'LR', // 方向（LR/RL/H/TB/BT/V）
+    getHGap: function getHGap() /* d */ {
+      // 横向间距
+      return 20;
+    },
+    getVGap: function getVGap() /* d */ {
+      // 竖向间距
+      return 24;
+    },
+    direction: 'TB',
+  }),
+  fitView: 'tl',
+});
+tree.node({
+  shape: 'card',
+});
+tree.edge({
+  shape: 'polyline',
+});
+tree.on('node:click', ev => {
+  const { domEvent, item } = ev;
+  const { target } = domEvent;
+  const { collapsed, type } = item.getModel();
+  const parent = item.getParent();
+  if (target.className === 'ce-button') {
+    if (collapsed) {
       tree.update(item, {
         collapsed: false,
       });
@@ -59,7 +200,22 @@
         collapsed: true,
       });
     }
-  });
+  } else {
+    // 点击展开某个节点 同级其他节点收起
+    const children = parent && parent.getModel().children;
+    if (children && children.length > 0 && type) {
+      const isHideArr = children.filter(elem => type !== elem.type);
+      const isShowArr = children.filter(elem => type === elem.type);
+      isHideArr.forEach(element => {
+        tree.update(element.id, { collapsed: true });
+      });
+      isShowArr.forEach(element => {
+        tree.update(element.id, { collapsed: false });
+      });
+    }
+  }
+});
+tree.read(data);
   </script>
 </body>
 </html>
