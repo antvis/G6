@@ -8,8 +8,8 @@ const Util = G6.Util;
 const Fisheye = require('./tool');
 class Plugin {
   constructor(options) {
-    Util.mix(this, {
-    }, options);
+    Util.mix(this, options);
+    this.options = options;
   }
   init() {
     const graph = this.graph;

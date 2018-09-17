@@ -8,7 +8,9 @@ const Util = G6.Util;
 
 class Plugin {
   constructor(options) {
-    Util.mix(this, options);
+    Util.mix(this, {
+      ratio: 2
+    }, options);
   }
   init() {
     this.graph.on('afterchange', () => {
@@ -37,7 +39,7 @@ class Plugin {
 
       if (labelWidth === 0) return;
       const ratio = labelWidth / nodeWidth;
-      if (ratio > 2) {
+      if (ratio > this.ratio) {
         label.hide();
       } else {
         label.show();

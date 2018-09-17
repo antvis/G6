@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="./assets/jquery-3.2.1.min.js"></script>
+  <script src="../build/g6.js"></script>
+  <script src="./assets/d3-4.13.0.min.js"></script>
+  <script src="../build/plugins.js"></script>
+  <title>云栖 demo 2</title>
+</head>
+<style>
+body{
+  background: #2E2E2E;
+}
+</style>
+<body>
+  <div id="mountNode"></div>
+  <script>
+    const { forceSimulation, forceLink, forceManyBody, forceX, forceY, forceCollide } = d3;
+    const {Util} = G6;
+    setTimeout(()=>{
+    $.getJSON('./assets/data/g6-actived-system.json', data => {
+      // for (let index = 0; index < 160; index++) {
+      //   data.nodes.push({
+      //     pv: Math.random()*13920,
+      //     domain: 1
+      //   });
+      // }
+      // data.nodes.forEach((node,index)=>{
+      //   node.index = index;
+      // });
+      // console.log(JSON.stringify(data, null, '  '));
+      data.nodes = data.nodes.slice(0, 600);
+      data.nodes.sort((a, b)=>{
+        return b.pv-a.pv;
+      });
+      data.nodes.forEach((node, index)=>{
+        node.index = index;
+      });
+      // 设置映射
+      const Mapper = G6.Plugins['tool.mapper'];
+      const colors = ['#2f4b7c', '#665191', '#a05195', '#d45087', '#f95d6a', '#ff7c43', '#ffa600'];
+      const nodeColorMapper = new Mapper('node', 'index', 'color', colors);
+      const nodeSizeMapper = new Mapper('node', 'pv', 'size', [6, 32], {
+        scaleCfg: {
+          type: 'log'
+        }
+      });
+      let simulation;
+
+      const graph = new G6.Graph({
+        container: 'mountNode',
+        height: window.innerHeight,
+        fitView: 'cc',
+        plugins: [nodeColorMapper, nodeSizeMapper],
+        layout: {
+          auto: 'once',
+          processer(nodes) {
+            // 按 100，剩余所有，分割节点数据集
+            const nodes_100 = [];
+            const nodes_left = [];
+            const width = graph.getWidth();
+            const height = graph.getHeight();
+            nodes.forEach(node => {
+              if (nodes_100.length < 100 && Math.random() < 0.2) {
+                nodes_100.push(node);
+              } else {
+                graph.hide(node.id);
+                nodes_left.push(node);
+              }
+            });
+            if (simulation) {
+              simulation.alphaTarget(0.3).restart();
+            } else {
+              simulation = forceSimulation(nodes_100)
+                .force('collision', forceCollide().radius(model => {
+                  return model.size / 2 * 1.2;
+                }).iterations(2))
+                .velocityDecay(0.2)
+                .force("x", d3.forceX().strength(0.001))
+                .force("y", d3.forceY().strength(0.001))
+                .on('tick', () => {
+                  graph.updateNodePosition();
+                });
+            }
+            // 每隔一段时间添加一个节点
+            setTimeout(()=>{
+              let concatNodes = nodes_100;
+              const interval = setInterval(()=>{
+                if(nodes_left.length>0) {
+                  const node = nodes_left[parseInt(Math.random()*nodes_left.length)];
+                  Util.remove(nodes_left, node);
+                  // node.x = 0;
+                  // node.y = 0;
+                  concatNodes = concatNodes.concat(node);
+                  simulation.nodes(concatNodes)
+                  .alpha(2).restart();
+                  setTimeout(()=>{
+                    if(node.x && node.y && node.x !==0 && node.y !== 0) {
+                      graph.find(node.id).show();
+                    }
+                  }, 32);
+                  
+                } else {
+                  console.log(333)
+                  simulation
+                  .force('collision', forceCollide().radius(model => {
+                  return model.size / 2 * 1.4;
+                }).iterations(2))
+                  .alpha(2).restart();
+                  // clearInterval(interval);
+                }
+              }, 16)
+            }, 3000);
+          }
+        }, 
+      });
+      graph.edge({
+        style: {
+          stroke: '#A3B1BF',
+          strokeOpacity: 0.45
+        }
+      });
+      graph.read(data);
+      graph.translate(-300, 0)
+    });
+    }, 5000)
+
+
+  </script>
+</body>
+</html>
+

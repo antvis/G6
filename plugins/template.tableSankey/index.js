@@ -65,7 +65,9 @@ G6.registerGuide('col-names', {
     const group = item.getGraphicGroup();
     const graph = item.getGraph();
     const nodes = graph.getNodes();
+    const model = item.getModel();
     const colMap = {};
+    const { textStyle } = model;
     let minY = Infinity;
     nodes.forEach(node => {
       const model = node.getModel();
@@ -86,8 +88,7 @@ G6.registerGuide('col-names', {
           text: field,
           x,
           y: minY - 12,
-          fill: '#333',
-          textAlign: 'center'
+          ...textStyle
         }
       });
     });
@@ -117,6 +118,21 @@ class Plugin {
        * @type  {boolean} showColName - show col name or not
        */
       showColName: true,
+
+      /**
+       * @type  {object} colNameTextStyle - col name text style
+       */
+      colNameTextStyle: {
+        fill: '#333',
+        textAlign: 'center'
+      },
+
+      /**
+       * @type  {object} labelStyle - label style
+       */
+      labelStyle: {
+
+      },
 
       /**
        * @type  {string} align - could be `sankeyLeft` `sankeyRight` `sankeyCenter` `sankeyJustify`
@@ -234,19 +250,19 @@ class Plugin {
     const graph = this.graph;
     const width = graph.getWidth();
     graph.node({
-      label(model) {
-        if (model.x > width / 2) {
-          return {
-            text: model.fieldValue,
-            textAlign: 'right'
-          };
-        }
-        return {
+      label: model => {
+        const label = {
           text: model.fieldValue,
-          textAlign: 'left'
+          ...this.labelStyle
         };
+        if (model.x > width / 2) {
+          label.textAlign = 'right';
+        } else {
+          label.textAlign = 'left';
+        }
+        return label;
       },
-      labelOffsetX(model) {
+      labelOffsetX: model => {
         const labelGap = 8;
         if (model.x > width / 2) {
           return -(model.x1 - model.x0) / 2 - labelGap;
@@ -259,7 +275,8 @@ class Plugin {
     const guides = [];
     if (this.showColName) {
       guides.push({
-        shape: 'col-names'
+        shape: 'col-names',
+        textStyle: this.colNameTextStyle
       });
     }
     return guides;

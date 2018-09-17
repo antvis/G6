@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="./assets/jquery-3.2.1.min.js"></script>
+  <script src="../build/g6.js"></script>
+  <script src="./assets/d3-4.13.0.min.js"></script>
+  <script src="../build/plugins.js"></script>
+  <title>云栖 demo 2</title>
+</head>
+<style>
+body{
+  background: #2E2E2E;
+}
+</style>
+<body>
+  <div id="mountNode"></div>
+  <script>
+    const { forceSimulation, forceLink, forceManyBody, forceX, forceY, forceCollide } = d3;
+    const {Util} = G6;
+    setTimeout(()=>{
+      $.getJSON('./assets/data/tr.json', data => {
+        const nodeMap = {};
+        data.nodes.forEach((node, index)=>{
+          node.rank = node.value;
+          nodeMap[node.id] = node;
+          node.id = index;
+        });
+        data.edges.forEach(edge=>{
+          // console.log(nodeMap[edge.source].index, nodeMap[edge.target].index)
+          edge.source = nodeMap[edge.source].id;
+          edge.target = nodeMap[edge.target].id;
+          edge.id = edge.source + '-' + edge.target;
+        });
+        let simulation;
+        const graph = new G6.Graph({
+          container: 'mountNode',
+          height: window.innerHeight, // 画布高
+          fitView: 'cc',
+          layout: {
+            auto: 'once',
+            processer(nodes, edges) {
+              const forest = Util.maxSpanningForest({nodes, edges});
+              forest.edges.forEach(edge=>{
+                edge.isTreeEdge = true;
+              });
+              nodes.forEach(node=>{
+                node.treeEdgeCount = 0;
+                graph.find(node.id).getEdges().forEach(edge=>{
+                  const edgeModel = edge.getModel()
+                  if(edgeModel.isTreeEdge){
+                    node.treeEdgeCount++;
+                    node.treeEdge = edgeModel;
+                  }
+                });
+                if(node.treeEdgeCount === 1){
+                  let fColor;
+                  if(node.id === node.treeEdge.source){
+                    fColor = graph.find(node.treeEdge.target).getModel().color
+                  } else {
+                    fColor = graph.find(node.treeEdge.source).getModel().color
+                  }
+                  graph.update(node.id, {
+                    fColor
+                  });
+                }
+              });
+              if (simulation) {
+                simulation.alphaTarget(0.3).restart();
+              } else {
+                simulation = forceSimulation(nodes)
+                  .force('charge', forceManyBody())
+                  .force('link', forceLink(edges).id(model => {
+                    return model.id;
+                  }))
+                  .force('collision', forceCollide().radius(model => {
+                    return model.size / 2 * 1.2;
+                  }))
+                  .force('y', forceY())
+                  .force('x', forceX())
+                  .on('tick', () => {
+                    graph.updateNodePosition();
+                    graph.emit('afterlayout');
+                  });
+              }
+              const noTreeEdges = edges.filter(edge=>{
+                return !edge.isTreeEdge;
+              });
+              setTimeout(()=>{
+                setInterval(()=>{
+                  const edge = noTreeEdges[parseInt(Math.random()*noTreeEdges.length)];
+                  if(edge) {
+                    graph.find(edge.id).hide();
+                    Util.remove(noTreeEdges, edge);
+                    Util.remove(edges, edge);
+                  simulation
+                  .force('link', forceLink(edges).distance(20).strength(1).id(model => {
+                    return model.id;
+                  }))
+                  .alphaTarget(0.3)
+                  .restart();
+                }
+              }, 32)
+            }, 3000);
+          }
+        }, 
+      });
+      graph.node({
+        size: 6,
+        color(model) {
+          const colors = ['#a05195', '#d45087', '#f95d6a', '#ff7c43', '#ffa600'];
+          return model.fColor ? model.fColor: colors[parseInt(Math.random()*colors.length)];
+        },
+      });
+      graph.edge({
+        style: {
+          stroke: '#666',
+          strokeOpacity: 0.45,
+          lineWidth: 1
+        }
+      });
+      graph.read(data);
+      graph.zoom(2)
+    });
+    }, 5000);
+
+  </script>
+</body>
+</html>
+
