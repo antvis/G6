@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="./assets/jquery-3.2.1.min.js"></script>
+  <script src="../build/g6.js"></script>
+  <script src="../build/plugins.js"></script>
+  <title>云栖 demo 1</title>
+</head>
+<style>
+body{
+  background: #2E2E2E;
+}
+</style>
+<body>
+  <div id="mountNode"></div>
+  <script>
+    $.getJSON('./assets/data/usa-president.json', table => {
+      setTimeout(()=>{
+        // table.forEach(sub=>{
+        //   sub.age_decade = parseInt(sub.age_decade/10)*10;
+        // });
+        // console.log(JSON.stringify(table, null, '  '));
+        
+        // table combine field value view
+        setTimeout(()=>{
+          const combineFieldViewCfg = {
+            combine({ field, value }) {
+              return field + value;
+            }
+          };
+
+          // table full view cfg
+          const fullViewCfg = {
+            combine({ field, value,colIndex,rowIndex }) {
+              return field + value + colIndex + rowIndex;
+            }
+          };
+
+          const sankeyPlugin = new G6.Plugins['template.tableSankey']({
+            padding: [ 40, 24, 24, 40 ],
+            table,
+            colNameTextStyle: {
+              fill: 'white',
+              fontSize: 16,
+              fontWeight: 900,
+              textAlign: 'center'
+            },
+            labelStyle: {
+              fill: 'white',
+              fontSize: 12,
+              fillOpacity: 0.65
+            },
+            fields: ['president', 'birth_place', 'age_decade', 'party', 'sgin'],
+            onBeforeRender(graph) {
+              graph.node({
+                color(model) {
+                  const colors = ['#003f5c', '#2f4b7c', '#665191', '#a05195', '#d45087', '#f95d6a', '#ff7c43', '#ffa600'];
+                  return colors[model.rowIndex%10];
+                },
+                style: {
+                  stroke: null
+                }
+              });
+              graph.edge({
+                style: {
+                  stroke: '#A3B1BF',
+                  strokeOpacity: 0.45
+                }
+              });
+            },
+            ...fullViewCfg
+          })
+          const graph = new G6.Graph({
+            container: 'mountNode',
+            height: window.innerHeight, // 画布高
+            fitView: 'cc',
+            animate: true,
+            plugins: [sankeyPlugin]
+          });
+          setTimeout(()=>{
+            // graph.read({});
+            sankeyPlugin.change(combineFieldViewCfg);
+          }, 2000);
+          setTimeout(()=>{
+            sankeyPlugin.change({
+              fields: ['president', 'birth_place', 'party', 'sgin'],
+            });
+          }, 4000);
+          setTimeout(()=>{
+            sankeyPlugin.change({
+              fields: ['president', 'birth_place', 'party'],
+            });
+          }, 6000);
+          setTimeout(()=>{
+            sankeyPlugin.change({
+              fields: ['president', 'birth_place', 'party', 'age_decade'],
+            });
+          }, 8000);
+        }, 0);
+      }, 2000);
+
+
+    });
+  </script>
+</body>
+</html>
+
