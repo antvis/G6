@@ -12,6 +12,16 @@ const Mixin = function() {};
 
 Util.augment(Mixin, {
   createPath() {},
+  // temporary solution
+  isPointInPath(x, y) {
+    if (this._cfg.el) {
+      const box = this._cfg.el.getBBox();
+      if (x <= box.x + box.width && y <= box.y + box.height && x >= box.x && y >= box.y) {
+        return true;
+      }
+    }
+    return false;
+  },
   drawInner(context) {
     let { html, x, y, width, height } = this._attrs;
     const canvas = this.get('canvas');

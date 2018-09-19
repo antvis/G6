@@ -3,7 +3,6 @@
  * @author huangtonger@aliyun.com
  */
 
-const G = require('@antv/g/lib');
 const BaseUtil = require('./base');
 const tolerance = 0.001;
 const MathUtil = {
@@ -135,7 +134,7 @@ const MathUtil = {
    */
   applyMatrix(point, matrix, tag = 1) {
     const vector = [ point.x, point.y, tag ];
-    G.MatrixUtil.vec3.transformMat3(vector, vector, matrix);
+    BaseUtil.vec3.transformMat3(vector, vector, matrix);
     return {
       x: vector[0],
       y: vector[1]
@@ -149,9 +148,9 @@ const MathUtil = {
    * @return {object} transformed point
    */
   invertMatrix(point, matrix, tag = 1) {
-    const inversedMatrix = G.MatrixUtil.mat3.invert([], matrix);
+    const inversedMatrix = BaseUtil.mat3.invert([], matrix);
     const vector = [ point.x, point.y, tag ];
-    G.MatrixUtil.vec3.transformMat3(vector, vector, inversedMatrix);
+    BaseUtil.vec3.transformMat3(vector, vector, inversedMatrix);
     return {
       x: vector[0],
       y: vector[1]
@@ -221,4 +220,4 @@ const MathUtil = {
     return Math.acos((x1 * x2 + y1 * y2) / (v1 * v2));
   }
 };
-module.exports = BaseUtil.mix({}, G.MatrixUtil, MathUtil);
+module.exports = BaseUtil.mix({}, BaseUtil, MathUtil);
