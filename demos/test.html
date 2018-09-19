@@ -13,6 +13,38 @@
 
 <body>
   <div id="mountNode"></div>
+  <style>
+    /* 此处书写样式代码，支持 less scss */
+    /* @import 'antd/dist/antd.css'; */
+    .card-container {
+      width: 170px;
+      height: 74px;
+      border: 1px solid #DBDBDB;
+      border-radius: 4px;
+      position: relative;
+    }
+    .card-container .main-text{
+      text-align: center;
+      margin: 12px 14px;
+      padding-bottom: 8px;
+      margin-bottom: 0px;
+      font-size: 16px;
+      border-bottom: 1px solid #DBDBDB;
+    }
+    .card-container p{
+      font-size: 12px;
+      margin: 8px;
+    }
+    .card-container .value-text{
+      margin-left: 12px;
+      text-align: left;
+    }
+    .card-container .percent-text{
+      margin-right: 12px;
+      float: right;
+      color: red
+    }
+  </style>
   <script>
 console.log(G6.version);
 G6.registerNode('card', {

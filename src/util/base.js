@@ -4,10 +4,10 @@
  * @see https://github.com/lodash/lodash
  */
 const MAX_LEVEL = 5;
-const G = require('@antv/g/lib');
+const Util = require('@antv/util/lib');
 
 const BaseUtil = {
-  ...G.CommonUtil,
+  ...Util,
   lowerFirst: require('lodash/lowerFirst'),
   isPlainObject: require('lodash/isPlainObject'),
   indexOf: require('lodash/indexOf'),
