@@ -3,10 +3,9 @@
  * @author huangtonger@aliyun.com
  */
 
-const G = require('@antv/g/lib');
 const BaseUtil = require('./base');
 const DomUtil = {};
-BaseUtil.mix(DomUtil, G.DomUtil, {
+BaseUtil.mix(DomUtil, {
   /**
    * add event listener
    * @param  {object} target - event source
@@ -40,7 +39,7 @@ BaseUtil.mix(DomUtil, G.DomUtil, {
   createDOM(str, css) {
     let dom;
     if (BaseUtil.isString(str)) {
-      dom = G.DomUtil.createDom(str);
+      dom = BaseUtil.createDom(str);
     } else {
       dom = str;
     }
@@ -54,14 +53,14 @@ BaseUtil.mix(DomUtil, G.DomUtil, {
       return dom;
     };
     dom.css = function(obj) {
-      G.DomUtil.modifyCSS(dom, obj);
+      BaseUtil.modifyCSS(dom, obj);
       return dom;
     };
     dom.width = function() {
-      return G.DomUtil.getWidth(dom);
+      return BaseUtil.getWidth(dom);
     };
     dom.height = function() {
-      return G.DomUtil.getHeight(dom);
+      return BaseUtil.getHeight(dom);
     };
     dom.destroy = function() {
       dom.parentNode && dom.parentNode.removeChild(dom);
