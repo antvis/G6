@@ -54,11 +54,8 @@ class Plugin {
   }
   init() {
     const graph = this.graph;
-    graph.on('afterinit', () => {
-      this.graph.highlightSubgraph = this.highlightSubgraph;
-      this.graph.unhighlightGraph = this.unhighlightGraph;
-
-    });
+    graph.highlightSubgraph = this.highlightSubgraph;
+    graph.unhighlightGraph = this.unhighlightGraph;
     graph.on('afterchange', () => {
       let mask = graph.find('mask');
       if (!mask) {
