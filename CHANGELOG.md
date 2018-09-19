@@ -1,7 +1,20 @@
 
+n.n.n / 2018-09-19
+==================
+
+  * publish 2.1.2-beta
+  * Release 2.1.1
+
 # ChangeLog
 
 ---
+
+#### 2.1.2
+
+`2018-09-19`
+
+* fix: dom getShape bug.Closes #472
+* fix: template.maxSpanningForest bug
 
 #### 2.1.1
 
