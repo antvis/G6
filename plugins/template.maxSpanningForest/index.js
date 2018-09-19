@@ -91,9 +91,7 @@ class Plugin {
       const textDisplay = new G6.Plugins['tool.textDisplay']();
       graph.addPlugin(textDisplay);
     }
-    const highlighter = new G6.Plugins['tool.highlightSubgraph']();
     const freezeSize = new G6.Plugins['tool.freezeSize']();
-    graph.addPlugin(highlighter);
     graph.addPlugin(freezeSize);
     graph.on('afteritemdraw', ({ item }) => {
       const label = item.getLabel();
@@ -103,6 +101,10 @@ class Plugin {
           y: 0
         });
       }
+    });
+    graph.on('afterinit', () => {
+      const highlighter = new G6.Plugins['tool.highlightSubgraph']();
+      graph.addPlugin(highlighter);
     });
     graph.on('beforeinit', () => {
       let layout = graph.get('layout');
