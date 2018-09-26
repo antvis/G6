@@ -12,7 +12,8 @@ class Node extends Item {
       type: 'node',
       isNode: true,
       zIndex: 3,
-      edges: []
+      edges: [],
+      linkable: true
     };
     Util.mix(defaultCfg, cfg);
     super(defaultCfg);
