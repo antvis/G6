@@ -23,8 +23,8 @@ const G6 = {
   registerGuide: Shape.registerGuide,
   registerBehaviour: Handler.registerBehaviour,
   version,
-  track(enable) {
-    Global.trackable = enable;
+  track(track) {
+    Global.track = track;
   }
 };
 require('./track');
