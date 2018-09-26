@@ -37,8 +37,11 @@ Mixin.AUGMENT = {
     let children = itemGroup.get('children');
     children = children.filter(child => {
       const item = itemMap[child.id];
-      const shapeObj = item.getShapeObj();
-      return shapeObj.bboxCalculation !== false;
+      if (item) {
+        const shapeObj = item.getShapeObj();
+        return shapeObj.bboxCalculation !== false;
+      }
+      return false;
     });
     return Util.getChildrenBBox(children);
   },
