@@ -76,7 +76,7 @@ Shape.registerEdge('common', {
     let label = this.getLabel(item);
     const group = item.getGraphicGroup();
     const model = item.getModel();
-    const { labelOffsetX, labelOffsetY } = model;
+    const { labelOffsetX, labelOffsetY, labelRotate } = model;
     if (label) {
       const center = keyShape.getPoint(0.5);
       if (!center) {
@@ -101,7 +101,7 @@ Shape.registerEdge('common', {
         fill: 'white'
       };
       const style = model.labelRectStyle ? Util.mix({}, defaultStyle, model.labelRectStyle) : defaultStyle;
-      group.addShape('rect', {
+      const rect = group.addShape('rect', {
         attrs: Util.mix({}, style, {
           x: textBox.minX - padding[3],
           y: textBox.minY - padding[0],
@@ -109,6 +109,22 @@ Shape.registerEdge('common', {
           height: textBox.maxY - textBox.minY + padding[0] + padding[2]
         })
       });
+      if (labelRotate) {
+        const centerX = (textBox.maxX + textBox.minX) / 2;
+        const centerY = (textBox.maxY + textBox.minY) / 2;
+
+        // labelRotate
+        label.transform([
+          [ 't', -centerX, -centerY ],
+          [ 'r', labelRotate, labelRotate ],
+          [ 't', centerX, centerY ]
+        ]);
+        rect.transform([
+          [ 't', -centerX, -centerY ],
+          [ 'r', labelRotate, labelRotate ],
+          [ 't', centerX, centerY ]
+        ]);
+      }
       Util.toFront(label);
     }
   },
