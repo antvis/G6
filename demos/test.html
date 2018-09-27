@@ -46,208 +46,123 @@
     }
   </style>
   <script>
-console.log(G6.version);
-G6.registerNode('card', {
-  collapseButtonUrl:
-    'https://gw.alipayobjects.com/zos/rmsportal/GGzWwlTjflbJHmXhjMXg.svg',
-  expandButtonUrl:
-    'https://gw.alipayobjects.com/zos/rmsportal/DzWdTiwanggjaWKwcnWZ.svg',
-  draw(item) {
-    const group = item.getGraphicGroup();
-    const { main, value, percent, type, collapsed, children } = item.getModel();
-    const width = 170;
-    const height = 80;
-    const buttonWidth = 14;
-    const buttonHeight = 14;
-    let button = '';
-    if (children && children.length > 0) {
-      button =
-        '<img class="ce-button" src=' +
-        (collapsed ? this.expandButtonUrl : this.collapseButtonUrl) +
-        '>';
-    }
-    const html = G6.Util.createDOM(`
-      <div class="card-container">
-        <h1 class="main-text">${main}</h1>
-        <p>
-          <span class="value-text">${value}</span>
-          <span class="percent-text">${percent}</span>
-        </p>
-      </div>
-    `);
-    const keyShape = group.addShape('dom', {
-      attrs: {
-        x: 0,
-        y: 0,
-        width,
-        height,
-        html,
-      },
-    });
-    group.addShape('dom', {
-      attrs: {
-        x: width / 2 - buttonWidth / 2,
-        y: height - buttonHeight + 2,
-        width: buttonWidth,
-        height: buttonHeight,
-        html: button,
-      },
-    });
-    return group;
-  },
-  anchor: [[0.5, 0], [0.5, 1]],
-});
 const data = {
-  roots: [
+  "name": "Modeling Methods",
+  "children": [
     {
-      main: '主指标一',
-      value: 123111,
-      percent: '100%',
-      type: '1',
-      children: [
-        {
-          main: '指标 1',
-          value: 12312,
-          percent: '39%',
-          type: '2',
-          children: [
-            {
-              main: '指标 1.1',
-              value: 111,
-              percent: '90%',
-              type: '3',
-              children: [
-                {
-                  main: '指标 1.11',
-                  value: 111,
-                  percent: '90%',
-                  type: '113',
-                },
-                {
-                  main: '指标 1.12',
-                  value: 111,
-                  percent: '90%',
-                  type: '14',
-                },
-              ],
-            },
-            {
-              main: '指标 1.2',
-              value: 111,
-              percent: '90%',
-              type: '4',
-              children: [
-                {
-                  main: '指标 1.21',
-                  value: 111,
-                  percent: '90%',
-                  type: '5',
-                },
-                {
-                  main: '指标 1.22',
-                  value: 111,
-                  percent: '90%',
-                  type: '6',
-                },
-                {
-                  main: '指标 1.23',
-                  value: 111,
-                  percent: '90%',
-                  type: '7',
-                },
-                {
-                  main: '指标 1.24',
-                  value: 111,
-                  percent: '90%',
-                  type: '8',
-                },
-              ],
-            },
-            {
-              main: '指标 1.3',
-              value: 111,
-              percent: '90%',
-              type: '9',
-            },
-            {
-              main: '指标 1.4',
-              value: 111,
-              percent: '90%',
-              type: '10',
-            },
-          ],
-        },
-        {
-          main: '指标 2',
-          value: 12312,
-          percent: '79%',
-          type: '11',
-        },
-        {
-          main: '指标 3',
-          value: 12312,
-          percent: '79%',
-          type: '12',
-        },
-      ],
+      "name": "Classification",
+      "children": [
+        { "name": "Logistic regression" },
+        { "name": "Linear discriminant analysis" },
+        { "name": "Rules" },
+        { "name": "Decision trees" },
+        { "name": "Naive Bayes" },
+        { "name": "K nearest neighbor" },
+        { "name": "Probabilistic neural network" },
+        { "name": "Support vector machine" }
+      ]
     },
-  ],
+    {
+      "name": "Consensus",
+      "children": [
+        {
+          "name": "Models diversity",
+          "children": [
+            { "name": "Different initializations" },
+            { "name": "Different parameter choices" },
+            { "name": "Different architectures" },
+            { "name": "Different modeling methods" },
+            { "name": "Different training sets" },
+            { "name": "Different feature sets" }
+          ]
+        },
+        {
+          "name": "Methods",
+          "children": [
+            { "name": "Classifier selection" },
+            { "name": "Classifier fusion" }
+          ]
+        },
+        {
+          "name": "Common",
+          "children": [
+            { "name": "Bagging" },
+            { "name": "Boosting" },
+            { "name": "AdaBoost" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Regression",
+      "children": [
+        { "name": "Multiple linear regression" },
+        { "name": "Partial least squares" },
+        { "name": "Multi-layer feedforward neural network" },
+        { "name": "General regression neural network" },
+        { "name": "Support vector regression" }
+      ]
+    }
+  ]
 };
-const tree = new G6.Tree({
-  container: 'mountNode',
-  height: 500,
-  renderer: 'svg',
-  layout: new G6.Layouts.CompactBoxTree({
-    // direction: 'LR', // 方向（LR/RL/H/TB/BT/V）
-    getHGap: function getHGap() /* d */ {
-      // 横向间距
-      return 20;
-    },
-    getVGap: function getVGap() /* d */ {
-      // 竖向间距
-      return 24;
-    },
-    direction: 'TB',
-  }),
-  fitView: 'tl',
+G6.registerNode('treeNode', {
+  anchor: [
+    [ 0.5, 0 ],
+    [ 0.5, 1 ]
+  ]
 });
-tree.node({
-  shape: 'card',
-});
-tree.edge({
-  shape: 'polyline',
-});
-tree.on('node:click', ev => {
-  const { domEvent, item } = ev;
-  const { target } = domEvent;
-  const { collapsed, type } = item.getModel();
-  const parent = item.getParent();
-  if (target.className === 'ce-button') {
-    if (collapsed) {
-      tree.update(item, {
-        collapsed: false,
-      });
-    } else {
-      tree.update(item, {
-        collapsed: true,
-      });
-    }
-  } else {
-    // 点击展开某个节点 同级其他节点收起
-    const children = parent && parent.getModel().children;
-    if (children && children.length > 0 && type) {
-      const isHideArr = children.filter(elem => type !== elem.type);
-      const isShowArr = children.filter(elem => type === elem.type);
-      isHideArr.forEach(element => {
-        tree.update(element.id, { collapsed: true });
-      });
-      isShowArr.forEach(element => {
-        tree.update(element.id, { collapsed: false });
-      });
-    }
+G6.registerEdge('smooth', {
+  getPath(item) {
+    const points = item.getPoints();
+    const start = points[0];
+    const end = points[points.length - 1];
+    const vgap = Math.abs(end.y - start.y);
+    return [
+      [ 'M', start.x, start.y ],
+      [ 'C', start.x , start.y+ vgap / 2, end.x, end.y - vgap / 2, end.x, end.y ]
+    ];
+
   }
 });
-tree.read(data);
+const layout = new G6.Layouts.Dendrogram({
+  "direction": "TB",
+  "rankSep": 200
+});
+const tree = new G6.Tree({
+  id: 'mountNode', // 容器ID
+  height: window.innerHeight, // 画布高
+  layout,
+  fitView: 'autoZoom' // 自动缩放
+});
+tree.node({
+  shape: 'treeNode',
+  size: 8,
+  label(model) {
+    if(model.children && model.children.length>0) {
+      return {
+        text: model.name,
+        textAlign: 'right'
+      };
+    }
+    return {
+      text: model.name,
+      textAlign: 'left'
+    };
+  },
+  labelRotate: Math.PI / 2,
+  labelOffsetX(model) {
+    if(model.children && model.children.length>0) {
+      return -10;
+    }
+    return 10;
+  }
+});
+tree.edge({
+  shape: 'smooth',
+  label: 'edge label',
+  labelRotate: Math.PI / 2,
+});
+tree.read({ roots: [data] });
   </script>
 </body>
 </html>
