@@ -28,7 +28,7 @@ describe('edge item test', () => {
     const edge = graph.find('node2->node1');
     expect(edge.getTarget().id).equal('node1');
   });
-  it('labeloffset', () => {
+  it('label offset', () => {
     const edge = graph.find('node2->node1');
     graph.update(edge, {
       label: 'node2->node1',
@@ -37,6 +37,14 @@ describe('edge item test', () => {
     });
     expect(edge.getLabel().attr('x')).to.almost.eql(162.23606797749977);
     expect(edge.getLabel().attr('y')).to.almost.eql(136.11803398874991);
+  });
+  it('label rotate', () => {
+    const edge = graph.find('node2->node1');
+    graph.update(edge, {
+      label: 'node2->node1',
+      labelRotate: Math.PI / 2
+    });
+    expect(edge.getLabel().getMatrix()).to.almost.deep.eql([ 6.123233995736766e-17, 1, 0, -1, 6.123233995736766e-17, 0, 298.3541019662497, -26.118033988749858, 1 ]);
   });
   it('destroy', () => {
     graph.destroy();
