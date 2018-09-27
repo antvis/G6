@@ -7,9 +7,6 @@
 const G6 = require('@antv/g6');
 const { Legend } = require('@antv/component/lib');
 const { Color, CircleSize, Category } = Legend;
-// const Legend = require('@antv/g2/src/component/legend');
-// const Color = require('@antv/g2/src/component/legend/color');
-// const Size = require('@antv/g2/src/component/legend/size');
 const Attr = require('@antv/attr');
 const Scale = require('@antv/scale');
 const { Util, G } = G6;
