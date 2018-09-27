@@ -50,7 +50,15 @@ Shape.registerGroup('common', {
       attrs
     });
     if (labelRotate) {
-      labelShape.rotate(labelRotate);
+      const textBox = labelShape.getBBox();
+      const centerX = (textBox.maxX + textBox.minX) / 2;
+      const centerY = (textBox.maxY + textBox.minY) / 2;
+
+      labelShape.transform([
+        [ 't', -centerX, -centerY ],
+        [ 'r', labelRotate, labelRotate ],
+        [ 't', centerX, centerY ]
+      ]);
     }
   },
   drawKeyShape(item, box) {
