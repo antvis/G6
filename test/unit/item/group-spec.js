@@ -48,7 +48,7 @@ describe('group item test', () => {
       label: 'group1',
       labelRotate: Math.PI / 2
     });
-    expect(group.getLabel().getMatrix()).to.almost.deep.eql([ 6.123233995736766e-17, 1, 0, -1, 6.123233995736766e-17, 0, 0, 0, 1 ]);
+    expect(group.getLabel().getMatrix()).to.almost.deep.eql([ 6.123233995736766e-17, 1, 0, -1, 6.123233995736766e-17, 0, 170.0079803466797, -43.00798034667969, 1 ]);
   });
   it('destroy', () => {
     graph.destroy();
