@@ -35,15 +35,25 @@ Mixin.AUGMENT = {
     const itemGroup = this.get('_itemGroup');
     const itemMap = this.get('_itemMap');
     let children = itemGroup.get('children');
-    children = children.filter(child => {
-      const item = itemMap[child.id];
-      if (item) {
-        const shapeObj = item.getShapeObj();
-        return shapeObj.bboxCalculation !== false;
-      }
-      return false;
-    });
-    return Util.getChildrenBBox(children);
+    if (children.length > 0) {
+      children = children.filter(child => {
+        const item = itemMap[child.id];
+        if (item) {
+          const shapeObj = item.getShapeObj();
+          return shapeObj.bboxCalculation !== false;
+        }
+        return false;
+      });
+      return Util.getChildrenBBox(children);
+    }
+    const width = this.get('width');
+    const height = this.get('height');
+    return {
+      minX: 0,
+      minY: 0,
+      maxX: width,
+      maxY: height
+    };
   },
   getFitViewPadding() {
     return Util.toAllPadding(this.get('fitViewPadding'));
