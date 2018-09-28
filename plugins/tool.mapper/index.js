@@ -245,25 +245,38 @@ class Plugin {
       }
       // the listener to filter nodes and edges
       const slider = legend.get('slider');
-      graph.addFilter(item => {
-        if (item.isNode) {
-          const val = item.model[dim];
-          const percent = 100 * (val - domain[0]) / (domain[domain.length - 1] - domain[0]);
-          if (percent > this.curRange[1] || percent < this.curRange[0]) {
-            return false;
+      if (itemType === 'node') {
+        graph.addFilter(item => {
+          if (item.isNode) {
+            const val = item.model[dim];
+            const percent = 100 * (val - domain[0]) / (domain[domain.length - 1] - domain[0]);
+            if (percent > this.curRange[1] || percent < this.curRange[0]) {
+              return false;
+            }
+          } else if (item.isEdge) {
+            const sourceVal = item.source.model[dim];
+            const sourcePercent = 100 * (sourceVal - domain[0]) / (domain[domain.length - 1] - domain[0]);
+            const sourceVisible = (sourcePercent <= this.curRange[1] && sourcePercent >= this.curRange[0]);
+            const targetVal = item.target.model[dim];
+            const targetPercent = 100 * (targetVal - domain[0]) / (domain[domain.length - 1] - domain[0]);
+            const targetVisible = (targetPercent <= this.curRange[1] && targetPercent >= this.curRange[0]);
+            if (!sourceVisible || !targetVisible) return false;
           }
           return true;
-        } else if (item.isEdge) {
-          const sourceVal = item.source.model[dim];
-          const sourcePercent = 100 * (sourceVal - domain[0]) / (domain[domain.length - 1] - domain[0]);
-          const sourceVisible = (sourcePercent <= this.curRange[1] && sourcePercent >= this.curRange[0]);
-          const targetVal = item.target.model[dim];
-          const targetPercent = 100 * (targetVal - domain[0]) / (domain[domain.length - 1] - domain[0]);
-          const targetVisible = (targetPercent <= this.curRange[1] && targetPercent >= this.curRange[0]);
-          if (!sourceVisible || !targetVisible) return false;
+        });
+      } else if (itemType === 'edge') {
+        graph.addFilter(item => {
+          if (item.isEdge) {
+            const val = item.model[dim];
+            const percent = 100 * (val - domain[0]) / (domain[domain.length - 1] - domain[0]);
+            if (percent > this.curRange[1] || percent < this.curRange[0]) {
+              return false;
+            }
+          }
           return true;
-        }
-      });
+        });
+      }
+      // });
 
       legend.get('slidable') && slider.on('sliderchange', Util.throttle(ev => {
         this.curRange = ev.range;
