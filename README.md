@@ -10,7 +10,7 @@
 
 [中文 README](README-zh_CN.md)
 
-G6 is a graph visualization framework. It provides a set of base mechanisms, help developers to build your own graph visualization **analysis** application or graph visualization **edit** application.
+G6 is a graph visualization framework. It provides a set of basic mechanisms, helps developers build their own graph visualization **analysis** application or graph visualization **edit** application.
 
 [Full documentation](https://www.yuque.com/antv/g6-en)
 
