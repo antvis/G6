@@ -40,7 +40,8 @@ G6.registerGuide('mask', {
       capture: false
     });
   },
-  bboxCalculation: false
+  bboxCalculation: false,
+  filter: false
 });
 
 class Plugin {
