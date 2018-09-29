@@ -13,6 +13,8 @@
 
 <body>
   <div id="mountNode"></div>
+  <div id="minimap"></div>
+
   <style>
     /* 此处书写样式代码，支持 less scss */
     /* @import 'antd/dist/antd.css'; */
@@ -46,123 +48,139 @@
     }
   </style>
   <script>
+// 详细文档见 ： https://antv.alipay.com/g6/doc/index.html
 const data = {
-  "name": "Modeling Methods",
-  "children": [
+  name: 'Modeling Methods',
+  children: [
     {
-      "name": "Classification",
-      "children": [
-        { "name": "Logistic regression" },
-        { "name": "Linear discriminant analysis" },
-        { "name": "Rules" },
-        { "name": "Decision trees" },
-        { "name": "Naive Bayes" },
-        { "name": "K nearest neighbor" },
-        { "name": "Probabilistic neural network" },
-        { "name": "Support vector machine" }
-      ]
+      name: 'Classification',
+      children: [
+        { name: 'Logistic regression' },
+        { name: 'Linear discriminant analysis' },
+        { name: 'Rules' },
+        { name: 'Decision trees' },
+        { name: 'Naive Bayes' },
+        { name: 'K nearest neighbor' },
+        { name: 'Probabilistic neural network' },
+        { name: 'Support vector machine' },
+      ],
     },
     {
-      "name": "Consensus",
-      "children": [
+      name: 'Consensus',
+      children: [
         {
-          "name": "Models diversity",
-          "children": [
-            { "name": "Different initializations" },
-            { "name": "Different parameter choices" },
-            { "name": "Different architectures" },
-            { "name": "Different modeling methods" },
-            { "name": "Different training sets" },
-            { "name": "Different feature sets" }
-          ]
+          name: 'Models diversity',
+          children: [
+            { name: 'Different initializations' },
+            { name: 'Different parameter choices' },
+            { name: 'Different architectures' },
+            { name: 'Different modeling methods' },
+            { name: 'Different training sets' },
+            { name: 'Different feature sets' },
+          ],
         },
         {
-          "name": "Methods",
-          "children": [
-            { "name": "Classifier selection" },
-            { "name": "Classifier fusion" }
-          ]
+          name: 'Methods',
+          children: [
+            { name: 'Classifier selection' },
+            { name: 'Classifier fusion' },
+          ],
         },
         {
-          "name": "Common",
-          "children": [
-            { "name": "Bagging" },
-            { "name": "Boosting" },
-            { "name": "AdaBoost" }
-          ]
-        }
-      ]
+          name: 'Common',
+          children: [
+            { name: 'Bagging' },
+            { name: 'Boosting' },
+            { name: 'AdaBoost' },
+          ],
+        },
+      ],
     },
     {
-      "name": "Regression",
-      "children": [
-        { "name": "Multiple linear regression" },
-        { "name": "Partial least squares" },
-        { "name": "Multi-layer feedforward neural network" },
-        { "name": "General regression neural network" },
-        { "name": "Support vector regression" }
-      ]
-    }
-  ]
+      name: 'Regression',
+      children: [
+        { name: 'Multiple linear regression' },
+        { name: 'Partial least squares' },
+        { name: 'Multi-layer feedforward neural network' },
+        { name: 'General regression neural network' },
+        { name: 'Support vector regression' },
+      ],
+    },
+  ],
 };
-G6.registerNode('treeNode', {
-  anchor: [
-    [ 0.5, 0 ],
-    [ 0.5, 1 ]
-  ]
+var layout = new G6.Layouts.CompactBoxTree({
+  direction: 'TB', // 方向（LR/RL/H/TB/BT/V）
+  getHGap: function getHGap() /* d */ {
+    // 横向间距
+    return 100;
+  },
+  getVGap: function getVGap() /* d */ {
+    // 竖向间距
+    return 24;
+  },
 });
-G6.registerEdge('smooth', {
-  getPath(item) {
-    const points = item.getPoints();
-    const start = points[0];
-    const end = points[points.length - 1];
-    const vgap = Math.abs(end.y - start.y);
-    return [
-      [ 'M', start.x, start.y ],
-      [ 'C', start.x , start.y+ vgap / 2, end.x, end.y - vgap / 2, end.x, end.y ]
-    ];
-
-  }
-});
-const layout = new G6.Layouts.Dendrogram({
-  "direction": "TB",
-  "rankSep": 200
-});
-const tree = new G6.Tree({
+var tree = new G6.Tree({
   id: 'mountNode', // 容器ID
-  height: window.innerHeight, // 画布高
-  layout,
-  fitView: 'autoZoom' // 自动缩放
+  renderer: 'svg',
+  height: 300, // 画布高
+  plugins: [
+    new G6.Plugins['tool.minimap']({
+      container: 'minimap',
+      width: 500,
+      height: 120,
+    }),
+  ],
+  layout: layout,
+});
+G6.registerNode('transactionNode', {
+  anchor: {
+    // 相交盒模型
+    intersectBox: 'rect',
+  },
+  draw(item) {
+    const group = item.getGraphicGroup();
+    const { name, id, cnt } = item.getModel();
+    const width = 100;
+    const height = 40;
+    const html = G6.Util.createDOM(`
+            <div style="border: 1px solid #CCC;height:38px;text-align:center;">
+              <strong class="main-text">${name}</strong>
+            </div>
+          `);
+    const keyShape = group.addShape('dom', {
+      attrs: {
+        x: 0,
+        y: 0,
+        width,
+        height,
+        html,
+      },
+    });
+    return keyShape;
+  },
+  anchor: [[0.5, 0], [0.5, 1]],
 });
 tree.node({
-  shape: 'treeNode',
-  size: 8,
-  label(model) {
-    if(model.children && model.children.length>0) {
-      return {
-        text: model.name,
-        textAlign: 'right'
-      };
-    }
-    return {
-      text: model.name,
-      textAlign: 'left'
-    };
-  },
-  labelRotate: Math.PI / 2,
-  labelOffsetX(model) {
-    if(model.children && model.children.length>0) {
-      return -10;
-    }
-    return 10;
-  }
+  shape: 'transactionNode',
 });
+
 tree.edge({
-  shape: 'smooth',
-  label: 'edge label',
-  labelRotate: Math.PI / 2,
+  shape: 'polyline',
 });
-tree.read({ roots: [data] });
+tree.on('node:mouseenter', ev => {
+  tree.update(ev.item, {
+    color: 'orange',
+  });
+});
+tree.on('node:mouseleave', ev => {
+  tree.update(ev.item, {
+    color: '',
+  });
+});
+tree.read({
+  roots: [data],
+});
+
   </script>
 </body>
 </html>
