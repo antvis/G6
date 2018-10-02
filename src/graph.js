@@ -516,15 +516,19 @@ class Graph extends Base {
     this.emit('beforechange', ev);
     if (item.isNode || item.isGroup) {
       const edges = item.getEdges();
-      edges.forEach(edge => {
+      for (let edgeIndex = 0; edgeIndex < edges.length; edgeIndex++) {
+        const edge = edges[edgeIndex];
         this.remove(edge);
-      });
+        edgeIndex--;
+      }
     }
     if (item.isGroup) {
       const children = item.getChildren();
-      children.forEach(child => {
+      for (let childIndex = 0; childIndex < children.length; childIndex++) {
+        const child = children[childIndex];
         this.remove(child);
-      });
+        childIndex--;
+      }
     }
     this.removeItems([ item ]);
     item.getAllParents().forEach(parent => {
