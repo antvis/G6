@@ -17,11 +17,11 @@ class Edge extends Item {
     super(defaultCfg);
   }
   _init() {
-    this._cacheEdges();
+    this.cacheEdges();
     super._init();
   }
   // cache edge into node
-  _cacheEdges() {
+  cacheEdges() {
     const itemMap = this.itemMap;
     const model = this.model;
     const source = itemMap[model.source];
