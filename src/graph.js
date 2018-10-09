@@ -299,6 +299,10 @@ class Graph extends Base {
    */
   updateItem(item, model) {
     Util.mix(item.getModel(), model);
+    // if update edge source or target re cache edges.
+    if (item.isEdge && (model.target || model.source)) {
+      item.cacheEdges();
+    }
     item.update();
   }
   _addDatas(type, models) {
