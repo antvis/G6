@@ -300,7 +300,7 @@ class Graph extends Base {
   updateItem(item, model) {
     Util.mix(item.getModel(), model);
     // if update edge source or target re cache edges.
-    if (item.isEdge && (model.target || model.source)) {
+    if (item.isEdge && model && (model.target || model.source)) {
       item.cacheEdges();
     }
     item.update();
@@ -415,13 +415,13 @@ class Graph extends Base {
     return this;
   }
   /**
-   * @param  {boolean} bool if force prevent animate
+   * @param  {boolean} bool - if force prevent animate
    */
   forcePreventAnimate(bool) {
     this.set('forcePreventAnimate', bool);
   }
   /**
-   * @return {Graph} this
+   * @return {Graph} - this
    */
   reRender() {
     const data = this.get('_sourceData');
@@ -429,7 +429,15 @@ class Graph extends Base {
     return this;
   }
   /**
-   * @return {Graph} this
+   * set canvas captrue
+   * @param  {boolean} bool boolean
+   */
+  setCapture(bool) {
+    const rootGroup = this.get('_rootGroup');
+    rootGroup.set('capture', bool);
+  }
+  /**
+   * @return {Graph} - this
    */
   destroy() {
     this.emit('beforedestroy');
