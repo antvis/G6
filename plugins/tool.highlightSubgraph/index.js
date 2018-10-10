@@ -76,8 +76,14 @@ class Plugin {
     });
   }
   highlightSubgraph(items) {
-    this.unhighlightGraph();
     const mask = this.find('mask');
+    // cache origin item children children zindex
+    const itemGroup = this.getItemGroup();
+    const children = itemGroup.get('children');
+    this.originChildren = [];
+    children.forEach(child => {
+      this.originChildren.push(child);
+    });
     mask.toFront();
     mask.show();
     items.forEach(item => {
@@ -88,6 +94,12 @@ class Plugin {
   }
   unhighlightGraph() {
     // hide the mask
+    const itemGroup = this.getItemGroup();
+
+    // reset origin item children children zindex
+    // TODO: canvas render only. svg renderer will not work
+    const originChildren = this.originChildren;
+    originChildren && itemGroup.set('children', originChildren);
     this.find('mask').hide();
     this.draw();
   }
