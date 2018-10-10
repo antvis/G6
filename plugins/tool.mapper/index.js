@@ -5,9 +5,8 @@
  * @author shiwu.wyy@antfin.com
  */
 const G6 = require('@antv/g6');
-const Legend = require('@antv/g2/lib/component/legend');
-const Color = require('@antv/g2/lib/component/legend/color');
-const Size = require('@antv/g2/lib/component/legend/size');
+const { Legend } = require('@antv/component/lib');
+const { Color, CircleSize, Category } = Legend;
 const Attr = require('@antv/attr');
 const Scale = require('@antv/scale');
 const { Util, G } = G6;
@@ -232,7 +231,7 @@ class Plugin {
           return true;
         }
       });
-      legend.on('click', () => {
+      legend.on('itemclick', () => {
         const itemsGroup = legend.get('itemsGroup');
         this.curRange = itemsGroup.get('children');
         graph.filter();
@@ -246,31 +245,45 @@ class Plugin {
       }
       // the listener to filter nodes and edges
       const slider = legend.get('slider');
-      graph.addFilter(item => {
-        if (item.isNode) {
-          const val = item.model[dim];
-          const percent = 100 * (val - domain[0]) / (domain[domain.length - 1] - domain[0]);
-          if (percent > this.curRange[1] || percent < this.curRange[0]) {
-            return false;
+      if (itemType === 'node') {
+        graph.addFilter(item => {
+          if (item.isNode) {
+            const val = item.model[dim];
+            const percent = 100 * (val - domain[0]) / (domain[domain.length - 1] - domain[0]);
+            if (percent > this.curRange[1] || percent < this.curRange[0]) {
+              return false;
+            }
+          } else if (item.isEdge) {
+            const sourceVal = item.source.model[dim];
+            const sourcePercent = 100 * (sourceVal - domain[0]) / (domain[domain.length - 1] - domain[0]);
+            const sourceVisible = (sourcePercent <= this.curRange[1] && sourcePercent >= this.curRange[0]);
+            const targetVal = item.target.model[dim];
+            const targetPercent = 100 * (targetVal - domain[0]) / (domain[domain.length - 1] - domain[0]);
+            const targetVisible = (targetPercent <= this.curRange[1] && targetPercent >= this.curRange[0]);
+            if (!sourceVisible || !targetVisible) return false;
           }
           return true;
-        } else if (item.isEdge) {
-          const sourceVal = item.source.model[dim];
-          const sourcePercent = 100 * (sourceVal - domain[0]) / (domain[domain.length - 1] - domain[0]);
-          const sourceVisible = (sourcePercent <= this.curRange[1] && sourcePercent >= this.curRange[0]);
-          const targetVal = item.target.model[dim];
-          const targetPercent = 100 * (targetVal - domain[0]) / (domain[domain.length - 1] - domain[0]);
-          const targetVisible = (targetPercent <= this.curRange[1] && targetPercent >= this.curRange[0]);
-          if (!sourceVisible || !targetVisible) return false;
+        });
+      } else if (itemType === 'edge') {
+        graph.addFilter(item => {
+          if (item.isEdge) {
+            const val = item.model[dim];
+            const percent = 100 * (val - domain[0]) / (domain[domain.length - 1] - domain[0]);
+            if (percent > this.curRange[1] || percent < this.curRange[0]) {
+              return false;
+            }
+          }
           return true;
-        }
-      });
-      slider.on('sliderchange', Util.throttle(ev => {
+        });
+      }
+      // });
+
+      legend.get('slidable') && slider.on('sliderchange', Util.throttle(ev => {
         this.curRange = ev.range;
         graph.filter();
       }, 100));
     }
-    const bbox = legend.getBBox();
+    const bbox = legend.get('group').getBBox();
     const padding = 6;
     const legendWidth = bbox.maxX - bbox.minX;
     const legendHeight = bbox.maxY - bbox.minY;
@@ -299,9 +312,10 @@ class Plugin {
     const cfg = Util.mix({
       items,
       checkable: true,
-      clickable: true
+      clickable: true,
+      container: canvas
     }, this.legendCfg);
-    const legend = canvas.addGroup(Legend.Category, cfg);
+    const legend = new Category(cfg);
     return legend;
   }
   _getLegendCfg(defaultCfg) {
@@ -338,20 +352,22 @@ class Plugin {
     const items = [];
     Util.each(range, (val, i) => {
       const itemText = domain[0] + domainStep * i;
-      const percent = (itemText - domain[0]) / (domain[domain.length - 1] - domain[0]);
+      const percentage = (itemText - domain[0]) / (domain[domain.length - 1] - domain[0]);
       items.push({
-        attrValue: val,
+        color: val,
         value: itemText, // the number label of the slider
-        scaleValue: percent
+        percentage
       });
     });
     const cfg = this._getLegendCfg({
       items,
+      container: canvas,
       title: {
         text: this.dim
       }
     });
-    const legend = canvas.addGroup(Color, cfg);
+    const legend = new Color(cfg);
+    // const legend = canvas.addGroup(Color, cfg);
     return legend;
   }
   _createContinuousSizeLegend(canvas) {
@@ -370,12 +386,13 @@ class Plugin {
     });
     const cfg = this._getLegendCfg({
       items,
+      container: canvas,
       attrType: 'size',
       title: {
         text: this.dim
       }
     });
-    const legend = canvas.addGroup(Size, cfg);
+    const legend = new CircleSize(cfg);
     return legend;
   }
   _mapping() {
