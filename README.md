@@ -1,4 +1,4 @@
-# G6: A Graph visualization framework in JavaScript.
+# G6: A Graph Visualization Framework in JavaScript.
 ![](https://user-images.githubusercontent.com/6113694/45008751-ea465300-b036-11e8-8e2a-166cbb338ce2.png)
 
 [![](https://img.shields.io/travis/antvis/g6.svg)](https://travis-ci.org/antvis/g6)
@@ -10,7 +10,7 @@
 
 [中文 README](README-zh_CN.md)
 
-G6 is a graph visualization framework. It provides a set of base mechanisms, help developers to build your own graph visualization **analysis** application or graph visualization **edit** application.
+G6 is a graph visualization framework. It provides a set of basic mechanisms, helps developers build their own graph visualization **analysis** application or graph visualization **edit** application.
 
 [Full documentation](https://www.yuque.com/antv/g6-en)
 
