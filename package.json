@@ -107,7 +107,7 @@
   },
   "dependencies": {
     "@antv/g": "~3.2.0",
-    "@antv/g2": "~3.2.7",
+    "@antv/component": "~0.0.4",
     "@antv/hierarchy": "~0.3.13",
     "@antv/scale": "^0.0.1",
     "@antv/util": "^1.2.5",

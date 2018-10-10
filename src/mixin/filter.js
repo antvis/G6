@@ -49,9 +49,9 @@ Mixin.AUGMENT = {
     this.emit('beforefilter');
     const filters = this.get('filters');
     const items = this.getItems();
-    let filteredItems = this.getItems();
+    let filteredItems = this._getFilterItems();
     filters.forEach(filter => {
-      filteredItems = Util.filter(filteredItems, filter);
+      filteredItems = filteredItems.filter(filter);
     });
     items.forEach(item => {
       if (filteredItems.indexOf(item) === -1) {
@@ -60,8 +60,20 @@ Mixin.AUGMENT = {
         item.show();
       }
     });
+
     this.draw();
     this.emit('afterfilter');
+  },
+  /**
+   * get filter items
+   * @return {array} filterItems
+   */
+  _getFilterItems() {
+    const items = this.getItems();
+    return items.filter(item => {
+      const shapeObj = item.getShapeObj();
+      return shapeObj.filter !== false;
+    });
   }
 };
 module.exports = Mixin;
