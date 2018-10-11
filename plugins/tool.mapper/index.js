@@ -172,7 +172,7 @@ class Plugin {
     const graph = this.graph;
 
     const containerId = this.legendCfg.containerId;
-    let legendContainer = this.legendCfg.container;
+    let legendContainer = this.legendCfg.containerDOM;
     if (legendContainer === undefined) {
       if (containerId === undefined) {
         legendContainer = Util.createDOM('<div class="legend-container"></div>');
