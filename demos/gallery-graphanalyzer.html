@@ -19,7 +19,7 @@
   <script>
     var graph = null;
     var clickOnNode = null;
-
+    const legend = document.getElementById('legend');
     // $.getJSON('./assets/data/view-test.json', data => {
     $.getJSON('./assets/data/view-test-antv.json', data => {
       //the plugins
@@ -34,7 +34,7 @@
       });
       let nodeSizeMapper = new Mapper('node', 'weight', 'size', [15, 50], {
         legendCfg: {
-          containerId: 'legend',
+          containerDOM: legend,
           height: 100,
           title: {
             text: 'UV',
