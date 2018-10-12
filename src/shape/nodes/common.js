@@ -53,7 +53,7 @@ Shape.registerNode('common', {
     const group = item.getGraphicGroup();
     const label = this.getLabel(item);
     const model = item.getModel();
-    const { labelOffsetX, labelOffsetY } = model;
+    const { labelOffsetX, labelOffsetY, labelRotate } = model;
     if (Util.isNil(label)) {
       return;
     }
@@ -66,10 +66,14 @@ Shape.registerNode('common', {
     } else {
       Util.mix(attrs, label);
     }
-    return group.addShape('text', {
+    const labelShape = group.addShape('text', {
       class: 'label',
       attrs
     });
+    if (labelRotate) {
+      labelShape.rotate(labelRotate);
+    }
+    return labelShape;
   },
   getPath(item) {
     const size = this.getSize(item);

@@ -50,7 +50,7 @@ describe('node item test', () => {
       41
     });
   });
-  it('labeloffset', () => {
+  it('label offset', () => {
     const node = graph.find('node1');
     graph.update(node, {
       label: 'node1',
@@ -59,6 +59,14 @@ describe('node item test', () => {
     });
     expect(node.getLabel().attr('x')).to.almost.eql(10);
     expect(node.getLabel().attr('y')).to.almost.eql(10);
+  });
+  it('label rotate', () => {
+    const node = graph.find('node2');
+    graph.update(node, {
+      label: 'node2',
+      labelRotate: Math.PI / 2
+    });
+    expect(node.getLabel().getMatrix()).to.almost.deep.eql([ 6.123233995736766e-17, 1, 0, -1, 6.123233995736766e-17, 0, 0, 0, 1 ]);
   });
   it('destroy', () => {
     graph.destroy();

@@ -31,7 +31,7 @@ Shape.registerGroup('common', {
     x = x + margin[0];
     y = y + margin[1];
     const model = item.getModel();
-    const { labelOffsetX, labelOffsetY } = model;
+    const { labelOffsetX, labelOffsetY, labelRotate } = model;
     x = labelOffsetX ? labelOffsetX + x : x;
     y = labelOffsetY ? labelOffsetY + y : y;
     const attrs = Util.mix(true, {}, Global.labelStyle, {
@@ -45,10 +45,21 @@ Shape.registerGroup('common', {
     } else {
       Util.mix(attrs, label);
     }
-    group.addShape('text', {
+    const labelShape = group.addShape('text', {
       class: 'label',
       attrs
     });
+    if (labelRotate) {
+      const textBox = labelShape.getBBox();
+      const centerX = (textBox.maxX + textBox.minX) / 2;
+      const centerY = (textBox.maxY + textBox.minY) / 2;
+
+      labelShape.transform([
+        [ 't', -centerX, -centerY ],
+        [ 'r', labelRotate, labelRotate ],
+        [ 't', centerX, centerY ]
+      ]);
+    }
   },
   drawKeyShape(item, box) {
     const { x, y, width, height } = box;
