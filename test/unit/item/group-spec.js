@@ -5,7 +5,7 @@ const chaiAlmost = require('chai-almost');
 const Util = require('../../../src/util/');
 const div = document.createElement('div');
 let data = require('../../fixtures/sample-graph-data.json');
-chai.use(chaiAlmost(0.1));
+chai.use(chaiAlmost(1));
 data = Util.cloneDeep(data);
 div.id = 'cchart';
 document.body.appendChild(div);
