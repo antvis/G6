@@ -5,7 +5,7 @@ const chaiAlmost = require('chai-almost');
 const Util = require('../../../src/util/');
 const div = document.createElement('div');
 let data = require('../../fixtures/sample-graph-data.json');
-chai.use(chaiAlmost(1));
+chai.use(chaiAlmost());
 data = Util.cloneDeep(data);
 div.id = 'cchart';
 document.body.appendChild(div);
@@ -48,7 +48,17 @@ describe('group item test', () => {
       label: 'group1',
       labelRotate: Math.PI / 2
     });
-    expect(group.getLabel().getMatrix()).to.almost.deep.eql([ 6.123233995736766e-17, 1, 0, -1, 6.123233995736766e-17, 0, 170.0079803466797, -43.00798034667969, 1 ]);
+    expect(group.getLabel().getMatrix()).to.be.deep.almost([
+      6.123233995736766e-17,
+      1,
+      0,
+      -1,
+      6.123233995736766e-17,
+      0,
+      169.6826171875,
+      -42.6826171875,
+      1
+    ], 2);
   });
   it('destroy', () => {
     graph.destroy();
