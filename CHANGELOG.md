@@ -1,13 +1,13 @@
-
-n.n.n / 2018-09-19
-==================
-
-  * publish 2.1.2-beta
-  * Release 2.1.1
-
 # ChangeLog
 
 ---
+
+#### 2.1.3
+
+`2018-09-27`
+
+* feat: add label rotate
+* feat: if there is no items the graph box equal canvas size
 
 #### 2.1.2
 

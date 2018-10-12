@@ -7,28 +7,21 @@ const G6 = require('@antv/g6');
 const Util = G6.Util;
 
 const extractSubgraph = {
+  /**
+   * extract sub graph by focus node
+   * @param  {string} type - could be in, out, all
+   * @param  {array} focusNodes - input item
+   * @return {object} sub graph
+   */
   extract(type, focusNodes) {
-    const reEdges = [];
-    Util.each(focusNodes, fn => {
+    let reEdges = [];
+    Util.each(focusNodes, focusNode => {
       if (type === 'in') {
-        const inEdges = fn.getInEdges();
-        Util.each(inEdges, ie => {
-          reEdges.push(ie);
-        });
+        reEdges = focusNode.getInEdges();
       } else if (type === 'out') {
-        const outEdges = fn.getOutEdges();
-        Util.each(outEdges, oe => {
-          reEdges.push(oe);
-        });
+        reEdges = focusNode.getOutEdges();
       } else {
-        const inEdges = fn.getInEdges();
-        Util.each(inEdges, ie => {
-          reEdges.push(ie);
-        });
-        const outEdges = fn.getOutEdges();
-        Util.each(outEdges, oe => {
-          reEdges.push(oe);
-        });
+        reEdges = focusNode.getEdges();
       }
     });
 

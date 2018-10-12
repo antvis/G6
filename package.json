@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "2.1.3-beta",
+  "version": "2.1.4-beta.1",
   "description": "graph visualization frame work",
   "main": "build/g6.js",
   "homepage": "https://github.com/antvis/g6",
@@ -85,7 +85,6 @@
     "build": "webpack",
     "build-lib": "babel src --out-dir lib",
     "ci": "npm run lint && npm run test",
-    "copy": "node ./bin/cp-dist.js",
     "coverage": "npm run coverage-generator && npm run coverage-viewer",
     "coverage-generator": "torch --compile --coverage --renderer --recursive --source-pattern index.js,src/**/*.js test/unit/",
     "coverage-viewer": "torch-coverage",
@@ -93,15 +92,13 @@
     "demos-web": "node ./demos/app.js --web --port 2046",
     "dev": "npm run watch & npm run demos-web",
     "publish": "node ./bin/publish.js",
-    "dist": "npm run mkdir-dist && npm run build && npm run copy",
     "lint": "eslint --ext .js ./src",
     "lint-fix": "eslint --ext .html,.js --fix ./",
-    "mkdir-dist": "node ./bin/mkdir-dist.js",
-    "prepublishOnly": "npm run build-lib && npm run dist && node ./bin/version.js",
+    "prepublishOnly": "npm run build-lib && npm run build && node ./bin/version.js",
     "screenshot": "node ./bin/screenshot.js",
     "start": "npm run dev",
     "test": "torch --compile --renderer --recursive ./test/unit",
-    "test-live": "torch --compile --interactive --watch --recursive ./test/test-spec.js",
+    "test-live": "torch --compile --interactive --watch --recursive ./test/unit/item/*-spec.js",
     "watch": "webpack --config webpack-dev.config.js",
     "win-dev": "node ./bin/win-dev.js"
   },
@@ -109,7 +106,7 @@
     "run": []
   },
   "dependencies": {
-    "@antv/g": "~3.2.0",
+    "@antv/g": "~3.3.0",
     "@antv/component": "~0.0.4",
     "@antv/hierarchy": "~0.3.13",
     "@antv/scale": "^0.0.1",

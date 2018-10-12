@@ -10,6 +10,7 @@ const Base = require('./base');
 const Item = require('./item/');
 const Shape = require('./shape/');
 const Util = require('./util/');
+const Graph2Canvas = require('./helper/graph2canvas');
 const G = require('@antv/g/lib');
 const LayoutMixin = require('./mixin/layout');
 const MappingMixin = require('./mixin/mapping');
@@ -299,6 +300,10 @@ class Graph extends Base {
    */
   updateItem(item, model) {
     Util.mix(item.getModel(), model);
+    // if update edge source or target re cache edges.
+    if (item.isEdge && model && (model.target || model.source)) {
+      item.cacheEdges();
+    }
     item.update();
   }
   _addDatas(type, models) {
@@ -411,13 +416,13 @@ class Graph extends Base {
     return this;
   }
   /**
-   * @param  {boolean} bool if force prevent animate
+   * @param  {boolean} bool - if force prevent animate
    */
   forcePreventAnimate(bool) {
     this.set('forcePreventAnimate', bool);
   }
   /**
-   * @return {Graph} this
+   * @return {Graph} - this
    */
   reRender() {
     const data = this.get('_sourceData');
@@ -425,7 +430,15 @@ class Graph extends Base {
     return this;
   }
   /**
-   * @return {Graph} this
+   * set canvas captrue
+   * @param  {boolean} bool boolean
+   */
+  setCapture(bool) {
+    const rootGroup = this.get('_rootGroup');
+    rootGroup.set('capture', bool);
+  }
+  /**
+   * @return {Graph} - this
    */
   destroy() {
     this.emit('beforedestroy');
@@ -774,17 +787,19 @@ class Graph extends Base {
   }
   /**
    * save graph image
+   * @param {object} options - save options
    * @return  {object} canvas dom
    */
-  saveImage() {
+  saveImage(options) {
     const box = this.getBBox();
     const padding = this.getFitViewPadding();
-
-    return Util.graph2Canvas({
+    const graph2Canvas = new Graph2Canvas({
       graph: this,
       width: box.width + padding[1] + padding[3],
-      height: box.height + padding[0] + padding[2]
+      height: box.height + padding[0] + padding[2],
+      ...options
     });
+    return graph2Canvas.toCanvas();
   }
 }
 Mixins.forEach(Mixin => {
