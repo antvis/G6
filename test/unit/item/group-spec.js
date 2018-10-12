@@ -32,7 +32,7 @@ describe('group item test', () => {
   it('getInnerEdges', () => {
     expect(graph.find('group1').getInnerEdges().length).eql(2);
   });
-  it('labeloffset', () => {
+  it('label offset', () => {
     const group = graph.find('group1');
     graph.update(group, {
       label: 'group1',
@@ -41,6 +41,24 @@ describe('group item test', () => {
     });
     expect(group.getLabel().attr('x')).to.almost.eql(87.5);
     expect(group.getLabel().attr('y')).to.almost.eql(57.5);
+  });
+  it('label rotate', () => {
+    const group = graph.find('group1');
+    graph.update(group, {
+      label: 'group1',
+      labelRotate: Math.PI / 2
+    });
+    expect(group.getLabel().getMatrix()).to.be.deep.almost([
+      6.123233995736766e-17,
+      1,
+      0,
+      -1,
+      6.123233995736766e-17,
+      0,
+      169.6826171875,
+      -42.6826171875,
+      1
+    ], 2);
   });
   it('destroy', () => {
     graph.destroy();

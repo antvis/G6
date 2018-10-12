@@ -36,10 +36,13 @@ function panCanvas(graph, button = 'left', panBlank = false) {
     });
   });
   graph.behaviourOn('dragstart', () => {
-    graph.forcePreventAnimate(true);
-    graph.css({
-      cursor: '-webkit-grabbing'
-    });
+    if (lastPoint) {
+      graph.setCapture(false);
+      graph.forcePreventAnimate(true);
+      graph.css({
+        cursor: '-webkit-grabbing'
+      });
+    }
   });
   graph.behaviourOn('drag', ev => {
     if (lastPoint) {
@@ -51,15 +54,19 @@ function panCanvas(graph, button = 'left', panBlank = false) {
     }
   });
   graph.behaviourOn('dragend', () => {
+    resetStatus();
+  });
+  graph.behaviourOn('canvas:mouseleave', () => {
+    resetStatus();
+  });
+  function resetStatus() {
     lastPoint = undefined;
     graph.css({
       cursor: '-webkit-grab'
     });
     graph.forcePreventAnimate(false);
-  });
-  graph.behaviourOn('canvas:mouseleave', () => {
-    lastPoint = undefined;
-  });
+    graph.setCapture(true);
+  }
 }
 
 // 鼠标拖拽平移画布交互
