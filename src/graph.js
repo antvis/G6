@@ -10,6 +10,7 @@ const Base = require('./base');
 const Item = require('./item/');
 const Shape = require('./shape/');
 const Util = require('./util/');
+const Graph2Canvas = require('./helper/graph2canvas');
 const G = require('@antv/g/lib');
 const LayoutMixin = require('./mixin/layout');
 const MappingMixin = require('./mixin/mapping');
@@ -786,17 +787,19 @@ class Graph extends Base {
   }
   /**
    * save graph image
+   * @param {object} options - save options
    * @return  {object} canvas dom
    */
-  saveImage() {
+  saveImage(options) {
     const box = this.getBBox();
     const padding = this.getFitViewPadding();
-
-    return Util.graph2Canvas({
+    const graph2Canvas = new Graph2Canvas({
       graph: this,
       width: box.width + padding[1] + padding[3],
-      height: box.height + padding[0] + padding[2]
+      height: box.height + padding[0] + padding[2],
+      ...options
     });
+    return graph2Canvas.toCanvas();
   }
 }
 Mixins.forEach(Mixin => {
