@@ -17,34 +17,15 @@ class Plugin {
       },
       ...this.options
     });
-    graph.on('afterchange', () => {
-      minimap.renderBackground();
-      minimap.renderViewPort();
-    });
-    graph.on('afterlayout', () => {
-      minimap.renderBackground();
-      minimap.renderViewPort();
-    });
-    graph.on('afterviewportchange', () => {
-      minimap.renderViewPort();
-    });
-    graph.on('afterfilter', () => {
-      minimap.renderBackground();
-      minimap.renderViewPort();
-    });
-    this.renderBackground = () => {
-      minimap.renderBackground();
-    };
-    this.renderViewPort = () => {
-      minimap.renderViewPort();
-    };
+    minimap.bindGraph(graph);
     this.minimap = minimap;
   }
   destroy() {
     this.minimap.destroy();
   }
 }
-
 G6.Plugins['tool.minimap'] = Plugin;
+
+G6.Components.Minimap = Minimap;
 
 module.exports = Plugin;

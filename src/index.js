@@ -15,6 +15,7 @@ const G6 = {
   Layouts: require('./layouts/'),
   G,
   Plugins: {},
+  Components: {},
   Global,
   Shape,
   registerNode: Shape.registerNode,

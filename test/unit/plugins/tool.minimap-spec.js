@@ -72,12 +72,6 @@ describe('minimap test', () => {
   it('after layout', () => {
     graph.layout();
   });
-  it('renderBackground', () => {
-    minimap.renderBackground();
-  });
-  it('renderViewPort', () => {
-    minimap.renderViewPort();
-  });
   it('over min node size', () => {
     graph.update('node1', {
       x: 10000
