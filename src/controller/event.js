@@ -32,6 +32,16 @@ const MouseEventTypes = [ EVENT.DBLCLICK, EVENT.MOUSEDOWN, EVENT.MOUSEUP, EVENT.
   EVENT.CONTEXTMENU, EVENT.MOUSEWHEEL ];
 const KeyboardEventTypes = [ EVENT.KEYDOWN, EVENT.KEYUP, EVENT.KEYPRESS ];
 const CANVAS = 'canvas:';
+function parentNodeHasTag(n, t) {
+  let p = n.parentNode;
+  while (p) {
+    if (p.tagName === t) {
+      return true;
+    }
+    p = p.parentNode;
+  }
+  return false;
+}
 class Controller extends Base {
   constructor(cfg) {
     super(cfg);
@@ -76,6 +86,14 @@ class Controller extends Base {
     const _events = this._domEvents;
     Util.each(MouseEventTypes, item => {
       _events.push(Util.addEventListener(el, item, ev => {
+        // Compatible with SVG
+        if (ev.type === EVENT.MOUSEENTER) {
+          if (ev.fromElement) {
+            if (!ev.fromElement.parentNode || parentNodeHasTag(ev.fromElement, 'foreignObject')) {
+              return;
+            }
+          }
+        }
         const oldEventObj = this._currentEventObj;
         this._oldEventObj = oldEventObj;
         this._processEventObj(ev);
