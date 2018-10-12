@@ -104,54 +104,71 @@ class Minimap {
     this._initContainer();
     this._initMiniMap();
     this._bindEvent();
-    this._assignRenderBackground();
+    this._assignDebounceRender();
   }
-  _assignRenderBackground() {
-    this.renderBackground = Util.debounce(graph => {
-      if (!graph) {
-        graph = this.getGraph();
-      }
-      const miniMapCanvas = this.miniMapCanvas;
-      const width = this.width;
-      const height = this.height;
-      const toSmallNodes = [];
-      const minSize = 2;
-
-      Util.graph2Canvas({
-        graph,
-        width,
-        height,
-        canvas: miniMapCanvas,
-        beforeTransform(minimapMatrix) {
-          const minimapScale = minimapMatrix[0];
-          const nodes = graph.getNodes();
-          nodes.forEach(node => {
-            const bbox = node.getBBox();
-            const model = node.getModel();
-            const width = bbox.width;
-            if (width * minimapScale < minSize) {
-              const group = node.getGraphicGroup();
-              const originMatrix = Util.clone(group.getMatrix());
-              group.transform([
-                [ 't', -model.x, -model.y ],
-                [ 's', minSize / (width * minimapScale), minSize / (width * minimapScale) ],
-                [ 't', model.x, model.y ]
-              ]);
-              toSmallNodes.push({
-                item: node,
-                originMatrix
-              });
-            }
-          });
-        },
-        afterTransform() {
-          toSmallNodes.forEach(({ item, originMatrix }) => {
-            item.getGraphicGroup().setMatrix(originMatrix);
-          });
-        }
-      });
-      this.miniMapMatrix = miniMapCanvas.matrix;
+  _assignDebounceRender() {
+    this.debounceRender = Util.debounce(() => {
+      this.renderBackground();
+      this.renderViewPort();
     }, 32);
+  }
+  bindGraph(graph) {
+    graph.on('afterchange', () => {
+      this.debounceRender();
+    });
+    graph.on('afterlayout', () => {
+      this.debounceRender();
+    });
+    graph.on('afterviewportchange', () => {
+      this.renderViewPort();
+    });
+    graph.on('afterfilter', () => {
+      this.debounceRender();
+    });
+  }
+  renderBackground(graph) {
+    if (!graph) {
+      graph = this.getGraph();
+    }
+    const miniMapCanvas = this.miniMapCanvas;
+    const width = this.width;
+    const height = this.height;
+    const toSmallNodes = [];
+    const minSize = 2;
+    graph.saveImage({
+      graph,
+      width,
+      height,
+      canvas: miniMapCanvas,
+      beforeTransform(minimapMatrix) {
+        const minimapScale = minimapMatrix[0];
+        const nodes = graph.getNodes();
+        nodes.forEach(node => {
+          const bbox = node.getBBox();
+          const model = node.getModel();
+          const width = bbox.width;
+          if (width * minimapScale < minSize) {
+            const group = node.getGraphicGroup();
+            const originMatrix = Util.clone(group.getMatrix());
+            group.transform([
+              [ 't', -model.x, -model.y ],
+              [ 's', minSize / (width * minimapScale), minSize / (width * minimapScale) ],
+              [ 't', model.x, model.y ]
+            ]);
+            toSmallNodes.push({
+              item: node,
+              originMatrix
+            });
+          }
+        });
+      },
+      afterTransform() {
+        toSmallNodes.forEach(({ item, originMatrix }) => {
+          item.getGraphicGroup().setMatrix(originMatrix);
+        });
+      }
+    });
+    this.miniMapMatrix = miniMapCanvas.matrix;
   }
   _bindEvent() {
     const controlLayer = this.controlLayer;

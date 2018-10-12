@@ -54,57 +54,12 @@ const data = {
   children: [
     {
       name: 'Classification',
-      children: [
-        { name: 'Logistic regression' },
-        { name: 'Linear discriminant analysis' },
-        { name: 'Rules' },
-        { name: 'Decision trees' },
-        { name: 'Naive Bayes' },
-        { name: 'K nearest neighbor' },
-        { name: 'Probabilistic neural network' },
-        { name: 'Support vector machine' },
-      ],
     },
     {
       name: 'Consensus',
-      children: [
-        {
-          name: 'Models diversity',
-          children: [
-            { name: 'Different initializations' },
-            { name: 'Different parameter choices' },
-            { name: 'Different architectures' },
-            { name: 'Different modeling methods' },
-            { name: 'Different training sets' },
-            { name: 'Different feature sets' },
-          ],
-        },
-        {
-          name: 'Methods',
-          children: [
-            { name: 'Classifier selection' },
-            { name: 'Classifier fusion' },
-          ],
-        },
-        {
-          name: 'Common',
-          children: [
-            { name: 'Bagging' },
-            { name: 'Boosting' },
-            { name: 'AdaBoost' },
-          ],
-        },
-      ],
     },
     {
       name: 'Regression',
-      children: [
-        { name: 'Multiple linear regression' },
-        { name: 'Partial least squares' },
-        { name: 'Multi-layer feedforward neural network' },
-        { name: 'General regression neural network' },
-        { name: 'Support vector regression' },
-      ],
     },
   ],
 };
@@ -121,8 +76,8 @@ var layout = new G6.Layouts.CompactBoxTree({
 });
 var tree = new G6.Tree({
   id: 'mountNode', // 容器ID
-  renderer: 'svg',
   height: 300, // 画布高
+  renderer: 'svg',
   plugins: [
     new G6.Plugins['tool.minimap']({
       container: 'minimap',
@@ -139,11 +94,11 @@ G6.registerNode('transactionNode', {
   },
   draw(item) {
     const group = item.getGraphicGroup();
-    const { name, id, cnt } = item.getModel();
+    const { name, id, cnt,color } = item.getModel();
     const width = 100;
     const height = 40;
     const html = G6.Util.createDOM(`
-            <div style="border: 1px solid #CCC;height:38px;text-align:center;">
+            <div style="border: 1px solid #CCC;height:38px;text-align:center;background: ${color}">
               <strong class="main-text">${name}</strong>
             </div>
           `);
@@ -163,18 +118,19 @@ G6.registerNode('transactionNode', {
 tree.node({
   shape: 'transactionNode',
 });
-
 tree.edge({
   shape: 'polyline',
 });
 tree.on('node:mouseenter', ev => {
+  console.log('mouseenter');
   tree.update(ev.item, {
     color: 'orange',
   });
 });
 tree.on('node:mouseleave', ev => {
+  console.log('mouseleave');
   tree.update(ev.item, {
-    color: '',
+    color: 'blue',
   });
 });
 tree.read({
