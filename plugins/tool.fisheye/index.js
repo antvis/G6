@@ -39,6 +39,8 @@ class Plugin {
       if (graph.destroyed) return;
       const nodes = graph.getNodes();
       const size = nodes.length;
+      this.preMoveNodes = [];
+
       if (ev === undefined || ev.item === undefined) {
         for (let i = 0; i < size; i++) {
           if (nodes[i].getModel().x === undefined) return;
