@@ -1,7 +1,10 @@
 const G6 = require('../../../src/index');
-const expect = require('chai').expect;
+const chai = require('chai');
+const expect = chai.expect;
 const Simulate = require('event-simulate');
 const Fisheye = require('../../../plugins/tool.fisheye/');
+const chaiAlmost = require('chai-almost');
+chai.use(chaiAlmost());
 
 describe('fisheye test', () => {
   const fisheye = new Fisheye();
@@ -177,7 +180,7 @@ describe('fisheye test', () => {
         clientX: clientPoint.x,
         clientY: clientPoint.y
       });
-      expect([ node1Model.x, node1Model.y ]).eql([ 130, 200 ]);
+      expect([ node1Model.x, node1Model.y ]).to.be.deep.almost([ 130, 200 ], 5);
       expect(div.childNodes.length).not.eql(0);
       done();
     }, 100);
