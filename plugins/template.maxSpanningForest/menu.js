@@ -47,6 +47,7 @@ class Menu {
         if (Util.isFunction(list[i].callBack)) {
           list[i].callBack(node);
         }
+        this.hide();
       });
     }
     this.menu = menu;
