@@ -6,6 +6,7 @@
 const G6 = require('@antv/g6');
 const Util = G6.Util;
 const Fisheye = require('./tool');
+
 class Plugin {
   constructor(options) {
     Util.mix(this, options);
