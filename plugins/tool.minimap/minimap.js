@@ -265,13 +265,7 @@ class Minimap {
     let container = this.container;
     let width = this.width;
     let height = this.height;
-    if (container) {
-      if (Util.isString(container)) {
-        container = document.getElementById(container);
-      }
-    } else {
-      throw new Error('please set the container for the minimap !');
-    }
+    container = Util.initDOMContainer(container, 'minimap');
     if (!width) {
       width = Util.getWidth(container);
       this.width = width;
