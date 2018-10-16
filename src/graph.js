@@ -165,13 +165,7 @@ class Graph extends Base {
       // Compatible with id written
       container = this.get('id');
     }
-    if (container) {
-      if (Util.isString(container)) {
-        container = document.getElementById(container);
-      }
-    } else {
-      throw new Error('please set the container for the graph !');
-    }
+    container = Util.initDOMContainer(container, 'graph');
     const graphContainer = Util.createDOM('<div class="graph-container"></div>', {
       position: 'relative'
     });
