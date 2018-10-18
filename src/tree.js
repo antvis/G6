@@ -57,7 +57,9 @@ class Tree extends Graph {
     const dataMap = this.get('_dataMap');
     const nodes = [];
     const edges = [];
-
+    if (!roots) {
+      throw new Error('please set data.roots!');
+    }
     roots.forEach(root => {
       Util.traverseTree(root, (child, parent) => {
         if (!child.id) {
@@ -244,10 +246,7 @@ class Tree extends Graph {
         } else {
           item.deepEach(child => {
             child.show();
-            child.getEdges(edge => {
-              const model = edge.getModel();
-              return model.target === child.id;
-            }).forEach(edge => {
+            child.getInEdges().forEach(edge => {
               edge.show();
             });
           }, parent => {
