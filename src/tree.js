@@ -160,14 +160,16 @@ class Tree extends Graph {
   /**
    * @param {string} type item type
    * @param {object} model data model
+   * @param {boolean} animate - use animate or not
    * @return {Graph} this
    */
-  add(type, model) {
+  add(type, model, animate) {
     const dataMap = this.get('_dataMap');
     const parent = dataMap[model.parent];
     const ev = {
       action: 'add',
-      model
+      model,
+      animate
     };
     let item;
     if (type !== 'node' && type !== 'guide') {
@@ -202,15 +204,15 @@ class Tree extends Graph {
     }
     ev.item = item;
     this.emit('afterchange', ev);
-    this.draw();
     return item;
   }
   /**
    * @param {String|Item} item target item
    * @param {object} model data model
+   * @param {boolean} animate - use animate or not
    * @return {Graph} this
    */
-  update(item, model) {
+  update(item, model, animate) {
     if (!model) {
       return;
     }
@@ -221,7 +223,8 @@ class Tree extends Graph {
       action: 'update',
       item,
       originModel,
-      updateModel: model
+      updateModel: model,
+      animate
     };
 
     model && this.emit('beforechange', ev);
@@ -315,14 +318,14 @@ class Tree extends Graph {
     }
 
     this.emit('afterchange', ev);
-    this.draw();
     return this;
   }
   /**
    * @param {String|Item} item target item
+   * @param {boolean} animate - use animate or not
    * @return {Graph} this
    */
-  remove(item) {
+  remove(item, animate) {
     const dataMap = this.get('_dataMap');
     const items = [];
     item = this.getItem(item);
@@ -331,7 +334,8 @@ class Tree extends Graph {
     }
     const ev = {
       action: 'remove',
-      item
+      item,
+      animate
     };
     this.emit('beforechange', ev);
     items.push(item);
@@ -352,7 +356,6 @@ class Tree extends Graph {
     }
     this.removeItems(Util.uniq(items));
     this.emit('afterchange', ev);
-    this.draw();
     return this;
   }
   getRoots() {

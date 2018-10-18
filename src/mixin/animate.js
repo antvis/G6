@@ -15,11 +15,28 @@ Mixin.CFG = {
    */
   animate: false,
 
-  /**
-   * animate force prevent
-   * @type {boolean}
-   */
-  forcePreventAnimate: false,
+  _showAnimate(item) {
+    const group = item.getGraphicGroup();
+    if (!item.getKeyShape()) return;
+    const box = item.getBBox();
+    const centerX = (box.minX + box.maxX) / 2;
+    const centerY = (box.minY + box.maxY) / 2;
+    Util.scaleIn(group, centerX, centerY);
+  },
+
+  _hideAnimate(item) {
+    const group = item.getGraphicGroup();
+    if (!item.getKeyShape()) {
+      group.hide();
+      return;
+    }
+    const box = item.getBBox();
+    const centerX = (box.minX + box.maxX) / 2;
+    const centerY = (box.minY + box.maxY) / 2;
+    Util.scaleOut(group, centerX, centerY, () => {
+      group.hide();
+    });
+  },
 
   _enterAnimate(item) {
     const group = item.getGraphicGroup();
@@ -39,48 +56,23 @@ Mixin.CFG = {
     const box = item.getBBox();
     const centerX = (box.minX + box.maxX) / 2;
     const centerY = (box.minY + box.maxY) / 2;
-    Util.scaleOut(group, centerX, centerY, function() {
+    Util.scaleOut(group, centerX, centerY, () => {
       group.remove();
     });
   },
 
-  _updateAnimate(element, props, visibleAction) {
-    if (visibleAction === 'show') {
-      const item = element.item;
-      const box = item.getBBox();
-      const centerX = (box.minX + box.maxX) / 2;
-      const centerY = (box.minY + box.maxY) / 2;
-      Util.scaleIn(element, centerX, centerY);
-    } else if (visibleAction === 'hide') {
-      element.show();
-      const item = element.item;
-      const box = item.getBBox();
-      const centerX = (box.minX + box.maxX) / 2;
-      const centerY = (box.minY + box.maxY) / 2;
-      Util.scaleOut(element, centerX, centerY, function() {
-        element.hide();
-      });
-    } else {
-      element.animate(props, Global.updateDuration, Global.updateEasing);
-    }
+  _updateAnimate(element, props) {
+    element.animate(props, Global.updateDuration, Global.updateEasing);
   }
 };
 Mixin.AUGMENT = {
   _initAnimate() {
-    const controllers = this.get('_controllers');
     const animate = this.get('animate');
-    const canvas = this.get('_canvas');
-    let animateController;
     if (animate) {
-      animateController = new Animate({
-        canvases: [ canvas ],
+      const controllers = this.get('_controllers');
+      controllers.animate = new Animate({
         graph: this
       });
-      controllers.animate = animateController;
-      const animateDraw = Util.debounce(() => {
-        animateController.run();
-      }, 450);
-      this.set('_animateDraw', animateDraw);
     }
   }
 };
