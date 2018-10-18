@@ -48,124 +48,35 @@
     }
   </style>
   <script>
-const data = {
-  edges: [
-    {
-      id: '58c83a7d-117f-543f-1bce-cb033fdd0023',
-      source: 'dbkey_import_alipay',
-      target: 'dbkey_import_alipay_action',
-    },
-  ],
-  groups: [
-    {
-      id: 'dbkey_import_alipay_group',
-      label: '循环节点',
-      serial: false,
-      stateType: 'ForEach',
-      name: 'dbkey_import_alipay',
-      input_params: {
-        '$.app_name': '$.app_name',
-        '$.client_type': '$.client_type',
-        '$.db_name': '$.db_name',
-        '$.force': '$.force_import',
-        '$.ldc': '$.ldc',
-        '$.obregion_name': '$.obregion_name',
-        '$.owner': '$.owner',
-        '$.password': '$.password',
-        '$.shard_id': '$.shard_id',
-        '$.tenant_name': '$.tenant_name',
-        '$.username': '$.username',
-      },
-      parent: 'dds_ob_dbkey_import_alipay_multi_env_group',
-    },
-    {
-      id: 'dds_ob_dbkey_import_alipay_multi_env_group',
-      label: '循环节点',
-      serial: true,
-      stateType: 'ForEach',
-      name: 'dds_ob_dbkey_import_alipay_multi_env',
-      input_params: {
-        '$.app_name': '$.app_name',
-        '$.client_type': '$.client_type',
-        '$.env_list': '$.env_list',
-        '$.ldc': '$.ldc',
-        '$.password': '$.password',
-      },
-      output_params: { '$.dbkey_list': '$.dbkey_list' },
-    },
-  ],
-  nodes: [
-    {
-      id: 'dbkey_import_alipay',
-      color: '#009900',
-      shape: 'flow-circle',
-      size: '10*10',
-      type: 'node',
-      name: 'dbkey_import_alipay',
-      comment: 'dds dbkey录入-主站线下',
-      parent: 'dbkey_import_alipay_group',
-      input_iter_params: {
-        '$.db_name': '$.db_name_list',
-        '$.obregion_name': '$.obregion_list',
-        '$.tenant_name': '$.tenant_list',
-        '$.username': '$.username_list',
-        '$.shard_id': '$.shard_id_list',
-      },
-      x: 40,
-      y: 808,
-    },
-    {
-      id: 'dbkey_import_alipay_action',
-      label: 'dbkey_import_alipay_action',
-      color: '#1890FF',
-      shape: 'flow-rect',
-      size: '80*48',
-      type: 'node',
-      name: 'dbkey_import_alipay_action',
-      ref: 'com.alipay.hnbc.dbkey_import_alipay',
-      parent: 'dbkey_import_alipay_group',
-      input_iter_params: { '$.env': '$.env_list' },
-      x: 40,
-      y: 906,
-    },
-  ]
-};
-const graph = new G6.Graph({
-  container: 'mountNode',
-  width: 500,
-  height: 500,
-  fitView: 'cc'
-});
-graph.read(data);
-    // const data = {
-    //   roots: [{
-    //     label: 'root',
-    //     children: [{
-    //       label: 'child2'
-    //     }]
-    //   }]
-    // };
-    // const tree = new G6.Tree({
-    //   container: 'mountNode',
-    //   width: 500,
-    //   height: 500,
-    //   animate: true,
-    //   fitView: 'cc'
-    // });
-    // tree.read(data, true);
-    // tree.on('node:click', ({item})=>{
-    //   const model = item.getModel();
-    //   const { collapsed } = model;
-    //   if (collapsed) {
-    //     tree.update(item, {
-    //       collapsed: false
-    //     }, true);
-    //   } else {
-    //     tree.update(item, {
-    //       collapsed: true
-    //     }, true);
-    //   }
-    // });
+    const data = {
+      roots: [{
+        label: 'root',
+        children: [{
+          label: 'child2'
+        }]
+      }]
+    };
+    const tree = new G6.Tree({
+      container: 'mountNode',
+      width: 500,
+      height: 500,
+      animate: true,
+      fitView: 'cc'
+    });
+    tree.read(data, true);
+    tree.on('node:click', ({item})=>{
+      const model = item.getModel();
+      const { collapsed } = model;
+      if (collapsed) {
+        tree.update(item, {
+          collapsed: false
+        }, true);
+      } else {
+        tree.update(item, {
+          collapsed: true
+        }, true);
+      }
+    });
   </script>
 </body>
 </html>
