@@ -15,11 +15,12 @@ Mixin.AUGMENT = {
       eventNames.forEach(eventName => {
         this.on('before' + eventName, ({ animate }) => {
           if (animate && animateController) {
-            animateController.cacheGraph();
+            animateController.cacheGraph('stash0');
           }
         });
         this.on('after' + eventName, ({ animate }) => {
           if (animate && animateController) {
+            animateController.cacheGraph('stash1');
             animateController.run();
           } else {
             this.draw();

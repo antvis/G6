@@ -7,10 +7,6 @@ const Base = require('./base');
 const Util = require('../util/');
 
 class Controller extends Base {
-  constructor(cfg) {
-    super(cfg);
-    this._init();
-  }
   getDefaultCfg() {
     return {
       graph: null,
@@ -18,32 +14,12 @@ class Controller extends Base {
       stash1: {}
     };
   }
-  _init() {
-    const graph = this.graph;
-    graph.on('afteritemdraw', ({ item }) => {
-      this.cache(item, this.stash1);
-    });
-    graph.on('afteritemhide', ({ item }) => {
-      this.stash1[item.id].visible = false;
-    });
-    graph.on('afteritemshow', ({ item }) => {
-      this.stash1[item.id].visible = true;
-    });
-    graph.on('afteritemdestroy', ({ item }) => {
-      const group = item.getGraphicGroup();
-      delete this.stash1[group.gid];
-      group.deepEach(element => {
-        const id = element.gid;
-        delete this.stash1[id];
-      });
-    });
-  }
-  cacheGraph() {
+  cacheGraph(stashType) {
     const graph = this.graph;
     const items = graph.getItems();
-    this.stash0 = {};
+    this[stashType] = {};
     items.forEach(item => {
-      this.cache(item, this.stash0);
+      this.cache(item, this[stashType]);
     });
   }
   cache(item, stash) {
@@ -92,12 +68,12 @@ class Controller extends Base {
           }
         }
       } else {
-        enterElements.push(k);
+        subStash1.element.isItemContainer && enterElements.push(k);
       }
     });
     Util.each(stash0, (v, k) => {
       if (!stash1[k]) {
-        leaveElements.push(k);
+        stash1[k].element.isItemContainer && leaveElements.push(k);
       }
     });
     this.enterElements = enterElements;
@@ -116,6 +92,11 @@ class Controller extends Base {
     const showElements = this.showElements;
     const stash0 = this.stash0;
     const stash1 = this.stash1;
+    // console.log('enterElements ==> ', enterElements);
+    // console.log('leaveElements ==> ', leaveElements);
+    // console.log('updateElements ==> ', updateElements);
+    // console.log('hideElements ==> ', hideElements);
+    // console.log('showElements ==> ', showElements);
 
     enterElements.forEach(elementId => {
       const subStash1 = stash1[elementId];
@@ -151,7 +132,7 @@ class Controller extends Base {
       const subStash1 = stash1[elementId];
       const hideAnimate = subStash1.hideAnimate;
       if (hideAnimate) {
-        subStash1.item.show();
+        subStash1.element.show();
         hideAnimate(subStash1.item);
       }
     });
