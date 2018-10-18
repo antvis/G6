@@ -63,7 +63,13 @@ class Item {
        * is item
        * @type {boolean}
        */
-      isItem: true
+      isItem: true,
+
+      /**
+       * visible - not group visible
+       * @type {boolean}
+       */
+      visible: true
     };
     Util.mix(this, defaultCfg, cfg);
     this._init();
@@ -214,8 +220,7 @@ class Item {
     this.collapsedParent = getCollapsedParent(this.model, dataMap);
   }
   isVisible() {
-    const group = this.group;
-    return group.get('visible');
+    return this.visible;
   }
   hide() {
     const group = this.group;
@@ -224,6 +229,7 @@ class Item {
       item: this
     });
     group.hide();
+    this.visible = false;
     graph.emit('afteritemhide', {
       item: this
     });
@@ -235,6 +241,7 @@ class Item {
       item: this
     });
     group.show();
+    this.visible = true;
     graph.emit('afteritemshow', {
       item: this
     });

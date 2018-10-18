@@ -3,20 +3,22 @@ const Global = require('../global');
 module.exports = {
   /**
    * scale in animate
-   * @param  {object}  element g element
-   * @param  {object}  x to x
-   * @param  {object}  y to y
+   * @param  {object}  item - graph item
    * @param  {function} callback callback when animate finshed
    */
-  scaleIn(element, x, y, callback) {
-    const m = element.getMatrix();
+  scaleIn(item, callback) {
+    const group = item.getGraphicGroup();
+    const box = item.getBBox();
+    const x = (box.minX + box.maxX) / 2;
+    const y = (box.minY + box.maxY) / 2;
+    const m = group.getMatrix();
     const s = m[0];
-    element.transform([
+    group.transform([
       [ 't', -x, -y ],
       [ 's', 0.01 / s, 0.01 / s ],
       [ 't', x, y ]
     ]);
-    element && !element.get('destroyed') && element.animate({
+    group.animate({
       transform: [
         [ 't', -x, -y ],
         [ 's', 100 * s, 100 * s ],
@@ -26,15 +28,17 @@ module.exports = {
   },
   /**
    * scale out animate
-   * @param  {object}  element g element
-   * @param  {object}  x to x
-   * @param  {object}  y to y
+   * @param  {object}  item - graph item
    * @param  {function} callback callback when animate finshed
    */
-  scaleOut(element, x, y, callback) {
-    const m = element.getMatrix();
+  scaleOut(item, callback) {
+    const group = item.getGraphicGroup();
+    const box = item.getBBox();
+    const x = (box.minX + box.maxX) / 2;
+    const y = (box.minY + box.maxY) / 2;
+    const m = group.getMatrix();
     const s = m[0];
-    element && !element.get('destroyed') && element.animate({
+    group.animate({
       transform: [
         [ 't', -x, -y ],
         [ 's', 0.01 / s, 0.01 / s ],

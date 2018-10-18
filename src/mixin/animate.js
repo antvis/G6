@@ -16,47 +16,25 @@ Mixin.CFG = {
   animate: false,
 
   _showAnimate(item) {
-    const group = item.getGraphicGroup();
     if (!item.getKeyShape()) return;
-    const box = item.getBBox();
-    const centerX = (box.minX + box.maxX) / 2;
-    const centerY = (box.minY + box.maxY) / 2;
-    Util.scaleIn(group, centerX, centerY);
+    Util.scaleIn(item);
   },
 
   _hideAnimate(item) {
     const group = item.getGraphicGroup();
-    if (!item.getKeyShape()) {
-      group.hide();
-      return;
-    }
-    const box = item.getBBox();
-    const centerX = (box.minX + box.maxX) / 2;
-    const centerY = (box.minY + box.maxY) / 2;
-    Util.scaleOut(group, centerX, centerY, () => {
-      group.hide();
+    Util.scaleOut(item, () => {
+      !item.visible && group.hide();
     });
   },
 
   _enterAnimate(item) {
-    const group = item.getGraphicGroup();
     if (!item.getKeyShape()) return;
-    const box = item.getBBox();
-    const centerX = (box.minX + box.maxX) / 2;
-    const centerY = (box.minY + box.maxY) / 2;
-    Util.scaleIn(group, centerX, centerY);
+    Util.scaleIn(item);
   },
 
   _leaveAnimate(item) {
     const group = item.getGraphicGroup();
-    if (!item.getKeyShape()) {
-      group.remove();
-      return;
-    }
-    const box = item.getBBox();
-    const centerX = (box.minX + box.maxX) / 2;
-    const centerY = (box.minY + box.maxY) / 2;
-    Util.scaleOut(group, centerX, centerY, () => {
+    Util.scaleOut(item, () => {
       group.remove();
     });
   },
