@@ -35,18 +35,27 @@ Mixin.AUGMENT = {
     }
     return null;
   },
-  layout() {
-    this._getController('layout').layout();
+  /**
+   * @param  {boolean} animate - use animate or not
+   * @return {Graph} this
+   */
+  layout(animate) {
+    this._getController('layout').layout(animate);
     return this;
   },
   /**
    * @param  {array} nodes - nodes need update position
+   * @param  {boolean} animate - use animate or not
    * @return {Graph} this
    */
-  updateNodePosition(nodes) {
+  updateNodePosition(nodes, animate) {
     const guides = this.getGuides();
+    const ev = {
+      animate
+    };
     let groups = [];
     let edges = [];
+    this.emit('beforeupdatenodeposition', ev);
     if (nodes) {
       nodes.forEach(node => {
         node.getEdges().forEach(edge => {
@@ -74,11 +83,16 @@ Mixin.AUGMENT = {
     guides.forEach(guide => {
       guide.layoutUpdate();
     });
-    this.draw();
+    this.emit('afterupdatenodeposition', ev);
     return this;
   },
-  changeLayout(processor) {
-    this._getController('layout').changeLayout(processor);
+  /**
+   * @param  {object} processor - layout processer
+   * @param  {boolean} animate - use animate or not
+   * @return {Graph} this
+   */
+  changeLayout(processor, animate) {
+    this._getController('layout').changeLayout(processor, animate);
     return this;
   },
   getLayout() {

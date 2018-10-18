@@ -48,195 +48,124 @@
     }
   </style>
   <script>
-const MaxSpanningForestPlugin = G6.Plugins['template.maxSpanningForest'];
-        const maxSpanningForest = new MaxSpanningForestPlugin();
-
-G6.registerNode('databaseNode', {
-            draw(item) {
-                console.log('item:', item);
-                const group = item.getGraphicGroup();
-
-                const html = G6.Util.createDOM('<div id="parent">test</div>');
-               
-                return group.addShape('dom', {
-                    attrs: {
-                        x: 0,
-                        y: 0,
-                        width: 100,
-                        height: 30,
-                        html
-                    }
-                });
-            }
-        });
-
-
 const data = {
-    nodes: [
-        {
-            id: 0,
-            weight: 42.194703980779714
-        },
-        {
-            id: 1,
-            weight: 72.86640536738712
-        },
-        {
-            id: 2,
-            weight: 82.29983433131834
-        },
-        {
-            id: 3,
-            weight: 23.204885400175424
-        },
-        {
-            id: 4,
-            weight: 100.84964997048472
-        },
-        {
-            id: 5,
-            weight: 72.90971413062293
-        },
-        {
-            id: 6,
-            weight: 15.029159176990348
-        },
-        {
-            id: 7,
-            weight: 24.38308784826313
-        },
-        {
-            id: 8,
-            weight: 78.00164088714241
-        },
-        {
-            id: 9,
-            weight: 53.580641600279954
-        },
-    ],
-    edges: [
-        {
-            id: '1-6',
-            source: 1,
-            target: 6,
-            weight: 89.69805016254719,
-        },
-        {
-            id: '5-3',
-            source: 5,
-            target: 3,
-            weight: 86.31397440928264,
-        },
-        {
-            id: '0-5',
-            source: 0,
-            target: 5,
-            weight: 76.94877138495532,
-        },
-        {
-            id: '5-9',
-            source: 5,
-            target: 9,
-            weight: 63.754902669930644,
-        },
-        {
-            id: '2-7',
-            source: 2,
-            target: 7,
-            weight: 4.449707271000913,
-        },
-        {
-            id: '3-4',
-            source: 3,
-            target: 4,
-            weight: 36.97483959651564,
-        },
-        {
-            id: '9-3',
-            source: 9,
-            target: 3,
-            weight: 50.354719513581635,
-        },
-        {
-            id: '6-4',
-            source: 6,
-            target: 4,
-            weight: 10.02660118138856,
-        },
-        {
-            id: '8-3',
-            source: 8,
-            target: 3,
-            weight: 13,
-        },
-        {
-            id: '8-4',
-            source: 8,
-            target: 4,
-            weight: 13,
-        },
-        {
-            id: '2-1',
-            source: 2,
-            target: 1,
-            weight: 13,
-        },
-        {
-            id: '4-5',
-            source: 4,
-            target: 5,
-            weight: 60,
-        },
-        {
-            id: '4-8',
-            source: 4,
-            target: 8,
-            weight: 63,
-        },
-        {
-            id: '8-5',
-            source: 8,
-            target: 5,
-            weight: 13,
-        },
-        {
-            id: '9-2',
-            source: 9,
-            target: 2,
-            weight: 13,
-        },
-        {
-            id: '1-8',
-            source: 1,
-            target: 8,
-            weight: 19.02660118138856,
-        },
-        {
-            id: '4-2',
-            source: 4,
-            target: 2,
-            weight: 50.02660118138856,
-        },
-    ],
+  edges: [
+    {
+      id: '58c83a7d-117f-543f-1bce-cb033fdd0023',
+      source: 'dbkey_import_alipay',
+      target: 'dbkey_import_alipay_action',
+    },
+  ],
+  groups: [
+    {
+      id: 'dbkey_import_alipay_group',
+      label: '循环节点',
+      serial: false,
+      stateType: 'ForEach',
+      name: 'dbkey_import_alipay',
+      input_params: {
+        '$.app_name': '$.app_name',
+        '$.client_type': '$.client_type',
+        '$.db_name': '$.db_name',
+        '$.force': '$.force_import',
+        '$.ldc': '$.ldc',
+        '$.obregion_name': '$.obregion_name',
+        '$.owner': '$.owner',
+        '$.password': '$.password',
+        '$.shard_id': '$.shard_id',
+        '$.tenant_name': '$.tenant_name',
+        '$.username': '$.username',
+      },
+      parent: 'dds_ob_dbkey_import_alipay_multi_env_group',
+    },
+    {
+      id: 'dds_ob_dbkey_import_alipay_multi_env_group',
+      label: '循环节点',
+      serial: true,
+      stateType: 'ForEach',
+      name: 'dds_ob_dbkey_import_alipay_multi_env',
+      input_params: {
+        '$.app_name': '$.app_name',
+        '$.client_type': '$.client_type',
+        '$.env_list': '$.env_list',
+        '$.ldc': '$.ldc',
+        '$.password': '$.password',
+      },
+      output_params: { '$.dbkey_list': '$.dbkey_list' },
+    },
+  ],
+  nodes: [
+    {
+      id: 'dbkey_import_alipay',
+      color: '#009900',
+      shape: 'flow-circle',
+      size: '10*10',
+      type: 'node',
+      name: 'dbkey_import_alipay',
+      comment: 'dds dbkey录入-主站线下',
+      parent: 'dbkey_import_alipay_group',
+      input_iter_params: {
+        '$.db_name': '$.db_name_list',
+        '$.obregion_name': '$.obregion_list',
+        '$.tenant_name': '$.tenant_list',
+        '$.username': '$.username_list',
+        '$.shard_id': '$.shard_id_list',
+      },
+      x: 40,
+      y: 808,
+    },
+    {
+      id: 'dbkey_import_alipay_action',
+      label: 'dbkey_import_alipay_action',
+      color: '#1890FF',
+      shape: 'flow-rect',
+      size: '80*48',
+      type: 'node',
+      name: 'dbkey_import_alipay_action',
+      ref: 'com.alipay.hnbc.dbkey_import_alipay',
+      parent: 'dbkey_import_alipay_group',
+      input_iter_params: { '$.env': '$.env_list' },
+      x: 40,
+      y: 906,
+    },
+  ]
 };
-
 const graph = new G6.Graph({
-    id: 'mountNode',
-    renderer: 'svg',
-    width: 1000,
-    height: window.innerHeight,
-    fitView: 'cc',
-    fitViewPadding: true,
-    plugins: [maxSpanningForest]
+  container: 'mountNode',
+  width: 500,
+  height: 500,
+  fitView: 'cc'
 });
-
-// 注释掉node的shape设置后，就可以显示了
-graph.node({
-  shape: 'databaseNode'
-});
-
-
 graph.read(data);
+    // const data = {
+    //   roots: [{
+    //     label: 'root',
+    //     children: [{
+    //       label: 'child2'
+    //     }]
+    //   }]
+    // };
+    // const tree = new G6.Tree({
+    //   container: 'mountNode',
+    //   width: 500,
+    //   height: 500,
+    //   animate: true,
+    //   fitView: 'cc'
+    // });
+    // tree.read(data, true);
+    // tree.on('node:click', ({item})=>{
+    //   const model = item.getModel();
+    //   const { collapsed } = model;
+    //   if (collapsed) {
+    //     tree.update(item, {
+    //       collapsed: false
+    //     }, true);
+    //   } else {
+    //     tree.update(item, {
+    //       collapsed: true
+    //     }, true);
+    //   }
+    // });
   </script>
 </body>
 </html>

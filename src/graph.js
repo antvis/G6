@@ -22,7 +22,7 @@ const AnimateMixin = require('./mixin/animate');
 const DrawMixin = require('./mixin/draw');
 const FitView = require('./mixin/fit-view');
 const ForceFit = require('./mixin/force-fit');
-const Mixins = [ FilterMixin, MappingMixin, QueryMixin, AnimateMixin, DrawMixin, ForceFit, LayoutMixin, FitView, EventMixin, ModeMixin ];
+const Mixins = [ FilterMixin, MappingMixin, QueryMixin, LayoutMixin, AnimateMixin, DrawMixin, ForceFit, FitView, EventMixin, ModeMixin ];
 const TAB_INDEX = 20;
 
 class Graph extends Base {
@@ -405,15 +405,8 @@ class Graph extends Base {
     this.emit('beforedrawinner');
     this._drawInner();
     this.emit('afterdrawinner');
-    this.draw();
     this.emit('afterrender');
     return this;
-  }
-  /**
-   * @param  {boolean} bool - if force prevent animate
-   */
-  forcePreventAnimate(bool) {
-    this.set('forcePreventAnimate', bool);
   }
   /**
    * @return {Graph} - this
@@ -488,12 +481,14 @@ class Graph extends Base {
   /**
    * @param {string} type item type
    * @param {object} model data model
+   * @param {boolean} animate - use animate or not
    * @return {Graph} this
    */
-  add(type, model) {
+  add(type, model, animate) {
     const ev = {
       action: 'add',
-      model
+      model,
+      animate
     };
     this.emit('beforechange', ev);
     const itemMap = this.get('_itemMap');
@@ -504,21 +499,22 @@ class Graph extends Base {
     });
     ev.item = item;
     this.emit('afterchange', ev);
-    this.draw();
     return item;
   }
   /**
    * @param {String|Item} item target item
+   * @param {boolean} animate - use animate or not
    * @return {Graph} this
    */
-  remove(item) {
+  remove(item, animate) {
     item = this.getItem(item);
     if (!item || item.destroyed) {
       return;
     }
     const ev = {
       action: 'remove',
-      item
+      item,
+      animate
     };
     this.emit('beforechange', ev);
     if (item.isNode || item.isGroup) {
@@ -541,7 +537,6 @@ class Graph extends Base {
       parent.update();
     });
     this.emit('afterchange', ev);
-    this.draw();
     return this;
   }
   /**
@@ -557,9 +552,10 @@ class Graph extends Base {
   /**
    * @param {String|Item|Undefined} item target item
    * @param {object} model data model
+   * @param {boolean} animate - use animate or not
    * @return {Graph} this
    */
-  update(item, model) {
+  update(item, model, animate) {
     const itemMap = this.get('_itemMap');
     item = this.getItem(item);
     if (!item || item.destroyed) {
@@ -572,16 +568,18 @@ class Graph extends Base {
       action: 'update',
       item,
       originModel,
-      updateModel: model
+      updateModel: model,
+      animate
     };
+
+    model && this.emit('beforechange', ev);
+
     const originParent = itemMap[originModel.parent];
     if (originParent && (originParent !== parent) && Util.isGroup(originParent)) {
       item.getAllParents().forEach(parent => {
         parent.update();
       });
     }
-
-    model && this.emit('beforechange', ev);
     this.updateItem(item, model);
 
     // If the update nodes or group, update their parent
@@ -619,22 +617,23 @@ class Graph extends Base {
       });
     }
     model && this.emit('afterchange', ev);
-    this.draw();
     return this;
   }
   /**
    * change data
-   * @param {object} data source data
+   * @param {object} data - source data
+   * @param {boolean} animate - use animate or not
    * @return {Graph} this
    */
-  read(data) {
+  read(data, animate) {
     if (!data) {
       throw new Error('please read valid data!');
     }
     const fitView = this.get('fitView');
     const ev = {
       action: 'changeData',
-      data
+      data,
+      animate
     };
     this.emit('beforechange', ev);
     this.clear();
