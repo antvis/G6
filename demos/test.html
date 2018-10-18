@@ -48,95 +48,35 @@
     }
   </style>
   <script>
-// 详细文档见 ： https://antv.alipay.com/g6/doc/index.html
-const data = {
-  name: 'Modeling Methods',
-  children: [
-    {
-      name: 'Classification',
-    },
-    {
-      name: 'Consensus',
-    },
-    {
-      name: 'Regression',
-    },
-  ],
-};
-var layout = new G6.Layouts.CompactBoxTree({
-  direction: 'TB', // 方向（LR/RL/H/TB/BT/V）
-  getHGap: function getHGap() /* d */ {
-    // 横向间距
-    return 100;
-  },
-  getVGap: function getVGap() /* d */ {
-    // 竖向间距
-    return 24;
-  },
-});
-var tree = new G6.Tree({
-  id: 'mountNode', // 容器ID
-  height: 300, // 画布高
-  renderer: 'svg',
-  plugins: [
-    new G6.Plugins['tool.minimap']({
-      container: 'minimap',
+    const data = {
+      roots: [{
+        label: 'root',
+        children: [{
+          label: 'child2'
+        }]
+      }]
+    };
+    const tree = new G6.Tree({
+      container: 'mountNode',
       width: 500,
-      height: 120,
-    }),
-  ],
-  layout: layout,
-});
-G6.registerNode('transactionNode', {
-  anchor: {
-    // 相交盒模型
-    intersectBox: 'rect',
-  },
-  draw(item) {
-    const group = item.getGraphicGroup();
-    const { name, id, cnt,color } = item.getModel();
-    const width = 100;
-    const height = 40;
-    const html = G6.Util.createDOM(`
-            <div style="border: 1px solid #CCC;height:38px;text-align:center;background: ${color}">
-              <strong class="main-text">${name}</strong>
-            </div>
-          `);
-    const keyShape = group.addShape('dom', {
-      attrs: {
-        x: 0,
-        y: 0,
-        width,
-        height,
-        html,
-      },
+      height: 500,
+      animate: true,
+      fitView: 'cc'
     });
-    return keyShape;
-  },
-  anchor: [[0.5, 0], [0.5, 1]],
-});
-tree.node({
-  shape: 'transactionNode',
-});
-tree.edge({
-  shape: 'polyline',
-});
-tree.on('node:mouseenter', ev => {
-  console.log('mouseenter');
-  tree.update(ev.item, {
-    color: 'orange',
-  });
-});
-tree.on('node:mouseleave', ev => {
-  console.log('mouseleave');
-  tree.update(ev.item, {
-    color: 'blue',
-  });
-});
-tree.read({
-  roots: [data],
-});
-
+    tree.read(data, true);
+    tree.on('node:click', ({item})=>{
+      const model = item.getModel();
+      const { collapsed } = model;
+      if (collapsed) {
+        tree.update(item, {
+          collapsed: false
+        }, true);
+      } else {
+        tree.update(item, {
+          collapsed: true
+        }, true);
+      }
+    });
   </script>
 </body>
 </html>

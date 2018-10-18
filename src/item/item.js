@@ -111,20 +111,25 @@ class Item {
   getGraph() {
     return this.graph;
   }
-  getEnterAnimate() {
+  _getAnimate(type) {
     const shapeObj = this.shapeObj;
     const graph = this.graph;
-    return shapeObj.enterAnimate ? shapeObj.enterAnimate : graph.get('_enterAnimate');
+    return shapeObj[type + 'Animate'] ? shapeObj[type + 'Animate'] : graph.get('_' + type + 'Animate');
+  }
+  getHideAnimate() {
+    return this._getAnimate('hide');
+  }
+  getShowAnimate() {
+    return this._getAnimate('show');
+  }
+  getEnterAnimate() {
+    return this._getAnimate('enter');
   }
   getLeaveAnimate() {
-    const shapeObj = this.shapeObj;
-    const graph = this.graph;
-    return shapeObj.leaveAnimate ? shapeObj.leaveAnimate : graph.get('_leaveAnimate');
+    return this._getAnimate('leave');
   }
   getUpdateAnimate() {
-    const shapeObj = this.shapeObj;
-    const graph = this.graph;
-    return shapeObj.updateAnimate ? shapeObj.updateAnimate : graph.get('_updateAnimate');
+    return this._getAnimate('update');
   }
   _setShapeObj() {
     const graph = this.graph;
@@ -157,9 +162,11 @@ class Item {
   }
   _beforeDraw() {
     const graph = this.graph;
+    const group = this.group;
     graph.emit('beforeitemdraw', {
       item: this
     });
+    group.resetMatrix();
     this.updateCollapsedParent();
   }
   _shouldDraw() {
