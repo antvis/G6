@@ -82,7 +82,8 @@
         id: 'mountNode',             // dom id
         height: window.innerHeight,
         layout: {
-          processer: force
+          processer: force,
+          auto: 'once'
         },
         plugins: [nodeSizeMapper, nodeColorMapper, edgeSizeMapper, template],
         animate: true,
@@ -117,7 +118,7 @@
           return b.weight - a.weight;
         }
       });
-      graph.read(data);
+      graph.read(data, true);
       setInterval(() => {
         if (document.visibilityState === 'visible') {
           let layouts = [circle, dagre, force, grid, spiral];
@@ -125,7 +126,7 @@
             return layout !== graph.getLayout();
           });
           const layout = layouts[parseInt(layouts.length * Math.random())];
-          graph.changeLayout(layout);
+          graph.changeLayout(layout, true);
         }
       }, 2000);
     });
