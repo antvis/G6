@@ -8,6 +8,7 @@ const Util = require('@antv/util/lib');
 
 const BaseUtil = {
   ...Util,
+  omit: require('lodash/omit'),
   lowerFirst: require('lodash/lowerFirst'),
   isPlainObject: require('lodash/isPlainObject'),
   indexOf: require('lodash/indexOf'),

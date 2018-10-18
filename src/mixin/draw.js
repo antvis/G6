@@ -5,30 +5,37 @@
 
 const Mixin = {};
 Mixin.INIT = '_initDraw';
+
 Mixin.AUGMENT = {
   _initDraw() {
     const controllers = this.get('_controllers');
-    const canvas = this.get('_canvas');
-    const animateDraw = this.get('_animateDraw');
     const animateController = controllers.animate;
-    const simpleDraw = () => {
-      canvas.draw();
-    };
-    let draw;
-    if (animateDraw) {
-      draw = () => {
-        const forcePreventAnimate = this.get('forcePreventAnimate');
-        if (forcePreventAnimate) {
-          animateController.updateStash();
-          simpleDraw();
-        } else {
-          animateDraw();
-        }
-      };
-    } else {
-      draw = simpleDraw;
+    if (animateController) {
+      const eventNames = [ 'change', 'updatenodeposition' ];
+      eventNames.forEach(eventName => {
+        this.on('before' + eventName, ({ animate }) => {
+          if (animate && animateController) {
+            animateController.cacheGraph();
+          }
+        });
+        this.on('after' + eventName, ({ animate }) => {
+          if (animate && animateController) {
+            animateController.run();
+          } else {
+            this.draw();
+          }
+        });
+      });
     }
-    this.draw = draw;
+  },
+  draw() {
+    const canvas = this.get('_canvas');
+    canvas.draw();
+  },
+  animateDraw() {
+    const controllers = this.get('_controllers');
+    const animateController = controllers.animate;
+    animateController.run();
   }
 };
 module.exports = Mixin;

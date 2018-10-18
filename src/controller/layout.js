@@ -57,11 +57,18 @@ class Controller extends Base {
       }
     });
   }
-  changeLayout(processor) {
+  /**
+   * @param  {object} processor - layout processer
+   * @param  {boolean} animate - use animate or not
+   */
+  changeLayout(processor, animate) {
     this.processor = processor;
-    this.layout();
+    this.layout(animate);
   }
-  layout() {
+  /**
+   * @param  {boolean} animate - use animate or not
+   */
+  layout(animate) {
     const graph = this.graph;
     const processor = this.getLayoutProcessor();
     graph.emit('beforelayout');
@@ -87,7 +94,7 @@ class Controller extends Base {
       return group.getModel();
     });
     graph._executeLayout(processor, nodes, edges, groups);
-    graph.updateNodePosition();
+    graph.updateNodePosition(undefined, animate);
     graph.emit('afterlayout');
   }
   getLayoutProcessor() {
