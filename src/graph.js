@@ -502,7 +502,7 @@ class Graph extends Base {
     return item;
   }
   /**
-   * @param {String|Item} item target item
+   * @param {String|Item} item - target item
    * @param {boolean} animate - use animate or not
    * @return {Graph} this
    */
