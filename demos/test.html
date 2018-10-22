@@ -49,40 +49,62 @@
   </style>
   <script>
     const data = {
-      roots: [{
-        label: 'root',
-        children: [{
-          label: 'child1',
-          children: [
-            {
-              label: 'child\n1.1'
-            }
-          ]
-        }, {
-          label: 'child2'
-        }]
+      nodes: [{
+        id: 'node1',
+        x: 100,
+        y: 200
+      }, {
+        id: 'node2',
+        x: 300,
+        y: 200
+      }],
+      edges: [{
+        target: 'node2',
+        source: 'node1'
       }]
     };
-    const tree = new G6.Tree({
+    const graph = new G6.Graph({
       container: 'mountNode',
       width: 500,
       height: 500,
-      animate: true,
-      fitView: 'cc'
+      animate: true
+    }); 
+    graph.read(data);
+    graph.update('node1', {
+      size: 10
     });
-    tree.read(data, true);
-    tree.on('node:click', ({item})=>{
-      const model = item.getModel();
-      const { collapsed } = model;
-      if (collapsed) {
-        tree.update(item, {
-          collapsed: false
-        }, true);
-      } else {
-        tree.update(item, {
-          collapsed: true
-        }, true);
-      }
+    graph.update('node1', {
+      size: 10
+    });
+    graph.update('node1', {
+      size: 10
+    });
+    graph.update('node1', {
+      size: 10
+    });
+    graph.update('node1', {
+      size: 10
+    });
+    graph.update('node1', {
+      size: 10
+    });
+    graph.update('node1', {
+      size: 10
+    });
+    graph.update('node1', {
+      size: 1000
+    });
+    graph.update('node1', {
+      size: 10
+    });
+    graph.update('node1', {
+      y: 10
+    });
+    graph.update('node2', {
+      y: 300
+    }, true);
+    graph.on('click', ()=>{
+      graph.draw();
     });
   </script>
 </body>
