@@ -73,7 +73,7 @@ class Controller extends Base {
     });
     Util.each(stash0, (v, k) => {
       if (!stash1[k]) {
-        stash1[k].element.isItemContainer && leaveElements.push(k);
+        v.element.isItemContainer && leaveElements.push(k);
       }
     });
     this.enterElements = enterElements;
