@@ -108,7 +108,7 @@ class Graph extends Base {
     const cfg = {};
 
     Mixins.forEach(Mixin => {
-      Util.mix(cfg, Util.cloneDeep(Mixin.CFG), inputCfg);
+      Util.mix(cfg, Util.clone(Mixin.CFG), inputCfg);
     });
     super(cfg);
     // plugin should init before all
@@ -467,7 +467,7 @@ class Graph extends Base {
       const model = child.model;
       if (model) {
         const type = child.itemType;
-        const saveModel = Util.cloneDeep(model);
+        const saveModel = Util.clone(model);
         saveModel.index = index;
         rst[type + 's'].push(saveModel);
       }

@@ -17,7 +17,7 @@ const graph = new Graph({
   height
 });
 
-graph.source(Util.cloneDeep(data));
+graph.source(Util.clone(data));
 
 graph.render();
 
@@ -31,7 +31,7 @@ describe('anchor user case test', () => {
     G6.registerNode('test1', {
       anchor: getDefaultAnchors
     });
-    const tmpData = Util.cloneDeep(data);
+    const tmpData = Util.clone(data);
     tmpData.nodes = tmpData.nodes.map(item => {
       item.shape = 'test1';
       return item;
@@ -60,7 +60,7 @@ describe('anchor user case test', () => {
       },
       anchor: getDefaultAnchors()
     });
-    const tmpData = Util.cloneDeep(data);
+    const tmpData = Util.clone(data);
     tmpData.nodes = tmpData.nodes.map(item => {
       item.shape = 'test2';
       return item;
@@ -105,7 +105,7 @@ describe('anchor user case test', () => {
       }
     });
 
-    const tmpData = Util.cloneDeep(data);
+    const tmpData = Util.clone(data);
     tmpData.nodes = tmpData.nodes.map(item => {
       item.shape = 'test3';
       return item;
@@ -133,7 +133,7 @@ describe('anchor user case test', () => {
       }
     });
 
-    const tmpData = Util.cloneDeep(data);
+    const tmpData = Util.clone(data);
     tmpData.nodes = tmpData.nodes.map(item => {
       item.shape = 'test';
       return item;

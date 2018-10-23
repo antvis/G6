@@ -365,7 +365,7 @@ class Tree extends Graph {
   }
   save() {
     const rst = {
-      roots: Util.cloneDeep(this.getSource().roots),
+      roots: Util.clone(this.getSource().roots),
       guides: this.getGuides().map(guide => {
         return guide.getModel();
       })
