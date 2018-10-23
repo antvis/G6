@@ -119,11 +119,17 @@ class Controller extends Base {
       const subStash0 = stash0[elementId];
       const e1 = subStash1.element;
       const e0 = subStash0.element;
+      const updateProps = {
+        ...subStash1.attrs
+      };
       if (subStash0.attrs) {
         e1.attr(subStash0.attrs);
       }
-      e1.setMatrix(subStash0.matrix);
-      updateAnimate(e1, Util.mix({}, subStash1.attrs, { matrix: subStash1.matrix }));
+      if (!Util.isEqual(subStash0.matrix, subStash1.matrix)) {
+        e1.setMatrix(subStash0.matrix);
+        updateProps.matrix = subStash1.matrix;
+      }
+      updateAnimate(e1, updateProps);
       if (e0 !== e1) {
         e0.remove();
       }
