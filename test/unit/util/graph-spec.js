@@ -11,7 +11,7 @@ const graph = new Graph({
   width: 500,
   height: 500
 });
-graph.read(Util.cloneDeep(data));
+graph.read(Util.clone(data));
 describe('graph util test', () => {
   it('isNode', () => {
     expect(Util.isNode()).not.equal(true);
