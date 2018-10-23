@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="./assets/d3-4.13.0.min.js"></script>
   <script src="./assets/jquery-3.2.1.min.js"></script>
   <script src="../build/g6.js"></script>
   <script src="../build/plugins.js"></script>
@@ -48,63 +49,43 @@
     }
   </style>
   <script>
-    const data = {
-      nodes: [{
-        id: 'node1',
-        x: 100,
-        y: 200
-      }, {
-        id: 'node2',
-        x: 300,
-        y: 200
-      }],
-      edges: [{
-        target: 'node2',
-        source: 'node1'
-      }]
-    };
-    const graph = new G6.Graph({
-      container: 'mountNode',
-      width: 500,
-      height: 500,
-      animate: true
-    }); 
-    graph.read(data);
-    graph.update('node1', {
-      size: 10
-    });
-    graph.update('node1', {
-      size: 10
-    });
-    graph.update('node1', {
-      size: 10
-    });
-    graph.update('node1', {
-      size: 10
-    });
-    graph.update('node1', {
-      size: 10
-    });
-    graph.update('node1', {
-      size: 10
-    });
-    graph.update('node1', {
-      size: 10
-    });
-    graph.update('node1', {
-      size: 1000
-    });
-    graph.update('node1', {
-      size: 10
-    });
-    graph.update('node1', {
-      y: 10
-    });
-    graph.update('node2', {
-      y: 300
-    }, true);
-    graph.on('click', ()=>{
-      graph.draw();
+    const { forceSimulation, forceLink, forceManyBody, forceX, forceY, forceCollide } = d3;
+    let simulation;
+    $.getJSON('./assets/data/g6-index.json', data => {
+      const graph = new G6.Graph({
+        container: 'mountNode',
+        width: 500,
+        height: 500,
+        fitView: 'cc',
+        layout(nodes, edges) {
+          if (simulation) {
+            simulation.alphaTarget(0.3).restart();
+          } else {
+            simulation = forceSimulation(nodes)
+              .force('charge', forceManyBody().strength(-100))
+              .force('link', forceLink(edges).id(model => {
+                return model.id;
+              }))
+              .force('collision', forceCollide().radius(model => {
+                return model.size;
+              }))
+              .force('y', forceY())
+              .force('x', forceX())
+              .on('tick', () => {
+                graph.updateNodePosition();
+                graph.emit('afterlayout');
+              });
+          }
+        },
+        animate: true
+      }); 
+      graph.node({
+        size: 20
+      });
+      graph.read(data);
+      graph.update('0.0', {
+        color: 'red'
+      }, true);
     });
   </script>
 </body>
