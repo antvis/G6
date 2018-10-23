@@ -27,7 +27,7 @@ class Controller extends Base {
     group.deepEach(element => {
       const id = element.gid;
       const subStash = {
-        matrix: Util.cloneDeep(element.getMatrix())
+        matrix: Util.clone(element.getMatrix())
       };
       if (element.isItemContainer) {
         subStash.enterAnimate = item.getEnterAnimate();
@@ -38,7 +38,7 @@ class Controller extends Base {
       if (element.isShape) {
         let attrs = element.attr();
         attrs = Util.omit(attrs, [ 'matrix', 'fillStyle', 'strokeStyle', 'endArrow', 'startArrow' ]);
-        subStash.attrs = Util.cloneDeep(attrs);
+        subStash.attrs = Util.clone(attrs);
       }
       subStash.item = item;
       subStash.element = element;

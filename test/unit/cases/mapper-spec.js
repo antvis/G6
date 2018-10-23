@@ -22,7 +22,7 @@ describe('mapping user cases test', () => {
   graph.guide().label(model => {
     return model.id;
   });
-  graph.source(Util.cloneDeep(data));
+  graph.source(Util.clone(data));
   graph.render();
   it('node mapping', () => {
     const nodes = graph.getNodes();

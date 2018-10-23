@@ -19,7 +19,7 @@ describe('test graph aniamte', () => {
     }
   });
   it('test read', done => {
-    graph.read(Util.cloneDeep(data), true);
+    graph.read(Util.clone(data), true);
     setTimeout(() => {
       done();
     }, delay);

@@ -6,7 +6,7 @@ const Util = require('../../../src/util/');
 const div = document.createElement('div');
 let data = require('../../fixtures/sample-graph-data.json');
 chai.use(chaiAlmost());
-data = Util.cloneDeep(data);
+data = Util.clone(data);
 div.id = 'cchart';
 document.body.appendChild(div);
 data.nodes.forEach(node => {
@@ -17,7 +17,7 @@ const graph = new Graph({
   width: 500,
   height: 500
 });
-graph.source(Util.cloneDeep(data));
+graph.source(Util.clone(data));
 graph.render();
 
 describe('node item test', () => {

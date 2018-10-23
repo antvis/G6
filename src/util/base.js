@@ -8,16 +8,25 @@ const Util = require('@antv/util/lib');
 
 const BaseUtil = {
   ...Util,
-  omit: require('lodash/omit'),
-  lowerFirst: require('lodash/lowerFirst'),
-  isPlainObject: require('lodash/isPlainObject'),
-  indexOf: require('lodash/indexOf'),
-  cloneDeep: require('lodash/cloneDeep'),
-  round: require('lodash/round'),
-  filter: require('lodash/filter'),
   throttle: require('lodash/throttle'),
   debounce: require('lodash/debounce'),
-  uniq: require('lodash/uniq'),
+  /**
+   * The opposite of pick; this method creates an object composed of the own and inherited enumerable property paths of object that are not omitted.
+   * var object = { 'a': 1, 'b': '2', 'c': 3 };
+   * omit(object, ['a', 'c']); // => { 'b': '2' }
+   * @param  {object}      object - input object
+   * @param  {function}    array - condition array
+   * @return  {object}     result object
+   */
+  omit(object, array) {
+    const rst = {};
+    Util.each(object, (value, key) => {
+      if (array.indexOf(key) === -1) {
+        rst[key] = value;
+      }
+    });
+    return rst;
+  },
   /**
    * traverse tree
    * @param  {object}      parent      parent
