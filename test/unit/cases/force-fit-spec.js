@@ -14,7 +14,7 @@ describe('force fit user cases test', () => {
       container: div
     });
     const el = graph.get('_canvas').get('el');
-    graph.source(Util.cloneDeep(data));
+    graph.source(Util.clone(data));
     graph.render();
     expect(el.style.width).equal('200px');
     expect(el.style.height).equal('200px');
@@ -30,7 +30,7 @@ describe('force fit user cases test', () => {
       height: 500
     });
     const el = graph.get('_canvas').get('el');
-    graph.source(Util.cloneDeep(data));
+    graph.source(Util.clone(data));
     graph.render();
     expect(el.style.width).equal('200px');
     expect(el.style.height).equal('500px');
@@ -42,7 +42,7 @@ describe('force fit user cases test', () => {
       width: 500
     });
     const el = graph.get('_canvas').get('el');
-    graph.source(Util.cloneDeep(data));
+    graph.source(Util.clone(data));
     graph.render();
     expect(el.style.width).equal('500px');
     expect(el.style.height).equal('200px');

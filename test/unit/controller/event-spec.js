@@ -21,7 +21,7 @@ const graph = new Graph({
   height
 });
 const items = [ '', 'node', 'edge' ];
-graph.source(Util.cloneDeep(data));
+graph.source(Util.clone(data));
 graph.render();
 const nodePoint = { x: 209, y: 161 };
 const emptyPoint = { x: 188, y: 86 };
