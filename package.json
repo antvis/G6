@@ -106,11 +106,11 @@
     "run": []
   },
   "dependencies": {
-    "@antv/g": "~3.3.0",
+    "@antv/g": "^3.3.0",
     "@antv/component": "~0.0.4",
     "@antv/hierarchy": "~0.3.13",
     "@antv/scale": "^0.0.1",
-    "@antv/util": "^1.2.5",
+    "@antv/util": "^1.2.0",
     "d3": "^5.4.0",
     "d3-sankey": "^0.7.1",
     "d3-svg-legend": "^2.25.6",
