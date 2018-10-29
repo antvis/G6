@@ -53,7 +53,7 @@ class Controller extends Base {
   _initEventStates() {
     this._pressing = false;
     this._dragging = false;
-    this._currentEventObj = null;
+    this._currentEventObj = {};
     this._dragEventObj = {};
   }
   // register all native dom events
