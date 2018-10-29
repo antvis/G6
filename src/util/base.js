@@ -5,7 +5,13 @@
  */
 const MAX_LEVEL = 5;
 const Util = require('@antv/util/lib');
-
+Math.sign = function(x) {
+  x = +x;
+  if (x === 0 || isNaN(x)) {
+    return x;
+  }
+  return x > 0 ? 1 : -1;
+};
 const BaseUtil = {
   ...Util,
   lowerFirst: require('lodash/lowerFirst'),
