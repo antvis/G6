@@ -21,7 +21,7 @@ Mixin.AUGMENT = {
         });
       }
       this.on('after' + eventName, ({ animate }) => {
-        if (animate && animateController) {
+        if (animate !== false && animateController) {
           animateController.cacheGraph('stash1');
           animateController.run();
         } else {
