@@ -1,37 +1,12 @@
 
-n.n.n / 2018-11-01
-==================
-
-  * Merge pull request #518 from antvis/math.sign
-  * fix: custom math.sign to compatible with ie browser.Closes #516.
-  * chore: demo index to es5 that ie can run
-  * Merge pull request #499 from antvis/fixSVGMinimap
-  * fix test
-  * test: reduce the accuracy
-  * test: reduce the accuracy
-  * test: reduce the accuracy
-  * feat: update svg minimap && fix svg dom event
-  * feat: legend use containerDOM
-  * fix: high light subgraph z index
-  * Merge branch 'master' of https://github.com/antvis/g6
-  * fix: update edge model should recahe edges
-  * remove useless file
-  * Merge pull request #490 from antvis/legend-component
-  * Merge pull request #494 from spengjie/fixBug454
-  * Commit the relevant file only
-  * Revert "Fix the introduced bug"
-  * Fix the introduced bug
-  * Fix bug #454
-  * Update README.md
-  * Update README.md
-  * fix: delete the dependency of g2
-  * feat: _getFilterItems
-  * fix multi mappers filtering bug
-  * fix:delete unnecessary notes
-  * fix: legend component from @antv/component
 # ChangeLog
 
 ---
+
+#### 2.1.4
+* fix: custom math.sign to compatible with ie browser.Closes #516.
+* fix: legend component from @antv/component
+* feat: update svg minimap && fix svg dom event
 
 #### 2.1.3
 
