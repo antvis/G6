@@ -3,6 +3,11 @@
 
 ---
 
+#### 2.1.4
+* fix: custom math.sign to compatible with ie browser.Closes #516.
+* fix: legend component from @antv/component
+* feat: update svg minimap && fix svg dom event
+
 #### 2.1.3
 
 `2018-09-27`
