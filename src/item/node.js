@@ -68,12 +68,13 @@ class Node extends Item {
     const { centerX, centerY } = bbox;
     const x1 = x - centerX;
     const y1 = y - centerY;
-    const anchor = this.shapeObj.anchor || {};
+    const shapeObj = this.shapeObj;
+    const anchor = shapeObj.anchor || {};
     const defaultIntersectBox = this.defaultIntersectBox;
     let points = [];
     if (Util.isEmpty(anchorPoints)) {
       // get link point if there are no default anchors
-      const intersectBox = anchor.intersectBox || anchor.type || defaultIntersectBox;
+      const intersectBox = shapeObj.intersectBox || anchor.intersectBox || anchor.type || defaultIntersectBox;
 
       switch (intersectBox) {
         case 'rect':
