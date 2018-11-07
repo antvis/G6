@@ -4,7 +4,6 @@
  */
 
 const Util = require('../util/');
-const Global = require('../global');
 const Animate = require('../controller/animate');
 const Mixin = {};
 Mixin.INIT = '_initAnimate';
@@ -13,44 +12,23 @@ Mixin.CFG = {
    * animate switch
    * @type {boolean}
    */
-  animate: false,
-
-  _showAnimate(item) {
-    if (!item.getKeyShape()) return;
-    Util.scaleIn(item);
-  },
-
-  _hideAnimate(item) {
-    const group = item.getGraphicGroup();
-    Util.scaleOut(item, () => {
-      !item.visible && group.hide();
-    });
-  },
-
-  _enterAnimate(item) {
-    if (!item.getKeyShape()) return;
-    Util.scaleIn(item);
-  },
-
-  _leaveAnimate(item) {
-    const group = item.getGraphicGroup();
-    Util.scaleOut(item, () => {
-      group.remove();
-    });
-  },
-
-  _updateAnimate(element, props) {
-    element.animate(props, Global.updateDuration, Global.updateEasing);
-  }
+  animate: false
 };
 Mixin.AUGMENT = {
   _initAnimate() {
     const animate = this.get('animate');
     if (animate) {
       const controllers = this.get('_controllers');
-      controllers.animate = new Animate({
+      let cfg = {
         graph: this
-      });
+      };
+      if (Util.isObject(animate)) {
+        cfg = {
+          ...cfg,
+          ...animate
+        };
+      }
+      controllers.animate = new Animate(cfg);
     }
   }
 };

@@ -10,19 +10,27 @@ Mixin.AUGMENT = {
   _initDraw() {
     const controllers = this.get('_controllers');
     const animateController = controllers.animate;
-    const eventNames = [ 'change', 'updatenodeposition' ];
+    const type = this.get('_type');
+    const eventNames = [ 'updatenodeposition', 'clear' ];
 
+    // because tree will always call layout that change draw is unnecessary
+    if (type === 'graph') {
+      eventNames.unshift('change');
+    }
     eventNames.forEach(eventName => {
       if (animateController) {
-        this.on('before' + eventName, ({ animate }) => {
-          if (animate && animateController) {
-            animateController.cacheGraph('stash0');
+        this.on('before' + eventName, ev => {
+          const affectedItemIds = ev ? ev.affectedItemIds : undefined;
+          if (animateController) {
+            animateController.cacheGraph('startStashes', affectedItemIds);
           }
         });
       }
-      this.on('after' + eventName, ({ animate }) => {
-        if (animate !== false && animateController) {
-          animateController.cacheGraph('stash1');
+      this.on('after' + eventName, ev => {
+        const affectedItemIds = ev ? ev.affectedItemIds : undefined;
+        const forcePreventAnimate = this.get('_forcePreventAnimate');
+        if (forcePreventAnimate !== true && animateController) {
+          animateController.cacheGraph('endStashes', affectedItemIds);
           animateController.run();
         } else {
           this.draw();

@@ -78,6 +78,7 @@ Shape.registerGroup('common', {
     const box = {
       ...item.lastChildrenBox
     };
+    const model = item.getModel();
     if (item.getChildren().length > 0) {
       const childrenBBox = item.getChildrenBBox();
       box.x = childrenBBox.minX - Global.groupBackgroundPadding[3];
@@ -87,6 +88,12 @@ Shape.registerGroup('common', {
     } else {
       box.width = this.defaultWidth;
       box.height = this.defaultHeight;
+    }
+    if (Util.isNil(box.x) && !Util.isNil(model.x)) {
+      box.x = model.x;
+    }
+    if (Util.isNil(box.y) && !Util.isNil(model.y)) {
+      box.y = model.y;
     }
     return box;
   },

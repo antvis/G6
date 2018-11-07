@@ -5,40 +5,142 @@
 
 const Base = require('./base');
 const Util = require('../util/');
+const Global = require('../global');
 
 class Controller extends Base {
   getDefaultCfg() {
     return {
+      /**
+       * show animate
+       * @type {function}
+       * @param {object} cfg - animate config
+       * @property  {object} cfg.element - G.Element
+       * @property  {object} cfg.item - G6.Item
+       * @property  {object} cfg.startKeyFrame - start key frame
+       * @property  {object} cfg.endKeyFrame - end key frame
+       * @property  {object} cfg.startStashes - start key frames stashes
+       * @property  {object} cfg.endStashes - end key frames stashes
+       * @property  {function} cfg.done - should be executed when animate finished
+       */
+      show({ item, element }) {
+        if (!item.getKeyShape() || !element.isItemContainer) return;
+        Util.scaleIn(item);
+      },
+
+      /**
+       * hide animate
+       * @type {function}
+       * @param {object} cfg - animate config
+       * @property  {object} cfg.element - G.Element
+       * @property  {object} cfg.item - G6.Item
+       * @property  {object} cfg.startKeyFrame - start key frame
+       * @property  {object} cfg.endKeyFrame - end key frame
+       * @property  {object} cfg.startStashes - start key frames stashes
+       * @property  {object} cfg.endStashes - end key frames stashes
+       * @property  {function} cfg.done - should be executed when animate finished
+       */
+      hide({ item, element, done }) {
+        if (!element.isItemContainer) return;
+        Util.scaleOut(item, () => {
+          done();
+        });
+      },
+
+      /**
+       * enter animate
+       * @type {function}
+       * @param {object} cfg - animate config
+       * @property  {object} cfg.element - G.Element
+       * @property  {object} cfg.item - G6.Item
+       * @property  {object} cfg.startKeyFrame - start key frame
+       * @property  {object} cfg.endKeyFrame - end key frame
+       * @property  {object} cfg.startStashes - start key frames stashes
+       * @property  {object} cfg.endStashes - end key frames stashes
+       * @property  {function} cfg.done - should be executed when animate finished
+       */
+      enter({ item, element }) {
+        if (!item.getKeyShape() || !element.isItemContainer) return;
+        Util.scaleIn(item);
+      },
+
+      /**
+       * leave animate
+       * @type {function}
+       * @param {object} cfg - animate config
+       * @property  {object} cfg.element - G.Element
+       * @property  {object} cfg.item - G6.Item
+       * @property  {object} cfg.startKeyFrame - start key frame
+       * @property  {object} cfg.endKeyFrame - end key frame
+       * @property  {object} cfg.startStashes - start key frames stashes
+       * @property  {object} cfg.endStashes - end key frames stashes
+       * @property  {function} cfg.done - should be executed when animate finished
+       */
+      leave({ item, element, done }) {
+        if (!element.isItemContainer) return;
+        Util.scaleOut(item, () => {
+          done();
+        });
+      },
+
+      /**
+       * update animate
+       * @type {function}
+       * @param {object} cfg - animate config
+       * @property  {object} cfg.element - G.Element
+       * @property  {object} cfg.item - G6.Item
+       * @property  {object} cfg.startKeyFrame - start key frame
+       * @property  {object} cfg.endKeyFrame - end key frame
+       * @property  {object} cfg.startStashes - start key frames stashes
+       * @property  {object} cfg.endStashes - end key frames stashes
+       * @property  {function} cfg.done - should be executed when animate finished
+       */
+      update({ element, endKeyFrame }) {
+        const { props } = endKeyFrame;
+        element.animate({
+          matrix: props.matrix,
+          ...props.attrs
+        }, Global.updateDuration, Global.updateEasing);
+      },
       graph: null,
-      stash0: {},
-      stash1: {}
+      startStashes: {},
+      endStashes: {}
     };
   }
-  cacheGraph(stashType) {
+  cacheGraph(stashType, affectedItemIds) {
     const graph = this.graph;
-    const items = graph.getItems();
+    let items;
+    if (affectedItemIds) {
+      items = affectedItemIds.map(affectedItemId => {
+        return graph.find(affectedItemId);
+      });
+    } else {
+      items = graph.getItems();
+    }
     this[stashType] = {};
     items.forEach(item => {
-      this.cache(item, this[stashType]);
+      item && this.cache(item, this[stashType]);
     });
   }
   cache(item, stash) {
     const group = item.getGraphicGroup();
+    const { show, hide, leave, enter, update } = this;
     group.deepEach(element => {
       const id = element.gid;
       const subStash = {
-        matrix: Util.clone(element.getMatrix())
+        props: {
+          matrix: Util.clone(element.getMatrix()),
+          attrs: {}
+        }
       };
-      if (element.isItemContainer) {
-        subStash.enterAnimate = item.getEnterAnimate();
-        subStash.leaveAnimate = item.getLeaveAnimate();
-        subStash.showAnimate = item.getShowAnimate();
-        subStash.hideAnimate = item.getHideAnimate();
-      }
+      subStash.enterAnimate = item.getAnimate('enter', enter);
+      subStash.leaveAnimate = item.getAnimate('leave', leave);
+      subStash.showAnimate = item.getAnimate('show', show);
+      subStash.hideAnimate = item.getAnimate('hide', hide);
+      subStash.updateAnimate = item.getAnimate('update', update);
       if (element.isShape) {
         let attrs = element.attr();
         attrs = Util.omit(attrs, [ 'matrix', 'fillStyle', 'strokeStyle', 'endArrow', 'startArrow' ]);
-        subStash.attrs = Util.clone(attrs);
+        subStash.props.attrs = Util.clone(attrs);
       }
       subStash.item = item;
       subStash.element = element;
@@ -47,32 +149,32 @@ class Controller extends Base {
     }, true);
   }
   _compare() {
-    const stash0 = this.stash0;
-    const stash1 = this.stash1;
+    const startStashes = this.startStashes;
+    const endStashes = this.endStashes;
     const enterElements = [];
     const leaveElements = [];
     const updateElements = [];
     const hideElements = [];
     const showElements = [];
+    Util.each(endStashes, (endKeyFrame, k) => {
 
-    Util.each(stash1, (subStash1, k) => {
-      const subStash0 = stash0[k];
-      if (subStash0) {
-        if (subStash0.element.get('type') === subStash1.element.get('type')) {
-          if (subStash0.visible && subStash1.visible) {
+      const startKeyFrame = startStashes[k];
+      if (startKeyFrame) {
+        if (startKeyFrame.element.get('type') === endKeyFrame.element.get('type')) {
+          if (startKeyFrame.visible && endKeyFrame.visible) {
             updateElements.push(k);
-          } else if (subStash0.visible && !subStash1.visible) {
+          } else if (startKeyFrame.visible && !endKeyFrame.visible) {
             hideElements.push(k);
-          } else if (!subStash0.visible && subStash1.visible) {
+          } else if (!startKeyFrame.visible && endKeyFrame.visible) {
             showElements.push(k);
           }
         }
       } else {
-        subStash1.element.isItemContainer && enterElements.push(k);
+        endKeyFrame.element.isItemContainer && enterElements.push(k);
       }
     });
-    Util.each(stash0, (v, k) => {
-      if (!stash1[k]) {
+    Util.each(startStashes, (v, k) => {
+      if (!endStashes[k]) {
         v.element.isItemContainer && leaveElements.push(k);
       }
     });
@@ -83,70 +185,120 @@ class Controller extends Base {
     this.showElements = showElements;
   }
   _addTween() {
-    const graph = this.graph;
-    const updateAnimate = graph.get('_updateAnimate');
     const enterElements = this.enterElements;
     const leaveElements = this.leaveElements;
     const updateElements = this.updateElements;
     const hideElements = this.hideElements;
     const showElements = this.showElements;
-    const stash0 = this.stash0;
-    const stash1 = this.stash1;
+    const startStashes = this.startStashes;
+    const endStashes = this.endStashes;
     // console.log('enterElements ==> ', enterElements);
     // console.log('leaveElements ==> ', leaveElements);
     // console.log('updateElements ==> ', updateElements);
     // console.log('hideElements ==> ', hideElements);
     // console.log('showElements ==> ', showElements);
 
-    enterElements.forEach(elementId => {
-      const subStash1 = stash1[elementId];
-      const enterAnimate = subStash1.enterAnimate;
+    enterElements.forEach(id => {
+      const endKeyFrame = endStashes[id];
+      const enterAnimate = endKeyFrame.enterAnimate;
       if (enterAnimate) {
-        enterAnimate(subStash1.item);
+        enterAnimate({
+          element: endKeyFrame.element,
+          item: endKeyFrame.item,
+          endKeyFrame,
+          startKeyFrame: null,
+          startStashes,
+          endStashes,
+          done() {}
+        });
       }
     });
-    leaveElements.forEach(elementId => {
-      const subStash0 = stash0[elementId];
-      const leaveAnimate = subStash0.leaveAnimate;
+    leaveElements.forEach(id => {
+      const startKeyFrame = startStashes[id];
+      const leaveAnimate = startKeyFrame.leaveAnimate;
       if (leaveAnimate) {
-        const e0 = stash0[elementId].element;
-        e0.getParent().add(e0);
-        leaveAnimate(subStash0.item);
+        const startElement = startStashes[id].element;
+        if (startElement.isItemContainer) {
+          startElement.getParent().add(startElement);
+        }
+        leaveAnimate({
+          element: startElement,
+          item: startKeyFrame.item,
+          endKeyFrame: null,
+          startKeyFrame,
+          startStashes,
+          endStashes,
+          done() {
+            if (startElement.isItemContainer) {
+              startElement.remove();
+            }
+          }
+        });
       }
     });
-    updateElements.forEach(elementId => {
-      const subStash1 = stash1[elementId];
-      const subStash0 = stash0[elementId];
-      const e1 = subStash1.element;
-      const e0 = subStash0.element;
-      const updateProps = {
-        ...subStash1.attrs
-      };
-      if (subStash0.attrs) {
-        e1.attr(subStash0.attrs);
+    updateElements.forEach(id => {
+      const endKeyFrame = endStashes[id];
+      const startKeyFrame = startStashes[id];
+      const endElement = endKeyFrame.element;
+      const startElement = startKeyFrame.element;
+      const startProps = startKeyFrame.props;
+      const endProps = endKeyFrame.props;
+      const updateAnimate = endKeyFrame.updateAnimate;
+      const done = () => {};
+      if (startProps.attrs) {
+        endElement.attr(startProps.attrs);
       }
-      if (!Util.isEqual(subStash0.matrix, subStash1.matrix)) {
-        e1.setMatrix(subStash0.matrix);
-        updateProps.matrix = subStash1.matrix;
+      if (!Util.isEqual(startProps.matrix, endProps.matrix)) {
+        endElement.setMatrix(startProps.matrix);
       }
-      updateAnimate(e1, updateProps);
-      if (e0 !== e1) {
-        e0.remove();
+      updateAnimate({
+        element: endElement,
+        item: endKeyFrame,
+        endKeyFrame,
+        startKeyFrame,
+        startStashes,
+        endStashes,
+        done
+      });
+      if (startElement !== endElement) {
+        startElement.remove();
       }
     });
-    hideElements.forEach(elementId => {
-      const subStash1 = stash1[elementId];
-      const hideAnimate = subStash1.hideAnimate;
+    hideElements.forEach(id => {
+      const endKeyFrame = endStashes[id];
+      const startKeyFrame = startStashes[id];
+      const hideAnimate = endKeyFrame.hideAnimate;
       if (hideAnimate) {
-        subStash1.element.show();
-        hideAnimate(subStash1.item);
+        endKeyFrame.element.show();
+        hideAnimate({
+          element: endKeyFrame.element,
+          item: endKeyFrame.item,
+          endKeyFrame,
+          startKeyFrame,
+          startStashes,
+          endStashes,
+          done() {
+            const item = endKeyFrame.item;
+            const group = item.getGraphicGroup();
+            !item.visible && group.hide();
+          }
+        });
       }
     });
-    showElements.forEach(elementId => {
-      const subStash1 = stash1[elementId];
-      const showAnimate = subStash1.showAnimate;
+    showElements.forEach(id => {
+      const endKeyFrame = endStashes[id];
+      const startKeyFrame = startStashes[id];
+      const showAnimate = endKeyFrame.showAnimate;
       if (showAnimate) {
-        showAnimate(subStash1.item);
+        showAnimate({
+          element: endKeyFrame.element,
+          item: endKeyFrame.item,
+          endKeyFrame,
+          startKeyFrame,
+          startStashes,
+          endStashes,
+          done() {}
+        });
       }
     });
   }

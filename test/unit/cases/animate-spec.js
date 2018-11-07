@@ -4,6 +4,7 @@ const data = require('../../fixtures/sample-graph-data.json');
 // const expect = require('chai').expect;
 const Util = require('../../../src/util/');
 const div = document.createElement('div');
+div.setAttribute('data-test-spec', 'cases/animate-spec.js');
 document.body.appendChild(div);
 const delay = 500;
 describe('test graph aniamte', () => {
@@ -19,7 +20,7 @@ describe('test graph aniamte', () => {
     }
   });
   it('test read', done => {
-    graph.read(Util.clone(data), true);
+    graph.read(Util.clone(data));
     setTimeout(() => {
       done();
     }, delay);
@@ -30,7 +31,7 @@ describe('test graph aniamte', () => {
       size: 50,
       x: 300,
       y: 400
-    }, true);
+    });
     setTimeout(() => {
       done();
     }, delay);
@@ -39,7 +40,7 @@ describe('test graph aniamte', () => {
     graph.add('edge', {
       source: 'node7',
       target: 'node3'
-    }, true);
+    });
     setTimeout(() => {
       done();
     }, delay);
@@ -47,13 +48,13 @@ describe('test graph aniamte', () => {
   it('test update', done => {
     graph.update('node2', {
       size: 100
-    }, true);
+    });
     setTimeout(() => {
       done();
     }, delay);
   });
   it('test remove', done => {
-    graph.remove('node7', true);
+    graph.remove('node7');
     setTimeout(() => {
       done();
       graph.destroy();
@@ -85,8 +86,9 @@ describe('test tree animate', () => {
     fitView: 'cc'
   });
   it('test read', done => {
-    tree.read(data, true);
+    tree.read(data);
     setTimeout(() => {
+      tree.destroy();
       done();
     }, delay);
   });

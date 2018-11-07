@@ -17,7 +17,8 @@ class Tree extends Graph {
         getVGap() {
           return 10;
         }
-      })
+      }),
+      _type: 'tree'
     }, inputCfg);
     super(cfg);
   }
@@ -162,16 +163,14 @@ class Tree extends Graph {
   /**
    * @param {string} type item type
    * @param {object} model data model
-   * @param {boolean} animate - use animate or not
    * @return {Graph} this
    */
-  add(type, model, animate) {
+  add(type, model) {
     const dataMap = this.get('_dataMap');
     const parent = dataMap[model.parent];
     const ev = {
       action: 'add',
-      model,
-      animate
+      model
     };
     let item;
     if (type !== 'node' && type !== 'guide') {
@@ -191,8 +190,8 @@ class Tree extends Graph {
       const data = this.parseSource({
         roots: [ model ]
       });
-      this.addItems('node', data.nodes);
-      this.addItems('edge', data.edges);
+      this._addItems('node', data.nodes);
+      this._addItems('edge', data.edges);
       item = this.find(model.id);
       this._setVisibleByCollapsed(item);
       // set node nth
@@ -201,7 +200,7 @@ class Tree extends Graph {
       }
       this.find(parent.id).forceUpdate();
     } else {
-      this.addItems(type, [ model ]);
+      this._addItems(type, [ model ]);
       item = this.find(model.id);
     }
     ev.item = item;
@@ -209,12 +208,11 @@ class Tree extends Graph {
     return item;
   }
   /**
-   * @param {String|Item} item target item
+   * @param {string|Item} item target item
    * @param {object} model data model
-   * @param {boolean} animate - use animate or not
    * @return {Graph} this
    */
-  update(item, model, animate) {
+  update(item, model) {
     if (!model) {
       return;
     }
@@ -225,15 +223,13 @@ class Tree extends Graph {
       action: 'update',
       item,
       originModel,
-      updateModel: model,
-      animate
+      updateModel: model
     };
 
     model && this.emit('beforechange', ev);
-    this.updateItem(item, model);
+    this._updateItems([ item ], [ model ]);
 
     if (item.isNode) {
-
       // deal collapsed
       if ('collapsed' in model) {
         if (model.collapsed) {
@@ -276,8 +272,8 @@ class Tree extends Graph {
         } else {
           newParentModel.children = [ itemModel ];
         }
-        this.removeItems([ oldEdge ]);
-        this.addItems('edge', [ newEdgeModel ]);
+        this._removeItems([ oldEdge ]);
+        this._addItems('edge', [ newEdgeModel ]);
         this.find(newParentModel.id).forceUpdate();
       }
 
@@ -286,11 +282,11 @@ class Tree extends Graph {
         if (originModel.children) {
           Util.each(originModel.children, child => {
             const childItem = this.find(child.id);
-            const removeItems = [ childItem ];
+            const _removeItems = [ childItem ];
             childItem.getEdges().forEach(edge => {
-              removeItems.push(edge);
+              _removeItems.push(edge);
             });
-            this.removeItems(removeItems);
+            this._removeItems(_removeItems);
           });
         }
         Util.each(model.children, child => {
@@ -298,9 +294,9 @@ class Tree extends Graph {
             roots: [ child ]
           });
           const childId = Util.isNil(child.id) ? Util.guid() : child.id;
-          this.addItems('node', data.nodes);
-          this.addItems('edge', data.edges);
-          !child.parent && this.addItems('edge', [{
+          this._addItems('node', data.nodes);
+          this._addItems('edge', data.edges);
+          !child.parent && this._addItems('edge', [{
             id: originModel.id + '-' + childId,
             source: originModel.id,
             target: childId
@@ -320,11 +316,10 @@ class Tree extends Graph {
     return this;
   }
   /**
-   * @param {String|Item} item target item
-   * @param {boolean} animate - use animate or not
+   * @param {string|Item} item target item
    * @return {Graph} this
    */
-  remove(item, animate) {
+  remove(item) {
     const dataMap = this.get('_dataMap');
     const items = [];
     item = this.getItem(item);
@@ -333,8 +328,7 @@ class Tree extends Graph {
     }
     const ev = {
       action: 'remove',
-      item,
-      animate
+      item
     };
     this.emit('beforechange', ev);
     items.push(item);
@@ -353,7 +347,7 @@ class Tree extends Graph {
       Util.Array.remove(parent.children, model);
       this.find(parent.id).forceUpdate();
     }
-    this.removeItems(Util.uniq(items));
+    this._removeItems(Util.uniq(items));
     this.emit('afterchange', ev);
     return this;
   }

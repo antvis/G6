@@ -36,26 +36,21 @@ Mixin.AUGMENT = {
     return null;
   },
   /**
-   * @param  {boolean} animate - use animate or not
    * @return {Graph} this
    */
-  layout(animate) {
-    this._getController('layout').layout(animate);
+  layout() {
+    this._getController('layout').layout();
     return this;
   },
   /**
    * @param  {array} nodes - nodes need update position
-   * @param  {boolean} animate - use animate or not
    * @return {Graph} this
    */
-  updateNodePosition(nodes, animate) {
+  updateNodePosition(nodes) {
     const guides = this.getGuides();
-    const ev = {
-      animate
-    };
     let groups = [];
     let edges = [];
-    this.emit('beforeupdatenodeposition', ev);
+    this.emit('beforeupdatenodeposition');
     if (nodes) {
       nodes.forEach(node => {
         node.getEdges().forEach(edge => {
@@ -83,7 +78,7 @@ Mixin.AUGMENT = {
     guides.forEach(guide => {
       guide.layoutUpdate();
     });
-    this.emit('afterupdatenodeposition', ev);
+    this.emit('afterupdatenodeposition');
     return this;
   },
   /**

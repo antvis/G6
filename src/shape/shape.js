@@ -8,8 +8,7 @@ const Util = require('../util/');
 const Shape = {};
 
 const ShapeBase = {
-  draw() {
-  }
+  draw() {}
 };
 
 const ShapeManagerBase = {
