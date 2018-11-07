@@ -3,6 +3,7 @@ const expect = require('chai').expect;
 require('../../../plugins/edge.polyline/');
 const div = document.createElement('div');
 document.body.appendChild(div);
+div.setAttribute('data-test-spec', 'plugin/edge.polyline-spec.js');
 
 describe('edge polyline test', () => {
   it('polyline', () => {
