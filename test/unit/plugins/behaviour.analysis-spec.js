@@ -1,11 +1,10 @@
 const G6 = require('../../../src/index');
 const Simulate = require('event-simulate');
 const expect = require('chai').expect;
-const Util = G6.Util;
 require('../../../plugins/behaviour.analysis/');
-document.body.appendChild(Util.createDOM(`
-  <div id='mountNode'></div>
-`));
+const div = document.createElement('div');
+div.setAttribute('data-test-spec', 'plugin/behaviour.analysis-spec.js');
+document.body.appendChild(div);
 describe('behaviour analysis test', () => {
   const data = {
     nodes: [{
@@ -23,7 +22,7 @@ describe('behaviour analysis test', () => {
     }]
   };
   const graph = new G6.Graph({
-    container: 'mountNode',
+    container: div,
     width: 500,
     height: 500
   });

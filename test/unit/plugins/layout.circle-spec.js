@@ -1,12 +1,11 @@
 const G6 = require('../../../src/index');
 const chai = require('chai');
 const expect = chai.expect;
-const Util = G6.Util;
 const chaiAlmost = require('chai-almost');
 chai.use(chaiAlmost());
-document.body.appendChild(Util.createDOM(`
-  <div id='mountNode'></div>
-`));
+const div = document.createElement('div');
+document.body.appendChild(div);
+div.setAttribute('data-test-spec', 'plugin/layout.circle-spec.js');
 require('../../../plugins/util.randomData/');
 require('../../../plugins/layout.circle/');
 
@@ -16,7 +15,7 @@ describe('plugin layout circle', () => {
     const Util = G6.Util;
     const data = Util.createChainData(30);
     const graph = new G6.Graph({
-      container: 'mountNode',
+      container: div,
       fitView: 'cc',
       width: 500,
       height: 500,

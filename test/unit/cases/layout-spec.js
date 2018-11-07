@@ -3,6 +3,7 @@ const Util = require('../../../src/util/');
 const data = require('../../fixtures/sample-graph-data.json');
 const expect = require('chai').expect;
 const div = document.createElement('div');
+div.setAttribute('data-test-spec', 'cases/layout-spec.js');
 const LayoutObj = function() {
   this.execute = function() {
     this.nodes.forEach((node, index) => {

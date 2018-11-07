@@ -8,13 +8,13 @@ describe('group user case', () => {
     width: 500,
     height: 500
   });
-  graph.source({
+  graph.read({
     nodes: [
-      { id: 'node0', x: 100, y: 100, parent: 'group0' },
-      { id: 'node1', x: 50, y: 100, parent: 'group1' },
-      { id: 'node2', x: 150, y: 190, parent: 'group1' },
-      { id: 'node3', x: 250, y: 100, parent: 'group2' },
-      { id: 'node4', x: 350, y: 190, parent: 'group2' }
+      { id: 'node0', label: 'node0', x: 100, y: 100, parent: 'group0' },
+      { id: 'node1', label: 'node1', x: 50, y: 100, parent: 'group1' },
+      { id: 'node2', label: 'node2', x: 150, y: 190, parent: 'group1' },
+      { id: 'node3', label: 'node3', x: 250, y: 100, parent: 'group2' },
+      { id: 'node4', label: 'node4', x: 350, y: 190, parent: 'group2' }
     ],
     edges: [
       {
@@ -34,7 +34,6 @@ describe('group user case', () => {
       { id: 'group2', label: '群组 2', collapsed: true }
     ]
   });
-  graph.render();
   it('graph group collapsed true', () => {
     expect(graph.find('node3').isVisible()).equal(false);
     expect(graph.find('node4').isVisible()).equal(false);

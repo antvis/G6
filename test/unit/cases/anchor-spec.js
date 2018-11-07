@@ -7,7 +7,7 @@ const data = require('../../fixtures/sample-graph-data.json');
 
 const div = document.createElement('div');
 document.body.appendChild(div);
-
+div.setAttribute('data-test-spec', 'cases/anchor-spec.js');
 const width = 500;
 const height = 500;
 

@@ -12,7 +12,7 @@ const Mixin = function() {};
 Util.augment(Mixin, {
   /**
    * Check contains the specified class
-   * @param   {String}      className class name
+   * @param   {string}      className class name
    * @return  {Boolean}     boolean
    */
   hasClass(className) {

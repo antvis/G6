@@ -88,33 +88,59 @@
     //     color: 'red'
     //   }, true);
     // });
-    const data = {
-      nodes: [{
-        id: 'node1',
-        x: 100,
-        y: 200
-      }, {
-        id: 'node2',
-        x: 300,
-        y: 200
-      }],
-      edges: [{
-        target: 'node2',
-        source: 'node1'
-      }]
-    };
     const graph = new G6.Graph({
       container: 'mountNode',
       width: 500,
       height: 500,
       animate: true
     });
-    graph.read(data);
-    graph.update('node1', {
-      y: 400
+    graph.node({
+      size: 20
     });
+    // graph.add('node', {
+    //   id: 'node1',
+    //   x: 242,
+    //   y: 170
+    // });
+    // setTimeout(()=>{
+    //   graph.add('group', {
+    //   id: 'group1',
+    //   x: 150,
+    //   y: 150,
+    // }).toBack();
+    // }, 1000);
+
+    // graph.update();
+    graph.read({
+      nodes: [{
+        id: 'node1',
+        x: 100,
+        y: 200
+      }, {
+        id: 'node2',
+        x: 200,
+        y: 200
+      }],
+      edges: [{
+        target: 'node2',
+        source: 'node1'
+      }]
+    });
+    setInterval(()=>{
+      graph.update('node1', {
+        x: 100 + 100 * Math.random()
+      });
+    }, 200);
+    // setTimeout(()=>{
+    //   graph.add('edge', {
+    //     target: 'node2',
+    //     source: 'node1'
+    //   });
+    // }, 1000);
+    // graph.update('node1', {
+    //   y: 400
+    // });
     // graph.update('node2', {
-    //   y: 300,
     //   color: 'red'
     // });
     // graph.add('node', {
@@ -122,7 +148,32 @@
     //   x: 50, 
     //   y: 100
     // });
-    // graph.remove('node2', true);
+    // const tree = new G6.Tree({
+    //   container: 'mountNode',
+    //   width: 500,
+    //   height: 500,
+    //   fitView: 'cc',
+    //   animate: true
+    // });
+    // tree.read({
+    //   roots: [{
+    //     label: 'root',
+    //     children: [{
+    //       label: 'child1',
+    //       children: [
+    //         {
+    //           label: 'child\n1.1'
+    //         }
+    //       ]
+    //     }, {
+    //       label: 'child2'
+    //     }]
+    //   }]
+    // });
+    // setTimeout(()=>{
+    //   tree.add();
+    // }, 2000);
+    // graph.remove('node2');
     // graph.read(data, true);
   </script>
 </body>
