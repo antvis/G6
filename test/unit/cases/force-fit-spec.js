@@ -4,6 +4,7 @@ const expect = require('chai').expect;
 const Util = require('../../../src/util/');
 const Simulate = require('event-simulate');
 const div = document.createElement('div');
+div.setAttribute('data-test-spec', 'cases/force-fit-spec.js');
 div.style.width = '200px';
 div.style.height = '200px';
 document.body.appendChild(div);

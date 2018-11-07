@@ -75,15 +75,8 @@ class Item {
     this._init();
   }
   _init() {
-    this._setIndex();
     this._initGroup();
     this.draw();
-  }
-  _setIndex() {
-    const model = this.model;
-    if (Util.isNil(model.index)) {
-      model.index = this.zIndex;
-    }
   }
   _mapping() {
     const mapper = this.mapper;
@@ -117,25 +110,16 @@ class Item {
   getGraph() {
     return this.graph;
   }
-  _getAnimate(type) {
+  /**
+   * get animate
+   * @param  {string} type - animate type could be `show`, `hide`, `enter`, `leave`, 'update'
+   * @param  {function} defaultAniamte - default animate
+   * @return {function} animate function
+   */
+  getAnimate(type, defaultAniamte) {
     const shapeObj = this.shapeObj;
-    const graph = this.graph;
-    return shapeObj[type + 'Animate'] ? shapeObj[type + 'Animate'] : graph.get('_' + type + 'Animate');
-  }
-  getHideAnimate() {
-    return this._getAnimate('hide');
-  }
-  getShowAnimate() {
-    return this._getAnimate('show');
-  }
-  getEnterAnimate() {
-    return this._getAnimate('enter');
-  }
-  getLeaveAnimate() {
-    return this._getAnimate('leave');
-  }
-  getUpdateAnimate() {
-    return this._getAnimate('update');
+    const animate = shapeObj[type + 'Animate'];
+    return animate ? animate : defaultAniamte;
   }
   _setShapeObj() {
     const graph = this.graph;

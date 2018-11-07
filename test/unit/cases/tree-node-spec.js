@@ -3,7 +3,7 @@ const div = document.createElement('div');
 const Layouts = G6.Layouts;
 document.body.appendChild(div);
 // graph.zoom({ x: 10, y: 10 }, 4);
-
+div.setAttribute('data-test-spec', 'cases/tree-node-spec.js');
 describe('tree node user cases test', () => {
   const data = {
     roots: [

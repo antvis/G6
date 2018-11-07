@@ -142,7 +142,7 @@ Mixin.AUGMENT = {
   },
   /**
    * @param {Object|Number} point scale center point
-   * @param {Number|Undefined} ratio scale ratio
+   * @param {Number|undefined} ratio scale ratio
    * @return {Graph} this
    */
   zoom(point, ratio) {

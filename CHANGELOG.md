@@ -3,6 +3,9 @@
 
 ---
 
+#### 2.2.0
+* fix: Graph read zIndex 
+
 #### 2.1.4
 * fix: custom math.sign to compatible with ie browser.Closes #516.
 * fix: legend component from @antv/component
