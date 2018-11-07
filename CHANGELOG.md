@@ -3,6 +3,10 @@
 
 ---
 
+#### 2.1.5
+* fix: svg pixelRatio bug
+* feat: add wheel event
+
 #### 2.1.4
 * fix: custom math.sign to compatible with ie browser.Closes #516.
 * fix: legend component from @antv/component
