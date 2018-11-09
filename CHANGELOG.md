@@ -5,6 +5,11 @@
 
 #### 2.2.0
 * fix: Graph read zIndex 
+* refactor: Animation
+
+#### 2.1.5
+* fix: svg pixelRatio bug
+* feat: add wheel event
 
 #### 2.1.4
 * fix: custom math.sign to compatible with ie browser.Closes #516.
