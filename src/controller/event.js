@@ -299,7 +299,7 @@ class Controller extends Base {
     const clientY = ev.clientY;
     const canvasPoint = canvas.getPointByClient(clientX, clientY);
     const point = this._parsePoint(canvasPoint.x, canvasPoint.y);
-    const shape = canvas.getShape(canvasPoint.x, canvasPoint.y);
+    const shape = canvas.getShape(canvasPoint.x, canvasPoint.y, ev);
     const item = graph.getItemByShape(shape);
     const pixelRatio = canvas.get('pixelRatio');
     return {
