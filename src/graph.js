@@ -188,7 +188,9 @@ class Graph extends Base {
       eventEnable: false,
       containerDOM: graphContainer
     };
-
+    if (renderer === 'svg') {
+      canvasCfg.pixelRatio = 1;
+    }
     const Canvas = G.Canvas;
     const canvas = new Canvas(canvasCfg);
     const el = canvas.get('el');

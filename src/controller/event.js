@@ -21,6 +21,7 @@ const EVENT = {
   DROP: 'drop',
   CONTEXTMENU: 'contextmenu',
   MOUSEWHEEL: 'mousewheel',
+  WHEEL: 'wheel',
   KEYDOWN: 'keydown',
   KEYUP: 'keyup',
   KEYPRESS: 'keypress'
@@ -29,7 +30,7 @@ const SHAKE_TOLERANCE = 9; // use to tolerate click shake prevent drag shake. Th
 
 // native dom events list:
 const MouseEventTypes = [ EVENT.DBLCLICK, EVENT.MOUSEDOWN, EVENT.MOUSEUP, EVENT.MOUSEENTER, EVENT.MOUSELEAVE, EVENT.MOUSEMOVE,
-  EVENT.CONTEXTMENU, EVENT.MOUSEWHEEL ];
+  EVENT.CONTEXTMENU, EVENT.MOUSEWHEEL, EVENT.WHEEL ];
 const KeyboardEventTypes = [ EVENT.KEYDOWN, EVENT.KEYUP, EVENT.KEYPRESS ];
 const CANVAS = 'canvas:';
 function parentNodeHasTag(n, t) {
