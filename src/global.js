@@ -18,9 +18,9 @@ module.exports = {
     radius: 2
   },
   groupBackgroundPadding: [ 40, 10, 10, 10 ],
-  updateDuration: 450,
-  enterDuration: 450,
-  leaveDuration: 450,
+  updateDuration: 800,
+  enterDuration: 800,
+  leaveDuration: 800,
   updateEasing: 'easeQuadOut',
   enterEasing: 'easeQuadOut',
   leaveEasing: 'easeQuadOut',
