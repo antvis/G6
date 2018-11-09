@@ -135,7 +135,7 @@ class Controller extends Base {
   }
   _getStash(element) {
     const keykeyStashes = this.keykeyStashes;
-    if (Util.isString(element)) {
+    if (!Util.isObject(element)) {
       return keykeyStashes[element];
     }
     const stash = {
