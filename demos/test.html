@@ -49,191 +49,40 @@
     }
   </style>
   <script>
-    // const { forceSimulation, forceLink, forceManyBody, forceX, forceY, forceCollide } = d3;
-    // let simulation;
-    // $.getJSON('./assets/data/g6-index.json', data => {
-    //   const graph = new G6.Graph({
-    //     container: 'mountNode',
-    //     width: 500,
-    //     height: 500,
-    //     fitView: 'cc',
-    //     layout(nodes, edges) {
-    //       if (simulation) {
-    //         simulation.alphaTarget(0.3).restart();
-    //       } else {
-    //         simulation = forceSimulation(nodes)
-    //           .force('charge', forceManyBody().strength(-100))
-    //           .force('link', forceLink(edges).id(model => {
-    //             return model.id;
-    //           }))
-    //           .force('collision', forceCollide().radius(model => {
-    //             return model.size;
-    //           }))
-    //           .force('y', forceY())
-    //           .force('x', forceX())
-    //           .on('tick', () => {
-    //             graph.updateNodePosition();
-    //             graph.emit('afterlayout');
-    //           });
-    //       }
-    //     },
-    //     animate: true
-    //   }); 
-
-    //   graph.read(data);
-    //   graph.node({
-    //     size: 20
-    //   });
-    //   graph.update('0.0', {
-    //     color: 'red'
-    //   }, true);
-    // });
-    const graph = new G6.Graph({
-      container: 'mountNode',
-      width: 500,
-      height: 500,
-      animate: true
-    });
-    graph.node({
-      size: 20
-    });
-    graph.read({
-      nodes: [{
-        id: 'node1',
-        x: 100,
-        y: 200,
-        parent: 'group1'
-      }, {
-        id: 'node2',
-        x: 200,
-        y: 200,
-        parent: 'group1'
-      }],
-      edges: [{
-        id: 'node1=>node2',
-        source: 'node1',
-        target: 'node2',
-      }],
-      groups: [{
-        id: 'group1',
-        label: '- 群组'
-      }]
-    });
-    setTimeout(()=>{
-      graph.update('group1', {
-        collapsed: true,
-        label: '+ 群组'
-      })
-    }, 1000);
-    // graph.update('node1', {
-    //   y: 220
-    // });
-    // graph.update('node2', {
-    //   color: 'red'
-    // });
-    // graph.add('node', {
-    //   id: 'node1',
-    //   x: 242,
-    //   y: 170
-    // });
-    // setTimeout(()=>{
-    //   graph.add('group', {
-    //   id: 'group1',
-    //   x: 150,
-    //   y: 150,
-    // }).toBack();
-    // }, 1000);
-
-    // graph.update();
-    // const data1 = {
-    //   nodes: [{
-    //     id: 'node1',
-    //     x: 100,
-    //     y: 200,
-    //   }, {
-    //     id: 'node2',
-    //     x: 200,
-    //     y: 200,
-    //   }],
-    //   edges: [{
-    //     id: 'node1=>node2',
-    //     source: 'node1',
-    //     target: 'node2',
-    //   }],
-      // groups: [{
-      //   id: 'group1',
-      //   label: '- 群组'
-      // }]
-    // };
-    // const data2 = {
-    //   nodes: [{
-    //     id: 'node3',
-    //     x: 100,
-    //     y: 160,
-    //   }, {
-    //     id: 'node4',
-    //     x: 200,
-    //     y: 160,
-    //   }],
-    //   edges: [{
-    //     id: 'node3=>node4',
-    //     source: 'node3',
-    //     target: 'node4',
-    //   }],
-    // }
-    // graph.read(data1);
-    // setTimeout(()=>{
-    //   graph.read(data2);
-    // }, 100)
-    // setInterval(()=>{
-    //   graph.update('node1', {
-    //     x: 100 + 100 * Math.random()
-    //   });
-    // }, 200);
-    // setTimeout(()=>{
-    //   graph.add('edge', {
-    //     target: 'node2',
-    //     source: 'node1'
-    //   });
-    // }, 1000);
-    // graph.update('node1', {
-    //   y: 400
-    // });
-    // graph.update('node2', {
-    //   color: 'red'
-    // });
-    // graph.add('node', {
-    //   id: 'node3',
-    //   x: 50, 
-    //   y: 100
-    // });
-    // const tree = new G6.Tree({
-    //   container: 'mountNode',
-    //   width: 500,
-    //   height: 500,
-    //   fitView: 'cc',
-    //   animate: true
-    // });
-    // tree.read({
-    //   roots: [{
-    //     label: 'root',
-    //     children: [{
-    //       label: 'child1',
-    //       children: [
-    //         {
-    //           label: 'child\n1.1'
-    //         }
-    //       ]
-    //     }, {
-    //       label: 'child2'
-    //     }]
-    //   }]
-    // });
-    // setTimeout(()=>{
-    //   tree.add();
-    // }, 2000);
-    // graph.remove('node2');
-    // graph.read(data, true);
+const data = {
+  nodes: [{
+    id: 'node1',
+    x: 100,
+    y: 200
+  }, {
+    id: 'node2',
+    x: 240,
+    y: 200
+  }],
+  edges: [{
+    target: 'node2',
+    source: 'node1'
+  }]
+};
+const graph = new G6.Graph({
+  container: 'mountNode',
+  width: 500,
+  height: 500,
+  animate: true
+});
+graph.preventAnimate(()=>{
+  graph.node({
+    size: 20,
+    color: '#333'
+  });
+  graph.read(data);
+});
+setTimeout(()=>{
+  graph.hide('node1');
+}, 100);
+setTimeout(()=>{
+  graph.show('node1');
+}, 300);
   </script>
 </body>
 </html>
