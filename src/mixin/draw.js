@@ -11,7 +11,7 @@ Mixin.AUGMENT = {
     const controllers = this.get('_controllers');
     const animateController = controllers.animate;
     const type = this.get('_type');
-    const eventNames = [ 'updatenodeposition', 'clear' ];
+    const eventNames = [ 'updatenodeposition', 'clear', 'show', 'hide' ];
 
     // because tree will always call layout that change draw is unnecessary
     if (type === 'graph') {

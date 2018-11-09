@@ -19,13 +19,13 @@ describe('test graph aniamte', () => {
       return model.id;
     }
   });
-  it('test read', done => {
+  it('read', done => {
     graph.read(Util.clone(data));
     setTimeout(() => {
       done();
     }, delay);
   });
-  it('test add node', done => {
+  it('add node', done => {
     graph.add('node', {
       id: 'node7',
       size: 50,
@@ -36,7 +36,7 @@ describe('test graph aniamte', () => {
       done();
     }, delay);
   });
-  it('test add edge', done => {
+  it('add edge', done => {
     graph.add('edge', {
       source: 'node7',
       target: 'node3'
@@ -45,7 +45,7 @@ describe('test graph aniamte', () => {
       done();
     }, delay);
   });
-  it('test update', done => {
+  it('update node', done => {
     graph.update('node2', {
       size: 100
     });
@@ -53,7 +53,7 @@ describe('test graph aniamte', () => {
       done();
     }, delay);
   });
-  it('test remove', done => {
+  it('remove', done => {
     graph.remove('node7');
     setTimeout(() => {
       done();

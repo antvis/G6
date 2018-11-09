@@ -6,6 +6,7 @@
 const Base = require('./base');
 const Util = require('../util/');
 const Global = require('../global');
+const INVALID_ATTRS = [ 'matrix', 'fillStyle', 'strokeStyle', 'endArrow', 'startArrow' ];
 
 class Controller extends Base {
   getDefaultCfg() {
@@ -103,8 +104,19 @@ class Controller extends Base {
       },
       graph: null,
       startStashes: {},
-      endStashes: {}
+      endStashes: {},
+      keykeyStashes: {}
     };
+  }
+  _init() {
+    const graph = this.graph;
+    const keykeyStashes = this.keykeyStashes;
+    graph.on('afteritemdraw', ({ item }) => {
+      const group = item.getGraphicGroup();
+      group.deepEach(element => {
+        keykeyStashes[element.gid] = this._getStash(element);
+      }, true);
+    });
   }
   cacheGraph(stashType, affectedItemIds) {
     const graph = this.graph;
@@ -118,30 +130,38 @@ class Controller extends Base {
     }
     this[stashType] = {};
     items.forEach(item => {
-      item && this.cache(item, this[stashType]);
+      item && this.cache(item, this[stashType], stashType);
     });
   }
-  cache(item, stash) {
+  _getStash(element) {
+    const keykeyStashes = this.keykeyStashes;
+    if (Util.isString(element)) {
+      return keykeyStashes[element];
+    }
+    const stash = {
+      props: {
+        matrix: Util.clone(element.getMatrix()),
+        attrs: {}
+      }
+    };
+    if (element.isShape) {
+      let attrs = element.attr();
+      attrs = Util.omit(attrs, INVALID_ATTRS);
+      stash.props.attrs = Util.clone(attrs);
+    }
+    return stash;
+  }
+  cache(item, stash, type) {
     const group = item.getGraphicGroup();
     const { show, hide, leave, enter, update } = this;
     group.deepEach(element => {
       const id = element.gid;
-      const subStash = {
-        props: {
-          matrix: Util.clone(element.getMatrix()),
-          attrs: {}
-        }
-      };
+      const subStash = type === 'startStashes' ? this._getStash(element) : this._getStash(element.gid);
       subStash.enterAnimate = item.getAnimate('enter', enter);
       subStash.leaveAnimate = item.getAnimate('leave', leave);
       subStash.showAnimate = item.getAnimate('show', show);
       subStash.hideAnimate = item.getAnimate('hide', hide);
       subStash.updateAnimate = item.getAnimate('update', update);
-      if (element.isShape) {
-        let attrs = element.attr();
-        attrs = Util.omit(attrs, [ 'matrix', 'fillStyle', 'strokeStyle', 'endArrow', 'startArrow' ]);
-        subStash.props.attrs = Util.clone(attrs);
-      }
       subStash.item = item;
       subStash.element = element;
       subStash.visible = element.get('visible');
@@ -157,7 +177,6 @@ class Controller extends Base {
     const hideElements = [];
     const showElements = [];
     Util.each(endStashes, (endKeyFrame, k) => {
-
       const startKeyFrame = startStashes[k];
       if (startKeyFrame) {
         if (startKeyFrame.element.get('type') === endKeyFrame.element.get('type')) {

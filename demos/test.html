@@ -97,6 +97,40 @@
     graph.node({
       size: 20
     });
+    graph.read({
+      nodes: [{
+        id: 'node1',
+        x: 100,
+        y: 200,
+        parent: 'group1'
+      }, {
+        id: 'node2',
+        x: 200,
+        y: 200,
+        parent: 'group1'
+      }],
+      edges: [{
+        id: 'node1=>node2',
+        source: 'node1',
+        target: 'node2',
+      }],
+      groups: [{
+        id: 'group1',
+        label: '- 群组'
+      }]
+    });
+    setTimeout(()=>{
+      graph.update('group1', {
+        collapsed: true,
+        label: '+ 群组'
+      })
+    }, 1000);
+    // graph.update('node1', {
+    //   y: 220
+    // });
+    // graph.update('node2', {
+    //   color: 'red'
+    // });
     // graph.add('node', {
     //   id: 'node1',
     //   x: 242,
@@ -111,26 +145,51 @@
     // }, 1000);
 
     // graph.update();
-    graph.read({
-      nodes: [{
-        id: 'node1',
-        x: 100,
-        y: 200
-      }, {
-        id: 'node2',
-        x: 200,
-        y: 200
-      }],
-      edges: [{
-        target: 'node2',
-        source: 'node1'
-      }]
-    });
-    setInterval(()=>{
-      graph.update('node1', {
-        x: 100 + 100 * Math.random()
-      });
-    }, 200);
+    // const data1 = {
+    //   nodes: [{
+    //     id: 'node1',
+    //     x: 100,
+    //     y: 200,
+    //   }, {
+    //     id: 'node2',
+    //     x: 200,
+    //     y: 200,
+    //   }],
+    //   edges: [{
+    //     id: 'node1=>node2',
+    //     source: 'node1',
+    //     target: 'node2',
+    //   }],
+      // groups: [{
+      //   id: 'group1',
+      //   label: '- 群组'
+      // }]
+    // };
+    // const data2 = {
+    //   nodes: [{
+    //     id: 'node3',
+    //     x: 100,
+    //     y: 160,
+    //   }, {
+    //     id: 'node4',
+    //     x: 200,
+    //     y: 160,
+    //   }],
+    //   edges: [{
+    //     id: 'node3=>node4',
+    //     source: 'node3',
+    //     target: 'node4',
+    //   }],
+    // }
+    // graph.read(data1);
+    // setTimeout(()=>{
+    //   graph.read(data2);
+    // }, 100)
+    // setInterval(()=>{
+    //   graph.update('node1', {
+    //     x: 100 + 100 * Math.random()
+    //   });
+    // }, 200);
     // setTimeout(()=>{
     //   graph.add('edge', {
     //     target: 'node2',
