@@ -306,6 +306,13 @@ class Graph extends Base {
       item.update();
     });
   }
+  _getShowEdge(edge) {
+    const source = edge.getSource();
+    const target = edge.getTarget();
+    return (source.linkable && source.isVisible() || !source.linkable)
+    && (target.linkable && target.isVisible() || !target.linkable)
+    && edge;
+  }
   _addDatas(type, models) {
     const dataMap = this.get('_dataMap');
     models.forEach(model => {
@@ -358,7 +365,7 @@ class Graph extends Base {
    * @param  {function} callback - callback
    * @return {Graph} this
    */
-  forcePreventAnimate(callback) {
+  preventAnimate(callback) {
     this.set('_forcePreventAnimate', true);
     callback();
     this.set('_forcePreventAnimate', false);
@@ -590,6 +597,7 @@ class Graph extends Base {
     if (!item || item.destroyed || !model) {
       return;
     }
+    const animate = this.get('animate');
     const updateItemCache = [];
     const updateModelCache = [];
     const affectedItemIds = [];
@@ -630,6 +638,13 @@ class Graph extends Base {
         updateItemCache.push(edge);
         updateModelCache.push(null);
         affectedItemIds.push(edge.id);
+      });
+    }
+
+    // If group children collapse && expend animate
+    if (item.isGroup && !Util.isNil(model.collapsed) && animate) {
+      item.deepEach(subItem => {
+        affectedItemIds.push(subItem.id);
       });
     }
 
@@ -678,29 +693,36 @@ class Graph extends Base {
    */
   hide(item) {
     item = this.getItem(item);
-    item.hide();
+    let hideItemCache = [];
+    const affectedItemIds = [];
+    const ev = {
+      item,
+      affectedItemIds
+    };
+    hideItemCache.push(item);
     if (item.isNode) {
       item.getEdges().forEach(edge => {
-        edge.hide();
+        hideItemCache.push(edge);
       });
     }
     if (item.isGroup) {
       item.getEdges().forEach(edge => {
-        edge.hide();
+        hideItemCache.push(edge);
       });
       item.deepEach(child => {
-        child.hide();
+        hideItemCache.push(child);
       });
     }
-    this.draw();
+    hideItemCache = Util.uniq(hideItemCache);
+    hideItemCache.forEach(item => {
+      affectedItemIds.push(item.id);
+    });
+    this.emit('beforehide', ev);
+    hideItemCache.forEach(item => {
+      item.hide();
+    });
+    this.emit('afterhide', ev);
     return this;
-  }
-  _tryShowEdge(edge) {
-    const source = edge.getSource();
-    const target = edge.getTarget();
-    return (source.linkable && source.isVisible() || !source.linkable)
-    && (target.linkable && target.isVisible() || !target.linkable)
-    && edge.show();
   }
   /**
    * show item
@@ -709,25 +731,43 @@ class Graph extends Base {
    */
   show(item) {
     item = this.getItem(item);
+    let showItemCache = [];
+    const affectedItemIds = [];
+    const ev = {
+      item,
+      affectedItemIds
+    };
+    item.visible = true;
     if (item.isEdge) {
-      this._tryShowEdge(item);
+      const edge = this._getShowEdge(item);
+      if (edge) showItemCache.push(edge);
     } else {
-      item.show();
+      showItemCache.push(item);
     }
     if (item.isNode) {
       item.getEdges().forEach(edge => {
-        this._tryShowEdge(edge);
+        edge = this._getShowEdge(edge);
+        if (edge) showItemCache.push(edge);
       });
     }
     if (item.isGroup) {
       item.getEdges().forEach(edge => {
-        this._tryShowEdge(edge);
+        edge = this._getShowEdge(edge);
+        if (edge) showItemCache.push(edge);
       });
       item.deepEach(child => {
-        child.show();
+        showItemCache.push(child);
       });
     }
-    this.draw();
+    showItemCache = Util.uniq(showItemCache);
+    showItemCache.forEach(item => {
+      affectedItemIds.push(item.id);
+    });
+    this.emit('beforeshow', ev);
+    showItemCache.forEach(item => {
+      item.show();
+    });
+    this.emit('aftershow', ev);
     return this;
   }
   /**

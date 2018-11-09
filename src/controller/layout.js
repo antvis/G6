@@ -28,10 +28,6 @@ class Controller extends Base {
       processor: null
     };
   }
-  constructor(cfg) {
-    super(cfg);
-    this._init();
-  }
   _init() {
     const graph = this.graph;
     graph.on('afteritemdraw', ev => {
