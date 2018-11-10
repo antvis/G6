@@ -55,16 +55,14 @@ class Controller extends Base {
   }
   /**
    * @param  {object} processor - layout processer
-   * @param  {boolean} animate - use animate or not
    */
-  changeLayout(processor, animate) {
+  changeLayout(processor) {
     this.processor = processor;
-    this.layout(animate);
+    this.layout();
   }
   /**
-   * @param  {boolean} animate - use animate or not
    */
-  layout(animate) {
+  layout() {
     const graph = this.graph;
     const processor = this.getLayoutProcessor();
     graph.emit('beforelayout');
@@ -90,7 +88,7 @@ class Controller extends Base {
       return group.getModel();
     });
     graph._executeLayout(processor, nodes, edges, groups);
-    graph.updateNodePosition(undefined, animate);
+    graph.updateNodePosition();
     graph.emit('afterlayout');
   }
   getLayoutProcessor() {

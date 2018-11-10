@@ -664,7 +664,6 @@ class Graph extends Base {
     if (!data) {
       throw new Error('please read valid data!');
     }
-    const fitView = this.get('fitView');
     const ev = {
       action: 'changeData',
       data
@@ -675,7 +674,6 @@ class Graph extends Base {
     this.render();
     ev.affectedItemIds = this.getItems().map(item => { return item.id; });
     this.emit('afterchange', ev);
-    fitView && this.setFitView(fitView);
     return this;
   }
   /**

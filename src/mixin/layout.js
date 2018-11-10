@@ -50,7 +50,6 @@ Mixin.AUGMENT = {
     const guides = this.getGuides();
     let groups = [];
     let edges = [];
-    this.emit('beforeupdatenodeposition');
     if (nodes) {
       nodes.forEach(node => {
         node.getEdges().forEach(edge => {
@@ -78,16 +77,15 @@ Mixin.AUGMENT = {
     guides.forEach(guide => {
       guide.layoutUpdate();
     });
-    this.emit('afterupdatenodeposition');
+    this.draw();
     return this;
   },
   /**
    * @param  {object} processor - layout processer
-   * @param  {boolean} animate - use animate or not
    * @return {Graph} this
    */
-  changeLayout(processor, animate) {
-    this._getController('layout').changeLayout(processor, animate);
+  changeLayout(processor) {
+    this._getController('layout').changeLayout(processor);
     return this;
   },
   getLayout() {
