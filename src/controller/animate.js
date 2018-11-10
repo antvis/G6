@@ -4,6 +4,7 @@
  */
 
 const Base = require('./base');
+const Animation = require('../animation/');
 const Util = require('../util/');
 const Global = require('../global');
 const INVALID_ATTRS = [ 'matrix', 'fillStyle', 'strokeStyle', 'endArrow', 'startArrow' ];
@@ -13,87 +14,31 @@ class Controller extends Base {
     return {
       /**
        * show animate
-       * @type {function}
-       * @param {object} cfg - animate config
-       * @property  {object} cfg.element - G.Element
-       * @property  {object} cfg.item - G6.Item
-       * @property  {object} cfg.startKeyFrame - start key frame
-       * @property  {object} cfg.endKeyFrame - end key frame
-       * @property  {object} cfg.startStashes - start key frames stashes
-       * @property  {object} cfg.endStashes - end key frames stashes
-       * @property  {function} cfg.done - should be executed when animate finished
+       * @type {function|string}
        */
-      show({ item, element }) {
-        if (!item.getKeyShape() || !element.isItemContainer) return;
-        Util.scaleIn(item);
-      },
+      show: 'scaleIn',
 
       /**
        * hide animate
-       * @type {function}
-       * @param {object} cfg - animate config
-       * @property  {object} cfg.element - G.Element
-       * @property  {object} cfg.item - G6.Item
-       * @property  {object} cfg.startKeyFrame - start key frame
-       * @property  {object} cfg.endKeyFrame - end key frame
-       * @property  {object} cfg.startStashes - start key frames stashes
-       * @property  {object} cfg.endStashes - end key frames stashes
-       * @property  {function} cfg.done - should be executed when animate finished
+       * @type {function|string}
        */
-      hide({ item, element, done }) {
-        if (!element.isItemContainer) return;
-        Util.scaleOut(item, () => {
-          done();
-        });
-      },
+      hide: 'scaleOut',
 
       /**
        * enter animate
-       * @type {function}
-       * @param {object} cfg - animate config
-       * @property  {object} cfg.element - G.Element
-       * @property  {object} cfg.item - G6.Item
-       * @property  {object} cfg.startKeyFrame - start key frame
-       * @property  {object} cfg.endKeyFrame - end key frame
-       * @property  {object} cfg.startStashes - start key frames stashes
-       * @property  {object} cfg.endStashes - end key frames stashes
-       * @property  {function} cfg.done - should be executed when animate finished
+       * @type {function|string}
        */
-      enter({ item, element }) {
-        if (!item.getKeyShape() || !element.isItemContainer) return;
-        Util.scaleIn(item);
-      },
+      enter: 'scaleIn',
 
       /**
        * leave animate
-       * @type {function}
-       * @param {object} cfg - animate config
-       * @property  {object} cfg.element - G.Element
-       * @property  {object} cfg.item - G6.Item
-       * @property  {object} cfg.startKeyFrame - start key frame
-       * @property  {object} cfg.endKeyFrame - end key frame
-       * @property  {object} cfg.startStashes - start key frames stashes
-       * @property  {object} cfg.endStashes - end key frames stashes
-       * @property  {function} cfg.done - should be executed when animate finished
+       * @type {function|string}
        */
-      leave({ item, element, done }) {
-        if (!element.isItemContainer) return;
-        Util.scaleOut(item, () => {
-          done();
-        });
-      },
+      leave: 'scaleOut',
 
       /**
        * update animate
        * @type {function}
-       * @param {object} cfg - animate config
-       * @property  {object} cfg.element - G.Element
-       * @property  {object} cfg.item - G6.Item
-       * @property  {object} cfg.startKeyFrame - start key frame
-       * @property  {object} cfg.endKeyFrame - end key frame
-       * @property  {object} cfg.startStashes - start key frames stashes
-       * @property  {object} cfg.endStashes - end key frames stashes
-       * @property  {function} cfg.done - should be executed when animate finished
        */
       update({ element, endKeyFrame }) {
         const { props } = endKeyFrame;
@@ -151,17 +96,29 @@ class Controller extends Base {
     }
     return stash;
   }
+  /**
+   * get animate
+   * @param  {object} item - item
+   * @param  {string} type - animate type could be `show`, `hide`, `enter`, `leave`, 'update'
+   * @return {function} animate function
+   */
+  _getAnimation(item, type) {
+    const shapeObj = item.shapeObj;
+    const defaultAnimation = this[type];
+    const shapeAnimation = shapeObj[type + 'Animation'] || shapeObj[type + 'Animate']; // compatible with Animate
+    const animation = shapeAnimation ? shapeAnimation : defaultAnimation;
+    return Util.isString(animation) ? Animation[type + Util.upperFirst(animation)] : animation;
+  }
   cache(item, stash, type) {
     const group = item.getGraphicGroup();
-    const { show, hide, leave, enter, update } = this;
     group.deepEach(element => {
       const id = element.gid;
       const subStash = type === 'startStashes' ? this._getStash(element) : this._getStash(element.gid);
-      subStash.enterAnimate = item.getAnimate('enter', enter);
-      subStash.leaveAnimate = item.getAnimate('leave', leave);
-      subStash.showAnimate = item.getAnimate('show', show);
-      subStash.hideAnimate = item.getAnimate('hide', hide);
-      subStash.updateAnimate = item.getAnimate('update', update);
+      subStash.enterAnimate = this._getAnimation(item, 'enter');
+      subStash.leaveAnimate = this._getAnimation(item, 'leave');
+      subStash.showAnimate = this._getAnimation(item, 'show');
+      subStash.hideAnimate = this._getAnimation(item, 'hide');
+      subStash.updateAnimate = this._getAnimation(item, 'update');
       subStash.item = item;
       subStash.element = element;
       subStash.visible = element.get('visible');
@@ -189,12 +146,12 @@ class Controller extends Base {
           }
         }
       } else {
-        endKeyFrame.element.isItemContainer && enterElements.push(k);
+        enterElements.push(k);
       }
     });
     Util.each(startStashes, (v, k) => {
       if (!endStashes[k]) {
-        v.element.isItemContainer && leaveElements.push(k);
+        leaveElements.push(k);
       }
     });
     this.enterElements = enterElements;
