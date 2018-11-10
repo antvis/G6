@@ -113,13 +113,13 @@ class Item {
   /**
    * get animate
    * @param  {string} type - animate type could be `show`, `hide`, `enter`, `leave`, 'update'
-   * @param  {function} defaultAniamte - default animate
+   * @param  {function} defaultAnimate - default animate
    * @return {function} animate function
    */
-  getAnimate(type, defaultAniamte) {
+  getAnimate(type, defaultAnimate) {
     const shapeObj = this.shapeObj;
     const animate = shapeObj[type + 'Animate'];
-    return animate ? animate : defaultAniamte;
+    return animate ? animate : defaultAnimate;
   }
   _setShapeObj() {
     const graph = this.graph;
