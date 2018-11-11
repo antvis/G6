@@ -137,6 +137,10 @@ class Item {
       child.id = id;
       child.eventPreFix = type;
       child.gid = parentGid + '-' + index;
+      if (child.isShape) {
+        const shapeType = child.get('type');
+        child.gid += '-' + shapeType;
+      }
     });
   }
   _beforeDraw() {
