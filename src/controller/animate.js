@@ -48,22 +48,22 @@ class Controller extends Base {
         }, Global.updateDuration, Global.updateEasing);
       },
       graph: null,
-      startStashes: {},
-      endStashes: {},
-      keykeyStashes: {}
+      startCache: {},
+      endCache: {},
+      keykeyCache: {}
     };
   }
   _init() {
     const graph = this.graph;
-    const keykeyStashes = this.keykeyStashes;
+    const keykeyCache = this.keykeyCache;
     graph.on('afteritemdraw', ({ item }) => {
       const group = item.getGraphicGroup();
       group.deepEach(element => {
-        keykeyStashes[element.gid] = this._getStash(element);
+        keykeyCache[element.gid] = this._getCache(element);
       }, true);
     });
   }
-  cacheGraph(stashType, affectedItemIds) {
+  cacheGraph(cacheType, affectedItemIds) {
     const graph = this.graph;
     let items;
     if (affectedItemIds) {
@@ -73,17 +73,17 @@ class Controller extends Base {
     } else {
       items = graph.getItems();
     }
-    this[stashType] = {};
+    this[cacheType] = {};
     items.forEach(item => {
-      item && this.cache(item, this[stashType], stashType);
+      item && this.cache(item, this[cacheType], cacheType);
     });
   }
-  _getStash(element) {
-    const keykeyStashes = this.keykeyStashes;
+  _getCache(element) {
+    const keykeyCache = this.keykeyCache;
     if (!Util.isObject(element)) {
-      return keykeyStashes[element];
+      return keykeyCache[element];
     }
-    const stash = {
+    const cache = {
       props: {
         matrix: Util.clone(element.getMatrix()),
         attrs: {}
@@ -92,9 +92,9 @@ class Controller extends Base {
     if (element.isShape) {
       let attrs = element.attr();
       attrs = Util.omit(attrs, INVALID_ATTRS);
-      stash.props.attrs = Util.clone(attrs);
+      cache.props.attrs = Util.clone(attrs);
     }
-    return stash;
+    return cache;
   }
   /**
    * get animate
@@ -103,38 +103,40 @@ class Controller extends Base {
    * @return {function} animate function
    */
   _getAnimation(item, type) {
+    const graph = this.graph;
     const shapeObj = item.shapeObj;
     const defaultAnimation = this[type];
     const shapeAnimation = shapeObj[type + 'Animation'] || shapeObj[type + 'Animate']; // compatible with Animate
-    const animation = shapeAnimation ? shapeAnimation : defaultAnimation;
+    const graphAnimate = graph.get('_' + type + 'Animation');
+    const animation = shapeAnimation || graphAnimate || defaultAnimation;
     return Util.isString(animation) ? Animation[type + Util.upperFirst(animation)] : animation;
   }
-  cache(item, stash, type) {
+  cache(item, cache, type) {
     const group = item.getGraphicGroup();
     group.deepEach(element => {
       const id = element.gid;
-      const subStash = type === 'startStashes' ? this._getStash(element) : this._getStash(element.gid);
-      subStash.enterAnimate = this._getAnimation(item, 'enter');
-      subStash.leaveAnimate = this._getAnimation(item, 'leave');
-      subStash.showAnimate = this._getAnimation(item, 'show');
-      subStash.hideAnimate = this._getAnimation(item, 'hide');
-      subStash.updateAnimate = this._getAnimation(item, 'update');
-      subStash.item = item;
-      subStash.element = element;
-      subStash.visible = element.get('visible');
-      stash[id] = subStash;
+      const subCache = type === 'startCache' ? this._getCache(element) : this._getCache(element.gid);
+      subCache.enterAnimate = this._getAnimation(item, 'enter');
+      subCache.leaveAnimate = this._getAnimation(item, 'leave');
+      subCache.showAnimate = this._getAnimation(item, 'show');
+      subCache.hideAnimate = this._getAnimation(item, 'hide');
+      subCache.updateAnimate = this._getAnimation(item, 'update');
+      subCache.item = item;
+      subCache.element = element;
+      subCache.visible = element.get('visible');
+      cache[id] = subCache;
     }, true);
   }
   _compare() {
-    const startStashes = this.startStashes;
-    const endStashes = this.endStashes;
+    const startCache = this.startCache;
+    const endCache = this.endCache;
     const enterElements = [];
     const leaveElements = [];
     const updateElements = [];
     const hideElements = [];
     const showElements = [];
-    Util.each(endStashes, (endKeyFrame, k) => {
-      const startKeyFrame = startStashes[k];
+    Util.each(endCache, (endKeyFrame, k) => {
+      const startKeyFrame = startCache[k];
       if (startKeyFrame) {
         if (startKeyFrame.element.get('type') === endKeyFrame.element.get('type')) {
           if (startKeyFrame.visible && endKeyFrame.visible) {
@@ -149,8 +151,8 @@ class Controller extends Base {
         enterElements.push(k);
       }
     });
-    Util.each(startStashes, (v, k) => {
-      if (!endStashes[k]) {
+    Util.each(startCache, (v, k) => {
+      if (!endCache[k]) {
         leaveElements.push(k);
       }
     });
@@ -166,8 +168,8 @@ class Controller extends Base {
     const updateElements = this.updateElements;
     const hideElements = this.hideElements;
     const showElements = this.showElements;
-    const startStashes = this.startStashes;
-    const endStashes = this.endStashes;
+    const startCache = this.startCache;
+    const endCache = this.endCache;
     // console.log('enterElements ==> ', enterElements);
     // console.log('leaveElements ==> ', leaveElements);
     // console.log('updateElements ==> ', updateElements);
@@ -175,7 +177,7 @@ class Controller extends Base {
     // console.log('showElements ==> ', showElements);
 
     enterElements.forEach(id => {
-      const endKeyFrame = endStashes[id];
+      const endKeyFrame = endCache[id];
       const enterAnimate = endKeyFrame.enterAnimate;
       if (enterAnimate) {
         enterAnimate({
@@ -183,17 +185,17 @@ class Controller extends Base {
           item: endKeyFrame.item,
           endKeyFrame,
           startKeyFrame: null,
-          startStashes,
-          endStashes,
+          startCache,
+          endCache,
           done() {}
         });
       }
     });
     leaveElements.forEach(id => {
-      const startKeyFrame = startStashes[id];
+      const startKeyFrame = startCache[id];
       const leaveAnimate = startKeyFrame.leaveAnimate;
       if (leaveAnimate) {
-        const startElement = startStashes[id].element;
+        const startElement = startCache[id].element;
         if (startElement.isItemContainer) {
           startElement.getParent().add(startElement);
         }
@@ -202,8 +204,8 @@ class Controller extends Base {
           item: startKeyFrame.item,
           endKeyFrame: null,
           startKeyFrame,
-          startStashes,
-          endStashes,
+          startCache,
+          endCache,
           done() {
             if (startElement.isItemContainer) {
               startElement.remove();
@@ -213,8 +215,8 @@ class Controller extends Base {
       }
     });
     updateElements.forEach(id => {
-      const endKeyFrame = endStashes[id];
-      const startKeyFrame = startStashes[id];
+      const endKeyFrame = endCache[id];
+      const startKeyFrame = startCache[id];
       const endElement = endKeyFrame.element;
       const startElement = startKeyFrame.element;
       const startProps = startKeyFrame.props;
@@ -232,8 +234,8 @@ class Controller extends Base {
         item: endKeyFrame,
         endKeyFrame,
         startKeyFrame,
-        startStashes,
-        endStashes,
+        startCache,
+        endCache,
         done
       });
       if (startElement !== endElement) {
@@ -241,8 +243,8 @@ class Controller extends Base {
       }
     });
     hideElements.forEach(id => {
-      const endKeyFrame = endStashes[id];
-      const startKeyFrame = startStashes[id];
+      const endKeyFrame = endCache[id];
+      const startKeyFrame = startCache[id];
       const hideAnimate = endKeyFrame.hideAnimate;
       if (hideAnimate) {
         endKeyFrame.element.show();
@@ -251,8 +253,8 @@ class Controller extends Base {
           item: endKeyFrame.item,
           endKeyFrame,
           startKeyFrame,
-          startStashes,
-          endStashes,
+          startCache,
+          endCache,
           done() {
             const item = endKeyFrame.item;
             const group = item.getGraphicGroup();
@@ -262,8 +264,8 @@ class Controller extends Base {
       }
     });
     showElements.forEach(id => {
-      const endKeyFrame = endStashes[id];
-      const startKeyFrame = startStashes[id];
+      const endKeyFrame = endCache[id];
+      const startKeyFrame = startCache[id];
       const showAnimate = endKeyFrame.showAnimate;
       if (showAnimate) {
         showAnimate({
@@ -271,8 +273,8 @@ class Controller extends Base {
           item: endKeyFrame.item,
           endKeyFrame,
           startKeyFrame,
-          startStashes,
-          endStashes,
+          startCache,
+          endCache,
           done() {}
         });
       }
