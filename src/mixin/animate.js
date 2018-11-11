@@ -22,7 +22,7 @@ Mixin.AUGMENT = {
       let cfg = {
         graph: this
       };
-      if (Util.isObject(animate)) {
+      if (Util.isPlainObject(animate)) {
         cfg = {
           ...cfg,
           ...animate
