@@ -16,7 +16,7 @@ Mixin.AUGMENT = {
         this.on('before' + eventName, ev => {
           const affectedItemIds = ev ? ev.affectedItemIds : undefined;
           if (animateController) {
-            animateController.cacheGraph('startStashes', affectedItemIds);
+            animateController.cacheGraph('startCache', affectedItemIds);
           }
         });
       }
@@ -28,7 +28,7 @@ Mixin.AUGMENT = {
           fitView && this.setFitView(fitView);
         }
         if (forcePreventAnimate !== true && animateController) {
-          animateController.cacheGraph('endStashes', affectedItemIds);
+          animateController.cacheGraph('endCache', affectedItemIds);
           animateController.run();
         } else {
           this.draw();
