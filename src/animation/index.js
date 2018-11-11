@@ -6,8 +6,8 @@
  * @property  {object} cfg.item - G6.Item
  * @property  {object} cfg.startKeyFrame - start key frame
  * @property  {object} cfg.endKeyFrame - end key frame
- * @property  {object} cfg.startStashes - start key frames stashes
- * @property  {object} cfg.endStashes - end key frames stashes
+ * @property  {object} cfg.startCache - start key frames cache
+ * @property  {object} cfg.endCache - end key frames cache
  * @property  {function} cfg.done - should be executed when animate finished
  * @author huangtonger@aliyun.com
  */
@@ -28,9 +28,9 @@ function scaleIn(item, callback) {
   const m = group.getMatrix();
   const s = m[0];
   group.transform([
-      [ 't', -x, -y ],
-      [ 's', 0.01 / s, 0.01 / s ],
-      [ 't', x, y ]
+    [ 't', -x, -y ],
+    [ 's', 0.01 / s, 0.01 / s ],
+    [ 't', x, y ]
   ]);
   group.animate({
     transform: [
@@ -97,11 +97,11 @@ function fadeOut(element, callback) {
 
 module.exports = {
   enterScaleIn({ item, element }) {
-    if (!element.isItemContainer) return;
+    if (!element.isItemContainer || !item.getKeyShape()) return;
     scaleIn(item);
   },
   showScaleIn({ item, element }) {
-    if (!element.isItemContainer) return;
+    if (!element.isItemContainer || !item.getKeyShape()) return;
     scaleIn(item);
   },
   leaveScaleOut({ item, element, done }) {
