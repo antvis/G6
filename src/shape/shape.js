@@ -21,7 +21,9 @@ const ShapeManagerBase = {
     if (Util.isArray(extendShapeName)) {
       let rst = {};
       extendShapeName.forEach(subExtendShapeName => {
-        rst = Util.mix({}, rst, this.getShape(subExtendShapeName, defaultShapeType));
+        if (this[subExtendShapeName]) {
+          rst = Util.mix({}, rst, this.getShape(subExtendShapeName, defaultShapeType));
+        }
       });
       return rst;
     }
