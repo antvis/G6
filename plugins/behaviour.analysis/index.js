@@ -131,11 +131,11 @@ G6.registerBehaviour('panNode', graph => {
 // wheel zoom
 G6.registerBehaviour('wheelZoom', graph => {
   let timeout;
-  graph.behaviourOn('mousewheel', ev => {
+  graph.behaviourOn('wheel', ev => {
     const { domEvent } = ev;
     domEvent.preventDefault();
   });
-  graph.behaviourOn('mousewheel', Util.throttle(update, 16));
+  graph.behaviourOn('wheel', Util.throttle(update, 16));
 
   function update(ev) {
     const {
