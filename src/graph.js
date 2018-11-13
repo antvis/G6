@@ -626,12 +626,22 @@ class Graph extends Base {
         affectedItemIds.push(parent.id);
       });
     }
-    // If the update nodes or group, update their parent
-    item.getAllParents().forEach(parent => {
-      updateItemCache.push(parent);
+
+    // If the update group, update all the group
+    if (model.parent) {
+      const updateParent = itemMap[model.parent];
+      if (!updateParent) {
+        throw new Error('there is no ' + model.parent + ' exist, please add a new one!');
+      }
+      updateItemCache.push(updateParent);
       updateModelCache.push(null);
-      affectedItemIds.push(parent.id);
-    });
+      affectedItemIds.push(updateParent.id);
+      updateParent.getAllParents().forEach(parent => {
+        updateItemCache.push(parent);
+        updateModelCache.push(null);
+        affectedItemIds.push(parent.id);
+      });
+    }
 
     // If the update nodes or group, update the connection edge
     if ((item.isNode || item.isGroup) && !item.collapsedParent) {
