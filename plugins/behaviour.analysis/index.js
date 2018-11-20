@@ -110,9 +110,11 @@ G6.registerBehaviour('panNode', graph => {
     dy = model.y - y;
   });
   graph.on('node:drag', ev => {
-    graph.update(node, {
-      x: ev.x + dx,
-      y: ev.y + dy
+    graph.preventAnimate(() => {
+      graph.update(node, {
+        x: ev.x + dx,
+        y: ev.y + dy
+      });
     });
   });
   graph.on('node:dragend', () => {
