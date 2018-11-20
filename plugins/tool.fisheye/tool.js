@@ -1,5 +1,5 @@
 /**
- * @fileOverview force atlas 2
+ * @fileOverview fisheye tool
  * @author shiwu.wyy@antfin.com
  */
 const G6 = require('@antv/g6');
@@ -56,7 +56,9 @@ class Tool {
         moveNodes.push(nodes[i]);
       }
     }
-    graph.updateNodePosition(moveNodes);
+    graph.preventAnimate(() => {
+      graph.updateNodePosition(moveNodes);
+    });
     return moveNodes;
   }
 }

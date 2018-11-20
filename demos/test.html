@@ -49,49 +49,56 @@
     }
   </style>
   <script>
- const data = {
-    nodes: [{
-      id: 'node1',
-      x: 100,
-      y: 200
-    }]
-  };
-
-  G6.registerNode('customNode', {
-    draw(item){
-      const group = item.getGraphicGroup();
-      const html = G6.Util.createDOM('<div class="node" data-text="野生的 dom 元素">委托到 graph 事件响应区域不会超出，dom shape 的包围盒。   这里就超出的包围盒</div>');
-      return group.addShape('rect', {
-        attrs: {
-          x: 0,
-          y: 0,
-          width: 100,
-          height: 100,
-          fill: 'red',
-          html
-        }
+    G6.Global.updateDuration = 3000;
+    const data = {
+      nodes: [{
+        id: 'node1',
+        x: 100,
+        y: 200
+      }, {
+        id: 'node2',
+        x: 200,
+        y: 200
+      }],
+      edges: [{
+        target: 'node2',
+        source: 'node1'
+      }]
+    };
+    const graph = new G6.Graph({
+      container: 'mountNode',
+      height: window.innerHeight, // 画布高
+      animate: true
+    });
+    graph.node({
+      size: 16
+    });
+    graph.read(data);
+    setTimeout(()=>{
+      graph.update('node2', {
+        x: 300
+      })
+    }, 1000);
+    setTimeout(()=>{
+      graph.preventAnimate(()=>{
+        graph.update('node2', {
+          x: 300
+        })
       });
-    }
-  });
-
-  const graph = new G6.Graph({
-    container: 'mountNode',  // 容器ID
-    fitView: 'cc',
-    renderer: 'svg',
-    height: window.innerHeight
-  });
-  graph.node({
-    shape: 'customNode'
-  });
-  graph.on('node:click', ev=>{
-    console.log(ev)
-    const { domEvent, item } = ev;
-    const { target } = domEvent;
-    if(target && target.dataset.text){
-       alert('捕获了一只'+target.dataset.text);
-    }
-  });
-  graph.read(data);
+      graph.update('node2', {
+        x: 400
+      })
+    }, 2000);
+    setTimeout(()=>{
+      graph.preventAnimate(()=>{
+        graph.update('node2', {
+          x: 400
+        })
+      });
+      graph.update('node2', {
+        x: 500
+      })
+    }, 3000);
   </script>
 </body>
 </html>

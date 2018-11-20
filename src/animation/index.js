@@ -78,7 +78,7 @@ function fadeIn(element, callback) {
     element.animate({
       fillOpacity,
       strokeOpacity
-    }, Global.leaveDuration, Global.leaveEasing, callback);
+    }, Global.enterDuration, Global.enterEasing, callback);
   }
 }
 /**
@@ -91,7 +91,7 @@ function fadeOut(element, callback) {
     element.animate({
       fillOpacity: 0,
       strokeOpacity: 0
-    }, Global.enterDuration, Global.enterEasing, callback);
+    }, Global.leaveDuration, Global.leaveEasing, callback);
   }
 }
 
