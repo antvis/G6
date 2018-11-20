@@ -215,10 +215,10 @@ class Controller extends Base {
           this._getDistanceToPress(ev) > SHAKE_TOLERANCE) {
 
           this._dragging = true;
-          this._dragEventObj = currentEventObj;
+          this._dragEventObj = oldEventObj;
           currentItem = this._dragEventObj.item;
           currentShape = this._dragEventObj.shape;
-          this._triggerEvent(EVENT.DRAGSTART, Util.mix({}, currentEventObj, { button: this._button, currentItem, currentShape }));
+          this._triggerEvent(EVENT.DRAGSTART, Util.mix({}, oldEventObj, { button: this._button, currentItem, currentShape }));
         }
         // normal move
         if (oldEventObj.shape !== currentEventObj.shape) {
@@ -300,7 +300,7 @@ class Controller extends Base {
     const clientY = ev.clientY;
     const canvasPoint = canvas.getPointByClient(clientX, clientY);
     const point = this._parsePoint(canvasPoint.x, canvasPoint.y);
-    const shape = canvas.getShape(canvasPoint.x, canvasPoint.y);
+    const shape = canvas.getShape(canvasPoint.x, canvasPoint.y, ev);
     const item = graph.getItemByShape(shape);
     const pixelRatio = canvas.get('pixelRatio');
     return {

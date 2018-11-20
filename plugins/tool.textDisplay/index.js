@@ -1,5 +1,5 @@
 /**
- * @fileOverview fisheye zoom
+ * @fileOverview text display
  * @author shiwu.wyy@antfin.com
  */
 
@@ -26,24 +26,31 @@ class Plugin {
       this.textDisplay();
     };
   }
+  _textDisplay(text, nodeBox) {
+    if (!text) return;
+    const graph = this.graph;
+    const textBox = text.getBBox();
+    const zoom = graph.getZoom();
+    const labelWidth = (textBox.maxX - textBox.minX) * (1 / zoom);
+    const nodeWidth = nodeBox.maxX - nodeBox.minX;
+
+    if (labelWidth === 0) return;
+    const ratio = labelWidth / nodeWidth;
+    if (ratio > this.ratio) {
+      text.hide();
+    } else {
+      text.show();
+    }
+  }
   textDisplay() {
     const graph = this.graph;
     const nodes = graph.getNodes();
     Util.each(nodes, node => {
-      const label = node.getLabel();
-      const labelBox = label.getBBox();
-      const zoom = graph.getZoom();
-      const labelWidth = (labelBox.maxX - labelBox.minX) * (1 / zoom);
+      const group = node.getGraphicGroup();
       const nodeBox = node.getBBox();
-      const nodeWidth = nodeBox.maxX - nodeBox.minX;
-
-      if (labelWidth === 0) return;
-      const ratio = labelWidth / nodeWidth;
-      if (ratio > this.ratio) {
-        label.hide();
-      } else {
-        label.show();
-      }
+      group.deepEach(child => {
+        child.get('type') === 'text' && this._textDisplay(child, nodeBox);
+      });
     });
     graph.draw();
   }

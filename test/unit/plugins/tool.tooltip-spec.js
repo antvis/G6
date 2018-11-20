@@ -2,12 +2,9 @@ const G6 = require('../../../src/index');
 const Tooltip = require('../../../plugins/tool.tooltip/');
 const Simulate = require('event-simulate');
 const expect = require('chai').expect;
-const Util = G6.Util;
-
-document.body.appendChild(Util.createDOM(`
-  <div id='mountNode'></div>
-`));
-
+const div = document.createElement('div');
+div.setAttribute('data-test-spec', 'plugin/tool.tooltip-spec.js');
+document.body.appendChild(div);
 describe('tooltip is an object test', () => {
   const tooltip = new Tooltip();
   const data = {
@@ -26,7 +23,7 @@ describe('tooltip is an object test', () => {
     }]
   };
   const graph = new G6.Graph({
-    container: 'mountNode',
+    container: div,
     width: 500,
     height: 500,
     plugins: [ tooltip ]
@@ -135,7 +132,7 @@ describe('tooltip is an array test', () => {
     }]
   };
   const graph = new G6.Graph({
-    container: 'mountNode',
+    container: div,
     width: 500,
     height: 500,
     plugins: [ tooltip ]
@@ -211,7 +208,7 @@ describe('custom tooltip test', () => {
     }]
   };
   const graph = new G6.Graph({
-    container: 'mountNode',
+    container: div,
     width: 500,
     height: 500,
     plugins: [ tooltip ]
@@ -278,7 +275,7 @@ describe('custom tooltip test', () => {
     }]
   };
   const graph = new G6.Graph({
-    container: 'mountNode',
+    container: div,
     width: 500,
     height: 500,
     plugins: [ tooltip ]
