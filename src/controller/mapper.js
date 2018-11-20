@@ -8,10 +8,6 @@ const Util = require('../util/');
 const CHANNEL_NAMES = [ 'color', 'shape', 'size', 'label', 'style' ];
 
 class Controller extends Base {
-  constructor(cfg) {
-    super(cfg);
-    this._init();
-  }
   _init() {
     const channels = {};
     Util.each(CHANNEL_NAMES, channel => {

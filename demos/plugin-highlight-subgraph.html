@@ -56,10 +56,7 @@
     const edges = graph.getEdges();
     const reNodes = [nodes[0], nodes[1]];
     const reEdges = [edges[0]];
-    graph.highlightSubgraph({
-      reNodes,
-      reEdges
-    });
+    graph.highlightSubgraph(reNodes.concat(reEdges));
 
   </script>
 </body>

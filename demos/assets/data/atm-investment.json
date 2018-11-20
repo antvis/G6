@@ -1,0 +1,167 @@
+[
+  {
+    "group": "Tencent",
+    "company": "Didi Chuxing",
+    "cap": 56
+  },
+  {
+    "group": "Alibaba",
+    "company": "Didi Chuxing",
+    "cap": 56
+  },
+  {
+    "group": "Ant",
+    "company": "Didi Chuxing",
+    "cap": 56
+  },
+  {
+    "group": "Tencent",
+    "company": "Meituan-Dianping",
+    "cap": 30
+  },
+  {
+    "group": "Alibaba",
+    "company": "Meituan-Dianping",
+    "cap": 30
+  },
+  {
+    "group": "Tencent",
+    "company": "Pingduoduo",
+    "cap": 21
+  },
+  {
+    "group": "Alibaba",
+    "company": "Ele.me",
+    "cap": 9.5
+  },
+  {
+    "group": "Tencent",
+    "company": "China Literature",
+    "cap": 7.6
+  },
+  {
+    "group": "Alibaba",
+    "company": "Zhong An Insurance",
+    "cap": 6.5
+  },
+  {
+    "group": "Tencent",
+    "company": "Guahao Tech/Weiyi/WeDoctor",
+    "cap": 6
+  },
+  {
+    "group": "Alibaba",
+    "company": "Easyhome",
+    "cap": 5.7
+  },
+  {
+    "group": "Alibaba",
+    "company": "Meizu",
+    "cap": 4.6
+  },
+  {
+    "group": "Alibaba",
+    "company": "SenseTime",
+    "cap": 4.5
+  },
+  {
+    "group": "Alibaba",
+    "company": "Xiaohongshu/Little Red Book",
+    "cap": 3
+  },
+  {
+    "group": "Tencent",
+    "company": "Xiaohongshu/Little Red Book",
+    "cap": 3
+  },
+  {
+    "group": "Tencent",
+    "company": "Kuaishou",
+    "cap": 3
+  },
+  {
+    "group": "Tencent",
+    "company": "VIPKid",
+    "cap": 3
+  },
+  {
+    "group": "Tencent",
+    "company": "NIO",
+    "cap": 2.9
+  },
+  {
+    "group": "Alibaba",
+    "company": "Cambricon",
+    "cap": 2
+  },
+  {
+    "group": "Tencent",
+    "company": "Weiying Technology/Wepiao",
+    "cap": 2
+  },
+  {
+    "group": "Tencent",
+    "company": "Full Truck Alliance Group",
+    "cap": 2
+  },
+  {
+    "group": "Ant",
+    "company": "Ucommune",
+    "cap": 1.7
+  },
+  {
+    "group": "Tencent",
+    "company": "Douyu",
+    "cap": 1.5
+  },
+  {
+    "group": "Ant",
+    "company": "Hellobike",
+    "cap": 1.5
+  },
+  {
+    "group": "Ant",
+    "company": "UrWork",
+    "cap": 1.4
+  },
+  {
+    "group": "Ant",
+    "company": "ofo",
+    "cap": 1
+  },
+  {
+    "group": "Alibaba",
+    "company": "ofo",
+    "cap": 1
+  },
+  {
+    "group": "Alibaba",
+    "company": "iTutorGroup",
+    "cap": 1
+  },
+  {
+    "group": "Alibaba",
+    "company": "Face++",
+    "cap": 1
+  },
+  {
+    "group": "Ant",
+    "company": "Face++",
+    "cap": 1
+  },
+  {
+    "group": "Tencent",
+    "company": "iCarbonX",
+    "cap": 1
+  },
+  {
+    "group": "Tencent",
+    "company": "Zhihu",
+    "cap": 1
+  },
+  {
+    "group": "Tencent",
+    "company": "Ding Xiang Yuan",
+    "cap": 1
+  }
+]

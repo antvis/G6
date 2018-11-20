@@ -72,6 +72,14 @@ Shape.registerEdge('common', {
     const model = item.getModel();
     return model.label;
   },
+  getDefaultLabelRectStyle(/* item*/) {
+    return {
+      fill: 'white'
+    };
+  },
+  getDefaultLabelRectPadding(/* item*/) {
+    return Util.toAllPadding([ 4, 8 ]);
+  },
   drawLabel(item, keyShape) {
     let label = this.getLabel(item);
     const group = item.getGraphicGroup();
@@ -95,11 +103,9 @@ Shape.registerEdge('common', {
         class: 'label',
         attrs
       });
-      const padding = Util.toAllPadding([ 4, 8 ]);
+      const padding = this.getDefaultLabelRectPadding(item);
+      const defaultStyle = this.getDefaultLabelRectStyle(item);
       const textBox = label.getBBox();
-      const defaultStyle = {
-        fill: 'white'
-      };
       const style = model.labelRectStyle ? Util.mix({}, defaultStyle, model.labelRectStyle) : defaultStyle;
       const rect = group.addShape('rect', {
         attrs: Util.mix({}, style, {

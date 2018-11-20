@@ -32,7 +32,7 @@ describe('graph behaviour-mode user cases test', () => {
         edit: [ 'test-2' ]
       }
     });
-    graph.source(Util.cloneDeep(data));
+    graph.source(Util.clone(data));
     graph.render();
 
     const canvas = graph.getCanvas();

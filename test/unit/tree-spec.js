@@ -4,6 +4,7 @@ const Tree = require('../../src/tree');
 const expect = require('chai').expect;
 // const Util = require('../../src/util/');
 const div = document.createElement('div');
+div.setAttribute('data-test-spec', 'tree-spec.js');
 const data = require('../fixtures/sample-tree-data.json');
 document.body.appendChild(div);
 describe('tree test', () => {
@@ -20,8 +21,7 @@ describe('tree test', () => {
     return model.name;
   });
   tree.read(data);
-  tree.on('click', ({ item }) => {
-    item && console.log(item.getModel());
+  tree.on('click', () => {
     tree.draw();
   });
   it('render', () => {

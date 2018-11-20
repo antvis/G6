@@ -2,6 +2,7 @@ const G = require('@antv/g');
 const div = document.createElement('div');
 require('../../../../src/extend/g/dom');
 div.id = 'extend-dom-spec';
+div.setAttribute('data-test-spec', 'extend/g/dom-spec.js');
 document.body.appendChild(div);
 describe('extend dom test', () => {
   it('g dom test', () => {

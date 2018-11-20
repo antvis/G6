@@ -12,10 +12,10 @@ class Base {
   constructor(cfg) {
     const defaultCfg = this.getDefaultCfg();
     Util.mix(this, defaultCfg, cfg);
+    this._init();
   }
-  destroy() {
-
-  }
+  _init() {}
+  destroy() {}
 }
 
 module.exports = Base;

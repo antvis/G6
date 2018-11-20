@@ -17,7 +17,8 @@ class Tree extends Graph {
         getVGap() {
           return 10;
         }
-      })
+      }),
+      _type: 'tree'
     }, inputCfg);
     super(cfg);
   }
@@ -57,7 +58,9 @@ class Tree extends Graph {
     const dataMap = this.get('_dataMap');
     const nodes = [];
     const edges = [];
-
+    if (!roots) {
+      throw new Error('please set data.roots!');
+    }
     roots.forEach(root => {
       Util.traverseTree(root, (child, parent) => {
         if (!child.id) {
@@ -187,8 +190,8 @@ class Tree extends Graph {
       const data = this.parseSource({
         roots: [ model ]
       });
-      this.addItems('node', data.nodes);
-      this.addItems('edge', data.edges);
+      this._addItems('node', data.nodes);
+      this._addItems('edge', data.edges);
       item = this.find(model.id);
       this._setVisibleByCollapsed(item);
       // set node nth
@@ -197,16 +200,15 @@ class Tree extends Graph {
       }
       this.find(parent.id).forceUpdate();
     } else {
-      this.addItems(type, [ model ]);
+      this._addItems(type, [ model ]);
       item = this.find(model.id);
     }
     ev.item = item;
     this.emit('afterchange', ev);
-    this.draw();
     return item;
   }
   /**
-   * @param {String|Item} item target item
+   * @param {string|Item} item target item
    * @param {object} model data model
    * @return {Graph} this
    */
@@ -224,11 +226,10 @@ class Tree extends Graph {
       updateModel: model
     };
 
-    model && this.emit('beforechange', ev);
-    this.updateItem(item, model);
+    this.emit('beforechange', ev);
+    this._updateItems([ item ], [ model ]);
 
     if (item.isNode) {
-
       // deal collapsed
       if ('collapsed' in model) {
         if (model.collapsed) {
@@ -241,10 +242,7 @@ class Tree extends Graph {
         } else {
           item.deepEach(child => {
             child.show();
-            child.getEdges(edge => {
-              const model = edge.getModel();
-              return model.target === child.id;
-            }).forEach(edge => {
+            child.getInEdges().forEach(edge => {
               edge.show();
             });
           }, parent => {
@@ -274,8 +272,8 @@ class Tree extends Graph {
         } else {
           newParentModel.children = [ itemModel ];
         }
-        this.removeItems([ oldEdge ]);
-        this.addItems('edge', [ newEdgeModel ]);
+        this._removeItems([ oldEdge ]);
+        this._addItems('edge', [ newEdgeModel ]);
         this.find(newParentModel.id).forceUpdate();
       }
 
@@ -284,11 +282,11 @@ class Tree extends Graph {
         if (originModel.children) {
           Util.each(originModel.children, child => {
             const childItem = this.find(child.id);
-            const removeItems = [ childItem ];
+            const _removeItems = [ childItem ];
             childItem.getEdges().forEach(edge => {
-              removeItems.push(edge);
+              _removeItems.push(edge);
             });
-            this.removeItems(removeItems);
+            this._removeItems(_removeItems);
           });
         }
         Util.each(model.children, child => {
@@ -296,9 +294,9 @@ class Tree extends Graph {
             roots: [ child ]
           });
           const childId = Util.isNil(child.id) ? Util.guid() : child.id;
-          this.addItems('node', data.nodes);
-          this.addItems('edge', data.edges);
-          !child.parent && this.addItems('edge', [{
+          this._addItems('node', data.nodes);
+          this._addItems('edge', data.edges);
+          !child.parent && this._addItems('edge', [{
             id: originModel.id + '-' + childId,
             source: originModel.id,
             target: childId
@@ -315,11 +313,10 @@ class Tree extends Graph {
     }
 
     this.emit('afterchange', ev);
-    this.draw();
     return this;
   }
   /**
-   * @param {String|Item} item target item
+   * @param {string|Item} item target item
    * @return {Graph} this
    */
   remove(item) {
@@ -350,9 +347,8 @@ class Tree extends Graph {
       Util.Array.remove(parent.children, model);
       this.find(parent.id).forceUpdate();
     }
-    this.removeItems(Util.uniq(items));
+    this._removeItems(Util.uniq(items));
     this.emit('afterchange', ev);
-    this.draw();
     return this;
   }
   getRoots() {
@@ -363,7 +359,7 @@ class Tree extends Graph {
   }
   save() {
     const rst = {
-      roots: Util.cloneDeep(this.getSource().roots),
+      roots: Util.clone(this.getSource().roots),
       guides: this.getGuides().map(guide => {
         return guide.getModel();
       })
