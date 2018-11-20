@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "2.2.0-beta.2",
+  "version": "2.2.0-beta.14",
   "description": "graph visualization frame work",
   "main": "build/g6.js",
   "homepage": "https://github.com/antvis/g6",
@@ -35,6 +35,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
+    "@alipay/antv-bin": "^1.1.2",
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
@@ -93,6 +94,7 @@
     "dev": "npm run watch & npm run demos-web",
     "publish": "node ./bin/publish.js",
     "lint": "eslint --ext .js ./src",
+    "cdn": "antv-bin upload -n @antv/g6",
     "lint-fix": "eslint --ext .html,.js --fix ./",
     "prepublishOnly": "npm run build-lib && npm run build && node ./bin/version.js",
     "screenshot": "node ./bin/screenshot.js",

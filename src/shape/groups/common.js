@@ -10,10 +10,13 @@ const Global = require('../../global');
 Shape.registerGroup('common', {
   draw(item) {
     const model = item.getModel();
+    let keyShape;
     if (model.collapsed) {
-      return this.drawCollapsed(item);
+      keyShape = this.drawCollapsed(item);
+    } else {
+      keyShape = this.drawExpanded(item);
     }
-    return this.drawExpanded(item);
+    return keyShape;
   },
   defaultWidth: 184,
   defaultHeight: 40,
