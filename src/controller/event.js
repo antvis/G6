@@ -215,10 +215,10 @@ class Controller extends Base {
           this._getDistanceToPress(ev) > SHAKE_TOLERANCE) {
 
           this._dragging = true;
-          this._dragEventObj = currentEventObj;
+          this._dragEventObj = oldEventObj;
           currentItem = this._dragEventObj.item;
           currentShape = this._dragEventObj.shape;
-          this._triggerEvent(EVENT.DRAGSTART, Util.mix({}, currentEventObj, { button: this._button, currentItem, currentShape }));
+          this._triggerEvent(EVENT.DRAGSTART, Util.mix({}, oldEventObj, { button: this._button, currentItem, currentShape }));
         }
         // normal move
         if (oldEventObj.shape !== currentEventObj.shape) {

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>画廊-粒子传输</title>
+</head>
+
+<body>
+  <div id="mountNode"></div>
+
+  <script src="./assets/jquery-3.2.1.min.js"></script>
+  <script src="./assets/d3-4.13.0.min.js"></script>
+  <script src="../build/g6.js"></script>
+  <script src="../build/plugin.tool.d3.mapper.js"></script>
+  <script>
+      const { forceSimulation, forceManyBody, forceCollide } = d3;
+      const Util = G6.Util;
+      class ParticleTransport {
+        constructor(options) {
+          this.options = {
+            getGravitys(graph) {
+              const colors = [ '#FD8C3D', '#D83F43', '#F7BED6', '#E487C7', '#46A848', '#D83F43', '#3B85BA', '#48335B', '#B7CDE9' ]; // 重力点附上颜色
+              const width = graph.getWidth();
+              const height = graph.getHeight();
+              const padding = 60;
+              const center = [
+                width / 2,
+                height / 2
+              ];
+              const gravityCount = 8;
+              const angleStep = Math.PI * 2 / gravityCount;
+              const radius = Math.min(width, height) / 2 - padding;
+              const initialv = [ 0, -radius ];
+              const gravitys = [ initialv ];
+              for (let index = 1; index < gravityCount; index++) {
+                const v = Util.vec2.rotate([], initialv, [ 0, 0 ], angleStep * index);
+                gravitys.push(v);
+              }
+              gravitys.forEach((gravity, index) => {
+                gravity[0] = center[0] + gravity[0];
+                gravity[1] = center[1] + gravity[1];
+                gravity[2] = colors[index];
+              });
+              return gravitys;
+            },
+            ...options
+          };
+          this.init();
+        }
+        initGraph() {
+          const graph = new G6.Graph({
+            container: 'mountNode',
+            height: window.innerHeight, // 画布高
+            animate: {
+              update({ element, endKeyFrame }) {
+                const { props } = endKeyFrame;
+                element.animate({
+                  matrix: props.matrix,
+                  ...props.attrs
+                }, 3000, 'easeQuadOut');
+              }
+            }
+          });
+          this.graph = graph;
+        }
+        getRandom(array) {
+          return array[parseInt(array.length * Math.random())];
+        }
+        initData() {
+          const { gravitys } = this;
+          const data = {
+            nodes: []
+          };
+          gravitys.forEach((gravity, index) => {
+            const maxCount = 20 * (index + 1);
+            const minCount = 2 * (index + 1);
+            const nodeCount = parseInt(Math.random() * maxCount);
+      
+            for (let index = 0; index < nodeCount; index++) {
+              data.nodes.push({
+                size: 4 + 6 * Math.random(),
+                color: gravity[2],
+                gx: gravity[0],
+                gy: gravity[1],
+                x: gravity[0] + Math.random() * 5,
+                y: gravity[1] + Math.random() * 5,
+                style: {
+                  stroke: null
+                }
+              });
+            }
+          });
+          this.graph.read(data);
+          this.data = data;
+        }
+        initSimulation() {
+          const { nodes } = this.data;
+          const graph = this.graph;
+          this.simulation = forceSimulation(nodes)
+            .force('charge', forceManyBody())
+            .force('collision', forceCollide().radius(model => {
+              return model.size / 2 + 2;
+            }))
+            .on('tick', function() {
+              // const alpha = 1/node.gx - node.x;
+              nodes.forEach(node => {
+                node.x += (node.gx - node.x) * 0.04;
+                node.y += (node.gy - node.y) * 0.04;
+              });
+              graph.preventAnimate(() => {
+                graph.updateNodePosition();
+              });
+            });
+        }
+        initGravitys() {
+          const { getGravitys } = this.options;
+          this.gravitys = getGravitys(this.graph);
+        }
+        init() {
+          this.initGraph();
+          this.initGravitys();
+          this.initData();
+          this.initSimulation();
+          const graph = this.graph;
+          graph.add('node', {
+            label: {
+              text: 'Power By G6',
+              fontSize: 18
+            },
+            x: graph.getWidth()/2,
+            y: graph.getHeight()/2,
+            style: {
+              fillOpacity: 0,
+              strokeOpacity: 0
+            }
+          });
+          setInterval(() => {
+            const { nodes } = this.data;
+            const count = 5;
+            for (let index = 0; index < count; index++) {
+              const node = this.getRandom(nodes);
+              const gravity = this.getRandom(this.gravitys);
+              graph.update(node.id, {
+                gx: gravity[0],
+                gy: gravity[1],
+                color: gravity[2]
+              });
+            }
+            this.simulation.alpha(0.003).restart();
+          }, 100);
+        }
+      }
+      new ParticleTransport();
+  </script>
+</body>
+
+</html>

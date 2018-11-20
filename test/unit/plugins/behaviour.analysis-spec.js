@@ -172,7 +172,7 @@ describe('behaviour analysis test', () => {
       clientX: clientPoint.x + 150,
       clientY: clientPoint.y
     });
-    expect(graph.find('node1').getModel().x).eql(245);
+    expect(graph.find('node1').getModel().x).eql(250);
     Simulate.simulate(mouseEventWrapper, 'mouseleave', {
       clientX: clientPoint.x + 600,
       clientY: clientPoint.y + 600

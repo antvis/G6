@@ -43,12 +43,13 @@ Mixin.AUGMENT = {
   },
   /**
     * add behavior to the current mode
-    * @param {Array | String} behaviour - add a behaviour or a list behaviours to the current mode
+    * @param {Array | String} behaviour - add a behaviour or a list behaviours to the mode
+    * @param {String} mode - if not set use current mode
     * @return {object} - graph object
     */
-  addBehaviour(behaviour) {
+  addBehaviour(behaviour, mode) {
     const modes = this.get('modes');
-    const mode = this.get('mode');
+    mode = mode ? mode : this.get('mode');
     if (Util.isEmpty(modes[mode])) {
       modes[mode] = [];
     }
