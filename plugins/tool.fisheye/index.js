@@ -6,6 +6,7 @@
 const G6 = require('@antv/g6');
 const Util = G6.Util;
 const Fisheye = require('./tool');
+
 class Plugin {
   constructor(options) {
     Util.mix(this, options);
@@ -30,7 +31,9 @@ class Plugin {
           preModel.x = this.oriPos.get(this.preMoveNodes[i].id).x;
           preModel.y = this.oriPos.get(this.preMoveNodes[i].id).y;
         }
-        graph.updateNodePosition(this.preMoveNodes);
+        graph.preventAnimate(() => {
+          graph.updateNodePosition(this.preMoveNodes);
+        });
         this.preMoveNodes = fisheye.zoom(ev.x, ev.y);
       }, 30)
     );
@@ -39,6 +42,8 @@ class Plugin {
       if (graph.destroyed) return;
       const nodes = graph.getNodes();
       const size = nodes.length;
+      this.preMoveNodes = [];
+
       if (ev === undefined || ev.item === undefined) {
         for (let i = 0; i < size; i++) {
           if (nodes[i].getModel().x === undefined) return;

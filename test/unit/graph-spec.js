@@ -4,6 +4,7 @@ const Util = require('../../src/util/');
 const data = require('../fixtures/sample-graph-data.json');
 
 const div = document.createElement('div');
+div.setAttribute('data-test-spec', 'graph-spec.js');
 div.id = 'graph';
 document.body.appendChild(div);
 data.nodes.forEach(node => {
@@ -17,7 +18,7 @@ const graph = new Graph({
 
   }
 });
-graph.source(Util.cloneDeep(data));
+graph.source(Util.clone(data));
 graph.render();
 graph.update('node3', {
   x: 111

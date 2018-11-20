@@ -3,6 +3,7 @@ const G = require('@antv/g');
 const div = document.createElement('div');
 require('../../../../src/extend/g/shape');
 div.id = 'extend-shape-spec';
+div.setAttribute('data-test-spec', 'extend/g/shape-spec.js');
 document.body.appendChild(div);
 describe('extend shape test', () => {
   const canvas = new G.Canvas({

@@ -184,7 +184,7 @@ class Minimap {
       }
       graph = this.getGraph();
       miniMapViewPortActived = true;
-      startMatrix = Util.cloneDeep(graph.getMatrix());
+      startMatrix = Util.clone(graph.getMatrix());
       miniMapScale = this.miniMapMatrix[0];
       graphScale = startMatrix[0];
       startPoint = {
@@ -202,7 +202,7 @@ class Minimap {
       if (miniMapViewPortActived && graph) {
         const dx = startPoint.clientX - ev.clientX;
         const dy = startPoint.clientY - ev.clientY;
-        const matrix = Util.cloneDeep(startMatrix);
+        const matrix = Util.clone(startMatrix);
         Util.mat3.translate(matrix, matrix, [ graphScale * dx / miniMapScale, graphScale * dy / miniMapScale ]);
         graph.updateMatrix(matrix);
       }
@@ -265,13 +265,7 @@ class Minimap {
     let container = this.container;
     let width = this.width;
     let height = this.height;
-    if (container) {
-      if (Util.isString(container)) {
-        container = document.getElementById(container);
-      }
-    } else {
-      throw new Error('please set the container for the minimap !');
-    }
+    container = Util.initDOMContainer(container, 'minimap');
     if (!width) {
       width = Util.getWidth(container);
       this.width = width;

@@ -4,6 +4,7 @@ const expect = require('chai').expect;
 const Util = require('../../../src/util/');
 const Simulate = require('event-simulate');
 const div = document.createElement('div');
+div.setAttribute('data-test-spec', 'cases/force-fit-spec.js');
 div.style.width = '200px';
 div.style.height = '200px';
 document.body.appendChild(div);
@@ -14,7 +15,7 @@ describe('force fit user cases test', () => {
       container: div
     });
     const el = graph.get('_canvas').get('el');
-    graph.source(Util.cloneDeep(data));
+    graph.source(Util.clone(data));
     graph.render();
     expect(el.style.width).equal('200px');
     expect(el.style.height).equal('200px');
@@ -30,7 +31,7 @@ describe('force fit user cases test', () => {
       height: 500
     });
     const el = graph.get('_canvas').get('el');
-    graph.source(Util.cloneDeep(data));
+    graph.source(Util.clone(data));
     graph.render();
     expect(el.style.width).equal('200px');
     expect(el.style.height).equal('500px');
@@ -42,7 +43,7 @@ describe('force fit user cases test', () => {
       width: 500
     });
     const el = graph.get('_canvas').get('el');
-    graph.source(Util.cloneDeep(data));
+    graph.source(Util.clone(data));
     graph.render();
     expect(el.style.width).equal('500px');
     expect(el.style.height).equal('200px');

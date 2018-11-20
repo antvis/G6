@@ -41,15 +41,20 @@ class Node extends Item {
     this._afterDraw();
   }
   getEdges() {
-    return this.edges;
+    const graph = this.graph;
+    const edges = graph.getEdges();
+    return edges.filter(edge => {
+      const model = edge.getModel();
+      return model.source === this.id || model.target === this.id;
+    });
   }
   getInEdges() {
-    return this.edges.filter(edge => {
+    return this.getEdges().filter(edge => {
       return edge.target === this;
     });
   }
   getOutEdges() {
-    return this.edges.filter(edge => {
+    return this.getEdges().filter(edge => {
       return edge.source === this;
     });
   }

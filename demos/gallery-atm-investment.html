@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>画廊-美国总统信息桑基图</title>
+</head>
+
+<body>
+  <div id="mountNode"></div>
+  <script src="./assets/jquery-3.2.1.min.js"></script>
+  <script src="../build/g6.js"></script>
+  <script src="../build/plugin.template.tableSankey.js"></script>
+  <script>
+    $.getJSON('./assets/data/atm-investment.json', table => {
+      const sankeyPlugin = new G6.Plugins['template.tableSankey']({
+        table,
+        onBeforeSankeyProcessorExecute(sankeyProcessor) {
+          sankeyProcessor.nodeWidth(4);
+          sankeyProcessor.nodePadding(16);
+        },
+        onBeforeRender(graph) {
+          const width = graph.getWidth();
+          graph.node({
+            color() {
+              return 'black';
+            },
+            style(model) {
+              const style = {
+                lineWidth:0
+              }
+              if (model.field === 'cap') {
+                style.fillOpacity = 0;
+              }
+              return style;
+            },
+            label: model => {
+              const label = {
+                text: model.field === 'cap' ? '$ ' + model.fieldValue : model.fieldValue,
+                ...this.labelStyle
+              };
+              if (model.x > width / 2) {
+                label.textAlign = 'right';
+              } else {
+                label.textAlign = 'left';
+              }
+              return label;
+            },
+            labelOffsetX(model) {
+              if (model.field === 'cap') {
+                return 0;
+              }
+              const labelGap = 8;
+              if (model.x > width / 2) {
+                return -(model.x1 - model.x0) / 2 - labelGap;
+              }
+              return (model.x1 - model.x0) / 2 + labelGap;
+            }
+          });
+          graph.edge({
+            sourceOffset(model) {
+              const {source, target} = model;
+              if(target.indexOf('cap') !== -1) {
+                const sourceItem = graph.find(source);
+                const sourceLabel = sourceItem.getLabel();
+                const sourceLabelBox = sourceLabel.getBBox();
+                return sourceLabelBox.width+10;
+              }
+            },
+            targetOffset(model) {
+              const {target} = model;
+              if(target.indexOf('cap') !== -1) {
+                const targetItem = graph.find(target);
+                const targetLabel = targetItem.getLabel();
+                const targetLabelBox = targetLabel.getBBox();
+                return targetLabelBox.width;
+              }
+            },
+            style(model){
+              const {source, target} = model;
+              const strokeOpacity = 0.6;
+              let stroke = '#333';
+              if (source === 'groupTencent') {
+                stroke = "#61C489";
+              } else if(source === 'groupAlibaba') {
+                stroke = '#E7AC45';
+              } else  if(source === 'groupAnt') {
+                stroke = '#326DF6';
+              }
+              if(target.indexOf('cap') !== -1) {
+                return {
+                  lineWidth: 1,
+                  lineDash: [1, 1]
+                };
+              }
+              return {
+                stroke,
+                strokeOpacity
+              };
+            }
+          });
+        },
+        combine({ field, value, row }) {
+          if (field === 'cap') {
+            return row.company + field + value;
+          }
+          return field + value;
+        }
+      });
+      new G6.Graph({
+        container: 'mountNode',
+        width: 500,
+        height: 600,
+        fitView: 'cc',
+        animate: true,
+        plugins: [ sankeyPlugin ]
+      });
+    });
+  </script>
+</body>
+</html>
+
+
+  

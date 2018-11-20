@@ -40,7 +40,7 @@ Mixin.AUGMENT = {
   },
   /**
    * force fit canvas size to container
-   * @param  {String|Undefined} type string could be 'width', 'height'
+   * @param  {string|undefined} type string could be 'width', 'height'
    * @return {Graph} this
    */
   forceFit(type) {

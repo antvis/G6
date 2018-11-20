@@ -38,7 +38,6 @@ function panCanvas(graph, button = 'left', panBlank = false) {
   graph.behaviourOn('dragstart', () => {
     if (lastPoint) {
       graph.setCapture(false);
-      graph.forcePreventAnimate(true);
       graph.css({
         cursor: '-webkit-grabbing'
       });
@@ -64,7 +63,6 @@ function panCanvas(graph, button = 'left', panBlank = false) {
     graph.css({
       cursor: '-webkit-grab'
     });
-    graph.forcePreventAnimate(false);
     graph.setCapture(true);
   }
 }
@@ -110,21 +108,20 @@ G6.registerBehaviour('panNode', graph => {
     node = item;
     dx = model.x - x;
     dy = model.y - y;
-    graph.forcePreventAnimate(true);
   });
   graph.on('node:drag', ev => {
-    graph.update(node, {
-      x: ev.x + dx,
-      y: ev.y + dy
+    graph.preventAnimate(() => {
+      graph.update(node, {
+        x: ev.x + dx,
+        y: ev.y + dy
+      });
     });
   });
   graph.on('node:dragend', () => {
     node = undefined;
-    graph.forcePreventAnimate(false);
   });
   graph.on('canvas:mouseleave', () => {
     node = undefined;
-    graph.forcePreventAnimate(false);
   });
 });
 
