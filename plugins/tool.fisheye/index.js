@@ -31,7 +31,9 @@ class Plugin {
           preModel.x = this.oriPos.get(this.preMoveNodes[i].id).x;
           preModel.y = this.oriPos.get(this.preMoveNodes[i].id).y;
         }
-        graph.updateNodePosition(this.preMoveNodes);
+        graph.preventAnimate(() => {
+          graph.updateNodePosition(this.preMoveNodes);
+        });
         this.preMoveNodes = fisheye.zoom(ev.x, ev.y);
       }, 30)
     );

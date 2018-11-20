@@ -226,7 +226,7 @@ class Tree extends Graph {
       updateModel: model
     };
 
-    model && this.emit('beforechange', ev);
+    this.emit('beforechange', ev);
     this._updateItems([ item ], [ model ]);
 
     if (item.isNode) {

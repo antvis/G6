@@ -46,7 +46,7 @@
           const height = graph.getHeight();
           const simulation = forceSimulation(nodes)
           .force('charge', forceManyBody().distanceMax(width * 3))
-          .force('link', forceLink(G6.Util.cloneDeep(edges))
+          .force('link', forceLink(G6.Util.clone(edges))
             .id(model => {
               return model.id;
             })

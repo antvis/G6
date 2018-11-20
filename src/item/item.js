@@ -249,7 +249,7 @@ class Item {
     this.isVisible() && this.draw();
   }
   update() {
-    this.isVisible() && this.draw();
+    this.draw();
   }
   getModel() {
     return this.model;
@@ -273,10 +273,12 @@ class Item {
     const model = this.model;
     const itemMap = this.itemMap;
     const parents = [];
-    let parentModel = model.parent;
-    while (parentModel && itemMap[parentModel]) {
-      parents.push(itemMap[parentModel]);
-      parentModel = parentModel.parent;
+    let { parent } = model;
+    while (parent && itemMap[parent]) {
+      const parentItem = itemMap[parent];
+      const parentModel = parentItem.getModel();
+      parents.push(parentItem);
+      parent = parentModel.parent;
     }
     return parents;
   }

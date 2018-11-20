@@ -10,12 +10,13 @@ Mixin.AUGMENT = {
   _initDraw() {
     const controllers = this.get('_controllers');
     const animateController = controllers.animate;
-    const eventNames = [ 'clear', 'show', 'hide', 'change' ];
+    const eventNames = [ 'clear', 'show', 'hide', 'change', 'updatenodeposition' ];
     eventNames.forEach(eventName => {
       if (animateController) {
         this.on('before' + eventName, ev => {
+          const forcePreventAnimate = this.get('_forcePreventAnimate');
           const affectedItemIds = ev ? ev.affectedItemIds : undefined;
-          if (animateController) {
+          if (forcePreventAnimate !== true && animateController) {
             animateController.cacheGraph('startCache', affectedItemIds);
           }
         });

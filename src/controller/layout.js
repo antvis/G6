@@ -46,10 +46,18 @@ class Controller extends Base {
       const auto = this.auto;
       if (auto === 'once') {
         if (action === 'changeData') {
-          !graph.destroyed && this.layout();
+          if (!graph.destroyed) {
+            graph.preventAnimate(() => {
+              this.layout();
+            });
+          }
         }
       } else {
-        this.auto && !graph.destroyed && this.layout();
+        if (this.auto && !graph.destroyed) {
+          graph.preventAnimate(() => {
+            this.layout();
+          });
+        }
       }
     });
   }

@@ -89,7 +89,7 @@ class Plugin {
     }
     if (this.textDisplay) {
       const textDisplay = new G6.Plugins['tool.textDisplay']();
-      graph.addPlugin(textDisplay);
+      this.interactive && graph.addPlugin(textDisplay);
     }
     const freezeSize = new G6.Plugins['tool.freezeSize']();
     graph.addPlugin(freezeSize);
@@ -104,7 +104,7 @@ class Plugin {
     });
     graph.on('afterinit', () => {
       const highlighter = new G6.Plugins['tool.highlightSubgraph']();
-      graph.addPlugin(highlighter);
+      this.interactive && graph.addPlugin(highlighter);
     });
     graph.on('beforeinit', () => {
       let layout = graph.get('layout');
