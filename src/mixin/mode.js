@@ -19,8 +19,8 @@ Mixin.CFG = {
     * @type {string}
     */
   mode: 'default',
-  // event stash
-  _eventStash: {}
+  // event cache
+  _eventCache: {}
 };
 
 Mixin.INIT = '_initModes';
@@ -43,12 +43,13 @@ Mixin.AUGMENT = {
   },
   /**
     * add behavior to the current mode
-    * @param {Array | String} behaviour - add a behaviour or a list behaviours to the current mode
+    * @param {Array | String} behaviour - add a behaviour or a list behaviours to the mode
+    * @param {String} mode - if not set use current mode
     * @return {object} - graph object
     */
-  addBehaviour(behaviour) {
+  addBehaviour(behaviour, mode) {
     const modes = this.get('modes');
-    const mode = this.get('mode');
+    mode = mode ? mode : this.get('mode');
     if (Util.isEmpty(modes[mode])) {
       modes[mode] = [];
     }
@@ -89,24 +90,24 @@ Mixin.AUGMENT = {
     * @param {function} fn - behaivour body
     */
   behaviourOn(type, fn) {
-    const eventStash = this._eventStash;
-    if (!eventStash[type]) {
-      eventStash[type] = [];
+    const eventCache = this._eventCache;
+    if (!eventCache[type]) {
+      eventCache[type] = [];
     }
-    eventStash[type].push(fn);
+    eventCache[type].push(fn);
     this.on(type, fn);
   },
   /**
     * remove all behaviours added by user
     */
   _off() {
-    const eventStash = this._eventStash;
-    Util.each(eventStash, (fns, type) => {
+    const eventCache = this._eventCache;
+    Util.each(eventCache, (fns, type) => {
       Util.each(fns, fn => {
         this.off(type, fn);
       });
     });
-    this._eventStash = {};
+    this._eventCache = {};
   }
 };
 module.exports = Mixin;

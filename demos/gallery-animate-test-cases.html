@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>图-动画终端测试</title>
+  <style>
+  #mountNode canvas {
+    float: left;
+    border-left: 1px solid #666;
+    border-right: 1px solid #666;
+
+  }
+  </style>
+</head>
+
+<body>
+  <div id="mountNode"></div>
+  <script src="../build/g6.js"></script>
+  <script>
+    function createGraph(callback) {
+      const graph = new G6.Graph({
+        container: 'mountNode',
+        width: 200,
+        height: 80,
+        animate: true
+      });
+      graph.node({
+        size: 20,
+        color: '#333'
+      });
+      callback(graph);
+    }
+    // case read data
+    createGraph(graph=>{
+      graph.read({
+        nodes: [{
+          id: 'node1',
+          x: 30,
+          y: 30,
+        }, {
+          id: 'node2',
+          x: 160,
+          y: 30,
+        }],
+        edges: [{
+          id: 'node1=>node2',
+          source: 'node1',
+          target: 'node2',
+        }]
+      });
+    });
+    
+    // case read data
+    createGraph(graph=>{
+      graph.read({
+        nodes: [{
+          id: 'node1',
+          x: 30,
+          y: 30,
+        }]
+      });
+    });
+
+    // case read data
+    createGraph(graph=>{
+      graph.preventAnimate(()=>{
+        graph.read({
+          nodes: [{
+            id: 'node1',
+            x: 30,
+            y: 30,
+          }, {
+            id: 'node2',
+            x: 160,
+            y: 30,
+          }]
+        });
+      });
+      graph.add('edge', {
+        id: 'node1=>node2',
+        source: 'node1',
+        target: 'node2',
+      });
+    });
+
+    // case new group
+    createGraph(graph=>{
+      graph.preventAnimate(()=>{
+        graph.read({
+          nodes: [{
+            id: 'node1',
+            x: 30,
+            y: 55,
+            parent: 'group1'
+          }, {
+            id: 'node2',
+            x: 160,
+            y: 55,
+            parent: 'group1'
+          }]
+        });
+      });
+      graph.add('group', {
+        id: 'group1',
+        label: '- 群组'
+      }).toBack();
+    });
+
+    // case update node
+    createGraph(graph=>{
+      graph.preventAnimate(()=>{
+        graph.read({
+          nodes: [{
+            id: 'node1',
+            x: 30,
+            y: 55,
+            parent: 'group1'
+          }, {
+            id: 'node2',
+            x: 160,
+            y: 55,
+            parent: 'group1'
+          }],
+          edges: [{
+            id: 'node1=>node2',
+            source: 'node1',
+            target: 'node2',
+          }]
+        });
+      });
+      graph.update('node1', {
+        x: 100
+      });
+    });
+
+    // case update edge
+    createGraph(graph=>{
+      graph.preventAnimate(()=>{
+        graph.read({
+          nodes: [{
+            id: 'node1',
+            x: 30,
+            y: 55,
+          }, {
+            id: 'node2',
+            x: 160,
+            y: 30,
+          },{
+            id: 'node3',
+            x: 160,
+            y: 65,
+          }],
+          edges: [{
+            id: 'node1=>node2',
+            source: 'node1',
+            target: 'node2',
+          }]
+        });
+      });
+      setTimeout(()=>{
+        graph.update('node1=>node2', {
+          target: 'node3'
+        });
+      }, 500);
+    });
+
+    // case update group
+    createGraph(graph=>{
+      graph.preventAnimate(()=>{
+        graph.read({
+          nodes: [{
+            id: 'node1',
+            x: 30,
+            y: 55,
+            parent: 'group1'
+          }, {
+            id: 'node2',
+            x: 160,
+            y: 55,
+            parent: 'group1'
+          }],
+          groups: [{
+            id: 'group1',
+            label: '- 群组'
+          }]
+        });
+      });
+      setTimeout(()=>{
+        graph.update('group1', {
+          collapsed: true
+        });
+      }, 1000);
+    });
+
+    // case clear canvas
+    createGraph(graph=>{
+      graph.preventAnimate(()=>{
+        graph.read({
+          nodes: [{
+            id: 'node1',
+            x: 30,
+            y: 55,
+            parent: 'group1'
+          }, {
+            id: 'node2',
+            x: 160,
+            y: 55,
+            parent: 'group1'
+          }],
+          edges: [{
+            id: 'node1=>node2',
+            source: 'node1',
+            target: 'node2',
+          }]
+        });
+      });
+      setTimeout(()=>{
+        graph.clear();
+      }, 1000);
+    });
+
+    // case remove node
+    createGraph(graph=>{
+      graph.preventAnimate(()=>{
+        graph.read({
+          nodes: [{
+            id: 'node1',
+            x: 30,
+            y: 55,
+          }]
+        });
+      });
+      setTimeout(()=>{
+        graph.remove('node1');
+      }, 1000);
+    });
+
+    // case remove edge
+    createGraph(graph=>{
+      graph.preventAnimate(()=>{
+        graph.read({
+          nodes: [{
+            id: 'node1',
+            x: 30,
+            y: 30,
+          }, {
+            id: 'node2',
+            x: 160,
+            y: 30,
+          }],
+          edges: [{
+            id: 'node1=>node2',
+            source: 'node1',
+            target: 'node2',
+          }]
+        });
+      });
+      setTimeout(() => {
+        graph.remove('node1=>node2');
+      }, 1000);
+    });
+
+    // case remove group
+    createGraph(graph=>{
+      graph.preventAnimate(()=>{
+        graph.read({
+          nodes: [{
+            id: 'node1',
+            x: 30,
+            y: 55,
+            parent: 'group1'
+          }, {
+            id: 'node2',
+            x: 160,
+            y: 55,
+            parent: 'group1'
+          }],
+          groups: [{
+            id: 'group1',
+            label: '- 群组'
+          }]
+        });
+      });
+      setTimeout(() => {
+        graph.remove('group1');
+      }, 1000);
+    });
+
+    // case hide node
+    createGraph(graph=>{
+      graph.preventAnimate(()=>{
+        graph.read({
+          nodes: [{
+            id: 'node1',
+            x: 30,
+            y: 55,
+            parent: 'group1'
+          }, {
+            id: 'node2',
+            x: 160,
+            y: 55,
+            parent: 'group1'
+          }],
+          groups: [{
+            id: 'group1',
+            label: '- 群组'
+          }]
+        });
+      });
+      setTimeout(() => {
+        graph.hide('node1');
+      }, 1000);
+    });
+
+    // case hide group
+    createGraph(graph=>{
+      graph.preventAnimate(()=>{
+        graph.read({
+          nodes: [{
+            id: 'node1',
+            x: 30,
+            y: 55,
+            parent: 'group1'
+          }, {
+            id: 'node2',
+            x: 160,
+            y: 55,
+            parent: 'group1'
+          }],
+          groups: [{
+            id: 'group1',
+            label: '- 群组'
+          }]
+        });
+      });
+      setTimeout(() => {
+        graph.hide('group1');
+      }, 1000);
+    });
+
+    // case show node
+    createGraph(graph=>{
+      graph.preventAnimate(()=>{
+        graph.read({
+          nodes: [{
+            id: 'node1',
+            x: 30,
+            y: 55,
+            parent: 'group1'
+          }, {
+            id: 'node2',
+            x: 160,
+            y: 55,
+            parent: 'group1'
+          }],
+          groups: [{
+            id: 'group1',
+            label: '- 群组'
+          }]
+        });
+        graph.hide('node1');
+      });
+      setTimeout(() => {
+        graph.show('node1');
+      }, 1000);
+    });
+
+    // case show node
+    createGraph(graph=>{
+      graph.preventAnimate(()=>{
+        graph.read({
+          nodes: [{
+            id: 'node1',
+            x: 30,
+            y: 55,
+            parent: 'group1'
+          }, {
+            id: 'node2',
+            x: 160,
+            y: 55,
+            parent: 'group1'
+          }],
+          groups: [{
+            id: 'group1',
+            label: '- 群组'
+          }]
+        });
+        graph.hide('node1');
+      });
+      graph.show('node1');
+    });
+
+    // case show edge
+    createGraph(graph=>{
+      graph.preventAnimate(()=>{
+        graph.read({
+          nodes: [{
+            id: 'node1',
+            x: 30,
+            y: 30,
+          }, {
+            id: 'node2',
+            x: 160,
+            y: 30,
+          }],
+          edges: [{
+            id: 'node1=>node2',
+            source: 'node1',
+            target: 'node2',
+          }]
+        });
+        graph.hide('node1=>node2');
+      });
+      setTimeout(() => {
+        graph.show('node1=>node2');
+      }, 1000);
+    });
+
+    // case15 multi read
+    createGraph(graph=>{
+      let i = 0;
+      setInterval(()=>{
+        graph.read({
+          nodes: [{
+            id: 'node'+i,
+            x: 30 + 130 * Math.random(),
+            y: 20 + 30 * Math.random(),
+          }, {
+            id: 'node'+(i+1),
+            x: 30 + 130 * Math.random(),
+            y: 20 + 30 * Math.random(),
+          }],
+        });
+        i++
+      }, 300);
+    });
+
+    // case16 multi update
+    createGraph(graph=>{
+      graph.preventAnimate(()=>{
+        graph.read({
+          nodes: [{
+            id: 'node1',
+            x: 30,
+            y: 30,
+          }, {
+            id: 'node2',
+            x: 160,
+            y: 30,
+          }],
+          edges: [{
+            id: 'node1=>node2',
+            source: 'node1',
+            target: 'node2',
+          }]
+        });
+      });
+      setInterval(()=>{
+        graph.update('node1', {
+          x: 30 + 130 * Math.random()
+        });
+      }, 300);
+    });
+
+    // case multi add
+    createGraph(graph=>{
+      setInterval(()=>{
+        graph.add('node', {
+          x: 30 + 130 * Math.random(),
+          y: 20 + 30 * Math.random(),
+          style: {
+            fill: 'rgba(100, 100, 100, 0.3)'
+          }
+        });
+      }, 300);
+      setInterval(()=>{
+        graph.preventAnimate(()=>{
+          graph.clear();
+        });
+      }, 8000);
+    });
+
+    // case multi remove
+    createGraph(graph=>{
+      const nodeCount = 30;
+      const stepTime = 200;
+      const creator = ()=>{
+        const data = {
+            nodes: []
+          };
+          for (let i = 0; i < nodeCount; i++) {
+            data.nodes.push({
+              id: i,
+              x: 30 + 130 * Math.random(),
+              y: 20 + 30 * Math.random(),
+              style: {
+                fill: 'rgba(100, 100, 100, 0.3)'
+              }
+            });
+          }
+          graph.preventAnimate(()=>{
+            graph.read(data);
+          });
+          for (let i = 0; i < nodeCount; i++) {
+            setTimeout(()=>{
+              graph.remove(i);
+            }, i * stepTime);
+          }
+      }
+      creator();
+      setInterval(creator, nodeCount * stepTime + stepTime);
+    });
+
+    // case19 read - add - update - remove
+    createGraph(graph=>{
+      graph.read({
+        nodes: [{
+          id: 'node1',
+          x: 30,
+          y: 30,
+        }, {
+          id: 'node2',
+          x: 160,
+          y: 30,
+        }],
+        edges: [{
+          id: 'node1=>node2',
+          source: 'node1',
+          target: 'node2',
+        }]
+      });
+      graph.add('node', {
+        id: 'node3',
+        x: 30 + 130 * Math.random(),
+        y: 20 + 30 * Math.random(),
+      });
+      graph.update('node1', {
+        style: {
+          fill: '#E27869'
+        }
+      });
+      graph.update('node2', {
+        style: {
+          fill: '#80B0DC'
+        }
+      });
+      graph.update('node1=>node2', {
+        style: {
+          lineWidth: 4
+        }
+      });
+      setTimeout(()=>{
+        graph.remove('node3')
+      }, 400);
+      setTimeout(()=>{
+        graph.remove('node2')
+      }, 1000);
+      setTimeout(()=>{
+        graph.hide('node1');
+      }, 1400);
+      setTimeout(()=>{
+        graph.show('node1');
+      }, 1800);
+    });
+
+    // case20 hide - show loop
+    createGraph(graph=>{
+      const nodeCount = 30;
+      const stepTime = 200;
+      const data = {
+        nodes: []
+      };
+      for (let i = 0; i < nodeCount; i++) {
+        data.nodes.push({
+          id: i,
+          x: 30 + 130 * Math.random(),
+          y: 20 + 30 * Math.random(),
+          style: {
+            fill: 'rgba(100, 100, 100, 0.3)'
+          }
+        });
+      }
+      graph.preventAnimate(()=>{
+        graph.read(data);
+      });
+      const loop = ()=>{
+        for (let i = 0; i < nodeCount; i++) {
+          setTimeout(()=>{
+            graph.hide(i);
+          }, i * stepTime);
+        }
+        for (let i = 0; i < nodeCount; i++) {
+          setTimeout(()=>{
+            graph.show(i);
+          }, i * stepTime + Math.random() * 400);
+        }
+      }
+      loop();
+      setInterval(loop, nodeCount * stepTime);
+    });
+  </script>
+</body>
+</html>

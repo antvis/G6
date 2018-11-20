@@ -63,21 +63,20 @@ class Item {
        * is item
        * @type {boolean}
        */
-      isItem: true
+      isItem: true,
+
+      /**
+       * visible - not group visible
+       * @type {boolean}
+       */
+      visible: true
     };
     Util.mix(this, defaultCfg, cfg);
     this._init();
   }
   _init() {
-    this._setIndex();
     this._initGroup();
     this.draw();
-  }
-  _setIndex() {
-    const model = this.model;
-    if (Util.isNil(model.index)) {
-      model.index = this.zIndex;
-    }
   }
   _mapping() {
     const mapper = this.mapper;
@@ -111,21 +110,6 @@ class Item {
   getGraph() {
     return this.graph;
   }
-  getEnterAnimate() {
-    const shapeObj = this.shapeObj;
-    const graph = this.graph;
-    return shapeObj.enterAnimate ? shapeObj.enterAnimate : graph.get('_enterAnimate');
-  }
-  getLeaveAnimate() {
-    const shapeObj = this.shapeObj;
-    const graph = this.graph;
-    return shapeObj.leaveAnimate ? shapeObj.leaveAnimate : graph.get('_leaveAnimate');
-  }
-  getUpdateAnimate() {
-    const shapeObj = this.shapeObj;
-    const graph = this.graph;
-    return shapeObj.updateAnimate ? shapeObj.updateAnimate : graph.get('_updateAnimate');
-  }
   _setShapeObj() {
     const graph = this.graph;
     const type = this.type;
@@ -153,13 +137,19 @@ class Item {
       child.id = id;
       child.eventPreFix = type;
       child.gid = parentGid + '-' + index;
+      if (child.isShape) {
+        const shapeType = child.get('type');
+        child.gid += '-' + shapeType;
+      }
     });
   }
   _beforeDraw() {
     const graph = this.graph;
+    const group = this.group;
     graph.emit('beforeitemdraw', {
       item: this
     });
+    group.resetMatrix();
     this.updateCollapsedParent();
   }
   _shouldDraw() {
@@ -207,8 +197,7 @@ class Item {
     this.collapsedParent = getCollapsedParent(this.model, dataMap);
   }
   isVisible() {
-    const group = this.group;
-    return group.get('visible');
+    return this.visible;
   }
   hide() {
     const group = this.group;
@@ -217,6 +206,7 @@ class Item {
       item: this
     });
     group.hide();
+    this.visible = false;
     graph.emit('afteritemhide', {
       item: this
     });
@@ -228,6 +218,7 @@ class Item {
       item: this
     });
     group.show();
+    this.visible = true;
     graph.emit('afteritemshow', {
       item: this
     });
@@ -258,7 +249,7 @@ class Item {
     this.isVisible() && this.draw();
   }
   update() {
-    this.isVisible() && this.draw();
+    this.draw();
   }
   getModel() {
     return this.model;
@@ -282,10 +273,12 @@ class Item {
     const model = this.model;
     const itemMap = this.itemMap;
     const parents = [];
-    let parentModel = model.parent;
-    while (parentModel && itemMap[parentModel]) {
-      parents.push(itemMap[parentModel]);
-      parentModel = parentModel.parent;
+    let { parent } = model;
+    while (parent && itemMap[parent]) {
+      const parentItem = itemMap[parent];
+      const parentModel = parentItem.getModel();
+      parents.push(parentItem);
+      parent = parentModel.parent;
     }
     return parents;
   }

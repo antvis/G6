@@ -1,9 +1,8 @@
 const G6 = require('../../../src/index');
 const expect = require('chai').expect;
-const Util = G6.Util;
-document.body.appendChild(Util.createDOM(`
-  <div id='mountNode'></div>
-`));
+const div = document.createElement('div');
+document.body.appendChild(div);
+div.setAttribute('data-test-spec', 'plugin/layout.dagre-spec.js');
 require('../../../plugins/util.randomData/');
 require('../../../plugins/layout.dagre/');
 
@@ -13,7 +12,7 @@ describe('plugin layout dagre', () => {
     const Util = G6.Util;
     const data = Util.createChainData(10);
     const graph = new G6.Graph({
-      container: 'mountNode',
+      container: div,
       fitView: 'cc',
       width: 500,
       height: 500,

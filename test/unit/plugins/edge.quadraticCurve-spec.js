@@ -3,6 +3,8 @@ const expect = require('chai').expect;
 require('../../../plugins/edge.quadraticCurve/');
 const div = document.createElement('div');
 document.body.appendChild(div);
+div.setAttribute('data-test-spec', 'plugin/edge.quadraticCurve-spec.js');
+
 describe('edge quadraticCurve test', () => {
   it('quadraticCurve', () => {
     const data = {

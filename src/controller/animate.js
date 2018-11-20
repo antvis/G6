@@ -4,181 +4,288 @@
  */
 
 const Base = require('./base');
+const Animation = require('../animation/');
 const Util = require('../util/');
-
-/**
- * depth traversal and copy the graphics
- * @param  {object}   map        the index table
- * @param  {array}    parent     parent
- * @param  {number}   count      element count
- * @return {number}   count      element count
- */
-function getElements(map, parent, count) {
-  const children = parent.get('children');
-  Util.each(children, function(child) {
-    count++;
-    const id = child.gid;
-
-    if (child.isGroup) {
-      count = getElements(map, child, count);
-    }
-    if (!Util.isNil(id)) {
-      const stash = {
-        matrixStash: Util.cloneDeep(child.getMatrix()),
-        element: child,
-        visible: child.get('visible')
-      };
-      if (child.isShape) {
-        stash.attrsStash = Util.cloneDeep(child.attr());
-      }
-      map[id] = stash;
-    }
-  });
-  return count;
-}
+const Global = require('../global');
+const INVALID_ATTRS = [ 'matrix', 'fillStyle', 'strokeStyle', 'endArrow', 'startArrow' ];
 
 class Controller extends Base {
-  constructor(cfg) {
-    super(cfg);
-    this._init();
+  getDefaultCfg() {
+    return {
+      /**
+       * show animate
+       * @type {function|string}
+       */
+      show: 'scaleIn',
+
+      /**
+       * hide animate
+       * @type {function|string}
+       */
+      hide: 'scaleOut',
+
+      /**
+       * enter animate
+       * @type {function|string}
+       */
+      enter: 'scaleIn',
+
+      /**
+       * leave animate
+       * @type {function|string}
+       */
+      leave: 'scaleOut',
+
+      /**
+       * update animate
+       * @type {function}
+       */
+      update({ element, endKeyFrame }) {
+        const { props } = endKeyFrame;
+        element.animate({
+          matrix: props.matrix,
+          ...props.attrs
+        }, Global.updateDuration, Global.updateEasing);
+      },
+      graph: null,
+      startCache: {},
+      endCache: {},
+      keykeyCache: {}
+    };
   }
   _init() {
     const graph = this.graph;
-    graph.on('afteritemdraw', ev => {
-      this.cacheKeyFrame(ev.item);
+    const keykeyCache = this.keykeyCache;
+    graph.on('afteritemdraw', ({ item }) => {
+      const group = item.getGraphicGroup();
+      group.deepEach(element => {
+        keykeyCache[element.gid] = this._getCache(element);
+      }, true);
     });
   }
-  cacheKeyFrame(item) {
-    const keyFrameCache = this.keyFrameCache;
-    const group = item.getGraphicGroup();
-    if (item.isEdge) {
-      group.setMatrix([ 1, 0, 0, 0, 1, 0, 0, 0, 1 ]);
+  cacheGraph(cacheType, affectedItemIds) {
+    const graph = this.graph;
+    let items;
+    if (affectedItemIds) {
+      items = affectedItemIds.map(affectedItemId => {
+        return graph.find(affectedItemId);
+      });
+    } else {
+      items = graph.getItems();
     }
+    this[cacheType] = {};
+    items.forEach(item => {
+      item && this.cache(item, this[cacheType], cacheType);
+    });
+  }
+  _getCache(element) {
+    const keykeyCache = this.keykeyCache;
+    if (!Util.isObject(element)) {
+      return keykeyCache[element];
+    }
+    const cache = {
+      props: {
+        matrix: Util.clone(element.getMatrix()),
+        attrs: {}
+      }
+    };
+    if (element.isShape) {
+      let attrs = element.attr();
+      attrs = Util.omit(attrs, INVALID_ATTRS);
+      cache.props.attrs = Util.clone(attrs);
+    }
+    return cache;
+  }
+  /**
+   * get animate
+   * @param  {object} item - item
+   * @param  {string} type - animate type could be `show`, `hide`, `enter`, `leave`, 'update'
+   * @return {function} animate function
+   */
+  _getAnimation(item, type) {
+    const graph = this.graph;
+    const shapeObj = item.shapeObj;
+    const defaultAnimation = this[type];
+    const shapeAnimation = shapeObj[type + 'Animation'] || shapeObj[type + 'Animate']; // compatible with Animate
+    const graphAnimate = graph.get('_' + type + 'Animation');
+    const animation = shapeAnimation || graphAnimate || defaultAnimation;
+    return Util.isString(animation) ? Animation[type + Util.upperFirst(animation)] : animation;
+  }
+  cache(item, cache, type) {
+    const group = item.getGraphicGroup();
     group.deepEach(element => {
       const id = element.gid;
-      const stash = {
-        matrix: Util.cloneDeep(element.getMatrix())
-      };
-      if (element.isItemContainer) {
-        stash.enterAnimate = item.getEnterAnimate();
-        stash.leaveAnimate = item.getLeaveAnimate();
-      }
-      if (element.isShape) {
-        stash.attrs = Util.cloneDeep(element.attr());
-      }
-      stash.item = item;
-      keyFrameCache[id] = stash;
+      const subCache = type === 'startCache' ? this._getCache(element) : this._getCache(element.gid);
+      subCache.enterAnimate = this._getAnimation(item, 'enter');
+      subCache.leaveAnimate = this._getAnimation(item, 'leave');
+      subCache.showAnimate = this._getAnimation(item, 'show');
+      subCache.hideAnimate = this._getAnimation(item, 'hide');
+      subCache.updateAnimate = this._getAnimation(item, 'update');
+      subCache.item = item;
+      subCache.element = element;
+      subCache.visible = element.get('visible');
+      cache[id] = subCache;
     }, true);
   }
   _compare() {
-    const stash0 = this.stash0;
-    const stash1 = this.stash1;
+    const startCache = this.startCache;
+    const endCache = this.endCache;
     const enterElements = [];
     const leaveElements = [];
     const updateElements = [];
-
-    Util.each(stash1, function(v, k) {
-      if (stash0[k]) {
-        if (v.element.get('type') === stash0[k].element.get('type')) {
-          updateElements.push(k);
+    const hideElements = [];
+    const showElements = [];
+    Util.each(endCache, (endKeyFrame, k) => {
+      const startKeyFrame = startCache[k];
+      if (startKeyFrame) {
+        if (startKeyFrame.element.get('type') === endKeyFrame.element.get('type')) {
+          if (startKeyFrame.visible && endKeyFrame.visible) {
+            updateElements.push(k);
+          } else if (startKeyFrame.visible && !endKeyFrame.visible) {
+            hideElements.push(k);
+          } else if (!startKeyFrame.visible && endKeyFrame.visible) {
+            showElements.push(k);
+          }
         }
       } else {
         enterElements.push(k);
       }
     });
-    Util.each(stash0, function(v, k) {
-      if (!stash1[k]) {
+    Util.each(startCache, (v, k) => {
+      if (!endCache[k]) {
         leaveElements.push(k);
       }
     });
     this.enterElements = enterElements;
     this.leaveElements = leaveElements;
     this.updateElements = updateElements;
+    this.hideElements = hideElements;
+    this.showElements = showElements;
   }
   _addTween() {
-    const graph = this.graph;
-    const updateAnimate = graph.get('_updateAnimate');
     const enterElements = this.enterElements;
     const leaveElements = this.leaveElements;
     const updateElements = this.updateElements;
-    const stash0 = this.stash0;
-    const stash1 = this.stash1;
-    const keyFrameCache = this.keyFrameCache;
+    const hideElements = this.hideElements;
+    const showElements = this.showElements;
+    const startCache = this.startCache;
+    const endCache = this.endCache;
+    // console.log('enterElements ==> ', enterElements);
+    // console.log('leaveElements ==> ', leaveElements);
+    // console.log('updateElements ==> ', updateElements);
+    // console.log('hideElements ==> ', hideElements);
+    // console.log('showElements ==> ', showElements);
 
-    enterElements.forEach(function(elementId) {
-      const keyFrame = keyFrameCache[elementId];
-      const enterAnimate = keyFrame.enterAnimate;
-
+    enterElements.forEach(id => {
+      const endKeyFrame = endCache[id];
+      const enterAnimate = endKeyFrame.enterAnimate;
       if (enterAnimate) {
-        enterAnimate(keyFrame.item, stash0.element, stash1.element);
+        enterAnimate({
+          element: endKeyFrame.element,
+          item: endKeyFrame.item,
+          endKeyFrame,
+          startKeyFrame: null,
+          startCache,
+          endCache,
+          done() {}
+        });
       }
     });
-    Util.each(leaveElements, function(elementId) {
-      const keyFrame = keyFrameCache[elementId];
-      const leaveAnimate = keyFrame.leaveAnimate;
+    leaveElements.forEach(id => {
+      const startKeyFrame = startCache[id];
+      const leaveAnimate = startKeyFrame.leaveAnimate;
       if (leaveAnimate) {
-        const e0 = stash0[elementId].element;
-        e0.getParent().add(e0);
-        leaveAnimate(keyFrame.item, stash0, stash1);
+        const startElement = startCache[id].element;
+        if (startElement.isItemContainer) {
+          startElement.getParent().add(startElement);
+        }
+        leaveAnimate({
+          element: startElement,
+          item: startKeyFrame.item,
+          endKeyFrame: null,
+          startKeyFrame,
+          startCache,
+          endCache,
+          done() {
+            if (startElement.isItemContainer) {
+              startElement.remove();
+            }
+          }
+        });
       }
     });
-    Util.each(updateElements, function(elementId) {
-      const keyFrame = keyFrameCache[elementId];
-      const subStash1 = stash1[elementId];
-      const subStash0 = stash0[elementId];
-      const e1 = subStash1.element;
-      const e0 = subStash0.element;
-      let visibleAction = 'none';
-      if (subStash1.visible && !subStash0.visible) {
-        visibleAction = 'show';
-      } else if (!subStash1.visible && subStash0.visible) {
-        visibleAction = 'hide';
+    updateElements.forEach(id => {
+      const endKeyFrame = endCache[id];
+      const startKeyFrame = startCache[id];
+      const endElement = endKeyFrame.element;
+      const startElement = startKeyFrame.element;
+      const startProps = startKeyFrame.props;
+      const endProps = endKeyFrame.props;
+      const updateAnimate = endKeyFrame.updateAnimate;
+      const done = () => {};
+      if (startProps.attrs) {
+        endElement.attr(startProps.attrs);
       }
-      if (subStash0.attrsStash) {
-        e1.attr(subStash0.attrsStash);
+      if (!Util.isEqual(startProps.matrix, endProps.matrix)) {
+        endElement.setMatrix(startProps.matrix);
       }
-      e1.setMatrix(Util.cloneDeep(subStash0.matrixStash));
-      updateAnimate(e1, Util.mix({}, keyFrame.attrs, { matrix: keyFrame.matrix }), visibleAction);
-      if (e0 !== e1) {
-        e0.remove();
+      updateAnimate({
+        element: endElement,
+        item: endKeyFrame,
+        endKeyFrame,
+        startKeyFrame,
+        startCache,
+        endCache,
+        done
+      });
+      if (startElement !== endElement) {
+        startElement.remove();
       }
     });
-  }
-  getDefaultCfg() {
-    return {
-      graph: null,
-      canvases: null,
-      stash0: null,
-      stash1: null,
-      keyFrameCache: {}
-    };
+    hideElements.forEach(id => {
+      const endKeyFrame = endCache[id];
+      const startKeyFrame = startCache[id];
+      const hideAnimate = endKeyFrame.hideAnimate;
+      if (hideAnimate) {
+        endKeyFrame.element.show();
+        hideAnimate({
+          element: endKeyFrame.element,
+          item: endKeyFrame.item,
+          endKeyFrame,
+          startKeyFrame,
+          startCache,
+          endCache,
+          done() {
+            const item = endKeyFrame.item;
+            const group = item.getGraphicGroup();
+            !item.visible && group.hide();
+          }
+        });
+      }
+    });
+    showElements.forEach(id => {
+      const endKeyFrame = endCache[id];
+      const startKeyFrame = startCache[id];
+      const showAnimate = endKeyFrame.showAnimate;
+      if (showAnimate) {
+        showAnimate({
+          element: endKeyFrame.element,
+          item: endKeyFrame.item,
+          endKeyFrame,
+          startKeyFrame,
+          startCache,
+          endCache,
+          done() {}
+        });
+      }
+    });
   }
   run() {
     if (this.graph.destroyed) {
       return;
     }
-    this.updateStash();
-    if (this.count < 5000) {
-      this._compare();
-      this._addTween();
-    }
-    Util.each(this.canvases, canvas => {
-      canvas.draw();
-    });
-  }
-  updateStash() {
-    const canvases = this.canvases;
-    let elementsStash = this.elementsStash;
-    const elements = {};
-    let count = 0;
-    elementsStash = elementsStash ? elementsStash : {};
-    Util.each(canvases, canvas => {
-      count += getElements(elements, canvas, 0);
-    });
-    this.elementsStash = elements;
-    this.stash0 = elementsStash;
-    this.stash1 = elements;
-    this.count = count;
+    this._compare();
+    this._addTween();
   }
 }
 

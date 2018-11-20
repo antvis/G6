@@ -17,14 +17,27 @@ class Group extends Node {
     Util.mix(defaultCfg, cfg);
     super(defaultCfg);
   }
-  _afterDraw() {
-    const model = this.getModel();
-    if (model.collapsed) {
-      this.deepEach(child => {
+  _beforeDraw() {
+    this.deepEach((child, parent) => {
+      if (parent) {
+        child.zIndex = parent.zIndex + 1;
+      }
+      child.updateCollapsedParent();
+      if (child.collapsedParent) {
         child.hide();
-      });
-    }
-    super._afterDraw();
+      } else {
+        child.show();
+      }
+    });
+    this.getInnerEdges().forEach(child => {
+      const bool = child.linkedItemVisible();
+      if (bool) {
+        child.show();
+      } else {
+        child.hide();
+      }
+    });
+    super._beforeDraw();
   }
   updatePosition() {
 
