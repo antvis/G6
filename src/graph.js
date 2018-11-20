@@ -22,7 +22,7 @@ const AnimateMixin = require('./mixin/animate');
 const DrawMixin = require('./mixin/draw');
 const FitView = require('./mixin/fit-view');
 const ForceFit = require('./mixin/force-fit');
-const Mixins = [ FilterMixin, MappingMixin, QueryMixin, AnimateMixin, DrawMixin, ForceFit, LayoutMixin, FitView, EventMixin, ModeMixin ];
+const Mixins = [ FilterMixin, MappingMixin, QueryMixin, LayoutMixin, AnimateMixin, DrawMixin, ForceFit, FitView, EventMixin, ModeMixin ];
 const TAB_INDEX = 20;
 
 class Graph extends Base {
@@ -94,6 +94,7 @@ class Graph extends Base {
        */
       renderer: 'canvas',
 
+      _type: 'graph',
       _controllers: {},
       _timers: {},
       _dataMap: {},
@@ -108,7 +109,7 @@ class Graph extends Base {
     const cfg = {};
 
     Mixins.forEach(Mixin => {
-      Util.mix(cfg, Util.cloneDeep(Mixin.CFG), inputCfg);
+      Util.mix(cfg, Util.clone(Mixin.CFG), inputCfg);
     });
     super(cfg);
     // plugin should init before all
@@ -165,13 +166,7 @@ class Graph extends Base {
       // Compatible with id written
       container = this.get('id');
     }
-    if (container) {
-      if (Util.isString(container)) {
-        container = document.getElementById(container);
-      }
-    } else {
-      throw new Error('please set the container for the graph !');
-    }
+    container = Util.initDOMContainer(container, 'graph');
     const graphContainer = Util.createDOM('<div class="graph-container"></div>', {
       position: 'relative'
     });
@@ -249,12 +244,28 @@ class Graph extends Base {
   getGraphContainer() {
     return this.get('_graphContainer');
   }
+  // sort group
+  _sortGroup(models) {
+    const dataMap = this.get('_dataMap');
+    const hierarchyCache = {};
+    models.forEach(({ id, parent }) => {
+      hierarchyCache[id] = 1;
+      while (parent && dataMap[parent]) {
+        hierarchyCache[id]++;
+        parent = dataMap[parent].parent;
+      }
+    });
+    models.sort((a, b) => {
+      return hierarchyCache[b.id] - hierarchyCache[a.id];
+    });
+  }
   /**
    * @param  {string} type item type
    * @param  {array} models models
    */
-  addItems(type, models) {
+  _addItems(type, models) {
     this._addDatas(type, models);
+    if (type === 'group') this._sortGroup(models);
     const Type = Util.upperFirst(type);
     const Constructor = Item[Type];
     const itemMap = this.get('_itemMap');
@@ -286,7 +297,7 @@ class Graph extends Base {
   /**
    * @param  {array} items remove items
    */
-  removeItems(items) {
+  _removeItems(items) {
     const dataMap = this.get('_dataMap');
     const itemMap = this.get('_itemMap');
     items.forEach(item => {
@@ -297,16 +308,29 @@ class Graph extends Base {
     });
   }
   /**
-   * @param  {object} item item
-   * @param  {object} model update model
+   * @param  {array} items - items
+   * @param  {array} models - update models
    */
-  updateItem(item, model) {
-    Util.mix(item.getModel(), model);
-    // if update edge source or target re cache edges.
-    if (item.isEdge && model && (model.target || model.source)) {
-      item.cacheEdges();
-    }
-    item.update();
+  _updateItems(items, models) {
+    items.forEach((item, index) => {
+      const model = models[index];
+      model && Util.mix(item.getModel(), model);
+      // if (model) {
+
+      //   // if update edge source or target re cache edges.
+      //   if (item.isEdge && model && (model.target || model.source)) {
+      //     item.cacheEdges();
+      //   }
+      // }
+      item.update();
+    });
+  }
+  _getShowEdge(edge) {
+    const source = edge.getSource();
+    const target = edge.getTarget();
+    return (source.linkable && source.isVisible() || !source.linkable)
+    && (target.linkable && target.isVisible() || !target.linkable)
+    && edge;
   }
   _addDatas(type, models) {
     const dataMap = this.get('_dataMap');
@@ -324,23 +348,30 @@ class Graph extends Base {
     const data = this.get('_data');
     const itemGroup = this.get('_itemGroup');
     const dataMap = this.get('_dataMap');
+    const itemMap = this.get('_itemMap');
 
     if (data.nodes) {
-      this.addItems('node', data.nodes);
+      this._addItems('node', data.nodes);
     }
     if (data.groups) {
-      this.addItems('group', data.groups);
+      this._addItems('group', data.groups);
     }
     if (data.edges) {
-      this.addItems('edge', data.edges);
+      this._addItems('edge', data.edges);
     }
     if (data.guides) {
-      this.addItems('guide', data.guides);
+      this._addItems('guide', data.guides);
     }
     itemGroup.sortBy(child => {
       const id = child.id;
+      const item = itemMap[id];
       const model = dataMap[id];
-      return model && model.index;
+      if (model && !Util.isNil(model.index)) {
+        return model.index;
+      }
+      if (item && !item.destroyed && !Util.isNil(item.zIndex)) {
+        return item.zIndex;
+      }
     });
   }
   _clearInner() {
@@ -348,6 +379,16 @@ class Graph extends Base {
     items.forEach(item => {
       item && item.destroy();
     });
+  }
+  /**
+   * @param  {function} callback - callback
+   * @return {Graph} this
+   */
+  preventAnimate(callback) {
+    this.set('_forcePreventAnimate', true);
+    callback();
+    this.set('_forcePreventAnimate', false);
+    return this;
   }
   /**
    * @param  {string} type item type
@@ -413,15 +454,8 @@ class Graph extends Base {
     this.emit('beforedrawinner');
     this._drawInner();
     this.emit('afterdrawinner');
-    this.draw();
     this.emit('afterrender');
     return this;
-  }
-  /**
-   * @param  {boolean} bool - if force prevent animate
-   */
-  forcePreventAnimate(bool) {
-    this.set('forcePreventAnimate', bool);
   }
   /**
    * @return {Graph} - this
@@ -482,7 +516,7 @@ class Graph extends Base {
       const model = child.model;
       if (model) {
         const type = child.itemType;
-        const saveModel = Util.cloneDeep(model);
+        const saveModel = Util.clone(model);
         saveModel.index = index;
         rst[type + 's'].push(saveModel);
       }
@@ -499,24 +533,26 @@ class Graph extends Base {
    * @return {Graph} this
    */
   add(type, model) {
+    const affectedItemIds = [];
     const ev = {
       action: 'add',
-      model
+      model,
+      affectedItemIds
     };
     this.emit('beforechange', ev);
     const itemMap = this.get('_itemMap');
-    this.addItems(type, [ model ]);
+    this._addItems(type, [ model ]);
     const item = itemMap[model.id];
     item.getAllParents().forEach(parent => {
       parent.update();
     });
     ev.item = item;
+    affectedItemIds.push(model.id);
     this.emit('afterchange', ev);
-    this.draw();
     return item;
   }
   /**
-   * @param {String|Item} item target item
+   * @param {string|Item} item - target item
    * @return {Graph} this
    */
   remove(item) {
@@ -524,55 +560,66 @@ class Graph extends Base {
     if (!item || item.destroyed) {
       return;
     }
+    let removeItemCache = [];
+    const affectedItemIds = [];
     const ev = {
       action: 'remove',
-      item
+      item,
+      affectedItemIds
     };
-    this.emit('beforechange', ev);
-    if (item.isNode || item.isGroup) {
+    if (item.isNode) {
       const edges = item.getEdges();
-      for (let edgeIndex = 0; edgeIndex < edges.length; edgeIndex++) {
-        this.remove(edges[edgeIndex]);
-        edgeIndex--;
-      }
+      removeItemCache = removeItemCache.concat(edges);
     }
     if (item.isGroup) {
-      const children = item.getChildren();
-      for (let childIndex = 0; childIndex < children.length; childIndex++) {
-        this.remove(children[childIndex]);
-        children.shift();
-        childIndex--;
-      }
+      const edges = item.getEdges();
+      const children = item.getAllChildren();
+      const crossEdges = item.getCrossEdges();
+      const innerEdges = item.getInnerEdges();
+      removeItemCache = removeItemCache.concat(edges, children, crossEdges, innerEdges);
+      removeItemCache = Util.uniq(removeItemCache);
     }
-    this.removeItems([ item ]);
-    item.getAllParents().forEach(parent => {
+    removeItemCache.push(item);
+    const allParents = item.getAllParents();
+    allParents.forEach(parent => {
+      affectedItemIds.push(parent.id);
+    });
+    removeItemCache.forEach(removeItem => {
+      affectedItemIds.push(removeItem.id);
+    });
+    this.emit('beforechange', ev);
+    this._removeItems(removeItemCache);
+    allParents.forEach(parent => {
       parent.update();
     });
     this.emit('afterchange', ev);
-    this.draw();
     return this;
   }
   /**
-   * @param {String|Item} item target item
+   * @param {string|Item} item target item
    * @param {object} model data model
    * @return {Graph} this
    */
   simpleUpdate(item, model) {
-    this.updateItem(item, model);
+    this._updateItems([ item ], [ model ]);
     this.draw();
     return this;
   }
   /**
-   * @param {String|Item|Undefined} item target item
+   * @param {string|Item|undefined} item target item
    * @param {object} model data model
    * @return {Graph} this
    */
   update(item, model) {
     const itemMap = this.get('_itemMap');
     item = this.getItem(item);
-    if (!item || item.destroyed) {
+    if (!item || item.destroyed || !model) {
       return;
     }
+    const animate = this.get('animate');
+    const updateItemCache = [];
+    const updateModelCache = [];
+    const affectedItemIds = [];
     const itemModel = item.getModel();
     const originModel = Util.mix({
     }, itemModel);
@@ -580,76 +627,87 @@ class Graph extends Base {
       action: 'update',
       item,
       originModel,
-      updateModel: model
+      updateModel: model,
+      affectedItemIds
     };
     const originParent = itemMap[originModel.parent];
+    updateItemCache.push(item);
+    updateModelCache.push(model);
+    affectedItemIds.push(item.id);
+
+    // If originParent exist update orign parent
     if (originParent && (originParent !== parent) && Util.isGroup(originParent)) {
       item.getAllParents().forEach(parent => {
-        parent.update();
+        updateItemCache.push(parent);
+        updateModelCache.push(null);
+        affectedItemIds.push(parent.id);
       });
     }
 
-    model && this.emit('beforechange', ev);
-    this.updateItem(item, model);
-
-    // If the update nodes or group, update their parent
-    item.getAllParents().forEach(parent => {
-      parent.update();
-    });
+    // If the update group, update all the group
+    if (model.parent) {
+      const updateParent = itemMap[model.parent];
+      if (!updateParent) {
+        throw new Error('there is no ' + model.parent + ' exist, please add a new one!');
+      }
+      updateItemCache.push(updateParent);
+      updateModelCache.push(null);
+      affectedItemIds.push(updateParent.id);
+      updateParent.getAllParents().forEach(parent => {
+        updateItemCache.push(parent);
+        updateModelCache.push(null);
+        affectedItemIds.push(parent.id);
+      });
+    }
 
     // If the update nodes or group, update the connection edge
-    if ((item.isNode || item.isGroup) && !item.collapsedParent) {
+    if ((item.isNode || item.isGroup)) {
       const edges = item.getEdges();
       edges.forEach(edge => {
-        edge.update();
+        updateItemCache.push(edge);
+        updateModelCache.push(null);
+        affectedItemIds.push(edge.id);
       });
     }
 
-    // update group relative items
-    if (item.isGroup && model) {
-      item.deepEach(child => {
-        child.updateCollapsedParent();
-        if (child.collapsedParent) {
-          child.hide();
-        } else {
-          child.show();
-        }
-        child.update();
-      });
-      item.getInnerEdges().forEach(child => {
-        const bool = child.linkedItemVisible();
-        if (bool) {
-          child.show();
-        } else {
-          child.hide();
-        }
-        child.update();
+    // If group children collapse && expend animate
+    if (item.isGroup && !Util.isNil(model.collapsed)) {
+      if (animate) {
+        item.deepEach(subItem => {
+          affectedItemIds.push(subItem.id);
+        });
+      }
+      item.getCrossEdges().forEach(edge => {
+        updateItemCache.push(edge);
+        updateModelCache.push(null);
+        affectedItemIds.push(edge.id);
       });
     }
-    model && this.emit('afterchange', ev);
-    this.draw();
+    this.emit('beforechange', ev);
+    this._updateItems(updateItemCache, updateModelCache);
+    this.emit('afterchange', ev);
     return this;
   }
   /**
    * change data
-   * @param {object} data source data
+   * @param {object} data - source data
    * @return {Graph} this
    */
   read(data) {
     if (!data) {
       throw new Error('please read valid data!');
     }
-    const fitView = this.get('fitView');
     const ev = {
       action: 'changeData',
       data
     };
     this.emit('beforechange', ev);
-    this.clear();
-    this.source(data);
-    this.render();
+    this.preventAnimate(() => {
+      this.clear();
+      this.source(data);
+      this.render();
+    });
     this.emit('afterchange', ev);
-    fitView && this.setFitView(fitView);
     return this;
   }
   /**
@@ -660,7 +718,6 @@ class Graph extends Base {
     this._clearInner();
     this._initData();
     this.emit('afterclear');
-    this.draw();
     return this;
   }
   /**
@@ -670,29 +727,36 @@ class Graph extends Base {
    */
   hide(item) {
     item = this.getItem(item);
-    item.hide();
+    let hideItemCache = [];
+    const affectedItemIds = [];
+    const ev = {
+      item,
+      affectedItemIds
+    };
+    hideItemCache.push(item);
     if (item.isNode) {
       item.getEdges().forEach(edge => {
-        edge.hide();
+        hideItemCache.push(edge);
       });
     }
     if (item.isGroup) {
       item.getEdges().forEach(edge => {
-        edge.hide();
+        hideItemCache.push(edge);
       });
       item.deepEach(child => {
-        child.hide();
+        hideItemCache.push(child);
       });
     }
-    this.draw();
+    hideItemCache = Util.uniq(hideItemCache);
+    hideItemCache.forEach(item => {
+      affectedItemIds.push(item.id);
+    });
+    this.emit('beforehide', ev);
+    hideItemCache.forEach(item => {
+      item.hide();
+    });
+    this.emit('afterhide', ev);
     return this;
-  }
-  _tryShowEdge(edge) {
-    const source = edge.getSource();
-    const target = edge.getTarget();
-    return (source.linkable && source.isVisible() || !source.linkable)
-    && (target.linkable && target.isVisible() || !target.linkable)
-    && edge.show();
   }
   /**
    * show item
@@ -701,25 +765,43 @@ class Graph extends Base {
    */
   show(item) {
     item = this.getItem(item);
+    let showItemCache = [];
+    const affectedItemIds = [];
+    const ev = {
+      item,
+      affectedItemIds
+    };
+    item.visible = true;
     if (item.isEdge) {
-      this._tryShowEdge(item);
+      const edge = this._getShowEdge(item);
+      if (edge) showItemCache.push(edge);
     } else {
-      item.show();
+      showItemCache.push(item);
     }
     if (item.isNode) {
       item.getEdges().forEach(edge => {
-        this._tryShowEdge(edge);
+        edge = this._getShowEdge(edge);
+        if (edge) showItemCache.push(edge);
       });
     }
     if (item.isGroup) {
       item.getEdges().forEach(edge => {
-        this._tryShowEdge(edge);
+        edge = this._getShowEdge(edge);
+        if (edge) showItemCache.push(edge);
       });
       item.deepEach(child => {
-        child.show();
+        showItemCache.push(child);
       });
     }
-    this.draw();
+    showItemCache = Util.uniq(showItemCache);
+    showItemCache.forEach(item => {
+      affectedItemIds.push(item.id);
+    });
+    this.emit('beforeshow', ev);
+    showItemCache.forEach(item => {
+      item.show();
+    });
+    this.emit('aftershow', ev);
     return this;
   }
   /**

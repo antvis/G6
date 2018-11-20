@@ -3,6 +3,7 @@ const Util = require('../../../src/util/');
 const data = require('../../fixtures/sample-graph-data.json');
 const expect = require('chai').expect;
 const div = document.createElement('div');
+div.setAttribute('data-test-spec', 'cases/layout-spec.js');
 const LayoutObj = function() {
   this.execute = function() {
     this.nodes.forEach((node, index) => {
@@ -19,7 +20,7 @@ const graph = new Graph({
   layout: layoutObj
 });
 graph.node().label(333);
-graph.read(Util.cloneDeep(data));
+graph.read(Util.clone(data));
 const nodes = graph.getNodes();
 Util.each(nodes, (node, index) => {
   expect(node.getModel().x).equal((index + 1) * 80);
@@ -34,7 +35,7 @@ describe('layout user cases test', () => {
       layout: layoutObj
     });
     graph.node().label(333);
-    graph.read(Util.cloneDeep(data));
+    graph.read(Util.clone(data));
     const nodes = graph.getNodes();
     Util.each(nodes, (node, index) => {
       expect(node.getModel().x).equal((index + 1) * 80);
@@ -52,7 +53,7 @@ describe('layout user cases test', () => {
         });
       }
     });
-    graph.read(Util.cloneDeep(data));
+    graph.read(Util.clone(data));
     const nodes = graph.getNodes();
     Util.each(nodes, (node, index) => {
       expect(node.getModel().x).equal((index + 1) * 80);
@@ -83,7 +84,7 @@ describe('layout user cases test', () => {
         }
       }
     });
-    graph.read(Util.cloneDeep(data));
+    graph.read(Util.clone(data));
     const nodes = graph.getNodes();
     Util.each(nodes, node => {
       const model = node.getModel();
@@ -105,7 +106,7 @@ describe('layout user cases test', () => {
       }
     });
     graph.node().label(333);
-    graph.read(Util.cloneDeep(data));
+    graph.read(Util.clone(data));
     graph.add('node', {
       id: 'node10',
       y: 30
@@ -129,7 +130,7 @@ describe('layout user cases test', () => {
         }
       }
     });
-    graph.source(Util.cloneDeep(data));
+    graph.source(Util.clone(data));
     graph.render();
     graph.layout();
     graph.destroy();

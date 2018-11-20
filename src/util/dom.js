@@ -73,6 +73,16 @@ BaseUtil.mix(DomUtil, {
     };
     dom.css(css);
     return dom;
+  },
+  initDOMContainer(container, className) {
+    if (container) {
+      if (BaseUtil.isString(container)) {
+        container = document.getElementById(container);
+      }
+    } else {
+      throw new Error('please set the container for the ' + className + ' !');
+    }
+    return container;
   }
 });
 module.exports = DomUtil;

@@ -3,6 +3,7 @@ const Shape = require('../../../src/shape/');
 const data = require('../../fixtures/sample-graph-data.json');
 const expect = require('chai').expect;
 const div = document.createElement('div');
+div.setAttribute('data-test-spec', 'cases/shape-spec.js');
 document.body.appendChild(div);
 // graph.zoom({ x: 10, y: 10 }, 4);
 describe('shape user cases test', () => {

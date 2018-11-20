@@ -3,6 +3,7 @@ const G = require('@antv/g');
 const div = document.createElement('div');
 require('../../../../src/extend/g/group');
 div.id = 'extend-group-spec';
+div.setAttribute('data-test-spec', 'extend/g/group-spec.js');
 document.body.appendChild(div);
 describe('extend group test', () => {
   const canvas = new G.Canvas({
