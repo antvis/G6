@@ -17,24 +17,24 @@ class Edge extends Item {
     super(defaultCfg);
   }
   _init() {
-    this.cacheEdges();
+    // this.cacheEdges();
     super._init();
   }
   // cache edge into node
-  cacheEdges() {
-    const itemMap = this.itemMap;
-    const model = this.model;
-    const source = itemMap[model.source];
-    const target = itemMap[model.target];
-    if (source && source.isItem) {
-      source.edges.push(this);
-      source.edges = Util.uniq(source.edges);
-    }
-    if (target && target.isItem) {
-      target.edges.push(this);
-      target.edges = Util.uniq(target.edges);
-    }
-  }
+  // cacheEdges() {
+  //   const itemMap = this.itemMap;
+  //   const model = this.model;
+  //   const source = itemMap[model.source];
+  //   const target = itemMap[model.target];
+  //   if (source && source.isItem) {
+  //     source.edges.push(this);
+  //     source.edges = Util.uniq(source.edges);
+  //   }
+  //   if (target && target.isItem) {
+  //     target.edges.push(this);
+  //     target.edges = Util.uniq(target.edges);
+  //   }
+  // }
   _beforeDraw() {
     const model = this.model;
     const itemMap = this.itemMap;
