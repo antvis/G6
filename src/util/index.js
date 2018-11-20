@@ -10,6 +10,5 @@ const BaseUtil = require('./base');
 const DomUtil = require('./dom');
 const GraphUtil = require('./graph');
 const GraphicUtil = require('./graphic');
-const AnimateUtil = require('./animate');
-BaseUtil.mix(Util, BaseUtil, GraphUtil, GraphicUtil, DomUtil, PathUtil, MathUtil, AnimateUtil);
+BaseUtil.mix(Util, BaseUtil, GraphUtil, GraphicUtil, DomUtil, PathUtil, MathUtil);
 module.exports = Util;

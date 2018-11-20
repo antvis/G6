@@ -40,6 +40,8 @@ G6.registerGuide('mask', {
       capture: false
     });
   },
+  showAnimation: 'fadeIn',
+  hideAnimation: 'fadeOut',
   bboxCalculation: false,
   filter: false
 });
@@ -85,12 +87,11 @@ class Plugin {
       this.originChildren.push(child);
     });
     mask.toFront();
-    mask.show();
     items.forEach(item => {
       const group = item.getGraphicGroup();
       group.toFront();
     });
-    this.draw();
+    this.show(mask);
   }
   unhighlightGraph() {
     // hide the mask
@@ -100,8 +101,7 @@ class Plugin {
     // TODO: canvas render only. svg renderer will not work
     const originChildren = this.originChildren;
     originChildren && itemGroup.set('children', originChildren);
-    this.find('mask').hide();
-    this.draw();
+    this.hide('mask');
   }
 }
 

@@ -28,10 +28,6 @@ class Controller extends Base {
       processor: null
     };
   }
-  constructor(cfg) {
-    super(cfg);
-    this._init();
-  }
   _init() {
     const graph = this.graph;
     graph.on('afteritemdraw', ev => {
@@ -50,17 +46,30 @@ class Controller extends Base {
       const auto = this.auto;
       if (auto === 'once') {
         if (action === 'changeData') {
-          !graph.destroyed && this.layout();
+          if (!graph.destroyed) {
+            graph.preventAnimate(() => {
+              this.layout();
+            });
+          }
         }
       } else {
-        this.auto && !graph.destroyed && this.layout();
+        if (this.auto && !graph.destroyed) {
+          graph.preventAnimate(() => {
+            this.layout();
+          });
+        }
       }
     });
   }
+  /**
+   * @param  {object} processor - layout processer
+   */
   changeLayout(processor) {
     this.processor = processor;
     this.layout();
   }
+  /**
+   */
   layout() {
     const graph = this.graph;
     const processor = this.getLayoutProcessor();

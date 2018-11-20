@@ -35,6 +35,9 @@ Mixin.AUGMENT = {
     }
     return null;
   },
+  /**
+   * @return {Graph} this
+   */
   layout() {
     this._getController('layout').layout();
     return this;
@@ -47,6 +50,7 @@ Mixin.AUGMENT = {
     const guides = this.getGuides();
     let groups = [];
     let edges = [];
+    this.emit('beforeupdatenodeposition');
     if (nodes) {
       nodes.forEach(node => {
         node.getEdges().forEach(edge => {
@@ -74,9 +78,13 @@ Mixin.AUGMENT = {
     guides.forEach(guide => {
       guide.layoutUpdate();
     });
-    this.draw();
+    this.emit('afterupdatenodeposition');
     return this;
   },
+  /**
+   * @param  {object} processor - layout processer
+   * @return {Graph} this
+   */
   changeLayout(processor) {
     this._getController('layout').changeLayout(processor);
     return this;

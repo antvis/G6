@@ -3,6 +3,10 @@
 
 ---
 
+#### 2.2.0
+* fix: Graph read zIndex 
+* refactor: Animation
+
 #### 2.1.5
 * fix: svg pixelRatio bug
 * feat: add wheel event

@@ -5,6 +5,7 @@ const data = require('../../fixtures/sample-graph-data.json');
 const Simulate = require('event-simulate');
 
 const div = document.createElement('div');
+div.setAttribute('data-test-spec', 'controller/event-spec.js');
 div.id = 'event-chart';
 Util.modifyCSS(div, {
   position: 'fixed',
@@ -21,7 +22,7 @@ const graph = new Graph({
   height
 });
 const items = [ '', 'node', 'edge' ];
-graph.source(Util.cloneDeep(data));
+graph.source(Util.clone(data));
 graph.render();
 const nodePoint = { x: 209, y: 161 };
 const emptyPoint = { x: 188, y: 86 };

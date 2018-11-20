@@ -16,7 +16,7 @@ const graph = new Graph({
   width: 500,
   height: 500
 });
-graph.source(Util.cloneDeep(data));
+graph.source(Util.clone(data));
 graph.render();
 
 describe('edge item test', () => {

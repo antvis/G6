@@ -3,6 +3,7 @@ const Util = require('../../../src/util/');
 const data = require('../../fixtures/sample-graph-data.json');
 const expect = require('chai').expect;
 const div = document.createElement('div');
+div.setAttribute('data-test-spec', 'cases/mapper-spec.js');
 document.body.appendChild(div);
 describe('mapping user cases test', () => {
   const graph = new Graph({
@@ -22,7 +23,7 @@ describe('mapping user cases test', () => {
   graph.guide().label(model => {
     return model.id;
   });
-  graph.source(Util.cloneDeep(data));
+  graph.source(Util.clone(data));
   graph.render();
   it('node mapping', () => {
     const nodes = graph.getNodes();

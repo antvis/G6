@@ -42,20 +42,20 @@ G6.registerEdge('sankey-edge', {
     const targetBox = target.getBBox();
     const sourceModel = source.getModel();
     const targetModel = target.getModel();
-    let { y0, y1 } = model;
+    let { y0, y1, sourceOffset = 0, targetOffset = 0 } = model;
     y0 = sourceBox.minY + y0 - sourceModel.y0;
     y1 = targetBox.minY + y1 - targetModel.y0;
-    if (sourceBox.centerX < targetBox.centerX) {
-      const hgap = targetBox.minX - sourceBox.maxX;
-      return [
-        [ 'M', sourceBox.maxX, y0 ],
-        [ 'C', sourceBox.maxX + hgap / 4, y0, targetBox.minX - hgap / 2, y1, targetBox.minX, y1 ]
-      ];
+    let startX = sourceBox.maxX + sourceOffset;
+    let endX = targetBox.minX - targetOffset;
+    let hgap = endX - startX;
+    if (sourceBox.centerX > targetBox.centerX) {
+      startX = targetBox.maxX + targetOffset;
+      endX = sourceBox.minX - sourceOffset;
+      hgap = endX - startX;
     }
-    const hgap = sourceBox.minX - targetBox.maxX;
     return [
-      [ 'M', targetBox.maxX, y1 ],
-      [ 'C', targetBox.maxX + hgap / 4, y1, sourceBox.minX - hgap / 2, y0, sourceBox.minX, y0 ]
+      [ 'M', startX, y0 ],
+      [ 'C', startX + hgap / 4, y0, endX - hgap / 2, y1, endX, y1 ]
     ];
   }
 });
@@ -67,27 +67,30 @@ G6.registerGuide('col-names', {
     const nodes = graph.getNodes();
     const model = item.getModel();
     const colMap = {};
-    const { textStyle } = model;
+    const { textStyle, fields } = model;
     let minY = Infinity;
     nodes.forEach(node => {
       const model = node.getModel();
-      const { field, y, x } = model;
+      const { field, y, x, colIndex } = model;
+
       if (minY > y) {
         minY = y;
       }
       if (!colMap[field]) {
         colMap[field] = {
           field,
-          x
+          x,
+          colIndex
         };
       }
     });
-    Util.each(colMap, ({ field, x }) => {
+    Util.each(colMap, ({ field, x, colIndex }) => {
       group.addShape('text', {
         attrs: {
           text: field,
           x,
           y: minY - 12,
+          textAlign: colIndex === fields.length - 1 ? 'right' : 'left',
           ...textStyle
         }
       });
@@ -123,8 +126,7 @@ class Plugin {
        * @type  {object} colNameTextStyle - col name text style
        */
       colNameTextStyle: {
-        fill: '#333',
-        textAlign: 'center'
+        fill: '#333'
       },
 
       /**
@@ -147,15 +149,25 @@ class Plugin {
       /**
        * @type {function} combine - comine the node id
        * @param  {object} cfg - combine cfg
-       * @property  {string} cfg.field - input object
-       * @property  {string} cfg.value - input object
-       * @property  {string} cfg.colIndex - input object
-       * @property  {object} cfg.rowIndex - input object
+       * @property  {string} cfg.field -field
+       * @property  {string} cfg.value - value
+       * @property  {string} cfg.colIndex - colIndex
+       * @property  {object} cfg.rowIndex - rowIndex
+       * @property  {object} cfg.row - row
        * @return {string} combine id
        */
       combine({ field, value }) {
         return field + value;
-      }
+      },
+      /**
+       * @type  {function} onBeforeSankeyProcessorExecute - trigger before sankeyProcessor execute
+       */
+      onBeforeSankeyProcessorExecute(/* sankeyProcessor */) {},
+
+      /**
+       * @type  {function} onBeforeSankeyProcessorExecute - trigger after sankeyProcessor execute
+       */
+      onAfterSankeyProcessorExecute(/* sankeyProcessor */) {}
     }, options);
   }
   _getFields() {
@@ -181,7 +193,7 @@ class Plugin {
     table.forEach((row, rowIndex) => {
       fields.forEach((field, colIndex) => {
         const value = row[field];
-        const id = this.combine({ field, value, colIndex, rowIndex });
+        const id = this.combine({ field, value, colIndex, rowIndex, row });
         if (!map[id]) {
           map[id] = {
             id,
@@ -206,8 +218,8 @@ class Plugin {
         }
         const value = row[field];
         const nextValue = row[nextField];
-        const source = this.combine({ field, value, colIndex, rowIndex });
-        const target = this.combine({ field: nextField, value: nextValue, colIndex: nextColIndex, rowIndex });
+        const source = this.combine({ field, value, colIndex, rowIndex, row });
+        const target = this.combine({ field: nextField, value: nextValue, colIndex: nextColIndex, rowIndex, row });
         const id = source + '-' + target;
         if (!map[id]) {
           map[id] = {
@@ -276,7 +288,8 @@ class Plugin {
     if (this.showColName) {
       guides.push({
         shape: 'col-names',
-        textStyle: this.colNameTextStyle
+        textStyle: this.colNameTextStyle,
+        fields: this._getFields()
       });
     }
     return guides;
@@ -290,7 +303,9 @@ class Plugin {
       edges: this._getEdges(table, fields),
       guides: this._getGuides()
     };
+    this.onBeforeSankeyProcessorExecute(sankeyProcessor);
     sankeyProcessor(data);
+    this.onAfterSankeyProcessorExecute(sankeyProcessor);
     data.nodes.forEach(node => {
       node.x = (node.x0 + node.x1) / 2;
       node.y = (node.y0 + node.y1) / 2;

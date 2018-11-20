@@ -98,7 +98,7 @@ class Graph2Canvas {
       afterTransform } = this.options;
     const canvas = this.getCanvas();
     const graphBBox = graph.getBBox();
-    const matrixCache = Util.cloneDeep(graph.getMatrix());
+    const matrixCache = Util.clone(graph.getMatrix());
     const padding = graph.getFitViewPadding();
     const graphCanvas = graph.getCanvas();
     const matrix = Util.getAutoZoomMatrix({
