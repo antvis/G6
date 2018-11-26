@@ -17,7 +17,7 @@ const Global = require('../global');
 
 /**
  * scale in animate
- * @param  {object}  item - graph item
+ * @param  {object}  item - G.Element
  * @param  {function} callback callback when animate finshed
  */
 function scaleIn(item, callback) {
@@ -43,7 +43,7 @@ function scaleIn(item, callback) {
 
 /**
  * scale out animate
- * @param  {object}  item - graph item
+ * @param  {object}  item - G.Element
  * @param  {function} callback callback when animate finshed
  */
 function scaleOut(item, callback) {
@@ -64,35 +64,47 @@ function scaleOut(item, callback) {
 
 /**
  * fade in animate
- * @param  {object}  element - graph item
+ * @param  {object}  group - G.Group item.getGraphicGroup()
  * @param  {function} callback callback when animate finshed
  */
-function fadeIn(element, callback) {
-  if (element.isShape) {
-    const fillOpacity = element.attr('fillOpacity');
-    const strokeOpacity = element.attr('strokeOpacity');
-    element.attr({
-      fillOpacity: 0,
-      strokeOpacity: 0
-    });
-    element.animate({
-      fillOpacity,
-      strokeOpacity
-    }, Global.enterDuration, Global.enterEasing, callback);
-  }
+function fadeIn(group, callback) {
+  group.deepEach(element => {
+    if (element.isShape) {
+      const fillOpacity = element.attr('fillOpacity');
+      const strokeOpacity = element.attr('strokeOpacity');
+      element.attr({
+        fillOpacity: 0,
+        strokeOpacity: 0
+      });
+      element.animate({
+        fillOpacity,
+        strokeOpacity
+      }, Global.enterDuration, Global.enterEasing, callback);
+    }
+  });
 }
 /**
  * fade out animate
- * @param  {object}  element - graph item
+ * @param  {object}  group - G.Group item.getGraphicGroup()
  * @param  {function} callback callback when animate finshed
  */
-function fadeOut(element, callback) {
-  if (element.isShape) {
-    element.animate({
-      fillOpacity: 0,
-      strokeOpacity: 0
-    }, Global.leaveDuration, Global.leaveEasing, callback);
-  }
+function fadeOut(group, callback) {
+  group.deepEach(element => {
+    const fillOpacity = element.attr('fillOpacity');
+    const strokeOpacity = element.attr('strokeOpacity');
+    if (element.isShape) {
+      element.animate({
+        fillOpacity: 0,
+        strokeOpacity: 0
+      }, Global.leaveDuration, Global.leaveEasing, () => {
+        element.attr({
+          fillOpacity,
+          strokeOpacity
+        });
+        callback();
+      });
+    }
+  });
 }
 
 module.exports = {
@@ -116,16 +128,20 @@ module.exports = {
       done();
     });
   },
-  enterFadeIn({ element }) {
+  enterFadeIn({ element, item }) {
+    if (!element.isItemContainer || !item.getKeyShape()) return;
     fadeIn(element);
   },
-  showFadeIn({ element }) {
+  showFadeIn({ element, item }) {
+    if (!element.isItemContainer || !item.getKeyShape()) return;
     fadeIn(element);
   },
-  leaveFadeOut({ element, done }) {
+  leaveFadeOut({ element, item, done }) {
+    if (!element.isItemContainer || !item.getKeyShape()) return;
     fadeOut(element, done);
   },
-  hideFaseOut({ element, done }) {
+  hideFadeOut({ element, item, done }) {
+    if (!element.isItemContainer || !item.getKeyShape()) return;
     fadeOut(element, done);
   }
 };
