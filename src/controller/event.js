@@ -23,13 +23,14 @@ const EVENT = {
   WHEEL: 'wheel',
   KEYDOWN: 'keydown',
   KEYUP: 'keyup',
-  KEYPRESS: 'keypress'
+  KEYPRESS: 'keypress',
+  MOUSEWHEEL: 'mousewheel' // Compatible with MOUSEWHEEL
 };
 const SHAKE_TOLERANCE = 9; // use to tolerate click shake prevent drag shake. The distance is tolerance sqrt.
 
 // native dom events list:
 const MouseEventTypes = [ EVENT.DBLCLICK, EVENT.MOUSEDOWN, EVENT.MOUSEUP, EVENT.MOUSEENTER, EVENT.MOUSELEAVE, EVENT.MOUSEMOVE,
-  EVENT.CONTEXTMENU, EVENT.WHEEL ];
+  EVENT.CONTEXTMENU, EVENT.WHEEL, EVENT.MOUSEWHEEL ];
 const KeyboardEventTypes = [ EVENT.KEYDOWN, EVENT.KEYUP, EVENT.KEYPRESS ];
 const CANVAS = 'canvas:';
 function parentNodeHasTag(n, t) {
