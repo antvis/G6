@@ -1,7 +1,11 @@
-
 # ChangeLog
 
 ---
+
+#### 2.2.1
+* fix: Compatible with MOUSEWHEEL
+* fix: fadeIn aniamtion
+* fix: fix wheelZoom behaviour by removing the deprecated mousewheel event
 
 #### 2.2.0
 * fix: Graph read zIndex 
