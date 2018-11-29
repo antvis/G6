@@ -90,17 +90,17 @@ G6.registerBehaviour('panNode', graph => {
   let node;
   let dx;
   let dy;
-  graph.on('node:mouseenter', () => {
+  graph.behaviourOn('node:mouseenter', () => {
     graph.css({
       cursor: 'move'
     });
   });
-  graph.on('node:mouseleave', () => {
+  graph.behaviourOn('node:mouseleave', () => {
     graph.css({
       cursor: 'default'
     });
   });
-  graph.on('node:dragstart', ({ item, x, y }) => {
+  graph.behaviourOn('node:dragstart', ({ item, x, y }) => {
     graph.css({
       cursor: 'move'
     });
@@ -109,7 +109,7 @@ G6.registerBehaviour('panNode', graph => {
     dx = model.x - x;
     dy = model.y - y;
   });
-  graph.on('node:drag', ev => {
+  graph.behaviourOn('node:drag', ev => {
     graph.preventAnimate(() => {
       graph.update(node, {
         x: ev.x + dx,
@@ -117,10 +117,10 @@ G6.registerBehaviour('panNode', graph => {
       });
     });
   });
-  graph.on('node:dragend', () => {
+  graph.behaviourOn('node:dragend', () => {
     node = undefined;
   });
-  graph.on('canvas:mouseleave', () => {
+  graph.behaviourOn('canvas:mouseleave', () => {
     node = undefined;
   });
 });
