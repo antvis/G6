@@ -2,6 +2,12 @@
 
 ---
 
+#### 2.2.2
+
+`2018-11-30`
+
+* fix: tree remove guide will not getEdges.closes #521
+
 #### 2.2.1
 
 `2018-11-25`
