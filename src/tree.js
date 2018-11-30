@@ -332,10 +332,11 @@ class Tree extends Graph {
     };
     this.emit('beforechange', ev);
     items.push(item);
-    item.getEdges().forEach(edge => {
-      items.push(edge);
-    });
+
     if (item.type === 'node') {
+      item.getEdges().forEach(edge => {
+        items.push(edge);
+      });
       const model = item.getModel();
       const parent = dataMap[model.parent];
       item.deepEach(child => {
