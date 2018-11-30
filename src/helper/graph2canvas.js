@@ -54,8 +54,11 @@ class Graph2Canvas {
       });
       if (domShapes.length > 0) {
         domShapes.forEach(domShape => {
-          domShape.domImageOnload = false;
           const el = domShape.get('el');
+          if (!el) {
+            return;
+          }
+          domShape.domImageOnload = false;
           const width = domShape.attr('width');
           const height = domShape.attr('height');
           domToImage.toPng(el, {
