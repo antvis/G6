@@ -13,7 +13,6 @@
  */
 
 const Global = require('../global');
-// const Util = require('../util/');
 
 /**
  * scale in animate
