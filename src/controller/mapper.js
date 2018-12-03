@@ -36,7 +36,7 @@ class Controller extends Base {
       if (Util.isFunction(channel.input)) {
         model[name] = channel.input(model);
       } else if (channel.input) {
-        model[name] = channel.input;
+        model[name] = Object.assign({}, channel.input, model[name]);
       }
     });
   }
