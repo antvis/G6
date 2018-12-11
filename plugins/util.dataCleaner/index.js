@@ -7,7 +7,7 @@ const G6 = require('@antv/g6');
 const Util = G6.Util;
 
 const dataCleaner = {
-  clearData(data) {
+  cleanData(data) {
     const nodeMap = {};
     const invalidEdges = [];
     data.nodes.forEach(node => {
