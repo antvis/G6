@@ -43,7 +43,7 @@ Shape.registerShapeManager = function(type, cfg) {
       extendShapeName = shapeType;
     }
     const extendShape = shapeManager.getExtendShape(extendShapeName, defaultShapeType);
-    const shapeObj = Util.mix(true, {}, extendShape, cfg);
+    const shapeObj = Util.mix({}, extendShape, cfg);
     shapeObj.type = shapeType;
     shapeManager[shapeType] = shapeObj;
     return shapeObj;
