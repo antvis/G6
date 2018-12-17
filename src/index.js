@@ -7,7 +7,7 @@ const Global = require('./global');
 const G = require('@antv/g/lib');
 
 const G6 = {
-  Graph: require('./graph'),
+  Graph: require('./graph/graph'),
   Util: require('./util/'),
   G,
   Global,
