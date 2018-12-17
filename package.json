@@ -94,8 +94,8 @@
     "publish": "node ./bin/publish.js",
     "lint": "eslint --ext .js ./src",
     "cdn": "antv-bin upload -n @antv/g6",
-    "lint-fix": "eslint --ext .html,.js --fix ./",
-    "prepublishOnly": "npm run build-lib && npm run build && node ./bin/version.js",
+    "lint-fix": "eslint --ext .html,.js --fix ./src",
+    "prepublishOnly": "npm run build-lib && npm run build",
     "screenshot": "node ./bin/screenshot.js",
     "start": "npm run dev",
     "test": "torch --compile --renderer --recursive ./test/unit",
@@ -107,18 +107,8 @@
     "run": []
   },
   "dependencies": {
-    "@antv/g": "^3.3.0",
-    "@antv/component": "~0.0.4",
-    "@antv/hierarchy": "~0.3.13",
-    "@antv/scale": "^0.0.1",
-    "@antv/util": "^1.2.0",
-    "d3": "^5.4.0",
-    "d3-sankey": "^0.7.1",
-    "d3-svg-legend": "^2.25.6",
-    "dagre": "~0.8.2",
-    "dom-to-image": "^2.6.0",
-    "lodash": "~4.17.4",
-    "wolfy87-eventemitter": "~5.2.4"
+    "@antv/g": "^3.4.0-beta.1",
+    "@antv/util": "^1.2.0"
   },
   "engines": {
     "node": ">=8.9.0"
