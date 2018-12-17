@@ -5,7 +5,7 @@
  */
 
 const Util = require('./util/');
-const EventEmitter = require('@antv/g/lib/core/mixin/event');
+const EventEmitter = require('@antv/g/lib/').EventEmitter;
 
 class Base extends EventEmitter {
 
