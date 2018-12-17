@@ -2,13 +2,11 @@
  * @fileOverview graph
  * @author huangtonger@aliyun.com
  */
-require('./extend/g/group');
-require('./extend/g/shape');
-require('./extend/g/dom');
 
-const Util = require('./util/');
+const Base = require('./base');
+// const Util = require('./util/');
 
-class Graph {
+class Graph extends Base {
   /**
    * Access to the default configuration properties
    * @return {object} default configuration
@@ -34,48 +32,53 @@ class Graph {
        * unit pixel if undefined force fit height
        */
       height: undefined,
-
-      /**
-       * default node shape
-       * @type {string|undefined}
-       */
-      nodeDefaultShape: undefined,
-
-      /**
-       * default edge shape
-       * @type {string|undefined}
-       */
-      edgeDefaultShape: undefined,
-
-      /**
-       * default group shape
-       * @type {string|undefined}
-       */
-      groupDefaultShape: undefined,
-
-      /**
-       * default edge node intersect box
-       * @type {string}
-       */
-      defaultIntersectBox: 'circle',
-
       /**
        * renderer canvas or svg
        * @type {string}
        */
       renderer: 'canvas',
-
-      _type: 'graph',
-      _data: {},
-      _delayRunObj: {}
+      /**
+       * control graph behaviors
+       * @type Array
+       */
+      mode: [],
+      /**
+       * all the node instances
+       * @type Array
+       */
+      nodes: [],
+      /**
+       * all the eadge instances
+       * @type Array
+       */
+      edges: [],
+      /**
+       * nodes instances indexed by id
+       * @type object
+       */
+      nodesById: {},
+      /**
+       * ed instances indexed by id
+       * @type object
+       */
+      edgesById: {}
     };
   }
 
   constructor(inputCfg) {
-    const cfg = Util.mix({}, this.getDefaultCfg(), inputCfg);
-    this._init(cfg);
+    super(inputCfg);
+    this._init();
   }
-  _init() {}
+  _init() {
+    // all the node instances
+    this.nodes = [];
+    // all the edge instances
+    this.edges = [];
+    // node instances indexed by id
+    this._nodesById = {};
+    // edge instances indexed by id
+    this._edgesById = {};
+  }
 
   /**
    * @return  {domobject} graphcontainer
