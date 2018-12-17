@@ -19,8 +19,7 @@ module.exports = {
   },
   extensions: ['.js'],
   include: [
-    'src/**/*.js',
-    'plugins/**/*.js',
+    'src/**/*.js'
   ],
   exclude: /(node_modules|bower_components)/
 }
