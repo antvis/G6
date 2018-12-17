@@ -24,6 +24,4 @@ Shape.registerShapeManager('guide', {
 
 require('./nodes/');
 require('./edges/');
-require('./groups/');
-require('./guides/');
 module.exports = Shape;
