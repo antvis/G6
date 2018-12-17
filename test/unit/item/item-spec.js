@@ -1,4 +1,4 @@
-const Graph = require('../../../src/graph');
+const Graph = require('../../../src/graph/graph');
 // const expect = require('chai').expect;
 const Util = require('../../../src/util/');
 const div = document.createElement('div');
