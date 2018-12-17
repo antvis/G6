@@ -99,16 +99,20 @@
     "screenshot": "node ./bin/screenshot.js",
     "start": "npm run dev",
     "test": "torch --compile --renderer --recursive ./test/unit",
-    "test-live": "torch --compile --interactive --watch --recursive ./test/unit/helper/graph2canvas-spec",
+    "test-live": "torch --compile --interactive --watch --recursive ./test/unit",
     "watch": "webpack --config webpack-dev.config.js",
     "win-dev": "node ./bin/win-dev.js"
   },
   "pre-commit": {
-    "run": []
+    "run": [
+      "lint-fix",
+      "test"
+    ],
+    "silent": false
   },
   "dependencies": {
-    "@antv/g": "^3.4.0-beta.1",
-    "@antv/util": "^1.2.0"
+    "@antv/g": "~3.4.0-beta.1",
+    "@antv/util": "~1.2.0"
   },
   "engines": {
     "node": ">=8.9.0"
