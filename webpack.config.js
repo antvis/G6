@@ -1,22 +1,10 @@
 const webpack = require('webpack');
 const resolve = require('path').resolve;
-const shelljs = require('shelljs');
 const _ = require('lodash');
 
 const entry = {
-  G6: './src/index.js',
-  G6Plugins: './plugins/index.js'
+  G6: './src/index.js'
 };
-
-shelljs.ls(resolve(__dirname, 'plugins')).forEach(pluginPath => {
-  if (pluginPath !== 'index.js') {
-    const moduleName = 'plugin.' + pluginPath;
-    entry[moduleName] = `./plugins/${pluginPath}/index.js`;
-  } else {
-    const moduleName = 'plugins';
-    entry[moduleName] = './plugins/index.js';
-  }
-});
 
 module.exports = {
   mode: 'production',
