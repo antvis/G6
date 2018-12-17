@@ -22,6 +22,6 @@ Shape.registerShapeManager('guide', {
   defaultShapeType: 'common'
 });
 
-require('./nodes/');
-require('./edges/');
+require('./node');
+require('./edge');
 module.exports = Shape;
