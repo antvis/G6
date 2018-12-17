@@ -4,7 +4,6 @@
  */
 
 const Mixin = {};
-const Controller = require('../controller/event');
 Mixin.INIT = '_initEvents';
 Mixin.CFG = {
   /**
@@ -14,11 +13,6 @@ Mixin.CFG = {
   keyboardEnable: true
 };
 Mixin.AUGMENT = {
-  _initEvents() {
-    const controllers = this.get('_controllers');
-    controllers.events = new Controller({
-      graph: this
-    });
-  }
+  _initEvents() {}
 };
 module.exports = Mixin;
