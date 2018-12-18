@@ -16,9 +16,9 @@ class Base extends EventEmitter {
   constructor(cfg) {
     super();
     const self = this;
-    Util.mix(self, self.getDefaultCfg());                 // 对象私有变量
+    Util.mix(self, self.getDefaultCfg());                 // 对象私有属性
     self.model = Util.mix({}, cfg);                       // 用户设置的
-    this._cfg = {};                                       // 私有属性
+    this._cfg = {};                                       // 状态，绘图属性等暂存
   }
 
   get(name) {
