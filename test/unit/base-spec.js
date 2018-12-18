@@ -6,8 +6,9 @@ describe('base test', () => {
   it('new base', () => {
     const baseInst = new Base({ test: 'aaaa' });
     expect(baseInst).not.to.be.undefined;
-    expect(baseInst._cfg).not.to.be.undefined;
-    expect(baseInst._cfg.test).to.equal('aaaa');
+    expect(baseInst.model).not.to.be.undefined;
+    expect(baseInst.model.test).to.equal('aaaa');
+    expect(baseInst.get('test')).to.equal('aaaa');
   });
   it('base getter & setter', ()=> {
     base.set('a', 'a');

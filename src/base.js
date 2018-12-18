@@ -15,20 +15,22 @@ class Base extends EventEmitter {
 
   constructor(cfg) {
     super();
-    this._cfg = Util.mix({}, this.getDefaultCfg(), cfg);
-    this._cfg._events = {};
+    const self = this;
+    Util.mix(self, self.getDefaultCfg());                 // 对象私有变量
+    self.model = Util.mix({}, cfg);                       // 用户设置的
+    this._cfg = {};                                       // 私有属性
   }
 
   get(name) {
-    return this._cfg[name];
+    return this.model[name];
   }
 
   set(name, value) {
-    this._cfg[name] = value;
+    this.model[name] = value;
   }
 
   destroy() {
-    this._cfg = {};
+    this.model = {};
     this.removeEvent();
     this.destroyed = true;
   }
