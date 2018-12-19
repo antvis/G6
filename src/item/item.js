@@ -71,17 +71,21 @@ class Item {
        */
       visible: true
     };
-    Util.mix(this, defaultCfg, cfg);
+    Util.mix(this, defaultCfg);
+    this.model = cfg;
+    this.id = cfg.id;
     this._init();
   }
   _init() {
     this._initGroup();
     this.draw();
   }
-  _mapping() {
-    const mapper = this.mapper;
-    const model = this.model;
-    mapper.mapping(model);
+  get(key) {
+    return this.model[key];
+  }
+  set(key, val) {
+    this.model[key] = val;
+    return this;
   }
   _initGroup() {
     const group = this.group;
@@ -174,7 +178,6 @@ class Item {
     const animate = this.animate;
     const group = this.group;
     group.clear(!animate);
-    this._mapping();
     this._setShapeObj();
     const shapeObj = this.shapeObj;
     const keyShape = shapeObj.draw(this);
