@@ -10,10 +10,9 @@ class Node extends Item {
   constructor(cfg) {
     const defaultCfg = {
       type: 'node',
-      isNode: true,
-      zIndex: 3,
-      edges: [],
-      linkable: true
+      anchors: [],
+      adjacent: [],
+      status: []
     };
     Util.mix(defaultCfg, cfg);
     super(defaultCfg);
@@ -24,6 +23,7 @@ class Node extends Item {
     group.setMatrix([ 1, 0, 0, 0, 1, 0, model.x ? model.x : 0, model.y ? model.y : 0, 1 ]);
     this.bbox = this._calculateBBox();
   }
+
   _shouldDraw() {
     const diff = this._getDiff();
     const superBool = super._shouldDraw();
