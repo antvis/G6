@@ -3,10 +3,10 @@
  * @author huangtonger@aliyun.com
  */
 
-const Base = require('../base');
+const EventEmitter = require('@antv/g/lib/').EventEmitter;
 // const Util = require('./util/');
 
-class Graph extends Base {
+class Graph extends EventEmitter {
   /**
    * Access to the default configuration properties
    * @return {object} default configuration
