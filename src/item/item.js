@@ -33,7 +33,7 @@ class Item {
        * 类型
        * @type {string}
        */
-      type: null,
+      type: 'item',
 
       /**
        * data model
@@ -71,17 +71,20 @@ class Item {
        */
       visible: true
     };
-    Util.mix(this, defaultCfg, cfg);
+    Util.mix(this, defaultCfg);
+    this.model = cfg;
     this._init();
   }
   _init() {
     this._initGroup();
     this.draw();
   }
-  _mapping() {
-    const mapper = this.mapper;
-    const model = this.model;
-    mapper.mapping(model);
+  get(key) {
+    return this.model[key];
+  }
+  set(key, val) {
+    this.model[key] = val;
+    return this;
   }
   _initGroup() {
     const group = this.group;
@@ -103,13 +106,7 @@ class Item {
     bbox.centerY = (bbox.minY + bbox.maxY) / 2;
     return bbox;
   }
-  getLabel() {
-    const group = this.group;
-    return group.findByClass('label')[0];
-  }
-  getGraph() {
-    return this.graph;
-  }
+
   _setShapeObj() {
     const graph = this.graph;
     const type = this.type;
@@ -117,30 +114,8 @@ class Item {
     this.shapeObj = graph.getShapeObj(type, model);
   }
   _afterDraw() {
-    const graph = this.graph;
-    this._setGId();
-    this._cacheModel();
-    graph.emit('afteritemdraw', {
+    this.graph.emit('afteritemdraw', {
       item: this
-    });
-  }
-  _cacheModel() {
-    this.modelCache = Util.mix({}, this.model);
-  }
-  _setGId() {
-    const group = this.group;
-    const id = this.id;
-    const type = this.type;
-    group.gid = id;
-    group.deepEach((child, parent, index) => {
-      const parentGid = parent.gid;
-      child.id = id;
-      child.eventPreFix = type;
-      child.gid = parentGid + '-' + index;
-      if (child.isShape) {
-        const shapeType = child.get('type');
-        child.gid += '-' + shapeType;
-      }
     });
   }
   _beforeDraw() {
@@ -155,26 +130,10 @@ class Item {
   _shouldDraw() {
     return true;
   }
-  _getDiff() {
-    const diff = [];
-    const model = this.model;
-    const modelCache = this.modelCache;
-
-    Util.each(model, (v, k) => {
-      if (!Util.isEqual(v, modelCache[k])) {
-        diff.push(k);
-      }
-    });
-    if (diff.length === 0) {
-      return false;
-    }
-    return diff;
-  }
   _drawInner() {
     const animate = this.animate;
     const group = this.group;
     group.clear(!animate);
-    this._mapping();
     this._setShapeObj();
     const shapeObj = this.shapeObj;
     const keyShape = shapeObj.draw(this);
@@ -301,12 +260,13 @@ class Item {
     });
   }
   toFront() {
-    const group = this.group;
-    group.toFront();
+    this.group.toFront();
   }
   toBack() {
-    const group = this.group;
-    group.toBack();
+    this.group.toBack();
+  }
+  getType() {
+    return this.type;
   }
   destroy() {
     if (!this.destroyed) {
@@ -315,7 +275,10 @@ class Item {
       graph.emit('beforeitemdestroy', {
         item: this
       });
-      this.group.remove(!animate);
+      if (animate) {
+        this.group.stopAnimate();
+      }
+      this.group.remove();
       this.destroyed = true;
       graph.emit('afteritemdestroy', {
         item: this
