@@ -83,7 +83,11 @@ class Item {
     return this.model[key];
   }
   set(key, val) {
-    this.model[key] = val;
+    if (Util.isPlainObject(key)) {
+      this.model = Util.mix({}, this.model, key);
+    } else {
+      this.model[key] = val;
+    }
     return this;
   }
   _initGroup() {
