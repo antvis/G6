@@ -1,11 +1,3 @@
-
-Math.sign = function(x) {
-  x = +x;
-  if (x === 0 || isNaN(x)) {
-    return x;
-  }
-  return x > 0 ? 1 : -1;
-};
 const BaseUtil = {
   deepMix: require('@antv/util/lib/deep-mix'),
   mix: require('@antv/util/lib/mix'),
@@ -21,6 +13,7 @@ const BaseUtil = {
   isNil: require('@antv/util/lib/type/is-nil'),
   isArray: require('@antv/util/lib/type/is-array'),
   createDom: require('@antv/util/lib/dom/create-dom'),
+  isPlainObject: require('@antv/util/lib/type/is-plain-object'),
   /**
    * traverse tree
    * @param  {object}      parent      parent
