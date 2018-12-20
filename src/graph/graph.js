@@ -125,7 +125,10 @@ class Graph extends Base {
    * @return {G.Group} itemGroup
    */
   getItemGroup() {
-    return this;
+    return this.group;
+  }
+  getBBox() {
+    return this.group.getBBox();
   }
   /**
    * @param  {object} data source data
