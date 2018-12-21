@@ -41,11 +41,11 @@ class FitView {
       padding = this.getFormatPadding();
     }
     const graph = this.graph;
-    const group = graph.group;
+    const group = graph.get('group');
     const width = graph.get('width');
     const height = graph.get('height');
     group.resetMatrix();
-    const bbox = graph.group.getBBox();
+    const bbox = graph.get('group').getBBox();
     const w = width / (bbox.width + padding[1] + padding[3]);
     const h = height / (bbox.height + padding[0] + padding[2]);
     let ratio = w;
@@ -63,7 +63,7 @@ class FitView {
     graph.translate(translate.x, translate.y);
   }
   focusPoint(point) {
-    const matrix = this.graph.group.getMatrix();
+    const matrix = this.graph.get('group').getMatrix();
     const width = this.graph.get('width');
     const height = this.graph.get('height');
     const dx = -matrix[6] + width / 2 - matrix[0] * point.x;
@@ -86,7 +86,7 @@ class FitView {
     }
     const graph = this.graph;
     graph.set({ width, height });
-    const canvas = this.graph.canvas;
+    const canvas = this.graph.get('canvas');
     canvas.changeSize(width, height);
   }
 }

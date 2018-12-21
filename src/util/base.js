@@ -16,6 +16,7 @@ const BaseUtil = {
   isPlainObject: require('@antv/util/lib/type/is-plain-object'),
   isNumber: require('@antv/util/lib/type/is-number'),
   isString: require('@antv/util/lib/type/is-string'),
+  uniqueId: require('@antv/util/lib/unique-id'),
   /**
    * traverse tree
    * @param  {object}      parent      parent
