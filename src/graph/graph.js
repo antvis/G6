@@ -4,7 +4,10 @@
  */
 
 const EventEmitter = require('@antv/g/lib/').EventEmitter;
+const G = require('@antv/g');
 const Util = require('../util');
+
+const Controller = require('./controller');
 
 class Graph extends EventEmitter {
   /**
@@ -65,12 +68,42 @@ class Graph extends EventEmitter {
   }
   _init() {
     // todo init controllers & G.Canvas etc..
+    this._initCanvas();
+    const viewController = new Controller.fitView(this);
+    this.set('viewController', viewController);
+    if (this.get('fitView')) {
+      viewController.fitView();
+    }
+  }
+  _initCanvas() {
+    let container = this.get('container');
+    if (Util.isString(container)) {
+      container = document.getElementById(container);
+    }
+    if (!container) {
+      throw Error('invalid container');
+    }
+    const canvas = new G.Canvas({
+      containerDOM: container,
+      width: this.get('width'),
+      height: this.get('height'),
+      renderer: this.get('renderer'),
+      pixelRatio: this.get('pixelRatio')
+    });
+    this.canvas = canvas;
+    const group = canvas.addGroup({ id: 'g6-root' });
+    this.group = group;
   }
   get(key) {
     return this._cfg[key];
   }
   set(key, val) {
-    this._cfg[key] = val;
+    if (Util.isPlainObject(key)) {
+      this._cfg = Util.mix({}, this._cfg, key);
+    } else {
+      this._cfg[key] = val;
+    }
+    return this;
   }
   draw() {}
   render() {}
@@ -82,8 +115,6 @@ class Graph extends EventEmitter {
   addEdge(type, cfgs) {
     return { type, cfgs };
   }
-  focus() {}
-  fitView() {}
   // move(dx, dy) {}
   // translate(x, y) {}
   // zoom(scale, center) {}
@@ -135,6 +166,11 @@ class Graph extends EventEmitter {
    * @return {Graph} - this
    */
   destroy() {
+    this.removeEvent();
+    this.canvas.destroy();
+    this.nodes = [];
+    this.edges = null;
+    this.itemById = null;
     return this;
   }
   /**
@@ -179,7 +215,46 @@ class Graph extends EventEmitter {
    * @return {object} this
    */
   changeSize(width, height) {
-    return { width, height };
+    this.get('viewController').changeSize(width, height);
+    return this;
+  }
+  updateMatrix(matrix) {
+    const rootGroup = this.group;
+    const minZoom = this.get('minZoom');
+    const maxZoom = this.get('maxZoom');
+    if (minZoom && matrix.elements[0] < minZoom) {
+      return;
+    }
+    if (maxZoom && matrix.elements[0] > maxZoom) {
+      return;
+    }
+    rootGroup.setMatrix(matrix);
+  }
+  translate(x, y) {
+    this.group.translate(x, y);
+  }
+  move(dx, dy) {
+    this.group.move(dx, dy);
+  }
+  fitView() {
+    this.get('viewController').fitView();
+  }
+  getZoom() {
+    return this.group.getMatrix()[0];
+  }
+  zoom(ratio, center) {
+    const matrix = Util.clone(this.group.getMatrix());
+    if (center) {
+      Util.mat3.translate(matrix, matrix, [ -center.x, -center.y ]);
+      Util.mat3.scale(matrix, matrix, [ ratio, ratio ]);
+      Util.mat3.translate(matrix, matrix, [ center.x, center.y ]);
+    } else {
+      Util.mat3.scale(matrix, matrix, [ ratio, ratio ]);
+    }
+    this.updateMatrix(matrix);
+  }
+  focus(item) {
+    this.get('ViewController').focus(item);
   }
   findById(id) {
     return this.itemById[id];
