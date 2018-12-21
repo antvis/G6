@@ -3,10 +3,10 @@
  * @author huangtonger@aliyun.com
  */
 
-const Base = require('../base');
-// const Util = require('./util/');
+const EventEmitter = require('@antv/g/lib/').EventEmitter;
+const Util = require('../util');
 
-class Graph extends Base {
+class Graph extends EventEmitter {
   /**
    * Access to the default configuration properties
    * @return {object} default configuration
@@ -43,51 +43,50 @@ class Graph extends Base {
        */
       mode: [],
       /**
-       * all the node instances
-       * @type Array
-       */
-      nodes: [],
-      /**
-       * all the eadge instances
-       * @type Array
-       */
-      edges: [],
-      /**
-       * nodes instances indexed by id
+       * source data
        * @type object
        */
-      nodesById: {},
+      data: null,
       /**
-       * ed instances indexed by id
-       * @type object
+       *  capture events
+       *  @type boolean
        */
-      edgesById: {}
+      event: true
     };
   }
 
   constructor(inputCfg) {
-    super(inputCfg);
+    super();
+    this._cfg = Util.mix({}, this.getDefaultCfg(), inputCfg);     // merge graph configs
+    this.nodes = [];                                              // all the node instances
+    this.edges = [];                                              // all the edge instances
+    this.itemById = {};                                           // all the item indexed by id
     this._init();
   }
   _init() {
-    // all the node instances
-    this.nodes = [];
-    // all the edge instances
-    this.edges = [];
-    // node instances indexed by id
-    this._nodesById = {};
-    // edge instances indexed by id
-    this._edgesById = {};
+    // todo init controllers & G.Canvas etc..
   }
-
-  /**
-   * @return  {domobject} graphcontainer
-   */
-  getGraphContainer() {
-    return this;
+  get(key) {
+    return this._cfg[key];
   }
+  set(key, val) {
+    this._cfg[key] = val;
+  }
+  draw() {}
+  render() {}
   _drawInner() {}
   _clearInner() {}
+  addNode(type, cfgs) {
+    return { type, cfgs };
+  }
+  addEdge(type, cfgs) {
+    return { type, cfgs };
+  }
+  focus() {}
+  fitView() {}
+  // move(dx, dy) {}
+  // translate(x, y) {}
+  // zoom(scale, center) {}
   /**
    * @param  {string} type item type
    * @param  {object} model data model
@@ -95,19 +94,6 @@ class Graph extends Base {
    */
   getShapeObj(type, model) {
     return { type, model };
-  }
-  /**
-   * @return {object} source data
-   */
-  getSource() {
-    return this.get('_sourceData');
-  }
-  /**
-   * @param  {object} data source data
-   * @return {object} plain data
-   */
-  parseSource(data) {
-    return data;
   }
   /**
    * @return {G.Canvas} canvas
@@ -138,26 +124,12 @@ class Graph extends Base {
     return data;
   }
   /**
-   * @return {Graph} this
-   */
-  render() {
-    return this;
-  }
-  /**
    * @return {Graph} - this
    */
   reRender() {
     const data = this.get('_sourceData');
     this.read(data);
     return this;
-  }
-  /**
-   * set canvas captrue
-   * @param  {boolean} bool boolean
-   */
-  setCapture(bool) {
-    const rootGroup = this.get('_rootGroup');
-    rootGroup.set('capture', bool);
   }
   /**
    * @return {Graph} - this
@@ -171,28 +143,8 @@ class Graph extends Base {
   save() {
     return this;
   }
-  /**
-   * @param {string} type item type
-   * @param {object} model data model
-   * @return {Graph} this
-   */
-  add(type, model) {
-    return { type, model };
-  }
-  /**
-   * @param {string|Item} item - target item
-   * @return {Graph} this
-   */
-  remove(item) {
+  update(item) {
     return item;
-  }
-  /**
-   * @param {string|Item|undefined} item target item
-   * @param {object} model data model
-   * @return {Graph} this
-   */
-  update(item, model) {
-    return { item, model };
   }
   /**
    * change data
@@ -228,6 +180,62 @@ class Graph extends Base {
    */
   changeSize(width, height) {
     return { width, height };
+  }
+  findById(id) {
+    return this.itemById[id];
+  }
+  findNode(fn) {
+    return this.find('nodes', fn);
+  }
+  findEdge(fn) {
+    return this.find('edges', fn);
+  }
+  findAllNodes(fn) {
+    this.findAll('nodes', fn);
+  }
+  findAllEdges(fn) {
+    return this.findAll('edges', fn);
+  }
+  find(type, fn) {
+    let result;
+    const items = this[type];
+    Util.each(items, (item, i) => {
+      if (fn(item, i)) {
+        result = item;
+        return false;
+      }
+    });
+    return result;
+  }
+  findAll(type, fn) {
+    const result = [];
+    Util.each(this[type], (item, i) => {
+      if (fn(item, i)) {
+        result.push(item);
+      }
+    });
+    return result;
+  }
+  removeNode(node) {
+    this.remove('nodes', node);
+    return this;
+  }
+  removeEdge(edge) {
+    this.remove('edges', edge);
+    return this;
+  }
+  remove(type, item) {
+    if (Util.isString(item)) {
+      item = this.itemById[item];
+    }
+    if (!item) {
+      return;
+    }
+    const items = this[type];
+    const index = items.indexOf(item);
+    items.splice(index, 1);
+    delete this.itemById[item.get('id')];
+    item.remove();
   }
 }
 

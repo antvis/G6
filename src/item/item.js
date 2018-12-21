@@ -73,6 +73,7 @@ class Item {
     };
     Util.mix(this, defaultCfg);
     this.model = cfg;
+    this.id = cfg.id;
     this._init();
   }
   _init() {
