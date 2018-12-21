@@ -11,10 +11,16 @@ module.exports = {
     textBaseline: 'middle',
     fontSize: 12
   },
+  textPadding: [ 8, 16 ],
   groupStyle: {
     stroke: '#CED4D9',
     fill: '#F2F4F5',
     radius: 2
+  },
+  anchorStyle: {
+    fill: '#108EE9',
+    symbol: 'circle',
+    r: 4
   },
   zIndex: {
     node: 1,
