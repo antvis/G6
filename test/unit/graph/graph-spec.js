@@ -23,8 +23,8 @@ describe('graph', () => {
     expect(inst).not.to.be.undefined;
     expect(inst).to.be.an.instanceof(G6.Graph);
     expect(length > 1).to.be.true;
-    expect(inst.canvas).not.to.be.undefined;
-    expect(inst.group).not.to.be.undefined;
+    expect(inst.get('canvas')).not.to.be.undefined;
+    expect(inst.get('group')).not.to.be.undefined;
     inst.destroy();
     expect(inst.canvas.destroyed);
     expect(length - div.childNodes.length).to.equal(1);
@@ -33,12 +33,12 @@ describe('graph', () => {
   const canvasMatrix = graph.canvas.getMatrix();
   it('translate', () => {
     graph.translate(100, 100);
-    const matrix = graph.group.getMatrix();
+    const matrix = graph.get('group').getMatrix();
     expect(canvasMatrix[6]).to.equal(0);
     expect(canvasMatrix[7]).to.equal(0);
     expect(matrix[6]).to.equal(100);
     expect(matrix[7]).to.equal(100);
-    graph.group.resetMatrix();
+    graph.get('group').resetMatrix();
   });
   it('zoom', () => {
     expect(canvasMatrix[0]).to.equal(2);
@@ -46,7 +46,7 @@ describe('graph', () => {
     graph.zoom(3, { x: 100, y: 100 });
     expect(canvasMatrix[0]).to.equal(2);
     expect(canvasMatrix[0]).to.equal(2);
-    const matrix = graph.group.getMatrix();
+    const matrix = graph.get('group').getMatrix();
     expect(matrix[0]).to.equal(3);
     expect(matrix[4]).to.equal(3);
     expect(graph.getZoom()).to.equal(3);

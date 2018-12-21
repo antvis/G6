@@ -54,7 +54,13 @@ class Graph extends EventEmitter {
        *  capture events
        *  @type boolean
        */
-      event: true
+      event: true,
+      /**
+       * group node & edges into different graphic groups
+       * @private
+       * @type boolean
+       */
+      groupByTypes: true
     };
   }
 
@@ -79,6 +85,7 @@ class Graph extends EventEmitter {
     let container = this.get('container');
     if (Util.isString(container)) {
       container = document.getElementById(container);
+      this.set('container', container);
     }
     if (!container) {
       throw Error('invalid container');
@@ -91,8 +98,14 @@ class Graph extends EventEmitter {
       pixelRatio: this.get('pixelRatio')
     });
     this.canvas = canvas;
-    const group = canvas.addGroup({ id: 'g6-root' });
-    this.group = group;
+    const id = canvas.get('el').id;
+    const group = canvas.addGroup({ id: id + '-root' });
+    if (this.get('groupByTypes')) {
+      const nodeGroup = group.addGroup({ id: id + '-node' });
+      const edgeGroup = group.addGroup({ id: id + '-edge' });
+      this.set({ nodeGroup, edgeGroup });
+    }
+    this.set({ canvas, group });
   }
   get(key) {
     return this._cfg[key];
@@ -141,11 +154,11 @@ class Graph extends EventEmitter {
   /**
    * @return {G.Group} itemGroup
    */
-  getItemGroup() {
-    return this.group;
+  getContainer() {
+    return this.get('group');
   }
   getBBox() {
-    return this.group.getBBox();
+    return this.get('group').getBBox();
   }
   /**
    * @param  {object} data source data
@@ -219,7 +232,7 @@ class Graph extends EventEmitter {
     return this;
   }
   updateMatrix(matrix) {
-    const rootGroup = this.group;
+    const rootGroup = this.get('group');
     const minZoom = this.get('minZoom');
     const maxZoom = this.get('maxZoom');
     if (minZoom && matrix.elements[0] < minZoom) {
@@ -231,19 +244,19 @@ class Graph extends EventEmitter {
     rootGroup.setMatrix(matrix);
   }
   translate(x, y) {
-    this.group.translate(x, y);
+    this.get('group').translate(x, y);
   }
   move(dx, dy) {
-    this.group.move(dx, dy);
+    this.get('group').move(dx, dy);
   }
   fitView() {
     this.get('viewController').fitView();
   }
   getZoom() {
-    return this.group.getMatrix()[0];
+    return this.get('group').getMatrix()[0];
   }
   zoom(ratio, center) {
-    const matrix = Util.clone(this.group.getMatrix());
+    const matrix = Util.clone(this.get('group').getMatrix());
     if (center) {
       Util.mat3.translate(matrix, matrix, [ -center.x, -center.y ]);
       Util.mat3.scale(matrix, matrix, [ ratio, ratio ]);
