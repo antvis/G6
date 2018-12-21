@@ -14,6 +14,8 @@ const BaseUtil = {
   isArray: require('@antv/util/lib/type/is-array'),
   createDom: require('@antv/util/lib/dom/create-dom'),
   isPlainObject: require('@antv/util/lib/type/is-plain-object'),
+  isNumber: require('@antv/util/lib/type/is-number'),
+  isString: require('@antv/util/lib/type/is-string'),
   /**
    * traverse tree
    * @param  {object}      parent      parent
@@ -35,7 +37,7 @@ const BaseUtil = {
    * @param  {Number|Array} padding input padding
    * @return {array} output
    */
-  toAllPadding(padding) {
+  formatPadding(padding) {
     let top = 0;
     let left = 0;
     let right = 0;
