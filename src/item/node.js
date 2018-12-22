@@ -7,23 +7,14 @@ const Util = require('../util/');
 const Item = require('./item');
 
 class Node extends Item {
-  constructor(cfg) {
-    const defaultCfg = {
+  getDefaultCfg() {
+    return {
       type: 'node',
       anchors: [],
       adjacent: [],
       status: []
     };
-    Util.mix(defaultCfg, cfg);
-    super(defaultCfg);
   }
-  updatePosition() {
-    const group = this.group;
-    const model = this.model;
-    group.setMatrix([ 1, 0, 0, 0, 1, 0, model.x ? model.x : 0, model.y ? model.y : 0, 1 ]);
-    this.bbox = this._calculateBBox();
-  }
-
   _shouldDraw() {
     const diff = this._getDiff();
     const superBool = super._shouldDraw();
@@ -36,9 +27,23 @@ class Node extends Item {
     this.updatePosition();
     super._afterDraw();
   }
-  layoutUpdate() {
-    this._beforeDraw();
-    this._afterDraw();
+  addNeighbor(node) {
+    const adjacent = this.get('adjacent');
+    if (adjacent.indexOf(node) >= 0) {
+      adjacent.push(node);
+    }
+    return this;
+  }
+  removeNeighbor(node) {
+    const adjacent = this.get('adjacent');
+    const i = adjacent.indexOf(node);
+    if (i >= 0) {
+      adjacent.splice(i, 1);
+    }
+    return this;
+  }
+  getNeighbors() {
+    return this.get('adjacent');
   }
   getEdges() {
     const graph = this.graph;
@@ -50,12 +55,12 @@ class Node extends Item {
   }
   getInEdges() {
     return this.getEdges().filter(edge => {
-      return edge.target === this;
+      return edge.get('target') === this;
     });
   }
   getOutEdges() {
     return this.getEdges().filter(edge => {
-      return edge.source === this;
+      return edge.get('source') === this;
     });
   }
   /**
