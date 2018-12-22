@@ -4,6 +4,8 @@
  */
 
 const Util = require('../util/');
+const Shape = require('../shape');
+
 function getCollapsedParent(node, dataMap) {
   const parent = dataMap[node.parent];
   if (!parent) {
@@ -52,57 +54,44 @@ class Item {
        * @type {boolean}
        */
       animate: false,
-
-      /**
-       * cache model for diff
-       * @type {object}
-       */
-      modelCache: {},
-
-      /**
-       * is item
-       * @type {boolean}
-       */
-      isItem: true,
-
       /**
        * visible - not group visible
        * @type {boolean}
        */
-      visible: true
+      visible: true,
+      /**
+       * capture event
+       * @type {boolean}
+       */
+      event: true,
+      /**
+       * key shape to calculate item's bbox
+       */
+      keyShape: null
     };
-    Util.mix(this, defaultCfg);
-    this.model = cfg;
-    this.id = cfg.id;
-    this._init();
+    this._cfg = Util.mix(defaultCfg, this.getDefaultCfg());
+    if (!cfg.id) {
+      cfg.id = Util.uniqueId();
+    }
+    this._cfg.model = cfg;
+    this.set('id', cfg.id);
+    this.set('parent', cfg.group);
+    this.init();
   }
-  _init() {
+  getDefaultCfg() {}
+  init() {
     this._initGroup();
+    this._setShapeObj();
     this.draw();
   }
-  get(key) {
-    return this.model[key];
-  }
-  set(key, val) {
-    if (Util.isPlainObject(key)) {
-      this.model = Util.mix({}, this.model, key);
-    } else {
-      this.model[key] = val;
-    }
-    return this;
-  }
   _initGroup() {
-    const group = this.group;
-    const model = this.model;
-    const type = this.type;
-    group.isItemContainer = true;
-    group.id = model.id;
-    group.itemType = type;
-    group.model = model;
+    const self = this;
+    const group = self.get('parent').addGroup({ id: self.get('id') });
     group.item = this;
+    this.set('group', group);
   }
   _calculateBBox() {
-    const keyShape = this.keyShape;
+    const keyShape = this.get('keyShape');
     const group = this.group;
     const bbox = Util.getBBox(keyShape, group);
     bbox.width = bbox.maxX - bbox.minX;
@@ -113,10 +102,10 @@ class Item {
   }
 
   _setShapeObj() {
-    const graph = this.graph;
-    const type = this.type;
-    const model = this.getModel();
-    this.shapeObj = graph.getShapeObj(type, model);
+    const itemType = this.get('type');
+    const factory = Shape.getFactory(itemType);
+    const shapeType = this.get('model').type;
+    this.set('shapeObj', Shape.getFactory(factory).getShape(shapeType));
   }
   _afterDraw() {
     this.graph.emit('afteritemdraw', {
@@ -132,7 +121,7 @@ class Item {
     group.resetMatrix();
     this.updateCollapsedParent();
   }
-  _shouldDraw() {
+  shouldDraw() {
     return true;
   }
   _drawInner() {
@@ -148,11 +137,6 @@ class Item {
     }
     shapeObj.afterDraw && shapeObj.afterDraw(this);
   }
-  deepEach(callback, getParent) {
-    Util.traverseTree(this, callback, getParent ? getParent : parent => {
-      return parent.getChildren();
-    });
-  }
   getShapeObj() {
     return this.shapeObj;
   }
@@ -163,33 +147,9 @@ class Item {
   isVisible() {
     return this.visible;
   }
-  hide() {
-    const group = this.group;
-    const graph = this.graph;
-    graph.emit('beforeitemhide', {
-      item: this
-    });
-    group.hide();
-    this.visible = false;
-    graph.emit('afteritemhide', {
-      item: this
-    });
-  }
-  show() {
-    const group = this.group;
-    const graph = this.graph;
-    graph.emit('beforeitemshow', {
-      item: this
-    });
-    group.show();
-    this.visible = true;
-    graph.emit('afteritemshow', {
-      item: this
-    });
-  }
   draw() {
     this._beforeDraw();
-    if (this._shouldDraw()) {
+    if (this.shouldDraw()) {
       this._drawInner();
     }
     this._afterDraw();
@@ -207,71 +167,57 @@ class Item {
     };
   }
   getBBox() {
-    return (this.bbox || this._calculateBBox());
-  }
-  layoutUpdate() {
-    this.isVisible() && this.draw();
+    return this.bbox || this._calculateBBox();
   }
   update() {
     this.draw();
   }
-  getModel() {
-    return this.model;
-  }
-  getKeyShape() {
-    return this.keyShape;
-  }
-  getGraphicGroup() {
-    return this.group;
-  }
-  getHierarchy() {
-    const graph = this.graph;
-    return graph.getHierarchy(this);
-  }
-  getParent() {
-    const model = this.model;
-    const itemMap = this.itemMap;
-    return itemMap[model.parent];
-  }
-  getAllParents() {
-    const model = this.model;
-    const itemMap = this.itemMap;
-    const parents = [];
-    let { parent } = model;
-    while (parent && itemMap[parent]) {
-      const parentItem = itemMap[parent];
-      const parentModel = parentItem.getModel();
-      parents.push(parentItem);
-      parent = parentModel.parent;
-    }
-    return parents;
-  }
-  // deep get all children
-  getAllChildren() {
-    const rst = [];
-    this.deepEach(child => {
-      rst.push(child);
-    });
-    return rst;
-  }
-  // get children
-  getChildren() {
-    const id = this.id;
-    const graph = this.graph;
-    const items = graph.getItems();
-
-    return items.filter(item => {
-      return item.model.parent === id;
-    });
+  geContainer() {
+    return this.get('group');
   }
   toFront() {
-    this.group.toFront();
+    this.get('group').toFront();
   }
   toBack() {
-    this.group.toBack();
+    this.get('group').toBack();
   }
   getType() {
-    return this.type;
+    return this.get('type');
+  }
+  hide() {
+    const group = this.group;
+    const graph = this.graph;
+    graph.emit('beforeitemhide', {
+      item: this
+    });
+    group.hide();
+    this.set('visible', false);
+    graph.emit('afteritemhide', {
+      item: this
+    });
+  }
+  show() {
+    const group = this.get('group');
+    const graph = this.get('graph');
+    graph.emit('beforeitemshow', {
+      item: this
+    });
+    group.show();
+    this.set('visible', true);
+    graph.emit('afteritemshow', {
+      item: this
+    });
+  }
+  get(key) {
+    return this._cfg[key];
+  }
+  set(key, val) {
+    if (Util.isPlainObject(key)) {
+      this._cfg = Util.mix({}, this._cfg, key);
+    } else {
+      this._cfg[key] = val;
+    }
+    return this;
   }
   destroy() {
     if (!this.destroyed) {
