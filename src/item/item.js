@@ -94,8 +94,7 @@ class Item {
     return true;
   }
   _beforeDraw() {
-    const graph = this.get('graph');
-    graph.emit('beforeitemdraw', {
+    this.get('graph').emit('beforeitemdraw', {
       item: this
     });
   }
@@ -107,6 +106,13 @@ class Item {
       this.set('keyShape', keyShape);
     }
     shapeObj.afterDraw && shapeObj.afterDraw(this);
+  }
+  setState(state, enable) {
+    const graph = this.get('graph');
+    const shapeObj = this.get('shapeObj');
+    graph.emit('beforestatechange', { item: this });
+    shapeObj.setState && shapeObj.setState(state, enable, this);
+    graph.emit('afterstatechange', { item: this });
   }
   _afterDraw() {
     this.graph.emit('afteritemdraw', {
