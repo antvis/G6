@@ -8,33 +8,36 @@ const Item = require('./item');
 
 class Edge extends Item {
   constructor(cfg) {
-    const defaultCfg = {
-      type: 'edge',
-      isEdge: true,
-      zIndex: 2
+    super(cfg);
+    this._setNodes();
+  }
+  getDefaultCfg() {
+    return {
+      type: 'edge'
     };
-    Util.mix(defaultCfg, cfg);
-    super(defaultCfg);
   }
-  _init() {
-    // this.cacheEdges();
-    super._init();
+  _setNodes() {
+    const model = this.get('model');
+    let source = model.get('source');
+    let target = model.get('target');
+    const graph = this.get('graph');
+    if (!source || !target) {
+      return;
+    }
+    if (Util.isString(source)) {
+      source = graph.itemById[source];
+    }
+    if (Util.isString(target)) {
+      target = graph.itemById(target);
+    }
+    this.set({ source, target });
+    if (source && target) {
+      source.addNeighbor(target);
+      if (!graph.get('directed')) {
+        target.addNeighbor(source);
+      }
+    }
   }
-  // cache edge into node
-  // cacheEdges() {
-  //   const itemMap = this.itemMap;
-  //   const model = this.model;
-  //   const source = itemMap[model.source];
-  //   const target = itemMap[model.target];
-  //   if (source && source.isItem) {
-  //     source.edges.push(this);
-  //     source.edges = Util.uniq(source.edges);
-  //   }
-  //   if (target && target.isItem) {
-  //     target.edges.push(this);
-  //     target.edges = Util.uniq(target.edges);
-  //   }
-  // }
   _beforeDraw() {
     const model = this.model;
     const itemMap = this.itemMap;
@@ -123,13 +126,6 @@ class Edge extends Item {
     keyShape.attr('path', keyShapePath);
     this[type + 'Arrow'] = marker;
   }
-  _getControlPoints() {
-    const controlPoints = this.model.controlPoints;
-    if (Util.isArray(controlPoints)) {
-      return controlPoints;
-    }
-    return [];
-  }
   _shouldDraw() {
     return super._shouldDraw() && this.linkedItemVisible();
   }
@@ -175,7 +171,7 @@ class Edge extends Item {
     const source = this.getSource();
     const target = this.getTarget();
     const model = this.model;
-    const controlPoints = this._getControlPoints();
+    const controlPoints = model.controlPoints;
     const sourcePoint = this._getPoint(source);
     const targetPoint = this._getPoint(target);
     const points = [ sourcePoint ].concat(controlPoints).concat([ targetPoint ]);
@@ -194,12 +190,14 @@ class Edge extends Item {
     return points;
   }
   destroy() {
-    const itemMap = this.itemMap;
-    const model = this.model;
-    const source = itemMap[model.source];
-    const target = itemMap[model.target];
-    source && source.isItem && Util.Array.remove(source.edges, this);
-    target && target.isItem && Util.Array.remove(target.edges, this);
+    const source = this.get('source');
+    const target = this.get('target');
+    if (source) {
+      source.removeNeighbor(target);
+    }
+    if (!this.get('graph').get('directed')) {
+      target.removeNeighbor(source);
+    }
     super.destroy();
   }
 }

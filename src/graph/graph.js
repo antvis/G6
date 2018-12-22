@@ -6,6 +6,8 @@
 const EventEmitter = require('@antv/g/lib/').EventEmitter;
 const G = require('@antv/g');
 const Util = require('../util');
+const Node = require('../item/node');
+const Edge = require('../item/edge');
 
 const Controller = require('./controller');
 
@@ -60,7 +62,12 @@ class Graph extends EventEmitter {
        * @private
        * @type boolean
        */
-      groupByTypes: true
+      groupByTypes: true,
+      /**
+       * determine if it's a directed graph
+       * @type boolean
+       */
+      directed: false
     };
   }
 
@@ -122,34 +129,29 @@ class Graph extends EventEmitter {
   render() {}
   _drawInner() {}
   _clearInner() {}
-  addNode(type, cfgs) {
-    return { type, cfgs };
+  addNode(type, cfg) {
+    cfg.group = this.get('nodeGroup') | this.get('group');
+    cfg.graph = this;
+    const node = new Node(type, cfg);
+    this._addItem('nodes', node);
+    return node;
   }
-  addEdge(type, cfgs) {
-    return { type, cfgs };
+  addEdge(type, cfg) {
+    cfg.group = this.get('edgeGroup') || this.get('group');
+    cfg.graph = this;
+    const edge = new Edge(type, cfg);
+    this._addItem('edges', edge);
+    return edge;
   }
-  // move(dx, dy) {}
-  // translate(x, y) {}
-  // zoom(scale, center) {}
-  /**
-   * @param  {string} type item type
-   * @param  {object} model data model
-   * @return {object} shapeObj
-   */
-  getShapeObj(type, model) {
-    return { type, model };
+  _addItem(type, item) {
+    this[type].push(item);
+    this.itemById[item.get('id')] = item;
   }
   /**
    * @return {G.Canvas} canvas
    */
   getCanvas() {
-    return this.get('_canvas');
-  }
-  /**
-   * @return {G.Group} rootGroup
-   */
-  getRootGroup() {
-    return this;
+    return this.get('canvas');
   }
   /**
    * @return {G.Group} itemGroup
@@ -170,14 +172,6 @@ class Graph extends EventEmitter {
   /**
    * @return {Graph} - this
    */
-  reRender() {
-    const data = this.get('_sourceData');
-    this.read(data);
-    return this;
-  }
-  /**
-   * @return {Graph} - this
-   */
   destroy() {
     this.removeEvent();
     this.canvas.destroy();
@@ -192,7 +186,11 @@ class Graph extends EventEmitter {
   save() {
     return this;
   }
-  update(item) {
+  update(item, cfg) {
+    if (Util.isString(item)) {
+      item = this.itemById[item];
+    }
+    item.update(cfg);
     return item;
   }
   /**
