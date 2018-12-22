@@ -6,22 +6,6 @@
 const Util = require('../util/');
 const Shape = require('../shape');
 
-function getCollapsedParent(node, dataMap) {
-  const parent = dataMap[node.parent];
-  if (!parent) {
-    return false;
-  }
-  if (parent) {
-    const rst = getCollapsedParent(parent, dataMap);
-    if (rst) {
-      return rst;
-    }
-  }
-  if (parent.collapsed) {
-    return parent;
-  }
-}
-
 class Item {
   constructor(cfg) {
     const defaultCfg = {
@@ -100,61 +84,59 @@ class Item {
     bbox.centerY = (bbox.minY + bbox.maxY) / 2;
     return bbox;
   }
-
   _setShapeObj() {
     const itemType = this.get('type');
     const factory = Shape.getFactory(itemType);
     const shapeType = this.get('model').type;
     this.set('shapeObj', Shape.getFactory(factory).getShape(shapeType));
   }
+  shouldDraw() {
+    return true;
+  }
+  _beforeDraw() {
+    const graph = this.get('graph');
+    graph.emit('beforeitemdraw', {
+      item: this
+    });
+  }
+  _drawInner() {
+    const shapeObj = this.get('shapeObj');
+    const keyShape = shapeObj.draw(this.get('model'), this);
+    if (keyShape) {
+      keyShape.isKeyShape = true;
+      this.set('keyShape', keyShape);
+    }
+    shapeObj.afterDraw && shapeObj.afterDraw(this);
+  }
   _afterDraw() {
     this.graph.emit('afteritemdraw', {
       item: this
     });
   }
-  _beforeDraw() {
-    const graph = this.graph;
-    const group = this.group;
-    graph.emit('beforeitemdraw', {
-      item: this
-    });
-    group.resetMatrix();
-    this.updateCollapsedParent();
-  }
-  shouldDraw() {
-    return true;
-  }
-  _drawInner() {
-    const animate = this.animate;
-    const group = this.group;
-    group.clear(!animate);
-    this._setShapeObj();
-    const shapeObj = this.shapeObj;
-    const keyShape = shapeObj.draw(this);
-    if (keyShape) {
-      keyShape.isKeyShape = true;
-      this.keyShape = keyShape;
-    }
-    shapeObj.afterDraw && shapeObj.afterDraw(this);
-  }
-  getShapeObj() {
-    return this.shapeObj;
-  }
-  updateCollapsedParent() {
-    const dataMap = this.dataMap;
-    this.collapsedParent = getCollapsedParent(this.model, dataMap);
-  }
   isVisible() {
-    return this.visible;
+    return this.get('visible');
+  }
+  update(cfg) {
+    const shapeObj = this.get('shapeObj');
+    const model = Util.mix({}, this.get('model'), cfg);
+    if (shapeObj.update) {
+      shapeObj.update(cfg, this);
+      this.set('model', model);
+    } else {
+      this.set('model', model);
+      this.draw();
+    }
+    return this;
   }
   draw() {
-    this._beforeDraw();
-    if (this.shouldDraw()) {
-      this._drawInner();
+    if (!this.shouldDraw()) {
+      return;
     }
-    this._afterDraw();
-  }
-  forceUpdate() {
+    const group = this.get('group');
+    const model = this.get('model');
+    group.resetMatrix();
+    group.clear();
+    group.translate(model.x, model.y);
     this._beforeDraw();
     this._drawInner();
     this._afterDraw();
@@ -168,9 +150,6 @@ class Item {
   }
   getBBox() {
     return this.bbox || this._calculateBBox();
-  }
-  update() {
-    this.draw();
   }
   geContainer() {
     return this.get('group');
