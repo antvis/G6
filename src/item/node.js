@@ -24,7 +24,6 @@ class Node extends Item {
     !(diff.length === 1 && (diff[0] === 'x' || diff[0] === 'y')) && superBool;
   }
   _afterDraw() {
-    this.updatePosition();
     super._afterDraw();
   }
   addNeighbor(node) {
@@ -63,6 +62,8 @@ class Node extends Item {
       return edge.get('source') === this;
     });
   }
+  showAnchor() {}
+  hideAnchor() {}
   /**
     * get anchor points, if there is anchors return the points sorted by arc , others return the link point
     * @param {Object | Number} point - start point
