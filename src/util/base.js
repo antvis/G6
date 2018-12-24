@@ -1,3 +1,4 @@
+
 const BaseUtil = {
   deepMix: require('@antv/util/lib/deep-mix'),
   mix: require('@antv/util/lib/mix'),
