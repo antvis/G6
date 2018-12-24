@@ -38,6 +38,10 @@ const defaultArrow = {
   }
 };
 
+Shape.registerFactory('edge', {
+  defaultShapeType: 'line'
+});
+
 Shape.registerEdge('common', {
   draw(item) {
     const keyShape = this.drawKeyShape(item);
