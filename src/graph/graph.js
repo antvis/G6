@@ -80,7 +80,6 @@ class Graph extends EventEmitter {
     this._init();
   }
   _init() {
-    // todo init controllers & G.Canvas etc..
     this._initCanvas();
     const viewController = new Controller.fitView(this);
     this.set('viewController', viewController);
@@ -130,14 +129,12 @@ class Graph extends EventEmitter {
   _drawInner() {}
   _clearInner() {}
   addNode(type, cfg) {
-    cfg.group = this.get('nodeGroup') | this.get('group');
     cfg.graph = this;
     const node = new Node(type, cfg);
     this._addItem('nodes', node);
     return node;
   }
   addEdge(type, cfg) {
-    cfg.group = this.get('edgeGroup') || this.get('group');
     cfg.graph = this;
     const edge = new Edge(type, cfg);
     this._addItem('edges', edge);
