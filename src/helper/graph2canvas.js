@@ -109,9 +109,8 @@ class Graph2Canvas {
       minX: 0,
       minY: 0,
       maxX: width,
-      maxY: height,
-      limitRatio
-    }, graphBBox, padding);
+      maxY: height
+    }, graphBBox, padding, limitRatio);
     this.drawInner(canvas, () => {
       const children = graphCanvas.get('children');
       canvas.set('children', children);
