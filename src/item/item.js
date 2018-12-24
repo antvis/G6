@@ -50,8 +50,14 @@ class Item {
       event: true,
       /**
        * key shape to calculate item's bbox
+       * @type object
        */
-      keyShape: null
+      keyShape: null,
+      /**
+       * item's states, such as selected or active
+       * @type Array
+       */
+      states: []
     };
     this._cfg = Util.mix(defaultCfg, this.getDefaultCfg());
     if (!cfg.id) {
@@ -107,9 +113,22 @@ class Item {
     }
     shapeObj.afterDraw && shapeObj.afterDraw(this);
   }
+  getStates() {
+    return this.get('states');
+  }
   setState(state, enable) {
     const graph = this.get('graph');
+    const states = this.get('states');
     const shapeObj = this.get('shapeObj');
+    const index = states.indexOf(state);
+    if (enable) {
+      if (~index) {
+        return this;
+      }
+      states.push(state);
+    } else if (~index) {
+      states.splice(states.indexOf(state), 1);
+    }
     graph.emit('beforestatechange', { item: this });
     shapeObj.setState && shapeObj.setState(state, enable, this);
     graph.emit('afterstatechange', { item: this });
@@ -118,6 +137,8 @@ class Item {
     this.graph.emit('afteritemdraw', {
       item: this
     });
+    const shapeObj = this.get('shapeObj');
+    shapeObj.afterDraw(this.get('group'), this);
   }
   isVisible() {
     return this.get('visible');
