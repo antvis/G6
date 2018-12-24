@@ -40,6 +40,9 @@ describe('item', () => {
     item.setState('active', false);
     expect(states.length).to.equal(1);
     expect(states[0]).to.equal('selected');
+    item.setState('selected', true);
+    expect(states.length).to.equal(1);
+    expect(states[0]).to.equal('selected');
   });
   it('show & hide', () => {
     const item = new Item({ graph });
