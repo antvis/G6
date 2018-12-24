@@ -65,7 +65,7 @@ class Item {
     }
     this._cfg.model = cfg;
     this.set('id', cfg.id);
-    this.set('parent', cfg.group);
+    this.set('graph', cfg.graph);
     this.init();
   }
   getDefaultCfg() {}
@@ -76,7 +76,9 @@ class Item {
   }
   _initGroup() {
     const self = this;
-    const group = self.get('parent').addGroup({ id: self.get('id') });
+    const graph = self.get('graph');
+    const parent = graph.get(self.get('type') + 'Group') || graph.get('group');
+    const group = parent.addGroup({ id: self.get('id'), model: self.get('model') });
     group.item = this;
     this.set('group', group);
   }
@@ -93,8 +95,10 @@ class Item {
   _setShapeObj() {
     const itemType = this.get('type');
     const factory = Shape.getFactory(itemType);
-    const shapeType = this.get('model').type;
-    this.set('shapeObj', Shape.getFactory(factory).getShape(shapeType));
+    if (factory) {
+      const shapeType = this.get('model').type;
+      this.set('shapeObj', Shape.getFactory(factory).getShape(shapeType));
+    }
   }
   shouldDraw() {
     return true;
@@ -106,6 +110,9 @@ class Item {
   }
   _drawInner() {
     const shapeObj = this.get('shapeObj');
+    if (!shapeObj) {
+      return;
+    }
     const keyShape = shapeObj.draw(this.get('model'), this);
     if (keyShape) {
       keyShape.isKeyShape = true;
@@ -130,15 +137,19 @@ class Item {
       states.splice(states.indexOf(state), 1);
     }
     graph.emit('beforestatechange', { item: this });
-    shapeObj.setState && shapeObj.setState(state, enable, this);
+    if (shapeObj && shapeObj.setState) {
+      shapeObj.setState(state, enable, this);
+    }
     graph.emit('afterstatechange', { item: this });
   }
   _afterDraw() {
-    this.graph.emit('afteritemdraw', {
+    this.get('graph').emit('afteritemdraw', {
       item: this
     });
     const shapeObj = this.get('shapeObj');
-    shapeObj.afterDraw(this.get('group'), this);
+    if (shapeObj && shapeObj.afterDraw) {
+      shapeObj.afterDraw(this.get('group'), this);
+    }
   }
   isVisible() {
     return this.get('visible');
@@ -191,8 +202,8 @@ class Item {
     return this.get('type');
   }
   hide() {
-    const group = this.group;
-    const graph = this.graph;
+    const group = this.get('group');
+    const graph = this.get('graph');
     graph.emit('beforeitemhide', {
       item: this
     });
@@ -227,15 +238,17 @@ class Item {
   }
   destroy() {
     if (!this.destroyed) {
-      const animate = this.animate;
-      const graph = this.graph;
+      const animate = this.get('animate');
+      const graph = this.get('graph');
+      const group = this.get('group');
       graph.emit('beforeitemdestroy', {
         item: this
       });
       if (animate) {
-        this.group.stopAnimate();
+        group.stopAnimate();
       }
-      this.group.remove();
+      group.remove();
+      this._cfg = null;
       this.destroyed = true;
       graph.emit('afteritemdestroy', {
         item: this
