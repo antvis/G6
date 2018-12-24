@@ -12,10 +12,10 @@ const GraphicUtil = {
    * @param  {object} box1 - box1
    * @param  {object} box2 - box2
    * @param  {array} padding - autozoom padding
-   * @param  {function} limitRtio - limit ratio callback
+   * @param  {function} limitRatio - limit ratio callback
    * @return {object} matrix
    */
-  getAutoZoomMatrix(box1, box2, padding, limitRtio) {
+  getAutoZoomMatrix(box1, box2, padding, limitRatio) {
     const matrix = [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ];
     const width = box1.maxX - box1.minX;
     const height = box1.maxY - box1.minY;
@@ -26,7 +26,7 @@ const GraphicUtil = {
     const bWidth = box2.maxX - box2.minX;
     const bHeight = box2.maxY - box2.minY;
     let ratio = Math.min(cHeight / bHeight, cWidth / bWidth);
-    if (limitRtio) ratio = limitRtio(ratio);
+    if (limitRatio) ratio = limitRatio(ratio);
     MathUtil.mat3.translate(matrix, matrix, [ -centerX, -centerY ]);
     MathUtil.mat3.scale(matrix, matrix, [ ratio, ratio ]);
     MathUtil.mat3.translate(matrix, matrix, [ width / 2, height / 2 ]);
