@@ -1,4 +1,4 @@
 module.exports = {
-  FitView: require('./fit-view'),
+  FitView: require('./view'),
   Event: require('./event')
 };
