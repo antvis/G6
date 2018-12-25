@@ -15,20 +15,9 @@ class Node extends Item {
       status: []
     };
   }
-  _shouldDraw() {
-    const diff = this._getDiff();
-    const superBool = super._shouldDraw();
-
-    return diff &&
-    !(diff.length === 2 && diff.indexOf('x') !== -1 && diff.indexOf('y') !== -1) &&
-    !(diff.length === 1 && (diff[0] === 'x' || diff[0] === 'y')) && superBool;
-  }
-  _afterDraw() {
-    super._afterDraw();
-  }
   addNeighbor(node) {
     const adjacent = this.get('adjacent');
-    if (adjacent.indexOf(node) >= 0) {
+    if (adjacent.indexOf(node) < 0) {
       adjacent.push(node);
     }
     return this;
@@ -45,10 +34,9 @@ class Node extends Item {
     return this.get('adjacent');
   }
   getEdges() {
-    const graph = this.graph;
-    const edges = graph.getEdges();
+    const edges = this.get('graph').edges;
     return edges.filter(edge => {
-      const model = edge.getModel();
+      const model = edge.get('model');
       return model.source === this.id || model.target === this.id;
     });
   }
@@ -62,7 +50,9 @@ class Node extends Item {
       return edge.get('source') === this;
     });
   }
-  showAnchor() {}
+  showAnchor() {
+    // todo
+  }
   hideAnchor() {}
   /**
     * get anchor points, if there is anchors return the points sorted by arc , others return the link point
