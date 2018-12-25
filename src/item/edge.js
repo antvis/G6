@@ -32,9 +32,9 @@ class Edge extends Item {
     }
     this.set({ source, target });
     if (source && target) {
-      source.addNeighbor(target);
+      source._addNeighbor(target);
       if (!graph.get('directed')) {
-        target.addNeighbor(source);
+        target._addNeighbor(source);
       }
     }
   }
@@ -177,10 +177,10 @@ class Edge extends Item {
     const source = this.get('source');
     const target = this.get('target');
     if (source) {
-      source.removeNeighbor(target);
+      source._removeNeighbor(target);
     }
     if (!this.get('graph').get('directed')) {
-      target.removeNeighbor(source);
+      target._removeNeighbor(source);
     }
     super.destroy();
   }
