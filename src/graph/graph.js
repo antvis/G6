@@ -81,8 +81,9 @@ class Graph extends EventEmitter {
   }
   _init() {
     this._initCanvas();
-    const viewController = new Controller.fitView(this);
-    this.set('viewController', viewController);
+    const eventController = new Controller.Event(this);
+    const viewController = new Controller.FitView(this);
+    this.set({ eventController, viewController });
     if (this.get('fitView')) {
       viewController.fitView();
     }
@@ -124,19 +125,20 @@ class Graph extends EventEmitter {
     }
     return this;
   }
-  draw() {}
-  render() {}
-  _drawInner() {}
-  _clearInner() {}
-  addNode(type, cfg) {
+  render() {
+    this.emit('beforerender');
+    this.get('canvas').draw();
+    this.emit('afterrender');
+  }
+  addNode(cfg) {
     cfg.graph = this;
-    const node = new Node(type, cfg);
+    const node = new Node(cfg);
     this._addItem('nodes', node);
     return node;
   }
-  addEdge(type, cfg) {
+  addEdge(cfg) {
     cfg.graph = this;
-    const edge = new Edge(type, cfg);
+    const edge = new Edge(cfg);
     this._addItem('edges', edge);
     return edge;
   }
@@ -170,7 +172,7 @@ class Graph extends EventEmitter {
    * @return {Graph} - this
    */
   destroy() {
-    this.removeEvent();
+    this.get('eventController').destroy();
     this.canvas.destroy();
     this.nodes = [];
     this.edges = null;
@@ -318,7 +320,7 @@ class Graph extends EventEmitter {
     const index = items.indexOf(item);
     items.splice(index, 1);
     delete this.itemById[item.get('id')];
-    item.remove();
+    item.destroy();
   }
 }
 

@@ -6,7 +6,7 @@ const div = document.createElement('div');
 div.id = 'graph-spec';
 document.body.appendChild(div);
 
-describe('graph', () => {
+describe.only('graph', () => {
   const graph = new G6.Graph({
     container: div,
     width: 500,
@@ -50,6 +50,7 @@ describe('graph', () => {
     expect(matrix[0]).to.equal(3);
     expect(matrix[4]).to.equal(3);
     expect(graph.getZoom()).to.equal(3);
+    graph.get('group').resetMatrix();
   });
   it('change size', () => {
     const graph = new G6.Graph({
@@ -61,5 +62,24 @@ describe('graph', () => {
     graph.changeSize(300, 300);
     expect(graph.get('width')).to.equal(300);
     expect(graph.get('height')).to.equal(300);
+    graph.destroy();
+  });
+  it('add node', () => {
+    const node = graph.addNode({ type: 'circle', color: '#ccc', style: { x: 50, y: 50, r: 20, lineWidth: 2} });
+    expect(node).not.to.be.undefined;
+    expect(graph.nodes.length).to.equal(1);
+    expect(graph.nodes[0]).to.equal(node);
+    const node2 = graph.addNode({ type: 'rect', id: 'node', color: '#666', style: { x: 100, y: 100, width: 100, height: 70 } });
+    expect(node2).not.to.be.undefined;
+    expect(graph.nodes.length).to.equal(2);
+    expect(graph.nodes[1]).to.equal(node2);
+    graph.removeNode(node);
+    expect(graph.nodes.length).to.equal(1);
+    expect(graph.nodes[0]).to.equal(node2);
+    graph.removeNode('node');
+    expect(graph.nodes.length).to.equal(0);
+  });
+  it('add edge', () => {
+    // TODO
   });
 });
