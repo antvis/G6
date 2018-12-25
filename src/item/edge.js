@@ -7,19 +7,19 @@ const Util = require('../util/');
 const Item = require('./item');
 
 class Edge extends Item {
-  constructor(cfg) {
-    super(cfg);
-    this._setNodes();
-  }
   getDefaultCfg() {
     return {
       type: 'edge'
     };
   }
+  init() {
+    super.init();
+    this._setNodes();
+  }
   _setNodes() {
     const model = this.get('model');
-    let source = model.get('source');
-    let target = model.get('target');
+    let source = model.source;
+    let target = model.target;
     const graph = this.get('graph');
     if (!source || !target) {
       return;
@@ -38,21 +38,6 @@ class Edge extends Item {
       }
     }
   }
-  _beforeDraw() {
-    const model = this.model;
-    const itemMap = this.itemMap;
-    if (!Util.isObject(model.source)) {
-      this.source = itemMap[model.source];
-    } else {
-      this.source = model.source;
-    }
-    if (!Util.isObject(model.target)) {
-      this.target = itemMap[model.target];
-    } else {
-      this.target = model.target;
-    }
-    super._beforeDraw();
-  }
   _afterDraw() {
     if (!this.linkedItemVisible()) {
       this.hide();
@@ -61,10 +46,10 @@ class Edge extends Item {
     super._afterDraw();
   }
   _addArrow() {
-    const model = this.model;
-    const keyShape = this.keyShape;
-    if (keyShape.get('type') === 'path') {
-      const shapeObj = this.shapeObj;
+    const model = this.get('model');
+    const keyShape = this.get('keyShape');
+    if (keyShape.type === 'path') {
+      const shapeObj = this.get('shapeObj');
       const styleEndArrow = keyShape.attr('endArrow');
       const styleStartArrow = keyShape.attr('startArrow');
       const endArrow = model.endArrow || styleEndArrow;
@@ -126,8 +111,8 @@ class Edge extends Item {
     keyShape.attr('path', keyShapePath);
     this[type + 'Arrow'] = marker;
   }
-  _shouldDraw() {
-    return super._shouldDraw() && this.linkedItemVisible();
+  shouldDraw() {
+    return super.shouldDraw() && this.linkedItemVisible();
   }
   _getPoint(point) {
     if (point.isItem) {
@@ -143,11 +128,10 @@ class Edge extends Item {
     };
   }
   linkedItemVisible() {
-    const source = this.source;
-    const target = this.target;
+    const source = this.get('source');
+    const target = this.get('target');
     return Util.isPlainObject(source) || Util.isPlainObject(target)
-    || source.isVisible() || target.isVisible()
-    || (source.collapsedParent !== target.collapsedParent);
+    || source.isVisible() || target.isVisible();
   }
   getSource() {
     const source = this.source;

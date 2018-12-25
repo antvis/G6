@@ -67,12 +67,12 @@ class Item {
     this.set('id', cfg.id);
     this.set('graph', cfg.graph);
     this.init();
+    this.draw();
   }
   getDefaultCfg() {}
   init() {
     this._initGroup();
     this._setShapeObj();
-    this.draw();
   }
   _initGroup() {
     const self = this;
@@ -97,7 +97,7 @@ class Item {
     const factory = Shape.getFactory(itemType);
     if (factory) {
       const shapeType = this.get('model').type;
-      this.set('shapeObj', Shape.getFactory(factory).getShape(shapeType));
+      this.set('shapeObj', factory.getShape(shapeType));
     }
   }
   shouldDraw() {
@@ -113,7 +113,7 @@ class Item {
     if (!shapeObj) {
       return;
     }
-    const keyShape = shapeObj.draw(this.get('model'), this);
+    const keyShape = shapeObj.draw(this.get('model'), this.get('group'));
     if (keyShape) {
       keyShape.isKeyShape = true;
       this.set('keyShape', keyShape);
