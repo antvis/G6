@@ -81,6 +81,14 @@ Please let us know how can we help. Do check out [issues](https://github.com/ant
 
 成为一个贡献者前请阅读 [代码贡献规范](https://github.com/antvis/g6/blob/master/CONTRIBUTING.zh-CN.md).
 
+## 体验改进计划说明
+为了更好服务用户，G6 会将 URL 和版本信息发送回 AntV 服务器：
+https://kcart.alipay.com/web/bi.do
+除了 URL 与 G6 版本信息外，不会收集任何其他信息。如有担心，可以通过下面的代码关闭：
+```js
+// 关闭 G6 的体验改进计划打点请求
+G6.track(false)
+```
 ## License
 
 [MIT license](./LICENSE).
