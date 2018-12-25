@@ -6,6 +6,7 @@
 const EventEmitter = require('@antv/g/lib/').EventEmitter;
 const G = require('@antv/g');
 const Util = require('../util');
+const Global = require('../global');
 const Node = require('../item/node');
 const Edge = require('../item/edge');
 
@@ -106,10 +107,10 @@ class Graph extends EventEmitter {
     });
     this.canvas = canvas;
     const id = canvas.get('el').id;
-    const group = canvas.addGroup({ id: id + '-root' });
+    const group = canvas.addGroup({ id: id + '-root', className: Global.rootContainerClassName });
     if (this.get('groupByTypes')) {
-      const nodeGroup = group.addGroup({ id: id + '-node' });
-      const edgeGroup = group.addGroup({ id: id + '-edge' });
+      const edgeGroup = group.addGroup({ id: id + '-edge', className: Global.edgeContainerClassName });
+      const nodeGroup = group.addGroup({ id: id + '-node', className: Global.nodeContainerClassName });
       this.set({ nodeGroup, edgeGroup });
     }
     this.set({ canvas, group });
