@@ -30,7 +30,7 @@ describe('node', () => {
   it('neighbor', () => {
     const src = new Node({ graph, x: 0, y: 0, id: 'a', color: '#ccc' });
     const target = new Node({ graph, x: 50, y: 50, id: 'b', color: '#333' });
-    src.addNeighbor(target);
+    src._addNeighbor(target);
     expect(src.getNeighbors().length).to.equal(1);
     expect(src.getNeighbors()[0]).to.equal(target);
     expect(src.getEdges().length).to.equal(0);
