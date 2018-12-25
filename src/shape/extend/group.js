@@ -1,8 +1,11 @@
 const Util = require('../../util');
 const Group = require('@antv/g/lib').Group;
 
-Util.augment(Group, {
+module.exports = Util.augment(Group, {
   findByClassName(className) {
-    // todo
+    return this.find(function(shape) {
+      return shape.get('className') === className;
+    });
   }
 });
+

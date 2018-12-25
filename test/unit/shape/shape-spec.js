@@ -69,7 +69,7 @@ describe('shape test', () => {
     }, 't3');
     expect(factory.shouldUpdate('t4')).eql(true);
     factory.update('t4');
-    expect(isUpdate).to.be.false;
+    expect(isUpdate).to.be.true;
   });
 
 
