@@ -5,6 +5,9 @@
 
 module.exports = {
   nodeSize: 40,
+  rootContainerClassName: 'root-container',
+  nodeContainerClassName: 'node-container',
+  edgeContainerClassName: 'edge-container',
   edgeSize: 2,
   nodeLabel: {
     style: {
