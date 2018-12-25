@@ -92,7 +92,7 @@
     "demos-web": "node ./demos/app.js --web --port 2046",
     "dev": "npm run watch & npm run demos-web",
     "publish": "node ./bin/publish.js",
-    "lint": "eslint --ext .js ./src",
+    "lint": "eslint --ext .js ./src,./test",
     "cdn": "antv-bin upload -n @antv/g6",
     "lint-fix": "eslint --ext .html,.js --fix ./src,./test",
     "prepublishOnly": "npm run build-lib && npm run build",
