@@ -15,14 +15,14 @@ class Node extends Item {
       status: []
     };
   }
-  addNeighbor(node) {
+  _addNeighbor(node) {
     const adjacent = this.get('adjacent');
     if (adjacent.indexOf(node) < 0) {
       adjacent.push(node);
     }
     return this;
   }
-  removeNeighbor(node) {
+  _removeNeighbor(node) {
     const adjacent = this.get('adjacent');
     const i = adjacent.indexOf(node);
     if (i >= 0) {
