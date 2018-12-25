@@ -25,6 +25,12 @@ describe('graph', () => {
     expect(length > 1).to.be.true;
     expect(inst.get('canvas')).not.to.be.undefined;
     expect(inst.get('group')).not.to.be.undefined;
+    expect(inst.get('group').get('className')).to.equal('root-container');
+    expect(inst.get('group').get('id').endsWith('-root')).to.be.true;
+    const children = inst.get('group').get('children');
+    expect(children.length).to.equal(2);
+    expect(children[1].get('className')).to.equal('node-container');
+    expect(children[0].get('className')).to.equal('edge-container');
     inst.destroy();
     expect(inst.canvas.destroyed);
     expect(length - div.childNodes.length).to.equal(1);
