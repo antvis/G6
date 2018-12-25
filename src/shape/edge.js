@@ -1,43 +1,17 @@
 /**
- * @fileOverview edge shapes
- * @author huangtonger@aliyun.com
+ * @fileOverview 自定义边
+ * @description 自定义边中有大量逻辑同自定义节点重复，虽然可以提取成为 mixin ，但是考虑到代码的可读性，还是单独实现。
+ * @author dxq613@gmail.com
  */
 
 const Shape = require('./shape');
 const Util = require('../util/index');
 const Global = require('../global');
-const MIN_ARROW_SIZE = 3;
-const defaultArrow = {
-  path(item) {
-    const keyShape = item.getKeyShape();
-    let lineWidth = keyShape.attr('lineWidth');
-    lineWidth = lineWidth > MIN_ARROW_SIZE ? lineWidth : MIN_ARROW_SIZE;
-    const width = lineWidth * 10 / 3;
-    const halfHeight = lineWidth * 4 / 3;
-    const radius = lineWidth * 4;
-    return [
-      [ 'M', -width, halfHeight ],
-      [ 'L', 0, 0 ],
-      [ 'L', -width, -halfHeight ],
-      [ 'A', radius, radius, 0, 0, 1, -width, halfHeight ],
-      [ 'Z' ]
-    ];
-  },
-  shorten(item) {
-    const keyShape = item.getKeyShape();
-    const lineWidth = keyShape.attr('lineWidth');
-    return (lineWidth > MIN_ARROW_SIZE ? lineWidth : MIN_ARROW_SIZE) * 3.1;
-  },
-  style(item) {
-    const keyShape = item.getKeyShape();
-    const { strokeOpacity, stroke } = keyShape.attr();
-    return {
-      fillOpacity: strokeOpacity,
-      fill: stroke
-    };
-  }
-};
+const SingleShapeMixin = require('./single-shape-mixin');
+const CLS_SHAPE = 'edge-shape';
+// const NEXT_POINT_PERCENT = 0.01;
 
+<<<<<<< HEAD
 Shape.registerFactory('edge', {
   defaultShapeType: 'line'
 });
@@ -51,111 +25,156 @@ Shape.registerEdge('common', {
   drawKeyShape(item) {
     const group = item.getGraphicGroup();
     const style = this.getStyle(item);
+=======
+// 注册 Node 的工厂方法
+Shape.registerFactory('edge', {
+  defaultShapeType: 'line'
+});
+>>>>>>> feat(edge): add edge
 
-    const path = this.getPath(item);
-    return group.addShape('path', {
-      attrs: Util.mix({}, style, {
-        path
-      })
-    });
-  },
-  getStyle(item) {
-    const model = item.getModel();
-    return Util.mix(true, {}, {
-      stroke: model.color || '#A3B1BF',
-      strokeOpacity: 0.92,
-      lineAppendWidth: 4,
-      lineWidth: model.size || 1
-    }, model.style);
-  },
-  getPath(item) {
-    const points = item.getPoints();
-    return Util.pointsToPolygon(points);
-  },
-  getLabel(item) {
-    const model = item.getModel();
-    return model.label;
-  },
-  getDefaultLabelRectStyle(/* item*/) {
-    return {
-      fill: 'white'
-    };
-  },
-  getDefaultLabelRectPadding(/* item*/) {
-    return Util.toAllPadding([ 4, 8 ]);
-  },
-  drawLabel(item, keyShape) {
-    let label = this.getLabel(item);
-    const group = item.getGraphicGroup();
-    const model = item.getModel();
-    const { labelOffsetX, labelOffsetY, labelRotate } = model;
-    if (label) {
-      const center = keyShape.getPoint(0.5);
-      if (!center) {
-        return;
-      }
-      center.x = labelOffsetX ? center.x + labelOffsetX : center.x;
-      center.y = labelOffsetY ? center.y + labelOffsetY : center.y;
-      const attrs = Util.mix(true, {}, Global.labelStyle, center);
-
-      if (!Util.isObject(label)) {
-        attrs.text = label;
+const singleEdgeDefinition = Util.mix({}, SingleShapeMixin, {
+  itemType: 'edge',
+  labelPosition: 'center', // start, left, center
+  /**
+   * 获取边的 path
+   * @internal 供扩展的边覆盖
+   * @param  {Array} points 构成边的点的集合
+   * @return {Array} 构成 path 的数组
+   */
+  getPath(points) {
+    const path = [];
+    Util.each(points, (point, index) => {
+      if (index === 0) {
+        path.push([ 'M', point.x, point.y ]);
       } else {
-        Util.mix(attrs, label);
+        path.push([ 'L', point.x, point.y ]);
       }
-      label = group.addShape('text', {
-        class: 'label',
-        attrs
-      });
-      const padding = this.getDefaultLabelRectPadding(item);
-      const defaultStyle = this.getDefaultLabelRectStyle(item);
-      const textBox = label.getBBox();
-      const style = model.labelRectStyle ? Util.mix({}, defaultStyle, model.labelRectStyle) : defaultStyle;
-      const rect = group.addShape('rect', {
-        attrs: Util.mix({}, style, {
-          x: textBox.minX - padding[3],
-          y: textBox.minY - padding[0],
-          width: textBox.maxX - textBox.minX + padding[1] + padding[3],
-          height: textBox.maxY - textBox.minY + padding[0] + padding[2]
-        })
-      });
-      if (labelRotate) {
-        const centerX = (textBox.maxX + textBox.minX) / 2;
-        const centerY = (textBox.maxY + textBox.minY) / 2;
+    });
+    return path;
+  },
+  getShapeStyle(cfg) {
+    const color = cfg.color || Global.edgeColor;
+    const size = cfg.size;
+    const startPoint = cfg.startPoint;
+    const endPoint = cfg.endPoint;
+    const controlPoints = this.getControlPoints(cfg);
+    let points = [ startPoint ]; // 添加起始点
+    // 添加控制点
+    if (controlPoints) {
+      points = points.concat(controlPoints);
+    }
+    // 添加结束点
+    points.push(endPoint);
 
-        // labelRotate
-        label.transform([
-          [ 't', -centerX, -centerY ],
-          [ 'r', labelRotate, labelRotate ],
-          [ 't', centerX, centerY ]
-        ]);
-        rect.transform([
-          [ 't', -centerX, -centerY ],
-          [ 'r', labelRotate, labelRotate ],
-          [ 't', centerX, centerY ]
-        ]);
+    const path = this.getPath(points);
+    const style = Util.mix({}, {
+      stroke: color,
+      lineWidth: size,
+      path
+    }, cfg.style);
+    return style;
+  },
+  getLabelStyleByPosition(cfg, group) {
+    const labelPosition = cfg.labelPosition || this.labelPosition; // 文本的位置用户可以传入
+    const style = {};
+    const pathShape = group.findByClassName(CLS_SHAPE);
+    if (pathShape) {
+      let pointPercent;
+      if (labelPosition === 'start') {
+        pointPercent = 0;
+      } else if (labelPosition === 'end') {
+        pointPercent = 1;
+      } else {
+        pointPercent = 0.5;
       }
-      Util.toFront(label);
+      const point = pathShape.getPoint(pointPercent);
+      const { refX, refY } = Global.edgeLabel; // 默认的偏移量
+      style.x = point.x + refX;
+      style.y = point.y + refY;
+      // TO DO 文本对齐方式
+      // TO DO 文本的自动旋转
+
     }
+    return style;
   },
-  startArrow: {
-    ...defaultArrow,
-    tangent(item) {
-      const keyShape = item.getKeyShape();
-      return keyShape.getStartTangent();
-    },
-    ratio() {
-      return 0;
-    }
+  /**
+   * @internal 获取边的控制点
+   * @param  {Object} cfg 边的配置项
+   * @return {Array} 控制点的数组
+   */
+  getControlPoints(cfg) {
+    return cfg.controlPoints;
   },
-  endArrow: {
-    ...defaultArrow,
-    tangent(item) {
-      const keyShape = item.getKeyShape();
-      return keyShape.getEndTangent();
-    },
-    ratio() {
-      return 1;
-    }
+  /**
+   * 绘制边
+   * @override
+   * @param  {Object} cfg   边的配置项
+   * @param  {G.Group} group 边的容器
+   * @return {G.Shape} 图形
+   */
+  drawShape(cfg, group) {
+    const shapeStyle = this.getShapeStyle(cfg);
+    const shape = group.addShape('path', {
+      className: CLS_SHAPE,
+      attrs: shapeStyle
+    });
+    return shape;
   }
 });
+
+// 直线
+Shape.registerEdge('single-line', singleEdgeDefinition);
+
+// 直线, 不支持控制点
+Shape.registerEdge('line', {
+  // 控制点不生效
+  getControlPoints() {
+    return [];
+  }
+}, 'single-line');
+
+// 折线，支持多个控制点
+Shape.registerEdge('polyline', {}, 'single-line');
+
+// 直线
+Shape.registerEdge('spline', {
+  getPath(points) {
+    const path = [];
+    Util.each(points, (point, index) => {
+      if (index === 0) {
+        path.push([ 'M', point.x, point.y ]);
+      } else {
+        path.push([ 'L', point.x, point.y ]);
+      }
+    });
+    return Util.catmullRomToBezier(path);
+  }
+}, 'single-line');
+
+Shape.registerEdge('quadratic', {
+  getPath(points) {
+    const path = [];
+    path.push([ 'M', points[0].x, points[0].y ]);
+    if (points.length < 3) { // 如果只有两个点，则直接使用直线，不可能小于两个点
+      path.push([ 'L', points[1].x, points[1].y ]);
+    } else {
+      path.push([ 'Q', points[1].x, points[1].y, points[2].x, points[2].y ]);
+    }
+    return path;
+  }
+}, 'single-line');
+
+Shape.registerEdge('cubic', {
+  getPath(points) {
+    const path = [];
+    path.push([ 'M', points[0].x, points[0].y ]);
+    if (points.length < 4) {
+      for (let i = 1; i < points.length; i++) {
+        path.push([ 'L', points[i].x, points[i].y ]);
+      }
+    } else {
+      path.push([ 'C', points[1].x, points[1].y, points[2].x, points[2].y, points[3].x, points[3].y ]);
+    }
+    return path;
+  }
+}, 'single-line');
