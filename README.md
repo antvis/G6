@@ -77,6 +77,15 @@ Please let us know how can we help. Do check out [issues](https://github.com/ant
 
 To become a contributor, please follow our [contributing guide](https://github.com/antvis/g6/blob/master/CONTRIBUTING.md).
 
+## Experience Improvement
+To better serve the users, G6 sends URL and version infomation back to AntV server:
+https://kcart.alipay.com/web/bi.do
+We will never collect other information. If you are worried about that, close it by:
+
+```js
+G6.track(false);
+```
+
 ## License
 
 [MIT license](./LICENSE).
