@@ -69,7 +69,6 @@ class Event {
     if (itemShape !== canvas) {
       const item = itemShape.item;
       e.target = item;
-      console.log(item.getType() + ':' + e.type);
       graph.emit(item.getType() + ':' + e.type, e);
     }
   }
