@@ -18,6 +18,8 @@ const BaseUtil = {
   isNumber: require('@antv/util/lib/type/is-number'),
   isString: require('@antv/util/lib/type/is-string'),
   uniqueId: require('@antv/util/lib/unique-id'),
+  addEventListener: require('@antv/util/lib/dom/add-event-listener'),
+  wrapBehavior: require('@antv/util/lib/event/wrap-behavior'),
   /**
    * traverse tree
    * @param  {object}      parent      parent
