@@ -153,15 +153,6 @@ class Graph extends EventEmitter {
     return this.get('canvas');
   }
   /**
-   * @return {G.Group} itemGroup
-   */
-  getContainer() {
-    return this.get('group');
-  }
-  getBBox() {
-    return this.get('group').getBBox();
-  }
-  /**
    * @param  {object} data source data
    * @return {Graph} this
    */

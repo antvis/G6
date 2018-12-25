@@ -6,7 +6,7 @@
 
 const Util = require('../../util');
 
-class FitView {
+class View {
   constructor(graph) {
     const defaultCfg = {
       /**
@@ -114,7 +114,7 @@ Mixin.AUGMENT = {
     }
     const width = this.get('width');
     const height = this.get('height');
-    const box = this.getBBox();
+    const box = this.graph.get('group').getBBox();
     const matrix = Util.getAutoZoomMatrix({
       minX: 0,
       minY: 0,
@@ -323,4 +323,4 @@ Mixin.AUGMENT = {
     return this;
   }
 };
-module.exports = FitView;
+module.exports = View;
