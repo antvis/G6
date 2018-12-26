@@ -84,7 +84,8 @@ class Graph extends EventEmitter {
     this._initCanvas();
     const eventController = new Controller.Event(this);
     const viewController = new Controller.FitView(this);
-    this.set({ eventController, viewController });
+    const modeController = new Controller.Mode(this);
+    this.set({ eventController, viewController, modeController });
     if (this.get('fitView')) {
       viewController.fitView();
     }
@@ -259,6 +260,22 @@ class Graph extends EventEmitter {
   }
   fitView() {
     this.get('viewController').fitView();
+  }
+  addBehaviors(behaviors, modes) {
+    this.get('modeController').manipulateBehaviors(behaviors, modes, true);
+    return this;
+  }
+  removeBehaviors(behaviors, modes) {
+    this.get('modeController').manipulateBehaviors(behaviors, modes, false);
+    return this;
+  }
+  setMode(mode) {
+    this.set('mode', mode);
+    this.get('modeController').setMode(mode);
+    return this;
+  }
+  currentMode() {
+    return this.get('mode');
   }
   getZoom() {
     return this.get('group').getMatrix()[0];
