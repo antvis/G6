@@ -7,7 +7,7 @@ const Util = require('../util/');
 const Shape = require('../shape');
 
 class Item {
-  constructor(cfg) {
+  constructor(cfg, group) {
     const defaultCfg = {
       /**
        * id
@@ -62,25 +62,17 @@ class Item {
     this._cfg = Util.mix(defaultCfg, this.getDefaultCfg());
     if (!cfg.id) {
       cfg.id = Util.uniqueId();
+      group.set('id', cfg.id);
     }
     this._cfg.model = cfg;
     this.set('id', cfg.id);
-    this.set('graph', cfg.graph);
+    this.set('group', group);
+    group.item = this;
     this.init();
     this.draw();
   }
   getDefaultCfg() {}
   init() {
-    this._initGroup();
-    this._setShapeObj();
-  }
-  _initGroup() {
-    const self = this;
-    const graph = self.get('graph');
-    const parent = graph.get(self.get('type') + 'Group') || graph.get('group');
-    const group = parent.addGroup({ id: self.get('id'), model: self.get('model') });
-    group.item = this;
-    this.set('group', group);
   }
   _calculateBBox() {
     const keyShape = this.get('keyShape');
@@ -92,92 +84,68 @@ class Item {
     bbox.centerY = (bbox.minY + bbox.maxY) / 2;
     return bbox;
   }
-  _setShapeObj() {
-    const itemType = this.get('type');
-    const factory = Shape.getFactory(itemType);
-    if (factory) {
-      const shapeType = this.get('model').type;
-      this.set('shapeObj', factory.getShape(shapeType));
-    }
-  }
-  shouldDraw() {
-    return true;
-  }
-  _beforeDraw() {
-    this.get('graph').emit('beforeitemdraw', {
-      item: this
-    });
-  }
   _drawInner() {
-    const shapeObj = this.get('shapeObj');
-    if (!shapeObj) {
+    const shapeFactory = Shape.getFactory(this.getType());
+    const group = this.get('group');
+    const model = this.get('model');
+    group.clear();
+    group.resetMatrix();
+    group.translate(model.x, model.y);
+    if (!shapeFactory) {
       return;
     }
-    const keyShape = shapeObj.draw(this.get('model'), this.get('group'));
+    const keyShape = shapeFactory.draw(model.type, model, group);
     if (keyShape) {
       keyShape.isKeyShape = true;
       this.set('keyShape', keyShape);
     }
-    shapeObj.afterDraw && shapeObj.afterDraw(this);
   }
   getStates() {
     return this.get('states');
   }
   setState(state, enable) {
-    const graph = this.get('graph');
     const states = this.get('states');
-    const shapeObj = this.get('shapeObj');
+    const shapeFactory = Shape.getFactory(this.getType());
     const index = states.indexOf(state);
     if (enable) {
-      if (~index) {
+      if (index > -1) {
         return this;
       }
       states.push(state);
-    } else if (~index) {
+    } else if (index > -1) {
       states.splice(states.indexOf(state), 1);
     }
-    graph.emit('beforestatechange', { item: this });
-    if (shapeObj && shapeObj.setState) {
-      shapeObj.setState(state, enable, this);
-    }
-    graph.emit('afterstatechange', { item: this });
-  }
-  _afterDraw() {
-    this.get('graph').emit('afteritemdraw', {
-      item: this
-    });
-    const shapeObj = this.get('shapeObj');
-    if (shapeObj && shapeObj.afterDraw) {
-      shapeObj.afterDraw(this.get('group'), this);
+    if (shapeFactory && shapeFactory.setState) {
+      shapeFactory.setState(this.get('model').type, state, enable, this);
     }
   }
+  getContainer() {
+    return this.get('group');
+  }
+  beforeDraw() {}
+  afterDraw() {}
   isVisible() {
     return this.get('visible');
   }
   update(cfg) {
-    const shapeObj = this.get('shapeObj');
-    const model = Util.mix({}, this.get('model'), cfg);
-    if (shapeObj.update) {
-      shapeObj.update(cfg, this);
-      this.set('model', model);
+    const shapeFactory = Shape.getFactory(this.getType());
+    const model = this.get('model');
+    const type = this.get('model').type;
+    const newModel = Util.mix({}, model, cfg);
+
+    if (shapeFactory.update && (!cfg.type || cfg.type === type)) {
+      shapeFactory.update(type, cfg, this);
+      this.set('model', newModel);
     } else {
-      this.set('model', model);
+      this.set('model', newModel);
       this.draw();
     }
     return this;
   }
   draw() {
-    if (!this.shouldDraw()) {
-      return;
-    }
-    const group = this.get('group');
-    const model = this.get('model');
-    group.resetMatrix();
-    group.clear();
-    group.translate(model.x, model.y);
-    this._beforeDraw();
+    this.beforeDraw();
     this._drawInner();
-    this._afterDraw();
+    this.afterDraw();
   }
   getCenter() {
     const bbox = this.getBBox();
@@ -202,28 +170,19 @@ class Item {
     return this.get('type');
   }
   hide() {
-    const group = this.get('group');
-    const graph = this.get('graph');
-    graph.emit('beforeitemhide', {
-      item: this
-    });
-    group.hide();
-    this.set('visible', false);
-    graph.emit('afteritemhide', {
-      item: this
-    });
+    this._changeVisible(false);
   }
   show() {
+    this._changeVisible(true);
+  }
+  _changeVisible(visible) {
     const group = this.get('group');
-    const graph = this.get('graph');
-    graph.emit('beforeitemshow', {
-      item: this
-    });
-    group.show();
-    this.set('visible', true);
-    graph.emit('afteritemshow', {
-      item: this
-    });
+    if (visible) {
+      group.show();
+    } else {
+      group.hide();
+    }
+    this.set('visible', visible);
   }
   get(key) {
     return this._cfg[key];
@@ -239,20 +198,13 @@ class Item {
   destroy() {
     if (!this.destroyed) {
       const animate = this.get('animate');
-      const graph = this.get('graph');
       const group = this.get('group');
-      graph.emit('beforeitemdestroy', {
-        item: this
-      });
       if (animate) {
         group.stopAnimate();
       }
       group.remove();
       this._cfg = null;
       this.destroyed = true;
-      graph.emit('afteritemdestroy', {
-        item: this
-      });
     }
   }
 }
