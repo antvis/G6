@@ -131,15 +131,34 @@ class Graph extends EventEmitter {
     this.get('canvas').draw();
     this.emit('afterrender');
   }
-  addNode(cfg) {
-    cfg.graph = this;
-    const node = new Node(cfg);
+  updateNode(node, cfg) {
+    return this._updateItem(node, cfg);
+  }
+  updateEdge(edge, cfg) {
+    return this._updateItem(edge, cfg);
+  }
+  _updateItem(item, cfg) {
+    if (Util.isString(item)) {
+      item = this.itemById[item];
+    }
+    item.update(cfg);
+    return item;
+  }
+  addNode(model) {
+    const parent = this.get('nodeGroup') || this.get('group');
+    const node = new Node(model, parent.addGroup());
     this._addItem('nodes', node);
     return node;
   }
-  addEdge(cfg) {
-    cfg.graph = this;
-    const edge = new Edge(cfg);
+  addEdge(model) {
+    const parent = this.get('edgeGroup') || this.get('group');
+    if (Util.isString(model.source)) {
+      model.source = this.itemById[model.source];
+    }
+    if (Util.isString(model.target)) {
+      model.target = this.itemById[model.target];
+    }
+    const edge = new Edge(model, parent.addGroup());
     this._addItem('edges', edge);
     return edge;
   }
