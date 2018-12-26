@@ -18,25 +18,14 @@ class Edge extends Item {
   }
   _setNodes() {
     const model = this.get('model');
-    let source = model.source;
-    let target = model.target;
-    const graph = this.get('graph');
+    const source = model.source;
+    const target = model.target;
     if (!source || !target) {
       return;
     }
-    if (Util.isString(source)) {
-      source = graph.itemById[source];
-    }
-    if (Util.isString(target)) {
-      target = graph.itemById(target);
-    }
     this.set({ source, target });
-    if (source && target) {
-      source._addNeighbor(target);
-      if (!graph.get('directed')) {
-        target._addNeighbor(source);
-      }
-    }
+    source._addEdge(this);
+    target._addEdge(this);
   }
   _afterDraw() {
     if (!this.linkedItemVisible()) {
@@ -110,9 +99,6 @@ class Edge extends Item {
     }
     keyShape.attr('path', keyShapePath);
     this[type + 'Arrow'] = marker;
-  }
-  shouldDraw() {
-    return super.shouldDraw() && this.linkedItemVisible();
   }
   _getPoint(point) {
     if (point.isItem) {
