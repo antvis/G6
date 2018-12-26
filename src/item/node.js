@@ -11,42 +11,35 @@ class Node extends Item {
     return {
       type: 'node',
       anchors: [],
-      adjacent: [],
+      edges: [],
       status: []
     };
   }
-  _addNeighbor(node) {
-    const adjacent = this.get('adjacent');
-    if (adjacent.indexOf(node) < 0) {
-      adjacent.push(node);
-    }
-    return this;
-  }
-  _removeNeighbor(node) {
-    const adjacent = this.get('adjacent');
-    const i = adjacent.indexOf(node);
-    if (i >= 0) {
-      adjacent.splice(i, 1);
-    }
-    return this;
-  }
   getNeighbors() {
-    return this.get('adjacent');
+    const nodes = [];
+    let node = null;
+    Util.each(this.get('edges'), (edge) => {
+      if (edge.get('source') === this) {
+        node = edge.get('target');
+      } else {
+        node = edge.get('source');
+      }
+      if (nodes.indexOf(node) < 0) {
+        nodes.push(node);
+      }
+    });
+    return nodes;
   }
   getEdges() {
-    const edges = this.get('graph').edges;
-    return edges.filter(edge => {
-      const model = edge.get('model');
-      return model.source === this.id || model.target === this.id;
-    });
+    return this.get('edges');
   }
   getInEdges() {
-    return this.getEdges().filter(edge => {
+    return this.get('edges').filter(edge => {
       return edge.get('target') === this;
     });
   }
   getOutEdges() {
-    return this.getEdges().filter(edge => {
+    return this.get('edges').filter(edge => {
       return edge.get('source') === this;
     });
   }
@@ -114,6 +107,9 @@ class Node extends Item {
         });
     }
     return points;
+  }
+  _addEdge(edge) {
+    this.get('edges').push(edge);
   }
   /**
    * get position of anchor points
