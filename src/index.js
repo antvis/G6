@@ -6,6 +6,7 @@
 const Global = require('./global');
 const G = require('@antv/g/lib');
 const Shape = require('./shape');
+const Behaviors = require('./behavior');
 
 const G6 = {
   Graph: require('./graph/graph'),
@@ -15,6 +16,7 @@ const G6 = {
   Shape,
   registerNode: Shape.registerNode,
   registerEdge: Shape.registerEdge,
+  registerBehavior: Behaviors.registerBehavior,
   version: '3.0.0-beta.1'
 };
 

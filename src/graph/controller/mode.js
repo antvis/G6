@@ -2,66 +2,94 @@
  * @fileOverview mode
  * @author wuyue.lwy <wyueliu@gmail.com>
  */
+const Util = require('../../util');
+const Behaviors = require('../../behavior');
 
-const Mode = function() {};
-Mode.CFG = {
-  /**
-    * mode list  key - value, key - mode name, value - behaviors
-    * @type {object}
-    */
-  modes: {
-    default: []
-  },
+function mergeBehaviors(modeBehaviors, behaviors) {
+  Util.each(behaviors, behavior => {
+    if (modeBehaviors.indexOf(behavior) < 0) {
+      modeBehaviors.push(behavior);
+    }
+  });
+  return modeBehaviors;
+}
 
-  /**
-    * current mode name
-    * @type {string}
-    */
-  mode: 'default',
-  // event cache
-  _eventCache: {}
-};
+function filterBehaviors(modeBehaviors, behaviors) {
+  return modeBehaviors.filter(behavior => {
+    return behaviors.indexOf(behavior) < 0;
+  });
+}
 
-Mode.INIT = '_initModes';
-Mode.AUGMENT = {
-  _initModes() {
-    const mode = this.get('mode');
-    this.changeMode(mode);
-  },
-  /**
-    * change mode
-    * @param {string} modeName - name of mode
-    */
-  changeMode() {},
-  /**
-    * add behavior to the current mode
-    * @param {Array | String} behaviour - add a behaviour or a list behaviours to the mode
-    * @param {String} mode - if not set use current mode
-    * @return {object} - graph object
-    */
-  addBehaviour(behaviour, mode) {
-    return { behaviour, mode };
-  },
-  /**
-    * remove behavior from the current mode
-    * @param {Array | String} behaviour - a behaviour or a list behaviours
-    * @return {object} this
-    */
-  removeBehaviour(behaviour) {
-    return behaviour;
-  },
-  /**
-    * add a behaviour
-    * @param {string} type - behaviour type
-    * @param {function} fn - behaivour body
-    * @return {object} this
-    */
-  behaviourOn(type, fn) {
-    return { type, fn };
-  },
-  /**
-    * remove all behaviours added by user
-    */
-  _off() {}
-};
+class Mode {
+  constructor(graph) {
+    const self = this;
+    this.graph = graph;
+    const modes = graph.get('modes');
+    if (modes) {
+      self.modes = {};
+      Util.each(modes, mode => {
+        self.modes[mode] = [];
+      });
+    } else {
+      self.modes = {
+        default: []
+      };
+    }
+    this.mode = 'default';
+  }
+  setMode(mode) {
+    const modes = this.modes;
+    const graph = this.graph;
+    const behaviors = modes[mode];
+    let behavior;
+    if (!behaviors) {
+      return;
+    }
+    graph.emit('beforemodechange', { mode });
+    Util.each(modes[this.mode], name => {
+      behavior = Behaviors.getBehavior(name);
+      behavior && behavior.unbind && behavior.unbind(graph);
+    });
+    Util.each(modes[mode], name => {
+      behavior = Behaviors.getBehavior(name);
+      behavior && behavior.bind && behavior.bind(graph);
+    });
+    graph.emit('aftermodechange', { mode });
+    this.mode = mode;
+    return this;
+  }
+  manipulateBehaviors(behaviors, modes, add) {
+    const self = this;
+    if (!Util.isArray(behaviors)) {
+      behaviors = [ behaviors ];
+    }
+    if (Util.isArray(modes)) {
+      Util.each(modes, mode => {
+        if (!self.modes[mode]) {
+          if (add) {
+            self.modes[mode] = [].concat(behaviors);
+          }
+        } else {
+          if (add) {
+            self.modes[mode] = mergeBehaviors(self.modes[mode], behaviors);
+          } else {
+            self.modes[mode] = filterBehaviors(self.modes[mode], behaviors);
+          }
+        }
+      });
+      return this;
+    }
+    if (!modes) {
+      modes = this.mode;
+    }
+    if (add) {
+      self.modes[modes] = mergeBehaviors(self.modes[modes], behaviors);
+    } else {
+      self.modes[modes] = filterBehaviors(self.modes[modes], behaviors);
+    }
+    self.setMode(this.mode);
+    return this;
+  }
+}
+
 module.exports = Mode;
