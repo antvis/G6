@@ -5,7 +5,7 @@
 const version = require('./version');
 
 module.exports = {
-  track: true,
+  track: false,
   defaultNodeSize: 40,
   labelStyle: {
     fill: '#595959',
