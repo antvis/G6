@@ -12,11 +12,6 @@ const div = document.createElement('div');
 div.id = 'node-shape';
 document.body.appendChild(div);
 
-Group.prototype.findByClassName = function(className) {
-  return this.find(function(shape) {
-    return shape.get('className') === className;
-  });
-};
 const canvas = new Canvas({
   containerId: 'node-shape',
   width: 500,
@@ -34,7 +29,6 @@ describe('shape node test', () => {
       const shape = factory.getShape();
       expect(shape.type).eql('circle');
     });
-
   });
 
   describe('nodes test', () => {
