@@ -203,7 +203,9 @@ describe('shape node test', () => {
 				size: [60, 20],
 				color: 'green',
 				label: 'ellipse position',
-				labelPosition: 'top'
+				labelCfg: {
+					position: 'top'
+				}
 			}, group);
 			const item = {
 				getContainer: function() {
@@ -221,7 +223,9 @@ describe('shape node test', () => {
 				size: [60, 20],
 				color: 'green',
 				label: 'ellipse position',
-				labelPosition: 'left'
+				labelCfg: {
+					position: 'left'
+				}
 			},item);
 			expect(label.attr('y')).eql(0);
 			expect(label.attr('x')).eql(-30 - Global.nodeLabel.offset);
@@ -230,7 +234,9 @@ describe('shape node test', () => {
 				size: [60, 20],
 				color: 'green',
 				label: 'ellipse position',
-				labelPosition: 'right'
+				labelCfg: {
+					position: 'right'
+				}
 			},item);
 			expect(label.attr('y')).eql(0);
 			expect(label.attr('x')).eql(30 + Global.nodeLabel.offset);
