@@ -48,7 +48,7 @@ describe('event', () => {
   it('g event on shape', () => {
     let target = null;
     const canvas = graph.get('canvas');
-    const node = graph.addNode({ type: 'circle', color: '#ccc', style: { x: 50, y: 50, r: 20, lineWidth: 2 } });
+    const node = graph.add('node', { type: 'circle', color: '#ccc', style: { x: 50, y: 50, r: 20, lineWidth: 2 } });
     const shape = node.get('group').get('children')[0];
     graph.on('node:mousedown', e => { target = e.target; });
     canvas.emit('mousedown', { type: 'mousedown', target: shape });
