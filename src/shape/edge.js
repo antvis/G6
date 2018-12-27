@@ -9,7 +9,19 @@ const Util = require('../util/index');
 const Global = require('../global');
 const SingleShapeMixin = require('./single-shape-mixin');
 const CLS_SHAPE = 'edge-shape';
-// const NEXT_POINT_PERCENT = 0.01;
+const vec2 = Util.vec2;
+const DIFF_POINT_PERCENT = 0.01; // 计算切线使用
+
+// start,end 倒置，center 不变
+function revertAlign(labelPosition) {
+  let textAlign = labelPosition;
+  if (labelPosition === 'start') {
+    textAlign = 'end';
+  } else if(labelPosition === 'end') {
+    textAlign = 'start';
+  }
+  return textAlign;
+}
 
 <<<<<<< HEAD
 Shape.registerFactory('edge', {
@@ -34,7 +46,16 @@ Shape.registerFactory('edge', {
 
 const singleEdgeDefinition = Util.mix({}, SingleShapeMixin, {
   itemType: 'edge',
-  labelPosition: 'center', // start, left, center
+  /**
+   * 文本的位置
+   * @type {String}
+   */
+  labelPosition: 'center', // start, end, center
+  /**
+   * 文本是否跟着线自动旋转，默认 false
+   * @type {Boolean}
+   */
+  labelAutoRotate: false,
   /**
    * 获取边的 path
    * @internal 供扩展的边覆盖
@@ -74,8 +95,8 @@ const singleEdgeDefinition = Util.mix({}, SingleShapeMixin, {
     }, cfg.style);
     return style;
   },
-  getLabelStyleByPosition(cfg, group) {
-    const labelPosition = cfg.labelPosition || this.labelPosition; // 文本的位置用户可以传入
+  getLabelStyleByPosition(cfg, labelCfg, group) {
+    const labelPosition = labelCfg.position || this.labelPosition; // 文本的位置用户可以传入
     const style = {};
     const pathShape = group.findByClassName(CLS_SHAPE);
     if (pathShape) {
@@ -88,14 +109,77 @@ const singleEdgeDefinition = Util.mix({}, SingleShapeMixin, {
         pointPercent = 0.5;
       }
       const point = pathShape.getPoint(pointPercent);
-      const { refX, refY } = Global.edgeLabel; // 默认的偏移量
-      style.x = point.x + refX;
-      style.y = point.y + refY;
-      // TO DO 文本对齐方式
-      // TO DO 文本的自动旋转
-
+      let firstPoint;
+      let nextPoint;
+      if (pointPercent === 1) {
+        firstPoint = pathShape.getPoint(pointPercent - DIFF_POINT_PERCENT);
+        nextPoint = point;
+      } else {
+        firstPoint = point;
+        nextPoint = pathShape.getPoint(pointPercent + DIFF_POINT_PERCENT);
+      }
+      const autoRotate = Util.isNil(labelCfg.autoRotate) ? this.labelAutoRotate : labelCfg.autoRotate;
+      const tangent = [];
+      vec2.normalize(tangent, [nextPoint.x - firstPoint.x, nextPoint.y - firstPoint.y]); // 求切线
+      const { refX, refY } = labelCfg; // 默认的偏移量
+      if (refX || refY) { // 进行偏移时，求偏移向量
+        const offset = this._getOffset(refX, refY, tangent);
+        style.x = point.x + offset[0];
+        style.y = point.y + offset[1];
+      } else {
+        style.x = point.x;
+        style.y = point.y;
+      }
+      const angle = vec2.angleTo([1, 0], tangent);
+      const textAlign = this._getTextAlign(labelPosition, angle, autoRotate);
+      style.textAlign = textAlign;
+      if (autoRotate) {
+        style.rotate = this._getAutoRotate(labelPosition, textAlign, angle);
+      }
     }
     return style;
+  },
+  // 根据相对偏移量
+  _getOffset(refX, refY, tangent) {
+    const perpendicular = [-tangent[1], tangent[0]]; // (x,y) 顺时针方向的垂直线 (-y, x);
+    const out = []; // gl-matrix 的接口定义如果返回结果是 vector ， xxx(out, a, b); 所以必须事先定义返回量
+    const xVector = [];
+    const yVector = [];
+    vec2.scale(xVector, tangent, refX);
+    vec2.scale(yVector, perpendicular, refY);
+    vec2.add(out, xVector, yVector);
+    return out;
+  },
+  // 根据角度和对齐方式自动获取旋转角度
+  _getAutoRotate(labelPosition, textAlign, angle) {
+    let rotate = 0;
+    if (labelPosition === 'center') {
+      if (angle > 1 / 2 * Math.PI && angle < 3 * 1 / 2 * Math.PI) {
+        rotate = angle - Math.PI;
+      } else {
+        rotate = angle;
+      }
+    } else {
+      if (labelPosition === textAlign) {
+        rotate = angle;
+      } else {
+        rotate = angle - Math.PI;
+      }
+    }
+    return rotate;
+  },
+  // 获取文本对齐方式
+  _getTextAlign(labelPosition, angle) {
+    let textAlign = 'center';
+    angle = angle % (Math.PI * 2); // 取模
+    if (labelPosition !== 'center') {
+      if((angle >= 0 && angle <= Math.PI / 2) || (angle > 3 / 2 * Math.PI && angle < 2 * Math.PI)) {
+        textAlign = labelPosition;
+      }else  {
+        textAlign = revertAlign(labelPosition);
+      }
+    }
+    return textAlign;
   },
   /**
    * @internal 获取边的控制点

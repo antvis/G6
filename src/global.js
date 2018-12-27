@@ -24,10 +24,7 @@ module.exports = {
       fill: '#595959',
       textAlign: 'center',
       textBaseline: 'middle'
-    },
-    refX: 0, // 沿着边的切线方向的偏移
-    refY: 0,  // 垂直于边的方向的偏移
-    autoRotate: false // 是否自动旋转，保证文本沿着边的切线方向
+    }
   },
   // 节点应用状态后的样式，默认仅提供 active 和 selected 用户可以自己扩展
   nodeStateStyle: {

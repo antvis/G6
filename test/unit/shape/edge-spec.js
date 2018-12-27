@@ -3,14 +3,16 @@ const Shape = require('../../../src/shape/shape');
 const Global = require('../../../src/global');
 require('../../../src/shape/edge');
 const expect = require('chai').expect;
+const Util = require('../../../src/util/');
+const vec2 = Util.vec2;
 const div = document.createElement('div');
 div.id = 'edge-shape';
 document.body.appendChild(div);
 
 const canvas = new Canvas({
   containerId: 'edge-shape',
-  width: 500,
-  height: 500
+  width: 600,
+  height: 600
 });
 
 describe('shape edge test', () => {
@@ -71,7 +73,9 @@ describe('shape edge test', () => {
 				endPoint: {x: 100, y: 100},
 				color: 'blue',
 				label: '这是一条线',
-				labelPosition: 'start'
+				labelCfg: {
+					position: 'start'
+				}
 			}, item);
 			canvas.draw();
 			expect(label.attr('x')).eql(150);
@@ -81,7 +85,10 @@ describe('shape edge test', () => {
 				endPoint: {x: 100, y: 100},
 				color: 'blue',
 				label: '这是一条线',
-				labelPosition: 'end'
+
+				labelCfg: {
+					position: 'end'
+				}
 			}, item);
 			canvas.draw();
 			expect(label.attr('x')).eql(100);
@@ -147,6 +154,7 @@ describe('shape edge test', () => {
 			const path = shape.attr('path');
 			expect(path.length).eql(2);
 			expect(path[1]).eql(['Q', 220, 160, 150, 100]);
+			console.log(shape.getPoint(1.01));
 			canvas.draw();
 		});
 
@@ -163,6 +171,340 @@ describe('shape edge test', () => {
 			expect(path[1]).eql(['C', 220, 200, 170, 100, 150, 100]);
 			canvas.draw();
 		});
+
+		xit('angle', () => {
+			var v1 = [1, 0];
+			var v2 = [0, 1];
+			var v3 = [-1, 0];
+			var v4 = [0, -1];
+			var v5 = [1, -0.1];
+			console.log(vec2.angle(v1, v2), vec2.angleTo(v1, v2));
+			console.log(vec2.angle(v1, v3), vec2.angleTo(v1, v3));
+			console.log(vec2.angle(v1, v4), vec2.angleTo(v1, v4));
+			console.log(vec2.angle(v1, v5), vec2.angleTo(v1, v5));
+		});
+		it('clear', () => {
+			canvas.clear();
+		});
 	});
+
+	describe('label align', () => {
+		const factory = Shape.getFactory('edge');
+		function getPoint(center, radius, angle) {
+			return {
+				x: center.x + radius * Math.cos(angle),
+				y: center.y + radius * Math.sin(angle)
+			};
+		}
+		it('not auto rotate, middle', () => {
+			var center = {x: 100, y: 100};
+			for(var i = 0; i < 360; i += 45) {
+				var angle = i / 180 * Math.PI;
+				var startPoint = getPoint(center,20, angle);
+				var endPoint = getPoint(center,60, angle);
+				var group = canvas.addGroup();
+				const shape = factory.draw('line', {
+					startPoint: startPoint,
+					endPoint: endPoint,
+					color: 'red',
+					label: i.toString(),
+					style: {
+						endArrow: true
+					},
+					labelCfg: {
+						style: {
+							stroke: 'white',
+							lineWidth: 5
+						}
+						
+					}
+				}, group);
+				const label = group.get('children')[1];
+				expect(label.attr('textAlign')).eql('center');
+
+				expect(label.attr('stroke')).eql('white');
+			}
+			canvas.draw();
+		});
+
+		it('not auto rotate, start', () => {
+			var center = {x: 250, y: 100};
+			canvas.addShape('circle', {
+				attrs: {
+					x: center.x,
+					y: center.y,
+					r: 40,
+					stroke: 'blue'
+				}
+			})
+			for(var i = 0; i < 360; i += 30) {
+				var angle = i / 180 * Math.PI;
+				var startPoint = getPoint(center,40, angle);
+				var endPoint = getPoint(center,80, angle);
+				var group = canvas.addGroup();
+				const shape = factory.draw('line', {
+					startPoint: startPoint,
+					endPoint: endPoint,
+					color: 'red',
+					label: i.toString(),
+					labelCfg: {
+						position: 'start'
+					},
+					style: {
+						endArrow: true
+					}
+				}, group);
+				const label = group.get('children')[1];
+				if (angle < 1 / 2 * Math.PI) {
+					expect(label.attr('textAlign')).eql('start');
+				}
+				if (angle > 1 / 2 * Math.PI && angle < 3 / 2 * Math.PI) {
+					expect(label.attr('textAlign')).eql('end');
+				}
+				//expect(label.attr('textAlign')).eql('center');
+			}
+			canvas.draw();
+		});
+
+		it('not auto rotate, end', () => {
+			var center = {x: 450, y: 100};
+			canvas.addShape('circle', {
+				attrs: {
+					x: center.x,
+					y: center.y,
+					r: 40,
+					stroke: 'blue'
+				}
+			})
+			for(var i = 0; i < 360; i += 30) {
+				var angle = i / 180 * Math.PI;
+				var startPoint = getPoint(center,40, angle);
+				var endPoint = getPoint(center,80, angle);
+				var group = canvas.addGroup();
+				const shape = factory.draw('line', {
+					startPoint: startPoint,
+					endPoint: endPoint,
+					color: 'red',
+					label: i.toString(),
+					style: {
+						endArrow: true
+					},
+					labelCfg: {
+						position: 'end'
+					}
+				}, group);
+				const label = group.get('children')[1];
+				if (angle < 1 / 2 * Math.PI) {
+					expect(label.attr('textAlign')).eql('end');
+				}
+				if (angle > 1 / 2 * Math.PI && angle < 3 / 2 * Math.PI) {
+					expect(label.attr('textAlign')).eql('start');
+				}
+				//expect(label.attr('textAlign')).eql('center');
+			}
+			canvas.draw();
+		});
+
+
+		it('auto rotate, middle', () => {
+			var center = {x: 100, y: 300};
+			for(var i = 0; i < 360; i += 45) {
+				var angle = i / 180 * Math.PI;
+				var startPoint = getPoint(center,20, angle);
+				var endPoint = getPoint(center,60, angle);
+				var group = canvas.addGroup();
+				const shape = factory.draw('line', {
+					startPoint: startPoint,
+					endPoint: endPoint,
+					color: 'red',
+					label: i.toString(),
+					style: {
+						endArrow: true
+					},
+					labelCfg: {
+						autoRotate: true,
+					}
+				}, group);
+				const label = group.get('children')[1];
+				expect(label.attr('textAlign')).eql('center');
+			}
+			canvas.draw();
+		});
+
+		it('auto rotate, start', () => {
+			var center = {x: 250, y: 300};
+			canvas.addShape('circle', {
+				attrs: {
+					x: center.x,
+					y: center.y,
+					r: 40,
+					stroke: 'blue'
+				}
+			})
+			for(var i = 0; i < 360; i += 30) {
+				var angle = i / 180 * Math.PI;
+				var startPoint = getPoint(center,40, angle);
+				var endPoint = getPoint(center,80, angle);
+				var group = canvas.addGroup();
+				const shape = factory.draw('line', {
+					startPoint: startPoint,
+					endPoint: endPoint,
+					color: 'red',
+					label: i.toString(),
+					style: {
+						endArrow: true
+					},
+					labelCfg: {
+						position: 'start',
+						autoRotate: true
+					}
+				}, group);
+				const label = group.get('children')[1];
+				if (angle < 1 / 2 * Math.PI) {
+					expect(label.attr('textAlign')).eql('start');
+				}
+				if (angle > 1 / 2 * Math.PI && angle < 3 / 2 * Math.PI) {
+					expect(label.attr('textAlign')).eql('end');
+				}
+				//expect(label.attr('textAlign')).eql('center');
+			}
+			canvas.draw();
+		});
+
+		it('auto rotate, end', () => {
+			var center = {x: 450, y: 300};
+			canvas.addShape('circle', {
+				attrs: {
+					x: center.x,
+					y: center.y,
+					r: 40,
+					stroke: 'blue'
+				}
+			})
+			for(var i = 0; i < 360; i += 30) {
+				var angle = i / 180 * Math.PI;
+				var startPoint = getPoint(center,40, angle);
+				var endPoint = getPoint(center,80, angle);
+				var group = canvas.addGroup();
+				const shape = factory.draw('line', {
+					startPoint: startPoint,
+					endPoint: endPoint,
+					color: 'red',
+					label: i.toString(),
+					style: {
+						endArrow: true
+					},
+					labelCfg: {
+						position: 'end',
+						autoRotate: true
+					}
+				}, group);
+				const label = group.get('children')[1];
+				if (angle < 1 / 2 * Math.PI) {
+					expect(label.attr('textAlign')).eql('end');
+				}
+				if (angle > 1 / 2 * Math.PI && angle < 3 / 2 * Math.PI) {
+					expect(label.attr('textAlign')).eql('start');
+				}
+				const point = shape.getPoint(1);
+				expect(label.attr('x')).eql(point.x);
+				expect(label.attr('y')).eql(point.y);
+			}
+			canvas.draw();
+		});
+
+		it('curve rotate center', () => {
+			const group = canvas.addGroup();
+			const shape = factory.draw('cubic', {
+				startPoint: {x: 100, y: 400},
+				endPoint: {x: 200, y: 400},
+				controlPoints: [{x: 120, y: 380}, {x: 160, y: 420}],
+				color: 'blue',
+				label: 'curve in center',
+				labelCfg: {
+					autoRotate: true
+				}
+			}, group);
+			const path = shape.attr('path');
+			const label = group.get('children')[1];
+			expect(path.length).eql(2);
+			const point = shape.getPoint(0.5);
+			expect(point.x).eql(label.attr('x'));
+			expect(point.y).eql(label.attr('y'));
+
+			canvas.draw();
+		});
+
+		it('curve rotate start', () => {
+			const group = canvas.addGroup();
+			const shape = factory.draw('cubic', {
+				startPoint: {x: 220, y: 400},
+				endPoint: {x: 320, y: 400},
+				controlPoints: [{x: 230, y: 380}, {x: 280, y: 420}],
+				color: 'blue',
+				label: 'start',
+				labelCfg: {
+					position: 'start',
+					autoRotate: true
+				}
+			}, group);
+			const path = shape.attr('path');
+			const label = group.get('children')[1];
+			expect(path.length).eql(2);
+			const point = shape.getPoint(0);
+			expect(point.x).eql(label.attr('x'));
+			expect(point.y).eql(label.attr('y'));
+			expect(label.attr('rotate')).not.eql(0);
+			canvas.draw();
+		});
+
+		it('text on line, text refX and refY', () => {
+			var center = {x: 250, y: 500};
+			canvas.addShape('circle', {
+				attrs: {
+					x: center.x,
+					y: center.y,
+					r: 40,
+					stroke: 'blue'
+				}
+			})
+			for(var i = 0; i < 360; i += 30) {
+				var angle = i / 180 * Math.PI;
+				var startPoint = getPoint(center,40, angle);
+				var endPoint = getPoint(center,80, angle);
+				var group = canvas.addGroup();
+				const shape = factory.draw('line', {
+					startPoint: startPoint,
+					endPoint: endPoint,
+					color: 'red',
+					label: i.toString(),
+					style: {
+						endArrow: true
+					},
+					labelCfg: {
+						position: 'start',
+						autoRotate: true,
+						refX: 4,
+						refY: 5
+					}
+				}, group);
+				const label = group.get('children')[1];
+				if (angle < 1 / 2 * Math.PI) {
+					expect(label.attr('textAlign')).eql('start');
+				}
+				if (angle > 1 / 2 * Math.PI && angle < 3 / 2 * Math.PI) {
+					expect(label.attr('textAlign')).eql('end');
+				}
+				//expect(label.attr('textAlign')).eql('center');
+			}
+			canvas.draw();
+		});
+
+		it('text on curve, text refX and refY', () => {
+
+		});
+
+	});
+
 
 });
