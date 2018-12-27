@@ -40,7 +40,7 @@ describe('node', () => {
     expect(shape.type).to.equal('rect');
     expect(shape.attr('stroke')).to.equal('#ccc');
     expect(label.attr('text')).to.equal('text');
-    node.update({ color: '#666', label: 'update' });
+    node._update({ color: '#666', label: 'update' });
     expect(shape.type).to.equal('rect');
     expect(shape.attr('stroke')).to.equal('#666');
     expect(label.attr('text')).to.equal('update');
@@ -49,7 +49,7 @@ describe('node', () => {
     const node = new Node({ x: 0, y: 0, id: 'a', type: 'rect', label: 'text', color: '#ccc' }, new G.Group());
     const shape = node.get('keyShape');
     expect(shape.type).to.equal('rect');
-    node.update({ type: 'circle' });
+    node._update({ type: 'circle' });
     expect(shape.get('destroyed')).to.be.true;
     expect(node.get('keyShape').type).to.equal('circle');
   });
@@ -58,11 +58,11 @@ describe('node', () => {
     const shape = node.get('keyShape');
     expect(shape.attr('stroke')).to.equal('#1890ff');
     expect(shape.attr('fillOpacity')).to.equal(1);
-    node.setState('active', true);
+    node._setState('active', true);
     expect(shape.attr('fillOpacity')).to.equal(0.8);
     expect(node.getStates().length).to.equal(1);
     expect(node.getStates()[0]).to.equal('active');
-    node.setState('active', false);
+    node._setState('active', false);
     expect(shape.attr('fillOpacity')).to.equal(1);
     expect(node.getStates().length).to.equal(0);
   });
