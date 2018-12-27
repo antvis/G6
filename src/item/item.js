@@ -103,7 +103,7 @@ class Item {
   getStates() {
     return this.get('states');
   }
-  setState(state, enable) {
+  _setState(state, enable) {
     const states = this.get('states');
     const shapeFactory = Shape.getFactory(this.getType());
     const index = states.indexOf(state);
@@ -114,6 +114,10 @@ class Item {
       states.push(state);
     } else if (index > -1) {
       states.splice(states.indexOf(state), 1);
+    }
+    if (state === 'visible') {
+      this._changeVisible(enable);
+      return;
     }
     if (shapeFactory && shapeFactory.setState) {
       shapeFactory.setState(this.get('model').type, state, enable, this);
@@ -127,7 +131,7 @@ class Item {
   isVisible() {
     return this.get('visible');
   }
-  update(cfg) {
+  _update(cfg) {
     const shapeFactory = Shape.getFactory(this.getType());
     const model = this.get('model');
     const type = this.get('model').type;
@@ -168,12 +172,6 @@ class Item {
   }
   getType() {
     return this.get('type');
-  }
-  hide() {
-    this._changeVisible(false);
-  }
-  show() {
-    this._changeVisible(true);
   }
   _changeVisible(visible) {
     const group = this.get('group');

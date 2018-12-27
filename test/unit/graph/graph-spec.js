@@ -71,20 +71,19 @@ describe('graph', () => {
     graph.destroy();
   });
   it('add node', () => {
-    const node = graph.addNode({ type: 'circle', color: '#ccc', style: { x: 50, y: 50, r: 20, lineWidth: 2} });
+    const node = graph.add('node', { type: 'circle', color: '#ccc', style: { x: 50, y: 50, r: 20, lineWidth: 2} });
     expect(node).not.to.be.undefined;
-    expect(graph.nodes.length).to.equal(1);
-    expect(graph.nodes[0]).to.equal(node);
-    const node2 = graph.addNode({ type: 'rect', id: 'node', color: '#666', style: { x: 100, y: 100, width: 100, height: 70 } });
+    expect(graph.node.length).to.equal(1);
+    expect(graph.node[0]).to.equal(node);
+    const node2 = graph.add('node', { type: 'rect', id: 'node', color: '#666', style: { x: 100, y: 100, width: 100, height: 70 } });
     expect(node2).not.to.be.undefined;
-    graph.render();
-    /*expect(graph.nodes.length).to.equal(2);
-    expect(graph.nodes[1]).to.equal(node2);
-    graph.removeNode(node);
-    expect(graph.nodes.length).to.equal(1);
-    expect(graph.nodes[0]).to.equal(node2);
-    graph.removeNode('node');
-    expect(graph.nodes.length).to.equal(0);*/
+    expect(graph.node.length).to.equal(2);
+    expect(graph.node[1]).to.equal(node2);
+    graph.remove(node);
+    expect(graph.node.length).to.equal(1);
+    expect(graph.node[0]).to.equal(node2);
+    graph.remove('node');
+    expect(graph.node.length).to.equal(0);
   });
   it('add edge', () => {
     // TODO
