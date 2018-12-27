@@ -20,6 +20,7 @@ const BaseUtil = {
   uniqueId: require('@antv/util/lib/unique-id'),
   addEventListener: require('@antv/util/lib/dom/add-event-listener'),
   wrapBehavior: require('@antv/util/lib/event/wrap-behavior'),
+  extend: require('@antv/util/lib/extend'),
   augment: require('@antv/util/lib/augment'),
   /**
    * traverse tree
