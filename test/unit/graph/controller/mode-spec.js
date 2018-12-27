@@ -26,14 +26,17 @@ describe('mode', () => {
       width: 500,
       height: 500,
       pixelRatio: 2,
-      modes: ['default', 'custom']
+      modes:  {
+        default: [],
+        custom: []
+      }
     });
     const modeController = graph.get('modeController');
     expect(Object.keys(modeController.modes).length).to.equal(2);
     modeController.manipulateBehaviors('aa', undefined, true);
     expect(Object.keys(modeController.modes).length).to.equal(2);
     expect(modeController.modes.default.length).to.equal(1);
-    expect(modeController.modes.default[0]).to.equal('aa');
+    expect(modeController.modes.default[0].type).to.equal('aa');
     expect(modeController.modes.custom.length).to.equal(0);
     modeController.manipulateBehaviors('aa', undefined, false);
     expect(modeController.modes.default.length).to.equal(0);
@@ -44,7 +47,10 @@ describe('mode', () => {
       width: 500,
       height: 500,
       pixelRatio: 2,
-      modes: [ 'default', 'custom' ]
+      modes: {
+        default: [],
+        custom: []
+      }
     });
     let triggered = false;
     const modeController = graph.get('modeController');
@@ -55,8 +61,8 @@ describe('mode', () => {
     modeController.manipulateBehaviors('bb', undefined, true);
     expect(Object.keys(modeController.modes).length).to.equal(2);
     expect(modeController.modes.default.length).to.equal(2);
-    expect(modeController.modes.default[0]).to.equal('aa');
-    expect(modeController.modes.default[1]).to.equal('bb');
+    expect(modeController.modes.default[0].type).to.equal('aa');
+    expect(modeController.modes.default[1].type).to.equal('bb');
     expect(triggered).to.be.true;
     modeController.setMode('custom');
     expect(modeController.mode).to.equal('custom');
@@ -70,22 +76,26 @@ describe('mode', () => {
       width: 500,
       height: 500,
       pixelRatio: 2,
-      modes: [ 'default', 'custom1', 'custom2' ]
+      modes: {
+        default: [],
+        custom1: [],
+        custom2: []
+      }
     });
     const modeController = graph.get('modeController');
     expect(Object.keys(modeController.modes).length).to.equal(3);
     modeController.manipulateBehaviors(['aa', 'bb'], ['custom1', 'custom2'], true);
     expect(modeController.modes.custom1.length).to.equal(2);
     expect(modeController.modes.custom2.length).to.equal(2);
-    expect(modeController.modes.custom1[0]).to.equal('aa');
-    expect(modeController.modes.custom1[1]).to.equal('bb');
-    expect(modeController.modes.custom2[0]).to.equal('aa');
-    expect(modeController.modes.custom2[1]).to.equal('bb');
+    expect(modeController.modes.custom1[0].type).to.equal('aa');
+    expect(modeController.modes.custom1[1].type).to.equal('bb');
+    expect(modeController.modes.custom2[0].type).to.equal('aa');
+    expect(modeController.modes.custom2[1].type).to.equal('bb');
     modeController.manipulateBehaviors(['aa'], ['custom1', 'custom2'], false);
     expect(modeController.modes.custom1.length).to.equal(1);
     expect(modeController.modes.custom2.length).to.equal(1);
-    expect(modeController.modes.custom1[0]).to.equal('bb');
-    expect(modeController.modes.custom2[0]).to.equal('bb');
+    expect(modeController.modes.custom1[0].type).to.equal('bb');
+    expect(modeController.modes.custom2[0].type).to.equal('bb');
   });
 });
 
