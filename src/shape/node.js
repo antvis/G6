@@ -38,8 +38,8 @@ const singleNodeDefinition = Util.mix({}, SingleShapeMixin, {
     return size;
   },
   // 私有方法，不希望扩展的节点复写这个方法
-  getLabelStyleByPosition(cfg) {
-    const labelPosition = cfg.labelPosition || this.labelPosition;
+  getLabelStyleByPosition(cfg, labelCfg) {
+    const labelPosition = labelCfg.position || this.labelPosition;
     // 默认的位置（最可能的情形），所以放在最上面
     if (labelPosition === 'center') {
       return { x: 0, y: 0 };
