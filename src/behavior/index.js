@@ -1,14 +1,2 @@
-const Behavior = {
-  registerBehavior(name, behavior) {
-    Behavior[name] = behavior;
-    return this;
-  },
-  getBehavior(name) {
-    return Behavior[name];
-  },
-  hasBehavior(name) {
-    return !!Behavior[name];
-  }
-};
-
+const Behavior = require('./behavior');
 module.exports = Behavior;

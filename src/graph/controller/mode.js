@@ -3,11 +3,14 @@
  * @author wuyue.lwy <wyueliu@gmail.com>
  */
 const Util = require('../../util');
-const Behaviors = require('../../behavior');
+const Behavior = require('../../behavior');
 
 function mergeBehaviors(modeBehaviors, behaviors) {
   Util.each(behaviors, behavior => {
     if (modeBehaviors.indexOf(behavior) < 0) {
+      if (Util.isString(behavior)) {
+        behavior = { type: behavior };
+      }
       modeBehaviors.push(behavior);
     }
   });
@@ -16,44 +19,43 @@ function mergeBehaviors(modeBehaviors, behaviors) {
 
 function filterBehaviors(modeBehaviors, behaviors) {
   return modeBehaviors.filter(behavior => {
-    return behaviors.indexOf(behavior) < 0;
+    return behaviors.indexOf(behavior.type) < 0;
   });
 }
 
 class Mode {
   constructor(graph) {
-    const self = this;
     this.graph = graph;
-    const modes = graph.get('modes');
-    if (modes) {
-      self.modes = {};
-      Util.each(modes, mode => {
-        self.modes[mode] = [];
-      });
-    } else {
-      self.modes = {
+    this.modes = graph.get('modes') || {
         default: []
-      };
-    }
-    this.mode = 'default';
+    };
+    this._formatModes();
+    this.mode = graph.get('defaultMode') || 'default';
+    this.currentBehaves = [];
+    this.setMode(this.mode);
+  }
+  _formatModes() {
+    const modes = this.modes;
+    Util.each(modes, mode => {
+      Util.each(mode, (behavior, i) => {
+        if (Util.isString(behavior)) {
+          mode[i] = { type: behavior };
+        }
+      });
+    });
   }
   setMode(mode) {
     const modes = this.modes;
     const graph = this.graph;
     const behaviors = modes[mode];
-    let behavior;
     if (!behaviors) {
       return;
     }
     graph.emit('beforemodechange', { mode });
-    Util.each(modes[this.mode], name => {
-      behavior = Behaviors.getBehavior(name);
-      behavior && behavior.unbind && behavior.unbind(graph);
+    Util.each(this.currentBehaves, behave => {
+      behave.unbind(graph);
     });
-    Util.each(modes[mode], name => {
-      behavior = Behaviors.getBehavior(name);
-      behavior && behavior.bind && behavior.bind(graph);
-    });
+    this._setBehaviors(mode);
     graph.emit('aftermodechange', { mode });
     this.mode = mode;
     return this;
@@ -89,6 +91,18 @@ class Mode {
     }
     self.setMode(this.mode);
     return this;
+  }
+  _setBehaviors(mode) {
+    const graph = this.graph;
+    const behaviors = this.modes[mode];
+    const behaves = [];
+    let behave;
+    Util.each(behaviors, behavior => {
+      behave = new (Behavior.getBehavior(behavior.type))(behavior);
+      behave && behave.bind(graph);
+      behaves.push(behave);
+    });
+    this.currentBehaves = behaves;
   }
 }
 
