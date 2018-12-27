@@ -42,14 +42,15 @@ const SingleShape = {
 
   },
   drawLabel(cfg, group) {
-    const labelStyle = this.getLabelStyle(cfg, group);
+    const labelCfg = cfg.labelCfg || {};
+    const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
     const label = group.addShape('text', {
       className: this.itemType + CLS_LABEL_SUFFIX,
       attrs: labelStyle
     });
     return label;
   },
-  getLabelStyleByPosition(/* cfg */) {
+  getLabelStyleByPosition(/* cfg, labelCfg, group */) {
 
   },
   /**
@@ -59,12 +60,12 @@ const SingleShape = {
 	 * @param {G.Group} group 父容器，label 的定位可能与图形相关
 	 * @return {Object} 图形的配置项
 	 */
-  getLabelStyle(cfg, group) {
-    const calculateStyle = this.getLabelStyleByPosition(cfg, group);
+  getLabelStyle(cfg, labelCfg, group) {
+    const calculateStyle = this.getLabelStyleByPosition(cfg, labelCfg, group);
     calculateStyle.text = cfg.label;
     const attrName = this.itemType + 'Label'; // 取 nodeLabel，edgeLabel 的配置项
     const defaultStyle = Global[attrName] ? Global[attrName].style : null;
-    const labelStyle = Util.mix({}, defaultStyle, calculateStyle, cfg.labelStyle);
+    const labelStyle = Util.mix({}, defaultStyle, calculateStyle, labelCfg.style);
     return labelStyle;
   },
   /**
@@ -100,7 +101,8 @@ const SingleShape = {
       if (!label) {
         this.drawLabel(cfg, group);
       } else {
-        const labelStyle = this.getLabelStyle(cfg, group);
+        const labelCfg = cfg.labelCfg || {};
+        const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
         label.attr(labelStyle);
       }
     }
