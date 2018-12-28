@@ -248,11 +248,11 @@ class Graph extends EventEmitter {
     }
     rootGroup.setMatrix(matrix);
   }
-  translate(x, y) {
-    this.get('group').translate(x, y);
+  translate(dx, dy) {
+    this.get('group').translate(dx, dy);
   }
-  move(dx, dy) {
-    this.get('group').move(dx, dy);
+  moveTo(x, y) {
+    this.get('group').move(x, y);
   }
   fitView() {
     this.get('viewController').fitView();

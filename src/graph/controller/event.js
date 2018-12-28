@@ -48,9 +48,6 @@ class Event {
     const canvasHandler = Util.wrapBehavior(self, '_onCanvasEvents');
     Util.each(EVENTS, event => {
       canvas.on(event, canvasHandler);
-      canvas.on(event, evt => {
-        graph.emit(event, evt);
-      });
     });
     this.canvasHandler = canvasHandler;
     Util.each(EXTEND_EVENTS, event => {
