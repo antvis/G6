@@ -7,57 +7,46 @@ const Util = require('../util/');
 const Item = require('./item');
 
 class Node extends Item {
-  constructor(cfg) {
-    const defaultCfg = {
+  getDefaultCfg() {
+    return {
       type: 'node',
-      isNode: true,
-      zIndex: 3,
+      anchors: [],
       edges: [],
-      linkable: true
+      status: []
     };
-    Util.mix(defaultCfg, cfg);
-    super(defaultCfg);
   }
-  updatePosition() {
-    const group = this.group;
-    const model = this.model;
-    group.setMatrix([ 1, 0, 0, 0, 1, 0, model.x ? model.x : 0, model.y ? model.y : 0, 1 ]);
-    this.bbox = this._calculateBBox();
-  }
-  _shouldDraw() {
-    const diff = this._getDiff();
-    const superBool = super._shouldDraw();
-
-    return diff &&
-    !(diff.length === 2 && diff.indexOf('x') !== -1 && diff.indexOf('y') !== -1) &&
-    !(diff.length === 1 && (diff[0] === 'x' || diff[0] === 'y')) && superBool;
-  }
-  _afterDraw() {
-    this.updatePosition();
-    super._afterDraw();
-  }
-  layoutUpdate() {
-    this._beforeDraw();
-    this._afterDraw();
+  getNeighbors() {
+    const nodes = [];
+    let node = null;
+    Util.each(this.get('edges'), (edge) => {
+      if (edge.get('source') === this) {
+        node = edge.get('target');
+      } else {
+        node = edge.get('source');
+      }
+      if (nodes.indexOf(node) < 0) {
+        nodes.push(node);
+      }
+    });
+    return nodes;
   }
   getEdges() {
-    const graph = this.graph;
-    const edges = graph.getEdges();
-    return edges.filter(edge => {
-      const model = edge.getModel();
-      return model.source === this.id || model.target === this.id;
-    });
+    return this.get('edges');
   }
   getInEdges() {
-    return this.getEdges().filter(edge => {
-      return edge.target === this;
+    return this.get('edges').filter(edge => {
+      return edge.get('target') === this;
     });
   }
   getOutEdges() {
-    return this.getEdges().filter(edge => {
-      return edge.source === this;
+    return this.get('edges').filter(edge => {
+      return edge.get('source') === this;
     });
   }
+  showAnchor() {
+    // todo
+  }
+  hideAnchor() {}
   /**
     * get anchor points, if there is anchors return the points sorted by arc , others return the link point
     * @param {Object | Number} point - start point
@@ -118,6 +107,9 @@ class Node extends Item {
         });
     }
     return points;
+  }
+  _addEdge(edge) {
+    this.get('edges').push(edge);
   }
   /**
    * get position of anchor points

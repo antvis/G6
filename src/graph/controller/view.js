@@ -4,85 +4,96 @@
  */
 
 
-const Util = require('../../util/index');
+const Util = require('../../util');
+
+class View {
+  constructor(graph) {
+    const defaultCfg = {
+      /**
+       * Adaptive viewport
+       * @type boolean
+       */
+      fitView: true,
+      /**
+       * Fit view padding (client scale)
+       * @type {number|array}
+       */
+      fitViewPadding: 10,
+      /**
+       * Minimum scale size
+       * @type {number}
+       */
+      minZoom: 0.2,
+      /**
+       * Maxmum scale size
+       * @type {number}
+       */
+      maxZoom: 10
+    };
+    Util.mix(this, defaultCfg, graph._cfg);
+    this.graph = graph;
+  }
+  getFormatPadding() {
+    return Util.formatPadding(this.fitViewPadding);
+  }
+  fitView(padding) {
+    if (!padding) {
+      padding = this.getFormatPadding();
+    }
+    const graph = this.graph;
+    const group = graph.get('group');
+    const width = graph.get('width');
+    const height = graph.get('height');
+    group.resetMatrix();
+    const bbox = graph.get('group').getBBox();
+    const w = width / (bbox.width + padding[1] + padding[3]);
+    const h = height / (bbox.height + padding[0] + padding[2]);
+    let ratio = w;
+    const translate = {
+      x: 0,
+      y: 0
+    };
+    if (w > h) {
+      ratio = h;
+      translate.x = (width - bbox.width * h - padding[1] - padding[3]) / 2;
+    } else {
+      translate.y = (height - bbox.height * w - padding[0] - padding[2]) / 2;
+    }
+    graph.zoom(ratio, { x: bbox.width / 2, y: bbox.height / 2 });
+    graph.translate(translate.x, translate.y);
+  }
+  focusPoint(point) {
+    const matrix = this.graph.get('group').getMatrix();
+    const width = this.graph.get('width');
+    const height = this.graph.get('height');
+    const dx = -matrix[6] + width / 2 - matrix[0] * point.x;
+    const dy = -matrix[7] + height / 2 - matrix[0] * point.y;
+    this.graph.translate(dx, dy);
+    return this;
+  }
+  focus(item) {
+    if (Util.isString(item)) {
+      item = this.graph.itemById[item];
+    }
+    if (item) {
+      const point = item.getCenter();
+      this.focusPoint(point);
+    }
+  }
+  changeSize(width, height) {
+    if (!Util.isNumber(width) || !Util.isNumber(height)) {
+      throw Error('invalid canvas width & height');
+    }
+    const graph = this.graph;
+    graph.set({ width, height });
+    const canvas = this.graph.get('canvas');
+    canvas.changeSize(width, height);
+  }
+}
 
 const Mixin = {};
-Mixin.CFG = {
-  /**
-   * Adaptive viewport
-   * @type {string|undefined}
-   * could be 'tl', 'lc', 'bl', 'cc', 'tc', 'tr', 'rc', 'br', 'bc', 'autoZoom'
-   */
-  fitView: undefined,
-  /**
-   * Fit view padding (client scale)
-   * @type {number|array}
-   */
-  fitViewPadding: 10,
-  /**
-   * Minimum scale size
-   * @type {number}
-   */
-  minZoom: 0.2,
-  /**
-   * Maxmum scale size
-   * @type {number}
-   */
-  maxZoom: 10
-};
+
 Mixin.AUGMENT = {
-  getBBox() {
-    const itemGroup = this.get('_itemGroup');
-    const itemMap = this.get('_itemMap');
-    let children = itemGroup.get('children');
-    if (children.length > 0) {
-      children = children.filter(child => {
-        const item = itemMap[child.id];
-        if (item) {
-          const shapeObj = item.getShapeObj();
-          return shapeObj.bboxCalculation !== false;
-        }
-        return false;
-      });
-      return Util.getChildrenBBox(children);
-    }
-    const width = this.get('width');
-    const height = this.get('height');
-    return {
-      minX: 0,
-      minY: 0,
-      maxX: width,
-      maxY: height
-    };
-  },
-  getFitViewPadding() {
-    return Util.toAllPadding(this.get('fitViewPadding'));
-  },
-  setFitView(type) {
-    if (!type) {
-      return this;
-    }
-    if (type === 'autoZoom') {
-      this.autoZoom();
-      return this;
-    }
-    const padding = this.getFitViewPadding();
-    const width = this.get('width');
-    const height = this.get('height');
-    const box = this.getBBox();
-    const bWidth = box.maxX - box.minX;
-    const bHeight = box.maxY - box.minY;
-    const containerBox = {
-      x: 0,
-      y: 0,
-      width,
-      height
-    };
-    const position = Util.getNineBoxPosition(type, containerBox, bWidth, bHeight, padding);
-    const matrix = [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ];
-    Util.mat3.translate(matrix, matrix, [ -box.minX + position.x, -box.minY + position.y ]);
-    this.updateMatrix(matrix);
-  },
   _getZoomRatio(ratio) {
     const maxZoom = this.get('maxZoom');
     const minZoom = this.get('minZoom');
@@ -103,7 +114,7 @@ Mixin.AUGMENT = {
     }
     const width = this.get('width');
     const height = this.get('height');
-    const box = this.getBBox();
+    const box = this.graph.get('group').getBBox();
     const matrix = Util.getAutoZoomMatrix({
       minX: 0,
       minY: 0,
@@ -201,20 +212,6 @@ Mixin.AUGMENT = {
     const scale = matrix[0];
     this.translate(dx / scale, dy / scale);
     return this;
-  },
-  /**
-   * @return {Graph} this
-   */
-  getMatrix() {
-    const rootGroup = this.get('_rootGroup');
-    return rootGroup.getMatrix();
-  },
-  /**
-   * @param {object} matrix - matrix
-   */
-  setMatrix(matrix) {
-    const rootGroup = this.get('_rootGroup');
-    rootGroup.setMatrix(matrix);
   },
   /**
    * @param {object} domPoint domPoint
@@ -326,4 +323,4 @@ Mixin.AUGMENT = {
     return this;
   }
 };
-module.exports = Mixin;
+module.exports = View;
