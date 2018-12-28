@@ -5,7 +5,7 @@ const div = document.createElement('div');
 div.id = 'pan-spec';
 document.body.appendChild(div);
 
-describe.only('drag-canvas', () => {
+describe('drag-canvas', () => {
   it('drag canvas', () => {
     const graph = new G6.Graph({
       container: div,
