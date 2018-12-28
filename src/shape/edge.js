@@ -17,7 +17,7 @@ function revertAlign(labelPosition) {
   let textAlign = labelPosition;
   if (labelPosition === 'start') {
     textAlign = 'end';
-  } else if(labelPosition === 'end') {
+  } else if (labelPosition === 'end') {
     textAlign = 'start';
   }
   return textAlign;
@@ -105,7 +105,7 @@ const singleEdgeDefinition = Util.mix({}, SingleShapeMixin, {
       }
       const autoRotate = Util.isNil(labelCfg.autoRotate) ? this.labelAutoRotate : labelCfg.autoRotate;
       const tangent = [];
-      vec2.normalize(tangent, [nextPoint.x - firstPoint.x, nextPoint.y - firstPoint.y]); // 求切线
+      vec2.normalize(tangent, [ nextPoint.x - firstPoint.x, nextPoint.y - firstPoint.y ]); // 求切线
       const { refX, refY } = labelCfg; // 默认的偏移量
       if (refX || refY) { // 进行偏移时，求偏移向量
         const offset = this._getOffset(refX, refY, tangent);
@@ -115,7 +115,7 @@ const singleEdgeDefinition = Util.mix({}, SingleShapeMixin, {
         style.x = point.x;
         style.y = point.y;
       }
-      const angle = vec2.angleTo([1, 0], tangent);
+      const angle = vec2.angleTo([ 1, 0 ], tangent);
       const textAlign = this._getTextAlign(labelPosition, angle, autoRotate);
       style.textAlign = textAlign;
       if (autoRotate) {
@@ -126,7 +126,7 @@ const singleEdgeDefinition = Util.mix({}, SingleShapeMixin, {
   },
   // 根据相对偏移量
   _getOffset(refX, refY, tangent) {
-    const perpendicular = [-tangent[1], tangent[0]]; // (x,y) 顺时针方向的垂直线 (-y, x);
+    const perpendicular = [ -tangent[1], tangent[0] ]; // (x,y) 顺时针方向的垂直线 (-y, x);
     const out = []; // gl-matrix 的接口定义如果返回结果是 vector ， xxx(out, a, b); 所以必须事先定义返回量
     const xVector = [];
     const yVector = [];
@@ -158,9 +158,9 @@ const singleEdgeDefinition = Util.mix({}, SingleShapeMixin, {
     let textAlign = 'center';
     angle = angle % (Math.PI * 2); // 取模
     if (labelPosition !== 'center') {
-      if((angle >= 0 && angle <= Math.PI / 2) || (angle > 3 / 2 * Math.PI && angle < 2 * Math.PI)) {
+      if ((angle >= 0 && angle <= Math.PI / 2) || (angle > 3 / 2 * Math.PI && angle < 2 * Math.PI)) {
         textAlign = labelPosition;
-      }else  {
+      } else {
         textAlign = revertAlign(labelPosition);
       }
     }

@@ -9,7 +9,7 @@ document.body.appendChild(div);
 describe('node', () => {
   it('new & destroy node', () => {
     const parent = new G.Group();
-    const node = new Node({x: 0, y: 0, id: 'a', color: '#ccc' }, parent);
+    const node = new Node({ x: 0, y: 0, id: 'a', color: '#ccc' }, parent);
     const group = node.get('group');
     expect(node).not.to.be.undefined;
     expect(node.getType()).to.equal('node');
