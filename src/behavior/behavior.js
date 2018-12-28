@@ -1,9 +1,9 @@
 const Util = require('../util');
 const Behavior = {};
 
-Behavior.registerBehavior = function(type, behaviors) {
-  if (!behaviors) {
-    throw new Error('please specify handler for this behavior:' + name);
+Behavior.registerBehavior = function(type, behavior) {
+  if (!behavior) {
+    throw new Error('please specify handler for this behavior:' + type);
   }
   const base = function(cfg) {
     this._cfg = cfg;
@@ -18,7 +18,7 @@ Behavior.registerBehavior = function(type, behaviors) {
     },
     bind() {},
     unbind() {}
-  }, behaviors);
+  }, behavior);
   Behavior[type] = base;
 };
 
