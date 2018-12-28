@@ -29,7 +29,7 @@ describe('behavior', () => {
         expect(this.get('aaa')).to.equal(111);
         expect(this.get('bbb')).to.equal(222);
       },
-      unbind(){
+      unbind() {
         flag = false;
         expect(this.get('aaa')).to.equal(111);
         expect(this.get('bbb')).to.equal(222);
