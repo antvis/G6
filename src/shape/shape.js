@@ -5,6 +5,7 @@
 
 
 const Util = require('../util/');
+require('./extend/group');
 const Shape = {};
 const cache = {}; // ucfirst 开销过大，进行缓存
 // 首字母大写

@@ -4,7 +4,12 @@
  */
 
 const EventEmitter = require('@antv/g/lib/').EventEmitter;
+const G = require('@antv/g');
 const Util = require('../util');
+const Global = require('../global');
+const Item = require('../item');
+
+const Controller = require('./controller');
 
 class Graph extends EventEmitter {
   /**
@@ -51,123 +56,175 @@ class Graph extends EventEmitter {
        *  capture events
        *  @type boolean
        */
-      event: true
+      event: true,
+      /**
+       * group node & edges into different graphic groups
+       * @private
+       * @type boolean
+       */
+      groupByTypes: true,
+      /**
+       * determine if it's a directed graph
+       * @type boolean
+       */
+      directed: false,
+      /**
+       * when data or shape changed, should canvas draw automatically
+       */
+      autoPaint: true
     };
   }
 
   constructor(inputCfg) {
     super();
-    this._cfg = Util.mix({}, this.getDefaultCfg(), inputCfg);     // merge graph configs
-    this.nodes = [];                                              // all the node instances
-    this.edges = [];                                              // all the edge instances
-    this.itemById = {};                                           // all the item indexed by id
+    this._cfg = Util.mix({}, this.getDefaultCfg(), inputCfg);    // merge graph configs
+    this.node = [];                                              // all the node instances
+    this.edge = [];                                              // all the edge instances
+    this.itemById = {};                                          // all the item indexed by id
     this._init();
   }
   _init() {
-    // todo init controllers & G.Canvas etc..
+    this._initCanvas();
+    const eventController = new Controller.Event(this);
+    const viewController = new Controller.FitView(this);
+    const modeController = new Controller.Mode(this);
+    this.set({ eventController, viewController, modeController });
+    if (this.get('fitView')) {
+      viewController.fitView();
+    }
+  }
+  _initCanvas() {
+    let container = this.get('container');
+    if (Util.isString(container)) {
+      container = document.getElementById(container);
+      this.set('container', container);
+    }
+    if (!container) {
+      throw Error('invalid container');
+    }
+    const canvas = new G.Canvas({
+      containerDOM: container,
+      width: this.get('width'),
+      height: this.get('height'),
+      renderer: this.get('renderer'),
+      pixelRatio: this.get('pixelRatio')
+    });
+    this.canvas = canvas;
+    const id = canvas.get('el').id;
+    const group = canvas.addGroup({ id: id + '-root', className: Global.rootContainerClassName });
+    if (this.get('groupByTypes')) {
+      const edgeGroup = group.addGroup({ id: id + '-edge', className: Global.edgeContainerClassName });
+      const nodeGroup = group.addGroup({ id: id + '-node', className: Global.nodeContainerClassName });
+      this.set({ nodeGroup, edgeGroup });
+    }
+    this.set({ canvas, group });
   }
   get(key) {
     return this._cfg[key];
   }
   set(key, val) {
-    this._cfg[key] = val;
-  }
-  draw() {}
-  render() {}
-  _drawInner() {}
-  _clearInner() {}
-  addNode(type, cfgs) {
-    return { type, cfgs };
-  }
-  addEdge(type, cfgs) {
-    return { type, cfgs };
-  }
-  focus() {}
-  fitView() {}
-  // move(dx, dy) {}
-  // translate(x, y) {}
-  // zoom(scale, center) {}
-  /**
-   * @param  {string} type item type
-   * @param  {object} model data model
-   * @return {object} shapeObj
-   */
-  getShapeObj(type, model) {
-    return { type, model };
-  }
-  /**
-   * @return {G.Canvas} canvas
-   */
-  getCanvas() {
-    return this.get('_canvas');
-  }
-  /**
-   * @return {G.Group} rootGroup
-   */
-  getRootGroup() {
+    if (Util.isPlainObject(key)) {
+      this._cfg = Util.mix({}, this._cfg, key);
+    } else {
+      this._cfg[key] = val;
+    }
     return this;
   }
-  /**
-   * @return {G.Group} itemGroup
-   */
-  getItemGroup() {
+  update(item, cfg) {
+    if (Util.isString(item)) {
+      item = this.itemById[item];
+    }
+    item._update(cfg);
+    if (this.get('autoPaint')) {
+      this.paint();
+    }
+    return item;
+  }
+  add(type, model) {
+    const parent = this.get(type + 'Group') || this.get('group');
+    if (type === 'edge') {
+      if (model.source && Util.isString(model.source)) {
+        model.source = this.itemById[model.source];
+      }
+      if (model.target && Util.isString(model.target)) {
+        model.target = this.itemById[model.target];
+      }
+    }
+    const item = new Item[Util.upperFirst(type)](model, parent);
+    this[type].push(item);
+    this.itemById[item.get('id')] = item;
+    return item;
+  }
+  remove(item) {
+    if (Util.isString(item)) {
+      item = this.itemById[item];
+    }
+    if (!item) {
+      return;
+    }
+    const items = this[item.get('type')];
+    const index = items.indexOf(item);
+    items.splice(index, 1);
+    delete this.itemById[item.get('id')];
+    item.destroy();
+  }
+  data(data) {
+    this.set('data', data);
+  }
+  render() {
+    const self = this;
+    const data = this.get('data');
+    if (!data) {
+      throw new Error('data must be defined first');
+    }
+    this.clear();
+    let item;
+    this.emit('beforerender');
+    Util.each(data, model => {
+      item = new Item[model.type](model);
+      self[item].push(item);
+    });
+    this.paint();
+    this.emit('afterrender');
+  }
+  changeData(data) {
+    if (!data) {
+      return;
+    }
+    const self = this;
+    const items = {
+      node: [],
+      edge: []
+    };
+    let item;
+    Util.each(data, model => {
+      item = self.itemById[model.id];
+      if (item) {
+        item._update(model);
+      } else {
+        item = new Item[model.type](model);
+      }
+      items[model.type].push(item);
+    });
+    Util.each(self.itemById, item => {
+      if (items.node.indexOf(item) < 0 && items.edge.indexOf(item) < 0) {
+        self.remove(item);
+      }
+    });
+    this.node = items.node;
+    this.edge = items.edge;
+    this.paint();
     return this;
   }
-  /**
-   * @param  {object} data source data
-   * @return {Graph} this
-   */
-  source(data) {
-    return data;
-  }
-  /**
-   * @return {Graph} - this
-   */
-  reRender() {
-    const data = this.get('_sourceData');
-    this.read(data);
-    return this;
-  }
-  /**
-   * @return {Graph} - this
-   */
-  destroy() {
-    return this;
+  paint() {
+    this.get('canvas').draw();
   }
   /**
    * @return {object} data
    */
   save() {
+    // TODO
     return this;
-  }
-  update(item) {
-    return item;
-  }
-  /**
-   * change data
-   * @param {object} data - source data
-   * @return {Graph} this
-   */
-  read(data) {
-    return data;
-  }
-  /**
-   * @return {Graph} this
-   */
-  clear() {
-    return this;
-  }
-  /**
-   * @return {Graph} this
-   */
-  getWidth() {
-    return this.get('width');
-  }
-  /**
-   * @return {Graph} this
-   */
-  getHeight() {
-    return this.get('height');
   }
   /**
    * change canvas size
@@ -176,22 +233,65 @@ class Graph extends EventEmitter {
    * @return {object} this
    */
   changeSize(width, height) {
-    return { width, height };
+    this.get('viewController').changeSize(width, height);
+    return this;
+  }
+  _updateMatrix(matrix) {
+    const rootGroup = this.get('group');
+    const minZoom = this.get('minZoom');
+    const maxZoom = this.get('maxZoom');
+    if (minZoom && matrix.elements[0] < minZoom) {
+      return;
+    }
+    if (maxZoom && matrix.elements[0] > maxZoom) {
+      return;
+    }
+    rootGroup.setMatrix(matrix);
+  }
+  translate(x, y) {
+    this.get('group').translate(x, y);
+  }
+  move(dx, dy) {
+    this.get('group').move(dx, dy);
+  }
+  fitView() {
+    this.get('viewController').fitView();
+  }
+  addBehaviors(behaviors, modes) {
+    this.get('modeController').manipulateBehaviors(behaviors, modes, true);
+    return this;
+  }
+  removeBehaviors(behaviors, modes) {
+    this.get('modeController').manipulateBehaviors(behaviors, modes, false);
+    return this;
+  }
+  setMode(mode) {
+    this.set('mode', mode);
+    this.get('modeController').setMode(mode);
+    return this;
+  }
+  currentMode() {
+    return this.get('mode');
+  }
+  getZoom() {
+    return this.get('group').getMatrix()[0];
+  }
+  zoom(ratio, center) {
+    const matrix = Util.clone(this.get('group').getMatrix());
+    if (center) {
+      Util.mat3.translate(matrix, matrix, [ -center.x, -center.y ]);
+      Util.mat3.scale(matrix, matrix, [ ratio, ratio ]);
+      Util.mat3.translate(matrix, matrix, [ center.x, center.y ]);
+    } else {
+      Util.mat3.scale(matrix, matrix, [ ratio, ratio ]);
+    }
+    this._updateMatrix(matrix);
+  }
+  focus(item) {
+    this.get('ViewController').focus(item);
   }
   findById(id) {
     return this.itemById[id];
-  }
-  findNode(fn) {
-    return this.find('nodes', fn);
-  }
-  findEdge(fn) {
-    return this.find('edges', fn);
-  }
-  findAllNodes(fn) {
-    this.findAll('nodes', fn);
-  }
-  findAllEdges(fn) {
-    return this.findAll('edges', fn);
   }
   find(type, fn) {
     let result;
@@ -213,26 +313,29 @@ class Graph extends EventEmitter {
     });
     return result;
   }
-  removeNode(node) {
-    this.remove('nodes', node);
+  setAutoPaint(auto) {
+    this.set('autoPaint', auto);
+  }
+  clear() {
+    const group = this.get('group');
+    Util.each(this.node, node => {
+      node.destroy();
+    });
+    Util.each(this.edge, edge => {
+      edge.destroy();
+    });
+    group.clear();
+    this.node = [];
+    this.edge = [];
     return this;
   }
-  removeEdge(edge) {
-    this.remove('edges', edge);
+  destroy() {
+    this.clear();
+    this.get('eventController').destroy();
+    this.canvas.destroy();
+    this.itemById = null;
+    this.destroyed = true;
     return this;
-  }
-  remove(type, item) {
-    if (Util.isString(item)) {
-      item = this.itemById[item];
-    }
-    if (!item) {
-      return;
-    }
-    const items = this[type];
-    const index = items.indexOf(item);
-    items.splice(index, 1);
-    delete this.itemById[item.get('id')];
-    item.remove();
   }
 }
 

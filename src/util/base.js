@@ -14,6 +14,14 @@ const BaseUtil = {
   isNil: require('@antv/util/lib/type/is-nil'),
   isArray: require('@antv/util/lib/type/is-array'),
   createDom: require('@antv/util/lib/dom/create-dom'),
+  isPlainObject: require('@antv/util/lib/type/is-plain-object'),
+  isNumber: require('@antv/util/lib/type/is-number'),
+  isString: require('@antv/util/lib/type/is-string'),
+  uniqueId: require('@antv/util/lib/unique-id'),
+  addEventListener: require('@antv/util/lib/dom/add-event-listener'),
+  wrapBehavior: require('@antv/util/lib/event/wrap-behavior'),
+  extend: require('@antv/util/lib/extend'),
+  augment: require('@antv/util/lib/augment'),
   /**
    * traverse tree
    * @param  {object}      parent      parent
@@ -35,7 +43,7 @@ const BaseUtil = {
    * @param  {Number|Array} padding input padding
    * @return {array} output
    */
-  toAllPadding(padding) {
+  formatPadding(padding) {
     let top = 0;
     let left = 0;
     let right = 0;
