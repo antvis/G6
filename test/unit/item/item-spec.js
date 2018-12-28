@@ -1,19 +1,54 @@
-const Graph = require('../../../src/graph/graph');
-// const expect = require('chai').expect;
-const Util = require('../../../src/util/');
-const div = document.createElement('div');
-const data = require('../../fixtures/sample-graph-data.json');
-div.id = 'cchart';
-document.body.appendChild(div);
-data.nodes.forEach(node => {
-  node.label = node.id;
-});
-const graph = new Graph({
-  container: div,
-  width: 500,
-  height: 500
-});
-graph.source(Util.clone(data));
-graph.render();
+const expect = require('chai').expect;
+const G = require('@antv/g');
+const Item = require('../../../src/item/item');
 
-describe('item test', () => {});
+const div = document.createElement('div');
+div.id = 'item-spec';
+document.body.appendChild(div);
+
+describe('item', () => {
+  it('new item & destroy', () => {
+    const group = new G.Group({});
+    const item = new Item({ a: 1, b: 2 }, group);
+    const root = item.get('group');
+    expect(item).not.to.be.undefined;
+    expect(root).not.to.be.undefined;
+    expect(item.getType()).to.equal('item');
+    const model = item.get('model');
+    expect(model.a).to.equal(1);
+    expect(model.b).to.equal(2);
+    item.destroy();
+    expect(item.destroyed).to.be.true;
+    expect(root.get('destroyed')).to.be.true;
+  });
+  it('set & get state', () => {
+    const group = new G.Group({});
+    const item = new Item({}, group);
+    const states = item.getStates();
+    expect(states.length).to.equal(0);
+    item._setState('active', true);
+    expect(states.length).to.equal(1);
+    expect(states[0]).to.equal('active');
+    item._setState('selected', true);
+    expect(states.length).to.equal(2);
+    expect(states[0]).to.equal('active');
+    expect(states[1]).to.equal('selected');
+    item._setState('active', false);
+    expect(states.length).to.equal(1);
+    expect(states[0]).to.equal('selected');
+    item._setState('selected', true);
+    expect(states.length).to.equal(1);
+    expect(states[0]).to.equal('selected');
+  });
+  it('show & hide', () => {
+    const group = new G.Group({});
+    const item = new Item({}, group);
+    expect(item.isVisible()).to.be.true;
+    item._setState('visible', false);
+    expect(item.isVisible()).to.be.false;
+    expect(item.get('group').get('visible')).to.be.false;
+    item._setState('visible', true);
+    expect(item.isVisible()).to.be.true;
+    expect(item.get('group').get('visible')).to.be.true;
+  });
+});
