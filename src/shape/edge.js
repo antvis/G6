@@ -23,26 +23,11 @@ function revertAlign(labelPosition) {
   return textAlign;
 }
 
-<<<<<<< HEAD
-Shape.registerFactory('edge', {
-  defaultShapeType: 'line'
-});
 
-Shape.registerEdge('common', {
-  draw(item) {
-    const keyShape = this.drawKeyShape(item);
-    this.drawLabel(item, keyShape);
-    return keyShape;
-  },
-  drawKeyShape(item) {
-    const group = item.getGraphicGroup();
-    const style = this.getStyle(item);
-=======
 // 注册 Node 的工厂方法
 Shape.registerFactory('edge', {
   defaultShapeType: 'line'
 });
->>>>>>> feat(edge): add edge
 
 const singleEdgeDefinition = Util.mix({}, SingleShapeMixin, {
   itemType: 'edge',
