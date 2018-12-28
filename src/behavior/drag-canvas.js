@@ -1,12 +1,13 @@
 const Util = require('../util');
-const defaultCfg = {
-  direction: 'both',
-  shouldUpdate() { return true; }
-};
 
 module.exports = {
+  getDefaultCfg() {
+    return {
+      direction: 'both',
+      shouldUpdate() { return true; }
+    };
+  },
   bind(graph) {
-    this._cfg = Util.mix({}, defaultCfg, this._cfg);
     this.group = graph.get('group');
     this.graph = graph;
     this.events = {
