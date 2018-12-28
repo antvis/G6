@@ -3,7 +3,7 @@
  * @author dxq613@gmai.com
  */
 
-const { Canvas, Group } = require('@antv/g');
+const { Canvas } = require('@antv/g');
 const Shape = require('../../../src/shape/shape');
 const Global = require('../../../src/global');
 require('../../../src/shape/node');
@@ -81,9 +81,9 @@ describe('shape node test', () => {
         color: 'yellow',
         label: 'rect',
         labelCfg: {
-        	style: {
-	          fill: 'white'
-	        }
+          style: {
+            fill: 'white'
+          }
         },
         style: {
           fill: 'red'
@@ -181,73 +181,73 @@ describe('shape node test', () => {
       const rectGroup = canvas.findById('rect');
       const shape = rectGroup.get('children')[0];
 			// 伪造 item, 仅测试接口和图形的变化，不测试一致性
-			const item = {
-				getContainer: function() {
-					return rectGroup;
-				},
-				get(name) {
-					return '';
-				}
-			};
-			expect(shape.attr('lineWidth')).eql(1);
-			factory.setState('rect', 'selected', true, item);
+      const item = {
+        getContainer() {
+          return rectGroup;
+        },
+        get() {
+          return '';
+        }
+      };
+      expect(shape.attr('lineWidth')).eql(1);
+      factory.setState('rect', 'selected', true, item);
 
-			expect(shape.attr('lineWidth')).eql(Global.nodeStateStyle.selected.lineWidth);
-			factory.setState('rect', 'selected', false, item);
-			expect(shape.attr('lineWidth')).eql(1);
-			
-		});
+      expect(shape.attr('lineWidth')).eql(Global.nodeStateStyle.selected.lineWidth);
+      factory.setState('rect', 'selected', false, item);
+      expect(shape.attr('lineWidth')).eql(1);
 
-		it('label position', () => {
-			const group = canvas.addGroup();
-			group.translate(200, 200);
-			const shape = factory.draw('ellipse', {
-				size: [60, 20],
-				color: 'green',
-				label: 'ellipse position',
-				labelCfg: {
-					position: 'top'
-				}
-			}, group);
-			const item = {
-				getContainer: function() {
-					return group;
-				},
-				get(name) {
-					return '';
-				}
-			};
-			const label = group.get('children')[1];
-			expect(label.attr('x')).eql(0);
-			expect(label.attr('y')).eql(-10 - Global.nodeLabel.offset);
+    });
 
-			factory.update('ellipse', {
-				size: [60, 20],
-				color: 'green',
-				label: 'ellipse position',
-				labelCfg: {
-					position: 'left'
-				}
-			},item);
-			expect(label.attr('y')).eql(0);
-			expect(label.attr('x')).eql(-30 - Global.nodeLabel.offset);
+    it('label position', () => {
+      const group = canvas.addGroup();
+      group.translate(200, 200);
+      factory.draw('ellipse', {
+        size: [ 60, 20 ],
+        color: 'green',
+        label: 'ellipse position',
+        labelCfg: {
+          position: 'top'
+        }
+      }, group);
+      const item = {
+        getContainer() {
+          return group;
+        },
+        get() {
+          return '';
+        }
+      };
+      const label = group.get('children')[1];
+      expect(label.attr('x')).eql(0);
+      expect(label.attr('y')).eql(-10 - Global.nodeLabel.offset);
 
-			factory.update('ellipse', {
-				size: [60, 20],
-				color: 'green',
-				label: 'ellipse position',
-				labelCfg: {
-					position: 'right'
-				}
-			},item);
-			expect(label.attr('y')).eql(0);
-			expect(label.attr('x')).eql(30 + Global.nodeLabel.offset);
-			
-			canvas.draw();
-		});
+      factory.update('ellipse', {
+        size: [ 60, 20 ],
+        color: 'green',
+        label: 'ellipse position',
+        labelCfg: {
+          position: 'left'
+        }
+      }, item);
+      expect(label.attr('y')).eql(0);
+      expect(label.attr('x')).eql(-30 - Global.nodeLabel.offset);
 
-		it('clear', () => {
-			canvas.destroy();
-		});
-	});
+      factory.update('ellipse', {
+        size: [ 60, 20 ],
+        color: 'green',
+        label: 'ellipse position',
+        labelCfg: {
+          position: 'right'
+        }
+      }, item);
+      expect(label.attr('y')).eql(0);
+      expect(label.attr('x')).eql(30 + Global.nodeLabel.offset);
+
+      canvas.draw();
+    });
+
+    it('clear', () => {
+      canvas.destroy();
+    });
+  });
 });
