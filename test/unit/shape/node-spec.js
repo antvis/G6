@@ -80,8 +80,10 @@ describe('shape node test', () => {
         size: [ 40, 20 ],
         color: 'yellow',
         label: 'rect',
-        labelStyle: {
-          fill: 'white'
+        labelCfg: {
+        	style: {
+	          fill: 'white'
+	        }
         },
         style: {
           fill: 'red'
