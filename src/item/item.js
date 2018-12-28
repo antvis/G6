@@ -4,24 +4,10 @@
  */
 
 const Util = require('../util/');
-function getCollapsedParent(node, dataMap) {
-  const parent = dataMap[node.parent];
-  if (!parent) {
-    return false;
-  }
-  if (parent) {
-    const rst = getCollapsedParent(parent, dataMap);
-    if (rst) {
-      return rst;
-    }
-  }
-  if (parent.collapsed) {
-    return parent;
-  }
-}
+const Shape = require('../shape');
 
 class Item {
-  constructor(cfg) {
+  constructor(cfg, group) {
     const defaultCfg = {
       /**
        * id
@@ -33,7 +19,7 @@ class Item {
        * 类型
        * @type {string}
        */
-      type: null,
+      type: 'item',
 
       /**
        * data model
@@ -52,53 +38,44 @@ class Item {
        * @type {boolean}
        */
       animate: false,
-
-      /**
-       * cache model for diff
-       * @type {object}
-       */
-      modelCache: {},
-
-      /**
-       * is item
-       * @type {boolean}
-       */
-      isItem: true,
-
       /**
        * visible - not group visible
        * @type {boolean}
        */
-      visible: true
+      visible: true,
+      /**
+       * capture event
+       * @type {boolean}
+       */
+      event: true,
+      /**
+       * key shape to calculate item's bbox
+       * @type object
+       */
+      keyShape: null,
+      /**
+       * item's states, such as selected or active
+       * @type Array
+       */
+      states: []
     };
-    Util.mix(this, defaultCfg);
-    this.model = cfg;
-    this.id = cfg.id;
-    this._init();
-  }
-  _init() {
-    this._initGroup();
+    this._cfg = Util.mix(defaultCfg, this.getDefaultCfg());
+    if (!cfg.id) {
+      cfg.id = Util.uniqueId();
+      group.set('id', cfg.id);
+    }
+    this._cfg.model = cfg;
+    this.set('id', cfg.id);
+    this.set('group', group);
+    group.item = this;
+    this.init();
     this.draw();
   }
-  get(key) {
-    return this.model[key];
-  }
-  set(key, val) {
-    this.model[key] = val;
-    return this;
-  }
-  _initGroup() {
-    const group = this.group;
-    const model = this.model;
-    const type = this.type;
-    group.isItemContainer = true;
-    group.id = model.id;
-    group.itemType = type;
-    group.model = model;
-    group.item = this;
+  getDefaultCfg() {}
+  init() {
   }
   _calculateBBox() {
-    const keyShape = this.keyShape;
+    const keyShape = this.get('keyShape');
     const group = this.group;
     const bbox = Util.getBBox(keyShape, group);
     bbox.width = bbox.maxX - bbox.minX;
@@ -107,136 +84,72 @@ class Item {
     bbox.centerY = (bbox.minY + bbox.maxY) / 2;
     return bbox;
   }
-  getLabel() {
-    const group = this.group;
-    return group.findByClass('label')[0];
-  }
-  getGraph() {
-    return this.graph;
-  }
-  _setShapeObj() {
-    const graph = this.graph;
-    const type = this.type;
-    const model = this.getModel();
-    this.shapeObj = graph.getShapeObj(type, model);
-  }
-  _afterDraw() {
-    const graph = this.graph;
-    this._setGId();
-    this._cacheModel();
-    graph.emit('afteritemdraw', {
-      item: this
-    });
-  }
-  _cacheModel() {
-    this.modelCache = Util.mix({}, this.model);
-  }
-  _setGId() {
-    const group = this.group;
-    const id = this.id;
-    const type = this.type;
-    group.gid = id;
-    group.deepEach((child, parent, index) => {
-      const parentGid = parent.gid;
-      child.id = id;
-      child.eventPreFix = type;
-      child.gid = parentGid + '-' + index;
-      if (child.isShape) {
-        const shapeType = child.get('type');
-        child.gid += '-' + shapeType;
-      }
-    });
-  }
-  _beforeDraw() {
-    const graph = this.graph;
-    const group = this.group;
-    graph.emit('beforeitemdraw', {
-      item: this
-    });
-    group.resetMatrix();
-    this.updateCollapsedParent();
-  }
-  _shouldDraw() {
-    return true;
-  }
-  _getDiff() {
-    const diff = [];
-    const model = this.model;
-    const modelCache = this.modelCache;
-
-    Util.each(model, (v, k) => {
-      if (!Util.isEqual(v, modelCache[k])) {
-        diff.push(k);
-      }
-    });
-    if (diff.length === 0) {
-      return false;
-    }
-    return diff;
-  }
   _drawInner() {
-    const animate = this.animate;
-    const group = this.group;
-    group.clear(!animate);
-    this._setShapeObj();
-    const shapeObj = this.shapeObj;
-    const keyShape = shapeObj.draw(this);
+    const shapeFactory = Shape.getFactory(this.getType());
+    const group = this.get('group');
+    const model = this.get('model');
+    group.clear();
+    group.resetMatrix();
+    group.translate(model.x, model.y);
+    if (!shapeFactory) {
+      return;
+    }
+    const keyShape = shapeFactory.draw(model.type, model, group);
     if (keyShape) {
       keyShape.isKeyShape = true;
-      this.keyShape = keyShape;
+      this.set('keyShape', keyShape);
     }
-    shapeObj.afterDraw && shapeObj.afterDraw(this);
   }
-  deepEach(callback, getParent) {
-    Util.traverseTree(this, callback, getParent ? getParent : parent => {
-      return parent.getChildren();
-    });
+  getStates() {
+    return this.get('states');
   }
-  getShapeObj() {
-    return this.shapeObj;
+  _setState(state, enable) {
+    const states = this.get('states');
+    const shapeFactory = Shape.getFactory(this.getType());
+    const index = states.indexOf(state);
+    if (enable) {
+      if (index > -1) {
+        return this;
+      }
+      states.push(state);
+    } else if (index > -1) {
+      states.splice(states.indexOf(state), 1);
+    }
+    if (state === 'visible') {
+      this._changeVisible(enable);
+      return;
+    }
+    if (shapeFactory && shapeFactory.setState) {
+      shapeFactory.setState(this.get('model').type, state, enable, this);
+    }
   }
-  updateCollapsedParent() {
-    const dataMap = this.dataMap;
-    this.collapsedParent = getCollapsedParent(this.model, dataMap);
+  getContainer() {
+    return this.get('group');
   }
+  beforeDraw() {}
+  afterDraw() {}
   isVisible() {
-    return this.visible;
+    return this.get('visible');
   }
-  hide() {
-    const group = this.group;
-    const graph = this.graph;
-    graph.emit('beforeitemhide', {
-      item: this
-    });
-    group.hide();
-    this.visible = false;
-    graph.emit('afteritemhide', {
-      item: this
-    });
-  }
-  show() {
-    const group = this.group;
-    const graph = this.graph;
-    graph.emit('beforeitemshow', {
-      item: this
-    });
-    group.show();
-    this.visible = true;
-    graph.emit('afteritemshow', {
-      item: this
-    });
+  _update(cfg) {
+    const shapeFactory = Shape.getFactory(this.getType());
+    const model = this.get('model');
+    const type = this.get('model').type;
+    const newModel = Util.mix({}, model, cfg);
+
+    if (shapeFactory.update && (!cfg.type || cfg.type === type)) {
+      shapeFactory.update(type, cfg, this);
+      this.set('model', newModel);
+    } else {
+      this.set('model', newModel);
+      this.draw();
+    }
+    return this;
   }
   draw() {
-    this._beforeDraw();
-    if (this._shouldDraw()) {
-      this._drawInner();
-    }
-    this._afterDraw();
-  }
-  forceUpdate() {
-    this._beforeDraw();
+    this.beforeDraw();
     this._drawInner();
-    this._afterDraw();
+    this.afterDraw();
   }
   getCenter() {
     const bbox = this.getBBox();
@@ -246,83 +159,50 @@ class Item {
     };
   }
   getBBox() {
-    return (this.bbox || this._calculateBBox());
+    return this.bbox || this._calculateBBox();
   }
-  layoutUpdate() {
-    this.isVisible() && this.draw();
-  }
-  update() {
-    this.draw();
-  }
-  getModel() {
-    return this.model;
-  }
-  getKeyShape() {
-    return this.keyShape;
-  }
-  getGraphicGroup() {
-    return this.group;
-  }
-  getHierarchy() {
-    const graph = this.graph;
-    return graph.getHierarchy(this);
-  }
-  getParent() {
-    const model = this.model;
-    const itemMap = this.itemMap;
-    return itemMap[model.parent];
-  }
-  getAllParents() {
-    const model = this.model;
-    const itemMap = this.itemMap;
-    const parents = [];
-    let { parent } = model;
-    while (parent && itemMap[parent]) {
-      const parentItem = itemMap[parent];
-      const parentModel = parentItem.getModel();
-      parents.push(parentItem);
-      parent = parentModel.parent;
-    }
-    return parents;
-  }
-  // deep get all children
-  getAllChildren() {
-    const rst = [];
-    this.deepEach(child => {
-      rst.push(child);
-    });
-    return rst;
-  }
-  // get children
-  getChildren() {
-    const id = this.id;
-    const graph = this.graph;
-    const items = graph.getItems();
-
-    return items.filter(item => {
-      return item.model.parent === id;
-    });
+  geContainer() {
+    return this.get('group');
   }
   toFront() {
-    const group = this.group;
-    group.toFront();
+    this.get('group').toFront();
   }
   toBack() {
-    const group = this.group;
-    group.toBack();
+    this.get('group').toBack();
+  }
+  getType() {
+    return this.get('type');
+  }
+  _changeVisible(visible) {
+    const group = this.get('group');
+    if (visible) {
+      group.show();
+    } else {
+      group.hide();
+    }
+    this.set('visible', visible);
+  }
+  get(key) {
+    return this._cfg[key];
+  }
+  set(key, val) {
+    if (Util.isPlainObject(key)) {
+      this._cfg = Util.mix({}, this._cfg, key);
+    } else {
+      this._cfg[key] = val;
+    }
+    return this;
   }
   destroy() {
     if (!this.destroyed) {
-      const animate = this.animate;
-      const graph = this.graph;
-      graph.emit('beforeitemdestroy', {
-        item: this
-      });
-      this.group.remove(!animate);
+      const animate = this.get('animate');
+      const group = this.get('group');
+      if (animate) {
+        group.stopAnimate();
+      }
+      group.remove();
+      this._cfg = null;
       this.destroyed = true;
-      graph.emit('afteritemdestroy', {
-        item: this
-      });
     }
   }
 }
