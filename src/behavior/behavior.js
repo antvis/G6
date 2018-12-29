@@ -6,14 +6,20 @@ Behavior.registerBehavior = function(type, behavior) {
     throw new Error('please specify handler for this behavior:' + type);
   }
   const base = function(cfg) {
-    this._cfg = Util.mix({}, this.getDefaultCfg(), cfg);
+    Util.mix(this, this.getDefaultCfg(), cfg);
   };
   Util.augment(base, {
+    shouldBegin() {
+      return true;
+    },
+    shouldUpdate() {
+      return true;
+    },
     get(val) {
-      return this._cfg[val];
+      return this[val];
     },
     set(key, val) {
-      this._cfg[key] = val;
+      this[key] = val;
       return this;
     },
     getDefaultCfg() {},
