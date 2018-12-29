@@ -3,8 +3,7 @@ const Util = require('../util');
 module.exports = {
   getDefaultCfg() {
     return {
-      direction: 'both',
-      shouldUpdate() { return true; }
+      direction: 'both'
     };
   },
   bind(graph) {
@@ -46,8 +45,10 @@ module.exports = {
     this.graph.paint();
   },
   onMouseDown(e) {
-    this.origin = { x: e.clientX, y: e.clientY };
-    this.dragging = false;
+    if (this.shouldBegin.call(this, e)) {
+      this.origin = { x: e.clientX, y: e.clientY };
+      this.dragging = false;
+    }
   },
   onMouseMove(e) {
     if (!this.origin) { return; }
