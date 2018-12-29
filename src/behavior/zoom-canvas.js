@@ -7,7 +7,7 @@ module.exports = {
     return {
       sensitivity: 5,
       minZoom: 0.1,
-      maxZoom: 5,
+      maxZoom: 10,
       shouldUpdate() { return true; }
     };
   },
