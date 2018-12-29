@@ -3,7 +3,7 @@ const Event = require('@antv/g').Event;
 const G6 = require('../../../src');
 
 const div = document.createElement('div');
-div.id = 'pan-spec';
+div.id = 'zoom-spec';
 document.body.appendChild(div);
 
 function createWheelEvent(canvas, delta, x, y) {

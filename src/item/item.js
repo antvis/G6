@@ -147,12 +147,12 @@ class Item {
   _update(cfg) {
     const shapeFactory = Shape.getFactory(this.getType());
     const model = this.get('model');
-    const type = this.get('model').type;
+    const type = this.get('model').type || shapeFactory.defaultShapeType;
     const newModel = Util.mix({}, model, cfg);
+    this.set('model', newModel);
 
     if (shapeFactory.update && (!cfg.type || cfg.type === type)) {
-      shapeFactory.update(type, cfg, this);
-      this.set('model', newModel);
+      shapeFactory.update(type, newModel, this);
     } else {
       this.set('model', newModel);
       this.draw();
