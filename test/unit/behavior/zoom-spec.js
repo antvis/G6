@@ -15,7 +15,7 @@ function createWheelEvent(canvas, delta, x, y) {
   return e;
 }
 
-describe.only('zoom-canvas', () => {
+describe('zoom-canvas', () => {
   it('zoom canvas', () => {
     const graph = new G6.Graph({
       container: div,
