@@ -22,6 +22,7 @@ const BaseUtil = {
   wrapBehavior: require('@antv/util/lib/event/wrap-behavior'),
   extend: require('@antv/util/lib/extend'),
   augment: require('@antv/util/lib/augment'),
+  remove: require('@antv/util/lib/array/remove'),
   /**
    * traverse tree
    * @param  {object}      parent      parent
