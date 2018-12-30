@@ -35,9 +35,9 @@ module.exports = {
       lineWidth: 2
     }
   },
-  labelStateStyle: {
+  edgeStateStyle: {
     active: {
-      fillOpacity: 0.8
+      strokeOpacity: 0.8
     },
     selected: {
       lineWidth: 2
