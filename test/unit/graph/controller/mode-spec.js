@@ -26,7 +26,7 @@ describe('mode', () => {
       width: 500,
       height: 500,
       pixelRatio: 2,
-      modes:  {
+      modes: {
         default: [],
         custom: []
       }
@@ -55,7 +55,7 @@ describe('mode', () => {
     let triggered = false;
     const modeController = graph.get('modeController');
     expect(Object.keys(modeController.modes).length).to.equal(2);
-    G6.registerBehavior('aa', { bind() { triggered = true; }, unbind() { triggered = false;} });
+    G6.registerBehavior('aa', { bind() { triggered = true; }, unbind() { triggered = false; } });
     G6.registerBehavior('bb', { bind() {}, unbind() {} });
     modeController.manipulateBehaviors('aa', undefined, true);
     modeController.manipulateBehaviors('bb', undefined, true);
@@ -84,14 +84,14 @@ describe('mode', () => {
     });
     const modeController = graph.get('modeController');
     expect(Object.keys(modeController.modes).length).to.equal(3);
-    modeController.manipulateBehaviors(['aa', 'bb'], ['custom1', 'custom2'], true);
+    modeController.manipulateBehaviors([ 'aa', 'bb' ], [ 'custom1', 'custom2' ], true);
     expect(modeController.modes.custom1.length).to.equal(2);
     expect(modeController.modes.custom2.length).to.equal(2);
     expect(modeController.modes.custom1[0].type).to.equal('aa');
     expect(modeController.modes.custom1[1].type).to.equal('bb');
     expect(modeController.modes.custom2[0].type).to.equal('aa');
     expect(modeController.modes.custom2[1].type).to.equal('bb');
-    modeController.manipulateBehaviors(['aa'], ['custom1', 'custom2'], false);
+    modeController.manipulateBehaviors([ 'aa' ], [ 'custom1', 'custom2' ], false);
     expect(modeController.modes.custom1.length).to.equal(1);
     expect(modeController.modes.custom2.length).to.equal(1);
     expect(modeController.modes.custom1[0].type).to.equal('bb');

@@ -26,7 +26,7 @@ describe('event', () => {
     graph.on('canvas:click', e => {
       a = e.a;
     });
-    graph.emit('canvas:click', { a: 1});
+    graph.emit('canvas:click', { a: 1 });
     canvas.emit('click', { a: 1, target: canvas, type: 'click' });
     expect(a).to.equal(1);
   });
@@ -53,16 +53,16 @@ describe('event', () => {
     graph.on('node:mousedown', e => { target = e.target; });
     canvas.emit('mousedown', { type: 'mousedown', target: shape });
     expect(target === node).to.be.true;
-     target = null;
+    target = null;
     graph.removeEvent('node:mousedown');
     canvas.emit('mousedown', { type: 'mousedown', target: shape });
     expect(target).to.be.null;
   });
   it('dom event', () => {
     let evt = null;
-    const fn = (e) => {
+    const fn = e => {
       evt = e;
-    }
+    };
     graph.on('keydown', fn);
     const canvas = graph.get('canvas').get('el');
     const bbox = canvas.getBoundingClientRect();
