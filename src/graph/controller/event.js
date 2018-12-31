@@ -27,7 +27,7 @@ const EXTEND_EVENTS = [
 ];
 
 function getItemRoot(shape) {
-  while (shape && !shape.item) {
+  while (shape && !shape.get('item')) {
     shape = shape.get('parent');
   }
   return shape;
@@ -64,7 +64,7 @@ class Event {
     }
     const itemShape = getItemRoot(target);
     if (itemShape !== canvas) {
-      const item = itemShape.item;
+      const item = itemShape.get('item');
       e.target = item;
       graph.emit(item.getType() + ':' + e.type, e);
     }
