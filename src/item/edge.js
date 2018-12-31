@@ -22,8 +22,8 @@ class Edge extends Item {
   init() {
     super.init();
     // 初始化两个端点
-    this.setSource(this.get('source'));
-    this.setTarget(this.get('target'));
+    this.setSource(this.get('source') || this.get('model').source);
+    this.setTarget(this.get('target') || this.get('model').target);
   }
 
   setSource(source) {

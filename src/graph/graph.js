@@ -134,7 +134,7 @@ class Graph extends EventEmitter {
     if (Util.isString(item)) {
       item = this.itemById[item];
     }
-    item._update(cfg);
+    item.update(cfg);
     if (this.get('autoPaint')) {
       this.paint();
     }
@@ -152,7 +152,7 @@ class Graph extends EventEmitter {
     }
     const item = new Item[Util.upperFirst(type)]({
       model,
-      group: parent
+      group: parent.addGroup()
     });
     // 这个地方存一个 Map 就好了，为什么数组和map 都存储
     this[type].push(item);
