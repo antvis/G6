@@ -150,7 +150,11 @@ class Graph extends EventEmitter {
         model.target = this.itemById[model.target];
       }
     }
-    const item = new Item[Util.upperFirst(type)](model, parent);
+    const item = new Item[Util.upperFirst(type)]({
+      model,
+      group: parent
+    });
+    // 这个地方存一个 Map 就好了，为什么数组和map 都存储
     this[type].push(item);
     this.itemById[item.get('id')] = item;
     return item;
