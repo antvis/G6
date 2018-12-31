@@ -64,19 +64,32 @@ class Item {
       cfg.id = Util.uniqueId();
       group.set('id', cfg.id);
     }
-    this._cfg.model = cfg;
+    this.set('model', cfg);
     this.set('id', cfg.id);
     this.set('group', group);
     group.item = this;
     this.init();
     this.draw();
   }
-  getDefaultCfg() {}
+  /**
+   * 获取默认的配置项
+   * @protected 供子类复写
+   * @return {Object} 配置项
+   */
+  getDefaultCfg() {
+    return {};
+  }
+  /**
+   * 初始化
+   * @protected
+   */
   init() {
   }
+  // 根据 keyshape 计算包围盒
   _calculateBBox() {
     const keyShape = this.get('keyShape');
     const group = this.group;
+    // 因为 group 可能会
     const bbox = Util.getBBox(keyShape, group);
     bbox.width = bbox.maxX - bbox.minX;
     bbox.height = bbox.maxY - bbox.minY;

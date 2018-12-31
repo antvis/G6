@@ -27,7 +27,7 @@ class Mode {
   constructor(graph) {
     this.graph = graph;
     this.modes = graph.get('modes') || {
-        default: []
+      default: []
     };
     this._formatModes();
     this.mode = graph.get('defaultMode') || 'default';

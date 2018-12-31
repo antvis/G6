@@ -18,7 +18,7 @@ class Node extends Item {
   getNeighbors() {
     const nodes = [];
     let node = null;
-    Util.each(this.get('edges'), (edge) => {
+    Util.each(this.get('edges'), edge => {
       if (edge.get('source') === this) {
         node = edge.get('target');
       } else {

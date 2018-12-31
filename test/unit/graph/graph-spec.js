@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
 const G6 = require('../../../src');
-const Util = require('../../../src/util');
+// const Util = require('../../../src/util');
 
 const div = document.createElement('div');
 div.id = 'graph-spec';
@@ -71,7 +71,7 @@ describe('graph', () => {
     graph.destroy();
   });
   it('add node', () => {
-    const node = graph.add('node', { type: 'circle', color: '#ccc', style: { x: 50, y: 50, r: 20, lineWidth: 2} });
+    const node = graph.add('node', { type: 'circle', color: '#ccc', style: { x: 50, y: 50, r: 20, lineWidth: 2 } });
     expect(node).not.to.be.undefined;
     expect(graph.node.length).to.equal(1);
     expect(graph.node[0]).to.equal(node);
