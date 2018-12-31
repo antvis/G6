@@ -23,6 +23,12 @@ module.exports = {
     });
   },
   onDragStart(e) {
+    if (!this.shouldBegin.call(this, e)) {
+      return;
+    }
+    if (e.target.getType() !== 'node') {
+      return;
+    }
     this.origin = {
       x: e.clientX,
       y: e.clientY
@@ -44,12 +50,13 @@ module.exports = {
     const origin = this.origin;
     const dx = e.clientX - origin.x;
     const dy = e.clientY - origin.y;
-    // const model = item.get('model');
-    // this.graph.update(item, { x: model.x + dx, y: model.y + dy });
-    item.get('group').translate(dx, dy);
+    const model = item.get('model');
+    this.graph.update(item, { x: model.x + dx, y: model.y + dy });
     this.origin = { x: e.clientX, y: e.clientY };
     if (this.get('updateEdge')) {
-      // todo
+      Util.each(item.getEdges(), edge => {
+        edge.refresh();
+      });
     }
     this.graph.paint();
   }
