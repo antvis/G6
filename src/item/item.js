@@ -133,9 +133,11 @@ class Item {
    * @param {Object} cfg 位置信息
    */
   updatePoistion(cfg) {
-    const group = this.get('group');
-    group.resetMatrix();
-    group.translate(cfg.x, cfg.y);
+    if (cfg.x && cfg.y) {
+      const group = this.get('group');
+      group.resetMatrix();
+      group.translate(cfg.x, cfg.y);
+    }
   }
 
   // 绘制
@@ -247,7 +249,6 @@ class Item {
     const shapeFactory = this.get('shapeFactory');
     const shape = model.shape;
     const newModel = Util.mix({}, model, cfg);
-
     // 判定是否允许更新
     // 1. 注册的元素（node, edge）允许更新
     // 2. 更新的信息中没有指定 shape
