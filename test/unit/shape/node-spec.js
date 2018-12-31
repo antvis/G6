@@ -3,7 +3,7 @@
  * @author dxq613@gmai.com
  */
 
-const { Canvas, Group } = require('@antv/g');
+const { Canvas } = require('@antv/g');
 const Shape = require('../../../src/shape/shape');
 const Global = require('../../../src/global');
 require('../../../src/shape/node');
@@ -80,8 +80,10 @@ describe('shape node test', () => {
         size: [ 40, 20 ],
         color: 'yellow',
         label: 'rect',
-        labelStyle: {
-          fill: 'white'
+        labelCfg: {
+          style: {
+            fill: 'white'
+          }
         },
         style: {
           fill: 'red'
@@ -203,7 +205,9 @@ describe('shape node test', () => {
         size: [ 60, 20 ],
         color: 'green',
         label: 'ellipse position',
-        labelPosition: 'top'
+        labelCfg: {
+          position: 'top'
+        }
       }, group);
       const item = {
         getContainer() {
@@ -221,7 +225,9 @@ describe('shape node test', () => {
         size: [ 60, 20 ],
         color: 'green',
         label: 'ellipse position',
-        labelPosition: 'left'
+        labelCfg: {
+          position: 'left'
+        }
       }, item);
       expect(label.attr('y')).eql(0);
       expect(label.attr('x')).eql(-30 - Global.nodeLabel.offset);
@@ -230,12 +236,18 @@ describe('shape node test', () => {
         size: [ 60, 20 ],
         color: 'green',
         label: 'ellipse position',
-        labelPosition: 'right'
+        labelCfg: {
+          position: 'right'
+        }
       }, item);
       expect(label.attr('y')).eql(0);
       expect(label.attr('x')).eql(30 + Global.nodeLabel.offset);
 
       canvas.draw();
+    });
+
+    it('clear', () => {
+      canvas.destroy();
     });
   });
 });
