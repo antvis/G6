@@ -6,49 +6,95 @@ const div = document.createElement('div');
 div.id = 'item-spec';
 document.body.appendChild(div);
 
-describe('item', () => {
+const canvas = new G.Canvas({
+  containerId: 'item-spec',
+  width: 500,
+  height: 500
+});
+
+describe('item test', () => {
   it('new item & destroy', () => {
     const group = new G.Group({});
-    const item = new Item({ a: 1, b: 2 }, group);
+    const item = new Item({
+      model: { a: 1, b: 2 },
+      group
+    });
     const root = item.get('group');
     expect(item).not.to.be.undefined;
     expect(root).not.to.be.undefined;
-    expect(item.getType()).to.equal('item');
+    expect(item.getContainer()).eql(group);
+    expect(item.get('type')).to.equal('item');
     const model = item.get('model');
+    expect(model).eql(item.getModel());
+    expect(item.get('type')).eql(item.getType());
     expect(model.a).to.equal(1);
     expect(model.b).to.equal(2);
     item.destroy();
     expect(item.destroyed).to.be.true;
     expect(root.get('destroyed')).to.be.true;
   });
+
   it('set & get state', () => {
     const group = new G.Group({});
-    const item = new Item({}, group);
+    const item = new Item({
+      group,
+      model: { color: 'red', shape: 'rect' }
+    });
     const states = item.getStates();
     expect(states.length).to.equal(0);
-    item._setState('active', true);
+    item.setState('active', true);
     expect(states.length).to.equal(1);
     expect(states[0]).to.equal('active');
-    item._setState('selected', true);
+    item.setState('selected', true);
     expect(states.length).to.equal(2);
     expect(states[0]).to.equal('active');
     expect(states[1]).to.equal('selected');
-    item._setState('active', false);
+    item.setState('active', false);
     expect(states.length).to.equal(1);
     expect(states[0]).to.equal('selected');
-    item._setState('selected', true);
+    item.setState('selected', true);
     expect(states.length).to.equal(1);
     expect(states[0]).to.equal('selected');
+    item.setState('selected', false);
+    expect(states.length).to.equal(0);
   });
+
+  it('to front', () => {
+    const group = canvas.addGroup();
+    const item = new Item({
+      id: 'a',
+      group,
+      model: { color: 'red', shape: 'rect' }
+    });
+    expect(group.get('id')).eql('a');
+    const group1 = canvas.addGroup();
+    const item1 = new Item({
+      id: 'b',
+      group: group1,
+      model: { color: 'red', shape: 'circle' }
+    });
+    expect(group1.get('item')).eql(item1);
+    expect(canvas.get('children')[0]).eql(group);
+    item.toFront();
+    expect(canvas.get('children')[1]).eql(group);
+    item.toBack();
+    expect(canvas.get('children')[0]).eql(group);
+  });
+
   it('show & hide', () => {
     const group = new G.Group({});
-    const item = new Item({}, group);
-    expect(item.isVisible()).to.be.true;
-    item._setState('visible', false);
-    expect(item.isVisible()).to.be.false;
+    const item = new Item({
+      group
+    });
+    expect(item.get('visible')).to.be.true;
+    item.changeVisible(false);
+    expect(item.get('visible')).to.be.false;
     expect(item.get('group').get('visible')).to.be.false;
-    item._setState('visible', true);
-    expect(item.isVisible()).to.be.true;
+    item.changeVisible(true);
+    expect(item.get('visible')).to.be.true;
     expect(item.get('group').get('visible')).to.be.true;
+  });
+  it('clear', () => {
+    canvas.destroy();
   });
 });
