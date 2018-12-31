@@ -15,102 +15,73 @@ class Node extends Item {
       status: []
     };
   }
-  getNeighbors() {
-    const nodes = [];
-    let node = null;
-    Util.each(this.get('edges'), edge => {
-      if (edge.get('source') === this) {
-        node = edge.get('target');
-      } else {
-        node = edge.get('source');
-      }
-      if (nodes.indexOf(node) < 0) {
-        nodes.push(node);
-      }
-    });
-    return nodes;
-  }
+
+  // getNeighbors() {
+  //   const nodes = [];
+  //   let node = null;
+  //   Util.each(this.get('edges'), edge => {
+  //     if (edge.get('source') === this) {
+  //       node = edge.get('target');
+  //     } else {
+  //       node = edge.get('source');
+  //     }
+  //     if (nodes.indexOf(node) < 0) {
+  //       nodes.push(node);
+  //     }
+  //   });
+  //   return nodes;
+  // }
   getEdges() {
     return this.get('edges');
   }
+
   getInEdges() {
+    const self = this;
     return this.get('edges').filter(edge => {
-      return edge.get('target') === this;
+      return edge.get('target') === self;
     });
   }
+
   getOutEdges() {
+    const self = this;
     return this.get('edges').filter(edge => {
-      return edge.get('source') === this;
+      return edge.get('source') === self;
     });
   }
-  showAnchor() {
-    // todo
-  }
-  hideAnchor() {}
+
+  // showAnchors() {
+  //   // todo
+  // }
+  // hideAnchors() {
+
+  // }
+
   /**
     * get anchor points, if there is anchors return the points sorted by arc , others return the link point
     * @param {Object | Number} point - start point
     * @return {array} - all anchor points sorted by angle, ASC
     */
-  getLinkPoints(point) {
-    const anchorPoints = this.getAnchorPoints();
-    if (Util.isNumber(point) && anchorPoints[point]) {
-      return [ anchorPoints[point] ];
-    }
-    const { x, y } = point;
-    const bbox = this.getBBox();
-    const { centerX, centerY } = bbox;
-    const x1 = x - centerX;
-    const y1 = y - centerY;
-    const shapeObj = this.shapeObj;
-    const anchor = shapeObj.anchor || {};
-    const defaultIntersectBox = this.defaultIntersectBox;
-    let points = [];
-    if (Util.isEmpty(anchorPoints)) {
-      // get link point if there are no default anchors
-      const intersectBox = shapeObj.intersectBox || anchor.intersectBox || anchor.type || defaultIntersectBox;
-
-      switch (intersectBox) {
-        case 'rect':
-          points = [ Util.getIntersectPointRect(bbox, point) ];
-          break;
-        case 'path':
-          if (this.keyShape && this.keyShape.get('type') === 'path') {
-            const linePath = Util.parsePathArray([ 'M', x, y, 'L', centerX, centerY ]);
-            points = [ Util.intersection(linePath, this.keyShape.get('path')) ];
-          }
-          break;
-        default:
-          // default circle
-          points = [ Util.getIntersectPointCircle(x, y, bbox.centerX, bbox.centerY, Math.max(bbox.width, bbox.height) / 2) ];
-          break;
-      }
-      // if no link points return center
-      if (Util.isEmpty(points[0])) {
-        points = [{
-          x: centerX,
-          y: centerY
-        }];
-      }
-    } else {
-      // get sorted points by arc if there are default points
-      points = anchorPoints.map(p => {
-        const x2 = p.x - centerX;
-        const y2 = p.y - centerY;
-        const arc = Util.getArcOfVectors({ x: x1, y: y1 }, { x: x2, y: y2 });
-        return Util.mix({}, p, {
-          arc
-        });
-      })
-        .sort((a, b) => {
-          return a.arc - b.arc;
-        });
-    }
-    return points;
+  getLinkPoint(/* point */) {
+    const model = this.get('model');
+    // TO DO 计算锚点
+    return {
+      x: model.x,
+      y: model.y
+    };
   }
-  _addEdge(edge) {
+
+  addEdge(edge) {
     this.get('edges').push(edge);
   }
+
+  removeEdge(edge) {
+    const edges = this.getEdges();
+    const index = edges.indexOf(edge);
+    if (index > -1) {
+      edges.splice(index, 1);
+    }
+  }
+
   /**
    * get position of anchor points
    * @param {number} index the index of points
