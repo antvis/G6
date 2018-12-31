@@ -7,7 +7,7 @@ const Util = require('../util/');
 const Shape = require('../shape');
 
 class Item {
-  constructor(cfg, group) {
+  constructor(cfg) {
     const defaultCfg = {
       /**
        * id
@@ -38,6 +38,7 @@ class Item {
        * @type {boolean}
        */
       animate: false,
+
       /**
        * visible - not group visible
        * @type {boolean}
@@ -59,17 +60,44 @@ class Item {
        */
       states: []
     };
-    this._cfg = Util.mix(defaultCfg, this.getDefaultCfg());
-    if (!cfg.id) {
-      cfg.id = Util.uniqueId();
-      group.set('id', cfg.id);
-    }
-    this.set('model', cfg);
-    this.set('id', cfg.id);
-    this.set('group', group);
-    group.item = this;
+    this._cfg = Util.mix(defaultCfg, this.getDefaultCfg(), cfg);
+    const group = cfg.group;
+    group.set('item', this);
+    group.set('id', cfg.id);
     this.init();
     this.draw();
+  }
+
+  /**
+   * 是否是 Item 对象，悬空边情况下进行判定
+   * @return {Boolean} 是否是 Item 对象
+   */
+  isItem() {
+    return true;
+  }
+
+  /**
+   * 获取属性
+   * @internal 仅内部类使用
+   * @param  {String} key 属性名
+   * @return {*} 属性值
+   */
+  get(key) {
+    return this._cfg[key];
+  }
+
+  /**
+   * 设置属性
+   * @internal 仅内部类使用
+   * @param {String|Object} key 属性名，也可以是对象
+   * @param {*} val 属性值
+   */
+  set(key, val) {
+    if (Util.isPlainObject(key)) {
+      this._cfg = Util.mix({}, this._cfg, key);
+    } else {
+      this._cfg[key] = val;
+    }
   }
   /**
    * 获取默认的配置项
@@ -84,12 +112,14 @@ class Item {
    * @protected
    */
   init() {
+    const shapeFactory = Shape.getFactory(this.get('type'));
+    this.set('shapeFactory', shapeFactory);
   }
   // 根据 keyshape 计算包围盒
   _calculateBBox() {
     const keyShape = this.get('keyShape');
     const group = this.group;
-    // 因为 group 可能会
+    // 因为 group 可能会移动，所以必须通过父元素计算才能计算出正确的包围盒
     const bbox = Util.getBBox(keyShape, group);
     bbox.width = bbox.maxX - bbox.minX;
     bbox.height = bbox.maxY - bbox.minY;
@@ -97,96 +127,183 @@ class Item {
     bbox.centerY = (bbox.minY + bbox.maxY) / 2;
     return bbox;
   }
-  _drawInner() {
-    const shapeFactory = Shape.getFactory(this.getType());
+
+  /**
+   * 更新位置，避免整体重绘
+   * @param {Object} cfg 位置信息
+   */
+  updatePoistion(cfg) {
     const group = this.get('group');
-    const model = this.get('model');
-    group.clear();
     group.resetMatrix();
-    group.translate(model.x, model.y);
+    group.translate(cfg.x, cfg.y);
+  }
+
+  // 绘制
+  _drawInner() {
+    const self = this;
+    const shapeFactory = self.get('shapeFactory');
+    const group = self.get('group');
+    const model = self.get('model');
+    const shapeType = model.shape;
+    group.clear();
+
     if (!shapeFactory) {
       return;
     }
-    const keyShape = shapeFactory.draw(model.type, model, group);
+    self.updatePoistion(model);
+    const cfg = this.getDrawCfg(model); // 可能会附加额外信息
+    const keyShape = shapeFactory.draw(shapeType, cfg, group);
+    const states = self.get('states');
     if (keyShape) {
       keyShape.isKeyShape = true;
-      this.set('keyShape', keyShape);
+      self.set('keyShape', keyShape);
     }
+    Util.each(states, state => {
+      shapeFactory.setState(shapeType, state, true, self);
+    });
   }
+  /**
+   * 获取当前元素的所有状态
+   * @return {Array} 元素的所有状态
+   */
   getStates() {
     return this.get('states');
   }
-  _setState(state, enable) {
+
+  /**
+   * 更改元素状态， visible 不属于这个范畴
+   * @internal 仅提供内部类 graph 使用
+   * @param {String} state 状态名
+   * @param {Boolean} enable 节点状态值
+   */
+  setState(state, enable) {
     const states = this.get('states');
-    const shapeFactory = Shape.getFactory(this.getType());
+    const shapeFactory = this.get('shapeFactory');
     const index = states.indexOf(state);
     if (enable) {
       if (index > -1) {
-        return this;
+        return;
       }
       states.push(state);
     } else if (index > -1) {
-      states.splice(states.indexOf(state), 1);
+      states.splice(index, 1);
     }
-    if (state === 'visible') {
-      this._changeVisible(enable);
-      return;
-    }
-    if (shapeFactory && shapeFactory.setState) {
-      shapeFactory.setState(this.get('model').type, state, enable, this);
+    if (shapeFactory) {
+      const model = this.get('model');
+      shapeFactory.setState(model.shape, state, enable, this);
     }
   }
+  /**
+   * 节点的图形容器
+   * @return {G.Group} 图形容器
+   */
   getContainer() {
     return this.get('group');
   }
-  beforeDraw() {}
-  afterDraw() {}
-  isVisible() {
-    return this.get('visible');
+
+  getModel() {
+    return this.get('model');
   }
-  _update(cfg) {
-    const shapeFactory = Shape.getFactory(this.getType());
+
+  getType() {
+    return this.get('type');
+  }
+
+  /**
+   * 渲染前的逻辑，提供给子类复写
+   * @protected
+   */
+  beforeDraw() {
+
+  }
+  /**
+   * 渲染后的逻辑，提供给子类复写
+   * @protected
+   */
+  afterDraw() {
+
+  }
+
+  getDrawCfg(model) {
+    return model;
+  }
+
+  /**
+   * 刷新，一般用于处理几种情况
+   * 1. model 在外部被改变
+   * 2. 边的节点位置发生改变，需要重新计算边
+   */
+  refresh() {
+    this.update(); // 更新时不设置任何属性
+  }
+
+  /**
+   * 更新元素
+   * @internal 仅提供给 Graph 使用，外部直接调用 graph.update 接口
+   * @param  {Object} cfg 配置项，可以是增量信息
+   */
+  update(cfg) {
     const model = this.get('model');
-    const type = this.get('model').type;
+    const shapeFactory = this.get('shapeFactory');
+    const shape = model.shape;
     const newModel = Util.mix({}, model, cfg);
 
-    if (shapeFactory.update && (!cfg.type || cfg.type === type)) {
-      shapeFactory.update(type, cfg, this);
+    // 判定是否允许更新
+    // 1. 注册的元素（node, edge）允许更新
+    // 2. 更新的信息中没有指定 shape
+    // 3. 更新信息中指定了 shape 同时等于原先的 shape
+    if (shapeFactory.shouldUpdate(shape) && newModel.shape === shape) {
+      const updateCfg = this.getDrawCfg(newModel);
+      // 如果 x,y 发生改变，则重置位置
+      if (newModel.x !== model.x || newModel.y !== model.y) {
+        this.updatePoistion(newModel);
+      }
+      shapeFactory.update(shape, updateCfg, this);
+      // 设置 model 在更新后，防止在更新时取原始 model
       this.set('model', newModel);
-    } else {
+    } else { // 如果不满足上面 3 种状态，重新绘制
       this.set('model', newModel);
+      // 绘制元素时，需要最新的 model
       this.draw();
     }
-    return this;
   }
+
+  /**
+   * 绘制元素
+   */
   draw() {
     this.beforeDraw();
     this._drawInner();
     this.afterDraw();
   }
-  getCenter() {
-    const bbox = this.getBBox();
-    return {
-      x: bbox.centerX,
-      y: bbox.centerY
-    };
-  }
+
+  /**
+   * 获取元素的包围盒
+   * @return {Object} 包含 x,y,width,height, centerX, centerY
+   */
   getBBox() {
     return this.bbox || this._calculateBBox();
   }
-  geContainer() {
-    return this.get('group');
-  }
+
+  /**
+   * 将元素放到最前面
+   */
   toFront() {
     this.get('group').toFront();
   }
+
+  /**
+   * 将元素放到最后面
+   */
   toBack() {
     this.get('group').toBack();
   }
-  getType() {
-    return this.get('type');
-  }
-  _changeVisible(visible) {
+
+  /**
+   * 更改是否显示
+   * @param  {Boolean} visible 是否显示
+   */
+  changeVisible(visible) {
     const group = this.get('group');
     if (visible) {
       group.show();
@@ -195,17 +312,13 @@ class Item {
     }
     this.set('visible', visible);
   }
-  get(key) {
-    return this._cfg[key];
+
+  isVisible() {
+    return this.get('visible');
   }
-  set(key, val) {
-    if (Util.isPlainObject(key)) {
-      this._cfg = Util.mix({}, this._cfg, key);
-    } else {
-      this._cfg[key] = val;
-    }
-    return this;
-  }
+  /**
+   * 析构函数
+   */
   destroy() {
     if (!this.destroyed) {
       const animate = this.get('animate');
