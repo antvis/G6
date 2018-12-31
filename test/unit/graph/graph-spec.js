@@ -82,7 +82,7 @@ describe('graph', () => {
     graph.remove(node);
     expect(graph.node.length).to.equal(1);
     expect(graph.node[0]).to.equal(node2);
-    graph.remove('node');
+    graph.remove(node2);
     expect(graph.node.length).to.equal(0);
   });
   it('add edge', () => {
