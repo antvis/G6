@@ -3,7 +3,8 @@ const Util = require('../util');
 module.exports = {
   getDefaultCfg() {
     return {
-      updateEdge: true
+      updateEdge: true,
+      afterDrag() {}
     };
   },
   bind(graph) {
@@ -44,6 +45,7 @@ module.exports = {
     const item = e.target;
     if (item) {
       this._update(item, e);
+      this.afterDrag.call(this, e);
     }
   },
   _update(item, e) {
