@@ -13,7 +13,7 @@ class Item {
        * id
        * @type {string}
        */
-      id: '',
+      id: null,
 
       /**
        * 类型
@@ -63,7 +63,12 @@ class Item {
     this._cfg = Util.mix(defaultCfg, this.getDefaultCfg(), cfg);
     const group = cfg.group;
     group.set('item', this);
-    group.set('id', cfg.id);
+    let id = this.get('model').id;
+    if (!id || id === '') {
+      id = Util.uniqueId(this.get('type'));
+    }
+    this.set('id', id);
+    group.set('id', id);
     this.init();
     this.draw();
   }
