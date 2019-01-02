@@ -60,11 +60,8 @@ const MathUtil = {
    * @param  {object} point point
    * @return {object} rst;
    */
-  getIntersectPointRect(rect, point) {
-    const x = rect.minX;
-    const y = rect.minY;
-    const width = (rect.maxX - rect.minX);
-    const height = (rect.maxY - rect.minY);
+  getRectIntersectByPoint(rect, point) {
+    const { x, y, width, height } = rect;
     const cx = x + width / 2;
     const cy = y + height / 2;
     const points = [];
@@ -103,26 +100,50 @@ const MathUtil = {
   },
   /**
    * get point and circle inIntersect
-   * @param  {number} x   point x
-   * @param  {number} y   point y
-   * @param  {number} cx  circle center x
-   * @param  {number} cy  circle center y
-   * @param  {number} cr  circle radius
+   * @param {Object} circle 圆点，x,y,r
+   * @param {Object} point 点 x,y
    * @return {object} applied point
    */
-  getIntersectPointCircle(x, y, cx, cy, cr) {
-    const d = Math.sqrt(Math.pow((x - cx), 2) + Math.pow((y - cy), 2));
-    if (d < cr) {
-      return null;
-    }
+  getCircleIntersectByPoint(circle, point) {
+    const cx = circle.x;
+    const cy = circle.y;
+    const r = circle.r;
+    const { x, y } = point;
+    // const d = Math.sqrt(Math.pow((x - cx), 2) + Math.pow((y - cy), 2));
     const dx = (x - cx);
     const dy = (y - cy);
     const signX = Math.sign(dx);
     const signY = Math.sign(dy);
     const angle = Math.atan(dy / dx);
     return {
-      x: cx + Math.abs(cr * Math.cos(angle)) * signX,
-      y: cy + Math.abs(cr * Math.sin(angle)) * signY
+      x: cx + Math.abs(r * Math.cos(angle)) * signX,
+      y: cy + Math.abs(r * Math.sin(angle)) * signY
+    };
+  },
+  /**
+   * get point and ellipse inIntersect
+   * @param {Object} ellipse 椭圆 x,y,rx,ry
+   * @param {Object} point 点 x,y
+   * @return {object} applied point
+   */
+  getEllispeIntersectByPoint(ellipse, point) {
+    // 计算线段 (point.x, point.y) 到 (ellipse.x, ellipse.y) 与椭圆的交点
+    const a = ellipse.rx;
+    const b = ellipse.ry;
+    const cx = ellipse.x;
+    const cy = ellipse.y;
+    // const c = Math.sqrt(a * a - b * b); // 焦距
+    const dx = (point.x - cx);
+    const dy = (point.y - cy);
+    let angle = Math.atan2(dy / b, dx / a); // 直接通过 x,y 求夹角，求出来的范围是 -PI, PI
+    if (angle < 0) {
+      angle += 2 * Math.PI; // 转换到 0，2PI
+    }
+    // 通过参数方程求交点
+    // const r = (b * b) / (a - c * Math.sin(angle));
+    return {
+      x: cx + a * Math.cos(angle),
+      y: cy + b * Math.sin(angle)
     };
   },
   /**
