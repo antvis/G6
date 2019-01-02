@@ -217,6 +217,22 @@ class Graph extends EventEmitter {
   data(data) {
     this.set('data', data);
   }
+  refresh(item) {
+    const self = this;
+    if (item) {
+      item.refresh();
+    } else {
+      const nodes = self.get('nodes');
+      const edges = self.get('edges');
+      Util.each(edges, edge => {
+        edge.refresh();
+      });
+      Util.each(nodes, node => {
+        node.refresh();
+      });
+    }
+    self._autoPaint();
+  }
   render() {
     const self = this;
     const data = this.get('data');
@@ -284,7 +300,9 @@ class Graph extends EventEmitter {
     });
   }
   paint() {
+    this.emit('beforepaint');
     this.get('canvas').draw();
+    this.emit('afterpaint');
   }
   _autoPaint() {
     if (this.get('autoPaint')) {
