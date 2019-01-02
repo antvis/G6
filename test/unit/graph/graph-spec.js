@@ -147,14 +147,15 @@ describe('graph', () => {
     expect(map.d).not.to.be.undefined;
     expect(map.e).not.to.be.undefined;
     data.nodes.splice(0, 1);
+    data.edges.splice(0, 1);
     data.edges[0].source = 'c';
     graph.changeData(data);
     expect(graph.get('nodes').length).to.equal(2);
-    expect(graph.get('edges').length).to.equal(2);
+    expect(graph.get('edges').length).to.equal(1);
     expect(map.a).to.be.undefined;
     expect(map.b).not.to.be.undefined;
     expect(map.c).not.to.be.undefined;
-    expect(map.d).not.to.be.undefined;
+    expect(map.d).to.be.undefined;
     expect(map.e).not.to.be.undefined;
   });
 });
