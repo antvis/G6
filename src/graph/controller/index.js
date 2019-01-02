@@ -1,5 +1,5 @@
 module.exports = {
-  FitView: require('./view'),
+  View: require('./view'),
   Event: require('./event'),
   Mode: require('./mode')
 };
