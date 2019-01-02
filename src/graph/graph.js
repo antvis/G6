@@ -4,7 +4,7 @@
  */
 
 const EventEmitter = require('@antv/g/lib/').EventEmitter;
-const G = require('@antv/g');
+const G = require('@antv/g/lib');
 const Util = require('../util');
 const Global = require('../global');
 const Item = require('../item');
@@ -70,17 +70,30 @@ class Graph extends EventEmitter {
       directed: false,
       /**
        * when data or shape changed, should canvas draw automatically
+       * @type boolean
        */
-      autoPaint: true
+      autoPaint: true,
+      /**
+       * store all the node instances
+       * @type [object]
+       */
+      nodes: [],
+      /**
+       * store all the edge instances
+       * @type [object]
+       */
+      edges: [],
+      /**
+       * all the instances indexed by id
+       * @type object
+       */
+      itemById: {}
     };
   }
 
   constructor(inputCfg) {
     super();
     this._cfg = Util.mix({}, this.getDefaultCfg(), inputCfg);    // merge graph configs
-    this.node = [];                                              // all the node instances
-    this.edge = [];                                              // all the edge instances
-    this.itemById = {};                                          // all the item indexed by id
     this._init();
   }
   _init() {
@@ -110,14 +123,19 @@ class Graph extends EventEmitter {
       pixelRatio: this.get('pixelRatio')
     });
     this.canvas = canvas;
-    const id = canvas.get('el').id;
+    this.set('canvas', canvas);
+    this._initGroups();
+  }
+  _initGroups() {
+    const canvas = this.get('canvas');
+    const id = this.get('canvas').get('el').id;
     const group = canvas.addGroup({ id: id + '-root', className: Global.rootContainerClassName });
     if (this.get('groupByTypes')) {
       const edgeGroup = group.addGroup({ id: id + '-edge', className: Global.edgeContainerClassName });
       const nodeGroup = group.addGroup({ id: id + '-node', className: Global.nodeContainerClassName });
       this.set({ nodeGroup, edgeGroup });
     }
-    this.set({ canvas, group });
+    this.set('group', group);
   }
   get(key) {
     return this._cfg[key];
@@ -131,13 +149,26 @@ class Graph extends EventEmitter {
     return this;
   }
   update(item, cfg) {
+    const itemById = this.get('itemById');
     if (Util.isString(item)) {
-      item = this.itemById[item];
+      item = itemById[item];
+    }
+    if (cfg.source) {
+      let source = cfg.source;
+      if (Util.isString(source)) {
+        source = itemById[source];
+        item.setSource(source);
+      }
+    }
+    if (cfg.target) {
+      let target = cfg.target;
+      if (Util.isString(target)) {
+        target = itemById[target];
+        item.setTarget(target);
+      }
     }
     item.update(cfg);
-    if (this.get('autoPaint')) {
-      this.paint();
-    }
+    this._autoPaint();
     return item;
   }
   add(type, model) {
@@ -147,10 +178,10 @@ class Graph extends EventEmitter {
       let source = model.source;
       let target = model.target;
       if (source && Util.isString(source)) {
-        source = this.itemById[source];
+        source = this.get('itemById')[source];
       }
       if (target && Util.isString(target)) {
-        target = this.itemById[target];
+        target = this.get('itemById')[target];
       }
       item = new Item[Util.upperFirst(type)]({
         model,
@@ -164,23 +195,24 @@ class Graph extends EventEmitter {
         group: parent.addGroup()
       });
     }
-    // 这个地方存一个 Map 就好了，为什么数组和map 都存储
-    this[type].push(item);
-    this.itemById[item.get('id')] = item;
+    this.get(type + 's').push(item);
+    this.get('itemById')[item.get('id')] = item;
+    this._autoPaint();
     return item;
   }
   remove(item) {
     if (Util.isString(item)) {
-      item = this.itemById[item];
+      item = this.get('itemById')[item];
     }
     if (!item) {
       return;
     }
-    const items = this[item.get('type')];
+    const items = this.get(item.get('type') + 's');
     const index = items.indexOf(item);
     items.splice(index, 1);
-    delete this.itemById[item.get('id')];
+    delete this.get('itemById')[item.get('id')];
     item.destroy();
+    this._autoPaint();
   }
   data(data) {
     this.set('data', data);
@@ -192,53 +224,86 @@ class Graph extends EventEmitter {
       throw new Error('data must be defined first');
     }
     this.clear();
-    let item;
+    this._initGroups();
     this.emit('beforerender');
-    Util.each(data, model => {
-      item = new Item[model.type](model);
-      self[item].push(item);
+    const autoPaint = this.get('autoPaint');
+    this.set('autoPaint', false);
+    Util.each(data.nodes, node => {
+      self.add('node', node);
     });
+    Util.each(data.edges, edge => {
+      self.add('edge', edge);
+    });
+    if (this.get('fitView')) {
+      this.get('viewController').fitView();
+    }
     this.paint();
+    this.set('autoPaint', autoPaint);
     this.emit('afterrender');
   }
   changeData(data) {
     if (!data) {
       return;
     }
+    const autoPaint = this.get('autoPaint');
     const self = this;
+    const itemById = this.get('itemById');
     const items = {
-      node: [],
-      edge: []
+      nodes: [],
+      edges: []
     };
-    let item;
-    Util.each(data, model => {
-      item = self.itemById[model.id];
-      if (item) {
-        item._update(model);
-      } else {
-        item = new Item[model.type](model);
-      }
-      items[model.type].push(item);
-    });
-    Util.each(self.itemById, item => {
-      if (items.node.indexOf(item) < 0 && items.edge.indexOf(item) < 0) {
+    this.set('autoPaint', false);
+    this._diffItem('node', items, data.nodes);
+    this._diffItem('edge', items, data.edges);
+    Util.each(itemById, (item, id) => {
+      if (items.nodes.indexOf(item) < 0 && items.edges.indexOf(item) < 0) {
+        delete itemById[id];
         self.remove(item);
       }
     });
     this.node = items.node;
     this.edge = items.edge;
     this.paint();
+    this.set('autoPaint', autoPaint);
     return this;
+  }
+  _diffItem(type, items, models) {
+    const self = this;
+    let item;
+    const itemById = this.get('itemById');
+    const itemType = Util.upperFirst(type);
+    Util.each(models, model => {
+      item = itemById[model.id];
+      if (item) {
+        self.update(item, model);
+      } else {
+        item = new Item[itemType](model);
+        itemById[item.get('id')] = item;
+      }
+      items[type + 's'].push(item);
+    });
   }
   paint() {
     this.get('canvas').draw();
+  }
+  _autoPaint() {
+    if (this.get('autoPaint')) {
+      this.paint();
+    }
   }
   /**
    * @return {object} data
    */
   save() {
-    // TODO
-    return this;
+    const nodes = [];
+    const edges = [];
+    Util.each(this.node, node => {
+      nodes.push(node.get('model'));
+    });
+    Util.each(this.edge, edge => {
+      edges.push(edge.get('model'));
+    });
+    return { nodes, edges };
   }
   /**
    * change canvas size
@@ -284,7 +349,7 @@ class Graph extends EventEmitter {
     this.get('modeController').setMode(mode);
     return this;
   }
-  currentMode() {
+  getCurrentMode() {
     return this.get('mode');
   }
   getZoom() {
@@ -305,11 +370,11 @@ class Graph extends EventEmitter {
     this.get('ViewController').focus(item);
   }
   findById(id) {
-    return this.itemById[id];
+    return this.get('itemById')[id];
   }
   find(type, fn) {
     let result;
-    const items = this[type];
+    const items = this.get(type + 's');
     Util.each(items, (item, i) => {
       if (fn(item, i)) {
         result = item;
@@ -320,7 +385,7 @@ class Graph extends EventEmitter {
   }
   findAll(type, fn) {
     const result = [];
-    Util.each(this[type], (item, i) => {
+    Util.each(this.get(type + 's'), (item, i) => {
       if (fn(item, i)) {
         result.push(item);
       }
@@ -331,23 +396,15 @@ class Graph extends EventEmitter {
     this.set('autoPaint', auto);
   }
   clear() {
-    const group = this.get('group');
-    Util.each(this.node, node => {
-      node.destroy();
-    });
-    Util.each(this.edge, edge => {
-      edge.destroy();
-    });
-    group.clear();
-    this.node = [];
-    this.edge = [];
+    const canvas = this.get('canvas');
+    canvas.clear();
+    this.set({ itemById: {}, nodes: [], edges: [] });
     return this;
   }
   destroy() {
     this.clear();
     this.get('eventController').destroy();
     this.canvas.destroy();
-    this.itemById = null;
     this.destroyed = true;
     return this;
   }
