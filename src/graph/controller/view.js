@@ -8,76 +8,47 @@ const Util = require('../../util');
 
 class View {
   constructor(graph) {
-    const defaultCfg = {
-      /**
-       * Adaptive viewport
-       * @type boolean
-       */
-      fitView: true,
-      /**
-       * Fit view padding (client scale)
-       * @type {number|array}
-       */
-      fitViewPadding: 10,
-      /**
-       * Minimum scale size
-       * @type {number}
-       */
-      minZoom: 0.2,
-      /**
-       * Maxmum scale size
-       * @type {number}
-       */
-      maxZoom: 10
-    };
-    Util.mix(this, defaultCfg, graph._cfg);
     this.graph = graph;
   }
   getFormatPadding() {
-    return Util.formatPadding(this.fitViewPadding);
+    return Util.formatPadding(this.graph.get('fitViewPadding'));
   }
-  fitView(padding) {
-    if (!padding) {
-      padding = this.getFormatPadding();
-    }
+  _fitView() {
+    const padding = this.getFormatPadding();
     const graph = this.graph;
     const group = graph.get('group');
     const width = graph.get('width');
     const height = graph.get('height');
     group.resetMatrix();
-    const bbox = graph.get('group').getBBox();
-    const w = width / (bbox.width + padding[1] + padding[3]);
-    const h = height / (bbox.height + padding[0] + padding[2]);
-    let ratio = w;
-    const translate = {
-      x: 0,
-      y: 0
+    const bbox = group.getBBox();
+    const viewCenter = this._getViewCenter();
+    const groupCenter = {
+      x: bbox.x + bbox.width / 2,
+      y: bbox.y + bbox.height / 2
     };
+    graph.translate(viewCenter.x - groupCenter.x, viewCenter.y - groupCenter.y);
+    const w = (width - padding[1] - padding[3]) / bbox.width;
+    const h = (height - padding[0] - padding[2]) / bbox.height;
+    let ratio = w;
     if (w > h) {
       ratio = h;
-      translate.x = (width - bbox.width * h - padding[1] - padding[3]) / 2;
-    } else {
-      translate.y = (height - bbox.height * w - padding[0] - padding[2]) / 2;
     }
-    graph.zoom(ratio, { x: bbox.width / 2, y: bbox.height / 2 });
-    graph.translate(translate.x, translate.y);
+    graph.zoom(ratio, viewCenter);
   }
   focusPoint(point) {
-    const matrix = this.graph.get('group').getMatrix();
-    const width = this.graph.get('width');
-    const height = this.graph.get('height');
-    const dx = -matrix[6] + width / 2 - matrix[0] * point.x;
-    const dy = -matrix[7] + height / 2 - matrix[0] * point.y;
-    this.graph.translate(dx, dy);
-    return this;
+    const viewCenter = this._getViewCenter();
+    this.graph.translate(viewCenter.x - point.x, viewCenter.y - point.y);
   }
   focus(item) {
     if (Util.isString(item)) {
       item = this.graph.itemById[item];
     }
     if (item) {
-      const point = item.getCenter();
-      this.focusPoint(point);
+      const model = item.get('model');
+      const matrix = item.get('group').getMatrix();
+      const x = model.x * matrix[0] + matrix[6];
+      const y = model.y * matrix[4] + matrix[7];
+      this.focusPoint({ x, y });
     }
   }
   changeSize(width, height) {
@@ -89,238 +60,16 @@ class View {
     const canvas = this.graph.get('canvas');
     canvas.changeSize(width, height);
   }
+  _getViewCenter() {
+    const padding = this.getFormatPadding();
+    const graph = this.graph;
+    const width = this.graph.get('width');
+    const height = graph.get('height');
+    return {
+      x: (width - padding[2] - padding[3]) / 2 + padding[3],
+      y: (height - padding[0] - padding[2]) / 2 + padding[0]
+    };
+  }
 }
 
-const Mixin = {};
-
-Mixin.AUGMENT = {
-  _getZoomRatio(ratio) {
-    const maxZoom = this.get('maxZoom');
-    const minZoom = this.get('minZoom');
-    if (ratio < minZoom) {
-      ratio = minZoom;
-    }
-    if (ratio > maxZoom) {
-      ratio = maxZoom;
-    }
-    return ratio;
-  },
-  /**
-   * @param {number|array} padding padding
-   */
-  autoZoom(padding) {
-    if (!padding) {
-      padding = this.getFitViewPadding();
-    }
-    const width = this.get('width');
-    const height = this.get('height');
-    const box = this.graph.get('group').getBBox();
-    const matrix = Util.getAutoZoomMatrix({
-      minX: 0,
-      minY: 0,
-      maxX: width,
-      maxY: height
-    }, box, padding, ratio => {
-      return this._getZoomRatio(ratio);
-    });
-    this.updateMatrix(matrix);
-  },
-  /**
-   * @return {number} zoom
-   */
-  getZoom() {
-    const matrix = this.getMatrix();
-    return matrix[0];
-  },
-  /**
-   * @param {object} matrix update matrix
-   * @return {Graph} this
-   */
-  updateMatrix(matrix) {
-    const originMatrix = this.getMatrix();
-    const ev = {
-      updateMatrix: matrix,
-      originMatrix
-    };
-    const zoomBool = originMatrix[0] !== matrix[0];
-    this.emit('beforeviewportchange', ev);
-    zoomBool && this.emit('beforezoom', ev);
-    this.setMatrix(matrix);
-    zoomBool && this.emit('afterzoom', ev);
-    this.emit('afterviewportchange', ev);
-    this.draw();
-    return this;
-  },
-  /**
-   * @param {Object|Number} point scale center point
-   * @param {Number|undefined} ratio scale ratio
-   * @return {Graph} this
-   */
-  zoom(point, ratio) {
-    if (Util.isNumber(point)) {
-      const width = this.get('width');
-      const height = this.get('height');
-      this.zoomByDom({
-        x: width / 2,
-        y: height / 2
-      }, point);
-      return;
-    }
-    ratio = this._getZoomRatio(ratio);
-    const rootGroup = this.get('_rootGroup');
-    const matrix = Util.clone(rootGroup.getMatrix());
-    const dx = matrix[6] + matrix[0] * point.x - ratio * point.x;
-    const dy = matrix[7] + matrix[0] * point.y - ratio * point.y;
-    matrix[6] = 0;
-    matrix[7] = 0;
-    matrix[0] = ratio;
-    matrix[4] = ratio;
-    Util.mat3.translate(matrix, matrix, [ dx, dy ]);
-    this.updateMatrix(matrix);
-    return this;
-  },
-  /**
-   * @param {object} domPoint scale center dom point
-   * @param {number} ratio scale ratio
-   * @return {Graph} this
-   */
-  zoomByDom(domPoint, ratio) {
-    const point = this.getPoint(domPoint);
-    this.zoom(point, ratio);
-    return this;
-  },
-  /**
-   * @param {number} dx x offset
-   * @param {number} dy y offset
-   * @return {Graph} this
-   */
-  translate(dx, dy) {
-    const rootGroup = this.get('_rootGroup');
-    const matrix = rootGroup.getMatrix();
-    Util.mat3.translate(matrix, matrix, [ dx, dy ]);
-    this.updateMatrix(matrix);
-    return this;
-  },
-  /**
-   * @param {number} dx dom x offset
-   * @param {number} dy dom y offset
-   * @return {Graph} this
-   */
-  translateByDom(dx, dy) {
-    const rootGroup = this.get('_rootGroup');
-    const matrix = rootGroup.getMatrix();
-    const scale = matrix[0];
-    this.translate(dx / scale, dy / scale);
-    return this;
-  },
-  /**
-   * @param {object} domPoint domPoint
-   * @return {object} graph point
-   */
-  getPoint(domPoint) {
-    return this.getPointByDom(domPoint);
-  },
-  /**
-   * @param {object} domPoint domPoint
-   * @return {object} graph point
-   */
-  getPointByDom(domPoint) {
-    const rootGroup = this.get('_rootGroup');
-    const matrix = rootGroup.getMatrix();
-    return Util.invertMatrix(domPoint, matrix);
-  },
-  /**
-   * @param {object} canvasPoint - canvas point
-   * @return {object} graph point
-   */
-  getPointByCanvas(canvasPoint) {
-    const canvas = this.get('_canvas');
-    const pixelRatio = canvas.get('pixelRatio');
-    return this.getPoint({
-      x: canvasPoint.x / pixelRatio,
-      y: canvasPoint.y / pixelRatio
-    });
-  },
-  /**
-   * @param {object} clientPoint - client point
-   * @return {object} graph point
-   */
-  getPointByClient(clientPoint) {
-    const canvas = this.get('_canvas');
-    const canvasPoint = canvas.getPointByClient(clientPoint.x, clientPoint.y);
-    return this.getPointByCanvas(canvasPoint);
-  },
-  /**
-   * @param {object} point graph point
-   * @return {object} dom point
-   */
-  getDomPoint(point) {
-    const rootGroup = this.get('_rootGroup');
-    const matrix = rootGroup.getMatrix();
-    return Util.applyMatrix(point, matrix);
-  },
-  /**
-   * @param {object} point graph point
-   * @return {object} canvas point
-   */
-  getCanvasPoint(point) {
-    const canvas = this.get('_canvas');
-    const pixelRatio = canvas.get('pixelRatio');
-    const domPoint = this.getDomPoint(point);
-    return {
-      x: domPoint.x * pixelRatio,
-      y: domPoint.y * pixelRatio
-    };
-  },
-  /**
-   * @param {object} point graph point
-   * @return {object} client point
-   */
-  getClientPoint(point) {
-    const canvasPoint = this.getCanvasPoint(point);
-    const canvas = this.get('_canvas');
-    const clientPoint = canvas.getClientByPoint(canvasPoint.x, canvasPoint.y);
-    return {
-      x: clientPoint.clientX,
-      y: clientPoint.clientY
-    };
-  },
-  /**
-   * @param {object} item item or itemId
-   * @return {Graph} this
-   */
-  focus(item) {
-    if (Util.isString(item)) {
-      item = this.find(item);
-    }
-    if (item) {
-      const point = item.getCenter();
-      this.focusPoint(point);
-    }
-    return this;
-  },
-  /**
-   * @param {object} point graph point
-   * @return {Graph} this
-   */
-  focusPoint(point) {
-    const rootGroup = this.get('_rootGroup');
-    const matrix = rootGroup.getMatrix();
-    const width = this.get('width');
-    const height = this.get('height');
-    const dx = -matrix[6] + width / 2 - matrix[0] * point.x;
-    const dy = -matrix[7] + height / 2 - matrix[0] * point.y;
-    this.translate(dx, dy);
-    return this;
-  },
-  /**
-   * @param {object} domPoint dom point
-   * @return {Graph} this
-   */
-  focusPointByDom(domPoint) {
-    const point = this.getPoint(domPoint);
-    this.focusPoint(point);
-    return this;
-  }
-};
 module.exports = View;
