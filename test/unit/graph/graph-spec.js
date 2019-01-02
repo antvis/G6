@@ -6,7 +6,7 @@ const div = document.createElement('div');
 div.id = 'graph-spec';
 document.body.appendChild(div);
 
-describe.only('graph', () => {
+describe('graph', () => {
   const graph = new G6.Graph({
     container: div,
     width: 500,
