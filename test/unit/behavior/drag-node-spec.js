@@ -78,7 +78,7 @@ describe('drag-node', () => {
         default: [{
           type: 'drag-node',
           delegate: false,
-          shouldUpdate: (e) => { expect(e).not.to.be.undefined; return false; }
+          shouldUpdate: e => { expect(e).not.to.be.undefined; return false; }
         }]
       },
       pixelRatio: 2
