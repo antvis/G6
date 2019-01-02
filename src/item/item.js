@@ -123,14 +123,15 @@ class Item {
   // 根据 keyshape 计算包围盒
   _calculateBBox() {
     const keyShape = this.get('keyShape');
-    const group = this.group;
+    const matrix = this.get('group').getMatrix();
     // 因为 group 可能会移动，所以必须通过父元素计算才能计算出正确的包围盒
-    const bbox = Util.getBBox(keyShape, group);
-    bbox.width = bbox.maxX - bbox.minX;
-    bbox.height = bbox.maxY - bbox.minY;
-    bbox.centerX = (bbox.minX + bbox.maxX) / 2;
-    bbox.centerY = (bbox.minY + bbox.maxY) / 2;
-    return bbox;
+    const bbox = keyShape.getBBox();
+    return {
+      x: bbox.x * matrix[0] + bbox.y * matrix[3] + matrix[6],
+      y: bbox.x * matrix[1] + bbox.y * matrix[4] + matrix[7],
+      width: bbox.width * matrix[0],
+      height: bbox.height * matrix[4]
+    };
   }
 
   /**
