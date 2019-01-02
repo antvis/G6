@@ -1,7 +1,6 @@
 const expect = require('chai').expect;
 const G = require('@antv/g');
 const Item = require('../../../src/item/item');
-
 const div = document.createElement('div');
 div.id = 'item-spec';
 document.body.appendChild(div);
