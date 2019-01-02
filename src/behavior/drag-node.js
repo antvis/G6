@@ -8,8 +8,7 @@ module.exports = {
       delegateStyle: {
         fillOpacity: 0.6,
         strokeOpacity: 0.6
-      },
-      afterDrag() {}
+      }
     };
   },
   bind(graph) {
@@ -59,7 +58,6 @@ module.exports = {
       this.delegateShape = null;
     }
     this._update(this.target, e, true);
-    this.afterDrag.call(this, e);
   },
   _update(item, e, force) {
     const origin = this.origin;

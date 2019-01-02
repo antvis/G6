@@ -36,7 +36,12 @@ describe('drag-node', () => {
       height: 500,
       renderer: 'svg',
       modes: {
-        default: [ 'drag-node' ]
+        default: [{
+          type: 'drag-node',
+          delegateStyle: {
+            fillOpacity: 0.8
+          }
+        }]
       },
       pixelRatio: 2
     });
@@ -63,6 +68,29 @@ describe('drag-node', () => {
     expect(path[1][1]).to.equal(300);
     expect(path[1][2]).to.equal(300);
     graph.destroy();
+  });
+  it('prevent default', () => {
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: [{
+          type: 'drag-node',
+          delegate: false,
+          shouldUpdate: (e) => { expect(e).not.to.be.undefined; return false; }
+        }]
+      },
+      pixelRatio: 2
+    });
+    const node = graph.add('node', { color: '#666', x: 50, y: 50, r: 20, style: { lineWidth: 2, fill: '#666' } });
+    graph.paint();
+    graph.emit('node:dragstart', { clientX: 100, clientY: 100, target: node });
+    graph.emit('node:drag', { clientX: 120, clientY: 120, target: node });
+    const matrix = node.get('group').getMatrix();
+    expect(matrix[0]).to.equal(1);
+    expect(matrix[6]).to.equal(50);
+    expect(matrix[7]).to.equal(50);
   });
   it('unbind', () => {
     const graph = new G6.Graph({
