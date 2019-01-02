@@ -118,9 +118,11 @@ class Item {
   // 根据 keyshape 计算包围盒
   _calculateBBox() {
     const keyShape = this.get('keyShape');
-    const group = this.group;
+    const group = this.get('group');
     // 因为 group 可能会移动，所以必须通过父元素计算才能计算出正确的包围盒
     const bbox = Util.getBBox(keyShape, group);
+    bbox.x = bbox.minX;
+    bbox.y = bbox.minY;
     bbox.width = bbox.maxX - bbox.minX;
     bbox.height = bbox.maxY - bbox.minY;
     bbox.centerX = (bbox.minX + bbox.maxX) / 2;
