@@ -219,10 +219,17 @@ class Graph extends EventEmitter {
     if (!item) {
       return;
     }
-    const items = this.get(item.get('type') + 's');
+    const self = this;
+    const type = item.getType();
+    const items = self.get(item.getType() + 's');
     const index = items.indexOf(item);
     items.splice(index, 1);
     delete this.get('itemById')[item.get('id')];
+    if (type === 'node') {
+      Util.each(item.getEdges(), edge => {
+        self.remove(edge);
+      });
+    }
     item.destroy();
     this._autoPaint();
   }
