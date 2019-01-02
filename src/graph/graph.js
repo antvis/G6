@@ -53,6 +53,21 @@ class Graph extends EventEmitter {
        */
       data: null,
       /**
+       * Fit view padding (client scale)
+       * @type {number|array}
+       */
+      fitViewPadding: 10,
+      /**
+       * Minimum scale size
+       * @type {number}
+       */
+      minZoom: 0.2,
+      /**
+       * Maxmum scale size
+       * @type {number}
+       */
+      maxZoom: 10,
+      /**
        *  capture events
        *  @type boolean
        */
@@ -99,12 +114,9 @@ class Graph extends EventEmitter {
   _init() {
     this._initCanvas();
     const eventController = new Controller.Event(this);
-    const viewController = new Controller.FitView(this);
+    const viewController = new Controller.View(this);
     const modeController = new Controller.Mode(this);
     this.set({ eventController, viewController, modeController });
-    if (this.get('fitView')) {
-      viewController.fitView();
-    }
   }
   _initCanvas() {
     let container = this.get('container');
@@ -240,7 +252,6 @@ class Graph extends EventEmitter {
       throw new Error('data must be defined first');
     }
     this.clear();
-    this._initGroups();
     this.emit('beforerender');
     const autoPaint = this.get('autoPaint');
     this.set('autoPaint', false);
@@ -250,12 +261,12 @@ class Graph extends EventEmitter {
     Util.each(data.edges, edge => {
       self.add('edge', edge);
     });
-    if (this.get('fitView')) {
-      this.get('viewController').fitView();
+    if (self.get('fitView')) {
+      self.get('viewController')._fitView();
     }
-    this.paint();
-    this.set('autoPaint', autoPaint);
-    this.emit('afterrender');
+    self.paint();
+    self.set('autoPaint', autoPaint);
+    self.emit('afterrender');
   }
   changeData(data) {
     if (!data) {
@@ -337,10 +348,10 @@ class Graph extends EventEmitter {
     const rootGroup = this.get('group');
     const minZoom = this.get('minZoom');
     const maxZoom = this.get('maxZoom');
-    if (minZoom && matrix.elements[0] < minZoom) {
+    if (minZoom && matrix[0] < minZoom) {
       return;
     }
-    if (maxZoom && matrix.elements[0] > maxZoom) {
+    if (maxZoom && matrix[0] > maxZoom) {
       return;
     }
     rootGroup.setMatrix(matrix);
@@ -351,8 +362,12 @@ class Graph extends EventEmitter {
   moveTo(x, y) {
     this.get('group').move(x, y);
   }
-  fitView() {
-    this.get('viewController').fitView();
+  fitView(padding) {
+    if (padding) {
+      this.set('fitViewPadding', padding);
+    }
+    this.get('viewController')._fitView();
+    this.paint();
   }
   addBehaviors(behaviors, modes) {
     this.get('modeController').manipulateBehaviors(behaviors, modes, true);
@@ -385,7 +400,8 @@ class Graph extends EventEmitter {
     this._updateMatrix(matrix);
   }
   focus(item) {
-    this.get('ViewController').focus(item);
+    this.get('viewController').focus(item);
+    this._autoPaint();
   }
   findById(id) {
     return this.get('itemById')[id];
@@ -416,6 +432,7 @@ class Graph extends EventEmitter {
   clear() {
     const canvas = this.get('canvas');
     canvas.clear();
+    this._initGroups();
     this.set({ itemById: {}, nodes: [], edges: [] });
     return this;
   }
