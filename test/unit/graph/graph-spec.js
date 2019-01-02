@@ -6,7 +6,7 @@ const div = document.createElement('div');
 div.id = 'graph-spec';
 document.body.appendChild(div);
 
-describe('graph', () => {
+describe.only('graph', () => {
   const graph = new G6.Graph({
     container: div,
     width: 500,
@@ -98,5 +98,63 @@ describe('graph', () => {
     expect(node2.getEdges().length).to.equal(1);
     graph.remove(edge);
     expect(graph.get('edges').length).to.equal(0);
+  });
+  it('data & changeData', () => {
+    const data = {
+      nodes: [{
+        id: 'a',
+        shape: 'circle',
+        color: '#333',
+        x: 30,
+        y: 30,
+        size: 20,
+        label: 'a'
+      }, {
+        id: 'b',
+        shape: 'ellipse',
+        color: '#666',
+        x: 50,
+        y: 60,
+        size: [30, 40],
+        label: 'b'
+      }, {
+        id: 'c',
+        shape: 'rect',
+        color: '#999',
+        x: 100,
+        y: 70,
+        size: 20,
+        label: 'c'
+      }],
+      edges: [{
+        source: 'a',
+        target: 'b',
+        id: 'd'
+      }, {
+        source: 'a',
+        target: 'c',
+        id: 'e'
+      }]
+    };
+    graph.data(data);
+    graph.render();
+    expect(graph.get('nodes').length).to.equal(3);
+    expect(graph.get('edges').length).to.equal(2);
+    const map = graph.get('itemById');
+    expect(map.a).not.to.be.undefined;
+    expect(map.b).not.to.be.undefined;
+    expect(map.c).not.to.be.undefined;
+    expect(map.d).not.to.be.undefined;
+    expect(map.e).not.to.be.undefined;
+    data.nodes.splice(0, 1);
+    data.edges[0].source = 'c';
+    graph.changeData(data);
+    expect(graph.get('nodes').length).to.equal(2);
+    expect(graph.get('edges').length).to.equal(2);
+    expect(map.a).to.be.undefined;
+    expect(map.b).not.to.be.undefined;
+    expect(map.c).not.to.be.undefined;
+    expect(map.d).not.to.be.undefined;
+    expect(map.e).not.to.be.undefined;
   });
 });
