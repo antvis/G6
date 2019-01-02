@@ -142,16 +142,20 @@ class Graph extends EventEmitter {
   }
   add(type, model) {
     const parent = this.get(type + 'Group') || this.get('group');
+    let source = model.source;
+    let target = model.target;
     if (type === 'edge') {
-      if (model.source && Util.isString(model.source)) {
-        model.source = this.itemById[model.source];
+      if (source && Util.isString(source)) {
+        source = this.itemById[source];
       }
-      if (model.target && Util.isString(model.target)) {
-        model.target = this.itemById[model.target];
+      if (target && Util.isString(target)) {
+        target = this.itemById[target];
       }
     }
     const item = new Item[Util.upperFirst(type)]({
       model,
+      source,
+      target,
       group: parent.addGroup()
     });
     // 这个地方存一个 Map 就好了，为什么数组和map 都存储
