@@ -61,13 +61,34 @@ class Node extends Item {
     * @param {Object | Number} point - start point
     * @return {array} - all anchor points sorted by angle, ASC
     */
-  getLinkPoint(/* point */) {
-    const model = this.get('model');
+  getLinkPoint(point) {
+    // const model = this.get('model');
+    const keyShape = this.get('keyShape');
+    const type = keyShape.get('type');
+    const bbox = this.getBBox();
+    const { centerX, centerY } = bbox;
+    let linkPoint;
+    switch (type) {
+      case 'circle':
+        linkPoint = Util.getCircleIntersectByPoint({
+          x: centerX,
+          y: centerY,
+          r: bbox.width / 2
+        }, point);
+        break;
+      case 'ellipse':
+        linkPoint = Util.getEllispeIntersectByPoint({
+          x: centerX,
+          y: centerY,
+          rx: bbox.width / 2,
+          ry: bbox.height / 2
+        }, point);
+        break;
+      default:
+        linkPoint = Util.getRectIntersectByPoint(bbox, point); // 函数定义不统一，但是这样比较方便点
+    }
     // TO DO 计算锚点
-    return {
-      x: model.x,
-      y: model.y
-    };
+    return linkPoint;
   }
 
   addEdge(edge) {
