@@ -4,6 +4,11 @@ module.exports = {
   getDefaultCfg() {
     return {
       updateEdge: true,
+      delegate: true,
+      delegateStyle: {
+        fillOpacity: 0.6,
+        strokeOpacity: 0.6
+      },
       afterDrag() {}
     };
   },
@@ -11,7 +16,7 @@ module.exports = {
     this.events = {
       dragstart: Util.wrapBehavior(this, 'onDragStart'),
       drag: Util.wrapBehavior(this, 'onDrag'),
-      dragend: Util.wrapBehavior(this, 'onDrag')
+      dragend: Util.wrapBehavior(this, 'onDragEnd')
     };
     this.graph = graph;
     Util.each(this.events, (callback, event) => {
@@ -30,6 +35,7 @@ module.exports = {
     if (e.target.getType() !== 'node') {
       return;
     }
+    this.target = e.target;
     this.origin = {
       x: e.clientX,
       y: e.clientY
@@ -42,24 +48,59 @@ module.exports = {
     if (!this.get('shouldUpdate').call(this, e)) {
       return;
     }
-    const item = e.target;
-    if (item) {
-      this._update(item, e);
-      this.afterDrag.call(this, e);
-    }
+    this._update(this.target, e);
   },
-  _update(item, e) {
+  onDragEnd(e) {
+    if (!this.origin) {
+      return;
+    }
+    if (this.delegateShape) {
+      this.delegateShape.remove();
+      this.delegateShape = null;
+    }
+    this._update(this.target, e, true);
+    this.afterDrag.call(this, e);
+  },
+  _update(item, e, force) {
     const origin = this.origin;
-    const dx = e.clientX - origin.x;
-    const dy = e.clientY - origin.y;
     const model = item.get('model');
-    this.graph.update(item, { x: model.x + dx, y: model.y + dy });
+    if (!this.point) {
+      this.point = {
+        x: model.x,
+        y: model.y
+      };
+    }
+    const x = e.clientX - origin.x + this.point.x;
+    const y = e.clientY - origin.y + this.point.y;
     this.origin = { x: e.clientX, y: e.clientY };
+    this.point = { x, y };
+    if (this.delegate && !force) {
+      this._updateDelegate(item, x, y);
+      return;
+    }
+    const autoPaint = this.graph.get('autoPaint');
+    this.graph.setAutoPaint(false);
+    this.graph.update(item, { x, y });
     if (this.get('updateEdge')) {
       Util.each(item.getEdges(), edge => {
         edge.refresh();
       });
     }
+    this.graph.paint();
+    this.graph.setAutoPaint(autoPaint);
+  },
+  _updateDelegate(item, x, y) {
+    const self = this;
+    let shape = self.delegateShape;
+    if (!this.delegateShape) {
+      const group = self.graph.get('group');
+      shape = item.get('keyShape').clone();
+      shape.attr(this.delegateStyle);
+      shape.set('capture', false);
+      group.add(shape);
+      this.delegateShape = shape;
+    }
+    shape.attr({ x, y });
     this.graph.paint();
   }
 };

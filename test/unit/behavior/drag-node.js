@@ -12,7 +12,10 @@ describe('drag-node', () => {
       width: 500,
       height: 500,
       modes: {
-        default: [ 'drag-node' ]
+        default: [{
+          type: 'drag-node',
+          delegate: false
+        }]
       },
       pixelRatio: 2
     });
@@ -26,7 +29,7 @@ describe('drag-node', () => {
     expect(matrix[7]).to.equal(70);
     graph.destroy();
   });
-  it('drag node with edge', () => {
+  it('delegate drag node with edge', () => {
     const graph = new G6.Graph({
       container: div,
       width: 500,
@@ -49,10 +52,17 @@ describe('drag-node', () => {
     graph.emit('node:dragstart', { clientX: 100, clientY: 100, target: src });
     graph.emit('node:drag', { clientX: 120, clientY: 120, target: src });
     path = edge.get('group').get('children')[0].attr('path');
-    expect(path[0][1]).to.equal(70);
-    expect(path[0][2]).to.equal(70);
+    expect(path[0][1]).to.equal(50);
+    expect(path[0][2]).to.equal(50);
     expect(path[1][1]).to.equal(300);
     expect(path[1][2]).to.equal(300);
+    graph.emit('node:dragend', { clientX: 140, clientY: 140, target: src });
+    path = edge.get('group').get('children')[0].attr('path');
+    expect(path[0][1]).to.equal(90);
+    expect(path[0][2]).to.equal(90);
+    expect(path[1][1]).to.equal(300);
+    expect(path[1][2]).to.equal(300);
+    graph.destroy();
   });
   it('unbind', () => {
     const graph = new G6.Graph({
