@@ -71,21 +71,32 @@ describe('graph', () => {
     graph.destroy();
   });
   it('add node', () => {
-    const node = graph.add('node', { type: 'circle', color: '#ccc', style: { x: 50, y: 50, r: 20, lineWidth: 2 } });
+    const node = graph.add('node', { shape: 'circle', color: '#ccc', style: { x: 50, y: 50, r: 20, lineWidth: 2 } });
     expect(node).not.to.be.undefined;
-    expect(graph.node.length).to.equal(1);
-    expect(graph.node[0]).to.equal(node);
-    const node2 = graph.add('node', { type: 'rect', id: 'node', color: '#666', style: { x: 100, y: 100, width: 100, height: 70 } });
+    const nodes = graph.get('nodes');
+    expect(nodes.length).to.equal(1);
+    expect(nodes[0]).to.equal(node);
+    const node2 = graph.add('node', { shape: 'rect', id: 'node', color: '#666', style: { x: 100, y: 100, width: 100, height: 70 } });
     expect(node2).not.to.be.undefined;
-    expect(graph.node.length).to.equal(2);
-    expect(graph.node[1]).to.equal(node2);
+    expect(nodes.length).to.equal(2);
+    expect(nodes[1]).to.equal(node2);
     graph.remove(node);
-    expect(graph.node.length).to.equal(1);
-    expect(graph.node[0]).to.equal(node2);
+    expect(nodes.length).to.equal(1);
+    expect(nodes[0]).to.equal(node2);
     graph.remove(node2);
-    expect(graph.node.length).to.equal(0);
+    expect(nodes.length).to.equal(0);
   });
   it('add edge', () => {
-    // TODO
+    const node1 = graph.add('node', { shape: 'circle', color: '#ccc', style: { x: 50, y: 50, r: 20, lineWidth: 2 } });
+    const node2 = graph.add('node', { shape: 'rect', id: 'node', color: '#666', style: { x: 100, y: 100, width: 100, height: 70 } });
+    const edge = graph.add('edge', { id: 'edge', source: node1, target: node2 });
+    expect(graph.get('edges').length).to.equal(1);
+    expect(graph.get('edges')[0]).to.equal(edge);
+    expect(Object.keys(graph.get('itemById')).length).to.equal(3);
+    expect(graph.get('itemById').edge).to.equal(edge);
+    expect(node1.getEdges().length).to.equal(1);
+    expect(node2.getEdges().length).to.equal(1);
+    graph.remove(edge);
+    expect(graph.get('edges').length).to.equal(0);
   });
 });
