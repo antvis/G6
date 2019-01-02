@@ -115,7 +115,7 @@ describe.only('graph', () => {
         color: '#666',
         x: 50,
         y: 60,
-        size: [30, 40],
+        size: [ 30, 40 ],
         label: 'b'
       }, {
         id: 'c',
