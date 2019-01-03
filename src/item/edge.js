@@ -72,8 +72,9 @@ class Edge extends Item {
       const index = name === 'source' ? 0 : controlPoints.length - 1;
       return controlPoints[index];
     }
-    const itemName = name + ITEM_NAME_SUFFIX;
-    const pointName = name + POINT_NAME_SUFFIX;
+    const oppositeName = name === 'source' ? 'target' : 'source'; // 取另一个节点的位置
+    const itemName = oppositeName + ITEM_NAME_SUFFIX;
+    const pointName = END_MAP[oppositeName] + POINT_NAME_SUFFIX;
     const item = this.get(itemName);
       // 如果有端点，直接使用 model
     if (item) {
