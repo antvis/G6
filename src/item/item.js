@@ -163,7 +163,7 @@ class Item {
       return;
     }
     self.updatePosition(model);
-    const cfg = this.getDrawCfg(model); // 可能会附加额外信息
+    const cfg = this.getShapeCfg(model); // 可能会附加额外信息
     const keyShape = shapeFactory.draw(shapeType, cfg, group);
     const states = self.get('states');
     if (keyShape) {
@@ -245,7 +245,7 @@ class Item {
 
   }
 
-  getDrawCfg(model) {
+  getShapeCfg(model) {
     return model;
   }
 
@@ -274,7 +274,7 @@ class Item {
     // 2. 更新的信息中没有指定 shape
     // 3. 更新信息中指定了 shape 同时等于原先的 shape
     if (shapeFactory.shouldUpdate(shape) && newModel.shape === shape) {
-      const updateCfg = this.getDrawCfg(newModel);
+      const updateCfg = this.getShapeCfg(newModel);
       // 如果 x,y 发生改变，则重置位置
       if (newModel.x !== model.x || newModel.y !== model.y) {
         this.updatePosition(newModel);
@@ -289,7 +289,17 @@ class Item {
       // 绘制元素时，需要最新的 model
       this.draw();
     }
+    this.afterUpdate();
   }
+
+  /**
+   * 更新后做一些工作
+   * @protected
+   */
+  afterUpdate() {
+
+  }
+
   // 是否仅仅移动
   _isOnlyMove(cfg) {
     const keys = Object.keys(cfg);
