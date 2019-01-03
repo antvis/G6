@@ -12,7 +12,6 @@ module.exports = {
       keyup: Util.wrapBehavior(this, 'onKeyUp'),
       keydown: Util.wrapBehavior(this, 'onKeyDown')
     };
-    this.selected = [];
   },
   onClick(e) {
     const self = this;
@@ -22,23 +21,30 @@ module.exports = {
     if (!self.multiple && selected.length > 0) {
       return;
     }
+    const autoPaint = graph.set('autoPaint');
+    graph.set('autoPaint', false);
     if (!self.keydown) {
-      self.selected = [];
+      const selected = graph.findAll('node', node => {
+        return node.hasState('selected');
+      });
+      if (selected.length > 1) {
+        Util.each(selected, node => {
+          graph.setItemState(node, 'selected', false);
+        });
+      }
     }
     if (item.hasState('selected')) {
-      e.type = 'select';
-      if (self.shouldUpdate.call(self, e)) {
-        graph.setState(item, 'selected', false);
-        const index = selected.indexOf(item);
-        selected.splice(index, 1);
-      }
-    } else {
       e.type = 'deselect';
       if (self.shouldUpdate.call(self, e)) {
-        graph.setState(item, 'selected', true);
-        selected.push(item);
+        graph.setItemState(item, 'selected', false);
+      }
+    } else {
+      e.type = 'select';
+      if (self.shouldUpdate.call(self, e)) {
+        graph.setItemState(item, 'selected', true);
       }
     }
+    graph.set('autoPaint', autoPaint);
     graph.paint();
   },
   onKeyDown(e) {

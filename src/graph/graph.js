@@ -161,6 +161,9 @@ class Graph extends EventEmitter {
     return this;
   }
   update(item, cfg) {
+    return this.updateItem(item, cfg);
+  }
+  updateItem(item, cfg) {
     this.emit('beforeitemupdate', { item, cfg });
     const itemById = this.get('itemById');
     if (Util.isString(item)) {
@@ -186,7 +189,7 @@ class Graph extends EventEmitter {
     return item;
   }
 
-  setState(item, state, enabled) {
+  setItemState(item, state, enabled) {
     const self = this;
     if (Util.isString(item)) {
       item = self.get('itemByIndex')[item];
@@ -200,8 +203,10 @@ class Graph extends EventEmitter {
     self.emit('afteritemstatechange', { item, state, enabled });
     return item;
   }
-
   add(type, model) {
+    return this.addItem(type, model);
+  }
+  addItem(type, model) {
     this.emit('beforeadditem', { type, model });
     const parent = this.get(type + 'Group') || this.get('group');
     let item;
@@ -233,6 +238,9 @@ class Graph extends EventEmitter {
     return item;
   }
   remove(item) {
+    return this.removeItem(item);
+  }
+  removeItem(item) {
     this.emit('beforeremoveitem', { item });
     if (Util.isString(item)) {
       item = this.get('itemById')[item];
@@ -335,7 +343,7 @@ class Graph extends EventEmitter {
     Util.each(models, model => {
       item = itemById[model.id];
       if (item) {
-        self.update(item, model);
+        self.updateItem(item, model);
       } else {
         item = new Item[itemType](model);
         itemById[item.get('id')] = item;
@@ -391,6 +399,7 @@ class Graph extends EventEmitter {
   }
   translate(dx, dy) {
     this.get('group').translate(dx, dy);
+    this._autoPaint();
   }
   moveTo(x, y) {
     this.get('group').move(x, y);
@@ -431,8 +440,9 @@ class Graph extends EventEmitter {
       Util.mat3.scale(matrix, matrix, [ ratio, ratio ]);
     }
     this._updateMatrix(matrix);
+    this._autoPaint();
   }
-  focus(item) {
+  focusItem(item) {
     this.get('viewController').focus(item);
     this._autoPaint();
   }
