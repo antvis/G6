@@ -3,9 +3,7 @@ const Util = require('../util');
 module.exports = {
   getDefaultCfg() {
     return {
-      multiple: true,
-      onSelect() { return true; },
-      onDeselect() { return true; }
+      multiple: true
     };
   },
   bind(graph) {
@@ -26,6 +24,7 @@ module.exports = {
   onClick(e) {
     const self = this;
     const item = e.target;
+    const graph = self.graph;
     const selected = this.selected;
     if (!self.multiple && selected.length > 0) {
       return;
@@ -33,23 +32,21 @@ module.exports = {
     if (!self.keydown) {
       self.selected = [];
     }
-    if (item.getStates().indexOf('selected') >= 0) {
-      if (self.onDeselect.call(self, e)) {
-        if (self.shouldUpdate.call(self, e)) {
-          item.setState('selected', false);
-        }
+    if (item.hasState('selected')) {
+      e.type = 'select';
+      if (self.shouldUpdate.call(self, e)) {
+        graph.setState(item, 'selected', false);
         const index = selected.indexOf(item);
         selected.splice(index, 1);
       }
     } else {
-      if (self.onSelect.call(self, e)) {
-        if (self.shouldUpdate.call(self, e)) {
-          item.setState('selected', true);
-        }
+      e.type = 'deselect';
+      if (self.shouldUpdate.call(self, e)) {
+        graph.setState(item, 'selected', true);
         selected.push(item);
       }
     }
-    self.graph.paint();
+    graph.paint();
   },
   onKeyDown(e) {
     const code = e.keyCode || e.which;

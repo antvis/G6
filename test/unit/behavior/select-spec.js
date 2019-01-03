@@ -49,7 +49,7 @@ describe('select-node', () => {
     expect(node2.getStates().length).to.equal(0);
     graph.destroy();
   });
-  it('onselect', () => {
+  it('shouldUpdate', () => {
     const graph = new G6.Graph({
       container: div,
       width: 500,
@@ -57,7 +57,7 @@ describe('select-node', () => {
       modes: {
         default: [{
           type: 'click-select',
-          onSelect: () => { return false; }
+          shouldUpdate: () => { return false; }
         }]
       },
       pixelRatio: 2
@@ -65,7 +65,7 @@ describe('select-node', () => {
     const node = graph.add('node', { color: '#666', x: 50, y: 50, size: 20, style: { lineWidth: 2, fill: '#666' } });
     graph.paint();
     graph.emit('node:click', { target: node });
-    expect(node.getStates().length).to.equal(0);
+    expect(node.hasState('selected')).to.be.false;
     graph.destroy();
   });
 });
