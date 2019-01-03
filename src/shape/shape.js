@@ -81,6 +81,16 @@ const ShapeFactoryBase = {
   getControlPoints(type, cfg) {
     const shape = this.getShape(type);
     return shape.getControlPoints(cfg);
+  },
+  /**
+   * 获取控制点
+   * @param {String} type 节点、边类型
+   * @param  {Object} cfg 节点、边的配置项
+   * @return {Array|null} 控制点的数组,如果为 null，则没有控制点
+   */
+  getAnchorPoints(type, cfg) {
+    const shape = this.getShape(type);
+    return shape.getAnchorPoints(cfg);
   }
 };
 
