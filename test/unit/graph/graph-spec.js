@@ -158,4 +158,11 @@ describe('graph', () => {
     expect(map.d).to.be.undefined;
     expect(map.e).not.to.be.undefined;
   });
+  it('show & hide item', () => {
+    const node = graph.addItem('node', { id: 'node', x: 100, y: 100, size: 50 });
+    graph.hideItem('node');
+    expect(node.isVisible()).to.be.false;
+    graph.showItem(node);
+    expect(node.isVisible()).to.be.true;
+  });
 });
