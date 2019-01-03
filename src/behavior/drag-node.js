@@ -72,8 +72,8 @@ module.exports = {
       this.graph.updateItem(item, { x, y });
     } else {
       item.update({ x, y });
+      this.graph.paint();
     }
-    this.graph.paint();
   },
   _updateDelegate(item, x, y) {
     const self = this;
