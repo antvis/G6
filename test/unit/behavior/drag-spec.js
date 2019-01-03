@@ -103,7 +103,7 @@ describe('drag-canvas', () => {
     });
     const matrix = graph.get('group').getMatrix();
     let start = false;
-    graph.add('node', { x: 100, y: 100, color: '#666', type: 'rect', id: 'test' });
+    graph.addItem('node', { x: 100, y: 100, color: '#666', type: 'rect', id: 'test' });
     graph.on('canvas:dragstart', () => { start = true; });
     graph.on('canvas:dragend', () => { start = false; });
     graph.paint();

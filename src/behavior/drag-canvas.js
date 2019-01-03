@@ -41,16 +41,17 @@ module.exports = {
     }
   },
   onMouseMove(e) {
+    const graph = this.graph;
     if (!this.origin) { return; }
     if (this.origin && !this.dragging) {
       e.type = 'dragstart';
-      this.graph.emit('canvas:dragstart', e);
+      graph.emit('canvas:dragstart', e);
       this.dragging = true;
       return;
     }
     if (this.dragging) {
       e.type = 'drag';
-      this.graph.emit('canvas:drag', e);
+      graph.emit('canvas:drag', e);
     }
     if (this.shouldUpdate.call(this, e)) {
       this.updateViewport(e);
