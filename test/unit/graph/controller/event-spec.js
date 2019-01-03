@@ -87,7 +87,7 @@ describe('event', () => {
     let enter = 0;
     let leave = 0;
     graph.on('node:mouseenter', e => {
-      enter++ ;
+      enter++;
       expect(e.target === node);
     });
     graph.on('node:mouseleave', e => {
@@ -107,7 +107,7 @@ describe('event', () => {
     expect(enter).to.equal(1);
     shape.emit('mousemove', { type: 'mousemove', target: label });
     expect(enter).to.equal(1);
-    shape.emit('mouseleave', { type: 'mouseleave', target:  shape});
+    shape.emit('mouseleave', { type: 'mouseleave', target: shape });
     expect(leave).to.equal(0);
     canvas.emit('mousemove', { type: 'mousemove', target: canvas });
     expect(leave).to.equal(1);
