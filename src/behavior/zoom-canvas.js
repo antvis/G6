@@ -17,7 +17,7 @@ module.exports = {
   },
   onWheel(e) {
     e.preventDefault();
-    if (!this.get('shouldUpdate').call(this, e)) {
+    if (!this.shouldUpdate.call(this, e)) {
       return;
     }
     const graph = this.graph;
