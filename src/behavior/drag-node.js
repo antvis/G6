@@ -70,14 +70,14 @@ module.exports = {
     }
     const autoPaint = this.graph.get('autoPaint');
     this.graph.setAutoPaint(false);
-    this.graph.update(item, { x, y });
+    this.graph.updateItem(item, { x, y });
     if (this.get('updateEdge')) {
       Util.each(item.getEdges(), edge => {
         edge.refresh();
       });
     }
-    this.graph.paint();
     this.graph.setAutoPaint(autoPaint);
+    this.graph.paint();
   },
   _updateDelegate(item, x, y) {
     const self = this;
