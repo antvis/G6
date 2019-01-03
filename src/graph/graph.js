@@ -10,6 +10,8 @@ const Global = require('../global');
 const Item = require('../item');
 
 const Controller = require('./controller');
+const NODE = 'node';
+const EDGE = 'edge';
 
 class Graph extends EventEmitter {
   /**
@@ -164,7 +166,8 @@ class Graph extends EventEmitter {
     return this.updateItem(item, cfg);
   }
   updateItem(item, cfg) {
-    this.emit('beforeitemupdate', { item, cfg });
+    const self = this;
+    self.emit('beforeitemupdate', { item, cfg });
     const itemById = this.get('itemById');
     if (Util.isString(item)) {
       item = itemById[item];
@@ -184,8 +187,16 @@ class Graph extends EventEmitter {
       }
     }
     item.update(cfg);
-    this._autoPaint();
-    this.emit('afteritemupdate', { item, cfg });
+    if (item.getType() === NODE) {
+      const autoPaint = self.get('autoPaint');
+      self.set('autoPaint', false);
+      Util.each(item.getEdges(), edge => {
+        self.refresh(edge);
+      });
+      self.set('autoPaint', autoPaint);
+    }
+    self._autoPaint();
+    self.emit('afteritemupdate', { item, cfg });
     return item;
   }
 
@@ -210,7 +221,7 @@ class Graph extends EventEmitter {
     this.emit('beforeadditem', { type, model });
     const parent = this.get(type + 'Group') || this.get('group');
     let item;
-    if (type === 'edge') {
+    if (type === EDGE) {
       let source = model.source;
       let target = model.target;
       if (source && Util.isString(source)) {
@@ -254,7 +265,7 @@ class Graph extends EventEmitter {
     const index = items.indexOf(item);
     items.splice(index, 1);
     delete this.get('itemById')[item.get('id')];
-    if (type === 'node') {
+    if (type === NODE) {
       Util.each(item.getEdges(), edge => {
         self.remove(edge);
       });
@@ -297,10 +308,10 @@ class Graph extends EventEmitter {
     const autoPaint = this.get('autoPaint');
     this.set('autoPaint', false);
     Util.each(data.nodes, node => {
-      self.add('node', node);
+      self.add(NODE, node);
     });
     Util.each(data.edges, edge => {
-      self.add('edge', edge);
+      self.add(EDGE, edge);
     });
     if (self.get('fitView')) {
       self.get('viewController')._fitView();
@@ -321,8 +332,8 @@ class Graph extends EventEmitter {
       edges: []
     };
     this.set('autoPaint', false);
-    this._diffItems('node', items, data.nodes);
-    this._diffItems('edge', items, data.edges);
+    this._diffItems(NODE, items, data.nodes);
+    this._diffItems(EDGE, items, data.edges);
     Util.each(itemById, (item, id) => {
       if (items.nodes.indexOf(item) < 0 && items.edges.indexOf(item) < 0) {
         delete itemById[id];
@@ -460,7 +471,7 @@ class Graph extends EventEmitter {
     self.emit('beforeitemvisiblechange', { item, visible });
     item.changeVisibility(visible);
     self.emit('beforeitemvisiblechange', { item, visible });
-    if (item.getType() === 'node') {
+    if (item.getType() === NODE) {
       const autoPaint = self.get('autoPaint');
       self.set('autoPaint', false);
       Util.each(item.getEdges(), edge => {
