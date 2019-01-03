@@ -7,6 +7,7 @@ Behavior.registerBehavior = function(type, behavior) {
   }
   const base = function(cfg) {
     Util.mix(this, this.getDefaultCfg(), cfg);
+    this.initEvents();
   };
   Util.augment(base, {
     shouldBegin() {
@@ -18,6 +19,19 @@ Behavior.registerBehavior = function(type, behavior) {
     shouldEnd() {
       return true;
     },
+    bind(graph) {
+      const events = this.events;
+      this.graph = graph;
+      Util.each(events, (handler, event) => {
+        graph.on(event, handler);
+      });
+    },
+    unbind(graph) {
+      const events = this.events;
+      Util.each(events, (handler, event) => {
+        graph.off(event, handler);
+      });
+    },
     get(val) {
       return this[val];
     },
@@ -25,9 +39,10 @@ Behavior.registerBehavior = function(type, behavior) {
       this[key] = val;
       return this;
     },
-    getDefaultCfg() {},
-    bind() {},
-    unbind() {}
+    initEvents() {
+      this.events = {};
+    },
+    getDefaultCfg() {}
   }, behavior);
   Behavior[type] = base;
 };
