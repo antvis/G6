@@ -84,10 +84,10 @@ describe('item test', () => {
       group
     });
     expect(item.get('visible')).to.be.true;
-    item.changeVisible(false);
+    item.changeVisibility(false);
     expect(item.get('visible')).to.be.false;
     expect(item.get('group').get('visible')).to.be.false;
-    item.changeVisible(true);
+    item.changeVisibility(true);
     expect(item.get('visible')).to.be.true;
     expect(item.get('group').get('visible')).to.be.true;
   });
