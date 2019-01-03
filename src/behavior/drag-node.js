@@ -68,9 +68,8 @@ module.exports = {
       this._updateDelegate(item, x, y);
       return;
     }
-    this.graph.updateItem(item, { x, y });
     if (this.get('updateEdge')) {
-      this.graph.updateItem(item, {x, y});
+      this.graph.updateItem(item, { x, y });
     } else {
       item.update({ x, y });
     }
