@@ -21,13 +21,11 @@ const EVENTS = [
 
 const EXTEND_EVENTS = [
   'mousewheel',
-  'wheel',
-  'keydown',
-  'keyup'
+  'wheel'
 ];
 
 function getItemRoot(shape) {
-  while (shape && !shape.item) {
+  while (shape && !shape.get('item')) {
     shape = shape.get('parent');
   }
   return shape;
@@ -46,16 +44,17 @@ class Event {
     const el = canvas.get('el');
     const extendEvents = self.extendEvents;
     const canvasHandler = Util.wrapBehavior(self, '_onCanvasEvents');
+    const originHandler = Util.wrapBehavior(self, '_onExtendEvents');
     Util.each(EVENTS, event => {
       canvas.on(event, canvasHandler);
-      canvas.on(event, evt => {
-        graph.emit(event, evt);
-      });
     });
     this.canvasHandler = canvasHandler;
+
     Util.each(EXTEND_EVENTS, event => {
-      extendEvents.push(Util.addEventListener(el, event, Util.wrapBehavior(self, '_onExtendEvents')));
+      extendEvents.push(Util.addEventListener(el, event, originHandler));
     });
+    window && extendEvents.push(Util.addEventListener(window, 'keydown', originHandler));
+    window && extendEvents.push(Util.addEventListener(window, 'keyup', originHandler));
   }
   _onCanvasEvents(e) {
     const graph = this.graph;
@@ -67,7 +66,7 @@ class Event {
     }
     const itemShape = getItemRoot(target);
     if (itemShape !== canvas) {
-      const item = itemShape.item;
+      const item = itemShape.get('item');
       e.target = item;
       graph.emit(item.getType() + ':' + e.type, e);
     }
