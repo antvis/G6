@@ -460,6 +460,15 @@ class Graph extends EventEmitter {
     self.emit('beforeitemvisiblechange', { item, visible });
     item.changeVisibility(visible);
     self.emit('beforeitemvisiblechange', { item, visible });
+    if (item.getType() === 'node') {
+      const autoPaint = self.get('autoPaint');
+      self.set('autoPaint', false);
+      Util.each(item.getEdges(), edge => {
+        self.changeItemVisibility(edge, visible);
+      });
+      self.set('autoPaint', autoPaint);
+    }
+    self._autoPaint();
   }
   findById(id) {
     return this.get('itemById')[id];

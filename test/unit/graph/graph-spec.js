@@ -160,9 +160,13 @@ describe('graph', () => {
   });
   it('show & hide item', () => {
     const node = graph.addItem('node', { id: 'node', x: 100, y: 100, size: 50 });
+    const node2 = graph.addItem('node', { id: 'node2', x: 100, y: 100, size: 50 });
+    const edge = graph.addItem('edge', { id: 'edge', source: node, target: node2 });
     graph.hideItem('node');
     expect(node.isVisible()).to.be.false;
+    expect(edge.isVisible()).to.be.false;
     graph.showItem(node);
     expect(node.isVisible()).to.be.true;
+    expect(edge.isVisible()).to.be.true;
   });
 });
