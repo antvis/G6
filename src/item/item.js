@@ -318,10 +318,24 @@ class Item {
   }
 
   /**
+   * 显示元素
+   */
+  show() {
+    this.changeVisibility(true);
+  }
+
+  /**
+   * 隐藏元素
+   */
+  hide() {
+    this.changeVisibility(false);
+  }
+
+  /**
    * 更改是否显示
    * @param  {Boolean} visible 是否显示
    */
-  changeVisible(visible) {
+  changeVisibility(visible) {
     const group = this.get('group');
     if (visible) {
       group.show();
