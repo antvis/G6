@@ -71,7 +71,6 @@ const singleEdgeDefinition = Util.mix({}, SingleShapeMixin, {
     }
     // 添加结束点
     points.push(endPoint);
-
     const path = this.getPath(points);
     const style = Util.mix({}, {
       stroke: color,

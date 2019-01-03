@@ -14,8 +14,8 @@ const canvas = new G.Canvas({
 
 describe('edge test, with circle', () => {
   const aNode = new Node({
-    id: 'a',
     model: {
+      id: 'a',
       x: 100,
       y: 100,
       size: 20,
@@ -25,8 +25,8 @@ describe('edge test, with circle', () => {
   });
 
   const bNode = new Node({
-    id: 'b',
     model: {
+      id: 'b',
       x: 200,
       y: 200,
       size: 20,
@@ -36,8 +36,8 @@ describe('edge test, with circle', () => {
   });
 
   const cNode = new Node({
-    id: 'c',
     model: {
+      id: 'c',
       x: 300,
       y: 200,
       size: 20,

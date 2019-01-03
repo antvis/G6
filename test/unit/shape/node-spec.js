@@ -103,7 +103,8 @@ describe('shape node test', () => {
       const shape = factory.draw('image', {
         size: [ 40, 20 ],
         label: 'my custom image',
-        shape: 'https://img.alicdn.com/tfs/TB1_uT8a5ERMeJjSspiXXbZLFXa-143-59.png'
+        shape: 'image',
+        img: 'https://img.alicdn.com/tfs/TB1_uT8a5ERMeJjSspiXXbZLFXa-143-59.png'
       }, group);
       canvas.draw();
       expect(shape.attr('x')).eql(-20);
