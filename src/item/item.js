@@ -180,6 +180,15 @@ class Item {
   }
 
   /**
+   * 当前元素是否处于某状态
+   * @param {String} state 状态名
+   * @return {Boolean} 是否处于某状态
+   */
+  hasState(state) {
+    return this.get('states').indexOf(state) >= 0;
+  }
+
+  /**
    * 更改元素状态， visible 不属于这个范畴
    * @internal 仅提供内部类 graph 使用
    * @param {String} state 状态名
