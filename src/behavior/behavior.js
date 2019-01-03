@@ -6,18 +6,43 @@ Behavior.registerBehavior = function(type, behavior) {
     throw new Error('please specify handler for this behavior:' + type);
   }
   const base = function(cfg) {
-    this._cfg = cfg;
+    Util.mix(this, this.getDefaultCfg(), cfg);
+    this.initEvents();
   };
   Util.augment(base, {
+    shouldBegin() {
+      return true;
+    },
+    shouldUpdate() {
+      return true;
+    },
+    shouldEnd() {
+      return true;
+    },
+    bind(graph) {
+      const events = this.events;
+      this.graph = graph;
+      Util.each(events, (handler, event) => {
+        graph.on(event, handler);
+      });
+    },
+    unbind(graph) {
+      const events = this.events;
+      Util.each(events, (handler, event) => {
+        graph.off(event, handler);
+      });
+    },
     get(val) {
-      return this._cfg[val];
+      return this[val];
     },
     set(key, val) {
-      this._cfg[key] = val;
+      this[key] = val;
       return this;
     },
-    bind() {},
-    unbind() {}
+    initEvents() {
+      this.events = {};
+    },
+    getDefaultCfg() {}
   }, behavior);
   Behavior[type] = base;
 };
