@@ -191,6 +191,9 @@ class Graph extends EventEmitter {
     if (Util.isString(item)) {
       item = self.get('itemByIndex')[item];
     }
+    if (item.hasState(state) === enabled) {
+      return;
+    }
     self.emit('beforeitemstatechange', { item, state, enabled });
     item.setState(state, enabled);
     this._autoPaint();
