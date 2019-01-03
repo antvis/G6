@@ -87,8 +87,8 @@ describe('graph', () => {
     expect(nodes.length).to.equal(0);
   });
   it('add edge', () => {
-    const node1 = graph.add('node', { shape: 'circle', color: '#ccc', style: { x: 50, y: 50, r: 20, lineWidth: 2 } });
-    const node2 = graph.add('node', { shape: 'rect', id: 'node', color: '#666', style: { x: 100, y: 100, width: 100, height: 70 } });
+    const node1 = graph.add('node', { shape: 'circle', color: '#ccc', x: 50, y: 50, size: 20, style: { lineWidth: 2 } });
+    const node2 = graph.add('node', { shape: 'rect', id: 'node', x: 100, y: 100, color: '#666', size: [ 100, 70 ] });
     const edge = graph.add('edge', { id: 'edge', source: node1, target: node2 });
     expect(graph.get('edges').length).to.equal(1);
     expect(graph.get('edges')[0]).to.equal(edge);
@@ -148,7 +148,7 @@ describe('graph', () => {
     expect(map.e).not.to.be.undefined;
     data.nodes.splice(0, 1);
     data.edges.splice(0, 1);
-    data.edges[0].source = 'c';
+    data.edges[0].source = 'b';
     graph.changeData(data);
     expect(graph.get('nodes').length).to.equal(2);
     expect(graph.get('edges').length).to.equal(1);
