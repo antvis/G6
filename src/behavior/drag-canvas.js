@@ -62,7 +62,7 @@ module.exports = {
       e.type = 'drag';
       this.graph.emit('canvas:drag', e);
     }
-    if (this.get('shouldUpdate').call(this, e)) {
+    if (this.shouldUpdate.call(this, e)) {
       this.updateViewport(e);
     }
   },
@@ -71,7 +71,7 @@ module.exports = {
       return;
     }
     const graph = this.graph;
-    if (this.get('shouldUpdate').call(this, e)) {
+    if (this.shouldEnd.call(this, e)) {
       this.updateViewport(e);
     }
     e.type = 'dragend';
