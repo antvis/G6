@@ -161,6 +161,7 @@ class Graph extends EventEmitter {
     return this;
   }
   update(item, cfg) {
+    this.emit('beforeitemupdate', { item, cfg });
     const itemById = this.get('itemById');
     if (Util.isString(item)) {
       item = itemById[item];
@@ -181,9 +182,24 @@ class Graph extends EventEmitter {
     }
     item.update(cfg);
     this._autoPaint();
+    this.emit('afteritemupdate', { item, cfg });
     return item;
   }
+
+  setState(item, state, enabled) {
+    const self = this;
+    if (Util.isString(item)) {
+      item = self.get('itemByIndex')[item];
+    }
+    self.emit('beforeitemstatechange', { item, state, enabled });
+    item.setState(state, enabled);
+    this._autoPaint();
+    self.emit('afteritemstatechange', { item, state, enabled });
+    return item;
+  }
+
   add(type, model) {
+    this.emit('beforeadditem', { type, model });
     const parent = this.get(type + 'Group') || this.get('group');
     let item;
     if (type === 'edge') {
@@ -210,9 +226,11 @@ class Graph extends EventEmitter {
     this.get(type + 's').push(item);
     this.get('itemById')[item.get('id')] = item;
     this._autoPaint();
+    this.emit('aftereadditem', { type, model });
     return item;
   }
   remove(item) {
+    this.emit('beforeremoveitem', { item });
     if (Util.isString(item)) {
       item = this.get('itemById')[item];
     }
@@ -232,6 +250,7 @@ class Graph extends EventEmitter {
     }
     item.destroy();
     this._autoPaint();
+    this.emit('afterremoveitem', { item });
   }
   data(data) {
     this.set('data', data);
@@ -239,8 +258,11 @@ class Graph extends EventEmitter {
   refresh(item) {
     const self = this;
     if (item) {
+      self.emit('beforeitemrefresh', { item });
       item.refresh();
+      self.emit('afteritemrefresh', { item });
     } else {
+      self.emit('beforegraphrefresh', { item });
       const nodes = self.get('nodes');
       const edges = self.get('edges');
       Util.each(edges, edge => {
@@ -249,6 +271,7 @@ class Graph extends EventEmitter {
       Util.each(nodes, node => {
         node.refresh();
       });
+      self.emit('aftergraphrefresh', { item });
     }
     self._autoPaint();
   }
