@@ -24,27 +24,32 @@ module.exports = {
     graph.off('keyup', this.keyup);
   },
   onClick(e) {
+    const self = this;
     const item = e.target;
     const selected = this.selected;
-    if (!this.multiple && selected.length > 0) {
+    if (!self.multiple && selected.length > 0) {
       return;
     }
-    if (!this.keydown) {
-      this.selected = [];
+    if (!self.keydown) {
+      self.selected = [];
     }
     if (item.getStates().indexOf('selected') >= 0) {
-      if (this.onDeselect.call(this, e)) {
-        item.setState('selected', false);
+      if (self.onDeselect.call(self, e)) {
+        if (self.shouldUpdate.call(self, e)) {
+          item.setState('selected', false);
+        }
         const index = selected.indexOf(item);
         selected.splice(index, 1);
       }
     } else {
-      if (this.onSelect.call(this, e)) {
-        item.setState('selected', true);
+      if (self.onSelect.call(self, e)) {
+        if (self.shouldUpdate.call(self, e)) {
+          item.setState('selected', true);
+        }
         selected.push(item);
       }
     }
-    this.graph.paint();
+    self.graph.paint();
   },
   onKeyDown(e) {
     const code = e.keyCode || e.which;

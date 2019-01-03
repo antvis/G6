@@ -15,6 +15,9 @@ Behavior.registerBehavior = function(type, behavior) {
     shouldUpdate() {
       return true;
     },
+    shouldEnd() {
+      return true;
+    },
     get(val) {
       return this[val];
     },
