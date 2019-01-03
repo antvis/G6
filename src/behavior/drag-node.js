@@ -50,12 +50,16 @@ module.exports = {
     this._update(this.target, e);
   },
   onDragEnd(e) {
+    if (!this.shouldEnd.call(this, e)) {
+      return;
+    }
     if (!this.origin) {
       return;
     }
     if (this.delegateShape) {
       this.delegateShape.remove();
       this.delegateShape = null;
+      this.target.set('delegateShape', null);
     }
     this._update(this.target, e, true);
   },
@@ -96,6 +100,7 @@ module.exports = {
       shape.attr(this.delegateStyle);
       shape.set('capture', false);
       group.add(shape);
+      item.set('delegateShape', shape);
       this.delegateShape = shape;
     }
     shape.attr({ x, y });
