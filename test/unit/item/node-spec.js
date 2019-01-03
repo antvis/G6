@@ -6,6 +6,10 @@ const div = document.createElement('div');
 div.id = 'node-spec';
 document.body.appendChild(div);
 
+function snap(x1, x2) {
+  return Math.abs(x1 - x2) <= 0.5;
+}
+
 describe('node', () => {
   it('new node and destroy', () => {
     const group = new G.Group();
@@ -127,6 +131,71 @@ describe('node', () => {
     node.update({ shape: 'circle' });
     shape = node.get('keyShape');
     expect(shape.attr('fillOpacity')).eql(0.8);
+  });
+
+  it('get link point, no anchor', () => {
+    const group = new G.Group();
+    const node = new Node({
+      model: {
+        x: 100,
+        y: 100,
+        size: [ 20, 20 ],
+        shape: 'rect'
+      },
+      group
+    });
+    const point = node.getLinkPoint({ x: 0, y: 0 });
+    expect(snap(point.x, 90)).eql(true);
+    expect(snap(point.y, 90)).eql(true);
+
+    const point1 = node.getLinkPoint({ x: 100, y: 0 });
+    expect(snap(point1.x, 100)).eql(true);
+    expect(snap(point1.y, 90)).eql(true);
+  });
+  it('getLinkPointByAnchor', () => {
+    const group = new G.Group();
+    const node = new Node({
+      model: {
+        x: 100,
+        y: 100,
+        size: [ 20, 20 ],
+        shape: 'rect',
+        anchorPoints: [
+          [ 0.5, 0 ], [ 1, 0.5 ], [ 0.5, 1 ], [ 0, 0.5 ]
+        ]
+      },
+      group
+    });
+    const point = node.getLinkPointByAnchor(0);
+    expect(snap(point.x, 100)).eql(true);
+    expect(snap(point.y, 90)).eql(true);
+
+    const point1 = node.getLinkPointByAnchor(1);
+    expect(snap(point1.x, 110)).eql(true);
+    expect(snap(point1.y, 100)).eql(true);
+  });
+  it('get snap point', () => {
+    const group = new G.Group();
+    const node = new Node({
+      model: {
+        x: 100,
+        y: 100,
+        size: [ 20, 20 ],
+        shape: 'rect',
+        anchorPoints: [
+          [ 0.5, 0 ], [ 1, 0.5 ], [ 0.5, 1 ], [ 0, 0.5 ]
+        ]
+      },
+      group
+    });
+
+    const point = node.getLinkPoint({ x: 1, y: 0 });
+    expect(snap(point.x, 100)).eql(true);
+    expect(snap(point.y, 90)).eql(true);
+
+    const point1 = node.getLinkPoint({ x: 200, y: 10 });
+    expect(snap(point1.x, 110)).eql(true);
+    expect(snap(point1.y, 100)).eql(true);
   });
 
 });
