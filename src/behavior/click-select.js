@@ -6,11 +6,11 @@ module.exports = {
       multiple: true
     };
   },
-  initEvents() {
-    this.events = {
-      'node:click': Util.wrapBehavior(this, 'onClick'),
-      keyup: Util.wrapBehavior(this, 'onKeyUp'),
-      keydown: Util.wrapBehavior(this, 'onKeyDown')
+  getEvents() {
+    return {
+      'node:click': 'onClick',
+      keyup: 'onKeyUp',
+      keydown: 'onKeyDown'
     };
   },
   onClick(e) {
