@@ -1,5 +1,3 @@
-const Util = require('../util');
-
 module.exports = {
   getDefaultCfg() {
     return {
@@ -11,11 +9,11 @@ module.exports = {
       }
     };
   },
-  initEvents() {
-    this.events = {
-      'node:dragstart': Util.wrapBehavior(this, 'onDragStart'),
-      'node:drag': Util.wrapBehavior(this, 'onDrag'),
-      'node:dragend': Util.wrapBehavior(this, 'onDragEnd')
+  getEvents() {
+    return {
+      'node:dragstart': 'onDragStart',
+      'node:drag': 'onDrag',
+      'node:dragend': 'onDragEnd'
     };
   },
   onDragStart(e) {
