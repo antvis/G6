@@ -98,6 +98,9 @@ class Mode {
     const behaves = [];
     let behave;
     Util.each(behaviors, behavior => {
+      if (!Behavior.getBehavior(behavior.type)) {
+        return;
+      }
       behave = new (Behavior.getBehavior(behavior.type))(behavior);
       behave && behave.bind(graph);
       behaves.push(behave);

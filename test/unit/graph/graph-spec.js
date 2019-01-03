@@ -71,21 +71,102 @@ describe('graph', () => {
     graph.destroy();
   });
   it('add node', () => {
-    const node = graph.add('node', { type: 'circle', color: '#ccc', style: { x: 50, y: 50, r: 20, lineWidth: 2 } });
+    const node = graph.addItem('node', { shape: 'circle', color: '#ccc', style: { x: 50, y: 50, r: 20, lineWidth: 2 } });
     expect(node).not.to.be.undefined;
-    expect(graph.node.length).to.equal(1);
-    expect(graph.node[0]).to.equal(node);
-    const node2 = graph.add('node', { type: 'rect', id: 'node', color: '#666', style: { x: 100, y: 100, width: 100, height: 70 } });
+    const nodes = graph.get('nodes');
+    expect(nodes.length).to.equal(1);
+    expect(nodes[0]).to.equal(node);
+    const node2 = graph.addItem('node', { shape: 'rect', id: 'node', color: '#666', style: { x: 100, y: 100, width: 100, height: 70 } });
     expect(node2).not.to.be.undefined;
-    expect(graph.node.length).to.equal(2);
-    expect(graph.node[1]).to.equal(node2);
-    graph.remove(node);
-    expect(graph.node.length).to.equal(1);
-    expect(graph.node[0]).to.equal(node2);
-    graph.remove(node2);
-    expect(graph.node.length).to.equal(0);
+    expect(nodes.length).to.equal(2);
+    expect(nodes[1]).to.equal(node2);
+    graph.removeItem(node);
+    expect(nodes.length).to.equal(1);
+    expect(nodes[0]).to.equal(node2);
+    graph.removeItem(node2);
+    expect(nodes.length).to.equal(0);
   });
   it('add edge', () => {
-    // TODO
+    const node1 = graph.addItem('node', { shape: 'circle', color: '#ccc', x: 50, y: 50, size: 20, style: { lineWidth: 2 } });
+    const node2 = graph.addItem('node', { shape: 'rect', id: 'node', x: 100, y: 100, color: '#666', size: [ 100, 70 ] });
+    const edge = graph.addItem('edge', { id: 'edge', source: node1, target: node2 });
+    expect(graph.get('edges').length).to.equal(1);
+    expect(graph.get('edges')[0]).to.equal(edge);
+    expect(Object.keys(graph.get('itemById')).length).to.equal(3);
+    expect(graph.get('itemById').edge).to.equal(edge);
+    expect(node1.getEdges().length).to.equal(1);
+    expect(node2.getEdges().length).to.equal(1);
+    graph.removeItem(edge);
+    expect(graph.get('edges').length).to.equal(0);
+  });
+  it('data & changeData', () => {
+    const data = {
+      nodes: [{
+        id: 'a',
+        shape: 'circle',
+        color: '#333',
+        x: 30,
+        y: 30,
+        size: 20,
+        label: 'a'
+      }, {
+        id: 'b',
+        shape: 'ellipse',
+        color: '#666',
+        x: 50,
+        y: 60,
+        size: [ 30, 40 ],
+        label: 'b'
+      }, {
+        id: 'c',
+        shape: 'rect',
+        color: '#999',
+        x: 100,
+        y: 70,
+        size: 20,
+        label: 'c'
+      }],
+      edges: [{
+        source: 'a',
+        target: 'b',
+        id: 'd'
+      }, {
+        source: 'a',
+        target: 'c',
+        id: 'e'
+      }]
+    };
+    graph.data(data);
+    graph.render();
+    expect(graph.get('nodes').length).to.equal(3);
+    expect(graph.get('edges').length).to.equal(2);
+    const map = graph.get('itemById');
+    expect(map.a).not.to.be.undefined;
+    expect(map.b).not.to.be.undefined;
+    expect(map.c).not.to.be.undefined;
+    expect(map.d).not.to.be.undefined;
+    expect(map.e).not.to.be.undefined;
+    data.nodes.splice(0, 1);
+    data.edges.splice(0, 1);
+    data.edges[0].source = 'b';
+    graph.changeData(data);
+    expect(graph.get('nodes').length).to.equal(2);
+    expect(graph.get('edges').length).to.equal(1);
+    expect(map.a).to.be.undefined;
+    expect(map.b).not.to.be.undefined;
+    expect(map.c).not.to.be.undefined;
+    expect(map.d).to.be.undefined;
+    expect(map.e).not.to.be.undefined;
+  });
+  it('show & hide item', () => {
+    const node = graph.addItem('node', { id: 'node', x: 100, y: 100, size: 50 });
+    const node2 = graph.addItem('node', { id: 'node2', x: 100, y: 100, size: 50 });
+    const edge = graph.addItem('edge', { id: 'edge', source: node, target: node2 });
+    graph.hideItem('node');
+    expect(node.isVisible()).to.be.false;
+    expect(edge.isVisible()).to.be.false;
+    graph.showItem(node);
+    expect(node.isVisible()).to.be.true;
+    expect(edge.isVisible()).to.be.true;
   });
 });
