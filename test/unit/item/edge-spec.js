@@ -2,7 +2,6 @@ const expect = require('chai').expect;
 const G = require('@antv/g');
 const Node = require('../../../src/item/node');
 const Edge = require('../../../src/item/edge');
-
 const div = document.createElement('div');
 div.id = 'edge-spec';
 document.body.appendChild(div);
@@ -13,12 +12,13 @@ const canvas = new G.Canvas({
   height: 600
 });
 
-describe('edge test', () => {
+describe('edge test, with circle', () => {
   const aNode = new Node({
     model: {
       id: 'a',
       x: 100,
       y: 100,
+      size: 20,
       shape: 'circle'
     },
     group: canvas.addGroup()
@@ -29,6 +29,7 @@ describe('edge test', () => {
       id: 'b',
       x: 200,
       y: 200,
+      size: 20,
       shape: 'circle'
     },
     group: canvas.addGroup()
@@ -39,6 +40,7 @@ describe('edge test', () => {
       id: 'c',
       x: 300,
       y: 200,
+      size: 20,
       shape: 'circle'
     },
     group: canvas.addGroup()
@@ -142,7 +144,6 @@ describe('edge test', () => {
     edge.refresh();
     expect(shape.attr('path')[1]).eqls([ 'L', point2.x, point2.y ]);
     canvas.draw();
-
   });
 
   it('states', () => {
@@ -167,5 +168,47 @@ describe('edge test', () => {
     expect(bNode.getEdges().length).eql(0);
     expect(group.get('destroyed')).eql(true);
 
+  });
+});
+
+describe('edge test, with ellipse', () => {
+  const aNode = new Node({
+    id: 'a',
+    model: {
+      x: 100,
+      y: 100,
+      size: [ 20, 40 ],
+      shape: 'ellipse'
+    },
+    group: canvas.addGroup()
+  });
+
+  const bNode = new Node({
+    id: 'b',
+    model: {
+      x: 200,
+      y: 200,
+      size: [ 20, 40 ],
+      shape: 'circle'
+    },
+    group: canvas.addGroup()
+  });
+
+  it('init', () => {
+    const group = canvas.addGroup();
+    const edge = new Edge({
+      model: {
+
+      },
+      source: aNode,
+      target: bNode,
+      group
+    });
+
+    expect(group.getCount()).eql(1);
+    const shape = edge.get('keyShape');
+    const intersectPoint = aNode.getLinkPoint(bNode.getModel());
+    expect(shape.attr('path')[0]).eqls([ 'M', intersectPoint.x, intersectPoint.y ]);
+    canvas.draw();
   });
 });
