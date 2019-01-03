@@ -73,16 +73,19 @@ class Edge extends Item {
       return controlPoints[index];
     }
     const oppositeName = name === 'source' ? 'target' : 'source'; // 取另一个节点的位置
-    const itemName = oppositeName + ITEM_NAME_SUFFIX;
-    const pointName = END_MAP[oppositeName] + POINT_NAME_SUFFIX;
+    return this._getEndPoint(oppositeName);
+  }
+
+  // 获取端点的位置
+  _getEndPoint(name) {
+    const itemName = name + ITEM_NAME_SUFFIX;
+    const pointName = END_MAP[name] + POINT_NAME_SUFFIX;
     const item = this.get(itemName);
       // 如果有端点，直接使用 model
     if (item) {
       return item.get('model');
     }  // 否则直接使用点
     return this.get(pointName);
-
-
   }
 
   getDrawCfg(model) {
