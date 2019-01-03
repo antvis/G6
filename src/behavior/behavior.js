@@ -6,8 +6,16 @@ Behavior.registerBehavior = function(type, behavior) {
     throw new Error('please specify handler for this behavior:' + type);
   }
   const base = function(cfg) {
-    Util.mix(this, this.getDefaultCfg(), cfg);
-    this.initEvents();
+    const self = this;
+    Util.mix(self, self.getDefaultCfg(), cfg);
+    const events = self.getEvents();
+    if (events) {
+      const eventsToBind = {};
+      Util.each(events, (handler, event) => {
+        eventsToBind[event] = Util.wrapBehavior(self, handler);
+      });
+      this._events = eventsToBind;
+    }
   };
   Util.augment(base, {
     shouldBegin() {
@@ -19,15 +27,16 @@ Behavior.registerBehavior = function(type, behavior) {
     shouldEnd() {
       return true;
     },
+    getEvents() {},
     bind(graph) {
-      const events = this.events;
+      const events = this._events;
       this.graph = graph;
       Util.each(events, (handler, event) => {
         graph.on(event, handler);
       });
     },
     unbind(graph) {
-      const events = this.events;
+      const events = this._events;
       Util.each(events, (handler, event) => {
         graph.off(event, handler);
       });
@@ -38,9 +47,6 @@ Behavior.registerBehavior = function(type, behavior) {
     set(key, val) {
       this[key] = val;
       return this;
-    },
-    initEvents() {
-      this.events = {};
     },
     getDefaultCfg() {}
   }, behavior);
