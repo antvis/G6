@@ -71,32 +71,32 @@ describe('graph', () => {
     graph.destroy();
   });
   it('add node', () => {
-    const node = graph.add('node', { shape: 'circle', color: '#ccc', style: { x: 50, y: 50, r: 20, lineWidth: 2 } });
+    const node = graph.addItem('node', { shape: 'circle', color: '#ccc', style: { x: 50, y: 50, r: 20, lineWidth: 2 } });
     expect(node).not.to.be.undefined;
     const nodes = graph.get('nodes');
     expect(nodes.length).to.equal(1);
     expect(nodes[0]).to.equal(node);
-    const node2 = graph.add('node', { shape: 'rect', id: 'node', color: '#666', style: { x: 100, y: 100, width: 100, height: 70 } });
+    const node2 = graph.addItem('node', { shape: 'rect', id: 'node', color: '#666', style: { x: 100, y: 100, width: 100, height: 70 } });
     expect(node2).not.to.be.undefined;
     expect(nodes.length).to.equal(2);
     expect(nodes[1]).to.equal(node2);
-    graph.remove(node);
+    graph.removeItem(node);
     expect(nodes.length).to.equal(1);
     expect(nodes[0]).to.equal(node2);
-    graph.remove(node2);
+    graph.removeItem(node2);
     expect(nodes.length).to.equal(0);
   });
   it('add edge', () => {
-    const node1 = graph.add('node', { shape: 'circle', color: '#ccc', x: 50, y: 50, size: 20, style: { lineWidth: 2 } });
-    const node2 = graph.add('node', { shape: 'rect', id: 'node', x: 100, y: 100, color: '#666', size: [ 100, 70 ] });
-    const edge = graph.add('edge', { id: 'edge', source: node1, target: node2 });
+    const node1 = graph.addItem('node', { shape: 'circle', color: '#ccc', x: 50, y: 50, size: 20, style: { lineWidth: 2 } });
+    const node2 = graph.addItem('node', { shape: 'rect', id: 'node', x: 100, y: 100, color: '#666', size: [ 100, 70 ] });
+    const edge = graph.addItem('edge', { id: 'edge', source: node1, target: node2 });
     expect(graph.get('edges').length).to.equal(1);
     expect(graph.get('edges')[0]).to.equal(edge);
     expect(Object.keys(graph.get('itemById')).length).to.equal(3);
     expect(graph.get('itemById').edge).to.equal(edge);
     expect(node1.getEdges().length).to.equal(1);
     expect(node2.getEdges().length).to.equal(1);
-    graph.remove(edge);
+    graph.removeItem(edge);
     expect(graph.get('edges').length).to.equal(0);
   });
   it('data & changeData', () => {
