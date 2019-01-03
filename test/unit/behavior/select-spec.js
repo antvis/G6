@@ -16,11 +16,11 @@ describe('select-node', () => {
       },
       pixelRatio: 2
     });
-    const node = graph.add('node', { color: '#666', x: 50, y: 50, size: 20, style: { lineWidth: 2, fill: '#666' } });
+    const node = graph.addItem('node', { color: '#666', x: 50, y: 50, size: 20, style: { lineWidth: 2, fill: '#666' } });
     graph.paint();
     graph.emit('node:click', { target: node });
     expect(node.getStates().length).to.equal(1);
-    expect(node.getStates()[0]).to.equal('selected');
+    expect(node.hasState('selected')).to.be.true;
     graph.emit('node:click', { target: node });
     expect(node.getStates().length).to.equal(0);
     graph.destroy();
@@ -35,8 +35,8 @@ describe('select-node', () => {
       },
       pixelRatio: 2
     });
-    const node1 = graph.add('node', { color: '#666', x: 50, y: 50, size: 20, style: { lineWidth: 2, fill: '#666' } });
-    const node2 = graph.add('node', { color: '#666', x: 150, y: 150, size: 20, style: { lineWidth: 2, fill: '#666' } });
+    const node1 = graph.addItem('node', { color: '#666', x: 50, y: 50, size: 20, style: { lineWidth: 2, fill: '#666' } });
+    const node2 = graph.addItem('node', { color: '#666', x: 150, y: 150, size: 20, style: { lineWidth: 2, fill: '#666' } });
     graph.paint();
     graph.emit('node:click', { target: node1 });
     expect(node1.getStates().length).to.equal(1);
@@ -62,7 +62,7 @@ describe('select-node', () => {
       },
       pixelRatio: 2
     });
-    const node = graph.add('node', { color: '#666', x: 50, y: 50, size: 20, style: { lineWidth: 2, fill: '#666' } });
+    const node = graph.addItem('node', { color: '#666', x: 50, y: 50, size: 20, style: { lineWidth: 2, fill: '#666' } });
     graph.paint();
     graph.emit('node:click', { target: node });
     expect(node.hasState('selected')).to.be.false;
