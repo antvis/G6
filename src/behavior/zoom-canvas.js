@@ -10,10 +10,10 @@ module.exports = {
       maxZoom: 10
     };
   },
-  bind(graph) {
-    this.event = Util.wrapBehavior(this, 'onWheel');
-    this.graph = graph;
-    graph.on('wheel', this.event);
+  initEvents() {
+    this.events = {
+      wheel: Util.wrapBehavior(this, 'onWheel')
+    };
   },
   onWheel(e) {
     e.preventDefault();
@@ -38,8 +38,5 @@ module.exports = {
     graph.zoom(ratio, { x: point.x / pixelRatio, y: point.y / pixelRatio });
     graph.paint();
     graph.emit('wheelzoom', e);
-  },
-  unbind(graph) {
-    graph.off('wheel', this.event);
   }
 };

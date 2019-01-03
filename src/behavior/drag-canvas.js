@@ -6,22 +6,12 @@ module.exports = {
       direction: 'both'
     };
   },
-  bind(graph) {
-    this.group = graph.get('group');
-    this.graph = graph;
+  initEvents() {
     this.events = {
-      mousedown: Util.wrapBehavior(this, 'onMouseDown'),
-      mousemove: Util.wrapBehavior(this, 'onMouseMove'),
-      mouseup: Util.wrapBehavior(this, 'onMouseUp')
+      'canvas:mousedown': Util.wrapBehavior(this, 'onMouseDown'),
+      'canvas:mousemove': Util.wrapBehavior(this, 'onMouseMove'),
+      'canvas:mouseup': Util.wrapBehavior(this, 'onMouseUp')
     };
-    Util.each(this.events, (callback, event) => {
-      graph.on('canvas:' + event, callback);
-    });
-  },
-  unbind(graph) {
-    Util.each(this.events, (callback, event) => {
-      graph.off('canvas:' + event, callback);
-    });
   },
   updateViewport(e) {
     const origin = this.origin;

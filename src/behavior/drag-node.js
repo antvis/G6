@@ -11,27 +11,15 @@ module.exports = {
       }
     };
   },
-  bind(graph) {
+  initEvents() {
     this.events = {
-      dragstart: Util.wrapBehavior(this, 'onDragStart'),
-      drag: Util.wrapBehavior(this, 'onDrag'),
-      dragend: Util.wrapBehavior(this, 'onDragEnd')
+      'node:dragstart': Util.wrapBehavior(this, 'onDragStart'),
+      'node:drag': Util.wrapBehavior(this, 'onDrag'),
+      'node:dragend': Util.wrapBehavior(this, 'onDragEnd')
     };
-    this.graph = graph;
-    Util.each(this.events, (callback, event) => {
-      graph.on('node:' + event, callback);
-    });
-  },
-  unbind(graph) {
-    Util.each(this.events, (callback, event) => {
-      graph.off('node:' + event, callback);
-    });
   },
   onDragStart(e) {
     if (!this.shouldBegin.call(this, e)) {
-      return;
-    }
-    if (e.target.getType() !== 'node') {
       return;
     }
     this.target = e.target;

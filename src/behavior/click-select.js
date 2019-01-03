@@ -6,20 +6,13 @@ module.exports = {
       multiple: true
     };
   },
-  bind(graph) {
+  initEvents() {
+    this.events = {
+      'node:click': Util.wrapBehavior(this, 'onClick'),
+      keyup: Util.wrapBehavior(this, 'onKeyUp'),
+      keydown: Util.wrapBehavior(this, 'onKeyDown')
+    };
     this.selected = [];
-    this.click = Util.wrapBehavior(this, 'onClick');
-    this.keydown = Util.wrapBehavior(this, 'onKeyDown');
-    this.keyup = Util.wrapBehavior(this, 'onKeyUp');
-    this.graph = graph;
-    graph.on('node:click', this.click);
-    graph.on('keydown', this.keydown);
-    graph.on('keyup', this.keyup);
-  },
-  unbind(graph) {
-    graph.off('node:click', this.click);
-    graph.off('keydown', this.keydown);
-    graph.off('keyup', this.keyup);
   },
   onClick(e) {
     const self = this;
