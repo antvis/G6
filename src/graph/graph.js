@@ -321,8 +321,8 @@ class Graph extends EventEmitter {
       edges: []
     };
     this.set('autoPaint', false);
-    this._diffItem('node', items, data.nodes);
-    this._diffItem('edge', items, data.edges);
+    this._diffItems('node', items, data.nodes);
+    this._diffItems('edge', items, data.edges);
     Util.each(itemById, (item, id) => {
       if (items.nodes.indexOf(item) < 0 && items.edges.indexOf(item) < 0) {
         delete itemById[id];
@@ -335,7 +335,7 @@ class Graph extends EventEmitter {
     this.set('autoPaint', autoPaint);
     return this;
   }
-  _diffItem(type, items, models) {
+  _diffItems(type, items, models) {
     const self = this;
     let item;
     const itemById = this.get('itemById');
@@ -445,6 +445,21 @@ class Graph extends EventEmitter {
   focusItem(item) {
     this.get('viewController').focus(item);
     this._autoPaint();
+  }
+  showItem(item) {
+    this.changeItemVisibility(item, true);
+  }
+  hideItem(item) {
+    this.changeItemVisibility(item, false);
+  }
+  changeItemVisibility(item, visible) {
+    const self = this;
+    if (Util.isString(item)) {
+      item = self.get('itemById')[item];
+    }
+    self.emit('beforeitemvisiblechange', { item, visible });
+    item.changeVisibility(visible);
+    self.emit('beforeitemvisiblechange', { item, visible });
   }
   findById(id) {
     return this.get('itemById')[id];
