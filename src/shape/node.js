@@ -164,9 +164,11 @@ Shape.registerNode('image', {
   shapeType: 'image',
   labelPosition: 'bottom',
   getShapeStyle(cfg) {
+    if (!cfg.img) {
+      throw new Error('image should at least has one `img`, it can be a Image element or a url');
+    }
     const size = this.getSize(cfg);
-    const shape = cfg.shape;
-    const img = Util.isArray(shape) ? shape[1] : shape;
+    const img = cfg.img;
     const width = size[0];
     const height = size[1];
     const style = Util.mix({}, {

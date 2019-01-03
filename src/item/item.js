@@ -13,7 +13,7 @@ class Item {
        * id
        * @type {string}
        */
-      id: '',
+      id: null,
 
       /**
        * 类型
@@ -63,7 +63,12 @@ class Item {
     this._cfg = Util.mix(defaultCfg, this.getDefaultCfg(), cfg);
     const group = cfg.group;
     group.set('item', this);
-    group.set('id', cfg.id);
+    let id = this.get('model').id;
+    if (!id || id === '') {
+      id = Util.uniqueId(this.get('type'));
+    }
+    this.set('id', id);
+    group.set('id', id);
     this.init();
     this.draw();
   }
@@ -135,9 +140,11 @@ class Item {
    * @param {Object} cfg 位置信息
    */
   updatePoistion(cfg) {
-    const group = this.get('group');
-    group.resetMatrix();
-    group.translate(cfg.x, cfg.y);
+    if (cfg.x && cfg.y) {
+      const group = this.get('group');
+      group.resetMatrix();
+      group.translate(cfg.x, cfg.y);
+    }
   }
 
   // 绘制
@@ -170,6 +177,15 @@ class Item {
    */
   getStates() {
     return this.get('states');
+  }
+
+  /**
+   * 当前元素是否处于某状态
+   * @param {String} state 状态名
+   * @return {Boolean} 是否处于某状态
+   */
+  hasState(state) {
+    return this.get('states').indexOf(state) >= 0;
   }
 
   /**
@@ -302,10 +318,24 @@ class Item {
   }
 
   /**
+   * 显示元素
+   */
+  show() {
+    this.changeVisibility(true);
+  }
+
+  /**
+   * 隐藏元素
+   */
+  hide() {
+    this.changeVisibility(false);
+  }
+
+  /**
    * 更改是否显示
    * @param  {Boolean} visible 是否显示
    */
-  changeVisible(visible) {
+  changeVisibility(visible) {
     const group = this.get('group');
     if (visible) {
       group.show();

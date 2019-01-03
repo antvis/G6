@@ -61,16 +61,14 @@ describe('item test', () => {
   it('to front', () => {
     const group = canvas.addGroup();
     const item = new Item({
-      id: 'a',
       group,
-      model: { color: 'red', shape: 'rect' }
+      model: { id: 'a', color: 'red', shape: 'rect' }
     });
     expect(group.get('id')).eql('a');
     const group1 = canvas.addGroup();
     const item1 = new Item({
-      id: 'b',
       group: group1,
-      model: { color: 'red', shape: 'circle' }
+      model: { id: 'b', color: 'red', shape: 'circle' }
     });
     expect(group1.get('item')).eql(item1);
     expect(canvas.get('children')[0]).eql(group);
@@ -86,10 +84,10 @@ describe('item test', () => {
       group
     });
     expect(item.get('visible')).to.be.true;
-    item.changeVisible(false);
+    item.changeVisibility(false);
     expect(item.get('visible')).to.be.false;
     expect(item.get('group').get('visible')).to.be.false;
-    item.changeVisible(true);
+    item.changeVisibility(true);
     expect(item.get('visible')).to.be.true;
     expect(item.get('group').get('visible')).to.be.true;
   });
