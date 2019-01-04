@@ -18,6 +18,12 @@ describe('item test', () => {
       model: { a: 1, b: 2 },
       group
     });
+    item.set({
+      a: 11,
+      b: 22
+    });
+    expect(item.get('a')).eql(11);
+    expect(item.isItem()).eql(true);
     const root = item.get('group');
     expect(item).not.to.be.undefined;
     expect(root).not.to.be.undefined;
@@ -28,6 +34,10 @@ describe('item test', () => {
     expect(item.get('type')).eql(item.getType());
     expect(model.a).to.equal(1);
     expect(model.b).to.equal(2);
+    item.hide();
+    expect(item.get('visible')).eql(false);
+    item.show();
+    expect(item.get('visible')).eql(true);
     item.destroy();
     expect(item.destroyed).to.be.true;
     expect(root.get('destroyed')).to.be.true;

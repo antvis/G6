@@ -54,7 +54,7 @@ class Edge extends Item {
   }
 
   // 获取与端点相交的节点
-  _getLinkPoint(name) {
+  _getLinkPoint(name, model) {
     const pointName = END_MAP[name] + POINT_NAME_SUFFIX;
     const itemName = name + ITEM_NAME_SUFFIX;
     let point = this.get(pointName);
@@ -62,7 +62,7 @@ class Edge extends Item {
       const item = this.get(itemName);
       const anchorName = name + ANCHOR_NAME_SUFFIX;
       const prePoint = this._getPrePoint(name);
-      const anchorIndex = this.get('model')[anchorName];
+      const anchorIndex = model[anchorName];
       if (!Util.isNil(anchorIndex)) { // 如果有锚点，则使用锚点索引获取连接点
         point = item.getLinkPointByAnchor(anchorIndex);
       }
@@ -97,8 +97,8 @@ class Edge extends Item {
 
   getShapeCfg(model) {
     const cfg = {
-      startPoint: this._getLinkPoint('source'),
-      endPoint: this._getLinkPoint('target')
+      startPoint: this._getLinkPoint('source', model),
+      endPoint: this._getLinkPoint('target', model)
     };
     Util.mix(cfg, model);
     return cfg;
