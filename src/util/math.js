@@ -176,69 +176,6 @@ const MathUtil = {
       x: vector[0],
       y: vector[1]
     };
-  },
-  /**
-   * radix sort
-   * @param  {array} arr unsorted child node set
-   * @param  {function} callback callback
-   * @return {array} after sorting child node set
-   */
-  radixSort(arr, callback) {
-    let mod = 10;
-    let dev = 1;
-    const counter = []; // 桶
-    let maxDigit = 1; // 最大位数
-    let rank;
-    let length;
-    let i;
-    let j;
-    let bucket;
-    let pos;
-    let value;
-
-    for (i = 0; i < arr.length; i++) {
-      rank = callback(arr[i]);
-      rank = parseInt(rank, 10);
-      length = rank.toString().length;
-      if (rank.toString().length > maxDigit) {
-        maxDigit = length;
-      }
-    }
-    for (i = 0; i < maxDigit; i++, dev *= 10, mod *= 10) {
-      for (j = 0; j < arr.length; j++) {
-        bucket = callback(arr[j]);
-        bucket = parseInt((bucket % mod) / dev, 10);
-        if (counter[bucket] === undefined) {
-          counter[bucket] = [];
-        }
-        counter[bucket].push(arr[j]);
-      }
-      pos = 0;
-      for (j = 0; j < counter.length; j++) {
-        value = undefined;
-        if (counter[j] !== undefined) {
-          value = counter[j].shift();
-          while (value !== undefined) {
-            arr[pos++] = value;
-            value = counter[j].shift();
-          }
-        }
-      }
-    }
-    return arr;
-  },
-  /**
-    * get arc of two vertors
-    * @param {object} vector1 - vector1
-    * @param {object} vector2 - vector2
-    * @return {number} - arc
-    */
-  getArcOfVectors(vector1, vector2) {
-    const { x: x1, y: y1 } = vector1;
-    const { x: x2, y: y2 } = vector2;
-    const v1 = Math.sqrt(x1 * x1 + y1 * y1);
-    const v2 = Math.sqrt(x2 * x2 + y2 * y2);
-    return Math.acos((x1 * x2 + y1 * y2) / (v1 * v2));
   }
 };
 module.exports = BaseUtil.mix({}, BaseUtil, MathUtil);
