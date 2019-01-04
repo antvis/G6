@@ -99,7 +99,7 @@ describe('graph', () => {
     graph.removeItem(edge);
     expect(graph.get('edges').length).to.equal(0);
   });
-  it('data & changeData', () => {
+  it('data & changeData & save', () => {
     const data = {
       nodes: [{
         id: 'a',
@@ -168,6 +168,23 @@ describe('graph', () => {
     expect(map.d).to.be.undefined;
     expect(map.e).not.to.be.undefined;
     expect(map.f).not.to.be.undefined;
+    const exported = graph.save();
+    expect(exported.nodes.length).to.equal(3);
+    expect(exported.edges.length).to.equal(1);
+    const edge = exported.edges[0];
+    expect(edge.id).to.equal('e');
+    expect(edge.source).to.equal('b');
+    expect(edge.target).to.equal('c');
+  });
+  it('update', () => {
+    const node = graph.addItem('node', { id: 'node', x: 100, y: 100, size: 50, color: '#ccc' });
+    graph.update('node', { x: 150, y: 150 });
+    const matrix = node.get('group').getMatrix();
+    expect(matrix[6]).to.equal(150);
+    expect(matrix[7]).to.equal(150);
+    graph.update(node, { style: { fill: '#ccc' } });
+    const shape = node.get('keyShape');
+    expect(shape.attr('fill')).to.equal('#ccc');
   });
   it('fresh graph', () => {
     graph.clear();

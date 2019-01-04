@@ -17,21 +17,15 @@ module.exports = {
     const self = this;
     const item = e.target;
     const graph = self.graph;
-    const selected = this.selected;
-    if (!self.multiple && selected.length > 0) {
-      return;
-    }
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
-    if (!self.keydown) {
-      const selected = graph.findAll('node', node => {
-        return node.hasState('selected');
-      });
-      if (selected.length > 1) {
-        Util.each(selected, node => {
+    if (!self.keydown || !self.multiple) {
+      const selected = graph.findAllByState('node', 'selected');
+      Util.each(selected, node => {
+        if (node !== item) {
           graph.setItemState(node, 'selected', false);
-        });
-      }
+        }
+      });
     }
     if (item.hasState('selected')) {
       e.type = 'deselect';
