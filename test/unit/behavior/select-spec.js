@@ -42,10 +42,15 @@ describe('select-node', () => {
     expect(node1.getStates().length).to.equal(1);
     expect(node1.getStates()[0]).to.equal('selected');
     graph.emit('keydown', { keyCode: 16 });
+    graph.emit('node:click', { target: node1 });
+    expect(node1.getStates().length).to.equal(0);
     graph.emit('node:click', { target: node2 });
     expect(node2.getStates().length).to.equal(1);
     expect(node2.getStates()[0]).to.equal('selected');
-    graph.emit('node:click', { target: node2 });
+    graph.emit('keyup', { keyCode: 16 });
+    graph.emit('node:click', { target: node1 });
+    expect(node1.getStates().length).to.equal(1);
+    expect(node1.getStates()[0]).to.equal('selected');
     expect(node2.getStates().length).to.equal(0);
     graph.destroy();
   });

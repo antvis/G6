@@ -501,7 +501,7 @@ class Graph extends EventEmitter {
 
   /**
    * 将元素移动到视口中心
-   * @param {string|obect} item 指定元素
+   * @param {string|object} item 指定元素
    */
   focusItem(item) {
     this.get('viewController').focus(item);
