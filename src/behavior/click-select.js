@@ -6,11 +6,11 @@ module.exports = {
       multiple: true
     };
   },
-  initEvents() {
-    this.events = {
-      'node:click': Util.wrapBehavior(this, 'onClick'),
-      keyup: Util.wrapBehavior(this, 'onKeyUp'),
-      keydown: Util.wrapBehavior(this, 'onKeyDown')
+  getEvents() {
+    return {
+      'node:click': 'onClick',
+      keyup: 'onKeyUp',
+      keydown: 'onKeyDown'
     };
   },
   onClick(e) {
@@ -21,8 +21,8 @@ module.exports = {
     if (!self.multiple && selected.length > 0) {
       return;
     }
-    const autoPaint = graph.set('autoPaint');
-    graph.set('autoPaint', false);
+    const autoPaint = graph.get('autoPaint');
+    graph.setAutoPaint(false);
     if (!self.keydown) {
       const selected = graph.findAll('node', node => {
         return node.hasState('selected');
@@ -44,7 +44,7 @@ module.exports = {
         graph.setItemState(item, 'selected', true);
       }
     }
-    graph.set('autoPaint', autoPaint);
+    graph.setAutoPaint(autoPaint);
     graph.paint();
   },
   onKeyDown(e) {
