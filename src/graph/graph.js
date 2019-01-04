@@ -573,18 +573,6 @@ class Graph extends EventEmitter {
   }
 
   /**
-   * 查找所有指定className的元素
-   * @param {string} type 元素类型(node|edge)
-   * @param {string} className class名
-   * @return {object} 元素实例
-   */
-  findAllbyClassName(type, className) {
-    return this.findAll(type, item => {
-      return item.hasClass(className);
-    });
-  }
-
-  /**
    * 查找所有处于指定状态的元素
    * @param {string} type 元素类型(node|edge)
    * @param {string} state z状态
