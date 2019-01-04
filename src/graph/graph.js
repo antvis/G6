@@ -118,7 +118,8 @@ class Graph extends EventEmitter {
     const eventController = new Controller.Event(this);
     const viewController = new Controller.View(this);
     const modeController = new Controller.Mode(this);
-    this.set({ eventController, viewController, modeController });
+    const itemController = new Controller.Item(this);
+    this.set({ eventController, viewController, modeController, itemController });
   }
   _initCanvas() {
     let container = this.get('container');
@@ -162,141 +163,112 @@ class Graph extends EventEmitter {
     }
     return this;
   }
+
+  /**
+   * 更新元素
+   * @param {string|object} item 元素id或元素实例
+   * @param {object} cfg 需要更新的数据
+   * @return {object} 元素实例
+   */
   update(item, cfg) {
     return this.updateItem(item, cfg);
   }
+
+  /**
+   * 更新元素
+   * @param {string|object} item 元素id或元素实例
+   * @param {object} cfg 需要更新的数据
+   * @return {object} 元素实例
+   */
   updateItem(item, cfg) {
-    const self = this;
-    self.emit('beforeitemupdate', { item, cfg });
-    const itemById = this.get('itemById');
-    if (Util.isString(item)) {
-      item = itemById[item];
-    }
-    if (cfg.source) {
-      let source = cfg.source;
-      if (Util.isString(source)) {
-        source = itemById[source];
-        item.setSource(source);
-      }
-    }
-    if (cfg.target) {
-      let target = cfg.target;
-      if (Util.isString(target)) {
-        target = itemById[target];
-        item.setTarget(target);
-      }
-    }
-    item.update(cfg);
-    if (item.getType() === NODE) {
-      const autoPaint = self.get('autoPaint');
-      self.set('autoPaint', false);
-      Util.each(item.getEdges(), edge => {
-        self.refresh(edge);
-      });
-      self.set('autoPaint', autoPaint);
-    }
-    self._autoPaint();
-    self.emit('afteritemupdate', { item, cfg });
-    return item;
+    return this.get('itemController').updateItem(item, cfg);
   }
 
+  /**
+   * 设置元素状态
+   * @param {string|object} item 元素id或元素实例
+   * @param {string} state 状态
+   * @param {boolean} enabled 是否启用状态
+   * @return {object} 元素实例
+   */
   setItemState(item, state, enabled) {
-    const self = this;
-    if (Util.isString(item)) {
-      item = self.get('itemByIndex')[item];
-    }
-    if (item.hasState(state) === enabled) {
-      return;
-    }
-    self.emit('beforeitemstatechange', { item, state, enabled });
-    item.setState(state, enabled);
-    this._autoPaint();
-    self.emit('afteritemstatechange', { item, state, enabled });
-    return item;
+    return this.get('itemController').setItemState(item, state, enabled);
   }
+
+  /**
+   * 新增元素
+   * @param {string} type 元素类型(node | edge)
+   * @param {object} model 元素数据模型
+   * @return {object} 元素实例
+   */
   add(type, model) {
     return this.addItem(type, model);
   }
+
+  /**
+   * 新增元素
+   * @param {string} type 元素类型(node | edge)
+   * @param {object} model 元素数据模型
+   * @return {object} 元素实例
+   */
   addItem(type, model) {
-    this.emit('beforeadditem', { type, model });
-    const parent = this.get(type + 'Group') || this.get('group');
-    let item;
-    if (type === EDGE) {
-      let source = model.source;
-      let target = model.target;
-      if (source && Util.isString(source)) {
-        source = this.get('itemById')[source];
-      }
-      if (target && Util.isString(target)) {
-        target = this.get('itemById')[target];
-      }
-      item = new Item[Util.upperFirst(type)]({
-        model,
-        source,
-        target,
-        group: parent.addGroup()
-      });
-    } else {
-      item = new Item[Util.upperFirst(type)]({
-        model,
-        group: parent.addGroup()
-      });
-    }
-    this.get(type + 's').push(item);
-    this.get('itemById')[item.get('id')] = item;
-    this._autoPaint();
-    this.emit('aftereadditem', { type, model });
-    return item;
+    return this.get('itemController').addItem(type, model);
   }
+
+  /**
+   * 删除元素
+   * @param {string|object} item 元素id或元素实例
+   */
   remove(item) {
-    return this.removeItem(item);
+    this.removeItem(item);
   }
+
+  /**
+   * 删除元素
+   * @param {string|object} item 元素id或元素实例
+   */
   removeItem(item) {
-    this.emit('beforeremoveitem', { item });
-    if (Util.isString(item)) {
-      item = this.get('itemById')[item];
-    }
-    if (!item) {
-      return;
-    }
-    const self = this;
-    const type = item.getType();
-    const items = self.get(item.getType() + 's');
-    const index = items.indexOf(item);
-    items.splice(index, 1);
-    delete this.get('itemById')[item.get('id')];
-    if (type === NODE) {
-      Util.each(item.getEdges(), edge => {
-        self.remove(edge);
-      });
-    }
-    item.destroy();
-    this._autoPaint();
-    this.emit('afterremoveitem', { item });
+    this.get('itemController').removeItem(item);
   }
+
+  /**
+   * 设置视图初始化数据
+   * @param {object} data 初始化数据
+   */
   data(data) {
     this.set('data', data);
   }
-  refresh(item) {
-    const self = this;
-    if (item) {
-      self.emit('beforeitemrefresh', { item });
-      item.refresh();
-      self.emit('afteritemrefresh', { item });
-    } else {
-      self.emit('beforegraphrefresh', { item });
-      const nodes = self.get('nodes');
-      const edges = self.get('edges');
-      Util.each(edges, edge => {
-        edge.refresh();
-      });
-      Util.each(nodes, node => {
-        node.refresh();
-      });
-      self.emit('aftergraphrefresh', { item });
-    }
-    self._autoPaint();
+
+  /**
+   * 刷新元素
+   * @param {string|object} item 元素id或元素实例
+   * @return {object} 被刷新元素实例
+   */
+  refreshItem(item) {
+    return this.get('itemController').refreshItem(item);
   }
+
+  /**
+   * 刷新现有视图
+   */
+  refresh() {
+    const self = this;
+    self.emit('beforegraphrefresh');
+    const nodes = self.get('nodes');
+    const edges = self.get('edges');
+    Util.each(edges, edge => {
+      edge.refresh();
+    });
+    Util.each(nodes, node => {
+      node.refresh();
+    });
+    self.emit('aftergraphrefresh');
+    self.autoPaint();
+  }
+
+  /**
+   * 根据data接口的数据渲染视图
+   */
   render() {
     const self = this;
     const data = this.get('data');
@@ -306,7 +278,7 @@ class Graph extends EventEmitter {
     this.clear();
     this.emit('beforerender');
     const autoPaint = this.get('autoPaint');
-    this.set('autoPaint', false);
+    this.setAutoPaint(false);
     Util.each(data.nodes, node => {
       self.add(NODE, node);
     });
@@ -317,9 +289,15 @@ class Graph extends EventEmitter {
       self.get('viewController')._fitView();
     }
     self.paint();
-    self.set('autoPaint', autoPaint);
+    self.setAutoPaint(autoPaint);
     self.emit('afterrender');
   }
+
+  /**
+   * 更改源数据，根据新数据重新渲染视图
+   * @param {object} data 源数据
+   * @return {object} this
+   */
   changeData(data) {
     if (!data) {
       return;
@@ -331,7 +309,7 @@ class Graph extends EventEmitter {
       nodes: [],
       edges: []
     };
-    this.set('autoPaint', false);
+    this.setAutoPaint(false);
     this._diffItems(NODE, items, data.nodes);
     this._diffItems(EDGE, items, data.edges);
     Util.each(itemById, (item, id) => {
@@ -343,7 +321,7 @@ class Graph extends EventEmitter {
     this.node = items.node;
     this.edge = items.edge;
     this.paint();
-    this.set('autoPaint', autoPaint);
+    this.setAutoPaint(autoPaint);
     return this;
   }
   _diffItems(type, items, models) {
@@ -362,17 +340,28 @@ class Graph extends EventEmitter {
       items[type + 's'].push(item);
     });
   }
+
+  /**
+   * 仅画布重新绘制
+   */
   paint() {
     this.emit('beforepaint');
     this.get('canvas').draw();
     this.emit('afterpaint');
   }
-  _autoPaint() {
+
+  /**
+   * 自动重绘
+   * @internal 仅供内部更新机制调用，外部根据需求调用 render 或 paint 接口
+   */
+  autoPaint() {
     if (this.get('autoPaint')) {
       this.paint();
     }
   }
+
   /**
+   * 导出图数据
    * @return {object} data
    */
   save() {
@@ -386,16 +375,24 @@ class Graph extends EventEmitter {
     });
     return { nodes, edges };
   }
+
   /**
-   * change canvas size
-   * @param  {number} width  input width
-   * @param  {number} height input height
+   * 改变画布大小
+   * @param  {number} width  画布宽度
+   * @param  {number} height 画布高度
    * @return {object} this
    */
   changeSize(width, height) {
     this.get('viewController').changeSize(width, height);
+    this.autoPaint();
     return this;
   }
+
+  /**
+   * 改变画布大小
+   * @private 仅供内部更新视口使用
+   * @param {array} matrix group矩阵
+   */
   _updateMatrix(matrix) {
     const rootGroup = this.get('group');
     const minZoom = this.get('minZoom');
@@ -408,13 +405,30 @@ class Graph extends EventEmitter {
     }
     rootGroup.setMatrix(matrix);
   }
+
+  /**
+   * 平移画布
+   * @param {number} dx 水平方向位移
+   * @param {number} dy 垂直方向位移
+   */
   translate(dx, dy) {
     this.get('group').translate(dx, dy);
-    this._autoPaint();
+    this.autoPaint();
   }
+
+  /**
+   * 平移画布到某点
+   * @param {number} x 水平坐标
+   * @param {number} y 垂直坐标
+   */
   moveTo(x, y) {
     this.get('group').move(x, y);
   }
+
+  /**
+   * 调整视口适应视图
+   * @param {object} padding 四周围边距
+   */
   fitView(padding) {
     if (padding) {
       this.set('fitViewPadding', padding);
@@ -422,25 +436,61 @@ class Graph extends EventEmitter {
     this.get('viewController')._fitView();
     this.paint();
   }
+
+  /**
+   * 新增行为
+   * @param {string|array} behaviors 添加的行为
+   * @param {string|array} modes 添加到对应的模式
+   * @return {object} this
+   */
   addBehaviors(behaviors, modes) {
     this.get('modeController').manipulateBehaviors(behaviors, modes, true);
     return this;
   }
+
+  /**
+   * 移除行为
+   * @param {string|array} behaviors 移除的行为
+   * @param {string|array} modes 从指定的模式中移除
+   * @return {object} this
+   */
   removeBehaviors(behaviors, modes) {
     this.get('modeController').manipulateBehaviors(behaviors, modes, false);
     return this;
   }
+
+  /**
+   * 切换行为模式
+   * @param {string} mode 指定模式
+   * @return {object} this
+   */
   setMode(mode) {
     this.set('mode', mode);
     this.get('modeController').setMode(mode);
     return this;
   }
+
+  /**
+   * 获取当前的行为模式
+   * @return {string} 当前行为模式
+   */
   getCurrentMode() {
     return this.get('mode');
   }
+
+  /**
+   * 获取当前视口伸缩比例
+   * @return {number} 比例
+   */
   getZoom() {
     return this.get('group').getMatrix()[0];
   }
+
+  /**
+   * 伸缩视口
+   * @param {number} ratio 伸缩比例
+   * @param {object} center 以center的x, y坐标为中心缩放
+   */
   zoom(ratio, center) {
     const matrix = Util.clone(this.get('group').getMatrix());
     if (center) {
@@ -451,39 +501,49 @@ class Graph extends EventEmitter {
       Util.mat3.scale(matrix, matrix, [ ratio, ratio ]);
     }
     this._updateMatrix(matrix);
-    this._autoPaint();
+    this.autoPaint();
   }
+
+  /**
+   * 将元素移动到视口中心
+   * @param {string|obect} item 指定元素
+   */
   focusItem(item) {
     this.get('viewController').focus(item);
-    this._autoPaint();
+    this.autoPaint();
   }
+
+  /**
+   * 显示元素
+   * @param {string|obect} item 指定元素
+   */
   showItem(item) {
-    this.changeItemVisibility(item, true);
+    this.get('itemController').changeItemVisibility(item, true);
   }
+
+  /**
+   * 隐藏元素
+   * @param {string|obect} item 指定元素
+   */
   hideItem(item) {
-    this.changeItemVisibility(item, false);
+    this.get('itemController').changeItemVisibility(item, false);
   }
-  changeItemVisibility(item, visible) {
-    const self = this;
-    if (Util.isString(item)) {
-      item = self.get('itemById')[item];
-    }
-    self.emit('beforeitemvisiblechange', { item, visible });
-    item.changeVisibility(visible);
-    self.emit('beforeitemvisiblechange', { item, visible });
-    if (item.getType() === NODE) {
-      const autoPaint = self.get('autoPaint');
-      self.set('autoPaint', false);
-      Util.each(item.getEdges(), edge => {
-        self.changeItemVisibility(edge, visible);
-      });
-      self.set('autoPaint', autoPaint);
-    }
-    self._autoPaint();
-  }
+
+  /**
+   * 查找对应id的元素
+   * @param {string} id 元素id
+   * @return {object} 元素实例
+   */
   findById(id) {
     return this.get('itemById')[id];
   }
+
+  /**
+   * 根据对应规则查找单个元素
+   * @param {string} type 元素类型(node|edge)
+   * @param {string} fn 指定规则
+   * @return {object} 元素实例
+   */
   find(type, fn) {
     let result;
     const items = this.get(type + 's');
@@ -495,6 +555,13 @@ class Graph extends EventEmitter {
     });
     return result;
   }
+
+  /**
+   * 查找所有满足规则的元素
+   * @param {string} type 元素类型(node|edge)
+   * @param {string} fn 指定规则
+   * @return {array} 元素实例
+   */
   findAll(type, fn) {
     const result = [];
     Util.each(this.get(type + 's'), (item, i) => {
@@ -504,9 +571,43 @@ class Graph extends EventEmitter {
     });
     return result;
   }
+
+  /**
+   * 查找所有指定className的元素
+   * @param {string} type 元素类型(node|edge)
+   * @param {string} className class名
+   * @return {object} 元素实例
+   */
+  findAllbyClassName(type, className) {
+    return this.findAll(type, item => {
+      return item.hasClass(className);
+    });
+  }
+
+  /**
+   * 查找所有处于指定状态的元素
+   * @param {string} type 元素类型(node|edge)
+   * @param {string} state z状态
+   * @return {object} 元素实例
+   */
+  findAllByState(type, state) {
+    return this.findAll(type, item => {
+      return item.hasState(state);
+    });
+  }
+
+  /**
+   * 设置是否在更新/刷新后自动重绘
+   * @param {boolean} auto 自动重绘
+   */
   setAutoPaint(auto) {
     this.set('autoPaint', auto);
   }
+
+  /**
+   * 清除画布元素
+   * @return {object} this
+   */
   clear() {
     const canvas = this.get('canvas');
     canvas.clear();
@@ -514,12 +615,15 @@ class Graph extends EventEmitter {
     this.set({ itemById: {}, nodes: [], edges: [] });
     return this;
   }
+
+  /**
+   * 销毁画布
+   */
   destroy() {
     this.clear();
     this.get('eventController').destroy();
     this.canvas.destroy();
     this.destroyed = true;
-    return this;
   }
 }
 
