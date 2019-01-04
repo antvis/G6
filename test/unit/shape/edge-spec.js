@@ -151,6 +151,14 @@ describe('shape edge test', () => {
       const path = shape.attr('path');
       expect(path.length).eql(2);
       expect(path[1]).eql([ 'Q', 220, 160, 150, 100 ]);
+
+      const shape1 = factory.draw('quadratic', {
+        startPoint: { x: 200, y: 200 },
+        endPoint: { x: 150, y: 100 },
+        color: 'red'
+      }, group);
+      expect(shape1.attr('path').length).eql(2);
+      expect(shape1.attr('path')[1]).eql([ 'L', 150, 100 ]);
       canvas.draw();
     });
 
@@ -165,6 +173,13 @@ describe('shape edge test', () => {
       const path = shape.attr('path');
       expect(path.length).eql(2);
       expect(path[1]).eql([ 'C', 220, 200, 170, 100, 150, 100 ]);
+
+      const shape1 = factory.draw('cubic', {
+        startPoint: { x: 200, y: 200 },
+        endPoint: { x: 150, y: 100 },
+        color: 'red'
+      }, group);
+      expect(shape1.attr('path').length).eql(2);
       canvas.draw();
     });
 
@@ -485,8 +500,33 @@ describe('shape edge test', () => {
       canvas.draw();
     });
 
-    it('text on curve, text refX and refY', () => {
+    function distance(p1, p2) {
+      return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
+    }
+    function equal(x1, x2) {
+      return Math.abs(x1 - x2) < 0.0001;
+    }
 
+    it('text on curve, text refX and refY', () => {
+      const group = canvas.addGroup();
+      const shape = factory.draw('spline', {
+        startPoint: { x: 220, y: 400 },
+        endPoint: { x: 320, y: 400 },
+        controlPoints: [{ x: 230, y: 380 }, { x: 280, y: 420 }],
+        color: 'pink',
+        label: 'center',
+        labelCfg: {
+          position: 'center',
+          autoRotate: true,
+          refX: 3,
+          refY: 4
+        }
+      }, group);
+      const point = shape.getPoint(0.5);
+      const label = group.get('children')[1];
+      // 3*3 + 4*4 = 5*5
+      expect(equal(distance(point, { x: label.attr('x'), y: label.attr('y') }), 5)).eql(true);
+      canvas.draw();
     });
 
   });
