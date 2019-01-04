@@ -8,6 +8,7 @@ const Item = require('./item');
 const END_MAP = { source: 'start', target: 'end' };
 const ITEM_NAME_SUFFIX = 'Node'; // 端点的后缀，如 sourceNode, targetNode
 const POINT_NAME_SUFFIX = 'Point'; // 起点或者结束点的后缀，如 startPoint, endPoint
+const ANCHOR_NAME_SUFFIX = 'Anchor';
 class Edge extends Item {
   getDefaultCfg() {
     return {
@@ -59,8 +60,14 @@ class Edge extends Item {
     let point = this.get(pointName);
     if (!point) {
       const item = this.get(itemName);
+      const anchorName = name + ANCHOR_NAME_SUFFIX;
       const prePoint = this._getPrePoint(name);
-      point = item.getLinkPoint(prePoint);
+      const anchorIndex = this.get('model')[anchorName];
+      if (!Util.isNil(anchorIndex)) { // 如果有锚点，则使用锚点索引获取连接点
+        point = item.getLinkPointByAnchor(anchorIndex);
+      }
+      // 如果锚点没有对应的点或者没有锚点，则直接计算连接点
+      point = point || item.getLinkPoint(prePoint);
     }
     return point;
   }
@@ -73,19 +80,22 @@ class Edge extends Item {
       return controlPoints[index];
     }
     const oppositeName = name === 'source' ? 'target' : 'source'; // 取另一个节点的位置
-    const itemName = oppositeName + ITEM_NAME_SUFFIX;
-    const pointName = END_MAP[oppositeName] + POINT_NAME_SUFFIX;
+    return this._getEndPoint(oppositeName);
+  }
+
+  // 获取端点的位置
+  _getEndPoint(name) {
+    const itemName = name + ITEM_NAME_SUFFIX;
+    const pointName = END_MAP[name] + POINT_NAME_SUFFIX;
     const item = this.get(itemName);
       // 如果有端点，直接使用 model
     if (item) {
       return item.get('model');
     }  // 否则直接使用点
     return this.get(pointName);
-
-
   }
 
-  getDrawCfg(model) {
+  getShapeCfg(model) {
     const cfg = {
       startPoint: this._getLinkPoint('source'),
       endPoint: this._getLinkPoint('target')
