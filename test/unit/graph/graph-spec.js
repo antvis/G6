@@ -158,6 +158,26 @@ describe('graph', () => {
     expect(map.d).to.be.undefined;
     expect(map.e).not.to.be.undefined;
   });
+  it('fresh graph', () => {
+    graph.clear();
+    const node = graph.addItem('node', { id: 'node', x: 100, y: 100, size: 50 });
+    const node2 = graph.addItem('node', { id: 'node2', x: 100, y: 200, size: 50 });
+    const node3 = graph.addItem('node', { id: 'node3', x: 300, y: 100, size: 50 });
+    const edge = graph.addItem('edge', { id: 'edge', source: node, target: node2 });
+    graph.paint();
+    let path = edge.get('keyShape').attr('path');
+    expect(path[0][1]).to.equal(100);
+    expect(path[0][2]).to.equal(125.5);
+    expect(path[1][1]).to.equal(100);
+    expect(path[1][2]).to.equal(174.5);
+    edge.setTarget(node3);
+    graph.refresh();
+    path = edge.get('keyShape').attr('path');
+    expect(path[0][1]).to.equal(125.5);
+    expect(path[0][2]).to.equal(100);
+    expect(path[1][1]).to.equal(274.5);
+    expect(path[1][2]).to.equal(100);
+  });
   it('show & hide item', () => {
     const node = graph.addItem('node', { id: 'node', x: 100, y: 100, size: 50 });
     const node2 = graph.addItem('node', { id: 'node2', x: 100, y: 100, size: 50 });
@@ -168,5 +188,31 @@ describe('graph', () => {
     graph.showItem(node);
     expect(node.isVisible()).to.be.true;
     expect(edge.isVisible()).to.be.true;
+  });
+  it('find', () => {
+    graph.clear();
+    graph.addItem('node', { id: 'node', x: 50, y: 100, size: 50, className: 'test test2' });
+    const node = graph.addItem('node', { id: 'node2', x: 100, y: 100, size: 50, className: 'test' });
+    const findNode = graph.find('node', node => {
+      return node.get('model').x === 100;
+    });
+    expect(findNode).not.to.be.undefined;
+    expect(findNode).to.equal(node);
+  });
+  it('findAll', () => {
+    graph.clear();
+    const node1 = graph.addItem('node', { id: 'node', x: 100, y: 100, size: 50, className: 'test test2' });
+    const node2 = graph.addItem('node', { id: 'node2', x: 100, y: 100, size: 50, className: 'test' });
+    const node3 = graph.addItem('node', { id: 'node2', x: 100, y: 100, size: 50 });
+    node1.setState('active', true);
+    node2.setState('selected', true);
+    node3.setState('active', true);
+    let nodes = graph.findAllByState('node', 'active');
+    expect(nodes.length).to.equal(2);
+    expect(nodes[0]).to.equal(node1);
+    expect(nodes[1]).to.equal(node3);
+    nodes = graph.findAllByState('node', 'selected');
+    expect(nodes.length).to.equal(1);
+    expect(nodes[0]).to.equal(node2);
   });
 });
