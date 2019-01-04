@@ -17,7 +17,7 @@ const G6 = {
   registerNode: Shape.registerNode,
   registerEdge: Shape.registerEdge,
   registerBehavior: Behaviors.registerBehavior,
-  version: '3.0.0-beta.1'
+  version: Global.version
 };
 
 module.exports = G6;
