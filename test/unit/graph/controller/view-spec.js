@@ -64,7 +64,7 @@ describe('view', () => {
     };
     graph.data(data);
     graph.render();
-    graph.fitView(50);
+    graph.fitView([ 50, 50 ]);
     const bbox = graph.get('canvas').getBBox();
     expect(numberEqual(bbox.x, 116, 1)).to.be.true;
     expect(numberEqual(bbox.width, 266, 1)).to.be.true;
