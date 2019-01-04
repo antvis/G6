@@ -1,5 +1,3 @@
-const Util = require('../util');
-
 const DELTA = 0.05;
 
 module.exports = {
@@ -10,9 +8,9 @@ module.exports = {
       maxZoom: 10
     };
   },
-  initEvents() {
-    this.events = {
-      wheel: Util.wrapBehavior(this, 'onWheel')
+  getEvents() {
+    return {
+      wheel: 'onWheel'
     };
   },
   onWheel(e) {
