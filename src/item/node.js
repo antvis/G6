@@ -7,18 +7,18 @@ const Util = require('../util/');
 const Item = require('./item');
 const CACHE_ANCHOR_POINTS = 'anchorPointsCache';
 
-function getSnapPoint(points, curPoint) {
-  let nearPoint = points[0];
+function getNearestPoint(points, curPoint) {
+  let nearestPoint = points[0];
   let minDistance = pointDistance(points[0], curPoint);
   for (let i = 0; i < points.length; i++) {
     const point = points[i];
     const distance = pointDistance(point, curPoint);
     if (distance < minDistance) {
-      nearPoint = point;
+      nearestPoint = point;
       minDistance = distance;
     }
   }
-  return nearPoint;
+  return nearestPoint;
 }
 
 function pointDistance(p1, p2) {
@@ -50,17 +50,28 @@ class Node extends Item {
   //   });
   //   return nodes;
   // }
+
+  /**
+   * 获取从节点关联的所有边
+   * @return {Array} 边的集合
+   */
   getEdges() {
     return this.get('edges');
   }
-
+  /**
+   * 获取引入节点的边 target == this
+   * @return {Array} 边的集合
+   */
   getInEdges() {
     const self = this;
     return this.get('edges').filter(edge => {
       return edge.get('target') === self;
     });
   }
-
+  /**
+   * 获取从节点引出的边 source == this
+   * @return {Array} 边的集合
+   */
   getOutEdges() {
     const self = this;
     return this.get('edges').filter(edge => {
@@ -74,15 +85,20 @@ class Node extends Item {
   // hideAnchors() {
 
   // }
+  /**
+   * 根据锚点的索引获取连接点
+   * @param  {Number} index 索引
+   * @return {Object} 连接点 {x,y}
+   */
   getLinkPointByAnchor(index) {
     const anchorPoints = this.getAnchorPoints();
     return anchorPoints[index];
   }
 
   /**
-    * get anchor points, if there is anchors return the points sorted by arc , others return the link point
-    * @param {Object | Number} point - start point
-    * @return {array} - all anchor points sorted by angle, ASC
+    * 获取连接点
+    * @param {Object} point 节点外面的一个点，用于计算交点、最近的锚点
+    * @return {Object} 连接点 {x,y}
     */
   getLinkPoint(point) {
     // const model = this.get('model');
@@ -109,13 +125,13 @@ class Node extends Item {
         }, point);
         break;
       default:
-        intersectPoint = Util.getRectIntersectByPoint(bbox, point); // 函数定义不统一，但是这样比较方便点
+        intersectPoint = Util.getRectIntersectByPoint(bbox, point);
     }
     let linkPoint = intersectPoint;
+    // 如果存在锚点，则使用交点计算最近的锚点
     if (anchorPoints.length) {
-      linkPoint = getSnapPoint(anchorPoints, linkPoint);
+      linkPoint = getNearestPoint(anchorPoints, linkPoint);
     }
-    // TO DO 计算锚点
     return linkPoint;
   }
 
@@ -149,7 +165,7 @@ class Node extends Item {
 
   /**
    * 获取锚点的定义
-   * @return {array} anchorPoints， [x, y, cfg]
+   * @return {array} anchorPoints， {x,y,...cfg}
    */
   getAnchorPoints() {
     let anchorPoints = this.get(CACHE_ANCHOR_POINTS);
