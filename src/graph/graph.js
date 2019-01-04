@@ -7,7 +7,6 @@ const EventEmitter = require('@antv/g/lib/').EventEmitter;
 const G = require('@antv/g/lib');
 const Util = require('../util');
 const Global = require('../global');
-const Item = require('../item');
 
 const Controller = require('./controller');
 const NODE = 'node';
@@ -137,7 +136,6 @@ class Graph extends EventEmitter {
       renderer: this.get('renderer'),
       pixelRatio: this.get('pixelRatio')
     });
-    this.canvas = canvas;
     this.set('canvas', canvas);
     this._initGroups();
   }
@@ -318,8 +316,7 @@ class Graph extends EventEmitter {
         self.remove(item);
       }
     });
-    this.node = items.node;
-    this.edge = items.edge;
+    this.set({ nodes: items.node, edges: this.edge });
     this.paint();
     this.setAutoPaint(autoPaint);
     return this;
@@ -328,14 +325,12 @@ class Graph extends EventEmitter {
     const self = this;
     let item;
     const itemById = this.get('itemById');
-    const itemType = Util.upperFirst(type);
     Util.each(models, model => {
       item = itemById[model.id];
       if (item) {
         self.updateItem(item, model);
       } else {
-        item = new Item[itemType](model);
-        itemById[item.get('id')] = item;
+        item = self.addItem(type, model);
       }
       items[type + 's'].push(item);
     });
@@ -367,10 +362,10 @@ class Graph extends EventEmitter {
   save() {
     const nodes = [];
     const edges = [];
-    Util.each(this.node, node => {
+    Util.each(this.get('nodes'), node => {
       nodes.push(node.get('model'));
     });
-    Util.each(this.edge, edge => {
+    Util.each(this.get('edges'), edge => {
       edges.push(edge.get('model'));
     });
     return { nodes, edges };
@@ -610,7 +605,7 @@ class Graph extends EventEmitter {
   destroy() {
     this.clear();
     this.get('eventController').destroy();
-    this.canvas.destroy();
+    this.get('canvas').destroy();
     this.destroyed = true;
   }
 }
