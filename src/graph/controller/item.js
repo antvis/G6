@@ -16,10 +16,10 @@ class ItemController {
       let source = model.source;
       let target = model.target;
       if (source && Util.isString(source)) {
-        source = graph.get('itemById')[source];
+        source = graph.findById(source);
       }
       if (target && Util.isString(target)) {
-        target = graph.get('itemById')[target];
+        target = graph.findById(target);
       }
       item = new Item[Util.upperFirst(type)]({
         model,
@@ -41,9 +41,8 @@ class ItemController {
   }
   updateItem(item, cfg) {
     const graph = this.graph;
-    const itemById = graph.get('itemById');
     if (Util.isString(item)) {
-      item = itemById[item];
+      item = graph.findById(item);
     }
     if (!item || item.destroyed) {
       return;
@@ -54,14 +53,14 @@ class ItemController {
       if (cfg.source) {
         let source = cfg.source;
         if (Util.isString(source)) {
-          source = itemById[source];
+          source = graph.findById(source);
           item.setSource(source);
         }
       }
       if (cfg.target) {
         let target = cfg.target;
         if (Util.isString(target)) {
-          target = itemById[target];
+          target = graph.findById(target);
           item.setTarget(target);
         }
       }
@@ -82,7 +81,7 @@ class ItemController {
   removeItem(item) {
     const graph = this.graph;
     if (Util.isString(item)) {
-      item = graph.get('itemById')[item];
+      item = graph.findById(item);
     }
     if (!item || item.destroyed) {
       return;
@@ -106,7 +105,7 @@ class ItemController {
   setItemState(item, state, enabled) {
     const graph = this.graph;
     if (Util.isString(item)) {
-      item = graph.get('itemByIndex')[item];
+      item = graph.findById(item);
     }
     if (item.hasState(state) === enabled) {
       return;
@@ -120,7 +119,7 @@ class ItemController {
   refreshItem(item) {
     const graph = this.graph;
     if (Util.isString(item)) {
-      item = graph.get('itemById')[item];
+      item = graph.findById(item);
     }
     graph.emit('beforeitemrefresh', { item });
     item.refresh();
@@ -131,7 +130,7 @@ class ItemController {
     const self = this;
     const graph = self.graph;
     if (Util.isString(item)) {
-      item = graph.get('itemById')[item];
+      item = graph.findById(item);
     }
     graph.emit('beforeitemvisibilitychange', { item, visible });
     item.changeVisibility(visible);
