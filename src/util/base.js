@@ -23,21 +23,6 @@ const BaseUtil = {
   extend: require('@antv/util/lib/extend'),
   augment: require('@antv/util/lib/augment'),
   remove: require('@antv/util/lib/array/remove'),
-  /**
-   * traverse tree
-   * @param  {object}      parent      parent
-   * @param  {function}    callback    callback
-   * @param  {function}    getChild    get child function
-   * @param  {boolean}     runSelf     callback run self or not
-   */
-  traverseTree(parent, callback, getChild, runSelf = false) {
-    const children = getChild(parent);
-    runSelf && callback(parent, null, null);
-    children && BaseUtil.each(children, (child, index) => {
-      callback(child, parent, index);
-      BaseUtil.traverseTree(child, callback, getChild);
-    });
-  },
 
   /**
    * turn padding into [top, right, bottom, right]
