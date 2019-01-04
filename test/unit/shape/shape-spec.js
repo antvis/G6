@@ -43,6 +43,7 @@ describe('shape test', () => {
     });
     expect(factory.shouldUpdate('t2')).eql(false);
     factory.draw('t2', {});
+    factory.update('t2');
     expect(isDraw).eql(true);
     expect(afterDraw).eql(true);
   });
@@ -70,6 +71,12 @@ describe('shape test', () => {
     expect(factory.shouldUpdate('t4')).eql(true);
     factory.update('t4');
     expect(isUpdate).to.be.true;
+  });
+
+  it('getControlPoints', () => {
+    const factory = Shape.getFactory('test');
+    expect(factory.getControlPoints('t4', {})).eql(undefined);
+    expect(factory.getControlPoints('t4', { controlPoints: [{}, {}] }).length).eql(2);
   });
 
 

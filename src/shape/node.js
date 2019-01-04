@@ -82,7 +82,7 @@ const singleNodeDefinition = Util.mix({}, SingleShapeMixin, {
     return style;
   },
   drawShape(cfg, group) {
-    const shapeType = this.shapeType || this.type;
+    const shapeType = this.shapeType; // || this.type，都已经加了 shapeType
     const style = this.getShapeStyle(cfg);
     const shape = group.addShape(shapeType, {
       className: CLS_SHAPE,
@@ -164,9 +164,6 @@ Shape.registerNode('image', {
   shapeType: 'image',
   labelPosition: 'bottom',
   getShapeStyle(cfg) {
-    if (!cfg.img) {
-      throw new Error('image should at least has one `img`, it can be a Image element or a url');
-    }
     const size = this.getSize(cfg);
     const img = cfg.img;
     const width = size[0];
