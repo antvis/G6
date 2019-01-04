@@ -211,4 +211,73 @@ describe('edge test, with ellipse', () => {
     expect(shape.attr('path')[0]).eqls([ 'M', intersectPoint.x, intersectPoint.y ]);
     canvas.draw();
   });
+
+  it('clear', () => {
+
+  });
+});
+
+describe('edge test, anchors', () => {
+
+  let edge;
+  it('test link points', () => {
+    const aNode = new Node({
+      id: 'a',
+      model: {
+        x: 100,
+        y: 100,
+        size: 20,
+        shape: 'circle',
+        style: {
+          lineWidth: 0,
+          fill: 'red'
+        },
+        anchorPoints: [
+          [ 0.5, 0 ], [ 1, 0.5 ], [ 0.5, 1 ], [ 0, 0.5 ]
+        ]
+      },
+      group: canvas.addGroup()
+    });
+
+    const bNode = new Node({
+      id: 'b',
+      model: {
+        x: 200,
+        y: 200,
+        size: 20,
+        shape: 'circle',
+        style: {
+          lineWidth: 0,
+          fill: 'blue'
+        },
+        anchorPoints: [
+          [ 0.5, 0 ], [ 1, 0.5 ], [ 0.5, 1 ], [ 0, 0.5 ]
+        ]
+      },
+      group: canvas.addGroup()
+    });
+    const group = canvas.addGroup();
+    edge = new Edge({
+      model: {
+
+      },
+      source: aNode,
+      target: bNode,
+      group
+    });
+
+    expect(group.getCount()).eql(1);
+    const shape = edge.get('keyShape');
+    let path = shape.attr('path');
+    expect(path[0]).eqls([ 'M', 110, 100 ]);
+    expect(path[1]).eqls([ 'L', 200, 190 ]);
+
+    bNode.update({ x: 100, y: 200 });
+    edge.refresh();
+    path = shape.attr('path');
+    expect(path[0]).eqls([ 'M', 100, 110 ]);
+    expect(path[1]).eqls([ 'L', 100, 190 ]);
+    canvas.draw();
+  });
+
 });
