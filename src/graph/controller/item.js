@@ -35,7 +35,7 @@ class ItemController {
     }
     graph.get(type + 's').push(item);
     graph.get('itemById')[item.get('id')] = item;
-    graph._autoPaint();
+    graph.autoPaint();
     graph.emit('aftereadditem', { type, model });
     return item;
   }
@@ -74,7 +74,7 @@ class ItemController {
       });
       graph.setAutoPaint(autoPaint);
     }
-    graph._autoPaint();
+    graph.autoPaint();
     graph.emit('afteritemupdate', { item, cfg });
     return item;
   }
@@ -99,7 +99,7 @@ class ItemController {
       });
     }
     item.destroy();
-    graph._autoPaint();
+    graph.autoPaint();
     graph.emit('afterremoveitem', { item });
   }
   setItemState(item, state, enabled) {
@@ -112,7 +112,7 @@ class ItemController {
     }
     graph.emit('beforeitemstatechange', { item, state, enabled });
     item.setState(state, enabled);
-    graph._autoPaint();
+    graph.autoPaint();
     graph.emit('afteritemstatechange', { item, state, enabled });
     return item;
   }
@@ -123,7 +123,7 @@ class ItemController {
     }
     graph.emit('beforeitemrefresh', { item });
     item.refresh();
-    graph._autoPaint();
+    graph.autoPaint();
     graph.emit('afteritemrefresh', { item });
   }
   changeItemVisibility(item, visible) {
@@ -143,7 +143,7 @@ class ItemController {
       });
       graph.setAutoPaint(autoPaint);
     }
-    graph._autoPaint();
+    graph.autoPaint();
     graph.emit('afteritemvisibilitychange', { item, visible });
   }
 }
