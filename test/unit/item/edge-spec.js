@@ -143,11 +143,16 @@ describe('edge test, with circle', () => {
     edge.setTarget(point2);
     edge.refresh();
     expect(shape.attr('path')[1]).eqls([ 'L', point2.x, point2.y ]);
+    const model = edge.getModel();
+    expect(model.source).eql(point1);
+    expect(model.target).eql(point2);
     canvas.draw();
   });
 
   it('states', () => {
     const shape = edge.get('keyShape');
+    expect(shape.attr('strokeOpacity')).eql(1);
+    edge.setState('active', false);
     expect(shape.attr('strokeOpacity')).eql(1);
     edge.setState('active', true);
     expect(shape.attr('strokeOpacity')).eql(0.8);
@@ -277,6 +282,22 @@ describe('edge test, anchors', () => {
     path = shape.attr('path');
     expect(path[0]).eqls([ 'M', 100, 110 ]);
     expect(path[1]).eqls([ 'L', 100, 190 ]);
+    edge.update({ targetAnchor: 2 });
+    path = shape.attr('path');
+
+    expect(path[0]).eqls([ 'M', 100, 110 ]);
+    expect(path[1]).eqls([ 'L', 100, 210 ]);
+
+    canvas.draw();
+  });
+
+  it('with control points', () => {
+    edge.update({ targetAnchor: null, shape: 'polyline', controlPoints: [{ x: 150, y: 100 }] });
+    const shape = edge.get('keyShape');
+    const path = shape.attr('path');
+    expect(path[0]).eqls([ 'M', 110, 100 ]);
+    expect(path[1]).eqls([ 'L', 150, 100 ]);
+    expect(path[2]).eqls([ 'L', 100, 190 ]);
     canvas.draw();
   });
 
