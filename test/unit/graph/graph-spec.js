@@ -32,11 +32,11 @@ describe('graph', () => {
     expect(children[1].get('className')).to.equal('node-container');
     expect(children[0].get('className')).to.equal('edge-container');
     inst.destroy();
-    expect(inst.canvas.destroyed);
+    expect(inst.get('canvas').destroyed);
     expect(length - div.childNodes.length).to.equal(1);
   });
 
-  const canvasMatrix = graph.canvas.getMatrix();
+  const canvasMatrix = graph.get('canvas').getMatrix();
   it('translate', () => {
     graph.translate(100, 100);
     const matrix = graph.get('group').getMatrix();
@@ -140,7 +140,7 @@ describe('graph', () => {
     graph.render();
     expect(graph.get('nodes').length).to.equal(3);
     expect(graph.get('edges').length).to.equal(2);
-    const map = graph.get('itemById');
+    let map = graph.get('itemById');
     expect(map.a).not.to.be.undefined;
     expect(map.b).not.to.be.undefined;
     expect(map.c).not.to.be.undefined;
@@ -149,14 +149,25 @@ describe('graph', () => {
     data.nodes.splice(0, 1);
     data.edges.splice(0, 1);
     data.edges[0].source = 'b';
+    data.nodes.push({
+      id: 'f',
+      shape: 'circle',
+      color: '#333',
+      x: 100,
+      y: 80,
+      size: 30,
+      label: 'f'
+    });
     graph.changeData(data);
-    expect(graph.get('nodes').length).to.equal(2);
+    map = graph.get('itemById');
+    expect(graph.get('nodes').length).to.equal(3);
     expect(graph.get('edges').length).to.equal(1);
     expect(map.a).to.be.undefined;
     expect(map.b).not.to.be.undefined;
     expect(map.c).not.to.be.undefined;
     expect(map.d).to.be.undefined;
     expect(map.e).not.to.be.undefined;
+    expect(map.f).not.to.be.undefined;
   });
   it('fresh graph', () => {
     graph.clear();
