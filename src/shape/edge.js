@@ -83,44 +83,44 @@ const singleEdgeDefinition = Util.mix({}, SingleShapeMixin, {
     const labelPosition = labelCfg.position || this.labelPosition; // 文本的位置用户可以传入
     const style = {};
     const pathShape = group.findByClassName(CLS_SHAPE);
-    if (pathShape) {
-      let pointPercent;
-      if (labelPosition === 'start') {
-        pointPercent = 0;
-      } else if (labelPosition === 'end') {
-        pointPercent = 1;
-      } else {
-        pointPercent = 0.5;
-      }
-      const point = pathShape.getPoint(pointPercent);
-      let firstPoint;
-      let nextPoint;
-      if (pointPercent === 1) {
-        firstPoint = pathShape.getPoint(pointPercent - DIFF_POINT_PERCENT);
-        nextPoint = point;
-      } else {
-        firstPoint = point;
-        nextPoint = pathShape.getPoint(pointPercent + DIFF_POINT_PERCENT);
-      }
-      const autoRotate = Util.isNil(labelCfg.autoRotate) ? this.labelAutoRotate : labelCfg.autoRotate;
-      const tangent = [];
-      vec2.normalize(tangent, [ nextPoint.x - firstPoint.x, nextPoint.y - firstPoint.y ]); // 求切线
-      const { refX, refY } = labelCfg; // 默认的偏移量
-      if (refX || refY) { // 进行偏移时，求偏移向量
-        const offset = this._getOffset(refX, refY, tangent);
-        style.x = point.x + offset[0];
-        style.y = point.y + offset[1];
-      } else {
-        style.x = point.x;
-        style.y = point.y;
-      }
-      const angle = vec2.angleTo([ 1, 0 ], tangent);
-      const textAlign = this._getTextAlign(labelPosition, angle, autoRotate);
-      style.textAlign = textAlign;
-      if (autoRotate) {
-        style.rotate = this._getAutoRotate(labelPosition, textAlign, angle);
-      }
+    // 不对 pathShape 进行判空，如果线不存在，说明有问题了
+    let pointPercent;
+    if (labelPosition === 'start') {
+      pointPercent = 0;
+    } else if (labelPosition === 'end') {
+      pointPercent = 1;
+    } else {
+      pointPercent = 0.5;
     }
+    const point = pathShape.getPoint(pointPercent);
+    let firstPoint;
+    let nextPoint;
+    if (pointPercent === 1) {
+      firstPoint = pathShape.getPoint(pointPercent - DIFF_POINT_PERCENT);
+      nextPoint = point;
+    } else {
+      firstPoint = point;
+      nextPoint = pathShape.getPoint(pointPercent + DIFF_POINT_PERCENT);
+    }
+    const autoRotate = Util.isNil(labelCfg.autoRotate) ? this.labelAutoRotate : labelCfg.autoRotate;
+    const tangent = [];
+    vec2.normalize(tangent, [ nextPoint.x - firstPoint.x, nextPoint.y - firstPoint.y ]); // 求切线
+    const { refX, refY } = labelCfg; // 默认的偏移量
+    if (refX || refY) { // 进行偏移时，求偏移向量
+      const offset = this._getOffset(refX, refY, tangent);
+      style.x = point.x + offset[0];
+      style.y = point.y + offset[1];
+    } else {
+      style.x = point.x;
+      style.y = point.y;
+    }
+    const angle = vec2.angleTo([ 1, 0 ], tangent);
+    const textAlign = this._getTextAlign(labelPosition, angle, autoRotate);
+    style.textAlign = textAlign;
+    if (autoRotate) {
+      style.rotate = this._getAutoRotate(labelPosition, textAlign, angle);
+    }
+
     return style;
   },
   // 根据相对偏移量
@@ -207,15 +207,8 @@ Shape.registerEdge('polyline', {}, 'single-line');
 // 直线
 Shape.registerEdge('spline', {
   getPath(points) {
-    const path = [];
-    Util.each(points, (point, index) => {
-      if (index === 0) {
-        path.push([ 'M', point.x, point.y ]);
-      } else {
-        path.push([ 'L', point.x, point.y ]);
-      }
-    });
-    return Util.catmullRomToBezier(path);
+    const path = Util.getSpline(points);
+    return path;
   }
 }, 'single-line');
 
