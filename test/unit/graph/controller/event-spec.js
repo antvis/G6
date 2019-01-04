@@ -81,7 +81,7 @@ describe('event', () => {
     });
     expect(evt).to.be.null;
   });
-  xit('mouseenter & mouseleave', () => {
+  it('mouseenter & mouseleave', () => {
     graph.clear();
     const node = graph.addItem('node', { x: 100, y: 100, size: 50, label: 'test' });
     let enter = 0;

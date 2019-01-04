@@ -2,6 +2,7 @@
  * @fileOverview path util
  * @author huangtonger@aliyun.com
  */
+const G = require('@antv/g/lib');
 
 module.exports = {
   getSpline(points) {
