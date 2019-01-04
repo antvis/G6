@@ -5,6 +5,25 @@
 
 const Util = require('../util/');
 const Item = require('./item');
+const CACHE_ANCHOR_POINTS = 'anchorPointsCache';
+
+function getNearestPoint(points, curPoint) {
+  let nearestPoint = points[0];
+  let minDistance = pointDistance(points[0], curPoint);
+  for (let i = 0; i < points.length; i++) {
+    const point = points[i];
+    const distance = pointDistance(point, curPoint);
+    if (distance < minDistance) {
+      nearestPoint = point;
+      minDistance = distance;
+    }
+  }
+  return nearestPoint;
+}
+
+function pointDistance(p1, p2) {
+  return (p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y);
+}
 
 class Node extends Item {
   getDefaultCfg() {
@@ -31,17 +50,28 @@ class Node extends Item {
   //   });
   //   return nodes;
   // }
+
+  /**
+   * 获取从节点关联的所有边
+   * @return {Array} 边的集合
+   */
   getEdges() {
     return this.get('edges');
   }
-
+  /**
+   * 获取引入节点的边 target == this
+   * @return {Array} 边的集合
+   */
   getInEdges() {
     const self = this;
     return this.get('edges').filter(edge => {
       return edge.get('target') === self;
     });
   }
-
+  /**
+   * 获取从节点引出的边 source == this
+   * @return {Array} 边的集合
+   */
   getOutEdges() {
     const self = this;
     return this.get('edges').filter(edge => {
@@ -55,11 +85,20 @@ class Node extends Item {
   // hideAnchors() {
 
   // }
+  /**
+   * 根据锚点的索引获取连接点
+   * @param  {Number} index 索引
+   * @return {Object} 连接点 {x,y}
+   */
+  getLinkPointByAnchor(index) {
+    const anchorPoints = this.getAnchorPoints();
+    return anchorPoints[index];
+  }
 
   /**
-    * get anchor points, if there is anchors return the points sorted by arc , others return the link point
-    * @param {Object | Number} point - start point
-    * @return {array} - all anchor points sorted by angle, ASC
+    * 获取连接点
+    * @param {Object} point 节点外面的一个点，用于计算交点、最近的锚点
+    * @return {Object} 连接点 {x,y}
     */
   getLinkPoint(point) {
     // const model = this.get('model');
@@ -67,17 +106,18 @@ class Node extends Item {
     const type = keyShape.get('type');
     const bbox = this.getBBox();
     const { centerX, centerY } = bbox;
-    let linkPoint;
+    const anchorPoints = this.getAnchorPoints();
+    let intersectPoint;
     switch (type) {
       case 'circle':
-        linkPoint = Util.getCircleIntersectByPoint({
+        intersectPoint = Util.getCircleIntersectByPoint({
           x: centerX,
           y: centerY,
           r: bbox.width / 2
         }, point);
         break;
       case 'ellipse':
-        linkPoint = Util.getEllispeIntersectByPoint({
+        intersectPoint = Util.getEllispeIntersectByPoint({
           x: centerX,
           y: centerY,
           rx: bbox.width / 2,
@@ -85,16 +125,28 @@ class Node extends Item {
         }, point);
         break;
       default:
-        linkPoint = Util.getRectIntersectByPoint(bbox, point); // 函数定义不统一，但是这样比较方便点
+        intersectPoint = Util.getRectIntersectByPoint(bbox, point);
     }
-    // TO DO 计算锚点
+    let linkPoint = intersectPoint;
+    // 如果存在锚点，则使用交点计算最近的锚点
+    if (anchorPoints.length) {
+      linkPoint = getNearestPoint(anchorPoints, linkPoint);
+    }
     return linkPoint;
   }
 
+  /**
+   * 添加边
+   * @param {Edge} edge 边
+   */
   addEdge(edge) {
     this.get('edges').push(edge);
   }
 
+  /**
+   * 移除边
+   * @param {Edge} edge 边
+   */
   removeEdge(edge) {
     const edges = this.getEdges();
     const index = edges.indexOf(edge);
@@ -104,41 +156,38 @@ class Node extends Item {
   }
 
   /**
-   * get position of anchor points
-   * @param {number} index the index of points
-   * @return {array} anchorPoints
+   * 更新后做一些工作
+   * @protected
    */
-  getAnchorPoints(index) {
-    const shapeObj = this.shapeObj;
-    const bbox = this.getBBox();
-    const anchorPoints = [];
-    const anchor = shapeObj.anchor || {};
-    let points;
-    if (Util.isArray(anchor)) {
-      points = anchor;
-    } else if (Util.isFunction(anchor)) {
-      points = anchor(this);
-    } else {
-      if (Util.isFunction(anchor.points)) {
-        points = anchor.points(this);
-      } else {
-        points = anchor.points;
-      }
-    }
-    Util.each(points, (pointArr, index) => {
-      const anchorPoint = Util.mix({
-        x: bbox.minX + pointArr[0] * bbox.width,
-        y: bbox.minY + pointArr[1] * bbox.height
-      }, pointArr[2], {
-        index
+  afterUpdate() {
+    this.set(CACHE_ANCHOR_POINTS, null); // 清空缓存的锚点
+  }
+
+  /**
+   * 获取锚点的定义
+   * @return {array} anchorPoints， {x,y,...cfg}
+   */
+  getAnchorPoints() {
+    let anchorPoints = this.get(CACHE_ANCHOR_POINTS);
+    if (!anchorPoints) {
+      anchorPoints = [];
+      const shapeFactory = this.get('shapeFactory');
+      const bbox = this.getBBox();
+      const model = this.get('model');
+      const shapeCfg = this.getShapeCfg(model);
+      const points = shapeFactory.getAnchorPoints(model.shape, shapeCfg) || [];
+      Util.each(points, (pointArr, index) => {
+        const point = Util.mix({
+          x: bbox.minX + pointArr[0] * bbox.width,
+          y: bbox.minY + pointArr[1] * bbox.height
+        }, pointArr[2], {
+          index
+        });
+        anchorPoints.push(point);
       });
-      anchorPoints.push(anchorPoint);
-    });
-    this._anchorPoints = anchorPoints;
-    if (Util.isNumber(index)) {
-      return this._anchorPoints[index];
+      this.set(CACHE_ANCHOR_POINTS, anchorPoints);
     }
-    return this._anchorPoints;
+    return anchorPoints;
   }
 }
 module.exports = Node;
