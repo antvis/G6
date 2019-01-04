@@ -32,11 +32,11 @@ describe('graph', () => {
     expect(children[1].get('className')).to.equal('node-container');
     expect(children[0].get('className')).to.equal('edge-container');
     inst.destroy();
-    expect(inst.canvas.destroyed);
+    expect(inst.get('canvas').destroyed);
     expect(length - div.childNodes.length).to.equal(1);
   });
 
-  const canvasMatrix = graph.canvas.getMatrix();
+  const canvasMatrix = graph.get('canvas').getMatrix();
   it('translate', () => {
     graph.translate(100, 100);
     const matrix = graph.get('group').getMatrix();
@@ -99,7 +99,7 @@ describe('graph', () => {
     graph.removeItem(edge);
     expect(graph.get('edges').length).to.equal(0);
   });
-  it('data & changeData', () => {
+  it('data & changeData & save', () => {
     const data = {
       nodes: [{
         id: 'a',
@@ -140,7 +140,7 @@ describe('graph', () => {
     graph.render();
     expect(graph.get('nodes').length).to.equal(3);
     expect(graph.get('edges').length).to.equal(2);
-    const map = graph.get('itemById');
+    let map = graph.get('itemById');
     expect(map.a).not.to.be.undefined;
     expect(map.b).not.to.be.undefined;
     expect(map.c).not.to.be.undefined;
@@ -149,14 +149,62 @@ describe('graph', () => {
     data.nodes.splice(0, 1);
     data.edges.splice(0, 1);
     data.edges[0].source = 'b';
+    data.nodes.push({
+      id: 'f',
+      shape: 'circle',
+      color: '#333',
+      x: 100,
+      y: 80,
+      size: 30,
+      label: 'f'
+    });
     graph.changeData(data);
-    expect(graph.get('nodes').length).to.equal(2);
+    map = graph.get('itemById');
+    expect(graph.get('nodes').length).to.equal(3);
     expect(graph.get('edges').length).to.equal(1);
     expect(map.a).to.be.undefined;
     expect(map.b).not.to.be.undefined;
     expect(map.c).not.to.be.undefined;
     expect(map.d).to.be.undefined;
     expect(map.e).not.to.be.undefined;
+    expect(map.f).not.to.be.undefined;
+    const exported = graph.save();
+    expect(exported.nodes.length).to.equal(3);
+    expect(exported.edges.length).to.equal(1);
+    const edge = exported.edges[0];
+    expect(edge.id).to.equal('e');
+    expect(edge.source).to.equal('b');
+    expect(edge.target).to.equal('c');
+  });
+  it('update', () => {
+    const node = graph.addItem('node', { id: 'node', x: 100, y: 100, size: 50, color: '#ccc' });
+    graph.update('node', { x: 150, y: 150 });
+    const matrix = node.get('group').getMatrix();
+    expect(matrix[6]).to.equal(150);
+    expect(matrix[7]).to.equal(150);
+    graph.update(node, { style: { fill: '#ccc' } });
+    const shape = node.get('keyShape');
+    expect(shape.attr('fill')).to.equal('#ccc');
+  });
+  it('fresh graph', () => {
+    graph.clear();
+    const node = graph.addItem('node', { id: 'node', x: 100, y: 100, size: 50 });
+    const node2 = graph.addItem('node', { id: 'node2', x: 100, y: 200, size: 50 });
+    const node3 = graph.addItem('node', { id: 'node3', x: 300, y: 100, size: 50 });
+    const edge = graph.addItem('edge', { id: 'edge', source: node, target: node2 });
+    graph.paint();
+    let path = edge.get('keyShape').attr('path');
+    expect(path[0][1]).to.equal(100);
+    expect(path[0][2]).to.equal(125.5);
+    expect(path[1][1]).to.equal(100);
+    expect(path[1][2]).to.equal(174.5);
+    edge.setTarget(node3);
+    graph.refresh();
+    path = edge.get('keyShape').attr('path');
+    expect(path[0][1]).to.equal(125.5);
+    expect(path[0][2]).to.equal(100);
+    expect(path[1][1]).to.equal(274.5);
+    expect(path[1][2]).to.equal(100);
   });
   it('show & hide item', () => {
     const node = graph.addItem('node', { id: 'node', x: 100, y: 100, size: 50 });
@@ -168,5 +216,31 @@ describe('graph', () => {
     graph.showItem(node);
     expect(node.isVisible()).to.be.true;
     expect(edge.isVisible()).to.be.true;
+  });
+  it('find', () => {
+    graph.clear();
+    graph.addItem('node', { id: 'node', x: 50, y: 100, size: 50, className: 'test test2' });
+    const node = graph.addItem('node', { id: 'node2', x: 100, y: 100, size: 50, className: 'test' });
+    const findNode = graph.find('node', node => {
+      return node.get('model').x === 100;
+    });
+    expect(findNode).not.to.be.undefined;
+    expect(findNode).to.equal(node);
+  });
+  it('findAll', () => {
+    graph.clear();
+    const node1 = graph.addItem('node', { id: 'node', x: 100, y: 100, size: 50, className: 'test test2' });
+    const node2 = graph.addItem('node', { id: 'node2', x: 100, y: 100, size: 50, className: 'test' });
+    const node3 = graph.addItem('node', { id: 'node2', x: 100, y: 100, size: 50 });
+    node1.setState('active', true);
+    node2.setState('selected', true);
+    node3.setState('active', true);
+    let nodes = graph.findAllByState('node', 'active');
+    expect(nodes.length).to.equal(2);
+    expect(nodes[0]).to.equal(node1);
+    expect(nodes[1]).to.equal(node3);
+    nodes = graph.findAllByState('node', 'selected');
+    expect(nodes.length).to.equal(1);
+    expect(nodes[0]).to.equal(node2);
   });
 });
