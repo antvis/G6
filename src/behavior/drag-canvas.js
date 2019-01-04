@@ -1,16 +1,14 @@
-const Util = require('../util');
-
 module.exports = {
   getDefaultCfg() {
     return {
       direction: 'both'
     };
   },
-  initEvents() {
-    this.events = {
-      'canvas:mousedown': Util.wrapBehavior(this, 'onMouseDown'),
-      'canvas:mousemove': Util.wrapBehavior(this, 'onMouseMove'),
-      'canvas:mouseup': Util.wrapBehavior(this, 'onMouseUp')
+  getEvents() {
+    return {
+      'canvas:mousedown': 'onMouseDown',
+      'canvas:mousemove': 'onMouseMove',
+      'canvas:mouseup': 'onMouseUp'
     };
   },
   updateViewport(e) {

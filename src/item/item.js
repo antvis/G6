@@ -295,6 +295,15 @@ class Item {
     this.afterDraw();
   }
 
+  hasClass(className) {
+    let classNames = this.get('model').className;
+    if (!classNames) {
+      return false;
+    }
+    classNames = classNames.split(' ');
+    return classNames.indexOf(className) >= 0;
+  }
+
   /**
    * 获取元素的包围盒
    * @return {Object} 包含 x,y,width,height, centerX, centerY
