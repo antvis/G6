@@ -81,4 +81,37 @@ describe('event', () => {
     });
     expect(evt).to.be.null;
   });
+  it('mouseenter & mouseleave', () => {
+    graph.clear();
+    const node = graph.addItem('node', { x: 100, y: 100, size: 50, label: 'test' });
+    let enter = 0;
+    let leave = 0;
+    graph.on('node:mouseenter', e => {
+      enter++;
+      expect(e.target === node);
+    });
+    graph.on('node:mouseleave', e => {
+      leave++;
+      expect(e.target === node);
+    });
+    const canvas = graph.get('canvas');
+    const label = node.get('group').get('children')[0];
+    const shape = node.get('keyShape');
+    label.emit('mouseenter', { type: 'mouseenter', target: label });
+    label.emit('mouseenter', { type: 'mouseenter', target: label });
+    expect(enter).to.equal(0);
+    shape.emit('mouseenter', { type: 'mouseenter', target: shape });
+    expect(enter).to.equal(0);
+    canvas.emit('mousemove', { type: 'mousemove', target: canvas });
+    shape.emit('mousemove', { type: 'mousemove', target: shape });
+    expect(enter).to.equal(1);
+    shape.emit('mousemove', { type: 'mousemove', target: label });
+    expect(enter).to.equal(1);
+    shape.emit('mouseleave', { type: 'mouseleave', target: shape });
+    expect(leave).to.equal(0);
+    canvas.emit('mousemove', { type: 'mousemove', target: canvas });
+    expect(leave).to.equal(1);
+    canvas.emit('mousemove', { type: 'mousemove', taregt: canvas });
+    expect(leave).to.equal(1);
+  });
 });
