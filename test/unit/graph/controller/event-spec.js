@@ -15,7 +15,7 @@ describe('event', () => {
   });
   it('init event', () => {
     const graph = new G6.Graph({
-      container: div,
+      container: 'graph-spec',
       width: 500,
       height: 500,
       pixelRatio: 2
