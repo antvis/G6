@@ -92,8 +92,8 @@ describe('graph', () => {
     const edge = graph.addItem('edge', { id: 'edge', source: node1, target: node2 });
     expect(graph.get('edges').length).to.equal(1);
     expect(graph.get('edges')[0]).to.equal(edge);
-    expect(Object.keys(graph.get('itemById')).length).to.equal(3);
-    expect(graph.get('itemById').edge).to.equal(edge);
+    expect(Object.keys(graph.get('itemMap')).length).to.equal(3);
+    expect(graph.get('itemMap').edge).to.equal(edge);
     expect(node1.getEdges().length).to.equal(1);
     expect(node2.getEdges().length).to.equal(1);
     graph.removeItem(edge);
@@ -140,7 +140,7 @@ describe('graph', () => {
     graph.render();
     expect(graph.get('nodes').length).to.equal(3);
     expect(graph.get('edges').length).to.equal(2);
-    let map = graph.get('itemById');
+    let map = graph.get('itemMap');
     expect(map.a).not.to.be.undefined;
     expect(map.b).not.to.be.undefined;
     expect(map.c).not.to.be.undefined;
@@ -159,7 +159,7 @@ describe('graph', () => {
       label: 'f'
     });
     graph.changeData(data);
-    map = graph.get('itemById');
+    map = graph.get('itemMap');
     expect(graph.get('nodes').length).to.equal(3);
     expect(graph.get('edges').length).to.equal(1);
     expect(map.a).to.be.undefined;

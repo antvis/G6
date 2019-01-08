@@ -34,7 +34,7 @@ class ItemController {
       });
     }
     graph.get(type + 's').push(item);
-    graph.get('itemById')[item.get('id')] = item;
+    graph.get('itemMap')[item.get('id')] = item;
     graph.autoPaint();
     graph.emit('aftereadditem', { type, model });
     return item;
@@ -91,7 +91,7 @@ class ItemController {
     const items = graph.get(item.getType() + 's');
     const index = items.indexOf(item);
     items.splice(index, 1);
-    delete graph.get('itemById')[item.get('id')];
+    delete graph.get('itemMap')[item.get('id')];
     if (type === NODE) {
       // 若移除的是节点，需要将与之相连的边一同删除
       Util.each(item.getEdges(), edge => {
