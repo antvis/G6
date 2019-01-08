@@ -103,7 +103,7 @@ class Graph extends EventEmitter {
        * all the instances indexed by id
        * @type object
        */
-      itemById: {}
+      itemMap: {}
     };
   }
 
@@ -302,7 +302,7 @@ class Graph extends EventEmitter {
     }
     const autoPaint = this.get('autoPaint');
     const self = this;
-    const itemById = this.get('itemById');
+    const itemMap = this.get('itemMap');
     const items = {
       nodes: [],
       edges: []
@@ -310,9 +310,9 @@ class Graph extends EventEmitter {
     this.setAutoPaint(false);
     this._diffItems(NODE, items, data.nodes);
     this._diffItems(EDGE, items, data.edges);
-    Util.each(itemById, (item, id) => {
+    Util.each(itemMap, (item, id) => {
       if (items.nodes.indexOf(item) < 0 && items.edges.indexOf(item) < 0) {
-        delete itemById[id];
+        delete itemMap[id];
         self.remove(item);
       }
     });
@@ -324,9 +324,9 @@ class Graph extends EventEmitter {
   _diffItems(type, items, models) {
     const self = this;
     let item;
-    const itemById = this.get('itemById');
+    const itemMap = this.get('itemMap');
     Util.each(models, model => {
-      item = itemById[model.id];
+      item = itemMap[model.id];
       if (item) {
         self.updateItem(item, model);
       } else {
@@ -530,7 +530,7 @@ class Graph extends EventEmitter {
    * @return {object} 元素实例
    */
   findById(id) {
-    return this.get('itemById')[id];
+    return this.get('itemMap')[id];
   }
 
   /**
@@ -595,7 +595,7 @@ class Graph extends EventEmitter {
     const canvas = this.get('canvas');
     canvas.clear();
     this._initGroups();
-    this.set({ itemById: {}, nodes: [], edges: [] });
+    this.set({ itemMap: {}, nodes: [], edges: [] });
     return this;
   }
 
