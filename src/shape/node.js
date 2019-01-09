@@ -7,7 +7,6 @@ const Shape = require('./shape');
 const Util = require('../util/index');
 const Global = require('../global');
 const SingleShapeMixin = require('./single-shape-mixin');
-const CLS_SHAPE = 'node-shape';
 
 // 注册 Node 的工厂方法
 Shape.registerFactory('node', {
@@ -85,7 +84,6 @@ const singleNodeDefinition = Util.mix({}, SingleShapeMixin, {
     const shapeType = this.shapeType; // || this.type，都已经加了 shapeType
     const style = this.getShapeStyle(cfg);
     const shape = group.addShape(shapeType, {
-      className: CLS_SHAPE,
       attrs: style
     });
     return shape;
