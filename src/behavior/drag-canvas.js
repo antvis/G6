@@ -8,7 +8,8 @@ module.exports = {
     return {
       'canvas:mousedown': 'onMouseDown',
       'canvas:mousemove': 'onMouseMove',
-      'canvas:mouseup': 'onMouseUp'
+      'canvas:mouseup': 'onMouseUp',
+      'canvas:click': 'onClick'
     };
   },
   updateViewport(e) {
@@ -65,6 +66,10 @@ module.exports = {
     }
     e.type = 'dragend';
     graph.emit('canvas:dragend', e);
+    this.origin = null;
+    this.dragging = false;
+  },
+  onClick() {
     this.origin = null;
     this.dragging = false;
   }
