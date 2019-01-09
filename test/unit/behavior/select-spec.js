@@ -73,4 +73,23 @@ describe('select-node', () => {
     expect(node.hasState('selected')).to.be.false;
     graph.destroy();
   });
+  it('click canvas to cancel', () => {
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: [{
+          type: 'click-select'
+        }]
+      },
+      pixelRatio: 2
+    });
+    const node = graph.addItem('node', { color: '#666', x: 50, y: 50, size: 20, style: { lineWidth: 2, fill: '#666' } });
+    graph.paint();
+    graph.emit('node:click', { target: node });
+    expect(node.hasState('selected')).to.be.true;
+    graph.emit('canvas:click');
+    expect(node.hasState('selected')).to.be.false;
+  });
 });
