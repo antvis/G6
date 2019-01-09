@@ -3,6 +3,8 @@
  * @author huangtonger@aliyun.com
  */
 const G = require('@antv/g/lib');
+const BaseUtil = require('./base');
+const vec2 = BaseUtil.vec2;
 
 module.exports = {
   getSpline(points) {
@@ -15,5 +17,25 @@ module.exports = {
     const splinePath = G.PathUtil.catmullRomToBezier(data);
     splinePath.unshift([ 'M', points[0].x, points[0].y ]);
     return splinePath;
+  },
+  /**
+   * 根据起始点、相对位置、偏移量计算控制点
+   * @param  {Object} startPoit 起始点，包含 x,y
+   * @param  {Object} endPoint  结束点, 包含 x,y
+   * @param  {Number} percent   相对位置,范围 0-1
+   * @param  {Number} offset    偏移量
+   * @return {Object} 控制点，包含 x,y
+   */
+  getControlPoint(startPoit, endPoint, percent, offset) {
+    const point = {
+      x: (1 - percent) * startPoit.x + percent * endPoint.x,
+      y: (1 - percent) * startPoit.y + percent * endPoint.y
+    };
+    const tangent = []; // 类似于 C 语言的写法，真难用
+    vec2.normalize(tangent, [ endPoint.x - startPoit.x, endPoint.y - startPoit.y ]);
+    const perpendicular = [ -tangent[1] * offset, tangent[0] * offset ];  // 垂直向量
+    point.x += perpendicular[0];
+    point.y += perpendicular[1];
+    return point;
   }
 };
