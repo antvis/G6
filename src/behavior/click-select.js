@@ -9,6 +9,7 @@ module.exports = {
   getEvents() {
     return {
       'node:click': 'onClick',
+      'canvas:click': 'onCanvasClick',
       keyup: 'onKeyUp',
       keydown: 'onKeyDown'
     };
@@ -40,6 +41,17 @@ module.exports = {
     }
     graph.setAutoPaint(autoPaint);
     graph.paint();
+  },
+  onCanvasClick() {
+    const graph = this.graph;
+    const autoPaint = graph.get('autoPaint');
+    graph.setAutoPaint(false);
+    const selected = graph.findAllByState('node', 'selected');
+    Util.each(selected, node => {
+      graph.setItemState(node, 'selected', false);
+    });
+    graph.paint();
+    graph.setAutoPaint(autoPaint);
   },
   onKeyDown(e) {
     const code = e.keyCode || e.which;
