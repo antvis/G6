@@ -152,13 +152,19 @@ describe('shape edge test', () => {
       expect(path.length).eql(2);
       expect(path[1]).eql([ 'Q', 220, 160, 150, 100 ]);
 
+      const group1 = canvas.addGroup();
       const shape1 = factory.draw('quadratic', {
         startPoint: { x: 200, y: 200 },
-        endPoint: { x: 150, y: 100 },
-        color: 'red'
-      }, group);
+        endPoint: { x: 100, y: 100 },
+        color: 'red',
+        label: 'xxxx',
+        labelCfg: {
+          autoRotate: true
+        }
+      }, group1);
       expect(shape1.attr('path').length).eql(2);
-      expect(shape1.attr('path')[1]).eql([ 'L', 150, 100 ]);
+      const sqrt2 = Math.sqrt(2);
+      expect(shape1.attr('path')[1]).eqls([ 'Q', 150 - 20 * sqrt2 / 2, 150 + 20 * sqrt2 / 2, 100, 100 ]);
       canvas.draw();
     });
 
@@ -177,7 +183,7 @@ describe('shape edge test', () => {
       const shape1 = factory.draw('cubic', {
         startPoint: { x: 200, y: 200 },
         endPoint: { x: 150, y: 100 },
-        color: 'red'
+        color: 'blue'
       }, group);
       expect(shape1.attr('path').length).eql(2);
       canvas.draw();
@@ -529,6 +535,23 @@ describe('shape edge test', () => {
       canvas.draw();
     });
 
+    it('text offset only one dim', () => {
+      const group = canvas.addGroup();
+      const shape = factory.draw('line', {
+        startPoint: { x: 220, y: 400 },
+        endPoint: { x: 320, y: 400 },
+        color: 'pink',
+        label: 'center',
+        labelCfg: {
+          position: 'center',
+          autoRotate: true,
+          refX: 5
+        }
+      }, group);
+      const point = shape.getPoint(0.5);
+      const label = group.get('children')[1];
+      expect(equal(distance(point, { x: label.attr('x'), y: label.attr('y') }), 5)).eql(true);
+    });
   });
 
 
