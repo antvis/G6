@@ -130,7 +130,13 @@ class Node extends Item {
     let linkPoint = intersectPoint;
     // 如果存在锚点，则使用交点计算最近的锚点
     if (anchorPoints.length) {
+      if (!linkPoint) { // 如果计算不出交点
+        linkPoint = point;
+      }
       linkPoint = getNearestPoint(anchorPoints, linkPoint);
+    }
+    if (!linkPoint) { // 如果最终依然没法找到锚点和连接点，直接返回中心点
+      linkPoint = { x: centerX, y: centerY };
     }
     return linkPoint;
   }
