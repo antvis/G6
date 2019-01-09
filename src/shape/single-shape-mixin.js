@@ -33,8 +33,10 @@ const SingleShape = {
 	 */
   draw(cfg, group) {
     const shape = this.drawShape(cfg, group);
+    shape.set('className', this.itemType + CLS_SHAPE_SUFFIX);
     if (cfg.label) {
-      this.drawLabel(cfg, group);
+      const label = this.drawLabel(cfg, group);
+      label.set('className', this.itemType + CLS_LABEL_SUFFIX);
     }
     return shape;
   },
@@ -45,7 +47,6 @@ const SingleShape = {
     const labelCfg = cfg.labelCfg || {};
     const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
     const label = group.addShape('text', {
-      className: this.itemType + CLS_LABEL_SUFFIX,
       attrs: labelStyle
     });
     return label;
@@ -100,7 +101,8 @@ const SingleShape = {
       label && label.remove();
     } else {
       if (!label) {
-        this.drawLabel(cfg, group);
+        const newLabel = this.drawLabel(cfg, group);
+        newLabel.set('className', labelClassName);
       } else {
         const labelCfg = cfg.labelCfg || {};
         const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
