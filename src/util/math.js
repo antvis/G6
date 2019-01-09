@@ -109,7 +109,10 @@ const MathUtil = {
     const cy = circle.y;
     const r = circle.r;
     const { x, y } = point;
-    // const d = Math.sqrt(Math.pow((x - cx), 2) + Math.pow((y - cy), 2));
+    const d = Math.sqrt(Math.pow((x - cx), 2) + Math.pow((y - cy), 2));
+    if (d < r) {
+      return null;
+    }
     const dx = (x - cx);
     const dy = (y - cy);
     const signX = Math.sign(dx);

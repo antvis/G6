@@ -225,8 +225,10 @@ describe('edge test, with ellipse', () => {
 describe('edge test, anchors', () => {
 
   let edge;
+  let aNode;
+  let bNode;
   it('test link points', () => {
-    const aNode = new Node({
+    aNode = new Node({
       id: 'a',
       model: {
         x: 100,
@@ -244,7 +246,7 @@ describe('edge test, anchors', () => {
       group: canvas.addGroup()
     });
 
-    const bNode = new Node({
+    bNode = new Node({
       id: 'b',
       model: {
         x: 200,
@@ -298,6 +300,35 @@ describe('edge test, anchors', () => {
     expect(path[0]).eqls([ 'M', 110, 100 ]);
     expect(path[1]).eqls([ 'L', 150, 100 ]);
     expect(path[2]).eqls([ 'L', 100, 190 ]);
+    canvas.draw();
+  });
+
+  it('one nest others, with anchors', () => {
+    bNode.update({
+      x: 100,
+      y: 100,
+      size: 10
+    });
+    edge.update({ controlPoints: null, shape: 'line' });
+    const shape = edge.get('keyShape');
+    expect(shape.attr('path')[0]).eql([ 'M', 100, 90 ]);
+    expect(shape.attr('path')[1]).eql([ 'L', 100, 95 ]);
+    canvas.draw();
+  });
+
+  it('one nest others, without anchors', () => {
+    aNode.update({ anchorPoints: null });
+    edge.refresh();
+    const shape = edge.get('keyShape');
+    expect(shape.attr('path')[0]).eql([ 'M', 100, 100 ]);
+    expect(shape.attr('path')[1]).eql([ 'L', 100, 95 ]);
+
+    bNode.update({ shape: 'rect', size: [ 10, 10 ], anchorPoints: null });
+    edge.refresh();
+
+    expect(shape.attr('path')[0]).eql([ 'M', 100, 100 ]);
+    expect(shape.attr('path')[1]).eql([ 'L', 100, 100 ]);
+
     canvas.draw();
   });
 
