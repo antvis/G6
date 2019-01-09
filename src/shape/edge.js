@@ -125,6 +125,8 @@ const singleEdgeDefinition = Util.mix({}, SingleShapeMixin, {
   },
   // 根据相对偏移量
   _getOffset(refX, refY, tangent) {
+    refX = refX || 0; // 用户没有两个偏移量都指定的时候，保证正确
+    refY = refY || 0;
     const perpendicular = [ -tangent[1], tangent[0] ]; // (x,y) 顺时针方向的垂直线 (-y, x);
     const out = []; // gl-matrix 的接口定义如果返回结果是 vector ， xxx(out, a, b); 所以必须事先定义返回量
     const xVector = [];
@@ -213,29 +215,42 @@ Shape.registerEdge('spline', {
 }, 'single-line');
 
 Shape.registerEdge('quadratic', {
+  curvePosition: 0.5, // 弯曲的默认位置
+  curveOffset: -20, // 弯曲度，沿着startPoint, endPoint 的垂直向量（顺时针）方向，距离线的距离，距离越大越弯曲
+  getControlPoints(cfg) {
+    let controlPoints = cfg.controlPoints; // 指定controlPoints
+    if (!controlPoints || !controlPoints.length) {
+      const { startPoint, endPoint } = cfg;
+      const innerPoint = Util.getControlPoint(startPoint, endPoint, this.curvePosition, this.curveOffset);
+      controlPoints = [ innerPoint ];
+    }
+    return controlPoints;
+  },
   getPath(points) {
     const path = [];
     path.push([ 'M', points[0].x, points[0].y ]);
-    if (points.length < 3) { // 如果只有两个点，则直接使用直线，不可能小于两个点
-      path.push([ 'L', points[1].x, points[1].y ]);
-    } else {
-      path.push([ 'Q', points[1].x, points[1].y, points[2].x, points[2].y ]);
-    }
+    path.push([ 'Q', points[1].x, points[1].y, points[2].x, points[2].y ]);
     return path;
   }
 }, 'single-line');
 
 Shape.registerEdge('cubic', {
+  curvePosition: [ 1 / 3, 2 / 3 ],
+  curveOffset: [ -20, 20 ],
+  getControlPoints(cfg) {
+    let controlPoints = cfg.controlPoints; // 指定controlPoints
+    if (!controlPoints || !controlPoints.length) {
+      const { startPoint, endPoint } = cfg;
+      const innerPoint1 = Util.getControlPoint(startPoint, endPoint, this.curvePosition[0], this.curveOffset[0]);
+      const innerPoint2 = Util.getControlPoint(startPoint, endPoint, this.curvePosition[1], this.curveOffset[1]);
+      controlPoints = [ innerPoint1, innerPoint2 ];
+    }
+    return controlPoints;
+  },
   getPath(points) {
     const path = [];
     path.push([ 'M', points[0].x, points[0].y ]);
-    if (points.length < 4) {
-      for (let i = 1; i < points.length; i++) {
-        path.push([ 'L', points[i].x, points[i].y ]);
-      }
-    } else {
-      path.push([ 'C', points[1].x, points[1].y, points[2].x, points[2].y, points[3].x, points[3].y ]);
-    }
+    path.push([ 'C', points[1].x, points[1].y, points[2].x, points[2].y, points[3].x, points[3].y ]);
     return path;
   }
 }, 'single-line');
