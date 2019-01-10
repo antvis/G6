@@ -66,6 +66,7 @@ class Event {
       if (e.type === 'mousemove') {
         self._handleMouseMove(e, 'canvas');
       }
+      graph.emit(e.type, e);
       graph.emit('canvas:' + e.type, e);
       return;
     }
@@ -81,6 +82,7 @@ class Event {
     const item = itemShape.get('item');
     const type = item.getType();
     e.target = item;
+    graph.emit(e.type, e);
     graph.emit(type + ':' + e.type, e);
     if (e.type === 'dragstart') {
       self.dragging = true;
