@@ -61,13 +61,15 @@ describe('drag-node', () => {
     expect(path[0][2]).to.equal(57.77817459305202);
     expect(path[1][1]).to.equal(289);
     expect(path[1][2]).to.equal(289);
+    const delegateShape = src.get('delegateShape');
+    expect(delegateShape).not.to.be.undefined;
     graph.emit('node:dragend', { clientX: 140, clientY: 140, target: src });
     path = edge.get('group').get('children')[0].attr('path');
     expect(path[0][1]).to.equal(97.77817459305203);
     expect(path[0][2]).to.equal(97.77817459305203);
     expect(path[1][1]).to.equal(289);
     expect(path[1][2]).to.equal(289);
-    graph.destroy();
+    expect(!!src.get('delegateShape')).to.be.false;
   });
   it('prevent default', () => {
     const graph = new G6.Graph({
