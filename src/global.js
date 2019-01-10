@@ -43,5 +43,12 @@ module.exports = {
     selected: {
       lineWidth: 2
     }
+  },
+  delegateStyle: {
+    fill: '#F3F9FF',
+    fillOpacity: 0.5,
+    stroke: '#1890FF',
+    strokeOpacity: 0.9,
+    lineDash: [ 5, 5 ]
   }
 };
