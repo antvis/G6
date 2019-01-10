@@ -1,3 +1,4 @@
+const { isArray } = require('../util');
 module.exports = {
   getDefaultCfg() {
     return {
@@ -63,7 +64,11 @@ module.exports = {
     this.origin = { x: e.clientX, y: e.clientY };
     this.point = { x, y };
     if (this.delegate && !force) {
-      this._updateDelegate(item, x, y);
+      let size = model.size;
+      if (!isArray(size)) {
+        size = [ size, size ];
+      }
+      this._updateDelegate(item, x - (size[0] / 2), y - (size[1] / 2));
       return;
     }
     if (this.get('updateEdge')) {
