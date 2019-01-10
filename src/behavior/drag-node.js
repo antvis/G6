@@ -79,6 +79,10 @@ module.exports = {
     const self = this;
     let shape = item.get('delegateShape');
     let size = item.get('model').size;
+    if (!size) {
+      const bbox = item.get('keyShape').getBBox();
+      size = [ bbox.width, bbox.height ];
+    }
     if (!isArray(size)) {
       size = [ size, size ];
     }
