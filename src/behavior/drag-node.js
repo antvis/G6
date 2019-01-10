@@ -1,4 +1,5 @@
 const { isArray } = require('../util');
+const OFFSET_SHAPES = [ 'rect', 'image' ];
 module.exports = {
   getDefaultCfg() {
     return {
@@ -43,12 +44,14 @@ module.exports = {
     if (!this.origin) {
       return;
     }
-    if (this.delegateShape) {
-      this.delegateShape.remove();
-      this.delegateShape = null;
+    const delegateShape = e.target.get('delegateShape');
+    if (delegateShape) {
+      delegateShape.remove();
       this.target.set('delegateShape', null);
     }
     this._update(this.target, e, true);
+    this.point = null;
+    this.origin = null;
   },
   _update(item, e, force) {
     const origin = this.origin;
@@ -64,11 +67,7 @@ module.exports = {
     this.origin = { x: e.clientX, y: e.clientY };
     this.point = { x, y };
     if (this.delegate && !force) {
-      let size = model.size;
-      if (!isArray(size)) {
-        size = [ size, size ];
-      }
-      this._updateDelegate(item, x - (size[0] / 2), y - (size[1] / 2));
+      this._updateDelegate(item, x, y);
       return;
     }
     if (this.get('updateEdge')) {
@@ -80,15 +79,23 @@ module.exports = {
   },
   _updateDelegate(item, x, y) {
     const self = this;
-    let shape = self.delegateShape;
-    if (!this.delegateShape) {
-      const group = self.graph.get('group');
+    let shape = item.get('delegateShape');
+    if (!shape) {
+      const parent = self.graph.get('group');
       shape = item.get('keyShape').clone();
       shape.attr(this.delegateStyle);
       shape.set('capture', false);
-      group.add(shape);
+      parent.add(shape);
       item.set('delegateShape', shape);
-      this.delegateShape = shape;
+    }
+    // model上的x, y是相对于图形中心的，如果是image或rect，需要再计算x,y到左上角坐标
+    if (OFFSET_SHAPES.indexOf(shape.type) >= 0) {
+      let size = item.get('model').size;
+      if (!isArray(size)) {
+        size = [ size, size ];
+      }
+      x -= size[0] / 2;
+      y -= size[1] / 2;
     }
     shape.attr({ x, y });
     this.graph.paint();
