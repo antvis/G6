@@ -1,12 +1,12 @@
+const { isArray, mix } = require('../util');
+const { delegateStyle } = require('../global');
+
 module.exports = {
   getDefaultCfg() {
     return {
       updateEdge: true,
       delegate: true,
-      delegateStyle: {
-        fillOpacity: 0.6,
-        strokeOpacity: 0.6
-      }
+      delegateStyle: {}
     };
   },
   getEvents() {
@@ -42,12 +42,14 @@ module.exports = {
     if (!this.origin) {
       return;
     }
-    if (this.delegateShape) {
-      this.delegateShape.remove();
-      this.delegateShape = null;
+    const delegateShape = e.target.get('delegateShape');
+    if (delegateShape) {
+      delegateShape.remove();
       this.target.set('delegateShape', null);
     }
     this._update(this.target, e, true);
+    this.point = null;
+    this.origin = null;
   },
   _update(item, e, force) {
     const origin = this.origin;
@@ -75,16 +77,27 @@ module.exports = {
   },
   _updateDelegate(item, x, y) {
     const self = this;
-    let shape = self.delegateShape;
-    if (!this.delegateShape) {
-      const group = self.graph.get('group');
-      shape = item.get('keyShape').clone();
-      shape.attr(this.delegateStyle);
-      shape.set('capture', false);
-      group.add(shape);
-      item.set('delegateShape', shape);
-      this.delegateShape = shape;
+    let shape = item.get('delegateShape');
+    let size = item.get('model').size;
+    if (!isArray(size)) {
+      size = [ size, size ];
     }
+    if (!shape) {
+      const parent = self.graph.get('group');
+      const attrs = mix({}, delegateStyle, this.delegateStyle);
+      shape = parent.addShape('rect', {
+        attrs: {
+          width: size[0],
+          height: size[1],
+          ...attrs
+        }
+      });
+      shape.set('capture', false);
+      item.set('delegateShape', shape);
+    }
+    // model上的x, y是相对于图形中心的，delegateShape是g实例，x,y是绝对坐标
+    x -= size[0] / 2;
+    y -= size[1] / 2;
     shape.attr({ x, y });
     this.graph.paint();
   }
