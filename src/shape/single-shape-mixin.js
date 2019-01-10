@@ -106,6 +106,12 @@ const SingleShape = {
       } else {
         const labelCfg = cfg.labelCfg || {};
         const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
+        /**
+         * fixme g中shape的rotate是角度累加的，不是label的rotate想要的角度
+         * 由于现在label只有rotate操作，所以在更新label的时候如果style中有rotate就重置一下变换
+         * 后续会基于g的Text复写一个Label出来处理这一类问题
+         */
+        label.resetMatrix();
         label.attr(labelStyle);
       }
     }
