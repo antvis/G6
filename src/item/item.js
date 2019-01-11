@@ -165,17 +165,23 @@ class Item {
       return;
     }
     self.updatePosition(model);
-    const cfg = this.getShapeCfg(model); // 可能会附加额外信息
+    const cfg = self.getShapeCfg(model); // 可能会附加额外信息
     const keyShape = shapeFactory.draw(shapeType, cfg, group);
-    const states = self.get('states');
     if (keyShape) {
       keyShape.isKeyShape = true;
       self.set('keyShape', keyShape);
     }
+    this._resetStates(shapeFactory, shapeType);
+  }
+
+  _resetStates(shapeFactory, shapeType) {
+    const self = this;
+    const states = self.get('states');
     Util.each(states, state => {
       shapeFactory.setState(shapeType, state, true, self);
     });
   }
+
   /**
    * 获取当前元素的所有状态
    * @return {Array} 元素的所有状态
@@ -290,6 +296,8 @@ class Item {
         shapeFactory.update(shape, updateCfg, this);
         // 设置 model 在更新后，防止在更新时取原始 model
         this.set('model', newModel);
+        // 更新后重置节点状态
+        this._resetStates(shapeFactory, shape);
       } else { // 如果不满足上面 3 种状态，重新绘制
         this.set('model', newModel);
         // 绘制元素时，需要最新的 model

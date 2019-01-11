@@ -133,7 +133,45 @@ describe('node', () => {
     expect(shape.attr('fillOpacity')).eql(0.8);
   });
 
-  it('get link point, no anchor', () => {
+  it('update with state', () => {
+    Shape.registerNode('custom-rect', {
+      setState(name, value, node) {
+        // const group = node.getContainer();
+        const shape = node.get('keyShape');
+        if (name === 'selected') {
+          if (value) {
+            shape.attr('fill', 'red');
+          } else {
+            shape.attr('fill', 'white');
+          }
+        }
+      }
+    }, 'rect');
+    const group = new G.Group();
+    const node = new Node({
+      model: {
+        x: 100,
+        y: 100,
+        size: [ 20, 40 ],
+        shape: 'custom-rect',
+        label: 'ni hao'
+      },
+      group,
+      states: [ 'active' ]
+    });
+    const shape = node.get('keyShape');
+    expect(shape.attr('fill')).eql('white');
+    node.setState('selected', true);
+    expect(shape.attr('fill')).eql('red');
+    node.update({ x: 10 });
+    expect(shape.attr('fill')).eql('red');
+    node.update({ size: [ 20, 30 ] });
+    expect(shape.attr('fill')).eql('red');
+    node.setState('selected', false);
+    expect(shape.attr('fill')).eql('white');
+  });
+
+  it('get link point, without anchor', () => {
     const group = new G.Group();
     const node = new Node({
       model: {
@@ -258,6 +296,7 @@ describe('node', () => {
     node.update({ size: 20 });
     expect(shape.get('destroyed')).eql(true);
     expect(shape).not.eql(node.get('keyShape'));
+    Shape.Node['my-node-test'] = null;
   });
 
 });
