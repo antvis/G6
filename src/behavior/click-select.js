@@ -29,15 +29,15 @@ module.exports = {
       });
     }
     if (item.hasState('selected')) {
-      e.type = 'deselect';
       if (self.shouldUpdate.call(self, e)) {
         graph.setItemState(item, 'selected', false);
       }
+      graph.emit('nodeselectchange', { target: item, select: false });
     } else {
-      e.type = 'select';
       if (self.shouldUpdate.call(self, e)) {
         graph.setItemState(item, 'selected', true);
       }
+      graph.emit('nodeselectchange', { target: item, select: true });
     }
     graph.setAutoPaint(autoPaint);
     graph.paint();
