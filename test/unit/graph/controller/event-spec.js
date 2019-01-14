@@ -51,7 +51,7 @@ describe('event', () => {
     const canvas = graph.get('canvas');
     const node = graph.addItem('node', { type: 'circle', color: '#ccc', style: { x: 50, y: 50, r: 20, lineWidth: 2 } });
     const shape = node.get('group').get('children')[0];
-    graph.on('node:mousedown', e => { target = e.currentTarget; });
+    graph.on('node:mousedown', e => { target = e.item; });
     canvas.emit('mousedown', { type: 'mousedown', target: shape });
     expect(target === node).to.be.true;
     target = null;
@@ -88,11 +88,11 @@ describe('event', () => {
     let leave = 0;
     graph.on('node:mouseenter', e => {
       enter++;
-      expect(e.currentTarget === node);
+      expect(e.item === node);
     });
     graph.on('node:mouseleave', e => {
       leave++;
-      expect(e.currentTarget === node);
+      expect(e.item === node);
     });
     const canvas = graph.get('canvas');
     const label = node.get('group').get('children')[0];
