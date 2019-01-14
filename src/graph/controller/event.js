@@ -74,7 +74,7 @@ class Event {
         self._handleMouseMove(e, 'canvas');
       }
       e.target = canvas;
-      e.item = graph;
+      e.item = null;
       graph.emit(eventType, e);
       graph.emit('canvas:' + eventType, e);
       return;
