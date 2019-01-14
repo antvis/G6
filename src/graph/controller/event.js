@@ -67,12 +67,14 @@ class Event {
     const canvas = graph.get('canvas');
     const target = e.target;
     const eventType = e.type;
-
+    // 事件currentTarget是graph
+    e.currentTarget = graph;
     if (target === canvas) {
       if (eventType === 'mousemove') {
         self._handleMouseMove(e, 'canvas');
       }
-      e.target = e.currentTarget = canvas;
+      e.target = canvas;
+      e.item = graph;
       graph.emit(eventType, e);
       graph.emit('canvas:' + eventType, e);
       return;
@@ -84,9 +86,9 @@ class Event {
     }
     const item = itemShape.get('item');
     const type = item.getType();
-    // 事件target是触发事件的Shape实例，事件currentTarget是触发事件的item实例
+    // 事件target是触发事件的Shape实例，, item是触发事件的item实例
     e.target = target;
-    e.currentTarget = item;
+    e.item = item;
     graph.emit(eventType, e);
     graph.emit(type + ':' + eventType, e);
     // g的事件会冒泡，如果target不是canvas，可能会引起同个节点触发多次，需要另外判断
@@ -109,13 +111,13 @@ class Event {
   _handleMouseMove(e, type) {
     const self = this;
     const canvas = this.graph.get('canvas');
-    const item = e.target === canvas ? null : e.currentTarget;
+    const item = e.target === canvas ? null : e.item;
     const preItem = this.preItem;
     // 避免e的type与触发的事件不同
     e = cloneEvent(e);
     // 从前一个item直接移动到当前item，触发前一个item的leave事件
     if (preItem && preItem !== item) {
-      e.currentTarget = preItem;
+      e.item = preItem;
       if (self.dragging) {
         self._emitCustomEvent(preItem.getType(), 'dragleave', e);
       } else {
@@ -124,7 +126,7 @@ class Event {
     }
     // 从一个item或canvas移动到当前item，触发当前item的enter事件
     if (item && preItem !== item) {
-      e.currentTarget = item;
+      e.item = item;
       if (self.dragging) {
         self._emitCustomEvent(type, 'dragenter', e);
       } else {
