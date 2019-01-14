@@ -20,7 +20,7 @@ module.exports = {
     if (!this.shouldBegin.call(this, e)) {
       return;
     }
-    this.target = e.target;
+    this.target = e.item;
     this.origin = {
       x: e.clientX,
       y: e.clientY
@@ -42,7 +42,7 @@ module.exports = {
     if (!this.origin) {
       return;
     }
-    const delegateShape = e.target.get('delegateShape');
+    const delegateShape = e.item.get('delegateShape');
     if (delegateShape) {
       delegateShape.remove();
       this.target.set('delegateShape', null);
