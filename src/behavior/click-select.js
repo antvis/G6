@@ -16,7 +16,7 @@ module.exports = {
   },
   onClick(e) {
     const self = this;
-    const item = e.target;
+    const item = e.item;
     const graph = self.graph;
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
@@ -29,15 +29,15 @@ module.exports = {
       });
     }
     if (item.hasState('selected')) {
-      e.type = 'deselect';
       if (self.shouldUpdate.call(self, e)) {
         graph.setItemState(item, 'selected', false);
       }
+      graph.emit('nodeselectchange', { target: item, select: false });
     } else {
-      e.type = 'select';
       if (self.shouldUpdate.call(self, e)) {
         graph.setItemState(item, 'selected', true);
       }
+      graph.emit('nodeselectchange', { target: item, select: true });
     }
     graph.setAutoPaint(autoPaint);
     graph.paint();
