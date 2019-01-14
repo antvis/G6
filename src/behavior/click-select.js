@@ -16,7 +16,7 @@ module.exports = {
   },
   onClick(e) {
     const self = this;
-    const item = e.target;
+    const item = e.item;
     const graph = self.graph;
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
