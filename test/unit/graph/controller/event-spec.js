@@ -51,7 +51,7 @@ describe('event', () => {
     const canvas = graph.get('canvas');
     const node = graph.addItem('node', { type: 'circle', color: '#ccc', style: { x: 50, y: 50, r: 20, lineWidth: 2 } });
     const shape = node.get('group').get('children')[0];
-    graph.on('node:mousedown', e => { target = e.target; });
+    graph.on('node:mousedown', e => { target = e.item; });
     canvas.emit('mousedown', { type: 'mousedown', target: shape });
     expect(target === node).to.be.true;
     target = null;
@@ -88,11 +88,11 @@ describe('event', () => {
     let leave = 0;
     graph.on('node:mouseenter', e => {
       enter++;
-      expect(e.target === node);
+      expect(e.item === node);
     });
     graph.on('node:mouseleave', e => {
       leave++;
-      expect(e.target === node);
+      expect(e.item === node);
     });
     const canvas = graph.get('canvas');
     const label = node.get('group').get('children')[0];
@@ -113,5 +113,27 @@ describe('event', () => {
     expect(leave).to.equal(1);
     canvas.emit('mousemove', { type: 'mousemove', taregt: canvas });
     expect(leave).to.equal(1);
+  });
+  it('event object overlap', () => {
+    let count = 0;
+    let triggered = false;
+    graph.removeEvent();
+    graph.clear();
+    const canvas = graph.get('canvas');
+    const node = graph.addItem('node', { x: 100, y: 100, size: 50, label: 'test' });
+    graph.on('node:mouseleave', e => {
+      triggered = true;
+      expect(e.type).to.equal('mouseleave');
+    });
+    graph.on('mousemove', e => {
+      count += 1;
+      expect(e.type).to.equal('mousemove');
+    });
+    canvas.emit('mousemove', { type: 'mousemove', target: node.get('keyShape') });
+    expect(count).to.equal(1);
+    expect(triggered).to.be.false;
+    canvas.emit('mousemove', { type: 'mousemove', target: canvas });
+    expect(count).to.equal(2);
+    expect(triggered).to.be.true;
   });
 });
