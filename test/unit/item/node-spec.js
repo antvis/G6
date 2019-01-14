@@ -1,7 +1,7 @@
 const expect = require('chai').expect;
 const G = require('@antv/g');
 const Node = require('../../../src/item/node');
-
+const Shape = require('../../../src/shape/');
 const div = document.createElement('div');
 div.id = 'node-spec';
 document.body.appendChild(div);
@@ -133,7 +133,45 @@ describe('node', () => {
     expect(shape.attr('fillOpacity')).eql(0.8);
   });
 
-  it('get link point, no anchor', () => {
+  it('update with state', () => {
+    Shape.registerNode('custom-rect', {
+      setState(name, value, node) {
+        // const group = node.getContainer();
+        const shape = node.get('keyShape');
+        if (name === 'selected') {
+          if (value) {
+            shape.attr('fill', 'red');
+          } else {
+            shape.attr('fill', 'white');
+          }
+        }
+      }
+    }, 'rect');
+    const group = new G.Group();
+    const node = new Node({
+      model: {
+        x: 100,
+        y: 100,
+        size: [ 20, 40 ],
+        shape: 'custom-rect',
+        label: 'ni hao'
+      },
+      group,
+      states: [ 'active' ]
+    });
+    const shape = node.get('keyShape');
+    expect(shape.attr('fill')).eql('white');
+    node.setState('selected', true);
+    expect(shape.attr('fill')).eql('red');
+    node.update({ x: 10 });
+    expect(shape.attr('fill')).eql('red');
+    node.update({ size: [ 20, 30 ] });
+    expect(shape.attr('fill')).eql('red');
+    node.setState('selected', false);
+    expect(shape.attr('fill')).eql('white');
+  });
+
+  it('get link point, without anchor', () => {
     const group = new G.Group();
     const node = new Node({
       model: {
@@ -196,6 +234,69 @@ describe('node', () => {
     const point1 = node.getLinkPoint({ x: 200, y: 10 });
     expect(snap(point1.x, 110)).eql(true);
     expect(snap(point1.y, 100)).eql(true);
+  });
+
+  it('only move', () => {
+    const group = new G.Group();
+    const node = new Node({
+      model: {
+        x: 100,
+        y: 100,
+        size: [ 20, 20 ],
+        shape: 'rect',
+        anchorPoints: [
+          [ 0.5, 0 ], [ 1, 0.5 ], [ 0.5, 1 ], [ 0, 0.5 ]
+        ]
+      },
+      group
+    });
+    expect(node.get('model').x).eql(100);
+    expect(node.get('model').y).eql(100);
+
+    node.update({ x: 200 });
+    expect(node.get('model').x).eql(200);
+    expect(node.get('model').y).eql(100);
+
+    node.update({ y: 200 });
+    expect(node.get('model').x).eql(200);
+    expect(node.get('model').y).eql(200);
+  });
+
+  it('register shape only draw', () => {
+    Shape.registerNode('my-node-test', {
+      draw(cfg, group) {
+        const shape = group.addShape('circle', {
+          attrs: {
+            x: 0,
+            y: 0,
+            r: cfg.size
+          }
+        });
+        return shape;
+      }
+    });
+
+    const group = new G.Group();
+    const node = new Node({
+      model: {
+        x: 100,
+        y: 100,
+        size: 10,
+        shape: 'my-node-test'
+      },
+      group
+    });
+
+    const shape = node.get('keyShape');
+    expect(!!shape.get('destroyed')).eql(false);
+
+    node.update({ x: 0, y: 20 });
+    expect(!!shape.get('destroyed')).eql(false);
+
+    node.update({ size: 20 });
+    expect(shape.get('destroyed')).eql(true);
+    expect(shape).not.eql(node.get('keyShape'));
+    Shape.Node['my-node-test'] = null;
   });
 
 });
