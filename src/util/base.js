@@ -1,4 +1,4 @@
-
+const Event = require('@antv/g').Event;
 const BaseUtil = {
   deepMix: require('@antv/util/lib/deep-mix'),
   mix: require('@antv/util/lib/mix'),
@@ -23,7 +23,6 @@ const BaseUtil = {
   extend: require('@antv/util/lib/extend'),
   augment: require('@antv/util/lib/augment'),
   remove: require('@antv/util/lib/array/remove'),
-
   /**
    * turn padding into [top, right, bottom, right]
    * @param  {Number|Array} padding input padding
@@ -44,6 +43,17 @@ const BaseUtil = {
       left = !BaseUtil.isNil(padding[3]) ? padding[3] : right;
     }
     return [ top, right, bottom, left ];
+  },
+  cloneEvent(e) {
+    const event = new Event(e.type, e, true, true);
+    event.clientX = e.clientX;
+    event.clientY = e.clientY;
+    event.x = e.x;
+    event.y = e.y;
+    event.target = e.target;
+    event.currentTarget = e.currentTarget;
+    event.item = e.item;
+    return event;
   }
 };
 
