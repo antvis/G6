@@ -37,7 +37,6 @@
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "babel-eslint": "~8.0.3",
     "babel-loader": "^8.0.0",
@@ -99,7 +98,7 @@
     "screenshot": "node ./bin/screenshot.js",
     "start": "npm run dev",
     "test": "torch --compile --renderer --recursive ./test/unit",
-    "test-live": "torch --compile --interactive --watch --recursive ./test/unit",
+    "test-live": "torch --interactive --watch --recursive ./test/unit",
     "watch": "webpack --config webpack-dev.config.js",
     "win-dev": "node ./bin/win-dev.js"
   },
@@ -111,7 +110,7 @@
     "silent": false
   },
   "dependencies": {
-    "@antv/g": "~3.4.0-beta.4",
+    "@antv/g": "~3.4.0-beta.6",
     "@antv/util": "~1.3.1"
   },
   "engines": {
