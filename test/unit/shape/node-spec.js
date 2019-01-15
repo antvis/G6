@@ -3,7 +3,7 @@
  * @author dxq613@gmai.com
  */
 
-const { Canvas } = require('@antv/g');
+const { Canvas } = require('@antv/g/lib');
 const Shape = require('../../../src/shape/shape');
 const Global = require('../../../src/global');
 require('../../../src/shape/node');
