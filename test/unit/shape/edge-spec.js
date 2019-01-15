@@ -189,6 +189,30 @@ describe('shape edge test', () => {
       canvas.draw();
     });
 
+    it('cubic vertical', () => {
+      const group = canvas.addGroup();
+      const shape = factory.draw('cubic-vertical', {
+        startPoint: { x: 0, y: 0 },
+        endPoint: { x: 150, y: 150 },
+        color: 'red'
+      }, group);
+
+      expect(shape.attr('path')[1]).eql([ 'C', 0, 50, 150, 100, 150, 150 ]);
+      canvas.draw();
+    });
+
+    it('cubic horizontal', () => {
+      const group = canvas.addGroup();
+      const shape = factory.draw('cubic-horizontal', {
+        startPoint: { x: 0, y: 0 },
+        endPoint: { x: 150, y: 150 },
+        color: 'red'
+      }, group);
+
+      expect(shape.attr('path')[1]).eql([ 'C', 50, 0, 100, 150, 150, 150 ]);
+      canvas.draw();
+    });
+
     it('clear', () => {
       canvas.clear();
     });
