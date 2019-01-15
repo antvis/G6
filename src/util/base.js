@@ -1,4 +1,4 @@
-const Event = require('@antv/g').Event;
+const Event = require('@antv/g/lib/event');
 const BaseUtil = {
   deepMix: require('@antv/util/lib/deep-mix'),
   mix: require('@antv/util/lib/mix'),
