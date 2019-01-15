@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="mountNode"></div>
+<script src="./assets/dagre.js"></script>
+<script src="../build/g6.js"></script>
+<script>
+  const data = {
+    nodes: [
+      {
+        id: 1,
+        type: 'alps',
+        name: 'alps_file1',
+        conf: [
+          {
+            label: 'conf',
+            value: 'pai_graph.conf'
+          },
+          {
+            label: 'dot',
+            value: 'pai_graph.dot'
+          },
+          {
+            label: 'init',
+            value: 'init.rc'
+          }
+        ]
+      },
+      {
+        id: 2,
+        type: 'alps',
+        name: 'alps_file2',
+        conf: [
+          {
+            label: 'conf',
+            value: 'pai_graph.conf'
+          },
+          {
+            label: 'dot',
+            value: 'pai_graph.dot'
+          },
+          {
+            label: 'init',
+            value: 'init.rc'
+          }
+        ]
+      },
+      {
+        id: 3,
+        type: 'alps',
+        name: 'alps_file3',
+        conf: [
+          {
+            label: 'conf',
+            value: 'pai_graph.conf'
+          },
+          {
+            label: 'dot',
+            value: 'pai_graph.dot'
+          },
+          {
+            label: 'init',
+            value: 'init.rc'
+          }
+        ]
+      },
+      {
+        id: 4,
+        type: 'sql',
+        name: 'sql_file1',
+        conf: [
+          {
+            label: 'conf',
+            value: 'pai_graph.conf'
+          },
+          {
+            label: 'dot',
+            value: 'pai_graph.dot'
+          },
+          {
+            label: 'init',
+            value: 'init.rc'
+          }
+        ]
+      },
+      {
+        id: 5,
+        type: 'sql',
+        name: 'sql_file2',
+        conf: [
+          {
+            label: 'conf',
+            value: 'pai_graph.conf'
+          },
+          {
+            label: 'dot',
+            value: 'pai_graph.dot'
+          },
+          {
+            label: 'init',
+            value: 'init.rc'
+          }
+        ]
+      },
+      {
+        id: 6,
+        type: 'feature_etl',
+        name: 'feature_etl_1',
+        conf: [
+          {
+            label: 'conf',
+            value: 'pai_graph.conf'
+          },
+          {
+            label: 'dot',
+            value: 'pai_graph.dot'
+          },
+          {
+            label: 'init',
+            value: 'init.rc'
+          }
+        ]
+      },
+      {
+        id: 7,
+        type: 'feature_etl',
+        name: 'feature_etl_1',
+        conf: [
+          {
+            label: 'conf',
+            value: 'pai_graph.conf'
+          },
+          {
+            label: 'dot',
+            value: 'pai_graph.dot'
+          },
+          {
+            label: 'init',
+            value: 'init.rc'
+          }
+        ]
+      },
+      {
+        id: 8,
+        type: 'feature_extractor',
+        name: 'feature_extractor',
+        conf: [
+          {
+            label: 'conf',
+            value: 'pai_graph.conf'
+          },
+          {
+            label: 'dot',
+            value: 'pai_graph.dot'
+          },
+          {
+            label: 'init',
+            value: 'init.rc'
+          }
+        ]
+      }
+    ],
+    edges: [
+      {
+        source: 1,
+        target: 2
+      },
+      {
+        source: 1,
+        target: 3
+      },
+      {
+        source: 2,
+        target: 4
+      },
+      {
+        source: 3,
+        target: 4
+      },
+      {
+        source: 4,
+        target: 5
+      },
+      {
+        source: 5,
+        target: 6
+      },
+      {
+        source: 6,
+        target: 7
+      },
+      {
+        source: 7,
+        target: 8
+      }
+    ]
+  };
+  const g = new dagre.graphlib.Graph();
+  g.setDefaultEdgeLabel(function() { return {}; });
+  g.setGraph({ rankdir: 'LR' });
+  const labelStyle = {
+    style: {
+      fill: '#fff',
+      fontSize: 14,
+      fontWeight: 'bold'
+    }
+  };
+  const edgeStyle = {
+    endArrow: true,
+    lineWidth: 2,
+    stroke: 'rgb(76,122,187)'
+  };
+  data.nodes.forEach(node => {
+    // node.id = node.id + '';
+    node.shape = 'sql';
+    node.label = node.name;
+    node.labelCfg = labelStyle;
+    node.size = [ 150, 50 ];
+    g.setNode(node.id + '', { width: 150, height: 50 });
+  });
+  data.edges.forEach(edge => {
+    edge.source = edge.source + '';
+    edge.target = edge.target + '';
+    edge.style = edgeStyle;
+    edge.shape = 'polyline';
+    g.setEdge(edge.source, edge.target);
+  });
+  dagre.layout(g);
+  let coord;
+  g.nodes().forEach((node, i) => {
+    coord = g.node(node);
+    data.nodes[i].x = coord.x;
+    data.nodes[i].y = coord.y;
+  });
+  g.edges().forEach((edge, i) => {
+    coord = g.edge(edge);
+    data.edges[i].startPoint = coord.points[0];
+    data.edges[i].endPoint = coord.points[coord.points.length - 1];
+    data.edges[i].controlPoints = coord.points.slice(1, coord.points.length - 1);
+
+  });
+  G6.registerNode('sql', {
+    drawShape(cfg, group) {
+      const rect = group.addShape('rect', {
+        attrs: {
+          x: -75,
+          y: -25,
+          width: 150,
+          height: 50,
+          radius: 10,
+          stroke: 'rgb(36,60,96)',
+          fill: 'rgb(76,122,187)'
+        }
+      });
+      return rect;
+    }
+  }, 'single-shape');
+  let rect,
+    group,
+    tooltip;
+  G6.Global.nodeStateStyle.selected = {
+    stroke: '#d9d9d9',
+    fill: '#5394ef'
+  };
+  G6.registerBehavior('hover', {
+    getEvents() {
+      return {
+        'node:mouseenter': 'onMouseEnter',
+        'node:mouseleave': 'onMouseLeave',
+        'node:mousemove': 'onMouseMove'
+      };
+    },
+    formatText(cfg) {
+      const text = [];
+      cfg.forEach(row => {
+        text.push(row.label + ':' + row.value);
+      });
+      return text.join('\n');
+    },
+    onMouseEnter(e) {
+      const canvas = graph.get('canvas');
+      const item = e.item;
+      const model = item.get('model');
+      const text = this.formatText(model.conf);
+      const x = e.x;
+      const y = e.y;
+      this.currentTarget = item;
+      if (tooltip) {
+        rect.attr({ x, y });
+        tooltip.attr({ x: x + 16, y: y + 30 });
+        tooltip.attr({ text });
+        group.show();
+      } else {
+        group = canvas.addGroup({ id: 'tooltip' });
+        rect = group.addShape('rect', {
+          capture: false,
+          attrs: { x, y, width: 150, height: 60, fill: '#fff', stroke: '#e2e2e2', radius: 4, fillOpacity: 0.9 }
+        });
+        tooltip = group.addShape('text', {
+          capture: false,
+          attrs: {
+            x: x + 16,
+            y: y + 30,
+            text,
+            textAlign: 'left',
+            textBaseline: 'middle',
+            fill: '#333'
+          }
+        });
+      }
+      graph.paint();
+    },
+    onMouseMove(e) {
+      if (!this.currentTarget || this.currentTarget !== e.item) {
+        return;
+      }
+      const x = e.x;
+      const y = e.y;
+      rect.attr({ x, y });
+      tooltip.attr({ x: x + 16, y: y + 30 });
+      graph.paint();
+    },
+    onMouseLeave() {
+      this.currentTarget = null;
+      group && group.hide() && graph.paint();
+    }
+  });
+  const graph = new G6.Graph({
+    container: 'mountNode',
+    width: 1000,
+    height: 600,
+    pixelRatio: 2,
+    modes: {
+      default: [ 'drag-canvas', 'zoom-canvas', 'hover', 'click-select' ]
+    },
+    fitView: true
+  });
+  graph.data(data);
+  graph.render();
+</script>
+</body>
+</html>
