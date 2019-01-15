@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const Event = require('@antv/g').Event;
+const Event = require('@antv/g/lib').Event;
 const G6 = require('../../../src');
 
 const div = document.createElement('div');
