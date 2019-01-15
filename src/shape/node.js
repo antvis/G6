@@ -46,7 +46,10 @@ const singleNodeDefinition = Util.mix({}, SingleShapeMixin, {
     const size = this.getSize(cfg);
     const width = size[0];
     const height = size[1];
-    const offset = Global.nodeLabel.offset; // 不居中时的偏移量
+    let offset = labelCfg.offset;
+    if (Util.isNil(offset)) { // 考虑 offset = 0 的场景，不用用 labelCfg.offset || Global.nodeLabel.offset
+      offset = Global.nodeLabel.offset; // 不居中时的偏移量
+    }
     let style;
     switch (labelPosition) {
       case 'top':
