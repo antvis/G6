@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const G = require('@antv/g');
+const G = require('@antv/g/lib');
 const Node = require('../../../src/item/node');
 const Edge = require('../../../src/item/edge');
 const div = document.createElement('div');
