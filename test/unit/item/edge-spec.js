@@ -1,5 +1,6 @@
 const expect = require('chai').expect;
 const G = require('@antv/g/lib');
+const Global = require('../../../src/global');
 const Node = require('../../../src/item/node');
 const Edge = require('../../../src/item/edge');
 const div = document.createElement('div');
@@ -147,6 +148,27 @@ describe('edge test, with circle', () => {
     expect(model.source).eql(point1);
     expect(model.target).eql(point2);
     canvas.draw();
+  });
+
+  it('change global edge style', () => {
+    Global.defaultEdge = {
+      size: 5,
+      color: '#333',
+      style: {
+        stroke: '#ccc'
+      }
+    };
+    const group = canvas.addGroup();
+    const edge = new Edge({
+      model: {},
+      source: aNode,
+      target: bNode,
+      group
+    });
+    const keyShape = edge.get('keyShape');
+    expect(keyShape.attr('lineWidth')).to.equal(5);
+    expect(keyShape.attr('stroke')).to.equal('#333');
+    edge.destroy();
   });
 
   it('states', () => {

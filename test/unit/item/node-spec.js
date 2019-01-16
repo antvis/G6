@@ -160,7 +160,7 @@ describe('node', () => {
       states: [ 'active' ]
     });
     const shape = node.get('keyShape');
-    expect(shape.attr('fill')).eql('white');
+    expect(shape.attr('fill')).eql('#fff');
     node.setState('selected', true);
     expect(shape.attr('fill')).eql('red');
     node.update({ x: 10 });
