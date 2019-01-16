@@ -254,3 +254,39 @@ Shape.registerEdge('cubic', {
     return path;
   }
 }, 'single-line');
+
+// 垂直方向的三阶贝塞尔曲线，不再考虑用户外部传入的控制点
+Shape.registerEdge('cubic-vertical', {
+  curvePosition: [ 1 / 3, 2 / 3 ],
+  getControlPoints(cfg) {
+    const { startPoint, endPoint } = cfg;
+    const innerPoint1 = {
+      x: startPoint.x,
+      y: (endPoint.y - startPoint.y) * this.curvePosition[0] + startPoint.y
+    };
+    const innerPoint2 = {
+      x: endPoint.x,
+      y: (endPoint.y - startPoint.y) * this.curvePosition[1] + startPoint.y
+    };
+    const controlPoints = [ innerPoint1, innerPoint2 ];
+    return controlPoints;
+  }
+}, 'cubic');
+
+// 水平方向的三阶贝塞尔曲线，不再考虑用户外部传入的控制点
+Shape.registerEdge('cubic-horizontal', {
+  curvePosition: [ 1 / 3, 2 / 3 ],
+  getControlPoints(cfg) {
+    const { startPoint, endPoint } = cfg;
+    const innerPoint1 = {
+      x: (endPoint.x - startPoint.x) * this.curvePosition[0] + startPoint.x,
+      y: startPoint.y
+    };
+    const innerPoint2 = {
+      x: (endPoint.x - startPoint.x) * this.curvePosition[1] + startPoint.x,
+      y: endPoint.y
+    };
+    const controlPoints = [ innerPoint1, innerPoint2 ];
+    return controlPoints;
+  }
+}, 'cubic');
