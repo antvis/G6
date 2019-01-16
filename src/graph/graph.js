@@ -297,11 +297,15 @@ class Graph extends EventEmitter {
    * @return {object} this
    */
   changeData(data) {
+    const self = this;
     if (!data) {
-      return;
+      return this;
+    }
+    if (!self.get('data')) {
+      self.data(data);
+      self.render();
     }
     const autoPaint = this.get('autoPaint');
-    const self = this;
     const itemMap = this.get('itemMap');
     const items = {
       nodes: [],
@@ -316,7 +320,7 @@ class Graph extends EventEmitter {
         self.remove(item);
       }
     });
-    this.set({ nodes: items.node, edges: this.edge });
+    this.set({ nodes: items.nodes, edges: items.edges });
     this.paint();
     this.setAutoPaint(autoPaint);
     return this;
