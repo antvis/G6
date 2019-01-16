@@ -41,7 +41,7 @@ class View {
   }
   focus(item) {
     if (Util.isString(item)) {
-      item = this.graph.itemById[item];
+      item = this.graph.findById[item];
     }
     if (item) {
       const model = item.get('model');
