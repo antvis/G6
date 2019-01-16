@@ -30,7 +30,7 @@ const singleNodeDefinition = Util.mix({}, SingleShapeMixin, {
    * @return {Array} 宽高
    */
   getSize(cfg) {
-    let size = cfg.size || Global.nodeSize;
+    let size = cfg.size || Global.defaultNode.size;
     if (!Util.isArray(size)) {
       size = [ size, size ];
     }
@@ -102,14 +102,13 @@ Shape.registerNode('circle', {
   shapeType: 'circle',
   getShapeStyle(cfg) {
     const size = this.getSize(cfg);
-    const color = cfg.color || Global.nodeColor;
+    const color = cfg.color || Global.defaultNode.color;
     const style = Util.mix({}, {
       x: 0, // 节点的位置在上层确定，所以这里仅使用相对位置即可
       y: 0,
       r: size[0] / 2, // size 一般可以提供宽高信息
-      stroke: color,
-      fill: 'white'
-    }, cfg.style);
+      stroke: color
+    }, Global.defaultNode.style, cfg.style);
     return style;
   }
 }, 'single-shape');
@@ -123,15 +122,14 @@ Shape.registerNode('ellipse', {
     const size = this.getSize(cfg);
     const rx = size[0] / 2;
     const ry = size[1] / 2;
-    const color = cfg.color || Global.nodeColor;
+    const color = cfg.color || Global.defaultNode.color;
     const style = Util.mix({}, {
       x: 0, // 节点的位置在上层确定，所以这里仅使用相对位置即可
       y: 0,
       rx, // size 一般可以提供宽高信息
       ry,
-      stroke: color,
-      fill: 'white'
-    }, cfg.style);
+      stroke: color
+    }, Global.defaultNode.style, cfg.style);
     return style;
   }
 }, 'single-shape');
@@ -145,14 +143,13 @@ Shape.registerNode('rect', {
     const size = this.getSize(cfg);
     const width = size[0];
     const height = size[1];
-    const color = cfg.color || Global.nodeColor;
-    const style = Util.mix({}, {
+    const color = cfg.color || Global.color;
+    const style = Util.mix({}, Global.defaultNode.style, {
       x: 0 - width / 2, // 节点的位置在上层确定，所以这里仅使用相对位置即可
       y: 0 - height / 2,
       width,
       height,
-      stroke: color,
-      fill: 'white'
+      stroke: color
     }, cfg.style);
     return style;
   }

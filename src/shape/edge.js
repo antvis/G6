@@ -59,8 +59,8 @@ const singleEdgeDefinition = Util.mix({}, SingleShapeMixin, {
     return path;
   },
   getShapeStyle(cfg) {
-    const color = cfg.color || Global.edgeColor;
-    const size = cfg.size;
+    const color = cfg.color || Global.defaultEdge.color;
+    const size = cfg.size || Global.defaultEdge.size;
     const startPoint = cfg.startPoint;
     const endPoint = cfg.endPoint;
     const controlPoints = this.getControlPoints(cfg);
@@ -72,7 +72,7 @@ const singleEdgeDefinition = Util.mix({}, SingleShapeMixin, {
     // 添加结束点
     points.push(endPoint);
     const path = this.getPath(points);
-    const style = Util.mix({}, {
+    const style = Util.mix({}, Global.defaultEdge.style, {
       stroke: color,
       lineWidth: size,
       path
