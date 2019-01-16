@@ -1,3 +1,7 @@
+const Util = require('../util');
+const abs = Math.abs;
+const DRAG_OFFSET = 10;
+
 module.exports = {
   getDefaultCfg() {
     return {
@@ -34,19 +38,22 @@ module.exports = {
     this.graph.paint();
   },
   onMouseDown(e) {
-    if (this.shouldBegin.call(this, e)) {
-      this.origin = { x: e.clientX, y: e.clientY };
-      this.dragging = false;
-    }
+    this.origin = { x: e.clientX, y: e.clientY };
+    this.dragging = false;
   },
   onMouseMove(e) {
+    e = Util.cloneEvent(e);
     const graph = this.graph;
     if (!this.origin) { return; }
     if (this.origin && !this.dragging) {
-      e.type = 'dragstart';
-      graph.emit('canvas:dragstart', e);
-      this.dragging = true;
-      return;
+      if (abs(this.origin.x - e.clientX) + abs(this.origin.y - e.clientY) < DRAG_OFFSET) {
+        return;
+      }
+      if (this.shouldBegin.call(this, e)) {
+        e.type = 'dragstart';
+        graph.emit('canvas:dragstart', e);
+        this.dragging = true;
+      }
     }
     if (this.dragging) {
       e.type = 'drag';
@@ -58,8 +65,10 @@ module.exports = {
   },
   onMouseUp(e) {
     if (!this.dragging) {
+      this.origin = null;
       return;
     }
+    e = Util.cloneEvent(e);
     const graph = this.graph;
     if (this.shouldEnd.call(this, e)) {
       this.updateViewport(e);

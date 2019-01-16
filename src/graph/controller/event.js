@@ -1,5 +1,4 @@
 const Util = require('../../util');
-const EventObject = require('@antv/g').Event;
 
 const EVENTS = [
   'click',
@@ -32,10 +31,6 @@ function getItemRoot(shape) {
   return shape;
 }
 
-function cloneEvent(e) {
-  return new EventObject(e.type, e, true, true);
-}
-
 class Event {
   constructor(graph) {
     this.graph = graph;
@@ -65,8 +60,11 @@ class Event {
     const self = this;
     const graph = self.graph;
     const canvas = graph.get('canvas');
+    const pixelRatio = canvas.get('pixelRatio');
     const target = e.target;
     const eventType = e.type;
+    e.x /= pixelRatio;
+    e.y /= pixelRatio;
     // 事件currentTarget是graph
     e.currentTarget = graph;
     if (target === canvas) {
@@ -114,7 +112,7 @@ class Event {
     const item = e.target === canvas ? null : e.item;
     const preItem = this.preItem;
     // 避免e的type与触发的事件不同
-    e = cloneEvent(e);
+    e = Util.cloneEvent(e);
     // 从前一个item直接移动到当前item，触发前一个item的leave事件
     if (preItem && preItem !== item) {
       e.item = preItem;
