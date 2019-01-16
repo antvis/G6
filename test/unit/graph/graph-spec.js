@@ -173,4 +173,16 @@ describe('graph', () => {
     expect(nodes.length).to.equal(1);
     expect(nodes[0]).to.equal(node2);
   });
+  it('refresh positions', () => {
+    const data = { id: 'node', x: 100, y: 50, size: 50, className: 'test test2' };
+    const node = graph.addItem('node', data);
+    const group = node.get('group');
+    expect(group.getMatrix()[6]).to.equal(100);
+    expect(group.getMatrix()[7]).to.equal(50);
+    data.x = 50;
+    data.y = 100;
+    graph.refreshPositions();
+    expect(group.getMatrix()[6]).to.equal(50);
+    expect(group.getMatrix()[7]).to.equal(100);
+  });
 });
