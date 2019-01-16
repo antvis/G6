@@ -269,6 +269,34 @@ describe('shape node test', () => {
       expect(label.attr('x')).eql(30);
       canvas.draw();
     });
+    it('change global node style', () => {
+      let group = canvas.addGroup();
+      let keyShape = factory.draw('ellipse', {
+        size: [ 60, 20 ],
+        color: 'green',
+        label: 'ellipse position',
+        labelCfg: {
+          position: 'top'
+        }
+      }, group);
+      expect(keyShape.attr('fill')).to.equal('#fff');
+      expect(keyShape.attr('stroke')).to.equal('green');
+      Global.defaultNode.style = {
+        fill: '#333',
+        stroke: '#666'
+      };
+      group = canvas.addGroup();
+      keyShape = factory.draw('ellipse', {
+        size: [ 60, 20 ],
+        color: 'green',
+        label: 'ellipse position',
+        labelCfg: {
+          position: 'top'
+        }
+      }, group);
+      expect(keyShape.attr('fill')).to.equal('#333');
+      expect(keyShape.attr('stroke')).to.equal('#666');
+    });
     it('clear', () => {
       canvas.destroy();
     });

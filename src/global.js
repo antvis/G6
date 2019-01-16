@@ -5,13 +5,21 @@
 
 module.exports = {
   version: '3.0.0-beta.8',
-  nodeSize: 40,
   rootContainerClassName: 'root-container',
   nodeContainerClassName: 'node-container',
   edgeContainerClassName: 'edge-container',
-  edgeSize: 2,
-  nodeColor: '#333',
-  edgeColor: '#333',
+  defaultNode: {
+    style: {
+      fill: '#fff'
+    },
+    size: 40,
+    color: '#333'
+  },
+  defaultEdge: {
+    style: {},
+    size: 2,
+    color: '#333'
+  },
   nodeLabel: {
     style: {
       fill: '#595959',
