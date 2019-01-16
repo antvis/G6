@@ -83,6 +83,9 @@ class Event {
       return;
     }
     const item = itemShape.get('item');
+    if (item.destroyed) {
+      return;
+    }
     const type = item.getType();
     // 事件target是触发事件的Shape实例，, item是触发事件的item实例
     e.target = target;
