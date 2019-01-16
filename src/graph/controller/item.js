@@ -21,6 +21,10 @@ class ItemController {
       if (target && Util.isString(target)) {
         target = graph.findById(target);
       }
+      if (!source || !target) {
+        console.warn('The source or target node of edge ' + model.id + ' does not exist!');
+        return;
+      }
       item = new Item[Util.upperFirst(type)]({
         model,
         source,

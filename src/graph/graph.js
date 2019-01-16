@@ -247,7 +247,7 @@ class Graph extends EventEmitter {
   }
 
   /**
-   * 刷新现有视图
+   * 当源数据在外部发生变更时，根据新数据刷新视图。但是不刷新节点位置
    */
   refresh() {
     const self = this;
@@ -261,6 +261,24 @@ class Graph extends EventEmitter {
       node.refresh();
     });
     self.emit('aftergraphrefresh');
+    self.autoPaint();
+  }
+
+  /**
+   * 当节点位置在外部发生改变时，刷新所有节点位置，重计算边
+   */
+  refreshPositions() {
+    const self = this;
+    self.emit('beforegraphrefreshposition');
+    const nodes = self.get('nodes');
+    const edges = self.get('edges');
+    Util.each(nodes, node => {
+      node.updatePosition({});
+    });
+    Util.each(edges, edge => {
+      edge.refresh();
+    });
+    self.emit('aftergraphrefreshposition');
     self.autoPaint();
   }
 
@@ -297,11 +315,15 @@ class Graph extends EventEmitter {
    * @return {object} this
    */
   changeData(data) {
+    const self = this;
     if (!data) {
-      return;
+      return this;
+    }
+    if (!self.get('data')) {
+      self.data(data);
+      self.render();
     }
     const autoPaint = this.get('autoPaint');
-    const self = this;
     const itemMap = this.get('itemMap');
     const items = {
       nodes: [],
@@ -316,7 +338,7 @@ class Graph extends EventEmitter {
         self.remove(item);
       }
     });
-    this.set({ nodes: items.node, edges: this.edge });
+    this.set({ nodes: items.nodes, edges: items.edges });
     this.paint();
     this.setAutoPaint(autoPaint);
     return this;
