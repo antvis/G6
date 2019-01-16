@@ -1,4 +1,4 @@
-const { Canvas } = require('@antv/g');
+const { Canvas } = require('@antv/g/lib');
 const Shape = require('../../../src/shape/shape');
 require('../../../src/shape/edge');
 const expect = require('chai').expect;
