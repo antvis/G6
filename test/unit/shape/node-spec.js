@@ -244,9 +244,31 @@ describe('shape node test', () => {
       expect(label.attr('y')).eql(0);
       expect(label.attr('x')).eql(30 + Global.nodeLabel.offset);
 
+      factory.update('ellipse', {
+        size: [ 60, 20 ],
+        color: 'green',
+        label: 'ellipse position',
+        labelCfg: {
+          position: 'right',
+          offset: 20
+        }
+      }, item);
+      expect(label.attr('y')).eql(0);
+      expect(label.attr('x')).eql(30 + 20);
+
+      factory.update('ellipse', {
+        size: [ 60, 20 ],
+        color: 'green',
+        label: 'ellipse position',
+        labelCfg: {
+          position: 'right',
+          offset: 0
+        }
+      }, item);
+      expect(label.attr('y')).eql(0);
+      expect(label.attr('x')).eql(30);
       canvas.draw();
     });
-
     it('clear', () => {
       canvas.destroy();
     });
