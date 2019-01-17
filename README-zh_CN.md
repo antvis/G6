@@ -9,9 +9,11 @@
 
 [English README](README.md)
 
-G6 是一个图可视化框架。它提供了一套图可视化的基础设置，能帮助开发者搭建属于自己的图 **图分析** 应用或是 **图编辑器** 应用。
+G6 是一个图可视化框架。它提供了一套图可视化的基础设置，能帮助开发者搭建属于自己的图 **图分析** 应用或是 **图编辑器** 应用。 
 
-[完整文档](https://www.yuque.com/antv/g6)
+**注意**： G6 3.0 版本带来了重大更新，目前正在beta测试中。欢迎开发者们试用，详情请见 [3.x文档](https://www.yuque.com/antv/g6/xauk5e)。
+
+[2.x 完整文档](https://www.yuque.com/antv/g6/introduce)
 
 <img src="https://user-images.githubusercontent.com/6113694/44995293-02858600-afd5-11e8-840c-349e4730d63d.gif" height=150><img src="https://cdn.nlark.com/yuque/0/2018/gif/93506/1535955277773-840190f8-836a-4bd6-875a-b3a18e6cebf1.gif" height=150><img src="https://user-images.githubusercontent.com/6113694/44995332-2ba61680-afd5-11e8-8cab-db0e9d08ceb7.gif" height=150>
 
@@ -22,7 +24,7 @@ G6 是一个图可视化框架。它提供了一套图可视化的基础设置�
 <img src="https://gw.alipayobjects.com/zos/rmsportal/nzmycBewjfxKDbepTDlT.gif" width=560>
 <img src="https://gw.alipayobjects.com/zos/rmsportal/WVqnbgJmamdahbAuDpBL.gif" width=560>
 
-## G6-Analyser [coming soon]
+## G6-Analyzer [coming soon]
 
 ![](https://gw.alipayobjects.com/zos/rmsportal/GxupfuhWyMZWwPWWYgaO.gif)
 
