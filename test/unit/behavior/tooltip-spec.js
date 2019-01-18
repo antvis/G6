@@ -1,7 +1,7 @@
 const expect = require('chai').expect;
 const G6 = require('../../../src');
 
-describe.only('tooltip', () => {
+describe('tooltip', () => {
   const div = document.createElement('div');
   div.id = 'tooltip-spec';
   document.body.appendChild(div);
