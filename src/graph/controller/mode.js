@@ -4,7 +4,7 @@
  */
 const Util = require('../../util');
 const Behavior = require('../../behavior');
-/* eslint-disable */
+
 function mergeBehaviors(modeBehaviors, behaviors) {
   Util.each(behaviors, behavior => {
     if (modeBehaviors.indexOf(behavior) < 0) {
@@ -88,15 +88,11 @@ class Mode {
     if (!modes) {
       modes = this.mode;
     }
-    console.log(add);
     if (add) {
-      console.log('in add');
       self.modes[modes] = mergeBehaviors(self.modes[modes], behaviors);
     } else {
-      console.log('in delete')
       self.modes[modes] = filterBehaviors(self.modes[modes], behaviors);
     }
-    console.log(self.modes.default.length);
     self.setMode(this.mode);
     return this;
   }
