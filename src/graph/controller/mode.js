@@ -4,7 +4,7 @@
  */
 const Util = require('../../util');
 const Behavior = require('../../behavior');
-
+/* eslint-disable */
 function mergeBehaviors(modeBehaviors, behaviors) {
   Util.each(behaviors, behavior => {
     if (modeBehaviors.indexOf(behavior) < 0) {
@@ -20,6 +20,7 @@ function mergeBehaviors(modeBehaviors, behaviors) {
 function filterBehaviors(modeBehaviors, behaviors) {
   const result = [];
   modeBehaviors.forEach(behavior => {
+    console.log(behavior.type)
     if (behaviors.indexOf(behavior.type) < 0) {
       result.push(behavior);
     }
@@ -91,9 +92,9 @@ class Mode {
     if (add) {
       self.modes[modes] = mergeBehaviors(self.modes[modes], behaviors);
     } else {
+      console.log(modes, self.modes[modes], behaviors);
       self.modes[modes] = filterBehaviors(self.modes[modes], behaviors);
     }
-    /* eslint-disable */
     console.log(self.modes.default.length);
     self.setMode(this.mode);
     return this;
