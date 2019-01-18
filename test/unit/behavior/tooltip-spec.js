@@ -34,6 +34,9 @@ describe('tooltip', () => {
     expect(style.visibility).to.equal('visible');
     expect(tooltip.innerHTML).to.equal('text');
     div.removeChild(tooltip);
+    graph.emit('node:mousemove', { x: 54, y: 54, item: node });
+    expect(style.left).to.equal('66px');
+    expect(style.top).to.equal('66px');
     graph.removeBehaviors('tooltip', 'default');
   });
   it('four places tooltip', () => {
@@ -99,5 +102,5 @@ describe('tooltip', () => {
     const tooltip = div.childNodes[1];
     expect(tooltip.innerHTML).to.equal('custom label');
   });
-  it('prevent default')
+  it('prevent default');
 });
