@@ -84,8 +84,6 @@ module.exports = {
     }
     const left = x + 'px';
     const top = y + 'px';
-    /* eslint-disable */
-    console.log(e.x, e.y, left, top);
     Util.modifyCSS(this.container, { left, top });
   },
   _createTooltip(canvas) {
