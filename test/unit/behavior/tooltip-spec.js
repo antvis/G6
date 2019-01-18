@@ -1,7 +1,7 @@
 const expect = require('chai').expect;
 const G6 = require('../../../src');
 
-describe('tooltip', () => {
+describe.only('tooltip', () => {
   const div = document.createElement('div');
   div.id = 'tooltip-spec';
   document.body.appendChild(div);
@@ -14,7 +14,6 @@ describe('tooltip', () => {
   });
   it('basic tooltip', () => {
     graph.addBehaviors('tooltip', 'default');
-    graph.setMode('default');
     const node = graph.addItem('node', { color: '#666', x: 50, y: 50, r: 20, style: { lineWidth: 2, fill: '#666' }, label: 'text' });
     graph.emit('node:mouseenter', { x: 52, y: 52, item: node });
     const tooltip = div.childNodes[1];
@@ -32,15 +31,14 @@ describe('tooltip', () => {
     expect(style.borderRadius).to.equal('4px');
     expect(style.visibility).to.equal('visible');
     expect(tooltip.innerHTML).to.equal('text');
-    div.removeChild(tooltip);
     graph.emit('node:mousemove', { x: 54, y: 54, item: node });
     expect(style.left).to.equal('66px');
     expect(style.top).to.equal('66px');
+    div.removeChild(tooltip);
     graph.removeBehaviors('tooltip', 'default');
   });
   it('four places tooltip', () => {
     graph.addBehaviors('tooltip', 'default');
-    graph.setMode('default');
     const lt = graph.addItem('node', { id: 'lt', color: '#666', x: 50, y: 50, r: 20, style: { lineWidth: 2, fill: '#666' }, label: 'text' });
     const rb = graph.addItem('node', { id: 'rb', color: '#666', x: 400, y: 400, r: 20, style: { lineWidth: 2, fill: '#666' }, label: 'text' });
     const rt = graph.addItem('node', { id: 'rt', color: '#666', x: 400, y: 50, r: 20, style: { lineWidth: 2, fill: '#666' }, label: 'text' });
