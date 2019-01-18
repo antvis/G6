@@ -156,6 +156,29 @@ describe('drag-node', () => {
     expect(matrix[6]).to.equal(50);
     expect(matrix[7]).to.equal(50);
   });
+  it('drag node not update edge', () => {
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: [{
+          type: 'drag-node',
+          delegate: false,
+          updateEdge: false
+        }]
+      },
+      pixelRatio: 2
+    });
+    const src = graph.addItem('node', { id: 'source', color: '#666', x: 50, y: 50, style: { lineWidth: 2, fill: '#666' } });
+    const target = graph.addItem('node', { id: 'target', color: '#666', x: 300, y: 300, shape: 'rect', style: { lineWidth: 2, fill: '#666' } });
+    const edge = graph.addItem('edge', { source: src, target, label: 'test label', labelCfg: { autoRotate: true } });
+    const keyShape = edge.get('keyShape');
+    const path = keyShape.attr('path');
+    graph.emit('node:dragstart', { item: src, clientX: 55, clientY: 55 });
+    graph.emit('node:drag', { item: src, clientX: 66, clientY: 66 });
+    expect(keyShape.attr('path')).to.equal(path);
+  });
   it('unbind', () => {
     const graph = new G6.Graph({
       container: div,
