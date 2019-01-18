@@ -102,5 +102,4 @@ describe('tooltip', () => {
     const tooltip = div.childNodes[1];
     expect(tooltip.innerHTML).to.equal('custom label');
   });
-  it('prevent default');
 });
