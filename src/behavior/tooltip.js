@@ -37,10 +37,6 @@ module.exports = {
     if (!this.shouldUpdate(e)) {
       return;
     }
-    if (!this.currentTarget || this.currentTarget !== e.item) {
-      this.hideTooltip();
-      return;
-    }
     this.updatePosition(e);
   },
   onMouseLeave(e) {
