@@ -20,7 +20,6 @@ function mergeBehaviors(modeBehaviors, behaviors) {
 function filterBehaviors(modeBehaviors, behaviors) {
   const result = [];
   modeBehaviors.forEach(behavior => {
-    console.log(behavior.type)
     if (behaviors.indexOf(behavior.type) < 0) {
       result.push(behavior);
     }
@@ -89,10 +88,12 @@ class Mode {
     if (!modes) {
       modes = this.mode;
     }
+    console.log(add);
     if (add) {
+      console.log('in add');
       self.modes[modes] = mergeBehaviors(self.modes[modes], behaviors);
     } else {
-      console.log(modes, self.modes[modes], behaviors);
+      console.log('in delete')
       self.modes[modes] = filterBehaviors(self.modes[modes], behaviors);
     }
     console.log(self.modes.default.length);
