@@ -89,6 +89,8 @@ class Mode {
     } else {
       self.modes[modes] = filterBehaviors(self.modes[modes], behaviors);
     }
+    /* eslint-disable */
+    console.log(self.modes.default.length);
     self.setMode(this.mode);
     return this;
   }
