@@ -91,11 +91,11 @@ class Event {
     e.target = target;
     e.item = item;
     graph.emit(eventType, e);
-    graph.emit(type + ':' + eventType, e);
     // g的事件会冒泡，如果target不是canvas，可能会引起同个节点触发多次，需要另外判断
     if (eventType === 'mouseenter' || eventType === 'mouseleave' || eventType === 'dragenter' || eventType === 'dragleave') {
       return;
     }
+    graph.emit(type + ':' + eventType, e);
     if (eventType === 'dragstart') {
       self.dragging = true;
     }
