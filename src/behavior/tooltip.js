@@ -4,17 +4,7 @@ const OFFSET = 12;
 module.exports = {
   getDefaultCfg() {
     return {
-      textStyle: {
-        stroke: '#575757',
-        fontSize: 12
-      },
-      backgroundStyle: {
-        fill: 'rgba(255,255,255,0.9)',
-        stroke: '#e2e2e2',
-        radius: 4
-      },
-      formatText(model) { return model.label; },
-      padding: [ 10, 6 ]
+      formatText(model) { return model.label; }
     };
   },
   getEvents() {
@@ -87,26 +77,13 @@ module.exports = {
     Util.modifyCSS(this.container, { left, top });
   },
   _createTooltip(canvas) {
-    const self = this;
-    const backgroundStyle = self.backgroundStyle;
-    const textStyle = self.textStyle;
     const el = canvas.get('el');
     el.style.position = 'relative';
     const container = Util.createDom('<div class="g6-tooltip"></div>');
-    const padding = Util.formatPadding(this.padding);
     el.parentNode.appendChild(container);
     Util.modifyCSS(container, {
       position: 'absolute',
-      backgroundColor: backgroundStyle.fill || 'rgba(255,255,255,0.9)',
-      border: '1px solid ' + backgroundStyle.stroke,
-      borderRadius: backgroundStyle.radius + 'px',
-      color: textStyle.stroke,
-      fontSize: textStyle.fontSize + 'px',
-      padding: padding[0] + 'px ' + padding[1] + 'px ' + padding[2] + 'px ' + padding[3] + 'px',
       visibility: 'visible',
-      boxShadow: '#aeaeae 0px 0px 10px',
-      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimSun, sans-serif',
-      transition: 'visibility 0.2s ease 0s'
     });
     this.width = canvas.get('width');
     this.height = canvas.get('height');
