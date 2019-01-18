@@ -97,8 +97,8 @@
     "prepublishOnly": "npm run build-lib && npm run build",
     "screenshot": "node ./bin/screenshot.js",
     "start": "npm run dev",
-    "test": "torch --compile --renderer --recursive ./test/unit",
-    "test-live": "torch --interactive --watch --recursive ./test/unit",
+    "test": "torch --compile --renderer --opts test/mocha.opts --recursive ./test/unit",
+    "test-live": "torch --interactive --watch --opts test/mocha.opts --recursive ./test/unit",
     "watch": "webpack --config webpack-dev.config.js",
     "win-dev": "node ./bin/win-dev.js"
   },
