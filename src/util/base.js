@@ -14,6 +14,7 @@ const BaseUtil = {
   isNil: require('@antv/util/lib/type/is-nil'),
   isArray: require('@antv/util/lib/type/is-array'),
   createDom: require('@antv/util/lib/dom/create-dom'),
+  modifyCSS: require('@antv/util/lib/dom/modify-css'),
   isPlainObject: require('@antv/util/lib/type/is-plain-object'),
   isNumber: require('@antv/util/lib/type/is-number'),
   isString: require('@antv/util/lib/type/is-string'),
