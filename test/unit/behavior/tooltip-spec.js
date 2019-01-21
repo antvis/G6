@@ -14,7 +14,7 @@ describe('tooltip', () => {
   });
   it('basic tooltip', () => {
     graph.addBehaviors({
-      type: 'tooltip',
+      type: 'tooltip'
     }, 'default');
     const node = graph.addItem('node', { color: '#666', x: 50, y: 50, r: 20, style: { lineWidth: 2, fill: '#666' }, label: 'text' });
     graph.emit('node:mouseenter', { x: 52, y: 52, item: node });
