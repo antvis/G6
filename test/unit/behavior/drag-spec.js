@@ -117,4 +117,36 @@ describe('drag-canvas', () => {
     graph.emit('canvas:mouseup', { clientX: 200, clientY: 200 });
     expect(start).to.be.false;
   });
+  it('drag offset', () => {
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: [{
+          type: 'drag-canvas'
+        }]
+      },
+      pixelRatio: 2
+    });
+    let triggered = false;
+    let dragging = false;
+    graph.on('canvas:dragstart', () => {
+      triggered = true;
+    });
+    graph.on('canvas:drag', () => {
+      dragging = true;
+    });
+    graph.emit('canvas:mousedown', { clientX: 150, clientY: 150 });
+    graph.emit('canvas:mousemove', { clientX: 150, clientY: 150 });
+    expect(triggered).to.be.false;
+    expect(dragging).to.be.false;
+    graph.emit('canvas:mousemove', { clientX: 160, clientY: 160 });
+    expect(triggered).to.be.true;
+    expect(dragging).to.be.true;
+    dragging = false;
+    graph.emit('canvas:click', { clientX: 170, clientY: 170 });
+    graph.emit('canvas:mousemove', { clientX: 170, clientY: 170 });
+    expect(dragging).to.be.false;
+  });
 });
