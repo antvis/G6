@@ -83,7 +83,7 @@ module.exports = {
     el.parentNode.appendChild(container);
     Util.modifyCSS(container, {
       position: 'absolute',
-      visibility: 'visible',
+      visibility: 'visible'
     });
     this.width = canvas.get('width');
     this.height = canvas.get('height');
