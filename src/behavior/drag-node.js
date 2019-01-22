@@ -71,7 +71,7 @@ module.exports = {
     if (this.get('updateEdge')) {
       this.graph.updateItem(item, { x, y });
     } else {
-      item.update({ x, y });
+      item.updatePosition({ x, y });
       this.graph.paint();
     }
   },
