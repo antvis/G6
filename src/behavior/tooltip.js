@@ -27,6 +27,9 @@ module.exports = {
     if (!this.shouldUpdate(e)) {
       return;
     }
+    if (!this.currentTarget || e.item !== this.currentTarget) {
+      return;
+    }
     this.updatePosition(e);
   },
   onMouseLeave(e) {
@@ -44,6 +47,7 @@ module.exports = {
     let container = self.container;
     if (!container) {
       container = self._createTooltip(self.graph.get('canvas'));
+      self.container = container;
     }
     const text = self.formatText(e.item.get('model'), e);
     container.innerHTML = text;
