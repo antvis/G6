@@ -77,7 +77,8 @@
     "uglify-js": "~3.1.10",
     "webpack": "~4.10.2",
     "webpack-cli": "~3.0.0",
-    "worker-loader": "^2.0.0"
+    "worker-loader": "^2.0.0",
+    "@antv/hierarchy": "~0.4.0"
   },
   "scripts": {
     "update": "rm -rf node_modules/ && tnpm i && rm -rf build && tnpm run build",

@@ -138,11 +138,15 @@ class ItemController {
     }
     graph.emit('beforeitemvisibilitychange', { item, visible });
     item.changeVisibility(visible);
-    // 若隐藏节点，则将与之关联的边也隐藏
     if (item.getType() === NODE) {
       const autoPaint = graph.get('autoPaint');
       graph.setAutoPaint(false);
       Util.each(item.getEdges(), edge => {
+        // 若隐藏节点，则将与之关联的边也隐藏
+        // 若显示节点，需要边两端的节点都是显示的
+        if (visible && (!(edge.get('source').isVisible() && edge.get('target').isVisible()))) {
+          return;
+        }
         self.changeItemVisibility(edge, visible);
       });
       graph.setAutoPaint(autoPaint);
