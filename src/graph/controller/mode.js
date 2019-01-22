@@ -18,9 +18,13 @@ function mergeBehaviors(modeBehaviors, behaviors) {
 }
 
 function filterBehaviors(modeBehaviors, behaviors) {
-  return modeBehaviors.filter(behavior => {
-    return behaviors.indexOf(behavior.type) < 0;
+  const result = [];
+  modeBehaviors.forEach(behavior => {
+    if (behaviors.indexOf(behavior.type) < 0) {
+      result.push(behavior);
+    }
   });
+  return result;
 }
 
 class Mode {
