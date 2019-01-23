@@ -64,13 +64,16 @@ describe('shape test', () => {
   it('extend shape', () => {
     const factory = Shape.getFactory('test');
     let isUpdate = false;
+    let isAfterUpdate = false;
     Shape.registerTest('t4', {
       draw() {},
-      update() { isUpdate = true; }
+      update() { isUpdate = true; },
+      afterUpdate() { isAfterUpdate = true; }
     }, 't3');
     expect(factory.shouldUpdate('t4')).eql(true);
     factory.update('t4');
     expect(isUpdate).to.be.true;
+    expect(isAfterUpdate).to.be.true;
   });
 
   it('getControlPoints', () => {
