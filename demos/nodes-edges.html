@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>内置的节点和边</title>
+</head>
+<body>
+<div id="mountNode"></div>
+<script src="../build/g6.js"></script>
+<script>
+	const data = {
+	  nodes: [{
+	    x: 100,
+	    y: 100,
+	    shape: 'circle',
+	    label: 'circle',
+	    labelCfg: {
+	      position: 'bottom'
+	    }
+	 },{
+	    x: 200,
+	    y: 100,
+	    shape: 'rect',
+	   	label: 'rect',
+	   	labelCfg: {
+	      position: 'bottom'
+	    }
+	 },{
+	    x: 300,
+	    y: 100,
+	    size: [60, 30],
+	    shape: 'ellipse',
+	   	label: 'ellipse',
+	   	labelCfg: {
+	      position: 'bottom'
+	    }
+	 },{
+	    x: 400,
+	    y: 100,
+	    shape: 'image',
+	    img: 'https://gw.alipayobjects.com/zos/rmsportal/XuVpGqBFxXplzvLjJBZB.svg',
+	   	label: 'image',
+	   	labelCfg: {
+	      position: 'bottom'
+	    }
+	 }
+	 ],
+	edges: [
+	  {
+	    source: {x: 100, y: 200},
+	    target: {x: 200, y: 200},
+	    label: 'line',
+	    labelCfg: {
+	      refY: 10
+	    }
+	  },
+	  {
+	    source: {x: 250, y: 200},
+	    target: {x: 360, y: 200},
+	    controlPoints: [{x: 300, y: 220}],
+	    shape: 'polyline',
+	    label: 'polyline',
+	    labelCfg: {
+	      refY: 10,
+	      refX: 0
+	    }
+	  },
+	  {
+	    source: {x: 100, y: 300},
+	    target: {x: 200, y: 300},
+	    shape: 'quadratic',
+	    label: 'quadratic',
+	    labelCfg: {
+	      refY: 10,
+	      refX: 0
+	    }
+	  },{
+	    source: {x: 250, y: 300},
+	    target: {x: 360, y: 300},
+	    shape: 'cubic',
+	    label: 'cubic',
+	    labelCfg: {
+	      refY: 10,
+	      refX: 0
+	    }
+	  }
+	]};
+	const graph = new G6.Graph({
+    container: 'mountNode',
+    width: 1000,
+    height: 600
+  });
+  graph.data(data);
+  graph.render();
+</script>
+</body>
+</html>
