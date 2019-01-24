@@ -107,7 +107,7 @@
 	G6.registerEdge('line-dash', {
 		afterDraw(cfg, group) {
 			const shape = group.get('children')[0];
-			const length = 200; // 后续 G 增加 totalLength 的接口
+			const length = shape.getTotalLength(); // G 增加了 totalLength 的接口
 			let totalArray = [];
 			for (var i = 0; i < length; i += interval) {
 				totalArray = totalArray.concat(lineDash);
@@ -129,7 +129,7 @@
 	G6.registerEdge('line-growth', {
 		afterDraw(cfg, group) {
 			const shape = group.get('children')[0];
-			const length = 200; // 后续 G 增加 totalLength 的接口
+			const length = shape.getTotalLength(); // G 增加了 totalLength 的接口
 			
 			shape.animate({
 				onFrame(ratio) {
