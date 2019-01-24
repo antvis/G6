@@ -3,8 +3,8 @@
  * @author huangtonger@aliyun.com
  */
 
-const EventEmitter = require('@antv/g/lib/').EventEmitter;
 const G = require('@antv/g/lib');
+const EventEmitter = G.EventEmitter;
 const Util = require('../util');
 const Global = require('../global');
 
@@ -629,6 +629,27 @@ class Graph extends EventEmitter {
     this.get('eventController').destroy();
     this.get('canvas').destroy();
     this.destroyed = true;
+  }
+  stopAnimate() {
+    const self = this;
+    const canvas = self.get('canvas');
+    canvas.stopAnimate();
+    self.set('animating', false);
+  }
+  positionAnimate(fn, duration, ease, onFinish, delay = 0) {
+    const self = this;
+    const canvas = self.get('canvas');
+    if (self.get('animating')) {
+      canvas.stopAnimate();
+    }
+    self.set('animating', true);
+    canvas.animate({ onFrame(ratio) {
+      fn(ratio);
+      self.refreshPositions();
+    } }, duration, ease, () => {
+      onFinish();
+      self.set('animating', false);
+    }, delay);
   }
 }
 
