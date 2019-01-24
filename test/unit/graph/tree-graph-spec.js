@@ -6,7 +6,7 @@ const div = document.createElement('div');
 div.id = 'tree-spec';
 document.body.appendChild(div);
 
-describe('tree graph', () => {
+describe.only('tree graph', () => {
   const graph = new G6.TreeGraph({
     container: div,
     width: 500,
@@ -159,5 +159,41 @@ describe('tree graph', () => {
     expect(graph.findById('SubTreeNode3:SubTreeNode3.1')).to.be.undefined;
     expect(graph.findById('SubTreeNode3.1.1')).to.be.undefined;
     expect(graph.findById('SubTreeNode3.1:SubTreeNode3.1.1')).to.be.undefined;
+  });
+  it('collapse & expand animate', () => {
+    G6.Global.defaultNode.style.fill = '#fff';
+    graph.addBehaviors({
+      type: 'collapse-expand',
+      onChange(item, collapsed) {
+        let data = graph.get('data');
+        item.get('model').data.collapsed = collapsed;
+        data = Hierarchy.dendrogram(data.data, {
+          direction: 'LR', // H / V / LR / RL / TB / BT
+          nodeSep: 200,
+          getId(d) {
+            return d.id;
+          },
+          getHeight() {
+            return NODE_SIZE;
+          },
+          getWidth() {
+            return NODE_SIZE;
+          },
+          getHGap() {
+            return 10;
+          },
+          getVGap() {
+            return 10;
+          },
+          getSubTreeSep(d) {
+            if (!d.children || !d.children.length) {
+              return 0;
+            }
+            return PEM;
+          }
+        });
+        return data;
+      }
+    }, 'default');
   });
 });
