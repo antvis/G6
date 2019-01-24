@@ -56,6 +56,7 @@ class TreeGraph extends Graph {
     const autoPaint = this.get('autoPaint');
     self.setAutoPaint(false);
     self.updateChild(data, null, true);
+    self.data(data);
     self.paint();
     self.setAutoPaint(autoPaint);
   }
