@@ -6,6 +6,10 @@ const div = document.createElement('div');
 div.id = 'tree-spec';
 document.body.appendChild(div);
 
+function isNumberEqual(a, b) {
+  return Math.abs(a - b) < 0.0001;
+}
+
 describe.only('tree graph', () => {
   const graph = new G6.TreeGraph({
     container: div,
@@ -160,10 +164,56 @@ describe.only('tree graph', () => {
     expect(graph.findById('SubTreeNode3.1.1')).to.be.undefined;
     expect(graph.findById('SubTreeNode3.1:SubTreeNode3.1.1')).to.be.undefined;
   });
-  it('collapse & expand animate', () => {
-    G6.Global.defaultNode.style.fill = '#fff';
+  xit('collapse & expand without onChange', () => {
     graph.addBehaviors({
       type: 'collapse-expand',
+      /*animate: false*/
+    }, 'default');
+    const root = graph.get('root');
+    const child = graph.findById('SubTreeNode1');
+    const leave = graph.findById('SubTreeNode1.1');
+   // graph.emit('node:click', { item: root });
+    expect(root.isVisible()).to.be.true;
+    expect(child.isVisible()).to.be.false;
+    expect(leave.isVisible()).to.be.false;
+    expect(child.hasState('collapsed')).to.be.true;
+    expect(leave.hasState('collapsed')).to.be.true;
+    graph.emit('node:click', { item: root });
+    expect(root.isVisible()).to.be.true;
+    expect(child.isVisible()).to.be.true;
+    expect(leave.isVisible()).to.be.true;
+    expect(child.hasState('collapsed')).to.be.false;
+    expect(leave.hasState('collapsed')).to.be.false;
+    graph.removeBehaviors('collapse-expand', 'default');
+  });
+  it('collapse & expand animate', done => {
+    G6.Global.defaultNode.style.fill = '#fff';
+    const parent = graph.findById('SubTreeNode1');
+    const child = graph.findById('SubTreeNode1.1');
+    let collapsed = true;
+    graph.addBehaviors({
+      type: 'collapse-expand',
+      animate: {
+        duration: 500,
+        callback() {
+          if (collapsed) {
+            expect(parent.get('collapsed')).to.be.true;
+            expect(parent.hasState('collapsed')).to.be.true;
+            expect(isNumberEqual(child.get('model').x, parent.get('model').x)).to.be.true;
+            expect(!!child.get('collapsed')).to.be.false;
+            expect(child.hasState('collapsed')).to.be.true;
+            expect(isNumberEqual(child.get('model').y, parent.get('model').y)).to.be.true;
+          } else {
+            expect(parent.get('collapsed')).to.be.false;
+            expect(parent.hasState('collapsed')).to.be.false;
+            expect(child.get('model').x).not.to.equal(parent.get('model').x);
+            expect(!!child.get('collapsed')).to.be.false;
+            expect(child.hasState('collapsed')).to.be.false;
+            expect(child.get('model').y).not.to.equal(parent.get('model').y);
+            done();
+          }
+        }
+      },
       onChange(item, collapsed) {
         let data = graph.get('data');
         item.get('model').data.collapsed = collapsed;
@@ -195,5 +245,10 @@ describe.only('tree graph', () => {
         return data;
       }
     }, 'default');
+    graph.emit('node:click', { item: parent });
+    setTimeout(() => {
+      collapsed = false;
+      graph.emit('node:click', { item: parent });
+    }, 600);
   });
 });
