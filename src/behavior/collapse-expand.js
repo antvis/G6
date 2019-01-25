@@ -31,6 +31,7 @@ module.exports = {
     const changedData = this.onChange(item, isCollapsed);
     if (changedData) {
       if (this.animate) {
+        // 有动画，且有
         if (this.graph.get('animating')) {
           this.graph.stopAnimate();
         }
@@ -40,12 +41,25 @@ module.exports = {
         this.graph.changeData(changedData);
       }
     } else {
-      if (isCollapsed) {
-        this.collapse(item);
+      if (this.animate) {
+        const model = item.get('model');
+        if (isCollapsed) {
+          this.collapsePosition(item, {
+            x: model.x,
+            y: model.y
+          });
+        } else {
+          this.expandPosition(item, { x: model.x, y: model.y });
+        }
+        this.performAnimate();
       } else {
-        this.expand(item);
+        if (isCollapsed) {
+          this.collapse(item);
+        } else {
+          this.expand(item);
+        }
+        this.graph.paint();
       }
-      this.graph.paint();
     }
   },
   // 执行位置动画
@@ -71,6 +85,7 @@ module.exports = {
           node.set('shouldHide', false);
           graph.hideItem(node);
         }
+        node.set('deltaPosition', null);
       });
       graph.paint();
       animate.callback();
@@ -112,15 +127,34 @@ module.exports = {
     Util.each(node.get('model').children, child => {
       child = self.graph.findById(child.id);
       const model = child.get('model');
+      if (!child.get('origin')) {
+        child.set('origin', { x: model.x, y: model.y });
+      }
       child.set('deltaPosition', {
         x: toPoint.x - model.x,
         y: toPoint.y - model.y
       });
       child.set('shouldHide', true);
-      self.collapsePosition(child, toPoint);
+      if (!child.get('collapsed')) {
+        self.collapsePosition(child, toPoint);
+      }
     });
   },
-  // 设置子树的collapse状态
+  // 张开的节点，从startPoint开始，动画到节点原本的位置
+  expandPosition(item, startPoint) {
+    const self = this;
+    const children = item.get('model').children;
+    Util.each(children, child => {
+      child = self.graph.findById(child.id);
+      self.graph.showItem(child);
+      const origin = child.get('origin');
+      child.set('deltaPosition', { x: origin.x - startPoint.x, y: origin.y - startPoint.y });
+      if (!child.get('collapsed')) {
+        self.expandPosition(child, startPoint);
+      }
+    });
+  },
+  // 设置子节点的状态
   setChildrenState(item, state, enabled) {
     const self = this;
     // 如果父节点展开了，子节点还有原本就收缩的，不设置这个子树的状态
@@ -133,6 +167,7 @@ module.exports = {
       self.setChildrenState(node, state, enabled);
     });
   },
+  // 不包含动画，仅展示展开节点
   expand(item) {
     const self = this;
     const graph = self.graph;
@@ -147,6 +182,7 @@ module.exports = {
       self.expand(node);
     });
   },
+  // 不包含动画，仅隐藏收缩节点
   collapse(item) {
     const self = this;
     const graph = self.graph;
