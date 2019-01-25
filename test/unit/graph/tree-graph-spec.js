@@ -164,10 +164,45 @@ describe('tree graph', () => {
     expect(graph.findById('SubTreeNode3.1.1')).to.be.undefined;
     expect(graph.findById('SubTreeNode3.1:SubTreeNode3.1.1')).to.be.undefined;
   });
+  it('collapse & expand with default animate', done => {
+    const parent = graph.findById('SubTreeNode1');
+    const child = graph.findById('SubTreeNode1.1');
+    let collapsed = true;
+    graph.addBehaviors({
+      type: 'collapse-expand',
+      animate: {
+        duration: 500,
+        callback() {
+          if (collapsed) {
+            expect(parent.get('collapsed')).to.be.true;
+            expect(parent.hasState('collapsed')).to.be.true;
+            expect(isNumberEqual(child.get('model').x, parent.get('model').x)).to.be.true;
+            expect(!!child.get('collapsed')).to.be.false;
+            expect(child.hasState('collapsed')).to.be.true;
+            expect(isNumberEqual(child.get('model').y, parent.get('model').y)).to.be.true;
+          } else {
+            expect(parent.get('collapsed')).to.be.false;
+            expect(parent.hasState('collapsed')).to.be.false;
+            expect(child.get('model').x).not.to.equal(parent.get('model').x);
+            expect(!!child.get('collapsed')).to.be.false;
+            expect(child.hasState('collapsed')).to.be.false;
+            expect(child.get('model').y).not.to.equal(parent.get('model').y);
+            graph.removeBehaviors('collapse-expand', 'default');
+            done();
+          }
+        }
+      }
+    }, 'default');
+    graph.emit('node:click', { item: parent });
+    setTimeout(() => {
+      collapsed = false;
+      graph.emit('node:click', { item: parent });
+    }, 600);
+  });
   it('collapse & expand without onChange', () => {
     graph.addBehaviors({
       type: 'collapse-expand',
-       animate: false
+      animate: false
     }, 'default');
     const root = graph.get('root');
     const child = graph.findById('SubTreeNode1');
