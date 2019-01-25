@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>边的动画</title>
+</head>
+<body>
+<div id="mountNode"></div>
+<script src="../build/g6.js"></script>
+<script>
+	const data = {
+	  nodes: [{
+	  	id: 'node1',
+	    x: 100,
+	    y: 100,
+	    shape: 'circle',
+	    label: 'circle',
+	    labelCfg: {
+	      position: 'bottom'
+	    }
+	 },{
+	 		id: 'node2',
+	    x: 300,
+	    y: 200,
+	    shape: 'rect',
+	   	label: 'rect',
+	   	labelCfg: {
+	      position: 'bottom'
+	    }
+	},{
+	 		id: 'node3',
+	    x: 400,
+	    y: 100,
+	    shape: 'rect',
+	   	label: 'rect',
+	   	labelCfg: {
+	      position: 'bottom'
+	    }
+	},{
+	 		id: 'node4',
+	    x: 300,
+	    y: 400,
+	    shape: 'rect',
+	   	label: 'rect',
+	   	labelCfg: {
+	      position: 'bottom'
+	    }
+	}],
+	edges: [
+	  {
+	    source: 'node1',
+	    target: 'node2',
+	    shape: 'circle-running'
+	  },
+	  {
+	    source: 'node3',
+	    target: 'node2',
+	    shape: 'line-dash'
+	  },
+	  {
+	    source: 'node2',
+	    target: 'node4',
+	    shape: 'line-growth'
+	  }
+	]};
+	G6.registerEdge('circle-running', {
+		afterDraw(cfg, group) {
+			const shape = group.get('children')[0];
+			const startPoint = shape.getPoint(0);
+			const circle = group.addShape('circle', {
+				attrs: {
+					x: startPoint.x,
+					y: startPoint.y,
+					fill: 'red',
+					r: 3
+				}
+			});
+			circle.animate({
+				onFrame(ratio) {
+					const tmpPoint = shape.getPoint(ratio);
+					return {
+						x: tmpPoint.x,
+						y: tmpPoint.y
+					};
+
+				},
+				repeat: true
+			}, 3000);
+		}
+	}, 'cubic');
+
+	// lineDash 的差值，可以在后面提供 util 方法自动计算
+	const dashArray = [
+		[0,1],
+		[0,2],
+		[1,2],
+		[0,1,1,2],
+		[0,2,1,2],
+		[1,2,1,2],
+		[2,2,1,2],
+		[3,2,1,2],
+		[4,2,1,2]
+	];
+
+	const lineDash = [4, 2, 1, 2];
+	const interval = 9;
+	G6.registerEdge('line-dash', {
+		afterDraw(cfg, group) {
+			const shape = group.get('children')[0];
+			const length = shape.getTotalLength(); // G 增加了 totalLength 的接口
+			let totalArray = [];
+			for (var i = 0; i < length; i += interval) {
+				totalArray = totalArray.concat(lineDash);
+			}
+			let index = 0;
+			shape.animate({
+				onFrame(ratio) {
+					const cfg = {
+						lineDash: dashArray[index].concat(totalArray)
+					};
+					index = (index + 1) % interval;
+					return cfg;
+				},
+				repeat: true
+			}, 3000);
+		}
+	}, 'cubic');
+
+	G6.registerEdge('line-growth', {
+		afterDraw(cfg, group) {
+			const shape = group.get('children')[0];
+			const length = shape.getTotalLength(); // G 增加了 totalLength 的接口
+			
+			shape.animate({
+				onFrame(ratio) {
+					const startLen = ratio * length;
+					const cfg = {
+						lineDash: [startLen, length - startLen]
+					};
+					
+					return cfg;
+				},
+				repeat: true
+			}, 2000);
+		}
+	}, 'cubic');
+
+	const graph = new G6.Graph({
+    container: 'mountNode',
+    width: 1000,
+    height: 600
+  });
+  graph.data(data);
+  graph.render();
+</script>
+</body>
+</html>
