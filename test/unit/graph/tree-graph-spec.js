@@ -10,7 +10,7 @@ function isNumberEqual(a, b) {
   return Math.abs(a - b) < 0.0001;
 }
 
-describe.only('tree graph', () => {
+describe('tree graph', () => {
   const graph = new G6.TreeGraph({
     container: div,
     width: 500,
@@ -164,15 +164,15 @@ describe.only('tree graph', () => {
     expect(graph.findById('SubTreeNode3.1.1')).to.be.undefined;
     expect(graph.findById('SubTreeNode3.1:SubTreeNode3.1.1')).to.be.undefined;
   });
-  xit('collapse & expand without onChange', () => {
+  it('collapse & expand without onChange', () => {
     graph.addBehaviors({
       type: 'collapse-expand',
-      /*animate: false*/
+       animate: false
     }, 'default');
     const root = graph.get('root');
     const child = graph.findById('SubTreeNode1');
     const leave = graph.findById('SubTreeNode1.1');
-   // graph.emit('node:click', { item: root });
+    graph.emit('node:click', { item: root });
     expect(root.isVisible()).to.be.true;
     expect(child.isVisible()).to.be.false;
     expect(leave.isVisible()).to.be.false;
