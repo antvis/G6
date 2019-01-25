@@ -56,6 +56,7 @@ const ShapeFactoryBase = {
     const shape = this.getShape(type);
     if (shape.update) { // 防止没定义 update 函数
       shape.update(cfg, item);
+      shape.afterUpdate(cfg, item);
     }
   },
   /**
@@ -109,6 +110,10 @@ const ShapeBase = {
    * 绘制完成后的操作，便于用户继承现有的节点、边
    */
   afterDraw(/* cfg, group */) {
+
+  },
+  // update(cfg, item) // 默认不定义
+  afterUpdate(/* cfg, item */) {
 
   },
   /**
