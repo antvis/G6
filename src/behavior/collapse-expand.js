@@ -31,17 +31,20 @@ module.exports = {
     const changedData = this.onChange(item, isCollapsed);
     if (changedData) {
       if (this.animate) {
-        // 有动画，且有
+        // 有动画，且有重布局，先停掉原有动画
         if (this.graph.get('animating')) {
           this.graph.stopAnimate();
         }
+        // 计算每个节点移动的起始位置和最终位置
         this.animateChild(changedData);
         this.performAnimate();
       } else {
+        // 仅有重布局
         this.graph.changeData(changedData);
       }
     } else {
       if (this.animate) {
+        // 没有重布局，有动画的情况
         const model = item.get('model');
         if (isCollapsed) {
           this.collapsePosition(item, {
@@ -53,6 +56,7 @@ module.exports = {
         }
         this.performAnimate();
       } else {
+        // 没有重布局，没有动画
         if (isCollapsed) {
           this.collapse(item);
         } else {
