@@ -10,7 +10,7 @@ function isNumberEqual(a, b) {
   return Math.abs(a - b) < 0.0001;
 }
 
-describe('tree graph', () => {
+describe('tree graph without layout', () => {
   const graph = new G6.TreeGraph({
     container: div,
     width: 500,
@@ -285,5 +285,143 @@ describe('tree graph', () => {
       collapsed = false;
       graph.emit('node:click', { item: parent });
     }, 600);
+  });
+});
+
+describe('tree graph with layout', () => {
+  const NODE_SIZE = 16;
+  let count = 0;
+  const graph = new G6.TreeGraph({
+    container: div,
+    width: 500,
+    height: 500,
+    pixelRatio: 2,
+    modes: {
+      default: [ 'drag-canvas' ]
+    },
+    layout: data => {
+      count++;
+      return Hierarchy.dendrogram(data, {
+        direction: 'LR', // H / V / LR / RL / TB / BT
+        nodeSep: 200,
+        getId(d) {
+          return d.id;
+        },
+        getHeight() {
+          return NODE_SIZE;
+        },
+        getWidth() {
+          return NODE_SIZE;
+        },
+        getHGap() {
+          return 10;
+        },
+        getVGap() {
+          return 10;
+        },
+        getSubTreeSep(d) {
+          if (!d.children || !d.children.length) {
+            return 0;
+          }
+          return 10;
+        }
+      });
+    }
+  });
+  it('layout init', () => {
+    const data = {
+      isRoot: true,
+      id: 'Root',
+      children: [
+        {
+          id: 'SubTreeNode1',
+          children: [
+            {
+              id: 'SubTreeNode1.1'
+            },
+            {
+              id: 'SubTreeNode1.2'
+            }
+          ]
+        },
+        {
+          id: 'SubTreeNode2'
+        }
+      ]
+    };
+    graph.data(data);
+    graph.render();
+    graph.fitView();
+    const rootNode = graph.get('root');
+    expect(rootNode).not.to.be.undefined;
+    expect(rootNode.get('model').id).to.equal('Root');
+    expect(Object.keys(graph.get('itemMap')).length).to.equal(9);
+    const edge = graph.findById('Root:SubTreeNode1');
+    expect(edge).not.to.be.undefined;
+    expect(edge.get('source')).to.equal(graph.findById('Root'));
+    expect(edge.get('target')).to.equal(graph.findById('SubTreeNode1'));
+    expect(graph.save()).to.equal(data);
+    expect(count).to.equal(1);
+  });
+  it('changeData', () => {
+    const data = {
+      isRoot: true,
+      id: 'Root',
+      children: [
+        {
+          id: 'SubTreeNode1',
+          children: [
+            {
+              id: 'SubTreeNode1.1'
+            },
+            {
+              id: 'SubTreeNode1.2'
+            }
+          ]
+        },
+        {
+          id: 'SubTreeNode3'
+        }, {
+          id: 'SubTreeNode4',
+          children: [{ id: 'SubTreeNode4.1' }]
+        }
+      ]
+    };
+    graph.changeData(data);
+    expect(graph.save()).to.equal(data);
+    expect(Object.keys(graph.get('itemMap')).length).to.equal(13);
+    expect(graph.findById('SubTreeNode2')).to.be.undefined;
+    expect(graph.findById('SubTreeNode3')).not.to.be.undefined;
+    expect(graph.findById('SubTreeNode4')).not.to.be.undefined;
+    const edge = graph.findById('SubTreeNode4:SubTreeNode4.1');
+    expect(edge).not.to.be.undefined;
+    expect(edge.get('source')).to.equal(graph.findById('SubTreeNode4'));
+    expect(edge.get('target')).to.equal(graph.findById('SubTreeNode4.1'));
+    expect(count).to.equal(2);
+  });
+  it('add child', () => {
+    const parent = graph.findById('SubTreeNode3');
+    const child = { id: 'SubTreeNode3.1', x: 100, y: 100, shape: 'rect', children: [{ x: 150, y: 150, id: 'SubTreeNode3.1.1' }] };
+    graph.addChild(child, parent);
+    const children = parent.get('model').children;
+    expect(children).not.to.be.undefined;
+    expect(children.length).to.equal(1);
+    expect(children[0].id).to.equal('SubTreeNode3.1');
+    expect(graph.findById('SubTreeNode3.1')).not.to.be.undefined;
+    expect(graph.findById('SubTreeNode3:SubTreeNode3.1')).not.to.be.undefined;
+    expect(graph.findById('SubTreeNode3.1.1')).not.to.be.undefined;
+    expect(graph.findById('SubTreeNode3.1:SubTreeNode3.1.1')).not.to.be.undefined;
+    expect(count).to.equal(3);
+  });
+  it('remove child', () => {
+    graph.removeChild('SubTreeNode3.1');
+    const parent = graph.findById('SubTreeNode3');
+    const children = parent.get('model').children;
+    expect(children.length).to.equal(0);
+    expect(graph.findById('SubTreeNode3.1')).to.be.undefined;
+    expect(graph.findById('SubTreeNode3:SubTreeNode3.1')).to.be.undefined;
+    expect(graph.findById('SubTreeNode3.1.1')).to.be.undefined;
+    expect(graph.findById('SubTreeNode3.1:SubTreeNode3.1.1')).to.be.undefined;
+    expect(count).to.equal(4);
   });
 });
