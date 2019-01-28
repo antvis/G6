@@ -1,4 +1,4 @@
-const Util = require('../../src/util');
+const Util = require('../util');
 const OFFSET = 12;
 
 module.exports = {
