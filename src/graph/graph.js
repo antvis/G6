@@ -3,8 +3,8 @@
  * @author huangtonger@aliyun.com
  */
 
-const EventEmitter = require('@antv/g/lib/').EventEmitter;
 const G = require('@antv/g/lib');
+const EventEmitter = G.EventEmitter;
 const Util = require('../util');
 const Global = require('../global');
 
