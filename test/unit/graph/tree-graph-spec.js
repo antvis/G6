@@ -424,4 +424,14 @@ describe('tree graph with layout', () => {
     expect(graph.findById('SubTreeNode3.1:SubTreeNode3.1.1')).to.be.undefined;
     expect(count).to.equal(4);
   });
+  it('collapse & expand', () => {
+    graph.addBehaviors({
+      type: 'collapse-expand',
+      onChange: (item, collapsed) => {
+        const data = item.get('model').data;
+        data.collapsed = collapsed;
+        return true;
+      } }, 'default'
+    );
+  });
 });
