@@ -9,7 +9,6 @@ module.exports = {
   nodeContainerClassName: 'node-container',
   edgeContainerClassName: 'edge-container',
   defaultNode: {
-    shape: 'circle',
     style: {
       fill: '#fff'
     },
@@ -17,7 +16,6 @@ module.exports = {
     color: '#333'
   },
   defaultEdge: {
-    shape: 'line',
     style: {},
     size: 2,
     color: '#333'
