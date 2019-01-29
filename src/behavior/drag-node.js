@@ -1,4 +1,4 @@
-const { isArray, mix } = require('../util');
+const { mix } = require('../util');
 const { delegateStyle } = require('../global');
 
 module.exports = {
@@ -78,30 +78,23 @@ module.exports = {
   _updateDelegate(item, x, y) {
     const self = this;
     let shape = item.get('delegateShape');
-    let size = item.get('model').size;
-    if (!size) {
-      const bbox = item.get('keyShape').getBBox();
-      size = [ bbox.width, bbox.height ];
-    }
-    if (!isArray(size)) {
-      size = [ size, size ];
-    }
+    const bbox = item.get('keyShape').getBBox();
     if (!shape) {
       const parent = self.graph.get('group');
       const attrs = mix({}, delegateStyle, this.delegateStyle);
+      // model上的x, y是相对于图形中心的，delegateShape是g实例，x,y是绝对坐标
       shape = parent.addShape('rect', {
         attrs: {
-          width: size[0],
-          height: size[1],
+          width: bbox.width,
+          height: bbox.height,
+          x: x - bbox.width / 2,
+          y: y - bbox.height / 2,
           ...attrs
         }
       });
       shape.set('capture', false);
       item.set('delegateShape', shape);
     }
-    // model上的x, y是相对于图形中心的，delegateShape是g实例，x,y是绝对坐标
-    x -= size[0] / 2;
-    y -= size[1] / 2;
     shape.attr({ x, y });
     this.graph.paint();
   }
