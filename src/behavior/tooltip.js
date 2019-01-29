@@ -21,7 +21,10 @@ module.exports = {
     }
     const item = e.item;
     self.currentTarget = item;
-    self.showTooltip(e);
+    if (self.shouldUpdate(e)) {
+      self.showTooltip(e, 'show');
+      self.graph.emit('tooltipchange', { item: e.item, action: 'show' });
+    }
   },
   onMouseMove(e) {
     if (!this.shouldUpdate(e)) {
@@ -36,8 +39,9 @@ module.exports = {
     if (!this.shouldEnd(e)) {
       return;
     }
-    this.currentTarget = null;
     this.hideTooltip();
+    this.graph.emit('tooltipchange', { item: this.currentTarget, action: 'hide' });
+    this.currentTarget = null;
   },
   showTooltip(e) {
     const self = this;
