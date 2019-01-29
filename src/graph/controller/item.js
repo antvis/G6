@@ -143,7 +143,7 @@ class ItemController {
       graph.setAutoPaint(false);
       Util.each(item.getEdges(), edge => {
         // 若隐藏节点，则将与之关联的边也隐藏
-        // 若显示节点，需要边两端的节点都是显示的
+        // 若显示节点，则将与之关联的边也显示，但是需要判断边两端的节点都是可见的
         if (visible && (!(edge.get('source').isVisible() && edge.get('target').isVisible()))) {
           return;
         }
