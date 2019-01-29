@@ -125,8 +125,8 @@ class Edge extends Item {
   destroy() {
     const sourceItem = this.get('source' + ITEM_NAME_SUFFIX);
     const targetItem = this.get('target' + ITEM_NAME_SUFFIX);
-    sourceItem && sourceItem.removeEdge(this);
-    targetItem && targetItem.removeEdge(this);
+    sourceItem && !sourceItem.destroyed && sourceItem.removeEdge(this);
+    targetItem && !targetItem.destroyed && targetItem.removeEdge(this);
     super.destroy();
   }
 }
