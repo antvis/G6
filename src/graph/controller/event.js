@@ -24,6 +24,8 @@ const EXTEND_EVENTS = [
   'wheel'
 ];
 
+let _timer = null;
+
 function getItemRoot(shape) {
   while (shape && !shape.get('item')) {
     shape = shape.get('parent');
@@ -57,6 +59,21 @@ class Event {
     window && extendEvents.push(Util.addEventListener(window, 'keyup', originHandler));
   }
   _onCanvasEvents(e) {
+    const self = this;
+    const type = e.type;
+    if (type === 'click') {
+      clearTimeout(_timer);
+      _timer = setTimeout(() => {
+        self._triggerCanvasEvents(e);
+      }, 200);
+      return;
+    }
+    if (type === 'dblclick') {
+      clearTimeout(_timer);
+    }
+    self._triggerCanvasEvents(e);
+  }
+  _triggerCanvasEvents(e) {
     const self = this;
     const graph = self.graph;
     const canvas = graph.get('canvas');
