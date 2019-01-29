@@ -1,4 +1,4 @@
-const Util = require('../../src/util');
+const Util = require('../util');
 const OFFSET = 12;
 
 module.exports = {
@@ -21,10 +21,16 @@ module.exports = {
     }
     const item = e.item;
     self.currentTarget = item;
-    self.showTooltip(e);
+    if (self.shouldUpdate(e)) {
+      self.showTooltip(e, 'show');
+      self.graph.emit('tooltipchange', { item: e.item, action: 'show' });
+    }
   },
   onMouseMove(e) {
     if (!this.shouldUpdate(e)) {
+      return;
+    }
+    if (!this.currentTarget || e.item !== this.currentTarget) {
       return;
     }
     this.updatePosition(e);
@@ -33,8 +39,9 @@ module.exports = {
     if (!this.shouldEnd(e)) {
       return;
     }
-    this.currentTarget = null;
     this.hideTooltip();
+    this.graph.emit('tooltipchange', { item: this.currentTarget, action: 'hide' });
+    this.currentTarget = null;
   },
   showTooltip(e) {
     const self = this;
@@ -44,6 +51,7 @@ module.exports = {
     let container = self.container;
     if (!container) {
       container = self._createTooltip(self.graph.get('canvas'));
+      self.container = container;
     }
     const text = self.formatText(e.item.get('model'), e);
     container.innerHTML = text;
