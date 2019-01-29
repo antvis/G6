@@ -20,7 +20,14 @@ module.exports = {
   onNodeClick(e) {
     const item = e.item;
     const collapsed = !item.hasState('collapsed');
+    if (!this.shouldBegin(e, collapsed)) {
+      return;
+    }
     item.set('collapsed', collapsed);
+    this.graph.emit('itemcollapsed', { item: e.item, collapsed });
+    if (!this.shouldUpdate(e, collapsed)) {
+      return;
+    }
     const autoPaint = this.graph.get('autoPaint');
     this.graph.setAutoPaint(false);
     this.updateLayout(item, collapsed);
@@ -28,19 +35,23 @@ module.exports = {
     this.graph.setAutoPaint(autoPaint);
   },
   updateLayout(item, isCollapsed) {
-    const changedData = this.onChange(item, isCollapsed);
-    if (changedData) {
+    const graph = this.graph;
+    let data = this.onChange(item, isCollapsed);
+    if (data) {
+      if (graph.get('layout')) {
+        data = graph.get('layout')(graph.get('data'));
+      }
       if (this.animate) {
         // 有动画，且有重布局，先停掉原有动画
         if (this.graph.get('animating')) {
           this.graph.stopAnimate();
         }
         // 计算每个节点移动的起始位置和最终位置
-        this.animateChild(changedData);
+        this.animateChild(data);
         this.performAnimate();
       } else {
         // 仅有重布局
-        this.graph.changeData(changedData);
+        this.graph.changeData(data);
       }
     } else {
       if (this.animate) {
@@ -84,7 +95,6 @@ module.exports = {
       lastRatio = ratio;
     }, animate.duration, animate.easing, () => {
       Util.each(graph.get('nodes'), node => {
-        // node.set('deltaPosition', null);
         if (node.get('shouldHide')) {
           node.set('shouldHide', false);
           graph.hideItem(node);

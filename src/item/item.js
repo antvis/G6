@@ -144,12 +144,13 @@ class Item {
     const x = cfg.x || model.x;
     const y = cfg.y || model.y;
     const group = this.get('group');
-    if (x && y) {
-      group.resetMatrix();
-      group.translate(x, y);
-      model.x = x;
-      model.y = y;
+    if (Util.isNil(x) || Util.isNil(y)) {
+      return;
     }
+    group.resetMatrix();
+    group.translate(x, y);
+    model.x = x;
+    model.y = y;
   }
 
   // 绘制
