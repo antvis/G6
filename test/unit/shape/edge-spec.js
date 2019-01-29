@@ -27,7 +27,6 @@ describe('shape edge test', () => {
 
   describe('line test', () => {
     const factory = Shape.getFactory('edge');
-
     it('line without label', () => {
       const group = canvas.addGroup();
       const shape = factory.draw('line', {
@@ -577,6 +576,4 @@ describe('shape edge test', () => {
       expect(equal(distance(point, { x: label.attr('x'), y: label.attr('y') }), 5)).eql(true);
     });
   });
-
-
 });
