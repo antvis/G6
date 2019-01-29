@@ -24,6 +24,7 @@ const EXTEND_EVENTS = [
   'wheel'
 ];
 
+const CLICK_TIMEOUT = 200;
 let _timer = null;
 
 function getItemRoot(shape) {
@@ -61,11 +62,12 @@ class Event {
   _onCanvasEvents(e) {
     const self = this;
     const type = e.type;
+    // 单击与双击的互斥逻辑，如果之后捕获到双击事件，不触发单击事件
     if (type === 'click') {
       clearTimeout(_timer);
       _timer = setTimeout(() => {
         self._triggerCanvasEvents(e);
-      }, 200);
+      }, CLICK_TIMEOUT);
       return;
     }
     if (type === 'dblclick') {
