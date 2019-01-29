@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>贝塞尔曲线</title>
+</head>
+<body>
+<div id="mountNode"></div>
+<script src="../build/g6.js"></script>
+<script>
+  const data = {
+    nodes: [{
+      id: 'node0',
+      x: 200,
+      y: 10,
+      size: 10
+    },{
+      id: 'node1',
+      x: 200,
+      y: 50,
+      label: '1222',
+      shape: 'my-rect'
+   },{
+      id: 'node2',
+      x: 150,
+      y: 150,
+      shape: 'my-rect'
+   },{
+      id: 'node3',
+      x: 250,
+      y: 150,
+      shape: 'my-rect'
+   },{
+      id: 'node4',
+      x: 200,
+      y: 250,
+      shape: 'my-rect'
+   },{
+      id: 'node5',
+      x: 300,
+      y: 300,
+      label: '5',
+      anchorPoints: [
+        [0, 0.5], [1, 0.5]
+      ]
+   },{
+      id: 'node6',
+      x: 400,
+      y: 250,
+      label: '6',
+      anchorPoints: [
+        [0, 0.5], [1, 0.5]
+      ]
+   },{
+      id: 'node7',
+      x: 400,
+      y: 350,
+      label: '7',
+      anchorPoints: [
+        [0, 0.5], [1, 0.5]
+      ]
+   }],
+    edges: [{
+      source: 'node0',
+      target: 'node1'
+   },{
+      source: 'node1',
+      target: 'node2',
+      shape: 'cubic-vertical'
+   },{
+      source: 'node1',
+      target: 'node3',
+      shape: 'cubic-vertical'
+   },{
+      source: 'node2',
+      target: 'node4',
+      shape: 'cubic-vertical'
+   },{
+      source: 'node3',
+      target: 'node4',
+      shape: 'cubic-vertical'
+   },{
+      source: 'node5',
+      target: 'node6',
+      shape: 'cubic-horizontal'
+   },{
+      source: 'node5',
+      target: 'node7',
+      shape: 'cubic-horizontal'
+   }]
+  };
+  G6.registerNode('my-rect', {
+    getAnchorPoints() {
+      return [
+        [0.5, 0],
+        [0.5, 1]
+      ]
+    }
+  }, 'rect');
+
+  const graph = new G6.Graph({
+    container: 'mountNode',
+    width: 1000,
+    height: 600
+  });
+  graph.data(data);
+  graph.render();
+</script>
+</body>
+</html>
