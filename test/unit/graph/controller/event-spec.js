@@ -30,7 +30,7 @@ describe('event', () => {
     canvas.emit('click', { a: 1, target: canvas, type: 'click' });
     expect(a).to.equal(1);
   });
-  it('g event on canvas', () => {
+  it('g event on canvas', done => {
     let triggered = false;
     const canvas = graph.get('canvas');
     graph.on('canvas:click', () => {
@@ -39,11 +39,14 @@ describe('event', () => {
     const evt = { type: 'click', target: canvas };
     expect(triggered).to.be.false;
     canvas.emit('click', evt);
-    expect(triggered).to.be.true;
-    graph.removeEvent('canvas:click');
-    triggered = false;
-    canvas.emit('click', evt);
-    expect(triggered).to.be.false;
+    setTimeout(() => {
+      expect(triggered).to.be.true;
+      graph.removeEvent('canvas:click');
+      triggered = false;
+      canvas.emit('click', evt);
+      expect(triggered).to.be.false;
+      done();
+    }, 500);
   });
   // 报错，暂时注释掉
   it('g event on shape', () => {
@@ -135,5 +138,22 @@ describe('event', () => {
     canvas.emit('mousemove', { type: 'mousemove', target: canvas });
     expect(count).to.equal(2);
     expect(triggered).to.be.true;
+  });
+  it('click & dblclick', done => {
+    graph.removeEvent();
+    let clicked = false;
+    let dblClicked = false;
+    graph.on('click', () => {
+      clicked = true;
+    });
+    graph.on('dblclick', () => {
+      dblClicked = true;
+      expect(clicked).to.be.false;
+      expect(dblClicked).to.be.true;
+      done();
+    });
+    graph.get('canvas').emit('click', { type: 'click', x: 10, y: 10 });
+    graph.get('canvas').emit('click', { type: 'click', x: 10, y: 10 });
+    graph.get('canvas').emit('dblclick', { type: 'dblclick', x: 10, y: 10 });
   });
 });
