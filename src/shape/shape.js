@@ -5,7 +5,6 @@
 
 
 const Util = require('../util/');
-const Global = require('../global');
 require('./extend/group');
 const Shape = {};
 const cache = {}; // ucfirst 开销过大，进行缓存
@@ -31,9 +30,6 @@ const ShapeFactoryBase = {
    */
   getShape(type) {
     const self = this;
-    if (!type) {
-      type = Global['default' + self.className] ? Global['default' + self.className].shape : self.defaultShapeType;
-    }
     const shape = self[type] || self[self.defaultShapeType];
     return shape;
   },
