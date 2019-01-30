@@ -3,6 +3,9 @@ const Util = require('../util');
 module.exports = {
   getDefaultCfg() {
     return {
+      /**
+       * 发生收缩/扩展变化时，是否需要重新layout。
+       */
       onChange() {},
       animate: {
         duration: 500,
@@ -38,13 +41,14 @@ module.exports = {
     const graph = this.graph;
     let data = this.onChange(item, isCollapsed);
     if (data) {
+      data = typeof data === 'boolean' ? graph.get('data') : data;
       if (graph.get('layout')) {
-        data = graph.get('layout')(graph.get('data'));
+        data = graph.get('layout')(data);
       }
       if (this.animate) {
         // 有动画，且有重布局，先停掉原有动画
-        if (this.graph.get('animating')) {
-          this.graph.stopAnimate();
+        if (this.animating) {
+          this.graph.get('canvas').stopAnimate();
         }
         // 计算每个节点移动的起始位置和最终位置
         this.animateChild(data);
@@ -83,17 +87,21 @@ module.exports = {
     const animate = self.animate;
     const graph = self.graph;
     let lastRatio = 0;
-    graph.positionAnimate(ratio => {
-      Util.each(graph.get('nodes'), node => {
-        const delta = node.get('deltaPosition');
-        if (delta) {
-          const model = node.get('model');
-          model.x = model.x + (ratio - lastRatio) * delta.x;
-          model.y = model.y + (ratio - lastRatio) * delta.y;
-        }
-      });
-      lastRatio = ratio;
-    }, animate.duration, animate.easing, () => {
+    this.animating = true;
+    graph.get('canvas').animate({
+      onFrame: ratio => {
+        Util.each(graph.get('nodes'), node => {
+          const delta = node.get('deltaPosition');
+          if (delta) {
+            const model = node.get('model');
+            model.x = model.x + (ratio - lastRatio) * delta.x;
+            model.y = model.y + (ratio - lastRatio) * delta.y;
+          }
+        });
+        lastRatio = ratio;
+        graph.refreshPositions();
+      }
+    }, animate.duration || 500, animate.easing, () => {
       Util.each(graph.get('nodes'), node => {
         if (node.get('shouldHide')) {
           node.set('shouldHide', false);
@@ -185,12 +193,11 @@ module.exports = {
   expand(item) {
     const self = this;
     const graph = self.graph;
-    if (item.get('model').collapsed) {
+    if (item.get('collapsed')) {
       graph.showItem(item);
       return;
     }
     graph.showItem(item);
-    graph.setItemState(item, 'collapsed', false);
     Util.each(item.get('model').children, child => {
       const node = self.graph.findById(child.id);
       self.expand(node);
