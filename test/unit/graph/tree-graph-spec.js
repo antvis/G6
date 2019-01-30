@@ -245,6 +245,7 @@ describe('tree graph without layout', () => {
             expect(!!child.get('collapsed')).to.be.false;
             expect(child.hasState('collapsed')).to.be.false;
             expect(child.get('model').y).not.to.equal(parent.get('model').y);
+            graph.removeBehaviors('collapse-expand', 'default');
             done();
           }
         }
@@ -424,14 +425,41 @@ describe('tree graph with layout', () => {
     expect(graph.findById('SubTreeNode3.1:SubTreeNode3.1.1')).to.be.undefined;
     expect(count).to.equal(4);
   });
-  it('collapse & expand', () => {
+  it('collapse & expand with layout', done => {
+    const parent = graph.findById('SubTreeNode1');
+    const child = graph.findById('SubTreeNode1.1');
+    let collapsed = true;
     graph.addBehaviors({
       type: 'collapse-expand',
-      onChange: (item, collapsed) => {
-        const data = item.get('model').data;
-        data.collapsed = collapsed;
-        return true;
-      } }, 'default'
-    );
+      animate: {
+        callback() {
+          if (collapsed) {
+            expect(parent.get('collapsed')).to.be.true;
+            expect(parent.hasState('collapsed')).to.be.true;
+            expect(isNumberEqual(child.get('model').x, parent.get('model').x)).to.be.true;
+            expect(!!child.get('collapsed')).to.be.false;
+            expect(child.hasState('collapsed')).to.be.true;
+            expect(isNumberEqual(child.get('model').y, parent.get('model').y)).to.be.true;
+          } else {
+            expect(parent.get('collapsed')).to.be.false;
+            expect(parent.hasState('collapsed')).to.be.false;
+            expect(child.get('model').x).not.to.equal(parent.get('model').x);
+            expect(!!child.get('collapsed')).to.be.false;
+            expect(child.hasState('collapsed')).to.be.false;
+            expect(child.get('model').y).not.to.equal(parent.get('model').y);
+            done();
+          }
+        },
+        onChange: (item, collapsed) => {
+          const data = item.get('model').data;
+          data.collapsed = collapsed;
+          return false;
+        }
+      } }, 'default');
+    graph.emit('node:click', { item: parent });
+    setTimeout(() => {
+      collapsed = false;
+      graph.emit('node:click', { item: parent });
+    }, 600);
   });
 });
