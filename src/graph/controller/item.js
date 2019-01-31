@@ -98,9 +98,10 @@ class ItemController {
     delete graph.get('itemMap')[item.get('id')];
     if (type === NODE) {
       // 若移除的是节点，需要将与之相连的边一同删除
-      Util.each(item.getEdges(), edge => {
-        graph.removeItem(edge);
-      });
+      const edges = item.getEdges();
+      for (let i = edges.length; i >= 0 ; i --) {
+        graph.removeItem(edges[i]);
+      }
     }
     item.destroy();
     graph.autoPaint();
