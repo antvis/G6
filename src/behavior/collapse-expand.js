@@ -18,7 +18,6 @@ module.exports = {
     };
   },
   getEvents() {
-    this.animate = Util.mix({}, DEFAULT_ANIMATE, this.animate);
     return {
       'node:click': 'onNodeClick'
     };
@@ -87,7 +86,7 @@ module.exports = {
   // 执行位置动画
   performAnimate() {
     const self = this;
-    const animate = self.animate;
+    const animate = Util.mix({}, DEFAULT_ANIMATE, self.animate);
     const graph = self.graph;
     let lastRatio = 0;
     this.animating = true;
