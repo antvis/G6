@@ -1,5 +1,12 @@
 const Util = require('../util');
 
+const DEFAULT_ANIMATE = {
+  duration: 500,
+  delay: 0,
+  callback() {},
+  easing: 'easeLinear'
+};
+
 module.exports = {
   getDefaultCfg() {
     return {
@@ -7,15 +14,11 @@ module.exports = {
        * 发生收缩/扩展变化时，是否需要重新layout。
        */
       onChange() {},
-      animate: {
-        duration: 500,
-        delay: 0,
-        callback() {},
-        easing: 'easeLinear'
-      }
+      animate: {}
     };
   },
   getEvents() {
+    this.animate = Util.mix({}, DEFAULT_ANIMATE, this.animate);
     return {
       'node:click': 'onNodeClick'
     };
