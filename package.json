@@ -104,7 +104,7 @@
   },
   "pre-commit": {
     "run": [
-      "lint-fix",
+      "lint",
       "test"
     ],
     "silent": false
