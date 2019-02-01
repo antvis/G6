@@ -415,10 +415,10 @@ class Graph extends EventEmitter {
     const minZoom = this.get('minZoom');
     const maxZoom = this.get('maxZoom');
     if (minZoom && matrix[0] < minZoom) {
-      return;
+      matrix[0] = minZoom;
     }
     if (maxZoom && matrix[0] > maxZoom) {
-      return;
+      matrix[0] = maxZoom;
     }
     rootGroup.setMatrix(matrix);
   }
