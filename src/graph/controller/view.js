@@ -39,6 +39,28 @@ class View {
     const viewCenter = this._getViewCenter();
     this.graph.translate(viewCenter.x - point.x, viewCenter.y - point.y);
   }
+  getPointByClient(clientX, clientY) {
+    const canvas = this.graph.get('canvas');
+    const pixelRatio = canvas.get('pixelRatio');
+    const canvasPoint = canvas.getPointByClient(clientX, clientY);
+    return this.getPointByCanvas(canvasPoint.x / pixelRatio, canvasPoint.y / pixelRatio);
+  }
+  getClientByPoint(x, y) {
+    const canvas = this.graph.get('canvas');
+    const canvasPoint = this.getCanvasByPoint(x, y);
+    const pixelRatio = canvas.get('pixelRatio');
+    const point = canvas.getClientByPoint(canvasPoint.x * pixelRatio, canvasPoint.y * pixelRatio);
+    return { x: point.clientX, y: point.clientY };
+  }
+  getPointByCanvas(canvasX, canvasY) {
+    const viewportMatrix = this.graph.get('group').getMatrix();
+    const point = Util.invertMatrix({ x: canvasX, y: canvasY }, viewportMatrix);
+    return point;
+  }
+  getCanvasByPoint(x, y) {
+    const viewportMatrix = this.graph.get('group').getMatrix();
+    return Util.applyMatrix({ x, y }, viewportMatrix);
+  }
   focus(item) {
     if (Util.isString(item)) {
       item = this.graph.findById[item];
