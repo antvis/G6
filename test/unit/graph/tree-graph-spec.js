@@ -441,117 +441,99 @@ describe('tree graph with layout', () => {
       graph.emit('node:click', { item: parent });
     }, 600);
   });
-  it('radial layout', () => {
-    const data = {
-      isRoot: true,
-      id: 'Root',
-      children: [
-        {
-          id: 'SubTreeNode1',
-          children: [
-            {
-              id: 'SubTreeNode1.1'
-            },
-            {
-              id: 'SubTreeNode1.2'
-            }
-          ]
-        },
-        {
-          id: 'SubTreeNode2',
-          children: [
-            {
-              id: 'SubTreeNode2.1'
-            },
-            {
-              id: 'SubTreeNode2.2',
-              children: [
-                {
-                  id: 'SubTreeNode1.2.1'
-                },
-                {
-                  id: 'SubTreeNode1.2.2'
-                },
-                {
-                  id: 'SubTreeNode1.2.3'
-                }
-              ]
-            }
-          ]
-        }, {
-          id: 'SubTreeNode3'
-        }, {
-          id: 'SubTreeNode4'
-        }, {
-          id: 'SubTreeNode5'
-        }, {
-          id: 'SubTreeNode6'
-        }, {
-          id: 'SubTreeNode7',
-          children: [
-            {
-              id: 'SubTreeNode3.1'
-            },
-            {
-              id: 'SubTreeNode3.2'
-            },
-            {
-              id: 'SubTreeNode3.3'
-            }
-          ]
-        }, {
-          id: 'SubTreeNode8'
-        }, {
-          id: 'SubTreeNode9'
-        }, {
-          id: 'SubTreeNode10'
-        }, {
-          id: 'SubTreeNode11'
-        }
-      ]
-    };
-    graph.data(data);
-    graph.render();
-    graph.fitView();
-    let minX = 999;
-    let maxX = -999;
-    let minY = 999;
-    let maxY = -999;
-    graph.get('nodes').forEach(node => {
-      const model = node.get('model');
-      if (model.x > maxX) {
-        maxX = model.x;
-      }
-      if (model.x < minX) {
-        minX = model.x;
-      }
-      if (model.y > maxY) {
-        maxY = model.y;
-      }
-      if (model.y < minY) {
-        minY = model.y;
-      }
-    });
-    const deltaY = maxY - minY;
-    const avgRad = Math.PI * 2 / graph.get('nodes').length;
-    graph.get('nodes').forEach(node => {
-      const model = node.get('model');
-      const radial = ((model.y - minY) / deltaY) * (Math.PI * 2 - avgRad) + avgRad;
-      const r = model.x;
-      model.x = r * Math.cos(radial);
-      model.y = r * Math.sin(radial);
-    });
-    graph.refreshPositions();
-    graph.fitView();
-    graph.addBehaviors({
-      type: 'collapse-expand',
-      onChange: (item, collapsed) => {
-        const data = item.get('model').data;
-        data.collapsed = collapsed;
-        return true;
+  const treeData = {
+    isRoot: true,
+    id: 'Root',
+    children: [
+      {
+        id: 'SubTreeNode1',
+        children: [
+          {
+            id: 'SubTreeNode1.1'
+          },
+          {
+            id: 'SubTreeNode1.2'
+          }
+        ]
       },
-      animate: {
-        duration: 500
-      } }, 'default');
+      {
+        id: 'SubTreeNode2',
+        children: [
+          {
+            id: 'SubTreeNode2.1'
+          },
+          {
+            id: 'SubTreeNode2.2',
+            children: [
+              {
+                id: 'SubTreeNode1.2.1'
+              },
+              {
+                id: 'SubTreeNode1.2.2'
+              },
+              {
+                id: 'SubTreeNode1.2.3'
+              }
+            ]
+          }
+        ]
+      }, {
+        id: 'SubTreeNode3'
+      }, {
+        id: 'SubTreeNode4'
+      }, {
+        id: 'SubTreeNode5'
+      }, {
+        id: 'SubTreeNode6'
+      }, {
+        id: 'SubTreeNode7',
+        children: [
+          {
+            id: 'SubTreeNode3.1'
+          },
+          {
+            id: 'SubTreeNode3.2'
+          },
+          {
+            id: 'SubTreeNode3.3'
+          }
+        ]
+      }, {
+        id: 'SubTreeNode8'
+      }, {
+        id: 'SubTreeNode9'
+      }, {
+        id: 'SubTreeNode10'
+      }, {
+        id: 'SubTreeNode11'
+      }
+    ]
+  };
+  it('radial layout', () => {
+    graph.data(treeData);
+    graph.render();
+    G6.Util.radialLayout(graph, 'LR');
+  });
+  it('vertical layout to radial layout', () => {
+    const graph = new G6.TreeGraph({
+      container: div,
+      width: 500,
+      height: 500,
+      pixelRatio: 2,
+      modes: {
+        default: [ 'drag-canvas' ]
+      },
+      layout: data => {
+        count++;
+        return Hierarchy.dendrogram(data, {
+          direction: 'TB', // H / V / LR / RL / TB / BT
+          nodeSep: 50,
+          rankSep: 100
+        });
+      }
+    });
+    graph.data(treeData);
+    graph.render();
+    G6.Util.radialLayout(graph, 'TB');
   });
 });
