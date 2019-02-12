@@ -83,6 +83,9 @@ const GraphicUtil = {
     });
     const avgRad = Math.PI * 2 / count;
     const radDiff = max[radScale] - min[radScale];
+    if (radDiff === 0) {
+      return data;
+    }
     this.traverseTree(data, node => {
       const radial = (node[radScale] - min[radScale]) / radDiff * (Math.PI * 2 - avgRad) + avgRad;
       const r = node[rScale];
