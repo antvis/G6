@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <script src="../test/unit/graph/tree-graph-spec.js"></script>
+</head>
+<style>
+</style>
+<body>
+<select id="layout">
+  <option value="dendrogram">基础树</option>
+  <option value="compactBox">紧凑树</option>
+</select>
+<input type="checkbox" id="radial" /><label for="radial">环形布局</label>
+<div id="mountNode"></div>
+<script src="assets/hierarchy.js"></script>
+<script src="../build/g6.js"></script>
+<script>
+  let currentLayout = 'dendrogram';
+  let radial = false;
+  const layouts = {
+    dendrogram: function(data) {
+      return Hierarchy.dendrogram(data, {
+        direction: 'LR', // H / V / LR / RL / TB / BT
+        nodeSep: 50,
+        rankSep: 100
+      })},
+    compactBox: function(data) {
+      return Hierarchy.compactBox(data, { direction: 'LR' });
+    }
+  };
+  const graph = new G6.TreeGraph({
+    container: 'mountNode',
+    width: 500,
+    height: 500,
+    pixelRatio: 2,
+    modes: {
+      default: [{
+        type: 'collapse-expand',
+        onChange(item, collapsed) {
+          const data = item.get('model').data;
+          data.collapsed = collapsed;
+          return true;
+        }
+      }, 'drag-canvas']
+    },
+    layout: layouts.dendrogram
+  });
+  const data = {
+    isRoot: true,
+    id: 'Root',
+    children: [
+      {
+        id: 'SubTreeNode1',
+        children: [
+          {
+            id: 'SubTreeNode1.1'
+          },
+          {
+            id: 'SubTreeNode1.2'
+          }
+        ]
+      },
+      {
+        id: 'SubTreeNode2',
+        children: [
+          {
+            id: 'SubTreeNode2.1'
+          },
+          {
+            id: 'SubTreeNode2.2',
+            children: [
+              {
+                id: 'SubTreeNode1.2.1'
+              },
+              {
+                id: 'SubTreeNode1.2.2'
+              },
+              {
+                id: 'SubTreeNode1.2.3'
+              }
+            ]
+          }
+        ]
+      }, {
+        id: 'SubTreeNode3'
+      }, {
+        id: 'SubTreeNode4'
+      }, {
+        id: 'SubTreeNode5'
+      }, {
+        id: 'SubTreeNode6'
+      }, {
+        id: 'SubTreeNode7',
+        children: [
+          {
+            id: 'SubTreeNode3.1'
+          },
+          {
+            id: 'SubTreeNode3.2'
+          },
+          {
+            id: 'SubTreeNode3.3'
+          }
+        ]
+      }, {
+        id: 'SubTreeNode8'
+      }, {
+        id: 'SubTreeNode9'
+      }, {
+        id: 'SubTreeNode10'
+      }, {
+        id: 'SubTreeNode11'
+      }
+    ]
+  };
+  graph.data(data);
+  graph.render();
+  graph.fitView();
+  document.getElementById('radial').addEventListener('change', e => {
+    if (e.target.checked) {
+      graph.set('layout', (data) => {
+        data = layouts[currentLayout](data);
+        G6.Util.radialLayout(data);
+        return data;
+      });
+      graph.render();
+      graph.fitView();
+    } else {
+      radial = false;
+      graph.set('layout', layouts[currentLayout]);
+      graph.render();
+      graph.fitView();
+    }
+  });
+  document.getElementById('layout').addEventListener('change', (e) => {
+    const layout = e.target.value;
+    if (currentLayout !== layout) {
+      currentLayout = layout;
+      graph.set('layout', layouts[currentLayout]);
+      graph.render();
+      if (radial) {
+        G6.Util.radialLayout(graph, 'LR');
+      }
+      graph.fitView();
+    }
+  });
+</script>
+</body>
+</html>

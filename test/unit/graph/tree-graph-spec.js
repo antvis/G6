@@ -441,7 +441,7 @@ describe('tree graph with layout', () => {
       graph.emit('node:click', { item: parent });
     }, 600);
   });
-  const treeData = {
+  /* const treeData = {
     isRoot: true,
     id: 'Root',
     children: [
@@ -535,5 +535,5 @@ describe('tree graph with layout', () => {
     graph.data(treeData);
     graph.render();
     G6.Util.radialLayout(graph, 'TB');
-  });
+  });*/
 });
