@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-  <script src="../test/unit/graph/tree-graph-spec.js"></script>
 </head>
 <style>
 </style>
@@ -27,7 +26,14 @@
         rankSep: 100
       })},
     compactBox: function(data) {
-      return Hierarchy.compactBox(data, { direction: 'LR' });
+      return Hierarchy.compactBox(data, {
+        direction: 'LR',
+        getId(d) { return d.id; },
+        getHeight() { return 16 },
+        getWidth() { return 16 },
+        getVGap() { return 50 },
+        getHGap() { return 50 }
+    });
     }
   };
   const graph = new G6.TreeGraph({
@@ -122,6 +128,7 @@
     if (e.target.checked) {
       graph.set('layout', (data) => {
         data = layouts[currentLayout](data);
+        console.log(data.x, data.y);
         G6.Util.radialLayout(data);
         return data;
       });
