@@ -4,6 +4,16 @@
  */
 
 const MathUtil = require('./math');
+const BaseUtil = require('./base');
+
+function traverse(data, fn) {
+  if (fn(data) === false) {
+    return;
+  }
+  BaseUtil.each(data.children, child => {
+    traverse(child, fn);
+  });
+}
 
 const GraphicUtil = {
   getBBox(element, parent) {
@@ -30,12 +40,15 @@ const GraphicUtil = {
       maxY: rightBottom.y
     };
   },
-  radialLayout(graph, layout) {
+  traverseTree(data, fn) {
+    if (typeof fn !== 'function') {
+      return;
+    }
+    traverse(data, fn);
+  },
+  radialLayout(data, layout) {
     // 布局方式有 H / V / LR / RL / TB / BT
     const VERTICAL_LAYOUTS = [ 'V', 'TB', 'BT' ];
-    const width = graph.get('width');
-    const height = graph.get('height');
-    const radius = Math.min(width, height);
     const min = {
       x: Infinity,
       y: Infinity
@@ -52,32 +65,31 @@ const GraphicUtil = {
       radScale = 'x';
       rScale = 'y';
     }
-    graph.get('nodes').forEach(node => {
-      const model = node.get('model');
-      if (model.x > max.x) {
-        max.x = model.x;
+    let count = 0;
+    this.traverseTree(data, node => {
+      count++;
+      if (node.x > max.x) {
+        max.x = node.x;
       }
-      if (model.x < min.x) {
-        min.x = model.x;
+      if (node.x < min.x) {
+        min.x = node.x;
       }
-      if (model.y > max.y) {
-        max.y = model.y;
+      if (node.y > max.y) {
+        max.y = node.y;
       }
-      if (model.y < min.y) {
-        min.y = model.y;
+      if (node.y < min.y) {
+        min.y = node.y;
       }
     });
-    const avgRad = Math.PI * 2 / graph.get('nodes').length;
+    const avgRad = Math.PI * 2 / count;
     const radDiff = max[radScale] - min[radScale];
-    graph.get('nodes').forEach(node => {
-      const model = node.get('model');
-      const radial = (model[radScale] - min[radScale]) / radDiff * (Math.PI * 2 - avgRad) + avgRad;
-      const r = model[rScale] / max[rScale] * radius;
-      model.x = r * Math.cos(radial);
-      model.y = r * Math.sin(radial);
+    this.traverseTree(data, node => {
+      const radial = (node[radScale] - min[radScale]) / radDiff * (Math.PI * 2 - avgRad) + avgRad;
+      const r = node[rScale];
+      node.x = r * Math.cos(radial);
+      node.y = r * Math.sin(radial);
     });
-    graph.refreshPositions();
-    graph.fitView();
+    return data;
   }
 };
 

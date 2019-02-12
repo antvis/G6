@@ -124,7 +124,7 @@ module.exports = {
       x: data.x,
       y: data.y
     };
-    if (!point.x || !point.y) {
+    if (Util.isNil(point.x) || Util.isNil(point.y)) {
       const model = node.get('parent').get('model');
       point.x = model.x;
       point.y = model.y;
