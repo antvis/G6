@@ -125,10 +125,10 @@
   graph.render();
   graph.fitView();
   document.getElementById('radial').addEventListener('change', e => {
-    if (e.target.checked) {
+    radial = e.target.checked;
+    if (radial) {
       graph.set('layout', (data) => {
         data = layouts[currentLayout](data);
-        console.log(data.x, data.y);
         G6.Util.radialLayout(data);
         return data;
       });
@@ -145,11 +145,16 @@
     const layout = e.target.value;
     if (currentLayout !== layout) {
       currentLayout = layout;
-      graph.set('layout', layouts[currentLayout]);
-      graph.render();
       if (radial) {
-        G6.Util.radialLayout(graph, 'LR');
+        graph.set('layout', (data) => {
+          data = layouts[currentLayout](data);
+          G6.Util.radialLayout(data);
+          return data;
+        });
+      } else {
+        graph.set('layout', layouts[currentLayout]);
       }
+      graph.render();
       graph.fitView();
     }
   });
