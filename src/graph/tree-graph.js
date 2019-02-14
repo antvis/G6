@@ -185,6 +185,12 @@ class TreeGraph extends Graph {
     }
     return root;
   }
+  /**
+   * 根据id获取对应的源数据
+   * @param {string|object} id 元素id
+   * @param {object} parent 从哪个节点开始寻找，为空时从根节点开始查找
+   * @return {object} 对应源数据
+   */
   findDataById(id, parent) {
     const self = this;
     if (!parent) {
@@ -206,6 +212,32 @@ class TreeGraph extends Graph {
     });
     return result;
   }
+  /**
+   * 更改并应用树布局算法
+   * @param {object} layout 布局算法
+   */
+  changeLayout(layout) {
+    const self = this;
+    self.set('layout', layout);
+    if (layout) {
+      const autoPaint = self.get('autoPaint');
+      self.setAutoPaint(false);
+      const root = self._refreshLayout();
+      self._updateChild(root, null);
+      self.fitView();
+      self.paint();
+      self.setAutoPaint(autoPaint);
+    }
+  }
+  /**
+   * 布局动画接口，用于数据更新时做节点位置更新的动画
+   * @param {object} data 更新的数据
+   * @param {function} onFrame 定义节点位置更新时如何移动
+   * @param {number} duration 动画时间
+   * @param {string} ease 指定动效
+   * @param {function} callback 动画结束的回调
+   * @param {number} delay 动画延迟执行(ms)
+   */
   layoutAnimate(data, onFrame, duration = 500, ease = 'easeLinear', callback, delay = 0) {
     const self = this;
     self.emit('layoutanimatestart', { data });
@@ -243,11 +275,19 @@ class TreeGraph extends Graph {
       });
     }, delay);
   }
+  /**
+   * 立即停止布局动画
+   */
   stopLayoutAnimate() {
     this.get('canvas').stopAnimate();
     this.emit('layoutanimateend', { data: this.get('data') });
     this.layoutAnimating = false;
   }
+
+  /**
+   * 是否在布局动画
+   * @return {boolean} 是否有布局动画
+   */
   isLayoutAnimating() {
     return this.layoutAnimating;
   }
