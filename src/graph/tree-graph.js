@@ -73,6 +73,7 @@ class TreeGraph extends Graph {
     if (!self.get('data')) {
       self.data(data);
       self.render();
+      return;
     }
     const autoPaint = this.get('autoPaint');
     self.setAutoPaint(false);
@@ -204,6 +205,51 @@ class TreeGraph extends Graph {
       }
     });
     return result;
+  }
+  layoutAnimate(data, onFrame, duration = 500, ease = 'easeLinear', callback, delay = 0) {
+    const self = this;
+    self.emit('layoutanimatestart', { data });
+    this.get('canvas').animate({
+      onFrame(ratio) {
+        Util.traverseTree(data, child => {
+          const node = self.findById(child.id);
+          let origin = node.get('origin');
+          const model = node.get('model');
+          if (!origin) {
+            origin = {
+              x: model.x,
+              y: model.y,
+              style: model.style
+            };
+            node.set('origin', origin);
+          }
+          if (onFrame) {
+            const attrs = onFrame(node, ratio, origin, data);
+            node.set('model', Util.mix(model, attrs));
+          } else {
+            model.x = origin.x + (data.x - origin.x) * ratio;
+            model.y = origin.y + (data.y - origin.y) * ratio;
+          }
+        });
+        self.refreshPositions();
+      }
+    }, duration, ease, () => {
+      self.emit('layoutanimateend', { data });
+      if (callback) {
+        callback();
+      }
+      Util.each(self.get('nodes'), node => {
+        node.set('origin', null);
+      });
+    }, delay);
+  }
+  stopLayoutAnimate() {
+    this.get('canvas').stopAnimate();
+    this.emit('layoutanimateend', { data: this.get('data') });
+    this.layoutAnimating = false;
+  }
+  isLayoutAnimating() {
+    return this.layoutAnimating;
   }
 }
 
