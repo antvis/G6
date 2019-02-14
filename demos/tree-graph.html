@@ -127,18 +127,14 @@
   document.getElementById('radial').addEventListener('change', e => {
     radial = e.target.checked;
     if (radial) {
-      graph.set('layout', (data) => {
+      graph.changeLayout((data) => {
         data = layouts[currentLayout](data);
         G6.Util.radialLayout(data);
         return data;
       });
-      graph.changeData();
-      graph.fitView();
     } else {
       radial = false;
-      graph.set('layout', layouts[currentLayout]);
-      graph.changeData();
-      graph.fitView();
+      graph.changeLayout(layouts[currentLayout]);
     }
   });
   document.getElementById('layout').addEventListener('change', (e) => {
@@ -146,16 +142,14 @@
     if (currentLayout !== layout) {
       currentLayout = layout;
       if (radial) {
-        graph.set('layout', (data) => {
+        graph.changeLayout((data) => {
           data = layouts[currentLayout](data);
           G6.Util.radialLayout(data);
           return data;
         });
       } else {
-        graph.set('layout', layouts[currentLayout]);
+        graph.changeLayout(layouts[currentLayout]);
       }
-      graph.changeData();
-      graph.fitView();
     }
   });
 </script>
