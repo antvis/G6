@@ -141,8 +141,9 @@ class Item {
    */
   updatePosition(cfg) {
     const model = this.get('model');
-    const x = cfg.x || model.x;
-    const y = cfg.y || model.y;
+    const x = Util.isNil(cfg.x) ? model.x : cfg.x;
+    const y = Util.isNil(cfg.y) ? model.y : cfg.y;
+
     const group = this.get('group');
     if (Util.isNil(x) || Util.isNil(y)) {
       return;
