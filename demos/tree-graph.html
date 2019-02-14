@@ -132,12 +132,12 @@
         G6.Util.radialLayout(data);
         return data;
       });
-      graph.render();
+      graph.changeData();
       graph.fitView();
     } else {
       radial = false;
       graph.set('layout', layouts[currentLayout]);
-      graph.render();
+      graph.changeData();
       graph.fitView();
     }
   });
@@ -154,7 +154,7 @@
       } else {
         graph.set('layout', layouts[currentLayout]);
       }
-      graph.render();
+      graph.changeData();
       graph.fitView();
     }
   });
