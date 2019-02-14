@@ -49,8 +49,8 @@ module.exports = {
       }
       if (this.animate) {
         // 有动画，且有重布局，先停掉原有动画
-        if (this.animating) {
-          this.graph.get('canvas').stopAnimate();
+        if (this.graph.isLayoutAnimating()) {
+          this.graph.stopLayoutAnimate();
         }
         // 计算每个节点移动的起始位置和最终位置
         this.animateChild(data);
@@ -88,28 +88,21 @@ module.exports = {
     const self = this;
     const animate = Util.mix({}, DEFAULT_ANIMATE, self.animate);
     const graph = self.graph;
-    let lastRatio = 0;
-    this.animating = true;
-    graph.get('canvas').animate({
-      onFrame: ratio => {
-        Util.each(graph.get('nodes'), node => {
-          const delta = node.get('deltaPosition');
-          if (delta) {
-            const model = node.get('model');
-            model.x = model.x + (ratio - lastRatio) * delta.x;
-            model.y = model.y + (ratio - lastRatio) * delta.y;
-          }
-        });
-        lastRatio = ratio;
-        graph.refreshPositions();
+    graph.layoutAnimate(graph.get('data'), (node, ratio, origin) => {
+      const to = node.get('toPosition');
+      if (to) {
+        return {
+          x: origin.x + (to.x - origin.x) * ratio,
+          y: origin.y + (to.y - origin.y) * ratio
+        };
       }
-    }, animate.duration || 500, animate.easing, () => {
+    }, animate.duration, animate.easing, () => {
       Util.each(graph.get('nodes'), node => {
         if (node.get('shouldHide')) {
           node.set('shouldHide', false);
           graph.hideItem(node);
         }
-        node.set('deltaPosition', null);
+        node.set('toPosition', null);
       });
       graph.paint();
       animate.callback();
@@ -130,9 +123,9 @@ module.exports = {
       point.y = model.y;
     }
     if (nodeModel.x !== point.x || nodeModel.y !== point.y) {
-      node.set('deltaPosition', {
-        x: point.x - nodeModel.x,
-        y: point.y - nodeModel.y
+      node.set('toPosition', {
+        x: point.x,
+        y: point.y
       });
     }
     // 还是展开状态的子节点，也做位移动画
@@ -151,12 +144,12 @@ module.exports = {
     Util.each(node.get('model').children, child => {
       child = self.graph.findById(child.id);
       const model = child.get('model');
-      if (!child.get('origin')) {
-        child.set('origin', { x: model.x, y: model.y });
+      if (!child.get('originPosition')) {
+        child.set('originPosition', { x: model.x, y: model.y });
       }
-      child.set('deltaPosition', {
-        x: toPoint.x - model.x,
-        y: toPoint.y - model.y
+      child.set('toPosition', {
+        x: toPoint.x,
+        y: toPoint.y
       });
       child.set('shouldHide', true);
       if (!child.get('collapsed')) {
@@ -171,8 +164,8 @@ module.exports = {
     Util.each(children, child => {
       child = self.graph.findById(child.id);
       self.graph.showItem(child);
-      const origin = child.get('origin');
-      child.set('deltaPosition', { x: origin.x - startPoint.x, y: origin.y - startPoint.y });
+      const origin = child.get('originPosition');
+      child.set('toPosition', { x: origin.x, y: origin.y });
       if (!child.get('collapsed')) {
         self.expandPosition(child, startPoint);
       }
