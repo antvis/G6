@@ -10,6 +10,7 @@ const Behaviors = require('./behavior');
 
 const G6 = {
   Graph: require('./graph/graph'),
+  TreeGraph: require('./graph/tree-graph'),
   Util: require('./util/'),
   G,
   Global,
