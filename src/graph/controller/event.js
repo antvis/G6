@@ -136,7 +136,7 @@ class Event {
     // 避免e的type与触发的事件不同
     e = Util.cloneEvent(e);
     // 从前一个item直接移动到当前item，触发前一个item的leave事件
-    if (preItem && preItem !== item) {
+    if (preItem && preItem !== item && !preItem.destroyed) {
       e.item = preItem;
       if (self.dragging) {
         self._emitCustomEvent(preItem.getType(), 'dragleave', e);
