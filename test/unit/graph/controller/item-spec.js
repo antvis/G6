@@ -27,6 +27,22 @@ describe('item controller', () => {
     graph.removeItem(node2);
     expect(nodes.length).to.equal(0);
   });
+  it('remove node with multiple edges', () => {
+    const node1 = graph.addItem('node', { id: 'node1', shape: 'circle', color: '#ccc', style: { x: 50, y: 50, r: 20, lineWidth: 2 } });
+    const node2 = graph.addItem('node', { id: 'node2', shape: 'circle', color: '#ccc', style: { x: 50, y: 50, r: 20, lineWidth: 2 } });
+    graph.addItem('node', { id: 'node3', shape: 'circle', color: '#ccc', style: { x: 50, y: 50, r: 20, lineWidth: 2 } });
+    graph.addItem('edge', { id: 'edge1', source: 'node1', target: 'node2' });
+    graph.addItem('edge', { id: 'edge2', source: 'node1', target: 'node3' });
+    expect(node1.getEdges().length).to.equal(2);
+    expect(node2.getEdges().length).to.equal(1);
+    expect(graph.findById('edge1')).not.to.be.undefined;
+    expect(graph.findById('edge2')).not.to.be.undefined;
+    graph.removeItem(node1);
+    expect(graph.findById('edge1')).to.be.undefined;
+    expect(graph.findById('edge2')).to.be.undefined;
+    expect(node2.getEdges().length).to.equal(0);
+    graph.clear();
+  });
   it('add & remove edge', () => {
     const node1 = graph.addItem('node', { shape: 'circle', color: '#ccc', x: 50, y: 50, size: 20, style: { lineWidth: 2 } });
     const node2 = graph.addItem('node', { shape: 'rect', id: 'node', x: 100, y: 100, color: '#666', size: [ 100, 70 ] });

@@ -415,10 +415,10 @@ class Graph extends EventEmitter {
     const minZoom = this.get('minZoom');
     const maxZoom = this.get('maxZoom');
     if (minZoom && matrix[0] < minZoom) {
-      return;
+      matrix[0] = minZoom;
     }
     if (maxZoom && matrix[0] > maxZoom) {
-      return;
+      matrix[0] = maxZoom;
     }
     rootGroup.setMatrix(matrix);
   }
@@ -528,6 +528,46 @@ class Graph extends EventEmitter {
   focusItem(item) {
     this.get('viewController').focus(item);
     this.autoPaint();
+  }
+
+  /**
+   * 将屏幕坐标转换为视口坐标
+   * @param {number} clientX 屏幕x坐标
+   * @param {number} clientY 屏幕y坐标
+   * @return {object} 视口坐标
+   */
+  getPointByClient(clientX, clientY) {
+    return this.get('viewController').getPointByClient(clientX, clientY);
+  }
+
+  /**
+   * 将视口坐标转换为屏幕坐标
+   * @param {number} x 视口x坐标
+   * @param {number} y 视口y坐标
+   * @return {object} 视口坐标
+   */
+  getClientByPoint(x, y) {
+    return this.get('viewController').getClientByPoint(x, y);
+  }
+
+  /**
+   * 将画布坐标转换为视口坐标
+   * @param {number} canvasX 屏幕x坐标
+   * @param {number} canvasY 屏幕y坐标
+   * @return {object} 视口坐标
+   */
+  getPointByCanvas(canvasX, canvasY) {
+    return this.get('viewController').getPointByCanvas(canvasX, canvasY);
+  }
+
+  /**
+   * 将视口坐标转换为画布坐标
+   * @param {number} x 屏幕x坐标
+   * @param {number} y 屏幕y坐标
+   * @return {object} 画布坐标
+   */
+  getCanvasByPoint(x, y) {
+    return this.get('viewController').getCanvasByPoint(x, y);
   }
 
   /**
