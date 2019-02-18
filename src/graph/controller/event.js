@@ -19,11 +19,6 @@ const EVENTS = [
   'drop'
 ];
 
-const EXTEND_EVENTS = [
-  'mousewheel',
-  'wheel'
-];
-
 const CLICK_TIMEOUT = 200;
 let _timer = null;
 
@@ -48,14 +43,14 @@ class Event {
     const extendEvents = self.extendEvents;
     const canvasHandler = Util.wrapBehavior(self, '_onCanvasEvents');
     const originHandler = Util.wrapBehavior(self, '_onExtendEvents');
+    const wheelHandler = Util.wrapBehavior(self, '_onWheelEvent');
     Util.each(EVENTS, event => {
       canvas.on(event, canvasHandler);
     });
     this.canvasHandler = canvasHandler;
 
-    Util.each(EXTEND_EVENTS, event => {
-      extendEvents.push(Util.addEventListener(el, event, originHandler));
-    });
+    extendEvents.push(Util.addEventListener(el, 'DOMMouseScroll', wheelHandler));
+    extendEvents.push(Util.addEventListener(el, 'mousewheel', wheelHandler));
     window && extendEvents.push(Util.addEventListener(window, 'keydown', originHandler));
     window && extendEvents.push(Util.addEventListener(window, 'keyup', originHandler));
   }
@@ -127,6 +122,10 @@ class Event {
   }
   _onExtendEvents(e) {
     this.graph.emit(e.type, e);
+  }
+  _onWheelEvent(e) {
+    e.wheelDelta = e.wheelDelta || -e.detail;
+    this.graph.emit('wheel', e);
   }
   _handleMouseMove(e, type) {
     const self = this;
