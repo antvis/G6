@@ -139,21 +139,4 @@ describe('event', () => {
     expect(count).to.equal(2);
     expect(triggered).to.be.true;
   });
-  it('click & dblclick', done => {
-    graph.removeEvent();
-    let clicked = false;
-    let dblClicked = false;
-    graph.on('click', () => {
-      clicked = true;
-    });
-    graph.on('dblclick', () => {
-      dblClicked = true;
-      expect(clicked).to.be.false;
-      expect(dblClicked).to.be.true;
-      done();
-    });
-    graph.get('canvas').emit('click', { type: 'click', x: 10, y: 10 });
-    graph.get('canvas').emit('click', { type: 'click', x: 10, y: 10 });
-    graph.get('canvas').emit('dblclick', { type: 'dblclick', x: 10, y: 10 });
-  });
 });
