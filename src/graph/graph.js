@@ -506,6 +506,22 @@ class Graph extends EventEmitter {
   }
 
   /**
+   * 获取当前图中所有节点的item实例
+   * @return {array} item数组
+   */
+  getNodes() {
+    return this.get('nodes');
+  }
+
+  /**
+   * 获取当前图中所有边的item实例
+   * @return {array} item数组
+   */
+  getEdges() {
+    return this.get('edges');
+  }
+
+  /**
    * 伸缩视口
    * @param {number} ratio 伸缩比例
    * @param {object} center 以center的x, y坐标为中心缩放
