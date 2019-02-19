@@ -19,9 +19,6 @@ const EVENTS = [
   'drop'
 ];
 
-const CLICK_TIMEOUT = 200;
-let _timer = null;
-
 function getItemRoot(shape) {
   while (shape && !shape.get('item')) {
     shape = shape.get('parent');
@@ -48,29 +45,12 @@ class Event {
       canvas.on(event, canvasHandler);
     });
     this.canvasHandler = canvasHandler;
-
     extendEvents.push(Util.addEventListener(el, 'DOMMouseScroll', wheelHandler));
     extendEvents.push(Util.addEventListener(el, 'mousewheel', wheelHandler));
     window && extendEvents.push(Util.addEventListener(window, 'keydown', originHandler));
     window && extendEvents.push(Util.addEventListener(window, 'keyup', originHandler));
   }
   _onCanvasEvents(e) {
-    const self = this;
-    const type = e.type;
-    // 单击与双击的互斥逻辑，如果之后捕获到双击事件，不触发单击事件
-    if (type === 'click') {
-      clearTimeout(_timer);
-      _timer = setTimeout(() => {
-        self._triggerCanvasEvents(e);
-      }, CLICK_TIMEOUT);
-      return;
-    }
-    if (type === 'dblclick') {
-      clearTimeout(_timer);
-    }
-    self._triggerCanvasEvents(e);
-  }
-  _triggerCanvasEvents(e) {
     const self = this;
     const graph = self.graph;
     const canvas = graph.get('canvas');
