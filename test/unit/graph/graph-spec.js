@@ -31,6 +31,12 @@ describe('graph', () => {
     expect(children.length).to.equal(2);
     expect(children[1].get('className')).to.equal('node-container');
     expect(children[0].get('className')).to.equal('edge-container');
+    const nodes = inst.getNodes();
+    expect(nodes).not.to.be.undefined;
+    expect(nodes.length).to.equal(0);
+    const edges = inst.getEdges();
+    expect(edges).not.to.be.undefined;
+    expect(edges.length).to.equal(0);
     inst.destroy();
     expect(inst.get('canvas').destroyed);
     expect(length - div.childNodes.length).to.equal(1);
@@ -116,6 +122,10 @@ describe('graph', () => {
     expect(map.b).not.to.be.undefined;
     expect(map.c).not.to.be.undefined;
     expect(map.d).not.to.be.undefined;
+    const edges = graph.getEdges();
+    expect(edges.length).to.equal(2);
+    const nodes = graph.getNodes();
+    expect(nodes.length).to.equal(3);
     expect(map.e).not.to.be.undefined;
     data.nodes.splice(0, 1);
     data.edges.splice(0, 1);
