@@ -3,7 +3,8 @@ const Util = require('../util');
 module.exports = {
   getDefaultCfg() {
     return {
-      multiple: true
+      multiple: true,
+      keyCode: 17
     };
   },
   getEvents() {
@@ -55,7 +56,7 @@ module.exports = {
   },
   onKeyDown(e) {
     const code = e.keyCode || e.which;
-    if (code === 16) {
+    if (code === this.keyCode) {
       this.keydown = true;
     } else {
       this.keydown = false;
