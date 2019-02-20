@@ -37,6 +37,14 @@ class Edge extends Item {
     this.set('target', target);
   }
 
+  getSource() {
+    return this.get('source');
+  }
+
+  getTarget() {
+    return this.get('target');
+  }
+
   // 设置端点：起点或者结束点
   _setEnd(name, value) {
     const pointName = END_MAP[name] + POINT_NAME_SUFFIX;
