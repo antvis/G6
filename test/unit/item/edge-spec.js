@@ -57,7 +57,8 @@ describe('edge test, with circle', () => {
       target: bNode,
       group
     });
-
+    expect(edge.getSource()).to.equal(aNode);
+    expect(edge.getTarget()).to.equal(bNode);
     expect(group.getCount()).eql(1);
     canvas.draw();
   });
