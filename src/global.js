@@ -1,10 +1,9 @@
 /**
  * @fileOverview global config
- * @author huangtonger@aliyun.com
  */
 
 module.exports = {
-  version: '3.0.0-beta.12',
+  version: '3.0.0-beta.13',
   rootContainerClassName: 'root-container',
   nodeContainerClassName: 'node-container',
   edgeContainerClassName: 'edge-container',
