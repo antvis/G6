@@ -416,9 +416,11 @@ class Graph extends EventEmitter {
     const maxZoom = this.get('maxZoom');
     if (minZoom && matrix[0] < minZoom) {
       matrix[0] = minZoom;
+      matrix[4] = minZoom;
     }
     if (maxZoom && matrix[0] > maxZoom) {
       matrix[0] = maxZoom;
+      matrix[4] = maxZoom;
     }
     rootGroup.setMatrix(matrix);
   }
@@ -501,6 +503,22 @@ class Graph extends EventEmitter {
    */
   getZoom() {
     return this.get('group').getMatrix()[0];
+  }
+
+  /**
+   * 获取当前图中所有节点的item实例
+   * @return {array} item数组
+   */
+  getNodes() {
+    return this.get('nodes');
+  }
+
+  /**
+   * 获取当前图中所有边的item实例
+   * @return {array} item数组
+   */
+  getEdges() {
+    return this.get('edges');
   }
 
   /**

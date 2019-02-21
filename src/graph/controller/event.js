@@ -19,14 +19,6 @@ const EVENTS = [
   'drop'
 ];
 
-const EXTEND_EVENTS = [
-  'mousewheel',
-  'wheel'
-];
-
-const CLICK_TIMEOUT = 200;
-let _timer = null;
-
 function getItemRoot(shape) {
   while (shape && !shape.get('item')) {
     shape = shape.get('parent');
@@ -48,34 +40,17 @@ class Event {
     const extendEvents = self.extendEvents;
     const canvasHandler = Util.wrapBehavior(self, '_onCanvasEvents');
     const originHandler = Util.wrapBehavior(self, '_onExtendEvents');
+    const wheelHandler = Util.wrapBehavior(self, '_onWheelEvent');
     Util.each(EVENTS, event => {
       canvas.on(event, canvasHandler);
     });
     this.canvasHandler = canvasHandler;
-
-    Util.each(EXTEND_EVENTS, event => {
-      extendEvents.push(Util.addEventListener(el, event, originHandler));
-    });
+    extendEvents.push(Util.addEventListener(el, 'DOMMouseScroll', wheelHandler));
+    extendEvents.push(Util.addEventListener(el, 'mousewheel', wheelHandler));
     window && extendEvents.push(Util.addEventListener(window, 'keydown', originHandler));
     window && extendEvents.push(Util.addEventListener(window, 'keyup', originHandler));
   }
   _onCanvasEvents(e) {
-    const self = this;
-    const type = e.type;
-    // 单击与双击的互斥逻辑，如果之后捕获到双击事件，不触发单击事件
-    if (type === 'click') {
-      clearTimeout(_timer);
-      _timer = setTimeout(() => {
-        self._triggerCanvasEvents(e);
-      }, CLICK_TIMEOUT);
-      return;
-    }
-    if (type === 'dblclick') {
-      clearTimeout(_timer);
-    }
-    self._triggerCanvasEvents(e);
-  }
-  _triggerCanvasEvents(e) {
     const self = this;
     const graph = self.graph;
     const canvas = graph.get('canvas');
@@ -127,6 +102,10 @@ class Event {
   }
   _onExtendEvents(e) {
     this.graph.emit(e.type, e);
+  }
+  _onWheelEvent(e) {
+    e.wheelDelta = e.wheelDelta || -e.detail;
+    this.graph.emit('wheel', e);
   }
   _handleMouseMove(e, type) {
     const self = this;
