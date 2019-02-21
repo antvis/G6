@@ -29,7 +29,7 @@ class Node extends Item {
   getDefaultCfg() {
     return {
       type: 'node',
-      anchors: [],
+      anchorPoints: [],
       edges: [],
       status: []
     };

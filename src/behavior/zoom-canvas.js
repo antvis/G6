@@ -3,9 +3,7 @@ const DELTA = 0.05;
 module.exports = {
   getDefaultCfg() {
     return {
-      sensitivity: 5,
-      minZoom: 0.1,
-      maxZoom: 10
+      sensitivity: 5
     };
   },
   getEvents() {
@@ -28,10 +26,6 @@ module.exports = {
       ratio = 1 - DELTA * sensitivity;
     } else {
       ratio = 1 + DELTA * sensitivity;
-    }
-    const zoom = ratio * graph.getZoom();
-    if (zoom > this.get('maxZoom') || zoom < this.get('minZoom')) {
-      return;
     }
     graph.zoom(ratio, { x: point.x / pixelRatio, y: point.y / pixelRatio });
     graph.paint();

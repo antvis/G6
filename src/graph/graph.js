@@ -254,11 +254,11 @@ class Graph extends EventEmitter {
     self.emit('beforegraphrefresh');
     const nodes = self.get('nodes');
     const edges = self.get('edges');
-    Util.each(edges, edge => {
-      edge.refresh();
-    });
     Util.each(nodes, node => {
       node.refresh();
+    });
+    Util.each(edges, edge => {
+      edge.refresh();
     });
     self.emit('aftergraphrefresh');
     self.autoPaint();
