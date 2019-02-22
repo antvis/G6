@@ -431,6 +431,9 @@ class Graph extends EventEmitter {
    * @param {number} dy 垂直方向位移
    */
   translate(dx, dy) {
+    if (!dx && !dy) {
+      return;
+    }
     this.get('group').translate(dx, dy);
     this.autoPaint();
   }

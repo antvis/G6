@@ -17,7 +17,6 @@ class Minimap {
       container: null,
       className: 'g6-minimap',
       viewportClassName: 'g6-minimap-viewport',
-      onChange: null,
       keyShapeOnly: false,
       viewportStyle: {
         stroke: '#1890ff',
@@ -59,62 +58,86 @@ class Minimap {
   }
   initViewport() {
     const cfgs = this._cfgs;
+    const size = cfgs.size;
     const graph = cfgs.graph;
-    const viewportStyle = this._cfgs.viewportStyle;
+    const pixelRatio = graph.get('pixelRatio') || graph.get('canvas').get('pixelRatio');
+    const widthRatio = graph.get('width') / size[0] * pixelRatio;
+    const heightRatio = graph.get('height') / size[1] * pixelRatio;
     const canvas = this._canvas;
-    // const size = cfgs.size;
-    // 添加蒙层
-    const mask = canvas.addShape('rect', {
-      attrs: {
-        x: 0,
-        y: 0,
-        width: canvas.get('width'),
-        height: canvas.get('height'),
-        fill: 'rgba(255, 255, 255, 0.5)'
-      }
-    });
-    this._mask = mask;
-    // 添加视窗
-    mask.attr('clip', new G.Rect({
-      attrs: viewportStyle
-    }));
     const containerDOM = canvas.get('containerDOM');
-    const window = Util.createDom('<div draggable="true" class="' + cfgs.viewportClassName + '" style="position:absolute;left:0;top:0;right:0;bottom:0;border: 2px solid #1980ff"></div>');
+    const viewport = Util.createDom('<div class="' + cfgs.viewportClassName + '" style="position:absolute;left:0;top:0;box-sizing:border-box;border: 2px solid #1980ff"></div>');
     let x,
-      y;
-    window.addEventListener('dragstart', e => {
+      y,
+      dragging,
+      left,
+      top,
+      width,
+      height;
+    containerDOM.addEventListener('mousedown', e => {
+      if (e.target !== viewport) {
+        return;
+      }
+      // 如果视口已经最大了，不需要拖拽
+      const style = viewport.style;
+      left = parseInt(style.left, 10);
+      top = parseInt(style.top, 10);
+      width = parseInt(style.width, 10);
+      height = parseInt(style.height, 10);
+      if (width >= size[0] || height >= size[1]) {
+        return;
+      }
+      dragging = true;
       x = e.clientX;
       y = e.clientY;
-    });
-    window.addEventListener('drag', e => {
-      window.modifyCSS({ visibility: 'hidden' });
-      const dx = x - e.clientX;
-      const dy = y - e.clientY;
-      graph.translate(dx, dy);
-      x = e.clientX;
-      y = e.clientY;
-    });
-    /* window.addEventListener('dragend', e => {
-      const x1 = window.style.left;
-      const y1 = window.style.top;
-      const x2 = size[0] - window.style.right;
-      const y2 = size[1] - window.style.bottom;
-      window.modifyCSS({
-        visibility: 'visible'
+    }, false);
+    containerDOM.addEventListener('mousemove', e => {
+      if (!dragging || (!e.clientX && !e.clientY)) {
+        return;
+      }
+      let dx = x - e.clientX;
+      let dy = y - e.clientY;
+      // 若视口移动到最左边或最右边了
+      if (left - dx < 0) {
+        dx = left;
+      } else if (left - dx + width > size[0]) {
+        dx = left + width - size[0];
+      }
+      // 若视口移动到最上或最下边了
+      if (top - dy < 0) {
+        dy = top;
+      } else if (top - dy + height > size[1]) {
+        dy = top + height - size[1];
+      }
+      left -= dx;
+      top -= dy;
+      Util.modifyCSS(viewport, {
+        left: left + 'px',
+        top: top + 'px'
       });
-    });*/
-    this._window = window;
-    containerDOM.appendChild(window);
+      graph.translate(dx * widthRatio, dy * heightRatio);
+      x = e.clientX;
+      y = e.clientY;
+    }, false);
+    containerDOM.addEventListener('mouseleave', () => {
+      dragging = false;
+    }, false);
+    containerDOM.addEventListener('mouseup', () => {
+      dragging = false;
+    }, false);
+    this._viewport = viewport;
+    containerDOM.appendChild(viewport);
   }
   updateCanvas() {
     const cfgs = this._cfgs;
     const size = cfgs.size;
     const graph = cfgs.graph;
     const canvas = this._canvas;
-    const graphCanvas = graph.get('canvas');
-    const clonedGroup = graphCanvas.clone();
-    canvas.get('children')[0] = clonedGroup.get('children')[0];
-    const bbox = graphCanvas.getBBox();
+    if (cfgs.keyShapeOnly) {
+      this.updateKeyShapes();
+    } else {
+      this.updateGraphShapes();
+    }
+    const bbox = canvas.getBBox();
     const width = max(bbox.width, graph.get('width'));
     const height = max(bbox.height, graph.get('height'));
     const pixelRatio = canvas.get('pixelRatio');
@@ -123,27 +146,55 @@ class Minimap {
     canvas.scale(size[0] / width * pixelRatio, size[1] / height * pixelRatio);
     canvas.draw();
   }
+  updateKeyShapes() {
+    const graph = this._cfgs.graph;
+    const canvas = this._canvas;
+    const group = canvas.get('children')[0] || canvas.addGroup();
+    const nodes = graph.getNodes();
+    const edges = graph.getEdges();
+
+    canvas.get('children');
+    Util.each(edges, edge => {
+      group.add(edge.get('keyShape').clone());
+    });
+    Util.each(nodes, node => {
+      group.add(node.get('keyShape').clone());
+    });
+  }
+  updateGraphShapes() {
+    const cfgs = this._cfgs;
+    const graph = cfgs.graph;
+    const canvas = this._canvas;
+    const graphGroup = graph.get('group');
+    const clonedGroup = graphGroup.clone();
+    clonedGroup.resetMatrix();
+    canvas.get('children')[0] = clonedGroup;
+  }
   updateViewport() {
     const size = this._cfgs.size;
     const graph = this._cfgs.graph;
+    const matrix = graph.get('group').getMatrix();
     const topLeft = graph.getPointByCanvas(0, 0);
-    const bottomRight = graph.getPointByCanvas(size[0], size[1]);
-    if (!this._mask) {
+    if (!this._viewport) {
       this.initViewport();
     }
-    const viewport = this._mask.attr('clip');
-    viewport.attr({
-      x: topLeft.x,
-      y: topLeft.y,
-      width: bottomRight.x - topLeft.x,
-      height: bottomRight.y - topLeft.y
+    // viewport宽高,左上角点的计算
+    const width = matrix[0] >= 1 ? size[0] / matrix[0] : size[0];
+    const height = matrix[4] >= 1 ? size[1] / matrix[4] : size[1];
+    const left = topLeft.x > 0 ? topLeft.x * size[0] / graph.get('width') : 0;
+    const top = topLeft.y > 0 ? topLeft.y * size[1] / graph.get('height') : 0;
+    Util.modifyCSS(this._viewport, {
+      left: left + 'px',
+      top: top + 'px',
+      width: width + 'px',
+      height: height + 'px'
     });
-    Util.modifyCSS(this._window, {
-      right: topLeft.x < 0 ? 0 : topLeft.x + 'px',
-      bottom: topLeft.y < 0 ? 0 : topLeft.y + 'px',
-      left: size[0] > bottomRight.x ? size[0] - bottomRight.x : 0 + 'px',
-      top: size[1] > bottomRight.y ? size[1] - bottomRight.y : 0 + 'px'
-    });
+  }
+  getCanvas() {
+    return this._canvas;
+  }
+  getViewport() {
+    return this._viewport;
   }
   destroy() {
     const cfgs = this._cfgs;

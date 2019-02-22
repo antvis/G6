@@ -47,13 +47,11 @@ describe('zoom-canvas', () => {
       width: 500,
       height: 500,
       modes: {
-        default: [{
-          type: 'zoom-canvas',
-          maxZoom: 5,
-          minZoom: 0.5
-        }]
+        default: [ 'zoom-canvas' ]
       },
-      pixelRatio: 2
+      pixelRatio: 2,
+      minZoom: 0.5,
+      maxZoom: 5
     });
     graph.zoom(5);
     let e = createWheelEvent(graph.get('canvas').get('el'), -100, 100, 100);
