@@ -141,12 +141,12 @@ class Minimap {
     const canvas = this._canvas;
     // 根据cfgs更新画布内容
     if (cfgs.keyShapeOnly) {
-      this.updateKeyShapes();
+      this._updateKeyShapes();
     } else {
-      this.updateGraphShapes();
+      this._updateGraphShapes();
     }
     // 更新minimap视口
-    this.updateViewport();
+    this._updateViewport();
     // 刷新后bbox可能会变，需要重置画布矩阵以缩放到合适的大小
     const bbox = canvas.getBBox();
     const width = max(bbox.width, graph.get('width'));
@@ -158,7 +158,7 @@ class Minimap {
   }
   // 仅在minimap上绘制keyShape
   // FIXME 如果用户自定义绘制了其他内容，minimap上就无法画出
-  updateKeyShapes() {
+  _updateKeyShapes() {
     const graph = this._cfgs.graph;
     const canvas = this._canvas;
     const group = canvas.get('children')[0] || canvas.addGroup();
@@ -177,7 +177,7 @@ class Minimap {
     });
   }
   // 将主图上的图形完全复制到小图
-  updateGraphShapes() {
+  _updateGraphShapes() {
     const cfgs = this._cfgs;
     const graph = cfgs.graph;
     const canvas = this._canvas;
@@ -186,8 +186,8 @@ class Minimap {
     clonedGroup.resetMatrix();
     canvas.get('children')[0] = clonedGroup;
   }
-  // 绘制
-  updateViewport() {
+  // 绘制minimap视口
+  _updateViewport() {
     const size = this._cfgs.size;
     const graph = this._cfgs.graph;
     const matrix = graph.get('group').getMatrix();
@@ -207,11 +207,27 @@ class Minimap {
       height: height + 'px'
     });
   }
+
+  /**
+   * 获取minimap的画布
+   * @return {object} G的canvas实例
+   */
   getCanvas() {
     return this._canvas;
   }
+  /**
+   * 获取minimap的窗口
+   * @return {object} 窗口的dom实例
+   */
   getViewport() {
     return this._viewport;
+  }
+  /**
+   * 获取minimap的容器dom
+   * @return {object} dom
+   */
+  getContainer() {
+    return this._cfgs.container;
   }
   destroy() {
     const cfgs = this._cfgs;
