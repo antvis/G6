@@ -5,6 +5,7 @@
 
 const Util = require('../util/');
 const Shape = require('../shape');
+const CACHE_BBOX = 'bboxCache';
 
 class Item {
   constructor(cfg) {
@@ -306,7 +307,8 @@ class Item {
         this.draw();
       }
     }
-    this.afterUpdate();
+    this.set(CACHE_BBOX, null); // 清理缓存的 bbox
+    this.afterUpdate(); // 子类可以清理自己的要清理的内容
   }
 
   /**
@@ -344,7 +346,12 @@ class Item {
    * @return {Object} 包含 x,y,width,height, centerX, centerY
    */
   getBBox() {
-    return this.bbox || this._calculateBBox();
+    let bbox = this.get(CACHE_BBOX);
+    if (!bbox) { // 计算 bbox 开销有些大，缓存
+      bbox = this._calculateBBox();
+      this.set(CACHE_BBOX, bbox);
+    }
+    return bbox;
   }
 
   /**

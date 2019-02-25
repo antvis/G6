@@ -245,6 +245,65 @@ describe('edge test, with ellipse', () => {
   });
 });
 
+describe('edge test, with custom controlPoints', () => {
+  let aNode;
+  let bNode;
+  // 延迟绘制节点，避免冲突
+  it('init', () => {
+    aNode = new Node({
+      id: 'a',
+      model: {
+        x: 300,
+        y: 300,
+        size: 20,
+        shape: 'circle'
+      },
+      group: canvas.addGroup()
+    });
+
+    bNode = new Node({
+      id: 'b',
+      model: {
+        x: 400,
+        y: 400,
+        size: 20,
+        shape: 'circle'
+      },
+      group: canvas.addGroup()
+    });
+  });
+  it('quad', () => {
+    const group = canvas.addGroup();
+    const edge = new Edge({
+      model: {
+        shape: 'quadratic'
+      },
+      source: aNode,
+      target: bNode,
+      group
+    });
+    const cfg = edge.getShapeCfg(edge.get('model'));
+    // 如果不使用控制点计算时，两者会相等
+    expect(cfg.startPoint.x).not.eql(cfg.startPoint.y);
+
+  });
+  it('cubic', () => {
+    const group = canvas.addGroup();
+    const edge = new Edge({
+      model: {
+        shape: 'cubic-horizontal'
+      },
+      source: aNode,
+      target: bNode,
+      group
+    });
+    const cfg = edge.getShapeCfg(edge.get('model'));
+    expect(cfg.startPoint).eqls({ x: 310.5, y: 300 });
+    expect(cfg.endPoint).eqls({ x: 389.5, y: 400 });
+    canvas.draw();
+  });
+});
+
 describe('edge test, anchors', () => {
 
   let edge;
