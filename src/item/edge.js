@@ -16,8 +16,8 @@ class Edge extends Item {
       sourceNode: null,
       targetNode: null,
       startPoint: null,
-      endPoint: null,
-      linkCenter: false
+      endPoint: null/* ,
+      linkCenter: false*/ // 参数名暂时没想好，是连接节点的中心，还是直接连接 x,y
     };
   }
 
