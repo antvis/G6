@@ -35,10 +35,16 @@ class Minimap {
     const cfgs = self._cfgs;
     const size = cfgs.size;
     let container = cfgs.container;
-    if (container && Util.isString(container)) {
+    if (Util.isString(container)) {
       container = document.getElementById(container);
     }
-    if (!container) {
+    if (container) {
+      container.classList.add(cfgs.className);
+      Util.modifyCSS(container, {
+        width: size[0] + 'px',
+        height: size[1] + 'px'
+      });
+    } else {
       container = Util.createDom('<div class="' + cfgs.className + '" style="width:' + size[0] + 'px; height:' + size[1] + 'px"></div>');
       graph.get('container').appendChild(container);
     }
@@ -66,13 +72,13 @@ class Minimap {
     const canvas = this._canvas;
     const containerDOM = canvas.get('containerDOM');
     const viewport = Util.createDom('<div class="' + cfgs.viewportClassName + '" style="position:absolute;left:0;top:0;box-sizing:border-box;border: 2px solid #1980ff"></div>');
-    let x,
-      y,
-      dragging,
-      left,
-      top,
-      width,
-      height;
+    let x,            // 计算拖拽水平方向距离
+      y,              // 计算拖拽垂直方向距离
+      dragging,       // 是否在拖拽minimap的视口
+      left,           // 缓存viewport当前对于画布的x
+      top,            // 缓存viewport当前对于画布的y
+      width,          // 缓存viewport当前宽度
+      height;         // 缓存viewport当前高度
     containerDOM.addEventListener('mousedown', e => {
       if (e.target !== viewport) {
         return;
@@ -96,13 +102,13 @@ class Minimap {
       }
       let dx = x - e.clientX;
       let dy = y - e.clientY;
-      // 若视口移动到最左边或最右边了
+      // 若视口移动到最左边或最右边了,仅移动到边界
       if (left - dx < 0) {
         dx = left;
       } else if (left - dx + width > size[0]) {
         dx = left + width - size[0];
       }
-      // 若视口移动到最上或最下边了
+      // 若视口移动到最上或最下边了，仅移动到边界
       if (top - dy < 0) {
         dy = top;
       } else if (top - dy + height > size[1]) {
@@ -110,6 +116,7 @@ class Minimap {
       }
       left -= dx;
       top -= dy;
+      // 先移动视口，避免移动到边上以后出现视口闪烁
       Util.modifyCSS(viewport, {
         left: left + 'px',
         top: top + 'px'
@@ -132,37 +139,44 @@ class Minimap {
     const size = cfgs.size;
     const graph = cfgs.graph;
     const canvas = this._canvas;
+    // 根据cfgs更新画布内容
     if (cfgs.keyShapeOnly) {
       this.updateKeyShapes();
     } else {
       this.updateGraphShapes();
     }
+    // 更新minimap视口
+    this.updateViewport();
+    // 刷新后bbox可能会变，需要重置画布矩阵以缩放到合适的大小
     const bbox = canvas.getBBox();
     const width = max(bbox.width, graph.get('width'));
     const height = max(bbox.height, graph.get('height'));
     const pixelRatio = canvas.get('pixelRatio');
-    this.updateViewport();
     canvas.resetMatrix();
     canvas.scale(size[0] / width * pixelRatio, size[1] / height * pixelRatio);
     canvas.draw();
   }
+  // 仅在minimap上绘制keyShape
+  // FIXME 如果用户自定义绘制了其他内容，minimap上就无法画出
   updateKeyShapes() {
     const graph = this._cfgs.graph;
     const canvas = this._canvas;
     const group = canvas.get('children')[0] || canvas.addGroup();
     const nodes = graph.getNodes();
     const edges = graph.getEdges();
-
     canvas.get('children');
+    // 边可以直接使用keyShape
     Util.each(edges, edge => {
       group.add(edge.get('keyShape').clone());
     });
+    // 节点需要group配合keyShape
     Util.each(nodes, node => {
       const parent = group.addGroup();
       parent.setMatrix(node.get('group').attr('matrix'));
       parent.add(node.get('keyShape').clone());
     });
   }
+  // 将主图上的图形完全复制到小图
   updateGraphShapes() {
     const cfgs = this._cfgs;
     const graph = cfgs.graph;
@@ -172,6 +186,7 @@ class Minimap {
     clonedGroup.resetMatrix();
     canvas.get('children')[0] = clonedGroup;
   }
+  // 绘制
   updateViewport() {
     const size = this._cfgs.size;
     const graph = this._cfgs.graph;

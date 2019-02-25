@@ -5,6 +5,8 @@ const Simulate = require('event-simulate');
 const div = document.createElement('div');
 div.id = 'minimap';
 document.body.appendChild(div);
+const container = document.createElement('div');
+div.appendChild(container);
 
 describe('minimap', () => {
   const graph = new G6.Graph({
@@ -114,6 +116,17 @@ describe('minimap', () => {
       }, 50);
     }, 50);
   });
+  it('minimap container', () => {
+    const minimap = new Minimap({ graph, container, size: [ 200, 200 ], className: 'test-className' });
+    expect(container.childNodes).not.to.be.undefined;
+    expect(container.className).to.equal('test-className');
+    expect(container.style.width).to.equal('200px');
+    expect(container.style.width).to.equal('200px');
+    expect(container.childNodes[0].tagName).to.equal('DIV');
+    expect(container.childNodes[0].style.position).to.equal('relative');
+    expect(container.childNodes[0].childNodes[0]).to.equal(minimap.getCanvas().get('el'));
+    minimap.destroy();
+  });
   it('keyShapeOnly minimap', () => {
     const minimap = new Minimap({ graph, size: [ 200, 200 ], keyShapeOnly: true });
     const canvas = minimap.getCanvas();
@@ -125,5 +138,11 @@ describe('minimap', () => {
     expect(shapeGroup[1].getMatrix()[6]).to.equal(50);
     expect(shapeGroup[1].getMatrix()[7]).to.equal(50);
     expect(shapeGroup[1].get('children').length).to.equal(1);
+    expect(shapeGroup[1].get('children')[0].type).to.equal('circle');
+    expect(shapeGroup[2].type).to.equal('group');
+    expect(shapeGroup[2].getMatrix()[6]).to.equal(120);
+    expect(shapeGroup[2].getMatrix()[7]).to.equal(150);
+    expect(shapeGroup[2].get('children').length).to.equal(1);
+    expect(shapeGroup[2].get('children')[0].type).to.equal('circle');
   });
 });
