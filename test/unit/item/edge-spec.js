@@ -245,11 +245,7 @@ describe('edge test, with ellipse', () => {
   });
 });
 
-describe('edge test, with curve', () => {
-
-});
-
-describe('edge test, direct link x,y', () => {
+describe('edge test, with custom controlPoints', () => {
   let aNode;
   let bNode;
   // 延迟绘制节点，避免冲突
