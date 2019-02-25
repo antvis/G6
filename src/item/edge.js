@@ -16,7 +16,8 @@ class Edge extends Item {
       sourceNode: null,
       targetNode: null,
       startPoint: null,
-      endPoint: null
+      endPoint: null/* ,
+      linkCenter: false*/ // 参数名暂时没想好，是连接节点的中心，还是直接连接 x,y
     };
   }
 
@@ -62,14 +63,14 @@ class Edge extends Item {
   }
 
   // 获取与端点相交的节点
-  _getLinkPoint(name, model) {
+  _getLinkPoint(name, model, controlPoints) {
     const pointName = END_MAP[name] + POINT_NAME_SUFFIX;
     const itemName = name + ITEM_NAME_SUFFIX;
     let point = this.get(pointName);
     if (!point) {
       const item = this.get(itemName);
       const anchorName = name + ANCHOR_NAME_SUFFIX;
-      const prePoint = this._getPrePoint(name);
+      const prePoint = this._getPrePoint(name, controlPoints);
       const anchorIndex = model[anchorName];
       if (!Util.isNil(anchorIndex)) { // 如果有锚点，则使用锚点索引获取连接点
         point = item.getLinkPointByAnchor(anchorIndex);
@@ -81,14 +82,24 @@ class Edge extends Item {
   }
 
   // 获取同端点进行连接的点，计算交汇点
-  _getPrePoint(name) {
-    const controlPoints = this.get('model').controlPoints;
+  _getPrePoint(name, controlPoints) {
     if (controlPoints && controlPoints.length) {
       const index = name === 'source' ? 0 : controlPoints.length - 1;
       return controlPoints[index];
     }
     const oppositeName = name === 'source' ? 'target' : 'source'; // 取另一个节点的位置
     return this._getEndPoint(oppositeName);
+  }
+
+  // 通过端点的中心获取控制点
+  _getControlPointsByCenter(model) {
+    const sourcePoint = this._getEndPoint('source');
+    const targetPoint = this._getEndPoint('target');
+    const shapeFactory = this.get('shapeFactory');
+    return shapeFactory.getControlPoints(model.shape, {
+      startPoint: sourcePoint,
+      endPoint: targetPoint
+    });
   }
 
   // 获取端点的位置
@@ -104,9 +115,10 @@ class Edge extends Item {
   }
 
   getShapeCfg(model) {
+    const controlPoints = model.controlPoints || this._getControlPointsByCenter(model);
     const cfg = {
-      startPoint: this._getLinkPoint('source', model),
-      endPoint: this._getLinkPoint('target', model)
+      startPoint: this._getLinkPoint('source', model, controlPoints),
+      endPoint: this._getLinkPoint('target', model, controlPoints)
     };
     Util.mix(cfg, model);
     return cfg;
