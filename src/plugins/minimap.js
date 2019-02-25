@@ -91,7 +91,7 @@ class Minimap {
       y = e.clientY;
     }, false);
     containerDOM.addEventListener('mousemove', e => {
-      if (!dragging || (!e.clientX && !e.clientY)) {
+      if (!dragging || Util.isNil(e.clientX) || Util.isNil(e.clientY)) {
         return;
       }
       let dx = x - e.clientX;
@@ -158,7 +158,9 @@ class Minimap {
       group.add(edge.get('keyShape').clone());
     });
     Util.each(nodes, node => {
-      group.add(node.get('keyShape').clone());
+      const parent = group.addGroup();
+      parent.setMatrix(node.get('group').attr('matrix'));
+      parent.add(node.get('keyShape').clone());
     });
   }
   updateGraphShapes() {

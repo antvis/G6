@@ -19,7 +19,9 @@ describe('minimap', () => {
     },
     pixelRatio: 2
   });
-  graph.addItem('node', { id: 'node', label: 'text', x: 50, y: 50 });
+  graph.addItem('node', { id: 'node1', label: 'text1', x: 50, y: 50 });
+  graph.addItem('node', { id: 'node2', label: 'text2', x: 120, y: 150 });
+  graph.addItem('edge', { id: 'edge1', source: 'node1', target: 'node2' });
   it('minimap with default settings & destroy', () => {
     const minimap = new Minimap({ graph, size: [ 200, 200 ] });
     const canvas = minimap.getCanvas();
@@ -74,6 +76,10 @@ describe('minimap', () => {
       clientX: 120,
       clientY: 120
     });
+    Simulate.simulate(container, 'mouseup', {
+      clientX: 120,
+      clientY: 120
+    });
     setTimeout(() => {
       expect(viewport.style.left).to.equal('50px');
       expect(viewport.style.top).to.equal('50px');
@@ -84,7 +90,40 @@ describe('minimap', () => {
       expect(matrix[4]).to.equal(2);
       expect(matrix[6]).to.equal(-250);
       expect(matrix[7]).to.equal(-250);
-      done();
+      Simulate.simulate(viewport, 'mousedown', {
+        clientX: 200,
+        clientY: 200,
+        target: viewport
+      });
+      Simulate.simulate(container, 'mousemove', {
+        clientX: 0,
+        clientY: 0
+      });
+      setTimeout(() => {
+        expect(viewport.style.left).to.equal('0px');
+        expect(viewport.style.top).to.equal('0px');
+        expect(viewport.style.width).to.equal('100px');
+        expect(viewport.style.height).to.equal('100px');
+        const matrix = graph.get('group').getMatrix();
+        expect(matrix[0]).to.equal(2);
+        expect(matrix[4]).to.equal(2);
+        expect(matrix[6]).to.equal(0);
+        expect(matrix[7]).to.equal(0);
+        minimap.destroy();
+        done();
+      }, 50);
     }, 50);
+  });
+  it('keyShapeOnly minimap', () => {
+    const minimap = new Minimap({ graph, size: [ 200, 200 ], keyShapeOnly: true });
+    const canvas = minimap.getCanvas();
+    const shapeGroup = canvas.get('children')[0].get('children');
+    expect(shapeGroup.length).to.equal(3);
+    expect(shapeGroup[0].type).to.equal('path');
+    expect(shapeGroup[0].attr('path')).not.to.be.undefined;
+    expect(shapeGroup[1].type).to.equal('group');
+    expect(shapeGroup[1].getMatrix()[6]).to.equal(50);
+    expect(shapeGroup[1].getMatrix()[7]).to.equal(50);
+    expect(shapeGroup[1].get('children').length).to.equal(1);
   });
 });
