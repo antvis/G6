@@ -16,8 +16,8 @@ class Edge extends Item {
       sourceNode: null,
       targetNode: null,
       startPoint: null,
-      endPoint: null/* ,
-      linkCenter: false*/ // 参数名暂时没想好，是连接节点的中心，还是直接连接 x,y
+      endPoint: null,
+      linkCenter: false // 参数名暂时没想好，是连接节点的中心，还是直接连接 x,y
     };
   }
 
@@ -114,12 +114,32 @@ class Edge extends Item {
     return this.get(pointName);
   }
 
+  _getEndCenter(name) {
+    const itemName = name + ITEM_NAME_SUFFIX;
+    const pointName = END_MAP[name] + POINT_NAME_SUFFIX;
+    const item = this.get(itemName);
+      // 如果有端点，直接使用 model
+    if (item) {
+      const bbox = item.getBBox();
+      return {
+        x: bbox.centerX,
+        y: bbox.centerY
+      };
+    }  // 否则直接使用点
+    return this.get(pointName);
+  }
+
   getShapeCfg(model) {
-    const controlPoints = model.controlPoints || this._getControlPointsByCenter(model);
-    const cfg = {
-      startPoint: this._getLinkPoint('source', model, controlPoints),
-      endPoint: this._getLinkPoint('target', model, controlPoints)
-    };
+    const linkCenter = this.get('linkCenter'); // 如果连接到中心，忽视锚点、忽视控制点
+    const cfg = {};
+    if (linkCenter) {
+      cfg.startPoint = this._getEndCenter('source');
+      cfg.endPoint = this._getEndCenter('target');
+    } else {
+      const controlPoints = model.controlPoints || this._getControlPointsByCenter(model);
+      cfg.startPoint = this._getLinkPoint('source', model, controlPoints);
+      cfg.endPoint = this._getLinkPoint('target', model, controlPoints);
+    }
     Util.mix(cfg, model);
     return cfg;
   }
