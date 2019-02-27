@@ -108,7 +108,29 @@ class Graph extends EventEmitter {
        * 边直接连接到节点的中心，不再考虑锚点
        * @type {Boolean}
        */
-      linkCenter: false
+      linkCenter: false,
+      /**
+       * 节点默认样式，也可以添加状态样式
+       * 例如：
+       * const graph = new G6.Graph({
+       *  nodeStyle: {
+       *    default: { fill: '#fff' },
+       *    selected: { fill: '#ccc', stroke: '#666' },
+       *    active: { lineWidth: 2 }
+       *  },
+       *  ...
+       * });
+       *
+       */
+      nodeStyle: {
+        default: {}
+      },
+      /**
+       * 边默认样式，用法同nodeStyle
+       */
+      edgeStyle: {
+        default: {}
+      }
     };
   }
 
