@@ -103,7 +103,12 @@ class Graph extends EventEmitter {
        * all the instances indexed by id
        * @type object
        */
-      itemMap: {}
+      itemMap: {},
+      /**
+       * 边直接连接到节点的中心，不再考虑锚点
+       * @type {Boolean}
+       */
+      linkCenter: false
     };
   }
 
