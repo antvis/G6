@@ -29,6 +29,7 @@ class ItemController {
         model,
         source,
         target,
+        linkCenter: graph.get('linkCenter'),
         group: parent.addGroup()
       });
     } else {
