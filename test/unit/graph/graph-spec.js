@@ -279,4 +279,30 @@ describe('all node link center', () => {
     graph.destroy();
     expect(graph.destroyed).eql(true);
   });
+  it('default node & edge style', () => {
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      nodeStyle: {
+        default: {
+          fill: 'red',
+          stroke: 'blue'
+        }
+      }
+    });
+    const node = graph.addItem('node', {
+      id: 'node1',
+      shape: 'rect',
+      label: 'test label',
+      style: {
+        stroke: '#666'
+      }
+    });
+    graph.paint();
+    const model = node.get('model');
+    expect(model.shape).to.equal('rect');
+    expect(model.style.fill).to.equal('red');
+    expect(model.style.stroke).to.equal('#666');
+  });
 });
