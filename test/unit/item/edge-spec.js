@@ -239,9 +239,87 @@ describe('edge test, with ellipse', () => {
     expect(shape.attr('path')[0]).eqls([ 'M', intersectPoint.x, intersectPoint.y ]);
     canvas.draw();
   });
+});
 
-  it('clear', () => {
+describe('edge test, direct link', () => {
+  const aNode = new Node({
+    id: 'a',
+    model: {
+      x: 150,
+      y: 150,
+      size: [ 20, 40 ],
+      shape: 'ellipse',
+      style: {
+        fill: 'white'
+      }
+    },
+    group: canvas.addGroup()
+  });
 
+  const bNode = new Node({
+    id: 'b',
+    model: {
+      x: 250,
+      y: 250,
+      size: [ 20, 40 ],
+      shape: 'circle'
+    },
+    group: canvas.addGroup()
+  });
+
+  it('line', () => {
+    const group = canvas.addGroup();
+    const edge = new Edge({
+      model: {
+
+      },
+      source: aNode,
+      target: bNode,
+      linkCenter: true,
+      group
+    });
+    const shape = edge.get('keyShape');
+    const path = shape.attr('path');
+    expect(path[0]).eqls([ 'M', 150, 150 ]);
+    expect(path[1]).eqls([ 'L', 250, 250 ]);
+    edge.destroy();
+    canvas.draw();
+  });
+  it('quad', () => {
+    const edge = new Edge({
+      model: {
+        shape: 'quadratic'
+      },
+      source: aNode,
+      target: bNode,
+      linkCenter: true,
+      group: canvas.addGroup()
+    });
+
+    const shape = edge.get('keyShape');
+    const path = shape.attr('path');
+    expect(path[0][1]).eqls(150);
+    expect(path[0][2]).eqls(150);
+    expect(path[1][3]).eql(250);
+    expect(path[1][4]).eql(250);
+    canvas.draw();
+  });
+  it('point', () => {
+    const group = canvas.addGroup();
+    const edge = new Edge({
+      model: {
+
+      },
+      source: { x: 10, y: 20 },
+      target: { x: 120, y: 40 },
+      linkCenter: true,
+      group
+    });
+    const shape = edge.get('keyShape');
+    const path = shape.attr('path');
+    expect(path[0]).eqls([ 'M', 10, 20 ]);
+    expect(path[1]).eqls([ 'L', 120, 40 ]);
+    edge.destroy();
   });
 });
 

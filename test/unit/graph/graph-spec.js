@@ -241,4 +241,42 @@ describe('graph', () => {
     expect(point.x).to.equal(bbox.left + 200);
     expect(point.y).to.equal(bbox.top + 200);
   });
+  it('clear', () => {
+    graph.destroy();
+    expect(graph.destroyed).eql(true);
+  });
+});
+
+describe('all node link center', () => {
+  const graph = new G6.Graph({
+    container: div,
+    width: 500,
+    height: 500,
+    pixelRatio: 2,
+    linkCenter: true
+  });
+  it('init', () => {
+    expect(graph.get('linkCenter')).equal(true);
+    graph.data({
+      nodes: [{
+        id: '1',
+        x: 10,
+        y: 10
+      }, {
+        id: '2',
+        x: 100,
+        y: 100
+      }],
+      edges: [
+        { id: 'e1', source: '1', target: '2' }
+      ]
+    });
+    graph.render();
+    const edge = graph.findById('e1');
+    expect(edge.get('keyShape').attr('path')).eqls([[ 'M', 10, 10 ], [ 'L', 100, 100 ]]);
+  });
+  it('clear', () => {
+    graph.destroy();
+    expect(graph.destroyed).eql(true);
+  });
 });
