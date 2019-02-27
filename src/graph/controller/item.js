@@ -12,6 +12,7 @@ class ItemController {
     const graph = this.graph;
     const parent = graph.get(type + 'Group') || graph.get('group');
     let item;
+    const styles = graph.get(type + 'Style');
     if (type === EDGE) {
       let source = model.source;
       let target = model.target;
@@ -29,16 +30,18 @@ class ItemController {
         model,
         source,
         target,
+        styles,
         linkCenter: graph.get('linkCenter'),
         group: parent.addGroup()
       });
     } else {
       item = new Item[Util.upperFirst(type)]({
         model,
+        styles,
         group: parent.addGroup()
       });
     }
-    graph.get(type + 's').push(item);
+    graph.get(type + 's').push(item); 6;
     graph.get('itemMap')[item.get('id')] = item;
     graph.autoPaint();
     graph.emit('aftereadditem', { type, model });
