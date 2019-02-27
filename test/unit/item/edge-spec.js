@@ -304,6 +304,23 @@ describe('edge test, direct link', () => {
     expect(path[1][4]).eql(250);
     canvas.draw();
   });
+  it('point', () => {
+    const group = canvas.addGroup();
+    const edge = new Edge({
+      model: {
+
+      },
+      source: { x: 10, y: 20 },
+      target: { x: 120, y: 40 },
+      linkCenter: true,
+      group
+    });
+    const shape = edge.get('keyShape');
+    const path = shape.attr('path');
+    expect(path[0]).eqls([ 'M', 10, 20 ]);
+    expect(path[1]).eqls([ 'L', 120, 40 ]);
+    edge.destroy();
+  });
 });
 
 describe('edge test, with custom controlPoints', () => {
