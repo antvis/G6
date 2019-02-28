@@ -241,6 +241,25 @@ describe('graph', () => {
     expect(point.x).to.equal(bbox.left + 200);
     expect(point.y).to.equal(bbox.top + 200);
   });
+  it('clear states', () => {
+    graph.clear();
+    const node = graph.addItem('node', { id: 'a', x: 50, y: 100, size: 50 });
+    graph.setItemState(node, 'a', true);
+    graph.setItemState(node, 'b', true);
+    expect(graph.findAllByState('node', 'a').length).eql(1);
+    graph.clearItemStates(node);
+
+    expect(graph.findAllByState('node', 'a').length).eql(0);
+    expect(graph.findAllByState('node', 'b').length).eql(0);
+
+    graph.setItemState(node, 'a', true);
+    graph.setItemState(node, 'b', true);
+
+    graph.clearItemStates(node, 'a');
+    expect(graph.findAllByState('node', 'a').length).eql(0);
+    expect(graph.findAllByState('node', 'b').length).eql(1);
+  });
+
   it('clear', () => {
     graph.destroy();
     expect(graph.destroyed).eql(true);

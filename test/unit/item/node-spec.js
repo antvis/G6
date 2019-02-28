@@ -287,7 +287,7 @@ describe('node', () => {
       group
     });
 
-    const shape = node.get('keyShape');
+    const shape = node.getKeyShape();
     expect(!!shape.get('destroyed')).eql(false);
 
     node.update({ x: 0, y: 20 });
@@ -295,7 +295,7 @@ describe('node', () => {
 
     node.update({ size: 20 });
     expect(shape.get('destroyed')).eql(true);
-    expect(shape).not.eql(node.get('keyShape'));
+    expect(shape).not.eql(node.getKeyShape());
     node.destroy();
     Shape.Node['my-node-test'] = null;
   });

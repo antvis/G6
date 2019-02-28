@@ -199,6 +199,15 @@ class Graph extends EventEmitter {
   }
 
   /**
+   * 清理元素多个状态
+   * @param {string|object} item 元素id或元素实例
+   * @param {Array|String|null} states 状态
+   */
+  clearItemStates(item, states) {
+    this.get('itemController').clearItemStates(item, states);
+  }
+
+  /**
    * 新增元素
    * @param {string} type 元素类型(node | edge)
    * @param {object} model 元素数据模型

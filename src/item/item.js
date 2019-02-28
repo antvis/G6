@@ -273,6 +273,10 @@ class Item {
     return this.get('type');
   }
 
+  getKeyShape() {
+    return this.get('keyShape');
+  }
+
   /**
    * 渲染前的逻辑，提供给子类复写
    * @protected
