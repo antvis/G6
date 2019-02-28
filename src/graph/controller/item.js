@@ -84,7 +84,6 @@ class ItemController {
     }
     graph.autoPaint();
     graph.emit('afteritemupdate', { item, cfg });
-    return item;
   }
   removeItem(item) {
     const graph = this.graph;
@@ -123,7 +122,6 @@ class ItemController {
     item.setState(state, enabled);
     graph.autoPaint();
     graph.emit('afteritemstatechange', { item, state, enabled });
-    return item;
   }
   refreshItem(item) {
     const graph = this.graph;
