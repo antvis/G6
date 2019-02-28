@@ -37,8 +37,10 @@ describe('graph', () => {
     const edges = inst.getEdges();
     expect(edges).not.to.be.undefined;
     expect(edges.length).to.equal(0);
+    const canvas = inst.get('canvas');
     inst.destroy();
-    expect(inst.get('canvas').destroyed);
+    expect(inst._cfg).to.equal(null);
+    expect(canvas.destroyed);
     expect(length - div.childNodes.length).to.equal(1);
   });
 
@@ -288,11 +290,27 @@ describe('all node link center', () => {
         default: {
           fill: 'red',
           stroke: 'blue'
+        },
+        selected: {
+          fill: 'green',
+          stroke: 'red'
+        }
+      },
+      edgeStyle: {
+        default: {
+          stroke: 'blue',
+          strokeOpacity: 0.5
+        },
+        selected: {
+          stroke: 'red',
+          strokeOpacity: 1
         }
       }
     });
     const node = graph.addItem('node', {
       id: 'node1',
+      x: 100,
+      y: 100,
       shape: 'rect',
       label: 'test label',
       style: {
@@ -304,5 +322,24 @@ describe('all node link center', () => {
     expect(model.shape).to.equal('rect');
     expect(model.style.fill).to.equal('red');
     expect(model.style.stroke).to.equal('#666');
+    graph.setItemState(node, 'selected', true);
+    const keyShape = node.get('keyShape');
+    expect(keyShape.attr('fill')).to.equal('green');
+    expect(keyShape.attr('stroke')).to.equal('red');
+    graph.setItemState(node, 'selected', false);
+    expect(keyShape.attr('fill')).to.equal('red');
+    expect(keyShape.attr('stroke')).to.equal('#666');
+    graph.addItem('node', { id: 'node2' });
+    const edge = graph.addItem('edge', { id: 'edge', source: node, target: 'node2' });
+    const edgeModel = edge.get('model');
+    expect(edgeModel.style.stroke).to.equal('blue');
+    expect(edgeModel.style.strokeOpacity).to.equal(0.5);
+    graph.setItemState(edge, 'selected', true);
+    const edgeKeyShape = edge.get('keyShape');
+    expect(edgeKeyShape.attr('stroke')).to.equal('red');
+    expect(edgeKeyShape.attr('strokeOpacity')).to.equal(1);
+    graph.setItemState(edge, 'selected', false);
+    expect(edgeKeyShape.attr('stroke')).to.equal('blue');
+    expect(edgeKeyShape.attr('strokeOpacity')).to.equal(0.5);
   });
 });
