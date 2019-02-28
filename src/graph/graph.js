@@ -189,20 +189,18 @@ class Graph extends EventEmitter {
    * 更新元素
    * @param {string|object} item 元素id或元素实例
    * @param {object} cfg 需要更新的数据
-   * @return {object} 元素实例
    */
   update(item, cfg) {
-    return this.updateItem(item, cfg);
+    this.updateItem(item, cfg);
   }
 
   /**
    * 更新元素
    * @param {string|object} item 元素id或元素实例
    * @param {object} cfg 需要更新的数据
-   * @return {object} 元素实例
    */
   updateItem(item, cfg) {
-    return this.get('itemController').updateItem(item, cfg);
+    this.get('itemController').updateItem(item, cfg);
   }
 
   /**
@@ -210,10 +208,9 @@ class Graph extends EventEmitter {
    * @param {string|object} item 元素id或元素实例
    * @param {string} state 状态
    * @param {boolean} enabled 是否启用状态
-   * @return {object} 元素实例
    */
   setItemState(item, state, enabled) {
-    return this.get('itemController').setItemState(item, state, enabled);
+    this.get('itemController').setItemState(item, state, enabled);
   }
 
   /**
@@ -263,10 +260,9 @@ class Graph extends EventEmitter {
   /**
    * 刷新元素
    * @param {string|object} item 元素id或元素实例
-   * @return {object} 被刷新元素实例
    */
   refreshItem(item) {
-    return this.get('itemController').refreshItem(item);
+    this.get('itemController').refreshItem(item);
   }
 
   /**
@@ -277,11 +273,11 @@ class Graph extends EventEmitter {
     self.emit('beforegraphrefresh');
     const nodes = self.get('nodes');
     const edges = self.get('edges');
-    Util.each(edges, edge => {
-      edge.refresh();
-    });
     Util.each(nodes, node => {
       node.refresh();
+    });
+    Util.each(edges, edge => {
+      edge.refresh();
     });
     self.emit('aftergraphrefresh');
     self.autoPaint();
