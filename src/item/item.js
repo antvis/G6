@@ -226,6 +226,38 @@ class Item {
     }
   }
   /**
+   * 清理掉多个状态，若不设置参数，所有状态都清理掉
+   * @param  {Array|String|Null} states 要清理的状态
+   */
+  clearStates(states) {
+    const self = this; // 有内循环需要使用 this
+    const caches = self.get('states');
+    const shapeFactory = self.get('shapeFactory');
+    const shape = self.get('model').shape;
+    let clearStates = states; // 默认清理传入的状态
+    if (!states) { // 未设置，则清空所有状态
+      clearStates = caches.slice(0); // 复制数组
+    } else if (Util.isString(states)) { // 单个状态
+      clearStates = [ states ]; // 转换成数组
+    }
+
+    // 移除掉要清理的状态
+    if (Util.isArray(clearStates)) {
+      Util.each(clearStates, state => {
+        const index = caches.indexOf(state);
+        if (index > -1) {
+          caches.splice(index, 1);
+          shapeFactory.setState(shape, state, false, self);
+        }
+      });
+    }
+    // 其他情况下不处理
+    // 另一种解决方式，可以重绘节点/边，应用还存在的状态，
+    // 之所以不采用是因为这些清理操作都是发生在交互过程中，shape 销毁重建会影响事件判定
+    // 触发事件的 shape 会销毁
+  }
+
+  /**
    * 节点的图形容器
    * @return {G.Group} 图形容器
    */

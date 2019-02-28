@@ -296,7 +296,80 @@ describe('node', () => {
     node.update({ size: 20 });
     expect(shape.get('destroyed')).eql(true);
     expect(shape).not.eql(node.get('keyShape'));
+    node.destroy();
     Shape.Node['my-node-test'] = null;
+  });
+
+  it('clear states', () => {
+    let acount = 0;
+    let bcount = 0;
+    let ccount = 0;
+    Shape.registerNode('clear-test-node', {
+      setState(name) {
+        if (name === 'a') {
+          acount++;
+        }
+
+        if (name === 'b') {
+          bcount++;
+        }
+
+        if (name === 'c') {
+          ccount++;
+        }
+      }
+    }, 'rect');
+    const group = new G.Group();
+    const node = new Node({
+      model: {
+        x: 100,
+        y: 100,
+        size: 10,
+        shape: 'clear-test-node'
+      },
+      group
+    });
+
+    node.setState('a', true);
+    node.setState('b', true);
+    expect(acount).eql(1);
+    expect(bcount).eql(1);
+    // 全部清理掉
+    node.clearStates();
+    expect(acount).eql(2);
+    expect(bcount).eql(2);
+    // 没有状态时，全部清理
+    node.clearStates();
+    expect(acount).eql(2);
+    expect(bcount).eql(2);
+    expect(ccount).eql(0);
+    // 清理不存在的状态
+    node.clearStates('a');
+    expect(acount).eql(2);
+    // 设置、取消
+    node.setState('a', true);
+    node.setState('a', false);
+    expect(acount).eql(4);
+
+    node.setState('a', true);
+    node.setState('c', true);
+    // 清理单个存在的
+    node.clearStates('c');
+    expect(acount).eql(5);
+    expect(ccount).eql(2);
+    // 清理单值的数组
+    node.clearStates([ 'a' ]);
+    expect(acount).eql(6);
+
+    // 清理多个
+    node.setState('a', true);
+    node.setState('b', true);
+    node.setState('c', true);
+    node.clearStates([ 'b', 'c' ]);
+    expect(bcount).eql(4);
+    expect(ccount).eql(4);
+
+    Shape.Node['clear-test-node'] = null;
   });
 
 });
