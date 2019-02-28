@@ -92,6 +92,10 @@ class View {
       y: (height - padding[0] - padding[2]) / 2 + padding[0]
     };
   }
+  destroy() {
+    this.graph = null;
+    this.destroyed = true;
+  }
 }
 
 module.exports = View;
