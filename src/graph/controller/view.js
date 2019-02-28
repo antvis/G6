@@ -37,7 +37,8 @@ class View {
   }
   focusPoint(point) {
     const viewCenter = this._getViewCenter();
-    this.graph.translate(viewCenter.x - point.x, viewCenter.y - point.y);
+    const modelCenter = this.getPointByCanvas(viewCenter.x, viewCenter.y);
+    this.graph.translate(modelCenter.x - point.x, modelCenter.y - point.y);
   }
   getPointByClient(clientX, clientY) {
     const canvas = this.graph.get('canvas');
@@ -66,11 +67,9 @@ class View {
       item = this.graph.findById[item];
     }
     if (item) {
-      const model = item.get('model');
       const matrix = item.get('group').getMatrix();
-      const x = model.x * matrix[0] + matrix[6];
-      const y = model.y * matrix[4] + matrix[7];
-      this.focusPoint({ x, y });
+      // 用实际位置而不是model中的x,y,防止由于拖拽等的交互导致model的x,y并不是当前的x,y
+      this.focusPoint({ x: matrix[6], y: matrix[7] });
     }
   }
   changeSize(width, height) {
