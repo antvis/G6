@@ -77,8 +77,8 @@ describe('view', () => {
     const node = graph.addItem('node', { shape: 'circle', x: 50, y: 50, size: 60, color: '#666' });
     graph.focusItem(node);
     const bbox = graph.get('canvas').getBBox();
-    expect(bbox.x).to.equal(89);
-    expect(bbox.y).to.equal(89);
+    expect(bbox.x).to.equal(189);
+    expect(bbox.y).to.equal(189);
     expect(bbox.width).to.equal(122);
   });
 });
