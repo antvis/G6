@@ -38,7 +38,8 @@ class View {
   focusPoint(point) {
     const viewCenter = this._getViewCenter();
     const modelCenter = this.getPointByCanvas(viewCenter.x, viewCenter.y);
-    this.graph.translate(modelCenter.x - point.x, modelCenter.y - point.y);
+    const viewportMatrix = this.graph.get('group').getMatrix();
+    this.graph.translate((modelCenter.x - point.x) * viewportMatrix[0], (modelCenter.y - point.y) * viewportMatrix[4]);
   }
   getPointByClient(clientX, clientY) {
     const canvas = this.graph.get('canvas');
