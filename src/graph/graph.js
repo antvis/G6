@@ -122,15 +122,11 @@ class Graph extends EventEmitter {
        * });
        *
        */
-      nodeStyle: {
-        default: {}
-      },
+      nodeStyle: {},
       /**
        * 边默认样式，用法同nodeStyle
        */
-      edgeStyle: {
-        default: {}
-      }
+      edgeStyle: {}
     };
   }
 
@@ -712,7 +708,11 @@ class Graph extends EventEmitter {
   destroy() {
     this.clear();
     this.get('eventController').destroy();
+    this.get('itemController').destroy();
+    this.get('modeController').destroy();
+    this.get('viewController').destroy();
     this.get('canvas').destroy();
+    this._cfg = null;
     this.destroyed = true;
   }
 }

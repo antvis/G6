@@ -130,6 +130,7 @@ class Edge extends Item {
   }
 
   getShapeCfg(model) {
+    model = super.getShapeCfg(model);
     const linkCenter = this.get('linkCenter'); // 如果连接到中心，忽视锚点、忽视控制点
     const cfg = {};
     if (linkCenter) {

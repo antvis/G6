@@ -120,7 +120,9 @@ const SingleShape = {
     const itemType = this.itemType;
     const defaultStyle = Global[itemType + GLOBAL_STATE_STYLE_SUFFIX][name]; // Global.nodeStateStyle
     const fieldName = name + NAME_STYLE; // 状态名 + style（activeStyle) 存储在 item 中，如果 item 中不存在这些信息，则使用默认的样式
-    const style = Util.mix({}, defaultStyle, item.get(fieldName));
+    const styles = item.get('styles');
+    const defaultStateStyle = styles && styles[name];
+    const style = Util.mix({}, defaultStyle, defaultStateStyle, item.get(fieldName));
     return style;
   },
 	/**
