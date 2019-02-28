@@ -225,6 +225,7 @@ class Item {
       shapeFactory.setState(model.shape, state, enable, this);
     }
   }
+
   /**
    * 节点的图形容器
    * @return {G.Group} 图形容器

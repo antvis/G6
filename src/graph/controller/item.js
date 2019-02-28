@@ -159,6 +159,10 @@ class ItemController {
     graph.autoPaint();
     graph.emit('afteritemvisibilitychange', { item, visible });
   }
+  destroy() {
+    this.graph = null;
+    this.destroyed = true;
+  }
 }
 
 module.exports = ItemController;
