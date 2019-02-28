@@ -111,6 +111,12 @@ class Mode {
     });
     this.currentBehaves = behaves;
   }
+  destroy() {
+    this.graph = null;
+    this.modes = null;
+    this.currentBehaves = null;
+    this.destroyed = true;
+  }
 }
 
 module.exports = Mode;
