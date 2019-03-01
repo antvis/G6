@@ -281,7 +281,7 @@ describe('all node link center', () => {
     graph.destroy();
     expect(graph.destroyed).eql(true);
   });
-  it('default node & edge style', () => {
+  /* it('default node & edge style', () => {
     const graph = new G6.Graph({
       container: div,
       width: 500,
@@ -341,5 +341,5 @@ describe('all node link center', () => {
     graph.setItemState(edge, 'selected', false);
     expect(edgeKeyShape.attr('stroke')).to.equal('blue');
     expect(edgeKeyShape.attr('strokeOpacity')).to.equal(0.5);
-  });
+  }); */
 });
