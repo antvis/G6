@@ -258,11 +258,6 @@ class Item {
   }
 
   getShapeCfg(model) {
-    const styles = this.get('styles');
-    if (styles && styles.default) {
-      // merge graph的item样式与数据模型中的样式
-      model.style = Util.mix({}, styles.default, model.style);
-    }
     return model;
   }
 
