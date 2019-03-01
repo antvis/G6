@@ -108,7 +108,38 @@ class Graph extends EventEmitter {
        * 边直接连接到节点的中心，不再考虑锚点
        * @type {Boolean}
        */
-      linkCenter: false
+      linkCenter: false,
+      /**
+       * all the instances indexed by id
+       * @type object
+       */
+      anchorMap: {},
+      /**
+       * store all the anchor instances
+       * @type [object]
+       */
+      anchors: [],
+      /**
+       * all the instances indexed by id
+       * @type object
+       */
+      anchorByNodeMap: {},
+      //
+      state: {
+        node: {
+          hover: '',
+          select: {},
+        },
+        edge: {
+          hover: '',
+          select: {},
+        },
+        anchor: {
+          hover: '',
+          select: {},
+          active: {},
+        },
+      }
     };
   }
 
@@ -149,9 +180,23 @@ class Graph extends EventEmitter {
     const id = this.get('canvas').get('el').id;
     const group = canvas.addGroup({ id: id + '-root', className: Global.rootContainerClassName });
     if (this.get('groupByTypes')) {
-      const edgeGroup = group.addGroup({ id: id + '-edge', className: Global.edgeContainerClassName });
-      const nodeGroup = group.addGroup({ id: id + '-node', className: Global.nodeContainerClassName });
-      this.set({ nodeGroup, edgeGroup });
+      const edgeGroup = group.addGroup({
+        id: id + '-edge',
+        className: Global.edgeContainerClassName,
+      });
+      const nodeGroup = group.addGroup({
+        id: id + '-node',
+        className: Global.nodeContainerClassName,
+      });
+      const anchorGroup = group.addGroup({
+        id: id + '-anchor',
+        className: Global.anchorContainerClassName,
+      });
+      const delegateGroup = group.addGroup({
+        id: id + '-node',
+        className: Global.delegateContainerClassName,
+      });
+      this.set({ nodeGroup, edgeGroup, anchorGroup, delegateGroup });
     }
     this.set('group', group);
   }
@@ -196,6 +241,32 @@ class Graph extends EventEmitter {
    */
   setItemState(item, state, enabled) {
     return this.get('itemController').setItemState(item, state, enabled);
+  }
+
+  /**
+   * 设置元素状态
+   * @param {string|object} item 元素id或元素实例
+   * @param {string} state 状态
+   * @param {boolean} enabled 是否启用状态
+   * @return {object} 元素实例
+   */
+  getState() {
+    return this.get('state');
+  }
+  /**
+   * 设置元素状态
+   * @param {string|object} item 元素id或元素实例
+   * @param {string} shapeState 状态
+   */
+  setState(item, shapeState) {
+    const shapeType = item.getType();
+    const currentState = this.get('state');
+    const nextShapeState = Util.mix({}, currentState[shapeType], shapeState);
+    const nextGraphState = Util.mix({}, currentState, {
+      [shapeType]: nextShapeState,
+    });
+    this.set('state', nextGraphState);
+    this.get('itemController').setShapeState(item, nextGraphState);
   }
 
   /**
@@ -259,11 +330,15 @@ class Graph extends EventEmitter {
     self.emit('beforegraphrefresh');
     const nodes = self.get('nodes');
     const edges = self.get('edges');
+    const anchors = self.get('anchors');
     Util.each(edges, edge => {
       edge.refresh();
     });
     Util.each(nodes, node => {
       node.refresh();
+    });
+    Util.each(anchors, anchor => {
+      anchor.refresh();
     });
     self.emit('aftergraphrefresh');
     self.autoPaint();
@@ -277,8 +352,12 @@ class Graph extends EventEmitter {
     self.emit('beforegraphrefreshposition');
     const nodes = self.get('nodes');
     const edges = self.get('edges');
+    const anchors = self.get('anchors');
     Util.each(nodes, node => {
       node.updatePosition({});
+    });
+    Util.each(edges, edge => {
+      edge.refresh();
     });
     Util.each(edges, edge => {
       edge.refresh();

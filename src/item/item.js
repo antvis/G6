@@ -70,7 +70,7 @@ class Item {
     }
     this.set('id', id);
     group.set('id', id);
-    this.init();
+    this.init(cfg);
     this.draw();
   }
 
@@ -89,6 +89,9 @@ class Item {
    * @return {*} 属性值
    */
   get(key) {
+    if (!this || !this._cfg) {
+      console.warn(this, 'is destroyed');
+    }
     return this._cfg[key];
   }
 
@@ -225,6 +228,21 @@ class Item {
       shapeFactory.setState(model.shape, state, enable, this);
     }
   }
+
+  /**
+   * 更改元素状态
+   * @internal 仅提供内部类 graph 使用
+   * @param {String} state 状态名
+   * @param {Boolean} enable 节点状态值
+   */
+  setShapeState(state) {
+    const shapeFactory = this.get('shapeFactory');
+    if (shapeFactory) {
+      const model = this.get('model');
+      shapeFactory.setShapeState(model.shape, state, this);
+    }
+  }
+
   /**
    * 节点的图形容器
    * @return {G.Group} 图形容器

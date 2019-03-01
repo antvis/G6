@@ -5,5 +5,6 @@
 
 module.exports = {
   Node: require('./node'),
-  Edge: require('./edge')
+  Edge: require('./edge'),
+  Anchor: require('./anchor')
 };

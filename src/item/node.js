@@ -92,7 +92,8 @@ class Node extends Item {
    */
   getLinkPointByAnchor(index) {
     const anchorPoints = this.getAnchorPoints();
-    return anchorPoints[index];
+    const anchor = anchorPoints.find(anchor => anchor.id === id);
+    return anchor;
   }
 
   /**
