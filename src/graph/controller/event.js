@@ -104,7 +104,9 @@ class Event {
     this.graph.emit(e.type, e);
   }
   _onWheelEvent(e) {
-    e.wheelDelta = e.wheelDelta || -e.detail;
+    if (Util.isNil(e.wheelDelta)) {
+      e.wheelDelta = -e.detail;
+    }
     this.graph.emit('wheel', e);
   }
   _handleMouseMove(e, type) {

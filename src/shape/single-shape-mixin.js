@@ -117,16 +117,13 @@ const SingleShape = {
     if (!shape) {
       return;
     }
+    let style;
     if (value) { // 如果设置状态,在原本状态上叠加绘图属性
-      const style = item.getStateStyle(name);
-      shape.attr(style);
+      style = item.getStateStyle(name);
     } else { // 取消状态时重置所有状态，依次叠加仍有的状态
-      const originStyle = Util.mix({}, item.getOriginStyle());
-      Util.each(item.getStates(), state => {
-        Util.mix(originStyle, item.getStateStyle(state));
-      });
-      shape.attr(originStyle);
+      style = item.getCurrentStatesStyle();
     }
+    shape.attr(style);
   }
 };
 
