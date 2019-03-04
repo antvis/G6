@@ -123,6 +123,16 @@ class ItemController {
     graph.autoPaint();
     graph.emit('afteritemstatechange', { item, state, enabled });
   }
+  clearItemStates(item, states) {
+    const graph = this.graph;
+    if (Util.isString(item)) {
+      item = graph.findById(item);
+    }
+    graph.emit('beforeitemstatesclear', { item, states });
+    item.clearStates(states);
+    graph.autoPaint();
+    graph.emit('afteritemstatesclear', { item, states });
+  }
   refreshItem(item) {
     const graph = this.graph;
     if (Util.isString(item)) {
