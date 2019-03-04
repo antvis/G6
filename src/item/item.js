@@ -176,9 +176,23 @@ class Item {
     if (keyShape) {
       keyShape.isKeyShape = true;
       self.set('keyShape', keyShape);
-      self.set('originStyle', Util.mix({}, keyShape.attr()));
+      self.set('originStyle', this.getKeyShapeStyle());
     }
     this._resetStates(shapeFactory, shapeType);
+  }
+
+  getKeyShapeStyle() {
+    const keyShape = this.getKeyShape();
+    if (keyShape) {
+      const styles = Util.mix({}, keyShape.attr());
+      delete styles.path;           // 线条path不算在绘图属性内
+      delete styles.points;         // 多边形路径不算在绘图属性内
+      delete styles.img;            // 图片源不算在绘图属性内
+      delete styles.symbol;         // symbol不算在绘图属性内
+      delete styles.fillStyle;      // 填充色默认用fill, fillStyle是内部属性
+      delete styles.strokeStyle;    // 线条色用stroke, strokeStyll是内部属性
+      return styles;
+    }
   }
 
   _resetStates(shapeFactory, shapeType) {
@@ -218,12 +232,16 @@ class Item {
   }
 
   getOriginStyle() {
-    const styles = this.get('originStyle');
-    delete styles.path;       // 线条path不算在绘图属性内
-    delete styles.points;     // 多边形路径不算在绘图属性内
-    delete styles.img;        // 图片源不算在绘图属性内
-    delete styles.symbol;     // symbol不算在绘图属性内
     return this.get('originStyle');
+  }
+
+  getCurrentStatesStyle() {
+    const self = this;
+    const originStyle = Util.mix({}, self.getOriginStyle());
+    Util.each(self.getStates(), state => {
+      Util.mix(originStyle, self.getStateStyle(state));
+    });
+    return originStyle;
   }
 
   /**
@@ -265,12 +283,12 @@ class Item {
     }
     const newStates = originStates.filter(state => {
       if (states.indexOf(state) >= 0) {
-        shapeFactory.setState(shape, state, false, self);
         return false;
       }
       return true;
     });
     self.set('states', newStates);
+    shapeFactory.setState(shape, states[0], false, self);
   }
 
   /**
@@ -379,6 +397,7 @@ class Item {
         this.draw();
       }
     }
+    this.set('originStyle', this.getKeyShapeStyle());
     this.set(CACHE_BBOX, null); // 清理缓存的 bbox
     this.afterUpdate(); // 子类可以清理自己的要清理的内容
   }

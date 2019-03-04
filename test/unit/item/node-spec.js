@@ -298,5 +298,4 @@ describe('node', () => {
     expect(shape).not.eql(node.get('keyShape'));
     Shape.Node['my-node-test'] = null;
   });
-
 });
