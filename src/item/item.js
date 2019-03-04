@@ -218,6 +218,11 @@ class Item {
   }
 
   getOriginStyle() {
+    const styles = this.get('originStyle');
+    delete styles.path;       // 线条path不算在绘图属性内
+    delete styles.points;     // 多边形路径不算在绘图属性内
+    delete styles.img;        // 图片源不算在绘图属性内
+    delete styles.symbol;     // symbol不算在绘图属性内
     return this.get('originStyle');
   }
 
