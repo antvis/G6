@@ -277,11 +277,7 @@ describe('all node link center', () => {
     const edge = graph.findById('e1');
     expect(edge.get('keyShape').attr('path')).eqls([[ 'M', 10, 10 ], [ 'L', 100, 100 ]]);
   });
-  it('clear', () => {
-    graph.destroy();
-    expect(graph.destroyed).eql(true);
-  });
-  /* it('default node & edge style', () => {
+  it('default node & edge style', () => {
     const graph = new G6.Graph({
       container: div,
       width: 500,
@@ -318,12 +314,11 @@ describe('all node link center', () => {
       }
     });
     graph.paint();
-    const model = node.get('model');
-    expect(model.shape).to.equal('rect');
-    expect(model.style.fill).to.equal('red');
-    expect(model.style.stroke).to.equal('#666');
-    graph.setItemState(node, 'selected', true);
     const keyShape = node.get('keyShape');
+    expect(keyShape.type).to.equal('rect');
+    expect(keyShape.attr('fill')).to.equal('red');
+    expect(keyShape.attr('stroke')).to.equal('#666');
+    graph.setItemState(node, 'selected', true);
     expect(keyShape.attr('fill')).to.equal('green');
     expect(keyShape.attr('stroke')).to.equal('red');
     graph.setItemState(node, 'selected', false);
@@ -331,15 +326,36 @@ describe('all node link center', () => {
     expect(keyShape.attr('stroke')).to.equal('#666');
     graph.addItem('node', { id: 'node2' });
     const edge = graph.addItem('edge', { id: 'edge', source: node, target: 'node2' });
-    const edgeModel = edge.get('model');
-    expect(edgeModel.style.stroke).to.equal('blue');
-    expect(edgeModel.style.strokeOpacity).to.equal(0.5);
-    graph.setItemState(edge, 'selected', true);
     const edgeKeyShape = edge.get('keyShape');
+    expect(edgeKeyShape.attr('stroke')).to.equal('blue');
+    expect(edgeKeyShape.attr('strokeOpacity')).to.equal(0.5);
+    graph.setItemState(edge, 'selected', true);
     expect(edgeKeyShape.attr('stroke')).to.equal('red');
     expect(edgeKeyShape.attr('strokeOpacity')).to.equal(1);
     graph.setItemState(edge, 'selected', false);
     expect(edgeKeyShape.attr('stroke')).to.equal('blue');
     expect(edgeKeyShape.attr('strokeOpacity')).to.equal(0.5);
-  }); */
+  });
+  it('clear states', () => {
+    graph.clear();
+    const node = graph.addItem('node', { id: 'a', x: 50, y: 100, size: 50 });
+    graph.setItemState(node, 'a', true);
+    graph.setItemState(node, 'b', true);
+    expect(graph.findAllByState('node', 'a').length).eql(1);
+    graph.clearItemStates(node);
+
+    expect(graph.findAllByState('node', 'a').length).eql(0);
+    expect(graph.findAllByState('node', 'b').length).eql(0);
+
+    graph.setItemState(node, 'a', true);
+    graph.setItemState(node, 'b', true);
+
+    graph.clearItemStates(node, 'a');
+    expect(graph.findAllByState('node', 'a').length).eql(0);
+    expect(graph.findAllByState('node', 'b').length).eql(1);
+  });
+  it('clear', () => {
+    graph.destroy();
+    expect(graph.destroyed).eql(true);
+  });
 });

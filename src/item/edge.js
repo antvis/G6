@@ -114,6 +114,13 @@ class Edge extends Item {
     return this.get(pointName);
   }
 
+  getOriginStyle() {
+    const originStyle = this.get('originStyle');
+    // 修改绘图状态的时候，不需要重置path
+    delete originStyle.path;
+    return originStyle;
+  }
+
   _getEndCenter(name) {
     const itemName = name + ITEM_NAME_SUFFIX;
     const pointName = END_MAP[name] + POINT_NAME_SUFFIX;
@@ -130,6 +137,7 @@ class Edge extends Item {
   }
 
   getShapeCfg(model) {
+    model = super.getShapeCfg(model);
     const linkCenter = this.get('linkCenter'); // 如果连接到中心，忽视锚点、忽视控制点
     const cfg = {};
     if (linkCenter) {
