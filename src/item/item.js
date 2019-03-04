@@ -9,6 +9,7 @@ const Global = require('../global');
 const CACHE_BBOX = 'bboxCache';
 const GLOBAL_STATE_STYLE_SUFFIX = 'StateStyle';
 const NAME_STYLE = 'Style'; // cache 缓存的状态属性的名字
+const RESERVED_STYLES = [ 'fillStyle', 'strokeStyle', 'path', 'points', 'img', 'symbol' ];
 
 class Item {
   constructor(cfg) {
@@ -184,13 +185,12 @@ class Item {
   getKeyShapeStyle() {
     const keyShape = this.getKeyShape();
     if (keyShape) {
-      const styles = Util.mix({}, keyShape.attr());
-      delete styles.path;           // 线条path不算在绘图属性内
-      delete styles.points;         // 多边形路径不算在绘图属性内
-      delete styles.img;            // 图片源不算在绘图属性内
-      delete styles.symbol;         // symbol不算在绘图属性内
-      delete styles.fillStyle;      // 填充色默认用fill, fillStyle是内部属性
-      delete styles.strokeStyle;    // 线条色用stroke, strokeStyll是内部属性
+      const styles = {};
+      Util.each(keyShape.attr(), (val, key) => {
+        if (RESERVED_STYLES.indexOf(key) < 0) {
+          styles[key] = val;
+        }
+      });
       return styles;
     }
   }
