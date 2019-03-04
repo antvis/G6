@@ -7,19 +7,6 @@ const Util = require('../util/index');
 
 const CLS_SHAPE_SUFFIX = '-shape';
 const CLS_LABEL_SUFFIX = '-label';
-const STYLE_STATE_SUFFIX = '-state-style';
-const GLOBAL_STATE_STYLE_SUFFIX = 'StateStyle';
-const NAME_STYLE = 'Style'; // cache 缓存的状态属性的名字
-
-
-// 根据指定的属性获取图形当前的属性
-function getCurrentStyle(shape, style) {
-  const rst = {};
-  Util.each(style, (v, k) => {
-    rst[k] = shape.attr(k);
-  });
-  return rst;
-}
 
 // 单个 shape 带有一个 label，共用这段代码
 const SingleShape = {
@@ -116,15 +103,7 @@ const SingleShape = {
       }
     }
   },
-  getStateStyle(name, item) {
-    const itemType = this.itemType;
-    const defaultStyle = Global[itemType + GLOBAL_STATE_STYLE_SUFFIX][name]; // Global.nodeStateStyle
-    const fieldName = name + NAME_STYLE; // 状态名 + style（activeStyle) 存储在 item 中，如果 item 中不存在这些信息，则使用默认的样式
-    const styles = item.get('styles');
-    const defaultStateStyle = styles && styles[name];
-    const style = Util.mix({}, defaultStyle, defaultStateStyle, item.get(fieldName));
-    return style;
-  },
+
 	/**
 	 * 设置节点的状态，主要是交互状态，业务状态请在 draw 方法中实现
 	 * 单图形的节点仅考虑 selected、active 状态，有其他状态需求的用户自己复写这个方法
@@ -134,21 +113,19 @@ const SingleShape = {
 	 * @param  {G6.Item} item 节点
 	 */
   setState(name, value, item) {
-    const group = item.getContainer();
-    const shapeClassName = this.itemType + CLS_SHAPE_SUFFIX;
-    const shape = group.findByClassName(shapeClassName);
-    const cacheName = name + STYLE_STATE_SUFFIX;
-
-    if (value) { // 如果设置状态
-      const style = this.getStateStyle(name, item);
-      const cacheStyle = getCurrentStyle(shape, style);
+    const shape = item.get('keyShape');
+    if (!shape) {
+      return;
+    }
+    if (value) { // 如果设置状态,在原本状态上叠加绘图属性
+      const style = item.getStateStyle(name);
       shape.attr(style);
-      shape.set(cacheName, cacheStyle);
-    } else { // 取消状态
-      const originStyle = shape.get(cacheName);
-      if (originStyle) {
-        shape.attr(originStyle);
-      }
+    } else { // 取消状态时重置所有状态，依次叠加仍有的状态
+      const originStyle = Util.mix({}, item.getOriginStyle());
+      Util.each(item.getStates(), state => {
+        Util.mix(originStyle, item.getStateStyle(state));
+      });
+      shape.attr(originStyle);
     }
   }
 };
