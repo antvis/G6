@@ -313,6 +313,10 @@ describe('all node link center', () => {
         stroke: '#666'
       }
     });
+    graph.on('node:click', e => {
+      e.item.setState('selected', true);
+      e.item.refresh();
+    });
     graph.paint();
     const keyShape = node.get('keyShape');
     expect(keyShape.type).to.equal('rect');
@@ -320,10 +324,26 @@ describe('all node link center', () => {
     expect(keyShape.attr('stroke')).to.equal('#666');
     graph.setItemState(node, 'selected', true);
     expect(keyShape.attr('fill')).to.equal('green');
+    expect(keyShape.attr('fillStyle')).to.equal('green');
     expect(keyShape.attr('stroke')).to.equal('red');
+    expect(keyShape.attr('strokeStyle')).to.equal('red');
     graph.setItemState(node, 'selected', false);
     expect(keyShape.attr('fill')).to.equal('red');
+    expect(keyShape.attr('fillStyle')).to.equal('red');
     expect(keyShape.attr('stroke')).to.equal('#666');
+    expect(keyShape.attr('strokeStyle')).to.equal('#666');
+    graph.updateItem(node, { style: { fill: '#ccc', stroke: '#444' } });
+    expect(keyShape.attr('fill')).to.equal('#ccc');
+    graph.setItemState(node, 'selected', true);
+    expect(keyShape.attr('fill')).to.equal('green');
+    expect(keyShape.attr('fillStyle')).to.equal('green');
+    expect(keyShape.attr('stroke')).to.equal('red');
+    expect(keyShape.attr('strokeStyle')).to.equal('red');
+    graph.setItemState(node, 'selected', false);
+    expect(keyShape.attr('fill')).to.equal('#ccc');
+    expect(keyShape.attr('fillStyle')).to.equal('#ccc');
+    expect(keyShape.attr('stroke')).to.equal('#444');
+    expect(keyShape.attr('strokeStyle')).to.equal('#444');
     graph.addItem('node', { id: 'node2' });
     const edge = graph.addItem('edge', { id: 'edge', source: node, target: 'node2' });
     const edgeKeyShape = edge.get('keyShape');
@@ -331,9 +351,11 @@ describe('all node link center', () => {
     expect(edgeKeyShape.attr('strokeOpacity')).to.equal(0.5);
     graph.setItemState(edge, 'selected', true);
     expect(edgeKeyShape.attr('stroke')).to.equal('red');
+    expect(edgeKeyShape.attr('strokeStyle')).to.equal('red');
     expect(edgeKeyShape.attr('strokeOpacity')).to.equal(1);
     graph.setItemState(edge, 'selected', false);
     expect(edgeKeyShape.attr('stroke')).to.equal('blue');
+    expect(edgeKeyShape.attr('strokeStyle')).to.equal('blue');
     expect(edgeKeyShape.attr('strokeOpacity')).to.equal(0.5);
   });
   it('clear states', () => {
