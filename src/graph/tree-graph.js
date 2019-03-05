@@ -241,6 +241,8 @@ class TreeGraph extends Graph {
   layoutAnimate(data, onFrame, duration = 500, ease = 'easeLinear', callback, delay = 0) {
     const self = this;
     self.emit('layoutanimatestart', { data });
+    const autoPaint = self.get('autoPaint');
+    self.setAutoPaint(false);
     this.get('canvas').animate({
       onFrame(ratio) {
         Util.traverseTree(data, child => {
@@ -266,6 +268,7 @@ class TreeGraph extends Graph {
         self.refreshPositions();
       }
     }, duration, ease, () => {
+      self.setAutoPaint(autoPaint);
       self.emit('layoutanimateend', { data });
       if (callback) {
         callback();
