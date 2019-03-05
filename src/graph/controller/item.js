@@ -12,6 +12,7 @@ class ItemController {
     const graph = this.graph;
     const parent = graph.get(type + 'Group') || graph.get('group');
     let item;
+    const styles = graph.get(type + 'Style');
     if (type === EDGE) {
       let source = model.source;
       let target = model.target;
@@ -29,12 +30,14 @@ class ItemController {
         model,
         source,
         target,
+        styles,
         linkCenter: graph.get('linkCenter'),
         group: parent.addGroup()
       });
     } else {
       item = new Item[Util.upperFirst(type)]({
         model,
+        styles,
         group: parent.addGroup()
       });
     }
@@ -81,7 +84,6 @@ class ItemController {
     }
     graph.autoPaint();
     graph.emit('afteritemupdate', { item, cfg });
-    return item;
   }
   removeItem(item) {
     const graph = this.graph;
@@ -120,7 +122,16 @@ class ItemController {
     item.setState(state, enabled);
     graph.autoPaint();
     graph.emit('afteritemstatechange', { item, state, enabled });
-    return item;
+  }
+  clearItemStates(item, states) {
+    const graph = this.graph;
+    if (Util.isString(item)) {
+      item = graph.findById(item);
+    }
+    graph.emit('beforeitemstatesclear', { item, states });
+    item.clearStates(states);
+    graph.autoPaint();
+    graph.emit('afteritemstatesclear', { item, states });
   }
   refreshItem(item) {
     const graph = this.graph;
@@ -155,6 +166,10 @@ class ItemController {
     }
     graph.autoPaint();
     graph.emit('afteritemvisibilitychange', { item, visible });
+  }
+  destroy() {
+    this.graph = null;
+    this.destroyed = true;
   }
 }
 
