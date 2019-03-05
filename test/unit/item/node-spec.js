@@ -298,4 +298,27 @@ describe('node', () => {
     expect(shape).not.eql(node.get('keyShape'));
     Shape.Node['my-node-test'] = null;
   });
+  it('update position', () => {
+    const group = new G.Group();
+    const node = new Node({
+      model: {
+        x: 100,
+        y: 100,
+        size: [ 10, 10 ],
+        shape: 'rect'
+      },
+      group
+    });
+    let bbox = node.getBBox();
+    expect(bbox.minX).to.equal(94.5);
+    expect(bbox.minY).to.equal(94.5);
+    expect(bbox.maxX).to.equal(105.5);
+    expect(bbox.maxY).to.equal(105.5);
+    node.updatePosition({ x: 150, y: 150 });
+    bbox = node.getBBox();
+    expect(bbox.minX).to.equal(144.5);
+    expect(bbox.minY).to.equal(144.5);
+    expect(bbox.maxX).to.equal(155.5);
+    expect(bbox.maxY).to.equal(155.5);
+  });
 });
