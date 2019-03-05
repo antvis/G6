@@ -157,6 +157,7 @@ class Item {
     group.translate(x, y);
     model.x = x;
     model.y = y;
+    this.set(CACHE_BBOX, null); // 清理缓存的 bbox
   }
 
   // 绘制
