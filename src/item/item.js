@@ -5,7 +5,11 @@
 
 const Util = require('../util/');
 const Shape = require('../shape');
+const Global = require('../global');
 const CACHE_BBOX = 'bboxCache';
+const GLOBAL_STATE_STYLE_SUFFIX = 'StateStyle';
+const NAME_STYLE = 'Style'; // cache 缓存的状态属性的名字
+const RESERVED_STYLES = [ 'fillStyle', 'strokeStyle', 'path', 'points', 'img', 'symbol' ];
 
 class Item {
   constructor(cfg) {
@@ -173,8 +177,22 @@ class Item {
     if (keyShape) {
       keyShape.isKeyShape = true;
       self.set('keyShape', keyShape);
+      self.set('originStyle', this.getKeyShapeStyle());
     }
     this._resetStates(shapeFactory, shapeType);
+  }
+
+  getKeyShapeStyle() {
+    const keyShape = this.getKeyShape();
+    if (keyShape) {
+      const styles = {};
+      Util.each(keyShape.attr(), (val, key) => {
+        if (RESERVED_STYLES.indexOf(key) < 0) {
+          styles[key] = val;
+        }
+      });
+      return styles;
+    }
   }
 
   _resetStates(shapeFactory, shapeType) {
@@ -202,6 +220,30 @@ class Item {
     return this.get('states').indexOf(state) >= 0;
   }
 
+  getStateStyle(state) {
+    const self = this;
+    // Global.nodeStateStyle
+    const globalStyle = Global[self.getType() + GLOBAL_STATE_STYLE_SUFFIX][state];
+    const styles = this.get('styles');
+    const defaultStyle = styles && styles[state];
+    // 状态名 + style（activeStyle) 存储在 item 中，如果 item 中不存在这些信息，则使用默认的样式
+    const fieldName = state + NAME_STYLE;
+    return Util.mix({}, globalStyle, defaultStyle, self.get(fieldName));
+  }
+
+  getOriginStyle() {
+    return this.get('originStyle');
+  }
+
+  getCurrentStatesStyle() {
+    const self = this;
+    const originStyle = Util.mix({}, self.getOriginStyle());
+    Util.each(self.getStates(), state => {
+      Util.mix(originStyle, self.getStateStyle(state));
+    });
+    return originStyle;
+  }
+
   /**
    * 更改元素状态， visible 不属于这个范畴
    * @internal 仅提供内部类 graph 使用
@@ -225,6 +267,30 @@ class Item {
       shapeFactory.setState(model.shape, state, enable, this);
     }
   }
+
+  clearStates(states) {
+    const self = this;
+    const originStates = self.getStates();
+    const shapeFactory = self.get('shapeFactory');
+    const shape = self.get('model').shape;
+    if (!states) {
+      self.set('states', []);
+      shapeFactory.setState(shape, originStates[0], false, self);
+      return;
+    }
+    if (Util.isString(states)) {
+      states = [ states ];
+    }
+    const newStates = originStates.filter(state => {
+      shapeFactory.setState(shape, state, false, self);
+      if (states.indexOf(state) >= 0) {
+        return false;
+      }
+      return true;
+    });
+    self.set('states', newStates);
+  }
+
   /**
    * 节点的图形容器
    * @return {G.Group} 图形容器
@@ -233,13 +299,30 @@ class Item {
     return this.get('group');
   }
 
+  /**
+   * 节点的关键形状，用于计算节点大小，连线截距等
+   * @return {G.Shape} 关键形状
+   */
+  getKeyShape() {
+    return this.get('keyShape');
+  }
+
+  /**
+   * 节点数据模型
+   * @return {Object} 数据模型
+   */
   getModel() {
     return this.get('model');
   }
 
+  /**
+   * 节点类型
+   * @return {string} 节点的类型
+   */
   getType() {
     return this.get('type');
   }
+
 
   /**
    * 渲染前的逻辑，提供给子类复写
@@ -257,6 +340,13 @@ class Item {
   }
 
   getShapeCfg(model) {
+    const styles = this.get('styles');
+    if (styles && styles.default) {
+      // merge graph的item样式与数据模型中的样式
+      const newModel = Util.mix({}, model);
+      newModel.style = Util.mix({}, styles.default, model.style);
+      return newModel;
+    }
     return model;
   }
 
@@ -307,6 +397,7 @@ class Item {
         this.draw();
       }
     }
+    this.set('originStyle', this.getKeyShapeStyle());
     this.set(CACHE_BBOX, null); // 清理缓存的 bbox
     this.afterUpdate(); // 子类可以清理自己的要清理的内容
   }

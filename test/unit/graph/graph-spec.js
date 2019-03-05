@@ -37,8 +37,10 @@ describe('graph', () => {
     const edges = inst.getEdges();
     expect(edges).not.to.be.undefined;
     expect(edges.length).to.equal(0);
+    const canvas = inst.get('canvas');
     inst.destroy();
-    expect(inst.get('canvas').destroyed);
+    expect(inst._cfg).to.equal(null);
+    expect(canvas.destroyed);
     expect(length - div.childNodes.length).to.equal(1);
   });
 
@@ -274,6 +276,117 @@ describe('all node link center', () => {
     graph.render();
     const edge = graph.findById('e1');
     expect(edge.get('keyShape').attr('path')).eqls([[ 'M', 10, 10 ], [ 'L', 100, 100 ]]);
+  });
+  it('default node & edge style', () => {
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      nodeStyle: {
+        default: {
+          fill: 'red',
+          stroke: 'blue'
+        },
+        selected: {
+          fill: 'green',
+          stroke: 'red'
+        }
+      },
+      edgeStyle: {
+        default: {
+          stroke: 'blue',
+          strokeOpacity: 0.5
+        },
+        selected: {
+          stroke: 'red',
+          strokeOpacity: 1
+        },
+        active: {
+          stroke: 'green',
+          shadowColor: '#ccc'
+        }
+      }
+    });
+    const node = graph.addItem('node', {
+      id: 'node1',
+      x: 100,
+      y: 100,
+      shape: 'rect',
+      label: 'test label',
+      style: {
+        stroke: '#666'
+      }
+    });
+    graph.on('node:click', e => {
+      e.item.setState('selected', true);
+      e.item.refresh();
+    });
+    graph.paint();
+    const keyShape = node.get('keyShape');
+    expect(keyShape.type).to.equal('rect');
+    expect(keyShape.attr('fill')).to.equal('red');
+    expect(keyShape.attr('stroke')).to.equal('#666');
+    graph.setItemState(node, 'selected', true);
+    expect(keyShape.attr('fill')).to.equal('green');
+    expect(keyShape.attr('fillStyle')).to.equal('green');
+    expect(keyShape.attr('stroke')).to.equal('red');
+    expect(keyShape.attr('strokeStyle')).to.equal('red');
+    graph.setItemState(node, 'selected', false);
+    expect(keyShape.attr('fill')).to.equal('red');
+    expect(keyShape.attr('fillStyle')).to.equal('red');
+    expect(keyShape.attr('stroke')).to.equal('#666');
+    expect(keyShape.attr('strokeStyle')).to.equal('#666');
+    graph.updateItem(node, { style: { fill: '#ccc', stroke: '#444' } });
+    expect(keyShape.attr('fill')).to.equal('#ccc');
+    graph.setItemState(node, 'selected', true);
+    expect(keyShape.attr('fill')).to.equal('green');
+    expect(keyShape.attr('fillStyle')).to.equal('green');
+    expect(keyShape.attr('stroke')).to.equal('red');
+    expect(keyShape.attr('strokeStyle')).to.equal('red');
+    graph.setItemState(node, 'selected', false);
+    expect(keyShape.attr('fill')).to.equal('#ccc');
+    expect(keyShape.attr('fillStyle')).to.equal('#ccc');
+    expect(keyShape.attr('stroke')).to.equal('#444');
+    expect(keyShape.attr('strokeStyle')).to.equal('#444');
+    graph.addItem('node', { id: 'node2' });
+    const edge = graph.addItem('edge', { id: 'edge', source: node, target: 'node2' });
+    const edgeKeyShape = edge.get('keyShape');
+    expect(edgeKeyShape.attr('stroke')).to.equal('blue');
+    expect(edgeKeyShape.attr('strokeOpacity')).to.equal(0.5);
+    graph.setItemState(edge, 'selected', true);
+    expect(edgeKeyShape.attr('stroke')).to.equal('red');
+    expect(edgeKeyShape.attr('strokeStyle')).to.equal('red');
+    expect(edgeKeyShape.attr('strokeOpacity')).to.equal(1);
+    graph.setItemState(edge, 'selected', false);
+    expect(edgeKeyShape.attr('stroke')).to.equal('blue');
+    expect(edgeKeyShape.attr('strokeStyle')).to.equal('blue');
+    expect(edgeKeyShape.attr('strokeOpacity')).to.equal(0.5);
+    // 测试default状态不存在的属性
+    expect(edgeKeyShape.attr('shadowColor')).to.be.undefined;
+    graph.setItemState(edge, 'active', true);
+    expect(edgeKeyShape.attr('stroke')).to.equal('green');
+    expect(edgeKeyShape.attr('shadowColor')).to.equal('#ccc');
+    graph.setItemState(edge, 'active', false);
+    expect(edgeKeyShape.attr('stroke')).to.equal('blue');
+    expect(edgeKeyShape.attr('shadowColor')).to.be.null;
+  });
+  it('clear states', () => {
+    graph.clear();
+    const node = graph.addItem('node', { id: 'a', x: 50, y: 100, size: 50 });
+    graph.setItemState(node, 'a', true);
+    graph.setItemState(node, 'b', true);
+    expect(graph.findAllByState('node', 'a').length).eql(1);
+    graph.clearItemStates(node);
+
+    expect(graph.findAllByState('node', 'a').length).eql(0);
+    expect(graph.findAllByState('node', 'b').length).eql(0);
+
+    graph.setItemState(node, 'a', true);
+    graph.setItemState(node, 'b', true);
+
+    graph.clearItemStates(node, 'a');
+    expect(graph.findAllByState('node', 'a').length).eql(0);
+    expect(graph.findAllByState('node', 'b').length).eql(1);
   });
   it('clear', () => {
     graph.destroy();
