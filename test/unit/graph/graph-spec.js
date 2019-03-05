@@ -300,6 +300,10 @@ describe('all node link center', () => {
         selected: {
           stroke: 'red',
           strokeOpacity: 1
+        },
+        active: {
+          stroke: 'green',
+          shadowColor: '#ccc'
         }
       }
     });
@@ -357,6 +361,14 @@ describe('all node link center', () => {
     expect(edgeKeyShape.attr('stroke')).to.equal('blue');
     expect(edgeKeyShape.attr('strokeStyle')).to.equal('blue');
     expect(edgeKeyShape.attr('strokeOpacity')).to.equal(0.5);
+    // 测试default状态不存在的属性
+    expect(edgeKeyShape.attr('shadowColor')).to.be.undefined;
+    graph.setItemState(edge, 'active', true);
+    expect(edgeKeyShape.attr('stroke')).to.equal('green');
+    expect(edgeKeyShape.attr('shadowColor')).to.equal('#ccc');
+    graph.setItemState(edge, 'active', false);
+    expect(edgeKeyShape.attr('stroke')).to.equal('blue');
+    expect(edgeKeyShape.attr('shadowColor')).to.be.null;
   });
   it('clear states', () => {
     graph.clear();

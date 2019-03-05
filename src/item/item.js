@@ -282,13 +282,13 @@ class Item {
       states = [ states ];
     }
     const newStates = originStates.filter(state => {
+      shapeFactory.setState(shape, state, false, self);
       if (states.indexOf(state) >= 0) {
         return false;
       }
       return true;
     });
     self.set('states', newStates);
-    shapeFactory.setState(shape, states[0], false, self);
   }
 
   /**
