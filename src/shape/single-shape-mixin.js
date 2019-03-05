@@ -117,13 +117,20 @@ const SingleShape = {
     if (!shape) {
       return;
     }
-    let style;
+    const stateStyle = item.getStateStyle(name);
     if (value) { // 如果设置状态,在原本状态上叠加绘图属性
-      style = item.getStateStyle(name);
+      item.getStateStyle(stateStyle);
+      shape.attr(stateStyle);
     } else { // 取消状态时重置所有状态，依次叠加仍有的状态
-      style = item.getCurrentStatesStyle();
+      const style = item.getCurrentStatesStyle();
+      // 如果默认状态下没有设置attr，在某状态下设置了，需要重置到没有设置的状态
+      Util.each(stateStyle, (val, attr) => {
+        if (!style[attr]) {
+          style[attr] = null;
+        }
+      });
+      shape.attr(style);
     }
-    shape.attr(style);
   }
 };
 
