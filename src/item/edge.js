@@ -131,16 +131,15 @@ class Edge extends Item {
 
   getShapeCfg(model) {
     const linkCenter = this.get('linkCenter'); // 如果连接到中心，忽视锚点、忽视控制点
-    const cfg = {};
+    const cfg = super.getShapeCfg(model);
     if (linkCenter) {
       cfg.startPoint = this._getEndCenter('source');
       cfg.endPoint = this._getEndCenter('target');
     } else {
-      const controlPoints = model.controlPoints || this._getControlPointsByCenter(model);
+      const controlPoints = cfg.controlPoints || this._getControlPointsByCenter(cfg);
       cfg.startPoint = this._getLinkPoint('source', model, controlPoints);
       cfg.endPoint = this._getLinkPoint('target', model, controlPoints);
     }
-    Util.mix(cfg, model);
     return cfg;
   }
 
