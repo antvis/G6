@@ -73,13 +73,19 @@ describe('view', () => {
   });
   it('focus item', () => {
     graph.clear();
-    graph.zoom(2, { x: 50, y: 50 });
+    graph.zoom(2, { x: 250, y: 250 });
     const node = graph.addItem('node', { shape: 'circle', x: 50, y: 50, size: 60, color: '#666' });
-    graph.paint();
     graph.focusItem(node);
-    const bbox = graph.get('canvas').getBBox();
-    expect(bbox.x).to.equal(139);
-    expect(bbox.y).to.equal(139);
-    expect(bbox.width).to.equal(122);
+    let centerPoint = graph.getPointByCanvas(250, 250);
+    expect(centerPoint.x).to.equal(50);
+    expect(centerPoint.y).to.equal(50);
+    graph.zoom(0.1, { x: 50, y: 50 });
+    centerPoint = graph.getPointByCanvas(250, 250);
+    expect(centerPoint.x).not.to.equal(50);
+    expect(centerPoint.y).not.to.equal(50);
+    graph.focusItem(node);
+    centerPoint = graph.getPointByCanvas(250, 250);
+    expect(centerPoint.x - 50 < 0.1).to.be.true;
+    expect(centerPoint.y - 50 < 0.1).to.be.true;
   });
 });
