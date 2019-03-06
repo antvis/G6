@@ -161,6 +161,11 @@ class Node extends Item {
     }
   }
 
+  updatePosition(cfg) {
+    super.updatePosition(cfg);
+    this.set(CACHE_ANCHOR_POINTS, null);
+  }
+
   /**
    * 更新后做一些工作
    * @protected
