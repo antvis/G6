@@ -33,7 +33,7 @@
         getWidth() { return 16 },
         getVGap() { return 50 },
         getHGap() { return 50 }
-    });
+      });
     }
   };
   const graph = new G6.TreeGraph({
@@ -50,6 +50,17 @@
           return true;
         }
       }, 'drag-canvas']
+    },
+    nodeStyle: {
+      default: {
+        fill: '#40a9ff',
+        stroke: '#096dd9'
+      }
+    },
+    edgeStyle: {
+      default: {
+        stroke: '#A3B1BF'
+      }
     },
     layout: layouts.dendrogram
   });
@@ -124,6 +135,13 @@
   graph.data(data);
   graph.render();
   graph.fitView();
+  graph.getNodes().forEach((node) => {
+    node.get('model').anchorPoints = [ [0, 0.5], [1, 0.5] ];
+  });
+  graph.getEdges().forEach((edge) => {
+    edge.get('model').shape = 'cubic-horizontal';
+  });
+  graph.refresh();
   document.getElementById('radial').addEventListener('change', e => {
     radial = e.target.checked;
     if (radial) {
