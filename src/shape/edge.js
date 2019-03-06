@@ -257,7 +257,7 @@ Shape.registerEdge('cubic', {
 
 // 垂直方向的三阶贝塞尔曲线，不再考虑用户外部传入的控制点
 Shape.registerEdge('cubic-vertical', {
-  curvePosition: [ 1 / 3, 2 / 3 ],
+  curvePosition: [ 1 / 2, 1 / 2 ],
   getControlPoints(cfg) {
     const { startPoint, endPoint } = cfg;
     const innerPoint1 = {
@@ -275,7 +275,7 @@ Shape.registerEdge('cubic-vertical', {
 
 // 水平方向的三阶贝塞尔曲线，不再考虑用户外部传入的控制点
 Shape.registerEdge('cubic-horizontal', {
-  curvePosition: [ 1 / 3, 2 / 3 ],
+  curvePosition: [ 1 / 2, 1 / 2 ],
   getControlPoints(cfg) {
     const { startPoint, endPoint } = cfg;
     const innerPoint1 = {

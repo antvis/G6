@@ -51,31 +51,35 @@
         }
       }, 'drag-canvas']
     },
+    nodeStyle: {
+      default: {
+        fill: '#40a9ff',
+        stroke: '#096dd9'
+      }
+    },
+    edgeStyle: {
+      default: {
+        stroke: '#A3B1BF'
+      }
+    },
     layout: layouts.dendrogram
   });
   const data = {
     isRoot: true,
     id: 'Root',
+    style: {
+      fill: 'red'
+    },
     children: [
       {
         id: 'SubTreeNode1',
+        raw: {},
         children: [
           {
             id: 'SubTreeNode1.1'
           },
           {
-            id: 'SubTreeNode1.2'
-          }
-        ]
-      },
-      {
-        id: 'SubTreeNode2',
-        children: [
-          {
-            id: 'SubTreeNode2.1'
-          },
-          {
-            id: 'SubTreeNode2.2',
+            id: 'SubTreeNode1.2',
             children: [
               {
                 id: 'SubTreeNode1.2.1'
@@ -87,6 +91,17 @@
                 id: 'SubTreeNode1.2.3'
               }
             ]
+          }
+        ]
+      },
+      {
+        id: 'SubTreeNode2',
+        children: [
+          {
+            id: 'SubTreeNode2.1'
+          },
+          {
+            id: 'SubTreeNode2.2'
           }
         ]
       }, {
@@ -121,8 +136,16 @@
       }
     ]
   };
+  G6.Global.defaultNode.size = 16;
   graph.data(data);
   graph.render();
+  graph.getNodes().forEach(node => {
+    node.get('model').anchorPoints = [[0,0.5], [1,0.5]];
+  });
+  graph.getEdges().forEach((edge) => {
+    edge.get('model').shape = 'cubic-horizontal';
+  });
+  graph.refresh();
   graph.fitView();
   document.getElementById('radial').addEventListener('change', e => {
     radial = e.target.checked;
