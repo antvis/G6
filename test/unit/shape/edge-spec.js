@@ -196,7 +196,7 @@ describe('shape edge test', () => {
         color: 'red'
       }, group);
 
-      expect(shape.attr('path')[1]).eql([ 'C', 0, 50, 150, 100, 150, 150 ]);
+      expect(shape.attr('path')[1]).eql([ 'C', 0, 75, 150, 75, 150, 150 ]);
       canvas.draw();
     });
 
@@ -208,7 +208,7 @@ describe('shape edge test', () => {
         color: 'red'
       }, group);
 
-      expect(shape.attr('path')[1]).eql([ 'C', 50, 0, 100, 150, 150, 150 ]);
+      expect(shape.attr('path')[1]).eql([ 'C', 75, 0, 75, 150, 150, 150 ]);
       canvas.draw();
     });
 
