@@ -93,6 +93,13 @@ const singleEdgeDefinition = Util.mix({}, SingleShapeMixin, {
       pointPercent = 0.5;
     }
     const point = pathShape.getPoint(pointPercent);
+    const { refX, refY } = labelCfg; // 默认的偏移量
+    // 如果两个节点重叠，线就变成了一个点，这时候label的位置，就是这个点 + 绝对偏移
+    if (cfg.startPoint.x === cfg.endPoint.x && cfg.startPoint.y === cfg.endPoint.y) {
+      style.x = cfg.startPoint.x + refX ? refX : 0;
+      style.y = cfg.endPoint.y + refY ? refY : 0;
+      return style;
+    }
     let firstPoint;
     let nextPoint;
     if (pointPercent === 1) {
@@ -105,7 +112,6 @@ const singleEdgeDefinition = Util.mix({}, SingleShapeMixin, {
     const autoRotate = Util.isNil(labelCfg.autoRotate) ? this.labelAutoRotate : labelCfg.autoRotate;
     const tangent = [];
     vec2.normalize(tangent, [ nextPoint.x - firstPoint.x, nextPoint.y - firstPoint.y ]); // 求切线
-    const { refX, refY } = labelCfg; // 默认的偏移量
     if (refX || refY) { // 进行偏移时，求偏移向量
       const offset = this._getOffset(refX, refY, tangent);
       style.x = point.x + offset[0];
@@ -235,7 +241,7 @@ Shape.registerEdge('quadratic', {
 }, 'single-line');
 
 Shape.registerEdge('cubic', {
-  curvePosition: [ 1 / 3, 2 / 3 ],
+  curvePosition: [ 1 / 2, 1 / 2 ],
   curveOffset: [ -20, 20 ],
   getControlPoints(cfg) {
     let controlPoints = cfg.controlPoints; // 指定controlPoints
