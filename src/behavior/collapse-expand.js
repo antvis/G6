@@ -24,6 +24,11 @@ module.exports = {
   },
   onNodeClick(e) {
     const item = e.item;
+    const children = item.get('model').children;
+    // 叶子节点的收缩和展开没有意义
+    if (!children || children.length === 0) {
+      return;
+    }
     const collapsed = !item.hasState('collapsed');
     if (!this.shouldBegin(e, collapsed)) {
       return;
@@ -33,6 +38,7 @@ module.exports = {
     if (!this.shouldUpdate(e, collapsed)) {
       return;
     }
+
     const autoPaint = this.graph.get('autoPaint');
     this.graph.setAutoPaint(false);
     this.updateLayout(item, collapsed);
