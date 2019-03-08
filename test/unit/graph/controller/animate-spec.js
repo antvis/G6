@@ -80,6 +80,7 @@ describe('graph animate', () => {
       expect(graph.findById('a').get('model').y).not.to.equal(30);
       expect(graph.findById('d').getKeyShape().attr('path')[0][1]).not.to.equal(pathX);
       expect(graph.findById('d').getKeyShape().attr('path')[0][2]).not.to.equal(pathY);
+      graph.destroy();
       done();
     };
     expect(graph.findById('a').get('model').x).to.equal(30);
@@ -150,6 +151,7 @@ describe('graph animate', () => {
       expect(matrix[7]).to.equal(50);
       expect(graph.findById('d').getKeyShape().attr('path')[0][1]).not.to.equal(pathX);
       expect(graph.findById('d').getKeyShape().attr('path')[0][2]).not.to.equal(pathY);
+      graph.destroy();
       done();
     };
     graph.getNodes().forEach(node => {
@@ -158,5 +160,64 @@ describe('graph animate', () => {
       model.y += 20;
     });
     graph.refresh();
+  });
+  it('onFrame', done => {
+    const r = 25;
+    const radius = Math.PI;
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      animateCfg: {
+        duration: 300,
+        onFrame(node, ratio, toAttrs, fromAttrs) {
+          if (node.get('id') === 'node1') {
+            expect(toAttrs.x).to.equal(150);
+            expect(toAttrs.y).to.equal(100);
+            expect(fromAttrs.x).to.equal(100);
+            expect(fromAttrs.y).to.equal(100);
+          } else {
+            expect(toAttrs.x).to.equal(100);
+            expect(toAttrs.y).to.equal(100);
+            expect(fromAttrs.x).to.equal(150);
+            expect(fromAttrs.y).to.equal(100);
+          }
+          const current = radius * ratio;
+          let x = fromAttrs.x;
+          let y = fromAttrs.y;
+          if (fromAttrs.x > toAttrs.x) {
+            y += r * Math.sin(current);
+            if (current > Math.PI / 2) {
+              x = x - r + r * Math.cos(current);
+            } else {
+              x += r * Math.cos(current);
+            }
+          } else {
+            y -= r * Math.sin(current);
+            if (current > Math.PI / 2) {
+              x = x + r - r * Math.cos(current);
+            } else {
+              x -= r * Math.cos(current);
+            }
+          }
+          return { x, y };
+        }
+      }
+    });
+    graph.clear();
+    const node1 = graph.addItem('node', { id: 'node1', x: 100, y: 100, shape: 'circle', style: { fill: 'red' } });
+    const node2 = graph.addItem('node', { id: 'node2', x: 150, y: 100, shape: 'circle', style: { fill: 'blue' } });
+    graph.get('animateCfg').callback = () => {
+      expect(node1.get('model').x).to.equal(150);
+      expect(node1.get('model').y).to.equal(100);
+      expect(node2.get('model').x).to.equal(100);
+      expect(node2.get('model').y).to.equal(100);
+      done();
+    };
+    node1.get('model').x = 150;
+    node1.get('model').y = 100;
+    node2.get('model').x = 100;
+    node2.get('model').y = 100;
+    expect(graph.refresh()).not.to.throw;
   });
 });
