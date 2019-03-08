@@ -69,7 +69,7 @@ describe('item controller', () => {
     const shape = node.get('keyShape');
     expect(shape.attr('fill')).to.equal('#ccc');
   });
-  it('fresh graph', () => {
+  it('fresh graph', done => {
     graph.clear();
     const node = graph.addItem('node', { id: 'node', x: 100, y: 100, size: 50 });
     const node2 = graph.addItem('node', { id: 'node2', x: 100, y: 200, size: 50 });
@@ -83,11 +83,14 @@ describe('item controller', () => {
     expect(path[1][2]).to.equal(174.5);
     edge.setTarget(node3);
     graph.refresh();
-    path = edge.get('keyShape').attr('path');
-    expect(path[0][1]).to.equal(125.5);
-    expect(path[0][2]).to.equal(100);
-    expect(path[1][1]).to.equal(274.5);
-    expect(path[1][2]).to.equal(100);
+    setTimeout(() => {
+      path = edge.get('keyShape').attr('path');
+      expect(path[0][1]).to.equal(125.5);
+      expect(path[0][2]).to.equal(100);
+      expect(path[1][1]).to.equal(274.5);
+      expect(path[1][2]).to.equal(100);
+      done();
+    }, 800);
   });
   it('show & hide item', () => {
     const node = graph.addItem('node', { id: 'node', x: 100, y: 100, size: 50 });
