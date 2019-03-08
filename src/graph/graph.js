@@ -315,8 +315,8 @@ class Graph extends EventEmitter {
     const autoPaint = self.get('autoPaint');
     self.setAutoPaint(false);
     self.emit('beforegraphrefresh');
-    if (this.get('animate')) {
-      this.positionsAnimate();
+    if (self.get('animate')) {
+      self.positionsAnimate();
     } else {
       const nodes = self.get('nodes');
       const edges = self.get('edges');
