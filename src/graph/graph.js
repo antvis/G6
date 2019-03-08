@@ -126,13 +126,46 @@ class Graph extends EventEmitter {
       /**
        * 边默认样式，用法同nodeStyle
        */
-      edgeStyle: {}
+      edgeStyle: {},
+      /**
+       * 是否启用全局动画
+       * @type {Boolean}
+       */
+      animate: true,
+      /**
+       * 动画设置,仅在 animate 为 true 时有效
+       * @type {Object}
+       */
+      animateCfg: {
+        /**
+         * 帧回调函数，用于自定义节点运动路径，为空时线性运动
+         * @type {Function|null}
+         */
+        onFrame: null,
+        /**
+         * 动画时长(ms)
+         * @type {Number}
+         */
+        duration: 500,
+        /**
+         * 指定动画动效
+         * @type {String}
+         */
+        easing: 'easeLinear'
+      },
+      callback: null
     };
   }
 
   constructor(inputCfg) {
     super();
+    const defaultCfg = this.getDefaultCfg();
+    let animateCfg = defaultCfg.animateCfg;
+    if (inputCfg.animateCfg) {
+      animateCfg = Util.mix(animateCfg, inputCfg.animateCfg);
+    }
     this._cfg = Util.mix({}, this.getDefaultCfg(), inputCfg);    // merge graph configs
+    this.set('animateCfg', animateCfg);
     this._init();
   }
   _init() {
@@ -279,15 +312,22 @@ class Graph extends EventEmitter {
    */
   refresh() {
     const self = this;
+    const autoPaint = self.get('autoPaint');
+    self.setAutoPaint(false);
     self.emit('beforegraphrefresh');
-    const nodes = self.get('nodes');
-    const edges = self.get('edges');
-    Util.each(nodes, node => {
-      node.refresh();
-    });
-    Util.each(edges, edge => {
-      edge.refresh();
-    });
+    if (this.get('animate')) {
+      this.positionsAnimate();
+    } else {
+      const nodes = self.get('nodes');
+      const edges = self.get('edges');
+      Util.each(nodes, node => {
+        node.refresh();
+      });
+      Util.each(edges, edge => {
+        edge.refresh();
+      });
+    }
+    self.setAutoPaint(autoPaint);
     self.emit('aftergraphrefresh');
     self.autoPaint();
   }
@@ -367,7 +407,11 @@ class Graph extends EventEmitter {
       }
     });
     this.set({ nodes: items.nodes, edges: items.edges });
-    this.paint();
+    if (self.get('animate')) {
+      self.positionsAnimate();
+    } else {
+      this.paint();
+    }
     this.setAutoPaint(autoPaint);
     return this;
   }
@@ -378,6 +422,13 @@ class Graph extends EventEmitter {
     Util.each(models, model => {
       item = itemMap[model.id];
       if (item) {
+        if (self.get('animate') && type === NODE) {
+          const containerMatrix = item.getContainer().getMatrix();
+          item.set('originAttrs', {
+            x: containerMatrix[6],
+            y: containerMatrix[7]
+          });
+        }
         self.updateItem(item, model);
       } else {
         item = self.addItem(type, model);
@@ -563,6 +614,73 @@ class Graph extends EventEmitter {
     }
     this._updateMatrix(matrix);
     this.autoPaint();
+  }
+
+  /**
+   * 根据 graph 上的 animateCfg 进行视图中节点位置动画接口
+   */
+  positionsAnimate() {
+    const self = this;
+    self.emit('beforepositionanimate');
+    const animateCfg = self.get('animateCfg');
+    const onFrame = animateCfg.onFrame;
+    const nodes = self.getNodes();
+    const toNodes = nodes.map(node => {
+      const model = node.getModel();
+      return {
+        id: model.id,
+        x: model.x,
+        y: model.y
+      };
+    });
+    if (self.isAnimating()) {
+      self.stopAnimate();
+    }
+    self.get('canvas').animate({
+      onFrame(ratio) {
+        Util.each(toNodes, data => {
+          const node = self.findById(data.id);
+          if (!node || node.destroyed) {
+            return;
+          }
+          let originAttrs = node.get('originAttrs');
+          const model = node.get('model');
+          if (!originAttrs) {
+            const containerMatrix = node.getContainer().getMatrix();
+            originAttrs = {
+              x: containerMatrix[6],
+              y: containerMatrix[7]
+            };
+            node.set('originAttrs', originAttrs);
+          }
+          if (onFrame) {
+            const attrs = onFrame(node, ratio, data, originAttrs);
+            node.set('model', Util.mix(model, attrs));
+          } else {
+            model.x = originAttrs.x + (data.x - originAttrs.x) * ratio;
+            model.y = originAttrs.y + (data.y - originAttrs.y) * ratio;
+          }
+        });
+        self.refreshPositions();
+      }
+    }, animateCfg.duration, animateCfg.easing, () => {
+      Util.each(nodes, node => {
+        node.set('originAttrs', null);
+      });
+      self.emit('afterpositionanimate');
+      if (animateCfg.callback) {
+        animateCfg.callback();
+      }
+      self.animating = false;
+    });
+  }
+
+  stopAnimate() {
+    this.get('canvas').stopAnimate();
+  }
+
+  isAnimating() {
+    return this.animating;
   }
 
   /**
