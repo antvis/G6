@@ -12,6 +12,7 @@ describe('graph animate', () => {
       container: div,
       width: 500,
       height: 500,
+      animate: true,
       animateCfg: {
         duration: 100,
         callback() { called = true; }
@@ -69,6 +70,7 @@ describe('graph animate', () => {
       container: div,
       width: 500,
       height: 500,
+      animate: true,
       animateCfg: { duration: 100 }
     });
     graph.data(data);
@@ -132,6 +134,7 @@ describe('graph animate', () => {
       container: div,
       width: 500,
       height: 500,
+      animate: true,
       animateCfg: {
         duration: 100
       }
@@ -168,6 +171,7 @@ describe('graph animate', () => {
       container: div,
       width: 500,
       height: 500,
+      animate: true,
       animateCfg: {
         duration: 300,
         onFrame(node, ratio, toAttrs, fromAttrs) {
