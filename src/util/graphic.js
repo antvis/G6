@@ -50,11 +50,11 @@ const GraphicUtil = {
       .getMatrix();
     const bbox = item.getKeyShape()
       .getBBox();
-    const selflinkCfg = cfg.selfLinkCfg;
+    const loopCfg = cfg.loopCfg;
     // 距离keyShape边的最高距离
-    const dist = selflinkCfg.dist || Math.max(bbox.width, bbox.height) * 2;
+    const dist = loopCfg.dist || Math.max(bbox.width, bbox.height) * 2;
     // 自环边与keyShape的相对位置关系
-    const position = selflinkCfg.position || Global.selfLinkPosition;
+    const position = loopCfg.position || Global.loopPosition;
     const r = Math.max(bbox.width, bbox.height) / 2;
     const scaleRate = (r + dist) / r;
     // 中心取group上真实位置
@@ -101,7 +101,7 @@ const GraphicUtil = {
         endPoint = [ center[0] + sinDelta, center[1] - cosDelta ];
     }
     // 如果逆时针画，交换起点和终点
-    if (selflinkCfg.clockwise === false) {
+    if (loopCfg.clockwise === false) {
       const swap = [ startPoint[0], startPoint[1] ];
       startPoint = [ endPoint[0], endPoint[1] ];
       endPoint = [ swap[0], swap[1] ];
