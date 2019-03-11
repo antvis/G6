@@ -53,7 +53,7 @@ module.exports = {
       lineWidth: 2
     }
   },
-  selfLinkPosition: 'top',
+  loopPosition: 'top',
   delegateStyle: {
     fill: '#F3F9FF',
     fillOpacity: 0.5,
