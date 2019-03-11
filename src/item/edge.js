@@ -130,9 +130,9 @@ class Edge extends Item {
     return this.get(pointName);
   }
 
-  _getSelfLinkCfgs(cfg) {
+  _getLoopCfgs(cfg) {
     const item = this.get('source');
-    return Util.getSelfLinkCfgs(item, cfg);
+    return Util.getLoopCfgs(item, cfg);
   }
 
   getShapeCfg(model) {
@@ -140,7 +140,7 @@ class Edge extends Item {
     const linkCenter = this.get('linkCenter'); // 如果连接到中心，忽视锚点、忽视控制点
     let cfg = super.getShapeCfg(model);
     if (self.get('source') === self.get('target')) {
-      cfg = this._getSelfLinkCfgs(cfg);
+      cfg = this._getLoopCfgs(cfg);
       return cfg;
     }
     if (linkCenter) {
