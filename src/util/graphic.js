@@ -45,7 +45,7 @@ const GraphicUtil = {
     };
   },
   // 获取某元素的自环边配置
-  getSelfLinkCfgs(item, cfg) {
+  getLoopCfgs(item, cfg) {
     const containerMatrix = item.get('group')
       .getMatrix();
     const bbox = item.getKeyShape()
