@@ -131,7 +131,7 @@ class Graph extends EventEmitter {
        * 是否启用全局动画
        * @type {Boolean}
        */
-      animate: true,
+      animate: false,
       /**
        * 动画设置,仅在 animate 为 true 时有效
        * @type {Object}
@@ -159,13 +159,7 @@ class Graph extends EventEmitter {
 
   constructor(inputCfg) {
     super();
-    const defaultCfg = this.getDefaultCfg();
-    let animateCfg = defaultCfg.animateCfg;
-    if (inputCfg.animateCfg) {
-      animateCfg = Util.mix(animateCfg, inputCfg.animateCfg);
-    }
-    this._cfg = Util.mix({}, this.getDefaultCfg(), inputCfg);    // merge graph configs
-    this.set('animateCfg', animateCfg);
+    this._cfg = Util.deepMix(this.getDefaultCfg(), inputCfg);    // merge graph configs
     this._init();
   }
   _init() {
