@@ -277,57 +277,57 @@ describe('all node link center', () => {
     const edge = graph.findById('e1');
     expect(edge.get('keyShape').attr('path')).eqls([[ 'M', 10, 10 ], [ 'L', 100, 100 ]]);
   });
-  it('self link', () => {
+  it('loop', () => {
     const node = graph.addItem('node', { id: 'circleNode', x: 150, y: 150, style: { fill: 'yellow' } });
-    const edge1 = graph.addItem('edge', { id: 'edge', source: node, target: node, shape: 'cubic',
+    const edge1 = graph.addItem('edge', { id: 'edge', source: node, target: node,
       loopCfg: {
         position: 'top',
         dist: 60,
         clockwise: true
       }, style: { endArrow: true }
     });
-    const edge2 = graph.addItem('edge', { id: 'edge1', source: node, target: node, shape: 'cubic',
+    const edge2 = graph.addItem('edge', { id: 'edge1', source: node, target: node,
       loopCfg: {
         position: 'top-left',
         dist: 60,
         clockwise: false
       }, style: { endArrow: true }
     });
-    const edge3 = graph.addItem('edge', { id: 'edge2', source: node, target: node, linkIndex: 2, shape: 'cubic',
+    const edge3 = graph.addItem('edge', { id: 'edge2', source: node, target: node, shape: 'cubic',
       loopCfg: {
         position: 'top-right',
         dist: 60
       }, style: { endArrow: true }
     });
-    const edge4 = graph.addItem('edge', { id: 'edge4', source: node, target: node, linkIndex: 2, shape: 'cubic',
+    const edge4 = graph.addItem('edge', { id: 'edge4', source: node, target: node, shape: 'cubic',
       loopCfg: {
         position: 'right',
         dist: 60,
         clockwise: true
       }, style: { endArrow: true }
     });
-    graph.addItem('edge', { id: 'edge5', source: node, target: node, linkIndex: 2, shape: 'cubic',
+    graph.addItem('edge', { id: 'edge5', source: node, target: node, shape: 'cubic',
       loopCfg: {
         position: 'bottom-right',
         dist: 60,
         clockwise: true
       }, style: { endArrow: true }
     });
-    graph.addItem('edge', { id: 'edge6', source: node, target: node, linkIndex: 2, shape: 'cubic',
+    graph.addItem('edge', { id: 'edge6', source: node, target: node, shape: 'cubic',
       loopCfg: {
         position: 'bottom',
         dist: 60,
         clockwise: true
       }, style: { endArrow: true }
     });
-    graph.addItem('edge', { id: 'edge7', source: node, target: node, linkIndex: 2, shape: 'cubic',
+    graph.addItem('edge', { id: 'edge7', source: node, target: node, shape: 'cubic',
       loopCfg: {
         position: 'bottom-left',
         dist: 60,
         clockwise: true
       }, style: { endArrow: true }
     });
-    graph.addItem('edge', { id: 'edge8', source: node, target: node, linkIndex: 2, shape: 'cubic',
+    graph.addItem('edge', { id: 'edge8', source: node, target: node, shape: 'cubic',
       loopCfg: {
         position: 'left',
         dist: 60,
