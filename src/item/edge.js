@@ -9,6 +9,7 @@ const END_MAP = { source: 'start', target: 'end' };
 const ITEM_NAME_SUFFIX = 'Node'; // 端点的后缀，如 sourceNode, targetNode
 const POINT_NAME_SUFFIX = 'Point'; // 起点或者结束点的后缀，如 startPoint, endPoint
 const ANCHOR_NAME_SUFFIX = 'Anchor';
+
 class Edge extends Item {
   getDefaultCfg() {
     return {
@@ -129,9 +130,19 @@ class Edge extends Item {
     return this.get(pointName);
   }
 
+  _getSelfLinkCfgs(cfg) {
+    const item = this.get('source');
+    return Util.getSelfLinkCfgs(item, cfg);
+  }
+
   getShapeCfg(model) {
+    const self = this;
     const linkCenter = this.get('linkCenter'); // 如果连接到中心，忽视锚点、忽视控制点
-    const cfg = super.getShapeCfg(model);
+    let cfg = super.getShapeCfg(model);
+    if (self.get('source') === self.get('target')) {
+      cfg = this._getSelfLinkCfgs(cfg);
+      return cfg;
+    }
     if (linkCenter) {
       cfg.startPoint = this._getEndCenter('source');
       cfg.endPoint = this._getEndCenter('target');

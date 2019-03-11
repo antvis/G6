@@ -277,6 +277,89 @@ describe('all node link center', () => {
     const edge = graph.findById('e1');
     expect(edge.get('keyShape').attr('path')).eqls([[ 'M', 10, 10 ], [ 'L', 100, 100 ]]);
   });
+  it('self link', () => {
+    const node = graph.addItem('node', { id: 'circleNode', x: 150, y: 150, style: { fill: 'yellow' } });
+    const edge1 = graph.addItem('edge', { id: 'edge', source: node, target: node, shape: 'cubic',
+      selfLinkCfg: {
+        position: 'top',
+        dist: 60,
+        clockwise: true
+      }, style: { endArrow: true }
+    });
+    const edge2 = graph.addItem('edge', { id: 'edge1', source: node, target: node, shape: 'cubic',
+      selfLinkCfg: {
+        position: 'top-left',
+        dist: 60,
+        clockwise: false
+      }, style: { endArrow: true }
+    });
+    const edge3 = graph.addItem('edge', { id: 'edge2', source: node, target: node, linkIndex: 2, shape: 'cubic',
+      selfLinkCfg: {
+        position: 'top-right',
+        dist: 60
+      }, style: { endArrow: true }
+    });
+    const edge4 = graph.addItem('edge', { id: 'edge4', source: node, target: node, linkIndex: 2, shape: 'cubic',
+      selfLinkCfg: {
+        position: 'right',
+        dist: 60,
+        clockwise: true
+      }, style: { endArrow: true }
+    });
+    graph.addItem('edge', { id: 'edge5', source: node, target: node, linkIndex: 2, shape: 'cubic',
+      selfLinkCfg: {
+        position: 'bottom-right',
+        dist: 60,
+        clockwise: true
+      }, style: { endArrow: true }
+    });
+    graph.addItem('edge', { id: 'edge6', source: node, target: node, linkIndex: 2, shape: 'cubic',
+      selfLinkCfg: {
+        position: 'bottom',
+        dist: 60,
+        clockwise: true
+      }, style: { endArrow: true }
+    });
+    graph.addItem('edge', { id: 'edge7', source: node, target: node, linkIndex: 2, shape: 'cubic',
+      selfLinkCfg: {
+        position: 'bottom-left',
+        dist: 60,
+        clockwise: true
+      }, style: { endArrow: true }
+    });
+    graph.addItem('edge', { id: 'edge8', source: node, target: node, linkIndex: 2, shape: 'cubic',
+      selfLinkCfg: {
+        position: 'left',
+        dist: 60,
+        clockwise: true
+      }, style: { endArrow: true }
+    });
+    const edgeShape = edge1.getKeyShape().attr('path');
+    expect(edge2.getKeyShape().attr('path')[0][1]).to.equal(edgeShape[0][1]);
+    expect(edge2.getKeyShape().attr('path')[0][2]).to.equal(edgeShape[0][2]);
+    expect(edge3.getKeyShape().attr('path')[1][0]).to.equal('C');
+    expect(edge3.getKeyShape().attr('path')[0][1]).to.equal(edgeShape[1][5]);
+    expect(edge4.getKeyShape().attr('path')[0][1]).to.equal(edge3.getKeyShape().attr('path')[1][5]);
+    expect(edge4.getKeyShape().attr('path')[0][2]).to.equal(edge3.getKeyShape().attr('path')[1][6]);
+  });
+  it('clear states', () => {
+    graph.clear();
+    const node = graph.addItem('node', { id: 'a', x: 50, y: 100, size: 50 });
+    graph.setItemState(node, 'a', true);
+    graph.setItemState(node, 'b', true);
+    expect(graph.findAllByState('node', 'a').length).eql(1);
+    graph.clearItemStates(node);
+
+    expect(graph.findAllByState('node', 'a').length).eql(0);
+    expect(graph.findAllByState('node', 'b').length).eql(0);
+
+    graph.setItemState(node, 'a', true);
+    graph.setItemState(node, 'b', true);
+
+    graph.clearItemStates(node, 'a');
+    expect(graph.findAllByState('node', 'a').length).eql(0);
+    expect(graph.findAllByState('node', 'b').length).eql(1);
+  });
   it('default node & edge style', () => {
     const graph = new G6.Graph({
       container: div,
@@ -369,24 +452,7 @@ describe('all node link center', () => {
     graph.setItemState(edge, 'active', false);
     expect(edgeKeyShape.attr('stroke')).to.equal('blue');
     expect(edgeKeyShape.attr('shadowColor')).to.be.null;
-  });
-  it('clear states', () => {
-    graph.clear();
-    const node = graph.addItem('node', { id: 'a', x: 50, y: 100, size: 50 });
-    graph.setItemState(node, 'a', true);
-    graph.setItemState(node, 'b', true);
-    expect(graph.findAllByState('node', 'a').length).eql(1);
-    graph.clearItemStates(node);
-
-    expect(graph.findAllByState('node', 'a').length).eql(0);
-    expect(graph.findAllByState('node', 'b').length).eql(0);
-
-    graph.setItemState(node, 'a', true);
-    graph.setItemState(node, 'b', true);
-
-    graph.clearItemStates(node, 'a');
-    expect(graph.findAllByState('node', 'a').length).eql(0);
-    expect(graph.findAllByState('node', 'b').length).eql(1);
+    graph.destroy();
   });
   it('clear', () => {
     graph.destroy();
