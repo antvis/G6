@@ -166,7 +166,6 @@ class Item {
     const shapeFactory = self.get('shapeFactory');
     const group = self.get('group');
     const model = self.get('model');
-    const shapeType = model.shape;
     group.clear();
 
     if (!shapeFactory) {
@@ -174,6 +173,7 @@ class Item {
     }
     self.updatePosition(model);
     const cfg = self.getShapeCfg(model); // 可能会附加额外信息
+    const shapeType = cfg.shape;
     const keyShape = shapeFactory.draw(shapeType, cfg, group);
     if (keyShape) {
       keyShape.isKeyShape = true;
