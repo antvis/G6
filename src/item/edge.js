@@ -130,27 +130,20 @@ class Edge extends Item {
     return this.get(pointName);
   }
 
-  _getLoopCfgs(cfg) {
-    const item = this.get('source');
-    return Util.getLoopCfgs(item, cfg);
-  }
-
   getShapeCfg(model) {
     const self = this;
-    const linkCenter = this.get('linkCenter'); // 如果连接到中心，忽视锚点、忽视控制点
-    let cfg = super.getShapeCfg(model);
-    if (self.get('source') === self.get('target')) {
-      cfg = this._getLoopCfgs(cfg);
-      return cfg;
-    }
+    const linkCenter = self.get('linkCenter'); // 如果连接到中心，忽视锚点、忽视控制点
+    const cfg = super.getShapeCfg(model);
     if (linkCenter) {
-      cfg.startPoint = this._getEndCenter('source');
-      cfg.endPoint = this._getEndCenter('target');
+      cfg.startPoint = self._getEndCenter('source');
+      cfg.endPoint = self._getEndCenter('target');
     } else {
-      const controlPoints = cfg.controlPoints || this._getControlPointsByCenter(cfg);
-      cfg.startPoint = this._getLinkPoint('source', model, controlPoints);
-      cfg.endPoint = this._getLinkPoint('target', model, controlPoints);
+      const controlPoints = cfg.controlPoints || self._getControlPointsByCenter(cfg);
+      cfg.startPoint = self._getLinkPoint('source', model, controlPoints);
+      cfg.endPoint = self._getLinkPoint('target', model, controlPoints);
     }
+    cfg.sourceNode = self.get('sourceNode');
+    cfg.targetNode = self.get('targetNode');
     return cfg;
   }
 
