@@ -45,7 +45,8 @@ const GraphicUtil = {
     };
   },
   // 获取某元素的自环边配置
-  getLoopCfgs(item, cfg) {
+  getLoopCfgs(cfg) {
+    const item = cfg.sourceNode || cfg.targetNode;
     const containerMatrix = item.get('group')
       .getMatrix();
     const bbox = item.getKeyShape()
@@ -61,50 +62,53 @@ const GraphicUtil = {
     const center = [ containerMatrix[ 6 ], containerMatrix[ 7 ] ];
     const sinDelta = r * SELF_LINK_SIN;
     const cosDelta = r * SELF_LINK_COS;
-    let startPoint,
-      endPoint;
-    switch (position) {
-      case 'top':
-        startPoint = [ center[0] - sinDelta, center[1] - cosDelta ];
-        endPoint = [ center[0] + sinDelta, center[1] - cosDelta ];
-        break;
-      case 'top-right':
-        startPoint = [ center[0] + sinDelta, center[1] - cosDelta ];
-        endPoint = [ center[0] + cosDelta, center[1] - sinDelta ];
-        break;
-      case 'right':
-        startPoint = [ center[0] + cosDelta, center[1] - sinDelta ];
-        endPoint = [ center[0] + cosDelta, center[1] + sinDelta ];
-        break;
-      case 'bottom-right':
-        startPoint = [ center[0] + cosDelta, center[1] + sinDelta ];
-        endPoint = [ center[0] + sinDelta, center[1] + cosDelta ];
-        break;
-      case 'bottom':
-        startPoint = [ center[0] + sinDelta, center[1] + cosDelta ];
-        endPoint = [ center[0] - sinDelta, center[1] + cosDelta ];
-        break;
-      case 'bottom-left':
-        startPoint = [ center[0] - sinDelta, center[1] + cosDelta ];
-        endPoint = [ center[0] - cosDelta, center[1] + sinDelta ];
-        break;
-      case 'left':
-        startPoint = [ center[0] - cosDelta, center[1] + sinDelta ];
-        endPoint = [ center[0] - cosDelta, center[1] - sinDelta ];
-        break;
-      case 'top-left':
-        startPoint = [ center[0] - cosDelta, center[1] - sinDelta ];
-        endPoint = [ center[0] - sinDelta, center[1] - cosDelta ];
-        break;
-      default:
-        startPoint = [ center[0] - sinDelta, center[1] - cosDelta ];
-        endPoint = [ center[0] + sinDelta, center[1] - cosDelta ];
-    }
-    // 如果逆时针画，交换起点和终点
-    if (loopCfg.clockwise === false) {
-      const swap = [ startPoint[0], startPoint[1] ];
-      startPoint = [ endPoint[0], endPoint[1] ];
-      endPoint = [ swap[0], swap[1] ];
+    let startPoint = [ cfg.startPoint.x, cfg.startPoint.y ];
+    let endPoint = [ cfg.endPoint.x, cfg.endPoint.y ];
+    // 如果定义了锚点的，直接用锚点坐标，否则，根据自环的 cfg 计算
+    if (startPoint[0] === endPoint[0] && startPoint[1] === endPoint[1]) {
+      switch (position) {
+        case 'top':
+          startPoint = [ center[0] - sinDelta, center[1] - cosDelta ];
+          endPoint = [ center[0] + sinDelta, center[1] - cosDelta ];
+          break;
+        case 'top-right':
+          startPoint = [ center[0] + sinDelta, center[1] - cosDelta ];
+          endPoint = [ center[0] + cosDelta, center[1] - sinDelta ];
+          break;
+        case 'right':
+          startPoint = [ center[0] + cosDelta, center[1] - sinDelta ];
+          endPoint = [ center[0] + cosDelta, center[1] + sinDelta ];
+          break;
+        case 'bottom-right':
+          startPoint = [ center[0] + cosDelta, center[1] + sinDelta ];
+          endPoint = [ center[0] + sinDelta, center[1] + cosDelta ];
+          break;
+        case 'bottom':
+          startPoint = [ center[0] + sinDelta, center[1] + cosDelta ];
+          endPoint = [ center[0] - sinDelta, center[1] + cosDelta ];
+          break;
+        case 'bottom-left':
+          startPoint = [ center[0] - sinDelta, center[1] + cosDelta ];
+          endPoint = [ center[0] - cosDelta, center[1] + sinDelta ];
+          break;
+        case 'left':
+          startPoint = [ center[0] - cosDelta, center[1] + sinDelta ];
+          endPoint = [ center[0] - cosDelta, center[1] - sinDelta ];
+          break;
+        case 'top-left':
+          startPoint = [ center[0] - cosDelta, center[1] - sinDelta ];
+          endPoint = [ center[0] - sinDelta, center[1] - cosDelta ];
+          break;
+        default:
+          startPoint = [ center[0] - sinDelta, center[1] - cosDelta ];
+          endPoint = [ center[0] + sinDelta, center[1] - cosDelta ];
+      }
+      // 如果逆时针画，交换起点和终点
+      if (loopCfg.clockwise === false) {
+        const swap = [ startPoint[0], startPoint[1] ];
+        startPoint = [ endPoint[0], endPoint[1] ];
+        endPoint = [ swap[0], swap[1] ];
+      }
     }
     const startVec = [ startPoint[0] - center[0], startPoint[1] - center[1] ];
     const startExtendVec = BaseUtil.vec2.scale([], startVec, scaleRate);
