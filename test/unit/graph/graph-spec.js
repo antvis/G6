@@ -278,56 +278,57 @@ describe('all node link center', () => {
     expect(edge.get('keyShape').attr('path')).eqls([[ 'M', 10, 10 ], [ 'L', 100, 100 ]]);
   });
   it('loop', () => {
-    const node = graph.addItem('node', { id: 'circleNode', x: 150, y: 150, style: { fill: 'yellow' } });
-    const edge1 = graph.addItem('edge', { id: 'edge', source: node, target: node,
+    graph.set('linkCenter', false);
+    const node = graph.addItem('node', { id: 'circleNode', x: 150, y: 150, style: { fill: 'yellow' }, anchorPoints: [[ 0, 0 ], [ 0, 1 ]] });
+    const edge1 = graph.addItem('edge', { id: 'edge', source: node, target: node, shape: 'loop',
       loopCfg: {
         position: 'top',
         dist: 60,
         clockwise: true
       }, style: { endArrow: true }
     });
-    const edge2 = graph.addItem('edge', { id: 'edge1', source: node, target: node,
+    const edge2 = graph.addItem('edge', { id: 'edge1', source: node, target: node, shape: 'loop',
       loopCfg: {
         position: 'top-left',
         dist: 60,
         clockwise: false
       }, style: { endArrow: true }
     });
-    const edge3 = graph.addItem('edge', { id: 'edge2', source: node, target: node, shape: 'cubic',
+    const edge3 = graph.addItem('edge', { id: 'edge2', source: node, target: node, shape: 'loop',
       loopCfg: {
         position: 'top-right',
         dist: 60
       }, style: { endArrow: true }
     });
-    const edge4 = graph.addItem('edge', { id: 'edge4', source: node, target: node, shape: 'cubic',
+    const edge4 = graph.addItem('edge', { id: 'edge4', source: node, target: node, shape: 'loop',
       loopCfg: {
         position: 'right',
         dist: 60,
         clockwise: true
       }, style: { endArrow: true }
     });
-    graph.addItem('edge', { id: 'edge5', source: node, target: node, shape: 'cubic',
+    const edgeWithAnchor = graph.addItem('edge', { id: 'edge5', source: node, target: node, shape: 'loop', sourceAnchor: 0, targetAnchor: 1,
       loopCfg: {
         position: 'bottom-right',
         dist: 60,
         clockwise: true
       }, style: { endArrow: true }
     });
-    graph.addItem('edge', { id: 'edge6', source: node, target: node, shape: 'cubic',
+    graph.addItem('edge', { id: 'edge6', source: node, target: node, shape: 'loop',
       loopCfg: {
         position: 'bottom',
         dist: 60,
         clockwise: true
       }, style: { endArrow: true }
     });
-    graph.addItem('edge', { id: 'edge7', source: node, target: node, shape: 'cubic',
+    graph.addItem('edge', { id: 'edge7', source: node, target: node, shape: 'loop',
       loopCfg: {
         position: 'bottom-left',
         dist: 60,
         clockwise: true
       }, style: { endArrow: true }
     });
-    graph.addItem('edge', { id: 'edge8', source: node, target: node, shape: 'cubic',
+    graph.addItem('edge', { id: 'edge8', source: node, target: node, shape: 'loop',
       loopCfg: {
         position: 'left',
         dist: 60,
@@ -341,6 +342,12 @@ describe('all node link center', () => {
     expect(edge3.getKeyShape().attr('path')[0][1]).to.equal(edgeShape[1][5]);
     expect(edge4.getKeyShape().attr('path')[0][1]).to.equal(edge3.getKeyShape().attr('path')[1][5]);
     expect(edge4.getKeyShape().attr('path')[0][2]).to.equal(edge3.getKeyShape().attr('path')[1][6]);
+    const pathWithAnchor = edgeWithAnchor.getKeyShape().attr('path');
+    expect(pathWithAnchor[0][1]).to.equal(129.5);
+    expect(pathWithAnchor[0][2]).to.equal(129.5);
+    expect(pathWithAnchor[1][0]).to.equal('C');
+    expect(pathWithAnchor[1][5]).to.equal(129.5);
+    expect(pathWithAnchor[1][6]).to.equal(170.5);
   });
   it('clear states', () => {
     graph.clear();

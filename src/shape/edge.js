@@ -61,6 +61,7 @@ const singleEdgeDefinition = Util.mix({}, SingleShapeMixin, {
   getShapeStyle(cfg) {
     const color = cfg.color || Global.defaultEdge.color;
     const size = cfg.size || Global.defaultEdge.size;
+    cfg = this.getPathPoints(cfg);
     const startPoint = cfg.startPoint;
     const endPoint = cfg.endPoint;
     const controlPoints = this.getControlPoints(cfg);
@@ -182,6 +183,14 @@ const singleEdgeDefinition = Util.mix({}, SingleShapeMixin, {
     return cfg.controlPoints;
   },
   /**
+   * @internal 处理需要重计算点和边的情况
+   * @param {Object} cfg 边的配置项
+   * @return {Object} 边的配置项
+   */
+  getPathPoints(cfg) {
+    return cfg;
+  },
+  /**
    * 绘制边
    * @override
    * @param  {Object} cfg   边的配置项
@@ -294,5 +303,11 @@ Shape.registerEdge('cubic-horizontal', {
     };
     const controlPoints = [ innerPoint1, innerPoint2 ];
     return controlPoints;
+  }
+}, 'cubic');
+
+Shape.registerEdge('loop', {
+  getPathPoints(cfg) {
+    return Util.getLoopCfgs(cfg);
   }
 }, 'cubic');
