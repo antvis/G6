@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="mountNode"></div>
+<script src="assets/hierarchy.js"></script>
+<script src="../build/g6.js"></script>
+<script>
+  G6.registerNode('file-node', {
+    draw(cfg, group) {
+      const keyShape = group.addShape('rect', {
+        attrs: {
+          x: cfg.x - 4,
+          y: cfg.y - 12,
+          fill: '#fff',
+          stroke: null
+        }
+      });
+      let marker;
+      if (cfg.data.collapsed) {
+        marker = group.addShape('marker', {
+          attrs: {
+            symbol: 'triangle',
+            x: cfg.x + 4,
+            y: cfg.y - 2,
+            r: 4,
+            fill: '#666'
+          },
+        });
+      } else if (cfg.data.children && cfg.data.children.length > 0) {
+        marker = group.addShape('marker', {
+          attrs: {
+            symbol: 'triangle-down',
+            x: cfg.x + 4,
+            y: cfg.y - 2,
+            r: 4,
+            fill: '#666'
+          }
+        });
+      }
+      const shape = group.addShape('text', {
+        attrs: {
+          x: cfg.x + 15,
+          y: cfg.y + 4,
+          text: cfg.data.name,
+          fill: '#666',
+          fontSize: 16,
+          textAlign: 'left'
+        }
+      });
+      const bbox = shape.getBBox();
+      keyShape.attr({ width: bbox.width + 20, height: bbox.height + 4 });
+      return keyShape;
+    }
+  });
+  G6.registerEdge('step-line', {
+    getControlPoints(cfg) {
+      const startPoint = cfg.startPoint;
+      const endPoint = cfg.endPoint;
+      return [{ x: startPoint.x, y: endPoint.y }]
+    }
+  }, 'polyline');
+  const graph = new G6.TreeGraph({
+    container: 'mountNode',
+    width: 500,
+    height: 500,
+    pixelRatio: 2,
+    linkCenter: true,
+    modes: {
+      default: [{
+        type: 'collapse-expand',
+        animate: false,
+        onChange(item, collapsed) {
+          const data = item.get('model').data;
+          data.collapsed = collapsed;
+          return true;
+        }
+      }]
+    },
+    edgeStyle: {
+      default: {
+        stroke: '#A3B1BF'
+      }
+    },
+    layout: data => {
+      return Hierarchy.indented(data, {
+        isHorizontal: true,
+        direction: 'LR',
+        indent: 80,
+        getHeight() { return 16 },
+        getWidth() { return 16 },
+      });
+    }
+  });
+  const data = {
+    "id": "1",
+    "name": "src",
+    "children": [
+      {
+        "id": "1-1",
+        "name": "behavior",
+        "children": []
+      },
+      {
+        "id": "1-3",
+        "name": "graph",
+        "children": [
+          {
+            "id": "1-3-1",
+            "name": "controller",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "1-5",
+        "name": "item",
+        "children": []
+      },
+      {
+        "id": "1-6",
+        "name": "shape",
+        "children": [
+          {
+            "id": "1-6-2",
+            "name": "extend",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "1-7",
+        "name": "util",
+        "children": []
+      }
+    ]
+  };
+  graph.data(data);
+  graph.render();
+  graph.getNodes().forEach(node => {
+    const model = node.get('model');
+    model.shape = 'file-node';
+    model.label = model.data.name;
+  });
+  graph.getEdges().forEach(edge => {
+    edge.get('model').shape = 'step-line';
+  });
+  graph.refresh();
+  graph.fitView();
+</script>
+</body>
+</html>
