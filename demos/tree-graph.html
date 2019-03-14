@@ -8,16 +8,15 @@
 </style>
 <body>
 <select id="layout">
-  <option value="dendrogram">基础树</option>
+  <option value="dendrogram">系统树</option>
   <option value="compactBox">紧凑树</option>
+  <option value="mindmap">脑图布局</option>
 </select>
-<input type="checkbox" id="radial" /><label for="radial">环形布局</label>
 <div id="mountNode"></div>
 <script src="assets/hierarchy.js"></script>
 <script src="../build/g6.js"></script>
 <script>
   let currentLayout = 'dendrogram';
-  let radial = false;
   const layouts = {
     dendrogram: function(data) {
       return Hierarchy.dendrogram(data, {
@@ -33,6 +32,15 @@
         getWidth() { return 16 },
         getVGap() { return 50 },
         getHGap() { return 50 }
+      });
+    },
+    mindmap: function(data) {
+      return Hierarchy.mindmap(data, {
+        direction: 'H',
+        getHeight() { return 16; },
+        getWidth() { return 16; },
+        getVGap() { return 50; },
+        getHGap() { return 50; }
       });
     }
   };
@@ -99,21 +107,10 @@
         children: [
           {
             id: 'SubTreeNode2.1'
-          },
-          {
-            id: 'SubTreeNode2.2'
           }
         ]
       }, {
-        id: 'SubTreeNode3'
-      }, {
-        id: 'SubTreeNode4'
-      }, {
-        id: 'SubTreeNode5'
-      }, {
-        id: 'SubTreeNode6'
-      }, {
-        id: 'SubTreeNode7',
+        id: 'SubTreeNode3',
         children: [
           {
             id: 'SubTreeNode3.1'
@@ -125,6 +122,14 @@
             id: 'SubTreeNode3.3'
           }
         ]
+      }, {
+        id: 'SubTreeNode4'
+      }, {
+        id: 'SubTreeNode5'
+      }, {
+        id: 'SubTreeNode6'
+      }, {
+        id: 'SubTreeNode7',
       }, {
         id: 'SubTreeNode8'
       }, {
@@ -147,39 +152,11 @@
   });
   graph.refresh();
   graph.fitView();
-  graph.getNodes().forEach((node) => {
-    node.get('model').anchorPoints = [ [0, 0.5], [1, 0.5] ];
-  });
-  graph.getEdges().forEach((edge) => {
-    edge.get('model').shape = 'cubic-horizontal';
-  });
-  graph.refresh();
-  document.getElementById('radial').addEventListener('change', e => {
-    radial = e.target.checked;
-    if (radial) {
-      graph.changeLayout((data) => {
-        data = layouts[currentLayout](data);
-        G6.Util.radialLayout(data);
-        return data;
-      });
-    } else {
-      radial = false;
-      graph.changeLayout(layouts[currentLayout]);
-    }
-  });
   document.getElementById('layout').addEventListener('change', (e) => {
     const layout = e.target.value;
     if (currentLayout !== layout) {
       currentLayout = layout;
-      if (radial) {
-        graph.changeLayout((data) => {
-          data = layouts[currentLayout](data);
-          G6.Util.radialLayout(data);
-          return data;
-        });
-      } else {
-        graph.changeLayout(layouts[currentLayout]);
-      }
+      graph.changeLayout(layouts[currentLayout]);
     }
   });
 </script>
