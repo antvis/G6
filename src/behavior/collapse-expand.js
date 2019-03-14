@@ -24,7 +24,7 @@ module.exports = {
   },
   onNodeClick(e) {
     const item = e.item;
-    const children = item.get('model').children;
+    const children = item.get('model').data.children;
     // 叶子节点的收缩和展开没有意义
     if (!children || children.length === 0) {
       return;
@@ -62,8 +62,25 @@ module.exports = {
         this.animateChild(data);
         this.performAnimate();
       } else {
-        // 仅有重布局
-        this.graph.changeData(data);
+        const autoPaint = graph.get('autoPaint');
+        graph.setAutoPaint(false);
+        Util.traverseTree(data, child => {
+          const node = graph.findById(child.id);
+          node.get('model').x = child.x;
+          node.get('model').y = child.y;
+        });
+        graph.refresh();
+        Util.traverseTree(item.get('model').data, child => {
+          const node = graph.findById(child.id);
+          if (node === item) { return; }
+          if (isCollapsed) {
+            graph.hideItem(node);
+          } else {
+            graph.showItem(node);
+          }
+        });
+        graph.paint();
+        graph.setAutoPaint(autoPaint);
       }
     } else {
       if (this.animate) {
