@@ -180,6 +180,8 @@ class Item {
       self.set('keyShape', keyShape);
       self.set('originStyle', this.getKeyShapeStyle());
     }
+    // 防止由于用户外部修改 model 中的 shape 导致 shape 不更新
+    this.set('currentShape', shapeType);
     this._resetStates(shapeFactory, shapeType);
   }
 
@@ -371,6 +373,7 @@ class Item {
     const shape = model.shape;
     const newModel = Util.mix({}, model, cfg);
     const onlyMove = this._isOnlyMove(cfg);
+
     // 仅仅移动位置时，既不更新，也不重绘
     if (onlyMove) {
       this.updatePosition(newModel);
@@ -379,7 +382,7 @@ class Item {
       // 1. 注册的元素（node, edge）允许更新
       // 2. 更新的信息中没有指定 shape
       // 3. 更新信息中指定了 shape 同时等于原先的 shape
-      if (shapeFactory.shouldUpdate(shape) && newModel.shape === shape) {
+      if (shapeFactory.shouldUpdate(shape) && newModel.shape === this.get('currentShape')) {
         const updateCfg = this.getShapeCfg(newModel);
         // 如果 x,y 发生改变，则重置位置
         // 非 onlyMove ，不代表不 move
