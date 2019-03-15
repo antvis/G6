@@ -822,6 +822,75 @@ class Graph extends EventEmitter {
   }
 
   /**
+   * 返回图表的 dataUrl 用于生成图片
+   * @return {string/Object} 图片 dataURL
+   */
+  toDataURL() {
+    const canvas = this.get('canvas');
+    const renderer = canvas.getRenderer();
+    const canvasDom = canvas.get('el');
+    let dataURL = '';
+    if (renderer === 'svg') {
+      const clone = canvasDom.cloneNode(true);
+      const svgDocType = document.implementation.createDocumentType(
+        'svg', '-//W3C//DTD SVG 1.1//EN', 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'
+      );
+      const svgDoc = document.implementation.createDocument('http://www.w3.org/2000/svg', 'svg', svgDocType);
+      svgDoc.replaceChild(clone, svgDoc.documentElement);
+      const svgData = (new XMLSerializer()).serializeToString(svgDoc);
+      dataURL = 'data:image/svg+xml;charset=utf8,' + encodeURIComponent(svgData);
+    } else if (renderer === 'canvas') {
+      dataURL = canvasDom.toDataURL('image/png');
+    }
+    return dataURL;
+  }
+
+  /**
+   * 画布导出图片
+   * @param {String} name 图片的名称
+   */
+  downloadImage(name) {
+    const self = this;
+    if (self.isAnimating()) {
+      self.stopAnimate();
+    }
+    const canvas = self.get('canvas');
+    const renderer = canvas.getRenderer();
+    const fileName = (name || 'graph') + (renderer === 'svg' ? '.svg' : '.png');
+    const link = document.createElement('a');
+    setTimeout(() => {
+      const dataURL = self.toDataURL();
+      if (window.Blob && window.URL && renderer !== 'svg') {
+        const arr = dataURL.split(',');
+        const mime = arr[0].match(/:(.*?);/)[1];
+        const bstr = atob(arr[1]);
+        let n = bstr.length;
+        const u8arr = new Uint8Array(n);
+        while (n--) {
+          u8arr[n] = bstr.charCodeAt(n);
+        }
+        const blobObj = new Blob([ u8arr ], { type: mime });
+        if (window.navigator.msSaveBlob) {
+          window.navigator.msSaveBlob(blobObj, fileName);
+        } else {
+          link.addEventListener('click', function() {
+            link.download = fileName;
+            link.href = window.URL.createObjectURL(blobObj);
+          });
+        }
+      } else {
+        link.addEventListener('click', function() {
+          link.download = fileName;
+          link.href = dataURL;
+        });
+      }
+      const e = document.createEvent('MouseEvents');
+      e.initEvent('click', false, false);
+      link.dispatchEvent(e);
+    }, 16);
+  }
+
+  /**
    * 清除画布元素
    * @return {object} this
    */
