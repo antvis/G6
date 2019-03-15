@@ -6,6 +6,7 @@
 </head>
 <body>
 <div id="mountNode"></div>
+<button id="download">点击下载图片</button>
 <script src="assets/hierarchy.js"></script>
 <script src="../build/g6.js"></script>
 <script src="./assets/jquery-3.2.1.min.js"></script>
@@ -117,7 +118,9 @@ $.getJSON('./assets/data/modeling-methods.json', data => {
   graph.render();
   graph.fitView();
 });
-
+document.getElementById('download').addEventListener('click', () => {
+  graph.downloadImage();
+});
 </script>
 </body>
 </html>
