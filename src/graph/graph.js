@@ -110,6 +110,22 @@ class Graph extends EventEmitter {
        */
       linkCenter: false,
       /**
+       * 默认的节点配置，data 上定义的配置会覆盖这些配置。例如：
+       * defaultNode: {
+       *  shape: 'rect',
+       *  size: [60, 40]
+       * }
+       * 若数据项为 { id: 'node', x: 100, y: 100 }
+       * 实际创建的节点模型是 { id: 'node', x: 100, y: 100， shape: 'rect', size: [60, 40] }
+       * 若数据项为 { id: 'node', x: 100, y: 100, shape: 'circle' }
+       * 实际创建的节点模型是 { id: 'node', x: 100, y: 100， shape: 'circle', size: [60, 40] }
+       */
+      defaultNode: {},
+      /**
+       * 默认边配置，data 上定义的配置会覆盖这些配置。用法同 defaultNode
+       */
+      defaultEdge: {},
+      /**
        * 节点默认样式，也可以添加状态样式
        * 例如：
        * const graph = new G6.Graph({
@@ -803,6 +819,75 @@ class Graph extends EventEmitter {
    */
   setAutoPaint(auto) {
     this.set('autoPaint', auto);
+  }
+
+  /**
+   * 返回图表的 dataUrl 用于生成图片
+   * @return {string/Object} 图片 dataURL
+   */
+  toDataURL() {
+    const canvas = this.get('canvas');
+    const renderer = canvas.getRenderer();
+    const canvasDom = canvas.get('el');
+    let dataURL = '';
+    if (renderer === 'svg') {
+      const clone = canvasDom.cloneNode(true);
+      const svgDocType = document.implementation.createDocumentType(
+        'svg', '-//W3C//DTD SVG 1.1//EN', 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'
+      );
+      const svgDoc = document.implementation.createDocument('http://www.w3.org/2000/svg', 'svg', svgDocType);
+      svgDoc.replaceChild(clone, svgDoc.documentElement);
+      const svgData = (new XMLSerializer()).serializeToString(svgDoc);
+      dataURL = 'data:image/svg+xml;charset=utf8,' + encodeURIComponent(svgData);
+    } else if (renderer === 'canvas') {
+      dataURL = canvasDom.toDataURL('image/png');
+    }
+    return dataURL;
+  }
+
+  /**
+   * 画布导出图片
+   * @param {String} name 图片的名称
+   */
+  downloadImage(name) {
+    const self = this;
+    if (self.isAnimating()) {
+      self.stopAnimate();
+    }
+    const canvas = self.get('canvas');
+    const renderer = canvas.getRenderer();
+    const fileName = (name || 'graph') + (renderer === 'svg' ? '.svg' : '.png');
+    const link = document.createElement('a');
+    setTimeout(() => {
+      const dataURL = self.toDataURL();
+      if (window.Blob && window.URL && renderer !== 'svg') {
+        const arr = dataURL.split(',');
+        const mime = arr[0].match(/:(.*?);/)[1];
+        const bstr = atob(arr[1]);
+        let n = bstr.length;
+        const u8arr = new Uint8Array(n);
+        while (n--) {
+          u8arr[n] = bstr.charCodeAt(n);
+        }
+        const blobObj = new Blob([ u8arr ], { type: mime });
+        if (window.navigator.msSaveBlob) {
+          window.navigator.msSaveBlob(blobObj, fileName);
+        } else {
+          link.addEventListener('click', function() {
+            link.download = fileName;
+            link.href = window.URL.createObjectURL(blobObj);
+          });
+        }
+      } else {
+        link.addEventListener('click', function() {
+          link.download = fileName;
+          link.href = dataURL;
+        });
+      }
+      const e = document.createEvent('MouseEvents');
+      e.initEvent('click', false, false);
+      link.dispatchEvent(e);
+    }, 16);
   }
 
   /**

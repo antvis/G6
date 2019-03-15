@@ -3,6 +3,8 @@ const Item = require('../../item');
 
 const NODE = 'node';
 const EDGE = 'edge';
+const CFG_PREFIX = 'default';
+const hasOwnProperty = Object.hasOwnProperty;
 
 class ItemController {
   constructor(graph) {
@@ -11,8 +13,22 @@ class ItemController {
   addItem(type, model) {
     const graph = this.graph;
     const parent = graph.get(type + 'Group') || graph.get('group');
+    const upperType = Util.upperFirst(type);
     let item;
     const styles = graph.get(type + 'Style');
+    const defaultModel = graph.get(CFG_PREFIX + upperType);
+    if (defaultModel) {
+      // 很多布局会直接修改原数据模型，所以不能用 merge 的形式，逐个写入原 model 中
+      Util.each(defaultModel, (val, cfg) => {
+        if (!hasOwnProperty.call(model, cfg)) {
+          if (Util.isObject(val)) {
+            model[cfg] = Util.clone(val);
+          } else {
+            model[cfg] = defaultModel[cfg];
+          }
+        }
+      });
+    }
     if (type === EDGE) {
       let source = model.source;
       let target = model.target;
@@ -26,7 +42,7 @@ class ItemController {
         console.warn('The source or target node of edge ' + model.id + ' does not exist!');
         return;
       }
-      item = new Item[Util.upperFirst(type)]({
+      item = new Item[upperType]({
         model,
         source,
         target,
@@ -35,7 +51,7 @@ class ItemController {
         group: parent.addGroup()
       });
     } else {
-      item = new Item[Util.upperFirst(type)]({
+      item = new Item[upperType]({
         model,
         styles,
         group: parent.addGroup()
