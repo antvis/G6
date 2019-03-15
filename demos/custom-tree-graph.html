@@ -6,6 +6,7 @@
 </head>
 <body>
 <div id="mountNode"></div>
+<button id="download">点击下载图片</button>
 <script src="assets/hierarchy.js"></script>
 <script src="../build/g6.js"></script>
 <script src="./assets/jquery-3.2.1.min.js"></script>
@@ -89,6 +90,13 @@ const graph = new G6.TreeGraph({
       }
     }, 'drag-canvas']
   },
+  defaultNode: {
+    shape: 'tree-node',
+    anchorPoints: [ [0, 0.5], [1, 0.5] ],
+  },
+  defaultEdge: {
+    shape: 'cubic-horizontal'
+  },
   edgeStyle: {
     default: {
       stroke: '#A3B1BF'
@@ -108,18 +116,11 @@ const graph = new G6.TreeGraph({
 $.getJSON('./assets/data/modeling-methods.json', data => {
   graph.data(data);
   graph.render();
-  graph.getNodes().forEach(node => {
-    const model = node.get('model');
-    model.anchorPoints = [ [0, 0.5], [1, 0.5] ];
-    model.shape = 'tree-node';
-  });
-  graph.getEdges().forEach((edge) => {
-    edge.get('model').shape = 'cubic-horizontal';
-  });
-  graph.refresh();
   graph.fitView();
 });
-
+document.getElementById('download').addEventListener('click', () => {
+  graph.downloadImage();
+});
 </script>
 </body>
 </html>
