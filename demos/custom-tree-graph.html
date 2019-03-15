@@ -89,6 +89,13 @@ const graph = new G6.TreeGraph({
       }
     }, 'drag-canvas']
   },
+  defaultNode: {
+    shape: 'tree-node',
+    anchorPoints: [ [0, 0.5], [1, 0.5] ],
+  },
+  defaultEdge: {
+    shape: 'cubic-horizontal'
+  },
   edgeStyle: {
     default: {
       stroke: '#A3B1BF'
@@ -108,15 +115,6 @@ const graph = new G6.TreeGraph({
 $.getJSON('./assets/data/modeling-methods.json', data => {
   graph.data(data);
   graph.render();
-  graph.getNodes().forEach(node => {
-    const model = node.get('model');
-    model.anchorPoints = [ [0, 0.5], [1, 0.5] ];
-    model.shape = 'tree-node';
-  });
-  graph.getEdges().forEach((edge) => {
-    edge.get('model').shape = 'cubic-horizontal';
-  });
-  graph.refresh();
   graph.fitView();
 });
 
