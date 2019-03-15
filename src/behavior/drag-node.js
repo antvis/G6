@@ -95,7 +95,7 @@ module.exports = {
       shape.set('capture', false);
       item.set('delegateShape', shape);
     }
-    shape.attr({ x, y });
+    shape.attr({ x: x - bbox.width / 2, y: y - bbox.height / 2 });
     this.graph.paint();
   }
 };
