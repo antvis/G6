@@ -59,6 +59,7 @@
         }
       }, 'drag-canvas']
     },
+    defaultNode: { size: 16 },
     nodeStyle: {
       default: {
         fill: '#40a9ff',
@@ -141,7 +142,6 @@
       }
     ]
   };
-  G6.Global.defaultNode.size = 16;
   graph.data(data);
   graph.render();
   graph.getNodes().forEach(node => {
