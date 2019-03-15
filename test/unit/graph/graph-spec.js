@@ -461,6 +461,63 @@ describe('all node link center', () => {
     expect(edgeKeyShape.attr('shadowColor')).to.be.null;
     graph.destroy();
   });
+  it('graph with default cfg', () => {
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      defaultNode: {
+        shape: 'rect',
+        size: [ 60, 40 ],
+        color: '#ccc',
+        labelCfg: {
+          position: 'right',
+          offset: 5,
+          style: {
+            fontSize: 14,
+            fill: 'blue'
+          }
+        }
+      },
+      defaultEdge: {
+        shape: 'cubic',
+        color: '#666'
+      }
+    });
+    const node = graph.addItem('node', { id: 'node1', x: 100, y: 150, label: '111' });
+    let model = node.get('model');
+    expect(model.id).to.equal('node1');
+    expect(model.x).to.equal(100);
+    expect(model.y).to.equal(150);
+    expect(model.shape).to.equal('rect');
+    expect(model.size[0]).to.equal(60);
+    expect(model.size[1]).to.equal(40);
+    expect(model.color).to.equal('#ccc');
+    expect(model.labelCfg.position).to.equal('right');
+    expect(model.labelCfg.style.fill).to.equal('blue');
+    const node2 = graph.addItem('node', { id: 'node2', x: 150, y: 100, label: '222', color: '#666', shape: 'circle' });
+    model = node2.get('model');
+    expect(model.shape).to.equal('circle');
+    expect(model.size[0]).to.equal(60);
+    expect(model.size[1]).to.equal(40);
+    expect(model.color).to.equal('#666');
+    model.size[1] = 50;
+    expect(model.size[1]).to.equal(50);
+    expect(node.get('model').size[1]).to.equal(40);
+    expect(model.labelCfg.position).to.equal('right');
+    expect(model.labelCfg.style.fill).to.equal('blue');
+    model.labelCfg.position = 'left';
+    model.labelCfg.style.fill = 'red';
+    expect(node.get('model').labelCfg.position).to.equal('right');
+    expect(node.get('model').labelCfg.style.fill).to.equal('blue');
+    const edge = graph.addItem('edge', { id: 'edge', source: 'node1', target: 'node2', shape: 'line' });
+    model = edge.get('model');
+    expect(model.id).to.equal('edge');
+    expect(model.source).to.equal('node1');
+    expect(model.shape).to.equal('line');
+    expect(model.color).to.equal('#666');
+    graph.destroy();
+  });
   it('clear', () => {
     graph.destroy();
     expect(graph.destroyed).eql(true);
