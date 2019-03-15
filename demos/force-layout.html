@@ -349,23 +349,25 @@
   data.edges.forEach((edge, i) => {
     edge.id = i;
   });
-  G6.Global.defaultNode = {
-    size: [10, 10],
-    color: 'steelblue',
-    style: {
-      lineWidth: 2,
-      fill: '#fff'
-    }
-  };
-  G6.Global.defaultEdge = {
-    size: 1,
-    color: '#e2e2e2'
-  };
   const graph = new G6.Graph({
     container: 'mountNode',
     width: 1000,
     height: 600,
-    autoPaint: false
+    autoPaint: false,
+    defaultNode: {
+      size: [10, 10],
+      color: 'steelblue'
+    },
+    defaultEdge: {
+      size: 1,
+      color: '#e2e2e2'
+    },
+    nodeStyle: {
+      default: {
+        lineWidth: 2,
+        fill: '#fff'
+      }
+    }
   });
   const simulation = d3.forceSimulation()
     .force("link", d3.forceLink().id(function(d) { return d.id; }).strength(0.5))
