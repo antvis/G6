@@ -21,6 +21,8 @@ function panCanvas(graph, button = 'left', panBlank = false) {
             x: ev.domX,
             y: ev.domY
           };
+        } else {
+          resetStatus();
         }
       } else {
         lastPoint = {
