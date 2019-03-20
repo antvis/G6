@@ -13,7 +13,7 @@ class PluginBase {
     const self = this;
     self.set('graph', graph);
     const events = self.getEvents();
-    const bindEvents = [];
+    const bindEvents = {};
     each(events, (v, k) => {
       const event = wrapBehavior(self, v);
       bindEvents[k] = event;
@@ -32,7 +32,8 @@ class PluginBase {
   }
   destroy() {
     const graph = this.get('graph');
-    each(this._events, (v, k) => {
+    const events = this._events;
+    each(events, (v, k) => {
       graph.off(k, v);
     });
     this._events = null;
