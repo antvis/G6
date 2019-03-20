@@ -49,6 +49,10 @@ class Graph extends EventEmitter {
        */
       mode: [],
       /**
+       * 注册插件
+       */
+      plugins: [],
+      /**
        * source data
        * @type object
        */
@@ -185,6 +189,7 @@ class Graph extends EventEmitter {
     const modeController = new Controller.Mode(this);
     const itemController = new Controller.Item(this);
     this.set({ eventController, viewController, modeController, itemController });
+    this._initPlugins();
   }
   _initCanvas() {
     let container = this.get('container');
@@ -215,6 +220,14 @@ class Graph extends EventEmitter {
       this.set({ nodeGroup, edgeGroup });
     }
     this.set('group', group);
+  }
+  _initPlugins() {
+    const self = this;
+    Util.each(self.get('plugins'), plugin => {
+      if (!plugin.destroyed && plugin.init) {
+        plugin.init(self);
+      }
+    });
   }
   get(key) {
     return this._cfg[key];
@@ -907,6 +920,9 @@ class Graph extends EventEmitter {
    */
   destroy() {
     this.clear();
+    Util.each(this.get('plugins'), plugin => {
+      plugin.destroy();
+    });
     this.get('eventController').destroy();
     this.get('itemController').destroy();
     this.get('modeController').destroy();
