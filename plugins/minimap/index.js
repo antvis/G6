@@ -165,7 +165,7 @@ class Minimap extends Base {
     const group = canvas.get('children')[0] || canvas.addGroup();
     const nodes = graph.getNodes();
     const edges = graph.getEdges();
-    canvas.get('children');
+    group.clear();
     // 边可以直接使用keyShape
     each(edges, edge => {
       group.add(edge.get('keyShape').clone());
