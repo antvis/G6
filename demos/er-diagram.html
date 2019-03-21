@@ -7,6 +7,7 @@
 <body>
 <div id="mountNode"></div>
 <script src="../build/g6.js"></script>
+<script src="../build/minimap.js"></script>
 <script>
 
   G6.registerEdge('relation', {
@@ -71,15 +72,16 @@
         }
       });
       return keyShape;
-      console.log(point, tangent);
     }
   });
+  const minimap = new Minimap({ size: [ 160, 100 ] });
   const graph = new G6.Graph({
     container: 'mountNode',
     width: 800,
     height: 500,
+    plugins: [ minimap ],
     modes: {
-      default: [ 'drag-node']
+      default: [ 'drag-node', 'drag-canvas', 'zoom-canvas']
     }
   });
   const data = {

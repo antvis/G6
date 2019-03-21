@@ -49,14 +49,14 @@ describe('tooltip', () => {
     expect(style.left).to.equal('64px');
     expect(style.top).to.equal('64px');
     graph.emit('node:mouseenter', { x: 410, y: 52, item: rt });
-    expect(style.left).to.equal('372.203px');
+    expect(style.left).to.equal('384.203px');
     expect(style.top).to.equal('64px');
     graph.emit('node:mouseenter', { x: 410, y: 410, item: rb });
-    expect(style.left).to.equal('372.203px');
-    expect(style.top).to.equal('380px');
+    expect(style.left).to.equal('384.203px');
+    expect(style.top).to.equal('392px');
     graph.emit('node:mouseenter', { x: 52, y: 410, item: lb });
     expect(style.left).to.equal('64px');
-    expect(style.top).to.equal('380px');
+    expect(style.top).to.equal('392px');
     graph.removeBehaviors('tooltip', 'default');
     div.removeChild(tooltip);
   });
