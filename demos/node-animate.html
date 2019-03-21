@@ -25,7 +25,7 @@
 	    x: 300,
 	    y: 200,
 	    shape: 'background-animate',
-	    color: 'red',
+	    color: '#b5b5b5',
 	    size: 20,
 	   	label: '背景动画',
 	   	labelCfg: {
@@ -66,7 +66,7 @@
 	    target: 'node4'
 	  }
 	]};
-	
+
 	// 放大、变小动画
 	G6.registerNode('circle-animate', {
 		afterDraw(cfg, group) {
@@ -102,7 +102,7 @@
 					x: 0,
 					y: 0,
 					r,
-					fill: 'blue', // 为了显示清晰，随意设置了颜色
+					fill: cfg.color, // 为了显示清晰，随意设置了颜色
 					opacity: 0.6
 				}
 			});
@@ -113,7 +113,7 @@
 					x: 0,
 					y: 0,
 					r,
-					fill: 'green',
+					fill: cfg.color,
 					opacity: 0.6
 				}
 			});
