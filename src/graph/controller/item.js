@@ -78,15 +78,15 @@ class ItemController {
         let source = cfg.source;
         if (Util.isString(source)) {
           source = graph.findById(source);
-          item.setSource(source);
         }
+        item.setSource(source);
       }
       if (cfg.target) {
         let target = cfg.target;
         if (Util.isString(target)) {
           target = graph.findById(target);
-          item.setTarget(target);
         }
+        item.setTarget(target);
       }
     }
     item.update(cfg);
