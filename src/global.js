@@ -18,7 +18,7 @@ module.exports = {
   defaultEdge: {
     shape: 'line',
     style: {},
-    size: 2,
+    size: 1,
     color: '#333'
   },
   nodeLabel: {
