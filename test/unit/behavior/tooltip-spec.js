@@ -17,7 +17,7 @@ describe('tooltip', () => {
       type: 'tooltip'
     }, 'default');
     const node = graph.addItem('node', { color: '#666', x: 50, y: 50, r: 20, style: { lineWidth: 2, fill: '#666' }, label: 'text' });
-    graph.emit('node:mouseenter', { x: 52, y: 52, item: node });
+    graph.emit('node:mouseenter', { canvasX: 52, canvasY: 52, item: node });
     const tooltip = div.childNodes[1];
     expect(tooltip).not.to.be.null;
     const bbox = tooltip.getBoundingClientRect();
@@ -29,7 +29,7 @@ describe('tooltip', () => {
     expect(style.top).to.equal('64px');
     expect(style.visibility).to.equal('visible');
     expect(tooltip.innerHTML).to.equal('text');
-    graph.emit('node:mousemove', { x: 54, y: 54, item: node });
+    graph.emit('node:mousemove', { canvasX: 54, canvasY: 54, item: node });
     expect(style.left).to.equal('66px');
     expect(style.top).to.equal('66px');
     div.removeChild(tooltip);
@@ -42,19 +42,19 @@ describe('tooltip', () => {
     const rt = graph.addItem('node', { id: 'rt', color: '#666', x: 400, y: 50, r: 20, style: { lineWidth: 2, fill: '#666' }, label: 'text' });
     const lb = graph.addItem('node', { id: 'lb', color: '#666', x: 50, y: 400, r: 20, style: { lineWidth: 2, fill: '#666' }, label: 'text' });
     graph.paint();
-    graph.emit('node:mouseenter', { x: 52, y: 52, item: lt });
+    graph.emit('node:mouseenter', { canvasX: 52, canvasY: 52, item: lt });
     const tooltip = div.childNodes[1];
     const style = tooltip.style;
     expect(tooltip).not.to.be.null;
     expect(style.left).to.equal('64px');
     expect(style.top).to.equal('64px');
-    graph.emit('node:mouseenter', { x: 410, y: 52, item: rt });
+    graph.emit('node:mouseenter', { canvasX: 410, canvasY: 52, item: rt });
     expect(style.left).to.equal('384.203px');
     expect(style.top).to.equal('64px');
-    graph.emit('node:mouseenter', { x: 410, y: 410, item: rb });
+    graph.emit('node:mouseenter', { canvasX: 410, canvasY: 410, item: rb });
     expect(style.left).to.equal('384.203px');
     expect(style.top).to.equal('392px');
-    graph.emit('node:mouseenter', { x: 52, y: 410, item: lb });
+    graph.emit('node:mouseenter', { canvasX: 52, canvasY: 410, item: lb });
     expect(style.left).to.equal('64px');
     expect(style.top).to.equal('392px');
     graph.removeBehaviors('tooltip', 'default');
@@ -70,7 +70,7 @@ describe('tooltip', () => {
         return 'custom label';
       }
     }], 'default');
-    graph.emit('node:mouseenter', { x: 52, y: 52, item: node });
+    graph.emit('node:mouseenter', { canvasX: 52, canvasY: 52, item: node });
     const tooltip = div.childNodes[1];
     expect(tooltip.innerHTML).to.equal('custom label');
   });
