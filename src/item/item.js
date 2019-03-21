@@ -491,6 +491,15 @@ class Item {
     this.set('visible', visible);
   }
 
+  /**
+   * 是否拾取及出发该元素的交互事件
+   * @param {Boolean} enable 标识位
+   */
+  enableCapture(enable) {
+    const group = this.get('group');
+    group && group.attr('capture', enable);
+  }
+
   isVisible() {
     return this.get('visible');
   }

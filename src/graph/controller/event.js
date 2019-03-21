@@ -26,6 +26,18 @@ function getItemRoot(shape) {
   return shape;
 }
 
+const ORIGIN_MATRIX = [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ];
+const MATRIX_LEN = 9;
+
+function isViewportChanged(matrix) {
+  for (let i = 0; i < MATRIX_LEN; i++) {
+    if (matrix[i] !== ORIGIN_MATRIX[i]) {
+      return true;
+    }
+  }
+  return false;
+}
+
 class Event {
   constructor(graph) {
     this.graph = graph;
@@ -57,8 +69,19 @@ class Event {
     const pixelRatio = canvas.get('pixelRatio');
     const target = e.target;
     const eventType = e.type;
-    e.x /= pixelRatio;
-    e.y /= pixelRatio;
+    /**
+     * (clientX, clientY): 相对于页面的坐标；
+     * (canvasX, canvasY): 相对于 <canvas> 左上角的坐标；
+     * (x, y): 相对于整个画布的坐标, 与 model 的 x, y 是同一维度的。
+     */
+    e.canvasX = e.x / pixelRatio;
+    e.canvasY = e.y / pixelRatio;
+    let point = { x: e.canvasX, y: e.canvasY };
+    if (isViewportChanged(graph.get('group').getMatrix())) {
+      point = graph.getPointByCanvas(e.canvasX, e.canvasY);
+    }
+    e.x = point.x;
+    e.y = point.y;
     // 事件currentTarget是graph
     e.currentTarget = graph;
     if (target === canvas) {
