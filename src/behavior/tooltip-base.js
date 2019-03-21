@@ -59,12 +59,12 @@ module.exports = {
     let y = e.y;
     const bbox = container.getBoundingClientRect();
     if (x > width / 2) {
-      x -= (bbox.width + OFFSET);
+      x -= (bbox.width);
     } else {
       x += OFFSET;
     }
     if (y > height / 2) {
-      y -= (bbox.height + OFFSET);
+      y -= (bbox.height);
     } else {
       y += OFFSET;
     }
