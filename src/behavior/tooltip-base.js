@@ -55,8 +55,8 @@ module.exports = {
     const width = this.width;
     const height = this.height;
     const container = this.container;
-    let x = e.x;
-    let y = e.y;
+    let x = e.canvasX;
+    let y = e.canvasY;
     const bbox = container.getBoundingClientRect();
     if (x > width / 2) {
       x -= (bbox.width);
