@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-  <script src="../src/behavior/tooltip.js"></script>
 </head>
 <body>
 <div id="mountNode"></div>
@@ -355,6 +354,9 @@
     width: 1000,
     height: 600,
     autoPaint: false,
+    modes: {
+      default: ['drag-canvas']
+    },
     defaultNode: {
       size: [10, 10],
       color: 'steelblue'
@@ -389,22 +391,24 @@
     }
     graph.paint();
   }
-  graph.on('node:dragstart', e => {
+  function refreshPosition(e) {
+    const matrix = graph.get('group').getMatrix();
+    const dx = e.x - matrix[6];
+    const dy = e.y - matrix[7];
+    e.item.get('model').x = dx;
+    e.item.get('model').y = dy;
+    graph.refreshPositions();
+  }
+  graph.on('node:dragstart', function(e) {
     simulation.alphaTarget(0.3).restart();
-    e.item.get('model').x = e.x;
-    e.item.get('model').y = e.y;
-    graph.refreshPositions();
+    refreshPosition(e);
   });
-  graph.on('node:drag', e => {
-    e.item.get('model').x = e.x;
-    e.item.get('model').y = e.y;
-    graph.refreshPositions();
+  graph.on('node:drag', function(e) {
+    refreshPosition(e);
   });
-  graph.on('node:dragend', e => {
+  graph.on('node:dragend', function(e) {
     simulation.alphaTarget(0);
-    e.item.get('model').x = e.x;
-    e.item.get('model').y = e.y;
-    graph.refreshPositions();
+    refreshPosition(e);
   });
 </script>
 </body>
