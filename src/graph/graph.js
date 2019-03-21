@@ -401,6 +401,15 @@ class Graph extends EventEmitter {
   }
 
   /**
+   * 接收数据进行渲染
+   * @Param {Object} data 初始化数据
+   */
+  read(data) {
+    this.data(data);
+    this.render();
+  }
+
+  /**
    * 更改源数据，根据新数据重新渲染视图
    * @param {object} data 源数据
    * @return {object} this
