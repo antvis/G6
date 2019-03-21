@@ -9,7 +9,15 @@
 <button id="download">点击下载图片</button>
 <script src="assets/hierarchy.js"></script>
 <script src="../build/g6.js"></script>
+<script src="../build/minimap.js"></script>
 <script src="./assets/jquery-3.2.1.min.js"></script>
+<style>
+  .g6-minimap{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+</style>
 <script>
 const COLLAPSE_ICON = function(x, y, r) {
   return [
@@ -70,10 +78,12 @@ G6.registerNode('tree-node', {
     return rect;
   }
 }, 'single-shape');
+const minimap = new Minimap({ size: [200, 150] });
 const graph = new G6.TreeGraph({
   container: 'mountNode',
   width: 800,
   height: 600,
+  plugins: [ minimap ],
   modes: {
     default: [{
       type: 'collapse-expand',
@@ -88,7 +98,7 @@ const graph = new G6.TreeGraph({
         data.collapsed = collapsed;
         return true;
       }
-    }, 'drag-canvas']
+    }, 'drag-canvas', 'zoom-canvas']
   },
   defaultNode: {
     shape: 'tree-node',

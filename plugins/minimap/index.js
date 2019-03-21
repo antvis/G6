@@ -19,14 +19,6 @@ class Minimap extends Base {
       className: 'g6-minimap',
       viewportClassName: 'g6-minimap-viewport',
       keyShapeOnly: false,
-      viewportStyle: {
-        stroke: '#1890ff',
-        lineWidth: 2,
-        x: 0,
-        y: 0,
-        width: 200,
-        height: 120
-      },
       size: [ 200, 120 ]
     };
   }
@@ -146,16 +138,21 @@ class Minimap extends Base {
     } else {
       this._updateGraphShapes();
     }
-    // 更新minimap视口
-    this._updateViewport();
-    // 刷新后bbox可能会变，需要重置画布矩阵以缩放到合适的大小
     const bbox = canvas.getBBox();
+    // 刷新后bbox可能会变，需要重置画布矩阵以缩放到合适的大小
     const width = max(bbox.width, graph.get('width'));
     const height = max(bbox.height, graph.get('height'));
     const pixelRatio = canvas.get('pixelRatio');
+    const ratio = Math.min(size[0] / width, size[1] / height);
     canvas.resetMatrix();
-    canvas.scale(size[0] / width * pixelRatio, size[1] / height * pixelRatio);
+    canvas.scale(ratio * pixelRatio, ratio * pixelRatio);
+    // 缩放到适合视口后, 平移到画布中心
+    const dx = (size[0] - width * ratio) / 2;
+    const dy = (size[1] - height * ratio) / 2;
+    canvas.translate(dx * pixelRatio, dy * pixelRatio);
     canvas.draw();
+    // 更新minimap视口
+    this._updateViewport(ratio, dx, dy);
   }
   // 仅在minimap上绘制keyShape
   // FIXME 如果用户自定义绘制了其他内容，minimap上就无法画出
@@ -179,8 +176,7 @@ class Minimap extends Base {
   }
   // 将主图上的图形完全复制到小图
   _updateGraphShapes() {
-    const cfgs = this._cfgs;
-    const graph = cfgs.graph;
+    const graph = this.get('graph');
     const canvas = this.get('canvas');
     const graphGroup = graph.get('group');
     const clonedGroup = graphGroup.clone();
@@ -188,23 +184,32 @@ class Minimap extends Base {
     canvas.get('children')[0] = clonedGroup;
   }
   // 绘制minimap视口
-  _updateViewport() {
-    const size = this._cfgs.size;
-    const graph = this._cfgs.graph;
-    const matrix = graph.get('group').getMatrix();
+  _updateViewport(ratio, dx, dy) {
+    const graph = this.get('graph');
+    const size = this.get('size');
+    const graphWidth = graph.get('width');
+    const graphHeight = graph.get('height');
     const topLeft = graph.getPointByCanvas(0, 0);
+    const bottomRight = graph.getPointByCanvas(graphWidth, graphHeight);
     const viewport = this.get('viewport');
     if (!viewport) {
       this.initViewport();
     }
     // viewport宽高,左上角点的计算
-    const width = matrix[0] >= 1 ? size[0] / matrix[0] : size[0];
-    const height = matrix[4] >= 1 ? size[1] / matrix[4] : size[1];
-    const left = topLeft.x > 0 ? topLeft.x * size[0] / graph.get('width') : 0;
-    const top = topLeft.y > 0 ? topLeft.y * size[1] / graph.get('height') : 0;
+    let width = (bottomRight.x - topLeft.x) * ratio;
+    let height = (bottomRight.y - topLeft.y) * ratio;
+    const left = topLeft.x * ratio + dx;
+    const top = topLeft.y * ratio + dy;
+    if (width > size[0]) {
+      width = size[0];
+    }
+    if (height > size[1]) {
+      height = size[1];
+    }
+
     modifyCSS(viewport, {
-      left: left + 'px',
-      top: top + 'px',
+      left: left > 0 ? left + 'px' : 0,
+      top: top > 0 ? top + 'px' : 0,
       width: width + 'px',
       height: height + 'px'
     });
