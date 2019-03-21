@@ -1,5 +1,7 @@
 const expect = require('chai').expect;
 const G6 = require('../../../src');
+const Base = require('../../../plugins/base');
+
 // const Util = require('../../../src/util');
 
 const div = document.createElement('div');
@@ -517,6 +519,38 @@ describe('all node link center', () => {
     expect(model.shape).to.equal('line');
     expect(model.color).to.equal('#666');
     graph.destroy();
+  });
+  it('regist plugin', () => {
+    let count = 0;
+    class Plugin extends Base {
+      getDefaultCfg() {
+        return {
+          b: { d: 2 }
+        };
+      }
+      getEvents() {
+        return { event: 'handler' };
+      }
+      handler() {
+        count++;
+      }
+    }
+    const plugin = new Plugin({ a: 1, b: { c: 2 } });
+    expect(plugin.get('a')).to.equal(1);
+    expect(plugin.get('b').c).to.equal(2);
+    expect(plugin.get('b').d).to.equal(2);
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      plugins: [ plugin ]
+    });
+    expect(graph.get('plugins').length).to.equal(1);
+    graph.emit('event');
+    expect(count).to.equal(1);
+    plugin.destroy();
+    graph.emit('event');
+    expect(count).to.equal(1);
   });
   it('clear', () => {
     graph.destroy();

@@ -6,6 +6,7 @@ const behaviors = {
   'drag-node': require('./drag-node'),
   'click-select': require('./click-select'),
   tooltip: require('./tooltip'),
+  'edge-tooltip': require('./edge-tooltip'),
   'collapse-expand': require('./collapse-expand')
 };
 Util.each(behaviors, (behavior, type) => {
