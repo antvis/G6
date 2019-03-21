@@ -119,8 +119,8 @@ describe('minimap', () => {
         expect(matrix[7]).to.equal(0);
         graph.destroy();
         done();
-      }, 50);
-    }, 50);
+      }, 100);
+    }, 100);
   });
   it('minimap container', () => {
     const minimap = new Minimap({ container, size: [ 200, 200 ], className: 'test-className' });
