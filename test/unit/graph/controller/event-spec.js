@@ -48,7 +48,7 @@ describe('event', () => {
       done();
     }, 500);
   });
-  // 报错，暂时注释掉
+
   it('g event on shape', () => {
     let target = null;
     const canvas = graph.get('canvas');
@@ -116,6 +116,68 @@ describe('event', () => {
     expect(leave).to.equal(1);
     canvas.emit('mousemove', { type: 'mousemove', taregt: canvas });
     expect(leave).to.equal(1);
+  });
+  it('modified viewport', () => {
+    let triggered = false;
+    graph.removeEvent();
+    graph.on('mousedown', e => {
+      if (triggered) {
+        expect(e.canvasX).to.equal(10);
+        expect(e.canvasY).to.equal(10);
+        expect(e.x).to.equal(-90);
+        expect(e.y).to.equal(-90);
+      } else {
+        expect(e.canvasX).to.equal(10);
+        expect(e.canvasY).to.equal(10);
+        expect(e.x).to.equal(10);
+        expect(e.y).to.equal(10);
+        triggered = true;
+      }
+    });
+    graph.on('mouseup', e => {
+      expect(e.canvasX).to.equal(10);
+      expect(e.canvasY).to.equal(10);
+      expect(e.x).to.equal(-80);
+      expect(e.y).to.equal(-80);
+    });
+    const canvas = graph.get('canvas').get('el');
+    const bbox = canvas.getBoundingClientRect();
+    Simulate.simulate(canvas, 'mousedown', {
+      clientY: bbox.top + 10,
+      clientX: bbox.left + 10
+    });
+    graph.translate(100, 100);
+    Simulate.simulate(canvas, 'mousedown', {
+      clientY: bbox.top + 10,
+      clientX: bbox.left + 10
+    });
+    graph.zoom(0.5);
+    Simulate.simulate(canvas, 'mouseup', {
+      clientY: bbox.top + 10,
+      clientX: bbox.left + 10
+    });
+  });
+  it('item capture', () => {
+    graph.removeEvent();
+    const node = graph.addItem('node', { x: 100, y: 100, id: 'node' });
+    const canvas = graph.get('canvas').get('el');
+    const bbox = canvas.getBoundingClientRect();
+    let targetItem;
+    graph.on('node:click', e => {
+      targetItem = e.item;
+    });
+    Simulate.simulate(canvas, 'mousedown', {
+      clientY: bbox.top + 100,
+      clientX: bbox.left + 100
+    });
+    expect(targetItem === node);
+    targetItem = null;
+    node.enableCapture(false);
+    Simulate.simulate(canvas, 'mousedown', {
+      clientY: bbox.top + 100,
+      clientX: bbox.left + 100
+    });
+    expect(targetItem === node).to.be.false;
   });
   it('event object overlap', () => {
     let count = 0;
