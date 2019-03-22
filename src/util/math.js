@@ -60,11 +60,8 @@ const MathUtil = {
    * @param  {object} point point
    * @return {object} rst;
    */
-  getIntersectPointRect(rect, point) {
-    const x = rect.minX;
-    const y = rect.minY;
-    const width = (rect.maxX - rect.minX);
-    const height = (rect.maxY - rect.minY);
+  getRectIntersectByPoint(rect, point) {
+    const { x, y, width, height } = rect;
     const cx = x + width / 2;
     const cy = y + height / 2;
     const points = [];
@@ -103,16 +100,17 @@ const MathUtil = {
   },
   /**
    * get point and circle inIntersect
-   * @param  {number} x   point x
-   * @param  {number} y   point y
-   * @param  {number} cx  circle center x
-   * @param  {number} cy  circle center y
-   * @param  {number} cr  circle radius
+   * @param {Object} circle 圆点，x,y,r
+   * @param {Object} point 点 x,y
    * @return {object} applied point
    */
-  getIntersectPointCircle(x, y, cx, cy, cr) {
+  getCircleIntersectByPoint(circle, point) {
+    const cx = circle.x;
+    const cy = circle.y;
+    const r = circle.r;
+    const { x, y } = point;
     const d = Math.sqrt(Math.pow((x - cx), 2) + Math.pow((y - cy), 2));
-    if (d < cr) {
+    if (d < r) {
       return null;
     }
     const dx = (x - cx);
@@ -121,8 +119,34 @@ const MathUtil = {
     const signY = Math.sign(dy);
     const angle = Math.atan(dy / dx);
     return {
-      x: cx + Math.abs(cr * Math.cos(angle)) * signX,
-      y: cy + Math.abs(cr * Math.sin(angle)) * signY
+      x: cx + Math.abs(r * Math.cos(angle)) * signX,
+      y: cy + Math.abs(r * Math.sin(angle)) * signY
+    };
+  },
+  /**
+   * get point and ellipse inIntersect
+   * @param {Object} ellipse 椭圆 x,y,rx,ry
+   * @param {Object} point 点 x,y
+   * @return {object} applied point
+   */
+  getEllispeIntersectByPoint(ellipse, point) {
+    // 计算线段 (point.x, point.y) 到 (ellipse.x, ellipse.y) 与椭圆的交点
+    const a = ellipse.rx;
+    const b = ellipse.ry;
+    const cx = ellipse.x;
+    const cy = ellipse.y;
+    // const c = Math.sqrt(a * a - b * b); // 焦距
+    const dx = (point.x - cx);
+    const dy = (point.y - cy);
+    let angle = Math.atan2(dy / b, dx / a); // 直接通过 x,y 求夹角，求出来的范围是 -PI, PI
+    if (angle < 0) {
+      angle += 2 * Math.PI; // 转换到 0，2PI
+    }
+    // 通过参数方程求交点
+    // const r = (b * b) / (a - c * Math.sin(angle));
+    return {
+      x: cx + a * Math.cos(angle),
+      y: cy + b * Math.sin(angle)
     };
   },
   /**
@@ -155,69 +179,6 @@ const MathUtil = {
       x: vector[0],
       y: vector[1]
     };
-  },
-  /**
-   * radix sort
-   * @param  {array} arr unsorted child node set
-   * @param  {function} callback callback
-   * @return {array} after sorting child node set
-   */
-  radixSort(arr, callback) {
-    let mod = 10;
-    let dev = 1;
-    const counter = []; // 桶
-    let maxDigit = 1; // 最大位数
-    let rank;
-    let length;
-    let i;
-    let j;
-    let bucket;
-    let pos;
-    let value;
-
-    for (i = 0; i < arr.length; i++) {
-      rank = callback(arr[i]);
-      rank = parseInt(rank, 10);
-      length = rank.toString().length;
-      if (rank.toString().length > maxDigit) {
-        maxDigit = length;
-      }
-    }
-    for (i = 0; i < maxDigit; i++, dev *= 10, mod *= 10) {
-      for (j = 0; j < arr.length; j++) {
-        bucket = callback(arr[j]);
-        bucket = parseInt((bucket % mod) / dev, 10);
-        if (counter[bucket] === undefined) {
-          counter[bucket] = [];
-        }
-        counter[bucket].push(arr[j]);
-      }
-      pos = 0;
-      for (j = 0; j < counter.length; j++) {
-        value = undefined;
-        if (counter[j] !== undefined) {
-          value = counter[j].shift();
-          while (value !== undefined) {
-            arr[pos++] = value;
-            value = counter[j].shift();
-          }
-        }
-      }
-    }
-    return arr;
-  },
-  /**
-    * get arc of two vertors
-    * @param {object} vector1 - vector1
-    * @param {object} vector2 - vector2
-    * @return {number} - arc
-    */
-  getArcOfVectors(vector1, vector2) {
-    const { x: x1, y: y1 } = vector1;
-    const { x: x2, y: y2 } = vector2;
-    const v1 = Math.sqrt(x1 * x1 + y1 * y1);
-    const v2 = Math.sqrt(x2 * x2 + y2 * y2);
-    return Math.acos((x1 * x2 + y1 * y2) / (v1 * v2));
   }
 };
 module.exports = BaseUtil.mix({}, BaseUtil, MathUtil);
