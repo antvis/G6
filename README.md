@@ -10,10 +10,11 @@
 
 [中文 README](README-zh_CN.md)
 
-G6 is a graph visualization framework. It provides a set of basic mechanisms, helps developers build their own graph visualization **analysis** application or graph visualization **edit** application.
+G6 is a graph visualization framework which provides a set of basic mechanisms. Developers are able to build graph visualization **analysis** application or graph visualization **modeling** application easily.    
 
-[Full documentation](https://www.yuque.com/antv/g6-en)
+**notice**: G6 3.0 version is now beta testing which brings many breaking changes and new features. For more information please check [3.0 documentation](https://www.yuque.com/antv/g6/xauk5e).
 
+See also [ 2.x Full documentation](https://www.yuque.com/antv/g6-en)
 
 <img src="https://user-images.githubusercontent.com/6113694/44995293-02858600-afd5-11e8-840c-349e4730d63d.gif" height=150><img src="https://cdn.nlark.com/yuque/0/2018/gif/93506/1535955277773-840190f8-836a-4bd6-875a-b3a18e6cebf1.gif" height=150><img src="https://user-images.githubusercontent.com/6113694/44995332-2ba61680-afd5-11e8-8cab-db0e9d08ceb7.gif" height=150>
 
@@ -76,6 +77,15 @@ $ npm run dev
 Please let us know how can we help. Do check out [issues](https://github.com/antvis/g6/issues) for bug reports or suggestions first.
 
 To become a contributor, please follow our [contributing guide](https://github.com/antvis/g6/blob/master/CONTRIBUTING.md).
+
+## Experience Improvement
+To better serve the users, G6 sends URL and version infomation back to AntV server:
+https://kcart.alipay.com/web/bi.do
+We will never collect other information. If you are worried about that, close it by:
+
+```js
+G6.track(false);
+```
 
 ## License
 
