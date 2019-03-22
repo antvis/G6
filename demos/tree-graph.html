@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+</style>
+<body>
+<select id="layout">
+  <option value="dendrogram">系统树</option>
+  <option value="compactBox">紧凑树</option>
+  <option value="mindmap">脑图布局</option>
+</select>
+<div id="mountNode"></div>
+<script src="assets/hierarchy.js"></script>
+<script src="../build/g6.js"></script>
+<script>
+  let currentLayout = 'dendrogram';
+  const layouts = {
+    dendrogram: function(data) {
+      return Hierarchy.dendrogram(data, {
+        direction: 'LR', // H / V / LR / RL / TB / BT
+        nodeSep: 50,
+        rankSep: 100
+      })},
+    compactBox: function(data) {
+      return Hierarchy.compactBox(data, {
+        direction: 'LR',
+        getId(d) { return d.id; },
+        getHeight() { return 16 },
+        getWidth() { return 16 },
+        getVGap() { return 50 },
+        getHGap() { return 50 }
+      });
+    },
+    mindmap: function(data) {
+      return Hierarchy.mindmap(data, {
+        direction: 'H',
+        getHeight() { return 16; },
+        getWidth() { return 16; },
+        getVGap() { return 50; },
+        getHGap() { return 50; }
+      });
+    }
+  };
+  const graph = new G6.TreeGraph({
+    container: 'mountNode',
+    width: 500,
+    height: 500,
+    pixelRatio: 2,
+    modes: {
+      default: [{
+        type: 'collapse-expand',
+        onChange(item, collapsed) {
+          const data = item.get('model').data;
+          data.collapsed = collapsed;
+          return true;
+        }
+      }, 'drag-canvas']
+    },
+    defaultNode: { size: 16 },
+    nodeStyle: {
+      default: {
+        fill: '#40a9ff',
+        stroke: '#096dd9'
+      }
+    },
+    edgeStyle: {
+      default: {
+        stroke: '#A3B1BF'
+      }
+    },
+    layout: layouts.dendrogram
+  });
+  const data = {
+    isRoot: true,
+    id: 'Root',
+    style: {
+      fill: 'red'
+    },
+    children: [
+      {
+        id: 'SubTreeNode1',
+        raw: {},
+        children: [
+          {
+            id: 'SubTreeNode1.1'
+          },
+          {
+            id: 'SubTreeNode1.2',
+            children: [
+              {
+                id: 'SubTreeNode1.2.1'
+              },
+              {
+                id: 'SubTreeNode1.2.2'
+              },
+              {
+                id: 'SubTreeNode1.2.3'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'SubTreeNode2',
+        children: [
+          {
+            id: 'SubTreeNode2.1'
+          }
+        ]
+      }, {
+        id: 'SubTreeNode3',
+        children: [
+          {
+            id: 'SubTreeNode3.1'
+          },
+          {
+            id: 'SubTreeNode3.2'
+          },
+          {
+            id: 'SubTreeNode3.3'
+          }
+        ]
+      }, {
+        id: 'SubTreeNode4'
+      }, {
+        id: 'SubTreeNode5'
+      }, {
+        id: 'SubTreeNode6'
+      }, {
+        id: 'SubTreeNode7',
+      }, {
+        id: 'SubTreeNode8'
+      }, {
+        id: 'SubTreeNode9'
+      }, {
+        id: 'SubTreeNode10'
+      }, {
+        id: 'SubTreeNode11'
+      }
+    ]
+  };
+  graph.data(data);
+  graph.render();
+  graph.getNodes().forEach(node => {
+    node.get('model').anchorPoints = [[0,0.5], [1,0.5]];
+  });
+  graph.getEdges().forEach((edge) => {
+    edge.get('model').shape = 'cubic-horizontal';
+  });
+  graph.refresh();
+  graph.fitView();
+  document.getElementById('layout').addEventListener('change', (e) => {
+    const layout = e.target.value;
+    if (currentLayout !== layout) {
+      currentLayout = layout;
+      graph.changeLayout(layouts[currentLayout]);
+    }
+  });
+</script>
+</body>
+</html>
