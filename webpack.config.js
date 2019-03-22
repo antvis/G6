@@ -9,8 +9,14 @@ const entry = {
 };
 
 shelljs.ls(resolve(__dirname, 'plugins')).forEach(pluginPath => {
+  if (pluginPath === 'base.js') return;
   if (pluginPath !== 'index.js') {
-    const moduleName = 'plugin.' + pluginPath;
+    const fileDirs = pluginPath.split('-');
+    let moduleName = '';
+    for (let i = 0; i < fileDirs.length; i++) {
+      const segment = fileDirs[i];
+      moduleName += (segment.charAt(0).toUpperCase() + segment.substring(1));
+    }
     entry[moduleName] = `./plugins/${pluginPath}/index.js`;
   } else {
     const moduleName = 'plugins';

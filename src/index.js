@@ -2,32 +2,23 @@
  * @fileOverview entry file
  * @author huangtonger@aliyun.com
  */
-const Shape = require('./shape/');
-const Handler = require('./handler');
+// const Shape = require('./shape/');
 const Global = require('./global');
-const version = require('./version');
 const G = require('@antv/g/lib');
+const Shape = require('./shape');
+const Behaviors = require('./behavior');
 
 const G6 = {
-  Graph: require('./graph'),
-  Tree: require('./tree'),
+  Graph: require('./graph/graph'),
+  TreeGraph: require('./graph/tree-graph'),
   Util: require('./util/'),
-  Layouts: require('./layouts/'),
   G,
-  Plugins: {},
-  Components: {},
   Global,
   Shape,
   registerNode: Shape.registerNode,
   registerEdge: Shape.registerEdge,
-  registerGroup: Shape.registerGroup,
-  registerGuide: Shape.registerGuide,
-  registerBehaviour: Handler.registerBehaviour,
-  version,
-  track(track) {
-    Global.track = track;
-  }
+  registerBehavior: Behaviors.registerBehavior,
+  version: Global.version
 };
-require('./track');
 
 module.exports = G6;

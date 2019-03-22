@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "2.2.6",
+  "version": "3.0.0",
   "description": "graph visualization frame work",
   "main": "build/g6.js",
   "homepage": "https://github.com/antvis/g6",
@@ -37,7 +37,6 @@
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "babel-eslint": "~8.0.3",
     "babel-loader": "^8.0.0",
@@ -62,7 +61,6 @@
     "event-simulate": "~1.0.0",
     "get-port": "~3.2.0",
     "home": "~1.0.1",
-    "html2canvas": "*",
     "jquery": "^3.3.1",
     "jszip": "~3.1.5",
     "nightmare": "~2.10.0",
@@ -78,12 +76,15 @@
     "uglify-js": "~3.1.10",
     "webpack": "~4.10.2",
     "webpack-cli": "~3.0.0",
-    "worker-loader": "^2.0.0"
+    "worker-loader": "^2.0.0",
+    "@antv/hierarchy": "~0.4.0"
   },
   "scripts": {
     "update": "rm -rf node_modules/ && tnpm i && rm -rf build && tnpm run build",
     "build": "webpack",
     "build-lib": "babel src --out-dir lib",
+    "dist": "npm run mkdir-dist && npm run build && npm run compress",
+    "mkdir-dist": "node ./bin/mkdir-dist.js",
     "ci": "npm run lint && npm run test",
     "coverage": "npm run coverage-generator && npm run coverage-viewer",
     "coverage-generator": "torch --compile --coverage --renderer --recursive --source-pattern index.js,src/**/*.js test/unit/",
@@ -91,34 +92,26 @@
     "demos": "electron ./demos/app.js",
     "demos-web": "node ./demos/app.js --web --port 2046",
     "dev": "npm run watch & npm run demos-web",
-    "publish": "node ./bin/publish.js",
-    "lint": "eslint --ext .js ./src",
-    "cdn": "antv-bin upload -n @antv/g6",
+    "lint": "eslint --ext .js ./",
     "lint-fix": "eslint --ext .html,.js --fix ./",
-    "prepublishOnly": "npm run build-lib && npm run build && node ./bin/version.js",
+    "prepublishOnly": "npm run build-lib && npm run build",
     "screenshot": "node ./bin/screenshot.js",
     "start": "npm run dev",
-    "test": "torch --compile --renderer --recursive ./test/unit",
-    "test-live": "torch --compile --interactive --watch --recursive ./test/unit/helper/graph2canvas-spec",
+    "test": "torch --compile --renderer --opts test/mocha.opts --recursive ./test/unit",
+    "test-live": "torch --interactive --watch --opts test/mocha.opts --recursive ./test/unit",
     "watch": "webpack --config webpack-dev.config.js",
     "win-dev": "node ./bin/win-dev.js"
   },
   "pre-commit": {
-    "run": []
+    "run": [
+      "lint",
+      "test"
+    ],
+    "silent": false
   },
   "dependencies": {
-    "@antv/g": "^3.3.0",
-    "@antv/component": "~0.0.4",
-    "@antv/hierarchy": "~0.3.13",
-    "@antv/scale": "^0.0.1",
-    "@antv/util": "^1.2.0",
-    "d3": "^5.4.0",
-    "d3-sankey": "^0.7.1",
-    "d3-svg-legend": "^2.25.6",
-    "dagre": "~0.8.2",
-    "dom-to-image": "^2.6.0",
-    "lodash": "~4.17.4",
-    "wolfy87-eventemitter": "~5.2.4"
+    "@antv/g": "~3.4.1",
+    "@antv/util": "~1.3.1"
   },
   "engines": {
     "node": ">=8.9.0"
