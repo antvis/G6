@@ -10,20 +10,20 @@
 
 [中文 README](README-zh_CN.md)
 
-G6 is a graph visualization framework which provides a set of basic mechanisms. Developers are able to build graph visualization **analysis** application or graph visualization **modeling** application easily.    
-
-**notice**: G6 3.0 version is now beta testing which brings many breaking changes and new features. For more information please check [3.0 documentation](https://www.yuque.com/antv/g6/xauk5e).
-
-See also [ 2.x Full documentation](https://www.yuque.com/antv/g6-en)
+G6 is a graph visualization framework which provides a set of basic mechanisms. Developers are able to build graph visualization **analysis** application or graph visualization **modeling** application easily. For more details, please see our [doc](https://www.yuque.com/antv/g6/intro).
 
 <img src="https://user-images.githubusercontent.com/6113694/44995293-02858600-afd5-11e8-840c-349e4730d63d.gif" height=150><img src="https://cdn.nlark.com/yuque/0/2018/gif/93506/1535955277773-840190f8-836a-4bd6-875a-b3a18e6cebf1.gif" height=150><img src="https://user-images.githubusercontent.com/6113694/44995332-2ba61680-afd5-11e8-8cab-db0e9d08ceb7.gif" height=150>
 
-<img src="https://gw.alipayobjects.com/zos/rmsportal/HQxYguinFOMIXrGQOABY.gif" height=150><img src="https://gw.alipayobjects.com/zos/rmsportal/nAugyFgrbrUWPmDIDiQm.gif" height=150>
+<img src="https://gw.alipayobjects.com/zos/rmsportal/HQxYguinFOMIXrGQOABY.gif" height=150><img src="https://gw.alipayobjects.com/zos/rmsportal/nAugyFgrbrUWPmDIDiQm.gif" height=150><img src="https://cdn.nlark.com/yuque/0/2019/gif/174835/1552990627466-92a4ce23-79b2-4930-ab05-6478b56ce880.gif" height=150>
 
 ## [G6-Editor](https://yuque.com/antv/g6-editor)
-
 <img src="https://gw.alipayobjects.com/zos/rmsportal/nzmycBewjfxKDbepTDlT.gif" width=560>
 <img src="https://gw.alipayobjects.com/zos/rmsportal/WVqnbgJmamdahbAuDpBL.gif" width=560>
+<img src="https://cdn.nlark.com/yuque/0/2018/png/93506/1542618842515-6655c4aa-5345-40b5-b496-236f0c89c8f3.png" width=560>
+
+## G6-Analyzer [coming soon]
+
+![](https://gw.alipayobjects.com/zos/rmsportal/GxupfuhWyMZWwPWWYgaO.gif)
 
 ## Installation
 
@@ -55,7 +55,16 @@ const data = {
 const graph = new G6.Graph({
   container: 'mountNode',
   width: 500,
-  height: 500
+  height: 500,
+  nodeStyle: {
+    default: {
+      fill: '#40a9ff',
+      stroke: '#096dd9'
+    }
+  },
+  edgeStyle: {
+    default: { stroke: '#A3B1BF' }
+  }
 });
 graph.read(data);
 ```
@@ -77,15 +86,6 @@ $ npm run dev
 Please let us know how can we help. Do check out [issues](https://github.com/antvis/g6/issues) for bug reports or suggestions first.
 
 To become a contributor, please follow our [contributing guide](https://github.com/antvis/g6/blob/master/CONTRIBUTING.md).
-
-## Experience Improvement
-To better serve the users, G6 sends URL and version infomation back to AntV server:
-https://kcart.alipay.com/web/bi.do
-We will never collect other information. If you are worried about that, close it by:
-
-```js
-G6.track(false);
-```
 
 ## License
 
