@@ -309,5 +309,8 @@ Shape.registerEdge('cubic-horizontal', {
 Shape.registerEdge('loop', {
   getPathPoints(cfg) {
     return Util.getLoopCfgs(cfg);
+  },
+  getControlPoints(cfg) {
+    return cfg.controlPoints;
   }
 }, 'cubic');
