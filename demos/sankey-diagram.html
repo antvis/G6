@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="mountNode"></div>
+<script src="../build/g6.js"></script>
+<script src="./assets/d3-4.13.0.min.js"></script>
+<script src="./assets/sankey.js"></script>
+<script src="./assets/jquery-3.2.1.min.js"></script>
+<script>
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  const colors = ['#FD8C3D', '#D83F43', '#F7BED6', '#E487C7', '#46A848', '#D83F43', '#3B85BA', '#48335B', '#B7CDE9'];
+
+  G6.registerEdge('sankey', {
+    draw(cfg, group) {
+      const data = cfg.data;
+      const shape = group.addShape('path', {
+        attrs: {
+          stroke: 'rgba(0,0,0,0.1)',
+          lineWidth: Math.max(1, data.dy),
+          path: path(data)
+        }
+      });
+      return shape;
+    }
+  }, 'line');
+  const graph = new G6.Graph({
+    container: 'mountNode',
+    width,
+    height,
+    nodeStyle: {
+      default: {
+        stroke: null
+      }
+    },
+    edgeStyle: {
+      active: {
+        stroke: 'rgba(0,0,0,0.3)'
+      }
+    }
+  });
+
+  var sankey = d3.sankey()
+    .nodeWidth(15)
+    .nodePadding(10)
+    .size([width, height]);
+
+  var path = sankey.link();
+
+  d3.json("./assets/energy.json", function(energy) {
+    sankey
+      .nodes(energy.nodes)
+      .links(energy.links)
+      .layout(32);
+    const nodes = [];
+    const edges = [];
+    energy.nodes.forEach(node => {
+      nodes.push({
+        id: node.name,
+        label: node.name,
+        style: { fill: colors[Math.round( Math.random() * 9)] },
+        x: node.x + 7.5,
+        y: node.y + node.dy / 2 ,
+        size: [ 15, node.dy ],
+        shape: 'rect',
+        labelCfg: {
+          position: node.x > width / 2 ? 'left': 'right',
+          offset: 5,
+        }
+      });
+    });
+    energy.links.forEach(edge => {
+      const source = edge.source;
+      const target = edge.target;
+      edges.push({
+        id: source.name + ':' + target.name,
+        source: source.name,
+        target: target.name,
+        shape: 'sankey',
+        data: edge
+      });
+    });
+    graph.data({ nodes, edges });
+    graph.render();
+    graph.fitView();
+    graph.on('edge:mouseenter', e => {
+      graph.setItemState(e.item, 'active', true);
+    });
+    graph.on('edge:mouseleave', e => {
+      graph.setItemState(e.item, 'active', false);
+    });
+  });
+</script>
+</body>
+</html>

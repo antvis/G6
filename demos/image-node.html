@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="mountNode"></div>
+<script src="../build/g6.js"></script>
+<script>
+  const Util = G6.Util;
+  G6.registerNode('hsf', {
+    draw(cfg,group) {
+      group.addShape('circle', {
+        attrs: {
+          x: 36,
+          y: 40,
+          r:55,
+          stroke:'#71cd00',
+          lineWidth: 5,
+        }
+      })
+      group.addShape('image', {
+        attrs: {
+          x: 0 - 15,
+          y: 0 - 22,
+          width:100,
+          height:100,
+          img:'https://g.alicdn.com/cm-design/arms-trace/1.0.155/styles/armsTrace/images/APP.png'
+        }
+      })
+      group.addShape('text', {
+        attrs: {
+          x: 15,
+          y: 85,
+          text: 'HSF',
+          fontSize: 15,
+          stroke: 'black'
+        }
+      })
+      group.addShape('text', {
+        attrs: {
+          x: 35,
+          y: 100,
+          text: cfg.id,
+          fontSize: 13,
+          stroke: 'black',
+          textAlign: 'center',
+          textBaseline: 'top',
+        }
+      })
+      return group
+    }
+  })
+  G6.registerNode('tair', {
+    draw(cfg,group) {
+      group.addShape('image', {
+        attrs: {
+          x: 0,
+          y: 0,
+          img:'https://g.alicdn.com/cm-design/arms-trace/1.0.155/styles/armsTrace/images/TAIR.png'
+        }
+      })
+      group.addShape('text', {
+        attrs: {
+          x: 55,
+          y: 120,
+          text: model.pid,
+          fontSize: 13,
+          stroke: 'black',
+          textAlign: 'center',
+          textBaseline: 'top',
+        }
+      })
+      return group
+    }
+  })
+  G6.registerNode('tddl', {
+    draw(cfg,group) {
+      group.addShape('circle', {
+        attrs: {
+          x: 36,
+          y: 40,
+          r:55,
+          fill:'#73c4ff',
+          stroke:'#73c4ff',
+          lineWidth: 5,
+        }
+      })
+      group.addShape('text', {
+        attrs: {
+          x: 30,
+          y: 35,
+          textAlign: 'center',
+          textBaseline: 'top',
+          text: model.pid,
+          fontSize: 13,
+          stroke: 'black'
+        }
+      })
+      return group
+    }
+  })
+  const data = {
+    nodes: [{
+      id: 'node1',
+      x: 100,
+      y: 200,
+      shape: 'hsf'
+    },{
+      id: 'node2',
+      x: 300,
+      y: 200,
+      label: '萧庆',
+      labelCfg: {
+        position: 'bottom'
+      },
+      shape: 'image',
+      img: 'https://img2.bosszhipin.com/boss/avatar/avatar_13.png'
+    }, {
+      id: 'node3',
+      x: 400,
+      y: 100,
+      shape: 'image',
+      label: '语雀',
+      labelCfg: {
+        position: 'bottom'
+      },
+      img: 'https://gw.alipayobjects.com/zos/rmsportal/XuVpGqBFxXplzvLjJBZB.svg'
+    },{
+      id: 'node4',
+      x: 400,
+      y: 400,
+      shape: 'image',
+      img: '//img.alicdn.com/tfs/TB1_uT8a5ERMeJjSspiXXbZLFXa-143-59.png'
+    }],
+    edges: [{
+      id: 'edge1',
+      target: 'node2',
+      source: 'node1',
+      style: {
+        endArrow: true
+      },
+      label: '你好,我好',
+      labelCfg: {
+        style: {stroke: 'white',lineWidth: 5} // 加白边框
+      }
+    },{
+      source: 'node2',
+      target: 'node3',
+      style: {
+        endArrow: true
+      },
+      shape: 'quadratic',
+      label: '过去的线',
+      labelCfg: {
+        refY: -10,
+        refX: 0,
+        autoRotate: true,
+        style: {
+          fill: 'red'
+        }
+      }
+    },
+      {
+        source: 'node3',
+        target: 'node2',
+        style: {
+          endArrow: true,
+          stroke: 'red'
+        },
+        size: 2,
+        shape: 'quadratic',
+        label: '回来的线',
+        labelCfg: {
+          refY: -10,
+          refX: 0,
+          autoRotate: true,
+          style: {
+            fill: 'red'
+          }
+        }
+      },{
+        source: 'node3',
+        target: 'node4',
+        style: {
+          endArrow: true,
+          stroke: 'blue',
+          lineDash: [2, 2]
+        },
+        shape: 'my-edge',
+        label: '随便连连\n换行',
+        curveLevel: 4,
+        labelCfg: {
+          refY: -20,
+          refX: 0,
+          autoRotate: true,
+          style: {
+            fill: 'red'
+          }
+        }
+      }]
+  };
+  // 为了定制曲线的曲度，所以需要复写默认的边，额外增加 level 字段，进行设置曲度
+  G6.registerEdge('my-edge', {
+    // 复写控制点的逻辑
+    getControlPoints(cfg) {
+      const controlPoints = []; // 指定controlPoints
+      const level = cfg.curveLevel || 1; // 从 -10， 10
+      const offset = level * -20; // 根据不同的level 计算不同的偏移
+      const { startPoint, endPoint } = cfg;
+      const innerPoint = Util.getControlPoint(startPoint, endPoint, 0.5, offset);
+      controlPoints.push(innerPoint);
+      return controlPoints;
+    },
+  }, 'quadratic');
+
+  const graph = new G6.Graph({
+    container: 'mountNode',
+    width: 1000,
+    height: 600,
+    modes: {
+      default: ['drag-node','click-select']
+    }
+  });
+  graph.on('node:click', e=> { console.log(e) })
+  graph.data(data);
+
+  graph.render();
+
+  graph.on('node:click', ev=> {
+    console.log(ev);
+  });
+</script>
+</body>
+</html>

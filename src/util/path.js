@@ -2,47 +2,40 @@
  * @fileOverview path util
  * @author huangtonger@aliyun.com
  */
-
 const G = require('@antv/g/lib');
 const BaseUtil = require('./base');
-const PathUtil = {};
+const vec2 = BaseUtil.vec2;
 
-BaseUtil.mix(PathUtil, G.PathUtil, {
-  getRectPath: G.PathUtil.rectPath,
-  /**
-   * points to polygon
-   * TODO improve performance
-   * @param {array}  points input points
-   * @param {Boolen} z if close path
-   * @return {string} Path
-   */
-  pointsToPolygon(points) {
-    const path = [
-      [ 'M', points[0].x, points[0].y ]
-    ];
-    for (let index = 1; index < points.length; index++) {
-      const point = points[index];
-      path.push([ 'L', point.x, point.y ]);
+module.exports = {
+  getSpline(points) {
+    const data = [];
+    for (let i = 0; i < points.length; i++) {
+      const point = points[i];
+      data.push(point.x);
+      data.push(point.y);
     }
-    return path;
+    const splinePath = G.PathUtil.catmullRomToBezier(data);
+    splinePath.unshift([ 'M', points[0].x, points[0].y ]);
+    return splinePath;
   },
   /**
-   * get ellipse path
-   * @param {number} x  horizontal coordinates
-   * @param {number} y  vertical coordinates
-   * @param {number} rx horizontal radius
-   * @param {number} ry vertical radius
-   * @return {array} path
+   * 根据起始点、相对位置、偏移量计算控制点
+   * @param  {Object} startPoit 起始点，包含 x,y
+   * @param  {Object} endPoint  结束点, 包含 x,y
+   * @param  {Number} percent   相对位置,范围 0-1
+   * @param  {Number} offset    偏移量
+   * @return {Object} 控制点，包含 x,y
    */
-  getEllipsePath(x, y, rx, ry) {
-    const rst = [
-      [ 'M', x, y - ry ],
-      [ 'a', rx, ry, 0, 1, 1, 0, 2 * ry ],
-      [ 'a', rx, ry, 0, 1, 1, 0, -2 * ry ],
-      [ 'z' ]
-    ];
-    return rst;
+  getControlPoint(startPoit, endPoint, percent, offset) {
+    const point = {
+      x: (1 - percent) * startPoit.x + percent * endPoint.x,
+      y: (1 - percent) * startPoit.y + percent * endPoint.y
+    };
+    const tangent = []; // 类似于 C 语言的写法，真难用
+    vec2.normalize(tangent, [ endPoint.x - startPoit.x, endPoint.y - startPoit.y ]);
+    const perpendicular = [ -tangent[1] * offset, tangent[0] * offset ];  // 垂直向量
+    point.x += perpendicular[0];
+    point.y += perpendicular[1];
+    return point;
   }
-});
-
-module.exports = PathUtil;
+};
