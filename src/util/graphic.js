@@ -51,7 +51,7 @@ const GraphicUtil = {
       .getMatrix();
     const bbox = item.getKeyShape()
       .getBBox();
-    const loopCfg = cfg.loopCfg;
+    const loopCfg = cfg.loopCfg || {};
     // 距离keyShape边的最高距离
     const dist = loopCfg.dist || Math.max(bbox.width, bbox.height) * 2;
     // 自环边与keyShape的相对位置关系
