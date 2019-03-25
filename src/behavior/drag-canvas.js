@@ -18,27 +18,27 @@ module.exports = {
   },
   updateViewport(e) {
     const origin = this.origin;
-    const clientX = +e.clientX;
-    const clientY = +e.clientY;
-    if (isNaN(clientX) || isNaN(clientY)) {
+    const x = +e.x;
+    const y = +e.y;
+    if (isNaN(x) || isNaN(y)) {
       return;
     }
-    let dx = clientX - origin.x;
-    let dy = clientY - origin.y;
+    let dx = x - origin.x;
+    let dy = y - origin.y;
     if (this.get('direction') === 'x') {
       dy = 0;
     } else if (this.get('direction') === 'y') {
       dx = 0;
     }
     this.origin = {
-      x: clientX,
-      y: clientY
+      x,
+      y
     };
     this.graph.translate(dx, dy);
     this.graph.paint();
   },
   onMouseDown(e) {
-    this.origin = { x: e.clientX, y: e.clientY };
+    this.origin = { x: e.x, y: e.y };
     this.dragging = false;
   },
   onMouseMove(e) {
@@ -46,7 +46,7 @@ module.exports = {
     const graph = this.graph;
     if (!this.origin) { return; }
     if (this.origin && !this.dragging) {
-      if (abs(this.origin.x - e.clientX) + abs(this.origin.y - e.clientY) < DRAG_OFFSET) {
+      if (abs(this.origin.x - e.x) + abs(this.origin.y - e.y) < DRAG_OFFSET) {
         return;
       }
       if (this.shouldBegin.call(this, e)) {
