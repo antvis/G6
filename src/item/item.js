@@ -393,15 +393,16 @@ class Item {
         shapeFactory.update(shape, updateCfg, this);
         // 设置 model 在更新后，防止在更新时取原始 model
         this.set('model', newModel);
+        this.set('originStyle', this.getKeyShapeStyle());
         // 更新后重置节点状态
         this._resetStates(shapeFactory, shape);
       } else { // 如果不满足上面 3 种状态，重新绘制
         this.set('model', newModel);
         // 绘制元素时，需要最新的 model
         this.draw();
+        this.set('originStyle', this.getKeyShapeStyle());
       }
     }
-    this.set('originStyle', this.getKeyShapeStyle());
     this.set(CACHE_BBOX, null); // 清理缓存的 bbox
     this.afterUpdate(); // 子类可以清理自己的要清理的内容
   }
