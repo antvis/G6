@@ -161,6 +161,10 @@ class Minimap extends Base {
     const pixelRatio = canvas.get('pixelRatio');
     const ratio = Math.min(size[0] / width, size[1] / height);
     canvas.resetMatrix();
+    // 如果bbox为负，先平移到左上角
+    const minX = -(bbox.minX > 0 ? 0 : bbox.minX);
+    const minY = -(bbox.minY > 0 ? 0 : bbox.minY);
+    canvas.translate(minX, minY);
     canvas.scale(ratio * pixelRatio, ratio * pixelRatio);
     // 缩放到适合视口后, 平移到画布中心
     const dx = (size[0] - width * ratio) / 2;
@@ -168,14 +172,18 @@ class Minimap extends Base {
     canvas.translate(dx * pixelRatio, dy * pixelRatio);
     canvas.draw();
     // 更新minimap视口
-    this._updateViewport(ratio, dx, dy);
+    this._updateViewport(ratio, dx + minX * ratio, dy + minY * ratio);
   }
   // 仅在minimap上绘制keyShape
   // FIXME 如果用户自定义绘制了其他内容，minimap上就无法画出
   _updateKeyShapes() {
     const graph = this._cfgs.graph;
     const canvas = this.get('canvas');
-    const group = canvas.get('children')[0] || canvas.addGroup();
+    let group = canvas.get('children')[0];
+    if (!group) {
+      group = canvas.addGroup();
+      group.setMatrix(graph.get('group').getMatrix());
+    }
     const nodes = graph.getNodes();
     group.clear();
     this._getGraphEdgeKeyShape(group);
