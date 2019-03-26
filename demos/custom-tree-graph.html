@@ -78,7 +78,7 @@ G6.registerNode('tree-node', {
     return rect;
   }
 }, 'single-shape');
-const minimap = new Minimap({ size: [200, 150] });
+const minimap = new Minimap({ size: [200, 150], type: 'delegate', delegateStyle: { fill: '#fff', stroke: '#666' } });
 const graph = new G6.TreeGraph({
   container: 'mountNode',
   width: 800,
