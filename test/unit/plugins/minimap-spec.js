@@ -165,6 +165,21 @@ describe('minimap', () => {
     expect(container.childNodes[0].childNodes[0]).to.equal(minimap.getCanvas().get('el'));
     graph.destroy();
   });
+  it('canvas minX minY < 0', () => {
+    const minimap = new Minimap({ size: [ 200, 200 ] });
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      plugins: [ minimap ]
+    });
+    graph.addItem('node', { id: 'node1', x: -50, y: -50 });
+    const canvas = minimap.getCanvas();
+    const matrix = canvas.getMatrix();
+    expect(matrix[6] - 56 < 1).to.be.true;
+    expect(matrix[7] - 56 < 1).to.be.true;
+    graph.destroy();
+  });
   it('keyShapeOnly minimap', () => {
     const minimap = new Minimap({ size: [ 200, 200 ], type: 'keyShape' });
     const graph = new G6.Graph({
