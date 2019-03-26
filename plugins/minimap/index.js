@@ -115,7 +115,7 @@ class Minimap extends Base {
         left: left + 'px',
         top: top + 'px'
       });
-      graph.translate(dx * widthRatio, dy * heightRatio);
+      graph.translate(dx * widthRatio * pixelRatio, dy * heightRatio * pixelRatio);
       x = e.clientX;
       y = e.clientY;
     }, false);
