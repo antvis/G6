@@ -12,6 +12,7 @@
 <div id="mountNode"></div>
 <script src="assets/hierarchy.js"></script>
 <script src="../build/g6.js"></script>
+<script src="../build/minimap.js"></script>
 <script src="./assets/jquery-3.2.1.min.js"></script>
 <script>
   let currentLayout = 'dendrogram';
@@ -38,11 +39,13 @@
       return result;
     }
   };
+  const minimap = new Minimap({ size: [300, 300], type: 'delegate' });
   const graph = new G6.TreeGraph({
     container: 'mountNode',
     width: 500,
     height: 500,
     pixelRatio: 2,
+    plugins: [ minimap ],
     modes: {
       default: [{
         type: 'collapse-expand',
@@ -51,7 +54,7 @@
           data.collapsed = collapsed;
           return true;
         }
-      }, 'drag-canvas']
+      }, 'drag-canvas', 'zoom-canvas']
     },
     nodeStyle: {
       default: {
@@ -68,7 +71,10 @@
     layout: layouts[currentLayout]
   });
   G6.Global.defaultNode.size = 16;
-  $.getJSON('./assets/data/modeling-methods.json', function(data) {
+  $.getJSON('./assets/data/flare.json', function(data) {
+    G6.Util.traverseTree(data, node => {
+      node.id = node.name;
+    });
     graph.data(data);
     graph.render();
     graph.fitView();
