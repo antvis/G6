@@ -8,6 +8,10 @@ const each = require('@antv/util/lib/each');
 
 const max = Math.max;
 
+const DEFAULT_MODE = 'default';
+const KEYSHAPE_MODE = 'keyShape';
+const DELEGATE_MODE = 'delegate';
+
 class Minimap extends Base {
   init(graph) {
     super.init(graph);
@@ -18,8 +22,12 @@ class Minimap extends Base {
       container: null,
       className: 'g6-minimap',
       viewportClassName: 'g6-minimap-viewport',
-      keyShapeOnly: false,
-      size: [ 200, 120 ]
+      type: 'default',   // 可选 default, delegate, keyShape
+      size: [ 200, 120 ],
+      delegateStyle: {
+        fill: '#40a9ff',
+        stroke: '#096dd9'
+      }
     };
   }
   getEvents() {
@@ -115,7 +123,7 @@ class Minimap extends Base {
         left: left + 'px',
         top: top + 'px'
       });
-      graph.translate(dx * widthRatio, dy * heightRatio);
+      graph.translate(dx * widthRatio * pixelRatio, dy * heightRatio * pixelRatio);
       x = e.clientX;
       y = e.clientY;
     }, false);
@@ -132,11 +140,19 @@ class Minimap extends Base {
     const size = this.get('size');
     const graph = this.get('graph');
     const canvas = this.get('canvas');
-    // 根据cfgs更新画布内容
-    if (this.get('keyShapeOnly')) {
-      this._updateKeyShapes();
-    } else {
-      this._updateGraphShapes();
+    const type = this.get('type');
+    switch (type) {
+      case DEFAULT_MODE:
+        this._updateGraphShapes();
+        break;
+      case KEYSHAPE_MODE:
+        this._updateKeyShapes();
+        break;
+      case DELEGATE_MODE:
+        this._updateDelegateShapes();
+        break;
+      default:
+        this._updateGraphShapes();
     }
     const bbox = canvas.getBBox();
     // 刷新后bbox可能会变，需要重置画布矩阵以缩放到合适的大小
@@ -145,6 +161,10 @@ class Minimap extends Base {
     const pixelRatio = canvas.get('pixelRatio');
     const ratio = Math.min(size[0] / width, size[1] / height);
     canvas.resetMatrix();
+    // 如果bbox为负，先平移到左上角
+    const minX = -(bbox.minX > 0 ? 0 : bbox.minX);
+    const minY = -(bbox.minY > 0 ? 0 : bbox.minY);
+    canvas.translate(minX, minY);
     canvas.scale(ratio * pixelRatio, ratio * pixelRatio);
     // 缩放到适合视口后, 平移到画布中心
     const dx = (size[0] - width * ratio) / 2;
@@ -152,21 +172,21 @@ class Minimap extends Base {
     canvas.translate(dx * pixelRatio, dy * pixelRatio);
     canvas.draw();
     // 更新minimap视口
-    this._updateViewport(ratio, dx, dy);
+    this._updateViewport(ratio, dx + minX * ratio, dy + minY * ratio);
   }
   // 仅在minimap上绘制keyShape
   // FIXME 如果用户自定义绘制了其他内容，minimap上就无法画出
   _updateKeyShapes() {
     const graph = this._cfgs.graph;
     const canvas = this.get('canvas');
-    const group = canvas.get('children')[0] || canvas.addGroup();
+    let group = canvas.get('children')[0];
+    if (!group) {
+      group = canvas.addGroup();
+      group.setMatrix(graph.get('group').getMatrix());
+    }
     const nodes = graph.getNodes();
-    const edges = graph.getEdges();
     group.clear();
-    // 边可以直接使用keyShape
-    each(edges, edge => {
-      group.add(edge.get('keyShape').clone());
-    });
+    this._getGraphEdgeKeyShape(group);
     // 节点需要group配合keyShape
     each(nodes, node => {
       const parent = group.addGroup();
@@ -182,6 +202,33 @@ class Minimap extends Base {
     const clonedGroup = graphGroup.clone();
     clonedGroup.resetMatrix();
     canvas.get('children')[0] = clonedGroup;
+  }
+  // 将主图上的node用
+  _updateDelegateShapes() {
+    const graph = this._cfgs.graph;
+    const canvas = this.get('canvas');
+    const group = canvas.get('children')[0] || canvas.addGroup();
+    const delegateStyle = this.get('delegateStyle');
+    group.clear();
+    this._getGraphEdgeKeyShape(group);
+    each(graph.getNodes(), node => {
+      const bbox = node.getBBox();
+      group.addShape('rect', {
+        attrs: {
+          x: bbox.minX,
+          y: bbox.minY,
+          width: bbox.width,
+          height: bbox.height,
+          ...delegateStyle
+        }
+      });
+    });
+  }
+  _getGraphEdgeKeyShape(group) {
+    const graph = this.get('graph');
+    each(graph.getEdges(), edge => {
+      group.add(edge.get('keyShape').clone());
+    });
   }
   // 绘制minimap视口
   _updateViewport(ratio, dx, dy) {
