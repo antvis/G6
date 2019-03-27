@@ -49,6 +49,8 @@ module.exports = {
     const graph = this.graph;
     let data = this.onChange(item, isCollapsed);
     if (data) {
+      const autoPaint = graph.get('autoPaint');
+      graph.setAutoPaint(false);
       data = typeof data === 'boolean' ? graph.get('data') : data;
       if (graph.get('layout')) {
         data = graph.get('layout')(data);
@@ -60,10 +62,15 @@ module.exports = {
         }
         // 计算每个节点移动的起始位置和最终位置
         this.animateChild(data);
+        // 如果是
+        if (!isCollapsed) {
+          Util.traverseTree(item.get('model').data, data => {
+            const node = graph.findById(data.id);
+            node.set('shouldShow', true);
+          });
+        }
         this.performAnimate();
       } else {
-        const autoPaint = graph.get('autoPaint');
-        graph.setAutoPaint(false);
         Util.traverseTree(data, child => {
           const node = graph.findById(child.id);
           node.get('model').x = child.x;
@@ -80,8 +87,8 @@ module.exports = {
           }
         });
         graph.paint();
-        graph.setAutoPaint(autoPaint);
       }
+      graph.setAutoPaint(autoPaint);
     } else {
       if (this.animate) {
         // 没有重布局，有动画的情况
@@ -123,7 +130,11 @@ module.exports = {
       Util.each(graph.get('nodes'), node => {
         if (node.get('shouldHide')) {
           node.set('shouldHide', false);
-          graph.hideItem(node);
+          node.hide();
+        }
+        if (node.get('shouldShow')) {
+          node.set('shouldShow', false);
+          graph.showItem(node);
         }
         node.set('toPosition', null);
       });
@@ -151,15 +162,16 @@ module.exports = {
         y: point.y
       });
     }
-    // 还是展开状态的子节点，也做位移动画
-    Util.each(data.children, child => {
-      self.animateChild(child, data);
-    });
     // 收缩状态的节点，都跑收缩动画
     if (node.get('collapsed')) {
       self.collapsePosition(node, point);
+    } else {
+      // 还是展开状态的子节点，也做位移动画
+      Util.each(data.children, child => {
+        self.animateChild(child, data);
+      });
     }
-    self.graph.showItem(node);
+    node.show();
   },
   // 收缩的节点的动画终态是最顶收缩态节点的坐标
   collapsePosition(node, toPoint) {
@@ -178,6 +190,9 @@ module.exports = {
       if (!child.get('collapsed')) {
         self.collapsePosition(child, toPoint);
       }
+    });
+    node.getOutEdges().forEach(edge => {
+      edge.hide();
     });
   },
   // 张开的节点，从startPoint开始，动画到节点原本的位置
