@@ -22,8 +22,8 @@ module.exports = {
     }
     this.target = e.item;
     this.origin = {
-      x: e.clientX,
-      y: e.clientY
+      x: e.x,
+      y: e.y
     };
   },
   onDrag(e) {
@@ -60,9 +60,9 @@ module.exports = {
         y: model.y
       };
     }
-    const x = e.clientX - origin.x + this.point.x;
-    const y = e.clientY - origin.y + this.point.y;
-    this.origin = { x: e.clientX, y: e.clientY };
+    const x = e.x - origin.x + this.point.x;
+    const y = e.y - origin.y + this.point.y;
+    this.origin = { x: e.x, y: e.y };
     this.point = { x, y };
     if (this.delegate && !force) {
       this._updateDelegate(item, x, y);
