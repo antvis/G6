@@ -353,7 +353,6 @@
     container: 'mountNode',
     width: 1000,
     height: 600,
-    autoPaint: false,
     modes: {
       default: ['drag-canvas']
     },
@@ -370,8 +369,20 @@
         lineWidth: 2,
         fill: '#fff'
       }
+    },
+    edgeStyle: {
+      default: {
+        endArrow: {
+          path: 'M 4,0 L -4,-4 L -4,4 Z',
+          d: 4
+        }
+      }
     }
   });
+  graph.data({ nodes: data.nodes, edges: data.edges.map((edge, i) => {
+      edge.id = 'edge' + i;
+      return Object.assign({}, edge);
+    }) });
   const simulation = d3.forceSimulation()
     .force("link", d3.forceLink().id(function(d) { return d.id; }).strength(0.5))
     .force("charge", d3.forceManyBody())
@@ -382,33 +393,26 @@
 
   simulation.force("link")
     .links(data.edges);
+  graph.render();
   function ticked() {
-    if (!graph.get('data')) {
-      graph.data(data);
-      graph.render();
-    } else {
-      graph.refreshPositions();
-    }
-    graph.paint();
-  }
-  function refreshPosition(e) {
-    const matrix = graph.get('group').getMatrix();
-    const dx = e.x - matrix[6];
-    const dy = e.y - matrix[7];
-    e.item.get('model').x = dx;
-    e.item.get('model').y = dy;
     graph.refreshPositions();
   }
-  graph.on('node:dragstart', function(e) {
+  function refreshPosition(e) {
+    const model = e.item.get('model');
+    model.fx = e.x;
+    model.fy = e.y;
+  }
+  graph.on('node:dragstart', e => {
     simulation.alphaTarget(0.3).restart();
     refreshPosition(e);
   });
-  graph.on('node:drag', function(e) {
+  graph.on('node:drag', e => {
     refreshPosition(e);
   });
-  graph.on('node:dragend', function(e) {
+  graph.on('node:dragend', e => {
+    e.item.get('model').fx = null;
+    e.item.get('model').fy = null;
     simulation.alphaTarget(0);
-    refreshPosition(e);
   });
 </script>
 </body>

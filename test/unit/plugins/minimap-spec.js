@@ -122,6 +122,25 @@ describe('minimap', () => {
       }, 50);
     }, 50);
   });
+  it('delegate type of minimap', () => {
+    const minimap = new Minimap({ size: [ 200, 200 ], type: 'delegate', delegateStyle: { fill: '#fff' } });
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      plugins: [ minimap ]
+    });
+    const nodeBBox = graph.addItem('node', { id: 'node', x: 100, y: 100, size: 16 }).getBBox();
+    const canvas = minimap.getCanvas();
+    const delegateShape = canvas.get('children')[0].get('children')[0];
+    expect(delegateShape.attr('x')).to.equal(nodeBBox.minX);
+    expect(delegateShape.attr('y')).to.equal(nodeBBox.minY);
+    expect(delegateShape.attr('width')).to.equal(nodeBBox.width);
+    expect(delegateShape.attr('height')).to.equal(nodeBBox.height);
+    expect(delegateShape.attr('fill')).to.equal('#fff');
+    expect(delegateShape.attr('stroke')).to.equal('#096dd9');
+    graph.destroy();
+  });
   it('minimap container', () => {
     const minimap = new Minimap({ container, size: [ 200, 200 ], className: 'test-className' });
     const graph = new G6.Graph({
@@ -146,8 +165,23 @@ describe('minimap', () => {
     expect(container.childNodes[0].childNodes[0]).to.equal(minimap.getCanvas().get('el'));
     graph.destroy();
   });
+  it('canvas minX minY < 0', () => {
+    const minimap = new Minimap({ size: [ 200, 200 ] });
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      plugins: [ minimap ]
+    });
+    graph.addItem('node', { id: 'node1', x: -50, y: -50 });
+    const canvas = minimap.getCanvas();
+    const matrix = canvas.getMatrix();
+    expect(matrix[6] - 56 < 1).to.be.true;
+    expect(matrix[7] - 56 < 1).to.be.true;
+    graph.destroy();
+  });
   it('keyShapeOnly minimap', () => {
-    const minimap = new Minimap({ size: [ 200, 200 ], keyShapeOnly: true });
+    const minimap = new Minimap({ size: [ 200, 200 ], type: 'keyShape' });
     const graph = new G6.Graph({
       container: div,
       width: 500,

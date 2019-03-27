@@ -142,19 +142,17 @@ class Event {
     // 从前一个item直接移动到当前item，触发前一个item的leave事件
     if (preItem && preItem !== item && !preItem.destroyed) {
       e.item = preItem;
+      self._emitCustomEvent(preItem.getType(), 'mouseleave', e);
       if (self.dragging) {
         self._emitCustomEvent(preItem.getType(), 'dragleave', e);
-      } else {
-        self._emitCustomEvent(preItem.getType(), 'mouseleave', e);
       }
     }
     // 从一个item或canvas移动到当前item，触发当前item的enter事件
     if (item && preItem !== item) {
       e.item = item;
+      self._emitCustomEvent(type, 'mouseenter', e);
       if (self.dragging) {
         self._emitCustomEvent(type, 'dragenter', e);
-      } else {
-        self._emitCustomEvent(type, 'mouseenter', e);
       }
     }
     this.preItem = item;
