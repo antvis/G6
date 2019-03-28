@@ -52,5 +52,11 @@ describe('grid', () => {
     expect(gridContainer.style.left).to.equal('-240.5px');
     expect(gridContainer.style.top).to.equal('-140.5px');
   });
+  it('grid destroy', () => {
+    const container = graph.get('container');
+    expect(container.childNodes.length).to.equal(2);
+    graph.destroy();
+    expect(container.childNodes.length).to.equal(0);
+  });
 });
 
