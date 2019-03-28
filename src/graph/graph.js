@@ -224,8 +224,8 @@ class Graph extends EventEmitter {
   _initPlugins() {
     const self = this;
     Util.each(self.get('plugins'), plugin => {
-      if (!plugin.destroyed && plugin.init) {
-        plugin.init(self);
+      if (!plugin.destroyed && plugin._init) {
+        plugin._init(self);
       }
     });
   }
@@ -517,30 +517,14 @@ class Graph extends EventEmitter {
   }
 
   /**
-   * 改变画布大小
-   * @private 仅供内部更新视口使用
-   * @param {array} matrix group矩阵
-   */
-  _updateMatrix(matrix) {
-    const rootGroup = this.get('group');
-    const minZoom = this.get('minZoom');
-    const maxZoom = this.get('maxZoom');
-    if (minZoom && matrix[0] < minZoom) {
-      return;
-    }
-    if (maxZoom && matrix[0] > maxZoom) {
-      return;
-    }
-    rootGroup.setMatrix(matrix);
-  }
-
-  /**
    * 平移画布
    * @param {number} dx 水平方向位移
    * @param {number} dy 垂直方向位移
    */
   translate(dx, dy) {
-    this.get('group').translate(dx, dy);
+    const group = this.get('group');
+    group.translate(dx, dy);
+    this.emit('viewportchange', { action: 'translate', matrix: group.getMatrix() });
     this.autoPaint();
   }
 
@@ -550,7 +534,10 @@ class Graph extends EventEmitter {
    * @param {number} y 垂直坐标
    */
   moveTo(x, y) {
-    this.get('group').move(x, y);
+    const group = this.get('group');
+    group.move(x, y);
+    this.emit('viewportchange', { action: 'move', matrix: group.getMatrix() });
+    this.autoPaint();
   }
 
   /**
@@ -637,6 +624,8 @@ class Graph extends EventEmitter {
    */
   zoom(ratio, center) {
     const matrix = Util.clone(this.get('group').getMatrix());
+    const minZoom = this.get('minZoom');
+    const maxZoom = this.get('maxZoom');
     if (center) {
       Util.mat3.translate(matrix, matrix, [ -center.x, -center.y ]);
       Util.mat3.scale(matrix, matrix, [ ratio, ratio ]);
@@ -644,7 +633,14 @@ class Graph extends EventEmitter {
     } else {
       Util.mat3.scale(matrix, matrix, [ ratio, ratio ]);
     }
-    this._updateMatrix(matrix);
+    if (minZoom && matrix[0] < minZoom) {
+      return;
+    }
+    if (maxZoom && matrix[0] > maxZoom) {
+      return;
+    }
+    this.get('group').setMatrix(matrix);
+    this.emit('viewportchange', { action: 'zoom', matrix });
     this.autoPaint();
   }
 
