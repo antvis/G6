@@ -9,7 +9,7 @@ class PluginBase {
   getDefaultCfg() {
     return {};
   }
-  init(graph) {
+  _init(graph) {
     const self = this;
     self.set('graph', graph);
     const events = self.getEvents();
@@ -20,7 +20,9 @@ class PluginBase {
       graph.on(k, event);
     });
     this._events = bindEvents;
+    this.init();
   }
+  init() {}
   getEvents() {
     return {};
   }
