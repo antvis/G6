@@ -1,6 +1,6 @@
 const G6Plugins = {
-  minimap: require('./minimap'),
-  grid: require('./grid')
+  Minimap: require('./minimap'),
+  Grid: require('./grid')
 };
 
 module.exports = G6Plugins;
