@@ -13,8 +13,7 @@ const KEYSHAPE_MODE = 'keyShape';
 const DELEGATE_MODE = 'delegate';
 
 class Minimap extends Base {
-  init(graph) {
-    super.init(graph);
+  init() {
     this.initContainer();
   }
   getDefaultCfg() {
