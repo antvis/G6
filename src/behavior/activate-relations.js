@@ -28,6 +28,7 @@ module.exports = {
     }
     const activeState = this.get('activeState');
     const inactiveState = this.get('inactiveState');
+    const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
     graph.getNodes().forEach(function(node) {
       graph.setItemState(node, activeState, false);
@@ -55,7 +56,7 @@ module.exports = {
       }
     });
     graph.paint();
-    graph.setAutoPaint(true);
+    graph.setAutoPaint(autoPaint);
     graph.emit('afteractivaterelations', { item: e.item, action: 'activate' });
   },
   clearAllItemStates(e) {
