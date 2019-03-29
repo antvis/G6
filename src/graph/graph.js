@@ -224,8 +224,8 @@ class Graph extends EventEmitter {
   _initPlugins() {
     const self = this;
     Util.each(self.get('plugins'), plugin => {
-      if (!plugin.destroyed && plugin._init) {
-        plugin._init(self);
+      if (!plugin.destroyed && plugin.initPlugin) {
+        plugin.initPlugin(self);
       }
     });
   }
@@ -926,7 +926,7 @@ class Graph extends EventEmitter {
   destroy() {
     this.clear();
     Util.each(this.get('plugins'), plugin => {
-      plugin.destroy();
+      plugin.destroyPlugin();
     });
     this.get('eventController').destroy();
     this.get('itemController').destroy();
