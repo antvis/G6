@@ -49,7 +49,7 @@ describe('minimap', () => {
     expect(viewport.style.top).to.equal('20px');
     expect(viewport.style.width).to.equal('160px');
     expect(viewport.style.height).to.equal('160px');
-    minimap.destroy();
+    minimap.destroyPlugin();
     const container = div.childNodes[1];
     expect(container.innerHTML).to.equal('');
     graph.zoom(2.5, { x: 250, y: 250 });
