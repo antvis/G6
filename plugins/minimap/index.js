@@ -286,7 +286,6 @@ class Minimap extends Base {
     const container = this.get('canvas');
     this.get('canvas').destroy();
     container.innerHTML = '';
-    super.destroy();
   }
 }
 
