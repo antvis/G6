@@ -548,7 +548,7 @@ describe('all node link center', () => {
     expect(graph.get('plugins').length).to.equal(1);
     graph.emit('event');
     expect(count).to.equal(1);
-    plugin.destroy();
+    plugin.destroyPlugin();
     graph.emit('event');
     expect(count).to.equal(1);
   });

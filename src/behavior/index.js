@@ -7,7 +7,8 @@ const behaviors = {
   'click-select': require('./click-select'),
   tooltip: require('./tooltip'),
   'edge-tooltip': require('./edge-tooltip'),
-  'collapse-expand': require('./collapse-expand')
+  'collapse-expand': require('./collapse-expand'),
+  'activate-relations': require('./activate-relations')
 };
 Util.each(behaviors, (behavior, type) => {
   Behavior.registerBehavior(type, behavior);
