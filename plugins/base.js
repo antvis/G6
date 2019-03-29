@@ -9,7 +9,7 @@ class PluginBase {
   getDefaultCfg() {
     return {};
   }
-  _init(graph) {
+  initPlugin(graph) {
     const self = this;
     self.set('graph', graph);
     const events = self.getEvents();
@@ -32,7 +32,9 @@ class PluginBase {
   set(key, val) {
     this._cfgs[key] = val;
   }
-  destroy() {
+  destroy() {}
+  destroyPlugin() {
+    this.destroy();
     const graph = this.get('graph');
     const events = this._events;
     each(events, (v, k) => {

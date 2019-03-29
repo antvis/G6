@@ -48,7 +48,6 @@ class Grid extends Base {
   destroy() {
     const graphContainer = this.get('graph').get('container');
     graphContainer.removeChild(this.get('container'));
-    super.destroy();
   }
 }
 
