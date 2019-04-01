@@ -156,14 +156,16 @@ describe('minimap', () => {
       },
       pixelRatio: 2
     });
-    expect(container.childNodes).not.to.be.undefined;
-    expect(container.className).to.equal('test-className');
-    expect(container.style.width).to.equal('200px');
-    expect(container.style.width).to.equal('200px');
-    expect(container.childNodes[0].tagName).to.equal('DIV');
-    expect(container.childNodes[0].style.position).to.equal('relative');
-    expect(container.childNodes[0].childNodes[0]).to.equal(minimap.getCanvas().get('el'));
+    const minimapContainer = container.childNodes[0];
+    expect(minimapContainer.childNodes).not.to.be.undefined;
+    expect(minimapContainer.className).to.equal('test-className');
+    expect(minimapContainer.style.width).to.equal('200px');
+    expect(minimapContainer.style.width).to.equal('200px');
+    expect(minimapContainer.childNodes[0].tagName).to.equal('DIV');
+    expect(minimapContainer.childNodes[0].style.position).to.equal('relative');
+    expect(minimapContainer.childNodes[0].childNodes[0]).to.equal(minimap.getCanvas().get('el'));
     graph.destroy();
+    expect(container.innerHTML).to.equal('');
   });
   it('canvas minX minY < 0', () => {
     const minimap = new Minimap({ size: [ 200, 200 ] });

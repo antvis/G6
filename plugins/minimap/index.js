@@ -37,18 +37,14 @@ class Minimap extends Base {
     const graph = self.get('graph');
     const size = self.get('size');
     const className = self.get('className');
-    let container = self.get('container');
-    if (isString(container)) {
-      container = document.getElementById(container);
+    let parentNode = self.get('container');
+    const container = createDOM('<div class="' + className + '" style="width:' + size[0] + 'px; height:' + size[1] + 'px"></div>');
+    if (isString(parentNode)) {
+      parentNode = document.getElementById(parentNode);
     }
-    if (container) {
-      container.classList.add(className);
-      modifyCSS(container, {
-        width: size[0] + 'px',
-        height: size[1] + 'px'
-      });
+    if (parentNode) {
+      parentNode.appendChild(container);
     } else {
-      container = createDOM('<div class="' + className + '" style="width:' + size[0] + 'px; height:' + size[1] + 'px"></div>');
       graph.get('container').appendChild(container);
     }
     self.set('container', container);
@@ -283,9 +279,9 @@ class Minimap extends Base {
     return this.get('container');
   }
   destroy() {
-    const container = this.get('canvas');
     this.get('canvas').destroy();
-    container.innerHTML = '';
+    const container = this.get('container');
+    container.parentNode.removeChild(container);
   }
 }
 
