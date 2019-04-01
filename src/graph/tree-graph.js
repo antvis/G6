@@ -205,7 +205,7 @@ class TreeGraph extends Graph {
         result = child;
         return false;
       }
-      result = self.findDataById(child, id);
+      result = self.findDataById(id, child);
       if (result) {
         return false;
       }
