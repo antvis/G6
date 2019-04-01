@@ -58,15 +58,32 @@ describe('graph', () => {
   });
   it('zoom', () => {
     expect(canvasMatrix[0]).to.equal(2);
-    expect(canvasMatrix[0]).to.equal(2);
+    expect(canvasMatrix[4]).to.equal(2);
     graph.zoom(3, { x: 100, y: 100 });
     expect(canvasMatrix[0]).to.equal(2);
-    expect(canvasMatrix[0]).to.equal(2);
+    expect(canvasMatrix[4]).to.equal(2);
     const matrix = graph.get('group').getMatrix();
     expect(matrix[0]).to.equal(3);
     expect(matrix[4]).to.equal(3);
     expect(graph.getZoom()).to.equal(3);
     graph.get('group').resetMatrix();
+  });
+  it('zoomTo', () => {
+    let matrix = graph.get('group').getMatrix();
+    expect(matrix[0]).to.equal(1);
+    expect(matrix[4]).to.equal(1);
+    graph.zoomTo(2);
+    matrix = graph.get('group').getMatrix();
+    expect(matrix[0]).to.equal(2);
+    expect(matrix[4]).to.equal(2);
+    expect(matrix[6]).to.equal(0);
+    expect(matrix[7]).to.equal(0);
+    graph.zoomTo(1.5, { x: 250, y: 250 });
+    matrix = graph.get('group').getMatrix();
+    expect(matrix[0]).to.equal(1.5);
+    expect(matrix[4]).to.equal(1.5);
+    expect(matrix[6]).to.equal(62.5);
+    expect(matrix[7]).to.equal(62.5);
   });
   it('change size', () => {
     const graph = new G6.Graph({
