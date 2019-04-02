@@ -354,7 +354,11 @@
     width: 1000,
     height: 600,
     modes: {
-      default: ['drag-canvas']
+      default: [{
+        type: 'brush-select',
+        onSelect(nodes) { console.log('selected:', nodes); },
+        onDeselect(nodes) { console.log('deselect', nodes); }
+      }]
     },
     defaultNode: {
       size: [10, 10],
@@ -368,6 +372,9 @@
       default: {
         lineWidth: 2,
         fill: '#fff'
+      },
+      selected: {
+        fill: 'steelblue'
       }
     },
     edgeStyle: {
