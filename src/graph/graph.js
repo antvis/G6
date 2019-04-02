@@ -645,6 +645,16 @@ class Graph extends EventEmitter {
   }
 
   /**
+   * 伸缩视口到一固定比例
+   * @param {number} toRatio 伸缩比例
+   * @param {object} center 以center的x, y坐标为中心缩放
+   */
+  zoomTo(toRatio, center) {
+    const ratio = toRatio / this.getZoom();
+    this.zoom(ratio, center);
+  }
+
+  /**
    * 根据 graph 上的 animateCfg 进行视图中节点位置动画接口
    */
   positionsAnimate() {
