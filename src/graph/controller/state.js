@@ -1,5 +1,5 @@
 const Util = require('../../util');
-const TIME_OUT = 5;
+const TIME_OUT = 16;
 let timer = null;
 
 class State {
