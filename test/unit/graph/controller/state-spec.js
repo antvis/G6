@@ -57,7 +57,7 @@ describe('graph state controller', () => {
       }, 50);
     }, 50);
   });
-  it('state with behavior', done => {
+  it('state with activate-relations', done => {
     graph.removeEvent();
     graph.addBehaviors('activate-relations', 'default');
     let triggered = false;
@@ -77,6 +77,29 @@ describe('graph state controller', () => {
         expect(e.states.active.length).to.equal(3);
         expect(e.states.inactive).not.to.be.undefined;
         expect(e.states.inactive.length).to.equal(2);
+        graph.removeBehaviors('activate-relations', 'default');
+        done();
+      }
+    });
+  });
+  it('state with click-select', done => {
+    graph.removeEvent();
+    graph.addBehaviors('click-select', 'default');
+    graph.emit('keydown', { keyCode: 17 });
+    graph.emit('node:click', { item: graph.findById('node1') });
+    graph.emit('node:click', { item: graph.findById('node2') });
+    let finished = false;
+    setTimeout(() => {
+      graph.emit('node:click', { item: graph.findById('node2') });
+      finished = true;
+    }, 50);
+    graph.on('graphstatechange', e => {
+      if (!finished) {
+        expect(e.states.selected).not.to.be.undefined;
+        expect(e.states.selected.length).to.equal(2);
+      } else {
+        expect(e.states.selected).not.to.be.undefined;
+        expect(e.states.selected.length).to.equal(1);
         done();
       }
     });
