@@ -505,10 +505,10 @@ class Graph extends EventEmitter {
     const nodes = [];
     const edges = [];
     Util.each(this.get('nodes'), node => {
-      nodes.push(node.get('model'));
+      nodes.push(node.getModel());
     });
     Util.each(this.get('edges'), edge => {
-      edges.push(edge.get('model'));
+      edges.push(edge.getModel());
     });
     return { nodes, edges };
   }
