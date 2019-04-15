@@ -4,10 +4,11 @@
  */
 
 const Shape = require('./shape');
+const Text = require('@antv/g/lib').Text;
 const Util = require('../util/index');
 const Global = require('../global');
 const SingleShapeMixin = require('./single-shape-mixin');
-
+const { CLS_LABEL_SUFFIX, CLS_SHAPE_SUFFIX } = require('../const');
 // 注册 Node 的工厂方法
 Shape.registerFactory('node', {
   defaultShapeType: 'circle'
@@ -36,16 +37,85 @@ const singleNodeDefinition = Util.mix({}, SingleShapeMixin, {
     }
     return size;
   },
+
+  draw(cfg, group) {
+    let label;
+    if (cfg.label) {
+      label = this.createLabel(cfg, group);
+      if (cfg.fitLabel && (this.getLabelPosition(cfg) === 'center')) {
+        const [ width, height ] = cfg.labelSize;
+        const padding = cfg.labelCfg.padding;
+        cfg.size = [ width + padding[1] + padding[3], height + padding[0] + padding[2] ];
+      }
+      label.set('className', this.itemType + CLS_LABEL_SUFFIX);
+    }
+    const shape = this.drawShape(cfg, group);
+    shape.set('className', this.itemType + CLS_SHAPE_SUFFIX);
+    if (cfg.label) {
+      this.drawLabel(cfg, group, label);
+      this.layoutLabel(cfg, group, label);
+    }
+    return shape;
+  },
+
+  createLabel(cfg, group) {
+    const defaultPadding = 5;
+    const labelCfg = cfg.labelCfg || {};
+    cfg.labelCfg = labelCfg;
+    const labelStyle = this.getLabelStyle(cfg, labelCfg, group, false);
+    const label = new Text({ attrs: labelStyle });
+    const textBBox = label.getBBox();
+
+    const labelSize = [ textBBox.width, textBBox.height ];
+    if (cfg.fitLabel && (this.getLabelPosition(cfg) === 'center')) {
+      let padding = labelCfg.padding || defaultPadding;
+      if (!Array.isArray(padding)) {
+        padding = new Array(4).fill(+padding);
+      }
+      if (padding.length === 2) {
+        padding = padding.concat(padding);
+      } else if (padding.length === 3) {
+        padding = padding.push(padding[1]);
+      } else if (padding.length === 1) {
+        padding = new Array(4).fill(+padding[0]);
+      }
+      labelCfg.padding = padding;
+    }
+    cfg.labelSize = labelSize;
+    return label;
+  },
+
+
+  layoutLabel(cfg, group, label) {
+    const positionStyle = this.getLabelStyleByPosition(cfg, cfg.labelCfg, group);
+    label.attr(positionStyle);
+  },
+
+  drawLabel(cfg, group, label) {
+    label = label || this.createLabel(cfg);
+    group.add(label);
+    return label;
+  },
+
+
+  getLabelPosition(cfg) {
+    return (cfg && cfg.labelCfg && cfg.labelCfg.position) || this.labelPosition;
+  },
+
   // 私有方法，不希望扩展的节点复写这个方法
   getLabelStyleByPosition(cfg, labelCfg) {
-    const labelPosition = labelCfg.position || this.labelPosition;
-    // 默认的位置（最可能的情形），所以放在最上面
-    if (labelPosition === 'center') {
-      return { x: 0, y: 0 };
-    }
+    const labelPosition = this.getLabelPosition(cfg);
+    const labelPadding = labelCfg.padding || [ 0, 0, 0, 0 ];
     const size = this.getSize(cfg);
     const width = size[0];
     const height = size[1];
+    const isHtmlLabel = labelCfg.labelType === 'html';
+    // 默认的位置（最可能的情形），所以放在最上面
+    if (labelPosition === 'center') {
+      const x = (labelPadding[3] - labelPadding[1]) / 2 - (isHtmlLabel ? width / 2 : 0);
+      const y = (labelPadding[0] - labelPadding[2]) / 2 - (isHtmlLabel ? height / 2 : 0);
+      return { x, y };
+    }
     let offset = labelCfg.offset;
     if (Util.isNil(offset)) { // 考虑 offset = 0 的场景，不用用 labelCfg.offset || Global.nodeLabel.offset
       offset = Global.nodeLabel.offset; // 不居中时的偏移量
@@ -90,6 +160,35 @@ const singleNodeDefinition = Util.mix({}, SingleShapeMixin, {
       attrs: style
     });
     return shape;
+  },
+
+  update(cfg, item) {
+    const group = item.getContainer();
+    const labelClassName = this.itemType + CLS_LABEL_SUFFIX;
+    const label = group.findByClassName(labelClassName);
+    // 考虑到节点大小可能需要适应 label，首先更新 label，再更新节点
+    if (!cfg.label) {
+      label && label.remove();
+    } else {
+      if (!label) {
+        const newLabel = this.drawLabel(cfg, group);
+        newLabel.set('className', labelClassName);
+      } else {
+        const labelCfg = cfg.labelCfg || {};
+        const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
+        /**
+         * fixme g中shape的rotate是角度累加的，不是label的rotate想要的角度
+         * 由于现在label只有rotate操作，所以在更新label的时候如果style中有rotate就重置一下变换
+         * 后续会基于g的Text复写一个Label出来处理这一类问题
+         */
+        label.resetMatrix();
+        label.attr(labelStyle);
+      }
+    }
+    const shapeClassName = this.itemType + CLS_SHAPE_SUFFIX;
+    const shape = group.findByClassName(shapeClassName);
+    const shapeStyle = this.getShapeStyle(cfg);
+    shape.attr(shapeStyle);
   }
 });
 // 单个图形的基础，可以有 label，默认 label 居中
