@@ -154,11 +154,13 @@ class Edge extends Item {
     const targetItem = this.get('target' + ITEM_NAME_SUFFIX);
     if (sourceItem) {
       out.source = sourceItem.get('id');
+      delete out['source' + ITEM_NAME_SUFFIX];
     } else {
       out.source = this.get('start' + POINT_NAME_SUFFIX);
     }
     if (targetItem) {
       out.target = targetItem.get('id');
+      delete out['target' + ITEM_NAME_SUFFIX];
     } else {
       out.target = this.get('end' + POINT_NAME_SUFFIX);
     }

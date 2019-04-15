@@ -171,6 +171,7 @@ describe('graph', () => {
     expect(map.e).not.to.be.undefined;
     expect(map.f).not.to.be.undefined;
     const exported = graph.save();
+    expect(JSON.stringify(exported)).not.to.throw;
     expect(exported.nodes.length).to.equal(3);
     expect(exported.edges.length).to.equal(1);
     const edge = exported.edges[0];
