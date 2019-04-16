@@ -45,11 +45,11 @@ const SingleShape = {
 	 * @param  {Object} cfg 节点的配置项
    * @param {Object} labelCfg 文本的配置项
 	 * @param {G.Group} group 父容器，label 的定位可能与图形相关
-   * @param {Boolean} needPosition 是否需要包含标签位置样式
+   * @param {Boolean} skipPositionCalculation 是否需要计算标签位置信息
 	 * @return {Object} 图形的配置项
 	 */
-  getLabelStyle(cfg, labelCfg, group, needPosition = true) {
-    const calculateStyle = needPosition ? this.getLabelStyleByPosition(cfg, labelCfg, group) : { x: 0, y: 0 };
+  getLabelStyle(cfg, labelCfg, group, skipPositionCalculation) {
+    const calculateStyle = !skipPositionCalculation ? this.getLabelStyleByPosition(cfg, labelCfg, group) : { x: 0, y: 0 };
     calculateStyle.text = cfg.label;
     const attrName = this.itemType + 'Label'; // 取 nodeLabel，edgeLabel 的配置项
     const defaultStyle = Global[attrName] ? Global[attrName].style : null;

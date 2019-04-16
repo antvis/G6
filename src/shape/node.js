@@ -61,7 +61,7 @@ const singleNodeDefinition = Util.mix({}, SingleShapeMixin, {
   createLabel(cfg, group) {
     const labelCfg = cfg.labelCfg || {};
     cfg.labelCfg = labelCfg;
-    const labelStyle = this.getLabelStyle(cfg, labelCfg, group, false);
+    const labelStyle = this.getLabelStyle(cfg, labelCfg, group, true);
     const label = new Text({ attrs: labelStyle });
     const textBBox = label.getBBox();
 
