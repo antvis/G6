@@ -43,8 +43,8 @@ const singleNodeDefinition = Util.mix({}, SingleShapeMixin, {
     if (cfg.label) {
       label = this.createLabel(cfg, group);
       if (cfg.fitLabel && (this.getLabelPosition(cfg) === 'center')) {
-        const [ width, height ] = cfg.labelSize;
-        const padding = cfg.labelCfg.padding;
+        const [ width, height ] = group.get('labelSize');
+        const padding = group.get('labelPadding');
         cfg.size = [ width + padding[1] + padding[3], height + padding[0] + padding[2] ];
       }
       label.set('className', this.itemType + CLS_LABEL_SUFFIX);
@@ -78,9 +78,11 @@ const singleNodeDefinition = Util.mix({}, SingleShapeMixin, {
       } else if (padding.length === 1) {
         padding = new Array(4).fill(+padding[0]);
       }
-      labelCfg.padding = padding;
+      group.set('labelPadding', padding);
+    } else {
+      group.set('labelPadding', [ 0, 0, 0, 0 ]);
     }
-    cfg.labelSize = labelSize;
+    group.set('labelSize', labelSize);
     return label;
   },
 
@@ -91,20 +93,19 @@ const singleNodeDefinition = Util.mix({}, SingleShapeMixin, {
   },
 
   drawLabel(cfg, group, label) {
-    label = label || this.createLabel(cfg);
+    label = label || this.createLabel(cfg, group);
     group.add(label);
     return label;
   },
-
 
   getLabelPosition(cfg) {
     return (cfg && cfg.labelCfg && cfg.labelCfg.position) || this.labelPosition;
   },
 
   // 私有方法，不希望扩展的节点复写这个方法
-  getLabelStyleByPosition(cfg, labelCfg) {
+  getLabelStyleByPosition(cfg, labelCfg, group) {
     const labelPosition = this.getLabelPosition(cfg);
-    const labelPadding = labelCfg.padding || [ 0, 0, 0, 0 ];
+    const labelPadding = group.get('labelPadding') || [ 0, 0, 0, 0 ];
     const size = this.getSize(cfg);
     const width = size[0];
     const height = size[1];
