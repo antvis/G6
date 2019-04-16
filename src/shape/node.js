@@ -59,7 +59,6 @@ const singleNodeDefinition = Util.mix({}, SingleShapeMixin, {
   },
 
   createLabel(cfg, group) {
-    const defaultPadding = 5;
     const labelCfg = cfg.labelCfg || {};
     cfg.labelCfg = labelCfg;
     const labelStyle = this.getLabelStyle(cfg, labelCfg, group, false);
@@ -68,7 +67,7 @@ const singleNodeDefinition = Util.mix({}, SingleShapeMixin, {
 
     const labelSize = [ textBBox.width, textBBox.height ];
     if (cfg.fitLabel && (this.getLabelPosition(cfg) === 'center')) {
-      let padding = labelCfg.padding || defaultPadding;
+      let padding = labelCfg.padding || 0;
       if (!Array.isArray(padding)) {
         padding = new Array(4).fill(+padding);
       }
