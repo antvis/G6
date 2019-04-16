@@ -54,7 +54,8 @@ class ItemController {
       item = new Item[upperType]({
         model,
         styles,
-        group: parent.addGroup()
+        group: parent.addGroup(),
+        graph
       });
     }
     graph.get(type + 's').push(item);

@@ -174,7 +174,7 @@ class Item {
     self.updatePosition(model);
     const cfg = self.getShapeCfg(model); // 可能会附加额外信息
     const shapeType = cfg.shape;
-    const keyShape = shapeFactory.draw(shapeType, cfg, group);
+    const keyShape = shapeFactory.draw(shapeType, cfg, group, self._cfg.graph);
     if (keyShape) {
       keyShape.isKeyShape = true;
       self.set('keyShape', keyShape);

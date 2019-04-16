@@ -11,6 +11,11 @@ const Global = require('../global');
 const Controller = require('./controller');
 const NODE = 'node';
 const EDGE = 'edge';
+const effectSizeAttrs = {
+  fontSize: 'font-size',
+  fontWeight: 'font-weight',
+  fontFamily: 'font-family'
+};
 
 class Graph extends EventEmitter {
   /**
@@ -189,8 +194,54 @@ class Graph extends EventEmitter {
     const modeController = new Controller.Mode(this);
     const itemController = new Controller.Item(this);
     this.set({ eventController, viewController, modeController, itemController });
+    this._initMeasureGroupForHtmlLabel();
     this._initPlugins();
   }
+
+  _initMeasureGroupForHtmlLabel() {
+    if (this.get('renderer') === 'svg') {
+      const canvas = this.get('canvas');
+      const canvasDom = canvas._cfg.painter.canvas;
+      const foriegnObjectForTest = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
+      foriegnObjectForTest.style.boxSizing = 'padding-box';
+      const defs = canvasDom.getElementsByTagName('defs')[0];
+      canvasDom.insertBefore(foriegnObjectForTest, defs);
+      const htmlContainerForTest = Util.createDom('<div style="display:inline-block"></div>');
+      foriegnObjectForTest.appendChild(htmlContainerForTest);
+      this.set('htmlContainerForTest', htmlContainerForTest);
+      this.set('foriegnObjectForTest', foriegnObjectForTest);
+      foriegnObjectForTest.setAttribute('width', 1000);
+      foriegnObjectForTest.setAttribute('height', 1000);
+    }
+  }
+
+  testHtmlLabelSize(html, labelStyle) {
+    const htmlContainerForTest = this.get('htmlContainerForTest');
+    const foriegnObjectForTest = this.get('foriegnObjectForTest');
+    if (!htmlContainerForTest) {
+      throw new Error('the renderer must be svg');
+    }
+    if (typeof html === 'string') {
+      html = Util.createDom(html);
+    }
+    const hasAttr = [];
+    for (const attr in labelStyle) {
+      const fAttr = effectSizeAttrs[attr];
+      if (fAttr) {
+        hasAttr.push(attr);
+        foriegnObjectForTest.setAttribute(fAttr, labelStyle[attr]);
+      }
+    }
+    htmlContainerForTest.appendChild(html);
+    const bbox = htmlContainerForTest.getBoundingClientRect();
+    hasAttr.forEach(attr => {
+      foriegnObjectForTest.removeAttribute(attr);
+    });
+    htmlContainerForTest.removeChild(html);
+
+    return bbox;
+  }
+
   _initCanvas() {
     let container = this.get('container');
     if (Util.isString(container)) {

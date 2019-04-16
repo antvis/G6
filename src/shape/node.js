@@ -5,6 +5,7 @@
 
 const Shape = require('./shape');
 const Text = require('@antv/g/lib').Text;
+const Dom = require('@antv/g/lib').Dom;
 const Util = require('../util/index');
 const Global = require('../global');
 const SingleShapeMixin = require('./single-shape-mixin');
@@ -38,10 +39,10 @@ const singleNodeDefinition = Util.mix({}, SingleShapeMixin, {
     return size;
   },
 
-  draw(cfg, group) {
+  draw(cfg, group, graph) {
     let label;
     if (cfg.label) {
-      label = this.createLabel(cfg, group);
+      label = this.createLabel(cfg, group, graph);
       if (cfg.fitLabel && (this.getLabelPosition(cfg) === 'center')) {
         const [ width, height ] = cfg.labelSize;
         const padding = cfg.labelCfg.padding;
@@ -58,17 +59,26 @@ const singleNodeDefinition = Util.mix({}, SingleShapeMixin, {
     return shape;
   },
 
-  createLabel(cfg, group) {
-    const defaultPadding = 5;
+  createLabel(cfg, group, graph) {
     const labelCfg = cfg.labelCfg || {};
     cfg.labelCfg = labelCfg;
     const labelStyle = this.getLabelStyle(cfg, labelCfg, group, false);
-    const label = new Text({ attrs: labelStyle });
-    const textBBox = label.getBBox();
+
+    let label,
+      textBBox;
+    if (labelCfg.type !== 'html') {
+      label = new Text({ attrs: labelStyle });
+      textBBox = label.getBBox();
+    } else {
+      const labelDiv = Util.createDom(labelStyle.text);
+      textBBox = graph.testHtmlLabelSize(labelDiv, labelStyle);
+      const { width, height } = textBBox;
+      label = new Dom({ attrs: { ...labelStyle, html: labelDiv, width, height } });
+    }
 
     const labelSize = [ textBBox.width, textBBox.height ];
     if (cfg.fitLabel && (this.getLabelPosition(cfg) === 'center')) {
-      let padding = labelCfg.padding || defaultPadding;
+      let padding = labelCfg.padding || 0;
       if (!Array.isArray(padding)) {
         padding = new Array(4).fill(+padding);
       }
@@ -109,11 +119,13 @@ const singleNodeDefinition = Util.mix({}, SingleShapeMixin, {
     const size = this.getSize(cfg);
     const width = size[0];
     const height = size[1];
-    const isHtmlLabel = labelCfg.labelType === 'html';
+    const labelSize = cfg.labelSize;
+    const [ labelWidth, labelHeight ] = labelSize;
+    const isHtmlLabel = labelCfg.type === 'html';
     // 默认的位置（最可能的情形），所以放在最上面
-    if (labelPosition === 'center') {
-      const x = (labelPadding[3] - labelPadding[1]) / 2 - (isHtmlLabel ? width / 2 : 0);
-      const y = (labelPadding[0] - labelPadding[2]) / 2 - (isHtmlLabel ? height / 2 : 0);
+    if (labelPosition === 'center') { // labelType为 html 时，foreignObject的原点（0，0）在 node 的中心点，需要进行额外的平移
+      const x = (labelPadding[3] - labelPadding[1]) / 2 - (isHtmlLabel ? labelWidth / 2 : 0);
+      const y = (labelPadding[0] - labelPadding[2]) / 2 - (isHtmlLabel ? labelHeight / 2 : 0);
       return { x, y };
     }
     let offset = labelCfg.offset;

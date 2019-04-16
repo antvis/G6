@@ -38,11 +38,12 @@ const ShapeFactoryBase = {
    * @param  {String} type  类型
    * @param  {Object} cfg 配置项
    * @param  {G.Group} group 图形的分组
+   * @param  {Graph} graph Graph实例
    * @return {G.Shape} 图形对象
    */
-  draw(type, cfg, group) {
+  draw(type, cfg, group, graph) {
     const shape = this.getShape(type);
-    const rst = shape.draw(cfg, group);
+    const rst = shape.draw(cfg, group, graph);
     shape.afterDraw(cfg, group, rst);
     return rst;
   },
