@@ -4,9 +4,7 @@
  */
 const Global = require('../global');
 const Util = require('../util/index');
-
-const CLS_SHAPE_SUFFIX = '-shape';
-const CLS_LABEL_SUFFIX = '-label';
+const { CLS_LABEL_SUFFIX, CLS_SHAPE_SUFFIX } = require('../const');
 
 // 单个 shape 带有一个 label，共用这段代码
 const SingleShape = {
