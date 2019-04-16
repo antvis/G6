@@ -6,15 +6,20 @@ module.exports = {
     return {
       updateEdge: true,
       delegate: true,
+      validOutOfRange: false,
       delegateStyle: {}
     };
   },
   getEvents() {
-    return {
+    const events = {
       'node:dragstart': 'onDragStart',
       'node:drag': 'onDrag',
       'node:dragend': 'onDragEnd'
     };
+    if (!this.validOutOfRange) {
+      events['canvas:mouseleave'] = 'onDragEnd';
+    }
+    return events;
   },
   onDragStart(e) {
     if (!this.shouldBegin.call(this, e)) {
@@ -42,7 +47,7 @@ module.exports = {
     if (!this.origin) {
       return;
     }
-    const delegateShape = e.item.get('delegateShape');
+    const delegateShape = this.target.get('delegateShape');
     if (delegateShape) {
       delegateShape.remove();
       this.target.set('delegateShape', null);
