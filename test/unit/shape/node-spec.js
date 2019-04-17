@@ -119,7 +119,7 @@ describe('shape node test', () => {
     it('update', () => {
       const rectGroup = canvas.findById('rect');
       const shape = rectGroup.get('children')[0];
-			// 伪造 item, 仅测试接口和图形的变化，不测试一致性
+      // 伪造 item, 仅测试接口和图形的变化，不测试一致性
       const item = {
         getContainer() {
           return rectGroup;
@@ -160,7 +160,7 @@ describe('shape node test', () => {
     xit('active', () => {
       const rectGroup = canvas.findById('rect');
       const shape = rectGroup.get('children')[0];
-			// 伪造 item, 仅测试接口和图形的变化，不测试一致性
+      // 伪造 item, 仅测试接口和图形的变化，不测试一致性
       const item = {
         getContainer() {
           return rectGroup;
@@ -181,7 +181,7 @@ describe('shape node test', () => {
     xit('selected', () => {
       const rectGroup = canvas.findById('rect');
       const shape = rectGroup.get('children')[0];
-			// 伪造 item, 仅测试接口和图形的变化，不测试一致性
+      // 伪造 item, 仅测试接口和图形的变化，不测试一致性
       const item = {
         getContainer() {
           return rectGroup;
@@ -268,6 +268,52 @@ describe('shape node test', () => {
       expect(label.attr('y')).eql(0);
       expect(label.attr('x')).eql(30);
       canvas.draw();
+    });
+
+    it('rect size with fitLabel', () => {
+      const group = canvas.addGroup();
+      group.translate(200, 200);
+      const padding = [ 1, 2, 3, 4 ];
+      const lineWidth = 4;
+      const shape = factory.draw('rect', {
+        color: 'green',
+        label: 'test keyShape size when fitLabel',
+        fitLabel: true,
+        labelCfg: {
+          position: 'center',
+          padding
+        },
+        style: {
+          lineWidth
+        }
+      }, group);
+      const label = group.get('children')[1];
+      const labelSize = label.getBBox();
+      const shapeSize = shape.getBBox();
+      expect(labelSize.width + padding[1] + padding[3] + 2 * lineWidth).eql(shapeSize.width);
+      expect(labelSize.height + padding[0] + padding[2] + 2 * lineWidth).eql(shapeSize.height);
+    });
+    it('circle size with fitLabel', () => {
+      const group = canvas.addGroup();
+      group.translate(200, 200);
+      const padding = [ 1, 2, 3, 4 ];
+      const lineWidth = 4;
+      const shape = factory.draw('circle', {
+        color: 'green',
+        label: 'test keyShape size when fitLabel',
+        fitLabel: true,
+        labelCfg: {
+          position: 'center',
+          padding
+        },
+        style: {
+          lineWidth
+        }
+      }, group);
+      const label = group.get('children')[1];
+      const labelSize = label.getBBox();
+      const shapeSize = shape.getBBox();
+      expect(labelSize.width + padding[1] + padding[3] + 2 * lineWidth).eql(shapeSize.width);
     });
     it('change global node style', () => {
       let group = canvas.addGroup();
