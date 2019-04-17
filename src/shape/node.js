@@ -28,25 +28,31 @@ const singleNodeDefinition = Util.mix({}, SingleShapeMixin, {
    * 获取节点宽高
    * @internal 返回节点的大小，以 [width, height] 的方式维护
    * @param  {Object} cfg 节点的配置项
+   * @param  {G.Group} group 节点的 Group 对象
    * @return {Array} 宽高
    */
-  getSize(cfg) {
-    let size = cfg.size || Global.defaultNode.size;
-    if (!Util.isArray(size)) {
-      size = [ size, size ];
+  getSize(cfg, group = null) {
+    const configSize = Util.normalizeSize(cfg.size);
+    const configLineWidth = cfg.style && cfg.style.lineWidth;
+    if (cfg.fitLabel && (this.getLabelPosition(cfg) === 'center')) {
+      // 自适应标签布局必须要考虑 keyShape 的边框尺寸
+      const lineWidth = configLineWidth == null ? 1 : configLineWidth;
+      let autoSize = group && group.get('labelSize');
+      if (!autoSize) {
+        autoSize = Util.normalizeSize(Global.defaultNode.size);
+      }
+      const padding = group && group.get('labelPadding') || Global.nodeLabel.padding;
+      const [ width, height ] = Util.mergeSize(configSize, autoSize);
+      return [ width + padding[1] + padding[3] + lineWidth, height + padding[0] + padding[2] + lineWidth ];
     }
-    return size;
+    const defaultSize = Util.normalizeSize(Global.defaultNode.size);
+    return Util.mergeSize([], configSize, defaultSize);
   },
 
   draw(cfg, group) {
     let label;
     if (cfg.label) {
       label = this.createLabel(cfg, group);
-      if (cfg.fitLabel && (this.getLabelPosition(cfg) === 'center')) {
-        const [ width, height ] = group.get('labelSize');
-        const padding = group.get('labelPadding');
-        cfg.size = [ width + padding[1] + padding[3], height + padding[0] + padding[2] ];
-      }
       label.set('className', this.itemType + CLS_LABEL_SUFFIX);
     }
     const shape = this.drawShape(cfg, group);
@@ -58,13 +64,12 @@ const singleNodeDefinition = Util.mix({}, SingleShapeMixin, {
     return shape;
   },
 
-  createLabel(cfg, group) {
-    const labelCfg = cfg.labelCfg || {};
-    cfg.labelCfg = labelCfg;
-    const labelStyle = this.getLabelStyle(cfg, labelCfg, group, true);
-    const label = new Text({ attrs: labelStyle });
-    const textBBox = label.getBBox();
 
+  updateLabelSizeStyle(cfg, label, group, skipPositionCalculation) {
+    const labelCfg = cfg.labelCfg || {};
+    const labelStyle = this.getLabelStyle(cfg, labelCfg, group, skipPositionCalculation);
+    label.attr(labelStyle);
+    const textBBox = label.getBBox();
     const labelSize = [ textBBox.width, textBBox.height ];
     if (cfg.fitLabel && (this.getLabelPosition(cfg) === 'center')) {
       let padding = labelCfg.padding || 0;
@@ -83,6 +88,13 @@ const singleNodeDefinition = Util.mix({}, SingleShapeMixin, {
       group.set('labelPadding', [ 0, 0, 0, 0 ]);
     }
     group.set('labelSize', labelSize);
+  },
+
+  createLabel(cfg, group) {
+    const labelCfg = cfg.labelCfg || {};
+    cfg.labelCfg = labelCfg;
+    const label = new Text();
+    this.updateLabelSizeStyle(cfg, label, group, true);
     return label;
   },
 
@@ -106,14 +118,15 @@ const singleNodeDefinition = Util.mix({}, SingleShapeMixin, {
   getLabelStyleByPosition(cfg, labelCfg, group) {
     const labelPosition = this.getLabelPosition(cfg);
     const labelPadding = group.get('labelPadding') || [ 0, 0, 0, 0 ];
-    const size = this.getSize(cfg);
+    const size = this.getSize(cfg, group);
     const width = size[0];
     const height = size[1];
+    const [ labelWidth, labelHeight ] = group.get('labelSize');
     const isHtmlLabel = labelCfg.labelType === 'html';
     // 默认的位置（最可能的情形），所以放在最上面
     if (labelPosition === 'center') {
-      const x = (labelPadding[3] - labelPadding[1]) / 2 - (isHtmlLabel ? width / 2 : 0);
-      const y = (labelPadding[0] - labelPadding[2]) / 2 - (isHtmlLabel ? height / 2 : 0);
+      const x = (labelPadding[3] - labelPadding[1]) / 2 - (isHtmlLabel ? labelWidth / 2 : 0);
+      const y = (labelPadding[0] - labelPadding[2]) / 2 - (isHtmlLabel ? labelHeight / 2 : 0);
       return { x, y };
     }
     let offset = labelCfg.offset;
@@ -155,7 +168,7 @@ const singleNodeDefinition = Util.mix({}, SingleShapeMixin, {
   },
   drawShape(cfg, group) {
     const shapeType = this.shapeType; // || this.type，都已经加了 shapeType
-    const style = this.getShapeStyle(cfg);
+    const style = this.getShapeStyle(cfg, group);
     const shape = group.addShape(shapeType, {
       attrs: style
     });
@@ -174,20 +187,21 @@ const singleNodeDefinition = Util.mix({}, SingleShapeMixin, {
         const newLabel = this.drawLabel(cfg, group);
         newLabel.set('className', labelClassName);
       } else {
-        const labelCfg = cfg.labelCfg || {};
-        const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
+        this.updateLabelSizeStyle(cfg, label, group);
         /**
          * fixme g中shape的rotate是角度累加的，不是label的rotate想要的角度
          * 由于现在label只有rotate操作，所以在更新label的时候如果style中有rotate就重置一下变换
          * 后续会基于g的Text复写一个Label出来处理这一类问题
          */
         label.resetMatrix();
+        const labelCfg = cfg.labelCfg || {};
+        const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
         label.attr(labelStyle);
       }
     }
     const shapeClassName = this.itemType + CLS_SHAPE_SUFFIX;
     const shape = group.findByClassName(shapeClassName);
-    const shapeStyle = this.getShapeStyle(cfg);
+    const shapeStyle = this.getShapeStyle(cfg, group);
     shape.attr(shapeStyle);
   }
 });
@@ -199,8 +213,8 @@ Shape.registerNode('single-shape', singleNodeDefinition);
  */
 Shape.registerNode('circle', {
   shapeType: 'circle',
-  getShapeStyle(cfg) {
-    const size = this.getSize(cfg);
+  getShapeStyle(cfg, group) {
+    const size = this.getSize(cfg, group);
     const color = cfg.color || Global.defaultNode.color;
     const style = Util.mix({}, {
       x: 0, // 节点的位置在上层确定，所以这里仅使用相对位置即可
@@ -217,8 +231,8 @@ Shape.registerNode('circle', {
  */
 Shape.registerNode('ellipse', {
   shapeType: 'ellipse',
-  getShapeStyle(cfg) {
-    const size = this.getSize(cfg);
+  getShapeStyle(cfg, group) {
+    const size = this.getSize(cfg, group);
     const rx = size[0] / 2;
     const ry = size[1] / 2;
     const color = cfg.color || Global.defaultNode.color;
@@ -238,8 +252,8 @@ Shape.registerNode('ellipse', {
  */
 Shape.registerNode('rect', {
   shapeType: 'rect',
-  getShapeStyle(cfg) {
-    const size = this.getSize(cfg);
+  getShapeStyle(cfg, group) {
+    const size = this.getSize(cfg, group);
     const width = size[0];
     const height = size[1];
     const color = cfg.color || Global.defaultNode.color;
@@ -260,8 +274,8 @@ Shape.registerNode('rect', {
 Shape.registerNode('image', {
   shapeType: 'image',
   labelPosition: 'bottom',
-  getShapeStyle(cfg) {
-    const size = this.getSize(cfg);
+  getShapeStyle(cfg, group) {
+    const size = this.getSize(cfg, group);
     const img = cfg.img;
     const width = size[0];
     const height = size[1];

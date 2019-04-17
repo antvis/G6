@@ -56,6 +56,22 @@ const BaseUtil = {
     event.currentTarget = e.currentTarget;
     event.item = e.item;
     return event;
+  },
+  normalizeSize(size) {
+    if (!BaseUtil.isArray(size)) {
+      size = [ size, size ];
+    }
+    return size;
+  },
+  mergeSize() {
+    const sourceSize = BaseUtil.normalizeSize(arguments[0]);
+    for (let i = 1; i < arguments.length; i++) {
+      const defaultSize = BaseUtil.normalizeSize(arguments[i]);
+      for (let i = 0; i < 2; i++) {
+        sourceSize[i] = sourceSize[i] == null ? defaultSize[i] : sourceSize[i];
+      }
+    }
+    return sourceSize;
   }
 };
 

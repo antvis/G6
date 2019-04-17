@@ -27,7 +27,8 @@ module.exports = {
       textAlign: 'center',
       textBaseline: 'middle'
     },
-    offset: 5 // 节点的默认文本不居中时的偏移量
+    offset: 5, // 节点的默认文本不居中时的偏移量
+    padding: [ 0, 0, 0, 0 ]
   },
   edgeLabel: {
     style: {

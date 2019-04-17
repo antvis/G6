@@ -60,9 +60,11 @@ const SingleShape = {
 	 * 获取图形的配置项
 	 * @internal 仅在定义这一类节点使用，用户创建和更新节点
 	 * @param  {Object} cfg 节点的配置项
+	 * @param  {Object} group 节点的容器
 	 * @return {Object} 图形的配置项
 	 */
-  getShapeStyle(cfg) {
+  getShapeStyle(cfg, group) {
+    group;// fix for no used vars check rule;
     return cfg.style;
   },
 	/**
@@ -75,7 +77,7 @@ const SingleShape = {
     const group = item.getContainer();
     const shapeClassName = this.itemType + CLS_SHAPE_SUFFIX;
     const shape = group.findByClassName(shapeClassName);
-    const shapeStyle = this.getShapeStyle(cfg);
+    const shapeStyle = this.getShapeStyle(cfg, group);
     shape.attr(shapeStyle);
     const labelClassName = this.itemType + CLS_LABEL_SUFFIX;
     const label = group.findByClassName(labelClassName);
