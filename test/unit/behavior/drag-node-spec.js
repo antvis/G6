@@ -1,4 +1,5 @@
 const expect = require('chai').expect;
+const Simulate = require('event-simulate');
 const G6 = require('../../../src');
 
 const div = document.createElement('div');
@@ -178,6 +179,37 @@ describe('drag-node', () => {
     graph.emit('node:dragstart', { item: src, x: 55, y: 55 });
     graph.emit('node:drag', { item: src, x: 66, y: 66 });
     expect(keyShape.attr('path')).to.equal(path);
+  });
+  it('out of range', () => {
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: [ 'drag-node' ]
+      },
+      pixelRatio: 2
+    });
+    const node = graph.addItem('node', { color: '#666', x: 50, y: 50, r: 20, style: { lineWidth: 2, fill: '#666' } });
+    graph.emit('node:dragstart', { x: 100, y: 100, item: node });
+    expect(node.getContainer().getMatrix()[6]).to.equal(50);
+    expect(node.getContainer().getMatrix()[7]).to.equal(50);
+    graph.emit('canvas:mouseleave', { x: 600, y: 600, item: node });
+    Simulate.simulate(document.body, 'mouseup', {
+      clientY: 100,
+      clientX: 100
+    });
+    expect(node.getContainer().getMatrix()[6]).to.equal(550);
+    expect(node.getContainer().getMatrix()[7]).to.equal(550);
+    graph.updateItem(node, { x: 50, y: 50 });
+    expect(node.getContainer().getMatrix()[6]).to.equal(50);
+    expect(node.getContainer().getMatrix()[7]).to.equal(50);
+    Simulate.simulate(document.body, 'mouseup', {
+      clientY: 100,
+      clientX: 100
+    });
+    expect(node.getContainer().getMatrix()[6]).to.equal(50);
+    expect(node.getContainer().getMatrix()[7]).to.equal(50);
   });
   it('unbind', () => {
     const graph = new G6.Graph({

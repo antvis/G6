@@ -9,13 +9,12 @@ module.exports = {
     }
     const item = e.item;
     self.currentTarget = item;
-    if (self.shouldUpdate(e)) {
-      self.showTooltip(e, 'show');
-      self.graph.emit('tooltipchange', { item: e.item, action: 'show' });
-    }
+    self.showTooltip(e);
+    self.graph.emit('tooltipchange', { item: e.item, action: 'show' });
   },
   onMouseMove(e) {
     if (!this.shouldUpdate(e)) {
+      this.hideTooltip();
       return;
     }
     if (!this.currentTarget || e.item !== this.currentTarget) {
@@ -70,7 +69,7 @@ module.exports = {
     }
     const left = x + 'px';
     const top = y + 'px';
-    Util.modifyCSS(this.container, { left, top });
+    Util.modifyCSS(this.container, { left, top, visibility: 'visible' });
   },
   _createTooltip(canvas) {
     const el = canvas.get('el');

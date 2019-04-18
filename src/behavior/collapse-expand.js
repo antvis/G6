@@ -62,11 +62,14 @@ module.exports = {
         }
         // 计算每个节点移动的起始位置和最终位置
         this.animateChild(data);
-        // 如果是
+        // 如果是展开，缓存一下需要 show，因为要先出
         if (!isCollapsed) {
           Util.traverseTree(item.get('model').data, data => {
             const node = graph.findById(data.id);
             node.set('shouldShow', true);
+            if (data.collapsed) {
+              return false;
+            }
           });
         }
         this.performAnimate();
