@@ -315,6 +315,58 @@ describe('shape node test', () => {
       const shapeSize = shape.getBBox();
       expect(labelSize.width + padding[1] + padding[3] + 2 * lineWidth).eql(shapeSize.width);
     });
+    it('rect size with html label', () => {
+      const group = canvas.addGroup();
+      group.translate(200, 400);
+      const padding = [ 1, 2, 3, 4 ];
+      const lineWidth = 4;
+      const shape = factory.draw('rect', {
+        color: 'green',
+        fitLabel: true,
+        label: '<div id="test-for-html-label">我是一个div</div>',
+        labelCfg: {
+          type: 'html',
+          position: 'center',
+          padding
+        },
+        style: {
+          lineWidth
+        }
+      }, group);
+      const label = group.get('children')[1];
+      const labelSize = label.getBBox();
+      const shapeSize = shape.getBBox();
+      expect(labelSize.width).eql(100);
+      expect(labelSize.height).eql(100);
+      expect(labelSize.width + padding[1] + padding[3] + 2 * lineWidth).eql(shapeSize.width);
+      expect(labelSize.height + padding[0] + padding[2] + 2 * lineWidth).eql(shapeSize.height);
+    });
+    it('circle size with html label', () => {
+      const group = canvas.addGroup();
+      group.translate(200, 400);
+      const padding = [ 1, 2, 3, 4 ];
+      const lineWidth = 4;
+      const shape = factory.draw('circle', {
+        color: 'green',
+        fitLabel: true,
+        label: '<div id="test-for-html-label">我是一个div</div>',
+        labelCfg: {
+          type: 'html',
+          position: 'center',
+          padding
+        },
+        style: {
+          lineWidth
+        }
+      }, group);
+      const label = group.get('children')[1];
+      const labelSize = label.getBBox();
+      const shapeSize = shape.getBBox();
+      expect(labelSize.width).eql(100);
+      expect(labelSize.height).eql(100);
+      expect(labelSize.width + padding[1] + padding[3] + 2 * lineWidth).eql(shapeSize.width);
+      expect(shape.attr('r') * 2 + padding[0] + padding[2]).eql(shapeSize.height);
+    });
     it('change global node style', () => {
       let group = canvas.addGroup();
       let keyShape = factory.draw('ellipse', {

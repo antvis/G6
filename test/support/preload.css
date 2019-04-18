@@ -1,3 +1,10 @@
 .g6-tooltip {
   font-family: 'Arial';
 }
+
+#test-for-html-label{
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+}
+
