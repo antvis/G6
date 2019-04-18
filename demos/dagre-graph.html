@@ -290,6 +290,13 @@
             text.push(row.label + ':' + row.value + '<br>');
           });
           return text.join('\n');
+        },
+        shouldUpdate: e => {
+          // 如果移动到节点文本上显示，不是文本上不显示
+          if (e.target.type !== 'text') {
+            return false;
+          }
+          return true;
         }
       }]
     },

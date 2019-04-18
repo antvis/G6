@@ -120,7 +120,6 @@ const SingleShape = {
     }
     const stateStyle = item.getStateStyle(name);
     if (value) { // 如果设置状态,在原本状态上叠加绘图属性
-      item.getStateStyle(stateStyle);
       shape.attr(stateStyle);
     } else { // 取消状态时重置所有状态，依次叠加仍有的状态
       const style = item.getCurrentStatesStyle();

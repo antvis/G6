@@ -150,6 +150,10 @@ class Graph extends EventEmitter {
        */
       edgeStyle: {},
       /**
+       * graph 状态
+       */
+      states: {},
+      /**
        * 是否启用全局动画
        * @type {Boolean}
        */
@@ -190,7 +194,8 @@ class Graph extends EventEmitter {
     const viewController = new Controller.View(this);
     const modeController = new Controller.Mode(this);
     const itemController = new Controller.Item(this);
-    this.set({ eventController, viewController, modeController, itemController });
+    const stateController = new Controller.State(this);
+    this.set({ eventController, viewController, modeController, itemController, stateController });
     this._initPlugins();
   }
 
@@ -290,7 +295,11 @@ class Graph extends EventEmitter {
    * @param {boolean} enabled 是否启用状态
    */
   setItemState(item, state, enabled) {
+    if (Util.isString(item)) {
+      item = this.findById(item);
+    }
     this.get('itemController').setItemState(item, state, enabled);
+    this.get('stateController').updateState(item, state, enabled);
   }
 
   /**
@@ -520,10 +529,10 @@ class Graph extends EventEmitter {
     const nodes = [];
     const edges = [];
     Util.each(this.get('nodes'), node => {
-      nodes.push(node.get('model'));
+      nodes.push(node.getModel());
     });
     Util.each(this.get('edges'), edge => {
-      edges.push(edge.get('model'));
+      edges.push(edge.getModel());
     });
     return { nodes, edges };
   }
@@ -966,6 +975,7 @@ class Graph extends EventEmitter {
     this.get('itemController').destroy();
     this.get('modeController').destroy();
     this.get('viewController').destroy();
+    this.get('stateController').destroy();
     this.get('canvas').destroy();
     this._cfg = null;
     this.destroyed = true;

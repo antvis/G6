@@ -129,9 +129,6 @@ class ItemController {
   }
   setItemState(item, state, enabled) {
     const graph = this.graph;
-    if (Util.isString(item)) {
-      item = graph.findById(item);
-    }
     if (item.hasState(state) === enabled) {
       return;
     }
