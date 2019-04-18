@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<select id="selector">
+  <option value="default">默认</option>
+  <option value="addNode">添加节点</option>
+  <option value="addEdge">添加边</option>
+</select>
+<div id="mountNode"></div>
+<script src="../build/g6.js"></script>
+<script>
+  // 封装点击添加边的交互
+  G6.registerBehavior('click-add-edge', {
+    getEvents() {
+      return {
+        'node:click': 'onClick' ,
+        mousemove: 'onMousemove',
+        'edge:click': 'onEdgeClick' // 点击空白处，取消边
+      };
+    },
+    onClick(ev) {
+      const node = ev.item;
+      const graph = this.graph;
+      const point = {x: ev.x, y: ev.y};
+      const model = node.getModel();
+      if (this.addingEdge && this.edge) {
+        graph.updateItem(this.edge, {
+          target: model.id
+        });
+        // graph.setItemState(this.edge, 'selected', true);
+        this.edge = null;
+        this.addingEdge = false;
+      } else {
+        this.edge = graph.addItem('edge', {
+          source: model.id,
+          target: point
+        });
+        this.addingEdge = true;
+      }
+    },
+    onMousemove(ev) {
+      const point = {x: ev.x, y: ev.y};
+      if (this.addingEdge && this.edge) {
+        this.graph.updateItem(this.edge, {
+          target: point
+        });
+      }
+    },
+    onEdgeClick(ev) {
+      const currentEdge = ev.item;
+      // 拖拽过程中，点击会点击到新增的边上
+      if (this.addingEdge && this.edge == currentEdge) {
+        graph.removeItem(this.edge);
+        this.edge = null;
+        this.addingEdge = false;
+      }
+    }
+  });
+
+  // 封装点击添加边的交互
+  G6.registerBehavior('click-add-node', {
+    getEvents() {
+      return {
+        'canvas:click': 'onClick'
+      };
+    },
+    onClick(ev) {
+      const graph = this.graph;
+      const node = graph.addItem('node', {
+        x: ev.x,
+        y: ev.y,
+        id: G6.Util.uniqueId()
+      });
+      // graph.setItemState(node, 'selected', true);// 添加后默认选中
+    }
+  });
+
+
+  const data = {
+    nodes: [{
+      id: 'node1',
+      x: 100,
+      y: 200
+    },{
+      id: 'node2',
+      x: 300,
+      y: 200
+    },{
+      id: 'node3',
+      x: 300,
+      y: 300
+    }],
+    edges: [{
+      id: 'edge1',
+      target: 'node2',
+      source: 'node1'
+    }]
+  };
+
+  const graph = new G6.Graph({
+    container: 'mountNode',
+    width: 500,
+    height: 500,
+    modes: {
+      default: ['drag-node', 'click-select'],
+      addNode: ['click-add-node', 'click-select'],
+      addEdge: ['click-add-edge', 'click-select']
+    }
+  });
+
+  graph.data(data);
+  graph.render();
+  graph.on('graphstatechange', e => {
+    console.log(e);
+  });
+
+  document.getElementById('selector').addEventListener('change', e => {
+    const value = e.target.value;
+    graph.setMode(value);
+  });
+
+</script>
+</body>
+</html>

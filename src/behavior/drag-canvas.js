@@ -1,6 +1,7 @@
 const Util = require('../util');
 const abs = Math.abs;
 const DRAG_OFFSET = 10;
+const body = document.body;
 
 module.exports = {
   getDefaultCfg() {
@@ -13,7 +14,8 @@ module.exports = {
       'canvas:mousedown': 'onMouseDown',
       'canvas:mousemove': 'onMouseMove',
       'canvas:mouseup': 'onMouseUp',
-      'canvas:click': 'onClick'
+      'canvas:click': 'onMouseUp',
+      'canvas:mouseleave': 'onOutOfRange'
     };
   },
   updateViewport(e) {
@@ -75,11 +77,32 @@ module.exports = {
     }
     e.type = 'dragend';
     graph.emit('canvas:dragend', e);
-    this.origin = null;
-    this.dragging = false;
+    this.endDrag();
   },
-  onClick() {
-    this.origin = null;
-    this.dragging = false;
+  endDrag() {
+    if (this.dragging) {
+      this.origin = null;
+      this.dragging = false;
+      // 终止时需要判断此时是否在监听画布外的 mouseup 事件，若有则解绑
+      const fn = this.fn;
+      if (fn) {
+        body.removeEventListener('mouseup', fn, false);
+        this.fn = null;
+      }
+    }
+  },
+  // 若在拖拽时，鼠标移出画布区域，此时放开鼠标无法终止 drag 行为。在画布外监听 mouseup 事件，放开则终止
+  onOutOfRange(e) {
+    if (this.dragging) {
+      const self = this;
+      const canvasElement = self.graph.get('canvas').get('el');
+      const fn = ev => {
+        if (ev.target !== canvasElement) {
+          self.onMouseUp(e);
+        }
+      };
+      this.fn = fn;
+      body.addEventListener('mouseup', fn, false);
+    }
   }
 };
