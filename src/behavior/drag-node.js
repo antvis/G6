@@ -1,7 +1,6 @@
 const { mix } = require('../util');
 const { delegateStyle } = require('../global');
 const body = document.body;
-let fn = null;
 
 module.exports = {
   getDefaultCfg() {
@@ -53,20 +52,24 @@ module.exports = {
     this._update(this.target, e, true);
     this.point = null;
     this.origin = null;
+    // 终止时需要判断此时是否在监听画布外的 mouseup 事件，若有则解绑
+    const fn = this.fn;
     if (fn) {
       body.removeEventListener('mouseup', fn, false);
-      fn = null;
+      this.fn = null;
     }
   },
+  // 若在拖拽时，鼠标移出画布区域，此时放开鼠标无法终止 drag 行为。在画布外监听 mouseup 事件，放开则终止
   onOutOfRange(e) {
     const self = this;
     if (this.origin) {
       const canvasElement = self.graph.get('canvas').get('el');
-      fn = ev => {
+      const fn = ev => {
         if (ev.target !== canvasElement) {
           self.onDragEnd(e);
         }
       };
+      this.fn = fn;
       body.addEventListener('mouseup', fn, false);
     }
   },
