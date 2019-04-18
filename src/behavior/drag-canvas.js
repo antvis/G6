@@ -2,6 +2,7 @@ const Util = require('../util');
 const abs = Math.abs;
 const DRAG_OFFSET = 10;
 const body = document.body;
+let fn = null;
 
 module.exports = {
   getDefaultCfg() {
@@ -14,7 +15,7 @@ module.exports = {
       'canvas:mousedown': 'onMouseDown',
       'canvas:mousemove': 'onMouseMove',
       'canvas:mouseup': 'onMouseUp',
-      'canvas:click': 'onClick',
+      'canvas:click': 'onMouseUp',
       'canvas:mouseleave': 'onOutOfRange'
     };
   },
@@ -77,22 +78,28 @@ module.exports = {
     }
     e.type = 'dragend';
     graph.emit('canvas:dragend', e);
-    this.origin = null;
-    this.dragging = false;
+    this.endDrag();
   },
-  onClick() {
-    this.origin = null;
-    this.dragging = false;
+  endDrag() {
+    if (this.dragging) {
+      this.origin = null;
+      this.dragging = false;
+      if (fn) {
+        body.removeEventListener('mouseup', fn, false);
+        fn = null;
+      }
+    }
   },
   onOutOfRange(e) {
-    const self = this;
-    const canvasElement = self.graph.get('canvas').get('el');
-    const fn = ev => {
-      body.removeEventListener('click', fn, false);
-      if (ev.target !== canvasElement) {
-        self.onMouseUp(e);
-      }
-    };
-    body.addEventListener('click', fn, false);
+    if (this.dragging) {
+      const self = this;
+      const canvasElement = self.graph.get('canvas').get('el');
+      fn = ev => {
+        if (ev.target !== canvasElement) {
+          self.onMouseUp(e);
+        }
+      };
+      body.addEventListener('mouseup', fn, false);
+    }
   }
 };
