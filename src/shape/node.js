@@ -74,7 +74,7 @@ const singleNodeDefinition = Util.mix({}, SingleShapeMixin, {
       label.attr(labelStyle);
       ({ width, height } = label.getBBox());
     } else if (label instanceof Dom) {
-      const labelDiv = Util.createDom(labelStyle.text);
+      const labelDiv = labelStyle.text instanceof HTMLElement ? labelStyle.text : Util.createDom(labelStyle.text);
       [ width, height ] = Util.htmlSizeMeasure(labelDiv, labelStyle);
       label.attr({ ...labelStyle, html: labelDiv, width, height });
     }

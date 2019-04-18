@@ -32,8 +32,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #dddddd;
     font-size: 20px;
+  }
+
+  .dom{
+    background: yellowgreen;
+  }
+  .template{
+    background: goldenrod;
   }
 </style>
 
@@ -211,18 +217,6 @@
           target: 4
         },
         {
-          source: 3,
-          target: 4
-        },
-        {
-          source: 4,
-          target: 5
-        },
-        {
-          source: 5,
-          target: 6
-        },
-        {
           source: 6,
           target: 7
         },
@@ -247,7 +241,7 @@
       lineWidth: 2,
       stroke: 'rgb(76,122,187)'
     };
-    data.nodes.forEach(node => {
+    data.nodes.forEach((node,index) => {
       node.id = node.id + '';
       node.shape = 'rect';
       node.labelCfg = labelStyle;
@@ -257,14 +251,21 @@
       node.style = {
         lineWidth: 5,
       }
-      node.label = `<div>
-                        <div class="title">${node.name}</div>
-                        <div class="content">我是内容</div>
-                    </div>`;
+      node.label = index % 2 ? `<div>
+                                    <div class="title">${node.name}</div>
+                                    <div class="content template">HTML模板</div>
+                                 </div>` : G6.Util.createDom(
+                                  `<div>
+                                    <div class="title">${node.name}</div>
+                                    <div class="content dom">DOM</div>
+                                   </div>`
+
+                                 )
+
       // set label padding  (only work when position is center)
       // node.labelCfg.padding = 1;
       // node.labelCfg.padding = 40;
-      
+
       g.setNode(node.id + '', { width: 100, height: 100 });
     });
     data.edges.forEach(edge => {
@@ -328,7 +329,7 @@
           }
         }]
       },
-      // fitView: true
+      fitView: true
     });
     graph.data(data);
     graph.render();
