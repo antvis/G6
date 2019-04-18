@@ -198,7 +198,7 @@ const singleEdgeDefinition = Util.mix({}, SingleShapeMixin, {
    * @return {G.Shape} 图形
    */
   drawShape(cfg, group) {
-    const shapeStyle = this.getShapeStyle(cfg);
+    const shapeStyle = this.getShapeStyle(cfg, group);
     const shape = group.addShape('path', {
       className: CLS_SHAPE,
       attrs: shapeStyle

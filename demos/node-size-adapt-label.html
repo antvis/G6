@@ -233,9 +233,10 @@
       node.labelCfg = labelStyle;
       // enable node size adaptting label;
       node.fitLabel = true;
-      node.label = `${node.name}\n${node.name}`;
+      // node.size = [null,100];
+      node.label = `${node.name}\n${node.name}\n${node.name}\n${node.name}`;
       // set label padding  (only work when position is center)
-      node.labelCfg.padding = [20, 40];
+      node.labelCfg.padding = 5;
       g.setNode(node.id + '', { width: 150, height: 100 });
     });
     data.edges.forEach(edge => {
@@ -285,7 +286,12 @@
       width: 500,
       height: 500,
       pixelRatio: 2,
-      renderer: 'svg',
+      renderer: 'canvas',
+      defaultNode:{
+        style: {
+          // lineWidth: 0,
+        }
+      },
       modes: {
         default: ['drag-canvas', 'click-select', {
           type: 'tooltip',
