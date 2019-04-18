@@ -1,25 +1,22 @@
 const { mix } = require('../util');
 const { delegateStyle } = require('../global');
+const body = document.body;
 
 module.exports = {
   getDefaultCfg() {
     return {
       updateEdge: true,
       delegate: true,
-      validOutOfRange: false,
       delegateStyle: {}
     };
   },
   getEvents() {
-    const events = {
+    return {
       'node:dragstart': 'onDragStart',
       'node:drag': 'onDrag',
-      'node:dragend': 'onDragEnd'
+      'node:dragend': 'onDragEnd',
+      'canvas:mouseleave': 'onOutOfRange'
     };
-    if (!this.validOutOfRange) {
-      events['canvas:mouseleave'] = 'onDragEnd';
-    }
-    return events;
   },
   onDragStart(e) {
     if (!this.shouldBegin.call(this, e)) {
@@ -55,6 +52,17 @@ module.exports = {
     this._update(this.target, e, true);
     this.point = null;
     this.origin = null;
+  },
+  onOutOfRange(e) {
+    const self = this;
+    const canvasElement = self.graph.get('canvas').get('el');
+    const fn = ev => {
+      body.removeEventListener('click', fn, false);
+      if (ev.target !== canvasElement) {
+        self.onDragEnd(e);
+      }
+    };
+    body.addEventListener('click', fn, false);
   },
   _update(item, e, force) {
     const origin = this.origin;

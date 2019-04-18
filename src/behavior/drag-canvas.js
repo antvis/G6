@@ -1,6 +1,7 @@
 const Util = require('../util');
 const abs = Math.abs;
 const DRAG_OFFSET = 10;
+const body = document.body;
 
 module.exports = {
   getDefaultCfg() {
@@ -13,7 +14,8 @@ module.exports = {
       'canvas:mousedown': 'onMouseDown',
       'canvas:mousemove': 'onMouseMove',
       'canvas:mouseup': 'onMouseUp',
-      'canvas:click': 'onClick'
+      'canvas:click': 'onClick',
+      'canvas:mouseleave': 'onOutOfRange'
     };
   },
   updateViewport(e) {
@@ -81,5 +83,16 @@ module.exports = {
   onClick() {
     this.origin = null;
     this.dragging = false;
+  },
+  onOutOfRange(e) {
+    const self = this;
+    const canvasElement = self.graph.get('canvas').get('el');
+    const fn = ev => {
+      body.removeEventListener('click', fn, false);
+      if (ev.target !== canvasElement) {
+        self.onMouseUp(e);
+      }
+    };
+    body.addEventListener('click', fn, false);
   }
 };
