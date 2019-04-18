@@ -7,15 +7,12 @@ const G = require('@antv/g/lib');
 const EventEmitter = G.EventEmitter;
 const Util = require('../util');
 const Global = require('../global');
+const { htmlSizeMeasure, textSizeMeasure } = require('../util/sizeMeasure');
 
 const Controller = require('./controller');
 const NODE = 'node';
 const EDGE = 'edge';
-const effectSizeAttrs = {
-  fontSize: 'font-size',
-  fontWeight: 'font-weight',
-  fontFamily: 'font-family'
-};
+
 
 class Graph extends EventEmitter {
   /**
@@ -194,52 +191,28 @@ class Graph extends EventEmitter {
     const modeController = new Controller.Mode(this);
     const itemController = new Controller.Item(this);
     this.set({ eventController, viewController, modeController, itemController });
-    this._initMeasureGroupForHtmlLabel();
     this._initPlugins();
   }
 
-  _initMeasureGroupForHtmlLabel() {
-    if (this.get('renderer') === 'svg') {
-      const canvas = this.get('canvas');
-      const canvasDom = canvas._cfg.painter.canvas;
-      const foriegnObjectForTest = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
-      foriegnObjectForTest.style.boxSizing = 'padding-box';
-      const defs = canvasDom.getElementsByTagName('defs')[0];
-      canvasDom.insertBefore(foriegnObjectForTest, defs);
-      const htmlContainerForTest = Util.createDom('<div style="display:inline-block"></div>');
-      foriegnObjectForTest.appendChild(htmlContainerForTest);
-      this.set('htmlContainerForTest', htmlContainerForTest);
-      this.set('foriegnObjectForTest', foriegnObjectForTest);
-      foriegnObjectForTest.setAttribute('width', 1000);
-      foriegnObjectForTest.setAttribute('height', 1000);
-    }
+  /**
+   * 测算 html 元素的尺寸
+   * @param {HTMLElement|String} html html元素或者描述html元素的字符串
+   * @param {Object} attrs 元素样式
+   * @return {Array} html元素的宽高信息
+   */
+
+  testHtmlSize(html, attrs) {
+    return htmlSizeMeasure(html, attrs);
   }
 
-  testHtmlLabelSize(html, labelStyle) {
-    const htmlContainerForTest = this.get('htmlContainerForTest');
-    const foriegnObjectForTest = this.get('foriegnObjectForTest');
-    if (!htmlContainerForTest) {
-      throw new Error('the renderer must be svg');
-    }
-    if (typeof html === 'string') {
-      html = Util.createDom(html);
-    }
-    const hasAttr = [];
-    for (const attr in labelStyle) {
-      const fAttr = effectSizeAttrs[attr];
-      if (fAttr) {
-        hasAttr.push(attr);
-        foriegnObjectForTest.setAttribute(fAttr, labelStyle[attr]);
-      }
-    }
-    htmlContainerForTest.appendChild(html);
-    const bbox = htmlContainerForTest.getBoundingClientRect();
-    hasAttr.forEach(attr => {
-      foriegnObjectForTest.removeAttribute(attr);
-    });
-    htmlContainerForTest.removeChild(html);
-
-    return bbox;
+  /**
+   * 测算文本元素的尺寸
+   * @param {G.Text|String} string 文本字符串或文本对象
+   * @param {Object} attrs 文本样式
+   * @return {Size} 字符串在指定样式下的宽高信息
+   */
+  testPlainStringSize(string, attrs) {
+    return textSizeMeasure(string, attrs);
   }
 
   _initCanvas() {

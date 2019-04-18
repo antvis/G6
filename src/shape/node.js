@@ -50,10 +50,10 @@ const singleNodeDefinition = Util.mix({}, SingleShapeMixin, {
     return Util.mergeSize([], configSize, defaultSize);
   },
 
-  draw(cfg, group, graph) {
+  draw(cfg, group) {
     let label;
     if (cfg.label) {
-      label = this.createLabel(cfg, group, graph);
+      label = this.createLabel(cfg, group);
       label.set('className', this.itemType + CLS_LABEL_SUFFIX);
     }
     const shape = this.drawShape(cfg, group);
@@ -68,9 +68,17 @@ const singleNodeDefinition = Util.mix({}, SingleShapeMixin, {
   updateLabelSizeStyle(cfg, label, group, skipPositionCalculation) {
     const labelCfg = cfg.labelCfg || {};
     const labelStyle = this.getLabelStyle(cfg, labelCfg, group, skipPositionCalculation);
-    label.attr(labelStyle);
-    const textBBox = label.getBBox();
-    const labelSize = [ textBBox.width, textBBox.height ];
+    let width,
+      height;
+    if (label instanceof Text) {
+      label.attr(labelStyle);
+      ({ width, height } = label.getBBox());
+    } else if (label instanceof Dom) {
+      const labelDiv = Util.createDom(labelStyle.text);
+      [ width, height ] = Util.htmlSizeMeasure(labelDiv, labelStyle);
+      label.attr({ ...labelStyle, html: labelDiv, width, height });
+    }
+    const labelSize = [ width, height ];
     if (cfg.fitLabel && (this.getLabelPosition(cfg) === 'center')) {
       let padding = labelCfg.padding || 0;
       if (!Array.isArray(padding)) {
@@ -90,19 +98,14 @@ const singleNodeDefinition = Util.mix({}, SingleShapeMixin, {
     group.set('labelSize', labelSize);
   },
 
-  createLabel(cfg, group, graph) {
+  createLabel(cfg, group) {
     const labelCfg = cfg.labelCfg || {};
     cfg.labelCfg = labelCfg;
-    const labelStyle = this.getLabelStyle(cfg, labelCfg, group, true);
-    let label,
-      textBBox;
+    let label;
     if (labelCfg.type !== 'html') {
-      label = new Text({ attrs: labelStyle });
+      label = new Text();
     } else {
-      const labelDiv = Util.createDom(labelStyle.text);
-      textBBox = graph.testHtmlLabelSize(labelDiv, labelStyle);
-      const { width, height } = textBBox;
-      label = new Dom({ attrs: { ...labelStyle, html: labelDiv, width, height } });
+      label = new Dom();
     }
 
     this.updateLabelSizeStyle(cfg, label, group, true);
