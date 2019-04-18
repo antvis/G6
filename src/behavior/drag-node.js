@@ -1,6 +1,7 @@
 const { mix } = require('../util');
 const { delegateStyle } = require('../global');
 const body = document.body;
+let fn = null;
 
 module.exports = {
   getDefaultCfg() {
@@ -52,17 +53,22 @@ module.exports = {
     this._update(this.target, e, true);
     this.point = null;
     this.origin = null;
+    if (fn) {
+      body.removeEventListener('mouseup', fn, false);
+      fn = null;
+    }
   },
   onOutOfRange(e) {
     const self = this;
-    const canvasElement = self.graph.get('canvas').get('el');
-    const fn = ev => {
-      body.removeEventListener('click', fn, false);
-      if (ev.target !== canvasElement) {
-        self.onDragEnd(e);
-      }
-    };
-    body.addEventListener('click', fn, false);
+    if (this.origin) {
+      const canvasElement = self.graph.get('canvas').get('el');
+      fn = ev => {
+        if (ev.target !== canvasElement) {
+          self.onDragEnd(e);
+        }
+      };
+      body.addEventListener('mouseup', fn, false);
+    }
   },
   _update(item, e, force) {
     const origin = this.origin;
