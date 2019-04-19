@@ -49,8 +49,6 @@ module.exports = {
     const graph = this.graph;
     let data = this.onChange(item, isCollapsed);
     if (data) {
-      const autoPaint = graph.get('autoPaint');
-      graph.setAutoPaint(false);
       data = typeof data === 'boolean' ? graph.get('data') : data;
       if (graph.get('layout')) {
         data = graph.get('layout')(data);
@@ -91,7 +89,6 @@ module.exports = {
         });
         graph.paint();
       }
-      graph.setAutoPaint(autoPaint);
     } else {
       if (this.animate) {
         // 没有重布局，有动画的情况
