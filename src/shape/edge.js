@@ -9,8 +9,6 @@ const Util = require('../util/index');
 const Global = require('../global');
 const SingleShapeMixin = require('./single-shape-mixin');
 const CLS_SHAPE = 'edge-shape';
-const vec2 = Util.vec2;
-const DIFF_POINT_PERCENT = 0.01; // 计算切线使用
 
 // start,end 倒置，center 不变
 function revertAlign(labelPosition) {
@@ -93,7 +91,6 @@ const singleEdgeDefinition = Util.mix({}, SingleShapeMixin, {
     } else {
       pointPercent = 0.5;
     }
-    const point = pathShape.getPoint(pointPercent);
     const { refX, refY } = labelCfg; // 默认的偏移量
     // 如果两个节点重叠，线就变成了一个点，这时候label的位置，就是这个点 + 绝对偏移
     if (cfg.startPoint.x === cfg.endPoint.x && cfg.startPoint.y === cfg.endPoint.y) {
@@ -101,72 +98,23 @@ const singleEdgeDefinition = Util.mix({}, SingleShapeMixin, {
       style.y = cfg.endPoint.y + refY ? refY : 0;
       return style;
     }
-    let firstPoint;
-    let nextPoint;
-    if (pointPercent === 1) {
-      firstPoint = pathShape.getPoint(pointPercent - DIFF_POINT_PERCENT);
-      nextPoint = point;
-    } else {
-      firstPoint = point;
-      nextPoint = pathShape.getPoint(pointPercent + DIFF_POINT_PERCENT);
-    }
     const autoRotate = Util.isNil(labelCfg.autoRotate) ? this.labelAutoRotate : labelCfg.autoRotate;
-    const tangent = [];
-    vec2.normalize(tangent, [ nextPoint.x - firstPoint.x, nextPoint.y - firstPoint.y ]); // 求切线
-    if (refX || refY) { // 进行偏移时，求偏移向量
-      const offset = this._getOffset(refX, refY, tangent);
-      style.x = point.x + offset[0];
-      style.y = point.y + offset[1];
-    } else {
-      style.x = point.x;
-      style.y = point.y;
-    }
-    const angle = vec2.angleTo([ 1, 0 ], tangent);
-    const textAlign = this._getTextAlign(labelPosition, angle, autoRotate);
-    style.textAlign = textAlign;
-    if (autoRotate) {
-      style.rotate = this._getAutoRotate(labelPosition, textAlign, angle);
-    }
-
+    const offsetStyle = Util.getLabelPosition(pathShape, pointPercent, refX, refY, autoRotate);
+    style.x = offsetStyle.x;
+    style.y = offsetStyle.y;
+    style.rotate = offsetStyle.rotate;
+    style.textAlign = this._getTextAlign(labelPosition, offsetStyle.angle);
     return style;
-  },
-  // 根据相对偏移量
-  _getOffset(refX, refY, tangent) {
-    refX = refX || 0; // 用户没有两个偏移量都指定的时候，保证正确
-    refY = refY || 0;
-    const perpendicular = [ -tangent[1], tangent[0] ]; // (x,y) 顺时针方向的垂直线 (-y, x);
-    const out = []; // gl-matrix 的接口定义如果返回结果是 vector ， xxx(out, a, b); 所以必须事先定义返回量
-    const xVector = [];
-    const yVector = [];
-    vec2.scale(xVector, tangent, refX);
-    vec2.scale(yVector, perpendicular, refY);
-    vec2.add(out, xVector, yVector);
-    return out;
-  },
-  // 根据角度和对齐方式自动获取旋转角度
-  _getAutoRotate(labelPosition, textAlign, angle) {
-    let rotate = 0;
-    if (labelPosition === 'center') {
-      if (angle > 1 / 2 * Math.PI && angle < 3 * 1 / 2 * Math.PI) {
-        rotate = angle - Math.PI;
-      } else {
-        rotate = angle;
-      }
-    } else {
-      if (labelPosition === textAlign) {
-        rotate = angle;
-      } else {
-        rotate = angle - Math.PI;
-      }
-    }
-    return rotate;
   },
   // 获取文本对齐方式
   _getTextAlign(labelPosition, angle) {
     let textAlign = 'center';
+    if (!angle) {
+      return labelPosition;
+    }
     angle = angle % (Math.PI * 2); // 取模
     if (labelPosition !== 'center') {
-      if ((angle >= 0 && angle <= Math.PI / 2) || (angle > 3 / 2 * Math.PI && angle < 2 * Math.PI)) {
+      if ((angle >= 0 && angle <= Math.PI / 2) || (angle >= 3 / 2 * Math.PI && angle < 2 * Math.PI)) {
         textAlign = labelPosition;
       } else {
         textAlign = revertAlign(labelPosition);
