@@ -781,7 +781,7 @@ class Graph extends EventEmitter {
 
   /**
    * 显示元素
-   * @param {string|obect} item 指定元素
+   * @param {string|object} item 指定元素
    */
   showItem(item) {
     this.get('itemController').changeItemVisibility(item, true);
@@ -789,7 +789,7 @@ class Graph extends EventEmitter {
 
   /**
    * 隐藏元素
-   * @param {string|obect} item 指定元素
+   * @param {string|object} item 指定元素
    */
   hideItem(item) {
     this.get('itemController').changeItemVisibility(item, false);

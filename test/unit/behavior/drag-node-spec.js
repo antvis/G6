@@ -129,10 +129,10 @@ describe('drag-node', () => {
     graph.emit('node:drag', { x: 120, y: 120, item: target });
     graph.emit('node:dragend', { x: 80, y: 120, item: target });
     matrix = label.getMatrix();
-    expect(matrix[0]).to.equal(0.6484664555997872);
-    expect(matrix[1]).to.equal(0.7612432304867146);
-    expect(matrix[3]).to.equal(-0.7612432304867146);
-    expect(matrix[4]).to.equal(0.6484664555997872);
+    expect(matrix[0]).to.equal(0.6484664555994457);
+    expect(matrix[1]).to.equal(0.7612432304870055);
+    expect(matrix[3]).to.equal(-0.7612432304870055);
+    expect(matrix[4]).to.equal(0.6484664555994457);
   });
   it('prevent default', () => {
     const graph = new G6.Graph({
