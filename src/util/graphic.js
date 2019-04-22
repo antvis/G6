@@ -6,9 +6,13 @@
 const MathUtil = require('./math');
 const BaseUtil = require('./base');
 const Global = require('../global');
+const PI = Math.PI;
+const sin = Math.sin;
+const cos = Math.cos;
 // 一共支持8个方向的自环，每个环占的角度是45度，在计算时再二分，为22.5度
-const SELF_LINK_SIN = Math.sin(Math.PI / 8);
-const SELF_LINK_COS = Math.cos(Math.PI / 8);
+const SELF_LINK_SIN = sin(PI / 8);
+const SELF_LINK_COS = cos(PI / 8);
+
 
 function traverse(data, fn) {
   if (fn(data) === false) {
@@ -167,18 +171,77 @@ const GraphicUtil = {
         min.y = node.y;
       }
     });
-    const avgRad = Math.PI * 2 / count;
+    const avgRad = PI * 2 / count;
     const radDiff = max[radScale] - min[radScale];
     if (radDiff === 0) {
       return data;
     }
     this.traverseTree(data, node => {
-      const radial = (node[radScale] - min[radScale]) / radDiff * (Math.PI * 2 - avgRad) + avgRad;
+      const radial = (node[radScale] - min[radScale]) / radDiff * (PI * 2 - avgRad) + avgRad;
       const r = node[rScale];
       node.x = r * Math.cos(radial);
       node.y = r * Math.sin(radial);
     });
     return data;
+  },
+  /**
+   * 根据 label 所在线条的位置百分比，计算 label 坐标
+   * @param {object}  pathShape  G 的 path 实例，一般是 Edge 实例的 keyShape
+   * @param {number}  percent    范围 0 - 1 的线条百分比
+   * @param {number}  refX     x 轴正方向为基准的 label 偏移
+   * @param {number}  refY     y 轴正方向为基准的 label 偏移
+   * @param {boolean} rotate     是否根据线条斜率旋转文本
+   * @return {object} 文本的 x, y, 文本的旋转角度
+   */
+  getLabelPosition(pathShape, percent, refX, refY, rotate) {
+    const TAN_OFFSET = 0.0001;
+    let vector = [];
+    const point = pathShape.getPoint(percent);
+    // 头尾最可能，放在最前面，使用 g path 上封装的方法
+    if (percent < TAN_OFFSET) {
+      vector = pathShape.getStartTangent().reverse();
+    } else if (percent > (1 - TAN_OFFSET)) {
+      vector = pathShape.getEndTangent();
+    } else {
+      // 否则取指定位置的点,与少量偏移的点，做微分向量
+      const offsetPoint = pathShape.getPoint(percent + TAN_OFFSET);
+      vector.push([ point.x, point.y ]);
+      vector.push([ offsetPoint.x, offsetPoint.y ]);
+    }
+    let rad = Math.atan2(vector[1][1] - vector[0][1], vector[1][0] - vector[0][0]);
+    if (rad < 0) {
+      rad += PI * 2;
+    }
+    if (refX) {
+      point.x += cos(rad) * refX;
+      point.y += sin(rad) * refX;
+    }
+    if (refY) {
+      // 默认方向是 x 轴正方向，法线是 求出角度 - 90°
+      let normal = rad - PI / 2;
+      // 若法线角度在 y 轴负方向，切到正方向，保证 refY 相对于 y 轴正方向
+      if (rad > 1 / 2 * PI && rad < 3 * 1 / 2 * PI) {
+        normal -= PI;
+      }
+      point.x += cos(normal) * refY;
+      point.y += sin(normal) * refY;
+    }
+    // 需要原始的旋转角度计算 textAlign
+    const result = {
+      x: point.x,
+      y: point.y,
+      angle: rad
+    };
+    if (rotate) {
+      if (rad > 1 / 2 * PI && rad < 3 * 1 / 2 * PI) {
+        rad -= PI;
+      }
+      return {
+        rotate: rad,
+        ...result
+      };
+    }
+    return result;
   }
 };
 
