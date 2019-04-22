@@ -27,27 +27,11 @@
       const points = keyShape.getStartTangent();
       const angle = Math.atan((points[1][1] - points[0][1]) / (points[1][0] - points[0][0]));
       const shapeContainer = group.addGroup();
-      shapeContainer.transform([
+      /*shapeContainer.transform([
         ['t', -center.x, -center.y],
         ['r', angle],
         ['t', center.x, center.y]
-      ]);
-      shapeContainer.addShape('text', {
-        attrs: {
-          text: cfg.sourceEntity,
-          x: center.x - 50,
-          y: center.y,
-          fill: '#666'
-        }
-      });
-      shapeContainer.addShape('text', {
-        attrs: {
-          text: cfg.targetEntity,
-          x: center.x + 50,
-          y: center.y,
-          fill: '#666'
-        }
-      });
+      ]);*/
       shapeContainer.addShape('path', {
         attrs: {
           path: [
@@ -69,6 +53,26 @@
           textAlign: 'center',
           textBaseline: 'middle',
           fill: '#666'
+        }
+      });
+      let point = G6.Util.getLabelPosition(keyShape, 0, 10, 10, true);
+      group.addShape('text', {
+        attrs: {
+          text: cfg.sourceEntity,
+          x: point.x,
+          y: point.y,
+          rotate: point.rotate,
+          fill: '#666'
+        }
+      });
+      point = G6.Util.getLabelPosition(keyShape, 1, -15, 10, true);
+      group.addShape('text', {
+        attrs: {
+          text: cfg.targetEntity,
+          x: point.x,
+          y: point.y,
+          fill: '#666',
+          rotate: point.rotate
         }
       });
       return keyShape;
