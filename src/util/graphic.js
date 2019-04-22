@@ -6,11 +6,12 @@
 const MathUtil = require('./math');
 const BaseUtil = require('./base');
 const Global = require('../global');
+const PI = Math.PI;
 const sin = Math.sin;
 const cos = Math.cos;
 // 一共支持8个方向的自环，每个环占的角度是45度，在计算时再二分，为22.5度
-const SELF_LINK_SIN = sin(Math.PI / 8);
-const SELF_LINK_COS = cos(Math.PI / 8);
+const SELF_LINK_SIN = sin(PI / 8);
+const SELF_LINK_COS = cos(PI / 8);
 
 
 function traverse(data, fn) {
@@ -170,13 +171,13 @@ const GraphicUtil = {
         min.y = node.y;
       }
     });
-    const avgRad = Math.PI * 2 / count;
+    const avgRad = PI * 2 / count;
     const radDiff = max[radScale] - min[radScale];
     if (radDiff === 0) {
       return data;
     }
     this.traverseTree(data, node => {
-      const radial = (node[radScale] - min[radScale]) / radDiff * (Math.PI * 2 - avgRad) + avgRad;
+      const radial = (node[radScale] - min[radScale]) / radDiff * (PI * 2 - avgRad) + avgRad;
       const r = node[rScale];
       node.x = r * Math.cos(radial);
       node.y = r * Math.sin(radial);
@@ -209,7 +210,7 @@ const GraphicUtil = {
     }
     let rad = Math.atan2(vector[1][1] - vector[0][1], vector[1][0] - vector[0][0]);
     if (rad < 0) {
-      rad += Math.PI * 2;
+      rad += PI * 2;
     }
     if (refX) {
       point.x += cos(rad) * refX;
@@ -217,10 +218,10 @@ const GraphicUtil = {
     }
     if (refY) {
       // 默认方向是 x 轴正方向，法线是 求出角度 - 90°
-      let normal = rad - Math.PI / 2;
+      let normal = rad - PI / 2;
       // 若法线角度在 y 轴负方向，切到正方向，保证 refY 相对于 y 轴正方向
-      if (rad > 1 / 2 * Math.PI && rad < 3 * 1 / 2 * Math.PI) {
-        normal -= Math.PI;
+      if (rad > 1 / 2 * PI && rad < 3 * 1 / 2 * PI) {
+        normal -= PI;
       }
       point.x += cos(normal) * refY;
       point.y += sin(normal) * refY;
@@ -232,8 +233,8 @@ const GraphicUtil = {
       angle: rad
     };
     if (rotate) {
-      if (rad > 1 / 2 * Math.PI && rad < 3 * 1 / 2 * Math.PI) {
-        rad -= Math.PI;
+      if (rad > 1 / 2 * PI && rad < 3 * 1 / 2 * PI) {
+        rad -= PI;
       }
       return {
         rotate: rad,
