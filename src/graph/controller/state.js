@@ -60,8 +60,10 @@ class State {
         states[key] = val;
       } else {
         const map = {};
-        states[key].forEach(node => {
-          map[node.get('id')] = true;
+        states[key].forEach(item => {
+          if (!item.destroyed) {
+            map[item.get('id')] = true;
+          }
         });
         val.forEach(item => {
           const id = item.get('id');
