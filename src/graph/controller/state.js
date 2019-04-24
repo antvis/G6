@@ -11,11 +11,15 @@ class State {
     };
   }
   updateState(item, state, enabled) {
+    if (item.destroyed) {
+      return;
+    }
     const self = this;
     const cachedStates = self.cachedStates;
     const enabledStates = cachedStates.enabled;
     const disabledStates = cachedStates.disabled;
     if (enabled) {
+      self._checkCache(item, state, disabledStates);
       self._checkCache(item, state, disabledStates);
       self._cacheState(item, state, enabledStates);
     } else {
@@ -51,7 +55,7 @@ class State {
     Util.each(cachedStates.disabled, (val, key) => {
       if (states[key]) {
         states[key] = states[key].filter(item => {
-          return val.indexOf(item) < 0;
+          return val.indexOf(item) < 0 && !val.destroyed;
         });
       }
     });
@@ -60,12 +64,14 @@ class State {
         states[key] = val;
       } else {
         const map = {};
-        states[key].forEach(node => {
-          map[node.get('id')] = true;
+        states[key].forEach(item => {
+          if (!item.destroyed) {
+            map[item.get('id')] = true;
+          }
         });
         val.forEach(item => {
           const id = item.get('id');
-          if (!map[id]) {
+          if (!map[id] && !item.destroyed) {
             map[id] = true;
             states[key].push(item);
           }
