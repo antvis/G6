@@ -60,7 +60,7 @@ class ItemController {
     graph.get(type + 's').push(item);
     graph.get('itemMap')[item.get('id')] = item;
     graph.autoPaint();
-    graph.emit('aftereadditem', { type, model });
+    graph.emit('aftereadditem', { type, model, item });
     return item;
   }
   updateItem(item, cfg) {

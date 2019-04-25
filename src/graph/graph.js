@@ -401,6 +401,7 @@ class Graph extends EventEmitter {
     Util.each(data.edges, edge => {
       self.add(EDGE, edge);
     });
+    this.emit('afteradditems');
     if (self.get('fitView')) {
       self.get('viewController')._fitView();
     }

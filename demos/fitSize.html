@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<style>
+  .g6-tooltip {
+    border: 1px solid #e2e2e2;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #545454;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 10px 8px;
+    box-shadow: rgb(174, 174, 174) 0px 0px 10px;
+  }
+
+  .gNode {
+    box-sizing: border-box;
+    text-align: center;
+    margin: 10px;
+  }
+
+  .monitorIndicator .title {
+    background: rgb(174, 54, 45);
+  }
+
+  .monitorIndicator .content {
+    border: 1px solid rgb(174, 54, 45);
+  }
+
+  .dataIndicator .title {
+    background: rgb(93, 127, 172);
+  }
+
+  .dataIndicator .content {
+    border: 1px solid rgb(93, 127, 172);
+  }
+
+  .thinking::after {
+    content: '';
+    display: inline-block;
+    height: 2px;
+    background: rgb(255, 217, 0);
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+  }
+</style>
+
+<body>
+  <div id="mountNode"></div>
+  <script src="../build/g6.js"></script>
+  <script src="../build/fitSize.js"></script>
+  <script src="./assets/dagre.js"></script>
+
+  <script>
+    const edgeStyle = {
+      endArrow: true,
+      lineWidth: 2,
+      stroke: 'rgb(76,122,187)'
+    };
+    const edgeShape = 'polyline';
+    const data = {
+      nodes: [
+        {
+          id: 1,
+          title: '全站毛利率',
+          shape: 'dom',
+          content: '近一日全站毛利率',
+          style: {
+            fontSize: 20
+          },
+          value: '-21.08%',
+          html: G6.Util.createDom(`<div class="gNode monitorIndicator">
+                                    <div class="title">${'全站毛利率'}</div>
+                                    <div class="content">
+                                      <span>
+                                        <span>${'近一日全站毛利率'}</span>
+                                        <i></i>
+                                      </span>
+                                      <span>
+                                        ${'-21.08%'}
+                                      </span>
+                                    </div>
+                                  </div>`)
+        },
+        {
+          id: 2,
+          title: '渠道分析',
+          shape: 'thinking',
+        },
+        {
+          id: 3,
+          title: '主站毛利率',
+          shape: 'dataIndicator',
+          content: '近一日主站毛利率',
+          value: '-18.09%'
+        },
+        {
+          id: 4,
+          title: '分销毛利率',
+          shape: 'dataIndicator',
+          content: '近一日分销毛利率',
+          value: '-18.09%'
+        },
+        {
+          id: 5,
+          title: 'KKKK',
+          shape: 'rect',
+          label: '近一日分销毛利率: 23%',
+        },
+      ],
+      edges: [
+        {
+          source: 1,
+          target: 2,
+          style: edgeStyle,
+          shape: edgeShape
+        },
+        {
+          source: 2,
+          target: 3,
+          style: edgeStyle,
+          shape: edgeShape
+        },
+        {
+          source: 2,
+          target: 4,
+          style: edgeStyle,
+          shape: edgeShape
+        },
+        {
+          source: 4,
+          target: 5,
+          style: edgeStyle,
+          shape: edgeShape
+        },
+      ]
+    };
+    const labelStyle = {
+      style: {
+        // fill: '#fff',
+        fontSize: 14,
+        fontWeight: 'bold'
+      }
+    };
+
+
+    G6.registerNode('monitorIndicator', {
+      drawShape(cfg, group) {
+        const rect = group.addShape('dom', {
+          attrs: {
+            // x: -75,
+            // y: -25,
+            // width: 150,
+            // height: 50,
+            // radius: 10,
+            html: G6.Util.createDom(`<div class="gNode monitorIndicator">
+                                    <div class="title">${cfg.title}</div>
+                                    <div class="content">
+                                      <span>
+                                        <span>${cfg.content}</span>
+                                        <i></i>
+                                      </span>
+                                      <span>
+                                        ${cfg.value}
+                                      </span>
+                                    </div>
+                                  </div>`)
+          }
+        });
+        return rect;
+      }
+    }, 'dom');
+
+    G6.registerNode('dataIndicator', {
+      drawShape(cfg, group) {
+        const size = cfg.size || [150, 50];
+        const width = size[0];
+        const height = size[1];
+        const x = -width / 2;
+        const y = -height / 2;
+        const rect = group.addShape('dom', {
+          attrs: {
+            // x,
+            // y,
+            // width,
+            // height,
+            html: G6.Util.createDom(`
+                  <div class="gNode dataIndicator">
+                    <div class="title">${cfg.title}</div>
+                    ${cfg.content ?
+                `<div class="content">
+                                      <span>
+                                        <span>${cfg.content}</span>
+                                        <i></i>
+                                      </span>
+                                      <span>
+                                        ${cfg.value}
+                                      </span>
+                                    </div>
+                      ` : ''}
+                  </div>`)
+          }
+        });
+        return rect;
+      }
+    }, 'dom');
+
+    G6.registerNode('thinking', {
+      drawShape(cfg, group) {
+        const size = cfg.size || [150, 50];
+        const width = size[0];
+        const height = size[1];
+        const x = -width / 2;
+        const y = -height / 2;
+        const rect = group.addShape('dom', {
+          attrs: {
+            // x,
+            // y,
+            // width,
+            // height,
+            html: G6.Util.createDom(`<div class="gNode thinking">${cfg.title}</div>`)
+          }
+        });
+        return rect;
+      }
+    }, 'dom');
+
+    G6.Global.nodeStateStyle.selected = {
+      stroke: '#d9d9d9',
+      fill: '#5394ef'
+    };
+
+    const g = new dagre.graphlib.Graph();
+    g.setDefaultEdgeLabel(function () { return {}; });
+    g.setGraph({ rankdir: 'LR' });
+
+    const fitSize = new FitSize();
+
+    const graph = new G6.Graph({
+      container: 'mountNode',
+      width: 900,
+      height: 700,
+      pixelRatio: 2,
+      plugins: [fitSize],
+      renderer: 'svg',
+      modes: {
+        default: ['drag-canvas', 'zoom-canvas', 'click-select', {
+          type: 'tooltip',
+          formatText(model) {
+            return model.title;
+          },
+        }]
+      },
+      // fitView: true
+    });
+
+    data.nodes.forEach(node => {
+      node.id += '';
+    });
+    data.edges.forEach(edge => {
+      edge.source += '';
+      edge.target += '';
+    });
+
+    graph.on('afteradditems', e => {
+      const nodes = graph.get('nodes');
+      const edges = graph.get('edges');
+      nodes.forEach(node => {
+        const [width, height] = node.get('model').size;
+        const id = node.get('id');
+        g.setNode(id, { width, height });
+      });
+      edges.forEach(edge => {
+        const model = edge.get('model');
+        const { source, target } = model;
+        g.setEdge(source, target);
+      });
+      dagre.layout(g);
+      let coord;
+      g.nodes().forEach((node, i) => {
+        coord = g.node(node);
+        nodes[i].update({ x: coord.x, y: coord.y });
+      });
+      g.edges().forEach((edge, i) => {
+        coord = g.edge(edge);
+        edges[i].update({
+          startPoint: coord.points[0],
+          endPoint: coord.points[coord.points.length - 1],
+          controlPoints: coord.points.slice(1, coord.points.length - 1)
+        });
+      });
+    })
+    graph.data(data);
+    graph.render();
+  </script>
+</body>
+
+</html>
