@@ -184,9 +184,11 @@ class Minimap extends Base {
     this._getGraphEdgeKeyShape(group);
     // 节点需要group配合keyShape
     each(nodes, node => {
-      const parent = group.addGroup();
-      parent.setMatrix(node.get('group').attr('matrix'));
-      parent.add(node.get('keyShape').clone());
+      if (node.isVisible()) {
+        const parent = group.addGroup();
+        parent.setMatrix(node.get('group').attr('matrix'));
+        parent.add(node.get('keyShape').clone());
+      }
     });
   }
   // 将主图上的图形完全复制到小图
@@ -207,22 +209,26 @@ class Minimap extends Base {
     group.clear();
     this._getGraphEdgeKeyShape(group);
     each(graph.getNodes(), node => {
-      const bbox = node.getBBox();
-      group.addShape('rect', {
-        attrs: {
-          x: bbox.minX,
-          y: bbox.minY,
-          width: bbox.width,
-          height: bbox.height,
-          ...delegateStyle
-        }
-      });
+      if (node.isVisible()) {
+        const bbox = node.getBBox();
+        group.addShape('rect', {
+          attrs: {
+            x: bbox.minX,
+            y: bbox.minY,
+            width: bbox.width,
+            height: bbox.height,
+            ...delegateStyle
+          }
+        });
+      }
     });
   }
   _getGraphEdgeKeyShape(group) {
     const graph = this.get('graph');
     each(graph.getEdges(), edge => {
-      group.add(edge.get('keyShape').clone());
+      if (edge.isVisible()) {
+        group.add(edge.get('keyShape').clone());
+      }
     });
   }
   // 绘制minimap视口
