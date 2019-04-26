@@ -56,7 +56,7 @@ G6.registerNode('tree-node', {
       }
     });
     const bbox = text.getBBox();
-    const hasChildren = cfg.data.children && cfg.data.children.length > 0;
+    const hasChildren = cfg.children && cfg.children.length > 0;
     if (hasChildren) {
       group.addShape('marker', {
         attrs: {
@@ -88,15 +88,12 @@ const graph = new G6.TreeGraph({
     default: [{
       type: 'collapse-expand',
       onChange(item, collapsed) {
-        const data = item.get('model').data;
         const icon = item.get('group').findByClassName('collapse-icon');
         if (collapsed) {
           icon.attr('symbol', EXPAND_ICON);
         } else {
           icon.attr('symbol', COLLAPSE_ICON);
         }
-        data.collapsed = collapsed;
-        return true;
       }
     }, 'drag-canvas', 'zoom-canvas']
   },
