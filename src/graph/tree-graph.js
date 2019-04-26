@@ -63,7 +63,6 @@ class TreeGraph extends Graph {
     const self = this;
     const model = data.data;
     // model 中应存储真实的数据，特别是真实的 children
-    // todo 考虑添加的动画
     model.x = data.x;
     model.y = data.y;
     const node = self.addItem('node', model);
