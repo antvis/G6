@@ -7,7 +7,6 @@ div.id = 'tree-spec';
 document.body.appendChild(div);
 
 describe('tree graph without animate', () => {
-  let count = 0;
   const graph = new G6.TreeGraph({
     container: div,
     width: 500,
@@ -18,7 +17,6 @@ describe('tree graph without animate', () => {
       default: [ 'drag-canvas' ]
     },
     layout: data => {
-      count++;
       return Hierarchy.dendrogram(data, {
         direction: 'LR', // H / V / LR / RL / TB / BT
         nodeSep: 50,
@@ -56,7 +54,6 @@ describe('tree graph without animate', () => {
     expect(edge.get('source')).to.equal(graph.findById('Root'));
     expect(edge.get('target')).to.equal(graph.findById('SubTreeNode1'));
     expect(graph.save()).to.equal(data);
-    expect(count).to.equal(1);
   });
   it('changeData', () => {
     const data = {
@@ -92,7 +89,6 @@ describe('tree graph without animate', () => {
     expect(edge).not.to.be.undefined;
     expect(edge.get('source')).to.equal(graph.findById('SubTreeNode4'));
     expect(edge.get('target')).to.equal(graph.findById('SubTreeNode4.1'));
-    expect(count).to.equal(2);
   });
   it('add child', () => {
     const parent = graph.findById('SubTreeNode3');
@@ -106,7 +102,6 @@ describe('tree graph without animate', () => {
     expect(graph.findById('SubTreeNode3:SubTreeNode3.1')).not.to.be.undefined;
     expect(graph.findById('SubTreeNode3.1.1')).not.to.be.undefined;
     expect(graph.findById('SubTreeNode3.1:SubTreeNode3.1.1')).not.to.be.undefined;
-    expect(count).to.equal(3);
   });
   it('remove child', () => {
     graph.removeChild('SubTreeNode3.1');
@@ -117,7 +112,6 @@ describe('tree graph without animate', () => {
     expect(graph.findById('SubTreeNode3:SubTreeNode3.1')).to.be.undefined;
     expect(graph.findById('SubTreeNode3.1.1')).to.be.undefined;
     expect(graph.findById('SubTreeNode3.1:SubTreeNode3.1.1')).to.be.undefined;
-    expect(count).to.equal(4);
   });
   it('collapse & expand with layout', done => {
     const parent = graph.findById('SubTreeNode1');
