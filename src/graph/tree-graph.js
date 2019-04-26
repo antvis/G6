@@ -73,9 +73,10 @@ class TreeGraph extends Graph {
         if (origin) {
           node.set('origin', origin);
         } else {
+          const parentModel = parent.getModel();
           node.set('origin', {
-            x: parent.getModel().x,
-            y: parent.getModel().y
+            x: parentModel.x,
+            y: parentModel.y
           });
         }
       }
