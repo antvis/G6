@@ -23,19 +23,9 @@ registerNode('dom', {
     return style;
   },
   drawShape(cfg, group) {
-    const size = cfg.size || [];
-    const width = size[0] == null ? 100 : size[0];
-    const height = size[1] == null ? 50 : size[1];
-    const x = -width / 2;
-    const y = -height / 2;
+    const style = this.getShapeStyle(cfg);
     const dom = group.addShape('dom', {
-      attrs: {
-        width,
-        height,
-        x,
-        y,
-        html: cfg.html
-      }
+      attrs: style
     });
     return dom;
   }
@@ -45,12 +35,12 @@ registerNode('dom', {
 class FitSize extends PluginBase {
   getEvents() {
     return {
-      aftereadditem: 'calculateNodeSize2'
+      aftereadditem: 'calculateNodeSize'
     };
   }
 
 
-  calculateNodeSize2({ type, model, item }) {
+  calculateNodeSize({ type, model, item }) {
     if (type === 'node') {
       const keyShape = item.getKeyShape();
       let size;
