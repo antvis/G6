@@ -51,7 +51,7 @@ class TreeGraph extends Graph {
     if (!Util.isString(parent)) {
       parent = parent.get('id');
     }
-    const parentData = self.findDataById(parent);
+    const parentData = self.findById(parent).getModel();
     if (!parentData.children) {
       parentData.children = [];
     }
@@ -99,15 +99,12 @@ class TreeGraph extends Graph {
    */
   changeData(data) {
     const self = this;
-    if (!self.get('data')) {
-      self.data(data);
-      self.render();
-      return;
-    }
     if (data) {
       self.data(data);
+      self.render();
+    } else {
+      self.refreshLayout();
     }
-    self.refreshLayout();
   }
   /**
    * 更新源数据，差量更新子树
@@ -176,14 +173,9 @@ class TreeGraph extends Graph {
         x: model.x,
         y: model.y
       });
-      current.update(data.data);
-    } else {
-      current.update(data.data);
-      // 直接 update 的话会覆盖 x, y，update 的时候认为位置没有变化。手动调一次更新位置。
-      current.updatePosition({
-        x: data.x,
-        y: data.y });
     }
+    model.x = data.x;
+    model.y = data.y;
   }
   /**
    * 删除子树
@@ -197,8 +189,8 @@ class TreeGraph extends Graph {
     }
     const parent = node.get('parent');
     if (parent && !parent.destroyed) {
-      const siblings = self.findDataById(parent.get('id')).children;
-      const index = indexOfChild(siblings, node.get('model'));
+      const siblings = parent.getModel().children;
+      const index = indexOfChild(siblings, node.getModel());
       siblings.splice(index, 1);
     }
     self.changeData();
@@ -210,7 +202,6 @@ class TreeGraph extends Graph {
     if (!node) {
       return;
     }
-
     Util.each(node.get('children'), child => {
       self._removeChild(child.getModel().id, to, animate);
     });
