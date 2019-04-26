@@ -8,6 +8,7 @@ const Item = require('./item');
 const CACHE_ANCHOR_POINTS = 'anchorPointsCache';
 
 function getNearestPoint(points, curPoint) {
+  let index = 0;
   let nearestPoint = points[0];
   let minDistance = pointDistance(points[0], curPoint);
   for (let i = 0; i < points.length; i++) {
@@ -16,8 +17,10 @@ function getNearestPoint(points, curPoint) {
     if (distance < minDistance) {
       nearestPoint = point;
       minDistance = distance;
+      index = i;
     }
   }
+  nearestPoint.anchorIndex = index;
   return nearestPoint;
 }
 
