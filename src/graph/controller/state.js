@@ -20,7 +20,6 @@ class State {
     const disabledStates = cachedStates.disabled;
     if (enabled) {
       self._checkCache(item, state, disabledStates);
-      self._checkCache(item, state, disabledStates);
       self._cacheState(item, state, enabledStates);
     } else {
       self._checkCache(item, state, enabledStates);
