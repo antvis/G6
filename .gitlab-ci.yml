@@ -1,0 +1,18 @@
+# 不要修改该文件, 会自动生成, 详见 http://gitlab.alibaba-inc.com/node/ci
+# 不要使用 ci 生成，直接按照 gitlab 文档自己写吧！
+before_script:
+  - export PATH=$PWD/node_modules/.bin:$PWD/.node/bin:$PATH
+  - time enclose install tnpm:tnpm
+  - tnpm -v
+stages:
+  - test
+
+# job1
+test:
+  image: reg.docker.alibaba-inc.com/dockerlab/node-ci:3.2.0
+  stage: test
+  script:
+    - env -u CI tnpm i --silent --internal-oss-cache --install-node=10
+    - time tnpm run lint
+  tags:
+    - swarm

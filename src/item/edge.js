@@ -78,6 +78,9 @@ class Edge extends Item {
       }
       // 如果锚点没有对应的点或者没有锚点，则直接计算连接点
       point = point || item.getLinkPoint(prePoint);
+      if (!Util.isNil(point.index)) {
+        this.set(name + 'AnchorIndex', point.index);
+      }
     }
     return point;
   }
