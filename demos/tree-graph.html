@@ -49,17 +49,17 @@
     width: 500,
     height: 500,
     pixelRatio: 2,
+    renderer: 'svg',
     modes: {
-      default: [{
-        type: 'collapse-expand',
-        onChange(item, collapsed) {
-          const data = item.get('model').data;
-          data.collapsed = collapsed;
-          return true;
-        }
-      }, 'drag-canvas']
+      default: ['collapse-expand', 'drag-canvas']
     },
-    defaultNode: { size: 16 },
+    defaultNode: {
+      size: 16,
+      anchorPoints: [[0,0.5], [1,0.5]]
+    },
+    defaultEdge: {
+      shape: 'cubic-horizontal'
+    },
     nodeStyle: {
       default: {
         fill: '#40a9ff',
@@ -144,13 +144,6 @@
   };
   graph.data(data);
   graph.render();
-  graph.getNodes().forEach(node => {
-    node.get('model').anchorPoints = [[0,0.5], [1,0.5]];
-  });
-  graph.getEdges().forEach((edge) => {
-    edge.get('model').shape = 'cubic-horizontal';
-  });
-  graph.refresh();
   graph.fitView();
   document.getElementById('layout').addEventListener('change', (e) => {
     const layout = e.target.value;
