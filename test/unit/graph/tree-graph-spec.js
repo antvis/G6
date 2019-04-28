@@ -188,7 +188,7 @@ describe('tree graph with animate', () => {
     expect(edge.get('target')).to.equal(graph.findById('SubTreeNode1'));
     expect(graph.save()).to.equal(data);
     expect(JSON.stringify(data)).not.to.throw;
-    graph.on('layoutanimateend', () => { done(); });
+    graph.on('afteranimate', () => { done(); });
   });
   it('changeData', done => {
     graph.removeEvent();
@@ -217,7 +217,7 @@ describe('tree graph with animate', () => {
     };
     graph.changeData(data);
     expect(graph.save()).to.equal(data);
-    graph.on('layoutanimateend', () => {
+    graph.on('afteranimate', () => {
       expect(Object.keys(graph.get('itemMap')).length).to.equal(13);
       expect(graph.findById('SubTreeNode2')).to.be.undefined;
       expect(graph.findById('SubTreeNode3')).not.to.be.undefined;
@@ -234,7 +234,7 @@ describe('tree graph with animate', () => {
     const parent = graph.findById('SubTreeNode1');
     let child = graph.findById('SubTreeNode1.1');
     let collapsed = true;
-    graph.on('layoutanimateend', () => {
+    graph.on('afteranimate', () => {
       if (collapsed) {
         expect(parent.getModel().collapsed).to.be.true;
         expect(child.destroyed).to.be.true;
