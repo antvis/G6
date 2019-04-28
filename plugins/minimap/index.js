@@ -26,11 +26,24 @@ class Minimap extends Base {
       delegateStyle: {
         fill: '#40a9ff',
         stroke: '#096dd9'
-      }
+      },
+      refresh: true
     };
   }
   getEvents() {
-    return { beforepaint: 'updateCanvas' };
+    return {
+      beforepaint: 'updateCanvas',
+      beforeanimate: 'disableRefresh',
+      afteranimate: 'enableRefresh'
+    };
+  }
+  // 若是正在进行动画，不刷新缩略图
+  disableRefresh() {
+    this.set('refresh', false);
+  }
+  enableRefresh() {
+    this.set('refresh', true);
+    this.updateCanvas();
   }
   initContainer() {
     const self = this;
@@ -63,9 +76,6 @@ class Minimap extends Base {
     const cfgs = this._cfgs;
     const size = cfgs.size;
     const graph = cfgs.graph;
-    const pixelRatio = graph.get('pixelRatio') || graph.get('canvas').get('pixelRatio');
-    const widthRatio = graph.get('width') / size[0] * pixelRatio;
-    const heightRatio = graph.get('height') / size[1] * pixelRatio;
     const canvas = this.get('canvas');
     const containerDOM = canvas.get('containerDOM');
     const viewport = createDOM('<div class="' + cfgs.viewportClassName + '" style="position:absolute;left:0;top:0;box-sizing:border-box;border: 2px solid #1980ff"></div>');
@@ -77,6 +87,7 @@ class Minimap extends Base {
       width,          // 缓存viewport当前宽度
       height;         // 缓存viewport当前高度
     containerDOM.addEventListener('mousedown', e => {
+      cfgs.refresh = false;
       if (e.target !== viewport) {
         return;
       }
@@ -118,20 +129,26 @@ class Minimap extends Base {
         left: left + 'px',
         top: top + 'px'
       });
-      graph.translate(dx * widthRatio * pixelRatio, dy * heightRatio * pixelRatio);
+      const ratio = this.get('ratio');
+      graph.translate(dx / ratio, dy / ratio);
       x = e.clientX;
       y = e.clientY;
     }, false);
     containerDOM.addEventListener('mouseleave', () => {
       dragging = false;
+      cfgs.refresh = true;
     }, false);
     containerDOM.addEventListener('mouseup', () => {
       dragging = false;
+      cfgs.refresh = true;
     }, false);
     this.set('viewport', viewport);
     containerDOM.appendChild(viewport);
   }
   updateCanvas() {
+    if (!this.get('refresh')) {
+      return;
+    }
     const size = this.get('size');
     const graph = this.get('graph');
     const canvas = this.get('canvas');
@@ -254,7 +271,8 @@ class Minimap extends Base {
     if (height > size[1]) {
       height = size[1];
     }
-
+    // 缓存目前缩放比，在移动 minimap 视窗时就不用再计算大图的移动量
+    this.set('ratio', ratio);
     modifyCSS(viewport, {
       left: left > 0 ? left + 'px' : 0,
       top: top > 0 ? top + 'px' : 0,
