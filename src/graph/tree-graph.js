@@ -298,8 +298,10 @@ class TreeGraph extends Graph {
    */
   layoutAnimate(data, onFrame) {
     const self = this;
+    const autoPaint = this.get('autoPaint');
+    this.setAutoPaint(false);
     const animateCfg = this.get('animateCfg');
-    self.emit('layoutanimatestart', { data });
+    self.emit('beforeanimate', { data });
     // 如果边中没有指定锚点，但是本身有锚点控制，在动画过程中保持锚点不变
     self.getEdges().forEach(edge => {
       const model = edge.get('model');
@@ -348,7 +350,9 @@ class TreeGraph extends Graph {
       if (animateCfg.callback) {
         animateCfg.callback();
       }
-      self.emit('layoutanimateend', { data });
+      self.paint();
+      this.setAutoPaint(autoPaint);
+      self.emit('afteranimate', { data });
     }, animateCfg.delay);
   }
   /**
