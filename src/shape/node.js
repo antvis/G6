@@ -177,3 +177,25 @@ Shape.registerNode('image', {
   }
 }, 'single-shape');
 
+
+Shape.registerNode('dom', {
+  shapeType: 'dom',
+  getShapeStyle(cfg) {
+    const size = this.getSize(cfg);
+    const width = size[0];
+    const height = size[1];
+    const x = -width / 2;
+    const y = -height / 2;
+    const color = cfg.color || Global.defaultNode.color;
+    const style = Util.mix({}, {
+      x,
+      y,
+      width,
+      height,
+      stroke: color,
+      html: cfg.html
+    }, Global.defaultNode.style, cfg.style);
+    return style;
+  }
+}, 'single-shape');
+
