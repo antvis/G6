@@ -51,7 +51,7 @@ class TreeGraph extends Graph {
     if (!Util.isString(parent)) {
       parent = parent.get('id');
     }
-    const parentData = self.findById(parent).getModel();
+    const parentData = self.findDataById(parent);
     if (!parentData.children) {
       parentData.children = [];
     }
@@ -175,8 +175,8 @@ class TreeGraph extends Graph {
         y: model.y
       });
     }
-    model.x = data.x;
-    model.y = data.y;
+    current.set('model', data.data);
+    current.updatePosition({ x: data.x, y: data.y });
   }
   /**
    * 删除子树
@@ -190,7 +190,7 @@ class TreeGraph extends Graph {
     }
     const parent = node.get('parent');
     if (parent && !parent.destroyed) {
-      const siblings = parent.getModel().children;
+      const siblings = self.findDataById(parent.get('id')).children;
       const index = indexOfChild(siblings, node.getModel());
       siblings.splice(index, 1);
     }
@@ -279,7 +279,7 @@ class TreeGraph extends Graph {
     self._updateChild(layoutData, null, animate);
     if (!animate) {
       // 如果没有动画，目前仅更新了节点的位置，刷新一下边的样式
-      self.refreshPositions();
+      self.refresh();
       self.paint();
     } else {
       self.layoutAnimate(layoutData, null);
@@ -298,7 +298,6 @@ class TreeGraph extends Graph {
    */
   layoutAnimate(data, onFrame) {
     const self = this;
-    const autoPaint = this.get('autoPaint');
     this.setAutoPaint(false);
     const animateCfg = this.get('animateCfg');
     self.emit('beforeanimate', { data });
@@ -351,7 +350,7 @@ class TreeGraph extends Graph {
         animateCfg.callback();
       }
       self.paint();
-      this.setAutoPaint(autoPaint);
+      this.setAutoPaint(true);
       self.emit('afteranimate', { data });
     }, animateCfg.delay);
   }
