@@ -14,17 +14,19 @@ module.exports = {
   },
   onNodeClick(e) {
     const item = e.item;
-    const model = item.getModel();
-    const children = model.children;
+    // 如果节点进行过更新，model 会进行 merge，直接改 model 就不能改布局，所以需要去改源数据
+    const sourceData = this.graph.findDataById(item.get('id'));
+    const children = sourceData.children;
     // 叶子节点的收缩和展开没有意义
     if (!children || children.length === 0) {
       return;
     }
-    const collapsed = !model.collapsed;
+    const collapsed = !sourceData.collapsed;
     if (!this.shouldBegin(e, collapsed)) {
       return;
     }
-    model.collapsed = collapsed;
+    sourceData.collapsed = collapsed;
+    item.getModel().collapsed = collapsed;
     this.graph.emit('itemcollapsed', { item: e.item, collapsed });
     if (!this.shouldUpdate(e, collapsed)) {
       return;
