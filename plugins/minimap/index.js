@@ -26,11 +26,24 @@ class Minimap extends Base {
       delegateStyle: {
         fill: '#40a9ff',
         stroke: '#096dd9'
-      }
+      },
+      refresh: true
     };
   }
   getEvents() {
-    return { beforepaint: 'updateCanvas' };
+    return {
+      beforepaint: 'updateCanvas',
+      beforeanimate: 'disableRefresh',
+      afteranimate: 'enableRefresh'
+    };
+  }
+  // 若是正在进行动画，不刷新缩略图
+  disableRefresh() {
+    this.set('refresh', false);
+  }
+  enableRefresh() {
+    this.set('refresh', true);
+    this.updateCanvas();
   }
   initContainer() {
     const self = this;
@@ -132,6 +145,9 @@ class Minimap extends Base {
     containerDOM.appendChild(viewport);
   }
   updateCanvas() {
+    if (!this.get('refresh')) {
+      return;
+    }
     const size = this.get('size');
     const graph = this.get('graph');
     const canvas = this.get('canvas');
