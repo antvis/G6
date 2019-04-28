@@ -28,6 +28,7 @@ class TreeGraph extends Graph {
     self.setAutoPaint(false);
     const rootData = self._refreshLayout(data);
     const root = self._addChild(rootData, null);
+    self.emit('afteradditems');
     self.set('root', root);
     self.paint();
     self.setAutoPaint(autoPaint);
@@ -53,17 +54,36 @@ class TreeGraph extends Graph {
   }
   // 计算好layout的数据添加到graph中
   _addChild(data, parent) {
+    const node = this._addNode(data, parent);
+    this.emit('afteraddnodes');// 一般节点大小及位置的调整可以在这个时刻
+    this._addEdge(data, parent);
+    this.emit('afteraddedges');
+    return node;
+  }
+
+  _addNode(data, parent) {
     const self = this;
     const node = self.addItem('node', data);
     if (parent) {
       node.set('parent', parent);
-      self.addItem('edge', { source: parent, target: node, id: parent.get('id') + ':' + node.get('id') });
     }
     Util.each(data.children, child => {
-      self._addChild(child, node);
+      self._addNode(child, node);
     });
     return node;
   }
+
+  _addEdge(data, parent) {
+    const self = this;
+    const node = this.get('itemMap')[data.id];
+    if (parent) {
+      self.addItem('edge', { source: parent, target: node, id: parent.get('id') + ':' + node.get('id') });
+    }
+    Util.each(data.children, sData => {
+      self._addEdge(sData, node);
+    });
+  }
+
   /**
    * 更新数据模型，差量更新并重新渲染
    * @param {object} data 数据模型
@@ -176,10 +196,11 @@ class TreeGraph extends Graph {
   _refreshLayout() {
     let root = this.get('data');
     const layout = this.get('layout');
-    if ((!layout) && (!(root.x && root.y))) {
-      console.warn('tree graph accepts either a layout method or calculated data');
-      return;
-    }
+    // 这里之所以注释掉，是考虑到用户可以通过插件的形式来设置 node 的宽高和x,y位置,并不一定需要在 layout 中或者原始数据中有x,y位置属性
+    // if ((!layout) && (!(root.x && root.y))) {
+    //   console.warn('tree graph accepts either a layout method or calculated data');
+    //   return;
+    // }
     if (layout) {
       root = layout(root);
     }

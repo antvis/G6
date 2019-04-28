@@ -398,9 +398,11 @@ class Graph extends EventEmitter {
     Util.each(data.nodes, node => {
       self.add(NODE, node);
     });
+    this.emit('afteraddnodes');// 一般节点大小及位置的调整可以在这个时刻
     Util.each(data.edges, edge => {
       self.add(EDGE, edge);
     });
+    this.emit('afteraddedges');
     this.emit('afteradditems');
     if (self.get('fitView')) {
       self.get('viewController')._fitView();
