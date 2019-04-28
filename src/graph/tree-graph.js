@@ -1,3 +1,4 @@
+const Hierarchy = require('@antv/hierarchy');
 const Util = require('../util');
 const Graph = require('./graph');
 
@@ -13,6 +14,18 @@ function indexOfChild(children, child) {
 }
 
 class TreeGraph extends Graph {
+  constructor(cfg) {
+    super(cfg);
+    // 用于缓存动画结束后需要删除的节点
+    this.set('removeList', []);
+    this.set('layoutMethod', this._getLayout());
+  }
+  getDefaultCfg() {
+    const cfg = super.getDefaultCfg();
+    // 树图默认打开动画
+    cfg.animate = true;
+    return cfg;
+  }
   /**
    * 根据data接口的数据渲染视图
    */
@@ -24,17 +37,11 @@ class TreeGraph extends Graph {
     }
     self.clear();
     self.emit('beforerender');
-    const autoPaint = self.get('autoPaint');
-    self.setAutoPaint(false);
-    const rootData = self._refreshLayout(data);
-    const root = self._addChild(rootData, null);
-    self.set('root', root);
-    self.paint();
-    self.setAutoPaint(autoPaint);
+    self.refreshLayout();
     self.emit('afterrender');
   }
   /**
-   * 添加子树
+   * 添加子树到对应 id 的节点
    * @param {object} data 子树数据模型
    * @param {string} parent 子树的父节点id
    */
@@ -49,18 +56,41 @@ class TreeGraph extends Graph {
       parentData.children = [];
     }
     parentData.children.push(data);
-    self.changeData(self.get('data'));
+    self.changeData();
   }
   // 计算好layout的数据添加到graph中
-  _addChild(data, parent) {
+  _addChild(data, parent, animate) {
     const self = this;
-    const node = self.addItem('node', data);
+    const model = data.data;
+    // model 中应存储真实的数据，特别是真实的 children
+    model.x = data.x;
+    model.y = data.y;
+    const node = self.addItem('node', model);
     if (parent) {
       node.set('parent', parent);
+      if (animate) {
+        const origin = parent.get('origin');
+        if (origin) {
+          node.set('origin', origin);
+        } else {
+          const parentModel = parent.getModel();
+          node.set('origin', {
+            x: parentModel.x,
+            y: parentModel.y
+          });
+        }
+      }
+      const childrenList = parent.get('children');
+      if (!childrenList) {
+        parent.set('children', [ node ]);
+      } else {
+        childrenList.push(node);
+      }
       self.addItem('edge', { source: parent, target: node, id: parent.get('id') + ':' + node.get('id') });
     }
+    // 渲染到视图上应参考布局的children, 避免多绘制了收起的节点
     Util.each(data.children, child => {
-      self._addChild(child, node);
+      self._addChild(child, node, animate);
     });
     return node;
   }
@@ -70,69 +100,83 @@ class TreeGraph extends Graph {
    */
   changeData(data) {
     const self = this;
-    if (!self.get('data')) {
-      self.data(data);
-      self.render();
-      return;
-    }
-    const autoPaint = this.get('autoPaint');
-    self.setAutoPaint(false);
     if (data) {
       self.data(data);
+      self.render();
+    } else {
+      self.refreshLayout();
     }
-    const root = self._refreshLayout();
-    self._updateChild(root, null);
-    self.paint();
-    self.setAutoPaint(autoPaint);
   }
   /**
-   * 差量更新子树
+   * 更新源数据，差量更新子树
    * @param {object} data 子树数据模型
    * @param {string} parent 子树的父节点id
    */
   updateChild(data, parent) {
     const self = this;
-    // 如果有父节点，则更新父节点下的子树
-    if (parent) {
-      parent = self.findDataById(parent).get('model');
-    }
     // 如果没有父节点，是全量的更新，直接重置data
     if (!parent) {
       self.changeData(data);
       return;
     }
+    const parentModel = self.findById(parent).getModel();
     const current = self.findById(data.id);
     // 如果不存在该节点，则添加
     if (!current) {
-      if (!parent.children) {
-        parent.children = [];
+      if (!parentModel.children) {
+        parentModel.children = [ current ];
+      } else {
+        parentModel.children.push(data);
       }
-      parent.children.push(data);
     } else {
-      const index = indexOfChild(parent.children, data);
+      const index = indexOfChild(parentModel.children, data);
       parent.children[index] = data;
     }
     self.changeData();
   }
-  _updateChild(data, parent) {
+
+  // 将数据上的变更转换到视图上
+  _updateChild(data, parent, animate) {
     const self = this;
     const current = self.findById(data.id);
+    // 若子树不存在，整体添加即可
     if (!current) {
-      self._addChild(data, parent);
+      self._addChild(data, parent, animate);
       return;
     }
     // 更新新节点下所有子节点
     Util.each(data.children, child => {
-      self._updateChild(child, current);
+      self._updateChild(child, current, animate);
     });
-    // 用现在节点的children来删除移除的子节点
-    Util.each(current.get('model').children, child => {
-      if (indexOfChild(data.children, child) === -1) {
-        self._removeChild(child.id);
+    // 用现在节点的children实例来删除移除的子节点
+    const children = current.get('children');
+    if (children) {
+      const len = children.length;
+      if (len > 0) {
+        let child;
+        for (let i = children.length - 1; i >= 0; i--) {
+          child = children[i].getModel();
+          if (indexOfChild(data.children, child) === -1) {
+            self._removeChild(child.id, {
+              x: data.x,
+              y: data.y
+            }, animate);
+            // 更新父节点下缓存的子节点 item 实例列表
+            children.splice(i, 1);
+          }
+        }
       }
-    });
-    // 最后更新节点本身
-    self.updateItem(current, data);
+    }
+    const model = current.getModel();
+    if (animate) {
+      // 如果有动画，先缓存节点运动再更新节点
+      current.set('origin', {
+        x: model.x,
+        y: model.y
+      });
+    }
+    current.set('model', data.data);
+    current.updatePosition({ x: data.x, y: data.y });
   }
   /**
    * 删除子树
@@ -147,23 +191,29 @@ class TreeGraph extends Graph {
     const parent = node.get('parent');
     if (parent && !parent.destroyed) {
       const siblings = self.findDataById(parent.get('id')).children;
-      const index = indexOfChild(siblings, node.get('model'));
+      const index = indexOfChild(siblings, node.getModel());
       siblings.splice(index, 1);
     }
-    self._removeChild(id);
     self.changeData();
   }
   // 删除子节点Item对象
-  _removeChild(id) {
+  _removeChild(id, to, animate) {
     const self = this;
     const node = self.findById(id);
     if (!node) {
       return;
     }
-    Util.each(node.get('model').children, child => {
-      self._removeChild(child.id);
+    Util.each(node.get('children'), child => {
+      self._removeChild(child.getModel().id, to, animate);
     });
-    self.removeItem(node);
+    if (animate) {
+      const model = node.getModel();
+      node.set('to', to);
+      node.set('origin', { x: model.x, y: model.y });
+      self.get('removeList').push(node);
+    } else {
+      self.removeItem(node);
+    }
   }
   /**
    * 导出图数据
@@ -171,19 +221,6 @@ class TreeGraph extends Graph {
    */
   save() {
     return this.get('data');
-  }
-  // 数据变更后，刷新图布局
-  _refreshLayout() {
-    let root = this.get('data');
-    const layout = this.get('layout');
-    if ((!layout) && (!(root.x && root.y))) {
-      console.warn('tree graph accepts either a layout method or calculated data');
-      return;
-    }
-    if (layout) {
-      root = layout(root);
-    }
-    return root;
   }
   /**
    * 根据id获取对应的源数据
@@ -218,16 +255,37 @@ class TreeGraph extends Graph {
    */
   changeLayout(layout) {
     const self = this;
-    self.set('layout', layout);
-    if (layout) {
-      const autoPaint = self.get('autoPaint');
-      self.setAutoPaint(false);
-      const root = self._refreshLayout();
-      self._updateChild(root, null);
-      self.fitView();
-      self.paint();
-      self.setAutoPaint(autoPaint);
+    if (!layout) {
+      console.warn('layout cannot be null');
+      return;
     }
+    self.set('layout', self._getLayout());
+    if (layout) {
+      self.refreshLayout();
+    }
+  }
+
+  /**
+   * 根据目前的 data 刷新布局，更新到画布上。用于变更数据之后刷新视图。
+   */
+  refreshLayout() {
+    const self = this;
+    const data = self.get('data');
+    const layoutData = self.get('layoutMethod')(data);
+    const animate = self.get('animate');
+    const autoPaint = self.get('autoPaint');
+    self.emit('beforerefreshlayout', { data, layoutData });
+    self.setAutoPaint(false);
+    self._updateChild(layoutData, null, animate);
+    if (!animate) {
+      // 如果没有动画，目前仅更新了节点的位置，刷新一下边的样式
+      self.refresh();
+      self.paint();
+    } else {
+      self.layoutAnimate(layoutData, null);
+    }
+    self.setAutoPaint(autoPaint);
+    self.emit('afterrefreshlayout', { data, layoutData });
   }
   /**
    * 布局动画接口，用于数据更新时做节点位置更新的动画
@@ -238,11 +296,18 @@ class TreeGraph extends Graph {
    * @param {function} callback 动画结束的回调
    * @param {number} delay 动画延迟执行(ms)
    */
-  layoutAnimate(data, onFrame, duration = 500, ease = 'easeLinear', callback, delay = 0) {
+  layoutAnimate(data, onFrame) {
     const self = this;
-    self.emit('layoutanimatestart', { data });
-    const autoPaint = self.get('autoPaint');
-    self.setAutoPaint(false);
+    this.setAutoPaint(false);
+    const animateCfg = this.get('animateCfg');
+    self.emit('beforeanimate', { data });
+    // 如果边中没有指定锚点，但是本身有锚点控制，在动画过程中保持锚点不变
+    self.getEdges().forEach(edge => {
+      const model = edge.get('model');
+      if (!model.sourceAnchor) {
+        model.sourceAnchor = edge.get('sourceAnchorIndex');
+      }
+    });
     this.get('canvas').animate({
       onFrame(ratio) {
         Util.traverseTree(data, child => {
@@ -252,8 +317,7 @@ class TreeGraph extends Graph {
           if (!origin) {
             origin = {
               x: model.x,
-              y: model.y,
-              style: model.style
+              y: model.y
             };
             node.set('origin', origin);
           }
@@ -261,22 +325,34 @@ class TreeGraph extends Graph {
             const attrs = onFrame(node, ratio, origin, data);
             node.set('model', Util.mix(model, attrs));
           } else {
-            model.x = origin.x + (data.x - origin.x) * ratio;
-            model.y = origin.y + (data.y - origin.y) * ratio;
+            model.x = origin.x + (child.x - origin.x) * ratio;
+            model.y = origin.y + (child.y - origin.y) * ratio;
           }
+        });
+        Util.each(self.get('removeList'), node => {
+          const model = node.getModel();
+          const from = node.get('origin');
+          const to = node.get('to');
+          model.x = from.x + (to.x - from.x) * ratio;
+          model.y = from.y + (to.y - from.y) * ratio;
         });
         self.refreshPositions();
       }
-    }, duration, ease, () => {
-      self.setAutoPaint(autoPaint);
-      self.emit('layoutanimateend', { data });
-      if (callback) {
-        callback();
-      }
-      Util.each(self.get('nodes'), node => {
+    }, animateCfg.duration, animateCfg.ease, () => {
+      Util.each(self.getNodes(), node => {
         node.set('origin', null);
       });
-    }, delay);
+      Util.each(self.get('removeList'), node => {
+        self.removeItem(node);
+      });
+      self.set('removeList', []);
+      if (animateCfg.callback) {
+        animateCfg.callback();
+      }
+      self.paint();
+      this.setAutoPaint(true);
+      self.emit('afteranimate', { data });
+    }, animateCfg.delay);
   }
   /**
    * 立即停止布局动画
@@ -293,6 +369,24 @@ class TreeGraph extends Graph {
    */
   isLayoutAnimating() {
     return this.layoutAnimating;
+  }
+  _getLayout() {
+    const layout = this.get('layout');
+    if (!layout) {
+      return null;
+    }
+    if (typeof layout === 'function') {
+      return layout;
+    }
+    if (!layout.type) {
+      layout.type = 'dendrogram';
+    }
+    if (!layout.direction) {
+      layout.direction = 'TB';
+    }
+    return function(data) {
+      return Hierarchy[layout.type](data, layout);
+    };
   }
 }
 
