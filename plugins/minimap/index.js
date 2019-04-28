@@ -271,6 +271,7 @@ class Minimap extends Base {
     if (height > size[1]) {
       height = size[1];
     }
+    // 缓存目前缩放比，在移动 minimap 视窗时就不用再计算大图的移动量
     this.set('ratio', ratio);
     modifyCSS(viewport, {
       left: left > 0 ? left + 'px' : 0,
