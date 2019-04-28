@@ -668,7 +668,7 @@ class Graph extends EventEmitter {
    */
   positionsAnimate() {
     const self = this;
-    self.emit('beforepositionanimate');
+    self.emit('beforeanimate');
     const animateCfg = self.get('animateCfg');
     const onFrame = animateCfg.onFrame;
     const nodes = self.getNodes();
@@ -714,10 +714,10 @@ class Graph extends EventEmitter {
       Util.each(nodes, node => {
         node.set('originAttrs', null);
       });
-      self.emit('afterpositionanimate');
       if (animateCfg.callback) {
         animateCfg.callback();
       }
+      self.emit('afteranimate');
       self.animating = false;
     });
   }
