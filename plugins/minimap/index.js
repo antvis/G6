@@ -34,7 +34,8 @@ class Minimap extends Base {
     return {
       beforepaint: 'updateCanvas',
       beforeanimate: 'disableRefresh',
-      afteranimate: 'enableRefresh'
+      afteranimate: 'enableRefresh',
+      viewportchange: 'disableOneRefresh'
     };
   }
   // 若是正在进行动画，不刷新缩略图
@@ -44,6 +45,9 @@ class Minimap extends Base {
   enableRefresh() {
     this.set('refresh', true);
     this.updateCanvas();
+  }
+  disableOneRefresh() {
+    this.set('viewportChange', true);
   }
   initContainer() {
     const self = this;
@@ -146,8 +150,14 @@ class Minimap extends Base {
     containerDOM.appendChild(viewport);
   }
   updateCanvas() {
+    // 如果是在动画，则不刷新视图
     if (!this.get('refresh')) {
       return;
+    }
+    // 如果是视口变换，也不刷新视图，但是需要重置视口大小和位置
+    if (this.get('viewportChange')) {
+      this.set('viewportChange', false);
+      this._updateViewport();
     }
     const size = this.get('size');
     const graph = this.get('graph');
@@ -184,7 +194,10 @@ class Minimap extends Base {
     canvas.translate(dx * pixelRatio, dy * pixelRatio);
     canvas.draw();
     // 更新minimap视口
-    this._updateViewport(ratio, dx + minX * ratio, dy + minY * ratio);
+    this.set('ratio', ratio);
+    this.set('dx', dx + minX * ratio);
+    this.set('dy', dy + minY * ratio);
+    this._updateViewport();
   }
   // 仅在minimap上绘制keyShape
   // FIXME 如果用户自定义绘制了其他内容，minimap上就无法画出
@@ -249,7 +262,10 @@ class Minimap extends Base {
     });
   }
   // 绘制minimap视口
-  _updateViewport(ratio, dx, dy) {
+  _updateViewport() {
+    const ratio = this.get('ratio');
+    const dx = this.get('dx');
+    const dy = this.get('dy');
     const graph = this.get('graph');
     const size = this.get('size');
     const graphWidth = graph.get('width');
