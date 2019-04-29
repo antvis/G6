@@ -31,7 +31,11 @@ module.exports = {
     if (!this.shouldUpdate(e, collapsed)) {
       return;
     }
-    this.onChange(item, collapsed);
+    try {
+      this.onChange(item, collapsed);
+    } catch (e) {
+      console.warn('You can access to source data via item.getModel() directly since 3.0.4', e);
+    }
     this.graph.refreshLayout();
   }
 };
