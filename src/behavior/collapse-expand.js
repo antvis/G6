@@ -34,7 +34,7 @@ module.exports = {
     try {
       this.onChange(item, collapsed);
     } catch (e) {
-      console.warn('You can access to source data via item.getModel() directly since 3.0.4', e);
+      console.warn('G6 自 3.0.4 版本支持直接从 item.getModel() 获取源数据(临时通知，将在之后版本清除)', e);
     }
     this.graph.refreshLayout();
   }
