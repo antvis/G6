@@ -31,7 +31,11 @@ module.exports = {
     if (!this.shouldUpdate(e, collapsed)) {
       return;
     }
-    this.onChange(item, collapsed);
+    try {
+      this.onChange(item, collapsed);
+    } catch (e) {
+      console.warn('G6 自 3.0.4 版本支持直接从 item.getModel() 获取源数据(临时通知，将在之后版本清除)', e);
+    }
     this.graph.refreshLayout();
   }
 };
