@@ -259,10 +259,9 @@ class TreeGraph extends Graph {
       console.warn('layout cannot be null');
       return;
     }
-    self.set('layout', self._getLayout());
-    if (layout) {
-      self.refreshLayout();
-    }
+    self.set('layout', layout);
+    self.set('layoutMethod', self._getLayout());
+    self.refreshLayout();
   }
 
   /**
@@ -277,6 +276,9 @@ class TreeGraph extends Graph {
     self.emit('beforerefreshlayout', { data, layoutData });
     self.setAutoPaint(false);
     self._updateChild(layoutData, null, animate);
+    if (self.get('fitView')) {
+      self.get('viewController')._fitView();
+    }
     if (!animate) {
       // 如果没有动画，目前仅更新了节点的位置，刷新一下边的样式
       self.refresh();
@@ -383,6 +385,13 @@ class TreeGraph extends Graph {
     }
     if (!layout.direction) {
       layout.direction = 'TB';
+    }
+    if (layout.radial) {
+      return function(data) {
+        const layoutData = Hierarchy[layout.type](data, layout);
+        // Util.radialLayout(layoutData);
+        return layoutData;
+      };
     }
     return function(data) {
       return Hierarchy[layout.type](data, layout);
