@@ -18,30 +18,28 @@
 <script>
   let currentLayout = 'dendrogram';
   const layouts = {
-    dendrogram: function(data) {
-      return Hierarchy.dendrogram(data, {
-        direction: 'LR', // H / V / LR / RL / TB / BT
-        nodeSep: 50,
-        rankSep: 100
-      })},
-    compactBox: function(data) {
-      return Hierarchy.compactBox(data, {
-        direction: 'LR',
-        getId(d) { return d.id; },
-        getHeight() { return 16 },
-        getWidth() { return 16 },
-        getVGap() { return 50 },
-        getHGap() { return 50 }
-      });
+    dendrogram: {
+      type: 'dendrogram',
+      direction: 'LR', // H / V / LR / RL / TB / BT
+      nodeSep: 50,
+      rankSep: 100,
+      radial: true
     },
-    mindmap: function(data) {
-      return Hierarchy.mindmap(data, {
-        direction: 'H',
-        getHeight() { return 16; },
-        getWidth() { return 16; },
-        getVGap() { return 50; },
-        getHGap() { return 50; }
-      });
+    compactBox: {
+      type: 'compactBox',
+      direction: 'LR',
+      getId(d) { return d.id; },
+      getHeight() { return 16 },
+      getWidth() { return 16 },
+      getVGap() { return 50 },
+      getHGap() { return 100 }
+    },
+    mindmap: {
+      type: 'mindmap',
+      direction: 'H',
+      getHeight() { return 16; },
+      getWidth() { return 16; },
+      getVGap() { return 50; },
     }
   };
   const graph = new G6.TreeGraph({
@@ -49,17 +47,17 @@
     width: 500,
     height: 500,
     pixelRatio: 2,
+    renderer: 'svg',
     modes: {
-      default: [{
-        type: 'collapse-expand',
-        onChange(item, collapsed) {
-          const data = item.get('model').data;
-          data.collapsed = collapsed;
-          return true;
-        }
-      }, 'drag-canvas']
+      default: ['collapse-expand', 'drag-canvas']
     },
-    defaultNode: { size: 16 },
+    defaultNode: {
+      size: 16,
+      anchorPoints: [[0,0.5], [1,0.5]]
+    },
+    defaultEdge: {
+      shape: 'cubic-horizontal'
+    },
     nodeStyle: {
       default: {
         fill: '#40a9ff',
@@ -71,6 +69,7 @@
         stroke: '#A3B1BF'
       }
     },
+    fitView: true,
     layout: layouts.dendrogram
   });
   const data = {
@@ -144,14 +143,6 @@
   };
   graph.data(data);
   graph.render();
-  graph.getNodes().forEach(node => {
-    node.get('model').anchorPoints = [[0,0.5], [1,0.5]];
-  });
-  graph.getEdges().forEach((edge) => {
-    edge.get('model').shape = 'cubic-horizontal';
-  });
-  graph.refresh();
-  graph.fitView();
   document.getElementById('layout').addEventListener('change', (e) => {
     const layout = e.target.value;
     if (currentLayout !== layout) {
