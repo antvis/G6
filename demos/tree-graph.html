@@ -18,30 +18,28 @@
 <script>
   let currentLayout = 'dendrogram';
   const layouts = {
-    dendrogram: function(data) {
-      return Hierarchy.dendrogram(data, {
-        direction: 'LR', // H / V / LR / RL / TB / BT
-        nodeSep: 50,
-        rankSep: 100
-      })},
-    compactBox: function(data) {
-      return Hierarchy.compactBox(data, {
-        direction: 'LR',
-        getId(d) { return d.id; },
-        getHeight() { return 16 },
-        getWidth() { return 16 },
-        getVGap() { return 50 },
-        getHGap() { return 50 }
-      });
+    dendrogram: {
+      type: 'dendrogram',
+      direction: 'LR', // H / V / LR / RL / TB / BT
+      nodeSep: 50,
+      rankSep: 100,
+      radial: true
     },
-    mindmap: function(data) {
-      return Hierarchy.mindmap(data, {
-        direction: 'H',
-        getHeight() { return 16; },
-        getWidth() { return 16; },
-        getVGap() { return 50; },
-        getHGap() { return 50; }
-      });
+    compactBox: {
+      type: 'compactBox',
+      direction: 'LR',
+      getId(d) { return d.id; },
+      getHeight() { return 16 },
+      getWidth() { return 16 },
+      getVGap() { return 50 },
+      getHGap() { return 100 }
+    },
+    mindmap: {
+      type: 'mindmap',
+      direction: 'H',
+      getHeight() { return 16; },
+      getWidth() { return 16; },
+      getVGap() { return 50; },
     }
   };
   const graph = new G6.TreeGraph({
@@ -71,6 +69,7 @@
         stroke: '#A3B1BF'
       }
     },
+    fitView: true,
     layout: layouts.dendrogram
   });
   const data = {
@@ -144,7 +143,6 @@
   };
   graph.data(data);
   graph.render();
-  graph.fitView();
   document.getElementById('layout').addEventListener('change', (e) => {
     const layout = e.target.value;
     if (currentLayout !== layout) {
