@@ -37,7 +37,7 @@ class TreeGraph extends Graph {
     }
     self.clear();
     self.emit('beforerender');
-    self.refreshLayout();
+    self.refreshLayout(this.get('fitView'));
     self.emit('afterrender');
   }
   /**
@@ -104,7 +104,7 @@ class TreeGraph extends Graph {
       self.data(data);
       self.render();
     } else {
-      self.refreshLayout();
+      self.refreshLayout(this.get('fitView'));
     }
   }
   /**
@@ -266,8 +266,9 @@ class TreeGraph extends Graph {
 
   /**
    * 根据目前的 data 刷新布局，更新到画布上。用于变更数据之后刷新视图。
+   * @param {boolean} fitView 更新布局时是否需要适应窗口
    */
-  refreshLayout() {
+  refreshLayout(fitView) {
     const self = this;
     const data = self.get('data');
     const layoutData = self.get('layoutMethod')(data);
@@ -276,7 +277,7 @@ class TreeGraph extends Graph {
     self.emit('beforerefreshlayout', { data, layoutData });
     self.setAutoPaint(false);
     self._updateChild(layoutData, null, animate);
-    if (self.get('fitView')) {
+    if (fitView) {
       self.get('viewController')._fitView();
     }
     if (!animate) {
@@ -389,7 +390,7 @@ class TreeGraph extends Graph {
     if (layout.radial) {
       return function(data) {
         const layoutData = Hierarchy[layout.type](data, layout);
-        // Util.radialLayout(layoutData);
+        Util.radialLayout(layoutData);
         return layoutData;
       };
     }
