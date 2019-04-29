@@ -18,13 +18,13 @@
 <script>
   let currentLayout = 'dendrogram';
   const layouts = {
-    /*dendrogram: {
+    dendrogram: {
       type: 'dendrogram',
       direction: 'LR', // H / V / LR / RL / TB / BT
       nodeSep: 50,
       rankSep: 100,
       radial: true
-    },*/
+    },
     compactBox: {
       type: 'compactBox',
       direction: 'LR',
@@ -32,20 +32,7 @@
       getHeight() { return 16 },
       getWidth() { return 16 },
       getVGap() { return 50 },
-      getHGap() { return 100 },
-      radial: true
-    },
-    dendrogram: function(data) {
-      const result = Hierarchy.compactBox(data, {
-        direction: 'LR',
-        getId(d) { return d.id; },
-        getHeight() { return 16 },
-        getWidth() { return 16 },
-        getVGap() { return 50 },
-        getHGap() { return 100 }
-      });
-      // G6.Util.radialLayout(result);
-      return result;
+      getHGap() { return 100 }
     },
     mindmap: {
       type: 'mindmap',
