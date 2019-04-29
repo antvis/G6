@@ -77,7 +77,8 @@ class TreeGraph extends Graph {
     const self = this;
     const node = this.get('itemMap')[data.id];
     if (parent) {
-      self.addItem('edge', { source: parent, target: node, id: parent.get('id') + ':' + node.get('id') });
+      const edgeCfg = node.get('model').edgeCfg || {};
+      self.addItem('edge', { source: parent, target: node, id: parent.get('id') + ':' + node.get('id'), ...edgeCfg });
     }
     Util.each(data.children, sData => {
       self._addEdge(sData, node);
