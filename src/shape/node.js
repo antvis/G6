@@ -196,6 +196,9 @@ Shape.registerNode('dom', {
       html: cfg.html
     }, Global.defaultNode.style, cfg.style);
     return style;
+  },
+  getAnchorPoints(cfg) {
+    return cfg.anchorPoints || [[ 0, 0.5 ], [ 1, 0.5 ]];
   }
 }, 'single-shape');
 
