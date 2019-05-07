@@ -29,6 +29,7 @@ class ItemController {
         }
       });
     }
+    graph.emit('beforeadditem', { type, model });
     if (type === EDGE) {
       let source = model.source;
       let target = model.target;
@@ -60,7 +61,7 @@ class ItemController {
     graph.get(type + 's').push(item);
     graph.get('itemMap')[item.get('id')] = item;
     graph.autoPaint();
-    graph.emit('aftereadditem', { type, model });
+    graph.emit('afteradditem', { type, model });
     return item;
   }
   updateItem(item, cfg) {
