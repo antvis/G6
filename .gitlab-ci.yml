@@ -13,6 +13,8 @@ test:
   stage: test
   script:
     - env -u CI tnpm i --silent --internal-oss-cache --install-node=10
+    - sudo apt-get install build-essential
+    - sudo apt-get install libgtk-3-dev
     - tnpm run lint
     - tnpm run test
   tags:
