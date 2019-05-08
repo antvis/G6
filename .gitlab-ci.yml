@@ -13,6 +13,7 @@ test:
   stage: test
   script:
     - sudo yum install -y gtk3-devel
+    - sudo yum install -y libXScrnSaver
     - env -u CI tnpm i --silent --internal-oss-cache --install-node=10
     - tnpm run ci
   tags:
