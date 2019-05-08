@@ -65,6 +65,7 @@ class TreeGraph extends Graph {
     // model 中应存储真实的数据，特别是真实的 children
     model.x = data.x;
     model.y = data.y;
+    model.depth = data.depth;
     const node = self.addItem('node', model);
     if (parent) {
       node.set('parent', parent);
