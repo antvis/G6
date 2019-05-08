@@ -15,9 +15,19 @@ class ItemController {
     const parent = graph.get(type + 'Group') || graph.get('group');
     const upperType = Util.upperFirst(type);
     let item;
-    const styles = graph.get(type + 'Style');
+    let styles = graph.get(type + 'Style') || {};
     const defaultModel = graph.get(CFG_PREFIX + upperType);
-    if (defaultModel) {
+    const mapper = graph.get(type + 'Fn');
+    if (mapper) {
+      const mappedModel = mapper(model);
+      if (mappedModel.styles) {
+        styles = mappedModel.styles;
+        delete mappedModel.styles;
+      }
+      Util.each(mappedModel, (val, cfg) => {
+        model[cfg] = val;
+      });
+    } else if (defaultModel) {
       // 很多布局会直接修改原数据模型，所以不能用 merge 的形式，逐个写入原 model 中
       Util.each(defaultModel, (val, cfg) => {
         if (!hasOwnProperty.call(model, cfg)) {
@@ -61,7 +71,7 @@ class ItemController {
     graph.get(type + 's').push(item);
     graph.get('itemMap')[item.get('id')] = item;
     graph.autoPaint();
-    graph.emit('afteradditem', { type, model });
+    graph.emit('afteradditem', { item, model });
     return item;
   }
   updateItem(item, cfg) {
@@ -72,7 +82,7 @@ class ItemController {
     if (!item || item.destroyed) {
       return;
     }
-    graph.emit('beforeitemupdate', { item, cfg });
+    graph.emit('beforeupdateitem', { item, cfg });
     if (item.getType() === EDGE) {
       // 若是边要更新source || target, 为了不影响示例内部model，并且重新计算startPoint和endPoint，手动设置
       if (cfg.source) {
@@ -100,7 +110,7 @@ class ItemController {
       graph.setAutoPaint(autoPaint);
     }
     graph.autoPaint();
-    graph.emit('afteritemupdate', { item, cfg });
+    graph.emit('afterupdateitem', { item, cfg });
   }
   removeItem(item) {
     const graph = this.graph;
