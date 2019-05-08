@@ -176,9 +176,10 @@ const GraphicUtil = {
     if (radDiff === 0) {
       return data;
     }
+
     this.traverseTree(data, node => {
       const radial = (node[radScale] - min[radScale]) / radDiff * (PI * 2 - avgRad) + avgRad;
-      const r = node.depth * (rScale === 'x' ? node.hgap : node.vgap);
+      const r = Math.abs(rScale === 'x' ? node.x - data.x : node.y - data.y);
       node.x = r * Math.cos(radial);
       node.y = r * Math.sin(radial);
     });
