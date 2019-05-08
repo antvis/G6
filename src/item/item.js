@@ -365,15 +365,17 @@ class Item {
   /**
    * 更新元素
    * @internal 仅提供给 Graph 使用，外部直接调用 graph.update 接口
-   * @param  {Object} cfg 配置项，可以是增量信息
+   * @param  {Object} cfg       配置项，可以是增量信息
+   * @param  {Object} newModel  新的数据模型
    */
-  update(cfg) {
+  update(cfg, newModel) {
     const model = this.get('model');
     const shapeFactory = this.get('shapeFactory');
     const shape = model.shape;
-    const newModel = Util.mix({}, model, cfg);
     const onlyMove = this._isOnlyMove(cfg);
-
+    if (!newModel) {
+      newModel = Util.mix({}, model, cfg);
+    }
     // 仅仅移动位置时，既不更新，也不重绘
     if (onlyMove) {
       this.updatePosition(newModel);
