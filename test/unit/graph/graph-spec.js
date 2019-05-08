@@ -575,3 +575,107 @@ describe('all node link center', () => {
     expect(graph.destroyed).eql(true);
   });
 });
+describe('mapper', () => {
+  const graph = new G6.Graph({
+    container: div,
+    width: 500,
+    height: 500,
+    defaultNode: { shape: 'circle' },
+    nodeStyle: {
+      fill: 'red'
+    }
+  });
+  it('node & edge mapper', () => {
+    graph.node(node => {
+      return {
+        id: node.id + 'Mapped',
+        size: [ 30, 30 ],
+        label: node.id,
+        shape: 'rect',
+        labelCfg: {
+          style: { fill: '#666' }
+        }
+      };
+    });
+    graph.edge(edge => {
+      return {
+        id: 'edge' + edge.id,
+        label: edge.id,
+        labelCfg: {
+          position: 'start'
+        },
+        style: {
+          fill: '#ccc',
+          opacity: 0.5
+        }
+      };
+    });
+    const node = graph.addItem('node', { id: 'node', x: 100, y: 100 });
+    expect(node.get('id')).to.equal('nodeMapped');
+    let keyShape = node.getKeyShape();
+    expect(keyShape.attr('width')).to.equal(30);
+    expect(keyShape.attr('height')).to.equal(30);
+    expect(keyShape.attr('fill')).to.equal('#fff');
+    let label = node.getContainer().findByClassName('node-label');
+    expect(label).not.to.be.undefined;
+    expect(label.attr('text')).to.equal('node');
+    expect(label.attr('fill')).to.equal('#666');
+    graph.addItem('node', { id: 'node2', x: 200, y: 200 });
+    const edge = graph.addItem('edge', { id: 'edge', source: 'nodeMapped', target: 'node2Mapped' });
+    keyShape = edge.getKeyShape();
+    expect(keyShape.attr('fill')).to.equal('#ccc');
+    expect(keyShape.attr('opacity')).to.equal(0.5);
+    expect(keyShape.type).to.equal('path');
+    label = edge.getContainer().findByClassName('edge-label');
+    expect(label).not.to.be.undefined;
+    expect(label.attr('text')).to.equal('edge');
+    expect(label.attr('x')).to.equal(115.5);
+    expect(label.attr('y')).to.equal(115.5);
+  });
+  it('node & edge mapper with states', () => {
+    graph.node(node => {
+      return {
+        shape: 'rect',
+        label: node.id,
+        style: { fill: '#666' },
+        styles: {
+          default: { fill: 'red' },
+          selected: { fill: 'blue' },
+          custom: { fill: 'green' }
+        }
+      };
+    });
+    graph.edge(() => {
+      return {
+        styles: {
+          default: { stroke: '#666', lineWidth: 1 },
+          selected: { lineWidth: 2 },
+          custom: { opacity: 0.5 }
+        }
+      };
+    });
+    const node = graph.addItem('node', { id: 'node', x: 50, y: 50 });
+    let keyShape = node.getKeyShape();
+    expect(keyShape.attr('fill')).to.equal('#666');
+    expect(node.getContainer().findByClassName('node-label')).not.to.be.undefined;
+    graph.setItemState(node, 'selected', true);
+    expect(keyShape.attr('blue'));
+    graph.setItemState(node, 'custom', true);
+    expect(keyShape.attr('green'));
+    graph.clearItemStates(node);
+    expect(keyShape.attr('fill')).to.equal('#666');
+    const edge = graph.addItem('edge', { id: 'edge2', source: 'node', target: 'node2Mapped' });
+    keyShape = edge.getKeyShape();
+    expect(keyShape.attr('stroke')).to.equal('#666');
+    expect(keyShape.attr('lineWidth')).to.equal(1);
+    expect(keyShape.attr('opacity')).to.equal(1);
+    graph.setItemState(edge, 'selected', true);
+    expect(keyShape.attr('stroke')).to.equal('#666');
+    expect(keyShape.attr('lineWidth')).to.equal(2);
+    expect(keyShape.attr('opacity')).to.equal(1);
+    graph.setItemState(edge, 'custom', true);
+    expect(keyShape.attr('stroke')).to.equal('#666');
+    expect(keyShape.attr('lineWidth')).to.equal(2);
+    expect(keyShape.attr('opacity')).to.equal(0.5);
+  });
+});
