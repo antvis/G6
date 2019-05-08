@@ -352,7 +352,7 @@ class Graph extends EventEmitter {
    */
   node(nodeFn) {
     if (typeof nodeFn === 'function') {
-      this.set('nodeFn', nodeFn);
+      this.set('nodeMapper', nodeFn);
     }
   }
 
@@ -362,7 +362,7 @@ class Graph extends EventEmitter {
    */
   edge(edgeFn) {
     if (typeof edgeFn === 'function') {
-      this.set('edgeFn', edgeFn);
+      this.set('edgeMapper', edgeFn);
     }
   }
 

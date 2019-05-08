@@ -4,6 +4,7 @@ const Item = require('../../item');
 const NODE = 'node';
 const EDGE = 'edge';
 const CFG_PREFIX = 'default';
+const MAPPER_SUFFIX = 'Mapper';
 const hasOwnProperty = Object.hasOwnProperty;
 
 class ItemController {
@@ -17,7 +18,7 @@ class ItemController {
     let item;
     let styles = graph.get(type + 'Style') || {};
     const defaultModel = graph.get(CFG_PREFIX + upperType);
-    const mapper = graph.get(type + 'Fn');
+    const mapper = graph.get(type + MAPPER_SUFFIX);
     if (mapper) {
       const mappedModel = mapper(model);
       if (mappedModel.styles) {
@@ -82,6 +83,20 @@ class ItemController {
     if (!item || item.destroyed) {
       return;
     }
+    // 如果修改了与映射属性有关的数据项，映射的属性相应也需要变化
+    const mapper = graph.get(item.getType() + MAPPER_SUFFIX);
+    const newModel = Util.mix({}, item.getModel(), cfg);
+    if (mapper) {
+      const mappedModel = mapper(newModel);
+      if (mappedModel.styles) {
+        item.set('styles', mappedModel.styles);
+        delete mappedModel.styles;
+      }
+      Util.each(mappedModel, (val, key) => {
+        cfg[key] = val;
+        newModel[key] = val;
+      });
+    }
     graph.emit('beforeupdateitem', { item, cfg });
     if (item.getType() === EDGE) {
       // 若是边要更新source || target, 为了不影响示例内部model，并且重新计算startPoint和endPoint，手动设置
@@ -100,7 +115,7 @@ class ItemController {
         item.setTarget(target);
       }
     }
-    item.update(cfg);
+    item.update(cfg, newModel);
     if (item.getType() === NODE) {
       const autoPaint = graph.get('autoPaint');
       graph.setAutoPaint(false);

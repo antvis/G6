@@ -592,6 +592,7 @@ describe('mapper', () => {
         size: [ 30, 30 ],
         label: node.id,
         shape: 'rect',
+        style: { fill: node.value === 100 ? '#666' : '#ccc' },
         labelCfg: {
           style: { fill: '#666' }
         }
@@ -610,12 +611,12 @@ describe('mapper', () => {
         }
       };
     });
-    const node = graph.addItem('node', { id: 'node', x: 100, y: 100 });
+    const node = graph.addItem('node', { id: 'node', x: 100, y: 100, value: 100 });
     expect(node.get('id')).to.equal('nodeMapped');
     let keyShape = node.getKeyShape();
     expect(keyShape.attr('width')).to.equal(30);
     expect(keyShape.attr('height')).to.equal(30);
-    expect(keyShape.attr('fill')).to.equal('#fff');
+    expect(keyShape.attr('fill')).to.equal('#666');
     let label = node.getContainer().findByClassName('node-label');
     expect(label).not.to.be.undefined;
     expect(label.attr('text')).to.equal('node');
@@ -631,6 +632,8 @@ describe('mapper', () => {
     expect(label.attr('text')).to.equal('edge');
     expect(label.attr('x')).to.equal(115.5);
     expect(label.attr('y')).to.equal(115.5);
+    graph.updateItem(node, { value: 50 });
+    expect(node.getKeyShape().attr('fill')).to.equal('#ccc');
   });
   it('node & edge mapper with states', () => {
     graph.node(node => {
