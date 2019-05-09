@@ -85,8 +85,8 @@ class ItemController {
     }
     // 如果修改了与映射属性有关的数据项，映射的属性相应也需要变化
     const mapper = graph.get(item.getType() + MAPPER_SUFFIX);
-    const newModel = Util.mix({}, item.getModel(), cfg);
     if (mapper) {
+      const newModel = Util.mix({}, item.getModel(), cfg);
       const mappedModel = mapper(newModel);
       if (mappedModel.styles) {
         item.set('styles', mappedModel.styles);
@@ -94,7 +94,6 @@ class ItemController {
       }
       Util.each(mappedModel, (val, key) => {
         cfg[key] = val;
-        newModel[key] = val;
       });
     }
     graph.emit('beforeupdateitem', { item, cfg });
@@ -115,7 +114,7 @@ class ItemController {
         item.setTarget(target);
       }
     }
-    item.update(cfg, newModel);
+    item.update(cfg);
     if (item.getType() === NODE) {
       const autoPaint = graph.get('autoPaint');
       graph.setAutoPaint(false);
