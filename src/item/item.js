@@ -142,22 +142,9 @@ class Item {
 
   /**
    * 更新位置，避免整体重绘
-   * @param {Object} cfg 位置信息
    */
-  updatePosition(cfg) {
-    const model = this.get('model');
-    const x = Util.isNil(cfg.x) ? model.x : cfg.x;
-    const y = Util.isNil(cfg.y) ? model.y : cfg.y;
-
-    const group = this.get('group');
-    if (Util.isNil(x) || Util.isNil(y)) {
-      return;
-    }
-    group.resetMatrix();
-    group.translate(x, y);
-    model.x = x;
-    model.y = y;
-    this.set(CACHE_BBOX, null); // 清理缓存的 bbox
+  updatePosition() {
+    this.afterUpdate();
   }
 
   // 绘制
@@ -355,11 +342,27 @@ class Item {
 
   /**
    * 刷新，一般用于处理几种情况
-   * 1. model 在外部被改变
+   * 1. item model 在外部被改变
    * 2. 边的节点位置发生改变，需要重新计算边
    */
   refresh() {
-    this.update(); // 更新时不设置任何属性
+    // 先更新 item 位置
+    this.updatePosition({});
+    const shapeFactory = this.get('shapeFactory');
+    const model = this.get('model');
+    const shape = model.shape;
+    // 还是同一种类型的 item 并且该类型有 update 方法时
+    if (shapeFactory.shouldUpdate(shape) && shape === this.get('currentShape')) {
+      const updateCfg = this.getShapeCfg(model);
+      shapeFactory.update(shape, updateCfg, this);
+    } else {
+      // 否则重绘
+      this.draw();
+    }
+    // 缓存当前的 style, 用来置状态
+    this.set('originStyle', this.getKeyShapeStyle());
+    // 恢复节点状态样式
+    this._resetStates(shapeFactory, shape);
   }
 
   /**
@@ -368,45 +371,31 @@ class Item {
    * @param  {Object} cfg       配置项，可以是增量信息
    * @param  {Object} newModel  新的数据模型
    */
-  update(cfg, newModel) {
-    const model = this.get('model');
+  update(cfg) {
+    const newModel = Util.mix({}, this.get('model'), cfg);
+    this.updateShape(newModel);
+    this.afterUpdate();
+  }
+
+  updateShape(newModel) {
     const shapeFactory = this.get('shapeFactory');
-    const shape = model.shape;
-    const onlyMove = this._isOnlyMove(cfg);
-    if (!newModel) {
-      newModel = Util.mix({}, model, cfg);
+    const shape = newModel.shape;
+    // 判定是否允许更新
+    // 1. 注册的节点允许更新
+    // 2. 更新后的 shape 等于原先的 shape
+    if (shapeFactory.shouldUpdate(shape) && shape === this.get('currentShape')) {
+      const updateCfg = this.getShapeCfg(newModel);
+      shapeFactory.update(shape, updateCfg, this);
+      // 设置 model 在更新后，防止在更新时取原始 model
+      this.set('model', newModel);
+    } else { // 如果不满足上面两种状态，重新绘制
+      this.set('model', newModel);
+      // 绘制元素时，需要最新的 model
+      this.draw();
     }
-    // 仅仅移动位置时，既不更新，也不重绘
-    if (onlyMove) {
-      this.updatePosition(newModel);
-    } else {
-      // 判定是否允许更新
-      // 1. 注册的元素（node, edge）允许更新
-      // 2. 更新的信息中没有指定 shape
-      // 3. 更新信息中指定了 shape 同时等于原先的 shape
-      if (shapeFactory.shouldUpdate(shape) && newModel.shape === this.get('currentShape')) {
-        const updateCfg = this.getShapeCfg(newModel);
-        // 如果 x,y 发生改变，则重置位置
-        // 非 onlyMove ，不代表不 move
-        if (newModel.x !== model.x || newModel.y !== model.y) {
-          this.updatePosition(newModel);
-        }
-        // 如果 x,y 发生改变，则重置位置
-        shapeFactory.update(shape, updateCfg, this);
-        // 设置 model 在更新后，防止在更新时取原始 model
-        this.set('model', newModel);
-        this.set('originStyle', this.getKeyShapeStyle());
-        // 更新后重置节点状态
-        this._resetStates(shapeFactory, shape);
-      } else { // 如果不满足上面 3 种状态，重新绘制
-        this.set('model', newModel);
-        // 绘制元素时，需要最新的 model
-        this.draw();
-        this.set('originStyle', this.getKeyShapeStyle());
-      }
-    }
-    this.set(CACHE_BBOX, null); // 清理缓存的 bbox
-    this.afterUpdate(); // 子类可以清理自己的要清理的内容
+    this.set('originStyle', this.getKeyShapeStyle());
+    // 更新后重置节点状态
+    this._resetStates(shapeFactory, shape);
   }
 
   /**
@@ -415,19 +404,6 @@ class Item {
    */
   afterUpdate() {
 
-  }
-
-  // 是否仅仅移动
-  _isOnlyMove(cfg) {
-    if (!cfg) {
-      return false; // 刷新时不仅仅移动
-    }
-    // 不能直接使用 cfg.x && cfg.y 这类的判定，因为 0 的情况会出现
-    const existX = !Util.isNil(cfg.x);
-    const existY = !Util.isNil(cfg.y);
-    const keys = Object.keys(cfg);
-    return (keys.length === 1 && (existX || existY)) // 仅有一个字段，包含 x 或者 包含 y
-      || (keys.length === 2 && existX && existY); // 两个字段，同时有 x，同时有 y
   }
 
   /**
