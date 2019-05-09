@@ -6,6 +6,7 @@
 const Util = require('../util/');
 const Item = require('./item');
 const CACHE_ANCHOR_POINTS = 'anchorPointsCache';
+const CACHE_BBOX = 'bboxCache';
 
 function getNearestPoint(points, curPoint) {
   let index = 0;
@@ -165,16 +166,55 @@ class Node extends Item {
   }
 
   updatePosition(cfg) {
-    super.updatePosition(cfg);
+    const model = this.get('model');
+
+    const x = Util.isNil(cfg.x) ? model.x : cfg.x;
+    const y = Util.isNil(cfg.y) ? model.y : cfg.y;
+
+    const group = this.get('group');
+    if (Util.isNil(x) || Util.isNil(y)) {
+      return;
+    }
+    group.resetMatrix();
+    group.translate(x, y);
+    model.x = x;
+    model.y = y;
+    this.afterUpdate();     // 位置更新后需要清除 bbox 和 anchor 缓存
+  }
+
+  update(cfg) {
+    const model = this.get('model');
+    const newModel = Util.mix({}, model, cfg);
+    const onlyMove = this._isOnlyMove(cfg);
+    // 仅仅移动位置时，既不更新，也不重绘
+    if (onlyMove) {
+      this.updatePosition(newModel);
+    } else {
+      // 如果 x,y 有变化，先重置位置
+      if (newModel.x !== model.x || newModel.y !== model.y) {
+        this.updatePosition(newModel);
+      }
+      this.updateShape(newModel);
+    }
+    this.afterUpdate();
+  }
+
+  afterUpdate() {
+    this.set(CACHE_BBOX, null); // 清理缓存的 bbox
     this.set(CACHE_ANCHOR_POINTS, null);
   }
 
-  /**
-   * 更新后做一些工作
-   * @protected
-   */
-  afterUpdate() {
-    this.set(CACHE_ANCHOR_POINTS, null); // 清空缓存的锚点
+  // 是否仅仅移动节点，其他属性没变化
+  _isOnlyMove(cfg) {
+    if (!cfg) {
+      return false; // 刷新时不仅仅移动
+    }
+    // 不能直接使用 cfg.x && cfg.y 这类的判定，因为 0 的情况会出现
+    const existX = !Util.isNil(cfg.x);
+    const existY = !Util.isNil(cfg.y);
+    const keys = Object.keys(cfg);
+    return (keys.length === 1 && (existX || existY)) // 仅有一个字段，包含 x 或者 包含 y
+      || (keys.length === 2 && existX && existY); // 两个字段，同时有 x，同时有 y
   }
 
   /**
