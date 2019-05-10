@@ -332,6 +332,41 @@ class Graph extends EventEmitter {
   }
 
   /**
+   * 设置各个节点样式，以及在各种状态下节点 keyShape 的样式。
+   * 若是自定义节点切在各种状态下
+   * graph.node(node => {
+   *  return {
+   *    default: {
+   *      fill: 'red',
+   *      opacity: 1
+   *    },
+   *    selected: {
+   *      style: {
+   *        fill: 'blue',
+   *        opacity: 0.2
+   *      }
+   *    }
+   *  }
+   * });
+   * @param {function} nodeFn 指定每个节点样式
+   */
+  node(nodeFn) {
+    if (typeof nodeFn === 'function') {
+      this.set('nodeMapper', nodeFn);
+    }
+  }
+
+  /**
+   * 设置各个边样式
+   * @param {function} edgeFn 指定每个边的样式,用法同 node
+   */
+  edge(edgeFn) {
+    if (typeof edgeFn === 'function') {
+      this.set('edgeMapper', edgeFn);
+    }
+  }
+
+  /**
    * 刷新元素
    * @param {string|object} item 元素id或元素实例
    */
@@ -372,8 +407,10 @@ class Graph extends EventEmitter {
     self.emit('beforegraphrefreshposition');
     const nodes = self.get('nodes');
     const edges = self.get('edges');
+    let model;
     Util.each(nodes, node => {
-      node.updatePosition({});
+      model = node.getModel();
+      node.updatePosition(model);
     });
     Util.each(edges, edge => {
       edge.refresh();
