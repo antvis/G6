@@ -165,41 +165,7 @@ class Node extends Item {
     }
   }
 
-  updatePosition(cfg) {
-    const model = this.get('model');
-
-    const x = Util.isNil(cfg.x) ? model.x : cfg.x;
-    const y = Util.isNil(cfg.y) ? model.y : cfg.y;
-
-    const group = this.get('group');
-    if (Util.isNil(x) || Util.isNil(y)) {
-      return;
-    }
-    group.resetMatrix();
-    group.translate(x, y);
-    model.x = x;
-    model.y = y;
-    this.afterUpdate();     // 位置更新后需要清除 bbox 和 anchor 缓存
-  }
-
-  update(cfg) {
-    const model = this.get('model');
-    const newModel = Util.mix({}, model, cfg);
-    const onlyMove = this._isOnlyMove(cfg);
-    // 仅仅移动位置时，既不更新，也不重绘
-    if (onlyMove) {
-      this.updatePosition(newModel);
-    } else {
-      // 如果 x,y 有变化，先重置位置
-      if (newModel.x !== model.x || newModel.y !== model.y) {
-        this.updatePosition(newModel);
-      }
-      this.updateShape(newModel);
-    }
-    this.afterUpdate();
-  }
-
-  afterUpdate() {
+  clearCache() {
     this.set(CACHE_BBOX, null); // 清理缓存的 bbox
     this.set(CACHE_ANCHOR_POINTS, null);
   }

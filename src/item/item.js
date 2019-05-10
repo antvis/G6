@@ -140,13 +140,6 @@ class Item {
     return bbox;
   }
 
-  /**
-   * 更新位置，避免整体重绘
-   */
-  updatePosition() {
-    this.afterUpdate();
-  }
-
   // 绘制
   _drawInner() {
     const self = this;
@@ -341,56 +334,64 @@ class Item {
   }
 
   /**
-   * 刷新，一般用于处理几种情况
+   * 刷新一般用于处理几种情况
    * 1. item model 在外部被改变
    * 2. 边的节点位置发生改变，需要重新计算边
+   *
+   * 因为数据从外部被修改无法判断一些属性是否被修改，直接走位置和 shape 的更新
    */
   refresh() {
-    // 先更新 item 位置
-    this.updatePosition({});
-    const shapeFactory = this.get('shapeFactory');
     const model = this.get('model');
-    const shape = model.shape;
-    // 还是同一种类型的 item 并且该类型有 update 方法时
-    if (shapeFactory.shouldUpdate(shape) && shape === this.get('currentShape')) {
-      const updateCfg = this.getShapeCfg(model);
-      shapeFactory.update(shape, updateCfg, this);
-    } else {
-      // 否则重绘
-      this.draw();
-    }
-    // 缓存当前的 style, 用来置状态
-    this.set('originStyle', this.getKeyShapeStyle());
-    // 恢复节点状态样式
-    this._resetStates(shapeFactory, shape);
+    // 更新元素位置
+    this.updatePosition(model);
+    // 更新元素内容，样式
+    this.updateShape();
+    // 做一些更新之后的操作
+    this.afterUpdate();
+    // 清除缓存
+    this.clearCache();
   }
 
   /**
-   * 更新元素
+   * 将更新应用到 model 上，刷新属性
    * @internal 仅提供给 Graph 使用，外部直接调用 graph.update 接口
    * @param  {Object} cfg       配置项，可以是增量信息
-   * @param  {Object} newModel  新的数据模型
    */
   update(cfg) {
-    const newModel = Util.mix({}, this.get('model'), cfg);
-    this.updateShape(newModel);
+    const model = this.get('model');
+    const originPosition = { x: model.x, y: model.y };
+    // 直接将更新合到原数据模型上，可以保证用户在外部修改源数据然后刷新时的样式符合期待。
+    Util.mix(model, cfg);
+    const onlyMove = this._isOnlyMove(cfg);
+    // 仅仅移动位置时，既不更新，也不重绘
+    if (onlyMove) {
+      this.updatePosition(model);
+    } else {
+      // 如果 x,y 有变化，先重置位置
+      if (originPosition.x !== model.x || originPosition.y !== model.y) {
+        this.updatePosition(model);
+      }
+      this.updateShape();
+    }
     this.afterUpdate();
+    this.clearCache();
   }
 
-  updateShape(newModel) {
+  /**
+   * 更新元素内容，样式
+   */
+  updateShape() {
     const shapeFactory = this.get('shapeFactory');
-    const shape = newModel.shape;
+    const model = this.get('model');
+    const shape = model.shape;
     // 判定是否允许更新
     // 1. 注册的节点允许更新
     // 2. 更新后的 shape 等于原先的 shape
     if (shapeFactory.shouldUpdate(shape) && shape === this.get('currentShape')) {
-      const updateCfg = this.getShapeCfg(newModel);
+      const updateCfg = this.getShapeCfg(model);
       shapeFactory.update(shape, updateCfg, this);
-      // 设置 model 在更新后，防止在更新时取原始 model
-      this.set('model', newModel);
-    } else { // 如果不满足上面两种状态，重新绘制
-      this.set('model', newModel);
-      // 绘制元素时，需要最新的 model
+    } else {
+      // 如果不满足上面两种状态，重新绘制
       this.draw();
     }
     this.set('originStyle', this.getKeyShapeStyle());
@@ -399,11 +400,39 @@ class Item {
   }
 
   /**
+   * 更新位置，避免整体重绘
+   * @param {object} cfg 待更新数据
+   */
+  updatePosition(cfg) {
+    const model = this.get('model');
+
+    const x = Util.isNil(cfg.x) ? model.x : cfg.x;
+    const y = Util.isNil(cfg.y) ? model.y : cfg.y;
+
+    const group = this.get('group');
+    if (Util.isNil(x) || Util.isNil(y)) {
+      return;
+    }
+    group.resetMatrix();
+    group.translate(x, y);
+    model.x = x;
+    model.y = y;
+    this.clearCache();     // 位置更新后需要清除缓存
+  }
+
+  /**
    * 更新后做一些工作
    * @protected
    */
   afterUpdate() {
 
+  }
+
+  /**
+   * 更新/刷新等操作后，清除 cache
+   */
+  clearCache() {
+    this.set(CACHE_BBOX, null);
   }
 
   /**

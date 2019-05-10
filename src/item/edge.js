@@ -9,7 +9,6 @@ const END_MAP = { source: 'start', target: 'end' };
 const ITEM_NAME_SUFFIX = 'Node'; // 端点的后缀，如 sourceNode, targetNode
 const POINT_NAME_SUFFIX = 'Point'; // 起点或者结束点的后缀，如 startPoint, endPoint
 const ANCHOR_NAME_SUFFIX = 'Anchor';
-const CACHE_BBOX = 'bboxCache';
 
 class Edge extends Item {
   getDefaultCfg() {
@@ -47,6 +46,20 @@ class Edge extends Item {
   getTarget() {
     return this.get('target');
   }
+
+  /**
+   * 边不需要重计算容器位置，直接重新计算 path 位置
+   * @param {object} cfg 待更新数据
+   */
+  update(cfg) {
+    const model = this.get('model');
+    Util.mix(model, cfg);
+    this.updateShape();
+    this.afterUpdate();
+    this.clearCache();
+  }
+
+  updatePosition() {}
 
   // 设置端点：起点或者结束点
   _setEnd(name, value) {
@@ -149,10 +162,6 @@ class Edge extends Item {
     cfg.sourceNode = self.get('sourceNode');
     cfg.targetNode = self.get('targetNode');
     return cfg;
-  }
-
-  afterUpdate() {
-    this.set(CACHE_BBOX, null); // 清理缓存的 bbox
   }
 
   getModel() {
