@@ -6,6 +6,7 @@
 const Util = require('../util/');
 const Item = require('./item');
 const CACHE_ANCHOR_POINTS = 'anchorPointsCache';
+const CACHE_BBOX = 'bboxCache';
 
 function getNearestPoint(points, curPoint) {
   let index = 0;
@@ -164,17 +165,22 @@ class Node extends Item {
     }
   }
 
-  updatePosition(cfg) {
-    super.updatePosition(cfg);
+  clearCache() {
+    this.set(CACHE_BBOX, null); // 清理缓存的 bbox
     this.set(CACHE_ANCHOR_POINTS, null);
   }
 
-  /**
-   * 更新后做一些工作
-   * @protected
-   */
-  afterUpdate() {
-    this.set(CACHE_ANCHOR_POINTS, null); // 清空缓存的锚点
+  // 是否仅仅移动节点，其他属性没变化
+  _isOnlyMove(cfg) {
+    if (!cfg) {
+      return false; // 刷新时不仅仅移动
+    }
+    // 不能直接使用 cfg.x && cfg.y 这类的判定，因为 0 的情况会出现
+    const existX = !Util.isNil(cfg.x);
+    const existY = !Util.isNil(cfg.y);
+    const keys = Object.keys(cfg);
+    return (keys.length === 1 && (existX || existY)) // 仅有一个字段，包含 x 或者 包含 y
+      || (keys.length === 2 && existX && existY); // 两个字段，同时有 x，同时有 y
   }
 
   /**
