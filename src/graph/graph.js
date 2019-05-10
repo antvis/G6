@@ -407,8 +407,10 @@ class Graph extends EventEmitter {
     self.emit('beforegraphrefreshposition');
     const nodes = self.get('nodes');
     const edges = self.get('edges');
+    let model;
     Util.each(nodes, node => {
-      node.updatePosition({});
+      model = node.getModel();
+      node.updatePosition(model);
     });
     Util.each(edges, edge => {
       edge.refresh();
