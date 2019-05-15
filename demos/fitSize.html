@@ -151,15 +151,8 @@
 
 
     G6.registerNode('monitorIndicator', {
-      drawShape(cfg, group) {
-        const rect = group.addShape('dom', {
-          attrs: {
-            // x: -75,
-            // y: -25,
-            // width: 150,
-            // height: 50,
-            // radius: 10,
-            html: G6.Util.createDom(`<div class="gNode monitorIndicator">
+      getHtml(cfg) {
+        return G6.Util.createDom(`<div class="gNode monitorIndicator">
                                     <div class="title">${cfg.title}</div>
                                     <div class="content">
                                       <span>
@@ -171,30 +164,17 @@
                                       </span>
                                     </div>
                                   </div>`)
-          }
-        });
-        return rect;
       }
     }, 'dom');
 
+
     G6.registerNode('dataIndicator', {
-      drawShape(cfg, group) {
-        const size = cfg.size || [150, 50];
-        const width = size[0];
-        const height = size[1];
-        const x = -width / 2;
-        const y = -height / 2;
-        const rect = group.addShape('dom', {
-          attrs: {
-            // x,
-            // y,
-            // width,
-            // height,
-            html: G6.Util.createDom(`
+      getHtml(cfg) {
+        return G6.Util.createDom(`
                   <div class="gNode dataIndicator">
                     <div class="title">${cfg.title}</div>
                     ${cfg.content ?
-                `<div class="content">
+            `<div class="content">
                                       <span>
                                         <span>${cfg.content}</span>
                                         <i></i>
@@ -205,30 +185,13 @@
                                     </div>
                       ` : ''}
                   </div>`)
-          }
-        });
-        return rect;
-      }
+      },
     }, 'dom');
 
     G6.registerNode('thinking', {
-      drawShape(cfg, group) {
-        const size = cfg.size || [150, 50];
-        const width = size[0];
-        const height = size[1];
-        const x = -width / 2;
-        const y = -height / 2;
-        const rect = group.addShape('dom', {
-          attrs: {
-            // x,
-            // y,
-            // width,
-            // height,
-            html: G6.Util.createDom(`<div class="gNode thinking">${cfg.title}</div>`)
-          }
-        });
-        return rect;
-      }
+      getHtml(cfg) {
+        return G6.Util.createDom(`<div class="gNode thinking">${cfg.title}</div>`)
+      },
     }, 'dom');
 
     G6.Global.nodeStateStyle.selected = {
@@ -298,6 +261,12 @@
     })
     graph.data(data);
     graph.render();
+    setTimeout(() => {
+      graph.update('3', {
+        title: 'XXXX',
+        value: '0%'
+      })
+    }, 1000);
   </script>
 </body>
 

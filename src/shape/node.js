@@ -180,6 +180,9 @@ Shape.registerNode('image', {
 
 Shape.registerNode('dom', {
   shapeType: 'dom',
+  getHtml(cfg) {
+    return cfg.html;
+  },
   getShapeStyle(cfg) {
     const size = this.getSize(cfg);
     const width = size[0];
@@ -193,9 +196,17 @@ Shape.registerNode('dom', {
       width,
       height,
       stroke: color,
-      html: cfg.html
+      html: this.getHtml(cfg)
     }, Global.defaultNode.style, cfg.style);
     return style;
+  },
+  drawShape(cfg, group) {
+    const rect = group.addShape('dom', {
+      attrs: {
+        html: this.getHtml(cfg)
+      }
+    });
+    return rect;
   },
   getAnchorPoints(cfg) {
     return cfg.anchorPoints || [[ 0, 0.5 ], [ 1, 0.5 ]];
