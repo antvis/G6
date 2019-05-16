@@ -272,7 +272,7 @@ class TreeGraph extends Graph {
   refreshLayout(fitView) {
     const self = this;
     const data = self.get('data');
-    const layoutData = self.get('layoutMethod')(data);
+    const layoutData = self.get('layoutMethod')(data, self.get('layout'));
     const animate = self.get('animate');
     const autoPaint = self.get('autoPaint');
     self.emit('beforerefreshlayout', { data, layoutData });
