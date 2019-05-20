@@ -65,6 +65,7 @@ class TreeGraph extends Graph {
     // model 中应存储真实的数据，特别是真实的 children
     model.x = data.x;
     model.y = data.y;
+    model.depth = data.depth;
     const node = self.addItem('node', model);
     if (parent) {
       node.set('parent', parent);
@@ -130,7 +131,7 @@ class TreeGraph extends Graph {
       }
     } else {
       const index = indexOfChild(parentModel.children, data);
-      parent.children[index] = data;
+      parentModel.children[index] = data;
     }
     self.changeData();
   }
@@ -271,7 +272,7 @@ class TreeGraph extends Graph {
   refreshLayout(fitView) {
     const self = this;
     const data = self.get('data');
-    const layoutData = self.get('layoutMethod')(data);
+    const layoutData = self.get('layoutMethod')(data, self.get('layout'));
     const animate = self.get('animate');
     const autoPaint = self.get('autoPaint');
     self.emit('beforerefreshlayout', { data, layoutData });
