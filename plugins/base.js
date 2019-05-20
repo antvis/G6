@@ -4,9 +4,9 @@ const wrapBehavior = require('@antv/util/lib/event/wrap-behavior');
 
 class PluginBase {
   constructor(cfgs) {
-    this._cfgs = deepMix(this.getDefaultCfg(), cfgs);
+    this._cfgs = deepMix(this.getDefaultCfgs(), cfgs);
   }
-  getDefaultCfg() {
+  getDefaultCfgs() {
     return {};
   }
   initPlugin(graph) {
