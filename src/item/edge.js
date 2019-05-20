@@ -47,6 +47,20 @@ class Edge extends Item {
     return this.get('target');
   }
 
+  /**
+   * 边不需要重计算容器位置，直接重新计算 path 位置
+   * @param {object} cfg 待更新数据
+   */
+  update(cfg) {
+    const model = this.get('model');
+    Util.mix(model, cfg);
+    this.updateShape();
+    this.afterUpdate();
+    this.clearCache();
+  }
+
+  updatePosition() {}
+
   // 设置端点：起点或者结束点
   _setEnd(name, value) {
     const pointName = END_MAP[name] + POINT_NAME_SUFFIX;
