@@ -54,14 +54,16 @@ module.exports = {
   _update(item, e, force) {
     const origin = this.origin;
     const model = item.get('model');
+    const graph = this.graph;
+    const zoom = graph.getZoom();
     if (!this.point) {
       this.point = {
         x: model.x,
         y: model.y
       };
     }
-    const x = e.clientX - origin.x + this.point.x;
-    const y = e.clientY - origin.y + this.point.y;
+    const x = (e.clientX - origin.x) / zoom + this.point.x;
+    const y = (e.clientY - origin.y) / zoom + this.point.y;
     this.origin = { x: e.clientX, y: e.clientY };
     this.point = { x, y };
     if (this.delegate && !force) {
