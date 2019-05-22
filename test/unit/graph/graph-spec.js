@@ -541,7 +541,7 @@ describe('all node link center', () => {
   it('regist plugin', () => {
     let count = 0;
     class Plugin extends Base {
-      getDefaultCfg() {
+      getDefaultCfgs() {
         return {
           b: { d: 2 }
         };
