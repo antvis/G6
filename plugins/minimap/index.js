@@ -16,7 +16,7 @@ class Minimap extends Base {
   init() {
     this.initContainer();
   }
-  getDefaultCfg() {
+  getDefaultCfgs() {
     return {
       container: null,
       className: 'g6-minimap',

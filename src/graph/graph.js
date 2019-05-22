@@ -964,6 +964,33 @@ class Graph extends EventEmitter {
     }, 16);
   }
 
+
+  /**
+   * 添加插件
+   * @param {object} plugin 插件实例
+   */
+  addPlugin(plugin) {
+    const self = this;
+    if (plugin.destroyed) {
+      return;
+    }
+    self.get('plugins').push(plugin);
+    plugin.initPlugin(self);
+  }
+
+  /**
+   * 添加插件
+   * @param {object} plugin 插件实例
+   */
+  removePlugin(plugin) {
+    const plugins = this.get('plugins');
+    const index = plugins.indexOf(plugin);
+    if (index >= 0) {
+      plugin.destroyPlugin();
+      plugins.splice(index, 1);
+    }
+  }
+
   /**
    * 清除画布元素
    * @return {object} this

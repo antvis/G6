@@ -131,7 +131,7 @@ class TreeGraph extends Graph {
       }
     } else {
       const index = indexOfChild(parentModel.children, data);
-      parent.children[index] = data;
+      parentModel.children[index] = data;
     }
     self.changeData();
   }
