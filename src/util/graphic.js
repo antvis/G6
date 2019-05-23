@@ -120,8 +120,6 @@ const GraphicUtil = {
     const endVec = [ endPoint[0] - center[0], endPoint[1] - center[1] ];
     const endExtendVec = BaseUtil.vec2.scale([], endVec, scaleRate);
     const controlPoint2 = [ center[0] + endExtendVec[0], center[1] + endExtendVec[1] ];
-    // 不管原 shape 如何，要画出自环 shape 应是 cubic
-    cfg.shape = 'cubic';
     cfg.startPoint = { x: startPoint[0], y: startPoint[1] };
     cfg.endPoint = { x: endPoint[0], y: endPoint[1] };
     cfg.controlPoints = [
