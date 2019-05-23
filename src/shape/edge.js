@@ -260,5 +260,11 @@ Shape.registerEdge('loop', {
   },
   getControlPoints(cfg) {
     return cfg.controlPoints;
+  },
+  afterDraw(cfg) {
+    cfg.controlPoints = null;
+  },
+  afterUpdate(cfg) {
+    cfg.controlPoints = null;
   }
 }, 'cubic');
