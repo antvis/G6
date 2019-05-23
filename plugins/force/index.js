@@ -15,6 +15,15 @@ class Force extends Base {
       onTick() {}                 // 每一迭代布局回调
     };
   }
+  init(graph) {
+    const onTick = this.get('onTick');
+    const tick = () => {
+      onTick && onTick();
+      graph.refreshPositions();
+
+    };
+    this.set('tick', tick);
+  }
   layout(data) {
     const self = this;
     // 如果正在布局，忽略布局请求
@@ -92,10 +101,15 @@ class Force extends Base {
       self.set('ticking', false);
     }
     this.set('forceSimulation', null);
-    this.set('tick', null);
     Object.keys(cfg).forEach(key => {
       self.set(key, cfg[key]);
     });
+    if (cfg.onTick) {
+      self.set('tick', () => {
+        cfg.onTick();
+        self.graph.refreshPositions();
+      });
+    }
   }
   isTicking() {
     return this.get('ticking');
