@@ -1,26 +1,26 @@
-const DEFAULT_CLICK_TYPE = 'click';
-const ALLOW_EVENTS = ['click', 'dblclick'];
+const DEFAULT_TRIGGER = 'click';
+const ALLOW_EVENTS = [ 'click', 'dblclick' ];
 module.exports = {
   getDefaultCfg() {
     return {
       /**
        * 发生收缩/扩展变化时的回调
        */
-      clickType: DEFAULT_CLICK_TYPE,
+      trigger: DEFAULT_TRIGGER,
       onChange() {}
     };
   },
   getEvents() {
-    let clickType;
+    let trigger;
     // 检测输入是否合法
-    if (ALLOW_EVENTS.includes(this.clickType)) {
-      clickType = this.clickType;
+    if (ALLOW_EVENTS.includes(this.trigger)) {
+      trigger = this.trigger;
     } else {
-      clickType = DEFAULT_CLICK_TYPE;
-      console.warn('Behavior collapse-expand的clickType参数不合法，请输入click或dblclick');
+      trigger = DEFAULT_TRIGGER;
+      console.warn('Behavior collapse-expand的trigger参数不合法，请输入click或dblclick');
     }
     return {
-      [`node:${clickType}`]: 'onNodeClick'
+      [`node:${trigger}`]: 'onNodeClick'
     };
   },
   onNodeClick(e) {
