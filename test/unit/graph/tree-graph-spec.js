@@ -137,6 +137,34 @@ describe('tree graph without animate', () => {
       graph.emit('node:click', { item: parent });
     }, 600);
   });
+  it('collapse & expand with layout with parameter trigger=dblclick', done => {
+    graph.removeEvent();
+    const parent = graph.findById('SubTreeNode1');
+    let child = graph.findById('SubTreeNode1.1');
+    let collapsed = true;
+    graph.addBehaviors([{
+      type: 'collapse-expand',
+      trigger: 'dblclick'
+    }], 'default');
+    graph.on('afterrefreshlayout', () => {
+      if (collapsed) {
+        expect(parent.getModel().collapsed).to.be.true;
+        expect(child.destroyed).to.be.true;
+      } else {
+        child = graph.findById('SubTreeNode1.1');
+        expect(parent.getModel().collapsed).to.be.false;
+        expect(child.get('model').x).not.to.equal(parent.get('model').x);
+        expect(!!child.getModel().collapsed).to.be.false;
+        expect(child.get('model').y).not.to.equal(parent.get('model').y);
+        done();
+      }
+    });
+    graph.emit('node:dblclick', { item: parent });
+    setTimeout(() => {
+      collapsed = false;
+      graph.emit('node:dblclick', { item: parent });
+    }, 600);
+  });
 });
 describe('tree graph with animate', () => {
   const graph = new G6.TreeGraph({
@@ -252,6 +280,34 @@ describe('tree graph with animate', () => {
     setTimeout(() => {
       collapsed = false;
       graph.emit('node:click', { item: parent });
+    }, 600);
+  });
+  it('collapse & expand with parameter trigger=dblclick', done => {
+    graph.removeEvent();
+    const parent = graph.findById('SubTreeNode1');
+    let child = graph.findById('SubTreeNode1.1');
+    let collapsed = true;
+    graph.on('afteranimate', () => {
+      if (collapsed) {
+        expect(parent.getModel().collapsed).to.be.true;
+        expect(child.destroyed).to.be.true;
+      } else {
+        child = graph.findById('SubTreeNode1.1');
+        expect(parent.getModel().collapsed).to.be.false;
+        expect(child.get('model').x).not.to.equal(parent.get('model').x);
+        expect(!!child.getModel().collapsed).to.be.false;
+        expect(child.get('model').y).not.to.equal(parent.get('model').y);
+        done();
+      }
+    });
+    graph.addBehaviors([{
+      type: 'collapse-expand',
+      trigger: 'dblclick'
+    }], 'default');
+    graph.emit('node:dblclick', { item: parent });
+    setTimeout(() => {
+      collapsed = false;
+      graph.emit('node:dblclick', { item: parent });
     }, 600);
   });
 });
