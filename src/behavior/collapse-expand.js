@@ -1,15 +1,26 @@
+const DEFAULT_CLICK_TYPE = 'click';
+const ALLOW_EVENTS = ['click', 'dblclick'];
 module.exports = {
   getDefaultCfg() {
     return {
       /**
        * 发生收缩/扩展变化时的回调
        */
+      clickType: DEFAULT_CLICK_TYPE,
       onChange() {}
     };
   },
   getEvents() {
+    let clickType;
+    // 检测输入是否合法
+    if (ALLOW_EVENTS.includes(this.clickType)) {
+      clickType = this.clickType;
+    } else {
+      clickType = DEFAULT_CLICK_TYPE;
+      console.warn('Behavior collapse-expand的clickType参数不合法，请输入click或dblclick');
+    }
     return {
-      'node:click': 'onNodeClick'
+      [`node:${clickType}`]: 'onNodeClick'
     };
   },
   onNodeClick(e) {
