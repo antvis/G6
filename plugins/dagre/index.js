@@ -1,5 +1,5 @@
 const dagre = require('dagre');
-import Base from '../base';
+const Base = require('../base');
 
 const DEFAULT_SIZE = 40;
 
