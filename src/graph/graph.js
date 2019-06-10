@@ -557,8 +557,10 @@ class Graph extends EventEmitter {
    * @return {object} this
    */
   changeSize(width, height) {
+    this.set('width', width);
+    this.set('height', height);
     this.get('viewController').changeSize(width, height);
-    this.autoPaint();
+    this.fitView();
     return this;
   }
 
@@ -595,7 +597,7 @@ class Graph extends EventEmitter {
       this.set('fitViewPadding', padding);
     }
     this.get('viewController')._fitView();
-    this.paint();
+    this.autoPaint();
   }
 
   /**
