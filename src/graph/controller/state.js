@@ -33,6 +33,16 @@ class State {
       self.updateGraphStates();
     }, TIME_OUT);
   }
+  updateStates(item, states, enabled) {
+    const self = this;
+    if (Util.isString(states)) {
+      self.updateState(item, states, enabled);
+    } else {
+      states.forEach(state => {
+        self.updateState(item, state, enabled);
+      });
+    }
+  }
   _checkCache(item, state, cache) {
     if (!cache[state]) {
       return;
