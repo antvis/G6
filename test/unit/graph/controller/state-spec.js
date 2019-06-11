@@ -61,12 +61,20 @@ describe('graph state controller', () => {
     graph.removeEvent();
     graph.addBehaviors('activate-relations', 'default');
     let triggered = false;
+    const leave = false;
+    let left = false;
     graph.emit('node:mouseenter', { item: graph.findById('node1') });
     setTimeout(() => {
       graph.emit('node:mouseenter', { item: graph.findById('node2') });
       triggered = true;
     }, 50);
+    graph.emit('node:mouseleave', { item: graph.findById('node1') });
     graph.on('graphstatechange', e => {
+      if (leave) {
+        left = true;
+        expect(e.states.active.length).to.equal(0);
+        expect(e.states.inactive.length).to.equal(0);
+      }
       if (!triggered) {
         expect(e.states.active).not.to.be.undefined;
         expect(e.states.active.length).to.equal(5);
@@ -81,6 +89,7 @@ describe('graph state controller', () => {
         done();
       }
     });
+    expect(left);
   });
   it('state with click-select', done => {
     graph.removeEvent();
