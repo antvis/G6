@@ -284,7 +284,14 @@ class Graph extends EventEmitter {
    * @param {Array|String|null} states 状态
    */
   clearItemStates(item, states) {
+    if (Util.isString(item)) {
+      item = this.findById(item);
+    }
     this.get('itemController').clearItemStates(item, states);
+    if (!states) {
+      states = item.get('states');
+    }
+    this.get('stateController').updateStates(item, states, false);
   }
 
   /**
