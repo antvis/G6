@@ -284,7 +284,14 @@ class Graph extends EventEmitter {
    * @param {Array|String|null} states 状态
    */
   clearItemStates(item, states) {
+    if (Util.isString(item)) {
+      item = this.findById(item);
+    }
     this.get('itemController').clearItemStates(item, states);
+    if (!states) {
+      states = item.get('states');
+    }
+    this.get('stateController').updateStates(item, states, false);
   }
 
   /**
@@ -557,10 +564,8 @@ class Graph extends EventEmitter {
    * @return {object} this
    */
   changeSize(width, height) {
-    this.set('width', width);
-    this.set('height', height);
     this.get('viewController').changeSize(width, height);
-    this.fitView();
+    this.autoPaint();
     return this;
   }
 
@@ -597,7 +602,7 @@ class Graph extends EventEmitter {
       this.set('fitViewPadding', padding);
     }
     this.get('viewController')._fitView();
-    this.autoPaint();
+    this.paint();
   }
 
   /**
@@ -964,6 +969,33 @@ class Graph extends EventEmitter {
       e.initEvent('click', false, false);
       link.dispatchEvent(e);
     }, 16);
+  }
+
+
+  /**
+   * 添加插件
+   * @param {object} plugin 插件实例
+   */
+  addPlugin(plugin) {
+    const self = this;
+    if (plugin.destroyed) {
+      return;
+    }
+    self.get('plugins').push(plugin);
+    plugin.initPlugin(self);
+  }
+
+  /**
+   * 添加插件
+   * @param {object} plugin 插件实例
+   */
+  removePlugin(plugin) {
+    const plugins = this.get('plugins');
+    const index = plugins.indexOf(plugin);
+    if (index >= 0) {
+      plugin.destroyPlugin();
+      plugins.splice(index, 1);
+    }
   }
 
   /**
