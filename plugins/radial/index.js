@@ -58,6 +58,13 @@ class Radial extends Base {
     const graph = self.get('graph');
     const nodes = data.nodes;
     const center = self.get('center');
+    if (nodes.length === 0) {
+      return;
+    } else if (nodes.length === 1) {
+      nodes[0].x = center[0];
+      nodes[0].y = center[1];
+      return;
+    }
     const linkDistance = self.get('linkDistance');
     const unitRadius = self.get('unitRadius');
 
