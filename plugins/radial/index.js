@@ -198,8 +198,6 @@ class Radial extends Base {
     const self = this;
     const vparam = 1 - param;
     const focusIndex = self.get('focusIndex');
-    const nonOverlap = self.get('nonOverlap');
-    const nodeRadius = self.get('nodeRadius');
     positions.forEach((v, i) => { // v
       const originDis = Util.getEDistance(v, [ 0, 0 ]);
       const reciODis = originDis === 0 ? 0 : 1 / originDis;
@@ -213,10 +211,7 @@ class Radial extends Base {
         // the euclidean distance between v and u
         const edis = Util.getEDistance(v, u);
         const reciEdis = edis === 0 ? 0 : 1 / edis;
-        let idealDis = D[j][i];
-        if (nonOverlap && radii[i] === radii[j] && param < 0.2 && edis < (2 * nodeRadius)) {
-          idealDis += (nodeRadius * 2);
-        }
+        const idealDis = D[j][i];
         // same for x and y
         denominator += W[i][j];
         // x
