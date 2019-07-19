@@ -2,33 +2,6 @@ const { mix } = require('../util');
 const { merge, isString } = require('lodash');
 const { delegateStyle } = require('../global');
 const body = document.body;
-const gridRound = (x = 0) => {
-  const intStr = x.toFixed(0);
-  const tailNum = intStr.slice(-1);
-  const headNum = intStr.length > 1 ? intStr.slice(0, -1) : '';
-  let roundNum;
-  switch (tailNum) {
-    case '0':
-    case '1':
-    case '2':
-    case '3':
-    case '4':
-      roundNum = '0';
-      break;
-    case '5':
-    case '6':
-    case '7':
-    case '8':
-    case '9':
-      roundNum = '5';
-      break;
-    default:
-      roundNum = '0';
-      break;
-  }
-  const val = parseInt(`${headNum}${roundNum}`, 10);
-  return val;
-};
 
 module.exports = {
   getDefaultCfg() {
@@ -176,7 +149,7 @@ module.exports = {
       return;
     }
 
-    const pos = { x: gridRound(x), y: gridRound(y) };
+    const pos = { x, y };
 
     if (this.get('updateEdge')) {
       this.graph.updateItem(item, pos);
