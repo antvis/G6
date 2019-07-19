@@ -3,6 +3,7 @@ const G6Plugins = {
   Grid: require('./grid'),
   Force: require('./force'),
   Radial: require('./radial'),
+  Fruchterman: require('./fruchterman'),
   Dagre: require('./dagre'),
   Menu: require('./menu')
 };
