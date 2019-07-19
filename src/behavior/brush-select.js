@@ -14,7 +14,10 @@ module.exports = {
       },
       onSelect() {},
       onDeselect() {},
-      selectedState: 'selected'
+      selectedState: 'selected',
+      includeEdges: true,
+      selectedEdges: [],
+      selectedNodes: []
     };
   },
   getEvents() {
@@ -26,9 +29,16 @@ module.exports = {
     };
   },
   onMouseDown(e) {
+    // 按在node上面拖动时候不应该是框选
+    const { item } = e;
+    if (item) {
+      return;
+    }
+
     if (this.selectedNodes && this.selectedNodes.length !== 0) {
       this.clearStates();
     }
+
     let brush = this.brush;
     if (!brush) {
       brush = this._createBrush();
@@ -47,6 +57,9 @@ module.exports = {
     this.graph.paint();
   },
   onMouseUp(e) {
+    if (!this.brush) {
+      return;
+    }
     const graph = this.graph;
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
@@ -61,18 +74,16 @@ module.exports = {
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
     const selectedState = this.selectedState;
-    const shouldUpdate = this.shouldUpdate;
-    const selectedNodes = [];
-    const result = this.selectedNodes.filter(node => {
-      if (shouldUpdate(node, 'deselect')) {
-        graph.setItemState(node, selectedState, false);
-        return true;
-      }
-      selectedNodes.push(node);
-      return false;
-    });
-    this.onDeselect && this.onDeselect(result);
-    this.selectedNodes = selectedNodes;
+
+    const nodes = graph.findAllByState('node', selectedState);
+    const edges = graph.findAllByState('edge', selectedState);
+    nodes.forEach(node => graph.setItemState(node, selectedState, false));
+    edges.forEach(edge => graph.setItemState(edge, selectedState, false));
+
+    this.selectedNodes = [];
+
+    this.selectedEdges = [];
+    this.onDeselect && this.onDeselect(this.selectedNodes, this.selectedEdges);
     graph.paint();
     graph.setAutoPaint(autoPaint);
   },
@@ -88,6 +99,7 @@ module.exports = {
     const bottom = max(p1.y, p2.y);
     const selectedNodes = [];
     const shouldUpdate = this.shouldUpdate;
+    const selectedIds = [];
     graph.getNodes().forEach(node => {
       const bbox = node.getBBox();
       if (bbox.centerX >= left
@@ -97,12 +109,34 @@ module.exports = {
       ) {
         if (shouldUpdate(node, 'select')) {
           selectedNodes.push(node);
+          const model = node.getModel();
+          selectedIds.push(model.id);
           graph.setItemState(node, state, true);
         }
       }
     });
+
+    const selectedEdges = [];
+    if (this.includeEdges) {
+      // 选中边，边的source和target都在选中的节点中时才选中
+      selectedNodes.forEach(node => {
+        const edges = node.getEdges();
+        edges.forEach(edge => {
+          const model = edge.getModel();
+          const { source, target } = model;
+          if (selectedIds.includes(source)
+            && selectedIds.includes(target)
+            && shouldUpdate(edge, 'select')) {
+            selectedEdges.push(edge);
+            graph.setItemState(edge, this.selectedState, true);
+          }
+        });
+      });
+    }
+
+    this.selectedEdges = selectedEdges;
     this.selectedNodes = selectedNodes;
-    this.onSelect && this.onSelect(selectedNodes);
+    this.onSelect && this.onSelect(selectedNodes, selectedEdges);
   },
   _createBrush() {
     const self = this;

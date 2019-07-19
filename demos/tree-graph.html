@@ -51,26 +51,31 @@
     modes: {
       default: ['collapse-expand', 'drag-canvas']
     },
-    defaultNode: {
-      size: 16,
-      anchorPoints: [[0,0.5], [1,0.5]]
-    },
-    defaultEdge: {
-      shape: 'cubic-horizontal'
-    },
-    nodeStyle: {
-      default: {
-        fill: '#40a9ff',
-        stroke: '#096dd9'
-      }
-    },
-    edgeStyle: {
-      default: {
-        stroke: '#A3B1BF'
-      }
-    },
     fitView: true,
     layout: layouts.dendrogram
+  });
+  graph.node(node => {
+    return {
+      size: 16,
+      anchorPoints: [[0,0.5], [1,0.5]],
+      style: {
+        fill: '#40a9ff',
+        stroke: '#096dd9'
+      },
+      label: node.id,
+      labelCfg: {
+        position: node.children && node.children.length > 0 ? 'left' : 'right'
+      }
+    }
+  });
+  let i = 0;
+  graph.edge(() => {
+    i++;
+    return {
+      shape: 'cubic-horizontal',
+      color: '#A3B1BF',
+      label: i
+    }
   });
   const data = {
     isRoot: true,
