@@ -1,9 +1,8 @@
-// const Numeric = require('numericjs');
 const Base = require('../base');
 const Util = require('@antv/g6').Util;
 const Numeric = require('numericjs');
 
-class MDS extends Base {
+class Mds extends Base {
   getDefaultCfgs() {
     return {
       maxIteration: null,         // 停止迭代的最大迭代数
@@ -26,8 +25,13 @@ class MDS extends Base {
     const self = this;
     self.set('data', data);
     const graph = self.get('graph');
-    const nodes = data.nodes;
     const center = self.get('center');
+    const nodes = data.nodes;
+    if (nodes.length === 0) return;
+    else if (nodes.length === 1) {
+      nodes[0].x = center[0];
+      nodes[0].y = center[1];
+    }
     const linkDistance = self.get('linkDistance');
 
     // 如果正在布局，忽略布局请求
@@ -128,4 +132,4 @@ class MDS extends Base {
     super.destroy();
   }
 }
-module.exports = MDS;
+module.exports = Mds;

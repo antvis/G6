@@ -7,8 +7,7 @@
 <body>
 <div id="mountNode"></div>
 <script src="../build/g6.js"></script>
-<script src="./assets/d3-4.13.0.min.js"></script>
-<script src="../build/radial.js"></script>
+<script src="../build/mds.js"></script>
 <script>
  
   const data = {
@@ -115,7 +114,7 @@
   data.edges.forEach((edge, i) => {
     edge.id = i;
   });
-  const MDSPlugin = new MDS({
+  const MDSPlugin = new Mds({
     center: [ 500, 300 ],
     linkDistance: 100
   });
@@ -123,7 +122,8 @@
     container: 'mountNode',
     width: 1000,
     height: 600,
-    plugins: [ MDSPlugin ],
+	plugins: [ MDSPlugin ],
+	modes: { default: [ 'drag-node' ] },
     defaultNode: {
       size: [20, 20],
       color: 'steelblue'
