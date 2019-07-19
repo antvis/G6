@@ -7,7 +7,7 @@ div.id = 'drag-spec';
 document.body.appendChild(div);
 
 describe('drag-node', () => {
-  it('drag node', () => {
+  it.only('drag node', () => {
     const graph = new G6.Graph({
       container: div,
       width: 500,
@@ -24,13 +24,18 @@ describe('drag-node', () => {
     graph.paint();
     graph.emit('node:dragstart', { x: 100, y: 100, item: node });
     graph.emit('node:drag', { x: 120, y: 120, item: node });
+    const dragMatrix = node.get('group').getMatrix();
+    expect(dragMatrix[6]).to.equal(50);
+    expect(dragMatrix[7]).to.equal(50);
+
+    graph.emit('node:dragend', { x: 120, y: 120, item: node });
     const matrix = node.get('group').getMatrix();
     expect(matrix[0]).to.equal(1);
     expect(matrix[6]).to.equal(70);
     expect(matrix[7]).to.equal(70);
     graph.destroy();
   });
-  it('delegate drag node with edge', () => {
+  it.only('delegate drag node with edge', () => {
     const graph = new G6.Graph({
       container: div,
       width: 500,
