@@ -7,7 +7,7 @@ div.id = 'drag-spec';
 document.body.appendChild(div);
 
 describe('drag-node', () => {
-  it.only('drag node', () => {
+  it('drag node', () => {
     const graph = new G6.Graph({
       container: div,
       width: 500,
@@ -35,7 +35,7 @@ describe('drag-node', () => {
     expect(matrix[7]).to.equal(70);
     graph.destroy();
   });
-  it.only('delegate drag node with edge', () => {
+  it('delegate drag node with edge', () => {
     const graph = new G6.Graph({
       container: div,
       width: 500,
