@@ -4,7 +4,7 @@ module.exports = {
   getDefaultCfg() {
     return {
       multiple: true,
-      keyCode: 17
+      keyCode: 16
     };
   },
   getEvents() {
@@ -51,6 +51,10 @@ module.exports = {
     Util.each(selected, node => {
       graph.setItemState(node, 'selected', false);
     });
+
+    const selectedEdges = graph.findAllByState('edge', 'selected');
+    Util.each(selectedEdges, edge => graph.setItemState(edge, 'selected', false));
+
     graph.paint();
     graph.setAutoPaint(autoPaint);
   },
