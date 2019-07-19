@@ -10,6 +10,7 @@
 <script>
 
   G6.registerEdge('line-arrow', {
+    itemType: 'edge',
     draw(cfg, group) {
       const { startPoint, endPoint } = cfg
       const keyShape = group.addShape('path', {
@@ -32,7 +33,7 @@
       });
       return keyShape
     }
-  }, 'line')
+  })
 
   const graph = new G6.Graph({
     container: 'mountNode',
