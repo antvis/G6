@@ -3300,7 +3300,9 @@
     maxIteration: 200,
     focusNode,
     unitRadius: mainUnitRadius,
-    linkDistance: 250
+	linkDistance: 230,
+	nodeSize: 20,
+	nonOverlap: true
   });
 
   G6.registerBehavior('click-add-node', {
@@ -3374,8 +3376,7 @@
 	  const maxDegree = 4;
 	  // the max degree about foces(clicked) node in the original data
 	  const oMaxDegree = 3;
-	  const unitRadius = 40;
-	  const focusNodeId = "2";
+	  const unitRadius = 60;
 	  // re-place the clicked node far away the exisiting items
 	  // along the radius from center node to it
 	  const vx = itemModel.x - focusNode.x;
@@ -3388,9 +3389,11 @@
 	  const subRadialLayout = new Radial({
 		center: [ itemModel.x, itemModel.y ],
 		maxIteration: 200,
-		focusNode: "2",
+		focusNode: itemModel,
 		unitRadius,
-		linkDistance: 180
+		linkDistance: 120,
+		nodeSize: 20,
+		nonOverlap: true
 	  }); 
 	  graph.addPlugin(subRadialLayout);
 	  // only layout the newly added part around the clicked node
@@ -3398,6 +3401,8 @@
 		{'nodes': newNodeModels,
 		'edges': newEdgeModels}
 	  );
+
+	  focusNode = itemModel;
       graph.changeData({"nodes": allNodeModels, "edges": allEdgeModels});
 	}
   });
@@ -3439,7 +3444,7 @@
   graph.data({ nodes: data_m.nodes, edges: data_m.edges.map((edge, i) => {
       edge.id = 'edge' + i;
       return Object.assign({}, edge);
-    }) });
+	}) });
   RadialLayoutPlugin.layout(data_m);
   graph.render();
 

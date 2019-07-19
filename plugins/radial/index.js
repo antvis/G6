@@ -38,6 +38,8 @@ class Radial extends Base {
       unitRadius: null,           // 默认边长度
       linkDistance: 50,           // 默认边长度
       animate: true,              // 插值动画效果变换节点位置
+      nonOverlap: false,          // 是否防止重叠
+      nodeSize: 10,               // 节点半径
       onLayoutEnd() {},           // 布局完成回调
       onTick() {}                 // 每一迭代布局回调
     };
@@ -137,6 +139,40 @@ class Radial extends Base {
       p[1] -= positions[focusIndex][1];
     });
     self.run();
+
+    const nonOverlap = self.get('nonOverlap');
+    const nodeSize = self.get('nodeSize');
+    // stagger the overlapped nodes
+    if (nonOverlap) {
+      let hasOverlaps = true;
+      let iter = 0;
+      const oMaxIter = 5;
+      while (hasOverlaps && iter < oMaxIter) {
+        hasOverlaps = false;
+        iter++;
+        positions.forEach((v, i) => {
+          positions.forEach((u, j) => {
+            if (i <= j) return;
+            // u and j are in different circle, will not overlaps
+            if (radii[i] !== radii[j]) return;
+            // u has been moved
+            const edis = Util.getEDistance(v, u);
+            if (edis < nodeSize) { // overlapped
+              hasOverlaps = true;
+              // the vector focusNode -> u
+              let vecx = u[0] - positions[focusIndex][0];
+              let vecy = u[1] - positions[focusIndex][1];
+              const length = Math.sqrt(vecx * vecx + vecy * vecy);
+              vecx = (length + nodeSize) * vecx / length;
+              vecy = (length + nodeSize) * vecy / length;
+              u[0] = vecx + positions[focusIndex][0];
+              u[1] = vecy + positions[focusIndex][1];
+            }
+          });
+        });
+      }
+    }
+
     // move the graph to center
     positions.forEach((p, i) => {
       nodes[i].x = p[0] + center[0];
