@@ -707,7 +707,7 @@
   }
 
   const fruchtermanLayout = new Fruchterman({
-    maxIteration: 5000,
+    maxIteration: 8000,
     gravity: 10,
     center: [500, 300]
   });
@@ -745,12 +745,11 @@
       }
     }
   });
-  graph.data({ nodes: data.nodes, edges: data.edges.map((edge, i) => {
+  graph.data({ nodes: data2.nodes, edges: data2.edges.map((edge, i) => {
       edge.id = 'edge' + i;
       return Object.assign({}, edge);
     }) });
-  fruchtermanLayout.layout(data);
-  console.log(data);
+  fruchtermanLayout.layout(data2);
   graph.render();
 </script>
 </body>
