@@ -24,7 +24,7 @@ describe('fruchterman layout', () => {
     done();
   });
 
-  it('force with fixed gravity and max iteration', done => {
+  it('fruchterman with fixed gravity and max iteration', done => {
     const fruch = new Fruchterman({
       center: [ 250, 250 ],
       maxIteration: 8000,
