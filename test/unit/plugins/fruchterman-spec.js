@@ -20,7 +20,7 @@ describe('fruchterman layout', () => {
     });
     fruch.initPlugin(graph);
     fruch.layout(data);
-    expect(data.nodes[0].x != null);
+    expect(data.nodes[0].x != null).to.equal(true);
     done();
   });
 
@@ -31,7 +31,7 @@ describe('fruchterman layout', () => {
       gravity: 100
     });
     fruch.initPlugin(graph);
-    expect(data.nodes[0].x != null);
+    expect(data.nodes[0].x != null).to.equal(true);
     done();
   });
 
@@ -50,7 +50,7 @@ describe('fruchterman layout', () => {
       { source: '0', target: '2' }
     ];
     fruch.updateLayout({ gravity: 100, data });
-    expect(data.nodes[0].x != null);
+    expect(data.nodes[0].x != null).to.equal(true);
     done();
   });
 });
