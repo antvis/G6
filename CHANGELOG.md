@@ -2,6 +2,11 @@
 
 ---
 
+#### 3.0.5
+`2019-07-19`
+* feat: add five demos
+* refactor: update three behaviors
+
 #### 2.2.5
 
 `2018-12-20`
