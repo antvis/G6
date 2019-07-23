@@ -139,7 +139,6 @@ class Radial extends Base {
       p[1] -= positions[focusIndex][1];
     });
     self.run();
-    // console.log('positions2', positions);
 
     const nonOverlap = self.get('nonOverlap');
     const nodeSize = self.get('nodeSize');
