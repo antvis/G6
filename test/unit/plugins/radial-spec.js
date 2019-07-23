@@ -7,6 +7,10 @@ const div = document.createElement('div');
 div.id = 'radial-layout';
 document.body.appendChild(div);
 
+function mathEqual(a, b) {
+  return Math.abs(a - b) < 1;
+}
+
 describe('radial layout', () => {
 
   const graph = new G6.Graph({
@@ -15,13 +19,13 @@ describe('radial layout', () => {
     height: 500
   });
   it('radial layout with default configs', done => {
-    const fruch = new Radial({
+    const radial = new Radial({
       center: [ 250, 250 ]
     });
-    fruch.initPlugin(graph);
-    fruch.layout(data);
-    expect(data.nodes[0].x === 250);
-    expect(data.nodes[0].x === 250);
+    radial.initPlugin(graph);
+    radial.layout(data);
+    expect(mathEqual(data.nodes[0].x, 250)).to.equal(true);
+    expect(mathEqual(data.nodes[0].y, 250)).to.equal(true);
     done();
   });
 
@@ -29,18 +33,19 @@ describe('radial layout', () => {
     const unitRadius = 100;
     const radial = new Radial({
       center: [ 250, 250 ],
-      maxIteration: 10000,
+      maxIteration: 10,
       focusNode: data.nodes[2],
       unitRadius,
       linkDistance: 100
     });
     radial.initPlugin(graph);
-    expect(data.nodes[2].x === 250);
-    expect(data.nodes[2].x === 250);
+    radial.layout(data);
+    expect(mathEqual(data.nodes[2].x, 250)).to.equal(true);
+    expect(mathEqual(data.nodes[2].y, 250)).to.equal(true);
     const vx = data.nodes[0].x - data.nodes[2].x;
     const vy = data.nodes[0].y - data.nodes[2].y;
-    const distToFocus = Math.sqrt(vx * vx, vy * vy);
-    expect(distToFocus % unitRadius === 0);
+    const distToFocus = Math.sqrt(vx * vx + vy * vy);
+    expect(mathEqual(distToFocus % unitRadius, 0)).to.equal(true);
     done();
   });
 
@@ -55,8 +60,8 @@ describe('radial layout', () => {
       return;
     });
     radial.initPlugin(graph);
-    expect(data.nodes[focusNodeIndex].x === 250);
-    expect(data.nodes[focusNodeIndex].y === 250);
+    expect(mathEqual(data.nodes[focusNodeIndex].x, 250)).to.equal(true);
+    expect(mathEqual(data.nodes[focusNodeIndex].y, 250)).to.equal(true);
     done();
   });
 
@@ -77,12 +82,12 @@ describe('radial layout', () => {
     ];
     const newUnitRadius = 80;
     radial.updateLayout({ center: [ 100, 150 ], unitRadius: newUnitRadius, linkDistance: 70, focusNode: data.nodes[1], data });
-    expect(data.nodes[0].x === 100);
-    expect(data.nodes[0].x === 150);
-    const vx = data.nodes[0].x - data.nodes[2].x;
-    const vy = data.nodes[0].y - data.nodes[2].y;
-    const distToFocus = Math.sqrt(vx * vx, vy * vy);
-    expect(distToFocus % newUnitRadius === 0);
+    expect(mathEqual(data.nodes[1].x, 100)).to.equal(true);
+    expect(mathEqual(data.nodes[1].y, 150)).to.equal(true);
+    const vx = data.nodes[2].x - data.nodes[1].x;
+    const vy = data.nodes[2].y - data.nodes[1].y;
+    const distToFocus = Math.sqrt(vx * vx + vy * vy);
+    expect(mathEqual(distToFocus % newUnitRadius, 0)).to.equal(true);
     done();
   });
 });

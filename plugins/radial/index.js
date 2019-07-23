@@ -32,7 +32,7 @@ function getIndexById(array, id) {
 class Radial extends Base {
   getDefaultCfgs() {
     return {
-      maxIteration: null,         // 停止迭代的最大迭代数
+      maxIteration: 1000,         // 停止迭代的最大迭代数
       focusNode: null,            // 中心点，默认为数据中第一个点
       center: [ 0, 0 ],           // 布局中心
       unitRadius: null,           // 默认边长度
@@ -139,6 +139,7 @@ class Radial extends Base {
       p[1] -= positions[focusIndex][1];
     });
     self.run();
+    // console.log('positions2', positions);
 
     const nonOverlap = self.get('nonOverlap');
     const nodeSize = self.get('nodeSize');
