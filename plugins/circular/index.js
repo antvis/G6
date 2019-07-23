@@ -251,27 +251,5 @@ class Circular extends Base {
     }
     super.destroy();
   }
-
-  eIdealDisMatrix() {
-    const D = this.get('distances');
-    const linkDis = this.get('linkDistance');
-    const radii = this.get('radii');
-    const unitRadius = this.get('unitRadius');
-    const result = [];
-    D.forEach((row, i) => {
-      const newRow = [];
-      row.forEach((v, j) => {
-        if (i === j) newRow.push(0);
-        else if (radii[i] === radii[j]) { // i and j are on the same circle
-          newRow.push(v * linkDis / (radii[i] / unitRadius));
-        } else { // i and j are on different circle
-          const link = (linkDis + unitRadius) / 2;
-          newRow.push(v * link);
-        }
-      });
-      result.push(newRow);
-    });
-    return result;
-  }
 }
 module.exports = Circular;
