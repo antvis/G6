@@ -24,7 +24,7 @@ module.exports = {
     const pixelRatio = canvas.get('pixelRatio');
     const sensitivity = this.get('sensitivity');
     let ratio = graph.getZoom();
-    if (e.wheelDelta > 0) {
+    if (e.deltaY < 0) {
       ratio = 1 - DELTA * sensitivity;
     } else {
       ratio = 1 + DELTA * sensitivity;
