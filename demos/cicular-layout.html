@@ -5,7 +5,8 @@
     <title>Title</title>
 </head>
 <body>
-<div id="mountNode"></div>
+	<div id="mountNode"></div>
+	<div id="mountNode2"></div>
 <script src="../build/g6.js"></script>
 <script src="./assets/d3-4.13.0.min.js"></script>
 <script src="../build/circular.js"></script>
@@ -133,22 +134,15 @@
     edge.id = i;
   });
   const circularLayout = new Circular({
-	center: [ 100, 150 ],
-	radius: 200,
+	center: [ 250, 150 ],
+	radius: 100,
 	ordering: null
   });
   const graph = new G6.Graph({
     container: 'mountNode',
-    width: 1000,
-    height: 600,
+    width: 500,
+    height: 300,
     plugins: [ circularLayout ],
-    modes: {
-      default: [{
-        type: 'brush-select',
-        onSelect(nodes) { console.log('selected:', nodes); },
-        onDeselect(nodes) { console.log('deselect', nodes); }
-      }]
-    },
     defaultNode: {
       size: [20, 20],
       color: 'steelblue'
@@ -161,9 +155,6 @@
       default: {
         lineWidth: 2,
         fill: '#fff'
-      },
-      selected: {
-        fill: 'steelblue'
       }
     },
     edgeStyle: {
@@ -182,6 +173,94 @@
   circularLayout.layout(data);
   graph.render();
   
+
+  const spiralLayout = new Circular({
+	center: [ 250, 150 ],
+	startRadius: 10,
+	endRadius: 140,
+	startAngle: Math.PI / 4,
+	endAngle: 3 * Math.PI,
+	clockwise: false,
+	ordering: 'topology'
+  });
+  const graphSpiral = new G6.Graph({
+    container: 'mountNode2',
+    width: 500,
+    height: 300,
+    plugins: [ spiralLayout ],
+    defaultNode: {
+      size: [20, 20],
+      color: 'steelblue'
+    },
+    defaultEdge: {
+      size: 1,
+      color: '#e2e2e2'
+    },
+    nodeStyle: {
+      default: {
+        lineWidth: 2,
+        fill: '#fff'
+      }
+    },
+    edgeStyle: {
+      default: {
+        endArrow: {
+          path: 'M 4,0 L -4,-4 L -4,4 Z',
+          d: 4
+        }
+      }
+    }
+  });
+  graphSpiral.data({ nodes: data.nodes, edges: data.edges.map((edge, i) => {
+      edge.id = 'edge' + i;
+      return Object.assign({}, edge);
+    }) });
+  spiralLayout.layout(data);
+  graphSpiral.render();
+
+
+  const circularDividedLayout = new Circular({
+	center: [ 250, 150 ],
+	radius: 100,
+	startAngle: Math.PI / 4,
+	endAngle: Math.PI,
+	divisions: 5,
+	ordering: 'degree'
+  });
+  const graphDivided = new G6.Graph({
+    container: 'mountNode2',
+    width: 500,
+    height: 300,
+    plugins: [ circularDividedLayout ],
+    defaultNode: {
+      size: [20, 20],
+      color: 'steelblue'
+    },
+    defaultEdge: {
+      size: 1,
+      color: '#e2e2e2'
+    },
+    nodeStyle: {
+      default: {
+        lineWidth: 2,
+        fill: '#fff'
+      }
+    },
+    edgeStyle: {
+      default: {
+        endArrow: {
+          path: 'M 4,0 L -4,-4 L -4,4 Z',
+          d: 4
+        }
+      }
+    }
+  });
+  graphDivided.data({ nodes: data.nodes, edges: data.edges.map((edge, i) => {
+      edge.id = 'edge' + i;
+      return Object.assign({}, edge);
+    }) });
+	circularDividedLayout.layout(data);
+  graphDivided.render();
 </script>
 </body>
 </html>
