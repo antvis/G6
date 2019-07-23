@@ -24,6 +24,11 @@ describe('drag-node', () => {
     graph.paint();
     graph.emit('node:dragstart', { x: 100, y: 100, item: node });
     graph.emit('node:drag', { x: 120, y: 120, item: node });
+    const dragMatrix = node.get('group').getMatrix();
+    expect(dragMatrix[6]).to.equal(50);
+    expect(dragMatrix[7]).to.equal(50);
+
+    graph.emit('node:dragend', { x: 120, y: 120, item: node });
     const matrix = node.get('group').getMatrix();
     expect(matrix[0]).to.equal(1);
     expect(matrix[6]).to.equal(70);
