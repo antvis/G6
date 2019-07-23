@@ -4,7 +4,8 @@ const G6Plugins = {
   Force: require('./force'),
   Radial: require('./radial'),
   Dagre: require('./dagre'),
-  Menu: require('./menu')
+  Menu: require('./menu'),
+  Circular: require('./circular')
 };
 
 module.exports = G6Plugins;
