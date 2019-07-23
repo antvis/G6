@@ -20,7 +20,7 @@ describe('mds layout', () => {
     });
     mds.initPlugin(graph);
     mds.layout(data);
-    expect(data.nodes[0].x != null);
+    expect(data.nodes[0].x != null).to.equal(true);
     done();
   });
 
@@ -30,7 +30,7 @@ describe('mds layout', () => {
       linkDistance: 120
     });
     mds.initPlugin(graph);
-    expect(data.nodes[0].x != null);
+    expect(data.nodes[0].x != null).to.equal(true);
     done();
   });
 
@@ -50,7 +50,7 @@ describe('mds layout', () => {
       { source: '0', target: '2' }
     ];
     mds.updateLayout({ gravity: 100, data });
-    expect(data.nodes[0].x != null);
+    expect(data.nodes[0].x != null).to.equal(true);
     done();
   });
 });
