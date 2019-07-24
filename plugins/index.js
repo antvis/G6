@@ -5,7 +5,8 @@ const G6Plugins = {
   Radial: require('./radial'),
   Dagre: require('./dagre'),
   Menu: require('./menu'),
-  Circular: require('./circular')
+  Circular: require('./circular'),
+  Bundling: require('./Bundling')
 };
 
 module.exports = G6Plugins;
