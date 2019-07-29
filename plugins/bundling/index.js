@@ -27,7 +27,7 @@ class Bundling extends Base {
       edgePoints: [],                 // |edges|*divisions edge points
       K: 0.1,                         // 边的强度
       lambda: 0.1,                    // 初始步长
-      divisions: 1,                   // init. subdivision number
+      divisions: 1,                   // 初始切割点数
       divRate: 2, // subdivision rate increase
       cycles: 6, // number of cycles to perform
       iterations: 90,                  // 每个 cycle 初始迭代次数
@@ -58,9 +58,14 @@ class Bundling extends Base {
     const edges = data.edges;
     const nodes = data.nodes;
     const nodeIdMap = new Map();
+    let error = false;
     nodes.forEach(node => {
+      if (node.x === null || !node.y === null || node.x === undefined || !node.y === undefined) {
+        error = true;
+      }
       nodeIdMap.set(node.id, node);
     });
+    if (error) throw new Error('please layout the graph or assign x and y for nodes first');
     self.set('nodeIdMap', nodeIdMap);
 
     // subdivide each edges
@@ -110,25 +115,22 @@ class Bundling extends Base {
   updateBundling(cfg) {
     const self = this;
     const data = cfg.data;
-    const simulation = self.getSimulation();
     if (data) {
       self.set('data', data);
     }
     if (self.get('ticking')) {
-      simulation.stop();
       self.set('ticking', false);
     }
-    this.set('forceSimulation', null);
     Object.keys(cfg).forEach(key => {
       self.set(key, cfg[key]);
     });
     if (cfg.onTick) {
       self.set('tick', () => {
         cfg.onTick();
-        self.graph.refreshPositions();
+        self.graph.refresh();
       });
     }
-    self.layout(data);
+    self.bundling(data);
   }
   divideEdges(divisions) {
     const self = this;
