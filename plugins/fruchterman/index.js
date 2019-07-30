@@ -91,7 +91,7 @@ class Fruchterman extends Base {
 
       // gravity
       nodes.forEach((n, i) => {
-        const distLength = Math.sqrt(n.x * n.x + n.y * n.y);
+        const distLength = Math.sqrt(disp[i].x * disp[i].x + disp[i].y * disp[i].y);
         const gravityForce = 0.01 * k * gravity * distLength;
         disp[i].x -= gravityForce * n.x / distLength;
         disp[i].y -= gravityForce * n.y / distLength;
@@ -104,7 +104,7 @@ class Fruchterman extends Base {
 
       // move
       nodes.forEach((n, i) => {
-        const distLength = Math.sqrt(n.x * n.x + n.y * n.y);
+        const distLength = Math.sqrt(disp[i].x * disp[i].x + disp[i].y * disp[i].y);
         if (distLength > 0) { // && !n.isFixed()
           const limitedDist = Math.min(maxDisplace * (speed / SPEED_DIVISOR), distLength);
           n.x += disp[i].x / distLength * limitedDist;
