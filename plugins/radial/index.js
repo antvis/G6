@@ -207,7 +207,7 @@ class Radial extends Base {
       let denominator = 0;
       positions.forEach((u, j) => { // u
         if (i === j) return;
-        if (j === focusIndex) return;
+        // if (j === focusIndex) return;
         // the euclidean distance between v and u
         const edis = Util.getEDistance(v, u);
         const reciEdis = edis === 0 ? 0 : 1 / edis;

@@ -3300,7 +3300,9 @@
     maxIteration: 200,
     focusNode,
     unitRadius: mainUnitRadius,
-    linkDistance: 250
+	linkDistance: 100,
+	// nonOverlap: true,
+	nodeSize: 20
   });
 
   G6.registerBehavior('click-add-node', {
@@ -3390,7 +3392,8 @@
 		maxIteration: 200,
 		focusNode: "2",
 		unitRadius,
-		linkDistance: 180
+		linkDistance: 180,
+		nonOverlap: true
 	  }); 
 	  graph.addPlugin(subRadialLayout);
 	  // only layout the newly added part around the clicked node
