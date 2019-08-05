@@ -23,13 +23,13 @@ function projectPointToEdge(p, e) {
 class Bundling extends Base {
   getDefaultCfgs() {
     return {
-      edgeBundles: [],                // |edges| arrays, each one stores the related edges' id
-      edgePoints: [],                 // |edges|*divisions edge points
-      K: 0.1,                         // 边的强度
-      lambda: 0.1,                    // 初始步长
-      divisions: 1,                   // 初始切割点数
-      divRate: 2, // subdivision rate increase
-      cycles: 6, // number of cycles to perform
+      edgeBundles: [],                 // |edges| arrays, each one stores the related edges' id
+      edgePoints: [],                  // |edges| * divisions edge points
+      K: 0.1,                          // 边的强度
+      lambda: 0.1,                     // 初始步长
+      divisions: 1,                    // 初始切割点数
+      divRate: 2,                      // subdivision rate increase
+      cycles: 6,                       // number of cycles to perform
       iterations: 90,                  // 每个 cycle 初始迭代次数
       iterRate: 0.6666667,             // 迭代下降率
       bundleThreshold: 0.6,
