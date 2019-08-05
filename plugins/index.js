@@ -6,7 +6,8 @@ const G6Plugins = {
   Fruchterman: require('./fruchterman'),
   Mds: require('./mds'),
   Dagre: require('./dagre'),
-  Menu: require('./menu')
+  Menu: require('./menu'),
+  Circular: require('./circular')
 };
 
 module.exports = G6Plugins;
