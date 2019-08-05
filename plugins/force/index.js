@@ -11,11 +11,14 @@ class Force extends Base {
       edgeStrength: null,         // 边的作用力, 默认为根据节点的入度出度自适应
       linkDistance: 50,           // 默认边长度
       forceSimulation: null,      // 自定义 force 方法
+      maxIteration: null,            // 停止迭代的最大迭代数
+      threshold: null,            // 停止迭代的阈值
       onLayoutEnd() {},           // 布局完成回调
       onTick() {}                 // 每一迭代布局回调
     };
   }
-  init(graph) {
+  init() {
+    const graph = this.get('graph');
     const onTick = this.get('onTick');
     const tick = () => {
       onTick && onTick();
@@ -26,6 +29,7 @@ class Force extends Base {
   }
   layout(data) {
     const self = this;
+    self.set('data', data);
     // 如果正在布局，忽略布局请求
     if (self.isTicking()) {
       return;
@@ -39,11 +43,15 @@ class Force extends Base {
         if (cfgs.nodeStrength) {
           nodeForce.strength(cfgs.nodeStrength);
         }
+        const nodes = data.nodes;
         simulation = d3Force.forceSimulation()
-          .nodes(data.nodes)
+          .nodes(nodes)
           .force('center', d3Force.forceCenter(cfgs.center[0], cfgs.center[1]))
           .force('charge', nodeForce)
-          .on('tick', cfgs.tick)
+          // .alphaTarget(0.3)
+          .on('tick', () => {
+            cfgs.tick();
+          })
           .on('end', () => {
             self.set('ticking', false);
             cfgs.onLayoutEnd && cfgs.onLayoutEnd();
@@ -61,7 +69,7 @@ class Force extends Base {
               return 20;
             };
           }
-          simulation.force('collide', d3Force.forceCollide().radius(nodeRadius));
+          simulation.force('collisionForce', d3Force.forceCollide(nodeRadius).strength(1));
         }
         // 如果有边，定义边的力
         if (data.edges) {
@@ -77,8 +85,8 @@ class Force extends Base {
           if (cfgs.edgeStrength) {
             edgeForce.strength(cfgs.edgeStrength);
           }
-          if (cfgs.distance) {
-            edgeForce.distance(cfgs.distance);
+          if (cfgs.linkDistance) {
+            edgeForce.distance(cfgs.linkDistance);
           }
           simulation.force('link', edgeForce);
         }
@@ -95,7 +103,11 @@ class Force extends Base {
   }
   updateLayout(cfg) {
     const self = this;
+    const data = cfg.data;
     const simulation = self.getSimulation();
+    if (data) {
+      self.set('data', data);
+    }
     if (self.get('ticking')) {
       simulation.stop();
       self.set('ticking', false);
@@ -110,6 +122,7 @@ class Force extends Base {
         self.graph.refreshPositions();
       });
     }
+    self.layout(data);
   }
   isTicking() {
     return this.get('ticking');
