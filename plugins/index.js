@@ -7,7 +7,8 @@ const G6Plugins = {
   Mds: require('./mds'),
   Dagre: require('./dagre'),
   Menu: require('./menu'),
-  Circular: require('./circular')
+  Circular: require('./circular'),
+  Bundling: require('./Bundling')
 };
 
 module.exports = G6Plugins;
