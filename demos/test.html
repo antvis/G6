@@ -26,13 +26,13 @@ const data = {
   nodes: [{
     id: 'node5',
     x: 100,
-    y: 100,
+    y: 180,
     label: '5',
     size: 80
   },{
     id: 'node6',
     x: 400,
-    y: 50,
+    y: 150,
     label: '6',
     size: 50
   },{
@@ -47,26 +47,28 @@ const data = {
     source: 'node6',
     target: 'node5',
     shape: 'arc',
-    edgeOffset: -50
+    curveOffset: -150
+  },
+  {
+    source: 'node6',
+    target: 'node5',
+    shape: 'arc',
+    curveOffset: 50
   },
   {
     source: 'node5',
     target: 'node6',
     shape: 'arc',
-    edgeOffset: 50
+    curveOffset: 50
   },
   {
-    source: 'node5',
-    target: 'node6',
+    source: 'node7',
+    target: 'node5',
     shape: 'arc',
-    edgeOffset: -50
-  },
-  {
-    source: 'node5',
-    target: 'node7',
-    shape: 'arc',
-    edgeOffset: 50
-  }]
+    controlPoints: [{ x: 200, y: 315 }]
+    // controlPoints: [{ x: 350, y: 315 }]
+  }
+]
 };
 const graph = new G6.Graph({
   container: 'mountNode',
