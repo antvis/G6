@@ -195,12 +195,14 @@ Shape.registerEdge('arc', {
       x: this.curveOffset * Math.cos((-Math.PI / 2 + edgeAngle)) + midPoint.x,
       y: this.curveOffset * Math.sin((-Math.PI / 2 + edgeAngle)) + midPoint.y
     };
-    const center = Math.getCircleCenterByPoints(startPoint, arcPoint, endPoint);
-    const radius = length(startPoint, center);
+    const center = Util.getCircleCenterByPoints(startPoint, arcPoint, endPoint);
+    const radius = Util.distance(startPoint, center);
+    const controlPoints = [ startPoint, { x: radius, y: radius }, endPoint ];
 
     return controlPoints;
   },
   getPath(points) {
+    console.log(points);
     const path = [];
     path.push([ 'M', points[0].x, points[0].y ]);
     path.push([ 'A', points[1].x, points[1].y, 0, 0, 0, points[2].x, points[2].y ]);
