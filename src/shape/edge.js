@@ -183,11 +183,26 @@ Shape.registerEdge('arc', {
   getControlPoints(cfg) {
     const startPoint = { x: cfg.sourceNode.getModel().x, y: cfg.sourceNode.getModel().y };
     const endPoint = { x: cfg.targetNode.getModel().x, y: cfg.targetNode.getModel().y };
+    const midPoint = {
+      x: (startPoint.x + endPoint.x) / 2,
+      y: (startPoint.y + endPoint.y) / 2
+    };
+    let center;
     let arcPoint;
     // 根据给定点计算圆弧
     if (cfg.controlPoints !== undefined) {
       arcPoint = cfg.controlPoints[0];
+      center = Util.getCircleCenterByPoints(startPoint, arcPoint, endPoint);
       // 根据控制点和直线关系决定 clockwise值
+      if (startPoint.x <= endPoint.x && startPoint.y > endPoint.y) {
+        this.clockwise = center.x > midPoint.x ? 1 : 0;
+      } else if (startPoint.x <= endPoint.x && startPoint.y < endPoint.y) {
+        this.clockwise = center.x > midPoint.x ? 0 : 1;
+      } else if (startPoint.x > endPoint.x && startPoint.y <= endPoint.y) {
+        this.clockwise = center.y < midPoint.y ? 1 : 0;
+      } else {
+        this.clockwise = center.y < midPoint.y ? 1 : 0;
+      }
       // 若给定点和两端点共线，无法生成圆弧，绘制直线
       if ((arcPoint.x - startPoint.x) / (arcPoint.y - startPoint.y)
         === (endPoint.x - startPoint.x) / (endPoint.y - startPoint.y)) {
@@ -200,10 +215,6 @@ Shape.registerEdge('arc', {
       }
       if (this.curveOffset < 0) this.clockwise = 0;
       else this.clockwise = 1;
-      const midPoint = {
-        x: (startPoint.x + endPoint.x) / 2,
-        y: (startPoint.y + endPoint.y) / 2
-      };
       const vec = {
         x: endPoint.x - startPoint.x,
         y: endPoint.y - startPoint.y
@@ -213,8 +224,8 @@ Shape.registerEdge('arc', {
         x: this.curveOffset * Math.cos((-Math.PI / 2 + edgeAngle)) + midPoint.x,
         y: this.curveOffset * Math.sin((-Math.PI / 2 + edgeAngle)) + midPoint.y
       };
+      center = Util.getCircleCenterByPoints(startPoint, arcPoint, endPoint);
     }
-    const center = Util.getCircleCenterByPoints(startPoint, arcPoint, endPoint);
     console.log('distance center controlpoint', Util.distance(center, arcPoint));
     const radius = Util.distance(startPoint, center);
     console.log('radius', radius);
