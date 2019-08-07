@@ -178,10 +178,32 @@ Shape.registerEdge('spline', {
 }, 'single-line');
 
 Shape.registerEdge('arc', {
+  curveOffset: 30,
+  getControlPoints(cfg) {
+    const startPoint = cfg.sourceNode.getModel().x;
+    const endPoint = cfg.sourceNode.getModel().y;
+    const midPoint = {
+      x: (startPoint.x + endPoint.x) / 2,
+      y: (startPoint.y + endPoint.y) / 2
+    };
+    const vec = {
+      x: endPoint.x - startPoint.x,
+      y: endPoint.y - startPoint.y
+    };
+    const edgeAngle = Math.atan2(vec.y, vec.x);
+    const arcPoint = {
+      x: this.curveOffset * Math.cos((-Math.PI / 2 + edgeAngle)) + midPoint.x,
+      y: this.curveOffset * Math.sin((-Math.PI / 2 + edgeAngle)) + midPoint.y
+    };
+    const center = Math.getCircleCenterByPoints(startPoint, arcPoint, endPoint);
+    const radius = length(startPoint, center);
+
+    return controlPoints;
+  },
   getPath(points) {
     const path = [];
     path.push([ 'M', points[0].x, points[0].y ]);
-    path.push([ 'A', radius, radius, 0, 0, flag, points[1].x, points[1].y ]);
+    path.push([ 'A', points[1].x, points[1].y, 0, 0, 0, points[2].x, points[2].y ]);
     return path;
   }
 }, 'single-line');
