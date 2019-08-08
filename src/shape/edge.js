@@ -181,8 +181,8 @@ Shape.registerEdge('arc', {
   curveOffset: 20,
   clockwise: 1,
   getControlPoints(cfg) {
-    const startPoint = { x: cfg.sourceNode.getModel().x, y: cfg.sourceNode.getModel().y };
-    const endPoint = { x: cfg.targetNode.getModel().x, y: cfg.targetNode.getModel().y };
+    const startPoint = cfg.startPoint;
+    const endPoint = cfg.endPoint;
     const midPoint = {
       x: (startPoint.x + endPoint.x) / 2,
       y: (startPoint.y + endPoint.y) / 2
