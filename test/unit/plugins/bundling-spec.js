@@ -49,18 +49,26 @@ describe('edge bundling', () => {
   });
 
   it('bundling update', () => {
+    const data2 = {
+      nodes: [
+        { id: '0' }, { id: '1' }
+      ],
+      edges: [
+        { source: '0', target: '1' }
+      ]
+    };
     const circularLayout = new Circular({ center: [ 250, 250 ] });
     circularLayout.initPlugin(graph);
-    circularLayout.layout(data);
+    circularLayout.layout(data2);
 
     const bundle = new Bundling();
     bundle.initPlugin(graph);
-    bundle.bundling(data);
+    bundle.bundling(data2);
 
-    data.nodes = [
+    data2.nodes = [
       { id: '0', x: 10, y: 100 }, { id: '1', x: 100, y: 100 }, { id: '2', x: 10, y: 10 }
     ];
-    data.edges = [
+    data2.edges = [
       { source: '0', target: '1' },
       { source: '1', target: '2' },
       { source: '0', target: '2' }
@@ -69,11 +77,11 @@ describe('edge bundling', () => {
     bundle.updateBundling({
       bundleThreshold: 0.1,
       iterations: 120,
-      data
+      data: data2
     });
 
-    expect(data.edges[0].shape).to.equal('polyline');
-    expect(data.edges[0].controlPoints.length > 2).to.equal(true);
+    expect(data2.edges[0].shape).to.equal('polyline');
+    expect(data2.edges[0].controlPoints.length > 2).to.equal(true);
   });
 
   it('bundling no position info, throw error', () => {

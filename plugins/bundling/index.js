@@ -87,6 +87,7 @@ class Bundling extends Base {
       for (let j = 0; j < iterations; j++) {
         const forces = [];
         edges.forEach((e, k) => {
+          if (e.source === e.target) return;
           const source = nodeIdMap.get(e.source);
           const target = nodeIdMap.get(e.target);
           forces[k] = self.getEdgeForces({ source, target }, k, divisions, lambda);
@@ -106,6 +107,7 @@ class Bundling extends Base {
 
     // change the edges according to edgePoints
     edges.forEach((e, i) => {
+      if (e.source === e.target) return;
       e.shape = 'polyline';
       e.controlPoints = edgePoints[i].slice(1, edgePoints[i].length - 1);
     });
@@ -159,9 +161,7 @@ class Bundling extends Base {
         edgePoints[i].forEach((ep, j) => {
           if (j === 0) return;
           let oriDivisionLength = getEucliDis(ep, edgePoints[i][j - 1]);
-        //   let count = 0;
           while (oriDivisionLength > currentDivisonLength) {
-            // count++;
             const ratio = currentDivisonLength / oriDivisionLength;
             const edgePoint = { x: edgePoints[i][j - 1].x, y: edgePoints[i][j - 1].y };
             edgePoint.x += ratio * (ep.x - edgePoints[i][j - 1].x);
@@ -170,7 +170,6 @@ class Bundling extends Base {
             oriDivisionLength -= currentDivisonLength;
             currentDivisonLength = divisionLength;
           }
-        //   console.log('push count', count, divisions);
           currentDivisonLength -= oriDivisionLength;
         });
         newEdgePoints.push({ x: target.x, y: target.y }); // target
