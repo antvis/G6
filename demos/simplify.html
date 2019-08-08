@@ -1,0 +1,109 @@
+<!DOCTYPE html></script>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+  body{
+    background: rgb(255, 255, 255);
+  }
+  .g6-tooltip {
+    border: 1px solid #e2e2e2;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #545454;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 10px 8px;
+    box-shadow: rgb(174, 174, 174) 0px 0px 10px;
+  }
+</style>
+<body>
+	<div id="mountNode"></div>
+<script src="../build/g6.js"></script>
+<script src="./assets/d3-4.13.0.min.js"></script>
+<script src="../build/fruchterman.js"></script>
+<script src="../build/force.js"></script>
+<script src="../build/circular.js"></script>
+<script src="../build/bundling.js"></script>
+
+<script>
+  const colors = [ '#f5222d', '#fa541c', '#fa8c16', '#faad14', 
+  '#a0d911', '#13c2c2', '#1890ff', '#722ed1', '#eb2f96' ];
+  const llightBlue16 = '#C8FDFC';
+  const llightOrange16 = '#FFAA86';
+  d3.json("./assets/data/filtered-trade.json", function(data) {
+    const nodes = data.nodes;
+    const edges = data.edges;
+    const circularLayout = new Circular({
+        center: [ 500, 300 ],
+        radius: 300,
+        ordering: 'degree'
+    });
+
+    const edgeBundling = new Bundling({
+      bundleThreshold: 0.6,
+      K: 100
+    });
+    // const fruchtermanLayout = new Fruchterman({
+    //     maxIteration: 8000,
+    //     center: [500, 300]
+    // });
+    const forceLayout = new Force({
+        center: [0, 0],
+        tick() {
+            graph.refreshPositions();
+        },
+    });
+    const graph = new G6.Graph({
+      container: 'mountNode',
+      width: 1000,
+      height: 800,
+      plugins: [ circularLayout,  edgeBundling],
+      fitView: true,
+      defaultNode: {
+        shape: 'circle',
+        size: 10,
+        color: 'steelblue',
+        fill: 'steelblue'
+      },
+      nodeStyle: {
+        default: {
+          lineWidth: 0,
+          fill: 'steelblue'
+        }
+      },
+      edgeStyle: {
+        default: {
+          lineWidth: 1,
+          strokeOpacity: 1,
+          stroke: 'l(0) 0:' + llightOrange16 + ' 1:' + llightBlue16
+        }
+      },
+      modes: {
+        default: [ 'drag-node', {
+          type: 'tooltip',
+          formatText(model) {
+            const text = model.name + '\r Region: ' + model.region;
+            return text;
+          },
+          shouldUpdate: e => {
+            return true;
+          }
+        }]
+    },
+    });
+    // fruchtermanLayout.layout(data);
+    graph.data(data);
+    circularLayout.layout(data);
+    graph.render();
+    // forceLayout.layout(data);
+
+  setTimeout(() => {
+    edgeBundling.bundling(data);
+  }, 1000);
+
+  });
+</script>
+</body>
+</html>
