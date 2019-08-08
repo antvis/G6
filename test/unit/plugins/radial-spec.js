@@ -16,7 +16,11 @@ describe('radial layout', () => {
   const graph = new G6.Graph({
     container: div,
     width: 500,
-    height: 500
+    height: 500,
+    defaultNode: {
+      size: 20,
+      color: 'steelblue'
+    }
   });
   it('radial layout with default configs', done => {
     const radial = new Radial({
@@ -64,6 +68,28 @@ describe('radial layout', () => {
     radial.layout(data);
     expect(mathEqual(data.nodes[focusNodeIndex].x, 250)).to.equal(true);
     expect(mathEqual(data.nodes[focusNodeIndex].y, 250)).to.equal(true);
+    done();
+  });
+
+  it('radial with nonoverlap', done => {
+    const radial = new Radial({
+      center: [ 250, 250 ],
+      focusNode: 'Belgium',
+      nodeSize: 20,
+      nonOverlap: true
+    });
+    let c1;
+    let c2;
+    const nodes = data.nodes;
+    nodes.forEach(n => {
+      if (n.id === 'Panama') c1 = n;
+      if (n.id === 'Tunisia') c2 = n;
+    });
+    radial.initPlugin(graph);
+    radial.layout(data);
+    const eucliDisSqr = (c1.x - c2.x) * (c1.x - c2.x) + (c1.y - c2.y) * (c1.y - c2.y);
+    const eucliDis = Math.sqrt(eucliDisSqr);
+    expect(eucliDis >= 20).to.equal(true);
     done();
   });
 
