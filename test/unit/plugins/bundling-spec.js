@@ -83,10 +83,7 @@ describe('edge bundling', () => {
     function fn() {
       bundle.bundling(data);
     }
-    // bundle.bundling(data);
-    // expect(() => bundle.bundling(data)).to.throw('please layout the graph or assign x and y for nodes first');
-    expect(() => bundle.bundling(data)).to.Throw();
-    expect(fn).to.Throw();
+    expect(fn).to.throw;
 
   });
 });
