@@ -2,6 +2,7 @@
 const Base = require('../base');
 const Util = require('@antv/g6').Util;
 const MDS = require('./mds');
+const RadialNonoverlapForce = require('./radialNonoverlapForce');
 
 function getWeightMatrix(M) {
   const rows = M.length;
@@ -126,7 +127,7 @@ class Radial extends Base {
 
     // the initial positions from mds
     const mds = new MDS({ distances: eIdealD, dimension: 2 });
-    const positions = mds.layout();
+    let positions = mds.layout();
     self.set('positions', positions);
     positions.forEach((p, i) => {
       nodes[i].x = p[0] + center[0];
@@ -144,33 +145,13 @@ class Radial extends Base {
     const nodeSize = self.get('nodeSize');
     // stagger the overlapped nodes
     if (nonOverlap) {
-      let hasOverlaps = true;
-      let iter = 0;
-      const oMaxIter = 5;
-      while (hasOverlaps && iter < oMaxIter) {
-        hasOverlaps = false;
-        iter++;
-        positions.forEach((v, i) => {
-          positions.forEach((u, j) => {
-            if (i <= j) return;
-            // u and j are in different circle, will not overlaps
-            if (radii[i] !== radii[j]) return;
-            // u has been moved
-            const edis = Util.getEDistance(v, u);
-            if (edis < nodeSize) { // overlapped
-              hasOverlaps = true;
-              // the vector focusNode -> u
-              let vecx = u[0] - positions[focusIndex][0];
-              let vecy = u[1] - positions[focusIndex][1];
-              const length = Math.sqrt(vecx * vecx + vecy * vecy);
-              vecx = (length + nodeSize) * vecx / length;
-              vecy = (length + nodeSize) * vecy / length;
-              u[0] = vecx + positions[focusIndex][0];
-              u[1] = vecy + positions[focusIndex][1];
-            }
-          });
-        });
-      }
+      const nonoverlapForce = new RadialNonoverlapForce({
+        nodeSize, adjMatrix, positions, radii, height, width,
+        focusID: focusIndex,
+        iterations: 200,
+        k: positions.length / 4.5
+      });
+      positions = nonoverlapForce.layout();
     }
 
     // move the graph to center
