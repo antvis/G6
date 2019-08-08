@@ -226,9 +226,7 @@ Shape.registerEdge('arc', {
       };
       center = Util.getCircleCenterByPoints(startPoint, arcPoint, endPoint);
     }
-    console.log('distance center controlpoint', Util.distance(center, arcPoint));
     const radius = Util.distance(startPoint, center);
-    console.log('radius', radius);
     const controlPoints = [{ x: radius, y: radius }];
 
     return controlPoints;
