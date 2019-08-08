@@ -45,7 +45,8 @@ describe('radial layout', () => {
     const vx = data.nodes[0].x - data.nodes[2].x;
     const vy = data.nodes[0].y - data.nodes[2].y;
     const distToFocus = Math.sqrt(vx * vx + vy * vy);
-    expect(mathEqual(distToFocus % unitRadius, 0)).to.equal(true);
+    expect(mathEqual(distToFocus % unitRadius - unitRadius, 0)
+      || mathEqual(distToFocus % unitRadius, 0)).to.equal(true);
     done();
   });
 
@@ -87,7 +88,8 @@ describe('radial layout', () => {
     const vx = data.nodes[2].x - data.nodes[1].x;
     const vy = data.nodes[2].y - data.nodes[1].y;
     const distToFocus = Math.sqrt(vx * vx + vy * vy);
-    expect(mathEqual(distToFocus % newUnitRadius, 0)).to.equal(true);
+    expect(mathEqual(distToFocus % newUnitRadius - newUnitRadius, 0)
+     || mathEqual(distToFocus % newUnitRadius, 0)).to.equal(true);
     done();
   });
 });
