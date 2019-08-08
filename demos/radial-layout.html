@@ -10,24 +10,6 @@
 <script src="./assets/d3-4.13.0.min.js"></script>
 <script src="../build/radial.js"></script>
 <script>
-  // const data = {
-  //   "nodes": [
-  //     {"id": "0", "label": "0"},
-  //     {"id": "1", "label": "1"},
-  //     {"id": "2", "label": "2"},
-  //     {"id": "3", "label": "3"},
-  //     {"id": "4", "label": "4"}
-  //   ],
-  //   "edges": [
-  //     {"source": "0", "target": "1", "value": 1},
-  //     {"source": "1", "target": "2", "value": 8},
-  //     {"source": "2", "target": "3", "value": 8},
-  //     {"source": "3", "target": "0", "value": 8},
-  //     {"source": "1", "target": "3", "value": 8},
-  //     {"source": "0", "target": "4", "value": 8}
-  //   ]
-  // };
-
   const data = {
     "nodes": [
       {"id": "0", "label": "0"},
@@ -3570,13 +3552,14 @@
   data_r.edges.forEach((edge, i) => {
     edge.id = i;
   });
-  console.log(data.nodes[20]);
   const RadialLayoutPlugin = new Radial({
     center: [ 500, 300 ],
     maxIteration: 10000,
     focusNode: data_r.nodes[20],
     unitRadius: 100,
-    linkDistance: 100
+	linkDistance: 100,
+	nonOverlap: true,
+	nodeSize: 20
   });
   const graph = new G6.Graph({
     container: 'mountNode',
