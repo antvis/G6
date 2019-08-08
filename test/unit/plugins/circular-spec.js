@@ -45,26 +45,34 @@ describe('circular layout', () => {
 
   });
   it('circular update', () => {
+    const data2 = {
+      nodes: [
+        { id: '0' }, { id: '1' }
+      ],
+      edges: [
+        { source: '0', target: '1' }
+      ]
+    };
     const circularLayout = new Circular({
       center: [ 250, 250 ],
       radius: 200
     });
     circularLayout.initPlugin(graph);
-    circularLayout.layout(data);
-    data.nodes = [
+    circularLayout.layout(data2);
+    data2.nodes = [
       { id: '0' }, { id: '1' }, { id: '2' }
     ];
-    data.edges = [
+    data2.edges = [
       { source: '0', target: '1' },
       { source: '1', target: '2' },
       { source: '0', target: '2' }
     ];
-    circularLayout.updateLayout({ center: [ 100, 150 ], data, radius: null, startRadius: 10, endRadius: 100 });
-    expect(mathEqual(data.nodes[0].x, 110)).to.equal(true);
-    expect(mathEqual(data.nodes[0].y, 150)).to.equal(true);
-    const n = data.nodes.length;
-    const vx = data.nodes[n - 1].x - 100;
-    const vy = data.nodes[n - 1].y - 150;
+    circularLayout.updateLayout({ center: [ 100, 150 ], data: data2, radius: null, startRadius: 10, endRadius: 100 });
+    expect(mathEqual(data2.nodes[0].x, 110)).to.equal(true);
+    expect(mathEqual(data2.nodes[0].y, 150)).to.equal(true);
+    const n = data2.nodes.length;
+    const vx = data2.nodes[n - 1].x - 100;
+    const vy = data2.nodes[n - 1].y - 150;
     const distToFocus = Math.sqrt(vx * vx + vy * vy);
     expect(mathEqual(distToFocus, 100)).to.equal(true);
   });

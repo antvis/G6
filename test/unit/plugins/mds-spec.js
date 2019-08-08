@@ -35,22 +35,30 @@ describe('mds layout', () => {
   });
 
   it('mds update cfg and data', done => {
+    const data2 = {
+      nodes: [
+        { id: '0' }, { id: '1' }
+      ],
+      edges: [
+        { source: '0', target: '1' }
+      ]
+    };
     const mds = new MDS({
       center: [ 250, 250 ],
       linkDistance: 250
     });
     mds.initPlugin(graph);
-    mds.layout(data);
-    data.nodes = [
+    mds.layout(data2);
+    data2.nodes = [
       { id: '0' }, { id: '1' }, { id: '2' }
     ];
-    data.edges = [
+    data2.edges = [
       { source: '0', target: '1' },
       { source: '1', target: '2' },
       { source: '0', target: '2' }
     ];
-    mds.updateLayout({ gravity: 100, data });
-    expect(data.nodes[0].x != null).to.equal(true);
+    mds.updateLayout({ gravity: 100, data: data2 });
+    expect(data2.nodes[0].x != null).to.equal(true);
     done();
   });
 });

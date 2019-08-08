@@ -61,32 +61,41 @@ describe('radial layout', () => {
       return;
     });
     radial.initPlugin(graph);
+    radial.layout(data);
     expect(mathEqual(data.nodes[focusNodeIndex].x, 250)).to.equal(true);
     expect(mathEqual(data.nodes[focusNodeIndex].y, 250)).to.equal(true);
     done();
   });
 
   it('radial update cfg and data', done => {
+    const data2 = {
+      nodes: [
+        { id: '0' }, { id: '1' }
+      ],
+      edges: [
+        { source: '0', target: '1' }
+      ]
+    };
     const radial = new Radial({
       center: [ 250, 250 ],
       maxIteration: 120
     });
     radial.initPlugin(graph);
-    radial.layout(data);
-    data.nodes = [
+    radial.layout(data2);
+    data2.nodes = [
       { id: '0' }, { id: '1' }, { id: '2' }
     ];
-    data.edges = [
+    data2.edges = [
       { source: '0', target: '1' },
       { source: '1', target: '2' },
       { source: '0', target: '2' }
     ];
     const newUnitRadius = 80;
-    radial.updateLayout({ center: [ 100, 150 ], unitRadius: newUnitRadius, linkDistance: 70, focusNode: data.nodes[1], data });
-    expect(mathEqual(data.nodes[1].x, 100)).to.equal(true);
-    expect(mathEqual(data.nodes[1].y, 150)).to.equal(true);
-    const vx = data.nodes[2].x - data.nodes[1].x;
-    const vy = data.nodes[2].y - data.nodes[1].y;
+    radial.updateLayout({ center: [ 100, 150 ], unitRadius: newUnitRadius, linkDistance: 70, focusNode: data2.nodes[1], data: data2 });
+    expect(mathEqual(data2.nodes[1].x, 100)).to.equal(true);
+    expect(mathEqual(data2.nodes[1].y, 150)).to.equal(true);
+    const vx = data2.nodes[2].x - data2.nodes[1].x;
+    const vy = data2.nodes[2].y - data2.nodes[1].y;
     const distToFocus = Math.sqrt(vx * vx + vy * vy);
     expect(mathEqual(distToFocus % newUnitRadius - newUnitRadius, 0)
      || mathEqual(distToFocus % newUnitRadius, 0)).to.equal(true);
