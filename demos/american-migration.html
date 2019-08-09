@@ -49,6 +49,10 @@
       target.inDegree++;
       source.degree++;
       target.degree++;
+      if (nodeIdMap.get(e.source).x < nodeIdMap.get(e.target).x) {
+        if (e.sytle === undefined) e.style = {};
+        e.style.stroke = 'l(0) 0:' + llightBlue16 + ' 1:' + llightOrange16
+      }
     });
     let maxDegree = -9999, minDegree = 9999;
     nodes.forEach(n => {
@@ -145,8 +149,9 @@
             return true;
           }
         }]
-    },
+      }
     });
+
     edgeBundling.bundling(data);
     graph.data(data);
     graph.render();
