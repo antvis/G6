@@ -47,7 +47,7 @@
       {"id": "32", "label": "32"},
       {"id": "33", "label": "33"}
     ],
-    "edges": [
+     "edges": [
       {"source": "0", "target": "1"},
       {"source": "0", "target": "2"},
       {"source": "0", "target": "3"},
@@ -108,7 +108,7 @@
       {"source": "23", "target": "31"},
       {"source": "23", "target": "33"},
       {"source": "32", "target": "33"}
-    ]
+     ]
   };
   const data_r = {
     "nodes": [
@@ -3555,7 +3555,7 @@
   const RadialLayoutPlugin = new Radial({
     center: [ 500, 300 ],
     maxIteration: 10000,
-    focusNode: data_r.nodes[20],
+    focusNode: data.nodes[20],
     unitRadius: 100,
 	linkDistance: 100,
 	nonOverlap: true,
@@ -3599,10 +3599,11 @@
       }
     }
   });
-  graph.data({ nodes: data.nodes, edges: data.edges.map((edge, i) => {
-      edge.id = 'edge' + i;
-      return Object.assign({}, edge);
-    }) });
+//   graph.data({ nodes: data.nodes, edges: data.edges.map((edge, i) => {
+//       edge.id = 'edge' + i;
+//       return Object.assign({}, edge);
+//     }) });
+  graph.data(data);
   RadialLayoutPlugin.layout(data);
   graph.render();
   
