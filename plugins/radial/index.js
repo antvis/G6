@@ -95,14 +95,16 @@ class Radial extends Base {
       if (!focusNode) return;
       self.set('focusNode', focusNode);
     }
-    // the graph-theoretic distance (shortest path distance) matrix
-    const adjMatrix = Util.getAdjMatrix(data, false);
-    const D = Util.floydWarshall(adjMatrix);
-    self.set('distances', D);
-
     // the index of the focusNode in data
     const focusIndex = getIndexById(nodes, focusNode.id);
     self.set('focusIndex', focusIndex);
+
+    // the graph-theoretic distance (shortest path distance) matrix
+    const adjMatrix = Util.getAdjMatrix(data, false);
+    self.handleAbnormalMatrix(adjMatrix, focusIndex);
+    const D = Util.floydWarshall(adjMatrix);
+    self.set('distances', D);
+
     // the shortest path distance from each node to focusNode
     const focusNodeD = D[focusIndex];
     const width = graph.get('width');
@@ -258,6 +260,22 @@ class Radial extends Base {
       result.push(newRow);
     });
     return result;
+  }
+  handleAbnormalMatrix(matrix, focusIndex) {
+    const rows = matrix.length;
+    for (let i = 0; i < rows; i++) {
+      if (matrix[i].length !== 0) return;
+    }
+    let value = 0;
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < rows; j++) {
+        if (i === focusIndex || j === focusIndex) value = 1;
+        matrix[i][j] = value;
+        value = 0;
+      }
+      value = 0;
+    }
+
   }
 }
 module.exports = Radial;
