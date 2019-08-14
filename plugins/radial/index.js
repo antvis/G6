@@ -130,6 +130,10 @@ class Radial extends Base {
     // the initial positions from mds
     const mds = new MDS({ distances: eIdealD, dimension: 2 });
     let positions = mds.layout();
+    positions.forEach(p => {
+      if (isNaN(p[0])) p[0] = Math.random() * linkDistance;
+      if (isNaN(p[1])) p[1] = Math.random() * linkDistance;
+    });
     self.set('positions', positions);
     positions.forEach((p, i) => {
       nodes[i].x = p[0] + center[0];
