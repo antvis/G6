@@ -128,7 +128,7 @@ class Radial extends Base {
     self.set('weights', W);
 
     // the initial positions from mds
-    const mds = new MDS({ distances: eIdealD, dimension: 2 });
+    const mds = new MDS({ distances: eIdealD, linkDistance, dimension: 2 });
     let positions = mds.layout();
     positions.forEach(p => {
       if (isNaN(p[0])) p[0] = Math.random() * linkDistance;
@@ -267,19 +267,29 @@ class Radial extends Base {
   }
   handleAbnormalMatrix(matrix, focusIndex) {
     const rows = matrix.length;
+    let emptyMatrix = true;
     for (let i = 0; i < rows; i++) {
-      if (matrix[i].length !== 0) return;
+      if (matrix[i].length !== 0) emptyMatrix = false;
+      let hasDis = true;
+      for (let j = 0; j < matrix[i].length; j++) {
+        if (matrix[i][j] !== 0 && matrix[i][j] !== undefined) hasDis = false;
+      }
+      if (hasDis) {
+        matrix[i][focusIndex] = 1;
+        matrix[focusIndex][i] = 1;
+      }
     }
-    let value = 0;
-    for (let i = 0; i < rows; i++) {
-      for (let j = 0; j < rows; j++) {
-        if (i === focusIndex || j === focusIndex) value = 1;
-        matrix[i][j] = value;
+    if (emptyMatrix) {
+      let value = 0;
+      for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < rows; j++) {
+          if (i === focusIndex || j === focusIndex) value = 1;
+          matrix[i][j] = value;
+          value = 0;
+        }
         value = 0;
       }
-      value = 0;
     }
-
   }
 }
 module.exports = Radial;
