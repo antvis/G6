@@ -3553,145 +3553,118 @@
         "nodes": [
             {
                 "id": "1", 
-                "label": "王1", 
+                "label": "李伊伊", 
                 "nodeType": "Person", 
                 "properties": {
-                    "cszy": " ", 
-                    "dhhm": "123123", 
-                    "fz": "", 
-                    "gzdw": "", 
-                    "jzdz": "320722", 
-                    "khhjdz": "320722", 
-                    "nsr": "0", 
-                    "sfczjy": "1", 
-                    "sfhmd": "1", 
-                    "sfzjhm": "123123", 
-                    "sfzjlx": "0", 
-                    "whcd": "70", 
-                    "xm": "王1", 
-                    "xy": "32", 
-                    "yx": "", 
-                    "zc": "", 
-                    "zgxw": "0"
+                    "cszy": "  ", 
+                    "dhhm": "18724175563", 
+                    "fz": "",
                 }
             }, 
             {
                 "id": "2", 
-                "label": "王2", 
+                "label": "李肖远", 
                 "nodeType": "Person", 
                 "properties": {
-                    "cszy": " ", 
-                    "dhhm": "321321", 
+                    "cszy": "Y", 
+                    "dhhm": "18072537888", 
                     "fz": "", 
-                    "gzdw": "", 
-                    "jzdz": "320722", 
-                    "khhjdz": "320722", 
-                    "nsr": "0", 
-                    "sfczjy": "1", 
-                    "sfhmd": "1", 
-                    "sfzjhm": "321", 
-                    "sfzjlx": "0", 
-                    "whcd": "70", 
-                    "xm": "王2", 
-                    "xy": "50", 
-                    "yx": "", 
-                    "zc": "", 
-                    "zgxw": "0"
+                    
                 }
             },
             {
                 "id": "3", 
-                "label": "王3", 
+                "label": "okgh", 
                 "nodeType": "Person", 
                 "properties": {
-                    "cszy": " ", 
-                    "dhhm": "321321", 
-                    "fz": "", 
-                    "gzdw": "", 
-                    "jzdz": "320722", 
-                    "khhjdz": "320722", 
-                    "nsr": "0", 
-                    "sfczjy": "1", 
-                    "sfhmd": "1", 
-                    "sfzjhm": "321", 
-                    "sfzjlx": "0", 
-                    "whcd": "70", 
-                    "xm": "王2", 
-                    "xy": "50", 
-                    "yx": "", 
-                    "zc": "", 
-                    "zgxw": "0"
+                    "cszy": "Y", 
+                    "dhhm": "18072537888", 
+                    "fz": "",
                 }
             },
             {
                 "id": "4", 
-                "label": "王4", 
+                "label": "李伊伊", 
                 "nodeType": "Person", 
                 "properties": {
-                    "cszy": " ", 
-                    "dhhm": "321321", 
+                    "cszy": "  ", 
+                    "dhhm": "18724175563", 
+                    "fz": "",
+                }
+            }, 
+            {
+                "id": "5", 
+                "label": "李肖远", 
+                "nodeType": "Person", 
+                "properties": {
+                    "cszy": "Y", 
+                    "dhhm": "18072537888", 
                     "fz": "", 
-                    "gzdw": "", 
-                    "jzdz": "320722", 
-                    "khhjdz": "320722", 
-                    "nsr": "0", 
-                    "sfczjy": "1", 
-                    "sfhmd": "1", 
-                    "sfzjhm": "321", 
-                    "sfzjlx": "0", 
-                    "whcd": "70", 
-                    "xm": "王2", 
-                    "xy": "50", 
-                    "yx": "", 
-                    "zc": "", 
-                    "zgxw": "0"
+                    
+                }
+            },
+            {
+                "id": "6", 
+                "label": "okgh", 
+                "nodeType": "Person", 
+                "properties": {
+                    "cszy": "Y", 
+                    "dhhm": "18072537888", 
+                    "fz": "",
                 }
             }
         ], 
         "edges": [
             {
                 "target": "2", 
-                "edgeType": "Person2Person#Guarantee", 
-                "label": "担保(保证)", 
+                "edgeType": "Person2Person#Social", 
+                "label": "夫妻", 
                 "properties": { }, 
                 "source": "1", 
-                "timestamp": 1508311598584
-            },
+                "timestamp": 0
+            }, 
+            {
+                "target": "2", 
+                "edgeType": "Person2Person#Co_Borrower", 
+                "label": "共同借款人", 
+                "properties": { }, 
+                "source": "1", 
+                "timestamp": 1518024977825
+            }, 
             {
                 "target": "3", 
-                "edgeType": "Person2Person#Guarantee", 
-                "label": "担保(保证)", 
+                "edgeType": "Person2Person#Social", 
+                "label": "夫妻", 
                 "properties": { }, 
                 "source": "2", 
-                "timestamp": 1508311598584
+                "timestamp": 0
             },
             {
-                "target": "3", 
-                "edgeType": "Person2Person#Guarantee1", 
-                "label": "担保()", 
-                "properties": { }, 
-                "source": "2", 
-                "timestamp": 1508311598584
-            },
-            {
-                "target": "4", 
-                "edgeType": "Person2Person#Guarantee2", 
-                "label": "担保(保)", 
+                "target": "2", 
+                "edgeType": "Person2Person#Social", 
+                "label": "夫妻", 
                 "properties": { }, 
                 "source": "3", 
-                "timestamp": 1508311598584
+                "timestamp": 0
+            },
+            {
+                "target": "6", 
+                "edgeType": "Person2Person#Social", 
+                "label": "夫妻", 
+                "properties": { }, 
+                "source": "2", 
+                "timestamp": 0
             }
         ], 
         "queryResult": "", 
         "graphView": true
-    }; 
- 
+    };
   const RadialLayoutPlugin = new Radial({
     center: [ 500, 300 ],
     maxIteration: 10000,
     focusNode: '0',//data.nodes[20],
-    unitRadius: 250,
-	linkDistance: 250,
+    unitRadius: 100,
+	linkDistance: 100,
 	nonOverlap: true,
 	nodeSize: 20
   });

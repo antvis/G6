@@ -17,11 +17,13 @@ class MDS {
      * @type  {number}
      */
     this.dimension = params.dimension || 2;
+    this.linkDistance = params.linkDistance;
   }
   layout() {
     const self = this;
     const dimension = self.dimension;
     const distances = self.distances;
+    const linkDistance = self.linkDistance;
 
     // square distances
     const M = Numeric.mul(-0.5, Numeric.pow(distances, 2));
@@ -40,11 +42,25 @@ class MDS {
 
     // take the SVD of the double centred matrix, and return the
     // points from it
-    const ret = Numeric.svd(M);
-    const eigenValues = Numeric.sqrt(ret.S);
-    return ret.U.map(function(row) {
-      return Numeric.mul(row, eigenValues).splice(0, dimension);
-    });
+    let ret;
+    let res = [];
+    try {
+      ret = Numeric.svd(M);
+    } catch (e) {
+      const length = distances.length;
+      for (let i = 0; i < length; i++) {
+        const x = Math.random() * linkDistance;
+        const y = Math.random() * linkDistance;
+        res.push([ x, y ]);
+      }
+    }
+    if (res.length === 0) {
+      const eigenValues = Numeric.sqrt(ret.S);
+      res = ret.U.map(function(row) {
+        return Numeric.mul(row, eigenValues).splice(0, dimension);
+      });
+    }
+    return res;
   }
 }
 module.exports = MDS;
