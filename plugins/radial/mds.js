@@ -17,6 +17,10 @@ class MDS {
      * @type  {number}
      */
     this.dimension = params.dimension || 2;
+    /**
+     * link distance
+     * @type  {number}
+     */
     this.linkDistance = params.linkDistance;
   }
   layout() {
