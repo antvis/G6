@@ -1,3 +1,10 @@
+/*
+ * @Author: moyee
+ * @Date: 2019-06-27 18:12:06
+ * @LastEditors: moyee
+ * @LastEditTime: 2019-08-15 11:34:04
+ * @Description: file content
+ */
 const { mix } = require('../util');
 const { merge, isString } = require('lodash');
 const { delegateStyle } = require('../global');
@@ -188,13 +195,15 @@ module.exports = {
    * @param {number} y 拖动单个元素时候的y坐标
    */
   _updateDelegate(e, x, y) {
-    const bbox = e.item.get('keyShape').getBBox();
+    const { item } = e;
+    const graph = this.graph;
+    const bbox = item.get('keyShape').getBBox();
     if (!this.shape) {
       // 拖动多个
-      const parent = this.graph.get('group');
+      const parent = graph.get('group');
       const attrs = merge({}, delegateStyle, this.delegateStyle);
       if (this.targets.length > 0) {
-        const { x, y, width, height, minX, minY } = this.calculationGroupPosition();
+        const { x, y, width, height, minX, minY } = this.calculationGroupPosition(item);
         this.originPoint = { x, y, width, height, minX, minY };
         // model上的x, y是相对于图形中心的，delegateShape是g实例，x,y是绝对坐标
         this.shape = parent.addShape('rect', {
@@ -238,13 +247,18 @@ module.exports = {
   },
   /**
    * 计算delegate位置，包括左上角左边及宽度和高度
+   * @param {Item} item 当前拖动的节点实例
    * @memberof ItemGroup
    * @return {object} 计算出来的delegate坐标信息及宽高
    */
-  calculationGroupPosition() {
+  calculationGroupPosition(item) {
     const graph = this.graph;
 
     const nodes = graph.findAllByState('node', 'selected');
+    if (nodes.length === 0) {
+      nodes.push(item);
+    }
+
     const minx = [];
     const maxx = [];
     const miny = [];
