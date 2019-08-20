@@ -9,7 +9,8 @@ const behaviors = {
   'edge-tooltip': require('./edge-tooltip'),
   'collapse-expand': require('./collapse-expand'),
   'activate-relations': require('./activate-relations'),
-  'brush-select': require('./brush-select')
+  'brush-select': require('./brush-select'),
+  'drag-group': require('./drag-group')
 };
 Util.each(behaviors, (behavior, type) => {
   Behavior.registerBehavior(type, behavior);
