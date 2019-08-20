@@ -101,7 +101,7 @@ class Radial extends Base {
 
     // the graph-theoretic distance (shortest path distance) matrix
     const adjMatrix = Util.getAdjMatrix(data, false);
-    self.handleAbnormalMatrix(adjMatrix, focusIndex);
+    const unconnected = self.handleAbnormalMatrix(adjMatrix, focusIndex);
     const D = Util.floydWarshall(adjMatrix);
     self.set('distances', D);
 
@@ -139,32 +139,33 @@ class Radial extends Base {
       nodes[i].x = p[0] + center[0];
       nodes[i].y = p[1] + center[1];
     });
-
-    // move the graph to origin, centered at focusNode
-    positions.forEach(p => {
-      p[0] -= positions[focusIndex][0];
-      p[1] -= positions[focusIndex][1];
-    });
-    self.run();
-
-    const nonOverlap = self.get('nonOverlap');
-    const nodeSize = self.get('nodeSize');
-    // stagger the overlapped nodes
-    if (nonOverlap) {
-      const nonoverlapForce = new RadialNonoverlapForce({
-        nodeSize, adjMatrix, positions, radii, height, width,
-        focusID: focusIndex,
-        iterations: 200,
-        k: positions.length / 4.5
+    // if the graph is connected, layout by radial layout and force nonoverlap
+    if (!unconnected) {
+      // move the graph to origin, centered at focusNode
+      positions.forEach(p => {
+        p[0] -= positions[focusIndex][0];
+        p[1] -= positions[focusIndex][1];
       });
-      positions = nonoverlapForce.layout();
+      self.run();
+      const nonOverlap = self.get('nonOverlap');
+      const nodeSize = self.get('nodeSize');
+      // stagger the overlapped nodes
+      if (nonOverlap) {
+        const nonoverlapForce = new RadialNonoverlapForce({
+          nodeSize, adjMatrix, positions, radii, height, width,
+          focusID: focusIndex,
+          iterations: 200,
+          k: positions.length / 4.5
+        });
+        positions = nonoverlapForce.layout();
+      }
+      // move the graph to center
+      positions.forEach((p, i) => {
+        nodes[i].x = p[0] + center[0];
+        nodes[i].y = p[1] + center[1];
+      });
     }
-
-    // move the graph to center
-    positions.forEach((p, i) => {
-      nodes[i].x = p[0] + center[0];
-      nodes[i].y = p[1] + center[1];
-    });
+    // if the graph is unconnected, layout by mds
     graph.refreshPositions();
     const onLayoutEnd = self.get('onLayoutEnd');
     onLayoutEnd();
@@ -272,7 +273,9 @@ class Radial extends Base {
       if (matrix[i].length !== 0) emptyMatrix = false;
       let hasDis = true;
       for (let j = 0; j < matrix[i].length; j++) {
-        if (matrix[i][j] !== 0 && matrix[i][j] !== undefined) hasDis = false;
+        if (!matrix[i][j]) hasDis = false;
+        // if the graph is unconnected return false
+        if (matrix[i][j] === Infinity) return false;
       }
       if (hasDis) {
         matrix[i][focusIndex] = 1;
@@ -290,6 +293,7 @@ class Radial extends Base {
         value = 0;
       }
     }
+    return true;
   }
 }
 module.exports = Radial;
