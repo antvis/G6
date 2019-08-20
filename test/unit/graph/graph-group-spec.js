@@ -2,7 +2,7 @@
  * @Author: moyee
  * @Date: 2019-07-31 11:54:41
  * @LastEditors: moyee
- * @LastEditTime: 2019-08-20 17:02:27
+ * @LastEditTime: 2019-08-20 17:17:52
  * @Description: file content
  */
 const expect = require('chai').expect;
@@ -173,6 +173,6 @@ describe('graph group', () => {
     graph.render();
 
     const { groups } = graph.save();
-    expect(groups.length).equal(1);
+    expect(groups.length).equal(5);
   });
 });
