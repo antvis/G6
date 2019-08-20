@@ -101,8 +101,9 @@ class Radial extends Base {
 
     // the graph-theoretic distance (shortest path distance) matrix
     const adjMatrix = Util.getAdjMatrix(data, false);
-    const unconnected = self.handleAbnormalMatrix(adjMatrix, focusIndex);
+    self.handleAbnormalMatrix(adjMatrix, focusIndex);
     const D = Util.floydWarshall(adjMatrix);
+    const connected = Util.isConnected(D);
     self.set('distances', D);
 
     // the shortest path distance from each node to focusNode
@@ -140,7 +141,7 @@ class Radial extends Base {
       nodes[i].y = p[1] + center[1];
     });
     // if the graph is connected, layout by radial layout and force nonoverlap
-    if (!unconnected) {
+    if (connected) {
       // move the graph to origin, centered at focusNode
       positions.forEach(p => {
         p[0] -= positions[focusIndex][0];
@@ -274,8 +275,6 @@ class Radial extends Base {
       let hasDis = true;
       for (let j = 0; j < matrix[i].length; j++) {
         if (!matrix[i][j]) hasDis = false;
-        // if the graph is unconnected return false
-        if (matrix[i][j] === Infinity) return false;
       }
       if (hasDis) {
         matrix[i][focusIndex] = 1;
@@ -293,7 +292,6 @@ class Radial extends Base {
         value = 0;
       }
     }
-    return true;
   }
 }
 module.exports = Radial;

@@ -237,6 +237,19 @@ const MathUtil = {
     });
     return matrix;
   },
+  /**
+   * if the graph about the shortest path matrix is connected
+   * @param  {array} matrix   shortest path matrix
+   * @return {boolean} connected
+   */
+  isConnected(matrix) {
+    if (matrix.length > 0) {
+      for (let j = 0; j < matrix[0].length; j++) {
+        if (matrix[0][j] === Infinity) return false;
+      }
+    }
+    return true;
+  },
 
   getEDistance(p1, p2) {
     return Math.sqrt((p1[0] - p2[0]) * (p1[0] - p2[0])
