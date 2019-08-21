@@ -2,7 +2,7 @@
  * @Author: moyee
  * @Date: 2019-07-30 12:10:26
  * @LastEditors: moyee
- * @LastEditTime: 2019-08-20 17:16:58
+ * @LastEditTime: 2019-08-20 19:50:50
  * @Description: file content
  */
 import { merge, isString } from 'lodash';
@@ -135,7 +135,6 @@ export default class CustomGroup {
 
     this.setGroupOriginBBox(groupId, keyShape.getBBox());
 
-    nodeGroup.sort();
     graph.setAutoPaint(autoPaint);
     graph.paint();
   }

@@ -2,7 +2,7 @@
  * @Author: moyee
  * @Date: 2019-07-31 14:36:15
  * @LastEditors: moyee
- * @LastEditTime: 2019-08-20 17:12:19
+ * @LastEditTime: 2019-08-20 21:11:30
  * @Description: file content
  */
 
@@ -195,7 +195,7 @@ module.exports = {
 
       const node = graph.findById(nodeId);
       const model = node.getModel();
-      if (!otherGroupId.includes(model.groupId)) {
+      if (model.groupId && !otherGroupId.includes(model.groupId)) {
         otherGroupId.push(model.groupId);
       }
       if (!this.nodePoint[index]) {
@@ -221,12 +221,19 @@ module.exports = {
 
     // 更新完群组位置后，重新设置群组起始位置
     const customGroups = customGroupControll.customGroup;
+
+    // otherGroupId中是否包括当前groupId，如果不包括，则添加进去
+    if (!otherGroupId.includes(groupId)) {
+      otherGroupId.push(groupId);
+    }
+
     otherGroupId.forEach(id => {
-      // 更新除过groupID外的其他群组位置
-      const { nodeGroup } = customGroups[id];
+      // 更新群组位置
+      const { nodeGroup, groupStyle } = customGroups[id];
       const groupKeyShape = nodeGroup.get('keyShape');
 
-      const { x, y, width, height } = customGroupControll.calculationGroupPosition(groupNodes[id]);
+      const { width, height } = groupStyle;
+      const { x, y } = customGroupControll.calculationGroupPosition(groupNodes[id]);
       const cx = (width + 2 * x) / 2;
       const cy = (height + 2 * y) / 2;
       groupKeyShape.attr('x', cx);

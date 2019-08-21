@@ -2,7 +2,7 @@
  * @Author: moyee
  * @Date: 2019-06-27 18:12:06
  * @LastEditors: moyee
- * @LastEditTime: 2019-08-20 17:05:04
+ * @LastEditTime: 2019-08-20 19:53:44
  * @Description: file content
  */
 /**
@@ -540,6 +540,10 @@ class Graph extends EventEmitter {
         this.get('customGroupControll').create(groupId, tmpNodes, groupType, groupIndex);
         groupIndex--;
       }
+
+      // 对所有Group排序
+      const customGroup = this.get('customGroup');
+      customGroup.sort();
     }
   }
 
