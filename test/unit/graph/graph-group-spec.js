@@ -2,7 +2,7 @@
  * @Author: moyee
  * @Date: 2019-07-31 11:54:41
  * @LastEditors: moyee
- * @LastEditTime: 2019-08-20 17:17:52
+ * @LastEditTime: 2019-08-20 19:54:32
  * @Description: file content
  */
 const expect = require('chai').expect;
@@ -83,11 +83,26 @@ describe('graph group', () => {
     const data = {
       nodes: [
         {
+          id: 'node6',
+          groupId: 'group3',
+          label: 'rect',
+          x: 100,
+          y: 300,
+          shape: 'rect'
+        },
+        {
           id: 'node1',
           label: 'fck',
           groupId: 'group1',
           x: 100,
           y: 100
+        },
+        {
+          id: 'node9',
+          label: 'noGroup1',
+          groupId: 'p1',
+          x: 300,
+          y: 210
         },
         {
           id: 'node2',
@@ -108,21 +123,6 @@ describe('graph group', () => {
           groupId: 'p1',
           x: 200,
           y: 200
-        },
-        {
-          id: 'node6',
-          groupId: 'group3',
-          label: 'rect',
-          x: 100,
-          y: 300,
-          shape: 'rect'
-        },
-        {
-          id: 'node9',
-          label: 'noGroup1',
-          groupId: 'p1',
-          x: 300,
-          y: 210
         },
         {
           id: 'node10',
