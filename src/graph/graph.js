@@ -2,7 +2,7 @@
  * @Author: moyee
  * @Date: 2019-06-27 18:12:06
  * @LastEditors: moyee
- * @LastEditTime: 2019-08-20 19:53:44
+ * @LastEditTime: 2019-08-22 11:22:16
  * @Description: file content
  */
 /**
@@ -197,6 +197,9 @@ class Graph extends EventEmitter {
        * 每个group包含的节点，父层的包括自己的节点以及子Group的节点
       */
       groupNodes: {},
+      /**
+       * 群组的原始数据
+      */
       groups: []
     };
   }

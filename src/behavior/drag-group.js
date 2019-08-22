@@ -2,7 +2,7 @@
  * @Author: moyee
  * @Date: 2019-07-31 14:36:15
  * @LastEditors: moyee
- * @LastEditTime: 2019-08-20 21:11:30
+ * @LastEditTime: 2019-08-22 15:06:01
  * @Description: file content
  */
 
@@ -248,6 +248,8 @@ module.exports = {
     const groupId = evt.target.get('groupId');
     const item = this.targetGroup.get('keyShape');
     const graph = this.graph;
+    const autoPaint = graph.get('autoPaint');
+    graph.setAutoPaint(false);
 
     let delegateShape = self.delegateShapes[groupId];
     const groupBbox = item.getBBox();
@@ -304,5 +306,6 @@ module.exports = {
     }
 
     graph.paint();
+    graph.setAutoPaint(autoPaint);
   }
 };
