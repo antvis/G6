@@ -2,7 +2,7 @@
  * @Author: moyee
  * @Date: 2019-07-30 12:10:26
  * @LastEditors: moyee
- * @LastEditTime: 2019-08-20 19:50:50
+ * @LastEditTime: 2019-08-22 18:41:33
  * @Description: file content
  */
 import { merge, isString } from 'lodash';
@@ -18,14 +18,7 @@ export default class CustomGroup {
         strokeOpacity: 0.92,
         fill: '#F3F9FF',
         fillOpacity: 0.8,
-        opacity: 0.8,
-        // 收起状态样式
-        collapse: {
-          width: 130,
-          height: 31,
-          lineDash: null,
-          stroke: '#000'
-        }
+        opacity: 0.8
       },
       hover: {
         stroke: '#faad14',
@@ -33,6 +26,14 @@ export default class CustomGroup {
         fillOpacity: 0.3,
         opacity: 0.3,
         lineWidth: 3
+      },
+      // 收起状态样式
+      collapseStyle: {
+        r: 30,
+        lineDash: [ 5, 5 ],
+        stroke: '#ffa39e',
+        lineWidth: 3,
+        fill: '#ffccc7'
       },
       icon: 'https://gw.alipayobjects.com/zos/rmsportal/MXXetJAxlqrbisIuZxDO.svg',
       text: {
@@ -338,52 +339,78 @@ export default class CustomGroup {
    * @return {Item} 群组
    * @memberof ItemGroup
    */
-  getDeletageGroupByRect(groupId) {
-    // TODO 该方法需要废弃
+  getDeletageGroupById(groupId) {
     return this.customGroup[groupId];
   }
 
   /**
-   * 收起群组
+   * 收起和展开群组
+   * @param {string} groupId 群组ID
+   */
+  collapseExpandGroup(groupId) {
+    const customGroup = this.getDeletageGroupById(groupId);
+    const { nodeGroup } = customGroup;
+
+    const hasHidden = nodeGroup.get('hasHidden');
+    // 该群组已经处于收起状态，需要展开
+    if (hasHidden) {
+      nodeGroup.set('hasHidden', false);
+      this.expandGroup(groupId);
+    } else {
+      nodeGroup.set('hasHidden', true);
+      this.collapseGroup(groupId);
+    }
+  }
+  /**
+   * 将临时节点递归地设置到groupId及父节点上
+   * @param {string} groupId 群组ID
+   * @param {string} tmpNodeId 临时节点ID
+   */
+  setGroupTmpNode(groupId, tmpNodeId) {
+    // TODO 需要调整
+    const graph = this.graph;
+    const graphNodes = graph.get('groupNodes');
+    const groups = graph.get('groups');
+    for (const data of groups) {
+      if (data.parentId === groupId) {
+        graphNodes[groupId].push(tmpNodeId);
+        this.setGroupTmpNode(data.parentId);
+      }
+    }
+  }
+  /**
+   * 收起群组，隐藏群组中的节点及边，群组外部相邻的边都连接到群组上
    *
    * @param {string} id 群组ID
    * @memberof ItemGroup
    */
   collapseGroup(id) {
-    const customGroup = this.getDeletageGroupByRect(id);
-    const { nodeGroup } = customGroup;
+    const customGroup = this.getDeletageGroupById(id);
+    const { nodeGroup, groupStyle } = customGroup;
 
-    const bbox = nodeGroup.getBBox();
     // 收起群组后的默认样式
-    const { defaultStyle: rectStyle, operatorBtn } = this.styles;
-
-    // 更新rect的宽高
-    const { width, height } = rectStyle.collapse;
-    const rect = nodeGroup.getChildByIndex(0);
-    rect.attr('width', width);
-    rect.attr('height', height);
-
-    // 更新最后一个操作按钮的图标
-    const { collapse } = operatorBtn;
-    const btnImg = nodeGroup.getChildByIndex(3);
-    btnImg.attr('img', collapse.img);
-    btnImg.set('btnType', 'expand-group');
-    btnImg.attr('x', bbox.minX + 110);
-
-    // step1：收起群组后，临时生成一个节点，用于连接群组外部节点
-    // step2：查找群组中source和target在群组外的Edge，分别记录source和target
-    // step3：对于source在群组外的Edge，遍历更新source为临时生成的节点的ID
-    // step4：对于target在群组外的Edge，遍历更新target为临时生成的节点的ID
+    const { collapseStyle } = this.styles;
     const graph = this.graph;
-    const nodes = graph.getNodes();
-    // 获取所有群组中node的id
-    const nodesInGroup = nodes.filter(node => {
-      const model = node.getModel();
-      return model.groupId === id;
-    }).map(node => {
-      const model = node.getModel();
-      return model.id;
-    });
+    const autoPaint = graph.get('autoPaint');
+    graph.setAutoPaint(false);
+
+    const nodesInGroup = graph.get('groupNodes')[id];
+
+    // 更新Group的大小
+    const keyShape = nodeGroup.get('keyShape');
+    const { r, ...otherStyle } = collapseStyle;
+    for (const style in otherStyle) {
+      keyShape.attr(style, otherStyle[style]);
+    }
+
+    // 收起群组时候动画
+    keyShape.animate({
+      onFrame(ratio) {
+        return {
+          r: groupStyle.r - ratio * (groupStyle.r - r)
+        };
+      }
+    }, 1000, 'easeCubic');
 
     const edges = graph.getEdges();
     // 获取所有source在群组外，target在群组内的边
@@ -400,46 +427,63 @@ export default class CustomGroup {
 
     // 群组中存在source和target其中有一个在群组内，一个在群组外的情况
     if (sourceOutTargetInEdges.length > 0 || sourceInTargetOutEdges.length > 0) {
-      const rectBBox = rect.getBBox();
-      // TODO 这里初始化节点信息怎么传进来需要商榷一下
       const options = {
         groupId: id,
         id: `${id}-custom-node`,
-        x: rectBBox.minX + width / 2,
-        y: rectBBox.minY + height / 2,
-        width,
-        height,
-        shape: 'dag-node',
-        anchors: {
-          input: [
-            {
-              shape: 'dag-anchor',
-              id: 'custorm-anchor-input',
-              xRatio: 0.5,
-              yRatio: 0,
-              description: '自定义输入锚点'
-            }
-          ],
-          output: [
-            {
-              shape: 'dag-anchor',
-              id: 'custorm-anchor-output',
-              xRatio: 0.5,
-              yRatio: 1,
-              description: '自定义输出锚点'
-            }
-          ]
-        }
+        x: keyShape.attr('x'),
+        y: keyShape.attr('y'),
+        style: {
+          r: 30
+        },
+        shape: 'circle'
       };
       const delegateNode = graph.add('node', options);
-      // 这里不隐藏也OK
+      delegateNode.set('capture', false);
       delegateNode.hide();
       this.delegateInGroup[id] = {
         delegateNode
       };
 
+      // 将临时添加的节点加入到群组中，以便拖动节点时候线跟着拖动
+      nodesInGroup.push(`${id}-custom-node`);
+      // this.setGroupTmpNode(id, `${id}-custom-node`);
+
       this.updateEdgeInGroupLinks(id, sourceOutTargetInEdges, sourceInTargetOutEdges);
     }
+
+
+    // 获取群组中节点之间的所有边
+    const edgeAllInGroup = edges.filter(edge => {
+      const model = edge.getModel();
+      return nodesInGroup.includes(model.source) && nodesInGroup.includes(model.target);
+    });
+
+    // 隐藏群组中的所有节点
+    nodesInGroup.forEach(nodeId => {
+      const node = graph.findById(nodeId);
+      const model = node.getModel();
+      const { groupId } = model;
+      if (groupId && groupId !== id) {
+        // 存在群组，则隐藏
+        const currentGroup = this.getDeletageGroupById(groupId);
+        const { nodeGroup } = currentGroup;
+        nodeGroup.hide();
+      }
+      node.hide();
+    });
+
+    edgeAllInGroup.forEach(edge => {
+      const source = edge.getSource();
+      const target = edge.getTarget();
+      if (source.isVisible() && target.isVisible()) {
+        edge.show();
+      } else {
+        edge.hide();
+      }
+    });
+
+    graph.paint();
+    graph.setAutoPaint(autoPaint);
   }
 
   /**
@@ -457,11 +501,10 @@ export default class CustomGroup {
     const edgesOuts = {};
     sourceOutTargetInEdges.map(edge => {
       const model = edge.getModel();
-      const { id, target, targetAnchor } = model;
-      edgesOuts[id] = [ target, targetAnchor ];
+      const { id, target } = model;
+      edgesOuts[id] = target;
       graph.updateItem(edge, {
-        target: `${groupId}-custom-node`,
-        targetAnchor: 'custorm-anchor-input'
+        target: `${groupId}-custom-node`
       });
       return true;
     });
@@ -470,11 +513,10 @@ export default class CustomGroup {
     const edgesIn = {};
     sourceInTargetOutEdges.map(edge => {
       const model = edge.getModel();
-      const { id, source, sourceAnchor } = model;
-      edgesIn[id] = [ source, sourceAnchor ];
+      const { id, source } = model;
+      edgesIn[id] = source;
       graph.updateItem(edge, {
-        source: `${groupId}-custom-node`,
-        sourceAnchor: 'custorm-anchor-out'
+        source: `${groupId}-custom-node`
       });
       return true;
     });
@@ -489,82 +531,115 @@ export default class CustomGroup {
   }
 
   /**
-   * 点击展示，恢复之前所有边的连线
-   *
-   * @param {string} groupId 群组ID
-   * @return {boolean} false/true
-   * @memberof ItemGroup
-   */
-  resetEdgeInGroupLinks(groupId) {
-    const graph = this.graph;
-    const autoPaint = graph.get('autoPaint');
-    graph.setAutoPaint(false);
-
-    const delegates = this.delegateInGroup[groupId];
-    if (!delegates) {
-      return false;
-    }
-    const { sourceOutTargetInEdges,
-      sourceInTargetOutEdges,
-      edgesOuts,
-      edgesIn,
-      delegateNode } = delegates;
-
-    // 恢复source在外的节点
-    sourceOutTargetInEdges.map(edge => {
-      const model = edge.getModel();
-      const sourceOuts = edgesOuts[model.id];
-      graph.updateItem(edge, {
-        target: sourceOuts[0],
-        targetAnchor: sourceOuts[1]
-      });
-      return true;
-    });
-
-    // 恢复target在外的节点
-    sourceInTargetOutEdges.map(edge => {
-      const model = edge.getModel();
-      const sourceIn = edgesIn[model.id];
-      graph.updateItem(edge, {
-        source: sourceIn[0],
-        sourceAnchor: sourceIn[1]
-      });
-      return true;
-    });
-
-    graph.remove(delegateNode);
-    delete this.delegateInGroup[groupId];
-    graph.setAutoPaint(autoPaint);
-    graph.paint();
-  }
-
-  /**
-   * 展开群组
+   * 展开群组，恢复群组中的节点及边
    *
    * @param {string} id 群组ID
    * @memberof ItemGroup
    */
   expandGroup(id) {
-    const customGroup = this.getDeletageGroupByRect(id);
-    const { nodeGroup, groupStyle } = customGroup;
+    const graph = this.graph;
+    const autoPaint = graph.get('autoPaint');
+    graph.setAutoPaint(false);
 
-    const bbox = nodeGroup.getBBox();
+    // 显示之前隐藏的节点和群组
+    const nodesInGroup = graph.get('groupNodes')[id];
+    const { nodeGroup, groupStyle } = this.getDeletageGroupById(id);
+    // const { x, y, width, height } = this.calculationGroupPosition(nodesInGroup);
+    // console.log(x, y, width, height)
 
-    const { width, height } = groupStyle;
+    // const cx = (width + 2 * x) / 2;
+    // const cy = (height + 2 * y) / 2;
+    const keyShape = nodeGroup.get('keyShape');
 
-    const rect = nodeGroup.getChildByIndex(0);
-    rect.attr('width', width);
-    rect.attr('height', height);
+    const { default: defaultStyle } = this.styles;
 
-    const { operatorBtn } = this.styles;
-    const { expand } = operatorBtn;
-    const btnImg = nodeGroup.getChildByIndex(3);
-    btnImg.attr('img', expand.img);
-    btnImg.set('btnType', 'collapse-group');
-    // 根据群组bbox的x值及群组宽度设置操作按钮位置，常量23用于调节位置
-    btnImg.attr('x', bbox.x + width - 23);
+    // const styles = merge({}, defaultStyle, { x: cx, y: cy });
+    for (const style in defaultStyle) {
+      keyShape.attr(style, defaultStyle[style]);
+    }
+    // keyShape.attr('r', groupStyle.r + nodesInGroup.length * 10);
+    keyShape.animate({
+      onFrame(ratio) {
+        return {
+          r: 30 + ratio * (groupStyle.r + nodesInGroup.length * 10 - 30)
+        };
+      }
+    }, 1000, 'easeCubic');
 
-    this.resetEdgeInGroupLinks(id);
+    // 群组动画一会后再显示节点和边
+    setTimeout(() => {
+      nodesInGroup.forEach(nodeId => {
+        const node = graph.findById(nodeId);
+        const model = node.getModel();
+        const { groupId } = model;
+        if (groupId && groupId !== id) {
+          // 存在群组，则显示
+          const currentGroup = this.getDeletageGroupById(groupId);
+          const { nodeGroup } = currentGroup;
+          nodeGroup.show();
+          const hasHidden = nodeGroup.get('hasHidden');
+          if (!hasHidden) {
+            node.show();
+          }
+        } else {
+          node.show();
+        }
+      });
+
+      const edges = graph.getEdges();
+      // 获取群组中节点之间的所有边
+      const edgeAllInGroup = edges.filter(edge => {
+        const model = edge.getModel();
+        return nodesInGroup.includes(model.source) && nodesInGroup.includes(model.target);
+      });
+
+      edgeAllInGroup.forEach(edge => {
+        const source = edge.getSource();
+        const target = edge.getTarget();
+        if (source.isVisible() && target.isVisible()) {
+          edge.show();
+        }
+      });
+    }, 800);
+
+    const delegates = this.delegateInGroup[id];
+    if (delegates) {
+      const { sourceOutTargetInEdges,
+        sourceInTargetOutEdges,
+        edgesOuts,
+        edgesIn,
+        delegateNode } = delegates;
+
+      // 恢复source在外的节点
+      sourceOutTargetInEdges.map(edge => {
+        const model = edge.getModel();
+        const sourceOuts = edgesOuts[model.id];
+        graph.updateItem(edge, {
+          target: sourceOuts
+        });
+        return true;
+      });
+
+      // 恢复target在外的节点
+      sourceInTargetOutEdges.map(edge => {
+        const model = edge.getModel();
+        const sourceIn = edgesIn[model.id];
+        graph.updateItem(edge, {
+          source: sourceIn
+        });
+        return true;
+      });
+
+      // 删除群组中的临时节点ID
+      const tmpNodeModel = delegateNode.getModel();
+      const index = nodesInGroup.indexOf(tmpNodeModel.id);
+      nodesInGroup.splice(index, 1);
+
+      graph.remove(delegateNode);
+      delete this.delegateInGroup[id];
+    }
+    graph.setAutoPaint(autoPaint);
+    graph.paint();
   }
 
   /**
@@ -602,30 +677,6 @@ export default class CustomGroup {
       graph.setAutoPaint(autoPaint);
       graph.paint();
     }
-  }
-
-  /**
-   * 更新群组名称
-   * @param {string} groupId 群组ID
-   * @param {string} title 群组新名称
-   *
-   * @memberof ItemGroup
-   */
-  updateGroupName(groupId, title) {
-    const graph = this.graph;
-    const customGroup = graph.get('customGroup');
-    const groupChild = customGroup.get('children');
-    const groups = groupChild.filter(child => child.get('id') === groupId);
-
-    const autoPaint = graph.get('autoPaint');
-    graph.setAutoPaint(false);
-
-    const currentGroup = groups[0];
-    const text = currentGroup.getChildByIndex(2);
-    text.attr('text', title);
-
-    graph.setAutoPaint(autoPaint);
-    graph.paint();
   }
 
   destroy() {

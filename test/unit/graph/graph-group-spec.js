@@ -2,7 +2,7 @@
  * @Author: moyee
  * @Date: 2019-07-31 11:54:41
  * @LastEditors: moyee
- * @LastEditTime: 2019-08-20 19:54:32
+ * @LastEditTime: 2019-08-22 15:47:52
  * @Description: file content
  */
 const expect = require('chai').expect;
@@ -19,7 +19,7 @@ describe('graph group', () => {
     height: 1000,
     pixelRatio: 2,
     modes: {
-      default: [ 'drag-group', 'drag-node' ]
+      default: [ 'drag-group', 'click-select', 'drag-node-with-group', 'collspse-expand-group' ]
     }
   });
 

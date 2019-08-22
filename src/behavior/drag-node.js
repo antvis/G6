@@ -2,8 +2,8 @@
  * @Author: moyee
  * @Date: 2019-06-27 18:12:06
  * @LastEditors: moyee
- * @LastEditTime: 2019-08-21 19:36:12
- * @Description: file content
+ * @LastEditTime: 2019-08-22 18:41:45
+ * @Description: 拖动节点的Behavior
  */
 const { mix } = require('../util');
 const { merge, isString } = require('lodash');
@@ -23,42 +23,8 @@ module.exports = {
       'node:dragstart': 'onDragStart',
       'node:drag': 'onDrag',
       'node:dragend': 'onDragEnd',
-      'canvas:mouseleave': 'onOutOfRange',
-      mouseenter: 'onMouseEnter',
-      mouseout: 'onMouseOut'
+      'canvas:mouseleave': 'onOutOfRange'
     };
-  },
-  onMouseEnter(evt) {
-    const { target } = evt;
-    const groupId = target.get('groupId');
-    if (groupId && this.origin) {
-      const graph = this.graph;
-      const customGroupControll = graph.get('customGroupControll');
-      const customGroup = customGroupControll.customGroup;
-      const currentGroup = customGroup[groupId].nodeGroup;
-      const keyShape = currentGroup.get('keyShape');
-
-      this.inGroupId = groupId;
-      customGroupControll.setGroupStyle(keyShape, 'hover');
-    }
-  },
-  /**
-   * 拖动节点移除Group时的事件
-   * @param {Event} evt 事件句柄
-   */
-  onMouseOut(evt) {
-    const { target } = evt;
-    const groupId = target.get('groupId');
-    if (groupId && this.origin) {
-      const graph = this.graph;
-      const customGroupControll = graph.get('customGroupControll');
-      const customGroup = customGroupControll.customGroup;
-      const currentGroup = customGroup[groupId].nodeGroup;
-      const keyShape = currentGroup.get('keyShape');
-
-      customGroupControll.setGroupStyle(keyShape, 'default');
-    }
-    this.inGroupId = null;
   },
   onDragStart(e) {
     if (!this.shouldBegin.call(this, e)) {
@@ -84,15 +50,6 @@ module.exports = {
     // 只拖动当前节点
     if (dragNodes.length === 0) {
       this.target = item;
-      // 拖动节点时，如果在Group中，则Group高亮
-      const model = item.getModel();
-      const { groupId } = model;
-      if (groupId) {
-        const customGroupControll = graph.get('customGroupControll');
-        const customGroup = customGroupControll.customGroup;
-        const currentGroup = customGroup[groupId].nodeGroup;
-        customGroupControll.setGroupStyle(currentGroup.get('keyShape'), 'hover');
-      }
     } else {
       // 拖动多个节点
       if (nodes.length > 1) {
@@ -126,28 +83,6 @@ module.exports = {
     } else {
       // 只拖动单个元素
       this._update(this.target, e, true);
-      const { item } = e;
-      const graph = this.graph;
-      const model = item.getModel();
-      const { groupId } = model;
-      if (groupId) {
-        const customGroupControll = graph.get('customGroupControll');
-        const customGroup = customGroupControll.customGroup;
-        const currentGroup = customGroup[groupId].nodeGroup;
-        const keyShape = currentGroup.get('keyShape');
-
-        const currentGroupBBox = keyShape.getBBox();
-
-        const delegateShape = this.target.get('delegateShape');
-        const { x, y } = delegateShape.getBBox();
-        const { minX, minY, maxX, maxY } = currentGroupBBox;
-
-        if (x > maxX || x < minX || y > maxY || y < minY) {
-          customGroupControll.setGroupStyle(keyShape, 'default');
-        } else {
-          customGroupControll.setGroupStyle(keyShape, 'hover');
-        }
-      }
     }
   },
   onDragEnd(e) {
@@ -186,47 +121,6 @@ module.exports = {
       body.removeEventListener('mouseup', fn, false);
       this.fn = null;
     }
-
-    this.setCurrentGroupStyle(e);
-  },
-  setCurrentGroupStyle(evt) {
-    const { item } = evt;
-    const graph = this.graph;
-    const model = item.getModel();
-    // 节点所在的GroupId
-    const { groupId } = model;
-
-    // 拖动到的group上面
-    if (this.inGroupId && this.inGroupId !== groupId) {
-      // 将该节点添加到inGroupId中
-
-    }
-
-    if (groupId) {
-      const customGroupControll = graph.get('customGroupControll');
-      const customGroup = customGroupControll.customGroup;
-      const currentGroup = customGroup[groupId].nodeGroup;
-      const keyShape = currentGroup.get('keyShape');
-
-      const itemBBox = item.getBBox();
-      const currentGroupBBox = keyShape.getBBox();
-
-      const { x, y } = itemBBox;
-      const { minX, minY, maxX, maxY } = currentGroupBBox;
-
-      if (!(x < maxX && x > minX && y < maxY && y > minY)) {
-        // 拖出了group，则删除item中的groupId字段，同时删除group中的nodeID
-        const groupNodes = graph.get('groupNodes');
-        const currentGroupNodes = groupNodes[groupId];
-        groupNodes[groupId] = currentGroupNodes.filter(node => node !== model.id);
-
-        // 同时删除groupID中的节点
-        delete model.groupId;
-      }
-      customGroupControll.setGroupStyle(keyShape, 'default');
-    }
-
-    this.inGroupId = null;
   },
   // 若在拖拽时，鼠标移出画布区域，此时放开鼠标无法终止 drag 行为。在画布外监听 mouseup 事件，放开则终止
   onOutOfRange(e) {
@@ -301,15 +195,13 @@ module.exports = {
    * @param {number} y 拖动单个元素时候的y坐标
    */
   _updateDelegate(e, x, y) {
-    const { item } = e;
-    const graph = this.graph;
-    const bbox = item.get('keyShape').getBBox();
+    const bbox = e.item.get('keyShape').getBBox();
     if (!this.shape) {
       // 拖动多个
-      const parent = graph.get('group');
+      const parent = this.graph.get('group');
       const attrs = merge({}, delegateStyle, this.delegateStyle);
       if (this.targets.length > 0) {
-        const { x, y, width, height, minX, minY } = this.calculationGroupPosition(item);
+        const { x, y, width, height, minX, minY } = this.calculationGroupPosition();
         this.originPoint = { x, y, width, height, minX, minY };
         // model上的x, y是相对于图形中心的，delegateShape是g实例，x,y是绝对坐标
         this.shape = parent.addShape('rect', {
@@ -353,18 +245,13 @@ module.exports = {
   },
   /**
    * 计算delegate位置，包括左上角左边及宽度和高度
-   * @param {Item} item 当前拖动的节点实例
    * @memberof ItemGroup
    * @return {object} 计算出来的delegate坐标信息及宽高
    */
-  calculationGroupPosition(item) {
+  calculationGroupPosition() {
     const graph = this.graph;
 
     const nodes = graph.findAllByState('node', 'selected');
-    if (nodes.length === 0) {
-      nodes.push(item);
-    }
-
     const minx = [];
     const maxx = [];
     const miny = [];
