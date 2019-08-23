@@ -9,7 +9,7 @@
  * @fileOverview graph
  * @author huangtonger@aliyun.com
  */
-import { groupBy } from 'lodash';
+const { groupBy } = require('lodash');
 const G = require('@antv/g/lib');
 const EventEmitter = G.EventEmitter;
 const Util = require('../util');

@@ -4,5 +4,5 @@ module.exports = {
   Mode: require('./mode'),
   Item: require('./item'),
   State: require('./state'),
-  CustomGroup: require('./customGroup').default
+  CustomGroup: require('./customGroup')
 };
