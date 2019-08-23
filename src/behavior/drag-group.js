@@ -2,11 +2,10 @@
  * @Author: moyee
  * @Date: 2019-07-31 14:36:15
  * @LastEditors: moyee
- * @LastEditTime: 2019-08-22 15:06:01
+ * @LastEditTime: 2019-08-23 11:13:43
  * @Description: file content
  */
-
-import { merge } from 'lodash';
+const { merge } = require('lodash');
 
 const delegateStyle = {
   fill: '#F3F9FF',
@@ -119,7 +118,7 @@ module.exports = {
    * @return {boolean} false/true
    */
   updatePosition(evt) {
-    if (!this.rectPos || !this.delegateShapeBBox) {
+    if (!this.delegateShapeBBox) {
       return false;
     }
 
@@ -189,7 +188,8 @@ module.exports = {
 
     // step 1：先修改groupId中的节点位置
     const nodeInGroup = groupNodes[groupId];
-
+    const groupOriginBBox = customGroupControll.getGroupOriginBBox(groupId);
+    const delegateShapeBBoxs = this.delegateShapeBBoxs[groupId];
     const otherGroupId = [];
     nodeInGroup.forEach((nodeId, index) => {
 
@@ -205,11 +205,9 @@ module.exports = {
         };
       }
 
-      const groupOriginBBox = customGroupControll.getGroupOriginBBox(groupId);
-
       // 群组拖动后节点的位置：deletateShape的最终位置-群组起始位置+节点位置
-      const x = this.delegateShapeBBoxs[groupId].x - groupOriginBBox.x + this.nodePoint[index].x;
-      const y = this.delegateShapeBBoxs[groupId].y - groupOriginBBox.y + this.nodePoint[index].y;
+      const x = delegateShapeBBoxs.x - groupOriginBBox.x + this.nodePoint[index].x;
+      const y = delegateShapeBBoxs.y - groupOriginBBox.y + this.nodePoint[index].y;
 
       this.nodePoint[index] = {
         x, y
@@ -238,7 +236,6 @@ module.exports = {
       const cy = (height + 2 * y) / 2;
       groupKeyShape.attr('x', cx);
       groupKeyShape.attr('y', cy);
-
       customGroupControll.setGroupOriginBBox(id, groupKeyShape.getBBox());
     });
 
@@ -288,8 +285,7 @@ module.exports = {
         });
         self.shapeOrigin = { x: attrs.x, y: attrs.y };
       }
-      delegateShape.set('capture', false);
-      this.rectPos = { ...self.shapeOrigin };
+      // delegateShape.set('capture', false);
       self.delegateShapes[groupId] = delegateShape;
       self.delegateShapeBBoxs[groupId] = delegateShape.getBBox();
     } else {
@@ -299,9 +295,9 @@ module.exports = {
       const x = deltaX + shapeOrigin.x;
       const y = deltaY + shapeOrigin.y;
 
-      delegateShape.attr({ x, y });
-      this.rectPos = { x, y };
-
+      // 将Canvas坐标转成视口坐标
+      const point = graph.getPointByCanvas(x, y);
+      delegateShape.attr({ x: point.x, y: point.y });
       self.delegateShapeBBoxs[groupId] = delegateShape.getBBox();
     }
 

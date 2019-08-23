@@ -2,12 +2,12 @@
  * @Author: moyee
  * @Date: 2019-07-30 12:10:26
  * @LastEditors: moyee
- * @LastEditTime: 2019-08-22 18:41:33
+ * @LastEditTime: 2019-08-23 11:44:32
  * @Description: file content
  */
-import { merge, isString } from 'lodash';
+const { merge, isString } = require('lodash');
 
-export default class CustomGroup {
+class CustomGroup {
   getDefaultCfg() {
     return {
       default: {
@@ -15,7 +15,7 @@ export default class CustomGroup {
         stroke: '#A3B1BF',
         radius: 10,
         lineDash: [ 5, 5 ],
-        strokeOpacity: 0.92,
+        strokeOpacity: 0.9,
         fill: '#F3F9FF',
         fillOpacity: 0.8,
         opacity: 0.8
@@ -367,15 +367,22 @@ export default class CustomGroup {
    * @param {string} tmpNodeId 临时节点ID
    */
   setGroupTmpNode(groupId, tmpNodeId) {
-    // TODO 需要调整
     const graph = this.graph;
     const graphNodes = graph.get('groupNodes');
     const groups = graph.get('groups');
-    for (const data of groups) {
-      if (data.parentId === groupId) {
-        graphNodes[groupId].push(tmpNodeId);
-        this.setGroupTmpNode(data.parentId);
-      }
+    if (graphNodes[groupId].indexOf(tmpNodeId) < 0) {
+      graphNodes[groupId].push(tmpNodeId);
+    }
+    // 获取groupId的父群组
+    const parentGroup = groups.filter(g => g.id === groupId);
+    let parentId = null;
+    if (parentGroup.length > 0) {
+      parentId = parentGroup[0].parentId;
+    }
+
+    // 如果存在父群组，则把临时元素也添加到父群组中
+    if (parentId) {
+      this.setGroupTmpNode(parentId, tmpNodeId);
     }
   }
   /**
@@ -385,6 +392,7 @@ export default class CustomGroup {
    * @memberof ItemGroup
    */
   collapseGroup(id) {
+    const self = this;
     const customGroup = this.getDeletageGroupById(id);
     const { nodeGroup, groupStyle } = customGroup;
 
@@ -406,6 +414,9 @@ export default class CustomGroup {
     // 收起群组时候动画
     keyShape.animate({
       onFrame(ratio) {
+        if (ratio === 1) {
+          self.setGroupOriginBBox(id, keyShape.getBBox());
+        }
         return {
           r: groupStyle.r - ratio * (groupStyle.r - r)
         };
@@ -445,12 +456,11 @@ export default class CustomGroup {
       };
 
       // 将临时添加的节点加入到群组中，以便拖动节点时候线跟着拖动
-      nodesInGroup.push(`${id}-custom-node`);
-      // this.setGroupTmpNode(id, `${id}-custom-node`);
+      // nodesInGroup.push(`${id}-custom-node`);
+      this.setGroupTmpNode(id, `${id}-custom-node`);
 
       this.updateEdgeInGroupLinks(id, sourceOutTargetInEdges, sourceInTargetOutEdges);
     }
-
 
     // 获取群组中节点之间的所有边
     const edgeAllInGroup = edges.filter(edge => {
@@ -538,6 +548,7 @@ export default class CustomGroup {
    */
   expandGroup(id) {
     const graph = this.graph;
+    const self = this;
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
 
@@ -560,12 +571,16 @@ export default class CustomGroup {
     // keyShape.attr('r', groupStyle.r + nodesInGroup.length * 10);
     keyShape.animate({
       onFrame(ratio) {
+        if (ratio === 1) {
+          self.setGroupOriginBBox(id, keyShape.getBBox());
+        }
         return {
           r: 30 + ratio * (groupStyle.r + nodesInGroup.length * 10 - 30)
         };
       }
     }, 1000, 'easeCubic');
 
+    // this.setGroupOriginBBox(id, keyShape.getBBox());
     // 群组动画一会后再显示节点和边
     setTimeout(() => {
       nodesInGroup.forEach(nodeId => {
@@ -590,7 +605,7 @@ export default class CustomGroup {
       // 获取群组中节点之间的所有边
       const edgeAllInGroup = edges.filter(edge => {
         const model = edge.getModel();
-        return nodesInGroup.includes(model.source) && nodesInGroup.includes(model.target);
+        return nodesInGroup.includes(model.source) || nodesInGroup.includes(model.target);
       });
 
       edgeAllInGroup.forEach(edge => {
@@ -632,14 +647,34 @@ export default class CustomGroup {
 
       // 删除群组中的临时节点ID
       const tmpNodeModel = delegateNode.getModel();
-      const index = nodesInGroup.indexOf(tmpNodeModel.id);
-      nodesInGroup.splice(index, 1);
 
+      this.deleteTmpNode(id, tmpNodeModel.id);
       graph.remove(delegateNode);
       delete this.delegateInGroup[id];
     }
     graph.setAutoPaint(autoPaint);
     graph.paint();
+  }
+
+  deleteTmpNode(groupId, tmpNodeId) {
+    const graph = this.graph;
+    const groups = graph.get('groups');
+    const nodesInGroup = graph.get('groupNodes')[groupId];
+
+    const index = nodesInGroup.indexOf(tmpNodeId);
+    nodesInGroup.splice(index, 1);
+
+    // 获取groupId的父群组
+    const parentGroup = groups.filter(g => g.id === groupId);
+    let parentId = null;
+    if (parentGroup.length > 0) {
+      parentId = parentGroup[0].parentId;
+    }
+
+    // 如果存在父群组，则把临时元素也添加到父群组中
+    if (parentId) {
+      this.deleteTmpNode(parentId, tmpNodeId);
+    }
   }
 
   /**
@@ -687,3 +722,5 @@ export default class CustomGroup {
     this.delegateInGroup = {};
   }
 }
+
+module.exports = CustomGroup;

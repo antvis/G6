@@ -2,7 +2,7 @@
  * @Author: moyee
  * @Date: 2019-07-31 11:54:41
  * @LastEditors: moyee
- * @LastEditTime: 2019-08-22 15:47:52
+ * @LastEditTime: 2019-08-23 14:16:27
  * @Description: file content
  */
 const expect = require('chai').expect;
@@ -12,6 +12,21 @@ const div = document.createElement('div');
 div.id = 'graph-group-spec';
 document.body.appendChild(div);
 
+G6.registerNode('circleNode', {
+  drawShape(cfg, group) {
+    const keyShape = group.addShape('circle', {
+      attrs: {
+        x: 0,
+        y: 0,
+        r: 30,
+        fill: '#87e8de'
+      }
+    });
+
+    return keyShape;
+  }
+}, 'circle');
+
 describe('graph group', () => {
   const graph = new G6.Graph({
     container: div,
@@ -19,7 +34,13 @@ describe('graph group', () => {
     height: 1000,
     pixelRatio: 2,
     modes: {
-      default: [ 'drag-group', 'click-select', 'drag-node-with-group', 'collspse-expand-group' ]
+      default: [ 'zoom-canvas', 'drag-group', 'click-select', 'drag-node-with-group', 'collapse-expand-group' ]
+    },
+    defaultNode: {
+      shape: 'circleNode'
+    },
+    defaultEdge: {
+      color: '#bae7ff'
     }
   });
 
@@ -87,8 +108,7 @@ describe('graph group', () => {
           groupId: 'group3',
           label: 'rect',
           x: 100,
-          y: 300,
-          shape: 'rect'
+          y: 300
         },
         {
           id: 'node1',
@@ -121,6 +141,7 @@ describe('graph group', () => {
         {
           id: 'node7',
           groupId: 'p1',
+          label: 'node7-p1',
           x: 200,
           y: 200
         },

@@ -19,7 +19,7 @@ const behaviors = {
   'brush-select': require('./brush-select'),
   'drag-group': require('./drag-group'),
   'drag-node-with-group': require('./drag-node-with-group'),
-  'collspse-expand-group': require('./collapse-expand-group')
+  'collapse-expand-group': require('./collapse-expand-group')
 };
 Util.each(behaviors, (behavior, type) => {
   Behavior.registerBehavior(type, behavior);
