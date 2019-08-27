@@ -41,7 +41,7 @@ describe('select-node', () => {
     graph.emit('node:click', { item: node1 });
     expect(node1.getStates().length).to.equal(1);
     expect(node1.getStates()[0]).to.equal('selected');
-    graph.emit('keydown', { keyCode: 17 });
+    graph.emit('keydown', { keyCode: 16 });
     graph.emit('node:click', { item: node1 });
     expect(node1.getStates().length).to.equal(0);
     graph.emit('node:click', { item: node1 });
@@ -49,8 +49,8 @@ describe('select-node', () => {
     graph.emit('node:click', { item: node2 });
     expect(node2.getStates().length).to.equal(1);
     expect(node2.getStates()[0]).to.equal('selected');
-    expect(node1.hasState('selected')).to.be.false;
-    graph.emit('keyup', { keyCode: 17 });
+    expect(node1.hasState('selected')).to.be.true;
+    graph.emit('keyup', { keyCode: 16 });
     graph.emit('node:click', { item: node1 });
     expect(node1.getStates().length).to.equal(1);
     expect(node2.getStates().length).to.equal(0);
