@@ -83,7 +83,7 @@
     "update": "rm -rf node_modules/ && tnpm i && rm -rf build && tnpm run build",
     "build": "webpack",
     "build-lib": "babel src --out-dir lib",
-    "dist": "npm run mkdir-dist && npm run build && npm run compress",
+    "dist": "npm run mkdir-dist && npm run build",
     "mkdir-dist": "node ./bin/mkdir-dist.js",
     "ci": "npm run lint && npm run test",
     "coverage": "npm run coverage-generator && npm run coverage-viewer",

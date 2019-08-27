@@ -52,7 +52,7 @@ describe('select-node', () => {
     expect(node1.hasState('selected')).to.be.true;
     graph.emit('keyup', { keyCode: 16 });
     graph.emit('node:click', { item: node1 });
-    expect(node1.getStates().length).to.equal(1);
+    expect(node1.getStates().length).to.equal(0);
     expect(node2.getStates().length).to.equal(0);
     graph.destroy();
   });
