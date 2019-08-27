@@ -105,10 +105,10 @@ describe('graph state controller', () => {
     graph.on('graphstatechange', e => {
       if (!finished) {
         expect(e.states.selected).not.to.be.undefined;
-        expect(e.states.selected.length).to.equal(2);
+        expect(e.states.selected.length).to.equal(1);
       } else {
         expect(e.states.selected).not.to.be.undefined;
-        expect(e.states.selected.length).to.equal(1);
+        expect(e.states.selected.length).to.equal(0);
         done();
       }
     });
