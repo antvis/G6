@@ -316,21 +316,24 @@ class TreeGraph extends Graph {
       onFrame(ratio) {
         Util.traverseTree(data, child => {
           const node = self.findById(child.id);
-          let origin = node.get('origin');
-          const model = node.get('model');
-          if (!origin) {
-            origin = {
-              x: model.x,
-              y: model.y
-            };
-            node.set('origin', origin);
-          }
-          if (onFrame) {
-            const attrs = onFrame(node, ratio, origin, data);
-            node.set('model', Util.mix(model, attrs));
-          } else {
-            model.x = origin.x + (child.x - origin.x) * ratio;
-            model.y = origin.y + (child.y - origin.y) * ratio;
+          // 当存在节点时候，执行动画效果
+          if (node) {
+            let origin = node.get('origin');
+            const model = node.get('model');
+            if (!origin) {
+              origin = {
+                x: model.x,
+                y: model.y
+              };
+              node.set('origin', origin);
+            }
+            if (onFrame) {
+              const attrs = onFrame(node, ratio, origin, data);
+              node.set('model', Util.mix(model, attrs));
+            } else {
+              model.x = origin.x + (child.x - origin.x) * ratio;
+              model.y = origin.y + (child.y - origin.y) * ratio;
+            }
           }
         });
         Util.each(self.get('removeList'), node => {
