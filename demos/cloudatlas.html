@@ -603,7 +603,7 @@
         });
         const text = group.addShape("text", {
           attrs: {
-            text: "Sofarouter",
+            text: "edge-label",
             x: 0,
             y: 0,
             fontSize: 12,
@@ -806,7 +806,11 @@
         },
         "double-finger-drag-canvas",
         "three-finger-drag-canvas",
-        "tooltip",
+        { type: "tooltip",
+          formatText: data => {
+            return `<div>${data.name}</div>`
+          }
+        },
         {
           type: "drag-canvas",
           shouldUpdate: function shouldUpdate() {
@@ -934,7 +938,6 @@
   };
   function formatData(data) {
       const recursiveTraverse = (node, level = 0) => {
-        // TODO 贤月 目前 keyInfo 没有
         const appName = "testappName";
         const keyInfo = "testkeyinfo";
         const ip = "111.22.33.44";

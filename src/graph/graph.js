@@ -225,7 +225,8 @@ class Graph extends EventEmitter {
       modeController,
       itemController,
       stateController,
-      customGroupControll });
+      customGroupControll
+    });
     this._initPlugins();
   }
   _initCanvas() {
@@ -491,9 +492,17 @@ class Graph extends EventEmitter {
     Util.each(data.edges, edge => {
       self.add(EDGE, edge);
     });
-    // 渲染群组
-    const groupType = self.get('groupType');
-    this.renderCustomGroup(data, groupType);
+
+    // 存在单个群组
+    // 获取所有有groupID的node
+    const nodeInGroup = data.nodes.filter(node => node.groupId);
+
+    // 所有node中存在groupID，则说明需要群组
+    if (nodeInGroup.length > 0) {
+      // 渲染群组
+      const groupType = self.get('groupType');
+      this.renderCustomGroup(data, groupType);
+    }
 
     if (self.get('fitView')) {
       self.get('viewController')._fitView();
@@ -507,7 +516,6 @@ class Graph extends EventEmitter {
    * 根据数据渲染群组
    * @param {object} data 渲染图的数据
    * @param {string} groupType group类型
-   * @return {Graph} graph实例
    */
   renderCustomGroup(data, groupType) {
     const { groups, nodes } = data;
@@ -519,10 +527,6 @@ class Graph extends EventEmitter {
       // 获取所有有groupID的node
       const nodeInGroup = nodes.filter(node => node.groupId);
 
-      // 所有node中不存在groupID，则说明不需要群组
-      if (nodeInGroup.length === 0) {
-        return this;
-      }
       // 根据groupID分组
       const groupIds = groupBy(nodeInGroup, 'groupId');
       for (const groupId in groupIds) {
@@ -1104,7 +1108,7 @@ class Graph extends EventEmitter {
     canvas.clear();
     this._initGroups();
     // 清空画布时同时清除数据
-    this.set({ itemMap: {}, nodes: [], edges: [], groups: [], data: null });
+    this.set({ itemMap: {}, nodes: [], edges: [], groups: [] });
     return this;
   }
 

@@ -5,7 +5,6 @@
  * @LastEditTime: 2019-08-22 18:41:45
  * @Description: 拖动节点的Behavior
  */
-const { mix } = require('../util');
 const { merge, isString } = require('lodash');
 const { delegateStyle } = require('../global');
 const body = document.body;
@@ -14,7 +13,6 @@ module.exports = {
   getDefaultCfg() {
     return {
       updateEdge: true,
-      delegate: true,
       delegateStyle: {}
     };
   },
@@ -164,29 +162,6 @@ module.exports = {
       item.updatePosition(pos);
       this.graph.paint();
     }
-  },
-  _updateDelegate1(item, x, y) {
-    const self = this;
-    let shape = item.get('delegateShape');
-    const bbox = item.get('keyShape').getBBox();
-    if (!shape) {
-      const parent = self.graph.get('group');
-      const attrs = mix({}, delegateStyle, this.delegateStyle);
-      // model上的x, y是相对于图形中心的，delegateShape是g实例，x,y是绝对坐标
-      shape = parent.addShape('rect', {
-        attrs: {
-          width: bbox.width,
-          height: bbox.height,
-          x: x - bbox.width / 2,
-          y: y - bbox.height / 2,
-          ...attrs
-        }
-      });
-      shape.set('capture', false);
-      item.set('delegateShape', shape);
-    }
-    shape.attr({ x: x - bbox.width / 2, y: y - bbox.height / 2 });
-    this.graph.paint();
   },
   /**
    * 更新拖动元素时的delegate

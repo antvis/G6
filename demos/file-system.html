@@ -20,7 +20,7 @@
         }
       });
       let marker;
-      if (cfg.data.collapsed) {
+      if (cfg.collapsed) {
         marker = group.addShape('marker', {
           attrs: {
             symbol: 'triangle',
@@ -30,7 +30,7 @@
             fill: '#666'
           },
         });
-      } else if (cfg.data.children && cfg.data.children.length > 0) {
+      } else if (cfg.children && cfg.children.length > 0) {
         marker = group.addShape('marker', {
           attrs: {
             symbol: 'triangle-down',
@@ -45,7 +45,7 @@
         attrs: {
           x: cfg.x + 15,
           y: cfg.y + 4,
-          text: cfg.data.name,
+          text: cfg.name,
           fill: '#666',
           fontSize: 16,
           textAlign: 'left'
@@ -74,7 +74,7 @@
         type: 'collapse-expand',
         animate: false,
         onChange(item, collapsed) {
-          const data = item.get('model').data;
+          const data = item.get('model');
           data.collapsed = collapsed;
           return true;
         }
@@ -138,12 +138,31 @@
       }
     ]
   };
+
+  graph.node(function(node) {
+    return {
+      shape: 'file-node',
+      label: node.name
+    };
+  });
+
+  graph.edge(function(edge) {
+    return {
+      shape: 'step-line'
+    };
+  });
+  
+  graph.on('node:click', evt => {
+    
+  	console.log(evt)
+  })
+
   graph.data(data);
   graph.render();
   graph.getNodes().forEach(node => {
     const model = node.get('model');
     model.shape = 'file-node';
-    model.label = model.data.name;
+    model.label = model.name;
   });
   graph.getEdges().forEach(edge => {
     edge.get('model').shape = 'step-line';
