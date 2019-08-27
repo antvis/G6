@@ -49,10 +49,10 @@ describe('select-node', () => {
     graph.emit('node:click', { item: node2 });
     expect(node2.getStates().length).to.equal(1);
     expect(node2.getStates()[0]).to.equal('selected');
-    expect(node1.hasState('selected')).to.be.true;
+    expect(node1.hasState('selected')).to.be.false;
     graph.emit('keyup', { keyCode: 17 });
     graph.emit('node:click', { item: node1 });
-    expect(node1.getStates().length).to.equal(0);
+    expect(node1.getStates().length).to.equal(1);
     expect(node2.getStates().length).to.equal(0);
     graph.destroy();
   });
