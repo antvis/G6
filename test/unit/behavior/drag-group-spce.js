@@ -3,10 +3,11 @@
  * @Date: 2019-07-31 11:54:41
  * @LastEditors: moyee
  * @LastEditTime: 2019-08-23 14:16:27
- * @Description: file content
+ * @Description: Group Behavior单测文件
  */
 const expect = require('chai').expect;
 const G6 = require('../../../src');
+const Util = G6.Util;
 const { groupBy } = require('lodash');
 
 const div = document.createElement('div');
@@ -28,22 +29,25 @@ G6.registerNode('circleNode', {
   }
 }, 'circle');
 
-describe.only('create graph group', () => {
-  const graph = new G6.Graph({
-    container: div,
-    width: 1500,
-    height: 1000,
-    pixelRatio: 2,
-    modes: {
-      default: [ 'drag-group' ]
-    },
-    defaultNode: {
-      shape: 'circleNode'
-    },
-    defaultEdge: {
-      color: '#bae7ff'
-    }
-  });
+const graph = new G6.Graph({
+  container: div,
+  width: 1500,
+  height: 1000,
+  pixelRatio: 2,
+  modes: {
+    default: [ 'drag-group' ]
+  },
+  defaultNode: {
+    shape: 'circleNode'
+  },
+  defaultEdge: {
+    color: '#bae7ff'
+  }
+});
+
+const groupControll = graph.get('customGroupControll');
+
+describe('signle layer group', () => {
 
   const nodes = [
     {
@@ -95,8 +99,6 @@ describe.only('create graph group', () => {
   graph.data(data);
   graph.render();
 
-  const groupControll = graph.get('customGroupControll');
-
   it('render signle group test', () => {
     const group = graph.get('customGroup');
     const children = group.get('children');
@@ -125,7 +127,7 @@ describe.only('create graph group', () => {
     }
   });
 
-  it.only('drag signle group', () => {
+  it('drag signle group', () => {
 
     const { nodeGroup } = groupControll.getDeletageGroupById('group1');
     const keyShape = nodeGroup.get('keyShape');
@@ -167,8 +169,10 @@ describe.only('create graph group', () => {
     expect(bbox.height).eql(height);
 
   });
+});
 
-  it('nesting group test', () => {
+describe('nesting layer group', () => {
+  it.only('render nesting layer group', () => {
     const data = {
       nodes: [
         {
@@ -263,5 +267,46 @@ describe.only('create graph group', () => {
 
     const { groups } = graph.save();
     expect(groups.length).equal(5);
+
+    // 渲染的每个group的位置和坐标是否和计算的一致
+    const groupNodes = Util.getAllNodeInGroups(data);
+    for (const groupId in groupNodes) {
+      const nodeIds = groupNodes[groupId];
+      const { x, y, width, height } = groupControll.calculationGroupPosition(nodeIds);
+      const r = width > height ? width / 2 : height / 2;
+      const cx = (width + 2 * x) / 2;
+      const cy = (height + 2 * y) / 2;
+
+      const groupShape = groupControll.getDeletageGroupById(groupId);
+
+      const { groupStyle } = groupShape;
+      expect(groupStyle.x).eql(cx);
+      expect(groupStyle.y).eql(cy);
+      expect(groupStyle.r).eql(r);
+    }
+
+    // 指定groupId，验证渲染后的位置是否正确
+    const shape = groupControll.getDeletageGroupById('group2');
+    const shapeStyle = shape.groupStyle;
+    expect(shapeStyle.r).eql(30.5);
+    expect(shapeStyle.x).eql(299.5);
+    expect(shapeStyle.y).eql(99.5);
+  });
+
+  it('drag node out from group', () => {
+    // 拖动node2
+    const nodeItem = graph.findById('node2');
+
+    graph.emit('node:dragstart', {
+      item: nodeItem,
+      canvasX: 0,
+      canvasY: 0
+    });
+
+    graph.emit('node:drag', {
+      item: nodeItem,
+      canvasX: 100,
+      canvasY: 100
+    });
   });
 });
