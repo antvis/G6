@@ -3,7 +3,7 @@
  * @Date: 2019-07-30 12:10:26
  * @LastEditors: moyee
  * @LastEditTime: 2019-08-23 11:44:32
- * @Description: file content
+ * @Description: Group Controller
  */
 const { merge, isString } = require('lodash');
 

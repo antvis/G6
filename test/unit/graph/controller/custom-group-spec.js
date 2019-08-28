@@ -382,21 +382,4 @@ describe('nesting layer group', () => {
     expect(shapeStyle.x).eql(299.5);
     expect(shapeStyle.y).eql(99.5);
   });
-
-  it('drag node out from group', () => {
-    // 拖动node2
-    const nodeItem = graph.findById('node2');
-
-    graph.emit('node:dragstart', {
-      item: nodeItem,
-      canvasX: 0,
-      canvasY: 0
-    });
-
-    graph.emit('node:drag', {
-      item: nodeItem,
-      canvasX: 100,
-      canvasY: 100
-    });
-  });
 });
