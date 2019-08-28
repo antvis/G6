@@ -8,10 +8,9 @@
 const expect = require('chai').expect;
 const G6 = require('../../../src');
 const Util = G6.Util;
-const { groupBy } = require('lodash');
 
 const div = document.createElement('div');
-div.id = 'graph-group-spec';
+div.id = 'drag-group-spec';
 document.body.appendChild(div);
 
 G6.registerNode('circleNode', {
@@ -47,7 +46,7 @@ const graph = new G6.Graph({
 
 const groupControll = graph.get('customGroupControll');
 
-describe('signle layer group', () => {
+describe('drag signle layer group', () => {
 
   const nodes = [
     {
@@ -99,37 +98,20 @@ describe('signle layer group', () => {
   graph.data(data);
   graph.render();
 
-  it('render signle group test', () => {
-    const group = graph.get('customGroup');
-    const children = group.get('children');
-    // group的数量
-    expect(children.length).equal(4);
-
-    // 每个group的圆心坐标
-    const nodesInGroup = groupBy(data.nodes, 'groupId');
-    for (const node in nodesInGroup) {
-      if (node === 'undefined') {
-        continue;
-      }
-      const currentNodes = nodesInGroup[node];
-      const nodeIds = currentNodes.map(nodeId => nodeId.id);
-      const { x, y, width, height } = groupControll.calculationGroupPosition(nodeIds);
-      const r = width > height ? width / 2 : height / 2;
-      const cx = (width + 2 * x) / 2;
-      const cy = (height + 2 * y) / 2;
-
-      const groupShape = groupControll.getDeletageGroupById(node);
-
-      const { groupStyle } = groupShape;
-      expect(groupStyle.x).eql(cx);
-      expect(groupStyle.y).eql(cy);
-      expect(groupStyle.r).eql(r);
-    }
-  });
-
-  it('drag signle group', () => {
-
+  it.only('drag signle layer group', () => {
     const { nodeGroup } = groupControll.getDeletageGroupById('group1');
+
+    const nodes = data.nodes.filter(node => node.groupId === 'group1');
+
+    expect(nodes.length).eql(2);
+
+    const node1 = nodes[0];
+    const node2 = nodes[1];
+    expect(node1.x).eql(100);
+    expect(node1.y).eql(100);
+    expect(node2.x).eql(150);
+    expect(node2.y).eql(100);
+
     const keyShape = nodeGroup.get('keyShape');
 
     const { width, height } = keyShape.getBBox();
@@ -142,13 +124,11 @@ describe('signle layer group', () => {
     });
 
     graph.emit('drag', {
-      canvasX: 200,
-      canvasY: 250,
+      canvasX: 150,
+      canvasY: 150,
       target: keyShape
     });
 
-    setTimeout(() => {
-    }, 1000);
     graph.emit('dragend', {
       target: keyShape
     });
@@ -168,11 +148,22 @@ describe('signle layer group', () => {
     expect(bbox.width).eql(width);
     expect(bbox.height).eql(height);
 
+    // 拖拽完以后，group移动到了(100, 100)位置，group中的节点也移动了相应的距离
+    expect(node1.x).eql(125);
+    expect(node1.y).eql(150);
+    expect(node1.x).eql(125);
+    expect(node2.y).eql(150);
+
+    // 拖动以后，节点group的matrix值
+    const node = graph.findById(node1.id);
+    const matrix = node.get('group').getMatrix();
+    expect(matrix[6]).eql(125);
+    expect(matrix[7]).eql(150);
   });
 });
 
 describe('nesting layer group', () => {
-  it.only('render nesting layer group', () => {
+  it('render nesting layer group', () => {
     const data = {
       nodes: [
         {

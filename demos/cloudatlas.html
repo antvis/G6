@@ -9,7 +9,6 @@
 <body>
 <script src="../build/g6.js"></script>
 <script src="../build/minimap.js"></script>
-<script src="assets/hierarchy.js"></script>
 <script src="./assets/jquery-3.2.1.min.js"></script>
 <script>
   const ERROR_COLOR = "#F5222D";
@@ -834,9 +833,9 @@
         stroke: "#A3B1BF"
       }
     },
-    layout: data => {
-      const result = Hierarchy.compactBox(data, {
-        direction: "LR",
+    layout: {
+      type: 'compactBox',
+      direction: "LR",
         getId: function getId(d) {
           return d.id;
         },
@@ -849,8 +848,6 @@
         getHGap: function getHGap() {
           return 50;
         }
-      });
-      return result;
     }
   });
   function strLen(str) {

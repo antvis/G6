@@ -3,7 +3,7 @@
  * @Date: 2019-07-31 14:36:15
  * @LastEditors: moyee
  * @LastEditTime: 2019-08-22 18:43:24
- * @Description: file content
+ * @Description: 收起和展开群组
  */
 
 module.exports = {

@@ -7,40 +7,19 @@
 <style>
 </style>
 <body>
-<select id="layout">
-  <option value="dendrogram">系统树</option>
-  <option value="compactBox">紧凑树</option>
-  <option value="mindmap">脑图布局</option>
-</select>
 <div id="mountNode"></div>
-<script src="assets/hierarchy.js"></script>
 <script src="../build/g6.js"></script>
 <script>
-  let currentLayout = 'compactBox';
   const layouts = {
-    dendrogram: {
-      type: 'dendrogram',
-      direction: 'LR', // H / V / LR / RL / TB / BT
-      nodeSep: 50,
-      rankSep: 100,
-      radial: true
-    },
     compactBox: {
       type: 'compactBox',
       direction: 'LR',
-      fixedPosition: true,
+      defalutPosition: [],
       getId(d) { return d.id; },
       getHeight() { return 16 },
       getWidth() { return 16 },
       getVGap() { return 50 },
       getHGap() { return 100 }
-    },
-    mindmap: {
-      type: 'mindmap',
-      direction: 'H',
-      getHeight() { return 16; },
-      getWidth() { return 16; },
-      getVGap() { return 50; },
     }
   };
   const graph = new G6.TreeGraph({
@@ -134,28 +113,37 @@
         id: 'SubTreeNode5'
       }, {
         id: 'SubTreeNode6'
-      }, {
-        id: 'SubTreeNode7',
-      }, {
-        id: 'SubTreeNode8'
-      }, {
-        id: 'SubTreeNode9'
-      }, {
-        id: 'SubTreeNode10'
-      }, {
-        id: 'SubTreeNode11'
       }
     ]
   };
   graph.data(data);
   graph.render();
-  document.getElementById('layout').addEventListener('change', (e) => {
-    const layout = e.target.value;
-    if (currentLayout !== layout) {
-      currentLayout = layout;
-      graph.changeLayout(layouts[currentLayout]);
+
+  let count = 0;
+
+  graph.on('node:click', evt => {
+    const { item } = evt
+    const nodeId = item.get('id');
+    const model = item.getModel()
+    const children = model.children;
+    if(!children || children.length === 0) {
+      const childData = { 
+        id: `child-data-${count}`, 
+        shape: 'rect', 
+        children: [
+          {
+            id: `x-${count}` 
+          },
+          {
+            id: `y-${count}` 
+          }
+        ] 
+      };
+      graph.addChild(childData, nodeId)
+      count++
+      graph.refreshLayout()
     }
-  });
+  })
 </script>
 </body>
 </html>

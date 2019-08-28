@@ -3,7 +3,7 @@
  * @Date: 2019-07-31 14:36:15
  * @LastEditors: moyee
  * @LastEditTime: 2019-08-23 11:13:43
- * @Description: file content
+ * @Description: 拖动群组
  */
 const { merge } = require('lodash');
 
