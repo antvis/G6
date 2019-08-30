@@ -3,5 +3,6 @@ module.exports = {
   Event: require('./event'),
   Mode: require('./mode'),
   Item: require('./item'),
-  State: require('./state')
+  State: require('./state'),
+  CustomGroup: require('./customGroup')
 };

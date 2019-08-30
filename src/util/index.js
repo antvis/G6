@@ -8,5 +8,6 @@ const MathUtil = require('./math');
 const PathUtil = require('./path');
 const BaseUtil = require('./base');
 const GraphicUtil = require('./graphic');
-BaseUtil.deepMix(Util, BaseUtil, GraphicUtil, PathUtil, MathUtil);
+const GroupUtil = require('./groupData');
+BaseUtil.deepMix(Util, BaseUtil, GraphicUtil, PathUtil, MathUtil, GroupUtil);
 module.exports = Util;
