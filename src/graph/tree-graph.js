@@ -316,7 +316,7 @@ class TreeGraph extends Graph {
       onFrame(ratio) {
         Util.traverseTree(data, child => {
           const node = self.findById(child.id);
-          // 当存在节点时候，执行动画效果
+          // 只有当存在node的时候才执行
           if (node) {
             let origin = node.get('origin');
             const model = node.get('model');

@@ -109,6 +109,17 @@
   graph.data(data)
   graph.render()
 
+  graph.on('edge:click', evt => {
+    console.log(evt)
+    const { item } = evt
+    graph.updateItem(item, {
+      style: {
+        lineWidth: 3,
+        stroke: 'red'
+      }
+    })
+  })
+
   // 创建ul
   const conextMenuContainer = document.createElement('ul')
   conextMenuContainer.id = 'contextMenu';

@@ -9,7 +9,6 @@
 <body>
 <script src="../build/g6.js"></script>
 <script src="../build/minimap.js"></script>
-<script src="assets/hierarchy.js"></script>
 <script src="./assets/jquery-3.2.1.min.js"></script>
 <script>
   const ERROR_COLOR = "#F5222D";
@@ -603,7 +602,7 @@
         });
         const text = group.addShape("text", {
           attrs: {
-            text: "Sofarouter",
+            text: "edge-label",
             x: 0,
             y: 0,
             fontSize: 12,
@@ -806,7 +805,11 @@
         },
         "double-finger-drag-canvas",
         "three-finger-drag-canvas",
-        "tooltip",
+        { type: "tooltip",
+          formatText: data => {
+            return `<div>${data.name}</div>`
+          }
+        },
         {
           type: "drag-canvas",
           shouldUpdate: function shouldUpdate() {
@@ -830,9 +833,9 @@
         stroke: "#A3B1BF"
       }
     },
-    layout: data => {
-      const result = Hierarchy.compactBox(data, {
-        direction: "LR",
+    layout: {
+      type: 'compactBox',
+      direction: "LR",
         getId: function getId(d) {
           return d.id;
         },
@@ -845,8 +848,6 @@
         getHGap: function getHGap() {
           return 50;
         }
-      });
-      return result;
     }
   });
   function strLen(str) {
@@ -934,7 +935,6 @@
   };
   function formatData(data) {
       const recursiveTraverse = (node, level = 0) => {
-        // TODO 贤月 目前 keyInfo 没有
         const appName = "testappName";
         const keyInfo = "testkeyinfo";
         const ip = "111.22.33.44";

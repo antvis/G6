@@ -7,6 +7,8 @@ module.exports = {
   rootContainerClassName: 'root-container',
   nodeContainerClassName: 'node-container',
   edgeContainerClassName: 'edge-container',
+  customGroupContainerClassName: 'custom-group-container',
+  delegateContainerClassName: 'delegate-container',
   defaultNode: {
     shape: 'circle',
     style: {
