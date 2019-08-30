@@ -15,8 +15,8 @@ module.exports = {
       updateEdge: true,
       delegate: true,
       delegateStyle: {},
-      maxMultiple: 1.3,
-      minMultiple: 0.7
+      maxMultiple: 1.2,
+      minMultiple: 0.8
     };
   },
   getEvents() {
@@ -247,6 +247,7 @@ module.exports = {
     // 节点所在的GroupId
     const { groupId, id } = model;
 
+    // console.log(groupId, this.inGroupId)
     const customGroupControll = graph.get('customGroupControll');
     const customGroup = customGroupControll.customGroup;
     const groupNodes = graph.get('groupNodes');
