@@ -202,7 +202,7 @@ describe('signle layer group', () => {
     expect(nodeGroup.get('hasHidden')).to.be.false;
   });
 
-  it.only('collapseGroup / expandGroup', () => {
+  it('collapseGroup / expandGroup', () => {
     const nodes = graph.getNodes();
     const groupNodes = nodes.filter(node => {
       const model = node.getModel();
