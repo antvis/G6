@@ -493,7 +493,6 @@ class Graph extends EventEmitter {
       self.add(EDGE, edge);
     });
 
-    // 存在单个群组
     // 获取所有有groupID的node
     const nodeInGroup = data.nodes.filter(node => node.groupId);
 
