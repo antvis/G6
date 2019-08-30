@@ -167,6 +167,21 @@ module.exports = {
         const parentGroupNodes = groupNodes[parentGroupId];
 
         groupNodes[parentGroupId] = parentGroupNodes.filter(node => currentGroupNodes.indexOf(node) === -1);
+
+        const { x: x1, y: y1, width, height } = customGroupControll.calculationGroupPosition(groupNodes[parentGroupId]);
+        const groups = graph.get('groups');
+        const hasSubGroup = !!groups.filter(g => g.parentId === parentGroupId).length > 0;
+        const r = width > height ? width / 2 : height / 2 + (hasSubGroup ? 20 : 0);
+
+        const cx = (width + 2 * x1) / 2;
+        const cy = (height + 2 * y1) / 2;
+        // groupKeyShape.attr('x', cx);
+        // groupKeyShape.attr('y', cy);
+        parentKeyShape.attr({
+          r: r + groupNodes[groupId].length * 10,
+          x: cx,
+          y: cy
+        });
       }
     }
   },
@@ -227,11 +242,10 @@ module.exports = {
 
     otherGroupId.forEach(id => {
       // 更新群组位置
-      const { nodeGroup, groupStyle } = customGroups[id];
+      const { nodeGroup } = customGroups[id];
       const groupKeyShape = nodeGroup.get('keyShape');
 
-      const { width, height } = groupStyle;
-      const { x, y } = customGroupControll.calculationGroupPosition(groupNodes[id]);
+      const { x, y, width, height } = customGroupControll.calculationGroupPosition(groupNodes[id]);
       const cx = (width + 2 * x) / 2;
       const cy = (height + 2 * y) / 2;
       groupKeyShape.attr('x', cx);
