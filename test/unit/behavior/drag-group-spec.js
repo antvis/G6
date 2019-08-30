@@ -28,77 +28,75 @@ G6.registerNode('circleNode', {
   }
 }, 'circle');
 
-const graph = new G6.Graph({
-  container: div,
-  width: 1500,
-  height: 1000,
-  pixelRatio: 2,
-  modes: {
-    default: [ 'drag-group' ]
-  },
-  defaultNode: {
-    shape: 'circleNode'
-  },
-  defaultEdge: {
-    color: '#bae7ff'
-  }
-});
-
-const groupControll = graph.get('customGroupControll');
-
 describe('drag signle layer group', () => {
 
-  const nodes = [
-    {
-      id: 'node1',
-      label: 'node1',
-      groupId: 'group1',
-      x: 100,
-      y: 100
-    },
-    {
-      id: 'node2',
-      label: 'node2',
-      groupId: 'group1',
-      x: 150,
-      y: 100
-    },
-    {
-      id: 'node3',
-      label: 'node3',
-      groupId: 'group2',
-      x: 300,
-      y: 100
-    },
-    {
-      id: 'node7',
-      groupId: 'p1',
-      x: 200,
-      y: 200
-    },
-    {
-      id: 'node6',
-      groupId: 'bym',
-      label: 'rect',
-      x: 100,
-      y: 300,
-      shape: 'rect'
-    },
-    {
-      id: 'node9',
-      label: 'noGroup',
-      x: 300,
-      y: 210
-    }
-  ];
-  const data = {
-    nodes
-  };
+  it('drag signle layer group', () => {
+    const data = {
+      nodes: [
+        {
+          id: 'node1',
+          label: 'node1',
+          groupId: 'group1',
+          x: 100,
+          y: 100
+        },
+        {
+          id: 'node2',
+          label: 'node2',
+          groupId: 'group1',
+          x: 150,
+          y: 100
+        },
+        {
+          id: 'node3',
+          label: 'node3',
+          groupId: 'group2',
+          x: 300,
+          y: 100
+        },
+        {
+          id: 'node7',
+          groupId: 'p1',
+          x: 200,
+          y: 200
+        },
+        {
+          id: 'node6',
+          groupId: 'bym',
+          label: 'rect',
+          x: 100,
+          y: 300,
+          shape: 'rect'
+        },
+        {
+          id: 'node9',
+          label: 'noGroup',
+          x: 300,
+          y: 210
+        }
+      ]
+    };
+    const graph = new G6.Graph({
+      container: div,
+      width: 1500,
+      height: 1000,
+      pixelRatio: 2,
+      modes: {
+        default: [ 'drag-group' ]
+      },
+      defaultNode: {
+        shape: 'circleNode'
+      },
+      defaultEdge: {
+        color: '#bae7ff'
+      }
+    });
 
-  graph.data(data);
-  graph.render();
+    graph.data(data);
+    graph.render();
 
-  it.only('drag signle layer group', () => {
+    const groupControll = graph.get('customGroupControll');
+
     const { nodeGroup } = groupControll.getDeletageGroupById('group1');
 
     const nodes = data.nodes.filter(node => node.groupId === 'group1');
@@ -159,40 +157,27 @@ describe('drag signle layer group', () => {
     const matrix = node.get('group').getMatrix();
     expect(matrix[6]).eql(125);
     expect(matrix[7]).eql(150);
-  });
-});
 
-describe('nesting layer group', () => {
-  it('render nesting layer group', () => {
+    graph.destroy();
+    expect(graph.destroyed).to.be.true;
+  });
+
+  it('drag group of node to out', () => {
     const data = {
       nodes: [
         {
-          id: 'node6',
-          groupId: 'group3',
-          label: 'rect',
-          x: 100,
-          y: 300
-        },
-        {
           id: 'node1',
-          label: 'fck',
+          label: 'node1',
           groupId: 'group1',
           x: 100,
           y: 100
-        },
-        {
-          id: 'node9',
-          label: 'noGroup1',
-          groupId: 'p1',
-          x: 300,
-          y: 210
         },
         {
           id: 'node2',
           label: 'node2',
           groupId: 'group1',
           x: 150,
-          y: 200
+          y: 100
         },
         {
           id: 'node3',
@@ -204,54 +189,358 @@ describe('nesting layer group', () => {
         {
           id: 'node7',
           groupId: 'p1',
-          label: 'node7-p1',
           x: 200,
           y: 200
         },
         {
-          id: 'node10',
+          id: 'node6',
+          groupId: 'bym',
+          label: 'rect',
+          x: 100,
+          y: 300,
+          shape: 'rect'
+        },
+        {
+          id: 'node9',
           label: 'noGroup',
-          groupId: 'p2',
           x: 300,
           y: 210
         }
-      ],
-      edges: [
+      ]
+    };
+    const graph = new G6.Graph({
+      container: div,
+      width: 1500,
+      height: 1000,
+      pixelRatio: 2,
+      modes: {
+        default: [ 'drag-node-with-group' ]
+      },
+      defaultNode: {
+        shape: 'circleNode'
+      },
+      defaultEdge: {
+        color: '#bae7ff'
+      }
+    });
+
+    graph.data(data);
+    graph.render();
+
+    const nodes = data.nodes.filter(node => node.groupId === 'group1');
+
+    expect(nodes.length).eql(2);
+
+    const node = graph.findById('node1');
+
+    const matrixBefore = node.get('group').getMatrix();
+    expect(matrixBefore[6]).eql(100);
+    expect(matrixBefore[7]).eql(100);
+
+    const groupControll = graph.get('customGroupControll');
+    const { nodeGroup } = groupControll.getDeletageGroupById('group1');
+    const keyShape = nodeGroup.get('keyShape');
+
+    graph.emit('node:dragstart', {
+      target: node,
+      item: node,
+      x: 0,
+      y: 0
+    });
+
+    graph.emit('mouseenter', {
+      target: keyShape
+    });
+
+    graph.emit('node:drag', {
+      target: node,
+      item: node,
+      x: 200,
+      y: 250
+    });
+
+    // 拖动过程中，group中还会保留原来的node
+    expect(nodes.length).eql(2);
+    const matrix = node.get('group').getMatrix();
+
+    expect(matrix[6]).eql(100);
+    expect(matrix[7]).eql(100);
+
+    graph.emit('node:dragend', {
+      item: node,
+      target: node,
+      x: 200,
+      y: 250
+    });
+
+    graph.paint();
+    const matrixEnd = node.get('group').getMatrix();
+    expect(matrixEnd[6]).eql(300);
+    expect(matrixEnd[7]).eql(350);
+
+    const gnodes = graph.getNodes().filter(node => {
+      const model = node.getModel();
+      return model.groupId === 'group1';
+    });
+    // 将指定节点拖出group外，group中只有一个节点
+    expect(gnodes.length).eql(1);
+    expect(gnodes[0].get('id')).eql('node2');
+    graph.destroy();
+    expect(graph.destroyed).to.be.true;
+  });
+
+  it('drag node to group', () => {
+    const data = {
+      nodes: [
         {
-          source: 'node1',
-          target: 'node2'
+          id: 'node1',
+          label: 'node1',
+          groupId: 'group1',
+          x: 100,
+          y: 100
         },
         {
-          source: 'node2',
-          target: 'node3'
-        }
-      ],
-      groups: [
-        {
-          id: 'group1',
-          title: '1',
-          parentId: 'p1'
+          id: 'node2',
+          label: 'node2',
+          groupId: 'group1',
+          x: 150,
+          y: 100
         },
         {
-          id: 'group2',
-          title: '2',
-          parentId: 'p1'
+          id: 'node3',
+          label: 'node3',
+          groupId: 'group2',
+          x: 300,
+          y: 100
         },
         {
-          id: 'group3',
-          title: '2',
-          parentId: 'p2'
+          id: 'node7',
+          groupId: 'p1',
+          x: 200,
+          y: 200
         },
         {
-          id: 'p1',
-          title: '3'
+          id: 'node6',
+          groupId: 'bym',
+          label: 'rect',
+          x: 100,
+          y: 300,
+          shape: 'rect'
         },
         {
-          id: 'p2',
-          title: '3'
+          id: 'node9',
+          label: 'noGroup',
+          x: 300,
+          y: 210
         }
       ]
     };
+    const graph = new G6.Graph({
+      container: div,
+      width: 1500,
+      height: 1000,
+      pixelRatio: 2,
+      modes: {
+        default: [ 'drag-node-with-group' ]
+      },
+      defaultNode: {
+        shape: 'circleNode'
+      },
+      defaultEdge: {
+        color: '#bae7ff'
+      }
+    });
+
+    graph.data(data);
+    graph.render();
+
+    const nodes = data.nodes.filter(node => node.groupId === 'group1');
+
+    expect(nodes.length).eql(2);
+
+    // 将group2中的node3拖入到group1中
+    const node = graph.findById('node3');
+    const group3Nodes = data.nodes.filter(node => node.groupId === 'group2');
+    expect(group3Nodes.length).eql(1);
+
+    const matrixBefore = node.get('group').getMatrix();
+    expect(matrixBefore[6]).eql(300);
+    expect(matrixBefore[7]).eql(100);
+
+    const groupControll = graph.get('customGroupControll');
+    const { nodeGroup } = groupControll.getDeletageGroupById('group1');
+    const keyShape = nodeGroup.get('keyShape');
+
+    graph.emit('node:dragstart', {
+      target: node,
+      item: node,
+      x: 0,
+      y: 0
+    });
+
+    graph.emit('mouseenter', {
+      target: keyShape
+    });
+
+    graph.emit('node:drag', {
+      target: node,
+      item: node,
+      x: -200,
+      y: -60
+    });
+
+    // 拖动过程中，group中还会保留原来的node
+    expect(nodes.length).eql(2);
+    const matrix = node.get('group').getMatrix();
+
+    expect(matrix[6]).eql(300);
+    expect(matrix[7]).eql(100);
+
+    graph.emit('node:dragend', {
+      item: node,
+      target: node,
+      x: -200,
+      y: -60
+    });
+
+    graph.paint();
+    const matrixEnd = node.get('group').getMatrix();
+    expect(matrixEnd[6]).eql(100);
+    expect(matrixEnd[7]).eql(40);
+
+    const gnodes = graph.getNodes().filter(node => {
+      const model = node.getModel();
+      return model.groupId === 'group1';
+    });
+    // 将指定节点拖如到group1中，group中有3个节点
+    expect(gnodes.length).eql(3);
+    const node3GroupId = gnodes.filter(node => {
+      const model = node.getModel();
+      return model.id === 'node3';
+    }).map(node => {
+      const model = node.getModel();
+      return model.groupId;
+    });
+
+    expect(node3GroupId[0]).eql('group1');
+    graph.destroy();
+    expect(graph.destroyed).to.be.true;
+  });
+});
+
+describe('nesting layer group', () => {
+  const data = {
+    nodes: [
+      {
+        id: 'node6',
+        groupId: 'group3',
+        label: 'rect',
+        x: 100,
+        y: 300
+      },
+      {
+        id: 'node1',
+        label: 'fck',
+        groupId: 'group1',
+        x: 100,
+        y: 100
+      },
+      {
+        id: 'node9',
+        label: 'noGroup1',
+        groupId: 'p1',
+        x: 300,
+        y: 210
+      },
+      {
+        id: 'node2',
+        label: 'node2',
+        groupId: 'group1',
+        x: 150,
+        y: 200
+      },
+      {
+        id: 'node3',
+        label: 'node3',
+        groupId: 'group2',
+        x: 300,
+        y: 100
+      },
+      {
+        id: 'node7',
+        groupId: 'p1',
+        label: 'node7-p1',
+        x: 200,
+        y: 200
+      },
+      {
+        id: 'node10',
+        label: 'noGroup',
+        groupId: 'p2',
+        x: 300,
+        y: 210
+      }
+    ],
+    edges: [
+      {
+        source: 'node1',
+        target: 'node2'
+      },
+      {
+        source: 'node2',
+        target: 'node3'
+      }
+    ],
+    groups: [
+      {
+        id: 'group1',
+        title: '1',
+        parentId: 'p1'
+      },
+      {
+        id: 'group2',
+        title: '2',
+        parentId: 'p1'
+      },
+      {
+        id: 'group3',
+        title: '2',
+        parentId: 'p2'
+      },
+      {
+        id: 'p1',
+        title: '3'
+      },
+      {
+        id: 'p2',
+        title: '3'
+      }
+    ]
+  };
+  it('render nesting layer group', () => {
+
+    const graph = new G6.Graph({
+      container: div,
+      width: 1500,
+      height: 1000,
+      pixelRatio: 2,
+      modes: {
+        default: [ 'drag-group', 'drag-node-with-group', 'collapse-expand-group' ]
+      },
+      defaultNode: {
+        shape: 'circleNode'
+      },
+      defaultEdge: {
+        color: '#bae7ff'
+      }
+    });
+
+    graph.data(data);
+    graph.render();
+
+    expect(graph.destroyed).to.be.undefined;
+
+    const groupControll = graph.get('customGroupControll');
 
     graph.data(data);
     graph.render();
@@ -282,22 +571,171 @@ describe('nesting layer group', () => {
     expect(shapeStyle.r).eql(30.5);
     expect(shapeStyle.x).eql(299.5);
     expect(shapeStyle.y).eql(99.5);
+
+    graph.destroy();
+    expect(graph.destroyed).to.be.true;
   });
 
-  it('drag node out from group', () => {
-    // 拖动node2
-    const nodeItem = graph.findById('node2');
-
-    graph.emit('node:dragstart', {
-      item: nodeItem,
-      canvasX: 0,
-      canvasY: 0
+  it('drag group out from group', () => {
+    const graph = new G6.Graph({
+      container: div,
+      width: 1500,
+      height: 1000,
+      pixelRatio: 2,
+      modes: {
+        default: [ 'drag-group', 'drag-node-with-group', 'collapse-expand-group' ]
+      },
+      defaultNode: {
+        shape: 'circleNode'
+      },
+      defaultEdge: {
+        color: '#bae7ff'
+      }
     });
 
-    graph.emit('node:drag', {
-      item: nodeItem,
-      canvasX: 100,
-      canvasY: 100
+    graph.data(data);
+    graph.render();
+
+    // 等所有群组都渲染完以后再去做单测
+    setTimeout(() => {
+      const groupControll = graph.get('customGroupControll');
+      const { nodeGroup } = groupControll.getDeletageGroupById('group1');
+
+      const groupNodes = graph.get('groupNodes');
+      const p1Nodes = groupNodes.p1;
+      const group1Nodes = groupNodes.group1;
+      expect(p1Nodes.length).eql(5);
+      expect(p1Nodes.indexOf('node1') > -1).to.be.true;
+      expect(p1Nodes.indexOf('nop1') > -1).to.be.false;
+      expect(group1Nodes.length).eql(2);
+
+      const keyShape = nodeGroup.get('keyShape');
+
+      graph.emit('dragstart', {
+        target: keyShape,
+        canvasX: 0,
+        canvasY: 0
+      });
+
+      graph.emit('drag', {
+        target: keyShape,
+        canvasX: 500,
+        canvasY: 200
+      });
+
+      // 还没有拖出群组，group p1中还包括group1
+      expect(p1Nodes.length).eql(5);
+      expect(p1Nodes.indexOf('node2') > -1).to.be.true;
+      graph.emit('dragend', {
+        target: keyShape,
+        canvasX: 500,
+        canvasY: 200
+      });
+
+      const currentP1Nodes = groupNodes.p1;
+      // 拖出群组，group p1中不包括group1
+      expect(currentP1Nodes.length).eql(3);
+      expect(currentP1Nodes.indexOf('node1') > -1).to.be.false;
+      expect(currentP1Nodes.indexOf('node2') > -1).to.be.false;
+      expect(group1Nodes.length).eql(2);
+
+      graph.destroy();
+      expect(graph.destroyed).to.be.true;
+    }, 1000);
+  });
+
+  it('drag node to out from nesting group', () => {
+    const graph = new G6.Graph({
+      container: div,
+      width: 1500,
+      height: 1000,
+      pixelRatio: 2,
+      modes: {
+        default: [ 'drag-node-with-group' ]
+      },
+      defaultNode: {
+        shape: 'circleNode'
+      },
+      defaultEdge: {
+        color: '#bae7ff'
+      }
     });
+
+    graph.data(data);
+    graph.render();
+
+    const nodes = data.nodes.filter(node => node.groupId === 'group1');
+
+    expect(nodes.length).eql(2);
+
+    const node = graph.findById('node1');
+
+    const matrixBefore = node.get('group').getMatrix();
+    expect(matrixBefore[6]).eql(100);
+    expect(matrixBefore[7]).eql(100);
+
+    const groupControll = graph.get('customGroupControll');
+    const { nodeGroup } = groupControll.getDeletageGroupById('group1');
+    const groupNodes = graph.get('groupNodes');
+
+    setTimeout(() => {
+      graph.emit('node:dragstart', {
+        target: node,
+        item: node,
+        x: 0,
+        y: 0
+      });
+
+      graph.emit('mouseenter', {
+        target: nodeGroup
+      });
+
+      graph.emit('node:drag', {
+        target: node,
+        item: node,
+        x: 500,
+        y: 250
+      });
+
+      // 拖动过程中，group中还会保留原来的node
+      expect(nodes.length).eql(2);
+      const matrix = node.get('group').getMatrix();
+
+      expect(matrix[6]).eql(100);
+      expect(matrix[7]).eql(100);
+
+      const p1Nodes = groupNodes.p1;
+      const g1Nodes = groupNodes.group1;
+      expect(p1Nodes.indexOf('node1') > -1).to.be.true;
+      expect(g1Nodes.indexOf('node1') > -1).to.be.true;
+
+      graph.emit('node:dragend', {
+        item: node,
+        target: node,
+        x: 500,
+        y: 250
+      });
+
+      graph.paint();
+      const matrixEnd = node.get('group').getMatrix();
+      expect(matrixEnd[6]).eql(975);
+      expect(matrixEnd[7]).eql(400);
+
+      const gnodes = graph.getNodes().filter(node => {
+        const model = node.getModel();
+        return model.groupId === 'group1';
+      });
+      // 将指定节点拖出group外，group中只有一个节点
+      expect(gnodes.length).eql(1);
+      expect(gnodes[0].get('id')).eql('node2');
+
+      // 拖出以后，p1中也只有不包括node1
+      const currentP1Nodes = groupNodes.p1;
+      const currentG1Nodes = groupNodes.group1;
+      expect(currentG1Nodes.indexOf('node1') > -1).to.be.false;
+      expect(currentP1Nodes.indexOf('node1') > -1).to.be.false;
+      graph.destroy();
+      expect(graph.destroyed).to.be.true;
+    }, 1000);
   });
 });

@@ -59,6 +59,7 @@ class CustomGroup {
   constructor(graph) {
     // const { cfg = {} } = options;
     this.graph = graph;
+    window.graph = graph;
     this.styles = this.getDefaultCfg();
     // 创建的群组集合
     this.customGroup = {};
@@ -146,6 +147,9 @@ class CustomGroup {
    * @param {Object | String} style 样式
    */
   setGroupStyle(keyShape, style) {
+    if (!keyShape || keyShape.get('destroyed')) {
+      return;
+    }
     let styles = {};
     const { hover: hoverStyle, default: defaultStyle } = this.styles;
     if (isString(style)) {
@@ -554,9 +558,12 @@ class CustomGroup {
 
     // 显示之前隐藏的节点和群组
     const nodesInGroup = graph.get('groupNodes')[id];
-    const { nodeGroup, groupStyle } = this.getDeletageGroupById(id);
-    // const { x, y, width, height } = this.calculationGroupPosition(nodesInGroup);
-    // console.log(x, y, width, height)
+    const { nodeGroup } = this.getDeletageGroupById(id);
+    const { width, height } = this.calculationGroupPosition(nodesInGroup);
+    // 检测操作的群组中是否包括子群组
+    const groups = graph.get('groups');
+    const hasSubGroup = !!groups.filter(g => g.parentId === id).length > 0;
+    const r = width > height ? width / 2 : height / 2 + (hasSubGroup ? 20 : 0);
 
     // const cx = (width + 2 * x) / 2;
     // const cy = (height + 2 * y) / 2;
@@ -575,7 +582,7 @@ class CustomGroup {
           self.setGroupOriginBBox(id, keyShape.getBBox());
         }
         return {
-          r: 30 + ratio * (groupStyle.r + nodesInGroup.length * 10 - 30)
+          r: 30 + ratio * (r + nodesInGroup.length * 10 - 30)
         };
       }
     }, 1000, 'easeCubic');

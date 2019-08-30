@@ -14,7 +14,9 @@ module.exports = {
     return {
       updateEdge: true,
       delegate: true,
-      delegateStyle: {}
+      delegateStyle: {},
+      maxMultiple: 1.3,
+      minMultiple: 0.7
     };
   },
   getEvents() {
@@ -219,7 +221,10 @@ module.exports = {
       currentGroup.remove();
     } else {
       const { x, y, width, height } = customGroupControll.calculationGroupPosition(groupNodes[groupId]);
-      const r = width > height ? width / 2 : height / 2;
+      // 检测操作的群组中是否包括子群组
+      const groups = graph.get('groups');
+      const hasSubGroup = !!groups.filter(g => g.parentId === groupId).length > 0;
+      const r = width > height ? width / 2 : height / 2 + (hasSubGroup ? 20 : 0);
       const cx = (width + 2 * x) / 2;
       const cy = (height + 2 * y) / 2;
       keyShape.attr({
@@ -230,10 +235,7 @@ module.exports = {
 
       customGroupControll.setGroupOriginBBox(groupId, keyShape.getBBox());
     }
-
-    if (keyShape) {
-      customGroupControll.setGroupStyle(keyShape, 'default');
-    }
+    customGroupControll.setGroupStyle(keyShape, 'default');
   },
   setCurrentGroupStyle(evt) {
     const { item } = evt;
@@ -248,9 +250,7 @@ module.exports = {
     const customGroupControll = graph.get('customGroupControll');
     const customGroup = customGroupControll.customGroup;
     const groupNodes = graph.get('groupNodes');
-
-    // 当存在GroupID时，拖出了所在的Group的处理, 落到了其他Group上面
-    if (groupId && this.inGroupId) {
+    if (this.inGroupId && groupId) {
       const currentGroup = customGroup[groupId].nodeGroup;
       const keyShape = currentGroup.get('keyShape');
 
@@ -260,7 +260,8 @@ module.exports = {
       const { x, y } = itemBBox;
       const { minX, minY, maxX, maxY } = currentGroupBBox;
 
-      if (!(x < maxX && x > minX && y < maxY && y > minY)) {
+      // 在自己的group中拖动，判断是否拖出了自己的group
+      if (!(x < maxX * this.maxMultiple && x > minX * this.minMultiple && y < maxY * this.maxMultiple && y > minY * this.minMultiple)) {
         // 拖出了group，则删除item中的groupId字段，同时删除group中的nodeID
         const currentGroupNodes = groupNodes[groupId];
         groupNodes[groupId] = currentGroupNodes.filter(node => node !== id);
@@ -270,10 +271,35 @@ module.exports = {
         // 同时删除groupID中的节点
         delete model.groupId;
       }
-      if (!keyShape.get('destroyed')) {
-        customGroupControll.setGroupStyle(keyShape, 'default');
+       // 拖动到其他的group上面
+      if (this.inGroupId !== groupId) {
+        const nodeInGroup = customGroup[this.inGroupId].nodeGroup;
+        const keyShape = nodeInGroup.get('keyShape');
+        // 将该节点添加到inGroupId中
+        if (groupNodes[this.inGroupId].indexOf(id) === -1) {
+          groupNodes[this.inGroupId].push(id);
+        }
+        // 更新节点的groupId为拖动上去的group Id
+        model.groupId = this.inGroupId;
+
+        // 拖入节点后，根据最新的节点数量，重新计算群组大小
+        this.dynamicChangeGroupSize(evt, nodeInGroup, keyShape);
       }
-    } else if (groupId && !this.inGroupId) {
+      customGroupControll.setGroupStyle(keyShape, 'default');
+    } else if (this.inGroupId && !groupId) {
+      // 将节点拖动到群组中
+      const nodeInGroup = customGroup[this.inGroupId].nodeGroup;
+      const keyShape = nodeInGroup.get('keyShape');
+      // 将该节点添加到inGroupId中
+      if (groupNodes[this.inGroupId].indexOf(id) === -1) {
+        groupNodes[this.inGroupId].push(id);
+      }
+      // 更新节点的groupId为拖动上去的group Id
+      model.groupId = this.inGroupId;
+      // 拖入节点后，根据最新的节点数量，重新计算群组大小
+      this.dynamicChangeGroupSize(evt, nodeInGroup, keyShape);
+    } else if (!this.inGroupId && groupId) {
+      // 拖出到群组之外了，则删除数据中的groupId
       for (const gnode in groupNodes) {
         const currentGroupNodes = groupNodes[gnode];
         groupNodes[gnode] = currentGroupNodes.filter(node => node !== id);
@@ -281,20 +307,7 @@ module.exports = {
       const currentGroup = customGroup[groupId].nodeGroup;
       const keyShape = currentGroup.get('keyShape');
       this.dynamicChangeGroupSize(evt, currentGroup, keyShape);
-    }
-
-    // 拖动到的group上面
-    if (this.inGroupId && this.inGroupId !== groupId) {
-      // 将该节点添加到inGroupId中
-      groupNodes[this.inGroupId].push(id);
-      model.groupId = this.inGroupId;
-
-      const nodeInGroup = customGroup[this.inGroupId].nodeGroup;
-      const keyShape = nodeInGroup.get('keyShape');
-      customGroupControll.setGroupStyle(keyShape, 'default');
-
-      // 拖入节点后，根据最新的节点数量，重新计算群组大小
-      this.dynamicChangeGroupSize(evt, nodeInGroup, keyShape);
+      delete model.groupId;
     }
 
     this.inGroupId = null;

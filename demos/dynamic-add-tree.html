@@ -10,18 +10,6 @@
 <div id="mountNode"></div>
 <script src="../build/g6.js"></script>
 <script>
-  const layouts = {
-    compactBox: {
-      type: 'compactBox',
-      direction: 'LR',
-      defalutPosition: [],
-      getId(d) { return d.id; },
-      getHeight() { return 16 },
-      getWidth() { return 16 },
-      getVGap() { return 50 },
-      getHGap() { return 100 }
-    }
-  };
   const graph = new G6.TreeGraph({
     container: 'mountNode',
     width: 500,
@@ -32,7 +20,16 @@
       default: ['collapse-expand', 'drag-canvas']
     },
     fitView: true,
-    layout: layouts.compactBox
+    layout: {
+      type: 'compactBox',
+      direction: 'LR',
+      defalutPosition: [],
+      getId(d) { return d.id; },
+      getHeight() { return 16 },
+      getWidth() { return 16 },
+      getVGap() { return 50 },
+      getHGap() { return 100 }
+    }
   });
   graph.node(node => {
     return {
@@ -127,21 +124,41 @@
     const model = item.getModel()
     const children = model.children;
     if(!children || children.length === 0) {
-      const childData = { 
-        id: `child-data-${count}`, 
-        shape: 'rect', 
-        children: [
-          {
-            id: `x-${count}` 
-          },
-          {
-            id: `y-${count}` 
-          }
-        ] 
-      };
-      graph.addChild(childData, nodeId)
+      const childData = [
+        { 
+          id: `child-data-${count}`, 
+          shape: 'rect', 
+          children: [
+            {
+              id: `x-${count}` 
+            },
+            {
+              id: `y-${count}` 
+            }
+          ] 
+        },
+        { 
+          id: `child-data1-${count}`,
+          children: [
+            {
+              id: `x1-${count}` 
+            },
+            {
+              id: `y1-${count}` 
+            }
+          ] 
+        }
+      ];
+
+      const parentData = graph.findDataById(nodeId);
+      if (!parentData.children) {
+        parentData.children = [];
+      }
+      // 如果childData是一个数组，则直接赋值给parentData.children
+      // 如果是一个对象，则使用parentData.children.push(obj)
+      parentData.children = childData
+      graph.changeData()
       count++
-      graph.refreshLayout()
     }
   })
 </script>
