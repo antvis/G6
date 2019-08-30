@@ -157,7 +157,7 @@ describe('group data transform util test', () => {
     expect(groupByIdData.p1[0].parentId).equal('p1');
   });
 
-  it.only('groupBy groupId test', () => {
+  it('groupBy groupId test', () => {
     const nodes = [
       {
         id: 'node1',
