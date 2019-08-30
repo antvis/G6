@@ -29,77 +29,77 @@ G6.registerNode('circleNode', {
   }
 }, 'circle');
 
-const graph = new G6.Graph({
-  container: div,
-  width: 1500,
-  height: 1000,
-  pixelRatio: 2,
-  modes: {
-    default: [ 'drag-group' ]
-  },
-  defaultNode: {
-    shape: 'circleNode'
-  },
-  defaultEdge: {
-    color: '#bae7ff'
-  }
-});
-
-const groupControll = graph.get('customGroupControll');
-
-describe('signle layer group', () => {
-
-  const nodes = [
-    {
-      id: 'node1',
-      label: 'node1',
-      groupId: 'group1',
-      x: 100,
-      y: 100
-    },
-    {
-      id: 'node2',
-      label: 'node2',
-      groupId: 'group1',
-      x: 150,
-      y: 100
-    },
-    {
-      id: 'node3',
-      label: 'node3',
-      groupId: 'group2',
-      x: 300,
-      y: 100
-    },
-    {
-      id: 'node7',
-      groupId: 'p1',
-      x: 200,
-      y: 200
-    },
-    {
-      id: 'node6',
-      groupId: 'bym',
-      label: 'rect',
-      x: 100,
-      y: 300,
-      shape: 'rect'
-    },
-    {
-      id: 'node9',
-      label: 'noGroup',
-      x: 300,
-      y: 210
-    }
-  ];
-  const data = {
-    nodes
-  };
-
-  graph.data(data);
-  graph.render();
+describe.only('signle layer group', () => {
 
   it('render signle group test', () => {
+    const graph = new G6.Graph({
+      container: div,
+      width: 1500,
+      height: 1000,
+      pixelRatio: 2,
+      modes: {
+        default: [ 'drag-group' ]
+      },
+      defaultNode: {
+        shape: 'circleNode'
+      },
+      defaultEdge: {
+        color: '#bae7ff'
+      }
+    });
+
+    const nodes = [
+      {
+        id: 'node1',
+        label: 'node1',
+        groupId: 'group1',
+        x: 100,
+        y: 100
+      },
+      {
+        id: 'node2',
+        label: 'node2',
+        groupId: 'group1',
+        x: 150,
+        y: 100
+      },
+      {
+        id: 'node3',
+        label: 'node3',
+        groupId: 'group2',
+        x: 300,
+        y: 100
+      },
+      {
+        id: 'node7',
+        groupId: 'p1',
+        x: 200,
+        y: 200
+      },
+      {
+        id: 'node6',
+        groupId: 'bym',
+        label: 'rect',
+        x: 100,
+        y: 300,
+        shape: 'rect'
+      },
+      {
+        id: 'node9',
+        label: 'noGroup',
+        x: 300,
+        y: 210
+      }
+    ];
+    const data = {
+      nodes
+    };
+
+    graph.data(data);
+    graph.render();
+
+    const groupControll = graph.get('customGroupControll');
+
     const group = graph.get('customGroup');
     const children = group.get('children');
     // group的数量
@@ -125,9 +125,79 @@ describe('signle layer group', () => {
       expect(groupStyle.y).eql(cy);
       expect(groupStyle.r).eql(r);
     }
+
+    graph.destroy();
+    expect(graph.destroyed).to.be.true;
   });
 
   it('setGroupStyle', () => {
+    const graph = new G6.Graph({
+      container: div,
+      width: 1500,
+      height: 1000,
+      pixelRatio: 2,
+      modes: {
+        default: [ 'drag-group' ]
+      },
+      defaultNode: {
+        shape: 'circleNode'
+      },
+      defaultEdge: {
+        color: '#bae7ff'
+      }
+    });
+
+    const data = {
+      nodes: [
+        {
+          id: 'node1',
+          label: 'node1',
+          groupId: 'group1',
+          x: 100,
+          y: 100
+        },
+        {
+          id: 'node2',
+          label: 'node2',
+          groupId: 'group1',
+          x: 150,
+          y: 100
+        },
+        {
+          id: 'node3',
+          label: 'node3',
+          groupId: 'group2',
+          x: 300,
+          y: 100
+        },
+        {
+          id: 'node7',
+          groupId: 'p1',
+          x: 200,
+          y: 200
+        },
+        {
+          id: 'node6',
+          groupId: 'bym',
+          label: 'rect',
+          x: 100,
+          y: 300,
+          shape: 'rect'
+        },
+        {
+          id: 'node9',
+          label: 'noGroup',
+          x: 300,
+          y: 210
+        }
+      ]
+    };
+
+    graph.data(data);
+    graph.render();
+
+    const groupControll = graph.get('customGroupControll');
+
     const { nodeGroup } = groupControll.getDeletageGroupById('group2');
     const keyShape = nodeGroup.get('keyShape');
     groupControll.setGroupStyle(keyShape, 'hover');
@@ -151,9 +221,80 @@ describe('signle layer group', () => {
     // 设置自定义样式属性customStyle
     groupControll.setGroupStyle(keyShape, { customStyle: true });
     expect(keyShape.attr('customStyle')).eql(true);
+
+    graph.destroy();
+    expect(graph.destroyed).to.be.true;
   });
 
   it('setGroupOriginBBox / getGroupOriginBBox', () => {
+    const graph = new G6.Graph({
+      container: div,
+      width: 1500,
+      height: 1000,
+      pixelRatio: 2,
+      modes: {
+        default: [ 'drag-group' ]
+      },
+      defaultNode: {
+        shape: 'circleNode'
+      },
+      defaultEdge: {
+        color: '#bae7ff'
+      }
+    });
+
+    const nodes = [
+      {
+        id: 'node1',
+        label: 'node1',
+        groupId: 'group1',
+        x: 100,
+        y: 100
+      },
+      {
+        id: 'node2',
+        label: 'node2',
+        groupId: 'group1',
+        x: 150,
+        y: 100
+      },
+      {
+        id: 'node3',
+        label: 'node3',
+        groupId: 'group2',
+        x: 300,
+        y: 100
+      },
+      {
+        id: 'node7',
+        groupId: 'p1',
+        x: 200,
+        y: 200
+      },
+      {
+        id: 'node6',
+        groupId: 'bym',
+        label: 'rect',
+        x: 100,
+        y: 300,
+        shape: 'rect'
+      },
+      {
+        id: 'node9',
+        label: 'noGroup',
+        x: 300,
+        y: 210
+      }
+    ];
+    const data = {
+      nodes
+    };
+
+    graph.data(data);
+    graph.render();
+
+    const groupControll = graph.get('customGroupControll');
+
     const { nodeGroup } = groupControll.getDeletageGroupById('group1');
     const keyShape = nodeGroup.get('keyShape');
     const bbox = keyShape.getBBox();
@@ -162,9 +303,80 @@ describe('signle layer group', () => {
 
     const groupBBox = groupControll.getGroupOriginBBox('group1');
     expect(groupBBox).eql(bbox);
+
+    graph.destroy();
+    expect(graph.destroyed).to.be.true;
   });
 
   it('setDeletageGroupByStyle / getDeletageGroupById', () => {
+    const graph = new G6.Graph({
+      container: div,
+      width: 1500,
+      height: 1000,
+      pixelRatio: 2,
+      modes: {
+        default: [ 'drag-group' ]
+      },
+      defaultNode: {
+        shape: 'circleNode'
+      },
+      defaultEdge: {
+        color: '#bae7ff'
+      }
+    });
+
+    const nodes = [
+      {
+        id: 'node1',
+        label: 'node1',
+        groupId: 'group1',
+        x: 100,
+        y: 100
+      },
+      {
+        id: 'node2',
+        label: 'node2',
+        groupId: 'group1',
+        x: 150,
+        y: 100
+      },
+      {
+        id: 'node3',
+        label: 'node3',
+        groupId: 'group2',
+        x: 300,
+        y: 100
+      },
+      {
+        id: 'node7',
+        groupId: 'p1',
+        x: 200,
+        y: 200
+      },
+      {
+        id: 'node6',
+        groupId: 'bym',
+        label: 'rect',
+        x: 100,
+        y: 300,
+        shape: 'rect'
+      },
+      {
+        id: 'node9',
+        label: 'noGroup',
+        x: 300,
+        y: 210
+      }
+    ];
+    const data = {
+      nodes
+    };
+
+    graph.data(data);
+    graph.render();
+
+    const groupControll = graph.get('customGroupControll');
+
     // setDeletageGroupByStyle方法是在创建的时候就调用的，这里测试创建时候存进去的值通过getDeletageGroupById取出来后是否相同
     const group2 = groupControll.getDeletageGroupById('group2');
     const { groupStyle, nodeGroup } = group2;
@@ -189,9 +401,78 @@ describe('signle layer group', () => {
     // 通过不存在的groupId查询
     const notGroup = groupControll.getDeletageGroupById('group5');
     expect(notGroup).to.be.undefined;
+
+    graph.destroy();
+    expect(graph.destroyed).to.be.true;
   });
 
   it('collapseExpandGroup', () => {
+    const graph = new G6.Graph({
+      container: div,
+      width: 1500,
+      height: 1000,
+      pixelRatio: 2,
+      modes: {
+        default: [ 'drag-group' ]
+      },
+      defaultNode: {
+        shape: 'circleNode'
+      },
+      defaultEdge: {
+        color: '#bae7ff'
+      }
+    });
+
+    const data = {
+      nodes: [
+        {
+          id: 'node1',
+          label: 'node1',
+          groupId: 'group1',
+          x: 100,
+          y: 100
+        },
+        {
+          id: 'node2',
+          label: 'node2',
+          groupId: 'group1',
+          x: 150,
+          y: 100
+        },
+        {
+          id: 'node3',
+          label: 'node3',
+          groupId: 'group2',
+          x: 300,
+          y: 100
+        },
+        {
+          id: 'node7',
+          groupId: 'p1',
+          x: 200,
+          y: 200
+        },
+        {
+          id: 'node6',
+          groupId: 'bym',
+          label: 'rect',
+          x: 100,
+          y: 300,
+          shape: 'rect'
+        },
+        {
+          id: 'node9',
+          label: 'noGroup',
+          x: 300,
+          y: 210
+        }
+      ]
+    };
+
+    graph.data(data);
+    graph.render();
+
+    const groupControll = graph.get('customGroupControll');
     const { nodeGroup } = groupControll.getDeletageGroupById('group1');
     expect(nodeGroup.get('hasHidden')).to.be.undefined;
 
@@ -200,9 +481,79 @@ describe('signle layer group', () => {
 
     groupControll.collapseExpandGroup('group1');
     expect(nodeGroup.get('hasHidden')).to.be.false;
+
+    graph.destroy();
+    expect(graph.destroyed).to.be.true;
   });
 
   it('collapseGroup / expandGroup', () => {
+    const graph = new G6.Graph({
+      container: div,
+      width: 1500,
+      height: 1000,
+      pixelRatio: 2,
+      modes: {
+        default: [ 'drag-group' ]
+      },
+      defaultNode: {
+        shape: 'circleNode'
+      },
+      defaultEdge: {
+        color: '#bae7ff'
+      }
+    });
+
+    const data = {
+      nodes: [
+        {
+          id: 'node1',
+          label: 'node1',
+          groupId: 'group1',
+          x: 100,
+          y: 100
+        },
+        {
+          id: 'node2',
+          label: 'node2',
+          groupId: 'group1',
+          x: 150,
+          y: 100
+        },
+        {
+          id: 'node3',
+          label: 'node3',
+          groupId: 'group2',
+          x: 300,
+          y: 100
+        },
+        {
+          id: 'node7',
+          groupId: 'p1',
+          x: 200,
+          y: 200
+        },
+        {
+          id: 'node6',
+          groupId: 'bym',
+          label: 'rect',
+          x: 100,
+          y: 300,
+          shape: 'rect'
+        },
+        {
+          id: 'node9',
+          label: 'noGroup',
+          x: 300,
+          y: 210
+        }
+      ]
+    };
+
+    graph.data(data);
+    graph.render();
+
+    const groupControll = graph.get('customGroupControll');
+
     const nodes = graph.getNodes();
     const groupNodes = nodes.filter(node => {
       const model = node.getModel();
@@ -256,6 +607,9 @@ describe('signle layer group', () => {
       const { width, height } = groupControll.calculationGroupPosition(nodeIds);
       expect(width).eql(groupStyle.width);
       expect(height).eql(groupStyle.height);
+
+      graph.destroy();
+      expect(graph.destroyed).to.be.true;
     }, 5500);
   });
 
@@ -352,6 +706,27 @@ describe('nesting layer group', () => {
       ]
     };
 
+    const graph = new G6.Graph({
+      container: div,
+      width: 1500,
+      height: 1000,
+      pixelRatio: 2,
+      modes: {
+        default: [ 'drag-group' ]
+      },
+      defaultNode: {
+        shape: 'circleNode'
+      },
+      defaultEdge: {
+        color: '#bae7ff'
+      }
+    });
+
+    graph.data(data);
+    graph.render();
+
+    const groupControll = graph.get('customGroupControll');
+
     graph.data(data);
     graph.render();
 
@@ -381,5 +756,8 @@ describe('nesting layer group', () => {
     expect(shapeStyle.r).eql(30.5);
     expect(shapeStyle.x).eql(299.5);
     expect(shapeStyle.y).eql(99.5);
+
+    graph.destroy();
+    expect(graph.destroyed).to.be.true;
   });
 });
