@@ -1,8 +1,15 @@
+/*
+ * @Author: moyee
+ * @Date: 2019-06-27 18:12:06
+ * @LastEditors: moyee
+ * @LastEditTime: 2019-08-22 11:22:16
+ * @Description: file content
+ */
 /**
  * @fileOverview graph
  * @author huangtonger@aliyun.com
  */
-
+const { groupBy } = require('lodash');
 const G = require('@antv/g/lib');
 const EventEmitter = G.EventEmitter;
 const Util = require('../util');
@@ -177,7 +184,23 @@ class Graph extends EventEmitter {
          */
         easing: 'easeLinear'
       },
-      callback: null
+      callback: null,
+      /**
+       * group类型
+       */
+      groupType: 'circle',
+      /**
+       * 各个group的BBox
+      */
+      groupBBoxs: {},
+      /**
+       * 每个group包含的节点，父层的包括自己的节点以及子Group的节点
+      */
+      groupNodes: {},
+      /**
+       * 群组的原始数据
+      */
+      groups: []
     };
   }
 
@@ -193,7 +216,17 @@ class Graph extends EventEmitter {
     const modeController = new Controller.Mode(this);
     const itemController = new Controller.Item(this);
     const stateController = new Controller.State(this);
-    this.set({ eventController, viewController, modeController, itemController, stateController });
+
+    // 实例化customGroup
+    const customGroupControll = new Controller.CustomGroup(this);
+    this.set({
+      eventController,
+      viewController,
+      modeController,
+      itemController,
+      stateController,
+      customGroupControll
+    });
     this._initPlugins();
   }
   _initCanvas() {
@@ -222,7 +255,21 @@ class Graph extends EventEmitter {
     if (this.get('groupByTypes')) {
       const edgeGroup = group.addGroup({ id: id + '-edge', className: Global.edgeContainerClassName });
       const nodeGroup = group.addGroup({ id: id + '-node', className: Global.nodeContainerClassName });
-      this.set({ nodeGroup, edgeGroup });
+
+      const delegateGroup = group.addGroup({
+        id: id + '-delagate',
+        className: Global.delegateContainerClassName
+      });
+
+      // 用于存储自定义的群组
+      const customGroup = group.addGroup({
+        id: `${id}-group`,
+        className: Global.customGroupContainerClassName
+      });
+
+      customGroup.toBack();
+
+      this.set({ nodeGroup, edgeGroup, customGroup, delegateGroup });
     }
     this.set('group', group);
   }
@@ -445,12 +492,65 @@ class Graph extends EventEmitter {
     Util.each(data.edges, edge => {
       self.add(EDGE, edge);
     });
+
+    // 获取所有有groupID的node
+    const nodeInGroup = data.nodes.filter(node => node.groupId);
+
+    // 所有node中存在groupID，则说明需要群组
+    if (nodeInGroup.length > 0) {
+      // 渲染群组
+      const groupType = self.get('groupType');
+      this.renderCustomGroup(data, groupType);
+    }
+
     if (self.get('fitView')) {
       self.get('viewController')._fitView();
     }
     self.paint();
     self.setAutoPaint(autoPaint);
     self.emit('afterrender');
+  }
+
+  /**
+   * 根据数据渲染群组
+   * @param {object} data 渲染图的数据
+   * @param {string} groupType group类型
+   */
+  renderCustomGroup(data, groupType) {
+    const { groups, nodes } = data;
+
+    // 第一种情况，，不存在groups，则不存在嵌套群组
+    let groupIndex = 10;
+    if (!groups) {
+      // 存在单个群组
+      // 获取所有有groupID的node
+      const nodeInGroup = nodes.filter(node => node.groupId);
+
+      // 根据groupID分组
+      const groupIds = groupBy(nodeInGroup, 'groupId');
+      for (const groupId in groupIds) {
+        const nodeIds = groupIds[groupId].map(node => node.id);
+        this.get('groupNodes')[groupId] = nodeIds;
+        this.get('customGroupControll').create(groupId, nodeIds, groupType, groupIndex);
+        groupIndex--;
+      }
+    } else {
+      // 将groups的数据存到groups中
+      this.set({ groups });
+
+      // 第二种情况，存在嵌套的群组，数据中有groups字段
+      const groupNodes = Util.getAllNodeInGroups(data);
+      for (const groupId in groupNodes) {
+        const tmpNodes = groupNodes[groupId];
+        this.get('groupNodes')[groupId] = tmpNodes;
+        this.get('customGroupControll').create(groupId, tmpNodes, groupType, groupIndex);
+        groupIndex--;
+      }
+
+      // 对所有Group排序
+      const customGroup = this.get('customGroup');
+      customGroup.sort();
+    }
   }
 
   /**
@@ -554,7 +654,7 @@ class Graph extends EventEmitter {
     Util.each(this.get('edges'), edge => {
       edges.push(edge.getModel());
     });
-    return { nodes, edges };
+    return { nodes, edges, groups: this.get('groups') };
   }
 
   /**
@@ -1006,7 +1106,8 @@ class Graph extends EventEmitter {
     const canvas = this.get('canvas');
     canvas.clear();
     this._initGroups();
-    this.set({ itemMap: {}, nodes: [], edges: [] });
+    // 清空画布时同时清除数据
+    this.set({ itemMap: {}, nodes: [], edges: [], groups: [] });
     return this;
   }
 
@@ -1023,6 +1124,7 @@ class Graph extends EventEmitter {
     this.get('modeController').destroy();
     this.get('viewController').destroy();
     this.get('stateController').destroy();
+    this.get('customGroupControll').destroy();
     this.get('canvas').destroy();
     this._cfg = null;
     this.destroyed = true;

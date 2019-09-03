@@ -105,6 +105,12 @@
   });
   graph.data(data);
   graph.render();
+
+  console.log(graph.getNodes())
+  
+  graph.removeItem(graph.findById('node0'))
+
+  console.log('删除后的节点', graph.getNodes())
 </script>
 </body>
 </html>
