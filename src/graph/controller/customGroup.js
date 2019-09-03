@@ -5,8 +5,8 @@
  * @LastEditTime: 2019-08-23 11:44:32
  * @Description: Group Controller
  */
-const { merge, isString } = require('lodash');
-
+const isString = require('@antv/util/lib/type/is-string');
+const deepMix = require('@antv/util/lib/deep-mix');
 class CustomGroup {
   getDefaultCfg() {
     return {
@@ -60,7 +60,8 @@ class CustomGroup {
     // const { cfg = {} } = options;
     this.graph = graph;
     window.graph = graph;
-    this.styles = this.getDefaultCfg();
+    const groupStyle = graph.get('groupStyle');
+    this.styles = deepMix({}, this.getDefaultCfg(), groupStyle);
     // 创建的群组集合
     this.customGroup = {};
     // 群组初始位置集合
@@ -154,12 +155,12 @@ class CustomGroup {
     const { hover: hoverStyle, default: defaultStyle } = this.styles;
     if (isString(style)) {
       if (style === 'default') {
-        styles = merge({}, defaultStyle);
+        styles = deepMix({}, defaultStyle);
       } else if (style === 'hover') {
-        styles = merge({}, hoverStyle);
+        styles = deepMix({}, hoverStyle);
       }
     } else {
-      styles = merge({}, defaultStyle, style);
+      styles = deepMix({}, defaultStyle, style);
     }
     for (const s in styles) {
       keyShape.attr(s, styles[s]);
@@ -328,7 +329,7 @@ class CustomGroup {
     } else {
       // 更新时候merge配置项
       const { groupStyle } = customGroupStyle;
-      const styles = merge({}, groupStyle, property);
+      const styles = deepMix({}, groupStyle, property);
       this.customGroup[groupId] = {
         nodeGroup: deletage,
         groupStyle: styles
@@ -536,7 +537,7 @@ class CustomGroup {
     });
 
     // 缓存群组groupId下的edge和临时生成的node节点
-    this.delegateInGroup[groupId] = merge({
+    this.delegateInGroup[groupId] = deepMix({
       sourceOutTargetInEdges,
       sourceInTargetOutEdges,
       edgesOuts,
@@ -571,7 +572,7 @@ class CustomGroup {
 
     const { default: defaultStyle } = this.styles;
 
-    // const styles = merge({}, defaultStyle, { x: cx, y: cy });
+    // const styles = deepMix({}, defaultStyle, { x: cx, y: cy });
     for (const style in defaultStyle) {
       keyShape.attr(style, defaultStyle[style]);
     }

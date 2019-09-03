@@ -5,7 +5,7 @@
  * @LastEditTime: 2019-08-23 13:54:53
  * @Description: 有group的情况下，拖动节点的Behavior
  */
-const { merge } = require('lodash');
+const deepMix = require('@antv/util/lib/deep-mix');
 const { delegateStyle } = require('../global');
 const body = document.body;
 
@@ -15,8 +15,8 @@ module.exports = {
       updateEdge: true,
       delegate: true,
       delegateStyle: {},
-      maxMultiple: 1.2,
-      minMultiple: 0.8
+      maxMultiple: 0.9,
+      minMultiple: 1
     };
   },
   getEvents() {
@@ -26,12 +26,16 @@ module.exports = {
       'node:dragend': 'onDragEnd',
       'canvas:mouseleave': 'onOutOfRange',
       mouseenter: 'onMouseEnter',
-      mouseout: 'onMouseOut'
+      mouseleave: 'onMouseLeave'
     };
   },
   onMouseEnter(evt) {
     const { target } = evt;
     const groupId = target.get('groupId');
+    const type = target.get('type');
+    if (type !== 'circle') {
+      return;
+    }
     if (groupId && this.origin) {
       const graph = this.graph;
       const customGroupControll = graph.get('customGroupControll');
@@ -47,7 +51,7 @@ module.exports = {
    * 拖动节点移除Group时的事件
    * @param {Event} evt 事件句柄
    */
-  onMouseOut(evt) {
+  onMouseLeave(evt) {
     const { target } = evt;
     const groupId = target.get('groupId');
     if (groupId && this.origin) {
@@ -59,7 +63,10 @@ module.exports = {
 
       customGroupControll.setGroupStyle(keyShape, 'default');
     }
-    this.inGroupId = null;
+
+    if (!groupId) {
+      this.inGroupId = null;
+    }
   },
   onDragStart(e) {
     if (!this.shouldBegin.call(this, e)) {
@@ -93,6 +100,9 @@ module.exports = {
         const customGroup = customGroupControll.customGroup;
         const currentGroup = customGroup[groupId].nodeGroup;
         customGroupControll.setGroupStyle(currentGroup.get('keyShape'), 'hover');
+
+        // 初始拖动时候，如果是在当前群组中拖动，则赋值为当前groupId
+        this.inGroupId = groupId;
       }
     } else {
       // 拖动多个节点
@@ -137,13 +147,8 @@ module.exports = {
         const currentGroup = customGroup[groupId].nodeGroup;
         const keyShape = currentGroup.get('keyShape');
 
-        const currentGroupBBox = keyShape.getBBox();
-
-        const delegateShape = this.target.get('delegateShape');
-        const { x, y } = delegateShape.getBBox();
-        const { minX, minY, maxX, maxY } = currentGroupBBox;
-
-        if (x > maxX || x < minX || y > maxY || y < minY) {
+        // 当前
+        if (this.inGroupId !== groupId) {
           customGroupControll.setGroupStyle(keyShape, 'default');
         } else {
           customGroupControll.setGroupStyle(keyShape, 'hover');
@@ -224,11 +229,12 @@ module.exports = {
       // 检测操作的群组中是否包括子群组
       const groups = graph.get('groups');
       const hasSubGroup = !!groups.filter(g => g.parentId === groupId).length > 0;
-      const r = width > height ? width / 2 : height / 2 + (hasSubGroup ? 20 : 0);
+      const addR = hasSubGroup ? 20 : 10;
+      const r = width > height ? width / 2 : height / 2;
       const cx = (width + 2 * x) / 2;
       const cy = (height + 2 * y) / 2;
       keyShape.attr({
-        r: r + groupNodes[groupId].length * 10,
+        r: r + groupNodes[groupId].length * 10 + addR,
         x: cx,
         y: cy
       });
@@ -247,7 +253,6 @@ module.exports = {
     // 节点所在的GroupId
     const { groupId, id } = model;
 
-    // console.log(groupId, this.inGroupId)
     const customGroupControll = graph.get('customGroupControll');
     const customGroup = customGroupControll.customGroup;
     const groupNodes = graph.get('groupNodes');
@@ -262,7 +267,11 @@ module.exports = {
       const { minX, minY, maxX, maxY } = currentGroupBBox;
 
       // 在自己的group中拖动，判断是否拖出了自己的group
-      if (!(x < maxX * this.maxMultiple && x > minX * this.minMultiple && y < maxY * this.maxMultiple && y > minY * this.minMultiple)) {
+      // this.inGroupId !== groupId，则说明拖出了原来的group，拖到了其他group上面，
+      // 则删除item中的groupId字段，同时删除group中的nodeID
+      if (
+          !(x < maxX * this.maxMultiple && x > minX * this.minMultiple && y < maxY * this.maxMultiple && y > minY * this.minMultiple)
+          || this.inGroupId !== groupId) {
         // 拖出了group，则删除item中的groupId字段，同时删除group中的nodeID
         const currentGroupNodes = groupNodes[groupId];
         groupNodes[groupId] = currentGroupNodes.filter(node => node !== id);
@@ -274,8 +283,10 @@ module.exports = {
       }
        // 拖动到其他的group上面
       if (this.inGroupId !== groupId) {
+
+        // 拖动新的group后，更新groupNodes及model中的groupId
         const nodeInGroup = customGroup[this.inGroupId].nodeGroup;
-        const keyShape = nodeInGroup.get('keyShape');
+        const targetKeyShape = nodeInGroup.get('keyShape');
         // 将该节点添加到inGroupId中
         if (groupNodes[this.inGroupId].indexOf(id) === -1) {
           groupNodes[this.inGroupId].push(id);
@@ -284,7 +295,7 @@ module.exports = {
         model.groupId = this.inGroupId;
 
         // 拖入节点后，根据最新的节点数量，重新计算群组大小
-        this.dynamicChangeGroupSize(evt, nodeInGroup, keyShape);
+        this.dynamicChangeGroupSize(evt, nodeInGroup, targetKeyShape);
       }
       customGroupControll.setGroupStyle(keyShape, 'default');
     } else if (this.inGroupId && !groupId) {
@@ -372,7 +383,7 @@ module.exports = {
     if (!this.shape) {
       // 拖动多个
       const parent = graph.get('group');
-      const attrs = merge({}, delegateStyle, this.delegateStyle);
+      const attrs = deepMix({}, delegateStyle, this.delegateStyle);
       if (this.targets.length > 0) {
         const nodes = graph.findAllByState('node', 'selected');
         if (nodes.length === 0) {
