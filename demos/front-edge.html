@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>边前置</title>
+</head>
+
+<body>
+  <button id='changeView'>前置边</button>
+  <div id="mountNode"></div>
+  <script src="../build/g6.js"></script>
+  <script>
+    const data = {
+      nodes: [{
+        id: 'node1',
+        x: 100,
+        y: 100,
+        shape: 'rect',
+        style: {
+          fill: '#fff'
+        }
+      }, {
+        id: 'node2',
+        x: 200,
+        y: 200,
+        shape: 'rect',
+        style: {
+          fill: '#fff'
+        }
+      }, {
+        id: 'node3',
+        x: 300,
+        y: 300,
+        shape: 'rect',
+        style: {
+          fill: '#fff'
+        }
+      }],
+      edges: [{
+        id: 'edge1',
+        target: 'node3',
+        source: 'node1',
+        style: {
+          endArrow: true
+        },
+        labelCfg: {
+          style: { stroke: 'white', lineWidth: 5 } // 加白边框
+        }
+      }]
+    };
+    const graph = new G6.Graph({
+      container: 'mountNode',
+      width: 500,
+      height: 500
+    });
+    graph.data(data);
+    graph.render();
+    graph.fitView()
+    document.getElementById('changeView').addEventListener('click', (evt) => {
+      const edge=graph.findById('edge1')
+      const nodeGroup = graph.get('nodeGroup')
+      const edgeGroup = graph.get('edgeGroup')
+      const edge1G = edge.get('group')
+      edge1G.toFront()
+      nodeGroup.toBack();
+      graph.paint()
+    })
+  </script>
+</body>
+</html>
