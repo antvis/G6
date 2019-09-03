@@ -5,7 +5,7 @@
  * @LastEditTime: 2019-08-23 11:13:43
  * @Description: 拖动群组
  */
-const { merge } = require('lodash');
+const deepMix = require('@antv/util/lib/deep-mix');
 
 const delegateStyle = {
   fill: '#F3F9FF',
@@ -275,7 +275,7 @@ module.exports = {
         height,
         x,
         y,
-        ...merge({}, delegateStyle, this.delegateStyle)
+        ...deepMix({}, delegateStyle, this.delegateStyle)
       };
 
       // 如果delegate是circle
@@ -289,7 +289,7 @@ module.exports = {
             x: cx,
             y: cy,
             r,
-            ...merge({}, delegateStyle, this.delegateStyle)
+            ...deepMix({}, delegateStyle, this.delegateStyle)
           }
         });
         self.shapeOrigin = { x: cx, y: cy };

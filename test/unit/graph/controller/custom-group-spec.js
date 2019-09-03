@@ -594,7 +594,7 @@ describe.only('signle layer group', () => {
         expect(isVisible).to.be.true;
       }
 
-      expect(keyShape.attr('r')).eql(groupStyle.r);
+      expect(keyShape.attr('r')).eql(30);
       expect(keyShape.attr('x')).eql(groupStyle.x);
       expect(keyShape.attr('y')).eql(groupStyle.y);
 
