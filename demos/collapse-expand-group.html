@@ -40,6 +40,33 @@
      },
      modes: {
        default: [ 'drag-canvas', 'zoom-canvas', 'collapse-expand-group' ]
+     },
+     groupStyle: {
+      default: {
+        lineWidth: 2,
+        stroke: '#A3B1BF',
+        radius: 10,
+        lineDash: [ 5, 5 ],
+        strokeOpacity: 0.9,
+        fill: '#F3F9FF',
+        fillOpacity: 0.8,
+        opacity: 0.8
+      },
+      hover: {
+        stroke: '#faad14',
+        fill: '#ffe58f',
+        fillOpacity: 0.3,
+        opacity: 0.3,
+        lineWidth: 3
+      },
+      // 收起状态样式
+      collapseStyle: {
+        r: 50,
+        // lineDash: [ 5, 5 ],
+        stroke: '#ffa39e',
+        lineWidth: 3,
+        fill: '#ffccc7'
+      }
      }
    });
  

@@ -60,7 +60,6 @@
     document.getElementById('changeView').addEventListener('click', (evt) => {
       const edge=graph.findById('edge1')
       const nodeGroup = graph.get('nodeGroup')
-      const edgeGroup = graph.get('edgeGroup')
       const edge1G = edge.get('group')
       edge1G.toFront()
       nodeGroup.toBack();

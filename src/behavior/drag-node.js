@@ -5,7 +5,8 @@
  * @LastEditTime: 2019-08-22 18:41:45
  * @Description: 拖动节点的Behavior
  */
-const { merge, isString } = require('lodash');
+const isString = require('@antv/util/lib/type/is-string');
+const deepMix = require('@antv/util/lib/deep-mix');
 const { delegateStyle } = require('../global');
 const body = document.body;
 
@@ -174,7 +175,7 @@ module.exports = {
     if (!this.shape) {
       // 拖动多个
       const parent = this.graph.get('group');
-      const attrs = merge({}, delegateStyle, this.delegateStyle);
+      const attrs = deepMix({}, delegateStyle, this.delegateStyle);
       if (this.targets.length > 0) {
         const { x, y, width, height, minX, minY } = this.calculationGroupPosition();
         this.originPoint = { x, y, width, height, minX, minY };

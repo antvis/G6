@@ -3,11 +3,7 @@
  * @Date: 2019-06-27 18:12:06
  * @LastEditors: moyee
  * @LastEditTime: 2019-08-22 11:22:16
- * @Description: file content
- */
-/**
- * @fileOverview graph
- * @author huangtonger@aliyun.com
+ * @Description: Graph
  */
 const { groupBy } = require('lodash');
 const G = require('@antv/g/lib');
@@ -200,7 +196,8 @@ class Graph extends EventEmitter {
       /**
        * 群组的原始数据
       */
-      groups: []
+      groups: [],
+      groupStyle: {}
     };
   }
 
