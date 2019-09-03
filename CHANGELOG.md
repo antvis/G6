@@ -1,8 +1,19 @@
 # ChangeLog
 
 ---
+#### 3.0.5-beta.10
+* feat: add 5 chart node
+* feat: collapse-expand tree support click and dblclick by trigger option
+* fix: drag group bug fix
 
-#### 3.0.5
+#### 3.0.5-beta.9
+* feat: support render group
+* feat: support drag group, collapse and expand group, drag node in/out group
+* feat: add drag-group、collapse-expand-group and drag-node-with-group behavior
+* feat: add drag-group and collapse-expand-group demo
+* feat: add register list node demo
+
+#### 3.0.5-beta.8
 `2019-07-19`
 * feat: add five demos
 * refactor: update three behaviors
