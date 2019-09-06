@@ -14,7 +14,7 @@ class CustomGroup {
         lineWidth: 1,
         stroke: '#A3B1BF',
         radius: 10,
-        lineDash: [ 5, 5 ],
+        // lineDash: [ 5, 5 ],
         strokeOpacity: 0.9,
         fill: '#F3F9FF',
         fillOpacity: 0.8,
@@ -30,10 +30,10 @@ class CustomGroup {
       // 收起状态样式
       collapseStyle: {
         r: 30,
-        lineDash: [ 5, 5 ],
-        stroke: '#ffa39e',
+        // lineDash: [ 5, 5 ],
+        stroke: '#A3B1BF',
         lineWidth: 3,
-        fill: '#ffccc7'
+        fill: '#F3F9FF'
       },
       icon: 'https://gw.alipayobjects.com/zos/rmsportal/MXXetJAxlqrbisIuZxDO.svg',
       text: {
@@ -426,7 +426,7 @@ class CustomGroup {
           r: groupStyle.r - ratio * (groupStyle.r - r)
         };
       }
-    }, 1000, 'easeCubic');
+    }, 500, 'easeCubic');
 
     const edges = graph.getEdges();
     // 获取所有source在群组外，target在群组内的边
@@ -511,12 +511,12 @@ class CustomGroup {
    */
   updateEdgeInGroupLinks(groupId, sourceOutTargetInEdges, sourceInTargetOutEdges) {
     const graph = this.graph;
-
     // 更新source在外的节点
     const edgesOuts = {};
     sourceOutTargetInEdges.map(edge => {
       const model = edge.getModel();
-      const { id, target } = model;
+      const id = edge.get('id');
+      const { target } = model;
       edgesOuts[id] = target;
       graph.updateItem(edge, {
         target: `${groupId}-custom-node`
@@ -528,7 +528,8 @@ class CustomGroup {
     const edgesIn = {};
     sourceInTargetOutEdges.map(edge => {
       const model = edge.getModel();
-      const { id, source } = model;
+      const id = edge.get('id');
+      const { source } = model;
       edgesIn[id] = source;
       graph.updateItem(edge, {
         source: `${groupId}-custom-node`
@@ -586,7 +587,7 @@ class CustomGroup {
           r: 30 + ratio * (r + nodesInGroup.length * 10 - 30)
         };
       }
-    }, 1000, 'easeCubic');
+    }, 500, 'easeCubic');
 
     // this.setGroupOriginBBox(id, keyShape.getBBox());
     // 群组动画一会后再显示节点和边
@@ -623,7 +624,7 @@ class CustomGroup {
           edge.show();
         }
       });
-    }, 800);
+    }, 400);
 
     const delegates = this.delegateInGroup[id];
     if (delegates) {
@@ -635,8 +636,8 @@ class CustomGroup {
 
       // 恢复source在外的节点
       sourceOutTargetInEdges.map(edge => {
-        const model = edge.getModel();
-        const sourceOuts = edgesOuts[model.id];
+        const id = edge.get('id');
+        const sourceOuts = edgesOuts[id];
         graph.updateItem(edge, {
           target: sourceOuts
         });
@@ -645,8 +646,8 @@ class CustomGroup {
 
       // 恢复target在外的节点
       sourceInTargetOutEdges.map(edge => {
-        const model = edge.getModel();
-        const sourceIn = edgesIn[model.id];
+        const id = edge.get('id');
+        const sourceIn = edgesIn[id];
         graph.updateItem(edge, {
           source: sourceIn
         });
