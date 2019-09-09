@@ -29,9 +29,9 @@ G6.registerNode('circleNode', {
   }
 }, 'circle');
 
-describe.only('signle layer group', () => {
+describe('signle layer group', () => {
 
-  it('render signle group test', () => {
+  it.only('render signle group test', () => {
     const graph = new G6.Graph({
       container: div,
       width: 1500,
