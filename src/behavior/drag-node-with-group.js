@@ -33,7 +33,7 @@ module.exports = {
     const { target } = evt;
     const groupId = target.get('groupId');
     const type = target.get('type');
-    if (type !== 'circle') {
+    if (type !== 'circle' || type !== 'rect') {
       return;
     }
     if (groupId && this.origin) {
@@ -209,12 +209,14 @@ module.exports = {
     const { groupId } = model;
 
     const graph = this.graph;
+    const groupType = graph.get('groupType');
     const customGroupControll = graph.get('customGroupControll');
     const groupNodes = graph.get('groupNodes');
+    const nodes = groupNodes[groupId];
 
     // 拖出节点后，根据最新的节点数量，重新计算群组大小
     // 如果只有一个节点，拖出后，则删除该组
-    if (groupNodes[groupId].length === 0) {
+    if (nodes.length === 0) {
       // step 1: 从groupNodes中删除
       delete groupNodes[groupId];
 
@@ -225,19 +227,27 @@ module.exports = {
       // step 3: 删除原来的群组
       currentGroup.remove();
     } else {
-      const { x, y, width, height } = customGroupControll.calculationGroupPosition(groupNodes[groupId]);
+      const { x, y, width, height } = customGroupControll.calculationGroupPosition(nodes);
       // 检测操作的群组中是否包括子群组
-      const groups = graph.get('groups');
-      const hasSubGroup = !!groups.filter(g => g.parentId === groupId).length > 0;
-      const addR = hasSubGroup ? 20 : 10;
-      const r = width > height ? width / 2 : height / 2;
-      const cx = (width + 2 * x) / 2;
-      const cy = (height + 2 * y) / 2;
-      keyShape.attr({
-        r: r + groupNodes[groupId].length * 10 + addR,
-        x: cx,
-        y: cy
-      });
+      const paddingValue = customGroupControll.getGroupPadding(groupId);
+
+      if (groupType === 'circle') {
+        const r = width > height ? width / 2 : height / 2;
+        const cx = (width + 2 * x) / 2;
+        const cy = (height + 2 * y) / 2;
+        keyShape.attr({
+          r: r + nodes.length * 10 + paddingValue,
+          x: cx,
+          y: cy
+        });
+      } else if (groupType === 'rect') {
+        keyShape.attr({
+          x: x - paddingValue,
+          y: y - paddingValue,
+          width: width + nodes.length * 10 + paddingValue,
+          height: height + nodes.length * 10 + paddingValue
+        });
+      }
 
       customGroupControll.setGroupOriginBBox(groupId, keyShape.getBBox());
     }
@@ -379,19 +389,20 @@ module.exports = {
   _updateDelegate(e, x, y) {
     const { item } = e;
     const graph = this.graph;
+    const groupType = graph.get('groupType');
     const bbox = item.get('keyShape').getBBox();
     if (!this.shape) {
-      // 拖动多个
       const parent = graph.get('group');
       const attrs = deepMix({}, delegateStyle, this.delegateStyle);
+      // 拖动多个
       if (this.targets.length > 0) {
         const nodes = graph.findAllByState('node', 'selected');
         if (nodes.length === 0) {
           nodes.push(item);
         }
         const customGroupControll = graph.get('customGroupControll');
-        const { x, y, width, height, minX, minY } = customGroupControll.calculationGroupPosition(nodes);
-        this.originPoint = { x, y, width, height, minX, minY };
+        const { x, y, width, height } = customGroupControll.calculationGroupPosition(nodes);
+        this.originPoint = { x, y, width, height };
         // model上的x, y是相对于图形中心的，delegateShape是g实例，x,y是绝对坐标
         this.shape = parent.addShape('rect', {
           attrs: {
@@ -425,10 +436,17 @@ module.exports = {
         y: clientY
       });
     } else if (this.target) {
-      this.shape.attr({
-        x: x - bbox.width / 2,
-        y: y - bbox.height / 2
-      });
+      if (groupType === 'circle') {
+        this.shape.attr({
+          x: x - bbox.width / 2,
+          y: y - bbox.height / 2
+        });
+      } else if (groupType === 'rect') {
+        this.shape.attr({
+          x,
+          y
+        });
+      }
     }
     this.graph.paint();
   }
