@@ -18,7 +18,9 @@ class CustomGroup {
         strokeOpacity: 0.9,
         fill: '#F3F9FF',
         fillOpacity: 0.8,
-        opacity: 0.8
+        opacity: 0.8,
+        minDis: 20,
+        maxDis: 40
       },
       hover: {
         stroke: '#faad14',
@@ -30,6 +32,8 @@ class CustomGroup {
       // 收起状态样式
       collapseStyle: {
         r: 30,
+        width: 80,
+        height: 40,
         // lineDash: [ 5, 5 ],
         stroke: '#A3B1BF',
         lineWidth: 3,
@@ -92,6 +96,7 @@ class CustomGroup {
 
     // 计算群组左上角左边、宽度、高度及x轴方向上的最大值
     const { x, y, width, height, maxX } = this.calculationGroupPosition(nodes);
+    const paddingValue = this.getGroupPadding(groupId);
 
     const groupBBox = graph.get('groupBBoxs');
     groupBBox[groupId] = { x, y, width, height, maxX };
@@ -108,7 +113,7 @@ class CustomGroup {
           ...defaultStyle,
           x: cx,
           y: cy,
-          r: r + nodes.length * 10
+          r: r + nodes.length * 10 + paddingValue
         },
         capture: true,
         zIndex,
@@ -121,10 +126,10 @@ class CustomGroup {
       keyShape = nodeGroup.addShape('rect', {
         attrs: {
           ...defaultStyle,
-          x,
-          y,
-          width,
-          height
+          x: x - paddingValue,
+          y: y - paddingValue,
+          width: width + nodes.length * 10 + paddingValue,
+          height: height + nodes.length * 10 + paddingValue
         },
         capture: true,
         zIndex,
@@ -177,44 +182,59 @@ class CustomGroup {
   calculationGroupPosition(nodes) {
     const graph = this.graph;
 
-    const minx = [];
-    const maxx = [];
-    const miny = [];
-    const maxy = [];
+    let minx = Infinity;
+    let maxx = -Infinity;
+    let miny = Infinity;
+    let maxy = -Infinity;
 
     // 获取已节点的所有最大最小x y值
     for (const id of nodes) {
       const element = isString(id) ? graph.findById(id) : id;
       const bbox = element.getBBox();
       const { minX, minY, maxX, maxY } = bbox;
-      minx.push(minX);
-      miny.push(minY);
-      maxx.push(maxX);
-      maxy.push(maxY);
+      if (minX < minx) {
+        minx = minX;
+      }
+
+      if (minY < miny) {
+        miny = minY;
+      }
+
+      if (maxX > maxx) {
+        maxx = maxX;
+      }
+
+      if (maxY > maxy) {
+        maxy = maxY;
+      }
     }
-
-    // 从上一步获取的数组中，筛选出最小和最大值
-    const minX = Math.floor(Math.min(...minx));
-    const maxX = Math.floor(Math.max(...maxx));
-    const minY = Math.floor(Math.min(...miny));
-    const maxY = Math.floor(Math.max(...maxy));
-
-    // const x = minX - 20;
-    // const y = minY - 30;
-    // const width = maxX - minX + 40;
-    // const height = maxY - minY + 40;
-    const x = minX;
-    const y = minY;
-    const width = maxX - minX;
-    const height = maxY - minY;
+    const x = Math.floor(minx);
+    const y = Math.floor(miny);
+    const width = Math.ceil(maxx) - x;
+    const height = Math.ceil(maxy) - y;
 
     return {
       x,
       y,
       width,
       height,
-      maxX
+      maxX: Math.ceil(maxx)
     };
+  }
+
+  /**
+   * 当group中含有group时，获取padding值
+   * @param {string} groupId 节点分组ID
+   * @return {number} 在x和y方向上的偏移值
+   */
+  getGroupPadding(groupId) {
+    const graph = this.graph;
+    const { default: defaultStyle } = this.styles;
+    // 检测操作的群组中是否包括子群组
+    const groups = graph.get('groups');
+    const hasSubGroup = !!groups.filter(g => g.parentId === groupId).length > 0;
+    const paddingValue = hasSubGroup ? defaultStyle.maxDis : defaultStyle.minDis;
+    return paddingValue;
   }
 
   /**
@@ -399,34 +419,72 @@ class CustomGroup {
   collapseGroup(id) {
     const self = this;
     const customGroup = this.getDeletageGroupById(id);
-    const { nodeGroup, groupStyle } = customGroup;
+    const { nodeGroup } = customGroup;
 
     // 收起群组后的默认样式
     const { collapseStyle } = this.styles;
     const graph = this.graph;
+    const groupType = graph.get('groupType');
+
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
 
     const nodesInGroup = graph.get('groupNodes')[id];
+    const { width: w, height: h } = this.calculationGroupPosition(nodesInGroup);
 
     // 更新Group的大小
     const keyShape = nodeGroup.get('keyShape');
-    const { r, ...otherStyle } = collapseStyle;
+    const { r, width, height, ...otherStyle } = collapseStyle;
     for (const style in otherStyle) {
       keyShape.attr(style, otherStyle[style]);
     }
 
+    let options = {
+      groupId: id,
+      id: `${id}-custom-node`,
+      x: keyShape.attr('x'),
+      y: keyShape.attr('y'),
+      style: {
+        r
+      },
+      shape: 'circle'
+    };
     // 收起群组时候动画
-    keyShape.animate({
-      onFrame(ratio) {
-        if (ratio === 1) {
-          self.setGroupOriginBBox(id, keyShape.getBBox());
+    if (groupType === 'circle') {
+      const radius = w > h ? w / 2 : h / 2;
+      // const radius = wh + nodesInGroup.length * 10
+      keyShape.animate({
+        onFrame(ratio) {
+          if (ratio === 1) {
+            self.setGroupOriginBBox(id, keyShape.getBBox());
+          }
+          return {
+            r: radius - ratio * (radius - r)
+          };
         }
-        return {
-          r: groupStyle.r - ratio * (groupStyle.r - r)
-        };
-      }
-    }, 500, 'easeCubic');
+      }, 500, 'easeCubic');
+    } else if (groupType === 'rect') {
+      keyShape.animate({
+        onFrame(ratio) {
+          if (ratio === 1) {
+            self.setGroupOriginBBox(id, keyShape.getBBox());
+          }
+          return {
+            width: w - ratio * (w - width),
+            height: h - ratio * (h - height)
+          };
+        }
+      }, 500, 'easeCubic');
+
+      options = {
+        groupId: id,
+        id: `${id}-custom-node`,
+        x: keyShape.attr('x') + width / 2,
+        y: keyShape.attr('y') + height / 2,
+        size: [ width, height ],
+        shape: 'rect'
+      };
+    }
 
     const edges = graph.getEdges();
     // 获取所有source在群组外，target在群组内的边
@@ -440,32 +498,6 @@ class CustomGroup {
       const model = edge.getModel();
       return nodesInGroup.includes(model.source) && !nodesInGroup.includes(model.target);
     });
-
-    // 群组中存在source和target其中有一个在群组内，一个在群组外的情况
-    if (sourceOutTargetInEdges.length > 0 || sourceInTargetOutEdges.length > 0) {
-      const options = {
-        groupId: id,
-        id: `${id}-custom-node`,
-        x: keyShape.attr('x'),
-        y: keyShape.attr('y'),
-        style: {
-          r: 30
-        },
-        shape: 'circle'
-      };
-      const delegateNode = graph.add('node', options);
-      delegateNode.set('capture', false);
-      delegateNode.hide();
-      this.delegateInGroup[id] = {
-        delegateNode
-      };
-
-      // 将临时添加的节点加入到群组中，以便拖动节点时候线跟着拖动
-      // nodesInGroup.push(`${id}-custom-node`);
-      this.setGroupTmpNode(id, `${id}-custom-node`);
-
-      this.updateEdgeInGroupLinks(id, sourceOutTargetInEdges, sourceInTargetOutEdges);
-    }
 
     // 获取群组中节点之间的所有边
     const edgeAllInGroup = edges.filter(edge => {
@@ -496,6 +528,21 @@ class CustomGroup {
         edge.hide();
       }
     });
+
+    // 群组中存在source和target其中有一个在群组内，一个在群组外的情况
+    if (sourceOutTargetInEdges.length > 0 || sourceInTargetOutEdges.length > 0) {
+      const delegateNode = graph.add('node', options);
+      delegateNode.set('capture', false);
+      delegateNode.hide();
+      this.delegateInGroup[id] = {
+        delegateNode
+      };
+
+      // 将临时添加的节点加入到群组中，以便拖动节点时候线跟着拖动
+      this.setGroupTmpNode(id, `${id}-custom-node`);
+
+      this.updateEdgeInGroupLinks(id, sourceOutTargetInEdges, sourceInTargetOutEdges);
+    }
 
     graph.paint();
     graph.setAutoPaint(autoPaint);
@@ -554,42 +601,54 @@ class CustomGroup {
    */
   expandGroup(id) {
     const graph = this.graph;
+    const groupType = graph.get('groupType');
     const self = this;
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
 
     // 显示之前隐藏的节点和群组
     const nodesInGroup = graph.get('groupNodes')[id];
-    const { nodeGroup } = this.getDeletageGroupById(id);
     const { width, height } = this.calculationGroupPosition(nodesInGroup);
-    // 检测操作的群组中是否包括子群组
-    const groups = graph.get('groups');
-    const hasSubGroup = !!groups.filter(g => g.parentId === id).length > 0;
-    const r = width > height ? width / 2 : height / 2 + (hasSubGroup ? 20 : 0);
+    // const noCustomNodes = nodesInGroup.filter(node => node.indexOf('custom-node') === -1);
+    const { nodeGroup } = this.getDeletageGroupById(id);
 
-    // const cx = (width + 2 * x) / 2;
-    // const cy = (height + 2 * y) / 2;
     const keyShape = nodeGroup.get('keyShape');
 
-    const { default: defaultStyle } = this.styles;
+    const { default: defaultStyle, collapseStyle } = this.styles;
 
-    // const styles = deepMix({}, defaultStyle, { x: cx, y: cy });
     for (const style in defaultStyle) {
       keyShape.attr(style, defaultStyle[style]);
     }
-    // keyShape.attr('r', groupStyle.r + nodesInGroup.length * 10);
-    keyShape.animate({
-      onFrame(ratio) {
-        if (ratio === 1) {
-          self.setGroupOriginBBox(id, keyShape.getBBox());
-        }
-        return {
-          r: 30 + ratio * (r + nodesInGroup.length * 10 - 30)
-        };
-      }
-    }, 500, 'easeCubic');
 
-    // this.setGroupOriginBBox(id, keyShape.getBBox());
+    // 检测操作的群组中是否包括子群组
+    const paddingValue = this.getGroupPadding(id);
+    if (groupType === 'circle') {
+      const r = width > height ? width / 2 : height / 2;
+      keyShape.animate({
+        onFrame(ratio) {
+          if (ratio === 1) {
+            self.setGroupOriginBBox(id, keyShape.getBBox());
+          }
+          return {
+            r: collapseStyle.r + ratio * (r + nodesInGroup.length * 10 - collapseStyle.r + paddingValue)
+          };
+        }
+      }, 500, 'easeCubic');
+    } else if (groupType === 'rect') {
+      const { width: w, height: h } = collapseStyle;
+      keyShape.animate({
+        onFrame(ratio) {
+          if (ratio === 1) {
+            self.setGroupOriginBBox(id, keyShape.getBBox());
+          }
+          return {
+            width: w + ratio * (width - w + paddingValue),
+            height: h + ratio * (height - h + paddingValue)
+          };
+        }
+      }, 500, 'easeCubic');
+    }
+
     // 群组动画一会后再显示节点和边
     setTimeout(() => {
       nodesInGroup.forEach(nodeId => {
@@ -624,7 +683,7 @@ class CustomGroup {
           edge.show();
         }
       });
-    }, 400);
+    }, 300);
 
     const delegates = this.delegateInGroup[id];
     if (delegates) {
