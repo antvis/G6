@@ -228,40 +228,45 @@ module.exports = {
     const graph = this.graph;
 
     const nodes = graph.findAllByState('node', 'selected');
-    const minx = [];
-    const maxx = [];
-    const miny = [];
-    const maxy = [];
+
+    let minx = Infinity;
+    let maxx = -Infinity;
+    let miny = Infinity;
+    let maxy = -Infinity;
 
     // 获取已节点的所有最大最小x y值
     for (const id of nodes) {
       const element = isString(id) ? graph.findById(id) : id;
       const bbox = element.getBBox();
       const { minX, minY, maxX, maxY } = bbox;
-      minx.push(minX);
-      miny.push(minY);
-      maxx.push(maxX);
-      maxy.push(maxY);
+      if (minX < minx) {
+        minx = minX;
+      }
+
+      if (minY < miny) {
+        miny = minY;
+      }
+
+      if (maxX > maxx) {
+        maxx = maxX;
+      }
+
+      if (maxY > maxy) {
+        maxy = maxY;
+      }
     }
-
-    // 从上一步获取的数组中，筛选出最小和最大值
-    const minX = Math.floor(Math.min(...minx));
-    const maxX = Math.floor(Math.max(...maxx));
-    const minY = Math.floor(Math.min(...miny));
-    const maxY = Math.floor(Math.max(...maxy));
-
-    const x = minX - 20;
-    const y = minY + 10;
-    const width = maxX - minX;
-    const height = maxY - minY;
+    const x = Math.floor(minx) - 20;
+    const y = Math.floor(miny) + 10;
+    const width = Math.ceil(maxx) - x;
+    const height = Math.ceil(maxy) - y;
 
     return {
       x,
       y,
       width,
       height,
-      minX,
-      minY
+      minX: minx,
+      minY: miny
     };
   }
 };

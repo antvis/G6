@@ -6,6 +6,7 @@
  * @Description: 拖动群组
  */
 const deepMix = require('@antv/util/lib/deep-mix');
+const body = document.body;
 
 const delegateStyle = {
   fill: '#F3F9FF',
@@ -28,7 +29,8 @@ module.exports = {
     return {
       dragstart: 'onDragStart',
       drag: 'onDrag',
-      dragend: 'onDragEnd'
+      dragend: 'onDragEnd',
+      'canvas:mouseleave': 'onOutOfRange'
     };
   },
   onDragStart(evt) {
@@ -123,6 +125,7 @@ module.exports = {
     }
 
     const graph = this.graph;
+    const groupType = graph.get('groupType');
 
     // 更新群组里面节点和线的位置
     this.updateItemPosition(evt);
@@ -169,19 +172,25 @@ module.exports = {
         groupNodes[parentGroupId] = parentGroupNodes.filter(node => currentGroupNodes.indexOf(node) === -1);
 
         const { x: x1, y: y1, width, height } = customGroupControll.calculationGroupPosition(groupNodes[parentGroupId]);
-        const groups = graph.get('groups');
-        const hasSubGroup = !!groups.filter(g => g.parentId === parentGroupId).length > 0;
-        const r = width > height ? width / 2 : height / 2 + (hasSubGroup ? 20 : 0);
+        const paddingValue = customGroupControll.getGroupPadding(parentGroupId);
 
-        const cx = (width + 2 * x1) / 2;
-        const cy = (height + 2 * y1) / 2;
-        // groupKeyShape.attr('x', cx);
-        // groupKeyShape.attr('y', cy);
-        parentKeyShape.attr({
-          r: r + groupNodes[groupId].length * 10,
-          x: cx,
-          y: cy
-        });
+        if (groupType === 'circle') {
+          const r = width > height ? width / 2 : height / 2;
+          const cx = (width + 2 * x1) / 2;
+          const cy = (height + 2 * y1) / 2;
+          parentKeyShape.attr({
+            r: r + groupNodes[parentGroupId].length * 10 + paddingValue,
+            x: cx,
+            y: cy
+          });
+        } else if (groupType === 'rect') {
+          parentKeyShape.attr({
+            x: x1 - paddingValue,
+            y: y1 - paddingValue,
+            width: width + paddingValue + groupNodes[parentGroupId].length * 10,
+            height: height + paddingValue + groupNodes[parentGroupId].length * 10
+          });
+        }
       }
     }
   },
@@ -195,6 +204,7 @@ module.exports = {
     const groupId = evt.target.get('groupId');
 
     const graph = this.graph;
+    const groupType = graph.get('groupType');
 
     // 获取群组对象
     const customGroupControll = graph.get('customGroupControll');
@@ -204,14 +214,15 @@ module.exports = {
     // step 1：先修改groupId中的节点位置
     const nodeInGroup = groupNodes[groupId];
     const groupOriginBBox = customGroupControll.getGroupOriginBBox(groupId);
+
     const delegateShapeBBoxs = this.delegateShapeBBoxs[groupId];
     const otherGroupId = [];
     nodeInGroup.forEach((nodeId, index) => {
-
       const node = graph.findById(nodeId);
       const model = node.getModel();
-      if (model.groupId && !otherGroupId.includes(model.groupId)) {
-        otherGroupId.push(model.groupId);
+      const nodeGroupId = model.groupId;
+      if (nodeGroupId && !otherGroupId.includes(nodeGroupId)) {
+        otherGroupId.push(nodeGroupId);
       }
       if (!this.nodePoint[index]) {
         this.nodePoint[index] = {
@@ -246,10 +257,21 @@ module.exports = {
       const groupKeyShape = nodeGroup.get('keyShape');
 
       const { x, y, width, height } = customGroupControll.calculationGroupPosition(groupNodes[id]);
-      const cx = (width + 2 * x) / 2;
-      const cy = (height + 2 * y) / 2;
-      groupKeyShape.attr('x', cx);
-      groupKeyShape.attr('y', cy);
+
+      if (groupType === 'circle') {
+        const cx = (width + 2 * x) / 2;
+        const cy = (height + 2 * y) / 2;
+        groupKeyShape.attr({
+          x: cx,
+          y: cy
+        });
+      } else if (groupType === 'rect') {
+        const paddingValue = customGroupControll.getGroupPadding(id);
+        groupKeyShape.attr({
+          x: x - paddingValue,
+          y: y - paddingValue
+        });
+      }
       customGroupControll.setGroupOriginBBox(id, groupKeyShape.getBBox());
     });
 
@@ -309,13 +331,30 @@ module.exports = {
       const x = deltaX + shapeOrigin.x;
       const y = deltaY + shapeOrigin.y;
 
-      // 将Canvas坐标转成视口坐标
-      const point = graph.getPointByCanvas(x, y);
-      delegateShape.attr({ x: point.x, y: point.y });
+      if (delegateType === 'circle') {
+        // 将Canvas坐标转成视口坐标
+        const point = graph.getPointByCanvas(x, y);
+        delegateShape.attr({ x: point.x, y: point.y });
+      } else {
+        delegateShape.attr({ x, y });
+      }
       self.delegateShapeBBoxs[groupId] = delegateShape.getBBox();
     }
 
     graph.paint();
     graph.setAutoPaint(autoPaint);
+  },
+  onOutOfRange(e) {
+    const self = this;
+    if (this.origin) {
+      const canvasElement = self.graph.get('canvas').get('el');
+      const fn = ev => {
+        if (ev.target !== canvasElement) {
+          self.onDragEnd(e);
+        }
+      };
+      this.fn = fn;
+      body.addEventListener('mouseup', fn, false);
+    }
   }
 };
