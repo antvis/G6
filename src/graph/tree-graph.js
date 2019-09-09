@@ -115,8 +115,8 @@ class TreeGraph extends Graph {
    */
   updateChild(data, parent) {
     const self = this;
-    // 如果没有父节点，是全量的更新，直接重置data
-    if (!parent) {
+    // 如果没有父节点或找不到该节点，是全量的更新，直接重置data
+    if (!parent || !self.findById(parent)) {
       self.changeData(data);
       return;
     }
