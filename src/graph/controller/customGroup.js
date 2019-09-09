@@ -609,7 +609,7 @@ class CustomGroup {
     // 显示之前隐藏的节点和群组
     const nodesInGroup = graph.get('groupNodes')[id];
     const { width, height } = this.calculationGroupPosition(nodesInGroup);
-    const noCustomNodes = nodesInGroup.filter(node => node.indexOf('custom-node') === -1);
+    // const noCustomNodes = nodesInGroup.filter(node => node.indexOf('custom-node') === -1);
     const { nodeGroup } = this.getDeletageGroupById(id);
 
     const keyShape = nodeGroup.get('keyShape');
