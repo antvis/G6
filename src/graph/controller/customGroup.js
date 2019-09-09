@@ -642,8 +642,8 @@ class CustomGroup {
             self.setGroupOriginBBox(id, keyShape.getBBox());
           }
           return {
-            width: w + ratio * (width - w + paddingValue + noCustomNodes.length * 10),
-            height: h + ratio * (height - h + paddingValue + noCustomNodes.length * 10)
+            width: w + ratio * (width - w + paddingValue),
+            height: h + ratio * (height - h + paddingValue)
           };
         }
       }, 500, 'easeCubic');
