@@ -32,10 +32,6 @@ module.exports = {
   onMouseEnter(evt) {
     const { target } = evt;
     const groupId = target.get('groupId');
-    const type = target.get('type');
-    if (type !== 'circle' || type !== 'rect') {
-      return;
-    }
     if (groupId && this.origin) {
       const graph = this.graph;
       const customGroupControll = graph.get('customGroupControll');

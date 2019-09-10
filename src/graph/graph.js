@@ -349,12 +349,16 @@ class Graph extends EventEmitter {
   }
 
   /**
-   * 新增元素
-   * @param {string} type 元素类型(node | edge)
+   * 新增元素 或 节点分组
+   * @param {string} type 元素类型(node | edge | group)
    * @param {object} model 元素数据模型
    * @return {object} 元素实例
    */
   addItem(type, model) {
+    if (type === 'group') {
+      const { groupId, nodes, type, zIndex } = model;
+      return this.get('customGroupControll').create(groupId, nodes, type, zIndex, true);
+    }
     return this.get('itemController').addItem(type, model);
   }
 
@@ -371,7 +375,17 @@ class Graph extends EventEmitter {
    * @param {string|object} item 元素id或元素实例
    */
   removeItem(item) {
-    this.get('itemController').removeItem(item);
+    // 如果item是字符串，且查询的节点实例不存在，则认为是删除group
+    let nodeItem = null;
+    if (Util.isString(item)) {
+      nodeItem = this.findById(item);
+    }
+
+    if (!nodeItem && Util.isString(item)) {
+      this.get('customGroupControll').remove(item);
+    } else {
+      this.get('itemController').removeItem(item);
+    }
   }
 
   /**
@@ -527,7 +541,6 @@ class Graph extends EventEmitter {
       const groupIds = groupBy(nodeInGroup, 'groupId');
       for (const groupId in groupIds) {
         const nodeIds = groupIds[groupId].map(node => node.id);
-        this.get('groupNodes')[groupId] = nodeIds;
         this.get('customGroupControll').create(groupId, nodeIds, groupType, groupIndex);
         groupIndex--;
       }
@@ -539,7 +552,6 @@ class Graph extends EventEmitter {
       const groupNodes = Util.getAllNodeInGroups(data);
       for (const groupId in groupNodes) {
         const tmpNodes = groupNodes[groupId];
-        this.get('groupNodes')[groupId] = tmpNodes;
         this.get('customGroupControll').create(groupId, tmpNodes, groupType, groupIndex);
         groupIndex--;
       }
@@ -1125,6 +1137,23 @@ class Graph extends EventEmitter {
     this.get('canvas').destroy();
     this._cfg = null;
     this.destroyed = true;
+  }
+
+  // group 相关方法
+  /**
+   * 收起分组
+   * @param {string} groupId 分组ID
+   */
+  collapseGroup(groupId) {
+    this.get('customGroupControll').collapseGroup(groupId);
+  }
+
+  /**
+   * 展开分组
+   * @param {string} groupId 分组ID
+   */
+  expandGroup(groupId) {
+    this.get('customGroupControll').expandGroup(groupId);
   }
 }
 

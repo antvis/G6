@@ -1,4 +1,14 @@
 # ChangeLog
+#### 3.0.5
+`2019-09-10`
+* feat: support add and remove group
+* feat: support collapse and expand group
+* feat: add graph api: collapseGroup and expandGroup
+
+#### 3.0.5-beta.12
+* feat: add rect group
+* feat: add rect group demo
+* feat: add chart node
 
 ---
 #### 3.0.5-beta.10

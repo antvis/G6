@@ -13,7 +13,6 @@ class CustomGroup {
       default: {
         lineWidth: 1,
         stroke: '#A3B1BF',
-        radius: 10,
         // lineDash: [ 5, 5 ],
         strokeOpacity: 0.9,
         fill: '#F3F9FF',
@@ -30,7 +29,7 @@ class CustomGroup {
         lineWidth: 3
       },
       // 收起状态样式
-      collapseStyle: {
+      collapse: {
         r: 30,
         width: 80,
         height: 40,
@@ -79,9 +78,10 @@ class CustomGroup {
    * @param {array} nodes 群组中的节点集合
    * @param {string} type 群组类型，默认为circle，支持rect
    * @param {number} zIndex 群组层级，默认为0
+   * @param {boolean} updateDataModel 是否更新节点数据，默认为false，只有当手动创建group时才为true
    * @memberof ItemGroup
    */
-  create(groupId, nodes, type = 'circle', zIndex = 0) {
+  create(groupId, nodes, type = 'circle', zIndex = 0, updateDataModel = false) {
     const graph = this.graph;
     const customGroup = graph.get('customGroup');
     const nodeGroup = customGroup.addGroup({
@@ -140,6 +140,21 @@ class CustomGroup {
         { width, height, x, y, btnOffset: maxX - 3 });
     }
     nodeGroup.set('keyShape', keyShape);
+
+    // 设置graph中groupNodes的值
+    graph.get('groupNodes')[groupId] = nodes;
+
+    // 只有手动创建group时执行以下逻辑
+    if (updateDataModel) {
+      // 如果是手动创建group，则原始数据中是没有groupId信息的，需要将groupId添加到node中
+      nodes.forEach(nodeId => {
+        const node = graph.findById(nodeId);
+        const model = node.getModel();
+        if (!model.groupId) {
+          model.groupId = groupId;
+        }
+      });
+    }
 
     this.setGroupOriginBBox(groupId, keyShape.getBBox());
 
@@ -422,7 +437,7 @@ class CustomGroup {
     const { nodeGroup } = customGroup;
 
     // 收起群组后的默认样式
-    const { collapseStyle } = this.styles;
+    const { collapse } = this.styles;
     const graph = this.graph;
     const groupType = graph.get('groupType');
 
@@ -434,7 +449,7 @@ class CustomGroup {
 
     // 更新Group的大小
     const keyShape = nodeGroup.get('keyShape');
-    const { r, width, height, ...otherStyle } = collapseStyle;
+    const { r, width, height, ...otherStyle } = collapse;
     for (const style in otherStyle) {
       keyShape.attr(style, otherStyle[style]);
     }
@@ -614,7 +629,7 @@ class CustomGroup {
 
     const keyShape = nodeGroup.get('keyShape');
 
-    const { default: defaultStyle, collapseStyle } = this.styles;
+    const { default: defaultStyle, collapse } = this.styles;
 
     for (const style in defaultStyle) {
       keyShape.attr(style, defaultStyle[style]);
@@ -630,12 +645,12 @@ class CustomGroup {
             self.setGroupOriginBBox(id, keyShape.getBBox());
           }
           return {
-            r: collapseStyle.r + ratio * (r + nodesInGroup.length * 10 - collapseStyle.r + paddingValue)
+            r: collapse.r + ratio * (r + nodesInGroup.length * 10 - collapse.r + paddingValue)
           };
         }
       }, 500, 'easeCubic');
     } else if (groupType === 'rect') {
-      const { width: w, height: h } = collapseStyle;
+      const { width: w, height: h } = collapse;
       keyShape.animate({
         onFrame(ratio) {
           if (ratio === 1) {
@@ -746,40 +761,70 @@ class CustomGroup {
   }
 
   /**
-   * 拆分群组
-   *
+   * 删除节点分组
+   * @param {string} groupId 节点分组ID
    * @memberof ItemGroup
    */
-  unGroup() {
+  remove(groupId) {
     const graph = this.graph;
-    const group = graph.get('customGroup');
-    const groupChild = group.get('children');
+    const customGroup = this.getDeletageGroupById(groupId);
+
+    if (!customGroup) {
+      console.warn(`请确认输入的groupId ${groupId} 是否有误！`);
+      return;
+    }
+    const { nodeGroup } = customGroup;
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
 
-    const currentGroup = groupChild.filter(child => child.get('selected'));
-    if (currentGroup.length > 0) {
-      const nodes = graph.getNodes();
-      for (const current of currentGroup) {
-        const id = current.get('id');
-        // 删除原群组中node中的groupID
-        nodes.forEach(node => {
-          const model = node.getModel();
-          const gId = model.groupId;
-          if (!gId) {
-            return;
-          }
-          if (id === gId) {
-            delete model.groupId;
-            // 使用没有groupID的数据更新节点
-            graph.updateItem(node, model);
-          }
-        });
-        current.destroy();
+    const groupNodes = graph.get('groupNodes');
+    const nodes = groupNodes[groupId];
+    // 删除原群组中node中的groupID
+    nodes.forEach(nodeId => {
+      const node = graph.findById(nodeId);
+      const model = node.getModel();
+      const gId = model.groupId;
+      if (!gId) {
+        return;
       }
-      graph.setAutoPaint(autoPaint);
-      graph.paint();
+      if (groupId === gId) {
+        delete model.groupId;
+        // 使用没有groupID的数据更新节点
+        graph.updateItem(node, model);
+      }
+    });
+    nodeGroup.destroy();
+    // 删除customGroup中groupId的数据
+    delete this.customGroup[groupId];
+    // 删除groups数据中的groupId
+    const groups = graph.get('groups');
+    if (groups.length > 0) {
+      const filterGroup = groups.filter(group => group.id !== groupId);
+      graph.set('groups', filterGroup);
     }
+
+    let parentGroupId = null;
+    let parentGroupData = null;
+    for (const group of groups) {
+      if (groupId !== group.id) {
+        continue;
+      }
+      parentGroupId = group.parentId;
+      parentGroupData = group;
+      break;
+    }
+
+    if (parentGroupData) {
+      delete parentGroupData.parentId;
+    }
+    // 删除groupNodes中的groupId数据
+    delete groupNodes[groupId];
+    if (parentGroupId) {
+      groupNodes[parentGroupId] = groupNodes[parentGroupId].filter(node => !nodes.includes(node));
+    }
+
+    graph.setAutoPaint(autoPaint);
+    graph.paint();
   }
 
   destroy() {

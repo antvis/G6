@@ -31,7 +31,7 @@ G6.registerNode('circleNode', {
 
 describe('signle layer group', () => {
 
-  it.only('render signle group test', () => {
+  it('render signle group test', () => {
     const graph = new G6.Graph({
       container: div,
       width: 1500,
@@ -613,6 +613,104 @@ describe('signle layer group', () => {
     }, 5500);
   });
 
+  it('remove group', () => {
+    const graph = new G6.Graph({
+      container: div,
+      width: 1500,
+      height: 1000,
+      pixelRatio: 2,
+      modes: {
+        default: [ 'drag-group' ]
+      },
+      defaultNode: {
+        shape: 'circleNode'
+      },
+      defaultEdge: {
+        color: '#bae7ff'
+      }
+    });
+
+    const nodes = [
+      {
+        id: 'node1',
+        label: 'node1',
+        groupId: 'group1',
+        x: 100,
+        y: 100
+      },
+      {
+        id: 'node2',
+        label: 'node2',
+        groupId: 'group1',
+        x: 150,
+        y: 100
+      },
+      {
+        id: 'node3',
+        label: 'node3',
+        groupId: 'group2',
+        x: 300,
+        y: 100
+      },
+      {
+        id: 'node7',
+        groupId: 'p1',
+        x: 200,
+        y: 200
+      },
+      {
+        id: 'node6',
+        groupId: 'bym',
+        label: 'rect',
+        x: 100,
+        y: 300,
+        shape: 'rect'
+      },
+      {
+        id: 'node9',
+        label: 'noGroup',
+        x: 300,
+        y: 210
+      }
+    ];
+    const data = {
+      nodes
+    };
+
+    graph.data(data);
+    graph.render();
+
+    const groupNodes = graph.get('groupNodes');
+    const keys = Object.keys(groupNodes);
+    expect(keys.length).eql(4);
+    expect(keys.includes('group1')).to.be.true;
+    expect(groupNodes.group1.length).eql(2);
+    expect(groupNodes.group2.length).eql(1);
+    expect(groupNodes.bym.length).eql(1);
+    expect(groupNodes.p1.length).eql(1);
+
+    const groups = graph.get('groups');
+    expect(groups.length).eql(0);
+
+    // 删除group1
+    const customGroup = graph.get('customGroupControll');
+    customGroup.remove('group1');
+
+    const groupNodes1 = graph.get('groupNodes');
+    const keys1 = Object.keys(groupNodes1);
+    expect(keys1.length).eql(3);
+    expect(keys1.includes('group1')).to.be.false;
+    expect(groupNodes.group2.length).eql(1);
+    expect(groupNodes.bym.length).eql(1);
+    expect(groupNodes.p1.length).eql(1);
+
+    const filterNodes = graph.save().nodes.filter(node => node.groupId);
+    filterNodes.forEach(node => {
+      expect(node.id).not.eql('node1');
+      expect(node.id).not.eql('node2');
+    });
+  });
+
 });
 
 describe('nesting layer group', () => {
@@ -756,6 +854,172 @@ describe('nesting layer group', () => {
     expect(shapeStyle.r).eql(30.5);
     expect(shapeStyle.x).eql(299.5);
     expect(shapeStyle.y).eql(99.5);
+
+    graph.destroy();
+    expect(graph.destroyed).to.be.true;
+  });
+
+  it.only('remove nesting group', () => {
+    const data = {
+      nodes: [
+        {
+          id: 'node6',
+          groupId: 'group3',
+          label: 'rect',
+          x: 100,
+          y: 300
+        },
+        {
+          id: 'node1',
+          label: 'fck',
+          groupId: 'group1',
+          x: 100,
+          y: 100
+        },
+        {
+          id: 'node9',
+          label: 'noGroup1',
+          groupId: 'p1',
+          x: 300,
+          y: 210
+        },
+        {
+          id: 'node2',
+          label: 'node2',
+          groupId: 'group1',
+          x: 150,
+          y: 200
+        },
+        {
+          id: 'node3',
+          label: 'node3',
+          groupId: 'group2',
+          x: 300,
+          y: 100
+        },
+        {
+          id: 'node7',
+          groupId: 'p1',
+          label: 'node7-p1',
+          x: 200,
+          y: 200
+        },
+        {
+          id: 'node10',
+          label: 'noGroup',
+          groupId: 'p2',
+          x: 300,
+          y: 210
+        }
+      ],
+      edges: [
+        {
+          source: 'node1',
+          target: 'node2'
+        },
+        {
+          source: 'node2',
+          target: 'node3'
+        }
+      ],
+      groups: [
+        {
+          id: 'group1',
+          title: '1',
+          parentId: 'p1'
+        },
+        {
+          id: 'group2',
+          title: '2',
+          parentId: 'p1'
+        },
+        {
+          id: 'group3',
+          title: '2',
+          parentId: 'p2'
+        },
+        {
+          id: 'p1',
+          title: '3'
+        },
+        {
+          id: 'p2',
+          title: '3'
+        }
+      ]
+    };
+
+    const graph = new G6.Graph({
+      container: div,
+      width: 1500,
+      height: 1000,
+      pixelRatio: 2,
+      modes: {
+        default: [ 'drag-group' ]
+      },
+      defaultNode: {
+        shape: 'circleNode'
+      },
+      defaultEdge: {
+        color: '#bae7ff'
+      }
+    });
+
+    graph.data(data);
+    graph.render();
+
+    let { groups } = graph.save();
+    expect(groups.length).equal(5);
+
+    let groupNodes = graph.get('groupNodes');
+    let keys = Object.keys(groupNodes);
+    expect(keys.length).eql(5);
+    expect(keys.includes('group1')).to.be.true;
+    expect(groupNodes.group1.length).eql(2);
+    expect(groupNodes.group2.length).eql(1);
+    expect(groupNodes.p1.length).eql(5);
+
+    const testGroupId = 'p1';
+    let parentGroupId = null;
+    for (const group of groups) {
+      if (testGroupId !== group.id) {
+        continue;
+      }
+      parentGroupId = group.parentId;
+      break;
+    }
+
+    const groupControll = graph.get('customGroupControll');
+    // 删除group1
+    groupControll.remove(testGroupId);
+
+    // groupNodes = graph.get('groupNodes');
+    // keys = Object.keys(groupNodes);
+    // expect(keys.length).eql(4);
+    // expect(keys.includes(testGroupId)).to.be.false;
+    // expect(groupNodes.group2.length).eql(1);
+    // expect(groupNodes.p1.length).eql(3);
+
+    // groups = graph.save().groups;
+    // expect(groups.length).eql(4);
+
+    // expect(parentGroupId).eql('p1');
+    // expect(groupNodes[parentGroupId].length).eql(3);
+    // expect(groupNodes[parentGroupId].includes('node2')).to.be.false;
+    // expect(groupNodes[testGroupId]).to.be.undefined;
+
+    groupNodes = graph.get('groupNodes');
+    keys = Object.keys(groupNodes);
+    expect(keys.length).eql(4);
+    expect(keys.includes(testGroupId)).to.be.false;
+    expect(groupNodes.group2.length).eql(1);
+    expect(groupNodes.group1.length).eql(2);
+
+    groups = graph.save().groups;
+    expect(groups.length).eql(4);
+
+    expect(parentGroupId).to.be.undefined;
+    expect(groupNodes[testGroupId]).to.be.undefined;
 
     graph.destroy();
     expect(graph.destroyed).to.be.true;
