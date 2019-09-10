@@ -46,6 +46,107 @@ describe('graph', () => {
     expect(length - div.childNodes.length).to.equal(1);
   });
 
+  it.only('add and remove group', () => {
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      pixelRatio: 2,
+      groupStyle: {
+        default: {
+          stroke: 'red',
+          lineWidth: 3,
+          lineDash: [ 5, 5 ]
+        }
+      }
+    });
+    const data = {
+      nodes: [{
+        id: 'a',
+        shape: 'circle',
+        color: '#333',
+        x: 30,
+        y: 30,
+        size: 20,
+        label: 'a'
+      }, {
+        id: 'b',
+        shape: 'ellipse',
+        color: '#666',
+        x: 50,
+        y: 60,
+        size: [ 30, 40 ],
+        label: 'b'
+      }, {
+        id: 'c',
+        shape: 'rect',
+        color: '#999',
+        x: 100,
+        y: 70,
+        size: 20,
+        label: 'c'
+      },
+      {
+        id: 'd',
+        shape: 'rect',
+        color: '#999',
+        x: 150,
+        y: 90,
+        size: 20,
+        label: 'd'
+      }],
+      edges: [{
+        source: 'a',
+        target: 'b',
+        id: 'd'
+      }, {
+        source: 'a',
+        target: 'c',
+        id: 'e'
+      }]
+    };
+
+    graph.data(data);
+    graph.render();
+
+    graph.addItem('group', {
+      groupId: 'group1',
+      nodes: [ 'a', 'b' ],
+      type: 'circle'
+    });
+    graph.addItem('group', {
+      groupId: 'group2',
+      nodes: [ 'c' ],
+      type: 'rect'
+    });
+
+    // const customGroupController = graph.get('customGroupControll');
+    // const customGroup = customGroupController.customGroup;
+
+    let groupNodes = graph.get('groupNodes');
+    let keys = Object.keys(groupNodes);
+    expect(keys.length).eql(2);
+
+    expect(groupNodes.group1.length).eql(2);
+    expect(groupNodes.group2.length).eql(1);
+
+    let { nodes } = graph.save();
+    let filterNode = nodes.filter(node => node.groupId);
+    expect(filterNode.length).eql(3);
+
+    graph.removeItem('group2');
+    groupNodes = graph.get('groupNodes');
+    keys = Object.keys(groupNodes);
+    expect(keys.length).eql(1);
+
+    expect(groupNodes.group1.length).eql(2);
+    expect(groupNodes.group2).to.be.undefined;
+
+    nodes = graph.save().nodes;
+    filterNode = nodes.filter(node => node.groupId);
+    expect(filterNode.length).eql(2);
+  });
+
   const canvasMatrix = graph.get('canvas').getMatrix();
   it('translate', () => {
     graph.translate(100, 100);
