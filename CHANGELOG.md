@@ -1,4 +1,9 @@
 # ChangeLog
+#### 3.0.6
+`2019-09-11`
+* fix:  group data util function use module.exports
+* feat: update @antv/hierarchy version
+
 #### 3.0.5
 `2019-09-10`
 * feat: support add and remove group
