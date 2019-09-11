@@ -6,7 +6,7 @@
  * @Description: file content
  */
 const expect = require('chai').expect;
-const groupDataUtil = require('../../../src/util/groupData');
+const groupDataUtil = require('../../../src/util');
 
 describe('group data transform util test', () => {
   it('flat transform to tree', () => {

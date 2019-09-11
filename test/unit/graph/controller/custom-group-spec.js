@@ -714,7 +714,7 @@ describe('signle layer group', () => {
 });
 
 describe('nesting layer group', () => {
-  it('render nesting layer group', () => {
+  it.only('render nesting layer group', () => {
     const data = {
       nodes: [
         {
@@ -851,15 +851,15 @@ describe('nesting layer group', () => {
     // 指定groupId，验证渲染后的位置是否正确
     const shape = groupControll.getDeletageGroupById('group2');
     const shapeStyle = shape.groupStyle;
-    expect(shapeStyle.r).eql(30.5);
-    expect(shapeStyle.x).eql(299.5);
-    expect(shapeStyle.y).eql(99.5);
+    expect(shapeStyle.r).eql(31);
+    expect(shapeStyle.x).eql(300);
+    expect(shapeStyle.y).eql(100);
 
     graph.destroy();
     expect(graph.destroyed).to.be.true;
   });
 
-  it.only('remove nesting group', () => {
+  it('remove nesting group', () => {
     const data = {
       nodes: [
         {
