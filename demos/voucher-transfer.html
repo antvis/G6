@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义流程图</title>
+    <style>::-webkit-scrollbar{display:none;}html,body{overflow:hidden;margin:0;}</style>
+</head>
+<body>
+<div id="mountNode"></div>
+<script>/*Fixing iframe window.innerHeight 0 issue in Safari*/document.body.clientHeight;</script>
+<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.0.5-beta.12/build/g6.js"></script>
+<script src="https://gw.alipayobjects.com/os/lib/dagre/0.8.4/dist/dagre.min.js"></script>
+<script>
+  var _extends = Object.assign || function(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+    return target;
+  };
+
+  /**
+   * node 特殊属性
+   */
+  var nodeExtraAttrs = {
+    begin: {
+      fill: "#9FD4FB"
+    },
+    end: {
+      fill: "#C2E999"
+    }
+  };
+
+  var data = {
+    nodes: [{
+      id: "1",
+      label: "公司名称公司名称",
+      type: "begin"
+  }, {
+      id: "2",
+      label: "公司名称公司名称"
+  }, {
+      id: "3",
+      label: "公司名称公司名称"
+  }, {
+      id: "4",
+      label: "公司名称公司名称"
+  }, {
+      id: "5",
+      label: "公司名称公司名称"
+  }, {
+      id: "6",
+      label: "公司名称公司名称"
+  }, {
+      id: "7",
+      label: "公司名称公司名称",
+      type: "end"
+  }, {
+      id: "8",
+      label: "公司名称公司名称"
+  }, {
+      id: "9",
+      label: "公司名称公司名称"
+  }],
+    edges: [{
+      source: "1",
+      target: "2",
+      data: {
+        type: "凭证开立",
+        amount: "100,000,000,00 元",
+        date: "2019-08-03"
+      }
+  }, {
+      source: "1",
+      target: "3",
+      data: {
+        type: "凭证开立",
+        amount: "100,000,000,00 元",
+        date: "2019-08-03"
+      }
+  }, {
+      source: "2",
+      target: "5",
+      data: {
+        type: "凭证开立",
+        amount: "100,000,000,00 元",
+        date: "2019-08-03"
+      }
+  }, {
+      source: "5",
+      target: "6",
+      data: {
+        type: "凭证开立",
+        amount: "100,000,000,00 元",
+        date: "2019-08-03"
+      }
+  }, {
+      source: "3",
+      target: "4",
+      data: {
+        type: "凭证开立",
+        amount: "100,000,000,00 元",
+        date: "2019-08-03"
+      }
+  }, {
+      source: "3",
+      target: "7",
+      data: {
+        type: "凭证开立",
+        amount: "100,000,000,00 元",
+        date: "2019-08-03"
+      }
+  }, {
+      source: "1",
+      target: "8",
+      data: {
+        type: "凭证开立",
+        amount: "100,000,000,00 元",
+        date: "2019-08-03"
+      }
+  }, {
+      source: "1",
+      target: "9",
+      data: {
+        type: "凭证开立",
+        amount: "100,000,000,00 元",
+        date: "2019-08-03"
+      }
+  }]
+  };
+
+  /**
+   * 自定义节点
+   */
+  G6.registerNode("node", {
+    drawShape: function drawShape(cfg, group) {
+      const width = 150
+      const color = "#FFD591";
+      var rect = group.addShape("rect", {
+        attrs: {
+          x: -width/2,
+          y: -15,
+          width,
+          height: 30,
+          radius: 15,
+          stroke: color,
+          fillOpacity: 1
+        }
+      });
+      var point1 = group.addShape("circle", {
+        attrs: {
+          x: -width/2,
+          y: 0,
+          r: 5,
+          fill: color
+        }
+      });
+      var point2 = group.addShape("circle", {
+        attrs: {
+          x: width/2,
+          y: 0,
+          r: 5,
+          fill: color
+        }
+      });
+      return rect;
+    },
+
+    getAnchorPoints: function getAnchorPoints() {
+      return [[0, 0.5], [1, 0.5]];
+    }
+  }, "single-shape");
+
+
+  G6.registerEdge("polyline", {
+    itemType: "edge",
+    draw: function draw(cfg, group) {
+      var startPoint = cfg.startPoint;
+      var endPoint = cfg.endPoint;
+      var centerPoint = {
+        x: (startPoint.x + endPoint.x) / 2,
+        y: (startPoint.y + endPoint.y) / 2
+      };
+      
+      const Ydiff = endPoint.y - startPoint.y
+      
+      const slope = 500 / Math.abs(Ydiff);
+      
+      const cpOffset = 16;
+      const offset = Ydiff < 0 ? cpOffset : -cpOffset;
+      
+      const line1EndPoint = {
+        x: startPoint.x + slope,
+        y: endPoint.y + offset
+      };
+      const line2StartPoint = {
+        x: line1EndPoint.x + cpOffset,
+        y: endPoint.y
+      };
+      
+      // 控制点坐标
+      var controlPoint = {
+        x: (line1EndPoint.x - startPoint.x) * (endPoint.y - startPoint.y) 
+          / (line1EndPoint.y - startPoint.y) + startPoint.x,
+        y: endPoint.y
+      };
+
+      var path = group.addShape("path", {
+        attrs: {
+          path: [
+            ["M", startPoint.x, startPoint.y],
+            ["L", line1EndPoint.x, line1EndPoint.y],
+            ["Q", controlPoint.x, controlPoint.y, line2StartPoint.x, line2StartPoint.y],
+            ["L", endPoint.x, endPoint.y]
+          ],
+          stroke: "#ccc",
+          lineWidth: 2.5,
+          endArrow: false
+        }
+      });
+      
+      const labelLeftOffset = 8;
+      const labelTopOffset = 8;
+      // amount
+      const amount = group.addShape('text', {
+        attrs: {
+          text: cfg.data.amount,
+          x: line2StartPoint.x + labelLeftOffset,
+          y: endPoint.y - labelTopOffset - 2,
+          fontSize: 14,
+          textAlign: 'left',
+          textBaseline: 'middle',
+          fill: '#666'
+        }
+      });
+      // type
+      const type = group.addShape('text', {
+        attrs: {
+          text: cfg.data.type,
+          x: line2StartPoint.x + labelLeftOffset,
+          y: endPoint.y - labelTopOffset - amount.getBBox().height - 2,
+          textAlign: 'left',
+          textBaseline: 'middle',
+          fill: '#666'
+        }
+      });
+      // date
+      const date = group.addShape('text', {
+        attrs: {
+          text: cfg.data.date,
+          x: line2StartPoint.x + labelLeftOffset,
+          y: endPoint.y + labelTopOffset + 4,
+          textAlign: 'left',
+          textBaseline: 'middle',
+          fill: '#666'
+        }
+      });
+      
+      return path;
+    }
+  });
+
+  var g = new dagre.graphlib.Graph();
+  g.setDefaultEdgeLabel(function() {
+    return {};
+  });
+  g.setGraph({
+    rankdir: 'LR'
+  });
+
+  data.nodes.forEach(function(node) {
+    g.setNode(node.id + '', {
+      width: 300,
+      height: 100
+    });
+  });
+
+  data.edges.forEach(function(edge) {
+    edge.source = edge.source + '';
+    edge.target = edge.target + '';
+    g.setEdge(edge.source, edge.target);
+  });
+  dagre.layout(g);
+
+  var coord = void 0;
+  g.nodes().forEach(function(node, i) {
+    coord = g.node(node);
+    data.nodes[i].x = coord.x;
+    data.nodes[i].y = coord.y;
+  });
+  g.edges().forEach(function(edge, i) {
+    coord = g.edge(edge);
+    var startPoint = coord.points[0];
+    var endPoint = coord.points[coord.points.length - 1];
+    data.edges[i].startPoint = startPoint;
+    data.edges[i].endPoint = endPoint;
+    data.edges[i].controlPoints = coord.points.slice(1, coord.points.length - 1);
+  });
+
+  var graph = new G6.Graph({
+    container: "mountNode",
+    width: 1000,
+    height: 600,
+    modes: {
+      default: ['drag-canvas']
+    },
+    defaultNode: {
+      shape: "node",
+      labelCfg: {
+        style: {
+          fill: "#333",
+          fontSize: 14
+        }
+      }
+    },
+    defaultEdge: {
+      shape: "polyline"
+    }
+  });
+
+  graph.data(data);
+  graph.render();
+</script>
+</body>
+</html>
