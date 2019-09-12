@@ -1,4 +1,8 @@
 # ChangeLog
+#### 3.0.7-beta.1
+`2019-09-11`
+* fix: zoom-canvas support IE and Firefox
+
 #### 3.0.6
 `2019-09-11`
 * fix:  group data util function use module.exports
