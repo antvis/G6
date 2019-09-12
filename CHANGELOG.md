@@ -1,5 +1,5 @@
 # ChangeLog
-#### 3.0.7
+#### 3.0.7-beta.1
 `2019-09-11`
 * fix: zoom-canvas support IE and Firefox
 
