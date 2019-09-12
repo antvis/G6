@@ -3,7 +3,7 @@ const DELTA = 0.05;
 module.exports = {
   getDefaultCfg() {
     return {
-      sensitivity: 5,
+      sensitivity: 2,
       minZoom: 0.1,
       maxZoom: 10
     };
@@ -24,7 +24,8 @@ module.exports = {
     const pixelRatio = canvas.get('pixelRatio');
     const sensitivity = this.get('sensitivity');
     let ratio = graph.getZoom();
-    if (e.deltaY < 0) {
+    // 兼容IE、Firefox及Chrome
+    if (e.wheelDelta < 0) {
       ratio = 1 - DELTA * sensitivity;
     } else {
       ratio = 1 + DELTA * sensitivity;
