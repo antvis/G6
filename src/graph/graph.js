@@ -193,7 +193,9 @@ class Graph extends EventEmitter {
     const modeController = new Controller.Mode(this);
     const itemController = new Controller.Item(this);
     const stateController = new Controller.State(this);
-    this.set({ eventController, viewController, modeController, itemController, stateController });
+    const layoutController = new Controller.Layout(this);
+    this.set({ eventController, viewController, modeController,
+      itemController, stateController, layoutController });
     this._initPlugins();
   }
   _initCanvas() {
@@ -439,6 +441,10 @@ class Graph extends EventEmitter {
     this.emit('beforerender');
     const autoPaint = this.get('autoPaint');
     this.setAutoPaint(false);
+    // layout
+    const layoutController = self.get('layoutController');
+    layoutController.layout();
+
     Util.each(data.nodes, node => {
       self.add(NODE, node);
     });
@@ -476,6 +482,8 @@ class Graph extends EventEmitter {
       self.data(data);
       self.render();
     }
+    const layoutController = this.get('layoutController');
+    layoutController.changeData(data);
     const autoPaint = this.get('autoPaint');
     const itemMap = this.get('itemMap');
     const items = {
@@ -999,6 +1007,22 @@ class Graph extends EventEmitter {
   }
 
   /**
+   * 更换布局
+   * @param {string} layoutType 新布局名字
+   * @param {object} cfg 新布局配置项
+   */
+  changeLayout(layoutType, cfg = null) {
+    const layoutController = this.get('layoutController');
+    this.set('layoutCfg', cfg);
+    layoutController.changeLayout(layoutType);
+  }
+
+  updateLayoutCfg(cfg) {
+    const layoutController = this.get('layoutController');
+    layoutController.updateLayoutCfg(cfg);
+  }
+
+  /**
    * 清除画布元素
    * @return {object} this
    */
@@ -1023,6 +1047,7 @@ class Graph extends EventEmitter {
     this.get('modeController').destroy();
     this.get('viewController').destroy();
     this.get('stateController').destroy();
+    this.get('layoutController').destroy();
     this.get('canvas').destroy();
     this._cfg = null;
     this.destroyed = true;
