@@ -20,7 +20,7 @@ const data = {
   ]
 };
 
-describe('random', () => {
+describe('random by default', () => {
   it('new graph without layout', () => {
     const graph = new G6.Graph({
       container: div,
@@ -29,6 +29,9 @@ describe('random', () => {
     });
     graph.data(data);
     graph.render();
-    // expect(length - div.childNodes.length).to.equal(1);
+    expect(graph.getNodes()[0].getModel().x).not.to.be.undefined;
+    expect(graph.getNodes()[0].getModel().y).not.to.be.undefined;
+    expect(graph.getNodes()[1].getModel().x).not.to.be.undefined;
+    expect(graph.getNodes()[1].getModel().y).not.to.be.undefined;
   });
 });
