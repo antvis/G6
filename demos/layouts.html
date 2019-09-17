@@ -127,17 +127,6 @@
       {"id": "e5", "source": "0", "target": "5"}
     ]
   }
-  const data3 = {
-    "nodes": [
-      {"id": "0", "label": "0", "x": 10, "y": 120 },
-      {"id": "1", "label": "1", "x": 100, "y": 10 },
-      {"id": "2", "label": "2", "x": 50, "y": 50 }
-    ],
-    "edges": [
-      {"id": "e1", "source": "0", "target": "1"},
-      {"id": "e2", "source": "0", "target": "2"}
-    ]
-  }
 
   const graph = new G6.Graph({
     container: 'mountNode',
@@ -146,33 +135,23 @@
     modes: {
       default: ['drag-canvas', 'drag-node'],
     },
-    layout: 'random',
-    // layougCfg: {
-    //   maxIteration: 8000
-    // },
+    // layout: 'random', // default
     layoutCfg: {
       center: [ 500, 300 ],
     },
     animate: true,
     defaultNode: {
       size: [20, 20],
-      color: 'steelblue'
+      color: 'steelblue',
+      style: {
+        lineWidth: 2,
+        fill: '#fff'
+      }
     },
     defaultEdge: {
       size: 1,
-      color: '#e2e2e2'
-    },
-    nodeStyle: {
-      default: {
-        lineWidth: 2,
-        fill: '#fff'
-      },
-      selected: {
-        fill: 'steelblue'
-      }
-    },
-    edgeStyle: {
-      default: {
+      color: '#e2e2e2',
+      style: {
         endArrow: {
           path: 'M 4,0 L -4,-4 L -4,4 Z',
           d: 4
@@ -184,7 +163,6 @@
   graph.render();
     
   setTimeout(() => {
-    // graph.changeData(data2);
     graph.changeLayout('circular', {
       radius: 100,
       startAngle: Math.PI / 4,
@@ -192,22 +170,35 @@
       divisions: 5,
       ordering: 'degree'
     });
-    // graph.updateLayoutCfg({
-    //   linkDistance: 100
-    //   // divisions: 3,
-    //   // ordering: 'topology'
-    //   // maxIteration: 1000
-    // });
   }, 1000);
   
   setTimeout(() => {
-    graph.changeLayout('circular', {
+    graph.updateLayoutCfg({
+      radius: null,
       startRadius: 10,
       endRadius: 300,
       divisions: 1,
+      startAngle: 0,
+      endAngle: 2 * Math.PI,
       ordering: 'topology'
     });
-  }, 2000);
+  }, 2500);
+
+  setTimeout(() => {
+    graph.changeLayout('fruchterman');
+  }, 4000);
+
+  setTimeout(() => {
+    graph.changeLayout('force');
+  }, 5500);
+
+  setTimeout(() => {
+    graph.changeLayout('mds');
+  }, 8500);
+
+  setTimeout(() => {
+    graph.changeData(data2);
+  }, 10000);
 </script>
 </body>
 </html>
