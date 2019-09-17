@@ -1,0 +1,2 @@
+require('./circleIcon');
+require('./rectAnchor');

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>内置的节点</title>
+</head>
+<body>
+<div id="mountNode"></div>
+<script src="../build/g6.js"></script>
+<script src="../build/grid.js"></script>
+<script>
+  const grid = new Grid()
+  const graph = new G6.Graph({
+    container: 'mountNode',
+    width: 800,
+    height: 600,
+    // plugins: [grid],
+    defaultNode: {
+      size: [40, 40]
+    },
+    modes: {
+      default: [ 'brush-select', 'drag-node' ]
+    }
+  });
+
+  G6.registerNode('circleIconSelf', {
+    getCustomConfig() {
+      return {
+        default: {
+          fill: '#36cfc9',
+          stroke: '#87e8de',
+          r: 30,
+          icon: {
+            width: 25,
+            height: 25
+          },
+          labelCfg: {
+            style: {
+              fill: 'blue'
+            },
+            offset: 15
+          },
+        }
+      }
+    }
+  }, 'circleIcon')
+
+  G6.registerNode('shadowCircle', {
+    getCustomConfig() {
+      return {
+        default: {
+          shadowOffsetX: 0,
+          shadowOffsetY: 0,
+          shadowBlur: 10,
+          shadowColor: '#e6f7ff',
+          lineWidth: 5,
+          icon: {
+            show: false
+          }
+        }
+      }
+    }
+  }, 'circleIcon')
+
+  G6.registerNode('stateCircle', {
+    getStateStyle(name, value, item) {
+      return {
+        fill: 'green',
+        stroke: '#000',
+        lineWidth: 5
+      }
+    }
+  }, 'circleIcon')
+
+  G6.registerNode('rectAnchor1', {
+    getCustomConfig() {
+      return {
+        default: {
+          radius: 2,
+          width: 80,
+          height: 48,
+          stroke: '#9254de',
+          labelCfg: {
+            style: {
+              fill: '#9254de',
+              fontSize: 12
+            }
+          },
+          linkPoints: {
+            top: false,
+            right: true,
+            bottom: false,
+            left: true,
+            size: 3,
+            fill: '#9254de',
+            stroke: '#9254de'
+          },
+        }
+      }
+    }
+  }, 'rectAnchor')
+
+  G6.registerNode('rectAnchor2', {
+    getCustomConfig() {
+      return {
+        default: {
+          stroke: '#ff85c0',
+          labelCfg: {
+            style: {
+              fill: '#ff85c0',
+              fontSize: 12
+            }
+          },
+          linkPoints: {
+            top: true,
+            right: true,
+            bottom: true,
+            left: true,
+            size: 3,
+            fill: '#9254de',
+            stroke: '#9254de'
+          },
+        }
+      }
+    }
+  }, 'rectAnchor')
+
+  G6.registerNode('rectAnchor3', {
+    getCustomConfig() {
+      return {
+        default: {
+          radius: 25,
+          stroke: '#ff7875',
+          labelCfg: {
+            style: {
+              fill: '#ff7875',
+              fontSize: 12
+            }
+          },
+          linkPoints: {
+            top: false,
+            right: true,
+            bottom: false,
+            left: true,
+            size: 5,
+            lineWidth: 3,
+            // fill: '#ff7875',
+            stroke: '#ff7875'
+          },
+        }
+      }
+    }
+  }, 'rectAnchor')
+
+  G6.registerNode('rectAnchor4', {
+    getCustomConfig() {
+      return {
+        default: {
+          radius: 25,
+          stroke: '#36cfc9',
+          labelCfg: {
+            style: {
+              fill: '#36cfc9',
+              fontSize: 16
+            }
+          },
+          linkPoints: {
+            top: true,
+            right: true,
+            bottom: true,
+            left: true,
+            size: 5,
+            lineWidth: 3,
+            fill: '#fff',
+            stroke: '#36cfc9'
+          },
+        }
+      }
+    }
+  }, 'rectAnchor')
+
+  G6.registerNode('rectAnchor5', {
+    getCustomConfig() {
+      return {
+        default: {
+          width: 120,
+          radius: 25,
+          stroke: '#73d13d',
+          labelCfg: {
+            style: {
+              fill: '#73d13d',
+              fontSize: 12
+            }
+          },
+          linkPoints: {
+            top: false,
+            right: true,
+            bottom: false,
+            left: true,
+            size: 5,
+            fill: '#fff',
+            stroke: '#73d13d'
+          },
+        }
+      }
+    }
+  }, 'rectAnchor')
+  const data = {
+    nodes: [
+      {
+        id: 'node1',
+        label: 'node1',
+        x: 100,
+        y: 100,
+        shape: 'circleIcon'
+      },
+      {
+        id: 'node2',
+        label: 'node2',
+        x: 200,
+        y: 100,
+        shape: 'circleIconSelf'
+      },
+      {
+        id: 'node3',
+        label: 'node3',
+        x: 300,
+        y: 100,
+        shape: 'shadowCircle'
+      },
+      {
+        id: 'node4',
+        label: 'node4',
+        x: 150,
+        y: 300,
+        shape: 'rectAnchor'
+      },
+      {
+        id: 'node5',
+        label: 'node5',
+        x: 400,
+        y: 300,
+        shape: 'rectAnchor1'
+      },
+      {
+        id: 'node6',
+        label: 'node6',
+        x: 650,
+        y: 300,
+        shape: 'rectAnchor2'
+      },
+      {
+        id: 'node7',
+        label: 'node7',
+        x: 150,
+        y: 400,
+        shape: 'rectAnchor3'
+      },
+      {
+        id: 'node8',
+        label: 'node8',
+        x: 400,
+        y: 400,
+        shape: 'rectAnchor4'
+      },
+      {
+        id: 'node9',
+        label: 'node9',
+        x: 610,
+        y: 400,
+        shape: 'rectAnchor5'
+      }
+    ]
+  }
+
+  graph.data(data)
+  graph.render()
+
+  graph.on('edge:click', evt => {
+    console.log(evt)
+    const { item } = evt
+    graph.updateItem(item, {
+      style: {
+        lineWidth: 3,
+        stroke: 'red'
+      }
+    })
+  })
+
+  graph.on('node:mouseleave', evt => {
+    const { item } = evt;
+    const hasState = item.hasState('select')
+    if(!hasState) {
+      graph.setItemState(item, 'hover', false);
+      graph.setItemState(item, 'running', false);
+    }
+  }) 
+
+  graph.on('node:click', evt => {
+    const { item } = evt;
+    const hasState = item.hasState('select')
+    if (hasState) {
+      graph.setItemState(item, 'select', false);
+    } else {
+      graph.setItemState(item, 'select', true);
+    }
+  })
+
+  graph.on('node:mouseenter', evt => {
+    const { item } = evt;
+    graph.setItemState(item, 'hover', true); 
+  })
+  
+</script>
+</body>
+</html>
