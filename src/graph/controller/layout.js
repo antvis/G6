@@ -147,7 +147,7 @@ class LayoutController {
   destroy() {
     this.graph = null;
     const layoutMethod = this.layoutMethod;
-    layoutMethod.destroy();
+    layoutMethod && layoutMethod.destroy();
     this.destroyed = true;
   }
 }
