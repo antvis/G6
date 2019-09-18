@@ -17,13 +17,13 @@
 </style>
 <body>
 <div id="mountNode"></div>
-<script src="../build/dagre.js"></script>
+<script src="./assets/dagre.js"></script>
 <script src="../build/g6.js"></script>
 <script>
   const data = {
     nodes: [
       {
-        id: '1',
+        id: 1,
         type: 'alps',
         name: 'alps_file1',
         conf: [
@@ -42,7 +42,7 @@
         ]
       },
       {
-        id: '2',
+        id: 2,
         type: 'alps',
         name: 'alps_file2',
         conf: [
@@ -61,7 +61,7 @@
         ]
       },
       {
-        id: '3',
+        id: 3,
         type: 'alps',
         name: 'alps_file3',
         conf: [
@@ -80,7 +80,7 @@
         ]
       },
       {
-        id: '4',
+        id: 4,
         type: 'sql',
         name: 'sql_file1',
         conf: [
@@ -99,7 +99,7 @@
         ]
       },
       {
-        id: '5',
+        id: 5,
         type: 'sql',
         name: 'sql_file2',
         conf: [
@@ -118,7 +118,7 @@
         ]
       },
       {
-        id: '6',
+        id: 6,
         type: 'feature_etl',
         name: 'feature_etl_1',
         conf: [
@@ -137,7 +137,7 @@
         ]
       },
       {
-        id: '7',
+        id: 7,
         type: 'feature_etl',
         name: 'feature_etl_1',
         conf: [
@@ -156,7 +156,7 @@
         ]
       },
       {
-        id: '8',
+        id: 8,
         type: 'feature_extractor',
         name: 'feature_extractor',
         conf: [
@@ -177,40 +177,83 @@
     ],
     edges: [
       {
-        source: '1',
-        target: '2'
+        source: 1,
+        target: 2
       },
       {
-        source: '1',
-        target: '3'
+        source: 1,
+        target: 3
       },
       {
-        source: '2',
-        target: '4'
+        source: 2,
+        target: 4
       },
       {
-        source: '3',
-        target: '4'
+        source: 3,
+        target: 4
       },
       {
-        source: '4',
-        target: '5'
+        source: 4,
+        target: 5
       },
       {
-        source: '5',
-        target: '6'
+        source: 5,
+        target: 6
       },
       {
-        source: '6',
-        target: '7'
+        source: 6,
+        target: 7
       },
       {
-        source: '7',
-        target: '8'
+        source: 7,
+        target: 8
       }
     ]
   };
-  
+  const g = new dagre.graphlib.Graph();
+  g.setDefaultEdgeLabel(function() { return {}; });
+  g.setGraph({ rankdir: 'TB' });
+  const labelStyle = {
+    style: {
+      fill: '#fff',
+      fontSize: 14,
+      fontWeight: 'bold'
+    }
+  };
+  const edgeStyle = {
+    endArrow: true,
+    lineWidth: 2,
+    stroke: 'rgb(76,122,187)'
+  };
+  data.nodes.forEach(node => {
+    node.id = node.id + '';
+    node.shape = 'sql';
+    node.label = node.name;
+    node.labelCfg = labelStyle;
+    node.size = [ 150, 50 ];
+    g.setNode(node.id + '', { width: 150, height: 50 });
+  });
+  data.edges.forEach(edge => {
+    edge.source = edge.source + '';
+    edge.target = edge.target + '';
+    edge.style = edgeStyle;
+    edge.shape = 'polyline';
+    g.setEdge(edge.source, edge.target);
+  });
+  dagre.layout(g);
+  let coord;
+  g.nodes().forEach((node, i) => {
+    coord = g.node(node);
+    data.nodes[i].x = coord.x;
+    data.nodes[i].y = coord.y;
+  });
+  g.edges().forEach((edge, i) => {
+    coord = g.edge(edge);
+    data.edges[i].startPoint = coord.points[0];
+    data.edges[i].endPoint = coord.points[coord.points.length - 1];
+    data.edges[i].controlPoints = coord.points.slice(1, coord.points.length - 1);
+
+  });
   G6.registerNode('sql', {
     drawShape(cfg, group) {
       const rect = group.addShape('rect', {
@@ -224,20 +267,6 @@
           fill: 'rgb(76,122,187)'
         }
       });
-      if (cfg.name) {
-        const label = group.addShape('text', {
-          attrs: {
-            text: cfg.name,
-            x: 0,
-            y: 0,
-            fill: '#fff',
-            fontSize: 14,
-            textAlign: 'center',
-            textBaseline: 'middle',
-            fontWeight: 'bold'
-          }
-        });
-      }
       return rect;
     }
   }, 'single-shape');
@@ -250,22 +279,7 @@
     container: 'mountNode',
     width: 500,
     height: 500,
-    layout: {
-      type: 'dagre',
-      nodesep: 200,
-    },
     pixelRatio: 2,
-    defaultNode: {
-      shape: 'sql'
-    },
-    defaultEdge: {
-      polyline: 'polyline',
-      style: {
-        endArrow: true,
-        lineWidth: 2,
-        stroke: 'rgb(76,122,187)'
-      }
-    },
     modes: {
       default: [ 'drag-canvas', 'zoom-canvas', 'click-select', {
         type: 'tooltip',

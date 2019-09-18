@@ -15,24 +15,33 @@ Layout.registerLayout = function(type, layout) {
   if (!layout) {
     throw new Error('please specify handler for this layout:' + type);
   }
-  const base = function(nodes, edges, cfg) {
+  const base = function(cfg) {
     const self = this;
-    self.nodes = nodes;
-    self.edges = edges;
     Util.mix(self, self.getDefaultCfg(), cfg);
-    self.init();
   };
   Util.augment(base, {
     /**
      * 初始化
+     * @param {object} data 数据
      */
-    init() {
-      // const self = this;
+    init(data) {
+      const self = this;
+      self.nodes = data.nodes;
+      self.edges = data.edges;
     },
     /**
      * 执行布局，不改变原数据模型位置，只返回布局后但结果位置
      */
     excute() {
+    },
+    /**
+     * 根据传入的数据进行布局
+     * @param {object} data 数据
+     */
+    layout(data) {
+      const self = this;
+      self.init(data);
+      self.excute();
     },
     /**
      * 更新布局配置，但不执行布局

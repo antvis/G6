@@ -20,10 +20,11 @@ const data = {
   ]
 };
 
-describe('random', () => {
-  it('new graph without layout, random by default', () => {
+describe('fruchterman', () => {
+  it('new graph with fruchterman layout, without configurations', () => {
     const graph = new G6.Graph({
       container: div,
+      layout: { type: 'fruchterman' },
       width: 500,
       height: 500
     });
@@ -35,15 +36,40 @@ describe('random', () => {
     expect(graph.getNodes()[1].getModel().y).not.to.be.undefined;
     graph.destroy();
   });
-  it('new graph with random layout', () => {
+  it('new graph with fruchterman layout, with configurations', () => {
     const graph = new G6.Graph({
       container: div,
-      layout: { type: 'random' },
+      layout: {
+        type: 'fruchterman',
+        center: [ 100, 100 ],
+        maxIteration: 100
+      },
       width: 500,
       height: 500
     });
     graph.data(data);
     graph.render();
+    expect(graph.getNodes()[0].getModel().x).not.to.be.undefined;
+    expect(graph.getNodes()[0].getModel().y).not.to.be.undefined;
+    expect(graph.getNodes()[1].getModel().x).not.to.be.undefined;
+    expect(graph.getNodes()[1].getModel().y).not.to.be.undefined;
+    graph.destroy();
+  });
+  it('update fructherman layout configurations', () => {
+    const graph = new G6.Graph({
+      container: div,
+      layout: {
+        type: 'fruchterman'
+      },
+      width: 500,
+      height: 500
+    });
+    graph.data(data);
+    graph.render();
+    graph.updateLayoutCfg({
+      center: [ 100, 100 ],
+      gravity: 50
+    });
     expect(graph.getNodes()[0].getModel().x).not.to.be.undefined;
     expect(graph.getNodes()[0].getModel().y).not.to.be.undefined;
     expect(graph.getNodes()[1].getModel().x).not.to.be.undefined;
