@@ -1,2 +1,3 @@
-require('./circleIcon');
-require('./rectAnchor');
+require('./circle');
+require('./rect');
+require('./ellipse');

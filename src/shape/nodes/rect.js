@@ -1,14 +1,14 @@
 const Shape = require('../shape');
 const deepMix = require('@antv/util/lib/deep-mix');
 
-Shape.registerNode('rectAnchor', {
+Shape.registerNode('rect', {
   // 自定义节点时的配置
   options: {
     // 默认配置
     default: {
-      width: 200,
+      width: 100,
       height: 30,
-      radius: 15,
+      // radius: 1,
       stroke: '#69c0ff',
       fill: '#e6f7ff',
       lineWidth: 1,
@@ -23,9 +23,9 @@ Shape.registerNode('rectAnchor', {
       // 节点上左右上下四个方向上的链接circle配置
       linkPoints: {
         top: false,
-        right: true,
+        right: false,
         bottom: false,
-        left: true,
+        left: false,
         // circle的大小
         size: 3,
         lineWidth: 1,

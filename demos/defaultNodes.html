@@ -23,7 +23,10 @@
     }
   });
 
-  G6.registerNode('circleIconSelf', {
+  /*
+  * 扩展circle
+  */
+  G6.registerNode('circleIcon', {
     getCustomConfig() {
       return {
         default: {
@@ -31,6 +34,7 @@
           stroke: '#87e8de',
           r: 30,
           icon: {
+            show: true,
             width: 25,
             height: 25
           },
@@ -40,12 +44,22 @@
             },
             offset: 15
           },
+          linkPoints: {
+            top: true,
+            bottom: true,
+            // circle的大小
+            size: 5,
+            lineWidth: 1,
+            fill: '#fff',
+            stroke: '#72CC4A'
+          },
         }
       }
     }
-  }, 'circleIcon')
+  }, 'circle')
 
   G6.registerNode('shadowCircle', {
+    labelPosition: 'center',
     getCustomConfig() {
       return {
         default: {
@@ -54,13 +68,15 @@
           shadowBlur: 10,
           shadowColor: '#e6f7ff',
           lineWidth: 5,
-          icon: {
-            show: false
+          labelCfg: {
+            style: {
+              fill: '#fff'
+            }
           }
         }
       }
     }
-  }, 'circleIcon')
+  }, 'circle')
 
   G6.registerNode('stateCircle', {
     getStateStyle(name, value, item) {
@@ -70,15 +86,17 @@
         lineWidth: 5
       }
     }
-  }, 'circleIcon')
+  }, 'circle')
 
+  /*
+  * 扩展rect
+  */
   G6.registerNode('rectAnchor1', {
     getCustomConfig() {
       return {
         default: {
-          radius: 2,
-          width: 80,
-          height: 48,
+          width: 200,
+          radius: 15,
           stroke: '#9254de',
           labelCfg: {
             style: {
@@ -98,12 +116,13 @@
         }
       }
     }
-  }, 'rectAnchor')
+  }, 'rect')
 
   G6.registerNode('rectAnchor2', {
     getCustomConfig() {
       return {
         default: {
+          width: 200,
           stroke: '#ff85c0',
           labelCfg: {
             style: {
@@ -123,12 +142,13 @@
         }
       }
     }
-  }, 'rectAnchor')
+  }, 'rect')
 
   G6.registerNode('rectAnchor3', {
     getCustomConfig() {
       return {
         default: {
+          width: 200,
           radius: 25,
           stroke: '#ff7875',
           labelCfg: {
@@ -150,12 +170,13 @@
         }
       }
     }
-  }, 'rectAnchor')
+  }, 'rect')
 
   G6.registerNode('rectAnchor4', {
     getCustomConfig() {
       return {
         default: {
+          width: 200,
           radius: 25,
           stroke: '#36cfc9',
           labelCfg: {
@@ -177,7 +198,7 @@
         }
       }
     }
-  }, 'rectAnchor')
+  }, 'rect')
 
   G6.registerNode('rectAnchor5', {
     getCustomConfig() {
@@ -204,7 +225,101 @@
         }
       }
     }
-  }, 'rectAnchor')
+  }, 'rect')
+
+  /*
+  * 扩展rect
+  */
+  G6.registerNode('ellipse1', {
+    labelPosition: 'center',
+    getCustomConfig() {
+      return {
+        default: {
+          rx: 60,
+          ry: 30,
+          fill: '#bae637',
+          stroke: '#eaff8f',
+          icon: {
+            show: false
+          },
+          labelCfg: {
+            style: {
+               fontSize: 16
+            }
+          },
+          linkPoints: {
+            top: true,
+            right: false,
+            bottom: true,
+            left: false,
+            // circle的大小
+            lineWidth: 2,
+            stroke: '#72CC4A'
+          }
+        }
+      }
+    }
+
+  }, 'ellipse');
+
+  G6.registerNode('ellipse2', {
+    labelPosition: 'center',
+    getCustomConfig() {
+      return {
+        default: {
+          rx: 30,
+          ry: 60,
+          fill: '#bae637',
+          stroke: '#eaff8f',
+          icon: {
+            show: false
+          },
+          labelCfg: {
+            style: {
+              fill: '#fff'
+            }
+          },
+          linkPoints: {
+            right: true,
+            left: true,
+            // circle的大小
+            size: 5,
+            lineWidth: 2,
+            fill: '#fff',
+            stroke: '#72CC4A'
+          },
+        }
+      }
+    }
+
+  }, 'ellipse');
+
+  G6.registerNode('ellipse3', {
+    labelPosition: 'center',
+    getCustomConfig() {
+      return {
+        default: {
+          rx: 60,
+          ry: 30,
+          fill: '#36cfc9',
+          stroke: '#87e8de',
+          icon: {
+            show: true
+          },
+          linkPoints: {
+            right: true,
+            left: true,
+            // circle的大小
+            size: 5,
+            lineWidth: 2,
+            fill: '#fff',
+            stroke: '#72CC4A'
+          }
+        }
+      }
+    }
+  }, 'ellipse');
+  
   const data = {
     nodes: [
       {
@@ -212,14 +327,14 @@
         label: 'node1',
         x: 100,
         y: 100,
-        shape: 'circleIcon'
+        shape: 'circle'
       },
       {
         id: 'node2',
         label: 'node2',
         x: 200,
         y: 100,
-        shape: 'circleIconSelf'
+        shape: 'circleIcon'
       },
       {
         id: 'node3',
@@ -233,7 +348,7 @@
         label: 'node4',
         x: 150,
         y: 300,
-        shape: 'rectAnchor'
+        shape: 'rect'
       },
       {
         id: 'node5',
@@ -269,6 +384,33 @@
         x: 610,
         y: 400,
         shape: 'rectAnchor5'
+      },
+      {
+        id: 'node10',
+        label: 'node10',
+        x: 150,
+        y: 500,
+        shape: 'ellipse'
+      },
+      {
+        id: 'node11',
+        label: 'node11',
+        x: 350,
+        y: 500,
+        shape: 'ellipse1'
+      },
+      {
+        id: 'node12',
+        label: 'node12',
+        x: 500,
+        y: 500,
+        shape: 'ellipse2'
+      },
+      {
+        id: 'node13',
+        x: 650,
+        y: 500,
+        shape: 'ellipse3'
       }
     ]
   }
