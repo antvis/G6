@@ -10,6 +10,7 @@ module.exports = {
   Circular: require('./circular'),
   Fruchterman: require('./fruchterman'),
   Radial: require('./radial/radial'),
-  Force: require('./force')
+  Force: require('./force'),
+  Dagre: require('./dagre')
 };
 module.exports = Layout;

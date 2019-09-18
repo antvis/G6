@@ -4,27 +4,13 @@ const Util = require('../../util');
 class LayoutController {
   constructor(graph) {
     this.graph = graph;
-    this.layoutType = graph.get('layout');
-    // if (layout === undefined) {
-    //   console.log(graph);
-    //   if (graph.getNodes()[0].x === undefined) {
-    //     // 创建随机布局
-    //     const randomLayout = new Layout.Random();
-    //     this.set('layout', randomLayout);
-    //   } else { // 若未指定布局且数据中有位置信息，则不进行布局，直接按照原数据坐标绘制。
-    //     return;
-    //   }
-    // }
-    // layout = this._getLayout();
+    this.layoutCfg = graph.get('layout');
+    this.layoutType = this.layoutCfg ? this.layoutCfg.type : undefined;
     this._initLayout();
   }
 
   _initLayout() {
-    // const layout = this.layout;
-    // const graph = this.graph;
-    // const nodes = graph.getNodes();
-    // const edges = graph.getEdges();
-    // layout.init(nodes, edges);
+    // no data before rendering
   }
 
   layout() {
@@ -32,8 +18,11 @@ class LayoutController {
     let layoutType = self.layoutType;
     const graph = self.graph;
     const data = self.data || graph.get('data');
-    const nodes = data.nodes || [];
-    const edges = data.edges || [];
+    const nodes = data.nodes;
+    if (!nodes) {
+      return;
+    }
+    data.edges = data.edges || [];
     const width = graph.get('width');
     const height = graph.get('height');
     const layoutCfg = [];
@@ -41,7 +30,7 @@ class LayoutController {
       width,
       height,
       center: [ width / 2, height / 2 ]
-    }, graph.get('layoutCfg'));
+    }, self.layoutCfg);
 
     if (layoutType === undefined) {
       if (nodes[0] && nodes[0].x === undefined) {
@@ -64,11 +53,11 @@ class LayoutController {
       };
       layoutCfg.tick = tick;
     }
-    layoutMethod = new Layout[layoutType](nodes, edges, layoutCfg);
-    layoutMethod.init();
+    self.layoutCfg = layoutCfg;
+    layoutMethod = new Layout[layoutType](layoutCfg);
+    layoutMethod.init(data);
     layoutMethod.excute();
     self.layoutMethod = layoutMethod;
-
   }
 
 // 绘制
@@ -85,6 +74,7 @@ class LayoutController {
 // 更新布局参数
   updateLayoutCfg(cfg) {
     const self = this;
+    self.layoutType = cfg.type;
     const layoutMethod = self.layoutMethod;
     layoutMethod.updateCfg(cfg);
     if (self.layoutType !== 'force') {
@@ -95,11 +85,13 @@ class LayoutController {
   }
 
 // 更换布局
-  changeLayout(layoutType) { // , layoutCfg = null
+  changeLayout(layoutType) {
     const self = this;
     self.layoutType = layoutType;
+    self.layoutCfg = self.graph.get('layoutCfg');
+    self.layoutCfg.type = layoutType;
     const layoutMethod = self.layoutMethod;
-    layoutMethod.destroy();
+    layoutMethod && layoutMethod.destroy();
     self.moveToZero();
     self.layout();
     self.refreshLayout();
@@ -108,10 +100,8 @@ class LayoutController {
   // 更换数据
   changeData(data) {
     const self = this;
-    // const graph = self.graph;
     self.data = data;
     self.layout();
-    // graph.refreshPositions();
   }
 
 // 控制布局动画
@@ -145,10 +135,11 @@ class LayoutController {
   }
 
   destroy() {
-    this.graph = null;
-    const layoutMethod = this.layoutMethod;
+    const self = this;
+    self.graph = null;
+    const layoutMethod = self.layoutMethod;
     layoutMethod && layoutMethod.destroy();
-    this.destroyed = true;
+    self.destroyed = true;
   }
 }
 

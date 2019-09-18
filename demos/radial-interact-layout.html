@@ -3408,8 +3408,18 @@
   const graph = new G6.Graph({
     container: 'mountNode',
     width: 1000,
-    height: 600,
-    plugins: [ RadialLayoutPlugin ],
+	height: 600,
+	layout: {
+	  type: 'radial',
+      center: [ 500, 300 ],
+      maxIteration: 200,
+      focusNode,
+      unitRadius: mainUnitRadius,
+	  linkDistance: 100,
+	  preventOverlap: true,
+	  nodeSize: 20
+	},
+    // plugins: [ RadialLayoutPlugin ],
     modes: {
       default: ['drag-node', 'click-select', 'click-add-node', 'drag-canvas']
     },
@@ -3443,7 +3453,7 @@
       edge.id = 'edge' + i;
       return Object.assign({}, edge);
     }) });
-  RadialLayoutPlugin.layout(data_m);
+//   RadialLayoutPlugin.layout(data_m);
   graph.render();
 
 </script>

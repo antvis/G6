@@ -46,7 +46,7 @@ Layout.registerLayout('radial', {
       focusNode: null,            // 中心点，默认为数据中第一个点
       unitRadius: null,           // 每一圈半径
       linkDistance: 50,           // 默认边长度
-      nonOverlap: false,          // 是否防止重叠
+      preventOverlap: false,          // 是否防止重叠
       nodeSize: 10                // 节点半径
     };
   },
@@ -93,9 +93,10 @@ Layout.registerLayout('radial', {
 
     // the graph-theoretic distance (shortest path distance) matrix
     const adjMatrix = Util.getAdjMatrix({ nodes, edges }, false);
-    self.handleAbnormalMatrix(adjMatrix, focusIndex);
     const D = Util.floydWarshall(adjMatrix);
-    const connected = Util.isConnected(D);
+    const maxDistance = self.maxToFocus(D, focusIndex);
+    // replace first node in unconnected component to the circle at (maxDistance + 1)
+    self.handleInfinity(D, focusIndex, (maxDistance + 1));
     self.distances = D;
 
     // the shortest path distance from each node to focusNode
@@ -135,32 +136,29 @@ Layout.registerLayout('radial', {
       nodes[i].x = p[0] + center[0];
       nodes[i].y = p[1] + center[1];
     });
-    // if the graph is connected, layout by radial layout and force nonoverlap
-    if (connected) {
-      // move the graph to origin, centered at focusNode
-      positions.forEach(p => {
-        p[0] -= positions[focusIndex][0];
-        p[1] -= positions[focusIndex][1];
+    // move the graph to origin, centered at focusNode
+    positions.forEach(p => {
+      p[0] -= positions[focusIndex][0];
+      p[1] -= positions[focusIndex][1];
+    });
+    self.run();
+    const preventOverlap = self.preventOverlap;
+    const nodeSize = self.nodeSize;
+    // stagger the overlapped nodes
+    if (preventOverlap) {
+      const nonoverlapForce = new RadialNonoverlapForce({
+        nodeSize, adjMatrix, positions, radii, height, width,
+        focusID: focusIndex,
+        iterations: 200,
+        k: positions.length / 4.5
       });
-      self.run();
-      const nonOverlap = self.nonOverlap;
-      const nodeSize = self.nodeSize;
-      // stagger the overlapped nodes
-      if (nonOverlap) {
-        const nonoverlapForce = new RadialNonoverlapForce({
-          nodeSize, adjMatrix, positions, radii, height, width,
-          focusID: focusIndex,
-          iterations: 200,
-          k: positions.length / 4.5
-        });
-        positions = nonoverlapForce.layout();
-      }
-      // move the graph to center
-      positions.forEach((p, i) => {
-        nodes[i].x = p[0] + center[0];
-        nodes[i].y = p[1] + center[1];
-      });
+      positions = nonoverlapForce.layout();
     }
+    // move the graph to center
+    positions.forEach((p, i) => {
+      nodes[i].x = p[0] + center[0];
+      nodes[i].y = p[1] + center[1];
+    });
   },
   run() {
     const self = this;
@@ -233,30 +231,73 @@ Layout.registerLayout('radial', {
     });
     return result;
   },
-  handleAbnormalMatrix(matrix, focusIndex) {
-    const rows = matrix.length;
-    let emptyMatrix = true;
+  handleAbnormalMatrix(adMatrix, focusIndex) {
+    const rows = adMatrix.length;
+    // 空行即代表该行是离散点，将单个离散点看作 focus 的邻居
     for (let i = 0; i < rows; i++) {
-      if (matrix[i].length !== 0) emptyMatrix = false;
-      let hasDis = true;
-      for (let j = 0; j < matrix[i].length; j++) {
-        if (!matrix[i][j]) hasDis = false;
-      }
-      if (hasDis) {
-        matrix[i][focusIndex] = 1;
-        matrix[focusIndex][i] = 1;
+      if (adMatrix[i].length === 0) {
+        adMatrix[i][focusIndex] = 1;
+        adMatrix[focusIndex][i] = 1;
       }
     }
-    if (emptyMatrix) {
-      let value = 0;
-      for (let i = 0; i < rows; i++) {
-        for (let j = 0; j < rows; j++) {
-          if (i === focusIndex || j === focusIndex) value = 1;
-          matrix[i][j] = value;
-          value = 0;
+    // 如果第一行中有
+    // let hasDis = true;
+    // for (let j = 0; j < matrix[focusIndex].length; j++) {
+    //   if (!matrix[focusIndex][j]) hasDis = false;
+    // }
+    // if (hasDis) {
+    //   matrix[j][focusIndex] = 1;
+    //   matrix[focusIndex][j] = 1;
+    // }
+    // if (emptyMatrix) {
+    //   let value = 0;
+    //   for (let i = 0; i < rows; i++) {
+    //     for (let j = 0; j < rows; j++) {
+    //       if (i === focusIndex || j === focusIndex) value = 1;
+    //       matrix[i][j] = value;
+    //       value = 0;
+    //     }
+    //     value = 0;
+    //   }
+    // }
+  },
+  handleInfinity(matrix, focusIndex, step) {
+    const length = matrix.length;
+    // 遍历 matrix 中遍历 focus 对应行
+    for (let i = 0; i < length; i++) {
+      // matrix 关注点对应行的 Inf 项
+      if (matrix[focusIndex][i] === Infinity) {
+        matrix[focusIndex][i] = step;
+        matrix[i][focusIndex] = step;
+        // 遍历 matrix 中的 i 行，i 行中非 Inf 项若在 focus 行为 Inf，则替换 focus 行的那个 Inf
+        for (let j = 0; j < length; j++) {
+          if (matrix[i][j] !== Infinity && matrix[focusIndex][j] === Infinity) {
+            matrix[focusIndex][j] = step + matrix[i][j];
+            matrix[j][focusIndex] = step + matrix[i][j];
+          }
         }
-        value = 0;
       }
     }
+    // 处理其他行的 Inf。根据该行对应点与 focus 距离以及 Inf 项点 与 focus 距离，决定替换值
+    for (let i = 0; i < length; i++) {
+      if (i === focusIndex) {
+        continue;
+      }
+      for (let j = 0; j < length; j++) {
+        if (matrix[i][j] === Infinity) {
+          let minus = Math.abs(matrix[focusIndex][i] - matrix[focusIndex][j]);
+          minus = minus === 0 ? 1 : minus;
+          matrix[i][j] = minus;
+        }
+      }
+    }
+  },
+  maxToFocus(matrix, focusIndex) {
+    let max = 0;
+    for (let i = 0; i < matrix[focusIndex].length; i++) {
+      if (matrix[focusIndex][i] === Infinity) continue;
+      max = matrix[focusIndex][i] > max ? matrix[focusIndex][i] : max;
+    }
+    return max;
   }
 });
