@@ -2,7 +2,7 @@ const Shape = require('../shape');
 const deepMix = require('@antv/util/lib/deep-mix');
 
 // 带有图标的圆，可用于拓扑图中
-Shape.registerNode('circleIcon', {
+Shape.registerNode('circle', {
   // 自定义节点时的配置
   options: {
     // 默认配置
@@ -19,10 +19,22 @@ Shape.registerNode('circleIcon', {
           fill: '#595959'
         }
       },
+      // 节点上左右上下四个方向上的链接circle配置
+      linkPoints: {
+        top: false,
+        right: false,
+        bottom: false,
+        left: false,
+        // circle的大小
+        size: 3,
+        lineWidth: 1,
+        fill: '#72CC4A',
+        stroke: '#72CC4A'
+      },
       // 节点中icon配置
       icon: {
         // 是否显示icon，值为 false 则不渲染icon
-        show: true,
+        show: false,
         // icon的地址，可以是字符串或Image
         img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
         width: 16,
@@ -38,6 +50,7 @@ Shape.registerNode('circleIcon', {
       lineWidth: 5
     }
   },
+  shapeType: 'circle',
   // 文本位置
   labelPosition: 'bottom',
   drawLabel(cfg, group) {
@@ -59,7 +72,7 @@ Shape.registerNode('circleIcon', {
       attrs
     });
 
-    const { icon } = attrs;
+    const { icon, linkPoints, r } = attrs;
     const { width, height, show } = icon;
     if (show) {
       const image = group.addShape('image', {
@@ -73,6 +86,64 @@ Shape.registerNode('circleIcon', {
       image.set('capture', false);
     }
 
+    const { top, left, right, bottom, size,
+      fill: anchorFill, stroke: anchorStroke, lineWidth: borderWidth } = linkPoints;
+    if (left) {
+      // left circle
+      group.addShape('circle', {
+        attrs: {
+          x: -r,
+          y: 0,
+          r: size,
+          fill: anchorFill,
+          stroke: anchorStroke,
+          lineWidth: borderWidth
+        }
+      });
+    }
+
+    if (right) {
+      // right circle
+      group.addShape('circle', {
+        attrs: {
+          x: r,
+          y: 0,
+          r: size,
+          fill: anchorFill,
+          stroke: anchorStroke,
+          lineWidth: borderWidth
+        }
+      });
+    }
+
+    if (top) {
+      // top circle
+      group.addShape('circle', {
+        attrs: {
+          x: 0,
+          y: -r,
+          r: size,
+          fill: anchorFill,
+          stroke: anchorStroke,
+          lineWidth: borderWidth
+        }
+      });
+    }
+
+    if (bottom) {
+      // bottom circle
+      group.addShape('circle', {
+        attrs: {
+          x: 0,
+          y: r,
+          r: size,
+          fill: anchorFill,
+          stroke: anchorStroke,
+          lineWidth: borderWidth
+        }
+      });
+    }
+
     return keyShape;
   }
-}, 'circle');
+}, 'single-shape');
