@@ -110,6 +110,18 @@ class LayoutController {
     self.layout();
   }
 
+  // 重新布局
+  relayout() {
+    const self = this;
+    const layoutMethod = self.layoutMethod;
+    if (self.layoutType === 'force') {
+      layoutMethod.ticking = false;
+      layoutMethod.forceSimulation.stop();
+    }
+    layoutMethod.excute();
+    self.graph.refreshPositions();
+  }
+
 // 控制布局动画
   layoutAnimate() {
   }

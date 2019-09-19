@@ -122,8 +122,11 @@
     container: 'mountNode',
     width: 1000,
     height: 600,
-	plugins: [ MDSPlugin ],
-	modes: { default: [ 'drag-node' ] },
+    layout: {
+      type: 'mds',
+      linkDistance: 100
+    },
+	  modes: { default: [ 'drag-node' ] },
     defaultNode: {
       size: [20, 20],
       color: 'steelblue'
@@ -154,7 +157,6 @@
       edge.id = 'edge' + i;
       return Object.assign({}, edge);
     }) });
-  MDSPlugin.layout(data);
   graph.render();
   
 </script>

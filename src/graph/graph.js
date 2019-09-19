@@ -1042,6 +1042,16 @@ class Graph extends EventEmitter {
     layoutController.updateLayoutCfg(layoutCfg);
   }
 
+  layout() {
+    const layoutController = this.get('layoutController');
+    if (layoutController.layoutMethod) {
+      layoutController.relayout();
+      this.refreshPositions();
+    } else {
+      layoutController.layout();
+    }
+  }
+
   /**
    * 清除画布元素
    * @return {object} this

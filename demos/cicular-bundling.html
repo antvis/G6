@@ -12,24 +12,6 @@
 <script src="../build/circular.js"></script>
 <script src="../build/bundling.js"></script>
 <script>
-  const data0 = {
-    "nodes": [
-      {"id": "0", "label": "0"},
-      {"id": "1", "label": "1"},
-      {"id": "2", "label": "2"},
-      {"id": "3", "label": "3"},
-      {"id": "4", "label": "4"}
-    ],
-    "edges": [
-      {"source": "0", "target": "1", "value": 1},
-      {"source": "1", "target": "2", "value": 8},
-      {"source": "2", "target": "3", "value": 8},
-      {"source": "3", "target": "0", "value": 8},
-      {"source": "1", "target": "3", "value": 8},
-      {"source": "0", "target": "4", "value": 8}
-    ]
-  };
-
   const data = {
     "nodes": [
       {"id": "0", "label": "0"},
@@ -130,15 +112,7 @@
       {"source": "32", "target": "33"}
     ]
   };
-  
-  // data.edges.forEach((edge, i) => {
-  //   edge.id = i;
-  // });
-  const circularLayout = new Circular({
-    center: [ 500, 400 ],
-    radius: 300,
-    ordering: null
-  });
+
   const edgeBundling = new Bundling({
     bundleThreshold: 0.1
   });
@@ -146,7 +120,13 @@
     container: 'mountNode',
     width: 1000,
     height: 800,
-    plugins: [ circularLayout, edgeBundling ],
+    layout: {
+      type: 'circular',
+      center: [ 500, 400 ],
+      radius: 300,
+      ordering: null
+    },
+    plugins: [ edgeBundling ],
     defaultNode: {
       size: [20, 20],
       color: 'steelblue'
@@ -171,12 +151,10 @@
     }
   });
   graph.data(data);
-  circularLayout.layout(data);
   graph.render();
   
   setTimeout(() => {
     edgeBundling.bundling(data);
-    console.log(data.edges);
   }, 1000);
 
 </script>

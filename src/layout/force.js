@@ -17,7 +17,7 @@ Layout.registerLayout('force', {
       center: [ 0, 0 ],           // 向心力作用点
       nodeStrength: null,         // 节点作用力
       preventOverlap: false,      // 是否防止节点相互覆盖
-      nodeSize: 10,             // 节点大小，用于防止重叠时的碰撞检测
+      nodeSize: 10,               // 节点大小 / 直径，用于防止重叠时的碰撞检测
       edgeStrength: null,         // 边的作用力, 默认为根据节点的入度出度自适应
       linkDistance: 50,           // 默认边长度
       forceSimulation: null,      // 自定义 force 方法
@@ -78,9 +78,15 @@ Layout.registerLayout('force', {
                 }
                 return d.size / 2;
               }
-              return 20;
+              return 10;
             };
+          } else if (!isNaN(nodeSize)) {
+            nodeSize /= 2;
+          } else if (nodeSize.length === 2) {
+            const larger = nodeSize[0] > nodeSize[1] ? nodeSize[0] : nodeSize[1];
+            nodeSize = larger / 2;
           }
+          // forceCollide's parameter is a radius
           simulation.force('collisionForce', d3Force.forceCollide(nodeSize).strength(1));
         }
         // 如果有边，定义边的力

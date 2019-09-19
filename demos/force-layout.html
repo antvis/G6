@@ -353,12 +353,11 @@
     container: 'mountNode',
     width: 1000,
     height: 600,
+    layout: {
+      type: 'force'
+    },
     modes: {
-      default: [{
-        type: 'brush-select',
-        onSelect(nodes) { console.log('selected:', nodes); },
-        onDeselect(nodes) { console.log('deselect', nodes); }
-      }]
+      default: [ 'drag-node' ]
     },
     defaultNode: {
       size: [10, 10],
@@ -390,36 +389,22 @@
       edge.id = 'edge' + i;
       return Object.assign({}, edge);
     }) });
-  const simulation = d3.forceSimulation()
-    .force("link", d3.forceLink().id(function(d) { return d.id; }).strength(0.5))
-    .force("charge", d3.forceManyBody())
-    .force("center", d3.forceCenter(500,300));
-  simulation
-    .nodes(data.nodes)
-    .on("tick", ticked);
-
-  simulation.force("link")
-    .links(data.edges);
   graph.render();
-  function ticked() {
-    graph.refreshPositions();
-  }
-  function refreshPosition(e) {
+  function refreshDragedNodePosition(e) {
     const model = e.item.get('model');
     model.fx = e.x;
     model.fy = e.y;
   }
   graph.on('node:dragstart', e => {
-    simulation.alphaTarget(0.3).restart();
-    refreshPosition(e);
+    graph.layout();
+    refreshDragedNodePosition(e);
   });
   graph.on('node:drag', e => {
-    refreshPosition(e);
+    refreshDragedNodePosition(e);
   });
   graph.on('node:dragend', e => {
     e.item.get('model').fx = null;
     e.item.get('model').fy = null;
-    simulation.alphaTarget(0);
   });
 </script>
 </body>
