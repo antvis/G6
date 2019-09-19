@@ -516,16 +516,6 @@
 
 let clickedNodeId = -1;
 let clickedNodePos = {'x': 500, 'y': 300};
-
-const ForceLayoutPlugin = new Force({
-    center: [ 500, 300 ],           // 向心力作用点
-    nodeStrength: -10,         // 节点作用力
-    preventOverlap: true,      // 是否防止节点相互覆盖
-    nodeRadius: 40,           // 节点半径
-    edgeStrength: 1,         // 边的作用力, 默认为根据节点的入度出度自适应
-    linkDistance: 100,           // 默认边长度
-    forceSimulation: null,      // 自定义 force 方法
-  });
   
 // 封装点击添加边的交互
   G6.registerBehavior('click-add-node', {
@@ -559,7 +549,6 @@ const ForceLayoutPlugin = new Force({
         allNodeModels.push(model);
       });
 
-      console.log(newNodeModels);
       newNodeModels.forEach((nodeModel, i) => {
         // if it does not exist in nodes
         let exist = false;
@@ -569,9 +558,9 @@ const ForceLayoutPlugin = new Force({
             return;
           }
         });
-        // them add it into graph
+        // then add it into graph
         if (!exist) {
-          // set the initial positions of the new nodes to the clicked node
+          // set the initial positions of the new nodes at the clicked node
           nodeModel.x = itemModel.x;
           nodeModel.y = itemModel.y;
           const node = graph.addItem('node', nodeModel);
@@ -595,13 +584,15 @@ const ForceLayoutPlugin = new Force({
           edges.push(edge);
         }
       });
-
       edges.forEach((e, i) => {
         allEdgeModels.push(e.getModel());
       });
-      ForceLayoutPlugin.updateLayout( {'nodeStrength': -10, 'data': {'nodes': allNodeModels, 'edges': allEdgeModels}});
-      }
 
+      graph.changeData({
+        nodes: allNodeModels,
+        edges: allEdgeModels
+      });
+    }
   });
 
   let data = getNodeById.data;
@@ -610,7 +601,15 @@ const ForceLayoutPlugin = new Force({
     container: 'mountNode',
     width: 1000,
     height: 600,
-    plugins: [ ForceLayoutPlugin ],
+    layout: {
+      type: 'force',
+      center: [ 500, 300 ],           // 向心力作用点
+      nodeStrength: -30,              // 节点作用力
+      preventOverlap: true,           // 是否防止节点相互覆盖
+      nodeSize: 40,                   // 节点大小 / 直径
+      edgeStrength: 0.1,              // 边的作用力, 默认为根据节点的入度出度自适应
+      linkDistance: 100,              // 默认边长度
+    },
     modes: {
       default: ['drag-node', 'click-select', 'click-add-node']
     },
@@ -643,7 +642,6 @@ const ForceLayoutPlugin = new Force({
   
   graph.data(data);
 
-  ForceLayoutPlugin.layout(data);
   graph.render();
   graph.on('node:dragend', ev => {
     const itemModel = ev.item.getModel();
