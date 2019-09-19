@@ -66,7 +66,6 @@ Layout.registerLayout('radial', {
       return;
     }
     const linkDistance = self.linkDistance;
-    const unitRadius = self.unitRadius;
     // layout
     let focusNode = self.focusNode;
     if (Util.isString(focusNode)) {
@@ -111,8 +110,10 @@ Layout.registerLayout('radial', {
     // the radius for each nodes away from focusNode
     const radii = [];
     focusNodeD.forEach((value, i) => {
-      if (!unitRadius) radii[i] = value * maxRadius / maxD;
-      else radii[i] = value * unitRadius;
+      if (!self.unitRadius) {
+        self.unitRadius = maxRadius / maxD;
+      }
+      radii[i] = value * self.unitRadius;
     });
     self.radii = radii;
 

@@ -25,7 +25,7 @@ class LayoutController {
     data.edges = data.edges || [];
     const width = graph.get('width');
     const height = graph.get('height');
-    const layoutCfg = [];
+    const layoutCfg = {};
     Util.mix(layoutCfg, {
       width,
       height,
@@ -76,10 +76,16 @@ class LayoutController {
     const self = this;
     self.layoutType = cfg.type;
     const layoutMethod = self.layoutMethod;
-    layoutMethod.updateCfg(cfg);
     if (self.layoutType !== 'force') {
+      if (cfg.onTick) {
+        self.tick = () => {
+          cfg.onTick();
+          self.graph.refreshPositions();
+        };
+      }
       self.moveToZero();
     }
+    layoutMethod.updateCfg(cfg);
     layoutMethod.excute();
     self.refreshLayout();
   }
@@ -88,7 +94,7 @@ class LayoutController {
   changeLayout(layoutType) {
     const self = this;
     self.layoutType = layoutType;
-    self.layoutCfg = self.graph.get('layoutCfg');
+    self.layoutCfg = self.graph.get('layout') || {};
     self.layoutCfg.type = layoutType;
     const layoutMethod = self.layoutMethod;
     layoutMethod && layoutMethod.destroy();

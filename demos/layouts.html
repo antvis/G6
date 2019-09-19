@@ -136,8 +136,7 @@
       default: ['drag-canvas', 'drag-node'],
     },
     layout: {
-      // type: 'random',  // default 
-      center: [ 500, 300 ],
+      center: [ 500, 300 ]
     },
     animate: true,
     defaultNode: {
@@ -193,12 +192,23 @@
   }, 5500);
 
   setTimeout(() => {
-    graph.changeLayout('mds');
+    graph.updateLayoutCfg({
+      preventOverlap: true,
+      nodeSize: 20
+    });
   }, 8500);
 
   setTimeout(() => {
+    graph.changeLayout('radial', {
+      preventOverlap: true,
+      nodeSize: 20
+    });
+  }, 11500);
+
+  setTimeout(() => {
     graph.changeData(data2);
-  }, 10000);
+  }, 13000);
+
 </script>
 </body>
 </html>

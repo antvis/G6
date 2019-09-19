@@ -1036,7 +1036,7 @@ class Graph extends EventEmitter {
     const layoutController = this.get('layoutController');
     const oriLayoutCfg = this.get('layout');
     const layoutType = oriLayoutCfg.type;
-    const layoutCfg = [];
+    const layoutCfg = {};
     Util.mix(layoutCfg, cfg);
     layoutCfg.type = layoutType;
     layoutController.updateLayoutCfg(layoutCfg);
