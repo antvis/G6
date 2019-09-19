@@ -5,6 +5,7 @@
 
 const d3Force = require('d3-force');
 const Layout = require('./layout');
+const Util = require('../util');
 
 /**
  * 经典力导布局 force-directed
@@ -16,7 +17,7 @@ Layout.registerLayout('force', {
       center: [ 0, 0 ],           // 向心力作用点
       nodeStrength: null,         // 节点作用力
       preventOverlap: false,      // 是否防止节点相互覆盖
-      nodeRadius: null,           // 节点半径
+      nodeSize: 10,             // 节点大小，用于防止重叠时的碰撞检测
       edgeStrength: null,         // 边的作用力, 默认为根据节点的入度出度自适应
       linkDistance: 50,           // 默认边长度
       forceSimulation: null,      // 自定义 force 方法
@@ -28,9 +29,12 @@ Layout.registerLayout('force', {
   },
   /**
    * 初始化
+   * @param {object} data 数据
    */
-  init() {
+  init(data) {
     const self = this;
+    self.nodes = data.nodes;
+    self.edges = data.edges;
     self.ticking = false;
   },
   /**
@@ -65,9 +69,9 @@ Layout.registerLayout('force', {
             self.onLayoutEnd && self.onLayoutEnd();
           });
         if (self.preventOverlap) {
-          let nodeRadius = self.nodeRadius;
-          if (!nodeRadius) {
-            nodeRadius = d => {
+          let nodeSize = self.nodeSize;
+          if (!nodeSize) {
+            nodeSize = d => {
               if (d.size) {
                 if (Array.isArray(d.size)) {
                   return d.size[0] / 2;
@@ -77,7 +81,7 @@ Layout.registerLayout('force', {
               return 20;
             };
           }
-          simulation.force('collisionForce', d3Force.forceCollide(nodeRadius).strength(1));
+          simulation.force('collisionForce', d3Force.forceCollide(nodeSize).strength(1));
         }
         // 如果有边，定义边的力
         if (edges) {
@@ -109,11 +113,25 @@ Layout.registerLayout('force', {
       this.ticking = true;
     }
   },
-  destroy() {
-    if (this.ticking) {
-      this.forceSimulation.stop();
-    }
+  /**
+   * 更新布局配置，但不执行布局
+   * @param {object} cfg 需要更新的配置项
+   */
+  updateCfg(cfg) {
     const self = this;
+    if (self.ticking) {
+      self.forceSimulation.stop();
+      self.ticking = false;
+    }
+    self.forceSimulation = null;
+    Util.mix(self, cfg);
+  },
+  destroy() {
+    const self = this;
+    if (self.ticking) {
+      self.forceSimulation.stop();
+      self.ticking = false;
+    }
     self.nodes = null;
     self.edges = null;
     self.destroyed = true;

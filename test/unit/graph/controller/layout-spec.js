@@ -1,8 +1,6 @@
 const expect = require('chai').expect;
 const G6 = require('../../../../src');
 
-// const Util = require('../../../src/util');
-
 function numberEqual(a, b, gap) {
   return Math.abs(a - b) <= (gap || 0.001);
 }
@@ -113,7 +111,7 @@ describe('layout controller', () => {
   });
   it('change layout without configurations', () => {
     graph.changeLayout('fruchterman');
-    const layoutCfg = graph.get('layoutCfg');
+    const layoutCfg = graph.get('layout');
     const layoutType = layoutCfg.type;
     const node = graph.getNodes()[0].getModel();
     expect(node.x).not.to.be.undefined;
@@ -123,7 +121,7 @@ describe('layout controller', () => {
   });
   it('change data', () => {
     graph.changeData(data2);
-    const layoutCfg = graph.get('layoutCfg');
+    const layoutCfg = graph.get('layout');
     const layoutType = layoutCfg.type;
     const node = graph.getNodes()[0].getModel();
     expect(node.x).not.to.be.undefined;
@@ -133,7 +131,7 @@ describe('layout controller', () => {
   });
   it('change data without data', () => {
     graph.changeData({});
-    const layoutCfg = graph.get('layoutCfg');
+    const layoutCfg = graph.get('layout');
     const layoutType = layoutCfg.type;
     const nodeItem = graph.getNodes()[0];
     expect(nodeItem).to.be.undefined;
