@@ -152,13 +152,23 @@ const singleEdgeDefinition = Util.mix({}, SingleShapeMixin, {
       attrs: shapeStyle
     });
     return shape;
+  },
+  drawLabel(cfg, group) {
+    const customStyle = this.getCustomConfig(cfg) || {};
+    const defaultConfig = customStyle.default || {};
+    const labelCfg = Util.deepMix({}, this.options.default.labelCfg, defaultConfig.labelCfg, cfg.labelCfg);
+    const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
+    const label = group.addShape('text', {
+      attrs: labelStyle
+    });
+    return label;
   }
 });
 
-// 直线
+// // 直线
 Shape.registerEdge('single-line', singleEdgeDefinition);
 
-// 直线, 不支持控制点
+// // 直线, 不支持控制点
 Shape.registerEdge('line', {
   // 控制点不生效
   getControlPoints() {
@@ -166,8 +176,8 @@ Shape.registerEdge('line', {
   }
 }, 'single-line');
 
-// 折线，支持多个控制点
-Shape.registerEdge('polyline', {}, 'single-line');
+// // 折线，支持多个控制点
+// Shape.registerEdge('polyline', {}, 'single-line');
 
 // 直线
 Shape.registerEdge('spline', {
