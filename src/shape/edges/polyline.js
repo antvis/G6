@@ -1,6 +1,9 @@
 const Shape = require('../shape');
 const Util = require('../../util/index');
 
+const CLS_SHAPE_SUFFIX = '-shape';
+const CLS_LABEL_SUFFIX = '-label';
+
 function getBBoxFromPoint(point) {
   const { x, y } = point;
   return {
@@ -9,7 +12,6 @@ function getBBoxFromPoint(point) {
     height: 0, width: 0
   };
 }
-
 function getBBoxFromPoints(points = []) {
   const xs = [];
   const ys = [];
@@ -290,7 +292,6 @@ function getBorderRadiusPoints(p0, p1, p2, r) {
   };
   return [ ps, pt ];
 }
-
 function getPolylinePoints(start, end, sNode, tNode, offset) {
   const sBBox = sNode && sNode.getBBox() ? sNode.getBBox() : getBBoxFromPoint(start);
   const tBBox = tNode && tNode.getBBox() ? tNode.getBBox() : getBBoxFromPoint(end);
@@ -390,6 +391,7 @@ Shape.registerEdge('polyline', {
   getShapeStyle(cfg) {
     const customStyle = this.getCustomConfig(cfg) || {};
     const defaultConfig = customStyle.default;
+    const style = Util.deepMix({}, this.options.default, defaultConfig, cfg.style);
     cfg = this.getPathPoints(cfg);
     this.radius = customStyle.radius;
     this.offset = customStyle.offset;
@@ -405,14 +407,12 @@ Shape.registerEdge('polyline', {
     points.push(endPoint);
     const source = cfg.sourceNode;
     const target = cfg.targetNode;
-    const style = Util.deepMix({}, this.options.default, defaultConfig, cfg.style);
-    let path = [];
     let routeCfg = { radius: style.radius };
     if (!controlPoints) {
       routeCfg = { source, target, offset: style.offset, radius: style.radius };
     }
-    path = this.getPath(points, routeCfg);
-    const attrs = Util.deepMix({}, this.options.default, { path }, defaultConfig, cfg.style);
+    const path = this.getPath(points, routeCfg);
+    const attrs = Util.deepMix({}, this.options.default, defaultConfig, cfg.style, { path });
     return attrs;
   },
   getPath(points, routeCfg) {
@@ -441,5 +441,43 @@ Shape.registerEdge('polyline', {
     const polylinePoints = getPolylinePoints(points[0],
       points[points.length - 1], source, target, offset);
     return Util.pointsToPolygon(polylinePoints);
+  },
+
+  update(cfg, item) {
+    const group = item.getContainer();
+    const shapeClassName = this.itemType + CLS_SHAPE_SUFFIX;
+    const shape = group.findByClassName(shapeClassName);
+    if (!cfg.style) {
+      cfg.style = {};
+    }
+    const oriShapeAttrs = shape.attr();
+    cfg.style.radius = cfg.style.radius || oriShapeAttrs.radius;
+    cfg.style.offset = cfg.style.offset || oriShapeAttrs.offset;
+    const shapeStyle = this.getShapeStyle(cfg);
+    shape.attr(shapeStyle);
+    const labelClassName = this.itemType + CLS_LABEL_SUFFIX;
+    const label = group.findByClassName(labelClassName);
+		// 此时需要考虑之前是否绘制了 label 的场景存在三种情况
+		// 1. 更新时不需要 label，但是原先存在 label，此时需要删除
+		// 2. 更新时需要 label, 但是原先不存在，创建节点
+		// 3. 如果两者都存在，更新
+    if (!cfg.label) {
+      label && label.remove();
+    } else {
+      if (!label) {
+        const newLabel = this.drawLabel(cfg, group);
+        newLabel.set('className', labelClassName);
+      } else {
+        const labelCfg = cfg.labelCfg || {};
+        const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
+        /**
+         * fixme g中shape的rotate是角度累加的，不是label的rotate想要的角度
+         * 由于现在label只有rotate操作，所以在更新label的时候如果style中有rotate就重置一下变换
+         * 后续会基于g的Text复写一个Label出来处理这一类问题
+         */
+        label.resetMatrix();
+        label.attr(labelStyle);
+      }
+    }
   }
 }, 'single-line');
