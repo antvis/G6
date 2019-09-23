@@ -114,10 +114,6 @@
   data.edges.forEach((edge, i) => {
     edge.id = i;
   });
-  const MDSPlugin = new Mds({
-    center: [ 500, 300 ],
-    linkDistance: 100
-  });
   const graph = new G6.Graph({
     container: 'mountNode',
     width: 1000,
@@ -156,7 +152,8 @@
   graph.data({ nodes: data.nodes, edges: data.edges.map((edge, i) => {
       edge.id = 'edge' + i;
       return Object.assign({}, edge);
-    }) });
+    })
+  });
   graph.render();
   
 </script>

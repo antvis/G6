@@ -482,8 +482,9 @@ class Graph extends EventEmitter {
       self.data(data);
       self.render();
     }
+    this.data(data);
     const layoutController = this.get('layoutController');
-    layoutController.changeData(data);
+    layoutController.changeData();
     const autoPaint = this.get('autoPaint');
     const itemMap = this.get('itemMap');
     const items = {

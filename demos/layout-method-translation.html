@@ -161,53 +161,52 @@
   graph.data(data);
   graph.render();
     
-  setTimeout(() => {
-    graph.changeLayout('circular', {
-      radius: 100,
-      startAngle: Math.PI / 4,
-      endAngle: Math.PI,
-      divisions: 5,
-      ordering: 'degree'
-    });
-  }, 1000);
-  
-  setTimeout(() => {
-    graph.updateLayoutCfg({
-      radius: null,
-      startRadius: 10,
-      endRadius: 300,
-      divisions: 1,
-      startAngle: 0,
-      endAngle: 2 * Math.PI,
-      ordering: 'topology'
-    });
-  }, 2500);
+  layoutMethodsTranslation();
+  setInterval(() => {
+    layoutMethodsTranslation();
+  }, 10500);
 
-  setTimeout(() => {
-    graph.changeLayout('fruchterman');
-  }, 4000);
+  function layoutMethodsTranslation() {
+    setTimeout(() => {
+      graph.changeLayout('mds');
+    }, 1000);
 
-  setTimeout(() => {
-    graph.changeLayout('force');
-  }, 5500);
+    setTimeout(() => {
+      graph.changeLayout('fruchterman');
+    }, 2500);
 
-  setTimeout(() => {
-    graph.updateLayoutCfg({
-      preventOverlap: true,
-      nodeSize: 20
-    });
-  }, 8500);
+    setTimeout(() => {
+      graph.changeLayout('force', {
+        linkDistance: 50,
+        preventOverlap: true,
+        nodeSize: 30
+      });
+    }, 4500);
 
-  setTimeout(() => {
-    graph.changeLayout('radial', {
-      preventOverlap: true,
-      nodeSize: 20
-    });
-  }, 11500);
+    setTimeout(() => {
+      graph.changeLayout('circular', {
+        radius: 100,
+        startAngle: Math.PI / 4,
+        endAngle: Math.PI,
+        divisions: 5,
+        ordering: 'degree'
+      });
+    }, 7000);
 
-  setTimeout(() => {
-    graph.changeData(data2);
-  }, 13000);
+    setTimeout(() => {
+      graph.changeLayout('radial', {
+        preventOverlap: true,
+        nodeSize: 20
+      });
+    }, 8500);
+
+    setTimeout(() => {
+      graph.changeLayout('random', {
+        preventOverlap: true,
+        nodeSize: 20
+      });
+    }, 10000);
+  }
 
 </script>
 </body>
