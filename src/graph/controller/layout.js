@@ -17,7 +17,7 @@ class LayoutController {
     const self = this;
     let layoutType = self.layoutType;
     const graph = self.graph;
-    const data = self.data || graph.get('data');
+    const data = graph.get('data');
     const nodes = data.nodes;
     if (!nodes) {
       return;
@@ -104,9 +104,15 @@ class LayoutController {
   }
 
   // 更换数据
-  changeData(data) {
+  changeData() {
     const self = this;
-    self.data = data;
+    const graph = self.graph;
+    const width = graph.get('width');
+    const height = graph.get('height');
+    const center = self.layoutCfg.center || [ width / 2, height / 2 ];
+    self.initPositions(center);
+    const layoutMethod = self.layoutMethod;
+    layoutMethod && layoutMethod.destroy();
     self.layout();
   }
 
@@ -149,6 +155,18 @@ class LayoutController {
     nodes.forEach(node => {
       node.x -= meanCenter[0];
       node.y -= meanCenter[1];
+    });
+  }
+
+  // 初始化节点到 center
+  initPositions(center) {
+    const self = this;
+    const graph = self.graph;
+    const data = graph.get('data');
+    const nodes = data.nodes;
+    nodes.forEach(node => {
+      node.x = center[0];
+      node.y = center[1];
     });
   }
 
