@@ -23,6 +23,7 @@ Layout.registerLayout('force', {
       forceSimulation: null,      // 自定义 force 方法
       maxIteration: null,         // 停止迭代的最大迭代数
       threshold: null,            // 停止迭代的阈值
+      tick() {},
       onLayoutEnd() {},           // 布局完成回调
       onTick() {}                 // 每一迭代布局回调
     };

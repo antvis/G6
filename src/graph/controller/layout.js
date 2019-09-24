@@ -125,7 +125,7 @@ class LayoutController {
       layoutMethod.forceSimulation.stop();
     }
     layoutMethod.excute();
-    self.graph.refreshPositions();
+    self.refreshLayout();
   }
 
 // 控制布局动画
@@ -164,6 +164,9 @@ class LayoutController {
     const graph = self.graph;
     const data = graph.get('data');
     const nodes = data.nodes;
+    if (!nodes) {
+      return;
+    }
     nodes.forEach(node => {
       node.x = center[0];
       node.y = center[1];
