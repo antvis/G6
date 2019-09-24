@@ -1013,34 +1013,45 @@ class Graph extends EventEmitter {
    * @param {object} cfg 新布局配置项
    * 若无其他配置则使用该布局默认配置
    */
-  changeLayout(layoutType, cfg = null) {
-    const layoutController = this.get('layoutController');
-    let type = layoutType;
-    if (!type && !cfg.type) {
-      return;
-    }
-    cfg === null ? cfg = {} : cfg;
-    if (type) {
-      cfg.type = type;
-    } else if (cfg.type) {
-      type = cfg.type;
-    }
-    this.set('layout', cfg);
-    layoutController.changeLayout(type);
-  }
+  // changeLayout(layoutType, cfg = null) {
+  //   const layoutController = this.get('layoutController');
+  //   let type = layoutType;
+  //   if (!type && !cfg.type) {
+  //     return;
+  //   }
+  //   cfg === null ? cfg = {} : cfg;
+  //   if (type) {
+  //     cfg.type = type;
+  //   } else if (cfg.type) {
+  //     type = cfg.type;
+  //   }
+  //   this.set('layout', cfg);
+  //   layoutController.changeLayout(type);
+  // }
 
   /**
    * 更换布局配置项，不改变布局方法
    * @param {object} cfg 新布局配置项，不包括 type ，即使有 type 字段也不会生效
    */
-  updateLayoutCfg(cfg) {
+  updateLayout(cfg) {
     const layoutController = this.get('layoutController');
+    let newLayoutType = cfg.type;
+    const cfgIsString = (typeof cfg === 'string') && cfg.constructor === String;
+    if (cfgIsString) {
+      newLayoutType = cfg;
+    }
     const oriLayoutCfg = this.get('layout');
-    const layoutType = oriLayoutCfg.type;
-    const layoutCfg = {};
-    Util.mix(layoutCfg, cfg);
-    layoutCfg.type = layoutType;
-    layoutController.updateLayoutCfg(layoutCfg);
+    const oriLayoutType = oriLayoutCfg.type;
+    if (!newLayoutType || oriLayoutType === newLayoutType) {
+      // no type or same type, update layout
+      const layoutCfg = {};
+      Util.mix(layoutCfg, cfg);
+      layoutCfg.type = oriLayoutType ? oriLayoutType : 'random';
+      layoutController.updateLayoutCfg(layoutCfg);
+    } else { // has different type, change layout
+      this.set('layout', cfg);
+      layoutController.changeLayout(newLayoutType);
+    }
   }
 
   /**

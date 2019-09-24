@@ -3,10 +3,11 @@
   
   <head>
     <meta charset="UTF-8">
-    <title>Change Layouts</title>
+    <title>Fruchterman Layout with Changing Configurations</title>
   </head>
   
   <body>
+    <div id="description">Fruchterman 布局，重力：1</div>
     <div id="mountNode"></div>
     <script src="../build/g6.js"></script>
     <script>
@@ -388,7 +389,6 @@
           "target": "33"
         }]
       };
-
       const graph = new G6.Graph({
         container: 'mountNode',
         width: 1000,
@@ -398,7 +398,10 @@
           ['drag-canvas', 'drag-node'],
         },
         layout: {
-          center: [500, 300]
+          type: 'fruchterman',
+          center: [500, 300],
+          gravity: 1,
+          speed: 5
         },
         animate: true,
         defaultNode: {
@@ -423,57 +426,46 @@
       graph.data(data);
       graph.render();
 
-      layoutMethodsTranslation();
-      setInterval(() => {
-        layoutMethodsTranslation();
-      }, 10500);
+      const descriptionDiv = document.getElementById('description');
 
-      function layoutMethodsTranslation() {
+      layoutConfigTranslation();
+
+      function layoutConfigTranslation() {
         setTimeout(() => {
-          graph.updateLayout('mds');
+          descriptionDiv.innerHTML = 'Fructherman 布局，重力：5';
+          graph.updateLayout({
+            gravity: 5
+          });
         }, 1000);
 
         setTimeout(() => {
-          graph.updateLayout('fruchterman');
+          descriptionDiv.innerHTML = 'Fructherman 布局，重力：10';
+          graph.updateLayout({
+            gravity: 10
+          });
         }, 2500);
 
         setTimeout(() => {
+          descriptionDiv.innerHTML = 'Fructherman 布局，重力：20';
           graph.updateLayout({
-            type: 'force',
-            linkDistance: 50,
-            preventOverlap: true,
-            nodeSize: 30
+            gravity: 20
           });
-        }, 4500);
+        }, 4000);
 
         setTimeout(() => {
+          descriptionDiv.innerHTML = 'Fructherman 布局，重力：50';
           graph.updateLayout({
-            type: 'circular',
-            radius: 100,
-            startAngle: Math.PI / 4,
-            endAngle: Math.PI,
-            divisions: 5,
-            ordering: 'degree'
+            gravity: 50
+          });
+        }, 5500);
+
+        setTimeout(() => {
+          descriptionDiv.innerHTML = 'Fructherman 布局，重力：80';
+          graph.updateLayout({
+            gravity: 80
           });
         }, 7000);
-
-        setTimeout(() => {
-          graph.updateLayout({
-            type: 'radial',
-            preventOverlap: true,
-            nodeSize: 20
-          });
-        }, 8500);
-
-        setTimeout(() => {
-          graph.updateLayout({
-            type: 'random',
-            preventOverlap: true,
-            nodeSize: 20
-          });
-        }, 10000);
       }
     </script>
   </body>
-
 </html>

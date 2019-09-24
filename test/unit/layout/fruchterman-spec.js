@@ -66,7 +66,7 @@ describe('fruchterman', () => {
     });
     graph.data(data);
     graph.render();
-    graph.updateLayoutCfg({
+    graph.updateLayout({
       center: [ 100, 100 ],
       gravity: 50
     });

@@ -9,7 +9,7 @@ const Layout = {};
 /**
  * 注册布局的方法
  * @param {string} type 布局类型，外部引用指定必须，不要与已有布局类型重名
- * @param {object} layout 行为内容
+ * @param {object} layout 布局方法
  */
 Layout.registerLayout = function(type, layout) {
   if (!layout) {

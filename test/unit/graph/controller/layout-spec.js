@@ -90,7 +90,7 @@ describe('layout controller', () => {
   it('change configurations', () => {
     const startRadius = 10;
     const endRadius = 300;
-    graph.updateLayoutCfg({
+    graph.updateLayout({
       radius: null,
       startRadius,
       endRadius,
