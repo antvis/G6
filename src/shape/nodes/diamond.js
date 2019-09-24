@@ -1,35 +1,22 @@
 const Shape = require('../shape');
 const deepMix = require('@antv/util/lib/deep-mix');
 
-/**
- * 基本的椭圆，可以添加文本，默认文本居中
- */
-Shape.registerNode('ellipse', {
+// 菱形shape
+Shape.registerNode('diamond', {
   // 自定义节点时的配置
   options: {
     // 默认配置
     default: {
-      rx: 60,
-      ry: 30,
+      width: 100,
+      height: 100,
       stroke: '#69c0ff',
       fill: '#e6f7ff',
       lineWidth: 1,
-      x: 0,
-      y: 0,
       // 文本样式配置
       labelCfg: {
         style: {
           fill: '#595959'
         }
-      },
-      // 节点中icon配置
-      icon: {
-        // 是否显示icon，值为 false 则不渲染icon
-        show: false,
-        // icon的地址，可以是字符串或Image
-        img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
-        width: 36,
-        height: 36
       },
       // 节点上左右上下四个方向上的链接circle配置
       linkPoints: {
@@ -43,8 +30,15 @@ Shape.registerNode('ellipse', {
         fill: '#72CC4A',
         stroke: '#72CC4A'
       },
-      // 连接点，默认为左右
-      anchorPoints: [[ 0, 0.5 ], [ 1, 0.5 ]]
+      // 节点中icon配置
+      icon: {
+        // 是否显示icon，值为 false 则不渲染icon
+        show: false,
+        // icon的地址，可以是字符串或Image
+        img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+        width: 16,
+        height: 16
+      }
     },
     // 鼠标hover状态下的配置
     hover: {
@@ -55,31 +49,31 @@ Shape.registerNode('ellipse', {
       lineWidth: 5
     }
   },
-  shapeType: 'ellipse',
+  shapeType: 'circle',
   // 文本位置
   labelPosition: 'center',
   drawShape(cfg, group) {
     const customStyle = this.getCustomConfig(cfg) || {};
     const defaultConfig = customStyle.default;
     const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
-
-    // 使用用户配置的size大小
-    const { linkPoints, icon, ...ellipseStyle } = style;
-
-    const { rx, ry } = ellipseStyle;
-    const keyShape = group.addShape('ellipse', {
-      attrs: ellipseStyle
+    const { icon, linkPoints, width, height, ...diamondStyle } = style;
+    const path = this.getPath(cfg);
+    const keyShape = group.addShape('path', {
+      attrs: {
+        path,
+        ...diamondStyle
+      }
     });
 
-    const { width, height, show } = icon;
+    const { width: w, height: h, show } = icon;
     if (show) {
       const image = group.addShape('image', {
         attrs: {
-          x: -width / 2,
-          y: -height / 2,
+          x: -w / 2,
+          y: -h / 2,
           ...icon
         },
-        className: 'ellipse-icon'
+        className: 'diamond-icon'
       });
 
       image.set('capture', false);
@@ -91,14 +85,14 @@ Shape.registerNode('ellipse', {
       // left circle
       group.addShape('circle', {
         attrs: {
-          x: -rx,
+          x: -width / 2,
           y: 0,
           r: size,
           fill: anchorFill,
           stroke: anchorStroke,
           lineWidth: borderWidth
         },
-        className: 'ellipse-anchor-left'
+        className: 'diamond-anchor-left'
       });
     }
 
@@ -106,14 +100,14 @@ Shape.registerNode('ellipse', {
       // right circle
       group.addShape('circle', {
         attrs: {
-          x: rx,
+          x: width / 2,
           y: 0,
           r: size,
           fill: anchorFill,
           stroke: anchorStroke,
           lineWidth: borderWidth
         },
-        className: 'ellipse-anchor-right'
+        className: 'diamond-anchor-right'
       });
     }
 
@@ -122,13 +116,13 @@ Shape.registerNode('ellipse', {
       group.addShape('circle', {
         attrs: {
           x: 0,
-          y: -ry,
+          y: -height / 2,
           r: size,
           fill: anchorFill,
           stroke: anchorStroke,
           lineWidth: borderWidth
         },
-        className: 'ellipse-anchor-top'
+        className: 'diamond-anchor-top'
       });
     }
 
@@ -137,17 +131,34 @@ Shape.registerNode('ellipse', {
       group.addShape('circle', {
         attrs: {
           x: 0,
-          y: ry,
+          y: height / 2,
           r: size,
           fill: anchorFill,
           stroke: anchorStroke,
           lineWidth: borderWidth
         },
-        className: 'ellipse-anchor-bottom'
+        className: 'diamond-anchor-bottom'
       });
     }
 
     return keyShape;
+  },
+  shouldUpdate() {
+    return false;
+  },
+  getPath(cfg) {
+    const customStyle = this.getCustomConfig(cfg) || {};
+    const defaultConfig = customStyle.default;
+    const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
+    const { width, height } = style;
+    const path = [
+      [ 'M', 0, -height / 2 ], // 上部顶点
+      [ 'L', width / 2, 0 ], // 右侧点
+      [ 'L', 0, height / 2 ], // 下部
+      [ 'L', -width / 2, 0 ], // 左侧
+      [ 'Z' ] // 封闭
+    ];
+    return path;
   },
   /**
    * 获取节点宽高
@@ -159,25 +170,27 @@ Shape.registerNode('ellipse', {
     const customStyle = this.getCustomConfig(cfg) || {};
     const defaultConfig = customStyle.default;
     const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
-    const { rx, ry } = style;
+    const { width, height } = style;
 
-    return [ 2 * rx, 2 * ry ];
+    return [ width, height ];
   },
   update(cfg, item) {
+    const group = item.getContainer();
     const customStyle = this.getCustomConfig(cfg) || {};
     const defaultConfig = customStyle.default || {};
     const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
-    const { icon, linkPoints, labelCfg: defaultLabelCfg, ...ellipseStyle } = style;
 
-    const { rx, ry } = ellipseStyle;
+    const { width, height, icon, linkPoints, labelCfg: defaultLabelCfg, ...diamondStyle } = style;
     const keyShape = item.get('keyShape');
-
-    keyShape.attr(ellipseStyle);
-
-    const group = item.getContainer();
+    const path = this.getPath(cfg);
+    keyShape.attr({
+      path,
+      ...diamondStyle
+    });
 
     const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
     const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
+
     const text = group.findByClassName('node-label');
     if (text) {
       text.attr({
@@ -185,10 +198,10 @@ Shape.registerNode('ellipse', {
       });
     }
 
-    const ellipseIcon = group.findByClassName('ellipse-icon');
-    const { width: w, height: h } = icon;
-    if (ellipseIcon) {
-      ellipseIcon.attr({
+    const diamondIcon = group.findByClassName('diamond-icon');
+    if (diamondIcon) {
+      const { width: w, height: h } = icon;
+      diamondIcon.attr({
         x: -w / 2,
         y: -h / 2,
         ...icon
@@ -197,10 +210,10 @@ Shape.registerNode('ellipse', {
 
     const { size, fill: anchorFill, stroke: anchorStroke, lineWidth: borderWidth } = linkPoints;
 
-    const anchorLeft = group.findByClassName('ellipse-anchor-left');
+    const anchorLeft = group.findByClassName('diamond-anchor-left');
     if (anchorLeft) {
       anchorLeft.attr({
-        x: -rx,
+        x: -width / 2,
         y: 0,
         r: size,
         fill: anchorFill,
@@ -209,10 +222,10 @@ Shape.registerNode('ellipse', {
       });
     }
 
-    const anchorRight = group.findByClassName('ellipse-anchor-right');
+    const anchorRight = group.findByClassName('diamond-anchor-right');
     if (anchorRight) {
       anchorRight.attr({
-        x: rx,
+        x: width / 2,
         y: 0,
         r: size,
         fill: anchorFill,
@@ -221,11 +234,11 @@ Shape.registerNode('ellipse', {
       });
     }
 
-    const anchorTop = group.findByClassName('ellipse-anchor-top');
+    const anchorTop = group.findByClassName('diamond-anchor-top');
     if (anchorTop) {
       anchorTop.attr({
         x: 0,
-        y: -ry,
+        y: -height / 2,
         r: size,
         fill: anchorFill,
         stroke: anchorStroke,
@@ -233,11 +246,11 @@ Shape.registerNode('ellipse', {
       });
     }
 
-    const anchorBottom = group.findByClassName('ellipse-anchor-bottom');
+    const anchorBottom = group.findByClassName('diamond-anchor-bottom');
     if (anchorBottom) {
       anchorBottom.attr({
         x: 0,
-        y: ry,
+        y: height / 2,
         r: size,
         fill: anchorFill,
         stroke: anchorStroke,

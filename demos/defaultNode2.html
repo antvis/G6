@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>内置的节点</title>
+</head>
+<body>
+<div id="mountNode"></div>
+<script src="../build/g6.js"></script>
+<script src="../build/grid.js"></script>
+<script>
+  const grid = new Grid()
+  const graph = new G6.Graph({
+    container: 'mountNode',
+    width: 800,
+    height: 800,
+    // plugins: [grid],
+    defaultNode: {
+      size: [40, 40]
+    },
+    modes: {
+      default: [ 'drag-canvas', 'drag-node', 'zoom-canvas' ]
+    }
+  });
+
+  G6.registerNode('triangle1', {
+    labelPosition: 'top',
+    getCustomConfig() {
+      return {
+        default: {
+          fill: '#bae637',
+          stroke: '#eaff8f',
+          len: 60,
+          labelCfg: {
+            offset: 30
+          },
+          linkPoints: {
+            top: true,
+            left: true,
+            right: true
+          },
+          icon: {
+            show: true,
+            width: 35,
+            height: 35,
+            offset: 10
+          }
+        }
+      }
+    }
+  }, 'triangle')
+  G6.registerNode('triangle2', {
+    labelPosition: 'center',
+    getCustomConfig() {
+      return {
+        default: {
+          direction: 'down',
+          fill: '#36cfc9',
+          stroke: '#87e8de',
+          linkPoints: {
+            bottom: true,
+            left: true,
+            right: true
+          },
+          labelCfg: {
+            offset: 15
+          }
+        }
+      }
+    }
+  }, 'triangle')
+
+  G6.registerNode('triangle3', {
+    getCustomConfig() {
+      return {
+        default: {
+          direction: 'left',
+          fill: '#36cfc9',
+          stroke: '#87e8de',
+          labelCfg: {
+            offset: 15
+          },
+          linkPoints: {
+            top: true,
+            bottom: true,
+            left: true
+          },
+          icon: {
+            show: true,
+            offset: 10
+          }
+        }
+      }
+    }
+  }, 'triangle')
+
+  G6.registerNode('triangle4', {
+    labelPosition: 'center',
+    getCustomConfig() {
+      return {
+        default: {
+          direction: 'right',
+          fill: '#36cfc9',
+          stroke: '#87e8de',
+          linkPoints: {
+            top: true,
+            bottom: true,
+            right: true
+          },
+          labelCfg: {
+            offset: 15
+          }
+        }
+      }
+    }
+  }, 'triangle')
+
+  G6.registerNode('modelRect2', {
+    getCustomConfig() {
+      return {
+        default: {
+          width: 240,
+          height: 100,
+          linkPoints: {
+            top: true,
+            bottom: true
+          },
+          stateIcon: {
+            show: true,
+            img: 'https://gw.alipayobjects.com/zos/basement_prod/c781088a-c635-452a-940c-0173663456d4.svg'
+          }
+        }
+      }
+    }
+  }, 'modelRect')
+
+  G6.registerNode('modelRect3', {
+    getCustomConfig() {
+      return {
+        default: {
+          linkPoints: {
+            top: true,
+            bottom: true,
+            fill: '#fff',
+            size: 5
+          },
+          logoIcon: {
+            show: false
+          },
+          stateIcon: {
+            show: false
+          }
+        }
+      }
+    }
+  }, 'modelRect')
+
+  G6.registerNode('modelRect4', {
+    getCustomConfig() {
+      return {
+        default: {
+          linkPoints: {
+            top: true,
+            bottom: true,
+            fill: '#fff',
+            size: 5,
+            lineWidth: 5
+          },
+          preRect: {
+            show: false
+          }
+        }
+      }
+    }
+  }, 'modelRect')
+
+  G6.registerNode('modelRect5', {
+    getCustomConfig() {
+      return {
+        default: {
+          stroke: '#ffbb96',
+          linkPoints: {
+            top: true,
+            bottom: true,
+            left: true,
+            right: true,
+            fill: '#fff',
+            size: 5,
+            lineWidth: 5
+          },
+          labelCfg: {
+            style: {
+              fill: '#ff9c6e'
+            }
+          },
+          preRect: {
+            show: true,
+            fill: '#ff7a45'
+          },
+          stateIcon: {
+            img: 'https://gw.alipayobjects.com/zos/basement_prod/c781088a-c635-452a-940c-0173663456d4.svg',
+            x: 70,
+            y: -30
+          }
+        }
+      }
+    }
+  }, 'modelRect')
+  
+  const data = {
+    nodes: [
+      {
+        id: 'triangle',
+        label: 'triangle',
+        x: 150,
+        y: 50,
+        shape: 'triangle'
+      },
+      {
+        id: 'triangle1',
+        label: 'triangle1',
+        x: 300,
+        y: 50,
+        shape: 'triangle1'
+      },
+      {
+        id: 'triangle2',
+        label: 'triangle2',
+        x: 450,
+        y: 50,
+        shape: 'triangle2'
+      },
+      {
+        id: 'triangle3',
+        label: 'triangle3',
+        x: 600,
+        y: 50,
+        shape: 'triangle3'
+      },
+      {
+        id: 'triangle4',
+        label: 'triangle4',
+        x: 750,
+        y: 50,
+        shape: 'triangle4'
+      },
+      {
+        id: 'modelRect',
+        label: '逻辑回归二次元逻辑回归二次元',
+        description: '这里是一段描述信息，还有点长',
+        x: 150,
+        y: 180,
+        shape: 'modelRect'
+      },
+      {
+        id: 'modelRect1',
+        label: '逻辑回归二次元逻辑回归二次元',
+        x: 390,
+        y: 180,
+        shape: 'modelRect'
+      },
+      {
+        id: 'modelRect2',
+        label: '逻辑回归二次元逻辑回归二次元',
+        description: '这里是一段描述信息，还有点长',
+        x: 630,
+        y: 180,
+        shape: 'modelRect2'
+      },
+      {
+        id: 'modelRect4',
+        label: '逻辑回归二次元逻辑回归二次元',
+        description: '这里是一段描述信息，还有点长',
+        x: 150,
+        y: 280,
+        shape: 'modelRect3'
+      },
+      {
+        id: 'modelRect5',
+        label: 'k',
+        description: '这里是一段描述信息，还有点长',
+        x: 390,
+        y: 280,
+        shape: 'modelRect4'
+      },
+      {
+        id: 'modelRect6',
+        label: '逻辑回归二次元逻辑回归二次元',
+        description: '这里是一段描述信息，还有点长',
+        x: 630,
+        y: 280,
+        shape: 'modelRect5'
+      }
+    ]
+  }
+
+  graph.data(data)
+  graph.render()
+
+  graph.on('edge:click', evt => {
+    console.log(evt)
+    const { item } = evt
+    graph.updateItem(item, {
+      style: {
+        lineWidth: 3,
+        stroke: 'red'
+      }
+    })
+  })
+
+  graph.on('node:mouseleave', evt => {
+    const { item } = evt;
+    const hasState = item.hasState('select')
+    if(!hasState) {
+      graph.setItemState(item, 'hover', false);
+      graph.setItemState(item, 'running', false);
+    }
+  }) 
+
+  graph.on('node:click', evt => {
+    const { item } = evt;
+    const hasState = item.hasState('select')
+    // if (hasState) {
+    //   graph.setItemState(item, 'select', false);
+    // } else {
+    //   graph.setItemState(item, 'select', true);
+    // }
+
+    graph.updateItem(item, {
+      style: {
+        width: 300,
+        height: 150,
+        // fill: '#000',
+        // r: 50,
+        // rx: 100,
+        // ry: 70,
+        // len: 100
+      }
+    })
+  })
+
+  graph.on('node:mouseenter', evt => {
+    const { item } = evt;
+    graph.setItemState(item, 'hover', true); 
+  })
+  
+</script>
+</body>
+</html>
