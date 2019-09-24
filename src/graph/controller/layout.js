@@ -109,7 +109,12 @@ class LayoutController {
     const graph = self.graph;
     const width = graph.get('width');
     const height = graph.get('height');
-    const center = self.layoutCfg.center || [ width / 2, height / 2 ];
+    let center = [];
+    if (self.layoutCfg && self.layoutCfg.center) {
+      center = self.layoutCfg.center;
+    } else {
+      center = [ width / 2, height / 2 ];
+    }
     self.initPositions(center);
     const layoutMethod = self.layoutMethod;
     layoutMethod && layoutMethod.destroy();
