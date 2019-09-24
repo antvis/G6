@@ -52,11 +52,20 @@ class LayoutController {
         graph.refreshPositions();
       };
       layoutCfg.tick = tick;
+      const onLayoutEnd = layoutCfg.onLayoutEnd;
+      layoutCfg.onLayoutEnd = () => {
+        onLayoutEnd && onLayoutEnd();
+        graph.emit('afterlayout');
+      };
     }
     self.layoutCfg = layoutCfg;
     layoutMethod = new Layout[layoutType](layoutCfg);
     layoutMethod.init(data);
+    graph.emit('beforelayout');
     layoutMethod.excute();
+    if (layoutType !== 'force') {
+      graph.emit('afterlayout');
+    }
     self.layoutMethod = layoutMethod;
   }
 
@@ -74,19 +83,15 @@ class LayoutController {
 // 更新布局参数
   updateLayoutCfg(cfg) {
     const self = this;
+    const graph = self.graph;
     self.layoutType = cfg.type;
     const layoutMethod = self.layoutMethod;
-    if (self.layoutType !== 'force') {
-      if (cfg.onTick) {
-        self.tick = () => {
-          cfg.onTick();
-          self.graph.refreshPositions();
-        };
-      }
-      self.moveToZero();
-    }
     layoutMethod.updateCfg(cfg);
+    graph.emit('beforelayout');
     layoutMethod.excute();
+    if (self.layoutType !== 'force') {
+      graph.emit('afterlayout');
+    }
     self.refreshLayout();
   }
 
@@ -124,12 +129,17 @@ class LayoutController {
   // 重新布局
   relayout() {
     const self = this;
+    const graph = self.graph;
     const layoutMethod = self.layoutMethod;
     if (self.layoutType === 'force') {
       layoutMethod.ticking = false;
       layoutMethod.forceSimulation.stop();
     }
+    graph.emit('beforelayout');
     layoutMethod.excute();
+    if (self.layoutType !== 'force') {
+      graph.emit('afterlayout');
+    }
     self.refreshLayout();
   }
 
