@@ -1043,11 +1043,13 @@ class Graph extends EventEmitter {
     layoutController.updateLayoutCfg(layoutCfg);
   }
 
+  /**
+   * 重新以当前示例中配置的属性进行一次布局
+   */
   layout() {
     const layoutController = this.get('layoutController');
     if (layoutController.layoutMethod) {
       layoutController.relayout();
-      this.refreshPositions();
     } else {
       layoutController.layout();
     }

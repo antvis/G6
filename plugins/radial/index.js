@@ -39,7 +39,7 @@ class Radial extends Base {
       unitRadius: null,           // 默认边长度
       linkDistance: 50,           // 默认边长度
       animate: true,              // 插值动画效果变换节点位置
-      nonOverlap: false,          // 是否防止重叠
+      preventOverlap: false,      // 是否防止重叠
       nodeSize: 10,               // 节点半径
       onLayoutEnd() {},           // 布局完成回调
       onTick() {}                 // 每一迭代布局回调
@@ -148,10 +148,10 @@ class Radial extends Base {
         p[1] -= positions[focusIndex][1];
       });
       self.run();
-      const nonOverlap = self.get('nonOverlap');
+      const preventOverlap = self.get('preventOverlap');
       const nodeSize = self.get('nodeSize');
       // stagger the overlapped nodes
-      if (nonOverlap) {
+      if (preventOverlap) {
         const nonoverlapForce = new RadialNonoverlapForce({
           nodeSize, adjMatrix, positions, radii, height, width,
           focusID: focusIndex,

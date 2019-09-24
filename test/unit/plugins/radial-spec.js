@@ -76,7 +76,7 @@ describe('radial layout', () => {
       center: [ 250, 250 ],
       focusNode: 'Belgium',
       nodeSize: 20,
-      nonOverlap: true
+      preventOverlap: true
     });
     let c1;
     let c2;

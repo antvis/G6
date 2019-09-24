@@ -19,6 +19,7 @@ const G6 = {
   registerNode: Shape.registerNode,
   registerEdge: Shape.registerEdge,
   registerBehavior: Behaviors.registerBehavior,
+  registerLayout: Layout.registerLayout,
   version: Global.version
 };
 
