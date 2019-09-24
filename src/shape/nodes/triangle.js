@@ -15,7 +15,7 @@ Shape.registerNode('triangle', {
       // 文本样式配置
       labelCfg: {
         style: {
-          fill: '#000'
+          fill: '#595959'
         },
         offset: 15
       },
@@ -35,7 +35,7 @@ Shape.registerNode('triangle', {
       icon: {
         // 是否显示icon，值为 false 则不渲染icon
         show: false,
-        // icon的地址，可以是字符串或Image
+        // icon的地址，字符串类型
         img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
         width: 16,
         height: 16,

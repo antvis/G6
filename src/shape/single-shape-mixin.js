@@ -40,13 +40,6 @@ const SingleShape = {
 
   },
   drawLabel(cfg, group) {
-    // const labelCfg = cfg.labelCfg || {};
-    // const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
-    // const label = group.addShape('text', {
-    //   attrs: labelStyle
-    // });
-    // return label;
-
     const customStyle = this.getCustomConfig(cfg) || {};
     const defaultConfig = customStyle.default;
     const style = merge({}, this.options.default, defaultConfig);

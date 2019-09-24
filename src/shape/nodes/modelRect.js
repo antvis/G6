@@ -48,7 +48,7 @@ Shape.registerNode('modelRect', {
         show: true,
         x: 0,
         y: 0,
-        // icon的地址，可以是字符串或Image
+        // icon的地址，字符串类型
         img: 'https://gw.alipayobjects.com/zos/basement_prod/4f81893c-1806-4de4-aff3-9a6b266bc8a2.svg',
         width: 16,
         height: 16
@@ -57,7 +57,7 @@ Shape.registerNode('modelRect', {
       stateIcon: {
         // 是否显示icon，值为 false 则不渲染icon
         show: true,
-        // icon的地址，可以是字符串或Image
+        // icon的地址，字符串类型
         img: 'https://gw.alipayobjects.com/zos/basement_prod/300a2523-67e0-4cbf-9d4a-67c077b40395.svg',
         width: 16,
         height: 16
