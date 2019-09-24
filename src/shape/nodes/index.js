@@ -4,4 +4,4 @@ require('./ellipse');
 require('./diamond');
 require('./triangle');
 require('./modelRect');
-
+require('./star');

@@ -206,6 +206,106 @@
       }
     }
   }, 'modelRect')
+
+  G6.registerNode('star1', {
+    labelPosition: 'bottom',
+    getCustomConfig() {
+      return {
+        default: {
+          fill: '#ff4d4f',
+          stroke: '#ffa39e',
+          icon: {
+            show: true
+          },
+          labelCfg: {
+            style: {
+              fontSize: 16,
+              fill: '#ff7875'
+            },
+            offset: 20
+          }
+        }
+      }
+    }
+  }, 'star')
+
+  G6.registerNode('star2', {
+    labelPosition: 'bottom',
+    getCustomConfig() {
+      return {
+        default: {
+          fill: '#bae637',
+          stroke: '#eaff8f',
+          icon: {
+            show: true,
+            width: 25,
+            height: 25,
+            img: 'https://gw.alipayobjects.com/zos/basement_prod/300a2523-67e0-4cbf-9d4a-67c077b40395.svg'
+          },
+          linkPoints: {
+            top: true
+          }
+        }
+      }
+    }
+  }, 'star')
+
+  G6.registerNode('star3', {
+    labelPosition: 'top',
+    getCustomConfig() {
+      return {
+        default: {
+          fill: '#73d13d',
+          stroke: '#b7eb8f',
+          icon: {
+            show: true,
+            width: 25,
+            height: 25
+          },
+          labelCfg: {
+            offset: 35
+          },
+          linkPoints: {
+            top: true,
+            left: true,
+            right: true,
+            leftBottom: true,
+            rightBottom: true,
+            fill: '#ff85c0',
+            size: 5
+          }
+        }
+      }
+    }
+  }, 'star')
+
+  G6.registerNode('star4', {
+    labelPosition: 'bottom',
+    getCustomConfig() {
+      return {
+        default: {
+          outerR: 100,
+          innerR: 30,
+          fill: '#ffc53d',
+          stroke: '#ffe58f',
+          icon: {
+            show: true,
+            width: 35,
+            height: 35
+          },
+          labelCfg: {
+            offset: 40
+          },
+          linkPoints: {
+            leftBottom: true,
+            rightBottom: true,
+            fill: '#40a9ff',
+            size: 6
+          }
+        }
+      }
+    }
+  }, 'star')
   
   const data = {
     nodes: [
@@ -290,6 +390,40 @@
         x: 630,
         y: 280,
         shape: 'modelRect5'
+      },
+      {
+        id: 'star',
+        label: '逻辑回归',
+        x: 150,
+        y: 450,
+        shape: 'star'
+      },
+      {
+        id: 'star1',
+        label: '二次元逻辑',
+        x: 300,
+        y: 450,
+        shape: 'star1'
+      },
+      {
+        id: 'star2',
+        x: 450,
+        y: 450,
+        shape: 'star2'
+      },
+      {
+        id: 'star3',
+        label: '逻辑回归二次元逻辑回归二次元',
+        x: 600,
+        y: 450,
+        shape: 'star3'
+      },
+      {
+        id: 'star4',
+        label: '逻辑回归二次元逻辑回归二次元',
+        x: 800,
+        y: 450,
+        shape: 'star4'
       }
     ]
   }
