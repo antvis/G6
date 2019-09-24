@@ -59,7 +59,13 @@ class LayoutController {
       };
     }
     self.layoutCfg = layoutCfg;
-    layoutMethod = new Layout[layoutType](layoutCfg);
+
+    try {
+      layoutMethod = new Layout[layoutType](layoutCfg);
+    } catch (e) {
+      console.warn('The layout method: ' + layoutCfg + ' does not exist! Please specify it first.');
+      return;
+    }
     layoutMethod.init(data);
     graph.emit('beforelayout');
     layoutMethod.excute();

@@ -6,8 +6,6 @@
 const dagre = require('dagre');
 const Layout = require('./layout');
 
-const DEFAULT_SIZE = 40;
-
 /**
  * 随机布局
  */
@@ -17,13 +15,10 @@ Layout.registerLayout('dagre', {
     return {
       rankdir: 'TB',             // layout 方向, 可选 TB, BT, LR, RL
       align: undefined,          // 节点对齐方式，可选 UL, UR, DL, DR
+      nodeSize: [ 40, 40 ],      // 节点大小
       nodesep: 50,               // 节点水平间距(px)
-      edgesep: 50,               // 边水平间距(px)
       ranksep: 50,               // 每一层节点之间间距
-      marginx: 0,                // 图的 x 边距
-      marginy: 0,                // 图的 y 边距
-      controlPoints: true,       // 是否保留布局连线的控制点
-      getNodeSize: null          // 节点大小回调函数
+      controlPoints: true        // 是否保留布局连线的控制点
     };
   },
   /**
@@ -34,26 +29,28 @@ Layout.registerLayout('dagre', {
     const nodes = self.nodes;
     const edges = self.edges;
     const g = new dagre.graphlib.Graph();
-    // const cfgs = this._cfgs;
+    const nodeSize = self.nodeSize;
+    let width;
+    let height;
+    if (Array.isArray(nodeSize)) {
+      width = nodeSize[0];
+      height = nodeSize[1];
+    } else {
+      width = nodeSize;
+      height = nodeSize;
+    }
+    let horisep = self.nodesep;
+    let vertisep = self.ranksep;
+    const rankdir = self.rankdir;
+    if (rankdir === 'LR' || rankdir === 'RL') {
+      horisep = self.ranksep;
+      vertisep = self.nodesep;
+    }
+    width += 2 * horisep;
+    height += 2 * vertisep;
     g.setDefaultEdgeLabel(function() { return {}; });
     g.setGraph(self);
-    const nodeSize = self.getNodeSize;
     nodes.forEach(node => {
-      let width = DEFAULT_SIZE;
-      let height = DEFAULT_SIZE;
-      let size = node.size;
-      if (nodeSize) {
-        size = nodeSize(node);
-      }
-      if (size) {
-        if (Array.isArray(size)) {
-          width = size[0];
-          height = size[1];
-        } else {
-          width = size;
-          height = size;
-        }
-      }
       g.setNode(node.id, { width, height });
     });
     edges.forEach(edge => {

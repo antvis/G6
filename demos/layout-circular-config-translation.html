@@ -390,70 +390,6 @@
         }]
       };
 
-      const data2 = {
-        "nodes": [{
-          "id": "0",
-          "label": "0",
-          "x": 100,
-          "y": 20
-        },
-        {
-          "id": "1",
-          "label": "1",
-          "x": 10,
-          "y": 210
-        },
-        {
-          "id": "2",
-          "label": "2",
-          "x": 150,
-          "y": 100
-        },
-        {
-          "id": "3",
-          "label": "3",
-          "x": 120,
-          "y": 100
-        },
-        {
-          "id": "4",
-          "label": "4",
-          "x": 50,
-          "y": 250
-        },
-        {
-          "id": "5",
-          "label": "5",
-          "x": 130,
-          "y": 50
-        }],
-        "edges": [{
-          "id": "e1",
-          "source": "0",
-          "target": "1"
-        },
-        {
-          "id": "e2",
-          "source": "0",
-          "target": "2"
-        },
-        {
-          "id": "e3",
-          "source": "0",
-          "target": "3"
-        },
-        {
-          "id": "e4",
-          "source": "0",
-          "target": "4"
-        },
-        {
-          "id": "e5",
-          "source": "0",
-          "target": "5"
-        }]
-      }
-
       const graph = new G6.Graph({
         container: 'mountNode',
         width: 1000,
@@ -501,7 +437,7 @@
       function layoutConfigTranslation() {
         setTimeout(() => {
           descriptionDiv.innerHTML = 'Circular 布局，半径 = 200，分组数 = 5，排序方式：degree';
-          graph.updateLayoutCfg({
+          graph.updateLayout({
             radius: 200,
             startAngle: Math.PI / 4,
             endAngle: Math.PI,
@@ -513,7 +449,7 @@
 
         setTimeout(() => {
           descriptionDiv.innerHTML = 'Circular 布局，半径 = 200，分组数 = 3，排序方式：degree';
-          graph.updateLayoutCfg({
+          graph.updateLayout({
             startAngle: Math.PI / 4,
             endAngle: Math.PI,
             divisions: 3
@@ -523,7 +459,7 @@
 
         setTimeout(() => {
           descriptionDiv.innerHTML = 'Circular 布局，半径 = 200，分组数 = 8，排序方式：degree';
-          graph.updateLayoutCfg({
+          graph.updateLayout({
             radius: 200,
             startAngle: 0,
             endAngle: Math.PI / 2,
@@ -534,7 +470,7 @@
 
         setTimeout(() => {
           descriptionDiv.innerHTML = 'Circular 布局，半径 = 10～300（螺旋型），结束角：PI，分组数 = 1，排序方式：degree';
-          graph.updateLayoutCfg({
+          graph.updateLayout({
             radius: null,
             startRadius: 10,
             endRadius: 300,
@@ -547,7 +483,7 @@
 
         setTimeout(() => {
           descriptionDiv.innerHTML = 'Circular 布局，半径 = 10～300（螺旋型），结束角：2 * PI，分组数 = 1，排序方式：degree';
-          graph.updateLayoutCfg({
+          graph.updateLayout({
             endAngle: 2 * Math.PI,
           });
         },
@@ -555,7 +491,7 @@
 
         setTimeout(() => {
           descriptionDiv.innerHTML = 'Circular 布局，半径 = 200，排序方式：degree';
-          graph.updateLayoutCfg({
+          graph.updateLayout({
             radius: 200
           });
         },
@@ -563,7 +499,7 @@
 
         setTimeout(() => {
           descriptionDiv.innerHTML = 'Circular 布局，半径 = topology';
-          graph.updateLayoutCfg({
+          graph.updateLayout({
             radius: 200,
             ordering: 'topology'
           });
