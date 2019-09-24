@@ -41,12 +41,6 @@ const data = {
 
 const data2 = {
   nodes: [
-    // { id: '0', label: '0', x: 100, y: 20 },
-    // { id: '1', label: '1', x: 10, y: 210 },
-    // { id: '2', label: '2', x: 150, y: 100 },
-    // { id: '3', label: '3', x: 120, y: 100 },
-    // { id: '4', label: '4', x: 50, y: 250 },
-    // { id: '5', label: '5', x: 130, y: 50 }
     { id: '0', label: '0' },
     { id: '1', label: '1' },
     { id: '2', label: '2' },
@@ -149,7 +143,7 @@ describe('layout controller', () => {
     expect(layoutType).to.equal('fruchterman');
     expect(Object.getOwnPropertyNames(layoutCfg).length).to.equal(1);
   });
-  it('default layout without data', () => {
+  it('default layout without data and destroy', () => {
     const graph2 = new G6.Graph({
       container: div,
       width: 500,
@@ -160,10 +154,6 @@ describe('layout controller', () => {
     const layoutController = graph2.get('layoutController');
     expect(layoutController).not.to.be.undefined;
     graph2.destroy();
-  });
-  it('graph destroy, layoutController destroy', () => {
-    const layoutController = graph.get('layoutController');
-    graph.destroy();
     expect(layoutController.destroyed).to.be.true;
   });
 });
