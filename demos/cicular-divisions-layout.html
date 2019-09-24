@@ -3,12 +3,13 @@
   
   <head>
     <meta charset="UTF-8">
-    <title>Force Layout with Changing Data</title>
+    <title>Circular Layout with Divisions</title>
   </head>
   
   <body>
     <div id="mountNode"></div>
     <script src="../build/g6.js"></script>
+    <script src="./assets/d3-4.13.0.min.js"></script>
     <script>
       const data = {
         "nodes": [{
@@ -389,85 +390,42 @@
         }]
       };
 
-      const data2 = {
-        "nodes": [{
-          id: 'b0',
-          label: '0'
-        },
-        {
-          id: 'b1',
-          label: '1'
-        },
-        {
-          id: 'b2',
-          label: '2'
-        },
-        {
-          id: 'b3',
-          label: '3'
-        },
-        {
-          id: 'b4',
-          label: '4'
-        },
-        {
-          id: 'b5',
-          label: '5'
-        }],
-        "edges": [{
-          "id": "be1",
-          "source": "b0",
-          "target": "b1"
-        },
-        {
-          "id": "be2",
-          "source": "b0",
-          "target": "b2"
-        },
-        {
-          "id": "be3",
-          "source": "b0",
-          "target": "b3"
-        },
-        {
-          "id": "be4",
-          "source": "b0",
-          "target": "b4"
-        },
-        {
-          "id": "be5",
-          "source": "b0",
-          "target": "b5"
-        }]
-      }
-
       const graph = new G6.Graph({
         container: 'mountNode',
         width: 1000,
-        height: 600,
-        modes: {
-        default:
-          ['drag-canvas', 'drag-node'],
-        },
+        height: 800,
         layout: {
-          type: 'force',
-          center: [500, 300]
+          type: 'circular',
+          center: [500, 400],
+          radius: 200,
+          startAngle: Math.PI / 4,
+          endAngle: Math.PI,
+          divisions: 5,
+          ordering: 'degree'
         },
-        animate: true,
         defaultNode: {
           size: [20, 20],
-          color: 'steelblue',
-          style: {
-            lineWidth: 2,
-            fill: '#fff'
-          }
+          color: 'steelblue'
         },
         defaultEdge: {
           size: 1,
-          color: '#e2e2e2',
-          style: {
-            endArrow: {
-              path: 'M 4,0 L -4,-4 L -4,4 Z',
+          color: '#e2e2e2'
+        },
+        nodeStyle: {
+        default:
+          {
+            lineWidth:
+            2,
+            fill: '#fff'
+          }
+        },
+        edgeStyle: {
+        default:
+          {
+            endArrow:
+            {
+              path:
+              'M 4,0 L -4,-4 L -4,4 Z',
               d: 4
             }
           }
@@ -475,11 +433,6 @@
       });
       graph.data(data);
       graph.render();
-
-      setTimeout(() => {
-        graph.changeData(data2);
-      },
-      2500);
     </script>
   </body>
 </html>
