@@ -8,8 +8,8 @@ Shape.registerNode('circle', {
     // 默认配置
     default: {
       r: 20,
-      fill: '#40a9ff',
-      stroke: '#91d5ff',
+      stroke: '#69c0ff',
+      fill: '#e6f7ff',
       lineWidth: 1,
       x: 0,
       y: 0,
@@ -53,26 +53,16 @@ Shape.registerNode('circle', {
   shapeType: 'circle',
   // 文本位置
   labelPosition: 'bottom',
-  drawLabel(cfg, group) {
-    const customStyle = this.getCustomConfig(cfg) || {};
-    const defaultConfig = customStyle.default || {};
-    const labelCfg = deepMix({}, this.options.default.labelCfg, defaultConfig.labelCfg, cfg.labelCfg);
-    const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
-    const label = group.addShape('text', {
-      attrs: labelStyle
-    });
-    return label;
-  },
   drawShape(cfg, group) {
     const customStyle = this.getCustomConfig(cfg) || {};
     const defaultConfig = customStyle.default;
-    // const { icon, ...circleStyle } = defaultConfig;
-    const attrs = deepMix({}, this.options.default, defaultConfig, cfg.style);
+    const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
+    const { icon, linkPoints, ...circleStyle } = style;
     const keyShape = group.addShape('circle', {
-      attrs
+      attrs: circleStyle
     });
 
-    const { icon, linkPoints, r } = attrs;
+    const { r } = circleStyle;
     const { width, height, show } = icon;
     if (show) {
       const image = group.addShape('image', {
@@ -80,7 +70,8 @@ Shape.registerNode('circle', {
           x: -width / 2,
           y: -height / 2,
           ...icon
-        }
+        },
+        className: 'circle-icon'
       });
 
       image.set('capture', false);
@@ -98,7 +89,8 @@ Shape.registerNode('circle', {
           fill: anchorFill,
           stroke: anchorStroke,
           lineWidth: borderWidth
-        }
+        },
+        className: 'circle-anchor-left'
       });
     }
 
@@ -112,7 +104,8 @@ Shape.registerNode('circle', {
           fill: anchorFill,
           stroke: anchorStroke,
           lineWidth: borderWidth
-        }
+        },
+        className: 'circle-anchor-right'
       });
     }
 
@@ -126,7 +119,8 @@ Shape.registerNode('circle', {
           fill: anchorFill,
           stroke: anchorStroke,
           lineWidth: borderWidth
-        }
+        },
+        className: 'circle-anchor-top'
       });
     }
 
@@ -140,10 +134,107 @@ Shape.registerNode('circle', {
           fill: anchorFill,
           stroke: anchorStroke,
           lineWidth: borderWidth
-        }
+        },
+        className: 'circle-anchor-bottom'
       });
     }
 
     return keyShape;
+  },
+  /**
+   * 获取节点宽高
+   * @internal 返回节点的大小，以 [width, height] 的方式维护
+   * @param  {Object} cfg 节点的配置项
+   * @return {Array} 宽高
+   */
+  getSize(cfg) {
+    const customStyle = this.getCustomConfig(cfg) || {};
+    const defaultConfig = customStyle.default;
+    const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
+    const { r } = style;
+
+    return [ 2 * r, 2 * r ];
+  },
+  update(cfg, item) {
+    const customStyle = this.getCustomConfig(cfg) || {};
+    const defaultConfig = customStyle.default || {};
+    const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
+    const { icon, linkPoints, labelCfg: defaultLabelCfg, ...circleStyle } = style;
+    const { r } = circleStyle;
+
+    const group = item.getContainer();
+
+    const keyShape = item.get('keyShape');
+    keyShape.attr(circleStyle);
+
+    const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
+    const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
+
+    const text = group.findByClassName('node-label');
+    if (text) {
+      text.attr({
+        ...labelStyle
+      });
+    }
+
+    const circleIcon = group.findByClassName('circle-icon');
+    const { width: w, height: h } = icon;
+    if (circleIcon) {
+      circleIcon.attr({
+        x: -w / 2,
+        y: -h / 2,
+        ...icon
+      });
+    }
+
+    const { size, fill: anchorFill, stroke: anchorStroke, lineWidth: borderWidth } = linkPoints;
+
+    const anchorLeft = group.findByClassName('circle-anchor-left');
+    if (anchorLeft) {
+      anchorLeft.attr({
+        x: -r,
+        y: 0,
+        r: size,
+        fill: anchorFill,
+        stroke: anchorStroke,
+        lineWidth: borderWidth
+      });
+    }
+
+    const anchorRight = group.findByClassName('circle-anchor-right');
+    if (anchorRight) {
+      anchorRight.attr({
+        x: r,
+        y: 0,
+        r: size,
+        fill: anchorFill,
+        stroke: anchorStroke,
+        lineWidth: borderWidth
+      });
+    }
+
+    const anchorTop = group.findByClassName('circle-anchor-top');
+    if (anchorTop) {
+      anchorTop.attr({
+        x: 0,
+        y: -r,
+        r: size,
+        fill: anchorFill,
+        stroke: anchorStroke,
+        lineWidth: borderWidth
+      });
+    }
+
+    const anchorBottom = group.findByClassName('circle-anchor-bottom');
+    if (anchorBottom) {
+      anchorBottom.attr({
+        x: 0,
+        y: r,
+        r: size,
+        fill: anchorFill,
+        stroke: anchorStroke,
+        lineWidth: borderWidth
+      });
+    }
   }
 }, 'single-shape');

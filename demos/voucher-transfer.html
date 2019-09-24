@@ -3,9 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+      #edgeTooltips {
+        position: absolute;
+        left: -300px;
+        top: -100px;
+      }
+      #edgeTitle {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 150px;
+        height: 70px;
+        background: #fff;
+        border: 1px solid #ccc;
+      }
+      #edgeDetail {
+        position: relative;
+        top: 0;
+        left: 0;
+        background: #d6efae;
+        width: 200px;
+      }
+      .tooltips-common {
+        font-size: 16px;
+        margin: 0;
+        padding-left: 10px;
+      }
+      .tooltips-money {
+        padding-bottom: 5px;
+      }
+      .tooltips-date {
+        font-size: 12px;
+        color: #ccc;
+      }
+      .detail-content {
+        margin-bottom: 10px;
+      }
+      .edge-code {
+        margin: 0;
+        padding-left: 10px;
+        font-size: 12px;
+      }
+      .edge-value {
+        padding-left: 10px;
+      }
+      #nodeTooltips {
+        position: absolute;
+        left: -300px;
+        top: -100px;
+        width: 150px;
+        height: 200px;
+        background: #abec90;
+      }
+    </style>
 </head>
 <body>
 <div id="mountNode"></div>
+<div id="edgeTooltips">
+  <div id="edgeTitle">
+    <p class='tooltips-common'>凭证开立</p>
+    <p class='tooltips-common tooltips-money'>1000,000,000元</p>
+    <p class='tooltips-common tooltips-date'>2019-09-10</p>
+  </div>
+  <div id="edgeDetail">
+    <div class='detail-content'>
+      <p class='edge-code'>交易编码：</p>
+      <span class='edge-value'>1000190203455</span>
+    </div>
+    <div class='detail-content'>
+      <p class='edge-code'>交易编码：</p>
+      <span class='edge-value'>1000190203455</span>
+    </div>
+    <div class='detail-content'>
+      <p class='edge-code'>交易编码：</p>
+      <span class='edge-value'>1000190203455</span>
+    </div>
+  </div>
+</div>
+<div id='nodeTooltips'>
+  节点提示信息
+</div>
 <script src="../build/g6.js"></script>
 <script src="./assets/dagre.js"></script>
 <script>
@@ -144,7 +222,8 @@
             radius: 15,
             stroke,
             lineWidth: 0.6,
-            fillOpacity: 1
+            fillOpacity: 1,
+            fill: '#fff'
           }
         });
         const circleLeft = group.addShape('circle', {
@@ -372,4 +451,41 @@
     })
   })
   graph.paint()
+
+  const edgeTooltips = document.getElementById('edgeTooltips')
+  graph.on('edge:mouseenter', evt => {
+    const { item, target } = evt
+    const type = target.get('type')
+    if(type !== 'text') {
+      return
+    }
+    const model = item.getModel()
+    const { endPoint } = model
+    // y=endPoint.y - height / 2，在同一水平线上，x值=endPoint.x - width - 10
+    const y = endPoint.y - 35
+    const x = endPoint.x - 150 - 10
+    const point = graph.getCanvasByPoint(x, y)
+    edgeTooltips.style.top = point.y + 'px'
+    edgeTooltips.style.left = point.x + 'px'
+  })
+
+  graph.on('edge:mouseleave', evt => {
+    edgeTooltips.style.top = '-100px'
+    edgeTooltips.style.left = '-300px'
+  })
+
+  const nodeTooltips = document.getElementById('nodeTooltips')
+  graph.on('node:mouseenter', evt => {
+    const { item, target } = evt
+    const model = item.getModel()
+    const { x, y } = model
+    const point = graph.getCanvasByPoint(x, y)
+    nodeTooltips.style.top = point.y + 25 + 'px'
+    nodeTooltips.style.left = point.x - 70 + 'px'
+  })
+
+  graph.on('node:mouseleave', evt => {
+    nodeTooltips.style.top = '-100px'
+    nodeTooltips.style.left = '-300px'
+  })
 </script>

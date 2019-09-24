@@ -8,7 +8,7 @@ Shape.registerNode('rect', {
     default: {
       width: 100,
       height: 30,
-      // radius: 1,
+      radius: 0,
       stroke: '#69c0ff',
       fill: '#e6f7ff',
       lineWidth: 1,
@@ -47,12 +47,12 @@ Shape.registerNode('rect', {
       fill: '#91d5ff'
     }
   },
+  shapeType: 'rect',
   drawShape(cfg, group) {
     const customStyle = this.getCustomConfig(cfg) || {};
     const defaultConfig = customStyle.default;
     const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
-    const { width, height, stroke, radius, fill,
-      lineWidth, fillOpacity, linkPoints } = style;
+    const { width, height, linkPoints, ...rectStyle } = style;
 
     const keyShape = group.addShape('rect', {
       attrs: {
@@ -60,12 +60,9 @@ Shape.registerNode('rect', {
         y: -height / 2,
         width,
         height,
-        radius,
-        stroke,
-        lineWidth,
-        fill,
-        fillOpacity
-      }
+        ...rectStyle
+      },
+      className: 'rect-keyShape'
     });
 
     const { top, left, right, bottom, size,
@@ -80,7 +77,8 @@ Shape.registerNode('rect', {
           fill: anchorFill,
           stroke: anchorStroke,
           lineWidth: borderWidth
-        }
+        },
+        className: 'rect-anchor-left'
       });
     }
 
@@ -94,7 +92,8 @@ Shape.registerNode('rect', {
           fill: anchorFill,
           stroke: anchorStroke,
           lineWidth: borderWidth
-        }
+        },
+        className: 'rect-anchor-right'
       });
     }
 
@@ -108,7 +107,8 @@ Shape.registerNode('rect', {
           fill: anchorFill,
           stroke: anchorStroke,
           lineWidth: borderWidth
-        }
+        },
+        className: 'rect-anchor-top'
       });
     }
 
@@ -122,23 +122,98 @@ Shape.registerNode('rect', {
           fill: anchorFill,
           stroke: anchorStroke,
           lineWidth: borderWidth
-        }
+        },
+        className: 'rect-anchor-bottom'
       });
     }
     return keyShape;
   },
-  drawLabel(cfg, group) {
-    const customStyle = this.getCustomConfig(cfg) || this.options;
-    const defaultConfig = customStyle.default || {};
-    const labelCfg = deepMix({}, defaultConfig.labelCfg, cfg.labelCfg);
-    const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
-    const label = group.addShape('text', {
-      attrs: labelStyle
-    });
-    return label;
-  },
   getAnchorPoints() {
     const defaultOptions = this.options;
     return defaultOptions.anchorPoints;
+  },
+  getSize(cfg) {
+    const customStyle = this.getCustomConfig(cfg) || {};
+    const defaultConfig = customStyle.default;
+    const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
+    const { width, height } = style;
+
+    return [ width, height ];
+  },
+  update(cfg, item) {
+    const customStyle = this.getCustomConfig(cfg) || {};
+    const defaultConfig = customStyle.default;
+    const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
+    const { width, height, linkPoints, labelCfg: defaultLabelCfg, ...rectStyle } = style;
+
+    const keyShape = item.get('keyShape');
+    keyShape.attr({
+      x: -width / 2,
+      y: -height / 2,
+      width,
+      height,
+      ...rectStyle
+    });
+
+    const group = item.getContainer();
+
+    const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
+    const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
+    const text = group.findByClassName('node-label');
+    if (text) {
+      text.attr({
+        ...labelStyle
+      });
+    }
+
+    const { size, fill: anchorFill, stroke: anchorStroke, lineWidth: borderWidth } = linkPoints;
+
+    const anchorLeft = group.findByClassName('rect-anchor-left');
+    if (anchorLeft) {
+      anchorLeft.attr({
+        x: -width / 2,
+        y: 0,
+        r: size,
+        fill: anchorFill,
+        stroke: anchorStroke,
+        lineWidth: borderWidth
+      });
+    }
+
+    const anchorRight = group.findByClassName('rect-anchor-right');
+    if (anchorRight) {
+      anchorRight.attr({
+        x: width / 2,
+        y: 0,
+        r: size,
+        fill: anchorFill,
+        stroke: anchorStroke,
+        lineWidth: borderWidth
+      });
+    }
+
+    const anchorTop = group.findByClassName('rect-anchor-top');
+    if (anchorTop) {
+      anchorTop.attr({
+        x: 0,
+        y: -height / 2,
+        r: size,
+        fill: anchorFill,
+        stroke: anchorStroke,
+        lineWidth: borderWidth
+      });
+    }
+
+    const anchorBottom = group.findByClassName('rect-anchor-bottom');
+    if (anchorBottom) {
+      anchorBottom.attr({
+        x: 0,
+        y: height / 2,
+        r: size,
+        fill: anchorFill,
+        stroke: anchorStroke,
+        lineWidth: borderWidth
+      });
+    }
   }
 }, 'single-shape');
