@@ -74,7 +74,7 @@ describe('layout controller', () => {
   });
   it('change layout with configurations', () => {
     const radius = 100;
-    graph.changeLayout('circular', {
+    graph.updateLayout('circular', {
       radius,
       startAngle: Math.PI / 4,
       endAngle: Math.PI,
@@ -111,7 +111,7 @@ describe('layout controller', () => {
     expect(numberEqual(lastDist, endRadius * endRadius)).to.be.true;
   });
   it('change layout without configurations', () => {
-    graph.changeLayout('fruchterman');
+    graph.updateLayout('fruchterman');
     const layoutCfg = graph.get('layout');
     const layoutType = layoutCfg.type;
     const node = graph.getNodes()[0].getModel();
