@@ -3,14 +3,13 @@
   
   <head>
     <meta charset="UTF-8">
-    <title>力导布局 拖动释放节点后固定节点位置</title>
+    <title>力导布局 监听布局的开始与结束</title>
   </head>
   
   <body>
     <div id="timingTip"></div>
     <div id="mountNode"></div>
     <script src="../build/g6.js"></script>
-    <script src="../build/mds.js"></script>
     <script>
       const data = {
         "nodes": [{
@@ -150,10 +149,11 @@
 
       const tipDiv = document.getElementById('timingTip');
       graph.on('beforelayout', () => {
-        tipDiv.innerHTML = 'It is doing layout now!';
+        tipDiv.innerHTML = 'It is doing force-directed layout now!'
+         + '<br/>After it is done, this text will be changed.';
       });
       graph.on('afterlayout', () => {
-        tipDiv.innerHTML = 'The layout is done now!';
+        tipDiv.innerHTML = 'Done!';
       });
 
       graph.data(data);
