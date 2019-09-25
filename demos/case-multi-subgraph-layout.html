@@ -146,6 +146,34 @@
         {
           "id": "33",
           "label": "33"
+        },
+        {
+          "id": "34",
+          "label": "34"
+        },
+        {
+          "id": "35",
+          "label": "35"
+        },
+        {
+          "id": "36",
+          "label": "36"
+        },
+        {
+          "id": "37",
+          "label": "37"
+        },
+        {
+          "id": "38",
+          "label": "38"
+        },
+        {
+          "id": "39",
+          "label": "39"
+        },
+        {
+          "id": "40",
+          "label": "40"
         }],
         "edges": [{
           "source": "0",
@@ -386,20 +414,74 @@
         {
           "source": "32",
           "target": "33"
+        },
+        {
+          "source": "10",
+          "target": "34"
+        },
+        {
+          "source": "34",
+          "target": "35"
+        },
+        {
+          "source": "35",
+          "target": "36"
+        },
+        {
+          "source": "36",
+          "target": "37"
+        },
+        {
+          "source": "37",
+          "target": "38"
+        },
+        {
+          "source": "38",
+          "target": "39"
+        },
+        {
+          "source": "39",
+          "target": "40"
+        },
+        {
+          "source": "40",
+          "target": "10"
         }]
       };
 
       const nodes = data.nodes;
       const edges = data.edges;
 
+      const group1Nodes = [];
+      const group1NodeMap = new Map();
+      const group2Nodes = [];
+      const group2NodeMap = new Map();
+      const group3Nodes = [];
+      const group3NodeMap = new Map();
+
       nodes.forEach((node, i) => {
-        if (i <= 16 && i !== 12) {
-          if (!node.style) {
-            node.style = {
-              fill: 'lightsteelblue'
-            }
+        if (!node.style) {
+          if (i <= 16 && i !== 10 ) {
+            node.style = { fill: 'lightsteelblue' };
+            group1Nodes.push(node);
+            group1NodeMap.set(node.id, i);
+          } else if (i > 16 && i < 34) {
+            node.style = { fill: 'lightgrey' };
+            group2Nodes.push(node);
+            group2NodeMap.set(node.id, i);
           } else {
+            group3Nodes.push(node);
+            group3NodeMap.set(node.id, i);
+          }
+        } else {
+          if (i <= 16 && i !== 12) {
             node.style.fill = 'lightsteelblue';
+            group1Nodes.push(node);
+            group1NodeMap.set(node.id, i);
+          } else if (i > 16) {
+            node.style.fill = 'lightgrey';
+            group2Nodes.push(node);
+            group2NodeMap.set(node.id, i);
           }
         }
       });
@@ -446,31 +528,25 @@
       graph.data(data);
       graph.render();
 
+      let subForceLayout;
       setTimeout(() => {
-        const newNodes = [];
-        const newEdges = [];
-        const newNodeMap = new Map();
+        const group1Edges = [];
+        const center = [ 700, 100];
         // fix the nodes[0]
-        nodes[0].fx = nodes[0].x;
-        nodes[0].fy = nodes[0].y;
-        // add the nodes which should be re-layout
-        nodes.forEach((node, i) => {
-          if (i <= 16 && i !== 12) {
-            newNodes.push(node);
-            newNodeMap.set(node.id, i);
-          }
-        });
+        nodes[0].fx = center[0];
+        nodes[0].fy = center[1];
         // add related edges
         edges.forEach(edge => {
           const sourceId = edge.source;
           const targetId = edge.target;
-          if (newNodeMap.get(sourceId) !== undefined && newNodeMap.get(targetId) !== undefined) {
-            newEdges.push(edge);
+          if (group1NodeMap.get(sourceId) !== undefined
+            && group1NodeMap.get(targetId) !== undefined) {
+            group1Edges.push(edge);
           }
         });
         
-        const subForceLayout = new G6.Layout['force']({
-          center: [ nodes[0].x, nodes[0].y ],
+        subForceLayout = new G6.Layout['force']({
+          center,
           linkDistance: 70,
           preventOverlap: true,
           nodeSize: 20,
@@ -479,50 +555,63 @@
           }
         });
         subForceLayout.init({
-          'nodes': newNodes,
-          'edges': newEdges
+          'nodes': group1Nodes,
+          'edges': group1Edges
         });
         subForceLayout.excute();
       }, 1000);
 
-      // setTimeout(() => {
-      //   const newNodes = [];
-      //   const newEdges = [];
-      //   const newNodeMap = new Map();
-      //   // fix the nodes[0]
-      //   nodes[0].fx = nodes[0].x;
-      //   nodes[0].fy = nodes[0].y;
-      //   // add the nodes which should be re-layout
-      //   nodes.forEach((node, i) => {
-      //     if (i <= 16 && i !== 12) {
-      //       newNodes.push(node);
-      //       newNodeMap.set(node.id, i);
-      //     }
-      //   });
-      //   // add related edges
-      //   edges.forEach(edge => {
-      //     const sourceId = edge.source;
-      //     const targetId = edge.target;
-      //     if (newNodeMap.get(sourceId) !== undefined && newNodeMap.get(targetId) !== undefined) {
-      //       newEdges.push(edge);
-      //     }
-      //   });
+      setTimeout(() => {
+        subForceLayout.forceSimulation && subForceLayout.forceSimulation.stop();
+        const group2Edges = [];
+        // add related edges
+        edges.forEach(edge => {
+          const sourceId = edge.source;
+          const targetId = edge.target;
+          if (group2NodeMap.get(sourceId) !== undefined
+            && group2NodeMap.get(targetId) !== undefined) {
+            group2Edges.push(edge);
+          }
+        });
         
-      //   const subForceLayout = new G6.Layout['force']({
-      //     center: [ nodes[0].x, nodes[0].y ],
-      //     linkDistance: 70,
-      //     preventOverlap: true,
-      //     nodeSize: 20,
-      //     tick() {  // the tick function to show the animation of layout process
-      //       graph.refreshPositions();
-      //     }
-      //   });
-      //   subForceLayout.init({
-      //     'nodes': newNodes,
-      //     'edges': newEdges
-      //   });
-      //   subForceLayout.excute();
-      // }, 1000);
+        const subRadialLayout = new G6.Layout['radial']({
+          focusNode: '22',
+          center: [ 250, 150 ],
+          preventOverlap: true,
+          nodeSize: 20,
+          unitRadius: 50
+        });
+        subRadialLayout.init({
+          'nodes': group2Nodes,
+          'edges': group2Edges
+        });
+        subRadialLayout.excute();
+        graph.positionsAnimate();
+      }, 2500);
+
+      setTimeout(() => {
+        const group3Edges = [];
+        // add related edges
+        edges.forEach(edge => {
+          const sourceId = edge.source;
+          const targetId = edge.target;
+          if (group3NodeMap.get(sourceId) !== undefined
+            && group3NodeMap.get(targetId) !== undefined) {
+            group3Edges.push(edge);
+          }
+        });
+        
+        const subCircularLayout = new G6.Layout['circular']({
+          center: [ 500, 450 ],
+          radius: 100
+        });
+        subCircularLayout.init({
+          'nodes': group3Nodes,
+          'edges': group3Edges
+        });
+        subCircularLayout.excute();
+        graph.positionsAnimate();
+      }, 4000);
     </script>
   </body>
 

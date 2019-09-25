@@ -7,6 +7,7 @@
   </head>
   
   <body>
+    <div id="tip">Random Layout</div>
     <div id="mountNode"></div>
     <script src="../build/g6.js"></script>
     <script>
@@ -423,6 +424,8 @@
       graph.data(data);
       graph.render();
 
+      const tipDIv = document.getElementById('tip');
+
       layoutMethodsTranslation();
       setInterval(() => {
         layoutMethodsTranslation();
@@ -430,14 +433,17 @@
 
       function layoutMethodsTranslation() {
         setTimeout(() => {
+          tipDIv.innerHTML = 'MDS Layout';
           graph.updateLayout('mds');
         }, 1000);
 
         setTimeout(() => {
+          tipDIv.innerHTML = 'Fruchterman Layout';
           graph.updateLayout('fruchterman');
         }, 2500);
 
         setTimeout(() => {
+          tipDIv.innerHTML = 'Force-directed Layout';
           graph.updateLayout({
             type: 'force',
             linkDistance: 50,
@@ -447,6 +453,7 @@
         }, 4500);
 
         setTimeout(() => {
+          tipDIv.innerHTML = 'Circular Layout';
           graph.updateLayout({
             type: 'circular',
             radius: 100,
@@ -458,6 +465,7 @@
         }, 7000);
 
         setTimeout(() => {
+          tipDIv.innerHTML = 'Radial Layout';
           graph.updateLayout({
             type: 'radial',
             preventOverlap: true,
@@ -466,6 +474,7 @@
         }, 8500);
 
         setTimeout(() => {
+          tipDIv.innerHTML = 'Random Layout';
           graph.updateLayout({
             type: 'random',
             preventOverlap: true,
