@@ -10,6 +10,8 @@ class Fruchterman extends Base {
       center: [ 0, 0 ],           // 布局中心
       gravity: 10,                // 重力大小，影响图的紧凑程度
       speed: 1,                   // 速度
+      clustering: false,          // 是否产生聚类力
+      clusterGravity: 10,          // 是否产生聚类力
       onLayoutEnd() {},           // 布局完成回调
       onTick() {}                 // 每一迭代布局回调
     };
@@ -82,12 +84,45 @@ class Fruchterman extends Base {
     const k = Math.sqrt(width * height / (nodes.length + 1));
     const gravity = self.get('gravity');
     const speed = self.get('speed');
+    const clustering = self.get('clustering');
+    const clusters = [];
+    if (clustering) {
+      nodes.forEach(n => {
+        if (clusters[n.cluster] === undefined) {
+          clusters[n.cluster] = {
+            cx: 0,
+            cy: 0,
+            count: 0
+          };
+        }
+        clusters[n.cluster].cx += n.x;
+        clusters[n.cluster].cy += n.y;
+        clusters[n.cluster].count++;
+      });
+      clusters.forEach(c => {
+        c.cx /= c.count;
+        c.cy /= c.count;
+      });
+    }
     for (let i = 0; i < maxIteration; i++) {
       const disp = [];
       nodes.forEach((n, i) => {
         disp[i] = { x: 0, y: 0 };
       });
-      self.getDisp(nodes, edges, nodeMap, nodeIndexMap, disp, k);
+      let lastIters = false;
+      if (maxIteration - i < 10) lastIters = true;
+      self.getDisp(nodes, edges, nodeMap, nodeIndexMap, disp, k, lastIters);
+
+      // gravity for clusters
+      if (clustering) {
+        const clusterGravity = self.get('clusterGravity') || gravity;
+        nodes.forEach((n, i) => {
+          const distLength = Math.sqrt((n.x - clusters[n.cluster].cx) * (n.x - clusters[n.cluster].cx) + (n.y - clusters[n.cluster].cy) * (n.y - clusters[n.cluster].cy));
+          const gravityForce = 0.1 * k * clusterGravity * distLength;
+          disp[i].x -= gravityForce * (n.x - clusters[n.cluster].cx) / distLength;
+          disp[i].y -= gravityForce * (n.y - clusters[n.cluster].cy) / distLength;
+        });
+      }
 
       // gravity
       nodes.forEach((n, i) => {
@@ -96,7 +131,7 @@ class Fruchterman extends Base {
         disp[i].x -= gravityForce * n.x / distLength;
         disp[i].y -= gravityForce * n.y / distLength;
       });
-    // speed
+      // speed
       nodes.forEach((n, i) => {
         disp[i].dx *= speed / SPEED_DIVISOR;
         disp[i].dy *= speed / SPEED_DIVISOR;
@@ -113,12 +148,15 @@ class Fruchterman extends Base {
       });
     }
   }
-  getDisp(nodes, edges, nodeMap, nodeIndexMap, disp, k) {
+  getDisp(nodes, edges, nodeMap, nodeIndexMap, disp, k, lastIters = false) {
     const self = this;
-    self.calRepulsive(nodes, disp, k);
+    self.calRepulsive(nodes, disp, k, lastIters);
     self.calAttractive(edges, nodeMap, nodeIndexMap, disp, k);
   }
-  calRepulsive(nodes, disp, k) {
+  calRepulsive(nodes, disp, k, lastIters = false) {
+    const self = this;
+    let repStrength = k;
+    const clustering = self.get('clustering');
     nodes.forEach((v, i) => {
       disp[i] = { x: 0, y: 0 };
       nodes.forEach((u, j) => {
@@ -127,7 +165,8 @@ class Fruchterman extends Base {
         const vecy = v.y - u.y;
         let vecLengthSqr = vecx * vecx + vecy * vecy;
         if (vecLengthSqr === 0) vecLengthSqr = 1;
-        const common = (k * k) / vecLengthSqr;
+        if (clustering && lastIters && u.cluster !== v.cluster) repStrength *= 2;
+        const common = (repStrength * repStrength) / vecLengthSqr;
         disp[i].x += vecx * common;
         disp[i].y += vecy * common;
       });

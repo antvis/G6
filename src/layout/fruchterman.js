@@ -15,10 +15,12 @@ Layout.registerLayout('fruchterman', {
   layoutType: 'fruchterman',
   getDefaultCfg() {
     return {
+      maxIteration: 1000,         // 停止迭代的最大迭代数
       center: [ 0, 0 ],           // 布局中心
-      maxIteration: 8000,         // 停止迭代的最大迭代数
       gravity: 10,                // 重力大小，影响图的紧凑程度
-      speed: 1                    // 速度
+      speed: 1,                   // 速度
+      clustering: false,          // 是否产生聚类力
+      clusterGravity: 10           // 是否产生聚类力
     };
   },
   /**
@@ -72,12 +74,43 @@ Layout.registerLayout('fruchterman', {
     const k = Math.sqrt(width * height / (nodes.length + 1));
     const gravity = self.gravity;
     const speed = self.speed;
+    const clustering = self.clustering;
+    const clusters = [];
+    if (clustering) {
+      nodes.forEach(n => {
+        if (clusters[n.cluster] === undefined) {
+          clusters[n.cluster] = {
+            cx: 0,
+            cy: 0,
+            count: 0
+          };
+        }
+        clusters[n.cluster].cx += n.x;
+        clusters[n.cluster].cy += n.y;
+        clusters[n.cluster].count++;
+      });
+      clusters.forEach(c => {
+        c.cx /= c.count;
+        c.cy /= c.count;
+      });
+    }
     for (let i = 0; i < maxIteration; i++) {
       const disp = [];
       nodes.forEach((n, i) => {
         disp[i] = { x: 0, y: 0 };
       });
       self.getDisp(nodes, edges, nodeMap, nodeIndexMap, disp, k);
+
+      // gravity for clusters
+      if (clustering) {
+        const clusterGravity = self.clusterGravity || gravity;
+        nodes.forEach((n, i) => {
+          const distLength = Math.sqrt((n.x - clusters[n.cluster].cx) * (n.x - clusters[n.cluster].cx) + (n.y - clusters[n.cluster].cy) * (n.y - clusters[n.cluster].cy));
+          const gravityForce = 0.1 * k * clusterGravity * distLength;
+          disp[i].x -= gravityForce * (n.x - clusters[n.cluster].cx) / distLength;
+          disp[i].y -= gravityForce * (n.y - clusters[n.cluster].cy) / distLength;
+        });
+      }
 
       // gravity
       nodes.forEach((n, i) => {
@@ -86,7 +119,7 @@ Layout.registerLayout('fruchterman', {
         disp[i].x -= gravityForce * n.x / distLength;
         disp[i].y -= gravityForce * n.y / distLength;
       });
-    // speed
+      // speed
       nodes.forEach((n, i) => {
         disp[i].dx *= speed / SPEED_DIVISOR;
         disp[i].dy *= speed / SPEED_DIVISOR;
