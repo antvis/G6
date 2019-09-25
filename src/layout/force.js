@@ -110,6 +110,7 @@ Layout.registerLayout('force', {
    * @param {object} simulation 力模拟模型
    */
   overlapProcess(simulation) {
+    const self = this;
     let nodeSize = self.nodeSize;
     if (!nodeSize) {
       nodeSize = d => {
