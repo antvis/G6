@@ -74,7 +74,8 @@ describe('layout controller', () => {
   });
   it('change layout with configurations', () => {
     const radius = 100;
-    graph.updateLayout('circular', {
+    graph.updateLayout({
+      type: 'circular',
       radius,
       startAngle: Math.PI / 4,
       endAngle: Math.PI,
