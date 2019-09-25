@@ -1035,13 +1035,18 @@ class Graph extends EventEmitter {
    */
   updateLayout(cfg) {
     const layoutController = this.get('layoutController');
-    let newLayoutType = cfg.type;
+    let newLayoutType;
     const cfgIsString = (typeof cfg === 'string') && cfg.constructor === String;
     if (cfgIsString) {
       newLayoutType = cfg;
+      cfg = {
+        type: newLayoutType
+      };
+    } else {
+      newLayoutType = cfg.type;
     }
     const oriLayoutCfg = this.get('layout');
-    const oriLayoutType = oriLayoutCfg.type;
+    const oriLayoutType = oriLayoutCfg ? oriLayoutCfg.type : undefined;
     if (!newLayoutType || oriLayoutType === newLayoutType) {
       // no type or same type, update layout
       const layoutCfg = {};
