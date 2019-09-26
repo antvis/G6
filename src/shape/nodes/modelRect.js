@@ -6,95 +6,98 @@ Shape.registerNode('modelRect', {
   // labelPosition: 'center',
   // 自定义节点时的配置
   options: {
-    // 默认配置
-    default: {
-      width: 185,
-      height: 70,
+    size: [ 185, 70 ],
+    style: {
       radius: 5,
       stroke: '#69c0ff',
       fill: '#ffffff',
       lineWidth: 1,
-      fillOpacity: 1,
-      // 文本样式配置
-      labelCfg: {
-        style: {
-          fill: '#595959',
-          fontSize: 14
-        },
-        offset: 30
-      },
-      preRect: {
-        show: true,
-        width: 4,
-        fill: '#40a9ff',
-        radius: 2
-      },
-      // 节点上左右上下四个方向上的链接circle配置
-      linkPoints: {
-        top: false,
-        right: false,
-        bottom: false,
-        left: false,
-        // circle的大小
-        size: 3,
-        lineWidth: 1,
-        fill: '#72CC4A',
-        stroke: '#72CC4A'
-      },
-
-      // 节点中icon配置
-      logoIcon: {
-        // 是否显示icon，值为 false 则不渲染icon
-        show: true,
-        x: 0,
-        y: 0,
-        // icon的地址，字符串类型
-        img: 'https://gw.alipayobjects.com/zos/basement_prod/4f81893c-1806-4de4-aff3-9a6b266bc8a2.svg',
-        width: 16,
-        height: 16
-      },
-      // 节点中表示状态的icon配置
-      stateIcon: {
-        // 是否显示icon，值为 false 则不渲染icon
-        show: true,
-        // icon的地址，字符串类型
-        img: 'https://gw.alipayobjects.com/zos/basement_prod/300a2523-67e0-4cbf-9d4a-67c077b40395.svg',
-        width: 16,
-        height: 16
-      },
-      // 连接点，默认为左右
-      anchorPoints: [[ 0, 0.5 ], [ 1, 0.5 ]]
+      fillOpacity: 1
     },
-    // hover状态下的配置
-    hover: {
-      lineWidth: 2,
-      stroke: '#1890ff',
-      fill: '#e6f7ff'
+    // 文本样式配置
+    labelCfg: {
+      style: {
+        fill: '#595959',
+        fontSize: 14
+      },
+      offset: 30
     },
-    // 节点选中状态下的配置
-    select: {
-      lineWidth: 3,
-      stroke: '#1890ff',
-      fill: '#e6f7ff'
-    }
+    stateStyles: {
+      // hover状态下的配置
+      hover: {
+        lineWidth: 2,
+        stroke: '#1890ff',
+        fill: '#e6f7ff'
+      },
+      // 节点选中状态下的配置
+      select: {
+        lineWidth: 3,
+        stroke: '#1890ff',
+        fill: '#e6f7ff'
+      }
+    },
+    preRect: {
+      show: true,
+      width: 4,
+      fill: '#40a9ff',
+      radius: 2
+    },
+    // 节点上左右上下四个方向上的链接circle配置
+    linkPoints: {
+      top: false,
+      right: false,
+      bottom: false,
+      left: false,
+      // circle的大小
+      size: 3,
+      lineWidth: 1,
+      fill: '#72CC4A',
+      stroke: '#72CC4A'
+    },
+    // 节点中icon配置
+    logoIcon: {
+      // 是否显示icon，值为 false 则不渲染icon
+      show: true,
+      x: 0,
+      y: 0,
+      // icon的地址，字符串类型
+      img: 'https://gw.alipayobjects.com/zos/basement_prod/4f81893c-1806-4de4-aff3-9a6b266bc8a2.svg',
+      width: 16,
+      height: 16
+    },
+    // 节点中表示状态的icon配置
+    stateIcon: {
+      // 是否显示icon，值为 false 则不渲染icon
+      show: true,
+      // icon的地址，字符串类型
+      img: 'https://gw.alipayobjects.com/zos/basement_prod/300a2523-67e0-4cbf-9d4a-67c077b40395.svg',
+      width: 16,
+      height: 16
+    },
+    // 连接点，默认为左右
+    anchorPoints: [[ 0, 0.5 ], [ 1, 0.5 ]]
   },
+  shapeType: 'modelRect',
   drawShape(cfg, group) {
-    const customStyle = this.getCustomConfig(cfg) || {};
-    const defaultConfig = customStyle.default;
-    const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
-    const { width, height, linkPoints, preRect,
-      logoIcon, stateIcon, ...rectStyle } = style;
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { style: defaultStyle, preRect: defaultPreRect } = this.options;
+    const { style: customStyle, preRect: customPreRect } = customOptions;
+    const style = deepMix({}, defaultStyle, customStyle, cfg.style);
+    const size = this.getSize(cfg);
+    const width = size[0];
+    const height = size[1];
 
     const keyShape = group.addShape('rect', {
       attrs: {
+        ...style,
         x: -width / 2,
         y: -height / 2,
         width,
-        height,
-        ...rectStyle
+        height
       }
     });
 
+    const preRect = deepMix({}, defaultPreRect, customPreRect, cfg.preRect);
     const { show: preRectShow, ...preRectStyle } = preRect;
     if (preRectShow) {
       group.addShape('rect', {
@@ -108,6 +111,26 @@ Shape.registerNode('modelRect', {
       });
     }
 
+    this.drawLogoIcon(cfg, group);
+
+    this.drawStateIcon(cfg, group);
+
+    this.drawLinkPoints(cfg, group);
+    return keyShape;
+  },
+  /**
+   * 绘制模型矩形左边的logo图标
+   * @param {Object} cfg 数据配置项
+   * @param {Group} group Group实例
+   */
+  drawLogoIcon(cfg, group) {
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { logoIcon: defaultLogoIcon } = this.options;
+    const { logoIcon: customLogoIcon } = customOptions;
+    const logoIcon = deepMix({}, defaultLogoIcon, customLogoIcon, cfg.logoIcon);
+    const size = this.getSize(cfg);
+    const width = size[0];
+
     if (logoIcon.show) {
       const { width: w, height: h, x, y, ...logoIconStyle } = logoIcon;
       const image = group.addShape('image', {
@@ -115,14 +138,25 @@ Shape.registerNode('modelRect', {
           ...logoIconStyle,
           x: x || -width / 2 + w,
           y: y || -h / 2
-          // width: w,
-          // height: h
         },
         className: 'rect-logo-icon'
       });
 
       image.set('capture', false);
     }
+  },
+  /**
+   * 绘制模型矩形右边的状态图标
+   * @param {Object} cfg 数据配置项
+   * @param {Group} group Group实例
+   */
+  drawStateIcon(cfg, group) {
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { stateIcon: defaultStateIcon } = this.options;
+    const { stateIcon: customStateIcon } = customOptions;
+    const stateIcon = deepMix({}, defaultStateIcon, customStateIcon, cfg.stateIcon);
+    const size = this.getSize(cfg);
+    const width = size[0];
 
     if (stateIcon.show) {
       const { width: w, height: h, x, y } = stateIcon;
@@ -137,21 +171,34 @@ Shape.registerNode('modelRect', {
 
       image.set('capture', false);
     }
+  },
+  /**
+   * 绘制节点上的LinkPoints
+   * @param {Object} cfg data数据配置项
+   * @param {Group} group Group实例
+   */
+  drawLinkPoints(cfg, group) {
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { linkPoints: defaultLinkPoints } = this.options;
+    const { linkPoints: customLinkPoints } = customOptions;
+    const linkPoints = deepMix({}, defaultLinkPoints, customLinkPoints, cfg.linkPoints);
 
-    const { top, left, right, bottom, size,
-      fill: anchorFill, stroke: anchorStroke, lineWidth: borderWidth } = linkPoints;
+    const { top, left, right, bottom, size: markSize,
+      ...markStyle } = linkPoints;
+    const size = this.getSize(cfg);
+    const width = size[0];
+    const height = size[1];
+
     if (left) {
       // left circle
       group.addShape('circle', {
         attrs: {
+          ...markStyle,
           x: -width / 2,
           y: 0,
-          r: size,
-          fill: anchorFill,
-          stroke: anchorStroke,
-          lineWidth: borderWidth
+          r: markSize
         },
-        className: 'rect-anchor-left'
+        className: 'rect-mark-left'
       });
     }
 
@@ -159,14 +206,12 @@ Shape.registerNode('modelRect', {
       // right circle
       group.addShape('circle', {
         attrs: {
+          ...markStyle,
           x: width / 2,
           y: 0,
-          r: size,
-          fill: anchorFill,
-          stroke: anchorStroke,
-          lineWidth: borderWidth
+          r: markSize
         },
-        className: 'rect-anchor-right'
+        className: 'rect-mark-right'
       });
     }
 
@@ -174,14 +219,12 @@ Shape.registerNode('modelRect', {
       // top circle
       group.addShape('circle', {
         attrs: {
+          ...markStyle,
           x: 0,
           y: -height / 2,
-          r: size,
-          fill: anchorFill,
-          stroke: anchorStroke,
-          lineWidth: borderWidth
+          r: markSize
         },
-        className: 'rect-anchor-top'
+        className: 'rect-mark-top'
       });
     }
 
@@ -189,26 +232,29 @@ Shape.registerNode('modelRect', {
       // bottom circle
       group.addShape('circle', {
         attrs: {
+          ...markStyle,
           x: 0,
           y: height / 2,
-          r: size,
-          fill: anchorFill,
-          stroke: anchorStroke,
-          lineWidth: borderWidth
+          r: markSize
         },
-        className: 'rect-anchor-bottom'
+        className: 'rect-mark-bottom'
       });
     }
-    return keyShape;
   },
   drawLabel(cfg, group) {
-    const customStyle = this.getCustomConfig(cfg) || {};
-    const defaultConfig = customStyle.default || {};
-    const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
-    const labelCfg = deepMix({}, style.labelCfg, cfg.labelCfg);
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { labelCfg: defaultLabelCfg, logoIcon: defaultLogoIcon } = this.options;
+    const { labelCfg: customLabelCfg, logoIcon: customLogoIcon } = customOptions;
+
+    const logoIcon = deepMix({}, defaultLogoIcon, customLogoIcon, cfg.logoIcon);
+
+    const labelCfg = deepMix({}, defaultLabelCfg, customLabelCfg, cfg.labelCfg);
+
+    const size = this.getSize(cfg);
+    const width = size[0];
+
     let label = null;
 
-    const { logoIcon, width } = style;
     const { show, width: w } = logoIcon;
     let offsetX = -width / 2 + labelCfg.offset;
 
@@ -223,13 +269,13 @@ Shape.registerNode('modelRect', {
           ...fontStyle,
           y: -5,
           x: offsetX,
-          text: Util.fittingString(cfg.label, 70, 14)
+          text: Util.fittingString(cfg.label, 100, 14)
         }
       });
 
       group.addShape('text', {
         attrs: {
-          text: Util.fittingString(cfg.description, 80, 12),
+          text: Util.fittingString(cfg.description, 75, 12),
           fontSize: 12,
           x: offsetX,
           y: 17,
@@ -249,39 +295,38 @@ Shape.registerNode('modelRect', {
     }
     return label;
   },
-  getAnchorPoints() {
-    const defaultOptions = this.options;
-    return defaultOptions.anchorPoints;
-  },
-  getSize(cfg) {
-    const customStyle = this.getCustomConfig(cfg) || {};
-    const defaultConfig = customStyle.default;
-    const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
-    const { width, height } = style;
-
-    return [ width, height ];
+  getAnchorPoints(cfg) {
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { anchorPoints: defaultAnchorPoints } = this.options;
+    const { anchorPoints: customAnchorPoints } = customOptions;
+    const anchorPoints = deepMix({}, defaultAnchorPoints, customAnchorPoints);
+    return anchorPoints;
   },
   update(cfg, item) {
-    const customStyle = this.getCustomConfig(cfg) || {};
-    const defaultConfig = customStyle.default;
-    const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
-    const { width, height, linkPoints, logoIcon, stateIcon,
-      labelCfg: defaultLabelCfg, ...rectStyle } = style;
-
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { style: defaultStyle, labelCfg: defaultLabelCfg, preRect: defaultPreRect,
+      logoIcon: defaultLogoIcon, stateIcon: defaultStateIcon } = this.options;
+    const { style: customStyle, labelCfg: customLabelCfg, preRect: customPreRect,
+      logoIcon: customLogoIcon, stateIcon: customStateIcon } = customOptions;
+    const style = deepMix({}, defaultStyle, customStyle, cfg.style);
+    const size = this.getSize(cfg);
+    const width = size[0];
+    const height = size[1];
     const keyShape = item.get('keyShape');
     keyShape.attr({
+      ...style,
       x: -width / 2,
       y: -height / 2,
       width,
-      height,
-      ...rectStyle
+      height
     });
 
     const group = item.getContainer();
 
-    const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
-    // const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
+    const labelCfg = deepMix({}, defaultLabelCfg, customLabelCfg, cfg.labelCfg);
     const text = group.findByClassName('node-label');
+
+    const logoIcon = deepMix({}, defaultLogoIcon, customLogoIcon, cfg.logoIcon);
 
     const { show, width: w } = logoIcon;
 
@@ -318,7 +363,9 @@ Shape.registerNode('modelRect', {
 
     const preRectShape = group.findByClassName('pre-rect');
     if (preRectShape) {
+      const preRect = deepMix({}, defaultPreRect, customPreRect, cfg.preRect);
       preRectShape.attr({
+        ...preRect,
         x: -width / 2,
         y: -height / 2,
         height
@@ -327,8 +374,9 @@ Shape.registerNode('modelRect', {
 
     const logoIconShape = group.findByClassName('rect-logo-icon');
     if (logoIconShape) {
-      const { width: w, height: h, x, y } = logoIcon;
+      const { width: w, height: h, x, y, ...logoIconStyle } = logoIcon;
       logoIconShape.attr({
+        ...logoIconStyle,
         x: x || -width / 2 + w,
         y: y || -h / 2,
         width: w,
@@ -338,8 +386,10 @@ Shape.registerNode('modelRect', {
 
     const stateIconShape = group.findByClassName('rect-state-icon');
     if (stateIconShape) {
-      const { width: w, height: h, x, y } = stateIcon;
+      const stateIcon = deepMix({}, defaultStateIcon, customStateIcon, cfg.stateIcon);
+      const { width: w, height: h, x, y, ...stateIconStyle } = stateIcon;
       stateIconShape.attr({
+        ...stateIconStyle,
         x: x || width / 2 - w * 2 + 8,
         y: y || -h / 2,
         width: w,
@@ -347,52 +397,69 @@ Shape.registerNode('modelRect', {
       });
     }
 
-    const { size, fill: anchorFill, stroke: anchorStroke, lineWidth: borderWidth } = linkPoints;
+    this.updateLinkPoints(cfg, group);
+  },
+  /**
+   * 更新linkPoints
+   * @param {Object} cfg 节点数据配置项
+   * @param {Group} group Item所在的group
+   */
+  updateLinkPoints(cfg, group) {
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { linkPoints: defaultLinkPoints } = this.options;
+    const { linkPoints: customLinkPoints } = customOptions;
+    const linkPoints = deepMix({}, defaultLinkPoints, customLinkPoints, cfg.linkPoints);
 
-    const anchorLeft = group.findByClassName('rect-anchor-left');
-    if (anchorLeft) {
-      anchorLeft.attr({
+    const { size: markSize, fill: markFill, stroke: markStroke, lineWidth: borderWidth } = linkPoints;
+
+    const size = this.getSize(cfg);
+    const width = size[0];
+    const height = size[1];
+
+    const markLeft = group.findByClassName('rect-mark-left');
+    if (markLeft) {
+      markLeft.attr({
         x: -width / 2,
         y: 0,
-        r: size,
-        fill: anchorFill,
-        stroke: anchorStroke,
+        r: markSize,
+        fill: markFill,
+        stroke: markStroke,
         lineWidth: borderWidth
       });
     }
 
-    const anchorRight = group.findByClassName('rect-anchor-right');
-    if (anchorRight) {
-      anchorRight.attr({
+    const markRight = group.findByClassName('rect-mark-right');
+    if (markRight) {
+      markRight.attr({
         x: width / 2,
         y: 0,
-        r: size,
-        fill: anchorFill,
-        stroke: anchorStroke,
+        r: markSize,
+        fill: markFill,
+        stroke: markStroke,
         lineWidth: borderWidth
       });
     }
 
-    const anchorTop = group.findByClassName('rect-anchor-top');
-    if (anchorTop) {
-      anchorTop.attr({
+    const markTop = group.findByClassName('rect-mark-top');
+    if (markTop) {
+      markTop.attr({
         x: 0,
         y: -height / 2,
-        r: size,
-        fill: anchorFill,
-        stroke: anchorStroke,
+        r: markSize,
+        fill: markFill,
+        stroke: markStroke,
         lineWidth: borderWidth
       });
     }
 
-    const anchorBottom = group.findByClassName('rect-anchor-bottom');
-    if (anchorBottom) {
-      anchorBottom.attr({
+    const markBottom = group.findByClassName('rect-mark-bottom');
+    if (markBottom) {
+      markBottom.attr({
         x: 0,
         y: height / 2,
-        r: size,
-        fill: anchorFill,
-        stroke: anchorStroke,
+        r: markSize,
+        fill: markFill,
+        stroke: markStroke,
         lineWidth: borderWidth
       });
     }

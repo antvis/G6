@@ -7,68 +7,78 @@ const deepMix = require('@antv/util/lib/deep-mix');
 Shape.registerNode('ellipse', {
   // 自定义节点时的配置
   options: {
-    // 默认配置
-    default: {
-      rx: 60,
-      ry: 30,
-      stroke: '#69c0ff',
-      fill: '#e6f7ff',
-      lineWidth: 1,
+    size: [ 60, 30 ],
+    style: {
       x: 0,
       y: 0,
-      // 文本样式配置
-      labelCfg: {
-        style: {
-          fill: '#595959'
-        }
-      },
-      // 节点中icon配置
-      icon: {
-        // 是否显示icon，值为 false 则不渲染icon
-        show: false,
-        // icon的地址，字符串类型
-        img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
-        width: 36,
-        height: 36
-      },
-      // 节点上左右上下四个方向上的链接circle配置
-      linkPoints: {
-        top: false,
-        right: false,
-        bottom: false,
-        left: false,
-        // circle的大小
-        size: 3,
-        lineWidth: 1,
-        fill: '#72CC4A',
-        stroke: '#72CC4A'
-      },
-      // 连接点，默认为左右
-      anchorPoints: [[ 0, 0.5 ], [ 1, 0.5 ]]
+      stroke: '#87e8de',
+      fill: '#36cfc9',
+      lineWidth: 1
     },
-    // 鼠标hover状态下的配置
-    hover: {
-      lineWidth: 3
+    // 文本样式配置
+    labelCfg: {
+      style: {
+        fill: '#595959'
+      }
     },
-    // 选中节点状态下的配置
-    select: {
-      lineWidth: 5
-    }
+    stateStyles: {
+      // 鼠标hover状态下的配置
+      hover: {
+        lineWidth: 3
+      },
+      // 选中节点状态下的配置
+      select: {
+        lineWidth: 5
+      }
+    },
+    // 节点上左右上下四个方向上的链接circle配置
+    linkPoints: {
+      top: false,
+      right: false,
+      bottom: false,
+      left: false,
+      // circle的大小
+      size: 3,
+      lineWidth: 1,
+      fill: '#72CC4A',
+      stroke: '#72CC4A'
+    },
+    // 节点中icon配置
+    icon: {
+      // 是否显示icon，值为 false 则不渲染icon
+      show: false,
+      // icon的地址，字符串类型
+      img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+      width: 36,
+      height: 36
+    },
+    // 连接点，默认为左右
+    anchorPoints: [[ 0, 0.5 ], [ 1, 0.5 ]]
   },
   shapeType: 'ellipse',
   // 文本位置
   labelPosition: 'center',
   drawShape(cfg, group) {
-    const customStyle = this.getCustomConfig(cfg) || {};
-    const defaultConfig = customStyle.default;
-    const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
+    // const customStyle = this.getCustomConfig(cfg) || {};
+    // const defaultConfig = customStyle.default;
+    // const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
 
-    // 使用用户配置的size大小
-    const { linkPoints, icon, ...ellipseStyle } = style;
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { style: defaultStyle, icon: defaultIcon } = this.options;
+    const { style: customStyle, icon: customIcon } = customOptions;
+    const style = deepMix({}, defaultStyle, customStyle, cfg.style);
+    const icon = deepMix({}, defaultIcon, customIcon, cfg.icon);
+    const size = this.getSize(cfg);
 
-    const { rx, ry } = ellipseStyle;
+    const rx = size[0];
+    const ry = size[1];
+
     const keyShape = group.addShape('ellipse', {
-      attrs: ellipseStyle
+      attrs: {
+        ...style,
+        rx,
+        ry
+      }
     });
 
     const { width, height, show } = icon;
@@ -85,20 +95,37 @@ Shape.registerNode('ellipse', {
       image.set('capture', false);
     }
 
-    const { top, left, right, bottom, size,
-      fill: anchorFill, stroke: anchorStroke, lineWidth: borderWidth } = linkPoints;
+    this.drawLinkPoints(cfg, group);
+
+    return keyShape;
+  },
+  /**
+   * 绘制节点上的LinkPoints
+   * @param {Object} cfg data数据配置项
+   * @param {Group} group Group实例
+   */
+  drawLinkPoints(cfg, group) {
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { linkPoints: defaultLinkPoints } = this.options;
+    const { linkPoints: customLinkPoints } = customOptions;
+    const linkPoints = deepMix({}, defaultLinkPoints, customLinkPoints, cfg.linkPoints);
+
+    const { top, left, right, bottom, size: markSize,
+      ...markStyle } = linkPoints;
+    const size = this.getSize(cfg);
+    const rx = size[0];
+    const ry = size[1];
+
     if (left) {
       // left circle
       group.addShape('circle', {
         attrs: {
+          ...markStyle,
           x: -rx,
           y: 0,
-          r: size,
-          fill: anchorFill,
-          stroke: anchorStroke,
-          lineWidth: borderWidth
+          r: markSize
         },
-        className: 'ellipse-anchor-left'
+        className: 'ellipse-mark-left'
       });
     }
 
@@ -106,14 +133,12 @@ Shape.registerNode('ellipse', {
       // right circle
       group.addShape('circle', {
         attrs: {
+          ...markStyle,
           x: rx,
           y: 0,
-          r: size,
-          fill: anchorFill,
-          stroke: anchorStroke,
-          lineWidth: borderWidth
+          r: markSize
         },
-        className: 'ellipse-anchor-right'
+        className: 'ellipse-mark-right'
       });
     }
 
@@ -121,14 +146,12 @@ Shape.registerNode('ellipse', {
       // top circle
       group.addShape('circle', {
         attrs: {
+          ...markStyle,
           x: 0,
           y: -ry,
-          r: size,
-          fill: anchorFill,
-          stroke: anchorStroke,
-          lineWidth: borderWidth
+          r: markSize
         },
-        className: 'ellipse-anchor-top'
+        className: 'ellipse-mark-top'
       });
     }
 
@@ -136,47 +159,44 @@ Shape.registerNode('ellipse', {
       // bottom circle
       group.addShape('circle', {
         attrs: {
+          ...markStyle,
           x: 0,
           y: ry,
-          r: size,
-          fill: anchorFill,
-          stroke: anchorStroke,
-          lineWidth: borderWidth
+          r: markSize
         },
-        className: 'ellipse-anchor-bottom'
+        className: 'ellipse-mark-bottom'
       });
     }
-
-    return keyShape;
-  },
-  /**
-   * 获取节点宽高
-   * @internal 返回节点的大小，以 [width, height] 的方式维护
-   * @param  {Object} cfg 节点的配置项
-   * @return {Array} 宽高
-   */
-  getSize(cfg) {
-    const customStyle = this.getCustomConfig(cfg) || {};
-    const defaultConfig = customStyle.default;
-    const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
-    const { rx, ry } = style;
-
-    return [ 2 * rx, 2 * ry ];
   },
   update(cfg, item) {
-    const customStyle = this.getCustomConfig(cfg) || {};
-    const defaultConfig = customStyle.default || {};
-    const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
-    const { icon, linkPoints, labelCfg: defaultLabelCfg, ...ellipseStyle } = style;
+    // const customStyle = this.getCustomConfig(cfg) || {};
+    // const defaultConfig = customStyle.default || {};
+    // const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
+    // const { icon, linkPoints, labelCfg: defaultLabelCfg, ...ellipseStyle } = style;
 
-    const { rx, ry } = ellipseStyle;
+    // const { rx, ry } = ellipseStyle;
+
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { style: defaultStyle, icon: defaultIcon, labelCfg: defaultLabelCfg } = this.options;
+    const { style: customStyle, icon: customIcon, labelCfg: customLabelCfg } = customOptions;
+    const style = deepMix({}, defaultStyle, customStyle, cfg.style);
+    const icon = deepMix({}, defaultIcon, customIcon, cfg.icon);
+    const size = this.getSize(cfg);
+
+    const rx = size[0];
+    const ry = size[1];
+
     const keyShape = item.get('keyShape');
 
-    keyShape.attr(ellipseStyle);
+    keyShape.attr({
+      ...style,
+      rx,
+      ry
+    });
 
     const group = item.getContainer();
 
-    const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
+    const labelCfg = deepMix({}, defaultLabelCfg, customLabelCfg, cfg.labelCfg);
     const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
     const text = group.findByClassName('node-label');
     if (text) {
@@ -195,53 +215,62 @@ Shape.registerNode('ellipse', {
       });
     }
 
-    const { size, fill: anchorFill, stroke: anchorStroke, lineWidth: borderWidth } = linkPoints;
+    this.updateLinkPoints(cfg, group);
+  },
+  /**
+   * 更新linkPoints
+   * @param {Object} cfg 节点数据配置项
+   * @param {Group} group Item所在的group
+   */
+  updateLinkPoints(cfg, group) {
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { linkPoints: defaultLinkPoints } = this.options;
+    const { linkPoints: customLinkPoints } = customOptions;
+    const linkPoints = deepMix({}, defaultLinkPoints, customLinkPoints, cfg.linkPoints);
 
-    const anchorLeft = group.findByClassName('ellipse-anchor-left');
-    if (anchorLeft) {
-      anchorLeft.attr({
+    const { size: markSize, ...markStyles } = linkPoints;
+
+    const size = this.getSize(cfg);
+    const rx = size[0];
+    const ry = size[1];
+
+    const markLeft = group.findByClassName('ellipse-mark-left');
+    if (markLeft) {
+      markLeft.attr({
+        ...markStyles,
         x: -rx,
         y: 0,
-        r: size,
-        fill: anchorFill,
-        stroke: anchorStroke,
-        lineWidth: borderWidth
+        r: markSize
       });
     }
 
-    const anchorRight = group.findByClassName('ellipse-anchor-right');
-    if (anchorRight) {
-      anchorRight.attr({
+    const markRight = group.findByClassName('ellipse-mark-right');
+    if (markRight) {
+      markRight.attr({
+        ...markStyles,
         x: rx,
         y: 0,
-        r: size,
-        fill: anchorFill,
-        stroke: anchorStroke,
-        lineWidth: borderWidth
+        r: markSize
       });
     }
 
-    const anchorTop = group.findByClassName('ellipse-anchor-top');
-    if (anchorTop) {
-      anchorTop.attr({
+    const markTop = group.findByClassName('ellipse-mark-top');
+    if (markTop) {
+      markTop.attr({
+        ...markStyles,
         x: 0,
         y: -ry,
-        r: size,
-        fill: anchorFill,
-        stroke: anchorStroke,
-        lineWidth: borderWidth
+        r: markSize
       });
     }
 
-    const anchorBottom = group.findByClassName('ellipse-anchor-bottom');
-    if (anchorBottom) {
-      anchorBottom.attr({
+    const markBottom = group.findByClassName('ellipse-mark-bottom');
+    if (markBottom) {
+      markBottom.attr({
+        ...markStyles,
         x: 0,
         y: ry,
-        r: size,
-        fill: anchorFill,
-        stroke: anchorStroke,
-        lineWidth: borderWidth
+        r: markSize
       });
     }
   }

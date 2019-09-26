@@ -5,63 +5,65 @@ const deepMix = require('@antv/util/lib/deep-mix');
 Shape.registerNode('diamond', {
   // 自定义节点时的配置
   options: {
-    // 默认配置
-    default: {
-      width: 100,
-      height: 100,
-      stroke: '#69c0ff',
-      fill: '#e6f7ff',
-      lineWidth: 1,
-      // 文本样式配置
-      labelCfg: {
-        style: {
-          fill: '#595959'
-        }
-      },
-      // 节点上左右上下四个方向上的链接circle配置
-      linkPoints: {
-        top: false,
-        right: false,
-        bottom: false,
-        left: false,
-        // circle的大小
-        size: 3,
-        lineWidth: 1,
-        fill: '#72CC4A',
-        stroke: '#72CC4A'
-      },
-      // 节点中icon配置
-      icon: {
-        // 是否显示icon，值为 false 则不渲染icon
-        show: false,
-        // icon的地址，字符串类型
-        img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
-        width: 16,
-        height: 16
+    size: [ 100, 100 ],
+    style: {
+      stroke: '#87e8de',
+      fill: '#36cfc9',
+      lineWidth: 1
+    },
+    // 文本样式配置
+    labelCfg: {
+      style: {
+        fill: '#595959'
       }
     },
-    // 鼠标hover状态下的配置
-    hover: {
-      lineWidth: 3
+    stateStyles: {
+      // 鼠标hover状态下的配置
+      hover: {
+        lineWidth: 3
+      },
+      // 选中节点状态下的配置
+      select: {
+        lineWidth: 5
+      }
     },
-    // 选中节点状态下的配置
-    select: {
-      lineWidth: 5
+    // 节点上左右上下四个方向上的链接circle配置
+    linkPoints: {
+      top: false,
+      right: false,
+      bottom: false,
+      left: false,
+      // circle的大小
+      size: 3,
+      lineWidth: 1,
+      fill: '#72CC4A',
+      stroke: '#72CC4A'
+    },
+    // 节点中icon配置
+    icon: {
+      // 是否显示icon，值为 false 则不渲染icon
+      show: false,
+      // icon的地址，字符串类型
+      img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+      width: 16,
+      height: 16
     }
   },
   shapeType: 'circle',
   // 文本位置
   labelPosition: 'center',
   drawShape(cfg, group) {
-    const customStyle = this.getCustomConfig(cfg) || {};
-    const defaultConfig = customStyle.default;
-    const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
-    const { icon, linkPoints, width, height, ...diamondStyle } = style;
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { style: defaultStyle, icon: defaultIcon } = this.options;
+    const { style: customStyle, icon: customIcon } = customOptions;
+    const style = deepMix({}, defaultStyle, customStyle, cfg.style);
+    const icon = deepMix({}, defaultIcon, customIcon, cfg.icon);
+
     const path = this.getPath(cfg);
     const keyShape = group.addShape('path', {
       attrs: {
         path,
-        ...diamondStyle
+        ...style
       }
     });
 
@@ -79,20 +81,36 @@ Shape.registerNode('diamond', {
       image.set('capture', false);
     }
 
-    const { top, left, right, bottom, size,
-      fill: anchorFill, stroke: anchorStroke, lineWidth: borderWidth } = linkPoints;
+    this.drawLinkPoints(cfg, group);
+
+    return keyShape;
+  },
+  /**
+   * 绘制节点上的LinkPoints
+   * @param {Object} cfg data数据配置项
+   * @param {Group} group Group实例
+   */
+  drawLinkPoints(cfg, group) {
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { linkPoints: defaultLinkPoints } = this.options;
+    const { linkPoints: customLinkPoints } = customOptions;
+    const linkPoints = deepMix({}, defaultLinkPoints, customLinkPoints, cfg.linkPoints);
+
+    const { top, left, right, bottom, size: markSize,
+      ...markStyle } = linkPoints;
+    const size = this.getSize(cfg);
+    const width = size[0];
+    const height = size[1];
     if (left) {
       // left circle
       group.addShape('circle', {
         attrs: {
+          ...markStyle,
           x: -width / 2,
           y: 0,
-          r: size,
-          fill: anchorFill,
-          stroke: anchorStroke,
-          lineWidth: borderWidth
+          r: markSize
         },
-        className: 'diamond-anchor-left'
+        className: 'diamond-mark-left'
       });
     }
 
@@ -100,14 +118,12 @@ Shape.registerNode('diamond', {
       // right circle
       group.addShape('circle', {
         attrs: {
+          ...markStyle,
           x: width / 2,
           y: 0,
-          r: size,
-          fill: anchorFill,
-          stroke: anchorStroke,
-          lineWidth: borderWidth
+          r: markSize
         },
-        className: 'diamond-anchor-right'
+        className: 'diamond-mark-right'
       });
     }
 
@@ -115,14 +131,12 @@ Shape.registerNode('diamond', {
       // top circle
       group.addShape('circle', {
         attrs: {
+          ...markStyle,
           x: 0,
           y: -height / 2,
-          r: size,
-          fill: anchorFill,
-          stroke: anchorStroke,
-          lineWidth: borderWidth
+          r: markSize
         },
-        className: 'diamond-anchor-top'
+        className: 'diamond-mark-top'
       });
     }
 
@@ -130,27 +144,19 @@ Shape.registerNode('diamond', {
       // bottom circle
       group.addShape('circle', {
         attrs: {
+          ...markStyle,
           x: 0,
           y: height / 2,
-          r: size,
-          fill: anchorFill,
-          stroke: anchorStroke,
-          lineWidth: borderWidth
+          r: markSize
         },
-        className: 'diamond-anchor-bottom'
+        className: 'diamond-mark-bottom'
       });
     }
-
-    return keyShape;
-  },
-  shouldUpdate() {
-    return false;
   },
   getPath(cfg) {
-    const customStyle = this.getCustomConfig(cfg) || {};
-    const defaultConfig = customStyle.default;
-    const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
-    const { width, height } = style;
+    const size = this.getSize(cfg);
+    const width = size[0];
+    const height = size[1];
     const path = [
       [ 'M', 0, -height / 2 ], // 上部顶点
       [ 'L', width / 2, 0 ], // 右侧点
@@ -160,35 +166,22 @@ Shape.registerNode('diamond', {
     ];
     return path;
   },
-  /**
-   * 获取节点宽高
-   * @internal 返回节点的大小，以 [width, height] 的方式维护
-   * @param  {Object} cfg 节点的配置项
-   * @return {Array} 宽高
-   */
-  getSize(cfg) {
-    const customStyle = this.getCustomConfig(cfg) || {};
-    const defaultConfig = customStyle.default;
-    const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
-    const { width, height } = style;
-
-    return [ width, height ];
-  },
   update(cfg, item) {
     const group = item.getContainer();
-    const customStyle = this.getCustomConfig(cfg) || {};
-    const defaultConfig = customStyle.default || {};
-    const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { style: defaultStyle, icon: defaultIcon, labelCfg: defaultLabelCfg } = this.options;
+    const { style: customStyle, icon: customIcon, labelCfg: customLabelCfg } = customOptions;
+    const style = deepMix({}, defaultStyle, customStyle, cfg.style);
+    const icon = deepMix({}, defaultIcon, customIcon, cfg.icon);
 
-    const { width, height, icon, linkPoints, labelCfg: defaultLabelCfg, ...diamondStyle } = style;
     const keyShape = item.get('keyShape');
     const path = this.getPath(cfg);
     keyShape.attr({
       path,
-      ...diamondStyle
+      ...style
     });
 
-    const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
+    const labelCfg = deepMix({}, defaultLabelCfg, customLabelCfg, cfg.labelCfg);
     const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
 
     const text = group.findByClassName('node-label');
@@ -208,52 +201,69 @@ Shape.registerNode('diamond', {
       });
     }
 
-    const { size, fill: anchorFill, stroke: anchorStroke, lineWidth: borderWidth } = linkPoints;
+    this.updateLinkPoints(cfg, group);
+  },
+  /**
+   * 更新linkPoints
+   * @param {Object} cfg 节点数据配置项
+   * @param {Group} group Item所在的group
+   */
+  updateLinkPoints(cfg, group) {
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { linkPoints: defaultLinkPoints } = this.options;
+    const { linkPoints: customLinkPoints } = customOptions;
+    const linkPoints = deepMix({}, defaultLinkPoints, customLinkPoints, cfg.linkPoints);
 
-    const anchorLeft = group.findByClassName('diamond-anchor-left');
-    if (anchorLeft) {
-      anchorLeft.attr({
+    const { size: markSize, fill: markFill, stroke: markStroke, lineWidth: borderWidth } = linkPoints;
+
+    const size = this.getSize(cfg);
+    const width = size[0];
+    const height = size[1];
+
+    const markLeft = group.findByClassName('diamond-mark-left');
+    if (markLeft) {
+      markLeft.attr({
         x: -width / 2,
         y: 0,
-        r: size,
-        fill: anchorFill,
-        stroke: anchorStroke,
+        r: markSize,
+        fill: markFill,
+        stroke: markStroke,
         lineWidth: borderWidth
       });
     }
 
-    const anchorRight = group.findByClassName('diamond-anchor-right');
-    if (anchorRight) {
-      anchorRight.attr({
+    const markRight = group.findByClassName('diamond-mark-right');
+    if (markRight) {
+      markRight.attr({
         x: width / 2,
         y: 0,
-        r: size,
-        fill: anchorFill,
-        stroke: anchorStroke,
+        r: markSize,
+        fill: markFill,
+        stroke: markStroke,
         lineWidth: borderWidth
       });
     }
 
-    const anchorTop = group.findByClassName('diamond-anchor-top');
-    if (anchorTop) {
-      anchorTop.attr({
+    const markTop = group.findByClassName('diamond-mark-top');
+    if (markTop) {
+      markTop.attr({
         x: 0,
         y: -height / 2,
-        r: size,
-        fill: anchorFill,
-        stroke: anchorStroke,
+        r: markSize,
+        fill: markFill,
+        stroke: markStroke,
         lineWidth: borderWidth
       });
     }
 
-    const anchorBottom = group.findByClassName('diamond-anchor-bottom');
-    if (anchorBottom) {
-      anchorBottom.attr({
+    const markBottom = group.findByClassName('diamond-mark-bottom');
+    if (markBottom) {
+      markBottom.attr({
         x: 0,
         y: height / 2,
-        r: size,
-        fill: anchorFill,
-        stroke: anchorStroke,
+        r: markSize,
+        fill: markFill,
+        stroke: markStroke,
         lineWidth: borderWidth
       });
     }

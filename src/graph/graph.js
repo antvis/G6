@@ -401,16 +401,16 @@ class Graph extends EventEmitter {
    * 若是自定义节点切在各种状态下
    * graph.node(node => {
    *  return {
-   *    default: {
-   *      fill: 'red',
-   *      opacity: 1
-   *    },
-   *    selected: {
-   *      style: {
-   *        fill: 'blue',
-   *        opacity: 0.2
-   *      }
-   *    }
+   *    {
+          shape: 'rect',
+          label: node.id,
+          style: { fill: '#666' },
+          styles: {
+            default: { fill: 'red' },
+            selected: { fill: 'blue' },
+            custom: { fill: 'green' }
+          }
+        }
    *  }
    * });
    * @param {function} nodeFn 指定每个节点样式
