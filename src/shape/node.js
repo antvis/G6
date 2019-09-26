@@ -30,7 +30,8 @@ const singleNodeDefinition = Util.mix({}, SingleShapeMixin, {
    * @return {Array} 宽高
    */
   getSize(cfg) {
-    let size = cfg.size || Global.defaultNode.size;
+    const customOptions = this.getCustomConfig(cfg) || {};
+    let size = cfg.size || customOptions.size || this.options.size || Global.defaultNode.size;
     if (!Util.isArray(size)) {
       size = [ size, size ];
     }

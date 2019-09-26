@@ -5,66 +5,69 @@ const deepMix = require('@antv/util/lib/deep-mix');
 Shape.registerNode('triangle', {
   // 自定义节点时的配置
   options: {
-    // 默认配置
-    default: {
-      len: 40,
-      direction: 'up',
-      stroke: '#69c0ff',
-      fill: '#e6f7ff',
-      lineWidth: 1,
-      // 文本样式配置
-      labelCfg: {
-        style: {
-          fill: '#595959'
-        },
-        offset: 15
+    size: 40,
+    direction: 'up',
+    style: {
+      stroke: '#87e8de',
+      fill: '#36cfc9',
+      lineWidth: 1
+    },
+    // 文本样式配置
+    labelCfg: {
+      style: {
+        fill: '#595959'
       },
-      // 节点上左右上下四个方向上的链接circle配置
-      linkPoints: {
-        top: false,
-        right: false,
-        bottom: false,
-        left: false,
-        // circle的大小
-        size: 5,
-        lineWidth: 1,
-        fill: '#fff',
-        stroke: '#72CC4A'
+      offset: 15
+    },
+    stateStyles: {
+      // 鼠标hover状态下的配置
+      hover: {
+        lineWidth: 3
       },
-      // 节点中icon配置
-      icon: {
-        // 是否显示icon，值为 false 则不渲染icon
-        show: false,
-        // icon的地址，字符串类型
-        img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
-        width: 16,
-        height: 16,
-        offset: 0
+      // 选中节点状态下的配置
+      select: {
+        lineWidth: 5
       }
     },
-    // 鼠标hover状态下的配置
-    hover: {
-      lineWidth: 3
+    // 节点上左右上下四个方向上的链接circle配置
+    linkPoints: {
+      top: false,
+      right: false,
+      bottom: false,
+      left: false,
+      // circle的大小
+      size: 5,
+      lineWidth: 1,
+      fill: '#fff',
+      stroke: '#72CC4A'
     },
-    // 选中节点状态下的配置
-    select: {
-      lineWidth: 5
+    // 节点中icon配置
+    icon: {
+      // 是否显示icon，值为 false 则不渲染icon
+      show: false,
+      // icon的地址，字符串类型
+      img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+      width: 16,
+      height: 16,
+      offset: 6
     }
   },
-  shapeType: 'circle',
+  shapeType: 'triangle',
   // 文本位置
   labelPosition: 'bottom',
   drawShape(cfg, group) {
-    const customStyle = this.getCustomConfig(cfg) || {};
-    const defaultConfig = customStyle.default;
-    const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
-    const { icon, linkPoints,
-      direction, len, ...triangleStyle } = style;
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { style: defaultStyle, icon: defaultIcon, direction: defaultDirection } = this.options;
+    const { style: customStyle, icon: customIcon, direction: customDirection } = customOptions;
+    const style = deepMix({}, defaultStyle, customStyle, cfg.style);
+    const icon = deepMix({}, defaultIcon, customIcon, cfg.icon);
+
+    const direction = cfg.direction || customDirection || defaultDirection;
     const path = this.getPath(cfg);
     const keyShape = group.addShape('path', {
       attrs: {
         path,
-        ...triangleStyle
+        ...style
       }
     });
 
@@ -90,8 +93,28 @@ Shape.registerNode('triangle', {
       image.set('capture', false);
     }
 
-    const { top, left, right, bottom, size,
-      fill: anchorFill, stroke: anchorStroke, lineWidth: borderWidth } = linkPoints;
+    this.drawLinkPoints(cfg, group);
+
+    return keyShape;
+  },
+  /**
+   * 绘制节点上的LinkPoints
+   * @param {Object} cfg data数据配置项
+   * @param {Group} group Group实例
+   */
+  drawLinkPoints(cfg, group) {
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { linkPoints: defaultLinkPoints, direction: defaultDirection } = this.options;
+    const { linkPoints: customLinkPoints, direction: customDirection } = customOptions;
+    const linkPoints = deepMix({}, defaultLinkPoints, customLinkPoints, cfg.linkPoints);
+
+    const direction = cfg.direction || customDirection || defaultDirection;
+
+    const { top, left, right, bottom, size: markSize,
+      ...markStyle } = linkPoints;
+    const size = this.getSize(cfg);
+    const len = size[0];
+
     if (left) {
       // up down left right 四个方向的坐标均不相同
       let leftPos = null;
@@ -109,14 +132,12 @@ Shape.registerNode('triangle', {
         // left circle
         group.addShape('circle', {
           attrs: {
+            ...markStyle,
             x: leftPos[0],
             y: leftPos[1],
-            r: size,
-            fill: anchorFill,
-            stroke: anchorStroke,
-            lineWidth: borderWidth
+            r: markSize
           },
-          className: 'triangle-anchor-left'
+          className: 'triangle-mark-left'
         });
       }
     }
@@ -138,14 +159,12 @@ Shape.registerNode('triangle', {
       if (rightPos) {
         group.addShape('circle', {
           attrs: {
+            ...markStyle,
             x: rightPos[0],
             y: rightPos[1],
-            r: size,
-            fill: anchorFill,
-            stroke: anchorStroke,
-            lineWidth: borderWidth
+            r: markSize
           },
-          className: 'triangle-anchor-right'
+          className: 'triangle-mark-right'
         });
       }
     }
@@ -167,14 +186,12 @@ Shape.registerNode('triangle', {
         // top circle
         group.addShape('circle', {
           attrs: {
+            ...markStyle,
             x: topPos[0],
             y: topPos[1],
-            r: size,
-            fill: anchorFill,
-            stroke: anchorStroke,
-            lineWidth: borderWidth
+            r: markSize
           },
-          className: 'triangle-anchor-top'
+          className: 'triangle-mark-top'
         });
       }
     }
@@ -196,28 +213,25 @@ Shape.registerNode('triangle', {
         // bottom circle
         group.addShape('circle', {
           attrs: {
+            ...markStyle,
             x: bottomPos[0],
             y: bottomPos[1],
-            r: size,
-            fill: anchorFill,
-            stroke: anchorStroke,
-            lineWidth: borderWidth
+            r: markSize
           },
-          className: 'triangle-anchor-bottom'
+          className: 'triangle-mark-bottom'
         });
       }
     }
-
-    return keyShape;
-  },
-  shouldUpdate() {
-    return false;
   },
   getPath(cfg) {
-    const customStyle = this.getCustomConfig(cfg) || {};
-    const defaultConfig = customStyle.default;
-    const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
-    const { len, direction } = style;
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { direction: defaultDirection } = this.options;
+    const { direction: customDirection } = customOptions;
+
+    const direction = cfg.direction || customDirection || defaultDirection;
+    const size = this.getSize(cfg);
+    const len = size[0];
+
     const diffY = len * Math.sin((1 / 3) * Math.PI);
     const r = len * Math.sin((1 / 3) * Math.PI);
     let path = [
@@ -251,36 +265,21 @@ Shape.registerNode('triangle', {
     }
     return path;
   },
-  /**
-   * 获取节点宽高
-   * @internal 返回节点的大小，以 [width, height] 的方式维护
-   * @param  {Object} cfg 节点的配置项
-   * @return {Array} 宽高
-   */
-  getSize(cfg) {
-    const customStyle = this.getCustomConfig(cfg) || {};
-    const defaultConfig = customStyle.default;
-    const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
-    const { len } = style;
-
-    return [ len, len ];
-  },
   update(cfg, item) {
     const group = item.getContainer();
-    const customStyle = this.getCustomConfig(cfg) || {};
-    const defaultConfig = customStyle.default || {};
-    const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
-
-    const { icon, linkPoints, direction, len,
-      labelCfg: defaultLabelCfg, ...triangleStyle } = style;
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { style: defaultStyle, icon: defaultIcon, labelCfg: defaultLabelCfg } = this.options;
+    const { style: customStyle, icon: customIcon, labelCfg: customLabelCfg } = customOptions;
+    const style = deepMix({}, defaultStyle, customStyle, cfg.style);
+    const icon = deepMix({}, defaultIcon, customIcon, cfg.icon);
     const keyShape = item.get('keyShape');
     const path = this.getPath(cfg);
     keyShape.attr({
       path,
-      ...triangleStyle
+      ...style
     });
 
-    const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
+    const labelCfg = deepMix({}, defaultLabelCfg, customLabelCfg, cfg.labelCfg);
     const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
 
     const text = group.findByClassName('node-label');
@@ -300,10 +299,29 @@ Shape.registerNode('triangle', {
       });
     }
 
-    const { size, fill: anchorFill, stroke: anchorStroke, lineWidth: borderWidth } = linkPoints;
+    this.updateLinkPoints(cfg, group);
+  },
+  /**
+   * 更新linkPoints
+   * @param {Object} cfg 节点数据配置项
+   * @param {Group} group Item所在的group
+   */
+  updateLinkPoints(cfg, group) {
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { linkPoints: defaultLinkPoints, direction: defaultDirection } = this.options;
+    const { linkPoints: customLinkPoints, direction: customDirection } = customOptions;
+    const linkPoints = deepMix({}, defaultLinkPoints, customLinkPoints, cfg.linkPoints);
 
-    const anchorLeft = group.findByClassName('triangle-anchor-left');
-    if (anchorLeft) {
+    const direction = cfg.direction || customDirection || defaultDirection;
+
+
+    const { size: markSize, ...markStyle } = linkPoints;
+
+    const size = this.getSize(cfg);
+    const len = size[0];
+
+    const markLeft = group.findByClassName('triangle-mark-left');
+    if (markLeft) {
       let leftPos = null;
       const diffY = len * Math.sin((1 / 3) * Math.PI);
       const r = len * Math.sin((1 / 3) * Math.PI);
@@ -317,19 +335,17 @@ Shape.registerNode('triangle', {
 
       if (leftPos) {
         // left circle
-        anchorLeft.attr({
+        markLeft.attr({
+          ...markStyle,
           x: leftPos[0],
           y: leftPos[1],
-          r: size,
-          fill: anchorFill,
-          stroke: anchorStroke,
-          lineWidth: borderWidth
+          r: markSize
         });
       }
     }
 
-    const anchorRight = group.findByClassName('triangle-anchor-right');
-    if (anchorRight) {
+    const markRight = group.findByClassName('triangle-mark-right');
+    if (markRight) {
       let rightPos = null;
       const diffY = len * Math.sin((1 / 3) * Math.PI);
       const r = len * Math.sin((1 / 3) * Math.PI);
@@ -342,19 +358,17 @@ Shape.registerNode('triangle', {
       }
 
       if (rightPos) {
-        anchorRight.attr({
+        markRight.attr({
+          ...markStyle,
           x: rightPos[0],
           y: rightPos[1],
-          r: size,
-          fill: anchorFill,
-          stroke: anchorStroke,
-          lineWidth: borderWidth
+          r: markSize
         });
       }
     }
 
-    const anchorTop = group.findByClassName('triangle-anchor-top');
-    if (anchorTop) {
+    const markTop = group.findByClassName('triangle-mark-top');
+    if (markTop) {
       let topPos = null;
       const diffY = len * Math.sin((1 / 3) * Math.PI);
       const r = len * Math.sin((1 / 3) * Math.PI);
@@ -368,19 +382,17 @@ Shape.registerNode('triangle', {
 
       if (topPos) {
         // top circle
-        anchorTop.attr({
+        markTop.attr({
+          ...markStyle,
           x: topPos[0],
           y: topPos[1],
-          r: size,
-          fill: anchorFill,
-          stroke: anchorStroke,
-          lineWidth: borderWidth
+          r: markSize
         });
       }
     }
 
-    const anchorBottom = group.findByClassName('triangle-anchor-bottom');
-    if (anchorBottom) {
+    const markBottom = group.findByClassName('triangle-mark-bottom');
+    if (markBottom) {
       let bottomPos = null;
       const diffY = len * Math.sin((1 / 3) * Math.PI);
       const r = len * Math.sin((1 / 3) * Math.PI);
@@ -395,13 +407,11 @@ Shape.registerNode('triangle', {
 
       if (bottomPos) {
         // bottom circle
-        anchorBottom.attr({
+        markBottom.attr({
+          ...markStyle,
           x: bottomPos[0],
           y: bottomPos[1],
-          r: size,
-          fill: anchorFill,
-          stroke: anchorStroke,
-          lineWidth: borderWidth
+          r: markSize
         });
       }
     }

@@ -1,69 +1,71 @@
 const Shape = require('../shape');
 const deepMix = require('@antv/util/lib/deep-mix');
 
-// 菱形shape
+// 五角星shape
 Shape.registerNode('star', {
   // 自定义节点时的配置
   options: {
-    // 默认配置
-    default: {
-      outerR: 60,
-      innerR: 20,
-      stroke: '#69c0ff',
-      fill: '#e6f7ff',
-      lineWidth: 1,
-      // 文本样式配置
-      labelCfg: {
-        style: {
-          fill: '#595959'
-        },
-        offset: 0
+    size: [ 20, 60 ],
+    style: {
+      stroke: '#87e8de',
+      fill: '#36cfc9',
+      lineWidth: 1
+    },
+    // 文本样式配置
+    labelCfg: {
+      style: {
+        fill: '#595959'
       },
-      // 节点上左右上下四个方向上的链接circle配置
-      linkPoints: {
-        top: false,
-        right: false,
-        left: false,
-        leftBottom: false,
-        rightBottom: false,
-        // circle的大小
-        size: 3,
-        lineWidth: 1,
-        fill: '#fff',
-        stroke: '#72CC4A'
+      offset: 0
+    },
+    stateStyles: {
+      // 鼠标hover状态下的配置
+      hover: {
+        lineWidth: 3
       },
-      // 节点中icon配置
-      icon: {
-        // 是否显示icon，值为 false 则不渲染icon
-        show: false,
-        // icon的地址，字符串类型
-        img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
-        width: 16,
-        height: 16
+      // 选中节点状态下的配置
+      select: {
+        lineWidth: 5
       }
     },
-    // 鼠标hover状态下的配置
-    hover: {
-      lineWidth: 3
+    // 节点上左右上下四个方向上的链接circle配置
+    linkPoints: {
+      top: false,
+      right: false,
+      left: false,
+      leftBottom: false,
+      rightBottom: false,
+      // circle的大小
+      size: 3,
+      lineWidth: 1,
+      fill: '#fff',
+      stroke: '#72CC4A'
     },
-    // 选中节点状态下的配置
-    select: {
-      lineWidth: 5
+    // 节点中icon配置
+    icon: {
+      // 是否显示icon，值为 false 则不渲染icon
+      show: false,
+      // icon的地址，字符串类型
+      img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+      width: 16,
+      height: 16
     }
   },
   shapeType: 'star',
   // 文本位置
   labelPosition: 'center',
   drawShape(cfg, group) {
-    const customStyle = this.getCustomConfig(cfg) || {};
-    const defaultConfig = customStyle.default;
-    const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
-    const { icon, linkPoints, outerR, ...starStyle } = style;
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { style: defaultStyle, icon: defaultIcon } = this.options;
+    const { style: customStyle, icon: customIcon } = customOptions;
+    const style = deepMix({}, defaultStyle, customStyle, cfg.style);
+    const icon = deepMix({}, defaultIcon, customIcon, cfg.icon);
+
     const path = this.getPath(cfg);
     const keyShape = group.addShape('path', {
       attrs: {
         path,
-        ...starStyle
+        ...style
       }
     });
 
@@ -81,8 +83,25 @@ Shape.registerNode('star', {
       image.set('capture', false);
     }
 
-    const { top, left, right, leftBottom, rightBottom, size,
-      fill: anchorFill, stroke: anchorStroke, lineWidth: borderWidth } = linkPoints;
+    this.drawLinkPoints(cfg, group);
+
+    return keyShape;
+  },
+  /**
+   * 绘制节点上的LinkPoints
+   * @param {Object} cfg data数据配置项
+   * @param {Group} group Group实例
+   */
+  drawLinkPoints(cfg, group) {
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { linkPoints: defaultLinkPoints } = this.options;
+    const { linkPoints: customLinkPoints } = customOptions;
+    const linkPoints = deepMix({}, defaultLinkPoints, customLinkPoints, cfg.linkPoints);
+
+    const { top, left, right, leftBottom, rightBottom, size: markSize,
+      ...markStyle } = linkPoints;
+    const size = this.getSize(cfg);
+    const outerR = size[1];
 
     if (right) {
       // right circle
@@ -92,14 +111,12 @@ Shape.registerNode('star', {
 
       group.addShape('circle', {
         attrs: {
+          ...markStyle,
           x: x1,
           y: -y1,
-          r: size,
-          fill: anchorFill,
-          stroke: anchorStroke,
-          lineWidth: borderWidth
+          r: markSize
         },
-        className: 'star-anchor-right'
+        className: 'star-mark-right'
       });
     }
 
@@ -111,14 +128,12 @@ Shape.registerNode('star', {
       // top circle
       group.addShape('circle', {
         attrs: {
+          ...markStyle,
           x: x1,
           y: -y1,
-          r: size,
-          fill: anchorFill,
-          stroke: anchorStroke,
-          lineWidth: borderWidth
+          r: markSize
         },
-        className: 'star-anchor-top'
+        className: 'star-mark-top'
       });
     }
 
@@ -130,14 +145,12 @@ Shape.registerNode('star', {
       // left circle
       group.addShape('circle', {
         attrs: {
+          ...markStyle,
           x: x1,
           y: -y1,
-          r: size,
-          fill: anchorFill,
-          stroke: anchorStroke,
-          lineWidth: borderWidth
+          r: markSize
         },
-        className: 'star-anchor-left'
+        className: 'star-mark-left'
       });
     }
 
@@ -149,14 +162,12 @@ Shape.registerNode('star', {
       // left bottom circle
       group.addShape('circle', {
         attrs: {
+          ...markStyle,
           x: x1,
           y: -y1,
-          r: size,
-          fill: anchorFill,
-          stroke: anchorStroke,
-          lineWidth: borderWidth
+          r: markSize
         },
-        className: 'star-anchor-left-bottom'
+        className: 'star-mark-left-bottom'
       });
     }
 
@@ -168,27 +179,19 @@ Shape.registerNode('star', {
       // left bottom circle
       group.addShape('circle', {
         attrs: {
+          ...markStyle,
           x: x1,
           y: -y1,
-          r: size,
-          fill: anchorFill,
-          stroke: anchorStroke,
-          lineWidth: borderWidth
+          r: markSize
         },
-        className: 'star-anchor-right-bottom'
+        className: 'star-mark-right-bottom'
       });
     }
-
-    return keyShape;
-  },
-  shouldUpdate() {
-    return false;
   },
   getPath(cfg) {
-    const customStyle = this.getCustomConfig(cfg) || {};
-    const defaultConfig = customStyle.default;
-    const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
-    const { outerR, innerR } = style;
+    const size = this.getSize(cfg);
+    const innerR = size[0];
+    const outerR = size[1];
     const path = [];
     for (let i = 0; i < 5; i++) {
       const x1 = Math.cos((18 + 72 * i) / 180 * Math.PI) * outerR;
@@ -216,36 +219,22 @@ Shape.registerNode('star', {
 
     return path;
   },
-  /**
-   * 获取节点宽高
-   * @internal 返回节点的大小，以 [width, height] 的方式维护
-   * @param  {Object} cfg 节点的配置项
-   * @return {Array} 宽高
-   */
-  getSize(cfg) {
-    const customStyle = this.getCustomConfig(cfg) || {};
-    const defaultConfig = customStyle.default;
-    const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
-    const { outerR } = style;
-
-    return [ outerR, outerR ];
-  },
   update(cfg, item) {
     const group = item.getContainer();
-    const customStyle = this.getCustomConfig(cfg) || {};
-    const defaultConfig = customStyle.default || {};
-    const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { style: defaultStyle, icon: defaultIcon, labelCfg: defaultLabelCfg } = this.options;
+    const { style: customStyle, icon: customIcon, labelCfg: customLabelCfg } = customOptions;
+    const style = deepMix({}, defaultStyle, customStyle, cfg.style);
+    const icon = deepMix({}, defaultIcon, customIcon, cfg.icon);
 
-    const { icon, linkPoints, outerR,
-      labelCfg: defaultLabelCfg, ...starStyle } = style;
     const keyShape = item.get('keyShape');
     const path = this.getPath(cfg);
     keyShape.attr({
       path,
-      ...starStyle
+      ...style
     });
 
-    const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
+    const labelCfg = deepMix({}, defaultLabelCfg, customLabelCfg, cfg.labelCfg);
     const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
 
     const text = group.findByClassName('node-label');
@@ -265,84 +254,90 @@ Shape.registerNode('star', {
       });
     }
 
-    const { size, fill: anchorFill, stroke: anchorStroke, lineWidth: borderWidth } = linkPoints;
+    this.updateLinkPoints(cfg, group);
+  },
+  /**
+   * 更新linkPoints
+   * @param {Object} cfg 节点数据配置项
+   * @param {Group} group Item所在的group
+   */
+  updateLinkPoints(cfg, group) {
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { linkPoints: defaultLinkPoints } = this.options;
+    const { linkPoints: customLinkPoints } = customOptions;
+    const linkPoints = deepMix({}, defaultLinkPoints, customLinkPoints, cfg.linkPoints);
 
-    const anchorRight = group.findByClassName('star-anchor-right');
-    if (anchorRight) {
+    const { size: markSize, ...markStyle } = linkPoints;
+
+    const size = this.getSize(cfg);
+    const outerR = size[1];
+
+    const markRight = group.findByClassName('star-mark-right');
+    if (markRight) {
       const x = Math.cos((18 + 72 * 0) / 180 * Math.PI) * outerR;
       const y = Math.sin((18 + 72 * 0) / 180 * Math.PI) * outerR;
 
-      anchorRight.attr({
+      markRight.attr({
+        ...markStyle,
         x,
         y: -y,
-        r: size,
-        fill: anchorFill,
-        stroke: anchorStroke,
-        lineWidth: borderWidth
+        r: markSize
       });
     }
 
-    const anchorTop = group.findByClassName('star-anchor-top');
-    if (anchorTop) {
+    const markTop = group.findByClassName('star-mark-top');
+    if (markTop) {
       const x = Math.cos((18 + 72 * 1) / 180 * Math.PI) * outerR;
       const y = Math.sin((18 + 72 * 1) / 180 * Math.PI) * outerR;
 
       // top circle
-      anchorTop.attr({
+      markTop.attr({
+        ...markStyle,
         x,
         y: -y,
-        r: size,
-        fill: anchorFill,
-        stroke: anchorStroke,
-        lineWidth: borderWidth
+        r: markSize
       });
     }
 
-    const anchorLeft = group.findByClassName('star-anchor-left');
-    if (anchorLeft) {
+    const markLeft = group.findByClassName('star-mark-left');
+    if (markLeft) {
       const x = Math.cos((18 + 72 * 2) / 180 * Math.PI) * outerR;
       const y = Math.sin((18 + 72 * 2) / 180 * Math.PI) * outerR;
 
       // left circle
-      anchorLeft.attr({
+      markLeft.attr({
+        ...markStyle,
         x,
         y: -y,
-        r: size,
-        fill: anchorFill,
-        stroke: anchorStroke,
-        lineWidth: borderWidth
+        r: markSize
       });
     }
 
-    const anchorLeftBottom = group.findByClassName('star-anchor-left-bottom');
-    if (anchorLeftBottom) {
+    const markLeftBottom = group.findByClassName('star-mark-left-bottom');
+    if (markLeftBottom) {
       const x = Math.cos((18 + 72 * 3) / 180 * Math.PI) * outerR;
       const y = Math.sin((18 + 72 * 3) / 180 * Math.PI) * outerR;
 
       // bottom circle
-      anchorLeftBottom.attr({
+      markLeftBottom.attr({
+        ...markStyle,
         x,
         y: -y,
-        r: size,
-        fill: anchorFill,
-        stroke: anchorStroke,
-        lineWidth: borderWidth
+        r: markSize
       });
     }
 
-    const anchorRightBottom = group.findByClassName('star-anchor-right-bottom');
-    if (anchorRightBottom) {
+    const markRightBottom = group.findByClassName('star-mark-right-bottom');
+    if (markRightBottom) {
       const x = Math.cos((18 + 72 * 4) / 180 * Math.PI) * outerR;
       const y = Math.sin((18 + 72 * 4) / 180 * Math.PI) * outerR;
 
       // bottom circle
-      anchorRightBottom.attr({
+      markRightBottom.attr({
+        ...markStyle,
         x,
         y: -y,
-        r: size,
-        fill: anchorFill,
-        stroke: anchorStroke,
-        lineWidth: borderWidth
+        r: markSize
       });
     }
   }

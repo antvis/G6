@@ -434,11 +434,14 @@
           }
         }
       }
+    },
+    getStateStyle(cfg) {
+      
     }
   }, 'triangle')
   G6.registerNode('triangle2', {
     labelPosition: 'center',
-    getCustomConfig() {
+    getCustomConfig(cfg) {
       return {
         default: {
           direction: 'down',

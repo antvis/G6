@@ -40,10 +40,11 @@ const SingleShape = {
 
   },
   drawLabel(cfg, group) {
-    const customStyle = this.getCustomConfig(cfg) || {};
-    const defaultConfig = customStyle.default;
-    const style = merge({}, this.options.default, defaultConfig);
-    const labelCfg = merge({}, style.labelCfg, cfg.labelCfg);
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { labelCfg: defaultLabelCfg } = this.options;
+    const { labelCfg: customLabelCfg } = customOptions;
+
+    const labelCfg = merge({}, defaultLabelCfg, customLabelCfg, cfg.labelCfg);
     const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
     const label = group.addShape('text', {
       attrs: labelStyle
@@ -154,15 +155,23 @@ const SingleShape = {
    * @return {object} 样式
    */
   getStateStyle(name, value, item) {
-    const defaultStyle = this.options;
     const model = item.getModel();
-    const customStyle = this.getCustomConfig(model) || {};
+    const customOptions = this.getCustomConfig(model) || {};
+    const { style: defaultStyle, stateStyles: defaultStateStyle } = this.options;
+    const { style: customStyle, stateStyles: customStateStyle } = customOptions;
+
+    const stateStyles = merge({}, defaultStateStyle, customStateStyle);
+    let currentStateStyle = defaultStyle;
+
+    if (stateStyles[name]) {
+      currentStateStyle = stateStyles[name];
+    }
     if (value) {
-      return merge({}, get(defaultStyle, name, {}), get(customStyle, name, {}));
+      return currentStateStyle;
     }
 
     const states = item.getStates();
-    const resultStyle = merge({}, get(defaultStyle, 'default', {}), get(customStyle, 'default', {}));
+    const resultStyle = merge({}, defaultStyle, customStyle);
     const style = cloneDeep(resultStyle);
     states.forEach(state => {
       merge(style, get(defaultStyle, state, {}), get(customStyle, state, {}));
