@@ -59,10 +59,6 @@ Shape.registerNode('ellipse', {
   // 文本位置
   labelPosition: 'center',
   drawShape(cfg, group) {
-    // const customStyle = this.getCustomConfig(cfg) || {};
-    // const defaultConfig = customStyle.default;
-    // const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
-
     const customOptions = this.getCustomConfig(cfg) || {};
     const { style: defaultStyle, icon: defaultIcon } = this.options;
     const { style: customStyle, icon: customIcon } = customOptions;
@@ -169,13 +165,6 @@ Shape.registerNode('ellipse', {
     }
   },
   update(cfg, item) {
-    // const customStyle = this.getCustomConfig(cfg) || {};
-    // const defaultConfig = customStyle.default || {};
-    // const style = deepMix({}, this.options.default, defaultConfig, cfg.style);
-    // const { icon, linkPoints, labelCfg: defaultLabelCfg, ...ellipseStyle } = style;
-
-    // const { rx, ry } = ellipseStyle;
-
     const customOptions = this.getCustomConfig(cfg) || {};
     const { style: defaultStyle, icon: defaultIcon, labelCfg: defaultLabelCfg } = this.options;
     const { style: customStyle, icon: customIcon, labelCfg: customLabelCfg } = customOptions;

@@ -63,7 +63,9 @@ Shape.registerNode('modelRect', {
       // icon的地址，字符串类型
       img: 'https://gw.alipayobjects.com/zos/basement_prod/4f81893c-1806-4de4-aff3-9a6b266bc8a2.svg',
       width: 16,
-      height: 16
+      height: 16,
+      // 用于调整图标的左右位置
+      offset: 0
     },
     // 节点中表示状态的icon配置
     stateIcon: {
@@ -72,7 +74,9 @@ Shape.registerNode('modelRect', {
       // icon的地址，字符串类型
       img: 'https://gw.alipayobjects.com/zos/basement_prod/300a2523-67e0-4cbf-9d4a-67c077b40395.svg',
       width: 16,
-      height: 16
+      height: 16,
+      // 用于调整图标的左右位置
+      offset: -5
     },
     // 连接点，默认为左右
     anchorPoints: [[ 0, 0.5 ], [ 1, 0.5 ]]
@@ -132,12 +136,14 @@ Shape.registerNode('modelRect', {
     const width = size[0];
 
     if (logoIcon.show) {
-      const { width: w, height: h, x, y, ...logoIconStyle } = logoIcon;
+      const { width: w, height: h, x, y, offset, ...logoIconStyle } = logoIcon;
       const image = group.addShape('image', {
         attrs: {
           ...logoIconStyle,
-          x: x || -width / 2 + w,
-          y: y || -h / 2
+          x: x || -width / 2 + w + offset,
+          y: y || -h / 2,
+          width: w,
+          height: h
         },
         className: 'rect-logo-icon'
       });
@@ -159,12 +165,14 @@ Shape.registerNode('modelRect', {
     const width = size[0];
 
     if (stateIcon.show) {
-      const { width: w, height: h, x, y } = stateIcon;
+      const { width: w, height: h, x, y, offset, ...iconStyle } = stateIcon;
       const image = group.addShape('image', {
         attrs: {
-          ...stateIcon,
-          x: x || width / 2 - w * 2 + 8,
-          y: y || -h / 2
+          ...iconStyle,
+          x: x || width / 2 - w + offset,
+          y: y || -h / 2,
+          width: w,
+          height: h
         },
         className: 'rect-state-icon'
       });
@@ -374,10 +382,10 @@ Shape.registerNode('modelRect', {
 
     const logoIconShape = group.findByClassName('rect-logo-icon');
     if (logoIconShape) {
-      const { width: w, height: h, x, y, ...logoIconStyle } = logoIcon;
+      const { width: w, height: h, x, y, offset, ...logoIconStyle } = logoIcon;
       logoIconShape.attr({
         ...logoIconStyle,
-        x: x || -width / 2 + w,
+        x: x || -width / 2 + w + offset,
         y: y || -h / 2,
         width: w,
         height: h
@@ -387,10 +395,10 @@ Shape.registerNode('modelRect', {
     const stateIconShape = group.findByClassName('rect-state-icon');
     if (stateIconShape) {
       const stateIcon = deepMix({}, defaultStateIcon, customStateIcon, cfg.stateIcon);
-      const { width: w, height: h, x, y, ...stateIconStyle } = stateIcon;
+      const { width: w, height: h, x, y, offset, ...stateIconStyle } = stateIcon;
       stateIconShape.attr({
         ...stateIconStyle,
-        x: x || width / 2 - w * 2 + 8,
+        x: x || width / 2 - w + offset,
         y: y || -h / 2,
         width: w,
         height: h
