@@ -9,7 +9,6 @@ const Layout = require('./layout');
  * 随机布局
  */
 Layout.registerLayout('random', {
-  layoutType: 'random',
   getDefaultCfg() {
     return {
       center: [ 0, 0 ]           // 布局中心
@@ -18,7 +17,7 @@ Layout.registerLayout('random', {
   /**
    * 执行布局
    */
-  excute() {
+  execute() {
     const self = this;
     const nodes = self.nodes;
     const layoutScale = 0.9;

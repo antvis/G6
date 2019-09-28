@@ -437,20 +437,26 @@ class Graph extends EventEmitter {
     if (!data) {
       throw new Error('data must be defined first');
     }
+    console.log('render1');
     this.clear();
     this.emit('beforerender');
     const autoPaint = this.get('autoPaint');
     this.setAutoPaint(false);
-    // layout
-    const layoutController = self.get('layoutController');
-    layoutController.layout();
 
+    console.log('render2');
     Util.each(data.nodes, node => {
       self.add(NODE, node);
     });
+    console.log('render3');
     Util.each(data.edges, edge => {
       self.add(EDGE, edge);
     });
+    console.log('render4');
+    // layout
+    // const layoutController = self.get('layoutController');
+    // layoutController.layout();
+    // self.refreshPositions();
+
     if (self.get('fitView')) {
       self.get('viewController')._fitView();
     }
@@ -482,9 +488,6 @@ class Graph extends EventEmitter {
       self.data(data);
       self.render();
     }
-    this.data(data);
-    const layoutController = this.get('layoutController');
-    layoutController.changeData();
     const autoPaint = this.get('autoPaint');
     const itemMap = this.get('itemMap');
     const items = {
@@ -501,6 +504,8 @@ class Graph extends EventEmitter {
       }
     });
     this.set({ nodes: items.nodes, edges: items.edges });
+    const layoutController = this.get('layoutController');
+    layoutController.changeData();
     if (self.get('animate')) {
       self.positionsAnimate();
     } else {
@@ -1030,8 +1035,10 @@ class Graph extends EventEmitter {
   // }
 
   /**
-   * 更换布局配置项，不改变布局方法
-   * @param {object} cfg 新布局配置项，不包括 type ，即使有 type 字段也不会生效
+   * 更换布局配置项
+   * @param {object} cfg 新布局配置项
+   * 若 cfg 含有 type 字段或为 String 类型，且与现有布局方法不同，则更换布局
+   * 若 cfg 不包括 type ，则保持原有布局方法，仅更新布局配置项
    */
   updateLayout(cfg) {
     const layoutController = this.get('layoutController');

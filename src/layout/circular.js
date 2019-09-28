@@ -65,7 +65,6 @@ function compareDegree(a, b) {
  * 圆形布局
  */
 Layout.registerLayout('circular', {
-  layoutType: 'circular',
   getDefaultCfg() {
     return {
       center: [ 0, 0 ],           // 布局中心
@@ -84,7 +83,7 @@ Layout.registerLayout('circular', {
   /**
    * 执行布局
    */
-  excute() {
+  execute() {
     const self = this;
     const nodes = self.nodes;
     const edges = self.edges;
@@ -157,6 +156,7 @@ Layout.registerLayout('circular', {
       layoutNodes[i].y = center[1] + Math.sin(angle) * r;
       layoutNodes[i].weight = degrees[i];
     }
+    console.log(layoutNodes[0].x, layoutNodes[0].y);
   },
   /**
    * 根据节点的拓扑结构排序
