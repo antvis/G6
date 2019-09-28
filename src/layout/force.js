@@ -11,7 +11,6 @@ const Util = require('../util');
  * 经典力导布局 force-directed
  */
 Layout.registerLayout('force', {
-  layoutType: 'force',
   getDefaultCfg() {
     return {
       center: [ 0, 0 ],           // 向心力作用点
@@ -41,7 +40,7 @@ Layout.registerLayout('force', {
   /**
    * 执行布局
    */
-  excute() {
+  execute() {
     const self = this;
     const nodes = self.nodes;
     const edges = self.edges;

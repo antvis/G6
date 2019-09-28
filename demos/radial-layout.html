@@ -486,16 +486,16 @@
         container: 'mountNode',
         width: 1000,
         height: 600,
-        layout: {
-          type: 'radial',
-          center: [500, 300],
-          maxIteration: 10,
-          focusNode,
-          unitRadius: 100,
-          linkDistance: 50,
-          preventOverlap: true,
-          nodeSize: 30
-        },
+        // layout: {
+        //   type: 'radial',
+        //   center: [500, 300],
+        //   maxIteration: 10,
+        //   focusNode,
+        //   unitRadius: 100,
+        //   linkDistance: 50,
+        //   preventOverlap: true,
+        //   nodeSize: 30
+        // },
         modes: {
         default:
           [{
@@ -541,7 +541,9 @@
           }
         }
       });
+      console.log('data');
       graph.data(usingData);
+      console.log('render');
       graph.render();
     </script>
   </body>

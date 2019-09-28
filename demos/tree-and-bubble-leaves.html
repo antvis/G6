@@ -241,7 +241,7 @@
         ranksep: 10
       });
       dagreLayout.init({ nodes: branchNodes, edges: branchEdges });
-      dagreLayout.excute();
+      dagreLayout.execute();
 
       //layout the leaves with isLeaf === true by force
       const forceLayoutsMap = new Map();
@@ -259,7 +259,7 @@
           }
         });
         forceLayout.init({ nodes: lg, edges: [] });
-        forceLayout.excute();
+        forceLayout.execute();
         forceLayoutsMap.set(parentId, forceLayout);
       });
 
@@ -279,7 +279,7 @@
           const layoutMethod = forceLayoutsMap.get(model.parent);
           layoutMethod.ticking = false;
           layoutMethod.forceSimulation.stop();
-          layoutMethod.excute();
+          layoutMethod.execute();
           refreshDragedNodePosition(e);
         }
       });

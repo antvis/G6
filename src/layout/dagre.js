@@ -10,7 +10,6 @@ const Layout = require('./layout');
  * 随机布局
  */
 Layout.registerLayout('dagre', {
-  layoutType: 'dagre',
   getDefaultCfg() {
     return {
       rankdir: 'TB',             // layout 方向, 可选 TB, BT, LR, RL
@@ -24,7 +23,7 @@ Layout.registerLayout('dagre', {
   /**
    * 执行布局
    */
-  excute() {
+  execute() {
     const self = this;
     const nodes = self.nodes;
     const edges = self.edges;

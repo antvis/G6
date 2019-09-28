@@ -17,12 +17,25 @@ class LayoutController {
     const self = this;
     let layoutType = self.layoutType;
     const graph = self.graph;
-    const data = graph.get('data');
-    const nodes = data.nodes;
+    // const data = graph.get('data');
+    const nodes = [];
+    const edges = [];
+    const nodeItems = graph.getNodes();
+    const edgeItems = graph.getEdges();
+    nodeItems.forEach(nodeItem => {
+      const model = nodeItem.getModel();
+      nodes.push(model);
+    });
+    edgeItems.forEach(edgeItem => {
+      const model = edgeItem.getModel();
+      edges.push(model);
+    });
+    const data = { nodes, edges };
+    self.data = data;
+
     if (!nodes) {
       return;
     }
-    data.edges = data.edges || [];
     const width = graph.get('width');
     const height = graph.get('height');
     const layoutCfg = {};
@@ -38,6 +51,12 @@ class LayoutController {
         layoutType = 'random';
       } else { // 若未指定布局且数据中有位置信息，则不进行布局，直接按照原数据坐标绘制。
         return;
+      }
+    } else {
+      if (nodes[0] && nodes[0].x === undefined) {
+        // 初始化位置
+        self.initPositions(layoutCfg.center, nodes);
+        console.log('initpos', nodes[0].x, nodes[0].y);
       }
     }
 
@@ -62,13 +81,14 @@ class LayoutController {
 
     try {
       layoutMethod = new Layout[layoutType](layoutCfg);
+      console.log(layoutMethod);
     } catch (e) {
       console.warn('The layout method: ' + layoutCfg + ' does not exist! Please specify it first.');
       return;
     }
     layoutMethod.init(data);
     graph.emit('beforelayout');
-    layoutMethod.excute();
+    layoutMethod.execute();
     if (layoutType !== 'force') {
       graph.emit('afterlayout');
     }
@@ -94,7 +114,7 @@ class LayoutController {
     const layoutMethod = self.layoutMethod;
     layoutMethod.updateCfg(cfg);
     graph.emit('beforelayout');
-    layoutMethod.excute();
+    layoutMethod.execute();
     if (self.layoutType !== 'force') {
       graph.emit('afterlayout');
     }
@@ -109,7 +129,6 @@ class LayoutController {
     self.layoutCfg.type = layoutType;
     const layoutMethod = self.layoutMethod;
     layoutMethod && layoutMethod.destroy();
-    self.moveToZero();
     self.layout();
     self.refreshLayout();
   }
@@ -117,16 +136,6 @@ class LayoutController {
   // 更换数据
   changeData() {
     const self = this;
-    const graph = self.graph;
-    const width = graph.get('width');
-    const height = graph.get('height');
-    let center = [];
-    if (self.layoutCfg && self.layoutCfg.center) {
-      center = self.layoutCfg.center;
-    } else {
-      center = [ width / 2, height / 2 ];
-    }
-    self.initPositions(center);
     const layoutMethod = self.layoutMethod;
     layoutMethod && layoutMethod.destroy();
     self.layout();
@@ -142,7 +151,7 @@ class LayoutController {
       layoutMethod.forceSimulation.stop();
     }
     graph.emit('beforelayout');
-    layoutMethod.excute();
+    layoutMethod.execute();
     if (self.layoutType !== 'force') {
       graph.emit('afterlayout');
     }
@@ -180,17 +189,13 @@ class LayoutController {
   }
 
   // 初始化节点到 center
-  initPositions(center) {
-    const self = this;
-    const graph = self.graph;
-    const data = graph.get('data');
-    const nodes = data.nodes;
+  initPositions(center, nodes) {
     if (!nodes) {
       return;
     }
     nodes.forEach(node => {
-      node.x = center[0];
-      node.y = center[1];
+      node.x = center[0] + Math.random();
+      node.y = center[1] + Math.random();
     });
   }
 

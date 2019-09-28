@@ -4,7 +4,6 @@
  */
 
 const Layout = require('./layout');
-const Util = require('../util');
 
 const SPEED_DIVISOR = 800;
 
@@ -12,7 +11,6 @@ const SPEED_DIVISOR = 800;
  * fruchterman 布局
  */
 Layout.registerLayout('fruchterman', {
-  layoutType: 'fruchterman',
   getDefaultCfg() {
     return {
       maxIteration: 1000,         // 停止迭代的最大迭代数
@@ -26,12 +24,10 @@ Layout.registerLayout('fruchterman', {
   /**
    * 执行布局
    */
-  excute() {
+  execute() {
     const self = this;
     const nodes = self.nodes;
     const center = self.center;
-    const width = self.width;
-    const height = self.height;
 
     if (nodes.length === 0) {
       return;
@@ -40,15 +36,9 @@ Layout.registerLayout('fruchterman', {
       nodes[0].y = center[1];
       return;
     }
-    const positions = Util.randomInitPos(nodes.length, [ 0, width ], [ 0, height ]);
     const nodeMap = new Map();
     const nodeIndexMap = new Map();
-    const hasOriPos = (nodes[0].x !== undefined && nodes[0].x !== null && !isNaN(nodes[0].x));
     nodes.forEach((node, i) => {
-      if (!hasOriPos) {
-        node.x = positions[i][0];
-        node.y = positions[i][1];
-      }
       nodeMap.set(node.id, node);
       nodeIndexMap.set(node.id, i);
     });
@@ -56,10 +46,6 @@ Layout.registerLayout('fruchterman', {
     self.nodeIndexMap = nodeIndexMap;
     // layout
     self.run();
-    nodes.forEach(node => {
-      node.x += center[0];
-      node.y += center[1];
-    });
   },
   run() {
     const self = this;
@@ -68,6 +54,7 @@ Layout.registerLayout('fruchterman', {
     const maxIteration = self.maxIteration;
     const width = self.width;
     const height = self.height;
+    const center = self.center;
     const nodeMap = self.nodeMap;
     const nodeIndexMap = self.nodeIndexMap;
     const maxDisplace = width / 10;
@@ -114,10 +101,9 @@ Layout.registerLayout('fruchterman', {
 
       // gravity
       nodes.forEach((n, i) => {
-        const distLength = Math.sqrt(disp[i].x * disp[i].x + disp[i].y * disp[i].y);
-        const gravityForce = 0.01 * k * gravity * distLength;
-        disp[i].x -= gravityForce * n.x / distLength;
-        disp[i].y -= gravityForce * n.y / distLength;
+        const gravityForce = 0.01 * k * gravity;
+        disp[i].x -= gravityForce * (n.x - center[0]);
+        disp[i].y -= gravityForce * (n.y - center[1]);
       });
       // speed
       nodes.forEach((n, i) => {

@@ -11,7 +11,6 @@ const Numeric = require('numericjs');
  * mds 布局
  */
 Layout.registerLayout('mds', {
-  layoutType: 'mds',
   getDefaultCfg() {
     return {
       center: [ 0, 0 ],           // 布局中心
@@ -21,7 +20,7 @@ Layout.registerLayout('mds', {
   /**
    * 执行布局
    */
-  excute() {
+  execute() {
     const self = this;
     const nodes = self.nodes;
     const edges = self.edges;

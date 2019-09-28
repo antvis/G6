@@ -32,7 +32,7 @@ Layout.registerLayout = function(type, layout) {
     /**
      * 执行布局，不改变原数据模型位置，只返回布局后但结果位置
      */
-    excute() {
+    execute() {
     },
     /**
      * 根据传入的数据进行布局
@@ -41,7 +41,7 @@ Layout.registerLayout = function(type, layout) {
     layout(data) {
       const self = this;
       self.init(data);
-      self.excute();
+      self.execute();
     },
     /**
      * 更新布局配置，但不执行布局
