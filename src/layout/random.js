@@ -11,7 +11,9 @@ const Layout = require('./layout');
 Layout.registerLayout('random', {
   getDefaultCfg() {
     return {
-      center: [ 0, 0 ]           // 布局中心
+      center: [ 0, 0 ],           // 布局中心
+      height: 300,
+      width: 300
     };
   },
   /**
@@ -22,11 +24,11 @@ Layout.registerLayout('random', {
     const nodes = self.nodes;
     const layoutScale = 0.9;
     const center = self.center;
-    const semiWidth = (self.width - center[0]) > center[0] ? center[0] : (self.width - center[0]);
-    const semiHeight = (self.height - center[1]) > center[1] ? center[1] : (self.height - center[1]);
+    const width = self.width;
+    const height = self.height;
     nodes.forEach(node => {
-      node.x = (Math.random() - 0.5) * layoutScale * semiWidth + center[0];
-      node.y = (Math.random() - 0.5) * layoutScale * semiHeight + center[1];
+      node.x = (Math.random() - 0.5) * layoutScale * width + center[0];
+      node.y = (Math.random() - 0.5) * layoutScale * height + center[1];
     });
   }
 });

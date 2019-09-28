@@ -156,7 +156,6 @@ Layout.registerLayout('circular', {
       layoutNodes[i].y = center[1] + Math.sin(angle) * r;
       layoutNodes[i].weight = degrees[i];
     }
-    console.log(layoutNodes[0].x, layoutNodes[0].y);
   },
   /**
    * 根据节点的拓扑结构排序

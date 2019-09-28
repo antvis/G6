@@ -64,7 +64,6 @@ Layout.registerLayout('radial', {
       nodes[0].y = center[1];
       return;
     }
-    console.log(nodes[0].x, nodes[0].y);
     const linkDistance = self.linkDistance;
     // layout
     let focusNode = self.focusNode;
