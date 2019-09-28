@@ -56,7 +56,6 @@ class LayoutController {
       if (nodes[0] && nodes[0].x === undefined) {
         // 初始化位置
         self.initPositions(layoutCfg.center, nodes);
-        console.log('initpos', nodes[0].x, nodes[0].y);
       }
     }
 
@@ -81,7 +80,6 @@ class LayoutController {
 
     try {
       layoutMethod = new Layout[layoutType](layoutCfg);
-      console.log(layoutMethod);
     } catch (e) {
       console.warn('The layout method: ' + layoutCfg + ' does not exist! Please specify it first.');
       return;

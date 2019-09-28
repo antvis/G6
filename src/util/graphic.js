@@ -196,7 +196,13 @@ const GraphicUtil = {
     const TAN_OFFSET = 0.0001;
     let vector = [];
     const point = pathShape.getPoint(percent);
-    console.log(pathShape, percent);
+    if (point === null) {
+      return {
+        x: 0,
+        y: 0,
+        angle: 0
+      };
+    }
     // 头尾最可能，放在最前面，使用 g path 上封装的方法
     if (percent < TAN_OFFSET) {
       vector = pathShape.getStartTangent().reverse();

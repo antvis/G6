@@ -437,25 +437,21 @@ class Graph extends EventEmitter {
     if (!data) {
       throw new Error('data must be defined first');
     }
-    console.log('render1');
     this.clear();
     this.emit('beforerender');
     const autoPaint = this.get('autoPaint');
     this.setAutoPaint(false);
 
-    console.log('render2');
     Util.each(data.nodes, node => {
       self.add(NODE, node);
     });
-    console.log('render3');
     Util.each(data.edges, edge => {
       self.add(EDGE, edge);
     });
-    console.log('render4');
     // layout
-    // const layoutController = self.get('layoutController');
-    // layoutController.layout();
-    // self.refreshPositions();
+    const layoutController = self.get('layoutController');
+    layoutController.layout();
+    self.refreshPositions();
 
     if (self.get('fitView')) {
       self.get('viewController')._fitView();
