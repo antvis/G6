@@ -6,6 +6,25 @@ const G = require('@antv/g/lib');
 const BaseUtil = require('./base');
 const vec2 = BaseUtil.vec2;
 
+/**
+ * 替换字符串中的字段.
+ * @param {String} str 模版字符串
+ * @param {Object} o json data
+ * @param {RegExp} [regexp] 匹配字符串的正则表达式
+ */
+
+function substitute(str, o) {
+  if (!str || !o) {
+    return str;
+  }
+  return str.replace(/\\?\{([^{}]+)\}/g, function(match, name) {
+    if (match.charAt(0) === '\\') {
+      return match.slice(1);
+    }
+    return (o[name] === undefined) ? '' : o[name];
+  });
+}
+
 module.exports = {
   getSpline(points) {
     const data = [];
@@ -37,5 +56,33 @@ module.exports = {
     point.x += perpendicular[0];
     point.y += perpendicular[1];
     return point;
+  },
+  /**
+   * 点集转化为Path多边形
+   * @param {Array} points 点集
+   * @param {Boolen} z 是否封闭
+   * @return {Array} Path
+   */
+  pointsToPolygon(points, z) {
+    if (!points.length) {
+      return '';
+    }
+    let path = '';
+    let str = '';
+
+    for (let i = 0, length = points.length; i < length; i++) {
+      const item = points[i];
+      if (i === 0) {
+        str = 'M{x} {y}';
+      } else {
+        str = 'L{x} {y}';
+      }
+      path += substitute(str, item);
+    }
+
+    if (z) {
+      path += 'Z';
+    }
+    return path;
   }
 };
