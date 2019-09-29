@@ -99,22 +99,22 @@ Shape.registerNode('single-shape', singleNodeDefinition);
 /**
  * 基本的图片，可以添加文本，默认文本在图片的下面
  */
-Shape.registerNode('image', {
-  shapeType: 'image',
-  labelPosition: 'bottom',
-  getShapeStyle(cfg) {
-    const size = this.getSize(cfg);
-    const img = cfg.img;
-    const width = size[0];
-    const height = size[1];
-    const style = Util.mix({}, {
-      x: 0 - width / 2, // 节点的位置在上层确定，所以这里仅使用相对位置即可
-      y: 0 - height / 2,
-      width,
-      height,
-      img
-    }, cfg.style);
-    return style;
-  }
-}, 'single-shape');
+// Shape.registerNode('image', {
+//   shapeType: 'image',
+//   labelPosition: 'bottom',
+//   getShapeStyle(cfg) {
+//     const size = this.getSize(cfg);
+//     const img = cfg.img;
+//     const width = size[0];
+//     const height = size[1];
+//     const style = Util.mix({}, {
+//       x: 0 - width / 2, // 节点的位置在上层确定，所以这里仅使用相对位置即可
+//       y: 0 - height / 2,
+//       width,
+//       height,
+//       img
+//     }, cfg.style);
+//     return style;
+//   }
+// }, 'single-shape');
 
