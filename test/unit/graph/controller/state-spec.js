@@ -94,7 +94,7 @@ describe('graph state controller', () => {
   it('state with click-select', done => {
     graph.removeEvent();
     graph.addBehaviors('click-select', 'default');
-    graph.emit('keydown', { keyCode: 17 });
+    graph.emit('keydown', { keyCode: 16 });
     graph.emit('node:click', { item: graph.findById('node1') });
     graph.emit('node:click', { item: graph.findById('node2') });
     let finished = false;

@@ -115,8 +115,8 @@ class TreeGraph extends Graph {
    */
   updateChild(data, parent) {
     const self = this;
-    // 如果没有父节点，是全量的更新，直接重置data
-    if (!parent) {
+    // 如果没有父节点或找不到该节点，是全量的更新，直接重置data
+    if (!parent || !self.findById(parent)) {
       self.changeData(data);
       return;
     }
@@ -316,21 +316,24 @@ class TreeGraph extends Graph {
       onFrame(ratio) {
         Util.traverseTree(data, child => {
           const node = self.findById(child.id);
-          let origin = node.get('origin');
-          const model = node.get('model');
-          if (!origin) {
-            origin = {
-              x: model.x,
-              y: model.y
-            };
-            node.set('origin', origin);
-          }
-          if (onFrame) {
-            const attrs = onFrame(node, ratio, origin, data);
-            node.set('model', Util.mix(model, attrs));
-          } else {
-            model.x = origin.x + (child.x - origin.x) * ratio;
-            model.y = origin.y + (child.y - origin.y) * ratio;
+          // 只有当存在node的时候才执行
+          if (node) {
+            let origin = node.get('origin');
+            const model = node.get('model');
+            if (!origin) {
+              origin = {
+                x: model.x,
+                y: model.y
+              };
+              node.set('origin', origin);
+            }
+            if (onFrame) {
+              const attrs = onFrame(node, ratio, origin, data);
+              node.set('model', Util.mix(model, attrs));
+            } else {
+              model.x = origin.x + (child.x - origin.x) * ratio;
+              model.y = origin.y + (child.y - origin.y) * ratio;
+            }
           }
         });
         Util.each(self.get('removeList'), node => {

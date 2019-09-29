@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>内置的节点</title>
+</head>
+<body>
+<div id="mountNode"></div>
+<script src="../build/g6.js"></script>
+<script src="../build/grid.js"></script>
+<script>
+  const grid = new Grid()
+  const graph = new G6.Graph({
+    container: 'mountNode',
+    width: 800,
+    height: 800,
+    // plugins: [grid],
+    defaultNode: {
+      size: [40, 40]
+    },
+    modes: {
+      default: [ 'drag-canvas', 'drag-node' ]
+    }
+  });
+
+  /*
+  * 扩展circle
+  */
+  G6.registerNode('circleIcon', {
+    getCustomConfig() {
+      return {
+        default: {
+          fill: '#36cfc9',
+          stroke: '#87e8de',
+          r: 30,
+          icon: {
+            show: true,
+            width: 25,
+            height: 25
+          },
+          labelCfg: {
+            style: {
+              fill: 'blue'
+            },
+            offset: 15
+          },
+          linkPoints: {
+            top: true,
+            bottom: true,
+            // circle的大小
+            size: 5,
+            lineWidth: 1,
+            fill: '#fff',
+            stroke: '#72CC4A'
+          },
+        }
+      }
+    }
+  }, 'circle')
+
+  G6.registerNode('shadowCircle', {
+    labelPosition: 'center',
+    getCustomConfig() {
+      return {
+        default: {
+          shadowOffsetX: 0,
+          shadowOffsetY: 0,
+          shadowBlur: 10,
+          shadowColor: '#e6f7ff',
+          lineWidth: 5,
+          labelCfg: {
+            style: {
+              fill: '#595959'
+            }
+          },
+          linkPoints: {
+            left:  true,
+            right: true,
+            size: 5
+          }
+        }
+      }
+    }
+  }, 'circle')
+
+  G6.registerNode('stateCircle', {
+    getStateStyle(name, value, item) {
+      return {
+        fill: 'green',
+        stroke: '#000',
+        lineWidth: 5
+      }
+    }
+  }, 'circle')
+
+  /*
+  * 扩展rect
+  */
+  G6.registerNode('rectAnchor1', {
+    getCustomConfig() {
+      return {
+        default: {
+          width: 200,
+          radius: 15,
+          stroke: '#9254de',
+          labelCfg: {
+            style: {
+              fill: '#9254de',
+              fontSize: 12
+            }
+          },
+          linkPoints: {
+            top: false,
+            right: true,
+            bottom: false,
+            left: true,
+            size: 3,
+            fill: '#9254de',
+            stroke: '#9254de'
+          },
+        }
+      }
+    }
+  }, 'rect')
+
+  G6.registerNode('rectAnchor2', {
+    getCustomConfig() {
+      return {
+        default: {
+          width: 200,
+          stroke: '#ff85c0',
+          labelCfg: {
+            style: {
+              fill: '#ff85c0',
+              fontSize: 12
+            }
+          },
+          linkPoints: {
+            top: true,
+            right: true,
+            bottom: true,
+            left: true,
+            size: 3,
+            fill: '#9254de',
+            stroke: '#9254de'
+          },
+        }
+      }
+    }
+  }, 'rect')
+
+  G6.registerNode('rectAnchor3', {
+    getCustomConfig() {
+      return {
+        default: {
+          width: 200,
+          radius: 25,
+          stroke: '#ff7875',
+          labelCfg: {
+            style: {
+              fill: '#ff7875',
+              fontSize: 12
+            }
+          },
+          linkPoints: {
+            top: false,
+            right: true,
+            bottom: false,
+            left: true,
+            size: 5,
+            lineWidth: 3,
+            // fill: '#ff7875',
+            stroke: '#ff7875'
+          },
+        }
+      }
+    }
+  }, 'rect')
+
+  G6.registerNode('rectAnchor4', {
+    getCustomConfig() {
+      return {
+        default: {
+          width: 200,
+          radius: 25,
+          stroke: '#36cfc9',
+          labelCfg: {
+            style: {
+              fill: '#36cfc9',
+              fontSize: 16
+            }
+          },
+          linkPoints: {
+            top: true,
+            right: true,
+            bottom: true,
+            left: true,
+            size: 5,
+            lineWidth: 3,
+            fill: '#fff',
+            stroke: '#36cfc9'
+          },
+        }
+      }
+    }
+  }, 'rect')
+
+  G6.registerNode('rectAnchor5', {
+    getCustomConfig() {
+      return {
+        default: {
+          width: 120,
+          radius: 25,
+          stroke: '#73d13d',
+          labelCfg: {
+            style: {
+              fill: '#73d13d',
+              fontSize: 12
+            }
+          },
+          linkPoints: {
+            top: false,
+            right: true,
+            bottom: false,
+            left: true,
+            size: 5,
+            fill: '#fff',
+            stroke: '#73d13d'
+          },
+        }
+      }
+    }
+  }, 'rect')
+
+  /*
+  * 扩展rect
+  */
+  G6.registerNode('ellipse1', {
+    labelPosition: 'bottom',
+    getCustomConfig() {
+      return {
+        default: {
+          rx: 60,
+          ry: 30,
+          fill: '#bae637',
+          stroke: '#eaff8f',
+          icon: {
+            show: false
+          },
+          labelCfg: {
+            style: {
+               fontSize: 16
+            }
+          },
+          icon: {
+            show: true
+          },
+          linkPoints: {
+            top: true,
+            right: false,
+            bottom: true,
+            left: false,
+            // circle的大小
+            lineWidth: 2,
+            stroke: '#72CC4A'
+          }
+        }
+      }
+    }
+
+  }, 'ellipse');
+
+  G6.registerNode('ellipse2', {
+    labelPosition: 'center',
+    getCustomConfig() {
+      return {
+        default: {
+          rx: 30,
+          ry: 60,
+          fill: '#bae637',
+          stroke: '#eaff8f',
+          icon: {
+            show: false
+          },
+          labelCfg: {
+            style: {
+              fill: '#fff'
+            }
+          },
+          linkPoints: {
+            right: true,
+            left: true,
+            // circle的大小
+            size: 5,
+            lineWidth: 2,
+            fill: '#fff',
+            stroke: '#72CC4A'
+          },
+        }
+      }
+    }
+
+  }, 'ellipse');
+
+  G6.registerNode('ellipse3', {
+    labelPosition: 'center',
+    getCustomConfig() {
+      return {
+        default: {
+          rx: 80,
+          ry: 40,
+          fill: '#36cfc9',
+          stroke: '#87e8de',
+          icon: {
+            show: true
+          },
+          linkPoints: {
+            right: true,
+            left: true,
+            // circle的大小
+            size: 5,
+            lineWidth: 2,
+            fill: '#fff',
+            stroke: '#72CC4A'
+          }
+        }
+      }
+    }
+  }, 'ellipse');
+  
+  G6.registerNode('diamond1', {
+    labelPosition: 'bottom',
+    getCustomConfig() {
+      return {
+        default: {
+          fill: '#ff7a45',
+          stroke: '#ffbb96',
+          labelCfg: {
+            style: {
+              fill: '#ff7a45'
+            }
+          },
+          icon: {
+            show: true,
+            width: 35,
+            height: 35
+          }
+        }
+      }
+    }
+  }, 'diamond')
+
+  G6.registerNode('diamond2', {
+    labelPosition: 'bottom',
+    getCustomConfig() {
+      return {
+        default: {
+          fill: '#36cfc9',
+          stroke: '#87e8de',
+          labelCfg: {
+            style: {
+              fill: '#36cfc9'
+            },
+            offset: -10
+          },
+          linkPoints: {
+            left: true,
+            bottom: true,
+            fill: 'blue'
+          },
+          icon: {
+            show: true,
+            width: 35,
+            height: 35
+          }
+        }
+      }
+    }
+  }, 'diamond')
+
+  G6.registerNode('diamond3', {
+    labelPosition: 'bottom',
+    getCustomConfig() {
+      return {
+        default: {
+          width: 160,
+          height: 110,
+          fill: '#ffc53d',
+          stroke: '#ffe58f',
+          labelCfg: {
+            style: {
+              fill: '#ffc53d'
+            }
+          },
+          linkPoints: {
+            top: true,
+            bottom: true,
+            size: 5,
+            fill: '#fff',
+            stroke: '#597ef7',
+            lineWidth: 3
+          },
+          icon: {
+            show: true,
+            width: 35,
+            height: 35
+          }
+        }
+      }
+    }
+  }, 'diamond')
+
+  G6.registerNode('triangle1', {
+    labelPosition: 'top',
+    getCustomConfig() {
+      return {
+        default: {
+          fill: '#bae637',
+          stroke: '#eaff8f',
+          len: 60,
+          labelCfg: {
+            offset: 30
+          },
+          linkPoints: {
+            top: true,
+            left: true,
+            right: true
+          },
+          icon: {
+            show: true,
+            width: 35,
+            height: 35,
+            offset: 10
+          }
+        }
+      }
+    },
+    getStateStyle(cfg) {
+      
+    }
+  }, 'triangle')
+  G6.registerNode('triangle2', {
+    labelPosition: 'center',
+    getCustomConfig(cfg) {
+      return {
+        default: {
+          direction: 'down',
+          fill: '#36cfc9',
+          stroke: '#87e8de',
+          linkPoints: {
+            bottom: true,
+            left: true,
+            right: true
+          },
+          labelCfg: {
+            offset: 15
+          }
+        }
+      }
+    }
+  }, 'triangle')
+
+  G6.registerNode('triangle3', {
+    getCustomConfig() {
+      return {
+        default: {
+          direction: 'left',
+          fill: '#36cfc9',
+          stroke: '#87e8de',
+          labelCfg: {
+            offset: 15
+          },
+          linkPoints: {
+            top: true,
+            bottom: true,
+            left: true
+          },
+          icon: {
+            show: true,
+            offset: 10
+          }
+        }
+      }
+    }
+  }, 'triangle')
+
+  G6.registerNode('triangle4', {
+    labelPosition: 'center',
+    getCustomConfig() {
+      return {
+        default: {
+          direction: 'right',
+          fill: '#36cfc9',
+          stroke: '#87e8de',
+          linkPoints: {
+            top: true,
+            bottom: true,
+            right: true
+          },
+          labelCfg: {
+            offset: 15
+          }
+        }
+      }
+    }
+  }, 'triangle')
+  
+  const data = {
+    nodes: [
+      {
+        id: 'node1',
+        label: 'node1',
+        x: 100,
+        y: 150,
+        shape: 'circle'
+      },
+      {
+        id: 'node2',
+        label: 'node2',
+        x: 200,
+        y: 150,
+        shape: 'circleIcon'
+      },
+      {
+        id: 'node3',
+        label: 'node3',
+        x: 300,
+        y: 150,
+        shape: 'shadowCircle'
+      },
+      {
+        id: 'node4',
+        label: 'node4',
+        x: 130,
+        y: 300,
+        shape: 'rect'
+      },
+      {
+        id: 'node5',
+        label: 'node5',
+        x: 320,
+        y: 300,
+        shape: 'rectAnchor1'
+      },
+      {
+        id: 'node6',
+        label: 'node6',
+        x: 650,
+        y: 300,
+        shape: 'rectAnchor2'
+      },
+      {
+        id: 'node7',
+        label: 'node7',
+        x: 250,
+        y: 400,
+        shape: 'rectAnchor3'
+      },
+      {
+        id: 'node8',
+        label: 'node8',
+        x: 500,
+        y: 400,
+        shape: 'rectAnchor4'
+      },
+      {
+        id: 'node9',
+        label: 'node9',
+        x: 710,
+        y: 400,
+        shape: 'rectAnchor5'
+      },
+      {
+        id: 'node10',
+        label: 'node10',
+        x: 150,
+        y: 500,
+        shape: 'ellipse'
+      },
+      {
+        id: 'node11',
+        label: 'node11',
+        x: 350,
+        y: 500,
+        shape: 'ellipse1'
+      },
+      {
+        id: 'node12',
+        label: 'node12',
+        x: 500,
+        y: 500,
+        shape: 'ellipse2'
+      },
+      {
+        id: 'node13',
+        x: 650,
+        y: 500,
+        shape: 'ellipse3'
+      },
+      {
+        id: 'diamond',
+        label: 'diamond',
+        x: 150,
+        y: 650,
+        shape: 'diamond'
+      },
+      {
+        id: 'diamond1',
+        label: 'diamond1',
+        x: 300,
+        y: 650,
+        shape: 'diamond1'
+      },
+      {
+        id: 'diamond2',
+        label: 'diamond2',
+        x: 450,
+        y: 650,
+        shape: 'diamond2'
+      },
+      {
+        id: 'diamond3',
+        label: 'diamond3',
+        x: 650,
+        y: 650,
+        shape: 'diamond3',
+        style: {
+          stroke: 'blue'
+        }
+      },
+      {
+        id: 'triangle',
+        label: 'triangle',
+        x: 150,
+        y: 800,
+        shape: 'triangle'
+      },
+      {
+        id: 'triangle1',
+        label: 'triangle1',
+        x: 300,
+        y: 800,
+        shape: 'triangle1'
+      },
+      {
+        id: 'triangle2',
+        label: 'triangle2',
+        x: 450,
+        y: 800,
+        shape: 'triangle2'
+      },
+      {
+        id: 'triangle3',
+        label: 'triangle3',
+        x: 600,
+        y: 800,
+        shape: 'triangle3'
+      },
+      {
+        id: 'triangle4',
+        label: 'triangle4',
+        x: 750,
+        y: 800,
+        shape: 'triangle4'
+      }
+    ],
+    edges: [
+      {
+        source: 'triangle',
+        target: 'triangle1'
+      },
+      {
+        source: 'diamond',
+        target: 'diamond1'
+      }
+    ]
+  }
+
+  graph.data(data)
+  graph.render()
+
+  graph.on('edge:click', evt => {
+    console.log(evt)
+    const { item } = evt
+    graph.updateItem(item, {
+      style: {
+        lineWidth: 3,
+        stroke: 'red'
+      }
+    })
+  })
+
+  graph.on('node:mouseleave', evt => {
+    const { item } = evt;
+    const hasState = item.hasState('select')
+    if(!hasState) {
+      graph.setItemState(item, 'hover', false);
+      graph.setItemState(item, 'running', false);
+    }
+  }) 
+
+  graph.on('node:click', evt => {
+    const { item } = evt;
+    const hasState = item.hasState('select')
+    if (hasState) {
+      graph.setItemState(item, 'select', false);
+    } else {
+      graph.setItemState(item, 'select', true);
+    }
+
+    graph.updateItem(item, {
+      style: {
+        width: 300,
+        height: 150,
+        fill: '#000',
+        r: 50,
+        rx: 100,
+        ry: 70,
+        len: 100
+      }
+    })
+  })
+
+  graph.on('node:mouseenter', evt => {
+    const { item } = evt;
+    graph.setItemState(item, 'hover', true); 
+  })
+  
+</script>
+</body>
+</html>

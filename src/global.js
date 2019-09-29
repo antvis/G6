@@ -3,10 +3,12 @@
  */
 
 module.exports = {
-  version: '3.0.5-beta.6',
+  version: '3.1.0',
   rootContainerClassName: 'root-container',
   nodeContainerClassName: 'node-container',
   edgeContainerClassName: 'edge-container',
+  customGroupContainerClassName: 'custom-group-container',
+  delegateContainerClassName: 'delegate-container',
   defaultNode: {
     shape: 'circle',
     style: {
