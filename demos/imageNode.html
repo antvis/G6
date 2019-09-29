@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>默认的图片节点</title>
 </head>
 <body>
   <div id="mountNode"></div>
@@ -19,44 +19,26 @@
           description: '这里是一顿描述信息，不知道长短',
           x: 150,
           y: 100
-        },
-        {
-          id: 'triangle1',
-          label: 'Test ModelRect Title',
-          description: '这里是一顿描述信息，不知道长短',
-          x: 350,
-          y: 130
-        }
-      ],
-      edges: [
-        {
-          source: 'triangle',
-          target: 'triangle1'
         }
       ]
     }
+
     const graph = new G6.Graph({
       container: 'mountNode',
       width: 800,
       height: 600,
       defaultNode: {
-        shape: 'modelRect',
-        icon: {
-          show: true,
-          width: 30,
-          height: 30
+        shape: 'image',
+        size: [200, 80],
+        labelCfg:{
+          position: 'right',
+          offset: -120
         },
-        linkPoints: {
-          top: false,
-          fill: '#fff',
-          size: 5
-        }
-      },
-      defaultEdge: {
-        shape: 'quadratic',
-        style: {
-          stroke: 'red',
-          lineWidth: 3
+        clipCfg: {
+          show: true,
+          type: 'path',
+          width: 15, 
+          height: 15
         }
       },
       nodeStateStyles: {
@@ -66,49 +48,9 @@
         hover: {
           fill: 'blue'
         }
-      }
-    })
-
-    // 这里优先级大于graph中的nodeStyle
-    graph.node(node => {
-      let fill = '#36cfc9'
-      let shape = 'diamond'
-      if (node.inDegree > 200) {
-        fill = '#36cfc9'
-        shape = 'diamond'
-      }
-      return {
-        shape,
-        labelPosition: 'bottom',
-        icon: {
-          show: true,
-          width: 25,
-          height: 25
-        },
-        linkPoints: {
-          top: true,
-          bottom: true
-        },
-        labelCfg: {
-          position: 'bottom'
-        },
-        style: {
-          fill,
-          stroke: '#eaff8f',
-          radius: 15
-        },
-        stateStyles: {
-          hover: {
-            // fill: '#bae637',
-            stroke: '#87e8de',
-            width: 130,
-            height: 200,
-            r: 100
-          },
-          select: {
-            fill: '#ccc'
-          }
-        }
+      },
+      modes: {
+        default: ['drag-canvas']
       }
     })
 
@@ -118,7 +60,7 @@
     graph.on('node:click', evt => {
       const { item } = evt
       graph.setItemState(item, 'select', true)
-      debugger
+      
       graph.updateItem(item, {
         size: [ 160, 130],
         style: {

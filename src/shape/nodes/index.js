@@ -5,3 +5,4 @@ require('./diamond');
 require('./triangle');
 require('./modelRect');
 require('./star');
+require('./image');
