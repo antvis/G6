@@ -19,7 +19,8 @@
   }
 </style>
 <body>
-	<div id="mountNode"></div>
+  <div id="tip">布局中，请稍候......</div>
+  <div id="mountNode"></div>
 <script src="../build/g6.js"></script>
 <script src="./assets/d3-4.13.0.min.js"></script>
 <script src="../build/fruchterman.js"></script>
@@ -103,25 +104,17 @@
       nodeMap.get(e.target).targetValue += v;
     });
     mapValueToProp(nodes, 'exportValue', 'size', [2, 12]);
-    // mapValueToProp(edges, 'value', 'style.lineWidth', [0.2, 1]);
-
-    // const fruchtermanLayout = new Fruchterman({
-    //   maxIteration: 8000,
-    //   center: [500, 300],
-    //   gravity: 10,
-    //   clustering: true
-    // });
     const graph = new G6.Graph({
       container: 'mountNode',
-      width: 1000,
-      height: 700,
-      // plugins: [ fruchtermanLayout],
+      width: 800,
+      height: 600,
       layout: {
         type: 'fruchterman',
         maxIteration: 8000,
         center: [500, 300],
         gravity: 10,
-        clustering: true
+        clustering: true,
+        clusterGravity: 30
       },
       fitView: true,
       linkCenter: true,
@@ -135,7 +128,7 @@
       nodeStyle: {
         default: {
           lineWidth: 0.6
-      },
+        },
       },
       edgeStyle: {
         default: {
@@ -165,7 +158,12 @@
         }]
     },
     });
-    // fruchtermanLayout.layout(data);
+    
+    graph.on('afterlayout', () => {
+      const tipDiv = document.getElementById('tip');
+      tipDiv.innerHTML = '布局完成！';
+    });    
+
     edges.forEach(e => {
       if (nodeMap.get(e.source).x < nodeMap.get(e.target).x) {
         if (e.style === undefined) e.style = {};

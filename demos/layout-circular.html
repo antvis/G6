@@ -3,7 +3,7 @@
   
   <head>
     <meta charset="UTF-8">
-    <title>Circular Layout with Divisions</title>
+    <title>Circular Layout</title>
   </head>
   
   <body>
@@ -398,10 +398,7 @@
           type: 'circular',
           center: [500, 400],
           radius: 200,
-          startAngle: Math.PI / 4,
-          endAngle: Math.PI,
-          divisions: 5,
-          ordering: 'degree'
+          ordering: null // null || 'topology' || 'degree', null means nodes are ordered by data order
         },
         defaultNode: {
           size: [20, 20],
@@ -412,20 +409,15 @@
           color: '#e2e2e2'
         },
         nodeStyle: {
-        default:
-          {
-            lineWidth:
-            2,
+          default: {
+            lineWidth: 2,
             fill: '#fff'
           }
         },
         edgeStyle: {
-        default:
-          {
-            endArrow:
-            {
-              path:
-              'M 4,0 L -4,-4 L -4,4 Z',
+          default: {
+            endArrow: {
+              path: 'M 4,0 L -4,-4 L -4,4 Z',
               d: 4
             }
           }
@@ -435,4 +427,5 @@
       graph.render();
     </script>
   </body>
+
 </html>

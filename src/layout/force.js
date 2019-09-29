@@ -20,8 +20,10 @@ Layout.registerLayout('force', {
       edgeStrength: null,         // 边的作用力, 默认为根据节点的入度出度自适应
       linkDistance: 50,           // 默认边长度
       forceSimulation: null,      // 自定义 force 方法
-      maxIteration: null,         // 停止迭代的最大迭代数
-      threshold: null,            // 停止迭代的阈值
+      alphaDecay: 0.028,          // 迭代阈值的衰减率 [0, 1]，0.028 对应最大迭代数为 300
+      alphaMin: 0.001,            // 停止迭代的阈值
+      alpha: 0.3,                 // 当前阈值
+      collideStrength: 1,         // 防止重叠的力强度
       tick() {},
       onLayoutEnd() {},           // 布局完成回调
       onTick() {}                 // 每一迭代布局回调
@@ -49,6 +51,9 @@ Layout.registerLayout('force', {
       return;
     }
     let simulation = self.forceSimulation;
+    const alphaMin = self.alphaMin;
+    const alphaDecay = self.alphaDecay;
+    const alpha = self.alpha;
     if (!simulation) {
       try {
         // 定义节点的力
@@ -60,7 +65,9 @@ Layout.registerLayout('force', {
           .nodes(nodes)
           .force('center', d3Force.forceCenter(self.center[0], self.center[1]))
           .force('charge', nodeForce)
-          // .alphaTarget(0.3)
+          .alpha(alpha)
+          .alphaDecay(alphaDecay)
+          .alphaMin(alphaMin)
           .on('tick', () => {
             self.tick();
           })
@@ -100,7 +107,9 @@ Layout.registerLayout('force', {
       if (self.preventOverlap) {
         self.overlapProcess(simulation);
       }
-      simulation.alphaTarget(0.3).restart();
+      simulation
+      .alpha(alpha)
+      .restart();
       this.ticking = true;
     }
   },
@@ -111,6 +120,7 @@ Layout.registerLayout('force', {
   overlapProcess(simulation) {
     const self = this;
     let nodeSize = self.nodeSize;
+    const collideStrength = self.collideStrength;
     if (!nodeSize) {
       nodeSize = d => {
         if (d.size) {
@@ -128,7 +138,7 @@ Layout.registerLayout('force', {
       nodeSize = larger / 2;
     }
     // forceCollide's parameter is a radius
-    simulation.force('collisionForce', d3Force.forceCollide(nodeSize).strength(1));
+    simulation.force('collisionForce', d3Force.forceCollide(nodeSize).strength(collideStrength));
   },
   /**
    * 更新布局配置，但不执行布局

@@ -25,17 +25,16 @@
     <script src="./assets/jquery-3.2.1.min.js"></script>
     <script>
       const minimap = new Minimap({
-        size: [200, 160]
+        size: [ 200, 160 ]
       });
       const graph = new G6.Graph({
         container: 'mountNode',
         width: 1000,
         height: 800,
         autoPaint: false,
-        plugins: [minimap],
+        plugins: [ minimap ],
         modes: {
-        default:
-          ['drag-canvas', {
+          default: ['drag-canvas', {
             type: 'tooltip',
             formatText: model => {
               return model.name
@@ -62,10 +61,8 @@
           size: 1
         },
         nodeStyle: {
-        default:
-          {
-            lineWidth:
-            2,
+          default: {
+            lineWidth: 2,
             fill: '#fff',
             opacity: 0.8
           },
@@ -77,10 +74,8 @@
           }
         },
         edgeStyle: {
-        default:
-          {
-            stroke:
-            '#e2e2e2',
+          default: {
+            stroke: '#e2e2e2',
             lineAppendWidth: 2
           },
           highlight: {

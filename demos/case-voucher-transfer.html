@@ -297,46 +297,6 @@
     }
   });
   
-  // const g = new dagre.graphlib.Graph();
-  // g.setDefaultEdgeLabel(function() {
-  //   return {};
-  // });
-  // g.setGraph({
-  //   rankdir: 'LR'
-  // });
-  
-  // data.nodes.forEach(function(node) {
-  //   g.setNode(node.id + '', {
-  //     width: 280,
-  //     height: 100
-  //   });
-  // });
-  
-  // data.edges.forEach(function(edge) {
-  //   edge.source = edge.source + '';
-  //   edge.target = edge.target + '';
-  //   g.setEdge(edge.source, edge.target);
-  // });
-  // dagre.layout(g);
-  
-  // let coord = void 0;
-  // g.nodes().forEach(function(node, i) {
-  //   coord = g.node(node);
-  //   data.nodes[i].x = coord.x;
-  //   data.nodes[i].y = coord.y;
-  // });
-  // g.edges().forEach(function(edge, i) {
-  //   coord = g.edge(edge);
-  //   const startPoint = coord.points[0];
-  //   const endPoint = coord.points[coord.points.length - 1];
-  //   data.edges[i].startPoint = startPoint;
-  //   data.edges[i].endPoint = endPoint;
-  //   data.edges[i].controlPoints = coord.points.slice(
-  //     1,
-  //     coord.points.length - 1
-  //   );
-  // });
-  
   const graph = new G6.Graph({
     container: 'mountNode',
     width: 1000,

@@ -3,7 +3,7 @@
   
   <head>
     <meta charset="UTF-8">
-    <title>Subgraph Layout</title>
+    <title>Random(default) Layout</title>
   </head>
   
   <body>
@@ -389,27 +389,17 @@
         }]
       };
 
-      const nodes = data.nodes;
-
-      nodes.forEach((node, i) => {
-        if (i <= 16 && i !== 12) {
-          if (!node.style) {
-            node.style = {
-              fill: 'lightsteelblue'
-            }
-          } else {
-            node.style.fill = 'lightsteelblue';
-          }
-        }
-      });
-      
       const graph = new G6.Graph({
         container: 'mountNode',
         width: 1000,
         height: 600,
+        // layout: {  // random by default
+        //   type: 'random',
+        //   width: 300,
+        //   height: 300
+        // },
         modes: {
-        default:
-          ['drag-node']
+          default: ['drag-node']
         },
         defaultNode: {
           size: [20, 20],
@@ -420,10 +410,8 @@
           color: '#e2e2e2'
         },
         nodeStyle: {
-        default:
-          {
-            lineWidth:
-            2,
+          default: {
+            lineWidth: 2,
             fill: '#fff'
           },
           selected: {
@@ -431,12 +419,9 @@
           }
         },
         edgeStyle: {
-        default:
-          {
-            endArrow:
-            {
-              path:
-              'M 4,0 L -4,-4 L -4,4 Z',
+          default: {
+            endArrow: {
+              path: 'M 4,0 L -4,-4 L -4,4 Z',
               d: 4
             }
           }
@@ -444,47 +429,6 @@
       });
       graph.data(data);
       graph.render();
-
-      setTimeout(() => {
-        const nodes = data.nodes;
-        const edges = data.edges;
-        const newNodes = [];
-        const newEdges = [];
-        const newNodeMap = new Map();
-        // fix the nodes[0]
-        nodes[0].fx = nodes[0].x;
-        nodes[0].fy = nodes[0].y;
-        // add the nodes which should be re-layout
-        nodes.forEach((node, i) => {
-          if (i <= 16 && i !== 12) {
-            newNodes.push(node);
-            newNodeMap.set(node.id, i);
-          }
-        });
-        // add related edges
-        edges.forEach(edge => {
-          const sourceId = edge.source;
-          const targetId = edge.target;
-          if (newNodeMap.get(sourceId) !== undefined && newNodeMap.get(targetId) !== undefined) {
-            newEdges.push(edge);
-          }
-        });
-        
-        const subForceLayout = new G6.Layout['force']({
-          center: [ nodes[0].x, nodes[0].y ],
-          linkDistance: 70,
-          preventOverlap: true,
-          nodeSize: 20,
-          tick() {  // the tick function to show the animation of layout process
-            graph.refreshPositions();
-          }
-        });
-        subForceLayout.init({
-          'nodes': newNodes,
-          'edges': newEdges
-        });
-        subForceLayout.execute();
-      }, 1000);
     </script>
   </body>
 

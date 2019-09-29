@@ -3,10 +3,11 @@
   
   <head>
     <meta charset="UTF-8">
-    <title>力导布局 拖动释放节点后固定节点位置</title>
+    <title>力导布局 监听布局的开始与结束</title>
   </head>
   
   <body>
+    <div id="timingTip"></div>
     <div id="mountNode"></div>
     <script src="../build/g6.js"></script>
     <script>
@@ -100,20 +101,6 @@
           "target": "6"
         }]
       };
-
-      const nodes = data.nodes;
-
-      nodes.forEach((node, i) => {
-        if (i <= 16 && i !== 12) {
-          if (!node.style) {
-            node.style = {
-              fill: 'lightsteelblue'
-            }
-          } else {
-            node.style.fill = 'lightsteelblue';
-          }
-        }
-      });
       
       const graph = new G6.Graph({
         container: 'mountNode',
@@ -125,8 +112,7 @@
           nodeSize: 20
         },
         modes: {
-          default:
-            ['drag-node']
+          default: ['drag-node']
         },
         defaultNode: {
           size: [20, 20],
@@ -137,10 +123,8 @@
           color: '#e2e2e2'
         },
         nodeStyle: {
-          default:
-          {
-            lineWidth:
-            2,
+          default: {
+            lineWidth: 2,
             fill: '#fff'
           },
           selected: {
@@ -148,32 +132,26 @@
           }
         },
         edgeStyle: {
-          default:
-          {
-            endArrow:
-            {
-              path:
-              'M 4,0 L -4,-4 L -4,4 Z',
+          default: {
+            endArrow: {
+              path: 'M 4,0 L -4,-4 L -4,4 Z',
               d: 4
             }
           }
         }
       });
+
+      const tipDiv = document.getElementById('timingTip');
+      graph.on('beforelayout', () => {
+        tipDiv.innerHTML = 'It is doing force-directed layout now!'
+         + '<br/>After it is done, this text will be changed.';
+      });
+      graph.on('afterlayout', () => {
+        tipDiv.innerHTML = 'Done!';
+      });
+
       graph.data(data);
       graph.render();
-
-      function refreshDragedNodePosition(e) {
-        const model = e.item.get('model');
-        model.fx = e.x;
-        model.fy = e.y;
-      }
-      graph.on('node:dragstart', e => {
-        graph.layout();
-        refreshDragedNodePosition(e);
-      });
-      graph.on('node:drag', e => {
-        refreshDragedNodePosition(e);
-      });
     </script>
   </body>
 

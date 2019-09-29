@@ -3,13 +3,12 @@
   
   <head>
     <meta charset="UTF-8">
-    <title>Circular Layout</title>
+    <title>MDS Layout</title>
   </head>
   
   <body>
     <div id="mountNode"></div>
     <script src="../build/g6.js"></script>
-    <script src="./assets/d3-4.13.0.min.js"></script>
     <script>
       const data = {
         "nodes": [{
@@ -390,15 +389,19 @@
         }]
       };
 
+      data.edges.forEach((edge, i) => {
+        edge.id = i;
+      });
       const graph = new G6.Graph({
         container: 'mountNode',
         width: 1000,
-        height: 800,
+        height: 600,
         layout: {
-          type: 'circular',
-          center: [500, 400],
-          radius: 200,
-          ordering: null // null || 'topology' || 'degree', null means nodes are ordered by data order
+          type: 'mds',
+          linkDistance: 100
+        },
+        modes: {
+          default: ['drag-node']
         },
         defaultNode: {
           size: [20, 20],
@@ -409,26 +412,31 @@
           color: '#e2e2e2'
         },
         nodeStyle: {
-        default:
-          {
-            lineWidth:
-            2,
+          default: {
+            lineWidth: 2,
             fill: '#fff'
+          },
+          selected: {
+            fill: 'steelblue'
           }
         },
         edgeStyle: {
-        default:
-          {
-            endArrow:
-            {
-              path:
-              'M 4,0 L -4,-4 L -4,4 Z',
+          default: {
+            endArrow: {
+              path: 'M 4,0 L -4,-4 L -4,4 Z',
               d: 4
             }
           }
         }
       });
-      graph.data(data);
+      graph.data({
+        nodes: data.nodes,
+        edges: data.edges.map((edge, i) => {
+          edge.id = 'edge' + i;
+          return Object.assign({},
+          edge);
+        })
+      });
       graph.render();
     </script>
   </body>
