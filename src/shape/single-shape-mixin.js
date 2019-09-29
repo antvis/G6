@@ -90,7 +90,7 @@ const SingleShape = {
     const shapeClassName = this.itemType + CLS_SHAPE_SUFFIX;
     const shape = group.findByClassName(shapeClassName);
     const shapeStyle = this.getShapeStyle(cfg);
-    shape.attr(shapeStyle);
+    shape && shape.attr(shapeStyle);
     const labelClassName = this.itemType + CLS_LABEL_SUFFIX;
     const label = group.findByClassName(labelClassName);
 		// 此时需要考虑之前是否绘制了 label 的场景存在三种情况
