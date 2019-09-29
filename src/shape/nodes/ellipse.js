@@ -51,9 +51,7 @@ Shape.registerNode('ellipse', {
       img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
       width: 36,
       height: 36
-    },
-    // 连接点，默认为左右
-    anchorPoints: [[ 0, 0.5 ], [ 1, 0.5 ]]
+    }
   },
   shapeType: 'ellipse',
   // 文本位置
