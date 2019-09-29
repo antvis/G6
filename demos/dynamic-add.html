@@ -113,8 +113,7 @@
         width: 500,
         height: 500,
         modes: {
-        default:
-          ['drag-node', 'click-select'],
+          default: ['drag-node', 'click-select'],
           addNode: ['click-add-node', 'click-select'],
           addEdge: ['click-add-edge', 'click-select']
         }
@@ -129,7 +128,8 @@
       document.getElementById('selector').addEventListener('change', e => {
         const value = e.target.value;
         graph.setMode(value);
-      });</script>
+      });
+    </script>
   </body>
 
 </html>

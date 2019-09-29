@@ -3,11 +3,10 @@
   
   <head>
     <meta charset="UTF-8">
-    <title>通过实例化布局对象的方式更改节点位置</title>
+    <title>力导布局 拖动释放节点后固定节点位置</title>
   </head>
   
   <body>
-    <div id="tip">通过实例化布局的方式更改节点位置，而非将布局方法配置到图上。此机制方便外部使用。</div>
     <div id="mountNode"></div>
     <script src="../build/g6.js"></script>
     <script>
@@ -101,24 +100,32 @@
           "target": "6"
         }]
       };
-      
-      const radialLayout = new G6.Layout['radial']({
-        focusNode: '0',
-        unitRadius: 100,
-        center: [ 500, 300 ],
-        preventOverlap: true,
-        nodeSize: 20
-      });
-      radialLayout.init(data);
-      radialLayout.execute();
 
+      const nodes = data.nodes;
+
+      nodes.forEach((node, i) => {
+        if (i <= 16 && i !== 12) {
+          if (!node.style) {
+            node.style = {
+              fill: 'lightsteelblue'
+            }
+          } else {
+            node.style.fill = 'lightsteelblue';
+          }
+        }
+      });
+      
       const graph = new G6.Graph({
         container: 'mountNode',
         width: 1000,
         height: 600,
+        layout: {
+          type: 'force',
+          preventOverlap: true,
+          nodeSize: 20
+        },
         modes: {
-          default:
-            ['drag-node']
+          default: ['drag-node']
         },
         defaultNode: {
           size: [20, 20],
@@ -129,10 +136,8 @@
           color: '#e2e2e2'
         },
         nodeStyle: {
-          default:
-          {
-            lineWidth:
-            2,
+          default: {
+            lineWidth: 2,
             fill: '#fff'
           },
           selected: {
@@ -140,12 +145,9 @@
           }
         },
         edgeStyle: {
-          default:
-          {
-            endArrow:
-            {
-              path:
-              'M 4,0 L -4,-4 L -4,4 Z',
+          default: {
+            endArrow: {
+              path: 'M 4,0 L -4,-4 L -4,4 Z',
               d: 4
             }
           }
@@ -154,6 +156,18 @@
       graph.data(data);
       graph.render();
 
+      function refreshDragedNodePosition(e) {
+        const model = e.item.get('model');
+        model.fx = e.x;
+        model.fy = e.y;
+      }
+      graph.on('node:dragstart', e => {
+        graph.layout();
+        refreshDragedNodePosition(e);
+      });
+      graph.on('node:drag', e => {
+        refreshDragedNodePosition(e);
+      });
     </script>
   </body>
 

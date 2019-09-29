@@ -62,10 +62,8 @@
         pixelRatio: 2,
         plugins: [minimap],
         modes: {
-        default:
-          [{
-            type:
-            'collapse-expand',
+          default: [{
+            type: 'collapse-expand',
             onChange(item, collapsed) {
               const data = item.get('model').data;
               data.collapsed = collapsed;
@@ -75,18 +73,14 @@
           'drag-canvas', 'zoom-canvas']
         },
         nodeStyle: {
-        default:
-          {
-            fill:
-            '#40a9ff',
+          default: {
+            fill: '#40a9ff',
             stroke: '#096dd9'
           }
         },
         edgeStyle: {
-        default:
-          {
-            stroke:
-            '#A3B1BF'
+          default: {
+            stroke: '#A3B1BF'
           }
         },
         linkCenter: true,
@@ -111,5 +105,4 @@
       });
     </script>
   </body>
-
 </html>

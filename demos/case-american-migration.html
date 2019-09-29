@@ -119,25 +119,20 @@
             fill: 'steelblue'
           },
           nodeStyle: {
-          default:
-            {
-              lineWidth:
-              0,
+            default: {
+              lineWidth: 0,
               fill: 'steelblue'
             }
           },
           edgeStyle: {
-          default:
-            {
-              lineWidth:
-              0.7,
+            default: {
+              lineWidth: 0.7,
               strokeOpacity: 0.1,
               stroke: 'l(0) 0:' + llightOrange16 + ' 1:' + llightBlue16
             }
           },
           modes: {
-          default:
-            ['drag-canvas', 'zoom-canvas', {
+            default: ['drag-canvas', 'zoom-canvas', {
               type: 'tooltip',
               formatText(model) {
                 const text = 'Longitude: ' + model.lon + '\n Latitude: ' + model.lat;

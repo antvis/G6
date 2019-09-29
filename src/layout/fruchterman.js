@@ -18,7 +18,7 @@ Layout.registerLayout('fruchterman', {
       gravity: 10,                // 重力大小，影响图的紧凑程度
       speed: 1,                   // 速度
       clustering: false,          // 是否产生聚类力
-      clusterGravity: 10          // 是否产生聚类力
+      clusterGravity: 10          // 聚类力大小
     };
   },
   /**

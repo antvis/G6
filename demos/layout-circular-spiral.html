@@ -3,12 +3,13 @@
   
   <head>
     <meta charset="UTF-8">
-    <title>Random(default) Layout</title>
+    <title>Circular Spiral Layout</title>
   </head>
   
   <body>
     <div id="mountNode"></div>
     <script src="../build/g6.js"></script>
+    <script src="./assets/d3-4.13.0.min.js"></script>
     <script>
       const data = {
         "nodes": [{
@@ -392,15 +393,16 @@
       const graph = new G6.Graph({
         container: 'mountNode',
         width: 1000,
-        height: 600,
-        // layout: {  // random by default
-        //   type: 'random',
-        //   width: 300,
-        //   height: 300
-        // },
-        modes: {
-        default:
-          ['drag-node']
+        height: 800,
+        layout: {
+          type: 'circular',
+          center: [500, 400],
+          startRadius: 10,
+          endRadius: 300,
+          startAngle: Math.PI / 4,
+          endAngle: 3 * Math.PI,
+          clockwise: false,
+          ordering: 'topology'
         },
         defaultNode: {
           size: [20, 20],
@@ -411,23 +413,15 @@
           color: '#e2e2e2'
         },
         nodeStyle: {
-        default:
-          {
-            lineWidth:
-            2,
+          default: {
+            lineWidth: 2,
             fill: '#fff'
-          },
-          selected: {
-            fill: 'steelblue'
           }
         },
         edgeStyle: {
-        default:
-          {
-            endArrow:
-            {
-              path:
-              'M 4,0 L -4,-4 L -4,4 Z',
+          default: {
+            endArrow: {
+              path: 'M 4,0 L -4,-4 L -4,4 Z',
               d: 4
             }
           }
