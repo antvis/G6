@@ -214,9 +214,6 @@ class Graph extends EventEmitter {
     const itemController = new Controller.Item(this);
     const stateController = new Controller.State(this);
     const layoutController = new Controller.Layout(this);
-    this.set({ eventController, viewController, modeController,
-      itemController, stateController, layoutController });
-
     // 实例化customGroup
     const customGroupControll = new Controller.CustomGroup(this);
     this.set({
@@ -225,7 +222,8 @@ class Graph extends EventEmitter {
       modeController,
       itemController,
       stateController,
-      customGroupControll
+      customGroupControll,
+      layoutController
     });
     this._initPlugins();
   }
@@ -1148,8 +1146,7 @@ class Graph extends EventEmitter {
   updateLayout(cfg) {
     const layoutController = this.get('layoutController');
     let newLayoutType;
-    const cfgIsString = (typeof cfg === 'string') && cfg.constructor === String;
-    if (cfgIsString) {
+    if (Util.isString(cfg)) {
       newLayoutType = cfg;
       cfg = {
         type: newLayoutType

@@ -22,7 +22,7 @@ function revertAlign(labelPosition) {
 }
 
 
-// 注册 Node 的工厂方法
+// 注册 Edge 的工厂方法
 Shape.registerFactory('edge', {
   defaultShapeType: 'line'
 });
@@ -156,7 +156,7 @@ const singleEdgeDefinition = Util.mix({}, SingleShapeMixin, {
   drawLabel(cfg, group) {
     const customStyle = this.getCustomConfig(cfg) || {};
     const defaultConfig = customStyle.default || {};
-    const labelCfg = Util.deepMix({}, this.options.default.labelCfg, defaultConfig.labelCfg, cfg.labelCfg);
+    const labelCfg = Util.deepMix({}, this.options.labelCfg, defaultConfig.labelCfg, cfg.labelCfg);
     const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
     const label = group.addShape('text', {
       attrs: labelStyle

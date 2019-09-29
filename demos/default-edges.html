@@ -69,39 +69,49 @@
       },
     ],
     edges: [
-      // {
-      //   source: 'node1',
-      //   target: 'node4',
-      //   shape: 'polyline',
-      //   label: 'edge1-4',
-      //   controlPoints: [
-      //     { x: 100, y: 200 },
-      //   ],
-      //   style: {
-      //     radius: 10,
-      //     offset: 20
-      //   }
-      // },
-      // {
-      //   source: 'node4',
-      //   target: 'node5',
-      //   shape: 'polyline',
-      //   label: 'edge5-7',
-      //   style: {
-      //     lineWidth: 1.5,
-      //     stroke: '#888',
-      //   }
-      // },
-      // {
-      //   source: 'node4',
-      //   target: 'node7',
-      //   shape: 'polyline'
-      // },
-      // {
-      //   source: 'node6',
-      //   target: 'node4',
-      //   shape: 'polyline'
-      // },
+      {
+        source: 'node1',
+        target: 'node4',
+        shape: 'polyline',
+        label: 'edge1-4',
+        controlPoints: [
+          { x: 100, y: 200 },
+        ],
+        style: {
+          radius: 10,
+          offset: 20
+        }
+      },
+      {
+        source: 'node4',
+        target: 'node5',
+        shape: 'polyline',
+        label: 'edge5-7',
+        style: {
+          lineWidth: 1.5,
+          stroke: '#888',
+        }
+      },
+      {
+        source: 'node4',
+        target: 'node7',
+        shape: 'line'
+      },
+      {
+        source: 'node6',
+        target: 'node4',
+        shape: 'cubic'
+      },
+      {
+        source: 'node6',
+        target: 'node8',
+        shape: 'arc'
+      },
+      {
+        source: 'node5',
+        target: 'node7',
+        shape: 'quadratic'
+      },
       {
         source: 'node4',
         target: 'node8',
