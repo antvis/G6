@@ -71,6 +71,8 @@ Shape.registerNode('modelRect', {
     stateIcon: {
       // 是否显示icon，值为 false 则不渲染icon
       show: true,
+      x: 0,
+      y: 0,
       // icon的地址，字符串类型
       img: 'https://gw.alipayobjects.com/zos/basement_prod/300a2523-67e0-4cbf-9d4a-67c077b40395.svg',
       width: 16,
