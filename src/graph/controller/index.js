@@ -4,5 +4,6 @@ module.exports = {
   Mode: require('./mode'),
   Item: require('./item'),
   State: require('./state'),
-  Layout: require('./layout')
+  Layout: require('./layout'),
+  CustomGroup: require('./customGroup')
 };

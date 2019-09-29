@@ -200,6 +200,6 @@ describe('#659', () => {
   expect(keyShape.attr('fill')).to.equal('#5394ef');
   expect(keyShape.attr('stroke')).to.equal('#d9d9d9');
   graph.emit('node:mouseleave', { item: node });
-  expect(keyShape.attr('fill')).to.equal('#fff');
-  expect(keyShape.attr('stroke')).to.equal('#333');
+  expect(keyShape.attr('fill')).to.equal('#36cfc9');
+  expect(keyShape.attr('stroke')).to.equal('#87e8de');
 });

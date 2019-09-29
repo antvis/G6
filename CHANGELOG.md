@@ -1,6 +1,41 @@
 # ChangeLog
+#### 3.0.7-beta.1
+`2019-09-11`
+* fix: zoom-canvas support IE and Firefox
+
+#### 3.0.6
+`2019-09-11`
+* fix:  group data util function use module.exports
+* feat: update @antv/hierarchy version
+
+#### 3.0.5
+`2019-09-10`
+* feat: support add and remove group
+* feat: support collapse and expand group
+* feat: add graph api: collapseGroup and expandGroup
+
+#### 3.0.5-beta.12
+* feat: add rect group
+* feat: add rect group demo
+* feat: add chart node
 
 ---
+#### 3.0.5-beta.10
+* feat: add 5 chart node
+* feat: collapse-expand tree support click and dblclick by trigger option
+* fix: drag group bug fix
+
+#### 3.0.5-beta.9
+* feat: support render group
+* feat: support drag group, collapse and expand group, drag node in/out group
+* feat: add drag-group、collapse-expand-group and drag-node-with-group behavior
+* feat: add drag-group and collapse-expand-group demo
+* feat: add register list node demo
+
+#### 3.0.5-beta.8
+`2019-07-19`
+* feat: add five demos
+* refactor: update three behaviors
 
 #### 2.2.5
 

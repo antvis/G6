@@ -4,12 +4,21 @@
  */
 const Global = require('../global');
 const Util = require('../util/index');
+const { get, cloneDeep, merge } = require('lodash');
 
 const CLS_SHAPE_SUFFIX = '-shape';
 const CLS_LABEL_SUFFIX = '-label';
 
 // 单个 shape 带有一个 label，共用这段代码
 const SingleShape = {
+  // 默认样式及配置
+  options: {},
+  /**
+	 * 用户自定义节点或边的样式，初始渲染时使用
+	 * @override
+	 * @param  {Object} model 节点的配置项
+	 */
+  getCustomConfig(/* model */) {},
   itemType: '', // node, edge, group, anchor 等
 	/**
 	 * 绘制节点/边，包含文本
@@ -31,7 +40,11 @@ const SingleShape = {
 
   },
   drawLabel(cfg, group) {
-    const labelCfg = cfg.labelCfg || {};
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { labelCfg: defaultLabelCfg } = this.options;
+    const { labelCfg: customLabelCfg } = customOptions;
+
+    const labelCfg = merge({}, defaultLabelCfg, customLabelCfg, cfg.labelCfg);
     const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
     const label = group.addShape('text', {
       attrs: labelStyle
@@ -117,19 +130,53 @@ const SingleShape = {
     if (!shape) {
       return;
     }
-    const stateStyle = item.getStateStyle(name);
+    const itemStateStyle = item.getStateStyle(name);
+    const stateStyle = this.getStateStyle(name, value, item);
+    const styles = merge({}, stateStyle, itemStateStyle);
     if (value) { // 如果设置状态,在原本状态上叠加绘图属性
-      shape.attr(stateStyle);
+      shape.attr(styles);
     } else { // 取消状态时重置所有状态，依次叠加仍有的状态
       const style = item.getCurrentStatesStyle();
       // 如果默认状态下没有设置attr，在某状态下设置了，需要重置到没有设置的状态
-      Util.each(stateStyle, (val, attr) => {
+      Util.each(styles, (val, attr) => {
         if (!style[attr]) {
           style[attr] = null;
         }
       });
       shape.attr(style);
     }
+  },
+  /**
+   * 获取不同状态下的样式
+   *
+   * @param {string} name 状态名称
+   * @param {boolean} value 是否启用该状态
+   * @param {Item} item Node或Edge的实例
+   * @return {object} 样式
+   */
+  getStateStyle(name, value, item) {
+    const model = item.getModel();
+    const customOptions = this.getCustomConfig(model) || {};
+    const { style: defaultStyle, stateStyles: defaultStateStyle } = this.options;
+    const { style: customStyle, stateStyles: customStateStyle } = customOptions;
+
+    const stateStyles = merge({}, defaultStateStyle, customStateStyle);
+    let currentStateStyle = defaultStyle;
+
+    if (stateStyles[name]) {
+      currentStateStyle = stateStyles[name];
+    }
+    if (value) {
+      return currentStateStyle;
+    }
+
+    const states = item.getStates();
+    const resultStyle = merge({}, defaultStyle, customStyle);
+    const style = cloneDeep(resultStyle);
+    states.forEach(state => {
+      merge(style, get(defaultStyle, state, {}), get(customStyle, state, {}));
+    });
+    return style;
   }
 };
 
