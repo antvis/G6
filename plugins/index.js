@@ -1,9 +1,8 @@
 const G6Plugins = {
   Minimap: require('./minimap'),
   Grid: require('./grid'),
-  Force: require('./force'),
-  Dagre: require('./dagre'),
-  Menu: require('./menu')
+  Menu: require('./menu'),
+  Bundling: require('./bundling')
 };
 
 module.exports = G6Plugins;

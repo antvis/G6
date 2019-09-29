@@ -179,6 +179,121 @@ const MathUtil = {
       x: vector[0],
       y: vector[1]
     };
+  },
+  /**
+   * Floyd Warshall algorithm for shortest path distances matrix
+   * @param  {array} adjMatrix   adjacency matrix
+   * @return {array} distances   shortest path distances matrix
+   */
+  floydWarshall(adjMatrix) {
+    // initialize
+    const dist = [];
+    const size = adjMatrix.length;
+    for (let i = 0; i < size; i += 1) {
+      dist[i] = [];
+      for (let j = 0; j < size; j += 1) {
+        if (i === j) {
+          dist[i][j] = 0;
+        } else if (adjMatrix[i][j] === 0 || !adjMatrix[i][j]) {
+          dist[i][j] = Infinity;
+        } else {
+          dist[i][j] = adjMatrix[i][j];
+        }
+      }
+    }
+    // floyd
+    for (let k = 0; k < size; k += 1) {
+      for (let i = 0; i < size; i += 1) {
+        for (let j = 0; j < size; j += 1) {
+          if (dist[i][j] > dist[i][k] + dist[k][j]) {
+            dist[i][j] = dist[i][k] + dist[k][j];
+          }
+        }
+      }
+    }
+    return dist;
+  },
+
+  getAdjMatrix(data, directed) {
+    const nodes = data.nodes;
+    const edges = data.edges;
+    const matrix = [];
+    // map node with index in data.nodes
+    const nodeMap = new Map();
+    nodes.forEach((node, i) => {
+      nodeMap.set(node.id, i);
+      const row = [];
+      matrix.push(row);
+    });
+
+    // const n = nodes.length;
+    edges.forEach(e => {
+      const source = e.source;
+      const target = e.target;
+      const sIndex = nodeMap.get(source);
+      const tIndex = nodeMap.get(target);
+      matrix[sIndex][tIndex] = 1;
+      if (!directed) matrix[tIndex][sIndex] = 1;
+    });
+    return matrix;
+  },
+  /**
+   * if the graph about the shortest path matrix is connected
+   * @param  {array} matrix   shortest path matrix
+   * @return {boolean} connected
+   */
+  isConnected(matrix) {
+    if (matrix.length > 0) {
+      for (let j = 0; j < matrix[0].length; j++) {
+        if (matrix[0][j] === Infinity) return false;
+      }
+    }
+    return true;
+  },
+
+  getEDistance(p1, p2) {
+    return Math.sqrt((p1[0] - p2[0]) * (p1[0] - p2[0])
+    + (p1[1] - p2[1]) * (p1[1] - p2[1]));
+  },
+
+  scaleMatrix(matrix, scale) {
+    const result = [];
+    matrix.forEach(row => {
+      const newRow = [];
+      row.forEach(v => {
+        newRow.push(v * scale);
+      });
+      result.push(newRow);
+    });
+    return result;
+  },
+
+  randomInitPos(size, xRange = [ 0, 1 ], yRange = [ 0, 1 ]) {
+    const positions = [];
+    for (let i = 0; i < size; i++) {
+      const x = Math.random() * (xRange[1] - xRange[0]) + xRange[0];
+      const y = Math.random() * (yRange[1] - yRange[0]) + yRange[0];
+      positions.push([ x, y ]);
+    }
+    return positions;
+  },
+  getCircleCenterByPoints(p1, p2, p3) {
+    const a = p1.x - p2.x;
+    const b = p1.y - p2.y;
+    const c = p1.x - p3.x;
+    const d = p1.y - p3.y;
+    const e = (p1.x * p1.x - p2.x * p2.x - p2.y * p2.y + p1.y * p1.y) / 2;
+    const f = (p1.x * p1.x - p3.x * p3.x - p3.y * p3.y + p1.y * p1.y) / 2;
+    const denominator = b * c - a * d;
+    return {
+      x: -(d * e - b * f) / denominator,
+      y: -(a * f - c * e) / denominator
+    };
+  },
+  distance(p1, p2) {
+    const vx = p1.x - p2.x;
+    const vy = p1.y - p2.y;
+    return Math.sqrt(vx * vx + vy * vy);
   }
 };
 module.exports = BaseUtil.mix({}, BaseUtil, MathUtil);
