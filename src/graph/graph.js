@@ -213,7 +213,7 @@ class Graph extends EventEmitter {
     const modeController = new Controller.Mode(this);
     const itemController = new Controller.Item(this);
     const stateController = new Controller.State(this);
-
+    const layoutController = new Controller.Layout(this);
     // 实例化customGroup
     const customGroupControll = new Controller.CustomGroup(this);
     this.set({
@@ -222,7 +222,8 @@ class Graph extends EventEmitter {
       modeController,
       itemController,
       stateController,
-      customGroupControll
+      customGroupControll,
+      layoutController
     });
     this._initPlugins();
   }
@@ -497,12 +498,17 @@ class Graph extends EventEmitter {
     this.emit('beforerender');
     const autoPaint = this.get('autoPaint');
     this.setAutoPaint(false);
+
     Util.each(data.nodes, node => {
       self.add(NODE, node);
     });
     Util.each(data.edges, edge => {
       self.add(EDGE, edge);
     });
+    // layout
+    const layoutController = self.get('layoutController');
+    layoutController.layout();
+    self.refreshPositions();
 
     // 获取所有有groupID的node
     const nodeInGroup = data.nodes.filter(node => node.groupId);
@@ -601,6 +607,8 @@ class Graph extends EventEmitter {
       }
     });
     this.set({ nodes: items.nodes, edges: items.edges });
+    const layoutController = this.get('layoutController');
+    layoutController.changeData();
     if (self.get('animate')) {
       self.positionsAnimate();
     } else {
@@ -1108,6 +1116,71 @@ class Graph extends EventEmitter {
   }
 
   /**
+   * 更换布局
+   * @param {string} layoutType 即布局名字
+   * @param {object} cfg 新布局配置项
+   * 若无其他配置则使用该布局默认配置
+   */
+  // changeLayout(layoutType, cfg = null) {
+  //   const layoutController = this.get('layoutController');
+  //   let type = layoutType;
+  //   if (!type && !cfg.type) {
+  //     return;
+  //   }
+  //   cfg === null ? cfg = {} : cfg;
+  //   if (type) {
+  //     cfg.type = type;
+  //   } else if (cfg.type) {
+  //     type = cfg.type;
+  //   }
+  //   this.set('layout', cfg);
+  //   layoutController.changeLayout(type);
+  // }
+
+  /**
+   * 更换布局配置项
+   * @param {object} cfg 新布局配置项
+   * 若 cfg 含有 type 字段或为 String 类型，且与现有布局方法不同，则更换布局
+   * 若 cfg 不包括 type ，则保持原有布局方法，仅更新布局配置项
+   */
+  updateLayout(cfg) {
+    const layoutController = this.get('layoutController');
+    let newLayoutType;
+    if (Util.isString(cfg)) {
+      newLayoutType = cfg;
+      cfg = {
+        type: newLayoutType
+      };
+    } else {
+      newLayoutType = cfg.type;
+    }
+    const oriLayoutCfg = this.get('layout');
+    const oriLayoutType = oriLayoutCfg ? oriLayoutCfg.type : undefined;
+    if (!newLayoutType || oriLayoutType === newLayoutType) {
+      // no type or same type, update layout
+      const layoutCfg = {};
+      Util.mix(layoutCfg, cfg);
+      layoutCfg.type = oriLayoutType ? oriLayoutType : 'random';
+      layoutController.updateLayoutCfg(layoutCfg);
+    } else { // has different type, change layout
+      this.set('layout', cfg);
+      layoutController.changeLayout(newLayoutType);
+    }
+  }
+
+  /**
+   * 重新以当前示例中配置的属性进行一次布局
+   */
+  layout() {
+    const layoutController = this.get('layoutController');
+    if (layoutController.layoutMethod) {
+      layoutController.relayout();
+    } else {
+      layoutController.layout();
+    }
+  }
+
+  /**
    * 清除画布元素
    * @return {object} this
    */
@@ -1133,6 +1206,7 @@ class Graph extends EventEmitter {
     this.get('modeController').destroy();
     this.get('viewController').destroy();
     this.get('stateController').destroy();
+    this.get('layoutController').destroy();
     this.get('customGroupControll').destroy();
     this.get('canvas').destroy();
     this._cfg = null;
