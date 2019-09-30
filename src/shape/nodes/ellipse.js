@@ -7,7 +7,7 @@ const deepMix = require('@antv/util/lib/deep-mix');
 Shape.registerNode('ellipse', {
   // 自定义节点时的配置
   options: {
-    size: [ 60, 30 ],
+    size: [ 120, 60 ],
     style: {
       x: 0,
       y: 0,
@@ -24,11 +24,11 @@ Shape.registerNode('ellipse', {
     stateStyles: {
       // 鼠标hover状态下的配置
       hover: {
-        lineWidth: 3
+        fillOpacity: 0.8
       },
       // 选中节点状态下的配置
-      select: {
-        lineWidth: 5
+      selected: {
+        lineWidth: 3
       }
     },
     // 节点上左右上下四个方向上的链接circle配置

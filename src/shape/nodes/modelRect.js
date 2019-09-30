@@ -30,7 +30,7 @@ Shape.registerNode('modelRect', {
         fill: '#e6f7ff'
       },
       // 节点选中状态下的配置
-      select: {
+      selected: {
         lineWidth: 3,
         stroke: '#1890ff',
         fill: '#e6f7ff'

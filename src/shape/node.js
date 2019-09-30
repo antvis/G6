@@ -40,14 +40,15 @@ const singleNodeDefinition = Util.mix({}, SingleShapeMixin, {
   // 私有方法，不希望扩展的节点复写这个方法
   getLabelStyleByPosition(cfg, labelCfg) {
     const labelPosition = labelCfg.position || this.labelPosition;
-    let offset = labelCfg.offset;
-    if (Util.isNil(offset)) { // 考虑 offset = 0 的场景，不用用 labelCfg.offset || Global.nodeLabel.offset
-      offset = Global.nodeLabel.offset; // 不居中时的偏移量
-    }
 
     // 默认的位置（最可能的情形），所以放在最上面
     if (labelPosition === 'center') {
-      return { x: 0, y: 0 + offset };
+      return { x: 0, y: 0 };
+    }
+
+    let offset = labelCfg.offset;
+    if (Util.isNil(offset)) { // 考虑 offset = 0 的场景，不用用 labelCfg.offset || Global.nodeLabel.offset
+      offset = Global.nodeLabel.offset; // 不居中时的偏移量
     }
     const size = this.getSize(cfg);
     const width = size[0];
