@@ -1,5 +1,6 @@
 const Shape = require('../shape');
 const deepMix = require('@antv/util/lib/deep-mix');
+const Global = require('../../global');
 
 // 五角星shape
 Shape.registerNode('star', {
@@ -7,8 +8,8 @@ Shape.registerNode('star', {
   options: {
     size: 60,
     style: {
-      stroke: '#87e8de',
-      fill: '#36cfc9',
+      stroke: Global.defaultShapeStrokeColor,
+      fill: Global.defaultShapeFillColor,
       lineWidth: 1
     },
     // 文本样式配置
