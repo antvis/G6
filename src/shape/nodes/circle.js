@@ -17,7 +17,7 @@ Shape.registerNode('circle', {
       style: {
         fill: '#595959'
       },
-      offset: 15
+      offset: 0
     },
     stateStyles: {
       // 鼠标hover状态下的配置
@@ -53,7 +53,7 @@ Shape.registerNode('circle', {
   },
   shapeType: 'circle',
   // 文本位置
-  labelPosition: 'bottom',
+  labelPosition: 'center',
   drawShape(cfg, group) {
     const customOptions = this.getCustomConfig(cfg) || {};
     const { style: defaultStyle, icon: defaultIcon } = this.options;
@@ -61,7 +61,7 @@ Shape.registerNode('circle', {
     const style = deepMix({}, defaultStyle, customStyle, cfg.style);
     const icon = deepMix({}, defaultIcon, customIcon, cfg.icon);
     const size = this.getSize(cfg);
-    const r = size[0];
+    const r = size[0] / 2;
     const keyShape = group.addShape('circle', {
       attrs: {
         ...style,
@@ -101,7 +101,7 @@ Shape.registerNode('circle', {
     const { top, left, right, bottom, size: markSize,
       ...markStyle } = linkPoints;
     const size = this.getSize(cfg);
-    const r = size[0];
+    const r = size[0] / 2;
     if (left) {
       // left circle
       group.addShape('circle', {
@@ -161,7 +161,7 @@ Shape.registerNode('circle', {
     const style = deepMix({}, defaultStyle, customStyle, cfg.style);
     const icon = deepMix({}, defaultIcon, customIcon, cfg.icon);
     const size = this.getSize(cfg);
-    const r = size[0];
+    const r = size[0] / 2;
 
     const group = item.getContainer();
 
@@ -207,7 +207,7 @@ Shape.registerNode('circle', {
     const { size: markSize, fill: markFill, stroke: markStroke, lineWidth: borderWidth } = linkPoints;
 
     const size = this.getSize(cfg);
-    const r = size[0];
+    const r = size[0] / 2;
 
     const markLeft = group.findByClassName('circle-mark-left');
     if (markLeft) {

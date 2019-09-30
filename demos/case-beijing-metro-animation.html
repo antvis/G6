@@ -169,16 +169,8 @@
           default: {
             lineWidth: 2,
             fill: '#fff'
-          },
-          click: {
-            fill: '#0f0'
           }
         }
-      });
-      graph.on('node:click', e => {
-        const item = e.item;
-        const model = item.get('model');
-        graph.setItemState(item, 'click', true);
       });
       $.getJSON('./assets/data/beijing-metro-lines.json', data => {
         const nodes = data.nodes;

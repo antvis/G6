@@ -64,8 +64,8 @@ Shape.registerNode('ellipse', {
     const icon = deepMix({}, defaultIcon, customIcon, cfg.icon);
     const size = this.getSize(cfg);
 
-    const rx = size[0];
-    const ry = size[1];
+    const rx = size[0] / 2;
+    const ry = size[1] / 2;
 
     const keyShape = group.addShape('ellipse', {
       attrs: {
@@ -107,8 +107,8 @@ Shape.registerNode('ellipse', {
     const { top, left, right, bottom, size: markSize,
       ...markStyle } = linkPoints;
     const size = this.getSize(cfg);
-    const rx = size[0];
-    const ry = size[1];
+    const rx = size[0] / 2;
+    const ry = size[1] / 2;
 
     if (left) {
       // left circle
@@ -170,8 +170,8 @@ Shape.registerNode('ellipse', {
     const icon = deepMix({}, defaultIcon, customIcon, cfg.icon);
     const size = this.getSize(cfg);
 
-    const rx = size[0];
-    const ry = size[1];
+    const rx = size[0] / 2;
+    const ry = size[1] / 2;
 
     const keyShape = item.get('keyShape');
 
@@ -218,8 +218,8 @@ Shape.registerNode('ellipse', {
     const { size: markSize, ...markStyles } = linkPoints;
 
     const size = this.getSize(cfg);
-    const rx = size[0];
-    const ry = size[1];
+    const rx = size[0] / 2;
+    const ry = size[1] / 2;
 
     const markLeft = group.findByClassName('ellipse-mark-left');
     if (markLeft) {

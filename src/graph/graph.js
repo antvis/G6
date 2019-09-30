@@ -1116,28 +1116,6 @@ class Graph extends EventEmitter {
   }
 
   /**
-   * 更换布局
-   * @param {string} layoutType 即布局名字
-   * @param {object} cfg 新布局配置项
-   * 若无其他配置则使用该布局默认配置
-   */
-  // changeLayout(layoutType, cfg = null) {
-  //   const layoutController = this.get('layoutController');
-  //   let type = layoutType;
-  //   if (!type && !cfg.type) {
-  //     return;
-  //   }
-  //   cfg === null ? cfg = {} : cfg;
-  //   if (type) {
-  //     cfg.type = type;
-  //   } else if (cfg.type) {
-  //     type = cfg.type;
-  //   }
-  //   this.set('layout', cfg);
-  //   layoutController.changeLayout(type);
-  // }
-
-  /**
    * 更换布局配置项
    * @param {object} cfg 新布局配置项
    * 若 cfg 含有 type 字段或为 String 类型，且与现有布局方法不同，则更换布局

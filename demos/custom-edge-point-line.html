@@ -93,7 +93,7 @@
    * 自定义节点
    */
   G6.registerNode(
-    "node",
+    "rect-node",
     {
       drawShape: function drawShape(cfg, group) {
         var rect = group.addShape("rect", {
@@ -110,19 +110,6 @@
         });
         return rect;
       },
-      // 设置状态
-      setState(name, value, item) {
-        const group = item.getContainer();
-        const shape = group.get("children")[0]; // 顺序根据 draw 时确定
-
-        if (name === "selected") {
-          if (value) {
-            shape.attr("fill", "#F6C277");
-          } else {
-            shape.attr("fill", "#FFD591");
-          }
-        }
-      },
       getAnchorPoints: function getAnchorPoints() {
         return [[0, 0.5], [1, 0.5]];
       }
@@ -131,40 +118,9 @@
   );
 
   /**
-   * 自定义 edge 中心关系节点
-   */
-  G6.registerNode(
-    "statusNode",
-    {
-      drawShape: function drawShape(cfg, group) {
-        const circle = group.addShape("circle", {
-          attrs: {
-            x: 0,
-            y: 0,
-            r: 6,
-            // fill: '#ccc',
-            fill: cfg.active ? "#AB83E4" : "#ccc"
-          }
-        });
-        // const text = group.addShape('text', {
-        //   attrs: {
-        //    x: 0,
-        //    y: -20,
-        //    textAlign: 'center',
-        //    text: cfg.label,
-        //    fill: '#444'
-        //   }
-        // });
-        return circle;
-      }
-    },
-    "single-shape"
-  );
-
-  /**
  * 自定义带箭头的贝塞尔曲线 edge
  */
-G6.registerEdge("line-with-arrow", {
+G6.registerEdge("line-with-point", {
   itemType: "edge",
   draw: function draw(cfg, group) {
     const startPoint = cfg.startPoint;
@@ -274,7 +230,7 @@ G6.registerEdge("line-with-arrow", {
     width: 1000,
     height: 800,
     defaultNode: {
-      shape: "node",
+      shape: "rect-node",
       labelCfg: {
         style: {
           fill: "#fff",
@@ -283,10 +239,8 @@ G6.registerEdge("line-with-arrow", {
       }
     },
     defaultEdge: {
-      shape: "line-with-arrow"
-    },
-    edgeStyle: {
-      default: {
+      shape: "line-with-point",
+      style: {
         endArrow: true,
         lineWidth: 2,
         stroke: "#ccc"

@@ -1,6 +1,7 @@
 const Shape = require('../shape');
 const Util = require('../../util/index');
 const PolylineUtil = require('./polyline-util');
+const Global = require('../../global');
 
 const CLS_SHAPE_SUFFIX = '-shape';
 const CLS_LABEL_SUFFIX = '-label';
@@ -8,6 +9,7 @@ const CLS_LABEL_SUFFIX = '-label';
 // 折线
 Shape.registerEdge('polyline', {
   options: {
+    color: '#999',
     style: {
       stroke: '#333',
       lineWidth: 1,
@@ -45,6 +47,8 @@ Shape.registerEdge('polyline', {
     return keyShape;
   },
   getShapeStyle(cfg) {
+    const color = cfg.color || Global.defaultEdge.color;
+    const size = cfg.size || Global.defaultEdge.size;
     const customOptions = this.getCustomConfig(cfg) || {};
     const { style: defaultStyle } = this.options;
     const { style: customStyle } = customOptions;
@@ -69,7 +73,10 @@ Shape.registerEdge('polyline', {
       routeCfg = { source, target, offset: style.offset, radius: style.radius };
     }
     const path = this.getPath(points, routeCfg);
-    const attrs = Util.deepMix({}, style, { path });
+    const attrs = Util.deepMix({}, Global.defaultEdge.style, style, {
+      stroke: color,
+      lineWidth: size
+    }, cfg.style, { path });
     return attrs;
   },
   getPath(points, routeCfg) {

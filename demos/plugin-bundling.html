@@ -7,6 +7,7 @@
   </head>
   
   <body>
+    <div id="tip">边绑定前</div>
     <div id="mountNode"></div>
     <script src="../build/g6.js"></script>
     <script src="./assets/d3-4.13.0.min.js"></script>
@@ -412,20 +413,6 @@
         defaultEdge: {
           size: 1,
           color: '#999'
-        },
-        nodeStyle: {
-        default: {
-            lineWidth: 2,
-            fill: '#fff'
-          }
-        },
-        edgeStyle: {
-          default: {
-            endArrow: {
-              path: 'M 4,0 L -4,-4 L -4,4 Z',
-              d: 4
-            }
-          }
         }
       });
       graph.data(data);
@@ -433,6 +420,7 @@
 
       setTimeout(() => {
         edgeBundling.bundling(data);
+        const tipDiv = document.getElementById('tip').innerHTML = '边绑定完成！';
       },
       1000);
     </script>
