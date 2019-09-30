@@ -30,7 +30,7 @@ Shape.registerEdge('polyline', {
         lineWidth: 3
       },
       // 选中边状态下的配置
-      select: {
+      selected: {
         lineWidth: 5
       }
     }

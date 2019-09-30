@@ -22,14 +22,11 @@ Shape.registerNode('rect', {
     stateStyles: {
       // hover状态下的配置
       hover: {
-        lineWidth: 2,
-        stroke: '#1890ff'
+        fillOpacity: 0.8
       },
       // 节点选中状态下的配置
-      select: {
-        lineWidth: 3,
-        stroke: '#1890ff',
-        fill: '#91d5ff'
+      selected: {
+        lineWidth: 3
       }
     },
     // 节点上左右上下四个方向上的链接circle配置

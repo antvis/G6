@@ -21,11 +21,11 @@ Shape.registerNode('star', {
     stateStyles: {
       // 鼠标hover状态下的配置
       hover: {
-        lineWidth: 3
+        fillOpacity: 0.8
       },
       // 选中节点状态下的配置
-      select: {
-        lineWidth: 5
+      selected: {
+        lineWidth: 3
       }
     },
     // 节点上左右上下四个方向上的链接circle配置

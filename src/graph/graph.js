@@ -406,8 +406,7 @@ class Graph extends EventEmitter {
           shape: 'rect',
           label: node.id,
           style: { fill: '#666' },
-          styles: {
-            default: { fill: 'red' },
+          stateStyles: {
             selected: { fill: 'blue' },
             custom: { fill: 'green' }
           }
