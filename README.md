@@ -16,15 +16,6 @@ G6 is a graph visualization framework which provides a set of basic mechanisms. 
 
 <img src="https://gw.alipayobjects.com/zos/rmsportal/HQxYguinFOMIXrGQOABY.gif" height=150><img src="https://gw.alipayobjects.com/zos/rmsportal/nAugyFgrbrUWPmDIDiQm.gif" height=150><img src="https://cdn.nlark.com/yuque/0/2019/gif/174835/1552990627466-92a4ce23-79b2-4930-ab05-6478b56ce880.gif" height=150>
 
-## [G6-Editor](https://yuque.com/antv/g6-editor)
-<img src="https://gw.alipayobjects.com/zos/rmsportal/nzmycBewjfxKDbepTDlT.gif" width=560>
-<img src="https://gw.alipayobjects.com/zos/rmsportal/WVqnbgJmamdahbAuDpBL.gif" width=560>
-<img src="https://cdn.nlark.com/yuque/0/2018/png/93506/1542618842515-6655c4aa-5345-40b5-b496-236f0c89c8f3.png" width=560>
-
-## G6-Analyzer [coming soon]
-
-![](https://gw.alipayobjects.com/zos/rmsportal/GxupfuhWyMZWwPWWYgaO.gif)
-
 ## Installation
 
 ```bash
@@ -56,17 +47,24 @@ const graph = new G6.Graph({
   container: 'mountNode',
   width: 500,
   height: 500,
-  nodeStyle: {
-    default: {
+  defaultNode: {
+    shape: 'circle',
+    style: {
       fill: '#40a9ff',
       stroke: '#096dd9'
     }
   },
-  edgeStyle: {
-    default: { stroke: '#A3B1BF' }
+  nodeStateStyles: {
+    hover: {
+      lineWidth: 3
+    },
+    select: {
+      lineWidth: 5
+    }
   }
 });
-graph.read(data);
+graph.data(data);
+graph.render();
 ```
 
 ## Development

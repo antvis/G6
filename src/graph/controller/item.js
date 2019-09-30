@@ -5,6 +5,7 @@ const NODE = 'node';
 const EDGE = 'edge';
 const CFG_PREFIX = 'default';
 const MAPPER_SUFFIX = 'Mapper';
+const STATE_SUFFIX = 'stateStyles';
 const hasOwnProperty = Object.hasOwnProperty;
 
 class ItemController {
@@ -16,14 +17,14 @@ class ItemController {
     const parent = graph.get(type + 'Group') || graph.get('group');
     const upperType = Util.upperFirst(type);
     let item;
-    let styles = graph.get(type + 'Style') || {};
+    let styles = graph.get(type + Util.upperFirst(STATE_SUFFIX)) || {};
     const defaultModel = graph.get(CFG_PREFIX + upperType);
     const mapper = graph.get(type + MAPPER_SUFFIX);
     if (mapper) {
       const mappedModel = mapper(model);
-      if (mappedModel.styles) {
-        styles = mappedModel.styles;
-        delete mappedModel.styles;
+      if (mappedModel[STATE_SUFFIX]) {
+        styles = mappedModel[STATE_SUFFIX];
+        delete mappedModel[STATE_SUFFIX];
       }
       Util.each(mappedModel, (val, cfg) => {
         model[cfg] = val;
@@ -86,13 +87,14 @@ class ItemController {
     // 如果修改了与映射属性有关的数据项，映射的属性相应也需要变化
     const mapper = graph.get(item.getType() + MAPPER_SUFFIX);
     if (mapper) {
-      const newModel = Util.mix({}, item.getModel(), cfg);
-      const mappedModel = mapper(newModel);
-      if (mappedModel.styles) {
-        item.set('styles', mappedModel.styles);
-        delete mappedModel.styles;
+      const model = item.getModel();
+      const mappedModel = mapper(model);
+      const newModel = Util.mix({}, mappedModel, cfg);
+      if (mappedModel[STATE_SUFFIX]) {
+        item.set('styles', newModel[STATE_SUFFIX]);
+        delete newModel[STATE_SUFFIX];
       }
-      Util.each(mappedModel, (val, key) => {
+      Util.each(newModel, (val, key) => {
         cfg[key] = val;
       });
     }
