@@ -1,5 +1,6 @@
 const Shape = require('../shape');
 const deepMix = require('@antv/util/lib/deep-mix');
+const Global = require('../../global');
 
 Shape.registerNode('rect', {
   // 自定义节点时的配置
@@ -7,8 +8,8 @@ Shape.registerNode('rect', {
     size: [ 100, 30 ],
     style: {
       radius: 0,
-      stroke: '#87e8de',
-      fill: '#36cfc9',
+      stroke: Global.defaultShapeStrokeColor,
+      fill: Global.defaultShapeFillColor,
       lineWidth: 1,
       fillOpacity: 1
     },
