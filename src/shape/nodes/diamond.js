@@ -1,5 +1,6 @@
 const Shape = require('../shape');
 const deepMix = require('@antv/util/lib/deep-mix');
+const Global = require('../../global');
 
 // 菱形shape
 Shape.registerNode('diamond', {
@@ -7,8 +8,8 @@ Shape.registerNode('diamond', {
   options: {
     size: [ 100, 100 ],
     style: {
-      stroke: '#87e8de',
-      fill: '#36cfc9',
+      stroke: Global.defaultShapeStrokeColor,
+      fill: Global.defaultShapeFillColor,
       lineWidth: 1
     },
     // 文本样式配置
