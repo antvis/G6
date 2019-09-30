@@ -46,7 +46,7 @@ Layout.registerLayout('radial', {
       unitRadius: null,           // 每一圈半径
       linkDistance: 50,           // 默认边长度
       preventOverlap: false,          // 是否防止重叠
-      nodeSize: 10                // 节点半径
+      nodeSize: 10                // 节点直径
     };
   },
   /**

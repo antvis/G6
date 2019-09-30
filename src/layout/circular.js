@@ -73,7 +73,6 @@ Layout.registerLayout('circular', {
       endRadius: null,            // 默认终止半径
       startAngle: 0,              // 默认起始角度
       endAngle: 2 * Math.PI,      // 默认终止角度
-      nodeSize: 10,               // 节点半径
       clockwise: true,            // 是否顺时针
       divisions: 1,               // 节点在环上分成段数（几个段将均匀分布），在 endRadius - startRadius != 0 时生效
       ordering: null,             // 节点在环上排序的依据。可选: 'topology', 'degree', 'null'

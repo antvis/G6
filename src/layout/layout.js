@@ -30,7 +30,7 @@ Layout.registerLayout = function(type, layout) {
       self.edges = data.edges;
     },
     /**
-     * 执行布局，不改变原数据模型位置，只返回布局后但结果位置
+     * 执行布局
      */
     execute() {
     },
