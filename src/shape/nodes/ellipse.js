@@ -1,5 +1,6 @@
 const Shape = require('../shape');
 const deepMix = require('@antv/util/lib/deep-mix');
+const Global = require('../../global');
 
 /**
  * 基本的椭圆，可以添加文本，默认文本居中
@@ -11,8 +12,8 @@ Shape.registerNode('ellipse', {
     style: {
       x: 0,
       y: 0,
-      stroke: '#87e8de',
-      fill: '#36cfc9',
+      stroke: Global.defaultShapeStrokeColor,
+      fill: Global.defaultShapeFillColor,
       lineWidth: 1
     },
     // 文本样式配置

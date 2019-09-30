@@ -9,6 +9,8 @@ module.exports = {
   edgeContainerClassName: 'edge-container',
   customGroupContainerClassName: 'custom-group-container',
   delegateContainerClassName: 'delegate-container',
+  defaultShapeFillColor: '#91d5ff',
+  defaultShapeStrokeColor: '#91d5ff',
   defaultNode: {
     shape: 'circle',
     style: {
