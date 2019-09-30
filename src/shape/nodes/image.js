@@ -13,13 +13,13 @@ Shape.registerNode('image', {
       show: false,
       type: 'circle',
       // circle
-      r: 15,
+      r: 50,
       // ellipse
-      rx: 10,
-      ry: 15,
+      rx: 50,
+      ry: 35,
       // rect
-      width: 15,
-      height: 15,
+      width: 50,
+      height: 35,
       // polygon
       points: [
         [ 30, 12 ],
