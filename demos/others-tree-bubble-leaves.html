@@ -252,7 +252,9 @@
         const forceLayout = new G6.Layout['force']({
           center,
           linkDistance: 0,
-          nodeStrength: 50,
+          nodeStrength: 30,
+          collideStrength: 0.7,
+          alphaDecay: 0.01,
           preventOverlap: true,
           tick: () => {
             graph.refreshPositions();

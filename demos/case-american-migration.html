@@ -51,8 +51,11 @@
           target.inDegree++;
           source.degree++;
           target.degree++;
+          if (e.sytle === undefined) e.style = {};
+          e.style.lineWidth = 0.7;
+          e.style.strokeOpacity = 0.1;
+          e.style.stroke = 'l(0) 0:' + llightOrange16 + ' 1:' + llightBlue16;
           if (nodeIdMap.get(e.source).x < nodeIdMap.get(e.target).x) {
-            if (e.sytle === undefined) e.style = {};
             e.style.stroke = 'l(0) 0:' + llightBlue16 + ' 1:' + llightOrange16
           }
         });
@@ -116,19 +119,9 @@
             shape: 'pie-node',
             size: 3,
             color: 'steelblue',
-            fill: 'steelblue'
-          },
-          nodeStyle: {
-            default: {
+            style: {
               lineWidth: 0,
               fill: 'steelblue'
-            }
-          },
-          edgeStyle: {
-            default: {
-              lineWidth: 0.7,
-              strokeOpacity: 0.1,
-              stroke: 'l(0) 0:' + llightOrange16 + ' 1:' + llightBlue16
             }
           },
           modes: {
