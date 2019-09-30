@@ -5,7 +5,7 @@ const deepMix = require('@antv/util/lib/deep-mix');
 Shape.registerNode('star', {
   // 自定义节点时的配置
   options: {
-    size: [ 20, 60 ],
+    size: 60,
     style: {
       stroke: '#87e8de',
       fill: '#36cfc9',
@@ -101,7 +101,7 @@ Shape.registerNode('star', {
     const { top, left, right, leftBottom, rightBottom, size: markSize,
       ...markStyle } = linkPoints;
     const size = this.getSize(cfg);
-    const outerR = size[1];
+    const outerR = size[0];
 
     if (right) {
       // right circle
@@ -189,9 +189,12 @@ Shape.registerNode('star', {
     }
   },
   getPath(cfg) {
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { innerR: customInnerR } = customOptions;
     const size = this.getSize(cfg);
-    const innerR = size[0];
-    const outerR = size[1];
+    const outerR = size[0];
+    const defaultInnerR = outerR * 3 / 8;
+    const innerR = cfg.innerR || customInnerR || defaultInnerR;
     const path = [];
     for (let i = 0; i < 5; i++) {
       const x1 = Math.cos((18 + 72 * i) / 180 * Math.PI) * outerR;
@@ -270,7 +273,7 @@ Shape.registerNode('star', {
     const { size: markSize, ...markStyle } = linkPoints;
 
     const size = this.getSize(cfg);
-    const outerR = size[1];
+    const outerR = size[0];
 
     const markRight = group.findByClassName('star-mark-right');
     if (markRight) {

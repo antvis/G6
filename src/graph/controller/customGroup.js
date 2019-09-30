@@ -39,9 +39,12 @@ class CustomGroup {
         fill: '#F3F9FF'
       },
       icon: 'https://gw.alipayobjects.com/zos/rmsportal/MXXetJAxlqrbisIuZxDO.svg',
-      text: {
+      title: {
+        show: false,
         text: '新建群组',
-        stroke: '#444'
+        stroke: '#444',
+        offsetX: 0,
+        offsetY: 0
       },
       operatorBtn: {
         collapse: {
@@ -92,7 +95,7 @@ class CustomGroup {
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
 
-    const { default: defaultStyle } = this.styles;
+    const { default: defaultStyle, title } = this.styles;
 
     // 计算群组左上角左边、宽度、高度及x轴方向上的最大值
     const { x, y, width, height, maxX } = this.calculationGroupPosition(nodes);
@@ -139,6 +142,22 @@ class CustomGroup {
       this.setDeletageGroupByStyle(groupId, nodeGroup,
         { width, height, x, y, btnOffset: maxX - 3 });
     }
+
+    // 添加group标题
+    if (title) {
+      const { show, offsetX, offsetY, ...titleStyle } = title;
+      if (show) {
+        nodeGroup.addShape('text', {
+          attrs: {
+            ...titleStyle,
+            x: x + offsetX,
+            y: y + offsetY
+          },
+          className: 'group-title'
+        });
+      }
+    }
+
     nodeGroup.set('keyShape', keyShape);
 
     // 设置graph中groupNodes的值
@@ -250,69 +269,6 @@ class CustomGroup {
     const hasSubGroup = !!groups.filter(g => g.parentId === groupId).length > 0;
     const paddingValue = hasSubGroup ? defaultStyle.maxDis : defaultStyle.minDis;
     return paddingValue;
-  }
-
-  /**
-   * 拖动群组里面的节点，更新群组属性样式
-   *
-   * @param {string} groupId 群组ID
-   * @return {boolean} null
-   * @memberof ItemGroup
-   */
-  updateGroupStyleByNode(groupId) {
-    const graph = this.graph;
-    const customGroup = graph.get('customGroup');
-    const groupChild = customGroup.get('children');
-    const currentGroup = groupChild.filter(child => child.get('id') === groupId);
-
-    const autoPaint = graph.get('autoPaint');
-    graph.setAutoPaint(false);
-
-    // 获取所有具有同一个groupID的节点，计算群组大小
-    const nodes = graph.getNodes();
-    const groupNodes = nodes.filter(node => {
-      const currentModel = node.getModel();
-      const gId = currentModel.groupId;
-      return gId === groupId;
-    });
-
-    const { x, y, width, height, maxX } = this.calculationGroupPosition(groupNodes);
-
-    const current = currentGroup[0];
-    if (!current) {
-      return false;
-    }
-
-    // 更新rect属性样式
-    const rect = current.getChildByIndex(0);
-    rect.attr('x', x);
-    rect.attr('y', y);
-    rect.attr('width', width);
-    rect.attr('height', height);
-
-    // 更新群组图标属性样式
-    const logoIcon = current.getChildByIndex(1);
-    logoIcon.attr('x', x + 8);
-    logoIcon.attr('y', y + 8);
-
-    // 更新群组名称属性样式
-    const text = current.getChildByIndex(2);
-    text.attr('x', x + 35);
-    text.attr('y', y + 21);
-
-    // 更新收起和展开按钮属性样式
-    const operatorBtn = current.getChildByIndex(3);
-    operatorBtn.attr('x', maxX - 3);
-    operatorBtn.attr('y', y + 8);
-
-    // 更新群组及属性样式
-    this.setDeletageGroupByStyle(groupId, current, { width, height, btnOffset: maxX - 3 });
-
-    // 更新群组初始位置的bbox
-    this.setGroupOriginBBox(groupId, rect.getBBox());
-
-    graph.setAutoPaint(autoPaint);
-    graph.paint();
   }
 
   /**
