@@ -194,29 +194,30 @@ module.exports = {
           attrs: {
             width: bbox.width,
             height: bbox.height,
-            x: x - bbox.width / 2,
-            y: y - bbox.height / 2,
+            x: x + bbox.x,
+            y: y + bbox.y,
             ...attrs
           }
         });
         this.target.set('delegateShape', this.shape);
       }
       this.shape.set('capture', false);
+    } else {
+      if (this.targets.length > 0) {
+        const clientX = e.x - this.origin.x + this.originPoint.minX;
+        const clientY = e.y - this.origin.y + this.originPoint.minY;
+        this.shape.attr({
+          x: clientX,
+          y: clientY
+        });
+      } else if (this.target) {
+        this.shape.attr({
+          x: x + bbox.x,
+          y: y + bbox.y
+        });
+      }
     }
 
-    if (this.targets.length > 0) {
-      const clientX = e.x - this.origin.x + this.originPoint.minX;
-      const clientY = e.y - this.origin.y + this.originPoint.minY;
-      this.shape.attr({
-        x: clientX,
-        y: clientY
-      });
-    } else if (this.target) {
-      this.shape.attr({
-        x: x - bbox.width / 2,
-        y: y - bbox.height / 2
-      });
-    }
     this.graph.paint();
   },
   /**
