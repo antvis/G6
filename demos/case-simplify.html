@@ -227,7 +227,7 @@
               });
             } else if (ge.get('targetNode').get('visible') && targetModel.cluster !== model.cluster) {
               let c1 = beginColor, c2 = endColor;
-              if (sourceModel.x < model.x) {
+              if (sourceModel.x > model.x) {
                 c1 = endColor;
                 c2 = beginColor;
               }
@@ -319,7 +319,7 @@
           });
         } else if (targetModel.cluster === model.cluster && sourceModel.cluster !== model.cluster) {
           let c1 = beginColor, c2 = endColor;
-          if (sourceModel.x < center.x) {
+          if (sourceModel.x > center.x) {
             c1 = endColor;
             c2 = beginColor;
           }
