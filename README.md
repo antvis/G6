@@ -10,7 +10,7 @@
 
 [中文 README](README-zh_CN.md)
 
-G6 is a graph visualization framework which provides a set of basic mechanisms. Developers are able to build graph visualization **analysis** application or graph visualization **modeling** application easily. For more details, please see our [doc](https://www.yuque.com/antv/g6/intro).
+G6 is a graph visualization framework which provides a set of basic mechanisms, including rendering, layout, interaction, animation, analysis, and other auxiliary tools. Developers are able to build graph visualization **analysis** applications or graph visualization **modeling** applications easily. For more details, please see our [doc](https://www.yuque.com/antv/g6/intro).
 
 <img src="https://user-images.githubusercontent.com/6113694/44995293-02858600-afd5-11e8-840c-349e4730d63d.gif" height=150><img src="https://cdn.nlark.com/yuque/0/2018/gif/93506/1535955277773-840190f8-836a-4bd6-875a-b3a18e6cebf1.gif" height=150><img src="https://user-images.githubusercontent.com/6113694/44995332-2ba61680-afd5-11e8-8cab-db0e9d08ceb7.gif" height=150>
 
@@ -22,9 +22,10 @@ G6 is a graph visualization framework which provides a set of basic mechanisms. 
 $ npm install @antv/g6
 ```
 
+## Usage
+
 <img src="https://gw.alipayobjects.com/zos/rmsportal/qSUOQUhnRrHCLvEjhZGP.png" />
 
-## Usage
 ```js
 import G6 from '@antv/g6';
 
