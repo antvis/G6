@@ -305,13 +305,6 @@ Shape.registerNode('modelRect', {
     }
     return label;
   },
-  getAnchorPoints(cfg) {
-    const customOptions = this.getCustomConfig(cfg) || {};
-    const { anchorPoints: defaultAnchorPoints } = this.options;
-    const { anchorPoints: customAnchorPoints } = customOptions;
-    const anchorPoints = deepMix({}, defaultAnchorPoints, customAnchorPoints);
-    return anchorPoints;
-  },
   /**
    * 获取节点的样式，供基于该节点自定义时使用
    * @param {Object} cfg 节点数据模型

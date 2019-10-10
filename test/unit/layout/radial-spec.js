@@ -34,7 +34,7 @@ const data = {
   }]
 };
 
-describe('radial', () => {
+describe.only('radial', () => {
   it('new graph with radial layout, without configurations', () => {
     const graph = new G6.Graph({
       container: div,
