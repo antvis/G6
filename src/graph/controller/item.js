@@ -86,8 +86,8 @@ class ItemController {
     }
     // 如果修改了与映射属性有关的数据项，映射的属性相应也需要变化
     const mapper = graph.get(item.getType() + MAPPER_SUFFIX);
+    const model = item.getModel();
     if (mapper) {
-      const model = item.getModel();
       const mappedModel = mapper(model);
       const newModel = Util.mix({}, mappedModel, cfg);
       if (mappedModel[STATE_SUFFIX]) {
@@ -96,6 +96,15 @@ class ItemController {
       }
       Util.each(newModel, (val, key) => {
         cfg[key] = val;
+      });
+    } else {
+      // merge update传进来的对象参数，model中没有的数据不做处理，对象和字符串值也不做处理，直接替换原来的
+      Util.each(cfg, (val, key) => {
+        if (model[key]) {
+          if (Util.isObject(val) && !Util.isArray(val)) {
+            cfg[key] = Util.mix({}, model[key], cfg[key]);
+          }
+        }
       });
     }
     graph.emit('beforeupdateitem', { item, cfg });

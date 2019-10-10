@@ -223,6 +223,20 @@ Shape.registerNode('star', {
 
     return path;
   },
+  /**
+   * 获取节点的样式，供基于该节点自定义时使用
+   * @param {Object} cfg 节点数据模型
+   * @return {Object} 节点的样式
+   */
+  getShapeStyle(cfg) {
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { style: defaultStyle } = this.options;
+    const { style: customStyle } = customOptions;
+    const style = deepMix({}, defaultStyle, customStyle, cfg.style);
+    const path = this.getPath(cfg);
+    const styles = { path, ...style };
+    return styles;
+  },
   update(cfg, item) {
     const group = item.getContainer();
     const customOptions = this.getCustomConfig(cfg) || {};
