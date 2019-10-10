@@ -509,14 +509,17 @@ class Graph extends EventEmitter {
     layoutController.layout();
     self.refreshPositions();
 
-    // 获取所有有groupID的node
-    const nodeInGroup = data.nodes.filter(node => node.groupId);
+    // 防止传入的数据不存在nodes
+    if (data.nodes) {
+      // 获取所有有groupID的node
+      const nodeInGroup = data.nodes.filter(node => node.groupId);
 
-    // 所有node中存在groupID，则说明需要群组
-    if (nodeInGroup.length > 0) {
-      // 渲染群组
-      const groupType = self.get('groupType');
-      this.renderCustomGroup(data, groupType);
+      // 所有node中存在groupID，则说明需要群组
+      if (nodeInGroup.length > 0) {
+        // 渲染群组
+        const groupType = self.get('groupType');
+        this.renderCustomGroup(data, groupType);
+      }
     }
 
     if (self.get('fitView')) {

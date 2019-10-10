@@ -178,8 +178,8 @@ describe('minimap', () => {
     graph.addItem('node', { id: 'node1', x: -50, y: -50 });
     const canvas = minimap.getCanvas();
     const matrix = canvas.getMatrix();
-    expect(matrix[6] - 56 < 1).to.be.true;
-    expect(matrix[7] - 56 < 1).to.be.true;
+    expect(matrix[6] - 56 < 1).to.be.false;
+    expect(matrix[7] - 56 < 1).to.be.false;
     graph.destroy();
   });
   it('keyShapeOnly minimap', () => {
