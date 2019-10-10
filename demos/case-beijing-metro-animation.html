@@ -27,6 +27,44 @@
     <script src="../build/g6.js"></script>
     <script src="./assets/jquery-3.2.1.min.js"></script>
     <script>
+      const testdata = {
+        nodes: [
+          {
+            id: '0',
+            x: 100,
+            y: 100
+          },
+          {
+            id: '1',
+            x: 300,
+            y: 100
+          },
+        ],
+        edges: [
+          {
+            source: '0',
+            target: '1',
+            controlPoints: [
+              {
+                x: 120,
+                y: 100,
+              },
+              {
+                x: 140,
+                y: 150,
+              },
+              {
+                x: 150,
+                y: 150,
+              },
+              {
+                x: 180,
+                y: 100,
+              }
+            ]
+          }
+        ]
+      };
 
       const colors = [ 'rgb(64, 174, 247)', 'rgb(108, 207, 169)', 'rgb(157, 223, 125)',
         'rgb(240, 198, 74)', 'rgb(221, 158, 97)', 'rgb(141, 163, 112)', 'rgb(115, 136, 220)',
