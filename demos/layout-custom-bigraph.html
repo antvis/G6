@@ -237,17 +237,17 @@
         animate: true,
         defaultNode: {
           size: [ 20, 20 ],
-          color: 'steelblue'
+          color: 'steelblue',
+          style: {
+            lineWidth: 2,
+            fill: '#fff'
+          },
         },
         defaultEdge: {
           size: 1,
           color: '#e2e2e2'
         },
-        nodeStyle: {
-          default: {
-            lineWidth: 2,
-            fill: '#fff'
-          },
+        nodeStateStyles: {
           selected: {
             fill: 'steelblue'
           }
