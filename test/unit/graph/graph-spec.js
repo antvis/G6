@@ -693,9 +693,11 @@ describe('mapper', () => {
     container: div,
     width: 500,
     height: 500,
-    defaultNode: { shape: 'circle' },
-    nodeStyle: {
-      fill: 'red'
+    defaultNode: {
+      shape: 'circle',
+      style: {
+        fill: 'red'
+      }
     }
   });
   it('node & edge mapper', () => {

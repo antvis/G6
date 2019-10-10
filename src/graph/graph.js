@@ -120,7 +120,10 @@ class Graph extends EventEmitter {
        * 默认的节点配置，data 上定义的配置会覆盖这些配置。例如：
        * defaultNode: {
        *  shape: 'rect',
-       *  size: [60, 40]
+       *  size: [60, 40],
+       *  style: {
+       *    //... 样式配置项
+       *  }
        * }
        * 若数据项为 { id: 'node', x: 100, y: 100 }
        * 实际创建的节点模型是 { id: 'node', x: 100, y: 100， shape: 'rect', size: [60, 40] }
@@ -136,8 +139,7 @@ class Graph extends EventEmitter {
        * 节点默认样式，也可以添加状态样式
        * 例如：
        * const graph = new G6.Graph({
-       *  nodeStyle: {
-       *    default: { fill: '#fff' },
+       *  nodeStateStyle: {
        *    selected: { fill: '#ccc', stroke: '#666' },
        *    active: { lineWidth: 2 }
        *  },
@@ -145,11 +147,11 @@ class Graph extends EventEmitter {
        * });
        *
        */
-      nodeStyle: {},
+      nodeStateStyles: {},
       /**
-       * 边默认样式，用法同nodeStyle
+       * 边默认样式，用法同nodeStateStyle
        */
-      edgeStyle: {},
+      edgeStateStyles: {},
       /**
        * graph 状态
        */

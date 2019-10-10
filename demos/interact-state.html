@@ -55,17 +55,21 @@
         },
         defaultNode: {
           size: [10, 10],
-          color: 'steelblue'
-        },
-        defaultEdge: {
-          size: 1
-        },
-        nodeStyle: {
-          default: {
+          color: 'steelblue',
+          style: {
             lineWidth: 2,
             fill: '#fff',
             opacity: 0.8
-          },
+          }
+        },
+        defaultEdge: {
+          size: 1,
+          style: {
+            stroke: '#e2e2e2',
+            lineAppendWidth: 2
+          }
+        },
+        nodeStateStyle: {
           highlight: {
             opacity: 1
           },
@@ -73,11 +77,7 @@
             opacity: 0.2
           }
         },
-        edgeStyle: {
-          default: {
-            stroke: '#e2e2e2',
-            lineAppendWidth: 2
-          },
+        edgeStateStyles: {
           highlight: {
             stroke: '#999'
           }
