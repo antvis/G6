@@ -35,21 +35,21 @@ describe('grid', () => {
     expect(gridContainer.style.backgroundImage).not.to.equal('');
     graph.translate(-100, -100);
     expect(gridContainer.style.transform).to.equal('matrix(1, 0, 0, 1, -100, -100)');
-    expect(gridContainer.style.left).to.equal('-140.5px');
-    expect(gridContainer.style.top).to.equal('-140.5px');
+    expect(gridContainer.style.left).to.equal('-150.5px');
+    expect(gridContainer.style.top).to.equal('-150.5px');
     graph.zoom(0.5);
     expect(gridContainer.style.transform).to.equal('matrix(0.5, 0, 0, 0.5, -50, -50)');
-    expect(gridContainer.style.left).to.equal('-140.5px');
-    expect(gridContainer.style.top).to.equal('-140.5px');
+    expect(gridContainer.style.left).to.equal('-150.5px');
+    expect(gridContainer.style.top).to.equal('-150.5px');
     graph.get('group').resetMatrix();
     graph.translate(100, 100);
     expect(gridContainer.style.transform).to.equal('matrix(1, 0, 0, 1, 100, 100)');
-    expect(gridContainer.style.left).to.equal('-140.5px');
-    expect(gridContainer.style.top).to.equal('-140.5px');
+    expect(gridContainer.style.left).to.equal('-150.5px');
+    expect(gridContainer.style.top).to.equal('-150.5px');
     graph.addItem('node', { x: -200, y: 200 });
     graph.translate(100, 100);
     expect(gridContainer.style.transform).to.equal('matrix(1, 0, 0, 1, 200, 200)');
-    expect(gridContainer.style.left).to.equal('-240.5px');
+    expect(gridContainer.style.left).to.equal('-250.5px');
     expect(gridContainer.style.top).to.equal('-140.5px');
   });
   it('grid destroy', () => {

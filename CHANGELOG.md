@@ -1,4 +1,9 @@
 # ChangeLog
+#### 3.1.1
+* fix: update node use custom config
+* fix: update demo
+* feat: default node implement getShapeStyle function
+
 #### 3.1.0
 * feat: support for rich layouts：random, radial, mds, circular, fruchterman, force, dagre
 * feat: more flexible configuration for shape

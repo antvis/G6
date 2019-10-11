@@ -100,6 +100,14 @@ const ShapeFactoryBase = {
  * @class Shape.ShapeBase
  */
 const ShapeBase = {
+  // 默认样式及配置
+  options: {},
+  /**
+	 * 用户自定义节点或边的样式，初始渲染时使用
+	 * @override
+	 * @param  {Object} model 节点的配置项
+	 */
+  getCustomConfig(/* model */) {},
   /**
    * 绘制
    */
@@ -136,7 +144,11 @@ const ShapeBase = {
    * @return {Array|null} 控制点的数组,如果为 null，则没有控制点
    */
   getAnchorPoints(cfg) {
-    return cfg.anchorPoints;
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { anchorPoints: defaultAnchorPoints } = this.options;
+    const { anchorPoints: customAnchorPoints } = customOptions;
+    const anchorPoints = cfg.anchorPoints || customAnchorPoints || defaultAnchorPoints;
+    return anchorPoints;
   }
   /* 如果没定义 update 方法，每次都调用 draw 方法
   update(cfg, item) {
