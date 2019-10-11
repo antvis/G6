@@ -2,6 +2,7 @@ const Util = require('../util');
 const abs = Math.abs;
 const DRAG_OFFSET = 10;
 const body = document.body;
+const ALLOW_EVENTS = [ 16, 17, 18 ];
 
 module.exports = {
   getDefaultCfg() {
@@ -15,7 +16,9 @@ module.exports = {
       'canvas:mousemove': 'onMouseMove',
       'canvas:mouseup': 'onMouseUp',
       'canvas:click': 'onMouseUp',
-      'canvas:mouseleave': 'onOutOfRange'
+      'canvas:mouseleave': 'onOutOfRange',
+      keyup: 'onKeyUp',
+      keydown: 'onKeyDown'
     };
   },
   updateViewport(e) {
@@ -40,10 +43,18 @@ module.exports = {
     this.graph.paint();
   },
   onMouseDown(e) {
+    if (this.keydown) {
+      return;
+    }
+
     this.origin = { x: e.clientX, y: e.clientY };
     this.dragging = false;
   },
   onMouseMove(e) {
+    if (this.keydown) {
+      return;
+    }
+
     e = Util.cloneEvent(e);
     const graph = this.graph;
     if (!this.origin) { return; }
@@ -66,6 +77,10 @@ module.exports = {
     }
   },
   onMouseUp(e) {
+    if (this.keydown) {
+      return;
+    }
+
     if (!this.dragging) {
       this.origin = null;
       return;
@@ -104,5 +119,16 @@ module.exports = {
       this.fn = fn;
       body.addEventListener('mouseup', fn, false);
     }
+  },
+  onKeyDown(e) {
+    const code = e.keyCode || e.which;
+    if (ALLOW_EVENTS.indexOf(code) > -1) {
+      this.keydown = true;
+    } else {
+      this.keydown = false;
+    }
+  },
+  onKeyUp() {
+    this.keydown = false;
   }
 };
