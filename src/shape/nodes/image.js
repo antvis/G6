@@ -1,5 +1,5 @@
 const Shape = require('../shape');
-const Util = require('../../util/index');
+const Util = require('../../util');
 const G = require('@antv/g');
 
 /**

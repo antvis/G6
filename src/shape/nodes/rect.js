@@ -1,5 +1,6 @@
 const Shape = require('../shape');
 const deepMix = require('@antv/util/lib/deep-mix');
+const Util = require('../../util');
 const Global = require('../../global');
 
 Shape.registerNode('rect', {
@@ -138,12 +139,26 @@ Shape.registerNode('rect', {
       });
     }
   },
-  getAnchorPoints(cfg) {
+  /**
+   * 获取节点的样式，供基于该节点自定义时使用
+   * @param {Object} cfg 节点数据模型
+   * @return {Object} 节点的样式
+   */
+  getShapeStyle(cfg) {
     const customOptions = this.getCustomConfig(cfg) || {};
-    const { anchorPoints: defaultAnchorPoints } = this.options;
-    const { anchorPoints: customAnchorPoints } = customOptions;
-    const anchorPoints = deepMix({}, defaultAnchorPoints, customAnchorPoints);
-    return anchorPoints;
+    const { style: defaultStyle } = this.options;
+    const { style: customStyle } = customOptions;
+    const style = deepMix({}, defaultStyle, customStyle, cfg.style);
+    const size = this.getSize(cfg);
+    const width = size[0];
+    const height = size[1];
+    const styles = Util.mix({}, {
+      x: -width / 2,
+      y: -height / 2,
+      width,
+      height
+    }, style);
+    return styles;
   },
   update(cfg, item) {
     const customOptions = this.getCustomConfig(cfg) || {};

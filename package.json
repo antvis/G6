@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "graph visualization frame work",
   "main": "build/g6.js",
   "homepage": "https://github.com/antvis/g6",
@@ -100,11 +100,11 @@
     "screenshot": "node ./bin/screenshot.js",
     "start": "npm run dev",
     "test": "torch --compile --renderer --opts test/mocha.opts --recursive ./test/unit",
-    "test-live": "torch --compile --interactive --watch --opts test/mocha.opts --recursive ./test/unit/plugins/bundling-spec.js",
+    "test-live": "torch --compile --interactive --watch --opts test/mocha.opts --recursive ./test/unit",
     "test-live-shape": "torch --compile --interactive --watch --opts test/mocha.opts --recursive ./test/unit/shape/nodes/modelRect-spec.js",
     "test-live-util": "torch --compile --interactive --watch --opts test/mocha.opts --recursive ./test/unit/shape/edge-spec.js",
     "test-bugs": "torch --compile --renderer --recursive ./test/bugs",
-    "test-bugs-live": "torch --compile --interactive --watch --recursive ./test/bugs",
+    "test-bugs-live": "torch --compile --interactive --watch --recursive ./test/bugs/issue-601-spec.js",
     "test-all": "npm run test && npm run test-bugs",
     "watch": "webpack --config webpack-dev.config.js",
     "win-dev": "node ./bin/win-dev.js"

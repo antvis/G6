@@ -1,5 +1,6 @@
 const Shape = require('../shape');
 const deepMix = require('@antv/util/lib/deep-mix');
+const Util = require('../../util');
 const Global = require('../../global');
 
 /**
@@ -162,6 +163,27 @@ Shape.registerNode('ellipse', {
         className: 'ellipse-mark-bottom'
       });
     }
+  },
+  /**
+   * 获取节点的样式，供基于该节点自定义时使用
+   * @param {Object} cfg 节点数据模型
+   * @return {Object} 节点的样式
+   */
+  getShapeStyle(cfg) {
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { style: defaultStyle } = this.options;
+    const { style: customStyle } = customOptions;
+    const style = deepMix({}, defaultStyle, customStyle, cfg.style);
+    const size = this.getSize(cfg);
+    const rx = size[0] / 2;
+    const ry = size[1] / 2;
+    const styles = Util.mix({}, {
+      x: 0,
+      y: 0,
+      rx,
+      ry
+    }, style);
+    return styles;
   },
   update(cfg, item) {
     const customOptions = this.getCustomConfig(cfg) || {};

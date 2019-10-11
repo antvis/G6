@@ -29,7 +29,7 @@ G6.registerNode('circleNode', {
   }
 }, 'circle');
 
-describe('signle layer group', () => {
+describe.only('signle layer group', () => {
 
   it('render signle group test', () => {
     const graph = new G6.Graph({
@@ -713,8 +713,8 @@ describe('signle layer group', () => {
 
 });
 
-describe('nesting layer group', () => {
-  it.only('render nesting layer group', () => {
+describe.only('nesting layer group', () => {
+  it('render nesting layer group', () => {
     const data = {
       nodes: [
         {
