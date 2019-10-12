@@ -48,22 +48,10 @@ Shape.registerNode('rect', {
   },
   shapeType: 'rect',
   drawShape(cfg, group) {
-    const customOptions = this.getCustomConfig(cfg) || {};
-    const { style: defaultStyle } = this.options;
-    const { style: customStyle } = customOptions;
-    const style = deepMix({}, defaultStyle, customStyle, cfg.style);
-    const size = this.getSize(cfg);
-    const width = size[0];
-    const height = size[1];
+    const style = this.getShapeStyle(cfg);
 
     const keyShape = group.addShape('rect', {
-      attrs: {
-        ...style,
-        x: -width / 2,
-        y: -height / 2,
-        width,
-        height
-      },
+      attrs: style,
       className: 'rect-keyShape'
     });
 
@@ -148,7 +136,11 @@ Shape.registerNode('rect', {
     const customOptions = this.getCustomConfig(cfg) || {};
     const { style: defaultStyle } = this.options;
     const { style: customStyle } = customOptions;
-    const style = deepMix({}, defaultStyle, customStyle, cfg.style);
+    const strokeStyle = {
+      stroke: cfg.color
+    };
+    // 如果设置了color，则覆盖默认的stroke属性
+    const style = deepMix({}, defaultStyle, customStyle, strokeStyle, cfg.style);
     const size = this.getSize(cfg);
     const width = size[0];
     const height = size[1];
