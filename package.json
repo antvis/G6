@@ -114,7 +114,7 @@
       "lint",
       "test-all"
     ],
-    "silent": false
+    "silent": true
   },
   "dependencies": {
     "@antv/g": "~3.4.6",
