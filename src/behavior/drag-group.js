@@ -174,6 +174,10 @@ module.exports = {
         const { x: x1, y: y1, width, height } = customGroupControll.calculationGroupPosition(groupNodes[parentGroupId]);
         const paddingValue = customGroupControll.getGroupPadding(parentGroupId);
 
+        const groupTitleShape = parentGroup.findByClassName('group-title');
+
+        let titleX = 0;
+        let titleY = 0;
         if (groupType === 'circle') {
           const r = width > height ? width / 2 : height / 2;
           const cx = (width + 2 * x1) / 2;
@@ -183,12 +187,32 @@ module.exports = {
             x: cx,
             y: cy
           });
+
+          titleX = cx;
+          titleY = cy - parentKeyShape.attr('r');
         } else if (groupType === 'rect') {
           parentKeyShape.attr({
             x: x1 - paddingValue,
             y: y1 - paddingValue,
             width: width + paddingValue + groupNodes[parentGroupId].length * 10,
             height: height + paddingValue + groupNodes[parentGroupId].length * 10
+          });
+
+          titleX = x1 - paddingValue + 15;
+          titleY = y1 - paddingValue + 15;
+        }
+
+        if (groupTitleShape) {
+          const titleConfig = parentGroupData.title;
+          let offsetX = 0;
+          let offsetY = 0;
+          if (titleConfig) {
+            offsetX = titleConfig.offsetX;
+            offsetY = titleConfig.offsetY;
+          }
+          groupTitleShape.attr({
+            x: titleX + offsetX,
+            y: titleY + offsetY
           });
         }
       }
@@ -255,9 +279,12 @@ module.exports = {
       // 更新群组位置
       const { nodeGroup } = customGroups[id];
       const groupKeyShape = nodeGroup.get('keyShape');
+      const groupTitleShape = nodeGroup.findByClassName('group-title');
 
       const { x, y, width, height } = customGroupControll.calculationGroupPosition(groupNodes[id]);
 
+      let titleX = 0;
+      let titleY = 0;
       if (groupType === 'circle') {
         const cx = (width + 2 * x) / 2;
         const cy = (height + 2 * y) / 2;
@@ -265,11 +292,45 @@ module.exports = {
           x: cx,
           y: cy
         });
+
+        titleX = cx;
+        titleY = cy - groupKeyShape.attr('r');
       } else if (groupType === 'rect') {
+        // 节点分组状态
+        const hasHidden = nodeGroup.get('hasHidden');
         const paddingValue = customGroupControll.getGroupPadding(id);
-        groupKeyShape.attr({
-          x: x - paddingValue,
-          y: y - paddingValue
+        let keyshapePosition = {};
+        if (hasHidden) {
+          keyshapePosition = { x, y };
+          titleX = x + 10;
+          titleY = y + 25;
+        } else {
+          keyshapePosition = {
+            x: x - paddingValue,
+            y: y - paddingValue
+          };
+          titleX = x - paddingValue + 15;
+          titleY = y - paddingValue + 15;
+        }
+        groupKeyShape.attr(keyshapePosition);
+      }
+
+      if (groupTitleShape) {
+        let titleConfig = null;
+        const groupData = graph.get('groups').filter(data => data.id === id);
+
+        if (groupData && groupData.length > 0) {
+          titleConfig = groupData[0].title;
+        }
+        let offsetX = 0;
+        let offsetY = 0;
+        if (titleConfig) {
+          offsetX = titleConfig.offsetX;
+          offsetY = titleConfig.offsetY;
+        }
+        groupTitleShape.attr({
+          x: titleX + offsetX,
+          y: titleY + offsetY
         });
       }
       customGroupControll.setGroupOriginBBox(id, groupKeyShape.getBBox());
