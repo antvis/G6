@@ -59,7 +59,7 @@
        }
      },
     modes: {
-      default: [ 'drag-group', 'drag-node-with-group', 'collapse-expand-group' ]
+      default: [ 'drag-group', 'drag-node', 'drag-node-with-group', 'collapse-expand-group' ]
     },
     groupType: 'rect'
   });
@@ -116,12 +116,22 @@
       groups: [
         {
           id: 'group3',
-          title: '2',
-          parentId: 'p2'
+          parentId: 'p2',
+          title: {
+            text: '我的第一个群组',
+            stroke: '#444',
+            offsetX: 0,
+            offsetY: 0
+          },
         },
         {
           id: 'p2',
-          title: '3'
+          title: {
+            text: '我的第一个群组',
+            stroke: '#444',
+            offsetX: 0,
+            offsetY: 0
+          },
         }
       ]
     };

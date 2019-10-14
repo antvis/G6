@@ -36,16 +36,11 @@ class CustomGroup {
         // lineDash: [ 5, 5 ],
         stroke: '#A3B1BF',
         lineWidth: 3,
-        fill: '#F3F9FF'
+        fill: '#F3F9FF',
+        offsetX: -15,
+        offsetY: 5
       },
       icon: 'https://gw.alipayobjects.com/zos/rmsportal/MXXetJAxlqrbisIuZxDO.svg',
-      title: {
-        show: false,
-        text: '新建群组',
-        stroke: '#444',
-        offsetX: 0,
-        offsetY: 0
-      },
       operatorBtn: {
         collapse: {
           img: 'https://gw.alipayobjects.com/zos/rmsportal/uZVdwjJGqDooqKLKtvGA.svg',
@@ -95,7 +90,7 @@ class CustomGroup {
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
 
-    const { default: defaultStyle, title } = this.styles;
+    const { default: defaultStyle } = this.styles;
 
     // 计算群组左上角左边、宽度、高度及x轴方向上的最大值
     const { x, y, width, height, maxX } = this.calculationGroupPosition(nodes);
@@ -104,24 +99,39 @@ class CustomGroup {
     const groupBBox = graph.get('groupBBoxs');
     groupBBox[groupId] = { x, y, width, height, maxX };
 
+    // 根据groupId获取group数据，判断是否需要添加title
+    let groupTitle = null;
+    const groupData = graph.get('groups').filter(data => data.id === groupId);
+
+    if (groupData && groupData.length > 0) {
+      groupTitle = groupData[0].title;
+    }
+    // group title 坐标
+    let titleX = 0;
+    let titleY = 0;
+
     // step 1：绘制群组外框
     let keyShape = null;
-
     if (type === 'circle') {
       const r = width > height ? width / 2 : height / 2;
       const cx = (width + 2 * x) / 2;
       const cy = (height + 2 * y) / 2;
+      const lastR = r + nodes.length * 10 + paddingValue;
       keyShape = nodeGroup.addShape('circle', {
         attrs: {
           ...defaultStyle,
           x: cx,
           y: cy,
-          r: r + nodes.length * 10 + paddingValue
+          r: lastR
         },
         capture: true,
         zIndex,
         groupId
       });
+
+      titleX = cx;
+      titleY = cy - lastR;
+
       // 更新群组及属性样式
       this.setDeletageGroupByStyle(groupId, nodeGroup,
         { width, height, x: cx, y: cy, r });
@@ -138,24 +148,28 @@ class CustomGroup {
         zIndex,
         groupId
       });
+
+      titleX = x - paddingValue + 15;
+      titleY = y - paddingValue + 15;
+
       // 更新群组及属性样式
       this.setDeletageGroupByStyle(groupId, nodeGroup,
         { width, height, x, y, btnOffset: maxX - 3 });
     }
 
     // 添加group标题
-    if (title) {
-      const { show, offsetX, offsetY, ...titleStyle } = title;
-      if (show) {
-        nodeGroup.addShape('text', {
-          attrs: {
-            ...titleStyle,
-            x: x + offsetX,
-            y: y + offsetY
-          },
-          className: 'group-title'
-        });
-      }
+    if (groupTitle) {
+      const { offsetX = 0, offsetY = 0, text = groupTitle, ...titleStyle } = groupTitle;
+      const textShape = nodeGroup.addShape('text', {
+        attrs: {
+          text,
+          x: titleX + offsetX,
+          y: titleY + offsetY,
+          ...titleStyle
+        },
+        className: 'group-title'
+      });
+      textShape.set('capture', false);
     }
 
     nodeGroup.set('keyShape', keyShape);
@@ -405,7 +419,7 @@ class CustomGroup {
 
     // 更新Group的大小
     const keyShape = nodeGroup.get('keyShape');
-    const { r, width, height, ...otherStyle } = collapse;
+    const { r, width, height, offsetX, offsetY, ...otherStyle } = collapse;
     for (const style in otherStyle) {
       keyShape.attr(style, otherStyle[style]);
     }
@@ -420,6 +434,9 @@ class CustomGroup {
       },
       shape: 'circle'
     };
+
+    const titleShape = nodeGroup.findByClassName('group-title');
+
     // 收起群组时候动画
     if (groupType === 'circle') {
       const radius = w > h ? w / 2 : h / 2;
@@ -434,6 +451,12 @@ class CustomGroup {
           };
         }
       }, 500, 'easeCubic');
+      if (titleShape) {
+        titleShape.attr({
+          x: keyShape.attr('x') + offsetX,
+          y: keyShape.attr('y') + offsetY
+        });
+      }
     } else if (groupType === 'rect') {
       keyShape.animate({
         onFrame(ratio) {
@@ -446,7 +469,12 @@ class CustomGroup {
           };
         }
       }, 500, 'easeCubic');
-
+      if (titleShape) {
+        titleShape.attr({
+          x: keyShape.attr('x') + 10,
+          y: keyShape.attr('y') + height / 2 + 5
+        });
+      }
       options = {
         groupId: id,
         id: `${id}-custom-node`,
@@ -579,10 +607,9 @@ class CustomGroup {
 
     // 显示之前隐藏的节点和群组
     const nodesInGroup = graph.get('groupNodes')[id];
-    const { width, height } = this.calculationGroupPosition(nodesInGroup);
-    // const noCustomNodes = nodesInGroup.filter(node => node.indexOf('custom-node') === -1);
+    const noCustomNodes = nodesInGroup.filter(node => node.indexOf('custom-node') === -1);
+    const { width, height } = this.calculationGroupPosition(noCustomNodes);
     const { nodeGroup } = this.getDeletageGroupById(id);
-
     const keyShape = nodeGroup.get('keyShape');
 
     const { default: defaultStyle, collapse } = this.styles;
@@ -590,6 +617,8 @@ class CustomGroup {
     for (const style in defaultStyle) {
       keyShape.attr(style, defaultStyle[style]);
     }
+
+    const titleShape = nodeGroup.findByClassName('group-title');
 
     // 检测操作的群组中是否包括子群组
     const paddingValue = this.getGroupPadding(id);
@@ -613,13 +642,43 @@ class CustomGroup {
             self.setGroupOriginBBox(id, keyShape.getBBox());
           }
           return {
-            width: w + ratio * (width - w + paddingValue),
-            height: h + ratio * (height - h + paddingValue)
+            width: w + ratio * (width - w + paddingValue + noCustomNodes.length * 10),
+            height: h + ratio * (height - h + paddingValue + noCustomNodes.length * 10)
           };
         }
       }, 500, 'easeCubic');
     }
 
+    if (titleShape) {
+      // 根据groupId获取group数据，判断是否需要添加title
+      let groupTitle = null;
+      const groupData = graph.get('groups').filter(data => data.id === id);
+
+      if (groupData && groupData.length > 0) {
+        groupTitle = groupData[0].title;
+      }
+      const { offsetX = 0, offsetY = 0 } = groupTitle;
+      if (groupType === 'circle') {
+        titleShape.animate({
+          onFrame(ratio) {
+            return {
+              x: keyShape.attr('x') + offsetX,
+              y: keyShape.attr('y') - ratio * keyShape.attr('r') + offsetY
+            };
+          }
+        }, 600, 'easeCubic');
+      } else if (groupType === 'rect') {
+        titleShape.animate({
+          onFrame(ratio) {
+            return {
+              x: keyShape.attr('x') + ratio * (15 + offsetX),
+              y: keyShape.attr('y') + ratio * (15 + offsetY)
+            };
+          }
+        }, 600, 'easeCubic');
+      }
+    }
+    // cy - lastR
     // 群组动画一会后再显示节点和边
     setTimeout(() => {
       nodesInGroup.forEach(nodeId => {

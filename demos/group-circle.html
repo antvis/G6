@@ -42,7 +42,7 @@
        color: '#bae7ff'
      },
     modes: {
-      default: [ 'drag-group', 'drag-node-with-group', 'collapse-expand-group' ]
+      default: [ 'drag-canvas', 'drag-group', 'drag-node-with-group', 'collapse-expand-group' ]
     }
   });
 
@@ -120,7 +120,12 @@
       groups: [
         {
           id: 'group1',
-          title: '1',
+          title: {
+            text: '我的第一个群组',
+            stroke: '#444',
+            offsetX: -20,
+            offsetY: 30
+          },
           parentId: 'p1'
         },
         {
@@ -130,7 +135,12 @@
         },
         {
           id: 'group3',
-          title: '2',
+          title: {
+            text: '群组2',
+            stroke: '#444',
+            offsetX: -20,
+            offsetY: 30
+          },
           parentId: 'p2'
         },
         {
