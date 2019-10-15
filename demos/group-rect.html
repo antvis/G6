@@ -59,7 +59,7 @@
        }
      },
     modes: {
-      default: [ 'drag-group', 'drag-node', 'drag-node-with-group', 'collapse-expand-group' ]
+      default: [ 'drag-group', 'drag-node-with-group', 'collapse-expand-group' ]
     },
     groupType: 'rect'
   });
@@ -90,8 +90,22 @@
         {
           id: 'node3',
           label: 'node3-group2',
-          groupId: 'group2',
+          // groupId: 'group2',
           x: 300,
+          y: 100
+        },
+        {
+          id: 'node4',
+          label: 'node6-group5',
+          groupId: 'group5',
+          x: 450,
+          y: 200
+        },
+        {
+          id: 'node8',
+          label: 'node8-group5',
+          groupId: 'group5',
+          x: 400,
           y: 100
         },
       ],
@@ -132,6 +146,12 @@
             offsetX: 0,
             offsetY: 0
           },
+        },
+        {
+          id: 'group5'
+        },
+        {
+          id: 'group1'
         }
       ]
     };
