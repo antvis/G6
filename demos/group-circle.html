@@ -36,23 +36,76 @@
     width: 800,
     height: 600,
     defaultNode: {
-       shape: 'circleNode'
-     },
-     defaultEdge: {
-       color: '#bae7ff'
-     },
+      shape: 'circleNode'
+    },
+    defaultEdge: {
+      color: '#bae7ff'
+    },
     modes: {
       default: [ 'drag-canvas', 'drag-group', 'drag-node-with-group', 'collapse-expand-group' ]
     }
   });
 
+const oneNodes = []
+  for(let i = 0; i < 50; i++) {
+    oneNodes.push({
+      id: `node-1-${i}`,
+      groupId: 'group3',
+      label: `node-1-${i}-group3`,
+      x: 100 + 5 * i,
+      y: 300 + 5 * i,
+      shape: 'circle'
+    })
+  }
+
   const data = {
       nodes: [
+        ...oneNodes,
         {
           id: 'node6',
           groupId: 'group3',
           label: 'node6-group3',
           x: 100,
+          y: 300,
+          shape: 'rect'
+        },
+        {
+          id: 'node6-1',
+          groupId: 'group3',
+          label: 'node6-group3-1',
+          x: 110,
+          y: 300,
+          shape: 'rect'
+        },
+        {
+          id: 'node6-2',
+          groupId: 'group3',
+          label: 'node6-group3-2',
+          x: 120,
+          y: 300,
+          shape: 'rect'
+        },
+        {
+          id: 'node6-3',
+          groupId: 'group3',
+          label: 'node6-group3-3',
+          x: 140,
+          y: 300,
+          shape: 'rect'
+        },
+        {
+          id: 'node6-4',
+          groupId: 'group3',
+          label: 'node6-group3-4',
+          x: 150,
+          y: 300,
+          shape: 'rect'
+        },
+        {
+          id: 'node6-5',
+          groupId: 'group3',
+          label: 'node6-group3-5',
+          x: 160,
           y: 300,
           shape: 'rect'
         },
@@ -121,7 +174,7 @@
         {
           id: 'group1',
           title: {
-            text: '我的第一个群组',
+            text: '我的群组1',
             stroke: '#444',
             offsetX: -20,
             offsetY: 30
