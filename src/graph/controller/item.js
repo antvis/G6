@@ -1,5 +1,6 @@
 const Util = require('../../util');
 const Item = require('../../item');
+const deepMix = require('@antv/util/lib/deep-mix');
 
 const NODE = 'node';
 const EDGE = 'edge';
@@ -20,15 +21,16 @@ class ItemController {
     let styles = graph.get(type + Util.upperFirst(STATE_SUFFIX)) || {};
     const defaultModel = graph.get(CFG_PREFIX + upperType);
     const mapper = graph.get(type + MAPPER_SUFFIX);
+
     if (mapper) {
       const mappedModel = mapper(model);
       if (mappedModel[STATE_SUFFIX]) {
         styles = mappedModel[STATE_SUFFIX];
         delete mappedModel[STATE_SUFFIX];
       }
-      Util.each(mappedModel, (val, cfg) => {
-        model[cfg] = val;
-      });
+
+      // 如果配置了 defaultEdge 或 defaultNode，则将默认配置的数据也合并进去
+      model = deepMix({}, defaultModel, model, mappedModel);
     } else if (defaultModel) {
       // 很多布局会直接修改原数据模型，所以不能用 merge 的形式，逐个写入原 model 中
       Util.each(defaultModel, (val, cfg) => {
@@ -88,8 +90,10 @@ class ItemController {
     const mapper = graph.get(item.getType() + MAPPER_SUFFIX);
     const model = item.getModel();
     if (mapper) {
-      const mappedModel = mapper(model);
-      const newModel = Util.mix({}, mappedModel, cfg);
+      const result = deepMix({}, model, cfg);
+      const mappedModel = mapper(result);
+      // 将 update 时候用户传入的参数与mapperModel做deepMix，以便复用之前设置的参数值
+      const newModel = deepMix({}, model, mappedModel, cfg);
       if (mappedModel[STATE_SUFFIX]) {
         item.set('styles', newModel[STATE_SUFFIX]);
         delete newModel[STATE_SUFFIX];
