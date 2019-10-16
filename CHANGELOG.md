@@ -1,4 +1,9 @@
 # ChangeLog
+#### 3.1.2 
+* feat: default behavior supports configuration trigger mode
+* feat: node combining supports configuration title
+* fix: update demo state styles
+
 #### 3.1.1
 * fix: update node use custom config
 * fix: update demo

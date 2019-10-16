@@ -14,7 +14,9 @@ module.exports = {
   getDefaultCfg() {
     return {
       updateEdge: true,
-      delegateStyle: {}
+      delegateStyle: {},
+      // 是否开启delegate
+      enableDelegate: false
     };
   },
   getEvents() {
@@ -78,10 +80,16 @@ module.exports = {
 
     // 当targets中元素时，则说明拖动的是多个选中的元素
     if (this.targets.length > 0) {
-      this._updateDelegate(e);
+      if (this.enableDelegate) {
+        this._updateDelegate(e);
+      } else {
+        this.targets.forEach(target => {
+          this._update(target, e, this.enableDelegate);
+        });
+      }
     } else {
       // 只拖动单个元素
-      this._update(this.target, e, true);
+      this._update(this.target, e, this.enableDelegate);
     }
   },
   onDragEnd(e) {
