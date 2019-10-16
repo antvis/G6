@@ -1,13 +1,21 @@
 const Util = require('../util');
+const DEFAULT_TRIGGER = 'shift';
+const ALLOW_EVENTS = [ 'shift', 'ctrl', 'alt' ];
 
 module.exports = {
   getDefaultCfg() {
     return {
       multiple: true,
-      keyCode: 16
+      trigger: DEFAULT_TRIGGER
     };
   },
   getEvents() {
+    if (!this.multiple) {
+      return {
+        'node:click': 'onClick',
+        'canvas:click': 'onCanvasClick'
+      };
+    }
     return {
       'node:click': 'onClick',
       'canvas:click': 'onCanvasClick',
@@ -59,8 +67,8 @@ module.exports = {
     graph.setAutoPaint(autoPaint);
   },
   onKeyDown(e) {
-    const code = e.keyCode || e.which;
-    if (code === this.keyCode) {
+    const code = e.key;
+    if (ALLOW_EVENTS.indexOf(code.toLowerCase() > -1)) {
       this.keydown = true;
     } else {
       this.keydown = false;
