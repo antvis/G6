@@ -15,10 +15,26 @@
       nodes: [
         {
           id: 'triangle',
+          type: 'a',
           label: '主题 ModelRect Title',
           description: '这里是一顿描述信息，不知道长短',
           x: 150,
-          y: 100
+          y: 100,
+          shape: 'triangle',
+          style: {
+            fill: 'blue'
+          }
+        },
+        {
+          id: 'triangle',
+          type: 'b',
+          label: '主题 ModelRect Title',
+          description: '这里是一顿描述信息，不知道长短',
+          x: 250,
+          y: 100,
+          style: {
+            stroke: 'green'
+          }
         }
       ]
     }
@@ -32,7 +48,7 @@
         size: [30, 80],
         style: {
           fill: '#bae637',
-          stroke: '#eaff8f',
+          stroke: '#000',
           lineWidth: 5
         },
         labelCfg: {
@@ -66,6 +82,27 @@
       }
     })
 
+    graph.node(node => {
+      if (node.type === 'a') {
+        return {
+          shape: 'rect',
+          style: {
+            // fill: 'red',
+            stroke: 'blue',
+            lineWidth: 6
+          }
+        }
+      }
+      return {
+        // shape: 'star',
+        style: {
+          // fill: 'red',
+          // stroke: 'blue',
+          lineWidth: 3
+        }
+      }
+    })
+
     graph.data(data)
     graph.render()
 
@@ -74,9 +111,11 @@
       graph.setItemState(item, 'select', true)
       
       graph.updateItem(item, {
-        size: [ 160, 130],
+        size: [ 180, 90],
+        shape: 'modelRect',
+        type: 'b',
         style: {
-          fill: '#b5f5ec'
+          fill: '#fff'
         },
         preRect: {
           fill: '#ff4d4f'
