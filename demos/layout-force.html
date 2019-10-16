@@ -1525,10 +1525,17 @@
           type: 'force'
         },
         modes: {
-          default: ['drag-node', 'activate-relations']
+          default: [
+            {
+              type: 'drag-node',
+              enableDelegate: true
+            }, {
+            type: 'brush-select',
+            trigger: 'Shift'
+          }, 'click-select', 'activate-relations']
         },
         defaultNode: {
-          size: [10, 10],
+          size: [30, 30],
           style: {
             fill: 'steelblue'
           }
@@ -1545,18 +1552,23 @@
         },
         nodeStateStyles: {
           inactive: {
-            fillOpacity: 0.5
+            fillOpacity: 0.1
           },
           active: {
-            fillOpacity: 1
+            fillOpacity: 0.8,
+            fill: 'green'
+          },
+
+          selected: {
+            fill: 'red'
           }
         },
         edgeStateStyles: {
           inactive: {
-            fillOpacity: 0.5
+            fillOpacity: 0.1
           },
           active: {
-            fillOpacity: 1
+            fillOpacity: 8
           }
         }
       });
@@ -1569,22 +1581,26 @@
         })
       });
       graph.render();
-      function refreshDragedNodePosition(e) {
-        const model = e.item.get('model');
-        model.fx = e.x;
-        model.fy = e.y;
-      }
-      graph.on('node:dragstart', e => {
-        graph.layout();
-        refreshDragedNodePosition(e);
-      });
-      graph.on('node:drag', e => {
-        refreshDragedNodePosition(e);
-      });
-      graph.on('node:dragend', e => {
-        e.item.get('model').fx = null;
-        e.item.get('model').fy = null;
-      });
+      // function refreshDragedNodePosition(e) {
+      //   const model = e.item.get('model');
+      //   model.fx = e.x;
+      //   model.fy = e.y;
+      // }
+      // graph.on('node:dragstart', e => {
+      //   graph.layout();
+      //   refreshDragedNodePosition(e);
+      // });
+      // graph.on('node:drag', e => {
+      //   refreshDragedNodePosition(e);
+      // });
+      // graph.on('node:dragend', e => {
+      //   e.item.get('model').fx = null;
+      //   e.item.get('model').fy = null;
+      // });
+      // graph.on('node:click', evt => {
+      //   const { item } = evt;
+      //   graph.setItemState(item, 'selected', true)
+      // })
     </script>
   </body>
 

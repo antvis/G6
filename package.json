@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "graph visualization frame work",
   "main": "build/g6.js",
   "homepage": "https://github.com/antvis/g6",
@@ -36,6 +36,7 @@
   "license": "MIT",
   "devDependencies": {
     "@antv/hierarchy": "~0.4.0",
+    "@antv/torch": "^1.0.3",
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
@@ -43,6 +44,7 @@
     "babel-loader": "^8.0.0",
     "babel-plugin-module-resolver": "^3.1.1",
     "babel-plugin-transform-remove-strict-mode": "~0.0.2",
+    "babel-polyfill": "^6.26.0",
     "body-parser": "~1.18.2",
     "chai": "~4.1.2",
     "chai-almost": "^1.0.1",
@@ -75,7 +77,6 @@
     "serve-static": "~1.13.2",
     "shelljs": "~0.7.8",
     "svgson": "^2.1.1",
-    "@antv/torch": "^1.0.3",
     "uglify-js": "~3.1.10",
     "webpack": "~4.10.2",
     "webpack-cli": "~3.0.0",

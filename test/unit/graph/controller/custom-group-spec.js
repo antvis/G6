@@ -119,11 +119,11 @@ describe.only('signle layer group', () => {
       const cy = (height + 2 * y) / 2;
 
       const groupShape = groupControll.getDeletageGroupById(node);
-
+      const paddingValue = groupControll.getGroupPadding(node);
       const { groupStyle } = groupShape;
       expect(groupStyle.x).eql(cx);
       expect(groupStyle.y).eql(cy);
-      expect(groupStyle.r).eql(r);
+      expect(groupStyle.r).eql(r + paddingValue);
     }
 
     graph.destroy();
@@ -226,88 +226,6 @@ describe.only('signle layer group', () => {
     expect(graph.destroyed).to.be.true;
   });
 
-  it('setGroupOriginBBox / getGroupOriginBBox', () => {
-    const graph = new G6.Graph({
-      container: div,
-      width: 1500,
-      height: 1000,
-      pixelRatio: 2,
-      modes: {
-        default: [ 'drag-group' ]
-      },
-      defaultNode: {
-        shape: 'circleNode'
-      },
-      defaultEdge: {
-        color: '#bae7ff'
-      }
-    });
-
-    const nodes = [
-      {
-        id: 'node1',
-        label: 'node1',
-        groupId: 'group1',
-        x: 100,
-        y: 100
-      },
-      {
-        id: 'node2',
-        label: 'node2',
-        groupId: 'group1',
-        x: 150,
-        y: 100
-      },
-      {
-        id: 'node3',
-        label: 'node3',
-        groupId: 'group2',
-        x: 300,
-        y: 100
-      },
-      {
-        id: 'node7',
-        groupId: 'p1',
-        x: 200,
-        y: 200
-      },
-      {
-        id: 'node6',
-        groupId: 'bym',
-        label: 'rect',
-        x: 100,
-        y: 300,
-        shape: 'rect'
-      },
-      {
-        id: 'node9',
-        label: 'noGroup',
-        x: 300,
-        y: 210
-      }
-    ];
-    const data = {
-      nodes
-    };
-
-    graph.data(data);
-    graph.render();
-
-    const groupControll = graph.get('customGroupControll');
-
-    const { nodeGroup } = groupControll.getDeletageGroupById('group1');
-    const keyShape = nodeGroup.get('keyShape');
-    const bbox = keyShape.getBBox();
-    // 调用setGroupOriginBBox方法存储group1的bbox
-    groupControll.setGroupOriginBBox('group1', bbox);
-
-    const groupBBox = groupControll.getGroupOriginBBox('group1');
-    expect(groupBBox).eql(bbox);
-
-    graph.destroy();
-    expect(graph.destroyed).to.be.true;
-  });
-
   it('setDeletageGroupByStyle / getDeletageGroupById', () => {
     const graph = new G6.Graph({
       container: div,
@@ -392,9 +310,10 @@ describe.only('signle layer group', () => {
     const cx = (width + 2 * x) / 2;
     const cy = (height + 2 * y) / 2;
 
+    const paddingValue = groupControll.getGroupPadding('group2');
     expect(groupStyle.x).eql(cx);
     expect(groupStyle.y).eql(cy);
-    expect(groupStyle.r).eql(r);
+    expect(groupStyle.r).eql(r + paddingValue);
     expect(groupStyle.width).eql(width);
     expect(groupStyle.height).eql(height);
 
@@ -841,17 +760,18 @@ describe.only('nesting layer group', () => {
       const cy = (height + 2 * y) / 2;
 
       const groupShape = groupControll.getDeletageGroupById(groupId);
-
+      const paddingValue = groupControll.getGroupPadding(groupId);
       const { groupStyle } = groupShape;
       expect(groupStyle.x).eql(cx);
       expect(groupStyle.y).eql(cy);
-      expect(groupStyle.r).eql(r);
+      expect(groupStyle.r).eql(r + paddingValue);
     }
 
     // 指定groupId，验证渲染后的位置是否正确
     const shape = groupControll.getDeletageGroupById('group2');
+    const paddingValue = groupControll.getGroupPadding('group2');
     const shapeStyle = shape.groupStyle;
-    expect(shapeStyle.r).eql(31);
+    expect(shapeStyle.r).eql(31 + paddingValue);
     expect(shapeStyle.x).eql(300);
     expect(shapeStyle.y).eql(100);
 
