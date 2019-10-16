@@ -101,8 +101,14 @@ Layout.registerLayout('radial', {
     const focusNodeD = D[focusIndex];
     const width = self.width || window.innerHeight;
     const height = self.height || window.innerWidth;
-    const semiWidth = width - center[0] > center[0] ? center[0] : width - center[0];
-    const semiHeight = height - center[1] > center[1] ? center[1] : height - center[1];
+    let semiWidth = width - center[0] > center[0] ? center[0] : width - center[0];
+    let semiHeight = height - center[1] > center[1] ? center[1] : height - center[1];
+    if (semiWidth === 0) {
+      semiWidth = width / 2;
+    }
+    if (semiHeight === 0) {
+      semiHeight = height / 2;
+    }
     // the maxRadius of the graph
     const maxRadius = semiHeight > semiWidth ? semiWidth : semiHeight;
     const maxD = Math.max(...focusNodeD);
