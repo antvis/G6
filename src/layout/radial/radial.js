@@ -99,8 +99,8 @@ Layout.registerLayout('radial', {
 
     // the shortest path distance from each node to focusNode
     const focusNodeD = D[focusIndex];
-    const width = self.width;
-    const height = self.height;
+    const width = self.width || window.innerHeight;
+    const height = self.height || window.innerWidth;
     const semiWidth = width - center[0] > center[0] ? center[0] : width - center[0];
     const semiHeight = height - center[1] > center[1] ? center[1] : height - center[1];
     // the maxRadius of the graph

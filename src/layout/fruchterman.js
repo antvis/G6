@@ -52,8 +52,8 @@ Layout.registerLayout('fruchterman', {
     const nodes = self.nodes;
     const edges = self.edges;
     const maxIteration = self.maxIteration;
-    const width = self.width;
-    const height = self.height;
+    const width = self.width || window.innerHeight;
+    const height = self.height || window.innerWidth;
     const center = self.center;
     const nodeMap = self.nodeMap;
     const nodeIndexMap = self.nodeIndexMap;

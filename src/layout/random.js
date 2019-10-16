@@ -24,8 +24,8 @@ Layout.registerLayout('random', {
     const nodes = self.nodes;
     const layoutScale = 0.9;
     const center = self.center;
-    const width = self.width;
-    const height = self.height;
+    const width = self.width || window.innerHeight;
+    const height = self.height || window.innerWidth;
     nodes.forEach(node => {
       node.x = (Math.random() - 0.5) * layoutScale * width + center[0];
       node.y = (Math.random() - 0.5) * layoutScale * height + center[1];
