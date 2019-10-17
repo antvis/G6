@@ -5,7 +5,7 @@
  * @LastEditTime: 2019-08-22 11:22:16
  * @Description: Graph
  */
-const { groupBy } = require('lodash');
+const { groupBy, isString } = require('lodash');
 const G = require('@antv/g/lib');
 const EventEmitter = G.EventEmitter;
 const Util = require('../util');
@@ -359,8 +359,14 @@ class Graph extends EventEmitter {
    */
   addItem(type, model) {
     if (type === 'group') {
-      const { groupId, nodes, type, zIndex } = model;
-      return this.get('customGroupControll').create(groupId, nodes, type, zIndex, true);
+      const { groupId, nodes, type, zIndex, title } = model;
+      let groupTitle = title;
+      if (isString(title)) {
+        groupTitle = {
+          text: title
+        };
+      }
+      return this.get('customGroupControll').create(groupId, nodes, type, zIndex, true, groupTitle);
     }
     return this.get('itemController').addItem(type, model);
   }
@@ -546,14 +552,25 @@ class Graph extends EventEmitter {
       // 存在单个群组
       // 获取所有有groupID的node
       const nodeInGroup = nodes.filter(node => node.groupId);
-
+      const groupsArr = [];
       // 根据groupID分组
       const groupIds = groupBy(nodeInGroup, 'groupId');
       for (const groupId in groupIds) {
         const nodeIds = groupIds[groupId].map(node => node.id);
         this.get('customGroupControll').create(groupId, nodeIds, groupType, groupIndex);
         groupIndex--;
+        // 获取所有不重复的 groupId
+        if (!groupsArr.find(data => data.id === groupId)) {
+          groupsArr.push({
+            id: groupId
+          });
+        }
       }
+
+      this.set({
+        groups: groupsArr
+      });
+
     } else {
       // 将groups的数据存到groups中
       this.set({ groups });
