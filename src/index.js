@@ -7,7 +7,6 @@ const G = require('@antv/g/lib');
 const Shape = require('./shape');
 const Layout = require('./layout');
 const Behaviors = require('./behavior');
-require('babel-polyfill');
 
 const G6 = {
   Graph: require('./graph/graph'),
