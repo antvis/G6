@@ -524,6 +524,24 @@ class Graph extends EventEmitter {
       }
     }
 
+    if (!this.get('groupByTypes')) {
+      // 为提升性能，选择数量少的进行操作
+      if (data.nodes.length < data.edges.length) {
+        const nodes = this.getNodes();
+        // 遍历节点实例，将所有节点提前。
+        nodes.forEach(node => {
+          node.toFront();
+        });
+      } else {
+        const edges = this.getEdges();
+        // 遍历节点实例，将所有节点提前。
+        edges.forEach(edge => {
+          edge.toBack();
+        });
+
+      }
+    }
+
     if (self.get('fitView')) {
       self.get('viewController')._fitView();
     }
