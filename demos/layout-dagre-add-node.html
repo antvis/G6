@@ -3,11 +3,11 @@
   
   <head>
     <meta charset="UTF-8">
-    <title>Fruchterman Layout with Changing Configurations</title>
+    <title>addItem on Dagre Layout and Update layout</title>
   </head>
   
   <body>
-    <div id="description">Dagre 布局，层级间距：1，同层节点间距：1，布局方向：Top->Bottom，节点对齐方式：DL</div>
+    <div id="description">Dagre 布局，点击节点新增一个节点，点击空白区域重新布局</div>
     <div id="mountNode"></div>
     <script src="../build/g6.js"></script>
     <script>
@@ -95,8 +95,6 @@
       });
       graph.data(data);
       graph.render();
-
-      const descriptionDiv = document.getElementById('description');
 
       graph.on('node:click', evt => {
         graph.addItem('node', {
