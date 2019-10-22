@@ -11,6 +11,8 @@ module.exports = {
   Fruchterman: require('./fruchterman'),
   Radial: require('./radial/radial'),
   Force: require('./force'),
-  Dagre: require('./dagre')
+  Dagre: require('./dagre'),
+  Concentric: require('./concentric'),
+  Grid: require('./grid')
 };
 module.exports = Layout;
