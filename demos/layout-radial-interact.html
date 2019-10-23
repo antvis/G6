@@ -3921,7 +3921,7 @@
       });
 
       const focusNode = data_m.nodes[20];
-      const mainUnitRadius = 120;
+      const mainUnitRadius = 220;
       const graph = new G6.Graph({
         container: 'mountNode',
         width: 1000,
@@ -3932,16 +3932,20 @@
           maxIteration: 200,
           focusNode,
           unitRadius: mainUnitRadius,
-          linkDistance: 100,
+          linkDistance: 200,
           preventOverlap: true,
-          nodeSize: 20
+          nodeSize: 50,
+          strictRadial: false
         },
         animate: true,
         modes: {
           default: ['drag-node', 'click-select', 'click-add-node', 'drag-canvas']
         },
         defaultNode: {
-          size: [20, 20]
+          size: 50,
+          style: {
+            stroke: '#000'
+          }
         },
         defaultEdge: {
           size: 1,

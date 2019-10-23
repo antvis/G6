@@ -33,7 +33,7 @@ Layout.registerLayout('concentric', {
       startAngle: 3 / 2 * Math.PI, // where nodes start in radians
       clockwise: true,             // whether the layout should go clockwise (true) or counterclockwise/anticlockwise (false)
       maxLevelDiff: undefined,     // the letiation of concentric values in each level
-      valueName: 'degree'          // 根据 valueName 指定的属性进行排布，数值高的放在中心。如果是 degree 则会计算节点度数，度数最高的放在中心。
+      sortBy: 'degree'             // 根据 sortBy 指定的属性进行排布，数值高的放在中心。如果是 sortBy 则会计算节点度数，度数最高的放在中心。
     };
   },
   /**
@@ -85,29 +85,30 @@ Layout.registerLayout('concentric', {
     self.nodeMap = nodeMap;
 
     // get the node degrees
-    let values;
-    if (self.valueName === 'degree' || !isString(self.valueName) || layoutNodes[0][self.valueName] === undefined) {
-      self.valueName = 'degree';
-      values = getDegree(nodes.length, nodeIdxMap, edges);
-      layoutNodes.forEach((node, i) => {
-        node.degree = values[i];
-      });
+    if (self.sortBy === 'degree' || !isString(self.sortBy) || layoutNodes[0][self.sortBy] === undefined) {
+      self.sortBy = 'degree';
+      if (isNaN(nodes[0].degree)) {
+        const values = getDegree(nodes.length, nodeIdxMap, edges);
+        layoutNodes.forEach((node, i) => {
+          node.degree = values[i];
+        });
+      }
     }
-    // sort nodes by degree
+    // sort nodes by value
     layoutNodes.sort((n1, n2) => {
-      return n2[self.valueName] - n1[self.valueName];
+      return n2[self.sortBy] - n1[self.sortBy];
     });
 
     self.maxValueNode = layoutNodes[0];
 
-    self.maxLevelDiff = self.maxLevelDiff || self.maxValueNode[self.valueName] / 4; // 0.5;
+    self.maxLevelDiff = self.maxLevelDiff || self.maxValueNode[self.sortBy] / 4; // 0.5;
 
     // put the values into levels
     const levels = [[]];
     let currentLevel = levels[0];
     layoutNodes.forEach(node => {
       if (currentLevel.length > 0) {
-        const diff = Math.abs(currentLevel[0][self.valueName] - node[self.valueName]);
+        const diff = Math.abs(currentLevel[0][self.sortBy] - node[self.sortBy]);
         if (diff >= self.maxLevelDiff) {
           currentLevel = [];
           levels.push(currentLevel);
