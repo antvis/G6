@@ -5,6 +5,20 @@
  */
 
 const Layout = require('./layout');
+const isString = require('@antv/util/lib/type/is-string');
+
+
+function getDegree(n, nodeIdxMap, edges) {
+  const degrees = [];
+  for (let i = 0; i < n; i++) {
+    degrees[i] = 0;
+  }
+  edges.forEach(e => {
+    degrees[nodeIdxMap.get(e.source)] += 1;
+    degrees[nodeIdxMap.get(e.target)] += 1;
+  });
+  return degrees;
+}
 
 /**
  * 网格布局
@@ -19,7 +33,7 @@ Layout.registerLayout('grid', {
       rows: undefined,            // force num of rows in the grid
       cols: undefined,            // force num of columns in the grid
       position() {},              // returns { row, col } for element
-      sort: undefined,            // a sorting function to order the nodes; e.g. function(a, b){ return a.data('weight') - b.data('weight') }
+      sortBy: 'degree',           // a sorting function to order the nodes; e.g. function(a, b){ return a.data('weight') - b.data('weight') }
       nodeSize: 30
     };
   },
@@ -39,6 +53,30 @@ Layout.registerLayout('grid', {
       nodes[0].y = center[1];
       return;
     }
+
+    const edges = self.edges;
+    const layoutNodes = [];
+    nodes.forEach(node => {
+      layoutNodes.push(node);
+    });
+    const nodeIdxMap = new Map();
+    layoutNodes.forEach((node, i) => {
+      nodeIdxMap.set(node.id, i);
+    });
+    if (self.sortBy === 'degree' || !isString(self.sortBy) || layoutNodes[0][self.sortBy] === undefined) {
+      self.sortBy = 'degree';
+      if (isNaN(nodes[0].degree)) {
+        const values = getDegree(layoutNodes.length, nodeIdxMap, edges);
+        layoutNodes.forEach((node, i) => {
+          node.degree = values[i];
+        });
+      }
+    }
+    // sort nodes by value
+    layoutNodes.sort((n1, n2) => {
+      return n2[self.sortBy] - n1[self.sortBy];
+    });
+
     self.width = self.width || window.innerHeight;
     self.height = self.height || window.innerWidth;
     // width/height * splits^2 = cells where splits is number of times to split width
@@ -97,7 +135,7 @@ Layout.registerLayout('grid', {
     }
 
     if (self.preventOverlap) {
-      nodes.forEach(node => {
+      layoutNodes.forEach(node => {
         if (node.x == null || node.y == null) { // for bb
           node.x = 0;
           node.y = 0;
@@ -140,8 +178,8 @@ Layout.registerLayout('grid', {
 
     // get a cache of all the manual positions
     self.id2manPos = {};
-    for (let i = 0; i < nodes.length; i++) {
-      const node = nodes[i];
+    for (let i = 0; i < layoutNodes.length; i++) {
+      const node = layoutNodes[i];
       const rcPos = self.position(node);
 
       if (rcPos && (rcPos.row !== undefined || rcPos.col !== undefined)) { // must have at least row or col def'd
