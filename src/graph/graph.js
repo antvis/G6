@@ -506,10 +506,6 @@ class Graph extends EventEmitter {
     Util.each(data.edges, edge => {
       self.add(EDGE, edge);
     });
-    // layout
-    const layoutController = self.get('layoutController');
-    layoutController.layout();
-    self.refreshPositions();
 
     // 防止传入的数据不存在nodes
     if (data.nodes) {
@@ -541,6 +537,11 @@ class Graph extends EventEmitter {
 
       }
     }
+
+    // layout
+    const layoutController = self.get('layoutController');
+    layoutController.layout();
+    self.refreshPositions();
 
     if (self.get('fitView')) {
       self.get('viewController')._fitView();

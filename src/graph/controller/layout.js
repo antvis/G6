@@ -146,6 +146,15 @@ class LayoutController {
       edges.push(model);
     });
     const data = { nodes, edges };
+    if (self.layoutType === 'fruchtermanGroup') {
+      const groupsData = self.graph.get('groups');
+      const customGroup = self.graph.get('customGroup');
+      const groupController = self.graph.get('customGroupControll');
+      data.groupsData = groupsData;
+      data.customGroup = customGroup;
+      data.groupController = groupController;
+      data.graph = self.graph;
+    }
     return data;
   }
 

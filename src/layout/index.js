@@ -13,6 +13,7 @@ module.exports = {
   Force: require('./force'),
   Dagre: require('./dagre'),
   Concentric: require('./concentric'),
-  Grid: require('./grid')
+  Grid: require('./grid'),
+  FruchtermanGroup: require('./fruchterman-group')
 };
 module.exports = Layout;
