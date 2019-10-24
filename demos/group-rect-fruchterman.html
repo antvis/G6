@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Circle节点分组 fruchterman 布局</title>
+</head>
+<body>
+<div id="mountNode"></div>
+<script src="../build/g6.js"></script>
+<script>
+  /** 
+   * 该案例演示以下功能：
+   *  1、渲染群组所需要的数据结构；
+   *  2、如何拖动一个群组；
+   *  3、将节点从群组中拖出；
+   *  4、将节点拖入到某个群组中；
+   *  5、拖出拖入节点后动态改变群组大小。
+  */
+  
+  const graph = new G6.Graph({
+    container: 'mountNode',
+    width: 800,
+    height: 600,
+    layout: {
+      type: 'fruchtermanGroup'
+    },
+    defaultNode: {
+      shape: 'circle',
+      size: 10
+    },
+    defaultEdge: {
+      color: '#bae7ff'
+    },
+    modes: {
+      default: [ 'drag-canvas', 'drag-group', 'drag-node-with-group', 'collapse-expand-group' ]
+    },
+    groupType: 'rect'
+  });
+
+const oneNodes = []
+  for(let i = 0; i < 50; i++) {
+    oneNodes.push({
+      id: `node-1-${i}`,
+      groupId: 'group3',
+      label: `node-1-${i}-group3`,
+      // ox: 100 + 5 * i,
+      // oy: 300 + 5 * i,
+      shape: 'circle'
+    })
+  }
+
+  const data = {
+      nodes: [
+        // ...oneNodes,
+        {
+          id: 'node6',
+          groupId: 'group3',
+          label: 'node6-group3',
+          ox: 100,
+          oy: 300,
+          shape: 'rect',
+          size: [40, 20]
+        },
+        {
+          id: 'node6-1',
+          groupId: 'group3',
+          label: 'node6-1-group3',
+          ox: 110,
+          oy: 300,
+          shape: 'rect',
+          size: [40, 20]
+        },
+        {
+          id: 'node6-2',
+          groupId: 'group3',
+          label: 'node6-2-group3',
+          ox: 120,
+          oy: 300,
+          shape: 'rect',
+          size: [40, 20]
+        },
+        {
+          id: 'node6-3',
+          groupId: 'group3',
+          label: 'node6-3-group3',
+          ox: 140,
+          oy: 300,
+          shape: 'rect',
+          size: [40, 20]
+        },
+        {
+          id: 'node6-4',
+          groupId: 'group3',
+          label: 'node6-4-group3',
+          ox: 150,
+          oy: 300,
+          shape: 'rect',
+          size: [40, 20]
+        },
+        {
+          id: 'node6-5',
+          groupId: 'group3',
+          label: 'node6-5-group3',
+          ox: 160,
+          oy: 300,
+          shape: 'rect',
+          size: [40, 20]
+        },
+        {
+          id: 'node1',
+          label: 'node1-group1',
+          groupId: 'group1',
+          ox: 100,
+          oy: 100
+        },
+        {
+          id: 'node9',
+          label: 'node9-p1',
+          groupId: 'p1',
+          ox: 300,
+          oy: 210
+        },
+        {
+          id: 'node2',
+          label: 'node2-group1',
+          groupId: 'group1',
+          ox: 150,
+          oy: 200
+        },
+        {
+          id: 'node3',
+          label: 'node3-group2',
+          groupId: 'group2',
+          ox: 300,
+          oy: 100
+        },
+        {
+          id: 'node7',
+          groupId: 'p1',
+          label: 'node7-p1',
+          ox: 200,
+          oy: 200
+        },
+        {
+          id: 'node10',
+          label: 'node10-p2',
+          groupId: 'p2',
+          ox: 300,
+          oy: 210
+        }
+      ],
+      edges: [
+        {
+          source: 'node1',
+          target: 'node2'
+        },
+        {
+          source: 'node2',
+          target: 'node3'
+        },
+        {
+          source: 'node1',
+          target: 'node3'
+        },
+        {
+          source: 'node6',
+          target: 'node1'
+        }
+      ],
+      groups: [
+        {
+          id: 'group1',
+          title: {
+            text: 'group1',
+            stroke: '#444',
+            offsetox: -20,
+            offsetoy: 30
+          },
+          parentId: 'p1'
+        },
+        {
+          id: 'group2',
+          title: {
+            text: 'group2'
+          },
+          title: '2',
+          parentId: 'p1'
+        },
+        {
+          id: 'group3',
+          title: {
+            text: 'group3',
+            stroke: '#444',
+            offsetox: -20,
+            offsetoy: 30
+          },
+          parentId: 'p2'
+        },
+        {
+          id: 'p1',
+          title: {
+            text: 'p1'
+          },
+          title: '3'
+        },
+        {
+          id: 'p2',
+          title: {
+            text: 'p2'
+          },
+          title: '3'
+        }
+      ]
+    };
+
+  graph.data(data)
+  graph.render()
+  console.log(graph);
+
+</script>
+</body>
+</html>

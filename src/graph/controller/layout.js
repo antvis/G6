@@ -18,20 +18,9 @@ class LayoutController {
     let layoutType = self.layoutType;
     const graph = self.graph;
     // const data = graph.get('data');
-    const nodes = [];
-    const edges = [];
-    const nodeItems = graph.getNodes();
-    const edgeItems = graph.getEdges();
-    nodeItems.forEach(nodeItem => {
-      const model = nodeItem.getModel();
-      nodes.push(model);
-    });
-    edgeItems.forEach(edgeItem => {
-      const model = edgeItem.getModel();
-      edges.push(model);
-    });
-    const data = { nodes, edges };
-    self.data = data;
+
+    self.data = self.setDataFromGraph();
+    const nodes = self.data.nodes;
 
     if (!nodes) {
       return;
@@ -84,7 +73,7 @@ class LayoutController {
       console.warn('The layout method: ' + layoutCfg + ' does not exist! Please specify it first.');
       return;
     }
-    layoutMethod.init(data);
+    layoutMethod.init(self.data);
     graph.emit('beforelayout');
     layoutMethod.execute();
     if (layoutType !== 'force') {
@@ -110,6 +99,8 @@ class LayoutController {
     const graph = self.graph;
     self.layoutType = cfg.type;
     const layoutMethod = self.layoutMethod;
+    self.data = self.setDataFromGraph();
+    layoutMethod.init(self.data);
     layoutMethod.updateCfg(cfg);
     graph.emit('beforelayout');
     layoutMethod.execute();
@@ -137,6 +128,34 @@ class LayoutController {
     const layoutMethod = self.layoutMethod;
     layoutMethod && layoutMethod.destroy();
     self.layout();
+  }
+
+  // 从 this.graph 获取数据
+  setDataFromGraph() {
+    const self = this;
+    const nodes = [];
+    const edges = [];
+    const nodeItems = self.graph.getNodes();
+    const edgeItems = self.graph.getEdges();
+    nodeItems.forEach(nodeItem => {
+      const model = nodeItem.getModel();
+      nodes.push(model);
+    });
+    edgeItems.forEach(edgeItem => {
+      const model = edgeItem.getModel();
+      edges.push(model);
+    });
+    const data = { nodes, edges };
+    if (self.layoutType === 'fruchtermanGroup') {
+      // const groupsData = self.graph.get('groups');
+      // const customGroup = self.graph.get('customGroup');
+      // const groupController = self.graph.get('customGroupControll');
+      // data.groupsData = groupsData;
+      // data.customGroup = customGroup;
+      // data.groupController = groupController;
+      data.graph = self.graph;
+    }
+    return data;
   }
 
   // 重新布局
