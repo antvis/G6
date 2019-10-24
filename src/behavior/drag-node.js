@@ -33,6 +33,10 @@ module.exports = {
     }
 
     const { item } = e;
+    const hasLocked = item.hasLocked();
+    if (hasLocked) {
+      return;
+    }
     const graph = this.graph;
 
     this.targets = [];
@@ -55,7 +59,10 @@ module.exports = {
       // 拖动多个节点
       if (nodes.length > 1) {
         nodes.forEach(node => {
-          this.targets.push(node);
+          const hasLocked = node.hasLocked();
+          if (!hasLocked) {
+            this.targets.push(node);
+          }
         });
       } else {
         this.targets.push(item);
