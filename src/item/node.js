@@ -146,6 +146,24 @@ class Node extends Item {
   }
 
   /**
+   * 锁定节点
+   */
+  lock() {
+    this.set('locked', true);
+  }
+
+  /**
+   * 解锁锁定的节点
+   */
+  unlock() {
+    this.set('locked', false);
+  }
+
+  hasLocked() {
+    return this.get('locked');
+  }
+
+  /**
    * 添加边
    * @param {Edge} edge 边
    */

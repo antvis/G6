@@ -38,7 +38,11 @@ Shape.registerNode('image', {
       ],
       // 坐标
       x: 0,
-      y: 0
+      y: 0,
+      // clip 的属性样式
+      style: {
+        lineWidth: 1
+      }
     }
   },
   shapeType: 'image',
@@ -59,7 +63,7 @@ Shape.registerNode('image', {
       return;
     }
     // 支持circle、rect、ellipse、Polygon及自定义path clip
-    const { type, x, y } = clip;
+    const { type, x, y, style } = clip;
     let clipShape = null;
     if (type === 'circle') {
       const { r } = clip;
@@ -67,7 +71,8 @@ Shape.registerNode('image', {
         attrs: {
           r,
           x,
-          y
+          y,
+          ...style
         }
       });
     } else if (type === 'rect') {
@@ -77,7 +82,8 @@ Shape.registerNode('image', {
           x,
           y,
           width,
-          height
+          height,
+          ...style
         }
       });
     } else if (type === 'ellipse') {
@@ -87,21 +93,24 @@ Shape.registerNode('image', {
           x,
           y,
           rx,
-          ry
+          ry,
+          ...style
         }
       });
     } else if (type === 'polygon') {
       const { points } = clip;
       clipShape = new G.Polygon({
         attrs: {
-          points
+          points,
+          ...style
         }
       });
     } else if (type === 'path') {
       const { path } = clip;
       clipShape = new G.Path({
         attrs: {
-          path
+          path,
+          ...style
         }
       });
     }
