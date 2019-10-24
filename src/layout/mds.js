@@ -34,6 +34,7 @@ Layout.registerLayout('mds', {
     // the graph-theoretic distance (shortest path distance) matrix
     const adjMatrix = Util.getAdjMatrix({ nodes, edges }, false);
     const distances = Util.floydWarshall(adjMatrix);
+    self.handleInfinity(distances);
     self.distances = distances;
 
     // scale the ideal edge length acoording to linkDistance
@@ -74,6 +75,26 @@ Layout.registerLayout('mds', {
     const eigenValues = Numeric.sqrt(ret.S);
     return ret.U.map(function(row) {
       return Numeric.mul(row, eigenValues).splice(0, dimension);
+    });
+  },
+  handleInfinity(distances) {
+    let maxDistance = -999999;
+    distances.forEach(row => {
+      row.forEach(value => {
+        if (value === Infinity) {
+          return;
+        }
+        if (maxDistance < value) {
+          maxDistance = value;
+        }
+      });
+    });
+    distances.forEach((row, i) => {
+      row.forEach((value, j) => {
+        if (value === Infinity) {
+          distances[i][j] = maxDistance;
+        }
+      });
     });
   }
 });
