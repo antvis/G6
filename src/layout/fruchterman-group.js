@@ -36,10 +36,10 @@ Layout.registerLayout('fruchtermanGroup', {
     const self = this;
     self.nodes = data.nodes;
     self.edges = data.edges;
-    self.groupsData = data.groupsData;
-    self.customGroup = data.customGroup;
-    self.groupController = data.groupController;
     self.graph = data.graph;
+    self.groupsData = self.graph.get('groups'); // group data
+    self.customGroup = self.graph.get('customGroup'); // shape group
+    self.groupController = self.graph.get('customGroupControll'); // controller
   },
   /**
    * 执行布局
