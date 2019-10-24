@@ -3888,7 +3888,7 @@
           const maxDegree = 4;
           // the max degree about foces(clicked) node in the original data
           const oMaxDegree = 3;
-          const unitRadius = 40;
+          const unitRadius = 100;
           const focusNodeId = "2";
           // re-place the clicked node far away the exisiting items
           // along the radius from center node to it
@@ -3905,7 +3905,9 @@
             focusNode: "2",
             unitRadius,
             linkDistance: 180,
-            preventOverlap: true
+            preventOverlap: true,
+            strictRadial: false,
+            nodeSize: 50
           });
           subRadialLayout.init({
             'nodes': newNodeModels,
@@ -3935,7 +3937,8 @@
           linkDistance: 200,
           preventOverlap: true,
           nodeSize: 50,
-          strictRadial: false
+          strictRadial: true,
+          maxPreventOverlapIteration: 500
         },
         animate: true,
         modes: {

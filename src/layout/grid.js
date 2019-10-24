@@ -26,7 +26,7 @@ function getDegree(n, nodeIdxMap, edges) {
 Layout.registerLayout('grid', {
   getDefaultCfg() {
     return {
-      begin: [ 0, 0 ],            // 布局中心
+      begin: [ 0, 0 ],            // 布局起始点
       preventOverlap: true,       // prevents node overlap, may overflow boundingBox if not enough space
       preventOverlapPadding: 10,  // extra spacing around nodes when preventOverlap: true
       condense: false,            // uses all available space on false, uses minimal space on true
