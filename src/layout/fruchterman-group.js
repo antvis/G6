@@ -119,7 +119,7 @@ Layout.registerLayout('fruchtermanGroup', {
         group.y = y;
         group.size = [ rectWidth, rectHeight ];
         titleX = x1;
-        titleY = y1 - rectHeight / 2;
+        titleY = y1;// - rectHeight / 2;
       }
 
       if (groupTitleShape) {
@@ -131,9 +131,17 @@ Layout.registerLayout('fruchtermanGroup', {
           offsetY = titleConfig.offsetoy || 0;
           titleConfig.offsetX = offsetX;
           titleConfig.offsetY = offsetY;
+          if (groupType === 'rect') {
+            titleConfig.offsetX = 0;
+            titleConfig.offsetY = 0;
+          }
         }
-        const x = titleX + offsetX;
-        const y = titleY + offsetY;
+        let x = titleX + offsetX;
+        let y = titleY + offsetY;
+        if (groupType === 'rect') {
+          x = titleX;
+          y = titleY;
+        }
         groupTitleShape.attr({ x, y });
         group.titlePos = [ x, y ];
       }
