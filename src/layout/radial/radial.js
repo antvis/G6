@@ -45,8 +45,10 @@ Layout.registerLayout('radial', {
       focusNode: null,            // 中心点，默认为数据中第一个点
       unitRadius: null,           // 每一圈半径
       linkDistance: 50,           // 默认边长度
-      preventOverlap: false,          // 是否防止重叠
-      nodeSize: 10                // 节点直径
+      preventOverlap: false,      // 是否防止重叠
+      nodeSize: 10,               // 节点直径
+      strictRadial: true,               // 是否必须是严格的 radial 布局，即每一层的节点严格布局在一个环上。preventOverlap 为 true 时生效。
+      maxPreventOverlapIteration: 200  // 防止重叠步骤的最大迭代次数
     };
   },
   /**
@@ -150,12 +152,13 @@ Layout.registerLayout('radial', {
     self.run();
     const preventOverlap = self.preventOverlap;
     const nodeSize = self.nodeSize;
+    const strictRadial = self.strictRadial;
     // stagger the overlapped nodes
     if (preventOverlap) {
       const nonoverlapForce = new RadialNonoverlapForce({
-        nodeSize, adjMatrix, positions, radii, height, width,
+        nodeSize, adjMatrix, positions, radii, height, width, strictRadial,
         focusID: focusIndex,
-        iterations: 200,
+        iterations: self.maxPreventOverlapIteration || 200,
         k: positions.length / 4.5
       });
       positions = nonoverlapForce.layout();

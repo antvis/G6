@@ -512,10 +512,6 @@ class Graph extends EventEmitter {
     Util.each(data.edges, edge => {
       self.add(EDGE, edge);
     });
-    // layout
-    const layoutController = self.get('layoutController');
-    layoutController.layout();
-    self.refreshPositions();
 
     // 防止传入的数据不存在nodes
     if (data.nodes) {
@@ -529,6 +525,29 @@ class Graph extends EventEmitter {
         this.renderCustomGroup(data, groupType);
       }
     }
+
+    if (!this.get('groupByTypes')) {
+      // 为提升性能，选择数量少的进行操作
+      if (data.nodes.length < data.edges.length) {
+        const nodes = this.getNodes();
+        // 遍历节点实例，将所有节点提前。
+        nodes.forEach(node => {
+          node.toFront();
+        });
+      } else {
+        const edges = this.getEdges();
+        // 遍历节点实例，将所有节点提前。
+        edges.forEach(edge => {
+          edge.toBack();
+        });
+
+      }
+    }
+
+    // layout
+    const layoutController = self.get('layoutController');
+    layoutController.layout();
+    self.refreshPositions();
 
     if (self.get('fitView')) {
       self.get('viewController')._fitView();
