@@ -11,6 +11,14 @@
   <script src="../build/g6.js"></script>
   <script>
 
+    G6.registerNode('xxx', {
+      afterDraw(cfg, group) {
+        const label = group.findByClassName('node-label')
+        label.attr({
+          text: 'xxx'
+        })
+      }
+    }, 'ellipse')
     const data = {
       nodes: [
         {
@@ -35,7 +43,7 @@
       width: 800,
       height: 600,
       defaultNode: {
-        shape: 'ellipse',
+        shape: 'xxx',
         size: [80, 40],
         style: {
           fill: '#bae637',
