@@ -34,25 +34,6 @@ import { G } from './g';
  */
 type ElementType = 'node' | 'edge';
 
-/**
- * 坐标点
- */
-type Point = { x: number; y: number };
-
-/**
- * 矩形
- */
-type Rect = Point & { width: number; height: number };
-
-/**
- * 圆
- */
-type Circle = Point & { r: number };
-
-/**
- * 椭圆
- */
-type Ellipse = Point & { rx: number; ry: number };
 declare class Item {
   constructor(cfg: any);
 
@@ -158,7 +139,7 @@ declare class Item {
    * 获取元素的包围盒
    * @return {Object} 包含 x,y,width,height, centerX, centerY
    */
-  getBBox(): Rect & { centerX: number; centerY: number };
+  getBBox(): G6.Rect & { centerX: number; centerY: number };
 
   /**
    * 将元素放到最前面
@@ -193,70 +174,8 @@ declare class Item {
   enableCapture(enable: boolean): void;
 
   isVisible(): boolean;
-}
 
-declare class Edge extends Item {
-  setSource(source: any): void;
-
-  setTarget(target: any): void;
-
-  getSource(): any;
-
-  getTarget(): any;
-}
-
-declare class Node extends Item {
-  /**
-   * 获取从节点关联的所有边
-   * @return {Array} 边的集合
-   */
-  getEdges(): any[];
-
-  /**
-   * 获取引入节点的边 target == this
-   * @return {Array} 边的集合
-   */
-  getInEdges(): any[];
-
-  /**
-   * 获取从节点引出的边 source == this
-   * @return {Array} 边的集合
-   */
-  getOutEdges(): any[];
-
-  /**
-   * 根据锚点的索引获取连接点
-   * @param  {Number} index 索引
-   * @return {Object} 连接点 {x,y}
-   */
-  getLinkPointByAnchor(index: number): Point;
-
-  /**
-   * 获取连接点
-   * @param {Object} point 节点外面的一个点，用于计算交点、最近的锚点
-   * @return {Object} 连接点 {x,y}
-   */
-  getLinkPoint(point: Point): Point;
-
-  /**
-   * 添加边
-   * @param {Edge} edge 边
-   */
-  addEdge(edge: Edge): void;
-
-  /**
-   * 移除边
-   * @param {Edge} edge 边
-   */
-  removeEdge(edge: Edge): void;
-
-  clearCache(): void;
-
-  /**
-   * 获取锚点的定义
-   * @return {array} anchorPoints， {x,y,...cfg}
-   */
-  getAnchorPoints(): any;
+  get(key: string): any;
 }
 
 interface IMode {
@@ -264,18 +183,9 @@ interface IMode {
   [key: string]: any;
 }
 
-interface EdgeConfig {
-  source: string;
-  target: string;
-  [key: string]: any;
-}
-
-interface NodeConfig {
-  id: string;
-  [key: string]: any;
-}
-interface G6Event {
-  item: { _cfg: { model: Node } };
+interface G6Event extends MouseEvent {
+  item: G6.Node & G6.Edge;
+  target: any;
 }
 
 // tslint:disable-next-line:export-just-namespace
@@ -283,6 +193,112 @@ export = G6;
 export as namespace G6;
 
 declare namespace G6 {
+  interface EdgeConfig {
+    source: string;
+    target: string;
+    [key: string]: any;
+  }
+
+  interface NodeConfig {
+    id?: string;
+    [key: string]: any;
+  }
+
+  /**
+   * 坐标点
+   */
+  interface Point {
+    x: number;
+    y: number;
+  }
+
+  /**
+   * 矩形
+   */
+  interface Rect extends Point {
+    width: number;
+    height: number;
+  }
+
+  /**
+   * 圆
+   */
+  interface Circle extends Point {
+    r: number;
+  }
+
+  /**
+   * 椭圆
+   */
+  interface Ellipse extends Point {
+    rx: number;
+    ry: number;
+  }
+
+  export class Edge extends Item {
+    setSource(source: any): void;
+
+    setTarget(target: any): void;
+
+    getSource(): any;
+
+    getTarget(): any;
+  }
+
+  export class Node extends Item {
+    /**
+     * 获取从节点关联的所有边
+     * @return {Array} 边的集合
+     */
+    getEdges(): Edge[];
+
+    /**
+     * 获取引入节点的边 target == this
+     * @return {Array} 边的集合
+     */
+    getInEdges(): any[];
+
+    /**
+     * 获取从节点引出的边 source == this
+     * @return {Array} 边的集合
+     */
+    getOutEdges(): any[];
+
+    /**
+     * 根据锚点的索引获取连接点
+     * @param  {Number} index 索引
+     * @return {Object} 连接点 {x,y}
+     */
+    getLinkPointByAnchor(index: number): G6.Point;
+
+    /**
+     * 获取连接点
+     * @param {Object} point 节点外面的一个点，用于计算交点、最近的锚点
+     * @return {Object} 连接点 {x,y}
+     */
+    getLinkPoint(point: G6.Point): G6.Point;
+
+    /**
+     * 添加边
+     * @param {Edge} edge 边
+     */
+    addEdge(edge: Edge): void;
+
+    /**
+     * 移除边
+     * @param {Edge} edge 边
+     */
+    removeEdge(edge: Edge): void;
+
+    clearCache(): void;
+
+    /**
+     * 获取锚点的定义
+     * @return {array} anchorPoints， {x,y,...cfg}
+     */
+    getAnchorPoints(): any;
+  }
+
   interface GraphOptions {
     /**
      * 图的 DOM 容器，可以传入该 DOM 的 id 或者直接传入容器的 HTML 节点对象
@@ -301,6 +317,10 @@ declare namespace G6 {
      */
     renderer?: 'canvas' | 'svg';
 
+    fitView?: boolean;
+
+    layout?: any;
+
     /**
      * 图适应画布时，指定四周的留白。
      * 可以是一个值, 例如：fitViewPadding: 20
@@ -314,6 +334,15 @@ declare namespace G6 {
      */
     groupByTypes?: boolean;
 
+    groupStyle?: {
+      default?: any;
+      hover?: any;
+      /**
+       * 收起状态样式
+       */
+      collapseStyle?: any;
+    };
+
     /**
      * 当图中元素更新，或视口变换时，是否自动重绘。建议在批量操作节点时关闭，以提高性能，完成批量操作后再打开，参见后面的 setAutoPaint() 方法。
      * 默认值：true
@@ -324,7 +353,9 @@ declare namespace G6 {
      * 设置画布的模式。详情可见G6中的Mode文档。
      */
     modes?: {
-      default: Array<string | IMode>;
+      default?: Array<string | IMode>;
+      addNode?: Array<string | IMode>;
+      addEdge?: Array<string | IMode>;
     };
 
     /**
@@ -346,6 +377,11 @@ declare namespace G6 {
      * 默认状态下边的配置，比如 shape, size, color。会被写入的 data 覆盖。
      */
     defaultEdge?: any;
+
+    nodeStateStyles?: any;
+
+    edgeStateStyles?: any;
+
     /**
      * 向 graph 注册插件。插件机制请见：plugin
      */
@@ -388,6 +424,13 @@ declare namespace G6 {
      * 默认值 1.0
      */
     pixelRatio?: number;
+
+    groupType?: string;
+
+    /**
+     * Edge 是否连接到节点中间
+     */
+    linkCenter?: boolean;
   }
   /**
    * Graph Class
@@ -437,7 +480,7 @@ declare namespace G6 {
      * @param {string|object} item 元素id或元素实例
      * @param states 状态
      */
-    clearItemStates(item: any, states: string[] | string | null): void;
+    clearItemStates(item: any, states?: string[] | string | null): void;
 
     /**
      * 新增元素
@@ -471,7 +514,7 @@ declare namespace G6 {
      * 设置视图初始化数据
      * @param {object} data 初始化数据
      */
-    data(data: { edges?: EdgeConfig[]; nodes?: NodeConfig[] }): any;
+    data(data: { edges?: EdgeConfig[]; nodes?: NodeConfig[]; [key: string]: any }): any;
 
     /**
        * 设置各个节点样式，以及在各种状态下节点 keyShape 的样式。
@@ -538,7 +581,7 @@ declare namespace G6 {
      * @param {object} data 源数据
      * @return {object} this
      */
-    changeData(data: any): this;
+    changeData(data?: any): this;
 
     /**
      * 仅画布重新绘制
@@ -624,7 +667,7 @@ declare namespace G6 {
      * 获取当前图中所有边的item实例
      * @return {array} item数组
      */
-    getEdges(): any[];
+    getEdges(): G6.EdgeConfig[];
 
     /**
      * 伸缩视口
@@ -794,63 +837,13 @@ declare namespace G6 {
      * @param {string} groupId 分组ID
      */
     expandGroup(groupId: string): void;
+
+    clearItemStates(node: Node): void;
+
+    downloadImage(): void;
   }
 
-  interface TreeGraphOptions extends GraphOptions {
-    /**
-     * 默认打开重布局动画开关。
-     * 默认值：true
-     */
-    animate?: boolean;
-
-    layout?: {
-      /**
-       * 布局类型
-       */
-      type: 'dendrogram' | 'compactBox' | 'mindmap' | 'indeted';
-      /**
-       * 是否进行极坐标映射
-       */
-      radial?: boolean;
-      /**
-       * 布局方向。有 LR , RL , TB , BT , H , V 可选。
-       * L: 左； R: 右； T: 上； B：下； H: 垂直； V: 水平。
-       */
-      direction?: 'LR' | 'RL' | 'TB' | 'BT' | 'H' | 'V';
-      /**
-       * 定制节点 id
-       */
-      getId?: (node: Node) => string;
-      /**
-       * 返回当前节点的所有子节点
-       */
-      getChildren?: (node: Node) => void;
-
-      /**
-       * 指定当前节点的水平间距
-       * 默认值：20
-       */
-      getHGap?: (node: Node) => number;
-
-      /**
-       * 指定当前节点的垂直间距
-       * 默认值：20
-       */
-      getVGap?: (node: Node) => number;
-      /**
-       * 指定当前节点宽度
-       */
-      getWidth?: (node: Node) => number;
-      /**
-       * 指定当前节点高度
-       */
-      getHeight?: (node: Node) => number;
-    };
-    /**
-     * Edge 是否连接到节点中间
-     */
-    linkCenter?: boolean;
-  }
+  interface TreeGraphOptions extends GraphOptions {}
   /**
    * TreeGraph Class
    */
@@ -970,7 +963,7 @@ declare namespace G6 {
 
     traverseTree(data: any, fn: Function): void;
 
-    radialLayout(data: any, layout: any): any;
+    radialLayout(data: any, layout?: any): any;
 
     /**
      * 根据 label 所在线条的位置百分比，计算 label 坐标
@@ -1085,6 +1078,8 @@ declare namespace G6 {
   }
   export const Util: Util;
 
+  export const Layout: any;
+
   export const G: any;
 
   /**
@@ -1144,12 +1139,16 @@ declare namespace G6 {
 
     // 获得 ShapeFactory
     getFactory(factoryType: string): any;
+
+    get(key: string): any;
   }
   export const Sharp: Sharp;
 
   export function registerNode(shapeType: string, cfg: any, extendShapeType?: string): any;
 
   export function registerEdge(shapeType: string, cfg: any, extendShapeType?: string): any;
+
+  export function registerLayout(layoutType: string, cfg: any, extendLayoutType?: string): void;
 
   export function registerBehavior(type: string, behavior: any): void;
 
