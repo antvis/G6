@@ -11,16 +11,34 @@
   <script src="../build/g6.js"></script>
   <script>
 
+  G6.registerEdge('selfLine', {
+    options: {
+      style: {
+        stroke: 'red',
+        lineWidth: 5
+      }
+    },
+    drawShape(cfg, group) {
+      const shapeStyle = this.getShapeStyle(cfg);
+      const keyShape = group.addShape('path', {
+        className: 'edge-shape',
+        attrs: shapeStyle
+      });
+      return keyShape;
+    }
+  }, 'single-line')
+
     const data = {
       nodes: [
         {
-          id: 'triangle',
+          id: 'triangle1',
           type: 'a',
           label: '主题 ModelRect Title',
           description: '这里是一顿描述信息，不知道长短',
           x: 150,
           y: 100,
-          shape: 'triangle',
+          anchorPoints: [[0.5, 1], [1, 0.5]],
+          // shape: 'triangle',
           style: {
             fill: 'blue'
           }
@@ -32,9 +50,17 @@
           description: '这里是一顿描述信息，不知道长短',
           x: 250,
           y: 100,
+          anchorPoints: [[0.5, 1], [1, 0.5]],
           style: {
             stroke: 'green'
           }
+        }
+      ],
+      edges: [
+        {
+          source: 'triangle1',
+          target: 'triangle',
+          shape: 'selfLine'
         }
       ]
     }
@@ -45,7 +71,7 @@
       height: 600,
       defaultNode: {
         shape: 'star',
-        size: [30, 80],
+        size: [60, 80],
         style: {
           fill: '#bae637',
           stroke: '#000',
@@ -79,27 +105,6 @@
       },
       modes: {
         default: ['drag-canvas']
-      }
-    })
-
-    graph.node(node => {
-      if (node.type === 'a') {
-        return {
-          shape: 'rect',
-          style: {
-            // fill: 'red',
-            stroke: 'blue',
-            lineWidth: 6
-          }
-        }
-      }
-      return {
-        // shape: 'star',
-        style: {
-          // fill: 'red',
-          // stroke: 'blue',
-          lineWidth: 3
-        }
       }
     })
 
