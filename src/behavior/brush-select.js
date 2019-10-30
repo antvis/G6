@@ -2,7 +2,7 @@ const min = Math.min;
 const max = Math.max;
 const abs = Math.abs;
 const DEFAULT_TRIGGER = 'shift';
-const ALLOW_EVENTS = [ 'drag', 'shift', 'ctrl', 'alt' ];
+const ALLOW_EVENTS = [ 'drag', 'shift', 'ctrl', 'alt', 'control' ];
 
 module.exports = {
   getDefaultCfg() {
@@ -191,7 +191,9 @@ module.exports = {
   },
   onKeyDown(e) {
     const code = e.key;
-    if (code && code.toLowerCase() === this.trigger.toLowerCase()) {
+    // 按住control键时，允许用户设置trigger为ctrl
+    if (code && (code.toLowerCase() === this.trigger.toLowerCase())
+      || code.toLowerCase() === 'control') {
       this.keydown = true;
     } else {
       this.keydown = false;
