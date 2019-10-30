@@ -142,49 +142,14 @@
       graph.setItemState(item, 'hover', false)
     })
 
-    const graph1 = new G6.Graph({
-      container: 'mountNode1',
-      width: 500,
-      height: 300,
-      defaultNode: {
-        shape: 'circle',
-        size: [200, 80],
-        color: 'green',
-        style: {
-          // fill: 'red',
-          // stroke: '#eaff8f',
-          lineWidth: 5
-        },
-        labelCfg: {
-          style: {
-            fill: '#9254de',
-            fontSize: 18
-          }
-        },
-        // linkPoints: {
-        //   top: true,
-        //   bottom: true,
-        //   left: true,
-        //   right: true,
-        //   size: 5,
-        //   fill: '#fff'
-        // }
-      },
-      nodeStateStyles: {
-        selected: {
-          fill: 'red'
-        }
-      },
-      modes: {
-        default: ['drag-canvas', {
-          type: 'brush-select',
-          trigger: 'ctrl'
-        }]
+    graph.addItem('group', {
+      nodes: ['image', 'triangle'],
+      type: 'rect',
+      zIndex: 0,
+      title: {
+        text: '名称'
       }
     })
-
-    graph1.data(data1)
-    graph1.render()
   </script>
 </body>
 </html>
