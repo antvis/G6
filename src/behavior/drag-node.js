@@ -84,6 +84,9 @@ module.exports = {
     if (!this.get('shouldUpdate').call(this, e)) {
       return;
     }
+    const graph = this.graph;
+    const autoPaint = graph.get('autoPaint');
+    graph.setAutoPaint(false);
 
     // 当targets中元素时，则说明拖动的是多个选中的元素
     if (this.targets.length > 0) {
@@ -98,11 +101,18 @@ module.exports = {
       // 只拖动单个元素
       this._update(this.target, e, this.enableDelegate);
     }
+
+    graph.paint();
+    graph.setAutoPaint(autoPaint);
   },
   onDragEnd(e) {
     if (!this.origin || !this.shouldEnd.call(this, e)) {
       return;
     }
+
+    const graph = this.graph;
+    const autoPaint = graph.get('autoPaint');
+    graph.setAutoPaint(false);
 
     if (this.shape) {
       this.shape.remove();
@@ -135,6 +145,9 @@ module.exports = {
       body.removeEventListener('mouseup', fn, false);
       this.fn = null;
     }
+
+    graph.paint();
+    graph.setAutoPaint(autoPaint);
   },
   // 若在拖拽时，鼠标移出画布区域，此时放开鼠标无法终止 drag 行为。在画布外监听 mouseup 事件，放开则终止
   onOutOfRange(e) {
@@ -176,7 +189,7 @@ module.exports = {
       this.graph.updateItem(item, pos);
     } else {
       item.updatePosition(pos);
-      this.graph.paint();
+      // this.graph.paint();
     }
   },
   /**
@@ -233,7 +246,7 @@ module.exports = {
       }
     }
 
-    this.graph.paint();
+    // this.graph.paint();
   },
   /**
    * 计算delegate位置，包括左上角左边及宽度和高度
