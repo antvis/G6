@@ -36,35 +36,17 @@
       }
     }, 'circle')
 
-    const data = {
-      nodes: [
-        {
-          id: 'triangle',
-          label: '主题 ModelRect Title',
-          description: '这里是一顿描述信息，不知道长短',
-          x: 150,
-          y: 100
-        },
-        {
-          id: 'image',
-          img: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iKVJS6ZgNN8AAAAAAAAAAABkARQnAQ',
-          x: 300,
-          y: 200,
-          shape: 'image'
-        }
-      ]
+let nodes = []
+    for(let i = 0; i < 500; i++) {
+      nodes.push({
+        id: `node-${i}`,
+        label: `label-${i}`,
+        x: Math.random() * 650,
+        y: Math.random() * 550
+      })
     }
-
-    const data1 = {
-      nodes: [
-        {
-          id: 'triangle',
-          label: '主题 ModelRect Title',
-          description: '这里是一顿描述信息，不知道长短',
-          x: 150,
-          y: 100
-        }
-      ]
+    const data = {
+      nodes
     }
 
     const graph = new G6.Graph({
@@ -73,10 +55,10 @@
       height: 600,
       defaultNode: {
         shape: 'rect',
-        size: [200, 80],
+        size: [60, 30],
         color: 'green',
         style: {
-          fill: 'red',
+          // fill: 'red',
           // stroke: '#eaff8f',
           lineWidth: 5
         },
@@ -101,7 +83,7 @@
         }
       },
       modes: {
-        default: ['drag-canvas', {
+        default: ['drag-canvas', 'drag-node', {
           type: 'brush-select',
           trigger: 'ctrl'
         }]
@@ -142,14 +124,14 @@
       graph.setItemState(item, 'hover', false)
     })
 
-    graph.addItem('group', {
-      nodes: ['image', 'triangle'],
-      type: 'rect',
-      zIndex: 0,
-      title: {
-        text: '名称'
-      }
-    })
+    // graph.addItem('group', {
+    //   nodes: ['image', 'triangle'],
+    //   type: 'rect',
+    //   zIndex: 0,
+    //   title: {
+    //     text: '名称'
+    //   }
+    // })
   </script>
 </body>
 </html>
