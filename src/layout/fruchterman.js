@@ -166,6 +166,7 @@ Layout.registerLayout('fruchterman', {
     edges.forEach(e => {
       const uIndex = nodeIndexMap.get(e.source);
       const vIndex = nodeIndexMap.get(e.target);
+      if (uIndex === vIndex) return;
       const u = nodeMap.get(e.source);
       const v = nodeMap.get(e.target);
       const vecx = v.x - u.x;
