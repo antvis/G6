@@ -15,7 +15,7 @@ order: 1
 <a name="cRVfC"></a>
 ## 前提代码
 本文的讲解将会基于下面这份内嵌 JavaScript 的 HTML 代码。该代码通过定义数据、实例化图、读取数据、渲染图等操作中完成了下图中简单的图：<br />
-[image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571034737611-563c61e5-d3c0-407b-89fc-ca8c6fb97f66.png#align=left&display=inline&height=29&name=image.png&originHeight=148&originWidth=736&search=&size=20441&status=done&width=146)
+<img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1571034737611-563c61e5-d3c0-407b-89fc-ca8c6fb97f66.png#align=left&display=inline&height=29&name=image.png&originHeight=148&originWidth=736&search=&size=20441&status=done&width=146' width='400' height='80' />
 
 ```html
 <!DOCTYPE html>
