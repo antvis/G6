@@ -1,0 +1,178 @@
+---
+title: 图 Graph
+order: 1
+---
+
+<a name="ADdfm"></a>
+## 什么是 Graph
+中文字“图”在大家的传统认知里指的是图画、图像，而图论与可视化中的“图”—— Graph 则有着更精确的定位：主体（objects）与关系（relationships）的组成。它甚至不局限于视觉，主体与关系的数据也可以称为图。<br />
+—— 摘自 [AntV 专栏](https://zhuanlan.zhihu.com/aiux-antv)文章：Graph Visualization ·[ ](https://zhuanlan.zhihu.com/p/83685690)知多少 之 《[HelloWorld](https://zhuanlan.zhihu.com/p/83685690) [图可视化](https://zhuanlan.zhihu.com/p/83685690)》
+
+在 G6 中，Graph 对象是图的载体，它包含了图上的所有元素（节点、边等），同时挂载了图的相关操作（如交互监听、元素操作、渲染等）。<br />Graph 对象的生命周期为：初始化 —> 加载数据 —> 渲染 —> 更新 —> 销毁。
+
+在 [快速上手](https://www.yuque.com/antv/g6/intro#56Nwj) 中，我们简单介绍了 初始化、加载数据、渲染图 的使用方法。本文将主要介绍初始化/实例化图。
+
+<a name="cRVfC"></a>
+## 前提代码
+本文的讲解将会基于下面这份内嵌 JavaScript 的 HTML 代码。该代码通过定义数据、实例化图、读取数据、渲染图等操作中完成了下图中简单的图：<br />
+[image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571034737611-563c61e5-d3c0-407b-89fc-ca8c6fb97f66.png#align=left&display=inline&height=29&name=image.png&originHeight=148&originWidth=736&search=&size=20441&status=done&width=146)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tutorial Demo</title>
+</head>
+  <body>
+    /* 图的画布容器 */
+    <div id="mountNode"></div>
+    /* 引入 G6 */
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.0/build/g6.js"></script>
+    <script>
+      // 定义数据源
+      const data = {
+        // 点集
+        nodes: [{
+          id: 'node1',
+          x: 100,
+          y: 200
+        },{
+          id: 'node2',
+          x: 300,
+          y: 200
+        }],
+        // 边集
+        edges: [
+          // 表示一条从 node1 节点连接到 node2 节点的边
+          {
+            source: 'node1',
+            target: 'node2'
+          }
+        ]
+      };
+      
+      // 创建 G6 图实例
+      const graph = new G6.Graph({
+        container: 'mountNode', // 指定图画布的容器 id，与第 9 行的容器对应
+        // 画布宽高
+        width: 800,
+        height: 500
+      });
+      // 读取数据
+      graph.data(data);
+      // 渲染图
+      graph.render();
+    </script>
+  </body>
+</html>
+```
+
+<a name="MaPXu"></a>
+## 初始化/实例化图
+通过 `new G6.Graph(config)` 进行图的实例化。其中参数 `config` 是 Object 类型的图的配置项，图的大部分功能可以通过该配置项进行全局配置。如 [前提代码](#cRVfC) 这样实例化图：
+```javascript
+ const graph = new G6.Graph({
+   container: 'mountNode', // 指定图画布的容器 id，与第 9 行的容器对应
+   // 画布宽高
+   width: 800,
+   height: 500
+ });
+```
+
+<a name="Ue8JK"></a>
+### 必要配置项
+上面代码中实例化 Graph 的部分使用了三个必要的配置项：
+
+- `container`
+
+     类型：String | Object。图的 DOM 容器。可以是 String，为 DOM 容器的 `id`。也可以是 Object ，为 DOM 对象。
+
+- `width`、`height`
+
+     类型：Number。图的画布的宽度和高度。
+
+<a name="o6fzb"></a>
+### 常用配置项
+下面列举实例化图时常见的配置项，完整的配置项参见 [Graph API](https://www.yuque.com/antv/g6/graph)。
+
+<a name="MVehB"></a>
+#### 整体渲染相关
+
+- `renderer`
+
+      类型：String；选项：`'svg'` | `'canvas' `；默认：`'canvas'`。选择 SVG 或 Canvas 方式渲染。
+
+- `fitView`
+
+      类型：Boolean；默认：'false'。图是否自适应画布。
+
+- `fitViewPadding`
+
+      类型：Number | Array；默认：0。图自适应画布时的四周留白像素值。fitView 为 true 时生效。
+
+<a name="tp1Yg"></a>
+#### 全局元素配置
+
+- `defaultNode`
+
+      类型：Object。默认情况下全局节点的配置项，包括样式属性和其他属性。详见 [内置节点](https://www.yuque.com/antv/g6/internal-node)。
+
+- `defaultEdge`
+
+      类型：Object。默认情况下全局边的配置项，包括样式属性和其他属性。详见 [内置边](https://www.yuque.com/antv/g6/internal-edge)。
+
+- `nodeStateStyles`
+
+      类型：Object。除默认状态外的其他状态下节点的样式配置。详见 [状态 State](https://www.yuque.com/antv/g6/fqnn9w)。
+
+- `edgeStateStyles`
+
+      类型：Object。除默认状态外的其他状态下边的样式配置。详见 [状态 State](https://www.yuque.com/antv/g6/fqnn9w)。
+
+<a name="rNzu4"></a>
+#### 布局相关
+
+- `layout`
+
+      类型：Object。若数据中不存在节点位置，则默认为随机布局。配置布局类型及其参数。详见 [使用布局 Layout 教程](https://www.yuque.com/antv/g6/qopkkg)，[Layout API](https://www.yuque.com/antv/g6/agbmu2)。
+
+<a name="0s5xt"></a>
+#### 交互行为相关
+
+- `modes`
+
+      类型：Array。配置多种交互模式及其包含的交互事件的。详见 [交互模式 Mode 教程](https://www.yuque.com/antv/g6/g6-mode)。
+
+<a name="NrTzb"></a>
+#### 动画相关
+
+- `animate`
+
+      类型：Boolean；默认：'false'。是否启用全局动画。启用后，布局变化时将会以动画形式变换节点位置。
+
+- `animateCfg`
+
+      类型：Object。全局动画的配置项，包括动画效果、动画时长等。详见 【TODO】。
+
+<a name="rpi50"></a>
+#### 插件
+
+- `plugins`
+
+      类型：Array。配置辅助插件。详见 [Plugin API](https://www.yuque.com/antv/g6/plugin)。
+
+<a name="wNs2b"></a>
+## 常用函数
+在 [前提代码](https://www.yuque.com/antv/g6/ie7zi7#cRVfC) 中使用了两个必要的函数：
+```javascript
+// 读取数据
+graph.data(data);
+// 渲染图
+graph.render();
+```
+
+- `data(data)`：读取数据源 `data` 到图实例 `graph` 中。
+- render()：渲染图。
+
+Graph 的完整函数参见 [Graph API](https://www.yuque.com/antv/g6/graph#wbgjF)。

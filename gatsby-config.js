@@ -19,8 +19,15 @@ module.exports = {
       {
         slug: 'docs/manual',
         title: {
-          zh: '使用文档',
-          en: 'docs'
+          zh: '使用教程',
+          en: 'Tutorial'
+        }
+      },
+      {
+        slug: 'docs/api',
+        title: {
+          zh: 'API 文档',
+          en: 'API'
         }
       },
       {
@@ -41,21 +48,29 @@ module.exports = {
         order: 2
       },
       {
-        slug: 'manual/advanced',
+        slug: 'manual/middle',
         title: {
-          zh: '进阶',
-          en: 'Advanced'
+          zh: '中级教程',
+          en: 'Middle'
         },
         order: 3
       },
       {
-        slug: 'manual/advanced/nodeEdge',
+        slug: 'manual/advanced',
         title: {
-          zh: '节点与边',
-          en: 'Tutorial'
+          zh: '高级教程',
+          en: 'Advanced'
         },
-        order: 2
+        order: 4
       }
+      // {
+      //   slug: 'manual/advanced/nodeEdge',
+      //   title: {
+      //     zh: '节点与边',
+      //     en: 'Tutorial'
+      //   },
+      //   order: 2
+      // }
     ],
     examples: [
       {
