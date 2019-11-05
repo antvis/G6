@@ -6,7 +6,6 @@ order: 2
 G6 默认提供的节点是一个基础图形加一个文本图形的实现。可选的内置节点包括 circle，rect，ellipse，diamond，triangle，star，image，modelRect，这些内置节点的默认样式分别如下图所示。<br />
 <img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1570852701188-ea33cdb0-71c4-4d53-8827-01912934e7de.png#align=left&display=inline&height=103&name=image.png&originHeight=206&originWidth=1528&search=&size=135825&status=done&width=764' width='750' height='100'>
 
-<a name="rETE1"></a>
 ## 内置节点类型说明
 下面表格中显示了内置的各类节点，同时对一些特殊的字段进行了说明：
 
@@ -22,7 +21,6 @@ G6 默认提供的节点是一个基础图形加一个文本图形的实现。�
 | modelRect | 菱形：<br />- `size` 是数组，表示菱形的长和宽<br />- 菱形的中心位置是节点的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点中央<br />- 若有 `description` 字段则显示在标签文本下方显示 `description` 内容<br />- 更多字段见 [modelRect 节点的配置](https://www.yuque.com/antv/g6/sdfcpq#qWf35)<br /> | ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570852629046-62c03494-82ac-4e76-b3b4-9ca242d9459a.png#align=left&display=inline&height=74&name=image.png&originHeight=148&originWidth=324&search=&size=15378&status=done&width=162)<br /> ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570852931313-42f193db-c9f0-4098-af7f-6c5eaf32923a.png#align=left&display=inline&height=69&name=image.png&originHeight=138&originWidth=316&search=&size=17261&status=done&width=158) |
 
 
-<a name="NvG16"></a>
 ## 节点的通用属性
 所有内置的节点支持的通用属性：
 
@@ -39,7 +37,6 @@ G6 默认提供的节点是一个基础图形加一个文本图形的实现。�
 | labelCfg | false | Object | 文本配置项 |
 
 
-<a name="FqvB0"></a>
 #### 样式属性 style
 Object 类型。通过 `style` 配置来修改节点的填充色、边框颜色、阴影等属性。下表是 `style` 对象中常用的配置项：
 
@@ -73,7 +70,6 @@ const graph = new G6.Graph({
 })
 ```
 
-<a name="UMA2n"></a>
 #### 标签文本 label 及其配置 labelCfg
 `label` String 类型。标签文本的文字内容。<br />`labelCfg` Object 类型。配置标签文本。下面是 `labelCfg` 对象中的常用配置项：
 
@@ -117,7 +113,6 @@ const graph = new G6.Graph({
 })
 ```
 
-<a name="n74sg"></a>
 ## 节点的配置方法
 配置节点的方式有三种：实例化图时全局配置，在数据中动态配置，使用 `graph.node(nodeFn)` 函数配置。这几种配置方法可以同时使用，优先级：
 
@@ -125,7 +120,7 @@ const graph = new G6.Graph({
 
 即有相同的配置项时，优先级高的方式将会覆盖优先级低的。
 
-<a name="Tu5VB"></a>
+
 ### 实例化图时全局配置
 用户在实例化 Graph 时候可以通过 `defaultNode` 配置节点，这里的配置是全局的配置，将会在所有节点上生效。
 ```javascript
@@ -140,7 +135,6 @@ const graph = new G6.Graph({
 })
 ```
 
-<a name="fnVk4"></a>
 ### 在数据中动态配置
 如果需要为不同节点进行不同的配置，可以将配置写入到节点数据中。这种配置方式可以通过下面代码的形式直接写入数据，也可以通过遍历数据的方式写入。
 ```
@@ -170,7 +164,6 @@ const data = {
 }
 ```
 
-<a name="wt5Si"></a>
 ### 使用 graph.node(nodeFn) 配置
 该方法可以为不同节点进行不同的配置。<br />提示：
 
@@ -267,7 +260,6 @@ graph.render();
 
 - triangle 节点和 image 节点的标签文本默认位置为：`position:'bottom'` ，其他节点文本的默认位置都为：`position: 'center'`；
 
-<a name="go086"></a>
 ### 调整节点配置
 
 下面演示通过将配置写入数据的方式，调整 `id` 为 `'node-ellipse'` 的椭圆节点的文本位置，颜色和样式。将下面代码替换上面代码中 `id` 为 `'node-ellipse'` 的节点数据即可生效。
@@ -308,7 +300,6 @@ graph.render();
 
 <img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1570866381579-8296a2bb-9f23-45a5-b229-fe82b55a7a5b.png#align=left&display=inline&height=110&name=image.png&originHeight=220&originWidth=1524&search=&size=135905&status=done&width=762' width='750' height='100'>
 
-<a name="dmJ1b"></a>
 ## 相关阅读
 
 - [节点的状态样式](https://www.yuque.com/antv/g6/fqnn9w) —— 交互过程中的样式变化。

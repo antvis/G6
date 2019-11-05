@@ -5,7 +5,6 @@ order: 1
 
 通用事件、Node事件、Edge事件及Canvas事件回调的参数请参考[Behavior文档](./Behavior)。
 
-<a name="5hkae"></a>
 ## 通用事件
 
 | 事件名称 | 描述 |
@@ -33,7 +32,6 @@ order: 1
 | touchend | 当手指从屏幕上离开的时候触发 |
 
 
-<a name="UCqSz"></a>
 ## Node事件
 
 | 事件名称 | 描述 |
@@ -56,7 +54,6 @@ order: 1
 | node:drop | 被拖拽的节点在目标元素上同时鼠标放开触发的事件，此事件作用在目标元素上 |
 
 
-<a name="K7D8e"></a>
 ## Edge事件
 
 | 事件名称 | 描述 |
@@ -73,7 +70,6 @@ order: 1
 | edge:contextmenu | 用户在边上右击鼠标时触发并打开右键菜单 |
 
 
-<a name="kolKj"></a>
 ## Canvas事件
 
 | 事件名称 | 描述 |
@@ -95,7 +91,6 @@ order: 1
 | canvas:dragleave | 当拖曳画布离开目标元素的时候触发的事件，此事件作用在目标元素上 |
 
 
-<a name="84pS5"></a>
 ## 时机监听
 用于监听图的某方法调用前后的时机。
 
@@ -121,7 +116,6 @@ order: 1
 
 不同自定义事件的回调参数不同，下面针对各个自定义事件的回调参数进行说明。
 
-<a name="V7Nlt"></a>
 ### beforeadditem
 
 | 名称 | 类型 | 描述 |
@@ -130,7 +124,6 @@ order: 1
 | model | object | item数据模型 |
 
 
-<a name="60c3y"></a>
 ### afteradditem
 
 | 名称 | 类型 | 描述 |
@@ -139,7 +132,6 @@ order: 1
 | model | object | item数据模型 |
 
 
-<a name="tW09n"></a>
 ### beforeremoveitem / afterremoveitem
 
 | 名称 | 类型 | 描述 |
@@ -147,7 +139,6 @@ order: 1
 | item | Item | 要删除的item实例 |
 
 
-<a name="40RvY"></a>
 ### beforeupdateitem / afterupdateitem
 
 | 名称 | 类型 | 描述 |
@@ -156,7 +147,6 @@ order: 1
 | model | object | item数据模型 |
 
 
-<a name="GXudo"></a>
 ### beforeitemvisibilitychange / afteritemvisibilitychange
 
 | 名称 | 类型 | 描述 |
@@ -165,7 +155,6 @@ order: 1
 | visible | boolean | 是否可见，true为可见，false为不可见 |
 
 
-<a name="aqtjd"></a>
 ### beforeitemstatechange / afteritemstatechange
 
 | 名称 | 类型 | 描述 |
@@ -175,7 +164,6 @@ order: 1
 | enalbed | boolean | 状态是否可用，true可用，false不可用 |
 
 
-<a name="jCrEb"></a>
 ### beforeitemstatesclear / afteritemstatesclear
 
 | 名称 | 类型 | 描述 |
@@ -184,7 +172,6 @@ order: 1
 | states | array | string | 需要批量清除的状态 |
 
 
-<a name="DIwkC"></a>
 ### beforeitemrefresh / afteritemrefresh
 
 | 名称 | 类型 | 描述 |

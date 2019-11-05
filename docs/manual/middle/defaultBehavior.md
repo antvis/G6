@@ -3,15 +3,12 @@ title: 内置的 Behavior
 order: 4
 ---
 
-<a name="iNlRp"></a>
 ## 什么是 Behavior
 Behavior 是 G6 提供的定义图上交互事件的机制。它与[交互模式 Mode](https://www.yuque.com/antv/g6/g6-mode) 搭配使用，如何将下文所述各种 Behavior 配置到图上，见 [交互模式](https://www.yuque.com/antv/g6/g6-mode)。
 
-<a name="1FVPj"></a>
 ## 内置 Behavior
 理论上说 G6 上的所有基础图形、Item（节点/边）都能通过事件来进行操作，考虑到通用性， G6目前共提供了以下9个内置的 Behavior。
 
-<a name="EzfvY"></a>
 ### drag-canvas
 
 - 含义：拖拽画布；
@@ -45,7 +42,6 @@ const graph = new G6.Graph({
 
 此时只能在 x 方向上面拖动，y 方向上不允许拖动。<br />![3.gif](https://cdn.nlark.com/yuque/0/2019/gif/244306/1570778658995-88e2bf4e-e201-43a0-9ffd-15ceadc8334e.gif#align=left&display=inline&height=333&name=3.gif&originHeight=517&originWidth=783&search=&size=669012&status=done&width=504)
 
-<a name="12uvu"></a>
 ### zoom-canvas
 
 - 含义：缩放画布；
@@ -54,7 +50,6 @@ const graph = new G6.Graph({
 
 **提示：若要限定缩放尺寸，请在 graph 上设置 **`**minZoom**`** 和 **`**maxZoom**`**。**
 
-<a name="DubUE"></a>
 ### drag-node
 
 - 含义：拖拽节点；
@@ -88,7 +83,6 @@ const graph = new G6.Graph({
 ```
 ![3.gif](https://cdn.nlark.com/yuque/0/2019/gif/244306/1570778113574-f65eeb6b-4df4-4db4-a4d3-5cf2141607f3.gif#align=left&display=inline&height=279&name=3.gif&originHeight=517&originWidth=783&search=&size=219983&status=done&width=422)
 
-<a name="6EYBA"></a>
 ### click-select
 
 - 含义：点击选中节点，再次点击节点或点击 Canvas 取消选中状态；
@@ -123,7 +117,6 @@ const graph = new G6.Graph({
 
 以上配置中，用户可按住 **Ctrl** 键进行多选，也可以配置 **Alt** 键。当配置了 `multiple` 参数为 `false`，则表示不允许多谢，此时 `trigger` 参数无效。
 
-<a name="a415de36"></a>
 ### tooltip
 
 - 含义：节点文本提示；
@@ -156,7 +149,6 @@ const graph = new G6.Graph({
 }
 ```
 
-<a name="uvumm"></a>
 ### edge-tooltip
 使用方式基本与 tooltip 相同，但是移到边时触发。主要是为了将两个交互区分开，以满足用户边与节点的提示样式或 HTML 结构不同，以及不需要在事件中去区分是节点事件还是边事件等。
 
@@ -164,7 +156,6 @@ const graph = new G6.Graph({
 - `type: 'edge-tooltip'`；
 - `formatText(model)` 格式化函数，可以返回文本或者 HTML。
 
-<a name="FWfLl"></a>
 ### activate-relations
 
 - 含义：当鼠标移到某节点时，突出显示该节点以及与其直接关联的节点和连线；
@@ -206,7 +197,6 @@ const graph = new G6.Graph({
 ![3.gif](https://cdn.nlark.com/yuque/0/2019/gif/244306/1570784093933-beb50a11-eef7-4076-a05c-5723be7e7e1d.gif#align=left&display=inline&height=542&name=3.gif&originHeight=542&originWidth=610&search=&size=142174&status=done&width=610)
 
 
-<a name="HUu9U"></a>
 ### brush-select
 
 - 含义：拖动框选节点；
@@ -284,11 +274,10 @@ const graph = new G6.Graph({
 })
 ```
 
-上面这种方式是使用不同的 mode 来区分，mode 可以达到使用相同交互动作而产生不同的效果，更多关于 mode 的内容请参数 [G6 中的 Mode 文档](https://www.yuque.com/antv/g6/g6-mode)。
+上面这种方式是使用不同的 mode 来区分，mode 可以达到使用相同交互动作而产生不同的效果，更多关于 mode 的内容请参数 [G6 中的 Mode 文档](./mode)。
 
 使用 mode 区分，默认情况下使用的是 `drag-canvas`，但用户需要切换到框选时，通过 `graph.setModel('brush')` 即可实现，此时同样的交互产生的就是框选的效果。
 
-<a name="AYLPq"></a>
 ### collapse-expand
 
 - 含义：只适用于树图，展开或收起节点；
@@ -297,7 +286,6 @@ const graph = new G6.Graph({
   - `trigger`：收起和展开树图的方式，支持`click`和`dblclick`两种方式，默认为`click`；
   - `onChange`：收起或展开的回调函数，警告 `3.1.2 `版本中将移除。
 
-<a name="nTWyy"></a>
 
 **用法**
 
@@ -317,7 +305,6 @@ const graph = new G6.TreeGraph({
 });
 ```
 
-<a name="7tpo7"></a>
 ### collapse-expand-group
 
 - 含义：收起和展开群组；
@@ -350,9 +337,8 @@ const graph = new G6.Graph({
 ```
 
 ![3.gif](https://cdn.nlark.com/yuque/0/2019/gif/244306/1570785874686-a7333f95-e8d3-45a7-873e-8ee56c3b4b21.gif#align=left&display=inline&height=542&name=3.gif&originHeight=542&originWidth=610&search=&size=57719&status=done&width=610)
-<a name="6X4y5"></a>
+
 ### drag-group
-3.1.0
 
 - 含义：拖动节点分组；
 - `type: 'drag-group'`；
@@ -368,9 +354,7 @@ const graph = new G6.Graph({
 })
 ```
 
-<a name="UcuYD"></a>
 ### drag-node-with-group
-3.1.0
 
 - 含义：拖动节点分组中的节点；
 - `type：'drag-node-with-group'`；

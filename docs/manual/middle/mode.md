@@ -3,7 +3,6 @@ title: 交互模式 Mode
 order: 5
 ---
 
-<a name="LTkXZ"></a>
 ## 什么是 Mode
 用户在交互一张图时，可能由于意图不同而存在不同的交互模式，例如在编辑模式下点击节点需要弹出窗口让用户编辑，在查看模式下点击节点需要选中节点。
 
@@ -15,7 +14,6 @@ order: 5
 
 默认情况下，该图对 default 模式中的行为见效，即点击节点时节点被选中而不是弹出编辑框。用户可以通过简单的命令切换该图的行为模式到 edit 模式，则 default 模式中的行为失效，edit 交互模式中的行为起效，即点击节点将弹出编辑框。
 
-<a name="hboeP"></a>
 ## 配置 Mode
 在实例化图时配置 `modes` 属性：
 ```javascript
@@ -31,9 +29,8 @@ const graph = new G6.Graph({
 });
 ```
 
-以上是模式定义的一个例子。在图上定义了两个模式，分别是 `default`， `edit` 。其中 `default` 包含两个个 [Behavior](https://www.yuque.com/antv/g6/default-behavior)：`'drag-canvas'` 和 `'``zoom-canvas'`，都使用行为的默认参数。
+以上是模式定义的一个例子。在图上定义了两个模式，分别是 `default`， `edit` 。其中 `default` 包含两个 [Behavior](./defaultBehavior)：`'drag-canvas'` 和 `'``zoom-canvas'`，都使用行为的默认参数。
 
-<a name="3IuAF"></a>
 ## 切换 Mode
 默认时 Graph 会使用 `default` 的 Mode ，可以拖动和缩放画布，当需要点击选中节点时，可以通过 `graph.``setMode('edit')` 来切换到 `edit` 的 Mode 。
 
@@ -49,9 +46,9 @@ graph.setMode('edit');
 - 生成新的 Behavior ，进行事件初始化；
 - 绑定新的行为对应的事件监听。
 
-<a name="WDKiv"></a>
+
 ## 编辑已有的 Mode
-如果有已经定义好的 Behavior （[内置 Behavior](https://www.yuque.com/antv/g6/default-behavior) 或 [自定义 Behavior](https://www.yuque.com/antv/g6/self-behavior)），需要把它添加到某个模式下，可以通过 `graph.addBehaviors` 方法；需要从某个模式中移除一些 Behavior，可以使用 `graph.removeBehaviors` 方法。如下示例：
+如果有已经定义好的 Behavior （[内置 Behavior](./defaultBehavior) 或 [自定义 Behavior](../../advanced/custom-behavior)），需要把它添加到某个模式下，可以通过 `graph.addBehaviors` 方法；需要从某个模式中移除一些 Behavior，可以使用 `graph.removeBehaviors` 方法。如下示例：
 ```javascript
 // 向 default 模式中添加名为 drag-canvas 的行为，并使用行为的默认配置
 graph.addBehaviors('drag-canvas', 'default');
@@ -75,8 +72,7 @@ graph.addBehaviors([ 'drag-canvas', 'zoom-canvas' ], 'default');
 graph.removeBehaviors([ 'drag-canvas', 'zoom-canvas' ], 'default');
 ```
 
-<a name="9Ez4t"></a>
 ## 相关阅读
 
 - [内置交互行为 Behavior](./defaultBehavior)
-- [自定义交互行为 Behavior](https://www.yuque.com/antv/g6/self-behavior)
+- [自定义交互行为 Behavior](../../advanced/custom-behavior)
