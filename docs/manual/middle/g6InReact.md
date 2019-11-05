@@ -3,7 +3,6 @@ title: React 中使用 G6
 order: 9
 ---
 
-<a name="ubzSk"></a>
 ### 概述
 G6是一个纯JS库，不与任何框架耦合，也就是可以在任何前端框架中使用，如 React、Vue、Angular 等。由于我们内部绝大多数都是基于 React 技术栈的，所以我们也仅提供一个 G6 在 React 中使用的 Demo。
 
@@ -11,7 +10,6 @@ G6是一个纯JS库，不与任何框架耦合，也就是可以在任何前端�
 
 在 Demo 中，我们以一个简单的流程图为例，实现如下的效果。![demo.gif](https://cdn.nlark.com/yuque/0/2019/gif/244306/1570264721327-6afda2c1-2edf-4bb4-84dc-14f91f820d0c.gif#align=left&display=inline&height=545&name=demo.gif&originHeight=545&originWidth=1207&search=&size=166134&status=done&width=1207)
 
-<a name="7sO3b"></a>
 ### 功能及实现
 Demo 包括以下功能点：
 
@@ -76,7 +74,6 @@ export default function() {
 
 ```
 
-<a name="CahRL"></a>
 ### G6中渲染React组件
 节点和边的 tooltip、节点上的右键菜单，G6 中内置的很难满足样式上的需求，这个时候我们就可以通过渲染自定义的 React 组件来实现。Tooltip 和 ContextMenu 都是普通的 React 组件，样式完全由用户控制。交互过程中，在G6 中需要做的事情就是确定何时渲染组件，以及渲染到何处。在 G6 中获取到是否渲染组件的标识值和渲染位置后，这些值就可以使用 React state 进行管理，后续的所有工作就全部由 React 负责了。
 

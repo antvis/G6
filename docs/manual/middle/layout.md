@@ -3,19 +3,17 @@ title: 使用布局 Layout
 order: 7
 ---
 
-<a name="45oSN"></a>
 ## 简介
 图布局是指图中节点的排布方式，根据图的数据结构不同，布局可以分为两类：一般图布局、树图布局。G6 为这两类图都内置了一些常用的图布局算法。使用内置的图布局可以完成[布局的参数、方法、数据的切换](#FCFKL)等。
 
-除了内置布局方法外，一般图布局还支持 [自定义布局](https://www.yuque.com/antv/g6/zpg5ty) 机制。
+除了内置布局方法外，一般图布局还支持 [自定义布局](../advanced/custom-layout.zh) 机制。
 
 事实上，G6 的布局是自由的，内置布局算法仅仅是操作了数据中节点的 `x` 和 `y` 值。因此，除了使用内置布局以及自定义的一般图布局外，用户还可以使用外部图布局算法，计算节点位置后赋值到数据中节点的 `x` 和 `y` 字段上，G6 便可以根据该位置信息进行绘制。
 
 本文将逐一介绍内置的布局算法，及其使用方式。
 
-<a name="SNVtf"></a>
 ## G6 布局方法总览
-<a name="yYuT9"></a>
+
 ### 一般图 Graph
 
 - [Random Layout](#AIkrd)：随机布局；
@@ -28,7 +26,6 @@ order: 7
 - [Concentric Layout](#4JMfP)：同心圆布局；
 - [Grid Layout](#XG0RD)：网格布局。
 
-<a name="Zb2dL"></a>
 ### 树图 TreeGraph
 
 - [CompactBox Layout](#AyYPj)：紧凑树布局；
@@ -36,9 +33,8 @@ order: 7
 - [Intended Layout](#04ZZ5)：缩进布局；
 - [Mindmap Layout](#AOAs2)：脑图布局。
 
-<a name="a73ba"></a>
 ## 一般图 Graph
-<a name="hNWmC"></a>
+
 ### 配置一般图布局
 用户可以通过在实例化图时使用图的配置项 `layout` 指定布局方法。下面代码在实例化图时设置了布局方法为 `type: 'force'`，即经典力导向图布局。并设置了参数 `preventOverlap: true` 和 `nodeSize: 30`，表示希望节点不重叠。节点大小 `nodeSize` 用于算法中判断节点是否重叠，更多配置项见 [Graph 各布局的配置项](https://www.yuque.com/antv/g6/qopkkg#a73ba)。
 ```javascript
@@ -58,10 +54,9 @@ const graph = new G6.Graph({
 - 若数据中节点有位置信息（`x` 和 `y`），则按照数据的位置信息进行绘制；
 - 若数据中节点没有位置信息，则默认使用 Random Layout 进行布局。
 
-<a name="MtaAB"></a>
 ### 一般图布局方法
 图布局通用 API：[Layout API](https://www.yuque.com/antv/g6/agbmu2)。
-<a name="AIkrd"></a>
+
 #### Random
 <img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1571883164107-fc95c5f2-3461-409f-b176-e28ad87f89a7.png#align=left&display=inline&height=141&name=image.png&originHeight=562&originWidth=846&search=&size=187661&status=done&width=213' width='600' height='400'/>
 
@@ -75,8 +70,6 @@ const graph = new G6.Graph({
 | width | Number | 300 | 图的宽 |  |
 | height | Number | 300 | 图的高 |  |
 
-
-<a name="B6ZYA"></a>
 #### Force
 
 <img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1571883178937-a961fd60-e3f0-478c-b5d3-8e326fe18e6c.png#align=left&display=inline&height=180&name=image.png&originHeight=596&originWidth=959&search=&size=71243&status=done&width=289' width='600' height='400' />
@@ -102,8 +95,6 @@ const graph = new G6.Graph({
 | onTick | Function |  | {} | 每一次迭代的回调函数 |
 | onLayoutEnd | Function |  | {} | 布局完成后的回调函数 |
 
-
-<a name="TirhH"></a>
 #### Fruchterman
 
 <img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1571883212048-50bef140-5a93-463a-a763-c8dcc907af2c.png#align=left&display=inline&height=200&name=image.png&originHeight=650&originWidth=686&search=&size=242098&status=done&width=211' width='600' height='500' />

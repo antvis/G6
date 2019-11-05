@@ -7,15 +7,13 @@ Behavior指G6中的复合交互，一般Behavior包含一个或多个事件的�
 
 Behavior默认包含shouldBegin，shouldUpdate，shouldEnd三个回调，代表是否开始行为，是否更新元素，是否进行结束行为，当返回值为false时阻止默认行为。
 
-<a name="nikfV"></a>
 ## Behavior包含的内容
-<a name="LKIRP"></a>
+
 ### getEvents()
 自定义Behavior时，定义事件及处理事件的方法。
 
 getEvents()方法中可以使用的事件请参考[Event文档](https://www.yuque.com/antv/g6/event-api)。
 
-<a name="JP5u2"></a>
 #### 用法
 ```javascript
 G6.registerBehavior('behaviorName', {
@@ -29,7 +27,6 @@ G6.registerBehavior('behaviorName', {
 }
 ```
 
-<a name="DyF2K"></a>
 ### onNodeClick(evt)
 `onNodeClick`、`onEdgeClick`和`onMouseMove`都属于自定义方法，用于处理`node:click`、`edge:click`、`mousemove`等事件。
 
@@ -83,13 +80,11 @@ G6.registerBehavior('behaviorName', {
 }
 ```
 
-<a name="ARcpI"></a>
 ### getDefaultCfg()
 定义自定义Behavior时的默认参数，会与用户传入的参数进行合并。
 
 **提示：该方法是可选的**。
 
-<a name="mmBcI"></a>
 #### 用法
 ```javascript
 G6.registerBehavior('behaviorName', {
@@ -100,11 +95,10 @@ G6.registerBehavior('behaviorName', {
   }
 }
 ```
-<a name="BtvIu"></a>
+
 ### shouldBegin(evt)
 是否阻止行为发生，默认返回true，不阻止行为，需要在处理逻辑中自行调用。
 
-<a name="P0Wmk"></a>
 #### 用法
 ```javascript
 G6.registerBehavior('behaviorName', {
@@ -115,11 +109,9 @@ G6.registerBehavior('behaviorName', {
 }
 ```
 
-<a name="7YTsY"></a>
 ### shouldUpdate(evt)
 是否更新数据及更改视图，默认返回true，允许更新，如果返回false，则不更新数据和视图。
 
-<a name="cD8cM"></a>
 #### 用法
 ```javascript
 const graph = new G6.Graph({
@@ -141,6 +133,5 @@ const graph = new G6.Graph({
 });
 ```
 
-<a name="kdFAg"></a>
 ### shouldEnd(evt)
 是否结束行为，默认返回true。

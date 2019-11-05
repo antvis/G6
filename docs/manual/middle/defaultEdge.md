@@ -17,8 +17,7 @@ G6 提供了 9 种内置边：
 这些内置边的默认样式分别如下图所示。<br />
 <img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1570858853371-d9c7fea4-5e7b-42e1-a2f4-559a70298149.png#align=left&display=inline&height=135&name=image.png&originHeight=270&originWidth=1768&search=&size=74956&status=done&width=884' width='750' height='200' />
 
-<a name="rETE1"></a>
-# 内置边类型说明
+## 内置边类型说明
 下面表格中显示了内置的各类边，同时对一些特殊的字段进行了说明：
 
 | 名称 | 描述 |  |
@@ -32,9 +31,7 @@ G6 提供了 9 种内置边：
 | cubic-horizontal | 水平方向的三阶贝塞尔曲线，不考虑用户从外部传入的控制点 | ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570858999282-e9e4d9c1-f2da-4804-975f-d4abed62933f.png#align=left&display=inline&height=114&name=image.png&originHeight=228&originWidth=206&search=&size=16769&status=done&width=103) |
 | loop | 自环。更多配置详见 arc 边的配置 | ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570859007824-5b9c3023-9851-4bda-917b-3216811d2e45.png#align=left&display=inline&height=56&name=image.png&originHeight=112&originWidth=76&search=&size=6558&status=done&width=38) |
 
-
-<a name="NvG16"></a>
-# 边的通用属性
+## 边的通用属性
 所有内置的边支持的通用属性：
 
 | 名称 | 是否必须 | 类型 | 备注 |
@@ -50,8 +47,7 @@ G6 提供了 9 种内置边：
 | labelCfg | false | Object | 文本配置项 |
 
 
-<a name="FqvB0"></a>
-### 样式属性 style
+#### 样式属性 style
 Object 类型。通过 `style` 配置来修改边的颜色、线宽等属性。下表是 `style` 对象中常用的配置项：
 
 | 名称 | 是否必须 | 类型 | 备注 |
@@ -85,8 +81,7 @@ const graph = new G6.Graph({
 })
 ```
 
-<a name="UMA2n"></a>
-### 标签文本 label 及其配置 labelCfg
+#### 标签文本 label 及其配置 labelCfg
 `label` String 类型。标签文本的文字内容。<br />`labelCfg` Object 类型。配置标签文本。下面是 `labelCfg` 对象中的常用配置项：
 
 | 名称 | 是否必须 | 类型 | 备注 |
@@ -128,16 +123,14 @@ const graph = new G6.Graph({
 })
 ```
 
-<a name="mZxA3"></a>
-# 边的配置方法
+## 边的配置方法
 配置边的方式有三种：实例化图时全局配置，在数据中动态配置，使用 `graph.edge(edgeFn)` 函数配置。这几种配置方法可以同时使用，优先级：
 
 使用 graph.edge(edgeFn) 配置 > 数据中动态配置 > 实例化图时全局配置
 
 即有相同的配置项时，优先级高的方式将会覆盖优先级低的。
 
-<a name="Tu5VB"></a>
-## 实例化图时全局配置
+### 实例化图时全局配置
 用户在实例化 Graph 时候可以通过 `defaultEdge` 配置边，这里的配置是全局的配置，将会在所有边上生效。
 ```javascript
 const graph = new G6.Graph({
@@ -151,8 +144,7 @@ const graph = new G6.Graph({
 })
 ```
 
-<a name="fnVk4"></a>
-## 在数据中动态配置
+### 在数据中动态配置
 如果需要使不同边有不同的配置，可以将配置写入到边数据中。这种配置方式可以通过下面代码的形式直接写入数据，也可以通过遍历数据的方式写入。
 ```javascript
 const data = {
@@ -181,8 +173,7 @@ const data = {
 }
 ```
 
-<a name="wt5Si"></a>
-## 使用 graph.edge(edgeFn) 配置
+### 使用 graph.edge(edgeFn) 配置
 该方法可以为不同边进行不同的配置。<br />提示：
 
 - 该方法必须**在 render 之前调用**，否则不起作用；
@@ -205,8 +196,7 @@ graph.data(data);
 graph.render();
 ```
 
-<a name="6IzVM"></a>
-# 实例演示
+## 实例演示
 ```javascript
 const data = {
   nodes: [
@@ -251,8 +241,7 @@ graph.render();
 显示结果：<br />
 <img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1570858853371-d9c7fea4-5e7b-42e1-a2f4-559a70298149.png#align=left&display=inline&height=135&name=image.png&originHeight=270&originWidth=1768&search=&size=74956&status=done&width=884' width='750' height='200' />
 
-<a name="WHNad"></a>
-## 调整边的样式
+### 调整边的样式
 可以在边上添加文本，修改边的样式。下面演示将配置写入数据的方式配置边。使用下面代码替换上面代码中的 9-10、11-12 两条边数据，修改这两条边的样式和其文本。
 ```javascript
 // 使 9-10 的 cubic 边文本下移 15 像素
@@ -290,7 +279,6 @@ graph.render();
 
 <img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1570859444095-76fc5c73-0444-4636-b2a2-57eb1786987c.png#align=left&display=inline&height=138&name=image.png&originHeight=276&originWidth=1782&search=&size=81146&status=done&width=891' width='750' height='200' />
 
-<a name="dmJ1b"></a>
-# 相关阅读
+## 相关阅读
 
 - [边的状态样式](https://www.yuque.com/antv/g6/fqnn9w) —— 交互过程中的样式变化。

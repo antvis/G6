@@ -8,7 +8,6 @@ order: 8
 
 对于熟悉图可视化类库的用户来说，节点分组可能是比较实用的一个功能。自 G6 3.0.5 版本开始，G6 加入了节点分组的功能，详情参考[Demo](https://github.com/antvis/g6/blob/master/demos/drag-group.html)。<br />![group2.gif](https://cdn.nlark.com/yuque/0/2019/gif/244306/1567391660645-308be946-1119-45c0-af7c-5373e78ffa7c.gif#align=left&display=inline&height=533&name=group2.gif&originHeight=533&originWidth=763&search=&size=261828&status=done&width=763)
 
-<a name="07gsB"></a>
 ### 数据结构
 新增节点分组功能时，尽量保持了 G6 数据结构的稳定性。为了体现分组的特性，我们在 nodes 数据项中加入了 groupId 属性，另外新增了 groups 字段，用于表示数据中所包括的分组及各分组之间的层级关系。
 
@@ -76,7 +75,6 @@ order: 8
 }
 ```
 
-<a name="fCWQJ"></a>
 ### 如何渲染 group
 当 nodes 中存在 `groupId` 属性字段时，在渲染过程中，G6 就会自动去渲染分组，当存在 groups 属性时，G6 就会自定去判断各分组之间的层级关系，并渲染出嵌套的分组。但当没有使用任何布局的时候，需要在 nodes 中指定各个阶段的坐标信息，即阶段的 `x` 和 `y` 属性值。
 
@@ -193,11 +191,10 @@ graph.render();
 
 渲染的效果如下图所示：<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/244306/1571190983755-4599403c-7c3d-4c23-9539-e91a5c038984.png#align=left&display=inline&height=503&name=image.png&originHeight=1006&originWidth=1600&search=&size=415977&status=done&width=800)<br />此时，不能对分组中的节点及分组进行任何操作，接下来，我们介绍可以对分组进行的各种操作。
 
-<a name="msaWq"></a>
 ### 操作分组
 只是简单地将分组渲染出来，并没有多大的实用价值，只有支持一系列的交互操作后，才能最大程度地体现分组的价值。
 
-在 G6 中，我们内置了 `drag-group`、`collapse-expand-group` 及  `drag-node-with-group`  三个[Behavior](https://www.yuque.com/antv/g6/default-behavior)，共支持以下的交互行为：
+在 G6 中，我们内置了 `drag-group`、`collapse-expand-group` 及  `drag-node-with-group`  三个[Behavior](./defaultBehavior)，共支持以下的交互行为：
 
 - 拖动分组；
 - 通过拖拽，动态改变分组中的节点数量及分组大小；
@@ -208,17 +205,14 @@ graph.render();
 - 拖动节点，所在的分组高亮，当拖到其他分组时，其他分组高亮；
 - [暂不支持] ~~将分组拖入到另外个分组，并改变分组层级的所属关系~~。
 
-<a name="e8sCW"></a>
 #### drag-group
 `drag-group` Behavior，支持拖动分组，拖动分组过程中，会动态改变分组中节点和边的位置，在拖拽完成以后，保持分组和节点的相对位置不变。
 
-<a name="VP4XU"></a>
 #### collapse-expand-group
 `collapse-expand-group` Behavior，支持双击分组收起和展开分组，收起分组以后，隐藏分组中的所有节点，外部节点和分组中节点有连线的情况下，所有连接会连接到分组上面。
 
 优化目前只支持双击交互，正式发布时，会支持用户自定义交互方式，来实现分组的收起和展开。
 
-<a name="ZgBe1"></a>
 #### drag-node-with-group
 `drag-node-with-group` Behavior 和 `drag-node` 类似，但该 Behavior 仅用于用 group 时 node 的拖拽。拖拽 node 过程中，会动态改变 node 所在的分组。
 
@@ -245,7 +239,7 @@ const graph = new G6.Graph({
 将这三个内置提供的 Behavior 加入到 modes 中以后的效果如下图所示。
 
 ![group2.gif](https://cdn.nlark.com/yuque/0/2019/gif/244306/1567391075518-249e7649-5861-41ec-9e81-ea58224de9cb.gif#align=left&display=inline&height=533&name=group2.gif&originHeight=533&originWidth=763&search=&size=261828&status=done&width=763)
-<a name="nmZxu"></a>
+
 ### 适用的场景
 
 1. 风控、反洗钱、保险骗保、网络诈骗、信用卡诈骗等场景下团伙分析；
