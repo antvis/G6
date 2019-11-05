@@ -24,7 +24,7 @@ module.exports = {
         }
       },
       {
-        slug: 'docs/api',
+        slug: 'docs/api/Item',
         title: {
           zh: 'API 文档',
           en: 'API'
@@ -62,6 +62,20 @@ module.exports = {
           en: 'Advanced'
         },
         order: 4
+      },
+      {
+        slug: 'api',
+        title: {
+          zh: 'API 文档',
+          en: 'API Doc'
+        }
+      },
+      {
+        slug: 'api/nodeEdge',
+        title: {
+          zh: '节点和边',
+          en: 'Node & Edge'
+        }
       }
       // {
       //   slug: 'manual/advanced/nodeEdge',
