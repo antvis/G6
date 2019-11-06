@@ -17,7 +17,7 @@ module.exports = {
     ],
     sourceMaps: 'inline',
   },
-  extensions: ['.js'],
+  extensions: ['.es6', '.es', '.jsx', '.js', '.ts'],
   include: [
     'src/**/*.js',
     'plugins/**/*.js',
