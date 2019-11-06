@@ -56,6 +56,37 @@ module.exports = {
         order: 3
       },
       {
+        slug: 'manual/middle/states',
+        title: {
+          zh: '交互与事件',
+          en: 'Behavior & Event'
+        },
+        order: 3
+      },
+      {
+        slug: 'manual/middle/elements',
+        title: {
+          zh: '节点与边',
+          en: 'Graph Element'
+        }
+      },
+      {
+        slug: 'manual/middle/elements/nodes',
+        title: {
+          zh: '内置节点类型',
+          en: 'Default Node'
+        },
+        order: 2
+      },
+      {
+        slug: 'manual/middle/elements/edges',
+        title: {
+          zh: '内置边类型',
+          en: 'Default Edge'
+        },
+        order: 3
+      },
+      {
         slug: 'manual/advanced',
         title: {
           zh: '高级教程',

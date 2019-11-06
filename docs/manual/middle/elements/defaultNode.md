@@ -1,6 +1,6 @@
 ---
 title: 内置的节点
-order: 2
+order: 0
 ---
 
 G6 默认提供的节点是一个基础图形加一个文本图形的实现。可选的内置节点包括 circle，rect，ellipse，diamond，triangle，star，image，modelRect，这些内置节点的默认样式分别如下图所示。<br />
@@ -302,4 +302,4 @@ graph.render();
 
 ## 相关阅读
 
-- [节点的状态样式](https://www.yuque.com/antv/g6/fqnn9w) —— 交互过程中的样式变化。
+- [状态 State](../../states/state) —— 交互过程中的样式变化。

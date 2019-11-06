@@ -183,7 +183,7 @@ group.addShape('marker', {
       return [
         [ 'M', x, y ],
         [ 'L', x + r, y + r ],
-        [ 'L'，x + r * 2, y ],
+        [ 'L', x + r * 2, y ],
         [ 'Z' ]
       ]
     }
