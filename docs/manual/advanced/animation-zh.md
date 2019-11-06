@@ -8,9 +8,8 @@ G6 中的动画分为两个层次：
 - 全局动画：全局性的动画，图整体变化时的动画过渡；
 - 元素（边和节点）动画：节点或边上的独立动画。
 
-<a name="4YghT"></a>
 <br />
-# 全局动画
+## 全局动画
 G6 的全局动画指通过图实例进行某些全局操作时，产生的动画效果。例如：
 
 - `graph.updateLayout(cfg)` 布局的变化
@@ -28,28 +27,33 @@ const graph = new G6.Graph({
 });
 ```
 
-<a name="IflgH"></a>
-## easing 函数
+### easing 函数
 easing 函数是指动画的函数。例如线性插值、先快后慢等。<br />G6 支持所有 d3 中的动画函数。因此，上面代码中 `animateCfg` 配置中的 String 类型的 `easing` 可以取值有：<br />`'easeLinear'` ，<br />`'easePolyIn'` ，`'easePolyOut'` ， `'easePolyInOut'`  ，<br />`'``easeQuad``'` ，`'easeQuadIn'` ，`'easeQuadOut'` ， `'easeQuadInOut'` ，<br />...... <br />更多取值及所有取值含义参见：[d3 Easings](https://github.com/d3/d3/blob/master/API.md#easings-d3-ease)。
 
-<a name="fEpCX"></a>
-<br />
-# 元素动画
+
+## 元素动画
 由于 G6 的内置节点和边是没有动画的，需要实现节点和边上的动画需要通过[自定义节点](https://www.yuque.com/antv/g6/self-node)、[自定义边](https://www.yuque.com/antv/g6/self-edge)时复写 `afterDraw` 实现。
 
-<a name="lZ9tM"></a>
-## 节点动画
+### 节点动画
 关于节点动画，以下面三个动画示例进行讲解：
 
 - 节点上图形的动画（如下图左）；
 - 增加带有动画的背景图形（如下图中）；
 - 节点上部分图形的旋转动画（如下图右）。
 
-![node-animate-shape.gif](https://cdn.nlark.com/yuque/0/2019/gif/156681/1571195005968-ecf8690b-707a-4acd-bcda-e9b49e74742f.gif#align=left&display=inline&height=61&name=node-animate-shape.gif&originHeight=61&originWidth=145&search=&size=22895&status=done&width=145)![node-animate-background.gif](https://cdn.nlark.com/yuque/0/2019/gif/156681/1571195552693-6faff5bc-8d9a-4e4e-99fd-7bd7fa9c428d.gif#align=left&display=inline&height=61&name=node-animate-background.gif&originHeight=61&originWidth=145&search=&size=35273&status=done&width=145)![node-animate-innerimage.gif](https://cdn.nlark.com/yuque/0/2019/gif/156681/1571196247789-91a9d9a3-754d-481f-9f63-901b0e16f83c.gif#align=left&display=inline&height=61&name=node-animate-innerimage.gif&originHeight=61&originWidth=145&search=&size=29110&status=done&width=145)<br />以上三个动画节点的 demo 代码见：[节点动画](https://codepen.io/Yanyan-Wang/pen/QWWEEWe)。
 
-<a name="Yv9BQ"></a>
-### 节点上图形的动画
-节点上的动画，即每一帧发生变化的是节点上的某一个图形。<br />![node-animate-shape.gif](https://cdn.nlark.com/yuque/0/2019/gif/156681/1571195005968-ecf8690b-707a-4acd-bcda-e9b49e74742f.gif#align=left&display=inline&height=61&name=node-animate-shape.gif&originHeight=61&originWidth=145&search=&size=22895&status=done&width=145)
+<img src='https://cdn.nlark.com/yuque/0/2019/gif/156681/1571195005968-ecf8690b-707a-4acd-bcda-e9b49e74742f.gif#align=left&display=inline&height=61&name=node-animate-shape.gif&originHeight=61&originWidth=145&search=&size=22895&status=done&width=145' alt='download' width='150'/>
+<img src='https://cdn.nlark.com/yuque/0/2019/gif/156681/1571195552693-6faff5bc-8d9a-4e4e-99fd-7bd7fa9c428d.gif#align=left&display=inline&height=61&name=node-animate-background.gif&originHeight=61&originWidth=145&search=&size=35273&status=done&width=145' alt='download' width='150'/>
+<img src='https://cdn.nlark.com/yuque/0/2019/gif/156681/1571196247789-91a9d9a3-754d-481f-9f63-901b0e16f83c.gif#align=left&display=inline&height=61&name=node-animate-innerimage.gif&originHeight=61&originWidth=145&search=&size=29110&status=done&width=145' alt='download' width='150'/>
+<br />
+
+以上三个动画节点的 demo 代码见：
+[节点动画](https://codepen.io/Yanyan-Wang/pen/QWWEEWe)。
+
+#### 节点上图形的动画
+节点上的动画，即每一帧发生变化的是节点上的某一个图形。<br />
+
+<img src='https://cdn.nlark.com/yuque/0/2019/gif/156681/1571195005968-ecf8690b-707a-4acd-bcda-e9b49e74742f.gif#align=left&display=inline&height=61&name=node-animate-shape.gif&originHeight=61&originWidth=145&search=&size=22895&status=done&width=145' alt='download' width='150'/>
 
 本例实现节点放大缩小，通过 `group.get('children')[0]` 找到需要更新的图形（这里找到该节点上第 0 个图形），然后调用该图形的 `animate` 方法指定动画的参数及每一帧的变化（ `onFrame` 方法返回每一帧需要变化的参数集）。
 ```javascript
@@ -78,11 +82,13 @@ G6.registerNode('circle-animate', {
 }, 'circle'); // 该自定义节点继承了内置节点 'circle'，除了被复写的 afterDraw 方法外，其他按照 'circle' 里的函数执行。
 ```
 
-<a name="O7xMk"></a>
-### 增加带有动画的背景图形
+#### 增加带有动画的背景图形
 在 `afterDraw` 方法中为已有节点添加额外的 shape ，并为这些新增的图形设置动画。<br />
 
-本例在 `afterDraw` 方法中，绘制了三个背景 circle ，分别使用不同的颜色填充，再调用 `animate` 方法实现这三个 circle 逐渐变大、变淡的动画。本例中没有使用 `onFrame` 函数，直接在 `animate` 函数的入参中设置每次动画结束时的最终目标样式，即半径增大 10，透明度降为 0.1。<br />![node-animate-background.gif](https://cdn.nlark.com/yuque/0/2019/gif/156681/1571195577156-137b37fe-bff5-470b-bbd2-2a7b253a6d8e.gif#align=left&display=inline&height=61&name=node-animate-background.gif&originHeight=61&originWidth=145&search=&size=35273&status=done&width=145)
+本例在 `afterDraw` 方法中，绘制了三个背景 circle ，分别使用不同的颜色填充，再调用 `animate` 方法实现这三个 circle 逐渐变大、变淡的动画。本例中没有使用 `onFrame` 函数，直接在 `animate` 函数的入参中设置每次动画结束时的最终目标样式，即半径增大 10，透明度降为 0.1。<br />
+
+<img src='https://cdn.nlark.com/yuque/0/2019/gif/156681/1571195577156-137b37fe-bff5-470b-bbd2-2a7b253a6d8e.gif#align=left&display=inline&height=61&name=node-animate-background.gif&originHeight=61&originWidth=145&search=&size=35273&status=done&width=145' alt='download' width='150'/>
+
 ```javascript
 G6.registerNode('background-animate', {
   afterDraw(cfg, group) {
@@ -149,9 +155,11 @@ G6.registerNode('background-animate', {
 }, 'circle');
 ```
 
-<a name="mN7q5"></a>
-### 部分图形旋转动画
-这一例也是在 `afterDraw` 方法中为已有节点添加额外的 shape （本例中为 image），并为这些新增的图形设置旋转动画。旋转动画较为复杂，需要通过矩阵的操作实现。<br />![node-animate-innerimage.gif](https://cdn.nlark.com/yuque/0/2019/gif/156681/1571196247789-91a9d9a3-754d-481f-9f63-901b0e16f83c.gif#align=left&display=inline&height=61&name=node-animate-innerimage.gif&originHeight=61&originWidth=145&search=&size=29110&status=done&width=145)
+#### 部分图形旋转动画
+这一例也是在 `afterDraw` 方法中为已有节点添加额外的 shape （本例中为 image），并为这些新增的图形设置旋转动画。旋转动画较为复杂，需要通过矩阵的操作实现。<br />
+
+<img src='https://cdn.nlark.com/yuque/0/2019/gif/156681/1571196247789-91a9d9a3-754d-481f-9f63-901b0e16f83c.gif#align=left&display=inline&height=61&name=node-animate-innerimage.gif&originHeight=61&originWidth=145&search=&size=29110&status=done&width=145' alt='download' width='150'/>
+
 ```javascript
 G6.registerNode('inner-animate', {
   afterDraw(cfg, group) {
@@ -191,21 +199,25 @@ G6.registerNode('inner-animate', {
 }, 'rect');
 ```
 
-<a name="gHSGL"></a>
-## 边动画
+### 边动画
 关于边动画，以下面三个动画示例进行讲解：
 
 - 圆点在沿着线运动（下图左）；
 - 虚线运动的效果（下图中，gif 图片的帧率问题导致看起来是静态的，可以访问下面的 demo 链接查看）；
 - 线从无到有的效果（下图右）。
 
-![edge-animate-running.gif](https://cdn.nlark.com/yuque/0/2019/gif/156681/1571198610044-dcb4664b-1676-4ade-8f72-db5ae3c0820f.gif#align=left&display=inline&height=120&name=edge-animate-running.gif&originHeight=120&originWidth=145&search=&size=6246&status=done&width=145)![edge-animate-lineDash.gif](https://cdn.nlark.com/yuque/0/2019/gif/156681/1571200417875-e388a583-5ec7-4a5d-94e8-61ac30608dcc.gif#align=left&display=inline&height=112&name=edge-animate-lineDash.gif&originHeight=310&originWidth=317&search=&size=2892&status=done&width=115)![edge-animate-grow.gif](https://cdn.nlark.com/yuque/0/2019/gif/156681/1571199744260-b3d325f7-d6aa-407a-a1c7-7152c7d30cdb.gif#align=left&display=inline&height=120&name=edge-animate-grow.gif&originHeight=120&originWidth=145&search=&size=7012&status=done&width=145)
+
+<img src='https://cdn.nlark.com/yuque/0/2019/gif/156681/1571198610044-dcb4664b-1676-4ade-8f72-db5ae3c0820f.gif#align=left&display=inline&height=120&name=edge-animate-running.gif&originHeight=120&originWidth=145&search=&size=6246&status=done&width=145' alt='download' width='150'/>
+<img src='https://cdn.nlark.com/yuque/0/2019/gif/156681/1571200417875-e388a583-5ec7-4a5d-94e8-61ac30608dcc.gif#align=left&display=inline&height=112&name=edge-animate-lineDash.gif&originHeight=310&originWidth=317&search=&size=2892&status=done&width=115' alt='download' width='110'/>
+<img src='https://cdn.nlark.com/yuque/0/2019/gif/156681/1571199744260-b3d325f7-d6aa-407a-a1c7-7152c7d30cdb.gif#align=left&display=inline&height=120&name=edge-animate-grow.gif&originHeight=120&originWidth=145&search=&size=7012&status=done&width=145' alt='download' width='150'/>
 
 以上三个边动画的 demo 代码见：[边动画](https://codepen.io/Yanyan-Wang/pen/yLLJJoJ)。
 
-<a name="gm2KQ"></a>
-### 圆点运动
-本例通过在 afterDraw 方法中为边增加了一个 circle 图形，该图形沿着线运动。沿着线运动的原理：设定每一帧中，该 circle 在线上的相对位置。<br />![edge-animate-running.gif](https://cdn.nlark.com/yuque/0/2019/gif/156681/1571198610044-dcb4664b-1676-4ade-8f72-db5ae3c0820f.gif#align=left&display=inline&height=120&name=edge-animate-running.gif&originHeight=120&originWidth=145&search=&size=6246&status=done&width=145)
+#### 圆点运动
+本例通过在 afterDraw 方法中为边增加了一个 circle 图形，该图形沿着线运动。沿着线运动的原理：设定每一帧中，该 circle 在线上的相对位置。<br />
+
+<img src='https://cdn.nlark.com/yuque/0/2019/gif/156681/1571198610044-dcb4664b-1676-4ade-8f72-db5ae3c0820f.gif#align=left&display=inline&height=120&name=edge-animate-running.gif&originHeight=120&originWidth=145&search=&size=6246&status=done&width=145' alt='download' width='150'/>
+
 ```javascript
 G6.registerEdge('circle-running', {
   afterDraw(cfg, group) {
@@ -243,9 +255,12 @@ G6.registerEdge('circle-running', {
 }, 'cubic');  // 该自定义边继承内置三阶贝塞尔曲线 cubic
 ```
 
-<a name="tLAon"></a>
-### 虚线运动的效果
-虚线运动的效果是通过计算线的 `lineDash` ，并在每一帧中不断修改实现。<br />![edge-animate-lineDash.gif](https://cdn.nlark.com/yuque/0/2019/gif/156681/1571200417875-e388a583-5ec7-4a5d-94e8-61ac30608dcc.gif#align=left&display=inline&height=112&name=edge-animate-lineDash.gif&originHeight=310&originWidth=317&search=&size=2892&status=done&width=115)
+#### 虚线运动的效果
+虚线运动的效果是通过计算线的 `lineDash` ，并在每一帧中不断修改实现。<br />
+
+
+<img src='https://cdn.nlark.com/yuque/0/2019/gif/156681/1571200417875-e388a583-5ec7-4a5d-94e8-61ac30608dcc.gif#align=left&display=inline&height=112&name=edge-animate-lineDash.gif&originHeight=310&originWidth=317&search=&size=2892&status=done&width=115' alt='download' width='150'/>
+
 ```javascript
 // lineDash 的差值，可以在后面提供 util 方法自动计算
 const dashArray = [
@@ -294,9 +309,11 @@ G6.registerEdge('line-dash', {
 }, 'cubic');   // 该自定义边继承了内置三阶贝塞尔曲线边 cubic
 ```
 
-<a name="hZPMB"></a>
-### 线从无到有
-线从无到有的动画效果，同样可以通过计算 `lineDash` 来实现。<br />![edge-animate-grow.gif](https://cdn.nlark.com/yuque/0/2019/gif/156681/1571199744260-b3d325f7-d6aa-407a-a1c7-7152c7d30cdb.gif#align=left&display=inline&height=120&name=edge-animate-grow.gif&originHeight=120&originWidth=145&search=&size=7012&status=done&width=145)
+#### 线从无到有
+线从无到有的动画效果，同样可以通过计算 `lineDash` 来实现。<br />
+
+<img src='https://cdn.nlark.com/yuque/0/2019/gif/156681/1571199744260-b3d325f7-d6aa-407a-a1c7-7152c7d30cdb.gif#align=left&display=inline&height=120&name=edge-animate-grow.gif&originHeight=120&originWidth=145&search=&size=7012&status=done&width=145' alt='download' width='150'/>
+
 ```javascript
 G6.registerEdge('line-growth', {
   afterDraw(cfg, group) {
@@ -319,8 +336,7 @@ G6.registerEdge('line-growth', {
 }, 'cubic');   // 该自定义边继承了内置三阶贝塞尔曲线边 cubic
 ```
 
-<a name="f4pbm"></a>
-## 交互动画
+### 交互动画
 在交互的过程中也可以添加动画。如下图所示，当鼠标移到节点上时，所有与该节点相关联的边都展示虚线运动的动画。<br />![交互动画.gif](https://cdn.nlark.com/yuque/0/2019/gif/244306/1561463491982-54ef73c2-fbf7-4886-8d45-f7b8ec8e1976.gif#align=left&display=inline&height=285&name=%E4%BA%A4%E4%BA%92%E5%8A%A8%E7%94%BB.gif&originHeight=586&originWidth=588&search=&size=729910&status=done&width=286)<br />上图完整 demo 即代码参见：[状态切换动画](https://antv.alipay.com/zh-cn/g6/3.x/demo/scatter/hover-animate.html)。
 
 这种动画涉及到了边的 [状态](https://www.yuque.com/antv/g6/fqnn9w)。在自定义边时复写 `setState` 方法，可对边的各种状态进行监听。鼠标移动到节点上，相关边的某个状态被开启，`setState` 方法中监听到后开启动画效果。步骤如下：
