@@ -1,0 +1,13 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "area.js",
+      "title": "基础面积图",
+      "screenshot": "https://gw.alipayobjects.com/zos/antfincdn/ERHiNBmudQ/82dee894-47e6-4250-8f48-84e519833f69.png"
+    }
+  ]
+}
