@@ -82,15 +82,14 @@ G6.registerNode('nodeName', {
 - `setState` 方法一般也不需要复写，有全局的样式可以替换；
 - `getAnchorPoints` 方法仅在需要限制与边的连接点时才需要复写，也可以在数据中直接指定。
 
-<a name="HIZHb"></a>
-<br />
-# 1. 从无到有定义节点
-<a name="h3RgF"></a>
-## 绘制图形
+
+## 1. 从无到有定义节点
+### 绘制图形
 我们自己来实现一个菱形的节点，如下图所示。
 > G6 有内置的菱形节点 diamond。为了演示，这里实现了一个自定义的菱形，相当于复写了内置的 diamond。
 
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/89796/1547800411703-21526827-77b6-4e0e-b302-4c5506ba2c21.png#align=left&display=inline&height=149&name=image.png&originHeight=149&originWidth=98&search=&size=1225&status=done&width=98)
+<img src='https://cdn.nlark.com/yuque/0/2019/png/89796/1547800411703-21526827-77b6-4e0e-b302-4c5506ba2c21.png#align=left&display=inline&height=149&name=image.png&originHeight=149&originWidth=98&search=&size=1225&status=done&width=98' alt='img' width='80'/>
+
 ```javascript
 G6.registerNode('diamond', {
 	draw(cfg, group) {
@@ -157,10 +156,10 @@ const graph = new G6.Graph({
 graph.data(data);
 graph.render();
 ```
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/89796/1547800367691-7ab91993-2ea9-45fe-bb2e-7ab97aa6a76d.png#align=left&display=inline&height=140&name=image.png&originHeight=140&originWidth=394&search=&size=4559&status=done&width=394)
 
-<a name="YJd1g"></a>
-## 优化性能
+<img src='https://cdn.nlark.com/yuque/0/2019/png/89796/1547800367691-7ab91993-2ea9-45fe-bb2e-7ab97aa6a76d.png#align=left&display=inline&height=140&name=image.png&originHeight=140&originWidth=394&search=&size=4559&status=done&width=394' alt='img' width='300'/>
+
+### 优化性能
 当图中节点或边通过 `graph.update(item, cfg)` 重绘时，默认情况下会调用节点的 `draw` 方法进行重新绘制。在数据量大或节点上图形数量非常多（特别是文本多）的情况下，`draw` 方法中对所有图形、赋予样式将会非常消耗性能。
 
 在自定义节点时，重写 `update` 方法，在更新时将会调用该方法替代 `draw`。我们可以在该方法中指定需要更新的图形，从而避免频繁调用 `draw` 、全量更新节点上的所有图形。当然，`update` 方法是可选的，如果没有性能优化的需求可以不重写该方法。
@@ -193,11 +192,10 @@ G6.registerNode('diamond', {
 });
 ```
 
-<a name="DRjQi"></a>
 <br />
-# 2. 扩展现有节点
-<a name="TFTRf"></a>
-## 扩展 Shape
+
+## 2. 扩展现有节点
+### 扩展 Shape
 G6 中已经[内置了一些节点](https://www.yuque.com/antv/g6/internal-node)，如果用户仅仅想对现有节点进行调整，复用原有的代码，则可以基于现有的节点进行扩展。同样实现 diamond ，可以基于 circle、ellipse、rect 等内置节点的进行扩展。[simple-shape](https://github.com/antvis/g6/blob/dev3.0.0/src/shape/single-shape-mixin.js) 是这些内置节点图形的基类，也可以基于它进行扩展。
 
 下面以基于 single-shape 为例进行扩展。`draw`，`update`，`setState` 方法在 [simple-shape ](https://github.com/antvis/g6/blob/dev3.0.0/src/shape/single-shape-mixin.js)中都有实现，这里仅需要复写 `getShapeStyle` 方法即可。返回的对象中包含自定义图形的路径和其他样式。
@@ -230,9 +228,10 @@ G6.registerNode('diamond', {
 'single-shape');
 ```
 
-<a name="HtkF2"></a>
-## 添加动画
-通过 `afterDraw` 同样可以实现扩展，下面我们来看一个节点的动画场景，如下图所示。<br />![扩展动画.gif](https://cdn.nlark.com/yuque/0/2019/gif/244306/1561463342269-eedcdb7f-a455-4b1d-a0d6-15eaba934ce5.gif#align=left&display=inline&height=110&name=%E6%89%A9%E5%B1%95%E5%8A%A8%E7%94%BB.gif&originHeight=110&originWidth=245&search=&size=21605&status=done&width=245)
+### 添加动画
+通过 `afterDraw` 同样可以实现扩展，下面我们来看一个节点的动画场景，如下图所示。<br />
+<img src='https://cdn.nlark.com/yuque/0/2019/gif/244306/1561463342269-eedcdb7f-a455-4b1d-a0d6-15eaba934ce5.gif#align=left&display=inline&height=110&name=%E6%89%A9%E5%B1%95%E5%8A%A8%E7%94%BB.gif&originHeight=110&originWidth=245&search=&size=21605&status=done&width=245' alt='img' width='350'/>
+
 
 上面的动画效果，可以通过以下方式实现：
 
@@ -276,10 +275,14 @@ G6.registerNode('inner-animate', {
 
 更多关于动画的实现，请参考[基础动画](https://www.yuque.com/antv/g6/base-animate)章节。
 
-<a name="mpbfD"></a>
 <br />
-# 3. 调整锚点 anchorPoint
-节点上的[锚点 anchorPoint](https://www.yuque.com/antv/g6/obgw81) 作用是**确定节点与边的相交的位置**，看下面的场景：<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/89796/1547802871432-746cdacb-8532-4f41-a6dd-7309dd10e282.png#align=left&display=inline&height=190&name=image.png&originHeight=190&originWidth=266&search=&size=3774&status=done&width=266)![image.png](https://cdn.nlark.com/yuque/0/2019/png/89796/1547803111800-1d62e52a-cdd2-4323-9506-bb569ab7aa80.png#align=left&display=inline&height=210&name=image.png&originHeight=210&originWidth=314&search=&size=6036&status=done&width=314)
+
+## 3. 调整锚点 anchorPoint
+节点上的[锚点 anchorPoint](https://www.yuque.com/antv/g6/obgw81) 作用是**确定节点与边的相交的位置**，看下面的场景：<br />
+
+<img src='https://cdn.nlark.com/yuque/0/2019/png/89796/1547802871432-746cdacb-8532-4f41-a6dd-7309dd10e282.png#align=left&display=inline&height=190&name=image.png&originHeight=190&originWidth=266&search=&size=3774&status=done&width=266' alt='img' width='200'/>
+<img src='https://cdn.nlark.com/yuque/0/2019/png/89796/1547803111800-1d62e52a-cdd2-4323-9506-bb569ab7aa80.png#align=left&display=inline&height=210&name=image.png&originHeight=210&originWidth=314&search=&size=6036&status=done&width=314' alt='img' width='200'/>
+
 > （左）没有设置锚点时。（右）diamond 设置了锚点后。
 
 
@@ -293,8 +296,7 @@ G6.registerNode('inner-animate', {
 
       **适用场景：**全局配置锚点，所有该自定义节点类型的节点都相同。
 
-<a name="xKnto"></a>
-## 数据中指定锚点
+### 数据中指定锚点
 ```javascript
 const data = {
   nodes: [{
@@ -313,8 +315,7 @@ const data = {
 };
 ```
 
-<a name="LmOHj"></a>
-## 自定义时指定锚点
+### 自定义时指定锚点
 ```javascript
 G6.registerNode('diamond', {
   //... // 其他方法
@@ -327,9 +328,9 @@ G6.registerNode('diamond', {
 }, 'rect');
 ```
 
-<a name="5WLKK"></a>
 <br />
-# 4. 调整状态样式
+
+## 4. 调整状态样式
 常见的交互都需要节点和边通过样式变化做出反馈，例如鼠标移动到节点上、点击选中节点/边、通过交互激活边上的交互等，都需要改变节点和边的样式，有两种方式来实现这种效果：
 
 1. 在数据上添加标志字段，在自定义 shape 过程中根据约定进行渲染；
@@ -365,7 +366,9 @@ graph.on('node:click', ev=> {
 });
 ```
 
-G6 并未限定节点的状态，只要你在 `setState` 方法中进行处理你可以实现任何交互，如实现鼠标放到节点上后节点逐渐变大的效果。<br />![扩展动画1.gif](https://cdn.nlark.com/yuque/0/2019/gif/244306/1561463342276-2291c0af-afca-4953-a920-948c40d90ad4.gif#align=left&display=inline&height=119&name=%E6%89%A9%E5%B1%95%E5%8A%A8%E7%94%BB1.gif&originHeight=119&originWidth=351&search=&size=7256&status=done&width=351)
+G6 并未限定节点的状态，只要你在 `setState` 方法中进行处理你可以实现任何交互，如实现鼠标放到节点上后节点逐渐变大的效果。<br />
+<img src='https://cdn.nlark.com/yuque/0/2019/gif/244306/1561463342276-2291c0af-afca-4953-a920-948c40d90ad4.gif#align=left&display=inline&height=119&name=%E6%89%A9%E5%B1%95%E5%8A%A8%E7%94%BB1.gif&originHeight=119&originWidth=351&search=&size=7256&status=done&width=351' alt='img' width='350'/>
+
 ```javascript
 G6.registerNode('custom', {
   // 设置状态

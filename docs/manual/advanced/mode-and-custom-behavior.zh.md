@@ -21,9 +21,8 @@ order: 7
 
 为了区分这些操作的含义，我们使用交互模式 mode 划分不同的场景。<br />
 
-<a name="nQEiH"></a>
-<br />
-# 前提代码
+
+## 前提代码
 下面 HTML 代码是本文的基础代码，后续功能将在这份代码中增量添加。下面代码定义了左上方的下拉菜单，以及后面将会用到图上的初始数据 `data`。
 ```html
 <!DOCTYPE html>
@@ -68,9 +67,8 @@ order: 7
 </html>
 ```
 
-<a name="2ceaH"></a>
-<br />
-# 配置交互模式
+
+## 配置交互模式
 下面代码实例化了图，并配置了交互模式的集合 `modes`，其中包括 `default` 默认交互模式、`addNode` 增加节点交互模式、`addEdge` 增加边交互模式。每种交互模式中都包含了各自的交互行为，其中 `'drag-node'`（拖拽节点） 和 `'click-select'`（点击选中） 是 G6 内置的交互行为，`'click-add-node'`（点击空白画布添加节点） 和 `'click-add-edge'`（点击两个节点添加边） 需要我们在后面进行自定义。
 ```javascript
 // const data = ...
@@ -101,8 +99,7 @@ document.getElementById('selector').addEventListener('change', e => {
 ```
 
 
-<a name="H5GyN"></a>
-### 添加节点
+#### 添加节点
 在上面的实例中，当选中添加节点按钮时，会切换到添加节点的 Mode 上。实现在点击空白画布时，在点击位置添加节点的方式是通过 `G6.registerBehavior` 自定义名为 `'click-add-node'`（名字可以自由设定） 的 Behavior 实现的 。
 ```javascript
 // 封装点击添加边的交互
@@ -127,8 +124,7 @@ G6.registerBehavior('click-add-node', {
 });
 ```
 
-<a name="9dbnq"></a>
-### 添加边
+#### 添加边
 在上面的案例中，当需要在两个节点之间连线时，要先切换到添加边的 Mode 上。下面代码自定义了名为 `'click-add-edge'`（名字可以自由设定）的 Behavior 实现两个节点之间连线。
 ```javascript
 // 封装点击添加边的交互
@@ -188,7 +184,5 @@ G6.registerBehavior('click-add-edge', {
 });
 ```
 
-<a name="w13KU"></a>
-<br />
-# 完整代码
+## 完整代码
 完整 demo 代码参见：[动态添加元素](https://codepen.io/Yanyan-Wang/pen/qBBNaye)。

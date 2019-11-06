@@ -15,11 +15,9 @@ G6 中的元素（节点/边）是**由一个或多个小**[**图形 Shape**](ht
 - polygon：多边形；
 - path：路径。
 
-<a name="aNduI"></a>
-<br />
-# 各图形 Shape 的通用属性
-<a name="9H2zR"></a>
-## 属性
+## 各图形 Shape 的通用属性
+
+
 | 属性名 | 含义 | 备注 |
 | --- | --- | --- |
 | fill | 设置用于填充绘画的颜色、渐变或模式 | 对应 canvas 属性 `fillStyle` |
@@ -30,10 +28,7 @@ G6 中的元素（节点/边）是**由一个或多个小**[**图形 Shape**](ht
 | shadowOffsetY | 设置阴影距形状的垂直距离 |  |
 | opacity | 设置绘图的当前 alpha 或透明值 | 对应 canvas 属性 `globalAlpha` |
 
-<a name="QxYqO"></a>
-###
-<a name="2ZUr3"></a>
-## 用法
+### 用法
 ```javascript
 group.addShape('rect', {
 	attrs: {
@@ -47,11 +42,8 @@ group.addShape('rect', {
 })
 ```
 
-<a name="gOIOG"></a>
-<br/>
-# 圆图形 Circle
-<a name="CArMR"></a>
-## 属性
+## 圆图形 Circle
+### 属性
 | 属性名 | 含义 | 备注 |
 | --- | --- | --- |
 | x | 圆心的 x 坐标 |  |
@@ -59,8 +51,7 @@ group.addShape('rect', {
 | r | 圆的半径 |  |
 
 
-<a name="a0ke5"></a>
-## 用法
+### 用法
 ```javascript
 group.addShape('circle', {
 	attrs: {
@@ -72,11 +63,8 @@ group.addShape('circle', {
 })
 ```
 
-<a name="NNRBP"></a>
-<br/>
-# 椭圆图形 Ellipse
-<a name="32fAy"></a>
-## 属性
+## 椭圆图形 Ellipse
+### 属性
 | 属性名 | 含义 | 备注 |
 | --- | --- | --- |
 | x | 圆心的 x 坐标 |  |
@@ -85,8 +73,7 @@ group.addShape('circle', {
 | ry | 垂直半径 |  |
 
  
-<a name="l3U96"></a>
-## 用法
+### 用法
 ```javascript
 group.addShape('ellipse', {
 	attrs: {
@@ -99,11 +86,8 @@ group.addShape('ellipse', {
 })
 ```
 
-<a name="pSORg"></a>
-<br/>
-# 扇形图形 Fan
-<a name="yWXt5"></a>
-## 属性
+## 扇形图形 Fan
+### 属性
 | 属性名 | 含义 | 备注 |
 | --- | --- | --- |
 | x | 扇形圆心的 x 坐标 |  |
@@ -115,8 +99,7 @@ group.addShape('ellipse', {
 | clockwise | 为 `true` 时顺时针渲染，为 `false` 时逆时针渲染 |  |
 
 
-<a name="v1b7K"></a>
-## 用法
+### 用法
 ```javascript
 group.addShape('fan', {
   attrs: {
@@ -132,11 +115,8 @@ group.addShape('fan', {
 })
 ```
 
-<a name="rGYRc"></a>
-<br/>
-# 图片图形 Image
-<a name="qwkAb"></a>
-## 属性
+## 图片图形 Image
+### 属性
 | 属性名 | 含义 | 备注 |
 | --- | --- | --- |
 | x | 图片左上角的 x 坐标 |  |
@@ -146,8 +126,7 @@ group.addShape('fan', {
 | img | 图片源 | G6 支持多种格式的图片：url、ImageData、Image、canvas |
 
 
-<a name="Ytf4O"></a>
-## 用法
+### 用法
 ```javascript
 group.addShape('image', {
   attrs: {
@@ -158,11 +137,8 @@ group.addShape('image', {
 })
 ```
 
-<a name="YbiL0"></a>
-<br/>
-# 标记图形 Marker
-<a name="fPYo8"></a>
-## 属性
+## 标记图形 Marker
+### 属性
 | 属性名 | 含义 | 备注 |
 | --- | --- | --- |
 | x | 中心的 x 坐标 |  |
@@ -171,8 +147,7 @@ group.addShape('image', {
 | symbol | 指定形状 | 内置了一些常用形状，如圆形 `circle` ， 矩形 `square` ， 菱形 `diamond` ，三角形 `triangle` ， 倒三角形 `triangle-down` ，也可以是自定义的 path 路径。 |
 
 
-<a name="mtgWY"></a>
-## 用法
+### 用法
 ```javascript
 group.addShape('marker', {
   attrs: {
@@ -191,18 +166,14 @@ group.addShape('marker', {
 });
 ```
 
-<a name="AECxZ"></a>
-<br/>
-# 多边形图形 Polygon
-<a name="t8zCn"></a>
-## 属性
+## 多边形图形 Polygon
+### 属性
 | 属性名 | 含义 | 备注 |
 | --- | --- | --- |
 | points | 多边形的所有端点坐标 | 数组形式 |
 
 
-<a name="at6GJ"></a>
-## 用法
+### 用法
 ```javascript
 group.addShape('polygon', {
   attrs: {
@@ -212,11 +183,8 @@ group.addShape('polygon', {
 });
 ```
 
-<a name="3ZvJX"></a>
-<br/>
-# 矩形图形 Rect
-<a name="TMkjH"></a>
-## 属性
+## 矩形图形 Rect
+### 属性
 | 属性名 | 含义 | 备注 |
 | --- | --- | --- |
 | x | 矩形左上角的 x 坐标 |  |
@@ -226,8 +194,7 @@ group.addShape('polygon', {
 | radius | 定义圆角 | 支持整数或数组形式， 分别对应左上、右上、右下、左下角的半径：<br />- radius 缩写为 1 或 [ 1 ] 相当于 [ 1, 1, 1, 1 ]<br />- radius 缩写为 [ 1, 2 ] 相当于 [ 1, 2, 1, 2 ]<br />- radius 缩写为 [ 1, 2, 3 ] 相当于 [ 1, 2, 3, 2 ]<br /> |
 
  
-<a name="wd3km"></a>
-## 用法
+### 用法
 ```javascript
 group.addShape('rect', {
   attrs: {
@@ -241,13 +208,10 @@ group.addShape('rect', {
 });
 ```
 
-<a name="zpxpV"></a>
-<br/>
-# 路径 Path
+## 路径 Path
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;注意：</span>
 边太细时候点击不中，请设置 `lineAppendWidth` 属性值。
-<a name="rqoTX"></a>
-## 属性
+### 属性
 | 属性名 | 含义 | 备注 |
 | --- | --- | --- |
 | path |  线条路径 | 可以是 String 形式，也可以是线段的数组。 |
@@ -261,8 +225,7 @@ group.addShape('rect', {
 | lineDash | 设置线的虚线样式，可以指定一个数组 | 一组描述交替绘制线段和间距（坐标空间单位）长度的数字。 如果数组元素的数量是奇数， 数组的元素会被复制并重复。例如， [5, 15, 25] 会变成 [5, 15, 25, 5, 15, 25]。 |
 
 
-<a name="ovB67"></a>
-## 用法
+### 用法
 ```javascript
 group.addShape('path', {
   attrs: {
