@@ -1,6 +1,6 @@
 ---
 title: 内置的边
-order: 3
+order: 1
 ---
 
 G6 提供了 9 种内置边：
@@ -281,4 +281,4 @@ graph.render();
 
 ## 相关阅读
 
-- [边的状态样式](https://www.yuque.com/antv/g6/fqnn9w) —— 交互过程中的样式变化。
+- [状态 State](../../states/state) —— 交互过程中的样式变化。

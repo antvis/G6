@@ -236,7 +236,7 @@ const graph = new G6.TreeGraph({
     },
     // 定义布局
     layout: {
-      type: 'dendrogram'，	// 布局类型
+      type: 'dendrogram',	// 布局类型
       direction: 'LR',    // 自左至右布局，可选的有 H / V / LR / RL / TB / BT
         nodeSep: 50,			// 节点之间间距
         rankSep: 100			// 每个层级之间的间距
