@@ -224,7 +224,7 @@ declare namespace G6 {
     changeVisibility(visible: boolean): void;
   
     /**
-     * 是否拾取及出发该元素的交互事件
+     * 是否捕获及触发该元素的交互事件
      * @param {Boolean} enable 标识位
      */
     enableCapture(enable: boolean): void;
