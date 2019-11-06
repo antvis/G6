@@ -26,9 +26,8 @@ G6 除了提供丰富的 [内置交互行为 Behavior](https://www.yuque.com/ant
 
 我们可以看到在图上的交互是繁杂多变的。各种冲突、各种配置项会让用户和开发者疲于应对。出于这些考虑， G6 提供了一套非常简单而灵活的机制来实现交互。
 
-<a name="J98hx"></a>
-<br />
-# Behavior 的生命周期
+
+## Behavior 的生命周期
 为实现交互，首先需要了解交互的生命周期。交互起源于用户在系统上的所有事件，是否允许交互发生同事件密切相关。所以我们看到交互的生命周期，即操作事件的过程如下：
 
 - 绑定事件；
@@ -37,9 +36,8 @@ G6 除了提供丰富的 [内置交互行为 Behavior](https://www.yuque.com/ant
 - 结束事件；
 - 移除事件。
 
-<a name="uacgt"></a>
-<br />
-# 自定义交互 registerBehavior
+
+## 自定义交互 registerBehavior
 通过 `G6.registerBehavior` 自定义 Behavior。下面代码实现了名为 `'activate-node' `的交互行为，在终端用户点击节点时，置该节点的 `active` 状态为 `true`；再次点击或点击画布时，置该节点的 `active` 状态为 `false`。
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;注意：</span>
@@ -88,9 +86,8 @@ G6.registerBehavior('activate-node', {
 });
 ```
 
-<a name="UZyOm"></a>
-<br />
-# 使用自定义的 Behavior
+
+## 使用自定义的 Behavior
 有了上面代码定义的名为 `'activate-node'` 的 Behavior 以后，在实例化 Graph 时，在 `modes` 中将其配置到默认或其他[行为模式](https://www.yuque.com/antv/g6/g6-mode)中。下面代码将其配置到了默认行为模式中，在默认模式下，该行为将会生效。
 ```javascript
 const graph = new G6.Graph({

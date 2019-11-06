@@ -9,14 +9,10 @@ CustomGroup 为节点分组，支持 Circle 和 Rect 两种类型。用户可通
 
 当需要通过手动创建分组时候，可以参考下面的文档。
 
-<a name="MyoG2"></a>
-# CustomGroup 实例化
-<br />
+## CustomGroup 实例化
 CustomGroup 实例会在实例化 Graph 的过程中自动创建，不需要用户手动实例化。
 
-<a name="zndgJ"></a>
-# 配置项
-<br />
+## 配置项
 在实例化 Graph 的时候，通过配置 `groupType` 和 `groupStyle` 来指定分组的类型及样式。
 ```javascript
 const graph = new G6.Graph({
@@ -32,30 +28,30 @@ const graph = new G6.Graph({
 })
 ```
 
-<a name="zR1CD"></a>
-## groupType
+### groupType
 groupType 属性用于指定分组的类型，默认为 `circle`，支持 `circle` 和 `rect`两种。
 
-**groupType 指定为 **`**circle**`** 时**的效果如下。<br />![group2.gif](https://cdn.nlark.com/yuque/0/2019/gif/244306/1568080532182-5b70448c-ee95-4fdc-81ca-ffac68535c72.gif#align=left&display=inline&height=533&name=group2.gif&originHeight=533&originWidth=763&search=&size=261828&status=done&width=763)<br />**groupType 指定为 **`**rect**`** 时**的效果如下图。<br />![3.gif](https://cdn.nlark.com/yuque/0/2019/gif/244306/1568080506714-79dc8f77-1423-4065-9212-918add95d3df.gif#align=left&display=inline&height=415&name=3.gif&originHeight=415&originWidth=514&search=&size=84184&status=done&width=514)
+**groupType 指定为 `circle` 时**的效果如下。<br />
 
-<a name="f283J"></a>
-## groupStyle
+<img src='https://cdn.nlark.com/yuque/0/2019/gif/244306/1568080532182-5b70448c-ee95-4fdc-81ca-ffac68535c72.gif#align=left&display=inline&height=533&name=group2.gif&originHeight=533&originWidth=763&search=&size=261828&status=done&width=763' alt='download' width='600'/>
+
+<br />**groupType 指定为 `rect` 时**的效果如下图。<br />
+<img src='https://cdn.nlark.com/yuque/0/2019/gif/244306/1568080506714-79dc8f77-1423-4065-9212-918add95d3df.gif#align=left&display=inline&height=415&name=3.gif&originHeight=415&originWidth=514&search=&size=84184&status=done&width=514' alt='download' width='600'/>
+
+### groupStyle
 `groupStyle` 用于指定分组在默认（default）、交互过程中（hover）及收起（collapse）状态下的样式。
 
-<a name="237ES"></a>
-### 通用属性
+#### 通用属性
 default、hover 和 collapse 支持的所有通用的属性参考[这里](https://www.yuque.com/antv/g6/ffzwfp)。除过这些通用的属性，default 和 collapse 分别还支持以下特有属性。
 
-<a name="xVWVY"></a>
-### default
+#### default
 | 属性名称 | 含义 | 类型 | 备注 |
 | --- | --- | --- | --- |
 | minDis | 距离右上角最小距离 | number | 不存在嵌套分组时使用该值 |
 | maxDis | 距离右上角最大距离 | number | 存在嵌套分组时使用该值 |
 
 
-<a name="N5L5T"></a>
-### collapse
+#### collapse
 | 属性名称 | 含义 | 类型 | 备注 |
 | --- | --- | --- | --- |
 | r | 分组的半径 | number | 当 groupType 为 circle 时有效 |
@@ -63,9 +59,7 @@ default、hover 和 collapse 支持的所有通用的属性参考[这里](https:
 | height | 分组高度 | number | 当 groupType 为 rect 时有效 |
 
 
-<a name="h8q8H"></a>
-<br />
-# add / addItem
+## add / addItem
 用于生成分组。
 
 | 参数 | 含义 | 类型 | 备注 |
@@ -93,10 +87,7 @@ graph.addItem('group', {
   }
 })
 ```
-
-<a name="odCHQ"></a>
-<br />
-# collapseGroup
+## collapseGroup
 收起分组，收起分组后，隐藏分组中的所有节点和边，分组外部与分组内节点有连线的则临时连接到分组上面。
 
 | 参数 | 含义 | 类型 | 备注 |
@@ -108,9 +99,7 @@ graph.addItem('group', {
 graph.collapseGroup('groupId')
 ```
 
-<a name="keQCe"></a>
-<br />
-# expandGroup
+## expandGroup
 展开分组，显示分组中的所有节点和边，恢复收起前的连接情况。
 
 | 参数 | 含义 | 类型 | 备注 |
