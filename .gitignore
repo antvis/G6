@@ -70,3 +70,5 @@ lib
 
 *.sw*
 *.un~
+.cache
+public
