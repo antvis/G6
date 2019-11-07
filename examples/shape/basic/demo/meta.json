@@ -1,0 +1,18 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+    "filename": "rect.js",
+    "title": "基础折线图",
+    "screenshot": "https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*aKqJT4RCVOcAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "circle.js",
+      "title": "圆形",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*aKqJT4RCVOcAAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}

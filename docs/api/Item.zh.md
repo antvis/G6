@@ -1,6 +1,6 @@
 ---
 title: Item
-order: 1
+order: 3
 ---
 
 Item是G6中绘图元素实例，目前包含节点和边的实例。对于实例的变更建议在graph上进行。

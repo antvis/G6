@@ -1,5 +1,5 @@
 ---
-title: GlobalAPI
+title: G6
 order: 0
 ---
 

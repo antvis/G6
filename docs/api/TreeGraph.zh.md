@@ -1,6 +1,6 @@
 ---
 title: TreeGraph
-order: 1
+order: 2
 ---
 
 TreeGraph是G6专门为树图场景打造的图。TreeGraph继承自Graph。`G6.TreeGraph`与`G6.Graph`最大的区别就是数据结构和内置布局计算。主要出于以下考虑：
