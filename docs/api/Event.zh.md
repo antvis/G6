@@ -1,6 +1,6 @@
 ---
 title: Event
-order: 1
+order: 6
 ---
 
 通用事件、Node事件、Edge事件及Canvas事件回调的参数请参考[Behavior文档](./Behavior)。

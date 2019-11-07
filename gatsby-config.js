@@ -106,16 +106,9 @@ module.exports = {
         title: {
           zh: '节点和边',
           en: 'Node & Edge'
-        }
+        },
+        order: 4
       }
-      // {
-      //   slug: 'manual/advanced/nodeEdge',
-      //   title: {
-      //     zh: '节点与边',
-      //     en: 'Tutorial'
-      //   },
-      //   order: 2
-      // }
     ],
     examples: [
       {

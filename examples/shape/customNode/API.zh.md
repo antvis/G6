@@ -6,5 +6,3 @@ redirect_from:
 ---
 
 API 信息。
-
-### API

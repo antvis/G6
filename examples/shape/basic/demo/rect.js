@@ -1,4 +1,4 @@
-import G6 from '../../../../src';
+import G6 from '@antv/g6';
 
 G6.registerNode('selfCircle', {
   drawShape(cfg, group) {

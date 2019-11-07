@@ -9,7 +9,7 @@ Graph 的生命周期为：初始化—>加载数据—>渲染—>更新—>销�
 
 ## 初始化
 ### G6.Graph
-#### 参数
+**参数**
 | 名称 | 类型 | 默认值 | 描述 |
 | --- | --- | --- | --- |
 | container | String|HTMLElement  | 图的 DOM 容器，可以传入该 DOM 的 id 或者直接传入容器的 HTML 节点对象 |
@@ -39,9 +39,9 @@ Graph 的生命周期为：初始化—>加载数据—>渲染—>更新—>销�
 | layout | Object |  | 布局配置项，使用 type 字段指定使用的布局方式，type可取以下值：random, radial, mds, circular, fruchterman, force, dagre，各布局详细的配置请参考 [Layout API文档](https://www.yuque.com/antv/g6/agbmu2) |
 
 
-重点说明 G6 3.1 版本中实例化 Graph 时，新增了 `nodeStateStyles`及 `edgeStateStyles`两个配置项，删除了 `nodeStyle` 和 `edgeStyle` ，使用 3.1 以下版本的同学，只需要将 `nodeStyle` 改成 `nodeStateStyles` ，将 edgeStyle 改成 `edgeStateStyles` ，配置内容保持不变。
+**重点说明**: G6 3.1 版本中实例化 Graph 时，新增了 `nodeStateStyles`及 `edgeStateStyles`两个配置项，删除了 `nodeStyle` 和 `edgeStyle` ，使用 3.1 以下版本的同学，只需要将 `nodeStyle` 改成 `nodeStateStyles` ，将 edgeStyle 改成 `edgeStateStyles` ，配置内容保持不变。
 
-#### 用法
+**用法**
 Graph 的初始化通过 new 进行实例化，实例化时需要传入需要的参数。
 ```javascript
 const graph = new G6.Graph({
@@ -64,12 +64,12 @@ const graph = new G6.Graph({
 ### data(data)
 设置图初始化数据。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | data | Object | true | 初始化的图数据，是一个包括 nodes 和 edges 的对象 |
 
-#### 用法
+**用法**
 ```javascript
 const data = {
 	nodes: [
@@ -98,7 +98,7 @@ graph.data(data)
 ### render()
 根据提供的数据渲染视图。
 
-#### 用法
+**用法**
 ```javascript
 graph.render()
 ```
@@ -106,14 +106,13 @@ graph.render()
 ### renderCustomGroup(data, groupType)
 根据提供的数据渲染组群。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | data | Object | true | 渲染图的数据 |
 | groupType | string | true | group类型，支持circle、rect |
 
-#### 
-#### 用法
+**用法**
 ```javascript
 const data = {
   nodes: [
@@ -154,12 +153,12 @@ graph.renderCustomGroup(data, "circle");
 ### read(data)
 接收数据，并进行渲染，read 方法的功能相当于 data 和 render 方法的结合。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | data | Object | true | 初始化的图数据，是一个包括 nodes 和 edges 的对象 |
 
-#### 用法
+**用法**
 ```javascript
 const data = {
 	nodes: [
@@ -187,13 +186,13 @@ graph.read(data)
 ### changeData(data)
 更新数据源，根据新的数据重新渲染视图。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | data | Object | true | 初始化的图数据，是一个包括 nodes 和 edges 的对象 |
 
 
-#### 用法
+**用法**
 ```javascript
 const data = {
 	nodes: [
@@ -218,17 +217,16 @@ const data = {
 graph.changeData(data)
 ```
 
-### new节点分组
 ### collapseGroup(groupId)
 收起分组，收起分组后，隐藏分组中的所有节点和边，分组外部与分组内节点有连线的则临时连接到分组上面。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | groupId | String | true | 分组ID |
 
 
-#### 用法
+**用法**
 ```javascript
 graph.collapseGroup('groupId')
 ```
@@ -236,13 +234,13 @@ graph.collapseGroup('groupId')
 ### expandGroup(groupId)
 展开分组，显示分组中的所有节点和边，恢复收起前的连接情况。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | groupId | String | true | 分组ID |
 
 
-#### 用法
+**用法**
 ```javascript
 graph.expandGroup('groupId')
 ```
@@ -251,13 +249,13 @@ graph.expandGroup('groupId')
 ### addItem(type, model)
 新增元素。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | type | String | true | 元素类型，可选值为 node、edge 和group |
 | model | Object | true | 元素的数据模型，type = group 时，参看[这里](https://www.yuque.com/antv/g6/taixri#h8q8H) |
 
-#### 用法
+**用法**
 ```javascript
 const model = {
 	id: 'node',
@@ -292,14 +290,14 @@ graph.addItem('group', model)
 ### updateItem(item, model)
 更新元素，包括更新数据、样式等。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | item | String | Object | true | 元素 ID 或元素实例 |
 | cfg | Object | false | 需要更新的数据模型 |
 
 
-#### 用法
+**用法**
 ```javascript
 const model = {
 	id: 'node',
@@ -323,12 +321,12 @@ graph.updateItem(item, model)
 ### removeItem(item)
 new删除元素，当 item 为 group ID 时候，则删除分组。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | item | String | Object | true | 元素ID或元素实例 |
 
-#### 用法
+**用法**
 ```javascript
 // 通过ID查询节点实例
 const item = graph.findById('node')
@@ -343,7 +341,7 @@ graph.removeItem(item)
 
 该方法无参数。
 
-#### 用法
+**用法**
 ```javascript
 graph.refresh()
 ```
@@ -351,13 +349,13 @@ graph.refresh()
 ### refreshItem(item)
 刷新指定元素。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | item | String | Object | true | 元素ID或元素实例 |
 
 
-#### 用法
+**用法**
 ```javascript
 // 通过ID查询节点实例
 const item = graph.findById('node')
@@ -369,7 +367,7 @@ graph.refreshItem(item)
 
 该方法无参数。
 
-#### 用法
+**用法**
 ```javascript
 graph.refreshPositions()
 ```
@@ -380,7 +378,7 @@ graph.refreshPositions()
 
 该方法无参数。
 
-#### 用法
+**用法**
 ```javascript
 const item = e.item;
 const graph = this.graph;
@@ -397,13 +395,13 @@ graph.setAutoPaint(autoPaint);
 ### setAutoPaint(auto)
 设置是否在更新/删除后自动重绘，一般搭配 `paint()` 方法使用。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | auto | Boolean | true | 是否自动重绘 |
 
 
-#### 用法
+**用法**
 ```javascript
 const item = e.item;
 const graph = this.graph;
@@ -417,13 +415,14 @@ graph.paint();
 graph.setAutoPaint(autoPaint);
 ```
 
-## new布局
+## 布局
+
 G6 3.1 内置了丰富的布局。关于如何使用 G6 中内置的布局，请参考 [Layout API文档](https://www.yuque.com/antv/g6/agbmu2)。
 
-### newlayout()
+### layout()
 重新以当前配置的属性进行一次布局。
 
-#### 用法
+**用法**
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -469,19 +468,19 @@ graph.on('node:dragend', e => {
 });
 ```
 
-### newupdateLayout(cfg)
+### updateLayout(cfg)
 更新布局配置项。
 
 1. 如果参数 `cfg` 中含有 `type` 字段，`type` 字段类型为 String，且与现有布局方法不同，则更换布局；
 1. 如果参数 `cfg` 中不包含 `type` 字段，则保持原有布局，仅更新布局配置项。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | cfg | Object | true | 新布局配置项 |
 
 
-#### 用法
+**用法**
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -515,7 +514,7 @@ graph.updateLayout({
 
 该方法无参数。
 
-#### 用法
+**用法**
 ```javascript
 graph.clear()
 ```
@@ -525,7 +524,7 @@ graph.clear()
 
 该方法无参数。
 
-#### 用法
+**用法**
 ```javascript
 graph.destroy()
 ```
@@ -534,13 +533,13 @@ graph.destroy()
 ### showItem(item)
 显示指定的元素。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | item | String | Object | true | 元素ID或元素实例 |
 
 
-#### 用法
+**用法**
 ```javascript
 // 通过ID查询节点实例
 const item = graph.findById('nodeId')
@@ -553,13 +552,13 @@ graph.showItem('nodeId')
 ### hideItem(item)
 隐藏指定元素。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | item | String | Object | true | 元素ID或元素实例 |
 
 
-#### 用法
+**用法**
 ```javascript
 // 通过ID查询节点实例
 const item = graph.findById('nodeId')
@@ -574,14 +573,14 @@ graph.hideItem('nodeId')
 
 该方法在执行过程中会触发`beforitemstatechange`，`afteritemstatechange`事件。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | item | String | Object | true | 元素 ID 或元素实例 |
 | state | String | true | 状态值，支持自定义，如 selected、hover、actived等。 |
 | enabled | Boolean | true | 是否启用状态 |
 
-#### 用法
+**用法**
 ```javascript
 graph.setItemState('node1', 'selected', true);
 ```
@@ -589,14 +588,14 @@ graph.setItemState('node1', 'selected', true);
 ### clearItemStates(item, states)
 清除元素状态，可以一次性清除多个状态。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | item | String | Object | true | 元素 ID 或元素实例 |
 | states | String | Array | null  | false | 取值可以是单个状态值，也可以是状态值数组或 null，当为 null 时，清除该元素的**第一个**状态。 |
 
 
-#### 用法
+**用法**
 ```javascript
 // 清除单个状态
 graph.clearItemStates(node, 'a');
@@ -613,12 +612,12 @@ graph.clearItemStates(node);
 
 提示：该方法必须**在 render 之前调用**，否则不起作用。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | nodeFn | Function | true | 指定每个节点样式 |
 
-#### 用法
+**用法**
 ```javascript
 graph.node((node) => {
   return {
@@ -639,12 +638,12 @@ graph.render()
 
 提示：该方法必须**在 render 之前调用**，否则不起作用。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | edgeFn | Function | true | 指定每条边的样式 |
 
-#### 用法
+**用法**
 ```javascript
 graph.edge((edge) => {
   return {
@@ -664,14 +663,14 @@ graph.render()
 ### addBehaviors(behaviors, modes)
 新增行为，将单个或多个行为添加到单个或多个模式中。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | behaviors | String | Array | true | 添加的行为的名称 |
 | modes | String | Array | true | 模式的名称 |
 
 
-#### 用法
+**用法**
 ```javascript
 // 将单个Behavior添加到单个模式（默认的default模式）中
 graph.addBehaviors('click-select', 'default');
@@ -689,14 +688,14 @@ graph.addBehaviors([ 'brush-select', 'click-select' ], ['default', 'select']);
 ### removeBehaviors(behaviors, modes)
 移除行为，将单个或多个行为从单个或多个模式中去除。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | behaviors | String | Array | true | 删除的行为的名称 |
 | modes | String | Array | true | 模式的名称 |
 
 
-#### 用法
+**用法**
 ```javascript
 // 从单个模式中移除单个Behavior
 graph.removeBehaviors('click-select', 'default');
@@ -714,12 +713,12 @@ graph.removeBehaviors([ 'brush-select', 'click-select' ], ['default', 'select'])
 ### setMode(mode)
 切换图行为模式。主要用于不同模式下的行为切换，如从编辑模式下切换到只读模式。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | mode | String | true | 模式的名称 |
 
-#### 用法
+**用法**
 ```javascript
 const graph = new G6.Graph({
     container: div,
@@ -740,12 +739,12 @@ graph.setMode('custom')
 
 该方法无参数。
 
-#### 返回值
+**返回值**
 
 - 返回值类型：string；
 - 返回值表示当前的行为模式。
 
-#### 用法
+**用法**
 ```javascript
 // 返回值mode表示当前的行为模式
 const mode = graph.getCurrentMode()
@@ -756,12 +755,12 @@ const mode = graph.getCurrentMode()
 
 该方法无参数。
 
-#### 返回值
+**返回值**
 
 - 返回值类型：number；
 - 返回值表示当前视口的缩放比例， 默认值为 1。
 
-#### 用法
+**用法**
 ```javascript
 // 返回值zoom表示当前视口的缩放比例
 const zoom = graph.getZoom()
@@ -770,13 +769,13 @@ const zoom = graph.getZoom()
 ### zoom(ratio, center)
 改变视口的缩放比例，在当前画布比例下缩放，是相对比例。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | ratio | Number | true | 缩放比例 |
 | center | Object | false | 以 center 的 x、y 坐标为中心缩放，如果省略了 center 参数，则以元素当前位置为中心缩放 |
 
-#### 用法
+**用法**
 ```javascript
 // 以(100, 100)为中心点，放大3倍
 graph.zoom(3, { x: 100, y: 100 });
@@ -788,14 +787,14 @@ graph.zoom(0.5)
 ### zoomTo(toRatio, center)
 缩放视窗窗口到一个固定比例。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | toRatio | Number | true | 固定比例值 |
 | center | Object | false | 以 center 的 x、y 坐标为中心缩放，如果省略了 center 参数，则以元素当前位置为中心缩放 |
 
 
-#### 用法
+**用法**
 ```javascript
 // 以(100, 100)为中心点，放大3倍
 graph.zoomTo(3, { x: 100, y: 100 });
@@ -807,13 +806,13 @@ graph.zoomTo(0.5)
 ### focusItem(item)
 将元素移动到视口中心，该方法可用于做搜索后的缓动动画。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | item | String | Object | true | 元素 ID 或元素实例 |
 
 
-#### 用法
+**用法**
 ```javascript
 graph.focusItem(item)
 ```
@@ -821,14 +820,14 @@ graph.focusItem(item)
 ### changeSize(width, height)
 改变画布大小。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | width | Number | true | 画布宽度 |
 | height | Number | true | 画布高度 |
 
 
-#### 用法
+**用法**
 ```javascript
 graph.changeSize(600, 350)
 ```
@@ -836,14 +835,14 @@ graph.changeSize(600, 350)
 ### translate(dx, dy)
 采用**相对位移**来平移画布。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | dx | Number | true | 水平方向位移 |
 | dy | Number | true | 垂直方向位移 |
 
 
-#### 用法
+**用法**
 ```javascript
 graph.translate(100, 100);
 ```
@@ -851,14 +850,14 @@ graph.translate(100, 100);
 ### moveTo(x, y)
 采用**绝对位移**将画布移动到指定坐标。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | x | Number | true | 水平方向坐标 |
 | y | Number | true | 垂直方向坐标 |
 
 
-#### 用法
+**用法**
 ```javascript
 graph.moveTo(200, 300)
 ```
@@ -866,13 +865,13 @@ graph.moveTo(200, 300)
 ### fitView(padding)
 让画布内容适应视口。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | padding | Number | Array | false | [top, right, bottom, left] 四个方向上的间距值 |
 
 
-#### 用法
+**用法**
 ```javascript
 // padding只设置为一个值，则表示top = right = bottom = left = 20
 graph.fitView(20)
@@ -891,19 +890,19 @@ graph.fitView([20, 10, 20, 15])
 ### find(type, fn)
 根据具体规则查找单个元素。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | type | String | true | 元素类型，可选值为 node、edge |
 | fn | Function | true | 查找的规则 |
 
 
-#### 返回值
+**返回值**
 
 - 返回值类型：Object；
 - 如果有符合规则的元素实例，则返回第一个匹配的元素实例，否则返回 `undefined` 。
 
-#### 用法
+**用法**
 ```javascript
 const findNode = graph.find('node', node => {
   return node.get('model').x === 100;
@@ -913,18 +912,18 @@ const findNode = graph.find('node', node => {
 ### findById(id)
 根据 ID，查询对应的元素实例。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | id | String | true | 元素 ID |
 
 
-#### 返回值
+**返回值**
 
 - 返回值类型：Object；
 - 如果有符合规则的元素实例，则返回该元素实例，否则返回 `undefined`。
 
-#### 用法
+**用法**
 ```javascript
 const node = graph.findById('node')
 ```
@@ -932,19 +931,19 @@ const node = graph.findById('node')
 ### findAll(type, fn)
 查询所有满足规则的元素。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | type | String | true | 元素类型，可选值为 node、edge |
 | fn | Function | true | 查找的规则 |
 
 
-#### 返回值
+**返回值**
 
 - 返回值类型：Array；
 - 如果有符合规则的元素实例，则返回所有元素实例，否则返回 `undefined`。
 
-#### 用法
+**用法**
 ```javascript
 const nodes = graph.findAll('node', node => {
   return node.get('model').x;
@@ -954,19 +953,19 @@ const nodes = graph.findAll('node', node => {
 ### findAllByState(type, state)
 查找所有处于指定状态的元素。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | type | String | true | 元素类型，可选值为 node、edge |
 | state | String | true | 状态 |
 
 
-#### 返回值
+**返回值**
 
 - 返回值类型：Array；
 - 返回所有指定状态的元素实例。
 
-#### 用法
+**用法**
 ```javascript
 // 查询所有选中的元素
 const nodes = graph.findAllByState('node', 'selected');
@@ -978,7 +977,7 @@ const nodes = graph.findAllByState('node', 'selected');
 
 该方法无参数。
 
-#### 返回值
+**返回值**
 
 - 返回值类型：Object；
 - 返回值包括所有节点和边，数据结构如下下所示：
@@ -990,7 +989,7 @@ const nodes = graph.findAllByState('node', 'selected');
 }
 ```
 
-#### 用法
+**用法**
 ```javascript
 graph.save()
 ```
@@ -1000,12 +999,12 @@ graph.save()
 
 注意：这里返回的是节点的实例，而不是节点的数据项。
 
-#### 返回值
+**返回值**
 
 - 返回值类型：Array；
 - 返回值表示图中所有节点的实例。
 
-#### 用法
+**用法**
 ```javascript
 const nodes = graph.getNodes()
 ```
@@ -1015,12 +1014,12 @@ const nodes = graph.getNodes()
 
 注意：这里返回的是边的实例，而不是边的数据项。
 
-#### 返回值
+**返回值**
 
 - 返回值类型：Array；
 - 返回值表示图中所有边的实例。
 
-#### 用法
+**用法**
 ```javascript
 const edges = graph.getEdges()
 ```
@@ -1030,19 +1029,19 @@ const edges = graph.getEdges()
 ### getPointByClient(clientX, clientY)
 将屏幕/页面坐标转换为视口坐标。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | clientX | Number | true | 屏幕 x 坐标 |
 | clientY | Number | true | 屏幕 y 坐标 |
 
 
-#### 返回值
+**返回值**
 
 - 返回值类型：Object；
 - 包含的属性：x 和 y 属性，分别表示视口的 x 、y 坐标。
 
-#### 用法
+**用法**
 ```javascript
 const point = graph.getPointByClient(e.clientX, e.clientY);
 console.log('视口x/y坐标分别为:', point.x, point.y)
@@ -1051,19 +1050,19 @@ console.log('视口x/y坐标分别为:', point.x, point.y)
 ### getClientByPoint(x, y)
 将视口坐标转换为屏幕/页面坐标。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | x | Number | true | 视口 x 坐标 |
 | y | Number | true | 视口 y 坐标 |
 
 
-#### 返回值
+**返回值**
 
 - 返回值类型：Object；
 - 包含的属性：x 和 y 属性，分别表示屏幕/页面的 x、y 坐标。
 
-#### 用法
+**用法**
 ```javascript
 const point = graph.getClientByPoint(100, 200);
 console.log('屏幕/页面x/y坐标分别为:', point.x, point.y)
@@ -1072,19 +1071,19 @@ console.log('屏幕/页面x/y坐标分别为:', point.x, point.y)
 ### getPointByCanvas(canvasX, canvasY)
 将 Canvas 画布坐标转换为视口坐标。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | canvasX | Number | true | 画布x坐标 |
 | canvasY | Number | true | 画布y坐标 |
 
 
-#### 返回值
+**返回值**
 
 - 返回值类型：Object；
 - 包含的属性：x 和 y 属性，分别表示视口的 x、y 坐标。
 
-#### 用法
+**用法**
 ```javascript
 const point = graph.getPointByCanvas(100, 200);
 console.log('视口x/y坐标分别为:', point.x, point.y)
@@ -1093,19 +1092,19 @@ console.log('视口x/y坐标分别为:', point.x, point.y)
 ### getCanvasByPoint(x, y)
 将视口坐标转换为 Canvas 画布坐标。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | x | Number | true | 视口 x 坐标 |
 | y | Number | true | 视口 y 坐标 |
 
 
-#### 返回值
+**返回值**
 
 - 返回值类型：Object；
 - 包含的属性：x 和 y 属性，分别表示 Canvas 画布的 x、y 坐标。
 
-#### 用法
+**用法**
 ```javascript
 const point = graph.getCanvasByPoint(100, 200);
 console.log('Canvas画布的x/y坐标分别为:', point.x, point.y)
@@ -1118,7 +1117,7 @@ console.log('Canvas画布的x/y坐标分别为:', point.x, point.y)
 ### stopAnimate()
 停止画布上的所有动画。
 
-#### 用法
+**用法**
 ```javascript
 graph.stopAnimate()
 ```
@@ -1130,13 +1129,13 @@ graph.stopAnimate()
 ### addPlugin(plugin)
 添加指定的插件。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | plugin | Object | true | 插件实例 |
 
 
-#### 用法
+**用法**
 ```javascript
 import miniMap from '@antv/g6/build/minimap'
 graph.Plugin(miniMap)
@@ -1145,13 +1144,13 @@ graph.Plugin(miniMap)
 ### removePlugin(plugin)
 移除指定的插件。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | plugin | Object | true | 插件实例 |
 
 
-#### 用法
+**用法**
 ```javascript
 import miniMap from '@antv/g6/build/minimap'
 graph.removePlugin(miniMap)
@@ -1160,13 +1159,13 @@ graph.removePlugin(miniMap)
 ### get(key)
 根据key获取属性值。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | key | String | true | 属性的键 |
 
 
-#### 用法
+**用法**
 ```javascript
 // 获取group
 const group = graph.get('group')
@@ -1181,14 +1180,14 @@ const autoPaint = graph.get('autoPaint')
 ### set(key, val)
 设置属性值。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | key | String | true | 属性的键 |
 | val | String | Object | Array | true | 属性的值 |
 
 
-#### 用法
+**用法**
 ```javascript
 // 设置capture值为false
 graph.set('capture', false)
@@ -1203,12 +1202,12 @@ graph.set('nodeIdList', [1, 3, 5])
 ### downloadImage(name)
 将画布上的元素导出为图片。
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | name | String | true | 图片的名称 |
 
-#### 用法
+**用法**
 ```javascript
 graph.downloadImage()
 ```
@@ -1216,12 +1215,12 @@ graph.downloadImage()
 ### toDataURL()
 将画布上元素生成为图片的 URL。
 
-#### 返回值
+**返回值**
 
 - 返回值类型：String；
 - 返回值表示生成的图片的 URL。
 
-#### 用法
+**用法**
 ```javascript
 const dataURL = graph.toDataURL()
 ```

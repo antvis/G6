@@ -1,6 +1,6 @@
 ---
 title: Shape
-order: 1
+order: 7
 ---
 
 Shape API都是在自定义节点（registerNode）或自定义边（registerEdge）的过程中需要部分实现或复写的方法。
