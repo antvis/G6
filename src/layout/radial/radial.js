@@ -7,6 +7,8 @@ const Layout = require('../layout');
 const Util = require('../../util');
 const RadialNonoverlapForce = require('./radialNonoverlapForce');
 const MDS = require('./mds');
+const isArray = require('@antv/util/lib/type/is-array');
+const isNumber = require('@antv/util/lib/type/is-number');
 
 function getWeightMatrix(M) {
   const rows = M.length;
@@ -46,8 +48,9 @@ Layout.registerLayout('radial', {
       unitRadius: null,           // 每一圈半径
       linkDistance: 50,           // 默认边长度
       preventOverlap: false,      // 是否防止重叠
-      nodeSize: 10,               // 节点直径
-      strictRadial: true,               // 是否必须是严格的 radial 布局，即每一层的节点严格布局在一个环上。preventOverlap 为 true 时生效。
+      nodeSize: undefined,        // 节点直径
+      nodeSpacing: undefined,     // 节点间距，防止节点重叠时节点之间的最小距离（两节点边缘最短距离）
+      strictRadial: true,              // 是否必须是严格的 radial 布局，即每一层的节点严格布局在一个环上。preventOverlap 为 true 时生效。
       maxPreventOverlapIteration: 200  // 防止重叠步骤的最大迭代次数
     };
   },
@@ -152,14 +155,53 @@ Layout.registerLayout('radial', {
     self.run();
     const preventOverlap = self.preventOverlap;
     const nodeSize = self.nodeSize;
+    let nodeSizeFunc;
     const strictRadial = self.strictRadial;
     // stagger the overlapped nodes
     if (preventOverlap) {
+      const nodeSpacing = self.nodeSpacing;
+      let nodeSpacingFunc;
+      if (isNumber(nodeSpacing)) {
+        nodeSpacingFunc = () => {
+          return nodeSpacing;
+        };
+      } else if (typeof nodeSpacing === 'function') {
+        nodeSpacingFunc = nodeSpacing;
+      } else {
+        nodeSpacingFunc = () => {
+          return 0;
+        };
+      }
+
+      if (!nodeSize) {
+        nodeSizeFunc = d => {
+          if (d.size) {
+            if (isArray(d.size)) {
+              const res = d.size[0] > d.size[1] ? d.size[0] : d.size[1];
+              return res + nodeSpacingFunc(d);
+            }
+            return d.size + nodeSpacingFunc(d);
+          }
+          return 10 + nodeSpacingFunc(d);
+        };
+      } else {
+        if (isArray(nodeSize)) {
+          nodeSizeFunc = d => {
+            const res = nodeSize[0] > nodeSize[1] ? nodeSize[0] : nodeSize[1];
+            return res + nodeSpacingFunc(d);
+          };
+        } else {
+          nodeSizeFunc = d => {
+            return nodeSize + nodeSpacingFunc(d);
+          };
+        }
+      }
       const nonoverlapForce = new RadialNonoverlapForce({
-        nodeSize, adjMatrix, positions, radii, height, width, strictRadial,
+        nodeSizeFunc, adjMatrix, positions, radii, height, width, strictRadial,
         focusID: focusIndex,
         iterations: self.maxPreventOverlapIteration || 200,
-        k: positions.length / 4.5
+        k: positions.length / 4.5,
+        nodes
       });
       positions = nonoverlapForce.layout();
     }
