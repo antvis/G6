@@ -51,7 +51,7 @@ class RadialNonoverlapForce {
      * the node size
      * @type  {number}
      */
-    this.nodeSize = params.nodeSize || 35;
+    this.nodeSizeFunc = params.nodeSizeFunc;
     /**
      * the strength of forces
      * @type  {number}
@@ -62,6 +62,11 @@ class RadialNonoverlapForce {
      * @type  {number}
      */
     this.strictRadial = params.strictRadial;
+    /**
+     * the nodes data
+     * @type  {array}
+     */
+    this.nodes = params.nodes;
   }
   layout() {
     const self = this;
@@ -84,6 +89,7 @@ class RadialNonoverlapForce {
   getRepulsion() {
     const self = this;
     const positions = self.positions;
+    const nodes = self.nodes;
     const disp = self.disp;
     const k = self.k;
     const radii = self.radii;
@@ -99,7 +105,7 @@ class RadialNonoverlapForce {
         let vecLength = Math.sqrt(vecx * vecx + vecy * vecy);
         if (vecLength === 0) vecLength = 1;
         // these two nodes overlap
-        if (vecLength < self.nodeSize) {
+        if (vecLength < (self.nodeSizeFunc(nodes[i]) / 2 + self.nodeSizeFunc(nodes[j]) / 2)) {
           const common = k * k / (vecLength);
           disp[i].x += vecx / vecLength * common;
           disp[i].y += vecy / vecLength * common;
