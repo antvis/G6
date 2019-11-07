@@ -8,6 +8,50 @@
 <div id="mountNode"></div>
 <script src="../build/g6.js"></script>
 <script>
+  G6.registerEdge('new-polyline', {
+    options: {
+      style: {
+        lineWidth: 5,
+        stroke: 'green'
+      }
+    },
+    drawLabel(cfg, group) {
+      const labelstyle = this.getLabelStyle(cfg, {}, group)
+      const { x, y } = labelstyle
+      cfg.label = 'xxx'
+      const label = group.addShape('text', {
+        attrs: {
+          x, y,
+          stroke: 'blue',
+        }
+      })
+      console.log('labelStyle', labelstyle, label)
+      return label
+    }
+  }, 'polyline')
+
+  G6.registerNode('new-circle', {
+    options: {
+      style: {
+        lineWidth: 5,
+        fill: 'green'
+      }
+    },
+    drawLabel(cfg, group) {
+      const labelstyle = this.getLabelStyle(cfg, {}, group)
+      const { x, y } = labelstyle
+      const label = group.addShape('text', {
+        attrs: {
+          x, y,
+          text: '默认',
+          stroke: 'red',
+        }
+      })
+      console.log('labelStyle', labelstyle, label)
+      return label
+    }
+  }, 'circle')
+
   const graph = new G6.Graph({
     container: 'mountNode',
     width: 800,
@@ -30,7 +74,7 @@
         label: 'node1',
         x: 100,
         y: 100,
-        // shape: 'circle'
+        shape: 'new-circle'
       },
       {
         id: 'node4',
@@ -83,34 +127,34 @@
       },
     ],
     edges: [
-      // {
-      //   source: 'node1',
-      //   target: 'node4',
-      //   shape: 'polyline',
-      //   label: 'edge1-4',
-      //   controlPoints: [
-      //     { x: 100, y: 200 },
-      //   ],
-      //   style: {
-      //     radius: 10,
-      //     offset: 20
-      //   }
-      // },
-      // {
-      //   source: 'node4',
-      //   target: 'node5',
-      //   shape: 'polyline',
-      //   label: 'edge5-7',
-      //   style: {
-      //     lineWidth: 1.5,
-      //     stroke: '#888',
-      //   }
-      // },
-      // {
-      //   source: 'node4',
-      //   target: 'node7',
-      //   shape: 'line'
-      // },
+      {
+        source: 'node1',
+        target: 'node4',
+        shape: 'new-polyline',
+        label: 'edge1-4',
+        controlPoints: [
+          { x: 100, y: 200 },
+        ],
+        style: {
+          radius: 10,
+          offset: 20
+        }
+      },
+      {
+        source: 'node4',
+        target: 'node5',
+        shape: 'new-polyline',
+        label: 'edge5-7',
+        // style: {
+        //   lineWidth: 1.5,
+        //   stroke: '#888',
+        // }
+      },
+      {
+        source: 'node4',
+        target: 'node7',
+        shape: 'line'
+      },
       {
         source: 'node4',
         target: 'node6',

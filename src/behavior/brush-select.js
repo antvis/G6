@@ -85,7 +85,7 @@ module.exports = {
     this.graph.paint();
   },
   onMouseUp(e) {
-    if (!this.brush) {
+    if (!this.brush && !this.dragging) {
       return;
     }
 
@@ -96,7 +96,8 @@ module.exports = {
     const graph = this.graph;
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
-    this.brush.hide();
+    this.brush.destroy();
+    this.brush = null;
     this._getSelectedNodes(e);
     this.dragging = false;
     this.graph.paint();
@@ -201,7 +202,9 @@ module.exports = {
   },
   onKeyUp() {
     if (this.brush) {
-      this.brush.hide();
+      // 清除所有选中状态后，设置拖得动状态为false，并清除框选的brush
+      this.brush.destroy();
+      this.brush = null;
       this.dragging = false;
     }
     this.keydown = false;
