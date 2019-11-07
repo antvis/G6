@@ -1,4 +1,4 @@
-export namespace G {
+export declare namespace G {
   export type ShapeType =
     | 'arc'
     | 'circle'
@@ -23,6 +23,10 @@ export namespace G {
     minY: number;
     maxX: number;
     maxY: number;
+    centerX: number;
+    centerY: number;
+    width: number;
+    height: number;
   }
   export interface Group extends Element {
     new (cfg: Cfg): Group;
@@ -73,6 +77,8 @@ export namespace G {
     sort(): this;
 
     findById(): Item;
+
+    findByClassName(className: string): Item;
 
     /**
      * 根据查找函数查找分组或者图形
