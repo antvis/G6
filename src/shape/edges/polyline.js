@@ -47,12 +47,15 @@ Shape.registerEdge('polyline', {
     return keyShape;
   },
   getShapeStyle(cfg) {
-    const color = cfg.color || Global.defaultEdge.color;
-    const size = cfg.size || Global.defaultEdge.size;
     const customOptions = this.getCustomConfig(cfg) || {};
     const { style: defaultStyle } = this.options;
     const { style: customStyle } = customOptions;
-    const style = Util.deepMix({}, defaultStyle, customStyle, cfg.style);
+
+    const strokeStyle = {
+      stroke: cfg.color
+    };
+
+    const style = Util.deepMix({}, defaultStyle, customStyle, strokeStyle, cfg.style);
     cfg = this.getPathPoints(cfg);
     this.radius = style.radius;
     this.offset = style.offset;
@@ -74,9 +77,8 @@ Shape.registerEdge('polyline', {
     }
     const path = this.getPath(points, routeCfg);
     const attrs = Util.deepMix({}, Global.defaultEdge.style, style, {
-      stroke: color,
-      lineWidth: size
-    }, cfg.style, { path });
+      lineWidth: cfg.size
+    }, { path });
     return attrs;
   },
   getPath(points, routeCfg) {
