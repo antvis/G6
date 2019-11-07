@@ -6,6 +6,7 @@
 </head>
 <body>
 <div id="mountNode"></div>
+<button id='createGroup'>手动创建 Group</button>
 <script src="../build/g6.js"></script>
 <script>
   /** 
@@ -46,7 +47,6 @@
     container: 'mountNode',
     width: 800,
     height: 600,
-    fitView: true,
     defaultNode: {
        shape: 'rectNode',
        labelCfg: {
@@ -91,7 +91,6 @@
         {
           id: 'node3',
           label: 'node3-group2',
-          // groupId: 'group2',
           x: 300,
           y: 100
         },
@@ -105,7 +104,6 @@
         {
           id: 'node8',
           label: 'node8-group5',
-          groupId: 'group5',
           x: 400,
           y: 100
         },
@@ -126,10 +124,6 @@
         {
           source: 'node6',
           target: 'node1'
-        },
-        {
-          source: 'group5-custom-node',
-          target: 'p2-custom-node'
         }
       ],
       groups: [
@@ -138,7 +132,7 @@
           parentId: 'p2',
           title: {
             text: '我的第一个群组',
-            stroke: '#444',
+            // stroke: '#444',
             offsetX: 0,
             offsetY: 0
           },
@@ -146,8 +140,8 @@
         {
           id: 'p2',
           title: {
-            text: '我的第2个群组',
-            stroke: '#444',
+            text: '我的第一个群组',
+            stroke: 'red',
             offsetX: 0,
             offsetY: 0
           },
@@ -163,6 +157,20 @@
 
   graph.data(data)
   graph.render()
+
+  console.log(graph.save())
+
+  document.getElementById('createGroup').addEventListener('click', evt => {
+
+    graph.addItem('group', {
+      groupId: 'p212',
+      nodes: ['node3', 'node8'],
+      type: 'rect',
+      title: '自定义分组'
+    } )
+
+    console.log(graph.save())
+  })
 
 </script>
 </body>

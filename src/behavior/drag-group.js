@@ -162,13 +162,9 @@ module.exports = {
       const x = deltaX + shapeOrigin.x;
       const y = deltaY + shapeOrigin.y;
 
-      if (delegateType === 'circle') {
-        // 将Canvas坐标转成视口坐标
-        const point = graph.getPointByCanvas(x, y);
-        delegateShape.attr({ x: point.x, y: point.y });
-      } else {
-        delegateShape.attr({ x, y });
-      }
+      // 将Canvas坐标转成视口坐标
+      const point = graph.getPointByCanvas(x, y);
+      delegateShape.attr({ x: point.x, y: point.y });
       self.delegateShapeBBoxs[groupId] = delegateShape.getBBox();
     }
 

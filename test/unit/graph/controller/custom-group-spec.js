@@ -609,7 +609,7 @@ describe.only('signle layer group', () => {
     expect(groupNodes.p1.length).eql(1);
 
     const groups = graph.get('groups');
-    expect(groups.length).eql(0);
+    expect(groups.length).eql(4);
 
     // 删除group1
     const customGroup = graph.get('customGroupControll');
@@ -943,5 +943,93 @@ describe.only('nesting layer group', () => {
 
     graph.destroy();
     expect(graph.destroyed).to.be.true;
+  });
+});
+
+// 手动创建分子
+describe.only('create node group', () => {
+  it('use addItem create group', () => {
+    const data = {
+      nodes: [
+        {
+          id: 'node1',
+          label: 'fck',
+          groupId: 'group1',
+          x: 100,
+          y: 100
+        },
+        {
+          id: 'node2',
+          label: 'node2',
+          x: 150,
+          y: 200
+        },
+        {
+          id: 'node3',
+          label: 'node3',
+          x: 300,
+          y: 100
+        }
+      ],
+      edges: [
+        {
+          source: 'node1',
+          target: 'node2'
+        },
+        {
+          source: 'node2',
+          target: 'node3'
+        }
+      ],
+      groups: [
+        {
+          id: 'group1',
+          title: '1'
+        }
+      ]
+    };
+
+    const graph = new G6.Graph({
+      container: div,
+      width: 1500,
+      height: 1000,
+      pixelRatio: 2,
+      modes: {
+        default: [ 'drag-group' ]
+      },
+      defaultNode: {
+        shape: 'circleNode'
+      },
+      defaultEdge: {
+        color: '#bae7ff'
+      }
+    });
+
+    graph.data(data);
+    graph.render();
+
+    graph.data(data);
+    graph.render();
+
+    let { groups } = graph.save();
+    expect(groups.length).equal(1);
+
+    graph.addItem('group', {
+      groupId: 'xxx',
+      nodes: [ 'node2', 'node3' ],
+      type: 'rect',
+      title: '自定义'
+    });
+
+    groups = graph.save().groups;
+    expect(groups.length).eql(2);
+
+    const customGroup = graph.get('customGroup');
+    const children = customGroup.get('children');
+    expect(children.length).eql(2);
+
+    const { nodes } = graph.save();
+    const groupNodes = nodes.filter(node => node.groupId === 'xxx');
+    expect(groupNodes.length).eql(2);
   });
 });
