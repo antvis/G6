@@ -9,13 +9,13 @@ order: 2
 
 ## 基本概念
 ### 图的元素
-图的元素特指图上的**节点**`Node`和**边**`Edge`。G6 内置了一系列 [内置的节点](../middle/defaultNode) 和[内置的边](../middle/defaultEdge)，供用户自由选择。G6 不同的内置节点或不同的内置边主要区别在于元素的 [图形Shape](../middle/keyConcept)，例如，节点可以是圆形、矩形、图片等。如果 G6 内置的元素不能满足需求，用户也可以 [自定义节点](../advanced/custom-node) 或 [自定义边](../advanced/custom-edge)。
+图的元素特指图上的**节点**`Node`和**边**`Edge`。G6 内置了一系列 [内置的节点](../middle/elements/defaultNode) 和[内置的边](../middle/elements/defaultEdge)，供用户自由选择。G6 不同的内置节点或不同的内置边主要区别在于元素的 [图形Shape](../middle/keyConcept)，例如，节点可以是圆形、矩形、图片等。如果 G6 内置的元素不能满足需求，用户也可以 [自定义节点](../advanced/custom-node) 或 [自定义边](../advanced/custom-edge)。
 
 ## 元素的属性
 不论是节点还是边，它们的属性分为两种：
 
-- **样式属性 `style`**：对应 Canvas 中的各种样式，在元素[状态State](../middle/state) 发生变化时，可以被改变；
-- **其他属性**：例如图形（ `shape`）、id（`id` ）一类在元素[状态State](../middle/state)发生变化时不能被改变的属性。
+- **样式属性 `style`**：对应 Canvas 中的各种样式，在元素[状态State](../middle/states/state) 发生变化时，可以被改变；
+- **其他属性**：例如图形（ `shape`）、id（`id` ）一类在元素[状态State](../middle/states/state)发生变化时不能被改变的属性。
 
 例如，G6 设定 hover 或 click 节点，造成节点状态的改变，只能自动改变节点的**样式属性**（如 `fill`、`stroke` 等**）**，**其他属性**（如 `shape` 等）不能被改变。如果需要改变其他属性，要通过 [graph.updateItem](../../api/Graph) 手动配置。**样式属性**是一个名为 `style` 的对象， `style` 字段与其他属性并行。
 

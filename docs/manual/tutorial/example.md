@@ -53,7 +53,7 @@ order: 1
 
 - `nodes` 数组中包含节点对象，唯一的 `id` 是每个节点对象中必要的属性，`x`、 `y` 用于定位；
 - `edges` 数组中包含边对象，`source` 和 `target` 是每条边的必要属性，分别代表了该边的起始点 `id` 与 目标点 `id`。
-- 点和边的更多属性参见：[内置的节点](../middle/defaultNode)，[内置的边](../middle/defaultEdge)。
+- 点和边的更多属性参见：[内置的节点](../middle/elements/defaultNode)，[内置的边](../middle/elements/defaultEdge)。
 
 ### 图实例化
 图实例化时，至少需要为图设置容器、宽、高：
