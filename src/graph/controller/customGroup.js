@@ -77,11 +77,18 @@ class CustomGroup {
    * @param {string} type 群组类型，默认为circle，支持rect
    * @param {number} zIndex 群组层级，默认为0
    * @param {boolean} updateDataModel 是否更新节点数据，默认为false，只有当手动创建group时才为true
+   * @param {object} title 分组标题配置
    * @memberof ItemGroup
+   * @return {object} null
    */
-  create(groupId, nodes, type = 'circle', zIndex = 0, updateDataModel = false) {
+  create(groupId, nodes, type = 'circle', zIndex = 0, updateDataModel = false, title = {}) {
     const graph = this.graph;
     const customGroup = graph.get('customGroup');
+    const hasGroupIds = customGroup.get('children').map(data => data.get('id'));
+    if (hasGroupIds.indexOf(groupId) > -1) {
+      return console.warn(`已经存在ID为 ${groupId} 的分组，请重新设置分组ID！`);
+    }
+
     const nodeGroup = customGroup.addGroup({
       id: groupId,
       zIndex
@@ -101,6 +108,30 @@ class CustomGroup {
 
     // 根据groupId获取group数据，判断是否需要添加title
     let groupTitle = null;
+    // 只有手动创建group时执行以下逻辑
+    if (updateDataModel) {
+      const groups = graph.get('groups');
+      // 如果是手动创建group，则原始数据中是没有groupId信息的，需要将groupId添加到node中
+      nodes.forEach(nodeId => {
+        const node = graph.findById(nodeId);
+        const model = node.getModel();
+        if (!model.groupId) {
+          model.groupId = groupId;
+        }
+      });
+
+      // 如果是手动创建 group，则将 group 也添加到 groups 中
+      if (!groups.find(data => data.id === groupId)) {
+        groups.push({
+          id: groupId,
+          title
+        });
+        graph.set({
+          groups
+        });
+      }
+    }
+
     const groupData = graph.get('groups').filter(data => data.id === groupId);
 
     if (groupData && groupData.length > 0) {
@@ -169,6 +200,7 @@ class CustomGroup {
       const textShape = nodeGroup.addShape('text', {
         attrs: {
           text,
+          stroke: '#444',
           x: titleX + offsetX,
           y: titleY + offsetY,
           ...titleStyle
@@ -182,18 +214,6 @@ class CustomGroup {
 
     // 设置graph中groupNodes的值
     graph.get('groupNodes')[groupId] = nodes;
-
-    // 只有手动创建group时执行以下逻辑
-    if (updateDataModel) {
-      // 如果是手动创建group，则原始数据中是没有groupId信息的，需要将groupId添加到node中
-      nodes.forEach(nodeId => {
-        const node = graph.findById(nodeId);
-        const model = node.getModel();
-        if (!model.groupId) {
-          model.groupId = groupId;
-        }
-      });
-    }
 
     graph.setAutoPaint(autoPaint);
     graph.paint();
@@ -1007,7 +1027,6 @@ class CustomGroup {
         }
         groupKeyShape.attr(keyshapePosition);
       }
-
       // 如果存在标题，则更新标题位置
       this.updateGroupTitle(nodeGroup, id, titleX, titleY);
     });
@@ -1033,8 +1052,8 @@ class CustomGroup {
       let offsetX = 0;
       let offsetY = 0;
       if (titleConfig) {
-        offsetX = titleConfig.offsetX;
-        offsetY = titleConfig.offsetY;
+        offsetX = titleConfig.offsetX || 0;
+        offsetY = titleConfig.offsetY || 0;
       }
       groupTitleShape.attr({
         x: x + offsetX,

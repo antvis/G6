@@ -1,5 +1,5 @@
 const Shape = require('../shape');
-const Util = require('../../util/index');
+const Util = require('../../util');
 const PolylineUtil = require('./polyline-util');
 const Global = require('../../global');
 

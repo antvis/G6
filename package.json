@@ -3,6 +3,7 @@
   "version": "3.1.6",
   "description": "graph visualization frame work",
   "main": "build/g6.js",
+  "types": "types/index.d.ts",
   "homepage": "https://github.com/antvis/g6",
   "author": "https://github.com/orgs/antvis/people",
   "repository": {
@@ -44,7 +45,6 @@
     "babel-loader": "^8.0.0",
     "babel-plugin-module-resolver": "^3.1.1",
     "babel-plugin-transform-remove-strict-mode": "~0.0.2",
-    "babel-polyfill": "^6.26.0",
     "body-parser": "~1.18.2",
     "chai": "~4.1.2",
     "chai-almost": "^1.0.1",
@@ -119,7 +119,7 @@
   },
   "dependencies": {
     "@antv/g": "~3.4.6",
-    "@antv/hierarchy": "~0.6.0",
+    "@antv/hierarchy": "~0.6.1",
     "@antv/util": "~1.3.1",
     "d3-force": "^2.0.1",
     "dagre": "^0.8.4",
