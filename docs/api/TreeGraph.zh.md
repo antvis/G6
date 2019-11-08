@@ -31,14 +31,14 @@ const data = {
 
 ### G6.TreeGraph
 
-#### 参数
+**参数**
 | 名称 | 类型 | 默认值 | 描述 |
 | --- | --- | --- | --- |
 | layout | object | null | **3.0.4 版本开始支持树布局算法配置**。3.0.4 版本之前是 function 形式。建议开发者使用配置形式，操作粒度更细。 |
 | animate | boolean | true | 默认打开重布局动画开关。 |
 
 
-#### 用法
+**用法**
 ```javascript
 const treeGraph = new G6.TreeGraph({
 	container: 'mountNode',
@@ -84,7 +84,7 @@ layout目前支持dendrogram、compactBox、mindmap和indeted四种布局方式�
 
 ### dendrogram
 
-#### dendrogram示意图
+**dendrogram示意图**
 使用`dendrogram`方式布局时，`direction`取不同值时的效果如下所示。
 
 | LR | RL | H |
@@ -96,7 +96,7 @@ layout目前支持dendrogram、compactBox、mindmap和indeted四种布局方式�
 | <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560909422368-c7b8499f-053b-497f-ad34-f45b8c2a5549.png#align=left&display=inline&percent=0&size=0&status=done' width='230' height='100'> | <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560909422252-07a6933e-93d8-490e-ae15-ed51e576d69a.png#align=left&display=inline&percent=0&size=0&status=done' width='230' height='100'> | <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560909422727-f14a4f4c-c326-4f3f-bea5-abae28867835.png#align=left&display=inline&percent=0&size=0&status=done' width='230' height='100'> |
 
 
-#### dendrogram配置项
+**dendrogram配置项**
 | 名称 | 类型 | 默认值 | 描述 |
 | --- | --- | --- | --- |
 | nodeSep | number | 20 | 同层次节点之间的间距 |
@@ -108,7 +108,7 @@ layout目前支持dendrogram、compactBox、mindmap和indeted四种布局方式�
 
 ### compactBox
 
-#### compactBox示意图
+**compactBox示意图**
 使用`compactBox`方式布局时，`direction`取不同值时的效果如下所示。
 
 | LR | RL | H |
@@ -120,7 +120,7 @@ layout目前支持dendrogram、compactBox、mindmap和indeted四种布局方式�
 | <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560909252526-b8936ca5-0c10-475e-a695-c10d6719a9cf.png#align=left&display=inline&percent=0&size=0&status=done' width='230' height='100'> | <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560909253376-12485bcb-cf79-4036-9e34-9d8310622071.png#align=left&display=inline&percent=0&size=0&status=done' width='230' height='100'> | <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560909250963-09c4db6e-5f67-49ea-a0ce-b922ad54548d.png#align=left&display=inline&percent=0&size=0&status=done' width='230' height='100'> |
 
 
-#### compactBox配置项
+**compactBox配置项**
 | 名称 | 类型 | 默认值 | 描述 |
 | --- | --- | --- | --- |
 | getId | Function |  | 指定节点ID |
@@ -151,7 +151,7 @@ layout目前支持dendrogram、compactBox、mindmap和indeted四种布局方式�
 
 ### indented
 
-#### indented示意图
+**indented示意图**
 使用`indented`方式布局时，`direction`取不同值时的效果如下所示。
 
 | LR | RL | H |
@@ -159,7 +159,7 @@ layout目前支持dendrogram、compactBox、mindmap和indeted四种布局方式�
 | <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560910055783-3783faed-29f0-4e34-9076-df951aa6ea10.png#align=left&display=inline&percent=0&size=0&status=done' width='230' height='100'> | <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560910055615-54aaca32-7de4-471e-8600-611854094b90.png#align=left&display=inline&percent=0&size=0&status=done' width='230' height='100'> | <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560910055676-86d316d8-9487-4b3d-99a4-27b4a8c091c0.png#align=left&display=inline&percent=0&size=0&status=done' width='230' height='100'> |
 
 
-#### indented配置项
+**indented配置项**
 | 名称 | 类型 | 默认值 | 描述 |
 | --- | --- | --- | --- |
 | indent | number | 20 | 与直接父节点的缩进值 |
@@ -169,11 +169,11 @@ layout目前支持dendrogram、compactBox、mindmap和indeted四种布局方式�
 
 ### mindmap
 
-#### mindmap示意图
+**mindmap示意图**
 <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560908396116-af8c9bf3-ec9b-4a06-b32a-9c6be6ee927c.png#align=left&display=inline&height=327&name=image.png&originHeight=654&originWidth=1276&size=112648&status=done&width=638' width='750'>
 
 
-#### mindmap配置项
+**mindmap配置项**
 | 名称 | 类型 | 默认值 | 描述 |
 | --- | --- | --- | --- |
 | getId | Function |  | 指定节点ID |
@@ -191,14 +191,14 @@ layout目前支持dendrogram、compactBox、mindmap和indeted四种布局方式�
 在指定的父节点下添加子树。
 
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | data | object | true | 子树的数据 |
 | parent | Node | string | true | 父节点或父节点ID |
 
 
-#### 用法
+**用法**
 ```javascript
 const data = {
   id: 'sub1',
@@ -222,7 +222,7 @@ treeGraph.addChild(data, 'root')
 更新数据，差量更新子树。
 
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | data | object | true | 子树的数据 |
@@ -231,7 +231,7 @@ treeGraph.addChild(data, 'root')
 ⚠️**注意：**当parent参数为空时，则全量更新。
 
 
-#### 用法
+**用法**
 ```javascript
 const data = {
   id: 'sub1',
@@ -255,13 +255,13 @@ treeGraph.updateChild(data, 'root')
 删除指定的子树。
 
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | id | string | true | 要删除的子树的ID |
 
 
-#### 用法
+**用法**
 ```javascript
 treeGraph.removeChild('sub')
 ```
@@ -273,13 +273,13 @@ treeGraph.removeChild('sub')
 更改并应用指定的布局。
 
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | layout | object | false | 指定的布局配置，如不传，则不做变更 |
 
 
-#### 用法
+**用法**
 ```javascript
 const layout = {
 	type: 'mindmap',
@@ -297,13 +297,13 @@ treeGraph.changeLayout(layout)
 数据变更后，重新布局，刷新视图，并更新到画布。
 
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | fitView | boolean | false | 更新布局后，是否需要自适应窗口 |
 
 
-#### 用法
+**用法**
 ```javascript
 treeGraph.refreshLayout(true)
 ```
@@ -315,20 +315,20 @@ treeGraph.refreshLayout(true)
 根据指定的ID获取对应的源数据。
 
 
-#### 参数
+**参数**
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | id | string | true | 指定的元素ID |
 | target | object | false | 从指定的节点开始查找，为空时从根节点开始查找 |
 
 
-#### 返回值
+**返回值**
 
 - 返回值类型：object；
 - 返回值为查找到的节点的源数据。
 
 
-#### 用法
+**用法**
 ```javascript
 const target = {
 	id: 'sub1',

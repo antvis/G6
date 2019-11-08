@@ -5,6 +5,8 @@
 
 const d3Force = require('d3-force');
 const Layout = require('./layout');
+const isArray = require('@antv/util/lib/type/is-array');
+
 
 const SPEED_DIVISOR = 800;
 
@@ -314,6 +316,7 @@ Layout.registerLayout('fruchtermanGroup', {
     edges.forEach(e => {
       const uIndex = nodeIndexMap.get(e.source);
       const vIndex = nodeIndexMap.get(e.target);
+      if (uIndex === vIndex) return;
       const u = nodeMap.get(e.source);
       const v = nodeMap.get(e.target);
       const vecx = v.x - u.x;
@@ -424,7 +427,7 @@ Layout.registerLayout('fruchtermanGroup', {
     if (!nodeSize) {
       nodeSize = d => {
         if (d.size) {
-          if (Array.isArray(d.size)) {
+          if (isArray(d.size)) {
             return d.size[0] / 2;
           }
           return d.size / 2;

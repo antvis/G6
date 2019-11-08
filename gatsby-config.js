@@ -108,6 +108,14 @@ module.exports = {
           en: 'Node & Edge'
         },
         order: 4
+      },
+      {
+        slug: 'api/properties',
+        title: {
+          zh: '属性配置项',
+          en: 'Properties'
+        },
+        order: 9
       }
     ],
     examples: [

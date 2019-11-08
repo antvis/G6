@@ -6,6 +6,8 @@
 const d3Force = require('d3-force');
 const Layout = require('./layout');
 const Util = require('../util');
+const isArray = require('@antv/util/lib/type/is-array');
+const isNumber = require('@antv/util/lib/type/is-number');
 
 /**
  * 经典力导布局 force-directed
@@ -17,6 +19,7 @@ Layout.registerLayout('force', {
       nodeStrength: null,         // 节点作用力
       preventOverlap: false,      // 是否防止节点相互覆盖
       nodeSize: undefined,        // 节点大小 / 直径，用于防止重叠时的碰撞检测
+      nodeSpacing: undefined,     // 节点间距，防止节点重叠时节点之间的最小距离（两节点边缘最短距离）
       edgeStrength: null,         // 边的作用力, 默认为根据节点的入度出度自适应
       linkDistance: 50,           // 默认边长度
       forceSimulation: null,      // 自定义 force 方法
@@ -119,26 +122,50 @@ Layout.registerLayout('force', {
    */
   overlapProcess(simulation) {
     const self = this;
-    let nodeSize = self.nodeSize;
+    const nodeSize = self.nodeSize;
+    let nodeSizeFunc;
+    const nodeSpacing = self.nodeSpacing;
+    let nodeSpacingFunc;
     const collideStrength = self.collideStrength;
+
+    if (isNumber(nodeSpacing)) {
+      nodeSpacingFunc = () => {
+        return nodeSpacing;
+      };
+    } else if (typeof nodeSpacing === 'function') {
+      nodeSpacingFunc = nodeSpacing;
+    } else {
+      nodeSpacingFunc = () => {
+        return 0;
+      };
+    }
+
     if (!nodeSize) {
-      nodeSize = d => {
+      nodeSizeFunc = d => {
         if (d.size) {
-          if (Array.isArray(d.size)) {
-            return d.size[0] / 2;
+          if (isArray(d.size)) {
+            const res = d.size[0] > d.size[1] ? d.size[0] : d.size[1];
+            return res / 2 + nodeSpacingFunc(d);
           }
-          return d.size / 2;
+          return d.size / 2 + nodeSpacingFunc(d);
         }
-        return 10;
+        return 10 + nodeSpacingFunc(d);
       };
     } else if (!isNaN(nodeSize)) {
-      nodeSize /= 2;
-    } else if (nodeSize.length === 2) {
+      const radius = nodeSize / 2;
+      nodeSizeFunc = d => {
+        return radius + nodeSpacingFunc(d);
+      };
+    } else if (isArray(nodeSize)) {
       const larger = nodeSize[0] > nodeSize[1] ? nodeSize[0] : nodeSize[1];
-      nodeSize = larger / 2;
+      const radius = larger / 2;
+      nodeSizeFunc = d => {
+        return radius + nodeSpacingFunc(d);
+      };
     }
+
     // forceCollide's parameter is a radius
-    simulation.force('collisionForce', d3Force.forceCollide(nodeSize).strength(collideStrength));
+    simulation.force('collisionForce', d3Force.forceCollide(nodeSizeFunc).strength(collideStrength));
   },
   /**
    * 更新布局配置，但不执行布局

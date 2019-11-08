@@ -1,58 +1,86 @@
 import G6 from '@antv/g6';
 
-const nodes = [];
-for (let i = 0; i < 5; i++) {
-  nodes.push({
-    id: `node-${i}`,
-    label: `label-${i}`,
-    x: Math.random() * 650,
-    y: Math.random() * 550
-  });
-}
 const data = {
-  nodes
+  nodes: [
+    {
+      id: 'circle',
+      label: 'Circle',
+      x: 250,
+      y: 150
+    }
+  ]
 };
 
 const graph = new G6.Graph({
   container: 'container',
-  width: 800,
-  height: 600,
+  width: 500,
+  height: 500,
   defaultNode: {
     shape: 'circle',
-    size: [ 60, 30 ],
-    color: 'green',
+    size: [ 160 ],
+    color: '#bae7ff',
     style: {
-      // fill: 'red',
-      // stroke: '#eaff8f',
-      lineWidth: 5
+      fill: '#69c0ff',
+      lineWidth: 3
     },
     labelCfg: {
       style: {
-        fill: '#9254de',
-        fontSize: 18
-      }
+        fill: 'red',
+        fontSize: 24
+      },
+      position: 'bottom'
     },
+    // 节点上左右上下四个方向上的链接circle配置
     linkPoints: {
       top: true,
+      right: true,
       bottom: true,
       left: true,
-      right: true,
+      // circle的大小
       size: 5,
-      fill: '#fff'
-    }
-  },
-  nodeStateStyles: {
-    hover: {
-      fill: '#d3adf7'
+      lineWidth: 1,
+      fill: '#fff',
+      stroke: '#72CC4A'
+    },
+    // 节点中icon配置
+    icon: {
+      // 是否显示icon，值为 false 则不渲染icon
+      show: true,
+      // icon的地址，字符串类型
+      img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+      width: 60,
+      height: 60
     }
   },
   modes: {
-    default: [ 'drag-canvas', 'drag-node', {
-      type: 'brush-select',
-      trigger: 'ctrl'
-    }]
+    default: [ 'drag-canvas', 'drag-node' ]
+  },
+  nodeStateStyles: {
+    // 鼠标hover状态下的配置
+    hover: {
+      fillOpacity: 0.8
+    },
+    // 选中节点状态下的配置
+    selected: {
+      lineWidth: 5
+    }
   }
 });
 
 graph.data(data);
 graph.render();
+
+graph.on('node:mouseenter', evt => {
+  const { item } = evt;
+  graph.setItemState(item, 'hover', true);
+});
+
+graph.on('node:mouseleave', evt => {
+  const { item } = evt;
+  graph.setItemState(item, 'hover', false);
+});
+
+graph.on('node:click', evt => {
+  const { item } = evt;
+  graph.setItemState(item, 'selected', true);
+});

@@ -1517,12 +1517,19 @@
       data.edges.forEach((edge, i) => {
         edge.id = i;
       });
+      const nodes = data.nodes;
+      // nodes.forEach(node => {
+      //   node.size = [10, 50];
+      // });
+
       const graph = new G6.Graph({
         container: 'mountNode',
         width: 1000,
         height: 600,
         layout: {
-          type: 'force'
+          type: 'force',
+          preventOverlap: true,
+          nodeSpacing: 10
         },
         modes: {
           default: [
@@ -1580,6 +1587,7 @@
           edge);
         })
       });
+      console.log(data);
       graph.render();
       // function refreshDragedNodePosition(e) {
       //   const model = e.item.get('model');

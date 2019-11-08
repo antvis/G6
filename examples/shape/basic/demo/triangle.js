@@ -3,10 +3,10 @@ import G6 from '@antv/g6';
 const data = {
   nodes: [
     {
-      id: 'rect',
-      label: 'rect',
+      id: 'circle',
+      label: 'Triangle',
       x: 250,
-      y: 150
+      y: 200
     }
   ]
 };
@@ -16,8 +16,10 @@ const graph = new G6.Graph({
   width: 500,
   height: 500,
   defaultNode: {
-    shape: 'rect',
-    size: [ 160, 80 ],
+    shape: 'triangle',
+    size: [ 100 ],
+    // 可取值：down、up
+    direction: 'up',
     style: {
       fill: '#69c0ff',
       stroke: '#bae7ff',
@@ -25,19 +27,31 @@ const graph = new G6.Graph({
     },
     labelCfg: {
       style: {
-        fill: '#fff',
+        fill: '#1890ff',
         fontSize: 18
-      }
+      },
+      position: 'bottom'
     },
+    // 节点上各个方向上的链接circle配置
     linkPoints: {
       top: true,
+      right: true,
       bottom: true,
       left: true,
-      right: true,
+      // circle的大小
       size: 5,
-      fill: '#fff',
       lineWidth: 1,
+      fill: '#fff',
       stroke: '#72CC4A'
+    },
+    // 节点中icon配置
+    icon: {
+      // 是否显示icon，值为 false 则不渲染icon
+      show: true,
+      // icon的地址，字符串类型
+      img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+      width: 60,
+      height: 60
     }
   },
   modes: {
@@ -46,7 +60,7 @@ const graph = new G6.Graph({
   nodeStateStyles: {
     // 鼠标hover状态下的配置
     hover: {
-      // fillOpacity: 0.8
+      fillOpacity: 0.8
     },
     // 选中节点状态下的配置
     selected: {
