@@ -19,7 +19,7 @@ const group = new Group(cfgs);
 向分组中添加新的分组。
 
 
-#### 参数
+**参数**
 
 | 名称 | 类型 | 说明 |
 | --- | --- | --- |
@@ -28,7 +28,7 @@ const group = new Group(cfgs);
 
 
 
-#### 用法
+**用法**
 
 ```javascript
 group.addGroup({
@@ -42,7 +42,7 @@ group.addGroup({
 向分组中添加新的图形。<br />`注意`：在分组上添加的`clip`， `transform`等会影响到该分组中的所有图形。G支持的图形及其绘图属性请见shape小节。
 
 
-#### 参数
+**参数**
 
 | 名称 | 类型 | 说明 |
 | --- | --- | --- |
@@ -50,9 +50,7 @@ group.addGroup({
 | cfg | Object | 图元素的属性 |
 
 
-#### 
-
-#### 用法
+**用法**
 
 ```javascript
 group.addShape('rect', {
@@ -72,7 +70,7 @@ group.addShape('rect', {
 该分组是否包含此元素。<br />返回值: boolean
 
 
-#### 参数
+**参数**
 
 | 名称 | 类型 | 说明 |
 | --- | --- | --- |
@@ -80,7 +78,7 @@ group.addShape('rect', {
 
 
 
-#### 用法
+**用法**
 
 ```javascript
 const has = group.contain(child)
@@ -91,7 +89,7 @@ const has = group.contain(child)
 根据指定条件返回对应元素，**只返回符合条件的第一个元素**。
 
 
-#### 参数
+**参数**
 
 
 | 名称 | 类型 | 说明 |
@@ -100,7 +98,7 @@ const has = group.contain(child)
 
 
 
-#### 用法
+**用法**
 
 ```javascript
 const child = group.find(function(item) {
@@ -113,7 +111,7 @@ const child = group.find(function(item) {
 根据元素ID返回对应的实例。<br />返回值：Object。
 
 
-#### 参数
+**参数**
 
 
 | 名称 | 类型 | 说明 |
@@ -122,7 +120,7 @@ const child = group.find(function(item) {
 
 
 
-#### 用法
+**用法**
 
 ```javascript
 const group1 = group.findById('group1');
@@ -134,7 +132,7 @@ const group1 = group.findById('group1');
 返回所有符合条件的元素。<br />返回值: [ Object ]
 
 
-#### 参数
+**参数**
 
 
 | 名称 | 类型 | 说明 |
@@ -143,7 +141,7 @@ const group1 = group.findById('group1');
 
 
 
-#### 用法
+**用法**
 
 ```javascript
 const children = group.findAll(function(item) {
@@ -156,7 +154,7 @@ const children = group.findAll(function(item) {
 返回该坐标点最上层的元素。<br />返回值: Object
 
 
-#### 参数
+**参数**
 
 
 | 名称 | 类型 | 说明 |
@@ -166,7 +164,7 @@ const children = group.findAll(function(item) {
 
 
 
-#### 用法
+**用法**
 
 ```javascript
 // 获取 (10, 30) 坐标点上层的元素
@@ -178,7 +176,7 @@ const element = group.getShape(10, 30)
 获取该分组的第一个子元素。<br />返回值: Object
 
 
-#### 用法
+**用法**
 
 ```javascript
 const child = group.getFirst()
@@ -193,7 +191,7 @@ const child = childrens[0]
 获取该分组的最后一个子元素。<br />返回值: Object
 
 
-#### 用法
+**用法**
 
 ```javascript
 const child = group.getLast()
@@ -208,7 +206,7 @@ const child = childrens[childrens.length - 1]
 返回第 `index` 个子元素，从`0`开始计数。<br />返回值: Object
 
 
-#### 参数
+**参数**
 
 
 | 名称 | 类型 | 说明 |
@@ -217,7 +215,7 @@ const child = childrens[childrens.length - 1]
 
 
 
-#### 用法
+**用法**
 
 ```javascript
 const child = group.getChildByIndex(2)
@@ -228,7 +226,7 @@ const child = group.getChildByIndex(2)
 从分组中删除一个分组或一个图形。
 
 
-#### 参数说明
+**参数说明**
 
 | 名称 | 类型 | 说明 |
 | --- | --- | --- |
@@ -236,7 +234,7 @@ const child = group.getChildByIndex(2)
 
 
 
-#### 用法
+**用法**
 
 ```javascript
 group.removeChild(child)
@@ -249,7 +247,7 @@ group.removeChild(child)
 典型使用场景：通过 group.addShape() 添加 shape 时，添加的每个 shape 都设置了 index，在最后调用 group.sort() 可以对添加的 shape 进行排序。
 
 
-#### 用法
+**用法**
 
 ```javascript
 group.sort()
@@ -260,7 +258,7 @@ group.sort()
 清除该组的所有子元素。
 
 
-#### 用法
+**用法**
 
 ```javascript
 group.clear()

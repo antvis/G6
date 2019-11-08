@@ -106,6 +106,7 @@
     });
     // map the value of 
     edges.forEach(e => {
+      e.id = e.eid;
       if (e.value === '') e.value = 0;
       const v = parseFloat(e.value);
       nodeMap.get(e.source).exportValue += v;
@@ -200,6 +201,7 @@
         });
         
         graphEdges.forEach(ge => {
+          const edgeModel = ge.getModel();
           const sourceModel = ge.get('sourceNode').getModel();
           const targetModel = ge.get('targetNode').getModel();
           // show the common edges
@@ -216,14 +218,14 @@
               graph.addItem('edge', {
                 source: 'cluster' + sourceModel.cluster,
                 target: targetModel.id,
-                id: 'cluster-edge-' + ge.id,
+                id: 'cluster-edge-' + edgeModel.id,
                 style: {
                   stroke: 'l(0) 0:' + c1 + ' 1:' + c2,
                   lineWidth: 0.4,
                   strokeOpacity: 0.2
                 }
               });
-            } else if (ge.get('targetNode').get('visible') && targetModel.cluster !== model.cluster) {
+            } else if (!ge.get('targetNode').get('visible') && targetModel.cluster !== model.cluster) {
               let c1 = beginColor, c2 = endColor;
               if (sourceModel.x > model.x) {
                 c1 = endColor;
@@ -231,8 +233,8 @@
               }
               graph.addItem('edge', {
                 source: sourceModel.id,
-                target: 'cluster' + targetModel.id,
-                id: 'cluster-edge-' + ge.id,
+                target: 'cluster' + targetModel.cluster,
+                id: 'cluster-edge-' + edgeModel.id,
                 style: {
                   stroke: 'l(0) 0:' + c1 + ' 1:' + c2,
                   lineWidth: 0.4,
@@ -245,10 +247,11 @@
               ge.hide();
             }
           }
-          // remove the cluster edges
-          if (sourceModel.id === model.id || targetModel.id === model.id) {
-            graph.removeItem(ge);
-          }
+          //do not need the following 4 lines, since the related edges will be removed while the cluster node is removing
+          // // remove the cluster edges. 
+          // if (sourceModel.id === model.id || targetModel.id === model.id) {
+          //   graph.removeItem(ge);
+          // }
         });
       } else { // click on the common node, cllapse them
       // calculate the cluster center
@@ -296,6 +299,7 @@
 
       // add edges about the cluster
       graphEdges.forEach(ge => {
+        const edgeModel = ge.getModel();
         const sourceModel = ge.get('sourceNode').getModel();
         const targetModel = ge.get('targetNode').getModel();
         if (!ge.get('sourceNode').get('visible') || !ge.get('targetNode').get('visible')) return;
@@ -308,7 +312,7 @@
           graph.addItem('edge', {
             source: clusterNodeId,
             target: targetModel.id,
-            id: 'cluster-edge-' + ge.id,
+            id: 'cluster-edge-' + edgeModel.id,
             style: {
               stroke: 'l(0) 0:' + c1 + ' 1:' + c2,
               lineWidth: 0.4,

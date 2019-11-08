@@ -89,7 +89,7 @@ G6.registerNode('nodeName', {
 | --- | --- | --- | --- |
 | type | string | true | 元素类型，node或edge |
 
-#### 返回值
+**返回值**
 
 - 返回值类型：boolean；
 - 返回true，则允许更新，否则不允许更新。

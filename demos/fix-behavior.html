@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rect节点分组</title>
+</head>
+<body>
+<div id="mountNode"></div>
+<script src="../build/g6.js"></script>
+<script>
+  const data = {
+    nodes: [
+      {id: '1', x: 50, y: 50, size: 20},
+      {id: '2', x: 150, y: 50, size: 20},
+      {id: '3', x: 200, y: 50, size: 20},
+      {id: '4', x: 300, y: 130, size: 20},
+      {id: '5', x: 350, y: 50, size: 20},
+      {id: '6', x: 450, y: 50, size: 20},
+      {id: '7', x: 500, y: 50, size: 20},
+      {id: '8', x: 600, y: 50, size: 20},
+      {id: '9', x: 650, y: 50, size: 20},
+      {id: '10', x: 750, y: 50, size: 20},
+      {id: '11', x: 800, y: 50, size: 20},
+      {id: '12', x: 900, y: 150, size: 20},
+      {id: '13', x: 950, y: 50, size: 20},
+      {id: '14', x: 1050, y: 150, size: 20},
+      {id: '15', x: 1100, y: 50, size: 20},
+    ],
+    edges: [
+      {source: '1', target: '2', shape: 'line', label: 'line'},
+      {source: '3', target: '4', shape: 'polyline', label: 'polyline'},
+      {source: '5', target: '6', shape: 'arc', label: 'arc'},
+      {source: '7', target: '8', shape: 'quadratic', label: 'quadratic'},
+      {source: '9', target: '10', shape: 'cubic', label: 'cubic'},
+      {source: '11', target: '12', shape: 'cubic-vertical', label: 'cubic-vertical'},
+      {source: '13', target: '14', shape: 'cubic-horizontal', label: 'cubic-horizontal'},
+      {source: '15', target: '15', shape: 'loop', label: 'loop'}
+    ]
+  }
+
+  const graph = new G6.Graph({
+    container: 'mountNode',
+    nodeStateStyles: {
+      selected: {
+        fill: 'red',
+        stroke: 'red',
+      }
+    },
+    modes: {
+      default: [
+        'drag-node',
+        'click-select',
+        'brush-select',
+        {
+          type: 'zoom-canvas',
+          sensitivity: 0.3,
+        },
+      ],
+    },
+    width: 1500,
+    height: 300,
+    linkCenter: true      // 使边连入节点的中心
+  });
+  graph.data(data);
+  graph.render();
+</script>
+</body>
+</html>
