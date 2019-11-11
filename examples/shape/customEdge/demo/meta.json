@@ -1,0 +1,23 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "customPolyline.js",
+      "title": "折线图",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*xrz9QLtS3-IAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "customPolyline2.js",
+      "title": "折线图2",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*xrz9QLtS3-IAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "edgeMulLabel.js",
+      "title": "边上多label",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*xrz9QLtS3-IAAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}
