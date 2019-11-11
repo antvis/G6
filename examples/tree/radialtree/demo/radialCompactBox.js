@@ -22,7 +22,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
         }, 'drag-canvas', 'zoom-canvas' ]
       },
       defaultNode: {
-        size: 16,
+        size: 26,
         style: {
           fill: '#40a9ff',
           stroke: '#096dd9'
@@ -40,10 +40,10 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
           return d.id;
         },
         getHeight: () => {
-          return 16;
+          return 26;
         },
         getWidth: () => {
-          return 16;
+          return 26;
         },
         getVGap: () => {
           return 20;
@@ -57,11 +57,6 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
 
     graph.node(function(node) {
       return {
-        size: 26,
-        style: {
-          fill: '#40a9ff',
-          stroke: '#096dd9'
-        },
         label: node.id
       };
     });
