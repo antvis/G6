@@ -134,7 +134,10 @@ Shape.registerEdge('polyline', {
         const newLabel = this.drawLabel(cfg, group);
         newLabel.set('className', labelClassName);
       } else {
-        const labelCfg = cfg.labelCfg || {};
+        const { labelCfg: defaultLabelCfg } = this.options;
+        const { labelCfg: customLabelCfg } = this.getCustomConfig(cfg) || {};
+
+        const labelCfg = Util.deepMix({}, defaultLabelCfg, customLabelCfg, cfg.labelCfg);
         const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
         /**
          * fixme g中shape的rotate是角度累加的，不是label的rotate想要的角度
