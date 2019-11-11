@@ -220,7 +220,7 @@ const graph = new G6.Graph({
       if (d.id === '3') {
         return 500;
       }
-      return 20;
+      return 50;
     }
   },
   pixelRatio: 2,

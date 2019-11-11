@@ -208,7 +208,10 @@ const graph = new G6.Graph({
   animate: true,
   defaultNode: {
     size: 20,
-    color: 'steelblue'
+    style: {
+      fill: '#C6E5FF',
+      stroke: '#5B8FF9'
+    }
   },
   defaultEdge: {
     size: 1,
