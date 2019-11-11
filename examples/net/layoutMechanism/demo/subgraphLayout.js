@@ -293,7 +293,8 @@ nodes.forEach(function(node, i) {
   if (i <= 16 && i !== 12) {
     if (!node.style) {
       node.style = {
-        fill: 'lightsteelblue'
+        fill: '#F6C3B7',
+        stroke: '#E8684A'
       };
     } else {
       node.style.fill = 'lightsteelblue';
@@ -314,7 +315,10 @@ const graph = new G6.Graph({
   },
   defaultNode: {
     size: 20,
-    color: 'steelblue'
+    style: {
+      fill: '#C6E5FF',
+      stroke: '#5B8FF9'
+    }
   },
   defaultEdge: {
     size: 1,

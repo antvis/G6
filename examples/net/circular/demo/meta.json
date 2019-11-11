@@ -7,32 +7,27 @@
     {
       "filename": "basicCircular.js",
       "title": "基本 Circular 布局",
-      "screenshot": "https://gw.alipayobjects.com/zos/antfincdn/ERHiNBmudQ/82dee894-47e6-4250-8f48-84e519833f69.png"
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-3idTK1xa6wAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "degreeCircular.js",
       "title": "按照节点度数排序的 Circular 布局",
-      "screenshot": "https://gw.alipayobjects.com/zos/antfincdn/ERHiNBmudQ/82dee894-47e6-4250-8f48-84e519833f69.png"
-    },
-    {
-      "filename": "topologyCircular.js",
-      "title": "按照拓扑结构排序的 Circular 布局",
-      "screenshot": "https://gw.alipayobjects.com/zos/antfincdn/ERHiNBmudQ/82dee894-47e6-4250-8f48-84e519833f69.png"
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*T8gtSIST4kwAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "spiralCircular.js",
       "title": "螺旋线布局",
-      "screenshot": "https://gw.alipayobjects.com/zos/antfincdn/ERHiNBmudQ/82dee894-47e6-4250-8f48-84e519833f69.png"
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6J6BRIjmXKAAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "divisionCircular.js",
       "title": "分割环形布局",
-      "screenshot": "https://gw.alipayobjects.com/zos/antfincdn/ERHiNBmudQ/82dee894-47e6-4250-8f48-84e519833f69.png"
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_nLORItzM5QAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "circularConfigurationTranslate.js",
       "title": "Circular 布局参数动态变化",
-      "screenshot": "https://gw.alipayobjects.com/zos/antfincdn/ERHiNBmudQ/82dee894-47e6-4250-8f48-84e519833f69.png"
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*3qweSosywckAAAAAAAAAAABkARQnAQ"
     }
   ]
 }

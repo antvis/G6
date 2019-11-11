@@ -348,7 +348,8 @@ const graph = new G6.Graph({
     color: 'steelblue',
     style: {
       lineWidth: 2,
-      fill: '#fff'
+      fill: '#C6E5FF',
+      stroke: '#5B8FF9'
     }
   },
   defaultEdge: {

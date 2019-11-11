@@ -22,7 +22,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
         }, 'drag-canvas', 'zoom-canvas' ]
       },
       defaultNode: {
-        size: 16,
+        size: 26,
         style: {
           fill: '#40a9ff',
           stroke: '#096dd9'
@@ -44,11 +44,6 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
 
     graph.node(function(node) {
       return {
-        size: 26,
-        style: {
-          fill: '#40a9ff',
-          stroke: '#096dd9'
-        },
         label: node.id
       };
     });

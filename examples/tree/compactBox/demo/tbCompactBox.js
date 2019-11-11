@@ -22,7 +22,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
         }, 'drag-canvas', 'zoom-canvas' ]
       },
       defaultNode: {
-        size: 16,
+        size: 26,
         anchorPoints: [[ 0, 0.5 ], [ 1, 0.5 ]],
         style: {
           fill: '#40a9ff',
@@ -64,11 +64,6 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
         rotate = 90;
       }
       return {
-        size: 26,
-        style: {
-          fill: '#40a9ff',
-          stroke: '#096dd9'
-        },
         label: node.id,
         labelCfg: {
           position,
