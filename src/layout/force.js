@@ -8,6 +8,7 @@ const Layout = require('./layout');
 const Util = require('../util');
 const isArray = require('@antv/util/lib/type/is-array');
 const isNumber = require('@antv/util/lib/type/is-number');
+const isFunction = require('@antv/util/lib/type/is-function');
 
 /**
  * 经典力导布局 force-directed
@@ -151,6 +152,8 @@ Layout.registerLayout('force', {
         }
         return 10 + nodeSpacingFunc(d);
       };
+    } else if (isFunction(nodeSize)) {
+      nodeSizeFunc = nodeSize;
     } else if (!isNaN(nodeSize)) {
       const radius = nodeSize / 2;
       nodeSizeFunc = d => {
