@@ -175,8 +175,8 @@ const graph = new G6.Graph({
 
 | 参数名 | 类型 | 示例 / 可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
-| rankdir | String | 'TB' | 'BT' | 'LR' | 'RL' | 'TB' | layout 的方向。T：top；B：bottom；L：left；R：right |
-| align | String | 'UL' | 'UR' | 'DL' | 'DR' | 'UL' | 节点对齐方式。U：upper；D：down；L：left；R：right |
+| rankdir | String | 'TB' / 'BT' / 'LR' / 'RL' | 'TB' | layout 的方向。T：top；B：bottom；L：left；R：right |
+| align | String | 'UL' / 'UR' / 'DL' / 'DR' | 'UL' | 节点对齐方式。U：upper；D：down；L：left；R：right |
 | nodesep | Number | 40 | 50 | 节点水平间距（px）。优先级高于 `nodesepFunc` |
 | ranksep | Number | 40 | 50 | 层间距（px）。优先级高于 `ranksep``Func` |
 | nodesepFunc<br /><br />3.1.6 后支持 | Function | d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | 节点水平间距（px）的回调函数，通过该参数可以对不同节点设置不同的节点间距。优先级低于 `nodesep`，即若设置了 `nodesep`，则 `nodesepFunc` 不生效 |
@@ -253,14 +253,7 @@ const graph = new G6.TreeGraph({
 
 | 参数名 | 类型 | 示例 / 可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
-| direction | String | 'TB' | 'BT' | 'LR' | 'RL' | 'H' | 'V' | 'LR' | layout 的方向。<br />- TB —— 根节点在上，往下布局<br />- BT —— 根节点在下，往上布局<br />
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571833657395-7b291d7b-5408-41fa-bfb6-533ef39250ad.png#align=left&display=inline&height=59&name=image.png&originHeight=744&originWidth=1786&search=&size=397159&status=done&width=141)      ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571833676794-31f862f3-8cb5-412e-81d4-2ac246e37c0d.png#align=left&display=inline&height=60&name=image.png&originHeight=762&originWidth=1790&search=&size=390312&status=done&width=140)> （左）TB。（右）BT。
-
-- LR —— 根节点在左，往右布局<br />- RL —— 根节点在右，往左布局<br />
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571833574730-5d76d7a2-0e82-4ef7-a7d9-a45efd5b6b30.png#align=left&display=inline&height=119&name=image.png&originHeight=906&originWidth=518&search=&size=164555&status=done&width=68)             ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571833593889-e98c6f6d-0c38-4408-a4c0-ba83d0bbba74.png#align=left&display=inline&height=115&name=image.png&originHeight=932&originWidth=454&search=&size=154391&status=done&width=56)> （左）LR。（右）RL。
-
-- H —— 根节点在中间，水平对称布局<br />- V —— 根节点在中间，垂直对称布局<br />
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571833726277-822e5104-2189-4fe4-bcdc-7b43d183d541.png#align=left&display=inline&height=110&name=image.png&originHeight=906&originWidth=824&search=&size=226469&status=done&width=100)          ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571833702068-8f409559-1765-4154-bd4d-bb782de8cd23.png#align=left&display=inline&height=92&name=image.png&originHeight=924&originWidth=1028&search=&size=314177&status=done&width=102)<br />> （左）H。（右）V。 |
+| direction | String | 'TB' / 'BT' / 'LR' / 'RL' / 'H' / 'V' | 'LR' | layout 的方向。<br />- TB —— 根节点在上，往下布局<br />- BT —— 根节点在下，往上布局<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571833657395-7b291d7b-5408-41fa-bfb6-533ef39250ad.png#align=left&display=inline&height=59&name=image.png&originHeight=744&originWidth=1786&search=&size=397159&status=done&width=141)      ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571833676794-31f862f3-8cb5-412e-81d4-2ac246e37c0d.png#align=left&display=inline&height=60&name=image.png&originHeight=762&originWidth=1790&search=&size=390312&status=done&width=140)> <br />（左）TB。（右）BT。<br />- LR —— 根节点在左，往右布局<br />- RL —— 根节点在右，往左布局<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571833574730-5d76d7a2-0e82-4ef7-a7d9-a45efd5b6b30.png#align=left&display=inline&height=119&name=image.png&originHeight=906&originWidth=518&search=&size=164555&status=done&width=68)             ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571833593889-e98c6f6d-0c38-4408-a4c0-ba83d0bbba74.png#align=left&display=inline&height=115&name=image.png&originHeight=932&originWidth=454&search=&size=154391&status=done&width=56)> <br />（左）LR。（右）RL。<br />- H —— 根节点在中间，水平对称布局<br />- V —— 根节点在中间，垂直对称布局<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571833726277-822e5104-2189-4fe4-bcdc-7b43d183d541.png#align=left&display=inline&height=110&name=image.png&originHeight=906&originWidth=824&search=&size=226469&status=done&width=100)          ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571833702068-8f409559-1765-4154-bd4d-bb782de8cd23.png#align=left&display=inline&height=92&name=image.png&originHeight=924&originWidth=1028&search=&size=314177&status=done&width=102)<br />> （左）H。（右）V。 |
 | getId | Function | (d) => {<br />  // d 是一个节点<br />  return d.id;<br />} | undefined | 节点 id 的回调函数 |
 | getHeight | Function | (d) => {<br />  // d 是一个节点<br />  return 10;<br />} | undefined | 节点高度的回调函数 |
 | getWidth | Function | (d) => {<br />  // d 是一个节点<br />  return 20;<br />} | undefined | 节点宽度的回调函数 |
@@ -275,7 +268,7 @@ const graph = new G6.TreeGraph({
 
 | 参数名 | 类型 | 示例 / 可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
-| direction | String | 'TB' | 'BT' | 'LR' | 'RL' | 'H' | 'V' | 'LR' | layout 的方向。<br />- TB —— 根节点在上，往下布局<br />- BT —— 根节点在下，往上布局<br />
+| direction | String | 'TB' / 'BT' / 'LR' / 'RL' / 'H' / 'V' | 'LR' | layout 的方向。<br />- TB —— 根节点在上，往下布局<br />- BT —— 根节点在下，往上布局<br />
 ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571832831947-89713eef-7898-446b-9edc-604ed63b77d4.png#align=left&display=inline&height=48&name=image.png&originHeight=760&originWidth=1784&search=&size=518414&status=done&width=112)      ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571832849059-ada0d199-ca15-4ce0-83e0-de00f9482c0b.png#align=left&display=inline&height=50&name=image.png&originHeight=786&originWidth=1814&search=&size=517688&status=done&width=115)<br />> （左）TB。（右）BT。
 
 - LR —— 根节点在左，往右布局<br />- RL —— 根节点在右，往左布局<br />
@@ -296,17 +289,11 @@ const graph = new G6.TreeGraph({
 
 | 参数名 | 类型 | 示例 / 可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
-| direction | String | 'LR' | 'RL' | 'H' | 'LR' | layout 的方向。<br />- LR —— 根节点在左，往右布局（下图左）
-
-- RL —— 根节点在右，往左布局（下图中）
-
-- H —— 根节点在中间，水平对称布局（下图右）
-
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571832031826-33f11b5c-3d7a-4767-89b0-1d7cb6f64510.png#align=left&display=inline&height=172&name=image.png&originHeight=908&originWidth=354&search=&size=141929&status=done&width=67)  ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571832083137-c38a3f7a-885e-4acf-954a-73fbeb822bde.png#align=left&display=inline&height=166&name=image.png&originHeight=890&originWidth=278&search=&size=133215&status=done&width=52)  ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571832100885-51d8526e-d530-4090-9f37-4fdd4f9e865a.png#align=left&display=inline&height=128&name=image.png&originHeight=910&originWidth=526&search=&size=205642&status=done&width=74) |
+| direction | String | 'LR' / 'RL' / 'H' | 'LR' | layout 的方向。<br />'LR' —— 根节点在左，往右布局（下图左）<br />'RL' —— 根节点在右，往左布局（下图中）<br />'H' —— 根节点在中间，水平对称布局（下图右）<br /><img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1571832031826-33f11b5c-3d7a-4767-89b0-1d7cb6f64510.png#align=left&display=inline&height=172&name=image.png&originHeight=908&originWidth=354&search=&size=141929&status=done&width=67' alt='indented1' width='80' /><img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1571832083137-c38a3f7a-885e-4acf-954a-73fbeb822bde.png#align=left&display=inline&height=166&name=image.png&originHeight=890&originWidth=278&search=&size=133215&status=done&width=52' alt='indented2' width='60' /><img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1571832100885-51d8526e-d530-4090-9f37-4fdd4f9e865a.png#align=left&display=inline&height=128&name=image.png&originHeight=910&originWidth=526&search=&size=205642&status=done&width=74' alt='indented3' width='120' /> |
 | indent | Number | 80 | 20 | 列间间距 |
 | getHeight | Function | (d) => {<br />  // d 是一个节点<br />  return 10;<br />} | undefined | 节点高度的回调函数 |
 | getWidth | Function | (d) => {<br />  // d 是一个节点<br />  return 20;<br />} | undefined | 节点宽度的回调函数 |
-
+| getSide | Function | (d) => {<br />  // d 是一个节点<br />  return 'left';<br />} | undefined | 节点放置在根节点左侧或右侧的回调函数，仅对与根节点直接相连的节点有效，设置后将会影响被设置节点的所有子孙节点 |
 
 
 <a name="AOAs2"></a>
@@ -315,9 +302,7 @@ const graph = new G6.TreeGraph({
 
 | 参数名 | 类型 | 示例 / 可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
-| direction | String | 'H' | 'V' | 'H' | layout 的方向。<br />- H：horizontal（水平）—— 根节点的子节点分成两部分横向放置在根节点左右两侧<br />
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571830487985-0c3dfc8c-fadd-4911-8ea4-1b4091a86538.png#align=left&display=inline&height=101&name=image.png&originHeight=906&originWidth=1266&search=&size=267710&status=done&width=141)<br />- V：vertical （竖直）—— 将根节点的所有孩子纵向排列<br />
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571830515639-e66a5347-09fe-4583-81d6-178aa6920f7b.png#align=left&display=inline&height=112&name=image.png&originHeight=920&originWidth=982&search=&size=252410&status=done&width=120) |
+| direction | String | 'H' / 'V' | 'H' | layout 的方向。<br />- H：horizontal（水平）—— 根节点的子节点分成两部分横向放置在根节点左右两侧<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571830487985-0c3dfc8c-fadd-4911-8ea4-1b4091a86538.png#align=left&display=inline&height=101&name=image.png&originHeight=906&originWidth=1266&search=&size=267710&status=done&width=141)<br />- V：vertical （竖直）—— 将根节点的所有孩子纵向排列<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571830515639-e66a5347-09fe-4583-81d6-178aa6920f7b.png#align=left&display=inline&height=112&name=image.png&originHeight=920&originWidth=982&search=&size=252410&status=done&width=120) |
 | getHeight | Function | (d) => {<br />  // d 是一个节点<br />  return 10;<br />} | undefined | 节点高度的回调函数 |
 | getWidth | Function | (d) => {<br />  // d 是一个节点<br />  return 20;<br />} | undefined | 节点宽度的回调函数 |
 | getVGap | Function | (d) => {<br />  // d 是一个节点<br />  return 100;<br />} | 18 | 节点纵向间距的回调函数 |
