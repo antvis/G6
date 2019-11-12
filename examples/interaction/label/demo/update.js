@@ -36,14 +36,21 @@ const graph = new G6.Graph({
     color: '#bae7ff',
     lineAppendWidth: 3
   },
+  defaultNode: {
+    style: {
+      fill: '#40a9ff'
+    }
+  },
   nodeStateStyles: {
     hover: {
-      fill: 'steelblue'
+      stroke: '#bae7ff',
+      lineWidth: 5,
+      fillOpacity: 1
     }
   },
   edgeStateStyles: {
     hover: {
-      stroke: '#000',
+      stroke: '#bae7ff',
       lineWidth: 3
     }
   }
@@ -60,7 +67,7 @@ graph.on('node:mouseenter', function(evt) {
     label: 'hover 后 ' + model.id,
     labelCfg: {
       style: {
-        fill: '#f00'
+        fill: '#003a8c'
       }
     }
   });
@@ -89,7 +96,7 @@ graph.on('edge:mouseenter', function(evt) {
     label: 'hover 后',
     labelCfg: {
       style: {
-        fill: '#f00'
+        fill: '#003a8c'
       }
     }
   });

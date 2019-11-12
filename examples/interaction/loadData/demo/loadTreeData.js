@@ -56,6 +56,7 @@ graph.edge(function() {
     color: '#A3B1BF'
   };
 });
+
 const data = {
   isRoot: true,
   id: 'Root',
