@@ -8,14 +8,14 @@ import G6 from '@antv/g6';
  */
 
 const img = new Image();
-img.src = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566553535233&di=b0b17eeea7bd7356a6f42ebfd48e9441&imgtype=0&src=http%3A%2F%2Fa2.att.hudong.com%2F64%2F29%2F01300543361379145388299988437_s.jpg';
+img.src = 'https://gw.alipayobjects.com/os/s/prod/antv/assets/image/logo-with-text-73b8a.svg';
 
   // 点击图片节点，切换背景图片
 const img2 = new Image();
-img2.src = 'http://seopic.699pic.com/photo/50055/5642.jpg_wh1200.jpg';
+img2.src = 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wAmHQJbNVdwAAAAAAAAAAABkARQnAQ';
 const data = {
   nodes: [{
-    x: 100,
+    x: 150,
     y: 100,
     shape: 'circleNode',
     label: 'circle',
@@ -24,11 +24,12 @@ const data = {
       position: 'center'
     }
   }, {
-    x: 400,
+    x: 350,
     y: 100,
     shape: 'image',
     id: 'node2',
     img: img.src,
+    size: [ 120, 60 ],
     label: '头像',
     style: {
       cursor: 'pointer'

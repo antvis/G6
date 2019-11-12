@@ -1,0 +1,12 @@
+---
+title: 节点分组
+order: 0
+redirect_from:
+  - /zh/examples
+---
+
+G6 支持节点分组。
+
+## 使用指南
+
+G6 默认支持 `circle` 和 `rect` 两种类型的节点分组，可用于团伙导航或聚类分析上面。
