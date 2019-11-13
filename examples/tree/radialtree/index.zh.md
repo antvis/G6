@@ -9,6 +9,7 @@ redirect_from:
 <br />
 <img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1571833294684-7874d71d-fb44-4340-95d0-c03b56c67a18.png?x-oss-process=image/resize,w_342' alt='radialtree' width='250'/>
 
-## 何时使用
+## 使用指南
+辐射树是通过生态树、紧凑树布局的变形。适用于展示树结构数据，配合 TreeGraph 使用。如下面代码所示，可在实例化 TreeGraph 时使用该布局。除此之外，还可以如[子图布局](https://www.yuque.com/antv/g6/qopkkg#eYZc6)所示单独使用布局。
 
-以辐射树的形式，展示树结构数据。
+使用方式与对应的生态树、紧凑树相同，配置 `radial` 为  `true` 时，将会以辐射形式展示树。在使用辐射树时建议将布局的 `direction` 配置为 `LR` 或 `RL`。

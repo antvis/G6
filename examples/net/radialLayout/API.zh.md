@@ -2,12 +2,36 @@
 title: API
 ---
 
-API 信息。
+#### center
+**类型**： Array<br />**示例**：[ 0, 0 ]<br />**默认值**：图的中心<br />**是否必须**：false<br />**说明**：布局的中心
 
-- Modern browsers and Internet Explorer 9+ (with [polyfills](https://ant.design/docs/react/getting-started#Compatibility))
-- Server-side Rendering
-- [Electron](http://electron.atom.io/)
+#### linkDistance
+**类型**： Number<br />**默认值**：50<br />**是否必须**：false<br />**说明**：边长度
 
-| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Safari | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png" alt="Opera" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Opera | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/electron/electron_48x48.png" alt="Electron" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Electron |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| IE9, IE10, IE11, Edge                                                                                                                                                                                           | last 2 versions                                                                                                                                                                                                   | last 2 versions                                                                                                                                                                                               | last 2 versions                                                                                                                                                                                               | last 2 versions                                                                                                                                                                                           | last 2 versions                                                                                                                                                                                                       |
+#### maxIteration
+**类型**： Number<br />**默认值**：1000<br />**是否必须**：false<br />**说明**：停止迭代到最大迭代数
+
+#### focusNode
+**类型**：String | Object<br />**默认值**：null<br />**是否必须**：false<br />**说明**：辐射的中心点，默认为数据中第一个节点。可以传入节点 id 或节点本身
+
+#### unitRadius
+**类型**：Number<br />**默认值**：100<br />**是否必须**：false<br />**说明**：每一圈距离上一圈的距离。默认填充整个画布，即根据图的大小决定
+
+#### preventOverlap
+**类型**：Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否防止重叠，必须配合下面属性 [`nodeSize`](#xWjHN) ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测
+
+#### nodeSize
+**类型**： Number<br />**默认值**：10<br />**是否必须**：false<br />**说明**：节点大小（直径）。用于防止节点重叠时的碰撞检测
+
+#### maxPreventOverlapIteration
+**类型**： Number<br />**默认值**：200<br />**是否必须**：false<br />**说明**：防止重叠步骤的最大迭代次数
+
+#### strictRadial
+**类型**： Boolean<br />**默认值**：true<br />**是否必须**：false<br />**说明**：是否必须是严格的 radial 布局，及每一层的节点严格布局在一个环上。`preventOverlap` 为 `true` 时生效。
+
+- 当 `preventOverlap` 为 `true`，且 `strictRadial` 为 `false` 时，有重叠的节点严格沿着所在的环展开，但在一个环上若节点过多，可能无法完全避免节点重叠。
+- 当 `preventOverlap` 为 `true`，且 `strictRadial` 为 `true` 时，允许同环上重叠的节点不严格沿着该环布局，可以在该环的前后偏移以避免重叠。
+
+![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571823019221-9dca17b5-de09-4a1f-bc2e-d3449bcf3b15.png#align=left&display=inline&height=99&name=image.png&originHeight=782&originWidth=1708&search=&size=618660&status=done&width=217)        ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571822948753-8770ced2-4d49-4e32-8b63-d4274b3d954b.png#align=left&display=inline&height=115&name=image.png&originHeight=1022&originWidth=1730&search=&size=777561&status=done&width=194)      ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571822993803-287544ef-2b0a-4187-862b-39d9cba314c5.png#align=left&display=inline&height=113&name=image.png&originHeight=920&originWidth=1716&search=&size=709533&status=done&width=210)
+> （左）preventOverlap = false。（中）preventOverlap = false，strictRadial = true。（右）preventOverlap = false，strictRadial = false。
+
