@@ -2,12 +2,73 @@
 title: API
 ---
 
-API 信息。
+#### direction
+**类型**：String<br />**可选值**：'H' | 'V'<br />**默认值**：'H'<br />**是否必须**：false<br />**说明**：树布局的方向，默认为，其他选项说明
 
-- Modern browsers and Internet Explorer 9+ (with [polyfills](https://ant.design/docs/react/getting-started#Compatibility))
-- Server-side Rendering
-- [Electron](http://electron.atom.io/)
+- H：horizontal（水平）—— 根节点的子节点分成两部分横向放置在根节点左右两侧
 
-| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Safari | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png" alt="Opera" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Opera | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/electron/electron_48x48.png" alt="Electron" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Electron |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| IE9, IE10, IE11, Edge                                                                                                                                                                                           | last 2 versions                                                                                                                                                                                                   | last 2 versions                                                                                                                                                                                               | last 2 versions                                                                                                                                                                                               | last 2 versions                                                                                                                                                                                           | last 2 versions                                                                                                                                                                                                       |
+![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571830487985-0c3dfc8c-fadd-4911-8ea4-1b4091a86538.png#align=left&display=inline&height=122&name=image.png&originHeight=906&originWidth=1266&search=&size=267710&status=done&width=170)
+
+- V：vertical （竖直）—— 将根节点的所有孩子纵向排列
+
+![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571830515639-e66a5347-09fe-4583-81d6-178aa6920f7b.png#align=left&display=inline&height=136&name=image.png&originHeight=920&originWidth=982&search=&size=252410&status=done&width=145)
+
+<a name="MUDRY"></a>
+#### getWidth
+**类型**：Number | Function<br />**示例**：
+```javascript
+(d) => {
+  // d 是一个节点
+  if (d.id === 'testId') return 50
+  return 100;
+}
+```
+**是否必须**：false<br />**说明**：每个节点的宽度
+
+<a name="Bvvg1"></a>
+#### getHeight
+**类型**：Number | Function<br />**示例**：
+```javascript
+(d) => {
+  // d 是一个节点
+  if (d.id === 'testId') return 50
+  return 100;
+}
+```
+**是否必须**：false<br />**说明**：每个节点的高度
+
+<a name="c4eUs"></a>
+#### getHGap
+**类型**：Number | Function<br />**示例**：
+```javascript
+(d) => {
+  // d 是一个节点
+  if (d.id === 'testId') return 50
+  return 100;
+}
+```
+**默认值**：18<br />**是否必须**：false<br />**说明**：每个节点的水平间隙
+
+<a name="G1Yxp"></a>
+#### getVGap
+**类型**：Number | Function<br />**示例**：
+```javascript
+(d) => {
+  // d 是一个节点
+  if (d.id === 'testId') return 50
+  return 100;
+}
+```
+**默认值**：18<br />**是否必须**：false<br />**说明**：每个节点的垂直间隙
+
+<a name="NJnDM"></a>
+#### getSide
+**类型**：Function<br />**示例**：
+```javascript
+(d) => {
+  // d 是一个节点
+  if (d.id === 'test-child-id') return 'right'
+  return 'left';
+}
+```
+**默认值**：'right'<br />**是否必须**：false<br />**说明**：节点排布在根节点的左侧/右侧。若设置了该值，则所有节点会在根节点同一侧，即 direction = 'H' 不再起效。若该参数为回调函数，则可以指定每一个节点在根节点的左/右侧
