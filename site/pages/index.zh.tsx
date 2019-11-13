@@ -5,36 +5,35 @@ import Banner from '@antv/gatsby-theme-antv/site/components/Banner';
 import Companies from '@antv/gatsby-theme-antv/site/components/Companies';
 import Features from '@antv/gatsby-theme-antv/site/components/Features';
 import Cases from '@antv/gatsby-theme-antv/site/components/Cases';
-import BannerSVG from '@antv/gatsby-theme-antv/site/components/BannerSVG';
 
 const IndexPage = () => {
   const { t, i18n } = useTranslation();
 
-  const coverImage = BannerSVG();
+  const coverImage = <img src='https://gw.alipayobjects.com/zos/basement_prod/7a3d508b-0dd1-47ec-9de6-a9843c4fa063.svg' />//BannerSVG();
 
   const features = [
     {
       icon:
-        'https://gw.alipayobjects.com/zos/basement_prod/5dbaf094-c064-4a0d-9968-76020b9f1510.svg',
-      title: t('简单方便'),
+        'https://gw.alipayobjects.com/zos/basement_prod/0e03c123-031b-48ed-9050-4ee18c903e94.svg',
+      title: t('专注关系，完备基建'),
       description: t(
-        '从数据出发，仅需几行代码可以轻松获得想要的图表展示效果。',
+        'G6 是一个专注于关系数据的、完备的图可视化引擎',
       ),
     },
     {
       icon:
-        'https://gw.alipayobjects.com/zos/basement_prod/0a0371ab-6bed-41ad-a99b-87a5044ba11b.svg',
-      title: t('方便可靠'),
+        'https://gw.alipayobjects.com/zos/basement_prod/42d17359-8607-4227-af93-7509eabb3163.svg',
+      title: t('领域深钻，顶尖方案'),
       description: t(
-        '大量产品实践之上，提供绘图引擎、完备图形语法，专业设计规范。',
+        '扎根实际具体业务场景、结合业界领先成果，沉淀顶尖解决方案',
       ),
     },
     {
       icon:
-        'https://gw.alipayobjects.com/zos/basement_prod/716d0bc0-e311-4b28-b79f-afdd16e8148e.svg',
-      title: t('无限可能'),
+        'https://gw.alipayobjects.com/zos/basement_prod/acd8d1f3-d256-42b7-8340-27e5d5fde92c.svg',
+      title: t('简单易用，扩展灵活'),
       description: t(
-        '任何图表，都可以基于图形语法灵活绘制，满足你无限的创意。',
+        '精心设计的简单、灵活、高可拓展的接口，满足你的无限创意',
       ),
     },
   ];
@@ -74,11 +73,17 @@ const IndexPage = () => {
 
   const notifications = [
     {
-      type: t('测试'),
-      title: t('G6 3.2 全新上线！'),
-      date: '2019.12.04',
-      link: '#',
+      type: t('点线析源远'),
+      title: t('G6 3.2.0 全新发布！'),
+      date: '2019.11.22',
+      link: 'https://github.com/antvis/g6',
     },
+    {
+      type: t('小试牛刀'),
+      title: t('Graphin 1.0.0 全新发布！'),
+      date: '2019.11.22',
+      link: 'https://github.com/antvis/g6',
+    }
   ];
 
   const cases = [
