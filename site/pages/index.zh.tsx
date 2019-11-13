@@ -10,7 +10,7 @@ import BannerSVG from '@antv/gatsby-theme-antv/site/components/BannerSVG';
 const IndexPage = () => {
   const { t, i18n } = useTranslation();
 
-  const coverImage = BannerSVG();
+  const coverImage = <BannerSVG />;
 
   const features = [
     {
