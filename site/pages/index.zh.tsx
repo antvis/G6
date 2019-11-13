@@ -108,10 +108,6 @@ const IndexPage = () => {
     },
   ];
 
-  const downloadButton = {
-    text: '下载使用',
-    link: 'https://antv.alipay.com/zh-cn/index.html',
-  };
   return (
     <>
       <SEO title={t('蚂蚁数据可视化')} lang={i18n.language} />
