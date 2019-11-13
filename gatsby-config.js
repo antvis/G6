@@ -171,8 +171,8 @@ module.exports = {
         slug: 'tool',
         icon: 'tool',
         title: {
-          zh: '辅助工具',
-          en: 'Tool'
+          zh: '组件',
+          en: 'Component'
         }
       },
       {
