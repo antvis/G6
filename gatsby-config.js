@@ -19,14 +19,14 @@ module.exports = {
       {
         slug: 'docs/manual',
         title: {
-          zh: '使用教程',
-          en: 'Tutorial'
+          zh: '文档',
+          en: 'Docs'
         }
       },
       {
         slug: 'docs/api/Item',
         title: {
-          zh: 'API 文档',
+          zh: 'API',
           en: 'API'
         }
       },
@@ -40,20 +40,28 @@ module.exports = {
     ],
     docs: [
       {
+        slug: 'manual/FAQ',
+        title: {
+          zh: 'FAQ',
+          en: 'FAQ'
+        },
+        order: 2
+      },
+      {
         slug: 'manual/tutorial',
         title: {
           zh: '入门教程',
           en: 'Tutorial'
         },
-        order: 2
+        order: 3
       },
       {
         slug: 'manual/middle',
         title: {
-          zh: '中级教程',
+          zh: '核心概念',
           en: 'Middle'
         },
-        order: 3
+        order: 4
       },
       {
         slug: 'manual/middle/states',
@@ -61,7 +69,7 @@ module.exports = {
           zh: '交互与事件',
           en: 'Behavior & Event'
         },
-        order: 3
+        order: 4
       },
       {
         slug: 'manual/middle/elements',
@@ -89,10 +97,18 @@ module.exports = {
       {
         slug: 'manual/advanced',
         title: {
-          zh: '高级教程',
+          zh: '高级指引',
           en: 'Advanced'
         },
         order: 4
+      },
+      {
+        slug: 'manual/cases',
+        title: {
+          zh: '综合引用',
+          en: 'Cases'
+        },
+        order: 5
       },
       {
         slug: 'api',
@@ -115,7 +131,7 @@ module.exports = {
           zh: '属性配置项',
           en: 'Properties'
         },
-        order: 9
+        order: 10
       }
     ],
     examples: [

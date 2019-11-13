@@ -14,9 +14,9 @@ redirect_from:
 [![NPM downloads](http://img.shields.io/npm/dm/@antv/g6.svg)](https://npmjs.org/package/@antv/g6)
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/antvis/g6.svg)](http://isitmaintained.com/project/antvis/g6 "Percentage of issues still open")
 
-[English README](README.md)
+[English README](https://github.com/antvis/g6)
 
-G6 是一个图可视化框架。它提供了一套图可视化的基础设置，包括渲染、布局、交互、动画、分析、辅助工具等。帮助开发者搭建属于自己的图 **图分析** 应用或是 **图编辑器** 应用。 详情请见[开发文档](https://www.yuque.com/antv/g6/intro)。
+G6 是一个图可视化框架。它提供了一套图可视化的基础设置，包括渲染、布局、交互、动画、分析、辅助工具等。帮助开发者搭建属于自己的图 **图分析** 应用或是 **图编辑器** 应用。 详情请见[开发文档](./getting-started)。
 
 <img src="https://user-images.githubusercontent.com/6113694/44995293-02858600-afd5-11e8-840c-349e4730d63d.gif" height=150><img src="https://cdn.nlark.com/yuque/0/2018/gif/93506/1535955277773-840190f8-836a-4bd6-875a-b3a18e6cebf1.gif" height=150><img src="https://user-images.githubusercontent.com/6113694/44995332-2ba61680-afd5-11e8-8cab-db0e9d08ceb7.gif" height=150>
 
@@ -94,5 +94,5 @@ $ npm run dev
 
 ## License
 
-[MIT license](./LICENSE).
+[MIT license](https://github.com/antvis/g6/blob/master/LICENSE).
 

@@ -9,7 +9,7 @@ redirect_from:
 
 ## 何时使用
 
-内置的边不能满足需求时，可以使用自定义边来实现。
+内置的边不能满足需求时，可以使用[自定义边](/zh/docs/manual/advanced/custom-edge)来实现。
 两种自定义折线的区别，主要在于实现方式不同。
 - 第一种方式是通过继承line，复写getPath和getShapeStyle方法自定义折线；
 - 第二种方式是通过复写复写draw方法自定义折线。
