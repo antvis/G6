@@ -438,7 +438,7 @@ declare namespace G6 {
   export class Graph {
     constructor(options: GraphOptions);
 
-    on<T = G6Event>(eventName: string, handler: T): void;
+    on<T = G6Event>(eventName: string, handler: (e: T) => void): void;
     emit(eventName: string, params: object): void;
 
     /**
