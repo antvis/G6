@@ -1,0 +1,13 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "default.js",
+      "title": "默认动画",
+      "screenshot": "https://cdn.nlark.com/yuque/0/2019/gif/174835/1552996333072-ac3949af-c9ac-4351-9e06-8b4703127f7e.gif"
+    }
+  ]
+}
