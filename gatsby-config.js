@@ -140,7 +140,7 @@ module.exports = {
         icon: 'tree', // 图标名可以去 https://antv.alipay.com/zh-cn/g2/3.x/demo/index.html 打开控制台查看图标类名
         title: {
           zh: '树图',
-          en: 'Tree Charts'
+          en: 'Tree Graph'
         }
       },
       {
@@ -148,7 +148,7 @@ module.exports = {
         icon: 'net',
         title: {
           zh: '一般图',
-          en: 'Net Charts'
+          en: 'General Graph'
         }
       },
       {
