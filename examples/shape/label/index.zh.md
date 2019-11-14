@@ -1,5 +1,5 @@
 ---
-title: 文本超长
+title: 超长文本
 order: 4
 redirect_from:
   - /zh/examples

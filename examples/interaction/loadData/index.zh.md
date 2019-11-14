@@ -1,6 +1,6 @@
 ---
 title: 动态加载多条数据
-order: 0
+order: 1
 redirect_from:
   - /zh/examples
 ---

@@ -1,6 +1,6 @@
 ---
 title: 移动位置
-order: 0
+order: 5
 redirect_from:
   - /zh/examples
 ---

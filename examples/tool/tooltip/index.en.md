@@ -1,14 +1,14 @@
 ---
-title: 提示框
+title: Tooltip
 order: 0
 redirect_from:
   - /zh/examples
 ---
 
-G6 中内置的 Tooltip 组件。
+Tooltip is a built-in components in G6.
 
-## 使用指南
-下面的代码演示展示了如何在图上使用 tooltip。如果需要定义 tooltip 的样式，需要定义类名为 `g6-tooltip` 的标签的 CSS 样式：
+## Usage
+The demo below show how to use tooltip on graph. Tooltip's style can be defined by the CSS with class name `g6-tooltip`:
 ```
 .g6-tooltip {
     border: 1px solid #e2e2e2;
