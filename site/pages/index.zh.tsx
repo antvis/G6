@@ -116,7 +116,7 @@ const IndexPage = () => {
     },
     {
       text: t('下载使用'),
-      link: 'https://antv.alipay.com/zh-cn/index.html',
+      link: 'https://github.com/antvis/g6/',
     },
   ];
 
@@ -137,15 +137,12 @@ const IndexPage = () => {
       />
       <Features
         features={features}
-        // className="features"
         style={{ width: '100%' }}
       />
       <Cases cases={cases} />
       <Companies
         title={t('感谢一路的合作伙伴')}
         companies={companies}
-        // className="companies"
-        // style={{ width: '100%' }}
       />
     </>
   );
