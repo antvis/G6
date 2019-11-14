@@ -1,6 +1,16 @@
 ---
-title: Pie Chart
-order: 0
+title: Circular Layout
+order: 4
 ---
 
-Description about this component.
+Circular layout order the nodes according to the configuration, and then places the nodes on a circle.
+
+## Usage
+
+As the demo below, you can deploy it in `layout` while instantiating Graph. it can also be used for [Subgraph Layout](https://www.yuque.com/antv/g6/qopkkg#eYZc6). By tuning the configurations, you can adjust the radius, start angle, end angle, nodes' order method, divisions, spiral style, and so on.
+
+- Example 1 : Basic Circular Layout, the nodes are placed on the circle clockwise in the data order.
+- Example 2 : The nodes are placed on the circle clockwise according to their degrees.
+- Example 3 : Spiral layout.
+- Example 4 : Devide the nodes into several divisions on the circle.
+- Example 5 : Translate the parameters in dynamic.

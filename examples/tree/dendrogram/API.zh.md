@@ -1,7 +1,7 @@
 ---
 title: API
 ---
-#### direction
+## direction
 **类型**：String<br />**可选值**：'LR' | 'RL' | 'TB' | 'BT' | 'H' | 'V'<br />**默认值**：'LR'<br />**是否必须**：false<br />**说明**：树布局的方向，默认为，其他选项说明
 
 - TB —— 根节点在上，往下布局
@@ -28,11 +28,11 @@ title: API
 
 ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571832910720-f3d479c3-b822-4123-b207-a81e22fad324.png#align=left&display=inline&height=91&name=image.png&originHeight=922&originWidth=1172&search=&size=366086&status=done&width=116)
 
-#### nodeSep
+## nodeSep
 **类型**：Number<br />**默认值**：0<br />**是否必须**：false<br />**说明**：节点间距
 
-#### rankSep
+## rankSep
 **类型**：Number<br />**默认值**：0<br />**是否必须**：false<br />**说明**：层与层之间的间距
 
-#### radial
+## radial
 **类型**：Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否按照辐射状布局。若 `radial` 为 `true`，建议 `direction` 设置为 `'LR'` 或 `'RL'`：<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571833294684-7874d71d-fb44-4340-95d0-c03b56c67a18.png#align=left&display=inline&height=172&name=image.png&originHeight=926&originWidth=922&search=&size=286654&status=done&width=171)

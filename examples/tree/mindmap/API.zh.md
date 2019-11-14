@@ -2,7 +2,7 @@
 title: API
 ---
 
-#### direction
+## direction
 **类型**：String<br />**可选值**：'H' | 'V'<br />**默认值**：'H'<br />**是否必须**：false<br />**说明**：树布局的方向，默认为，其他选项说明
 
 - H：horizontal（水平）—— 根节点的子节点分成两部分横向放置在根节点左右两侧
@@ -14,7 +14,7 @@ title: API
 ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571830515639-e66a5347-09fe-4583-81d6-178aa6920f7b.png#align=left&display=inline&height=136&name=image.png&originHeight=920&originWidth=982&search=&size=252410&status=done&width=145)
 
 <a name="MUDRY"></a>
-#### getWidth
+## getWidth
 **类型**：Number | Function<br />**示例**：
 ```javascript
 (d) => {
@@ -26,7 +26,7 @@ title: API
 **是否必须**：false<br />**说明**：每个节点的宽度
 
 <a name="Bvvg1"></a>
-#### getHeight
+## getHeight
 **类型**：Number | Function<br />**示例**：
 ```javascript
 (d) => {
@@ -38,7 +38,7 @@ title: API
 **是否必须**：false<br />**说明**：每个节点的高度
 
 <a name="c4eUs"></a>
-#### getHGap
+## getHGap
 **类型**：Number | Function<br />**示例**：
 ```javascript
 (d) => {
@@ -50,7 +50,7 @@ title: API
 **默认值**：18<br />**是否必须**：false<br />**说明**：每个节点的水平间隙
 
 <a name="G1Yxp"></a>
-#### getVGap
+## getVGap
 **类型**：Number | Function<br />**示例**：
 ```javascript
 (d) => {
@@ -62,7 +62,7 @@ title: API
 **默认值**：18<br />**是否必须**：false<br />**说明**：每个节点的垂直间隙
 
 <a name="NJnDM"></a>
-#### getSide
+## getSide
 **类型**：Function<br />**示例**：
 ```javascript
 (d) => {

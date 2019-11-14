@@ -2,12 +2,73 @@
 title: API
 ---
 
-API.
+## direction
+**Type**: String<br />**Options**: 'H' | 'V'<br />**Default**: 'H'<br />**Required**: false<br />**Explanation**: The direction of layout. 
 
-- Modern browsers and Internet Explorer 9+ (with [polyfills](https://ant.design/docs/react/getting-started#Compatibility))
-- Server-side Rendering
-- [Electron](http://electron.atom.io/)
+- H —— Root is on the middle, layout in horizontal symmetry.
 
-| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Safari | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png" alt="Opera" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Opera | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/electron/electron_48x48.png" alt="Electron" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Electron |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| IE9, IE10, IE11, Edge                                                                                                                                                                                           | last 2 versions                                                                                                                                                                                                   | last 2 versions                                                                                                                                                                                               | last 2 versions                                                                                                                                                                                               | last 2 versions                                                                                                                                                                                           | last 2 versions                                                                                                                                                                                                       |
+![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571830487985-0c3dfc8c-fadd-4911-8ea4-1b4091a86538.png#align=left&display=inline&height=122&name=image.png&originHeight=906&originWidth=1266&search=&size=267710&status=done&width=170)
+
+- V —— Root is on the middle, layout in vertical symmetry.
+
+![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571830515639-e66a5347-09fe-4583-81d6-178aa6920f7b.png#align=left&display=inline&height=136&name=image.png&originHeight=920&originWidth=982&search=&size=252410&status=done&width=145)
+
+<a name="MUDRY"></a>
+## getWidth
+**Type**: Number | Function<br />**Example**: 
+```javascript
+(d) => {
+  // d is a node
+  if (d.id === 'testId') return 50
+  return 100;
+}
+```
+**Required**: false<br />**Explanation**: 每个节点的宽度
+
+<a name="Bvvg1"></a>
+## getHeight
+**Type**: Number | Function<br />**Example**: 
+```javascript
+(d) => {
+  // d is a node
+  if (d.id === 'testId') return 50
+  return 100;
+}
+```
+**Required**: false<br />**Explanation**: The height of node
+
+<a name="c4eUs"></a>
+## getHGap
+**Type**: Number | Function<br />**Example**: 
+```javascript
+(d) => {
+  // d is a node
+  if (d.id === 'testId') return 50
+  return 100;
+}
+```
+**Default**: 18<br />**Required**: false<br />**Explanation**: The horizontal separation of nodes
+
+<a name="G1Yxp"></a>
+## getVGap
+**Type**: Number | Function<br />**Example**: 
+```javascript
+(d) => {
+  // d is a node
+  if (d.id === 'testId') return 50
+  return 100;
+}
+```
+**Default**: 18<br />**Required**: false<br />**Explanation**: The vertical separation of nodes
+
+<a name="NJnDM"></a>
+## getSide
+**Type**: Function<br />**Example**: 
+```javascript
+(d) => {
+  // d is a node
+  if (d.id === 'test-child-id') return 'right'
+  return 'left';
+}
+```
+**Default**: 'right'<br />**Required**: false<br />**Explanation**: The callback function of node position(left or right of root node). Only affects the nodes which are connected to the root node directly. And the descendant nodes will be placed according to it. 

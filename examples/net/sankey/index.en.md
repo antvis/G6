@@ -1,6 +1,8 @@
 ---
-title: Pie Chart
-order: 0
+title: Sankey Diagram
+order: 9
 ---
 
-Description about this component.
+Sankey Diagram is an appropriate visualization for showing the amount and direction of flow.
+
+

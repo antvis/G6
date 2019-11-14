@@ -2,12 +2,32 @@
 title: API
 ---
 
-API.
+## center
+**Type**: Array<br />**Example**: [ 0, 0 ]<br />**Default**: The center of grpah<br />**Required**: false<br />**Explanation**: The center of the layout
 
-- Modern browsers and Internet Explorer 9+ (with [polyfills](https://ant.design/docs/react/getting-started#Compatibility))
-- Server-side Rendering
-- [Electron](http://electron.atom.io/)
+## preventOverlap
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Explanation**: Switch to prevent the node overlappings. It should be used with [`nodeSize`](https://www.yuque.com/antv/g6/ngp0vg#xWjHN). Only if the `nodeSize` is assigned, the collide detection will take effect.
 
-| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Safari | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png" alt="Opera" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Opera | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/electron/electron_48x48.png" alt="Electron" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Electron |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| IE9, IE10, IE11, Edge                                                                                                                                                                                           | last 2 versions                                                                                                                                                                                                   | last 2 versions                                                                                                                                                                                               | last 2 versions                                                                                                                                                                                               | last 2 versions                                                                                                                                                                                           | last 2 versions                                                                                                                                                                                                       |
+## nodeSize
+**Type**: Number<br />**Default**: 30<br />**Required**: false<br />**Explanation**: The size of the node(diameter). It will be used in collide dectection for preventing node overlappings.
+
+## minNodeSpacing
+**Type**: Number<br />**Default**: 10<br />**Required**: false<br />**Explanation**: The min distance between rings.
+
+## sweep
+**Type**: Number<br />**Default**: undefined<br />**Required**: false<br />**Explanation**: How many radians should be between the first and last node (defaults to full circle). If it is undefined, 2 * Math.PI * (1 - 1 / |level.nodes|) will be used, where level.nodes is nodes set of each level, |level.nodes| is the number of nodes of the level.
+
+## equidistant
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Explanation**: Whether levels have an equal radial distance between them, may cause bounding box overflow
+
+## startAngle
+**Type**: Number<br />**Default**: 3 / 2 * Math.PI<br />**Required**: false<br />**Explanation**: Where nodes start in radians
+
+## clockwise
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Explanation**: Place the nodes in clockwise or not.
+
+## maxLevelDiff
+**Type**: Number<br />**默认值: **undefined<br />**Required**: false<br />**Explanation**: The sum of concentric values in each level. If it is undefined, maxValue / 4 will take place, where maxValue is the max value of ordering properties. For example, if sortBy='degree', maxValue is the max degree value of all the nodes
+
+## sortBy
+**Type**: String<br />**Default**: undefined<br />**Required**: false<br />**Explanation**: Order the nodes according to this parameter. It is the property's name of node. The node with higher value will be placed to the center. If it is undefined, the algorithm will order the nodes by their degree.
