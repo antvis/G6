@@ -108,6 +108,20 @@ const IndexPage = () => {
     },
   ];
 
+  const bannerButtons = [
+    {
+      text: t('图表示例'),
+      link: '#products',
+      type: 'primary',
+    },
+    {
+      text: t('下载使用'),
+      link: 'https://antv.alipay.com/zh-cn/index.html',
+    },
+  ];
+
+  console.log(t('首页'));
+
   return (
     <>
       <SEO title={t('蚂蚁数据可视化')} lang={i18n.language} />
@@ -115,16 +129,11 @@ const IndexPage = () => {
         coverImage={coverImage}
         title={t('G6 图可视化引擎')}
         description={t(
-          'G6 是一个简单、易用、完备的图可视化引擎，它在高定制能力的基础上，提供了一系列设计优雅、便于使用的图可视化解决方案。能帮助开发者搭建属于自己的图 图分析 应用或是 图编辑器 应用。',
+          'G6 是一个简单、易用、完备的图可视化引擎，它在高定制能力的基础上，提供了一系列设计优雅、便于使用的图可视化解决方案。能帮助开发者搭建属于自己的图可视化、图分析、或图编辑器应用。',
         )}
-        buttonText={t('继续了解')}
-        buttonHref={'#products'}
         notifications={notifications}
         className="banner"
-        // video="https://mdn.alipayobjects.com/afts/file/A*qmPlRYhAlBkAAAAAAAAAAABjAQAAAQ?bz=antv_site"
-        // githubStarLink="https://ghbtns.com/github-btn.html?user=antvis&repo=g2&type=star&count=true&size=large"
-        // downloadButton={downloadButton}
-        // style={{ height: '600px' }}
+        buttons={bannerButtons}
       />
       <Features
         features={features}
