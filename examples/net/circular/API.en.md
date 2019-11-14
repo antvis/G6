@@ -2,12 +2,26 @@
 title: API
 ---
 
-API.
+## center
+**Type**: Array<br />**Example**: [ 0, 0 ]<br />**Default**: The center of the graph<br />**Required**: false<br />**Explanation**: The center of the layout
 
-- Modern browsers and Internet Explorer 9+ (with [polyfills](https://ant.design/docs/react/getting-started#Compatibility))
-- Server-side Rendering
-- [Electron](http://electron.atom.io/)
+## radius
+**Type**: Number<br />**Default**: null<br />**Required**: false<br />**Explanation**: The radius of the circle. If the radius is assigned a value, the startRadius and endRadius will not take effect
 
-| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Safari | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png" alt="Opera" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Opera | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/electron/electron_48x48.png" alt="Electron" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Electron |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| IE9, IE10, IE11, Edge                                                                                                                                                                                           | last 2 versions                                                                                                                                                                                                   | last 2 versions                                                                                                                                                                                               | last 2 versions                                                                                                                                                                                               | last 2 versions                                                                                                                                                                                           | last 2 versions                                                                                                                                                                                                       |
+## startRadius
+**Type**: Number<br />**Default**: null<br />**Required**: false<br />**Explanation**: The start radius of spiral style layout
+
+## endRadius
+**Type**: Number<br />**Default**: null<br />**Required**: false<br />**Explanation**: The end radius of spiral style layout
+
+## clockwise
+**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Explanation**: If layout the nodes by clockwise
+
+## divisions
+**Type**: Number<br />**Default**: 1<br />**Required**: false<br />**Explanation**: The number of divisions on the circle. It will takes effect while endRadius - startRadius != 0
+
+## ordering
+**Type**: String<br />**Default**: false<br />**可选值**: null | 'topology' | 'degree'<br />**Required**: false<br />**Explanation**: The nodes will be ordered according to this parameter. null means order the nodes in data order/ 'topology' means order the node by topology. 'degree' means order the nods by their degrees.
+
+## angleRatio
+**Type**: Number<br />**Default**: 1<br />**Required**: false<br />**Explanation**: How many 2*PI between the first node to the last node.

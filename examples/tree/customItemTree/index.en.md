@@ -1,8 +1,15 @@
 ---
-title: Dendrogram
-order: 0
+title: Custom Tree Items
+order: 5
 redirect_from:
   - /en/examples
 ---
 
-Description about this component.
+Thanks to the item's custom mechanism of G6, you can design your own tree with freedom.
+
+## Usage
+
+Combining with custom items, the complex tree visualization can be realized.
+- Examples 1 : Add labels for edges.
+- Examples 2 : Custom the node with expand and collapse button.
+- Examples 3 : Complex custom nodes and edges with custom behaviors.

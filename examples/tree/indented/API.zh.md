@@ -1,7 +1,8 @@
 ---
 title: API
 ---
-#### direction
+
+## direction
 **类型**：String<br />**可选值**：'LR' | 'RL' | 'H'<br />**默认值**：'LR'<br />**是否必须**：false<br />**说明**：树布局的方向，默认为，其他选项说明
 
 - LR —— 根节点在左，往右布局（下图左）<br />
@@ -12,11 +13,11 @@ title: API
 > （左）LR。（中）RL。（右）H。
 
 
-#### indent
+## indent
 **类型**：Number<br />**默认值**：20<br />**是否必须**：false<br />**说明**：列间间距
 
 
-#### getWidth
+## getWidth
 **类型**：Number | Function<br />**示例**：
 ```javascript
 (d) => {
@@ -27,7 +28,7 @@ title: API
 ```
 **是否必须**：false<br />**说明**：每个节点的宽度
 
-#### getHeight
+## getHeight
 **类型**：Number | Function<br />**示例**：
 ```javascript
 (d) => {
@@ -38,7 +39,7 @@ title: API
 ```
 **是否必须**：false<br />**说明**：每个节点的高度
 
-#### getSide
+## getSide
 **类型**：Function<br />**示例**：
 ```javascript
 (d) => {

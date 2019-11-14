@@ -2,12 +2,23 @@
 title: API
 ---
 
-API.
+## preventOverlap
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Explanation**: Prevent node overlappings. Only when the [`nodeSize`](https://www.yuque.com/antv/g6/ngp0vg#xWjHN) is assigned, the collide detection will take effect
 
-- Modern browsers and Internet Explorer 9+ (with [polyfills](https://ant.design/docs/react/getting-started#Compatibility))
-- Server-side Rendering
-- [Electron](http://electron.atom.io/)
+## nodeSize
+**Type**: Number<br />**Default**: 30<br />**Required**: false<br />**Explanation**: The size of the nodes(diameter). For collide detection to prevent node overlappings
 
-| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Safari | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png" alt="Opera" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Opera | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/electron/electron_48x48.png" alt="Electron" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Electron |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| IE9, IE10, IE11, Edge                                                                                                                                                                                           | last 2 versions                                                                                                                                                                                                   | last 2 versions                                                                                                                                                                                               | last 2 versions                                                                                                                                                                                               | last 2 versions                                                                                                                                                                                           | last 2 versions                                                                                                                                                                                                       |
+## preventOverlapPadding
+**Type**: Number<br />**Default**: 10<br />**Required**: false<br />**Explanation**: The min distance between nodes when `preventOverlap` is `true`
+
+## condense
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Explanation**: Uses all available space on false, uses minimal space on true
+
+## rows
+**Type**: Number<br />**Default**: undefined<br />**Required**: false<br />**Explanation**: Force num of rows in the grid
+
+## cols
+**Type**: Number<br />**Default**: undefined<br />**Required**: false<br />**Explanation**: Force num of columns in the grid
+
+## sortBy
+**Type**: String<br />**Default**: undefined<br />**Required**: false<br />**Explanation**: Order the nodes according to this parameter. It is the property's name of node. The node with higher value will be placed to the center. If it is undefined, the algorithm will order the nodes by their degree.

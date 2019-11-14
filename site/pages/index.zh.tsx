@@ -110,8 +110,8 @@ const IndexPage = () => {
 
   const bannerButtons = [
     {
-      text: t('图表示例'),
-      link: '#products',
+      text: t('继续了解'),
+      link: './examples/tree/compactBox',
       type: 'primary',
     },
     {
@@ -119,8 +119,6 @@ const IndexPage = () => {
       link: 'https://github.com/antvis/g6/',
     },
   ];
-
-  console.log(t('首页'));
 
   return (
     <>

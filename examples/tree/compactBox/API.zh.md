@@ -1,7 +1,7 @@
 ---
 title: API
 ---
-#### direction
+## direction
 **类型**：String<br />**可选值**：'LR' | 'RL' | 'TB' | 'BT' | 'H' | 'V'<br />**默认值**：'LR'<br />**是否必须**：false<br />**说明**：树布局的方向，默认为，其他选项说明
 
 - TB —— 根节点在上，往下布局
@@ -28,7 +28,7 @@ title: API
 
 ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571833702068-8f409559-1765-4154-bd4d-bb782de8cd23.png#align=left&display=inline&height=92&name=image.png&originHeight=924&originWidth=1028&search=&size=314177&status=done&width=102)
 
-#### getWidth
+## getWidth
 **类型**：Number | Function<br />**示例**：
 ```javascript
 (d) => {
@@ -39,7 +39,7 @@ title: API
 ```
 **是否必须**：false<br />**说明**：每个节点的宽度
 
-#### getHeight
+## getHeight
 **类型**：Number | Function<br />**示例**：
 ```javascript
 (d) => {
@@ -50,7 +50,7 @@ title: API
 ```
 **是否必须**：false<br />**说明**：每个节点的高度
 
-#### getHGap
+## getHGap
 **类型**：Number | Function<br />**示例**：
 ```javascript
 (d) => {
@@ -61,7 +61,7 @@ title: API
 ```
 **默认值**：18<br />**是否必须**：false<br />**说明**：每个节点的水平间隙
 
-#### getVGap
+## getVGap
 **类型**：Number | Function<br />**示例**：
 ```javascript
 (d) => {
@@ -72,5 +72,5 @@ title: API
 ```
 **默认值**：18<br />**是否必须**：false<br />**说明**：每个节点的垂直间隙
 
-#### radial
+## radial
 **类型**：Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否按照辐射状布局。若 `radial` 为 `true`，建议 `direction` 设置为 `'LR'` 或 `'RL'`：<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571833817425-f944eadd-fd68-4107-8425-81c1c9bd1ce4.png#align=left&display=inline&height=175&name=image.png&originHeight=886&originWidth=990&search=&size=213310&status=done&width=195)
