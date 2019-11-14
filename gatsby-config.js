@@ -180,7 +180,7 @@ module.exports = {
         icon: 'scatter',
         title: {
           zh: '动画',
-          en: 'Scatter'
+          en: 'Animation'
         }
       },
       {

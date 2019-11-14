@@ -3,7 +3,7 @@ title: Circular Layout
 order: 4
 ---
 
-Circular layout order the nodes according to the configuration, and then places the nodes on a circle.
+Circular layout orders the nodes according to the configuration, and then places the nodes on a circle.
 
 ## Usage
 
@@ -12,5 +12,5 @@ As the demo below, you can deploy it in `layout` while instantiating Graph. it c
 - Example 1 : Basic Circular Layout, the nodes are placed on the circle clockwise in the data order.
 - Example 2 : The nodes are placed on the circle clockwise according to their degrees.
 - Example 3 : Spiral layout.
-- Example 4 : Devide the nodes into several divisions on the circle.
+- Example 4 : Divide the nodes into several divisions on the circle.
 - Example 5 : Translate the parameters in dynamic.

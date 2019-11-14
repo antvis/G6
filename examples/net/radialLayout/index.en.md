@@ -3,7 +3,7 @@ title: Radial Layout
 order: 3
 ---
 
-Radial Layout will place the nodes to the concentric circles around the focusNode according to the shortest path length to focus nodes.
+Radial Layout will place the nodes to the concentric circles around the `focusNode` according to the shortest path length to `focusNode`.
 
 ## Usage
 

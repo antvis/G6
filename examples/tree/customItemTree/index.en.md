@@ -5,7 +5,7 @@ redirect_from:
   - /en/examples
 ---
 
-Thanks to the item's custom mechanism of G6, you can design your own tree with freedom.
+Thanks to the item's custom mechanism of G6, users can design their own tree with freedom.
 
 ## Usage
 

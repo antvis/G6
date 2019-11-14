@@ -1,6 +1,6 @@
 ---
 title: 响应区域事件
-order: 0
+order: 4
 redirect_from:
   - /zh/examples
 ---
@@ -9,4 +9,4 @@ redirect_from:
 
 ## 使用指南
 
-G6 的图元素中，可能只想响应部分元素的事件，如节点中的某个 icon、树图中的展开收起 icon等。
+G6 的图元素中，可能只想响应部分元素的事件，如节点中的某个 icon、树图中的展开收起 icon 等。

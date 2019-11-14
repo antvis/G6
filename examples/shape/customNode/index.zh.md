@@ -5,9 +5,8 @@ redirect_from:
   - /zh/examples
 ---
 
-自定义节点。
+当 G6 的内置节点不能满足需求时，G6 的自定义节点机制允许用户设计和定制新的边类型。
 
 ## 使用指南
 
-内置的节点不能满足需求时，可以使用[自定义节点](/zh/docs/manual/advanced/custom-node)来实现。
-通过 G6 的自定义节点功能，可以实现各种各样的节点。
+更多信息参见[自定义节点](/zh/docs/manual/advanced/custom-node)。

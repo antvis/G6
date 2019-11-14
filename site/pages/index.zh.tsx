@@ -111,7 +111,7 @@ const IndexPage = () => {
   const bannerButtons = [
     {
       text: t('继续了解'),
-      link: './examples/tree/compactBox',
+      link: `/${i18n.language}/examples/tree/compactBox`,
       type: 'primary',
     },
     {

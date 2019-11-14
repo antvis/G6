@@ -5,13 +5,14 @@ redirect_from:
   - /zh/examples
 ---
 
-自定义边。
+当 G6 的内置边不能满足需求时，G6 的自定义边机制允许用户设计和定制新的边类型。
 
-## 何时使用
+## 使用指南
 
-内置的边不能满足需求时，可以使用[自定义边](/zh/docs/manual/advanced/custom-edge)来实现。
-两种自定义折线的区别，主要在于实现方式不同。
-- 第一种方式是通过继承line，复写getPath和getShapeStyle方法自定义折线；
-- 第二种方式是通过复写复写draw方法自定义折线。
+下面代码演示了自定义折线 polyline 边。自定义边可以通过两种方式实现：
+1. 继承 line，复写 `getPath` 和 `getShapeStyle` 方法；
+2. 复写 `draw` 方法。
 
-如果在拖动过程中，需要让边链接到节点正确的问题，则需要动态改变节点的锚点。对于折线，建议使用 G6 内置的 `polyline` ，内置的 `polyline` 会自动处理锚点的位置。
+拖动边的两个端点时，常常需要动态更新折线的控制点位置。建议使用 G6 内置的 `polyline` 满足这一需求。
+
+更多信息参见[自定义边](/zh/docs/manual/advanced/custom-edge)。
