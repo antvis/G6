@@ -6,7 +6,7 @@ module.exports = {
       resolve: '@antv/gatsby-theme-antv',
       options: {
         GATrackingId: 'UA-148148901-4',
-        pathPrefix: '/G6'
+        pathPrefix: '/g6'
       }
     }
   ],
