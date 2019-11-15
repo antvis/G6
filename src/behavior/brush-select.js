@@ -118,6 +118,10 @@ module.exports = {
 
     this.selectedEdges = [];
     this.onDeselect && this.onDeselect(this.selectedNodes, this.selectedEdges);
+    graph.emit('nodeselectchange', { targets: {
+      nodes: [],
+      edges: []
+    }, select: false });
     graph.paint();
     graph.setAutoPaint(autoPaint);
   },
@@ -171,6 +175,10 @@ module.exports = {
     this.selectedEdges = selectedEdges;
     this.selectedNodes = selectedNodes;
     this.onSelect && this.onSelect(selectedNodes, selectedEdges);
+    graph.emit('nodeselectchange', { targets: {
+      nodes: selectedNodes,
+      edges: selectedEdges
+    }, select: true });
   },
   _createBrush() {
     const self = this;

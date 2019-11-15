@@ -59,8 +59,10 @@ class Event {
     this.canvasHandler = canvasHandler;
     extendEvents.push(Util.addEventListener(el, 'DOMMouseScroll', wheelHandler));
     extendEvents.push(Util.addEventListener(el, 'mousewheel', wheelHandler));
-    window && extendEvents.push(Util.addEventListener(window, 'keydown', originHandler));
-    window && extendEvents.push(Util.addEventListener(window, 'keyup', originHandler));
+    if (typeof window !== 'undefined') {
+      extendEvents.push(Util.addEventListener(window, 'keydown', originHandler));
+      extendEvents.push(Util.addEventListener(window, 'keyup', originHandler));
+    }
   }
   _onCanvasEvents(e) {
     const self = this;

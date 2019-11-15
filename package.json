@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "3.1.7",
+  "version": "3.1.8",
   "description": "graph visualization frame work",
   "main": "build/g6.js",
   "types": "types/index.d.ts",

@@ -71,8 +71,14 @@ Layout.registerLayout('concentric', {
       maxNodeSize = Math.max(maxNodeSize, nodeSize);
     });
 
-    self.width = self.width || window.innerHeight;
-    self.height = self.height || window.innerWidth;
+    let width = self.width;
+    if (!width && typeof window !== 'undefined') {
+      width = window.innerWidth;
+    }
+    let height = self.height;
+    if (!height && typeof height !== 'undefined') {
+      height = window.innerHeight;
+    }
     self.clockwise = self.counterclockwise !== undefined ? !self.counterclockwise : self.clockwise;
 
     // layout
