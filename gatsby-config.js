@@ -24,14 +24,14 @@ module.exports = {
         }
       },
       {
-        slug: 'docs/api/Item',
+        slug: 'docs/api/GlobalAPI',
         title: {
           zh: 'API',
           en: 'API'
         }
       },
       {
-        slug: 'examples',
+        slug: 'examples/tree/compactBox',
         title: {
           zh: '图表演示',
           en: 'Examples'
