@@ -104,8 +104,14 @@ Layout.registerLayout('radial', {
 
     // the shortest path distance from each node to focusNode
     const focusNodeD = D[focusIndex];
-    const width = self.width || window.innerHeight;
-    const height = self.height || window.innerWidth;
+    let width = self.width;
+    if (!width && typeof window !== 'undefined') {
+      width = window.innerWidth;
+    }
+    let height = self.height;
+    if (!height && typeof height !== 'undefined') {
+      height = window.innerHeight;
+    }
     let semiWidth = width - center[0] > center[0] ? center[0] : width - center[0];
     let semiHeight = height - center[1] > center[1] ? center[1] : height - center[1];
     if (semiWidth === 0) {
