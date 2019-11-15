@@ -7,7 +7,7 @@ redirect_from:
 
 生态树、紧凑树两种布局方法可以通过配置项变换为辐射型树布局。跟节点位于辐射树中心，其他分支辐射式展开。
 <br />
-<img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1571833294684-7874d71d-fb44-4340-95d0-c03b56c67a18.png?x-oss-process=image/resize,w_342' alt='radialtree' width='250'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*UTm2T67HcFkAAAAAAAAAAABkARQnAQ' alt='radialtree' width='250'/>
 
 ## 使用指南
 辐射树是通过生态树、紧凑树布局的变形。适用于展示树结构数据，配合 TreeGraph 使用。如下面代码所示，可在实例化 TreeGraph 时使用该布局。除此之外，还可以如[子图布局](https://www.yuque.com/antv/g6/qopkkg#eYZc6)所示单独使用布局。

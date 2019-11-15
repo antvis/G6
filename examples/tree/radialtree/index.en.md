@@ -7,7 +7,7 @@ redirect_from:
 
 In radial tree layout, root node will be placed on the center. the branches will be placed in radial around the root. Dendrogram and CompactBox can be transformed into radial tree by configuration. 
 <br />
-<img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1571833294684-7874d71d-fb44-4340-95d0-c03b56c67a18.png?x-oss-process=image/resize,w_342' alt='radialtree' width='250'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*UTm2T67HcFkAAAAAAAAAAABkARQnAQ' alt='radialtree' width='250'/>
 
 ## Usage
 Radial tree layout is a deformation of Dendrogram and CompactBox. It is an appropriate layout method for tree data structure. Please use it with TreeGraph. As the demo below, you can deploy it in `layout` while instantiating Graph. it can also be used for [Subgraph Layout](https://www.yuque.com/antv/g6/qopkkg#eYZc6).
