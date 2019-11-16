@@ -4,7 +4,7 @@ order: 4
 ---
 
 ## 什么是 Behavior
-Behavior 是 G6 提供的定义图上交互事件的机制。它与[交互模式 Mode](https://www.yuque.com/antv/g6/g6-mode) 搭配使用，如何将下文所述各种 Behavior 配置到图上，见 [交互模式](https://www.yuque.com/antv/g6/g6-mode)。
+Behavior 是 G6 提供的定义图上交互事件的机制。它与[交互模式 Mode](/zh/docs/manual/middle/states/mode) 搭配使用，如何将下文所述各种 Behavior 配置到图上，见 [交互模式](/zh/docs/manual/middle/states/mode)。
 
 ## 内置 Behavior
 理论上说 G6 上的所有基础图形、Item（节点/边）都能通过事件来进行操作，考虑到通用性， G6目前共提供了以下9个内置的 Behavior。
