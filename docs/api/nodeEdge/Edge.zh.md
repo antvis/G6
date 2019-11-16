@@ -11,12 +11,14 @@ Edge继承自Item，所以，Item上面的方法在Edge实例中都可以使用�
 
 
 **参数**
+
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | source | Node | true | 起始节点实例 |
 
 
 **用法**
+
 ```javascript
 const edge = new Edge(
   {
@@ -37,12 +39,14 @@ edge.setSource(node)
 
 
 **参数**
+
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | target | Node | true | 终止节点实例 |
 
 
 **用法**
+
 ```javascript
 const edge = new Edge(
   {
@@ -69,6 +73,7 @@ edge.setTarget(node)
 
 
 **用法**
+
 ```javascript
 const edge = new Edge(
   {
@@ -91,6 +96,7 @@ const node = edge.getSource()
 
 
 **用法**
+
 ```javascript
 const edge = new Edge(
   {

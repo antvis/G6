@@ -67,4 +67,5 @@ graph.update(node, {
 
 通过以上代码修改node中文本的样式，效果如下图：
 
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/244306/1567404022599-698a424a-5c1d-4218-84e7-61b27ba0c33f.png#align=left&display=inline&height=391&name=image.png&originHeight=782&originWidth=778&search=&size=118744&status=done&width=389)
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*euH9SLcS2IoAAAAAAAAAAABkARQnAQ' width=350>
+

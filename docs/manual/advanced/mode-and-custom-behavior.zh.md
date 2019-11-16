@@ -5,10 +5,12 @@ order: 7
 
 本章以添加节点及在两个节点之间连线为例进行介绍 G6 中的交互。在阅读本章之前，需要先熟悉以下内容：
 
-- [自定义交互行为 Behavior](https://www.yuque.com/antv/g6/self-behavior)；
-- [交互模式 Mode](https://www.yuque.com/antv/g6/g6-mode)。
+- [自定义交互行为 Behavior](/zh/docs/manual/advanced/custom-behavior)；
+- [交互模式 Mode](/zh/docs/manual/middle/states/mode)。
 
-![interact-add.gif](https://cdn.nlark.com/yuque/0/2019/gif/156681/1571207486613-09820b48-f565-40c4-b8f8-6238b063edb2.gif#align=left&display=inline&height=268&name=interact-add.gif&originHeight=427&originWidth=411&search=&size=202897&status=done&width=258)<br />上图是本文要实现的最终效果。完整 demo 代码参见：[动态添加元素](https://codepen.io/Yanyan-Wang/pen/qBBNaye)。<br />方下拉菜单中有三个选项，用于切换交互模式 mode：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zwgcTYCrr6sAAAAAAAAAAABkARQnAQ' width=400 />
+
+<br />上图是本文要实现的最终效果。完整 demo 代码参见：[动态添加元素](https://codepen.io/Yanyan-Wang/pen/qBBNaye)。<br />方下拉菜单中有三个选项，用于切换交互模式 mode：
 
 - 选择“默认”按钮时，切换到 default 交互模式：拖拽节点时节点跟随鼠标移动；点击节点时选中该节点；
 - 选择“添加节点”按钮时，切换到 addNode 交互模式：点击空白区域在点击处增加一个节点；点击节点时选中该节点；
