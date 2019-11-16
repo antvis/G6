@@ -100,7 +100,7 @@ module.exports = {
           zh: '高级指引',
           en: 'Advanced'
         },
-        order: 4
+        order: 5
       },
       {
         slug: 'manual/cases',
@@ -108,7 +108,7 @@ module.exports = {
           zh: '综合应用',
           en: 'Cases'
         },
-        order: 5
+        order: 6
       },
       {
         slug: 'api',
