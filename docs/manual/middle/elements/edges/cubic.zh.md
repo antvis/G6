@@ -1,9 +1,10 @@
 ---
 title: cubic
-order: 3
+order: 4
 ---
 
-G6 内置了 cubic 边，其默认样式如下。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570874953711-e0a7a2ae-abc4-4b48-85d2-e1a4e8d7b9dd.png#align=left&display=inline&height=129&name=image.png&originHeight=258&originWidth=254&search=&size=15059&status=done&width=127)
+G6 内置了 cubic 边，其默认样式如下。<br />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rcLiTa6Ih3AAAAAAAAAAAABkARQnAQ' width=150/>
 
 
 ## 使用方法
@@ -60,7 +61,8 @@ quadratic 边支持以下的配置项，对于 Object 类型的配置项将在�
 
 
 ### 样式属性 style
-Object 类型。配置项与边的通用样式属性相同，见 [内置边](https://www.yuque.com/antv/g6/internal-edge)。下面代码演示在实例化图时全局配置方法中配置 `style`，以达到下图效果。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570875151585-a64367b1-f096-43a5-96a8-c19dee303032.png#align=left&display=inline&height=117&name=image.png&originHeight=234&originWidth=224&search=&size=20346&status=done&width=112)
+Object 类型。配置项与边的通用样式属性相同，见 [内置边](https://www.yuque.com/antv/g6/internal-edge)。下面代码演示在实例化图时全局配置方法中配置 `style`，以达到下图效果。<br />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Do6IQouIA9AAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
 const data = {
   nodes: [{
@@ -100,7 +102,8 @@ graph.render();
 
 
 ### 标签文本配置 labelCfg
-Object 类型。其配置与边的通用文本配置相同，见 [内置边](https://www.yuque.com/antv/g6/internal-edge)。基于上面 [样式属性 style](#XQFb2) 中的代码，下面代码在 `defaultNode` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570875129880-994ae1e1-2a9c-4b83-abdb-981304e28fce.png#align=left&display=inline&height=120&name=image.png&originHeight=240&originWidth=238&search=&size=21327&status=done&width=119)
+Object 类型。其配置与边的通用文本配置相同，见 [内置边](https://www.yuque.com/antv/g6/internal-edge)。基于上面 [样式属性 style](#XQFb2) 中的代码，下面代码在 `defaultNode` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ySTVQ7MrMtgAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
 const data = {
   // ... data 内容

@@ -1,10 +1,10 @@
 ---
 title: triangle
-order: 4
+order: 5
 ---
 ## Triangle
 
-G6 内置了三角形 Triangle 节点，其默认样式如下。标签文本位于三角形下方。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570870797997-53bb1afa-6120-408f-90de-4fa89411eb75.png#align=left&display=inline&height=85&name=image.png&originHeight=170&originWidth=144&search=&size=11764&status=done&width=72)
+G6 内置了三角形 Triangle 节点，其默认样式如下。标签文本位于三角形下方。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FY1XQZHEc6YAAAAAAAAAAABkARQnAQ' width=100/>
 
 
 ## 使用方法
@@ -72,13 +72,17 @@ const graph = new G6.Graph({
   }
 })
 ```
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570870797997-53bb1afa-6120-408f-90de-4fa89411eb75.png#align=left&display=inline&height=85&name=image.png&originHeight=170&originWidth=144&search=&size=11764&status=done&width=72)![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570870934266-10d81c4c-07d1-4ddc-ac79-a9f75b6361fa.png#align=left&display=inline&height=85&name=image.png&originHeight=170&originWidth=158&search=&size=12939&status=done&width=79)![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570870968309-bc30a7eb-6654-4f63-bdb5-5be1c2b35f50.png#align=left&display=inline&height=79&name=image.png&originHeight=158&originWidth=150&search=&size=12127&status=done&width=75)![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570870977602-fad049ab-5a92-4958-8713-277a574acc92.png#align=left&display=inline&height=77&name=image.png&originHeight=154&originWidth=140&search=&size=11137&status=done&width=70)
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HuGHTrWfGYsAAAAAAAAAAABkARQnAQ' width=100/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hsOBSo1sFFAAAAAAAAAAAABkARQnAQ' width=100/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*irgPRrU3JdEAAAAAAAAAAABkARQnAQ' width=100/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*yxEXQK-P4nsAAAAAAAAAAABkARQnAQ' width=100/>
+
 > 上图分别是将 `direction` 配置为 `'up'`，`'down'`，`'left'`，`'right'` 的结果
 
 
 
 ### 样式属性 style
-Object 类型。通过 `style` 配置来修改节点的填充色、描边等属性。下面代码演示在实例化图时全局配置方法中配置 `style`，使之达到如下图效果。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570871036215-2d94e3ef-f9d9-42c0-8073-5b95789903ad.png#align=left&display=inline&height=83&name=image.png&originHeight=166&originWidth=138&search=&size=16513&status=done&width=69)
+Object 类型。通过 `style` 配置来修改节点的填充色、描边等属性。下面代码演示在实例化图时全局配置方法中配置 `style`，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6-qaTJkpsKYAAAAAAAAAAABkARQnAQ' width=100/>
 ```javascript
 const data = {
   nodes: [{
@@ -109,7 +113,7 @@ graph.render();
 
 
 ### 标签文本配置 labelCfg
-Object 类型。通过 `labelCfg` 配置标签文本。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570871169722-1012d863-0f4c-410d-985d-93028323a7af.png#align=left&display=inline&height=77&name=image.png&originHeight=154&originWidth=156&search=&size=19178&status=done&width=78)
+Object 类型。通过 `labelCfg` 配置标签文本。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5KkKRaDXqXgAAAAAAAAAAABkARQnAQ' width=100/>
 ```javascript
 const data = {
   // ... data 内容
@@ -146,7 +150,7 @@ Object 类型。通过配置 `linkPoints` ，可以指定圆周围「上、下�
 | lineWidth | 连接点边框的宽度 | Number | 默认为1 |
 
 
-基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `linkPoints` 配置项进行连入点的配置，使之达到如下图效果。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570871231609-9b1c4380-8e6a-4a63-8982-de8dcca6a4ee.png#align=left&display=inline&height=83&name=image.png&originHeight=166&originWidth=152&search=&size=20771&status=done&width=76)
+基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `linkPoints` 配置项进行连入点的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aB-PT4nzU_oAAAAAAAAAAABkARQnAQ' width=100/>
 ```javascript
 const data = {
 	// ... data 内容
@@ -181,7 +185,7 @@ Object 类型。通过配置 `icon`，可以在圆上显示小图标。
 | **offset** | **icon 的偏移量** | **Number** | **默认为 0，triangle 节点的 icon 特有的配置** |
 
 
-基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `icon` 配置项进行图标的配置，使之达到如下图效果。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570871318704-c2192872-f7fe-48b1-a74c-6875b642d4c1.png#align=left&display=inline&height=83&name=image.png&originHeight=166&originWidth=166&search=&size=26443&status=done&width=83)
+基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `icon` 配置项进行图标的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2w62R5ZYtVAAAAAAAAAAAABkARQnAQ' width=100/>
 ```javascript
 const data = {
 	// ... data 内容

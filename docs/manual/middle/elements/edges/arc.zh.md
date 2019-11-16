@@ -1,9 +1,9 @@
 ---
 title: arc
-order: 4
+order: 5
 ---
 
-G6 内置了圆弧 arc 边，其默认样式如下。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570875218589-c7330833-07dd-4fb3-8a67-3642ef10d725.png#align=left&display=inline&height=109&name=image.png&originHeight=218&originWidth=234&search=&size=13909&status=done&width=117)
+G6 内置了圆弧 arc 边，其默认样式如下。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9JBjS6bdrHMAAAAAAAAAAABkARQnAQ' width=150/>
 
 
 ## 使用方法
@@ -77,7 +77,8 @@ labelCfg: {
 
 
 ### 特殊属性：弧度 curveOffset
-`curveOffset` 属性是 `arc` 特有的属性，它控制了圆弧的大小以及弯曲的方向。下面代码演示在实例化图时全局配置方法中配置 `curveOffset`。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570875327516-469c8e29-8534-4e13-bb39-fcd57a0e43f5.png#align=left&display=inline&height=116&name=image.png&originHeight=232&originWidth=252&search=&size=15622&status=done&width=126)
+`curveOffset` 属性是 `arc` 特有的属性，它控制了圆弧的大小以及弯曲的方向。下面代码演示在实例化图时全局配置方法中配置 `curveOffset`。<br />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*63NxRppr3tUAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
 const data = {
   nodes: [{
@@ -116,7 +117,8 @@ graph.render();
 
 
 ### 样式属性 style
-Object 类型。配置项与边的通用样式属性相同，见 [内置边](https://www.yuque.com/antv/g6/internal-edge)。基于上面 [弧度 curveOffset](#C9lmR) 中的代码，下面代码在 `defaultNode` 中增加了 `style` 配置项进行边的样式的配置，使之达到如下图效果。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570875549188-e8d10d15-a90b-4f98-a6a9-3162b9893728.png#align=left&display=inline&height=116&name=image.png&originHeight=232&originWidth=252&search=&size=21575&status=done&width=126)
+Object 类型。配置项与边的通用样式属性相同，见 [内置边](https://www.yuque.com/antv/g6/internal-edge)。基于上面 [弧度 curveOffset](#C9lmR) 中的代码，下面代码在 `defaultNode` 中增加了 `style` 配置项进行边的样式的配置，使之达到如下图效果。<br />!
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LH4lT64i304AAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
 const data = {
   // ... data 内容
@@ -136,7 +138,8 @@ const graph = new G6.Graph({
 
 
 ### 标签文本配置 labelCfg
-Object 类型。其配置与边的通用文本配置相同，见 [内置边](https://www.yuque.com/antv/g6/internal-edge)。基于上面 [弧度 curveOffset](https://www.yuque.com/antv/g6/ozfxuv#C9lmR) 中的代码，下面代码在 `defaultNode` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570875786431-339c28e0-f89a-45f7-9a84-bbb263ea399b.png#align=left&display=inline&height=118&name=image.png&originHeight=236&originWidth=262&search=&size=22850&status=done&width=131)
+Object 类型。其配置与边的通用文本配置相同，见 [内置边](https://www.yuque.com/antv/g6/internal-edge)。基于上面 [弧度 curveOffset](https://www.yuque.com/antv/g6/ozfxuv#C9lmR) 中的代码，下面代码在 `defaultNode` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*xu0FSKNxQNUAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
 const data = {
   // ... data 内容

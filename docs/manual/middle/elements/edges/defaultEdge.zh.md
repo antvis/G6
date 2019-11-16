@@ -1,6 +1,6 @@
 ---
-title: 内置的边
-order: 1
+title: 内置边总览
+order: 0
 ---
 
 G6 提供了 9 种内置边：
@@ -15,21 +15,21 @@ G6 提供了 9 种内置边：
 - loop：自环。
 
 这些内置边的默认样式分别如下图所示。<br />
-<img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1570858853371-d9c7fea4-5e7b-42e1-a2f4-559a70298149.png#align=left&display=inline&height=135&name=image.png&originHeight=270&originWidth=1768&search=&size=74956&status=done&width=884' width='750' height='200' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*H6Y5SrPstw4AAAAAAAAAAABkARQnAQ' width='750' height='120' />
 
 ## 内置边类型说明
 下面表格中显示了内置的各类边，同时对一些特殊的字段进行了说明：
 
 | 名称 | 描述 |  |
 | --- | --- | --- |
-| line | 连接两个节点的直线：<br />- controlPoints 不生效<br />- 更多配置详见 line 边的配置<br /> | ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570858805015-2171552a-56fc-44f9-a8d0-608de6aeb3f8.png#align=left&display=inline&height=36&name=image.png&originHeight=72&originWidth=210&search=&size=6061&status=done&width=105) |
-| polyline | 多段线段构成的折线，连接两个端点：<br />- controlPoints 表示所有线段的拐点，不指定时根据 [A* 算法](https://yuque.alibaba-inc.com/antv/blog/polyline-edges-with-border-radius)自动生成折线<br />- 更多配置详见 polyline 边的配置<br /> | ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570858897304-9b5e3045-4b8c-4e84-8373-7fda9ca2193a.png#align=left&display=inline&height=105&name=image.png&originHeight=210&originWidth=222&search=&size=12334&status=done&width=111) |
-| arc | 连接两个节点的一段圆弧：<br />- controlPoints 不生效<br />- 使用 curveOffset 指定弧的弯曲程度，其正负影响弧弯曲的方向<br />- 更多配置详见 arc 边的配置<br /> | ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570858921616-3dc5034d-ede0-425f-874b-620af6fe2dc9.png#align=left&display=inline&height=49&name=image.png&originHeight=98&originWidth=218&search=&size=8131&status=done&width=109) |
-| quadratic | 只有一个控制点的曲线：<br />- controlPoints 不指定时，会默认线的一半处弯曲<br />- 更多配置详见 quadratic 边的配置<br /> | ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570858940562-cea717dc-c0be-4bd1-af07-0f71e22f9243.png#align=left&display=inline&height=48&name=image.png&originHeight=96&originWidth=214&search=&size=8780&status=done&width=107) |
-| cubic | 有两个控制点的曲线：<br />- controlPoints 不指定时，会默认线的 1/3, 2/3 处弯曲<br />- 更多配置详见 cubic 边的配置<br /> | ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570858972322-2ba56d44-bd65-4fbb-9de2-a0c4bbbc8e8d.png#align=left&display=inline&height=36&name=image.png&originHeight=72&originWidth=216&search=&size=8066&status=done&width=108) |
-| cubic-vertical | 垂直方向的三阶贝塞尔曲线，不考虑用户从外部传入的控制点 | ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570858985655-b18e4465-0534-4dbf-a097-460a967d1100.png#align=left&display=inline&height=109&name=image.png&originHeight=218&originWidth=222&search=&size=15336&status=done&width=111) |
-| cubic-horizontal | 水平方向的三阶贝塞尔曲线，不考虑用户从外部传入的控制点 | ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570858999282-e9e4d9c1-f2da-4804-975f-d4abed62933f.png#align=left&display=inline&height=114&name=image.png&originHeight=228&originWidth=206&search=&size=16769&status=done&width=103) |
-| loop | 自环。更多配置详见 arc 边的配置 | ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570859007824-5b9c3023-9851-4bda-917b-3216811d2e45.png#align=left&display=inline&height=56&name=image.png&originHeight=112&originWidth=76&search=&size=6558&status=done&width=38) |
+| line | 连接两个节点的直线：<br />- controlPoints 不生效<br />- 更多配置详见 line 边的配置<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-LM-RJnlI20AAAAAAAAAAABkARQnAQ' width=100/> |
+| polyline | 多段线段构成的折线，连接两个端点：<br />- controlPoints 表示所有线段的拐点，不指定时根据 [A* 算法](https://yuque.alibaba-inc.com/antv/blog/polyline-edges-with-border-radius)自动生成折线<br />- 更多配置详见 polyline 边的配置<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*q2pIQ6h622IAAAAAAAAAAABkARQnAQ' width=100/> |
+| arc | 连接两个节点的一段圆弧：<br />- controlPoints 不生效<br />- 使用 curveOffset 指定弧的弯曲程度，其正负影响弧弯曲的方向<br />- 更多配置详见 arc 边的配置<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SmS8QZjTlEkAAAAAAAAAAABkARQnAQ' width=100/> |
+| quadratic | 只有一个控制点的曲线：<br />- controlPoints 不指定时，会默认线的一半处弯曲<br />- 更多配置详见 quadratic 边的配置<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IADsTq4eH50AAAAAAAAAAABkARQnAQ' width=100/> |
+| cubic | 有两个控制点的曲线：<br />- controlPoints 不指定时，会默认线的 1/3, 2/3 处弯曲<br />- 更多配置详见 cubic 边的配置<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ldiCT7xnrM4AAAAAAAAAAABkARQnAQ' width=100/> |
+| cubic-vertical | 垂直方向的三阶贝塞尔曲线，不考虑用户从外部传入的控制点 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*WtNPRKSZv1kAAAAAAAAAAABkARQnAQ' width=100/> |
+| cubic-horizontal | 水平方向的三阶贝塞尔曲线，不考虑用户从外部传入的控制点 | <img src='' width=100/> |
+| loop | 自环。更多配置详见 arc 边的配置 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iNiVRIsov4MAAAAAAAAAAABkARQnAQ' width=100/> |
 
 ## 边的通用属性
 所有内置的边支持的通用属性：
@@ -239,7 +239,7 @@ graph.render();
 ```
 
 显示结果：<br />
-<img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1570858853371-d9c7fea4-5e7b-42e1-a2f4-559a70298149.png#align=left&display=inline&height=135&name=image.png&originHeight=270&originWidth=1768&search=&size=74956&status=done&width=884' width='750' height='200' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LcCzSqTqifwAAAAAAAAAAABkARQnAQ' width='750' height='120' />
 
 ### 调整边的样式
 可以在边上添加文本，修改边的样式。下面演示将配置写入数据的方式配置边。使用下面代码替换上面代码中的 9-10、11-12 两条边数据，修改这两条边的样式和其文本。
@@ -277,7 +277,7 @@ graph.render();
 }
 ```
 
-<img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1570859444095-76fc5c73-0444-4636-b2a2-57eb1786987c.png#align=left&display=inline&height=138&name=image.png&originHeight=276&originWidth=1782&search=&size=81146&status=done&width=891' width='750' height='200' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GxR3RaD4kH8AAAAAAAAAAABkARQnAQ' width='750' height='120' />
 
 ## 相关阅读
 

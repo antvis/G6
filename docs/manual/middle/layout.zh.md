@@ -58,7 +58,7 @@ const graph = new G6.Graph({
 图布局通用 API：[Layout API](https://www.yuque.com/antv/g6/agbmu2)。
 
 #### Random
-<img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1571883164107-fc95c5f2-3461-409f-b176-e28ad87f89a7.png#align=left&display=inline&height=141&name=image.png&originHeight=562&originWidth=846&search=&size=187661&status=done&width=213' width='600' height='400'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M5FySIdhX4oAAAAAAAAAAABkARQnAQ' width='400'/>
 
 <br />**描述**：随机布局。
 <br />**API**：[Random API](https://www.yuque.com/antv/g6/nrxlhg)
@@ -72,7 +72,7 @@ const graph = new G6.Graph({
 
 #### Force
 
-<img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1571883178937-a961fd60-e3f0-478c-b5d3-8e326fe18e6c.png#align=left&display=inline&height=180&name=image.png&originHeight=596&originWidth=959&search=&size=71243&status=done&width=289' width='600' height='400' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*oDbHRJc5td8AAAAAAAAAAABkARQnAQ' width='500' />
 
 <br /> **描述**：经典力导向布局。
 <br /> **API**：[Force API](https://www.yuque.com/antv/g6/rllgdl)
@@ -86,7 +86,7 @@ const graph = new G6.Graph({
 | edgeStrength | Number | 示例1: 1 <br />示例2:<br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 10;<br />  }<br />  return 1;<br />} | null | 边的作用力，默认根据节点的出入度自适应。可以使用回调函数的形式对不同对节点定义不同边作用力（如示例2） |
 | preventOverlap | Boolean | false | false | 是否防止重叠，必须配合属性 `nodeSize` ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测。若未设置 `nodeSize` ，则根据节点数据中的 `size` 进行碰撞检测。若二者都未设置，则默认以 10 为节点大小进行碰撞检测 |
 | nodeSize | Array | Number | 20 | undefined | 节点大小（直径）。用于碰撞检测。<br />若不指定，则根据传入的数据节点中的 `size` 字段计算。若即不指定，节点中也没有 `size`，则默认大小为 10 |
-| nodeSpacing<br /><br />3.1.6 后支持 | Number | Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1572589493571-733b149d-2887-4b75-bd22-a2808233d0d5.png#align=left&display=inline&height=115&name=image.png&originHeight=200&originWidth=378&search=&size=46987&status=done&width=217)<br />`preventOverlap` 为 `true` 时生效，防止重叠时节点边缘间距的最小值。可以是回调函数，为不同节点设置不同的最小间距，如示例 2 所示<br /> |
+| nodeSpacing<br /><br />3.1.6 后支持 | Number | Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150/><br />`preventOverlap` 为 `true` 时生效，防止重叠时节点边缘间距的最小值。可以是回调函数，为不同节点设置不同的最小间距，如示例 2 所示<br /> |
 | alphaDecay | Number | 0.03 | 0.028 | 迭代阈值的衰减率。[0, 1]，0.028 对应迭代书为 300 |
 | alphaMin | Number | 0.03 | 0.001 | 停止迭代的阈值 |
 | alpha | Number | 0.1 | 0.3 | 当前阈值 |
@@ -97,7 +97,7 @@ const graph = new G6.Graph({
 
 #### Fruchterman
 
-<img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1571883212048-50bef140-5a93-463a-a763-c8dcc907af2c.png#align=left&display=inline&height=200&name=image.png&originHeight=650&originWidth=686&search=&size=242098&status=done&width=211' width='600' height='500' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*DibyQYaI2qYAAAAAAAAAAABkARQnAQ' width='400' />
 
 <br />**描述**：Fruchterman 布局，一种力导布局。
 <br />**API**：[Fruchterman API](https://www.yuque.com/antv/g6/vzqn07)
@@ -116,9 +116,9 @@ const graph = new G6.Graph({
 <a name="0lVZj"></a>
 #### Circular
 
-<img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1571883225141-27fe8b99-f365-47e4-827f-fc9da4319b19.png#align=left&display=inline&height=142&name=image.png&originHeight=456&originWidth=472&search=&size=130944&status=done&width=147' width='250' height='250' />
-<img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1571883232409-50dd7848-dfd6-42a4-9879-9b06b74e244c.png#align=left&display=inline&height=142&name=image.png&originHeight=472&originWidth=486&search=&size=128693&status=done&width=146' width='250' height='250' />
-<img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1571883238564-ee51a954-82f8-4023-9ce9-fbdf26b31f5d.png#align=left&display=inline&height=141&name=image.png&originHeight=467&originWidth=400&search=&size=113276&status=done&width=121' width='250' height='250' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*s_29Rbja9lkAAAAAAAAAAABkARQnAQ' width='200' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qw1ES7nYvr8AAAAAAAAAAABkARQnAQ' width='200' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mCXwQYRV8IkAAAAAAAAAAABkARQnAQ' width='200' />
 
 <br />**描述**：环形布局。
 <br />**API**：[Circular API](https://www.yuque.com/antv/g6/ml1qe3)
@@ -139,7 +139,7 @@ const graph = new G6.Graph({
 <a name="lALX0"></a>
 #### Radial
 
-<img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1571883250046-b1986e95-78f7-476d-9b5d-36398ce344a0.png#align=left&display=inline&height=126&name=image.png&originHeight=428&originWidth=558&search=&size=213913&status=done&width=164' width='600' height='300' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FZIpRKpJo_MAAAAAAAAAAABkARQnAQ' width='200' />
 
 <br />**描述**：辐射状布局。
 <br />**API**：[Radial API](https://www.yuque.com/antv/g6/ngp0vg#7ZOs7)
@@ -155,13 +155,13 @@ const graph = new G6.Graph({
 | preventOverlap | Boolean | false | false | 是否防止重叠，必须配合属性 `nodeSize` ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测。<br />3.1.6 后支持：<br />若未设置 `nodeSize`，则将会根据数据中节点的 size 字段数值进行碰撞检测计算。若二者皆未设置，则以节点大小为 10 进行计算。 |
 | maxPreventOverlapIteration | Number | 500 | 200 | 防止重叠步骤的最大迭代次数 |
 | nodeSize | Number | 10 | 10 | 节点大小（直径）。用于防止节点重叠时的碰撞检测。<br />3.1.6 后支持：<br />若未设置则使用数据中节点的 `size` 字段数值进行碰撞检测计算。若二者皆未设置，则以节点大小为 10 进行计算。 |
-| nodeSpacing<br />3.1.6 后支持 | Number | Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1572589493571-733b149d-2887-4b75-bd22-a2808233d0d5.png#align=left&display=inline&height=115&name=image.png&originHeight=200&originWidth=378&search=&size=46987&status=done&width=217)<br />`preventOverlap` 为 `true` 时生效，防止重叠时节点边缘间距的最小值。可以是回调函数，为不同节点设置不同的最小间距，如示例 2 所示<br /> |
+| nodeSpacing<br />3.1.6 后支持 | Number | Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cFq4QbXVx7sAAAAAAAAAAABkARQnAQ' width=150/><br />`preventOverlap` 为 `true` 时生效，防止重叠时节点边缘间距的最小值。可以是回调函数，为不同节点设置不同的最小间距，如示例 2 所示<br /> |
 | strictRadial | Boolean | true | false | 是否必须是严格的 radial 布局，即每一层的节点严格布局在一个环上。`preventOverlap` 为 `true` 时生效。详见 [Radial-strictRadial API](https://www.yuque.com/antv/g6/ngp0vg#7ZOs7)<br />- 当 `preventOverlap` 为 `true`，且 `strictRadial` 为 `false` 时，有重叠的节点严格沿着所在的环展开，但在一个环上若节点过多，可能无法完全避免节点重叠。<br />- 当 `preventOverlap` 为 `true`，且 `strictRadial` 为 `true` 时，允许同环上重叠的节点不严格沿着该环布局，可以在该环的前后偏移以避免重叠。<br /> |
 
 
 <a name="RBhhk"></a>
 #### MDS
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571883196380-9194f4b6-fb45-49c1-9a15-17e1c694a82f.png#align=left&display=inline&height=138&name=image.png&originHeight=549&originWidth=862&search=&size=134489&status=done&width=216)<br />**描述**：高维数据降维算法布局。<br />**API**：[MDS API](https://www.yuque.com/antv/g6/kbvo7q)<br />**参数**：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6OPTT7bz5sUAAAAAAAAAAABkARQnAQ' width=400/><br />**描述**：高维数据降维算法布局。<br />**API**：[MDS API](https://www.yuque.com/antv/g6/kbvo7q)<br />**参数**：
 
 | 参数名 | 类型 | 示例 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -171,7 +171,7 @@ const graph = new G6.Graph({
 
 <a name="RUeWF"></a>
 #### Dagre
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571883264071-64862e9a-a850-499b-8063-253c3d380b76.png#align=left&display=inline&height=159&name=image.png&originHeight=567&originWidth=392&search=&size=45070&status=done&width=110)<br />**描述**：层次布局。<br />**API**：[Dagre API](https://www.yuque.com/antv/g6/fkhp3c)<br />**参数**：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RQEORY5A_LoAAAAAAAAAAABkARQnAQ' width=250/><br />**描述**：层次布局。<br />**API**：[Dagre API](https://www.yuque.com/antv/g6/fkhp3c)<br />**参数**：
 
 | 参数名 | 类型 | 示例 / 可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -186,7 +186,7 @@ const graph = new G6.Graph({
 
 <a name="4JMfP"></a>
 #### Concentric
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571883276351-a0d32bcb-7d1d-4a29-b2b6-f78345c8c752.png#align=left&display=inline&height=186&name=image.png&originHeight=694&originWidth=728&search=&size=268711&status=done&width=195)<br />注：该算法参考 [cytoscape.js](https://github.com/cytoscape/cytoscape.js)，遵守 MIT 开源协议。<br />**描述**：同心圆布局。<br />**API**：[Concentric API](https://www.yuque.com/antv/g6/lx038n)<br />**参数**：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ux0-SYBy6Y8AAAAAAAAAAABkARQnAQ' width=300/><br />注：该算法参考 [cytoscape.js](https://github.com/cytoscape/cytoscape.js)，遵守 MIT 开源协议。<br />**描述**：同心圆布局。<br />**API**：[Concentric API](https://www.yuque.com/antv/g6/lx038n)<br />**参数**：
 
 | 参数名 | 类型 | 示例 / 可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -204,7 +204,7 @@ const graph = new G6.Graph({
 
 <a name="XG0RD"></a>
 #### Grid
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571883294360-430a03bf-82cf-4ebf-989e-ae0be742bf54.png#align=left&display=inline&height=151&name=image.png&originHeight=696&originWidth=1396&search=&size=529788&status=done&width=302)<br />注：该算法参考 [cytoscape.js](https://github.com/cytoscape/cytoscape.js)，遵守 MIT 开源协议。<br />**描述**：网格布局。<br />**API**：[Grid API](https://www.yuque.com/antv/g6/wn4kg9)<br />**参数**：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5U3_TZVolpEAAAAAAAAAAABkARQnAQ' width=300/><br />注：该算法参考 [cytoscape.js](https://github.com/cytoscape/cytoscape.js)，遵守 MIT 开源协议。<br />**描述**：网格布局。<br />**API**：[Grid API](https://www.yuque.com/antv/g6/wn4kg9)<br />**参数**：
 
 | 参数名 | 类型 | 示例 / 可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -249,47 +249,40 @@ const graph = new G6.TreeGraph({
 ### 树图布局方法
 <a name="AyYPj"></a>
 #### compactBox
-**描述**：紧凑树布局。从根节点开始，同一深度的节点在同一层，并且布局时会将节点大小考虑进去。<br />![compact-box.png](https://cdn.nlark.com/yuque/0/2019/png/174835/1551166323476-178c0e50-0999-4b07-ab72-a61f779cce28.png#align=left&display=inline&height=166&name=compact-box.png&originHeight=687&originWidth=1916&search=&size=53500&status=done&width=464)<br />**API**：[CompactBox API](https://www.yuque.com/antv/g6/rufc7b)<br />**参数**：
+**描述**：紧凑树布局。从根节点开始，同一深度的节点在同一层，并且布局时会将节点大小考虑进去。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FltbQZAa-nMAAAAAAAAAAABkARQnAQ' width=400/><br />**API**：[CompactBox API](https://www.yuque.com/antv/g6/rufc7b)<br />**参数**：
 
 | 参数名 | 类型 | 示例 / 可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
-| direction | String | 'TB' / 'BT' / 'LR' / 'RL' / 'H' / 'V' | 'LR' | layout 的方向。<br />- TB —— 根节点在上，往下布局<br />- BT —— 根节点在下，往上布局<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571833657395-7b291d7b-5408-41fa-bfb6-533ef39250ad.png#align=left&display=inline&height=59&name=image.png&originHeight=744&originWidth=1786&search=&size=397159&status=done&width=141)      ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571833676794-31f862f3-8cb5-412e-81d4-2ac246e37c0d.png#align=left&display=inline&height=60&name=image.png&originHeight=762&originWidth=1790&search=&size=390312&status=done&width=140)> <br />（左）TB。（右）BT。<br />- LR —— 根节点在左，往右布局<br />- RL —— 根节点在右，往左布局<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571833574730-5d76d7a2-0e82-4ef7-a7d9-a45efd5b6b30.png#align=left&display=inline&height=119&name=image.png&originHeight=906&originWidth=518&search=&size=164555&status=done&width=68)             ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571833593889-e98c6f6d-0c38-4408-a4c0-ba83d0bbba74.png#align=left&display=inline&height=115&name=image.png&originHeight=932&originWidth=454&search=&size=154391&status=done&width=56)> <br />（左）LR。（右）RL。<br />- H —— 根节点在中间，水平对称布局<br />- V —— 根节点在中间，垂直对称布局<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571833726277-822e5104-2189-4fe4-bcdc-7b43d183d541.png#align=left&display=inline&height=110&name=image.png&originHeight=906&originWidth=824&search=&size=226469&status=done&width=100)          ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571833702068-8f409559-1765-4154-bd4d-bb782de8cd23.png#align=left&display=inline&height=92&name=image.png&originHeight=924&originWidth=1028&search=&size=314177&status=done&width=102)<br />> （左）H。（右）V。 |
+| direction | String | 'TB' / 'BT' / 'LR' / 'RL' / 'H' / 'V' | 'LR' | layout 的方向。<br />- TB —— 根节点在上，往下布局<br />- BT —— 根节点在下，往上布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SuygR5RZRH0AAAAAAAAAAABkARQnAQ' width=150/>     <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iJPBTJkTqssAAAAAAAAAAABkARQnAQ' width=150/><br />（左）TB。（右）BT。<br />- LR —— 根节点在左，往右布局<br />- RL —— 根节点在右，往左布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YrtaQIKLC4IAAAAAAAAAAABkARQnAQ' width=150/>             <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*3fJsTYzHRHcAAAAAAAAAAABkARQnAQ' width=150/> <br />（左）LR。（右）RL。<br />- H —— 根节点在中间，水平对称布局<br />- V —— 根节点在中间，垂直对称布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*812BT4Ep15MAAAAAAAAAAABkARQnAQ' width=150/>          <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GXdZSIBOllsAAAAAAAAAAABkARQnAQ' width=150/><br />> （左）H。（右）V。 |
 | getId | Function | (d) => {<br />  // d 是一个节点<br />  return d.id;<br />} | undefined | 节点 id 的回调函数 |
 | getHeight | Function | (d) => {<br />  // d 是一个节点<br />  return 10;<br />} | undefined | 节点高度的回调函数 |
 | getWidth | Function | (d) => {<br />  // d 是一个节点<br />  return 20;<br />} | undefined | 节点宽度的回调函数 |
 | getVGap | Function | (d) => {<br />  // d 是一个节点<br />  return 100;<br />} | undefined | 节点纵向间距的回调函数 |
 | getHGap | Function | (d) => {<br />// d 是一个节点<br />  return 50;<br />} | undefined | 节点横向间距的回调函数 |
-| radial | Boolean | true | false | 是否按照辐射状布局。若 `radial` 为 `true`，建议 `direction` 设置为 `'LR'` 或 `'RL'`：![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571833817425-f944eadd-fd68-4107-8425-81c1c9bd1ce4.png#align=left&display=inline&height=97&name=image.png&originHeight=886&originWidth=990&search=&size=213310&status=done&width=108) |
+| radial | Boolean | true | false | 是否按照辐射状布局。若 `radial` 为 `true`，建议 `direction` 设置为 `'LR'` 或 `'RL'`：<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0plfTrg12FkAAAAAAAAAAABkARQnAQ' width=150/> |
 
 
 <a name="sH1z0"></a>
 #### dendrogram
-**描述**：生态树布局。不管数据的深度多少，总是叶节点对齐。不考虑节点大小，布局时将节点视为1个像素点。<br />![dendrogram-lr.png](https://cdn.nlark.com/yuque/0/2019/png/174835/1551166332942-ecdc3c6f-bcc3-48f4-aa64-c9b1a3a2ab67.png#align=left&display=inline&height=145&name=dendrogram-lr.png&originHeight=652&originWidth=888&search=&size=75483&status=done&width=198)<br />**API**：[Dendrogram API](https://www.yuque.com/antv/g6/co00r6)<br />**参数**：
+**描述**：生态树布局。不管数据的深度多少，总是叶节点对齐。不考虑节点大小，布局时将节点视为1个像素点。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XehWSKAWdrwAAAAAAAAAAABkARQnAQ' width=300/><br />**API**：[Dendrogram API](https://www.yuque.com/antv/g6/co00r6)<br />**参数**：
 
 | 参数名 | 类型 | 示例 / 可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
-| direction | String | 'TB' / 'BT' / 'LR' / 'RL' / 'H' / 'V' | 'LR' | layout 的方向。<br />- TB —— 根节点在上，往下布局<br />- BT —— 根节点在下，往上布局<br />
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571832831947-89713eef-7898-446b-9edc-604ed63b77d4.png#align=left&display=inline&height=48&name=image.png&originHeight=760&originWidth=1784&search=&size=518414&status=done&width=112)      ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571832849059-ada0d199-ca15-4ce0-83e0-de00f9482c0b.png#align=left&display=inline&height=50&name=image.png&originHeight=786&originWidth=1814&search=&size=517688&status=done&width=115)<br />> （左）TB。（右）BT。
-
-- LR —— 根节点在左，往右布局<br />- RL —— 根节点在右，往左布局<br />
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571832767625-ad86a4b6-dabb-4f53-9800-31bb3fef88c6.png#align=left&display=inline&height=114&name=image.png&originHeight=896&originWidth=408&search=&size=214689&status=done&width=52)             ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571832804357-6b4c6e65-22fe-45b1-ab9f-bf954cdb0b13.png#align=left&display=inline&height=116&name=image.png&originHeight=912&originWidth=410&search=&size=213061&status=done&width=52)> （左）LR。（右）RL。
-
-- H —— 根节点在中间，水平对称布局<br />- V —— 根节点在中间，垂直对称布局<br />
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571832893099-55fa98c8-30f2-49c6-b582-76dd69de7b4a.png#align=left&display=inline&height=104&name=image.png&originHeight=892&originWidth=712&search=&size=279079&status=done&width=83)          ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571832910720-f3d479c3-b822-4123-b207-a81e22fad324.png#align=left&display=inline&height=91&name=image.png&originHeight=922&originWidth=1172&search=&size=366086&status=done&width=116)<br />> （左）H。（右）V。 |
+| direction | String | 'TB' / 'BT' / 'LR' / 'RL' / 'H' / 'V' | 'LR' | layout 的方向。<br />- TB —— 根节点在上，往下布局<br />- BT —— 根节点在下，往上布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*CN4JRZ-ws8EAAAAAAAAAAABkARQnAQ' width=150/><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*r0c_ToY56xkAAAAAAAAAAABkARQnAQ' width=150/><br />> （左）TB。（右）BT。<br />- LR —— 根节点在左，往右布局<br />- RL —— 根节点在右，往左布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*fvNVS73Mk40AAAAAAAAAAABkARQnAQ' width=70/><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZfGGSoyO6UoAAAAAAAAAAABkARQnAQ' width=70/><br />> （左）LR。（右）RL。<br />- H —— 根节点在中间，水平对称布局<br />- V —— 根节点在中间，垂直对称布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lVDyTKOI8o4AAAAAAAAAAABkARQnAQ' width=150/><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*N_MmT7ZT1PIAAAAAAAAAAABkARQnAQ' width=150/><br />> （左）H。（右）V。 |
 | nodeSep | Number | 50 | 0 | 节点间距 |
 | rankSep | Number | 100 | 0 | 层与层之间的间距 |
-| radial | Boolean | true | false | 是否按照辐射状布局。若 `radial` 为 `true`，建议 `direction` 设置为 `'LR'` 或 `'RL'`：<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571833294684-7874d71d-fb44-4340-95d0-c03b56c67a18.png#align=left&display=inline&height=98&name=image.png&originHeight=926&originWidth=922&search=&size=286654&status=done&width=98) |
+| radial | Boolean | true | false | 是否按照辐射状布局。若 `radial` 为 `true`，建议 `direction` 设置为 `'LR'` 或 `'RL'`：<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2WUNTb6kp3MAAAAAAAAAAABkARQnAQ' width=150/> |
 
 
 <a name="04ZZ5"></a>
 #### indented
-**描述**：缩进树布局。每个元素会占一行/一列。<br />![indented.png](https://cdn.nlark.com/yuque/0/2019/png/174835/1551172247854-99aa0e77-61f0-4b7e-8ab6-6d854fcd2396.png#align=left&display=inline&height=222&name=indented.png&originHeight=876&originWidth=497&search=&size=36070&status=done&width=126)
+**描述**：缩进树布局。每个元素会占一行/一列。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zuBlR4oBIE0AAAAAAAAAAABkARQnAQ' width=150/>
 
 **API**：[Indented API](https://www.yuque.com/antv/g6/hl4syb)<br />**参数**：
 
 | 参数名 | 类型 | 示例 / 可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
-| direction | String | 'LR' / 'RL' / 'H' | 'LR' | layout 的方向。<br />'LR' —— 根节点在左，往右布局（下图左）<br />'RL' —— 根节点在右，往左布局（下图中）<br />'H' —— 根节点在中间，水平对称布局（下图右）<br /><img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1571832031826-33f11b5c-3d7a-4767-89b0-1d7cb6f64510.png#align=left&display=inline&height=172&name=image.png&originHeight=908&originWidth=354&search=&size=141929&status=done&width=67' alt='indented1' width='80' /><img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1571832083137-c38a3f7a-885e-4acf-954a-73fbeb822bde.png#align=left&display=inline&height=166&name=image.png&originHeight=890&originWidth=278&search=&size=133215&status=done&width=52' alt='indented2' width='60' /><img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1571832100885-51d8526e-d530-4090-9f37-4fdd4f9e865a.png#align=left&display=inline&height=128&name=image.png&originHeight=910&originWidth=526&search=&size=205642&status=done&width=74' alt='indented3' width='120' /> |
+| direction | String | 'LR' / 'RL' / 'H' | 'LR' | layout 的方向。<br />'LR' —— 根节点在左，往右布局（下图左）<br />'RL' —— 根节点在右，往左布局（下图中）<br />'H' —— 根节点在中间，水平对称布局（下图右）<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Hn9wT6j1tEMAAAAAAAAAAABkARQnAQ' alt='indented1' width='80' /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dXx3QrjSsgsAAAAAAAAAAABkARQnAQ' alt='indented2' width='60' /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ULkFQqi04moAAAAAAAAAAABkARQnAQ' alt='indented3' width='120' /> |
 | indent | Number | 80 | 20 | 列间间距 |
 | getHeight | Function | (d) => {<br />  // d 是一个节点<br />  return 10;<br />} | undefined | 节点高度的回调函数 |
 | getWidth | Function | (d) => {<br />  // d 是一个节点<br />  return 20;<br />} | undefined | 节点宽度的回调函数 |
@@ -298,11 +291,11 @@ const graph = new G6.TreeGraph({
 
 <a name="AOAs2"></a>
 #### mindmap
-**描述**：脑图布局。深度相同的节点将会被放置在同一层，与 compactBox 不同的是，布局不会考虑节点的大小。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571830487985-0c3dfc8c-fadd-4911-8ea4-1b4091a86538.png#align=left&display=inline&height=160&name=image.png&originHeight=906&originWidth=1266&search=&size=267710&status=done&width=223)<br />**API**：[Mindmap API](https://www.yuque.com/antv/g6/wk3mh8)<br />**参数**：
+**描述**：脑图布局。深度相同的节点将会被放置在同一层，与 compactBox 不同的是，布局不会考虑节点的大小。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sRi6Q6Qrm-oAAAAAAAAAAABkARQnAQ' width=400/><br />**API**：[Mindmap API](https://www.yuque.com/antv/g6/wk3mh8)<br />**参数**：
 
 | 参数名 | 类型 | 示例 / 可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
-| direction | String | 'H' / 'V' | 'H' | layout 的方向。<br />- H：horizontal（水平）—— 根节点的子节点分成两部分横向放置在根节点左右两侧<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571830487985-0c3dfc8c-fadd-4911-8ea4-1b4091a86538.png#align=left&display=inline&height=101&name=image.png&originHeight=906&originWidth=1266&search=&size=267710&status=done&width=141)<br />- V：vertical （竖直）—— 将根节点的所有孩子纵向排列<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571830515639-e66a5347-09fe-4583-81d6-178aa6920f7b.png#align=left&display=inline&height=112&name=image.png&originHeight=920&originWidth=982&search=&size=252410&status=done&width=120) |
+| direction | String | 'H' / 'V' | 'H' | layout 的方向。<br />- H：horizontal（水平）—— 根节点的子节点分成两部分横向放置在根节点左右两侧<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EXdUT4xCVV4AAAAAAAAAAABkARQnAQ' width=150/><br />- V：vertical （竖直）—— 将根节点的所有孩子纵向排列<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*yOpETr8s_-kAAAAAAAAAAABkARQnAQ' width=150/> |
 | getHeight | Function | (d) => {<br />  // d 是一个节点<br />  return 10;<br />} | undefined | 节点高度的回调函数 |
 | getWidth | Function | (d) => {<br />  // d 是一个节点<br />  return 20;<br />} | undefined | 节点宽度的回调函数 |
 | getVGap | Function | (d) => {<br />  // d 是一个节点<br />  return 100;<br />} | 18 | 节点纵向间距的回调函数 |
@@ -350,7 +343,7 @@ changeData(data);
 ### 切换示例
 <a name="X8sJ1"></a>
 #### 期待效果
-初始化时使用默认 random 布局，2000 ms 后更换为允许节点重叠的 force 布局，4000 ms 后更换为不允许节点重叠的 force 布局，6000 ms 后更换数据为 `data2`。<br />![tutorial-layout.gif](https://cdn.nlark.com/yuque/0/2019/gif/156681/1569837754937-a1b91cef-8846-487f-a1cd-b5231fcf09a3.gif#align=left&display=inline&height=329&name=tutorial-layout.gif&originHeight=329&originWidth=440&search=&size=84736&status=done&width=440)
+初始化时使用默认 random 布局，2000 ms 后更换为允许节点重叠的 force 布局，4000 ms 后更换为不允许节点重叠的 force 布局，6000 ms 后更换数据为 `data2`。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6k-iQ405hEEAAAAAAAAAAABkARQnAQ' width=600/>
 <a name="6Wf0G"></a>
 #### 完整代码
 ```html

@@ -7,7 +7,7 @@ order: 4
 
 在 [图形分组 Group](https://www.yuque.com/antv/g6/vy5fzi) 中我们提到：在 G6 中，Graph 的一个实例中的所有节点属于同一个变量名为 `nodeGroup` 的 group，所有的边属于同一个变量名为 `edgeGroup` 的 group。节点 group 在视觉上的层级（zIndex）高于边 group，即所有节点会绘制在所有边的上层。
 
-但有时，我们需要让边在视觉上在节点上层。例如，高亮节点及其相关边和邻居、高亮一条边等。可以通过配合图实例的配置项 `groupByTypes` 以及节点和边的 `toFront()` 与 `toBack()` 函数实现。为实现如下效果：鼠标进入节点时，提升相关边以及邻居节点的层级；离开节点时恢复；鼠标进入边时，提升边及其两端点的层级；离开边时恢复。[Demo 完整代码](https://codepen.io/Yanyan-Wang/pen/GRRNzGN)。<br />![highlight-edge-node.gif](https://cdn.nlark.com/yuque/0/2019/gif/156681/1571627989063-367e9f35-8f06-4d75-a201-759add6e8a6f.gif#align=left&display=inline&height=210&name=highlight-edge-node.gif&originHeight=210&originWidth=206&search=&size=11193&status=done&width=206)
+但有时，我们需要让边在视觉上在节点上层。例如，高亮节点及其相关边和邻居、高亮一条边等。可以通过配合图实例的配置项 `groupByTypes` 以及节点和边的 `toFront()` 与 `toBack()` 函数实现。为实现如下效果：鼠标进入节点时，提升相关边以及邻居节点的层级；离开节点时恢复；鼠标进入边时，提升边及其两端点的层级；离开边时恢复。[Demo 完整代码](https://codepen.io/Yanyan-Wang/pen/GRRNzGN)。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*uWGAR5-w-TcAAAAAAAAAAABkARQnAQ' width=150/>
 
 要实现上图效果，需要以下步骤：
 
@@ -98,7 +98,7 @@ const graph = new G6.Graph({
 });
 ```
 
-此时，将会得到如下效果：<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571629063913-a0016f3f-6244-48e4-87ac-237e86dfdbda.png#align=left&display=inline&height=133&name=image.png&originHeight=302&originWidth=224&search=&size=23796&status=done&width=99)
+此时，将会得到如下效果：<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cbiwTZ5dwP0AAAAAAAAAAABkARQnAQ' width=150/>
 
 ## 
 ## Step 2 将节点放置在边上层
@@ -132,7 +132,7 @@ nodes.forEach(node => {
 // 更改层级后需要重新绘制图
 graph.paint();
 ```
- <br />这样，所有节点被绘制在边上层：<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571629345940-a061711c-a9d3-4ce2-a731-3acd29626666.png#align=left&display=inline&height=151&name=image.png&originHeight=302&originWidth=222&search=&size=22972&status=done&width=111)
+ <br />这样，所有节点被绘制在边上层：<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*8TnuS7pkUfwAAAAAAAAAAABkARQnAQ' width=150/>
 
 ## 
 ## Step 3 监听鼠标事件并改变目标元素层级

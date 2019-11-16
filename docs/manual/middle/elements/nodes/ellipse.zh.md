@@ -1,11 +1,11 @@
 ---
 title: ellipse
-order: 2
+order: 3
 ---
 
 G6 内置了 ellipse 节点，其默认样式如下。标签文本位于椭圆中央。
 
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570869816371-56e43b73-c61b-49f4-a067-41228e3bf364.png#align=left&display=inline&height=70&name=image.png&originHeight=140&originWidth=216&search=&size=17639&status=done&width=108)
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-K6wTriSnY8AAAAAAAAAAABkARQnAQ' width=100/>
 
 
 ## 使用方法
@@ -60,7 +60,7 @@ ellipse 节点支持以下的配置项，对于 Object 类型的配置项将在
 
 
 ### 样式属性 style
-Object 类型。通过 `style` 配置来修改节点的填充色、描边等属性。下面代码演示在实例化图时全局配置方法中配置 `style`，使之达到如下图效果。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570870039684-34a969f6-bb98-445d-b0aa-915775a899b6.png#align=left&display=inline&height=79&name=image.png&originHeight=158&originWidth=250&search=&size=27582&status=done&width=125)
+Object 类型。通过 `style` 配置来修改节点的填充色、描边等属性。下面代码演示在实例化图时全局配置方法中配置 `style`，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5_yzRLNA81cAAAAAAAAAAABkARQnAQ' width=100/>
 ```javascript
 const data = {
   nodes: [{
@@ -90,7 +90,7 @@ graph.render();
 
 
 ### 标签文本配置 labelCfg
-Object 类型。通过 `labelCfg` 配置标签文本。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570870174289-a7239b11-d0da-441d-a2fe-d0c17b67dcff.png#align=left&display=inline&height=81&name=image.png&originHeight=162&originWidth=346&search=&size=30221&status=done&width=173)
+Object 类型。通过 `labelCfg` 配置标签文本。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SxAlT7QGURwAAAAAAAAAAABkARQnAQ' width=100/>
 ```javascript
 const data = {
   // ... data 内容
@@ -127,7 +127,7 @@ Object 类型。通过配置 `linkPoints` ，可以指定节点上「上、下�
 | lineWidth | 连接点边框的宽度 | Number | 默认为1 |
 
 
-基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `linkPoints` 配置项进行连入点的配置，使之达到如下图效果。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570870219428-3bfd206a-eb00-4b41-b56e-766cb852613e.png#align=left&display=inline&height=84&name=image.png&originHeight=168&originWidth=362&search=&size=35683&status=done&width=181)
+基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `linkPoints` 配置项进行连入点的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*paBYRq0PNqgAAAAAAAAAAABkARQnAQ' width=100/>
 ```javascript
 const data = {
   // ... data 内容
@@ -161,7 +161,7 @@ Object 类型。通过配置 `icon`，可以在圆上显示小图标。
 | img | icon的地址 | String |  |
 
 
-基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `icon` 配置项进行图标的配置，使之达到如下图效果。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570870258520-6ac80ec7-cc7d-49c3-bf01-93673d7c158d.png#align=left&display=inline&height=91&name=image.png&originHeight=182&originWidth=354&search=&size=46395&status=done&width=177)
+基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `icon` 配置项进行图标的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*992OSK65NaUAAAAAAAAAAABkARQnAQ' width=100/>
 ```javascript
 const data = {
   // ... data 内容

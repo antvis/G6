@@ -6,7 +6,7 @@ order: 8
 > Feature 自 G6 3.1.2 开始支持自定义节点分组的标题了，可以渲染带有标题的分组。
 
 
-对于熟悉图可视化类库的用户来说，节点分组可能是比较实用的一个功能。自 G6 3.0.5 版本开始，G6 加入了节点分组的功能，详情参考[Demo](https://github.com/antvis/g6/blob/master/demos/drag-group.html)。<br />![group2.gif](https://cdn.nlark.com/yuque/0/2019/gif/244306/1567391660645-308be946-1119-45c0-af7c-5373e78ffa7c.gif#align=left&display=inline&height=533&name=group2.gif&originHeight=533&originWidth=763&search=&size=261828&status=done&width=763)
+对于熟悉图可视化类库的用户来说，节点分组可能是比较实用的一个功能。自 G6 3.0.5 版本开始，G6 加入了节点分组的功能，详情参考[Demo](https://github.com/antvis/g6/blob/master/demos/drag-group.html)。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*G1OBSJf672QAAAAAAAAAAABkARQnAQ' width=400/>
 
 ### 数据结构
 新增节点分组功能时，尽量保持了 G6 数据结构的稳定性。为了体现分组的特性，我们在 nodes 数据项中加入了 groupId 属性，另外新增了 groups 字段，用于表示数据中所包括的分组及各分组之间的层级关系。
@@ -189,7 +189,7 @@ graph.data(data);
 graph.render();
 ```
 
-渲染的效果如下图所示：<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/244306/1571190983755-4599403c-7c3d-4c23-9539-e91a5c038984.png#align=left&display=inline&height=503&name=image.png&originHeight=1006&originWidth=1600&search=&size=415977&status=done&width=800)<br />此时，不能对分组中的节点及分组进行任何操作，接下来，我们介绍可以对分组进行的各种操作。
+渲染的效果如下图所示：<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iftmRrdqR7cAAAAAAAAAAABkARQnAQ' width=400/><br />此时，不能对分组中的节点及分组进行任何操作，接下来，我们介绍可以对分组进行的各种操作。
 
 ### 操作分组
 只是简单地将分组渲染出来，并没有多大的实用价值，只有支持一系列的交互操作后，才能最大程度地体现分组的价值。
@@ -238,7 +238,7 @@ const graph = new G6.Graph({
 
 将这三个内置提供的 Behavior 加入到 modes 中以后的效果如下图所示。
 
-![group2.gif](https://cdn.nlark.com/yuque/0/2019/gif/244306/1567391075518-249e7649-5861-41ec-9e81-ea58224de9cb.gif#align=left&display=inline&height=533&name=group2.gif&originHeight=533&originWidth=763&search=&size=261828&status=done&width=763)
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VsMbRqOJe2sAAAAAAAAAAABkARQnAQ' width=400/>
 
 ### 适用的场景
 

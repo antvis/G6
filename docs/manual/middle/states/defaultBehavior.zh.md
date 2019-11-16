@@ -40,7 +40,7 @@ const graph = new G6.Graph({
 })
 ```
 
-此时只能在 x 方向上面拖动，y 方向上不允许拖动。<br />![3.gif](https://cdn.nlark.com/yuque/0/2019/gif/244306/1570778658995-88e2bf4e-e201-43a0-9ffd-15ceadc8334e.gif#align=left&display=inline&height=333&name=3.gif&originHeight=517&originWidth=783&search=&size=669012&status=done&width=504)
+此时只能在 x 方向上面拖动，y 方向上不允许拖动。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*54yxRrW1A7sAAAAAAAAAAABkARQnAQ' width=400/>
 
 ### zoom-canvas
 
@@ -66,7 +66,7 @@ const graph = new G6.Graph({
   }
 })
 ```
-![3.gif](https://cdn.nlark.com/yuque/0/2019/gif/244306/1570777651736-e68e2d92-eabe-4b58-bc39-66a6cfbd6cf5.gif#align=left&display=inline&height=374&name=3.gif&originHeight=517&originWidth=783&search=&size=149678&status=done&width=567)
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hre9Qa7yCfQAAAAAAAAAAABkARQnAQ' width=400/>
 
 **启用** `delegate`
 ```javascript
@@ -81,7 +81,7 @@ const graph = new G6.Graph({
   }
 })
 ```
-![3.gif](https://cdn.nlark.com/yuque/0/2019/gif/244306/1570778113574-f65eeb6b-4df4-4db4-a4d3-5cf2141607f3.gif#align=left&display=inline&height=279&name=3.gif&originHeight=517&originWidth=783&search=&size=219983&status=done&width=422)
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*BN83QJQpU40AAAAAAAAAAABkARQnAQ' width=400/>
 
 ### click-select
 
@@ -99,7 +99,7 @@ const graph = new G6.Graph({
 })
 ```
 
-按住 **`Shift`** 键可多选。<br />![3.gif](https://cdn.nlark.com/yuque/0/2019/gif/244306/1570778352084-ca8b1694-0e10-4dfa-b69e-2fc35130b9a9.gif#align=left&display=inline&height=517&name=3.gif&originHeight=517&originWidth=783&search=&size=48383&status=done&width=783)
+按住 **`Shift`** 键可多选。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mOiIQqBof8sAAAAAAAAAAABkARQnAQ' width=400/>
 
 **配置参数**
 ```javascript
@@ -176,7 +176,7 @@ const graph = new G6.Graph({
   }
 })
 ```
-默认情况下，选中的节点状态，在操作完以后仍然会保持选中状态。<br />![3.gif](https://cdn.nlark.com/yuque/0/2019/gif/244306/1570783971145-6588e49f-79d7-40b4-aa66-3308f060f2b4.gif#align=left&display=inline&height=542&name=3.gif&originHeight=542&originWidth=610&search=&size=358920&status=done&width=610)
+默认情况下，选中的节点状态，在操作完以后仍然会保持选中状态。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bG31RqbM4JMAAAAAAAAAAABkARQnAQ' width=400/>
 
 **配置参数**
 ```javascript
@@ -194,7 +194,7 @@ const graph = new G6.Graph({
 
 配置 `resetSelected` 参数为 `true` 后，交互后会重置节点的选择状态。
 
-![3.gif](https://cdn.nlark.com/yuque/0/2019/gif/244306/1570784093933-beb50a11-eef7-4076-a05c-5723be7e7e1d.gif#align=left&display=inline&height=542&name=3.gif&originHeight=542&originWidth=610&search=&size=142174&status=done&width=610)
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VQDrT5Qpq_sAAAAAAAAAAABkARQnAQ' width=400/>
 
 
 ### brush-select
@@ -223,8 +223,7 @@ const graph = new G6.Graph({
   }
 })
 ```
-默认情况下，按住 Shift 键进行框选，选中节点的同时，也会选中边。<br />![3.gif](https://cdn.nlark.com/yuque/0/2019/gif/244306/1570779252901-1efaccf6-a268-47a6-8db9-f63c82d355fe.gif#align=left&display=inline&height=542&name=3.gif&originHeight=542&originWidth=610&search=&size=188323&status=done&width=610)
-
+默认情况下，按住 Shift 键进行框选，选中节点的同时，也会选中边。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IJizQonX75wAAAAAAAAAAABkARQnAQ' width=400/>
 **配置参数**
 ```javascript
 const graph = new G6.Graph({
@@ -240,7 +239,7 @@ const graph = new G6.Graph({
 })
 ```
 
-上面的配置，按住 Ctrl 键，进行框选，框选过程中不会选中边。<br />![3.gif](https://cdn.nlark.com/yuque/0/2019/gif/244306/1570779434063-6bf4fe39-88c8-44c2-a25d-6b8980db4a39.gif#align=left&display=inline&height=370&name=3.gif&originHeight=542&originWidth=610&search=&size=115882&status=done&width=416)
+上面的配置，按住 Ctrl 键，进行框选，框选过程中不会选中边。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1xNZT7mPFK4AAAAAAAAAAABkARQnAQ' width=400/>
 
 **配置冲突**
 ```javascript
@@ -256,7 +255,7 @@ const graph = new G6.Graph({
 })
 ```
 
-当用户配置 `brush-select` 的 `trigger` 为 `drag`，同时又配置了 `drag-canvas` 时，在交互上面会出现冲突的情况。<br />![3.gif](https://cdn.nlark.com/yuque/0/2019/gif/244306/1570779665370-63bb8a65-f4e3-4a05-8c42-21b2e79b6b76.gif#align=left&display=inline&height=412&name=3.gif&originHeight=542&originWidth=610&search=&size=559913&status=done&width=464)
+当用户配置 `brush-select` 的 `trigger` 为 `drag`，同时又配置了 `drag-canvas` 时，在交互上面会出现冲突的情况。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*umffRa8rHtUAAAAAAAAAAABkARQnAQ' width=400/>
 
 可以看到，在拖动过程中也出现了框选的情况，这种情况很显然不是我们期望的效果，除过使用 `brush-select `的 `trigger` 参数避免这种冲突外，我们还可以通过下面的方式来实现：
 
@@ -336,7 +335,7 @@ const graph = new G6.Graph({
 })
 ```
 
-![3.gif](https://cdn.nlark.com/yuque/0/2019/gif/244306/1570785874686-a7333f95-e8d3-45a7-873e-8ee56c3b4b21.gif#align=left&display=inline&height=542&name=3.gif&originHeight=542&originWidth=610&search=&size=57719&status=done&width=610)
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*znCaS48_BpgAAAAAAAAAAABkARQnAQ' width=400/>
 
 ### drag-group
 

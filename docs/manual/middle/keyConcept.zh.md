@@ -6,7 +6,7 @@ order: 0
 ## 图形 Shape
 Shape 指 G6 中的图形、形状，它可以是圆形、矩形、路径等。它一般与 G6 中的节点、边相关。G6 中的每一种节点或边由一个或多个 Shape 组成。
 
-例如下图（左）的节点包含了一个圆形图形；下图（中）的节点含有有一个圆形和一个文本图形；下图（右）的节点中含有 5 个圆形（蓝绿色的圆和上下左右四个锚点）、一个文本图形。但每种节点和边都会有自己的唯一关键图形 keyShape，下图中三个节点的 keyShape 都是蓝绿色的圆，keyShape 主要用于交互检测、样式随[状态](https://www.yuque.com/antv/g6/fqnn9w)自动更新等，见 [keyShape](#UNCAz)。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570860282365-a580467a-9843-4aa5-a016-d73dff38fc0a.png#align=left&display=inline&height=68&name=image.png&originHeight=136&originWidth=138&search=&size=14236&status=done&width=69)      ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570860291602-5729dfa6-4c25-4547-82f8-2d388422df67.png#align=left&display=inline&height=85&name=image.png&originHeight=170&originWidth=150&search=&size=16796&status=done&width=75)      ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570859851766-0358416c-65d1-4637-93d1-e5cf12017bc8.png#align=left&display=inline&height=94&name=image.png&originHeight=188&originWidth=196&search=&size=24941&status=done&width=98)
+例如下图（左）的节点包含了一个圆形图形；下图（中）的节点含有有一个圆形和一个文本图形；下图（右）的节点中含有 5 个圆形（蓝绿色的圆和上下左右四个锚点）、一个文本图形。但每种节点和边都会有自己的唯一关键图形 keyShape，下图中三个节点的 keyShape 都是蓝绿色的圆，keyShape 主要用于交互检测、样式随[状态](https://www.yuque.com/antv/g6/fqnn9w)自动更新等，见 [keyShape](#UNCAz)。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OcaaTIIu_4cAAAAAAAAAAABkARQnAQ' width=50/>     <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*r5M0Sowd1R8AAAAAAAAAAABkARQnAQ' width=50/>      <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*pHoETad75CIAAAAAAAAAAABkARQnAQ' width=50/>
 > （左）只含有一个圆形图形的节点，keyShape 是该圆形。（中）含有圆形和文本图形的节点，keyShape 是圆形。（右）含有主要圆形、文本、上下左右四个小圆形的节点，keyShape 是圆形。
 
 
@@ -22,11 +22,11 @@ G6 使用不同的 shape 及组合，设计了多种内置的节点和边。G6 �
 
 - 当节点的 keyShape 为 circle 时：
 
-![2019-06-13.07.png](https://cdn.nlark.com/yuque/0/2019/png/244306/1561033286841-e52f2489-4c31-4235-9d3c-0dfcc95ff4c6.png#align=left&display=inline&height=145&name=%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202019-06-13%20%E4%B8%8A%E5%8D%8811.31.07.png&originHeight=166&originWidth=392&search=&size=8734&status=done&width=342)
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*CY7cSaMs4U0AAAAAAAAAAABkARQnAQ' width=220/>
 
 - 当节点的 keyShape 为 rect 时：
 
-![2019-06-13.png](https://cdn.nlark.com/yuque/0/2019/png/244306/1561033286856-823a0f11-a768-456f-b510-d823799d1bfe.png#align=left&display=inline&height=150&name=%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202019-06-13%20%E4%B8%8A%E5%8D%8811.31.56.png&originHeight=180&originWidth=432&search=&size=8968&status=done&width=359)
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*upWTQLTvxGEAAAAAAAAAAABkARQnAQ' width=250/>
 
 
 ## Shape 的生命周期
@@ -56,7 +56,7 @@ Shape 作为 Graph 上的核心元素，这几个阶段都需要考虑，但是�
 ## anchorPoint
 
 节点的连接点 anchorPoint 指的是边连入节点的相对位置，即节点与其相关边的交点位置。anchorPoints 是一个二维数组，每一项表示一个连接点的位置，在一个[图形 shape](https://www.yuque.com/antv/g6/shape-crycle) 中，连接点的位置如下图所示，x 和 y 方向上范围都是 [0, 1]：<br />
-<img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1571036680989-45a97f57-c247-4408-8b38-37c1e0d6c8c7.png#align=left&display=inline&height=190&name=image.png&originHeight=654&originWidth=1364&search=&size=204253&status=done&width=396' width='600' height='300' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EJTyR4j9VN4AAAAAAAAAAABkARQnAQ' width='600' height='300' />
 
 节点中有了 anchorPoints 之后，相关边可以分别选择连入起始点、结束点的哪一个 anchorPoint。当需要在节点之间连多条线时，这种机制能够使边的连入更美观。
 
