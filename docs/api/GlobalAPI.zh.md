@@ -76,8 +76,8 @@ G6.registerNode(
 | 名称           | 类型   | 是否必选 | 描述                                                                                                                                   |
 | -------------- | ------ | -------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | edgeName       | string | true     | 自定义边的名称                                                                                                                         |
-| options        | object | true     | 自定义边时的配置项，配置项中包括完整的生命周期方法，具体请参考：[Shape 文档](https://www.yuque.com/antv/g6/shape-api)。                |
-| extendEdgeName | string | false    | 自定义边时可基于内置边进行定义，该字段表示内置边的名称，所有内置边请参考：[内置边](https://www.yuque.com/antv/g6/default-node#QtRZ2)。 |
+| options        | object | true     | 自定义边时的配置项，配置项中包括完整的生命周期方法，具体请参考：[Shape 文档](/zh/docs/api/Shape)。                |
+| extendEdgeName | string | false    | 自定义边时可基于内置边进行定义，该字段表示内置边的名称，所有内置边请参考：[内置边](/zh/docs/manual/middle/elements/defaultEdge)。 |
 
 **用法**
 
@@ -134,7 +134,7 @@ G6.registerEdge(
 | 名称         | 类型   | 是否必选 | 描述                                                                                                                          |
 | ------------ | ------ | -------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | behaviorName | string | true     | 自定义 Behavior 的名称                                                                                                        |
-| behavior     | object | true     | 自定义 behavior 时的配置项，配置项中包括的方法及作用具体请参考：[Behavior 文档](https://www.yuque.com/antv/g6/behavior-api)。 |
+| behavior     | object | true     | 自定义 behavior 时的配置项，配置项中包括的方法及作用具体请参考：[Behavior 文档](/zh/docs/api/Behavior)。 |
 
 **用法**
 
@@ -189,7 +189,7 @@ G6.registerBehavior('behaviorName', {
 | 名称       | 类型   | 是否必选 | 描述                                                                                                          |
 | ---------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------- |
 | layoutName | string | true     | 自定义布局名称                                                                                                |
-| layout     | object | true     | 自定义布局的配置项，配置项中包括的方法及作用具体请参考：[Layout 文档](https://www.yuque.com/antv/g6/agbmu2)。 |
+| layout     | object | true     | 自定义布局的配置项，配置项中包括的方法及作用具体请参考：[Layout 文档](/zh/docs/manual/middle/layout)。 |
 
 **用法**
 
