@@ -89,21 +89,41 @@ class Minimap extends Base {
       left,           // 缓存viewport当前对于画布的x
       top,            // 缓存viewport当前对于画布的y
       width,          // 缓存viewport当前宽度
-      height;         // 缓存viewport当前高度
+      height,         // 缓存viewport当前高度
+      offsetX,        // 计算X方向偏移值，在缩放下大图移动到可视区域外时 viewport 的top、left 会和大图的位置有相对偏移，offsetY 同理
+      offsetY,
+      ratio,
+      zoom;           // 缓存zoom
     containerDOM.addEventListener('mousedown', e => {
       cfgs.refresh = false;
       if (e.target !== viewport) {
         return;
       }
+
       // 如果视口已经最大了，不需要拖拽
       const style = viewport.style;
       left = parseInt(style.left, 10);
       top = parseInt(style.top, 10);
       width = parseInt(style.width, 10);
       height = parseInt(style.height, 10);
+
       if (width >= size[0] || height >= size[1]) {
         return;
       }
+
+      // 可以拖拽，则需要计算是否又偏移
+      zoom = graph.getZoom();
+      ratio = this.get('ratio');
+
+      const topLeft = graph.getPointByCanvas(0, 0);
+
+      // 修正偏移值
+      offsetX = left / ratio - topLeft.x;
+      offsetY = top / ratio - topLeft.y;
+
+      // 修正偏移值
+      graph.translate(-offsetX / ratio, -offsetY / ratio);
+
       dragging = true;
       x = e.clientX;
       y = e.clientY;
@@ -114,6 +134,7 @@ class Minimap extends Base {
       }
       let dx = x - e.clientX;
       let dy = y - e.clientY;
+
       // 若视口移动到最左边或最右边了,仅移动到边界
       if (left - dx < 0) {
         dx = left;
@@ -133,8 +154,10 @@ class Minimap extends Base {
         left: left + 'px',
         top: top + 'px'
       });
-      const ratio = this.get('ratio');
-      graph.translate(dx / ratio, dy / ratio);
+
+      // graph 移动需要偏移量 dx/dy * 缩放比例才会得到正确的移动距离
+      graph.translate(dx * zoom / ratio, dy * zoom / ratio);
+
       x = e.clientX;
       y = e.clientY;
     }, false);
@@ -276,6 +299,7 @@ class Minimap extends Base {
     if (!viewport) {
       this.initViewport();
     }
+
     // viewport宽高,左上角点的计算
     let width = (bottomRight.x - topLeft.x) * ratio;
     let height = (bottomRight.y - topLeft.y) * ratio;
@@ -287,11 +311,33 @@ class Minimap extends Base {
     if (height > size[1]) {
       height = size[1];
     }
+
     // 缓存目前缩放比，在移动 minimap 视窗时就不用再计算大图的移动量
     this.set('ratio', ratio);
+
+    let correctLeft = 0;
+    let correctTop = 0;
+
+    // 需要计算viewport在画布内
+    if (left >= 0 && left + width <= size[0]) {
+      correctLeft = left + 'px';
+    } else if (left < 0) {
+      correctLeft = 0;
+    } else if (left + width > size[0]) {
+      correctLeft = (size[0] - width) + 'px';
+    }
+
+    if (top >= 0 && top + height <= size[1]) {
+      correctTop = top + 'px';
+    } else if (top < 0) {
+      correctTop = 0;
+    } else if (top + height > size[1]) {
+      correctTop = (size[1] - height) + 'px';
+    }
+
     modifyCSS(viewport, {
-      left: left > 0 ? left + 'px' : 0,
-      top: top > 0 ? top + 'px' : 0,
+      left: correctLeft,
+      top: correctTop,
       width: width + 'px',
       height: height + 'px'
     });
