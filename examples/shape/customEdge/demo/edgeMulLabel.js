@@ -78,10 +78,12 @@ const data = {
   }]
 };
 
+const width = document.getElementById('container').scrollWidth;
+const height = document.getElementById('container').scrollHeight;
 const graph = new G6.Graph({
   container: 'container',
-  width: 500,
-  height: 500,
+  width,
+  height,
   modes: {
     default: [{
       type: 'drag-node',
@@ -95,19 +97,21 @@ const graph = new G6.Graph({
     shape: 'circle',
     size: [ 50 ],
     style: {
-      fill: '#40a9ff'
+      fill: '#DEE9FF',
+      stroke: '#5B8FF9'
     },
     linkPoints: {
       left: true,
       right: true,
       fill: '#fff',
+      stroke: '#1890FF',
       size: 3
     }
   },
   defaultEdge: {
     shape: 'multipleLabelsEdge',
     style: {
-      stroke: '#bae7ff'
+      stroke: '#F6BD16'
     }
   }
 });

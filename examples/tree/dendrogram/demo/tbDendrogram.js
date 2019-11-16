@@ -25,8 +25,8 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
         size: 26,
         anchorPoints: [[ 0, 0.5 ], [ 1, 0.5 ]],
         style: {
-          fill: '#40a9ff',
-          stroke: '#096dd9'
+          fill: '#C6E5FF',
+          stroke: '#5B8FF9'
         }
       },
       defaultEdge: {

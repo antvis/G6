@@ -7,17 +7,17 @@
     {
       "filename": "basicFruchterman.js",
       "title": "基本 Fruchterman 布局",
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*jK3ITYqVJnQAAAAAAAAAAABkARQnAQ"
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1KY7SLEXxqMAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "fruchtermanClustering.js",
       "title": "Fruchterman 聚类布局",
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*p8ITTZMWY2UAAAAAAAAAAABkARQnAQ"
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*WO1OTbNE_ugAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "fruchtermanConfigurationTranslate.js",
       "title": "Fruchterman 布局参数动态变化",
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zhBbT4t2EcQAAAAAAAAAAABkARQnAQ"
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*W9MoQoKaQbYAAAAAAAAAAABkARQnAQ"
     }
   ]
 }

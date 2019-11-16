@@ -30,10 +30,12 @@ const data = {
   }]
 };
 
+const width = document.getElementById('container').scrollWidth;
+const height = document.getElementById('container').scrollHeight;
 const graph = new G6.Graph({
   container: 'container',
-  width: 500,
-  height: 500,
+  width,
+  height,
   modes: {
     // 支持的 behavior
     default: [ 'drag-node', 'drag-canvas' ]
@@ -41,19 +43,21 @@ const graph = new G6.Graph({
   defaultNode: {
     shape: 'circle',
     style: {
-      fill: '#40a9ff'
+      fill: '#DEE9FF',
+      stroke: '#5B8FF9'
     },
     linkPoints: {
       left: true,
       right: true,
       fill: '#fff',
+      stroke: '#1890FF',
       size: 3
     }
   },
   defaultEdge: {
     shape: 'line-arrow',
     style: {
-      stroke: '#bae7ff'
+      stroke: '#F6BD16'
     }
   }
 });

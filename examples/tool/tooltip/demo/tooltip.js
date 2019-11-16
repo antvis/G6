@@ -60,17 +60,23 @@ const data = {
     description: 'This is edge from node 0 to node 3.'
   }]
 };
+const width = document.getElementById('container').scrollWidth;
+const height = document.getElementById('container').scrollHeight;
 const graph = new G6.Graph({
   container: 'container',
-  width: 500,
-  height: 500,
+  width,
+  height,
   defaultNode: {
     size: [ 80, 40 ],
-    shape: 'rect'
+    shape: 'rect',
+    style: {
+      fill: '#DEE9FF',
+      stroke: '#5B8FF9'
+    }
   },
   defaultEdge: {
     style: {
-      stroke: '#bae7ff',
+      stroke: '#b5b5b5',
       lineAppendWidth: 3
     }
   },

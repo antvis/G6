@@ -46,18 +46,18 @@ G6.registerNode('area', {
 
     });
     const strokeColors = [
-      'rgba(37,203,253,1)',
-      'rgba(254,255,123,1)',
-      'rgba(254,171,58,1)',
-      'rgba(254,87,102,1)',
-      'rgba(22,193,118,1)'
+      'rgba(91, 143, 249,1)',
+      'rgba(90, 216, 166,1)',
+      'rgba(246, 189, 22,1)',
+      'rgba(232, 104, 74,1)',
+      'rgba(255, 157, 77,1)'
     ];
     const fillColors = [
-      'rgba(37,203,253,0.5)',
-      'rgba(254,255,123,0.5)',
-      'rgba(254,171,58,0.5)',
-      'rgba(254,87,102,0.5)',
-      'rgba(22,193,118,0.5)'
+      'rgba(91, 143, 249,0.5)',
+      'rgba(90, 216, 166,0.5)',
+      'rgba(246, 189, 22,0.5)',
+      'rgba(232, 104, 74,0.5)',
+      'rgba(255, 157, 77,0.5)'
     ];
 
 
@@ -165,10 +165,12 @@ const data = {
   ]
 };
 
+const width = document.getElementById('container').scrollWidth;
+const height = document.getElementById('container').scrollHeight;
 const graph = new G6.Graph({
   container: 'container',
-  width: 500,
-  height: 500
+  width,
+  height
 });
 
 graph.data(data);

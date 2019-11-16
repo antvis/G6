@@ -5,17 +5,17 @@ const data = {
     id: 'a',
     x: 200,
     y: 100,
-    style: { fill: '#F04864', stroke: null }
+    style: { fill: '#5B8FF9', stroke: null }
   }, {
     id: 'b',
     x: 100,
     y: 200,
-    style: { fill: '#FACC14', stroke: null }
+    style: { fill: '#5AD8A6', stroke: null }
   }, {
     id: 'c',
     x: 300,
     y: 200,
-    style: { fill: '#40a9ff', stroke: null }
+    style: { fill: '#5D7092', stroke: null }
   }],
   edges: [{
     id: 'a2b',
@@ -28,10 +28,12 @@ const data = {
   }]
 };
 
+const width = document.getElementById('container').scrollWidth;
+const height = document.getElementById('container').scrollHeight;
 const graph = new G6.Graph({
   container: 'container',
-  width: 500,
-  height: 500,
+  width,
+  height,
   animate: true
 });
 

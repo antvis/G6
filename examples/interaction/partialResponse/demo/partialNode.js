@@ -15,7 +15,6 @@ G6.registerNode('customNode', {
     const style = G6.Util.mix({}, this.getShapeStyle(cfg), {
       x: 0,
       y: 0,
-      // stroke: '#000',
       r: 50
     });
     const shape = group.addShape(shapeType, {
@@ -59,10 +58,12 @@ const data = {
   }]
 };
 
+const width = document.getElementById('container').scrollWidth;
+const height = document.getElementById('container').scrollHeight;
 const graph = new G6.Graph({
   container: GRAPH_CONTAINER,
-  width: 500,
-  height: 500,
+  width,
+  height,
   modes: {
     default: [{
       type: 'drag-node',
@@ -71,18 +72,18 @@ const graph = new G6.Graph({
   },
   defaultNode: {
     style: {
-      fill: '#69c0ff'
+      fill: '#DEE9FF',
+      stroke: '#5B8FF9'
     },
     labelCfg: {
       style: {
-        fill: '#fff',
         fontSize: 12
       }
     }
   },
   defaultEdge: {
     style: {
-      stroke: '#bae7ff'
+      stroke: '#e2e2e2'
     }
   }
 });

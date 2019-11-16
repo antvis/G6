@@ -11,10 +11,10 @@ const getNodeConfig = node => {
     };
   }
   let config = {
-    basicColor: '#69c0ff',
-    fontColor: '#1890ff',
-    borderColor: '#69c0ff',
-    bgColor: '#bae7ff'
+    basicColor: '#5B8FF9',
+    fontColor: '#5B8FF9',
+    borderColor: '#5B8FF9',
+    bgColor: '#C6E5FF'
   };
   switch (node.type) {
     case 'root': {
@@ -53,10 +53,12 @@ const EXPAND_ICON = function EXPAND_ICON(x, y, r) {
   ];
 };
 
+const width = document.getElementById('container').scrollWidth;
+const height = document.getElementById('container').scrollHeight;
 const graph = new G6.Graph({
   container: 'container',
-  width: 500,
-  height: 500,
+  width,
+  height,
   modes: {
     default: [ 'drag-node' ]
   },

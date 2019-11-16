@@ -19,8 +19,8 @@ const graph = new G6.Graph({
     shape: 'rect',
     size: [ 160, 80 ],
     style: {
-      fill: '#69c0ff',
-      stroke: '#bae7ff',
+      fill: '#9EC9FF',
+      stroke: '#5B8FF9',
       lineWidth: 3
     },
     labelCfg: {
@@ -37,7 +37,7 @@ const graph = new G6.Graph({
       size: 5,
       fill: '#fff',
       lineWidth: 1,
-      stroke: '#72CC4A'
+      stroke: '#1890FF'
     }
   },
   modes: {

@@ -6,18 +6,19 @@ insertCss(`
     border: 1px solid #e2e2e2;
     border-radius: 4px;
     font-size: 12px;
-    color: #545454;
+    color: #000;
     background-color: rgba(255, 255, 255, 0.9);
     padding: 10px 8px;
     box-shadow: rgb(174, 174, 174) 0px 0px 10px;
   }
 `);
 
+const width = document.getElementById('container').scrollWidth;
+const height = document.getElementById('container').scrollHeight;
 const graph = new G6.Graph({
   container: 'container',
-  width: 500,
-  height: 500,
-  fitView: true,
+  width,
+  height,
   layout: {
     type: 'force',
     edgeStrength: 0.7
@@ -40,7 +41,8 @@ const graph = new G6.Graph({
     size: [ 10, 10 ],
     style: {
       lineWidth: 2,
-      fill: 'steelblue'
+      fill: '#DEE9FF',
+      stroke: '#5B8FF9'
     }
   },
   defaultEdge: {
