@@ -105,7 +105,7 @@ module.exports = {
       {
         slug: 'manual/cases',
         title: {
-          zh: '综合引用',
+          zh: '综合应用',
           en: 'Cases'
         },
         order: 5

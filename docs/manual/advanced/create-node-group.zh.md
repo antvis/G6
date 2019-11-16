@@ -33,16 +33,16 @@ groupType 属性用于指定分组的类型，默认为 `circle`，支持 `circ
 
 **groupType 指定为 `circle` 时**的效果如下。<br />
 
-<img src='https://cdn.nlark.com/yuque/0/2019/gif/244306/1568080532182-5b70448c-ee95-4fdc-81ca-ffac68535c72.gif#align=left&display=inline&height=533&name=group2.gif&originHeight=533&originWidth=763&search=&size=261828&status=done&width=763' alt='download' width='600'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0L2cTJVfPSwAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
 <br />**groupType 指定为 `rect` 时**的效果如下图。<br />
-<img src='https://cdn.nlark.com/yuque/0/2019/gif/244306/1568080506714-79dc8f77-1423-4065-9212-918add95d3df.gif#align=left&display=inline&height=415&name=3.gif&originHeight=415&originWidth=514&search=&size=84184&status=done&width=514' alt='download' width='600'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*g_ntQK8Oz3cAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
 ### groupStyle
 `groupStyle` 用于指定分组在默认（default）、交互过程中（hover）及收起（collapse）状态下的样式。
 
 #### 通用属性
-default、hover 和 collapse 支持的所有通用的属性参考[这里](https://www.yuque.com/antv/g6/ffzwfp)。除过这些通用的属性，default 和 collapse 分别还支持以下特有属性。
+default、hover 和 collapse 支持的所有通用的属性参考[属性配置项](/zh/docs/api/properties/NodeProperties)。除过这些通用的属性，default 和 collapse 分别还支持以下特有属性。
 
 #### default
 | 属性名称 | 含义 | 类型 | 备注 |
