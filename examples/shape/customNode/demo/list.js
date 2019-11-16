@@ -18,7 +18,7 @@ G6.registerNode('expandNode', {
         y: 0,
         width: 100 + 60 * cfg.values.length,
         height: 50,
-        fill: '#bae7ff'
+        fill: '#C6E5FF'
       }
     });
 
@@ -92,7 +92,7 @@ G6.registerNode('expandNode', {
         attrs: {
           width: rectWidth,
           height: 30,
-          fill: '#69c0ff',
+          fill: '#9EC9FF',
           x: 80,
           y: 40 * index + 40
         }
@@ -119,10 +119,12 @@ G6.registerNode('expandNode', {
   }
 });
 
+const width = document.getElementById('container').scrollWidth;
+const height = document.getElementById('container').scrollHeight;
 const graph = new G6.Graph({
   container: 'container',
-  width: 500,
-  height: 250,
+  width,
+  height,
   pixelRatio: 2,
   modes: {
     default: [ 'drag-canvas' ]

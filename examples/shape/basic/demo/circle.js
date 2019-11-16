@@ -11,16 +11,18 @@ const data = {
   ]
 };
 
+const width = document.getElementById('container').scrollWidth;
+const height = document.getElementById('container').scrollHeight;
 const graph = new G6.Graph({
   container: 'container',
-  width: 500,
-  height: 500,
+  width,
+  height,
   defaultNode: {
     shape: 'circle',
-    size: [ 130 ],
-    color: '#bae7ff',
+    size: [ 160 ],
+    color: '#5B8FF9',
     style: {
-      fill: '#69c0ff',
+      fill: '#9EC9FF',
       lineWidth: 3
     },
     labelCfg: {
@@ -40,7 +42,7 @@ const graph = new G6.Graph({
       size: 5,
       lineWidth: 1,
       fill: '#fff',
-      stroke: '#72CC4A'
+      stroke: '#1890FF'
     },
     // 节点中icon配置
     icon: {

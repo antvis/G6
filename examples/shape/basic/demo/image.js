@@ -11,10 +11,12 @@ const data = {
   ]
 };
 
+const width = document.getElementById('container').scrollWidth;
+const height = document.getElementById('container').scrollHeight;
 const graph = new G6.Graph({
   container: 'container',
-  width: 500,
-  height: 500,
+  width,
+  height,
   defaultNode: {
     shape: 'image',
     size: [ 260, 80 ],

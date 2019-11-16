@@ -49,12 +49,20 @@ const data = {
 };
   // 避免拖动过程中闪烁：使用加载已经LOAD好的图片
 img.onload = function() {
+  const width = document.getElementById('container').scrollWidth;
+  const height = document.getElementById('container').scrollHeight;
   const graph = new G6.Graph({
     container: 'container',
-    width: 500,
-    height: 500,
+    width,
+    height,
+    defaultNode: {
+      style: {
+        fill: '#DEE9FF',
+        stroke: '#5B8FF9'
+      }
+    },
     defaultEdge: {
-      color: '#bae7ff'
+      color: '#e2e2e2'
     },
     modes: {
       default: [ 'drag-node', {

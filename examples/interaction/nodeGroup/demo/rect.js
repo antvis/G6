@@ -8,18 +8,21 @@ import G6 from '@antv/g6';
    *  5、拖出拖入节点后动态改变群组大小。
   */
 
+const width = document.getElementById('container').scrollWidth;
+const height = document.getElementById('container').scrollHeight;
 const graph = new G6.Graph({
   container: 'container',
-  width: 800,
-  height: 600,
+  width,
+  height,
   defaultNode: {
     shape: 'circle',
     style: {
-      fill: '#69c0ff'
+      fill: '#DEE9FF',
+      stroke: '#5B8FF9'
     }
   },
   defaultEdge: {
-    color: '#bae7ff'
+    color: '#e2e2e2'
   },
   modes: {
     default: [ 'drag-canvas', 'drag-group', 'drag-node-with-group', 'collapse-expand-group' ]

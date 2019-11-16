@@ -23,14 +23,22 @@ const data = {
   ]
 };
 
+const width = document.getElementById('container').scrollWidth;
+const height = document.getElementById('container').scrollHeight;
 const graph = new G6.Graph({
   container: 'container',
-  width: 500,
-  height: 500,
+  width,
+  height,
+  defaultNode: {
+    style: {
+      fill: '#DEE9FF',
+      stroke: '#5B8FF9'
+    }
+  },
   defaultEdge: {
     shape: 'loop',
     style: {
-      stroke: '#bae7ff',
+      stroke: '#F6BD16',
       endArrow: {
         path: 'M 10,0 L -10,-10 L -10,10 Z',
         d: 10
