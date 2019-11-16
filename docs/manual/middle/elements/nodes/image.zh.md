@@ -1,10 +1,10 @@
 ---
 title: image
-order: 6
+order: 7
 ---
 ## Image
 
-G6 内置了 image 节点，其默认样式如下。标签文本位于图片下方。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570871887871-f6d9d589-f89c-4223-b19e-7e3704fd2a7b.png#align=left&display=inline&height=182&name=image.png&originHeight=364&originWidth=338&search=&size=73813&status=done&width=169)
+G6 内置了 image 节点，其默认样式如下。标签文本位于图片下方。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aHqIQIXL0RMAAAAAAAAAAABkARQnAQ' width=150/>
 
 
 ## 使用方法
@@ -148,7 +148,7 @@ clipCfg: {
 }
 ```
 
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/244306/1569832291192-34209829-114c-495e-973a-e6cdbfeec0c1.png#align=left&display=inline&height=231&name=image.png&originHeight=462&originWidth=472&search=&size=125144&status=done&width=236)
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*w5uESbSe430AAAAAAAAAAABkARQnAQ' width=150/>
 
 
 ##### 矩形剪裁 
@@ -165,7 +165,7 @@ clipCfg: {
   height: 100
 }
 ```
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/244306/1569832291263-32c9b20f-e374-42a7-874a-5c33a13e8b85.png#align=left&display=inline&height=204&name=image.png&originHeight=408&originWidth=310&search=&size=51708&status=done&width=155)
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mpPvTKdP7cIAAAAAAAAAAABkARQnAQ' width=150/>
 
 ##### 椭圆剪裁 
 `ellipse`
@@ -179,4 +179,4 @@ clipCfg: {
   ry: 60
 }
 ```
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/244306/1569832291204-bd1e7dbe-a3b5-47c6-9b46-143ed018226d.png#align=left&display=inline&height=199&name=image.png&originHeight=398&originWidth=486&search=&size=88894&status=done&width=243)
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1kn1S4vaUrwAAAAAAAAAAABkARQnAQ' width=150/>

@@ -8,7 +8,9 @@ G6是一个纯JS库，不与任何框架耦合，也就是可以在任何前端�
 
 在 React 中使用 G6，和在 HTML 中使用基本相同，唯一比较关键的区分就是在实例化 Graph 时，要**保证 DOM 容器渲染完成，并能获取到 DOM 元素**。
 
-在 Demo 中，我们以一个简单的流程图为例，实现如下的效果。![demo.gif](https://cdn.nlark.com/yuque/0/2019/gif/244306/1570264721327-6afda2c1-2edf-4bb4-84dc-14f91f820d0c.gif#align=left&display=inline&height=545&name=demo.gif&originHeight=545&originWidth=1207&search=&size=166134&status=done&width=1207)
+在 Demo 中，我们以一个简单的流程图为例，实现如下的效果。
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*L8pRS5HCPXUAAAAAAAAAAABkARQnAQ' width=800/>
 
 ### 功能及实现
 Demo 包括以下功能点：

@@ -1,9 +1,10 @@
 ---
 title: polyline
-order: 1
+order: 2
 ---
 
-G6 内置了折线 polyline 边，其默认样式如下。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570874311560-4b8e16b2-5f3e-4de1-9157-98e01188d1f3.png#align=left&display=inline&height=115&name=image.png&originHeight=230&originWidth=236&search=&size=12106&status=done&width=118)
+G6 内置了折线 polyline 边，其默认样式如下。<br />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aRHcQZStrPgAAAAAAAAAAABkARQnAQ' width=150/>
 
 
 ## 使用方法
@@ -84,7 +85,8 @@ Object 类型。与其他类型的边不同的是，polyline 的 `style` 含有
 -  `radius` ，弯折处的圆角半径，不设置则默认为直角。
 -  `offset` ，距离端点的最小距离，默认值为 5。
 
-其它配置项与边的通用样式属性相同，见 [内置边](https://www.yuque.com/antv/g6/internal-edge)<br />下面代码演示在实例化图时全局配置方法中配置 `style`，以达到下图效果。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570874436233-9b7ed926-928c-4fbd-802a-27c344f2b953.png#align=left&display=inline&height=107&name=image.png&originHeight=214&originWidth=224&search=&size=15613&status=done&width=112)
+其它配置项与边的通用样式属性相同，见 [内置边](https://www.yuque.com/antv/g6/internal-edge)<br />下面代码演示在实例化图时全局配置方法中配置 `style`，以达到下图效果。<br />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SzMGQ70SLwEAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
 const data = {
   nodes: [{
@@ -125,7 +127,8 @@ graph.render();
 
 
 ### 标签文本配置 labelCfg
-Object 类型。其它配置与边的通用文本配置相同，见 [内置边](https://www.yuque.com/antv/g6/internal-edge)。基于上面 [样式属性 style](#XQFb2) 中的代码，下面代码在 `defaultNode` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570874593019-8f419c53-82bd-4267-97f3-e6a6ced0b805.png#align=left&display=inline&height=117&name=image.png&originHeight=234&originWidth=252&search=&size=15015&status=done&width=126)
+Object 类型。其它配置与边的通用文本配置相同，见 [内置边](https://www.yuque.com/antv/g6/internal-edge)。基于上面 [样式属性 style](#XQFb2) 中的代码，下面代码在 `defaultNode` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HT4OTobglpoAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
 const data = {
   // ... data 内容

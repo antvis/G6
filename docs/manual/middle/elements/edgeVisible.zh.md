@@ -20,7 +20,7 @@ edgeItem.hide();
 ```
 
 ## 示例
-![node-edge-show-hide.gif](https://cdn.nlark.com/yuque/0/2019/gif/156681/1571631255753-42a156b0-e256-4f9b-a087-ff340455c47b.gif#align=left&display=inline&height=89&name=node-edge-show-hide.gif&originHeight=89&originWidth=206&search=&size=16316&status=done&width=206)<br />下面代码从 [完整 Demo 代码](https://codepen.io/Yanyan-Wang/pen/gOOLERv) 中摘取了元素显示/隐藏的相关操作部分，通过鼠标监听对节点、边、画布的点击事件，显示和隐藏元素：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*N96mRKpyYZIAAAAAAAAAAABkARQnAQ' width=150/> 中摘取了元素显示/隐藏的相关操作部分，通过鼠标监听对节点、边、画布的点击事件，显示和隐藏元素：
 ```javascript
 // 鼠标点击节点，隐藏该节点
 graph.on('node:click', ev => {

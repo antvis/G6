@@ -1,9 +1,9 @@
 ---
 title: rect
-order: 1
+order: 2
 ---
 
-G6 内置了 rect 节点，其默认样式如下。标签文本位于矩形中央。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570868865728-a92337b4-fe84-438e-a6ca-43648095a610.png#align=left&display=inline&height=38&name=image.png&originHeight=76&originWidth=186&search=&size=4108&status=done&width=93)
+G6 内置了 rect 节点，其默认样式如下。标签文本位于矩形中央。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*k2nBTozK6XsAAAAAAAAAAABkARQnAQ' width=100/>
 
 
 ## 使用方法
@@ -68,7 +68,7 @@ Object 类型。通过 `style` 配置来修改 `rect` 的填充色、边框颜�
 | fillOpacity | 透明度 | Number | 默认为 1 |
 
 
-下面代码演示在实例化图时全局配置方法中配置 `style`，使之达到如下图效果。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570869202677-0b925ae9-b59b-4264-b4c8-2c8e7aaf1ae7.png#align=left&display=inline&height=40&name=image.png&originHeight=80&originWidth=208&search=&size=8531&status=done&width=104)
+下面代码演示在实例化图时全局配置方法中配置 `style`，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EFtLTp134y8AAAAAAAAAAABkARQnAQ' width=100/>
 ```javascript
 const data = {
   nodes: [{
@@ -99,7 +99,7 @@ graph.render();
 
 
 ### 标签文本配置 labelCfg
-Object 类型。通过 `labelCfg` 配置标签文本。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570869320349-99ced30f-2d4f-4dbb-bb81-0217f8821d3b.png#align=left&display=inline&height=53&name=image.png&originHeight=106&originWidth=190&search=&size=10308&status=done&width=95)
+Object 类型。通过 `labelCfg` 配置标签文本。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bAjNR7yF1uIAAAAAAAAAAABkARQnAQ' width=100/>
 ```javascript
 const data = {
   // ... data 内容
@@ -136,7 +136,7 @@ Object 类型。通过配置 `linkPoints` ，可以指定矩形周围「上、�
 | lineWidth | 连接点边框的宽度 | Number | 默认为1 |
 
 
-基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `linkPoints` 配置项进行连入点的配置。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570869404810-6c6511bc-e579-49d3-a0c8-5c3e7f35ac70.png#align=left&display=inline&height=62&name=image.png&originHeight=124&originWidth=200&search=&size=15996&status=done&width=100)
+基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `linkPoints` 配置项进行连入点的配置。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*vsLASZHBX88AAAAAAAAAAABkARQnAQ' width=100/>
 ```javascript
 const data = {
   // ... data 内容

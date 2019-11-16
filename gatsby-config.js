@@ -81,7 +81,7 @@ module.exports = {
       {
         slug: 'manual/middle/elements/nodes',
         title: {
-          zh: '内置节点类型',
+          zh: '内置节点',
           en: 'Default Node'
         },
         order: 2
@@ -89,7 +89,7 @@ module.exports = {
       {
         slug: 'manual/middle/elements/edges',
         title: {
-          zh: '内置边类型',
+          zh: '内置边',
           en: 'Default Edge'
         },
         order: 3

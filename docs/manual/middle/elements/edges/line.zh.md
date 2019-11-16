@@ -1,9 +1,10 @@
 ---
 title: line
-order: 0
+order: 1
 ---
 
-G6 内置了直线 line 边，其默认样式如下。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570874016768-fc9f40c9-e9ef-4d6e-b4b1-80a9ec90ae4c.png#align=left&display=inline&height=45&name=image.png&originHeight=90&originWidth=230&search=&size=6120&status=done&width=115)
+G6 内置了直线 line 边，其默认样式如下。<br />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*prQjRbZtUUkAAAAAAAAAAABkARQnAQ' width=150/>
 
 
 ## 使用方法
@@ -60,7 +61,8 @@ line 边支持以下的配置项，对于 Object 类型的配置项将在后面�
 
 
 ### 样式属性 style
-Object 类型。配置项与边的通用样式属性相同，见 [内置边](https://www.yuque.com/antv/g6/internal-edge)。下面代码演示在实例化图时全局配置方法中配置 `style`，以达到下图效果。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570874074477-21e58af7-9826-4b32-af13-3d2f2db9dc01.png#align=left&display=inline&height=37&name=image.png&originHeight=74&originWidth=238&search=&size=7753&status=done&width=119)
+Object 类型。配置项与边的通用样式属性相同，见 [内置边](https://www.yuque.com/antv/g6/internal-edge)。下面代码演示在实例化图时全局配置方法中配置 `style`，以达到下图效果。<br />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cQprQJVY3c4AAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
 const data = {
   nodes: [{
@@ -103,7 +105,8 @@ graph.render();
 
 
 ### 标签文本配置 labelCfg
-Object 类型。其配置与边的通用文本配置相同，见 [内置边](https://www.yuque.com/antv/g6/internal-edge)。<br />基于上面 [样式属性 style](#XQFb2) 中的代码，下面代码在 `defaultNode` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570874163028-2c7df083-af06-4718-acf6-ea4db47d664e.png#align=left&display=inline&height=41&name=image.png&originHeight=82&originWidth=218&search=&size=6531&status=done&width=109)
+Object 类型。其配置与边的通用文本配置相同，见 [内置边](https://www.yuque.com/antv/g6/internal-edge)。<br />基于上面 [样式属性 style](#XQFb2) 中的代码，下面代码在 `defaultNode` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*myWoSa1ngjgAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
 const data = {
   // ... data 内容

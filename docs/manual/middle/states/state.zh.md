@@ -53,7 +53,7 @@ const graph = new G6.Graph({
 })
 ```
 
-上面的实例代码中，我们在实例化 Graph 时候，通过 `nodeStateStyles` 定义了交互状态 `hover` 和业务状态`running`，当用户操作过程中，鼠标 `hover` 到某个节点上时，节点的填充色就会变为指定的颜色，当某个任务状态变为正在执行时，节点的边框就会变为 `running` 状态定义的颜色。<br />![3.gif](https://cdn.nlark.com/yuque/0/2019/gif/244306/1570584254138-c2ef66cc-0067-41bf-8235-63798c65a3c1.gif#align=left&display=inline&height=181&name=3.gif&originHeight=181&originWidth=247&search=&size=8886&status=done&width=247)
+上面的实例代码中，我们在实例化 Graph 时候，通过 `nodeStateStyles` 定义了交互状态 `hover` 和业务状态`running`，当用户操作过程中，鼠标 `hover` 到某个节点上时，节点的填充色就会变为指定的颜色，当某个任务状态变为正在执行时，节点的边框就会变为 `running` 状态定义的颜色。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Beu6QY_ETOgAAAAAAAAAAABkARQnAQ' width=150/>
 
 同理，defaultEdge 中的 style 属性定义了默认状态下边的样式，使用 `edgeStateStyles` 可以定义不同状态下边的样式。
 
@@ -80,7 +80,7 @@ G6.registerNode('customShape', {
   }
 }
 ```
-![3.gif](https://cdn.nlark.com/yuque/0/2019/gif/244306/1570584254137-65f129dd-45fc-430d-9485-991ee1d2dbba.gif#align=left&display=inline&height=181&name=3.gif&originHeight=181&originWidth=247&search=&size=8385&status=done&width=247)
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1DFnTKfmfLcAAAAAAAAAAABkARQnAQ' width=150/>
 
 ## 使用 state
 不管使用哪种方式，当我们定义好了 state 以后，**使用 `graph.setItemState` 来使定义的状态生效**。

@@ -1,24 +1,24 @@
 ---
-title: 内置的节点
+title: 内置节点总览
 order: 0
 ---
 
 G6 默认提供的节点是一个基础图形加一个文本图形的实现。可选的内置节点包括 circle，rect，ellipse，diamond，triangle，star，image，modelRect，这些内置节点的默认样式分别如下图所示。<br />
-<img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1570852701188-ea33cdb0-71c4-4d53-8827-01912934e7de.png#align=left&display=inline&height=103&name=image.png&originHeight=206&originWidth=1528&search=&size=135825&status=done&width=764' width='750' height='100'>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FY3RTbDCz_8AAAAAAAAAAABkARQnAQ' width='750' height='100'>
 
 ## 内置节点类型说明
 下面表格中显示了内置的各类节点，同时对一些特殊的字段进行了说明：
 
 | 名称 | 描述 | 默认示例 |
 | --- | --- | --- |
-| circle | 圆形：<br />- `size` 是单个数字，表示直径<br />- 圆心位置对应节点的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点中央<br />- 更多字段见 [circle 节点的配置]()<br /> | ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570852503218-902e8221-e7e7-49c5-911f-ec3cabe7e04f.png#align=left&display=inline&height=56&name=image.png&originHeight=112&originWidth=110&search=&size=13270&status=done&width=55) |
-| rect | 矩形：<br />- `size` 是数组，例如：[100, 50]<br />- 矩形的中心位置是节点的位置，而不是左上角<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点中央<br />- 更多字段见 [rect 节点的配置](https://www.yuque.com/antv/g6/vdqpdt#qWf35)<br /> | ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570852565858-345455f4-2ddb-4c40-9c8a-67e337a9e746.png#align=left&display=inline&height=38&name=image.png&originHeight=76&originWidth=178&search=&size=5514&status=done&width=89) |
-| ellipse | 椭圆：<br />- `size` 是数组，表示椭圆的长和宽<br />- 椭圆的圆心是节点的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点中央<br />- 更多字段见 [ellipse 节点的配置](https://www.yuque.com/antv/g6/pxt157#qWf35)<br /> | ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570852588313-3dcaee5b-b2aa-45d6-99be-6f4c56d494f1.png#align=left&display=inline&height=63&name=image.png&originHeight=126&originWidth=216&search=&size=19099&status=done&width=108) |
-| diamond | 菱形：<br />- `size` 是数组，表示菱形的长和宽<br />- 菱形的中心位置是节点的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点中央<br />- 更多字段见 [diamond 节点的配置](https://www.yuque.com/antv/g6/ilnhgt#qWf35)<br /> | ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570852597814-e4e4585a-fbe0-41a4-af92-a2de2f837220.png#align=left&display=inline&height=92&name=image.png&originHeight=184&originWidth=178&search=&size=20859&status=done&width=89) |
-| triangle | 三角形：<br />- `size` 是数组，表示三角形的长和高<br />- 三角形的中心位置是节点的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点下方<br />- 更多字段见 [triangle 节点的配置](https://www.yuque.com/antv/g6/sfcm38#qWf35)<br /> | ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570852606815-2f8526a8-1349-452e-a9f7-dccb37be57f9.png#align=left&display=inline&height=78&name=image.png&originHeight=156&originWidth=126&search=&size=11213&status=done&width=63) |
-| star | 星形：<br />- `size` 是单个数字，表示星形的大小<br />- 星星的中心位置是节点的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点中央<br />- 更多字段见 [star 节点的配置](https://www.yuque.com/antv/g6/gwn2mq#qWf35)<br /> | ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570852618082-bfe59c69-08ce-4538-be49-ee72984c4830.png#align=left&display=inline&height=99&name=image.png&originHeight=198&originWidth=194&search=&size=24192&status=done&width=97) |
-| image | 图片：<br />- `size` 是数组，表示图片的长和宽<br />- 图片的中心位置是节点位置<br />- `img` 图片的路径，也可以在 `style` 里面设置<br />- `color` 字段不生效<br />- 标签文本默认在节点下方<br />- 更多字段见 [image 节点的配置](https://www.yuque.com/antv/g6/ng8a0q#qWf35)<br /> | ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570852649476-7c6c4aeb-8172-4a69-a6a3-b6cd24d7ea46.png#align=left&display=inline&height=67&name=image.png&originHeight=134&originWidth=112&search=&size=16354&status=done&width=56) |
-| modelRect | 菱形：<br />- `size` 是数组，表示菱形的长和宽<br />- 菱形的中心位置是节点的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点中央<br />- 若有 `description` 字段则显示在标签文本下方显示 `description` 内容<br />- 更多字段见 [modelRect 节点的配置](https://www.yuque.com/antv/g6/sdfcpq#qWf35)<br /> | ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570852629046-62c03494-82ac-4e76-b3b4-9ca242d9459a.png#align=left&display=inline&height=74&name=image.png&originHeight=148&originWidth=324&search=&size=15378&status=done&width=162)<br /> ![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1570852931313-42f193db-c9f0-4098-af7f-6c5eaf32923a.png#align=left&display=inline&height=69&name=image.png&originHeight=138&originWidth=316&search=&size=17261&status=done&width=158) |
+| circle | 圆形：<br />- `size` 是单个数字，表示直径<br />- 圆心位置对应节点的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点中央<br />- 更多字段见 [circle 节点的配置]()<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*H9TrTIiUEegAAAAAAAAAAABkARQnAQ' width=50/> |
+| rect | 矩形：<br />- `size` 是数组，例如：[100, 50]<br />- 矩形的中心位置是节点的位置，而不是左上角<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点中央<br />- 更多字段见 [rect 节点的配置](https://www.yuque.com/antv/g6/vdqpdt#qWf35)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SrlHQ5dcCoMAAAAAAAAAAABkARQnAQ' width=50/> |
+| ellipse | 椭圆：<br />- `size` 是数组，表示椭圆的长和宽<br />- 椭圆的圆心是节点的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点中央<br />- 更多字段见 [ellipse 节点的配置](https://www.yuque.com/antv/g6/pxt157#qWf35)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RjdlRbuocDIAAAAAAAAAAABkARQnAQ' width=50/> |
+| diamond | 菱形：<br />- `size` 是数组，表示菱形的长和宽<br />- 菱形的中心位置是节点的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点中央<br />- 更多字段见 [diamond 节点的配置](https://www.yuque.com/antv/g6/ilnhgt#qWf35)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EjiPRJacFTEAAAAAAAAAAABkARQnAQ' width=50/> |
+| triangle | 三角形：<br />- `size` 是数组，表示三角形的长和高<br />- 三角形的中心位置是节点的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点下方<br />- 更多字段见 [triangle 节点的配置](https://www.yuque.com/antv/g6/sfcm38#qWf35)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_HqXTadbhzAAAAAAAAAAAABkARQnAQ' width=50/> |
+| star | 星形：<br />- `size` 是单个数字，表示星形的大小<br />- 星星的中心位置是节点的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点中央<br />- 更多字段见 [star 节点的配置](https://www.yuque.com/antv/g6/gwn2mq#qWf35)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_euwQpARvhMAAAAAAAAAAABkARQnAQ' width=50/> |
+| image | 图片：<br />- `size` 是数组，表示图片的长和宽<br />- 图片的中心位置是节点位置<br />- `img` 图片的路径，也可以在 `style` 里面设置<br />- `color` 字段不生效<br />- 标签文本默认在节点下方<br />- 更多字段见 [image 节点的配置](https://www.yuque.com/antv/g6/ng8a0q#qWf35)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*gtNxQY2RvMwAAAAAAAAAAABkARQnAQ' width=50/> |
+| modelRect | 菱形：<br />- `size` 是数组，表示菱形的长和宽<br />- 菱形的中心位置是节点的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点中央<br />- 若有 `description` 字段则显示在标签文本下方显示 `description` 内容<br />- 更多字段见 [modelRect 节点的配置](https://www.yuque.com/antv/g6/sdfcpq#qWf35)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*MqR9QKfimxUAAAAAAAAAAABkARQnAQ' width=100/><br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9HKrSKtmNGQAAAAAAAAAAABkARQnAQ' width=100/> |
 
 
 ## 节点的通用属性
@@ -256,7 +256,7 @@ graph.render();
 
 显示结果：
 <br />
-<img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1570866064078-162301ab-e5c6-41c0-8009-030aba5ac216.png#align=left&display=inline&height=98&name=image.png&originHeight=196&originWidth=1530&search=&size=123948&status=done&width=765' width='750' height='100'>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6FzARrXBsUEAAAAAAAAAAABkARQnAQ' width='750' height='100'>
 
 - triangle 节点和 image 节点的标签文本默认位置为：`position:'bottom'` ，其他节点文本的默认位置都为：`position: 'center'`；
 
@@ -284,7 +284,7 @@ graph.render();
 }
 ```
 
-<img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1570866208293-efddc382-b519-421a-a50c-20a5b6651995.png#align=left&display=inline&height=110&name=image.png&originHeight=220&originWidth=1556&search=&size=126345&status=done&width=778' width='750' height='100'>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*fQ9yRYlo6zwAAAAAAAAAAABkARQnAQ' width='750' height='100'>
 
 再为 `id` 为 `'node-modelRect'` 的 modelRect 节点添加描述文字，使用下面代码替换 `id` 为 `'node-modelRect'` 的节点数据即可得到带有内容为 '描述文本xxxxxxxxxxx' 的 modelRect 节点。
 ```
@@ -298,7 +298,7 @@ graph.render();
 }
 ```
 
-<img src='https://cdn.nlark.com/yuque/0/2019/png/156681/1570866381579-8296a2bb-9f23-45a5-b229-fe82b55a7a5b.png#align=left&display=inline&height=110&name=image.png&originHeight=220&originWidth=1524&search=&size=135905&status=done&width=762' width='750' height='100'>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OnuCTYqfXKgAAAAAAAAAAABkARQnAQ' width='750' height='100'>
 
 ## 相关阅读
 
