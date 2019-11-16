@@ -7,7 +7,7 @@ Fruchterman Reingold Layout is a kind of force-directed layout in theory. The di
 
 ## Usage
 
-As the demo below, you can deploy it in `layout` while instantiating Graph. it can also be used for [Subgraph Layout](https://www.yuque.com/antv/g6/qopkkg#eYZc6). By tuning the parameters, you can adjust the iteration number, layout compactness, layout by clusters, and so on. 
+As the demo below, you can deploy it in `layout` while instantiating Graph. it can also be used for [Subgraph Layout](/zh/docs/manual/middle/layout/#%E5%AD%90%E5%9B%BE%E5%B8%83%E5%B1%80). By tuning the parameters, you can adjust the iteration number, layout compactness, layout by clusters, and so on. 
 
 - Example 1 : Basic Fruchterman Layout.
 - Example 2 : Fruchterman clustering layout.
