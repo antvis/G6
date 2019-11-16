@@ -1,15 +1,19 @@
 ---
 title: Edge Bundling
-order: 1
+order: 2
 ---
 
 
 ## 背景
-大多数图数据在可视化时被展示成点-线图（Node-link Diagram）的形式。点-线图特别适用于如交通网络图一类的关系数据的展示，这种数据的节点通常带有地理位置信息，例如迁徙图、移民图、航线图等。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1564995648650-020a5d61-c8d9-4ab2-a325-1d1f95c82f94.png#align=left&display=inline&height=200&name=image.png&originHeight=1182&originWidth=1426&search=&size=1819531&status=done&width=241)![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1564995648684-9731bc35-1a1d-44cd-9d9c-633199c542c6.png#align=left&display=inline&height=197&name=image.png&originHeight=1086&originWidth=2426&search=&size=2823231&status=done&width=439)
+大多数图数据在可视化时被展示成点-线图（Node-link Diagram）的形式。点-线图特别适用于如交通网络图一类的关系数据的展示，这种数据的节点通常带有地理位置信息，例如迁徙图、移民图、航线图等。<br />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Vzp9Q7ZA0rcAAAAAAAAAAABkARQnAQ' width=400 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GRE6SrrAWnoAAAAAAAAAAABkARQnAQ' width=400 />
+
 > （左）图 1. 法国航线图。（右）图 2. 美国航线图。
 
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rC66Raf7OWwAAAAAAAAAAABkARQnAQ' width=400 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AwQbT7WotYwAAAAAAAAAAABkARQnAQ' width=400 />
 
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1564995648704-c470528e-a2ba-4749-8521-cd4754bd5875.png#align=left&display=inline&height=134&name=image.png&originHeight=754&originWidth=2282&search=&size=2012559&status=done&width=406)![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1564995648656-b2fc8176-6bb4-459e-b10d-e04946e3734c.png#align=left&display=inline&height=141&name=image.png&originHeight=1030&originWidth=2266&search=&size=1570587&status=done&width=311)
 > （左）图 3. 世界网络 IXP 对等图。（右）图 4. 美国移民图。
 
 ## 问题
@@ -48,7 +52,10 @@ order: 1
 }
 ```
 
-如果使用 G6 简单地将节点和边渲染出来，将会得到如下结果：<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1564995648654-2890e390-4f54-4e64-a371-99eede5e739c.png#align=left&display=inline&height=512&name=image.png&originHeight=922&originWidth=1994&search=&size=1416365&status=done&width=1107.777807123868)
+如果使用 G6 简单地将节点和边渲染出来，将会得到如下结果：
+<br />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zYUrQqDGslMAAAAAAAAAAABkARQnAQ'  width=850 />
+
 > 图 5. G6 渲染原始数据结果
 
 
@@ -56,7 +63,10 @@ order: 1
 
 
 ## 期待效果
-我们希望可以通过边绑定的方法降低图 5 的视觉混乱，从而清晰图的整体走势、结构，突出航线频繁的城市，它们可能是重要的交通枢纽，并展示更多的统计信息，以便观察者进行分析。借助 G6，我们可以实现如下效果。通过边绑定，边的交错混乱情况被降低，颜色映射航班的飞行方向（出发（橙红色）与降落（青色））。节点大小表示到达与离开该城市的航班总数量，每个节点使用了饼图展示达到（橙红色）和离开（青色）航班的比例。并增加 hover 的交互，使用 tooltip 展示每个城市的经纬度。<br />![airline-bundling-tooltip.gif](https://cdn.nlark.com/yuque/0/2019/gif/156681/1564995648666-448000ab-e568-4859-96b8-d191685c79fa.gif#align=left&display=inline&height=451&name=airline-bundling-tooltip.gif&originHeight=451&originWidth=1002&search=&size=479148&status=done&width=1002)
+我们希望可以通过边绑定的方法降低图 5 的视觉混乱，从而清晰图的整体走势、结构，突出航线频繁的城市，它们可能是重要的交通枢纽，并展示更多的统计信息，以便观察者进行分析。借助 G6，我们可以实现如下效果。通过边绑定，边的交错混乱情况被降低，颜色映射航班的飞行方向（出发（橙红色）与降落（青色））。节点大小表示到达与离开该城市的航班总数量，每个节点使用了饼图展示达到（橙红色）和离开（青色）航班的比例。并增加 hover 的交互，使用 tooltip 展示每个城市的经纬度。
+<br />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*BC4AQbOd6HIAAAAAAAAAAABkARQnAQ' width=850 />
+
 > 期待效果图及 tooltip 效果。
 
 
@@ -132,7 +142,7 @@ const edgeBundling = new Bundling({
 
 
 ### 自定义饼图节点
-在第一步中，我们已经为节点大小 size 映射了每个节点的总度数。为了更详细展示每个城市飞出和飞入航班的比例，我们希望在每个节点上显示一个类似于饼图的效果。例如![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1564995648747-ae1d21c9-64ed-494b-8835-c5b096fba7e2.png#align=left&display=inline&height=45&name=image.png&originHeight=148&originWidth=158&search=&size=17728&status=done&width=48) ，桔红色扇形代表飞入该城市的航班比例，青色代表飞出该城市的航班比例。G6 原生的 circle 、rect 等节点形状不能满足这一需求，但 G6 提供了节点的扩展机制，通过下面的代码片段，可以在 G6 中注册一个自定义的节点：
+在第一步中，我们已经为节点大小 size 映射了每个节点的总度数。为了更详细展示每个城市飞出和飞入航班的比例，我们希望在每个节点上显示一个类似于饼图的效果。例如<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*stNMRLlBLMUAAAAAAAAAAABkARQnAQ' width=60 /> ，桔红色扇形代表飞入该城市的航班比例，青色代表飞出该城市的航班比例。G6 原生的 circle 、rect 等节点形状不能满足这一需求，但 G6 提供了节点的扩展机制，通过下面的代码片段，可以在 G6 中注册一个自定义的节点：
 ```javascript
 const lightBlue = 'rgb(119, 243, 252)';
 const lightOrange = 'rgb(230, 100, 64)';
@@ -276,16 +286,22 @@ graph.render();
  }
 ```
 
-这样，当鼠标移动到节点上时，带有经纬度信息的 `tooltip` 将会出现：<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1564995648674-8bc9a379-d48b-48d7-b63d-3e414768c8a9.png#align=left&display=inline&height=146&name=image.png&originHeight=262&originWidth=666&search=&size=229546&status=done&width=370.00000980165294)
+这样，当鼠标移动到节点上时，带有经纬度信息的 `tooltip` 将会出现：<br />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*d3mSS6mETf8AAAAAAAAAAABkARQnAQ' width=850 />
+
 > tooltip
 
 
-同时，可以拖拽和放缩画布：![airline-bundling-interact.gif](https://cdn.nlark.com/yuque/0/2019/gif/156681/1564995648669-120d675c-04ac-40a6-8b28-3872327960d1.gif#align=left&display=inline&height=699&name=airline-bundling-interact.gif&originHeight=699&originWidth=1002&search=&size=2613127&status=done&width=1002)
+同时，可以拖拽和放缩画布：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5h5tR5eDM6UAAAAAAAAAAABkARQnAQ' width=850 height=350 />
+
 > 缩放和拖动画布。
 
 
 ## 分析
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1564995648703-5630a47e-250c-4fc3-845a-3f1fe176e2c9.png#align=left&display=inline&height=487&name=image.png&originHeight=876&originWidth=1984&search=&size=1674617&status=done&width=1102.2222514211403)
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ePUIQZaDVecAAAAAAAAAAABkARQnAQ' width=850 />
+
 > 最终效果图。节点大小代表飞入及飞出该城市航线总数。节点饼图展示飞出与飞入航线比例统计信息（橙红色为飞入，青色为飞出）。边的渐变色代表航班的飞行方向。起始端：青色；结束端：橙红色。
 
 

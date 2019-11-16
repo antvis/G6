@@ -4,10 +4,12 @@ order: 0
 ---
 
 ## 什么是 G6
-G6 是一个前端图可视化引擎。它提供了图的绘制、布局、分析、交互、动画等基础的图可视化能力。旨在让关系变得透明，简单。让用户获得关系数据的 Insight。
+G6 是一个图可视化引擎。它提供了图的绘制、布局、分析、交互、动画等基础的图可视化能力。旨在让关系变得透明，简单。让用户获得关系数据的 Insight。
 
 ## 入门教程简介
-我们在本入门教程中将会完成一个如下图所示简单的图可视化，我们将在后文中称其为 **Tutorial案例**，[完整代码](https://codepen.io/Yanyan-Wang/pen/mdbYZvZ)。<br />![tutorial-demo-final.gif](https://cdn.nlark.com/yuque/0/2019/gif/156681/1569834152244-a01c6e0e-4125-418c-87e3-27298c036a53.gif##align=left&display=inline&height=297&name=tutorial-demo-final.gif&originHeight=687&originWidth=932&search=&size=6347382&status=done&width=403)
+我们在本入门教程中将会完成一个如下图所示简单的图可视化，我们将在后文中称其为 **Tutorial案例**，[完整代码](https://codepen.io/Yanyan-Wang/pen/mdbYZvZ)。
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YlTVS54xV3EAAAAAAAAAAABkARQnAQ'  width=500 />
 
 <div style="text-align: center;"><b>Tutorial案例</b> 效果图</div>
 
@@ -25,7 +27,7 @@ G6 是一个前端图可视化引擎。它提供了图的绘制、布局、分�
 - 插件 & 工具
 - *动画（选读）
 
-`提示` <br />该入门教程是为希望“边学边做”的读者设计的。如果您更希望从底层概念开始学习 G6，您可以参见：[中级教程](../middle/keyConcept)。
+`提示` <br />该入门教程是为希望“边学边做”的读者设计的。如果您更希望从底层概念开始学习 G6，您可以参见：[核心概念](../middle/keyConcept)。
 
 ## 基础知识
 本教程会从教你使用 G6 去创建一个完整的图可视化应用。在学习之前，我们假设读者对 HTML 和 JavaScript 有所了解，但并不要求对 G6 有任何的基础。如果读者对 G6 的基本内容已经熟知，可以适当跳过部分内容，有针对性地阅读重要的知识点。
@@ -53,4 +55,6 @@ G6 是一个前端图可视化引擎。它提供了图的绘制、布局、分�
 
 ```
 
-使用浏览器打开 index.html 文件，打开控制台，可以看到 G6 的版本号，说明 G6 已成功引入。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571051319914-12debb96-aa17-4fc5-a4ab-46f48c788cf7.png#align=left&display=inline&height=214&name=image.png&originHeight=214&originWidth=263&search=&size=13965&status=done&width=263)
+使用浏览器打开 index.html 文件，打开控制台，可以看到 G6 的版本号，说明 G6 已成功引入。
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5Ex2RJekVbcAAAAAAAAAAABkARQnAQ' width=200 />

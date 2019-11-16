@@ -12,13 +12,18 @@ order: 5
 使用插件时，有三个步骤：<br />  Step 1: 引入插件；<br />  Step 2: 实例化插件；<br />  Step 3: 在实例化图时将插件的实例配置到图上。
 
 ### Minimap
-缩略图 (Minimap) 是一种常见的用于快速预览和探索图的工具，可作为导航辅助用户探索大规模图。<br />![tree-minimap.gif](https://cdn.nlark.com/yuque/0/2019/gif/156681/1569834439034-871d6eb6-6b9f-4522-9e68-fbde5238cdff.gif#align=left&display=inline&height=380&name=tree-minimap.gif&originHeight=703&originWidth=955&search=&size=2054425&status=done&width=516)
+缩略图 (Minimap) 是一种常见的用于快速预览和探索图的工具，可作为导航辅助用户探索大规模图。
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*kGesRLgy1CsAAAAAAAAAAABkARQnAQ' width=520  />
 
 现在，我们为 **Tutorial案例** 配置一个 Minimap：
-#### 预期效果
-![tutorial-demo-minimap.gif](https://cdn.nlark.com/yuque/0/2019/gif/156681/1569834439046-9874baa4-84f2-4e03-97ed-126de950f182.gif#align=left&display=inline&height=255&name=tutorial-demo-minimap.gif&originHeight=657&originWidth=844&search=&size=1133472&status=done&width=328)
 
-#### 使用方法
+**预期效果**
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SI8ZSpcqecgAAAAAAAAAAABkARQnAQ' width=350 />
+
+**使用方法**
+
 Minimap 是 G6 的插件之一，G6 的插件是一个个独立的包，需要单独引入：
 ```html
 <body>
@@ -53,10 +58,12 @@ const graph = new G6.Graph({
 ### Grid 网格
 网格可用于辅助用户在拖拽节点时对齐到网格。
 
-#### 期待效果
-![tutorial-demo-grid.gif](https://cdn.nlark.com/yuque/0/2019/gif/156681/1569834439034-0ff04880-ad0f-45a7-936a-71b4970e9480.gif#align=left&display=inline&height=213&name=tutorial-demo-grid.gif&originHeight=521&originWidth=691&search=&size=590193&status=done&width=283)
+**期待效果**
 
-#### 使用方法首先引入插件：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*y8u6Rrc78uIAAAAAAAAAAABkARQnAQ' width=300 />
+
+**使用方法首先引入插件**
+
 ```html
 <body>
   <!-- 引入 G6 -->
@@ -94,10 +101,12 @@ const graph = new G6.Graph({
 ### tooltip 节点提示框
 节点提示框可以用在节点的详细信息的展示。当鼠标滑过节点时，显示一个浮层告知节点的详细信息。
 
-#### 预期效果
-![tutorial-demo-nodetooltip.gif](https://cdn.nlark.com/yuque/0/2019/gif/156681/1569834439070-ac2e4d9d-150f-47d4-8ee7-4f58e19d45cb.gif#align=left&display=inline&height=240&name=tutorial-demo-nodetooltip.gif&originHeight=375&originWidth=416&search=&size=103487&status=done&width=266)
+**预期效果**
 
-#### 使用方法
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v1svQLkEPrUAAAAAAAAAAABkARQnAQ' width=300 />
+
+**使用方法**
+
 实例化图时配置 `'tooltip'` 到 `modes` 中：
 ```javascript
 const graph = new G6.Graph({
@@ -141,10 +150,12 @@ const graph = new G6.Graph({
 
 ### edge-tooltip 边提示框
 节点提示框可以用在节点的详细信息的展示。当鼠标滑过边时，显示一个浮层告知边的详细信息。
-#### 预期效果
-![tutorial-demo-edgetooltip.gif](https://cdn.nlark.com/yuque/0/2019/gif/156681/1569834439041-51850522-4cda-4fc7-b61f-8d84046e14ff.gif#align=left&display=inline&height=267&name=tutorial-demo-edgetooltip.gif&originHeight=375&originWidth=416&search=&size=109080&status=done&width=296)
+**预期效果**
 
-#### 使用方法
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Uk10SYFNNi8AAAAAAAAAAABkARQnAQ' width=300 />
+
+**使用方法**
+
 ```javascript
 const graph = new G6.Graph({
   modes: {
@@ -172,4 +183,4 @@ const graph = new G6.Graph({
 ## 完整代码
 至此，Tutorial-案例 完成，完整代码见：[Tutorial案例代码](https://codepen.io/Yanyan-Wang/pen/mdbYZvZ)。
 
- `注意` <br />若需更换数据，请替换 `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` 为新的数据文件地址。
+**⚠️注意** <br />若需更换数据，请替换 `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` 为新的数据文件地址。

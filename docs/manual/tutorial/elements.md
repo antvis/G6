@@ -3,13 +3,16 @@ title: 元素及其配置
 order: 2
 ---
 
-图的元素特指图上的**节点**`Node`和**边**`Edge`。在上一章节中，我们已经将**Tutorial案例**的图绘制了出来，但是各个元素及其 `label` 在视觉上很简陋。本文通过将上一章节中简陋的元素美化成如下效果，介绍元素的属性、配置方法。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1569834303620-7f78a971-20ae-4cf0-89f6-a1eecf787c63.png#align=left&display=inline&height=364&name=image.png&originHeight=1088&originWidth=1412&search=&size=344037&status=done&width=473)
+图的元素特指图上的**节点**`Node`和**边**`Edge`。在上一章节中，我们已经将**Tutorial案例**的图绘制了出来，但是各个元素及其 `label` 在视觉上很简陋。本文通过将上一章节中简陋的元素美化成如下效果，介绍元素的属性、配置方法。
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*46GdQaNFiVIAAAAAAAAAAABkARQnAQ' width=450 height=450 />
+
 > 图 1  元素属性配置后的 **Tutorial案例**。
 
 
 ## 基本概念
 ### 图的元素
-图的元素特指图上的**节点**`Node`和**边**`Edge`。G6 内置了一系列 [内置的节点](../middle/elements/defaultNode) 和[内置的边](../middle/elements/defaultEdge)，供用户自由选择。G6 不同的内置节点或不同的内置边主要区别在于元素的 [图形Shape](../middle/keyConcept)，例如，节点可以是圆形、矩形、图片等。如果 G6 内置的元素不能满足需求，用户也可以 [自定义节点](../advanced/custom-node) 或 [自定义边](../advanced/custom-edge)。
+图的元素特指图上的**节点**`Node`和**边**`Edge`。G6 内置了一系列 [内置的节点](../middle/elements/defaultNode) 和[内置的边](../middle/elements/defaultEdge)，供用户自由选择。G6 不同的内置节点或不同的内置边主要区别在于元素的 [图形Shape](../middle/keyConcept)，例如，节点可以是圆形、矩形、图片等。
 
 ## 元素的属性
 不论是节点还是边，它们的属性分为两种：
@@ -33,11 +36,11 @@ order: 2
       fontSize: 12      // 标签的样式属性，文字字体大小
     }
   }
-  ...,                  // 其他属性
+  // ...,                  // 其他属性
   style: {              // 包裹样式属性的字段 style 与其他属性在数据结构上并行
     fill: '#000',       // 样式属性，元素的填充色
     stroke: '#888',     // 样式属性，元素的描边色
-    ...                 // 其他样式属性
+    // ...                 // 其他样式属性
   }
 }
 ```
@@ -65,7 +68,10 @@ order: 2
 - `defaultNode`：节点在默认状态下的**样式属性**（`style`）和**其他属性**；
 - `defaultEdge`：边在默认状态下的**样式属性**（`style`）和**其他属性**。
 
- 注意 ：由于是统一的配置，不能根据数据中的属性（如 `class`、`weight`）等值的不同进行个性化设置，因此只能满足 R1、R2、R3、R4 需求。达到如下效果：<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1569834303607-c95a7080-3643-4f54-a5ad-8d68aea3f2e7.png#align=left&display=inline&height=263&name=image.png&originHeight=1108&originWidth=1380&search=&size=321741&status=done&width=328)
+ 注意 ：由于是统一的配置，不能根据数据中的属性（如 `class`、`weight`）等值的不同进行个性化设置，因此只能满足 R1、R2、R3、R4 需求。达到如下效果：
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bufdS75wcmMAAAAAAAAAAABkARQnAQ' width=450 height=450 />
+
 > 图 2  全局配置元素属性后的 **Tutorial案例**。
 
 
@@ -136,7 +142,9 @@ nodes.forEach(node => {
 graph.data(remoteData);
 ```
 
-运行结果如下：<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571053670628-f03b618a-6d61-4b95-97ed-13f8553ddbf7.png#align=left&display=inline&height=295&name=image.png&originHeight=461&originWidth=591&search=&size=45245&status=done&width=378)<br />
+运行结果如下：
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*JU6xRZLKCjcAAAAAAAAAAABkARQnAQ' width=450 height=450 />
 
 > 图 3
 
@@ -159,7 +167,11 @@ edges.forEach(edge => {
 graph.data(remoteData);
 ```
 
-结果如下：<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571053730991-c5410026-ca56-422c-ad20-3725825fc3e5.png#align=left&display=inline&height=465&name=image.png&originHeight=465&originWidth=618&search=&size=51999&status=done&width=618)<br />如图所示，边的粗细已经按照数据的比重成功渲染了出来，但是边原有的样式（透明度、颜色）却丢失了。这是因为我们提到过动态配置属性会覆盖全局配置属性，这里配置了 `style.lineWidth`，导致覆盖了全局的 `style` 对象。解决办法是将被覆盖的边的样式都移到动态配置里面来：
+结果如下：
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*46GdQaNFiVIAAAAAAAAAAABkARQnAQ' width=450 height=450 />
+
+如图所示，边的粗细已经按照数据的比重成功渲染了出来，但是边原有的样式（透明度、颜色）却丢失了。这是因为我们提到过动态配置属性会覆盖全局配置属性，这里配置了 `style.lineWidth`，导致覆盖了全局的 `style` 对象。解决办法是将被覆盖的边的样式都移到动态配置里面来：
 ```javascript
 const graph = new G6.Graph({
   // ...
@@ -190,9 +202,6 @@ edges.forEach(edge => {
 graph.data(remoteData);
 graph.render()
 ```
-
-<br />再次渲染，结果如下：<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571053730983-8ea78c4e-2155-486d-b704-b99eed57a015.png#align=left&display=inline&height=465&name=image.png&originHeight=465&originWidth=614&search=&size=48748&status=done&width=614)<br />
-<br />如图所示，边的透明度和颜色均渲染正确。<br />
 
 ## 完整代码
 至此，完整代码如下：
@@ -276,4 +285,4 @@ graph.render()
 </html>
 ```
 
- `注意` <br />若需更换数据，请替换 `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` 为新的数据文件地址。
+**⚠️注意** <br />若需更换数据，请替换 `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` 为新的数据文件地址。
