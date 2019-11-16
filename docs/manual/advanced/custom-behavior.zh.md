@@ -3,7 +3,7 @@ title: 自定义交互 Behavior
 order: 5
 ---
 
-G6 除了提供丰富的 [内置交互行为 Behavior](https://www.yuque.com/antv/g6/default-behavior) 外，还提供了自定义交互行为的机制，方便用户开发更加定制化的交互行为。
+G6 除了提供丰富的 [内置交互行为 Behavior](/zh/docs/manual/middle/states/defaultBehavior) 外，还提供了自定义交互行为的机制，方便用户开发更加定制化的交互行为。
 
 在交互行为上， G6 主要考虑了三个场景：
 
@@ -42,9 +42,10 @@ G6 除了提供丰富的 [内置交互行为 Behavior](https://www.yuque.com/ant
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;注意：</span>
 
-- 下面代码仅设置了不同交互后节点的状态，没有指定这些状态下节点的样式。若需要根据节点状态变化它的样式，参见 [配置不同 State 样式](https://www.yuque.com/antv/g6/fqnn9w#I23fx)。
-- 自定义 Behavior 时，可选的方法请参数 [Behavior API](https://www.yuque.com/antv/g6/behavior-api)；
-- `getEvent` 返回该 Behavior 所需监听事件的对象，G6 中支持的所有事件，请参考 [Event API](https://www.yuque.com/antv/g6/event-api)。
+- 下面代码仅设置了不同交互后节点的状态，没有指定这些状态下节点的样式。若需要根据节点状态变化它的样式，参见 [配置不同 State 样式](/zh/docs/manual/middle/states/state)。
+- 自定义 Behavior 时，可选的方法请参数 [Behavior API](/zh/docs/api/Behavior)；
+- `getEvent` 返回该 Behavior 所需监听事件的对象，G6 中支持的所有事件，请参考 [Event API](/zh/docs/api/Event)。
+
 ```javascript
 G6.registerBehavior('activate-node', {
   getDefaultCfg() {
@@ -88,7 +89,7 @@ G6.registerBehavior('activate-node', {
 
 
 ## 使用自定义的 Behavior
-有了上面代码定义的名为 `'activate-node'` 的 Behavior 以后，在实例化 Graph 时，在 `modes` 中将其配置到默认或其他[行为模式](https://www.yuque.com/antv/g6/g6-mode)中。下面代码将其配置到了默认行为模式中，在默认模式下，该行为将会生效。
+有了上面代码定义的名为 `'activate-node'` 的 Behavior 以后，在实例化 Graph 时，在 `modes` 中将其配置到默认或其他[行为模式](/zh/docs/manual/middle/states/mode)中。下面代码将其配置到了默认行为模式中，在默认模式下，该行为将会生效。
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',

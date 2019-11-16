@@ -3,7 +3,7 @@ title: 自定义节点
 order: 2
 ---
 
-G6 提供了一系列[内置节点](https://www.yuque.com/antv/g6/internal-node)，包括 [circle](https://www.yuque.com/antv/g6/ckpk6v)、[rect](https://www.yuque.com/antv/g6/vdqpdt)、[ellipse](https://www.yuque.com/antv/g6/pxt157)、[diamond](https://www.yuque.com/antv/g6/ilnhgt)、[triangle](https://www.yuque.com/antv/g6/sfcm38)、[star](https://www.yuque.com/antv/g6/gwn2mq)、[image](https://www.yuque.com/antv/g6/ng8a0q)、[modelRect](https://www.yuque.com/antv/g6/sdfcpq)。若内置节点无法满足需求，用户还可以通过 `G6.registerNode('nodeName', options)` 进行自定义节点，方便用户开发更加定制化的节点，包括含有复杂图形的节点、复杂交互的节点、带有动画的节点等。
+G6 提供了一系列[内置节点](/zh/docs/manual/middle/elements/defaultNode)，包括 [circle](/zh/docs/manual/middle/elements/nodes/circle)、[rect](https://www.yuque.com/antv/g6/vdqpdt)、[ellipse](/zh/docs/manual/middle/elements/nodes/ellipse)、[diamond](/zh/docs/manual/middle/elements/nodes/diamond)、[triangle](/zh/docs/manual/middle/elements/nodes/triangle)、[star](/zh/docs/manual/middle/elements/nodes/star)、[image](/zh/docs/manual/middle/elements/nodes/image)、[modelRect](/zh/docs/manual/middle/elements/nodes/modelRect)。若内置节点无法满足需求，用户还可以通过 `G6.registerNode('nodeName', options)` 进行自定义节点，方便用户开发更加定制化的节点，包括含有复杂图形的节点、复杂交互的节点、带有动画的节点等。
 
 在本章中我们会通过四个案例，从简单到复杂讲解节点的自定义。这四个案例是：
 <br />
@@ -15,7 +15,7 @@ G6 提供了一系列[内置节点](https://www.yuque.com/antv/g6/internal-node)
 <br />
 <strong>4. 调整节点的鼠标选中/悬浮样式。</strong>样式变化响应；动画响应。
 
-通过 [图形 Shape](https://www.yuque.com/antv/g6/shape-crycle) 章节的学习，我们应该已经知道了自定义节点时需要满足以下两点：
+通过 [图形 Shape](/zh/docs/manual/middle/keyConcept) 章节的学习，我们应该已经知道了自定义节点时需要满足以下两点：
 
 - 控制节点的生命周期；
 - 解析用户输入的数据，在图形上展示。
@@ -88,7 +88,7 @@ G6.registerNode('nodeName', {
 我们自己来实现一个菱形的节点，如下图所示。
 > G6 有内置的菱形节点 diamond。为了演示，这里实现了一个自定义的菱形，相当于复写了内置的 diamond。
 
-<img src='https://cdn.nlark.com/yuque/0/2019/png/89796/1547800411703-21526827-77b6-4e0e-b302-4c5506ba2c21.png#align=left&display=inline&height=149&name=image.png&originHeight=149&originWidth=98&search=&size=1225&status=done&width=98' alt='img' width='80'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LqFCRaKyr0gAAAAAAAAAAABkARQnAQ' alt='img' width='80'/>
 
 ```javascript
 G6.registerNode('diamond', {
@@ -157,7 +157,7 @@ graph.data(data);
 graph.render();
 ```
 
-<img src='https://cdn.nlark.com/yuque/0/2019/png/89796/1547800367691-7ab91993-2ea9-45fe-bb2e-7ab97aa6a76d.png#align=left&display=inline&height=140&name=image.png&originHeight=140&originWidth=394&search=&size=4559&status=done&width=394' alt='img' width='300'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qv88SrrnmFAAAAAAAAAAAABkARQnAQ' alt='img' width='300'/>
 
 ### 优化性能
 当图中节点或边通过 `graph.update(item, cfg)` 重绘时，默认情况下会调用节点的 `draw` 方法进行重新绘制。在数据量大或节点上图形数量非常多（特别是文本多）的情况下，`draw` 方法中对所有图形、赋予样式将会非常消耗性能。
@@ -166,7 +166,7 @@ graph.render();
 
 在实现 diamond 的过程中，重写 `update` 方法，找到需要更新的 shape 进行更新，从而优化性能。寻找需要更新的图形可以通过：
 
-- `group.get('children')[0]` 找到 [关键图形 keyShape](https://www.yuque.com/antv/g6/shape-crycle#UNCAz)，也就是 `draw` 方法返回的 shape；
+- `group.get('children')[0]` 找到 [关键图形 keyShape](/zh/docs/manual/middle/keyConcept)，也就是 `draw` 方法返回的 shape；
 - `group.get('children')[1]` 找到 label 图形。
 
 下面代码仅更新了 diamond 的关键图形的路径和颜色。
@@ -192,11 +192,9 @@ G6.registerNode('diamond', {
 });
 ```
 
-<br />
-
 ## 2. 扩展现有节点
 ### 扩展 Shape
-G6 中已经[内置了一些节点](https://www.yuque.com/antv/g6/internal-node)，如果用户仅仅想对现有节点进行调整，复用原有的代码，则可以基于现有的节点进行扩展。同样实现 diamond ，可以基于 circle、ellipse、rect 等内置节点的进行扩展。[simple-shape](https://github.com/antvis/g6/blob/dev3.0.0/src/shape/single-shape-mixin.js) 是这些内置节点图形的基类，也可以基于它进行扩展。
+G6 中已经[内置了一些节点](/zh/docs/manual/middle/elements/defaultNode)，如果用户仅仅想对现有节点进行调整，复用原有的代码，则可以基于现有的节点进行扩展。同样实现 diamond ，可以基于 circle、ellipse、rect 等内置节点的进行扩展。[simple-shape](https://github.com/antvis/g6/blob/dev3.0.0/src/shape/single-shape-mixin.js) 是这些内置节点图形的基类，也可以基于它进行扩展。
 
 下面以基于 single-shape 为例进行扩展。`draw`，`update`，`setState` 方法在 [simple-shape ](https://github.com/antvis/g6/blob/dev3.0.0/src/shape/single-shape-mixin.js)中都有实现，这里仅需要复写 `getShapeStyle` 方法即可。返回的对象中包含自定义图形的路径和其他样式。
 ```javascript
@@ -230,7 +228,7 @@ G6.registerNode('diamond', {
 
 ### 添加动画
 通过 `afterDraw` 同样可以实现扩展，下面我们来看一个节点的动画场景，如下图所示。<br />
-<img src='https://cdn.nlark.com/yuque/0/2019/gif/244306/1561463342269-eedcdb7f-a455-4b1d-a0d6-15eaba934ce5.gif#align=left&display=inline&height=110&name=%E6%89%A9%E5%B1%95%E5%8A%A8%E7%94%BB.gif&originHeight=110&originWidth=245&search=&size=21605&status=done&width=245' alt='img' width='350'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ga7FQLdUYjkAAAAAAAAAAABkARQnAQ' alt='img' width='350'/>
 
 
 上面的动画效果，可以通过以下方式实现：
@@ -273,15 +271,15 @@ G6.registerNode('inner-animate', {
 'rect');
 ```
 
-更多关于动画的实现，请参考[基础动画](https://www.yuque.com/antv/g6/base-animate)章节。
+更多关于动画的实现，请参考[基础动画](/zh/docs/manual/advanced/animation)章节。
 
 <br />
 
 ## 3. 调整锚点 anchorPoint
-节点上的[锚点 anchorPoint](https://www.yuque.com/antv/g6/obgw81) 作用是**确定节点与边的相交的位置**，看下面的场景：<br />
+节点上的[锚点 anchorPoint](/zh/docs/manual/middle/keyConcept) 作用是**确定节点与边的相交的位置**，看下面的场景：<br />
 
-<img src='https://cdn.nlark.com/yuque/0/2019/png/89796/1547802871432-746cdacb-8532-4f41-a6dd-7309dd10e282.png#align=left&display=inline&height=190&name=image.png&originHeight=190&originWidth=266&search=&size=3774&status=done&width=266' alt='img' width='200'/>
-<img src='https://cdn.nlark.com/yuque/0/2019/png/89796/1547803111800-1d62e52a-cdd2-4323-9506-bb569ab7aa80.png#align=left&display=inline&height=210&name=image.png&originHeight=210&originWidth=314&search=&size=6036&status=done&width=314' alt='img' width='200'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mJ85Q5WRJLwAAAAAAAAAAABkARQnAQ' alt='img' width='200'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*99aSR5zbd44AAAAAAAAAAABkARQnAQ' alt='img' width='200'/>
 
 > （左）没有设置锚点时。（右）diamond 设置了锚点后。
 
@@ -328,8 +326,6 @@ G6.registerNode('diamond', {
 }, 'rect');
 ```
 
-<br />
-
 ## 4. 调整状态样式
 常见的交互都需要节点和边通过样式变化做出反馈，例如鼠标移动到节点上、点击选中节点/边、通过交互激活边上的交互等，都需要改变节点和边的样式，有两种方式来实现这种效果：
 
@@ -367,7 +363,7 @@ graph.on('node:click', ev=> {
 ```
 
 G6 并未限定节点的状态，只要你在 `setState` 方法中进行处理你可以实现任何交互，如实现鼠标放到节点上后节点逐渐变大的效果。<br />
-<img src='https://cdn.nlark.com/yuque/0/2019/gif/244306/1561463342276-2291c0af-afca-4953-a920-948c40d90ad4.gif#align=left&display=inline&height=119&name=%E6%89%A9%E5%B1%95%E5%8A%A8%E7%94%BB1.gif&originHeight=119&originWidth=351&search=&size=7256&status=done&width=351' alt='img' width='350'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*JhhTSJ8PMbYAAAAAAAAAAABkARQnAQ' alt='img' width='350'/>
 
 ```javascript
 G6.registerNode('custom', {

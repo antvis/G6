@@ -1,6 +1,6 @@
 ---
 title: Layout
-order: 5
+order: 0
 ---
 
 在 G6 中使用布局，在实例化图时配置 `layout` 属性。例如：
