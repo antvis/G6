@@ -9,7 +9,7 @@ order: 1
 
 在 G6 中，Graph 对象是图的载体，它包含了图上的所有元素（节点、边等），同时挂载了图的相关操作（如交互监听、元素操作、渲染等）。<br />Graph 对象的生命周期为：初始化 —> 加载数据 —> 渲染 —> 更新 —> 销毁。
 
-在 [快速上手](https://www.yuque.com/antv/g6/intro#56Nwj) 中，我们简单介绍了 初始化、加载数据、渲染图 的使用方法。本文将主要介绍初始化/实例化图。
+在 [快速上手](/zh/docs/manual/getting-started) 中，我们简单介绍了 初始化、加载数据、渲染图 的使用方法。本文将主要介绍初始化/实例化图。
 
 ## 前提代码
 本文的讲解将会基于下面这份内嵌 JavaScript 的 HTML 代码。该代码通过定义数据、实例化图、读取数据、渲染图等操作中完成了下图中简单的图：<br />
@@ -89,7 +89,7 @@ order: 1
      类型：Number。图的画布的宽度和高度。
 
 ### 常用配置项
-下面列举实例化图时常见的配置项，完整的配置项参见 [Graph API](https://www.yuque.com/antv/g6/graph)。
+下面列举实例化图时常见的配置项，完整的配置项参见 [Graph API](/zh/docs/api/Graph)。
 
 #### 整体渲染相关
 
@@ -109,31 +109,31 @@ order: 1
 
 - `defaultNode`
 
-      类型：Object。默认情况下全局节点的配置项，包括样式属性和其他属性。详见 [内置节点](https://www.yuque.com/antv/g6/internal-node)。
+      类型：Object。默认情况下全局节点的配置项，包括样式属性和其他属性。详见 [内置节点](/zh/docs/manual/middle/elements/nodes/defaultNode)。
 
 - `defaultEdge`
 
-      类型：Object。默认情况下全局边的配置项，包括样式属性和其他属性。详见 [内置边](https://www.yuque.com/antv/g6/internal-edge)。
+      类型：Object。默认情况下全局边的配置项，包括样式属性和其他属性。详见 [内置边](/zh/docs/manual/middle/elements/nodes/defaultEdge)。
 
 - `nodeStateStyles`
 
-      类型：Object。除默认状态外的其他状态下节点的样式配置。详见 [状态 State](https://www.yuque.com/antv/g6/fqnn9w)。
+      类型：Object。除默认状态外的其他状态下节点的样式配置。详见 [状态 State](/zh/docs/manual/middle/states/state)。
 
 - `edgeStateStyles`
 
-      类型：Object。除默认状态外的其他状态下边的样式配置。详见 [状态 State](https://www.yuque.com/antv/g6/fqnn9w)。
+      类型：Object。除默认状态外的其他状态下边的样式配置。详见 [状态 State](/zh/docs/manual/middle/states/state)。
 
 #### 布局相关
 
 - `layout`
 
-      类型：Object。若数据中不存在节点位置，则默认为随机布局。配置布局类型及其参数。详见 [使用布局 Layout 教程](https://www.yuque.com/antv/g6/qopkkg)，[Layout API](https://www.yuque.com/antv/g6/agbmu2)。
+      类型：Object。若数据中不存在节点位置，则默认为随机布局。配置布局类型及其参数。详见 [使用布局 Layout](/zh/docs/manual/middle/layout)，[Layout API](/zh/docs/api/layout/Layout)。
 
 #### 交互行为相关
 
 - `modes`
 
-      类型：Array。配置多种交互模式及其包含的交互事件的。详见 [交互模式 Mode 教程](https://www.yuque.com/antv/g6/g6-mode)。
+      类型：Array。配置多种交互模式及其包含的交互事件的。详见 [交互模式 Mode](/zh/docs/manual/middle/states/mode)。
 
 #### 动画相关
 
@@ -149,10 +149,10 @@ order: 1
 
 - `plugins`
 
-      类型：Array。配置辅助插件。详见 [Plugin API](https://www.yuque.com/antv/g6/plugin)。
+      类型：Array。配置辅助插件。详见 [插件与工具](/zh/docs/manual/tutorial/plugins)。
 
 ## 常用函数
-在 [前提代码](https://www.yuque.com/antv/g6/ie7zi7#cRVfC) 中使用了两个必要的函数：
+在前面的代码中使用了两个必要的函数：
 ```javascript
 // 读取数据
 graph.data(data);
@@ -163,4 +163,4 @@ graph.render();
 - `data(data)`：读取数据源 `data` 到图实例 `graph` 中。
 - render()：渲染图。
 
-Graph 的完整函数参见 [Graph API](https://www.yuque.com/antv/g6/graph#wbgjF)。
+Graph 的完整函数参见 [Graph API](/zh/docs/api/Graph)。

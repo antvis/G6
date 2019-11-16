@@ -18,7 +18,7 @@ order: 8
   - text：必选，分组的标题，类型为 string；
   - offsetX：可选，默认为 0，表示 x 方向上的偏移量；
   - offsetY：可选，默认为 0，表示 y 方向上的偏移量；
-  - stroke：字体边框颜色，同时也支持 fill、fontSize 等所有的[文本样式属性](https://www.yuque.com/antv/g6/gs4gno)。
+  - stroke：字体边框颜色，同时也支持 fill、fontSize 等所有的[文本样式属性](/zh/docs/api/properties/TextProperties)。
 
 
 
