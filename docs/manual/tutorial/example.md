@@ -80,7 +80,9 @@ order: 1
 ```
 
 ### 绘制结果
-调用 `graph.render()` 方法之后，G6 引擎会根据加载的数据进行图的绘制。如果没有额外指定图实例的 renderer 属性配置，则默认采用 Canvas 进行绘制，结果如下：<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571051400528-c0c31bcb-1de9-4e6f-bd17-03737f939ef9.png#align=left&display=inline&height=178&name=image.png&originHeight=178&originWidth=340&search=&size=5910&status=done&width=340)
+调用 `graph.render()` 方法之后，G6 引擎会根据加载的数据进行图的绘制。如果没有额外指定图实例的 renderer 属性配置，则默认采用 Canvas 进行绘制，结果如下：
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YTfpQYVGhuEAAAAAAAAAAABkARQnAQ' width=400 />
 
 ## 真实数据加载
 上文中，我们使用了仅含有两个节点和一条边的数据，直接将数据定义放在了代码中。而真实场景的数据通常是远程接口请求加载的。为了方便，我们已经给读者准备好了一份 json 数据文件，地址如下：<br />`https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json`
@@ -104,18 +106,23 @@ order: 1
 > fetch 函数允许我们发起网络请求，加载数据，而其异步的过程可以通过 async/await 进行更合理的控制。这里我们为了方便起见，将主要逻辑放在了 main 函数里面。如果读者对 fetch 和 async/await 的知识有疑问，可以参考：[async function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)，[Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
 
 
-运行后，我们得到了下图结果：<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571051484453-6b192934-7ea3-4229-bd4d-95d6015027a6.png#align=left&display=inline&height=308&name=image.png&originHeight=1258&originWidth=1652&search=&size=387500&status=done&width=404)<br />乍看之下，图像有点奇怪，实际上数据已经正确的加载了进来。由于数据量比较大，节点和边都非常的多，显得内容比较杂乱。另外由于画布大小的限制，实际的图被画布截断了，目前只能看见部分内容，这个问题后文会继续解决。
+运行后，我们得到了下图结果：
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*KzQaSZKIsQoAAAAAAAAAAABkARQnAQ' width=550 height=350 />
+
+乍看之下，图像有点奇怪，实际上数据已经正确的加载了进来。由于数据量比较大，节点和边都非常的多，显得内容比较杂乱。另外由于画布大小的限制，实际的图被画布截断了，目前只能看见部分内容，这个问题后文会继续解决。
 
 请看下面摘取自 tutorial-data.json 的部分数据，我们发现数据中节点定义了位置信息 `x` 与 `y`，并且很多节点的 `x` 和 `y` 不在图的宽高（`width: 800, height: 600`）范围内：
+
 ```json
 {
   "nodes": [
     {"id": "0", "label": "n0", "class": "c0","x": 1000, "y": -100 },
     {"id": "1", "label": "n1", "class": "c0","x": 300, "y": -10 },
-    ...
+    //...
   ],
   "edges": [
-    ...
+    //...
   ]
 }
 ```
@@ -134,9 +141,12 @@ const graph = new G6.Graph({
 });
 ```
 
-上述代码将会生成如下图：<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1569834252133-4c0bfeb6-e636-47a9-89d5-60a50b2f9211.png##align=left&display=inline&height=323&name=image.png&originHeight=1170&originWidth=2024&search=&size=345324&status=done&width=559)<br />可以看到，图像已经可以自动适配画布的大小，完整的显示了出来。
+上述代码将会生成如下图：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wAXzRJaNTXUAAAAAAAAAAABkARQnAQ' width=850 />
 
-## *常用配置
+可以看到，图像已经可以自动适配画布的大小，完整的显示了出来。
+
+## 常用配置
 本文使用到的配置以及后续 Tutorial 将会使用到到常用配置如下：
 
 | 配置项 | 类型 | 选项 / 示例 | 默认 | 说明 |
@@ -186,4 +196,4 @@ const graph = new G6.Graph({
 </html>
 ```
 
- `注意` <br />若需更换数据，请替换 `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` 为新的数据文件地址。
+**⚠️注意** <br />若需更换数据，请替换 `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` 为新的数据文件地址。

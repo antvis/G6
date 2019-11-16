@@ -3,11 +3,6 @@ title: 快速上手
 order: 1
 ---
 
-## 什么是 G6
-G6 是一个图可视化引擎。它提供了图的绘制、布局、分析、交互、动画等基础的图可视化能力。旨在让关系变得透明，简单。让用户获得关系数据的 Insight。
-
-![68747470733a2f2f67772e616c697061796f626a656374732e636f6d2f7a6f732f726d73706f7274616c2f485178596775696e464f4d49587247514f4142592e676966.gif](https://cdn.nlark.com/yuque/0/2019/gif/174835/1553227950879-b04459d7-9961-4a63-82ad-67037b04fb6d.gif#align=left&display=inline&height=320&name=68747470733a2f2f67772e616c697061796f626a656374732e636f6d2f7a6f732f726d73706f7274616c2f485178596775696e464f4d49587247514f4142592e676966.gif&originHeight=320&originWidth=400&search=&size=1333399&status=done&width=400)
-
 ## 安装 & 引用
 在项目中引入 G6 有以下两种方式：npm 引入，CDN 引入。
 
@@ -104,7 +99,8 @@ graph.render();    // 渲染图
 ```
 
 ### 最终的结果
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/89796/1547625734035-c211990a-803c-4c6d-87ed-f0096dadb628.png#align=left&display=inline&height=152&name=image.png&originHeight=152&originWidth=337&search=&size=2981&status=done&width=337)
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*srtDT5slbN8AAAAAAAAAAABkARQnAQ' width=400>
 
 ## 完整代码
 
@@ -162,9 +158,9 @@ graph.render();    // 渲染图
 ```
 
 ## React 中使用 G6
-你是在 React 中使用 G6 吗？我们提供了在 React 中使用 G6 的 [Demo](https://github.com/baizn/g6-in-react)
+如果你想在 React 中使用 G6 ，可以参考我们提供了的 React 中使用 G6 的 [Demo]。(https://github.com/baizn/g6-in-react)
 
-更多关于 React 中如何使用 G6，请参考[React 中使用 G6 的文档](https://www.yuque.com/antv/g6/zmfur7)，有任何问题都可以通过页面底部的钉钉交流群和我们沟通，也非常欢迎给我们提 [Issues](https://github.com/antvis/g6/issues)。
+更多关于 React 中如何使用 G6，请参考[React 中使用 G6 的文档](/zh/docs/manual/middle/g6InReact)，有任何问题都可以通过页面底部的钉钉交流群和我们沟通，也非常欢迎给我们提 [Issues](https://github.com/antvis/g6/issues)。
 
 
 ## 更多
@@ -178,21 +174,3 @@ graph.render();    // 渲染图
 - 使用辅助组件。
 
 想了解更高阶的功能，请参见 [G6 核心概念](/zh/docs/manual/middle/keyConcept)，[G6 高级指引](/zh/docs/manual/advanced/shape-and-properties)。
-
-## 友情链接
-结合前端库的第三方实现：
-
-- [基于 G6 和 React 的可视化流程编辑器](https://github.com/guozhaolong/wfd) - [Workflow Designer](https://github.com/guozhaolong/wfd)；
-- [基于 G6 和 Vue 的可视化编辑器](https://github.com/caoyu48/vue-g6-editor)；
-- [基于 G6 和 Vue 的可视化图形编辑器](https://github.com/OXOYO/X-Flowchart-Vue) - [A visual graph editor based on G6 and Vue](https://github.com/OXOYO/X-Flowchart-Vue)。
-
-
-## G6 图可视化交流群
-欢迎各界 G6 使用者、图可视化爱好者加入 **G6 图可视化交流群**（钉钉群，使用钉钉扫一扫加入）讨论与交流。
-<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1569834117258-cda482fc-d121-4107-9236-1ef1ee1f0758.png#align=left&display=inline&height=495&name=image.png&originHeight=990&originWidth=750&search=&size=185140&status=done&width=375)
-
- 提示 
-
-- 3.2 版本已经放出，会根据我们支持的业务，不断完善 demo；
-- 欢迎提出各种建议，同时参与我们的开发；
-- 开源不易，关系图开发更不易，敬请互相体谅。

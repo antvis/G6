@@ -22,7 +22,9 @@ order: 3
 - Mindmap Layout：脑图布局；
 - Intended Layout：缩进布局。
 
-各种布局方法的具体介绍及其配置参见 [Layout API](https://www.yuque.com/antv/g6/agbmu2)。本教程中，我们使用的是力导向布局 (Force Layout)。<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1569834329341-f0c218c5-b9b7-4972-8426-2c0c750d2a00.png#align=left&display=inline&height=276&name=image.png&originHeight=720&originWidth=716&search=&size=288617&status=done&width=274)
+各种布局方法的具体介绍及其配置参见 [Layout API](/zh/docs/api/Layout)。本教程中，我们使用的是力导向布局 (Force Layout)。
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qnUwSZVjYOMAAAAAAAAAAABkARQnAQ' width=550 />
 
 ## 取消自动适配画布
 我们在之前的教程里面，为了能够将超出画布的图适配到视野中，在实例化图时使用了 `fitView` 配置项。这节开始我们将会去掉这个特性。因为复杂的布局系统会打破适配的规则，反而会造成更多的困扰。让我们将相关的适配代码变为注释：
@@ -41,7 +43,7 @@ const graph = new G6.Graph({
 - 若数据中节点没有位置信息，则默认使用 Random Layout 进行布局。
 
 ## 配置布局
-G6 使用布局的方式非常简单，在图实例化的时候，加上 layout 配置即可。下面代码在实例化图时设置了布局方法为 `type: 'force'`，即经典力导向图布局。并设置了参数 `preventOverlap: true` ，表示希望节点不重叠。力导向布局的更多配置项参见：[Layout API](https://www.yuque.com/antv/g6/agbmu2)。
+G6 使用布局的方式非常简单，在图实例化的时候，加上 layout 配置即可。下面代码在实例化图时设置了布局方法为 `type: 'force'`，即经典力导向图布局。并设置了参数 `preventOverlap: true` ，表示希望节点不重叠。力导向布局的更多配置项参见：[Layout API](/zh/docs/api/Layout)。
 ```javascript
 const graph = new G6.Graph({
   ...                      // 其他配置项
@@ -53,7 +55,9 @@ const graph = new G6.Graph({
 });
 ```
 
-结果如下：<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571054535576-5ba50c13-a953-4c49-ba66-8e117deb00e7.png#align=left&display=inline&height=234&name=image.png&originHeight=234&originWidth=304&search=&size=31999&status=done&width=304)
+结果如下：
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*w4ZfRJW3b5YAAAAAAAAAAABkARQnAQ' width=350 />
 
 如图所示，节点按照力导向布局自动平衡。但是图中的节点过于拥挤，边上的文字信息被挤占，无法看清。我们希望布局计算边的距离可以更长一些。G6 的力导向布局提供了 `linkDistance` 属性用来指定布局的时候边的距离长度：
 ```javascript
@@ -67,7 +71,11 @@ const graph = new G6.Graph({
 });
 ```
 
-结果如下：<br />![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571054559628-2a7abff9-1921-41d8-b32f-2704f43db1a0.png#align=left&display=inline&height=335&name=image.png&originHeight=335&originWidth=389&search=&size=46496&status=done&width=389)
+结果如下：
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AXrdQIm3oCIAAAAAAAAAAABkARQnAQ' width=350 />
+<br />![image.png]
+
 > 不同布局之间、相同布局不同参数允许动态切换和过渡，具体参见：[布局切换](../middle/layout)。
 
 
@@ -159,5 +167,5 @@ const graph = new G6.Graph({
 </html>
 ```
 
- `注意` <br />若需更换数据，请替换 `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` 为新的数据文件地址。
+**⚠️注意** <br />若需更换数据，请替换 `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` 为新的数据文件地址。
 
