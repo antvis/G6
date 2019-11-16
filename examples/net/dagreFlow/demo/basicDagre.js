@@ -1,17 +1,4 @@
 import G6 from '@antv/g6';
-import insertCss from 'insert-css';
-
-insertCss(`
-  .g6-tooltip {
-    border: 1px solid #e2e2e2;
-    border-radius: 4px;
-    font-size: 12px;
-    color: #545454;
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 10px 8px;
-    box-shadow: rgb(174, 174, 174) 0px 0px 10px;
-  }
-`);
 
 const data = {
   nodes: [{
@@ -194,8 +181,8 @@ G6.registerNode('sql', {
         height: 50,
         radius: 10,
         stroke: '#5B8FF9',
-        fill: '#BDD2FD',
-        lineWidth: 3.5
+        fill: '#C6E5FF',
+        lineWidth: 3
       }
     });
     if (cfg.name) {
@@ -204,7 +191,7 @@ G6.registerNode('sql', {
           text: cfg.name,
           x: 0,
           y: 0,
-          fill: '#000',
+          fill: '#00287E',
           fontSize: 14,
           textAlign: 'center',
           textBaseline: 'middle',
@@ -234,7 +221,8 @@ const graph = new G6.Graph({
         return 500;
       }
       return 50;
-    }
+    },
+    ranksep: 70
   },
   pixelRatio: 2,
   defaultNode: {
@@ -246,8 +234,8 @@ const graph = new G6.Graph({
       radius: 20,
       offset: 45,
       endArrow: true,
-      lineWidth: 5,
-      stroke: '#5B8FF9'
+      lineWidth: 2,
+      stroke: '#C2C8D5'
     }
   },
   modes: {

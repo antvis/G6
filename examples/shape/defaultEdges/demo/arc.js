@@ -42,18 +42,24 @@ const data = {
     }]
 };
 
+const width = document.getElementById('container').scrollWidth;
+const height = document.getElementById('container').scrollHeight;
 const graph = new G6.Graph({
   container: 'container',
-  width: 500,
-  height: 500,
+  width,
+  height,
   linkCenter: true,
   defaultNode: {
-    size: 45
+    size: 45,
+    style: {
+      fill: '#DEE9FF',
+      stroke: '#5B8FF9'
+    }
   },
   defaultEdge: {
     shape: 'arc',
     style: {
-      stroke: '#bae7ff'
+      stroke: '#F6BD16'
     },
     labelCfg: {
       autoRotate: true,

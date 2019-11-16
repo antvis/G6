@@ -84,17 +84,20 @@
     }]
   };
 
+  const width = document.getElementById('container').scrollWidth;
+  const height = document.getElementById('container').scrollHeight;
   const graph = new G6.Graph({
     container: 'container',
-    width: 500,
-    height: 500,
+    width,
+    height,
     defaultNode: {
       style: {
-        fill: '#69c0ff'
+        fill: '#DEE9FF',
+        stroke: '#5B8FF9'
       }
     },
     defaultEdge: {
-      color: '#bae7ff'
+      color: '#F6BD16'
     }
   });
 

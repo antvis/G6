@@ -245,10 +245,12 @@ G6.registerEdge('polyline', {
   }
 });
 
+const width = document.getElementById('container').scrollWidth;
+const height = document.getElementById('container').scrollHeight;
 const graph = new G6.Graph({
   container: 'container',
-  width: 500,
-  height: 500,
+  width,
+  height,
   layout: {
     type: 'dagre',
     rankdir: 'LR',

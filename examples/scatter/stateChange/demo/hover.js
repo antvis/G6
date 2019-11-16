@@ -42,7 +42,7 @@ G6.registerNode('leaf-node', {
         x: 0,
         y: 0,
         r: 5,
-        fill: cfg.color || '#dee9ff'
+        fill: cfg.color || '#5B8FF9'
       }
     });
   },
@@ -131,13 +131,16 @@ G6.registerEdge('can-running', {
   }
 }, 'cubic-horizontal');
 
+const width = document.getElementById('container').scrollWidth;
+const height = document.getElementById('container').scrollHeight;
 const graph = new G6.Graph({
   container: 'container',
-  width: 500,
-  height: 500,
+  width,
+  height,
   defaultNode: {
     style: {
-      fill: '#82affc'
+      fill: '#DEE9FF',
+      stroke: '#5B8FF9'
     }
   },
   defaultEdge: {
