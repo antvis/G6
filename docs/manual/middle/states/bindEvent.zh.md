@@ -12,7 +12,7 @@ order: 1
   - 节点/边状态改变时的事件，例如：`beforerefreshitem`，`afterrefreshitem`。
   - 布局时机，例如：`beforelayout`，`afterlayout`。
 
-如果要了解G6支持的所有事件，请参考[Event文档](https://www.yuque.com/antv/g6/event-api)。
+如果要了解G6支持的所有事件，请参考[Event文档](/zh/docs/api/Event)。
 
 G6 上所有的事件都需要在graph上监听。
 ```javascript
