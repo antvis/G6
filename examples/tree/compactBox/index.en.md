@@ -10,6 +10,6 @@ The nodes with the same depth will be layed on the same level. The node size wil
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z-ESRoHTpvIAAAAAAAAAAABkARQnAQ' alt='compactbox' width='300'/>
 
 ## Usage
-CompactBox is an appropriate layout method for tree data structure. As the demo below, you can deploy it in `layout` while instantiating Graph. it can also be used for [Subgraph Layout](https://www.yuque.com/antv/g6/qopkkg#eYZc6).
+CompactBox is an appropriate layout method for tree data structure. As the demo below, you can deploy it in `layout` while instantiating Graph.
 
 You can set different configurations for different nodes if the parameter is Function type. Please refer to the ducuments for more information.
