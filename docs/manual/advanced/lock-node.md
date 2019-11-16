@@ -3,14 +3,14 @@ title: 锁定节点
 order: 10
 ---
 
-G6 3.1.4 版本中新增了 `lock()`、`unlock()` 和 `hasLocked()` 三个 API，方便用户锁定某个节点。默认情况下，当锁定某个节点后，拖动节点时锁定的节点不会有任何反应，但拖动画布和缩放画布时，仍然会对锁定的节点有影响，如果不想让锁定的节点收到拖动画布和缩放画布的影响，可以通过[自定义 Behavior](https://www.yuque.com/antv/g6/self-behavior) 的方式来实现。
+G6 3.1.4 版本中新增了 `lock()`、`unlock()` 和 `hasLocked()` 三个 API，方便用户锁定某个节点。默认情况下，当锁定某个节点后，拖动节点时锁定的节点不会有任何反应，但拖动画布和缩放画布时，仍然会对锁定的节点有影响，如果不想让锁定的节点收到拖动画布和缩放画布的影响，可以通过[自定义 Behavior](/zh/docs/manual/advanced/custom-behavior) 的方式来实现。
 
 
 ## 拖动画布时候不处理锁定的节点
 G6 内置的 `drag-canvas` 不区分节点是否锁定，全部一视同仁。绝大数情况下，这种行为是完全没问题的，但某些业务可能会要求锁定的节点，拖动画布时也不能移动，对于这种情况，可以通过重新定义拖动画布的 Behavior 来实现。
 
 ```javascript
-import G6 from '@antv/g6;
+import G6 from '@antv/g6';
 const Util = G6.Util;
 const abs = Math.abs;
 const DRAG_OFFSET = 10;
