@@ -28,29 +28,30 @@ const data = {
   }]
 };
 
+const width = document.getElementById('container').scrollWidth;
+const height = document.getElementById('container').scrollHeight;
 const graph = new G6.Graph({
   container: 'container',
-  width: 500,
-  height: 500,
+  width,
+  height,
   defaultEdge: {
-    color: '#bae7ff',
+    color: '#e2e2e2',
     lineAppendWidth: 3
   },
   defaultNode: {
     style: {
-      fill: '#40a9ff'
+      fill: '#DEE9FF',
+      stroke: '#5B8FF9'
     }
   },
   nodeStateStyles: {
     hover: {
-      stroke: '#bae7ff',
       lineWidth: 5,
       fillOpacity: 1
     }
   },
   edgeStateStyles: {
     hover: {
-      stroke: '#bae7ff',
       lineWidth: 3
     }
   }

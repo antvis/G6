@@ -47,14 +47,17 @@ const data = {
   ]
 };
 
+const width = document.getElementById('container').scrollWidth;
+const height = document.getElementById('container').scrollHeight;
 const graph = new G6.Graph({
   container: 'container',
-  width: 500,
-  height: 500,
+  width,
+  height,
   defaultNode: {
     size: 45,
     style: {
-      fill: '#82affc'
+      fill: '#DEE9FF',
+      stroke: '#5B8FF9'
     }
   },
   defaultEdge: {

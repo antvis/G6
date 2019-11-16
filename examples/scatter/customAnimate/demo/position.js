@@ -3,10 +3,12 @@ import G6 from '@antv/g6';
 const r = 50;
 const radius = Math.PI;
 
+const width = document.getElementById('container').scrollWidth;
+const height = document.getElementById('container').scrollHeight;
 const graph = new G6.Graph({
   container: 'container',
-  width: 500,
-  height: 500,
+  width,
+  height,
   animate: true,
   animateCfg: {
     duration: 1000,
@@ -32,14 +34,14 @@ const node1 = graph.addItem('node', {
   x: 100,
   y: 100,
   shape: 'circle',
-  style: { fill: '#F04864', lineWidth: 0 }
+  style: { fill: '#5B8FF9', lineWidth: 0 }
 });
 const node2 = graph.addItem('node', {
   id: 'node2',
   x: 200,
   y: 100,
   shape: 'circle',
-  style: { fill: '#40a9ff', lineWidth: 0 }
+  style: { fill: '#5AD8A6', lineWidth: 0 }
 });
 
 // 循环动画

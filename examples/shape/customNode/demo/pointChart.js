@@ -12,18 +12,17 @@ G6.registerNode('justPoints', {
     const baseR = 30;
     let nowAngle = 0;
 
-            // Ref line
+    // Ref line
     let refR = baseR;
     const refInc = 10;
     for (let i = 0; i < 5; i++) {
       group.addShape('circle', {
-            // attrs: style
+        // attrs: style
         attrs: {
           x: 0, // 居中
           y: 0,
           r: refR += refInc,
           stroke: '#5ad8a6',
-          // stroke: 'rgba(255,255,255,0.4)',
           lineDash: [ 4, 4 ]
 
         }
@@ -48,7 +47,6 @@ G6.registerNode('justPoints', {
         }
       });
 
-
       // 添加标注点
       postions.forEach((pos, index) => {
         if (index !== 5) {
@@ -64,9 +62,7 @@ G6.registerNode('justPoints', {
             }
           });
         }
-
       });
-
     });
 
     let nowAngle2 = 0;
@@ -119,10 +115,12 @@ G6.registerNode('justPoints', {
   }
 });
 
+const width = document.getElementById('container').scrollWidth;
+const height = document.getElementById('container').scrollHeight;
 const graph = new G6.Graph({
   container: 'container',
-  width: 500,
-  height: 500
+  width,
+  height
 });
 
 const data = {
@@ -137,11 +135,11 @@ const data = {
           [ 0, 0.5 ], [ 1, 0.5 ]
       ],
       details: [
-          { cat: 'pv', values: [ 20, 30, 40, 30, 30 ], color: '#5ad8a6' },
-          { cat: 'dal', values: [ 40, 30, 20, 30, 50 ], color: '#ff99c3' },
-          { cat: 'uv', values: [ 40, 30, 30, 40, 40 ], color: '#6dc8ec' },
-          { cat: 'sal', values: [ 20, 30, 50, 20, 20 ], color: '#269a99' },
-          { cat: 'cal', values: [ 10, 10, 20, 20, 20 ], color: '#9270CA' }
+        { cat: 'pv', values: [ 20, 30, 40, 30, 30 ], color: '#5B8FF9' },
+        { cat: 'dal', values: [ 40, 30, 20, 30, 50 ], color: '#5AD8A6' },
+        { cat: 'uv', values: [ 40, 30, 30, 40, 40 ], color: '#5D7092' },
+        { cat: 'sal', values: [ 20, 30, 50, 20, 20 ], color: '#F6BD16' },
+        { cat: 'cal', values: [ 10, 10, 20, 20, 20 ], color: '#E8684A' }
       ],
       centerColor: '#5b8ff9'
     }

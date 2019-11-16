@@ -1,8 +1,8 @@
 import G6 from '@antv/g6';
 
-const colors = [ 'rgb(64, 174, 247)', 'rgb(108, 207, 169)', 'rgb(157, 223, 125)',
-  'rgb(240, 198, 74)', 'rgb(221, 158, 97)', 'rgb(141, 163, 112)',
-  'rgb(115, 136, 220)', 'rgb(133, 88, 219)', 'rgb(203, 135, 226)',
+const colors = [ 'rgb(91, 143, 249)', 'rgb(90, 216, 166)', 'rgb(93, 112, 146)',
+  'rgb(246, 189, 22)', 'rgb(232, 104, 74)', 'rgb(109, 200, 236)',
+  'rgb(146, 112, 202)', 'rgb(255, 157, 77)', 'rgb(38, 154, 153)',
   'rgb(227, 137, 163)' ];
 const width = document.getElementById('container').scrollWidth;
 const height = document.getElementById('container').scrollHeight;
@@ -21,7 +21,6 @@ const graph = new G6.Graph({
     }]
   },
   defaultNode: {
-    color: 'steelblue',
     style: {
       opacity: 0.8,
       lineWidth: 1,

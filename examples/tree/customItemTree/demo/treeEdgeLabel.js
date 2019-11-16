@@ -75,8 +75,8 @@ const graph = new G6.TreeGraph({
   defaultNode: {
     size: 30,
     style: {
-      fill: '#40a9ff',
-      stroke: '#096dd9'
+      fill: '#C6E5FF',
+      stroke: '#5B8FF9'
     }
   },
   defaultEdge: {
@@ -110,8 +110,8 @@ graph.node(function(node) {
     size: 16,
     anchorPoints: [[ 0, 0.5 ], [ 1, 0.5 ]],
     style: {
-      fill: '#40a9ff',
-      stroke: '#096dd9'
+      fill: '#C6E5FF',
+      stroke: '#5B8FF9'
     },
     label: node.id,
     labelCfg: {
