@@ -3,6 +3,15 @@ title: 快速上手
 order: 1
 ---
 
+## 第一个示例
+<iframe
+     src="https://codesandbox.io/embed/staging-frost-immwl?fontsize=14&hidenavigation=1&theme=dark"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="staging-frost-immwl"
+     allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
+     sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
+   ></iframe>
+
 ## 安装 & 引用
 在项目中引入 G6 有以下两种方式：npm 引入，CDN 引入。
 
