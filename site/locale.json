@@ -2,7 +2,7 @@
   "首页": "Home Page",
   "G6 图可视化引擎": "G6 Graph Visualization Engine",
   "G6 是一个简单、易用、完备的图可视化引擎，它在高定制能力的基础上，提供了一系列设计优雅、便于使用的图可视化解决方案。能帮助开发者搭建属于自己的图可视化、图分析、或图编辑器应用。":
-    "G6 is an ease of use and complete graph visualization engine. Based on the ability of customize, it provides a set of elegant graph visualization solutions, and helps developers to build up applications for graph visualization, graph analysis, and graph editor.",
+    "G6 is graph visualization engine with simplicity and convenience. Based on the ability of customize, it provides a set of elegant graph visualization solutions, and helps developers to build up applications for graph visualization, graph analysis, and graph editor.",
   "继续了解": "More",
   "下载使用": "Download",
   "点线析源远": "Node&Edges",
@@ -10,10 +10,10 @@
   "小试牛刀": "First Try",
   "Graphin 1.0.0 全新发布！": "Graphin 1.0.0 has been published!",
   "感谢一路的合作伙伴": "Thanks for Cooperators",
-  "专注关系，完备基建": "Dedicated and Complete",
-  "G6 是一个专注于关系数据的、完备的图可视化引擎": "G6 is a complete graph visualization engine, which focuses on relational Data",
+  "专注关系，完备基建": "Dedicated & Complete",
+  "G6 是一个专注于关系数据的、完备的图可视化引擎": "G6 is a complete graph visualization engine, which focuses on relational data",
   "领域深钻，顶尖方案": "Top Solution",
   "扎根实际具体业务场景、结合业界领先成果，沉淀顶尖解决方案": "According to practical bussiness scenarios, we found out the top solutions",
-  "简单易用，扩展灵活": "Simple and Extendable",
+  "简单易用，扩展灵活": "Simple & Extendable",
   "精心设计的简单、灵活、高可拓展的接口，满足你的无限创意": "Well-designed simple, flexible, and extendable intefaces will satisfy your infinite originality"
 }
