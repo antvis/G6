@@ -7,11 +7,11 @@ title: API
 
 - H —— Root is on the middle, layout in horizontal symmetry.
 
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571830487985-0c3dfc8c-fadd-4911-8ea4-1b4091a86538.png#align=left&display=inline&height=122&name=image.png&originHeight=906&originWidth=1266&search=&size=267710&status=done&width=170)
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1v35TYcFO0cAAAAAAAAAAABkARQnAQ' width=170/>
 
 - V —— Root is on the middle, layout in vertical symmetry.
 
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/156681/1571830515639-e66a5347-09fe-4583-81d6-178aa6920f7b.png#align=left&display=inline&height=136&name=image.png&originHeight=920&originWidth=982&search=&size=252410&status=done&width=145)
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*x-bVTLOD-BcAAAAAAAAAAABkARQnAQ' width=145/>
 
 <a name="MUDRY"></a>
 ## getWidth
