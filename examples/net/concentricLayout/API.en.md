@@ -6,7 +6,7 @@ title: API
 **Type**: Array<br />**Example**: [ 0, 0 ]<br />**Default**: The center of grpah<br />**Required**: false<br />**Explanation**: The center of the layout
 
 ## preventOverlap
-**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Explanation**: Switch to prevent the node overlappings. It should be used with [`nodeSize`](https://www.yuque.com/antv/g6/ngp0vg#xWjHN). Only if the `nodeSize` is assigned, the collide detection will take effect.
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Explanation**: Switch to prevent the node overlappings. It should be used with `nodeSize`. Only if the `nodeSize` is assigned, the collide detection will take effect.
 
 ## nodeSize
 **Type**: Number<br />**Default**: 30<br />**Required**: false<br />**Explanation**: The size of the node(diameter). It will be used in collide dectection for preventing node overlappings.
@@ -27,7 +27,7 @@ title: API
 **Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Explanation**: Place the nodes in clockwise or not.
 
 ## maxLevelDiff
-**Type**: Number<br />**默认值: **undefined<br />**Required**: false<br />**Explanation**: The sum of concentric values in each level. If it is undefined, maxValue / 4 will take place, where maxValue is the max value of ordering properties. For example, if sortBy='degree', maxValue is the max degree value of all the nodes
+**Type**: Number<br />**Default**: undefined<br />**Required**: false<br />**Explanation**: The sum of concentric values in each level. If it is undefined, maxValue / 4 will take place, where maxValue is the max value of ordering properties. For example, if sortBy='degree', maxValue is the max degree value of all the nodes
 
 ## sortBy
 **Type**: String<br />**Default**: undefined<br />**Required**: false<br />**Explanation**: Order the nodes according to this parameter. It is the property's name of node. The node with higher value will be placed to the center. If it is undefined, the algorithm will order the nodes by their degree.

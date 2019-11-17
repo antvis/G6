@@ -3,7 +3,7 @@ title: API
 ---
 
 ## preventOverlap
-**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Explanation**: Prevent node overlappings. Only when the [`nodeSize`](https://www.yuque.com/antv/g6/ngp0vg#xWjHN) is assigned, the collide detection will take effect
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Explanation**: Prevent node overlappings. Only when the `nodeSize` is assigned, the collide detection will take effect
 
 ## nodeSize
 **Type**: Number<br />**Default**: 30<br />**Required**: false<br />**Explanation**: The size of the nodes(diameter). For collide detection to prevent node overlappings
