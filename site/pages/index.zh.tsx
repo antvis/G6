@@ -9,7 +9,8 @@ import Cases from '@antv/gatsby-theme-antv/site/components/Cases';
 const IndexPage = () => {
   const { t, i18n } = useTranslation();
 
-  const coverImage = <img src='https://gw.alipayobjects.com/zos/basement_prod/7a3d508b-0dd1-47ec-9de6-a9843c4fa063.svg' />//BannerSVG();
+  const coverImage = <img style={{ width: '100%', height: '100%', marginTop: '20%' }}
+    src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*vmaSQ64jm4wAAAAAAAAAAABkARQnAQ' />//BannerSVG();
 
   const features = [
     {
@@ -40,34 +41,44 @@ const IndexPage = () => {
 
   const companies = [
     {
-      name: '公司1',
-      img:
-        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Z1NnQ6L4xCIAAAAAAAAAAABkARQnAQ',
-    },
-    {
-      name: '公司2',
+      name: '支付宝',
       img:
         'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6u3hTpsd7h8AAAAAAAAAAABkARQnAQ',
     },
     {
-      name: '公司3',
+      name: '阿里云',
+      img:
+        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Z1NnQ6L4xCIAAAAAAAAAAABkARQnAQ',
+    },
+    {
+      name: '天猫',
+      img:
+        'https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*BQrxRK6oemMAAAAAAAAAAABkARQnAQ',
+    },
+    {
+      name: '菜鸟',
+      img:
+        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SqmTSqj4FjEAAAAAAAAAAABkARQnAQ',
+    },
+    {
+      name: '网商银行',
       img:
         'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Fw8HTbFgUdAAAAAAAAAAAABkARQnAQ',
     },
     {
-      name: '公司4',
+      name: '盒马',
       img:
-        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lUdjTqQix48AAAAAAAAAAABkARQnAQ',
+        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ePJMQZCb8vkAAAAAAAAAAABkARQnAQ',
     },
     {
-      name: '公司5',
+      name: 'Geabase',
       img:
-        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1q8NQZ9GaN0AAAAAAAAAAABkARQnAQ',
+        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Vi-pSbxeraIAAAAAAAAAAABkARQnAQ',
     },
     {
-      name: '公司6',
+      name: '滴滴',
       img:
-        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SqmTSqj4FjEAAAAAAAAAAABkARQnAQ',
+        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*3UihQLQSrXoAAAAAAAAAAABkARQnAQ',
     },
   ];
 
@@ -89,23 +100,34 @@ const IndexPage = () => {
   const cases = [
     {
       logo:
-        'https://gw.alipayobjects.com/mdn/rms_23b644/afts/img/A*2Ij9T76DyCcAAAAAAAAAAABkARQnAQ',
-      title: '灯塔专业版',
+        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*gwbqSZqJLk8AAAAAAAAAAABkARQnAQ',
+      title: '基于 G6 的关系时序分析应用',
       description:
-        '深入金融的基金深入金融的基金深入金融的基金深入金融的基金深入金融的基金深入金融的基金深入金融的基金深入金融的基金深入金融的基金深入金融的基金深入金融的基金',
-      link: '#',
+        '基于 G6 的关系时序分析应用，解决应急过程中流程、影响面、应急预案等一系列应急决策辅助信息和手段，快速止血以减少和避免故障升级。',
+      link: '/zh/docs/manual/cases/sequenceTime',
       image:
-        'https://gw.alipayobjects.com/mdn/rms_23b644/afts/img/A*oCd7Sq3N-QEAAAAAAAAAAABkARQnAQ',
+        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZC9nQ6RxcMcAAAAAAAAAAABkARQnAQ',
     },
     {
       logo:
-        'https://gw.alipayobjects.com/mdn/rms_23b644/afts/img/A*ekkhR7ISzUsAAAAAAAAAAABkARQnAQ',
-      title: '灯塔专业版2',
+        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dUcbRLE8NiAAAAAAAAAAAABkARQnAQ',
+      title: '基于 G6 的图分析应用',
       description:
-        '深2222222入金融的基金深入金融的基金深2222222入金融的基金深入金融的基金深2222222入金融的基金深入金融的基金',
+        '社交网络分析是图可视化中一个重要的应用场景。随着社交网络越来越流行，人与人、人与组织之间的关系变得越来越复杂，使用传统的分析手段，已经很难满足我们的分析需求。在这种情况下，图分析及图可视化显得愈发重要。',
+      link: '/zh/docs/manual/cases/relations',
       image:
-        'https://gw.alipayobjects.com/mdn/rms_23b644/afts/img/A*oCd7Sq3N-QEAAAAAAAAAAABkARQnAQ',
+        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-5XeR6JdKlcAAAAAAAAAAABkARQnAQ',
     },
+    {
+      logo:
+        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*K5G6SItgqVoAAAAAAAAAAABkARQnAQ',
+      title: '基于 G6 的动态决策树',
+      description:
+        '基于 G6 实现的动态决策树，形象地展示了 G6 强大的自定义节点和动画的能力。',
+      link: 'https://github.com/antvis/g6',
+      image:
+        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*QYE-Q4ptI7oAAAAAAAAAAABkARQnAQ',
+    }
   ];
 
   const bannerButtons = [
