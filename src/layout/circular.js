@@ -112,8 +112,14 @@ Layout.registerLayout('circular', {
     const degrees = getDegree(nodes.length, nodeMap, edges);
     self.degrees = degrees;
 
-    const width = self.width || window.innerHeight;
-    const height = self.height || window.innerWidth;
+    let width = self.width;
+    if (!width && typeof window !== 'undefined') {
+      width = window.innerWidth;
+    }
+    let height = self.height;
+    if (!height && typeof height !== 'undefined') {
+      height = window.innerHeight;
+    }
     if (!radius && !startRadius && !endRadius) {
       radius = height > width ? width / 2 : height / 2;
     } else if (!startRadius && endRadius) {

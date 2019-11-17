@@ -77,3 +77,7 @@ webpack-dev.config.js
 webpack.config.js
 public
 .cache
+site
+examples
+gatsby-browser.js
+gatsby-config.js
