@@ -4,7 +4,7 @@
  */
 
 const Layout = require('../layout');
-const Util = require('../../util');
+const Util = require('../../util/layout');
 const RadialNonoverlapForce = require('./radialNonoverlapForce');
 const MDS = require('./mds');
 
