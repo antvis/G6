@@ -45,6 +45,19 @@ module.exports = {
   module: {
     rules: [
       {
+        // 用于web worker代码。注意这条规则必须在.js规则前面，
+        // 这样.worker.js会经过['worker-loader', 'babel-loader']处理
+        test: /\.worker\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'worker-loader',
+          options: {
+            inline: true,
+            fallback: false
+          }
+        }
+      },
+      {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
         use: {
@@ -52,13 +65,6 @@ module.exports = {
           options: {
             babelrc: true
           }
-        }
-      },
-      {
-        test: /\.worker.js$/,
-        loader: 'worker-loader',
-        options: {
-          inline: true
         }
       }
     ]

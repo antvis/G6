@@ -1,11 +1,33 @@
 const Layout = require('../../layout');
 const Util = require('../../util');
+const layoutConst = require('../../worker/layoutConst');
+const LayoutWorker = require('../../worker/layout.worker');
+
+const { LAYOUT_MESSAGE } = layoutConst;
+
+const helper = {
+  // pollyfill
+  requestAnimationFrame(callback) {
+    const fn = window.requestAnimationFrame || window.webkitRequestAnimationFrame || function(callback) {
+      return setTimeout(callback, 16);
+    };
+    return fn(callback);
+  },
+  cancelAnimationFrame(requestId) {
+    const fn = window.cancelAnimationFrame || window.webkitCancelAnimationFrame || function(requestId) {
+      return clearTimeout(requestId);
+    };
+    return fn(requestId);
+  }
+};
 
 class LayoutController {
   constructor(graph) {
     this.graph = graph;
-    this.layoutCfg = graph.get('layout');
-    this.layoutType = this.layoutCfg ? this.layoutCfg.type : undefined;
+    const layoutCfg = this.layoutCfg = graph.get('layout') || {};
+    this.layoutType = layoutCfg.type;
+    this.worker = null;
+    this.workerData = {};
     this._initLayout();
   }
 
@@ -13,7 +35,48 @@ class LayoutController {
     // no data before rendering
   }
 
-  layout() {
+  // get layout worker and create one if not exists
+  _getWorker() {
+    if (this.worker) {
+      return this.worker;
+    }
+
+    if (typeof Worker === 'undefined') {
+      // 如果当前浏览器不支持web worker，则不使用web worker
+      console.warn('Web worker is not supported in current browser.');
+      this.worker = null;
+    } else {
+      this.worker = new LayoutWorker();
+    }
+    return this.worker;
+  }
+
+  // stop layout worker
+  _stopWorker() {
+    const { workerData } = this;
+
+    if (!this.worker) {
+      return;
+    }
+
+    this.worker.terminate();
+    this.worker = null;
+    // 重新开始新的布局之前，先取消之前布局的requestAnimationFrame。
+    if (workerData.requestId) {
+      helper.cancelAnimationFrame(workerData.requestId);
+      workerData.requestId = null;
+    }
+    if (workerData.requestId2) {
+      helper.cancelAnimationFrame(workerData.requestId2);
+      workerData.requestId2 = null;
+    }
+  }
+
+  /**
+   * @param {function} success callback
+   * @return {boolean} 是否使用web worker布局
+   */
+  layout(success) {
     const self = this;
     let layoutType = self.layoutType;
     const graph = self.graph;
@@ -34,7 +97,7 @@ class LayoutController {
     self.data = data;
 
     if (!nodes) {
-      return;
+      return false;
     }
     const width = graph.get('width');
     const height = graph.get('height');
@@ -44,13 +107,14 @@ class LayoutController {
       height,
       center: [ width / 2, height / 2 ]
     }, self.layoutCfg);
+    self.layoutCfg = layoutCfg;
 
     if (layoutType === undefined) {
       if (nodes[0] && nodes[0].x === undefined) {
         // 创建随机布局
-        layoutType = 'random';
+        layoutType = layoutCfg.type = 'random';
       } else { // 若未指定布局且数据中有位置信息，则不进行布局，直接按照原数据坐标绘制。
-        return;
+        return false;
       }
     } else {
       if (nodes[0] && nodes[0].x === undefined) {
@@ -63,6 +127,13 @@ class LayoutController {
     if (layoutMethod) {
       layoutMethod.destroy();
     }
+
+    this._stopWorker();
+    if (layoutCfg.workerEnabled && this._layoutWithWorker(data, success)) {
+      // 如果启用布局web worker并且浏览器支持web worker，用web worker布局。否则回退到不用web worker布局。
+      return true;
+    }
+
     if (layoutType === 'force') {
       const onTick = layoutCfg.onTick;
       const tick = () => {
@@ -76,21 +147,106 @@ class LayoutController {
         graph.emit('afterlayout');
       };
     }
-    self.layoutCfg = layoutCfg;
 
     try {
       layoutMethod = new Layout[layoutType](layoutCfg);
     } catch (e) {
       console.warn('The layout method: ' + layoutCfg + ' does not exist! Please specify it first.');
-      return;
+      return false;
     }
     layoutMethod.init(data);
     graph.emit('beforelayout');
     layoutMethod.execute();
+    self.layoutMethod = layoutMethod;
     if (layoutType !== 'force') {
       graph.emit('afterlayout');
+      self.refreshLayout();
     }
-    self.layoutMethod = layoutMethod;
+    return false;
+  }
+
+  /**
+   * layout with web worker
+   * @param {object} data graph data
+   * @param {function} success callback function
+   * @return {boolean} 是否支持web worker
+   */
+  _layoutWithWorker(data, success) {
+    const { nodes, edges } = data;
+    const { layoutCfg, graph } = this;
+    const worker = this._getWorker();
+    // 每次worker message event handler调用之间的共享数据，会被修改。
+    const { workerData } = this;
+
+    if (!worker) {
+      return false;
+    }
+
+    workerData.requestId = null;
+    workerData.requestId2 = null;
+    workerData.currentTick = null;
+    workerData.currentTickData = null;
+
+    graph.emit('beforelayout');
+    worker.postMessage({ type: LAYOUT_MESSAGE.RUN, nodes, edges, layoutCfg });
+    worker.onmessage = event => {
+      this._handleWorkerMessage(event, data, success);
+    };
+    return true;
+  }
+
+  // success callback will be called before updating graph positions for the first time.
+  _handleWorkerMessage(event, data, success) {
+    const { graph, workerData } = this;
+    const eventData = event.data;
+    const { type } = eventData;
+    switch (type) {
+      case LAYOUT_MESSAGE.TICK:
+        workerData.currentTick = eventData.currentTick;
+        workerData.currentTickData = eventData;
+        if (!workerData.requestId) {
+          workerData.requestId = helper.requestAnimationFrame(function() {
+            updateLayoutPosition(data, eventData);
+            graph.refreshPositions();
+            if (eventData.currentTick === 1 && success) {
+              success();
+            }
+
+            if (eventData.currentTick === eventData.totalTicks) {
+              // 如果是最后一次tick
+              graph.emit('afterlayout');
+            } else if (workerData.currentTick === eventData.totalTicks) {
+              // 注意这里workerData.currentTick可能已经不再是前面赋值时候的值了，
+              // 因为在requestAnimationFrame等待时间里，可能产生新的tick。
+              // 如果当前tick不是最后一次tick，并且所有的tick消息都已发出来了，那么需要用最后一次tick的数据再刷新一次。
+              workerData.requestId2 = helper.requestAnimationFrame(function() {
+                updateLayoutPosition(data, workerData.currentTickData);
+                graph.refreshPositions();
+                workerData.requestId2 = null;
+                graph.emit('afterlayout');
+              });
+            }
+            workerData.requestId = null;
+          });
+        }
+        break;
+      case LAYOUT_MESSAGE.END:
+        // 如果没有tick消息（非力导布局）
+        if (workerData.currentTick == null) {
+          graph.emit('afterlayout');
+          updateLayoutPosition(data, eventData);
+          this.refreshLayout();
+          // 非力导布局，没有tick消息，只有end消息，所以需要执行一次回调。
+          if (success) {
+            success();
+          }
+        }
+        break;
+      case LAYOUT_MESSAGE.ERROR:
+        break;
+      default:
+        break;
+    }
   }
 
 // 绘制
@@ -110,6 +266,13 @@ class LayoutController {
     const graph = self.graph;
     self.layoutType = cfg.type;
     const layoutMethod = self.layoutMethod;
+
+    this._stopWorker();
+    if (cfg.workerEnabled && this._layoutWithWorker(self.data, null)) {
+      // 如果启用布局web worker并且浏览器支持web worker，用web worker布局。否则回退到不用web worker布局。
+      return;
+    }
+
     layoutMethod.updateCfg(cfg);
     graph.emit('beforelayout');
     layoutMethod.execute();
@@ -128,7 +291,6 @@ class LayoutController {
     const layoutMethod = self.layoutMethod;
     layoutMethod && layoutMethod.destroy();
     self.layout();
-    self.refreshLayout();
   }
 
   // 更换数据
@@ -202,8 +364,22 @@ class LayoutController {
     self.graph = null;
     const layoutMethod = self.layoutMethod;
     layoutMethod && layoutMethod.destroy();
+    const { worker } = this;
+    if (worker) {
+      worker.terminate();
+      this.worker = null;
+    }
     self.destroyed = true;
   }
+}
+
+function updateLayoutPosition(data, layoutData) {
+  const { nodes } = data;
+  const { nodes: layoutNodes } = layoutData;
+  nodes.forEach((node, i) => {
+    node.x = layoutNodes[i].x;
+    node.y = layoutNodes[i].y;
+  });
 }
 
 module.exports = LayoutController;

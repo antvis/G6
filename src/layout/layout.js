@@ -3,7 +3,7 @@
  * @author shiwu.wyy@antfin.com
  */
 
-const Util = require('../util');
+const Util = require('../util/layout');
 const Layout = {};
 
 /**

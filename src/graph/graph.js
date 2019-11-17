@@ -506,25 +506,28 @@ class Graph extends EventEmitter {
     });
     // layout
     const layoutController = self.get('layoutController');
-    layoutController.layout();
-    self.refreshPositions();
-
-    // 获取所有有groupID的node
-    const nodeInGroup = data.nodes.filter(node => node.groupId);
-
-    // 所有node中存在groupID，则说明需要群组
-    if (nodeInGroup.length > 0) {
-      // 渲染群组
-      const groupType = self.get('groupType');
-      this.renderCustomGroup(data, groupType);
+    if (!layoutController.layout(success)) {
+      success();
     }
 
-    if (self.get('fitView')) {
-      self.get('viewController')._fitView();
+    function success() {
+      // 获取所有有groupID的node
+      const nodeInGroup = data.nodes.filter(node => node.groupId);
+
+      // 所有node中存在groupID，则说明需要群组
+      if (nodeInGroup.length > 0) {
+        // 渲染群组
+        const groupType = self.get('groupType');
+        self.renderCustomGroup(data, groupType);
+      }
+
+      if (self.get('fitView')) {
+        self.get('viewController')._fitView();
+      }
+      self.paint();
+      self.setAutoPaint(autoPaint);
+      self.emit('afterrender');
     }
-    self.paint();
-    self.setAutoPaint(autoPaint);
-    self.emit('afterrender');
   }
 
   /**
@@ -608,11 +611,6 @@ class Graph extends EventEmitter {
     this.set({ nodes: items.nodes, edges: items.edges });
     const layoutController = this.get('layoutController');
     layoutController.changeData();
-    if (self.get('animate')) {
-      self.positionsAnimate();
-    } else {
-      this.paint();
-    }
     this.setAutoPaint(autoPaint);
     return this;
   }
@@ -1136,8 +1134,9 @@ class Graph extends EventEmitter {
     if (!newLayoutType || oriLayoutType === newLayoutType) {
       // no type or same type, update layout
       const layoutCfg = {};
-      Util.mix(layoutCfg, cfg);
+      Util.mix(layoutCfg, oriLayoutCfg, cfg);
       layoutCfg.type = oriLayoutType ? oriLayoutType : 'random';
+      this.set('layout', layoutCfg);
       layoutController.updateLayoutCfg(layoutCfg);
     } else { // has different type, change layout
       this.set('layout', cfg);
@@ -1150,6 +1149,13 @@ class Graph extends EventEmitter {
    */
   layout() {
     const layoutController = this.get('layoutController');
+    const layoutCfg = this.get('layout');
+
+    if (layoutCfg.workerEnabled) {
+      // 如果使用web worker布局
+      layoutController.layout();
+      return;
+    }
     if (layoutController.layoutMethod) {
       layoutController.relayout();
     } else {
