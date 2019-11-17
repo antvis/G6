@@ -77,8 +77,14 @@ Layout.registerLayout('grid', {
       return n2[self.sortBy] - n1[self.sortBy];
     });
 
-    self.width = self.width || window.innerHeight;
-    self.height = self.height || window.innerWidth;
+    let width = self.width;
+    if (!width && typeof window !== 'undefined') {
+      width = window.innerWidth;
+    }
+    let height = self.height;
+    if (!height && typeof height !== 'undefined') {
+      height = window.innerHeight;
+    }
     // width/height * splits^2 = cells where splits is number of times to split width
     self.cells = n;
     self.splits = Math.sqrt(self.cells * self.height / self.width);

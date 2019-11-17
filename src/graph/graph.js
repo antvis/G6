@@ -1098,29 +1098,31 @@ class Graph extends EventEmitter {
     const link = document.createElement('a');
     setTimeout(() => {
       const dataURL = self.toDataURL();
-      if (window.Blob && window.URL && renderer !== 'svg') {
-        const arr = dataURL.split(',');
-        const mime = arr[0].match(/:(.*?);/)[1];
-        const bstr = atob(arr[1]);
-        let n = bstr.length;
-        const u8arr = new Uint8Array(n);
-        while (n--) {
-          u8arr[n] = bstr.charCodeAt(n);
-        }
-        const blobObj = new Blob([ u8arr ], { type: mime });
-        if (window.navigator.msSaveBlob) {
-          window.navigator.msSaveBlob(blobObj, fileName);
+      if (typeof window !== 'undefined') {
+        if (window.Blob && window.URL && renderer !== 'svg') {
+          const arr = dataURL.split(',');
+          const mime = arr[0].match(/:(.*?);/)[1];
+          const bstr = atob(arr[1]);
+          let n = bstr.length;
+          const u8arr = new Uint8Array(n);
+          while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+          }
+          const blobObj = new Blob([ u8arr ], { type: mime });
+          if (window.navigator.msSaveBlob) {
+            window.navigator.msSaveBlob(blobObj, fileName);
+          } else {
+            link.addEventListener('click', function() {
+              link.download = fileName;
+              link.href = window.URL.createObjectURL(blobObj);
+            });
+          }
         } else {
           link.addEventListener('click', function() {
             link.download = fileName;
-            link.href = window.URL.createObjectURL(blobObj);
+            link.href = dataURL;
           });
         }
-      } else {
-        link.addEventListener('click', function() {
-          link.download = fileName;
-          link.href = dataURL;
-        });
       }
       const e = document.createEvent('MouseEvents');
       e.initEvent('click', false, false);

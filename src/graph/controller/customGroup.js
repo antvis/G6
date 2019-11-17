@@ -61,7 +61,6 @@ class CustomGroup {
   constructor(graph) {
     // const { cfg = {} } = options;
     this.graph = graph;
-    window.graph = graph;
     const groupStyle = graph.get('groupStyle');
     this.styles = deepMix({}, this.getDefaultCfg(), groupStyle);
     // 创建的群组集合
