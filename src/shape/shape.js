@@ -10,7 +10,8 @@ const Shape = {};
 const cache = {}; // ucfirst 开销过大，进行缓存
 // 首字母大写
 function ucfirst(str) {
-  return cache[str] || Util.upperFirst(str);
+  cache[str] = cache[str] || Util.upperFirst(str);
+  return cache[str];
 }
 
 /**
