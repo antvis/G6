@@ -36,7 +36,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@antv/gatsby-theme-antv": "^0.9.59",
+    "@antv/gatsby-theme-antv": "^0.9.67",
     "@antv/torch": "^1.0.5",
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
