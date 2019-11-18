@@ -5,7 +5,7 @@ const div = document.createElement('div');
 div.id = 'graph-spec';
 document.body.appendChild(div);
 
-describe('circle test', () => {
+describe.only('circle test', () => {
   describe('default circle test', () => {
     const graph = new G6.Graph({
       container: div,
@@ -34,8 +34,8 @@ describe('circle test', () => {
       const node = nodes[0];
       const keyShape = node.getKeyShape();
       expect(keyShape.attr('r')).eql(30);
-      expect(keyShape.attr('stroke')).eql('#87e8de');
-      expect(keyShape.attr('fill')).eql('#36cfc9');
+      expect(keyShape.attr('stroke')).eql('#91d5ff');
+      expect(keyShape.attr('fill')).eql('#91d5ff');
     });
 
     it('circle with label', () => {
@@ -108,7 +108,7 @@ describe('circle test', () => {
       const keyShape = node.getKeyShape();
       expect(keyShape.attr('fill')).eql('red');
       expect(keyShape.attr('stroke')).eql('#ccc');
-      expect(keyShape.attr('r')).eql(50);
+      expect(keyShape.attr('r')).eql(25);
 
       const icon = group.findByClassName('circle-icon');
       expect(icon).not.to.be.undefined;
@@ -161,8 +161,8 @@ describe('circle test', () => {
 
       const keyShape = node.getKeyShape();
       expect(keyShape.attr('fill')).eql('blue');
-      expect(keyShape.attr('stroke')).eql('#87e8de');
-      expect(keyShape.attr('r')).eql(35);
+      expect(keyShape.attr('stroke')).eql('#91d5ff');
+      expect(keyShape.attr('r')).eql(17.5);
       expect(keyShape.attr('lineWidth')).eql(1);
 
       const markTop = group.findByClassName('circle-mark-top');
@@ -182,7 +182,7 @@ describe('circle test', () => {
       graph.emit('node:mouseenter', { hasTrigger: true, item: node });
 
       expect(hasTrigger).to.be.true;
-      expect(keyShape.attr('lineWidth')).eql(3);
+      expect(keyShape.attr('lineWidth')).eql(1);
 
       graph.destroy();
       expect(graph.destroyed).to.be.true;

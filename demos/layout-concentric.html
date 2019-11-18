@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>Concentric Layout</title>
+  </head>
+  
+  <body>
+    <div id="mountNode"></div>
+    <script src="../build/g6.js"></script>
+    <script src="./assets/jquery-3.2.1.min.js"></script>
+    <script>
+      const radius = 100;
+      const graphSize = [1000, 600];
+      const graph = new G6.Graph({
+        container: 'mountNode',
+        width: graphSize[0],
+        height: graphSize[1],
+        fitView: true,
+        modes: {
+          default: ['zoom-canvas', 'drag-canvas', 'drag-node']
+        },
+        layout: {
+          type: 'concentric',
+          center: [500, 300],
+          maxLevelDiff: 0.5,
+          sortBy: 'degree'
+        },
+        animate: true,
+        defaultNode: {
+          size: [5, 5]
+        },
+        defaultEdge: {
+          size: 1,
+          color: '#e2e2e2'
+        }
+      });
+      $.getJSON('./assets/data/concentric-data.json', data1 => {
+        graph.data(data1);
+        graph.render();
+      });
+      
+    </script>
+  </body>
+</html>

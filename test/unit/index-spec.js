@@ -3,7 +3,7 @@ const pkg = require('../../package');
 const { Global } = require('../../src/index');
 
 describe('global', () => {
-  it.only('version sync', () => {
+  it('version sync', () => {
     expect(Global.version).to.equal(pkg.version);
   });
 });

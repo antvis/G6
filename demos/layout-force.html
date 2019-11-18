@@ -1517,39 +1517,65 @@
       data.edges.forEach((edge, i) => {
         edge.id = i;
       });
+      const nodes = data.nodes;
+      // nodes.forEach(node => {
+      //   node.size = [10, 50];
+      // });
+
       const graph = new G6.Graph({
         container: 'mountNode',
         width: 1000,
         height: 600,
         layout: {
-          type: 'force'
+          type: 'force',
+          preventOverlap: true,
+          nodeSpacing: 10
         },
         modes: {
-          default: ['drag-node']
+          default: [
+            {
+              type: 'drag-node',
+              enableDelegate: true
+            }, {
+            type: 'brush-select',
+            trigger: 'Shift'
+          }, 'click-select', 'activate-relations']
         },
         defaultNode: {
-          size: [10, 10],
-          color: 'steelblue'
-        },
-        defaultEdge: {
-          size: 1,
-          color: '#e2e2e2'
-        },
-        nodeStyle: {
-          default: {
-            lineWidth: 2,
-            fill: '#fff'
-          },
-          selected: {
+          size: [30, 30],
+          style: {
             fill: 'steelblue'
           }
         },
-        edgeStyle: {
-          default: {
+        defaultEdge: {
+          size: 1,
+          color: '#e2e2e2',
+          style: {
             endArrow: {
               path: 'M 4,0 L -4,-4 L -4,4 Z',
               d: 4
             }
+          }
+        },
+        nodeStateStyles: {
+          inactive: {
+            fillOpacity: 0.1
+          },
+          active: {
+            fillOpacity: 0.8,
+            fill: 'green'
+          },
+
+          selected: {
+            fill: 'red'
+          }
+        },
+        edgeStateStyles: {
+          inactive: {
+            fillOpacity: 0.1
+          },
+          active: {
+            fillOpacity: 8
           }
         }
       });
@@ -1561,23 +1587,28 @@
           edge);
         })
       });
+      console.log(data);
       graph.render();
-      function refreshDragedNodePosition(e) {
-        const model = e.item.get('model');
-        model.fx = e.x;
-        model.fy = e.y;
-      }
-      graph.on('node:dragstart', e => {
-        graph.layout();
-        refreshDragedNodePosition(e);
-      });
-      graph.on('node:drag', e => {
-        refreshDragedNodePosition(e);
-      });
-      graph.on('node:dragend', e => {
-        e.item.get('model').fx = null;
-        e.item.get('model').fy = null;
-      });
+      // function refreshDragedNodePosition(e) {
+      //   const model = e.item.get('model');
+      //   model.fx = e.x;
+      //   model.fy = e.y;
+      // }
+      // graph.on('node:dragstart', e => {
+      //   graph.layout();
+      //   refreshDragedNodePosition(e);
+      // });
+      // graph.on('node:drag', e => {
+      //   refreshDragedNodePosition(e);
+      // });
+      // graph.on('node:dragend', e => {
+      //   e.item.get('model').fx = null;
+      //   e.item.get('model').fy = null;
+      // });
+      // graph.on('node:click', evt => {
+      //   const { item } = evt;
+      //   graph.setItemState(item, 'selected', true)
+      // })
     </script>
   </body>
 

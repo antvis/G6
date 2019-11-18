@@ -7,7 +7,7 @@ const div = document.createElement('div');
 div.id = 'force-layout';
 document.body.appendChild(div);
 
-describe('edge bundling', () => {
+describe.only('edge bundling', () => {
   const graph = new G6.Graph({
     container: div,
     width: 500,

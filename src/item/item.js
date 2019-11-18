@@ -49,6 +49,12 @@ class Item {
        * @type {boolean}
        */
       visible: true,
+
+      /**
+       * locked - lock node
+       * @type {boolean}
+       */
+      locked: false,
       /**
        * capture event
        * @type {boolean}

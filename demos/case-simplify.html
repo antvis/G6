@@ -23,32 +23,38 @@
   <div id="mountNode"></div>
 <script src="../build/g6.js"></script>
 <script src="./assets/d3-4.13.0.min.js"></script>
-<script src="../build/fruchterman.js"></script>
-<script src="../build/bundling.js"></script>
 
 <script>
   const colors = [ '#f5222d', '#faad14', 
   '#a0d911', '#13c2c2', '#1890ff', '#b37feb', '#eb2f96' ];
-  const beginColor = '#ff4d4f';
-  const endColor = '#5b8c00';
+  const beginColor = '#5b8c00'; // green
+  const endColor = '#ff4d4f'; // red
   const testData = {
     nodes: [
       {
         id: '0',
-        region: '1'
+        cluster: 1,
+        exportValue: 10000,
+        x: 100,
+        y: 200,
+        // label: 0
       },
       {
         id: '1',
-        region: '2'
+        cluster: 1,
+        exportValue: 10000,
+        x: 200,
+        y: 200,
+        // label: 1
       },
-      {
-        id: '2',
-        region: '1'
-      },
-      {
-        id: '3',
-        region: '2'
-      }
+      // {
+      //   id: '2',
+      //   region: '1'
+      // },
+      // {
+      //   id: '3',
+      //   region: '2'
+      // }
     ],
     edges: [
       {
@@ -57,16 +63,16 @@
       },
       {
         source: '1',
-        target: '2',
-      },
-      {
-        source: '2',
-        target: '3',
-      },
-      {
-        source: '3',
         target: '0',
       },
+      // {
+      //   source: '2',
+      //   target: '3',
+      // },
+      // {
+      //   source: '3',
+      //   target: '0',
+      // },
     ]
   }
   d3.json("./assets/data/filtered-trade.json", function(data) {
@@ -100,10 +106,11 @@
     });
     // map the value of 
     edges.forEach(e => {
+      e.id = e.eid;
       if (e.value === '') e.value = 0;
       const v = parseFloat(e.value);
       nodeMap.get(e.source).exportValue += v;
-      nodeMap.get(e.target).targetValue += v;
+      nodeMap.get(e.target).importValue += v;
     });
     mapValueToProp(nodes, 'exportValue', 'size', [2, 12]);
     const graph = new G6.Graph({
@@ -113,7 +120,6 @@
       layout: {
         type: 'fruchterman',
         maxIteration: 8000,
-        center: [500, 300],
         gravity: 10,
         clustering: true,
         clusterGravity: 30
@@ -133,12 +139,12 @@
           formatText(model) {
             let name = '';
             let countries = '';
-            if (model.name) name = model.name + '<br>';
-            if (model.countries) countries = '<br>Number of Countries: ' + model.countries;
+            if (model.name) name = model.name + '<br/>';
+            if (model.countries) countries = '<br/>Number of Countries: ' + model.countries;
             const text = name 
               + 'Export Value: ' + model.exportValue + "(1000USD)"
-              + '<br>Region: ' + model.region 
-              + '<br>Cluster: ' + model.cluster 
+              + '<br/>Region: ' + model.region 
+              + '<br/>Cluster: ' + model.cluster 
               + countries;
             return text;
           },
@@ -152,183 +158,197 @@
     graph.on('afterlayout', () => {
       const tipDiv = document.getElementById('tip');
       tipDiv.innerHTML = '布局完成！';
-    });    
-
-    edges.forEach(e => {
-      if (e.style === undefined) e.style = {};
-      e.style.lineWidth = 0.4;
-      e.style.strokeOpacity = 0.2;
-      e.style.stroke =  'l(0) 0:' + beginColor + ' 1:' + endColor;
-      if (nodeMap.get(e.source).x < nodeMap.get(e.target).x) {
-        e.style.stroke = 'l(0) 0:' + endColor + ' 1:' + beginColor;
-      }
     });
+
     graph.data(data);
     graph.render();
 
-  graph.on('node:click', e => { 
-    const targetItem = e.item;
-    const model = targetItem.getModel();
-    const graphEdges = graph.getEdges();
-    const graphNodes = graph.getNodes();
-    // click on the cluster node
-    if (model.id.substr(0, 7) === 'cluster') {
-      graphNodes.forEach(gn => {
-        const gnModel = gn.getModel();
-        // show the common nodes
-        if (gnModel.cluster === model.cluster && gnModel.id.substr(0, 7) != 'cluster') {
-          gn.show();
+    const edgeItems = graph.getEdges();
+    edgeItems.forEach(e => {
+      const lineWidth = 0.4;
+      const strokeOpacity = 0.2;
+      let stroke =  'l(0) 0:' + beginColor + ' 1:' + endColor;
+      const sourceModel = e.getSource().getModel();
+      const targetModel = e.getTarget().getModel();
+      if (sourceModel.x > targetModel.x) {
+        stroke = 'l(0) 0:' + endColor + ' 1:' + beginColor;
+      }
+      e.update({
+        style: {
+          lineWidth,
+          strokeOpacity,
+          stroke
         }
-        // remove the cluster nodes
-        if (gnModel.id === model.id) graph.removeItem(gn);
+      })
+    });
+    graph.paint();
+
+    graph.on('node:click', e => { 
+      const targetItem = e.item;
+      const model = targetItem.getModel();
+      const graphEdges = graph.getEdges();
+      const graphNodes = graph.getNodes();
+      // click on the cluster node
+      if (model.id.substr(0, 7) === 'cluster') {
+        graphNodes.forEach(gn => {
+          const gnModel = gn.getModel();
+          // show the common nodes
+          if (gnModel.cluster === model.cluster && gnModel.id.substr(0, 7) != 'cluster') {
+            gn.show();
+          }
+          // remove the cluster nodes
+          if (gnModel.id === model.id) graph.removeItem(gn);
+        });
+        
+        graphEdges.forEach(ge => {
+          const edgeModel = ge.getModel();
+          const sourceModel = ge.get('sourceNode').getModel();
+          const targetModel = ge.get('targetNode').getModel();
+          // show the common edges
+          if ((sourceModel.cluster === model.cluster && sourceModel.id.substr(0, 7) !== 'cluster') 
+          || (targetModel.cluster === model.cluster && targetModel.id.substr(0, 7) !== 'cluster')) {
+            ge.show();
+            // add the edges to other cluster nodes
+            if (!ge.get('sourceNode').get('visible') && sourceModel.cluster !== model.cluster) {
+              let c1 = beginColor, c2 = endColor;
+              if (model.x > targetModel.x) {
+                c1 = endColor;
+                c2 = beginColor;
+              }
+              graph.addItem('edge', {
+                source: 'cluster' + sourceModel.cluster,
+                target: targetModel.id,
+                id: 'cluster-edge-' + edgeModel.id,
+                style: {
+                  stroke: 'l(0) 0:' + c1 + ' 1:' + c2,
+                  lineWidth: 0.4,
+                  strokeOpacity: 0.2
+                }
+              });
+            } else if (!ge.get('targetNode').get('visible') && targetModel.cluster !== model.cluster) {
+              let c1 = beginColor, c2 = endColor;
+              if (sourceModel.x > model.x) {
+                c1 = endColor;
+                c2 = beginColor;
+              }
+              graph.addItem('edge', {
+                source: sourceModel.id,
+                target: 'cluster' + targetModel.cluster,
+                id: 'cluster-edge-' + edgeModel.id,
+                style: {
+                  stroke: 'l(0) 0:' + c1 + ' 1:' + c2,
+                  lineWidth: 0.4,
+                  strokeOpacity: 0.2
+                }
+              });
+            }
+            // hide the edges to the common nodes in other clusters
+            if (!ge.get('sourceNode').get('visible') || !ge.get('targetNode').get('visible')) {
+              ge.hide();
+            }
+          }
+          //do not need the following 4 lines, since the related edges will be removed while the cluster node is removing
+          // // remove the cluster edges. 
+          // if (sourceModel.id === model.id || targetModel.id === model.id) {
+          //   graph.removeItem(ge);
+          // }
+        });
+      } else { // click on the common node, cllapse them
+      // calculate the cluster center
+      const center = {x: 0, y: 0, count: 0, exportValue: 0};
+      nodes.forEach(n => {
+        if (n.cluster === model.cluster) {
+          center.x += n.x;
+          center.y += n.y;
+          center.count++;
+          center.exportValue += n.exportValue;
+        }
       });
-      
+      center.x /= center.count;
+      center.y /= center.count;
+      // add cluster node on the center
+      const size = center.count * 1;
+      const clusterNodeId = 'cluster' + model.cluster;
+      const color = colors[ model.cluster % colors.length ];
+      const regionStrs = model.region.split(' ');
+      let region = regionStrs[regionStrs.length - 1];
+      if (model.region === 'East Asia') region = model.region;
+      let labelPosition = 'center';
+      if (region.length > size) labelPosition = 'left';
+      const clusterNode = graph.addItem('node', {
+          x: center.x,
+          y: center.y,
+          id: clusterNodeId,
+          cluster: model.cluster,
+          region: region,
+          countries: center.count,
+          exportValue: center.exportValue,
+          style: {
+            color,
+            fill: color,
+            stroke: '#666',
+            lineWidth: 0.6
+          },
+          size,
+          label: region,
+          labelCfg: {
+            style: { fontSize: 8.5 },
+            position: labelPosition
+          }
+      });
+
+      // add edges about the cluster
       graphEdges.forEach(ge => {
+        const edgeModel = ge.getModel();
         const sourceModel = ge.get('sourceNode').getModel();
         const targetModel = ge.get('targetNode').getModel();
-        // show the common edges
-        if ((sourceModel.cluster === model.cluster && sourceModel.id.substr(0, 7) !== 'cluster') 
-        || (targetModel.cluster === model.cluster && targetModel.id.substr(0, 7) !== 'cluster')) {
-          ge.show();
-          // add the edges to other cluster nodes
-          if (!ge.get('sourceNode').get('visible') && sourceModel.cluster !== model.cluster) {
-            let c1 = beginColor, c2 = endColor;
-            if (model.x < targetModel.x) {
-              c1 = endColor;
-              c2 = beginColor;
-            }
-            graph.addItem('edge', {
-              source: 'cluster' + sourceModel.cluster,
-              target: targetModel.id,
-              id: 'cluster-edge-' + ge.id,
-              style: {
-                stroke: 'l(0) 0:' + c1 + ' 1:' + c2,
-                lineWidth: 0.4,
-                strokeOpacity: 0.2
-              }
-            });
-          } else if (ge.get('targetNode').get('visible') && targetModel.cluster !== model.cluster) {
-            let c1 = beginColor, c2 = endColor;
-            if (sourceModel.x < model.x) {
-              c1 = endColor;
-              c2 = beginColor;
-            }
-            graph.addItem('edge', {
-              source: sourceModel.id,
-              target: 'cluster' + targetModel.id,
-              id: 'cluster-edge-' + ge.id,
-              style: {
-                stroke: 'l(0) 0:' + c1 + ' 1:' + c2,
-                lineWidth: 0.4,
-                strokeOpacity: 0.2
-              }
-            });
+        if (!ge.get('sourceNode').get('visible') || !ge.get('targetNode').get('visible')) return;
+        if (sourceModel.cluster === model.cluster && targetModel.cluster !== model.cluster) {
+          let c1 = beginColor, c2 = endColor;
+          if (center.x > targetModel.x) {
+            c1 = endColor;
+            c2 = beginColor;
           }
-          // hide the edges to the common nodes in other clusters
-          if (!ge.get('sourceNode').get('visible') || !ge.get('targetNode').get('visible')) {
-            ge.hide();
+          graph.addItem('edge', {
+            source: clusterNodeId,
+            target: targetModel.id,
+            id: 'cluster-edge-' + edgeModel.id,
+            style: {
+              stroke: 'l(0) 0:' + c1 + ' 1:' + c2,
+              lineWidth: 0.4,
+              strokeOpacity: 0.2
+            }
+          });
+        } else if (targetModel.cluster === model.cluster && sourceModel.cluster !== model.cluster) {
+          let c1 = beginColor, c2 = endColor;
+          if (sourceModel.x > center.x) {
+            c1 = endColor;
+            c2 = beginColor;
           }
-        }
-        // remove the cluster edges
-        if (sourceModel.id === model.id || targetModel.id === model.id) {
-          graph.removeItem(ge);
+          graph.addItem('edge', {
+            source: sourceModel.id,
+            target: clusterNodeId,
+            id: 'cluster-edge-' + ge.id,
+            style: {
+              stroke: 'l(0) 0:' + c1 + ' 1:' + c2,
+              lineWidth: 0.4,
+              strokeOpacity: 0.2
+            }
+          });
         }
       });
-    } else { // click on the common node, cllapse them
-    // calculate the cluster center
-    const center = {x: 0, y: 0, count: 0, exportValue: 0};
-    nodes.forEach(n => {
-      if (n.cluster === model.cluster) {
-        center.x += n.x;
-        center.y += n.y;
-        center.count++;
-        center.exportValue += n.exportValue;
+
+      // hide the common nodes in the cluster
+      graphNodes.forEach(gn => {
+        if (gn.getModel().cluster === model.cluster 
+        && gn.getModel().id.substr(0, 7) !== 'cluster') gn.hide();
+      });
+      // hide the common edges about cluster
+      graphEdges.forEach(ge => {
+        if (!ge.get('sourceNode').get('visible') || !ge.get('targetNode').get('visible')) ge.hide();
+      });
       }
     });
-    center.x /= center.count;
-    center.y /= center.count;
-    // add cluster node on the center
-    const size = center.count * 1;
-    const clusterNodeId = 'cluster' + model.cluster;
-    const color = colors[ model.cluster % colors.length ];
-    const regionStrs = model.region.split(' ');
-    let region = regionStrs[regionStrs.length - 1];
-    if (model.region === 'East Asia') region = model.region;
-    let labelPosition = 'center';
-    if (region.length > size) labelPosition = 'left';
-    const clusterNode = graph.addItem('node', {
-        x: center.x,
-        y: center.y,
-        id: clusterNodeId,
-        cluster: model.cluster,
-        region: region,
-        countries: center.count,
-        exportValue: center.exportValue,
-        style: {
-          color,
-          fill: color,
-          stroke: '#666',
-          lineWidth: 0.6
-        },
-        size,
-        label: region,
-        labelCfg: {
-          style: { fontSize: 8.5 },
-          position: labelPosition
-        }
-    });
-
-    // add edges about the cluster
-    graphEdges.forEach(ge => {
-      const sourceModel = ge.get('sourceNode').getModel();
-      const targetModel = ge.get('targetNode').getModel();
-      if (!ge.get('sourceNode').get('visible') || !ge.get('targetNode').get('visible')) return;
-      if (sourceModel.cluster === model.cluster && targetModel.cluster !== model.cluster) {
-        let c1 = beginColor, c2 = endColor;
-        if (center.x < targetModel.x) {
-          c1 = endColor;
-          c2 = beginColor;
-        }
-        graph.addItem('edge', {
-          source: clusterNodeId,
-          target: targetModel.id,
-          id: 'cluster-edge-' + ge.id,
-          style: {
-            stroke: 'l(0) 0:' + c1 + ' 1:' + c2,
-            lineWidth: 0.4,
-            strokeOpacity: 0.2
-          }
-        });
-      } else if (targetModel.cluster === model.cluster && sourceModel.cluster !== model.cluster) {
-        let c1 = beginColor, c2 = endColor;
-        if (sourceModel.x < center.x) {
-          c1 = endColor;
-          c2 = beginColor;
-        }
-        graph.addItem('edge', {
-          source: sourceModel.id,
-          target: clusterNodeId,
-          id: 'cluster-edge-' + ge.id,
-          style: {
-            stroke: 'l(0) 0:' + c1 + ' 1:' + c2,
-            lineWidth: 0.4,
-            strokeOpacity: 0.2
-          }
-        });
-      }
-    });
-
-    // hide the common nodes in the cluster
-    graphNodes.forEach(gn => {
-      if (gn.getModel().cluster === model.cluster 
-      && gn.getModel().id.substr(0, 7) !== 'cluster') gn.hide();
-    });
-    // hide the common edges about cluster
-    graphEdges.forEach(ge => {
-      if (!ge.get('sourceNode').get('visible') || !ge.get('targetNode').get('visible')) ge.hide();
-    });
-    }
-  });
   });
   function mapValueToProp(items, valueName, propName, range){
     const valueRange = [9999999999, -9999999999];

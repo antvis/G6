@@ -160,7 +160,7 @@ describe('node', () => {
       states: [ 'active' ]
     });
     const shape = node.get('keyShape');
-    expect(shape.attr('fill')).eql('#fff');
+    expect(shape.attr('fill')).eql('#91d5ff');
     node.setState('selected', true);
     expect(shape.attr('fill')).eql('red');
     node.update({ x: 10 });
@@ -206,10 +206,10 @@ describe('node', () => {
     });
     const point = node.getLinkPointByAnchor(0);
     expect(snap(point.x, 100)).eql(true);
-    expect(snap(point.y, 90)).eql(true);
+    expect(snap(point.y, 89.5)).eql(true);
 
     const point1 = node.getLinkPointByAnchor(1);
-    expect(snap(point1.x, 110)).eql(true);
+    expect(snap(point1.x, 110.5)).eql(true);
     expect(snap(point1.y, 100)).eql(true);
   });
   it('get snap point', () => {

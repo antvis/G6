@@ -5,7 +5,7 @@
  */
 
 const Shape = require('./shape');
-const Util = require('../util/index');
+const Util = require('../util');
 const Global = require('../global');
 const SingleShapeMixin = require('./single-shape-mixin');
 const CLS_SHAPE = 'edge-shape';
@@ -57,7 +57,15 @@ const singleEdgeDefinition = Util.mix({}, SingleShapeMixin, {
     return path;
   },
   getShapeStyle(cfg) {
-    const color = cfg.color || Global.defaultEdge.color;
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { style: defaultStyle } = this.options;
+    const { style: customStyle } = customOptions;
+    const strokeStyle = {
+      stroke: cfg.color
+    };
+    // 如果设置了color，则覆盖默认的stroke属性
+    const style = Util.deepMix({}, defaultStyle, customStyle, strokeStyle, cfg.style);
+
     const size = cfg.size || Global.defaultEdge.size;
     cfg = this.getPathPoints(cfg);
     const startPoint = cfg.startPoint;
@@ -71,12 +79,12 @@ const singleEdgeDefinition = Util.mix({}, SingleShapeMixin, {
     // 添加结束点
     points.push(endPoint);
     const path = this.getPath(points);
-    const style = Util.mix({}, Global.defaultEdge.style, {
-      stroke: color,
+    const styles = Util.mix({}, Global.defaultEdge.style, {
+      stroke: Global.defaultEdge.color,
       lineWidth: size,
       path
-    }, cfg.style);
-    return style;
+    }, style);
+    return styles;
   },
   getLabelStyleByPosition(cfg, labelCfg, group) {
     const labelPosition = labelCfg.position || this.labelPosition; // 文本的位置用户可以传入

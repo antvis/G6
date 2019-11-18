@@ -5,7 +5,7 @@ const div = document.createElement('div');
 div.id = 'graph-spec';
 document.body.appendChild(div);
 
-describe('model rect test', () => {
+describe.only('model rect test', () => {
   describe('default model rect test', () => {
     it('default config', () => {
       const graph = new G6.Graph({

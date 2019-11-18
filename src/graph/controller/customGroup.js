@@ -18,8 +18,9 @@ class CustomGroup {
         fill: '#F3F9FF',
         fillOpacity: 0.8,
         opacity: 0.8,
-        minDis: 20,
-        maxDis: 40
+        disCoefficient: 0.6,
+        minDis: 40,
+        maxDis: 100
       },
       hover: {
         stroke: '#faad14',
@@ -36,16 +37,11 @@ class CustomGroup {
         // lineDash: [ 5, 5 ],
         stroke: '#A3B1BF',
         lineWidth: 3,
-        fill: '#F3F9FF'
+        fill: '#F3F9FF',
+        offsetX: -15,
+        offsetY: 5
       },
       icon: 'https://gw.alipayobjects.com/zos/rmsportal/MXXetJAxlqrbisIuZxDO.svg',
-      title: {
-        show: false,
-        text: '新建群组',
-        stroke: '#444',
-        offsetX: 0,
-        offsetY: 0
-      },
       operatorBtn: {
         collapse: {
           img: 'https://gw.alipayobjects.com/zos/rmsportal/uZVdwjJGqDooqKLKtvGA.svg',
@@ -65,14 +61,12 @@ class CustomGroup {
   constructor(graph) {
     // const { cfg = {} } = options;
     this.graph = graph;
-    window.graph = graph;
     const groupStyle = graph.get('groupStyle');
     this.styles = deepMix({}, this.getDefaultCfg(), groupStyle);
     // 创建的群组集合
     this.customGroup = {};
-    // 群组初始位置集合
-    this.groupOriginBBox = {};
     this.delegateInGroup = {};
+    this.nodePoint = [];
   }
 
   /**
@@ -82,11 +76,18 @@ class CustomGroup {
    * @param {string} type 群组类型，默认为circle，支持rect
    * @param {number} zIndex 群组层级，默认为0
    * @param {boolean} updateDataModel 是否更新节点数据，默认为false，只有当手动创建group时才为true
+   * @param {object} title 分组标题配置
    * @memberof ItemGroup
+   * @return {object} null
    */
-  create(groupId, nodes, type = 'circle', zIndex = 0, updateDataModel = false) {
+  create(groupId, nodes, type = 'circle', zIndex = 0, updateDataModel = false, title = {}) {
     const graph = this.graph;
     const customGroup = graph.get('customGroup');
+    const hasGroupIds = customGroup.get('children').map(data => data.get('id'));
+    if (hasGroupIds.indexOf(groupId) > -1) {
+      return console.warn(`已经存在ID为 ${groupId} 的分组，请重新设置分组ID！`);
+    }
+
     const nodeGroup = customGroup.addGroup({
       id: groupId,
       zIndex
@@ -95,7 +96,7 @@ class CustomGroup {
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
 
-    const { default: defaultStyle, title } = this.styles;
+    const { default: defaultStyle } = this.styles;
 
     // 计算群组左上角左边、宽度、高度及x轴方向上的最大值
     const { x, y, width, height, maxX } = this.calculationGroupPosition(nodes);
@@ -104,67 +105,11 @@ class CustomGroup {
     const groupBBox = graph.get('groupBBoxs');
     groupBBox[groupId] = { x, y, width, height, maxX };
 
-    // step 1：绘制群组外框
-    let keyShape = null;
-
-    if (type === 'circle') {
-      const r = width > height ? width / 2 : height / 2;
-      const cx = (width + 2 * x) / 2;
-      const cy = (height + 2 * y) / 2;
-      keyShape = nodeGroup.addShape('circle', {
-        attrs: {
-          ...defaultStyle,
-          x: cx,
-          y: cy,
-          r: r + nodes.length * 10 + paddingValue
-        },
-        capture: true,
-        zIndex,
-        groupId
-      });
-      // 更新群组及属性样式
-      this.setDeletageGroupByStyle(groupId, nodeGroup,
-        { width, height, x: cx, y: cy, r });
-    } else {
-      keyShape = nodeGroup.addShape('rect', {
-        attrs: {
-          ...defaultStyle,
-          x: x - paddingValue,
-          y: y - paddingValue,
-          width: width + nodes.length * 10 + paddingValue,
-          height: height + nodes.length * 10 + paddingValue
-        },
-        capture: true,
-        zIndex,
-        groupId
-      });
-      // 更新群组及属性样式
-      this.setDeletageGroupByStyle(groupId, nodeGroup,
-        { width, height, x, y, btnOffset: maxX - 3 });
-    }
-
-    // 添加group标题
-    if (title) {
-      const { show, offsetX, offsetY, ...titleStyle } = title;
-      if (show) {
-        nodeGroup.addShape('text', {
-          attrs: {
-            ...titleStyle,
-            x: x + offsetX,
-            y: y + offsetY
-          },
-          className: 'group-title'
-        });
-      }
-    }
-
-    nodeGroup.set('keyShape', keyShape);
-
-    // 设置graph中groupNodes的值
-    graph.get('groupNodes')[groupId] = nodes;
-
+    // 根据groupId获取group数据，判断是否需要添加title
+    let groupTitle = null;
     // 只有手动创建group时执行以下逻辑
     if (updateDataModel) {
+      const groups = graph.get('groups');
       // 如果是手动创建group，则原始数据中是没有groupId信息的，需要将groupId添加到node中
       nodes.forEach(nodeId => {
         const node = graph.findById(nodeId);
@@ -173,9 +118,101 @@ class CustomGroup {
           model.groupId = groupId;
         }
       });
+
+      // 如果是手动创建 group，则将 group 也添加到 groups 中
+      if (!groups.find(data => data.id === groupId)) {
+        groups.push({
+          id: groupId,
+          title
+        });
+        graph.set({
+          groups
+        });
+      }
     }
 
-    this.setGroupOriginBBox(groupId, keyShape.getBBox());
+    const groupData = graph.get('groups').filter(data => data.id === groupId);
+
+    if (groupData && groupData.length > 0) {
+      groupTitle = groupData[0].title;
+    }
+    // group title 坐标
+    let titleX = 0;
+    let titleY = 0;
+
+    // step 1：绘制群组外框
+    let keyShape = null;
+    if (type === 'circle') {
+      const r = width > height ? width / 2 : height / 2;
+      const cx = (width + 2 * x) / 2;
+      const cy = (height + 2 * y) / 2;
+      const lastR = r + paddingValue;
+      keyShape = nodeGroup.addShape('circle', {
+        attrs: {
+          ...defaultStyle,
+          x: cx,
+          y: cy,
+          r: lastR
+        },
+        capture: true,
+        zIndex,
+        groupId
+      });
+
+      titleX = cx;
+      titleY = cy - lastR;
+
+      // 更新群组及属性样式
+      this.setDeletageGroupByStyle(groupId, nodeGroup,
+        { width, height, x: cx, y: cy, r: lastR });
+    } else {
+      const rectPadding = paddingValue * defaultStyle.disCoefficient;
+      keyShape = nodeGroup.addShape('rect', {
+        attrs: {
+          ...defaultStyle,
+          x: x - rectPadding,
+          y: y - rectPadding,
+          width: width + rectPadding * 2,
+          height: height + rectPadding * 2
+        },
+        capture: true,
+        zIndex,
+        groupId
+      });
+
+      titleX = x - rectPadding + 15;
+      titleY = y - rectPadding + 15;
+
+      // 更新群组及属性样式
+      this.setDeletageGroupByStyle(groupId, nodeGroup, {
+        x: x - rectPadding,
+        y: y - rectPadding,
+        width: width + rectPadding,
+        height: height + rectPadding,
+        btnOffset: maxX - 3
+      });
+    }
+
+    // 添加group标题
+    if (groupTitle) {
+      const { offsetX = 0, offsetY = 0, text = groupTitle, ...titleStyle } = groupTitle;
+      const textShape = nodeGroup.addShape('text', {
+        attrs: {
+          text,
+          stroke: '#444',
+          x: titleX + offsetX,
+          y: titleY + offsetY,
+          ...titleStyle
+        },
+        className: 'group-title'
+      });
+      textShape.set('capture', false);
+    }
+
+    nodeGroup.set('keyShape', keyShape);
+
+    // 设置graph中groupNodes的值
+    graph.get('groupNodes')[groupId] = nodes;
 
     graph.setAutoPaint(autoPaint);
     graph.paint();
@@ -269,28 +306,6 @@ class CustomGroup {
     const hasSubGroup = !!groups.filter(g => g.parentId === groupId).length > 0;
     const paddingValue = hasSubGroup ? defaultStyle.maxDis : defaultStyle.minDis;
     return paddingValue;
-  }
-
-  /**
-   * 设置群组初始位置的bbox，使用rect模拟
-   *
-   * @param {string} groupId 群组ID
-   * @param {object} bbox 群组keyShape包围盒
-   * @memberof ItemGroup
-   */
-  setGroupOriginBBox(groupId, bbox) {
-    this.groupOriginBBox[groupId] = bbox;
-  }
-
-  /**
-   * 获取群组初始位置及每次拖动后的位置
-   *
-   * @param {string} groupId 群组ID
-   * @return {object} 指定groupId的原始BBox
-   * @memberof ItemGroup
-   */
-  getGroupOriginBBox(groupId) {
-    return this.groupOriginBBox[groupId];
   }
 
   /**
@@ -388,7 +403,6 @@ class CustomGroup {
    * @memberof ItemGroup
    */
   collapseGroup(id) {
-    const self = this;
     const customGroup = this.getDeletageGroupById(id);
     const { nodeGroup } = customGroup;
 
@@ -405,7 +419,7 @@ class CustomGroup {
 
     // 更新Group的大小
     const keyShape = nodeGroup.get('keyShape');
-    const { r, width, height, ...otherStyle } = collapse;
+    const { r, width, height, offsetX, offsetY, ...otherStyle } = collapse;
     for (const style in otherStyle) {
       keyShape.attr(style, otherStyle[style]);
     }
@@ -420,33 +434,40 @@ class CustomGroup {
       },
       shape: 'circle'
     };
+
+    const titleShape = nodeGroup.findByClassName('group-title');
+
     // 收起群组时候动画
     if (groupType === 'circle') {
-      const radius = w > h ? w / 2 : h / 2;
-      // const radius = wh + nodesInGroup.length * 10
+      const radius = keyShape.attr('r');
       keyShape.animate({
         onFrame(ratio) {
-          if (ratio === 1) {
-            self.setGroupOriginBBox(id, keyShape.getBBox());
-          }
           return {
             r: radius - ratio * (radius - r)
           };
         }
       }, 500, 'easeCubic');
+      if (titleShape) {
+        titleShape.attr({
+          x: keyShape.attr('x') + offsetX,
+          y: keyShape.attr('y') + offsetY
+        });
+      }
     } else if (groupType === 'rect') {
       keyShape.animate({
         onFrame(ratio) {
-          if (ratio === 1) {
-            self.setGroupOriginBBox(id, keyShape.getBBox());
-          }
           return {
             width: w - ratio * (w - width),
             height: h - ratio * (h - height)
           };
         }
       }, 500, 'easeCubic');
-
+      if (titleShape) {
+        titleShape.attr({
+          x: keyShape.attr('x') + 10,
+          y: keyShape.attr('y') + height / 2 + 5
+        });
+      }
       options = {
         groupId: id,
         id: `${id}-custom-node`,
@@ -573,16 +594,14 @@ class CustomGroup {
   expandGroup(id) {
     const graph = this.graph;
     const groupType = graph.get('groupType');
-    const self = this;
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
 
     // 显示之前隐藏的节点和群组
     const nodesInGroup = graph.get('groupNodes')[id];
-    const { width, height } = this.calculationGroupPosition(nodesInGroup);
-    // const noCustomNodes = nodesInGroup.filter(node => node.indexOf('custom-node') === -1);
+    const noCustomNodes = nodesInGroup.filter(node => node.indexOf('custom-node') === -1);
+    const { width, height } = this.calculationGroupPosition(noCustomNodes);
     const { nodeGroup } = this.getDeletageGroupById(id);
-
     const keyShape = nodeGroup.get('keyShape');
 
     const { default: defaultStyle, collapse } = this.styles;
@@ -591,17 +610,16 @@ class CustomGroup {
       keyShape.attr(style, defaultStyle[style]);
     }
 
+    const titleShape = nodeGroup.findByClassName('group-title');
+
     // 检测操作的群组中是否包括子群组
     const paddingValue = this.getGroupPadding(id);
     if (groupType === 'circle') {
       const r = width > height ? width / 2 : height / 2;
       keyShape.animate({
         onFrame(ratio) {
-          if (ratio === 1) {
-            self.setGroupOriginBBox(id, keyShape.getBBox());
-          }
           return {
-            r: collapse.r + ratio * (r + nodesInGroup.length * 10 - collapse.r + paddingValue)
+            r: collapse.r + ratio * (r - collapse.r + paddingValue)
           };
         }
       }, 500, 'easeCubic');
@@ -609,15 +627,42 @@ class CustomGroup {
       const { width: w, height: h } = collapse;
       keyShape.animate({
         onFrame(ratio) {
-          if (ratio === 1) {
-            self.setGroupOriginBBox(id, keyShape.getBBox());
-          }
           return {
-            width: w + ratio * (width - w + paddingValue),
-            height: h + ratio * (height - h + paddingValue)
+            width: w + ratio * (width - w + paddingValue * defaultStyle.disCoefficient * 2),
+            height: h + ratio * (height - h + paddingValue * defaultStyle.disCoefficient * 2)
           };
         }
       }, 500, 'easeCubic');
+    }
+
+    if (titleShape) {
+      // 根据groupId获取group数据，判断是否需要添加title
+      let groupTitle = null;
+      const groupData = graph.get('groups').filter(data => data.id === id);
+
+      if (groupData && groupData.length > 0) {
+        groupTitle = groupData[0].title;
+      }
+      const { offsetX = 0, offsetY = 0 } = groupTitle;
+      if (groupType === 'circle') {
+        titleShape.animate({
+          onFrame(ratio) {
+            return {
+              x: keyShape.attr('x') + offsetX,
+              y: keyShape.attr('y') - ratio * keyShape.attr('r') + offsetY
+            };
+          }
+        }, 600, 'easeCubic');
+      } else if (groupType === 'rect') {
+        titleShape.animate({
+          onFrame(ratio) {
+            return {
+              x: keyShape.attr('x') + ratio * (15 + offsetX),
+              y: keyShape.attr('y') + ratio * (15 + offsetY)
+            };
+          }
+        }, 600, 'easeCubic');
+      }
     }
 
     // 群组动画一会后再显示节点和边
@@ -783,12 +828,317 @@ class CustomGroup {
     graph.paint();
   }
 
+  /**
+   * 更新节点分组位置及里面的节点和边的位置
+   * @param {string} groupId 节点分组ID
+   * @param {object} position delegate的坐标位置
+   */
+  updateGroup(groupId, position) {
+    const graph = this.graph;
+    const groupType = graph.get('groupType');
+
+    // 更新群组里面节点和线的位置
+    this.updateItemInGroup(groupId, position);
+
+    // 判断是否拖动出了parent group外面，如果拖出了parent Group外面，则更新数据，去掉group关联
+    // 获取groupId的父Group的ID
+    const { groups } = graph.save();
+    let parentGroupId = null;
+    let parentGroupData = null;
+    for (const group of groups) {
+      if (groupId !== group.id) {
+        continue;
+      }
+      parentGroupId = group.parentId;
+      parentGroupData = group;
+      break;
+    }
+
+    if (parentGroupId) {
+      const { nodeGroup: parentGroup } = this.getDeletageGroupById(parentGroupId);
+      // const parentGroup = customGroup[parentGroupId].nodeGroup;
+      const parentKeyShape = parentGroup.get('keyShape');
+      this.setGroupStyle(parentKeyShape, 'default');
+
+      const parentGroupBBox = parentKeyShape.getBBox();
+      const { minX, minY, maxX, maxY } = parentGroupBBox;
+
+      // 检查是否拖出了父Group
+      const { nodeGroup: currentGroup } = this.getDeletageGroupById(groupId);
+      // const currentGroup = customGroup[groupId].nodeGroup;
+      const currentKeyShape = currentGroup.get('keyShape');
+      const currentKeyShapeBBox = currentKeyShape.getBBox();
+      const { x, y } = currentKeyShapeBBox;
+
+      if (!(x < maxX && x > minX && y < maxY && y > minY)) {
+        // 拖出了parent group，则取消parent group ID
+        delete parentGroupData.parentId;
+        // 同时删除groupID中的节点
+        const groupNodes = graph.get('groupNodes');
+        const currentGroupNodes = groupNodes[groupId];
+        const parentGroupNodes = groupNodes[parentGroupId];
+
+        groupNodes[parentGroupId] = parentGroupNodes.filter(node => currentGroupNodes.indexOf(node) === -1);
+
+        const { x: x1, y: y1, width, height } = this.calculationGroupPosition(groupNodes[parentGroupId]);
+        const paddingValue = this.getGroupPadding(parentGroupId);
+
+        const groupTitleShape = parentGroup.findByClassName('group-title');
+
+        let titleX = 0;
+        let titleY = 0;
+        if (groupType === 'circle') {
+          const r = width > height ? width / 2 : height / 2;
+          const cx = (width + 2 * x1) / 2;
+          const cy = (height + 2 * y1) / 2;
+          parentKeyShape.attr({
+            r: r + paddingValue,
+            x: cx,
+            y: cy
+          });
+
+          titleX = cx;
+          titleY = cy - parentKeyShape.attr('r');
+        } else if (groupType === 'rect') {
+          const { default: defaultStyle } = this.styles;
+          const rectPadding = paddingValue * defaultStyle.disCoefficient;
+          parentKeyShape.attr({
+            x: x1 - rectPadding,
+            y: y1 - rectPadding
+          });
+
+          titleX = x1 - rectPadding + 15;
+          titleY = y1 - rectPadding + 15;
+        }
+
+        if (groupTitleShape) {
+          const titleConfig = parentGroupData.title;
+          let offsetX = 0;
+          let offsetY = 0;
+          if (titleConfig) {
+            offsetX = titleConfig.offsetX;
+            offsetY = titleConfig.offsetY;
+          }
+          groupTitleShape.attr({
+            x: titleX + offsetX,
+            y: titleY + offsetY
+          });
+        }
+      }
+    }
+  }
+
+  /**
+   * 更新节点分组中节点和边的位置
+   * @param {string} groupId 节点分组ID
+   * @param {object} position delegate的坐标位置
+   */
+  updateItemInGroup(groupId, position) {
+    const graph = this.graph;
+    const groupType = graph.get('groupType');
+
+    const groupNodes = graph.get('groupNodes');
+
+    // step 1：先修改groupId中的节点位置
+    const nodeInGroup = groupNodes[groupId];
+
+    const { nodeGroup } = this.getDeletageGroupById(groupId);
+    const originBBox = nodeGroup.getBBox();
+
+    const otherGroupId = [];
+    nodeInGroup.forEach((nodeId, index) => {
+      const node = graph.findById(nodeId);
+      const model = node.getModel();
+      const nodeGroupId = model.groupId;
+      if (nodeGroupId && !otherGroupId.includes(nodeGroupId)) {
+        otherGroupId.push(nodeGroupId);
+      }
+      if (!this.nodePoint[index]) {
+        this.nodePoint[index] = {
+          x: model.x,
+          y: model.y
+        };
+      }
+
+      // 群组拖动后节点的位置：deletateShape的最终位置-群组起始位置+节点位置
+      const x = position.x - originBBox.x + this.nodePoint[index].x;
+      const y = position.y - originBBox.y + this.nodePoint[index].y;
+
+      this.nodePoint[index] = {
+        x, y
+      };
+
+      graph.updateItem(node, { x, y });
+    });
+    // step 2：修改父group中其他节点的位置
+
+    // otherGroupId中是否包括当前groupId，如果不包括，则添加进去
+    if (!otherGroupId.includes(groupId)) {
+      otherGroupId.push(groupId);
+    }
+
+    // 更新完群组位置后，重新设置群组起始位置
+    otherGroupId.forEach(id => {
+      // 更新群组位置
+      const { nodeGroup } = this.getDeletageGroupById(id);
+      const groupKeyShape = nodeGroup.get('keyShape');
+
+      const noCustomNodes = groupNodes[id].filter(node => node.indexOf('custom-node') === -1);
+      const { x, y, width, height } = this.calculationGroupPosition(noCustomNodes);
+      let titleX = 0;
+      let titleY = 0;
+      if (groupType === 'circle') {
+        const cx = (width + 2 * x) / 2;
+        const cy = (height + 2 * y) / 2;
+        groupKeyShape.attr({
+          x: cx,
+          y: cy
+        });
+
+        titleX = cx;
+        titleY = cy - groupKeyShape.attr('r');
+      } else if (groupType === 'rect') {
+        // 节点分组状态
+        const hasHidden = nodeGroup.get('hasHidden');
+        const paddingValue = this.getGroupPadding(id);
+
+        let keyshapePosition = {};
+        const { default: defaultStyle } = this.styles;
+        const rectPadding = paddingValue * defaultStyle.disCoefficient;
+
+        titleX = x - rectPadding + 15;
+        titleY = y - rectPadding + 15;
+
+        if (hasHidden) {
+          // 无标题，或节点分组是展开的情况
+          keyshapePosition = {
+            x: x - rectPadding,
+            y: y - rectPadding
+          };
+          titleY = titleY + 10;
+        } else {
+          keyshapePosition = {
+            x: x - rectPadding,
+            y: y - rectPadding,
+            width: width + rectPadding * 2,
+            height: height + rectPadding * 2
+          };
+        }
+        groupKeyShape.attr(keyshapePosition);
+      }
+      // 如果存在标题，则更新标题位置
+      this.updateGroupTitle(nodeGroup, id, titleX, titleY);
+    });
+  }
+
+  /**
+   * 更新节点分组的 Title
+   * @param {Group} group 当前 Group 实例
+   * @param {string} groupId 分组ID
+   * @param {number} x x坐标
+   * @param {number} y y坐标
+   */
+  updateGroupTitle(group, groupId, x, y) {
+    const graph = this.graph;
+    const groupTitleShape = group.findByClassName('group-title');
+    if (groupTitleShape) {
+      let titleConfig = null;
+      const groupData = graph.get('groups').filter(data => data.id === groupId);
+
+      if (groupData && groupData.length > 0) {
+        titleConfig = groupData[0].title;
+      }
+      let offsetX = 0;
+      let offsetY = 0;
+      if (titleConfig) {
+        offsetX = titleConfig.offsetX || 0;
+        offsetY = titleConfig.offsetY || 0;
+      }
+      groupTitleShape.attr({
+        x: x + offsetX,
+        y: y + offsetY
+      });
+    }
+  }
+
+  /**
+   * 拖动节点时候动态改变节点分组大小
+   * @param {Event} evt 事件句柄
+   * @param {Group} currentGroup 当前操作的群组
+   * @param {Item} keyShape 当前操作的keyShape
+   * @description 节点拖入拖出后动态改变群组大小
+   */
+  dynamicChangeGroupSize(evt, currentGroup, keyShape) {
+    const { item } = evt;
+
+    const model = item.getModel();
+    // 节点所在的GroupId
+    const { groupId } = model;
+
+    const graph = this.graph;
+    const groupType = graph.get('groupType');
+    const groupNodes = graph.get('groupNodes');
+    const nodes = groupNodes[groupId];
+
+    // 拖出节点后，根据最新的节点数量，重新计算群组大小
+    // 如果只有一个节点，拖出后，则删除该组
+    if (nodes.length === 0) {
+      // step 1: 从groupNodes中删除
+      delete groupNodes[groupId];
+
+      // step 2: 从groups数据中删除
+      const groupsData = graph.get('groups');
+      graph.set('groups', groupsData.filter(gdata => gdata.id !== groupId));
+
+      // step 3: 删除原来的群组
+      currentGroup.remove();
+    } else {
+      const { x, y, width, height } = this.calculationGroupPosition(nodes);
+      // 检测操作的群组中是否包括子群组
+      const paddingValue = this.getGroupPadding(groupId);
+
+      let titleX = 0;
+      let titleY = 0;
+      if (groupType === 'circle') {
+        const r = width > height ? width / 2 : height / 2;
+        const cx = (width + 2 * x) / 2;
+        const cy = (height + 2 * y) / 2;
+        keyShape.attr({
+          r: r + paddingValue,
+          x: cx,
+          y: cy
+        });
+        titleX = cx;
+        titleY = cy - keyShape.attr('r');
+      } else if (groupType === 'rect') {
+        const { default: defaultStyle } = this.styles;
+        const rectPadding = paddingValue * defaultStyle.disCoefficient;
+        keyShape.attr({
+          x: x - rectPadding,
+          y: y - rectPadding,
+          width: width + rectPadding * 2,
+          height: height + rectPadding * 2
+        });
+        titleX = x - rectPadding + 15;
+        titleY = y - rectPadding + 15;
+      }
+
+      // 如果存在标题，则更新标题位置
+      this.updateGroupTitle(currentGroup, groupId, titleX, titleY);
+    }
+    this.setGroupStyle(keyShape, 'default');
+  }
+
+  resetNodePoint() {
+    this.nodePoint.length = 0;
+  }
+
   destroy() {
     this.graph = null;
     this.styles = {};
     this.customGroup = {};
-    this.groupOriginBBox = {};
     this.delegateInGroup = {};
+    this.resetNodePoint();
   }
 }
 

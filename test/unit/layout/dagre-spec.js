@@ -210,7 +210,7 @@ function mathEqual(a, b) {
   return Math.abs(a - b) < 1;
 }
 
-describe('dagre layout', () => {
+describe.only('dagre layout', () => {
   it('layout with default configs', () => {
     const graph = new G6.Graph({
       container: div,

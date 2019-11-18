@@ -45,7 +45,7 @@ describe('polyline e test', () => {
       expect(edges.length).eql(1);
       const edge = edges[0];
       const keyShape = edge.getKeyShape();
-      expect(keyShape.attr('lineWidth')).eql(1);
+      expect(keyShape.attr('lineWidth')).eql(5);
       expect(keyShape.attr('stroke')).eql('#333');
       expect(keyShape.attr('opacity')).eql(1);
     });

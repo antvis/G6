@@ -1,4 +1,25 @@
 # ChangeLog
+#### 3.1.4 
+* feat: supports g6 types file
+* fix: set brush-select trigger param to ctrl not work
+* fix: when set fitView to true, drag-group Behavior not get desired positon
+
+#### 3.1.3
+* feat: radial layout nonoverlap iterations can be controlled by user
+* feat: add lock, unlock and hasLocked function, supports lock and unlock node
+* fix: mds with discrete points problem
+* fix: fruchterman-group layout title position for rect groups
+
+#### 3.1.2 
+* feat: default behavior supports configuration trigger mode
+* feat: node combining supports configuration title
+* fix: update demo state styles
+
+#### 3.1.1
+* fix: update node use custom config
+* fix: update demo
+* feat: default node implement getShapeStyle function
+
 #### 3.1.0
 * feat: support for rich layouts：random, radial, mds, circular, fruchterman, force, dagre
 * feat: more flexible configuration for shape

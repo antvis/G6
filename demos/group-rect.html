@@ -46,6 +46,7 @@
     container: 'mountNode',
     width: 800,
     height: 600,
+    fitView: true,
     defaultNode: {
        shape: 'rectNode',
        labelCfg: {
@@ -90,8 +91,22 @@
         {
           id: 'node3',
           label: 'node3-group2',
-          groupId: 'group2',
+          // groupId: 'group2',
           x: 300,
+          y: 100
+        },
+        {
+          id: 'node4',
+          label: 'node6-group5',
+          groupId: 'group5',
+          x: 450,
+          y: 200
+        },
+        {
+          id: 'node8',
+          label: 'node8-group5',
+          groupId: 'group5',
+          x: 400,
           y: 100
         },
       ],
@@ -111,17 +126,37 @@
         {
           source: 'node6',
           target: 'node1'
+        },
+        {
+          source: 'group5-custom-node',
+          target: 'p2-custom-node'
         }
       ],
       groups: [
         {
           id: 'group3',
-          title: '2',
-          parentId: 'p2'
+          parentId: 'p2',
+          title: {
+            text: '我的第一个群组',
+            stroke: '#444',
+            offsetX: 0,
+            offsetY: 0
+          },
         },
         {
           id: 'p2',
-          title: '3'
+          title: {
+            text: '我的第2个群组',
+            stroke: '#444',
+            offsetX: 0,
+            offsetY: 0
+          },
+        },
+        {
+          id: 'group5'
+        },
+        {
+          id: 'group1'
         }
       ]
     };

@@ -11,14 +11,56 @@
   <script src="../build/g6.js"></script>
   <script>
 
+  G6.registerEdge('selfLine', {
+    options: {
+      style: {
+        stroke: 'red',
+        lineWidth: 5
+      }
+    },
+    drawShape(cfg, group) {
+      const shapeStyle = this.getShapeStyle(cfg);
+      const keyShape = group.addShape('path', {
+        className: 'edge-shape',
+        attrs: shapeStyle
+      });
+      return keyShape;
+    }
+  }, 'single-line')
+
     const data = {
       nodes: [
         {
-          id: 'triangle',
+          id: 'triangle1',
+          type: 'a',
           label: '主题 ModelRect Title',
           description: '这里是一顿描述信息，不知道长短',
           x: 150,
-          y: 100
+          y: 100,
+          anchorPoints: [[0.5, 1], [1, 0.5]],
+          // shape: 'triangle',
+          style: {
+            fill: 'blue'
+          }
+        },
+        {
+          id: 'triangle',
+          type: 'b',
+          label: '主题 ModelRect Title',
+          description: '这里是一顿描述信息，不知道长短',
+          x: 250,
+          y: 100,
+          anchorPoints: [[0.5, 1], [1, 0.5]],
+          style: {
+            stroke: 'green'
+          }
+        }
+      ],
+      edges: [
+        {
+          source: 'triangle1',
+          target: 'triangle',
+          shape: 'selfLine'
         }
       ]
     }
@@ -29,10 +71,10 @@
       height: 600,
       defaultNode: {
         shape: 'star',
-        size: [30, 80],
+        size: [60, 80],
         style: {
           fill: '#bae637',
-          stroke: '#eaff8f',
+          stroke: '#000',
           lineWidth: 5
         },
         labelCfg: {
@@ -74,9 +116,11 @@
       graph.setItemState(item, 'select', true)
       
       graph.updateItem(item, {
-        size: [ 160, 130],
+        size: [ 180, 90],
+        shape: 'modelRect',
+        type: 'b',
         style: {
-          fill: '#b5f5ec'
+          fill: '#fff'
         },
         preRect: {
           fill: '#ff4d4f'

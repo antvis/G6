@@ -1,8 +1,9 @@
 {
   "name": "@antv/g6",
-  "version": "3.1.0",
+  "version": "3.1.9",
   "description": "graph visualization frame work",
   "main": "build/g6.js",
+  "types": "types/index.d.ts",
   "homepage": "https://github.com/antvis/g6",
   "author": "https://github.com/orgs/antvis/people",
   "repository": {
@@ -36,6 +37,7 @@
   "license": "MIT",
   "devDependencies": {
     "@antv/hierarchy": "~0.4.0",
+    "@antv/torch": "^1.0.3",
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
@@ -75,7 +77,6 @@
     "serve-static": "~1.13.2",
     "shelljs": "~0.7.8",
     "svgson": "^2.1.1",
-    "@antv/torch": "^1.0.3",
     "uglify-js": "~3.1.10",
     "webpack": "~4.10.2",
     "webpack-cli": "~3.0.0",
@@ -100,11 +101,11 @@
     "screenshot": "node ./bin/screenshot.js",
     "start": "npm run dev",
     "test": "torch --compile --renderer --opts test/mocha.opts --recursive ./test/unit",
-    "test-live": "torch --compile --interactive --watch --opts test/mocha.opts --recursive ./test/unit/plugins/bundling-spec.js",
+    "test-live": "torch --compile --interactive --watch --opts test/mocha.opts --recursive ./test/unit",
     "test-live-shape": "torch --compile --interactive --watch --opts test/mocha.opts --recursive ./test/unit/shape/nodes/modelRect-spec.js",
     "test-live-util": "torch --compile --interactive --watch --opts test/mocha.opts --recursive ./test/unit/shape/edge-spec.js",
     "test-bugs": "torch --compile --renderer --recursive ./test/bugs",
-    "test-bugs-live": "torch --compile --interactive --watch --recursive ./test/bugs",
+    "test-bugs-live": "torch --compile --interactive --watch --recursive ./test/bugs/issue-601-spec.js",
     "test-all": "npm run test && npm run test-bugs",
     "watch": "webpack --config webpack-dev.config.js",
     "win-dev": "node ./bin/win-dev.js"
@@ -118,7 +119,7 @@
   },
   "dependencies": {
     "@antv/g": "~3.4.6",
-    "@antv/hierarchy": "~0.6.0",
+    "@antv/hierarchy": "~0.6.1",
     "@antv/util": "~1.3.1",
     "d3-force": "^2.0.1",
     "dagre": "^0.8.4",

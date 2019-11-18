@@ -52,8 +52,14 @@ Layout.registerLayout('fruchterman', {
     const nodes = self.nodes;
     const edges = self.edges;
     const maxIteration = self.maxIteration;
-    const width = self.width;
-    const height = self.height;
+    let width = self.width;
+    if (!width && typeof window !== 'undefined') {
+      width = window.innerWidth;
+    }
+    let height = self.height;
+    if (!height && typeof height !== 'undefined') {
+      height = window.innerHeight;
+    }
     const center = self.center;
     const nodeMap = self.nodeMap;
     const nodeIndexMap = self.nodeIndexMap;
@@ -166,6 +172,7 @@ Layout.registerLayout('fruchterman', {
     edges.forEach(e => {
       const uIndex = nodeIndexMap.get(e.source);
       const vIndex = nodeIndexMap.get(e.target);
+      if (uIndex === vIndex) return;
       const u = nodeMap.get(e.source);
       const v = nodeMap.get(e.target);
       const vecx = v.x - u.x;

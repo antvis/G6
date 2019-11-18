@@ -57,17 +57,13 @@ Shape.registerNode('star', {
   labelPosition: 'center',
   drawShape(cfg, group) {
     const customOptions = this.getCustomConfig(cfg) || {};
-    const { style: defaultStyle, icon: defaultIcon } = this.options;
-    const { style: customStyle, icon: customIcon } = customOptions;
-    const style = deepMix({}, defaultStyle, customStyle, cfg.style);
+    const { icon: defaultIcon } = this.options;
+    const { icon: customIcon } = customOptions;
+    const style = this.getShapeStyle(cfg);
     const icon = deepMix({}, defaultIcon, customIcon, cfg.icon);
 
-    const path = this.getPath(cfg);
     const keyShape = group.addShape('path', {
-      attrs: {
-        path,
-        ...style
-      }
+      attrs: style
     });
 
     const { width: w, height: h, show } = icon;
@@ -222,6 +218,24 @@ Shape.registerNode('star', {
     ]);
 
     return path;
+  },
+  /**
+   * 获取节点的样式，供基于该节点自定义时使用
+   * @param {Object} cfg 节点数据模型
+   * @return {Object} 节点的样式
+   */
+  getShapeStyle(cfg) {
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { style: defaultStyle } = this.options;
+    const { style: customStyle } = customOptions;
+    const strokeStyle = {
+      stroke: cfg.color
+    };
+    // 如果设置了color，则覆盖默认的stroke属性
+    const style = deepMix({}, defaultStyle, customStyle, strokeStyle, cfg.style);
+    const path = this.getPath(cfg);
+    const styles = { path, ...style };
+    return styles;
   },
   update(cfg, item) {
     const group = item.getContainer();

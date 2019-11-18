@@ -6,7 +6,7 @@ const div = document.createElement('div');
 div.id = 'force-layout';
 document.body.appendChild(div);
 
-describe('force layout', () => {
+describe.only('force layout', () => {
   it('force layout with default configs', done => {
     const node = data.nodes[0];
     const edge = data.edges[0];
