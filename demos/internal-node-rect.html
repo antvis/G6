@@ -8,19 +8,45 @@
 </head>
 <body>
   <div id="mountNode"></div>
+  <div id="mountNode1"></div>
   <script src="../build/g6.js"></script>
   <script>
 
+    G6.registerNode('selfCircle', {
+      drawShape(cfg, group) {
+        const style = this.getShapeStyle(cfg)
+        debugger
+        console.log(style)
+        const keyShape = group.addShape('circle', {
+          attrs: style
+        })
+        return keyShape
+      },
+      afterDraw(cfg, group) {
+        const shape = group.addShape('rect', {
+          attrs: {
+            x: 0,
+            y: 0,
+            width: 20,
+            height: 30,
+            fill: 'blue'
+          }
+        })
+        return shape
+      }
+    }, 'circle')
+
+let nodes = []
+    for(let i = 0; i < 500; i++) {
+      nodes.push({
+        id: `node-${i}`,
+        label: `label-${i}`,
+        x: Math.random() * 650,
+        y: Math.random() * 550
+      })
+    }
     const data = {
-      nodes: [
-        {
-          id: 'triangle',
-          label: '主题 ModelRect Title',
-          description: '这里是一顿描述信息，不知道长短',
-          x: 150,
-          y: 100
-        }
-      ]
+      nodes
     }
 
     const graph = new G6.Graph({
@@ -29,10 +55,11 @@
       height: 600,
       defaultNode: {
         shape: 'rect',
-        size: [200, 80],
+        size: [60, 30],
+        color: 'green',
         style: {
-          fill: '#bae637',
-          stroke: '#eaff8f',
+          // fill: 'red',
+          // stroke: '#eaff8f',
           lineWidth: 5
         },
         labelCfg: {
@@ -56,7 +83,10 @@
         }
       },
       modes: {
-        default: ['drag-canvas']
+        default: ['drag-canvas', 'drag-node', {
+          type: 'brush-select',
+          trigger: 'ctrl'
+        }]
       }
     })
 
@@ -66,14 +96,13 @@
     graph.on('node:click', evt => {
       const { item } = evt
       graph.setItemState(item, 'select', true)
-      
       graph.updateItem(item, {
-        size: [ 160, 130],
+        size: [ 260, 130],
         style: {
-          fill: '#b5f5ec'
+          opacity: 0.6
         },
         preRect: {
-          fill: '#ff4d4f'
+          fill: 'blue'
         },
         linkPoints: {
           fill: '#fff',
@@ -94,6 +123,15 @@
       const { item } = evt
       graph.setItemState(item, 'hover', false)
     })
+
+    // graph.addItem('group', {
+    //   nodes: ['image', 'triangle'],
+    //   type: 'rect',
+    //   zIndex: 0,
+    //   title: {
+    //     text: '名称'
+    //   }
+    // })
   </script>
 </body>
 </html>

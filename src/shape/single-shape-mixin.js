@@ -167,14 +167,14 @@ const SingleShape = {
       currentStateStyle = stateStyles[name];
     }
     if (value) {
-      return currentStateStyle;
+      return merge({}, currentStateStyle, model.style);
     }
 
     const states = item.getStates();
     const resultStyle = merge({}, defaultStyle, customStyle);
     const style = cloneDeep(resultStyle);
     states.forEach(state => {
-      merge(style, get(defaultStyle, state, {}), get(customStyle, state, {}));
+      merge(style, get(defaultStyle, state, {}), get(customStyle, state, {}), model.style);
     });
     return style;
   }

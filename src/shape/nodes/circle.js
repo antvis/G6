@@ -1,5 +1,6 @@
 const Shape = require('../shape');
 const deepMix = require('@antv/util/lib/deep-mix');
+const Util = require('../../util');
 const Global = require('../../global');
 
 // 带有图标的圆，可用于拓扑图中
@@ -57,17 +58,12 @@ Shape.registerNode('circle', {
   labelPosition: 'center',
   drawShape(cfg, group) {
     const customOptions = this.getCustomConfig(cfg) || {};
-    const { style: defaultStyle, icon: defaultIcon } = this.options;
-    const { style: customStyle, icon: customIcon } = customOptions;
-    const style = deepMix({}, defaultStyle, customStyle, cfg.style);
+    const { icon: defaultIcon } = this.options;
+    const { icon: customIcon } = customOptions;
+    const style = this.getShapeStyle(cfg);
     const icon = deepMix({}, defaultIcon, customIcon, cfg.icon);
-    const size = this.getSize(cfg);
-    const r = size[0] / 2;
     const keyShape = group.addShape('circle', {
-      attrs: {
-        ...style,
-        r
-      }
+      attrs: style
     });
 
     const { width, height, show } = icon;
@@ -154,6 +150,29 @@ Shape.registerNode('circle', {
         className: 'circle-mark-bottom'
       });
     }
+  },
+  /**
+   * 获取节点的样式，供基于该节点自定义时使用
+   * @param {Object} cfg 节点数据模型
+   * @return {Object} 节点的样式
+   */
+  getShapeStyle(cfg) {
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { style: defaultStyle } = this.options;
+    const { style: customStyle } = customOptions;
+    const strokeStyle = {
+      stroke: cfg.color
+    };
+    // 如果设置了color，则覆盖默认的stroke属性
+    const style = deepMix({}, defaultStyle, customStyle, strokeStyle, cfg.style);
+    const size = this.getSize(cfg);
+    const r = size[0] / 2;
+    const styles = Util.mix({}, {
+      x: 0,
+      y: 0,
+      r
+    }, style);
+    return styles;
   },
   update(cfg, item) {
     const customOptions = this.getCustomConfig(cfg) || {};

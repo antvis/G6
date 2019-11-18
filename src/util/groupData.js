@@ -102,11 +102,11 @@ module.exports = {
       // 获取在parentid群组中的节点
       const nodeInParentGroup = groupById[parentId];
 
-      if (nodeInParentGroup) {
+      if (nodeInParentGroup && subGroupIds) {
         // 合并
         const parentGroupNodes = [ ...subGroupIds, ...nodeInParentGroup ];
         result[parentId] = parentGroupNodes;
-      } else {
+      } else if (subGroupIds) {
         result[parentId] = subGroupIds;
       }
     }

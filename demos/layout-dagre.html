@@ -187,7 +187,7 @@
           target: '7'
         },
         {
-          source: '7',
+          source: '6',
           target: '8'
         }]
       };
@@ -230,11 +230,18 @@
 
       const graph = new G6.Graph({
         container: 'mountNode',
-        width: 500,
+        width: 1000,
         height: 500,
         layout: {
           type: 'dagre',
-          nodesep: 200,
+          nodesepFunc: (d) => {
+            if (d.id === '3') {
+              return 500;
+            }
+            return 20;
+          },
+          // nodesep: 500,
+          // ranksep: 200
         },
         pixelRatio: 2,
         defaultNode: {

@@ -3888,7 +3888,7 @@
           const maxDegree = 4;
           // the max degree about foces(clicked) node in the original data
           const oMaxDegree = 3;
-          const unitRadius = 40;
+          const unitRadius = 100;
           const focusNodeId = "2";
           // re-place the clicked node far away the exisiting items
           // along the radius from center node to it
@@ -3905,7 +3905,9 @@
             focusNode: "2",
             unitRadius,
             linkDistance: 180,
-            preventOverlap: true
+            preventOverlap: true,
+            strictRadial: false,
+            nodeSize: 50
           });
           subRadialLayout.init({
             'nodes': newNodeModels,
@@ -3921,7 +3923,7 @@
       });
 
       const focusNode = data_m.nodes[20];
-      const mainUnitRadius = 120;
+      const mainUnitRadius = 220;
       const graph = new G6.Graph({
         container: 'mountNode',
         width: 1000,
@@ -3932,16 +3934,21 @@
           maxIteration: 200,
           focusNode,
           unitRadius: mainUnitRadius,
-          linkDistance: 100,
+          linkDistance: 200,
           preventOverlap: true,
-          nodeSize: 20
+          nodeSize: 50,
+          strictRadial: true,
+          maxPreventOverlapIteration: 500
         },
         animate: true,
         modes: {
           default: ['drag-node', 'click-select', 'click-add-node', 'drag-canvas']
         },
         defaultNode: {
-          size: [20, 20]
+          size: 50,
+          style: {
+            stroke: '#000'
+          }
         },
         defaultEdge: {
           size: 1,

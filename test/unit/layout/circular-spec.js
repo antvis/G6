@@ -10,7 +10,7 @@ function mathEqual(a, b) {
   return Math.abs(a - b) < 1;
 }
 
-describe('circular layout', () => {
+describe.only('circular layout', () => {
   it('circular layout with default configs', () => {
     const graph = new G6.Graph({
       container: div,

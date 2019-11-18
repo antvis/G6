@@ -20,7 +20,7 @@ const data = {
   ]
 };
 
-describe('fruchterman', () => {
+describe.only('fruchterman', () => {
   it('new graph with fruchterman layout, without configurations', () => {
     const graph = new G6.Graph({
       container: div,

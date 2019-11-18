@@ -27,10 +27,7 @@
     <script src="../build/g6.js"></script>
     <script src="./assets/jquery-3.2.1.min.js"></script>
     <script>
-
-      const colors = [ 'rgb(64, 174, 247)', 'rgb(108, 207, 169)', 'rgb(157, 223, 125)',
-        'rgb(240, 198, 74)', 'rgb(221, 158, 97)', 'rgb(141, 163, 112)', 'rgb(115, 136, 220)',
-        'rgb(133, 88, 219)', 'rgb(203, 135, 226)', 'rgb(227, 137, 163)' ];
+      const colors = ['rgb(64, 174, 247)', 'rgb(108, 207, 169)', 'rgb(157, 223, 125)', 'rgb(240, 198, 74)', 'rgb(221, 158, 97)', 'rgb(141, 163, 112)', 'rgb(115, 136, 220)', 'rgb(133, 88, 219)', 'rgb(203, 135, 226)', 'rgb(227, 137, 163)'];
       // custom the node
       G6.registerNode('breath-node', {
         afterDraw(cfg, group) {
@@ -90,7 +87,7 @@
         }
       },
       'circle');
-
+      
       // custom the edge
       G6.registerEdge('running-polyline', {
         afterDraw(cfg, group) {
@@ -125,25 +122,29 @@
                 };
               },
               repeat: true
-            }, 10 * length, 'easeCubic', null, delay);
+            },
+            10 * length, 'easeCubic', null, delay);
           }
         }
       },
       'polyline');
-
-      const graphSize = [ 600, 600 ];
+      
+      const size = window.innerHeight;
+      const graphSize = [size, size];
       const graph = new G6.Graph({
         container: 'mountNode',
         width: graphSize[0],
         height: graphSize[1],
         modes: {
-          default: [{
-            type: 'edge-tooltip',
+        default:
+          [{
+            type:
+            'edge-tooltip',
             formatText(model) {
               const text = model.class;
               return text;
             },
-            shouldUpdate: e => {
+            shouldUpdate: e => {  
               return true;
             }
           }]
@@ -164,36 +165,30 @@
             opacity: 0.4,
             lineAppendWidth: 3
           }
-        },
-        nodeStyle: {
-          default: {
-            lineWidth: 2,
-            fill: '#fff'
-          }
         }
       });
-      $.getJSON('./assets/data/beijing-metro-lines.json', data => {
+      $.getJSON('https://gw.alipayobjects.com/os/basement_prod/8c2353b0-99a9-4a93-a5e1-3e7df1eac64f.json', data => {  
         const nodes = data.nodes;
         const edges = data.edges;
         const classMap = new Map();
         let classId = 0;
-        nodes.forEach(node => {
+        nodes.forEach(node => {  
           node.y = -node.y;
         });
-        edges.forEach(edge => {
+        edges.forEach(edge => {  
           // edge cluster
           if (edge.class && classMap.get(edge.class) === undefined) {
             classMap.set(edge.class, classId);
-            classId ++;
+            classId++;
           }
           const cid = classMap.get(edge.class);
           edge.color = colors[cid % colors.length];
           const controlPoints = edge.controlPoints;
-
-          controlPoints.forEach(cp => {
+      
+          controlPoints.forEach(cp => {  
             cp.y = -cp.y;
           });
-        })
+        });
         scaleNodesPoints(nodes, edges, graphSize);
         graph.data(data);
         graph.render();
@@ -205,34 +200,34 @@
         let maxX = -99999999999999999;
         let minY = 99999999999999999;
         let maxY = -99999999999999999;
-        nodes.forEach(node => {
+        nodes.forEach(node => {  
           if (node.x > maxX) maxX = node.x;
           if (node.x < minX) minX = node.x;
           if (node.y > maxY) maxY = node.y;
           if (node.y < minY) minY = node.y;
         });
-
-        edges.forEach(edge => {
+      
+        edges.forEach(edge => {  
           const controlPoints = edge.controlPoints;
-          controlPoints.forEach(cp => {
+          controlPoints.forEach(cp => {  
             if (cp.x > maxX) maxX = cp.x;
             if (cp.x < minX) minX = cp.x;
             if (cp.y > maxY) maxY = cp.y;
             if (cp.y < minY) minY = cp.y;
           });
         });
-
+      
         const xScale = maxX - minX;
         const yScale = maxY - minY;
-        nodes.forEach(node => {
+        nodes.forEach(node => {  
           node.orix = node.x;
           node.oriy = node.y;
           node.x = (node.x - minX) / xScale * size;
           node.y = (node.y - minY) / yScale * size;
         });
-        edges.forEach(edge => {
+        edges.forEach(edge => {  
           const controlPoints = edge.controlPoints;
-          controlPoints.forEach(cp => {
+          controlPoints.forEach(cp => {  
             cp.x = (cp.x - minX) / xScale * size;
             cp.y = (cp.y - minY) / yScale * size;
           });

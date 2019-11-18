@@ -5,6 +5,8 @@
 
 const dagre = require('dagre');
 const Layout = require('./layout');
+const isArray = require('@antv/util/lib/type/is-array');
+
 
 /**
  * 随机布局
@@ -12,12 +14,14 @@ const Layout = require('./layout');
 Layout.registerLayout('dagre', {
   getDefaultCfg() {
     return {
-      rankdir: 'TB',             // layout 方向, 可选 TB, BT, LR, RL
-      align: undefined,          // 节点对齐方式，可选 UL, UR, DL, DR
-      nodeSize: [ 40, 40 ],      // 节点大小
-      nodesep: 50,               // 节点水平间距(px)
-      ranksep: 50,               // 每一层节点之间间距
-      controlPoints: true        // 是否保留布局连线的控制点
+      rankdir: 'TB',                 // layout 方向, 可选 TB, BT, LR, RL
+      align: undefined,              // 节点对齐方式，可选 UL, UR, DL, DR
+      nodeSize: undefined,           // 节点大小
+      nodesepFunc() { return 50; },  // 节点水平间距(px)
+      ranksepFunc() { return 50; },  // 每一层节点之间间距
+      nodesep: 50,                   // 节点水平间距(px)
+      ranksep: 50,                   // 每一层节点之间间距
+      controlPoints: true            // 是否保留布局连线的控制点
     };
   },
   /**
@@ -29,27 +33,45 @@ Layout.registerLayout('dagre', {
     const edges = self.edges;
     const g = new dagre.graphlib.Graph();
     const nodeSize = self.nodeSize;
-    let width;
-    let height;
-    if (Array.isArray(nodeSize)) {
-      width = nodeSize[0];
-      height = nodeSize[1];
+    let nodeSizeFunc;
+    if (!nodeSize) {
+      nodeSizeFunc = d => {
+        if (d.size) {
+          if (isArray(d.size)) {
+            return d.size;
+          }
+          return [ d.size, d.size ];
+        }
+        return [ 40, 40 ];
+      };
+    } else if (isArray(nodeSize)) {
+      nodeSizeFunc = () => {
+        return nodeSize;
+      };
     } else {
-      width = nodeSize;
-      height = nodeSize;
+      nodeSizeFunc = () => {
+        return [ nodeSize, nodeSize ];
+      };
     }
     let horisep = self.nodesep;
+    if (self.nodesepFunc) horisep = self.nodesepFunc;
     let vertisep = self.ranksep;
+    if (self.ranksepFunc) vertisep = self.ranksepFunc;
     const rankdir = self.rankdir;
     if (rankdir === 'LR' || rankdir === 'RL') {
       horisep = self.ranksep;
+      if (self.ranksepFunc) horisep = self.ranksepFunc;
       vertisep = self.nodesep;
+      if (self.nodesepFunc) vertisep = self.nodesepFunc;
     }
-    width += 2 * horisep;
-    height += 2 * vertisep;
     g.setDefaultEdgeLabel(function() { return {}; });
     g.setGraph(self);
     nodes.forEach(node => {
+      const size = nodeSizeFunc(node);
+      const hori = horisep(node);
+      const verti = vertisep(node);
+      const width = size[0] + 2 * hori;
+      const height = size[1] + 2 * verti;
       g.setNode(node.id, { width, height });
     });
     edges.forEach(edge => {

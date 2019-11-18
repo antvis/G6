@@ -1,0 +1,2038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>系统架构Demo</title>
+    <style>::-webkit-scrollbar{display:none;}html,body{overflow:hidden;margin:0;}</style>
+</head>
+<body>
+  <div id="mountNode"></div>
+  <div class="timeControllerOuterContainer" >
+      <div id="timeControllerContainer" >
+      </div>
+  </div>
+  <div class="detailPannel">
+    <button id="btn_error">分析错误源节点</button>
+    <div id="infoDetail"></div>
+  </div>
+  <div class="description">
+    <p>
+      Demo说明：
+    </p>
+    <p>
+      本例用假数据展示了某次系统发生异常时，异常系统和其涉及系统的状态，其中发生异常的系统时红色的；
+    </p>
+    <p>
+      系统间依赖关系用边表示，出现问题的依赖也对应映射成红色；
+    </p>
+    <p>
+      标记出了疑似的问题源头系统，当点击右上角分析时，聚焦到该系统对应的节点上，并将系统近一小时的错误量作为扩展信息展示；
+    </p>
+    <p>
+      时序分析：下方时时间轴，某个时间点系统出现的错误数量，点击选择某个时间点，对应关系图切换到选择时间对应的数据（这里因为时示例，仅模拟了两个时刻的数据）;
+    </p>
+  </div>
+  <script>/*Fixing iframe window.innerHeight 0 issue in Safari*/document.body.clientHeight;</script>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.1/build/g6.js"></script>
+  <script src="https://cdn.bootcss.com/dagre/0.8.4/dagre.js"></script>
+  <script src="http://momentjs.cn/downloads/moment.min.js"></script>
+  <style>
+    #mountNode {
+      background:#001528;
+    }
+    .timeControllerOuterContainer{
+      text-align: center;
+      height: 100px;
+      background-color: beige;
+      position: relative;
+      background:#001528;
+    }
+    #timeControllerContainer{
+      position: absolute;
+      background-color: #002242;
+      position:absolute;
+      bottom:16px;
+      left: 50%;
+      text-align: center;
+      transform: translate(-50%, 0%);
+      padding-bottom: 10px;
+      padding-top: 10px;
+    }
+    .g6-tooltip {
+      border: 1px solid #e2e2e2;
+      border-radius: 4px;
+      font-size: 12px;
+      color: #545454;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 10px 8px;
+      box-shadow: rgb(174, 174, 174) 0px 0px 10px;
+    }
+    .detailPannel{
+      position: absolute;
+      right: 64px;
+      top: 32px;
+    }
+    #btn_error{
+      color: white;
+      background: #f75a15;
+      border: 2px solid #f75a15;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .description{
+      position: absolute;
+      left: 64px;
+      top: 12px;
+      color: white;
+      width: 250px;
+      font-size: 13px;
+    }
+  </style>
+  <script>
+    
+    // ============================
+    // 大图假数据 1 
+    const mockGraphData1 = {
+      "code": "0",
+      "data": {
+        "nodes": [
+          {
+            "app": "system1",
+            "abnormal": false,
+            "label": "system1",
+            "id": "system1"
+          },
+          {
+            "app": "system2",
+            "abnormal": false,
+            "label": "system2",
+            "id": "system2"
+          },
+          {
+            "app": "system3",
+            "abnormal": false,
+            "label": "system3",
+            "id": "system3"
+          },
+          {
+            "app": "system4",
+            "abnormal": false,
+            "label": "system4",
+            "id": "system4"
+          },
+          {
+            "app": "system5",
+            "abnormal": true,
+            "label": "system5",
+            "id": "system5"
+          },
+          {
+            "app": "system6",
+            "abnormal": false,
+            "label": "system6",
+            "id": "system6"
+          },
+          {
+            "app": "system7",
+            "abnormal": false,
+            "label": "system7",
+            "id": "system7"
+          },
+          {
+            "app": "system8",
+            "abnormal": false,
+            "label": "system8",
+            "id": "system8"
+          },
+          {
+            "app": "system9",
+            "abnormal": false,
+            "label": "system9",
+            "id": "system9"
+          },
+          {
+            "app": "source_system",
+            "abnormal": true,
+            "label": "source_system",
+            "id": "source_system"
+          },
+          {
+            "app": "system11",
+            "abnormal": false,
+            "label": "system11",
+            "id": "system11"
+          },
+          {
+            "app": "system12",
+            "abnormal": false,
+            "label": "system12",
+            "id": "system12"
+          },
+          {
+            "app": "system13",
+            "abnormal": true,
+            "label": "system13",
+            "id": "system13"
+          },
+          {
+            "app": "sysX",
+            "abnormal": false,
+            "label": "sysX",
+            "id": "sysX"
+          },
+          {
+            "app": "system15",
+            "abnormal": true,
+            "label": "system15",
+            "id": "system15"
+          },
+          {
+            "app": "sysZ",
+            "abnormal": false,
+            "label": "sysZ",
+            "id": "sysZ"
+          },
+          {
+            "app": "sysY",
+            "abnormal": false,
+            "label": "sysY",
+            "id": "sysY"
+          }
+        ],
+        "edges": [
+          {
+            "abnormal": true,
+            "serviceList": [
+              "com.abcd.efghi.jk.service.apple.pear.banana.rice.noodle.tea.drink",
+              "com.abcd.efghi.jk.service.apple.pear.banana.rice.hi"
+            ],
+            "source": "system3",
+            "target": "system13"
+          },
+          {
+            "abnormal": false,
+            "serviceList": [],
+            "source": "system6",
+            "target": "system5"
+          },
+          {
+            "abnormal": true,
+            "serviceList": [
+              "com.abcd.efghi.jk.service.apple.pear.banana.rice.fruit.eat.drink.findAll",
+              "com.abcd.efghi.jk.service.apple.pear.banana.rice.fruit.eat.drink.findAllList"
+            ],
+            "source": "system7",
+            "target": "source_system"
+          },
+          {
+            "abnormal": true,
+            "serviceList": [
+              "com.abcd.efghi.jk.service.apple.pear.banana.rice.fruit.eat.drink.findAllList"
+            ],
+            "source": "source_system",
+            "target": "source_system"
+          },
+          {
+            "abnormal": true,
+            "serviceList": [
+              "com.abcd.efghi.jk.service.apple.pear.banana.james.kobe.allen"
+            ],
+            "source": "system5",
+            "target": "source_system"
+          },
+          {
+            "abnormal": true,
+            "serviceList": [
+              "com.abcd.efghi.jk.service.apple.pear.banana.playBall"
+            ],
+            "source": "system12",
+            "target": "source_system"
+          },
+          {
+            "abnormal": false,
+            "serviceList": [],
+            "source": "system7",
+            "target": "system9"
+          },
+          {
+            "abnormal": false,
+            "serviceList": [],
+            "source": "system1",
+            "target": "system11"
+          },
+          {
+            "abnormal": false,
+            "serviceList": [],
+            "source": "system9",
+            "target": "system6"
+          },
+          {
+            "abnormal": true,
+            "serviceList": [
+              "com.abcd.efghi.jk.service.apple.pear.banana.james.kobe.allen"
+            ],
+            "source": "system8",
+            "target": "system5"
+          },
+          {
+            "abnormal": true,
+            "serviceList": [
+              "com.abcd.efghi.jk.service.apple.pear.banana.james.kobe.allen",
+              "com.abcd.efghi.jk.service.apple.pear.banana.james.kobe.allen"
+            ],
+            "source": "system8",
+            "target": "source_system"
+          },
+          {
+            "abnormal": false,
+            "serviceList": [],
+            "source": "sysX",
+            "target": "system1"
+          },
+          {
+            "abnormal": false,
+            "serviceList": [],
+            "source": "system11",
+            "target": "system8"
+          },
+          {
+            "abnormal": false,
+            "serviceList": [],
+            "source": "system7",
+            "target": "system11"
+          },
+          {
+            "abnormal": true,
+            "serviceList": [
+              "com.abcd.efghi.jk.service.apple.pear.banana.james.kobe.allen"
+            ],
+            "source": "system13",
+            "target": "system15"
+          },
+          {
+            "abnormal": false,
+            "serviceList": [],
+            "source": "system9",
+            "target": "system2"
+          },
+          {
+            "abnormal": false,
+            "serviceList": [],
+            "source": "sysZ",
+            "target": "sysY"
+          },
+          {
+            "abnormal": false,
+            "serviceList": [],
+            "source": "system4",
+            "target": "sysX"
+          },
+          {
+            "abnormal": false,
+            "serviceList": [],
+            "source": "sysY",
+            "target": "system11"
+          },
+          {
+            "abnormal": true,
+            "serviceList": [
+              "com.abcd.efghi.jk.service.apple.pear.banana.james.kobe.allen"
+            ],
+            "source": "system2",
+            "target": "source_system"
+          },
+          {
+            "abnormal": true,
+            "serviceList": [
+              "com.abcd.efghi.jk.service.apple.pear.banana.james.kobe.cater"
+            ],
+            "source": "system6",
+            "target": "source_system"
+          },
+          {
+            "abnormal": false,
+            "serviceList": [],
+            "source": "system7",
+            "target": "system12"
+          },
+          {
+            "abnormal": false,
+            "serviceList": [],
+            "source": "sysZ",
+            "target": "system7"
+          },
+          {
+            "abnormal": false,
+            "serviceList": [],
+            "source": "system7",
+            "target": "system2"
+          }
+        ]
+      },
+      "errorMsg": "",
+      "success": true,
+      "successMsg": ""
+    };
+    // ============================
+    // 大图假数据 2
+    const mockGraphData2 = {
+      "code": "0",
+      "data": {
+        "nodes": [
+          {
+            "app": "system1",
+            "abnormal": false,
+            "label": "system1",
+            "id": "system1"
+          },
+          {
+            "app": "source_system",
+            "abnormal": true,
+            "label": "source_system",
+            "id": "source_system"
+          },
+          {
+            "app": "system3",
+            "abnormal": false,
+            "label": "system3",
+            "id": "system3"
+          },
+          {
+            "app": "system4",
+            "abnormal": false,
+            "label": "system4",
+            "id": "system4"
+          },
+          {
+            "app": "system5",
+            "abnormal": false,
+            "label": "system5",
+            "id": "system5"
+          },
+          {
+            "app": "system6",
+            "abnormal": false,
+            "label": "system6",
+            "id": "system6"
+          },
+          {
+            "app": "system7",
+            "abnormal": false,
+            "label": "system7",
+            "id": "system7"
+          }
+        ],
+        "edges": [
+          {
+            "abnormal": false,
+            "serviceList": [],
+            "source": "system7",
+            "target": "system6"
+          },
+          {
+            "abnormal": true,
+            "serviceList": [
+              "com.abcd.ef.ghi.jklmn.service.abcd.efg.api.x1234.y12345"
+            ],
+            "source": "system7",
+            "target": "source_system"
+          },
+          {
+            "abnormal": false,
+            "serviceList": [],
+            "source": "system1",
+            "target": "system7"
+          },
+          {
+            "abnormal": false,
+            "serviceList": [],
+            "source": "system5",
+            "target": "system1"
+          },
+          {
+            "abnormal": false,
+            "serviceList": [],
+            "source": "system6",
+            "target": "system3"
+          },
+          {
+            "abnormal": false,
+            "serviceList": [],
+            "source": "system4",
+            "target": "system5"
+          },
+        ]
+      },
+      "errorMsg": "",
+      "success": true,
+      "successMsg": ""
+    };  
+    // 节点详细假数据
+    const appDetail = [
+          {      
+            "count": "0", 
+            "time": "1570995300000",
+            "type": "0015"
+          },
+          {  
+            "count": "2",
+            "time": "1570995360000",
+            "type": "0015"
+          },
+          { 
+            "count": "3",
+            "time": "1570995420000",
+            "type": "0015"
+          },
+          { 
+            "count": "0",
+            "time": "1570995480000",
+            "type": "0015"
+          },
+          {
+            "count": "1",
+            "time": "1570995540000",
+            "type": "0015"
+          },
+          {
+            "count": "12",
+            "time": "1570995600000",
+            "type": "0015"
+          },
+          {
+            "count": "12",
+            "time": "1570995660000",
+            "type": "0015"
+          },
+          {
+            "count": "14",
+            "time": "1570995720000",
+            "type": "0015"
+          },
+          {
+            "count": "16",
+            "time": "1570995780000",
+            "type": "0015"
+          },
+          { 
+            "count": "12",
+            "time": "1570995840000",
+            "type": "0015"
+          },
+          {
+            "count": "14",
+            "time": "1570995900000",
+            "type": "0015"
+          },
+          {
+            "count": "15",
+            "time": "1570995960000",
+            "type": "0015"
+          },
+          {
+            "count": "16",
+            "time": "1570996020000",
+            "type": "0015"
+          },
+          {
+            "count": "12",
+            "time": "1570996080000",
+            "type": "0015"
+          },
+          {
+            "count": "9",
+            "time": "1570996140000",
+            "type": "0015"
+          },
+          {
+            "count": "16",
+            "time": "1570996200000",
+            "type": "0015"
+          },
+          {
+            "count": "17",
+            "time": "1570996260000",
+            "type": "0015"
+          },
+          {
+            "count": "20",
+            "time": "1570996320000",
+            "type": "0015"
+          },
+          {
+            "count": "22",
+            "time": "1570996380000",
+            "type": "0015"
+          },
+          {
+            "count": "19",
+            "time": "1570996440000",
+            "type": "0015"
+          },
+          {
+            "count": "18",
+            "time": "1570996500000",
+            "type": "0015"
+          },
+          {
+            "count": "16",
+            "time": "1570996560000",
+            "type": "0015"
+          },
+          {   
+            "count": "17",
+            "time": "1570996620000",
+            "type": "0015"
+          },
+          {
+            "count": "16",
+            "time": "1570996680000",
+            "type": "0015"
+          },
+          {
+            "count": "17",
+            "time": "1570996740000",
+            "type": "0015"
+          },
+          {
+            "count": "19",
+            "time": "1570996800000",
+            "type": "0015"
+          },
+          {
+            "count": "21",
+            "time": "1570996860000",
+            "type": "0015"
+          },
+          {
+            "count": "22",
+            "time": "1570996920000",
+            "type": "0015"
+          },
+          {
+            "count": "23",
+            "time": "1570996980000",
+            "type": "0015"
+          },
+          {
+            "count": "20",
+            "time": "1570997040000",
+            "type": "0015"
+          },
+          {
+            "count": "18",
+            "time": "1570997100000",
+            "type": "0015"
+          },
+          {
+            "count": "12",
+            "time": "1570997160000",
+            "type": "0015"
+          },
+          {
+            "count": "12",
+            "time": "1570997220000",
+            "type": "0015"
+          },
+          {
+            "count": "12",
+            "time": "1570997280000",
+            "type": "0015"
+          },
+          {
+            "count": "13",
+            "time": "1570997340000",
+            "type": "0015"
+          },
+          {
+            "count": "14",
+            "time": "1570997400000",
+            "type": "0015"
+          },
+          {
+            "count": "17",
+            "time": "1570997460000",
+            "type": "0015"
+          },
+          {
+            "count": "12",
+            "time": "1570997520000",
+            "type": "0015"
+          },
+          {
+            "count": "19",
+            "time": "1570997580000",
+            "type": "0015"
+          },
+          {
+            "count": "10",
+            "time": "1570997640000",
+            "type": "0015"
+          },
+          {
+            "count": "9",
+            "time": "1570997700000",
+            "type": "0015"
+          },
+          {
+            "count": "3",
+            "time": "1570997760000",
+            "type": "0015"
+          },
+          {
+            "count": "2",
+            "time": "1570997820000",
+            "type": "0015"
+          },
+          {
+            "count": "1",
+            "time": "1570997880000",
+            "type": "0015"
+          },
+          {
+            "count": "0",
+            "time": "1570997940000",
+            "type": "0015"
+          },
+          {
+            "count": "1",
+            "time": "1570998000000",
+            "type": "0015"
+          },
+          {
+            "count": "0",
+            "time": "1570998060000",
+            "type": "0015"
+          },
+          {
+            "count": "0",
+            "time": "1570998120000",
+            "type": "0015"
+          },
+          {
+            "count": "0",
+            "time": "1570998180000",
+            "type": "0015"
+          },
+          {
+            "count": "0",
+            "time": "1570998240000",
+            "type": "0015"
+          },
+          {
+            "count": "0",
+            "time": "1570998300000",
+            "type": "0015"
+          },
+          {
+            "count": "1",
+            "time": "1570998360000",
+            "type": "0015"
+          },
+          {
+            "count": "0",
+            "time": "1570998420000",
+            "type": "0015"
+          },
+          {
+            "count": "0",
+            "time": "1570998480000",
+            "type": "0015"
+          },
+          {
+            "count": "0",
+            "time": "1570998540000",
+            "type": "0015"
+          },
+          {
+            "count": "0",
+            "time": "1570998600000",
+            "type": "0015"
+          },
+          {
+            "count": "0",
+            "time": "1570998660000",
+            "type": "0015"
+          },
+          {
+            "count": "2",
+            "time": "1570998720000",
+            "type": "0015"
+          },
+          {
+            "count": "0",
+            "time": "1570998780000",
+            "type": "0015"
+          },
+          {
+            "count": "0",
+            "time": "1570998840000",
+            "type": "0015"
+          },
+          {
+            "count": "0",
+            "time": "1570998900000",
+            "type": "0015"
+          }
+        ];
+    // G6注册样式
+    const LABEL_TAG = 'LABEL_TAG';
+    const ADD_TAG = 'ADD_TAG';
+    const BALL_TAG = 'BALL_TAG';
+    const TOOLTIP_TAG = 'TOOLTIP_TAG';
+    // 节点样式的配置参数定义
+    const NODE_CONFIG = {
+      // 大圆
+      nodesRadius:15, // 点的半径
+      colorHealthy:'#1563FF',  // 正常颜色
+      colorError:'#f75a15',  // 非正常颜色
+      fadedOpacity:0.2, // 褪色了的透明度数
+      commenOpacity:1, // 正常的了的透明度数
+      // 大院的聚焦状态 
+      foucsRadusMin:18, // 聚焦状态的指示圆最小半径
+      foucsRadusMax:25, // 聚焦状态的指示圆最大半径
+      foucsColor:'lightgray',
+      foucsOpacity:0.4,
+      foucsWidth:0.4,
+      foucsAnimateDelay:800, 
+      // 文本
+      labalFontSize:10,
+      labalFontSizeFaded:5,
+      labalFontFillColor:'#fff',
+      labalFontStrokeColorHealthy:"#2529e8",
+      labalFontStrokeColorError:"#f75a15",
+      // 细节信息
+      sectionCount:60, // 圆周细化的区域数
+      // 时间指示器
+      timeIndicatorstartRadius:100, // 起始半径
+      timeIndicatorEndRadius:100.5,  // 终点半径
+      timeIndicatorHoverOffset: 4 , // hover时候的终点半径
+      timeIndicatorColor:'lightgray',
+      dataSectionColorDataOpacity:0.7,
+      timeIndicatorAnimateDelay:1200,
+      timeIndicatorHoverEnterAnimateDelay:50,
+      timeIndicatorHoverLeaveAnimateDelay:250,
+      // 时间提示
+      timeTextOffsetX:0, // X方面偏移
+      timeTextOffsetY:8, // Y方面偏移
+      timeTextRadius:115, // 文字距离中心的半径
+      timeTextFontSize:9, // 文字大小
+      timeTextFontWeight:1, //粗细
+      timeTextColor:"white", // 颜色
+      timeTextHideOpacity:0, // 隐藏时透明度（已废弃）
+      timeTextShowOpacity:0.7, // 显示透明度
+      //数据
+      dataSectionStartRaduis:25, // 数据部分的起始半径
+      dataSectionEndRaduis:80,  // 数据部分的终至半径
+      dataBarWidthAngle:2, // 数据的宽度
+      dataSectionColorBG:'white',
+      dataSectionColorBGOpacity:0.2,
+      dataSectionColorData:'#A8071A',
+      dataSectionColorDataOpacity:0.7,
+      dataSectionAnimateDelay:1200, 
+      // 开始位置标记
+      makerStartColor:'lightgray',
+      makerStartOpacity:0.7,
+      makerStartPositionX:0,
+      makerStartPositionY:-101,
+      makerStartRaduis: 2,
+      // 关闭详情（细节）按钮
+      closeBtnPositionX:0,
+      // closeBtnPositionY:11,
+      closeBtnPositionY:-130,
+      closeBtnFontSize:8,
+      closeBtnHoverFontSize:10,
+      closeBtnOpacity:1,
+      closeBtnFontWeight:1, 
+      closeBtnCommenColor:'red',
+      closeBtnHoverColor:'white',
+      hoverAnimateTime:100,
+    };
+    // 边样式的配置参数定义
+    const EDGE_CONFIG = {
+      // 虚线设置
+      DASH:{
+        dashArray:[
+          [0,1],
+          [0,2],
+          [1,2],
+          [0,1,1,2],
+          [0,2,1,2],
+          [1,2,1,2],
+          [2,2,1,2],
+          [3,2,1,2],
+          [4,2,1,2]
+        ],
+        lineDash:[4, 2, 1, 2],
+        interval:9,
+      },
+      // 特殊线的横向偏移量，这个值越大，特殊线的弧度越大
+      specialArcOffsetX: 30,
+      // 正常颜色
+      colorOk:'#ccc',
+      // 异常颜色
+      colorAbnoraml:'#A8071A',
+      // 正常线宽
+      lineWidthCommon: 1.6,
+      // Hover时增长线宽
+      lineWidthHoverIncrease: 2,
+      // 正常透明度
+      opacityCommon:0.7,
+      // faded状态的透明度数
+      opacityFaded:0.1,   
+      // Hover时透明度
+      opacityHover:0.9,    
+      // 边上的错误提示半径
+      errorTipRadius:5,
+      // 边上的错误外部圆提示颜色
+      errorTipBallColor:"#A8071A",
+      // 边上的错误文本文字大小
+      errorTipTextFontSize:10,
+      // 边上的错误文本颜色
+      errorTipTextColor:"white",
+      errorTipTextFontWeight:600,
+      errorTipTextAlign: 'center',
+      errorTipTextBaseline: 'center',
+      // 流动的指示小球
+      // 颜色
+      flowingBallColorCommon:'darkgray',
+      flowingBallColorAbnormal:'#A8071A',
+      // 半径
+      flowingBallRadius:2,
+      // 时间间隔
+      flowingTimeInterval:3000,
+    };
+    // 调用函数注册样式
+    // 节点
+    registerNodesStyle();
+    // 边
+    registerEdgesStyle();
+    let data = mockGraphData1.data;
+    // 图的尺寸定义 （canvas大小）
+    window.graphSize = {
+      width: window.innerWidth,
+      height: window.innerHeight - 110,
+    }
+    // 构造G6对象
+    const graph = new G6.Graph({
+      container: 'mountNode',
+      width: window.graphSize.width,
+      height: window.graphSize .height,
+      autoPaint: true,
+      modes: {
+        default: ['drag-canvas', {
+          type: 'zoom-canvas',
+          sensitivity: 0.8
+        }, {
+          type: 'edge-tooltip',
+          formatText: function formatText(model) {
+            console.log('model', model)
+            const { serviceList=[] } = model;
+            if(serviceList.length === 0){
+              return "链路无异常"
+            }
+            let text = '异常链路是:<br> ' + serviceList.map(item =>(item + '<br>' ));
+            return text;
+          },
+          shouldUpdate: function shouldUpdate(e) {
+            return true;
+          }
+        }]
+      },
+      fitView: true
+    });
+    window.graph = graph;
+    // 布局数据
+    // 使用dagre
+    const layoutedData = layoutByDagre(data);
+    // 给数据添加样式
+    // 原始数据中没有shape属性
+    const styledData = addDataStyle(layoutedData);
+    // 读取并绘制
+    window.graph.read(styledData);
+    /** 更新数据的方法 */
+    function updateGraph(data){
+      if(data.nodes.length === 0){
+        window.graph.clear();
+      }
+      const layoutedData = layoutByDagre(data);
+      const styledData =  addDataStyle( layoutedData );
+      window.graph.read(styledData);
+    }
+    /** 使用dagre 布局的函数 */
+    function layoutByDagre(data){
+      const { nodes, edges } = data;
+      const g = new dagre.graphlib.Graph(); 
+      // 给dagre设置方向
+      g.setGraph({
+        rankdir: 'TB' // 表示方向，可以是TB, BT, LR, RL
+      });
+      g.setGraph({});
+      g.setDefaultEdgeLabel(function() { return {}; });
+      let labelNodeMap = {};
+      // 给dagre设置点和边
+      nodes.forEach((node) => {
+        g.setNode(node.id, {width: 60, height: 60});
+        labelNodeMap[node.id] = node;
+      });
+      edges.forEach(function(edge) {
+        g.setEdge(edge.source, edge.target);
+      });
+      // 布局
+      dagre.layout(g);
+      // 将布局信息，即x和y写入到原对象中
+      g.nodes().forEach(v => {
+        let originNode = labelNodeMap[v];
+        let layoutedNode = g.node(v);
+        originNode.x = layoutedNode.x;
+        originNode.y = layoutedNode.y;
+      });
+      // id -> point的映射
+      this.nodeIdPointObjMap = labelNodeMap;
+      return data;
+    }
+    /** 构造节点和边样式信息 */
+    function addDataStyle(data){
+      // 节点的样式
+      data.nodes.forEach(node =>{
+        node.shape = 'app-node-emergency';
+      }); 
+      // 边的样式
+      data.edges.forEach(edge =>{
+        edge.shape = 'ant-edge-emergency';
+      }); 
+      return data;
+    }
+      
+      // ================================
+      // 节点样式注册
+      function registerNodesStyle(){
+        // app-node
+        G6.registerNode('app-node-emergency', {
+          draw:(cfg, group)=> { 
+            const {abnormal} = cfg;
+            // 外侧圆形
+            const itemBox = group.addShape('circle', {
+              attrs: {
+                x: 0,
+                y: 0,
+                r: NODE_CONFIG.nodesRadius,
+                fill: abnormal ? NODE_CONFIG.colorError: NODE_CONFIG.colorHealthy, // 2529e8
+              },
+            });
+            // 文本
+            const labelShape = group.addShape('text', {
+              attrs: {
+                x: 0,
+                y: 2,
+                text: cfg.app,
+                fontSize: NODE_CONFIG.labalFontSize,
+                fill: NODE_CONFIG.labalFontFillColor,
+                fontWeight: 600,
+                textAlign: 'center',
+                textBaseline: 'center',
+                stroke: abnormal ? NODE_CONFIG.labalFontStrokeColorError : NODE_CONFIG.labalFontStrokeColorHealthy,
+              },
+              tag:LABEL_TAG,
+            })
+            return itemBox
+          },
+          
+          afterDraw:(cfg, group)=> {  },
+          
+          setState:(name, value, item)=> {
+            const shape = item.get('keyShape');
+            const group = item.get('group');
+            switch (name) {
+              case 'faded':
+                if (value) {
+                  shape.attr('opacity', NODE_CONFIG.fadedOpacity);
+                  const labels = group.findAll(item => {
+                    return item._cfg.tag && item._cfg.tag === LABEL_TAG;
+                  });
+                  labels.forEach(lable =>{
+                    lable.attr('fontSize', NODE_CONFIG.labalFontSizeFaded);
+                  })
+                } 
+                else {
+                  shape.attr('opacity', NODE_CONFIG.commenOpacity);
+                  const labels = group.findAll(item => {
+                    return item._cfg.tag && item._cfg.tag === LABEL_TAG;
+                  });
+                  labels.forEach(lable =>{
+                    lable.attr('fontSize', NODE_CONFIG.labalFontSize);
+                  })
+                }
+                break;
+              case 'focus':
+                if(value){ // 聚焦状态
+                  addFocus(shape, item);
+                } else { // 移除 
+                  removeAdded(shape, item);
+                }
+                break;
+              case 'detailing':
+                if(value){ // 展示细节
+                  addDetail(shape, item);
+                } else { // 移除 
+                  removeAdded(shape, item);
+                }
+                break;
+            }
+          },
+        }, 'circle');
+        // 移除菜单函数
+        const removeAdded = (shape, item)=>{
+          const group = shape.getParent();
+          // 移除所有添加
+          const addEle = group.findAll(item => {
+            return item._cfg.tag && item._cfg.tag === ADD_TAG;
+          });
+          addEle.forEach(ele => {
+            // group.removeChild(ele);
+            const type = ele._cfg.type;
+            if(type === 'fan'){ // 扇形的时候加上动画
+              ele.animate({
+                re: NODE_CONFIG.foucsRadusMin,
+                rs: NODE_CONFIG.foucsRadusMin,
+                repeat: false     
+              }, 500, 'easeLinear', ()=>{
+                group.removeChild(ele);
+              });
+            } else {
+              group.removeChild(ele);
+            }
+          });
+        }
+        // 添加细节信息状态
+        const addDetail = (shape, item) =>{
+          if(appDetail.length === 0 ){
+            // 无详细数据或者数据中没有count字段
+            console.log('请求到的详情中没有可绘制字段...');
+            return;
+          }
+          const group = shape.getParent();
+          const { _cfg } = item;
+          // 计算区域角度
+          const perSectionAngle =  (2 * Math.PI * (360 / NODE_CONFIG.sectionCount)) / 360;
+          const startAngle = (-1) * (2 * Math.PI / 4); // -90度弧度制的，其实是12点钟方向
+          let currentAngle = startAngle;
+          const timeIndicatorArr = [];  // 时间指示器的图像实例集合
+          const timeIndicatorTextArr = [];  // 时间指示器的图像实例集合
+          const dataSectionBgArr = [];  // 数据块背景图像实例集合
+          const dataSectionDataArr = [];  // 数据块DATA的图像实例集合
+          // 绘制数据
+          // 分成两个部分
+          // 一个是：背景部分 ；另一个是数据部分
+          const dataBarWidthAngle = 2 * Math.PI * NODE_CONFIG.dataBarWidthAngle / 360;  // 转化成弧度制
+          // 数据映射比例计算出来
+          let maxValue = Math.max(...appDetail.map(i=>(Number(i.count))));
+          // console.log('drawmaxValueing maxValue...', maxValue);
+          const dataRaduisScale = (NODE_CONFIG.dataSectionEndRaduis - NODE_CONFIG.dataSectionStartRaduis) / maxValue;
+          // appDetail
+          // const { projects }
+          // 拿到数据的最大值
+          for(let i = 0; i < NODE_CONFIG.sectionCount; i++ ){
+            // console.log('drawing data ...', i);
+            // 数据准备
+            const sectionCenterAngle = currentAngle + perSectionAngle / 2 ;
+            const realStartAngle = sectionCenterAngle  - dataBarWidthAngle / 2;
+            const realEndAngle = sectionCenterAngle  + dataBarWidthAngle / 2;
+            const thisStartAngle = currentAngle;
+            const thisEndAngle = currentAngle + perSectionAngle;
+            // 背景部分
+            const fanBg = group.addShape('fan', {
+              attrs: {
+                x: 0,
+                y: 0,
+                rs: NODE_CONFIG.dataSectionStartRaduis,
+                re: NODE_CONFIG.dataSectionEndRaduis,
+                startAngle: realStartAngle,
+                endAngle: realEndAngle,
+                clockwise: false,
+                // stroke: NODE_CONFIG.timeIndicatorColor,
+                fill: NODE_CONFIG.dataSectionColorBG,
+                opacity:NODE_CONFIG.dataSectionColorBGOpacity,
+              },
+              tag: ADD_TAG,
+              cursor: "pointer",
+            });
+            dataSectionBgArr.push(fanBg);
+            // 数据部分
+            // 数据映射
+            const odata = Number(appDetail[i].count);
+            const dataHeigth = odata * dataRaduisScale;
+            const dataRadusEnd =  NODE_CONFIG.dataSectionStartRaduis + dataHeigth;
+            // console.log('odata', odata );
+            // console.log('dataHeigth', dataHeigth );
+            // console.log('dataRadusEnd', dataRadusEnd );
+            const fanData = group.addShape('fan', {
+              attrs: {
+                x: 0,
+                y: 0,
+                rs: NODE_CONFIG.dataSectionStartRaduis,
+                re: NODE_CONFIG.dataSectionStartRaduis,
+                startAngle: realStartAngle,
+                endAngle: realEndAngle,
+                clockwise: false,
+                // stroke: NODE_CONFIG.timeIndicatorColor,
+                fill: NODE_CONFIG.dataSectionColorData,
+                opacity:NODE_CONFIG.dataSectionColorDataOpacity,
+              },
+              tag: ADD_TAG,
+              cursor: "pointer",
+            });
+            fanData.animate({
+              re: dataRadusEnd,
+              repeat: false     
+            }, NODE_CONFIG.dataSectionAnimateDelay);
+            
+            // --------------------------不好用就注释 
+            // 监听
+            const { time, count } = appDetail[i];
+            [fanData, fanBg].forEach(item=>{
+              item.on('mouseenter', function(evt) {
+                const fanTimer = timeIndicatorArr[i];
+                // 自身动画
+                fanTimer.animate({
+                  rs: NODE_CONFIG.timeIndicatorstartRadius - NODE_CONFIG.timeIndicatorHoverOffset / 2,
+                  re: NODE_CONFIG.timeIndicatorEndRadius + NODE_CONFIG.timeIndicatorHoverOffset / 2,
+                  repeat: false     
+                }, NODE_CONFIG.timeIndicatorHoverEnterAnimateDelay);
+                // 纵向指示器的变化
+                fanBg.animate({
+                  startAngle: thisStartAngle,
+                  endAngle: thisEndAngle ,
+                  re: NODE_CONFIG.timeIndicatorstartRadius - NODE_CONFIG.timeIndicatorHoverOffset / 2,
+                  repeat: false     
+                }, NODE_CONFIG.timeIndicatorHoverEnterAnimateDelay);
+                // 提示文本
+                // 准备文本信息
+                // const { time, count } = appDetail[i];
+                const timeString = moment(Number(time)).format('YYYY-MM-DD HH:mm:ss');
+                const countString = `错误量 : ${count}`;
+                const textTimeX = NODE_CONFIG.timeTextRadius * Math.cos(sectionCenterAngle);
+                const textTimeY = NODE_CONFIG.timeTextRadius * Math.sin(sectionCenterAngle);
+                let textAlign = 'left';
+                if(textTimeX  < 0){
+                  textAlign = 'right';
+                }
+                // add 文本
+                // 用这种在on事件中addShape的方式比opacity改变的方式好在哪里？
+                // 这样避免一个opacity为0但实际元素存在，干扰操作的问题
+                group.addShape('text', {
+                  attrs: {
+                    x: textTimeX + NODE_CONFIG.timeTextOffsetX,
+                    y: textTimeY + NODE_CONFIG.timeTextOffsetY,
+                    text:`${timeString}\n${countString}`,
+                    fontSize: NODE_CONFIG.timeTextFontSize,
+                    fill: NODE_CONFIG.timeTextColor,
+                    opacity:NODE_CONFIG.timeTextShowOpacity,
+                    fontWeight: NODE_CONFIG.timeTextFontWeight,
+                    textAlign: textAlign,
+                    textBaseline: 'center',
+                    // stroke: 'white',
+                  },
+                  tag:TOOLTIP_TAG,
+                });
+                
+              }); 
+              item.on('mouseleave', function(evt) {
+                const fanTimer = timeIndicatorArr[i];
+                // 自身动画
+                fanTimer.animate({
+                  rs: NODE_CONFIG.timeIndicatorstartRadius,
+                  re: NODE_CONFIG.timeIndicatorEndRadius,
+                  repeat: false     
+                }, NODE_CONFIG.timeIndicatorHoverLeaveAnimateDelay);
+                // 径向指示动画
+                fanBg.animate({
+                  startAngle: realStartAngle,
+                  endAngle: realEndAngle ,
+                  re: NODE_CONFIG.dataSectionEndRaduis ,
+                  repeat: false     
+                }, NODE_CONFIG.timeIndicatorHoverEnterAnimateDelay);
+                // 移除文字
+                const tooltips = group.findAll(item => {
+                  return item._cfg.tag && item._cfg.tag === TOOLTIP_TAG;
+                });
+                tooltips.forEach(tooltip =>{
+                  tooltip.remove();
+                })
+              });
+            })
+            // --------------------------不好用就注释 <--
+            dataSectionDataArr.push(fanData);
+            currentAngle += perSectionAngle;
+          }
+          // 绘制 时间指示器
+          for(let i = 0; i < NODE_CONFIG.sectionCount; i++ ){
+            const odata = appDetail[i];
+            // 数据准备
+            const bkGraphObj = dataSectionBgArr[i];
+            const dataGraphObj = dataSectionDataArr[i];
+            const thisStartAngle = currentAngle;
+            const thisEndAngle = currentAngle + perSectionAngle;
+            const sectionCenterAngle = currentAngle + perSectionAngle / 2 ;
+            const realStartAngle = sectionCenterAngle  - dataBarWidthAngle / 2;
+            const realEndAngle = sectionCenterAngle  + dataBarWidthAngle / 2;
+            // 小扇形
+            const fanTimer = group.addShape('fan', {
+              attrs: {
+                x: 0,
+                y: 0,
+                rs: NODE_CONFIG.timeIndicatorstartRadius,
+                re: NODE_CONFIG.timeIndicatorEndRadius,
+                startAngle: currentAngle,
+                endAngle: currentAngle ,
+                clockwise: false,
+                // stroke: NODE_CONFIG.timeIndicatorColor,
+                fill: NODE_CONFIG.timeIndicatorColor,
+                opacity:NODE_CONFIG.dataSectionColorDataOpacity,
+              },
+              tag: ADD_TAG,
+              cursor: "pointer",
+            });
+            // 小扇形的动画
+            fanTimer.animate({
+              endAngle: currentAngle + perSectionAngle,
+              repeat: false     
+            }, NODE_CONFIG.timeIndicatorAnimateDelay);
+            // 监听交互事件
+            fanTimer.on('mouseenter', function(evt) {
+              // 自身动画
+              fanTimer.animate({
+                rs: NODE_CONFIG.timeIndicatorstartRadius - NODE_CONFIG.timeIndicatorHoverOffset / 2,
+                re: NODE_CONFIG.timeIndicatorEndRadius + NODE_CONFIG.timeIndicatorHoverOffset / 2,
+                repeat: false     
+              }, NODE_CONFIG.timeIndicatorHoverEnterAnimateDelay);
+              // 纵向指示器的变化
+              bkGraphObj.animate({
+                startAngle: thisStartAngle,
+                endAngle: thisEndAngle ,
+                re: NODE_CONFIG.timeIndicatorstartRadius - NODE_CONFIG.timeIndicatorHoverOffset / 2,
+                repeat: false     
+              }, NODE_CONFIG.timeIndicatorHoverEnterAnimateDelay);
+              // 提示文本
+              // 准备文本信息
+              const { time, count } = odata;
+              const timeString = moment(Number(time)).format('YYYY-MM-DD HH:mm:ss');
+              const countString = `错误量 : ${count}`;
+              const textTimeX = NODE_CONFIG.timeTextRadius * Math.cos(sectionCenterAngle);
+              const textTimeY = NODE_CONFIG.timeTextRadius * Math.sin(sectionCenterAngle);
+              let textAlign = 'left';
+              if(textTimeX  < 0){
+                textAlign = 'right';
+              }
+              // add 文本
+              // 用这种在on事件中addShape的方式比opacity改变的方式好在哪里？
+              // 这样避免一个opacity为0但实际元素存在，干扰操作的问题
+              group.addShape('text', {
+                attrs: {
+                  x: textTimeX + NODE_CONFIG.timeTextOffsetX,
+                  y: textTimeY + NODE_CONFIG.timeTextOffsetY,
+                  text:`${timeString}\n${countString}`,
+                  fontSize: NODE_CONFIG.timeTextFontSize,
+                  fill: NODE_CONFIG.timeTextColor,
+                  opacity:NODE_CONFIG.timeTextShowOpacity,
+                  fontWeight: NODE_CONFIG.timeTextFontWeight,
+                  textAlign: textAlign,
+                  textBaseline: 'center',
+                  // stroke: 'white',
+                },
+                tag:TOOLTIP_TAG,
+              });
+              
+            });
+            // 鼠标移开的事件监听
+            fanTimer.on('mouseleave', function(evt) {
+              // 自身动画
+              fanTimer.animate({
+                rs: NODE_CONFIG.timeIndicatorstartRadius,
+                re: NODE_CONFIG.timeIndicatorEndRadius,
+                repeat: false     
+              }, NODE_CONFIG.timeIndicatorHoverLeaveAnimateDelay);
+              // 径向指示动画
+              bkGraphObj.animate({
+                startAngle: realStartAngle,
+                endAngle: realEndAngle ,
+                re: NODE_CONFIG.dataSectionEndRaduis ,
+                repeat: false     
+              }, NODE_CONFIG.timeIndicatorHoverEnterAnimateDelay);
+              // 移除文字
+              const tooltips = group.findAll(item => {
+                return item._cfg.tag && item._cfg.tag === TOOLTIP_TAG;
+              });
+              tooltips.forEach(tooltip =>{
+                tooltip.remove();
+              })
+            });
+            // 图形引用入栈
+            timeIndicatorArr.push(fanTimer);
+            currentAngle += perSectionAngle;
+          }
+          // 绘制“关闭详情”提示文字
+          const closeText = "关闭扩展"
+          const closeBtn = group.addShape('text', {
+            attrs: {
+              x: NODE_CONFIG.closeBtnPositionX,
+              y: NODE_CONFIG.closeBtnPositionY,
+              text:closeText,
+              fontSize: NODE_CONFIG.closeBtnFontSize,
+              fill: NODE_CONFIG.closeBtnCommenColor,
+              opacity:NODE_CONFIG.closeBtnOpacity,
+              fontWeight: NODE_CONFIG.closeBtnCommenColor,
+              textAlign: 'center',
+              textBaseline: 'center',
+              cursor:"pointer",
+              // stroke: 'white',
+            },
+            tag:ADD_TAG,
+          });
+          closeBtn.on('click', ()=>{
+            // this.graphWapper.emit('close_detail', _cfg.id);
+            closeDetail();
+          });
+          closeBtn.on('mouseenter', ()=>{
+            closeBtn.animate({
+              fill: NODE_CONFIG.closeBtnHoverColor,
+              stroke: NODE_CONFIG.closeBtnHoverColor,
+              fontSize: NODE_CONFIG.closeBtnHoverFontSize,
+              repeat: false     
+            }, NODE_CONFIG.hoverAnimateTime);
+          });
+          
+          closeBtn.on('mouseleave', ()=>{
+            closeBtn.animate({
+              fill: NODE_CONFIG.closeBtnCommenColor,
+              fontSize: NODE_CONFIG.closeBtnFontSize,
+              stroke: null,
+              repeat: false     
+            }, NODE_CONFIG.hoverAnimateTime);
+          });
+          // 绘制开始方向提示
+          const marker = group.addShape('marker', {
+            attrs: {
+              // x: NODE_CONFIG.makerStartPositionX,
+              // y: NODE_CONFIG.makerStartPositionY,
+              x:0,
+              y:0,
+              r: NODE_CONFIG.makerStartRaduis,
+              fill: NODE_CONFIG.makerStartColor,
+              symbol:'triangle',
+              opacity:NODE_CONFIG.makerStartOpacity
+            },
+            tag: ADD_TAG,
+          });
+          // 偏移和旋转这个marker
+          marker.rotate(  - Math.PI / 6 )
+          marker.translate(NODE_CONFIG.makerStartPositionX, NODE_CONFIG.makerStartPositionY)
+        }
+        // 添加Focus的状态
+        const addFocus = (shape, item) => {
+          const group = shape.getParent();
+          const { _cfg } = item;
+          
+          const foucsRing = group.addShape('circle', {
+            attrs: {
+              x: 0,
+              y: 0,
+              r: NODE_CONFIG.foucsRadusMax,
+              // fill: abnormal ? NODE_CONFIG.colorError: NODE_CONFIG.colorHealthy, // 2529e8
+              stroke:NODE_CONFIG.foucsColor,
+              lineWidth:NODE_CONFIG.foucsWidth,
+              opacity:NODE_CONFIG.foucsOpacity,
+            },
+            tag: ADD_TAG,
+          });
+          foucsRing.animate({
+            r: NODE_CONFIG.foucsRadusMin,
+            repeat: true,     
+          }, NODE_CONFIG.foucsAnimateDelay);
+        };
+      }
+      // ================================
+      // 边样式注册
+      function registerEdgesStyle(){
+        if(!G6){
+          return;
+        }
+        const dashArray = EDGE_CONFIG.DASH.dashArray;
+        const lineDash = EDGE_CONFIG.DASH.lineDash;
+        const interval = EDGE_CONFIG.DASH.interval;
+        G6.registerEdge('ant-edge-emergency', {
+          draw: function draw(cfg, group) {
+            const startPoint = cfg.startPoint;
+            const endPoint = cfg.endPoint;
+            const centerPoint = {
+              x: startPoint.x + (endPoint.x - startPoint.x) / 2,
+              y: startPoint.y + (endPoint.y - startPoint.y) / 2
+            };
+            const controlPoint = {
+              x: startPoint.x,
+              y: (startPoint.y + centerPoint.y) / 2,
+            };
+            let specialArcOffsetX = EDGE_CONFIG.specialArcOffsetX;
+            const lineColor = cfg.abnormal ? EDGE_CONFIG.colorAbnoraml : EDGE_CONFIG.colorOk;
+          
+            let path;
+            if(cfg.isSpecial){ 
+              if(endPoint.y < startPoint.y){
+                specialArcOffsetX *= (-1);
+              }
+              path = group.addShape("path", {
+                attrs: {
+                  path: [["M", startPoint.x, startPoint.y], ["Q", centerPoint.x - specialArcOffsetX, centerPoint.y, endPoint.x , endPoint.y ], ],
+                  stroke: lineColor,
+                  lineWidth: EDGE_CONFIG.lineWidthCommon,
+                  opacity:EDGE_CONFIG.opacityCommon,
+                  endArrow: {
+                    path: "M 4,0 L -4,-4 L -4,4 Z",
+                    d: 5
+                  }
+                }
+              });
+            } else {
+              path = group.addShape("path", {
+                attrs: {
+                  path: [["M", startPoint.x, startPoint.y], ["Q", controlPoint.x , controlPoint.y, centerPoint.x, centerPoint.y], ["T", endPoint.x , endPoint.y ], ],
+                  stroke: lineColor,
+                  lineWidth: EDGE_CONFIG.lineWidthCommon,
+                  opacity:EDGE_CONFIG.opacityCommon,
+                  endArrow: {
+                    path: "M 4,0 L -4,-4 L -4,4 Z",
+                    d: 5
+                  }
+                }
+              });
+            }
+            // 不正常的时候需要显示提示
+            if(cfg.abnormal){ // 
+              let thePoint = {}; // 要显示的位置
+              if(cfg.isSpecial){
+                thePoint = {
+                  x:centerPoint.x - specialArcOffsetX / 2, 
+                  y:centerPoint.y,
+                }
+              } else {
+                thePoint={
+                  x: centerPoint.x,
+                  y: centerPoint.y,
+                }
+              }
+              const itemBox = group.addShape('circle', {
+                attrs: {
+                  x: thePoint.x,
+                  y: thePoint.y,
+                  r: EDGE_CONFIG.errorTipRadius,
+                  fill: EDGE_CONFIG.errorTipBallColor, // 2529e8
+                  opacity:EDGE_CONFIG.opacityCommon,
+                },
+                tag:BALL_TAG,
+              });
+              // 文本
+              const labelShape = group.addShape('text', {
+                attrs: {
+                  x: thePoint.x,
+                  y: thePoint.y + 2,
+                  text: cfg.serviceList.length,
+                  fontSize: EDGE_CONFIG.errorTipTextFontSize,
+                  fill:EDGE_CONFIG.errorTipTextColor,
+                  fontWeight: EDGE_CONFIG.errorTipTextFontWeight,
+                  textAlign:  EDGE_CONFIG.errorTipTextAlign,
+                  textBaseline:  EDGE_CONFIG.errorTipTextBaseline,
+                  opacity:EDGE_CONFIG.opacityCommon,
+                  // stroke: !isHealthy ? NODE_CONFIG.labalFontStrokeColorError : NODE_CONFIG.labalFontStrokeColorHealthy,
+                },
+              });
+            }
+            
+            return path;
+          },
+          setState(name, value, item) {
+            const shape = item.get('keyShape');
+            const group = shape.getParent();
+            switch (name) {
+              case 'faded':
+                if (value) {
+                  const opacity = EDGE_CONFIG.opacityFaded;
+                  shape.attr('opacity', opacity);
+                  const balls = group.findAll(item => {
+                    return item._cfg.tag && item._cfg.tag === BALL_TAG;
+                  });
+                  balls.forEach(ball =>{
+                    ball.attr('opacity', opacity);
+                  })
+                } 
+                else {
+                  const opacity = EDGE_CONFIG.opacityCommon;
+                  shape.attr('opacity', opacity);
+                  const balls = group.findAll(item => {
+                    return item._cfg.tag && item._cfg.tag === BALL_TAG;
+                  });
+                  balls.forEach(ball =>{
+                    ball.attr('opacity', opacity);
+                  })
+                }
+                break;
+              case 'hoverStyle':
+                const { _cfg } = item;
+                const { originStyle } = _cfg;
+                const { lineWidth } = originStyle;
+                const increaseWidth = EDGE_CONFIG.lineWidthHoverIncrease;
+                // console.log("_cfg", _cfg);
+                if (value) {
+                  shape.attr({
+                    lineWidth:lineWidth + increaseWidth,
+                    opacity: EDGE_CONFIG.opacityHover,
+                  })
+                } 
+                else {
+                  shape.attr({
+                    lineWidth,
+                    opacity: EDGE_CONFIG.opacityCommon,
+                  })
+                }
+                break;
+            }
+          },
+          
+          afterDraw(cfg, group) {
+            const shape = group.get('children')[0];
+            const startPoint = shape.getPoint(0);
+            const circle = group.addShape('circle', {
+              attrs: {
+                x: startPoint.x,
+                y: startPoint.y,
+                fill: cfg.abnormal?EDGE_CONFIG.flowingBallColorAbnormal:EDGE_CONFIG.flowingBallColorCommon,
+                r: 2
+              },
+              tag: BALL_TAG,
+            });
+            circle.animate({
+              onFrame(ratio) {
+                const tmpPoint = shape.getPoint(ratio);
+                return {
+                  x: tmpPoint.x,
+                  y: tmpPoint.y
+                };
+              },
+              repeat: true
+            }, EDGE_CONFIG.flowingTimeInterval);
+            const length = shape.getTotalLength(); // G 增加了 totalLength 的接口
+            let totalArray = [];
+            for (var i = 0; i < length; i += interval) {
+              totalArray = totalArray.concat(lineDash);
+            }
+            let index = 0;
+            shape.animate({
+              onFrame(ratio) {
+                const cfg = {
+                  lineDash: dashArray[index].concat(totalArray)
+                };
+                index = (index + 1) % interval;
+                return cfg;
+              },
+              repeat: true
+            }, EDGE_CONFIG.flowingTimeInterval);
+          },
+        });
+      }
+    function focusOnNodePoint(id, zoomViewScale){
+      const { width, height } = window.graphSize;
+      const item = window.graph.findById(id);
+      const model = item.get('model');
+      const matrix = window.graph.get('group').getMatrix();
+      const x = model.x * matrix[0] + matrix[6];
+      const y = model.y * matrix[4] + matrix[7];
+      window.graph.translate(width / 2 - x, height / 2 - y);
+      if(zoomViewScale){
+        zoomByCenter(zoomViewScale);
+      }
+    }
+    function zoomByCenter(scale){
+      const { width, height } = this.graphSize;
+      const centerPosition = {x: width / 2, y: height / 2}
+      window.graph.zoom(scale / window.graph.getZoom(), centerPosition);
+    }
+    function  fadeAllButOne(besideNodeId){
+      window.graph.getNodes().forEach(node =>{
+        const nodeid = node._cfg.id;
+        if(besideNodeId !== nodeid){
+          window.graph.setItemState(nodeid, 'faded', true);
+        }
+      });
+      window.graph.getEdges().forEach(edge =>{
+        const edgeid = edge._cfg.id;
+        window.graph.setItemState(edgeid, 'faded', true);
+      })
+    }
+    function showInitialGraph(){
+      window.graph.getNodes().forEach(node=>{
+        const nodeid = node._cfg.id;
+        window.graph.setItemState(nodeid, 'faded', false);
+      });
+      window.graph.getEdges().forEach(edge=>{
+        const edgeid = edge._cfg.id;
+        window.graph.showItem(edgeid);
+        window.graph.setItemState(edgeid, 'faded', false);
+      });
+    }
+    // 分析按钮的监听回调
+    document.getElementById('btn_error').addEventListener("click", ()=>{
+      // 模拟系统详情
+      document.getElementById('infoDetail').innerHTML = `
+      <div style="color: white;">
+        <p>source_system</p>
+        <hr >
+        <p>系统owner：cjj</p>
+        <p>系统等级：Level High</p>
+        <hr  >
+        <p>问题原因是：XXX</p>
+        <p>最近趋势图：YYY</p>
+        <p>解决方案是：ZZZ</p>
+      </div>
+      `;
+      // 聚焦到节点
+      fadeAllButOne("source_system");
+      focusOnNodePoint("source_system", 2);
+      window.graph.setItemState("source_system", 'detailing', true);
+    });
+    function closeDetail(){
+      window.graph.setItemState("source_system", 'detailing', false);
+      showInitialGraph();
+      document.getElementById('infoDetail').innerHTML = '';
+    }
+    // =========================
+    // 时间轴部分
+    const timeMockData = [
+      {time: "23:07", value: 0, date: "2019-10-14", timeStamp: 1571065620000},
+      {time: "23:08", value: 0, date: "2019-10-14", timeStamp: 1571065680000},
+      {time: "23:09", value: 0, date: "2019-10-14", timeStamp: 1571065740000},
+      {time: "23:10", value: 0, date: "2019-10-14", timeStamp: 1571065800000},
+      {time: "23:11", value: 0, date: "2019-10-14", timeStamp: 1571065860000},
+      {time: "23:12", value: 0, date: "2019-10-14", timeStamp: 1571065920000},
+      {time: "23:13", value: 0, date: "2019-10-14", timeStamp: 1571065980000},
+      {time: "23:14", value: 0, date: "2019-10-14", timeStamp: 1571066040000},
+      {time: "23:15", value: 0, date: "2019-10-14", timeStamp: 1571066100000},
+      {time: "23:16", value: 0, date: "2019-10-14", timeStamp: 1571066160000},
+      {time: "23:17", value: 0, date: "2019-10-14", timeStamp: 1571066220000},
+      {time: "23:18", value: 0, date: "2019-10-14", timeStamp: 1571066280000},
+      {time: "23:19", value: 0, date: "2019-10-14", timeStamp: 1571066340000},
+      {time: "23:20", value: 0, date: "2019-10-14", timeStamp: 1571066400000},
+      {time: "23:21", value: 0, date: "2019-10-14", timeStamp: 1571066460000},
+      {time: "23:22", value: 0, date: "2019-10-14", timeStamp: 1571066520000},
+      {time: "23:23", value: 0, date: "2019-10-14", timeStamp: 1571066580000},
+      {time: "23:24", value: 0, date: "2019-10-14", timeStamp: 1571066640000},
+      {time: "23:25", value: 0, date: "2019-10-14", timeStamp: 1571066700000},
+      {time: "23:26", value: 0, date: "2019-10-14", timeStamp: 1571066760000},
+      {time: "23:27", value: 0, date: "2019-10-14", timeStamp: 1571066820000},
+      {time: "23:28", value: 0, date: "2019-10-14", timeStamp: 1571066880000},
+      {time: "23:29", value: 0, date: "2019-10-14", timeStamp: 1571066940000},
+      {time: "23:30", value: 0, date: "2019-10-14", timeStamp: 1571067000000},
+      {time: "23:31", value: 0, date: "2019-10-14", timeStamp: 1571067060000},
+      {time: "23:32", value: 0, date: "2019-10-14", timeStamp: 1571067120000},
+      {time: "23:33", value: 0, date: "2019-10-14", timeStamp: 1571067180000},
+      {time: "23:34", value: 0, date: "2019-10-14", timeStamp: 1571067240000},
+      {time: "23:35", value: 0, date: "2019-10-14", timeStamp: 1571067300000},
+      {time: "23:36", value: 0, date: "2019-10-14", timeStamp: 1571067360000},
+      {time: "23:37", value: 2, date: "2019-10-14", timeStamp: 1571067420000},
+      {time: "23:38", value: 11, date: "2019-10-14", timeStamp: 1571067480000},
+      {time: "23:39", value: 11, date: "2019-10-14", timeStamp: 1571067540000},
+      {time: "23:40", value: 11, date: "2019-10-14", timeStamp: 1571067600000},
+      {time: "23:41", value: 10, date: "2019-10-14", timeStamp: 1571067660000},
+      {time: "23:42", value: 0, date: "2019-10-14", timeStamp: 1571067720000},
+      {time: "23:43", value: 0, date: "2019-10-14", timeStamp: 1571067780000},
+      {time: "23:44", value: 0, date: "2019-10-14", timeStamp: 1571067840000},
+      {time: "23:45", value: 0, date: "2019-10-14", timeStamp: 1571067900000},
+      {time: "23:46", value: 0, date: "2019-10-14", timeStamp: 1571067960000},
+      {time: "23:47", value: 0, date: "2019-10-14", timeStamp: 1571068020000},
+      {time: "23:48", value: 0, date: "2019-10-14", timeStamp: 1571068080000},
+      {time: "23:49", value: 0, date: "2019-10-14", timeStamp: 1571068140000},
+      {time: "23:50", value: 0, date: "2019-10-14", timeStamp: 1571068200000},
+      {time: "23:51", value: 0, date: "2019-10-14", timeStamp: 1571068260000},
+      {time: "23:52", value: 0, date: "2019-10-14", timeStamp: 1571068320000},
+      {time: "23:53", value: 5, date: "2019-10-14", timeStamp: 1571068380000},
+      {time: "23:54", value: 5, date: "2019-10-14", timeStamp: 1571068440000},
+      {time: "23:55", value: 0, date: "2019-10-14", timeStamp: 1571068500000},
+      {time: "23:56", value: 0, date: "2019-10-14", timeStamp: 1571068560000},
+      {time: "23:57", value: 0, date: "2019-10-14", timeStamp: 1571068620000},
+      {time: "23:58", value: 0, date: "2019-10-14", timeStamp: 1571068680000},
+      {time: "23:59", value: 0, date: "2019-10-14", timeStamp: 1571068740000},
+      {time: "00:00", value: 0, date: "2019-10-15", timeStamp: 1571068800000},
+      {time: "00:01", value: 0, date: "2019-10-15", timeStamp: 1571068860000},
+      {time: "00:02", value: 0, date: "2019-10-15", timeStamp: 1571068920000},
+      {time: "00:03", value: 0, date: "2019-10-15", timeStamp: 1571068980000},
+      {time: "00:04", value: 0, date: "2019-10-15", timeStamp: 1571069040000},
+      {time: "00:05", value: 0, date: "2019-10-15", timeStamp: 1571069100000},
+      {time: "00:06", value: 0, date: "2019-10-15", timeStamp: 1571069160000},
+      {time: "00:07", value: 0, date: "2019-10-15", timeStamp: 1571069220000},
+    ];
+    const TIME_CONTROLLER_CONFIG = {
+      // 模块整体宽度
+      width:640, 
+      // 模块整体高
+      height:64, 
+      // padding  边距
+      padding:{ 
+        top:4,
+        bottom:8,
+        left:8,
+        right:8,
+      },
+      // 控制按钮大小
+      controlButtonR:10, 
+      // 时间轴轴线宽
+      axisLineWidth:2,  
+      // 柱子区域的水平间距
+      barSectionPaddingH:8 ,  
+      // 柱子间距
+      barPadding:2, 
+      // icon 线的水平位置偏移
+      iconXOffset:2, 
+      // icon 线的纵偏移
+      iconYOffset:5, 
+      // icon 的线
+      iconStrokeWidth:1, 
+      // 各种颜色定义
+      COLORS:{ 
+        // x轴
+        axis:"#597EF7", 
+        // 控制按钮
+        controlBtn:"#69C0FF", 
+        // 按钮上icon的颜色
+        iconInBtn:"#080C16", 
+      }
+    };
+    const { 
+      width,
+      height,
+      padding,
+      controlButtonR,
+      axisLineWidth,
+      barSectionPaddingH,
+      barPadding,
+      iconXOffset,
+      iconYOffset,
+      iconStrokeWidth,
+      COLORS,
+    } = TIME_CONTROLLER_CONFIG;
+    // 时间轴控制按钮位置计算
+    const leftControlButtonPosition = {
+      x: padding.left + controlButtonR,
+      y: height - padding.bottom - controlButtonR
+    };
+    const rightControlButtonPosition = {
+      x: width - padding.right - controlButtonR,
+      y: height - padding.bottom - controlButtonR
+    };
+    const barSectionHeight = height - padding.top - padding.bottom - axisLineWidth - controlButtonR;
+    const barSectionWidth = width - padding.left - padding.right - controlButtonR * 4 - barSectionPaddingH * 2;
+    // svg
+    const svg = d3.select('#timeControllerContainer')
+      .append("svg")
+      .attr("height", height)
+      .attr("width", width);
+    window.svg = svg;
+    // 画轴
+    svg.append('line')
+      .attr('x1', leftControlButtonPosition.x )
+      .attr('y1', leftControlButtonPosition.y )
+      .attr('x2', rightControlButtonPosition.x )
+      .attr('y2', rightControlButtonPosition.y )
+      .attr('stroke-width', axisLineWidth)
+      .attr('stroke', COLORS.axis);
+    // 控制器：left
+    const leftControlG = svg.append('g');
+    leftControlG.append('circle').attr('id', 'circleBtn')
+      .attr('r', controlButtonR)
+      .attr('cx',  leftControlButtonPosition.x)
+      .attr('cy', leftControlButtonPosition.y)
+      .attr('fill', COLORS.controlBtn)
+      .style("cursor", "pointer");
+    leftControlG.append('line')
+      .attr('x1', leftControlButtonPosition.x + iconXOffset )
+      .attr('y1', leftControlButtonPosition.y - iconYOffset )
+      .attr('x2', leftControlButtonPosition.x - iconXOffset )
+      .attr('y2', leftControlButtonPosition.y )
+      .attr('stroke-width', iconStrokeWidth)
+      .attr('stroke', COLORS.iconInBtn)
+      .style("cursor", "pointer");
+    leftControlG.append('line')
+      .attr('x1', leftControlButtonPosition.x - iconXOffset  )
+      .attr('y1', leftControlButtonPosition.y )
+      .attr('x2', leftControlButtonPosition.x + iconXOffset )
+      .attr('y2', leftControlButtonPosition.y + iconYOffset )
+      .attr('stroke-width', iconStrokeWidth)
+      .attr('stroke', COLORS.iconInBtn)
+      .style("cursor", "pointer");
+    // 左边button的点击回调
+    leftControlG.on('click', function(d){
+      // console.log('d3.select(this)', d3.select('#circleBtn').transition())
+      // d3.select(this)
+      //   .select('#circleBtn')
+      //   .transition()      //要实现单元素连续动画就直接加在后面
+      //   // .duration(100)
+      //   .attr('r', controlButtonR + 2)
+      //   .transition()      //要实现单元素连续动画就直接加在后面
+      //   .duration(100)
+      //   .attr('r', controlButtonR );
+      // 点击回调
+      handleClickBtn('back');
+    });
+    // 控制器：right
+    const rightControlG = svg.append('g');
+    rightControlG.append('circle')
+      .attr('r', controlButtonR)
+      .attr('cx',  rightControlButtonPosition.x)
+      .attr('cy', rightControlButtonPosition.y)
+      .attr('fill',  COLORS.controlBtn)
+      .style("cursor", "pointer");
+    rightControlG.append('line')
+      .attr('x1', rightControlButtonPosition.x - iconXOffset )
+      .attr('y1', rightControlButtonPosition.y - iconYOffset )
+      .attr('x2', rightControlButtonPosition.x + iconXOffset )
+      .attr('y2', rightControlButtonPosition.y )
+      .attr('stroke-width', iconStrokeWidth)
+      .attr('stroke', COLORS.iconInBtn)
+      .style("cursor", "pointer");
+    rightControlG.append('line')
+      .attr('x1', rightControlButtonPosition.x + iconXOffset  )
+      .attr('y1', rightControlButtonPosition.y )
+      .attr('x2', rightControlButtonPosition.x - iconXOffset )
+      .attr('y2', rightControlButtonPosition.y + iconYOffset )
+      .attr('stroke-width', iconStrokeWidth)
+      .attr('stroke', COLORS.iconInBtn)
+      .style("cursor", "pointer");
+    // 右边button的点击回调
+    rightControlG.on('click', (d)=>{
+      // 点击回调
+      handleClickBtn('front');
+    });
+    drawData( timeMockData );
+    function drawData( data ){
+      const lastIndex = data.length - 1;
+      const svg =  window.svg;
+      const yScale =  barSectionHeight / d3.max(data.map(i=>i.value))
+      const barsGroup = svg.append("g").attr("id", "oneBarGroup");
+      const oneBarGroup = barsGroup.selectAll("rect")
+        .data(data)
+        .enter()
+        .append("g");
+      // 背景
+      oneBarGroup.append("rect")
+        .attr('id', 'rect_bg')
+        .attr("x", (d, i)=>{
+          return i * (barSectionWidth / data.length) + padding.left + controlButtonR * 2 + barSectionPaddingH;
+        })      
+        .attr("y", (d, i)=>{
+          return    padding.top
+        })
+        .attr("width", barSectionWidth / data.length - barPadding )
+        .attr("height", barSectionHeight)
+        .attr("fill", "#597EF7")
+        .attr("opacity", 0.2) 
+        .attr("stroke", "white")
+        .attr("stroke-width", (d, i) =>{
+          return i === lastIndex ? 2 : 0;
+        });
+    
+      // bar
+      oneBarGroup.append("rect")
+        .attr('id', 'rect')
+        .attr("x", (d, i)=>{
+          return i * (barSectionWidth / data.length) + padding.left + controlButtonR * 2 + barSectionPaddingH;
+        })
+        .attr("y", (d, i)=>{
+          const maybeValue = barSectionHeight - d.value * yScale + padding.top;
+          const yValue = isNaN(maybeValue)? 0 : maybeValue;
+          return yValue;
+        })
+        .attr("width", barSectionWidth / data.length - barPadding )
+        .attr("height", (d, i)=>{
+          const maybeValue =  d.value * yScale ;
+          const yValue = isNaN(maybeValue)? 0 : maybeValue;
+          return yValue;
+        })
+        .attr("fill", "#69C0FF")
+        .attr("opacity", 0.75)    
+        .attr("stroke", "white")
+        .attr("stroke-width", (d, i) =>{
+          return i === lastIndex ? 2 : 0;
+        });
+      // 添加event
+      oneBarGroup
+        .style("cursor", "pointer")
+        .on('click', function(d){
+          let selectIdTag = '#rect';
+          if(d.value === 0){
+            selectIdTag = '#rect_bg';
+          } 
+          // 更新选择状态
+          d3.selectAll('#rect_bg')
+            .style("stroke-width", 0);
+          d3.selectAll('#rect')
+          .style("stroke-width", 0);
+          // 
+          const selectRect = d3.select(this).select(selectIdTag);
+          selectRect
+            .style("stroke-width", 2);
+          // 
+          clickRectQuery(d);
+        })
+        .on("mouseover", function(d) {
+          const selectRect = d3.select(this).select('#rect');
+          selectRect.style("opacity", 1);
+          // console.log(d3.select(this).select('#rect').nodes())
+          // console.log(d3.event)
+          const { offsetX, offsetY } = d3.event;
+          setTooltipState({
+            isTooltipVisable:true,
+            toolTipData:selectRect.nodes()[0].__data__,
+            relativePosition:{
+              x:offsetX,
+              y:offsetY,
+            },
+          });
+        })
+        .on("mouseout", function(d) {
+          d3.select(this).select('#rect').style("opacity", 0.75);
+          setTooltipState({
+            isTooltipVisable:false,
+          });
+        });
+      // text
+      const textAxisGroup = svg.append('g').attr("id", "textAxisGroup");
+      textAxisGroup.selectAll("rect")
+        .data(data)
+        .enter()
+        .append("g")
+        .append("text")
+        .attr("fill","white")
+        .attr("font-size","12px")
+        .attr("text-anchor","middle")
+        .attr("x",function(d,i){    //与矩形的X坐标一样
+          return i * (barSectionWidth / data.length) + padding.left + controlButtonR * 2 + barSectionPaddingH + 8
+        })
+        .attr("y",function(d){
+          return barSectionHeight + 20 + padding.top
+        })
+        .text(function(d, i){  //要显示的文字内容
+          if(i % 6 === 0){
+            return d.time
+          }  
+          return '';   
+        }); 
+      // mouse enter的回调
+      const setTooltipState = ({isTooltipVisable, toolTipData, relativePosition})=>{
+      };
+      const clickRectQuery = (d) =>{
+        updateGraph(mockGraphData2.data);
+      }
+    
+  }
+  
+  </script>
+</body>
+</html>

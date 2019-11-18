@@ -81,20 +81,9 @@ class LayoutController {
     let layoutType = self.layoutType;
     const graph = self.graph;
     // const data = graph.get('data');
-    const nodes = [];
-    const edges = [];
-    const nodeItems = graph.getNodes();
-    const edgeItems = graph.getEdges();
-    nodeItems.forEach(nodeItem => {
-      const model = nodeItem.getModel();
-      nodes.push(model);
-    });
-    edgeItems.forEach(edgeItem => {
-      const model = edgeItem.getModel();
-      edges.push(model);
-    });
-    const data = { nodes, edges };
-    self.data = data;
+
+    self.data = self.setDataFromGraph();
+    const nodes = self.data.nodes;
 
     if (!nodes) {
       return false;
@@ -129,7 +118,7 @@ class LayoutController {
     }
 
     this._stopWorker();
-    if (layoutCfg.workerEnabled && this._layoutWithWorker(data, success)) {
+    if (layoutCfg.workerEnabled && this._layoutWithWorker(self.data, success)) {
       // 如果启用布局web worker并且浏览器支持web worker，用web worker布局。否则回退到不用web worker布局。
       return true;
     }
@@ -154,7 +143,7 @@ class LayoutController {
       console.warn('The layout method: ' + layoutCfg + ' does not exist! Please specify it first.');
       return false;
     }
-    layoutMethod.init(data);
+    layoutMethod.init(self.data);
     graph.emit('beforelayout');
     layoutMethod.execute();
     self.layoutMethod = layoutMethod;
@@ -266,6 +255,7 @@ class LayoutController {
     const graph = self.graph;
     self.layoutType = cfg.type;
     const layoutMethod = self.layoutMethod;
+    self.data = self.setDataFromGraph();
 
     this._stopWorker();
     if (cfg.workerEnabled && this._layoutWithWorker(self.data, null)) {
@@ -273,6 +263,7 @@ class LayoutController {
       return;
     }
 
+    layoutMethod.init(self.data);
     layoutMethod.updateCfg(cfg);
     graph.emit('beforelayout');
     layoutMethod.execute();
@@ -299,6 +290,34 @@ class LayoutController {
     const layoutMethod = self.layoutMethod;
     layoutMethod && layoutMethod.destroy();
     self.layout();
+  }
+
+  // 从 this.graph 获取数据
+  setDataFromGraph() {
+    const self = this;
+    const nodes = [];
+    const edges = [];
+    const nodeItems = self.graph.getNodes();
+    const edgeItems = self.graph.getEdges();
+    nodeItems.forEach(nodeItem => {
+      const model = nodeItem.getModel();
+      nodes.push(model);
+    });
+    edgeItems.forEach(edgeItem => {
+      const model = edgeItem.getModel();
+      edges.push(model);
+    });
+    const data = { nodes, edges };
+    if (self.layoutType === 'fruchtermanGroup') {
+      // const groupsData = self.graph.get('groups');
+      // const customGroup = self.graph.get('customGroup');
+      // const groupController = self.graph.get('customGroupControll');
+      // data.groupsData = groupsData;
+      // data.customGroup = customGroup;
+      // data.groupController = groupController;
+      data.graph = self.graph;
+    }
+    return data;
   }
 
   // 重新布局

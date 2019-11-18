@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>addItem on Dagre Layout and Update layout</title>
+  </head>
+  
+  <body>
+    <div id="description">Dagre 布局，点击节点新增一个节点，点击空白区域重新布局</div>
+    <div id="mountNode"></div>
+    <script src="../build/g6.js"></script>
+    <script>
+      const data = {
+        "nodes": [{
+          "id": "0",
+          "label": "0"
+        },
+        {
+          "id": "1",
+          "label": "1"
+        },
+        {
+          "id": "2",
+          "label": "2"
+        },
+        {
+          "id": "3",
+          "label": "3"
+        },
+        {
+          "id": "4",
+          "label": "4"
+        },
+        {
+          "id": "5",
+          "label": "5"
+        }],
+        "edges": [{
+          "source": "0",
+          "target": "1"
+        },
+        {
+          "source": "0",
+          "target": "2"
+        },
+        {
+          "source": "1",
+          "target": "3"
+        },
+        {
+          "source": "1",
+          "target": "4"
+        },
+        {
+          "source": "2",
+          "target": "5"
+        }]
+      };
+      const graph = new G6.Graph({
+        container: 'mountNode',
+        width: 1000,
+        height: 600,
+        modes: {
+        default: ['drag-canvas', 'drag-node'],
+        },
+        layout: {
+          type: 'dagre',
+          center: [500, 300],
+          nodeSize: [40, 20],
+          nodesep: 50,
+          ranksep: 50,
+          rankdir: 'TB',
+        },
+        animate: true,
+        defaultNode: {
+          size: [40, 20],
+          color: 'steelblue',
+          shape: 'rect',
+          style: {
+            lineWidth: 2,
+            fill: '#fff'
+          }
+        },
+        defaultEdge: {
+          size: 1,
+          color: '#e2e2e2',
+          style: {
+            endArrow: {
+              path: 'M 4,0 L -4,-4 L -4,4 Z',
+              d: 4
+            }
+          }
+        }
+      });
+      graph.data(data);
+      graph.render();
+
+      graph.on('node:click', evt => {
+        graph.addItem('node', {
+          id: 'newnode',
+          x: 100,
+          y: 100,
+          style: {
+            fill: 'red'
+          }
+        });
+      });
+      
+      graph.on('canvas:click', evt => {
+        graph.updateLayout({
+          ranksep: 10,
+          rankdir: 'LR'
+        });
+      });
+    </script>
+  </body>
+</html>

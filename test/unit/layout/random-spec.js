@@ -20,7 +20,7 @@ const data = {
   ]
 };
 
-describe('random', () => {
+describe.only('random', () => {
   it('new graph without layout, random by default', () => {
     const graph = new G6.Graph({
       container: div,

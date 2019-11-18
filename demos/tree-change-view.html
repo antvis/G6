@@ -17,7 +17,17 @@
     width: 500,
     height: 500,
     defaultNode: {
-      size: [20, 20]
+      size: [20, 20],
+      style: {
+        fill: '#40a9ff',
+  			stroke: '#096dd9'
+      }
+    },
+  	defaultEdge: {
+    	shape: 'cubic-horizontal',
+    	style: {
+      	stroke: '#A3B1BF'
+    	}
     },
     modes: {
       default: [ 'drag-node', 'drag-canvas', {
@@ -28,20 +38,6 @@
           return true
         }
       } ]
-    },
-    nodeStyle: {
-      default: {
-        fill: '#40a9ff',
-  			stroke: '#096dd9'
-      }
-    },
-  	edgeStyle: {
-    	default: {
-      	stroke: '#A3B1BF'
-    	}
-  	},
-  	defaultEdge: {
-    	shape: 'cubic-horizontal'
     },
     layout: {
       type: 'dendrogram',

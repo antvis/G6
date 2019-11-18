@@ -1,7 +1,7 @@
 # Contribution Guide
 
-If you have any comment or advice, please report your [issue](https://github.com/antvis/g2/issues),
-or make any change as you wish and submit an [PR](https://github.com/antvis/g2/pulls).
+If you have any comment or advice, please report your [issue](https://github.com/antvis/g6/issues),
+or make any change as you wish and submit an [PR](https://github.com/antvis/g6/pulls).
 
 ## Reporting New Issues
 
@@ -30,14 +30,14 @@ $ git commit -m "fix(role): role.use must xxx"
 $ git push origin branch-name
 ```
 
-Then you can create a Pull Request at [g2](https://github.com/antvis/g2/pulls).
+Then you can create a Pull Request at [g6](https://github.com/antvis/g6/pulls).
 
 No one can guarantee how much will be remembered about certain PR after some time. To make sure we can easily recap what happened previously, please provide the following information in your PR.
 
 1. Need: What function you want to achieve (Generally, please point out which issue is related).
 2. Updating Reason: Different with issue. Briefly describe your reason and logic about why you need to make such modification.
 3. Related Testing: Briefly describe what part of testing is relevant to your modification.
-4. User Tips: Notice for g2 users. You can skip this part, if the PR is not about update in API or potential compatibility problem.
+4. User Tips: Notice for g6 users. You can skip this part, if the PR is not about update in API or potential compatibility problem.
 
 ### Style Guide
 
@@ -95,7 +95,7 @@ Older IEs serialize html uppercased, but IE9 does not...
 Would be better to expect case insensitive, unfortunately jasmine does
 not allow to user regexps for throw expectations.
 
-Document change on antvis/g2#123
+Document change on antvis/g6#123
 
 Closes #392
 

@@ -6,7 +6,7 @@ const div = document.createElement('div');
 div.id = 'mds-layout';
 document.body.appendChild(div);
 
-describe('mds', () => {
+describe.only('mds', () => {
   it('mds layout with default configs', () => {
     const graph = new G6.Graph({
       container: div,

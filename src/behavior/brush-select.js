@@ -1,7 +1,8 @@
 const min = Math.min;
 const max = Math.max;
 const abs = Math.abs;
-const hypot = Math.hypot;
+const DEFAULT_TRIGGER = 'shift';
+const ALLOW_EVENTS = [ 'drag', 'shift', 'ctrl', 'alt', 'control' ];
 
 module.exports = {
   getDefaultCfg() {
@@ -15,23 +16,46 @@ module.exports = {
       onSelect() {},
       onDeselect() {},
       selectedState: 'selected',
+      trigger: DEFAULT_TRIGGER,
       includeEdges: true,
       selectedEdges: [],
       selectedNodes: []
     };
   },
   getEvents() {
+    let trigger;
+    // 检测输入是否合法
+    if (ALLOW_EVENTS.indexOf(this.trigger.toLowerCase()) > -1) {
+      trigger = this.trigger;
+    } else {
+      trigger = DEFAULT_TRIGGER;
+      console.warn('Behavior brush-select的trigger参数不合法，请输入drag、shift、ctrl或alt');
+    }
+    if (trigger === 'drag') {
+      return {
+        mousedown: 'onMouseDown',
+        mousemove: 'onMouseMove',
+        mouseup: 'onMouseUp',
+        'canvas:click': 'clearStates'
+      };
+    }
     return {
       mousedown: 'onMouseDown',
       mousemove: 'onMouseMove',
       mouseup: 'onMouseUp',
-      'canvas:click': 'clearStates'
+      'canvas:click': 'clearStates',
+      keyup: 'onKeyUp',
+      keydown: 'onKeyDown'
     };
   },
   onMouseDown(e) {
     // 按在node上面拖动时候不应该是框选
     const { item } = e;
     if (item) {
+      return;
+    }
+
+    if (this.trigger !== 'drag' && !this.keydown) {
       return;
     }
 
@@ -49,21 +73,31 @@ module.exports = {
     this.dragging = true;
   },
   onMouseMove(e) {
-    const originPoint = this.originPoint;
-    if (!this.dragging || hypot(originPoint.x - e.canvasX, originPoint.y - e.canvasY) < 10) {
+    if (!this.dragging) {
       return;
     }
+
+    if (this.trigger !== 'drag' && !this.keydown) {
+      return;
+    }
+
     this._updateBrush(e);
     this.graph.paint();
   },
   onMouseUp(e) {
-    if (!this.brush) {
+    if (!this.brush && !this.dragging) {
       return;
     }
+
+    if (this.trigger !== 'drag' && !this.keydown) {
+      return;
+    }
+
     const graph = this.graph;
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
-    this.brush.hide();
+    this.brush.destroy();
+    this.brush = null;
     this._getSelectedNodes(e);
     this.dragging = false;
     this.graph.paint();
@@ -84,6 +118,10 @@ module.exports = {
 
     this.selectedEdges = [];
     this.onDeselect && this.onDeselect(this.selectedNodes, this.selectedEdges);
+    graph.emit('nodeselectchange', { targets: {
+      nodes: [],
+      edges: []
+    }, select: false });
     graph.paint();
     graph.setAutoPaint(autoPaint);
   },
@@ -137,6 +175,10 @@ module.exports = {
     this.selectedEdges = selectedEdges;
     this.selectedNodes = selectedNodes;
     this.onSelect && this.onSelect(selectedNodes, selectedEdges);
+    graph.emit('nodeselectchange', { targets: {
+      nodes: selectedNodes,
+      edges: selectedEdges
+    }, select: true });
   },
   _createBrush() {
     const self = this;
@@ -155,5 +197,24 @@ module.exports = {
       x: min(e.canvasX, originPoint.x),
       y: min(e.canvasY, originPoint.y)
     });
+  },
+  onKeyDown(e) {
+    const code = e.key;
+    // 按住control键时，允许用户设置trigger为ctrl
+    if (code && (code.toLowerCase() === this.trigger.toLowerCase())
+      || code.toLowerCase() === 'control') {
+      this.keydown = true;
+    } else {
+      this.keydown = false;
+    }
+  },
+  onKeyUp() {
+    if (this.brush) {
+      // 清除所有选中状态后，设置拖得动状态为false，并清除框选的brush
+      this.brush.destroy();
+      this.brush = null;
+      this.dragging = false;
+    }
+    this.keydown = false;
   }
 };

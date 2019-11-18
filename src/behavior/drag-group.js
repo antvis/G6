@@ -49,17 +49,10 @@ module.exports = {
     const currentGroup = customGroup[groupId].nodeGroup;
 
     this.targetGroup = currentGroup;
-    const groupOriginBBox = customGroupControll.getGroupOriginBBox(groupId);
-    const keyShape = this.targetGroup.get('keyShape');
-    if (!groupOriginBBox) {
-      customGroupControll.setGroupOriginBBox(groupId, keyShape.getBBox());
-    }
-
     this.mouseOrigin = {
       x: evt.canvasX,
       y: evt.canvasY
     };
-    this.nodePoint = [];
 
     // 获取groupId的父Group的ID
     const { groups } = graph.save();
@@ -93,188 +86,26 @@ module.exports = {
       delete this.delegateShapes[groupId];
     }
 
+    if (!this.delegateShapeBBox) {
+      return false;
+    }
+
     const graph = this.graph;
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
 
     // 修改群组位置
-    this.updatePosition(evt);
+    const customGroupControll = graph.get('customGroupControll');
+    const delegateShapeBBoxs = this.delegateShapeBBoxs[groupId];
+    customGroupControll.updateGroup(groupId, delegateShapeBBoxs);
 
     graph.setAutoPaint(autoPaint);
     graph.paint();
 
     this.mouseOrigin = null;
     this.shapeOrigin = null;
-    // 在两个节点之间连线时也会执行到这里，此时this.nodePoint值为undefined
-    if (this.nodePoint) {
-      this.nodePoint.length = 0;
-    }
+    customGroupControll.resetNodePoint();
     this.delegateShapeBBox = null;
-  },
-
-
-  /**
-   * 更新群组及群组中节点和边的位置
-   *
-   * @param {Event} evt 事件句柄
-   * @return {boolean} false/true
-   */
-  updatePosition(evt) {
-    if (!this.delegateShapeBBox) {
-      return false;
-    }
-
-    const graph = this.graph;
-    const groupType = graph.get('groupType');
-
-    // 更新群组里面节点和线的位置
-    this.updateItemPosition(evt);
-
-    const customGroupControll = graph.get('customGroupControll');
-    const customGroup = customGroupControll.customGroup;
-    const groupId = evt.target.get('groupId');
-    // 判断是否拖动出了parent group外面，如果拖出了parent Group外面，则更新数据，去掉group关联
-    // 获取groupId的父Group的ID
-    const { groups } = graph.save();
-    let parentGroupId = null;
-    let parentGroupData = null;
-    for (const group of groups) {
-      if (groupId !== group.id) {
-        continue;
-      }
-      parentGroupId = group.parentId;
-      parentGroupData = group;
-      break;
-    }
-
-    if (parentGroupId) {
-      const parentGroup = customGroup[parentGroupId].nodeGroup;
-      const parentKeyShape = parentGroup.get('keyShape');
-      customGroupControll.setGroupStyle(parentKeyShape, 'default');
-
-      const parentGroupBBox = parentKeyShape.getBBox();
-      const { minX, minY, maxX, maxY } = parentGroupBBox;
-
-      // 检查是否拖出了父Group
-      const currentGroup = customGroup[groupId].nodeGroup;
-      const currentKeyShape = currentGroup.get('keyShape');
-      const currentKeyShapeBBox = currentKeyShape.getBBox();
-      const { x, y } = currentKeyShapeBBox;
-
-      if (!(x < maxX && x > minX && y < maxY && y > minY)) {
-        // 拖出了parent group，则取消parent group ID
-        delete parentGroupData.parentId;
-        // 同时删除groupID中的节点
-        const groupNodes = graph.get('groupNodes');
-        const currentGroupNodes = groupNodes[groupId];
-        const parentGroupNodes = groupNodes[parentGroupId];
-
-        groupNodes[parentGroupId] = parentGroupNodes.filter(node => currentGroupNodes.indexOf(node) === -1);
-
-        const { x: x1, y: y1, width, height } = customGroupControll.calculationGroupPosition(groupNodes[parentGroupId]);
-        const paddingValue = customGroupControll.getGroupPadding(parentGroupId);
-
-        if (groupType === 'circle') {
-          const r = width > height ? width / 2 : height / 2;
-          const cx = (width + 2 * x1) / 2;
-          const cy = (height + 2 * y1) / 2;
-          parentKeyShape.attr({
-            r: r + groupNodes[parentGroupId].length * 10 + paddingValue,
-            x: cx,
-            y: cy
-          });
-        } else if (groupType === 'rect') {
-          parentKeyShape.attr({
-            x: x1 - paddingValue,
-            y: y1 - paddingValue,
-            width: width + paddingValue + groupNodes[parentGroupId].length * 10,
-            height: height + paddingValue + groupNodes[parentGroupId].length * 10
-          });
-        }
-      }
-    }
-  },
-
-  /**
-   * 更新群组中节点、边的位置
-   *
-   * @param {Event} evt 事件句柄
-   */
-  updateItemPosition(evt) {
-    const groupId = evt.target.get('groupId');
-
-    const graph = this.graph;
-    const groupType = graph.get('groupType');
-
-    // 获取群组对象
-    const customGroupControll = graph.get('customGroupControll');
-
-    const groupNodes = graph.get('groupNodes');
-
-    // step 1：先修改groupId中的节点位置
-    const nodeInGroup = groupNodes[groupId];
-    const groupOriginBBox = customGroupControll.getGroupOriginBBox(groupId);
-
-    const delegateShapeBBoxs = this.delegateShapeBBoxs[groupId];
-    const otherGroupId = [];
-    nodeInGroup.forEach((nodeId, index) => {
-      const node = graph.findById(nodeId);
-      const model = node.getModel();
-      const nodeGroupId = model.groupId;
-      if (nodeGroupId && !otherGroupId.includes(nodeGroupId)) {
-        otherGroupId.push(nodeGroupId);
-      }
-      if (!this.nodePoint[index]) {
-        this.nodePoint[index] = {
-          x: model.x,
-          y: model.y
-        };
-      }
-
-      // 群组拖动后节点的位置：deletateShape的最终位置-群组起始位置+节点位置
-      const x = delegateShapeBBoxs.x - groupOriginBBox.x + this.nodePoint[index].x;
-      const y = delegateShapeBBoxs.y - groupOriginBBox.y + this.nodePoint[index].y;
-
-      this.nodePoint[index] = {
-        x, y
-      };
-
-      graph.updateItem(node, { x, y });
-    });
-    // step 2：修改父group中其他节点的位置
-
-    // 更新完群组位置后，重新设置群组起始位置
-    const customGroups = customGroupControll.customGroup;
-
-    // otherGroupId中是否包括当前groupId，如果不包括，则添加进去
-    if (!otherGroupId.includes(groupId)) {
-      otherGroupId.push(groupId);
-    }
-
-    otherGroupId.forEach(id => {
-      // 更新群组位置
-      const { nodeGroup } = customGroups[id];
-      const groupKeyShape = nodeGroup.get('keyShape');
-
-      const { x, y, width, height } = customGroupControll.calculationGroupPosition(groupNodes[id]);
-
-      if (groupType === 'circle') {
-        const cx = (width + 2 * x) / 2;
-        const cy = (height + 2 * y) / 2;
-        groupKeyShape.attr({
-          x: cx,
-          y: cy
-        });
-      } else if (groupType === 'rect') {
-        const paddingValue = customGroupControll.getGroupPadding(id);
-        groupKeyShape.attr({
-          x: x - paddingValue,
-          y: y - paddingValue
-        });
-      }
-      customGroupControll.setGroupOriginBBox(id, groupKeyShape.getBBox());
-    });
-
   },
   _updateDelegate(evt) {
     const self = this;
@@ -331,13 +162,9 @@ module.exports = {
       const x = deltaX + shapeOrigin.x;
       const y = deltaY + shapeOrigin.y;
 
-      if (delegateType === 'circle') {
-        // 将Canvas坐标转成视口坐标
-        const point = graph.getPointByCanvas(x, y);
-        delegateShape.attr({ x: point.x, y: point.y });
-      } else {
-        delegateShape.attr({ x, y });
-      }
+      // 将Canvas坐标转成视口坐标
+      const point = graph.getPointByCanvas(x, y);
+      delegateShape.attr({ x: point.x, y: point.y });
       self.delegateShapeBBoxs[groupId] = delegateShape.getBBox();
     }
 

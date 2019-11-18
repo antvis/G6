@@ -86,21 +86,15 @@ Shape.registerNode('modelRect', {
   shapeType: 'modelRect',
   drawShape(cfg, group) {
     const customOptions = this.getCustomConfig(cfg) || {};
-    const { style: defaultStyle, preRect: defaultPreRect } = this.options;
-    const { style: customStyle, preRect: customPreRect } = customOptions;
-    const style = deepMix({}, defaultStyle, customStyle, cfg.style);
+    const { preRect: defaultPreRect } = this.options;
+    const { preRect: customPreRect } = customOptions;
+    const style = this.getShapeStyle(cfg);
     const size = this.getSize(cfg);
     const width = size[0];
     const height = size[1];
 
     const keyShape = group.addShape('rect', {
-      attrs: {
-        ...style,
-        x: -width / 2,
-        y: -height / 2,
-        width,
-        height
-      }
+      attrs: style
     });
 
     const preRect = deepMix({}, defaultPreRect, customPreRect, cfg.preRect);
@@ -305,12 +299,30 @@ Shape.registerNode('modelRect', {
     }
     return label;
   },
-  getAnchorPoints(cfg) {
+  /**
+   * 获取节点的样式，供基于该节点自定义时使用
+   * @param {Object} cfg 节点数据模型
+   * @return {Object} 节点的样式
+   */
+  getShapeStyle(cfg) {
     const customOptions = this.getCustomConfig(cfg) || {};
-    const { anchorPoints: defaultAnchorPoints } = this.options;
-    const { anchorPoints: customAnchorPoints } = customOptions;
-    const anchorPoints = deepMix({}, defaultAnchorPoints, customAnchorPoints);
-    return anchorPoints;
+    const { style: defaultStyle } = this.options;
+    const { style: customStyle } = customOptions;
+    const strokeStyle = {
+      stroke: cfg.color
+    };
+    // 如果设置了color，则覆盖默认的stroke属性
+    const style = deepMix({}, defaultStyle, customStyle, strokeStyle, cfg.style);
+    const size = this.getSize(cfg);
+    const width = size[0];
+    const height = size[1];
+    const styles = Util.mix({}, {
+      x: -width / 2,
+      y: -height / 2,
+      width,
+      height
+    }, style);
+    return styles;
   },
   update(cfg, item) {
     const customOptions = this.getCustomConfig(cfg) || {};

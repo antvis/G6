@@ -57,7 +57,7 @@ const data2 = {
   ]
 };
 
-describe('layout controller', () => {
+describe.only('layout controller', () => {
   const graph = new G6.Graph({
     container: div,
     width: 500,

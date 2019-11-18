@@ -29,7 +29,7 @@ G6.registerNode('circleNode', {
   }
 }, 'circle');
 
-describe('signle layer group', () => {
+describe.only('signle layer group', () => {
 
   it('render signle group test', () => {
     const graph = new G6.Graph({
@@ -119,11 +119,11 @@ describe('signle layer group', () => {
       const cy = (height + 2 * y) / 2;
 
       const groupShape = groupControll.getDeletageGroupById(node);
-
+      const paddingValue = groupControll.getGroupPadding(node);
       const { groupStyle } = groupShape;
       expect(groupStyle.x).eql(cx);
       expect(groupStyle.y).eql(cy);
-      expect(groupStyle.r).eql(r);
+      expect(groupStyle.r).eql(r + paddingValue);
     }
 
     graph.destroy();
@@ -226,88 +226,6 @@ describe('signle layer group', () => {
     expect(graph.destroyed).to.be.true;
   });
 
-  it('setGroupOriginBBox / getGroupOriginBBox', () => {
-    const graph = new G6.Graph({
-      container: div,
-      width: 1500,
-      height: 1000,
-      pixelRatio: 2,
-      modes: {
-        default: [ 'drag-group' ]
-      },
-      defaultNode: {
-        shape: 'circleNode'
-      },
-      defaultEdge: {
-        color: '#bae7ff'
-      }
-    });
-
-    const nodes = [
-      {
-        id: 'node1',
-        label: 'node1',
-        groupId: 'group1',
-        x: 100,
-        y: 100
-      },
-      {
-        id: 'node2',
-        label: 'node2',
-        groupId: 'group1',
-        x: 150,
-        y: 100
-      },
-      {
-        id: 'node3',
-        label: 'node3',
-        groupId: 'group2',
-        x: 300,
-        y: 100
-      },
-      {
-        id: 'node7',
-        groupId: 'p1',
-        x: 200,
-        y: 200
-      },
-      {
-        id: 'node6',
-        groupId: 'bym',
-        label: 'rect',
-        x: 100,
-        y: 300,
-        shape: 'rect'
-      },
-      {
-        id: 'node9',
-        label: 'noGroup',
-        x: 300,
-        y: 210
-      }
-    ];
-    const data = {
-      nodes
-    };
-
-    graph.data(data);
-    graph.render();
-
-    const groupControll = graph.get('customGroupControll');
-
-    const { nodeGroup } = groupControll.getDeletageGroupById('group1');
-    const keyShape = nodeGroup.get('keyShape');
-    const bbox = keyShape.getBBox();
-    // 调用setGroupOriginBBox方法存储group1的bbox
-    groupControll.setGroupOriginBBox('group1', bbox);
-
-    const groupBBox = groupControll.getGroupOriginBBox('group1');
-    expect(groupBBox).eql(bbox);
-
-    graph.destroy();
-    expect(graph.destroyed).to.be.true;
-  });
-
   it('setDeletageGroupByStyle / getDeletageGroupById', () => {
     const graph = new G6.Graph({
       container: div,
@@ -392,9 +310,10 @@ describe('signle layer group', () => {
     const cx = (width + 2 * x) / 2;
     const cy = (height + 2 * y) / 2;
 
+    const paddingValue = groupControll.getGroupPadding('group2');
     expect(groupStyle.x).eql(cx);
     expect(groupStyle.y).eql(cy);
-    expect(groupStyle.r).eql(r);
+    expect(groupStyle.r).eql(r + paddingValue);
     expect(groupStyle.width).eql(width);
     expect(groupStyle.height).eql(height);
 
@@ -690,7 +609,7 @@ describe('signle layer group', () => {
     expect(groupNodes.p1.length).eql(1);
 
     const groups = graph.get('groups');
-    expect(groups.length).eql(0);
+    expect(groups.length).eql(4);
 
     // 删除group1
     const customGroup = graph.get('customGroupControll');
@@ -713,8 +632,8 @@ describe('signle layer group', () => {
 
 });
 
-describe('nesting layer group', () => {
-  it.only('render nesting layer group', () => {
+describe.only('nesting layer group', () => {
+  it('render nesting layer group', () => {
     const data = {
       nodes: [
         {
@@ -841,17 +760,18 @@ describe('nesting layer group', () => {
       const cy = (height + 2 * y) / 2;
 
       const groupShape = groupControll.getDeletageGroupById(groupId);
-
+      const paddingValue = groupControll.getGroupPadding(groupId);
       const { groupStyle } = groupShape;
       expect(groupStyle.x).eql(cx);
       expect(groupStyle.y).eql(cy);
-      expect(groupStyle.r).eql(r);
+      expect(groupStyle.r).eql(r + paddingValue);
     }
 
     // 指定groupId，验证渲染后的位置是否正确
     const shape = groupControll.getDeletageGroupById('group2');
+    const paddingValue = groupControll.getGroupPadding('group2');
     const shapeStyle = shape.groupStyle;
-    expect(shapeStyle.r).eql(31);
+    expect(shapeStyle.r).eql(31 + paddingValue);
     expect(shapeStyle.x).eql(300);
     expect(shapeStyle.y).eql(100);
 
@@ -1023,5 +943,93 @@ describe('nesting layer group', () => {
 
     graph.destroy();
     expect(graph.destroyed).to.be.true;
+  });
+});
+
+// 手动创建分子
+describe.only('create node group', () => {
+  it('use addItem create group', () => {
+    const data = {
+      nodes: [
+        {
+          id: 'node1',
+          label: 'fck',
+          groupId: 'group1',
+          x: 100,
+          y: 100
+        },
+        {
+          id: 'node2',
+          label: 'node2',
+          x: 150,
+          y: 200
+        },
+        {
+          id: 'node3',
+          label: 'node3',
+          x: 300,
+          y: 100
+        }
+      ],
+      edges: [
+        {
+          source: 'node1',
+          target: 'node2'
+        },
+        {
+          source: 'node2',
+          target: 'node3'
+        }
+      ],
+      groups: [
+        {
+          id: 'group1',
+          title: '1'
+        }
+      ]
+    };
+
+    const graph = new G6.Graph({
+      container: div,
+      width: 1500,
+      height: 1000,
+      pixelRatio: 2,
+      modes: {
+        default: [ 'drag-group' ]
+      },
+      defaultNode: {
+        shape: 'circleNode'
+      },
+      defaultEdge: {
+        color: '#bae7ff'
+      }
+    });
+
+    graph.data(data);
+    graph.render();
+
+    graph.data(data);
+    graph.render();
+
+    let { groups } = graph.save();
+    expect(groups.length).equal(1);
+
+    graph.addItem('group', {
+      groupId: 'xxx',
+      nodes: [ 'node2', 'node3' ],
+      type: 'rect',
+      title: '自定义'
+    });
+
+    groups = graph.save().groups;
+    expect(groups.length).eql(2);
+
+    const customGroup = graph.get('customGroup');
+    const children = customGroup.get('children');
+    expect(children.length).eql(2);
+
+    const { nodes } = graph.save();
+    const groupNodes = nodes.filter(node => node.groupId === 'xxx');
+    expect(groupNodes.length).eql(2);
   });
 });

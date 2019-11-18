@@ -279,8 +279,8 @@ describe('shape node test', () => {
           position: 'top'
         }
       }, group);
-      expect(keyShape.attr('fill')).to.equal('#fff');
-      expect(keyShape.attr('stroke')).to.equal('green');
+      expect(keyShape.attr('fill')).to.equal('#91d5ff');
+      expect(keyShape.attr('stroke')).to.equal('#91d5ff');
       Global.defaultNode.style = {
         fill: '#333',
         stroke: '#666'
@@ -294,8 +294,8 @@ describe('shape node test', () => {
           position: 'top'
         }
       }, group);
-      expect(keyShape.attr('fill')).to.equal('#333');
-      expect(keyShape.attr('stroke')).to.equal('#666');
+      expect(keyShape.attr('fill')).to.equal('#91d5ff');
+      expect(keyShape.attr('stroke')).to.equal('#91d5ff');
     });
     it('clear', () => {
       canvas.destroy();

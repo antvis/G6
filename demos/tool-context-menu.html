@@ -34,7 +34,7 @@
       size: [40, 40]
     },
     modes: {
-      default: [ 'brush-select', 'drag-node' ]
+      default: [ 'brush-select', 'drag-canvas', 'zoom-canvas' ]
     }
   });
 
@@ -137,8 +137,9 @@
 
   const menu = document.getElementById('contextMenu')
   graph.on('node:contextmenu', evt => {
-    menu.style.left = evt.x + 'px'
-    menu.style.top = evt.y + 'px'
+    console.log(evt);
+    menu.style.left = evt.clientX + 'px'
+    menu.style.top = evt.clientY + 'px'
   })
 
   graph.on('node:mouseleave', evt => {

@@ -65,7 +65,7 @@ class View {
   }
   focus(item) {
     if (Util.isString(item)) {
-      item = this.graph.findById[item];
+      item = this.graph.findById(item);
     }
     if (item) {
       const matrix = item.get('group').getMatrix();

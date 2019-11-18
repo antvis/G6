@@ -5,7 +5,7 @@
  * @LastEditTime: 2019-08-22 11:22:16
  * @Description: Graph
  */
-const { groupBy } = require('lodash');
+const { groupBy, isString } = require('lodash');
 const G = require('@antv/g/lib');
 const EventEmitter = G.EventEmitter;
 const Util = require('../util');
@@ -120,7 +120,10 @@ class Graph extends EventEmitter {
        * 默认的节点配置，data 上定义的配置会覆盖这些配置。例如：
        * defaultNode: {
        *  shape: 'rect',
-       *  size: [60, 40]
+       *  size: [60, 40],
+       *  style: {
+       *    //... 样式配置项
+       *  }
        * }
        * 若数据项为 { id: 'node', x: 100, y: 100 }
        * 实际创建的节点模型是 { id: 'node', x: 100, y: 100， shape: 'rect', size: [60, 40] }
@@ -136,8 +139,7 @@ class Graph extends EventEmitter {
        * 节点默认样式，也可以添加状态样式
        * 例如：
        * const graph = new G6.Graph({
-       *  nodeStyle: {
-       *    default: { fill: '#fff' },
+       *  nodeStateStyle: {
        *    selected: { fill: '#ccc', stroke: '#666' },
        *    active: { lineWidth: 2 }
        *  },
@@ -145,11 +147,11 @@ class Graph extends EventEmitter {
        * });
        *
        */
-      nodeStyle: {},
+      nodeStateStyles: {},
       /**
-       * 边默认样式，用法同nodeStyle
+       * 边默认样式，用法同nodeStateStyle
        */
-      edgeStyle: {},
+      edgeStateStyles: {},
       /**
        * graph 状态
        */
@@ -357,8 +359,14 @@ class Graph extends EventEmitter {
    */
   addItem(type, model) {
     if (type === 'group') {
-      const { groupId, nodes, type, zIndex } = model;
-      return this.get('customGroupControll').create(groupId, nodes, type, zIndex, true);
+      const { groupId, nodes, type, zIndex, title } = model;
+      let groupTitle = title;
+      if (isString(title)) {
+        groupTitle = {
+          text: title
+        };
+      }
+      return this.get('customGroupControll').create(groupId, nodes, type, zIndex, true, groupTitle);
     }
     return this.get('itemController').addItem(type, model);
   }
@@ -504,13 +512,9 @@ class Graph extends EventEmitter {
     Util.each(data.edges, edge => {
       self.add(EDGE, edge);
     });
-    // layout
-    const layoutController = self.get('layoutController');
-    if (!layoutController.layout(success)) {
-      success();
-    }
 
-    function success() {
+    // 防止传入的数据不存在nodes
+    if (data.nodes) {
       // 获取所有有groupID的node
       const nodeInGroup = data.nodes.filter(node => node.groupId);
 
@@ -518,9 +522,35 @@ class Graph extends EventEmitter {
       if (nodeInGroup.length > 0) {
         // 渲染群组
         const groupType = self.get('groupType');
-        self.renderCustomGroup(data, groupType);
+        this.renderCustomGroup(data, groupType);
       }
+    }
 
+    if (!this.get('groupByTypes')) {
+      // 为提升性能，选择数量少的进行操作
+      if (data.nodes.length < data.edges.length) {
+        const nodes = this.getNodes();
+        // 遍历节点实例，将所有节点提前。
+        nodes.forEach(node => {
+          node.toFront();
+        });
+      } else {
+        const edges = this.getEdges();
+        // 遍历节点实例，将所有节点提前。
+        edges.forEach(edge => {
+          edge.toBack();
+        });
+
+      }
+    }
+
+    // layout
+    const layoutController = self.get('layoutController');
+    if (!layoutController.layout(success)) {
+      success();
+    }
+
+    function success() {
       if (self.get('fitView')) {
         self.get('viewController')._fitView();
       }
@@ -544,14 +574,25 @@ class Graph extends EventEmitter {
       // 存在单个群组
       // 获取所有有groupID的node
       const nodeInGroup = nodes.filter(node => node.groupId);
-
+      const groupsArr = [];
       // 根据groupID分组
       const groupIds = groupBy(nodeInGroup, 'groupId');
       for (const groupId in groupIds) {
         const nodeIds = groupIds[groupId].map(node => node.id);
         this.get('customGroupControll').create(groupId, nodeIds, groupType, groupIndex);
         groupIndex--;
+        // 获取所有不重复的 groupId
+        if (!groupsArr.find(data => data.id === groupId)) {
+          groupsArr.push({
+            id: groupId
+          });
+        }
       }
+
+      this.set({
+        groups: groupsArr
+      });
+
     } else {
       // 将groups的数据存到groups中
       this.set({ groups });
@@ -1055,29 +1096,31 @@ class Graph extends EventEmitter {
     const link = document.createElement('a');
     setTimeout(() => {
       const dataURL = self.toDataURL();
-      if (window.Blob && window.URL && renderer !== 'svg') {
-        const arr = dataURL.split(',');
-        const mime = arr[0].match(/:(.*?);/)[1];
-        const bstr = atob(arr[1]);
-        let n = bstr.length;
-        const u8arr = new Uint8Array(n);
-        while (n--) {
-          u8arr[n] = bstr.charCodeAt(n);
-        }
-        const blobObj = new Blob([ u8arr ], { type: mime });
-        if (window.navigator.msSaveBlob) {
-          window.navigator.msSaveBlob(blobObj, fileName);
+      if (typeof window !== 'undefined') {
+        if (window.Blob && window.URL && renderer !== 'svg') {
+          const arr = dataURL.split(',');
+          const mime = arr[0].match(/:(.*?);/)[1];
+          const bstr = atob(arr[1]);
+          let n = bstr.length;
+          const u8arr = new Uint8Array(n);
+          while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+          }
+          const blobObj = new Blob([ u8arr ], { type: mime });
+          if (window.navigator.msSaveBlob) {
+            window.navigator.msSaveBlob(blobObj, fileName);
+          } else {
+            link.addEventListener('click', function() {
+              link.download = fileName;
+              link.href = window.URL.createObjectURL(blobObj);
+            });
+          }
         } else {
           link.addEventListener('click', function() {
             link.download = fileName;
-            link.href = window.URL.createObjectURL(blobObj);
+            link.href = dataURL;
           });
         }
-      } else {
-        link.addEventListener('click', function() {
-          link.download = fileName;
-          link.href = dataURL;
-        });
       }
       const e = document.createEvent('MouseEvents');
       e.initEvent('click', false, false);
