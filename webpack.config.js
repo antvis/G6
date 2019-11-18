@@ -53,7 +53,8 @@ module.exports = {
           loader: 'worker-loader',
           options: {
             inline: true,
-            fallback: false
+            fallback: false,
+            name: 'g6Layout.worker.js'
           }
         }
       },
