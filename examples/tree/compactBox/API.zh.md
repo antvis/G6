@@ -1,5 +1,7 @@
 ---
 title: API
+redirect_from:
+  - /zh/examples
 ---
 ## direction
 **类型**：String<br />**可选值**：'LR' | 'RL' | 'TB' | 'BT' | 'H' | 'V'<br />**默认值**：'LR'<br />**是否必须**：false<br />**说明**：树布局的方向，默认为，其他选项说明

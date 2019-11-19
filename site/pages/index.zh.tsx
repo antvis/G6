@@ -104,7 +104,7 @@ const IndexPage = () => {
       title: '基于 G6 的关系时序分析应用',
       description:
         '基于 G6 的关系时序分析应用，解决应急过程中流程、影响面、应急预案等一系列应急决策辅助信息和手段，快速止血以减少和避免故障升级。',
-      link: '/zh/docs/manual/cases/sequenceTime',
+      link: `/${i18n.language}/docs/manual/cases/sequenceTime`,
       image:
         'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lfRlSZLpHFwAAAAAAAAAAABkARQnAQ',
     },
@@ -114,7 +114,7 @@ const IndexPage = () => {
       title: '基于 G6 的图分析应用',
       description:
         '社交网络分析是图可视化中一个重要的应用场景。随着社交网络越来越流行，人与人、人与组织之间的关系变得越来越复杂，使用传统的分析手段，已经很难满足我们的分析需求。在这种情况下，图分析及图可视化显得愈发重要。',
-      link: '/zh/docs/manual/cases/relations',
+      link: `/${i18n.language}/docs/manual/cases/relations`,
       image:
         'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-5XeR6JdKlcAAAAAAAAAAABkARQnAQ',
     },
@@ -124,7 +124,7 @@ const IndexPage = () => {
       title: '基于 G6 的动态决策树',
       description:
         '基于 G6 实现的动态决策树，形象地展示了 G6 强大的自定义节点和动画的能力。',
-      link: 'https://github.com/antvis/g6',
+      link: `/${i18n.language}/examples/case/decisionBubbles`,
       image:
         'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*QYE-Q4ptI7oAAAAAAAAAAABkARQnAQ',
     }
@@ -133,12 +133,12 @@ const IndexPage = () => {
   const bannerButtons = [
     {
       text: t('继续了解'),
-      link: `/${i18n.language}/examples/tree/compactBox`,
+      link: `/${i18n.language}/docs/manual/introduction`,
       type: 'primary',
     },
     {
       text: t('下载使用'),
-      link: 'https://github.com/antvis/g6/',
+      link: `/${i18n.language}/docs/manual/getting-started`,
     },
   ];
 
