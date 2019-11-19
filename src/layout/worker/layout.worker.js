@@ -2,7 +2,7 @@
  * @fileoverview web worker for layout
  * @author changzhe.zb@antfin.com
  */
-const Layout = require('../layout');
+const Layout = require('..');
 const layoutConst = require('./layoutConst');
 
 const { LAYOUT_MESSAGE } = layoutConst;

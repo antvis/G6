@@ -9,7 +9,7 @@ const isNumber = require('@antv/util/lib/type/is-number');
 const isFunction = require('@antv/util/lib/type/is-function');
 const Layout = require('./layout');
 const Util = require('../util/layout');
-const layoutConst = require('../worker/layoutConst');
+const layoutConst = require('./worker/layoutConst');
 
 const { LAYOUT_MESSAGE } = layoutConst;
 
