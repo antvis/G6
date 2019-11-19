@@ -1,6 +1,8 @@
 ---
 title: 基于 G6 的关系时序分析应用
 order: 0
+redirect_from:
+  - /zh/docs/manual
 ---
 
 ## 背景分析
