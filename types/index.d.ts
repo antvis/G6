@@ -575,14 +575,14 @@ declare namespace G6 {
      * 接收数据进行渲染
      * @Param {Object} data 初始化数据
      */
-    read(data: any): void;
+    read(data: { edges?: EdgeConfig[]; nodes?: NodeConfig[]; [key: string]: any }): void;
 
     /**
      * 更改源数据，根据新数据重新渲染视图
      * @param {object} data 源数据
      * @return {object} this
      */
-    changeData(data?: any): this;
+    changeData(data?: { edges?: EdgeConfig[]; nodes?: NodeConfig[]; [key: string]: any }): this;
 
     /**
      * 仅画布重新绘制
@@ -662,7 +662,7 @@ declare namespace G6 {
      * 获取当前图中所有节点的item实例
      * @return {array} item数组
      */
-    getNodes(): any[];
+    getNodes(): G6.NodeConfig[];
 
     /**
      * 获取当前图中所有边的item实例
@@ -675,14 +675,14 @@ declare namespace G6 {
      * @param {number} ratio 伸缩比例
      * @param {object} center 以center的x, y坐标为中心缩放
      */
-    zoom(ratio: number, center: object): void;
+    zoom(ratio: number, center?: object): void;
 
     /**
      * 伸缩视口到一固定比例
      * @param {number} toRatio 伸缩比例
      * @param {object} center 以center的x, y坐标为中心缩放
      */
-    zoomTo(toRatio: number, center: object): void;
+    zoomTo(toRatio: number, center?: object): void;
 
     /**
      * 根据 graph 上的 animateCfg 进行视图中节点位置动画接口
