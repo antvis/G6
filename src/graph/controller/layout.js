@@ -177,18 +177,35 @@ class LayoutController {
     workerData.currentTickData = null;
 
     graph.emit('beforelayout');
-    worker.postMessage({ type: LAYOUT_MESSAGE.RUN, nodes, edges, layoutCfg });
+    // NOTE: postMessage的message参数里面不能包含函数，否则postMessage会报错，
+    // 例如：'function could not be cloned'。
+    // 详情参考：https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm
+    // 所以这里需要把过滤layoutCfg里的函数字段过滤掉。
+    const filteredLayoutCfg = filterObject(layoutCfg, value => typeof value !== 'function');
+    worker.postMessage({ type: LAYOUT_MESSAGE.RUN, nodes, edges, layoutCfg: filteredLayoutCfg });
     worker.onmessage = event => {
       this._handleWorkerMessage(event, data, success);
     };
     return true;
   }
 
-  // success callback will be called before updating graph positions for the first time.
+  // success callback will be called when updating graph positions for the first time.
   _handleWorkerMessage(event, data, success) {
-    const { graph, workerData } = this;
+    const { graph, workerData, layoutCfg } = this;
     const eventData = event.data;
     const { type } = eventData;
+    const onTick = () => {
+      if (layoutCfg.onTick) {
+        layoutCfg.onTick();
+      }
+    };
+    const onLayoutEnd = () => {
+      if (layoutCfg.onLayoutEnd) {
+        layoutCfg.onLayoutEnd();
+      }
+      graph.emit('afterlayout');
+    };
+
     switch (type) {
       case LAYOUT_MESSAGE.TICK:
         workerData.currentTick = eventData.currentTick;
@@ -197,13 +214,14 @@ class LayoutController {
           workerData.requestId = helper.requestAnimationFrame(function() {
             updateLayoutPosition(data, eventData);
             graph.refreshPositions();
+            onTick();
             if (eventData.currentTick === 1 && success) {
               success();
             }
 
             if (eventData.currentTick === eventData.totalTicks) {
               // 如果是最后一次tick
-              graph.emit('afterlayout');
+              onLayoutEnd();
             } else if (workerData.currentTick === eventData.totalTicks) {
               // 注意这里workerData.currentTick可能已经不再是前面赋值时候的值了，
               // 因为在requestAnimationFrame等待时间里，可能产生新的tick。
@@ -212,7 +230,8 @@ class LayoutController {
                 updateLayoutPosition(data, workerData.currentTickData);
                 graph.refreshPositions();
                 workerData.requestId2 = null;
-                graph.emit('afterlayout');
+                onTick();
+                onLayoutEnd();
               });
             }
             workerData.requestId = null;
@@ -222,13 +241,13 @@ class LayoutController {
       case LAYOUT_MESSAGE.END:
         // 如果没有tick消息（非力导布局）
         if (workerData.currentTick == null) {
-          graph.emit('afterlayout');
           updateLayoutPosition(data, eventData);
           this.refreshLayout();
           // 非力导布局，没有tick消息，只有end消息，所以需要执行一次回调。
           if (success) {
             success();
           }
+          graph.emit('afterlayout');
         }
         break;
       case LAYOUT_MESSAGE.ERROR:
@@ -399,6 +418,19 @@ function updateLayoutPosition(data, layoutData) {
     node.x = layoutNodes[i].x;
     node.y = layoutNodes[i].y;
   });
+}
+
+function filterObject(collection, callback) {
+  const result = {};
+  if (collection && typeof collection === 'object') {
+    for (const key in collection) {
+      if (collection.hasOwnProperty(key) && callback(collection[key])) {
+        result[key] = collection[key];
+      }
+    }
+    return result;
+  }
+  return collection;
 }
 
 module.exports = LayoutController;
