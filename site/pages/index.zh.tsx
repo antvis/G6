@@ -84,7 +84,7 @@ const IndexPage = () => {
 
   const notifications = [
     {
-      type: t('点线析源远'),
+      type: t('洞察关系数据'),
       title: t('G6 3.2.0 全新发布！'),
       date: '2019.11.22',
       link: 'https://github.com/antvis/g6',
@@ -106,7 +106,7 @@ const IndexPage = () => {
         '基于 G6 的关系时序分析应用，解决应急过程中流程、影响面、应急预案等一系列应急决策辅助信息和手段，快速止血以减少和避免故障升级。',
       link: '/zh/docs/manual/cases/sequenceTime',
       image:
-        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZC9nQ6RxcMcAAAAAAAAAAABkARQnAQ',
+        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lfRlSZLpHFwAAAAAAAAAAABkARQnAQ',
     },
     {
       logo:
