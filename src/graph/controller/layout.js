@@ -1,7 +1,7 @@
 const Layout = require('../../layout');
 const Util = require('../../util');
-const layoutConst = require('../../worker/layoutConst');
-const LayoutWorker = require('../../worker/layout.worker');
+const layoutConst = require('../../layout/worker/layoutConst');
+const LayoutWorker = require('../../layout/worker/layout.worker');
 
 const { LAYOUT_MESSAGE } = layoutConst;
 
