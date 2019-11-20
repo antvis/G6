@@ -122,6 +122,9 @@ module.exports = {
   },
   onKeyDown(e) {
     const code = e.keyCode || e.which;
+    if (!code) {
+      return;
+    }
     if (ALLOW_EVENTS.indexOf(code) > -1) {
       this.keydown = true;
     } else {
