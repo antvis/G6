@@ -129,7 +129,7 @@
       const tipDiv = document.getElementById('timingTip');
       graph.on('beforelayout', () => {
         tipDiv.innerHTML = 'It is doing force-directed layout now!'
-         + 'After it is done, this text will be changed.';
+         + ' After it is done, this text will be changed.';
       });
       graph.on('afterlayout', () => {
         tipDiv.innerHTML = 'Done!';
