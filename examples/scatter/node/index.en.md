@@ -1,8 +1,6 @@
 ---
 title: Node Animation
 order: 0
-redirect_from:
-  - /zh/examples
 ---
 
 Node animation can be realized by customing a node.

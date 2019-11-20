@@ -1,7 +1,5 @@
 ---
 title: API
-redirect_from:
-  - /en/examples
 ---
 ## direction
 **Type**: String<br />**Options**: 'LR' | 'RL' | 'TB' | 'BT' | 'H' | 'V'<br />**Default**: 'LR'<br />**Required**: false<br />**Explanation**: The direction of layout. 

@@ -1,8 +1,6 @@
 ---
 title: 节点分组
 order: 3
-redirect_from:
-  - /zh/examples
 ---
 
 G6 支持节点分组。

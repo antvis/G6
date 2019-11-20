@@ -1,8 +1,6 @@
 ---
 title: 聚类的折叠/扩展
 order: 1
-redirect_from:
-  - /zh/examples
 ---
 
 使用 Fruchterman 布局实现交互式折叠/扩展聚类。

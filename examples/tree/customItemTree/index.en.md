@@ -1,8 +1,6 @@
 ---
 title: Custom Tree Items
 order: 5
-redirect_from:
-  - /en/examples
 ---
 
 Thanks to the item's custom mechanism of G6, users can design their own tree with freedom.

@@ -1,8 +1,6 @@
 ---
 title: 移动位置
 order: 5
-redirect_from:
-  - /zh/examples
 ---
 
 通过交互改变节点的位置。

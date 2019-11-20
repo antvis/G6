@@ -1,8 +1,6 @@
 ---
 title: State Switch
 order: 2
-redirect_from:
-  - /zh/examples
 ---
 
 State of G6 includes interaction states and bussiness states.

@@ -1,8 +1,6 @@
 ---
 title: 内置节点
 order: 0
-redirect_from:
-  - /zh/examples
 ---
 
 G6 共内置了 8 种不同类型的节点，支持通过配置项进行扩展。

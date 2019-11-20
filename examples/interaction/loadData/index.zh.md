@@ -1,8 +1,6 @@
 ---
 title: 动态加载多条数据
 order: 1
-redirect_from:
-  - /zh/examples
 ---
 
 点击树图中的节点，动态加载多条数据。

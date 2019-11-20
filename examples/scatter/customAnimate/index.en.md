@@ -1,8 +1,6 @@
 ---
 title: Custom Animation
 order: 5
-redirect_from:
-  - /zh/examples
 ---
 
 Configuration `animateCfg` of `Graph` is designed for global animation.

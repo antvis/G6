@@ -1,8 +1,6 @@
 ---
 title: Radial Tree
 order: 4
-redirect_from:
-  - /en/examples
 ---
 
 In radial tree layout, root node will be placed on the center. the branches will be placed in radial around the root. Dendrogram and CompactBox can be transformed into radial tree by configuration. 

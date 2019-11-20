@@ -1,8 +1,6 @@
 ---
 title: 状态切换
 order: 2
-redirect_from:
-  - /zh/examples
 ---
 
 G6 中的 state，指的是状态，包括交互状态和业务状态两种。

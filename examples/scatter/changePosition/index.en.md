@@ -1,8 +1,6 @@
 ---
 title: Change Node Positions
 order: 4
-redirect_from:
-  - /zh/examples
 ---
 
 Change the node positions by `changeData` method is a simple way to realize the node animation.

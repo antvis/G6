@@ -1,8 +1,6 @@
 ---
 title: 高亮相邻节点
 order: 0
-redirect_from:
-  - /zh/examples
 ---
 
 在图分析应用中，鼠标 hover 到某个节点后，高亮其相邻的节点及边是一种非常常见的需求。

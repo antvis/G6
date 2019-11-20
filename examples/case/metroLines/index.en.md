@@ -1,8 +1,6 @@
 ---
 title: Animated Metro Map
 order: 0
-redirect_from:
-  - /zh/examples
 ---
 
 Metro map with animated edges.

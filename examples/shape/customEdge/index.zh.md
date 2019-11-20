@@ -1,8 +1,6 @@
 ---
 title: 自定义边
 order: 3
-redirect_from:
-  - /zh/examples
 ---
 
 当 G6 的内置边不能满足需求时，G6 的自定义边机制允许用户设计和定制新的边类型。

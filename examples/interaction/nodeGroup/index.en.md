@@ -1,8 +1,6 @@
 ---
 title: Node Group
 order: 3
-redirect_from:
-  - /zh/examples
 ---
 
 G6 supports node group.

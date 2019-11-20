@@ -1,8 +1,6 @@
 ---
 title: Built-in Edges
 order: 1
-redirect_from:
-  - /zh/examples
 ---
 
 There are several built-in edges in G6, including line, polyline, bezier curve, arc, loop, and so on.

@@ -1,8 +1,6 @@
 ---
 title: Custom Edge
 order: 3
-redirect_from:
-  - /zh/examples
 ---
 
 The custom edge mechanism in G6 allows users to design their own edge when there are no appropriate built-in edges for their scenario. 

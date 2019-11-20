@@ -1,8 +1,6 @@
 ---
 title: 边动画
 order: 1
-redirect_from:
-  - /zh/examples
 ---
 
 通过自定义边，可以实现边的动画效果。

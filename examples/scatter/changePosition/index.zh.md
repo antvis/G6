@@ -1,8 +1,6 @@
 ---
 title: 改变节点位置
 order: 4
-redirect_from:
-  - /zh/examples
 ---
 
 通过 `changeData` 方法不断地改变节点位置，以达到动画的效果。
