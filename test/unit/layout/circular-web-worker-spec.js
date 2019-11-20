@@ -1,6 +1,7 @@
 const expect = require('chai').expect;
 // 注意：这里不能直接require原始的src文件，而要使用build后的文件，因为web worker代码是通过worker-loader内联进来的。
-const G6 = require('../../../build/g6');
+// const G6 = require('../../../build/g6');
+const G6 = require('../../../src');
 const data = require('./data.json');
 
 const div = document.createElement('div');
