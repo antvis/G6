@@ -3,9 +3,9 @@
 module.exports = (api) => {
   api.cache(() => process.env.NODE_ENV);
 
-  const isSite = api.env('site')
+  const isTest = api.env('site')
 
-  if (isSite) {
+  if (isTest) {
     return {
       "plugins": [
         "transform-remove-strict-mode"
