@@ -1132,9 +1132,9 @@ declare namespace G6 {
   export const Global: Global;
 
   /**
-   * Sharp
+   * Shape
    */
-  interface Sharp {
+  interface Shape {
     // 注册 Geometry 获取图形的入口
     registerFactory(factoryType: string, cfg: any): any;
 
@@ -1143,7 +1143,7 @@ declare namespace G6 {
 
     get(key: string): any;
   }
-  export const Sharp: Sharp;
+  export const Shape: Shape;
 
   export function registerNode(shapeType: string, cfg: any, extendShapeType?: string): any;
 
