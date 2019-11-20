@@ -277,13 +277,13 @@ Shape.registerNode('modelRect', {
           ...fontStyle,
           y: -5,
           x: offsetX,
-          text: Util.fittingString(cfg.label, 100, 14)
+          text: cfg.label
         }
       });
 
       group.addShape('text', {
         attrs: {
-          text: Util.fittingString(cfg.description, 75, 12),
+          text: cfg.description,
           fontSize: 12,
           x: offsetX,
           y: 17,
@@ -297,7 +297,7 @@ Shape.registerNode('modelRect', {
           ...fontStyle,
           x: offsetX,
           y: 7,
-          text: Util.fittingString(cfg.label, 70, 14)
+          text: cfg.label
         }
       });
     }
