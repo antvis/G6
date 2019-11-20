@@ -4,11 +4,14 @@
  */
 
 const d3Force = require('d3-force');
-const Layout = require('./layout');
-const Util = require('../util');
 const isArray = require('@antv/util/lib/type/is-array');
 const isNumber = require('@antv/util/lib/type/is-number');
 const isFunction = require('@antv/util/lib/type/is-function');
+const Layout = require('./layout');
+const Util = require('../util/layout');
+const layoutConst = require('./worker/layoutConst');
+
+const { LAYOUT_MESSAGE } = layoutConst;
 
 /**
  * 经典力导布局 force-directed
@@ -30,7 +33,9 @@ Layout.registerLayout('force', {
       collideStrength: 1,         // 防止重叠的力强度
       tick() {},
       onLayoutEnd() {},           // 布局完成回调
-      onTick() {}                 // 每一迭代布局回调
+      onTick() {},                // 每一迭代布局回调
+      // 是否启用web worker。前提是在web worker里执行布局，否则无效
+      workerEnabled: false
     };
   },
   /**
@@ -71,14 +76,8 @@ Layout.registerLayout('force', {
           .force('charge', nodeForce)
           .alpha(alpha)
           .alphaDecay(alphaDecay)
-          .alphaMin(alphaMin)
-          .on('tick', () => {
-            self.tick();
-          })
-          .on('end', () => {
-            self.ticking = false;
-            self.onLayoutEnd && self.onLayoutEnd();
-          });
+          .alphaMin(alphaMin);
+
         if (self.preventOverlap) {
           self.overlapProcess(simulation);
         }
@@ -101,8 +100,34 @@ Layout.registerLayout('force', {
           }
           simulation.force('link', edgeForce);
         }
+
+        if (self.workerEnabled && !isInWorker()) {
+          // 如果不是运行在web worker里，不用web worker布局
+          self.workerEnabled = false;
+          console.warn('workerEnabled option is only supported when running in web worker.');
+        }
+        if (!self.workerEnabled) {
+          simulation
+            .on('tick', () => {
+              self.tick();
+            })
+            .on('end', () => {
+              self.ticking = false;
+              self.onLayoutEnd && self.onLayoutEnd();
+            });
+          self.ticking = true;
+        } else {
+          simulation.stop();
+          const totalTicks = getSimulationTicks(simulation);
+          for (let currentTick = 1; currentTick <= totalTicks; currentTick++) {
+            simulation.tick();
+            // currentTick starts from 1.
+            postMessage({ type: LAYOUT_MESSAGE.TICK, currentTick, totalTicks, nodes });
+          }
+          self.ticking = false;
+        }
+
         self.forceSimulation = simulation;
-        self.ticking = true;
       } catch (e) {
         self.ticking = false;
         console.warn(e);
@@ -194,3 +219,20 @@ Layout.registerLayout('force', {
     self.destroyed = true;
   }
 });
+
+// Return total ticks of d3-force simulation
+function getSimulationTicks(simulation) {
+  const alphaMin = simulation.alphaMin();
+  const alphaTarget = simulation.alphaTarget();
+  const alpha = simulation.alpha();
+  const totalTicksFloat = Math.log((alphaMin - alphaTarget) / (alpha - alphaTarget)) / Math.log(1 - simulation.alphaDecay());
+  const totalTicks = Math.ceil(totalTicksFloat);
+
+  return totalTicks;
+}
+
+// 判断是否运行在web worker里
+function isInWorker() {
+  // eslint-disable-next-line no-undef
+  return typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope;
+}

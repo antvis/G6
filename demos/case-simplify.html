@@ -17,6 +17,9 @@
     padding: 10px 8px;
     box-shadow: rgb(174, 174, 174) 0px 0px 10px;
   }
+  canvas {
+  	border: 1px solid red;
+  }
 </style>
 <body>
   <div id="tip">布局中，请稍候......</div>
@@ -29,52 +32,6 @@
   '#a0d911', '#13c2c2', '#1890ff', '#b37feb', '#eb2f96' ];
   const beginColor = '#5b8c00'; // green
   const endColor = '#ff4d4f'; // red
-  const testData = {
-    nodes: [
-      {
-        id: '0',
-        cluster: 1,
-        exportValue: 10000,
-        x: 100,
-        y: 200,
-        // label: 0
-      },
-      {
-        id: '1',
-        cluster: 1,
-        exportValue: 10000,
-        x: 200,
-        y: 200,
-        // label: 1
-      },
-      // {
-      //   id: '2',
-      //   region: '1'
-      // },
-      // {
-      //   id: '3',
-      //   region: '2'
-      // }
-    ],
-    edges: [
-      {
-        source: '0',
-        target: '1',
-      },
-      {
-        source: '1',
-        target: '0',
-      },
-      // {
-      //   source: '2',
-      //   target: '3',
-      // },
-      // {
-      //   source: '3',
-      //   target: '0',
-      // },
-    ]
-  }
   d3.json("./assets/data/filtered-trade.json", function(data) {
     const nodes = data.nodes;
     const edges = data.edges;
@@ -122,8 +79,11 @@
         maxIteration: 8000,
         gravity: 10,
         clustering: true,
-        clusterGravity: 30
+        clusterGravity: 30,
+        workerEnabled: true
       },
+      padding: 0,
+      fitViewPadding: 0,
       fitView: true,
       linkCenter: true,
       defaultNode: {
@@ -134,7 +94,7 @@
         shape: 'quadratic'
       },
       modes: {
-        default: [ 'drag-node', 'drag-canvas', {
+        default: [ 'drag-node', 'zoom-canvas', 'drag-canvas', {
           type: 'tooltip',
           formatText(model) {
             let name = '';
@@ -155,33 +115,39 @@
     },
     });
     
+    graph.on('beforelayout', () => {
+      console.log(data.nodes[0].x, data.nodes[0].y, data.nodes[10].x, data.nodes[10].y);
+    });
     graph.on('afterlayout', () => {
       const tipDiv = document.getElementById('tip');
       tipDiv.innerHTML = '布局完成！';
+
+      const edgeItems = graph.getEdges();
+      edgeItems.forEach(e => {
+        const lineWidth = 0.4;
+        const strokeOpacity = 0.2;
+        let stroke =  'l(0) 0:' + beginColor + ' 1:' + endColor;
+        const sourceModel = e.getSource().getModel();
+        const targetModel = e.getTarget().getModel();
+        if (sourceModel.x > targetModel.x) {
+          stroke = 'l(0) 0:' + endColor + ' 1:' + beginColor;
+        }
+        e.update({
+          style: {
+            lineWidth,
+            strokeOpacity,
+            stroke
+          }
+        })
+      });
+      // 等布局完以后再绘制
+      graph.paint();
     });
 
     graph.data(data);
+    // 如果使用web worker，graph.render是异步的，立即返回，在web worker里执行布局。
+    // 而如果不使用web worker，graph.render是同步的，意味着只有等布局执行完以后，才会执行graph.render后面的代码。
     graph.render();
-
-    const edgeItems = graph.getEdges();
-    edgeItems.forEach(e => {
-      const lineWidth = 0.4;
-      const strokeOpacity = 0.2;
-      let stroke =  'l(0) 0:' + beginColor + ' 1:' + endColor;
-      const sourceModel = e.getSource().getModel();
-      const targetModel = e.getTarget().getModel();
-      if (sourceModel.x > targetModel.x) {
-        stroke = 'l(0) 0:' + endColor + ' 1:' + beginColor;
-      }
-      e.update({
-        style: {
-          lineWidth,
-          strokeOpacity,
-          stroke
-        }
-      })
-    });
-    graph.paint();
 
     graph.on('node:click', e => { 
       const targetItem = e.item;
