@@ -79,10 +79,12 @@ class State {
           }
         });
         val.forEach(item => {
-          const id = item.get('id');
-          if (!map[id] && !item.destroyed) {
-            map[id] = true;
-            states[key].push(item);
+          if (!item.destroyed) {
+            const id = item.get('id');
+            if (!map[id]) {
+              map[id] = true;
+              states[key].push(item);
+            }
           }
         });
       }

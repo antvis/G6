@@ -108,7 +108,8 @@ Shape.registerNode('circle', {
           y: 0,
           r: markSize
         },
-        className: 'circle-mark-left'
+        className: 'circle-mark-left',
+        isAnchorPoint: true
       });
     }
 
@@ -121,7 +122,8 @@ Shape.registerNode('circle', {
           y: 0,
           r: markSize
         },
-        className: 'circle-mark-right'
+        className: 'circle-mark-right',
+        isAnchorPoint: true
       });
     }
 
@@ -134,7 +136,8 @@ Shape.registerNode('circle', {
           y: -r,
           r: markSize
         },
-        className: 'circle-mark-top'
+        className: 'circle-mark-top',
+        isAnchorPoint: true
       });
     }
 
@@ -147,7 +150,8 @@ Shape.registerNode('circle', {
           y: r,
           r: markSize
         },
-        className: 'circle-mark-bottom'
+        className: 'circle-mark-bottom',
+        isAnchorPoint: true
       });
     }
   },

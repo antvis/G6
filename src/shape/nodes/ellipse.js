@@ -113,7 +113,8 @@ Shape.registerNode('ellipse', {
           y: 0,
           r: markSize
         },
-        className: 'ellipse-mark-left'
+        className: 'ellipse-mark-left',
+        isAnchorPoint: true
       });
     }
 
@@ -126,7 +127,8 @@ Shape.registerNode('ellipse', {
           y: 0,
           r: markSize
         },
-        className: 'ellipse-mark-right'
+        className: 'ellipse-mark-right',
+        isAnchorPoint: true
       });
     }
 
@@ -139,7 +141,8 @@ Shape.registerNode('ellipse', {
           y: -ry,
           r: markSize
         },
-        className: 'ellipse-mark-top'
+        className: 'ellipse-mark-top',
+        isAnchorPoint: true
       });
     }
 
@@ -152,7 +155,8 @@ Shape.registerNode('ellipse', {
           y: ry,
           r: markSize
         },
-        className: 'ellipse-mark-bottom'
+        className: 'ellipse-mark-bottom',
+        isAnchorPoint: true
       });
     }
   },
