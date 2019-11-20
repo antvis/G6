@@ -32,11 +32,20 @@ module.exports = {
       return;
     }
 
-    const { item } = e;
+    const { item, target } = e;
     const hasLocked = item.hasLocked();
     if (hasLocked) {
       return;
     }
+
+    // 如果拖动的target 是linkPoints / anchorPoints 则不允许拖动
+    if (target) {
+      const isAnchorPoint = target.get('isAnchorPoint');
+      if (isAnchorPoint) {
+        return;
+      }
+    }
+
     const graph = this.graph;
 
     this.targets = [];
