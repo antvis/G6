@@ -5,3 +5,6 @@ dist/
 mocks/
 node_modules/
 demos/
+.cache
+public
+bin
