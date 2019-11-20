@@ -110,7 +110,7 @@
     "lint-fix": "eslint --ext .html,.js --fix ./",
     "prepublishOnly": "npm run build-lib && npm run build",
     "screenshot": "node ./bin/screenshot.js",
-    "test": "torch --compile --renderer --opts test/mocha.opts --recursive ./test/unit",
+    "test": "npm run build && torch --compile --renderer --opts test/mocha.opts --recursive ./test/unit",
     "test-live": "torch --compile --interactive --watch --opts test/mocha.opts --recursive ./test/unit",
     "test-live-shape": "torch --compile --interactive --watch --opts test/mocha.opts --recursive ./test/unit/shape/nodes/modelRect-spec.js",
     "test-live-util": "torch --compile --interactive --watch --opts test/mocha.opts --recursive ./test/unit/shape/edge-spec.js",
