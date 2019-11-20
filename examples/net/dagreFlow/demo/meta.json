@@ -1,0 +1,23 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "basicDagre.js",
+      "title": "Dagre 流程图",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2uMmRo5wYPUAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "lrDagre.js",
+      "title": "自左向右的 Dagre",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*pdaxTpV1R0EAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "dagreConfigurationTranslate.js",
+      "title": "Dagre 布局参数动态变化",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VkwOTL2UyN0AAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}

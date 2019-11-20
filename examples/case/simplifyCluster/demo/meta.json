@@ -1,0 +1,13 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "index.js",
+      "title": "聚类的折叠/扩展",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*yU5sRLivdLIAAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}

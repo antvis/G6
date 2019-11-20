@@ -11,7 +11,7 @@ function mathEqual(a, b) {
   return Math.abs(a - b) < 1;
 }
 
-describe.only('layout using web worker', function() {
+describe('layout using web worker', function() {
   this.timeout(10000);
 
   it('change layout', function(done) {

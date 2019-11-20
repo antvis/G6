@@ -1,0 +1,33 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "basicCircular.js",
+      "title": "基本 Circular 布局",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZSuXQ4PS2F8AAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "degreeCircular.js",
+      "title": "按照节点度数排序的 Circular 布局",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*MOEeS6ooB7AAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "spiralCircular.js",
+      "title": "螺旋线布局",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bY0iSqTc3z4AAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "divisionCircular.js",
+      "title": "分割环形布局",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*u30nQahg6q0AAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "circularConfigurationTranslate.js",
+      "title": "Circular 布局参数动态变化",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*D85cS7-yqNEAAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}

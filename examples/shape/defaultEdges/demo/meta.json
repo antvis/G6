@@ -1,0 +1,44 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "polyline1.js",
+      "title": "折线 1",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*tGX6S5r94wkAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "polyline2.js",
+      "title": "折线 2",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*CA7oQJIkIl8AAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "polyline3.js",
+      "title": "折线 3",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*E-MJQqf9mSUAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "cubic1.js",
+      "title": "三次贝塞尔曲线-垂直",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*UO_sQp0XftMAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "cubic2.js",
+      "title": "三次贝塞尔曲线-水平",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LxFySJ-uvhMAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "arc.js",
+      "title": "弧线",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*xkK6QoNUszgAAAAAAAAAAABkARQnAQ"
+    }
+    ,
+    {
+      "filename": "loop.js",
+      "title": "自环边",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*W8wxRJk_q8wAAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}

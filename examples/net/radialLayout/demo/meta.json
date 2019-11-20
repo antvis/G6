@@ -1,0 +1,33 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "basicRadial.js",
+      "title": "基本 Radial 辐射布局",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ec_WQ5hqVsgAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "preventOverlapRadial.js",
+      "title": "防止节点重叠的严格辐射布局",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GAFjRJeAoAsAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "preventOverlapUnstrictRadial.js",
+      "title": "防止节点重叠的非严格辐射布局",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*X8rzTZyWwUcAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "interactRadial.js",
+      "title": "交互扩展节点的辐射布局",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*F4OQQKc8l2IAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "radialConfigurationTranslate.js",
+      "title": "Radial 布局参数动态变化",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ikctQb9KECAAAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}

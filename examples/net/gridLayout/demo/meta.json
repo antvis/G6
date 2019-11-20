@@ -1,0 +1,18 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "basicGrid.js",
+      "title": "基本 Grid 网格布局",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Oh6mRLVEBBIAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "clusterGrid.js",
+      "title": "指定排序方式的网格布局",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_ABKTptHoKoAAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 # ChangeLog
-#### 3.1.4 
+#### 3.1.5 
 * feat: supports g6 types file
 * fix: set brush-select trigger param to ctrl not work
 * fix: when set fitView to true, drag-group Behavior not get desired positon

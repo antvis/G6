@@ -7,7 +7,9 @@
   <title>默认的图片节点</title>
 </head>
 <body>
+<div id='xxx'>
   <div id="mountNode"></div>
+</div>
   <script src="../build/g6.js"></script>
   <script>
 
@@ -71,25 +73,28 @@
     graph.render()
 
     graph.on('node:click', evt => {
+      console.log(evt)
+      evt.preventDefault()
+      evt.stopPropagation()
       const { item } = evt
-      graph.setItemState(item, 'select', true)
+      // graph.setItemState(item, 'select', true)
       
-      graph.updateItem(item, {
-        size: [ 160, 130],
-        style: {
-          fill: '#b5f5ec'
-        },
-        preRect: {
-          fill: '#ff4d4f'
-        },
-        linkPoints: {
-          fill: '#fff',
-          size: 5
-        },
-        stateIcon: {
-          img: 'https://gw.alipayobjects.com/zos/basement_prod/c781088a-c635-452a-940c-0173663456d4.svg'
-        }
-      })
+      // graph.updateItem(item, {
+      //   size: [ 160, 130],
+      //   style: {
+      //     fill: '#b5f5ec'
+      //   },
+      //   preRect: {
+      //     fill: '#ff4d4f'
+      //   },
+      //   linkPoints: {
+      //     fill: '#fff',
+      //     size: 5
+      //   },
+      //   stateIcon: {
+      //     img: 'https://gw.alipayobjects.com/zos/basement_prod/c781088a-c635-452a-940c-0173663456d4.svg'
+      //   }
+      // })
     })
 
     graph.on('node:mouseenter', evt => {
@@ -100,6 +105,19 @@
     graph.on('node:mouseleave', evt => {
       const { item } = evt
       graph.setItemState(item, 'hover', false)
+    })
+
+    document.getElementById('mountNode').addEventListener('click', evt => {
+      console.log('mountNode', evt)
+      evt.preventDefault()
+      evt.stopPropagation()
+    })
+
+    document.getElementById('xxx').addEventListener('click', evt => {
+      // 不会执行到这里
+      console.log('冒泡了', evt)
+      evt.preventDefault()
+      evt.stopPropagation()
     })
   </script>
 </body>
