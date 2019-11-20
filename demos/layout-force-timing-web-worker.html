@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>力导布局（使用web worker） 监听布局的开始与结束</title>
+  </head>
+  
+  <body>
+    <div id="timingTip"></div>
+    <div id="mountNode"></div>
+    <script src="../build/g6.js"></script>
+    <script>
+      const data = {
+        "nodes": [{
+          "id": "0",
+          "label": "0"
+        },
+        {
+          "id": "1",
+          "label": "1"
+        },
+        {
+          "id": "2",
+          "label": "2"
+        },
+        {
+          "id": "3",
+          "label": "3"
+        },
+        {
+          "id": "4",
+          "label": "4"
+        },
+        {
+          "id": "5",
+          "label": "5"
+        },
+        {
+          "id": "6",
+          "label": "6"
+        },
+        {
+          "id": "7",
+          "label": "7"
+        },
+        {
+          "id": "8",
+          "label": "8"
+        },
+        {
+          "id": "9",
+          "label": "9"
+        }],
+        "edges": [{
+          "source": "0",
+          "target": "1"
+        },
+        {
+          "source": "0",
+          "target": "2"
+        },
+        {
+          "source": "0",
+          "target": "3"
+        },
+        {
+          "source": "0",
+          "target": "4"
+        },
+        {
+          "source": "0",
+          "target": "5"
+        },
+        {
+          "source": "0",
+          "target": "7"
+        },
+        {
+          "source": "0",
+          "target": "8"
+        },
+        {
+          "source": "0",
+          "target": "9"
+        },
+        {
+          "source": "2",
+          "target": "3"
+        },
+        {
+          "source": "4",
+          "target": "5"
+        },
+        {
+          "source": "4",
+          "target": "6"
+        },
+        {
+          "source": "5",
+          "target": "6"
+        }]
+      };
+      
+      const graph = new G6.Graph({
+        container: 'mountNode',
+        width: 1000,
+        height: 600,
+        layout: {
+          type: 'force',
+          preventOverlap: true,
+          nodeSize: 20,
+          // use web worker to layout
+          workerEnabled: true
+        },
+        modes: {
+          default: ['drag-node']
+        },
+        defaultNode: {
+          size: [20, 20],
+          color: 'steelblue'
+        },
+        defaultEdge: {
+          size: 1,
+          color: '#e2e2e2'
+        }
+      });
+
+      const tipDiv = document.getElementById('timingTip');
+      graph.on('beforelayout', () => {
+        tipDiv.innerHTML = 'It is doing force-directed layout now!'
+         + ' After it is done, this text will be changed.';
+      });
+      graph.on('afterlayout', () => {
+        tipDiv.innerHTML = 'Done!';
+      });
+
+      graph.data(data);
+      graph.render();
+    </script>
+  </body>
+
+</html>
