@@ -87,13 +87,13 @@ const IndexPage = () => {
       type: t('洞察关系数据'),
       title: t('G6 3.2.0 全新发布！'),
       date: '2019.11.22',
-      link: 'https://github.com/antvis/g6',
+      link: 'https://www.yuque.com/antv/blog/wy2qd6',
     },
     {
       type: t('小试牛刀'),
       title: t('Graphin 1.0.0 全新发布！'),
       date: '2019.11.22',
-      link: 'https://github.com/antvis/g6',
+      link: 'https://antvis.github.io/graphin',
     }
   ];
 
