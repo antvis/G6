@@ -100,33 +100,33 @@ const IndexPage = () => {
   const cases = [
     {
       logo:
-        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*gwbqSZqJLk8AAAAAAAAAAABkARQnAQ',
-      title: t('基于 G6 的关系时序分析应用'),
-      description:
-        t('基于 G6 的关系时序分析应用，解决应急过程中流程、影响面、应急预案等一系列应急决策辅助信息和手段，快速止血以减少和避免故障升级。'),
-      link: `/${i18n.language}/docs/manual/cases/sequenceTime`,
-      image:
-        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*BVQ-SbrxF2kAAAAAAAAAAABkARQnAQ',
-    },
-    {
-      logo:
-        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dUcbRLE8NiAAAAAAAAAAAABkARQnAQ',
-      title: t('基于 G6 的图分析应用'),
-      description:
-        t('社交网络分析是图可视化中一个重要的应用场景。随着社交网络越来越流行，人与人、人与组织之间的关系变得越来越复杂，使用传统的分析手段，已经很难满足我们的分析需求。在这种情况下，图分析及图可视化显得愈发重要。'),
-      link: `/${i18n.language}/docs/manual/cases/relations`,
-      image:
-        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qhN_QIS1cTQAAAAAAAAAAABkARQnAQ',
-    },
-    {
-      logo:
-        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*K5G6SItgqVoAAAAAAAAAAABkARQnAQ',
+        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*psZ4Q6GGB2kAAAAAAAAAAABkARQnAQ',
       title: t('基于 G6 的动态决策树'),
       description:
         t('基于 G6 实现的动态决策树，辅助用户寻找合适的可视化方式。它展示了 G6 强大的自定义节点和动画的能力。'),
       link: `/${i18n.language}/examples/case/decisionBubbles`,
       image:
-        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YsGOTbCNiWAAAAAAAAAAAABkARQnAQ',
+        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*10b6R5fkyJ4AAAAAAAAAAABkARQnAQ',
+    },
+    {
+      logo:
+        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XKBDRoT0eesAAAAAAAAAAABkARQnAQ',
+      title: t('基于 G6 的图分析应用'),
+      description:
+        t('社交网络分析是图可视化中一个重要的应用场景。随着社交网络越来越流行，人与人、人与组织之间的关系变得越来越复杂，使用传统的分析手段，已经很难满足我们的分析需求。在这种情况下，图分析及图可视化显得愈发重要。'),
+      link: `/${i18n.language}/docs/manual/cases/relations`,
+      image:
+        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RYFQSZYewokAAAAAAAAAAABkARQnAQ',
+    },
+    {
+      logo:
+        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*N-HaQI233_kAAAAAAAAAAABkARQnAQ',
+      title: t('基于 G6 的关系时序分析应用'),
+      description:
+        t('基于 G6 的关系时序分析应用，解决应急过程中流程、影响面、应急预案等一系列应急决策辅助信息和手段，快速止血以减少和避免故障升级。'),
+      link: `/${i18n.language}/docs/manual/cases/sequenceTime`,
+      image:
+        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*H-OmQ6R4KT0AAAAAAAAAAABkARQnAQ',
     }
   ];
 
