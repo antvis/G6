@@ -1,8 +1,6 @@
 ---
 title: Highlight Nodes
 order: 0
-redirect_from:
-  - /zh/examples
 ---
 
 Highlighting a node and its neighbors when user hover it is a common requirement in graph analysis applications.

@@ -1,8 +1,6 @@
 ---
 title: Long Label
 order: 4
-redirect_from:
-  - /zh/examples
 ---
 
 Proccess the long label in G6.

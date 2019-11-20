@@ -1,8 +1,6 @@
 ---
 title: 生态树
 order: 1
-redirect_from:
-  - /zh/examples
 ---
 
 不管数据的深度多少，总是叶节点对齐。不考虑节点大小，布局时将节点视为1个像素点。

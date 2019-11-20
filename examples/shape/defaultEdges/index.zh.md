@@ -1,8 +1,6 @@
 ---
 title: 内置边
 order: 1
-redirect_from:
-  - /zh/examples
 ---
 
 G6 共内置了多种不同类型的边，包括直线、折线、曲线、自环等。

@@ -1,8 +1,6 @@
 ---
 title: 节点动画
 order: 0
-redirect_from:
-  - /zh/examples
 ---
 
 通过自定义节点，可以实现节点的动画效果。

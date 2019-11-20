@@ -1,8 +1,6 @@
 ---
 title: Custom Node
 order: 2
-redirect_from:
-  - /zh/examples
 ---
 
 The custom node mechanism in G6 allows users to design their own node when there are no appropriate built-in nodes for their scenario. 

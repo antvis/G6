@@ -1,8 +1,6 @@
 ---
 title: 响应区域事件
 order: 4
-redirect_from:
-  - /zh/examples
 ---
 
 区域响应。

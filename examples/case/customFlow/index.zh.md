@@ -1,8 +1,6 @@
 ---
 title: 自定义流向图
 order: 2
-redirect_from:
-  - /zh/examples
 ---
 
 自定义流向图。

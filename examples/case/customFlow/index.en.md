@@ -1,8 +1,6 @@
 ---
 title: Custom Fow Graph
 order: 2
-redirect_from:
-  - /zh/examples
 ---
 
 Custom flow graph.

@@ -1,8 +1,6 @@
 ---
 title: Move Nodes
 order: 5
-redirect_from:
-  - /zh/examples
 ---
 
 Move the graph by interaction.

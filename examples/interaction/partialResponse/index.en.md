@@ -1,8 +1,6 @@
 ---
 title: Region Response
 order: 4
-redirect_from:
-  - /zh/examples
 ---
 
 Region response on a node or edge.

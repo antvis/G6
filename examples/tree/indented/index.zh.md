@@ -1,8 +1,6 @@
 ---
 title: 缩进树
 order: 3
-redirect_from:
-  - /zh/examples
 ---
 
 缩进树布局。每个元素会占一行/一列。

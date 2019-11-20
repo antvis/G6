@@ -1,8 +1,6 @@
 ---
 title: 超长文本
 order: 4
-redirect_from:
-  - /zh/examples
 ---
 
 G6 中文本的处理。

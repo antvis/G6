@@ -1,8 +1,6 @@
 ---
 title: Tooltip
 order: 0
-redirect_from:
-  - /zh/examples
 ---
 
 Tooltip is a built-in components in G6.

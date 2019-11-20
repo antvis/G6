@@ -1,8 +1,6 @@
 ---
 title: Edge Animation
 order: 1
-redirect_from:
-  - /zh/examples
 ---
 
 Edge animation can be realized by customing an edge.

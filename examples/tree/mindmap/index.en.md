@@ -1,8 +1,6 @@
 ---
 title: Mindmap
 order: 2
-redirect_from:
-  - /en/examples
 ---
 
 The nodes with same depth will be placed on the same level. Difference from compactBox, Mindmap will not consider the node size.

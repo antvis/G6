@@ -1,8 +1,6 @@
 ---
 title: Indented
 order: 3
-redirect_from:
-  - /en/examples
 ---
 
 In indented tree layout, each node takes a row or a column.

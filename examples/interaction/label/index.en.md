@@ -1,8 +1,6 @@
 ---
 title: Label and Background Updating
 order: 2
-redirect_from:
-  - /zh/examples
 ---
 
 Update the label or background of items with interaction.

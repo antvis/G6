@@ -1,8 +1,6 @@
 ---
 title: 提示框
 order: 0
-redirect_from:
-  - /zh/examples
 ---
 
 G6 中内置的 Tooltip 组件。

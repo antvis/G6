@@ -1,8 +1,6 @@
 ---
 title: 脑图树
 order: 2
-redirect_from:
-  - /zh/examples
 ---
 
 深度相同的节点将会被放置在同一层，与 compactBox 不同的是，布局不会考虑节点的大小。

@@ -1,8 +1,6 @@
 ---
 title: Built-in Nodes
 order: 0
-redirect_from:
-  - /zh/examples
 ---
 
 There are 8 kinds of built-in nodes in G6, which can be extended by configurations.
