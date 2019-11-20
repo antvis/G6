@@ -89,9 +89,9 @@
     "worker-loader": "^2.0.0"
   },
   "scripts": {
-    "start": "npm run site:develop",
+    "start": "NODE_ENV=site npm run site:develop",
     "site:develop": "gatsby develop --open",
-    "site:build": "npm run site:clean && gatsby build --prefix-paths",
+    "site:build": "NODE_ENV=site npm run site:clean && gatsby build --prefix-paths",
     "site:clean": "gatsby clean",
     "site:deploy": "npm run site:build && gh-pages -d public",
     "update": "rm -rf node_modules/ && tnpm i && rm -rf build && tnpm run build",
