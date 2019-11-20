@@ -106,7 +106,7 @@ const IndexPage = () => {
         t('基于 G6 的关系时序分析应用，解决应急过程中流程、影响面、应急预案等一系列应急决策辅助信息和手段，快速止血以减少和避免故障升级。'),
       link: `/${i18n.language}/docs/manual/cases/sequenceTime`,
       image:
-        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lfRlSZLpHFwAAAAAAAAAAABkARQnAQ',
+        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*BVQ-SbrxF2kAAAAAAAAAAABkARQnAQ',
     },
     {
       logo:
@@ -116,7 +116,7 @@ const IndexPage = () => {
         t('社交网络分析是图可视化中一个重要的应用场景。随着社交网络越来越流行，人与人、人与组织之间的关系变得越来越复杂，使用传统的分析手段，已经很难满足我们的分析需求。在这种情况下，图分析及图可视化显得愈发重要。'),
       link: `/${i18n.language}/docs/manual/cases/relations`,
       image:
-        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-5XeR6JdKlcAAAAAAAAAAABkARQnAQ',
+        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qhN_QIS1cTQAAAAAAAAAAABkARQnAQ',
     },
     {
       logo:
@@ -126,7 +126,7 @@ const IndexPage = () => {
         t('基于 G6 实现的动态决策树，辅助用户寻找合适的可视化方式。它展示了 G6 强大的自定义节点和动画的能力。'),
       link: `/${i18n.language}/examples/case/decisionBubbles`,
       image:
-        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*QYE-Q4ptI7oAAAAAAAAAAABkARQnAQ',
+        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YsGOTbCNiWAAAAAAAAAAAABkARQnAQ',
     }
   ];
 
@@ -138,7 +138,7 @@ const IndexPage = () => {
     },
     {
       text: t('下载使用'),
-      link: `/${i18n.language}/docs/manual/getting-started`,
+      link: 'https://github.com/antvis/g6'
     },
   ];
 

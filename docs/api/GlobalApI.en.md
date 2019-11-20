@@ -2,7 +2,7 @@
 title: G6
 order: 0
 redirect_from:
-  - /zh/docs/api
+  - /en/docs/api
 ---
 
 ## G6.registerNode(nodeName, options, extendNodeName)
