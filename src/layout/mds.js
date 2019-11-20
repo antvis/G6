@@ -4,7 +4,7 @@
  */
 
 const Layout = require('./layout');
-const Util = require('../util');
+const Util = require('../util/layout');
 const Numeric = require('numericjs');
 
 /**
