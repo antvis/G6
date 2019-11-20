@@ -121,30 +121,33 @@
     graph.on('afterlayout', () => {
       const tipDiv = document.getElementById('tip');
       tipDiv.innerHTML = '布局完成！';
+
+      const edgeItems = graph.getEdges();
+      edgeItems.forEach(e => {
+        const lineWidth = 0.4;
+        const strokeOpacity = 0.2;
+        let stroke =  'l(0) 0:' + beginColor + ' 1:' + endColor;
+        const sourceModel = e.getSource().getModel();
+        const targetModel = e.getTarget().getModel();
+        if (sourceModel.x > targetModel.x) {
+          stroke = 'l(0) 0:' + endColor + ' 1:' + beginColor;
+        }
+        e.update({
+          style: {
+            lineWidth,
+            strokeOpacity,
+            stroke
+          }
+        })
+      });
+      // 等布局完以后再绘制
+      graph.paint();
     });
 
     graph.data(data);
+    // 如果使用web worker，graph.render是异步的，立即返回，在web worker里执行布局。
+    // 而如果不使用web worker，graph.render是同步的，意味着只有等布局执行完以后，才会执行graph.render后面的代码。
     graph.render();
-
-    const edgeItems = graph.getEdges();
-    edgeItems.forEach(e => {
-      const lineWidth = 0.4;
-      const strokeOpacity = 0.2;
-      let stroke =  'l(0) 0:' + beginColor + ' 1:' + endColor;
-      const sourceModel = e.getSource().getModel();
-      const targetModel = e.getTarget().getModel();
-      if (sourceModel.x > targetModel.x) {
-        stroke = 'l(0) 0:' + endColor + ' 1:' + beginColor;
-      }
-      e.update({
-        style: {
-          lineWidth,
-          strokeOpacity,
-          stroke
-        }
-      })
-    });
-    graph.paint();
 
     graph.on('node:click', e => { 
       const targetItem = e.item;
