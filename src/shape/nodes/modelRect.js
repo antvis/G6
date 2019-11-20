@@ -202,7 +202,8 @@ Shape.registerNode('modelRect', {
           y: 0,
           r: markSize
         },
-        className: 'rect-mark-left'
+        className: 'rect-mark-left',
+        isAnchorPoint: true
       });
     }
 
@@ -215,7 +216,8 @@ Shape.registerNode('modelRect', {
           y: 0,
           r: markSize
         },
-        className: 'rect-mark-right'
+        className: 'rect-mark-right',
+        isAnchorPoint: true
       });
     }
 
@@ -228,7 +230,8 @@ Shape.registerNode('modelRect', {
           y: -height / 2,
           r: markSize
         },
-        className: 'rect-mark-top'
+        className: 'rect-mark-top',
+        isAnchorPoint: true
       });
     }
 
@@ -241,7 +244,8 @@ Shape.registerNode('modelRect', {
           y: height / 2,
           r: markSize
         },
-        className: 'rect-mark-bottom'
+        className: 'rect-mark-bottom',
+        isAnchorPoint: true
       });
     }
   },
