@@ -1,0 +1,18 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "basicDendrogram.js",
+      "title": "生态树",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ffD6S74MXw4AAAAAAAAAAABkARQnAQ"
+    }, 
+    {
+      "filename": "tbDendrogram.js",
+      "title": "至上而下的生态树",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*nTKmRKkyUVUAAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}

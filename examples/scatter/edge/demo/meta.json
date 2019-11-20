@@ -1,0 +1,23 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "pointInLine.js",
+      "title": "圆点沿边运动",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HqX_Q7lljpsAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "edge.js",
+      "title": "虚线运动",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*70lpSLPAxb8AAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "lineGrowth.js",
+      "title": "无到有的边",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*W40_RKyCrDsAAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}

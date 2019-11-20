@@ -169,7 +169,7 @@ module.exports = {
         }
       };
       this.fn = fn;
-      body.addEventListener('mouseup', fn, false);
+      body.addEventListener('keyup', fn, false);
     }
   },
   _update(item, e, force) {
