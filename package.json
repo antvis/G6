@@ -8,7 +8,7 @@
   "author": "https://github.com/orgs/antvis/people",
   "repository": {
     "type": "git",
-    "url": "git@github.com:antvis/g6.git"
+    "url": "https://github.com/antvis/g6"
   },
   "bugs": {
     "url": "https://github.com/antvis/g6/issues"
