@@ -9,8 +9,8 @@ import Cases from '@antv/gatsby-theme-antv/site/components/Cases';
 const IndexPage = () => {
   const { t, i18n } = useTranslation();
 
-  const coverImage = <img style={{ width: '100%', height: '100%', marginTop: '20%' }}
-    src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*svOmSKSdxWkAAAAAAAAAAABkARQnAQ' />//BannerSVG();
+  const coverImage = <img style={{ width: '115%', marginLeft: '15%', marginTop: '7%' }}
+    src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*j5AqSpmNPdYAAAAAAAAAAABkARQnAQ' />//BannerSVG();
 
   const features = [
     {
@@ -85,8 +85,9 @@ const IndexPage = () => {
   const cases = [
     {
       logo:
-        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*psZ4Q6GGB2kAAAAAAAAAAABkARQnAQ',
+        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ch6rTrCxb6YAAAAAAAAAAABkARQnAQ',
       title: t('基于 G6 的动态决策树'),
+      isAppLogo: true,
       description:
         t('基于 G6 实现的动态决策树，辅助用户寻找合适的可视化方式。它展示了 G6 强大的自定义节点和动画的能力。'),
       link: `/${i18n.language}/examples/case/decisionBubbles`,
@@ -95,8 +96,9 @@ const IndexPage = () => {
     },
     {
       logo:
-        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XKBDRoT0eesAAAAAAAAAAABkARQnAQ',
+        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*95GYRI0zPx8AAAAAAAAAAABkARQnAQ',
       title: t('基于 G6 的图分析应用'),
+      isAppLogo: true,
       description:
         t('社交网络分析是图可视化中一个重要的应用场景。随着社交网络越来越流行，人与人、人与组织之间的关系变得越来越复杂，使用传统的分析手段，已经很难满足我们的分析需求。在这种情况下，图分析及图可视化显得愈发重要。'),
       link: `/${i18n.language}/docs/manual/cases/relations`,
@@ -105,8 +107,9 @@ const IndexPage = () => {
     },
     {
       logo:
-        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*N-HaQI233_kAAAAAAAAAAABkARQnAQ',
+        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IEQFS5VtXX8AAAAAAAAAAABkARQnAQ',
       title: t('基于 G6 的关系时序分析应用'),
+      isAppLogo: true,
       description:
         t('基于 G6 的关系时序分析应用，解决应急过程中流程、影响面、应急预案等一系列应急决策辅助信息和手段，快速止血以减少和避免故障升级。'),
       link: `/${i18n.language}/docs/manual/cases/sequenceTime`,
