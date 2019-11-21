@@ -10,7 +10,7 @@ const IndexPage = () => {
   const { t, i18n } = useTranslation();
 
   const coverImage = <img style={{ width: '100%', height: '100%', marginTop: '20%' }}
-    src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*vmaSQ64jm4wAAAAAAAAAAABkARQnAQ' />//BannerSVG();
+    src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*svOmSKSdxWkAAAAAAAAAAABkARQnAQ' />//BannerSVG();
 
   const features = [
     {
@@ -126,7 +126,7 @@ const IndexPage = () => {
         t('基于 G6 的关系时序分析应用，解决应急过程中流程、影响面、应急预案等一系列应急决策辅助信息和手段，快速止血以减少和避免故障升级。'),
       link: `/${i18n.language}/docs/manual/cases/sequenceTime`,
       image:
-        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*H-OmQ6R4KT0AAAAAAAAAAABkARQnAQ',
+        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*m41kSpg17ZkAAAAAAAAAAABkARQnAQ',
     }
   ];
 
@@ -161,7 +161,7 @@ const IndexPage = () => {
       />
       <Cases cases={cases} />
       <Companies
-        title={t('感谢一路的合作伙伴')}
+        title={t('感谢信赖')}
         companies={companies}
       />
     </>
