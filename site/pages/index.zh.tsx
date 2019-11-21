@@ -10,7 +10,7 @@ const IndexPage = () => {
   const { t, i18n } = useTranslation();
 
   const coverImage = <img style={{ width: '100%', height: '100%', marginTop: '20%' }}
-    src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*vmaSQ64jm4wAAAAAAAAAAABkARQnAQ' />//BannerSVG();
+    src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*svOmSKSdxWkAAAAAAAAAAABkARQnAQ' />//BannerSVG();
 
   const features = [
     {
@@ -161,7 +161,7 @@ const IndexPage = () => {
       />
       <Cases cases={cases} />
       <Companies
-        title={t('感谢一路的合作伙伴')}
+        title={t('感谢信赖')}
         companies={companies}
       />
     </>
