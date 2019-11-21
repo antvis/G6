@@ -5,7 +5,7 @@ module.exports = (api) => {
 
   const isTest = api.env('site')
 
-  if (!isTest) {
+  if (isTest) {
     return {
       "plugins": [
         "transform-remove-strict-mode"

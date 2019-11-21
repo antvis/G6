@@ -82,10 +82,6 @@ const IndexPage = () => {
     },
   ];
 
-  const notifications = [
-    
-  ];
-
   const cases = [
     {
       logo:
