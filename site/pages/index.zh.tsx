@@ -83,18 +83,7 @@ const IndexPage = () => {
   ];
 
   const notifications = [
-    {
-      type: t('洞察关系数据'),
-      title: t('G6 3.2.0 全新发布！'),
-      date: '2019.11.22',
-      link: 'https://www.yuque.com/antv/blog/wy2qd6',
-    },
-    {
-      type: t('小试牛刀'),
-      title: t('Graphin 1.0.0 全新发布！'),
-      date: '2019.11.22',
-      link: 'https://antvis.github.io/graphin',
-    }
+    
   ];
 
   const cases = [
@@ -151,7 +140,6 @@ const IndexPage = () => {
         description={t(
           'G6 是一个简单、易用、完备的图可视化引擎，它在高定制能力的基础上，提供了一系列设计优雅、便于使用的图可视化解决方案。能帮助开发者搭建属于自己的图可视化、图分析、或图编辑器应用。',
         )}
-        notifications={notifications}
         className="banner"
         buttons={bannerButtons}
       />
