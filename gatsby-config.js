@@ -5,8 +5,7 @@ module.exports = {
     {
       resolve: '@antv/gatsby-theme-antv',
       options: {
-        GATrackingId: 'UA-148148901-4',
-        pathPrefix: '/g6'
+        GATrackingId: 'UA-148148901-4'
       }
     }
   ],
@@ -14,6 +13,7 @@ module.exports = {
   siteMetadata: {
     title: 'G6',
     description: 'A collection of charts made with the Grammar of Graphics',
+    siteUrl: 'https://g6.antv.vision',
     githubUrl: repository.url,
     navs: [
       {
