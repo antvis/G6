@@ -89,11 +89,11 @@
     "worker-loader": "^2.0.0"
   },
   "scripts": {
-    "start": "NODE_ENV=site npm run site:develop",
-    "site:develop": "NODE_ENV=site gatsby develop --open",
-    "site:build": "npm run site:clean && NODE_ENV=site gatsby build --prefix-paths",
+    "start": "npm run site:develop",
+    "site:develop": "gatsby develop --open",
+    "site:build": "npm run site:clean && gatsby build --prefix-paths",
     "site:clean": "gatsby clean",
-    "site:deploy": "NODE_ENV=site npm run site:build && gh-pages -d public",
+    "site:deploy": "npm run site:build && gh-pages -d public",
     "update": "rm -rf node_modules/ && tnpm i && rm -rf build && tnpm run build",
     "build": "webpack",
     "build-lib": "babel src --out-dir lib",
