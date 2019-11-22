@@ -1,24 +1,23 @@
 module.exports = api => {
   api.cache(() => process.env.NODE_ENV);
-  const isSite = api.env('site');
 
-  if(isSite) {
+  if (process.env.GATSBY === 'true') {
     return {
-      "presets": [
-        "babel-preset-gatsby",
-        "@babel/preset-env"
+      presets: [
+        '@babel/preset-env',
+        'babel-preset-gatsby'
       ]
-    }
+    };
   }
   return {
-    "presets": [
+    presets: [
       [
-        "@babel/preset-env",
+        '@babel/preset-env',
         {
-          "loose": true,
-          "modules": false
+          loose: true,
+          modules: false
         }
       ]
     ]
-  }
-}
+  };
+};
