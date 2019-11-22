@@ -1,7 +1,7 @@
 import G6 from '@antv/g6';
 
 const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight;
+const height = document.getElementById('container').scrollHeight || 500;
 const colors = [ '#FD8C3D', '#D83F43', '#F7BED6', '#E487C7', '#46A848', '#D83F43', '#3B85BA', '#48335B', '#B7CDE9' ];
 
 const sankeyGraph = window.sankey.sankey().nodes([

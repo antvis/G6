@@ -1,5 +1,5 @@
 ---
-title: 交互模式 Mode
+title: Interaction Mode
 order: 5
 ---
 

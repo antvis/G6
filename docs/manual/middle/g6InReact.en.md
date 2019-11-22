@@ -1,5 +1,5 @@
 ---
-title: React 中使用 G6
+title: G6 in React
 order: 9
 ---
 

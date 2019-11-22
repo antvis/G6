@@ -1,5 +1,5 @@
 ---
-title: 快速上手
+title: Getting Started
 order: 1
 redirect_from:
   - /zh/docs/manual
