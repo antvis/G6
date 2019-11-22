@@ -178,7 +178,7 @@ const graph = new G6.Graph({
 | rankdir | String | 'TB' / 'BT' / 'LR' / 'RL' | 'TB' | layout 的方向。T：top；B：bottom；L：left；R：right |
 | align | String | 'UL' / 'UR' / 'DL' / 'DR' | 'UL' | 节点对齐方式。U：upper；D：down；L：left；R：right |
 | nodesep | Number | 40 | 50 | 节点水平间距（px）。优先级高于 `nodesepFunc` |
-| ranksep | Number | 40 | 50 | 层间距（px）。优先级高于 `ranksep``Func` |
+| ranksep | Number | 40 | 50 | 层间距（px）。优先级高于 `ranksep Func` |
 | nodesepFunc<br /><br />3.1.6 后支持 | Function | d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | 节点水平间距（px）的回调函数，通过该参数可以对不同节点设置不同的节点间距。优先级低于 `nodesep`，即若设置了 `nodesep`，则 `nodesepFunc` 不生效 |
 | ranksepFunc<br /><br />3.1.6 后支持 | Function | d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | 层间距（px）的回调函数，通过该参数可以对不同节点设置不同的层间距。优先级低于 `ranksep`，即若设置了 `ranksep`，则 `ranksepFunc` 不生效 |
 | controlPoints | Boolean | true | true | 是否保留布局连线的控制点 |
