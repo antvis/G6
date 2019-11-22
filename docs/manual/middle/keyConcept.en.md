@@ -1,5 +1,5 @@
 ---
-title: G6 中的关键概念
+title: Key Concepts
 order: 0
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: 基于 G6 的图分析应用
+title: Relationship Analysis Powered by G6
 order: 1
 ---
 

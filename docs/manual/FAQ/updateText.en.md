@@ -1,5 +1,5 @@
 ---
-title: 如何更新文本样式
+title: Update Label
 order: 0
 ---
 

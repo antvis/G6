@@ -86,7 +86,7 @@ const graph = new G6.Graph({
 | edgeStrength | Number | 示例1: 1 <br />示例2:<br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 10;<br />  }<br />  return 1;<br />} | null | 边的作用力，默认根据节点的出入度自适应。可以使用回调函数的形式对不同对节点定义不同边作用力（如示例2） |
 | preventOverlap | Boolean | false | false | 是否防止重叠，必须配合属性 `nodeSize` ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测。若未设置 `nodeSize` ，则根据节点数据中的 `size` 进行碰撞检测。若二者都未设置，则默认以 10 为节点大小进行碰撞检测 |
 | nodeSize | Array | Number | 20 | undefined | 节点大小（直径）。用于碰撞检测。<br />若不指定，则根据传入的数据节点中的 `size` 字段计算。若即不指定，节点中也没有 `size`，则默认大小为 10 |
-| nodeSpacing<br /><br />3.1.6 后支持 | Number | Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150/><br />`preventOverlap` 为 `true` 时生效，防止重叠时节点边缘间距的最小值。可以是回调函数，为不同节点设置不同的最小间距，如示例 2 所示<br /> |
+| nodeSpacing<br /><br />3.1.6 后支持 | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150/><br />`preventOverlap` 为 `true` 时生效，防止重叠时节点边缘间距的最小值。可以是回调函数，为不同节点设置不同的最小间距，如示例 2 所示<br /> |
 | alphaDecay | Number | 0.03 | 0.028 | 迭代阈值的衰减率。[0, 1]，0.028 对应迭代书为 300 |
 | alphaMin | Number | 0.03 | 0.001 | 停止迭代的阈值 |
 | alpha | Number | 0.1 | 0.3 | 当前阈值 |
@@ -177,10 +177,10 @@ const graph = new G6.Graph({
 | --- | --- | --- | --- | --- |
 | rankdir | String | 'TB' / 'BT' / 'LR' / 'RL' | 'TB' | layout 的方向。T：top；B：bottom；L：left；R：right |
 | align | String | 'UL' / 'UR' / 'DL' / 'DR' | 'UL' | 节点对齐方式。U：upper；D：down；L：left；R：right |
-| nodesep | Number | 40 | 50 | 节点水平间距（px）。优先级高于 `nodesepFunc` |
-| ranksep | Number | 40 | 50 | 层间距（px）。优先级高于 `ranksep Func` |
-| nodesepFunc<br /><br />3.1.6 后支持 | Function | d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | 节点水平间距（px）的回调函数，通过该参数可以对不同节点设置不同的节点间距。优先级低于 `nodesep`，即若设置了 `nodesep`，则 `nodesepFunc` 不生效 |
-| ranksepFunc<br /><br />3.1.6 后支持 | Function | d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | 层间距（px）的回调函数，通过该参数可以对不同节点设置不同的层间距。优先级低于 `ranksep`，即若设置了 `ranksep`，则 `ranksepFunc` 不生效 |
+| nodesep | Number | 40 | 50 | 在`rankdir` 为 'TB' 或 'BT' 时代表节点水平间距（px）；在`rankdir` 为 'LR' 或 'RL' 时代表节点的竖直间距。优先级高于 `nodesepFunc` |
+| ranksep | Number | 40 | 50 | 层间距（px）。在`rankdir` 为 'TB' 或 'BT' 时是竖直方向相邻层间距；在`rankdir` 为 'LR' 或 'RL' 时代表水平方向相邻层间距。优先级高于 `ranksepFunc` |
+| nodesepFunc<br /><br />3.1.6 后支持 | Function | d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | 节点水平间距（px）的回调函数，通过该参数可以对不同节点设置不同的节点间距。在`rankdir` 为 'TB' 或 'BT' 时是节点的水平间距；在`rankdir` 为 'LR' 或 'RL' 时是节点的竖直间距。优先级低于 `nodesep`，即若设置了 `nodesep`，则 `nodesepFunc` 不生效 |
+| ranksepFunc<br /><br />3.1.6 后支持 | Function | d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | 层间距（px）的回调函数，通过该参数可以对不同节点设置不同的层间距。在`rankdir` 为 'TB' 或 'BT' 时是竖直方向相邻层间距；在`rankdir` 为 'LR' 或 'RL' 时代表水平方向相邻层间距。优先级低于 `ranksep`，即若设置了 `ranksep`，则 `ranksepFunc` 不生效 |
 | controlPoints | Boolean | true | true | 是否保留布局连线的控制点 |
 
 

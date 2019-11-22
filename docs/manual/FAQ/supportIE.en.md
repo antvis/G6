@@ -1,5 +1,5 @@
 ---
-title: 如何让 IE 支持 G6
+title: Use G6 with IE
 order: 3
 ---
 

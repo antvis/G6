@@ -1,5 +1,5 @@
 ---
-title: 简介
+title: Introduction
 order: 0
 redirect_from:
   - /en/docs/manual

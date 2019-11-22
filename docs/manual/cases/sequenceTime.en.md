@@ -1,5 +1,5 @@
 ---
-title: 基于 G6 的关系时序分析应用
+title: Dynamic Relationship Analysis Powered by G6
 order: 0
 ---
 
