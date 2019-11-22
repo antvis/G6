@@ -76,7 +76,8 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
         maxIteration: 8000,
         gravity: 10,
         clustering: true,
-        clusterGravity: 30
+        clusterGravity: 30,
+        workerEnabled: true
       },
       fitView: true,
       linkCenter: true,
