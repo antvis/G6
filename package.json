@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "graph visualization frame work",
   "main": "build/g6.js",
   "types": "types/index.d.ts",
@@ -88,11 +88,11 @@
     "worker-loader": "^2.0.0"
   },
   "scripts": {
-    "start": "npm run site:develop",
-    "site:develop": "gatsby develop --open",
-    "site:build": "npm run site:clean && gatsby build --prefix-paths",
+    "start": "NODE_ENV=site npm run site:develop",
+    "site:develop": "NODE_ENV=site gatsby develop --open",
+    "site:build": "NODE_ENV=site npm run site:clean && gatsby build --prefix-paths",
     "site:clean": "gatsby clean",
-    "site:deploy": "npm run site:build && gh-pages -d public",
+    "site:deploy": "NODE_ENV=site npm run site:build && gh-pages -d public",
     "update": "rm -rf node_modules/ && tnpm i && rm -rf build && tnpm run build",
     "build": "webpack",
     "build-lib": "babel src --out-dir lib",
