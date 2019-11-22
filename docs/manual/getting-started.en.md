@@ -1,9 +1,6 @@
 ---
 title: Getting Started
 order: 1
-redirect_from:
-  - /zh/docs/manual
-  - /en/docs/manual
 ---
 
 ## 第一个示例

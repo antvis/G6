@@ -17,7 +17,7 @@ module.exports = {
     githubUrl: repository.url,
     navs: [
       {
-        slug: 'docs/manual',
+        slug: 'docs/manual/introduction',
         title: {
           zh: '文档',
           en: 'Docs'
