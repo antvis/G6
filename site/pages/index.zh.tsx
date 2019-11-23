@@ -133,7 +133,7 @@ const IndexPage = () => {
 
   return (
     <>
-      <SEO title={t('蚂蚁数据可视化')} lang={i18n.language} />
+      <SEO title={t('G6 图可视化引擎')} lang={i18n.language} />
       <Banner
         coverImage={coverImage}
         title={t('G6 图可视化引擎')}
