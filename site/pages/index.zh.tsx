@@ -133,7 +133,7 @@ const IndexPage = () => {
 
   return (
     <>
-      <SEO title={t('G6 图可视化引擎')} lang={i18n.language} />
+      <SEO title={t('G6 图可视化引擎')} titleSuffix="AntV" lang={i18n.language} />
       <Banner
         coverImage={coverImage}
         title={t('G6 图可视化引擎')}
