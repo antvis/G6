@@ -5,7 +5,7 @@ import Banner from '@antv/gatsby-theme-antv/site/components/Banner';
 import Companies from '@antv/gatsby-theme-antv/site/components/Companies';
 import Features from '@antv/gatsby-theme-antv/site/components/Features';
 import Cases from '@antv/gatsby-theme-antv/site/components/Cases';
-import './index.css'
+import './index.less'
 
 const IndexPage = () => {
   const { t, i18n } = useTranslation();
@@ -133,7 +133,7 @@ const IndexPage = () => {
 
   return (
     <>
-      <SEO title={t('G6 图可视化引擎')} titleSuffix="AntV" lang={i18n.language} />
+      <SEO title={t('G6 图可视化引擎')} titleSuffix='AntV' lang={i18n.language} />
       <Banner
         coverImage={coverImage}
         title={t('G6 图可视化引擎')}
