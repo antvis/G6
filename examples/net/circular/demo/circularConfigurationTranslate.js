@@ -293,8 +293,6 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
-  fitView: true,
-  fitViewPadding: 40,
   modes: {
     default: [ 'drag-canvas', 'drag-node' ]
   },

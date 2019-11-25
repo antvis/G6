@@ -6,7 +6,6 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
-  fitView: true,
   layout: {
     type: 'force',
     preventOverlap: true,

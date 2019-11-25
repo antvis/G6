@@ -6,7 +6,6 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
-  fitView: true,
   modes: {
     default: [ 'zoom-canvas', 'drag-canvas', 'drag-node' ]
   },
