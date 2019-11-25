@@ -1,4 +1,5 @@
-/// <reference path="./g.d.ts" />
+/// <reference path='./g.d.ts' />
+/// <reference path='./antvUtil.d.ts' />
 
 import {
   deepMix,
