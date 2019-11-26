@@ -513,19 +513,6 @@ class Graph extends EventEmitter {
       self.add(EDGE, edge);
     });
 
-    // 防止传入的数据不存在nodes
-    if (data.nodes) {
-      // 获取所有有groupID的node
-      const nodeInGroup = data.nodes.filter(node => node.groupId);
-
-      // 所有node中存在groupID，则说明需要群组
-      if (nodeInGroup.length > 0) {
-        // 渲染群组
-        const groupType = self.get('groupType');
-        this.renderCustomGroup(data, groupType);
-      }
-    }
-
     if (!this.get('groupByTypes')) {
       // 为提升性能，选择数量少的进行操作
       if (data.nodes.length < data.edges.length) {
@@ -557,6 +544,19 @@ class Graph extends EventEmitter {
       self.paint();
       self.setAutoPaint(autoPaint);
       self.emit('afterrender');
+    }
+
+    // 防止传入的数据不存在nodes
+    if (data.nodes) {
+      // 获取所有有groupID的node
+      const nodeInGroup = data.nodes.filter(node => node.groupId);
+
+      // 所有node中存在groupID，则说明需要群组
+      if (nodeInGroup.length > 0) {
+        // 渲染群组
+        const groupType = self.get('groupType');
+        this.renderCustomGroup(data, groupType);
+      }
     }
   }
 
