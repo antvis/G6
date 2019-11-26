@@ -1,4 +1,8 @@
 # ChangeLog
+#### 3.2.3
+* fix: group position error
+* fix: supports not set layout type
+
 #### 3.1.5 
 * feat: supports g6 types file
 * fix: set brush-select trigger param to ctrl not work
