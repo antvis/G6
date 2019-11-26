@@ -12,6 +12,7 @@
   <script src="../build/g6.js"></script>
   <script>
 
+<<<<<<< HEAD
 const edgeTypeColorMap = {
   type1: ['#531dab', '#391085', '#391085'],
   type2: ['#d9d9d9', '#bfbfbf', '#8c8c8c'],
@@ -194,6 +195,16 @@ const defaultConf = {
     if(text) {
       text.resetMatrix();
       text.attr(attrs);
+=======
+    let nodes = []
+    for(let i = 0; i < 500; i++) {
+      nodes.push({
+        id: `node-${i}`,
+        label: `label-${i}`,
+        x: Math.random() * 650,
+        y: Math.random() * 550
+      })
+>>>>>>> fix: loop for rect node
     }
   }
 };
