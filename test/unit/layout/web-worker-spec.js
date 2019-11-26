@@ -11,7 +11,7 @@ function mathEqual(a, b) {
   return Math.abs(a - b) < 1;
 }
 
-describe('layout using web worker', function() {
+describe.only('layout using web worker', function() {
   this.timeout(10000);
 
   it('change layout', function(done) {
@@ -34,13 +34,14 @@ describe('layout using web worker', function() {
     graph.one('afterlayout', () => {
       expect(mathEqual(node.x, 500)).to.equal(true);
       expect(mathEqual(node.y, 250)).to.equal(true);
+      callback();
     });
     graph.render();
 
-    let count = 0;
-    let ended = false;
+    function callback() {
+      let count = 0;
+      let ended = false;
 
-    setTimeout(() => {
       // 只执行一次
       graph.one('afterlayout', () => {
         expect(node.x).to.not.be.undefined;
@@ -63,6 +64,6 @@ describe('layout using web worker', function() {
         // use web worker to layout
         workerEnabled: true
       });
-    }, 1000);
+    }
   });
 });
