@@ -72,6 +72,10 @@ class LayoutController {
     }
   }
 
+  getLayoutType() {
+    return this.layoutCfg.type;
+  }
+
   /**
    * @param {function} success callback
    * @return {boolean} 是否使用web worker布局

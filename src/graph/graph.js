@@ -652,7 +652,13 @@ class Graph extends EventEmitter {
     this.set({ nodes: items.nodes, edges: items.edges });
     const layoutController = this.get('layoutController');
     layoutController.changeData();
-    this.setAutoPaint(autoPaint);
+    if (self.get('animate') && !layoutController.getLayoutType()) {
+      // 如果没有指定布局
+      self.positionsAnimate();
+    } else {
+      self.paint();
+    }
+    self.setAutoPaint(autoPaint);
     return this;
   }
   _diffItems(type, items, models) {
