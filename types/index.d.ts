@@ -94,32 +94,32 @@ declare namespace G6 {
 
   export class Item {
     constructor(cfg: any);
-  
+
     isItem(): boolean;
-  
+
     getDefaultCfg(): any;
-  
+
     getKeyShapeStyle(): any;
-  
+
     /**
      * 获取当前元素的所有状态
      * @return {Array} 元素的所有状态
      */
     getStates(): any;
-  
+
     /**
      * 当前元素是否处于某状态
      * @param {String} state 状态名
      * @return {Boolean} 是否处于某状态
      */
     hasState(state: string): boolean;
-  
+
     getStateStyle(state: string): any;
-  
+
     getOriginStyle(): any;
-  
+
     getCurrentStatesStyle(): any;
-  
+
     /**
      * 更改元素状态， visible 不属于这个范畴
      * @internal 仅提供内部类 graph 使用
@@ -127,35 +127,35 @@ declare namespace G6 {
      * @param {Boolean} enable 节点状态值
      */
     setState(state: string, enable: boolean): void;
-  
+
     clearStates(states: string | string[]): void;
-  
+
     /**
      * 节点的图形容器
      * @return {G.Group} 图形容器
      */
     getContainer(): G.Group;
-  
+
     /**
      * 节点的关键形状，用于计算节点大小，连线截距等
      * @return {G.Shape} 关键形状
      */
     getKeyShape(): G.Shape;
-  
+
     /**
      * 节点数据模型
      * @return {Object} 数据模型
      */
     getModel<T = any>(): T;
-  
+
     /**
      * 节点类型
      * @return {string} 节点的类型
      */
     getType(): string;
-  
+
     getShapeCfg(model: any): any;
-  
+
     /**
      * 刷新一般用于处理几种情况
      * 1. item model 在外部被改变
@@ -164,74 +164,74 @@ declare namespace G6 {
      * 因为数据从外部被修改无法判断一些属性是否被修改，直接走位置和 shape 的更新
      */
     refresh(): void;
-  
+
     /**
      * 将更新应用到 model 上，刷新属性
      * @internal 仅提供给 Graph 使用，外部直接调用 graph.update 接口
      * @param  {Object} cfg       配置项，可以是增量信息
      */
     update(cfg: any): void;
-  
+
     /**
      * 更新元素内容，样式
      */
     updateShape(): void;
-  
+
     /**
      * 更新位置，避免整体重绘
      * @param {object} cfg 待更新数据
      */
     updatePosition(cfg: any): void;
-  
+
     /**
      * 更新/刷新等操作后，清除 cache
      */
     clearCache(): void;
-  
+
     /**
      * 绘制元素
      */
     draw(): void;
-  
+
     /**
      * 获取元素的包围盒
      */
     getBBox(): G.Box;
-  
+
     /**
      * 将元素放到最前面
      */
     toFront(): void;
-  
+
     /**
      * 将元素放到最后面
      */
     toBack(): void;
-  
+
     /**
      * 显示元素
      */
     show(): void;
-  
+
     /**
      * 隐藏元素
      */
     hide(): void;
-  
+
     /**
      * 更改是否显示
      * @param  {Boolean} visible 是否显示
      */
     changeVisibility(visible: boolean): void;
-  
+
     /**
      * 是否捕获及触发该元素的交互事件
      * @param {Boolean} enable 标识位
      */
     enableCapture(enable: boolean): void;
-  
+
     isVisible(): boolean;
-  
+
     get(key: string): any;
     set(key: string, value: any): void;
   }
