@@ -316,7 +316,7 @@ declare namespace G6 {
     /**
      * 渲染引擎，支持canvas和svg。
      */
-    renderer?: 'canvas' | 'svg';
+    renderer?: GraphRendererType;
 
     fitView?: boolean;
 
@@ -1158,4 +1158,6 @@ declare namespace G6 {
    * 版本号
    */
   export const version: string;
+
+  export type GraphRendererType = 'canvas' | 'svg';
 }
