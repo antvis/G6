@@ -3,9 +3,9 @@ title: Shape
 order: 7
 ---
 
-Shape API都是在自定义节点（registerNode）或自定义边（registerEdge）的过程中需要部分实现或复写的方法。
+本文介绍的 Shape 相关方法是在自定义节点（registerNode）或自定义边（registerEdge）的过程中需要部分实现或复写的方法。
 
-**友情提示：**以下属性和API方法，全部用于自定义节点和边时候使用，即作为`G6.registerNode` / `G6.registerEdge`的第二个参数中的方法使用。
+**友情提示：**以下属性和 API 方法，全部用于自定义节点和边时候使用，即作为 `G6.registerNode` / `G6.registerEdge` 的第二个参数中的方法使用。
 
 ## 用法
 ```
@@ -34,36 +34,36 @@ G6.registerNode('nodeName', {
 ## 属性
 
 ### itemType
-元素类型，目前支持node、edge，后续可能会支持group。
+元素类型，目前支持 `'node'`、`'edge'`，后续可能会支持 `'group'`。
 
 ### labelPosition
-文本相对于图形的位置，默认值为center。
+文本相对于图形的位置，默认值为 `'center'`。
 
-- 当itemType为node时，labelPosition值包括：top、bottom、left、right和center；
-- 当itemType为edge时，labelPos值包括start、end和center。
+- 当 `itemType` 为 `'node'` 时，`labelPosition` 值包括：`'top'`、`'bottom'`、`'left'`、`'right'` 和 `'center'`；
+- 当 `itemType` 为 `'edge'` 时，`labelPosition` 值包括：`'start'`、`'end'` 和 `'center'`。
 
 ### labelAutoRotate
 > 只有在 registerEdge 时有用。
 
-文本是否跟着线自动旋转，默认值为false。
+文本是否跟着线自动旋转，默认值为 `false`。
 
 **提示：edge特有。**
 
 ## 绘制
-绘制部分四个API的参数完全相同，参数说明部分参考draw()方法。
+绘制部分四个 API 的参数完全相同，参数说明部分参考 `draw()` 方法。
 
 ### draw(cfg, group)
-绘制节点和边，包括节点和边上的文本，返回图形的keyShape。
+绘制节点和边，包括节点和边上的文本，返回图形的 `keyShape`。
 
 **参数**
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| cfg | object | true | 节点或边的配置项 |
+| cfg | Object | true | 节点或边的配置项 |
 | group | G.Group | true | 节点或边的容器 |
 
 ### afterDraw(cfg, group)
-绘制完成以后的操作，用户可继承现有的节点或边，在afterDraw()方法中扩展图形或添加动画。
+绘制完成以后的操作，用户可继承现有的节点或边，在 `afterDraw()` 方法中扩展图形或添加动画。
 
 ## 更新
 
@@ -74,7 +74,7 @@ G6.registerNode('nodeName', {
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| cfg | object | true | 节点或边的配置项 |
+| cfg | Object | true | 节点或边的配置项 |
 | item | G6.Item | true | 节点或边的实例 |
 
 ### afterUpdate(cfg, item)
@@ -87,20 +87,20 @@ G6.registerNode('nodeName', {
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| type | string | true | 元素类型，node或edge |
+| type | String | true | 元素类型，`'node'` 或 `'edge'` |
 
 **返回值**
 
-- 返回值类型：boolean；
-- 返回true，则允许更新，否则不允许更新。
+- 返回值类型：Boolean；
+- 返回 `true`，则允许更新，否则不允许更新。
 
 ### setState(name, value, item)
-设置元素的状态，主要是交互状态，业务状态请在draw()方法中实现。单图形的节点仅考虑selected、active状态，有其他状态需求的用户可以复写该方法。
+用于响应外部对元素状态的改变。当外部调用 [`graph.setItemState(item, state, value)`](/zh/docs/api/Graph/#setitemstateitem-state-enabled) 时，该函数作出相关响应。主要是交互状态，业务状态请在 `draw()` 方法中实现。单图形的节点仅考虑 `'selected'` 、`'active'` 状态，有其他状态需求的用户可以复写该方法。
 
 **参数**
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| name | string | true | 状态名称 |
-| value | boolean | true | 状态是否可用，为true时可用，否则不可用 |
+| name | String | true | 状态名称 |
+| value | Boolean | true | 状态是否可用，为 `true` 时可用，否则不可用 |
 | item | G6.Item | true | 节点或边的实例 |

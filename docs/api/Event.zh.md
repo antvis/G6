@@ -3,7 +3,7 @@ title: Event
 order: 6
 ---
 
-通用事件、Node事件、Edge事件及Canvas事件回调的参数请参考[Behavior文档](./Behavior)。
+通用事件、Node 事件、Edge 事件及 Canvas 事件回调的参数请参考[Behavior 文档](./Behavior)。
 
 ## 通用事件
 
@@ -28,7 +28,7 @@ order: 6
 | keydown | 按下键盘键触发该事件 |
 | keyup | 释放键盘键触发该事件 |
 | touchstart | 当手指触摸屏幕时候触发，即使已经有一个手指放在屏幕上也会触发 |
-| touchmove | 当手指在屏幕上滑动的时候连续地触发。在这个事件发生期间，调用preventDefault()事件可以阻止滚动。 |
+| touchmove | 当手指在屏幕上滑动的时候连续地触发。在这个事件发生期间，调用 preventDefault() 事件可以阻止滚动。 |
 | touchend | 当手指从屏幕上离开的时候触发 |
 
 
@@ -96,22 +96,22 @@ order: 6
 
 | 事件名称 | 描述 |
 | --- | --- |
-| beforeadditem | 调用add / addItem方法之前触发 |
-| afteradditem | 调用add / addItem方法之后触发 |
-| beforeremoveitem | 调用remove / removeItem方法之前触发 |
-| afterremoveitem | 调用remove / removeItem方法之后触发 |
-| beforeupdateitem | 调用update / updateItem方法之前触发 |
-| afterupdateitem | 调用update / updateItem方法之后触发 |
-| beforeitemvisibilitychange | 调用showItem / hideItem方法之前触发 |
-| afteritemvisibilitychange | 调用showItem / hideItem方法之后触发 |
-| beforeitemstatechange | 调用setItemState方法之前触发 |
-| afteritemstatechange | 调用setItemState方法之后触发 |
-| beforeitemrefresh | 调用refreshItem方法之前触发 |
-| afteritemrefresh | 调用refreshItem方法之后触发 |
-| beforeitemstatesclear | 调用clearItemStates方法之前触发 |
-| afteritemstatesclear | 调用clearItemStates方法之后触发 |
-| beforelayout | 布局前触发。调用 render 时会进行布局，因此 render 时会触发。或用户主动调用图的 layout 时触发。 |
-| afterlayout | 布局完成后触发。调用 render 时会进行布局，因此 render 时布局完成后会触发。或用户主动调用图的 layout 时布局完成后触发。 |
+| beforeadditem | 调用 `add` / `addItem` 方法之前触发 |
+| afteradditem | 调用 `add` / `addItem` 方法之后触发 |
+| beforeremoveitem | 调用 `remove` / `removeItem` 方法之前触发 |
+| afterremoveitem | 调用 `remove` / `removeItem` 方法之后触发 |
+| beforeupdateitem | 调用 `update` / `updateItem` 方法之前触发 |
+| afterupdateitem | 调用 `update` / `updateItem` 方法之后触发 |
+| beforeitemvisibilitychange | 调用 `showItem` / `hideItem` 方法之前触发 |
+| afteritemvisibilitychange | 调用 `showItem` / `hideItem` 方法之后触发 |
+| beforeitemstatechange | 调用 `setItemState` 方法之前触发 |
+| afteritemstatechange | 调用 `setItemState` 方法之后触发 |
+| beforeitemrefresh | 调用 `refreshItem` 方法之前触发 |
+| afteritemrefresh | 调用 `refreshItem` 方法之后触发 |
+| beforeitemstatesclear | 调用 `clearItemStates` 方法之前触发 |
+| afteritemstatesclear | 调用 `clearItemStates` 方法之后触发 |
+| beforelayout | 布局前触发。调用 `render` 时会进行布局，因此 `render` 时会触发。或用户主动调用图的 `layout` 时触发。 |
+| afterlayout | 布局完成后触发。调用 `render` 时会进行布局，因此 `render` 时布局完成后会触发。或用户主动调用图的 `layout` 时布局完成后触发。 |
 
 
 不同自定义事件的回调参数不同，下面针对各个自定义事件的回调参数进行说明。
@@ -120,60 +120,60 @@ order: 6
 
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |
-| type | string | 当前添加的类型 |
-| model | object | item数据模型 |
+| type | String | 当前添加的类型 |
+| model | Object | item 数据模型 |
 
 
 ### afteradditem
 
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |
-| item | Item | 已经添加的Item实例 |
-| model | object | item数据模型 |
+| item | Item | 已经添加的 item 实例 |
+| model | Object | item 数据模型 |
 
 
 ### beforeremoveitem / afterremoveitem
 
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |
-| item | Item | 要删除的item实例 |
+| item | Item | 要删除的 item 实例 |
 
 
 ### beforeupdateitem / afterupdateitem
 
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |
-| item | Item | 要更新的Item实例 |
-| model | object | item数据模型 |
+| item | Item | 要更新的 item 实例 |
+| model | Object | item 数据模型 |
 
 
 ### beforeitemvisibilitychange / afteritemvisibilitychange
 
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |
-| item | Item | 当前操作的Item实例 |
-| visible | boolean | 是否可见，true为可见，false为不可见 |
+| item | Item | 当前操作的 item 实例 |
+| visible | Boolean | 是否可见，`true` 为可见，`false` 为不可见 |
 
 
 ### beforeitemstatechange / afteritemstatechange
 
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |
-| item | Item | 当前操作的Item实例 |
-| state | string | 状态 |
-| enalbed | boolean | 状态是否可用，true可用，false不可用 |
+| item | Item | 当前操作的 item 实例 |
+| state | String | 状态 |
+| enalbed | Boolean | 状态是否可用，`true` 可用，`false` 不可用 |
 
 
 ### beforeitemstatesclear / afteritemstatesclear
 
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |
-| item | Item | 当前操作的Item实例 |
-| states | array | string | 需要批量清除的状态 |
+| item | Item | 当前操作的 item 实例 |
+| states | Array / String | 需要批量清除的状态 |
 
 
 ### beforeitemrefresh / afteritemrefresh
 
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |
-| item | Item | 当前操作的Item实例 |
+| item | Item | 当前操作的 item 实例 |

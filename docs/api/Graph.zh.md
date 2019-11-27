@@ -1,6 +1,8 @@
 ---
 title: Graph
 order: 1
+redirect_from:
+  - /zh/docs/api
 ---
 
 Graph 是 G6 图表的载体，所有的 G6 节点实例操作以及事件，行为监听都在 Graph 实例上进行。
@@ -13,34 +15,34 @@ Graph 的生命周期为：初始化—>加载数据—>渲染—>更新—>销�
 
 | 名称 | 类型 | 默认值 | 描述 |
 | --- | --- | --- | --- |
-| container | String|HTMLElement  | 图的 DOM 容器，可以传入该 DOM 的 id 或者直接传入容器的 HTML 节点对象 |
-| width | Number | undefined | 指定画布宽度，单位为 'px' |
-| height | Number | undefined | 指定画布高度，单位为 'px' |
+| container | String|HTMLElement  | 图的 DOM 容器，可以传入该 DOM 的 id 或者直接传入容器的 HTML 节点对象。 |
+| width | Number | undefined | 指定画布宽度，单位为 'px'。 |
+| height | Number | undefined | 指定画布高度，单位为 'px'。 |
 | renderer | String | canvas | 渲染引擎，支持 canvas 和 SVG。 |
 | fitView | Boolean | false | 是否开启画布自适应。开启后图自动适配画布大小。 |
-| fitViewPadding | Array | Number  | fitView 为 true 时生效。图适应画布时，指定四周的留白。<br />- 可以是一个值, 例如：fitViewPadding: 20<br />- 也可以是一个数组，例如：fitViewPadding: [ 20, 40, 50, 20 ]<br />当指定一个值时，四边的边距都相等，当指定数组时，数组内数值依次对应 上，右，下，左四边的边距。 |
+| fitViewPadding | Array | Number  | `fitView` 为 `true` 时生效。图适应画布时，指定四周的留白。<br />- 可以是一个值, 例如：`fitViewPadding: 20`<br />- 也可以是一个数组，例如：`fitViewPadding: [ 20, 40, 50, 20 ]`<br />当指定一个值时，四边的边距都相等，当指定数组时，数组内数值依次对应 上，右，下，左四边的边距。 |
 | groupByTypes | Boolean | true | 各种元素是否在一个分组内，决定节点和边的层级问题，默认情况下所有的节点在一个分组中，所有的边在一个分组中，当这个参数为 false 时，节点和边的层级根据生成的顺序确定。 |
 | autoPaint | Boolean | true | 当图中元素更新，或视口变换时，是否自动重绘。建议在批量操作节点时关闭，以提高性能，完成批量操作后再打开，参见后面的 setAutoPaint() 方法。 |
-| modes | Object |  | 设置画布的模式。详情可见 [G6 中的 Mode]() 文档。 |
-| nodeStateStyles | Object | {} | 各个状态下节点的样式，例如hover、selected，3.1版本新增。 |
-| edgeStateStyles | Object | {} | 各个状态下边的样式，例如hover、selected，3.1版本新增。 |
-| defaultNode | Object | {} | 默认状态下节点的配置，比如 shape, size, color。会被写入的 data 覆盖。 |
-| defaultEdge | Object | {} | 默认状态下边的配置，比如 shape, size, color。会被写入的 data 覆盖。 |
+| modes | Object |  | 设置画布的模式。详情可见 [交互模式 Mode](/zh/docs/manual/middle/states/mode) 文档。 |
+| nodeStateStyles | Object | {} | 各个状态下节点的样式，例如 `hover`、`selected`，3.1版本新增。 |
+| edgeStateStyles | Object | {} | 各个状态下边的样式，例如 `hover`、`selected`，3.1版本新增。 |
+| defaultNode | Object | {} | 默认状态下节点的配置，比如 `shape`, `size`, `color`。会被写入的 data 覆盖。 |
+| defaultEdge | Object | {} | 默认状态下边的配置，比如 `shape`, `size`, `color`。会被写入的 data 覆盖。 |
 | plugins | Array | [] | 向 graph 注册插件。插件机制请见：[plugin](/zh/docs/manual/tutorial/plugins#插件) |
 | animate | Boolean | false | 是否启用全局动画。 |
-| animateCfg | Object |  | 动画配置项，仅在 animate 为 true 时有效。 |
+| animateCfg | Object |  | 动画配置项，仅在 `animate` 为 `true` 时有效。 |
 | animateCfg.<br />onFrame | Function | null  | 回调函数，用于自定义节点运动路径，为空时线性运动。 |
 | animateCfg.<br />duration | Number | 500 | 动画时长，单位为毫秒。 |
-| animateCfg.<br />easing | String | easeLinear | 动画动效，可参见d3 ease。 |
+| animateCfg.<br />easing | String | easeLinear | 动画动效，可参见 d3 ease。 |
 | minZoom | Number | 0.2 | 最小缩放比例 |
 | maxZoom | Number | 10 | 最大缩放比例 |
 | pixelRatio | Number | 1.0 | 像素比率 |
 | groupType | String | circle | 节点分组类型，支持 circle 和 rect |
-| groupStyle | Object |  | groupStyle 用于指定分组的样式，详情参看[文档](/zh/docs/manual/middle/nodeGroupJ) |
-| layout | Object |  | 布局配置项，使用 type 字段指定使用的布局方式，type可取以下值：random, radial, mds, circular, fruchterman, force, dagre，各布局详细的配置请参考 [Layout API文档](/zh/docs/api/layout/Layout) |
+| groupStyle | Object |  | groupStyle 用于指定分组的样式，详情参看[节点分组](/zh/docs/manual/middle/nodeGroup) |
+| layout | Object |  | 布局配置项，使用 type 字段指定使用的布局方式，type可取以下值：random, radial, mds, circular, fruchterman, force, dagre，各布局详细的配置请参考 [Layout API 文档](/zh/docs/api/layout/Layout) |
 
 
-**重点说明**: G6 3.1 版本中实例化 Graph 时，新增了 `nodeStateStyles`及 `edgeStateStyles`两个配置项，删除了 `nodeStyle` 和 `edgeStyle` ，使用 3.1 以下版本的同学，只需要将 `nodeStyle` 改成 `nodeStateStyles` ，将 edgeStyle 改成 `edgeStateStyles` ，配置内容保持不变。
+**重点说明**: G6 3.1 版本中实例化 Graph 时，新增了 `nodeStateStyles` 及 `edgeStateStyles` 两个配置项，删除了 `nodeStyle` 和 `edgeStyle` ，使用 3.1 以下版本的同学，只需要将 `nodeStyle` 改成 `nodeStateStyles` ，将 `edgeStyle` 改成 `edgeStateStyles` ，配置内容保持不变。
 
 **用法**
 
@@ -70,7 +72,7 @@ const graph = new G6.Graph({
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| data | Object | true | 初始化的图数据，是一个包括 nodes 和 edges 的对象 |
+| data | Object | true | 初始化的图数据，是一个包括 nodes 数组和 edges 数组的对象 |
 
 **用法**
 
@@ -94,7 +96,7 @@ const data = {
   ]
 }
 
-// graph是Graph的实例
+// graph 是 Graph 的实例
 graph.data(data)
 ```
 
@@ -116,7 +118,7 @@ graph.render()
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | data | Object | true | 渲染图的数据 |
-| groupType | string | true | group类型，支持circle、rect |
+| groupType | string | true | group 类型，支持 circle、rect |
 
 **用法**
 
@@ -199,7 +201,7 @@ graph.read(data)
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| data | Object | true | 初始化的图数据，是一个包括 nodes 和 edges 的对象 |
+| data | Object | true | 图数据，是一个包括 nodes 和 edges 的对象 |
 
 
 **用法**
@@ -262,14 +264,14 @@ graph.expandGroup('groupId')
 
 ## 更新
 ### addItem(type, model)
-新增元素。
+新增元素（节点，边，或节点分组）。
 
 **参数**
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | type | String | true | 元素类型，可选值为 node、edge 和group |
-| model | Object | true | 元素的数据模型，type = group 时，参看[手动创建节点分组文档](/zh/docs/manual/advanced/create-node-group) |
+| model | Object | true | 元素的数据模型，type = 'group' 时，参看[手动创建节点分组文档](/zh/docs/manual/advanced/create-node-group) |
 
 **用法**
 
@@ -287,7 +289,7 @@ const model = {
 
 graph.addItem('node', model)
 
-// 当type为group时候，model的数据结构如下：
+// 当 type 为 'group' 时候，model 的数据结构如下：
 const model = {
 	groupId: 'xxx000999',
   nodes: ['123', '23'],
@@ -311,7 +313,7 @@ graph.addItem('group', model)
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| item | String | Object | true | 元素 ID 或元素实例 |
+| item | String / Object | true | 元素 ID 或元素实例 |
 | cfg | Object | false | 需要更新的数据模型 |
 
 
@@ -329,27 +331,27 @@ const model = {
   }
 }
 
-// 通过ID查询节点实例
+// 通过 ID 查询节点实例
 const item = graph.findById('node')
 graph.updateItem(item, model)
 ```
 
 ### update(item, model)
-同updateItem(item, model)。
+同 updateItem(item, model)。
 
 ### removeItem(item)
-new删除元素，当 item 为 group ID 时候，则删除分组。
+删除元素，当 item 为 group ID 时候，则删除分组。
 
 **参数**
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| item | String | Object | true | 元素ID或元素实例 |
+| item | String / Object | true | 元素 ID 或元素实例 |
 
 **用法**
 
 ```javascript
-// 通过ID查询节点实例
+// 通过 ID 查询节点实例
 const item = graph.findById('node')
 graph.removeItem(item)
 ```
@@ -375,13 +377,13 @@ graph.refresh()
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| item | String | Object | true | 元素ID或元素实例 |
+| item | String / Object | true | 元素 ID 或元素实例 |
 
 
 **用法**
 
 ```javascript
-// 通过ID查询节点实例
+// 通过 ID 查询节点实例
 const item = graph.findById('node')
 graph.refreshItem(item)
 ```
@@ -528,7 +530,7 @@ const graph = new G6.Graph({
 graph.data(data);
 graph.render();
 
-// 实例化时通过layout指定布局，在合适的时候通过updateLayout更新布局配置
+// 实例化时通过 layout 指定布局，在合适的时候通过 updateLayout 更新布局配置
 graph.updateLayout({
   radius: 200,
   startAngle: Math.PI / 4,
@@ -569,13 +571,13 @@ graph.destroy()
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| item | String | Object | true | 元素ID或元素实例 |
+| item | String / Object | true | 元素 ID 或元素实例 |
 
 
 **用法**
 
 ```javascript
-// 通过ID查询节点实例
+// 通过 ID 查询节点实例
 const item = graph.findById('nodeId')
 graph.showItem(item)
 
@@ -590,13 +592,13 @@ graph.showItem('nodeId')
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| item | String | Object | true | 元素ID或元素实例 |
+| item | String / Object | true | 元素 ID 或元素实例 |
 
 
 **用法**
 
 ```javascript
-// 通过ID查询节点实例
+// 通过 ID 查询节点实例
 const item = graph.findById('nodeId')
 graph.hideItem(item)
 
@@ -607,14 +609,14 @@ graph.hideItem('nodeId')
 ### setItemState(item, state, enabled)
 设置元素状态。
 
-该方法在执行过程中会触发`beforitemstatechange`，`afteritemstatechange`事件。
+该方法在执行过程中会触发 `beforitemstatechange`，`afteritemstatechange` 事件。
 
 **参数**
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| item | String | Object | true | 元素 ID 或元素实例 |
-| state | String | true | 状态值，支持自定义，如 selected、hover、actived等。 |
+| item | String / Object | true | 元素 ID 或元素实例 |
+| state | String | true | 状态值，支持自定义，如 selected、hover、actived 等。 |
 | enabled | Boolean | true | 是否启用状态 |
 
 **用法**
@@ -630,8 +632,8 @@ graph.setItemState('node1', 'selected', true);
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| item | String | Object | true | 元素 ID 或元素实例 |
-| states | String | Array | null  | false | 取值可以是单个状态值，也可以是状态值数组或 null，当为 null 时，清除该元素的**第一个**状态。 |
+| item | String / Object | true | 元素 ID 或元素实例 |
+| states | String / Array | null  | false | 取值可以是单个状态值，也可以是状态值数组或 null，当为 null 时，清除该元素的**第一个**状态。 |
 
 
 **用法**
@@ -711,23 +713,23 @@ graph.render()
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| behaviors | String | Array | true | 添加的行为的名称 |
-| modes | String | Array | true | 模式的名称 |
+| behaviors | String / Array | true | 添加的行为的名称 |
+| modes | String / Array | true | 模式的名称 |
 
 
 **用法**
 
 ```javascript
-// 将单个Behavior添加到单个模式（默认的default模式）中
+// 将单个 Behavior 添加到单个模式（默认的 default 模式）中
 graph.addBehaviors('click-select', 'default');
 
-// 将多个Behavior添加到单个模式（默认的default模式）中
+// 将多个 Behavior 添加到单个模式（默认的 default 模式）中
 graph.addBehaviors([ 'brush-select', 'click-select' ], 'default');
 
-// 将单个Behavior添加到多个模式中
+// 将单个 Behavior 添加到多个模式中
 graph.addBehaviors('brush-select', ['default', 'select']);
 
-// 将多个Behavior添加到多个模式中
+// 将多个 Behavior 添加到多个模式中
 graph.addBehaviors([ 'brush-select', 'click-select' ], ['default', 'select']);
 ```
 
@@ -738,23 +740,23 @@ graph.addBehaviors([ 'brush-select', 'click-select' ], ['default', 'select']);
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| behaviors | String | Array | true | 删除的行为的名称 |
-| modes | String | Array | true | 模式的名称 |
+| behaviors | String / Array | true | 删除的行为的名称 |
+| modes | String / Array | true | 模式的名称 |
 
 
 **用法**
 
 ```javascript
-// 从单个模式中移除单个Behavior
+// 从单个模式中移除单个 Behavior
 graph.removeBehaviors('click-select', 'default');
 
-// 从单个模式中移除多个Behavior
+// 从单个模式中移除多个 Behavior
 graph.removeBehaviors([ 'brush-select', 'click-select' ], 'default');
 
-// 从多个模式中移除单个Behavior
+// 从多个模式中移除单个 Behavior
 graph.removeBehaviors('brush-select', ['default', 'select']);
 
-// 从多个模式中移除多个Behavior
+// 从多个模式中移除多个 Behavior
 graph.removeBehaviors([ 'brush-select', 'click-select' ], ['default', 'select']);
 ```
 
@@ -797,7 +799,7 @@ graph.setMode('custom')
 **用法**
 
 ```javascript
-// 返回值mode表示当前的行为模式
+// 返回值 mode 表示当前的行为模式
 const mode = graph.getCurrentMode()
 ```
 
@@ -866,7 +868,7 @@ graph.zoomTo(0.5)
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| item | String | Object | true | 元素 ID 或元素实例 |
+| item | String / Object | true | 元素 ID 或元素实例 |
 
 
 **用法**
@@ -933,22 +935,22 @@ graph.moveTo(200, 300)
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| padding | Number | Array | false | [top, right, bottom, left] 四个方向上的间距值 |
+| padding | Number / Array | false | [top, right, bottom, left] 四个方向上的间距值 |
 
 
 **用法**
 
 ```javascript
-// padding只设置为一个值，则表示top = right = bottom = left = 20
+// padding 只设置为一个值，则表示 top = right = bottom = left = 20
 graph.fitView(20)
 
-// 等价于graph.fitView(20)
+// 等价于 graph.fitView(20)
 graph.fitView([20])
 
-// padding设置为数组，只传2个值，则top = bottom = 20, right = left = 10
+// padding 设置为数组，只传 2 个值，则 top = bottom = 20, right = left = 10
 graph.fitView([20, 10])
 
-// padding设置为数组，四个方向值都指定
+// padding 设置为数组，四个方向值都指定
 graph.fitView([20, 10, 20, 15])
 ```
 
@@ -1159,8 +1161,8 @@ console.log('屏幕/页面x/y坐标分别为:', point.x, point.y)
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| canvasX | Number | true | 画布x坐标 |
-| canvasY | Number | true | 画布y坐标 |
+| canvasX | Number | true | 画布 x 坐标 |
+| canvasY | Number | true | 画布 y 坐标 |
 
 
 **返回值**
@@ -1250,7 +1252,7 @@ graph.removePlugin(miniMap)
 ```
 
 ### get(key)
-根据key获取属性值。
+根据 key 获取属性值。
 
 **参数**
 
@@ -1262,13 +1264,13 @@ graph.removePlugin(miniMap)
 **用法**
 
 ```javascript
-// 获取group
+// 获取 group
 const group = graph.get('group')
 
-// 获取canvas实例
+// 获取 canvas 实例
 const canvas = graph.get('canvas')
 
-// 获取autoPaint值
+// 获取 autoPaint 值
 const autoPaint = graph.get('autoPaint')
 ```
 
@@ -1280,19 +1282,19 @@ const autoPaint = graph.get('autoPaint')
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | key | String | true | 属性的键 |
-| val | String | Object | Array | true | 属性的值 |
+| val | String / Object | Array | true | 属性的值 |
 
 
 **用法**
 
 ```javascript
-// 设置capture值为false
+// 设置 capture 值为 false
 graph.set('capture', false)
 
-// 设置customGroup值为group
+// 设置 customGroup 值为 group
 graph.set('customGroup', group)
 
-// 设置nodeIdList值为数组
+// 设置 nodeIdList 值为数组
 graph.set('nodeIdList', [1, 3, 5])
 ```
 

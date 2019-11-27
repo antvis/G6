@@ -3,7 +3,7 @@ title: Edge
 order: 1
 ---
 
-Edge继承自Item，所以，Item上面的方法在Edge实例中都可以使用。
+Edge 继承自 Item，所以，Item 的方法在 Edge 实例中都可以使用。
 
 
 ## setSource(source)

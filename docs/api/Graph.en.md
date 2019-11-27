@@ -1,50 +1,53 @@
 ---
 title: Graph
 order: 1
+redirect_from:
+  - /en/docs/api
 ---
 
-Graph 是 G6 图表的载体，所有的 G6 节点实例操作以及事件，行为监听都在 Graph 实例上进行。
+Graph is the carrier of G6. All the operations about events, behaviors, items are mounted on the instance of Graph.
 
-Graph 的生命周期为：初始化—>加载数据—>渲染—>更新—>销毁。
+The life cycle of an instance of Graph is: Initialize -> Load data -> Render -> Update -> Destroy.
 
-## 初始化
+
+## Initialize
 ### G6.Graph
-**参数**
+**Configurations**
 
-| 名称 | 类型 | 默认值 | 描述 |
+| Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| container | String|HTMLElement  | 图的 DOM 容器，可以传入该 DOM 的 id 或者直接传入容器的 HTML 节点对象 |
-| width | Number | undefined | 指定画布宽度，单位为 'px' |
-| height | Number | undefined | 指定画布高度，单位为 'px' |
-| renderer | String | canvas | 渲染引擎，支持 canvas 和 SVG。 |
-| fitView | Boolean | false | 是否开启画布自适应。开启后图自动适配画布大小。 |
-| fitViewPadding | Array | Number  | fitView 为 true 时生效。图适应画布时，指定四周的留白。<br />- 可以是一个值, 例如：fitViewPadding: 20<br />- 也可以是一个数组，例如：fitViewPadding: [ 20, 40, 50, 20 ]<br />当指定一个值时，四边的边距都相等，当指定数组时，数组内数值依次对应 上，右，下，左四边的边距。 |
-| groupByTypes | Boolean | true | 各种元素是否在一个分组内，决定节点和边的层级问题，默认情况下所有的节点在一个分组中，所有的边在一个分组中，当这个参数为 false 时，节点和边的层级根据生成的顺序确定。 |
-| autoPaint | Boolean | true | 当图中元素更新，或视口变换时，是否自动重绘。建议在批量操作节点时关闭，以提高性能，完成批量操作后再打开，参见后面的 setAutoPaint() 方法。 |
-| modes | Object |  | 设置画布的模式。详情可见 [G6 中的 Mode]() 文档。 |
-| nodeStateStyles | Object | {} | 各个状态下节点的样式，例如hover、selected，3.1版本新增。 |
-| edgeStateStyles | Object | {} | 各个状态下边的样式，例如hover、selected，3.1版本新增。 |
-| defaultNode | Object | {} | 默认状态下节点的配置，比如 shape, size, color。会被写入的 data 覆盖。 |
-| defaultEdge | Object | {} | 默认状态下边的配置，比如 shape, size, color。会被写入的 data 覆盖。 |
-| plugins | Array | [] | 向 graph 注册插件。插件机制请见：[plugin](/zh/docs/manual/tutorial/plugins#插件) |
-| animate | Boolean | false | 是否启用全局动画。 |
-| animateCfg | Object |  | 动画配置项，仅在 animate 为 true 时有效。 |
-| animateCfg.<br />onFrame | Function | null  | 回调函数，用于自定义节点运动路径，为空时线性运动。 |
-| animateCfg.<br />duration | Number | 500 | 动画时长，单位为毫秒。 |
-| animateCfg.<br />easing | String | easeLinear | 动画动效，可参见d3 ease。 |
-| minZoom | Number | 0.2 | 最小缩放比例 |
-| maxZoom | Number | 10 | 最大缩放比例 |
-| pixelRatio | Number | 1.0 | 像素比率 |
-| groupType | String | circle | 节点分组类型，支持 circle 和 rect |
-| groupStyle | Object |  | groupStyle 用于指定分组的样式，详情参看[文档](/zh/docs/manual/middle/nodeGroupJ) |
-| layout | Object |  | 布局配置项，使用 type 字段指定使用的布局方式，type可取以下值：random, radial, mds, circular, fruchterman, force, dagre，各布局详细的配置请参考 [Layout API文档](/zh/docs/api/layout/Layout) |
+| container | String|HTMLElement  | The DOM container of graph, it can be the id of a DOM element or the an HTML node. |
+| width | Number | undefined | The width of the canvas for graph with the unit 'px'. |
+| height | Number | undefined | The height of the canvas for graph with the unit 'px'. |
+| renderer | String | canvas | The engine for rendering. Options: 'canvas' or 'svg'. |
+| fitView | Boolean | false | Whether fit the canvas to the view port. |
+| fitViewPadding | Array | Number  | Takes effect only when `fitView: true`. It is the padding between canvas and the border of view port.<br />- It can be a value, e.g. `fitViewPadding: 20`, which means the padding to the top, left, right, bottom are the same.<br />- Or an array, e.g. `fitViewPadding: [ 20, 40, 50, 20 ]`, the four values in the array indicate the padding to the top, right, bottom, left respectively. |
+| groupByTypes | Boolean | true | Whether group the nodes and edges separately. When it is false, all the items (including nodes and edges) are in the same group, and the order/zindex of them are determined according to the order of their generation. |
+| autoPaint | Boolean | true | Whether paint the graph automatically while item updated or view port changed. In order to enhance the performance, we recommend to turn off `antoPaint` when you are doing bulk operation on nodes or edges. This can be refered to [`setAutoPaint()`](#setautopaintauto). |
+| modes | Object |  | The interaction modes of this graph. Please refer to [Interaction Mode](/en/docs/manual/middle/states/mode) for detail。 |
+| nodeStateStyles | Object | {} | The node styles on different states, e.g. hover, selected. It is a new feature of G6 3.1. |
+| edgeStateStyles | Object | {} | The edge styles on different states, e.g. hover, selected. It is a new feature of G6 3.1. |
+| defaultNode | Object | {} | Default node configurations in global, including shape, size, color and so on. Its priority is lower than the configurations in data. |
+| defaultEdge | Object | {} | Default edge configurations in global, including shape, size, color and so on. Its priority is lower than the configurations in data. |
+| plugins | Array | [] | Plugins for graph. Please refer to [plugin](/en/docs/manual/tutorial/plugins#插件) for detail.|
+| animate | Boolean | false | Wheter activate the global animation. Which will take effect while changing layouts, changing data, and other global operations. |
+| animateCfg | Object |  | The configurations for global animation. Takes effect only when `animate: true`. |
+| animateCfg.<br />onFrame | Function | null  |  The callback function for every frame of animation. The path of custom animation for node can be defined here. The nodes will move linearly when `onFrame` is null. |
+| animateCfg.<br />duration | Number | 500 | Duration of animation with unit millisecond. |
+| animateCfg.<br />easing | String | easeLinear | The easing function name of animation. Please refer to ease in d3. |
+| minZoom | Number | 0.2 | The minimum zoom ratio. |
+| maxZoom | Number | 10 | The maximum zoom ratio. |
+| pixelRatio | Number | 1.0 | Pixel ratio. |
+| groupType | String | circle | Group type for nodes. Options: 'circle' or 'rect' |
+| groupStyle | Object |  | Group style for nodes, please refer to [Node Group](/en/docs/manual/middle/nodeGroup) for detail. |
+| layout | Object |  | Configurations for layout. The `type` in it is the name of layout method with the options: 'random', 'radial', 'mds', 'circular', 'fruchterman', 'force', 'dagre', 'concentric', 'grid'. For more configurations for different layout methods, please refer to  [Layout API](/en/docs/api/layout/Layout) |
 
 
-**重点说明**: G6 3.1 版本中实例化 Graph 时，新增了 `nodeStateStyles`及 `edgeStateStyles`两个配置项，删除了 `nodeStyle` 和 `edgeStyle` ，使用 3.1 以下版本的同学，只需要将 `nodeStyle` 改成 `nodeStateStyles` ，将 edgeStyle 改成 `edgeStateStyles` ，配置内容保持不变。
+**Attention**: In G6 3.1, we added two new configurations for graph: `nodeStateStyles` and `edgeStateStyles`. In the same time, we deleted `nodeStyle` and `edgeStyle` . To upgrate, replace `nodeStyle` with `nodeStateStyles`, and replace `edgeStyle` with `edgeStateStyles`, and keep the sub-configuration inside them.
 
-**用法**
+**Usage**
 
-Graph 的初始化通过 new 进行实例化，实例化时需要传入需要的参数。
+Place the configurations in the paramter as below to instantiate a graph:
 ```javascript
 const graph = new G6.Graph({
 	container: '',
@@ -62,17 +65,17 @@ const graph = new G6.Graph({
 ```
 
 
-## 加载
+## Load Data
 ### data(data)
-设置图初始化数据。
+Load the data for graph.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| data | Object | true | 初始化的图数据，是一个包括 nodes 和 edges 的对象 |
+| data | Object | true | Graph data, it should be an object containing an array of nodes and an array of edges. |
 
-**用法**
+**Usage**
 
 ```javascript
 const data = {
@@ -94,31 +97,31 @@ const data = {
   ]
 }
 
-// graph是Graph的实例
+// graph is an instance of Graph
 graph.data(data)
 ```
 
-## 渲染
+## Render
 ### render()
-根据提供的数据渲染视图。
+Render the graph with data onto the canvas.
 
-**用法**
+**Usage**
 
 ```javascript
 graph.render()
 ```
 
 ### renderCustomGroup(data, groupType)
-根据提供的数据渲染组群。
+Render a node group according to the data.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| data | Object | true | 渲染图的数据 |
-| groupType | string | true | group类型，支持circle、rect |
+| data | Object | true | The data to be rendered |
+| groupType | string | true | Type of node group. Options: 'circle' or 'rect' |
 
-**用法**
+**Usage**
 
 ```javascript
 const data = {
@@ -144,7 +147,7 @@ const data = {
     {
       id: "group1",
       title: {
-        text: "我的群组1",
+        text: "My Group 1",
         stroke: "#444",
         offsetX: -20,
         offsetY: 30
@@ -153,20 +156,20 @@ const data = {
   ]
 };
 
-// graph是Graph的实例
+// graph is an instance of Graph
 graph.renderCustomGroup(data, "circle");
 ```
-### 
+
 ### read(data)
-接收数据，并进行渲染，read 方法的功能相当于 data 和 render 方法的结合。
+Read the data and render the graph. It is equal to combining graph.data(data) and graph.render().
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| data | Object | true | 初始化的图数据，是一个包括 nodes 和 edges 的对象 |
+| data | Object | true | Graph data, it should be an object containing an array of nodes and an array of edges. |
 
-**用法**
+**Usage**
 
 ```javascript
 const data = {
@@ -188,21 +191,21 @@ const data = {
   ]
 }
 
-// graph是Graph的实例
+// graph is an instance of Graph
 graph.read(data)
 ```
 
 ### changeData(data)
-更新数据源，根据新的数据重新渲染视图。
+Change the data source, and render the graph according to the new data.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| data | Object | true | 初始化的图数据，是一个包括 nodes 和 edges 的对象 |
+| data | Object | true | Graph data, it should be an object containing an array of nodes and an array of edges. |
 
 
-**用法**
+**Usage**
 
 ```javascript
 const data = {
@@ -224,54 +227,54 @@ const data = {
   ]
 }
 
-// graph是Graph的实例
+// graph is an instance of Graph
 graph.changeData(data)
 ```
 
 ### collapseGroup(groupId)
-收起分组，收起分组后，隐藏分组中的所有节点和边，分组外部与分组内节点有连线的则临时连接到分组上面。
+Collapse the group with groupId. After collapsing, the nodes and edges inside the group will be hided, the edges linking inside nodes and outside nodes will be linked to the group.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| groupId | String | true | 分组ID |
+| groupId | String | true | The id of the group. |
 
 
-**用法**
+**Usage**
 
 ```javascript
 graph.collapseGroup('groupId')
 ```
 
 ### expandGroup(groupId)
-展开分组，显示分组中的所有节点和边，恢复收起前的连接情况。
+Expand the group to show the inside nodes and edges, and the edges linking inside nodes and outside nodes will be restored.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| groupId | String | true | 分组ID |
+| groupId | String | true | The id of the group. |
 
 
-**用法**
+**Usage**
 
 ```javascript
 graph.expandGroup('groupId')
 ```
 
-## 更新
+## Update
 ### addItem(type, model)
-新增元素。
+Add item(node, edge, or group) to the graph.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| type | String | true | 元素类型，可选值为 node、edge 和group |
-| model | Object | true | 元素的数据模型，type = group 时，参看[手动创建节点分组文档](/zh/docs/manual/advanced/create-node-group) |
+| type | String | true | The type of the item. Options: 'node', 'edge', and 'group'. |
+| model | Object | true | The data model of the item. When type = 'group', refer to [Create Node Group](/en/docs/manual/advanced/create-node-group) |
 
-**用法**
+**Usage**
 
 ```javascript
 const model = {
@@ -287,14 +290,14 @@ const model = {
 
 graph.addItem('node', model)
 
-// 当type为group时候，model的数据结构如下：
+// Here is the model example for type = 'group'
 const model = {
 	groupId: 'xxx000999',
   nodes: ['123', '23'],
   type: 'rect',
   zIndex: 0,
   title: {
-  	text: '名称'
+  	text: 'group name'
   }
 }
 
@@ -302,20 +305,20 @@ graph.addItem('group', model)
 ```
 
 ### add(type, model)
-同 addItem(type, model)。
+The same as addItem(type, model).
 
 ### updateItem(item, model)
-更新元素，包括更新数据、样式等。
+Update the item with new data model.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| item | String | Object | true | 元素 ID 或元素实例 |
-| cfg | Object | false | 需要更新的数据模型 |
+| item | String / Object | true | The id or the instance of the item. |
+| cfg | Object | false | New data model. |
 
 
-**用法**
+**Usage**
 
 ```javascript
 const model = {
@@ -329,80 +332,75 @@ const model = {
   }
 }
 
-// 通过ID查询节点实例
+// Find the item instance by id
 const item = graph.findById('node')
 graph.updateItem(item, model)
 ```
 
 ### update(item, model)
-同updateItem(item, model)。
+The same as updateItem(item, model).
 
 ### removeItem(item)
-new删除元素，当 item 为 group ID 时候，则删除分组。
+Remove the item. When the item is the id of a group, this operation will delete the corresponding group.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| item | String | Object | true | 元素ID或元素实例 |
+| item | String / Object | true | The id or the instance of the item. |
 
-**用法**
+**Usage**
 
 ```javascript
-// 通过ID查询节点实例
+// Find the item instance by id
 const item = graph.findById('node')
 graph.removeItem(item)
 ```
 
 ### remove(item)
-同 removeItem(item)。
+The same as removeItem(item)。
 
 ### refresh()
-当源数据发生变更时，根据新数据刷新视图。
+Refresh the canvas when the data is changed.
 
-该方法无参数。
-
-**用法**
+**Usage**
 
 ```javascript
 graph.refresh()
 ```
 
 ### refreshItem(item)
-刷新指定元素。
+Refresh the item.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| item | String | Object | true | 元素ID或元素实例 |
+| item | String / Object | true | The id or the instance of the item. |
 
 
-**用法**
+**Usage**
 
 ```javascript
-// 通过ID查询节点实例
+// Find the item instance by id
 const item = graph.findById('node')
 graph.refreshItem(item)
 ```
 
 ### refreshPositions()
-当节点位置发生变化时，刷新所有节点位置，并重计算边的位置。
+When the positions of nodes in their data models are changed, refresh the canvas to paint the nodes with new positions. It will update the edges in the same time.
 
-该方法无参数。
 
-**用法**
+**Usage**
 ```javascript
 graph.refreshPositions()
 ```
 
 
 ### paint()
-仅重新绘制画布。当设置了元素样式或状态后，通过调用 `paint()` 方法，让修改生效。
+Repaint the canvas. Use it after changing the item's style or state.
 
-该方法无参数。
-
-**用法**
+**Usage**
 
 ```javascript
 const item = e.item;
@@ -418,16 +416,16 @@ graph.setAutoPaint(autoPaint);
 ```
 
 ### setAutoPaint(auto)
-设置是否在更新/删除后自动重绘，一般搭配 `paint()` 方法使用。
+Whether repaint the canvas automatically after updating or deleting items.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| auto | Boolean | true | 是否自动重绘 |
+| auto | Boolean | true | Whether repaint the canvas automatically. |
 
 
-**用法**
+**Usage**
 
 ```javascript
 const item = e.item;
@@ -442,14 +440,14 @@ graph.paint();
 graph.setAutoPaint(autoPaint);
 ```
 
-## 布局
+## Layout
 
-G6 3.1 内置了丰富的布局。关于如何使用 G6 中内置的布局，请参考 [Layout API文档](/zh/docs/api/layout/Layout)。
+There are several basic layout algorithms in G6 3.1. For more information, please refer to [Layout API](/en/docs/api/layout/Layout)。
 
 ### layout()
-重新以当前配置的属性进行一次布局。
+Re-layout the graph with current layout configurations in graph.
 
-**用法**
+**Usage**
 
 ```javascript
 const graph = new G6.Graph({
@@ -481,7 +479,7 @@ function refreshDragedNodePosition(e) {
 }
 
 graph.on('node:dragstart', e => {
-  // 拖动节点时重新布局
+  // Relayout when dragging the node
   graph.layout();
   refreshDragedNodePosition(e);
 });
@@ -497,19 +495,19 @@ graph.on('node:dragend', e => {
 ```
 
 ### updateLayout(cfg)
-更新布局配置项。
+Update the layout configurations.
 
-1. 如果参数 `cfg` 中含有 `type` 字段，`type` 字段类型为 String，且与现有布局方法不同，则更换布局；
-1. 如果参数 `cfg` 中不包含 `type` 字段，则保持原有布局，仅更新布局配置项。
+1. If there is `type` in `cfg`, `type` is a String and it is different from current layout method, `updateLayout(cfg)` will change the layout method and relayout;
+1. If there is no `type` in `cfg`, `updateLayout(cfg)` will relayout with current layout method and new layout configurations.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| cfg | Object | true | 新布局配置项 |
+| cfg | Object | true | Configurations of new layout. |
 
 
-**用法**
+**Usage**
 
 ```javascript
 const graph = new G6.Graph({
@@ -528,7 +526,7 @@ const graph = new G6.Graph({
 graph.data(data);
 graph.render();
 
-// 实例化时通过layout指定布局，在合适的时候通过updateLayout更新布局配置
+// configure the layout while instantializing the graph, and update the layout in somewhere you want.
 graph.updateLayout({
   radius: 200,
   startAngle: Math.PI / 4,
@@ -538,127 +536,125 @@ graph.updateLayout({
 });
 ```
 
-## 销毁
+## Destroy
 ### clear()
-清除画布元素。该方法一般用于清空数据源，重新设置数据源，重新 render 的场景，此时所有的图形都会被清除。
+Clear all the items in the canvas. This function is used for reseting the data source and re-rendering the graph. 
 
-该方法无参数。
 
-**用法**
+**Usage**
 
 ```javascript
 graph.clear()
 ```
 
 ### destroy()
-销毁画布。
+Destroy the graph.
 
-该方法无参数。
 
-**用法**
+**Usage**
 
 ```javascript
 graph.destroy()
 ```
 
-## 状态
+## State
 ### showItem(item)
-显示指定的元素。
+Show the item.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| item | String | Object | true | 元素ID或元素实例 |
+| item | String / Object | true | The id or the instance of the item. |
 
 
-**用法**
+**Usage**
 
 ```javascript
-// 通过ID查询节点实例
+// Find the item instance by id
 const item = graph.findById('nodeId')
 graph.showItem(item)
 
-// 等价于
+// equal to
 graph.showItem('nodeId')
 ```
 
 ### hideItem(item)
-隐藏指定元素。
+Hide the item.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| item | String | Object | true | 元素ID或元素实例 |
+| item | String / Object | true | The id or the instance of the item. |
 
 
-**用法**
+**Usage**
 
 ```javascript
-// 通过ID查询节点实例
+// Find the item instance by id
 const item = graph.findById('nodeId')
 graph.hideItem(item)
 
-// 等价于
+// Equal to
 graph.hideItem('nodeId')
 ```
 
 ### setItemState(item, state, enabled)
-设置元素状态。
+Set the item's state.
 
-该方法在执行过程中会触发`beforitemstatechange`，`afteritemstatechange`事件。
+This function will emit events `beforitemstatechange` and `afteritemstatechange`.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| item | String | Object | true | 元素 ID 或元素实例 |
-| state | String | true | 状态值，支持自定义，如 selected、hover、actived等。 |
-| enabled | Boolean | true | 是否启用状态 |
+| item | String / Object | true | The id or the instance of the item. |
+| state | String | true | The value of state. State can be comstomized as selected, hover, actived, and so on. |
+| enabled | Boolean | true | Whether activate the state. |
 
-**用法**
+**Usage**
 
 ```javascript
 graph.setItemState('node1', 'selected', true);
 ```
 
 ### clearItemStates(item, states)
-清除元素状态，可以一次性清除多个状态。
+Clear the states of the item. This function could clear multiple states in the same time.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| item | String | Object | true | 元素 ID 或元素实例 |
-| states | String | Array | null  | false | 取值可以是单个状态值，也可以是状态值数组或 null，当为 null 时，清除该元素的**第一个**状态。 |
+| item | String / Object | true | The id or the instance of the item. |
+| states | String / Array | null  | false | It can be a single state value, an array, or null. When it is null, this operation will clear the **first** state of the item. |
 
 
-**用法**
+**Usage**
 
 ```javascript
-// 清除单个状态
+// Clear single state 'a' of the node
 graph.clearItemStates(node, 'a');
 
-// 清除多个状态
+// Clear multiple states of the node
 graph.clearItemStates(node, ['a', 'b']);
 
-// 清除所有状态
+// Clear all the states of the node
 graph.clearItemStates(node);
 ```
 
 ### node(nodeFn)
-设置各个节点样式，以及在各个状态下节点的 KeyShape 的样式。
+Set the style and other configurations for each node.
 
-提示：该方法必须**在 render 之前调用**，否则不起作用。
+Attention: this funcion must **be called before graph.render()**. It does not take effect otherwise.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| nodeFn | Function | true | 指定每个节点样式 |
+| nodeFn | Function | true | Return the configurations for each node. |
 
-**用法**
+**Usage**
 
 ```javascript
 graph.node((node) => {
@@ -676,17 +672,17 @@ graph.render()
 ```
 
 ### edge(edgeFn)
-设置各条边的样式。
+Set the style and other configurations for each edge.
 
-提示：该方法必须**在 render 之前调用**，否则不起作用。
+Attention: this funcion must **be called before graph.render()**. It does not take effect otherwise.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| edgeFn | Function | true | 指定每条边的样式 |
+| edgeFn | Function | true | Return the configurations for each edge. |
 
-**用法**
+**Usage**
 
 ```javascript
 graph.edge((edge) => {
@@ -703,71 +699,71 @@ graph.data(data)
 graph.render()
 ```
 
-## 交互
+## Interaction
 ### addBehaviors(behaviors, modes)
-新增行为，将单个或多个行为添加到单个或多个模式中。
+Add interaction behaviors to a mode or multiple modes.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| behaviors | String | Array | true | 添加的行为的名称 |
-| modes | String | Array | true | 模式的名称 |
+| behaviors | String / Array | true | The name(s) of behavior(s) to be added. |
+| modes | String / Array | true | The name(s) of mode(s) |
 
 
-**用法**
+**Usage**
 
 ```javascript
-// 将单个Behavior添加到单个模式（默认的default模式）中
+// Add single behavior 'click-select' to a single mode 'default'
 graph.addBehaviors('click-select', 'default');
 
-// 将多个Behavior添加到单个模式（默认的default模式）中
+// Add multiple behaviors to single mode 'default'
 graph.addBehaviors([ 'brush-select', 'click-select' ], 'default');
 
-// 将单个Behavior添加到多个模式中
+// Add single behavior 'brush-select' to multiple modes
 graph.addBehaviors('brush-select', ['default', 'select']);
 
-// 将多个Behavior添加到多个模式中
+// Add multiple behaviors to multiple modes
 graph.addBehaviors([ 'brush-select', 'click-select' ], ['default', 'select']);
 ```
 
 ### removeBehaviors(behaviors, modes)
-移除行为，将单个或多个行为从单个或多个模式中去除。
+Remove behavior(s) from mode(s).
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| behaviors | String | Array | true | 删除的行为的名称 |
-| modes | String | Array | true | 模式的名称 |
+| behaviors | String / Array | true | The name(s) of behavior(s) to be removed. |
+| modes | String / Array | true | The name(s) of mode(s). |
 
 
-**用法**
+**Usage**
 
 ```javascript
-// 从单个模式中移除单个Behavior
+// remove single behavior 'click-select' from single mode 'default'
 graph.removeBehaviors('click-select', 'default');
 
-// 从单个模式中移除多个Behavior
+// remove multiple behaviors from single mode 'default'
 graph.removeBehaviors([ 'brush-select', 'click-select' ], 'default');
 
-// 从多个模式中移除单个Behavior
+// remove single behavior 'brush-select' from multiple modes
 graph.removeBehaviors('brush-select', ['default', 'select']);
 
-// 从多个模式中移除多个Behavior
+// remove multiple behaviors from multiple modes
 graph.removeBehaviors([ 'brush-select', 'click-select' ], ['default', 'select']);
 ```
 
 ### setMode(mode)
-切换图行为模式。主要用于不同模式下的行为切换，如从编辑模式下切换到只读模式。
+Switch the interaction mode of graph. For example, switch from edit mode to read-only mode.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| mode | String | true | 模式的名称 |
+| mode | String | true | The name of the mode. |
 
-**用法**
+**Usage**
 
 ```javascript
 const graph = new G6.Graph({
@@ -785,191 +781,189 @@ graph.setMode('custom')
 ```
 
 ### getCurrentMode()
-获取当前的行为模式。
+Get the current mode.
 
-该方法无参数。
 
-**返回值**
+**Return**
 
-- 返回值类型：string；
-- 返回值表示当前的行为模式。
+- Type of return value: String;
+- The return value indicates the current mode.
 
-**用法**
+**Usage**
 
 ```javascript
-// 返回值mode表示当前的行为模式
+// The return value is the current interaction mode
 const mode = graph.getCurrentMode()
 ```
 
 ### getZoom()
-获取当前视口的缩放比例。
+Get the current zoom ratio.
 
-该方法无参数。
 
-**返回值**
+**Return**
 
-- 返回值类型：number；
-- 返回值表示当前视口的缩放比例， 默认值为 1。
+- Type of return value: Number;
+- The return value indicates the current zoom ratio of view port. The default value is 1.
 
-**用法**
+**Usage**
 
 ```javascript
-// 返回值zoom表示当前视口的缩放比例
+// The return value indicates the current zoom ratio
 const zoom = graph.getZoom()
 ```
 
 ### zoom(ratio, center)
-改变视口的缩放比例，在当前画布比例下缩放，是相对比例。
+Change the zoom ratio. The parameter ratio is the related ratio about the current canvas.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| ratio | Number | true | 缩放比例 |
-| center | Object | false | 以 center 的 x、y 坐标为中心缩放，如果省略了 center 参数，则以元素当前位置为中心缩放 |
+| ratio | Number | true | Zoom ratio.|
+| center | Object | false | Zoom at the center with x and y. If the center is ignored, this operation will zoom the graph with the current graph center. |
 
-**用法**
+**Usage**
 
 ```javascript
-// 以(100, 100)为中心点，放大3倍
+// Zoom at center (100, 100) with ratio 3
 graph.zoom(3, { x: 100, y: 100 });
 
-// 以当前元素位置为中心，缩小到0.5
+// Zoom at graph center with ratio 0.5
 graph.zoom(0.5)
 ```
 
 ### zoomTo(toRatio, center)
-缩放视窗窗口到一个固定比例。
+Zoom the canvas at the center to a fixed ratio. 
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| toRatio | Number | true | 固定比例值 |
-| center | Object | false | 以 center 的 x、y 坐标为中心缩放，如果省略了 center 参数，则以元素当前位置为中心缩放 |
+| toRatio | Number | true | Fixed zoom ratio. |
+| center | Object | false | Zoom at the center with x and y. If the center is ignored, this operation will zoom the graph with the current graph center. |
 
 
-**用法**
+**Usage**
 
 ```javascript
-// 以(100, 100)为中心点，放大3倍
+// Zoom at center (100, 100) with ratio 3
 graph.zoomTo(3, { x: 100, y: 100 });
 
-// 以当前元素位置为中心，缩小到0.5
+// Zoom at graph center with ratio 0.5
 graph.zoomTo(0.5)
 ```
 
 ### focusItem(item)
-将元素移动到视口中心，该方法可用于做搜索后的缓动动画。
+Move the graph to center at the item. This operation can be used as easing animation after searching a node.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| item | String | Object | true | 元素 ID 或元素实例 |
+| item | String / Object | true | The id or the instance of the item. |
 
 
-**用法**
+**Usage**
 
 ```javascript
 graph.focusItem(item)
 ```
 
 ### changeSize(width, height)
-改变画布大小。
+Change the size of the canvas.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| width | Number | true | 画布宽度 |
-| height | Number | true | 画布高度 |
+| width | Number | true | The width of the canvas. |
+| height | Number | true | The height of the canvas. |
 
 
-**用法**
+**Usage**
 
 ```javascript
 graph.changeSize(600, 350)
 ```
 
 ### translate(dx, dy)
-采用**相对位移**来平移画布。
+Move the canvas with **relative displacement**.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| dx | Number | true | 水平方向位移 |
-| dy | Number | true | 垂直方向位移 |
+| dx | Number | true | Displacement in the horizontal direction. |
+| dy | Number | true | Displacement in the vertical direction. |
 
 
-**用法**
+**Usage**
 
 ```javascript
 graph.translate(100, 100);
 ```
 
 ### moveTo(x, y)
-采用**绝对位移**将画布移动到指定坐标。
+Move the canvas to a **fixed position**.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| x | Number | true | 水平方向坐标 |
-| y | Number | true | 垂直方向坐标 |
+| x | Number | true | Displacement in the horizontal direction. |
+| y | Number | true | Displacement in the vertical direction. |
 
 
-**用法**
+**Usage**
 
 ```javascript
 graph.moveTo(200, 300)
 ```
 
 ### fitView(padding)
-让画布内容适应视口。
+Fit the graph to the view port.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| padding | Number | Array | false | [top, right, bottom, left] 四个方向上的间距值 |
+| padding | Number / Array | false | The padding of [top, right, bottom, left]. |
 
 
-**用法**
+**Usage**
 
 ```javascript
-// padding只设置为一个值，则表示top = right = bottom = left = 20
+// When padding is a number, top = right = bottom = left = 20
 graph.fitView(20)
 
-// 等价于graph.fitView(20)
+// Equal to graph.fitView(20)
 graph.fitView([20])
 
-// padding设置为数组，只传2个值，则top = bottom = 20, right = left = 10
+// When padding is an array with 2 values, top = bottom = 20, right = left = 10
 graph.fitView([20, 10])
 
-// padding设置为数组，四个方向值都指定
+// When padding is an array with four values
 graph.fitView([20, 10, 20, 15])
 ```
 
-## 查找
+## Search
 ### find(type, fn)
-根据具体规则查找单个元素。
+Find single item according to a rule.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| type | String | true | 元素类型，可选值为 node、edge |
-| fn | Function | true | 查找的规则 |
+| type | String | true | Type of the item. Options: 'node', 'edge'. |
+| fn | Function | true | Rule for searching. |
 
 
-**返回值**
+**Return**
 
-- 返回值类型：Object；
-- 如果有符合规则的元素实例，则返回第一个匹配的元素实例，否则返回 `undefined` 。
+- Type of the return value: Object;
+- If there are items that match the rule, return the first one. Return `undefined` otherwise.
 
-**用法**
+**Usage**
 
 ```javascript
 const findNode = graph.find('node', node => {
@@ -978,43 +972,43 @@ const findNode = graph.find('node', node => {
 ```
 
 ### findById(id)
-根据 ID，查询对应的元素实例。
+Find an item by id.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | id | String | true | 元素 ID |
 
 
-**返回值**
+**Return**
 
-- 返回值类型：Object；
-- 如果有符合规则的元素实例，则返回该元素实例，否则返回 `undefined`。
+- Type of the return value: Object;
+- If there are items that match the rule, return the first one. Return `undefined` otherwise.
 
-**用法**
+**Usage**
 
 ```javascript
 const node = graph.findById('node')
 ```
 
 ### findAll(type, fn)
-查询所有满足规则的元素。
+Find all the items that match the rule.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| type | String | true | 元素类型，可选值为 node、edge |
-| fn | Function | true | 查找的规则 |
+| type | String | true | The type of the item. Options: 'node', 'edge'. |
+| fn | Function | true | Rule for searching. |
 
 
-**返回值**
+**Return**
 
-- 返回值类型：Array；
-- 如果有符合规则的元素实例，则返回所有元素实例，否则返回 `undefined`。
+- Type of the return value: Array;
+- If there are items that match the rule, return all of them. Return `undefined` otherwise.
 
-**用法**
+**Usage**
 
 ```javascript
 const nodes = graph.findAll('node', node => {
@@ -1023,38 +1017,37 @@ const nodes = graph.findAll('node', node => {
 ```
 
 ### findAllByState(type, state)
-查找所有处于指定状态的元素。
+Find all the items whose value of state is true.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| type | String | true | 元素类型，可选值为 node、edge |
-| state | String | true | 状态 |
+| type | String | true | The type of the item. Options: 'node', 'edge'. |
+| state | String | true | State for searching. |
 
 
-**返回值**
+**Return**
 
-- 返回值类型：Array；
-- 返回所有指定状态的元素实例。
+- Type of the return value: Array;
+- Return all the items that match the state.
 
-**用法**
+**Usage**
 
 ```javascript
-// 查询所有选中的元素
+// Find all the items whose 'selected' state is true
 const nodes = graph.findAllByState('node', 'selected');
 ```
 
-## 数据
+## Data
 ### save()
-获取图数据。
+Get the graph data.
 
-该方法无参数。
 
-**返回值**
+**Return**
 
-- 返回值类型：Object；
-- 返回值包括所有节点和边，数据结构如下下所示：
+- Type of the return value: Object;
+- The return value has all the nodes and edges as below:
 ```javascript
 {
 	nodes: [],
@@ -1063,169 +1056,169 @@ const nodes = graph.findAllByState('node', 'selected');
 }
 ```
 
-**用法**
+**Usage**
 
 ```javascript
 graph.save()
 ```
 
 ### getNodes()
-获取图中所有节点的实例。
+Get all the node items in the graph.
 
-注意：这里返回的是节点的实例，而不是节点的数据项。
+Attention: it returns the items but not data models.
 
-**返回值**
+**Return**
 
-- 返回值类型：Array；
-- 返回值表示图中所有节点的实例。
+- Type of the return value: Array;
+- Return the node items in the graph.
 
-**用法**
+**Usage**
 
 ```javascript
 const nodes = graph.getNodes()
 ```
 
 ### getEdges()
-获取图中所有边的实例。
+Get all the edge items in the graph.
 
-注意：这里返回的是边的实例，而不是边的数据项。
+Attention: it returns the items but not data models.
 
-**返回值**
+**Return**
 
-- 返回值类型：Array；
-- 返回值表示图中所有边的实例。
+- Type of the return value: Array;
+- Return the edge items in the graph.
 
-**用法**
+**Usage**
 
 ```javascript
 const edges = graph.getEdges()
 ```
 
-## 坐标转换
-这部分主要是说明视口坐标、Canvas 坐标和页面坐标之前的相互转换。其中视口坐标和 Canvas 坐标的示意图如下所示。
+## Coordinate Transformation
+In this part, we will describe the methods about transformation between view port, canvas, and client coordinates. The relationships between them are shown below:
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*loahSq940hMAAAAAAAAAAABkARQnAQ' width=565 />
 
 ### getPointByClient(clientX, clientY)
-将屏幕/页面坐标转换为视口坐标。
+Transform client/screen coordinates into view port coordinates.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| clientX | Number | true | 屏幕 x 坐标 |
-| clientY | Number | true | 屏幕 y 坐标 |
+| clientX | Number | true | x coordinate of client/screen. |
+| clientY | Number | true | y coordinate of client/screen. |
 
 
-**返回值**
+**Return**
 
-- 返回值类型：Object；
-- 包含的属性：x 和 y 属性，分别表示视口的 x 、y 坐标。
+- Type of the return value: Object;
+- Includes x and y.
 
-**用法**
+**Usage**
 
 ```javascript
 const point = graph.getPointByClient(e.clientX, e.clientY);
-console.log('视口x/y坐标分别为:', point.x, point.y)
+console.log('The x and y of view port are: ', point.x, point.y)
 ```
 
 ### getClientByPoint(x, y)
-将视口坐标转换为屏幕/页面坐标。
+Transform view port coordinates into client/screen coordinates.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| x | Number | true | 视口 x 坐标 |
-| y | Number | true | 视口 y 坐标 |
+| x | Number | true | x coordinate of view port. |
+| y | Number | true | y coordinate of view port. |
 
 
-**返回值**
+**Return**
 
-- 返回值类型：Object；
-- 包含的属性：x 和 y 属性，分别表示屏幕/页面的 x、y 坐标。
+- Type of the return value: Object;
+- Includes x and y.
 
-**用法**
+**Usage**
 
 ```javascript
 const point = graph.getClientByPoint(100, 200);
-console.log('屏幕/页面x/y坐标分别为:', point.x, point.y)
+console.log('The x and y of client/screen are: ', point.x, point.y)
 ```
 
 ### getPointByCanvas(canvasX, canvasY)
-将 Canvas 画布坐标转换为视口坐标。
+Transform canvas coordinates into view port coordinates.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| canvasX | Number | true | 画布x坐标 |
-| canvasY | Number | true | 画布y坐标 |
+| canvasX | Number | true | The x coordinate of canvas. |
+| canvasY | Number | true | The y coordinate of canvas. |
 
 
-**返回值**
+**Return**
 
-- 返回值类型：Object；
-- 包含的属性：x 和 y 属性，分别表示视口的 x、y 坐标。
+- Type of the return value: Object;
+- Include x and y.
 
-**用法**
+**Usage**
 
 ```javascript
 const point = graph.getPointByCanvas(100, 200);
-console.log('视口x/y坐标分别为:', point.x, point.y)
+console.log('The x and y of view port: ', point.x, point.y)
 ```
 
 ### getCanvasByPoint(x, y)
-将视口坐标转换为 Canvas 画布坐标。
+Transform view port coordinates into canvas coordinates.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| x | Number | true | 视口 x 坐标 |
-| y | Number | true | 视口 y 坐标 |
+| x | Number | true | The x coordinate of view port. |
+| y | Number | true | The y coordinate of view port. |
 
 
-**返回值**
+**Return**
 
-- 返回值类型：Object；
-- 包含的属性：x 和 y 属性，分别表示 Canvas 画布的 x、y 坐标。
+- Type of the return value: Object;
+- Includes x and y.
 
-**用法**
+**Usage**
 
 ```javascript
 const point = graph.getCanvasByPoint(100, 200);
-console.log('Canvas画布的x/y坐标分别为:', point.x, point.y)
+console.log('The x and y coordinates of canvas: ', point.x, point.y)
 ```
 
-## 动画
+## Animation
 ### positionsAnimate()
-根据 Graph 上的 animateCfg 配置项，处理视口中节点的动画。
+Update the node positions according to the data model animatively.
 
 ### stopAnimate()
-停止画布上的所有动画。
+Stop the animation on the canvas.
 
-**用法**
+**Usage**
 
 ```javascript
 graph.stopAnimate()
 ```
 
 ### isAnimating()
-判断当前是否有正在执行的动画。
+Return if the graph is animating.
 
-## 其他
+## Others
 ### addPlugin(plugin)
-添加指定的插件。
+Add plugin to graph.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| plugin | Object | true | 插件实例 |
+| plugin | Object | true | Instance of the plugin. |
 
 
-**用法**
+**Usage**
 
 ```javascript
 import miniMap from '@antv/g6/build/minimap'
@@ -1233,16 +1226,16 @@ graph.Plugin(miniMap)
 ```
 
 ### removePlugin(plugin)
-移除指定的插件。
+Remove the plugin from graph.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| plugin | Object | true | 插件实例 |
+| plugin | Object | true | The Instance of the plugin. |
 
 
-**用法**
+**Usage**
 
 ```javascript
 import miniMap from '@antv/g6/build/minimap'
@@ -1250,76 +1243,76 @@ graph.removePlugin(miniMap)
 ```
 
 ### get(key)
-根据key获取属性值。
+Get ant attribute of graph by key.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| key | String | true | 属性的键 |
+| key | String | true | Key of the attribute. |
 
 
-**用法**
+**Usage**
 
 ```javascript
-// 获取group
+// get the group
 const group = graph.get('group')
 
-// 获取canvas实例
+// get the canvas instance
 const canvas = graph.get('canvas')
 
-// 获取autoPaint值
+// get the value of autoPaint
 const autoPaint = graph.get('autoPaint')
 ```
 
 ### set(key, val)
-设置属性值。
+Set the value to an attribute.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| key | String | true | 属性的键 |
-| val | String | Object | Array | true | 属性的值 |
+| key | String | true | The key of the attribute. |
+| val | String / Object | Array | true | The value of the attribute. |
 
 
-**用法**
+**Usage**
 
 ```javascript
-// 设置capture值为false
+// Set capture to false
 graph.set('capture', false)
 
-// 设置customGroup值为group
+// Set customGroup to group
 graph.set('customGroup', group)
 
-// 设置nodeIdList值为数组
+// Set nodeIdList to [1, 3, 5]
 graph.set('nodeIdList', [1, 3, 5])
 ```
 
 ### downloadImage(name)
-将画布上的元素导出为图片。
+Export the canvas as an image.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| name | String | true | 图片的名称 |
+| name | String | true | The name of the image. |
 
-**用法**
+**Usage**
 
 ```javascript
 graph.downloadImage()
 ```
 
 ### toDataURL()
-将画布上元素生成为图片的 URL。
+Generate url of a image of the canvas.
 
-**返回值**
+**Return**
 
-- 返回值类型：String；
-- 返回值表示生成的图片的 URL。
+- Type of the return value: String;
+- The return value is the image url.
 
-**用法**
+**Usage**
 
 ```javascript
 const dataURL = graph.toDataURL()
