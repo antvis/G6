@@ -3,7 +3,11 @@ title: Edge
 order: 1
 ---
 
+<<<<<<< HEAD
 Edge inherits from item. The functions of Item are also available for Edge.
+=======
+Edge inherit from item. The functions of item are also available for Edge.
+>>>>>>> feat: english version of API
 
 
 ## setSource(source)
@@ -69,7 +73,11 @@ Get the current source item (node) of the edge.
 **Return**
 
 - The type of return value: Node;
+<<<<<<< HEAD
 - Returns the item of source node.
+=======
+- Return the item of source node.
+>>>>>>> feat: english version of API
 
 
 **Usage**
@@ -92,7 +100,11 @@ Get the current target item (node) of the edge.
 **Return**
 
 - The type of return value: Node;
+<<<<<<< HEAD
 - Returns the item of target node.
+=======
+- Return the item of target node.
+>>>>>>> feat: english version of API
 
 
 **Usage**

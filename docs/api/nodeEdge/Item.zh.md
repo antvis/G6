@@ -196,7 +196,11 @@ const model = item.get('model')
 **返回值**
 
 - 返回值类型：String；
+<<<<<<< HEAD:docs/api/nodeEdge/Item.zh.md
 - 返回元素的类型，可能是 `'node'` 或 `'edge'`。
+=======
+- 返回元素的类型。
+>>>>>>> feat: english version of API:docs/api/Item.zh.md
 
 
 **用法**
@@ -217,7 +221,11 @@ const type = item.get('type')
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
+<<<<<<< HEAD:docs/api/nodeEdge/Item.zh.md
 | enable | Boolean | true | 是否允许该元素响应事件的标识，如果为 `true`，则允许，否则不允许 |
+=======
+| enable | Boolean | true | 是否允许该元素响应事件的标识，如果为 true，则允许，否则不允许 |
+>>>>>>> feat: english version of API:docs/api/Item.zh.md
 
 
 
@@ -272,7 +280,11 @@ item.hide()
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
+<<<<<<< HEAD:docs/api/nodeEdge/Item.zh.md
 | visible | Boolean | true | 是否显示元素，`true` 为显示，`false` 为隐藏 |
+=======
+| visible | Boolean | true | 是否显示元素，true 为显示，false 为隐藏 |
+>>>>>>> feat: english version of API:docs/api/Item.zh.md
 
 
 
@@ -330,7 +342,11 @@ item.toBack()
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | state | String | true | 元素的状态名，如 `'selected'`、`'hover'` |
+<<<<<<< HEAD:docs/api/nodeEdge/Item.zh.md
 | enable | Boolean | true | 是否启用状态的标识，为 `true` 表示启用该状态，否则不启用。 |
+=======
+| enable | Boolean | true | 是否启用状态的标识，为 true 表示启用该状态，否则不启用。 |
+>>>>>>> feat: english version of API:docs/api/Item.zh.md
 
 
 
@@ -396,7 +412,11 @@ const states = item.getStates()
 **返回值**
 
 - 返回值类型：Boolean；
+<<<<<<< HEAD:docs/api/nodeEdge/Item.zh.md
 - 返回值表示是否具有指定的状态，如果返回 `true`，则说明元素有指定的状态，否则没有。
+=======
+- 返回值表示是否具有指定的状态，如果返回 true，则说明元素有指定的状态，否则没有。
+>>>>>>> feat: english version of API:docs/api/Item.zh.md
 
 
 **用法**
