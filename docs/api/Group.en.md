@@ -1,34 +1,34 @@
 ---
-title: Group
+title: Graphics Group
 order: 8
 ---
 
-Group 类似于 [SVG 中的 ](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g)[`<g>`](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g)[ 标签](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g)：元素 `g` 是用来组合图形对象的容器。在 group 上添加变换（例如剪裁、旋转、放缩、平移等）会应用到其所有的子元素上。在 group 上添加属性（例如颜色、位置等）会被其所有的子元素继承。此外， group 可以多层嵌套使用，因此可以用来定义复杂的对象。关于 Group 更详细的介绍请参考《[图形分组 Group](../manual/middle/nodeGroup)》。
+Graphics Group in G6 is similar to [`<g>`](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g) [tag](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g) in [SVG](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g): element `g` is a container of a group of graphics. The transformations on `g` such as clip, rotate, zoom, and translate will be applied to the children of `g`. The attributes like color and position will also be inherited by its children. Besides, groups can be nested for complicated objects. For more information about Group, please refer to《[Graphics Group](/en/docs/manual/advanced/graphics-group)》。
 
 
-## 声明实例
+## Instance Declaration 
 ```javascript
 const group = new Group(cfgs);
 ```
 
 
-## 实例方法
+## Functions
 
 
 ### addGroup(param, cfg)
-向分组中添加新的分组。
+Add new group to a group.
 
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 说明 |
+| Name | Type | Description |
 | --- | --- | --- |
-| param | Function | Object | undefined |  |
+| param | Function / Object | undefined |  |
 | cfg | Object |  |
 
 
 
-**用法**
+**Usage**
 
 ```javascript
 group.addGroup({
@@ -39,18 +39,18 @@ group.addGroup({
 
 
 ### addShape(type, cfgs)
-向分组中添加新的图形。<br />`注意`：在分组上添加的`clip`， `transform`等会影响到该分组中的所有图形。G支持的图形及其绘图属性请见shape小节。
+Add new shape into the group<br />**Attention:** the `clip` and `transform` operations will affect all the shapes in the group. The graphics and their attributes in G are introduced in [Shape](/en/docs/api/Shape)。
 
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 说明 |
+| Name | Type | Description |
 | --- | --- | --- |
-| type | String | 图元素类型，值可以为：rect、circle、fan、ellipse、marker、image等，具体参考[支持的Shape类型及属性](https://www.yuque.com/antv/g6/ffzwfp) |
-| cfg | Object | 图元素的属性 |
+| type | String | The type of the shape. Options: `'rect'`, `'circle'`, `'fan'`, `'ellipse'`, `'marker'`, `'image'`, and so on. Please refer to [Shape and Their Attributes](/en/docs/manual/advanced/shape-and-properties) |
+| cfg | Object | The configurations of the shape. |
 
 
-**用法**
+**Usage**
 
 ```javascript
 group.addShape('rect', {
@@ -67,18 +67,18 @@ group.addShape('rect', {
 
 
 ### contain(child)
-该分组是否包含此元素。<br />返回值: boolean
+Whether the group contains the child.<br />The type of the return value: Boolean.
 
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 说明 |
+| Name | Type | Description |
 | --- | --- | --- |
-| child | Group | Shape | 子 Group 或 Shape 实例 |
+| child | Group | Shape | A sub group or an instance of shape. |
 
 
 
-**用法**
+**Usage**
 
 ```javascript
 const has = group.contain(child)
@@ -86,41 +86,41 @@ const has = group.contain(child)
 
 
 ### find(fn)
-根据指定条件返回对应元素，**只返回符合条件的第一个元素**。
+Find **the first** element that matches the rule.
 
 
-**参数**
+**Parameters**
 
 
-| 名称 | 类型 | 说明 |
+| Name | Type | Description |
 | --- | --- | --- |
-| fn | Function | 自定义回调函数 |
+| fn | Function | Customed callback function. |
 
 
 
-**用法**
+**Usage**
 
 ```javascript
 const child = group.find(function(item) {
-	return item.attr('fill') === 'red';    // 找到首个填充为红色的图形
+	return item.attr('fill') === 'red';    // Find the first graphics filled with red
 });
 ```
 
 
 ### findById(id)
-根据元素ID返回对应的实例。<br />返回值：Object。
+Find the element by its id. <br />The type of the return value: Object。
 
 
-**参数**
+**Parameters**
 
 
-| 名称 | 类型 | 说明 |
+| Name | Type | Description |
 | --- | --- | --- |
-| id | String | Group 实例ID |
+| id | String | The id of the group. |
 
 
 
-**用法**
+**Usage**
 
 ```javascript
 const group1 = group.findById('group1');
@@ -129,93 +129,93 @@ const group1 = group.findById('group1');
 
 
 ### findAll(fn)
-返回所有符合条件的元素。<br />返回值: [ Object ]
+Find all the elements that match the rule.<br />The type of the return value: [ Object ]
 
 
-**参数**
+**Parameters**
 
 
-| 名称 | 类型 | 说明 |
+| Name | Type | Description |
 | --- | --- | --- |
-| fn | Function | 自定义回调函数 |
+| fn | Function | Customed callback function. |
 
 
 
-**用法**
+**Usage**
 
 ```javascript
 const children = group.findAll(function(item) {
-    return item.get('id') < 10;       // 获取所有id小于10的元素
+    return item.get('id') < 10;       // get all the elements with id smaller than 10
 });
 ```
 
 
 ### getShape(x,y)
-返回该坐标点最上层的元素。<br />返回值: Object
+Get the top shape which is on (x, y). <br />The type of the return value: Object
 
 
-**参数**
+**Parameters**
 
 
-| 名称 | 类型 | 说明 |
+| Name | Type | Description |
 | --- | --- | --- |
-| x | number | x 坐标 |
-| y | number | y 坐标 |
+| x | number | x coordinate |
+| y | number | y coordinate |
 
 
 
-**用法**
+**Usage**
 
 ```javascript
-// 获取 (10, 30) 坐标点上层的元素
+// Get the top element on (10, 30)
 const element = group.getShape(10, 30)
 ```
 
 
 ### getFirst()
-获取该分组的第一个子元素。<br />返回值: Object
+Get the first element of the group. <br />The type of the return value: Object
 
 
-**用法**
+**Usage**
 
 ```javascript
 const child = group.getFirst()
 
-// 等价于
+// Equal to
 const childrens = group.get('children')
 const child = childrens[0]
 ```
 
 
 ### getLast()
-获取该分组的最后一个子元素。<br />返回值: Object
+Get the last element of the group. <br />The type of the return value: Object
 
 
-**用法**
+**Usage**
 
 ```javascript
 const child = group.getLast()
 
-// 等价于
+// Equal to
 const childrens = group.get('children')
 const child = childrens[childrens.length - 1]
 ```
 
 
 ### getChildByIndex(index）
-返回第 `index` 个子元素，从`0`开始计数。<br />返回值: Object
+Get the `index`-th child of the group started from `0`.<br />The type of the return value: Object
 
 
-**参数**
+**Parameters**
 
 
-| 名称 | 类型 | 说明 |
+| Name | Type | Description |
 | --- | --- | --- |
-| index | number | 子元素的序号，默认为 0 |
+| index | number | The index of the child. 0 by default. |
 
 
 
-**用法**
+**Usage**
 
 ```javascript
 const child = group.getChildByIndex(2)
@@ -223,18 +223,18 @@ const child = group.getChildByIndex(2)
 
 
 ### removeChild(child)
-从分组中删除一个分组或一个图形。
+Remove a group or a graphics from the group.
 
 
-**参数说明**
+**Parameters**
 
-| 名称 | 类型 | 说明 |
+| Name | Type | Description |
 | --- | --- | --- |
-| child | Group | Shape | 子 Group 或 Shape 实例 |
+| child | Group | Shape | A sub group or an instance of Shape. |
 
 
 
-**用法**
+**Usage**
 
 ```javascript
 group.removeChild(child)
@@ -242,12 +242,12 @@ group.removeChild(child)
 
 
 ### sort()
-排序方法。<br />一般用于在设置子元素层叠顺序时使用。
+Sort method. <br />In general, it is called for ordering the children.
 
-典型使用场景：通过 group.addShape() 添加 shape 时，添加的每个 shape 都设置了 index，在最后调用 group.sort() 可以对添加的 shape 进行排序。
+Typical scenerio: we set index for each `shape` when add `shape` by `group.addShape()`. After adding, call `group.sort()` to sort the shapes.
 
 
-**用法**
+**Usage**
 
 ```javascript
 group.sort()
@@ -255,10 +255,10 @@ group.sort()
 
 
 ### clear()
-清除该组的所有子元素。
+Clear all the children in the group.
 
 
-**用法**
+**Usage**
 
 ```javascript
 group.clear()

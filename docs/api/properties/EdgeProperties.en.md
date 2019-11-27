@@ -1,50 +1,50 @@
 ---
-title: 边属性
+title: Attributes of Edge
 order: 1
 ---
 
-## 通用属性
+## Common Attribute
 
-| 属性名 | 含义 | 备注 |
+| Name | Description | Remark |
 | --- | --- | --- |
-| fill | 设置用于填充绘画的颜色、渐变或模式 | 对应canvas属性`fillStyle` |
-| stroke | 设置用于笔触的颜色、渐变或模式 | 对应canvas属性`strokeStyle` |
-| shadowColor | 设置用于阴影的颜色 |  |
-| shadowBlur | 设置用于阴影的模糊级别 | 数值越大，越模糊 |
-| shadowOffsetX | 设置阴影距形状的水平距离 |  |
-| shadowOffsetY | 设置阴影距形状的垂直距离 |  |
-| opacity | 设置绘图的当前 alpha 或透明值 | 对应canvas属性`globalAlpha` |
+| fill | The color or gradient color for filling. | The corresponding attribute in canvas is `fillStyle`. |
+| stroke | The color, gradient color, or pattern for stroke. | The corresponding attribute in canvas is `strokeStyle`. |
+| shadowColor | The color for shadow. |  |
+| shadowBlur | The blur level for shadow. | Larger the value, more blur. |
+| shadowOffsetX | The horizontal offset of the shadow. |  |
+| shadowOffsetY | The vertical offset of the shadow. |  |
+| opacity | The opacity (alpha value) of the shape. | The corresponding attribute in canvas is  `globalAlpha`. |
 
 
 
-## 线条 Path
-特别注意边太细时候点击不中，请设置 **lineAppendWidth** 属性值。
+## Path
+Attention: when the edge is too thin to be hitted, set **lineAppendWidth** to enlarge the hitting area.
 
-**属性**
+**Attribute**
 
-| 属性名 | 含义 | 备注 |
+| Name | Description | Remark |
 | --- | --- | --- |
-| path |  线条路径 | 可以是String形式，也可以是线段的数组。 |
-| startArrow | 起始端的箭头 | 为`true`时为默认的箭头效果，也可以是一个自定义箭头 |
-| endArrow | 末尾端的箭头 | 为`true`时为默认的箭头效果，也可以是一个自定义箭头 |
-| lineAppendWidth | 边的击中范围 | 提升边的击中范围，扩展响应范围，数值越大，响应范围越广 |
-| lineCap | 设置线条的结束端点样式 |  |
-| lineJoin | 设置两条线相交时，所创建的拐角形状 |  |
-| lineWidth | 设置当前的线条宽度 |  |
-| miterLimit | 设置最大斜接长度 |  |
-| lineDash | 设置线的虚线样式，可以指定一个数组 | 一组描述交替绘制线段和间距（坐标空间单位）长度的数字。 如果数组元素的数量是奇数， 数组的元素会被复制并重复。例如， [5, 15, 25] 会变成 [5, 15, 25, 5, 15, 25]。 |
+| path | The path. | It can be a String, or an array of path. |
+| startArrow | The arrow on the start of the path. | When `startArrow` is `true`, show a default arrow on the start of the path. User can custom an arrow by path. |
+| endArrow | The arrow on the end of the path. | When `startArrow` is `true`, show a default arrow on the end of the path. User can custom an arrow by path. |
+| lineAppendWidth | The hitting area of the path. | Enlarge the hitting area by enlarge its value. |
+| lineCap | The style of two ends of the path. |  |
+| lineJoin | The style of the intersect of two path. |  |
+| lineWidth | The line width of current path. |  |
+| miterLimit | The maximum miter length. |  |
+| lineDash | The style of dash line. | It is an array that describes the length of gaps and line segments. If the number of the elements in the array is odd, the elements will be dulplicated. Such as [5, 15, 25] will be regarded as [5, 15, 25, 5, 15, 25]. |
 
 
-**用法**
+**Usage**
 ```javascript
 group.addShape('path', {
   attrs: {
     startArrow: {
-      path: 'M 10,0 L -10,-10 L -10,10 Z',  // 自定义箭头为中心点在(0, 0)，指向 x 轴正方向的path
+      path: 'M 10,0 L -10,-10 L -10,10 Z',  // The custom arrow is a path centered at (0, 0), and points to the positive direction of x-axis
       d: 10
     },
     endArrow: {
-      path: 'M 10,0 L -10,-10 L -10,10 Z',  // 自定义箭头为中心点在(0, 0)，指向 x 轴正方向的path
+      path: 'M 10,0 L -10,-10 L -10,10 Z',  // The custom arrow is a path centered at (0, 0), and points to the positive direction of x-axis
       d: 10
     },
     path: [

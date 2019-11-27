@@ -1,23 +1,23 @@
 ---
-title: 节点属性
+title: Attributes of Node
 order: 0
 ---
 
-### 通用属性
+### Common Attribute
 
-**属性**
+**Attribute**
 
-| 属性名 | 含义 | 备注 |
+| Name | Description | Remark |
 | --- | --- | --- |
-| fill | 设置用于填充绘画的颜色、渐变或模式 | 对应canvas属性`fillStyle` |
-| stroke | 设置用于笔触的颜色、渐变或模式 | 对应canvas属性`strokeStyle` |
-| shadowColor | 设置用于阴影的颜色 |  |
-| shadowBlur | 设置用于阴影的模糊级别 | 数值越大，越模糊 |
-| shadowOffsetX | 设置阴影距形状的水平距离 |  |
-| shadowOffsetY | 设置阴影距形状的垂直距离 |  |
-| opacity | 设置绘图的当前 alpha 或透明值 | 对应canvas属性`globalAlpha` |
+| fill | The color or gradient color for filling. | The corresponding attribute in canvas is `fillStyle`. |
+| stroke | The color, gradient color, or pattern for stroke. | The corresponding attribute in canvas is `strokeStyle`. |
+| shadowColor | The color for shadow. |  |
+| shadowBlur | The blur level for shadow. | Larger the value, more blur. |
+| shadowOffsetX | The horizontal offset of the shadow. |  |
+| shadowOffsetY | The vertical offset of the shadow. |  |
+| opacity | The opacity (alpha value) of the shape. | The corresponding attribute in canvas is  `globalAlpha`. |
 
-**用法**
+**Usage**
 ```javascript
 group.addShape('rect', {
 	attrs: {
@@ -31,18 +31,18 @@ group.addShape('rect', {
 })
 ```
 
-### 圆图形 Circle
+### Circle
 
-**属性**
+**Attribute**
 
-| 属性名 | 含义 | 备注 |
+| Name | Description | Remark |
 | --- | --- | --- |
-| x | 圆心的 x 坐标 |  |
-| y | 圆心的 y 坐标 |  |
-| r | 圆的半径 |  |
+| x | The x of the center of the circle. |  |
+| y | The y of the center of the circle. |  |
+| r | The radius of the circle. |  |
 
 
-**用法**
+**Usage**
 ```javascript
 group.addShape('circle', {
 	attrs: {
@@ -54,20 +54,20 @@ group.addShape('circle', {
 })
 ```
 
-### 椭圆图形 Ellipse
+### Ellipse
 
-**属性**
+**Attribute**
 
-| 属性名 | 含义 | 备注 |
+| Name | Description | Remark |
 | --- | --- | --- |
-| x | 圆心的 x 坐标 |  |
-| y | 圆心的 y 坐标 |  |
-| rx | 水平半径 |  |
-| ry | 垂直半径 |  |
+| x | The x of the center of the ellipse. |  |
+| y | The y of the center of the ellipse. |  |
+| rx | The horizontal raidus of the ellipse. |  |
+| ry | The vertical raidus of the ellipse. |  |
 
  
 
-**用法**
+**Usage**
 ```javascript
 group.addShape('ellipse', {
 	attrs: {
@@ -81,23 +81,23 @@ group.addShape('ellipse', {
 ```
 
 
-### 扇形图形 Fan
+### Fan
 
-**属性**
+**Attribute**
 
-| 属性名 | 含义 | 备注 |
+| Name | Description | Remark |
 | --- | --- | --- |
-| x | 扇形圆心的 x 坐标 |  |
-| y | 扇形圆心的 y 坐标 |  |
-| rs | 水平半径 |  |
-| re | 垂直半径 |  |
-| startAngle | 起点弧度 | 弧度是弧度，即使用Math.PI表示 |
-| endAngle |  终点弧度 |  |
-| clockwise | 为`true`时顺时针渲染，为`false`时逆时针渲染 |  |
+| x | The x of the center of the fan. |  |
+| y | The y of the center of the fan. |  |
+| rs | The horizontal raidus of the fan. |  |
+| re | The vertical raidus of the fan. |  |
+| startAngle | The start angle. | Radian system represented by Math.PI. |
+| endAngle |  The end angle. |  |
+| clockwise | It will be rendered clockwisely if it is `true`, counterclockwisely if it is `false`. |  |
 
 
 
-**用法**
+**Usage**
 ```javascript
 group.addShape('fan', {
   attrs: {
@@ -114,21 +114,21 @@ group.addShape('fan', {
 ```
 
 
-### 图片图形 Image
+### Image
 
-**属性**
+**Attribute**
 
-| 属性名 | 含义 | 备注 |
+| Name | Description | Remark |
 | --- | --- | --- |
-| x | 图片左上角的 x 坐标 |  |
-| y |  图片左上角的 y 坐标 |  |
-| width | 图片宽度 |  |
-| height | 图片高度 |  |
-| img | 图片源 | G6支持多种格式的图片：<br />- url<br />- ImageData<br />- Image<br />- canvas<br /> |
+| x | The x of the left top of the image. |  |
+| y | The y of the left top of the image. |  |
+| width | The width of the image. |  |
+| height | The height of the image. |  |
+| img | The source of the image. | G6 supports multiple image formats: <br />- url<br />- ImageData<br />- Image<br />- canvas<br /> |
 
 
 
-**用法**
+**Usage**
 ```javascript
 group.addShape('image', {
   attrs: {
@@ -140,20 +140,20 @@ group.addShape('image', {
 ```
 
 
-### 标记图形 Marker
+### Marker
 
-**属性**
+**Attribute**
 
-| 属性名 | 含义 | 备注 |
+| Name | Description | Remark |
 | --- | --- | --- |
-| x | 中心的 x 坐标 |  |
-| y | 中心的 y 坐标 |  |
-| r | 形状半径 |  |
-| symbol | 指定形状 | 内置了一些常用形状，如圆形`circle`, 矩形 `square`, 菱形 `diamond`,三角形 `triangle`, 倒三角形`triangle-down`，也可以是自定义的path路径。 |
+| x | The x of the center of the marker. |  |
+| y | The y of the center of the marker. |  |
+| r | The radius of the marker. |  |
+| symbol | The shape name. | There are several built-in shapes: `circle`, `square`, `diamond`, `triangle`, `triangle-down`. And user could custom a shape as marker. |
 
 
 
-**用法**
+**Usage**
 ```javascript
 group.addShape('marker', {
   attrs: {
@@ -173,17 +173,17 @@ group.addShape('marker', {
 ```
 
 
-### 多边形图形 Polygon
+### Polygon
 
-**属性**
+**Attribute**
 
-| 属性名 | 含义 | 备注 |
+| Name | Description | Remark |
 | --- | --- | --- |
-| points | 多边形的所有端点坐标 | 数组形式 |
+| points | The coordinates of the points on the polygon. | It is an array. |
 
 
 
-**用法**
+**Usage**
 ```javascript
 group.addShape('polygon', {
   attrs: {
@@ -194,21 +194,21 @@ group.addShape('polygon', {
 ```
 
 
-### 矩形图形 Rect
+### Rect
 
-**属性**
+**Attribute**
 
-| 属性名 | 含义 | 备注 |
+| Name | Description | Remark |
 | --- | --- | --- |
-| x | 矩形左上角的 x 坐标 |  |
-| y | 矩形左上角的 y 坐标 |  |
-| width | 矩形的宽度 |  |
-| height | 矩形的高度 |  |
-| radius | 定义圆角 | 支持整数或数组形式， 分别对应左上、右上、右下、左下角的半径：<br />- radius缩写为 1或 [ 1 ] 相当于 [ 1, 1, 1, 1 ]<br />- radius 缩写为 [ 1, 2 ] 相当于 [ 1, 2, 1, 2 ]<br />- radius 缩写为 [ 1, 2, 3 ] 相当于 [ 1, 2, 3, 2 ]<br /> |
+| x | The x of left top of the rect. |  |
+| y | The y of left top of the rect. |  |
+| width | The width of the rect. |  |
+| height | The height of the rect. |  |
+| radius | The border radius. | It can be an integer or an array, representing the border radii of lefttop, righttop, rightbottom, leftbotton respectively. <br />- `radius = 1` or `radius = [ 1 ]` is equal to `radius = [ 1, 1, 1, 1 ]`<br />- `radius = [ 1, 2 ]` is equal to `radius = [ 1, 2, 1, 2 ]`<br />- `radius: [ 1, 2, 3 ]` is equal to `radius: [ 1, 2, 3, 2 ]`<br /> |
 
  
 
-**用法**
+**Usage**
 ```javascript
 group.addShape('rect', {
   attrs: {
