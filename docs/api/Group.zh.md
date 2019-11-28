@@ -3,7 +3,7 @@ title: Graphics Group
 order: 8
 ---
 
-图形分组 Graphics Group 类似于 [SVG](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g) 中的 [`<g>`](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g) [标签](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g)：元素 `g` 是用来组合图形对象的容器。在 group 上添加变换（例如剪裁、旋转、放缩、平移等）会应用到其所有的子元素上。在 group 上添加属性（例如颜色、位置等）会被其所有的子元素继承。此外， group 可以多层嵌套使用，因此可以用来定义复杂的对象。关于 Group 更详细的介绍请参考《[图形分组 Group](/zh/docs/manual/advanced/graphics-group)》。
+图形分组 Graphics Group（下文简称 Group） 类似于 [SVG](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g) 中的 [`<g>`](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g) [标签](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g)：Group 是用来组合图形对象的容器。在 Group 上添加变换（例如剪裁、旋转、放缩、平移等）会应用到其所有的子元素上。在 Group 上添加属性（例如颜色、位置等）会被其所有的子元素继承。此外， Group 可以多层嵌套使用，因此可以用来定义复杂的对象。关于 Group 更详细的介绍请参考《[图形分组 Group](/zh/docs/manual/advanced/graphics-group)》。
 
 
 ## 声明实例
@@ -23,7 +23,7 @@ const group = new Group(cfgs);
 
 | 名称 | 类型 | 说明 |
 | --- | --- | --- |
-| param | Function / Object | undefined |  |
+| param | Function / Object / undefined |  |
 | cfg | Object |  |
 
 
@@ -39,7 +39,7 @@ group.addGroup({
 
 
 ### addShape(type, cfgs)
-向分组中添加新的图形。<br />**注意**：在分组上添加的 `clip`， `transform` 等会影响到该分组中的所有图形。G 支持的图形及其绘图属性请见 [Shape](/zh/docs/api/Shape)。
+向分组中添加新的图形。<br />**注意**：在分组上添加的 clip， transform 等操作会影响到该分组中的所有图形。所有图形及其绘图属性请见 [Shape](/zh/docs/api/Shape)。
 
 
 **参数**

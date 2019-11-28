@@ -3,7 +3,7 @@ title: Graphics Group
 order: 8
 ---
 
-Graphics Group in G6 is similar to [`<g>`](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g) [tag](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g) in [SVG](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g): element `g` is a container of a group of graphics. The transformations on `g` such as clip, rotate, zoom, and translate will be applied to the children of `g`. The attributes like color and position will also be inherited by its children. Besides, groups can be nested for complicated objects. For more information about Group, please refer to《[Graphics Group](/en/docs/manual/advanced/graphics-group)》。
+Graphics Group (hereinafter referred to as Group for short) in G6 is similar to [`<g>`](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g) [tag](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g) in [SVG](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g): Group a container of a group of graphics. The transformations on a Group such as clipping, rotating, zooming, and translating will be applied to all the children of the Group. The attributes like color and position will also be inherited by its children. Besides, Group can be nested for complicated objects. For more information about Group, please refer to《[Graphics Group](/en/docs/manual/advanced/graphics-group)》.
 
 
 ## Instance Declaration 
@@ -16,14 +16,14 @@ const group = new Group(cfgs);
 
 
 ### addGroup(param, cfg)
-Add new group to a group.
+Add a new group to the group.
 
 
 **Parameters**
 
 | Name | Type | Description |
 | --- | --- | --- |
-| param | Function / Object | undefined |  |
+| param | Function / Object / undefined |  |
 | cfg | Object |  |
 
 
@@ -39,7 +39,7 @@ group.addGroup({
 
 
 ### addShape(type, cfgs)
-Add new shape into the group<br />⚠️**Attention:** the `clip` and `transform` operations will affect all the shapes in the group. The graphics and their attributes in G are introduced in [Shape](/en/docs/api/Shape)。
+Add a new shape into the group<br />⚠️**Attention:** the clip and transform operations will affect all the shapes in the group. The graphics and their attributes are introduced in [Shape](/en/docs/api/Shape)。
 
 
 **Parameters**
@@ -74,7 +74,7 @@ Whether the group contains the child.<br />The type of the return value: Boolean
 
 | Name | Type | Description |
 | --- | --- | --- |
-| child | Group | Shape | A sub group or an instance of shape. |
+| child | Group / Shape | A sub group or an instance of shape. |
 
 
 
@@ -94,7 +94,7 @@ Find **the first** element that matches the rule.
 
 | Name | Type | Description |
 | --- | --- | --- |
-| fn | Function | Customed callback function. |
+| fn | Function | Customized callback function. |
 
 
 
@@ -137,7 +137,7 @@ Find all the elements that match the rule.<br />The type of the return value: [ 
 
 | Name | Type | Description |
 | --- | --- | --- |
-| fn | Function | Customed callback function. |
+| fn | Function | Customized callback function. |
 
 
 
@@ -145,7 +145,7 @@ Find all the elements that match the rule.<br />The type of the return value: [ 
 
 ```javascript
 const children = group.findAll(function(item) {
-    return item.get('id') < 10;       // get all the elements with id smaller than 10
+    return item.get('id') < 10;       // get all the elements with the id smaller than 10
 });
 ```
 
@@ -173,7 +173,7 @@ const element = group.getShape(10, 30)
 
 
 ### getFirst()
-Get the first element of the group. <br />The type of the return value: Object
+Get **the first** element of the group. <br />The type of the return value: Object
 
 
 **Usage**
@@ -230,7 +230,7 @@ Remove a group or a graphics from the group.
 
 | Name | Type | Description |
 | --- | --- | --- |
-| child | Group | Shape | A sub group or an instance of Shape. |
+| child | Group / Shape | A sub group or an instance of Shape. |
 
 
 
@@ -242,9 +242,9 @@ group.removeChild(child)
 
 
 ### sort()
-Sort method. <br />In general, it is called for ordering the children.
+Sort method. <br />In general, it is called for ordering the children of the group.
 
-Typical scenerio: we set index for each `shape` when add `shape` by `group.addShape()`. After adding, call `group.sort()` to sort the shapes.
+Typical scenerio: we set index for each `shape` when add `shape` by `group.addShape()`. After adding, sort the shapes by calling `group.sort()`.
 
 
 **Usage**
