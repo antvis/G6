@@ -3,9 +3,9 @@ title: TreeGraph
 order: 2
 ---
 
-TreeGraph是G6专门为树图场景打造的图。TreeGraph继承自Graph。`G6.TreeGraph`与`G6.Graph`最大的区别就是数据结构和内置布局计算。主要出于以下考虑：
+If you are going to visualize a tree, TreeGraph of G6 is more appropriate than Graph. The main differences between `G6.TreeGraph` and `G6.Graph` are data structure and built-in layout algorithms:
 
-- 数据结构：树图的数据一般是嵌套结构，边的数据隐含在嵌套结构中，并不会特意指定edge。此布局要求数据中一个节点需要有`id`和`children`两个数据项，最精简的数据结构如下所示：
+- Data structure: In G6, the tree data has nested structure. Edges are implicit in it. Each node data has `id` and `children` attributes at least:
 
 ```javascript
 const data = {
@@ -23,24 +23,24 @@ const data = {
 };
 ```
 
-- 布局特殊性：
-  - 树图的布局算法一般是不改变源数据的，而是重新生成一份数据，将源数据作为新数据的一个属性。如果每次都需要做次遍历转换数据到节点和边的数据增加了用户的实现复杂度。
-  - 树图的每次新增/删除/展开/收缩节点，都需要重新计算布局。遍历一份结构化数据对应到图上每个节点去做更新操作，也很麻烦。
+- The particularity of tree layouts:
+  - It does not modify the source data. it generates a new data instead. And the source data will be an attribute of new data. This mechanism will reduce the complexity of transformation from nested data to nodes and edges in graph.
+  - The layout will be re-calculated after adding / deleting / expanding / collapsing nodes. 
 
 
-## 初始化
+## Initialize
 
 ### G6.TreeGraph
 
-**参数**
+**Configurations**
 
-| 名称 | 类型 | 默认值 | 描述 |
+ | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| layout | object | null | **3.0.4 版本开始支持树布局算法配置**。3.0.4 版本之前是 function 形式。建议开发者使用配置形式，操作粒度更细。 |
-| animate | boolean | true | 默认打开重布局动画开关。 |
+| layout | Object | null | **V3.0.4 supports configurations for TreeGraph layout**。Before V3.0.4, the layout is formatted as function. We recommend developers to use configurations now. |
+| animate | Boolean | true | Whether activate animation for relayout. |
 
 
-**用法**
+**Usage**
 
 ```javascript
 const treeGraph = new G6.TreeGraph({
@@ -71,52 +71,52 @@ const treeGraph = new G6.TreeGraph({
 ```
 
 
-## layout配置项
-layout目前支持dendrogram、compactBox、mindmap和indeted四种布局方式。
+## Configurations of Layout
+There are four layout methods: dendrogram, compactBox, mindmap, and indeted.
 
 
-### 通用配置项
+### Common Configurations
 
-| 名称 | 类型 | 默认值 | 描述 |
+ | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| type | string | dendrogram | 布局类型，支持dendrogram、compactBox、mindmap和indeted。 |
-| direction | string | LR | 布局方向，有 `LR` , `RL` , `TB` , `BT` , `H` , `V` 可选。<br />L: 左； R: 右； T: 上； B：下； H: 垂直； V: 水平。 |
-| getChildren | Function |  | 返回当前节点的所有子节点 |
+| type | String | dendrogram | The type of layout. Options: `'dendrogram'`, `'compactBox'`, `'mindmap'`, and `'indeted'`. |
+| direction | String | LR | The direction of layout. Options: `'LR'` , `'RL'` , `'TB'` , `'BT'` , `'H'` , and `'V'`.<br />L: Left; R: right; T: top; B: bottom; H: horizontal; V: vertical. |
+| getChildren | Function |  | Return all the children nodes of current node. |
 
-⚠️**注意：**当`type=indeted`时，`direction`只能取LR、RL和H这三个值。
+⚠️**Attention:** When`type='indeted'`, `direction` can only be `'LR'`, `'RL'`, and `'H'`.
 
 
 ### dendrogram
 
-**dendrogram示意图**
+**dendrogram Sketch**
 
-使用`dendrogram`方式布局时，`direction`取不同值时的效果如下所示。
+Different effects for different `direction` values.
 
 | LR | RL | H |
 | --- | --- | --- |
-| <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zX7tSLqBvwcAAAAAAAAAAABkARQnAQ' width='230' height='100'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qVbeR4oq4lYAAAAAAAAAAABkARQnAQ' width='230' height='100'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OHetRqedHOkAAAAAAAAAAABkARQnAQ' width='230' height='100'> |
+| <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zX7tSLqBvwcAAAAAAAAAAABkARQnAQ' width='180' height='100'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qVbeR4oq4lYAAAAAAAAAAABkARQnAQ' width='180' height='100'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OHetRqedHOkAAAAAAAAAAABkARQnAQ' width='250' height='100'> |
 
 | TB | BT | V |
 | --- | --- | --- |
-| <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*P_OETZsj17cAAAAAAAAAAABkARQnAQ' width='230' height='100'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*n6sFS57g424AAAAAAAAAAABkARQnAQ' width='230' height='100'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*CyVbQ5q_0_cAAAAAAAAAAABkARQnAQ' width='230' height='100'> |
+| <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*P_OETZsj17cAAAAAAAAAAABkARQnAQ' width='100' height='150'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*n6sFS57g424AAAAAAAAAAABkARQnAQ' width='100' height='150'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*CyVbQ5q_0_cAAAAAAAAAAABkARQnAQ' width='100' height='180'> |
 
 
-**dendrogram配置项**
+**Configurations of dendrogram**
 
-| 名称 | 类型 | 默认值 | 描述 |
+ | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| nodeSep | number | 20 | 同层次节点之间的间距 |
-| rankSep | number | 200 | 相邻层级节点之间的间距 |
-| nodeSize | number | 20 | 节点大小 |
-| subTreeSep | number | 10 | 子树之间的间距 |
-| isHorizontal | boolean | true | 是否是水平方向，默认为水平方向 |
+| nodeSep | Number | 20 | The separation between nodes in the same level. |
+| rankSep | Number | 200 | The separation between nodes in adjacent levels. |
+| nodeSize | Number | 20 | The node size. |
+| subTreeSep | Number | 10 | The separation between sub trees. |
+| isHorizontal | Boolean | true | Whether layout the tree in horizontal. |
 
 
 ### compactBox
 
-**compactBox示意图**
+**compactBox Sketch**
 
-使用`compactBox`方式布局时，`direction`取不同值时的效果如下所示。
+Different effects for different `direction` values.
 
 | LR | RL | H |
 | --- | --- | --- |
@@ -127,17 +127,17 @@ layout目前支持dendrogram、compactBox、mindmap和indeted四种布局方式�
 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sj6qSqrBvpIAAAAAAAAAAABkARQnAQ' width='230' height='100'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*4tDzSpYiq-cAAAAAAAAAAABkARQnAQ' width='230' height='100'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Mj0WSaTKzSsAAAAAAAAAAABkARQnAQ' width='230' height='100'> |
 
 
-**compactBox配置项**
+**compactBox Configurations**
 
-| 名称 | 类型 | 默认值 | 描述 |
+ | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| getId | Function |  | 指定节点ID |
-| getHeight | Function | 36 | 指定节点高度 |
-| getWidth | Function | 18 | 指定节点宽度 |
-| getVGap | Function | 18 | 指定节点之间的垂直间距 |
-| getHGap | Function | 18 | 指定节点之间的水平间距 |
+| getId | Function |  | Set id for nodes. |
+| getHeight | Function | 36 | Set heights of nodes. |
+| getWidth | Function | 18 | Set widths of nodes. |
+| getVGap | Function | 18 | The vertical separation between nodes. |
+| getHGap | Function | 18 | The horizontal separation between nodes. |
 
-⚠️**注意：**使用getWidth、getHeight、getVGap和getHGap指定节点的宽高及间距后，并不会改变节点的大小，具体原理如下所示：
+⚠️**Attention:** `getWidth`, `getHeight`, `getVGap`, and `getHGap` will not change the node size:
 ```javascript
 /*
    * Gaps: filling space between nodes
@@ -154,62 +154,62 @@ layout目前支持dendrogram、compactBox、mindmap和indeted四种布局方式�
    */
 ```
 
-**🦁以上原理同样适用于indented和mindmap布局。**
+**🦁It is same for indented and mindmap.**
 
 
 ### indented
 
-**indented示意图**
+**indented Sketch**
 
-使用`indented`方式布局时，`direction`取不同值时的效果如下所示。
+Different effects for different `direction` values.
 
 | LR | RL | H |
 | --- | --- | --- |
 | <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560910055783-3783faed-29f0-4e34-9076-df951aa6ea10.png#align=left&display=inline&percent=0&size=0&status=done' width='230' height='100'> | <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560910055615-54aaca32-7de4-471e-8600-611854094b90.png#align=left&display=inline&percent=0&size=0&status=done' width='230' height='100'> | <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560910055676-86d316d8-9487-4b3d-99a4-27b4a8c091c0.png#align=left&display=inline&percent=0&size=0&status=done' width='230' height='100'> |
 
 
-**indented配置项**
+**Configurations of indented**
 
-| 名称 | 类型 | 默认值 | 描述 |
+ | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| indent | number | 20 | 与直接父节点的缩进值 |
-| getVGap | Function | 18 | 指定节点之间的垂直间距 |
-| getHeight | Function | 36 | 指定节点的高度 |
+| indent | Number | 20 | The indent value to parrent node. |
+| getVGap | Function | 18 | Set the vertical sparation between nodes. |
+| getHeight | Function | 36 | Set the height of nodes. |
 
 
 ### mindmap
 
-**mindmap示意图**
+**mindmap Sketch**
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*J1l5RofvbP0AAAAAAAAAAABkARQnAQ' width='750'>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*J1l5RofvbP0AAAAAAAAAAABkARQnAQ' width='350'>
 
-**mindmap配置项**
+**Configurations of mindmap**
 
-| 名称 | 类型 | 默认值 | 描述 |
+ | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| getId | Function |  | 指定节点ID |
-| getHeight | Function | 36 | 指定节点高度 |
-| getWidth | Function | 18 | 指定节点宽度 |
-| getSide | Function |  | 指定当前节点在主题的左边 (left) 还是右边 (right) |
-| getSubTreeSep | Function | 0 | 指定子节点之间的高度间隔 |
-| getVGap | Function | 18 | 指定节点的垂直间距 |
-| getHGap | Function | 18 | 指定节点的水平间距 |
+| getId | Function |  | Set the id of nodes. |
+| getHeight | Function | 36 | Set the heights of nodes. |
+| getWidth | Function | 18 | Set the widths of nodes. |
+| getSide | Function |  | Specify the nodes to be layed on the left or right of the root. |
+| getSubTreeSep | Function | 0 | Set the height separation between nodes. |
+| getVGap | Function | 18 | Set the vertical separation between nodes. |
+| getHGap | Function | 18 | Set the horizontal separation between nodes. |
 
 
-## 更新
+## Update
 
 ### addChild(data, parent)
-在指定的父节点下添加子树。
+Add sub tree to the parent node.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required| Description |
 | --- | --- | --- | --- |
-| data | object | true | 子树的数据 |
-| parent | Node | string | true | 父节点或父节点ID |
+| data | Object | true | The data of subtree. |
+| parent | Node | String | true | The id or instance of parent node. |
 
 
-**用法**
+**Usage**
 
 ```javascript
 const data = {
@@ -230,19 +230,19 @@ treeGraph.addChild(data, 'root')
 ```
 
 ### updateChild(data, parent)
-更新数据，差量更新子树。
+Incrementally update the children data of the parent. 
 
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required| Description |
 | --- | --- | --- | --- |
-| data | object | true | 子树的数据 |
-| parent | Node | string | false | 父节点或父节点ID |
+| data | Object | true | The data of subtreee. |
+| parent | Node | String | false | The id or instance of parent node. |
 
-⚠️**注意：**当parent参数为空时，则全量更新。
+⚠️**Attention:** When the `parent` is null, this operation will update the graph fully.
 
-**用法**
+**Usage**
 
 ```javascript
 const data = {
@@ -263,37 +263,37 @@ treeGraph.updateChild(data, 'root')
 ```
 
 ### removeChild(id)
-删除指定的子树。
+Remove the subtree started by a child with the id.
 
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required| Description |
 | --- | --- | --- | --- |
-| id | string | true | 要删除的子树的ID |
+| id | String | true | The id of the subtree to be deleted. |
 
 
-**用法**
+**Usage**
 
 ```javascript
 treeGraph.removeChild('sub')
 ```
 
 
-## 布局
+## Layout
 
 ### changeLayout(layout)
-更改并应用指定的布局。
+Change the layout.
 
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required| Description |
 | --- | --- | --- | --- |
-| layout | object | false | 指定的布局配置，如不传，则不做变更 |
+| layout | Object | false | The new layout configurations. If the `layout` is null, the layout will not be changed. |
 
 
-**用法**
+**Usage**
 
 ```javascript
 const layout = {
@@ -309,44 +309,44 @@ treeGraph.changeLayout(layout)
 
 
 ### refreshLayout(fitView)
-数据变更后，重新布局，刷新视图，并更新到画布。
+Refresh the layout. Usually, it is called after changing data.
 
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required| Description |
 | --- | --- | --- | --- |
-| fitView | boolean | false | 更新布局后，是否需要自适应窗口 |
+| fitView | Boolean | false | Whether fit view after refreshing layout. |
 
 
-**用法**
+**Usage**
 
 ```javascript
 treeGraph.refreshLayout(true)
 ```
 
 
-## 查找
+## Search
 
 ### findDataById(id, target)
-根据指定的ID获取对应的源数据。
+Find data model according to the id.
 
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required| Description |
 | --- | --- | --- | --- |
-| id | string | true | 指定的元素ID |
-| target | object | false | 从指定的节点开始查找，为空时从根节点开始查找 |
+| id | String | true | The id of the item. |
+| target | Object | false | Search from the target. If the target is null, this operation will search from the root node. |
 
 
-**返回值**
+**Return**
 
-- 返回值类型：object；
-- 返回值为查找到的节点的源数据。
+- The type of return value: Object;
+- The return value is the data model of the found node.
 
 
-**用法**
+**Usage**
 
 ```javascript
 const target = {
@@ -354,9 +354,9 @@ const target = {
   children: [...]
 }
 
-// 从target节点开始查找sub1.1节点
+// Search the node with id 'sub1.1' from target
 const subData = treeGraph.findDataById('sub1.1', target)
   
-// 从根节点开始查找sub1.1节点
+// Search the node with id 'sub1.1' from root node
 const subData = treeGraph.findDataById('sub1.1')
 ```

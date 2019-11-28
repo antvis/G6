@@ -24,7 +24,7 @@ module.exports = {
         }
       },
       {
-        slug: 'docs/api/GlobalAPI',
+        slug: 'docs/api/Graph',
         title: {
           zh: 'API',
           en: 'API'

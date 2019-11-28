@@ -3,9 +3,9 @@ title: TreeGraph
 order: 2
 ---
 
-TreeGraph是G6专门为树图场景打造的图。TreeGraph继承自Graph。`G6.TreeGraph`与`G6.Graph`最大的区别就是数据结构和内置布局计算。主要出于以下考虑：
+TreeGraph 是 G6 专门为树图场景打造的图。TreeGraph 继承自 Graph。`G6.TreeGraph` 与 `G6.Graph` 最大的区别就是数据结构和内置布局计算。主要出于以下考虑：
 
-- 数据结构：树图的数据一般是嵌套结构，边的数据隐含在嵌套结构中，并不会特意指定edge。此布局要求数据中一个节点需要有`id`和`children`两个数据项，最精简的数据结构如下所示：
+- 数据结构：树图的数据一般是嵌套结构，边的数据隐含在嵌套结构中，并不会特意指定 edge 。此布局要求数据中一个节点需要有 `id` 和 `children` 两个数据项，最精简的数据结构如下所示：
 
 ```javascript
 const data = {
@@ -36,8 +36,8 @@ const data = {
 
 | 名称 | 类型 | 默认值 | 描述 |
 | --- | --- | --- | --- |
-| layout | object | null | **3.0.4 版本开始支持树布局算法配置**。3.0.4 版本之前是 function 形式。建议开发者使用配置形式，操作粒度更细。 |
-| animate | boolean | true | 默认打开重布局动画开关。 |
+| layout | Object | null | **3.0.4 版本开始支持树布局算法配置**。3.0.4 版本之前是 function 形式。建议开发者使用配置形式，操作粒度更细。 |
+| animate | Boolean | true | 默认打开重布局动画开关。 |
 
 
 **用法**
@@ -72,25 +72,25 @@ const treeGraph = new G6.TreeGraph({
 
 
 ## layout配置项
-layout目前支持dendrogram、compactBox、mindmap和indeted四种布局方式。
+layout 目前支持 dendrogram、compactBox、mindmap 和 indeted 四种布局方式。
 
 
 ### 通用配置项
 
 | 名称 | 类型 | 默认值 | 描述 |
 | --- | --- | --- | --- |
-| type | string | dendrogram | 布局类型，支持dendrogram、compactBox、mindmap和indeted。 |
-| direction | string | LR | 布局方向，有 `LR` , `RL` , `TB` , `BT` , `H` , `V` 可选。<br />L: 左； R: 右； T: 上； B：下； H: 垂直； V: 水平。 |
+| type | String | dendrogram | 布局类型，支持 dendrogram、compactBox、mindmap 和 indeted。 |
+| direction | String | LR | 布局方向，有 `LR` , `RL` , `TB` , `BT` , `H` , `V` 可选。<br />L：左；R：右；T：上；B：下；H：垂直；V：水平。 |
 | getChildren | Function |  | 返回当前节点的所有子节点 |
 
-⚠️**注意：**当`type=indeted`时，`direction`只能取LR、RL和H这三个值。
+⚠️**注意：**当 `type='indeted'` 时，`direction` 只能取 LR、RL 和 H 这三个值。
 
 
 ### dendrogram
 
-**dendrogram示意图**
+**dendrogram 示意图**
 
-使用`dendrogram`方式布局时，`direction`取不同值时的效果如下所示。
+使用 `dendrogram` 方式布局时，`direction` 取不同值时的效果如下所示。
 
 | LR | RL | H |
 | --- | --- | --- |
@@ -101,22 +101,22 @@ layout目前支持dendrogram、compactBox、mindmap和indeted四种布局方式�
 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*P_OETZsj17cAAAAAAAAAAABkARQnAQ' width='230' height='100'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*n6sFS57g424AAAAAAAAAAABkARQnAQ' width='230' height='100'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*CyVbQ5q_0_cAAAAAAAAAAABkARQnAQ' width='230' height='100'> |
 
 
-**dendrogram配置项**
+**dendrogram 配置项**
 
 | 名称 | 类型 | 默认值 | 描述 |
 | --- | --- | --- | --- |
-| nodeSep | number | 20 | 同层次节点之间的间距 |
-| rankSep | number | 200 | 相邻层级节点之间的间距 |
-| nodeSize | number | 20 | 节点大小 |
-| subTreeSep | number | 10 | 子树之间的间距 |
-| isHorizontal | boolean | true | 是否是水平方向，默认为水平方向 |
+| nodeSep | Number | 20 | 同层次节点之间的间距 |
+| rankSep | Number | 200 | 相邻层级节点之间的间距 |
+| nodeSize | Number | 20 | 节点大小 |
+| subTreeSep | Number | 10 | 子树之间的间距 |
+| isHorizontal | Boolean | true | 是否是水平方向，默认为水平方向 |
 
 
 ### compactBox
 
 **compactBox示意图**
 
-使用`compactBox`方式布局时，`direction`取不同值时的效果如下所示。
+使用 `compactBox` 方式布局时，`direction` 取不同值时的效果如下所示。
 
 | LR | RL | H |
 | --- | --- | --- |
@@ -131,13 +131,13 @@ layout目前支持dendrogram、compactBox、mindmap和indeted四种布局方式�
 
 | 名称 | 类型 | 默认值 | 描述 |
 | --- | --- | --- | --- |
-| getId | Function |  | 指定节点ID |
+| getId | Function |  | 指定节点 ID |
 | getHeight | Function | 36 | 指定节点高度 |
 | getWidth | Function | 18 | 指定节点宽度 |
 | getVGap | Function | 18 | 指定节点之间的垂直间距 |
 | getHGap | Function | 18 | 指定节点之间的水平间距 |
 
-⚠️**注意：**使用getWidth、getHeight、getVGap和getHGap指定节点的宽高及间距后，并不会改变节点的大小，具体原理如下所示：
+⚠️**注意：**使用 `getWidth`、`getHeight`、`getVGap` 和 `getHGap` 指定节点的宽高及间距后，并不会改变节点的大小，具体原理如下所示：
 ```javascript
 /*
    * Gaps: filling space between nodes
@@ -154,14 +154,14 @@ layout目前支持dendrogram、compactBox、mindmap和indeted四种布局方式�
    */
 ```
 
-**🦁以上原理同样适用于indented和mindmap布局。**
+**🦁以上原理同样适用于 indented 和 mindmap 布局。**
 
 
 ### indented
 
-**indented示意图**
+**indented 示意图**
 
-使用`indented`方式布局时，`direction`取不同值时的效果如下所示。
+使用 `indented` 方式布局时，`direction` 取不同值时的效果如下所示。
 
 | LR | RL | H |
 | --- | --- | --- |
@@ -172,7 +172,7 @@ layout目前支持dendrogram、compactBox、mindmap和indeted四种布局方式�
 
 | 名称 | 类型 | 默认值 | 描述 |
 | --- | --- | --- | --- |
-| indent | number | 20 | 与直接父节点的缩进值 |
+| indent | Number | 20 | 与直接父节点的缩进值 |
 | getVGap | Function | 18 | 指定节点之间的垂直间距 |
 | getHeight | Function | 36 | 指定节点的高度 |
 
@@ -190,7 +190,7 @@ layout目前支持dendrogram、compactBox、mindmap和indeted四种布局方式�
 | getId | Function |  | 指定节点ID |
 | getHeight | Function | 36 | 指定节点高度 |
 | getWidth | Function | 18 | 指定节点宽度 |
-| getSide | Function |  | 指定当前节点在主题的左边 (left) 还是右边 (right) |
+| getSide | Function |  | 指定当前节点在主体的左边 (left) 还是右边 (right) |
 | getSubTreeSep | Function | 0 | 指定子节点之间的高度间隔 |
 | getVGap | Function | 18 | 指定节点的垂直间距 |
 | getHGap | Function | 18 | 指定节点的水平间距 |
@@ -205,8 +205,8 @@ layout目前支持dendrogram、compactBox、mindmap和indeted四种布局方式�
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| data | object | true | 子树的数据 |
-| parent | Node | string | true | 父节点或父节点ID |
+| data | Object | true | 子树的数据 |
+| parent | Node | String | true | 父节点或父节点ID |
 
 
 **用法**
@@ -237,8 +237,8 @@ treeGraph.addChild(data, 'root')
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| data | object | true | 子树的数据 |
-| parent | Node | string | false | 父节点或父节点ID |
+| data | Object | true | 子树的数据 |
+| parent | Node | String | false | 父节点或父节点 ID |
 
 ⚠️**注意：**当parent参数为空时，则全量更新。
 
@@ -270,7 +270,7 @@ treeGraph.updateChild(data, 'root')
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| id | string | true | 要删除的子树的ID |
+| id | String | true | 要删除的子树的 ID |
 
 
 **用法**
@@ -290,7 +290,7 @@ treeGraph.removeChild('sub')
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| layout | object | false | 指定的布局配置，如不传，则不做变更 |
+| layout | Object | false | 指定的布局配置，如不传，则不做变更 |
 
 
 **用法**
@@ -316,7 +316,7 @@ treeGraph.changeLayout(layout)
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| fitView | boolean | false | 更新布局后，是否需要自适应窗口 |
+| fitView | Boolean | false | 更新布局后，是否需要自适应窗口 |
 
 
 **用法**
@@ -329,20 +329,20 @@ treeGraph.refreshLayout(true)
 ## 查找
 
 ### findDataById(id, target)
-根据指定的ID获取对应的源数据。
+根据指定的 ID 获取对应的源数据。
 
 
 **参数**
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| id | string | true | 指定的元素ID |
-| target | object | false | 从指定的节点开始查找，为空时从根节点开始查找 |
+| id | String | true | 指定的元素 ID |
+| target | Object | false | 从指定的节点开始查找，为空时从根节点开始查找 |
 
 
 **返回值**
 
-- 返回值类型：object；
+- 返回值类型：Object；
 - 返回值为查找到的节点的源数据。
 
 
@@ -354,9 +354,9 @@ const target = {
   children: [...]
 }
 
-// 从target节点开始查找sub1.1节点
+// 从 target 节点开始查找 sub1.1 节点
 const subData = treeGraph.findDataById('sub1.1', target)
   
-// 从根节点开始查找sub1.1节点
+// 从根节点开始查找 sub1.1 节点
 const subData = treeGraph.findDataById('sub1.1')
 ```
