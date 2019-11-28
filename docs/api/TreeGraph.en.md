@@ -23,9 +23,9 @@ const data = {
 };
 ```
 
-- The particularity of tree layouts:
-  - It does not modify the source data. it generates a new data instead. And the source data will be an attribute of new data. This mechanism will reduce the complexity of transformation from nested data to nodes and edges in graph.
-  - The layout will be re-calculated after adding / deleting / expanding / collapsing nodes. 
+- Tree layout algorithms:
+  - Tree layout algorithms do not modify the source data. it generates a new data instead. And the source data will be an attribute of the new data. This mechanism will reduce the complexity of transformation from nested data to nodes and edges in graph.
+  - The layout will be re-calculated after adding / deleting / expanding / collapsing nodes on the tree. 
 
 
 ## Initialize
@@ -36,7 +36,7 @@ const data = {
 
  | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| layout | Object | null | **V3.0.4 supports configurations for TreeGraph layout**。Before V3.0.4, the layout is formatted as function. We recommend developers to use configurations now. |
+| layout | Object | null | **V3.0.4 supports configurations for TreeGraph layout**. Before V3.0.4, the layout is formatted as a function. We recommend developers to use configurations now. |
 | animate | Boolean | true | Whether activate animation for relayout. |
 
 
@@ -72,7 +72,7 @@ const treeGraph = new G6.TreeGraph({
 
 
 ## Configurations of Layout
-There are four layout methods: dendrogram, compactBox, mindmap, and indeted.
+There are four layout algorithms for tree in G6: dendrogram, compactBox, mindmap, and indeted.
 
 
 ### Common Configurations
@@ -81,7 +81,7 @@ There are four layout methods: dendrogram, compactBox, mindmap, and indeted.
 | --- | --- | --- | --- |
 | type | String | dendrogram | The type of layout. Options: `'dendrogram'`, `'compactBox'`, `'mindmap'`, and `'indeted'`. |
 | direction | String | LR | The direction of layout. Options: `'LR'` , `'RL'` , `'TB'` , `'BT'` , `'H'` , and `'V'`.<br />L: Left; R: right; T: top; B: bottom; H: horizontal; V: vertical. |
-| getChildren | Function |  | Return all the children nodes of current node. |
+| getChildren | Function |  | Return all the children nodes of the current node. |
 
 ⚠️**Attention:** When`type='indeted'`, `direction` can only be `'LR'`, `'RL'`, and `'H'`.
 
@@ -90,7 +90,7 @@ There are four layout methods: dendrogram, compactBox, mindmap, and indeted.
 
 **dendrogram Sketch**
 
-Different effects for different `direction` values.
+Different results with different `direction` values.
 
 | LR | RL | H |
 | --- | --- | --- |
@@ -131,11 +131,11 @@ Different effects for different `direction` values.
 
  | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| getId | Function |  | Set id for nodes. |
-| getHeight | Function | 36 | Set heights of nodes. |
-| getWidth | Function | 18 | Set widths of nodes. |
-| getVGap | Function | 18 | The vertical separation between nodes. |
-| getHGap | Function | 18 | The horizontal separation between nodes. |
+| getId | Function |  | Set the id for nodes. |
+| getHeight | Function | 36 | Set the heights of nodes. |
+| getWidth | Function | 18 | Set the widths of nodes. |
+| getVGap | Function | 18 | Set the vertical separations between nodes. |
+| getHGap | Function | 18 | Set the horizontal separations between nodes. |
 
 ⚠️**Attention:** `getWidth`, `getHeight`, `getVGap`, and `getHGap` will not change the node size:
 ```javascript
@@ -154,27 +154,27 @@ Different effects for different `direction` values.
    */
 ```
 
-**🦁It is same for indented and mindmap.**
+**🦁It is the same for indented and mindmap.**
 
 
 ### indented
 
 **indented Sketch**
 
-Different effects for different `direction` values.
+Different results with different `direction` values.
 
 | LR | RL | H |
 | --- | --- | --- |
-| <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560910055783-3783faed-29f0-4e34-9076-df951aa6ea10.png#align=left&display=inline&percent=0&size=0&status=done' width='230' height='100'> | <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560910055615-54aaca32-7de4-471e-8600-611854094b90.png#align=left&display=inline&percent=0&size=0&status=done' width='230' height='100'> | <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560910055676-86d316d8-9487-4b3d-99a4-27b4a8c091c0.png#align=left&display=inline&percent=0&size=0&status=done' width='230' height='100'> |
+| <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560910055783-3783faed-29f0-4e34-9076-df951aa6ea10.png#align=left&display=inline&percent=0&size=0&status=done' width='150' height='100'> | <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560910055615-54aaca32-7de4-471e-8600-611854094b90.png#align=left&display=inline&percent=0&size=0&status=done' width='150' height='100'> | <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560910055676-86d316d8-9487-4b3d-99a4-27b4a8c091c0.png#align=left&display=inline&percent=0&size=0&status=done' width='230' height='100'> |
 
 
 **Configurations of indented**
 
  | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| indent | Number | 20 | The indent value to parrent node. |
-| getVGap | Function | 18 | Set the vertical sparation between nodes. |
-| getHeight | Function | 36 | Set the height of nodes. |
+| indent | Number | 20 | The indent to parrent node. |
+| getVGap | Function | 18 | Set the vertical sparations between nodes. |
+| getHeight | Function | 36 | Set the heights of nodes. |
 
 
 ### mindmap
@@ -190,10 +190,10 @@ Different effects for different `direction` values.
 | getId | Function |  | Set the id of nodes. |
 | getHeight | Function | 36 | Set the heights of nodes. |
 | getWidth | Function | 18 | Set the widths of nodes. |
-| getSide | Function |  | Specify the nodes to be layed on the left or right of the root. |
-| getSubTreeSep | Function | 0 | Set the height separation between nodes. |
-| getVGap | Function | 18 | Set the vertical separation between nodes. |
-| getHGap | Function | 18 | Set the horizontal separation between nodes. |
+| getSide | Function |  | Specify the nodes to be layed on the left or the right of the root. |
+| getSubTreeSep | Function | 0 | Set the height separations between nodes. |
+| getVGap | Function | 18 | Set the vertical separations between nodes. |
+| getHGap | Function | 18 | Set the horizontal separations between nodes. |
 
 
 ## Update
@@ -263,14 +263,14 @@ treeGraph.updateChild(data, 'root')
 ```
 
 ### removeChild(id)
-Remove the subtree started by a child with the id.
+Remove the subtree started from a child node with the id.
 
 
 **Parameters**
 
 | Name | Type | Required| Description |
 | --- | --- | --- | --- |
-| id | String | true | The id of the subtree to be deleted. |
+| id | String | true | The id of the subtree to be removed. |
 
 
 **Usage**
