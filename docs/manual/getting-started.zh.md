@@ -36,8 +36,8 @@ import G6 from '@antv/g6'
 
  注意 
 
-- 在 `{$version}` 中填写版本号，例如 `3.2.0`；
-- 最新版为 3.2.0，可以在 [npm](https://www.npmjs.com/package/@antv/g6) 查看最新版本；
+- 在 `{$version}` 中填写版本号，例如 `3.2.3`；
+- 最新版为 3.2.3，可以在 [npm](https://www.npmjs.com/package/@antv/g6) 查看最新版本；
 - 详情参考 Github 分支：[https://github.com/antvis/g6/tree/master](https://github.com/antvis/g6/tree/master) 。
 
 ## 快速试用
