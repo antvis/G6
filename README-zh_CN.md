@@ -43,9 +43,7 @@ $ npm install @antv/g6
 
 ## 使用
 
-[![在 codesandbox 中打开](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/staging-frost-immwl?fontsize=14&hidenavigation=1&theme=dark)
-
-<img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mZA4TLtQw7UAAAAAAAAAAABkARQnAQ" width=600 height=200 />
+<img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mZA4TLtQw7UAAAAAAAAAAABkARQnAQ" width=600 height=250 />
 
 
 ```js
@@ -113,6 +111,8 @@ const graph = new G6.Graph({
 graph.data(data);
 graph.render();
 ```
+
+[![在 codesandbox 中打开](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/staging-frost-immwl?fontsize=14&hidenavigation=1&theme=dark)
 
 更多关于 G6 使用的问题，请参考[快速上手](https://antv-g6.gitee.io/zh/docs/manual/getting-started)。
 
