@@ -35,7 +35,7 @@ G6 concentrates on the principle of 'good by default'. In addition, the custom m
 
 > Abundant Built-in Items
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Eh7yQ5ddu7MAAAAAAAAAAABkARQnAQ' width=400 height=500/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dJT3SIVta6QAAAAAAAAAAABkARQnAQ' width=600 />
 
 > Powerful Layouts
 
