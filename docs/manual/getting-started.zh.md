@@ -45,9 +45,9 @@ import G6 from '@antv/g6'
 创建一个 G6 的关系图仅需要下面几个步骤：
 
 1. 创建关系图的 HTML 容器；
-1. 数据准备；
-1. 创建关系图；
-1. 配置数据源，渲染。
+2. 数据准备；
+3. 创建关系图；
+4. 配置数据源，渲染。
 
 
 ### Step 1 创建容器
@@ -84,8 +84,8 @@ const data = {
  注意 
 
 - `nodes` 数组中包含节点对象，唯一的 `id` 是每个节点对象中必要的属性，`x`、 `y` 用于定位；
-- `edges` 数组中包含边对象，`source` 和 target 是每条边的必要属性，分别代表了该边的起始点 `id` 与 目标点 `id`。
-- 点和边的其他属性参见链接：[图元素配置文档](/zh/docs/api/properties/NodeProperties)。
+- `edges` 数组中包含边对象，`source` 和 `target` 是每条边的必要属性，分别代表了该边的起始点 `id` 与 目标点 `id`。
+- 点和边的其他属性参见链接：[节点配置文档](/zh/docs/api/properties/NodeProperties) 和 [边配置文档](/zh/docs/api/properties/EdgeProperties)。
 
 
 ### Step 3 创建关系图
@@ -167,7 +167,7 @@ graph.render();    // 渲染图
 ```
 
 ## React 中使用 G6
-如果你想在 React 中使用 G6 ，可以参考我们提供了的 React 中使用 G6 的 [Demo]。(https://github.com/baizn/g6-in-react)
+如果你想在 React 中使用 G6 ，可以参考我们提供了的 React 中使用 G6 的 [Demo](https://github.com/baizn/g6-in-react)。
 
 更多关于 React 中如何使用 G6，请参考[React 中使用 G6 的文档](/zh/docs/manual/middle/g6InReact)，有任何问题都可以通过页面底部的钉钉交流群和我们沟通，也非常欢迎给我们提 [Issues](https://github.com/antvis/g6/issues)。
 

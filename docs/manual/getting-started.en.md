@@ -3,7 +3,7 @@ title: Getting Started
 order: 1
 ---
 
-## 第一个示例
+## The First Example
 <iframe
      src="https://codesandbox.io/embed/compassionate-lalande-5lxm7?fontsize=14&hidenavigation=1&theme=dark"
      style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
@@ -12,106 +12,106 @@ order: 1
      sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
    ></iframe>
 
-## 安装 & 引用
-在项目中引入 G6 有以下两种方式：npm 引入，CDN 引入。
+## Installation & Import
+There are two ways to import G6: by npm; by CDN.
 
-### 1 在项目中使用 npm 包引入
+### 1 Import G6 by npm
 
-**Step 1:** 使用命令行在项目目录下执行以下命令：
+**Step 1:** Run the following command under the your project's directory in terminal:
 
 ```bash
  npm install --save @antv/g6
 ```
 
-**Step 2:** 在需要用的 G6 的 JS 文件中导入：
+**Step 2:** Import the JS file to the file where G6 is going to be used:
 ```javascript
 import G6 from '@antv/g6'
 ```
 
-### 2 在 HTML 中使用 CDN 引入
+### 2 Import by CDN in HTML
 
 ```html
 <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-{$version}/build/g6.js"></script>
 ```
 
- 注意 
+⚠️**Attention**
 
-- 在 `{$version}` 中填写版本号，例如 `3.2.0`；
-- 最新版为 3.2.0，可以在 [npm](https://www.npmjs.com/package/@antv/g6) 查看最新版本；
-- 详情参考 Github 分支：[https://github.com/antvis/g6/tree/master](https://github.com/antvis/g6/tree/master) 。
+- Replace `{$version}` by the version number. e.g. `3.2.3`;
+- The last version of G6 is 3.2.3, which can be checked on [npm](https://www.npmjs.com/package/@antv/g6);
+- Please refer to the branch in Github: [https://github.com/antvis/g6/tree/master](https://github.com/antvis/g6/tree/master) for more detail.
 
-## 快速试用
+## Getting Started
 
-创建一个 G6 的关系图仅需要下面几个步骤：
+The following steps lead to a Graph of G6:
 
-1. 创建关系图的 HTML 容器；
-1. 数据准备；
-1. 创建关系图；
-1. 配置数据源，渲染。
+1. Create an HTML container for graph;
+2. Prepare the data;
+3. Instancialize the Graph;
+4. Load the data and render.
 
 
-### Step 1 创建容器
+### Step 1 Create the HTML container
 
-需要在 HTML 中创建一个用于容纳 G6 绘制的图的容器，通常为 `div` 标签。G6 在绘制时会在该容器下追加 `canvas` 标签，然后将图绘制在其中。
+Create an HTML container for graph canvas, `div` tag in general. G6 will append a `canvas` tag to it and draw graph on the `canvas`.
 ```html
 <div id="mountNode"></div>
 ```
 
-### Step 2 数据准备
+### Step 2 Data Preparation
 
-引入 G6 的数据源为 JSON 格式的对象。该对象中需要有节点（`nodes`）和边（`edges`）字段，分别用数组表示：
+The data for G6 should be JSON format, includes array attributes `nodes` and `edges`:
 
 ```javascript
 const data = {
-  // 点集
+  // The array of nodes
   nodes: [{
-    id: 'node1', // String，该节点存在则必须，节点的唯一标识
-    x: 100,      // Number，可选，节点位置的 x 值
-    y: 200       // Number，可选，节点位置的 y 值
+    id: 'node1', // String, unique and required
+    x: 100,      // Number, the x coordinate
+    y: 200       // Number, the y coordinate
   },{
-    id: 'node2', // String，该节点存在则必须，节点的唯一标识
-    x: 300,      // Number，可选，节点位置的 x 值
-    y: 200       // Number，可选，节点位置的 y 值
+    id: 'node2', // String, unique and required
+    x: 300,      // Number, the x coordinate
+    y: 200       // Number, the y coordinate
  }],
-  // 边集
+  // The array of edges
   edges: [{
-    source: 'node1', // String，必须，起始点 id
-    target: 'node2'  // String，必须，目标点 id
+    source: 'node1', // String, required, the id of the source node
+    target: 'node2'  // String, required, the id of the target node
   }]
 };
 ```
 
- 注意 
+⚠️**Attention**
 
-- `nodes` 数组中包含节点对象，唯一的 `id` 是每个节点对象中必要的属性，`x`、 `y` 用于定位；
-- `edges` 数组中包含边对象，`source` 和 target 是每条边的必要属性，分别代表了该边的起始点 `id` 与 目标点 `id`。
-- 点和边的其他属性参见链接：[图元素配置文档](/zh/docs/api/properties/NodeProperties)。
+- `nodes` is an array of nodes, the `id` is unique and required property; the `x` and `y` are coordinates of the node;
+- `edges` is an array of edges, `source` and `target` are required, represent the `id` of the source node and the `id` of the target node respectively.
+- The properties of node and edge are described in [Properties of Nodes](/en/docs/api/properties/NodeProperties) and [Properties of Edges](/en/docs/api/properties/EdgeProperties)
 
 
-### Step 3 创建关系图
+### Step 3 Instantiate the Graph
 
-创建关系图（实例化）时，至少需要为图设置容器、宽和高。
+The container, width, and height are required configurations when instantiate a Graph:
 
 ```javascript
 const graph = new G6.Graph({
-  container: 'mountNode',  // String | HTMLElement，必须，在 Step 1 中创建的容器 id 或容器本身
-  width: 800,              // Number，必须，图的宽度
-  height: 500              // Number，必须，图的高度
+  container: 'mountNode',  // String | HTMLElement, required, the id of DOM element or an HTML node
+  width: 800,              // Number, required, the width of the graph
+  height: 500              // Number, required, the height of the graph
 });
 ```
 
-### Step 4 配置数据源，渲染
+### Step 4 Load the Data and Render
 
 ```javascript
-graph.data(data);  // 读取 Step 2 中的数据源到图上
-graph.render();    // 渲染图
+graph.data(data);  // Load the data defined in Step 2
+graph.render();    // Render the graph
 ```
 
-### 最终的结果
+### The Final Result
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*srtDT5slbN8AAAAAAAAAAABkARQnAQ' width=400>
 
-## 完整代码
+## The Complete Code
 
 ```html
 <!DOCTYPE html>
@@ -121,16 +121,16 @@ graph.render();    // 渲染图
   <title>Tutorial Demo</title>
 </head>
 	<body>
-    /* 图的画布容器 */
+    /* The container of the graph */
     <div id="mountNode"></div>
     
-    /* 引入 G6 */
+    /* Import G6 by CDN */
     <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.0/build/g6.js"></script>
     
     <script>
-      // 定义数据源
+      // Define the source data
       const data = {
-        // 点集
+        // The array of nodes
         nodes: [{
           id: 'node1',
           x: 100,
@@ -140,9 +140,9 @@ graph.render();    // 渲染图
           x: 300,
           y: 200
         }],
-        // 边集
+        // The array of edges
         edges: [
-          // 表示一条从 node1 节点连接到 node2 节点的边
+          // An edge links from node1 to node2
           {
             source: 'node1',
             target: 'node2'
@@ -150,36 +150,36 @@ graph.render();    // 渲染图
         ]
       };
       
-      // 创建 G6 图实例
+      // Instantiate a Graph
       const graph = new G6.Graph({
-        container: 'mountNode', // 指定图画布的容器 id，与第 9 行的容器对应
-        // 画布宽高
+        container: 'mountNode', // The id of the container
+        // The width and height of the graph
         width: 800,
         height: 500
       });
-      // 读取数据
+      // Load the data
       graph.data(data);
-      // 渲染图
+      // Render the graph
       graph.render();
     </script>
   </body>
 </html>
 ```
 
-## React 中使用 G6
-如果你想在 React 中使用 G6 ，可以参考我们提供了的 React 中使用 G6 的 [Demo]。(https://github.com/baizn/g6-in-react)
+## Using G6 with React
+We provide a demo about using G6 with React: [Demo](https://github.com/baizn/g6-in-react).
 
-更多关于 React 中如何使用 G6，请参考[React 中使用 G6 的文档](/zh/docs/manual/middle/g6InReact)，有任何问题都可以通过页面底部的钉钉交流群和我们沟通，也非常欢迎给我们提 [Issues](https://github.com/antvis/g6/issues)。
+For more information about it, please refer to [Using G6 with React](/zh/docs/manual/middle/g6InReact). Welcome the [Issues](https://github.com/antvis/g6/issues)。
 
 
-## 更多
-本章仅仅介绍了如何安装以及最简单的场景，在 G6 Tutorial 中其他的章节中我们会教会你：
+## More
+In this chapter, we only briefly introduce the installation and usage. In G6 Tutorial, you will learn:
 
-- 实例化图时的常见配置；
-- 设置元素（节点/边）属性、样式；
-- 设置布局；
-- 增加交互；
-- 增加动画；
-- 使用辅助组件。
+- Common configurations of Graph;
+- Set the properties and styls for items (node/edge);
+- Configure the layout;
+- Configure the interaction;
+- Configure the animation;
+- The usage of components.
 
-想了解更高阶的功能，请参见 [G6 核心概念](/zh/docs/manual/middle/keyConcept)，[G6 高级指引](/zh/docs/manual/advanced/shape-and-properties)。
+For more advanced functions, please refer to [Key Concepts](/zh/docs/manual/middle/keyConcept) and [Advanced Guides](/zh/docs/manual/advanced/shape-and-properties)。

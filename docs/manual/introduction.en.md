@@ -74,7 +74,7 @@ $ npm install @antv/g6
     ]
   };
   
-  // Instantialize the Graph
+  // Instantiate the Graph
   const graph = new G6.Graph({
     container: 'mountNode', // The container id or HTML node of the graph canvas.
     // The width and the height of graph canvas
