@@ -31,7 +31,7 @@ G6.registerNode(
      */
     draw(cfg, group) {},
     /**
-     * Operations to be excuted after drawing. No operation by default
+     * Operations to be executed after drawing. No operation by default
      * @param  {Object} cfg The configurations of this type of node
      * @param  {G.Group} group The container of this tyep of node
      */
@@ -44,7 +44,7 @@ G6.registerNode(
      */
     update(cfg, node) {},
     /**
-     * Operations to be excuted after updating.
+     * Operations to be executed after updating.
      * @override
      * @param  {Object} cfg The configurations of this type of node
      * @param  {Node} node The node
@@ -94,7 +94,7 @@ G6.registerEdge(
      */
     draw(cfg, group) {},
     /**
-     * Operations to be excuted after drawing. No operation by default
+     * Operations to be executed after drawing. No operation by default
      * @param  {Object} cfg The configurations of this type of edge
      * @param  {G.Group} group The container of this tyep of edge
      */
@@ -107,7 +107,7 @@ G6.registerEdge(
      */
     update(cfg, edge) {},
     /**
-     * Operations to be excuted after updating.
+     * Operations to be executed after updating.
      * @override
      * @param  {Object} cfg The configurations of this type of edge
      * @param  {Edge} edge The edge

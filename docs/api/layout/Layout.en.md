@@ -3,85 +3,86 @@ title: Layout
 order: 0
 ---
 
-在 G6 中使用布局，在实例化图时配置 `layout` 属性。例如：
+Configure the `layout` when instantiate a Graph:
 ```javascript
 const graph = new G6.Graph({
-  ...                      // 其他配置项
-  layout: {                // Object，可选，布局的方法及其配置项，默认为 random 布局。
+  ...                      // Other configurations
+  layout: {                // Object, configuration for layout. random by default
     type: 'force',
     preventOverlap: true,
     nodeSize: 30,
-    ...                    // 其他配置
+    ...                    // Other layout configurations
   }
 });
 ```
 
-每种布局方法的配置项不尽相同，具体参见本目录下每种布局的 API。<br />当实例化图时没有配置 `layout` 时：
+The configurations of each layout algorithms are different. Please refer to corresponding API of layout.
+<br />When `layout` is not assigned on graph:
 
-- 若数据中节点有位置信息（`x` 和 `y`），则按照数据的位置信息进行绘制；
-- 若数据中节点没有位置信息，则默认使用 Random Layout 进行布局。
+- If there are `x` and `y` in node data, the graph will render with these information;
+- If there is no positions information in node data, the graph will arrange nodes with Random Layout by default.
 
-以下方法为自定义布局时可能需要复写的方法。如果非自定义，使用内置布局方法时，以下方法由 G6 控制并调用，用户不需要了解。
+The following functions are used for register a new type of layout. If you are using built-in layouts, you do not need to controll the functions below, which are called by graph automatically.
 
 
-## 初始化
+## Initialize
 
 ### init(data)
-初始化布局。
+Initialize the layout.
 
 
-**参数**
+**Paramter**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | data | object | true | 布局中使用的数据 |
 
 
 
 ### getDefaultCfg()
-返回布局的默认参数。
+Get the default configurations of the layout.
 
-**返回值**
+**Return**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| cfg | object | true | 布局的默认参数 |
+| cfg | object | true | The default configurations |
 
 
 
-## 布局
+## Layout
 
 ### execute()
-执行布局算法。
+Execute the layout.
 
 
 ### layout(data)
-根据传入的数据进行布局。
+Execute layout according to the data.
 
 
-**参数**
+**Paramter**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| data | object | true | 布局中使用的数据 |
+| data | object | true | The data to be arranged |
 
 
 
-## 更新
+## Update
 
 ### updateCfg(cfg)
-更新布局参数。
+Update the configurations for layout.
 
 
-**参数**
+**Paramter**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| cfg | object | true | 新的布局配置 |
+| cfg | object | true | New configurations |
 
 
 
-## 销毁
+## Destroy
 
 ### destroy()
-销毁布局。
+Destroy the layout.

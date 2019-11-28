@@ -2,275 +2,271 @@
 title: TreeGraph
 order: 2
 ---
-## CompactBox 紧凑树布局
+## CompactBox
 
-紧凑盒树布局。这是树图的默认布局，其特点是布局时统合考虑每个树节点的包围盒，由经典的[Reingold–Tilford tidy布局算法](http://emr.cs.iit.edu/~reingold/tidier-drawings.pdf)演进而来，适合于脑图等应用场景。
+CompactBox is the default layout for TreeGraph. It will consider the bounding box of each node when layout. It comes from classical [Reingold–Tilford tidy layout algorithm](http://emr.cs.iit.edu/~reingold/tidier-drawings.pdf).
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z-ESRoHTpvIAAAAAAAAAAABkARQnAQ' width=850 />
 
-### 属性
+### Configuration
 
 #### direction
-**类型**：String<br />**可选值**：'LR' | 'RL' | 'TB' | 'BT' | 'H' | 'V'<br />**默认值**：'LR'<br />**是否必须**：false<br />**说明**：树布局的方向，默认为，其他选项说明
+**Type**: String<br />**Options**: 'LR' | 'RL' | 'TB' | 'BT' | 'H' | 'V'<br />**Default**: 'LR'<br />**Required**: false<br />**Description**: The direction of layout. 
 
-- TB —— 根节点在上，往下布局
+- TB —— Root is on the top, layout from the top to the bottom
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*KrAqTrFbNjMAAAAAAAAAAABkARQnAQ' width=150 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*gBrxRL_fzlMAAAAAAAAAAABkARQnAQ' width=141/>
 
-- BT —— 根节点在下，往上布局
+- BT —— Root is on the bottom, layout from the bottom to the top
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*vNmOTJ4q0uwAAAAAAAAAAABkARQnAQ' width=150 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*WkJeRI-EUBkAAAAAAAAAAABkARQnAQ' width=140/>
 
-- LR —— 根节点在左，往右布局
+- LR —— Root is on the left, layout from the left to the right
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ffD6S74MXw4AAAAAAAAAAABkARQnAQ' width=150 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*BGNcSaWupSUAAAAAAAAAAABkARQnAQ' width=68/>
 
-- RL —— 根节点在右，往左布局
+- RL —— Root is on the right, layout from the right to the left
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*vTg2SJbtj_sAAAAAAAAAAABkARQnAQ' width=60 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*J6JTSa-IID8AAAAAAAAAAABkARQnAQ' width=56/>
 
-- H —— 根节点在中间，水平对称布局
+- H —— Root is on the middle, layout in horizontal symmetry.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0GsIQISvieYAAAAAAAAAAABkARQnAQ' width=100 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5FVzSqlW2H4AAAAAAAAAAABkARQnAQ' width=100/>
 
-- V —— 根节点在中间，垂直对称布局
+- V —— Root is on the middle, layout in vertical symmetry.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*E0c8TIYRPYoAAAAAAAAAAABkARQnAQ' width=100 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZFCiTLwCoAYAAAAAAAAAAABkARQnAQ' width=102/>
 
 
 #### getWidth
-**类型**：Number | Function<br />**示例**：
+**Type**: Number | Function<br />**Example**: 
 ```javascript
 (d) => {
-  // d 是一个节点
+  // d is a node
   if (d.id === 'testId') return 50
   return 100;
 }
 ```
-**是否必须**：false<br />**说明**：每个节点的宽度
+**Required**: false<br />**Description**: The width of each node
 
 
 #### getHeight
-**类型**：Number | Function<br />**示例**：
+**Type**: Number | Function<br />**Example**: 
 ```javascript
 (d) => {
-  // d 是一个节点
+  // d is a node
   if (d.id === 'testId') return 50
   return 100;
 }
 ```
-**是否必须**：false<br />**说明**：每个节点的高度
+**Required**: false<br />**Description**: The height of each node
 
 
 #### getHGap
-**类型**：Number | Function<br />**示例**：
+**Type**: Number | Function<br />**Example**: 
 ```javascript
 (d) => {
-  // d 是一个节点
+  // d is a node
   if (d.id === 'testId') return 50
   return 100;
 }
 ```
-**默认值**：18<br />**是否必须**：false<br />**说明**：每个节点的水平间隙
+**Default**: 18<br />**Required**: false<br />**Description**: The horizontal separation of nodes
 
 
 #### getVGap
-**类型**：Number | Function<br />**示例**：
+**Type**: Number | Function<br />**Example**: 
 ```javascript
 (d) => {
-  // d 是一个节点
+  // d is a node
   if (d.id === 'testId') return 50
   return 100;
 }
 ```
-**默认值**：18<br />**是否必须**：false<br />**说明**：每个节点的垂直间隙
+**Default**: 18<br />**Required**: false<br />**Description**: The vertical separation of nodes
 
 
 #### radial
-**类型**：Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否按照辐射状布局。若 `radial` 为 `true`，建议 `direction` 设置为 `'LR'` 或 `'RL'`：
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: If layout the graph in radial style. If `radial` is `true`, we recommend to set `direction` to `'LR'` or `'RL'`:<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*E0c8TIYRPYoAAAAAAAAAAABkARQnAQ' width=200 />
 
-## Dendrogram 生态树布局
+## Dendrogram
 
-[生态树](https://en.wikipedia.org/wiki/Dendrogram)布局。特点是所有子节点布局在同一层级，适用于表示层次聚类。
+[Dendrogram](https://en.wikipedia.org/wiki/Dendrogram) arranges all the leaves on the same level. It is appropriate for hierarchical clustering.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zX7tSLqBvwcAAAAAAAAAAABkARQnAQ' width=400 />
 
-### 属性
+### Configuration
 
 #### direction
-**类型**：String<br />**可选值**：'LR' | 'RL' | 'TB' | 'BT' | 'H' | 'V'<br />**默认值**：'LR'<br />**是否必须**：false<br />**说明**：树布局的方向，默认为，其他选项说明
+**Type**: String<br />**Options**: 'LR' | 'RL' | 'TB' | 'BT' | 'H' | 'V'<br />**Default**: 'LR'<br />**Required**: false<br />**Description**: The direction of layout. 
 
-- TB —— 根节点在上，往下布局
+- TB —— Root is on the top, layout from the top to the bottom
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*krAnRrLTEnEAAAAAAAAAAABkARQnAQ' width=115 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*B2hvT4yzh7YAAAAAAAAAAABkARQnAQ' width=112/>
 
-- BT —— 根节点在下，往上布局
+- BT —— Root is on the bottom, layout from the bottom to the top
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0HRyS64i7QoAAAAAAAAAAABkARQnAQ' width=115 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*WkJeRI-EUBkAAAAAAAAAAABkARQnAQ' width=115/>
 
-- LR —— 根节点在左，往右布局
+- LR —— Root is on the left, layout from the left to the right
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*T5KZTJdA2OUAAAAAAAAAAABkARQnAQ' width=55 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2lJ5SYrUqhQAAAAAAAAAAABkARQnAQ' width=52/>
 
+- RL —— Root is on the right, layout from the right to the left
 
-- RL —— 根节点在右，往左布局
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*UQlBR6dz8ZoAAAAAAAAAAABkARQnAQ' width=52/>
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*q7QJQ5RbQ5kAAAAAAAAAAABkARQnAQ' width=55 />
+- H —— Root is on the middle, layout in horizontal symmetry.
 
-- H —— 根节点在中间，水平对称布局
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5FVzSqlW2H4AAAAAAAAAAABkARQnAQ' width=83/>
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*tzIfRJ5CuR8AAAAAAAAAAABkARQnAQ' width=85 />
+- V —— Root is on the middle, layout in vertical symmetry.
 
-- V —— 根节点在中间，垂直对称布局
-
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*B9sjToOzCiAAAAAAAAAAAABkARQnAQ' width=115 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZFCiTLwCoAYAAAAAAAAAAABkARQnAQ' width=116/>
 
 
 #### nodeSep
-**类型**：Number<br />**默认值**：0<br />**是否必须**：false<br />**说明**：节点间距
+**Type**: Number<br />**Default**: 0<br />**Required**: false<br />**Description**: Node separation
 
 
 #### rankSep
-**类型**：Number<br />**默认值**：0<br />**是否必须**：false<br />**说明**：层与层之间的间距
+**Type**: Number<br />**Default**: 0<br />**Required**: false<br />**Description**: Level separation
 
 
 #### radial
-**类型**：Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否按照辐射状布局。若 `radial` 为 `true`，建议 `direction` 设置为 `'LR'` 或 `'RL'`：
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Wheter layout the graph in radial style. If `radial` is `true`, we recommend to set `direction` to `'LR'` or `'RL'`:<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*MqFcTLAhXIsAAAAAAAAAAABkARQnAQ' width=171/>
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AhopQI5j-bcAAAAAAAAAAABkARQnAQ' width=175 />
+## Indented
 
-## Indented 缩进树布局
-
-缩进树布局。树节点的层级通过水平方向的缩进量来表示，常用场景是文件目录结构。每个元素会占一行/一列。
+Indented layout represents the hierarchy by indent between them. Each node will take a row/column. It is appropriate for file directory.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NBUzRonaOYMAAAAAAAAAAABkARQnAQ' width=175 />
 
-### 属性
+### Configuration
 
 #### direction
-**类型**：String<br />**可选值**：'LR' | 'RL' | 'H'<br />**默认值**：'LR'<br />**是否必须**：false<br />**说明**：树布局的方向，默认为，其他选项说明
+**Type**: String<br />**Options**: 'LR' | 'RL' | 'H'<br />**Default**: 'LR'<br />**Required**: false<br />**Description**: The direction of layout. 
 
-- LR —— 根节点在左，往右布局（下图左）<br />
-- RL —— 根节点在右，往左布局（下图中）<br />
-- H —— 根节点在中间，水平对称布局（下图右）
+- LR —— Root is on the left, layout from the left to the right(left image below)<br />
+- RL —— Root is on the right, layout from the right to the left(center image below)<br />
+- H —— Root is on the middle, layout in horizontal symmetry(right image below)
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mq6YSIKrAt0AAAAAAAAAAABkARQnAQ' width=110 />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VGEnRbpvxlUAAAAAAAAAAABkARQnAQ' width=90 />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Vek6RqtUXNcAAAAAAAAAAABkARQnAQ' width=160 />
-
-> （左）LR。（中）RL。（右）H。
+> (Left)LR. (Center)RL. (Right)H.
 
 #### indent
-**类型**：Number<br />**默认值**：20<br />**是否必须**：false<br />**说明**：列间间距
+**Type**: Number<br />**Default**: 20<br />**Required**: false<br />**Description**: Colunm separation
 
 #### getWidth
-**类型**：Number | Function<br />**示例**：
+**Type**: Number | Function<br />**Example**: 
 ```javascript
 (d) => {
-  // d 是一个节点
+  // d is a node
   if (d.id === 'testId') return 50
   return 100;
 }
 ```
-**是否必须**：false<br />**说明**：每个节点的宽度
+**Required**: false<br />**Description**: The width of node
 
 #### getHeight
-**类型**：Number | Function<br />**示例**：
+**Type**: Number | Function<br />**Example**: 
 ```javascript
 (d) => {
-  // d 是一个节点
+  // d is a node
   if (d.id === 'testId') return 50
   return 100;
 }
 ```
-**是否必须**：false<br />**说明**：每个节点的高度
+**Required**: false<br />**Description**: The height of node
 
 #### getSide
-**类型**：Function<br />**示例**：
+**Type**: Function<br />**Example**: 
 ```javascript
 (d) => {
-  // d 是一个节点
+  // d is a node
   if (d.id === 'testId') return 'left'
   return 'right';
 }
 ```
-**是否必须**：false<br />**说明**：节点放置在根节点左侧或右侧的回调函数，仅对与根节点直接相连的节点有效，设置后将会影响被设置节点的所有子孙节点。
+**Required**: false<br />**Description**: The callback function of node position(left or right of root node). Only affects the nodes which are connected to the root node directly. And the descendant nodes will be placed according to it.
 
-## Mindmap 脑图树布局
+## Mindmap
 
-深度相同的节点将会被放置在同一层，与 compactBox 不同的是，布局不会考虑节点的大小。
+Mindmap arranged the nodes with same depth on the same level. Different from compactBox, it does not consider the size of nodes while doing layout.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*J1l5RofvbP0AAAAAAAAAAABkARQnAQ' width=350 />
 
-### 属性
+### Configuration
 
 #### direction
-**类型**：String<br />**可选值**：'H' | 'V'<br />**默认值**：'H'<br />**是否必须**：false<br />**说明**：树布局的方向，默认为，其他选项说明
+**Type**: String<br />**Options**: 'H' | 'V'<br />**Default**: 'H'<br />**Required**: false<br />**Description**: The direction of layout. 
 
-- H：horizontal（水平）—— 根节点的子节点分成两部分横向放置在根节点左右两侧
+- H —— Root is on the middle, layout in horizontal symmetry.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*J1l5RofvbP0AAAAAAAAAAABkARQnAQ' width=170 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1v35TYcFO0cAAAAAAAAAAABkARQnAQ' width=170/>
 
-- V：vertical （竖直）—— 将根节点的所有孩子纵向排列
+- V —— Root is on the middle, layout in vertical symmetry.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AD0GTaNT5cQAAAAAAAAAAABkARQnAQ' width=150 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*x-bVTLOD-BcAAAAAAAAAAABkARQnAQ' width=145/>
 
 #### getWidth
-**类型**：Number | Function<br />**示例**：
+**Type**: Number | Function<br />**Example**: 
 ```javascript
 (d) => {
-  // d 是一个节点
+  // d is a node
   if (d.id === 'testId') return 50
   return 100;
 }
 ```
-**是否必须**：false<br />**说明**：每个节点的宽度
+**Required**: false<br />**Description**: The width of node
 
 #### getHeight
-**类型**：Number | Function<br />**示例**：
+**Type**: Number | Function<br />**Example**: 
 ```javascript
 (d) => {
-  // d 是一个节点
+  // d is a node
   if (d.id === 'testId') return 50
   return 100;
 }
 ```
-**是否必须**：false<br />**说明**：每个节点的高度
+**Required**: false<br />**Description**: The height of node
 
 
 #### getHGap
-**类型**：Number | Function<br />**示例**：
+**Type**: Number | Function<br />**Example**: 
 ```javascript
 (d) => {
-  // d 是一个节点
+  // d is a node
   if (d.id === 'testId') return 50
   return 100;
 }
 ```
-**默认值**：18<br />**是否必须**：false<br />**说明**：每个节点的水平间隙
+**Default**: 18<br />**Required**: false<br />**Description**: The horizontal separation of nodes
 
 
 #### getVGap
-**类型**：Number | Function<br />**示例**：
+**Type**: Number | Function<br />**Example**: 
 ```javascript
 (d) => {
-  // d 是一个节点
+  // d is a node
   if (d.id === 'testId') return 50
   return 100;
 }
 ```
-**默认值**：18<br />**是否必须**：false<br />**说明**：每个节点的垂直间隙
+**Default**: 18<br />**Required**: false<br />**Description**: The vertical separation of nodes
 
 
 #### getSide
-**类型**：Function<br />**示例**：
+**Type**: Function<br />**Example**: 
 ```javascript
 (d) => {
-  // d 是一个节点
+  // d is a node
   if (d.id === 'test-child-id') return 'right'
   return 'left';
 }
 ```
-**默认值**：'right'<br />**是否必须**：false<br />**说明**：节点排布在根节点的左侧/右侧。若设置了该值，则所有节点会在根节点同一侧，即 direction = 'H' 不再起效。若该参数为回调函数，则可以指定每一个节点在根节点的左/右侧。
+**Default**: 'right'<br />**Required**: false<br />**Description**: The callback function of node position(left or right of root node). Only affects the nodes which are connected to the root node directly. And the descendant nodes will be placed according to it. 
