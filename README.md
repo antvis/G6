@@ -24,49 +24,66 @@ $ npm install @antv/g6
 
 ## Usage
 
-<img src="https://gw.alipayobjects.com/zos/rmsportal/qSUOQUhnRrHCLvEjhZGP.png" />
+<img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*khbvSrptr0kAAAAAAAAAAABkARQnAQ" width=437 height=148 />
+
 
 ```js
 import G6 from '@antv/g6';
 
 const data = {
-  nodes: [{
-    id: 'node1',
-    x: 100,
-    y: 200
-  },{
-    id: 'node2',
-    x: 300,
-    y: 200
-  }],
-  edges: [{
-    target: 'node2',
-    source: 'node1'
-  }]
+  nodes: [
+    {
+      id: 'node1',
+      label: 'Circle1',
+      x: 150,
+      y: 150
+    },
+    {
+      id: 'node2',
+      label: 'Circle2',
+      x: 400,
+      y: 150
+    }
+  ],
+  edges: [
+    {
+      source: 'node1',
+      target: 'node2'
+    }
+  ]
 };
+
 const graph = new G6.Graph({
-  container: 'mountNode',
+  container: 'container',
   width: 500,
   height: 500,
   defaultNode: {
     shape: 'circle',
+    size: [ 100 ],
+    color: '#5B8FF9',
     style: {
-      fill: '#40a9ff',
-      stroke: '#096dd9'
-    }
-  },
-  nodeStateStyles: {
-    hover: {
+      fill: '#9EC9FF',
       lineWidth: 3
     },
-    select: {
-      lineWidth: 5
+    labelCfg: {
+      style: {
+        fill: '#fff',
+        fontSize: 20
+      }
+    }
+  },
+  defaultEdge: {
+    style: {
+      stroke: '#e2e2e2'
     }
   }
 });
+
 graph.data(data);
 graph.render();
 ```
+
+[![Edit compassionate-lalande-5lxm7](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/compassionate-lalande-5lxm7?fontsize=14&hidenavigation=1&theme=dark)
 
 ## Development
 
