@@ -3,7 +3,7 @@ title: Node
 order: 1
 ---
 
-Node inherit from item. The functions of item are also available for Node.
+Node inherits from item. The functions of Item are also available for Node.
 
 
 ## lock()
@@ -23,7 +23,7 @@ node.lock()
 
 
 ## unlock()
-> New feature of v3.1.4.
+> New feature of V3.1.4.
 
 Unlock the locked node.
 
@@ -37,7 +37,7 @@ node.unlock()
 
 
 ## hasLocked()
-> New feature of v3.1.4.
+> New feature of V3.1.4.
 
 Query the lock state of the node.
 
@@ -57,13 +57,13 @@ const hasLocked = node.hasLocked()
 
 
 ## getEdges()
-Get the related edges of the node.
+Get the related edges (the node is the source or the target of the edge) of the node.
 
 
 **Return**
 
 - The type of return value: Edge[];
-- Return the set of related edge items.
+- Returns the set of related edge items.
 
 
 **Usage**
@@ -74,13 +74,13 @@ const edges = node.getEdges()
 
 
 ## getInEdges()
-Get the related in-edges, whose target node is the item.
+Get the related in-edges, whose target is the node.
 
 
 **Return**
 
 - The type of return value: Edge[];
-- Return the set of related in-edges,
+- Returns the set of related in-edges.
 
 
 **Usage**
@@ -91,13 +91,13 @@ const edges = node.getInEdges()
 
 
 ## getOutEdges()
-Get the related out-edges, whose source node is the item.
+Get the related out-edges, whose source is the node.
 
 
 **Return**
 
 - The type of return value: Edge[];
-- Return the set of related out-edges,
+- Return the set of related out-edges.
 
 
 **Usage**
@@ -139,21 +139,21 @@ const anchor = node.getAnchorPoints()
 
 
 ## getLinkPoint(point)
-Get the nearest anchor point of the item from `point`.
+Get the nearest anchor point of the node to `point`.
 
 
 **Parameters**
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| point | Object | true | A point ouside the node.  |
+| point | Object | true | A point with x and y ouside the node.  |
 
 
 
 **Return**
 
 - The type of return value: object；
-- Return (x, y) of the found anchor point. If there is no anchor point found, return the center of the node.
+- Returns (x, y) of the found anchor point. If there is no anchor point found, returns the center of the node.
 
 
 **Usage**
@@ -162,7 +162,7 @@ const point = {
 	x: 100,
   y: 105
 }
-// Get the anchor point which is the nearest one to the point
+// Get the anchor point which is nearest to the point
 const linkPoint = node.getLinkPoint(point)
 ```
 
@@ -183,7 +183,7 @@ Get the (x, y) of the anchor point with the `index`.
 **Return**
 
 - The type of return value: Object;
-- Return the (x, y) of found anchor point/
+- Returns the (x, y) of found anchor point.
 
 
 **Usage**
@@ -200,7 +200,7 @@ Add the `edge` to the node.
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| edge | Edge | true | The item of Edge. |
+| edge | Edge | true | The item of the edge. |
 
 
 
