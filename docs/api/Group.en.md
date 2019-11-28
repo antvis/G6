@@ -39,7 +39,7 @@ group.addGroup({
 
 
 ### addShape(type, cfgs)
-Add new shape into the group<br />**Attention:** the `clip` and `transform` operations will affect all the shapes in the group. The graphics and their attributes in G are introduced in [Shape](/en/docs/api/Shape)。
+Add new shape into the group<br />⚠️**Attention:** the `clip` and `transform` operations will affect all the shapes in the group. The graphics and their attributes in G are introduced in [Shape](/en/docs/api/Shape)。
 
 
 **Parameters**
