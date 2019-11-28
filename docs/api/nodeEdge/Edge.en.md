@@ -3,11 +3,7 @@ title: Edge
 order: 1
 ---
 
-<<<<<<< HEAD
 Edge inherits from item. The functions of Item are also available for Edge.
-=======
-Edge inherit from item. The functions of item are also available for Edge.
->>>>>>> feat: english version of API
 
 
 ## setSource(source)

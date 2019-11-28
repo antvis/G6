@@ -3,11 +3,7 @@ title: Node
 order: 1
 ---
 
-<<<<<<< HEAD
 Node inherits from item. The functions of Item are also available for Node.
-=======
-Node inherit from item. The functions of item are also available for Node.
->>>>>>> feat: english version of API
 
 
 ## lock()
@@ -27,11 +23,7 @@ node.lock()
 
 
 ## unlock()
-<<<<<<< HEAD
 > New feature of V3.1.4.
-=======
-> New feature of v3.1.4.
->>>>>>> feat: english version of API
 
 Unlock the locked node.
 
@@ -45,11 +37,7 @@ node.unlock()
 
 
 ## hasLocked()
-<<<<<<< HEAD
 > New feature of V3.1.4.
-=======
-> New feature of v3.1.4.
->>>>>>> feat: english version of API
 
 Query the lock state of the node.
 
@@ -69,21 +57,13 @@ const hasLocked = node.hasLocked()
 
 
 ## getEdges()
-<<<<<<< HEAD
 Get the related edges (the node is the source or the target of the edge) of the node.
-=======
-Get the related edges of the node.
->>>>>>> feat: english version of API
 
 
 **Return**
 
 - The type of return value: Edge[];
-<<<<<<< HEAD
 - Returns the set of related edge items.
-=======
-- Return the set of related edge items.
->>>>>>> feat: english version of API
 
 
 **Usage**
@@ -94,21 +74,13 @@ const edges = node.getEdges()
 
 
 ## getInEdges()
-<<<<<<< HEAD
 Get the related in-edges, whose target is the node.
-=======
-Get the related in-edges, whose target node is the item.
->>>>>>> feat: english version of API
 
 
 **Return**
 
 - The type of return value: Edge[];
-<<<<<<< HEAD
 - Returns the set of related in-edges.
-=======
-- Return the set of related in-edges,
->>>>>>> feat: english version of API
 
 
 **Usage**
@@ -119,21 +91,13 @@ const edges = node.getInEdges()
 
 
 ## getOutEdges()
-<<<<<<< HEAD
 Get the related out-edges, whose source is the node.
-=======
-Get the related out-edges, whose source node is the item.
->>>>>>> feat: english version of API
 
 
 **Return**
 
 - The type of return value: Edge[];
-<<<<<<< HEAD
 - Return the set of related out-edges.
-=======
-- Return the set of related out-edges,
->>>>>>> feat: english version of API
 
 
 **Usage**
@@ -175,33 +139,21 @@ const anchor = node.getAnchorPoints()
 
 
 ## getLinkPoint(point)
-<<<<<<< HEAD
 Get the nearest anchor point of the node to `point`.
-=======
-Get the nearest anchor point of the item from `point`.
->>>>>>> feat: english version of API
 
 
 **Parameters**
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-<<<<<<< HEAD
 | point | Object | true | A point with x and y ouside the node.  |
-=======
-| point | Object | true | A point ouside the node.  |
->>>>>>> feat: english version of API
 
 
 
 **Return**
 
 - The type of return value: object；
-<<<<<<< HEAD
 - Returns (x, y) of the found anchor point. If there is no anchor point found, returns the center of the node.
-=======
-- Return (x, y) of the found anchor point. If there is no anchor point found, return the center of the node.
->>>>>>> feat: english version of API
 
 
 **Usage**
@@ -210,11 +162,7 @@ const point = {
 	x: 100,
   y: 105
 }
-<<<<<<< HEAD
 // Get the anchor point which is nearest to the point
-=======
-// Get the anchor point which is the nearest one to the point
->>>>>>> feat: english version of API
 const linkPoint = node.getLinkPoint(point)
 ```
 
@@ -235,11 +183,7 @@ Get the (x, y) of the anchor point with the `index`.
 **Return**
 
 - The type of return value: Object;
-<<<<<<< HEAD
 - Returns the (x, y) of found anchor point.
-=======
-- Return the (x, y) of found anchor point/
->>>>>>> feat: english version of API
 
 
 **Usage**
@@ -256,11 +200,7 @@ Add the `edge` to the node.
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-<<<<<<< HEAD
 | edge | Edge | true | The item of the edge. |
-=======
-| edge | Edge | true | The item of Edge. |
->>>>>>> feat: english version of API
 
 
 
