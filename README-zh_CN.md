@@ -31,9 +31,9 @@ G6 作为一款专业的图可视化引擎，具有以下特性：
 
 除了默认好用、配置自由的内置功能，元素、交互、布局均具有高可扩展的自定义机制。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Y0c6S7cxjVkAAAAAAAAAAABkARQnAQ' width=600 height=200 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Y0c6S7cxjVkAAAAAAAAAAABkARQnAQ' width=800 height=200 />
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Eh7yQ5ddu7MAAAAAAAAAAABkARQnAQ' width=200 height=200/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Eh7yQ5ddu7MAAAAAAAAAAABkARQnAQ' width=400 height=500/>
 
 ## 安装
 
@@ -44,12 +44,13 @@ $ npm install @antv/g6
 ## 使用
 
 <iframe
-     src="https://codesandbox.io/embed/staging-frost-immwl?fontsize=14&hidenavigation=1&theme=dark"
-     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="staging-frost-immwl"
-     allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
-     sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
-   ></iframe>
+    src="https://codesandbox.io/embed/staging-frost-immwl?fontsize=14&hidenavigation=1&theme=dark"
+    style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+    title="staging-frost-immwl"
+    allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
+    sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
+  ></iframe>
+
 
 更多关于 G6 使用的问题，请参考[快速上手](https://antv-g6.gitee.io/zh/docs/manual/getting-started)。
 
