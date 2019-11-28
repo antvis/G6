@@ -14,8 +14,8 @@ When the built-in nodes cannot satisfy your requirments, custom a type of node b
 | Name       | Type   | Required | Description                                                                                                                                                                |
 | -------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | nodeName       | String | true     | The unique name of the custom node.                                                                                                                                     |
-| options        | Object | true     | The configurations of custom node, include functions of complete life cycles. Please refer to[Shape](./Shape)。                                          |
-| extendNodeName | String | false    | Specifies the inherited node type of the custom node. Declare this attribute if you want to extend the built-in nodes. [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode)。 |
+| options        | Object | true     | The configurations of custom node, include functions of complete life cycles. Please refer to [Shape](./Shape)。                                          |
+| extendNodeName | String | false    | Specifies the inherited node type of the custom node. Declare this attribute if you want to extend a built-in node. [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode)。 |
 
 **Usage**
 
@@ -26,7 +26,7 @@ G6.registerNode(
     /**
      * Draw this type of node with label
      * @param  {Object} cfg The configurations of this type of node
-     * @param  {G.Group} group The container of this tyep of node
+     * @param  {G.Group} group The container of this type of node
      * @return {G.Shape} The keyShape of the type of node. The keyShape can be obtained by node.get('keyShape')
      */
     draw(cfg, group) {},
@@ -78,7 +78,7 @@ When the built-in edges cannot satisfy your requirments, custom a type of edge b
 | -------------- | ------ | -------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | edgeName       | String | true     | The unique name of the custom edge.                                                                                                                         |
 | options        | Object | true     | The configurations of custom edge, include functions of complete life cycles. Please refer to [Shape](/zh/docs/api/Shape)。                |
-| extendEdgeName | String | false    | Specifies the inherited node type of the custom node. Declare this attribute if you want to extend the built-in edges. [Built-in Edges](/zh/docs/manual/middle/elements/defaultEdge)。 |
+| extendEdgeName | String | false    | Specifies the inherited node type of the custom node. Declare this attribute if you want to extend the a built-in edge. [Built-in Edges](/zh/docs/manual/middle/elements/defaultEdge)。 |
 
 **Usage**
 
