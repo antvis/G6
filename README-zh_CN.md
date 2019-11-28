@@ -43,7 +43,7 @@ $ npm install @antv/g6
 
 ## 使用
 
-<img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mZA4TLtQw7UAAAAAAAAAAABkARQnAQ" width=600 height=250 />
+<img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*khbvSrptr0kAAAAAAAAAAABkARQnAQ" width=437 height=148 />
 
 
 ```js
@@ -60,7 +60,7 @@ const data = {
     {
       id: 'node2',
       label: 'Circle2',
-      x: 450,
+      x: 400,
       y: 150
     }
   ],
@@ -86,19 +86,9 @@ const graph = new G6.Graph({
     },
     labelCfg: {
       style: {
-        fill: 'red',
-        fontSize: 24
-      },
-      position: 'bottom'
-    },
-    // 节点中icon配置
-    icon: {
-      // 是否显示icon，值为 false 则不渲染icon
-      show: true,
-      // icon的地址，字符串类型
-      img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
-      width: 50,
-      height: 50
+        fill: '#fff',
+        fontSize: 20
+      }
     }
   },
   defaultEdge: {
@@ -112,7 +102,7 @@ graph.data(data);
 graph.render();
 ```
 
-[![在 codesandbox 中打开](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/staging-frost-immwl?fontsize=14&hidenavigation=1&theme=dark)
+[![Edit compassionate-lalande-5lxm7](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/compassionate-lalande-5lxm7?fontsize=14&hidenavigation=1&theme=dark)
 
 更多关于 G6 使用的问题，请参考[快速上手](https://antv-g6.gitee.io/zh/docs/manual/getting-started)。
 
