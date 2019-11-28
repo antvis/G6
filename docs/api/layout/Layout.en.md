@@ -35,7 +35,7 @@ Initialize the layout.
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| data | object | true | 布局中使用的数据 |
+| data | Object | true | 布局中使用的数据 |
 
 
 
@@ -46,7 +46,7 @@ Get the default configurations of the layout.
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| cfg | object | true | The default configurations |
+| cfg | Object | true | The default configurations |
 
 
 
@@ -64,7 +64,7 @@ Execute layout according to the data.
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| data | object | true | The data to be arranged |
+| data | Object | true | The data to be arranged |
 
 
 
@@ -78,7 +78,7 @@ Update the configurations for layout.
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| cfg | object | true | New configurations |
+| cfg | Object | true | New configurations |
 
 
 
