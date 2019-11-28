@@ -5,7 +5,7 @@ order: 5
 
 Behavior is the compound interactions in G6. In general, a Behavior includes one or more event listeners and a set of item operations.
 
-By default, Behavior has three callbacks: `shouldBegin`, `shouldUpdate`, and `shouldEnd`, represent the beginning of the behavior, whether update the items, the ending of the behavior respectively. If the return value is `false`, the default behavior will be prevented.
+By default, Behavior has three callbacks: `shouldBegin`, `shouldUpdate`, and `shouldEnd`, representing the beginning of the behavior, whether update the items, the ending of the behavior respectively. If they return `false`, the default behavior will be prevented.
 
 ## Usage
 ```javascript
@@ -30,7 +30,7 @@ G6.registerBehavior('behaviorName', {
 ```
 
 ## getEvents()
-It is the function to define and handle events when user custom a Behavior.
+Define and handle events when user custom a Behavior.
 
 The usage of `getEvents()` can be refered to [Event](./Event)。
 
@@ -48,7 +48,7 @@ G6.registerBehavior('behaviorName', {
 ```
 
 ## onNodeClick(evt)
-`onNodeClick`, `onEdgeClick`, and `onMouseMove` are custom events for handling `node:click`, `edge:click`, and`mousemove`.
+`onNodeClick`, `onEdgeClick`, and `onMouseMove` are custom events for handling `node:click`, `edge:click`, and `mousemove`.
 
 **Parameters**
 
@@ -56,7 +56,7 @@ G6.registerBehavior('behaviorName', {
 | --- | --- | --- | --- |
 | evt | Event | false | contains event handler, current target, and coordinates. |
 
-**the paramter `evt` contains:**
+**The parameter `evt` contains:**
 
 | Name | Type | Description |
 | --- | --- | --- |
@@ -66,12 +66,12 @@ G6.registerBehavior('behaviorName', {
 | canvasY | Number | y coordinate of the canvas. |
 | clientX | Number | x coordinate of the client / screen. |
 | clientY | Number | y coordinate of the client / screen. |
-| event | MouseEvent | Event handler |
+| event | MouseEvent | Event handler. |
 | target | Shape | The target. |
 | type | String | Operation type. |
 | currentTarget | Object |  |
 | item | Shape | The target item. |
-| removed | Boolean | Whether the target is deleted / destroyed. |
+| removed | Boolean | Whether the target is removed / destroyed. |
 | timeStamp | Number | The time stamp. |
 | bubbles | Boolean | Whether it is a bubbled event. |
 | defaultPrevented | Boolean | Whether prevent the default event. |
@@ -123,7 +123,7 @@ Whether prevent the behavior. Return `true` by default, which means do not preve
 ```javascript
 G6.registerBehavior('behaviorName', {
   shouldBegin() {
-    // Costom it according to the real scenario
+    // Customize it according to your scenario
     return true;
   }
 });

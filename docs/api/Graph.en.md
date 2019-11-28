@@ -43,7 +43,7 @@ The life cycle of an instance of Graph is: Initialize -> Load data -> Render -> 
 | layout | Object |  | Configurations for layout. The `type` in it is the name of layout method with the options: 'random', 'radial', 'mds', 'circular', 'fruchterman', 'force', 'dagre', 'concentric', 'grid'. For more configurations for different layout methods, please refer to  [Layout API](/en/docs/api/layout/Layout) |
 
 
-**Attention**: In G6 3.1, we added two new configurations for graph: `nodeStateStyles` and `edgeStateStyles`. In the same time, we deleted `nodeStyle` and `edgeStyle` . To upgrate, replace `nodeStyle` with `nodeStateStyles`, and replace `edgeStyle` with `edgeStateStyles`, and keep the sub-configuration inside them.
+⚠️**Attention:** In G6 3.1, we added two new configurations for graph: `nodeStateStyles` and `edgeStateStyles`. In the same time, we deleted `nodeStyle` and `edgeStyle` . To upgrate, replace `nodeStyle` with `nodeStateStyles`, and replace `edgeStyle` with `edgeStateStyles`, and keep the sub-configuration inside them.
 
 **Usage**
 
@@ -646,7 +646,7 @@ graph.clearItemStates(node);
 ### node(nodeFn)
 Set the style and other configurations for each node.
 
-Attention: this funcion must **be called before graph.render()**. It does not take effect otherwise.
+⚠️**Attention:** this funcion must **be called before graph.render()**. It does not take effect otherwise.
 
 **Parameters**
 
@@ -674,7 +674,7 @@ graph.render()
 ### edge(edgeFn)
 Set the style and other configurations for each edge.
 
-Attention: this funcion must **be called before graph.render()**. It does not take effect otherwise.
+⚠️**Attention:** this funcion must **be called before graph.render()**. It does not take effect otherwise.
 
 **Parameters**
 
@@ -1065,7 +1065,7 @@ graph.save()
 ### getNodes()
 Get all the node items in the graph.
 
-Attention: it returns the items but not data models.
+⚠️**Attention:** it returns the items but not data models.
 
 **Return**
 
@@ -1081,7 +1081,11 @@ const nodes = graph.getNodes()
 ### getEdges()
 Get all the edge items in the graph.
 
+<<<<<<< HEAD
+⚠️**Attention:** it returns the items but not data models.
+=======
 Attention: it returns the items but not data models.
+>>>>>>> feat: english version of API
 
 **Return**
 

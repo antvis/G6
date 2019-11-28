@@ -14,7 +14,7 @@ redirect_from:
 [![NPM downloads](http://img.shields.io/npm/dm/@antv/g6.svg)](https://npmjs.org/package/@antv/g6)
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/antvis/g6.svg)](http://isitmaintained.com/project/antvis/g6 "Percentage of issues still open")
 
-[English README](https://github.com/antvis/g6)
+[English Introduction](/en/docs/manual/introduction/)
 
 ## 什么是 G6
 [G6](https://github.com/antvis/g6) 是一个图可视化引擎。它提供了图的绘制、布局、分析、交互、动画等图可视化的基础能力。旨在让关系变得透明，简单。让用户获得关系数据的 Insight。
@@ -47,6 +47,7 @@ G6 作为一款专业的图可视化引擎，具有以下特性：
 - [G6 入门教程](/zh/docs/manual/tutorial/preface)
 - [G6 核心概念](/zh/docs/manual/middle/keyConcept)
 - [G6 高级指引](/zh/docs/manual/advanced/shape-and-properties)
+- [API](/zh/docs/api/Graph)
 
 ## 快速上手
 
@@ -77,7 +78,7 @@ G6 作为一款专业的图可视化引擎，具有以下特性：
   
   // 创建 G6 图实例
   const graph = new G6.Graph({
-    container: 'mountNode', // 指定图画布的容器 id，与第 9 行的容器对应
+    container: 'mountNode', // 指定图画布的容器 id
     // 画布宽高
     width: 800,
     height: 500

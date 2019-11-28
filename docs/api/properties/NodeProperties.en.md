@@ -1,21 +1,21 @@
 ---
-title: Attributes of Node
+title: Properties of Node
 order: 0
 ---
 
-### Common Attribute
+### Common Property
 
-**Attribute**
+**Property**
 
 | Name | Description | Remark |
 | --- | --- | --- |
-| fill | The color or gradient color for filling. | The corresponding attribute in canvas is `fillStyle`. |
-| stroke | The color, gradient color, or pattern for stroke. | The corresponding attribute in canvas is `strokeStyle`. |
+| fill | The color or gradient color for filling. | The corresponding property in canvas is `fillStyle`. |
+| stroke | The color, gradient color, or pattern for stroke. | The corresponding property in canvas is `strokeStyle`. |
 | shadowColor | The color for shadow. |  |
 | shadowBlur | The blur level for shadow. | Larger the value, more blur. |
 | shadowOffsetX | The horizontal offset of the shadow. |  |
 | shadowOffsetY | The vertical offset of the shadow. |  |
-| opacity | The opacity (alpha value) of the shape. | The corresponding attribute in canvas is  `globalAlpha`. |
+| opacity | The opacity (alpha value) of the shape. | The corresponding property in canvas is  `globalAlpha`. |
 
 **Usage**
 ```javascript
@@ -33,7 +33,7 @@ group.addShape('rect', {
 
 ### Circle
 
-**Attribute**
+**Property**
 
 | Name | Description | Remark |
 | --- | --- | --- |
@@ -56,7 +56,7 @@ group.addShape('circle', {
 
 ### Ellipse
 
-**Attribute**
+**Property**
 
 | Name | Description | Remark |
 | --- | --- | --- |
@@ -83,7 +83,7 @@ group.addShape('ellipse', {
 
 ### Fan
 
-**Attribute**
+**Property**
 
 | Name | Description | Remark |
 | --- | --- | --- |
@@ -116,7 +116,7 @@ group.addShape('fan', {
 
 ### Image
 
-**Attribute**
+**Property**
 
 | Name | Description | Remark |
 | --- | --- | --- |
@@ -142,7 +142,7 @@ group.addShape('image', {
 
 ### Marker
 
-**Attribute**
+**Property**
 
 | Name | Description | Remark |
 | --- | --- | --- |
@@ -175,7 +175,7 @@ group.addShape('marker', {
 
 ### Polygon
 
-**Attribute**
+**Property**
 
 | Name | Description | Remark |
 | --- | --- | --- |
@@ -196,7 +196,7 @@ group.addShape('polygon', {
 
 ### Rect
 
-**Attribute**
+**Property**
 
 | Name | Description | Remark |
 | --- | --- | --- |

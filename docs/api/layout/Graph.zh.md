@@ -383,11 +383,11 @@ Dagre 是一种层次布局。
 
 
 #### nodesep
-**类型**： Number<br />**默认值**：50<br />**是否必须**：false<br />**说明**：节点间距（px）。在`rankdir` 为 'TB' 或 'BT' 时是节点的水平间距；在`rankdir` 为 'LR' 或 'RL' 时代表节点的竖直方向间距
+**类型**： Number<br />**默认值**：50<br />**是否必须**：false<br />**说明**：节点间距（px）。在`rankdir` 为 `'TB'` 或 `'BT'` 时是节点的水平间距；在`rankdir` 为 `'LR'` 或 `'RL'` 时代表节点的竖直方向间距
 
 
 #### ranksep
-**类型**： Function<br />**默认值**：undefined<br />**是否必须**：false<br />**说明**：层间距（px）。在`rankdir` 为 'TB' 或 'BT' 时是竖直方向相邻层间距；在`rankdir` 为 'LR' 或 'RL' 时代表水平方向相邻层间距
+**类型**： Function<br />**默认值**：undefined<br />**是否必须**：false<br />**说明**：层间距（px）。在`rankdir` 为 `'TB'` 或 `'BT'` 时是竖直方向相邻层间距；在`rankdir` 为 `'LR'` 或 `'RL'` 时代表水平方向相邻层间距
 
 
 #### nodesepFunc
@@ -399,7 +399,7 @@ Dagre 是一种层次布局。
   return 10;
 }
 ```
-<br />**是否必须**：false<br />**说明**：节点水平间距（px）的回调函数，通过该参数可以对不同节点设置不同的节点间距。在`rankdir` 为 'TB' 或 'BT' 时是节点的水平间距；在`rankdir` 为 'LR' 或 'RL' 时代表节点的竖直方向间距。优先级低于 `nodesep`，即若设置了 `nodesep`，则 `nodesepFunc` 不生效
+<br />**是否必须**：false<br />**说明**：节点间距（px）的回调函数，通过该参数可以对不同节点设置不同的节点间距。在`rankdir` 为 'TB' 或 'BT' 时是节点的水平间距；在`rankdir` 为 'LR' 或 'RL' 时代表节点的竖直方向间距。优先级低于 `nodesep`，即若设置了 `nodesep`，则 `nodesepFunc` 不生效
 
 
 #### ranksepFunc
@@ -537,19 +537,19 @@ Grid 布局是将所有节点通过某种指定属性排序后，整齐地放置
 
 
 #### preventOverlapPadding
-**类型**：Number<br />**默认值**：10<br />**是否必须**：false<br />**说明**：避免重叠时节点的间距 padding。preventOverlap 为 true 时生效
+**类型**：Number<br />**默认值**：10<br />**是否必须**：false<br />**说明**：避免重叠时节点的间距 `padding`。`preventOverlap` 为 `true` 时生效
 
 
 #### condense
-**类型**： Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：为 false 时表示利用所有可用画布空间，为 true 时表示利用最小的画布空间
+**类型**： Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：为 `false` 时表示利用所有可用画布空间，为 `true` 时表示利用最小的画布空间
 
 
 #### rows
-**类型**： Number<br />**默认值**：undefined<br />**是否必须**：false<br />**说明**：网格的行数，为 undefined 时算法根据节点数量、布局空间、cals（若指定）自动计算
+**类型**： Number<br />**默认值**：undefined<br />**是否必须**：false<br />**说明**：网格的行数，为 undefined 时算法根据节点数量、布局空间、`cols`（若指定）自动计算
 
 
 #### cols
-**类型**： Number<br />**默认值**：undefined<br />**是否必须**：false<br />**说明**：网格的列数，为 undefined 时算法根据节点数量、布局空间、rows（若指定）自动计算
+**类型**： Number<br />**默认值**：undefined<br />**是否必须**：false<br />**说明**：网格的列数，为 undefined 时算法根据节点数量、布局空间、`rows`（若指定）自动计算
 
 
 #### sortBy

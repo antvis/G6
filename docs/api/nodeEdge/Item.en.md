@@ -25,7 +25,7 @@ Tips: `model` contains:
 | --- | --- | --- | --- |
 | id | String | true | The unique id of the item. |
 | style | Object | false | The style of the item. |
-| shape | String | false | The shape of the item. There is a default shape for edge or node if it is null. |
+| shape | String | false | The shape of the item. The default shape for edge is 'line', the default shape for node is 'circle'. The default shapes will take effect when `shape` is null. |
 | label | String | false | The label of the item. A label will be rendered if it exists. |
 
 
@@ -45,7 +45,7 @@ item.update(model)
 
 
 ### refresh()
-Refresh the item with its positions and style in the item's data model. It will clear the cache in the same time.
+Refresh the item with its positions and style in the item's data model. This operation will clear the cache in the same time.
 
 It is usually called after:
 
@@ -60,14 +60,14 @@ item.refresh()
 
 
 ### updatePosition(cfg)
-Update the position of the item. Call this function for single item to avoid repainting the whole canvas.
+Update the position of the item. We recommend to call this function for single item to avoid repainting the whole canvas.
 
 
 **Parameters**
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| cfg | Object | true | The configurations of the item, including x and y. If there are no x and y in cfg, the x and y value in source data model will be used. |
+| cfg | Object | true | The configurations of the item, including x and y. The x and y value in source data model will take effect if there are no x and y in `cfg`. |
 
 
 
@@ -92,7 +92,7 @@ item.updatePosition(cfg1)
 ## Destroy
 
 ### destroy()
-Destroy an item, including stopping the animation, deleting the items in group, clearing the configurations, setting the `destroyed` to `true`, and so on.
+Destroy an item, including stopping the animation, deleting the items in a group, clearing the configurations, setting the `destroyed` to be `true`, and so on.
 
 
 **Usage**
@@ -104,7 +104,7 @@ item.destroy()
 ## Common Usage
 
 ### getBBox()
-Get the bounding box of the item.
+Get the **bounding box** of the item.
 
 
 **Return**
@@ -117,8 +117,8 @@ The return value includes:
 | --- | --- | --- |
 | x | number | The x coordinate of view port. |
 | y | number | The y coordinate of view port. |
-| width | number | The width of bbox. |
-| height | number | The height of bbox. |
+| width | number | The width of the bbox. |
+| height | number | The height of the bbox. |
 | centerX | number | The x coordinate of the center of the bbox. |
 | centerY | number | The y coordinate of the center of the bbox. |
 
@@ -145,18 +145,18 @@ Get the container of the item.
 // Get the container of the item
 const group = item.getContainer()
 
-// Equal to
+// Equals to
 const group = item.get('group')
 ```
 
 ### getKeyShape()
-Get the keyshape of the item. Keyshape is used for calculating the node size, edge length, and so on.
+Get the key shape of the item. `keyShape` is used for calculating the node size, edge length, and so on.
 
 
 **Return**
 
 - The type of return value: G.Shape;
-- Return the keyShape of the item.
+- Return the `keyShape` of the item.
 
 
 **Usage**
@@ -164,7 +164,7 @@ Get the keyshape of the item. Keyshape is used for calculating the node size, ed
 // Get the keyShape of the item
 const keyShape = item.getKeyShape()
 
-// Equal to
+// Equals to
 const keyShape = item.get('keyShape')
 ```
 
@@ -184,7 +184,7 @@ Get the data model of the item.
 // Get the data model of the item
 const model = item.getModel()
 
-// Equal to
+// Equals to
 const model = item.get('model')
 ```
 
@@ -196,7 +196,7 @@ Get the type of the item.
 **Return**
 
 - The type of return value: String;
-- Return the type of the item. It might be 'node', 'edge'.
+- Return the type of the item. It might be `'node'` or `'edge'`.
 
 
 **Usage**
@@ -204,20 +204,20 @@ Get the type of the item.
 // Get the type of the item
 const type = item.getType()
 
-// Equal to
+// Equals to
 const type = item.get('type')
 ```
 
 
 ### enableCapture(enable)
-Whether enable the item to be picked and its interaction events.
+Whether enable the item to be picked and enable its interaction events.
 
 
 **Parameters**
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| enable | Boolean | true | The flag to enable if it is true. |
+| enable | Boolean | true | The flag to enable if it is `true`. |
 
 
 
@@ -232,7 +232,7 @@ item.enableCapture(true)
 
 
 ### clearCache()
-Clear the cache. It is usually called after update or refresh operation.
+Clear the cache. It is usually called after updating or refreshing operation.
 
 
 **Usage**
@@ -293,7 +293,7 @@ Query the visibility of the item.
 **Return**
 
 - The type of return value: Boolean;
-- If it returns true, means the item is visibile. The item is invisible otherwise.
+- `true` means the item is visibile. The item is invisible otherwise.
 
 
 **Usage**
@@ -330,7 +330,7 @@ Update the state of the item.
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | state | String | true | The state name of the item, e.g. `'selected'`, `'hover'`. |
-| enable | Boolean | true | The flag to enable the state if it is true. |
+| enable | Boolean | true | The flag to enable the state if it is `true`. |
 
 
 
@@ -371,7 +371,7 @@ Get all the states of the item.
 **Return**
 
 - The type of return value: Array;
-- Return an array of strings, which are the states of the item.
+- Returns an array of strings, which are the states of the item.
 
 
 **Usage**
@@ -396,7 +396,7 @@ Query the `state` value of the node.
 **Return**
 
 - The type of return value: Boolean;
-- If the item has the `state`, return `true`. `false` otherwise.
+- Returns `true` if the item has the `state`. `false` otherwise.
 
 
 **Usage**
@@ -440,7 +440,7 @@ Get the keyShape's style of the item.
 **Return**
 
 - The type of return value: Object | undefined;
-- Return the style of the `keyShape` if it exists. Return `undefined` otherwise.
+- Returns the style of the `keyShape` if it exists. Returns `undefined` otherwise.
 
 
 **Usage**
@@ -456,7 +456,7 @@ Get the item's styles of all the states.
 **Return**
 
 - The type of return value: Object；
-- Return the item's styles of all the states.
+- Returns the item's styles of all the states.
 
 
 **Usage**

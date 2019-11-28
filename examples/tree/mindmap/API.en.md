@@ -13,9 +13,9 @@ title: API
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*x-bVTLOD-BcAAAAAAAAAAABkARQnAQ' width=145/>
 
-<a name="MUDRY"></a>
 ## getWidth
 **Type**: Number | Function<br />**Example**: 
+
 ```javascript
 (d) => {
   // d is a node
@@ -23,11 +23,11 @@ title: API
   return 100;
 }
 ```
-**Required**: false<br />**Explanation**: 每个节点的宽度
+**Required**: false<br />**Explanation**: The width of node
 
-<a name="Bvvg1"></a>
 ## getHeight
 **Type**: Number | Function<br />**Example**: 
+
 ```javascript
 (d) => {
   // d is a node
@@ -37,9 +37,9 @@ title: API
 ```
 **Required**: false<br />**Explanation**: The height of node
 
-<a name="c4eUs"></a>
 ## getHGap
 **Type**: Number | Function<br />**Example**: 
+
 ```javascript
 (d) => {
   // d is a node
@@ -49,9 +49,9 @@ title: API
 ```
 **Default**: 18<br />**Required**: false<br />**Explanation**: The horizontal separation of nodes
 
-<a name="G1Yxp"></a>
 ## getVGap
 **Type**: Number | Function<br />**Example**: 
+
 ```javascript
 (d) => {
   // d is a node
@@ -61,9 +61,10 @@ title: API
 ```
 **Default**: 18<br />**Required**: false<br />**Explanation**: The vertical separation of nodes
 
-<a name="NJnDM"></a>
+
 ## getSide
 **Type**: Function<br />**Example**: 
+
 ```javascript
 (d) => {
   // d is a node
