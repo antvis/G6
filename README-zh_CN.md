@@ -35,7 +35,7 @@ G6 作为一款专业的图可视化引擎，具有以下特性：
 
 > 丰富的图元素
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dJT3SIVta6QAAAAAAAAAAABkARQnAQ' width=600 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dJT3SIVta6QAAAAAAAAAAABkARQnAQ' width=800 />
 
 > 强大的布局及动画
 
