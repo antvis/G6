@@ -43,7 +43,10 @@ $ npm install @antv/g6
 
 ## 使用
 
-<img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mZA4TLtQw7UAAAAAAAAAAABkARQnAQ" />
+[![在 codesandbox 中打开](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/staging-frost-immwl?fontsize=14&hidenavigation=1&theme=dark)
+
+<img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mZA4TLtQw7UAAAAAAAAAAABkARQnAQ" width=600 height=200 />
+
 
 ```js
 import G6 from '@antv/g6';
