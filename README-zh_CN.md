@@ -118,10 +118,11 @@ $ npm run test-live
 $ npm run dev
 ```
 
-## G6 文档
-- [G6 入门教程](/zh/docs/manual/tutorial/preface)
-- [G6 核心概念](/zh/docs/manual/middle/keyConcept)
-- [G6 高级指引](/zh/docs/manual/advanced/shape-and-properties)
+## 文档
+- [入门教程](/zh/docs/manual/tutorial/preface)
+- [核心概念](/zh/docs/manual/middle/keyConcept)
+- [高级指引](/zh/docs/manual/advanced/shape-and-properties)
+- [API](/zh/docs/api/Graph)
 
 
 ## G6 图可视化交流群
