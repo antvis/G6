@@ -24,46 +24,70 @@ $ npm install @antv/g6
 
 ## Usage
 
-<img src="https://gw.alipayobjects.com/zos/rmsportal/qSUOQUhnRrHCLvEjhZGP.png" />
+<img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mZA4TLtQw7UAAAAAAAAAAABkARQnAQ" />
 
 ```js
 import G6 from '@antv/g6';
 
 const data = {
-  nodes: [{
-    id: 'node1',
-    x: 100,
-    y: 200
-  },{
-    id: 'node2',
-    x: 300,
-    y: 200
-  }],
-  edges: [{
-    target: 'node2',
-    source: 'node1'
-  }]
+  nodes: [
+    {
+      id: 'node1',
+      label: 'Circle1',
+      x: 150,
+      y: 150
+    },
+    {
+      id: 'node2',
+      label: 'Circle2',
+      x: 450,
+      y: 150
+    }
+  ],
+  edges: [
+    {
+      source: 'node1',
+      target: 'node2'
+    }
+  ]
 };
+
 const graph = new G6.Graph({
-  container: 'mountNode',
+  container: 'container',
   width: 500,
   height: 500,
   defaultNode: {
     shape: 'circle',
+    size: [ 100 ],
+    color: '#5B8FF9',
     style: {
-      fill: '#40a9ff',
-      stroke: '#096dd9'
-    }
-  },
-  nodeStateStyles: {
-    hover: {
+      fill: '#9EC9FF',
       lineWidth: 3
     },
-    select: {
-      lineWidth: 5
+    labelCfg: {
+      style: {
+        fill: 'red',
+        fontSize: 24
+      },
+      position: 'bottom'
+    },
+    // 节点中icon配置
+    icon: {
+      // 是否显示icon，值为 false 则不渲染icon
+      show: true,
+      // icon的地址，字符串类型
+      img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+      width: 50,
+      height: 50
+    }
+  },
+  defaultEdge: {
+    style: {
+      stroke: '#e2e2e2'
     }
   }
 });
+
 graph.data(data);
 graph.render();
 ```

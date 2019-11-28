@@ -43,14 +43,73 @@ $ npm install @antv/g6
 
 ## 使用
 
-<iframe
-    src="https://codesandbox.io/embed/staging-frost-immwl?fontsize=14&hidenavigation=1&theme=dark"
-    style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-    title="staging-frost-immwl"
-    allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
-    sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
-  ></iframe>
+<img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mZA4TLtQw7UAAAAAAAAAAABkARQnAQ" />
 
+```js
+import G6 from '@antv/g6';
+
+const data = {
+  nodes: [
+    {
+      id: 'node1',
+      label: 'Circle1',
+      x: 150,
+      y: 150
+    },
+    {
+      id: 'node2',
+      label: 'Circle2',
+      x: 450,
+      y: 150
+    }
+  ],
+  edges: [
+    {
+      source: 'node1',
+      target: 'node2'
+    }
+  ]
+};
+
+const graph = new G6.Graph({
+  container: 'container',
+  width: 500,
+  height: 500,
+  defaultNode: {
+    shape: 'circle',
+    size: [ 100 ],
+    color: '#5B8FF9',
+    style: {
+      fill: '#9EC9FF',
+      lineWidth: 3
+    },
+    labelCfg: {
+      style: {
+        fill: 'red',
+        fontSize: 24
+      },
+      position: 'bottom'
+    },
+    // 节点中icon配置
+    icon: {
+      // 是否显示icon，值为 false 则不渲染icon
+      show: true,
+      // icon的地址，字符串类型
+      img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+      width: 50,
+      height: 50
+    }
+  },
+  defaultEdge: {
+    style: {
+      stroke: '#e2e2e2'
+    }
+  }
+});
+
+graph.data(data);
+graph.render();
+```
 
 更多关于 G6 使用的问题，请参考[快速上手](https://antv-g6.gitee.io/zh/docs/manual/getting-started)。
 
