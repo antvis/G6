@@ -17,7 +17,7 @@ import {
   isNumber,
   isPlainObject,
   isString,
-  isObject,
+  // isObject,
   wrapBehavior,
   upperFirst,
 } from '@antv/util';
@@ -932,7 +932,7 @@ declare namespace G6 {
     isArray: typeof isArray;
     createDom: typeof createDom;
     modifyCSS: typeof modifyCSS;
-    isObject: typeof isObject;
+    // isObject: typeof isObject;
     isPlainObject: typeof isPlainObject;
     isNumber: typeof isNumber;
     isString: typeof isString;
