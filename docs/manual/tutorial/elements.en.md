@@ -3,7 +3,7 @@ title: Configure the Items
 order: 2
 ---
 
-The items on the graph include `Node` and `Edge`. In the last chapter, we rendered the **Tutorial Demo** with items with rough styles. Now, we are going to beautify the items while introducing the attributes of the items.
+There are `Node` and `Edge` two types of items in a graph. In the last chapter, we rendered the **Tutorial Demo** with items with rough styles. Now, we are going to beautify the items while introducing the attributes of the items.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*46GdQaNFiVIAAAAAAAAAAABkARQnAQ' width=450 height=450 />
 
@@ -12,10 +12,10 @@ The items on the graph include `Node` and `Edge`. In the last chapter, we render
 
 ## Basic Concept
 ### Graph Item
-The items on the graph include `Node` and `Edge`. There are several [Built-in Nodes](../middle/elements/defaultNode) and [Built-in Edges](../middle/elements/defaultEdge) in G6. The main difference between different types of items is their [Graphics Shape](../middle/keyConcept). For example, a node's graphics shape can be a circle, a rect, an image, or others.
+There are `Node` and `Edge` two types of items in a graph. Several [Built-in Nodes](../middle/elements/defaultNode) and [Built-in Edges](../middle/elements/defaultEdge) are provided by G6. The main difference between different types of items is their [Graphics Shape](../middle/keyConcept). For example, a node's graphics shape can be a circle, a rect, an image, or others.
 
 ## Attributes of Item
-The attributes can be categorized into two kinds for nodes or edges:
+The attributes of an item can be be divided into two categories:
 
 - **Style Attribute `style`**: Corresponds to the style in Canvas. When the [State](../middle/states/state) of an item is changed, the style can be updated;
 - **Other Attribute**: Such as graphics `shape`, `id`, they are a kind of attributes that will not be changed when the [State](../middle/states/state) of the item is changed.
