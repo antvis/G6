@@ -56,37 +56,37 @@ Refer to [Mode](/zh/docs/manual/middle/states/mode) and [Behavior](/zh/docs/manu
 
 ### Hover and Click to Change Styles
 
-有时我们希望通过交互可以将元素样式变成特定样式，如我们看到的图 1 中，鼠标 hover 节点、点击节点、点击边时，样式发生了变化。这里涉及到了 G6 中 [状态 State](../middle/states/state) 的概念。简单地说，是否 `hover` 、`click` 、任何操作（可以是自己起的状态名），都可以称为一种状态（state）。用户可以自由设置不同状态下的元素样式。要达到交互更改元素样式，需要两步：
+Sometimes, the styles of the items users interacting on should be updated to make the response. As shown in figure 1, the styles changed when user hover the node, click the node, click the edge. It is achieved by [ State](../middle/states/state). In the other word, whether the item is clicked or hovered can be described as some state. You are able to set the styls for different states by two steps:
 
-- Step 1: 设置各状态下的元素样式；
-- Step 2: 监听事件并切换元素状态
+- Step 1: Set the styles for different states;
+- Step 2: Listen to the relative events and switch the states.
 
-#### 设置各状态下的元素样式
-在实例化图时，通过 `nodeStateStyles` 和 `edgeStateStyles` 两个配置项可以配置元素在不同状态下的样式。<br />为达到 **Tutorial案例** 中的效果：
+#### Set the State Styles
+Set the state styles by `nodeStateStyles` and `edgeStateStyles` for nodes and edges respectively when instantiate a Graph. <br />The requirements in **Tutorial Demo** are:
 
-- 鼠标 hover 节点时，该节点颜色变浅；
-- 点击节点时，该节点边框加粗变黑；
-- 点击边时，该边变成蓝色。
+- The color of the node is changed when mouse hover it;
+- The stroke of the node gets thicker and darker when user clicks it;
+- The edge become blue when user clicks it.
 
-下面代码设置了节点分别在 `hover` 和 `click` 状态为 `true` 时的样式，边在 `click` 状态为 `true` 时的样式：
+The following code set the styles for nodes in the state of `hover` and `click`( = `true`), and the styles for edges in the state of `click` ( = `true`):
 ```javascript
 const graph = new G6.Graph({
-  // ...                           // 其他配置项
-  // 节点不同状态下的样式集合
+  // ...                           // Other configurations
+  // The set of styles of nodes in different states
   nodeStateStyles: {
-    // 鼠标 hover 上节点，即 hover 状态为 true 时的样式
+    // The node style when the state 'hover' is true
     hover: {
       fill: 'lightsteelblue'
     },
-    // 鼠标点击节点，即 click 状态为 true 时的样式
+   // The node style when the state 'click' is true
     click: {
       stroke: '#000',
       lineWidth: 3
     }
   },
-  // 节点不同状态下的样式集合
+  // The edge styles in different states
   edgeStateStyles: {
-    // 鼠标点击边，即 click 状态为 true 时的样式
+    // The edge style when the state 'click' is true
     click: {
       stroke: 'steelblue'
     }
@@ -94,8 +94,8 @@ const graph = new G6.Graph({
 });
 ```
 
-#### 监听事件并切换元素状态
-G6 中所有元素监听都挂载在图实例上，如下代码中的 `graph` 对象是 G6.Graph 的实例，`graph.on()` 函数监听了某元素类型（`node` / `edge`）的某种事件（`click` / `mouseenter` / `mouseleave` / ... 所有事件参见：[Event API](../../api/Event)）。
+#### Listen the Events and Switch the States
+The listeners in G6 are mounted on the instance of Graph. `graph` is the instance of G6.Graph in the following code. `graph.on()` listens the some event (`click` / `mouseenter` / `mouseleave` / ... all the events are collected in: [Event API](../../api/Event)）of some type of item（`node` / `edge`）
 ```javascript
 // add listener on graph
 graph.on('itemType:event', e => {
@@ -132,12 +132,11 @@ graph.on('node:click', e => {
 graph.on('edge:click', e => {
   // Swich the 'click' state of the edge to be false
   const clickEdges = graph.findAllByState('edge', 'click');
-    clickEdges.forEach(ce => {
-      graph.setItemState(ce, 'click', false);
-    });
-    const edgeItem = e.item;  // Get the clicked item
-    graph.setItemState(edgeItem, 'click', true); // Set the state 'click' of the item to be true
+  clickEdges.forEach(ce => {
+    graph.setItemState(ce, 'click', false);
   });
+  const edgeItem = e.item;  // Get the clicked item
+  graph.setItemState(edgeItem, 'click', true); // Set the state 'click' of the item to be true
 });
 ```
 
@@ -183,7 +182,7 @@ graph.on('edge:click', e => {
           lineWidth: 3
         }
       },
-      // 边在各状态下的样式
+      // The edge styles in different states
       edgeStateStyles: {
         // The edge style when the state 'click' is true
         click: {
@@ -249,39 +248,38 @@ graph.on('edge:click', e => {
       graph.data(remoteData);
       graph.render();
 
-      // 监听鼠标进入节点
+      // Mouse enter a node
       graph.on('node:mouseenter', e => {
-        const nodeItem = e.item;
-        // 设置目标节点的 hover 状态 为 true
-        graph.setItemState(nodeItem, 'hover', true);
+        const nodeItem = e.item;  // Get the target item
+        graph.setItemState(nodeItem, 'hover', true);  // Set the state 'hover' of the item to be true
       });
-      // 监听鼠标离开节点
+
+      // Mouse leave a node
       graph.on('node:mouseleave', e => {
-        const nodeItem = e.item;
-        // 设置目标节点的 hover 状态 false
-        graph.setItemState(nodeItem, 'hover', false);
+        const nodeItem = e.item;  // Get the target item
+        graph.setItemState(nodeItem, 'hover', false); // Set the state 'hover' of the item to be false
       });
-      // 监听鼠标点击节点
+
+      // Click a node
       graph.on('node:click', e => {
-        // 先将所有当前有 click 状态的节点的 click 状态置为 false
+        // Swich the 'click' state of the node to be false
         const clickNodes = graph.findAllByState('node', 'click');
         clickNodes.forEach(cn => {
           graph.setItemState(cn, 'click', false);
         });
-        const nodeItem = e.item;
-        // 设置目标节点的 click 状态 为 true
-        graph.setItemState(nodeItem, 'click', true);
+        const nodeItem = e.item;  // et the clicked item
+        graph.setItemState(nodeItem, 'click', true); // Set the state 'click' of the item to be true
       });
-      // 监听鼠标点击节点
+
+      // Click an edge
       graph.on('edge:click', e => {
-        // 先将所有当前有 click 状态的边的 click 状态置为 false
+        // Swich the 'click' state of the edge to be false
         const clickEdges = graph.findAllByState('edge', 'click');
         clickEdges.forEach(ce => {
           graph.setItemState(ce, 'click', false);
         });
-        const edgeItem = e.item;
-        // 设置目标边的 click 状态 为 true
-        graph.setItemState(edgeItem, 'click', true);
+        const edgeItem = e.item;  // Get the clicked item
+        graph.setItemState(edgeItem, 'click', true); // Set the state 'click' of the item to be true
       });
     };
     main();

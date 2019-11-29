@@ -57,7 +57,7 @@ modes: {
 有时我们希望通过交互可以将元素样式变成特定样式，如我们看到的图 1 中，鼠标 hover 节点、点击节点、点击边时，样式发生了变化。这里涉及到了 G6 中 [状态 State](../middle/states/state) 的概念。简单地说，是否 `hover` 、`click` 、任何操作（可以是自己起的状态名），都可以称为一种状态（state）。用户可以自由设置不同状态下的元素样式。要达到交互更改元素样式，需要两步：
 
 - Step 1: 设置各状态下的元素样式；
-- Step 2: 监听事件并切换元素状态
+- Step 2: 监听事件并切换元素状态。
 
 #### 设置各状态下的元素样式
 在实例化图时，通过 `nodeStateStyles` 和 `edgeStateStyles` 两个配置项可以配置元素在不同状态下的样式。<br />为达到 **Tutorial案例** 中的效果：
@@ -82,7 +82,7 @@ const graph = new G6.Graph({
       lineWidth: 3
     }
   },
-  // 节点不同状态下的样式集合
+  // 边不同状态下的样式集合
   edgeStateStyles: {
     // 鼠标点击边，即 click 状态为 true 时的样式
     click: {
@@ -130,12 +130,11 @@ graph.on('node:click', e => {
 graph.on('edge:click', e => {
   // 先将所有当前是 click 状态的边置为非 click 状态
   const clickEdges = graph.findAllByState('edge', 'click');
-    clickEdges.forEach(ce => {
-      graph.setItemState(ce, 'click', false);
-    });
-    const edgeItem = e.item;  // 获取被点击的边元素对象
-    graph.setItemState(edgeItem, 'click', true); // 设置当前边的 click 状态为 true
+  clickEdges.forEach(ce => {
+    graph.setItemState(ce, 'click', false);
   });
+  const edgeItem = e.item;  // 获取被点击的边元素对象
+  graph.setItemState(edgeItem, 'click', true); // 设置当前边的 click 状态为 true
 });
 ```
 
