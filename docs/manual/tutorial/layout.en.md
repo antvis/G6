@@ -3,31 +3,33 @@ title: Utilize Layout
 order: 3
 ---
 
-当数据中没有节点位置信息，或者数据中的位置信息不满足需求时，需要借助一些布局算法对图进行布局。G6 提供了 7 种一般图的布局和 4 种树图的布局：<br />**一般图：**
+When there is no node position information in the data, or the location information does not meet the requirements, layouts in G6 will help you to arrange the nodes. There are 9 layouts for general graph and 4 layouts for tree graph in G6:
 
-- Random Layout：随机布局；
-- **Force Layout：经典力导向布局：**
-> 力导向布局：一个布局网络中，粒子与粒子之间具有引力和斥力，从初始的随机无序的布局不断演变，逐渐趋于平衡稳定的布局方式称之为力导向布局。适用于描述事物间关系，比如人物关系、计算机网络关系等。
+<br />**Layouts for General Graph:**
 
-- Circular Layout：环形布局；
-- Radial Layout：辐射状布局；
-- MDS Layout：高维数据降维算法布局；
-- Fruchterman Layout：Fruchterman 布局，一种力导布局；
-- Dagre Layout：层次布局。
+- Random Layout: Randomizes the node positions;
+- **Force Layout: Classical force-directed layout algorithm:** 
+> In force-directed layout, items are simulated as physical particals with attractive forces and repulsive forces. Lead by the forces, the nodes will move to appropriate positions to balance the forces. It is suitable for describing the relationships between objects, e.g. relationships between person, computer networks.
 
-**树图布局：**
+- Circular Layout: Arranges the nodes on a circle;
+- Radial Layout: Arranges the nodes radially;
+- MDS Layout: Multidimensional scaling;
+- Fruchterman Layout: A kind of force-directed layout;
+- Dagre Layout: Hierarchical layout.
 
-- Dendrogram Layout：树状布局（叶子节点布局对齐到同一层）；
-- CompactBox Layout：紧凑树布局；
-- Mindmap Layout：脑图布局；
-- Intended Layout：缩进布局。
+**Layouts for TreeGraph:**
 
-各种布局方法的具体介绍及其配置参见 [Layout API](/zh/docs/api/Layout)。本教程中，我们使用的是力导向布局 (Force Layout)。
+- Dendrogram Layout;
+- CompactBox Layout;
+- Mindmap Layout;
+- Intended Layout.
+
+For more information about each layout algorithm, please refer to [Layout API](/en/docs/api/Layout). We will utilize Force Layout in the tutorial.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qnUwSZVjYOMAAAAAAAAAAABkARQnAQ' width=550 />
 
-## 取消自动适配画布
-我们在之前的教程里面，为了能够将超出画布的图适配到视野中，在实例化图时使用了 `fitView` 配置项。这节开始我们将会去掉这个特性。因为复杂的布局系统会打破适配的规则，反而会造成更多的困扰。让我们将相关的适配代码变为注释：
+## Turnoff the fitView
+We used `fitView` to fit the graph to the canvas in the previous Tutorial. From now on, we turn it off by note the line of code below to make further improvements. 
 ```javascript
 const graph = new G6.Graph({
   // ...
@@ -36,53 +38,53 @@ const graph = new G6.Graph({
 });
 ```
 
-## 默认布局
-当实例化图时没有配置布局时：
+## Default Layout
+When the `layout` is not assigned to graph instance:
 
-- 若数据中节点有位置信息（`x` 和 `y`），则按照数据的位置信息进行绘制；
-- 若数据中节点没有位置信息，则默认使用 Random Layout 进行布局。
+- If there is position information with `x` and `y` in node data, render with these information;
+- If there is no position information in node data, arrange the nodes with Random Layout by default.
 
-## 配置布局
-G6 使用布局的方式非常简单，在图实例化的时候，加上 layout 配置即可。下面代码在实例化图时设置了布局方法为 `type: 'force'`，即经典力导向图布局。并设置了参数 `preventOverlap: true` ，表示希望节点不重叠。力导向布局的更多配置项参见：[Layout API](/zh/docs/api/Layout)。
+## Configure the Layout
+It is very simple to configure a layout for a graph in G6. Just assign `layout` to the graph when instantiating. The following code configures the layout with `type: 'force'`, which is the classical force-directed layout algorithm. And set `preventOverlap: true` to avoid node overlappings. More configurations are described in: [Layout API](/en/docs/api/Layout)。
 ```javascript
 const graph = new G6.Graph({
-  ...                      // 其他配置项
-  layout: {                // Object，可选，布局的方法及其配置项，默认为 random 布局。
-    type: 'force',         // 指定为力导向布局
-    preventOverlap: true,  // 防止节点重叠
-    // nodeSize: 30        // 节点大小，用于算法中防止节点重叠时的碰撞检测。由于已经在上一节的元素配置中设置了每个节点的 size 属性，则不需要在此设置 nodeSize。
+  ...                      // Other configurations
+  layout: {                // Object, layout configuration. random by default
+    type: 'force',         // Force layout
+    preventOverlap: true,  // Prevent node overlappings
+    // nodeSize: 30        // The size of nodes for collide detection. Since we have assigned sizes for each node to their data in last chapter, the nodeSize here is not required any more.
   }
 });
 ```
 
-结果如下：
+The result:
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*w4ZfRJW3b5YAAAAAAAAAAABkARQnAQ' width=350 />
 
-如图所示，节点按照力导向布局自动平衡。但是图中的节点过于拥挤，边上的文字信息被挤占，无法看清。我们希望布局计算边的距离可以更长一些。G6 的力导向布局提供了 `linkDistance` 属性用来指定布局的时候边的距离长度：
+The layout balances the forces by moving the nodes. But the nodes are too crowded to show the label clearly now. `linkDistance` in the configuration of force layout can be used to scale the edge length to keep a distance between two adjacent nodes:
 ```javascript
 const graph = new G6.Graph({
   // ...
   layout: {
     type: 'force',
     preventOverlap: true,
-    linkDistance: 100 // 指定边距离为100
+    linkDistance: 100 // The link distance is 100
   }
 });
 ```
 
-结果如下：
+The result:
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AXrdQIm3oCIAAAAAAAAAAABkARQnAQ' width=350 />
 <br />![image.png]
 
-> 不同布局之间、相同布局不同参数允许动态切换和过渡，具体参见：[布局切换](../middle/layout)。
+> Transformation between different layouts and configurations are described in: [Layout Transformation](../middle/layout)。
 
 
- 提示 <br />布局将在调用 `graph.render()` 时执行计算。
+**Tips:** <br />The layout algorithm will be executed in `graph.render()`.
 
-## 完整代码
-至此，完整代码如下：
+## Complete Code
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -112,9 +114,9 @@ const graph = new G6.Graph({
       }
     },
     layout: {
-      type: 'force',            // 设置布局算法为 force
-      linkDistance: 100,        // 设置边长为 100
-      preventOverlap: true,     // 设置防止重叠
+      type: 'force',            // Force layout
+      linkDistance: 100,        // The link distance is 100
+      preventOverlap: true,     // Prevent node overlappings
     }
   });
   const main = async () => {
@@ -167,5 +169,5 @@ const graph = new G6.Graph({
 </html>
 ```
 
-**⚠️注意** <br />若需更换数据，请替换 `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` 为新的数据文件地址。
+**⚠️Attention**: <br />Replace the url `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` to change the data into yours.
 

@@ -3,34 +3,34 @@ title: Plugins and Tools
 order: 5
 ---
 
-为辅助用户在图上探索，G6 提供了一些辅助工具，其中一部分是插件工具，另一部分是交互工具。
+To assist user to exploration a graph, G6 provides some tools, including plugins and interaction tools.
 
 
-本文将为 Tutorial案例 添加缩略图插件、网格插件、节点提示框、边提示框。
+Now, we are going to add minimap, grid, node tooltip, and edge tooltip to **Tutorial Demo**.
 
-## 插件
-使用插件时，有三个步骤：<br />  Step 1: 引入插件；<br />  Step 2: 实例化插件；<br />  Step 3: 在实例化图时将插件的实例配置到图上。
+## Plugin
+Apply plugins with three steps:<br />  Step 1: Import the plugin;<br />  Step 2: Instantiate the plugin;<br />  Step 3: Configure plugin onto the instance of Graph.
 
 ### Minimap
-缩略图 (Minimap) 是一种常见的用于快速预览和探索图的工具，可作为导航辅助用户探索大规模图。
+Minimap is a tool for quick preview and exploration on large graph.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*kGesRLgy1CsAAAAAAAAAAABkARQnAQ' width=520  />
 
-现在，我们为 **Tutorial案例** 配置一个 Minimap：
+Now, we are goint to configure a minimap to **Tutorial Demo**.
 
-**预期效果**
+**Expected Effect**
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SI8ZSpcqecgAAAAAAAAAAABkARQnAQ' width=350 />
 
-**使用方法**
+**Usage**
 
-Minimap 是 G6 的插件之一，G6 的插件是一个个独立的包，需要单独引入：
+In G6, Minimap is a plugin, which is packed as independent package. It should be imported as:
 ```html
 <body>
-  <!-- 引入 G6 -->
+  <!-- Import G6 -->
   <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.1/build/g6.js"></script>
   
-  <!-- 引入 Minimap -->
+  <!-- Import Minimap -->
   <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.1/build/minimap.js"></script>
   
   <script>
@@ -39,40 +39,42 @@ Minimap 是 G6 的插件之一，G6 的插件是一个个独立的包，需要�
 </body>
 ```
 
-使用起来非常简单，实例化 Minimap 对象，并将其配置到图实例的插件列表里即可：
+You only need to instantiate it and configure the minimap onto the instance of Graph:
 ```javascript
-// 实例化 minimap 插件
+// Instantiate the Minimap
 const minimap = new Minimap({
   size: [ 100, 100 ],
   className: "minimap",
   type: 'delegate'
 });
 
-// 实例化图
+// Instantiate the Graph
 const graph = new G6.Graph({
-  // ...                           // 其他配置项
-  plugins: [ minimap ]          // 将 minimap 实例配置到图上
+  // ...                           // Other configurations
+  plugins: [ minimap ]             // Configure minimap to the graph
 });
 ```
 
-### Grid 网格
-网格可用于辅助用户在拖拽节点时对齐到网格。
+### Grid
+Grid helps to align the node while user drags it.
 
-**期待效果**
+**Expected Effect**
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*y8u6Rrc78uIAAAAAAAAAAABkARQnAQ' width=300 />
 
-**使用方法首先引入插件**
+**Usage**
+
+Import the plugin:
 
 ```html
 <body>
-  <!-- 引入 G6 -->
+  <!-- Import G6 -->
   <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.1/build/g6.js"></script>
   
-  <!-- 引入 Minimap -->
+  <!-- Import Minimap -->
   <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.1/build/minimap.js"></script>
   
-  <!-- 引入 Grid -->
+  <!-- Import Grid -->
   <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.0/build/grid.js"></script>
   
   <script>
@@ -81,42 +83,44 @@ const graph = new G6.Graph({
 </body>
 ```
 
-实例化插件和配置插件到图上：
+Configure it onto the graph:
 ```javascript
 // const minimap = ...
 
-// 实例化 grid 插件
+// Instantiate grid
 const grid = new Grid();
 
-// 实例化图
+// Instantiate the Graph
 const graph = new G6.Graph({
-  // ...                        // 其他配置项
-  plugins: [ minimap, grid ]    // 将 grid 实例配置到图上
+  // ...                        // Other configurations
+  plugins: [ minimap, grid ]    // Configure grid onto the graph
 });
 ```
 
-## 交互工具
-交互工具是指配置到图上交互模式中的工具。使用交互工具时，有两个步骤：<br />  Step 1: 在实例化图时配置 `modes`；<br />  Step 2: 为交互工具定义样式。
+## Interaction Tool
+Interaction tools assist user interact a graph. Two steps are required:
+<br />  Step 1: Configure `modes` when instantiating a graph;
+<br />  Step 2: Define the styles for the tools.
 
-### tooltip 节点提示框
-节点提示框可以用在节点的详细信息的展示。当鼠标滑过节点时，显示一个浮层告知节点的详细信息。
+### Tooltip for Node
+Node tooltip shows the detail information when mouse enters a node.
 
-**预期效果**
+**Expected Effect**
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v1svQLkEPrUAAAAAAAAAAABkARQnAQ' width=300 />
 
-**使用方法**
+**Usage**
 
-实例化图时配置 `'tooltip'` 到 `modes` 中：
+Configure `'tooltip'` to `modes` when instantiating the Graph:
 ```javascript
 const graph = new G6.Graph({
   modes: {
     default: [
       // ...
       {
-        type: 'tooltip', // 提示框
+        type: 'tooltip', // Tooltip
         formatText(model) {
-          // 提示框文本内容
+          // The content of tooltip
           const text =
                 'label: ' + model.label + '<br/> class: ' + model.class;
           return text;
@@ -127,14 +131,14 @@ const graph = new G6.Graph({
 });
 ```
 
-由于 tooltip 实际上是一个悬浮的 `<div>` 标签，因此可在 HTML 的 `<style>` 标签或 CSS 中设置样式。下面展示在 HTML 中设置样式：
+Actually, tooltip is a floating `<div>` tag of HTML. Thus, you can define the CSS style for it in `<style>` tag:
 ```html
 <head>
   <meta charset="UTF-8" />
   <title>Tutorial Demo</title>
 
   <style>
-    /* 提示框的样式 */
+    /* The style of the tooltip */
     .g6-tooltip {
       border: 1px solid #e2e2e2;
       border-radius: 4px;
@@ -148,13 +152,14 @@ const graph = new G6.Graph({
 </head>
 ```
 
-### edge-tooltip 边提示框
-节点提示框可以用在节点的详细信息的展示。当鼠标滑过边时，显示一个浮层告知边的详细信息。
-**预期效果**
+### Tooltip for Edge
+Edge tooltip shows the detail information when mouse enters a edge.
+
+**Expected Effect**
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Uk10SYFNNi8AAAAAAAAAAABkARQnAQ' width=300 />
 
-**使用方法**
+**Usage**
 
 ```javascript
 const graph = new G6.Graph({
@@ -162,12 +167,12 @@ const graph = new G6.Graph({
     default: [
       // ...
       {
-        type: 'tooltip', // 节点提示框
+        type: 'tooltip', // Node tooltip
         // ...
       },
       {
-        type: 'edge-tooltip',       // 边提示框
-        formatText(model) {         // 边提示框文本内容
+        type: 'edge-tooltip',       // Edge tooltip
+        formatText(model) {         // The content of the edge tooltip
           const text = 'source: ' + model.source
             + '<br/> target: ' + model.target
             + '<br/> weight: ' + model.weight;
@@ -178,9 +183,9 @@ const graph = new G6.Graph({
 });
 ```
 
-与 tooltip 相同，edge-tooltip 是一个悬浮的 `<div>` 标签，可以使用与 tooltip 相同的方法设置其悬浮框的样式。
+The same as node tooltip, edge-tooltip is a floating `<div>` tag in HTML. Thus, you can define the CSS style for it in `<style>` tag:
 
-## 完整代码
-至此，Tutorial-案例 完成，完整代码见：[Tutorial案例代码](https://codepen.io/Yanyan-Wang/pen/mdbYZvZ)。
+## Complete Code
+**Tutorial Demo** is done now. For complete code, see: [Code of Tutorial Demo](https://codepen.io/Yanyan-Wang/pen/mdbYZvZ)。
 
-**⚠️注意** <br />若需更换数据，请替换 `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` 为新的数据文件地址。
+**⚠️Attention**: <br />Replace the url `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` to change the data into yours.

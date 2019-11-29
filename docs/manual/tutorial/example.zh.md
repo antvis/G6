@@ -151,10 +151,10 @@ const graph = new G6.Graph({
 
 | 配置项 | 类型 | 选项 / 示例 | 默认 | 说明 |
 | --- | --- | --- | --- | --- |
-| renderer | String | 'canvas' \| 'svg' | 'canvas' | 绘制图的方式是 canvas 还是 SVG。 |
-| fitView | Boolean | true \| false | false | 是否将图适配到画布大小，可以防止超出画布或留白太多。 |
-| fitViewPadding | Number \| Array | 20 \| [ 20, 40, 50, 20 ] | 0 | 画布上的四周留白宽度。 |
-| animate | Boolean | true \| false | false | 是否启用图的动画。 |
+| renderer | String | 'canvas' / 'svg' | 'canvas' | 绘制图的方式是 canvas 还是 SVG。 |
+| fitView | Boolean | true / false | false | 是否将图适配到画布大小，可以防止超出画布或留白太多。 |
+| fitViewPadding | Number / Array | 20 / [ 20, 40, 50, 20 ] | 0 | 画布上的四周留白宽度。 |
+| animate | Boolean | true / false | false | 是否启用图的动画。 |
 | modes | Object | {<br />  default: [ 'drag-node', 'drag-canvas' ]<br />} | null | 图上行为模式的集合。由于比较复杂，按需参见：[G6 中的 mode](../middle/mode)。 |
 | defaultNode | Object | {<br />  shape: 'circle',<br />  color: '#000',<br />  style: {<br />    ......<br />  }<br />} | null | 节点默认的属性，包括节点的一般属性和样式属性（style）。 |
 | defaultEdge | Object | {<br />  shape: 'polyline',<br />  color: '#000',<br />  style: {<br />    ......<br />  }<br />} | null | 边默认的属性，包括边的一般属性和样式属性（style）。 |

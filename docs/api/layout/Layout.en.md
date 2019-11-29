@@ -3,7 +3,7 @@ title: Layout
 order: 0
 ---
 
-Configure the `layout` when instantiate a Graph:
+Configure the `layout` when instantiating a Graph:
 ```javascript
 const graph = new G6.Graph({
   ...                      // Other configurations

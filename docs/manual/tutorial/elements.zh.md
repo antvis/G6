@@ -34,13 +34,14 @@ order: 2
     positions: 'center',// 标签的属性，标签在元素中的位置
     style: {            // 包裹标签样式属性的字段 style 与标签其他属性在数据结构上并行
       fontSize: 12      // 标签的样式属性，文字字体大小
+      // ...            // 标签的其他样式属性
     }
   }
-  // ...,                  // 其他属性
+  // ...,               // 其他属性
   style: {              // 包裹样式属性的字段 style 与其他属性在数据结构上并行
     fill: '#000',       // 样式属性，元素的填充色
     stroke: '#888',     // 样式属性，元素的描边色
-    // ...                 // 其他样式属性
+    // ...              // 其他样式属性
   }
 }
 ```
@@ -60,7 +61,7 @@ order: 2
 在 G6 中，根据不同的场景需求，有 7 种配置元素属性的方式。这里，我们简单介绍其中的两种：
 
 1. 实例化图时配置元素的全局属性；
-1. 在数据中配置。
+2. 在数据中配置。
 
 ### 1. 实例化图时全局配置
 **适用场景：**所有节点统一的属性配置，所有边统一的属性配置。<br />**使用方式：**使用图的两个配置项：
@@ -68,7 +69,7 @@ order: 2
 - `defaultNode`：节点在默认状态下的**样式属性**（`style`）和**其他属性**；
 - `defaultEdge`：边在默认状态下的**样式属性**（`style`）和**其他属性**。
 
- 注意 ：由于是统一的配置，不能根据数据中的属性（如 `class`、`weight`）等值的不同进行个性化设置，因此只能满足 R1、R2、R3、R4 需求。达到如下效果：
+⚠️**注意：**由于是统一的配置，不能根据数据中的属性（如 `class`、`weight`）等值的不同进行个性化设置，因此只能满足 R1、R2、R3、R4 需求。达到如下效果：
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bufdS75wcmMAAAAAAAAAAABkARQnAQ' width=450 height=450 />
 
@@ -132,7 +133,7 @@ nodes.forEach(node => {
       break;
     }
     case 'c2': {
-      node.shape = 'ellipse';    // class = 'c1' 时节点图形为 ellipse
+      node.shape = 'ellipse';    // class = 'c2' 时节点图形为 ellipse
       node.size = [ 35, 20 ];    // class = 'c2' 时节点大小
       break;
     }

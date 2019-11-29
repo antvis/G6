@@ -3,88 +3,90 @@ title: Interaction Behavior
 order: 4
 ---
 
-G6 封装了一系列交互方法，方便用户直接使用。本文将为 **Tutorial案例** 增加简单的交互：hover 节点、点击节点、点击边、放缩画布、拖拽画布。本节目标效果如下：
+G6 encapsulates a set of interaction behaviors. Now we add simple some behaviors to **Tutorial Demo**: hover node, click node, click edge, drag cavas, zoom canvas. The expected result:
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dijtQ6nB5Y4AAAAAAAAAAABkARQnAQ' width=500 />
 
-<div style="text-align: center;"> 图1 Tutorial案例的交互效果。</div>
+<div style="text-align: center;"> Figure 1 **Tutorial Demo** with interaction behaviors</div>
 
 
-## 基本概念
-### 交互行为 Behavior
-G6 中的交互行为。G6 **内置**了一系列交互行为，用户可以直接使用。简单地理解，就是可以一键开启这些交互行为：
+## Basic Concept
+### Interaction Behavior
+G6 provides several **Built-in** interaction behaviors. You can enable these behaviors conveniently:
 
-- `drag-canvas`：拖拽画布；
-- `zoom-canvas`：缩放画布。
+- `drag-canvas`: enable the canvas to be dragged;
+- `zoom-canvas`: enable the canvas to be zoomed;
 
-更多详见：[交互行为 Behavior](../middle/states/defaultBehavior)
+Refer to [Behavior](../middle/states/defaultBehavior) for more information.
 
 
-### 交互管理 mode
-mode 是 G6 交互行为的管理机制，一个 mode 是多种行为 Behavior 的组合，允许用户通过切换不同的模式进行交互行为的管理。由于该概念较为复杂，在本入门教程中，读者不需要对该机制深入理解。如有需求，参见 [G6 中的 mode](../middle/states/mode)。
+### Mode
+Mode is a mechanism for state management in G6. One mode is a set of several Behaviors. You can assemble different Behaviors to modes. The concept of mode is too complicated to understand for the beginners of G6. You do not need to know it well in this tutorial. For more information, please refer to [Mode](../middle/states/mode).
 
-### 交互状态 State
-[状态 State](../middle/states/state) 是 G6 中的状态机制。用户可以为图中的元素（节点/边）设置不同的状态及不同状态下的样式。在状态发生变化时，G6 自动更新元素的样式。例如，可以为节点设置状态 `'click'` 为 `true` 或 `false`，并为节点设置 `'click'` 的样式为加粗节点边框。当 `'click'` 状态被切换为 `true` 时，节点的边框将会被加粗，`'click'` 状态被切换为 `false` 时，节点的样式恢复到默认。在下面的使用方法中，将会有具体例子。
+### Interaction State
+[State](../middle/states/state) is a mechanism of item state in G6. You can set different item styles for different states. When the state of an item is changed, the style will be updated automatically.
+For example, set the state `'click'` of a node as `true` or `false`, and set the node style of the state `'click'` with thicker stroke. This style will take effect when the state `'click'` is switched to `true`, and restore when `'click'` state is switched to `false`. There will be a specific in the Usage part.
 
-## 使用方法
-### 拖拽、缩放——内置的交互行为
-在 G6 中使用内置 behavior 的方式非常简单，只需要在图实例化时配置 `modes`。拖拽和缩放属于 G6 内置交互行为，修改代码如下：
+## Usage
+### Built-in Behaviors: Drag and Zoom
+Only assign `modes` when instantiating the graph, the corresponding built-in Behaviors will be enabled:
 ```javascript
 const graph = new G6.Graph({
-  // ...                                          // 其他配置项
+  // ...                                          // Other configurations
   modes: {
-    default: [ 'drag-canvas', 'zoom-canvas', 'drag-node' ]  // 允许拖拽画布、放缩画布、拖拽节点
+    default: [ 'drag-canvas', 'zoom-canvas', 'drag-node' ]  // Allow users to drag canvas, zoom canvas, and drag nodes
   }
 });
 ```
 
-除了直接使用内置交互名称外，也可以为 behavior 配置参数，例如放缩画布的敏感度、最大/最小放缩程度等，具体用法参见 [内置的交互 Behavior](../middle/states/defaultBehavior)。
+The code above uses the Behaviors by assigning their types. Besides, you can also configure the parameters for them, e.g. the sensitivity of zooming, max/min zoom ratio. Refer to [Behavior](../middle/states/defaultBehavior) for more detail.
 
-上面代码中的 `modes` 定义了 G6 的模式，`default` 是默认的模式，还可以允许有其他的模式，比如：编辑模式 `edit` 等。不同的模式，用户能进行的行为可以不同，比如默认模式能拖拽画布，编辑模式不允许拖拽画布：
+`modes` object above defines a set of interaction modes of the graph, where `default` is the default mode, which includes `'drag-canvas'`, `'zoom-canvas'`, and `'drag-node'`. You can add more modes with their Behaviors into `modes`, e.g. `edit` mode:
+
 ```javascript
-// 举例解释不同模式
+// Different modes with different Behaviors
 modes: {
   default: ['drag-canvas'],
   edit: []
 }
 ```
 
-更多关于模式、行为可以参考: [交互模型 Mode](/zh/docs/manual/middle/states/mode)和[内置 Behavior](/zh/docs/manual/middle/states/defaultBehavior)。
+Refer to [Mode](/zh/docs/manual/middle/states/mode) and [Behavior](/zh/docs/manual/middle/states/defaultBehavior) for more detail.
 
 
-### Hover、Click 改变样式——状态式交互
+### Hover and Click to Change Styles
 
-有时我们希望通过交互可以将元素样式变成特定样式，如我们看到的图 1 中，鼠标 hover 节点、点击节点、点击边时，样式发生了变化。这里涉及到了 G6 中 [状态 State](../middle/states/state) 的概念。简单地说，是否 `hover` 、`click` 、任何操作（可以是自己起的状态名），都可以称为一种状态（state）。用户可以自由设置不同状态下的元素样式。要达到交互更改元素样式，需要两步：
+Sometimes, the styles of the items interacted by users should be updated to make the response. As shown in figure 1, the styles are changed when user hovers the node, clicks the node, and clicks the edge. It is achieved by [ State](../middle/states/state) mechanism. In the other word, whether the item is clicked or hovered can be described as some states. You are able to set the styles for different states by two steps:
 
-- Step 1: 设置各状态下的元素样式；
-- Step 2: 监听事件并切换元素状态
+- Step 1: Set the styles for different states;
+- Step 2: Listen to the relative events and switch the states.
 
-#### 设置各状态下的元素样式
-在实例化图时，通过 `nodeStateStyles` 和 `edgeStateStyles` 两个配置项可以配置元素在不同状态下的样式。<br />为达到 **Tutorial案例** 中的效果：
+#### Set the State Styles
+Set the state styles by `nodeStateStyles` and `edgeStateStyles` for nodes and edges respectively when instantiating a Graph. <br />The relative requirements in **Tutorial Demo** are:
 
-- 鼠标 hover 节点时，该节点颜色变浅；
-- 点击节点时，该节点边框加粗变黑；
-- 点击边时，该边变成蓝色。
+- The color of the node is changed when mouse hover it;
+- The stroke of the node gets thicker and darker when user clicks it;
+- The edge become blue when user clicks it.
 
-下面代码设置了节点分别在 `hover` 和 `click` 状态为 `true` 时的样式，边在 `click` 状态为 `true` 时的样式：
+The following code sets the styles for nodes in the state of `hover` and `click`( = `true`), and the styles for edges in the state of `click` ( = `true`):
 ```javascript
 const graph = new G6.Graph({
-  // ...                           // 其他配置项
-  // 节点不同状态下的样式集合
+  // ...                           // Other configurations
+  // The set of styles of nodes in different states
   nodeStateStyles: {
-    // 鼠标 hover 上节点，即 hover 状态为 true 时的样式
+    // The node style when the state 'hover' is true
     hover: {
       fill: 'lightsteelblue'
     },
-    // 鼠标点击节点，即 click 状态为 true 时的样式
+   // The node style when the state 'click' is true
     click: {
       stroke: '#000',
       lineWidth: 3
     }
   },
-  // 节点不同状态下的样式集合
+  // The edge styles in different states
   edgeStateStyles: {
-    // 鼠标点击边，即 click 状态为 true 时的样式
+    // The edge style when the state 'click' is true
     click: {
       stroke: 'steelblue'
     }
@@ -92,55 +94,53 @@ const graph = new G6.Graph({
 });
 ```
 
-#### 监听事件并切换元素状态
-G6 中所有元素监听都挂载在图实例上，如下代码中的 `graph` 对象是 G6.Graph 的实例，`graph.on()` 函数监听了某元素类型（`node` / `edge`）的某种事件（`click` / `mouseenter` / `mouseleave` / ... 所有事件参见：[Event API](../../api/Event)）。
+#### Listen to the Events and Switch the States
+The listeners in G6 are mounted on the instance of Graph. `graph` is the instance of G6.Graph in the following code. `graph.on()` listens some event (`click` / `mouseenter` / `mouseleave` / ... all the events are collected in: [Event API](../../api/Event)）of some type of item（`node` / `edge`）
 ```javascript
-// 在图实例 graph 上监听
-graph.on('元素类型:事件名', e => {
+// add listener on graph
+graph.on('itemType:event', e => {
   // do something
 });
 ```
 
-现在，我们通过下面代码，为 **Tutorial案例** 增加点和边上的监听事件，并在监听函数里使用 `graph.setItemState()` 改变元素的状态：
+Now, we add listeners to graph for **Tutorial Demo**, and update the states by `graph.setItemState()`:
 ```javascript
-// 鼠标进入节点
+// Mouse enter a node
 graph.on('node:mouseenter', e => {
-  const nodeItem = e.item;  // 获取鼠标进入的节点元素对象
-  graph.setItemState(nodeItem, 'hover', true);  // 设置当前节点的 hover 状态为 true
+  const nodeItem = e.item;  // Get the target item
+  graph.setItemState(nodeItem, 'hover', true);  // Set the state 'hover' of the item to be true
 });
 
-// 鼠标离开节点
+// Mouse leave a node
 graph.on('node:mouseleave', e => {
-  const nodeItem = e.item;  // 获取鼠标离开的节点元素对象
-  graph.setItemState(nodeItem, 'hover', false); // 设置当前节点的 hover 状态为 false
+  const nodeItem = e.item;  // Get the target item
+  graph.setItemState(nodeItem, 'hover', false); // Set the state 'hover' of the item to be false
 });
 
-// 点击节点
+// Click a node
 graph.on('node:click', e => {
-  // 先将所有当前是 click 状态的节点置为非 click 状态
+  // Swich the 'click' state of the node to be false
   const clickNodes = graph.findAllByState('node', 'click');
   clickNodes.forEach(cn => {
     graph.setItemState(cn, 'click', false);
   });
-  const nodeItem = e.item;  // 获取被点击的节点元素对象
-  graph.setItemState(nodeItem, 'click', true); // 设置当前节点的 click 状态为 true
+  const nodeItem = e.item;  // et the clicked item
+  graph.setItemState(nodeItem, 'click', true); // Set the state 'click' of the item to be true
 });
 
-// 点击边
+// Click an edge
 graph.on('edge:click', e => {
-  // 先将所有当前是 click 状态的边置为非 click 状态
+  // Swich the 'click' state of the edge to be false
   const clickEdges = graph.findAllByState('edge', 'click');
-    clickEdges.forEach(ce => {
-      graph.setItemState(ce, 'click', false);
-    });
-    const edgeItem = e.item;  // 获取被点击的边元素对象
-    graph.setItemState(edgeItem, 'click', true); // 设置当前边的 click 状态为 true
+  clickEdges.forEach(ce => {
+    graph.setItemState(ce, 'click', false);
   });
+  const edgeItem = e.item;  // Get the clicked item
+  graph.setItemState(edgeItem, 'click', true); // Set the state 'click' of the item to be true
 });
 ```
 
-## 完整代码
-至此，完整代码如下：
+## Complete Code
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -156,7 +156,7 @@ graph.on('edge:click', e => {
       container: 'mountNode',
       width: 800,
       height: 600,
-      // 节点默认配置
+      // Default attributes for all the nodes
       defaultNode: {
         labelCfg: {
           style: {
@@ -164,32 +164,32 @@ graph.on('edge:click', e => {
           }
         }
       },
-      // 边默认配置
+      // Default attributes for all the edges
       defaultEdge: {
         labelCfg: {
           autoRotate: true
         }
       },
-      // 节点在各状态下的样式
+      // The node styles in different states
       nodeStateStyles: {
-        // hover 状态为 true 时的样式
+        // The node style when the state 'hover' is true
         hover: {
           fill: 'lightsteelblue'
         },
-        // click 状态为 true 时的样式
+        // The node style when the state 'click' is true
         click: {
           stroke: '#000',
           lineWidth: 3
         }
       },
-      // 边在各状态下的样式
+      // The edge styles in different states
       edgeStateStyles: {
-        // click 状态为 true 时的样式
+        // The edge style when the state 'click' is true
         click: {
           stroke: 'steelblue'
         }
       },
-      // 布局
+      // Layout
       layout: {
         type: 'force',
         linkDistance: 100,
@@ -197,7 +197,7 @@ graph.on('edge:click', e => {
         nodeStrength: -30,
         edgeStrength: 0.1
       },
-      // 内置交互
+      // Built-in Behaviors
       modes: {
         default: [ 'drag-canvas', 'zoom-canvas', 'drag-node' ]
       },
@@ -248,39 +248,38 @@ graph.on('edge:click', e => {
       graph.data(remoteData);
       graph.render();
 
-      // 监听鼠标进入节点
+      // Mouse enter a node
       graph.on('node:mouseenter', e => {
-        const nodeItem = e.item;
-        // 设置目标节点的 hover 状态 为 true
-        graph.setItemState(nodeItem, 'hover', true);
+        const nodeItem = e.item;  // Get the target item
+        graph.setItemState(nodeItem, 'hover', true);  // Set the state 'hover' of the item to be true
       });
-      // 监听鼠标离开节点
+
+      // Mouse leave a node
       graph.on('node:mouseleave', e => {
-        const nodeItem = e.item;
-        // 设置目标节点的 hover 状态 false
-        graph.setItemState(nodeItem, 'hover', false);
+        const nodeItem = e.item;  // Get the target item
+        graph.setItemState(nodeItem, 'hover', false); // Set the state 'hover' of the item to be false
       });
-      // 监听鼠标点击节点
+
+      // Click a node
       graph.on('node:click', e => {
-        // 先将所有当前有 click 状态的节点的 click 状态置为 false
+        // Swich the 'click' state of the node to be false
         const clickNodes = graph.findAllByState('node', 'click');
         clickNodes.forEach(cn => {
           graph.setItemState(cn, 'click', false);
         });
-        const nodeItem = e.item;
-        // 设置目标节点的 click 状态 为 true
-        graph.setItemState(nodeItem, 'click', true);
+        const nodeItem = e.item;  // et the clicked item
+        graph.setItemState(nodeItem, 'click', true); // Set the state 'click' of the item to be true
       });
-      // 监听鼠标点击节点
+
+      // Click an edge
       graph.on('edge:click', e => {
-        // 先将所有当前有 click 状态的边的 click 状态置为 false
+        // Swich the 'click' state of the edge to be false
         const clickEdges = graph.findAllByState('edge', 'click');
         clickEdges.forEach(ce => {
           graph.setItemState(ce, 'click', false);
         });
-        const edgeItem = e.item;
-        // 设置目标边的 click 状态 为 true
-        graph.setItemState(edgeItem, 'click', true);
+        const edgeItem = e.item;  // Get the clicked item
+        graph.setItemState(edgeItem, 'click', true); // Set the state 'click' of the item to be true
       });
     };
     main();
@@ -289,4 +288,4 @@ graph.on('edge:click', e => {
 </html>
 ```
 
-**⚠️注意** <br />若需更换数据，请替换 `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` 为新的数据文件地址。
+**⚠️Attention**: <br />Replace the url `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` to change the data into yours.

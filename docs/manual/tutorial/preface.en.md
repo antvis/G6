@@ -7,15 +7,15 @@ order: 0
 [G6](https://github.com/antvis/g6) is a graph visualization engine, which provides a set of basic mechanisms, including rendering, layout, analysis, interaction, animation, and other auxiliary tools. G6 aims to simplify the complex relationships, and help people to obtain the insight of relational data.
 
 ## Introduction to The Tutorial
-We will build a simple graph visualization during this tutorial. We call this demo **Tutorial demo** in the following tutorial. [Complete Code](https://codepen.io/Yanyan-Wang/pen/mdbYZvZ)。
+We will build a simple graph visualization during this tutorial. We call this demo **Tutorial Demo** in the following Tutorial. [Complete Code](https://codepen.io/Yanyan-Wang/pen/mdbYZvZ)。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YlTVS54xV3EAAAAAAAAAAABkARQnAQ'  width=500 />
 
-<div style="text-align: center;"><b>Tutorial demo</b> result</div>
+<div style="text-align: center;"><b>Tutorial Demo</b> result</div>
 
 
 ## Preface
-This tutorial introduces how to combine creating and rendering a graph, configuring items, layout, interaction, animation, and other tools to complete the final **tutorial demo**. The readers will learn the basic and key concepts of G6 in this tutorial.
+This tutorial introduces how to combine creating and rendering a graph, configuring items, layout, interaction, animation, and other tools to complete the final **Tutorial Demo**. The readers will learn the basic and key concepts of G6 in this tutorial.
 
 There are 6 chapters in this tutorial:
 
@@ -33,9 +33,9 @@ It doesn't matter if you're not familiar with G6. But we’ll assume that you ha
 
 
 ## Setup
-Any code editor will work. We recommend to run this demo in Chrome. In this tutorial, we import G6 V3.1.1 by CDN. We simplified the code to make it easy. For other environments, please refer to the installation part in [Getting Started](../getting-started).
+Any code editor works for this Tutorial. We recommend to run this demo in Chrome. In this tutorial, we import G6 V3.1.1 by CDN. We simplified the code to make it easy. For other environments, please refer to the installation guide in [Getting Started](../getting-started).
 
-New an index.html, and add the code below:
+New an index.html file, and add the code below:
 ```html
 <!DOCTYPE html>
 <html lang="en">

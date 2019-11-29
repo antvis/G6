@@ -7,7 +7,7 @@ G6 封装了一系列交互方法，方便用户直接使用。本文将为 **Tu
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dijtQ6nB5Y4AAAAAAAAAAABkARQnAQ' width=500 />
 
-<div style="text-align: center;"> 图1 Tutorial案例的交互效果。</div>
+<div style="text-align: center;"> 图 1 Tutorial案例的交互效果。</div>
 
 
 ## 基本概念
@@ -20,8 +20,8 @@ G6 中的交互行为。G6 **内置**了一系列交互行为，用户可以直�
 更多详见：[交互行为 Behavior](../middle/states/defaultBehavior)
 
 
-### 交互管理 mode
-mode 是 G6 交互行为的管理机制，一个 mode 是多种行为 Behavior 的组合，允许用户通过切换不同的模式进行交互行为的管理。由于该概念较为复杂，在本入门教程中，读者不需要对该机制深入理解。如有需求，参见 [G6 中的 mode](../middle/states/mode)。
+### 交互管理 Mode
+Mode 是 G6 交互行为的管理机制，一个 mode 是多种行为 Behavior 的组合，允许用户通过切换不同的模式进行交互行为的管理。由于该概念较为复杂，在本入门教程中，读者不需要对该机制深入理解。如有需求，参见 [G6 中的 mode](../middle/states/mode)。
 
 ### 交互状态 State
 [状态 State](../middle/states/state) 是 G6 中的状态机制。用户可以为图中的元素（节点/边）设置不同的状态及不同状态下的样式。在状态发生变化时，G6 自动更新元素的样式。例如，可以为节点设置状态 `'click'` 为 `true` 或 `false`，并为节点设置 `'click'` 的样式为加粗节点边框。当 `'click'` 状态被切换为 `true` 时，节点的边框将会被加粗，`'click'` 状态被切换为 `false` 时，节点的样式恢复到默认。在下面的使用方法中，将会有具体例子。
@@ -57,7 +57,7 @@ modes: {
 有时我们希望通过交互可以将元素样式变成特定样式，如我们看到的图 1 中，鼠标 hover 节点、点击节点、点击边时，样式发生了变化。这里涉及到了 G6 中 [状态 State](../middle/states/state) 的概念。简单地说，是否 `hover` 、`click` 、任何操作（可以是自己起的状态名），都可以称为一种状态（state）。用户可以自由设置不同状态下的元素样式。要达到交互更改元素样式，需要两步：
 
 - Step 1: 设置各状态下的元素样式；
-- Step 2: 监听事件并切换元素状态
+- Step 2: 监听事件并切换元素状态。
 
 #### 设置各状态下的元素样式
 在实例化图时，通过 `nodeStateStyles` 和 `edgeStateStyles` 两个配置项可以配置元素在不同状态下的样式。<br />为达到 **Tutorial案例** 中的效果：
@@ -82,7 +82,7 @@ const graph = new G6.Graph({
       lineWidth: 3
     }
   },
-  // 节点不同状态下的样式集合
+  // 边不同状态下的样式集合
   edgeStateStyles: {
     // 鼠标点击边，即 click 状态为 true 时的样式
     click: {
@@ -130,12 +130,11 @@ graph.on('node:click', e => {
 graph.on('edge:click', e => {
   // 先将所有当前是 click 状态的边置为非 click 状态
   const clickEdges = graph.findAllByState('edge', 'click');
-    clickEdges.forEach(ce => {
-      graph.setItemState(ce, 'click', false);
-    });
-    const edgeItem = e.item;  // 获取被点击的边元素对象
-    graph.setItemState(edgeItem, 'click', true); // 设置当前边的 click 状态为 true
+  clickEdges.forEach(ce => {
+    graph.setItemState(ce, 'click', false);
   });
+  const edgeItem = e.item;  // 获取被点击的边元素对象
+  graph.setItemState(edgeItem, 'click', true); // 设置当前边的 click 状态为 true
 });
 ```
 

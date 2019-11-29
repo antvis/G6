@@ -1,139 +1,145 @@
 ---
-title: Configurations for Items
+title: Configure the Items
 order: 2
 ---
 
-图的元素特指图上的**节点**`Node`和**边**`Edge`。在上一章节中，我们已经将**Tutorial案例**的图绘制了出来，但是各个元素及其 `label` 在视觉上很简陋。本文通过将上一章节中简陋的元素美化成如下效果，介绍元素的属性、配置方法。
+There are `Node` and `Edge` two types of items in a graph. In the last chapter, we rendered the **Tutorial Demo** with items with rough styles. Now, we are going to beautify the items while introducing the attributes of the items.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*46GdQaNFiVIAAAAAAAAAAABkARQnAQ' width=450 height=450 />
 
-> 图 1  元素属性配置后的 **Tutorial案例**。
+> Figure 1  The **Tutorial Demo** with cofigured items.
 
 
-## 基本概念
-### 图的元素
-图的元素特指图上的**节点**`Node`和**边**`Edge`。G6 内置了一系列 [内置的节点](../middle/elements/defaultNode) 和[内置的边](../middle/elements/defaultEdge)，供用户自由选择。G6 不同的内置节点或不同的内置边主要区别在于元素的 [图形Shape](../middle/keyConcept)，例如，节点可以是圆形、矩形、图片等。
+## Basic Concept
+### Graph Item
+There are `Node` and `Edge` two types of items in a graph. Several [Built-in Nodes](../middle/elements/defaultNode) and [Built-in Edges](../middle/elements/defaultEdge) are provided by G6. The main difference between different types of items is their [Graphics Shape](../middle/keyConcept). For example, a node's graphics shape can be a circle, a rect, an image, or others.
 
-## 元素的属性
-不论是节点还是边，它们的属性分为两种：
+## Attributes of Item
+The attributes of an item can be be divided into two categories:
 
-- **样式属性 `style`**：对应 Canvas 中的各种样式，在元素[状态State](../middle/states/state) 发生变化时，可以被改变；
-- **其他属性**：例如图形（ `shape`）、id（`id` ）一类在元素[状态State](../middle/states/state)发生变化时不能被改变的属性。
+- **Style Attribute `style`**: Corresponds to the style in Canvas. When the [State](../middle/states/state) of an item is changed, the style can be updated. It is an object named`style`;
+- **Other Attribute**: Such as graphics `shape`, `id`, they are a kind of attributes that will not be changed when the [State](../middle/states/state) of the item is changed.
 
-例如，G6 设定 hover 或 click 节点，造成节点状态的改变，只能自动改变节点的**样式属性**（如 `fill`、`stroke` 等**）**，**其他属性**（如 `shape` 等）不能被改变。如果需要改变其他属性，要通过 [graph.updateItem](../../api/Graph) 手动配置。**样式属性**是一个名为 `style` 的对象， `style` 字段与其他属性并行。
+For example, When you change the state `'hover'` or `'click'` to `true` for a node A, only the **style attributes** of A can be updated, e.g. `fill`, `stroke`, and so on. The **other attributes** such as `shape` can not be changed. To update the other attributes, configure A by [graph.updateItem](../../api/Graph) manually.
 
-### 数据结构
-以节点元素为例，其属性的数据结构如下：
+### Data Structure
+The data structure of a node:
 ```javascript
 {
-	id: 'node0',          // 元素的 id
-  shape: 'circle',      // 元素的图形
-  size: 40,             // 元素的大小
-  label: 'node0'        // 标签文字
-  labelCfg: {           // 标签配置属性
-    positions: 'center',// 标签的属性，标签在元素中的位置
-    style: {            // 包裹标签样式属性的字段 style 与标签其他属性在数据结构上并行
-      fontSize: 12      // 标签的样式属性，文字字体大小
+	id: 'node0',          // Unique id of the node
+  shape: 'circle',      // The graphics shape of the node
+  size: 40,             // The size
+  label: 'node0'        // The label
+  labelCfg: {           // The configurations for the label
+    positions: 'center',// The relative position of the label
+    style: {            // The style attributes of the label
+      fontSize: 12,     // The font size of the label
+      // ...            // Other style attributes of the label
     }
   }
-  // ...,                  // 其他属性
-  style: {              // 包裹样式属性的字段 style 与其他属性在数据结构上并行
-    fill: '#000',       // 样式属性，元素的填充色
-    stroke: '#888',     // 样式属性，元素的描边色
-    // ...                 // 其他样式属性
+  // ...,               // Other attributes of the node
+  style: {              // The object of style attributes of the node
+    fill: '#000',       // The filling color
+    stroke: '#888',     // The stroke color
+    // ...              // Other styleattribtues of the node
   }
 }
 ```
 
-边元素的属性数据结构与节点元素相似，只是其他属性中多了 `source` 和 `target` 字段，代表起始和终止节点的 `id`。<br />细化在图 1 中 **Tutorial案例** 的视觉需求，我们需要完成：
+The data structure of an edge is similar to node, but two more attributes `source` and `target` in addition, representing the `id` of the source node and the `id` of the target node respectively.
 
-- 视觉效果：
-  - R1: 节点的描边和填充色，对应节点样式属性：`fill`，`stroke`；
-  - R2: 节点上标签文本的颜色，对应节点其他属性：`labelCfg`；
-  - R3: 边的透明度和颜色，对应边样式属性：`opacity`，`stroke`；
-  - R4: 边上标签文本的方向和颜色，对应边其他属性：`labelCfg`；
-- 数据与视觉映射：
-  - R5: 根据数据中节点的 `class` 属性映射节点的形状，对应节点其他属性：`shape`；
-  - R6: 根据数据中边的 `weight` 属性映射边的粗细，对应边样式属性：`lineWidth`。
+<br />We can refine the visual requirements in figure 1 of **Tutorial Demo** into:
 
-## 配置属性
-在 G6 中，根据不同的场景需求，有 7 种配置元素属性的方式。这里，我们简单介绍其中的两种：
+- Visual Effect:
+  - R1: Set the color for stroke and filling for nodes with `fill` and `stroke`;
+  - R2: Set the color for the label with `labelCfg`;
+  - R3: Set the opacity and color for edges with `opacity`，`stroke`;
+  - R4: Set the direction of the label with `labelCfg`;
+- Map the data to visual channels:
+  - R5: Configure the shape of nodes with `shape` according to the property `class` in node data;
+  - R6: Configure the line widht of edges with `lineWidth` according to the property `weight` in edge data.
 
-1. 实例化图时配置元素的全局属性；
-1. 在数据中配置。
+## Configure the Attributes
+To satisfy different scenario, G6 provides 7 ways to configure the attributes for items. Here we will only introduce two of them:
 
-### 1. 实例化图时全局配置
-**适用场景：**所有节点统一的属性配置，所有边统一的属性配置。<br />**使用方式：**使用图的两个配置项：
+1. Configure the global attributes when instantiating a Graph;
+2. Configure the attributes for different items in their data.
 
-- `defaultNode`：节点在默认状态下的**样式属性**（`style`）和**其他属性**；
-- `defaultEdge`：边在默认状态下的**样式属性**（`style`）和**其他属性**。
+### 1. Configure the Global Attributes When Instantiating a Graph
+**Applicable Scene:** Unify the configurations for all the nodes or edges. <br />**Usage:** Configure it with two configurations of graph:
 
- 注意 ：由于是统一的配置，不能根据数据中的属性（如 `class`、`weight`）等值的不同进行个性化设置，因此只能满足 R1、R2、R3、R4 需求。达到如下效果：
+- `defaultNode`: The **Style Attribute** and **Other Attributes** in the default state;
+- `defaultEdge`: The **Style Attribute** and **Other Attributes** in the default state.
+
+⚠️**Attention:** It is a way of unified global configuration, which does not distinguish the nodes with different properties (e.g. `class` and `weight`) in their data. That is to say, only R1, R2, R3, and R4 can be satisfied now:
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bufdS75wcmMAAAAAAAAAAABkARQnAQ' width=450 height=450 />
 
-> 图 2  全局配置元素属性后的 **Tutorial案例**。
+> Figure 2  **Tutorial Demo** with items configured by global configurations.
 
 
-<br />通过如下方式在实例化图时 `defaultNode` 和 `defaultEdge` ，可以完成上图效果：
+<br />Configuer the `defaultNode` and `defaultEdge` for graph to achieve the expected effect: 
 ```javascript
 const graph = new G6.Graph({
-  // ...                   // 图的其他配置
-  // 节点在默认状态下的样式配置（style）和其他配置
+  // ...                   // Other configurations of the graph
+  // The style attributes and other attributes for all the nodes in the default state
   defaultNode:{
-    size: 30,              // 节点大小
-    // ...                 // 节点的其他配置
-    // 节点样式配置
+    size: 30,              // The size of nodes
+    // ...                 // The other attributes
+    // The style attributes of nodes
     style: {               
-      fill: 'steelblue',   // 节点填充色
-      stroke: '#666',      // 节点描边色
-      lineWidth: 1         // 节点描边粗细
+      fill: 'steelblue',   // The filling color of nodes
+      stroke: '#666',      // The stroke color of nodes
+      lineWidth: 1         // The line width of the stroke of nodes
     },
-    // 节点上的标签文本配置
+    // The attributes for label of nodes
     labelCfg: {       
-      // 节点上的标签文本样式配置
+      // The style attributes for the label
       style: {             
-        fill: '#fff'       // 节点标签文字颜色
+        fill: '#fff'       // The color of the text
       }
     }
   },
-  // 边在默认状态下的样式配置（style）和其他配置
+  // The style attributes and other attributes for all the edges in the default state
   defaultEdge: {
-    // ...                 // 边的其他配置
-    // 边样式配置
+    // ...                 // The other attributes
+    // The style attributes of edges
     style: {               
-      opacity: 0.6,        // 边透明度
-      stroke: 'grey'       // 边描边颜色
+      opacity: 0.6,        // The opacity of edges
+      stroke: 'grey'       // The color of the edges
     },
-    // 边上的标签文本配置
+    // The attributes for label of edges
     labelCfg: {            
-      autoRotate: true     // 边上的标签文本根据边的方向旋转
+      autoRotate: true     // Whether rotate the label according to the edges
     }
   },
 });
 ```
 
-### 2. 在数据中配置
-**适用场景：**不同节点/边可以有不同的个性化配置。<br />因此，这种配置方式可以满足 R5、R6 需求。<br />**使用方式：**可以直接将配置写入数据文件；也可以在读入数据后，通过遍历的方式写入配置。这里展示读入数据后，通过遍历的方式写入配置。下面代码展示了如何遍历数据进行属性的配置：
+### 2. Configure the Attributes in Data
+**Applicable Scene:** By this way, you can configure different items according to their properties in data.
+<br />Thus, the R5 and R6 can be satisfied now.
+<br />**Usage:** Write the attributes into each item data, or traverse the data to assign the attributes. Here we show assigning the attrbiutes into data by traversing:
+
 ```javascript
 const nodes = remoteData.nodes;
 nodes.forEach(node => {
   if (!node.style) {
     node.style = {};
   }
-  switch (node.class) {         // 根据节点数据中的 class 属性配置图形
+  switch (node.class) {         // Configure the graphics shape of nodes according to their class
     case 'c0': {
-      node.shape = 'circle';    // class = 'c0' 时节点图形为 circle
+      node.shape = 'circle';    // The graphics shape is circle when class = 'c0'
       break;
     }
     case 'c1': {
-      node.shape = 'rect';       // class = 'c1' 时节点图形为 rect
-      node.size = [ 35, 20 ];    // class = 'c1' 时节点大小
+      node.shape = 'rect';       // The graphics shape is rect when class = 'c1'
+      node.size = [ 35, 20 ];    // The node size when class = 'c1'
       break;
     }
     case 'c2': {
-      node.shape = 'ellipse';    // class = 'c1' 时节点图形为 ellipse
-      node.size = [ 35, 20 ];    // class = 'c2' 时节点大小
+      node.shape = 'ellipse';    // The graphics shape is ellipse when class = 'c2'
+      node.size = [ 35, 20 ];    // The node size when class = 'c2'
       break;
     }
   }
@@ -142,59 +148,59 @@ nodes.forEach(node => {
 graph.data(remoteData);
 ```
 
-运行结果如下：
+The result:
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*JU6xRZLKCjcAAAAAAAAAAABkARQnAQ' width=450 height=450 />
 
-> 图 3
+> Figure 3
 
 
-可以看到，图中有一些节点被渲染成了矩形，还有一些被渲染成了椭圆形。除了设置 shape 属性之外，我们还覆盖了上文全局配置的节点的 size 属性，在矩形和椭圆的情况下，size 是一个数组；而在默认圆形的情况下，G6 仍然会去读全局配置的 size 属性为数字 30。也就是说，动态配置属性让我们既可以根据数据的不同配置不同的属性值，也可以有能力覆盖全局静态的属性值。
+From figure 3, we find some nodes are rendered as rects, some are ellipses. We also set the size to override the size in global configuration. The size is an array when the node is a rect or an ellipse. We did not set the size for circle node, so `size: 30` in global configuration will still take effect for circle node. That is to say, configuring items by writing into data has higher priority than global configurations.
 
-进一步地，我们尝试根据数据的比重不同，配置不一样边的粗细：
+We further set the line widths for edges according to their weight:
 ```javascript
 // const nodes = ...
 
-// 遍历边数据
+// Traverse the egdes data
 const edges = remoteData.edges;
 edges.forEach(edge => {
   if (!edge.style) {
     edge.style = {};
   }
-  edge.style.lineWidth = edge.weight;  // 边的粗细映射边数据中的 weight 属性数值
+  edge.style.lineWidth = edge.weight;  // Mapping the weight in data to lineWidth
 });
 
 graph.data(remoteData);
 ```
 
-结果如下：
+The result: 
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*46GdQaNFiVIAAAAAAAAAAABkARQnAQ' width=450 height=450 />
 
-如图所示，边的粗细已经按照数据的比重成功渲染了出来，但是边原有的样式（透明度、颜色）却丢失了。这是因为我们提到过动态配置属性会覆盖全局配置属性，这里配置了 `style.lineWidth`，导致覆盖了全局的 `style` 对象。解决办法是将被覆盖的边的样式都移到动态配置里面来：
+The line width of the edges takes effect in the figure above. But the opacity and color setted in the global configurations are lost. The reason is that the global `style` object in graph instance is overrided by the second configure method. The solution is move all the styles to the data:
 ```javascript
 const graph = new G6.Graph({
   // ...
   defaultEdge: {
-    // 去掉全局配置的 style
-    labelCfg: {        // 边上的标签文本配置
-      autoRotate: true // 边上的标签文本根据边的方向旋转
+    // Remove the style here
+    labelCfg: {        // The attributes for label of edges
+      autoRotate: true // Whether rotate the label according to the edges
     }
   }
 });
 
-// 遍历点数据
+// Traverse the nodes data
 // const nodes = ...
 // nodes.forEach ...
 
-// 遍历边数据
+// Traverse the egdes data
 const edges = remoteData.edges;
 edges.forEach(edge => {
   if (!edge.style) {
     edge.style = {};
   }
-  edge.style.lineWidth = edge.weight;  // 边的粗细映射边数据中的 weight 属性数值
-  // 移到此处
+  edge.style.lineWidth = edge.weight;  // Mapping the weight in data to lineWidth
+  // The styles are moved to here
   opt.style.opacity = 0.6;
   opt.style.stroke = 'grey';
 });
@@ -203,8 +209,7 @@ graph.data(remoteData);
 graph.render()
 ```
 
-## 完整代码
-至此，完整代码如下：
+## Complete Code
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -285,4 +290,4 @@ graph.render()
 </html>
 ```
 
-**⚠️注意** <br />若需更换数据，请替换 `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` 为新的数据文件地址。
+**⚠️Attention**: <br />Replace the url `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` to change the data into yours.

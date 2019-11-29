@@ -90,7 +90,7 @@ const data = {
 
 ### Step 3 Instantiate the Graph
 
-The container, width, and height are required configurations when instantiate a Graph:
+The container, width, and height are required configurations when instantiating a Graph:
 
 ```javascript
 const graph = new G6.Graph({
