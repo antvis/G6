@@ -1,33 +1,5 @@
 /// <reference path='./g.d.ts' />
-/// <reference path='./antvUtil.d.ts' />
 
-import {
-  deepMix,
-  mix,
-  debounce,
-  each,
-  throttle,
-  isNil,
-  isArray,
-  remove,
-  extend,
-  augment,
-  clone,
-  uniqueId,
-  isNumber,
-  isPlainObject,
-  isString,
-  // isObject,
-  wrapBehavior,
-  upperFirst,
-} from '@antv/util';
-import vec2 from '@antv/util/lib/matrix/vec2';
-import vec3 from '@antv/util/lib/matrix/vec3';
-import mat3 from '@antv/util/lib/matrix/mat3';
-import transform from '@antv/util/lib/matrix/transform';
-import createDom from '@antv/util/lib/dom/create-dom';
-import modifyCSS from '@antv/util/lib/dom/modify-css';
-import addEventListener from '@antv/util/lib/dom/add-event-listener';
 import { G } from './g';
 
 /**
@@ -917,31 +889,6 @@ declare namespace G6 {
    * Util
    */
   interface Util {
-    deepMix: typeof deepMix;
-    mix: typeof mix;
-    debounce: typeof debounce;
-    each: typeof each;
-    throttle: typeof throttle;
-    mat3: typeof mat3;
-    vec2: typeof vec2;
-    vec3: typeof vec3;
-    transform: typeof transform;
-    clone: typeof clone;
-    upperFirst: typeof upperFirst;
-    isNil: typeof isNil;
-    isArray: typeof isArray;
-    createDom: typeof createDom;
-    modifyCSS: typeof modifyCSS;
-    // isObject: typeof isObject;
-    isPlainObject: typeof isPlainObject;
-    isNumber: typeof isNumber;
-    isString: typeof isString;
-    uniqueId: typeof uniqueId;
-    addEventListener: typeof addEventListener;
-    wrapBehavior: typeof wrapBehavior;
-    extend: typeof extend;
-    augment: typeof augment;
-    remove: typeof remove;
 
     /**
      * turn padding into [top, right, bottom, right]
