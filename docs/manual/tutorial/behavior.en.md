@@ -68,7 +68,7 @@ Set the state styles by `nodeStateStyles` and `edgeStateStyles` for nodes and ed
 - The stroke of the node gets thicker and darker when user clicks it;
 - The edge become blue when user clicks it.
 
-The following code set the styles for nodes in the state of `hover` and `click`( = `true`), and the styles for edges in the state of `click` ( = `true`):
+The following code sets the styles for nodes in the state of `hover` and `click`( = `true`), and the styles for edges in the state of `click` ( = `true`):
 ```javascript
 const graph = new G6.Graph({
   // ...                           // Other configurations
@@ -94,8 +94,8 @@ const graph = new G6.Graph({
 });
 ```
 
-#### Listen the Events and Switch the States
-The listeners in G6 are mounted on the instance of Graph. `graph` is the instance of G6.Graph in the following code. `graph.on()` listens the some event (`click` / `mouseenter` / `mouseleave` / ... all the events are collected in: [Event API](../../api/Event)）of some type of item（`node` / `edge`）
+#### Listen to the Events and Switch the States
+The listeners in G6 are mounted on the instance of Graph. `graph` is the instance of G6.Graph in the following code. `graph.on()` listens some event (`click` / `mouseenter` / `mouseleave` / ... all the events are collected in: [Event API](../../api/Event)）of some type of item（`node` / `edge`）
 ```javascript
 // add listener on graph
 graph.on('itemType:event', e => {
