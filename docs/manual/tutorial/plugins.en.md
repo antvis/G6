@@ -3,20 +3,20 @@ title: Plugins and Tools
 order: 5
 ---
 
-To assist user to exploration on graph, G6 provides some tools, including plugins and interaction tools.
+To assist user to exploration a graph, G6 provides some tools, including plugins and interaction tools.
 
 
-Now, we are going to add minimap, grid, node tooltip, and edge tooltip for **Tutorial Demo**.
+Now, we are going to add minimap, grid, node tooltip, and edge tooltip to **Tutorial Demo**.
 
 ## Plugin
-Use plugins with three steps:<br />  Step 1: Import the plugin;<br />  Step 2: Instantiate the plugin;<br />  Step 3: Configure plugin onto the instance of Graph.
+Apply plugins with three steps:<br />  Step 1: Import the plugin;<br />  Step 2: Instantiate the plugin;<br />  Step 3: Configure plugin onto the instance of Graph.
 
 ### Minimap
 Minimap is a tool for quick preview and exploration on large graph.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*kGesRLgy1CsAAAAAAAAAAABkARQnAQ' width=520  />
 
-Now, we configure a minimap to **Tutorial Demo**.
+Now, we are goint to configure a minimap to **Tutorial Demo**.
 
 **Expected Effect**
 
@@ -103,7 +103,7 @@ Interaction tools assist user interact a graph. Two steps are required:
 <br />  Step 2: Define the styles for the tools.
 
 ### Tooltip for Node
-Node tooltip shows the detail information when mouse enter a node.
+Node tooltip shows the detail information when mouse enters a node.
 
 **Expected Effect**
 
@@ -153,7 +153,7 @@ Actually, tooltip is a floating `<div>` tag of HTML. Thus, you can define the CS
 ```
 
 ### Tooltip for Edge
-Edge tooltip shows the detail information when mouse enter a edge.
+Edge tooltip shows the detail information when mouse enters a edge.
 
 **Expected Effect**
 
@@ -186,6 +186,6 @@ const graph = new G6.Graph({
 The same as node tooltip, edge-tooltip is a floating `<div>` tag in HTML. Thus, you can define the CSS style for it in `<style>` tag:
 
 ## Complete Code
-**Tutorial Demo** is done now. For complete coe, see: [Code of Tutorial Demo](https://codepen.io/Yanyan-Wang/pen/mdbYZvZ)。
+**Tutorial Demo** is done now. For complete code, see: [Code of Tutorial Demo](https://codepen.io/Yanyan-Wang/pen/mdbYZvZ)。
 
 **⚠️Attention**: <br />Replace the url `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` to change the data into yours.
