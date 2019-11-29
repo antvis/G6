@@ -83,12 +83,12 @@ Load data and render are two separated steps.
 ```
 
 ### The Result
-After calling `graph.render()` , G6 will render the graph according to the data with Canvas by default. For switching to SVG rendered, configure the `renderer` when instantiate the graph.
+After calling `graph.render()` , G6 will render the graph according to the data with Canvas by default. To switch to SVG rendered, configure the `renderer` when instantiating the graph.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YTfpQYVGhuEAAAAAAAAAAABkARQnAQ' width=400 />
 
 ## Load the Real Data
-We render a graph with two nodes and one edge above which are defined in the code directly. For real scenario, the data might be loaded remotely. We prepare the JSON data for **Tutorial Demo** with the address: <br />`https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json`
+In the above demo, we render a graph with two nodes and one edge defined in the code directly. For real scenario, the data might be loaded remotely. We prepare the JSON data for **Tutorial Demo** with the address: <br />`https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json`
 
 ### Load the Remote Data
 Modify index.html to load remote data asynchronously by `fetch`, and pass it to the instance of G6 Graph:
@@ -113,7 +113,7 @@ We will get the following result with the code above:
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*KzQaSZKIsQoAAAAAAAAAAABkARQnAQ' width=550 height=350 />
 
-The data has been loaded correctly. But the result is a little bit strange since the large amount of nodes and edges. Limited by the size of canvas, part of the graph is arranged out of the view. We are going to solve all these problems.
+The data has been loaded correctly. But the result is a little bit strange due to the large amount of nodes and edges. Limited by the size of canvas, part of the graph is arranged out of the view. We are going to solve all these problems now.
 
 Here goes a part of tutorial-data.json. There are `x` and `y` in node data, and some of them are not in the range of `width: 800, height: 600`.
 
@@ -130,7 +130,7 @@ Here goes a part of tutorial-data.json. There are `x` and `y` in node data, and 
 }
 ```
 
-G6 will render the graph according to the position information in the data once G6 finds `x` and `y` in the data. This mechanism satisfies the requirement that render the source data. To solve the problem of part of the graph is out of the view port, two configurations are provided:
+G6 will render the graph according to the position information in the data once G6 finds `x` and `y` in the data. This mechanism satisfies the requirement that rendering the source data. To solve the problem of the graph out of the view port partially, two configurations are provided:
 
 -  `fitView`: Whether fit the graph to the canvas;
 -  `fitViewPadding`: The padding between the content of the graph and the borders of the canvas.
@@ -144,7 +144,7 @@ const graph = new G6.Graph({
 });
 ```
 
-The result from this code shows that The graph has been fitted to the canvas:
+The result from this code shows that the graph has been fitted to the canvas:
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wAXzRJaNTXUAAAAAAAAAAABkARQnAQ' width=850 />
 
 
@@ -154,10 +154,10 @@ The configurations below will be used in the following Tutorial:
 
 | Name | Type | Options / Example | Default | Description |
 | --- | --- | --- | --- | --- |
-| renderer | String | 'canvas' \| 'svg' | 'canvas' | Render engine of the graph. |
-| fitView | Boolean | true \| false | false | Whether fit the graph to the canvas. |
-| fitViewPadding | Number \| Array | 20 \| [ 20, 40, 50, 20 ] | 0 | The padding between the content of the graph and the borders of the canvas. |
-| animate | Boolean | true \| false | false | Whether activate the global animation. |
+| renderer | String | 'canvas' / 'svg' | 'canvas' | Render engine of the graph. |
+| fitView | Boolean | true / false | false | Whether fit the graph to the canvas. |
+| fitViewPadding | Number / Array | 20 / [ 20, 40, 50, 20 ] | 0 | The padding between the content of the graph and the borders of the canvas. |
+| animate | Boolean | true / false | false | Whether activate the global animation. |
 | modes | Object | {<br />  default: [ 'drag-node', 'drag-canvas' ]<br />} | null | The set of graph interaction modes. This is a complicated concept, refer to [Mode](../middle/mode) for more detial. |
 | defaultNode | Object | {<br />  shape: 'circle',<br />  color: '#000',<br />  style: {<br />    ......<br />  }<br />} | null | The default global attributes for nodes, includes styles attributes and other attributes. |
 | defaultEdge | Object | {<br />  shape: 'polyline',<br />  color: '#000',<br />  style: {<br />    ......<br />  }<br />} | null | The default global attributes for edges, includes styles attributes and other attributes. |

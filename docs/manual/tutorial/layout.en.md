@@ -9,7 +9,7 @@ When there is no node position information in the data, or the location informat
 
 - Random Layout: Randomize the node positions;
 - **Force Layout: Classical force-directed layout algorithm:** 
-> In force-directed layout, items are simulated as physical particals with attractive force and repulsive force. Lead by the forces, the nodes will move to appropriate positions to balance the forces. It is suitable to describe the relationships between objects, e.g. relationships between person, computer networks.
+> In force-directed layout, items are simulated as physical particals with attractive forces and repulsive forces. Lead by the forces, the nodes will move to appropriate positions to balance the forces. It is suitable for describing the relationships between objects, e.g. relationships between person, computer networks.
 
 - Circular Layout: Arrange the nodes on a circle;
 - Radial Layout: Arrange the nodes radially;
