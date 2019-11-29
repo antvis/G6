@@ -3,30 +3,32 @@ title: Utilize Layout
 order: 3
 ---
 
-当数据中没有节点位置信息，或者数据中的位置信息不满足需求时，需要借助一些布局算法对图进行布局。G6 提供了 7 种一般图的布局和 4 种树图的布局：<br />**一般图：**
+When there is no node position information in the data, or the location information does not meet the requirements, layouts in G6 will help you to arrange the nodes. There are 9 layouts for general graph and 4 layouts for tree graph in G6:
 
-- Random Layout：随机布局；
-- **Force Layout：经典力导向布局：**
-> 力导向布局：一个布局网络中，粒子与粒子之间具有引力和斥力，从初始的随机无序的布局不断演变，逐渐趋于平衡稳定的布局方式称之为力导向布局。适用于描述事物间关系，比如人物关系、计算机网络关系等。
+<br />**Layouts for General Graph:**
 
-- Circular Layout：环形布局；
-- Radial Layout：辐射状布局；
-- MDS Layout：高维数据降维算法布局；
-- Fruchterman Layout：Fruchterman 布局，一种力导布局；
-- Dagre Layout：层次布局。
+- Random Layout: Randomize the node positions;
+- **Force Layout: Classical force-directed layout algorithm:** 
+> In force-directed layout, items are simulated as physical particals with attractive force and repulsive force. Lead by the forces, the nodes will move to appropriate positions to balance the forces. It is suitable to describe the relationships between objects, e.g. relationships between person, computer networks.
 
-**树图布局：**
+- Circular Layout: Arrange the nodes on a circle;
+- Radial Layout: Arrange the nodes radially;
+- MDS Layout: Multidimensional scaling;
+- Fruchterman Layout: A kind of force-directed layout;
+- Dagre Layout: Hierarchical layout.
 
-- Dendrogram Layout：树状布局（叶子节点布局对齐到同一层）；
-- CompactBox Layout：紧凑树布局；
-- Mindmap Layout：脑图布局；
-- Intended Layout：缩进布局。
+**Layouts for TreeGraph:**
 
-各种布局方法的具体介绍及其配置参见 [Layout API](/zh/docs/api/Layout)。本教程中，我们使用的是力导向布局 (Force Layout)。
+- Dendrogram Layout;
+- CompactBox Layout;
+- Mindmap Layout;
+- Intended Layout.
+
+For more information about each layout algorithm, please refer to [Layout API](/en/docs/api/Layout). We will utilize Force Layout in the tutorial.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qnUwSZVjYOMAAAAAAAAAAABkARQnAQ' width=550 />
 
-## 取消自动适配画布
+## Enable the fitView
 我们在之前的教程里面，为了能够将超出画布的图适配到视野中，在实例化图时使用了 `fitView` 配置项。这节开始我们将会去掉这个特性。因为复杂的布局系统会打破适配的规则，反而会造成更多的困扰。让我们将相关的适配代码变为注释：
 ```javascript
 const graph = new G6.Graph({
