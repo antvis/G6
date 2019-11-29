@@ -7,12 +7,12 @@ When there is no node position information in the data, or the location informat
 
 <br />**Layouts for General Graph:**
 
-- Random Layout: Randomize the node positions;
+- Random Layout: Randomizes the node positions;
 - **Force Layout: Classical force-directed layout algorithm:** 
 > In force-directed layout, items are simulated as physical particals with attractive forces and repulsive forces. Lead by the forces, the nodes will move to appropriate positions to balance the forces. It is suitable for describing the relationships between objects, e.g. relationships between person, computer networks.
 
-- Circular Layout: Arrange the nodes on a circle;
-- Radial Layout: Arrange the nodes radially;
+- Circular Layout: Arranges the nodes on a circle;
+- Radial Layout: Arranges the nodes radially;
 - MDS Layout: Multidimensional scaling;
 - Fruchterman Layout: A kind of force-directed layout;
 - Dagre Layout: Hierarchical layout.
@@ -29,7 +29,7 @@ For more information about each layout algorithm, please refer to [Layout API](/
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qnUwSZVjYOMAAAAAAAAAAABkARQnAQ' width=550 />
 
 ## Turnoff the fitView
-We used `fitView` to fit the graph to the canvas in the previous tutorial. From now on, we turn it off by note the line of code below to make further improvement. 
+We used `fitView` to fit the graph to the canvas in the previous Tutorial. From now on, we turn it off by note the line of code below to make further improvements. 
 ```javascript
 const graph = new G6.Graph({
   // ...
@@ -41,11 +41,11 @@ const graph = new G6.Graph({
 ## Default Layout
 When the `layout` is not assigned to graph instance:
 
-- If there is position information with `x` and `y` in node data, render with this information;
+- If there is position information with `x` and `y` in node data, render with these information;
 - If there is no position information in node data, arrange the nodes with Random Layout by default.
 
 ## Configure the Layout
-It is very simple to configure a layout for a graph in G6. Just assign `layout` to the graph when instantiating.. The following code configure the layout with `type: 'force'`, which is the classical force-directed layout algorithm. And set `preventOverlap: true` to avoid node overlappings. More configurations are described in: [Layout API](/en/docs/api/Layout)。
+It is very simple to configure a layout for a graph in G6. Just assign `layout` to the graph when instantiating. The following code configures the layout with `type: 'force'`, which is the classical force-directed layout algorithm. And set `preventOverlap: true` to avoid node overlappings. More configurations are described in: [Layout API](/en/docs/api/Layout)。
 ```javascript
 const graph = new G6.Graph({
   ...                      // Other configurations
@@ -61,7 +61,7 @@ The result:
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*w4ZfRJW3b5YAAAAAAAAAAABkARQnAQ' width=350 />
 
-The layout balance the forces by moving the nodes. But the nodes are too crowded to show the label clearly. `linkDistance` in the configuration of force layout can be used to scale the edge length to keep a distance between two adjacent nodes:
+The layout balances the forces by moving the nodes. But the nodes are too crowded to show the label clearly now. `linkDistance` in the configuration of force layout can be used to scale the edge length to keep a distance between two adjacent nodes:
 ```javascript
 const graph = new G6.Graph({
   // ...
@@ -78,7 +78,7 @@ The result:
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AXrdQIm3oCIAAAAAAAAAAABkARQnAQ' width=350 />
 <br />![image.png]
 
-> Transformation between different layouts, configurations are described in: [Layout Transformation](../middle/layout)。
+> Transformation between different layouts and configurations are described in: [Layout Transformation](../middle/layout)。
 
 
 **Tips:** <br />The layout algorithm will be executed in `graph.render()`.
