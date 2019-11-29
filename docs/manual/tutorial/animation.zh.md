@@ -22,7 +22,7 @@ G6 的全局动画指通过图实例进行操作时，产生的动画效果。�
 ```javascript
 const graph = new G6.Graph({
   // ...                      // 其他配置项
-  animate: true            // Boolean，可选，切换布局时是否使用动画过度
+  animate: true            // Boolean，可选，全局变化时否使用动画过度
 });
 ```
 

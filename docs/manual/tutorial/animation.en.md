@@ -3,33 +3,33 @@ title: Animation*
 order: 6
 ---
 
-由于动画机制较为复杂，我们未在 Tutorial-案例 中增加动画。本文简单描述了 G6 中的动画，希望快速上手的用户可以跳过本文，希望深入了解的用户可参见：[基础动画](../advanced/animation)。
+The animation mechanism is too complicated to beginners and out of the scope of the tutorial. In this chapter, we only introduce the animation in G6 briefly. For more information, please refer to [Basic Animation](../advanced/animation).
 
-G6 的动画分为两个层次：
+There are two levels of animation in G6:
 
-- 图全局动画：图整体变化时的动画过渡；
-- 元素动画：节点和边的动画效果。
+- GLobal animation: Transform the graph when the changes are global;
+- Item animation: The animation on a node or an edge.
 
-## 全局动画
-G6 的全局动画指通过图实例进行操作时，产生的动画效果。例如：
+## Global Animation
+The global animation is controlled by Graph instance. It takes effect when some global changes happen, such as:
 
 - `graph.updateLayout(cfg)`
 
-通过实例化图时配置 `animate: true`，可以达到每次进行上述操作时，动画效果变化的目的。
+Configure `animate: true` when instantiating a graph to achieve it.
 
-**例子**
+**Example**
 
 ```javascript
 const graph = new G6.Graph({
-  // ...                      // 其他配置项
-  animate: true            // Boolean，可选，切换布局时是否使用动画过度
+  // ...                      // Other configurations
+  animate: true            // Boolean, whether activate the animation when global changes happen
 });
 ```
 
-## 元素动画
-G6 允许用户通过自定义节点/边的方式，给元素增加动画效果，如下：<br />
+## Item Animation
+G6 allows user to custom animation for item when register a type of custom item. <br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hYJSQaneVmgAAAAAAAAAAABkARQnAQ' width=330 />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-90pSrm4hkUAAAAAAAAAAABkARQnAQ' width=330 />
 
-更多关于动画的案例请参考[G6 中的动画案例](/zh/examples/scatter/node)。
+For more cases, please refer to [Animation Case](/zh/examples/scatter/node)。

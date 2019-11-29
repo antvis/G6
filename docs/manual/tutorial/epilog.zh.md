@@ -14,6 +14,6 @@ order: 7
 
 完整代码见：[Tutorial案例代码](https://codepen.io/Yanyan-Wang/pen/mdbYZvZ)。
 
-如果你希望继续学习深入的 G6 知识，请查看 [G6 核心概念](../middle/keyConcept)；关于 G6 的更高阶的功能原理介绍和深入探讨，请查看[G6 高级指引](../advanced/shape-and-properties)。
+If you wish to go further in G6, please check out [Key Concept in G6](../middle/keyConcept); For higher level functions and theory of G6, check out [Advanced Guides](../advanced/shape-and-properties)。
 
-开发过程中可通过 [G6 API](../../api/GlobalAPI) 快速查询。
+You can also refer to [G6 API](../../api/GlobalAPI) during the process of development.
