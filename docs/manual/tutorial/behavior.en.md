@@ -3,7 +3,7 @@ title: Interaction Behavior
 order: 4
 ---
 
-G6 encapsulates a set of interaction behaviors. Now we add simple some behaviors to **Tutorial Demo**: hover node, click node, click edge, drag cavas, zoom canvas. The target effect:
+G6 encapsulates a set of interaction behaviors. Now we add simple some behaviors to **Tutorial Demo**: hover node, click node, click edge, drag cavas, zoom canvas. The expected result:
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dijtQ6nB5Y4AAAAAAAAAAABkARQnAQ' width=500 />
 
@@ -12,16 +12,16 @@ G6 encapsulates a set of interaction behaviors. Now we add simple some behaviors
 
 ## Basic Concept
 ### Interaction Behavior
-G6 **Built-in** provides interaction behaviors. You can enable these behaviors conveniently:
+G6 provides several **Built-in** interaction behaviors. You can enable these behaviors conveniently:
 
-- `drag-canvas`: enable to drag the canvas;
-- `zoom-canvas`: enable to zoom the canvas;
+- `drag-canvas`: enable the canvas to be dragged;
+- `zoom-canvas`: enable the canvas to be zoomed;
 
 Refer to [Behavior](../middle/states/defaultBehavior) for more information.
 
 
 ### Mode
-Mode is a mechanism for state management. One mode is a set of several Behaviors. Users can assemble different Behaviors to different modes. The concept of mode is too complicated to understand for the beginners of G6. You do not need to know it well in this tutorial. For more information, please refer to [Mode](../middle/states/mode)。
+Mode is a mechanism for state management in G6. One mode is a set of several Behaviors. You can assemble different Behaviors to modes. The concept of mode is too complicated to understand for the beginners of G6. You do not need to know it well in this tutorial. For more information, please refer to [Mode](../middle/states/mode).
 
 ### Interaction State
 [State](../middle/states/state) is a mechanism of item state in G6. You can set different item styles for different states. When the state of an item is changed, the style will be updated automatically.
