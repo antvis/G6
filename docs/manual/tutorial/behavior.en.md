@@ -39,9 +39,9 @@ const graph = new G6.Graph({
 });
 ```
 
-The code above use the Behaviors by assigning their types. Besides, you can also configure the parameters for them, e.g. the sensitivity of zooming, max/min zoom ratio. Refer to [内置的交互 Behavior](../middle/states/defaultBehavior) for more detail.
+The code above uses the Behaviors by assigning their types. Besides, you can also configure the parameters for them, e.g. the sensitivity of zooming, max/min zoom ratio. Refer to [Behavior](../middle/states/defaultBehavior) for more detail.
 
-`modes` object above define a set of interation modes of the graph, where `default` is the default mode, which includes `'drag-canvas'`, `'zoom-canvas'`, and `'drag-node'`. You can add more modes with their Behaviors into `modes`, e.g. `edit` mode:
+`modes` object above defines a set of interaction modes of the graph, where `default` is the default mode, which includes `'drag-canvas'`, `'zoom-canvas'`, and `'drag-node'`. You can add more modes with their Behaviors into `modes`, e.g. `edit` mode:
 
 ```javascript
 // Different modes with different Behaviors
@@ -56,13 +56,13 @@ Refer to [Mode](/zh/docs/manual/middle/states/mode) and [Behavior](/zh/docs/manu
 
 ### Hover and Click to Change Styles
 
-Sometimes, the styles of the items users interacting on should be updated to make the response. As shown in figure 1, the styles changed when user hover the node, click the node, click the edge. It is achieved by [ State](../middle/states/state). In the other word, whether the item is clicked or hovered can be described as some state. You are able to set the styls for different states by two steps:
+Sometimes, the styles of the items interacted by users should be updated to make the response. As shown in figure 1, the styles are changed when user hovers the node, clicks the node, and clicks the edge. It is achieved by [ State](../middle/states/state) mechanism. In the other word, whether the item is clicked or hovered can be described as some states. You are able to set the styles for different states by two steps:
 
 - Step 1: Set the styles for different states;
 - Step 2: Listen to the relative events and switch the states.
 
 #### Set the State Styles
-Set the state styles by `nodeStateStyles` and `edgeStateStyles` for nodes and edges respectively when instantiate a Graph. <br />The requirements in **Tutorial Demo** are:
+Set the state styles by `nodeStateStyles` and `edgeStateStyles` for nodes and edges respectively when instantiate a Graph. <br />The relative requirements in **Tutorial Demo** are:
 
 - The color of the node is changed when mouse hover it;
 - The stroke of the node gets thicker and darker when user clicks it;
