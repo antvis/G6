@@ -80,7 +80,7 @@ order: 1
 ```
 
 ### 绘制结果
-调用 `graph.render()` 方法之后，G6 引擎会根据加载的数据进行图的绘制。如果没有额外指定图实例的 renderer 属性配置，则默认采用 Canvas 进行绘制，结果如下：
+调用 `graph.render()` 方法之后，G6 引擎会根据加载的数据进行图的绘制。如果没有额外指定图实例的 `renderer` 属性配置，则默认采用 Canvas 进行绘制，结果如下：
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YTfpQYVGhuEAAAAAAAAAAABkARQnAQ' width=400 />
 
@@ -103,7 +103,7 @@ order: 1
   main();
 </script>
 ```
-> fetch 函数允许我们发起网络请求，加载数据，而其异步的过程可以通过 async/await 进行更合理的控制。这里我们为了方便起见，将主要逻辑放在了 main 函数里面。如果读者对 fetch 和 async/await 的知识有疑问，可以参考：[async function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)，[Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
+> `fetch` 函数允许我们发起网络请求，加载数据，而其异步的过程可以通过 async/await 进行更合理的控制。这里我们为了方便起见，将主要逻辑放在了 `main` 函数里面。如果读者对 `fetch` 和 `async`/`await` 的知识有疑问，可以参考：[async function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)，[Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
 
 
 运行后，我们得到了下图结果：

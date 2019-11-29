@@ -50,7 +50,7 @@ The following steps lead to a Graph of G6:
 4. Load the data and render.
 
 
-### Step 1 Create the HTML container
+### Step 1 Create a HTML Container
 
 Create an HTML container for graph canvas, `div` tag in general. G6 will append a `canvas` tag to it and draw graph on the `canvas`.
 ```html
