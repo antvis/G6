@@ -55,30 +55,30 @@ The data structure of an edge is similar to node, but two more attributes `sourc
   - R2: Set the color for the label with `labelCfg`;
   - R3: Set the opacity and color for edges with `opacity`，`stroke`;
   - R4: Set the direction of the label with `labelCfg`;
-- Map the data to visual channel:
-  - R5: Configure the shape of nodes with `shape` according to `class` in node data;
-  - R6: Configure the line widht of edges with `lineWidth` according to the `weight` in edge data.
+- Map the data to visual channels:
+  - R5: Configure the shape of nodes with `shape` according to the property `class` in node data;
+  - R6: Configure the line widht of edges with `lineWidth` according to the property `weight` in edge data.
 
 ## Configure the Attributes
-To satisfy different scenario, G6 provides 7 ways to configure the attributes for items. Here we will introduce two of them:
+To satisfy different scenario, G6 provides 7 ways to configure the attributes for items. Here we will only introduce two of them:
 
-1. Configure the global attributes when instantiate a Graph;
+1. Configure the global attributes when instantiating a Graph;
 2. Configure the attributes for different items in their data.
 
-### 1. Configure the Global Attributes When Instantiate a Graph
+### 1. Configure the Global Attributes When Instantiating a Graph
 **Applicable Scene:** Unify the configurations for all the nodes or edges. <br />**Usage:** Configure it with two configurations of graph:
 
-- `defaultNode`: The **Style Attribute** `style` in the default state and **Other Attributes**;
-- `defaultEdge`: The **Style Attribute**`style` in the default state and **Other Attributes**.
+- `defaultNode`: The **Style Attribute** and **Other Attributes** in the default state;
+- `defaultEdge`: The **Style Attribute** and **Other Attributes** in the default state.
 
-⚠️**Attention:** It is a way of unified global configuration, which does not distinguish the nodes with different properties (e.g. `class` and`weight`) in their data. That is to say, only R1, R2, R3, and R4 can be satisfied:
+⚠️**Attention:** It is a way of unified global configuration, which does not distinguish the nodes with different properties (e.g. `class` and `weight`) in their data. That is to say, only R1, R2, R3, and R4 can be satisfied now:
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bufdS75wcmMAAAAAAAAAAABkARQnAQ' width=450 height=450 />
 
 > Figure 2  **Tutorial Demo** with items configured by global configurations.
 
 
-<br />Configuer the `defaultNode` and `defaultEdge` for graph to achieve the effect: 
+<br />Configuer the `defaultNode` and `defaultEdge` for graph to achieve the expected effect: 
 ```javascript
 const graph = new G6.Graph({
   // ...                   // Other configurations of the graph
@@ -117,9 +117,9 @@ const graph = new G6.Graph({
 ```
 
 ### 2. Configure the Attributes in Data
-**Applicable Scene:** Configure different items according to their data.
+**Applicable Scene:** By this way, you can configure different items according to their properties in data.
 <br />Thus, the R5 and R6 can be satisfied now.
-<br />**Usage:** Write the attributes into each item data, or traverse the data to write the attributes. Here we show writing the attrbiutes into data by traversing:
+<br />**Usage:** Write the attributes into each item data, or traverse the data to assign the attributes. Here we show assigning the attrbiutes into data by traversing:
 
 ```javascript
 const nodes = remoteData.nodes;
@@ -155,7 +155,7 @@ The result:
 > Figure 3
 
 
-From figure 3, we find some nodes are rendered as rects, some are ellipses. We also set the size to cover the size in global configuration. The size is an array when the node is a rect or an ellipse. We did not set the size for circle node, so `size: 30` in global configuration will take effect. That is to say, configuring items by writing into data has higher priority than global configurations.
+From figure 3, we find some nodes are rendered as rects, some are ellipses. We also set the size to override the size in global configuration. The size is an array when the node is a rect or an ellipse. We did not set the size for circle node, so `size: 30` in global configuration will still take effect for circle node. That is to say, configuring items by writing into data has higher priority than global configurations.
 
 We further set the line widths for edges according to their weight:
 ```javascript
