@@ -17,10 +17,10 @@ There are `Node` and `Edge` two types of items in a graph. Several [Built-in Nod
 ## Attributes of Item
 The attributes of an item can be be divided into two categories:
 
-- **Style Attribute `style`**: Corresponds to the style in Canvas. When the [State](../middle/states/state) of an item is changed, the style can be updated;
+- **Style Attribute `style`**: Corresponds to the style in Canvas. When the [State](../middle/states/state) of an item is changed, the style can be updated. It is an object named`style`;
 - **Other Attribute**: Such as graphics `shape`, `id`, they are a kind of attributes that will not be changed when the [State](../middle/states/state) of the item is changed.
 
-For example, When you change the state `'hover'` or `'click'` to true for a node A, only the **style attributes** of A can be updated, e.g. `fill`, `stroke`, and so on. The **other attributes** such as `shape` can not be changed. To update the other attributes, configure A by [graph.updateItem](../../api/Graph) manually. **style attributes** is an object named `style`.
+For example, When you change the state `'hover'` or `'click'` to `true` for a node A, only the **style attributes** of A can be updated, e.g. `fill`, `stroke`, and so on. The **other attributes** such as `shape` can not be changed. To update the other attributes, configure A by [graph.updateItem](../../api/Graph) manually.
 
 ### Data Structure
 The data structure of a node:
@@ -48,10 +48,10 @@ The data structure of a node:
 
 The data structure of an edge is similar to node, but two more attributes `source` and `target` in addition, representing the `id` of the source node and the `id` of the target node respectively.
 
-<br />Refine the visual requirments in figure 1 of **Tutorial Demo**:
+<br />We can refine the visual requirements in figure 1 of **Tutorial Demo** into:
 
 - Visual Effect:
-  - R1: Set the color for stroke and fill for nodes with `fill` and `stroke`;
+  - R1: Set the color for stroke and filling for nodes with `fill` and `stroke`;
   - R2: Set the color for the label with `labelCfg`;
   - R3: Set the opacity and color for edges with `opacity`，`stroke`;
   - R4: Set the direction of the label with `labelCfg`;
