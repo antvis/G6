@@ -5,7 +5,7 @@ order: 7
 
 Congratulations! You have created a graph visualization powered by G6. You have learnt:
 
-- Basic render;
+- Basic rendering;
 - Load remote data;
 - Configure the graph and items;
 - Utilize layout;

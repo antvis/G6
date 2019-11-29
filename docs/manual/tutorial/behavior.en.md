@@ -29,7 +29,7 @@ For example, set the state `'click'` of a node as `true` or `false`, and set the
 
 ## Usage
 ### Built-in Behaviors: Drag and Zoom
-Only assign `modes` when instantiate the graph, the corresponding built-in Behaviors will be enabled:
+Only assign `modes` when instantiating the graph, the corresponding built-in Behaviors will be enabled:
 ```javascript
 const graph = new G6.Graph({
   // ...                                          // Other configurations
@@ -62,7 +62,7 @@ Sometimes, the styles of the items interacted by users should be updated to make
 - Step 2: Listen to the relative events and switch the states.
 
 #### Set the State Styles
-Set the state styles by `nodeStateStyles` and `edgeStateStyles` for nodes and edges respectively when instantiate a Graph. <br />The relative requirements in **Tutorial Demo** are:
+Set the state styles by `nodeStateStyles` and `edgeStateStyles` for nodes and edges respectively when instantiating a Graph. <br />The relative requirements in **Tutorial Demo** are:
 
 - The color of the node is changed when mouse hover it;
 - The stroke of the node gets thicker and darker when user clicks it;

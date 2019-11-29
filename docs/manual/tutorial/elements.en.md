@@ -177,7 +177,7 @@ The result:
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*46GdQaNFiVIAAAAAAAAAAABkARQnAQ' width=450 height=450 />
 
-The line width of the edges take effect in the figure above. But the opacity and color setted in the global configuration are lost. The reason is the global `style` object in graph instance is overrided by the second configure method. The solution is move all the style to the data:
+The line width of the edges takes effect in the figure above. But the opacity and color setted in the global configurations are lost. The reason is that the global `style` object in graph instance is overrided by the second configure method. The solution is move all the styles to the data:
 ```javascript
 const graph = new G6.Graph({
   // ...

@@ -54,12 +54,12 @@ The data for G6 should be JSON format, includes array attributes `nodes` and `ed
 
 **Attention**
 
-- `nodes` is an array of nodes, the `id` is unique and required property; the `x` and `y` are coordinates of the node;
+- `nodes` is an array of nodes, the `id` is an unique and required property; the `x` and `y` are the coordinates of the node;
 - `edges` is an array of edges, `source` and `target` are required, represent the `id` of the source node and the `id` of the target node respectively.
 - The properties of node and edge are described in [Properties of Nodes](/en/docs/api/properties/NodeProperties) and [Properties of Edges](/en/docs/api/properties/EdgeProperties)
 
 ### Instantiate the Graph
-The container, width, and height are required configurations when instantiate a Graph:
+The container, width, and height are required configurations when instantiating a Graph:
 ```html
 <script>
   // const initData = { ... }
