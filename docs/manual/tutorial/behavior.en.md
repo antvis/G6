@@ -39,21 +39,22 @@ const graph = new G6.Graph({
 });
 ```
 
-除了直接使用内置交互名称外，也可以为 behavior 配置参数，例如放缩画布的敏感度、最大/最小放缩程度等，具体用法参见 [内置的交互 Behavior](../middle/states/defaultBehavior)。
+The code above use the Behaviors by assigning their types. Besides, you can also configure the parameters for them, e.g. the sensitivity of zooming, max/min zoom ratio. Refer to [内置的交互 Behavior](../middle/states/defaultBehavior) for more detail.
 
-上面代码中的 `modes` 定义了 G6 的模式，`default` 是默认的模式，还可以允许有其他的模式，比如：编辑模式 `edit` 等。不同的模式，用户能进行的行为可以不同，比如默认模式能拖拽画布，编辑模式不允许拖拽画布：
+`modes` object above define a set of interation modes of the graph, where `default` is the default mode, which includes `'drag-canvas'`, `'zoom-canvas'`, and `'drag-node'`. You can add more modes with their Behaviors into `modes`, e.g. `edit` mode:
+
 ```javascript
-// 举例解释不同模式
+// Different modes with different Behaviors
 modes: {
   default: ['drag-canvas'],
   edit: []
 }
 ```
 
-更多关于模式、行为可以参考: [交互模型 Mode](/zh/docs/manual/middle/states/mode)和[内置 Behavior](/zh/docs/manual/middle/states/defaultBehavior)。
+Refer to [Mode](/zh/docs/manual/middle/states/mode) and [Behavior](/zh/docs/manual/middle/states/defaultBehavior) for more detail.
 
 
-### Hover、Click 改变样式——状态式交互
+### Hover and Click to Change Styles
 
 有时我们希望通过交互可以将元素样式变成特定样式，如我们看到的图 1 中，鼠标 hover 节点、点击节点、点击边时，样式发生了变化。这里涉及到了 G6 中 [状态 State](../middle/states/state) 的概念。简单地说，是否 `hover` 、`click` 、任何操作（可以是自己起的状态名），都可以称为一种状态（state）。用户可以自由设置不同状态下的元素样式。要达到交互更改元素样式，需要两步：
 
@@ -96,52 +97,51 @@ const graph = new G6.Graph({
 #### 监听事件并切换元素状态
 G6 中所有元素监听都挂载在图实例上，如下代码中的 `graph` 对象是 G6.Graph 的实例，`graph.on()` 函数监听了某元素类型（`node` / `edge`）的某种事件（`click` / `mouseenter` / `mouseleave` / ... 所有事件参见：[Event API](../../api/Event)）。
 ```javascript
-// 在图实例 graph 上监听
-graph.on('元素类型:事件名', e => {
+// add listener on graph
+graph.on('itemType:event', e => {
   // do something
 });
 ```
 
-现在，我们通过下面代码，为 **Tutorial案例** 增加点和边上的监听事件，并在监听函数里使用 `graph.setItemState()` 改变元素的状态：
+Now, we add listeners to graph for **Tutorial Demo**, and update the states by `graph.setItemState()`:
 ```javascript
-// 鼠标进入节点
+// Mouse enter a node
 graph.on('node:mouseenter', e => {
-  const nodeItem = e.item;  // 获取鼠标进入的节点元素对象
-  graph.setItemState(nodeItem, 'hover', true);  // 设置当前节点的 hover 状态为 true
+  const nodeItem = e.item;  // Get the target item
+  graph.setItemState(nodeItem, 'hover', true);  // Set the state 'hover' of the item to be true
 });
 
-// 鼠标离开节点
+// Mouse leave a node
 graph.on('node:mouseleave', e => {
-  const nodeItem = e.item;  // 获取鼠标离开的节点元素对象
-  graph.setItemState(nodeItem, 'hover', false); // 设置当前节点的 hover 状态为 false
+  const nodeItem = e.item;  // Get the target item
+  graph.setItemState(nodeItem, 'hover', false); // Set the state 'hover' of the item to be false
 });
 
-// 点击节点
+// Click a node
 graph.on('node:click', e => {
-  // 先将所有当前是 click 状态的节点置为非 click 状态
+  // Swich the 'click' state of the node to be false
   const clickNodes = graph.findAllByState('node', 'click');
   clickNodes.forEach(cn => {
     graph.setItemState(cn, 'click', false);
   });
-  const nodeItem = e.item;  // 获取被点击的节点元素对象
-  graph.setItemState(nodeItem, 'click', true); // 设置当前节点的 click 状态为 true
+  const nodeItem = e.item;  // et the clicked item
+  graph.setItemState(nodeItem, 'click', true); // Set the state 'click' of the item to be true
 });
 
-// 点击边
+// Click an edge
 graph.on('edge:click', e => {
-  // 先将所有当前是 click 状态的边置为非 click 状态
+  // Swich the 'click' state of the edge to be false
   const clickEdges = graph.findAllByState('edge', 'click');
     clickEdges.forEach(ce => {
       graph.setItemState(ce, 'click', false);
     });
-    const edgeItem = e.item;  // 获取被点击的边元素对象
-    graph.setItemState(edgeItem, 'click', true); // 设置当前边的 click 状态为 true
+    const edgeItem = e.item;  // Get the clicked item
+    graph.setItemState(edgeItem, 'click', true); // Set the state 'click' of the item to be true
   });
 });
 ```
 
-## 完整代码
-至此，完整代码如下：
+## Complete Code
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -157,7 +157,7 @@ graph.on('edge:click', e => {
       container: 'mountNode',
       width: 800,
       height: 600,
-      // 节点默认配置
+      // Default attributes for all the nodes
       defaultNode: {
         labelCfg: {
           style: {
@@ -165,19 +165,19 @@ graph.on('edge:click', e => {
           }
         }
       },
-      // 边默认配置
+      // Default attributes for all the edges
       defaultEdge: {
         labelCfg: {
           autoRotate: true
         }
       },
-      // 节点在各状态下的样式
+      // The node styles in different states
       nodeStateStyles: {
-        // hover 状态为 true 时的样式
+        // The node style when the state 'hover' is true
         hover: {
           fill: 'lightsteelblue'
         },
-        // click 状态为 true 时的样式
+        // The node style when the state 'click' is true
         click: {
           stroke: '#000',
           lineWidth: 3
@@ -185,12 +185,12 @@ graph.on('edge:click', e => {
       },
       // 边在各状态下的样式
       edgeStateStyles: {
-        // click 状态为 true 时的样式
+        // The edge style when the state 'click' is true
         click: {
           stroke: 'steelblue'
         }
       },
-      // 布局
+      // Layout
       layout: {
         type: 'force',
         linkDistance: 100,
@@ -198,7 +198,7 @@ graph.on('edge:click', e => {
         nodeStrength: -30,
         edgeStrength: 0.1
       },
-      // 内置交互
+      // Built-in Behaviors
       modes: {
         default: [ 'drag-canvas', 'zoom-canvas', 'drag-node' ]
       },
@@ -290,4 +290,4 @@ graph.on('edge:click', e => {
 </html>
 ```
 
-**⚠️注意** <br />若需更换数据，请替换 `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` 为新的数据文件地址。
+**⚠️Attention**: <br />Replace the url `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` to change the data into yours.
