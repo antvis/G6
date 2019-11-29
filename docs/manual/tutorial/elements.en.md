@@ -1,46 +1,47 @@
 ---
-title: Configurations for Items
+title: Configure the Items
 order: 2
 ---
 
-图的元素特指图上的**节点**`Node`和**边**`Edge`。在上一章节中，我们已经将**Tutorial案例**的图绘制了出来，但是各个元素及其 `label` 在视觉上很简陋。本文通过将上一章节中简陋的元素美化成如下效果，介绍元素的属性、配置方法。
+The items on the graph include `Node` and `Edge`. In the last chapter, we rendered the **Tutorial Demo** with items with rough styles. Now, we are going to beautify the items while introducing the attributes of the items.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*46GdQaNFiVIAAAAAAAAAAABkARQnAQ' width=450 height=450 />
 
-> 图 1  元素属性配置后的 **Tutorial案例**。
+> Figure 1  The **Tutorial Demo** with cofigured items.
 
 
-## 基本概念
-### 图的元素
-图的元素特指图上的**节点**`Node`和**边**`Edge`。G6 内置了一系列 [内置的节点](../middle/elements/defaultNode) 和[内置的边](../middle/elements/defaultEdge)，供用户自由选择。G6 不同的内置节点或不同的内置边主要区别在于元素的 [图形Shape](../middle/keyConcept)，例如，节点可以是圆形、矩形、图片等。
+## Basic Concept
+### Graph Item
+The items on the graph include `Node` and `Edge`. There are several [Built-in Nodes](../middle/elements/defaultNode) and [Built-in Edges](../middle/elements/defaultEdge) in G6. The main difference between different types of items is their [Graphics Shape](../middle/keyConcept). For example, a node's graphics shape can be a circle, a rect, an image, or others.
 
-## 元素的属性
-不论是节点还是边，它们的属性分为两种：
+## Attributes of Item
+The attributes can be categorized into two kinds for nodes or edges:
 
-- **样式属性 `style`**：对应 Canvas 中的各种样式，在元素[状态State](../middle/states/state) 发生变化时，可以被改变；
-- **其他属性**：例如图形（ `shape`）、id（`id` ）一类在元素[状态State](../middle/states/state)发生变化时不能被改变的属性。
+- **Style Attribute `style`**: Corresponds to the style in Canvas. When the [State](../middle/states/state) of an item is changed, the style can be updated;
+- **Other Attribute**: Such as graphics `shape`, `id`, they are a kind of attributes that will not be changed when the [State](../middle/states/state) of the item is changed.
 
-例如，G6 设定 hover 或 click 节点，造成节点状态的改变，只能自动改变节点的**样式属性**（如 `fill`、`stroke` 等**）**，**其他属性**（如 `shape` 等）不能被改变。如果需要改变其他属性，要通过 [graph.updateItem](../../api/Graph) 手动配置。**样式属性**是一个名为 `style` 的对象， `style` 字段与其他属性并行。
+For example, When you change the state `'hover'` or `'click'` to true for a node A, only the **style attributes** of A can be updated, e.g. `fill`, `stroke`, and so on. The **other attributes** such as `shape` can not be changed. To update the other attributes, configure A by [graph.updateItem](../../api/Graph) manually. **style attributes** is an object named `style`.
 
-### 数据结构
-以节点元素为例，其属性的数据结构如下：
+### Data Structure
+The data structure of a node:
 ```javascript
 {
-	id: 'node0',          // 元素的 id
-  shape: 'circle',      // 元素的图形
-  size: 40,             // 元素的大小
-  label: 'node0'        // 标签文字
-  labelCfg: {           // 标签配置属性
-    positions: 'center',// 标签的属性，标签在元素中的位置
-    style: {            // 包裹标签样式属性的字段 style 与标签其他属性在数据结构上并行
-      fontSize: 12      // 标签的样式属性，文字字体大小
+	id: 'node0',          // Unique id of the node
+  shape: 'circle',      // The graphics shape of the node
+  size: 40,             // The size
+  label: 'node0'        // The label
+  labelCfg: {           // The configurations for the label
+    positions: 'center',// The relative position of the label
+    style: {            // The style attributes of the label
+      fontSize: 12,     // The font size of the label
+      // ...            // Other style attributes of the label
     }
   }
-  // ...,                  // 其他属性
-  style: {              // 包裹样式属性的字段 style 与其他属性在数据结构上并行
-    fill: '#000',       // 样式属性，元素的填充色
-    stroke: '#888',     // 样式属性，元素的描边色
-    // ...                 // 其他样式属性
+  // ...,               // Other attributes of the node
+  style: {              // The object of style attributes of the node
+    fill: '#000',       // The filling color
+    stroke: '#888',     // The stroke color
+    // ...              // Other styleattribtues of the node
   }
 }
 ```

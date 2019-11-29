@@ -159,10 +159,10 @@ The configurations below will be used in the following Tutorial:
 | fitViewPadding | Number \| Array | 20 \| [ 20, 40, 50, 20 ] | 0 | The padding between the content of the graph and the borders of the canvas. |
 | animate | Boolean | true \| false | false | Whether activate the global animation. |
 | modes | Object | {<br />  default: [ 'drag-node', 'drag-canvas' ]<br />} | null | The set of graph interaction modes. This is a complicated concept, refer to [Mode](../middle/mode) for more detial. |
-| defaultNode | Object | {<br />  shape: 'circle',<br />  color: '#000',<br />  style: {<br />    ......<br />  }<br />} | null | The default global configurations for nodes, includes common configurations and styles. |
-| defaultEdge | Object | {<br />  shape: 'polyline',<br />  color: '#000',<br />  style: {<br />    ......<br />  }<br />} | null | The default global configurations for edges, includes common configurations and styles. |
-| nodeStateStyles | Object | {<br />  hover: {<br />    ......<br />  },<br />  select: {<br />    ......<br />  }<br />} | null | The style configurations of nodes in different states except for default state. Such as hover, select. |
-| edgeStateStyles | Object | {<br />  hover: {<br />    ......<br />  },<br />  select: {<br />    ......<br />  }<br />} | null | The style configurations of edges in different states except for default state. Such as hover, select. |
+| defaultNode | Object | {<br />  shape: 'circle',<br />  color: '#000',<br />  style: {<br />    ......<br />  }<br />} | null | The default global attributes for nodes, includes styles attributes and other attributes. |
+| defaultEdge | Object | {<br />  shape: 'polyline',<br />  color: '#000',<br />  style: {<br />    ......<br />  }<br />} | null | The default global attributes for edges, includes styles attributes and other attributes. |
+| nodeStateStyles | Object | {<br />  hover: {<br />    ......<br />  },<br />  select: {<br />    ......<br />  }<br />} | null | The style attributes of nodes in different states except for default state. Such as hover, select. |
+| edgeStateStyles | Object | {<br />  hover: {<br />    ......<br />  },<br />  select: {<br />    ......<br />  }<br />} | null | The style attributes of edges in different states except for default state. Such as hover, select. |
 
 
 ## Complete Code
