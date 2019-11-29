@@ -7,7 +7,7 @@ G6 封装了一系列交互方法，方便用户直接使用。本文将为 **Tu
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dijtQ6nB5Y4AAAAAAAAAAABkARQnAQ' width=500 />
 
-<div style="text-align: center;"> 图1 Tutorial案例的交互效果。</div>
+<div style="text-align: center;"> 图 1 Tutorial案例的交互效果。</div>
 
 
 ## 基本概念
@@ -20,8 +20,8 @@ G6 中的交互行为。G6 **内置**了一系列交互行为，用户可以直�
 更多详见：[交互行为 Behavior](../middle/states/defaultBehavior)
 
 
-### 交互管理 mode
-mode 是 G6 交互行为的管理机制，一个 mode 是多种行为 Behavior 的组合，允许用户通过切换不同的模式进行交互行为的管理。由于该概念较为复杂，在本入门教程中，读者不需要对该机制深入理解。如有需求，参见 [G6 中的 mode](../middle/states/mode)。
+### 交互管理 Mode
+Mode 是 G6 交互行为的管理机制，一个 mode 是多种行为 Behavior 的组合，允许用户通过切换不同的模式进行交互行为的管理。由于该概念较为复杂，在本入门教程中，读者不需要对该机制深入理解。如有需求，参见 [G6 中的 mode](../middle/states/mode)。
 
 ### 交互状态 State
 [状态 State](../middle/states/state) 是 G6 中的状态机制。用户可以为图中的元素（节点/边）设置不同的状态及不同状态下的样式。在状态发生变化时，G6 自动更新元素的样式。例如，可以为节点设置状态 `'click'` 为 `true` 或 `false`，并为节点设置 `'click'` 的样式为加粗节点边框。当 `'click'` 状态被切换为 `true` 时，节点的边框将会被加粗，`'click'` 状态被切换为 `false` 时，节点的样式恢复到默认。在下面的使用方法中，将会有具体例子。

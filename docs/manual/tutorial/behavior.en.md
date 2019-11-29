@@ -3,37 +3,38 @@ title: Interaction Behavior
 order: 4
 ---
 
-G6 封装了一系列交互方法，方便用户直接使用。本文将为 **Tutorial案例** 增加简单的交互：hover 节点、点击节点、点击边、放缩画布、拖拽画布。本节目标效果如下：
+G6 encapsulates a set of interaction behaviors. Now we add simple some behaviors to **Tutorial Demo**: hover node, click node, click edge, drag cavas, zoom canvas. The target effect:
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dijtQ6nB5Y4AAAAAAAAAAABkARQnAQ' width=500 />
 
-<div style="text-align: center;"> 图1 Tutorial案例的交互效果。</div>
+<div style="text-align: center;"> Figure 1 **Tutorial Demo** with interaction behaviors</div>
 
 
-## 基本概念
-### 交互行为 Behavior
-G6 中的交互行为。G6 **内置**了一系列交互行为，用户可以直接使用。简单地理解，就是可以一键开启这些交互行为：
+## Basic Concept
+### Interaction Behavior
+G6 **Built-in** provides interaction behaviors. You can enable these behaviors conveniently:
 
-- `drag-canvas`：拖拽画布；
-- `zoom-canvas`：缩放画布。
+- `drag-canvas`: enable to drag the canvas;
+- `zoom-canvas`: enable to zoom the canvas;
 
-更多详见：[交互行为 Behavior](../middle/states/defaultBehavior)
+Refer to [Behavior](../middle/states/defaultBehavior) for more information.
 
 
-### 交互管理 mode
-mode 是 G6 交互行为的管理机制，一个 mode 是多种行为 Behavior 的组合，允许用户通过切换不同的模式进行交互行为的管理。由于该概念较为复杂，在本入门教程中，读者不需要对该机制深入理解。如有需求，参见 [G6 中的 mode](../middle/states/mode)。
+### Mode
+Mode is a mechanism for state management. One mode is a set of several Behaviors. Users can assemble different Behaviors to different modes. The concept of mode is too complicated to understand for the beginners of G6. You do not need to know it well in this tutorial. For more information, please refer to [Mode](../middle/states/mode)。
 
-### 交互状态 State
-[状态 State](../middle/states/state) 是 G6 中的状态机制。用户可以为图中的元素（节点/边）设置不同的状态及不同状态下的样式。在状态发生变化时，G6 自动更新元素的样式。例如，可以为节点设置状态 `'click'` 为 `true` 或 `false`，并为节点设置 `'click'` 的样式为加粗节点边框。当 `'click'` 状态被切换为 `true` 时，节点的边框将会被加粗，`'click'` 状态被切换为 `false` 时，节点的样式恢复到默认。在下面的使用方法中，将会有具体例子。
+### Interaction State
+[State](../middle/states/state) is a mechanism of item state in G6. You can set different item styles for different states. When the state of an item is changed, the style will be updated automatically.
+For example, set the state `'click'` of a node as `true` or `false`, and set the node style of the state `'click'` with thicker stroke. This style will take effect when the state `'click'` is switched to `true`, and restore when `'click'` state is switched to `false`. There will be a specific in the Usage part.
 
-## 使用方法
-### 拖拽、缩放——内置的交互行为
-在 G6 中使用内置 behavior 的方式非常简单，只需要在图实例化时配置 `modes`。拖拽和缩放属于 G6 内置交互行为，修改代码如下：
+## Usage
+### Built-in Behaviors: Drag and Zoom
+Only assign `modes` when instantiate the graph, the corresponding built-in Behaviors will be enabled:
 ```javascript
 const graph = new G6.Graph({
-  // ...                                          // 其他配置项
+  // ...                                          // Other configurations
   modes: {
-    default: [ 'drag-canvas', 'zoom-canvas', 'drag-node' ]  // 允许拖拽画布、放缩画布、拖拽节点
+    default: [ 'drag-canvas', 'zoom-canvas', 'drag-node' ]  // Allow users to drag canvas, zoom canvas, and drag nodes
   }
 });
 ```
