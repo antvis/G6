@@ -46,37 +46,39 @@ The data structure of a node:
 }
 ```
 
-边元素的属性数据结构与节点元素相似，只是其他属性中多了 `source` 和 `target` 字段，代表起始和终止节点的 `id`。<br />细化在图 1 中 **Tutorial案例** 的视觉需求，我们需要完成：
+The data structure of an edge is similar to node, but two more attributes `source` and `target` in addition, representing the `id` of the source node and the `id` of the target node respectively.
 
-- 视觉效果：
-  - R1: 节点的描边和填充色，对应节点样式属性：`fill`，`stroke`；
-  - R2: 节点上标签文本的颜色，对应节点其他属性：`labelCfg`；
-  - R3: 边的透明度和颜色，对应边样式属性：`opacity`，`stroke`；
-  - R4: 边上标签文本的方向和颜色，对应边其他属性：`labelCfg`；
-- 数据与视觉映射：
-  - R5: 根据数据中节点的 `class` 属性映射节点的形状，对应节点其他属性：`shape`；
-  - R6: 根据数据中边的 `weight` 属性映射边的粗细，对应边样式属性：`lineWidth`。
+<br />Refine the visual requirments in figure 1 of **Tutorial Demo**:
 
-## 配置属性
-在 G6 中，根据不同的场景需求，有 7 种配置元素属性的方式。这里，我们简单介绍其中的两种：
+- Visual Effect:
+  - R1: Set the color for stroke and fill for nodes with `fill` and `stroke`;
+  - R2: Set the color for the label with `labelCfg`;
+  - R3: Set the opacity and color for edges with `opacity`，`stroke`;
+  - R4: Set the direction of the label with `labelCfg`;
+- Map the data to visual channel:
+  - R5: Configure the shape of nodes with `shape` according to `class` in node data;
+  - R6: Configure the line widht of edges with `lineWidth` according to the `weight` in edge data.
 
-1. 实例化图时配置元素的全局属性；
+## Configure the Attributes
+在 G6 中，根据不同的场景需求，有 7 种配置元素属性的方式。这里，我们简单介绍其中的两种: 
+
+1. 实例化图时配置元素的全局属性;
 1. 在数据中配置。
 
 ### 1. 实例化图时全局配置
-**适用场景：**所有节点统一的属性配置，所有边统一的属性配置。<br />**使用方式：**使用图的两个配置项：
+**适用场景: **所有节点统一的属性配置，所有边统一的属性配置。<br />**使用方式: **使用图的两个配置项: 
 
-- `defaultNode`：节点在默认状态下的**样式属性**（`style`）和**其他属性**；
-- `defaultEdge`：边在默认状态下的**样式属性**（`style`）和**其他属性**。
+- `defaultNode`: 节点在默认状态下的**样式属性**（`style`）和**其他属性**;
+- `defaultEdge`: 边在默认状态下的**样式属性**（`style`）和**其他属性**。
 
- 注意 ：由于是统一的配置，不能根据数据中的属性（如 `class`、`weight`）等值的不同进行个性化设置，因此只能满足 R1、R2、R3、R4 需求。达到如下效果：
+ 注意 : 由于是统一的配置，不能根据数据中的属性（如 `class`、`weight`）等值的不同进行个性化设置，因此只能满足 R1、R2、R3、R4 需求。达到如下效果: 
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bufdS75wcmMAAAAAAAAAAABkARQnAQ' width=450 height=450 />
 
 > 图 2  全局配置元素属性后的 **Tutorial案例**。
 
 
-<br />通过如下方式在实例化图时 `defaultNode` 和 `defaultEdge` ，可以完成上图效果：
+<br />通过如下方式在实例化图时 `defaultNode` 和 `defaultEdge` ，可以完成上图效果: 
 ```javascript
 const graph = new G6.Graph({
   // ...                   // 图的其他配置
@@ -115,7 +117,7 @@ const graph = new G6.Graph({
 ```
 
 ### 2. 在数据中配置
-**适用场景：**不同节点/边可以有不同的个性化配置。<br />因此，这种配置方式可以满足 R5、R6 需求。<br />**使用方式：**可以直接将配置写入数据文件；也可以在读入数据后，通过遍历的方式写入配置。这里展示读入数据后，通过遍历的方式写入配置。下面代码展示了如何遍历数据进行属性的配置：
+**适用场景: **不同节点/边可以有不同的个性化配置。<br />因此，这种配置方式可以满足 R5、R6 需求。<br />**使用方式: **可以直接将配置写入数据文件;也可以在读入数据后，通过遍历的方式写入配置。这里展示读入数据后，通过遍历的方式写入配置。下面代码展示了如何遍历数据进行属性的配置: 
 ```javascript
 const nodes = remoteData.nodes;
 nodes.forEach(node => {
@@ -143,16 +145,16 @@ nodes.forEach(node => {
 graph.data(remoteData);
 ```
 
-运行结果如下：
+运行结果如下: 
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*JU6xRZLKCjcAAAAAAAAAAABkARQnAQ' width=450 height=450 />
 
 > 图 3
 
 
-可以看到，图中有一些节点被渲染成了矩形，还有一些被渲染成了椭圆形。除了设置 shape 属性之外，我们还覆盖了上文全局配置的节点的 size 属性，在矩形和椭圆的情况下，size 是一个数组；而在默认圆形的情况下，G6 仍然会去读全局配置的 size 属性为数字 30。也就是说，动态配置属性让我们既可以根据数据的不同配置不同的属性值，也可以有能力覆盖全局静态的属性值。
+可以看到，图中有一些节点被渲染成了矩形，还有一些被渲染成了椭圆形。除了设置 shape 属性之外，我们还覆盖了上文全局配置的节点的 size 属性，在矩形和椭圆的情况下，size 是一个数组;而在默认圆形的情况下，G6 仍然会去读全局配置的 size 属性为数字 30。也就是说，动态配置属性让我们既可以根据数据的不同配置不同的属性值，也可以有能力覆盖全局静态的属性值。
 
-进一步地，我们尝试根据数据的比重不同，配置不一样边的粗细：
+进一步地，我们尝试根据数据的比重不同，配置不一样边的粗细: 
 ```javascript
 // const nodes = ...
 
@@ -168,11 +170,11 @@ edges.forEach(edge => {
 graph.data(remoteData);
 ```
 
-结果如下：
+结果如下: 
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*46GdQaNFiVIAAAAAAAAAAABkARQnAQ' width=450 height=450 />
 
-如图所示，边的粗细已经按照数据的比重成功渲染了出来，但是边原有的样式（透明度、颜色）却丢失了。这是因为我们提到过动态配置属性会覆盖全局配置属性，这里配置了 `style.lineWidth`，导致覆盖了全局的 `style` 对象。解决办法是将被覆盖的边的样式都移到动态配置里面来：
+如图所示，边的粗细已经按照数据的比重成功渲染了出来，但是边原有的样式（透明度、颜色）却丢失了。这是因为我们提到过动态配置属性会覆盖全局配置属性，这里配置了 `style.lineWidth`，导致覆盖了全局的 `style` 对象。解决办法是将被覆盖的边的样式都移到动态配置里面来: 
 ```javascript
 const graph = new G6.Graph({
   // ...
@@ -205,7 +207,7 @@ graph.render()
 ```
 
 ## 完整代码
-至此，完整代码如下：
+至此，完整代码如下: 
 ```html
 <!DOCTYPE html>
 <html lang="en">
