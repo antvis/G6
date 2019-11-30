@@ -127,7 +127,7 @@ const nodes = graph.getNodes();
 nodes.forEach(node => {
   node.toFront();
 });
-// Re-poaint the graph after shifting
+// Repaint the graph after shifting
 graph.paint();
 ```
  <br />Now, all the nodes are drawed on the top of edges:<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*8TnuS7pkUfwAAAAAAAAAAABkARQnAQ' width=150/>
@@ -161,56 +161,56 @@ graph.on('edge:mouseleave', ev => {
 
 ### Usage
 ```javascript
-// 鼠标进入节点事件
+// Mouse enters an edge
 graph.on('edge:mouseenter', ev => {
-  // 获得鼠标当前目标边
+  // Get the target of the entering event
   const edge = ev.item;
-  // 该边的起始点
+  // The source node of the edge
   const source = edge.getSource();
-  // 该边的结束点
+  // The target node of the edge
   const target = edge.getTarget();
-  // 先将边提前，再将端点提前。这样该边两个端点还是在该边上层，较符合常规。
+  // Shift the edge to the front, and then shift the end nodes to the front
   edge.toFront();
   source.toFront();
   target.toFront();
-  // 注意：必须调用以根据新的层级顺序重绘
+  // Attention: the following code must be called to repaint the graph
   graph.paint();
 });
 
 graph.on('edge:mouseleave', ev => {
-  // 获得图上所有边实例
+  // Get all the edge instances of the graph
   const edges = graph.getEdges();
-  // 遍历边，将所有边的层级放置在后方，以恢复原样
+  // Travers the edges, shift them to the back to restore
   edges.forEach(edge => {
     edge.toBack();
   });
-  // 注意：必须调用以根据新的层级顺序重绘
+  // Attention: the following code must be called to repaint the graph
   graph.paint();
 });
 
 graph.on('node:mouseenter', ev => {
-  // 获得鼠标当前目标节点
+  // Get the target of the entering event
   const node = ev.item;
-  // 获取该节点的所有相关边
+  // Get the related edges of the node
   const edges = node.getEdges();
-  // 遍历相关边，将所有相关边提前，再将相关边的两个端点提前，以保证相关边的端点在边的上方常规效果
+  // Travers the related edges, shift them to the front, and then shift the end nodes to the front
   edges.forEach(edge => {
     edge.toFront();
     edge.getSource().toFront();
     edge.getTarget().toFront();
   });
-  // 注意：必须调用以根据新的层级顺序重绘
+  // Attention: the following code must be called to repaint the graph
   graph.paint();
 });
 
 graph.on('node:mouseleave', ev => {
-  // 获得图上所有边实例
+  // Get all the edge instances of the graph
   const edges = graph.getEdges();
-  // 遍历边，将所有边的层级放置在后方，以恢复原样
+  // Travers the edges, shift them to the back to restore
   edges.forEach(edge => {
     edge.toBack();
   });
-  // 注意：必须调用以根据新的层级顺序重绘
+  // Attention: the following code must be called to repaint the graph
   graph.paint();
 });
 ```
