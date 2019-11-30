@@ -11,7 +11,7 @@ A built-in node modelRect has the default style as below, the label is drawed on
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*tCcvRrNkAgUAAAAAAAAAAABkARQnAQ' width='223' height='98' />
 
 
-<br />Tips: There will be no description when there is no `description` in the data.
+<br />**Tips：** There will be no description when there is no `description` in the data.
 
 
 ## Usage
@@ -225,13 +225,13 @@ const graph = new G6.Graph({
 | Name | Description | Type | Remark |
 | --- | --- | --- | --- |
 | show | Whether show the icon | Boolean | `true` by default |
-| img | The url of the icon image | String | <br />- The default image for `logoIcon` is <img src='' width=150/><br />- The default image for  `stateIcon` is <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*KpqSS4INnRUAAAAAAAAAAABkARQnAQ' width=150/><br /> |
+| img | The url of the icon image | String | <br />- The default image for `logoIcon` is <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*KpqSS4INnRUAAAAAAAAAAABkARQnAQ' width=25/><br />- The default image for  `stateIcon` is <img src='https://gw.alipayobjects.com/zos/basement_prod/300a2523-67e0-4cbf-9d4a-67c077b40395.svg' width=25/><br /> |
 | width | The width of the icon | Number | `16` by default |
 | height | The height of the icon | Number | `16` by default |
 | offset | Adjust the left/right offset of the icon | Number | <br />- The dfualt `offset` of the left `logoIcon` is `0`<br />- The dfualt `offset` of the  right `stateIcon` is `-5`<br /> |
 
 
-Base on the code in [style](#style) section, we add `logoIcon` and `stateIcon` to `defaultNode` to hide the left icon and change the image for right icon.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rnW7QYNJvhcAAAAAAAAAAABkARQnAQ' width=150/>
+Base on the code in [style](#style) section, we add `logoIcon` and `stateIcon` to `defaultNode` to hide the left icon and change the image for right icon.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*pBsqR7McSiYAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
 const data = {
   // ... data

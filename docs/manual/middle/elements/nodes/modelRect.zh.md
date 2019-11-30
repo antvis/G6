@@ -11,7 +11,7 @@ G6 内置了方形卡片 modelRect 节点，其默认样式如下。标签文�
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*tCcvRrNkAgUAAAAAAAAAAABkARQnAQ' width='223' height='98' />
 
 
-<br />注意：数据中无 `description` 字段时，则不显示描述信息。
+<br />**提示：**数据中无 `description` 字段时，则不显示描述信息。
 
 
 ## 使用方法
@@ -224,13 +224,13 @@ const graph = new G6.Graph({
 | 名称 | 含义 | 类型 | 备注 |
 | --- | --- | --- | --- |
 | show | 是否显示图标 | Boolean | 默认为 `true` |
-| img | 图标图片 | String | <br />- 左侧图标 `logoIcon` 的图片默认为 <img src='' width=150/><br />- 右侧图标 `stateIcon` 的图片默认为<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*KpqSS4INnRUAAAAAAAAAAABkARQnAQ' width=150/><br /> |
+| img | 图标图片 | String | <br />- 左侧图标 `logoIcon` 的图片默认为 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*KpqSS4INnRUAAAAAAAAAAABkARQnAQ' width=25/><br />- 右侧图标 `stateIcon` 的图片默认为 <img src='https://gw.alipayobjects.com/zos/basement_prod/300a2523-67e0-4cbf-9d4a-67c077b40395.svg' width=25/><br /> |
 | width | 图标的宽度 | Number | 默认为 16 |
 | height | 图标的高度 | Number | 默认为 16 |
 | offset | 图标的左右偏移量 | Number | <br />- 左侧图标 `logoIcon` 的 `offset` 默认为 0<br />- 右侧图标 `stateIcon` 的 `offset` 默认为 -5<br /> |
 
 
-基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `logoIcon` 和 `stateIcon` 配置项进行左右图标的配置，使之达到如下图效果，左侧图标不显示，右侧图标更换图片。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rnW7QYNJvhcAAAAAAAAAAABkARQnAQ' width=150/>
+基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `logoIcon` 和 `stateIcon` 配置项进行左右图标的配置，使之达到如下图效果，左侧图标不显示，右侧图标更换图片。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*pBsqR7McSiYAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
 const data = {
   // ... data 内容

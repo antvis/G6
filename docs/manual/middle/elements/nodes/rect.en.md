@@ -1,5 +1,5 @@
 ---
-title: rect
+title: Rect
 order: 2
 ---
 

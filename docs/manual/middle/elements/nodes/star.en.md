@@ -1,5 +1,5 @@
 ---
-title: star
+title: Star
 order: 6
 ---
 
