@@ -70,36 +70,36 @@ const graph = new G6.Graph({
 ```
 
 #### label and labelCfg
-`label` String 类型。标签文本的文字内容。<br />`labelCfg` Object 类型。配置标签文本。下面是 `labelCfg` 对象中的常用配置项: 
+`label` is a string which indicates the content of the label. <br />`labelCfg` is an object to configure the label. The commonly used configurations of `labelCfg`:
 
 | Name | Required | Type | Remark |
 | --- | --- | --- | --- |
-| position | false | String | 文本相对于节点的位置，目前支持的位置有:  `'center'`，`'top'`，`'left'`，`'right'`，`'bottom'`。默认为 `'center'`。 |
-| offset | false | Number | Array | 文本的偏移，在 `'top'`，`'left'`，`'right'`，`'bottom'` 位置上的偏移量 |
+| position | false | String | The relative positions to the node. Options:  `'center'`, `'top'`, `'left'`, `'right'`, `'bottom'`. `'center'` by default |
+| offset | false | Number / Array | The offset of the label on the directions of `'top'`, `'left'`, `'right'`, `'bottom'` |
 | style | false | Object | 标签的样式属性 |
 
 
-上表中的标签的样式属性 `style` 的常用配置项如下:  
+The commonly used configurations for the `style` in the above table are:
 
 | Name | Required | Type | Remark |
 | --- | --- | --- | --- |
-| fill | false | String | 文本颜色 |
-| stroke | false | String | 文本描边颜色 |
-| lineWidth | false | Number | 文本描边粗细 |
-| opacity | false | Number | 文本透明度 |
-| font | false | String | 文本内容的当前字体属性 |
-| fontSize | false | Number | 文本字体大小 |
+| fill | false | String | The color of the label |
+| stroke | false | String | The stroke color of the label |
+| lineWidth | false | Number | The line width of the label |
+| opacity | false | Number | The opacity of the label |
+| font | false | String | The font of the label |
+| fontSize | false | Number | The font size of the label |
 | ... |  |  |  |
 
 
-下面代码演示在实例化图时全局配置方法中配置 `label` 和 `labelCfg`。
+The following code shows how to configure `label` and `labelCfg` globally when instantiating a Graph:
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
   defaultNode: {
-    // ... 其他属性
+    // ... Other attributes for nodes
     label: 'node-label',
     labelCfg: {
     	position: 'bottom',
@@ -112,16 +112,16 @@ const graph = new G6.Graph({
 })
 ```
 
-## 节点的配置方法
-配置节点的方式有三种: 实例化图时全局配置，在数据中动态配置，使用 `graph.node(nodeFn)` 函数配置。这几种配置方法可以同时使用，优先级: 
+## Configure Nodes
+There are three methods to configure nodes: Configure nodes globally when instantiating a Graph; Configure nodes in their data; Configure nodes by `graph.node(nodeFn)`. Their priorities are: 
 
-使用 graph.node(nodeFn) 配置 > 数据中动态配置 > 实例化图时全局配置
+`graph.node(nodeFn)` > Configure in data > Configure globally
 
-即有相同的配置项时，优先级高的方式将会覆盖优先级低的。
+That means, if there are same configurations in different ways, the way with higher priority will take effect.
 
 
-### 实例化图时全局配置
-用户在实例化 Graph 时候可以通过 `defaultNode` 配置节点，这里的配置是全局的配置，将会在所有节点上生效。
+### Configure Globally When Instantiating Graph
+Assign `defaultNode` to configure all the nodes globally:
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -129,48 +129,51 @@ const graph = new G6.Graph({
   height: 600,
   defaultNode: {
     shape: 'circle',
-    // 其他配置
+    // Other attributes for all the nodes
   }
 })
 ```
 
-### 在数据中动态配置
-如果需要为不同节点进行不同的配置，可以将配置写入到节点数据中。这种配置方式可以通过下面代码的形式直接写入数据，也可以通过遍历数据的方式写入。
-```
+### Configure in Data
+To configure different nodes with different attributes, you can write the attributes into their data individually:
+
+```javascript
 const data = {
   nodes: [{
     id: 'node0',
     size: 100,
     shape: 'rect',
-    ...    // 其他属性
+    ...    // Other attributes for this node
     style: {
-      ...  // 样式属性，每种节点的详细样式属性参见各节点文档
+      ...  // Style attributes for this node
     }
   },{
     id: 'node1',
     size: [50, 100],
     shape: 'ellipse',
-    ...    // 其他属性
+    ...    // Other attributes for this node
     style: {
-      ...  // 样式属性，每种节点的详细样式属性参见各节点文档
+      ...  // Style attributes for this node
     }
   },
-    ... // 其他节点
+    ... // Other nodes
   ],
   edges: [
-    ... // 边
+    ... // edges
   ]
 }
 ```
 
-### 使用 graph.node(nodeFn) 配置
-该方法可以为不同节点进行不同的配置。<br />提示: 
+### Configure with `graph.node(nodeFn)`
+By this way, we can configure different nodes with different attributes.
 
-- 该方法必须**在 render 之前调用**，否则不起作用；
-- 由于该方法优先级最高，将覆盖其他地方对节点的配置，这可能将造成一些其他配置不生效的疑惑；
-- 该方法在增加元素、更新元素时会被调用，如果数据量大、每个节点上需要更新的内容多时，可能会有性能问题。
+<br />**Attention:** 
 
-```
+- `graph.node(nodeFn)` must be called **before calling render()**. It does not take effect otherwise;
+- It has the highest priority that will rewrite the same attributes configured by other ways;
+- Each node will be updated when adding or updating items. It will cost a lot when the amount of the data is large.
+
+```javascript
 // const data = ...
 // const graph = ...
 graph.node((node) => {
@@ -187,9 +190,9 @@ graph.data(data);
 graph.render();
 ```
 
-## 实例演练
+## Example
 
-```
+```javascript
 const data = {
   nodes: [{
     x: 100,
@@ -253,17 +256,17 @@ graph.render();
 ```
 
 
-显示结果: 
+The result: 
 <br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6FzARrXBsUEAAAAAAAAAAABkARQnAQ' width='750' height='100'>
 
-- triangle 节点和 image 节点的标签文本默认位置为: `position:'bottom'` ，其他节点文本的默认位置都为: `position: 'center'`；
+- The label of the triangle and image node are layed on the bottom, and the others are layed on the center by default.
 
-### 调整节点配置
+### Adjust the Attributes
 
-下面演示通过将配置写入数据的方式，调整 `id` 为 `'node-ellipse'` 的椭圆节点的文本位置，颜色和样式。将下面代码替换上面代码中 `id` 为 `'node-ellipse'` 的节点数据即可生效。
+By writing the attributes into the data, we adjust the label position, color, and styles of the node with `'node-ellipse'` as its id. Replace the following code to the code about `'node-ellipse'`'s data to obtain the result.
 
-```
+```javascript
 {
   id: 'node-ellipse',
   x: 330,
@@ -285,7 +288,7 @@ graph.render();
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*fQ9yRYlo6zwAAAAAAAAAAABkARQnAQ' width='750' height='100'>
 
-再为 `id` 为 `'node-modelRect'` 的 modelRect 节点添加描述文字，使用下面代码替换 `id` 为 `'node-modelRect'` 的节点数据即可得到带有内容为 '描述文本xxxxxxxxxxx' 的 modelRect 节点。
+Then, we add some description for the node with `'node-modelRect'` as its `id`:
 ```
 {
   id: 'node-modelRect',
@@ -299,6 +302,6 @@ graph.render();
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OnuCTYqfXKgAAAAAAAAAAABkARQnAQ' width='750' height='100'>
 
-## 相关阅读
+## Related Reading
 
-- [状态 State](../../states/state) —— 交互过程中的样式变化。
+- [State](../../states/state) —— Change the styles during the interaction process.

@@ -75,8 +75,8 @@ const graph = new G6.Graph({
 
 | 名称 | 是否必须 | 类型 | 备注 |
 | --- | --- | --- | --- |
-| position | false | String | 文本相对于节点的位置，目前支持的位置有:  `'center'`，`'top'`，`'left'`，`'right'`，`'bottom'`。默认为 `'center'`。 |
-| offset | false | Number | Array | 文本的偏移，在 `'top'`，`'left'`，`'right'`，`'bottom'` 位置上的偏移量 |
+| position | false | String | 文本相对于节点的位置，目前支持的位置有:  `'center'`，`'top'`，`'left'`，`'right'`，`'bottom'`。默认为 `'center'` |
+| offset | false | Number / Array | 文本的偏移，在 `'top'`，`'left'`，`'right'`，`'bottom'` 位置上的偏移量 |
 | style | false | Object | 标签的样式属性 |
 
 
@@ -116,7 +116,7 @@ const graph = new G6.Graph({
 ## 节点的配置方法
 配置节点的方式有三种：实例化图时全局配置，在数据中动态配置，使用 `graph.node(nodeFn)` 函数配置。这几种配置方法可以同时使用，优先级：
 
-使用 graph.node(nodeFn) 配置 > 数据中动态配置 > 实例化图时全局配置
+使用 `graph.node(nodeFn)` 配置 > 数据中动态配置 > 实例化图时全局配置
 
 即有相同的配置项时，优先级高的方式将会覆盖优先级低的。
 
@@ -137,7 +137,8 @@ const graph = new G6.Graph({
 
 ### 在数据中动态配置
 如果需要为不同节点进行不同的配置，可以将配置写入到节点数据中。这种配置方式可以通过下面代码的形式直接写入数据，也可以通过遍历数据的方式写入。
-```
+
+```javascript
 const data = {
   nodes: [{
     id: 'node0',
@@ -165,7 +166,9 @@ const data = {
 ```
 
 ### 使用 graph.node(nodeFn) 配置
-该方法可以为不同节点进行不同的配置。<br />提示：
+该方法可以为不同节点进行不同的配置。
+
+<br />**提示:**
 
 - 该方法必须**在 render 之前调用**，否则不起作用；
 - 由于该方法优先级最高，将覆盖其他地方对节点的配置，这可能将造成一些其他配置不生效的疑惑；
