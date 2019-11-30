@@ -1,5 +1,5 @@
 ---
-title: circle
+title: Circle
 order: 1
 ---
 
@@ -49,12 +49,12 @@ circle 节点支持以下的配置项，对于 Object 类型的配置项将在�
 
 | 名称 | 含义 | 类型 | 备注 |
 | --- | --- | --- | --- |
-| size | 圆的直径 | Number | Array | size为数组时，取第一个值 |
-| style | circle 默认样式 | Object | Canvas支持的属性 |
-| labelCfg | 文件配置项 | Object |  |
-| stateStyles | 各状态下的样式 | Object | 只对keyShape起作用 |
+| size | 圆的直径 | Number / Array | `size` 为数组时，取第一个值 |
+| style | circle 默认样式 | Object | Canvas 支持的属性 |
+| labelCfg | 标签文本配置项 | Object |  |
+| stateStyles | 各状态下的样式 | Object | 只对 keyShape 起作用 |
 | linkPoints | 相关边的连入点 | Object | 默认不显示 |
-| icon | 圆上 icon 配置 | Object | 默认不显示icon |
+| icon | 圆上 icon 配置 | Object | 默认不显示 icon |
 
 
 
