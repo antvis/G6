@@ -4,7 +4,7 @@ order: 0
 ---
 
 ## Graphics Shape
-Graphics Shape（hereinafter referred to as Shape） in G6 is the shape of items (nodes/edges), it can be a circle, a rect, path, and so on. A node or an edge is made up of one or several Shapes.
+Graphics Shape (hereinafter referred to as Shape) in G6 is the shape of items (nodes/edges), it can be a circle, a rect, path, and so on. A node or an edge is made up of one or several Shapes.
 
 In the figure(Left) below, there is a node with a circle Shape; (Center) a node with a circle Shape and a text Shape; (right) a node with a text Shape and 5 circle Shapes including the main circle and four anchor points. Each node or edge has only one keyShape. The keyShape of each nodes in the figure below is the green circle. [keyShape](#UNCAz) is the Shape that responses interactions and [State](/zh/docs/manual/middle/states/state) changing. 
 <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OcaaTIIu_4cAAAAAAAAAAABkARQnAQ' width=50/>     <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*r5M0Sowd1R8AAAAAAAAAAABkARQnAQ' width=50/>      <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*pHoETad75CIAAAAAAAAAAABkARQnAQ' width=50/>

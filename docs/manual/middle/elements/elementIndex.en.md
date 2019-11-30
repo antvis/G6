@@ -1,19 +1,21 @@
 ---
-title: 节点与边的层级
+title: The Visual Level of Node and Edge
 order: 4
 ---
 
-节点与边在视觉上的层级涉及到了它们相对应的[图形分组 Group](/zh/docs/manual/advanced/graphics-group)。本文提到的所有分组 Group 都为 G6 的 [图形分组 Group](/zh/docs/manual/advanced/graphics-group)，而非 G6 的 [节点分组 Group](/zh/docs/manual/middle/nodeGroup)，请注意区分这两种 Group，其区别在 [图形分组 Group](/zh/docs/manual/advanced/graphics-group) 中说明。
+The visual levels (zIndex) of nodes and edges are refered to their [Graphics Group](/en/docs/manual/advanced/graphics-group) (hereinafter referred to as Shape). (**Attention:** The Graphics Group is different from the [Node Group](/en/docs/manual/middle/nodeGroup), the differences are described in [Graphics Group](/en/docs/manual/advanced/graphics-group)).
 
-在 [图形分组 Group](/zh/docs/manual/advanced/graphics-group) 中我们提到：在 G6 中，Graph 的一个实例中的所有节点属于同一个变量名为 `nodeGroup` 的 group，所有的边属于同一个变量名为 `edgeGroup` 的 group。节点 group 在视觉上的层级（zIndex）高于边 group，即所有节点会绘制在所有边的上层。
+In [Graphics Group](/en/docs/manual/advanced/graphics-group), we stated: All the nodes instances in a Graph is grouped by a Group named `nodeGroup`, all the edges instances are grouped by `edgeGroup`. And the visual level (zIndex) of `nodeGroup` is higher than `edgeGroup`, which means all the nodes will be drawed on the top of all the edges.
 
-但有时，我们需要让边在视觉上在节点上层。例如，高亮节点及其相关边和邻居、高亮一条边等。可以通过配合图实例的配置项 `groupByTypes` 以及节点和边的 `toFront()` 与 `toBack()` 函数实现。为实现如下效果：鼠标进入节点时，提升相关边以及邻居节点的层级；离开节点时恢复；鼠标进入边时，提升边及其两端点的层级；离开边时恢复。[Demo 完整代码](https://codepen.io/Yanyan-Wang/pen/GRRNzGN)。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*uWGAR5-w-TcAAAAAAAAAAABkARQnAQ' width=150/>
+Sometimes, we want to draw the edges on the top. For example, highlighting a node and its related edges. In this situation, you can configure `groupByTypes` of the graph to false and call `toFront()` and `toBack()` to order the nodes or edges.
 
-要实现上图效果，需要以下步骤：
+The expected effect is: the related nodes and edges are drawed on the top of others when the mouse enters a node; Restore the visual levels (zIndex) when the mouse moves out of the node. [Complete Code of the Demo](https://codepen.io/Yanyan-Wang/pen/GRRNzGN)。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*uWGAR5-w-TcAAAAAAAAAAABkARQnAQ' width=150/>
 
-- Step 1：实例化图时配置 `groupByTypes` 为 `false`；
-- Step 2：将节点放置在边上层；
-- Step 3：监听鼠标事件并改变目标元素层级。
+There are 3 steps to implement the expected effect:
+
+- Step 1: Configure`groupByTypes` to `false` when instantiating a Graph;
+- Step 2: Place the nodes to the top of edges;
+- Step 3: Change the visual levels in the listener function of mouse enter.
 
 ## 
 ## 前提代码
