@@ -126,15 +126,15 @@ const graph = new G6.Graph({
 | lineWidth | The line width of the link points | Number | `1` by default |
 
 
-基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `linkPoints` 配置项进行连入点的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rOdpQZOdQcgAAAAAAAAAAABkARQnAQ' width=50/>
+Base on the code in [style](#style) section, we add `linkPoints` to `defaultNode`.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rOdpQZOdQcgAAAAAAAAAAABkARQnAQ' width=50/>
 ```javascript
 const data = {
-	// ... data 内容
+	// ... data
 };
 const graph = new G6.Graph({
-  // ... 图的其他属性
+  // ... Other configurations for graph
   defaultNode: {
-    // ... 其他属性
+    // ... Other configurations for nodes
     linkPoints: {
       top: true,
       bottom: true,
@@ -149,29 +149,29 @@ const graph = new G6.Graph({
 ```
 
 
-##### 图标 icon
-Object 类型。通过配置 `icon`，可以在节点上显示小图标。
+##### icon
+`icon` is an object to configure the icon on the node.
 
 | Name | Description | Type | Remark |
 | --- | --- | --- | --- |
-| show | 是否显示icon | Boolean | 默认为false，不显示 |
-| width | icon的宽度 | Number | 默认为16 |
-| height | icon的高度 | Number | 默认为16 |
-| img | icon的地址 | String |  |
+| show | Whether show the icon | Boolean | `false` by default |
+| width | The width of the icon | Number | `16` by default |
+| height | The height of the icon | Number | `16` by default |
+| img | The image url of the icon | String |  |
 
 
-基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `icon` 配置项进行图标的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YSgMTI4UUkkAAAAAAAAAAABkARQnAQ' width=50/>
+Base on the code in [style](#style) section, we add `icon` to `defaultNode`.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YSgMTI4UUkkAAAAAAAAAAABkARQnAQ' width=50/>
 ```javascript
 const data = {
-	// ... data 内容
+	// ... data
 };
 const graph = new G6.Graph({
-  // ... 图的其他属性
+  // ... The configurations for the graph
   defaultNode: {
-    // ... 其他属性
+    // ... The configurations for nodes
     icon: {
     	show: true,
-      //img: '...', 可更换为其他图片地址
+      //img: '...', The image url of the icon 
       width: 25,
       height: 25
     }
