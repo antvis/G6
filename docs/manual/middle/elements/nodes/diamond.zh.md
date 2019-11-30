@@ -1,10 +1,10 @@
 ---
-title: diamond
+title: Diamond
 order: 4
 ---
 ## Diamond
 
-G6 内置了菱形 diamond 节点，其默认样式如下。标签文本位于菱形中央。<br />
+G6 内置了菱形 Diamond 节点，其默认样式如下。标签文本位于菱形中央。<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*xS0cQKTywjkAAAAAAAAAAABkARQnAQ' width=100/>
 
 
@@ -46,16 +46,16 @@ const data = {
 
 
 ## 配置项说明
-circle 节点支持以下的配置项，对于 Object 类型的配置项将在后面有详细讲解：
+Diamond 节点支持以下的配置项，对于 Object 类型的配置项将在后面有详细讲解：
 
 | 名称 | 含义 | 类型 | 备注 |
 | --- | --- | --- | --- |
-| size | 菱形的宽高 | Number | Array | size一个数值时，宽高相同 |
-| style | diamond默认样式 | Object | Canvas支持的属性 |
+| size | 菱形的宽高 | Number / Array | size 为一个数值时，宽高相同 |
+| style | diamond 默认样式 | Object | Canvas 支持的属性 |
 | labelCfg | 文件配置项 | Object |  |
-| stateStyles | 各状态下的样式 | Object | 只对keyShape起作用 |
+| stateStyles | 各状态下的样式 | Object | 只对 keyShape 起作用 |
 | linkPoints | 菱形上的链接点 | Object | 默认不显示 |
-| icon | 菱形上icon配置 | Object | 默认不显示icon |
+| icon | 菱形上icon配置 | Object | 默认不显示 icon |
 
 
 
@@ -117,14 +117,14 @@ Object 类型。通过配置 `linkPoints` ，可以指定菱形周围「上、�
 
 | 名称 | 含义 | 类型 | 备注 |
 | --- | --- | --- | --- |
-| top | 是否显示上部的连接点 | Boolean | 默认为false |
-| bottom | 是否显示底部的连接点 | Boolean | 默认为false |
-| left | 是否显示左侧的连接点 | Boolean | 默认为false |
-| right | 是否显示右侧的连接点 | Boolean | 默认为false |
-| size | 连接点的大小 | Number | 默认为3 |
-| fill | 连接点的填充色 | String | 默认为#72CC4A |
-| stroke | 连接点的边框颜色 | String | 默认为#72CC4A |
-| lineWidth | 连接点边框的宽度 | Number | 默认为1 |
+| top | 是否显示上部的连接点 | Boolean | 默认为 `false` |
+| bottom | 是否显示底部的连接点 | Boolean | 默认为 `false` |
+| left | 是否显示左侧的连接点 | Boolean | 默认为 `false` |
+| right | 是否显示右侧的连接点 | Boolean | 默认为 `false` |
+| size | 连接点的大小 | Number | 默认为 `3` |
+| fill | 连接点的填充色 | String | 默认为 `#72CC4A` |
+| stroke | 连接点的边框颜色 | String | 默认为 `#72CC4A` |
+| lineWidth | 连接点边框的宽度 | Number | 默认为 `1` |
 
 
 基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `linkPoints` 配置项进行连入点的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HoovQZW391AAAAAAAAAAAABkARQnAQ' width=100/>
@@ -155,10 +155,10 @@ Object 类型。通过配置 `icon`，可以在圆上显示小图标。
 
 | 名称 | 含义 | 类型 | 备注 |
 | --- | --- | --- | --- |
-| show | 是否显示icon | Boolean | 默认为false，不显示 |
-| width | icon的宽度 | Number | 默认为16 |
-| height | icon的高度 | Number | 默认为16 |
-| img | icon的地址 | String |  |
+| show | 是否显示icon | Boolean | 默认为 `false`，不显示 |
+| width | icon 的宽度 | Number | 默认为 `16` |
+| height | icon 的高度 | Number | 默认为 `16` |
+| img | icon 的地址 | String |  |
 
 
 下面代码演示在实例化图时全局配置方法中配置 `icon`。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rmsFSJd6kXUAAAAAAAAAAABkARQnAQ' width=100/>

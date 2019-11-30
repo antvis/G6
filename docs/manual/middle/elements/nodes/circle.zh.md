@@ -58,7 +58,7 @@ circle 节点支持以下的配置项，对于 Object 类型的配置项将在�
 
 
 
-##### 样式属性 style
+### 样式属性 style
 Object 类型。通过 `style` 配置来修改节点的填充色、描边等属性。下面代码演示在实例化图时全局配置方法中配置 `style`，使之达到如下图效果。<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*PKulQaVnv9IAAAAAAAAAAABkARQnAQ' width=50/>
 ```javascript
@@ -88,7 +88,7 @@ graph.render();
 ```
 
 
-##### 标签文本配置 labelCfg
+### 标签文本配置 labelCfg
 Object 类型。通过 `labelCfg` 配置标签文本。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zPiMQ5vO3e4AAAAAAAAAAABkARQnAQ' width=50/>
 ```javascript
 const data = {
@@ -111,7 +111,7 @@ const graph = new G6.Graph({
 ```
 
 
-##### 边的连入点 linkPoints
+### 边的连入点 linkPoints
 Object 类型。通过配置 `linkPoints` ，可以指定节点周围「上、下、左、右」四个方向上边的连入点。
 
 | 名称 | 含义 | 类型 | 备注 |
@@ -149,7 +149,7 @@ const graph = new G6.Graph({
 ```
 
 
-##### 图标 icon
+### 图标 icon
 Object 类型。通过配置 `icon`，可以在节点上显示小图标。
 
 | 名称 | 含义 | 类型 | 备注 |

@@ -11,7 +11,7 @@ As stated in [Built-in Nodes](../defaultNode) , there are two ways to configure 
 
 
 ### 1 Global Configure When Instantiating a Graph
-Assign `shape` `'circle'` in the `defaultNode` object when instantiating a Graph:
+Assign `shape` to `'circle'` in the `defaultNode` object when instantiating a Graph:
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -53,12 +53,12 @@ circle node has the attributes shown below. The attribute wity Object type will 
 | style | The default style of circle node | Object | Correspond to the styles in Canvas |
 | labelCfg | The configurations of the label | Object |  |
 | stateStyles | The styles in different states | Object | Only takes effect on keyShape |
-| linkPoints | The link points of the related edges | Object | It is invisible by default |
+| linkPoints | The link points of the related edges | Object | They are invisible by default |
 | icon | The configurations of the icon on the circle node | Object | It is invisible by default |
 
 
 
-##### style
+### style
 `style` is an object to configure the filling color, stroke, and other styles. The following code shows how to configure the `style` globally when instantiating a Graph.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*PKulQaVnv9IAAAAAAAAAAABkARQnAQ' width=50/>
 ```javascript
@@ -88,7 +88,7 @@ graph.render();
 ```
 
 
-##### labelCfg
+### labelCfg
 `labelCfg` is an object to configure the label of the node. Base on the code in [style](#style) section, we add `labelCfg` to `defaultNode`.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zPiMQ5vO3e4AAAAAAAAAAABkARQnAQ' width=50/>
 ```javascript
 const data = {
@@ -111,7 +111,7 @@ const graph = new G6.Graph({
 ```
 
 
-##### linkPoints
+### linkPoints
 `linkPoints` is an object to configure the link points on the 「top, bottom, left, and right」.
 
 | Name | Description | Type | Remark |
@@ -149,7 +149,7 @@ const graph = new G6.Graph({
 ```
 
 
-##### icon
+### icon
 `icon` is an object to configure the icon on the node.
 
 | Name | Description | Type | Remark |

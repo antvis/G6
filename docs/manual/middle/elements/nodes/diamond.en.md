@@ -1,66 +1,66 @@
 ---
-title: diamond
+title: Diamond
 order: 4
 ---
 ## Diamond
 
-G6 内置了菱形 diamond 节点，其默认样式如下。标签文本位于菱形中央。<br />
+A built-in node Diamond has the default style as below, the label is drawed on the center of it.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*xS0cQKTywjkAAAAAAAAAAABkARQnAQ' width=100/>
 
 
-## 使用方法
-如 [内置节点](../defaultNode) 一节所示，配置节点的方式有两种：实例化图时全局配置，在数据中动态配置。
+## Usage
+As stated in [Built-in Nodes](../defaultNode) , there are two ways to configure the node: Configure it when instantiating a Graph globally; Configure it in the data.
 
 
-### 1 实例化图时全局配置
-用户在实例化 Graph 时候可以通过 `defaultNode` 指定 `shape` 为 `'diamond'`，即可使用 `diamond` 节点。
+### 1 Global Configure When Instantiating a Graph
+Assign `shape` to `'diamond'` in the `defaultNode` object when instantiating a Graph:
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
   defaultNode: {
-    shape: 'diamond',
-    // 其他配置
+    shape: 'diamond', // The type of the node
+    // ... Other configuraltions
   }
 })
 ```
 
-
-### 2 在数据中动态配置
-如果需要使不同节点有不同的配置，可以将配置写入到节点数据中。这种配置方式可以通过下面代码的形式直接写入数据，也可以通过遍历数据的方式写入。
+### 2 Configure in the Data
+To configure different nodes with different attributes, you can write the attributes into the node data.
 ```javascript
 const data = {
-  nodes: [{
+  nodes: [
+  {
 	  id: 'node0',
-    shape: 'diamond',
-    ... // 其他配置
-    },
-    ... // 其他节点
+    shape: 'diamond', // The tyep of the node
+    //... // Other configurations
+  },
+    ... // Other nodes
   ],
   edges: [
-    ... // 边
+    ... // edges
   ]
 }
 ```
 
 
-## 配置项说明
-circle 节点支持以下的配置项，对于 Object 类型的配置项将在后面有详细讲解：
+## Attribute
+Diamond 节点支持以下的配置项，对于 Object 类型的配置项将在后面有详细讲解：
 
-| 名称 | 含义 | 类型 | 备注 |
+| Name | Description | Type | Remark |
 | --- | --- | --- | --- |
-| size | 菱形的宽高 | Number | Array | size一个数值时，宽高相同 |
-| style | diamond默认样式 | Object | Canvas支持的属性 |
-| labelCfg | 文件配置项 | Object |  |
-| stateStyles | 各状态下的样式 | Object | 只对keyShape起作用 |
-| linkPoints | 菱形上的链接点 | Object | 默认不显示 |
-| icon | 菱形上icon配置 | Object | 默认不显示icon |
+| size | The width and the height of the diamond | Number / Array | When it is a number, the width and the height are the same |
+| style | The default style of diamond node | Object | Correspond to the styles in Canvas |
+| labelCfg | The configurations of the label | Object |  |
+| stateStyles | The styles in different states | Object | Only takes effect on keyShape |
+| linkPoints | The link points of the related edges | Object | They are invisible by default |
+| icon | The configurations of the icon on the circle node | Object | It is invisible by default |
 
 
-
-### 样式属性 style
-Object 类型。通过 `style` 配置来修改节点的填充色、描边等属性。下面代码演示在实例化图时全局配置方法中配置 `style`，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*t7w7RpKZVGkAAAAAAAAAAABkARQnAQ' width=100/>
+### style
+`style` is an object to configure the filling color, stroke, and other styles. The following code shows how to configure the `style` globally when instantiating a Graph.<br />
+<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*t7w7RpKZVGkAAAAAAAAAAABkARQnAQ' width=100/>
 ```javascript
 const data = {
   nodes: [{
@@ -75,7 +75,7 @@ const graph = new G6.Graph({
   width: 800,
   height: 600,
   defaultNode: {
-    // shape: 'diamond', // 数据中已指定 shape，这里无需再次指定
+    // shape: 'diamond', // The shape has been assigned in the data, we do not have to define it any more
     size: [200, 80],
     style: {
       fill: '#bae637',
@@ -89,16 +89,16 @@ graph.render();
 ```
 
 
-### 标签文本配置 labelCfg
-Object 类型。通过 `labelCfg` 配置标签文本。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Pmb6QITup3wAAAAAAAAAAABkARQnAQ' width=100/>
+### labelCfg
+`labelCfg` is an object to configure the label of the node. Base on the code in [style](#style) section, we add `labelCfg` to `defaultNode`.。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Pmb6QITup3wAAAAAAAAAAABkARQnAQ' width=100/>
 ```javascript
 const data = {
-  // ... data 内容
+  // ... data
 };
 const graph = new G6.Graph({
-  // ... 图的其他属性
+  // ... Other configurations for graph
   defaultNode: {
-    // ... 节点其他属性
+    // ... Other attributes for node
     labelCfg: {
       style: {
         fill: '#9254de',
@@ -112,30 +112,30 @@ const graph = new G6.Graph({
 ```
 
 
-### 边的连入点 linkPoints
-Object 类型。通过配置 `linkPoints` ，可以指定菱形周围「上、下、左、右」四个方向上边的连入点。
+### linkPoints
+`linkPoints` is an object to configure the link points on the 「top, bottom, left, and right」.
 
-| 名称 | 含义 | 类型 | 备注 |
+| Name | Description | Type | Remark |
 | --- | --- | --- | --- |
-| top | 是否显示上部的连接点 | Boolean | 默认为false |
-| bottom | 是否显示底部的连接点 | Boolean | 默认为false |
-| left | 是否显示左侧的连接点 | Boolean | 默认为false |
-| right | 是否显示右侧的连接点 | Boolean | 默认为false |
-| size | 连接点的大小 | Number | 默认为3 |
-| fill | 连接点的填充色 | String | 默认为#72CC4A |
-| stroke | 连接点的边框颜色 | String | 默认为#72CC4A |
-| lineWidth | 连接点边框的宽度 | Number | 默认为1 |
+| top | Whether show the top link point | Boolean | `false` by default |
+| bottom | Whether show the bototm link point | Boolean | `false` by default |
+| left | Whether show the left link point | Boolean | `false` by default |
+| right | Whether show the right link point | Boolean | `false` by default |
+| size | The size of the link points | Number | `3` by default |
+| fill | The filling color of the link points | String | `#72CC4A` by default |
+| stroke | The stroke color of the link points | String | `#72CC4A` by default |
+| lineWidth | The line width of the link points | Number | `1` by default |
 
 
-基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `linkPoints` 配置项进行连入点的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HoovQZW391AAAAAAAAAAAABkARQnAQ' width=100/>
+Base on the code in [style](#style) section, we add `linkPoints` to `defaultNode`.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HoovQZW391AAAAAAAAAAAABkARQnAQ' width=100/>
 ```javascript
 const data = {
-  // ... data 内容
+  // ... data
 };
 const graph = new G6.Graph({
-  // ... 图的其他属性
+  // ... Other configurations for graph
   defaultNode: {
-    // ... 节点其他属性
+    // ... Other configurations for nodes
     linkPoints: {
       top: true,
       bottom: true,
@@ -150,28 +150,29 @@ const graph = new G6.Graph({
 ```
 
 
-### 图标 icon
-Object 类型。通过配置 `icon`，可以在圆上显示小图标。
+### icon
+`icon` is an object to configure the icon on the node.
 
-| 名称 | 含义 | 类型 | 备注 |
+| Name | Description | Type | Remark |
 | --- | --- | --- | --- |
-| show | 是否显示icon | Boolean | 默认为false，不显示 |
-| width | icon的宽度 | Number | 默认为16 |
-| height | icon的高度 | Number | 默认为16 |
-| img | icon的地址 | String |  |
+| show | Whether show the icon | Boolean | `false` by default |
+| width | The width of the icon | Number | `16` by default |
+| height | The height of the icon | Number | `16` by default |
+| img | The image url of the icon | String |  |
 
 
-下面代码演示在实例化图时全局配置方法中配置 `icon`。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rmsFSJd6kXUAAAAAAAAAAABkARQnAQ' width=100/>
+Base on the code in [style](#style) section, we add `icon` to `defaultNode`.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rmsFSJd6kXUAAAAAAAAAAABkARQnAQ' width=100/>
 ```javascript
 const data = {
-  // ... data 内容
+  // ... data
 };
 const graph = new G6.Graph({
-  // ... 图的其他属性
+  // ... The configurations for the graph
   defaultNode: {
-    // ... 节点其他属性
+    // ... The configurations for nodes
     icon: {
       show: true,
+      //img: '...', The image url of the icon 
       width: 25,
       height: 25
     }

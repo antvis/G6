@@ -1,5 +1,5 @@
 ---
-title: Default Nodes
+title: Built-in Nodes
 order: 0
 ---
 
@@ -12,7 +12,7 @@ The table below shows the built-in nodes and their special attributes:
 | Name | Description | Default |
 | --- | --- | --- |
 | circle | Circle node: <br />- `size` is a number representing the diameter<br />- The circle is centered at the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />- More attributes are described in [circle](/en/docs/manual/middle/elements/nodes/circle)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*H9TrTIiUEegAAAAAAAAAAABkARQnAQ' width=50/> |
-| rect | Rect node: <br />- `size` is an array, e.g. [100, 50]<br />- The rect in centered at the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />-  More attributes are described in [rect 节点的配置](/zh/docs/manual/middle/elements/nodes/rect)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SrlHQ5dcCoMAAAAAAAAAAABkARQnAQ' width=50/> |
+| rect | Rect node: <br />- `size` is an array, e.g. [100, 50]<br />- The rect in centered at the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />-  More attributes are described in [rect](/zh/docs/manual/middle/elements/nodes/rect)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SrlHQ5dcCoMAAAAAAAAAAABkARQnAQ' width=50/> |
 | ellipse | Ellipse node: <br />- `size` is an array, representing the lengths of major diameter and minor diameter<br />- The ellipse is centered at the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />-  More attributes are described in [ellipse](/zh/docs/manual/middle/elements/nodes/ellipse)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RjdlRbuocDIAAAAAAAAAAABkARQnAQ' width=50/> |
 | diamond | Diamond node: <br />- `size` is an array, representing the width and height of the diamond<br />- The diamond is centered on the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />-  More attributes are described in [diamond](/zh/docs/manual/middle/elements/nodes/diamond)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EjiPRJacFTEAAAAAAAAAAABkARQnAQ' width=50/> |
 | triangle | Triangle node: <br />- `size` is an array, representing the length of the base and the height of the triangle<br />- The triangle is centered on the node position<br />- `color` takes effect on the stroke<br />- he label lays on the bottom of the node by default<br />-  More attributes are described in [triangle](/zh/docs/manual/middle/elements/nodes/triangle)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_HqXTadbhzAAAAAAAAAAAABkARQnAQ' width=50/> |
@@ -164,7 +164,7 @@ const data = {
 }
 ```
 
-### Configure with `graph.node(nodeFn)`
+### Configure with graph.node(nodeFn)
 By this way, we can configure different nodes with different attributes.
 
 <br />**Attention:** 
