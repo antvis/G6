@@ -15,7 +15,7 @@ order: 4
 - Step 2：将节点放置在边上层；
 - Step 3：监听鼠标事件并改变目标元素层级。
 
-## 
+
 ## 前提代码
 下面代码完成了引入 G6、数据设置、实例化图、渲染图的命令等。后文将修改下面这份代码中以达到上图高亮效果。
 ```javascript
@@ -77,18 +77,17 @@ order: 4
   graph.render();
 ```
 
-## 
+
 ## Step 1 实例化图时的配置
 `groupByTypes` 是图的一个配置项，当其为默认值 `true` 时，所有节点在一个名为 `nodeGroup` 的分组，所有边在另一个名为 `edgeGroup` 的分组，且 `nodeGroup` 在 `edgeGroup` 上层。将其设置为 `false` 后，将不存在 `nodeGroup` 和 `edgeGroup`，所有节点和边在同一个分组，它们的层级根据生成的顺序决定。
 
-## 
+
 ### 参数描述
 | 名称 | 类型 | 默认值 | 描述 |
 | --- | --- | --- | --- |
 | groupByTypes | Boolean | true | 各种元素是否在一个分组内，决定节点和边的层级问题，默认情况下所有的节点在一个分组中，所有的边在一个分组中，当这个参数为 false 时，节点和边的层级根据生成的顺序确定。 |
 
 
-## 
 ### 使用方式
 更改 前提代码 中实例化图部分代码，添加 `groupByTypes` 配置项，并设置为 `false`：
 ```javascript
@@ -100,11 +99,11 @@ const graph = new G6.Graph({
 
 此时，将会得到如下效果：<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cbiwTZ5dwP0AAAAAAAAAAABkARQnAQ' width=150/>
 
-## 
+
 ## Step 2 将节点放置在边上层
 上一步结果中节点在边的下层不符合常规，是由于 `groupByTypes` 为 `false` 时，节点和边的层级根据生成的顺序确定，而边的生成顺序在节点之后，因此所有边被绘制到了节点上方。为了使图符合常规——节点在上层，边在下层，可以在 `graph.render()` 之后将所有的节点通过 `toFront()` 函数提前。
 
-## 
+
 ### 函数描述
 ```javascript
 // 将节点实例 nodeItem 提前到其父级 group 的最前面
@@ -117,15 +116,15 @@ edgeItem.toFront();
 edgeItem.toBack();
 ```
 
-## 
-### 书用方法
+
+### 使用方法
 ```javascript
 // const graph = ... 
 graph.data(data);
 graph.render();
-// 获取图上的所有边实例
+// 获取图上的所有节点实例
 const nodes = graph.getNodes();
-// 遍历边实例，将所有边提前。
+// 遍历节点实例，将所有节点提前。
 nodes.forEach(node => {
   node.toFront();
 });
@@ -134,11 +133,11 @@ graph.paint();
 ```
  <br />这样，所有节点被绘制在边上层：<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*8TnuS7pkUfwAAAAAAAAAAABkARQnAQ' width=150/>
 
-## 
+
 ## Step 3 监听鼠标事件并改变目标元素层级
 在效果图中，鼠标进入节点时，相关边和节点的层级被提升到最上层，鼠标离开节点使恢复。边同理。这一步将实现这一交互效果。
 
-## 
+
 ### 函数描述
 使用下面四个函数监听鼠标的进入、离开元素的事件： 
 ```javascript
@@ -163,7 +162,6 @@ graph.on('edge:mouseleave', ev => {
 });
 ```
 
-## 
 ### 使用方法
 ```javascript
 // 鼠标进入节点事件

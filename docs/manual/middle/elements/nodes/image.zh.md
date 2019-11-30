@@ -1,5 +1,5 @@
 ---
-title: image
+title: Image
 order: 7
 ---
 ## Image

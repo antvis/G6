@@ -1,18 +1,18 @@
 ---
-title: image
+title: Image
 order: 7
 ---
 ## Image
 
-G6 内置了 image 节点，其默认样式如下。标签文本位于图片下方。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aHqIQIXL0RMAAAAAAAAAAABkARQnAQ' width=150/>
+A built-in node Circle has the default style as below, the label is drawed on the bottom of it.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aHqIQIXL0RMAAAAAAAAAAABkARQnAQ' width=150/>
 
 
-## 使用方法
-如 [内置节点](../defaultNode) 一节所示，配置节点的方式有两种：实例化图时全局配置，在数据中动态配置。
+## Usage
+As stated in [Built-in Nodes](../defaultNode) , there are two ways to configure the node: Configure it when instantiating a Graph globally; Configure it in the data.
 
 
 ### 1 实例化图时全局配置
-用户在实例化 Graph 时候可以通过 `defaultNode` 指定 `shape` 为 `'image'`，即可使用 `image` 节点。
+Assign `shape` to `'image'` in the `defaultNode` object when instantiating a Graph:
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -21,14 +21,14 @@ const graph = new G6.Graph({
   defaultNode: {
     shape: 'image',
     label: 'AntV Team'
-    // 其他配置
+    // Other configuraltions
   }
 })
 ```
 
 
-### 2 在数据中动态配置
-如果需要使不同节点有不同的配置，可以将配置写入到节点数据中。这种配置方式可以通过下面代码的形式直接写入数据，也可以通过遍历数据的方式写入。
+### 2 Configure in the Data
+To configure different nodes with different attributes, you can write the attributes into the node data.
 ```javascript
 const data = {
   nodes: [{
@@ -40,32 +40,32 @@ const data = {
     labelCfg: {
       position: 'bottom'
     },
-    // 裁剪图片配置
+    // The configurations for clipping the image
     clipCfg: {
       show: false,
       type: 'circle',
       r: 15
     }
   },
-    ... // 其他节点
+    ... // Other nodes
   ],
   edges: [
-    ... // 边
+    ... // edges
   ]
 }
 ```
 
 
-## 配置项说明
+## Attribute
+Image node has the attributes shown below. The attribute wity Object type will be described after the table:
 
-image 节点支持以下的配置项：
 ```javascript
 img: 'https://yyb.gtimg.com/aiplat/page/product/visionimgidy/img/demo6-16a47e5d31.jpg?max_age=31536000',
 size: 200,
   labelCfg: {
     position: 'bottom'
   },
-  // 裁剪图片配置
+  // The configurations for clipping the image
   clipCfg: {
     show: false,
     type: 'circle',
@@ -77,38 +77,37 @@ size: 200,
     // rect
     width: 15,
     height: 15,
-    // 坐标
+    // Coordinates
     x: 0,
     y: 0
   }
 ```
 
-| 名称 | 含义 | 类型 | 备注 |
+| Name | Description | Type | Remark |
 | --- | --- | --- | --- |
-| **img** | **图片 URL 地址** | **String** | **image 节点特有** |
-| size | 图片大小 | Number | Array | `size` 为单个值时，表示宽高相等 |
-| labelCfg | 文件配置项 | Object |  |
-| **clipCfg** | **裁剪图片的配置项** | **Object** | **默认不裁剪，image 节点特有** |
+| **img** | **The URL addgress** | **String** | **special attribute for image node** |
+| size | The size of the node | Number | Array | When it is a number, the width and the height are the same |
+| labelCfg | The configurations for the label | Object |  |
+| **clipCfg** | **The configurations for clipping** | **Object** | **Do not clip by default. It is a special attribute for image node** |
 
 
 
-### 剪裁 
-`clipCfg`
+### clipCfg
 
-| 名称 | 含义 | 类型 | 备注 |
+| Name | Description | Type | Remark |
 | --- | --- | --- | --- |
-| type | 裁剪的图片形状 | String | 支持 `'circle'`、`'rect'`、`'ellipse'` |
-| x | 裁剪图形的 x 坐标 | Number | 默认为 0，类型为 `'circle'`、`'rect'`、`'ellipse'` 时生效 |
-| y | 裁剪图形的 y 坐标 | Number | 默认为 0，类型为 `'circle'`、`'rect'`、`'ellipse'` 时生效 |
-| show | 是否启用裁剪功能 | Boolean | 默认不裁剪，值为 `false` |
-| r | 剪裁圆形的半径 | Number | 剪裁 type 为 `'circle'` 时生效 |
-| width | 剪裁矩形的宽度 | Number | 剪裁 type 为 `'rect'` 时生效 |
-| height | 剪裁矩形的长度 | Number | 剪裁 type 为 `'rect'` 时生效 |
-| rx | 剪裁椭圆的长轴半径 | Number | 剪裁 type 为 `'ellipse'` 时生效 |
-| ry | 剪裁椭圆的短轴半径 | Number | 剪裁 type 为 `'ellipse'` 时生效 |
+| type | The type of shape of clipping | String | Options: `'circle'`, `'rect'`, `'ellipse'` |
+| x | The x coordinate of the clipping shape | Number | 0 by default. Only takes effect when the `type` is `'circle'`, `'rect'`, or `'ellipse'` |
+| y | The y coordinate of the clipping shape | Number | 0 by default. Only takes effect when the `type` is `'circle'`, `'rect'`, or `'ellipse' |
+| show | Whether clip the image | Boolean | Do not clip by default. |
+| r | The radius of circle clipping | Number | Takes effect when the `type` is `'circle'` |
+| width | The width of the clipping | Number | Takes effect when the `type` is `'rect'` |
+| height | The height of the clipping | Number | Takes effect when the `type` is `'rect'` |
+| rx | The major radius of the ellipse clipping | Number | Takes effect when the `type` is `'ellipse'` |
+| ry | The minor radius of the ellipse clipping | Number | Takes effect when the `type` is `'ellipse'` |
 
 
-所有的裁剪类型都提供了默认值。下面代码演示在实例化图时全局配置 `clipCfg` 的最简形式：
+There are default values for all the types of clipping. The following code shows how to configure the `clipCfg` when instantiating a Graph:
 ```javascript
 const data = {
   nodes: [{
@@ -123,7 +122,7 @@ const graph = new G6.Graph({
   width: 800,
   height: 600,
   defaultNode: {
-    // shape: 'image',  // 在数据中已经指定 shape，这里无需再次指定
+    // shape: 'image',  // The shape has been assigned in the data, we do not have to define it any more
     clipCfg: {
       show: true,
       type: 'circle'
@@ -135,11 +134,11 @@ graph.render();
 ```
 
 
-#### 裁剪类型
+#### Clippling Type
 
-##### 圆形剪裁 
+##### Cicle Clipping
 `circle`
-当剪裁配置 `clipCfg` 中的裁剪类型 `type` 为 `'circle'` 时，如下配置可以得到下图效果：
+When the `type` in `clipCfg` is `'circle'`:
 ```javascript
 clipCfg: {
   show: true,
@@ -151,10 +150,10 @@ clipCfg: {
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*w5uESbSe430AAAAAAAAAAABkARQnAQ' width=150/>
 
 
-##### 矩形剪裁 
+##### Rect Clipping 
 `rect`
 
-当剪裁配置 `clipCfg` 中的裁剪类型 `type` 为 `'rect'` 时，如下配置可以得到下图效果：
+When the `type` in `clipCfg` is `'rect'`:
 ```javascript
 clipCfg: {
   show: true,
@@ -167,10 +166,10 @@ clipCfg: {
 ```
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mpPvTKdP7cIAAAAAAAAAAABkARQnAQ' width=150/>
 
-##### 椭圆剪裁 
+##### Ellipse Clipping
 `ellipse`
 
-当剪裁配置 `clipCfg` 中的裁剪类型 `type` 为 `'ellipse'` 时，如下配置可以得到下图效果：
+When the `type` in `clipCfg` is `'ellipse'`:
 ```javascript
 clipCfg: {
   show: true,

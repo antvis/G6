@@ -1,5 +1,5 @@
 ---
-title: triangle
+title: Triangle
 order: 5
 ---
 ## Triangle

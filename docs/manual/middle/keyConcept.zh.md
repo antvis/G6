@@ -48,10 +48,10 @@ Shape 作为 Graph 上的核心元素，这几个阶段都需要考虑，但是�
 所以我们在设计自定义节点和边时，定义了三个方法，若需要自定义节点和边，需要有选择性地复写它们：
 
 - `draw(cfg, group)`: 绘制，提供了绘制的配置项（数据定义时透传过来）和图形容器；
-- `update(cfg, n)`: 更新，更新时的配置项（更新的字段和原始字段的合并）和节点对象；
-- `setState(name, value, item)`: 设置节点状态。
+- `update(cfg, n)`: 更新，更新时的配置项（更新的字段和原始字段的合并）和元素对象；
+- `setState(name, value, item)`: 响应节点状态的变化。
 
-关于自定义Shape更多的方法请[参考 Shape API 文档](/zh/docs/api/Shape)。
+关于自定义 Shape 更多的方法请[参考 Shape API 文档](/zh/docs/api/Shape)。
 
 ## anchorPoint
 

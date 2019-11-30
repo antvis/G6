@@ -1,5 +1,5 @@
 ---
-title: modelRect
+title: ModelRect
 order: 8
 ---
 
@@ -11,7 +11,7 @@ G6 内置了方形卡片 modelRect 节点，其默认样式如下。标签文�
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*tCcvRrNkAgUAAAAAAAAAAABkARQnAQ' width='223' height='98' />
 
 
-<br />说明 数据中无 `description` 字段时，则不显示描述信息。
+<br />**提示：**数据中无 `description` 字段时，则不显示描述信息。
 
 
 ## 使用方法
@@ -56,35 +56,37 @@ modelRect 节点支持以下的配置项，对于 Object 类型的配置项将�
 
 | 名称 | 含义 | 类型 | 备注 |
 | --- | --- | --- | --- |
-| size | 圆的直径 | Number | Array | `size` 为数组时，取第一个值 |
-| style | circle 默认样式 | Object | Canvas 支持的属性 |
-| labelCfg | 文件配置项 | Object |  |
+| size | 卡片的大小 | Number | Array |  |
+| style | 卡片的默认样式 | Object | Canvas 支持的属性 |
+| labelCfg | 文本配置项 | Object |  |
 | stateStyles | 各状态下的样式 | Object | 只对 keyShape 起作用 |
 | linkPoints | 相关边的连入点 | Object | 默认不显示 |
-| icon | 圆上 icon 配置 | Object | 默认不显示 icon |
+| **preRect** | **左侧的小矩形** | **Object** | **modelRect 节点特有** |
+| **logoIcon** | **左侧的logo图标** | **Object** | **modelRect 节点特有** |
+| **stateIcon** | **右侧的状态图标** | **Object** | **modelRect 节点特有** |
 
 
 ```javascript
-    // 节点中icon配置
+    // 节点中 icon 配置
     logoIcon: {
-      // 是否显示icon，值为 false 则不渲染icon
+      // 是否显示 icon，值为 false 则不渲染 icon
       show: true,
       x: 0,
       y: 0,
-      // icon的地址，字符串类型
+      // icon 的地址，字符串类型
       img: 'https://gw.alipayobjects.com/zos/basement_prod/4f81893c-1806-4de4-aff3-9a6b266bc8a2.svg',
       width: 16,
       height: 16,
       // 用于调整图标的左右位置
       offset: 0
     },
-    // 节点中表示状态的icon配置
+    // 节点中表示状态的 icon 配置
     stateIcon: {
-      // 是否显示icon，值为 false 则不渲染icon
+      // 是否显示 icon，值为 false 则不渲染 icon
       show: true,
       x: 0,
       y: 0,
-      // icon的地址，字符串类型
+      // icon 的地址，字符串类型
       img: 'https://gw.alipayobjects.com/zos/basement_prod/300a2523-67e0-4cbf-9d4a-67c077b40395.svg',
       width: 16,
       height: 16,
@@ -92,18 +94,6 @@ modelRect 节点支持以下的配置项，对于 Object 类型的配置项将�
       offset: -5
     }
 ```
-
-| 名称 | 含义 | 类型 | 备注 |
-| --- | --- | --- | --- |
-| size | modelRect的宽高 | Number | Array | `size` 为 Array 时：第一个值表示宽度，第二个表示高度；<br />`size` 为 Number 时：表示宽高相等 |
-| style | modelRect默认样式 | Object | Canvas 支持的属性 |
-| labelCfg | 文件配置项 | Object |  |
-| stateStyles | 各状态下的样式 | Object | 只对 keyShape 起作用 |
-| linkPoints | modelRect上的链接点 | Object | 默认不显示 |
-| **preRect** | **左侧的小矩形** | **Object** | **modelRect 节点特有** |
-| **logoIcon** | **左侧的logo图标** | **Object** | **modelRect 节点特有** |
-| **stateIcon** | **右侧的状态图标** | **Object** | **modelRect 节点特有** |
-
 
 
 ### 样式属性 style
@@ -167,9 +157,9 @@ Object 类型。通过配置 `linkPoints` ，可以指定 modelRect 周围「上
 | bottom | 是否显示底部的连接点 | Boolean | 默认为 `false` |
 | left | 是否显示左侧的连接点 | Boolean | 默认为 `false` |
 | right | 是否显示右侧的连接点 | Boolean | 默认为 `false` |
-| size | 连接点的大小 | Number | 默认为 3 |
-| fill | 连接点的填充色 | String | 默认为 `'#``72CC4A'` |
-| stroke | 连接点的边框颜色 | String | 默认为 `'#``72CC4A'` |
+| size | 连接点的大小 | Number | 默认为 `3` |
+| fill | 连接点的填充色 | String | 默认为 `'#72CC4A'` |
+| stroke | 连接点的边框颜色 | String | 默认为 `'#72CC4A'` |
 | lineWidth | 连接点边框的宽度 | Number | 默认为 1 |
 
 
@@ -217,7 +207,7 @@ const graph = new G6.Graph({
   defaultNode: {
     // ... 节点其他属性
     preRect: {
-      // 设置为false，则不显示
+      // 设置为 false，则不显示
       show: true,
       fill: '#f759ab',
       width: 8
@@ -234,13 +224,13 @@ const graph = new G6.Graph({
 | 名称 | 含义 | 类型 | 备注 |
 | --- | --- | --- | --- |
 | show | 是否显示图标 | Boolean | 默认为 `true` |
-| img | 图标图片 | String | <br />- 左侧图标 `logoIcon` 的图片默认为 <img src='' width=150/><br />- 右侧图标 `stateIcon` 的图片默认为<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*KpqSS4INnRUAAAAAAAAAAABkARQnAQ' width=150/><br /> |
+| img | 图标图片 | String | <br />- 左侧图标 `logoIcon` 的图片默认为 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*KpqSS4INnRUAAAAAAAAAAABkARQnAQ' width=25/><br />- 右侧图标 `stateIcon` 的图片默认为 <img src='https://gw.alipayobjects.com/zos/basement_prod/300a2523-67e0-4cbf-9d4a-67c077b40395.svg' width=25/><br /> |
 | width | 图标的宽度 | Number | 默认为 16 |
 | height | 图标的高度 | Number | 默认为 16 |
 | offset | 图标的左右偏移量 | Number | <br />- 左侧图标 `logoIcon` 的 `offset` 默认为 0<br />- 右侧图标 `stateIcon` 的 `offset` 默认为 -5<br /> |
 
 
-基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `logoIcon` 和 `stateIcon` 配置项进行左右图标的配置，使之达到如下图效果，左侧图标不显示，右侧图标更换图片。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rnW7QYNJvhcAAAAAAAAAAABkARQnAQ' width=150/>
+基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `logoIcon` 和 `stateIcon` 配置项进行左右图标的配置，使之达到如下图效果，左侧图标不显示，右侧图标更换图片。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*pBsqR7McSiYAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
 const data = {
   // ... data 内容

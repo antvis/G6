@@ -1,5 +1,5 @@
 ---
-title: circle
+title: Circle
 order: 1
 ---
 
@@ -49,16 +49,16 @@ circle 节点支持以下的配置项，对于 Object 类型的配置项将在�
 
 | 名称 | 含义 | 类型 | 备注 |
 | --- | --- | --- | --- |
-| size | 圆的直径 | Number | Array | size为数组时，取第一个值 |
-| style | circle 默认样式 | Object | Canvas支持的属性 |
-| labelCfg | 文件配置项 | Object |  |
-| stateStyles | 各状态下的样式 | Object | 只对keyShape起作用 |
+| size | 圆的直径 | Number / Array | `size` 为数组时，取第一个值 |
+| style | circle 默认样式 | Object | Canvas 支持的属性 |
+| labelCfg | 标签文本配置项 | Object |  |
+| stateStyles | 各状态下的样式 | Object | 只对 keyShape 起作用 |
 | linkPoints | 相关边的连入点 | Object | 默认不显示 |
-| icon | 圆上 icon 配置 | Object | 默认不显示icon |
+| icon | 圆上 icon 配置 | Object | 默认不显示 icon |
 
 
 
-##### 样式属性 style
+### 样式属性 style
 Object 类型。通过 `style` 配置来修改节点的填充色、描边等属性。下面代码演示在实例化图时全局配置方法中配置 `style`，使之达到如下图效果。<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*PKulQaVnv9IAAAAAAAAAAABkARQnAQ' width=50/>
 ```javascript
@@ -88,7 +88,7 @@ graph.render();
 ```
 
 
-##### 标签文本配置 labelCfg
+### 标签文本配置 labelCfg
 Object 类型。通过 `labelCfg` 配置标签文本。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zPiMQ5vO3e4AAAAAAAAAAABkARQnAQ' width=50/>
 ```javascript
 const data = {
@@ -111,19 +111,19 @@ const graph = new G6.Graph({
 ```
 
 
-##### 边的连入点 linkPoints
+### 边的连入点 linkPoints
 Object 类型。通过配置 `linkPoints` ，可以指定节点周围「上、下、左、右」四个方向上边的连入点。
 
 | 名称 | 含义 | 类型 | 备注 |
 | --- | --- | --- | --- |
-| top | 是否显示上部的连接点 | Boolean | 默认为false |
-| bottom | 是否显示底部的连接点 | Boolean | 默认为false |
-| left | 是否显示左侧的连接点 | Boolean | 默认为false |
-| right | 是否显示右侧的连接点 | Boolean | 默认为false |
-| size | 连接点的大小 | Number | 默认为3 |
-| fill | 连接点的填充色 | String | 默认为#72CC4A |
-| stroke | 连接点的描边颜色 | String | 默认为#72CC4A |
-| lineWidth | 连接点描边的宽度 | Number | 默认为1 |
+| top | 是否显示上部的连接点 | Boolean | 默认为 `false` |
+| bottom | 是否显示底部的连接点 | Boolean | 默认为 `false` |
+| left | 是否显示左侧的连接点 | Boolean | 默认为 `false` |
+| right | 是否显示右侧的连接点 | Boolean | 默认为 `false` |
+| size | 连接点的大小 | Number | 默认为 `3` |
+| fill | 连接点的填充色 | String | 默认为 `#72CC4A` |
+| stroke | 连接点的描边颜色 | String | 默认为 `#72CC4A` |
+| lineWidth | 连接点描边的宽度 | Number | 默认为 `1` |
 
 
 基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `linkPoints` 配置项进行连入点的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rOdpQZOdQcgAAAAAAAAAAABkARQnAQ' width=50/>
@@ -149,15 +149,15 @@ const graph = new G6.Graph({
 ```
 
 
-##### 图标 icon
+### 图标 icon
 Object 类型。通过配置 `icon`，可以在节点上显示小图标。
 
 | 名称 | 含义 | 类型 | 备注 |
 | --- | --- | --- | --- |
-| show | 是否显示icon | Boolean | 默认为false，不显示 |
-| width | icon的宽度 | Number | 默认为16 |
-| height | icon的高度 | Number | 默认为16 |
-| img | icon的地址 | String |  |
+| show | 是否显示 icon | Boolean | 默认为 `false`，不显示 |
+| width | icon 的宽度 | Number | 默认为 `16` |
+| height | icon 的高度 | Number | 默认为 `16` |
+| img | icon 的地址 | String |  |
 
 
 基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `icon` 配置项进行图标的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YSgMTI4UUkkAAAAAAAAAAABkARQnAQ' width=50/>
