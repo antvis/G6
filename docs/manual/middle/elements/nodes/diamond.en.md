@@ -167,9 +167,9 @@ const data = {
   // ... data
 };
 const graph = new G6.Graph({
-  // ... The configurations for the graph
+  // ... Other configurations for the graph
   defaultNode: {
-    // ... The configurations for nodes
+    // ... Other configurations for nodes
     icon: {
       show: true,
       //img: '...', The image url of the icon 
