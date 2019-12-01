@@ -76,7 +76,7 @@ const graph = new G6.Graph({
 | --- | --- | --- | --- |
 | position | false | String | The relative positions to the node. Options:  `'center'`, `'top'`, `'left'`, `'right'`, `'bottom'`. `'center'` by default |
 | offset | false | Number / Array | The offset of the label on the directions of `'top'`, `'left'`, `'right'`, `'bottom'` |
-| style | false | Object | 标签的样式属性 |
+| style | false | Object | The style attribute of the label |
 
 
 The commonly used configurations for the `style` in the above table are:
@@ -143,23 +143,23 @@ const data = {
     id: 'node0',
     size: 100,
     shape: 'rect',
-    ...    // Other attributes for this node
+    // ...    // Other attributes for this node
     style: {
-      ...  // Style attributes for this node
+      // ...  // Style attributes for this node
     }
   },{
     id: 'node1',
     size: [50, 100],
     shape: 'ellipse',
-    ...    // Other attributes for this node
+    // ...    // Other attributes for this node
     style: {
-      ...  // Style attributes for this node
+      // ...  // Style attributes for this node
     }
   },
-    ... // Other nodes
+    // ... // Other nodes
   ],
   edges: [
-    ... // edges
+    // ... // edges
   ]
 }
 ```
@@ -167,7 +167,7 @@ const data = {
 ### Configure with graph.node(nodeFn)
 By this way, we can configure different nodes with different attributes.
 
-<br />**Attention:** 
+<br />⚠️**Attention:** 
 
 - `graph.node(nodeFn)` must be called **before calling render()**. It does not take effect otherwise;
 - It has the highest priority that will rewrite the same attributes configured by other ways;

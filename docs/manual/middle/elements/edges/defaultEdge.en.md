@@ -1,119 +1,118 @@
 ---
-title: 内置边总览
+title: Built-in Edges
 order: 0
 ---
 
-G6 提供了 9 种内置边：
+There are 9 built-in edges in G6:
 
-- line：直线，不支持控制点；
-- polyline：折线，支持多个控制点；
-- arc：圆弧线；
-- quadratic：二阶贝塞尔曲线；
-- cubic：三阶贝塞尔曲线；
-- cubic-vertical：垂直方向的三阶贝塞尔曲线，不考虑用户从外部传入的控制点；
-- cubic-horizontal；水平方向的三阶贝塞尔曲线，不考虑用户从外部传入的控制点；
-- loop：自环。
+- line: straight line without control points;
+- polyline: polyline with one or more control points;
+- arc;
+- quadratic: quadratic bezier curve;
+- cubic: cubic bezier curve;
+- cubic-vertical：vertical cubic bezier curve. The user can not assign the control point for this type of edge;
+- cubic-horizontal: horizontal cubic bezier curve. The user can not assign the control point for this type of edge;
+- loop: self-loop edge.
 
-这些内置边的默认样式分别如下图所示。<br />
+<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*H6Y5SrPstw4AAAAAAAAAAABkARQnAQ' width='750' height='120' />
 
-## 内置边类型说明
-下面表格中显示了内置的各类边，同时对一些特殊的字段进行了说明：
+## Types of Default Nodes
+The table below shows the built-in edges and their special attributes:
 
-| 名称 | 描述 |  |
+| Name | Description |  |
 | --- | --- | --- |
-| line | 连接两个节点的直线：<br />- controlPoints 不生效<br />- 更多配置详见 line 边的配置<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-LM-RJnlI20AAAAAAAAAAABkARQnAQ' width=100/> |
-| polyline | 多段线段构成的折线，连接两个端点：<br />- controlPoints 表示所有线段的拐点，不指定时根据 [A* 算法](https://yuque.alibaba-inc.com/antv/blog/polyline-edges-with-border-radius)自动生成折线<br />- 更多配置详见 polyline 边的配置<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*q2pIQ6h622IAAAAAAAAAAABkARQnAQ' width=100/> |
-| arc | 连接两个节点的一段圆弧：<br />- controlPoints 不生效<br />- 使用 curveOffset 指定弧的弯曲程度，其正负影响弧弯曲的方向<br />- 更多配置详见 arc 边的配置<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SmS8QZjTlEkAAAAAAAAAAABkARQnAQ' width=100/> |
-| quadratic | 只有一个控制点的曲线：<br />- controlPoints 不指定时，会默认线的一半处弯曲<br />- 更多配置详见 quadratic 边的配置<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IADsTq4eH50AAAAAAAAAAABkARQnAQ' width=100/> |
-| cubic | 有两个控制点的曲线：<br />- controlPoints 不指定时，会默认线的 1/3, 2/3 处弯曲<br />- 更多配置详见 cubic 边的配置<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ldiCT7xnrM4AAAAAAAAAAABkARQnAQ' width=100/> |
-| cubic-vertical | 垂直方向的三阶贝塞尔曲线，不考虑用户从外部传入的控制点 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*WtNPRKSZv1kAAAAAAAAAAABkARQnAQ' width=100/> |
-| cubic-horizontal | 水平方向的三阶贝塞尔曲线，不考虑用户从外部传入的控制点 | <img src='' width=100/> |
-| loop | 自环。更多配置详见 arc 边的配置 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iNiVRIsov4MAAAAAAAAAAABkARQnAQ' width=100/> |
+| line | A straight line connected two end nodes: <br />- controlPoints do not take effect<br />- Refer to attributes of line for more information<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-LM-RJnlI20AAAAAAAAAAABkARQnAQ' width=100/> |
+| polyline | A polyline with one or more control points: <br />- controlPoints is the set of all the control points of polyline. If it is not assigned, G6 will calculate it by [A* Algorithm](https://yuque.alibaba-inc.com/antv/blog/polyline-edges-with-border-radius)<br />- Refer to attributes of polyline for more information<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*q2pIQ6h622IAAAAAAAAAAABkARQnAQ' width=100/> |
+| arc | An arc connects two end nodes: <br />- controlPoints do not take effects<br />- control the bending and direction by `curveOffset`<br />- Refer to attributes of arc for more informatio<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SmS8QZjTlEkAAAAAAAAAAABkARQnAQ' width=100/> |
+| quadratic | A quadratic bezier curve with one control point: <br />- The curve will be bended on the center if the `controlPoints` is not defined <br />- Refer to attributes of quadratic for more informatio<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IADsTq4eH50AAAAAAAAAAABkARQnAQ' width=100/> |
+| cubic | A cubic bezier curve with two control points: <br />- The curve will be bended on the position of 1/3 and 2/3 if the `controlPoints` is not defined<br />- Refer to attributes of cubic for more informatio<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ldiCT7xnrM4AAAAAAAAAAABkARQnAQ' width=100/> |
+| cubic-vertical | The vertical cubic bezier curve. The user can not assign the control point for this type of edge | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*WtNPRKSZv1kAAAAAAAAAAABkARQnAQ' width=100/> |
+| cubic-horizontal | The horizontal cubic bezier curve. The user can not assign the control point for this type of edge | <img src='' width=100/> |
+| loop | Self-loop edge. Refer to attributes of loop for more informatio | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iNiVRIsov4MAAAAAAAAAAABkARQnAQ' width=100/> |
 
-## 边的通用属性
-所有内置的边支持的通用属性：
+## The Common Attribute
 
-| 名称 | 是否必须 | 类型 | 备注 |
+| Name | Required | Type | Remark |
 | --- | --- | --- | --- |
-| id | false | String | 边编号 |
-| source | true | String | Number | 起始点 id |
-| target | true | String | 结束点 id |
-| shape | false | String | 边图形，默认为 'line' |
-| sourceAnchor | false | Number | 边的起始节点上的锚点的索引值 |
-| targetAnchor | false | Number | 边的终止节点上的锚点的索引值 |
-| style | false | Object | 边的样式属性 |
-| label | false | String | 文本文字，如果没有则不会显示 |
-| labelCfg | false | Object | 文本配置项 |
+| id | false | String | The id of the node |
+| source | true | String | Number | The id of the source node |
+| target | true | String | The id of the target node |
+| shape | false | String | The shape of the node, `'line'` by default |
+| sourceAnchor | false | Number | The index of link points on the source node. The link point is the intersection of the edge and related node |
+| targetAnchor | false | Number | The index of link points on the target node. The link point is the intersection of the edge and related node |
+| style | false | Object | The edge style |
+| label | false | String | The label text of the edge |
+| labelCfg | false | Object | The configurations of the label |
 
 
-#### 样式属性 style
-Object 类型。通过 `style` 配置来修改边的颜色、线宽等属性。下表是 `style` 对象中常用的配置项：
+#### style
+`style` is an object to configure the stroke color, shadow, and so on. Here is the commonly used attributes in `style`:
 
-| 名称 | 是否必须 | 类型 | 备注 |
+| Name | Required | Type | Remark |
 | --- | --- | --- | --- |
-| stroke | false | String | 边的颜色 |
-| lineWidth | false | Number | 边宽度 |
-| lineAppendWidth | false | Number | 边响应鼠标事件时的检测宽度，当 `lineWidth` 太小而不易选中时，可以通过该参数提升击中范围 |
-| endArrow | false | Boolean | 边的结束端是否有箭头 |
-| strokeOpacity | false | Number | 边透明度 |
-| shadowColor | false | String | 阴影颜色 |
-| shadowBlur | false | Number | 阴影范围 |
-| shadowOffsetX | false | Number | 阴影 x 方向偏移量 |
-| shadowOffsetX | false | Number | 阴影 y 方向偏移量 |
+| stroke | false | String | The stroke color |
+| lineWidth | false | Number | The line width |
+| lineAppendWidth | false | Number | The width of the response area for interaction. In other words, when the edge is too thin to be hitted by mouse, enlarge the value of `lineWidth` to widen the response area |
+| endArrow | false | Boolean | Whether show the end arrow |
+| strokeOpacity | false | Number | The stroke opacity |
+| shadowColor | false | String | The color of the shadow |
+| shadowBlur | false | Number | The blur degree of the shadow |
+| shadowOffsetX | false | Number | The x offset of the shadow |
+| shadowOffsetX | false | Number | The y offset of the shadow |
 | ... |  |  |  |
 
 
-下面代码演示在实例化图时全局配置方法中配置 `style`：
+Configure `style` globally when instantiating the Graph:
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
   defaultEdge: {
-    // ... 其他属性
+    // ... Other attributes for edges
     style: {
       stroke: '#eaff8f',
       lineWidth: 5,
-      // ... 其他属性
+      // ... Other style attributes
     }
   }
 })
 ```
 
-#### 标签文本 label 及其配置 labelCfg
-`label` String 类型。标签文本的文字内容。<br />`labelCfg` Object 类型。配置标签文本。下面是 `labelCfg` 对象中的常用配置项：
+#### label and labelCfg
+`label` is a string which indicates the content of the label. <br />`labelCfg` is an object to configure the label. The commonly used configurations of `labelCfg`:
 
-| 名称 | 是否必须 | 类型 | 备注 |
+| Name | Required | Type | Remark |
 | --- | --- | --- | --- |
-| refX | false | Number | 标签在 x 方向的偏移量 |
-| refY | false | Number | 标签在 y 方向的偏移量 |
-| position | false | String | 文本相对于边的位置，目前支持的位置有: `start`，`middle`, `end`。默认为`middle`。 |
-| autoRotate | false | Boolean | 标签文字是否跟随边旋转，默认 `false` |
-| style | false | Object | 标签的样式属性 |
+| refX | false | Number | x offset of the label |
+| refY | false | Number | y offset of the label |
+| position | false | String | The relative position to the edge. Options: `'start'`, `'middle'`, and `'end'`. `'middle'` by default |
+| autoRotate | false | Boolean | Whether activate ratating according to the edge automatically. `false` by default |
+| style | false | Object | The style attribute of the label |
 
 
-上表中的标签的样式属性 `style` 的常用配置项如下： 
+The commonly used configurations for the `style` in the above table are:
 
-| 名称 | 是否必须 | 类型 | 备注 |
+| Name | Required | Type | Remark |
 | --- | --- | --- | --- |
-| fill | false | String | 文本颜色 |
-| stroke | false | String | 文本描边颜色 |
-| lineWidth | false | Number | 文本描边粗细 |
-| opacity | false | Number | 文本透明度 |
-| font | false | String | 文本内容的当前字体属性 |
-| fontSize | false | Number | 文本字体大小 |
+| fill | false | String | The color of the label |
+| stroke | false | String | The stroke color |
+| lineWidth | false | Number | The line width of the stroke |
+| opacity | false | Number | The opacity |
+| font | false | String | The font |
+| fontSize | false | Number | The font size |
 | ... |  |  |  |
 
 
-下面代码演示在实例化图时全局配置方法中配置 `label` 和 `labelCfg`。
+The following code shows how to configure `label` and `labelCfg` globally when instantiating a Graph:
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
   defaultEdge: {
-    // ... 其他属性
+    // ... Other attributes for nodes
     label: 'edge-label',
     labelCfg: {
     	refY: -10,
@@ -123,15 +122,15 @@ const graph = new G6.Graph({
 })
 ```
 
-## 边的配置方法
-配置边的方式有三种：实例化图时全局配置，在数据中动态配置，使用 `graph.edge(edgeFn)` 函数配置。这几种配置方法可以同时使用，优先级：
+## Configure Edges
+There are three methods to configure edges: Configure edges globally when instantiating a Graph; Configure edges in their data; Configure edges by `graph.edge(edgeFn)`. Their priorities are: 
 
-使用 graph.edge(edgeFn) 配置 > 数据中动态配置 > 实例化图时全局配置
+`graph.edge(edgeFn)` > Configure in data > Configure globally
 
-即有相同的配置项时，优先级高的方式将会覆盖优先级低的。
+That means, if there are same configurations in different ways, the way with higher priority will take effect.
 
-### 实例化图时全局配置
-用户在实例化 Graph 时候可以通过 `defaultEdge` 配置边，这里的配置是全局的配置，将会在所有边上生效。
+### Configure Globally When Instantiating Graph
+Assign `defaultEdge` to configure all the nodes globally:
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -139,46 +138,48 @@ const graph = new G6.Graph({
   height: 600,
   defaultEdge: {
     shape: 'line',
-    // 其他配置
+    // Other attributes for all the nodes
   }
 })
 ```
 
-### 在数据中动态配置
-如果需要使不同边有不同的配置，可以将配置写入到边数据中。这种配置方式可以通过下面代码的形式直接写入数据，也可以通过遍历数据的方式写入。
+### Configure in Data
+To configure different nodes with different attributes, you can write the attributes into their data individually:
 ```javascript
 const data = {
   nodes: [
-    ... // 节点
+    ... // nodes
   ],
   edges: [{
     source: 'node0',
     target: 'node1'
     shape: 'polyline',
-    ... // 其他配置
+    // ...    // Other attributes for this edge
     style: {
-      ...  // 样式属性，每种边的详细样式属性参见各边文档
+      // ...  // Style attributes for this edge
     }
   },{
     source: 'node1',
     target: 'node2'
     shape: 'cubic',
-    ... // 其他配置
+    // ...    // Other attributes for this edge
     style: {
-      ...  // 样式属性，每种边的详细样式属性参见各边文档
+      // ...  // Style attributes for this edge
     }
   },
-    ... // 其他边
+    // ... // edges
   ]
 }
 ```
 
-### 使用 graph.edge(edgeFn) 配置
-该方法可以为不同边进行不同的配置。<br />提示：
+### Configure with graph.edge(edgeFn)
+By this way, we can configure different nodes with different attributes.<br />
 
-- 该方法必须**在 render 之前调用**，否则不起作用；
-- 由于该方法优先级最高，将覆盖其他地方对边的配置，这可能将造成一些其他配置不生效的疑惑；
-- 该方法在增加元素、更新元素时会被调用，如果数据量大、每条边上需要更新的内容多时，可能会有性能问题。
+⚠️**Attention:** 
+
+- `graph.edge(edgeFn)` must be called **before calling render()**. It does not take effect otherwise;
+- It has the highest priority that will rewrite the same attributes configured by other ways;
+- Each edge will be updated when adding or updating items. It will cost a lot when the amount of the data is large.
 ```javascript
 // const data = ...
 // const graph = ...
@@ -196,7 +197,7 @@ graph.data(data);
 graph.render();
 ```
 
-## 实例演示
+## Example
 ```javascript
 const data = {
   nodes: [
@@ -232,16 +233,16 @@ const graph = new G6.Graph({
 	container: 'mountNode',
   width: 1500,
   height: 300,
-  linkCenter: true      // 使边连入节点的中心
+  linkCenter: true      // edges connect the nodes' center
 });
 graph.data(data);
 graph.render();
 ```
 
-显示结果：<br />
+The result: <br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LcCzSqTqifwAAAAAAAAAAABkARQnAQ' width='750' height='120' />
 
-### 调整边的样式
+### Adjust the Attributes
 可以在边上添加文本，修改边的样式。下面演示将配置写入数据的方式配置边。使用下面代码替换上面代码中的 9-10、11-12 两条边数据，修改这两条边的样式和其文本。
 ```javascript
 // 使 9-10 的 cubic 边文本下移 15 像素

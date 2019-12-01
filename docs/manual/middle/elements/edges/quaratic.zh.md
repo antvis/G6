@@ -1,8 +1,7 @@
 ---
-title: quadratic
+title: Quadratic
 order: 3
 ---
-## quadratic
 
 G6 内置了 quadratic 边，其默认样式如下。<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YUOlRZaDDZgAAAAAAAAAAABkARQnAQ' width=150/>
