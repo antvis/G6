@@ -243,36 +243,36 @@ The result: <br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LcCzSqTqifwAAAAAAAAAAABkARQnAQ' width='750' height='120' />
 
 ### Adjust the Attributes
-可以在边上添加文本，修改边的样式。下面演示将配置写入数据的方式配置边。使用下面代码替换上面代码中的 9-10、11-12 两条边数据，修改这两条边的样式和其文本。
+By writing the attributes into the data, we adjust the style and the label of the edges of '9-10' and '11-12'.
 ```javascript
-// 使 9-10 的 cubic 边文本下移 15 像素
+// Move the label of this edge
 {
   source: '9', 
   target: '10', 
   shape: 'cubic',
   label: 'cubic',
   labelCfg: {
-    refY: -15 // refY 默认是顺时针方向向下，所以需要设置负值
+    refY: -15 // refY is the offset along the clockwise down direction
   }
 },
-// 设置 11-12 的 cubic-vertical 边的颜色、虚线、粗细，并设置文本样式、随边旋转
+// Set the color, line dash, line width, and style of the label of this edge
 {
   source: '11', 
   target: '12',
   shape: 'cubic-vertical',
-  color: '#722ed1',     // 边颜色
-  size: 5,              // 边粗细
+  color: '#722ed1',     // Color
+  size: 5,              // Line width
   style: {
-  	lineDash: [2, 2]    // 虚线边
+  	lineDash: [2, 2]    // Dash line
   },
   label: 'cubic-vertical',
   labelCfg: {
-  	position: 'center', // 其实默认就是 center，这里写出来便于理解
-    autoRotate: true,   // 使文本随边旋转
+  	position: 'center', // The position of the label=
+    autoRotate: true,   // Whether rotate the label according to the edge
     style: {
-      stroke: 'white',  // 给文本添加白边和白色背景
-    	lineWidth: 5,     // 文本白边粗细
-      fill: '#722ed1',  // 文本颜色
+      stroke: 'white',  // White stroke for the label
+    	lineWidth: 5,     // The line width of the stroke
+      fill: '#722ed1',  // The color of the text
     }
   }
 }
@@ -280,6 +280,6 @@ The result: <br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GxR3RaD4kH8AAAAAAAAAAABkARQnAQ' width='750' height='120' />
 
-## 相关阅读
+## Related Reading
 
-- [状态 State](../../states/state) —— 交互过程中的样式变化。
+- [State](../../states/state) —— Change the styles during the interaction process.
