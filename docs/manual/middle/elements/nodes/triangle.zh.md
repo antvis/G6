@@ -50,12 +50,12 @@ triangle 节点支持以下的配置项：
 | 名称 | 含义 | 类型 | 备注 |
 | --- | --- | --- | --- |
 | size | 三角形的边长 | Number | Array | size为数组时取第一个值 |
-| **direction** | **三角形的方向** | **String** | **可取值：up、down、left、right，默认为up。** |
-| style | 三角形默认样式 | Object | Canvas支持的属性 |
+| **direction** | **三角形的方向** | **String** | **可取值：`'up'`，`'down'`，`'left'`，`'right'`。默认为 `'up'`** |
+| style | 三角形默认样式 | Object | Canvas 支持的属性 |
 | labelCfg | 标签文本配置项 | Object |  |
-| stateStyles | 各状态下的样式 | Object | 只对keyShape起作用 |
+| stateStyles | 各状态下的样式 | Object | 只对 keyShape 起作用 |
 | linkPoints | 三角形上的链接点 | Object | 默认不显示 |
-| icon | 三角形上icon配置 | Object | 默认不显示icon |
+| icon | 三角形上 icon 配置 | Object | 默认不显示 icon |
 
 
 
@@ -97,7 +97,7 @@ const graph = new G6.Graph({
   width: 800,
   height: 600,
   defaultNode: {
-    // shape: 'triangle',// 在数据中已经指定 shape，这里无需再次指定
+    // shape: 'triangle', // 在数据中已经指定 shape，这里无需再次指定
     direction: 'up',
     size: 100,
     style: {
@@ -136,18 +136,18 @@ const graph = new G6.Graph({
 
 
 ### 边的连入点 linkPoints
-Object 类型。通过配置 `linkPoints` ，可以指定圆周围「上、下、左、右」四个方向上边的连入点。<br />说明 虽然每个三角形只有三个顶点，但不同方向的三角形顶点位置不同。
+Object 类型。通过配置 `linkPoints` ，可以指定节点上「上、下、左、右」四个方向上边的连入点。
 
 | 名称 | 含义 | 类型 | 备注 |
 | --- | --- | --- | --- |
-| top | 是否显示上部的连接点 | Boolean | 默认为false |
-| bottom | 是否显示底部的连接点 | Boolean | 默认为false |
-| left | 是否显示左侧的连接点 | Boolean | 默认为false |
-| right | 是否显示右侧的连接点 | Boolean | 默认为false |
-| size | 连接点的大小 | Number | 默认为3 |
-| fill | 连接点的填充色 | String | 默认为#72CC4A |
-| stroke | 连接点的边框颜色 | String | 默认为#72CC4A |
-| lineWidth | 连接点边框的宽度 | Number | 默认为1 |
+| top | 是否显示上部的连接点 | Boolean | 默认为 `false` |
+| bottom | 是否显示底部的连接点 | Boolean | 默认为 `false` |
+| left | 是否显示左侧的连接点 | Boolean | 默认为 `false` |
+| right | 是否显示右侧的连接点 | Boolean | 默认为 `false` |
+| size | 连接点的大小 | Number | 默认为 `3` |
+| fill | 连接点的填充色 | String | 默认为 `'#72CC4A'` |
+| stroke | 连接点的边框颜色 | String | 默认为 `'#72CC4A'` |
+| lineWidth | 连接点边框的宽度 | Number | 默认为 `1` |
 
 
 基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `linkPoints` 配置项进行连入点的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aB-PT4nzU_oAAAAAAAAAAABkARQnAQ' width=100/>

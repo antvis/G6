@@ -44,7 +44,7 @@ const data = {
 
 
 ## Attribute
-Star node has the attributes shown below. The attribute wity Object type will be described after the table:
+Star node has the attributes shown below. The attribute with Object type will be described after the table:
 
 | Name | Description | Type | Remark |
 | --- | --- | --- | --- |

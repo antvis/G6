@@ -45,7 +45,7 @@ const data = {
 
 
 ## Attribute
-Circle node has the attributes shown below. The attribute wity Object type will be described after the table:<br />
+Circle node has the attributes shown below. The attribute with Object type will be described after the table:<br />
 
 | Name | Description | Type | Remark |
 | --- | --- | --- | --- |

@@ -53,7 +53,7 @@ const data = {
 
 
 ## Attribute
-ModelRect node has the attributes shown below. The attribute wity Object type will be described after the table:
+ModelRect node has the attributes shown below. The attribute with Object type will be described after the table:
 
 | Name | Description | Type | Remark |
 | --- | --- | --- | --- |

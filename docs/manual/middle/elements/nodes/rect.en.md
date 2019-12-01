@@ -44,7 +44,7 @@ const data = {
 
 
 ## 配置项说明
-Rect node has the attributes shown below. The attribute wity Object type will be described after the table:
+Rect node has the attributes shown below. The attribute with Object type will be described after the table:
 
 | Name | Description | Type | Remark |
 | --- | --- | --- | --- |

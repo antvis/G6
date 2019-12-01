@@ -57,7 +57,7 @@ const data = {
 
 
 ## Attribute
-Image node has the attributes shown below. The attribute wity Object type will be described after the table:
+Image node has the attributes shown below. The attribute with Object type will be described after the table:
 
 ```javascript
 img: 'https://yyb.gtimg.com/aiplat/page/product/visionimgidy/img/demo6-16a47e5d31.jpg?max_age=31536000',
