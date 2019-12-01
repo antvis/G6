@@ -52,6 +52,7 @@ ellipse 节点支持以下的配置项，对于 Object 类型的配置项将在
 | --- | --- | --- | --- |
 | size | 椭圆的大小 | Number / Array | size 为 Number 时，效果为一个圆形。为 Array 时，size[0] 为椭圆长轴长度，size[1] 为椭圆短轴长度 |
 | style | 椭圆的默认样式 | Object | Canvas 支持的属性 |
+| label | 标签文本内容 | String |  |
 | labelCfg | 标签文本配置项 | Object |  |
 | stateStyles | 各状态下的样式 | Object | 只对 keyShape 起作用 |
 | linkPoints | 椭圆上的链接点 | Object | 默认不显示 |

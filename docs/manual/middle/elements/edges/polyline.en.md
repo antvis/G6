@@ -127,7 +127,7 @@ graph.render();
 
 
 ### 标签文本配置 labelCfg
-Object 类型。其它配置与边的通用文本配置相同，见 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge)。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br />
+Object 类型。其它配置与边的通用文本配置相同，见 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge)。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultEdge` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HT4OTobglpoAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
 const data = {

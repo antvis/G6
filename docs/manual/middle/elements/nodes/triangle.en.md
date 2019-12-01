@@ -52,6 +52,7 @@ Triangle node has the attributes shown below. The spetial attribute type will be
 | size | The length of side of the equilateral triangle | Number | Array | When it is an array, the first value will take effect |
 | **direction** | **The direction of the triangle** | **String** | **Options: `'up'`, `'down'`, `'left'`, `'right'`. `'up'` by default** |
 | style | The default style of triangle node | Object | Correspond to the styles in Canvas |
+| label | The text of the label | String |  |
 | labelCfg | The configurations of the label | Object |  |
 | stateStyles | The styles in different states | Object | Only takes effect on keyShape |
 | linkPoints | The link points of the related edges | Object | They are invisible by default |

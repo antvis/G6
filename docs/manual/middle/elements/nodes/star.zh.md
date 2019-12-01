@@ -51,6 +51,7 @@ star 节点支持以下的配置项：
 | size | 五角星的大小 | number | Array | size 表示外环的大小 |
 | **innerR** | **五角星内环大小** | **Number** | **默认为 size * 3 / 8** |
 | style | 五角星的默认样式 | Object | Canvas 支持的属性 |
+| label | 标签文本内容 | String |  |
 | labelCfg | 标签文本配置项 | Object |  |
 | stateStyles | 各状态下的样式 | Object | 只对 keyShape 起作用 |
 | linkPoints | 五角星上的链接点 | Object | 默认不显示 |

@@ -59,6 +59,7 @@ ModelRect node has the attributes shown below. The attribute with Object type wi
 | --- | --- | --- | --- |
 | size | The size of the modelRect node | Number | Array |  |
 | style | The default style of modelRect node | Object | Correspond to the styles in Canvas |
+| label | The text of the label | String |  |
 | labelCfg | The configurations of the label | Object |  |
 | stateStyles | The styles in different states | Object | Only takes effect on keyShape |
 | linkPoints | The link points of the related edges | Object | They are invisible by default |

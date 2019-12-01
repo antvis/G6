@@ -58,6 +58,7 @@ modelRect 节点支持以下的配置项，对于 Object 类型的配置项将�
 | --- | --- | --- | --- |
 | size | 卡片的大小 | Number | Array |  |
 | style | 卡片的默认样式 | Object | Canvas 支持的属性 |
+| label | 标签文本内容 | String |  |
 | labelCfg | 文本配置项 | Object |  |
 | stateStyles | 各状态下的样式 | Object | 只对 keyShape 起作用 |
 | linkPoints | 相关边的连入点 | Object | 默认不显示 |

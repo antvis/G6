@@ -35,10 +35,10 @@ const data = {
     shape: 'circle', // The tyep of the node
     //... // Other configurations
   },
-    ... // Other nodes
+    //... // Other nodes
   ],
   edges: [
-    ... // edges
+    //... // edges
   ]
 }
 ```
@@ -51,6 +51,7 @@ Circle node has the attributes shown below. The attribute with Object type will 
 | --- | --- | --- | --- |
 | size | The diameter of the node | Number / Array | When it is an array, the first element will take effect |
 | style | The default style of circle node | Object | Correspond to the styles in Canvas |
+| label | The text of the label | String |  |
 | labelCfg | The configurations of the label | Object |  |
 | stateStyles | The styles in different states | Object | Only takes effect on keyShape |
 | linkPoints | The link points of the related edges | Object | They are invisible by default |

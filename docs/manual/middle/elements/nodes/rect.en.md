@@ -43,13 +43,14 @@ const data = {
 ```
 
 
-## 配置项说明
+## Attribute
 Rect node has the attributes shown below. The attribute with Object type will be described after the table:
 
 | Name | Description | Type | Remark |
 | --- | --- | --- | --- |
 | size | The size of the ellipse | Number / Array | When it is a number, the width and height are the same. |
 | style | The default style of rect node | Object | Correspond to the styles in Canvas |
+| label | The text of the label | String |  |
 | labelCfg | The configurations of the label | Object |  |
 | stateStyles | The styles in different states | Object | Only takes effect on keyShape |
 | linkPoints | The link points of the related edges | Object | They are invisible by default |
