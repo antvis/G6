@@ -72,7 +72,7 @@ labelCfg: {
 | **curveOffset** | **圆弧顶端距离两线中心位置的距离** | **Number** | **数值绝对值大小控制圆弧的大小，正负控制圆弧弯曲的方向，默认为 20。arc 边特有** |
 | style | 边的样式 | Object | Canvas支持的属性 |
 | label | 标签文本文字 | String |  |
-| labelCfg | 文件配置项 | Object |  |
+| labelCfg | 标签文本配置项 | Object |  |
 
 
 

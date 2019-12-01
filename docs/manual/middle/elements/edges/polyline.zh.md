@@ -75,7 +75,7 @@ labelCfg: {
 | **style.radius** | **拐弯处的圆角弧度** | **Number** | **若不设置则为直角，polyline 特有** |
 | **style.offset** | **拐弯处距离节点最小距离** | **Number** | **默认为 5，polyline 特有** |
 | label | 标签文本文字 | String |  |
-| labelCfg | 文件配置项 | Object |  |
+| labelCfg | 标签文本配置项 | Object |  |
 
 
 

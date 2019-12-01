@@ -3,15 +3,15 @@ title: Star
 order: 6
 ---
 
-G6 内置了星形 star 节点，其默认样式如下。标签文本位于星形中央。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cJOmRqQvR5MAAAAAAAAAAABkARQnAQ' width=100/>
+A built-in node Star has the default style as below, the label is drawed on the center of it.。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cJOmRqQvR5MAAAAAAAAAAABkARQnAQ' width=100/>
 
 
-## 使用方法
-如 [内置节点](../defaultNode) 一节所示，配置节点的方式有两种：实例化图时全局配置，在数据中动态配置。
+## Usage
+As stated in [Built-in Nodes](../defaultNode) , there are two ways to configure the node: Configure it when instantiating a Graph globally; Configure it in the data.
 
 
-### 1 实例化图时全局配置
-用户在实例化 Graph 时候可以通过 `defaultNode` 指定 `shape` 为 `'star'`，即可使用 `star` 节点。
+### 1 Global Configure When Instantiating a Graph
+Assign `shape` to `'star'` in the `defaultNode` object when instantiating a Graph:
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -19,39 +19,39 @@ const graph = new G6.Graph({
   height: 600,
   defaultNode: {
     shape: 'star',
-    // 其他配置
+    // ... Other configuraltions
   }
 })
 ```
 
 
-### 2 在数据中动态配置
-如果需要使不同节点有不同的配置，可以将配置写入到节点数据中。这种配置方式可以通过下面代码的形式直接写入数据，也可以通过遍历数据的方式写入。
+### 2 Configure in the Data
+To configure different nodes with different attributes, you can write the attributes into the node data.
 ```javascript
 const data = {
   nodes: [{
 	  id: 'node0',
     shape: 'star',
-    ... // 其他配置
+    //... // Other configurations
     },
-    ... // 其他节点
+    //... // Other nodes
   ],
   edges: [
-    ... // 边
+    //... // edges
   ]
 }
 ```
 
 
-## 配置项说明
-star 节点支持以下的配置项：
+## Attribute
+Star node has the attributes shown below. The attribute wity Object type will be described after the table:
 
-| 名称 | 含义 | 类型 | 备注 |
+| Name | Description | Type | Remark |
 | --- | --- | --- | --- |
-| size | 五角星的大小 | number | Array | size 表示外环的大小 |
-| **innerR** | **五角星内环大小** | **Number** | **默认为 size * 3 / 8** |
-| style | 五角星的默认样式 | Object | Canvas 支持的属性 |
-| labelCfg | 文件配置项 | Object |  |
+| size | The size of the star | number | Array | `size` is the widht and the height of the minimum bounding box of the star |
+| **innerR** | **The inner radius of the star** | **Number** | **Equals to `size` * 3 / 8 by default** |
+| style | The default style of star node | Object | Correspond to the styles in Canvas |
+| labelCfg | 标签文本配置项 | Object |  |
 | stateStyles | 各状态下的样式 | Object | 只对 keyShape 起作用 |
 | linkPoints | 五角星上的链接点 | Object | 默认不显示 |
 | icon | 五角星上icon配置 | Object | 默认不显示 icon |
@@ -113,7 +113,7 @@ const graph = new G6.Graph({
 ### 边的连入点 linkPoints
 Object 类型。通过配置 `linkPoints` ，可以指定圆周围「上、下、左、右」四个方向上边的连入点。
 
-| 名称 | 含义 | 类型 | 备注 |
+| Name | Description | Type | Remark |
 | --- | --- | --- | --- |
 | top | 是否显示上部的连接点 | Boolean | 默认为 false |
 | **leftBottom** | **是否显示左底部的连接点** | **Boolean** | **默认为 false，star 特有** |
@@ -153,7 +153,7 @@ const graph = new G6.Graph({
 ### 图标 icon
 Object 类型。通过配置 `icon`，可以在圆上显示小图标。
 
-| 名称 | 含义 | 类型 | 备注 |
+| Name | Description | Type | Remark |
 | --- | --- | --- | --- |
 | show | 是否显示icon | Boolean | 默认为false，不显示 |
 | width | icon的宽度 | Number | 默认为16 |

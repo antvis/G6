@@ -87,7 +87,7 @@ size: 200,
 | --- | --- | --- | --- |
 | **img** | **图片 URL 地址** | **String** | **image 节点特有** |
 | size | 图片大小 | Number | Array | `size` 为单个值时，表示宽高相等 |
-| labelCfg | 文件配置项 | Object |  |
+| labelCfg | 标签文本配置项 | Object |  |
 | **clipCfg** | **裁剪图片的配置项** | **Object** | **默认不裁剪，image 节点特有** |
 
 

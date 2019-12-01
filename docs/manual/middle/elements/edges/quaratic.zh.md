@@ -57,7 +57,7 @@ quadratic 边支持以下的配置项，对于 Object 类型的配置项将在�
 | color | 边的颜色 | String | 优先级低于 style 中的 stroke |
 | style | 边的样式 | Object | Canvas支持的属性 |
 | label | 标签文本文字 | String |  |
-| labelCfg | 文件配置项 | Object |  |
+| labelCfg | 标签文本配置项 | Object |  |
 
 
 

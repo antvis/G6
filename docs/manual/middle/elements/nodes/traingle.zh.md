@@ -52,7 +52,7 @@ triangle 节点支持以下的配置项：
 | size | 三角形的边长 | Number | Array | size为数组时取第一个值 |
 | **direction** | **三角形的方向** | **String** | **可取值：up、down、left、right，默认为up。** |
 | style | 三角形默认样式 | Object | Canvas支持的属性 |
-| labelCfg | 文件配置项 | Object |  |
+| labelCfg | 标签文本配置项 | Object |  |
 | stateStyles | 各状态下的样式 | Object | 只对keyShape起作用 |
 | linkPoints | 三角形上的链接点 | Object | 默认不显示 |
 | icon | 三角形上icon配置 | Object | 默认不显示icon |

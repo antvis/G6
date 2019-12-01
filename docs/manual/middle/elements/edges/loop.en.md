@@ -62,7 +62,7 @@ loop 边支持以下的配置项，对于 Object 类型的配置项将在后面�
 | style | 边的样式 | Object | Canvas支持的属性 |
 | style.endArrow | 边结束端是否有箭头 | Boolean | 默认为 false |
 | label | 标签文本文字 | String |  |
-| labelCfg | 文件配置项 | Object |  |
+| labelCfg | 标签文本配置项 | Object |  |
 | **loopCfg** | **自环特殊配置** | **Object** |  |
 
 

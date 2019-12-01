@@ -56,7 +56,7 @@ line 边支持以下的配置项，对于 Object 类型的配置项将在后面�
 | color | 直线的颜色 | String | 优先级低于 style 中的 stroke |
 | style | 直线的样式 | Object | Canvas支持的属性 |
 | label | 标签文本文字 | String |  |
-| labelCfg | 文件配置项 | Object |  |
+| labelCfg | 标签文本配置项 | Object |  |
 
 
 
