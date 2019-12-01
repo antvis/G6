@@ -1,5 +1,5 @@
 ---
-title: cubic
+title: Cubic
 order: 4
 ---
 
@@ -53,8 +53,8 @@ quadratic 边支持以下的配置项，对于 Object 类型的配置项将在�
 
 | 名称 | 含义 | 类型 | 备注 |
 | --- | --- | --- | --- |
-| color | 边的颜色 | String | 优先级低于 style 中的 stroke |
-| style | 边的样式 | Object | Canvas支持的属性 |
+| color | 边的颜色 | String | 优先级低于 `style` 中的 `stroke` |
+| style | 边的样式 | Object | Canvas 支持的属性 |
 | label | 标签文本文字 | String |  |
 | labelCfg | 标签文本配置项 | Object |  |
 

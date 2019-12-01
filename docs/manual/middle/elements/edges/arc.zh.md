@@ -1,5 +1,5 @@
 ---
-title: arc
+title: Arc
 order: 5
 ---
 

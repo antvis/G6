@@ -19,7 +19,7 @@ const graph = new G6.Graph({
   height: 600,
   defaultEdge: {
     shape: 'arc', // The type of the edge
-    // Other configuraltions
+    // ...  Other configuraltions
   }
 })
 ```
@@ -36,7 +36,7 @@ const data = {
     source: 'node0',
     target: 'node1'
     shape: 'arc',
-    //... // Other configurations
+    //... // Other configurations for edges
     style: {
       //...  // Style attributes for edges
     }
@@ -73,7 +73,7 @@ labelCfg: {
 | **curveOffset** | **The distance between the center of the two endpoints and the center of the arc** | **Number** | **The absolute value of `curveOffset` is the size of the arc, the sign of `curveOffset` is the bending direction of the arc. `20` by default. It is the special attribute for arc edge** |
 | style | The default style of edge | Object | Correspond to the styles in Canvas |
 | label | The text of the label | String |  |
-| labelCfg | The configurations of the labe | Object |  |
+| labelCfg | The configurations of the label | Object |  |
 
 
 
@@ -142,7 +142,7 @@ const graph = new G6.Graph({
 
 ### labelCfg
 `labelCfg` is an object which is the same as the common attribute of edge. Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge)。
-Base on the code in [curveOffset](#Special Attribute: curveOffset) section, we add `labelCfg` to `defaultEdge`.<br />
+Base on the code in [Special Attribute: curveOffset](#Special Attribute: curveOffset) section, we add `labelCfg` to `defaultEdge`.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*xu0FSKNxQNUAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
 const data = {
@@ -151,7 +151,7 @@ const data = {
 const graph = new G6.Graph({
   // ... Other configurations for graph
   defaultEdge: {
-    // ... Other attributes for nodes
+    // ... Other attributes for edges
     labelCfg: {
       autoRotate: true,
       refY: -30,
