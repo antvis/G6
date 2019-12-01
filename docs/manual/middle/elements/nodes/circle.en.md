@@ -98,7 +98,7 @@ const data = {
 const graph = new G6.Graph({
   // ... Other configurations for graph
   defaultNode: {
-    // ... Other attributes for node
+    // ... Other attributes for nodes
     labelCfg: {
     	position: 'bottom',
       offset: 10,

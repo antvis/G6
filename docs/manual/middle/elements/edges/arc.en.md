@@ -124,12 +124,12 @@ Base on the code in [curveOffset](#Special Attribute: curveOffset) section, we a
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LH4lT64i304AAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
 const data = {
-  // ... data 内容
+  // ... data
 };
 const graph = new G6.Graph({
-  // ... 图的其他配置
+  // ... Other configurations for graph
   defaultEdge: {
-    // ... 其他配置
+    // ... Other attributes for edges
     style: {
       stroke: '#088',
       lineWidth: 3
@@ -140,17 +140,18 @@ const graph = new G6.Graph({
 ```
 
 
-### 标签文本配置 labelCfg
-Object 类型。其配置与边的通用文本配置相同，见 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge)。基于上面 [弧度 curveOffset](/zh/docs/manual/middle/elements/edges/arc/#特殊属性：弧度-curveoffset) 中的代码，下面代码在 `defaultEdge` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br />
+### labelCfg
+`labelCfg` is an object which is the same as the common attribute of edge. Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge)。
+Base on the code in [curveOffset](#Special Attribute: curveOffset) section, we add `labelCfg` to `defaultEdge`.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*xu0FSKNxQNUAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
 const data = {
-  // ... data 内容
+  // ... data
 };
 const graph = new G6.Graph({
-  // ... 图的其他配置
+  // ... Other configurations for graph
   defaultEdge: {
-    // ... 其他配置
+    // ... Other attributes for nodes
     labelCfg: {
       autoRotate: true,
       refY: -30,
