@@ -53,12 +53,13 @@ const data = {
 
 
 ## Attribute
-ModelRect node has the attributes shown below. The attribute wity Object type will be described after the table:
+ModelRect node has the attributes shown below. The attribute with Object type will be described after the table:
 
 | Name | Description | Type | Remark |
 | --- | --- | --- | --- |
 | size | The size of the modelRect node | Number | Array |  |
 | style | The default style of modelRect node | Object | Correspond to the styles in Canvas |
+| label | The text of the label | String |  |
 | labelCfg | The configurations of the label | Object |  |
 | stateStyles | The styles in different states | Object | Only takes effect on keyShape |
 | linkPoints | The link points of the related edges | Object | They are invisible by default |
@@ -159,8 +160,8 @@ const graph = new G6.Graph({
 | left | Whether show the left link point | Boolean | `false` by default |
 | right | Whether show the right link point | Boolean | `false` by default |
 | size | The size of the link points | Number | `3` by default |
-| fill | The filling color of the link points | String | `#72CC4A` by default |
-| stroke | The stroke color of the link points | String | `#72CC4A` by default |
+| fill | The filling color of the link points | String | `'#72CC4A'` by default |
+| stroke | The stroke color of the link points | String | `'#72CC4A'` by default |
 | lineWidth | The line width of the link points | Number | `1` by default |
 
 

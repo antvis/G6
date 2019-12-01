@@ -57,7 +57,7 @@ const data = {
 
 
 ## Attribute
-Image node has the attributes shown below. The attribute wity Object type will be described after the table:
+Image node has the attributes shown below. The attribute with Object type will be described after the table:
 
 ```javascript
 img: 'https://yyb.gtimg.com/aiplat/page/product/visionimgidy/img/demo6-16a47e5d31.jpg?max_age=31536000',
@@ -87,6 +87,7 @@ size: 200,
 | --- | --- | --- | --- |
 | **img** | **The URL addgress** | **String** | **special attribute for image node** |
 | size | The size of the node | Number | Array | When it is a number, the width and the height are the same |
+| label | The text of the label | String |  |
 | labelCfg | The configurations for the label | Object |  |
 | **clipCfg** | **The configurations for clipping** | **Object** | **Do not clip by default. It is a special attribute for image node** |
 

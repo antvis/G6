@@ -35,22 +35,23 @@ const data = {
     shape: 'circle', // The tyep of the node
     //... // Other configurations
   },
-    ... // Other nodes
+    //... // Other nodes
   ],
   edges: [
-    ... // edges
+    //... // edges
   ]
 }
 ```
 
 
 ## Attribute
-Circle node has the attributes shown below. The attribute wity Object type will be described after the table:<br />
+Circle node has the attributes shown below. The attribute with Object type will be described after the table:<br />
 
 | Name | Description | Type | Remark |
 | --- | --- | --- | --- |
 | size | The diameter of the node | Number / Array | When it is an array, the first element will take effect |
 | style | The default style of circle node | Object | Correspond to the styles in Canvas |
+| label | The text of the label | String |  |
 | labelCfg | The configurations of the label | Object |  |
 | stateStyles | The styles in different states | Object | Only takes effect on keyShape |
 | linkPoints | The link points of the related edges | Object | They are invisible by default |
@@ -97,7 +98,7 @@ const data = {
 const graph = new G6.Graph({
   // ... Other configurations for graph
   defaultNode: {
-    // ... Other attributes for node
+    // ... Other attributes for nodes
     labelCfg: {
     	position: 'bottom',
       offset: 10,
@@ -121,8 +122,8 @@ const graph = new G6.Graph({
 | left | Whether show the left link point | Boolean | `false` by default |
 | right | Whether show the right link point | Boolean | `false` by default |
 | size | The size of the link points | Number | `3` by default |
-| fill | The filling color of the link points | String | `#72CC4A` by default |
-| stroke | The stroke color of the link points | String | `#72CC4A` by default |
+| fill | The filling color of the link points | String | `'#72CC4A'` by default |
+| stroke | The stroke color of the link points | String | `'#72CC4A'` by default |
 | lineWidth | The line width of the link points | Number | `1` by default |
 
 
@@ -166,9 +167,9 @@ const data = {
 	// ... data
 };
 const graph = new G6.Graph({
-  // ... The configurations for the graph
+  // ... Other configurations for the graph
   defaultNode: {
-    // ... The configurations for nodes
+    // ... Other configurations for nodes
     icon: {
     	show: true,
       //img: '...', The image url of the icon 

@@ -52,7 +52,8 @@ ellipse 节点支持以下的配置项，对于 Object 类型的配置项将在
 | --- | --- | --- | --- |
 | size | 椭圆的大小 | Number / Array | size 为 Number 时，效果为一个圆形。为 Array 时，size[0] 为椭圆长轴长度，size[1] 为椭圆短轴长度 |
 | style | 椭圆的默认样式 | Object | Canvas 支持的属性 |
-| labelCfg | 文件配置项 | Object |  |
+| label | 标签文本内容 | String |  |
+| labelCfg | 标签文本配置项 | Object |  |
 | stateStyles | 各状态下的样式 | Object | 只对 keyShape 起作用 |
 | linkPoints | 椭圆上的链接点 | Object | 默认不显示 |
 | icon | 椭圆上 icon 配置 | Object | 默认不显示 icon |
@@ -122,8 +123,8 @@ Object 类型。通过配置 `linkPoints` ，可以指定节点上「上、下�
 | left | 是否显示左侧的连接点 | Boolean | 默认为 `false` |
 | right | 是否显示右侧的连接点 | Boolean | 默认为 `false` |
 | size | 连接点的大小 | Number | 默认为 `3` |
-| fill | 连接点的填充色 | String | 默认为 `#72CC4A` |
-| stroke | 连接点的边框颜色 | String | 默认为 `#72CC4A` |
+| fill | 连接点的填充色 | String | 默认为 `'#72CC4A'` |
+| stroke | 连接点的边框颜色 | String | 默认为 `'#72CC4A'` |
 | lineWidth | 连接点边框的宽度 | Number | 默认为 `1` |
 
 

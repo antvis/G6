@@ -1,8 +1,7 @@
 ---
-title: quadratic
+title: Quadratic
 order: 3
 ---
-## quadratic
 
 G6 内置了 quadratic 边，其默认样式如下。<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YUOlRZaDDZgAAAAAAAAAAABkARQnAQ' width=150/>
@@ -57,7 +56,7 @@ quadratic 边支持以下的配置项，对于 Object 类型的配置项将在�
 | color | 边的颜色 | String | 优先级低于 style 中的 stroke |
 | style | 边的样式 | Object | Canvas支持的属性 |
 | label | 标签文本文字 | String |  |
-| labelCfg | 文件配置项 | Object |  |
+| labelCfg | 标签文本配置项 | Object |  |
 
 
 
@@ -104,7 +103,7 @@ graph.render();
 
 
 ### 标签文本配置 labelCfg
-Object 类型。其配置与边的通用文本配置相同，见 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge)。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br />
+Object 类型。其配置与边的通用文本配置相同，见 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge)。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultEdge` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*E4ZYQ7xM0IsAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
 const data = {

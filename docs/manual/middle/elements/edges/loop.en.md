@@ -1,74 +1,74 @@
 ---
-title: loop
+title: Loop
 order: 6
 ---
 
-G6 内置了折线 loop 边，其默认样式如下。<br />
+A built-in edge Line has the default style as below.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sPBIR40KLOkAAAAAAAAAAABkARQnAQ' width=100/>
 
- 注意 <br />loop 边适用于自环边，即起始点与结束点为相同节点的边，在不同端点的边上适用 loop 边将会出现异常效果。
+⚠️**Attention**: <br />loop edge is appropriate for the self-loop edges whose target node and the source node are the same. In other words, a loop edge connect a node to itself. There will be a strange result if the loop edge is applied to the edge which is not a self-loop.
 <br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*JgYrTabHWskAAAAAAAAAAABkARQnAQ' width='75' height='176' />
 
-## 使用方法
-如 [内置边](../defaultEdge) 一节所示，配置边的方式有两种：实例化图时全局配置，在数据中动态配置。
+## Usage
+As stated in [Built-in Edges](../defaultEdge) , there are two ways to configure the edge: Configure it when instantiating a Graph globally; Configure it in the data.
 
 
-### 1 实例化图时全局配置
-用户在实例化 Graph 时候可以通过 `defaultEdge` 指定 `shape` 为 `'loop'`，即可使用 `loop` 边。需要注意的是，如果图上存在非自环边，loop 将会表现异常。因此不建议在存在非自环边的图上使用此全局配置方法。
+### 1 Global Configure When Instantiating a Graph
+Assign `shape` to `'cubic'` in the `defaultEdge` object when instantiating a Graph:
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
   defaultEdge: {
-    shape: 'loop',
-    // 其他配置
+    shape: 'loop', // The type of the edge
+    // ...  Other configuraltions
   }
 })
 ```
 
 
-### 2 在数据中动态配置
-如果需要使不同节点有不同的配置，可以将配置写入到节点数据中。这种配置方式可以通过下面代码的形式直接写入数据，也可以通过遍历数据的方式写入。
+### 2 Configure in the Data
+To configure different edges with different attributes, you can write the attributes into the edge data.
 ```javascript
 const data = {
   nodes: [
-    ... // 节点
+    ... // nodes
   ],
   edges: [{
     source: 'node0',
     target: 'node0'
     shape: 'loop',
-    ... // 其他配置
+    //... // Other configurations for edges
     style: {
-      ...  // 样式属性，每种边的详细样式属性参见各边文档
+      //...  // Style attributes for edges
     }
   },
-    ... // 其他边
+    //... // Other edges
   ]
 }
 ```
 
 
-## 配置项说明
-自环是指连接单个节点自身的边，是一种边的特殊情况，因此，在通用属性基础上，支持了特殊的配置 `loopCfg`。
+## Attribute
+Loop edge has the attributes shown below. The attributes with object type will be described in detail after the table, where `loopCfg` is the special attribute for loop edge.
 
 loop 边支持以下的配置项，对于 Object 类型的配置项将在后面有详细讲解：
 
-| 名称 | 含义 | 类型 | 备注 |
+| Name | Description | Type | Remark |
 | --- | --- | --- | --- |
-| color | 边的颜色 | String | 优先级低于 style 中的 stroke |
-| style | 边的样式 | Object | Canvas支持的属性 |
-| style.endArrow | 边结束端是否有箭头 | Boolean | 默认为 false |
-| label | 标签文本文字 | String |  |
-| labelCfg | 文件配置项 | Object |  |
-| **loopCfg** | **自环特殊配置** | **Object** |  |
+| color | The color of the edge | String | The priority id lower than `stroke` in `style` |
+| style | The default style of edge | Object | Correspond to the styles in Canvas |
+| label | The text of the label | String |  |
+| labelCfg | The configurations of the label | Object |  |
+| **loopCfg** | **Special attribute for loop edge** | **Object** |  |
 
 
 
-### 样式属性 style
-Object 类型。配置项与边的通用样式属性相同，见 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge)。下面代码演示在实例化图时全局配置方法中配置 `style`，以达到下图效果。<br />
+### style
+`style` is an object which is the same as the common style attribute of edge. Refer to [Built-in Edges].
+The following code shows how to configure the `style` globally when instantiating a Graph.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dAV3QIY2ZxkAAAAAAAAAAABkARQnAQ' width=100/>
 ```javascript
 const data = {
@@ -90,7 +90,7 @@ const graph = new G6.Graph({
   width: 800,
   height: 600,
   defaultEdge: {
-    // shape: 'loop',  // 在数据中已经指定 shape，这里无需再次指定
+    // shape: 'loop',  // The shape has been assigned in the data, we do not have to define it any more
     style: {
       endArrow: true,
       stroke: '#088',
@@ -104,17 +104,18 @@ graph.render();
 ```
 
 
-### 标签文本配置 labelCfg
-Object 类型。其配置与边的通用文本配置相同，见 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge)。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br />
+### labelCfg
+`labelCfg` is an object which is the same as the common attribute of edge. Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge).
+Base on the code in [style](#style) section, we add `labelCfg` to `defaultEdge`.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6hcBSId1XzAAAAAAAAAAAABkARQnAQ' width=100/>
 ```javascript
 const data = {
-  // ... data 内容
+  // ... data
 };
 const graph = new G6.Graph({
-  // ... 图的其他配置
+  // ... Other configurations for graph
   defaultEdge: {
-    // ... 其他配置
+    // ... Other attributes for edges
     labelCfg: {
       refY: -5,
       refX: 30
@@ -125,23 +126,23 @@ const graph = new G6.Graph({
 ```
 
 
-### 自环特殊配置 loopCfg
-Object 类型。通过 `loopCfg` 配置自环的方位、高度、顺逆时针。
+### loopCfg
+`loopCfg` is an object that configures the direction, height, and clockwise.
 
-- `position`: 指定自环与节点的相对位置。默认为：`top`。支持的值有：`top`, `top-right`, `right`,`bottom-right`, `bottom`, `bottom-left`, `left`, `top-left`
-- `dist`: 从节点 keyShape 的边缘到自环最顶端的位置，用于指定自环的曲度，默认为节点的高度。
-- `clockwise`: 指定是否顺时针画环，默认为 `true`。
+- `position`: The relative position to the source/target node. Options: `top`, `top-right`, `right`,`bottom-right`, `bottom`, `bottom-left`, `left`, `top-left`. `top` by default.
+- `dist`: The distance between the keyShape of the source/target node to the highest position of the loop. It is equal to the height of the source/target node by default.
+- `clockwise`: Whether draw the loop clockwisely. `true` by default
 
-基于上面 [样式属性 style](#XQFb2) 中的代码，下面代码在 `defaultNode` 中增加了 `loopCfg` 配置项进行文本的配置，使之达到如下图效果。<br />
+Base on the code in [style](#style) section, we add `loopCfg` to `defaultEdge`.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z9dwTZvACcEAAAAAAAAAAABkARQnAQ' width=100/>
 ```javascript
 const data = {
-  // ... data 内容
+  // ... data
 };
 const graph = new G6.Graph({
-  // ... 图的其他配置
+  // ... Other configurations for graph
   defaultEdge: {
-    // ... 其他配置
+    // ... Other attributes for edges
     loopCfg: {
       position: 'left',
       dist: 100,

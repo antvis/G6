@@ -52,7 +52,8 @@ Diamond 节点支持以下的配置项，对于 Object 类型的配置项将在�
 | --- | --- | --- | --- |
 | size | 菱形的宽高 | Number / Array | size 为一个数值时，宽高相同 |
 | style | diamond 默认样式 | Object | Canvas 支持的属性 |
-| labelCfg | 文件配置项 | Object |  |
+| label | 标签文本内容 | String |  |
+| labelCfg | 标签文本配置项 | Object |  |
 | stateStyles | 各状态下的样式 | Object | 只对 keyShape 起作用 |
 | linkPoints | 菱形上的链接点 | Object | 默认不显示 |
 | icon | 菱形上icon配置 | Object | 默认不显示 icon |
@@ -122,8 +123,8 @@ Object 类型。通过配置 `linkPoints` ，可以指定菱形周围「上、�
 | left | 是否显示左侧的连接点 | Boolean | 默认为 `false` |
 | right | 是否显示右侧的连接点 | Boolean | 默认为 `false` |
 | size | 连接点的大小 | Number | 默认为 `3` |
-| fill | 连接点的填充色 | String | 默认为 `#72CC4A` |
-| stroke | 连接点的边框颜色 | String | 默认为 `#72CC4A` |
+| fill | 连接点的填充色 | String | 默认为 `'#72CC4A'` |
+| stroke | 连接点的边框颜色 | String | 默认为 `'#72CC4A'` |
 | lineWidth | 连接点边框的宽度 | Number | 默认为 `1` |
 
 

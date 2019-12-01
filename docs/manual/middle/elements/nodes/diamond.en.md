@@ -46,12 +46,13 @@ const data = {
 
 
 ## Attribute
-Diamond 节点支持以下的配置项，对于 Object 类型的配置项将在后面有详细讲解：
+Diamond node has the attributes shown below. The attribute with Object type will be described after the table:
 
 | Name | Description | Type | Remark |
 | --- | --- | --- | --- |
 | size | The width and the height of the diamond | Number / Array | When it is a number, the width and the height are the same |
 | style | The default style of diamond node | Object | Correspond to the styles in Canvas |
+| label | The text of the label | String |  |
 | labelCfg | The configurations of the label | Object |  |
 | stateStyles | The styles in different states | Object | Only takes effect on keyShape |
 | linkPoints | The link points of the related edges | Object | They are invisible by default |
@@ -122,8 +123,8 @@ const graph = new G6.Graph({
 | left | Whether show the left link point | Boolean | `false` by default |
 | right | Whether show the right link point | Boolean | `false` by default |
 | size | The size of the link points | Number | `3` by default |
-| fill | The filling color of the link points | String | `#72CC4A` by default |
-| stroke | The stroke color of the link points | String | `#72CC4A` by default |
+| fill | The filling color of the link points | String | `'#72CC4A'` by default |
+| stroke | The stroke color of the link points | String | `'#72CC4A'` by default |
 | lineWidth | The line width of the link points | Number | `1` by default |
 
 

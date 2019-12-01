@@ -56,7 +56,7 @@ Refer to [Mode](/zh/docs/manual/middle/states/mode) and [Behavior](/zh/docs/manu
 
 ### Hover and Click to Change Styles
 
-Sometimes, the styles of the items interacted by users should be updated to make the response. As shown in figure 1, the styles are changed when user hovers the node, clicks the node, and clicks the edge. It is achieved by [ State](../middle/states/state) mechanism. In the other word, whether the item is clicked or hovered can be described as some states. You are able to set the styles for different states by two steps:
+Sometimes, the styles of the items interacted by users should be updated to make the response. As shown in figure 1, the styles are changed when user hovers the node, clicks the node, and clicks the edge. It is achieved by [ State](../middle/states/state) mechanism. In other word, whether the item is clicked or hovered can be described as some states. You are able to set the styles for different states by two steps:
 
 - Step 1: Set the styles for different states;
 - Step 2: Listen to the relative events and switch the states.
