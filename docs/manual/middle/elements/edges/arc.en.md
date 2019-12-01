@@ -118,7 +118,7 @@ graph.render();
 
 
 ### style
-`style` is an object which is the same as the common style attribute of edge. Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge)。
+`style` is an object which is the same as the common style attribute of edge. Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge).
 Base on the code in [curveOffset](#Special Attribute: curveOffset) section, we add `style` to `defaultEdge`.
 <br />!
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LH4lT64i304AAAAAAAAAAABkARQnAQ' width=150/>
@@ -141,7 +141,7 @@ const graph = new G6.Graph({
 
 
 ### labelCfg
-`labelCfg` is an object which is the same as the common attribute of edge. Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge)。
+`labelCfg` is an object which is the same as the common attribute of edge. Refer to [Built-in Edges].
 Base on the code in [Special Attribute: curveOffset](#Special Attribute: curveOffset) section, we add `labelCfg` to `defaultEdge`.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*xu0FSKNxQNUAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript

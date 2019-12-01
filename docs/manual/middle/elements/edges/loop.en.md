@@ -67,7 +67,7 @@ loop 边支持以下的配置项，对于 Object 类型的配置项将在后面�
 
 
 ### style
-`style` is an object which is the same as the common style attribute of edge. Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge)。
+`style` is an object which is the same as the common style attribute of edge. Refer to [Built-in Edges].
 The following code shows how to configure the `style` globally when instantiating a Graph.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dAV3QIY2ZxkAAAAAAAAAAABkARQnAQ' width=100/>
 ```javascript
@@ -105,7 +105,7 @@ graph.render();
 
 
 ### labelCfg
-`labelCfg` is an object which is the same as the common attribute of edge. Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge)。
+`labelCfg` is an object which is the same as the common attribute of edge. Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge).
 Base on the code in [style](#style) section, we add `labelCfg` to `defaultEdge`.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6hcBSId1XzAAAAAAAAAAAABkARQnAQ' width=100/>
 ```javascript

@@ -1,91 +1,92 @@
 ---
-title: polyline
+title: Polyline
 order: 2
 ---
 
-G6 内置了折线 polyline 边，其默认样式如下。<br />
+A built-in edge Polyline has the default style as below.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aRHcQZStrPgAAAAAAAAAAABkARQnAQ' width=150/>
 
 
-## 使用方法
-如 [内置边](../defaultEdge) 一节所示，配置边的方式有两种：实例化图时全局配置，在数据中动态配置。
+## Usage
+As stated in [Built-in Edges](../defaultEdge) , there are two ways to configure the edge: Configure it when instantiating a Graph globally; Configure it in the data.
 
 
-### 1 实例化图时全局配置
-用户在实例化 Graph 时候可以通过 `defaultEdge` 指定 `shape` 为 `'polyline'`，即可使用 polyline 边。
+### 1 Global Configure When Instantiating a Graph
+Assign `shape` to `'cubic'` in the `defaultEdge` object when instantiating a Graph:
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
   defaultEdge: {
-    shape: 'polyline',
-    // 其他配置
+    shape: 'polyline', // The type of the edge
+    // ...  Other configuraltions
   }
 })
 ```
 
 
-### 2 在数据中动态配置
-如果需要使不同节点有不同的配置，可以将配置写入到节点数据中。这种配置方式可以通过下面代码的形式直接写入数据，也可以通过遍历数据的方式写入。
+### 2 Configure in the Data
+To configure different edges with different attributes, you can write the attributes into the edge data.
 ```javascript
 const data = {
   nodes: [
-    ... // 节点
+    // ... // nodes
   ],
   edges: [{
     source: 'node0',
     target: 'node1'
     shape: 'polyline',
-    ... // 其他配置
+    //... // Other configurations for edges
     style: {
-      ...  // 样式属性，每种边的详细样式属性参见各边文档
+      //...  // Style attributes for edges
     }
   },
-    ... // 其他边
+    //... // Other edges
   ]
 }
 ```
 
 
-## 配置项说明
-polyline 边支持以下的配置项：
+## Attribute
+Polyline edge has the attributes shown below. The attributes with object type will be described in detail after the table
+
 ```javascript
 color: '#87e8de',
 style: {
-  offset: 20,  // 拐弯处距离节点最小距离
-  radius: 10,  // 拐弯处的圆角弧度，若不设置则为直角
+  offset: 20,  // The minimum distance between the bend and the source/target node
+  radius: 10,  // The border radius of the bend.
   lineWidth: 2,
   stroke: '#87e8de'
 },
-label: '边的标签文字',
+label: 'Label text',
 labelCfg: {
-  refX: 10,  // 文本在 x 方向偏移量
-  refY: 10,  // 文本在 y 方向偏移量
+  refX: 10,  // x offset of the label
+  refY: 10,  // y offset of the label
   style: {
     fill: '#595959'
   }
 }
 ```
 
-| 名称 | 含义 | 类型 | 备注 |
+| Name | Description | Type | Remark |
 | --- | --- | --- | --- |
-| color | 边的颜色 | String | 优先级低于 style 中的 stroke |
-| style | 边的样式 | Object | Canvas支持的属性 |
-| **style.radius** | **拐弯处的圆角弧度** | **Number** | **若不设置则为直角，polyline 特有** |
-| **style.offset** | **拐弯处距离节点最小距离** | **Number** | **默认为 5，polyline 特有** |
-| label | 标签文本文字 | String |  |
-| labelCfg | 标签文本配置项 | Object |  |
+| color | The color of the edge | String | The priority id lower than `stroke` in `style` |
+| style | The default style of edge | Object | Correspond to the styles in Canvas |
+| **style.radius** | **The border radius of the bend** | **Number** | **It is a special attribute for polyline edge** |
+| **style.offset** | **The minimum distance between the bend and the source/target node** | **Number** | **`5` by default. It is a special attribute for polyline edge** |
+| label | The text of the label | String |  |
+| labelCfg | The configurations of the label | Object |  |
 
 
+### style
+`style` is an object. There are two special attributes in `style` for polyline edge:
 
-### 样式属性 style
-Object 类型。与其他类型的边不同的是，polyline 的 `style` 含有两个特殊属性：
+-  `radius`, he border radius of the bend;
+-  `offset`, The minimum distance between the bend and the source/target node, `5` by default.
 
--  `radius` ，弯折处的圆角半径，不设置则默认为直角。
--  `offset` ，距离端点的最小距离，默认值为 5。
-
-其它配置项与边的通用样式属性相同，见 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge)<br />下面代码演示在实例化图时全局配置方法中配置 `style`，以达到下图效果。<br />
+The other style attributes are the same as the common style attribute of edge. Refer to [Built-in Edges].
+The following code shows how to configure the `style` globally when instantiating a Graph.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SzMGQ70SLwEAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
 const data = {
@@ -112,7 +113,7 @@ const graph = new G6.Graph({
   width: 800,
   height: 600,
   defaultEdge: {
-    // shape: 'polyline',  // 在数据中已经指定 shape，这里无需再次指定
+    // shape: 'polyline',  // The shape has been assigned in the data, we do not have to define it any more
     style: {
       radius: 10,
       offset: 10,
@@ -126,17 +127,18 @@ graph.render();
 ```
 
 
-### 标签文本配置 labelCfg
-Object 类型。其它配置与边的通用文本配置相同，见 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge)。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultEdge` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br />
+### labelCfg
+`labelCfg` is an object which is the same as the common attribute of edge. Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge).
+Base on the code in [style](#style) section, we add `labelCfg` to `defaultEdge`.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HT4OTobglpoAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
 const data = {
-  // ... data 内容
+  // ... data
 };
 const graph = new G6.Graph({
-  // ... 图的其他配置
+  // ... Other configurations for graph
   defaultEdge: {
-    // ... 其他配置
+    // ... Other attributes for edges
     labelCfg: {
     	refY: -10,
       refX: 60

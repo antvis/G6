@@ -1,5 +1,5 @@
 ---
-title: polyline
+title: Polyline
 order: 2
 ---
 
@@ -82,7 +82,7 @@ labelCfg: {
 ### 样式属性 style
 Object 类型。与其他类型的边不同的是，polyline 的 `style` 含有两个特殊属性：
 
--  `radius` ，弯折处的圆角半径，不设置则默认为直角。
+-  `radius` ，弯折处的圆角半径，不设置则默认为直角；
 -  `offset` ，距离端点的最小距离，默认值为 5。
 
 其它配置项与边的通用样式属性相同，见 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge)<br />下面代码演示在实例化图时全局配置方法中配置 `style`，以达到下图效果。<br />

@@ -61,7 +61,7 @@ Cubic edge has the attributes shown below. The attributes with object type will 
 
 
 ### style
-`style` is an object which is the same as the common style attribute of edge. Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge)。
+`style` is an object which is the same as the common style attribute of edge. Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge).
 The following code shows how to configure the `style` globally when instantiating a Graph.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cQprQJVY3c4AAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
@@ -106,7 +106,7 @@ graph.render();
 
 
 ### labelCfg
-`labelCfg` is an object which is the same as the common attribute of edge. Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge)。
+`labelCfg` is an object which is the same as the common attribute of edge. Refer to [Built-in Edges].
 Base on the code in [style](#style) section, we add `labelCfg` to `defaultEdge`.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*myWoSa1ngjgAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript

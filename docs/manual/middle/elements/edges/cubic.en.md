@@ -31,7 +31,7 @@ To configure different edges with different attributes, you can write the attrib
 ```javascript
 const data = {
   nodes: [
-    ... // nodes
+    // ... // nodes
   ],
   edges: [{
     source: 'node0',
@@ -49,7 +49,7 @@ const data = {
 
 
 ## Attribute
-Cubic edge has the attributes shown below. The attributes with object type will be described in detail after the table
+Cubic edge has the attributes shown below. The attributes with object type will be described in detail after the table.
 
 | Name | Description | Type | Remark |
 | --- | --- | --- | --- |
@@ -61,7 +61,7 @@ Cubic edge has the attributes shown below. The attributes with object type will 
 
 
 ### style
-`style` is an object which is the same as the common style attribute of edge. Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge)。
+`style` is an object which is the same as the common style attribute of edge. Refer to [Built-in Edges].
 The following code shows how to configure the `style` globally when instantiating a Graph.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Do6IQouIA9AAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
@@ -103,7 +103,7 @@ graph.render();
 
 
 ### labelCfg
-`labelCfg` is an object which is the same as the common attribute of edge. Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge)。
+`labelCfg` is an object which is the same as the common attribute of edge. Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge).
 Base on the code in [style](#style) section, we add `labelCfg` to `defaultEdge`.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ySTVQ7MrMtgAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
