@@ -121,8 +121,8 @@ const graph = new G6.Graph({
 | left | Whether show the left link point | Boolean | `false` by default |
 | right | Whether show the right link point | Boolean | `false` by default |
 | size | The size of the link points | Number | `3` by default |
-| fill | The filling color of the link points | String | `#72CC4A` by default |
-| stroke | The stroke color of the link points | String | `#72CC4A` by default |
+| fill | The filling color of the link points | String | `'#72CC4A'` by default |
+| stroke | The stroke color of the link points | String | `'#72CC4A'` by default |
 | lineWidth | The line width of the link points | Number | `1` by default |
 
 
@@ -166,9 +166,9 @@ const data = {
 	// ... data
 };
 const graph = new G6.Graph({
-  // ... The configurations for the graph
+  // ... Other configurations for the graph
   defaultNode: {
-    // ... The configurations for nodes
+    // ... Other configurations for nodes
     icon: {
     	show: true,
       //img: '...', The image url of the icon 

@@ -122,8 +122,8 @@ Object 类型。通过配置 `linkPoints` ，可以指定节点上「上、下�
 | left | 是否显示左侧的连接点 | Boolean | 默认为 `false` |
 | right | 是否显示右侧的连接点 | Boolean | 默认为 `false` |
 | size | 连接点的大小 | Number | 默认为 `3` |
-| fill | 连接点的填充色 | String | 默认为 `#72CC4A` |
-| stroke | 连接点的边框颜色 | String | 默认为 `#72CC4A` |
+| fill | 连接点的填充色 | String | 默认为 `'#72CC4A'` |
+| stroke | 连接点的边框颜色 | String | 默认为 `'#72CC4A'` |
 | lineWidth | 连接点边框的宽度 | Number | 默认为 `1` |
 
 

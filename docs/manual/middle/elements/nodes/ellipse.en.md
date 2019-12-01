@@ -37,10 +37,10 @@ const data = {
     shape: 'ellipse', // The tyep of the node
     //... // Other configurations
   },
-    ... // Other nodes
+    //... // Other nodes
   ],
   edges: [
-    ... // edges
+    //... // edges
   ]
 }
 ```
@@ -97,7 +97,7 @@ const data = {
   // ... data
 };
 const graph = new G6.Graph({
-  // .. Other configurations for graph
+  // ... Other configurations for graph
   defaultNode: {
     // ... Other attributes for node
     labelCfg: {
@@ -124,8 +124,8 @@ const graph = new G6.Graph({
 | left | Whether show the left link point | Boolean | `false` by default |
 | right | Whether show the right link point | Boolean | `false` by default |
 | size | The size of the link points | Number | `3` by default |
-| fill | The filling color of the link points | String | `#72CC4A` by default |
-| stroke | The stroke color of the link points | String | `#72CC4A` by default |
+| fill | The filling color of the link points | String | `'#72CC4A'` by default |
+| stroke | The stroke color of the link points | String | `'#72CC4A'` by default |
 | lineWidth | The line width of the link points | Number | `1` by default |
 
 
