@@ -35,7 +35,7 @@ Initialize the layout.
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| data | Object | true | 布局中使用的数据 |
+| data | Object | true | The data for the layout |
 
 
 
