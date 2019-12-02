@@ -214,10 +214,10 @@ G6.registerNode('inner-animate', {
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VUgETK6aMzcAAAAAAAAAAABkARQnAQ' alt='download' width='110'/>
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-l9lQ7Ck1QcAAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
 
-以上三个边动画的 demo 代码见：[边动画](https://codepen.io/Yanyan-Wang/pen/yLLJJoJ)。
+以上三个边动画的 demo 代码见：[边动画](/zh/examples/scatter/edge)。
 
 #### 圆点运动
-本例通过在 afterDraw 方法中为边增加了一个 circle 图形，该图形沿着线运动。沿着线运动的原理：设定每一帧中，该 circle 在线上的相对位置。<br />
+本例通过在 `afterDraw` 方法中为边增加了一个 circle 图形，该图形沿着线运动。沿着线运动的原理：设定每一帧中，该 circle 在线上的相对位置。<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OAGPRZbYpw4AAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
 
@@ -429,6 +429,6 @@ graph.on('node:mouseleave', ev => {
 // graph.render();
 ```
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;注意：</span>
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;⚠️**注意：**</span>
 running 为 false 时，要停止动画，同时把 lineDash 清空。
 
