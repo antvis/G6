@@ -1,7 +1,9 @@
 ---
-title: 文本属性
+title: The Text Property
 order: 4
 ---
+
+[The English Version in on the Way~~~]
 
 ## 属性
 文本有以下可用的属性。

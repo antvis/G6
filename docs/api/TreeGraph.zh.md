@@ -71,7 +71,7 @@ const treeGraph = new G6.TreeGraph({
 ```
 
 
-## layout配置项
+## layout 配置项
 layout 目前支持 dendrogram、compactBox、mindmap 和 indeted 四种布局方式。
 
 

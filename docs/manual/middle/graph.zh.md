@@ -67,7 +67,7 @@ order: 1
 ```
 
 ## 初始化/实例化图
-通过 `new G6.Graph(config)` 进行图的实例化。其中参数 `config` 是 Object 类型的图的配置项，图的大部分功能可以通过该配置项进行全局配置。如 [前提代码](#cRVfC) 这样实例化图：
+通过 `new G6.Graph(config)` 进行图的实例化。其中参数 `config` 是 Object 类型的图的配置项，图的大部分功能可以通过该配置项进行全局配置。如 [前提代码](#前提代码) 这样实例化图：
 ```javascript
  const graph = new G6.Graph({
    container: 'mountNode', // 指定图画布的容器 id，与第 9 行的容器对应
@@ -103,7 +103,7 @@ order: 1
 
 - `fitViewPadding`
 
-      类型：Number | Array；默认：0。图自适应画布时的四周留白像素值。fitView 为 true 时生效。
+      类型：Number | Array；默认：0。图自适应画布时的四周留白像素值。`fitView` 为 `true` 时生效。
 
 #### 全局元素配置
 
@@ -143,7 +143,7 @@ order: 1
 
 - `animateCfg`
 
-      类型：Object。全局动画的配置项，包括动画效果、动画时长等。详见 【TODO】。
+      类型：Object。全局动画的配置项，包括动画效果、动画时长等。详见 [动画 Animation](/zh/docs/manual/advanced/animation)。
 
 #### 插件
 

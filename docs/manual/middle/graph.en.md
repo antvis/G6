@@ -3,16 +3,17 @@ title: Graph
 order: 1
 ---
 
-## 什么是 Graph
-中文字“图”在大家的传统认知里指的是图画、图像，而图论与可视化中的“图”—— Graph 则有着更精确的定位：主体（objects）与关系（relationships）的组成。它甚至不局限于视觉，主体与关系的数据也可以称为图。<br />
-—— 摘自 [AntV 专栏](https://zhuanlan.zhihu.com/aiux-antv)文章：Graph Visualization ·[ ](https://zhuanlan.zhihu.com/p/83685690)知多少 之 《[HelloWorld](https://zhuanlan.zhihu.com/p/83685690) [图可视化](https://zhuanlan.zhihu.com/p/83685690)》
+## What is Graph
+"Graph" means graphics, images, figures in the traditional cognitive. The "Graph" in graph theory and visuzliation has specific definition: it is make up of objects and their relationships. It might not a visual graph, but a relational data.<br />
 
-在 G6 中，Graph 对象是图的载体，它包含了图上的所有元素（节点、边等），同时挂载了图的相关操作（如交互监听、元素操作、渲染等）。<br />Graph 对象的生命周期为：初始化 —> 加载数据 —> 渲染 —> 更新 —> 销毁。
+Graph is the carrier of G6. All the operations about events, behaviors, items are mounted on the instance of Graph.
 
-在 [快速上手](/zh/docs/manual/getting-started) 中，我们简单介绍了 初始化、加载数据、渲染图 的使用方法。本文将主要介绍初始化/实例化图。
+The life cycle of an instance of Graph is: Initialize -> Load data -> Render -> Update -> Destroy.
 
-## 前提代码
-本文的讲解将会基于下面这份内嵌 JavaScript 的 HTML 代码。该代码通过定义数据、实例化图、读取数据、渲染图等操作中完成了下图中简单的图：<br />
+In [Getting Started](/en/docs/manual/getting-started), we introduce the process of initialization, data loading, graph rendering. In this document, we will introduce the initialization/instantiating process in detail.
+
+## Premise
+The code for interpretation of this chapter will base on the following JavaScript code embedded in HTML. By defining the data, instantiating the graph, loading the data, and rendering the graph, the code below results in the graph in the figure:<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Lo6lT7SrhB8AAAAAAAAAAABkARQnAQ' width='200' />
 
 ```html
@@ -23,14 +24,14 @@ order: 1
   <title>Tutorial Demo</title>
 </head>
   <body>
-    /* 图的画布容器 */
+    /* The container of the graph */
     <div id="mountNode"></div>
-    /* 引入 G6 */
+    /* Import G6 */
     <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.0/build/g6.js"></script>
     <script>
-      // 定义数据源
+      // Define the source data
       const data = {
-        // 点集
+        // The array of nodes
         nodes: [{
           id: 'node1',
           x: 100,
@@ -40,9 +41,9 @@ order: 1
           x: 300,
           y: 200
         }],
-        // 边集
+        // The array of edges
         edges: [
-          // 表示一条从 node1 节点连接到 node2 节点的边
+          // It is an edge link node1 to node2
           {
             source: 'node1',
             target: 'node2'
@@ -50,117 +51,117 @@ order: 1
         ]
       };
       
-      // 创建 G6 图实例
+      // Create an instance of G6.Graph
       const graph = new G6.Graph({
-        container: 'mountNode', // 指定图画布的容器 id，与第 9 行的容器对应
-        // 画布宽高
+        container: 'mountNode', // Assign the id of the graph container
+        // The width and the height of the graph
         width: 800,
         height: 500
       });
-      // 读取数据
+      // Load data
       graph.data(data);
-      // 渲染图
+      // Render the graph
       graph.render();
     </script>
   </body>
 </html>
 ```
 
-## 初始化/实例化图
-通过 `new G6.Graph(config)` 进行图的实例化。其中参数 `config` 是 Object 类型的图的配置项，图的大部分功能可以通过该配置项进行全局配置。如 [前提代码](#cRVfC) 这样实例化图：
+## Initialize/Instantiate a Graph
+Instantiate a Graph by `new G6.Graph(config)`, where the parameter `config` is an object of graph configurations. Most global configurations are assigned here. As shown in [Premise](#Premise), we instantiate a Graph:
 ```javascript
  const graph = new G6.Graph({
-   container: 'mountNode', // 指定图画布的容器 id，与第 9 行的容器对应
-   // 画布宽高
+   container: 'mountNode', // Assign the id of the graph container
+   // The width and the height of the graph
    width: 800,
    height: 500
  });
 ```
 
-### 必要配置项
-上面代码中实例化 Graph 的部分使用了三个必要的配置项：
+### Required Configuration
+There are three required configurations when instantiating a Graph:
 
 - `container`
 
-     类型：String | Object。图的 DOM 容器。可以是 String，为 DOM 容器的 `id`。也可以是 Object ，为 DOM 对象。
+     Type: String | Object. The DOM container of the graph. It can be a string for the `id` of the DOM container, or an object for the DOM object.
 
-- `width`、`height`
+- `width` and `height`
 
-     类型：Number。图的画布的宽度和高度。
+     Type: Number. THe width and the height of the graph.
 
-### 常用配置项
-下面列举实例化图时常见的配置项，完整的配置项参见 [Graph API](/zh/docs/api/Graph)。
+### Commonly used Configuration
+There are some commonly used configurations. For complete configurations, please refer to [Graph API](/zh/docs/api/Graph). 
 
-#### 整体渲染相关
+#### Rendering
 
 - `renderer`
 
-      类型：String；选项：`'svg'` | `'canvas' `；默认：`'canvas'`。选择 SVG 或 Canvas 方式渲染。
+      Type: String; Options: `'svg'` | `'canvas' `; Default: `'canvas'`. Render by SVG or Canvas.
 
 - `fitView`
 
-      类型：Boolean；默认：'false'。图是否自适应画布。
+      Type: Boolean; Default: 'false'. Whether fit the canvas to the view port automatically.
 
 - `fitViewPadding`
 
-      类型：Number | Array；默认：0。图自适应画布时的四周留白像素值。fitView 为 true 时生效。
+      Type: Number | Array; Default: 0. It is the padding between canvas and the border of view port. Takes effect only when `fitView: true`.
 
-#### 全局元素配置
+#### Global Item Configuration
 
 - `defaultNode`
 
-      类型：Object。默认情况下全局节点的配置项，包括样式属性和其他属性。详见 [内置节点](/zh/docs/manual/middle/elements/nodes/defaultNode)。
+      Type: Object. The global configuration for all the nodes in the graph in default state. It includes the style attributes and other attributes of nodes. Refer to [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode). 
 
 - `defaultEdge`
 
-      类型：Object。默认情况下全局边的配置项，包括样式属性和其他属性。详见 [内置边](/zh/docs/manual/middle/elements/nodes/defaultEdge)。
+      Type: Object. The global configuration for all the edges in the graph in default state. It includes the style attributes and other attributes of edges. Refer to [Built-in Edges](/en/docs/manual/middle/elements/nodes/defaultEdge). 
 
 - `nodeStateStyles`
 
-      类型：Object。除默认状态外的其他状态下节点的样式配置。详见 [状态 State](/zh/docs/manual/middle/states/state)。
+      Type: Object. The style attributes of nodes in different states expect for default state. Refer to [State](/en/docs/manual/middle/states/state). 
 
 - `edgeStateStyles`
 
-      类型：Object。除默认状态外的其他状态下边的样式配置。详见 [状态 State](/zh/docs/manual/middle/states/state)。
+      Type: Object. The style attributes of edges in different states expect for default state. Refer to [State](/en/docs/manual/middle/states/state). 
 
-#### 布局相关
+#### Layout
 
 - `layout`
 
-      类型：Object。若数据中不存在节点位置，则默认为随机布局。配置布局类型及其参数。详见 [使用布局 Layout](/zh/docs/manual/middle/layout)，[Layout API](/zh/docs/api/layout/Layout)。
+      Type: Object. If there is no position information in data, Random Layout will take effect by default. The layout options and their configurations can be found in [Layout](/en/docs/manual/middle/layout)，[Layout API](/en/docs/api/layout/Layout). 
 
-#### 交互行为相关
+#### Interaction
 
 - `modes`
 
-      类型：Array。配置多种交互模式及其包含的交互事件的。详见 [交互模式 Mode](/zh/docs/manual/middle/states/mode)。
+      Type: Array. It is the set of interactions modes. One mode is made up of one or more interaction events. Refer to [Mode](/en/docs/manual/middle/states/mode). 
 
-#### 动画相关
+#### Animation
 
 - `animate`
 
-      类型：Boolean；默认：'false'。是否启用全局动画。启用后，布局变化时将会以动画形式变换节点位置。
+      Type: Boolean; Default: 'false'. Whether activate the global animation. If it is `true`, the positions of nodes will be changed animatively when the layout is changed. 
 
 - `animateCfg`
 
-      类型：Object。全局动画的配置项，包括动画效果、动画时长等。详见 【TODO】。
+      Type: Object. The configurations for global animation, includes easing functions, duration, and so on. Refer to [Animation](/en/docs/manual/advanced/animation). 
 
-#### 插件
+#### Plugin
 
 - `plugins`
 
-      类型：Array。配置辅助插件。详见 [插件与工具](/zh/docs/manual/tutorial/plugins)。
+      Type: Array. The plugins to assist the anaysis. Refer to [Plugins and Tools](/en/docs/manual/tutorial/plugins). 
 
-## 常用函数
-在前面的代码中使用了两个必要的函数：
+## Commonly Used Functions
+There are two required functions in the code of [Premise](#Premise):
 ```javascript
-// 读取数据
+// Load the data
 graph.data(data);
-// 渲染图
+// Render the graph
 graph.render();
 ```
 
-- `data(data)`：读取数据源 `data` 到图实例 `graph` 中。
-- render()：渲染图。
+- `data(data)`: Load the source `data` to the instance `graph`.
+- render(): render the graph.
 
-Graph 的完整函数参见 [Graph API](/zh/docs/api/Graph)。
+For complete functions for Graph, refer to [Graph API](/en/docs/api/Graph). 

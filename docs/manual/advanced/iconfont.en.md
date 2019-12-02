@@ -1,7 +1,9 @@
 ---
-title: 使用 Iconfont
+title: Utilize Iconfont
 order: 9
 ---
+
+[The English Version in on the Way~~~]
 
 ## 简介
 为什么使用 iconfont？ 兼容性好、种类多、多色等。在此不做过多介绍，请直接移步[阿里巴巴-iconfont平台](https://www.iconfont.cn)。

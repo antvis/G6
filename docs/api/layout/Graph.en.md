@@ -81,12 +81,15 @@ Force is the classical force-dicrected layout algorithm, which corresponds to fo
 
 
 #### nodeStrength
-**Type**: Number<br />**Default**: null<br />**Required**: false<br />**Description**: The strength of node force. Positive value means attractive force, negative value means repulsive force.
+**Type**: Number<br />**Default**: null<br />**Required**: false<br />**Description**: The strength of node force. Positive value means attractive force, negative value means repulsive force
 
 
 #### edgeStrength
 **Type**: Number<br />**Default**: null<br />**Required**: false<br />**Description**: The strength of edge force. Calculated according to the degree of nodes by default
 
+
+#### preventOverlap
+**Type**: Number<br />**Default**: false<br />**Required**: false<br />**Description**: Whether prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned.
 
 #### collideStrength
 **Type**: Number<br />**Default**: 1<br />**Required**: false<br />**Description**: The strength of force for preventing node overlappings. The range is [0, 1]
@@ -95,6 +98,19 @@ Force is the classical force-dicrected layout algorithm, which corresponds to fo
 #### nodeSize
 **Type**: Number<br />**Default**: 10<br />**Required**: false<br />**Description**: The diameter of the node. It is used for preventing node overlappings. If `nodeSize` is not assigned, the size property in node data will take effect. If the size in node data does not exist either, `nodeSize` is assigned to 10 by default
 
+#### nodeSpacing
+**Type**: Number / Function<br />**Default**: 0<br />**Required**: false 
+**Example**: Example 1:  10
+<br />Example 2:  
+<br />d => {
+  <br />  // d is a node
+  <br />  if (d.id === 'node1') {
+    <br />    return 100;
+    <br />  }
+    <br />  return 10;
+    <br />}
+    <br />**Description**: 
+Takes effect when `preventOverlap` is `true`. It is the minimum distance between nodes to prevent node overlappings. It can be a function to define different distances for different nodes (example 2)
 
 #### alpha
 **Type**: Number<br />**Default**: 0.3<br />**Required**: false<br />**Description**: The current alpha of convergence
@@ -283,15 +299,15 @@ Radial layout arranges the nodes to concentrics centered at a focus node accordi
 ### Configuration
 
 #### center
-**Type**: Array<br />**Example**: [ 0, 0 ]<br />**Default**: The center of the graph<br />**Required**: false<br />**Description**: The center of the layout
+**Type**: Array<br />**Example**: [ 0, 0 ]<br />**Default**: The center of the graph<br />**Required**: false<br />**Description**: The center of the layout.
 
 
 #### linkDistance
-**Type**: Number<br />**Default**: 50<br />**Required**: false<br />**Description**: The edge length
+**Type**: Number<br />**Default**: 50<br />**Required**: false<br />**Description**: The edge length.
 
 
 #### maxIteration
-**Type**: Number<br />**Default**: 1000<br />**Required**: false<br />**Description**: The max iteration number
+**Type**: Number<br />**Default**: 1000<br />**Required**: false<br />**Description**: The max iteration number.
 
 
 #### focusNode
@@ -303,11 +319,26 @@ Radial layout arranges the nodes to concentrics centered at a focus node accordi
 
 
 #### preventOverlap
-**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether prevent node overlappings. To activate preventing node overlappings, [`nodeSize`](#xWjHN) is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned.
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned.
 
 
 #### nodeSize
 **Type**: Number<br />**Default**: 10<br />**Required**: false<br />**Description**: The diameter of the node. It is used for preventing node overlappings
+
+
+#### nodeSpacing
+**Type**: Number / Function<br />**Default**: 0<br />**Required**: false 
+**Example**: Example 1:  10
+<br />Example 2:  
+<br />d => {
+  <br />  // d is a node
+  <br />  if (d.id === 'node1') {
+    <br />    return 100;
+    <br />  }
+    <br />  return 10;
+    <br />}
+    <br />**Description**: 
+Takes effect when `preventOverlap` is `true`. It is the minimum distance between nodes to prevent node overlappings. It can be a function to define different distances for different nodes (example 2)
 
 
 #### maxPreventOverlapIteration
@@ -362,7 +393,7 @@ Dagre is an hierarchical layout.
 ### Configuration
 
 #### rankdir
-**Type**: String<br />**Options**: 'TB' | 'BT' | 'LR' | 'RL'<br />**Default**: 'TB'<br />**Required**: false<br />**Description**: 布局的方向. T:top; B:bottom; L:left; R:right.
+**Type**: String<br />**Options**: 'TB' | 'BT' | 'LR' | 'RL'<br />**Default**: 'TB'<br />**Required**: false<br />**Description**: The layout direction. T:top; B:bottom; L:left; R:right.
 
 - 'TB':Layout the graph from the top to the bottom;
 - 'BT':Layout the graph from the bottom to the top;
@@ -373,12 +404,12 @@ Dagre is an hierarchical layout.
 
 
 #### align
-**Type**: String<br />**Options**: 'UL' | 'UR' | 'DL' | 'DR'<br />**Default**: 'UL'<br />**Required**: false<br />**Description**: 节点对齐方式. U:upper; D:down; L:left; R:right
+**Type**: String<br />**Options**: 'UL' | 'UR' | 'DL' | 'DR'<br />**Default**: 'UL'<br />**Required**: false<br />**Description**: The alignment of the nodes. U: upper; D: down; L: left; R: right
 
-- 'UL':对齐到左上角; 
-- 'UR':对齐到右上角; 
-- 'DL':对齐到左下角; 
-- 'DR':对齐到右下角. 
+- 'UL': aligns the nodes to the upper left;
+- 'UR': aligns the nodes to the upper right;
+- 'DL': aligns the nodes to the down left;
+- 'DR': aligns the nodes to the upper right.
 
 
 #### nodesep
@@ -441,7 +472,7 @@ const graph = new G6.Graph({
 
 ## Concentric
 
-Concentric arranges the nodes on several concentrics. By tuning the parameters, users could order the nodes according to some property of node data, degree by default. Larger the value, more center the node will be placed.
+Concentric arranges the nodes on several concentric circles. By tuning the parameters, users could order the nodes according to some property of node data, degree by default. Larger the value, more center the node will be placed.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*QpyPTbBpO2AAAAAAAAAAAABkARQnAQ' width=600 />
 
@@ -453,7 +484,7 @@ Concentric arranges the nodes on several concentrics. By tuning the parameters, 
 
 
 #### preventOverlap
-**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether prevent node overalappings. To activate this ability, [`nodeSize`](https://www.yuque.com/antv/g6/ngp0vg#xWjHN) should be assigned, which will be used for collide detection
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. If the size in node data does not exist either, `nodeSize` is assigned to 30 by default
 
 
 #### nodeSize
@@ -481,7 +512,7 @@ Concentric arranges the nodes on several concentrics. By tuning the parameters, 
 
 
 #### maxLevelDiff
-**Type**: Number<br />**默认值:**undefined<br />**Required**: false<br />**Description**: The sum of concentric values in each level. If it is undefined, maxValue / 4 will take place, where maxValue is the max value of ordering properties. For example, if sortBy='degree', maxValue is the max degree value of all the nodes
+**Type**: Number<br />**默认值:**undefined<br />**Required**: false<br />**Description**: The sum of concentric values in each level. If it is undefined, maxValue / 4 will take place, where maxValue is the max value of ordering properties. For example, if `sortBy='degree'`, maxValue is the max degree value of all the nodes
 
 
 #### sortBy
@@ -528,7 +559,7 @@ Grid orders the nodes according to the configurations and arranged them onto gri
 
 
 #### preventOverlap
-**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Prevent node overlappings. Only when the `nodeSize` is assigned, the collide detection will take effect
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. If the size in node data does not exist either, `nodeSize` is assigned to 30 by default
 
 
 #### nodeSize

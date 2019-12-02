@@ -1,7 +1,9 @@
 ---
-title: 交互模式 Mode
+title: Interaction Mode
 order: 7
 ---
+
+[The English Version in on the Way~~~]
 
 本章以添加节点及在两个节点之间连线为例进行介绍 G6 中的交互。在阅读本章之前，需要先熟悉以下内容：
 
