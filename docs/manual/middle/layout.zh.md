@@ -28,7 +28,7 @@ order: 7
 
 ### 树图 TreeGraph
 
-- [CompactBox Layout](#compactBox)：紧凑树布局；
+- [CompactBox Layout](#compactbox)：紧凑树布局；
 - [Dendrogram Layout](#dendrogram)：树状布局（叶子节点布局对齐到同一层）；
 - [Intended Layout](#intended)：缩进布局；
 - [Mindmap Layout](#mindmap)：脑图布局。
@@ -86,7 +86,7 @@ const graph = new G6.Graph({
 | edgeStrength | Number | 示例1: 1 <br />示例2:<br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 10;<br />  }<br />  return 1;<br />} | null | 边的作用力，默认根据节点的出入度自适应。可以使用回调函数的形式对不同对节点定义不同边作用力（如示例2） |
 | preventOverlap | Boolean | false | false | 是否防止重叠，必须配合属性 `nodeSize` ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测。若未设置 `nodeSize` ，则根据节点数据中的 `size` 进行碰撞检测。若二者都未设置，则默认以 10 为节点大小进行碰撞检测 |
 | nodeSize | Array | Number | 20 | undefined | 节点大小（直径）。用于碰撞检测。<br />若不指定，则根据传入的数据节点中的 `size` 字段计算。若即不指定，节点中也没有 `size`，则默认大小为 10 |
-| nodeSpacing<br /><br />3.1.6 后支持 | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150/><br />`preventOverlap` 为 `true` 时生效，防止重叠时节点边缘间距的最小值。可以是回调函数，为不同节点设置不同的最小间距，如示例 2 所示<br /> |
+| nodeSpacing<br /><br />~~V3.1.6 后支持~~ | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150/><br />`preventOverlap` 为 `true` 时生效，防止重叠时节点边缘间距的最小值。可以是回调函数，为不同节点设置不同的最小间距，如示例 2 所示<br /> |
 | alphaDecay | Number | 0.03 | 0.028 | 迭代阈值的衰减率。[0, 1]，0.028 对应迭代数为 300 |
 | alphaMin | Number | 0.03 | 0.001 | 停止迭代的阈值 |
 | alpha | Number | 0.1 | 0.3 | 当前阈值 |
@@ -150,12 +150,12 @@ const graph = new G6.Graph({
 | center | Array | [ 0, 0 ] | 图的中心 | 布局的中心 |
 | linkDistance | Number | 50 | 50 | 边长 |
 | maxIteration | Number | 1000 | 1000 | 停止迭代到最大迭代数 |
-| focusNode | String | Object | 'node1' | null | 中心点，默认为数据中第一个节点。可以传入节点 id 或节点本身。 |
+| focusNode | String / Object | 'node1' | null | 中心点，默认为数据中第一个节点。可以传入节点 id 或节点本身。 |
 | unitRadius | Number | 10 | 100 | 每一圈距离上一圈的距离。默认填充整个画布，即根据图的大小决定 |
-| preventOverlap | Boolean | false | false | 是否防止重叠，必须配合属性 `nodeSize` ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测。<br />3.1.6 后支持：<br />若未设置 `nodeSize`，则将会根据数据中节点的 size 字段数值进行碰撞检测计算。若二者皆未设置，则以节点大小为 10 进行计算。 |
+| preventOverlap | Boolean | false | false | 是否防止重叠，必须配合属性 `nodeSize` ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测。<br />~~V3.1.6 后支持~~：<br />若未设置 `nodeSize`，则将会根据数据中节点的 size 字段数值进行碰撞检测计算。若二者皆未设置，则以节点大小为 10 进行计算。 |
 | maxPreventOverlapIteration | Number | 500 | 200 | 防止重叠步骤的最大迭代次数 |
-| nodeSize | Number | 10 | 10 | 节点大小（直径）。用于防止节点重叠时的碰撞检测。<br />3.1.6 后支持：<br />若未设置则使用数据中节点的 `size` 字段数值进行碰撞检测计算。若二者皆未设置，则以节点大小为 10 进行计算。 |
-| nodeSpacing<br />3.1.6 后支持 | Number | Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cFq4QbXVx7sAAAAAAAAAAABkARQnAQ' width=150/><br />`preventOverlap` 为 `true` 时生效，防止重叠时节点边缘间距的最小值。可以是回调函数，为不同节点设置不同的最小间距，如示例 2 所示<br /> |
+| nodeSize | Number | 10 | 10 | 节点大小（直径）。用于防止节点重叠时的碰撞检测。<br />~~V3.1.6 后支持~~：<br />若未设置则使用数据中节点的 `size` 字段数值进行碰撞检测计算。若二者皆未设置，则以节点大小为 10 进行计算。 |
+| nodeSpacing<br />~~V3.1.6 后支持~~ | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cFq4QbXVx7sAAAAAAAAAAABkARQnAQ' width=150/><br />`preventOverlap` 为 `true` 时生效，防止重叠时节点边缘间距的最小值。可以是回调函数，为不同节点设置不同的最小间距，如示例 2 所示<br /> |
 | strictRadial | Boolean | true | false | 是否必须是严格的 radial 布局，即每一层的节点严格布局在一个环上。`preventOverlap` 为 `true` 时生效。详见 [Radial-strictRadial API](/zh/docs/api/layout/Graph/#strictradial)<br />- 当 `preventOverlap` 为 `true`，且 `strictRadial` 为 `false` 时，有重叠的节点严格沿着所在的环展开，但在一个环上若节点过多，可能无法完全避免节点重叠。<br />- 当 `preventOverlap` 为 `true`，且 `strictRadial` 为 `true` 时，允许同环上重叠的节点不严格沿着该环布局，可以在该环的前后偏移以避免重叠。<br /> |
 
 
@@ -179,8 +179,8 @@ const graph = new G6.Graph({
 | align | String | 'UL' / 'UR' / 'DL' / 'DR' | 'UL' | 节点对齐方式。U：upper；D：down；L：left；R：right |
 | nodesep | Number | 40 | 50 | 在 `rankdir` 为 `'TB'` 或 `'BT'` 时代表节点水平间距(px)；在 `rankdir` 为 `'LR'` 或 `'RL'` 时代表节点的竖直间距。优先级高于 `nodesepFunc` |
 | ranksep | Number | 40 | 50 | 层间距（px）。在`rankdir` 为 `'TB'` 或 `'BT'` 时是竖直方向相邻层间距；在`rankdir` 为 `'LR'` 或 `'RL'` 时代表水平方向相邻层间距。优先级高于 `ranksepFunc` |
-| nodesepFunc<br /><br />3.1.6 后支持 | Function | d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | 节点水平间距（px）的回调函数，通过该参数可以对不同节点设置不同的节点间距。在`rankdir` 为 'TB' 或 'BT' 时是节点的水平间距；在`rankdir` 为 'LR' 或 'RL' 时是节点的竖直间距。优先级低于 `nodesep`，即若设置了 `nodesep`，则 `nodesepFunc` 不生效 |
-| ranksepFunc<br /><br />3.1.6 后支持 | Function | d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | 层间距（px）的回调函数，通过该参数可以对不同节点设置不同的层间距。在`rankdir` 为 'TB' 或 'BT' 时是竖直方向相邻层间距；在`rankdir` 为 'LR' 或 'RL' 时代表水平方向相邻层间距。优先级低于 `ranksep`，即若设置了 `ranksep`，则 `ranksepFunc` 不生效 |
+| nodesepFunc<br /><br />~~V3.1.6 后支持~~ | Function | d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | 节点水平间距（px）的回调函数，通过该参数可以对不同节点设置不同的节点间距。在`rankdir` 为 'TB' 或 'BT' 时是节点的水平间距；在`rankdir` 为 'LR' 或 'RL' 时是节点的竖直间距。优先级低于 `nodesep`，即若设置了 `nodesep`，则 `nodesepFunc` 不生效 |
+| ranksepFunc<br /><br />~~V3.1.6 后支持~~ | Function | d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | 层间距（px）的回调函数，通过该参数可以对不同节点设置不同的层间距。在`rankdir` 为 'TB' 或 'BT' 时是竖直方向相邻层间距；在`rankdir` 为 'LR' 或 'RL' 时代表水平方向相邻层间距。优先级低于 `ranksep`，即若设置了 `ranksep`，则 `ranksepFunc` 不生效 |
 | controlPoints | Boolean | true | true | 是否保留布局连线的控制点 |
 
 
@@ -199,7 +199,7 @@ const graph = new G6.Graph({
 | startAngle | Number | 3.14 | 3 / 2 * Math.PI | 开始放置节点的弧度 |
 | clockwise | Boolean | false | false | 是否按照顺时针顺序 |
 | maxLevelDiff | Number | 0.5 | undefined | 每一层同心值的求和。若为 undefined，则将会被设置为 maxValue / 4 ，其中 maxValue 为最大的排序依据的属性值。例如，若 sortBy='degree'，则 maxValue 为所有节点中度数最大的节点的度数 |
-| sortBy | String | 'degree' | 'property1' | 'weight' | ... | undefined | 指定的节点排序的依据（节点属性名）。该属性值高的放在中心。如果是 `sortBy` 为 `undefined` 则会计算节点度数，度数最高的放在中心。<br /> |
+| sortBy | String | 'degree' / 'property1' / 'weight' / ... | undefined | 指定的节点排序的依据（节点属性名）。该属性值高的放在中心。如果是 `sortBy` 为 `undefined` 则会计算节点度数，度数最高的放在中心。<br /> |
 
 
 
@@ -215,7 +215,7 @@ const graph = new G6.Graph({
 | condense | Boolean | false | false | 为 `false` 时表示利用所有可用画布空间，为 `true` 时表示利用最小的画布空间 |
 | rows | Number | 5 | undefined | 网格的行数，为 undefined 时算法根据节点数量、布局空间、`cols`（若指定）自动计算 |
 | cols | Number | 5 | undefined | 网格的列数，为 undefined 时算法根据节点数量、布局空间、`rows`（若指定）自动计算 |
-| sortBy | String | 'degree' | 'property1' | 'weight' | ... | 'degree' | 指定排序的依据（节点属性名），数值越高则该节点被放置得越中心。若为 undefined，则会计算节点的度数，度数越高，节点将被放置得越中心 |
+| sortBy | String | 'degree' / 'property1' / 'weight' / ... | 'degree' | 指定排序的依据（节点属性名），数值越高则该节点被放置得越中心。若为 undefined，则会计算节点的度数，度数越高，节点将被放置得越中心 |
 
 
 ## 树图 TreeGraph
@@ -293,7 +293,7 @@ const graph = new G6.TreeGraph({
 | getWidth | Function | (d) => {<br />  // d 是一个节点<br />  return 20;<br />} | undefined | 节点宽度的回调函数 |
 | getVGap | Function | (d) => {<br />  // d 是一个节点<br />  return 100;<br />} | 18 | 节点纵向间距的回调函数 |
 | getHGap | Function | (d) => {<br />  // d 是一个节点<br />  return 50;<br />} | 18 | 节点横向间距的回调函数 |
-| getSide | String | Function | (d) => {<br />  // d 是一个节点<br />  return 'left';<br />} | 'right' | 节点排布在根节点的左侧/右侧。若设置了该值，则所有节点会在根节点同一侧，即 direction = 'H' 不再起效。若该参数为回调函数，则可以指定每一个节点在根节点的左/右侧 |
+| getSide | String | Function | (d) => {<br />  // d 是一个节点<br />  return 'left';<br />} / 'right' | 节点排布在根节点的左侧/右侧。若设置了该值，则所有节点会在根节点同一侧，即 direction = 'H' 不再起效。若该参数为回调函数，则可以指定每一个节点在根节点的左/右侧 |
 
 
 
