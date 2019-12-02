@@ -13,8 +13,8 @@ export type IModelStyle = Partial<{
 }>
 
 export interface IModelCfg {
-  style: IModelStyle;
-  stateStyles: {
+  style?: IModelStyle;
+  stateStyles?: {
     [key: string]: IModelStyle;
   }
 }

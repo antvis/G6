@@ -3,45 +3,34 @@ import wrapBehavior from '@antv/util/lib/wrap-behavior'
 import { IModel, IModelCfg, IModelStyle } from '../interface'
 import { G6Event, IEvent } from '../interface/event'
 import { IGraph } from '../interface/graph'
+import BehaviorOption from './behaviorOption'
 
 interface IBehavior {
+  [key: string]: <T>(event?: T) => unknown;
   getDefaultCfg?: () => IModelCfg;
-  getEvents: () => { [key: string]: string };
-  shouldBegin: (cfg?: IModel) => boolean;
+  getEvents: () => { [key in G6Event]?: string };
+  shouldBegin?: (cfg?: IModel) => any;
+  shouldUpdate?: (cfg?: IModel) => boolean;
+  shouldEnd?: (cfg?: IModel) => boolean;
 }
+
 export default class Behavior {
-  private _events
+  private types = BehaviorOption
   public registerBehavior(type: string, behavior: IBehavior) {
     if(!behavior) {
       throw new Error(`please specify handler for this behavior: ${type}`)
     }
+    // TODO 将传进来的Behavior和默认的合并
 
-    const { getEvents } = behavior
-
-    const events = getEvents()
-    const eventsToBind = {}
-    if(events) {
-      each(events, (handle, event) => {
-        eventsToBind[event] = wrapBehavior(events, handle)
-      })
-      this._events = eventsToBind
-    }
+    Object.assign(BehaviorOption.prototype, behavior)
+    this.types[type] = BehaviorOption
   }
 
-  public bind(graph: IGraph) {
-    const events = this._events
-    each(events, (handler, event) => {
-      graph.on(event, handler)
-    })
+  public hasBehavior(type: string) {
+    return !!this.types[type]
   }
 
-  /**
-   * 
-   * @param cfg 默认的配置项
-   */
-  public getDefaultCfg(cfg: IModelCfg):IModelStyle {
-    return {}
+  public getBehavior(type: string) {
+    return this.types[type]
   }
-
-
 } 
