@@ -3,16 +3,16 @@ title: Using Layout
 order: 7
 ---
 
-## 简介
-图布局是指图中节点的排布方式，根据图的数据结构不同，布局可以分为两类：一般图布局、树图布局。G6 为这两类图都内置了一些常用的图布局算法。使用内置的图布局可以完成[布局的参数、方法、数据的切换](#FCFKL)等。
+## Introduction
+Graph layouts are the algorithms arranging the node positions to obtain a understandable visualizaiton. According to the differences of data strucutre, the layouts can be categorized into: general graph layout and tree graph layout. There are several layout algorithms for them respectively. By utilizing the built-in layouts, [Translating the layouts and their configurations, translating the data](#FCFKL) can be achieved.
 
-除了内置布局方法外，一般图布局还支持 [自定义布局](../advanced/custom-layout.zh) 机制。
+Besides, G6 supports [Custom Layout](../advanced/custom-layout.zh) mechanism for users to design their own layout algorithm.
 
-事实上，G6 的布局是自由的，内置布局算法仅仅是操作了数据中节点的 `x` 和 `y` 值。因此，除了使用内置布局以及自定义的一般图布局外，用户还可以使用外部图布局算法，计算节点位置后赋值到数据中节点的 `x` 和 `y` 字段上，G6 便可以根据该位置信息进行绘制。
+In fact, 'layout' is a free mechanism in G6. The built-in layouts only calculate and manipulate the `x` and `y` in node data. In other word, users can assign `x` and `y` to nodes by any other ways including the algorithms from the third-party libraries. Once G6 find the `x` and `y` infomation on data, it will render the graph according to it.
 
-本文将逐一介绍内置的布局算法，及其使用方式。
+In this ducoment, we will introduce the layout algorithms in detail.
 
-## G6 布局方法总览
+## G6 Layouts Overview
 
 ### 一般图 Graph
 
