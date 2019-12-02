@@ -1,5 +1,5 @@
 ---
-title: star
+title: Star
 order: 6
 ---
 
@@ -51,7 +51,8 @@ star 节点支持以下的配置项：
 | size | 五角星的大小 | number | Array | size 表示外环的大小 |
 | **innerR** | **五角星内环大小** | **Number** | **默认为 size * 3 / 8** |
 | style | 五角星的默认样式 | Object | Canvas 支持的属性 |
-| labelCfg | 文件配置项 | Object |  |
+| label | 标签文本内容 | String |  |
+| labelCfg | 标签文本配置项 | Object |  |
 | stateStyles | 各状态下的样式 | Object | 只对 keyShape 起作用 |
 | linkPoints | 五角星上的链接点 | Object | 默认不显示 |
 | icon | 五角星上icon配置 | Object | 默认不显示 icon |
@@ -111,19 +112,19 @@ const graph = new G6.Graph({
 
 
 ### 边的连入点 linkPoints
-Object 类型。通过配置 `linkPoints` ，可以指定圆周围「上、下、左、右」四个方向上边的连入点。
+Object 类型。通过配置 `linkPoints` ，可以指定圆周围「上、左下、➡右下、左、右」五个方向上边的连入点。
 
 | 名称 | 含义 | 类型 | 备注 |
 | --- | --- | --- | --- |
-| top | 是否显示上部的连接点 | Boolean | 默认为 false |
-| **leftBottom** | **是否显示左底部的连接点** | **Boolean** | **默认为 false，star 特有** |
-| **rightBottom** | **是否显示右底部的连接点** | **Boolean** | **默认为 false，star 特有** |
-| left | 是否显示左侧的连接点 | Boolean | 默认为 false |
-| right | 是否显示右侧的连接点 | Boolean | 默认为 false |
+| top | 是否显示上部的连接点 | Boolean | 默认为 `false` |
+| **leftBottom** | **是否显示左底部的连接点** | **Boolean** | **默认为 `false`，star 特有** |
+| **rightBottom** | **是否显示右底部的连接点** | **Boolean** | **默认为 `false`，star 特有** |
+| left | 是否显示左侧的连接点 | Boolean | 默认为 `false` |
+| right | 是否显示右侧的连接点 | Boolean | 默认为 `false` |
 | size | 连接点的大小 | Number | 默认为 3 |
-| fill | 连接点的填充色 | String | 默认为 '#72CC4A' |
-| stroke | 连接点的边框颜色 | String | 默认为 '#72CC4A' |
-| lineWidth | 连接点边框的宽度 | Number | 默认为 1 |
+| fill | 连接点的填充色 | String | 默认为 `'#72CC4A'` |
+| stroke | 连接点的边框颜色 | String | 默认为 `'#72CC4A'` |
+| lineWidth | 连接点边框的宽度 | Number | 默认为 `1` |
 
 
 基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `linkPoints` 配置项进行连入点的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*MmLYQ6cSjiYAAAAAAAAAAABkARQnAQ' width=100/>

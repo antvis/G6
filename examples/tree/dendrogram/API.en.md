@@ -37,4 +37,4 @@ title: API
 **Type**: Number<br />**Default**: 0<br />**Required**: false<br />**Explanation**: Level separation
 
 ## radial
-**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Explanation**: If layout the graph in radial style. If `radial` is `true`, we recommend to set `direction` to `'LR'` or `'RL'`:<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*MqFcTLAhXIsAAAAAAAAAAABkARQnAQ' width=171/>
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Explanation**: Wheter layout the graph in radial style. If `radial` is `true`, we recommend to set `direction` to `'LR'` or `'RL'`:<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*MqFcTLAhXIsAAAAAAAAAAABkARQnAQ' width=171/>

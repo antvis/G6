@@ -2,6 +2,9 @@
 title: API
 ---
 
+## begin
+**Type**: Array<br />**Example**: [ 0, 0 ]<br />**Default**: [ 0, 0 ]<br />**Required**: false<br />**Description**: The place where the grid begin (left top)
+
 ## preventOverlap
 **Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Explanation**: Prevent node overlappings. Only when the `nodeSize` is assigned, the collide detection will take effect
 

@@ -1,5 +1,5 @@
 ---
-title: ellipse
+title: Ellipse
 order: 3
 ---
 
@@ -50,12 +50,13 @@ ellipse 节点支持以下的配置项，对于 Object 类型的配置项将在
 
 | 名称 | 含义 | 类型 | 备注 |
 | --- | --- | --- | --- |
-| size | 椭圆的大小 | Number | Array | size 为 Number 时，效果为一个圆形。为 Array 时，size[0] 为椭圆长轴长度，size[1] 为椭圆短轴长度 |
-| style | 椭圆的默认样式 | Object | Canvas支持的属性 |
-| labelCfg | 文件配置项 | Object |  |
-| stateStyles | 各状态下的样式 | Object | 只对keyShape起作用 |
+| size | 椭圆的大小 | Number / Array | size 为 Number 时，效果为一个圆形。为 Array 时，size[0] 为椭圆长轴长度，size[1] 为椭圆短轴长度 |
+| style | 椭圆的默认样式 | Object | Canvas 支持的属性 |
+| label | 标签文本内容 | String |  |
+| labelCfg | 标签文本配置项 | Object |  |
+| stateStyles | 各状态下的样式 | Object | 只对 keyShape 起作用 |
 | linkPoints | 椭圆上的链接点 | Object | 默认不显示 |
-| icon | 椭圆上icon配置 | Object | 默认不显示icon |
+| icon | 椭圆上 icon 配置 | Object | 默认不显示 icon |
 
 
 
@@ -117,14 +118,14 @@ Object 类型。通过配置 `linkPoints` ，可以指定节点上「上、下�
 
 | 名称 | 含义 | 类型 | 备注 |
 | --- | --- | --- | --- |
-| top | 是否显示上部的连接点 | Boolean | 默认为false |
-| bottom | 是否显示底部的连接点 | Boolean | 默认为false |
-| left | 是否显示左侧的连接点 | Boolean | 默认为false |
-| right | 是否显示右侧的连接点 | Boolean | 默认为false |
-| size | 连接点的大小 | Number | 默认为3 |
-| fill | 连接点的填充色 | String | 默认为#72CC4A |
-| stroke | 连接点的边框颜色 | String | 默认为#72CC4A |
-| lineWidth | 连接点边框的宽度 | Number | 默认为1 |
+| top | 是否显示上部的连接点 | Boolean | 默认为 `false` |
+| bottom | 是否显示底部的连接点 | Boolean | 默认为 `false` |
+| left | 是否显示左侧的连接点 | Boolean | 默认为 `false` |
+| right | 是否显示右侧的连接点 | Boolean | 默认为 `false` |
+| size | 连接点的大小 | Number | 默认为 `3` |
+| fill | 连接点的填充色 | String | 默认为 `'#72CC4A'` |
+| stroke | 连接点的边框颜色 | String | 默认为 `'#72CC4A'` |
+| lineWidth | 连接点边框的宽度 | Number | 默认为 `1` |
 
 
 基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `linkPoints` 配置项进行连入点的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*paBYRq0PNqgAAAAAAAAAAABkARQnAQ' width=100/>
@@ -155,10 +156,10 @@ Object 类型。通过配置 `icon`，可以在圆上显示小图标。
 
 | 名称 | 含义 | 类型 | 备注 |
 | --- | --- | --- | --- |
-| show | 是否显示icon | Boolean | 默认为false，不显示 |
-| width | icon的宽度 | Number | 默认为16 |
-| height | icon的高度 | Number | 默认为16 |
-| img | icon的地址 | String |  |
+| show | 是否显示 icon | Boolean | 默认为 `false`，不显示 |
+| width | icon 的宽度 | Number | 默认为 `16` |
+| height | icon 的高度 | Number | 默认为 `16` |
+| img | icon 的地址 | String |  |
 
 
 基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `icon` 配置项进行图标的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*992OSK65NaUAAAAAAAAAAABkARQnAQ' width=100/>

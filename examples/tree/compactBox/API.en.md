@@ -59,7 +59,7 @@ title: API
   return 100;
 }
 ```
-**默认值**: 18<br />**Required**: false<br />**Explanation**: The horizontal separation of nodes
+**Default**: 18<br />**Required**: false<br />**Explanation**: The horizontal separation of nodes
 
 ## getVGap
 **Type**: Number | Function<br />**Example**: 
@@ -70,8 +70,8 @@ title: API
   return 100;
 }
 ```
-**默认值**: 18<br />**Required**: false<br />**Explanation**: The vertical separation of nodes
+**Default**: 18<br />**Required**: false<br />**Explanation**: The vertical separation of nodes
 
 ## radial
-**Type**: Boolean<br />**默认值**: false<br />**Required**: false<br />**Explanation**: If layout the graph in radial style. If `radial` is `true`, we recommend to set `direction` to `'LR'` or `'RL'`:<br />
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Explanation**: If layout the graph in radial style. If `radial` is `true`, we recommend to set `direction` to `'LR'` or `'RL'`:<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*MqFcTLAhXIsAAAAAAAAAAABkARQnAQ' width=195/>

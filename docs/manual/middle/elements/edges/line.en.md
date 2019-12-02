@@ -1,67 +1,68 @@
 ---
-title: line
+title: Line
 order: 1
 ---
 
-G6 内置了直线 line 边，其默认样式如下。<br />
+A built-in edge Line has the default style as below.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*prQjRbZtUUkAAAAAAAAAAABkARQnAQ' width=150/>
 
 
-## 使用方法
-如 [内置边](../defaultEdge) 一节所示，配置边的方式有两种：实例化图时全局配置，在数据中动态配置。
+## Usage
+As stated in [Built-in Edges](../defaultEdge) , there are two ways to configure the edge: Configure it when instantiating a Graph globally; Configure it in the data.
 
 
-### 1 实例化图时全局配置
-用户在实例化 Graph 时候可以通过 `defaultEdge` 指定 `shape` 为 `'line'`，即可使用 line 边。
+### 1 Global Configure When Instantiating a Graph
+Assign `shape` to `'line'` in the `defaultEdge` object when instantiating a Graph:
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
   defaultEdge: {
-    shape: 'line',
-    // 其他配置
+    shape: 'line', // The type of the edge
+    // ...  Other configuraltions
   }
 })
 ```
 
 
-### 2 在数据中动态配置
-如果需要使不同节点有不同的配置，可以将配置写入到节点数据中。这种配置方式可以通过下面代码的形式直接写入数据，也可以通过遍历数据的方式写入。
+### 2 Configure in the Data
+To configure different edges with different attributes, you can write the attributes into the edge data.
 ```javascript
 const data = {
   nodes: [
-    ... // 节点
+    ... // nodes
   ],
   edges: [{
     source: 'node0',
     target: 'node1'
     shape: 'line',
-    ... // 其他配置
+    //... // Other configurations for edges
     style: {
-      ...  // 样式属性，每种边的详细样式属性参见各边文档
+      //...  // Style attributes for edges
     }
   },
-    ... // 其他边
+    //... // Other edges
   ]
 }
 ```
 
 
-## 配置项说明
-line 边支持以下的配置项，对于 Object 类型的配置项将在后面有详细讲解：
+## Attribute
+Cubic edge has the attributes shown below. The attributes with object type will be described in detail after the table
 
-| 名称 | 含义 | 类型 | 备注 |
+| Name | Description | Type | Remark |
 | --- | --- | --- | --- |
-| color | 直线的颜色 | String | 优先级低于 style 中的 stroke |
-| style | 直线的样式 | Object | Canvas支持的属性 |
-| label | 标签文本文字 | String |  |
-| labelCfg | 文件配置项 | Object |  |
+| color | The color of the edge | String | The priority id lower than `stroke` in `style` |
+| style | The default style of edge | Object | Correspond to the styles in Canvas |
+| label | The text of the label | String |  |
+| labelCfg | The configurations of the label | Object |  |
 
 
 
-### 样式属性 style
-Object 类型。配置项与边的通用样式属性相同，见 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge)。下面代码演示在实例化图时全局配置方法中配置 `style`，以达到下图效果。<br />
+### style
+`style` is an object which is the same as the common style attribute of edge. Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge).
+The following code shows how to configure the `style` globally when instantiating a Graph.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cQprQJVY3c4AAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
 const data = {
@@ -88,7 +89,7 @@ const graph = new G6.Graph({
   width: 800,
   height: 600,
   defaultEdge: {
-    // shape: 'line',  // 在数据中已经指定 shape，这里无需再次指定
+    // shape: 'line',  // The shape has been assigned in the data, we do not have to define it any more
     style: {
       stroke: 'steelblue',
       lineWidth: 5
@@ -104,17 +105,18 @@ graph.render();
 ```
 
 
-### 标签文本配置 labelCfg
-Object 类型。其配置与边的通用文本配置相同，见 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge)。<br />基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br />
+### labelCfg
+`labelCfg` is an object which is the same as the common attribute of edge. Refer to [Built-in Edges].
+Base on the code in [style](#style) section, we add `labelCfg` to `defaultEdge`.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*myWoSa1ngjgAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
 const data = {
-  // ... data 内容
+  // ... data
 };
 const graph = new G6.Graph({
-  // ... 图的其他配置
+  // ... Other configurations for graph
   defaultEdge: {
-    // ... 其他配置
+    // ... Other attributes for edges
     labelCfg: {
       position: 'end',
     	refY: -10

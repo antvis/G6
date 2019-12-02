@@ -1,28 +1,31 @@
 ---
-title: 边的显示与隐藏
+title: The Visibility
 order: 5
 ---
-## 节点与边的显示/隐藏
+## Show/Hide a Node or an Edge
 
-使用下面四个函数可以实现节点与边的显示/隐藏：
+Show and hide the node or the edge by the following four functions:
 ```javascript
-// 显示节点实例 nodeItem，该节点的 visible 属性值在该方法调用后被置为 true
+// Show the instance of the node nodeItem. The property visible will be true after calling the following code
 nodeItem.show();
 
-// 隐藏节点实例 nodeItem，该边的 visible 属性值在该方法调用后被置为 false
+// Hide the instance of the node nodeItem. The property visible will be false after calling the following code
 nodeItem.hide();
 
-// 显示边实例 nodeItem，该边的 visible 属性值在该方法调用后被置为 true
+// Show the instance of the edge edgeItem. The property visible will be true after calling the following code
 edgeItem.show();
 
-// 隐藏边实例 nodeItem，该边的 visible 属性值在该方法调用后被置为 false
+// Hide the instance of the edge edgeItem. The property visible will be false after calling the following code
 edgeItem.hide();
 ```
 
-## 示例
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*N96mRKpyYZIAAAAAAAAAAABkARQnAQ' width=150/> 中摘取了元素显示/隐藏的相关操作部分，通过鼠标监听对节点、边、画布的点击事件，显示和隐藏元素：
+## Example
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*N96mRKpyYZIAAAAAAAAAAABkARQnAQ' width=150/> 
+
+In this example, we bind the listeners to node clicking, edge clicking, and canvas clicking. And show/hide items in the inside the listeners:
+
 ```javascript
-// 鼠标点击节点，隐藏该节点
+// Hide the node when the mouse clicks on it
 graph.on('node:click', ev => {
   const node = ev.item;
   console.log('before hide(), the nodevisible = ', node.get('visible'));
@@ -31,7 +34,7 @@ graph.on('node:click', ev => {
   console.log('after hide(), the node visible = ', node.get('visible'));
 });
 
-// 鼠标点击边，隐藏该边
+// Hide the edge when the mouse clicks on it
 graph.on('edge:click', ev => {
   const edge = ev.item;
   console.log('before hide(), the edge visible = ', edge.get('visible'));
@@ -40,7 +43,7 @@ graph.on('edge:click', ev => {
   console.log('after hide(), the edge visible = ', edge.get('visible'));
 });
 
-// 鼠标点击画布，显示所有节点和边
+// Show all the nodes and edges when the mouse clicks the canvas
 graph.on('canvas:click', ev => {
   const nodes = graph.getNodes();
   const edges = graph.getEdges();

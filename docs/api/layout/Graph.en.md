@@ -4,25 +4,25 @@ order: 1
 ---
 ## Random
 
-Random 布局是 G6 中的默认布局方法。当实例化图时没有指定布局方法，且数据中也不存在位置信息时，G6 将自动使用 Random 布局。
+Random is the default layout in G6. It will take effect when `layout` is not configured on the Graph instance and there is no position information in node data.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*G5_uRodUTaYAAAAAAAAAAABkARQnAQ' width=430 />
 
-### 属性
+### Configuration
 #### center
-**类型**： Array<br />**示例**：[ 0, 0 ]<br />**默认值**：图的中心<br />**是否必须**：false<br />**说明**：布局的中心
+**Type**: Array<br />**Example**: [ 0, 0 ]<br />**Default**: The center of the graph<br />**Required**: false<br />**Description**: The center of the layout
 
 #### width
-**类型**： Number<br />**默认值**：图的宽度<br />**是否必须**：false<br />**说明**：布局的宽度范围
+**Type**: Number<br />**Default**: The width of the graph<br />**Required**: false<br />**Description**: The width of the layout
 
 #### height
-**类型**： Number<br />**默认值**：图的高度<br />**是否必须**：false<br />**说明**：布局的高度范围
+**Type**: Number<br />**Default**: The height of the graph<br />**Required**: false<br />**Description**: The height of the layout
 
-### 方法
-与父类 Layout 的方法相同。使用该布局时不需要关心内部方法的调用，由 G6 控制。
+### Function
+The same as the superclass Layout, users do not need to concern about the function calling, which will be controlled by G6.
 
-### 使用方法
-实例化图时配置到 `layout` 中，如果没有配置 `layout` 默认使用 Random 布局。
+### Usage
+Configure `layout` to the graph instance. If `layout` is not configured and there is no position information in node data, Random layout will take effect.
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -38,21 +38,21 @@ const graph = new G6.Graph({
 
 ## MDS
 
-MDS 布局是高维数据降维算法布局，该算法全称 Multidimensional scaling 。<br />
+MDS (Multidimensional scaling) is used for project high dimensional data onto low dimensional space.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aUS7TJR2NHcAAAAAAAAAAABkARQnAQ' width=600 />
 
-### 属性
+### Configuration
 #### center
-**类型**： Array<br />**示例**：[ 0, 0 ]<br />**默认值**：图的中心<br />**是否必须**：false<br />**说明**：布局的中心
+**Type**: Array<br />**Example**: [ 0, 0 ]<br />**Default**: The center of the graph<br />**Required**: false<br />**Description**: The center of the layout
 
 #### linkDistance
-**类型**： Number<br />**默认值**：50<br />**是否必须**：false<br />**说明**：边长度
+**Type**: Number<br />**Default**: 50<br />**Required**: false<br />**Description**: The edge length
 
-### 方法
-与父类 Layout 的方法相同。使用该布局时不需要关心内部方法的调用，由 G6 控制。
+### Function
+The same as the superclass Layout, users do not need to concern about the function calling, which will be controlled by G6.
 
-### 使用方法
-实例化图时配置到 `layout` 中，如果没有配置 `layout` 默认使用 Random 布局。
+### Usage
+Configure `layout` to the graph instance. If `layout` is not configured and there is no position information in node data, Random layout will take effect.
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -66,66 +66,66 @@ const graph = new G6.Graph({
 
 ## Force
 
-Force 布局经典的力导向布局方法，与 d3 的力导向布局方法相对应。其属性也与 d3 的力道布局参数相对应。
+Force is the classical force-dicrected layout algorithm, which corresponds to force-directed layout in d3.js.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Nt45Q6nnK2wAAAAAAAAAAABkARQnAQ' width=600 />
 
-### 属性
+### Configuration
 
 #### center
-**类型**： Array<br />**示例**：[ 0, 0 ]<br />**默认值**：图的中心<br />**是否必须**：false<br />**说明**：布局的中心
+**Type**: Array<br />**Example**: [ 0, 0 ]<br />**Default**: The center of the graph<br />**Required**: false<br />**Description**: The center of the layout
 
 
 #### linkDistance
-**类型**： Number<br />**默认值**：50<br />**是否必须**：false<br />**说明**：边长度
+**Type**: Number<br />**Default**: 50<br />**Required**: false<br />**Description**: The edge length
 
 
 #### nodeStrength
-**类型**： Number<br />**默认值**：null<br />**是否必须**：false<br />**说明**：节点作用力，正数代表节点之间的引力作用，负数代表节点之间的斥力作用
+**Type**: Number<br />**Default**: null<br />**Required**: false<br />**Description**: The strength of node force. Positive value means attractive force, negative value means repulsive force.
 
 
 #### edgeStrength
-**类型**：Number<br />**默认值**：null<br />**是否必须**：false<br />**说明**：边的作用力，默认根据节点的出入度自适应
+**Type**: Number<br />**Default**: null<br />**Required**: false<br />**Description**: The strength of edge force. Calculated according to the degree of nodes by default
 
 
 #### collideStrength
-**类型**：Number<br />**默认值**：1<br />**是否必须**：false<br />**说明**：防止重叠的力强度，范围 [0, 1]
+**Type**: Number<br />**Default**: 1<br />**Required**: false<br />**Description**: The strength of force for preventing node overlappings. The range is [0, 1]
 
 
 #### nodeSize
-**类型**： Number<br />**默认值**：10<br />**是否必须**：false<br />**说明**：节点大小（直径）。用于碰撞检测。若不指定，则根据传入的节点的 size 属性计算。若即不指定，即节点中也没有 `size`，则默认大小为 10
+**Type**: Number<br />**Default**: 10<br />**Required**: false<br />**Description**: The diameter of the node. It is used for preventing node overlappings. If `nodeSize` is not assigned, the size property in node data will take effect. If the size in node data does not exist either, `nodeSize` is assigned to 10 by default
 
 
 #### alpha
-**类型**：Number<br />**默认值**：0.3<br />**是否必须**：false<br />**说明**：当前的迭代收敛阈值
+**Type**: Number<br />**Default**: 0.3<br />**Required**: false<br />**Description**: The current alpha of convergence
 
 
 #### alphaDecay
-**类型**：Number<br />**默认值**：0.028<br />**是否必须**：false<br />**说明**：迭代阈值的衰减率。[0, 1]，0.028 对应迭代书为 300
+**Type**: Number<br />**Default**: 0.028<br />**Required**: false<br />**Description**: The decay ratio of alpha for convergence. THe range is [0, 1]. 0.028 corresponds to 300 times iteration
 
 
 #### alphaMin
-**类型**：Number<br />**默认值**：0.001<br />**是否必须**：false<br />**说明**：停止迭代的阈值
+**Type**: Number<br />**Default**: 0.001<br />**Required**: false<br />**Description**: The threshold to stop the iteration
 
 
 #### forceSimulation
-**类型**：Object<br />**默认值**：null<br />**是否必须**：false<br />**说明**：自定义 force 方法，若不指定，则使用 d3 的方法
+**Type**: Object<br />**Default**: null<br />**Required**: false<br />**Description**: Customed force simulation. If it is not assigned, the force simulation of d3.js will take effect
 
 
 #### onTick
-**类型**：Function<br />**默认值**：{}<br />**是否必须**：false<br />**说明**：每一次迭代的回调函数
+**Type**: Function<br />**Default**: {}<br />**Required**: false<br />**Description**: The callback function of each iteration
 
 
 #### onLayoutEnd
-**类型**：Function<br />**默认值**：{}<br />**是否必须**：false<br />**说明**：布局完成后的回调函数
+**Type**: Function<br />**Default**: {}<br />**Required**: false<br />**Description**: The callback function after layout
 
 
-### 方法
-与父类 Layout 的方法相同。使用该布局时不需要关心内部方法的调用，由 G6 控制。
+### Function
+The same as the superclass Layout, users do not need to concern about the function calling, which will be controlled by G6.
 
 
-### 使用方法
-实例化图时配置到 `layout` 中，如果没有配置 `layout` 默认使用 Random 布局。
+### Usage
+Configure `layout` to the graph instance. If `layout` is not configured and there is no position information in node data, Random layout will take effect.
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -133,20 +133,20 @@ const graph = new G6.Graph({
   height: 600,
   layout: {
     type: 'force',
-    center: [ 200, 200 ],     // 可选，默认为图的中心
-    linkDistance: 50,         // 可选，边长
-    nodeStrength: 30,         // 可选
-    edgeStrength: 0.1,        // 可选
-    collideStrength: 0.8,     // 可选
-    nodeSize: 30,             // 可选
-    alpha: 0.3,               // 可选
-    alphaDecay: 0.028,        // 可选
-    alphaMin: 0.01,           // 可选
-    forceSimulation: null,    // 可选
-    onTick: () => {           // 可选
+    center: [ 200, 200 ],     // The center of the graph by default
+    linkDistance: 50,         // Edge length
+    nodeStrength: 30,
+    edgeStrength: 0.1,
+    collideStrength: 0.8,
+    nodeSize: 30,
+    alpha: 0.3,
+    alphaDecay: 0.028,
+    alphaMin: 0.01,
+    forceSimulation: null,
+    onTick: () => {
       console.log('ticking');
     },
-    onLayoutEnd: () => {      // 可选
+    onLayoutEnd: () => {
       console.log('force layout done');
     }
   }
@@ -155,42 +155,42 @@ const graph = new G6.Graph({
 
 ## Fruchterman
 
-Fruchterman 布局是一种力导布局。算法原文：[Graph Drawing by Force-directed Placement](http://www.mathe2.uni-bayreuth.de/axel/papers/reingold:graph_drawing_by_force_directed_placement.pdf)。
+Fruchterman is a kind of force-directed layout. G6 implements it according to the paper[Graph Drawing by Force-directed Placement](http://www.mathe2.uni-bayreuth.de/axel/papers/reingold:graph_drawing_by_force_directed_placement.pdf). 
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*jK3ITYqVJnQAAAAAAAAAAABkARQnAQ' width=600 />
 
-### 属性
+### Configuration
 
 #### center
-**类型**： Array<br />**示例**：[ 0, 0 ]<br />**默认值**：图的中心<br />**是否必须**：false<br />**说明**：布局的中心
+**Type**: Array<br />**Example**: [ 0, 0 ]<br />**Default**: The center of the graph<br />**Required**: false<br />**Description**: The center of the layout
 
 
 #### maxIteration
-**类型**： Number<br />**默认值**：1000<br />**是否必须**：false<br />**说明**：最大迭代次数
+**Type**: Number<br />**Default**: 1000<br />**Required**: false<br />**Description**: The maximum iteration number
 
 
 #### gravity
-**类型**： Number<br />**默认值**：10<br />**是否必须**：false<br />**说明**：重力的大小，影响布局的紧凑程度
+**Type**: Number<br />**Default**: 10<br />**Required**: false<br />**Description**: The gravity, which will affect the compactness of the layout
 
 
 #### speed
-**类型**： Number<br />**默认值**：1<br />**是否必须**：false<br />**说明**：每次迭代节点移动的速度。速度太快可能会导致强烈震荡
+**Type**: Number<br />**Default**: 1<br />**Required**: false<br />**Description**: The moving speed of each iteraction. Large value of the speed might lead to violent swing
 
 
 #### clustering
-**类型**： Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否按照聚类布局
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether layout by cluster
 
 
 #### clusterGravity
-**类型**： Number<br />**默认值**：10<br />**是否必须**：false<br />**说明**：聚类内部的重力大小，影响聚类的紧凑程度，在 `clustering` 为 `true` 时生效
+**Type**: Number<br />**Default**: 10<br />**Required**: false<br />**Description**: The gravity of each cluster, which will affect the compactness of each cluster. Takes effect only when `clustering` is `true`
 
 
-### 方法
-与父类 Layout 的方法相同。使用该布局时不需要关心内部方法的调用，由 G6 控制。
+### Function
+The same as the superclass Layout, users do not need to concern about the function calling, which will be controlled by G6.
 
 
-### 使用方法
-实例化图时配置到 `layout` 中，如果没有配置 `layout` 默认使用 Random 布局。
+### Usage
+Configure `layout` to the graph instance. If `layout` is not configured and there is no position information in node data, Random layout will take effect.
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -198,11 +198,11 @@ const graph = new G6.Graph({
   height: 600,
   layout: {
     type: 'fruchterman',
-    center: [ 200, 200 ],     // 可选，默认为图的中心
-    gravity: 20,              // 可选
-    speed: 2,                 // 可选
-    clustering: true,         // 可选
-    clusterGravity: 30,       // 可选
+    center: [ 200, 200 ],     // The center of the graph by default
+    gravity: 20,
+    speed: 2,
+    clustering: true,
+    clusterGravity: 30,
     maxIteration: 2000
   }
 );
@@ -210,52 +210,51 @@ const graph = new G6.Graph({
 
 ## Circular
 
-Circular 布局将所有节点布局在一个圆环上，可以选择节点在圆环上的排列顺序。可以通过参数的配置扩展出环的分组布局、螺旋形布局等。原文链接：[A framework and algorithms for circular drawings of graphs]()。<br />
+Circular layout arranges the node on a circle. By tuning the configurations, user can adjust the node ordering method, division number, radial layout, and so on. G6 implements it according to the paper: [A framework and algorithms for circular drawings of graphs](https://www.sciencedirect.com/science/article/pii/S1570866705000031). <br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-3idTK1xa6wAAAAAAAAAAABkARQnAQ' width=270 />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_nLORItzM5QAAAAAAAAAAABkARQnAQ' width=270 />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6J6BRIjmXKAAAAAAAAAAAABkARQnAQ' width=270 />
 
 
-### 属性
+### Configuration
 
 #### center
-**类型**： Array<br />**示例**：[ 0, 0 ]<br />**默认值**：图的中心<br />**是否必须**：false<br />**说明**：布局的中心
+**Type**: Array<br />**Example**: [ 0, 0 ]<br />**Default**: The center of the graph<br />**Required**: false<br />**Description**: The center of the layout
 
 
 #### radius
-**类型**： Number<br />**默认值**：null<br />**是否必须**：false<br />**说明**：圆的半径。若设置了 radius，则 startRadius 与 endRadius 不生效
+**Type**: Number<br />**Default**: null<br />**Required**: false<br />**Description**: The radius of the circle. If the `raidus` exists, `startRadius` and `endRadius` do not take effect.
 
 
 #### startRadius
-**类型**： Number<br />**默认值**：null<br />**是否必须**：false<br />**说明**：螺旋状布局的起始半径
+**Type**: Number<br />**Default**: null<br />**Required**: false<br />**Description**: The start radius of spiral layout
 
 
 #### endRadius
-**类型**：Number<br />**默认值**：null<br />**是否必须**：false<br />**说明**：螺旋状布局的结束半径
+**Type**: Number<br />**Default**: null<br />**Required**: false<br />**Description**: The end radius of spiral layout
 
 
 #### clockwise
-**类型**：Boolean<br />**默认值**：true<br />**是否必须**：false<br />**说明**：是否顺时针排列
+**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Description**: Whether layout clockwisely
 
 
 #### divisions
-**类型**：Number<br />**默认值**：1<br />**是否必须**：false<br />**说明**：节点在环上的分段数（几个段将均匀分布），在 endRadius - startRadius != 0 时生效
+**Type**: Number<br />**Default**: 1<br />**Required**: false<br />**Description**: The division number of the nodes on the circle. Takes effect when `endRadius - startRadius !== 0`
 
 
 #### ordering
-**类型**：String<br />**默认值**：false<br />**可选值**：null | 'topology' | 'degree'<br />**是否必须**：false<br />**说明**：节点在环上排序的依据。默认 null 代表直接使用数据中的顺序。'topology' 按照拓扑排序。'degree' 按照度数大小排序
+**Type**: String<br />**Default**: false<br />**Options**: null | 'topology' | 'degree'<br />**Required**: false<br />**Description**: The ordering method for nodes. `null` by default, which means the nodes are arranged in data order. 'topology' means in topology order; 'degree' means in degree order.
 
 
 #### angleRatio
-**类型**： Number<br />**默认值**：1<br />**是否必须**：false<br />**说明**：从第一个节点到最后节点之间相隔多少个 2*PI
+**Type**: Number<br />**Default**: 1<br />**Required**: false<br />**Description**: How many 2*PIs Between the first node and the last node
+
+### Function
+The same as the superclass Layout, users do not need to concern about the function calling, which will be controlled by G6.
 
 
-### 方法
-与父类 Layout 的方法相同。使用该布局时不需要关心内部方法的调用，由 G6 控制。
-
-
-### 使用方法
-实例化图时配置到 `layout` 中，如果没有配置 `layout` 默认使用 Random 布局。
+### Usage
+Configure `layout` to the graph instance. If `layout` is not configured and there is no position information in node data, Random layout will take effect.
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -263,78 +262,78 @@ const graph = new G6.Graph({
   height: 600,
   layout: {
     type: 'circular',
-    center: [ 200, 200 ],  // 可选，默认为图的中心
-    radius: null,          // 可选
-    startRadius: 10,       // 可选
-    endRadius: 100,        // 可选
-    clockwise: false,      // 可选
-    divisions: 5,          // 可选
-    ordering: 'degree',    // 可选
-    angleRatio: 1          // 可选
+    center: [ 200, 200 ],  // The center of the graph by default
+    radius: null,
+    startRadius: 10,
+    endRadius: 100,
+    clockwise: false,
+    divisions: 5,
+    ordering: 'degree',
+    angleRatio: 1
   }
 );
 ```
 
 ## Radial
 
-Radial 布局是将图布局成辐射状的布局方法。以一个 focusNode 为中心，其余节点按照与 focusNode 的度数关系排列在不同距离的环上。距离 focusNode 一度的节点布局在与其最近的第一个环上，距离 focusNode 二度的节点布局在第二个环上，以此类推。算法原文链接：[More Flexible Radial Layout](http://emis.ams.org/journals/JGAA/accepted/2011/BrandesPich2011.15.1.pdf)。
+Radial layout arranges the nodes to concentrics centered at a focus node according to their shortest path length to the focus node. G6 implements it according to the paper: [More Flexible Radial Layout](http://emis.ams.org/journals/JGAA/accepted/2011/BrandesPich2011.15.1.pdf). 
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GAFjRJeAoAsAAAAAAAAAAABkARQnAQ' width=600 />
 
-### 属性
+### Configuration
 
 #### center
-**类型**： Array<br />**示例**：[ 0, 0 ]<br />**默认值**：图的中心<br />**是否必须**：false<br />**说明**：布局的中心
+**Type**: Array<br />**Example**: [ 0, 0 ]<br />**Default**: The center of the graph<br />**Required**: false<br />**Description**: The center of the layout
 
 
 #### linkDistance
-**类型**： Number<br />**默认值**：50<br />**是否必须**：false<br />**说明**：边长度
+**Type**: Number<br />**Default**: 50<br />**Required**: false<br />**Description**: The edge length
 
 
 #### maxIteration
-**类型**： Number<br />**默认值**：1000<br />**是否必须**：false<br />**说明**：停止迭代到最大迭代数
+**Type**: Number<br />**Default**: 1000<br />**Required**: false<br />**Description**: The max iteration number
 
 
 #### focusNode
-**类型**：String | Object<br />**默认值**：null<br />**是否必须**：false<br />**说明**：辐射的中心点，默认为数据中第一个节点。可以传入节点 id 或节点本身
+**Type**: String | Object<br />**Default**: null<br />**Required**: false<br />**Description**: The focus node of the radial layout. The first node of the data is the default value. It can be the id of a node or the node item.
 
 
 #### unitRadius
-**类型**：Number<br />**默认值**：100<br />**是否必须**：false<br />**说明**：每一圈距离上一圈的距离。默认填充整个画布，即根据图的大小决定
+**Type**: Number<br />**Default**: 100<br />**Required**: false<br />**Description**: The separation between adjacent circles. If `unitRadius` is not assigned, the layout will fill the canvas automatically.
 
 
 #### preventOverlap
-**类型**：Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否防止重叠，必须配合下面属性 [`nodeSize`](#xWjHN) ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether prevent node overlappings. To activate preventing node overlappings, [`nodeSize`](#xWjHN) is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned.
 
 
 #### nodeSize
-**类型**： Number<br />**默认值**：10<br />**是否必须**：false<br />**说明**：节点大小（直径）。用于防止节点重叠时的碰撞检测
+**Type**: Number<br />**Default**: 10<br />**Required**: false<br />**Description**: The diameter of the node. It is used for preventing node overlappings
 
 
 #### maxPreventOverlapIteration
-**类型**： Number<br />**默认值**：200<br />**是否必须**：false<br />**说明**：防止重叠步骤的最大迭代次数
+**Type**: Number<br />**Default**: 200<br />**Required**: false<br />**Description**: The maximum iteration number of preventing node overlappings
 
 
 #### strictRadial
-**类型**： Boolean<br />**默认值**：true<br />**是否必须**：false<br />**说明**：是否必须是严格的 radial 布局，及每一层的节点严格布局在一个环上。`preventOverlap` 为 `true` 时生效。
+**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Description**: Whether layout the graph as strict radial, which means the nodes will be arranged on each circle strictly. Takes effect only when `preventOverlap` is `true`
 
-- 当 `preventOverlap` 为 `true`，且 `strictRadial` 为 `false` 时，有重叠的节点严格沿着所在的环展开，但在一个环上若节点过多，可能无法完全避免节点重叠。
-- 当 `preventOverlap` 为 `true`，且 `strictRadial` 为 `true` 时，允许同环上重叠的节点不严格沿着该环布局，可以在该环的前后偏移以避免重叠。
+- When `preventOverlap` is `true`, and `strictRadial` is `false`, the overlapped nodes are arranged along their circles strictly. But for the situation that there are too many nodes on a circle to be arranged, the overlappings might not be eliminated completely
+- When `preventOverlap` is `true`, and `strictRadial` is `true` , the overlapped nodes can be arranged around their circle with small offsets.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cJqbRqm0h2UAAAAAAAAAAABkARQnAQ' width=270 />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*PFRIRosyX7kAAAAAAAAAAABkARQnAQ' width=270 />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*DPQFSqCXaIAAAAAAAAAAAABkARQnAQ' width=270 />
 
-> （左）preventOverlap = false。（中）preventOverlap = false，strictRadial = true。（右）preventOverlap = false，strictRadial = false。
+> （Left）preventOverlap = false.（Center）preventOverlap = false, strictRadial = true. (Right)preventOverlap = false, strictRadial = false.
 
 
 
-### 方法
-与父类 Layout 的方法相同。使用该布局时不需要关心内部方法的调用，由 G6 控制。
+### Function
+The same as the superclass Layout, users do not need to concern about the function calling, which will be controlled by G6.
 
 
-### 使用方法
-实例化图时配置到 `layout` 中，如果没有配置 `layout` 默认使用 Concentric 布局。
+### Usage
+Configure `layout` to the graph instance. If `layout` is not configured and there is no position information in node data, Random layout will take effect.
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -342,64 +341,88 @@ const graph = new G6.Graph({
   height: 600,
   layout: {
     type: 'circular',
-    center: [ 200, 200 ],     // 可选，默认为图的中心
-    linkDistance: 50,         // 可选，边长
-    maxIteration: 1000,       // 可选
-    focusNode: 'node11',      // 可选
-    unitRadius: 100,          // 可选
-    preventOverlap: true,     // 可选，必须配合 nodeSize
-    nodeSize: 30,             // 可选
-    strictRadial: false       // 可选
+    center: [ 200, 200 ],     // The center of the graph by default
+    linkDistance: 50,         // The edge length
+    maxIteration: 1000,
+    focusNode: 'node11',
+    unitRadius: 100,
+    preventOverlap: true,     // nodeSize or size in data is required for preventOverlap: true
+    nodeSize: 30,
+    strictRadial: false
   }
 );
 ```
 
 ## Dagre
 
-Dagre 是一种层次布局。
+Dagre is an hierarchical layout.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2uMmRo5wYPUAAAAAAAAAAABkARQnAQ' width=600 />
 
-### 属性
+### Configuration
 
 #### rankdir
-**类型**： String<br />**可选值**：'TB' | 'BT' | 'LR' | 'RL'<br />**默认值**：'TB'<br />**是否必须**：false<br />**说明**：布局的方向。T：top（上）；B：bottom（下）；L：left（左）；R：right（右）。
+**Type**: String<br />**Options**: 'TB' | 'BT' | 'LR' | 'RL'<br />**Default**: 'TB'<br />**Required**: false<br />**Description**: 布局的方向. T:top; B:bottom; L:left; R:right.
 
-- 'TB'：从上至下布局；
-- 'BT'：从下至上布局；
-- 'LR'：从左至右布局；
-- 'RL'：从右至左布局。
+- 'TB':Layout the graph from the top to the bottom;
+- 'BT':Layout the graph from the bottom to the top;
+- 'LR':Layout the graph from the top left the right;
+- 'RL':Layout the graph from the top right the left.
 
 <br />
 
 
 #### align
-**类型**： String<br />**可选值**：'UL' | 'UR' | 'DL' | 'DR'<br />**默认值**：'UL'<br />**是否必须**：false<br />**说明**：节点对齐方式。U：upper（上）；D：down（下）；L：left（左）；R：right（右）
+**Type**: String<br />**Options**: 'UL' | 'UR' | 'DL' | 'DR'<br />**Default**: 'UL'<br />**Required**: false<br />**Description**: 节点对齐方式. U:upper; D:down; L:left; R:right
 
-- 'UL'：对齐到左上角；
-- 'UR'：对齐到右上角；
-- 'DL'：对齐到左下角；
-- 'DR'：对齐到右下角。
+- 'UL':对齐到左上角; 
+- 'UR':对齐到右上角; 
+- 'DL':对齐到左下角; 
+- 'DR':对齐到右下角. 
 
 
 #### nodesep
-**类型**： Number<br />**默认值**：50<br />**是否必须**：false<br />**说明**：节点间距（px）
+**Type**: Number<br />**Default**: 50<br />**Required**: false<br />**Description**: The separation between nodes with unit px. When `rankdir` is `'TB'` or `'BT'`, `nodesep` represents the horizontal separations between nodes; When `rankdir` is `'LR'` or `'RL'`, `nodesep` represents the vertical separations between nodes
 
 
 #### ranksep
-**类型**： Number<br />**默认值**：50<br />**是否必须**：false<br />**说明**：层间距（px）
+**Type**: Function<br />**Default**: undefined<br />**Required**: false<br />**Description**: The separations between adjacent levels with unit px. When `rankdir` is `'TB'` or `'BT'`, `ranksep` represents the vertical separations between adjacent levels; when `rankdir` is `'LR'` or `'RL'`, `rankdir` represents the horizontal separations between adjacent levels
+
+
+#### nodesepFunc
+**Type**: Function<br />**Default**: undefined<br />**Example**: 
+```javascript
+(d) => {
+  // d is a node
+  if (d.id === 'testId') return 100
+  return 10;
+}
+```
+<br />**Required**: false<br />**Description**: The function for node separation with unit px. You can adjust the separations between different node pairs by using this function instead of `nodesep`. When `rankdir` is `'LR'` or `'RL'`, `nodesep` represents the vertical separations between nodes. The priority of `nodesepFunc` is lower than `nodesep`, which means if `nodesep` is assigned, the `nodesepFunc` will not take effect
+
+
+#### ranksepFunc
+**Type**: Number<br />**Default**: 50<br />**Example**: 
+```javascript
+(d) => {
+  // d is a node
+  if (d.id === 'testId') return 100
+  return 10;
+}
+```
+<br />**Required**: false<br />**Description**: The function for level separation with unit px. You can adjust the separations between different adjacent levels by using this function instead of `ranksep`. When `rankdir` is `'TB'` or `'BT'`, `ranksep` represents the vertical separations between adjacent levels; when `rankdir` is `'LR'` or `'RL'`, `rankdir` represents the horizontal separations between adjacent levels. The priority of `ranksepFunc` is lower than `ranksep`, which means if `ranksep` is assigned, the `ranksepFunc` will not take effect
 
 
 #### controlPoints
-**类型**： Boolean<br />**默认值**：true<br />**是否必须**：false<br />**说明**：是否保留布局连线的控制点
+**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Description**: Whether keep the control points of layout
 
 
-### 方法
-与父类 Layout 的方法相同。使用该布局时不需要关心内部方法的调用，由 G6 控制。
+### Function
+The same as the superclass Layout, users do not need to concern about the function calling, which will be controlled by G6.
 
 
-### 使用方法
-实例化图时配置到 `layout` 中，如果没有配置 `layout` 默认使用 Random 布局。
+### Usage
+Configure `layout` to the graph instance. If `layout` is not configured and there is no position information in node data, Random layout will take effect.
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -407,70 +430,70 @@ const graph = new G6.Graph({
   height: 600,
   layout: {
     type: 'dagre',
-    rankdir: 'LR',           // 可选，默认为图的中心
-    align: 'DL',             // 可选
-    nodesep: 20,             // 可选
-    ranksep: 50,             // 可选
-    controlPoints: true      // 可选
+    rankdir: 'LR',           // The center of the graph by default
+    align: 'DL',
+    nodesep: 20,
+    ranksep: 50,
+    controlPoints: true
   }
 );
 ```
 
 ## Concentric
 
-Concentric 布局为同心圆布局，用户可以指定节点某个属性为排序依据（默认为节点度数 degree），该属性值越高，则该节点布局后的位置中心。
+Concentric arranges the nodes on several concentrics. By tuning the parameters, users could order the nodes according to some property of node data, degree by default. Larger the value, more center the node will be placed.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*QpyPTbBpO2AAAAAAAAAAAABkARQnAQ' width=600 />
 
 
-### 属性
+### Configuration
 
 #### center
-**类型**： Array<br />**示例**：[ 0, 0 ]<br />**默认值**：图的中心<br />**是否必须**：false<br />**说明**：布局的中心
+**Type**: Array<br />**Example**: [ 0, 0 ]<br />**Default**: The center of the graph<br />**Required**: false<br />**Description**: The center of the layout
 
 
 #### preventOverlap
-**类型**：Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否防止重叠，必须配合下面属性 [`nodeSize`](https://www.yuque.com/antv/g6/ngp0vg#xWjHN) ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether prevent node overalappings. To activate this ability, [`nodeSize`](https://www.yuque.com/antv/g6/ngp0vg#xWjHN) should be assigned, which will be used for collide detection
 
 
 #### nodeSize
-**类型**： Number<br />**默认值**：30<br />**是否必须**：false<br />**说明**：节点大小（直径）。用于防止节点重叠时的碰撞检测
+**Type**: Number<br />**Default**: 30<br />**Required**: false<br />**Description**: The diameter of the node. It is used for preventing node overlappings
 
 
 #### minNodeSpacing
-**类型**： Number<br />**默认值**：10<br />**是否必须**：false<br />**说明**：环与环之间最小间距，用于调整半径
+**Type**: Number<br />**Default**: 10<br />**Required**: false<br />**Description**: The minimum separation between adjacent circles
 
 
 #### sweep
-**类型**： Number<br />**默认值**：undefined<br />**是否必须**：false<br />**说明**：第一个节点与最后一个节点之间的弧度差。若为 undefined ，则将会被设置为 2 * Math.PI * (1 - 1 / |level.nodes|) ，其中 level.nodes 为该算法计算出的每一层的节点，|level.nodes| 代表该层节点数量
+**Type**: Number<br />**Default**: undefined<br />**Required**: false<br />**Description**:  How many radians should be between the first and last node (defaults to full circle). If it is undefined, 2 * Math.PI * (1 - 1 / |level.nodes|) will be used, where level.nodes is nodes set of each level, |level.nodes| is the number of nodes of the level
 
 
 #### equidistant
-**类型**： Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：环与环之间的距离是否相等
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether levels have an equal radial distance between them, may cause bounding box overflow
 
 
 #### startAngle
-**类型**： Number<br />**默认值**：3 / 2 * Math.PI<br />**是否必须**：false<br />**说明**：开始方式节点的弧度
+**Type**: Number<br />**Default**: 3 / 2 * Math.PI<br />**Required**: false<br />**Description**: Where nodes start in radians
 
 
 #### clockwise
-**类型**： Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否按照顺时针排列
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Place the nodes in clockwise or not
 
 
 #### maxLevelDiff
-**类型**： Number<br />**默认值：**undefined<br />**是否必须**：false<br />**说明**：每一层同心值的求和。若为 undefined，则将会被设置为 maxValue / 4 ，其中 maxValue 为最大的排序依据的属性值。例如，若 sortBy='degree'，则 maxValue 为所有节点中度数最大的节点的度数
+**Type**: Number<br />**默认值:**undefined<br />**Required**: false<br />**Description**: The sum of concentric values in each level. If it is undefined, maxValue / 4 will take place, where maxValue is the max value of ordering properties. For example, if sortBy='degree', maxValue is the max degree value of all the nodes
 
 
 #### sortBy
-**类型**： String<br />**默认值**：undefined<br />**是否必须**：false<br />**说明**：指定排序的依据（节点属性名），数值越高则该节点被放置得越中心。若为 undefined，则会计算节点的度数，度数越高，节点将被放置得越中心
+**Type**: String<br />**Default**: undefined<br />**Required**: false<br />**Description**: Order the nodes according to this parameter. It is the property's name of node. The node with higher value will be placed to the center. If it is undefined, the algorithm will order the nodes by their degree
 
 
-### 方法
-与父类 Layout 的方法相同。使用该布局时不需要关心内部方法的调用，由 G6 控制。
+### Function
+The same as the superclass Layout, users do not need to concern about the function calling, which will be controlled by G6.
 
 
-### 使用方法
-实例化图时配置到 `layout` 中，如果没有配置 `layout` 默认使用 Random 布局。
+### Usage
+Configure `layout` to the graph instance. If `layout` is not configured and there is no position information in node data, Random layout will take effect.
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -478,66 +501,66 @@ const graph = new G6.Graph({
   height: 600,
   layout: {
     type: 'concentric',
-    center: [ 200, 200 ],     // 可选，
-    linkDistance: 50,         // 可选，边长
-    preventOverlap: true,     // 可选，必须配合 nodeSize
-    nodeSize: 30,             // 可选
-    sweep: 10,                // 可选
-    equidistant: false,       // 可选
-    startAngle: 0,            // 可选
-    clockwise: false,         // 可选
-    maxLevelDiff: 10,         // 可选
-    sortBy: 'degree'          // 可选
+    center: [ 200, 200 ],     // The center of the graph by default
+    linkDistance: 50,         // The edge length
+    preventOverlap: true,     // nodeSize or size in data is required for preventOverlap: true
+    nodeSize: 30,
+    sweep: 10,
+    equidistant: false,
+    startAngle: 0,
+    clockwise: false,
+    maxLevelDiff: 10,
+    sortBy: 'degree'
   }
 );
 ```
 
 ## Grid
 
-Grid 布局是将所有节点通过某种指定属性排序后，整齐地放置在网格上。
+Grid orders the nodes according to the configurations and arranged them onto grid.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Oh6mRLVEBBIAAAAAAAAAAABkARQnAQ' width=850 />
 
-### 属性
+### Configuration
 
 #### begin
-**类型**： Array<br />**示例**：[ 0, 0 ]<br />**默认值**：[ 0, 0 ]<br />**是否必须**：false<br />**说明**：网格开始位置（左上角）
+**Type**: Array<br />**Example**: [ 0, 0 ]<br />**Default**: [ 0, 0 ]<br />**Required**: false<br />**Description**: The place where the grid begin (left top)
 
 
 #### preventOverlap
-**类型**：Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否防止重叠，必须配合下面属性 [`nodeSize`](https://www.yuque.com/antv/g6/ngp0vg#xWjHN) ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Prevent node overlappings. Only when the `nodeSize` is assigned, the collide detection will take effect
 
 
 #### nodeSize
-**类型**： Number<br />**默认值**：30<br />**是否必须**：false<br />**说明**：节点大小（直径）。用于防止节点重叠时的碰撞检测
+**Type**: Number<br />**Default**: 30<br />**Required**: false<br />**Description**: The diameter of the node. It is used for preventing node overlappings.
 
 
 #### preventOverlapPadding
-**类型**：Number<br />**默认值**：10<br />**是否必须**：false<br />**说明**：避免重叠时节点的间距 padding。preventOverlap 为 true 时生效
+**Type**: Number<br />**Default**: 10<br />**Required**: false<br />**Description**: The minimum padding between nodes to prevent node overlappings. Takes effect when `preventOverlap` is `true`
 
 
 #### condense
-**类型**： Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：为 false 时表示利用所有可用画布空间，为 true 时表示利用最小的画布空间
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Wheter to utilize the minimum space of the canvas. `false` means utilizing the full space, `true` means utilizing the minimum space.
 
 
 #### rows
-**类型**： Number<br />**默认值**：undefined<br />**是否必须**：false<br />**说明**：网格的行数，为 undefined 时算法根据节点数量、布局空间、cals（若指定）自动计算
+**Type**: Number<br />**Default**: undefined<br />**Required**: false<br />**Description**: The row number of the grid. If `rows` is undefined, the algorithm will calculate it according to the space and node numbers automatically
 
 
 #### cols
-**类型**： Number<br />**默认值**：undefined<br />**是否必须**：false<br />**说明**：网格的列数，为 undefined 时算法根据节点数量、布局空间、rows（若指定）自动计算
+**Type**: Number<br />**Default**: undefined<br />**Required**: false<br />**Description**: The column number of the grid. If `cols` is undefined, the algorithm will calculate it according to the space and node numbers automatically
 
 
 #### sortBy
-**类型**： String<br />**默认值**：undefined<br />**是否必须**：false<br />**说明**：指定排序的依据（节点属性名），数值越高则该节点被放置得越中心。若为 undefined，则会计算节点的度数，度数越高，节点将被放置得越中心
+**Type**: String<br />**Default**: undefined<br />**Required**: false<br />**Description**: The ordering method for nodes. Smaller the index in the ordered array, more center the node will be placed. If `sortBy` is undefined, the algorithm order the nodes according to their degrees
 
 
-### 方法
-与父类 Layout 的方法相同。使用该布局时不需要关心内部方法的调用，由 G6 控制。
+### Function
+The same as the superclass Layout, users do not need to concern about the function calling, which will be controlled by G6.
 
 
-### 使用方法
-实例化图时配置到 `layout` 中，如果没有配置 `layout` 默认使用 Grid 布局。
+### Usage
+Configure `layout` to the graph instance. If `layout` is not configured and there is no position information in node data, Random layout will take effect.
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -545,14 +568,14 @@ const graph = new G6.Graph({
   height: 600,
   layout: {
     type: 'concentric',
-    begin: [ 0, 0 ],          // 可选，
-    preventOverlap: true,     // 可选，必须配合 nodeSize
-    preventOverlapPdding: 20, // 可选
-    nodeSize: 30,             // 可选
-    condense: false,          // 可选
-    rows: 5,                  // 可选
-    cols: 5,                  // 可选
-    sortBy: 'degree'          // 可选
+    begin: [ 0, 0 ],
+    preventOverlap: true,     // nodeSize or size in data is required for preventOverlap: true
+    preventOverlapPdding: 20,
+    nodeSize: 30,
+    condense: false,
+    rows: 5,
+    cols: 5,
+    sortBy: 'degree'
   }
 );
 ```

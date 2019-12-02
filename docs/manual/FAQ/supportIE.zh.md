@@ -3,9 +3,27 @@ title: 如何让 IE 支持 G6
 order: 3
 ---
 
-最近 [G6 图可视化交流群](/zh/docs/manual/getting-started/#g6-图可视化交流群)里面有同学反馈说 G6 不支持 IE，官网上的 Demo 在 IE 上完全打不开，对于这样对问题，我们有考虑过怎么处理，最终没有选择内部处理，具体原因自行脑补。
+最近 [G6 图可视化交流群](/zh/docs/manual/getting-started/#g6-图可视化交流群)里面有同学反馈说 G6 不支持 IE。对于这类问题，我们在项目中只需要引入 `babel-polyfill` 即可，具体使用方法如下：
+- 在主入门文件中引入 `babel-polyfill` ；
+- 在 `bable-loader` 中加入如下代码：
 
-下面针对@vue/cli、umi、create-react-app搭建的项目给出一些解决方案，**务必确保在没有引入 G6 时你的项目可以正常运行在IE上**。
+```
+{
+    test: /\.js$/,
+    loader: 'babel-loader',
+    include: [resolve('src'), resolve('node_modules/@antv/g6')]
+}
+```
+
+> include 表示哪些目录中的 .js 文件需要进行 babel-loader；exclude 表示哪些目录中的 .js 文件不要进行 babel-loader。
+
+
+include 中的内容请根据具体项目情况设置。
+
+更详细的请参考：https://blog.csdn.net/y491887095/article/details/81541502。
+
+
+另外，针对@vue/cli、umi、create-react-app搭建的项目给出一些解决方案，**务必确保在没有引入 G6 时你的项目可以正常运行在IE上**。
 
 类似如下错误。
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dIrtS6eorxUAAAAAAAAAAABkARQnAQ' width=800 />

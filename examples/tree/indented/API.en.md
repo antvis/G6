@@ -10,7 +10,7 @@ title: API
 - H —— Root is on the middle, layout in horizontal symmetry(right image below)
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wZ5zTLzeVxgAAAAAAAAAAABkARQnAQ' width=110/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*q-fCSryViNMAAAAAAAAAAABkARQnAQ' width=87/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*O3fxTqaoipUAAAAAAAAAAABkARQnAQ' width=157/>
-> （Left）LR。（Center）RL。（Right）H。
+> (Left)LR. (Center)RL. (Right)H.
 
 
 ## indent

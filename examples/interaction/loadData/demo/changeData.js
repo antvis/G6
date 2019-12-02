@@ -5,7 +5,7 @@ import G6 from '@antv/g6';
  * 主要演示changeData的用法。
  */
 const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight;
+const height = document.getElementById('container').scrollHeight || 500;
 const graph = new G6.TreeGraph({
   container: 'container',
   width,

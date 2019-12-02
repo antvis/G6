@@ -1,6 +1,6 @@
 ---
 title: Node
-order: 0
+order: 1
 ---
 
 Node继承自Item，所以，Item上面的方法在Node实例中都可以调用。
@@ -11,7 +11,7 @@ Node继承自Item，所以，Item上面的方法在Node实例中都可以调用�
 
 锁定当前节点，锁定节点后，该节点不再响应拖动节点的事件。
 
-提示锁定节点后，拖动画布和缩放画布的操作依然对该节点有效，如果想在锁定节点后，不响应拖动画布和缩放的事件，需要自定义拖动画布和缩放的 Behavior，具体可参考锁定节点不响应拖动画布的事件【todo】和锁定节点不响应缩放事件【todo】。
+提示：锁定节点后，拖动画布和缩放画布的操作依然对该节点有效。如果想在锁定节点后，不响应拖动画布和缩放的事件，需要自定义拖动画布和缩放的 Behavior，具体可参考 (锁定节点不响应拖动画布的事件)[/zh/docs/manual/advanced/lock-node#拖动画布时候不处理锁定的节点] 和 (锁定节点不响应缩放事件)[/zh/docs/manual/advanced/lock-node#拖动画布时候不处理锁定的节点] 。
 
 
 **用法**
@@ -68,7 +68,7 @@ const hasLocked = node.hasLocked()
 
 **用法**
 ```javascript
-// 获取与node关联的所有边
+// 获取与 node 关联的所有边
 const edges = node.getEdges()
 ```
 
@@ -85,7 +85,7 @@ const edges = node.getEdges()
 
 **用法**
 ```javascript
-// 获取与node关联的所有入边
+// 获取与 node 关联的所有入边
 const edges = node.getInEdges()
 ```
 
@@ -102,7 +102,7 @@ const edges = node.getInEdges()
 
 **用法**
 ```javascript
-// 获取与node关联的所有出边
+// 获取与 node 关联的所有出边
 const edges = node.getOutEdges()
 ```
 
@@ -113,7 +113,7 @@ const edges = node.getOutEdges()
 
 **返回值**
 
-- 返回值类型：array；
+- 返回值类型：Array；
 - 返回值的数据结构：
 ```javascript
 [
@@ -146,14 +146,14 @@ const anchor = node.getAnchorPoints()
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| point | object | true | 节点外部的一个点，用于计算交点及最近的锚点 |
+| point | Object | true | 节点外部的一个点，用于计算交点及最近的锚点 |
 
 
 
 **返回值**
 
-- 返回值类型：object；
-- 返回值表示连接点的坐标(x, y)，如果没有合适的锚点和连接点，则返回中心点。
+- 返回值类型：Object；
+- 返回值表示连接点的坐标 (x, y)，如果没有合适的锚点和连接点，则返回中心点。
 
 
 **用法**
@@ -176,14 +176,14 @@ const linkPoint = node.getLinkPoint(point)
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| index | number | true | 锚点的索引 |
+| index | Number | true | 锚点的索引 |
 
 
 
 **返回值**
 
-- 返回值类型：object；
-- 返回值表示连接点的坐标(x, y)。
+- 返回值类型：Object；
+- 返回值表示连接点的坐标 (x, y)。
 
 
 **用法**
@@ -200,7 +200,7 @@ const anchor = node.getLinkPointByAnchor(0)
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| edge | Edge | true | Edge实例 |
+| edge | Edge | true | Edge 实例 |
 
 
 
@@ -221,7 +221,7 @@ node.addEdge(edge)
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| edge | Edge | true | Edge实例 |
+| edge | Edge | true | Edge 实例 |
 
 
 

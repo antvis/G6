@@ -97,4 +97,4 @@ A 和 B 之间可能会存在多个同事关系，如 A 和 B 在 C 公司是同
 
 ## 应用地址
 
-<br />G6 官网：[https://antvis.github.io/g6](https://antvis.github.io/g6)<br />G6 GitHub：[https://github.com/antvis/g6](https://github.com/antvis/g6)
+<br />G6 官网：[https://g6.antv.vision/](https://g6.antv.vision/)<br />G6 GitHub：[https://github.com/antvis/g6](https://github.com/antvis/g6)

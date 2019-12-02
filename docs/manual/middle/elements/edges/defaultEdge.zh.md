@@ -29,7 +29,7 @@ G6 提供了 9 种内置边：
 | cubic | 有两个控制点的曲线：<br />- controlPoints 不指定时，会默认线的 1/3, 2/3 处弯曲<br />- 更多配置详见 cubic 边的配置<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ldiCT7xnrM4AAAAAAAAAAABkARQnAQ' width=100/> |
 | cubic-vertical | 垂直方向的三阶贝塞尔曲线，不考虑用户从外部传入的控制点 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*WtNPRKSZv1kAAAAAAAAAAABkARQnAQ' width=100/> |
 | cubic-horizontal | 水平方向的三阶贝塞尔曲线，不考虑用户从外部传入的控制点 | <img src='' width=100/> |
-| loop | 自环。更多配置详见 arc 边的配置 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iNiVRIsov4MAAAAAAAAAAABkARQnAQ' width=100/> |
+| loop | 自环。更多配置详见 loop 边的配置 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iNiVRIsov4MAAAAAAAAAAABkARQnAQ' width=100/> |
 
 ## 边的通用属性
 所有内置的边支持的通用属性：
@@ -39,7 +39,7 @@ G6 提供了 9 种内置边：
 | id | false | String | 边编号 |
 | source | true | String | Number | 起始点 id |
 | target | true | String | 结束点 id |
-| shape | false | String | 边图形，默认为 'line' |
+| shape | false | String | 边图形，默认为 `'line'` |
 | sourceAnchor | false | Number | 边的起始节点上的锚点的索引值 |
 | targetAnchor | false | Number | 边的终止节点上的锚点的索引值 |
 | style | false | Object | 边的样式属性 |
@@ -58,7 +58,7 @@ Object 类型。通过 `style` 配置来修改边的颜色、线宽等属性。�
 | endArrow | false | Boolean | 边的结束端是否有箭头 |
 | strokeOpacity | false | Number | 边透明度 |
 | shadowColor | false | String | 阴影颜色 |
-| shadowBlur | false | Number | 阴影范围 |
+| shadowBlur | false | Number | 阴影模糊程度 |
 | shadowOffsetX | false | Number | 阴影 x 方向偏移量 |
 | shadowOffsetX | false | Number | 阴影 y 方向偏移量 |
 | ... |  |  |  |
@@ -75,7 +75,7 @@ const graph = new G6.Graph({
     style: {
       stroke: '#eaff8f',
       lineWidth: 5,
-      // ... 其他属性
+      // ... 其他样式属性
     }
   }
 })
@@ -88,7 +88,7 @@ const graph = new G6.Graph({
 | --- | --- | --- | --- |
 | refX | false | Number | 标签在 x 方向的偏移量 |
 | refY | false | Number | 标签在 y 方向的偏移量 |
-| position | false | String | 文本相对于边的位置，目前支持的位置有: `start`，`middle`, `end`。默认为`middle`。 |
+| position | false | String | 文本相对于边的位置，目前支持的位置有: `'start'`，`'middle'`，`'end'`。默认为`'middle'`。 |
 | autoRotate | false | Boolean | 标签文字是否跟随边旋转，默认 `false` |
 | style | false | Object | 标签的样式属性 |
 
@@ -139,7 +139,7 @@ const graph = new G6.Graph({
   height: 600,
   defaultEdge: {
     shape: 'line',
-    // 其他配置
+    // ... 其他配置
   }
 })
 ```

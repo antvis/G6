@@ -3,16 +3,14 @@ title: Shape
 order: 7
 ---
 
-Shape API都是在自定义节点（registerNode）或自定义边（registerEdge）的过程中需要部分实现或复写的方法。
+This document shows the functions that should be implemented or rewrited when custom nodes by `G6.registerNode` or custom edges by `G6.registerEdge`. 
 
-**友情提示：**以下属性和API方法，全部用于自定义节点和边时候使用，即作为`G6.registerNode` / `G6.registerEdge`的第二个参数中的方法使用。
-
-## 用法
+## Usage
 ```
 import G6 from '@antv/g6'
 G6.registerNode('nodeName', {
   draw(cfg, group) {
-    // 定义的其他方法，都可以在draw里面调用， 如 drawShape、drawLabel 等。
+    // The other functions such as drawShape anddrawLabel can be called in draw(cfg, group)
     this.drawShape()
     const labelStyle = this.getLabelStyle(cfg)
     // ...
@@ -21,86 +19,85 @@ G6.registerNode('nodeName', {
     // 
   },
   getLabelStyle(cfg) {
-    // 根据业务返回 label 的样式
+    // Return the label's style
     return {}
   },
   update(cfg, item) {
-    // 更新绘制的元素
-
+    // Update the item according
   }
 }, 'circle')
 ```
 
-## 属性
+## Attributes
 
 ### itemType
-元素类型，目前支持node、edge，后续可能会支持group。
+The type of the item. Options: `'node'`, `'edge'`.
 
 ### labelPosition
-文本相对于图形的位置，默认值为center。
+The relative positions of label to the item. `'center'` by default.
 
-- 当itemType为node时，labelPosition值包括：top、bottom、left、right和center；
-- 当itemType为edge时，labelPos值包括start、end和center。
+- When `itemType` is `'node'`, options of `labelPosition` includes: `'top'`, `'bottom'`, `'left'`, `'right'` and `'center'`;
+- When `itemType` is `'edge'`, options of `labelPosition` includes: `'start'`, `'end'` and `'center'`.
 
 ### labelAutoRotate
-> 只有在 registerEdge 时有用。
+> Takes effect only when registerEdge.
 
-文本是否跟着线自动旋转，默认值为false。
+Whether rotate the label according to the edge. `false` by default.
 
-**提示：edge特有。**
+**Tips: this is an unique attribute for edge.**
 
-## 绘制
-绘制部分四个API的参数完全相同，参数说明部分参考draw()方法。
+## Draw
+The parameters for the four functions about draw are the same. Please refer to `draw()`.
 
 ### draw(cfg, group)
-绘制节点和边，包括节点和边上的文本，返回图形的keyShape。
+Draw the node or edge, including the label on the it. Return `keyShape` of it.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| cfg | object | true | 节点或边的配置项 |
-| group | G.Group | true | 节点或边的容器 |
+| cfg | Object | true | The configurations of the node or edge. |
+| group | G.Group | true | The contianer of the node or edge. |
 
 ### afterDraw(cfg, group)
-绘制完成以后的操作，用户可继承现有的节点或边，在afterDraw()方法中扩展图形或添加动画。
+This function will be called after the node or edge being drawed. It is appropriate for extending graphics or animations for built-in node or edge.
 
-## 更新
+## Update
 
 ### update(cfg, item)
-更新节点或边，包括节点或边上的文本。
+Update the node or edge, including the label on it.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| cfg | object | true | 节点或边的配置项 |
-| item | G6.Item | true | 节点或边的实例 |
+| cfg | Object | true | The configurations for the node or edge. |
+| item | G6.Item | true | The item instance of the node or edge. |
 
 ### afterUpdate(cfg, item)
-更新完以后的操作，如扩展图形或添加动画。
+This function will be called after the node or edge being updated.
 
 ### shouldUpdate(type)
-是否允许更新。
+Whether allow the node or edge to be updated.
 
-**参数**
+**Paramters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| type | string | true | 元素类型，node或edge |
+| type | String | true | The type of the item. Options:`'node'`, `'edge'` |
 
-**返回值**
+**Return**
 
-- 返回值类型：boolean；
-- 返回true，则允许更新，否则不允许更新。
+- The type of return value: Boolean;
+- Allow the node or edge to be updated if it returns `true`.
 
 ### setState(name, value, item)
-设置元素的状态，主要是交互状态，业务状态请在draw()方法中实现。单图形的节点仅考虑selected、active状态，有其他状态需求的用户可以复写该方法。
+After [`graph.setItemState(item, state, value)`](/en/docs/api/Graph/#setitemstateitem-state-enabled) is called, this function will do some responses.
 
-**参数**
+**Paramters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| name | string | true | 状态名称 |
-| value | boolean | true | 状态是否可用，为true时可用，否则不可用 |
-| item | G6.Item | true | 节点或边的实例 |
+| name | String | true | The name of the state. |
+| value | Boolean | true | The value of the state. |
+| item | G6.Item | true | The instance of the node or edge. |

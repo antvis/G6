@@ -9,8 +9,8 @@ order: 0
 
 | 属性名 | 含义 | 备注 |
 | --- | --- | --- |
-| fill | 设置用于填充绘画的颜色、渐变或模式 | 对应canvas属性`fillStyle` |
-| stroke | 设置用于笔触的颜色、渐变或模式 | 对应canvas属性`strokeStyle` |
+| fill | 设置用于填充绘画的颜色、渐变或模式 | 对应 canvas 属性`fillStyle` |
+| stroke | 设置用于笔触的颜色、渐变或模式 | 对应 canvas 属性`strokeStyle` |
 | shadowColor | 设置用于阴影的颜色 |  |
 | shadowBlur | 设置用于阴影的模糊级别 | 数值越大，越模糊 |
 | shadowOffsetX | 设置阴影距形状的水平距离 |  |
@@ -91,9 +91,9 @@ group.addShape('ellipse', {
 | y | 扇形圆心的 y 坐标 |  |
 | rs | 水平半径 |  |
 | re | 垂直半径 |  |
-| startAngle | 起点弧度 | 弧度是弧度，即使用Math.PI表示 |
+| startAngle | 起点弧度 | 弧度制，即使用 Math.PI 表示 |
 | endAngle |  终点弧度 |  |
-| clockwise | 为`true`时顺时针渲染，为`false`时逆时针渲染 |  |
+| clockwise | 为 `true` 时顺时针渲染，为 `false` 时逆时针渲染 |  |
 
 
 
@@ -124,7 +124,7 @@ group.addShape('fan', {
 | y |  图片左上角的 y 坐标 |  |
 | width | 图片宽度 |  |
 | height | 图片高度 |  |
-| img | 图片源 | G6支持多种格式的图片：<br />- url<br />- ImageData<br />- Image<br />- canvas<br /> |
+| img | 图片源 | G6 支持多种格式的图片：<br />- url<br />- ImageData<br />- Image<br />- canvas<br /> |
 
 
 
@@ -149,7 +149,7 @@ group.addShape('image', {
 | x | 中心的 x 坐标 |  |
 | y | 中心的 y 坐标 |  |
 | r | 形状半径 |  |
-| symbol | 指定形状 | 内置了一些常用形状，如圆形`circle`, 矩形 `square`, 菱形 `diamond`,三角形 `triangle`, 倒三角形`triangle-down`，也可以是自定义的path路径。 |
+| symbol | 指定形状 | 内置了一些常用形状，如圆形 `circle`，矩形 `square`，菱形 `diamond`，三角形 `triangle`，倒三角形 `triangle-down`，也可以是自定义的 path 路径。 |
 
 
 
@@ -204,7 +204,7 @@ group.addShape('polygon', {
 | y | 矩形左上角的 y 坐标 |  |
 | width | 矩形的宽度 |  |
 | height | 矩形的高度 |  |
-| radius | 定义圆角 | 支持整数或数组形式， 分别对应左上、右上、右下、左下角的半径：<br />- radius缩写为 1或 [ 1 ] 相当于 [ 1, 1, 1, 1 ]<br />- radius 缩写为 [ 1, 2 ] 相当于 [ 1, 2, 1, 2 ]<br />- radius 缩写为 [ 1, 2, 3 ] 相当于 [ 1, 2, 3, 2 ]<br /> |
+| radius | 定义圆角 | 支持整数或数组形式，分别对应左上、右上、右下、左下角的半径：<br />- radius 缩写为 1 或 [ 1 ] 相当于 [ 1, 1, 1, 1 ]<br />- radius 缩写为 [ 1, 2 ] 相当于 [ 1, 2, 1, 2 ]<br />- radius 缩写为 [ 1, 2, 3 ] 相当于 [ 1, 2, 3, 2 ]<br /> |
 
  
 

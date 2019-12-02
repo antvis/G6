@@ -14,12 +14,12 @@ redirect_from:
 [![NPM downloads](http://img.shields.io/npm/dm/@antv/g6.svg)](https://npmjs.org/package/@antv/g6)
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/antvis/g6.svg)](http://isitmaintained.com/project/antvis/g6 "Percentage of issues still open")
 
-[English README](https://github.com/antvis/g6)
+[English Introduction](/en/docs/manual/introduction/)
 
 ## 什么是 G6
 [G6](https://github.com/antvis/g6) 是一个图可视化引擎。它提供了图的绘制、布局、分析、交互、动画等图可视化的基础能力。旨在让关系变得透明，简单。让用户获得关系数据的 Insight。
 
-![68747470733a2f2f67772e616c697061796f626a656374732e636f6d2f7a6f732f726d73706f7274616c2f485178596775696e464f4d49587247514f4142592e676966.gif](https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ObTOSKnlQb4AAAAAAAAAAABkARQnAQ)
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zTjwQaXokeQAAAAAAAAAAABkARQnAQ' width=550 />
 
 基于 G6，用户可以快速搭建自己的 **图分析** 或 **图编辑** 应用。
 
@@ -39,14 +39,19 @@ G6 作为一款专业的图可视化引擎，具有以下特性：
 
 除了默认好用、配置自由的内置功能，元素、交互、布局均具有高可扩展的自定义机制。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Y0c6S7cxjVkAAAAAAAAAAABkARQnAQ' width=600 height=200 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Y0c6S7cxjVkAAAAAAAAAAABkARQnAQ' width=800 />
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Eh7yQ5ddu7MAAAAAAAAAAABkARQnAQ' width=200 height=200/>
+>丰富的图元素
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dJT3SIVta6QAAAAAAAAAAABkARQnAQ' width=800 />
+
+> 强大的布局及动画
 
 ## G6 文档
 - [G6 入门教程](/zh/docs/manual/tutorial/preface)
 - [G6 核心概念](/zh/docs/manual/middle/keyConcept)
 - [G6 高级指引](/zh/docs/manual/advanced/shape-and-properties)
+- [API](/zh/docs/api/Graph)
 
 ## 快速上手
 
@@ -77,7 +82,7 @@ G6 作为一款专业的图可视化引擎，具有以下特性：
   
   // 创建 G6 图实例
   const graph = new G6.Graph({
-    container: 'mountNode', // 指定图画布的容器 id，与第 9 行的容器对应
+    container: 'mountNode', // 指定图画布的容器 id
     // 画布宽高
     width: 800,
     height: 500
