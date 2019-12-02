@@ -1,7 +1,9 @@
 ---
-title: 自定义交互 Behavior
+title: Custom Behavior
 order: 5
 ---
+
+[The English Version in on the Way~~~]
 
 G6 除了提供丰富的 [内置交互行为 Behavior](/zh/docs/manual/middle/states/defaultBehavior) 外，还提供了自定义交互行为的机制，方便用户开发更加定制化的交互行为。
 

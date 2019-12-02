@@ -1,7 +1,9 @@
 ---
-title: 锁定节点
+title: Lock Node
 order: 10
 ---
+
+[The English Version in on the Way~~~]
 
 G6 3.1.4 版本中新增了 `lock()`、`unlock()` 和 `hasLocked()` 三个 API，方便用户锁定某个节点。默认情况下，当锁定某个节点后，拖动节点时锁定的节点不会有任何反应，但拖动画布和缩放画布时，仍然会对锁定的节点有影响，如果不想让锁定的节点收到拖动画布和缩放画布的影响，可以通过[自定义 Behavior](/zh/docs/manual/advanced/custom-behavior) 的方式来实现。
 

@@ -1,7 +1,9 @@
 ---
-title: 自定义节点
+title: Custom Node
 order: 2
 ---
+
+[The English Version in on the Way~~~]
 
 G6 提供了一系列[内置节点](/zh/docs/manual/middle/elements/defaultNode)，包括 [circle](/zh/docs/manual/middle/elements/nodes/circle)、[rect](https://www.yuque.com/antv/g6/vdqpdt)、[ellipse](/zh/docs/manual/middle/elements/nodes/ellipse)、[diamond](/zh/docs/manual/middle/elements/nodes/diamond)、[triangle](/zh/docs/manual/middle/elements/nodes/triangle)、[star](/zh/docs/manual/middle/elements/nodes/star)、[image](/zh/docs/manual/middle/elements/nodes/image)、[modelRect](/zh/docs/manual/middle/elements/nodes/modelRect)。若内置节点无法满足需求，用户还可以通过 `G6.registerNode('nodeName', options)` 进行自定义节点，方便用户开发更加定制化的节点，包括含有复杂图形的节点、复杂交互的节点、带有动画的节点等。
 

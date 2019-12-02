@@ -1,9 +1,12 @@
 ---
-title: 手动创建节点分组 Group
+title: Create Node Group
 order: 8
 ---
 
-CustomGroup 为节点分组，支持 Circle 和 Rect 两种类型。用户可通过 CustomGroup 创建节点分组、设置分组的样式、计算分组的坐标及宽高、收起和展开分组。
+[The English Version in on the Way~~~]
+
+
+CustomGroup is the customized Node Group, which supports Circle and Rect type Group. You can create a Node Group by CustomGroup, and set the group style, calculate the groups, and collapse and extend groups.
 
 分组默认是根据数据自动渲染的，当数据中存在 `groups` 时根据 `groups` 字段渲染分组，当不存在 `groups` 时，则根据 `nodes` 数据中是否存在 `groupId` 来渲染分组。
 
