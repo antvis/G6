@@ -3,7 +3,7 @@ title: Relationship Analysis Powered by G6
 order: 1
 ---
 
-[The English Version in on the Way~~~]
+[The English Version is on the Way~~~]
 
 ## 背景
 社交网络分析是图可视化中一个重要的应用场景。<br />随着社交网络越来越流行，人与人、人与组织之间的关系变得越来越复杂，使用传统的分析手段，已经很难满足我们的分析需求。在这种情况下，图分析及图可视化显得愈发重要。

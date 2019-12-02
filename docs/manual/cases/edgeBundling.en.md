@@ -3,7 +3,7 @@ title: Edge Bundling
 order: 2
 ---
 
-[The English Version in on the Way~~~]
+[The English Version is on the Way~~~]
 
 ## 背景
 大多数图数据在可视化时被展示成点-线图（Node-link Diagram）的形式。点-线图特别适用于如交通网络图一类的关系数据的展示，这种数据的节点通常带有地理位置信息，例如迁徙图、移民图、航线图等。<br />

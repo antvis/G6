@@ -3,7 +3,7 @@ title: Key Concept-Graphics Group
 order: 1
 ---
 
-[The English Version in on the Way~~~]
+[The English Version is on the Way~~~]
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;注意：</span>
 <br />图形分组 Group 与 [节点分组 Group](/zh/docs/manual/middle/nodeGroup) 虽然都名为 Group，但属于不同层次的概念。

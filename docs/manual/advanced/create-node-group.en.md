@@ -3,7 +3,7 @@ title: Create Node Group
 order: 8
 ---
 
-[The English Version in on the Way~~~]
+[The English Version is on the Way~~~]
 
 
 CustomGroup is the customized Node Group, which supports Circle and Rect type Group. You can create a Node Group by CustomGroup, and set the group style, calculate the groups, and collapse and extend groups.

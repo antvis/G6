@@ -3,7 +3,7 @@ title: Key Concept-Graphics Shape
 order: 0
 ---
 
-[The English Version in on the Way~~~]
+[The English Version is on the Way~~~]
 
 G6 中的元素（节点/边）是**由一个或多个小**[**图形 Shape**](https://www.yuque.com/antv/g6/shape-crycle)**组成**，主要通过自定义节点或自定义边时在 `draw` 方法中使用 `group.addShape` 添加，G6 中支持以下的图形 Shape：
 
