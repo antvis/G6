@@ -514,7 +514,7 @@ Concentric 布局为同心圆布局，用户可以指定节点某个属性为排
 
 
 #### maxLevelDiff
-**类型**： Number<br />**默认值：**undefined<br />**是否必须**：false<br />**说明**：每一层同心值的求和。若为 undefined，则将会被设置为 maxValue / 4 ，其中 maxValue 为最大的排序依据的属性值。例如，若 sortBy='degree'，则 maxValue 为所有节点中度数最大的节点的度数
+**类型**： Number<br />**默认值：**undefined<br />**是否必须**：false<br />**说明**：每一层同心值的求和。若为 undefined，则将会被设置为 maxValue / 4 ，其中 maxValue 为最大的排序依据的属性值。例如，若 `sortBy='degree'`，则 maxValue 为所有节点中度数最大的节点的度数
 
 
 #### sortBy

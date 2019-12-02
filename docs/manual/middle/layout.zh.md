@@ -113,7 +113,7 @@ const graph = new G6.Graph({
 | clusterGravity | Number | 30 | 10 | 聚类内部的重力大小，影响聚类的紧凑程度 |
 
 
-<a name="0lVZj"></a>
+
 #### Circular
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*s_29Rbja9lkAAAAAAAAAAABkARQnAQ' width='200' />
@@ -136,7 +136,7 @@ const graph = new G6.Graph({
 | angleRatio | Number | 1 | 1 | 从第一个节点到最后节点之间相隔多少个 2*PI |
 
 
-<a name="lALX0"></a>
+
 #### Radial
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FZIpRKpJo_MAAAAAAAAAAABkARQnAQ' width='200' />
@@ -159,7 +159,7 @@ const graph = new G6.Graph({
 | strictRadial | Boolean | true | false | 是否必须是严格的 radial 布局，即每一层的节点严格布局在一个环上。`preventOverlap` 为 `true` 时生效。详见 [Radial-strictRadial API](/zh/docs/api/layout/Graph/#strictradial)<br />- 当 `preventOverlap` 为 `true`，且 `strictRadial` 为 `false` 时，有重叠的节点严格沿着所在的环展开，但在一个环上若节点过多，可能无法完全避免节点重叠。<br />- 当 `preventOverlap` 为 `true`，且 `strictRadial` 为 `true` 时，允许同环上重叠的节点不严格沿着该环布局，可以在该环的前后偏移以避免重叠。<br /> |
 
 
-<a name="RBhhk"></a>
+
 #### MDS
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6OPTT7bz5sUAAAAAAAAAAABkARQnAQ' width=400/><br />**描述**：高维数据降维算法布局。<br />**API**：[MDS API](https://www.yuque.com/antv/g6/kbvo7q)<br />**参数**：
 
@@ -169,7 +169,7 @@ const graph = new G6.Graph({
 | linkDistance | Number | 50 | 50 | 边长 |
 
 
-<a name="RUeWF"></a>
+
 #### Dagre
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RQEORY5A_LoAAAAAAAAAAABkARQnAQ' width=250/><br />**描述**：层次布局。<br />**API**：[Dagre API](https://www.yuque.com/antv/g6/fkhp3c)<br />**参数**：
 
@@ -184,7 +184,7 @@ const graph = new G6.Graph({
 | controlPoints | Boolean | true | true | 是否保留布局连线的控制点 |
 
 
-<a name="4JMfP"></a>
+
 #### Concentric
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ux0-SYBy6Y8AAAAAAAAAAABkARQnAQ' width=300/><br />注：该算法参考 [cytoscape.js](https://github.com/cytoscape/cytoscape.js)，遵守 MIT 开源协议。<br />**描述**：同心圆布局。<br />**API**：[Concentric API](https://www.yuque.com/antv/g6/lx038n)<br />**参数**：
 
@@ -202,7 +202,7 @@ const graph = new G6.Graph({
 | sortBy | String | 'degree' | 'property1' | 'weight' | ... | undefined | 指定的节点排序的依据（节点属性名）。该属性值高的放在中心。如果是 `sortBy` 为 `undefined` 则会计算节点度数，度数最高的放在中心。<br /> |
 
 
-<a name="XG0RD"></a>
+
 #### Grid
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5U3_TZVolpEAAAAAAAAAAABkARQnAQ' width=300/><br />注：该算法参考 [cytoscape.js](https://github.com/cytoscape/cytoscape.js)，遵守 MIT 开源协议。<br />**描述**：网格布局。<br />**API**：[Grid API](https://www.yuque.com/antv/g6/wn4kg9)<br />**参数**：
 
@@ -210,21 +210,19 @@ const graph = new G6.Graph({
 | --- | --- | --- | --- | --- |
 | begin | Array | [ 0, 0 ] | [ 0, 0 ] | 网格开始位置（左上角） |
 | preventOverlap | Boolean | false | false | 是否防止重叠，必须配合属性 `nodeSize` ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测。若未设置 `nodeSize` ，则将根据节点数据中的 `size` 进行碰撞检测。若二者都未设置，则默认以 30 为节点大小进行碰撞检测 |
-| preventOverlapPadding | Number | 10 | 10 | 避免重叠时节点的间距 padding。preventOverlap 为 true 时生效 |
+| preventOverlapPadding | Number | 10 | 10 | 避免重叠时节点的间距 padding。`preventOverlap` 为 `true` 时生效 |
 | nodeSize | Number | 30 | 30 | 节点大小（直径）。用于防止节点重叠时的碰撞检测 |
-| condense | Boolean | false | false | 为 false 时表示利用所有可用画布空间，为 true 时表示利用最小的画布空间 |
-| rows | Number | 5 | undefined | 网格的行数，为 undefined 时算法根据节点数量、布局空间、cals（若指定）自动计算 |
-| cals | Number | 5 | undefined | 网格的列数，为 undefined 时算法根据节点数量、布局空间、rows（若指定）自动计算 |
+| condense | Boolean | false | false | 为 `false` 时表示利用所有可用画布空间，为 `true` 时表示利用最小的画布空间 |
+| rows | Number | 5 | undefined | 网格的行数，为 undefined 时算法根据节点数量、布局空间、`cols`（若指定）自动计算 |
+| cols | Number | 5 | undefined | 网格的列数，为 undefined 时算法根据节点数量、布局空间、`rows`（若指定）自动计算 |
 | sortBy | String | 'degree' | 'property1' | 'weight' | ... | 'degree' | 指定排序的依据（节点属性名），数值越高则该节点被放置得越中心。若为 undefined，则会计算节点的度数，度数越高，节点将被放置得越中心 |
 
 
-<a name="9ce7Y"></a>
 ## 树图 TreeGraph
-由于树图特殊性，G6扩展出了 TreeGraph ，详细文档请见：[TreeGraph](https://www.yuque.com/antv/g6/treegraph) API。树布局是一种能很好展示有一定层次结构数据的布局方式。推荐使用 G6.TreeGraph 实现。
+由于树图特殊性，G6 扩展出了 TreeGraph ，详细文档请见：[TreeGraph](/zh/docs/api/layout/TreeGraph) API。树布局是一种能很好展示有一定层次结构数据的布局方式。推荐使用 G6.TreeGraph 实现。
 
-<a name="rzsBE"></a>
 ### 配置树图布局
-与一般图 Graph 配置方法相似，通过实例化图时配置 `layout` 属性设置树的布局，还可以通过 `modes` 属性为树配置 [展开/收缩行为](https://www.yuque.com/antv/g6/treegraph#157b6823)。以下代码声明了一个实例，定义了布局为从左到右结构的基础树图，并且定义了展开收缩行为。
+与一般图 Graph 配置方法相似，通过实例化图时配置 `layout` 属性设置树的布局，还可以通过 `modes` 属性为树配置 [展开/收缩行为](/zh/docs/manual/middle/states/defaultBehavior/#collapse-expand)。以下代码声明了一个实例，定义了布局为从左到右结构的基础树图，并且定义了展开收缩行为。
 ```javascript
 const graph = new G6.TreeGraph({
     container: 'mountNode',
@@ -243,18 +241,15 @@ const graph = new G6.TreeGraph({
     }
   });
 ```
-<a name="T3idk"></a>
-### 
-<a name="af7yc"></a>
+
 ### 树图布局方法
-<a name="AyYPj"></a>
 #### compactBox
 **描述**：紧凑树布局。从根节点开始，同一深度的节点在同一层，并且布局时会将节点大小考虑进去。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FltbQZAa-nMAAAAAAAAAAABkARQnAQ' width=400/><br />**API**：[CompactBox API](https://www.yuque.com/antv/g6/rufc7b)<br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
 | direction | String | 'TB' / 'BT' / 'LR' / 'RL' / 'H' / 'V' | 'LR' | layout 的方向。<br />- TB —— 根节点在上，往下布局<br />- BT —— 根节点在下，往上布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SuygR5RZRH0AAAAAAAAAAABkARQnAQ' width=150/>     <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iJPBTJkTqssAAAAAAAAAAABkARQnAQ' width=150/><br />（左）TB。（右）BT。<br />- LR —— 根节点在左，往右布局<br />- RL —— 根节点在右，往左布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YrtaQIKLC4IAAAAAAAAAAABkARQnAQ' width=150/>             <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*3fJsTYzHRHcAAAAAAAAAAABkARQnAQ' width=150/> <br />（左）LR。（右）RL。<br />- H —— 根节点在中间，水平对称布局<br />- V —— 根节点在中间，垂直对称布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*812BT4Ep15MAAAAAAAAAAABkARQnAQ' width=150/>          <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GXdZSIBOllsAAAAAAAAAAABkARQnAQ' width=150/><br />> （左）H。（右）V。 |
-| getId | Function | (d) => {<br />  // d 是一个节点<br />  return d.id;<br />} | undefined | 节点 id 的回调函数 |
+| getId | Function | (d) => {<br />  // d 是一个节点<br />  return d.id + 'node';<br />} | undefined | 节点 id 的回调函数 |
 | getHeight | Function | (d) => {<br />  // d 是一个节点<br />  return 10;<br />} | undefined | 节点高度的回调函数 |
 | getWidth | Function | (d) => {<br />  // d 是一个节点<br />  return 20;<br />} | undefined | 节点宽度的回调函数 |
 | getVGap | Function | (d) => {<br />  // d 是一个节点<br />  return 100;<br />} | undefined | 节点纵向间距的回调函数 |
@@ -262,7 +257,6 @@ const graph = new G6.TreeGraph({
 | radial | Boolean | true | false | 是否按照辐射状布局。若 `radial` 为 `true`，建议 `direction` 设置为 `'LR'` 或 `'RL'`：<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0plfTrg12FkAAAAAAAAAAABkARQnAQ' width=150/> |
 
 
-<a name="sH1z0"></a>
 #### dendrogram
 **描述**：生态树布局。不管数据的深度多少，总是叶节点对齐。不考虑节点大小，布局时将节点视为1个像素点。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XehWSKAWdrwAAAAAAAAAAABkARQnAQ' width=300/><br />**API**：[Dendrogram API](https://www.yuque.com/antv/g6/co00r6)<br />**参数**：
 
@@ -274,7 +268,6 @@ const graph = new G6.TreeGraph({
 | radial | Boolean | true | false | 是否按照辐射状布局。若 `radial` 为 `true`，建议 `direction` 设置为 `'LR'` 或 `'RL'`：<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2WUNTb6kp3MAAAAAAAAAAABkARQnAQ' width=150/> |
 
 
-<a name="04ZZ5"></a>
 #### indented
 **描述**：缩进树布局。每个元素会占一行/一列。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zuBlR4oBIE0AAAAAAAAAAABkARQnAQ' width=150/>
 
@@ -289,7 +282,7 @@ const graph = new G6.TreeGraph({
 | getSide | Function | (d) => {<br />  // d 是一个节点<br />  return 'left';<br />} | undefined | 节点放置在根节点左侧或右侧的回调函数，仅对与根节点直接相连的节点有效，设置后将会影响被设置节点的所有子孙节点 |
 
 
-<a name="AOAs2"></a>
+
 #### mindmap
 **描述**：脑图布局。深度相同的节点将会被放置在同一层，与 compactBox 不同的是，布局不会考虑节点的大小。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sRi6Q6Qrm-oAAAAAAAAAAABkARQnAQ' width=400/><br />**API**：[Mindmap API](https://www.yuque.com/antv/g6/wk3mh8)<br />**参数**：
 
@@ -303,14 +296,14 @@ const graph = new G6.TreeGraph({
 | getSide | String | Function | (d) => {<br />  // d 是一个节点<br />  return 'left';<br />} | 'right' | 节点排布在根节点的左侧/右侧。若设置了该值，则所有节点会在根节点同一侧，即 direction = 'H' 不再起效。若该参数为回调函数，则可以指定每一个节点在根节点的左/右侧 |
 
 
-<a name="FCFKL"></a>
+
 ## 布局的切换机制
 G6 提供了两种关于布局的切换机制：
 
 - `updateLayout(params)`：布局方法或参数的切换
 - `changeData()`：数据的切换
 
-<a name="zAoyl"></a>
+
 ### 布局方法或参数切换
 **接口定义：**
 ```javascript
@@ -327,7 +320,7 @@ updateLayout(cfg);
 
 **布局参数切换：**<br />若参数 `cfg` 是对象且其中不含有 `type` 字段，或指定的布局方法名称与之前的布局方法相同，则保持原有布局方法，仅更新该布局的参数。
 
-<a name="mC4a0"></a>
+
 ### 数据切换
 **接口定义：**
 ```javascript
@@ -339,12 +332,12 @@ updateLayout(cfg);
 changeData(data);
 ```
 
-<a name="Rp5Wk"></a>
+
 ### 切换示例
-<a name="X8sJ1"></a>
+
 #### 期待效果
 初始化时使用默认 random 布局，2000 ms 后更换为允许节点重叠的 force 布局，4000 ms 后更换为不允许节点重叠的 force 布局，6000 ms 后更换数据为 `data2`。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6k-iQ405hEEAAAAAAAAAAABkARQnAQ' width=600/>
-<a name="6Wf0G"></a>
+
 #### 完整代码
 ```html
 <!DOCTYPE html>
@@ -421,11 +414,11 @@ changeData(data);
 </html>
 ```
 
-<a name="eYZc6"></a>
+
 ## 子图布局
 目前，子图布局独立与全局布局的思路，与 graph 不挂钩，直接使用实例化布局方法的方式，灌入子图数据，通过布局将位置写到相应数据中。这种机制还可供外部的全局布局使用，即使不用 G6 渲染，也可以计算节点布局后的位置。但与萧庆讨论后，决定这种方式暂时不透出够用户。在子图布局上，这种机制后续需要修改，并与全局布局思路统一（ graph，controller ）。
 
-<a name="KptLp"></a>
+
 ### 使用方法
 ```javascript
 // 实例化布局

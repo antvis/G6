@@ -182,112 +182,112 @@ Common graph layout API: [Layout API](https://www.yuque.com/antv/g6/agbmu2)。
 
 
 #### Concentric
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ux0-SYBy6Y8AAAAAAAAAAABkARQnAQ' width=300/><br />Tips: Concentric layout in G6 refers to [cytoscape.js](https://github.com/cytoscape/cytoscape.js), 遵守 MIT 开源协议。<br />**Description**: Arranges the nodes on several concentric circles.<br />**API**: [Concentric API](/en/docs/api/layout/Graph#concentric)<br />**Configuration**: 
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ux0-SYBy6Y8AAAAAAAAAAABkARQnAQ' width=300/><br />Tips: Concentric layout in G6 refers to [cytoscape.js](https://github.com/cytoscape/cytoscape.js), we obey the MIT license <br />**Description**: Arranges the nodes on several concentric circles.<br />**API**: [Concentric API](/en/docs/api/layout/Graph#concentric)<br />**Configuration**: 
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
 | center | Array | [ 0, 0 ] | The center of the graph | The center of the layout |
-| nodeSize | Number | 30 | 30 | 节点大小(直径)。用于防止节点重叠时的碰撞检测 |
-| minNodeSpacing | Number | 10 | 10 | 环与环之间最小间距, 用于调整半径 |
-| preventOverlap | Boolean | false | false | 是否防止重叠, 必须配合属性 `nodeSize` , 只有设置了与当前图节点大小相同的 `nodeSize` 值, 才能够进行节点重叠的碰撞检测。若未设置 `nodeSize` , 则将根据节点数据中的 `size` 进行碰撞检测。若二者都未设置, 则默认以 30 为节点大小进行碰撞检测 |
-| sweep | Number | Math.PI | undefined | 第一个节点与最后一个节点之间的弧度差 |
-| equidistant | Boolean | false | false | 环与环之间的距离是否相等 |
-| startAngle | Number | 3.14 | 3 / 2 * Math.PI | 开始放置节点的弧度 |
-| clockwise | Boolean | false | false | 是否按照顺时针顺序 |
-| maxLevelDiff | Number | 0.5 | undefined | 每一层同心值的求和。若为 undefined, 则将会被设置为 maxValue / 4 , 其中 maxValue 为最大的排序依据的属性值。例如, 若 sortBy='degree', 则 maxValue 为所有节点中度数最大的节点的度数 |
-| sortBy | String | 'degree' | 'property1' | 'weight' | ... | undefined | 指定的节点排序的依据(节点属性名)。该属性值高的放在中心。如果是 `sortBy` 为 `undefined` 则会计算节点度数, 度数最高的放在中心。<br /> |
+| nodeSize | Number | 30 | 30 | The diameter of the node. It is used for preventing node overlappings |
+| minNodeSpacing | Number | 10 | 10 | The minimum separation between adjacent circles |
+| preventOverlap | Boolean | false | false | Whether prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. If the size in node data does not exist either, `nodeSize` is assigned to 30 by default |
+| sweep | Number | Math.PI | undefined | How many radians should be between the first and last node (defaults to full circle). If it is undefined, 2 * Math.PI * (1 - 1 / |level.nodes|) will be used, where level.nodes is nodes set of each level, |level.nodes| is the number of nodes of the level |
+| equidistant | Boolean | false | false | Whether levels have an equal radial distance between them, may cause bounding box overflow |
+| startAngle | Number | 3.14 | 3 / 2 * Math.PI | Where nodes start in radians |
+| clockwise | Boolean | false | false | Place the nodes in clockwise or not |
+| maxLevelDiff | Number | 0.5 | undefined | The sum of concentric values in each level. If it is undefined, maxValue / 4 will take place, where maxValue is the max value of ordering properties. For example, if `sortBy='degree'`, maxValue is the max degree value of all the nodes |
+| sortBy | String | 'degree' | 'property1' | 'weight' | ... | undefined | Order the nodes according to this parameter. It is the property's name of node. The node with higher value will be placed to the center. If it is undefined, the algorithm will order the nodes by their degree<br /> |
 
 
 #### Grid
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5U3_TZVolpEAAAAAAAAAAABkARQnAQ' width=300/><br />注: 该算法参考 [cytoscape.js](https://github.com/cytoscape/cytoscape.js), 遵守 MIT 开源协议。<br />**Description**: 网格布局。<br />**API**: [Grid API](/en/docs/api/layout/Graph#grid)<br />**Configuration**: 
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5U3_TZVolpEAAAAAAAAAAABkARQnAQ' width=300/><br />Tips: Concentric layout in G6 refers to [cytoscape.js](https://github.com/cytoscape/cytoscape.js), we obey the MIT license.<br />**Description**: Orders the nodes according to the configurations and arranged them onto grid.<br />**API**: [Grid API](/en/docs/api/layout/Graph#grid)<br />**Configuration**: 
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
 | begin | Array | [ 0, 0 ] | [ 0, 0 ] | 网格开始位置(左上角) |
-| preventOverlap | Boolean | false | false | 是否防止重叠, 必须配合属性 `nodeSize` , 只有设置了与当前图节点大小相同的 `nodeSize` 值, 才能够进行节点重叠的碰撞检测。若未设置 `nodeSize` , 则将根据节点数据中的 `size` 进行碰撞检测。若二者都未设置, 则默认以 30 为节点大小进行碰撞检测 |
-| preventOverlapPadding | Number | 10 | 10 | 避免重叠时节点的间距 padding。preventOverlap 为 true 时生效 |
-| nodeSize | Number | 30 | 30 | 节点大小(直径)。用于防止节点重叠时的碰撞检测 |
-| condense | Boolean | false | false | 为 false 时表示利用所有可用画布空间, 为 true 时表示利用最小的画布空间 |
-| rows | Number | 5 | undefined | 网格的行数, 为 undefined 时算法根据节点数量、布局空间、cals(若指定)自动计算 |
-| cals | Number | 5 | undefined | 网格的列数, 为 undefined 时算法根据节点数量、布局空间、rows(若指定)自动计算 |
-| sortBy | String | 'degree' | 'property1' | 'weight' | ... | 'degree' | 指定排序的依据(节点属性名), 数值越高则该节点被放置得越中心。若为 undefined, 则会计算节点的度数, 度数越高, 节点将被放置得越中心 |
+| preventOverlap | Boolean | false | false | Whether prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. If the size in node data does not exist either, `nodeSize` is assigned to 30 by default |
+| preventOverlapPadding | Number | 10 | 10 | The minimum padding between nodes to prevent node overlappings. Takes effect when `preventOverlap` is `true` |
+| nodeSize | Number | 30 | 30 | The diameter of the node. It is used for preventing node overlappings. |
+| condense | Boolean | false | false | Wheter to utilize the minimum space of the canvas. `false` means utilizing the full space, `true` means utilizing the minimum space. |
+| rows | Number | 5 | undefined | The row number of the grid. If `rows` is undefined, the algorithm will calculate it according to the space and node numbers automatically |
+| cols | Number | 5 | undefined | The column number of the grid. If `cols` is undefined, the algorithm will calculate it according to the space and node numbers automatically |
+| sortBy | String | 'degree' | 'property1' | 'weight' | ... | 'degree' | The ordering method for nodes. Smaller the index in the ordered array, more center the node will be placed. If `sortBy` is undefined, the algorithm order the nodes according to their degrees |
 
 
-## 树图 TreeGraph
-由于树图特殊性, G6扩展出了 TreeGraph , 详细文档请见: [TreeGraph](https://www.yuque.com/antv/g6/treegraph) API。树布局是一种能很好展示有一定层次结构数据的布局方式。推荐使用 G6.TreeGraph 实现。
+## TreeGraph
+In order to handle the tree data structure, G6 extends Graph to TreeGraph. Refer to: [TreeGraph API](/en/docs/api/layout/TreeGraph). TreeGraph is appropriate for visualizing hierarchy data.
 
-### 配置树图布局
-与一般图 Graph 配置方法相似, 通过实例化图时配置 `layout` 属性设置树的布局, 还可以通过 `modes` 属性为树配置 [展开/收缩行为](https://www.yuque.com/antv/g6/treegraph#157b6823)。以下代码声明了一个实例, 定义了布局为从左到右结构的基础树图, 并且定义了展开收缩行为。
+### Configure the TreeGraph
+Similar to Graph, assign `layout` to Graph instance to set the layout for a TreeGraph. The [Expand/Collapse](/en/docs/manual/middle/states/defaultBehavior/#collapse-expand) behavior can be assigned to the TreeGraph by `modes`.
 ```javascript
 const graph = new G6.TreeGraph({
     container: 'mountNode',
     modes: {
       default: [{
-        // 定义展开/收缩行为
+        // Assign the collapse/expand behavior
         type: 'collapse-expand'
       }, 'drag-canvas']
     },
-    // 定义布局
+    // Assign the layout
     layout: {
-      type: 'dendrogram',	// 布局类型
-      direction: 'LR',    // 自左至右布局, 可选的有 H / V / LR / RL / TB / BT
-        nodeSep: 50,			// 节点之间间距
-        rankSep: 100			// 每个层级之间的间距
+      type: 'dendrogram',	// Layout type
+      direction: 'LR',    // Layout direction is from the left to the right. Options: 'H' / 'V' / 'LR' / 'RL' / 'TB' / 'BT'
+        nodeSep: 50,			// The distance between nodes
+        rankSep: 100			// The distance between adjacent levels
     }
   });
 ```
 
-### 树图布局方法
+### Layouts for TreeGraph
 #### compactBox
-**Description**: 紧凑树布局。从根节点开始, 同一深度的节点在同一层, 并且布局时会将节点大小考虑进去。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FltbQZAa-nMAAAAAAAAAAABkARQnAQ' width=400/><br />**API**: [CompactBox API](https://www.yuque.com/antv/g6/rufc7b)<br />**Configuration**: 
+**Description**: CompactBox is the default layout for TreeGraph. It will consider the bounding box of each node when layout.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FltbQZAa-nMAAAAAAAAAAABkARQnAQ' width=400/><br />**API**: [CompactBox API](https://www.yuque.com/antv/g6/rufc7b)<br />**Configuration**: 
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
-| direction | String | 'TB' / 'BT' / 'LR' / 'RL' / 'H' / 'V' | 'LR' | layout 的方向。<br />- TB —— 根节点在上, 往下布局<br />- BT —— 根节点在下, 往上布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SuygR5RZRH0AAAAAAAAAAABkARQnAQ' width=150/>     <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iJPBTJkTqssAAAAAAAAAAABkARQnAQ' width=150/><br />(左)TB。(右)BT。<br />- LR —— 根节点在左, 往右布局<br />- RL —— 根节点在右, 往左布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YrtaQIKLC4IAAAAAAAAAAABkARQnAQ' width=150/>             <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*3fJsTYzHRHcAAAAAAAAAAABkARQnAQ' width=150/> <br />(左)LR。(右)RL。<br />- H —— 根节点在中间, 水平对称布局<br />- V —— 根节点在中间, 垂直对称布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*812BT4Ep15MAAAAAAAAAAABkARQnAQ' width=150/>          <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GXdZSIBOllsAAAAAAAAAAABkARQnAQ' width=150/><br />> (左)H。(右)V。 |
-| getId | Function | (d) => {<br />  // d is a node<br />  return d.id;<br />} | undefined | 节点 id 的回调函数 |
-| getHeight | Function | (d) => {<br />  // d is a node<br />  return 10;<br />} | undefined | 节点高度的回调函数 |
-| getWidth | Function | (d) => {<br />  // d is a node<br />  return 20;<br />} | undefined | 节点宽度的回调函数 |
-| getVGap | Function | (d) => {<br />  // d is a node<br />  return 100;<br />} | undefined | 节点纵向间距的回调函数 |
-| getHGap | Function | (d) => {<br />// d is a node<br />  return 50;<br />} | undefined | 节点横向间距的回调函数 |
-| radial | Boolean | true | false | 是否按照辐射状布局。若 `radial` 为 `true`, 建议 `direction` 设置为 `'LR'` 或 `'RL'`: <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0plfTrg12FkAAAAAAAAAAABkARQnAQ' width=150/> |
+| direction | String | 'TB' / 'BT' / 'LR' / 'RL' / 'H' / 'V' | 'LR' | The direction of layout. <br />- TB —— Root is on the top, layout from the top to the bottom<br />- BT —— Root is on the bottom, layout from the bottom to the top<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SuygR5RZRH0AAAAAAAAAAABkARQnAQ' width=150/>     <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iJPBTJkTqssAAAAAAAAAAABkARQnAQ' width=150/><br />(Left)TB. (Right)BT.<br />- LR —— Root is on the left, layout from the left to the right<br />- RL —— Root is on the right, layout from the right to the left<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YrtaQIKLC4IAAAAAAAAAAABkARQnAQ' width=150/>             <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*3fJsTYzHRHcAAAAAAAAAAABkARQnAQ' width=150/> <br />(Left)LR. (Right)RL. <br />- H —— Root is on the middle, layout in horizontal symmetry.<br />- V —— Root is on the middle, layout in vertical symmetry.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*812BT4Ep15MAAAAAAAAAAABkARQnAQ' width=150/>          <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GXdZSIBOllsAAAAAAAAAAABkARQnAQ' width=150/><br />> (Left)H. (Right)V. |
+| getId | Function | (d) => {<br />  // d is a node<br />  return d.id + 'node';<br />} | undefined | Sets the id for each node |
+| getHeight | Function | (d) => {<br />  // d is a node<br />  return 10;<br />} | undefined | The height of each node |
+| getWidth | Function | (d) => {<br />  // d is a node<br />  return 20;<br />} | undefined | he width of each node |
+| getVGap | Function | (d) => {<br />  // d is a node<br />  return 100;<br />} | undefined | The vertical separation of nodes |
+| getHGap | Function | (d) => {<br />// d is a node<br />  return 50;<br />} | undefined | The horizontal separation of nodes |
+| radial | Boolean | true | false | If layout the graph in radial style. If `radial` is `true`, we recommend to set `direction` to `'LR'` or `'RL'`: <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0plfTrg12FkAAAAAAAAAAABkARQnAQ' width=150/> |
 
 
 #### dendrogram
-**Description**: 生态树布局。不管数据的深度多少, 总是叶节点对齐。不考虑节点大小, 布局时将节点视为1个像素点。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XehWSKAWdrwAAAAAAAAAAABkARQnAQ' width=300/><br />**API**: [Dendrogram API](https://www.yuque.com/antv/g6/co00r6)<br />**Configuration**: 
+**Description**: Arranges all the leaves on the same level. It is appropriate for hierarchical clustering. It does not consider the node size, which will be regarded as 1 px.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XehWSKAWdrwAAAAAAAAAAABkARQnAQ' width=300/><br />**API**: [Dendrogram API](https://www.yuque.com/antv/g6/co00r6)<br />**Configuration**: 
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
-| direction | String | 'TB' / 'BT' / 'LR' / 'RL' / 'H' / 'V' | 'LR' | layout 的方向。<br />- TB —— 根节点在上, 往下布局<br />- BT —— 根节点在下, 往上布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*CN4JRZ-ws8EAAAAAAAAAAABkARQnAQ' width=150/><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*r0c_ToY56xkAAAAAAAAAAABkARQnAQ' width=150/><br />> (左)TB。(右)BT。<br />- LR —— 根节点在左, 往右布局<br />- RL —— 根节点在右, 往左布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*fvNVS73Mk40AAAAAAAAAAABkARQnAQ' width=70/><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZfGGSoyO6UoAAAAAAAAAAABkARQnAQ' width=70/><br />> (左)LR。(右)RL。<br />- H —— 根节点在中间, 水平对称布局<br />- V —— 根节点在中间, 垂直对称布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lVDyTKOI8o4AAAAAAAAAAABkARQnAQ' width=150/><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*N_MmT7ZT1PIAAAAAAAAAAABkARQnAQ' width=150/><br />> (左)H。(右)V。 |
-| nodeSep | Number | 50 | 0 | 节点间距 |
-| rankSep | Number | 100 | 0 | 层与层之间的间距 |
-| radial | Boolean | true | false | 是否按照辐射状布局。若 `radial` 为 `true`, 建议 `direction` 设置为 `'LR'` 或 `'RL'`: <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2WUNTb6kp3MAAAAAAAAAAABkARQnAQ' width=150/> |
+| direction | String | 'TB' / 'BT' / 'LR' / 'RL' / 'H' / 'V' | 'LR' | The direction of layout. <br />- TB —— Root is on the top, layout from the top to the bottom<br />- BT —— Root is on the bottom, layout from the bottom to the top<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*CN4JRZ-ws8EAAAAAAAAAAABkARQnAQ' width=150/><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*r0c_ToY56xkAAAAAAAAAAABkARQnAQ' width=150/><br />> (Left)TB. (Right)BT. <br />- LR —— Root is on the left, layout from the left to the right<br />- RL —— Root is on the right, layout from the right to the left<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*fvNVS73Mk40AAAAAAAAAAABkARQnAQ' width=70/><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZfGGSoyO6UoAAAAAAAAAAABkARQnAQ' width=70/><br />> (Left)LR. (Right)RL. <br />- H —— Root is on the middle, layout in horizontal symmetry.<br />- V —— Root is on the middle, layout in vertical symmetry.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lVDyTKOI8o4AAAAAAAAAAABkARQnAQ' width=150/><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*N_MmT7ZT1PIAAAAAAAAAAABkARQnAQ' width=150/><br />> (Left)H. (Right)V. |
+| nodeSep | Number | 50 | 0 | Node separation |
+| rankSep | Number | 100 | 0 | Level separation |
+| radial | Boolean | true | false | 是Wheter layout the graph in radial style. If `radial` is `true`, we recommend to set `direction` to `'LR'` or `'RL'`: <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2WUNTb6kp3MAAAAAAAAAAABkARQnAQ' width=150/> |
 
 
 #### indented
-**Description**: 缩进树布局。每个元素会占一行/一列。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zuBlR4oBIE0AAAAAAAAAAABkARQnAQ' width=150/>
+**Description**: Indented layout represents the hierarchy by indent between them. Each node will take a row/column. It is appropriate for file directory.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zuBlR4oBIE0AAAAAAAAAAABkARQnAQ' width=150/>
 
 **API**: [Indented API](https://www.yuque.com/antv/g6/hl4syb)<br />**Configuration**: 
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
-| direction | String | 'LR' / 'RL' / 'H' | 'LR' | layout 的方向。<br />'LR' —— 根节点在左, 往右布局(下图左)<br />'RL' —— 根节点在右, 往左布局(下图中)<br />'H' —— 根节点在中间, 水平对称布局(下图右)<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Hn9wT6j1tEMAAAAAAAAAAABkARQnAQ' alt='indented1' width='80' /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dXx3QrjSsgsAAAAAAAAAAABkARQnAQ' alt='indented2' width='60' /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ULkFQqi04moAAAAAAAAAAABkARQnAQ' alt='indented3' width='120' /> |
-| indent | Number | 80 | 20 | 列间间距 |
-| getHeight | Function | (d) => {<br />  // d is a node<br />  return 10;<br />} | undefined | 节点高度的回调函数 |
-| getWidth | Function | (d) => {<br />  // d is a node<br />  return 20;<br />} | undefined | 节点宽度的回调函数 |
-| getSide | Function | (d) => {<br />  // d is a node<br />  return 'left';<br />} | undefined | 节点放置在根节点左侧或右侧的回调函数, 仅对与根节点直接相连的节点有效, 设置后将会影响被设置节点的所有子孙节点 |
+| direction | String | 'LR' / 'RL' / 'H' | 'LR' | layout 的方向。<br />'LR' ——  Root is on the left, layout from the left to the right(left image below)<br />'RL' —— Root is on the right, layout from the right to the left(center image below)<br />'H' —— Root is on the middle, layout in horizontal symmetry(right image below)<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Hn9wT6j1tEMAAAAAAAAAAABkARQnAQ' alt='indented1' width='80' /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dXx3QrjSsgsAAAAAAAAAAABkARQnAQ' alt='indented2' width='60' /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ULkFQqi04moAAAAAAAAAAABkARQnAQ' alt='indented3' width='120' /> |
+| indent | Number | 80 | 20 | Colunm separation |
+| getHeight | Function | (d) => {<br />  // d is a node<br />  return 10;<br />} | undefined | The height of each node |
+| getWidth | Function | (d) => {<br />  // d is a node<br />  return 20;<br />} | undefined | The width of each node |
+| getSide | Function | (d) => {<br />  // d is a node<br />  return 'left';<br />} | undefined | The callback function of node position(left or right of root node). Only affects the nodes which are connected to the root node directly. And the descendant nodes will be placed according to it |
 
 
 #### mindmap
-**Description**: 脑图布局。深度相同的节点将会被放置在同一层, 与 compactBox 不同的是, 布局不会考虑节点的大小。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sRi6Q6Qrm-oAAAAAAAAAAABkARQnAQ' width=400/><br />**API**: [Mindmap API](https://www.yuque.com/antv/g6/wk3mh8)<br />**Configuration**: 
+**Description**: Mindmap arranged the nodes with same depth on the same level. Different from compactBox, it does not consider the size of nodes while doing layout.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sRi6Q6Qrm-oAAAAAAAAAAABkARQnAQ' width=400/><br />**API**: [Mindmap API](https://www.yuque.com/antv/g6/wk3mh8)<br />**Configuration**: 
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
-| direction | String | 'H' / 'V' | 'H' | layout 的方向。<br />- H: horizontal(水平)—— 根节点的子节点分成两部分横向放置在根节点左右两侧<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EXdUT4xCVV4AAAAAAAAAAABkARQnAQ' width=150/><br />- V: vertical (竖直)—— 将根节点的所有孩子纵向排列<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*yOpETr8s_-kAAAAAAAAAAABkARQnAQ' width=150/> |
-| getHeight | Function | (d) => {<br />  // d is a node<br />  return 10;<br />} | undefined | 节点高度的回调函数 |
-| getWidth | Function | (d) => {<br />  // d is a node<br />  return 20;<br />} | undefined | 节点宽度的回调函数 |
-| getVGap | Function | (d) => {<br />  // d is a node<br />  return 100;<br />} | 18 | 节点纵向间距的回调函数 |
-| getHGap | Function | (d) => {<br />  // d is a node<br />  return 50;<br />} | 18 | 节点横向间距的回调函数 |
-| getSide | String | Function | (d) => {<br />  // d is a node<br />  return 'left';<br />} | 'right' | 节点排布在根节点的左侧/右侧。若设置了该值, 则所有节点会在根节点同一侧, 即 direction = 'H' 不再起效。若该参数为回调函数, 则可以指定每一个节点在根节点的左/右侧 |
+| direction | String | 'H' / 'V' | 'H' | layout 的方向。<br />- H: Root is on the middle, layout in horizontal symmetry.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EXdUT4xCVV4AAAAAAAAAAABkARQnAQ' width=150/><br />- V: Root is on the middle, layout in vertical symmetry.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*yOpETr8s_-kAAAAAAAAAAABkARQnAQ' width=150/> |
+| getHeight | Function | (d) => {<br />  // d is a node<br />  return 10;<br />} | undefined | The height of each node |
+| getWidth | Function | (d) => {<br />  // d is a node<br />  return 20;<br />} | undefined | The width of each node |
+| getVGap | Function | (d) => {<br />  // d is a node<br />  return 100;<br />} | 18 | The vertical separation of nodes |
+| getHGap | Function | (d) => {<br />  // d is a node<br />  return 50;<br />} | 18 | The horizontal separation of nodes |
+| getSide | String | Function | (d) => {<br />  // d is a node<br />  return 'left';<br />} | 'right' | The callback function of node position(left or right of root node). Only affects the nodes which are connected to the root node directly. And the descendant nodes will be placed according to it |
 
 
 ## 布局的切换机制

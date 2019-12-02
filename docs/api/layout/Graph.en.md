@@ -484,7 +484,7 @@ Concentric arranges the nodes on several concentric circles. By tuning the param
 
 
 #### preventOverlap
-**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether prevent node overalappings. To activate this ability, [`nodeSize`](https://www.yuque.com/antv/g6/ngp0vg#xWjHN) should be assigned, which will be used for collide detection
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. If the size in node data does not exist either, `nodeSize` is assigned to 30 by default
 
 
 #### nodeSize
@@ -512,7 +512,7 @@ Concentric arranges the nodes on several concentric circles. By tuning the param
 
 
 #### maxLevelDiff
-**Type**: Number<br />**默认值:**undefined<br />**Required**: false<br />**Description**: The sum of concentric values in each level. If it is undefined, maxValue / 4 will take place, where maxValue is the max value of ordering properties. For example, if sortBy='degree', maxValue is the max degree value of all the nodes
+**Type**: Number<br />**默认值:**undefined<br />**Required**: false<br />**Description**: The sum of concentric values in each level. If it is undefined, maxValue / 4 will take place, where maxValue is the max value of ordering properties. For example, if `sortBy='degree'`, maxValue is the max degree value of all the nodes
 
 
 #### sortBy
@@ -559,7 +559,7 @@ Grid orders the nodes according to the configurations and arranged them onto gri
 
 
 #### preventOverlap
-**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Prevent node overlappings. Only when the `nodeSize` is assigned, the collide detection will take effect
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. If the size in node data does not exist either, `nodeSize` is assigned to 30 by default
 
 
 #### nodeSize

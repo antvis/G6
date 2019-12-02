@@ -38,6 +38,16 @@ CompactBox is the default layout for TreeGraph. It will consider the bounding bo
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZFCiTLwCoAYAAAAAAAAAAABkARQnAQ' width=102/>
 
 
+#### getId
+**Type**: Function<br />**Example**: 
+```javascript
+(d) => {
+  // d is a node
+  return d.id + '_node';
+}
+```
+**Required**: false<br />**Description**: Sets the id for each node
+
 #### getWidth
 **Type**: Number | Function<br />**Example**: 
 ```javascript
@@ -93,7 +103,7 @@ CompactBox is the default layout for TreeGraph. It will consider the bounding bo
 
 ## Dendrogram
 
-[Dendrogram](https://en.wikipedia.org/wiki/Dendrogram) arranges all the leaves on the same level. It is appropriate for hierarchical clustering.
+[Dendrogram](https://en.wikipedia.org/wiki/Dendrogram) arranges all the leaves on the same level. It is appropriate for hierarchical clustering. It does not consider the node size, which will be regarded as 1 px.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zX7tSLqBvwcAAAAAAAAAAABkARQnAQ' width=400 />
 
@@ -170,7 +180,7 @@ Indented layout represents the hierarchy by indent between them. Each node will 
   return 100;
 }
 ```
-**Required**: false<br />**Description**: The width of node
+**Required**: false<br />**Description**: The width of each node
 
 #### getHeight
 **Type**: Number | Function<br />**Example**: 
@@ -181,7 +191,7 @@ Indented layout represents the hierarchy by indent between them. Each node will 
   return 100;
 }
 ```
-**Required**: false<br />**Description**: The height of node
+**Required**: false<br />**Description**: The height of each node
 
 #### getSide
 **Type**: Function<br />**Example**: 
@@ -222,7 +232,7 @@ Mindmap arranged the nodes with same depth on the same level. Different from com
   return 100;
 }
 ```
-**Required**: false<br />**Description**: The width of node
+**Required**: false<br />**Description**: The width of each node
 
 #### getHeight
 **Type**: Number | Function<br />**Example**: 
@@ -233,7 +243,7 @@ Mindmap arranged the nodes with same depth on the same level. Different from com
   return 100;
 }
 ```
-**Required**: false<br />**Description**: The height of node
+**Required**: false<br />**Description**: The height of each node
 
 
 #### getHGap
@@ -269,4 +279,4 @@ Mindmap arranged the nodes with same depth on the same level. Different from com
   return 'left';
 }
 ```
-**Default**: 'right'<br />**Required**: false<br />**Description**: The callback function of node position(left or right of root node). Only affects the nodes which are connected to the root node directly. And the descendant nodes will be placed according to it. 
+**Default**: 'right'<br />**Required**: false<br />**Description**: The callback function of node position(left or right of root node). Only affects the nodes which are connected to the root node directly. And the descendant nodes will be placed according to it

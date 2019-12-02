@@ -38,6 +38,17 @@ order: 2
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*E0c8TIYRPYoAAAAAAAAAAABkARQnAQ' width=100 />
 
 
+#### getId
+**类型**: Function<br />**示例**: 
+```javascript
+(d) => {
+  // d is a node
+  return d.id + '_node';
+}
+```
+**是否必须**: false<br />**说明**: 节点 id 的回调函数
+
+
 #### getWidth
 **类型**：Number | Function<br />**示例**：
 ```javascript
@@ -93,7 +104,7 @@ order: 2
 
 ## Dendrogram 生态树布局
 
-[生态树](https://en.wikipedia.org/wiki/Dendrogram)布局。特点是所有子节点布局在同一层级，适用于表示层次聚类。
+[生态树](https://en.wikipedia.org/wiki/Dendrogram)布局。特点是所有子节点布局在同一层级，不考虑节点大小，每个节点被当成 1 px 处理。适用于表示层次聚类。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zX7tSLqBvwcAAAAAAAAAAABkARQnAQ' width=400 />
 
