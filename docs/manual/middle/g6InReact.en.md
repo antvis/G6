@@ -6,23 +6,23 @@ order: 9
 ### Introduction
 G6 is a Javascript library without any coupling with other framewroks. That means, G6 can be combined to any front-end framework, such as React, Vue, and Angular. In this document, we provide a demo about using G6 in React.
 
-Using G6 in React is similar to  在 React 中使用 G6，和在 HTML 中使用基本相同，唯一比较关键的区分就是在实例化 Graph 时，要**保证 DOM 容器渲染完成，并能获取到 DOM 元素**。
+The main difference between using G6 in React and HTML is that you need to guarantee the DOM container of graph has been rendered and it is available before instantiating a Graph.
 
-在 Demo 中，我们以一个简单的流程图为例，实现如下的效果。
+In this demo, we will implement a simple flow diagram as the figure below:
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*L8pRS5HCPXUAAAAAAAAAAABkARQnAQ' width=800/>
 
-### 功能及实现
-Demo 包括以下功能点：
+### Implementation
+The demo includes these functions:
 
-- 自定义节点；
-- 自定义边；
-- 节点的 tooltip；
-- 边的 tooltip；
-- 节点上面弹出右键菜单；
-- tooltip 及 ContextMenu 如何渲染自定义的 React 组件。
+- Register a custom node;
+- Register a custom edge;
+- Utilize node tooltip;
+- Utilize edge tooltip;
+- Utilize the context menu on node;
+- Render the custom React components of tooltip and ContextMenu.
 
-在 React 中，通过 `**ReactDOM.findDOMNode(ref.current)**`获取到真实的 DOM 元素。
+In React, you can fetch the DOM element by `**ReactDOM.findDOMNode(ref.current)**`.
 
 ```javascript
 import React, { useEffect, useState } from 'react';
@@ -76,16 +76,15 @@ export default function() {
 
 ```
 
-### G6 中渲染 React 组件
-节点和边的 tooltip、节点上的右键菜单，G6 中内置的很难满足样式上的需求，这个时候我们就可以通过渲染自定义的 React 组件来实现。Tooltip 和 ContextMenu 都是普通的 React 组件，样式完全由用户控制。交互过程中，在 G6 中需要做的事情就是确定何时渲染组件，以及渲染到何处。在 G6 中获取到是否渲染组件的标识值和渲染位置后，这些值就可以使用 React state 进行管理，后续的所有工作就全部由 React 负责了。
-
+### Render the React Components
+The styles of the built-in tooltips on nodes/edges and thecontext menu on nodes are too simple to satisfy the complex requirements. Now we show how to custom React components for these tools, then the styles of them can be controlled by users. During the interaction, G6 defines the render timing and position of these components. When the timing and the position are available, they can be managed by React state.
 ```javascript
-// 边 tooltip 坐标
+// The coordinate of node tooltip
 const [showNodeTooltip, setShowNodeTooltip] = useState(false)
 const [nodeTooltipX, setNodeToolTipX] = useState(0)
 const [nodeTooltipY, setNodeToolTipY] = useState(0)
 
-// 监听 node 上面 mouse 事件
+// Listen to the mouse event on node
 graph.on('node:mouseenter', evt => {
   const { item } = evt
   const model = item.getModel()
@@ -97,7 +96,7 @@ graph.on('node:mouseenter', evt => {
   setShowNodeTooltip(true)
 })
 
-// 节点上面触发 mouseleave 事件后隐藏 tooltip 和 ContextMenu
+// Hide the tooltip and the contextMenu when the mouseleave event is activated on the node
 graph.on('node:mouseleave', () => {
   setShowNodeTooltip(false)
 })
@@ -109,6 +108,6 @@ return (
 );
 ```
 
-完整的 Demo 源码请👉戳[这里](https://github.com/baizn/g6-in-react)。
+The complete code of this demo 👉[Demo](https://github.com/baizn/g6-in-react)。
 
-关于 G6 如何在 Vue 及 Angular 中使用，还望社区中有相关实践的同学能提供一些，供其他同学学习和参考，非常感谢！
+You are welcome to provide the usages of G6 in Vue and Angular. Thank you!

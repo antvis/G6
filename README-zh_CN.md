@@ -18,7 +18,7 @@
 基于 G6，用户可以快速搭建自己的 **图分析** 或 **图编辑** 应用。
 
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cjodRILJD8oAAAAAAAAAAABkARQnAQ' height=200 /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-OcZQbj2mG0AAAAAAAAAAABkARQnAQ' height=200 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cjodRILJD8oAAAAAAAAAAABkARQnAQ' height=200 /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lAWxSqFi21IAAAAAAAAAAABkARQnAQ' height=200 />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cDzXR4jIWr8AAAAAAAAAAABkARQnAQ' height=150 /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-jrhSYDBbt8AAAAAAAAAAABkARQnAQ' height=150 /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HTasSJGC4koAAAAAAAAAAABkARQnAQ' height=150 />
 
 > 强大的动画及交互
