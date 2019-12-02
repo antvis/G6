@@ -16,7 +16,7 @@ let curShowNodesMap = new Map();
 let highlighting = false;
 let currentFocus;
 const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight;
+const height = document.getElementById('container').scrollHeight || 500;
 
 
 const LIMIT_OVERFLOW_WIDTH = width;

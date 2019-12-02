@@ -288,13 +288,11 @@ const data = {
 };
 
 const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight;
+const height = document.getElementById('container').scrollHeight || 500;
 const graph = new G6.Graph({
   container: 'container',
   width,
   height,
-  fitView: true,
-  fitViewPadding: 40,
   modes: {
     default: [ 'drag-canvas', 'drag-node' ]
   },

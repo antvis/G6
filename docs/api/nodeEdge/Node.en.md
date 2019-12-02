@@ -1,20 +1,20 @@
 ---
 title: Node
-order: 0
+order: 1
 ---
 
-Node继承自Item，所以，Item上面的方法在Node实例中都可以调用。
+Node inherits from item. The functions of Item are also available for Node.
 
 
 ## lock()
-> 3.1.4 版本新增
+> New feature of v3.1.4.
 
-锁定当前节点，锁定节点后，该节点不再响应拖动节点的事件。
+Lock the current node. The locked node will not response the drag event any more.
 
-提示锁定节点后，拖动画布和缩放画布的操作依然对该节点有效，如果想在锁定节点后，不响应拖动画布和缩放的事件，需要自定义拖动画布和缩放的 Behavior，具体可参考锁定节点不响应拖动画布的事件【todo】和锁定节点不响应缩放事件【todo】。
+Tips: the locked node still can be moved while dragging and zooming the canvas. If you want to fix the node in these two situations, please refer to (Fix the node while dragging the canvas)[/zh/docs/manual/advanced/lock-node#拖动画布时候不处理锁定的节点] and (Fix the node while zooming the canvas)[/zh/docs/manual/advanced/lock-node#拖动画布时候不处理锁定的节点] .
 
 
-**用法**
+**Usage**
 
 ```javascript
 const node = graph.findById('node')
@@ -23,12 +23,12 @@ node.lock()
 
 
 ## unlock()
-> 3.1.4 版本新增
+> New feature of V3.1.4.
 
-解锁锁定的节点。
+Unlock the locked node.
 
 
-**用法**
+**Usage**
 
 ```javascript
 const node = graph.findById('node')
@@ -37,18 +37,18 @@ node.unlock()
 
 
 ## hasLocked()
-> 3.1.4 版本新增
+> New feature of V3.1.4.
 
-检测节点是否处于锁定状态。
-
-
-**返回值**
-
-- 返回值类型：boolean；
-- 返回 true 表示当前解锁处于锁定状态，否则表示未锁定。
+Query the lock state of the node.
 
 
-**用法**
+**Return**
+
+- The type of return value: Boolean;
+- The node is locked if it returns `true`, unlocked otherwise.
+
+
+**Usage**
 
 ```javascript
 const node = graph.findById('node')
@@ -57,64 +57,64 @@ const hasLocked = node.hasLocked()
 
 
 ## getEdges()
-获取与当前节点有关联的所有边。
+Get the related edges (the node is the source or the target of the edge) of the node.
 
 
-**返回值**
+**Return**
 
-- 返回值类型：Edge[]；
-- 返回边实例的集合。
+- The type of return value: Edge[];
+- Returns the set of related edge items.
 
 
-**用法**
+**Usage**
 ```javascript
-// 获取与node关联的所有边
+// Get the related edges
 const edges = node.getEdges()
 ```
 
 
 ## getInEdges()
-获取与当前节点关联的所有入边。
+Get the related in-edges, whose target is the node.
 
 
-**返回值**
+**Return**
 
-- 返回值类型：Edge[]；
-- 返回入边实例的集合。
+- The type of return value: Edge[];
+- Returns the set of related in-edges.
 
 
-**用法**
+**Usage**
 ```javascript
-// 获取与node关联的所有入边
+// Get the related in-edges
 const edges = node.getInEdges()
 ```
 
 
 ## getOutEdges()
-获取与当前节点关联的所有出边。
+Get the related out-edges, whose source is the node.
 
 
-**返回值**
+**Return**
 
-- 返回值类型：Edge[]；
-- 返回出边实例的集合。
+- The type of return value: Edge[];
+- Return the set of related out-edges.
 
 
-**用法**
+**Usage**
 ```javascript
-// 获取与node关联的所有出边
+// Get the related out-edges
 const edges = node.getOutEdges()
 ```
 
 
 ## getAnchorPoints()
-获取节点上面定义的锚点。
+Get all the anchor points of the node.
 
 
-**返回值**
+**Return**
 
-- 返回值类型：array；
-- 返回值的数据结构：
+- The type of return value: Array;
+- The data structure of the return value:
 ```javascript
 [
       0: {
@@ -131,80 +131,80 @@ const edges = node.getOutEdges()
 ```
 
 
-**用法**
+**Usage**
 ```javascript
-// 获取定义在节点上的锚点数据
+// Get the anchor points of the node
 const anchor = node.getAnchorPoints()
 ```
 
 
 ## getLinkPoint(point)
-获取距离指定坐标最近的一个锚点。
+Get the nearest anchor point of the node to `point`.
 
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| point | object | true | 节点外部的一个点，用于计算交点及最近的锚点 |
+| point | Object | true | A point with x and y ouside the node.  |
 
 
 
-**返回值**
+**Return**
 
-- 返回值类型：object；
-- 返回值表示连接点的坐标(x, y)，如果没有合适的锚点和连接点，则返回中心点。
+- The type of return value: object；
+- Returns (x, y) of the found anchor point. If there is no anchor point found, returns the center of the node.
 
 
-**用法**
+**Usage**
 ```javascript
 const point = {
 	x: 100,
   y: 105
 }
-// 获取连接点
+// Get the anchor point which is nearest to the point
 const linkPoint = node.getLinkPoint(point)
 ```
 
 
 
 ## getLinkPointByAnchor(index)
-根据锚点索引获取连接点的x、y坐标。
+Get the (x, y) of the anchor point with the `index`.
 
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| index | number | true | 锚点的索引 |
+| index | Number | true | The index of the anchor point. |
 
 
 
-**返回值**
+**Return**
 
-- 返回值类型：object；
-- 返回值表示连接点的坐标(x, y)。
+- The type of return value: Object;
+- Returns the (x, y) of found anchor point.
 
 
-**用法**
+**Usage**
 ```javascript
-// 获取定义在节点上的第一个锚点
+// Get the first anchor point of the node
 const anchor = node.getLinkPointByAnchor(0)
 ```
 
 ## addEdge(edge)
-添加指定的边到当前节点上。
+Add the `edge` to the node.
 
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| edge | Edge | true | Edge实例 |
+| edge | Edge | true | The item of the edge. |
 
 
 
-**用法**
+**Usage**
 ```javascript
 const edge = new Edge({
 	// TODO
@@ -214,18 +214,18 @@ node.addEdge(edge)
 
 
 ## removeEdge(edge)
-移除与当前节点相关的指定边。
+Remove the `edge` from the node.
 
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| edge | Edge | true | Edge实例 |
+| edge | Edge | true | The item of Edge. |
 
 
 
-**用法**
+**Usage**
 ```javascript
 const edge = // TODO
 node.removeEdge(edge)

@@ -11,7 +11,7 @@ order: 2
 ### 属性
 
 #### direction
-**类型**：String<br />**可选值**：'LR' | 'RL' | 'TB' | 'BT' | 'H' | 'V'<br />**默认值**：'LR'<br />**是否必须**：false<br />**说明**：树布局的方向，默认为，其他选项说明
+**类型**：String<br />**可选值**：'LR' | 'RL' | 'TB' | 'BT' | 'H' | 'V'<br />**默认值**：'LR'<br />**是否必须**：false<br />**说明**：树布局的方向，其他选项说明
 
 - TB —— 根节点在上，往下布局
 
@@ -143,7 +143,7 @@ order: 2
 
 ## Indented 缩进树布局
 
-缩进树布局。树节点的层级通过水平方向的缩进量来表示，常用场景是文件目录结构。每个元素会占一行/一列。
+缩进树布局。树节点的层级通过水平方向的缩进量来表示。每个元素会占一行/一列。常用场景是文件目录结构。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NBUzRonaOYMAAAAAAAAAAABkARQnAQ' width=175 />
 

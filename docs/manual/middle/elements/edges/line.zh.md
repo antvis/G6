@@ -1,5 +1,5 @@
 ---
-title: line
+title: Line
 order: 1
 ---
 
@@ -53,10 +53,10 @@ line 边支持以下的配置项，对于 Object 类型的配置项将在后面�
 
 | 名称 | 含义 | 类型 | 备注 |
 | --- | --- | --- | --- |
-| color | 直线的颜色 | String | 优先级低于 style 中的 stroke |
-| style | 直线的样式 | Object | Canvas支持的属性 |
+| color | 直线的颜色 | String | 优先级低于 `style` 中的 `stroke` |
+| style | 直线的样式 | Object | Canvas 支持的属性 |
 | label | 标签文本文字 | String |  |
-| labelCfg | 文件配置项 | Object |  |
+| labelCfg | 标签文本配置项 | Object |  |
 
 
 
@@ -105,7 +105,7 @@ graph.render();
 
 
 ### 标签文本配置 labelCfg
-Object 类型。其配置与边的通用文本配置相同，见 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge)。<br />基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br />
+Object 类型。其配置与边的通用文本配置相同，见 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge)。<br />基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultEdge` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*myWoSa1ngjgAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
 const data = {

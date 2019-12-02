@@ -1,5 +1,5 @@
 ---
-title: 监听和绑定事件
+title: Listener and Event
 order: 1
 ---
 

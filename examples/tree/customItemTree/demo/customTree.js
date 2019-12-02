@@ -52,7 +52,7 @@ G6.registerNode('tree-node', {
 
 
 const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight;
+const height = document.getElementById('container').scrollHeight || 500;
 const graph = new G6.TreeGraph({
   container: 'container',
   width,

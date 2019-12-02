@@ -3,7 +3,7 @@ title: 内置节点总览
 order: 0
 ---
 
-G6 默认提供的节点是一个基础图形加一个文本图形的实现。可选的内置节点包括 circle，rect，ellipse，diamond，triangle，star，image，modelRect，这些内置节点的默认样式分别如下图所示。<br />
+G6 的内置节点包括 circle，rect，ellipse，diamond，triangle，star，image，modelRect，这些内置节点的默认样式分别如下图所示。<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FY3RTbDCz_8AAAAAAAAAAABkARQnAQ' width='750' height='100'>
 
 ## 内置节点类型说明
@@ -11,14 +11,14 @@ G6 默认提供的节点是一个基础图形加一个文本图形的实现。�
 
 | 名称 | 描述 | 默认示例 |
 | --- | --- | --- |
-| circle | 圆形：<br />- `size` 是单个数字，表示直径<br />- 圆心位置对应节点的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点中央<br />- 更多字段见 [circle 节点的配置]()<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*H9TrTIiUEegAAAAAAAAAAABkARQnAQ' width=50/> |
-| rect | 矩形：<br />- `size` 是数组，例如：[100, 50]<br />- 矩形的中心位置是节点的位置，而不是左上角<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点中央<br />- 更多字段见 [rect 节点的配置](/zh/docs/manual/middle/elements/nodes/rect)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SrlHQ5dcCoMAAAAAAAAAAABkARQnAQ' width=50/> |
-| ellipse | 椭圆：<br />- `size` 是数组，表示椭圆的长和宽<br />- 椭圆的圆心是节点的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点中央<br />- 更多字段见 [ellipse 节点的配置](/zh/docs/manual/middle/elements/nodes/ellipse)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RjdlRbuocDIAAAAAAAAAAABkARQnAQ' width=50/> |
-| diamond | 菱形：<br />- `size` 是数组，表示菱形的长和宽<br />- 菱形的中心位置是节点的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点中央<br />- 更多字段见 [diamond 节点的配置](/zh/docs/manual/middle/elements/nodes/diamond)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EjiPRJacFTEAAAAAAAAAAABkARQnAQ' width=50/> |
-| triangle | 三角形：<br />- `size` 是数组，表示三角形的长和高<br />- 三角形的中心位置是节点的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点下方<br />- 更多字段见 [triangle 节点的配置](/zh/docs/manual/middle/elements/nodes/triangle)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_HqXTadbhzAAAAAAAAAAAABkARQnAQ' width=50/> |
-| star | 星形：<br />- `size` 是单个数字，表示星形的大小<br />- 星星的中心位置是节点的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点中央<br />- 更多字段见 [star 节点的配置](/zh/docs/manual/middle/elements/nodes/star)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_euwQpARvhMAAAAAAAAAAABkARQnAQ' width=50/> |
-| image | 图片：<br />- `size` 是数组，表示图片的长和宽<br />- 图片的中心位置是节点位置<br />- `img` 图片的路径，也可以在 `style` 里面设置<br />- `color` 字段不生效<br />- 标签文本默认在节点下方<br />- 更多字段见 [image 节点的配置](/zh/docs/manual/middle/elements/nodes/image)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*gtNxQY2RvMwAAAAAAAAAAABkARQnAQ' width=50/> |
-| modelRect | 菱形：<br />- `size` 是数组，表示菱形的长和宽<br />- 菱形的中心位置是节点的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点中央<br />- 若有 `description` 字段则显示在标签文本下方显示 `description` 内容<br />- 更多字段见 [modelRect 节点的配置](/zh/docs/manual/middle/elements/nodes/modelRect)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*MqR9QKfimxUAAAAAAAAAAABkARQnAQ' width=100/><br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9HKrSKtmNGQAAAAAAAAAAABkARQnAQ' width=100/> |
+| circle | 圆形：<br />- `size` 是单个数字，表示直径<br />- 圆心位置对应节点的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点中央<br />- 更多字段见 [circle](/zh/docs/manual/middle/elements/nodes/circle)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*H9TrTIiUEegAAAAAAAAAAABkARQnAQ' width=50/> |
+| rect | 矩形：<br />- `size` 是数组，例如：[100, 50]<br />- 矩形的中心位置是节点的位置，而不是左上角<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点中央<br />- 更多字段见 [rect](/zh/docs/manual/middle/elements/nodes/rect)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SrlHQ5dcCoMAAAAAAAAAAABkARQnAQ' width=50/> |
+| ellipse | 椭圆：<br />- `size` 是数组，表示椭圆的长轴直径和短轴直径<br />- 椭圆的圆心是节点的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点中央<br />- 更多字段见 [ellipse](/zh/docs/manual/middle/elements/nodes/ellipse)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RjdlRbuocDIAAAAAAAAAAABkARQnAQ' width=50/> |
+| diamond | 菱形：<br />- `size` 是数组，表示菱形的宽和高<br />- 菱形的中心位置是节点的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点中央<br />- 更多字段见 [diamond](/zh/docs/manual/middle/elements/nodes/diamond)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EjiPRJacFTEAAAAAAAAAAABkARQnAQ' width=50/> |
+| triangle | 三角形：<br />- `size` 是数组，表示三角形的底和高<br />- 三角形的中心位置是节点的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点下方<br />- 更多字段见 [triangle](/zh/docs/manual/middle/elements/nodes/triangle)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_HqXTadbhzAAAAAAAAAAAABkARQnAQ' width=50/> |
+| star | 星形：<br />- `size` 是单个数字，表示星形的大小<br />- 星星的中心位置是节点的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点中央<br />- 更多字段见 [star](/zh/docs/manual/middle/elements/nodes/star)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_euwQpARvhMAAAAAAAAAAABkARQnAQ' width=50/> |
+| image | 图片：<br />- `size` 是数组，表示图片的宽和高<br />- 图片的中心位置是节点位置<br />- `img` 图片的路径，也可以在 `style` 里面设置<br />- `color` 字段不生效<br />- 标签文本默认在节点下方<br />- 更多字段见 [image](/zh/docs/manual/middle/elements/nodes/image)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*gtNxQY2RvMwAAAAAAAAAAABkARQnAQ' width=50/> |
+| modelRect | 卡片：<br />- `size` 是数组，表示卡片的宽和高<br />- 卡片的中心位置是节点的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点中央<br />- 若有 `description` 字段则显示在标签文本下方显示 `description` 内容<br />- 更多字段见 [modelRect](/zh/docs/manual/middle/elements/nodes/modelRect)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*MqR9QKfimxUAAAAAAAAAAABkARQnAQ' width=100/><br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9HKrSKtmNGQAAAAAAAAAAABkARQnAQ' width=100/> |
 
 
 ## 节点的通用属性
@@ -30,7 +30,7 @@ G6 默认提供的节点是一个基础图形加一个文本图形的实现。�
 | x | false | Number | x 坐标 |
 | y | false | Number |  y 坐标 |
 | shape | false | String | 节点图形，默认为 `'circle'` |
-| size | false | Number | Array | 节点的大小 |
+| size | false | Number / Array | 节点的大小 |
 | anchorPoints | false | Array | 指定边连如节点的连接点的位置（相对于该节点而言），可以为空。例如: `[0, 0]`，代表节点左上角的锚点，`[1, 1]`,代表节点右下角的锚点。 |
 | style | false | Object | 节点的样式属性 |
 | label | false | String | 文本文字 |
@@ -75,8 +75,8 @@ const graph = new G6.Graph({
 
 | 名称 | 是否必须 | 类型 | 备注 |
 | --- | --- | --- | --- |
-| position | false | String | 文本相对于节点的位置，目前支持的位置有:  `'center'`，`'top'`，`'left'`，`'right'`，`'bottom'`。默认为 `'center'`。 |
-| offset | false | Number | Array | 文本的偏移，在 `'top'`，`'left'`，`'right'`，`'bottom'` 位置上的偏移量 |
+| position | false | String | 文本相对于节点的位置，目前支持的位置有:  `'center'`，`'top'`，`'left'`，`'right'`，`'bottom'`。默认为 `'center'` |
+| offset | false | Number / Array | 文本的偏移，在 `'top'`，`'left'`，`'right'`，`'bottom'` 位置上的偏移量 |
 | style | false | Object | 标签的样式属性 |
 
 
@@ -116,7 +116,7 @@ const graph = new G6.Graph({
 ## 节点的配置方法
 配置节点的方式有三种：实例化图时全局配置，在数据中动态配置，使用 `graph.node(nodeFn)` 函数配置。这几种配置方法可以同时使用，优先级：
 
-使用 graph.node(nodeFn) 配置 > 数据中动态配置 > 实例化图时全局配置
+使用 `graph.node(nodeFn)` 配置 > 数据中动态配置 > 实例化图时全局配置
 
 即有相同的配置项时，优先级高的方式将会覆盖优先级低的。
 
@@ -137,7 +137,8 @@ const graph = new G6.Graph({
 
 ### 在数据中动态配置
 如果需要为不同节点进行不同的配置，可以将配置写入到节点数据中。这种配置方式可以通过下面代码的形式直接写入数据，也可以通过遍历数据的方式写入。
-```
+
+```javascript
 const data = {
   nodes: [{
     id: 'node0',
@@ -165,7 +166,9 @@ const data = {
 ```
 
 ### 使用 graph.node(nodeFn) 配置
-该方法可以为不同节点进行不同的配置。<br />提示：
+该方法可以为不同节点进行不同的配置。
+
+<br />**提示:**
 
 - 该方法必须**在 render 之前调用**，否则不起作用；
 - 由于该方法优先级最高，将覆盖其他地方对节点的配置，这可能将造成一些其他配置不生效的疑惑；

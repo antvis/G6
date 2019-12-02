@@ -1,9 +1,9 @@
 ---
-title: Group
+title: Graphics Group
 order: 8
 ---
 
-Group 类似于 [SVG 中的 ](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g)[`<g>`](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g)[ 标签](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g)：元素 `g` 是用来组合图形对象的容器。在 group 上添加变换（例如剪裁、旋转、放缩、平移等）会应用到其所有的子元素上。在 group 上添加属性（例如颜色、位置等）会被其所有的子元素继承。此外， group 可以多层嵌套使用，因此可以用来定义复杂的对象。关于 Group 更详细的介绍请参考《[图形分组 Group](../manual/middle/nodeGroup)》。
+图形分组 Graphics Group（下文简称 Group） 类似于 [SVG](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g) 中的 [`<g>`](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g) [标签](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g)：Group 是用来组合图形对象的容器。在 Group 上添加变换（例如剪裁、旋转、放缩、平移等）会应用到其所有的子元素上。在 Group 上添加属性（例如颜色、位置等）会被其所有的子元素继承。此外， Group 可以多层嵌套使用，因此可以用来定义复杂的对象。关于 Group 更详细的介绍请参考《[图形分组 Group](/zh/docs/manual/advanced/graphics-group)》。
 
 
 ## 声明实例
@@ -23,7 +23,7 @@ const group = new Group(cfgs);
 
 | 名称 | 类型 | 说明 |
 | --- | --- | --- |
-| param | Function | Object | undefined |  |
+| param | Function / Object / undefined |  |
 | cfg | Object |  |
 
 
@@ -39,14 +39,14 @@ group.addGroup({
 
 
 ### addShape(type, cfgs)
-向分组中添加新的图形。<br />`注意`：在分组上添加的`clip`， `transform`等会影响到该分组中的所有图形。G支持的图形及其绘图属性请见shape小节。
+向分组中添加新的图形。<br />**注意**：在分组上添加的 clip， transform 等操作会影响到该分组中的所有图形。所有图形及其绘图属性请见 [Shape](/zh/docs/api/Shape)。
 
 
 **参数**
 
 | 名称 | 类型 | 说明 |
 | --- | --- | --- |
-| type | String | 图元素类型，值可以为：rect、circle、fan、ellipse、marker、image等，具体参考[支持的Shape类型及属性](https://www.yuque.com/antv/g6/ffzwfp) |
+| type | String | 图元素类型，值可以为：`'rect'`、`'circle'`、`'fan'`、`'ellipse'`、`'marker'`、`'image'` 等，具体参考[Shape 的类型及属性](/zh/docs/manual/advanced/shape-and-properties) |
 | cfg | Object | 图元素的属性 |
 
 
@@ -67,14 +67,14 @@ group.addShape('rect', {
 
 
 ### contain(child)
-该分组是否包含此元素。<br />返回值: boolean
+该分组是否包含此元素。<br />返回值: Boolean
 
 
 **参数**
 
 | 名称 | 类型 | 说明 |
 | --- | --- | --- |
-| child | Group | Shape | 子 Group 或 Shape 实例 |
+| child | Group / Shape | 子 Group 或 Shape 实例 |
 
 
 
@@ -108,7 +108,7 @@ const child = group.find(function(item) {
 
 
 ### findById(id)
-根据元素ID返回对应的实例。<br />返回值：Object。
+根据元素 ID 返回对应的实例。<br />返回值：Object。
 
 
 **参数**
@@ -116,7 +116,7 @@ const child = group.find(function(item) {
 
 | 名称 | 类型 | 说明 |
 | --- | --- | --- |
-| id | String | Group 实例ID |
+| id | String | Group 实例 ID |
 
 
 
@@ -159,8 +159,8 @@ const children = group.findAll(function(item) {
 
 | 名称 | 类型 | 说明 |
 | --- | --- | --- |
-| x | number | x 坐标 |
-| y | number | y 坐标 |
+| x | Number | x 坐标 |
+| y | Number | y 坐标 |
 
 
 
@@ -211,7 +211,7 @@ const child = childrens[childrens.length - 1]
 
 | 名称 | 类型 | 说明 |
 | --- | --- | --- |
-| index | number | 子元素的序号，默认为 0 |
+| index | Number | 子元素的序号，默认为 0 |
 
 
 
@@ -226,11 +226,11 @@ const child = group.getChildByIndex(2)
 从分组中删除一个分组或一个图形。
 
 
-**参数说明**
+**参数**
 
 | 名称 | 类型 | 说明 |
 | --- | --- | --- |
-| child | Group | Shape | 子 Group 或 Shape 实例 |
+| child | Group / Shape | 子 group 或 Shape 实例 |
 
 
 
@@ -244,7 +244,7 @@ group.removeChild(child)
 ### sort()
 排序方法。<br />一般用于在设置子元素层叠顺序时使用。
 
-典型使用场景：通过 group.addShape() 添加 shape 时，添加的每个 shape 都设置了 index，在最后调用 group.sort() 可以对添加的 shape 进行排序。
+典型使用场景：通过 `group.addShape()` 添加 `shape` 时，添加的每个 `shape` 都设置了 `index`，在最后调用 `group.sort()` 可以对添加的 `shape` 进行排序。
 
 
 **用法**

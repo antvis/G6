@@ -1,5 +1,5 @@
 ---
-title: 如何更新节点或边的样式
+title: Update Item's Style
 order: 1
 ---
 

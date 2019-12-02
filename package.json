@@ -1,11 +1,98 @@
 {
   "name": "@antv/g6",
-  "version": "3.2.0",
-  "description": "graph visualization frame work",
-  "main": "build/g6.js",
-  "types": "types/index.d.ts",
-  "homepage": "https://github.com/antvis/g6",
-  "author": "https://github.com/orgs/antvis/people",
+  "version": "3.3.0",
+  "description": "A Graph Visualization Framework in JavaScript",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "types": "lib/index.d.ts",
+  "browser": "dist/g6.min.js",
+  "files": [
+    "package.json",
+    "esm",
+    "lib",
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "start": "npm run site:develop",
+    "site:develop": "gatsby develop --open -H 0.0.0.0",
+    "site:build": "npm run site:clean && gatsby build --prefix-paths",
+    "site:clean": "gatsby clean",
+    "build": "npm run clean && run-p build:*",
+    "build:esm": "tsc -p tsconfig.json --target ES5 --module ESNext --outDir esm",
+    "build:cjs": "tsc -p tsconfig.json --target ES5 --module commonjs --outDir lib",
+    "build:umd": "webpack --config webpack.config.js --mode production",
+    "clean": "rimraf esm lib dist",
+    "lint": "lint-staged",
+    "test": "jest",
+    "test-live": "DEBUG_MODE=1 jest --watch",
+    "coverage": "jest --coverage",
+    "ci": "run-s build coverage",
+    "doc": "rimraf apis && typedoc",
+    "dist": "webpack --config webpack.config.js --mode production"
+  },
+  "dependencies": {
+    "@antv/event-emitter": "~0.1.0",
+    "@antv/g-base": "^0.1.0-beta.10",
+    "@antv/g-canvas": "^0.1.0-beta.11",
+    "@antv/matrix-util": "^2.0.4",
+    "@antv/path-util": "^2.0.3",
+    "@antv/scale": "^0.2.0",
+    "@antv/util": "~2.0.5",
+    "tslib": "^1.10.0"
+  },
+  "devDependencies": {
+    "@antv/gatsby-theme-antv": "^0.9.25",
+    "@types/jest": "^24.0.18",
+    "gatsby": "^2.17.9",
+    "gh-pages": "^2.1.1",
+    "husky": "^3.0.4",
+    "insert-css": "^2.0.0",
+    "jest": "^24.9.0",
+    "jest-electron": "^0.1.7",
+    "jest-extended": "^0.11.2",
+    "lint-staged": "^9.2.3",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^1.18.2",
+    "react-i18next": "^11.1.0",
+    "rimraf": "^3.0.0",
+    "ts-jest": "^24.1.0",
+    "ts-loader": "^6.2.1",
+    "tslint": "^5.18.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typedoc": "^0.15.0",
+    "typedoc-plugin-markdown": "^2.2.11",
+    "typescript": "^3.5.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "run-s lint build test"
+    }
+  },
+  "lint-staged": {
+    "*.{js,css,json,md}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.{ts}": [
+      "tslint -c tslint.json --fix",
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "jest": {
+    "runner": "jest-electron/runner",
+    "testEnvironment": "jest-electron/environment",
+    "preset": "ts-jest",
+    "collectCoverage": false,
+    "collectCoverageFrom": [
+      "src/**/*.{ts,js}",
+      "!**/node_modules/**",
+      "!**/vendor/**"
+    ],
+    "testRegex": "/tests/.*-spec\\.ts?$"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/antvis/g6"
@@ -14,130 +101,15 @@
     "url": "https://github.com/antvis/g6/issues"
   },
   "keywords": [
+    "antv",
     "g6",
+    "graph",
     "relational data",
     "graph visualization",
     "graph editor",
     "graph analysis"
   ],
-  "contributors": [
-    {
-      "email": "leanne06204@163.com",
-      "url": "https://github.com/AceLeeWinnie"
-    },
-    {
-      "email": "wyueliu@gmail.com",
-      "url": "https://github.com/liuwuyue"
-    },
-    {
-      "email": "deggs.k@gmail.com",
-      "url": "https://github.com/deggs7"
-    }
-  ],
-  "license": "MIT",
-  "devDependencies": {
-    "@antv/gatsby-theme-antv": "^0.9.95",
-    "@antv/torch": "^1.0.5",
-    "@babel/cli": "^7.0.0",
-    "@babel/core": "^7.0.0",
-    "@babel/preset-env": "^7.0.0",
-    "babel-eslint": "~8.0.3",
-    "babel-loader": "^8.0.0",
-    "babel-plugin-module-resolver": "^3.1.1",
-    "babel-plugin-transform-remove-strict-mode": "~0.0.2",
-    "babel-preset-gatsby": "^0.2.20",
-    "body-parser": "~1.18.2",
-    "chai": "~4.1.2",
-    "chai-almost": "^1.0.1",
-    "clipboard": "^1.5.15",
-    "codemirror": "*",
-    "commander": "~2.12.2",
-    "connect": "~3.6.6",
-    "d3-queue": "~3.0.7",
-    "debug": "~3.1.0",
-    "electron": "~6.0.4",
-    "eslint": "~3.19.0",
-    "eslint-config-airbnb": "~15.0.1",
-    "eslint-config-egg": "~4.2.0",
-    "eslint-plugin-html": "~3.1.1",
-    "eslint-plugin-jsx-a11y": "~5.1.1",
-    "eslint-plugin-react": "~7.1.0",
-    "event-simulate": "~1.0.0",
-    "gatsby": "^2.16.0",
-    "get-port": "^5.0.0",
-    "gh-pages": "^2.1.1",
-    "hard-source-webpack-plugin": "~0.13.1",
-    "home": "~1.0.1",
-    "insert-css": "^2.0.0",
-    "jquery": "^3.3.1",
-    "jszip": "~3.1.5",
-    "nightmare": "~2.10.0",
-    "numericjs": "^1.2.6",
-    "nunjucks": "~3.0.1",
-    "open": "~0.0.5",
-    "parseurl": "~1.3.2",
-    "pre-commit": "~1.2.2",
-    "prettier": "^1.18.2",
-    "radixsort": "~1.0.0",
-    "react-i18next": "^11.0.1",
-    "serve-static": "~1.13.2",
-    "shelljs": "~0.7.8",
-    "svgson": "^2.1.1",
-    "uglify-js": "~3.1.10",
-    "webpack": "~4.10.2",
-    "webpack-cli": "~3.0.0",
-    "worker-loader": "^2.0.0"
-  },
-  "scripts": {
-    "start": "npm run site:develop",
-    "site:develop": "gatsby develop --open",
-    "site:build": "npm run site:clean && gatsby build --prefix-paths",
-    "site:clean": "gatsby clean",
-    "site:deploy": "npm run site:build && gh-pages -d public",
-    "update": "rm -rf node_modules/ && tnpm i && rm -rf build && tnpm run build",
-    "build": "webpack",
-    "build-lib": "babel src --out-dir lib",
-    "dist": "npm run mkdir-dist && npm run build",
-    "mkdir-dist": "node ./bin/mkdir-dist.js",
-    "ci": "npm run lint && npm run test",
-    "coverage": "npm run coverage-generator && npm run coverage-viewer",
-    "coverage-generator": "torch --compile --coverage --renderer --recursive --source-pattern index.js,src/**/*.js test/unit/",
-    "coverage-viewer": "torch-coverage",
-    "demos": "electron ./demos/app.js",
-    "demos-web": "node ./demos/app.js --web --port 2046",
-    "dev": "npm run watch & npm run demos-web",
-    "lint": "eslint --ext .js ./",
-    "lint-fix": "eslint --ext .html,.js --fix ./",
-    "prepublishOnly": "npm run build-lib && npm run build",
-    "screenshot": "node ./bin/screenshot.js",
-    "test": "npm run build && torch --compile --renderer --opts test/mocha.opts --recursive ./test/unit",
-    "test-live": "torch --compile --interactive --watch --opts test/mocha.opts --recursive ./test/unit",
-    "test-live-shape": "torch --compile --interactive --watch --opts test/mocha.opts --recursive ./test/unit/shape/nodes/modelRect-spec.js",
-    "test-live-util": "torch --compile --interactive --watch --opts test/mocha.opts --recursive ./test/unit/shape/edge-spec.js",
-    "test-bugs": "torch --compile --renderer --recursive ./test/bugs",
-    "test-bugs-live": "torch --compile --interactive --watch --recursive ./test/bugs/issue-601-spec.js",
-    "test-all": "npm run test && npm run test-bugs",
-    "watch": "webpack --config webpack-dev.config.js",
-    "win-dev": "node ./bin/win-dev.js"
-  },
-  "pre-commit": {
-    "run": [
-      "lint",
-      "test-all"
-    ],
-    "silent": false
-  },
-  "dependencies": {
-    "@antv/g": "~3.4.6",
-    "@antv/hierarchy": "~0.6.1",
-    "@antv/util": "~1.3.1",
-    "d3": "^5.9.1",
-    "d3-sankey": "^0.12.3",
-    "d3-force": "^2.0.1",
-    "dagre": "^0.8.4",
-    "numeric": "^1.2.6"
-  },
-  "engines": {
-    "node": ">=8.9.0"
-  }
+  "homepage": "https://github.com/antvis/g6",
+  "author": "https://github.com/orgs/antvis/people",
+  "license": "MIT"
 }

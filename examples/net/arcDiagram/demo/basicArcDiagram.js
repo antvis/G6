@@ -5,7 +5,7 @@ const colors = [ 'rgb(91, 143, 249)', 'rgb(90, 216, 166)', 'rgb(93, 112, 146)',
   'rgb(146, 112, 202)', 'rgb(255, 157, 77)', 'rgb(38, 154, 153)',
   'rgb(227, 137, 163)' ];
 const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight;
+const height = document.getElementById('container').scrollHeight || 500;
 const graph = new G6.Graph({
   container: 'container',
   width,

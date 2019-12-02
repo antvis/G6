@@ -1,25 +1,27 @@
 ---
-title: 节点与边的层级
+title: The Visual Level of Node and Edge
 order: 4
 ---
 
-节点与边在视觉上的层级涉及到了它们相对应的[图形分组 Group](/zh/docs/manual/advanced/graphics-group)。本文提到的所有分组 Group 都为 G6 的 [图形分组 Group](/zh/docs/manual/advanced/graphics-group)，而非 G6 的 [节点分组 Group](/zh/docs/manual/middle/nodeGroup)，请注意区分这两种 Group，其区别在 [图形分组 Group](/zh/docs/manual/advanced/graphics-group) 中说明。
+The visual levels (zIndex) of nodes and edges are refered to their [Graphics Group](/en/docs/manual/advanced/graphics-group) (hereinafter referred to as Shape). (**Attention:** The Graphics Group is different from the [Node Group](/en/docs/manual/middle/nodeGroup), the differences are described in [Graphics Group](/en/docs/manual/advanced/graphics-group)).
 
-在 [图形分组 Group](/zh/docs/manual/advanced/graphics-group) 中我们提到：在 G6 中，Graph 的一个实例中的所有节点属于同一个变量名为 `nodeGroup` 的 group，所有的边属于同一个变量名为 `edgeGroup` 的 group。节点 group 在视觉上的层级（zIndex）高于边 group，即所有节点会绘制在所有边的上层。
+In [Graphics Group](/en/docs/manual/advanced/graphics-group), we stated: All the nodes instances in a Graph is grouped by a Group named `nodeGroup`, all the edges instances are grouped by `edgeGroup`. And the visual level (zIndex) of `nodeGroup` is higher than `edgeGroup`, which means all the nodes will be drawed on the top of all the edges.
 
-但有时，我们需要让边在视觉上在节点上层。例如，高亮节点及其相关边和邻居、高亮一条边等。可以通过配合图实例的配置项 `groupByTypes` 以及节点和边的 `toFront()` 与 `toBack()` 函数实现。为实现如下效果：鼠标进入节点时，提升相关边以及邻居节点的层级；离开节点时恢复；鼠标进入边时，提升边及其两端点的层级；离开边时恢复。[Demo 完整代码](https://codepen.io/Yanyan-Wang/pen/GRRNzGN)。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*uWGAR5-w-TcAAAAAAAAAAABkARQnAQ' width=150/>
+Sometimes, we want to draw the edges on the top. For example, highlighting a node and its related edges. In this situation, you can configure `groupByTypes` of the graph to false and call `toFront()` and `toBack()` to order the nodes or edges.
 
-要实现上图效果，需要以下步骤：
+The expected effect is: the related nodes and edges are drawed on the top of others when the mouse enters a node; Restore the visual levels (zIndex) when the mouse moves out of the node. [Complete Code of the Demo](https://codepen.io/Yanyan-Wang/pen/GRRNzGN)。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*uWGAR5-w-TcAAAAAAAAAAABkARQnAQ' width=150/>
 
-- Step 1：实例化图时配置 `groupByTypes` 为 `false`；
-- Step 2：将节点放置在边上层；
-- Step 3：监听鼠标事件并改变目标元素层级。
+There are 3 steps to implement the expected effect:
 
-## 
-## 前提代码
-下面代码完成了引入 G6、数据设置、实例化图、渲染图的命令等。后文将修改下面这份代码中以达到上图高亮效果。
+- Step 1: Configure`groupByTypes` to `false` when instantiating a Graph;
+- Step 2: Place the nodes to the top of edges;
+- Step 3: Change the visual levels in the listener function of mouse entering.
+
+
+## Premise
+The following code imports G6, defines the data, instantiates the Graph, renders the graph. We will modify this code to implement the expected effect.
 ```javascript
-  // 数据源
+  // The source data
   const data = {
     nodes: [{
       id: 'node0',
@@ -58,12 +60,12 @@ order: 4
     }]
   };
 
-  // 实例化图
+  // Instantiate the graph
   const graph = new G6.Graph({
     container: 'mountNode',
     width: 800,
     height: 600,
-    // 为方便演示，加粗边
+    // Make the edge thicker for demonstration
     defaultEdge: {
       style: {
         lineWidth: 2
@@ -71,151 +73,144 @@ order: 4
     }
   });
   
-  // 读取数据
+  // Load the data
   graph.data(data);
-  // 渲染图
+  // Render the graph
   graph.render();
 ```
 
-## 
-## Step 1 实例化图时的配置
-`groupByTypes` 是图的一个配置项，当其为默认值 `true` 时，所有节点在一个名为 `nodeGroup` 的分组，所有边在另一个名为 `edgeGroup` 的分组，且 `nodeGroup` 在 `edgeGroup` 上层。将其设置为 `false` 后，将不存在 `nodeGroup` 和 `edgeGroup`，所有节点和边在同一个分组，它们的层级根据生成的顺序决定。
 
-## 
-### 参数描述
-| 名称 | 类型 | 默认值 | 描述 |
+## Step 1 Configure the Graph
+`groupByTypes` is a configuration of Graph with `true` as default value. That means that all the nodes are grouped in a Group named `nodeGroup`, all the edges are groupd in `edgeGroup`, and `nodeGroup` is on the top of `edgeGroup`. Assign `false` to `groupByTypes` to cancel the `nodeGroup` and `edgeGroup`. And all the nodes and edges will be grouped in one Group. The visual level (zIndex) in determined by their generation order.
+
+
+### Configuration
+| Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| groupByTypes | Boolean | true | 各种元素是否在一个分组内，决定节点和边的层级问题，默认情况下所有的节点在一个分组中，所有的边在一个分组中，当这个参数为 false 时，节点和边的层级根据生成的顺序确定。 |
+| groupByTypes | Boolean | true | Whether nodes and edges are grouped in different Group. |
 
 
-## 
-### 使用方式
-更改 前提代码 中实例化图部分代码，添加 `groupByTypes` 配置项，并设置为 `false`：
+### Usage
+Modify the code about instantiating the Graph in Premise. Add `groupByTypes` with `false`:
 ```javascript
 const graph = new G6.Graph({
-  // ...  // 其他配置
+  // ...  // Other configurations
   groupByTypes: false
 });
 ```
 
-此时，将会得到如下效果：<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cbiwTZ5dwP0AAAAAAAAAAABkARQnAQ' width=150/>
+We obtain this result now:<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cbiwTZ5dwP0AAAAAAAAAAABkARQnAQ' width=150/>
 
-## 
-## Step 2 将节点放置在边上层
-上一步结果中节点在边的下层不符合常规，是由于 `groupByTypes` 为 `false` 时，节点和边的层级根据生成的顺序确定，而边的生成顺序在节点之后，因此所有边被绘制到了节点上方。为了使图符合常规——节点在上层，边在下层，可以在 `graph.render()` 之后将所有的节点通过 `toFront()` 函数提前。
+## Step 2 Place the Nodes on the Top
+Due to the `groupByTypes` with `false` and edges are generated after nodes, the edges are on the top of the nodes in the figure above, which is a little strange. To draw the nodes on the top, we call `toFront()` for each node after `graph.render()`.
 
-## 
-### 函数描述
+### Description for Functions
 ```javascript
-// 将节点实例 nodeItem 提前到其父级 group 的最前面
+// Shift the node instance nodeItem to the front
 nodeItem.toFront();
-// 将节点实例 nodeItem 放置到其父级 group 的最后面
+// Shift the node instance nodeItem to the back
 nodeItem.toBack();
-// 将边实例 edgeItem 提前到其父级 group 的最前面
+// Shift the edge instance edgeItem to the front
 edgeItem.toFront();
-// 将边实例 edgeItem 放置到其父级 group 的最后面
+// Shift the edge instance edgeItem to the back
 edgeItem.toBack();
 ```
 
-## 
-### 书用方法
+### Usage
 ```javascript
 // const graph = ... 
 graph.data(data);
 graph.render();
-// 获取图上的所有边实例
+// Get all the node instances of the graph
 const nodes = graph.getNodes();
-// 遍历边实例，将所有边提前。
+// Traverse the nodes, and shift them to the front
 nodes.forEach(node => {
   node.toFront();
 });
-// 更改层级后需要重新绘制图
+// Repaint the graph after shifting
 graph.paint();
 ```
- <br />这样，所有节点被绘制在边上层：<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*8TnuS7pkUfwAAAAAAAAAAABkARQnAQ' width=150/>
+ <br />Now, all the nodes are drawed on the top of edges:<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*8TnuS7pkUfwAAAAAAAAAAABkARQnAQ' width=150/>
 
-## 
-## Step 3 监听鼠标事件并改变目标元素层级
-在效果图中，鼠标进入节点时，相关边和节点的层级被提升到最上层，鼠标离开节点使恢复。边同理。这一步将实现这一交互效果。
+## Step 3 Change the Visual Levels in the Listener Function of Mouse Entering
+When the mouse enters a node, the related nodes and edges will be shifted to the front. And they will be restored after mouse leaving.
 
-## 
-### 函数描述
-使用下面四个函数监听鼠标的进入、离开元素的事件： 
+### Description for Functions
+Listen the mouse entering and leaving by the following four functions: 
 ```javascript
-// 鼠标进入节点事件
+// Mouse enters a node
 graph.on('node:mouseenter', ev => {
   // ...
 });
 
-// 鼠标离开节点事件
+// Mouse leaves a node
 graph.on('node:mouseleave', ev => {
   // ...
 });
 
-// 鼠标进入边事件
+// Mouse enters an edge
 graph.on('edge:mouseenter', ev => {
   // ...
 });
 
-// 鼠标离开边事件
+// Mouse leaves an edge
 graph.on('edge:mouseleave', ev => {
   // ...
 });
 ```
 
-## 
-### 使用方法
+### Usage
 ```javascript
-// 鼠标进入节点事件
+// Mouse enters an edge
 graph.on('edge:mouseenter', ev => {
-  // 获得鼠标当前目标边
+  // Get the target of the entering event
   const edge = ev.item;
-  // 该边的起始点
+  // The source node of the edge
   const source = edge.getSource();
-  // 该边的结束点
+  // The target node of the edge
   const target = edge.getTarget();
-  // 先将边提前，再将端点提前。这样该边两个端点还是在该边上层，较符合常规。
+  // Shift the edge to the front, and then shift the end nodes to the front
   edge.toFront();
   source.toFront();
   target.toFront();
-  // 注意：必须调用以根据新的层级顺序重绘
+  // Attention: the following code must be called to repaint the graph
   graph.paint();
 });
 
 graph.on('edge:mouseleave', ev => {
-  // 获得图上所有边实例
+  // Get all the edge instances of the graph
   const edges = graph.getEdges();
-  // 遍历边，将所有边的层级放置在后方，以恢复原样
+  // Travers the edges, shift them to the back to restore
   edges.forEach(edge => {
     edge.toBack();
   });
-  // 注意：必须调用以根据新的层级顺序重绘
+  // Attention: the following code must be called to repaint the graph
   graph.paint();
 });
 
 graph.on('node:mouseenter', ev => {
-  // 获得鼠标当前目标节点
+  // Get the target of the entering event
   const node = ev.item;
-  // 获取该节点的所有相关边
+  // Get the related edges of the node
   const edges = node.getEdges();
-  // 遍历相关边，将所有相关边提前，再将相关边的两个端点提前，以保证相关边的端点在边的上方常规效果
+  // Travers the related edges, shift them to the front, and then shift the end nodes to the front
   edges.forEach(edge => {
     edge.toFront();
     edge.getSource().toFront();
     edge.getTarget().toFront();
   });
-  // 注意：必须调用以根据新的层级顺序重绘
+  // Attention: the following code must be called to repaint the graph
   graph.paint();
 });
 
 graph.on('node:mouseleave', ev => {
-  // 获得图上所有边实例
+  // Get all the edge instances of the graph
   const edges = graph.getEdges();
-  // 遍历边，将所有边的层级放置在后方，以恢复原样
+  // Travers the edges, shift them to the back to restore
   edges.forEach(edge => {
     edge.toBack();
   });
-  // 注意：必须调用以根据新的层级顺序重绘
+  // Attention: the following code must be called to repaint the graph
   graph.paint();
 });
 ```

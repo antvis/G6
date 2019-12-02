@@ -3,21 +3,21 @@ title: Edge
 order: 1
 ---
 
-Edge继承自Item，所以，Item上面的方法在Edge实例中都可以使用。
+Edge inherits from item. The functions of Item are also available for Edge.
 
 
 ## setSource(source)
-设置边的起始节点。
+Set the source item (node) of the edge.
 
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| source | Node | true | 起始节点实例 |
+| source | Node | true | The item of source node. |
 
 
-**用法**
+**Usage**
 
 ```javascript
 const edge = new Edge(
@@ -35,17 +35,17 @@ edge.setSource(node)
 
 
 ## setTarget(target)
-设置边的终止节点。
+Set the target item (node) of the edge.
 
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| target | Node | true | 终止节点实例 |
+| target | Node | true | The item of target node. |
 
 
-**用法**
+**Usage**
 
 ```javascript
 const edge = new Edge(
@@ -63,16 +63,20 @@ edge.setTarget(node)
 
 
 ## getSource()
-获取当前边的起始节点。
+Get the current source item (node) of the edge.
 
 
-**返回值**
+**Return**
 
-- 返回值类型：Node；
-- 返回值为起始节点的实例。
+- The type of return value: Node;
+<<<<<<< HEAD
+- Returns the item of source node.
+=======
+- Return the item of source node.
+>>>>>>> feat: english version of API
 
 
-**用法**
+**Usage**
 
 ```javascript
 const edge = new Edge(
@@ -86,16 +90,20 @@ const node = edge.getSource()
 
 
 ## getTarget()
-获取当前边的终止节点。
+Get the current target item (node) of the edge.
 
 
-**返回值**
+**Return**
 
-- 返回值类型：Node；
-- 返回值为终止节点的实例。
+- The type of return value: Node;
+<<<<<<< HEAD
+- Returns the item of target node.
+=======
+- Return the item of target node.
+>>>>>>> feat: english version of API
 
 
-**用法**
+**Usage**
 
 ```javascript
 const edge = new Edge(

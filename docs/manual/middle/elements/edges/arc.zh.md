@@ -1,5 +1,5 @@
 ---
-title: arc
+title: Arc
 order: 5
 ---
 
@@ -68,11 +68,11 @@ labelCfg: {
 
 | 名称 | 含义 | 类型 | 备注 |
 | --- | --- | --- | --- |
-| color | 边的颜色 | String | 优先级低于 style 中的 stroke |
-| **curveOffset** | **圆弧顶端距离两线中心位置的距离** | **Number** | **数值绝对值大小控制圆弧的大小，正负控制圆弧弯曲的方向，默认为 20。arc 边特有** |
-| style | 边的样式 | Object | Canvas支持的属性 |
+| color | 边的颜色 | String | 优先级低于 `style` 中的 `stroke` |
+| **curveOffset** | **圆弧顶端距离两线中心位置的距离** | **Number** | **数值绝对值大小控制圆弧的大小，正负控制圆弧弯曲的方向，默认为 `20`。arc 边特有** |
+| style | 边的样式 | Object | Canvas 支持的属性 |
 | label | 标签文本文字 | String |  |
-| labelCfg | 文件配置项 | Object |  |
+| labelCfg | 标签文本配置项 | Object |  |
 
 
 
@@ -113,11 +113,11 @@ graph.data(data);
 graph.render();
 ```
 
-注意：<br />上面代码使用了 graph 的配置项 `linkCenter: true` 以设置 arc 边连入节点的中心，保证美观性。
+⚠️**注意：**<br />上面代码使用了 graph 的配置项 `linkCenter: true` 以设置 arc 边连入节点的中心，保证美观性。
 
 
 ### 样式属性 style
-Object 类型。配置项与边的通用样式属性相同，见 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge)。基于上面 [弧度 curveOffset](#C9lmR) 中的代码，下面代码在 `defaultNode` 中增加了 `style` 配置项进行边的样式的配置，使之达到如下图效果。<br />!
+Object 类型。配置项与边的通用样式属性相同，见 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge)。基于上面 [特殊属性：弧度 curveOffset](#特殊属性：弧度 curveOffset) 中的代码，下面代码在 `defaultEdge` 中增加了 `style` 配置项进行边的样式的配置，使之达到如下图效果。<br />!
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LH4lT64i304AAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
 const data = {
@@ -138,7 +138,7 @@ const graph = new G6.Graph({
 
 
 ### 标签文本配置 labelCfg
-Object 类型。其配置与边的通用文本配置相同，见 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge)。基于上面 [弧度 curveOffset](/zh/docs/manual/middle/elements/edges/arc/#特殊属性：弧度-curveoffset) 中的代码，下面代码在 `defaultNode` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br />
+Object 类型。其配置与边的通用文本配置相同，见 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge)。基于上面 [弧度 curveOffset](/zh/docs/manual/middle/elements/edges/arc/#特殊属性：弧度-curveoffset) 中的代码，下面代码在 `defaultEdge` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*xu0FSKNxQNUAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
 const data = {

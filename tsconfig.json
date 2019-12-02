@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "sourceMap": true,
+    "target": "es5",
+    "outDir": "lib",
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "lib": ["esnext", "dom"],
+    "types": ["jest"],
+    "resolveJsonModule": true
+  },
+  "include": ["src"],
+  "typedocOptions": {
+    "mode": "modules",
+    "out": "docs/api",
+    "excludePrivate": true,
+    "excludeProtected": true,
+    "excludeExternals": true,
+    "plugin": "typedoc-plugin-markdown",
+    "theme": "docusaurus2"
+  }
+}

@@ -3,11 +3,11 @@ title: Behavior
 order: 5
 ---
 
-Behavior指G6中的复合交互，一般Behavior包含一个或多个事件的监听与处理以及一系列对图中元素的操作。
+Behavior is the compound interactions in G6. In general, a Behavior includes one or more event listeners and a set of item operations.
 
-Behavior默认包含shouldBegin，shouldUpdate，shouldEnd三个回调，代表是否开始行为，是否更新元素，是否进行结束行为，当返回值为false时阻止默认行为。
+By default, Behavior has three callbacks: `shouldBegin`, `shouldUpdate`, and `shouldEnd`, representing the beginning of the behavior, whether update the items, the ending of the behavior respectively. If they return `false`, the default behavior will be prevented.
 
-## 用法
+## Usage
 ```javascript
 G6.registerBehavior('behaviorName', {
   getEvents() {
@@ -26,15 +26,15 @@ G6.registerBehavior('behaviorName', {
   onMouseMove(evt) {
   	// TODO
   }
-}
+});
 ```
 
 ## getEvents()
-自定义Behavior时，定义事件及处理事件的方法。
+Define and handle events when user custom a Behavior.
 
-getEvents()方法中可以使用的事件请参考[Event文档](./Event)。
+The usage of `getEvents()` can be refered to [Event](./Event)。
 
-**用法**
+**Usage**
 ```javascript
 G6.registerBehavior('behaviorName', {
   getEvents() {
@@ -48,37 +48,37 @@ G6.registerBehavior('behaviorName', {
 ```
 
 ## onNodeClick(evt)
-`onNodeClick`、`onEdgeClick`和`onMouseMove`都属于自定义方法，用于处理`node:click`、`edge:click`、`mousemove`等事件。
+`onNodeClick`, `onEdgeClick`, and `onMouseMove` are custom events for handling `node:click`, `edge:click`, and `mousemove`.
 
-**参数**
+**Parameters**
 
-| 名称 | 类型 | 是否必选 | 描述 |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| evt | Event | 否 | 包含事件句柄、当前操作对象及各坐标值等 |
+| evt | Event | false | contains event handler, current target, and coordinates. |
 
-**参数evt包括以下属性：**
+**The parameter `evt` contains:**
 
-| 名称 | 类型 | 描述 |
+| Name | Type | Description |
 | --- | --- | --- |
-| x | number | 元素视口x坐标 |
-| y | number | 元素视口y坐标 |
-| canvasX | number | 元素Canvas x坐标 |
-| canvasY | number | 元素Canvas y坐标 |
-| clientX | number | 屏幕/页面x坐标 |
-| clientY | number | 屏幕/页面y坐标 |
-| event | MouseEvent | 事件句柄 |
-| target | Shape | 当前对象 |
-| type | string | 操作类型 |
-| currentTarget | object |  |
-| item | Shape | 操作的目标元素 |
-| removed | boolean | 是否删除/销毁 |
-| timeStamp | number | 时间戳 |
-| bubbles | boolean | 是否支持事件冒泡 |
-| defaultPrevented | boolean | 是否阻止默认事件 |
-| cancelable | boolean | 是否取消 |
+| x | Number | x coordinate of view port. |
+| y | Number | y coordinate of view port. |
+| canvasX | Number | x coordinate of the canvas. |
+| canvasY | Number | y coordinate of the canvas. |
+| clientX | Number | x coordinate of the client / screen. |
+| clientY | Number | y coordinate of the client / screen. |
+| event | MouseEvent | Event handler. |
+| target | Shape | The target. |
+| type | String | Operation type. |
+| currentTarget | Object |  |
+| item | Shape | The target item. |
+| removed | Boolean | Whether the target is removed / destroyed. |
+| timeStamp | Number | The time stamp. |
+| bubbles | Boolean | Whether it is a bubbled event. |
+| defaultPrevented | Boolean | Whether prevent the default event. |
+| cancelable | Boolean | Whether it is cancelable. |
 
 
-**用法**
+**Usage**
 ```javascript
 G6.registerBehavior('behaviorName', {
   getEvents() {
@@ -97,15 +97,15 @@ G6.registerBehavior('behaviorName', {
   onMouseMove(evt) {
   	// TODO
   }
-}
+});
 ```
 
 ## getDefaultCfg()
-定义自定义Behavior时的默认参数，会与用户传入的参数进行合并。
+Default configurations while customing a Behavior. The configurations will be mixed by the configurations from user.
 
-**提示：该方法是可选的**。
+**Tips: This function is not required**.
 
-**用法**
+**Usage**
 ```javascript
 G6.registerBehavior('behaviorName', {
   getDefaultCfg() {
@@ -117,22 +117,22 @@ G6.registerBehavior('behaviorName', {
 ```
 
 ## shouldBegin(evt)
-是否阻止行为发生，默认返回true，不阻止行为，需要在处理逻辑中自行调用。
+Whether prevent the behavior. Return `true` by default, which means do not prevent the behavior. User should call it by themselves.
 
-**用法**
+**Usage**
 ```javascript
 G6.registerBehavior('behaviorName', {
   shouldBegin() {
-    // 这里可以根据业务自定义
-    return true
+    // Customize it according to your scenario
+    return true;
   }
-}
+});
 ```
 
 ## shouldUpdate(evt)
-是否更新数据及更改视图，默认返回true，允许更新，如果返回false，则不更新数据和视图。
+Whether update the data and the view. Returns `true` by default, which means allow updating. 
 
-**用法**
+**Usage**
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -154,4 +154,4 @@ const graph = new G6.Graph({
 ```
 
 ## shouldEnd(evt)
-是否结束行为，默认返回true。
+Whether end the behavior. Returns `true` by default.
