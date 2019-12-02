@@ -3,7 +3,7 @@ title: Node Group
 order: 8
 ---
 
-> The title of node group is supported from G6 V3.1.2.
+> The title of Node Group is supported from G6 V3.1.2.
 
 
 Node Group is a practical function for graph visualization. It is supported from G6 V3.0.5. Refer to the demo [Demo](/en/examples/interaction/nodeGroup)。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*G1OBSJf672QAAAAAAAAAAABkARQnAQ' width=400/>
@@ -13,9 +13,9 @@ In data, Node Group are defined as array `group`, and each node data has a prope
 
 The `title` for a group can be a string or an object:
 
-- When the `title` is a string, it indicates the text content of the group title. The styles and the position are fixed;
+- When the `title` is a string, it indicates the text of the group title. The styles and the position are fixed;
 - When the `title` is an object, users are able to define the styles and position for the group title. The object contains:
-  - text: required, a string indicates the text content of the group title;
+  - text: required, a string indicates the text of the group title;
   - offsetX: the x offset of the title, `0` by default;
   - offsetY: the y offset of the title, `0` by default;
   - stroke: the stroke color. The `fill`, `fontSize`, and other [Text Attributes](/en/docs/api/properties/TextProperties).
@@ -76,7 +76,7 @@ The `title` for a group can be a string or an object:
 ```
 
 ### Render the Node Group
-If there are `groupId`s in node data, G6 will render the group for the node automatically. You need to defined the `x` and `y` for nodes when there is no layout for the graph.
+If there are `groupId` in node data, G6 will render the group for the node automatically. You need to defined the `x` and `y` for nodes when there is no layout method for the graph.
 
 ```javascript
 const data = {
@@ -145,7 +145,7 @@ const data = {
     {
       id: 'group1',
       title: {
-      	text: '第一个分组',
+      	text: 'The first group',
         stroke: '#444',
         offsetX: -30,
         offsetY: 30
@@ -191,7 +191,7 @@ graph.render();
 
 The result: <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iftmRrdqR7cAAAAAAAAAAABkARQnAQ' width=400/>
 
-<br />To controll the nodes and the groups, we are going to assign the behaviors to them.
+<br />To controll the nodes and the groups, we now assign the behaviors to them.
 
 ### Manipulate the Group
 
