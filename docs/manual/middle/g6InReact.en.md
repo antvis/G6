@@ -4,7 +4,7 @@ order: 9
 ---
 
 ### Introduction
-G6 is a Javascript library without any coupling with other framewroks. That means, G6 can be combined to any front-end framework, such as React, Vue, and Angular. In this document, we provide a demo about using G6 in React.
+G6 is a JavaScript library without any coupling to other framewroks. That means, G6 can be combined to any front-end framework, such as React, Vue, and Angular. In this document, we provide a demo about using G6 in React.
 
 The main difference between using G6 in React and HTML is that you need to guarantee the DOM container of graph has been rendered and it is available before instantiating a Graph.
 
