@@ -4,9 +4,9 @@ order: 7
 ---
 
 ## 简介
-图布局是指图中节点的排布方式，根据图的数据结构不同，布局可以分为两类：一般图布局、树图布局。G6 为这两类图都内置了一些常用的图布局算法。使用内置的图布局可以完成[布局的参数、方法、数据的切换](#FCFKL)等。
+图布局是指图中节点的排布方式，根据图的数据结构不同，布局可以分为两类：一般图布局、树图布局。G6 为这两类图都内置了一些常用的图布局算法。使用内置的图布局可以完成[布局的参数、方法、数据的切换](#布局的切换机制)等。
 
-除了内置布局方法外，一般图布局还支持 [自定义布局](../advanced/custom-layout.zh) 机制。
+除了内置布局方法外，一般图布局还支持 [自定义布局](../advanced/custom-layout) 机制。
 
 事实上，G6 的布局是自由的，内置布局算法仅仅是操作了数据中节点的 `x` 和 `y` 值。因此，除了使用内置布局以及自定义的一般图布局外，用户还可以使用外部图布局算法，计算节点位置后赋值到数据中节点的 `x` 和 `y` 字段上，G6 便可以根据该位置信息进行绘制。
 
@@ -16,22 +16,22 @@ order: 7
 
 ### 一般图 Graph
 
-- [Random Layout](#Random)：随机布局；
-- [Force Layout](#Force)：经典力导向布局；
-- [Fruchterman Layout](#Fruchterman)：Fruchterman 布局，一种力导布局；
-- [Circular Layout](#Circular)：环形布局；
-- [Radial Layout](#Radial)：辐射状布局；
-- [MDS Layout](#MDS)：高维数据降维算法布局；
-- [Dagre Layout](#Dagre)：层次布局；
-- [Concentric Layout](#Concentric)：同心圆布局；
-- [Grid Layout](#Grid)：网格布局。
+- [Random Layout](#random)：随机布局；
+- [Force Layout](#force)：经典力导向布局；
+- [Fruchterman Layout](#fruchterman)：Fruchterman 布局，一种力导布局；
+- [Circular Layout](#circular)：环形布局；
+- [Radial Layout](#radial)：辐射状布局；
+- [MDS Layout](#mds)：高维数据降维算法布局；
+- [Dagre Layout](#dagre)：层次布局；
+- [Concentric Layout](#concentric)：同心圆布局；
+- [Grid Layout](#grid)：网格布局。
 
 ### 树图 TreeGraph
 
-- [CompactBox Layout](#CompactBox)：紧凑树布局；
-- [Dendrogram Layout](#Dendrogram)：树状布局（叶子节点布局对齐到同一层）；
-- [Intended Layout](#Intended)：缩进布局；
-- [Mindmap Layout](#Mindmap)：脑图布局。
+- [CompactBox Layout](#compactBox)：紧凑树布局；
+- [Dendrogram Layout](#dendrogram)：树状布局（叶子节点布局对齐到同一层）；
+- [Intended Layout](#intended)：缩进布局；
+- [Mindmap Layout](#mindmap)：脑图布局。
 
 ## 一般图 Graph
 

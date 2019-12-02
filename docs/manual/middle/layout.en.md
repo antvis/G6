@@ -1,12 +1,12 @@
 ---
-title: Using Layout
+title: Utilizing Layout
 order: 7
 ---
 
 ## Introduction
-Graph layouts are the algorithms arranging the node positions to obtain a understandable visualizaiton. According to the differences of data strucutre, the layouts can be categorized into: general graph layout and tree graph layout. There are several layout algorithms for them respectively. By utilizing the built-in layouts, [Translating the layouts and their configurations, translating the data](#FCFKL) can be achieved.
+Graph layouts are the algorithms arranging the node positions to obtain a understandable visualizaiton. According to the differences of data strucutre, the layouts can be categorized into: general graph layout and tree graph layout. There are several layout algorithms for them respectively. By utilizing the built-in layouts, [Translating the layouts and their configurations, translating the data](#layout-transformation-mechanism) can be achieved.
 
-Besides, G6 supports [Custom Layout](../advanced/custom-layout.zh) mechanism for users to design their own layout algorithm.
+Besides, G6 supports [Custom Layout](../advanced/custom-layout) mechanism for users to design their own layout algorithm.
 
 In fact, 'layout' is a free mechanism in G6. The built-in layouts only calculate and manipulate the `x` and `y` in node data. In other word, users can assign `x` and `y` to nodes by any other ways including the algorithms from the third-party libraries. Once G6 find the `x` and `y` information on data, it will render the graph according to it.
 
@@ -16,22 +16,22 @@ In this ducoment, we will introduce the layout algorithms in detail.
 
 ### Graph
 
-- [Random Layout](#Random): Randomizes the node postions;
-- [Force Layout](#Force): Classical force-directed layout;
-- [Fruchterman Layout](#Fruchterman): A kind of force-directed layout;
-- [Circular Layout](#Circular): Arranges the nodes on a circle;
-- [Radial Layout](#Radial): Arranges the nodes around a focus node radially;
-- [MDS Layout](#MDS): Multidemensional Scaling;
-- [Dagre Layout](#Dagre): Arranges the nodes hierarchically;
-- [Concentric Layout](#Concentric): Arranges the nodes on concentric circles;
-- [Grid Layout](#Grid): Arranges the nodes on grid.
+- [Random Layout](#random): Randomizes the node postions;
+- [Force Layout](#force): Classical force-directed layout;
+- [Fruchterman Layout](#fruchterman): A kind of force-directed layout;
+- [Circular Layout](#circular): Arranges the nodes on a circle;
+- [Radial Layout](#radial): Arranges the nodes around a focus node radially;
+- [MDS Layout](#mds): Multidemensional Scaling;
+- [Dagre Layout](#dagre): Arranges the nodes hierarchically;
+- [Concentric Layout](#concentric): Arranges the nodes on concentric circles;
+- [Grid Layout](#grid): Arranges the nodes on grid.
 
 ### TreeGraph
 
-- [CompactBox Layout](#CompactBox);
-- [Dendrogram Layout](#Dendrogram): Arrange the leaves on the same level;
-- [Intended Layout](#Intended);
-- [Mindmap Layout](#Mindmap).
+- [CompactBox Layout](#compactBox);
+- [Dendrogram Layout](#dendrogram): Arrange the leaves on the same level;
+- [Intended Layout](#intended);
+- [Mindmap Layout](#mindmap).
 
 ## Graph
 

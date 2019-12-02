@@ -211,12 +211,12 @@ The built-in [Behavior](./defaultBehavior)s `drag-group`, `collapse-expand-group
 #### collapse-expand-group
 `collapse-expand-group` is a Behavior which supports expand and collapse the group by double click.
 
-Now, we only support double clicking to collapse and expand the group.
+Now, we only support collapse and expand the group by double click.
 
 #### drag-node-with-group
-`drag-node-with-group` is a Behavior that similar to `drag-node`. But it is applied on the node with group. The group of the node will be changed by dragging.
+`drag-node-with-group` is a Behavior that similar to `drag-node`. But it is applied on the node which has a group. The group of the node will be changed by dragging.
 
-We do not support dragging multiple nodes in/out of a group.
+We do not support dragging multiple nodes in/out a group.
 
 ```javascript
 const graph = new G6.Graph({
@@ -236,7 +236,7 @@ const graph = new G6.Graph({
 });
 ```
 
-Assigning the three built-in Behavior into `modes` of the graph instance will result in:
+Assigning the three built-in Behavior into `modes` of the graph instance results in:
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VsMbRqOJe2sAAAAAAAAAAABkARQnAQ' width=400/>
 
