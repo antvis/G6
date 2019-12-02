@@ -28,6 +28,11 @@ redirect_from:
 <img src="https://user-images.githubusercontent.com/6113694/44995293-02858600-afd5-11e8-840c-349e4730d63d.gif" height=150><img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*I9OdTbXJIi0AAAAAAAAAAABkARQnAQ" height=150><img src="https://user-images.githubusercontent.com/6113694/44995332-2ba61680-afd5-11e8-8cab-db0e9d08ceb7.gif" height=150>
 
 <img src="https://gw.alipayobjects.com/zos/rmsportal/HQxYguinFOMIXrGQOABY.gif" height=150><img src="https://gw.alipayobjects.com/zos/rmsportal/nAugyFgrbrUWPmDIDiQm.gif" height=150><img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*xoufSYcjK2AAAAAAAAAAAABkARQnAQ" height=150>
+> 强大的布局
+
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dJT3SIVta6QAAAAAAAAAAABkARQnAQ' width=800 />
+> 强大的动画及交互
 
 ## G6 的特性
 G6 作为一款专业的图可视化引擎，具有以下特性：
@@ -42,10 +47,6 @@ G6 作为一款专业的图可视化引擎，具有以下特性：
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Y0c6S7cxjVkAAAAAAAAAAABkARQnAQ' width=800 />
 
 >丰富的图元素
-
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dJT3SIVta6QAAAAAAAAAAABkARQnAQ' width=800 />
-
-> 强大的布局及动画
 
 ## G6 文档
 - [G6 入门教程](/zh/docs/manual/tutorial/preface)
