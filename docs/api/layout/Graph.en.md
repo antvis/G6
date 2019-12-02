@@ -4,7 +4,7 @@ order: 1
 ---
 ## Random
 
-Random is the default layout in G6. It will take effect when `layout` is not configured on the Graph instance and there is no position information in node data.
+Random is the default layout in G6. It will take effect when `layout` is not assigned to the Graph instance and there is no position information in node data.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*G5_uRodUTaYAAAAAAAAAAABkARQnAQ' width=430 />
 

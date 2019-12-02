@@ -37,7 +37,7 @@ node.unlock()
 
 
 ## hasLocked()
-> New feature of V3.1.4.
+> New feature from V3.1.4.
 
 Query the lock state of the node.
 

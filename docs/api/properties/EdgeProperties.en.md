@@ -7,13 +7,13 @@ order: 1
 
 | Name | Description | Remark |
 | --- | --- | --- |
-| fill | The color or gradient color for filling. | The corresponding property in canvas is `fillStyle`. |
-| stroke | The color, gradient color, or pattern for stroke. | The corresponding property in canvas is `strokeStyle`. |
-| shadowColor | The color for shadow. |  |
-| shadowBlur | The blur level for shadow. | Larger the value, more blur. |
-| shadowOffsetX | The horizontal offset of the shadow. |  |
-| shadowOffsetY | The vertical offset of the shadow. |  |
-| opacity | The opacity (alpha value) of the shape. | The corresponding property in canvas is  `globalAlpha`. |
+| fill | The color or gradient color for filling | The corresponding property in canvas is `fillStyle` |
+| stroke | The color, gradient color, or pattern for stroke | The corresponding property in canvas is `strokeStyle` |
+| shadowColor | The color for shadow |  |
+| shadowBlur | The blur level for shadow. | Larger the value, more blur |
+| shadowOffsetX | The horizontal offset of the shadow |  |
+| shadowOffsetY | The vertical offset of the shadow |  |
+| opacity | The opacity (alpha value) of the shape | The corresponding property in canvas is  `globalAlpha` |
 
 
 
