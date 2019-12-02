@@ -6,7 +6,7 @@ order: 9
 ### Introduction
 G6 is a Javascript library without any coupling with other framewroks. That means, G6 can be combined to any front-end framework, such as React, Vue, and Angular. In this document, we provide a demo about using G6 in React.
 
-在 React 中使用 G6，和在 HTML 中使用基本相同，唯一比较关键的区分就是在实例化 Graph 时，要**保证 DOM 容器渲染完成，并能获取到 DOM 元素**。
+Using G6 in React is similar to  在 React 中使用 G6，和在 HTML 中使用基本相同，唯一比较关键的区分就是在实例化 Graph 时，要**保证 DOM 容器渲染完成，并能获取到 DOM 元素**。
 
 在 Demo 中，我们以一个简单的流程图为例，实现如下的效果。
 
