@@ -290,43 +290,43 @@ const graph = new G6.TreeGraph({
 | getSide | String | Function | (d) => {<br />  // d is a node<br />  return 'left';<br />} | 'right' | The callback function of node position(left or right of root node). Only affects the nodes which are connected to the root node directly. And the descendant nodes will be placed according to it |
 
 
-## 布局的切换机制
-G6 提供了两种关于布局的切换机制: 
+## Layout Transformation Mechanism
+G6 provides two layout transformations: 
 
-- `updateLayout(params)`: 布局方法或参数的切换
-- `changeData()`: 数据的切换
+- `updateLayout(params)`: Layout methods and configurations transformation;
+- `changeData()`: Data transformation.
 
-### 布局方法或参数切换
-**接口定义:**
+### Layout Methods and Configuration Transformation
+**Interface Definition:**
 ```javascript
 /**
- * 更换布局或布局参数
- * @param {String | object} cfg 新布局配置项
- * 若 cfg 为 String 或含有 type 字段, 且与之前的布局方法不同时将会更换布局
- * 否则只是更新原有布局的参数
+ * Change the layout or its configurations
+ * @param {String | object} cfg New layout configurations
+ * If the cfg is a String or an object with the property type, and the type is different from the current layout method, the layout method will be changed into the new one;
+ * Only change the configurations for the current layout otherwise
  */
 updateLayout(cfg);
 ```
 
-**布局方法切换: **<br />若参数 `cfg` 为 `String` 或是含有 `type` 字段的对象, 且与之前的布局方法名不同时将会更换布局。
+**Change the Layout Method:** <br />If the `cfg` is a `String` or an object with property `type`, and the type is different from the current layout method, the layout method will be changed into the new one;
 
-**布局参数切换: **<br />若参数 `cfg` 是对象且其中不含有 `type` 字段, 或指定的布局方法名称与之前的布局方法相同, 则保持原有布局方法, 仅更新该布局的参数。
+**Change the Configurations Only:** <br />If the `cfg` is an object without property `type`, or the `type` is the same as the current layout method, only the configurations for the current layout will be changed.
 
-### 数据切换
-**接口定义: **
+### Data Transformation
+**Interface Definition:**
 ```javascript
 /**
- * 更改源数据, 根据新数据重新渲染视图
- * @param {object} data 源数据
+ * Change the source data, render the graph with new data
+ * @param {object} data source data
  * @return {object} this
  */
 changeData(data);
 ```
 
-### 切换示例
-#### 期待效果
-初始化时使用默认 random 布局, 2000 ms 后更换为允许节点重叠的 force 布局, 4000 ms 后更换为不允许节点重叠的 force 布局, 6000 ms 后更换数据为 `data2`。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6k-iQ405hEEAAAAAAAAAAABkARQnAQ' width=600/>
-#### 完整代码
+### Transformation Example
+#### Expected Effect
+In the first stage, the graph is arranged by random layout. Transform to force layout with node overlappings after 2000ms, force layout without node overlappings after 4000ms, change data to `data2` after 6000ms.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6k-iQ405hEEAAAAAAAAAAABkARQnAQ' width=600/>
+#### Complete Code
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -368,32 +368,32 @@ changeData(data);
       };
 
       const graph = new G6.Graph({
-        container: 'mountNode',  // String | HTMLElement, Required, 容器 id 或容器本身
+        container: 'mountNode',  // String | HTMLElement, Required, the id of the container or the container object
         width: 300,              // Number, Required, The width of the graph
         height: 300,             // Number, Required, The height of the graph
-        animate: true            // Boolean, 切换布局时是否使用动画过度
+        animate: true            // Boolean, whether activate the animation while changing the layout
       });
 
-      // 读取数据和渲染
+      // Load data and render
       graph.data(data);
       graph.render();
 
-      // 2000 ms 后切换为允许节点重叠的 force 布局
+      // Transform to force layout with node overlappings in 2000 ms
       setTimeout(() => {
-        graph.updateLayout('force');   // 参数为 String 代表布局名称
+        graph.updateLayout('force');
       }, 8000);
 
-      // 4000 ms 后切换为不允许节点重叠且The edge length为 100 的 force 布局。
+      // Transform to force layout without node overlappings in 4000 ms
       setTimeout(() => {
         graph.updateLayout({
-          type: 'force',               // 布局名称
-          preventOverlap: true,        // 布局参数, 是否允许重叠
-          nodeSize: 40,                // 布局参数, 节点大小, 用于判断节点是否重叠
-          linkDistance: 100            // 布局参数, The edge length
+          type: 'force',               // Layout name
+          preventOverlap: true,        // Whether prevent the node overlappings
+          nodeSize: 40,                // The node size for collide detection
+          linkDistance: 100            // The edge length
         });
       }, 10000);
 
-      // 6000 ms 后切换数据为 data2
+      // Change the data to data2 in 6000 ms
       setTimeout(() => {
         graph.changeData(data2);
       }, 12000);
@@ -402,25 +402,26 @@ changeData(data);
 </html>
 ```
 
-## 子图布局
-目前, 子图布局独立与全局布局的思路, 与 graph 不挂钩, 直接使用实例化布局方法的方式, 灌入子图数据, 通过布局将位置写到相应数据中。这种机制还可供外部的全局布局使用, 即使不用 G6 渲染, 也可以计算节点布局后的位置。但与萧庆讨论后, 决定这种方式暂时不透出够用户。在子图布局上, 这种机制后续需要修改, 并与全局布局思路统一( graph, controller )。
+## Subgraph Layout
 
-### 使用方法
+At present, the subgraph layout mechanism is independent to the graph layout. You can instantiate the layout method and load the data of subgraph onto the layout instance. This mechanism allows users to utilize G6's layout algorithms to calculate the node positions, and render the graph with another rendering engine.
+
+### Usage
 ```javascript
-// 实例化布局
+// Instantiate the Layout
 const subgraphLayout = new G6.Layout['force']({
   center: [ 500, 450 ]
 });
 
-// 初始化布局, 灌入子图数据
+// Initialize the layout with sugbraph data
 subgraphLayout.init({
   'nodes': subGraphNodes,
   'edges': subGraphEdges
 });
 
-//执行布局
+// Execute the layout
 subgraphLayout.execute();
 
-// 图实例根据数据更新节点位置
+// Update the node positions after subgraph layout
 graph.positionsAnimate();
 ```
