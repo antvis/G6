@@ -81,12 +81,15 @@ Force is the classical force-dicrected layout algorithm, which corresponds to fo
 
 
 #### nodeStrength
-**Type**: Number<br />**Default**: null<br />**Required**: false<br />**Description**: The strength of node force. Positive value means attractive force, negative value means repulsive force.
+**Type**: Number<br />**Default**: null<br />**Required**: false<br />**Description**: The strength of node force. Positive value means attractive force, negative value means repulsive force
 
 
 #### edgeStrength
 **Type**: Number<br />**Default**: null<br />**Required**: false<br />**Description**: The strength of edge force. Calculated according to the degree of nodes by default
 
+
+#### preventOverlap
+**Type**: Number<br />**Default**: false<br />**Required**: false<br />**Description**: Whether prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned.
 
 #### collideStrength
 **Type**: Number<br />**Default**: 1<br />**Required**: false<br />**Description**: The strength of force for preventing node overlappings. The range is [0, 1]
@@ -95,6 +98,19 @@ Force is the classical force-dicrected layout algorithm, which corresponds to fo
 #### nodeSize
 **Type**: Number<br />**Default**: 10<br />**Required**: false<br />**Description**: The diameter of the node. It is used for preventing node overlappings. If `nodeSize` is not assigned, the size property in node data will take effect. If the size in node data does not exist either, `nodeSize` is assigned to 10 by default
 
+#### nodeSpacing
+**Type**: Number / Function<br />**Default**: 0<br />**Required**: false 
+**Example**: Example 1:  10
+<br />Example 2:  
+<br />d => {
+  <br />  // d is a node
+  <br />  if (d.id === 'node1') {
+    <br />    return 100;
+    <br />  }
+    <br />  return 10;
+    <br />}
+    <br />**Description**: 
+Takes effect when `preventOverlap` is `true`. It is the minimum distance between nodes to prevent node overlappings. It can be a function to define different distances for different nodes (example 2)
 
 #### alpha
 **Type**: Number<br />**Default**: 0.3<br />**Required**: false<br />**Description**: The current alpha of convergence
@@ -283,15 +299,15 @@ Radial layout arranges the nodes to concentrics centered at a focus node accordi
 ### Configuration
 
 #### center
-**Type**: Array<br />**Example**: [ 0, 0 ]<br />**Default**: The center of the graph<br />**Required**: false<br />**Description**: The center of the layout
+**Type**: Array<br />**Example**: [ 0, 0 ]<br />**Default**: The center of the graph<br />**Required**: false<br />**Description**: The center of the layout.
 
 
 #### linkDistance
-**Type**: Number<br />**Default**: 50<br />**Required**: false<br />**Description**: The edge length
+**Type**: Number<br />**Default**: 50<br />**Required**: false<br />**Description**: The edge length.
 
 
 #### maxIteration
-**Type**: Number<br />**Default**: 1000<br />**Required**: false<br />**Description**: The max iteration number
+**Type**: Number<br />**Default**: 1000<br />**Required**: false<br />**Description**: The max iteration number.
 
 
 #### focusNode
@@ -303,11 +319,26 @@ Radial layout arranges the nodes to concentrics centered at a focus node accordi
 
 
 #### preventOverlap
-**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether prevent node overlappings. To activate preventing node overlappings, [`nodeSize`](#xWjHN) is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned.
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned.
 
 
 #### nodeSize
 **Type**: Number<br />**Default**: 10<br />**Required**: false<br />**Description**: The diameter of the node. It is used for preventing node overlappings
+
+
+#### nodeSpacing
+**Type**: Number / Function<br />**Default**: 0<br />**Required**: false 
+**Example**: Example 1:  10
+<br />Example 2:  
+<br />d => {
+  <br />  // d is a node
+  <br />  if (d.id === 'node1') {
+    <br />    return 100;
+    <br />  }
+    <br />  return 10;
+    <br />}
+    <br />**Description**: 
+Takes effect when `preventOverlap` is `true`. It is the minimum distance between nodes to prevent node overlappings. It can be a function to define different distances for different nodes (example 2)
 
 
 #### maxPreventOverlapIteration

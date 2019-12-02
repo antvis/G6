@@ -88,6 +88,10 @@ Force 布局经典的力导向布局方法，与 d3 的力导向布局方法相�
 **类型**：Number<br />**默认值**：null<br />**是否必须**：false<br />**说明**：边的作用力，默认根据节点的出入度自适应
 
 
+#### preventOverlap
+**类型**：Number<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否防止重叠，必须配合下面属性 `nodeSize`，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测
+
+
 #### collideStrength
 **类型**：Number<br />**默认值**：1<br />**是否必须**：false<br />**说明**：防止重叠的力强度，范围 [0, 1]
 
@@ -95,6 +99,19 @@ Force 布局经典的力导向布局方法，与 d3 的力导向布局方法相�
 #### nodeSize
 **类型**： Number<br />**默认值**：10<br />**是否必须**：false<br />**说明**：节点大小（直径）。用于碰撞检测。若不指定，则根据传入的节点的 size 属性计算。若即不指定，即节点中也没有 `size`，则默认大小为 10
 
+#### nodeSpacing
+**类型**: Number / Function<br />**默认值**: 0<br />**是否必须**: false 
+**示例**: Example 1:  10
+<br />Example 2:  
+<br />d => {
+  <br />  // d is a node
+  <br />  if (d.id === 'node1') {
+    <br />    return 100;
+    <br />  }
+    <br />  return 10;
+    <br />}
+    <br />**Description**: 
+`preventOverlap` 为 `true` 时生效, 防止重叠时节点边缘间距的最小值。可以是回调函数, 为不同节点设置不同的最小间距, 如示例 2 所示
 
 #### alpha
 **类型**：Number<br />**默认值**：0.3<br />**是否必须**：false<br />**说明**：当前的迭代收敛阈值
@@ -304,11 +321,26 @@ Radial 布局是将图布局成辐射状的布局方法。以一个 focusNode �
 
 
 #### preventOverlap
-**类型**：Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否防止重叠，必须配合下面属性 [`nodeSize`](#xWjHN) ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测
+**类型**：Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否防止重叠，必须配合下面属性 `nodeSize`，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测
 
 
 #### nodeSize
 **类型**： Number<br />**默认值**：10<br />**是否必须**：false<br />**说明**：节点大小（直径）。用于防止节点重叠时的碰撞检测
+
+
+#### nodeSpacing
+**类型**: Number / Function<br />**默认值**: 0<br />**是否必须**: false 
+**示例**: Example 1:  10
+<br />Example 2:  
+<br />d => {
+  <br />  // d is a node
+  <br />  if (d.id === 'node1') {
+    <br />    return 100;
+    <br />  }
+    <br />  return 10;
+    <br />}
+    <br />**Description**: 
+`preventOverlap` 为 `true` 时生效, 防止重叠时节点边缘间距的最小值。可以是回调函数, 为不同节点设置不同的最小间距, 如示例 2 所示
 
 
 #### maxPreventOverlapIteration
@@ -454,7 +486,7 @@ Concentric 布局为同心圆布局，用户可以指定节点某个属性为排
 
 
 #### preventOverlap
-**类型**：Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否防止重叠，必须配合下面属性 [`nodeSize`](https://www.yuque.com/antv/g6/ngp0vg#xWjHN) ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测
+**类型**：Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否防止重叠，必须配合下面属性 `nodeSize`，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测
 
 
 #### nodeSize
@@ -529,7 +561,7 @@ Grid 布局是将所有节点通过某种指定属性排序后，整齐地放置
 
 
 #### preventOverlap
-**类型**：Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否防止重叠，必须配合下面属性 [`nodeSize`](https://www.yuque.com/antv/g6/ngp0vg#xWjHN) ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测
+**类型**：Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否防止重叠，必须配合下面属性 `nodeSize`，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测
 
 
 #### nodeSize

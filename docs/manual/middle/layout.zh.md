@@ -16,22 +16,22 @@ order: 7
 
 ### 一般图 Graph
 
-- [Random Layout](#AIkrd)：随机布局；
-- [Force Layout](#B6ZYA)：经典力导向布局；
-- [Fruchterman Layout](#TirhH)：Fruchterman 布局，一种力导布局；
-- [Circular Layout](#0lVZj)：环形布局；
-- [Radial Layout](#lALX0)：辐射状布局；
-- [MDS Layout](#RBhhk)：高维数据降维算法布局；
-- [Dagre Layout](#RUeWF)：层次布局；
-- [Concentric Layout](#4JMfP)：同心圆布局；
-- [Grid Layout](#XG0RD)：网格布局。
+- [Random Layout](#Random)：随机布局；
+- [Force Layout](#Force)：经典力导向布局；
+- [Fruchterman Layout](#Fruchterman)：Fruchterman 布局，一种力导布局；
+- [Circular Layout](#Circular)：环形布局；
+- [Radial Layout](#Radial)：辐射状布局；
+- [MDS Layout](#MDS)：高维数据降维算法布局；
+- [Dagre Layout](#Dagre)：层次布局；
+- [Concentric Layout](#Concentric)：同心圆布局；
+- [Grid Layout](#Grid)：网格布局。
 
 ### 树图 TreeGraph
 
-- [CompactBox Layout](#AyYPj)：紧凑树布局；
-- [Dendrogram Layout](#sH1z0)：树状布局（叶子节点布局对齐到同一层）；
-- [Intended Layout](#04ZZ5)：缩进布局；
-- [Mindmap Layout](#AOAs2)：脑图布局。
+- [CompactBox Layout](#CompactBox)：紧凑树布局；
+- [Dendrogram Layout](#Dendrogram)：树状布局（叶子节点布局对齐到同一层）；
+- [Intended Layout](#Intended)：缩进布局；
+- [Mindmap Layout](#Mindmap)：脑图布局。
 
 ## 一般图 Graph
 
@@ -61,12 +61,12 @@ const graph = new G6.Graph({
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M5FySIdhX4oAAAAAAAAAAABkARQnAQ' width='400'/>
 
 <br />**描述**：随机布局。
-<br />**API**：[Random API](https://www.yuque.com/antv/g6/nrxlhg)
+<br />**API**：[Random API](/zh/docs/api/layout/Graph#random)
 <br />**参数**：
 
 | 参数名 | 类型 | 示例 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
-| center | Array | [ 0, 0 ] | 图的中心 | 随机布局的中心 |
+| center | Array | [ 0, 0 ] | 图的中心 | 布局的中心 |
 | width | Number | 300 | 图的宽 |  |
 | height | Number | 300 | 图的高 |  |
 
@@ -75,19 +75,19 @@ const graph = new G6.Graph({
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*oDbHRJc5td8AAAAAAAAAAABkARQnAQ' width='500' />
 
 <br /> **描述**：经典力导向布局。
-<br /> **API**：[Force API](https://www.yuque.com/antv/g6/rllgdl)
-<br /> **参数**：与 d3 的力导布局参数相对应。
+<br /> **API**：[Force API](/zh/docs/api/layout/Graph#force)
+<br /> **参数**：与 d3.js 的力导布局参数相对应。
 
 | 参数名 | 类型 | 示例 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
-| center | Array | [ 0, 0 ] | 图的中心 | 随机布局的中心 |
+| center | Array | [ 0, 0 ] | 图的中心 | 布局的中心 |
 | linkDistance | Number | Function | 示例1: 50 <br />示例2:<br />d => {<br />  // d 是一条边<br />  if (d.id === 'edge1') {<br />    return 100;<br />  }<br />  return 50;<br />} | 50 | 边长。可以使用回调函数的形式对不同对边定义不同边长（如示例2） |
 | nodeStrength | Number | Function | 示例1: -30 <br />示例2:<br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return -100;<br />  }<br />  return -30;<br />} | null | 节点作用力，正数代表节点之间的引力作用，负数代表节点之间的斥力作用。可以使用回调函数的形式对不同对节点定义不同节点作用力（如示例2） |
 | edgeStrength | Number | 示例1: 1 <br />示例2:<br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 10;<br />  }<br />  return 1;<br />} | null | 边的作用力，默认根据节点的出入度自适应。可以使用回调函数的形式对不同对节点定义不同边作用力（如示例2） |
 | preventOverlap | Boolean | false | false | 是否防止重叠，必须配合属性 `nodeSize` ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测。若未设置 `nodeSize` ，则根据节点数据中的 `size` 进行碰撞检测。若二者都未设置，则默认以 10 为节点大小进行碰撞检测 |
 | nodeSize | Array | Number | 20 | undefined | 节点大小（直径）。用于碰撞检测。<br />若不指定，则根据传入的数据节点中的 `size` 字段计算。若即不指定，节点中也没有 `size`，则默认大小为 10 |
 | nodeSpacing<br /><br />3.1.6 后支持 | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150/><br />`preventOverlap` 为 `true` 时生效，防止重叠时节点边缘间距的最小值。可以是回调函数，为不同节点设置不同的最小间距，如示例 2 所示<br /> |
-| alphaDecay | Number | 0.03 | 0.028 | 迭代阈值的衰减率。[0, 1]，0.028 对应迭代书为 300 |
+| alphaDecay | Number | 0.03 | 0.028 | 迭代阈值的衰减率。[0, 1]，0.028 对应迭代数为 300 |
 | alphaMin | Number | 0.03 | 0.001 | 停止迭代的阈值 |
 | alpha | Number | 0.1 | 0.3 | 当前阈值 |
 | collideStrength | Number | 0.8 | 1 | 防止重叠的力强度，[0, 1]。 |
@@ -105,7 +105,7 @@ const graph = new G6.Graph({
 
 | 参数名 | 类型 | 示例 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
-| center | Array | [ 0, 0 ] | 图的中心 | 随机布局的中心 |
+| center | Array | [ 0, 0 ] | 图的中心 | 布局的中心 |
 | maxIteration | Number | 1000 | 1000 | 最大迭代次数 |
 | gravity | Number | 10 | 10 | 重力大小，影响布局的紧凑程度 |
 | speed | Number | 1 | 1 | 每次迭代节点移动的速度。速度太快可能会导致强烈震荡 |
@@ -126,12 +126,12 @@ const graph = new G6.Graph({
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
-| center | Array | [ 0, 0 ] | 图的中心 | 随机布局的中心 |
-| radius | Number | 50 | null | 圆的半径。若设置了 radius，则 startRadius 与 endRadius 不生效 |
+| center | Array | [ 0, 0 ] | 图的中心 | 布局的中心 |
+| radius | Number | 50 | null | 圆的半径。若设置了 `radius`，则 `startRadius` 与 `endRadius` 不生效 |
 | startRadius | Number | 10 | null | 螺旋状布局的起始半径 |
 | endRadius | Number | 100 | null | 螺旋状布局的结束半径 |
 | clockwise | Boolean | true | true | 是否顺时针排列 |
-| divisions | Number | 3 | 1 | 节点在环上的分段数（几个段将均匀分布），在 endRadius - startRadius != 0 时生效 |
+| divisions | Number | 3 | 1 | 节点在环上的分段数（几个段将均匀分布），在 `endRadius - startRadius != 0` 时生效 |
 | ordering | String | null | 'topology' | 'degree' | null | 节点在环上排序的依据。默认 null 代表直接使用数据中的顺序。'topology' 按照拓扑排序。'degree' 按照度数大小排序 |
 | angleRatio | Number | 1 | 1 | 从第一个节点到最后节点之间相隔多少个 2*PI |
 
@@ -147,7 +147,7 @@ const graph = new G6.Graph({
 
 | 参数名 | 类型 | 示例 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
-| center | Array | [ 0, 0 ] | 图的中心 | 随机布局的中心 |
+| center | Array | [ 0, 0 ] | 图的中心 | 布局的中心 |
 | linkDistance | Number | 50 | 50 | 边长 |
 | maxIteration | Number | 1000 | 1000 | 停止迭代到最大迭代数 |
 | focusNode | String | Object | 'node1' | null | 中心点，默认为数据中第一个节点。可以传入节点 id 或节点本身。 |
@@ -156,7 +156,7 @@ const graph = new G6.Graph({
 | maxPreventOverlapIteration | Number | 500 | 200 | 防止重叠步骤的最大迭代次数 |
 | nodeSize | Number | 10 | 10 | 节点大小（直径）。用于防止节点重叠时的碰撞检测。<br />3.1.6 后支持：<br />若未设置则使用数据中节点的 `size` 字段数值进行碰撞检测计算。若二者皆未设置，则以节点大小为 10 进行计算。 |
 | nodeSpacing<br />3.1.6 后支持 | Number | Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cFq4QbXVx7sAAAAAAAAAAABkARQnAQ' width=150/><br />`preventOverlap` 为 `true` 时生效，防止重叠时节点边缘间距的最小值。可以是回调函数，为不同节点设置不同的最小间距，如示例 2 所示<br /> |
-| strictRadial | Boolean | true | false | 是否必须是严格的 radial 布局，即每一层的节点严格布局在一个环上。`preventOverlap` 为 `true` 时生效。详见 [Radial-strictRadial API](https://www.yuque.com/antv/g6/ngp0vg#7ZOs7)<br />- 当 `preventOverlap` 为 `true`，且 `strictRadial` 为 `false` 时，有重叠的节点严格沿着所在的环展开，但在一个环上若节点过多，可能无法完全避免节点重叠。<br />- 当 `preventOverlap` 为 `true`，且 `strictRadial` 为 `true` 时，允许同环上重叠的节点不严格沿着该环布局，可以在该环的前后偏移以避免重叠。<br /> |
+| strictRadial | Boolean | true | false | 是否必须是严格的 radial 布局，即每一层的节点严格布局在一个环上。`preventOverlap` 为 `true` 时生效。详见 [Radial-strictRadial API](/zh/docs/api/layout/Graph/#strictradial)<br />- 当 `preventOverlap` 为 `true`，且 `strictRadial` 为 `false` 时，有重叠的节点严格沿着所在的环展开，但在一个环上若节点过多，可能无法完全避免节点重叠。<br />- 当 `preventOverlap` 为 `true`，且 `strictRadial` 为 `true` 时，允许同环上重叠的节点不严格沿着该环布局，可以在该环的前后偏移以避免重叠。<br /> |
 
 
 <a name="RBhhk"></a>
@@ -165,7 +165,7 @@ const graph = new G6.Graph({
 
 | 参数名 | 类型 | 示例 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
-| center | Array | [ 0, 0 ] | 图的中心 | 随机布局的中心 |
+| center | Array | [ 0, 0 ] | 图的中心 | 布局的中心 |
 | linkDistance | Number | 50 | 50 | 边长 |
 
 
@@ -173,7 +173,7 @@ const graph = new G6.Graph({
 #### Dagre
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RQEORY5A_LoAAAAAAAAAAABkARQnAQ' width=250/><br />**描述**：层次布局。<br />**API**：[Dagre API](https://www.yuque.com/antv/g6/fkhp3c)<br />**参数**：
 
-| 参数名 | 类型 | 示例 / 可选值 | 默认值 | 说明 |
+| 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
 | rankdir | String | 'TB' / 'BT' / 'LR' / 'RL' | 'TB' | layout 的方向。T：top；B：bottom；L：left；R：right |
 | align | String | 'UL' / 'UR' / 'DL' / 'DR' | 'UL' | 节点对齐方式。U：upper；D：down；L：left；R：right |
@@ -188,9 +188,9 @@ const graph = new G6.Graph({
 #### Concentric
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ux0-SYBy6Y8AAAAAAAAAAABkARQnAQ' width=300/><br />注：该算法参考 [cytoscape.js](https://github.com/cytoscape/cytoscape.js)，遵守 MIT 开源协议。<br />**描述**：同心圆布局。<br />**API**：[Concentric API](https://www.yuque.com/antv/g6/lx038n)<br />**参数**：
 
-| 参数名 | 类型 | 示例 / 可选值 | 默认值 | 说明 |
+| 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
-| center | Array | [ 0, 0 ] | 图的中心 | 随机布局的中心 |
+| center | Array | [ 0, 0 ] | 图的中心 | 布局的中心 |
 | nodeSize | Number | 30 | 30 | 节点大小（直径）。用于防止节点重叠时的碰撞检测 |
 | minNodeSpacing | Number | 10 | 10 | 环与环之间最小间距，用于调整半径 |
 | preventOverlap | Boolean | false | false | 是否防止重叠，必须配合属性 `nodeSize` ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测。若未设置 `nodeSize` ，则将根据节点数据中的 `size` 进行碰撞检测。若二者都未设置，则默认以 30 为节点大小进行碰撞检测 |
@@ -206,7 +206,7 @@ const graph = new G6.Graph({
 #### Grid
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5U3_TZVolpEAAAAAAAAAAABkARQnAQ' width=300/><br />注：该算法参考 [cytoscape.js](https://github.com/cytoscape/cytoscape.js)，遵守 MIT 开源协议。<br />**描述**：网格布局。<br />**API**：[Grid API](https://www.yuque.com/antv/g6/wn4kg9)<br />**参数**：
 
-| 参数名 | 类型 | 示例 / 可选值 | 默认值 | 说明 |
+| 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
 | begin | Array | [ 0, 0 ] | [ 0, 0 ] | 网格开始位置（左上角） |
 | preventOverlap | Boolean | false | false | 是否防止重叠，必须配合属性 `nodeSize` ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测。若未设置 `nodeSize` ，则将根据节点数据中的 `size` 进行碰撞检测。若二者都未设置，则默认以 30 为节点大小进行碰撞检测 |
@@ -251,7 +251,7 @@ const graph = new G6.TreeGraph({
 #### compactBox
 **描述**：紧凑树布局。从根节点开始，同一深度的节点在同一层，并且布局时会将节点大小考虑进去。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FltbQZAa-nMAAAAAAAAAAABkARQnAQ' width=400/><br />**API**：[CompactBox API](https://www.yuque.com/antv/g6/rufc7b)<br />**参数**：
 
-| 参数名 | 类型 | 示例 / 可选值 | 默认值 | 说明 |
+| 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
 | direction | String | 'TB' / 'BT' / 'LR' / 'RL' / 'H' / 'V' | 'LR' | layout 的方向。<br />- TB —— 根节点在上，往下布局<br />- BT —— 根节点在下，往上布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SuygR5RZRH0AAAAAAAAAAABkARQnAQ' width=150/>     <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iJPBTJkTqssAAAAAAAAAAABkARQnAQ' width=150/><br />（左）TB。（右）BT。<br />- LR —— 根节点在左，往右布局<br />- RL —— 根节点在右，往左布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YrtaQIKLC4IAAAAAAAAAAABkARQnAQ' width=150/>             <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*3fJsTYzHRHcAAAAAAAAAAABkARQnAQ' width=150/> <br />（左）LR。（右）RL。<br />- H —— 根节点在中间，水平对称布局<br />- V —— 根节点在中间，垂直对称布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*812BT4Ep15MAAAAAAAAAAABkARQnAQ' width=150/>          <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GXdZSIBOllsAAAAAAAAAAABkARQnAQ' width=150/><br />> （左）H。（右）V。 |
 | getId | Function | (d) => {<br />  // d 是一个节点<br />  return d.id;<br />} | undefined | 节点 id 的回调函数 |
@@ -266,7 +266,7 @@ const graph = new G6.TreeGraph({
 #### dendrogram
 **描述**：生态树布局。不管数据的深度多少，总是叶节点对齐。不考虑节点大小，布局时将节点视为1个像素点。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XehWSKAWdrwAAAAAAAAAAABkARQnAQ' width=300/><br />**API**：[Dendrogram API](https://www.yuque.com/antv/g6/co00r6)<br />**参数**：
 
-| 参数名 | 类型 | 示例 / 可选值 | 默认值 | 说明 |
+| 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
 | direction | String | 'TB' / 'BT' / 'LR' / 'RL' / 'H' / 'V' | 'LR' | layout 的方向。<br />- TB —— 根节点在上，往下布局<br />- BT —— 根节点在下，往上布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*CN4JRZ-ws8EAAAAAAAAAAABkARQnAQ' width=150/><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*r0c_ToY56xkAAAAAAAAAAABkARQnAQ' width=150/><br />> （左）TB。（右）BT。<br />- LR —— 根节点在左，往右布局<br />- RL —— 根节点在右，往左布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*fvNVS73Mk40AAAAAAAAAAABkARQnAQ' width=70/><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZfGGSoyO6UoAAAAAAAAAAABkARQnAQ' width=70/><br />> （左）LR。（右）RL。<br />- H —— 根节点在中间，水平对称布局<br />- V —— 根节点在中间，垂直对称布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lVDyTKOI8o4AAAAAAAAAAABkARQnAQ' width=150/><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*N_MmT7ZT1PIAAAAAAAAAAABkARQnAQ' width=150/><br />> （左）H。（右）V。 |
 | nodeSep | Number | 50 | 0 | 节点间距 |
@@ -280,7 +280,7 @@ const graph = new G6.TreeGraph({
 
 **API**：[Indented API](https://www.yuque.com/antv/g6/hl4syb)<br />**参数**：
 
-| 参数名 | 类型 | 示例 / 可选值 | 默认值 | 说明 |
+| 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
 | direction | String | 'LR' / 'RL' / 'H' | 'LR' | layout 的方向。<br />'LR' —— 根节点在左，往右布局（下图左）<br />'RL' —— 根节点在右，往左布局（下图中）<br />'H' —— 根节点在中间，水平对称布局（下图右）<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Hn9wT6j1tEMAAAAAAAAAAABkARQnAQ' alt='indented1' width='80' /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dXx3QrjSsgsAAAAAAAAAAABkARQnAQ' alt='indented2' width='60' /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ULkFQqi04moAAAAAAAAAAABkARQnAQ' alt='indented3' width='120' /> |
 | indent | Number | 80 | 20 | 列间间距 |
@@ -293,7 +293,7 @@ const graph = new G6.TreeGraph({
 #### mindmap
 **描述**：脑图布局。深度相同的节点将会被放置在同一层，与 compactBox 不同的是，布局不会考虑节点的大小。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sRi6Q6Qrm-oAAAAAAAAAAABkARQnAQ' width=400/><br />**API**：[Mindmap API](https://www.yuque.com/antv/g6/wk3mh8)<br />**参数**：
 
-| 参数名 | 类型 | 示例 / 可选值 | 默认值 | 说明 |
+| 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
 | direction | String | 'H' / 'V' | 'H' | layout 的方向。<br />- H：horizontal（水平）—— 根节点的子节点分成两部分横向放置在根节点左右两侧<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EXdUT4xCVV4AAAAAAAAAAABkARQnAQ' width=150/><br />- V：vertical （竖直）—— 将根节点的所有孩子纵向排列<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*yOpETr8s_-kAAAAAAAAAAABkARQnAQ' width=150/> |
 | getHeight | Function | (d) => {<br />  // d 是一个节点<br />  return 10;<br />} | undefined | 节点高度的回调函数 |
