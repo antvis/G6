@@ -3,10 +3,10 @@ title: 节点分组 Group
 order: 8
 ---
 
-> Feature 自 G6 3.1.2 开始支持自定义节点分组的标题了，可以渲染带有标题的分组。
+> New Feature：自 G6 3.1.2 开始支持自定义节点分组的标题了，可以渲染带有标题的分组。
 
 
-对于熟悉图可视化类库的用户来说，节点分组可能是比较实用的一个功能。自 G6 3.0.5 版本开始，G6 加入了节点分组的功能，详情参考[Demo](https://github.com/antvis/g6/blob/master/demos/drag-group.html)。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*G1OBSJf672QAAAAAAAAAAABkARQnAQ' width=400/>
+对于熟悉图可视化类库的用户来说，节点分组可能是比较实用的一个功能。自 G6 3.0.5 版本开始，G6 加入了节点分组的功能，详情参考[Demo](/zh/examples/interaction/nodeGroup)。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*G1OBSJf672QAAAAAAAAAAABkARQnAQ' width=400/>
 
 ### 数据结构
 新增节点分组功能时，尽量保持了 G6 数据结构的稳定性。为了体现分组的特性，我们在 nodes 数据项中加入了 groupId 属性，另外新增了 groups 字段，用于表示数据中所包括的分组及各分组之间的层级关系。
@@ -236,13 +236,13 @@ const graph = new G6.Graph({
 });
 ```
 
-将这三个内置提供的 Behavior 加入到 modes 中以后的效果如下图所示。
+将这三个内置提供的 Behavior 加入到 `modes` 中以后的效果如下图所示。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VsMbRqOJe2sAAAAAAAAAAABkARQnAQ' width=400/>
 
-### 适用的场景
+### 适用场景
 
 1. 风控、反洗钱、保险骗保、网络诈骗、信用卡诈骗等场景下团伙分析；
-1. 特征分析：同一个分组中的节点在某些特征上面比较相似；
-1. 整理节点：当类似的节点放到一个分组中，只渲染分组，不渲染节点，减少干扰元素。
+2. 特征分析：同一个分组中的节点在某些特征上面比较相似；
+3. 整理节点：当类似的节点放到一个分组中，只渲染分组，不渲染节点，减少干扰元素。
 
