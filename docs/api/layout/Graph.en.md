@@ -393,7 +393,7 @@ Dagre is an hierarchical layout.
 ### Configuration
 
 #### rankdir
-**Type**: String<br />**Options**: 'TB' | 'BT' | 'LR' | 'RL'<br />**Default**: 'TB'<br />**Required**: false<br />**Description**: 布局的方向. T:top; B:bottom; L:left; R:right.
+**Type**: String<br />**Options**: 'TB' | 'BT' | 'LR' | 'RL'<br />**Default**: 'TB'<br />**Required**: false<br />**Description**: The layout direction. T:top; B:bottom; L:left; R:right.
 
 - 'TB':Layout the graph from the top to the bottom;
 - 'BT':Layout the graph from the bottom to the top;
@@ -404,12 +404,12 @@ Dagre is an hierarchical layout.
 
 
 #### align
-**Type**: String<br />**Options**: 'UL' | 'UR' | 'DL' | 'DR'<br />**Default**: 'UL'<br />**Required**: false<br />**Description**: 节点对齐方式. U:upper; D:down; L:left; R:right
+**Type**: String<br />**Options**: 'UL' | 'UR' | 'DL' | 'DR'<br />**Default**: 'UL'<br />**Required**: false<br />**Description**: The alignment of the nodes. U: upper; D: down; L: left; R: right
 
-- 'UL':对齐到左上角; 
-- 'UR':对齐到右上角; 
-- 'DL':对齐到左下角; 
-- 'DR':对齐到右下角. 
+- 'UL': aligns the nodes to the upper left;
+- 'UR': aligns the nodes to the upper right;
+- 'DL': aligns the nodes to the down left;
+- 'DR': aligns the nodes to the upper right.
 
 
 #### nodesep
@@ -472,7 +472,7 @@ const graph = new G6.Graph({
 
 ## Concentric
 
-Concentric arranges the nodes on several concentrics. By tuning the parameters, users could order the nodes according to some property of node data, degree by default. Larger the value, more center the node will be placed.
+Concentric arranges the nodes on several concentric circles. By tuning the parameters, users could order the nodes according to some property of node data, degree by default. Larger the value, more center the node will be placed.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*QpyPTbBpO2AAAAAAAAAAAABkARQnAQ' width=600 />
 

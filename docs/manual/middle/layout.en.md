@@ -168,21 +168,21 @@ Common graph layout API: [Layout API](https://www.yuque.com/antv/g6/agbmu2)。
 
 
 #### Dagre
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RQEORY5A_LoAAAAAAAAAAABkARQnAQ' width=250/><br />**Description**: 层次布局。<br />**API**: [Dagre API](/en/docs/api/layout/Graph#dagre)<br />**Configuration**: 
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RQEORY5A_LoAAAAAAAAAAABkARQnAQ' width=250/><br />**Description**: An hierarchical layout.<br />**API**: [Dagre API](/en/docs/api/layout/Graph#dagre)<br />**Configuration**: 
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
-| rankdir | String | 'TB' / 'BT' / 'LR' / 'RL' | 'TB' | layout 的方向。T: top；B: bottom；L: left；R: right |
-| align | String | 'UL' / 'UR' / 'DL' / 'DR' | 'UL' | 节点对齐方式。U: upper；D: down；L: left；R: right |
-| nodesep | Number | 40 | 50 | 在`rankdir` 为 'TB' 或 'BT' 时代表节点水平间距(px)；在`rankdir` 为 'LR' 或 'RL' 时代表节点的竖直间距。优先级高于 `nodesepFunc` |
-| ranksep | Number | 40 | 50 | 代表层间距(px)。在`rankdir` 为 'TB' 或 'BT' 时是竖直方向相邻层间距；在`rankdir` 为 'LR' 或 'RL' 时代表水平方向相邻层间距。优先级高于 `ranksepFunc` |
-| nodesepFunc<br /><br />Supported by V3.1.6 | Function | d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | 节点水平间距(px)的回调函数, 通过该参数可以对不同节点设置不同的节点间距。在`rankdir` 为 'TB' 或 'BT' 时是节点的水平间距；在`rankdir` 为 'LR' 或 'RL' 时是节点的竖直间距。优先级低于 `nodesep`, 即若设置了 `nodesep`, 则 `nodesepFunc` 不生效 |
-| ranksepFunc<br /><br />Supported by V3.1.6 | Function | d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | 层间距(px)的回调函数, 通过该参数可以对不同节点设置不同的层间距。在`rankdir` 为 'TB' 或 'BT' 时是竖直方向相邻层间距；在`rankdir` 为 'LR' 或 'RL' 时代表水平方向相邻层间距。优先级低于 `ranksep`, 即若设置了 `ranksep`, 则 `ranksepFunc` 不生效 |
-| controlPoints | Boolean | true | true | 是否保留布局连线的控制点 |
+| rankdir | String | 'TB' / 'BT' / 'LR' / 'RL' | 'TB' | The layout direction. T: top; B: bottom; L: left; R: right |
+| align | String | 'UL' / 'UR' / 'DL' / 'DR' | 'UL' | The alignment of the nodes. U: upper; D: down; L: left; R: right |
+| nodesep | Number | 40 | 50 | The separation between nodes with unit px. When `rankdir` is `'TB'` or `'BT'`, `nodesep` represents the horizontal separations between nodes; When `rankdir` is `'LR'` or `'RL'`, `nodesep` represents the vertical separations between nodes |
+| ranksep | Number | 40 | 50 | The separations between adjacent levels with unit px. When `rankdir` is `'TB'` or `'BT'`, `ranksep` represents the vertical separations between adjacent levels; when `rankdir` is `'LR'` or `'RL'`, `rankdir` represents the horizontal separations between adjacent levels |
+| nodesepFunc<br /><br />Supported by V3.1.6 | Function | d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | The function for node separation with unit px. You can adjust the separations between different node pairs by using this function instead of `nodesep`. When `rankdir` is `'LR'` or `'RL'`, `nodesep` represents the vertical separations between nodes. The priority of `nodesepFunc` is lower than `nodesep`, which means if `nodesep` is assigned, the `nodesepFunc` will not take effect |
+| ranksepFunc<br /><br />Supported by V3.1.6 | Function | d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | The function for level separation with unit px. You can adjust the separations between different adjacent levels by using this function instead of `ranksep`. When `rankdir` is `'TB'` or `'BT'`, `ranksep` represents the vertical separations between adjacent levels; when `rankdir` is `'LR'` or `'RL'`, `rankdir` represents the horizontal separations between adjacent levels. The priority of `ranksepFunc` is lower than `ranksep`, which means if `ranksep` is assigned, the `ranksepFunc` will not take effect |
+| controlPoints | Boolean | true | true | Whether keep the control points of layout |
 
 
 #### Concentric
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ux0-SYBy6Y8AAAAAAAAAAABkARQnAQ' width=300/><br />注: 该算法参考 [cytoscape.js](https://github.com/cytoscape/cytoscape.js), 遵守 MIT 开源协议。<br />**Description**: 同心圆布局。<br />**API**: [Concentric API](/en/docs/api/layout/Graph#concentric)<br />**Configuration**: 
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ux0-SYBy6Y8AAAAAAAAAAABkARQnAQ' width=300/><br />Tips: Concentric layout in G6 refers to [cytoscape.js](https://github.com/cytoscape/cytoscape.js), 遵守 MIT 开源协议。<br />**Description**: Arranges the nodes on several concentric circles.<br />**API**: [Concentric API](/en/docs/api/layout/Graph#concentric)<br />**Configuration**: 
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
