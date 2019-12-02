@@ -7,7 +7,7 @@ The animation mechanism is too complicated to understand by beginners and out of
 
 There are two levels of animation in G6:
 
-- GLobal animation: Transform the graph when the changes are global;
+- GLobal animation: Transform the graph animatively when the changes are global;
 - Item animation: The animation on a node or an edge.
 
 ## Global Animation

@@ -1,47 +1,48 @@
 ---
-title: 基础动画
+title: Basic Animation
 order: 8
 ---
 
-G6 中的动画分为两个层次：
+There are two-level animation in G6:
 
-- 全局动画：全局性的动画，图整体变化时的动画过渡；
-- 元素（边和节点）动画：节点或边上的独立动画。
+- GLobal animation: Transform the graph animatively when the changes are global;
+- Item animation: The animation on a node or an edge.
 
 <br />
-## 全局动画
-G6 的全局动画指通过图实例进行某些全局操作时，产生的动画效果。例如：
+## Global Animation
+The global animation is controlled by Graph instance. It takes effect when some global changes happen, such as:
 
-- `graph.updateLayout(cfg)` 布局的变化
-- `graph.changeData()` 数据的变化
+- `graph.updateLayout(cfg)` change the layout;
+- `graph.changeData()` change the data.
 
-通过实例化图时配置 `animate: true`，可以达到每次进行上述操作时，动画效果变化的目的。配合 `animateCfg` 配置动画参数：<br />
+Configure `animate: true` when instantiating a graph to achieve it.
+<br />
 ```javascript
 const graph = new G6.Graph({
-  // ...                   // 图的其他配置项
-  animate: true,           // Boolean，切换布局时是否使用动画过度，默认为 false
+  // ...                      // Other configurations
+  animate: true,           // Boolean, whether activate the animation when global changes happen
   animateCfg: {
-    duration: 500,         // Number，一次动画的时长
-    easing: 'linearEasing' // String，动画函数，可选项：''
+    duration: 500,         // Number, the duration of one animation
+    easing: 'linearEasing' // String, the easing function
   }
 });
 ```
 
-### easing 函数
-easing 函数是指动画的函数。例如线性插值、先快后慢等。<br />G6 支持所有 d3 中的动画函数。因此，上面代码中 `animateCfg` 配置中的 String 类型的 `easing` 可以取值有：<br />`'easeLinear'` ，<br />`'easePolyIn'` ，`'easePolyOut'` ， `'easePolyInOut'`  ，<br />`'``easeQuad``'` ，`'easeQuadIn'` ，`'easeQuadOut'` ， `'easeQuadInOut'` 。
+G6 supports all the easing functions in d3.js. Thus, the options of `easing` in `animateCfg`: <br />`'easeLinear'` ，<br />`'easePolyIn'` ，`'easePolyOut'` ， `'easePolyInOut'`  ，<br />`'``easeQuad``'` ，`'easeQuadIn'` ，`'easeQuadOut'` ， `'easeQuadInOut'` 。
 
-更多取值及所有取值含义参见：[d3 Easings](https://github.com/d3/d3/blob/master/API.md#easings-d3-ease)。
+For more detail of the easing functions, please refer to: [d3 Easings](https://github.com/d3/d3/blob/master/API.md#easings-d3-ease)。
 
 
-## 元素动画
-由于 G6 的内置节点和边是没有动画的，需要实现节点和边上的动画需要通过[自定义节点](/zh/docs/manual/advanced/custom-node)、[自定义边](/zh/docs/manual/advanced/custom-edge)时复写 `afterDraw` 实现。
+## Item Animation
+All the built-in nodes and edges are static withou animation. To animate node or edge, please register your type of [Custom Node](/en/docs/manual/advanced/custom-node) or [Custom Edge](/en/docs/manual/advanced/custom-edge), and rewrite the `afterDraw` function.
 
-### 节点动画
-关于节点动画，以下面三个动画示例进行讲解：
+### Node Animation
+The animation frames are applied on one graphics shape of a node.
+We are going to introduce this part by three demos:
 
-- 节点上图形的动画（如下图左）；
-- 增加带有动画的背景图形（如下图中）；
-- 节点上部分图形的旋转动画（如下图右）。
+- The graphics animation (Left of the figure below);
+- The background animation (Center of the figure below);
+- Partial animation (Right of the figure below).
 
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aAjWQ4n_OOEAAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
@@ -49,45 +50,45 @@ easing 函数是指动画的函数。例如线性插值、先快后慢等。<br 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*uFQsQqxIa_QAAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
 <br />
 
-以上三个动画节点的 demo 代码见：
-[节点动画](https://codepen.io/Yanyan-Wang/pen/QWWEEWe)。
+The code of the three demos can be found at:
+[Node Animation](/en/examples/scatter/node)。
 
-#### 节点上图形的动画
-节点上的动画，即每一帧发生变化的是节点上的某一个图形。<br />
+#### The Graphics Animation
+In this example, we are going to magnify and shrink the node. <br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aAjWQ4n_OOEAAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
 
-本例实现节点放大缩小，通过 `group.get('children')[0]` 找到需要更新的图形（这里找到该节点上第 0 个图形），然后调用该图形的 `animate` 方法指定动画的参数及每一帧的变化（ `onFrame` 方法返回每一帧需要变化的参数集）。
+We first find the graphics shape to be animated by `group.get('children')[0]`. Here we find the 0th graphics shape of this type of node. Then, we call `animate` for the node to define the attributes for each frame(`onFrame` returns the attributes of each frame).
 ```javascript
-// 放大、变小动画
+// Magnify and shrink animation
 G6.registerNode('circle-animate', {
   afterDraw(cfg, group) {
-    // 获取该节点上的第一个图形
+    // Get the first graphics shape of this type of node
     const shape = group.get('children')[0];
-    // 该图形的动画
+    // The animation
     shape.animate({
-      // 动画重复
+      // Whehter play the animation repeatly
       repeat: true,
-      // 每一帧的操作，入参 ratio：这一帧的比例值（Number）。返回值：这一帧需要变化的参数集（Object）。
+      // Returns the attributes for each frame. The input parameter ratio is a number that range from 0 to 1. The return value is an object that defines the attributes for this frame.
       onFrame(ratio) {
-        // 先变大、再变小
+        // Magnify first, and then shrink
         const diff = ratio <=0.5 ? ratio * 10 : (1 - ratio) * 10;
         let radius = cfg.size;
         if (isNaN(radius)) radius = radius[0];
-        // 返回这一帧需要变化的参数集，这里只包含了半径
+        // The attributes for this frame. Only radius for this example
         return {
           r: radius / 2 + diff
         }
       }
-    }, 3000, 'easeCubic'); // 一次动画持续的时长为 3000，动画效果为 'easeCubic'
+    }, 3000, 'easeCubic'); // The duration of one animation is 3000, and the easing fuction is 'easeCubic'
   }
-}, 'circle'); // 该自定义节点继承了内置节点 'circle'，除了被复写的 afterDraw 方法外，其他按照 'circle' 里的函数执行。
+}, 'circle'); // This custom node extend the built-in node 'circle'. Except for the rewrited afterDraw, other functions will extend from 'circle' node
 ```
 
-#### 增加带有动画的背景图形
-在 `afterDraw` 方法中为已有节点添加额外的 shape ，并为这些新增的图形设置动画。<br />
+#### Background Animation
+You can add extra shape with animation in `afterDraw`.<br />
 
-本例在 `afterDraw` 方法中，绘制了三个背景 circle ，分别使用不同的颜色填充，再调用 `animate` 方法实现这三个 circle 逐渐变大、变淡的动画。本例中没有使用 `onFrame` 函数，直接在 `animate` 函数的入参中设置每次动画结束时的最终目标样式，即半径增大 10，透明度降为 0.1。<br />
+In `afterDraw` of this demo, we draw three background circle shape with different filling colors. And the `animate` is called for magnifying and fading out the three circles. We do not call `onFrame` here, but assign the target style for each animation to the input paramter: magify the radius to 10 and reduce the opacity to 0.1.<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FxDJQ5eY-5oAAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
 
@@ -98,7 +99,7 @@ G6.registerNode('background-animate', {
       if (isNaN(r)) {
         r = cfg.size[0] / 2;
       };
-    // 第一个背景圆
+    // The first background circle
     const back1 = group.addShape('circle',{
       zIndex: -3,
       attrs: {
@@ -109,18 +110,18 @@ G6.registerNode('background-animate', {
         opacity: 0.6
       }
     });
-    // 第二个背景圆
+    // The second background circle
     const back2 = group.addShape('circle',{
       zIndex: -2,
       attrs: {
         x: 0,
         y: 0,
         r,
-        fill: 'blue', // 为了显示清晰，随意设置了颜色
+        fill: 'blue',
         opacity: 0.6
       }
     });
-    // 第三个背景圆
+    // The third background circle
     const back3 = group.addShape('circle',{
       zIndex: -1,
       attrs: {
@@ -131,34 +132,34 @@ G6.registerNode('background-animate', {
         opacity: 0.6
       }
     });
-    group.sort(); // 排序，根据 zIndex 排序
+    group.sort(); // Sort the graphic shapes of the nodes by zIndex
     
-    // 第一个背景圆逐渐放大，并消失
+    // Magnify the first circle and fade it out
     back1.animate({
       r: r + 10,
       opacity: 0.1,
-      repeat: true // 循环
-    }, 3000, 'easeCubic', null, 0) // 无延迟
+      repeat: true // Play the animation repeatly
+    }, 3000, 'easeCubic', null, 0) // No delay
 
-    // 第二个背景圆逐渐放大，并消失
+    // Magnify the second circle and fade it out
     back2.animate({
       r: r + 10,
       opacity: 0.1,
-      repeat: true // 循环
-    }, 3000, 'easeCubic', null, 1000) // 1 秒延迟
+      repeat: true // Play the animation repeatly
+    }, 3000, 'easeCubic', null, 1000) // Delay 1s
 
-    // 第三个背景圆逐渐放大，并消失
+    // Magnify the third circle and fade it out
     back3.animate({
       r: r + 10,
       opacity: 0.1,
-      repeat: true // 循环
-    }, 3000, 'easeCubic', null, 2000) // 2 秒延迟
+      repeat: true // Play the animation repeatly
+    }, 3000, 'easeCubic', null, 2000) // Delay 2s
   }
 }, 'circle');
 ```
 
-#### 部分图形旋转动画
-这一例也是在 `afterDraw` 方法中为已有节点添加额外的 shape （本例中为 image），并为这些新增的图形设置旋转动画。旋转动画较为复杂，需要通过矩阵的操作实现。<br />
+#### Partial Animation
+In this demo, we add extra graphics shape(an image) in `afterDraw`, and set a rotation animation for it. Note that the rotation animation is a little complicated, which should be manipulated by matrix.<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*uFQsQqxIa_QAAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
 
@@ -168,7 +169,7 @@ G6.registerNode('inner-animate', {
     const size = cfg.size;
     const width = size[0] - 12;
     const height = size[1] - 12;
-    // 添加图片 shape
+    // Add an image shape
     const image = group.addShape('image', {
       attrs: {
         x: - width / 2,
@@ -178,20 +179,20 @@ G6.registerNode('inner-animate', {
         img: cfg.img
       }
     });
-    // 该图片 shape 的动画
+    // Add animation for the image
     image.animate({
-      // 动画重复
+      // Play the animation repeatly
       repeat: true,
-      // 每一帧的操作，入参 ratio：这一帧的比例值（Number）。返回值：这一帧需要变化的参数集（Object）。
+      // Returns the attributes for each frame. The input parameter ratio is a number that range from 0 to 1. The return value is an object that defines the attributes for this frame.
       onFrame(ratio) {
-        // 旋转通过矩阵来实现
-        // 当前矩阵
+        // Rotate by manipulating matrix
+        // The current matrix
         const matrix = Util.mat3.create();
-        // 目标矩阵
+        // The target matrix
         const toMatrix = Util.transform(matrix, [
           ['r', ratio * Math.PI * 2]
         ]) ;
-        // 返回这一帧需要的参数集，本例中只有目标矩阵
+        // The attributes of this frame. Only target matrix for this demo
         return {
           matrix: toMatrix
         };
@@ -201,7 +202,7 @@ G6.registerNode('inner-animate', {
 }, 'rect');
 ```
 
-### 边动画
+### Edge Animation
 关于边动画，以下面三个动画示例进行讲解：
 
 - 圆点在沿着线运动（下图左）；

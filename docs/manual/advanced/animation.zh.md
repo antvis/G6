@@ -22,13 +22,13 @@ const graph = new G6.Graph({
   animate: true,           // Boolean，切换布局时是否使用动画过度，默认为 false
   animateCfg: {
     duration: 500,         // Number，一次动画的时长
-    easing: 'linearEasing' // String，动画函数，可选项：''
+    easing: 'linearEasing' // String，动画函数
   }
 });
 ```
 
 ### easing 函数
-easing 函数是指动画的函数。例如线性插值、先快后慢等。<br />G6 支持所有 d3 中的动画函数。因此，上面代码中 `animateCfg` 配置中的 String 类型的 `easing` 可以取值有：<br />`'easeLinear'` ，<br />`'easePolyIn'` ，`'easePolyOut'` ， `'easePolyInOut'`  ，<br />`'``easeQuad``'` ，`'easeQuadIn'` ，`'easeQuadOut'` ， `'easeQuadInOut'` 。
+easing 函数是指动画的函数。例如线性插值、先快后慢等。<br />G6 支持所有 d3.js 中的动画函数。因此，上面代码中 `animateCfg` 配置中的 String 类型的 `easing` 可以取值有：<br />`'easeLinear'` ，<br />`'easePolyIn'` ，`'easePolyOut'` ， `'easePolyInOut'`  ，<br />`'``easeQuad``'` ，`'easeQuadIn'` ，`'easeQuadOut'` ， `'easeQuadInOut'` 。
 
 更多取值及所有取值含义参见：[d3 Easings](https://github.com/d3/d3/blob/master/API.md#easings-d3-ease)。
 
@@ -37,6 +37,7 @@ easing 函数是指动画的函数。例如线性插值、先快后慢等。<br 
 由于 G6 的内置节点和边是没有动画的，需要实现节点和边上的动画需要通过[自定义节点](/zh/docs/manual/advanced/custom-node)、[自定义边](/zh/docs/manual/advanced/custom-edge)时复写 `afterDraw` 实现。
 
 ### 节点动画
+节点上的动画，即每一帧发生变化的是节点上的某一个图形。
 关于节点动画，以下面三个动画示例进行讲解：
 
 - 节点上图形的动画（如下图左）；
@@ -50,10 +51,10 @@ easing 函数是指动画的函数。例如线性插值、先快后慢等。<br 
 <br />
 
 以上三个动画节点的 demo 代码见：
-[节点动画](https://codepen.io/Yanyan-Wang/pen/QWWEEWe)。
+[节点动画](/zh/examples/scatter/node)。
 
 #### 节点上图形的动画
-节点上的动画，即每一帧发生变化的是节点上的某一个图形。<br />
+<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aAjWQ4n_OOEAAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
 
