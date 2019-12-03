@@ -43,66 +43,66 @@ G6.registerNode('nodeName', {
 	 */
 	draw(cfg, group) {},
   /**
-	 * 绘制后的附加操作，默认没有任何操作
-	 * @param  {Object} cfg 节点的配置项
-	 * @param  {G.Group} group 节点的容器
+	 * The extra operations after drawing the node. There is no operation in this function by default
+	 * @param  {Object} cfg The configurations of the node
+	 * @param  {G.Group} group The container of the node
    */
   afterDraw(cfg, group) {},
   /**
-	 * 更新节点，包含文本
+	 * Update the node and its label
 	 * @override
-	 * @param  {Object} cfg 节点的配置项
-	 * @param  {Node} node 节点
+	 * @param  {Object} cfg The configurations of the node
+	 * @param  {Node} node The node item
 	 */
   update(cfg, node) {},
   /**
-	 * 更新节点后的操作，一般同 afterDraw 配合使用
+	 * The operations after updating the node. It is combined with afterDraw generally
 	 * @override
-	 * @param  {Object} cfg 节点的配置项
-	 * @param  {Node} node 节点
+	 * @param  {Object} cfg The configurations of the node
+	 * @param  {Node} node The node item
 	 */
   afterUpdate(cfg, node) {},
   /**
-	 * 设置节点的状态，主要是交互状态，业务状态请在 draw 方法中实现
-	 * 单图形的节点仅考虑 selected、active 状态，有其他状态需求的用户自己复写这个方法
-	 * @param  {String} name 状态名称
-	 * @param  {Object} value 状态值
-	 * @param  {Node} node 节点
+	 * Response the node states change. Mainly the interaction states. The business states should be handled in the draw function
+	 * The states 'selected' and 'active' will be responsed on keyShape by default. To response more states, implement this function.
+	 * @param  {String} name The name of the state
+	 * @param  {Object} value The value of the state
+	 * @param  {Node} node The node item
 	 */
   setState(name, value, node) {},
   /**
-   * 获取控制点
-   * @param  {Object} cfg 节点、边的配置项
-   * @return {Array|null} 控制点的数组,如果为 null，则没有控制点
+   * Get the anchorPoints(link points for related edges)
+   * @param  {Object} cfg The configurations of the node
+   * @return {Array|null} The array of anchorPoints(link points for related edges). Null means there are no anchorPoints
    */
   getAnchorPoints(cfg) {}
 }, extendNodeName);
 ```
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;注意：</span>
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;⚠️**Attention:** </span>
 
-- 如果不从任何现有的节点扩展新节点时，`draw` 方法是必须的；
-- `update` 方法可以不定义，数据更新时会走 draw 方法，所有图形清除重绘；
-- `afterDraw`，`afterUpdate` 方法一般用于扩展已有的节点/和边，例如：在矩形上附加图片，线上增加动画等；
-- `setState` 方法一般也不需要复写，有全局的样式可以替换；
-- `getAnchorPoints` 方法仅在需要限制与边的连接点时才需要复写，也可以在数据中直接指定。
+- `draw` is required if the custom node does not extend any parent;
+- `update` is not required. If it is undefined, the `draw` will be called when updating the node, which means all the graphics will be cleared and repaint;
+- `afterDraw` and `afterUpdate` are used for extending the exited nodes in general. e.g. adding extra image on rect node, adding animation on a circle node, ...;
+- In general, `setState` is not required;
+- `getAnchorPoints` is only required when you want to contrain the link points for nodes and their related edges. The anchorPoints can be assigned in the node data as well.
 
 
-## 1. 从无到有定义节点
-### 绘制图形
-我们自己来实现一个菱形的节点，如下图所示。
-> G6 有内置的菱形节点 diamond。为了演示，这里实现了一个自定义的菱形，相当于复写了内置的 diamond。
+## 1. Register a Bran-new Edge
+### Render the Node
+Now, we are going to register a diamond node:
+> Although there is a built-in diamond node in G6, we implement it here to rewrite it for demonstration.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LqFCRaKyr0gAAAAAAAAAAABkARQnAQ' alt='img' width='80'/>
 
 ```javascript
 G6.registerNode('diamond', {
 	draw(cfg, group) {
-    // 如果 cfg 中定义了 style 需要同这里的属性进行融合
+    // If there is style object in cfg, it should be mixed here
     const shape = group.addShape('path', {
     	attrs: {
-        path: this.getPath(cfg), // 根据配置获取路径
-        stroke: cfg.color // 颜色应用到边上，如果应用到填充，则使用 fill: cfg.color
+        path: this.getPath(cfg), // Get the path by cfg
+        stroke: cfg.color // Apply the color to the stroke. For filling, use fill: cfg.color instead
       }
     });
     if(cfg.label) { // 如果有文本

@@ -58,27 +58,27 @@ G6.registerNode('nodeName', {
 	 */
   afterUpdate(cfg, node) {},
   /**
-	 * 设置节点的状态，主要是交互状态，业务状态请在 draw 方法中实现
-	 * 单图形的节点仅考虑 selected、active 状态，有其他状态需求的用户自己复写这个方法
+	 * 响应节点的状态变化，主要是交互状态，业务状态请在 draw 方法中实现
+	 * 默认情况下，节点的 keyShape 将会响应 selected、active 状态，有其他状态需求的用户自己复写这个方法
 	 * @param  {String} name 状态名称
 	 * @param  {Object} value 状态值
 	 * @param  {Node} node 节点
 	 */
   setState(name, value, node) {},
   /**
-   * 获取控制点
-   * @param  {Object} cfg 节点、边的配置项
-   * @return {Array|null} 控制点的数组,如果为 null，则没有控制点
+   * 获取锚点（相关边的连入点）
+   * @param  {Object} cfg 节点的配置项
+   * @return {Array|null} 锚点（相关边的连入点）的数组,如果为 null，则没有控制点
    */
   getAnchorPoints(cfg) {}
 }, extendNodeName);
 ```
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;注意：</span>
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;⚠️**注意：**</span>
 
 - 如果不从任何现有的节点扩展新节点时，`draw` 方法是必须的；
-- `update` 方法可以不定义，数据更新时会走 draw 方法，所有图形清除重绘；
-- `afterDraw`，`afterUpdate` 方法一般用于扩展已有的节点/和边，例如：在矩形上附加图片，线上增加动画等；
+- `update` 方法可以不定义，数据更新时会走 `draw` 方法，所有图形清除重绘；
+- `afterDraw`，`afterUpdate` 方法一般用于扩展已有的节点，例如：在矩形节点上附加图片，圆节点增加动画等；
 - `setState` 方法一般也不需要复写，有全局的样式可以替换；
 - `getAnchorPoints` 方法仅在需要限制与边的连接点时才需要复写，也可以在数据中直接指定。
 
@@ -97,7 +97,7 @@ G6.registerNode('diamond', {
     const shape = group.addShape('path', {
     	attrs: {
         path: this.getPath(cfg), // 根据配置获取路径
-        stroke: cfg.color // 颜色应用到边上，如果应用到填充，则使用 fill: cfg.color
+        stroke: cfg.color // 颜色应用到描边上，如果应用到填充，则使用 fill: cfg.color
       }
     });
     if(cfg.label) { // 如果有文本
