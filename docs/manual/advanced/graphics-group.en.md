@@ -35,16 +35,16 @@ Graphics Group is refered by [Custom Node](/en/docs/manual/advanced/custom-node)
 ## How
 The functions below will be used in [Custom Node](/en/docs/manual/advanced/custom-node) and [Custom Edge](/en/docs/manual/advanced/custom-edge)时用到。
 
-### 声明实例
+### Instantiating a Group
 ```
 const group = new Group(cfgs);
 ```
 
-### 实例方法
+### Functions of Group
 
 - addGroup(cfgs)
 
-向分组中添加新的分组。
+Add a new group to the group.
 
 ```javascript
 const subGroup = group.addGroup({
@@ -54,7 +54,7 @@ const subGroup = group.addGroup({
 
 - addShape(type, cfgs)
 
-向分组中添加新的图形。
+Add a shape to the group.
 
 ```javascript
 const keyShape = group.addShape('rect', {
@@ -65,4 +65,4 @@ const keyShape = group.addShape('rect', {
 ```
 
 
-提示：在分组上添加的 `clip`， `transform` 等会影响到该分组中的所有图形。
+**Tips:** The `clip`, `transform`, and other operations on a group will affect all the elements in the group.

@@ -61,4 +61,4 @@ const keyShape = group.addShape('rect', {
 ```
 
 
-提示：在分组上添加的 `clip`， `transform` 等会影响到该分组中的所有图形。
+提示：在分组上添加的 `clip`， `transform` 等会影响到该分组中的所有元素（子分组或图形）。
