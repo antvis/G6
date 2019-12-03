@@ -41,7 +41,7 @@ G6 除了提供丰富的 [内置交互行为 Behavior](/zh/docs/manual/middle/st
 ## 自定义交互 registerBehavior
 通过 `G6.registerBehavior` 自定义 Behavior。下面代码实现了名为 `'activate-node'` 的交互行为，在终端用户点击节点时，置该节点的 `active` 状态为 `true`；再次点击或点击画布时，置该节点的 `active` 状态为 `false`。
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;注意：</span>
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;⚠️**注意：**</span>
 
 - 下面代码仅设置了不同交互后节点的状态，没有指定这些状态下节点的样式。若需要根据节点状态变化它的样式，参见 [配置不同 State 样式](/zh/docs/manual/middle/states/state)。
 - 自定义 Behavior 时，可选的方法请参数 [Behavior API](/zh/docs/api/Behavior)；
@@ -67,15 +67,15 @@ G6.registerBehavior('activate-node', {
       graph.setItemState(item, 'active', false);
       return;
     }
-    // this 上即可取到配置，如果不允许多个active，先取消其他节点的active状态
+    // this 上即可取到配置，如果不允许多个 'active'，先取消其他节点的 'active' 状态
     if (!this.multiple) {
       this.removeNodesState();
     }
-    // 置点击的节点状态为active
+    // 置点击的节点状态 'active' 为 true
     graph.setItemState(item, 'active', true);
   },
   onCanvasClick(e) {
-    // shouldUpdate可以由用户复写，返回 true 时取消所有节点的active状态
+    // shouldUpdate 可以由用户复写，返回 true 时取消所有节点的 'active' 状态，即将 'active' 状态置为 false
     if (this.shouldUpdate(e)) {
       removeNodesState();
     }
@@ -97,7 +97,7 @@ const graph = new G6.Graph({
   width: 500,
   height: 500,
   modes: {
-   // 定义的 behavior 指定到这里，就可以支持Behavior中定义的交互
+   // 定义的 Behavior 指定到这里，就可以支持 Behavior 中定义的交互
    default: ['activate-node']
   }
 });

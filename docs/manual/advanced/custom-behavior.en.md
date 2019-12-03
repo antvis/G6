@@ -67,15 +67,15 @@ G6.registerBehavior('activate-node', {
       graph.setItemState(item, 'active', false);
       return;
     }
-    // this 上即可取到配置，如果不允许多个active，先取消其他节点的active状态
+    // Get the configurations by this. If you do not allow multiple nodes to be 'active', cancel the 'active' state for other nodes
     if (!this.multiple) {
       this.removeNodesState();
     }
-    // 置点击的节点状态为active
+    // Set the 'active' state of the clicked node to be true
     graph.setItemState(item, 'active', true);
   },
   onCanvasClick(e) {
-    // shouldUpdate可以由用户复写，返回 true 时取消所有节点的active状态
+    // shouldUpdate can be rewrited by users. Returning true means turning the 'active' to be false for all the nodes
     if (this.shouldUpdate(e)) {
       removeNodesState();
     }
@@ -89,15 +89,15 @@ G6.registerBehavior('activate-node', {
 ```
 
 
-## 使用自定义的 Behavior
-有了上面代码定义的名为 `'activate-node'` 的 Behavior 以后，在实例化 Graph 时，在 `modes` 中将其配置到默认或其他[行为模式](/zh/docs/manual/middle/states/mode)中。下面代码将其配置到了默认行为模式中，在默认模式下，该行为将会生效。
+## Using Behavior
+Now, you have a type of Behavior named `'activate-node'`. To use it, configure it into a mode of `modes` when instantiating a Graph. [Mode](/en/docs/manual/middle/states/mode). The following code configure the `'activate-node'` into the default mode, which means the `'activate-node'` Behavior will take effect in the default mode.
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
   width: 500,
   height: 500,
   modes: {
-   // 定义的 behavior 指定到这里，就可以支持Behavior中定义的交互
+   // Configure the custom Behavior here to use it
    default: ['activate-node']
   }
 });
