@@ -18,11 +18,11 @@ order: 4
 | font | 设置文本内容的当前字体属性 |  |
 | textAlign | 设置文本内容的当前对齐方式 | 支持的属性：`center` / `end` / `left` / `right` / `start`，默认值为 `start` |
 | textBaseline | 设置在绘制文本时使用的当前文本基线 | 支持的属性:<br />`top` / `middle` / `bottom` / `alphabetic` / `hanging`。默认值为 `bottom` |
-| fontStyle | 字体样式 | 对应 font-style |
+| fontStyle | 字体样式 | 对应 `font-style` |
 | fontVariant | 设置为小型大写字母字体 | 对应 font-variant |
-| fontWeight | 字体粗细 | 对应 font-weight |
-| fontSize | 字体大小 | 对应 font-size |
-| fontFamily | 字体系列 | 对应 font-family |
+| fontWeight | 字体粗细 | 对应 `font-weight` |
+| fontSize | 字体大小 | 对应 `font-size` |
+| fontFamily | 字体系列 | 对应 f`ont-family` |
 | autoRotate | 是否自动旋转 |  |
 
 ## 案例

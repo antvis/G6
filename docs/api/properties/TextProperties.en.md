@@ -17,11 +17,11 @@ order: 2
 | font | The font of the text. |  |
 | textAlign | The align way of the text. | Options: `'center'` / `'end'` / `'left'` / `'right'` / `'start'`. `'start'` by default. |
 | textBaseline | The base line of the text. | Options: <br />`'top'` / `'middle'` / `'bottom'` / `'alphabetic'` / `'hanging'`. `'bottom'` by default. |
-| fontStyle | The font style of the text. | The corresponding property in css is `font-style` |
-| fontVariant | The font variant of the text. | The corresponding property in css is `font-variant` |
-| fontWeight | The font weight of the text. | The corresponding property in css is `font-weight` |
-| fontSize | The font size of the text. | The corresponding property in css is `font-size` |
-| fontFamily | The font family of the text. | The corresponding property in css is `font-family` |
+| fontStyle | The font style of the text. | The corresponding property in CSS is `font-style` |
+| fontVariant | The font variant of the text. | The corresponding property in CSS is `font-variant` |
+| fontWeight | The font weight of the text. | The corresponding property in CSS is `font-weight` |
+| fontSize | The font size of the text. | The corresponding property in CSS is `font-size` |
+| fontFamily | The font family of the text. | The corresponding property in CSS is `font-family` |
 | autoRotate | Wheter rotate the text according to the edge automatically if it is a label of an edge. |  |
 
 
