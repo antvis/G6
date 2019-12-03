@@ -3,33 +3,32 @@ title: Custom Behavior
 order: 5
 ---
 
-[The English Version is on the Way~~~]
+G6 provides abundant [Built-in Behavior](/zh/docs/manual/middle/states/defaultBehavior). Besides, you can custom your type of behaviors to satisfy the special requirements.
 
-G6 除了提供丰富的 [内置交互行为 Behavior](/zh/docs/manual/middle/states/defaultBehavior) 外，还提供了自定义交互行为的机制，方便用户开发更加定制化的交互行为。
+In G6, we mainly take three scenarii into consideration:
 
-在交互行为上， G6 主要考虑了三个场景：
+- Demonstrating the relational data;
+- Modeling the visualization;
+- Analyzing the graph.
 
-- 展示关系数据；
-- 可视化建模；
-- 图分析。
+It is necessary to incorporate the interactions when the information is too complex to be understand in one glance:
 
-在这些场景中只要用户可能无法一眼看清楚所有需要的信息，都需要进行交互，例如：
+- Zooming a large graph;
+- Utilizing the ttoltip to show the detail information of a node;
+- Adding/removing/modifying/querying a graph item.
 
-- 图太大，需要缩放；
-- 单个节点上展示的信息太少，需要通过 tooltip 显示详情；
-- 对节点进行增删改查。
+Due to the complex and the diversity of the interactions in different scenarii and bussiness, we did not build all the interactions into G6:
 
-我们无法将所有常用的交互全部内置到 G6 中。由于场景不一样，业务不一样，同样的目的需要的交互都不一样：
+- Some systems require to add nodes by clicking a tool bar, some require toe add by dragging from a panel;
+- Some scenarii add edges by dragging from an anchor point, some add by clicking the end nodes;
+- Some edges are allowed to link to any node, some only can be linked to specific anchor points;
+- Some users require to custom the process of activating and endding.
+- ...
 
-- 有些系统需要从工具栏上点击后添加节点，有些系统需要从面板栏上拖出出新的节点；
-- 有的业务添加边需要从锚点上拖拽出来，而有些直接点击节点后就可以拖拽出边；
-- 有些边可以连接到所有节点上，而有些边不能连接到具体某个节点的某个锚点上；
-- 所有的交互的触发、持续、结束都要允许能够进行个性化的判定。
-
-我们可以看到在图上的交互是繁杂多变的。各种冲突、各种配置项会让用户和开发者疲于应对。出于这些考虑， G6 提供了一套非常简单而灵活的机制来实现交互。
+We found the interactions are sundry and versatile. And the conflicts and configurations will make the users and developers collapse. Thus, G6 designs a set of simple and flexible implemention of interaction.
 
 
-## Behavior 的生命周期
+## The Life Cycle of Behavior
 为实现交互，首先需要了解交互的生命周期。交互起源于用户在系统上的所有事件，是否允许交互发生同事件密切相关。所以我们看到交互的生命周期，即操作事件的过程如下：
 
 - 绑定事件；

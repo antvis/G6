@@ -55,7 +55,7 @@ default、hover 和 collapse 支持的所有通用的属性参考[属性配置�
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_hgTTaIPc8IAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
 
-`groupType` 指定为 `'rect'` 时的 `minDis` 与 `maxDis` 示意图。其中 group1 为无嵌套的 Group（即最内层的 Group），grou2 为嵌套 Group。
+`groupType` 指定为 `'rect'` 时的 `minDis` 与 `maxDis` 示意图。其中 group1 为无嵌套的 Group（即最内层的 Group），group2 为嵌套 Group。
 <br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_IrBQqB0K2oAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
