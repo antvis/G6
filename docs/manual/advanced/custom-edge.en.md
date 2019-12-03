@@ -43,12 +43,12 @@ G6.registerEdge('hvh', {
 });
 ```
 
-Now, we register a custom edge named `'hvh'` whose result is shown in the center of the figure above. The default `startPoint` and `endPoint` in the custom edge are the intersection of the edge and the end nodes.
+Now, we have registered a custom edge named `'hvh'` whose result is shown in the center of the figure above. The default `startPoint` and `endPoint` in the custom edge are the intersection of the edge and the end nodes.
 
 To achieve the result shown in the right of the figure, we modify the anchorPoints (link points) of the end nodes to change the positions of `startPoint` and `endPoint`.
 
 ### Modify the anchorPoints in Data
-Now, we modify `anchorPoints` in the node data, and then use the `'hvh'` as `shape` in edge data as shown below.
+Now, we modify `anchorPoints` in the node data, and then assign `shape` to `'hvh'` in edge data as shown below.
 ```javascript
 const data = {
   nodes: [{
@@ -87,8 +87,8 @@ const data = {
 };
 ```
 
-## 2. 扩展现有边
-通过 `afterDraw` 接口给现有的曲线增加动画。
+## 2. Extend the Built-in Edge
+In this section, we add animation to a built-in edge by `afterDraw`.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-l9lQ7Ck1QcAAAAAAAAAAABkARQnAQ' alt='img' width='150'/>
 
@@ -113,24 +113,24 @@ G6.registerEdge('line-growth', {
 
 <br />
 
-## 3. 边的交互样式
-以点击选中、鼠标 hover 到边为示例，实现如下需求：
+## 3. Custom Edge with Interaction Styles
+In this section, we implement a type of edge with the interaction styles below:
 
-- 点击边时边变粗，再点击变成细；
-- 鼠标移动上去变成红色，离开变成 `'#333'` 。
+- Widen the edge by clicking. Restore it by clicking again;
+- Turn to red by mouse hovering. Restore it by mouse leaving.
 
-效果如下图所示。<br />
+The result:<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IWLxRZomOfMAAAAAAAAAAABkARQnAQ' alt='img' width='350'/>
-<br />提示：边如果过细点击时很难击中，可以设置 `**lineAppendWidth**` 来提升击中范围。
+<br />⚠️**Attention:** when the edge is too thin to be hitted by mouse, set **lineAppendWidth** to enlarge the hitting area.
 
 ```javascript
-// 基于 line 扩展出新的图形
+// Extend a new type of edge by extending line edge
 G6.registerEdge('custom-edge', {
-  // 设置状态
+  // Response the states change
   setState(name, value, item) {
     const group = item.getContainer();
-    const shape = group.get('children')[0]; // 顺序根据 draw 时确定
+    const shape = group.get('children')[0]; // The order is determined by the ordering of been draw
     if(name === 'active') {
       if(value) {
         shape.attr('stroke', 'red');
@@ -148,10 +148,10 @@ G6.registerEdge('custom-edge', {
   }
 }, 'line');
 
-// 点击时选中，再点击时取消
+// Select by clicking, cancel by clicking again
 graph.on('edge:click', ev=> {
   const edge = ev.item;
-  graph.setItemState(edge, 'selected', !edge.hasState('selected')); // 切换选中
+  graph.setItemState(edge, 'selected', !edge.hasState('selected')); // Switch the 'selected' state
 });
 
 graph.on('edge:mouseenter' ,ev=> {

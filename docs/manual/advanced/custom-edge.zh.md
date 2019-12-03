@@ -120,9 +120,9 @@ G6.registerEdge('line-growth', {
 <br />提示：边如果过细点击时很难击中，可以设置 `**lineAppendWidth**` 来提升击中范围。
 
 ```javascript
-// 基于 line 扩展出新的图形
+// 基于 line 扩展出新的边
 G6.registerEdge('custom-edge', {
-  // 设置状态
+  // 响应状态变化
   setState(name, value, item) {
     const group = item.getContainer();
     const shape = group.get('children')[0]; // 顺序根据 draw 时确定

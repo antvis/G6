@@ -50,7 +50,7 @@ There are three key functions of custom node and edge which should be rewrited a
 
 - `draw(cfg, group)`: Draw the Shape with configurations and its container;
 - `update(cfg, n)`: Update the item according to the configurations and the item;
-- `setState(name, value, item)`: Response the states changing for items.
+- `setState(name, value, item)`: Response the states change for items.
 
 For more information, refer to [Shape API](/en/docs/api/Shape)。
 
