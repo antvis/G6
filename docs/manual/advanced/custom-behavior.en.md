@@ -25,27 +25,27 @@ Due to the complex and the diversity of the interactions in different scenarii a
 - Some users require to custom the process of activating and endding.
 - ...
 
-We found the interactions are sundry and versatile. And the conflicts and configurations will make the users and developers collapse. Thus, G6 designs a set of simple and flexible implemention of interaction.
+We found the interactions are sundry and versatile. And the conflicts and configurations will make the users and developers collapse. Thus, G6 designs a set of simple and flexible implemention of interaction behavior.
 
 
 ## The Life Cycle of Behavior
-为实现交互，首先需要了解交互的生命周期。交互起源于用户在系统上的所有事件，是否允许交互发生同事件密切相关。所以我们看到交互的生命周期，即操作事件的过程如下：
+To custom an Behavior, it is important to comprehend the life cycle of Behavior. Interaction Behaviors are related to the events from users, including the processes:
 
-- 绑定事件；
-- 触发事件；
-- 持续事件；
-- 结束事件；
-- 移除事件。
+- Bind the event;
+- Activate the event;
+- Keep the event;
+- End the event;
+- Remove the event.
 
 
-## 自定义交互 registerBehavior
-通过 `G6.registerBehavior` 自定义 Behavior。下面代码实现了名为 `'activate-node' `的交互行为，在终端用户点击节点时，置该节点的 `active` 状态为 `true`；再次点击或点击画布时，置该节点的 `active` 状态为 `false`。
+## registerBehavior
+You can custom a Behavior by `G6.registerBehavior`. The following code implements a custom Behavior named `'activate-node'`, which changes the state `active` of the clicked node to be `true`, and restores the state `active` to be `false` when the user clicking the node again or clicking the canvas.
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;注意：</span>
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;⚠️**Attension:** </span>
 
-- 下面代码仅设置了不同交互后节点的状态，没有指定这些状态下节点的样式。若需要根据节点状态变化它的样式，参见 [配置不同 State 样式](/zh/docs/manual/middle/states/state)。
-- 自定义 Behavior 时，可选的方法请参数 [Behavior API](/zh/docs/api/Behavior)；
-- `getEvent` 返回该 Behavior 所需监听事件的对象，G6 中支持的所有事件，请参考 [Event API](/zh/docs/api/Event)。
+- The following code set the states for different behaviors, but does not assign the state styles for manipulated nodes. To change the styles when the states changed, refer to [State Styles](/en/docs/manual/middle/states/state)。
+- The configurations of customizing Behavior are introduced in [Behavior API](/en/docs/api/Behavior)；
+- `getEvent` returns the events which are listened by the Behavior. The events in G6 are introduced in [Event API](/en/docs/api/Event)。
 
 ```javascript
 G6.registerBehavior('activate-node', {

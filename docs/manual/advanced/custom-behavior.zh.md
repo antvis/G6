@@ -39,7 +39,7 @@ G6 除了提供丰富的 [内置交互行为 Behavior](/zh/docs/manual/middle/st
 
 
 ## 自定义交互 registerBehavior
-通过 `G6.registerBehavior` 自定义 Behavior。下面代码实现了名为 `'activate-node' `的交互行为，在终端用户点击节点时，置该节点的 `active` 状态为 `true`；再次点击或点击画布时，置该节点的 `active` 状态为 `false`。
+通过 `G6.registerBehavior` 自定义 Behavior。下面代码实现了名为 `'activate-node'` 的交互行为，在终端用户点击节点时，置该节点的 `active` 状态为 `true`；再次点击或点击画布时，置该节点的 `active` 状态为 `false`。
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;注意：</span>
 
