@@ -94,7 +94,7 @@ const data = {
 ### Requirements Analysis
 To reduce the edge crossings, we sort the nodes in `part1` and `part2` respectively. The process is:
 
-- Step 1: Assign the index from 0 randomly for  the nodes in `'part1'` and `'part2'` respectively;
+- Step 1: Assign the index from 0 randomly for the nodes in `'part1'` and `'part2'` respectively;
 - Step 2: Traverse the nodes in `'part1'`. For each node A:
   - Find the set of related nodes of A (connect to A directly) in `'part2'` ![]( https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-WOhQIGg9l8AAAAAAAAAAABkARQnAQ). Sum up the indexes of the nodes in ![]( https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-WOhQIGg9l8AAAAAAAAAAABkARQnAQ), and divided it by the number of elements in ![]( https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-WOhQIGg9l8AAAAAAAAAAABkARQnAQ). Replace the index of A by the result: ![](https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VfXiSK1f02cAAAAAAAAAAABkARQnAQ)
 - Step 3: Tranverse the nodes in `'part2'`. For each node A(Similar to the Step 2):
