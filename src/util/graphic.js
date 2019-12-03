@@ -60,52 +60,104 @@ const GraphicUtil = {
     const dist = loopCfg.dist || Math.max(bbox.width, bbox.height) * 2;
     // 自环边与keyShape的相对位置关系
     const position = loopCfg.position || Global.loopPosition;
-    const r = Math.max(bbox.width, bbox.height) / 2;
-    const scaleRate = (r + dist) / r;
     // 中心取group上真实位置
     const center = [ containerMatrix[ 6 ], containerMatrix[ 7 ] ];
-    const sinDelta = r * SELF_LINK_SIN;
-    const cosDelta = r * SELF_LINK_COS;
     let startPoint = [ cfg.startPoint.x, cfg.startPoint.y ];
     let endPoint = [ cfg.endPoint.x, cfg.endPoint.y ];
+
+    let rstart = bbox.height / 2;
+    let rend = bbox.height / 2;
+    let sinDeltaStart = rstart * SELF_LINK_SIN;
+    let cosDeltaStart = rstart * SELF_LINK_COS;
+    let sinDeltaEnd = rend * SELF_LINK_SIN;
+    let cosDeltaEnd = rend * SELF_LINK_COS;
+
     // 如果定义了锚点的，直接用锚点坐标，否则，根据自环的 cfg 计算
     if (startPoint[0] === endPoint[0] && startPoint[1] === endPoint[1]) {
       switch (position) {
         case 'top':
-          startPoint = [ center[0] - sinDelta, center[1] - cosDelta ];
-          endPoint = [ center[0] + sinDelta, center[1] - cosDelta ];
+          startPoint = [ center[0] - sinDeltaStart, center[1] - cosDeltaStart ];
+          endPoint = [ center[0] + sinDeltaEnd, center[1] - cosDeltaEnd ];
           break;
         case 'top-right':
-          startPoint = [ center[0] + sinDelta, center[1] - cosDelta ];
-          endPoint = [ center[0] + cosDelta, center[1] - sinDelta ];
+          rstart = bbox.height / 2;
+          rend = bbox.width / 2;
+          sinDeltaStart = rstart * SELF_LINK_SIN;
+          cosDeltaStart = rstart * SELF_LINK_COS;
+          sinDeltaEnd = rend * SELF_LINK_SIN;
+          cosDeltaEnd = rend * SELF_LINK_COS;
+          startPoint = [ center[0] + sinDeltaStart, center[1] - cosDeltaStart ];
+          endPoint = [ center[0] + cosDeltaEnd, center[1] - sinDeltaEnd ];
           break;
         case 'right':
-          startPoint = [ center[0] + cosDelta, center[1] - sinDelta ];
-          endPoint = [ center[0] + cosDelta, center[1] + sinDelta ];
+          rstart = bbox.width / 2;
+          rend = bbox.width / 2;
+          sinDeltaStart = rstart * SELF_LINK_SIN;
+          cosDeltaStart = rstart * SELF_LINK_COS;
+          sinDeltaEnd = rend * SELF_LINK_SIN;
+          cosDeltaEnd = rend * SELF_LINK_COS;
+          startPoint = [ center[0] + cosDeltaStart, center[1] - sinDeltaStart ];
+          endPoint = [ center[0] + cosDeltaEnd, center[1] + sinDeltaEnd ];
           break;
         case 'bottom-right':
-          startPoint = [ center[0] + cosDelta, center[1] + sinDelta ];
-          endPoint = [ center[0] + sinDelta, center[1] + cosDelta ];
+          rstart = bbox.width / 2;
+          rend = bbox.height / 2;
+          sinDeltaStart = rstart * SELF_LINK_SIN;
+          cosDeltaStart = rstart * SELF_LINK_COS;
+          sinDeltaEnd = rend * SELF_LINK_SIN;
+          cosDeltaEnd = rend * SELF_LINK_COS;
+          startPoint = [ center[0] + cosDeltaStart, center[1] + sinDeltaStart ];
+          endPoint = [ center[0] + sinDeltaEnd, center[1] + cosDeltaEnd ];
           break;
         case 'bottom':
-          startPoint = [ center[0] + sinDelta, center[1] + cosDelta ];
-          endPoint = [ center[0] - sinDelta, center[1] + cosDelta ];
+          rstart = bbox.height / 2;
+          rend = bbox.height / 2;
+          sinDeltaStart = rstart * SELF_LINK_SIN;
+          cosDeltaStart = rstart * SELF_LINK_COS;
+          sinDeltaEnd = rend * SELF_LINK_SIN;
+          cosDeltaEnd = rend * SELF_LINK_COS;
+          startPoint = [ center[0] + sinDeltaStart, center[1] + cosDeltaStart ];
+          endPoint = [ center[0] - sinDeltaEnd, center[1] + cosDeltaEnd ];
           break;
         case 'bottom-left':
-          startPoint = [ center[0] - sinDelta, center[1] + cosDelta ];
-          endPoint = [ center[0] - cosDelta, center[1] + sinDelta ];
+          rstart = bbox.height / 2;
+          rend = bbox.width / 2;
+          sinDeltaStart = rstart * SELF_LINK_SIN;
+          cosDeltaStart = rstart * SELF_LINK_COS;
+          sinDeltaEnd = rend * SELF_LINK_SIN;
+          cosDeltaEnd = rend * SELF_LINK_COS;
+          startPoint = [ center[0] - sinDeltaStart, center[1] + cosDeltaStart ];
+          endPoint = [ center[0] - cosDeltaEnd, center[1] + sinDeltaEnd ];
           break;
         case 'left':
-          startPoint = [ center[0] - cosDelta, center[1] + sinDelta ];
-          endPoint = [ center[0] - cosDelta, center[1] - sinDelta ];
+          rstart = bbox.width / 2;
+          rend = bbox.width / 2;
+          sinDeltaStart = rstart * SELF_LINK_SIN;
+          cosDeltaStart = rstart * SELF_LINK_COS;
+          sinDeltaEnd = rend * SELF_LINK_SIN;
+          cosDeltaEnd = rend * SELF_LINK_COS;
+          startPoint = [ center[0] - cosDeltaStart, center[1] + sinDeltaStart ];
+          endPoint = [ center[0] - cosDeltaEnd, center[1] - sinDeltaEnd ];
           break;
         case 'top-left':
-          startPoint = [ center[0] - cosDelta, center[1] - sinDelta ];
-          endPoint = [ center[0] - sinDelta, center[1] - cosDelta ];
+          rstart = bbox.width / 2;
+          rend = bbox.height / 2;
+          sinDeltaStart = rstart * SELF_LINK_SIN;
+          cosDeltaStart = rstart * SELF_LINK_COS;
+          sinDeltaEnd = rend * SELF_LINK_SIN;
+          cosDeltaEnd = rend * SELF_LINK_COS;
+          startPoint = [ center[0] - cosDeltaStart, center[1] - sinDeltaStart ];
+          endPoint = [ center[0] - sinDeltaEnd, center[1] - cosDeltaEnd ];
           break;
         default:
-          startPoint = [ center[0] - sinDelta, center[1] - cosDelta ];
-          endPoint = [ center[0] + sinDelta, center[1] - cosDelta ];
+          rstart = bbox.width / 2;
+          rend = bbox.width / 2;
+          sinDeltaStart = rstart * SELF_LINK_SIN;
+          cosDeltaStart = rstart * SELF_LINK_COS;
+          sinDeltaEnd = rend * SELF_LINK_SIN;
+          cosDeltaEnd = rend * SELF_LINK_COS;
+          startPoint = [ center[0] - sinDeltaStart, center[1] - cosDeltaStart ];
+          endPoint = [ center[0] + sinDeltaEnd, center[1] - cosDeltaEnd ];
       }
       // 如果逆时针画，交换起点和终点
       if (loopCfg.clockwise === false) {
@@ -114,11 +166,18 @@ const GraphicUtil = {
         endPoint = [ swap[0], swap[1] ];
       }
     }
+
     const startVec = [ startPoint[0] - center[0], startPoint[1] - center[1] ];
-    const startExtendVec = BaseUtil.vec2.scale([], startVec, scaleRate);
+    let scaleRateStart = (rstart + dist) / rstart;
+    let scaleRateEnd = (rend + dist) / rend;
+    if (loopCfg.clockwise === false) {
+      scaleRateStart = (rend + dist) / rend;
+      scaleRateEnd = (rstart + dist) / rstart;
+    }
+    const startExtendVec = BaseUtil.vec2.scale([], startVec, scaleRateStart);
     const controlPoint1 = [ center[0] + startExtendVec[0], center[1] + startExtendVec[1] ];
     const endVec = [ endPoint[0] - center[0], endPoint[1] - center[1] ];
-    const endExtendVec = BaseUtil.vec2.scale([], endVec, scaleRate);
+    const endExtendVec = BaseUtil.vec2.scale([], endVec, scaleRateEnd);
     const controlPoint2 = [ center[0] + endExtendVec[0], center[1] + endExtendVec[1] ];
     cfg.startPoint = { x: startPoint[0], y: startPoint[1] };
     cfg.endPoint = { x: endPoint[0], y: endPoint[1] };
