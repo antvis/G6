@@ -3,14 +3,11 @@ title: The Text Property
 order: 4
 ---
 
-[The English Version is on the Way~~~]
+## Property
 
-## 属性
-文本有以下可用的属性。
-
-| 属性名 | 含义 | 备注 |
+| Name | Description | Remark |
 | --- | --- | --- |
-| fill | 设置用于填充绘画的颜色、渐变或模式 | 对应 canvas 属性 `fillStyle` |
+| fill | Filling color, gradient color, or the pattern | Corresponds to the `fillStyle` of Canvas |
 | stroke | 设置用于笔触的颜色、渐变或模式 | 对应 canvas 属性 `strokeStyle` |
 | shadowColor | 设置用于阴影的颜色 |  |
 | shadowBlur | 设置用于阴影的模糊级别 | 数值越大，越模糊 |
@@ -27,7 +24,7 @@ order: 4
 | fontFamily | 字体系列 | 对应 font-family |
 | autoRotate | 是否自动旋转 |  |
 
-## 案例
+## Example
 ```javascript
 const data = {
 	nodes: [
@@ -66,6 +63,6 @@ graph.update(node, {
 })
 ```
 
-通过以上代码修改node中文本的样式，效果如下图：
+The code above modifies the label style of node and results in:
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0xkLS5shGJUAAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
