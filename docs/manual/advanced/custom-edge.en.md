@@ -168,12 +168,12 @@ graph.on('edge:mouseleave' , ev=> {
 
 <br />
 
-## 4. 自定义带箭头的边
-很多时候，G6 默认提供的箭头并不能满足业务上的需求，这个时候，就需要我们自定义箭头。当然了，G6 也支持箭头样式的自定义。<br />
+## 4. Register Edge with Custom Arrow
+The default end arrows might not meet the requirements sometimes. You can register an edge with a custom arrow by the custom mechanism of G6.<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*f1G9RJ5dE2oAAAAAAAAAAABkARQnAQ' alt='img' width='250'/>
 
-> (Left) G6 内置箭头。(Right) 自定义边带有自定义箭头。
+> (Left) Built-in arrow of G6. (Right) A custom edge with custom arrow.
 
 
 ```javascript
