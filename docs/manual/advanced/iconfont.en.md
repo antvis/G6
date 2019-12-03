@@ -3,16 +3,14 @@ title: Utilize Iconfont
 order: 9
 ---
 
-[The English Version is on the Way~~~]
+## Introduction
+Due to the good compatibility, type diversity, color diversity, The iconfont is popupar for front-end developments now. Refer to the [Iconfont Library of Alibaba](https://www.iconfont.cn)。
 
-## 简介
-为什么使用 iconfont？ 兼容性好、种类多、多色等。在此不做过多介绍，请直接移步[阿里巴巴-iconfont平台](https://www.iconfont.cn)。
-
-## 效果
+## Effect
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rJ3lQa0HR-wAAAAAAAAAAABkARQnAQ' alt='result' width='450'/>
 
-## 下载字体图标
-直接去到[阿里巴巴字体图标库](https://www.iconfont.cn)搜索下载即可，简要操作流程是：搜索图标（例如篮球） ->  选择自己喜欢的图标添加入库  ->  点击页面右上角的购物车可以看到我们加入的图标 -> 添加至项目，如果没有项目到话可以新建一个  ->  在我到项目里面点击下载至本地 -> 解压。如果一切操作正常的话可以得到如下解压文件：<br />
+## Download the iconfont
+Browse the [Iconfont Library of Alibaba](https://www.iconfont.cn) and download the iconfont you like by searching a iconfont -> adding it to your library -> going to your library by clicking the shopping cart logo on the right top -> adding it to your project (new one if you do not have any project) -> downloading the iconfont in 'my project' -> decompressing. You will get the files as shown below if everything is right:<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EnNmQ5m7xHUAAAAAAAAAAABkARQnAQ' alt='download' width='550'/>
 
 选中红色区域的所有文件（这里面很多文件是不需要的，为了方便起见，我们全部复制即可，不需要的也不会被打包），复制到项目里面，一般放在目录 'static/icons' 或者 'assets/icons' 下面，如果没有的话可以新建目录，当然你也可以放到任意你喜欢的位置，只要引入的时候路径对即可，到此 iconfont 引入完毕。
