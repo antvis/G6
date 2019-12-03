@@ -31,10 +31,10 @@ G6.registerNode('nodeName', {
     }
   },
   /**
-	 * 绘制节点/边，包含文本
+	 * 绘制节点，包含文本
 	 * @param  {Object} cfg 节点的配置项
 	 * @param  {G.Group} group 节点的容器
-	 * @return {G.Shape} 绘制的图形，通过node.get('keyShape') 可以获取到
+	 * @return {G.Shape} 绘制的图形，通过 node.get('keyShape') 可以获取到
 	 */
 	draw(cfg, group) {},
   /**

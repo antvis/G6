@@ -5,7 +5,7 @@ order: 3
 
 G6 provides abundant [Built-in Edges](/en/docs/manual/middle/elements/defaultEdge). Besides, the custom machanism allows the users to design their own type of edges. An edge with complex graphics shapes, complex interactions, fantastic animations can be implemented easily.
 
-In this document, we will introduce the custom edge by three examples:
+In this document, we will introduce the custom edge by four examples:
 <br />1. Register a bran-new edge;
 <br />2. Register an edge by extending a built-in edge;
 <br />3. Register an edge with interactions and styles;

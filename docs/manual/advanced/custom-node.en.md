@@ -6,21 +6,26 @@ order: 2
 G6 provides abundant [Built-in Nodes](/en/docs/manual/middle/elements/defaultNode), including [circle](/en/docs/manual/middle/elements/nodes/circle), [rect](https://www.yuque.com/antv/g6/vdqpdt), [ellipse](/en/docs/manual/middle/elements/nodes/ellipse), [diamond](/en/docs/manual/middle/elements/nodes/diamond), [triangle](/en/docs/manual/middle/elements/nodes/triangle), [star](/en/docs/manual/middle/elements/nodes/star), [image](/en/docs/manual/middle/elements/nodes/image), [modelRect](/en/docs/manual/middle/elements/nodes/modelRect). Besides, the custom machanism allows the users to design their own type of nodes by `G6.registerNode('nodeName', options)`. A node with complex graphics shapes, complex interactions, fantastic animations can be implemented easily.
 
 In this document, we will introduce the custom enodeby four examples:
-<br />
-<strong>1. 从无到有的定义节点：</strong>绘制图形；优化性能。
-<br />
-<strong>2. 扩展现有的节点：</strong>附加图形；增加动画。
-<br />
-<strong>3. 调整节点的锚点；</strong>
-<br />
-<strong>4. 调整节点的鼠标选中/悬浮样式。</strong>样式变化响应；动画响应。
+<br />1. Register a bran-new edge;
+<br />2. Register an edge by extending a built-in edge;
+<br />3. Register an edge with interactions and styles;
+<br />4. Register an edge with custom arrow.
 
-通过 [图形 Shape](/en/docs/manual/middle/keyConcept) 章节的学习，我们应该已经知道了自定义节点时需要满足以下两点：
+<br />
+<strong>1. Register a bran-new node: </strong>Draw the graphics; Imporve the performance.
+<br />
+<strong>2. Register a node by extending a built-in node: </strong>Add extra graphics shape; Add animation.
+<br />
+<strong>3. Adjust the anchorPoints(link points);</strong>
+<br />
+<strong>4. Register a node with state styles:</strong>Response the states change by styles and animations
 
-- 控制节点的生命周期；
-- 解析用户输入的数据，在图形上展示。
+As stated in [Shape](/en/docs/manual/middle/keyConcept), there are two points should be satisfied when customize a node:
 
-G6 中自定义节点的 API 如下：
+- Controll the life cycle of the node;
+- Analyze the input data and show it by graphics.
+
+The API of cumstom node:
 ```javascript
 G6.registerNode('nodeName', {
   options: {
@@ -31,10 +36,10 @@ G6.registerNode('nodeName', {
     }
   },
   /**
-	 * 绘制节点/边，包含文本
-	 * @param  {Object} cfg 节点的配置项
-	 * @param  {G.Group} group 节点的容器
-	 * @return {G.Shape} 绘制的图形，通过node.get('keyShape') 可以获取到
+	 * Draw the node with label
+	 * @param  {Object} cfg The configurations of the node
+	 * @param  {G.Group} group The container of the node
+	 * @return {G.Shape} The keyShape of the node. It can be obtained by node.get('keyShape')
 	 */
 	draw(cfg, group) {},
   /**
