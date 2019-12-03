@@ -60,7 +60,7 @@ G6.registerNode("iconfont", {
       attrs: {
         x: 0,
         y: 0,
-        fontFamily: "iconfont", // 对应css里面的font-family: "iconfont";
+        fontFamily: "iconfont", // 对应 CSS 里面的 font-family: "iconfont";
         textAlign: "center",
         textBaseline: "middle",
         text: cfg.text,
@@ -152,7 +152,7 @@ const data = {
   isRoot: true,
   id: "Root",
   label: "可疑人员王**",
-  text: "&#xe622;", // 对应字体图标的Unicode码，
+  text: "&#xe622;", // 对应字体图标的 Unicode 码
   style: {
     fill: "red"
   },

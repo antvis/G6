@@ -26,8 +26,8 @@ There are several ways to import G6 introduced in [Getting Started](/en/docs/man
 <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.2.0/build/g6.js"></script>
 ```
 
-## 添加字体图标
-引入方式可自行选择，下面为在 HTML 中引入的例子：
+## Import the Iconfont
+We import the iconfont in HTML here:
 
 ```html
 <style>
@@ -35,7 +35,7 @@ There are several ways to import G6 introduced in [Getting Started](/en/docs/man
 </style>
 ```
 
-## 使用字体
+## Using Iconfont
 ```javascript
 G6.registerNode("iconfont", {
   draw(cfg, group) {
@@ -60,7 +60,7 @@ G6.registerNode("iconfont", {
       attrs: {
         x: 0,
         y: 0,
-        fontFamily: "iconfont", // 对应css里面的font-family: "iconfont";
+        fontFamily: "iconfont", // Corresponds to the font-family: "iconfont"; in CSS
         textAlign: "center",
         textBaseline: "middle",
         text: cfg.text,
@@ -109,7 +109,7 @@ const graph = new G6.TreeGraph({
       }
     }
   },
-  // 布局相关
+  // Layout configurations
   layout: {
     type: "compactBox",
     direction: "LR",
@@ -152,7 +152,7 @@ const data = {
   isRoot: true,
   id: "Root",
   label: "可疑人员王**",
-  text: "&#xe622;", // 对应字体图标的Unicode码，
+  text: "&#xe622;", // The Unicode of the iconfont
   style: {
     fill: "red"
   },
@@ -161,7 +161,7 @@ const data = {
       fill: "red"
     }
   },
-  backgroundConfig: null, // 自定义项，用于判读是否需要圆背景
+  backgroundConfig: null, // It is a custom property for judging whether draw the circle background
   size: 30,
   children: [
     {
