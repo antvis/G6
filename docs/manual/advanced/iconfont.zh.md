@@ -15,12 +15,12 @@ order: 9
 
 选中红色区域的所有文件（这里面很多文件是不需要的，为了方便起见，我们全部复制即可，不需要的也不会被打包），复制到项目里面，一般放在目录 'static/icons' 或者 'assets/icons' 下面，如果没有的话可以新建目录，当然你也可以放到任意你喜欢的位置，只要引入的时候路径对即可，到此 iconfont 引入完毕。
 
-PS: 本案文件目录为 '/static/icons'
+PS: 本案文件目录为 '/static/icons'。
 
 
-## 引入G6
+## 引入 G6
 多种引入方式，请移步[快速上手](/zh/docs/manual/getting-started)。
-<br />PS: 本案例简单粗暴，通过CDN的方式引入。
+<br />PS: 本案例简单粗暴，通过 CDN 的方式引入。
 
 ```html
 <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.2.0/build/g6.js"></script>
