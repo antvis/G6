@@ -1,5 +1,5 @@
 ---
-title: Key Concept-Graphics Shape
+title: Key Concept - Graphics Shape
 order: 0
 ---
 
