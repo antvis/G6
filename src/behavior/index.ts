@@ -15,22 +15,23 @@ interface IBehavior {
 }
 
 export default class Behavior {
-  private types = BehaviorOption
-  public registerBehavior(type: string, behavior: IBehavior) {
+  private static types = {}
+  public static registerBehavior(type: string, behavior: IBehavior) {
     if(!behavior) {
       throw new Error(`please specify handler for this behavior: ${type}`)
     }
     // TODO 将传进来的Behavior和默认的合并
 
-    Object.assign(BehaviorOption.prototype, behavior)
-    this.types[type] = BehaviorOption
+    const instance = Object.assign({}, BehaviorOption.prototype, behavior)
+    // console.log('xxx', instance)
+    this.types[type] = instance
   }
 
-  public hasBehavior(type: string) {
+  public static hasBehavior(type: string) {
     return !!this.types[type]
   }
 
-  public getBehavior(type: string) {
+  public static getBehavior(type: string) {
     return this.types[type]
   }
 } 

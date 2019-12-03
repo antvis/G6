@@ -15,8 +15,12 @@ interface IBehaviorOption {
 export default class BehaviorOption implements IBehaviorOption {
   private _events = null
   private graph = null
+  private _cfg
   constructor(cfg) {
     const events = this.getEvents()
+    this._cfg = {}
+    this._events = null
+    Object.assign(this._cfg, this.getDefaultCfg(), cfg)
     const eventsToBind = {}
     if(events) {
       each(events, (handle, event) => {
