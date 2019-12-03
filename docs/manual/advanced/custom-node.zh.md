@@ -330,18 +330,18 @@ G6.registerNode('diamond', {
 常见的交互都需要节点和边通过样式变化做出反馈，例如鼠标移动到节点上、点击选中节点/边、通过交互激活边上的交互等，都需要改变节点和边的样式，有两种方式来实现这种效果：
 
 1. 在数据上添加标志字段，在自定义 shape 过程中根据约定进行渲染；
-1. 将交互状态同原始数据和绘制节点的逻辑分开，仅更新节点。
+2. 将交互状态同原始数据和绘制节点的逻辑分开，仅更新节点。
 
 我们推荐用户使用第二种方式来实现节点的状态调整，可以通过以下方式来实现：
 
-- 在 G6 中自定义节点/边时在 `setState` 方法中进行节点状态的设置；
+- 在 G6 中自定义节点/边时在 `setState` 方法中进行节点状态变化的响应；
 - 通过 `graph.setItemState()` 方法来设置状态。
 
 基于 rect 扩展出一个 custom 图形，默认填充色为白色，当鼠标点击时变成红色，实现这一效果的示例代码如下：
 ```javascript
 // 基于 rect 扩展出新的图形
 G6.registerNode('custom', {
-  // 设置状态
+  // 响应状态变化
 	setState(name, value, item) {
     const group = item.getContainer();
     const shape = group.get('children')[0]; // 顺序根据 draw 时确定
@@ -367,7 +367,7 @@ G6 并未限定节点的状态，只要你在 `setState` 方法中进行处理�
 
 ```javascript
 G6.registerNode('custom', {
-  // 设置状态
+  // 响应状态变化
   setState(name, value, item) {
     const group = item.getContainer();
     const shape = group.get('children')[0]; // 顺序根据 draw 时确定

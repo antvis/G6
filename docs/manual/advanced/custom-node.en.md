@@ -12,13 +12,13 @@ In this document, we will introduce the custom enodeby four examples:
 <br />4. Register an edge with custom arrow.
 
 <br />
-<strong>1. Register a bran-new node: </strong>Draw the graphics; Imporve the performance.
+<strong>1. Register a bran-new node: </strong>Draw the graphics; Optimize the performance.
 <br />
 <strong>2. Register a node by extending a built-in node: </strong>Add extra graphics shape; Add animation.
 <br />
 <strong>3. Adjust the anchorPoints(link points);</strong>
 <br />
-<strong>4. Register a node with state styles:</strong>Response the states change by styles and animations
+<strong>4. Register a node with state styles: </strong>Response the states change by styles and animations
 
 As stated in [Shape](/en/docs/manual/middle/keyConcept), there are two points should be satisfied when customize a node:
 
@@ -105,14 +105,14 @@ G6.registerNode('diamond', {
         stroke: cfg.color // Apply the color to the stroke. For filling, use fill: cfg.color instead
       }
     });
-    if(cfg.label) { // 如果有文本
-      // 如果需要复杂的文本配置项，可以通过 labeCfg 传入
+    if(cfg.label) { // If the label exists
+      // The complex label configurations can be defined by labeCfg
       // const style = (cfg.labelCfg && cfg.labelCfg.style) || {};
       // style.text = cfg.label;
       group.addShape('text', {
         // attrs: style
       	attrs: {
-          x: 0, // 居中
+          x: 0, // center
           y: 0,
           textAlign: 'center',
           textBaseline: 'middle',
@@ -123,34 +123,34 @@ G6.registerNode('diamond', {
     }
     return shape;
   },
-  // 返回菱形的路径
+  // Return the path of a diamond
   getPath(cfg) {
-    const size = cfg.size || [40, 40]; // 如果没有 size 时的默认大小
+    const size = cfg.size || [40, 40];
     const width = size[0];
     const height = size[1];
   	//  / 1 \
     // 4     2
     //  \ 3 /
     const path = [
-      ['M', 0, 0 - height / 2], // 上部顶点
-      ['L', width / 2, 0], // 右侧顶点
-      ['L', 0, height / 2], // 下部顶点
-      ['L', - width / 2, 0], // 左侧顶点
-      ['Z'] // 封闭
+      ['M', 0, 0 - height / 2], // Top
+      ['L', width / 2, 0], // Right
+      ['L', 0, height / 2], // Bottom
+      ['L', - width / 2, 0], // Left
+      ['Z'] // Close the path
     ];
     return path;
   },
 });
 ```
 
-上面的代码自定义了一个菱形节点，然后我们使用下面的数据输入就会绘制出 diamond 这个节点。
+We have registered a dimond node. The following code use the diamond node:
 ```javascript
 const data = {
  nodes: [
-   {x: 50, y: 100, shape: 'diamond'}, // 最简单的
-   {x: 150, y: 100, shape: 'diamond', size: [50, 100]}, // 添加宽高
-   {x: 250, y: 100, color: 'red', shape: 'diamond'}, // 添加颜色
-   {x: 350, y: 100, label: '菱形', shape: 'diamond'} // 附加文本
+   {x: 50, y: 100, shape: 'diamond'}, // The simplest form
+   {x: 150, y: 100, shape: 'diamond', size: [50, 100]}, // Add the size
+   {x: 250, y: 100, color: 'red', shape: 'diamond'}, // Add the color
+   {x: 350, y: 100, label: '菱形', shape: 'diamond'} // Add the label
  ]
 };
 const graph = new G6.Graph({
@@ -164,49 +164,47 @@ graph.render();
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qv88SrrnmFAAAAAAAAAAAABkARQnAQ' alt='img' width='300'/>
 
-### 优化性能
-当图中节点或边通过 `graph.update(item, cfg)` 重绘时，默认情况下会调用节点的 `draw` 方法进行重新绘制。在数据量大或节点上图形数量非常多（特别是文本多）的情况下，`draw` 方法中对所有图形、赋予样式将会非常消耗性能。
+### Optimize the Performance
+When the nodes or edges are updated by `graph.update(item, cfg)`, the `draw` will be called for repainting. But in the situation with large amount of data (especially the text), repainting all the graphics shapes by `draw` has bad performance. 
 
-在自定义节点时，重写 `update` 方法，在更新时将会调用该方法替代 `draw`。我们可以在该方法中指定需要更新的图形，从而避免频繁调用 `draw` 、全量更新节点上的所有图形。当然，`update` 方法是可选的，如果没有性能优化的需求可以不重写该方法。
+Therefore, rewrite the `update` function when registering a node for partial repainting is necessary. We can repaint some of the graphics shapes instead of all the graphis by `update`. The `update` is not required if you have no performance problem.
 
-在实现 diamond 的过程中，重写 `update` 方法，找到需要更新的 shape 进行更新，从而优化性能。寻找需要更新的图形可以通过：
+To update a few graphics shapes of a node in `update`, you need find the graphics shapes to be updated frist:
 
-- `group.get('children')[0]` 找到 [关键图形 keyShape](/en/docs/manual/middle/keyConcept)，也就是 `draw` 方法返回的 shape；
-- `group.get('children')[1]` 找到 label 图形。
+- Find the [keyShape](/en/docs/manual/middle/keyConcept) by `group.get('children')[0]`, which is the return value of `draw`;
+- Find the graphics shape of label by `group.get('children')[1]`.
 
-下面代码仅更新了 diamond 的关键图形的路径和颜色。
+The code shown below update the path and the color of the keyShape of the diamond:
 ```javascript
 G6.registerNode('diamond', {
 	draw(cfg, group) {
-    // ... // 见前面代码
+    // ... // Same as the code above
   },
   getPath(cfg) {
-    // ... // 见前面代码
+    // ... // Same as the code above
   },
   update(cfg, node) {
-    const group = node.getContainer(); // 获取容器
-    const shape = group.get('children')[0]; // 按照添加的顺序
+    const group = node.getContainer(); // Get the container of the node
+    const shape = group.get('children')[0]; // Find the first graphics shape of the node. It is determined by the order of being added
     const style = {
       path: this.getPath(cfg),
       stroke: cfg.color
     };
-    shape.attr(style); // 更新属性
-    // 更新文本的逻辑类似，但是需要考虑 cfg.label 是否存在的问题
-    // 通过 label.attr() 更新文本属性即可
+    shape.attr(style); // Update
   }
 });
 ```
 
-## 2. 扩展现有节点
-### 扩展 Shape
-G6 中已经[内置了一些节点](/en/docs/manual/middle/elements/defaultNode)，如果用户仅仅想对现有节点进行调整，复用原有的代码，则可以基于现有的节点进行扩展。同样实现 diamond ，可以基于 circle、ellipse、rect 等内置节点的进行扩展。[simple-shape](https://github.com/antvis/g6/blob/master/src/shape/single-shape-mixin.js) 是这些内置节点图形的基类，也可以基于它进行扩展。
+## 2. Extend a Built-in Node
+### Extend the Shape
+There are several [Built-in Nodes](/en/docs/manual/middle/elements/defaultNode) in G6. You can extend them to make some modification on them. It is similar to register the diamond node. [simple-shape](https://github.com/antvis/g6/blob/master/src/shape/single-shape-mixin.js) is the base class of all the graphics shape, you can also extend it.
 
-下面以基于 single-shape 为例进行扩展。`draw`，`update`，`setState` 方法在 [simple-shape ](https://github.com/antvis/g6/blob/master/src/shape/single-shape-mixin.js)中都有实现，这里仅需要复写 `getShapeStyle` 方法即可。返回的对象中包含自定义图形的路径和其他样式。
+For example, we are going to extend the single-shape. `draw`, `update`, and `setState` have been implemented in the [simple-shape](https://github.com/antvis/g6/blob/master/src/shape/single-shape-mixin.js). Thus, we only rewrite the `getShapeStyle`, which returns the path and the styles of graphics shapes.
 ```javascript
 G6.registerNode('diamond', {
-  shapeType: 'path', // group.addShape 时需要指定的类型
+  shapeType: 'path', // It is required when group.addShape
   getShapeStyle(cfg) {
-    const size = this.getSize(cfg); // 转换成 [width, height] 的模式
+    const size = this.getSize(cfg); // translate to [width, height]
     const color = cfg.color;
     const width = size[0];
     const height = size[1];
@@ -214,11 +212,11 @@ G6.registerNode('diamond', {
     // 4     2
     //  \ 3 /
     const path = [
-      ['M', 0, 0 - height / 2], // 上部顶点
-      ['L', width / 2, 0], // 右侧顶点
-      ['L', 0, height / 2], // 下部顶点
-      ['L', - width / 2, 0], // 左侧顶点
-      ['Z'] // 封闭
+      ['M', 0, 0 - height / 2], // Top
+      ['L', width / 2, 0], // Right
+      ['L', 0, height / 2], // Bottom
+      ['L', - width / 2, 0], // Left
+      ['Z'] // Close the path
     ];
     const style = Util.mix({}, {
       path: path,
@@ -227,27 +225,25 @@ G6.registerNode('diamond', {
     return style;
   }
 },
-// 注意这里继承了 'single-shape'
+// Extend the 'single-shape'
 'single-shape');
 ```
 
-### 添加动画
-通过 `afterDraw` 同样可以实现扩展，下面我们来看一个节点的动画场景，如下图所示。<br />
+### Add Animation
+We are going to add animation by `afterDraw` in this section. The result:<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ga7FQLdUYjkAAAAAAAAAAABkARQnAQ' alt='img' width='350'/>
 
 
-上面的动画效果，可以通过以下方式实现：
-
-- 扩展内置的 rect，在 rect 中添加一个图形；
-- 反复执行新添加图形的旋转动画。
+- Extend the built-in rect node, and add a graphics shape in the rect;
+- Execute the animation repeatly.
 ```javascript
-// 自定义一个名为 inner-animate 的节点
+// Register a type of custom node named inner-animate
 G6.registerNode('inner-animate', {
   afterDraw(cfg, group) {
     const size = cfg.size;
     const width = size[0] - 14;
     const height = size[1] - 14;
-    // 添加图片
+    // Add an image shape
     const image = group.addShape('image', {
       attrs: {
         x: - width / 2,
@@ -257,7 +253,7 @@ G6.registerNode('inner-animate', {
         img: cfg.img
       }
     });
-    // 执行旋转动画
+    // Execute the animation
     image.animate({
       onFrame(ratio) {
         const matrix = Util.mat3.create();
@@ -272,34 +268,34 @@ G6.registerNode('inner-animate', {
     }, 3000, 'easeCubic');
   }
 },
-// 继承了 rect 节点
+// Extend the rect node
 'rect');
 ```
 
-更多关于动画的实现，请参考[基础动画](/en/docs/manual/advanced/animation)章节。
+For more information about animation, please refer to [Basic Ainmation](/en/docs/manual/advanced/animation).
 
 <br />
 
-## 3. 调整锚点 anchorPoint
-节点上的[锚点 anchorPoint](/en/docs/manual/middle/keyConcept) 作用是**确定节点与边的相交的位置**，看下面的场景：<br />
+## 3. Adjust the anchorPoint
+The [anchorPoint](/en/docs/manual/middle/keyConcept) of a node is **the intersection of the node and its related edges**.<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mJ85Q5WRJLwAAAAAAAAAAABkARQnAQ' alt='img' width='200'/>
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*99aSR5zbd44AAAAAAAAAAABkARQnAQ' alt='img' width='200'/>
 
-> （左）没有设置锚点时。（右）diamond 设置了锚点后。
+> (Left) The diamond node has no anchorPoints. (Right) The diamond node has anchorPoints.
 
 
-有两种方式来调整节点上的锚点：
+There are two ways to adjust the anchorPoints of the node:
 
-- 在数据里面指定 `anchorPoints`。
+- Configure the `anchorPoints` in the data.
 
-      **适用场景：**可以为不同节点配置不同的锚点，更定制化。
+      **Applicable Scene:** Assign different anchorPoints for different nodes.
 
-- 自定义节点中通过 `getAnchorPoints` 方法指定锚点。
+- Assign `getAnchorPoints` when registering a custom node.
 
-      **适用场景：**全局配置锚点，所有该自定义节点类型的节点都相同。
+      **Applicable Scene:** Configure the anchorPoints globally for this type of node.
 
-### 数据中指定锚点
+### Configure the anchorPoints in Data
 ```javascript
 const data = {
   nodes: [{
@@ -307,49 +303,49 @@ const data = {
     x: 100,
     y: 100,
     anchorPoints: [
-      [0, 0.5], // 左侧中间
-      [1, 0.5]  // 右侧中间
+      [0, 0.5], // The center of the left border
+      [1, 0.5]  // The center of the right border
     ]},
-    //...       // 其他节点
+    //...       // Other nodes
   ],
   edges: [
-    //... // 边
+    //... // Other edges
   ]
 };
 ```
 
-### 自定义时指定锚点
+### Assign anchorPoints When Registering Node
 ```javascript
 G6.registerNode('diamond', {
-  //... // 其他方法
+  //... // Other functions
   getAnchorPoints() {
     return  [
-      [0, 0.5], // 左侧中间
-      [1, 0.5]  // 右侧中间
+      [0, 0.5], // The center of the left border
+      [1, 0.5]  // The center of the right border
     ]
   }
 }, 'rect');
 ```
 
-## 4. 调整状态样式
-常见的交互都需要节点和边通过样式变化做出反馈，例如鼠标移动到节点上、点击选中节点/边、通过交互激活边上的交互等，都需要改变节点和边的样式，有两种方式来实现这种效果：
+## 4. Register Node with State Styles
+In general, nodes and edges should response the states change by styles chaging. For example, highlight the node or edge clicked/hovered by user. We can achieve it by two ways:
 
-1. 在数据上添加标志字段，在自定义 shape 过程中根据约定进行渲染；
-1. 将交互状态同原始数据和绘制节点的逻辑分开，仅更新节点。
+1. Add a flag on the node data, control the style according to the flag in `draw` when registering a custom node;
+2. Separate the interactive states from source data and `draw`, update the node only.
 
-我们推荐用户使用第二种方式来实现节点的状态调整，可以通过以下方式来实现：
+We recommend adjust the state styles by the the second way, which can be achieved by:
 
-- 在 G6 中自定义节点/边时在 `setState` 方法中进行节点状态的设置；
-- 通过 `graph.setItemState()` 方法来设置状态。
+- Response the states in `setState` function when registering a node/edge;
+- Set/change the state by `graph.setItemState()`.
 
-基于 rect 扩展出一个 custom 图形，默认填充色为白色，当鼠标点击时变成红色，实现这一效果的示例代码如下：
+Based on rect node, we extend a custom node with white filling. It will be turned to red when the mouse clicks it. Implement it by the code below:
 ```javascript
-// 基于 rect 扩展出新的图形
+// Extend rect
 G6.registerNode('custom', {
-  // 设置状态
+  // Response the states
 	setState(name, value, item) {
     const group = item.getContainer();
-    const shape = group.get('children')[0]; // 顺序根据 draw 时确定
+    const shape = group.get('children')[0]; // Find the first graphics shape of the node. It is determined by the order of being added
   	if(name === 'selected') {
     	if(value) {
       	shape.attr('fill', 'red');
@@ -360,22 +356,22 @@ G6.registerNode('custom', {
   }
 }, 'rect');
 
-// 点击时选中，再点击时取消
+// Click to select, cancel by clicking again
 graph.on('node:click', ev=> {
 	const node = ev.item;
-  graph.setItemState(node, 'selected', !node.hasState('selected')); // 切换选中
+  graph.setItemState(node, 'selected', !node.hasState('selected')); // Switch the selected state
 });
 ```
 
-G6 并未限定节点的状态，只要你在 `setState` 方法中进行处理你可以实现任何交互，如实现鼠标放到节点上后节点逐渐变大的效果。<br />
+G6 does not limit the states for nodes/edges, you can assign any states to a node once you response it in the `setState` function. e.g. magnify the node by hovering:<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*JhhTSJ8PMbYAAAAAAAAAAABkARQnAQ' alt='img' width='350'/>
 
 ```javascript
 G6.registerNode('custom', {
-  // 设置状态
+  // Response the states change
   setState(name, value, item) {
     const group = item.getContainer();
-    const shape = group.get('children')[0]; // 顺序根据 draw 时确定
+    const shape = group.get('children')[0]; // Find the first graphics shape of the node. It is determined by the order of being added
     if(name === 'running') {
       if(value) {
         shape.animate({
@@ -390,7 +386,7 @@ G6.registerNode('custom', {
   }
 }, 'circle');
 
-// 鼠标移动到上面 running，移出结束
+// Activate 'running' by mouse entering. Turn it of by mouse leaving.
 graph.on('node:mouseenter', ev=> {
   const node = ev.item;
   graph.setItemState(node, 'running', true);
