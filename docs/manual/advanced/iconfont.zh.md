@@ -278,7 +278,7 @@ graph.render();
 ```
 
 ## 注意事项
-看了代码大家应该很清楚了，实质就是用了 text 图形，但有几个需要注意的地方：<br />**1、text的fontFamily必须和iconfont.css里面的font-family保持一致：**<br />
+看了代码大家应该很清楚了，实质就是用了 text 图形，但有几个需要注意的地方：<br />**1、text 的 fontFamily 必须和 iconfont.css 里面的 font-family 保持一致：**<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v0CoQoNIyJ8AAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wndRQo6U-oUAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>

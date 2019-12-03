@@ -166,18 +166,18 @@ const data = {
   children: [
     {
       id: "SubTreeNode1",
-      label: "**网咖",
+      label: "**Internet Bar",
       text: "&#xe605;",
-      relation: "上网",
+      relation: "Surf the Internet",
       children: [
         {
           id: "SubTreeNode2",
-          label: "多伦多",
+          label: "Toronto",
           text: "&#xe64b;"
         },
         {
           id: "id1",
-          label: "小王",
+          label: "Wang",
           text: "&#xe622;",
           children: [
             {
@@ -187,7 +187,7 @@ const data = {
             },
             {
               id: "SubTreeNode4",
-              label: "今晚在吗",
+              label: "Are you there",
               text: "&#xe629;"
             }
           ]
@@ -201,20 +201,20 @@ const data = {
       children: [
         {
           id: "SubTreeNode3.1",
-          label: "王五",
+          label: "Liu",
           text: "&#xe622;"
         },
         {
           id: "SubTreeNode3.2",
-          label: "张三",
+          label: "Zhang",
           text: "&#xe622;"
         }
       ]
     },
     {
       id: "SubTreeNode5",
-      label: "小花",
-      relation: "老婆",
+      label: "Huang",
+      relation: "Wife",
       text: "&#xe74b;",
       backgroundConfig: {
         fill: "Coral"
@@ -232,7 +232,7 @@ const data = {
           id: "SubTreeNode1.2.1",
           label: "182****2123",
           text: "&#xe60d;",
-          relation: "通话",
+          relation: "Call",
           backgroundConfig: {
             fill: "Coral"
           },
@@ -247,9 +247,9 @@ const data = {
         },
         {
           id: "SubTreeNode3.3",
-          label: "凶器",
+          label: "Weapon",
           text: "&#xe673;",
-          relation: "指纹",
+          relation: "Fingerprint",
           backgroundConfig: {
             fill: "Coral"
           },
@@ -266,8 +266,8 @@ const data = {
     },
     {
       id: "SubTreeNode6",
-      label: "马航37*",
-      relation: "乘坐",
+      label: "Malaysia Airlines37*",
+      relation: "Take",
       text: "&#xe610;"
     }
   ]
@@ -277,14 +277,15 @@ graph.data(data);
 graph.render();
 ```
 
-## 注意事项
-看了代码大家应该很清楚了，实质就是用了 text 图形，但有几个需要注意的地方：<br />**1、text的fontFamily必须和iconfont.css里面的font-family保持一致：**<br />
+## Attention
+In fact, iconfont is a text shape.
+<br />**1、The fontFamily of the text and the font-family in iconfont.css shoulde be kept consistent:**<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v0CoQoNIyJ8AAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wndRQo6U-oUAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
 
-**2、data 里面的 text 使用的是 Unicode，需要自行复制。**<br />
+**2、The text in the data is the Unicode. You can copy it directly.**<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SV8TRrKFLD8AAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
