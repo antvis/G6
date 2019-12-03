@@ -23,7 +23,6 @@ export default class Behavior {
     // TODO 将传进来的Behavior和默认的合并
 
     const instance = Object.assign({}, BehaviorOption.prototype, behavior)
-    // console.log('xxx', instance)
     this.types[type] = instance
   }
 
@@ -34,4 +33,4 @@ export default class Behavior {
   public static getBehavior(type: string) {
     return this.types[type]
   }
-} 
+}
