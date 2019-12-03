@@ -15,7 +15,7 @@ G6 除了提供丰富的 [内置边](/zh/docs/manual/middle/elements/defaultEdge
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ijy4QpaB-fgAAAAAAAAAAABkARQnAQ' alt='img' width='150'/>
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*gz09R5fM-HMAAAAAAAAAAABkARQnAQ' alt='img' width='150'/>
 
-> （左）直线边。（中）默认的折线边。（右）调整了节点的控制点后的折线边。
+> （左）直线边。（中）默认的折线边。（右）调整了节点的锚点（连入点）后的折线边。
 
 ### 自定义边
 ```javascript
@@ -39,10 +39,10 @@ G6.registerEdge('hvh', {
 });
 ```
 
-- 默认的 `startPoint`， `endPoint` 是两个端点中点的连接线分别同圆的交点；
-- 修改节点的锚点可以修改 `startPoint` 和 `endPoint` 的位置。
+- 上面自定义边中的 `startPoint` 和 `endPoint` 分别是是边两端与起始节点和结束节点的交点；
+- 可以通过修改节点的锚点（边连入点）来改变 `startPoint` 和 `endPoint` 的位置。
 
-### 示例数据
+### 在数据中修改 anchorPoints
 通过以下的数据，使用自定义的 hvh 边，就可以实现上图最右边的效果。
 ```javascript
 const data = {
@@ -120,9 +120,9 @@ G6.registerEdge('line-growth', {
 <br />提示：边如果过细点击时很难击中，可以设置 `**lineAppendWidth**` 来提升击中范围。
 
 ```javascript
-// 基于 line 扩展出新的图形
+// 基于 line 扩展出新的边
 G6.registerEdge('custom-edge', {
-  // 设置状态
+  // 响应状态变化
   setState(name, value, item) {
     const group = item.getContainer();
     const shape = group.get('children')[0]; // 顺序根据 draw 时确定

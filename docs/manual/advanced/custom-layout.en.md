@@ -3,64 +3,62 @@ title: Custom Layout
 order: 4
 ---
 
-[The English Version is on the Way~~~]
+G6 provides abundant commonly used built-in layouts for Graph and TreeGraph respectively. The usage can be found in: [Utilize Layout](/en/docs/manual/middle/layout), [Layout API](/en/docs/api/Layout). Custom layout mechanism of G6 allows the users to design their own type of layout to meet their special requirements.
 
-G6 提供了一般图和树图的一些常用布局，使用方式参见：中级教程 [使用布局 Layout](/zh/docs/manual/middle/layout)，[Layout API](/zh/docs/api/Layout)。当这些内置布局无法满足需求时，G6 还提供了一般图的自定义布局的机制，方便用户进行更定制化的扩展。
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;⚠️**Attention:** </span>
+The TreeGraph does not support custom layout temporarily.
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;注意：</span>
-树图暂时不支持自定义布局。
-
-本文将会通过自定义 Bigraph 布局的例子讲解自定义布局。
+In this document, we will introduce the custom layout by registering a layout for Bigraph.
 
 
-## 自定义布局 API
-G6 中自定义布局的 API 如下：
+## The API of Cumstom Layout
+
 ```javascript
 /**
- * 注册布局的方法
- * @param {string} type 布局类型，外部引用指定必须，不要与已有布局类型重名
- * @param {object} layout 布局方法
+ * Register a Layout
+ * @param {string} type The layout type is must assigned to an unique string
+ * @param {object} layout The layout method
  */
 Layout.registerLayout = function(type, {
   /**
-   * 定义自定义行为的默认参数，会与用户传入的参数进行合并
+   * The default configurations of the custom layout. It will be mixed by the configurations from users
    */
   getDefaultCfg() {
     return {};
   },
   /**
-   * 初始化
-   * @param {object} data 数据
+   * Initialize
+   * @param {object} data data
    */
   init(data) {},
   /**
-   * 执行布局
+   * Execute the layout
    */
   execute() {},
   /**
-   * 根据传入的数据进行布局
+   * Layout with the data
    * @param {object} data 数据
    */
   layout(data) {},
   /**
-   * 更新布局配置，但不执行布局
-   * @param {object} cfg 需要更新的配置项
+   * Update the layout configurations, but do not execute the layout
+   * @param {object} cfg The new configurations
    */
   updateCfg(cfg) {},
   /**
-   * 销毁
+   * Destroy
    */
   destroy() {},
 });
 ```
 
 
-## 自定义布局
-下面，我们将讲解如何自定义布局如下图的二分图 Bigraph。二分图只存在两部分节点之间的边，同属于一个部分的节点之间没有边。我们希望布局能够对两部分节点分别进行排序，减少边的交叉。<br />
+## Custom Layout
+Now, we are going to register a layout for Bigraph. Bigraph is the graph with nodes divided into two parts. There will be no edges between the nodes which are belong to the same part. In the custom layout, we sort the nodes according to their topology to reduce the edge crossings.<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FksvTrdkqXgAAAAAAAAAAABkARQnAQ' alt='img' width='350'/>
 
-该二分图数据如下，节点根据 `cluster` 字段分为 了 `'part1'` 和 `'part2'`，代表二分图的两部分。
+The data of the Bigraph is shown below, where the nodes are divided into `'part1'` and `'part2'` by the property `cluster`.
 ```javascript
 const data = {
   nodes: [
@@ -93,32 +91,32 @@ const data = {
 };
 ```
 
-### 需求分析
-为了减少边的交叉，可以通过排序，将 `'part1'` 的节点 A 对齐到所有与 A 相连的 `'part2'` 中的节点的平均中心；同样将 `'part2'` 中的节点 a 对齐到所有与 a 相连的 `'part1'` 中的节点的平均中心。可以描述成如下过程：
+### Requirements Analysis
+To reduce the edge crossings, we sort the nodes in `part1` and `part2` respectively. The process is:
 
-- Step 1：为 `'part1'` 和 `'part2'` 的节点初始化随机序号 index，都分别从 0 开始；
-- Step 2：遍历 `'part1'` 的节点，对每一个节点 A：
-  - 找到与 A 相连的属于 `'part2'` 的节点的集合 ![]( https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-WOhQIGg9l8AAAAAAAAAAABkARQnAQ)，加和 ![]( https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-WOhQIGg9l8AAAAAAAAAAABkARQnAQ) 中所有节点的 index，并除以 ![]( https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-WOhQIGg9l8AAAAAAAAAAABkARQnAQ) 的元素个数，得数覆盖 A 的 index 值：![](https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VfXiSK1f02cAAAAAAAAAAABkARQnAQ)
-- Step 3：遍历 `'part1'` 的节点，对每一个节点 B（与 Step 2 相似）：
-  - 找到与 B 相连的属于 `'part2'` 的节点的集合 ![](https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GqZiSKI-nB8AAAAAAAAAAABkARQnAQ)，加和 ![](https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GqZiSKI-nB8AAAAAAAAAAABkARQnAQ) 中所有节点的 index，并除以 ![](https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GqZiSKI-nB8AAAAAAAAAAABkARQnAQ) 的元素个数，得数覆盖 B 的 index 值：![](https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-8b2Spfb4HIAAAAAAAAAAABkARQnAQ)
-- Step 4：两部分节点分别按照节点的序号 index 进行排序，最终按照节点顺序安排节点位置。
+- Step 1: Assign the index from 0 randomly for the nodes in `'part1'` and `'part2'` respectively;
+- Step 2: Traverse the nodes in `'part1'`. For each node A:
+  - Find the set of related nodes of A (connect to A directly) in `'part2'` ![]( https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-WOhQIGg9l8AAAAAAAAAAABkARQnAQ). Sum up the indexes of the nodes in ![]( https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-WOhQIGg9l8AAAAAAAAAAABkARQnAQ), and divided it by the number of elements in ![]( https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-WOhQIGg9l8AAAAAAAAAAABkARQnAQ). Replace the index of A by the result: ![](https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VfXiSK1f02cAAAAAAAAAAABkARQnAQ)
+- Step 3: Tranverse the nodes in `'part2'`. For each node A(Similar to the Step 2):
+  - Find the set of related nodes of B (connect to B directly) in `'part1'` ![](https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GqZiSKI-nB8AAAAAAAAAAABkARQnAQ). Sum up the indexes of the nodes in ![](https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GqZiSKI-nB8AAAAAAAAAAABkARQnAQ), and divided it by the number of elements in ![](https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GqZiSKI-nB8AAAAAAAAAAABkARQnAQ). Replace the index of A by the result: ![](https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-8b2Spfb4HIAAAAAAAAAAABkARQnAQ)
+- Step 4: Sort the nodes in `part1` and `part2` respectively according to their indexed. The result order determine the postions of the nodes in the final layout.
 
-## 实现
-下面代码展示了自定义名为 `'bigraph-layout'` 的二分图布局，完整代码参见：[自定义布局-二分图](/zh/examples/net/layoutMechanism#customBigraph)。使用该布局的方式与使用内置布局方式相同，都是在实例化图时将其配置到 `layout` 配置项中，详见：[使用布局 Layout](/zh/docs/manual/middle/layout)。
+## Implementation
+The following code below register a layout named `'bigraph-layout'` for Bigraph. The complete code can be found in: [Cusom Layout-Bigraph](/en/examples/net/layoutMechanism#customBigraph). The usage of custom layout is the same as built-in layouts: configure the `layout` to the graph when instantiating. Refer to: [Utilize Layout](/en/docs/manual/middle/layout)。
 
 ```javascript
 G6.registerLayout('bigraph-layout', {
-  // 默认参数
+  // Default configurations
   getDefaultCfg: function getDefaultCfg() {
     return {
-      center: [0, 0],          // 布局的中心
-      biSep: 100,              // 两部分的间距
-      nodeSep: 20,             // 同一部分的节点艰巨
-      direction: 'horizontal', // 两部分的分布方向
-      nodeSize: 20             // 节点大小
+      center: [0, 0],          // The center of the layout
+      biSep: 100,              // The separation of these two parts
+      nodeSep: 20,             // The separation between nodes in the same part
+      direction: 'horizontal', // The direction of the two parts
+      nodeSize: 20             // The node size
     };
   },
-  // 执行布局
+  // Execute the layout
   execute: function execute() {
     var self = this;
     var center = self.center;
@@ -127,7 +125,7 @@ G6.registerLayout('bigraph-layout', {
     var nodeSize = self.nodeSize;
     var part1Pos = 0,
         part2Pos = 0;
-    // 若指定为横向分布
+    // Layout the graph in horizontally
     if (self.direction === 'horizontal') {
       part1Pos = center[0] - biSep / 2;
       part2Pos = center[0] + biSep / 2;
@@ -138,7 +136,7 @@ G6.registerLayout('bigraph-layout', {
     var part2Nodes = [];
     var part1NodeMap = new Map();
     var part2NodeMap = new Map();
-    // separate the nodes and init the positions
+    // Separate the nodes and init the positions
     nodes.forEach(function(node, i) {
       if (node.cluster === 'part1') {
         part1Nodes.push(node);
@@ -149,7 +147,7 @@ G6.registerLayout('bigraph-layout', {
       }
     });
 
-    // 对 part1 的节点进行排序
+    // Sort the nodes in part1
     part1Nodes.forEach(function(p1n) {
       var index = 0;
       var adjCount = 0;
@@ -171,7 +169,7 @@ G6.registerLayout('bigraph-layout', {
       return a.index - b.index;
     });
     
-    // 对 part2 的节点进行排序
+    // Sort the nodes in part2
     part2Nodes.forEach(function(p2n) {
       var index = 0;
       var adjCount = 0;
@@ -193,7 +191,7 @@ G6.registerLayout('bigraph-layout', {
       return a.index - b.index;
     });
 
-    // 放置节点
+    // Place the ndoes
     var hLength = part1Nodes.length > part2Nodes.length ? part1Nodes.length : part2Nodes.length;
     var height = hLength * (nodeSep + nodeSize);
     var begin = center[1] - height / 2;

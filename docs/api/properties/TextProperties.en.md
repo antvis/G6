@@ -7,21 +7,21 @@ order: 2
 
 | Name | Description | Remark |
 | --- | --- | --- |
-| fill | The color or gradient color for filling. | The corresponding property in canvas is `fillStyle`. |
-| stroke | The color, gradient color, or pattern for stroke. | The corresponding property in canvas is `strokeStyle`. |
+| fill | The color or gradient color for filling. | The corresponding property in Canvas is `fillStyle`. |
+| stroke | The color, gradient color, or pattern for stroke. | The corresponding property in Canvas is `strokeStyle`. |
 | shadowColor | The color for shadow. |  |
 | shadowBlur | The blur level for shadow. | Larger the value, more blur. |
 | shadowOffsetX | The horizontal offset of the shadow. |  |
 | shadowOffsetY | The vertical offset of the shadow. |  |
-| opacity | The opacity (alpha value) of the shape. | The corresponding property in canvas is `globalAlpha`. |
+| opacity | The opacity (alpha value) of the shape. | The corresponding property in Canvas is `globalAlpha`. |
 | font | The font of the text. |  |
 | textAlign | The align way of the text. | Options: `'center'` / `'end'` / `'left'` / `'right'` / `'start'`. `'start'` by default. |
 | textBaseline | The base line of the text. | Options: <br />`'top'` / `'middle'` / `'bottom'` / `'alphabetic'` / `'hanging'`. `'bottom'` by default. |
-| fontStyle | The font style of the text. | The corresponding property in css is `font-style` |
-| fontVariant | The font variant of the text. | The corresponding property in css is `font-variant` |
-| fontWeight | The font weight of the text. | The corresponding property in css is `font-weight` |
-| fontSize | The font size of the text. | The corresponding property in css is `font-size` |
-| fontFamily | The font family of the text. | The corresponding property in css is `font-family` |
+| fontStyle | The font style of the text. | The corresponding property in CSS is `font-style` |
+| fontVariant | The font variant of the text. | The corresponding property in CSS is `font-variant` |
+| fontWeight | The font weight of the text. | The corresponding property in CSS is `font-weight` |
+| fontSize | The font size of the text. | The corresponding property in CSS is `font-size` |
+| fontFamily | The font family of the text. | The corresponding property in CSS is `font-family` |
 | autoRotate | Wheter rotate the text according to the edge automatically if it is a label of an edge. |  |
 
 
@@ -64,7 +64,7 @@ graph.update(node, {
 })
 ```
 
-Modify the style of text of node as the code above, and we get the result:
+The code above modifies the label style of node and results in:
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*euH9SLcS2IoAAAAAAAAAAABkARQnAQ' width=350>
 

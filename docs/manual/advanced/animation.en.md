@@ -3,7 +3,7 @@ title: Basic Animation
 order: 8
 ---
 
-There are two-level animation in G6:
+There are two-level animations in G6:
 
 - GLobal animation: Transform the graph animatively when the changes are global;
 - Item animation: The animation on a node or an edge.

@@ -6,7 +6,7 @@ order: 8
 > The title of Node Group is supported from G6 V3.1.2.
 
 
-Node Group is a practical function for graph visualization. It is supported from G6 V3.0.5. Refer to the demo [Demo](/en/examples/interaction/nodeGroup)。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*G1OBSJf672QAAAAAAAAAAABkARQnAQ' width=400/>
+Node Group is a practical function for graph visualization. It is supported from G6 V3.0.5. Refer to the demo [Demo](/en/examples/interaction/nodeGroup). <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*G1OBSJf672QAAAAAAAAAAABkARQnAQ' width=400/>
 
 ### Data Structure
 In data, Node Group are defined as array `group`, and each node data has a property `groupId`.
@@ -57,7 +57,7 @@ The `title` for a group can be a string or an object:
     {
       id: 'group1',
       title: {
-      	text: '第一个分组',
+      	text: 'The 1st group',
         stroke: '#444',
         offsetX: 0,
         offsetY: 0

@@ -59,9 +59,9 @@ G6.registerNode(
      */
     setState(name, value, node) {},
     /**
-     * 获取锚点（相关边的连如点）
+     * 获取锚点（相关边的连入点）
      * @param  {Object} cfg 节点的配置项
-     * @return {Array|null} 锚点的数组,如果为 null，则没有控制点
+     * @return {Array|null} 锚点（相关边的连入点）的数组,如果为 null，则没有锚点
      */
     getAnchorPoints(cfg) {},
   },
