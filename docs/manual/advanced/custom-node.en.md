@@ -3,11 +3,9 @@ title: Custom Node
 order: 2
 ---
 
-[The English Version is on the Way~~~]
+G6 provides abundant [Built-in Nodes](/en/docs/manual/middle/elements/defaultNode), including [circle](/en/docs/manual/middle/elements/nodes/circle), [rect](https://www.yuque.com/antv/g6/vdqpdt), [ellipse](/en/docs/manual/middle/elements/nodes/ellipse), [diamond](/en/docs/manual/middle/elements/nodes/diamond), [triangle](/en/docs/manual/middle/elements/nodes/triangle), [star](/en/docs/manual/middle/elements/nodes/star), [image](/en/docs/manual/middle/elements/nodes/image), [modelRect](/en/docs/manual/middle/elements/nodes/modelRect). Besides, the custom machanism allows the users to design their own type of nodes by `G6.registerNode('nodeName', options)`. A node with complex graphics shapes, complex interactions, fantastic animations can be implemented easily.
 
-G6 提供了一系列[内置节点](/zh/docs/manual/middle/elements/defaultNode)，包括 [circle](/zh/docs/manual/middle/elements/nodes/circle)、[rect](https://www.yuque.com/antv/g6/vdqpdt)、[ellipse](/zh/docs/manual/middle/elements/nodes/ellipse)、[diamond](/zh/docs/manual/middle/elements/nodes/diamond)、[triangle](/zh/docs/manual/middle/elements/nodes/triangle)、[star](/zh/docs/manual/middle/elements/nodes/star)、[image](/zh/docs/manual/middle/elements/nodes/image)、[modelRect](/zh/docs/manual/middle/elements/nodes/modelRect)。若内置节点无法满足需求，用户还可以通过 `G6.registerNode('nodeName', options)` 进行自定义节点，方便用户开发更加定制化的节点，包括含有复杂图形的节点、复杂交互的节点、带有动画的节点等。
-
-在本章中我们会通过四个案例，从简单到复杂讲解节点的自定义。这四个案例是：
+In this document, we will introduce the custom enodeby four examples:
 <br />
 <strong>1. 从无到有的定义节点：</strong>绘制图形；优化性能。
 <br />
@@ -17,7 +15,7 @@ G6 提供了一系列[内置节点](/zh/docs/manual/middle/elements/defaultNode)
 <br />
 <strong>4. 调整节点的鼠标选中/悬浮样式。</strong>样式变化响应；动画响应。
 
-通过 [图形 Shape](/zh/docs/manual/middle/keyConcept) 章节的学习，我们应该已经知道了自定义节点时需要满足以下两点：
+通过 [图形 Shape](/en/docs/manual/middle/keyConcept) 章节的学习，我们应该已经知道了自定义节点时需要满足以下两点：
 
 - 控制节点的生命周期；
 - 解析用户输入的数据，在图形上展示。
@@ -168,7 +166,7 @@ graph.render();
 
 在实现 diamond 的过程中，重写 `update` 方法，找到需要更新的 shape 进行更新，从而优化性能。寻找需要更新的图形可以通过：
 
-- `group.get('children')[0]` 找到 [关键图形 keyShape](/zh/docs/manual/middle/keyConcept)，也就是 `draw` 方法返回的 shape；
+- `group.get('children')[0]` 找到 [关键图形 keyShape](/en/docs/manual/middle/keyConcept)，也就是 `draw` 方法返回的 shape；
 - `group.get('children')[1]` 找到 label 图形。
 
 下面代码仅更新了 diamond 的关键图形的路径和颜色。
@@ -196,7 +194,7 @@ G6.registerNode('diamond', {
 
 ## 2. 扩展现有节点
 ### 扩展 Shape
-G6 中已经[内置了一些节点](/zh/docs/manual/middle/elements/defaultNode)，如果用户仅仅想对现有节点进行调整，复用原有的代码，则可以基于现有的节点进行扩展。同样实现 diamond ，可以基于 circle、ellipse、rect 等内置节点的进行扩展。[simple-shape](https://github.com/antvis/g6/blob/master/src/shape/single-shape-mixin.js) 是这些内置节点图形的基类，也可以基于它进行扩展。
+G6 中已经[内置了一些节点](/en/docs/manual/middle/elements/defaultNode)，如果用户仅仅想对现有节点进行调整，复用原有的代码，则可以基于现有的节点进行扩展。同样实现 diamond ，可以基于 circle、ellipse、rect 等内置节点的进行扩展。[simple-shape](https://github.com/antvis/g6/blob/master/src/shape/single-shape-mixin.js) 是这些内置节点图形的基类，也可以基于它进行扩展。
 
 下面以基于 single-shape 为例进行扩展。`draw`，`update`，`setState` 方法在 [simple-shape ](https://github.com/antvis/g6/blob/master/src/shape/single-shape-mixin.js)中都有实现，这里仅需要复写 `getShapeStyle` 方法即可。返回的对象中包含自定义图形的路径和其他样式。
 ```javascript
@@ -273,12 +271,12 @@ G6.registerNode('inner-animate', {
 'rect');
 ```
 
-更多关于动画的实现，请参考[基础动画](/zh/docs/manual/advanced/animation)章节。
+更多关于动画的实现，请参考[基础动画](/en/docs/manual/advanced/animation)章节。
 
 <br />
 
 ## 3. 调整锚点 anchorPoint
-节点上的[锚点 anchorPoint](/zh/docs/manual/middle/keyConcept) 作用是**确定节点与边的相交的位置**，看下面的场景：<br />
+节点上的[锚点 anchorPoint](/en/docs/manual/middle/keyConcept) 作用是**确定节点与边的相交的位置**，看下面的场景：<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mJ85Q5WRJLwAAAAAAAAAAABkARQnAQ' alt='img' width='200'/>
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*99aSR5zbd44AAAAAAAAAAABkARQnAQ' alt='img' width='200'/>

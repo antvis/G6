@@ -191,7 +191,7 @@ G6.registerLayout('bigraph-layout', {
       return a.index - b.index;
     });
 
-    // 放置节点
+    // Place the ndoes
     var hLength = part1Nodes.length > part2Nodes.length ? part1Nodes.length : part2Nodes.length;
     var height = hLength * (nodeSep + nodeSize);
     var begin = center[1] - height / 2;
