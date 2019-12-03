@@ -50,11 +50,14 @@ default、hover 和 collapse 支持的所有通用的属性参考[属性配置�
 | minDis | 最内层（无嵌套）的 Group 的 padding | Number | 无嵌套，即该 Group 内不含有其他 Group |
 | maxDis | 内嵌有其他节点分组的 Group 的 padding | Number | 嵌套 Group，即该 Group 内有其他 Group 时使用该值 |
 
-`groupType` 指定为 `'circle'` 时的 `minDis` 与 `maxDis` 示意图。其中 group1 为无嵌套的 Group（即最内层的 Group），grou2 为嵌套 group2。
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_q6NSbU4xN0AAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
+`groupType` 指定为 `'circle'` 时的 `minDis` 与 `maxDis` 示意图。其中 group1 为无嵌套的 Group（即最内层的 Group），group2 为嵌套 Group。
+<br />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_hgTTaIPc8IAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
-`groupType` 指定为 `'rect'` 时的 `minDis` 与 `maxDis` 示意图。其中 group1 为无嵌套的 Group（即最内层的 Group），grou2 为嵌套 group2。
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hbAgSYRTCOEAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
+
+`groupType` 指定为 `'rect'` 时的 `minDis` 与 `maxDis` 示意图。其中 group1 为无嵌套的 Group（即最内层的 Group），grou2 为嵌套 Group。
+<br />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_IrBQqB0K2oAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
 #### collapse
 | 属性名称 | 含义 | 类型 | 备注 |
@@ -72,8 +75,8 @@ default、hover 和 collapse 支持的所有通用的属性参考[属性配置�
 | groupId | 分组 ID | String |  |
 | nodes | 分组中包含的节点或节点 ID | Array | 节点实例或节点 ID |
 | type | 分组类型 | String | 默认 `'circle'` ，支持 `'circle'` 和 `'rect'` |
-| zIndex | 分组层级 | Number | 默认 0 |
-| title | 分组标题配置 | Object | String | 为 String 类型时，不能配置其他属性，为 Object 时的配置参考[这里](https://www.yuque.com/antv/g6/inxeg8#07gsB) |
+| zIndex | 分组层级 | Number | 默认 `0` |
+| title | 分组标题配置 | Object / String | 为 String 类型时，不能配置其他属性，为 Object 时的配置参考[这里](/en/docs/manual/middle/nodeGroup) |
 
 ```javascript
 const nodes = ['node1', 'node2']
@@ -97,7 +100,7 @@ graph.addItem('group', {
 
 | 参数 | 含义 | 类型 | 备注 |
 | --- | --- | --- | --- |
-| groupId | 分组ID | String |  |
+| groupId | 分组 ID | String |  |
 
 
 ```javascript
@@ -109,7 +112,7 @@ graph.collapseGroup('groupId')
 
 | 参数 | 含义 | 类型 | 备注 |
 | --- | --- | --- | --- |
-| groupId | 分组ID | String |  |
+| groupId | 分组 ID | String |  |
 
 
 ```javascript

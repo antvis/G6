@@ -49,10 +49,13 @@ The common attributes of the groups in the default, hover and collapse states ar
 | maxDis | Tha padding of the Groups with nested structure | Number | Nested Group is the Group containing other Groups |
 
 The sketch about the `minDis` and `maxDis` when `groupType` is `'circle'`, where the group1 is the Group without nested structure, and the group2 is a nested Group.
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_q6NSbU4xN0AAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
+<br />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_hgTTaIPc8IAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
+
 
 The sketch about the `minDis` and `maxDis` when `groupType` is `'rect'`, where the group1 is the Group without nested structure, and the group2 is a nested Group.
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hbAgSYRTCOEAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
+<br />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_IrBQqB0K2oAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
 #### collapse
 | Name | Description | Type | Remark |
@@ -67,11 +70,11 @@ Create Group.
 
 | Name | Description | Type | Remark |
 | --- | --- | --- | --- |
-| groupId | 分组 ID | String |  |
-| nodes | 分组中包含的节点或节点 ID | Array | 节点实例或节点 ID |
-| type | 分组类型 | String | 默认 circle ，支持 circle 和 rect |
-| zIndex | 分组层级 | Number | 默认 0 |
-| title | 分组标题配置 | Object | String | 为 string 类型时，不能配置其他属性，为 object 时的配置参考[这里](https://www.yuque.com/antv/g6/inxeg8#07gsB) |
+| groupId | The id of the Group | String |  |
+| nodes | The nodes or the id of the ndoes in the Group | Array | The array of node objects or ids |
+| type | The type of the Group | String | Options: `'circle'`, `'rect'`. `'circle'` by default |
+| zIndex | The zIndex of the Group | Number | `0` by default |
+| title | The title text or the configurations | Object / String | When it is a string, the styles of it is uneditable. When it is an object, the configurations can be found in [Node Group](/en/docs/manual/middle/nodeGroup) |
 
 ```javascript
 const nodes = ['node1', 'node2']
@@ -80,9 +83,9 @@ graph.addItem('group', {
   nodes,
   type: 'rect',
   zIndex: 2,
-  title: '分组标题',
+  title: 'The title text',
   title: {
-  	text: '分组标题',
+  	text: 'The title text',
     stroke: '',
     fill: '',
     offsetX: 10,
@@ -91,11 +94,11 @@ graph.addItem('group', {
 })
 ```
 ## collapseGroup
-收起分组，收起分组后，隐藏分组中的所有节点和边，分组外部与分组内节点有连线的则临时连接到分组上面。
+Hide the nodes and the edges when the Group is collapsed. The edges linked to the inner nodes will link to the group;
 
 | Name | Description | Type | Remark |
 | --- | --- | --- | --- |
-| groupId | 分组ID | String |  |
+| groupId | The id of the Group | String |  |
 
 
 ```javascript
@@ -103,11 +106,11 @@ graph.collapseGroup('groupId')
 ```
 
 ## expandGroup
-展开分组，显示分组中的所有节点和边，恢复收起前的连接情况。
+The nodes and the edges will be restored when the Group is expand.
 
 | Name | Description | Type | Remark |
 | --- | --- | --- | --- |
-| groupId | 分组ID | String |  |
+| groupId | The id of the Group | String |  |
 
 
 ```javascript
