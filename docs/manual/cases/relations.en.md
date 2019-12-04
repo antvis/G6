@@ -42,7 +42,7 @@ The types of relationships are various in social network with large data. For ex
 
 
 ## Relationship Clustering
-There might be multiple 'colleague' type relationships betwenn node A and B, e.g. A and B are colleague in company1 and company2. These two 'colleague' relationships have different timestep. We do not render all the similar relationships onto the graph, but render a clustered edge which can be expanded by clicking.
+There might be multiple 'colleague' type relationships betwenn node A and B, e.g. A and B are colleague in company1 and company2. These two 'colleague' relationships have different timestamp. We do not render all the similar relationships onto the graph, but render a clustered edge which can be expanded by clicking.
 
 **Applicable Scene:** Cluster relationships with same type into one edge to reduce the visual clutter.
 

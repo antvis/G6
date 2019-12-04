@@ -16,32 +16,53 @@ Based on this background, we try to provide a set of emergency plan visualizatio
 
 
 
-## 功能设计
+## Feature Design
 
-### 1. 应急模式大图展示
-应急模式大图是应急模式进入后的主页面，大图应该包括的功能点有：<br />1）本次发生异常的节点、与异常节点的有调用关系的其他节点，以及其调用关系链路展示；<br />2）链路或者节点的一些备注信息展示；<br />3）节点上有交互能力：比如hover或者click之后有详细信息展示；<br />4）与左侧影响面中选择项联动展示大图；<br />5）节点的展开菜单扩展；<br />6）时序分析功能，时间轴，展示最近一小时每分钟的错误总数柱形图，点击柱形图表示选择某时间点，选择后可触发全部功能请求接口，刷新全部功能。<br />
-
-
-### 2. 影响面面板功能
-影响面的概念是指：每一次发生异常产生的影响，这个影响一方面体现在业务层面，是业务影响面；另一方面体现在更具体的前端页面上，叫前端影响面；体现在具体应用，是应用影响面。<br />影响面以悬浮面板的形式吸附在页面边缘（左侧），应该具有的功能有：<br />1）打开 / 收起影响面面板；<br />2）展示影响面列表信息；<br />3）切换业务影响面/前端影响面/应用影响面；<br />4）影响趋势图；<br />5）日志查看列表；<br />6）信息模块可折叠；<br />7）基础架构依赖。<br />
-
-
-### 3. 执行操作面板功能
-执行操作面板的入口是：点击查看影响面列表中的详情。<br />执行操作含的功能有：<br />1）概要信息列表展示和操作功能；<br />2）应急辅助的列表展示以及操作功能（有弹出展示图标）；<br />3）打开 / 收起影响面面板；<br />4）信息模块可折叠。<br />
+### 1. Demonstration of Emergency
+The demonstration of emergency is the main view after users enter the emergency mode. It contains six features:
+<br />1）Shows the node where the exception occurred on, the nodes that have a calling relationship with the abnormal node, and the calling relationship link;
+<br />2）Shows the remark information about paths or nodes;
+<br />3）The interaction abilities: show detail information when mouse hover or click a node;
+<br />4）Combines with the left panel to display;
+<br />5）Allows the menu of the node to be extended;
+<br />6）Time series analysis: time bar with bar chart to show the error counts in different time slots, allows refreshing the graph by clicking a bar.<br />
 
 
-### 4. APP详情面板扩展功能
-在原有的APP详情页上有添加一些扩展功能：<br />1）日志展示；<br />2）应急辅助。<br />
+### 2. Affect Area Panel
+The affect area: The impact of each anomaly. On the one hand, it is a bussiness affect area if it happens on bussiness; On the other hand, it is a front-end affect area if it happens on the front-end; If it happens on the specific applications, it will be a application affect area.
+<br />The affect area is shown in the left panel with the features:
+<br />1）Open / close the affect area panel;
+<br />2）Show the list of affect area;
+<br />3）Swich to bussiness affect area / front-end affect area / application affect area;
+<br />4）Show the affect trends;
+<br />5）Show the list of logs;
+<br />6）The information view is collapsible;
+<br />7）Basic architecture dependencies.<br />
 
 
-### 5. 其他功能
+### 3. Operation Panel
+The entrance of the operation panel is the detail link of the list of affect area.
+<br />The operations include:
+<br />1）Show and manipulate the summary information;
+<br />2）The list of emergency assistances and operations with pop-up icons;
+<br />3）Open / close the affect area panel;
+<br />4）The information view is collapsible.<br />
 
-1. 链接分享，分享的链接中带有时间参数，用以回到异常现场；
-1. 可以限流；
-1. 关键字高亮，使用正则去匹配部分关键字并处理待显示的html文本。
+
+### 4. Details Ppanel Extensions
+There are some extensions in the detail view of the app:
+<br />1）Log demonstration;
+<br />2）Emergency assistances.<br />
 
 
-## 主要技术实现
+### 5. Other Features
+
+1. Share links. The links have timestamps for going back to the abnormal place;
+2. Be able to limit the flow;
+3. Highlight the key words. Use regular to match some keywords and process the HTML text to be displayed.
+
+
+## Implementation of Main Technologies
 
 
 ### 应急大图
