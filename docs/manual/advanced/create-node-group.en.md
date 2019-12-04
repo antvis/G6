@@ -5,7 +5,7 @@ order: 8
 
 By default, the Node Groups are rendered according to the data, which means G6 will find the array `groups` in the data for rendering. if the `groups` does not exist, the `groupId` in each element of `nodes` will take effect. No group will be rendered when both the `groups` and `groupId`s do not exist.
 
-CustomGroup is the customized Node Group, which supports Circle and Rect type Group. You can create a Node Group by CustomGroup, and set the group style, calculate the groups, and collapse and extend groups. 
+CustomGroup is the customized Node Group, which supports Circle and Rect type Group. You can create a Node Group by CustomGroup, and set the group style, calculate the groups, and collapse / extend groups. 
 
 ## Instantialize the CustomGroup
 The instances of CustomGroup will be created while instantiating the Graph. No manual instantiation is required.
@@ -27,7 +27,7 @@ const graph = new G6.Graph({
 ```
 
 ### groupType
-groupType is a string indicating the type of the Node Group. Options `'circle'` 和 `'rect'`, and `'circle'` by default.
+groupType is a string indicating the type of the Node Group. Options `'circle'` and `'rect'`. `'circle'` by default.
 
 The reuslt of **groupType: `'circle'`**<br />
 
