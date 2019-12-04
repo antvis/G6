@@ -3,12 +3,17 @@ title: Dynamic Relationship Analysis Powered by G6
 order: 0
 ---
 
-[The English Version is on the Way~~~]
+## Background
+With the rapid development of Internet business, the business and application systems, middleware and their relationships and dependencies have become more and more complex. 
+It is hard for the developers, testing personnel, architect, and maintenance personnel to control and maintain the super complex relationships between the applications and middleware. 
+Once a problem occurs online, the entire process from the occurrence of a failure to the organization for emergency requires multiple parties to participate. They use multiple system tools and platforms to query and synchronize information. 
+There are breaks between multiple stages of the process, the impact assessment and change retrospection take a long time, and the requirements for emergency personnel are relatively high. 
+There is no efficient and systematic solution for the overall failure emergency response. 
+For example, after receiving an online alarm, the impact area and source of change cannot be located quickly. It is difficult to make accurate decisions. And it is not possible to quickly minimize online failures.
 
-## 背景分析
-随着互联网业务不断快速发展，业务和应用系统、中间件及其之间的关系、依赖变得越来越复杂。不论是研发、测试还是架构、运维人员，对公司线上的应用、中间件等超级复杂关系的整体把控越来越无力维护。一旦线上出现问题，从故障发生到组织应急和应急的整个过程需要多方参与并使用多个系统工具和平台来回查询、不停同步信息。过程的多个阶段之间有断裂，影响面评估和变更追溯耗时较长，且对应急人员的要求有较高的门槛，对整体故障应急缺乏高效的、系统的解决方案。例如线上告警后不能快速定位影响面和变更源，很难准确进行决策，不能迅速最小化的处理线上故障。
 
-基于这样的背景，我们尝试提一套可视化应急，解决应急过程中流程、影响面、应急预案等一系列应急决策辅助信息和手段，快速止血以减少和避免故障升级。
+Based on this background, we try to provide a set of emergency plan visualizations to solve a series of emergency decision-making assistance information and methods such as processes, influence areas, emergency plans, ..., to quickly stop bleeding to reduce and avoid failure upgrades.
+
 
 
 ## 功能设计
