@@ -3,24 +3,22 @@ title: Edge Bundling
 order: 2
 ---
 
-[The English Version is on the Way~~~]
-
-## 背景
-大多数图数据在可视化时被展示成点-线图（Node-link Diagram）的形式。点-线图特别适用于如交通网络图一类的关系数据的展示，这种数据的节点通常带有地理位置信息，例如迁徙图、移民图、航线图等。<br />
+## Background
+Most graphs are visualized as node-link diagram, which is appropriate for traffic network with geographical information on nodes, e.g. migration graph and ariline network.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Vzp9Q7ZA0rcAAAAAAAAAAABkARQnAQ' width=400 />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GRE6SrrAWnoAAAAAAAAAAABkARQnAQ' width=400 />
 
-> （左）图 1. 法国航线图。（右）图 2. 美国航线图。
+> (Left) Figure 1. The airlines of France. (Right) Figure 2. The airlines of United States.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rC66Raf7OWwAAAAAAAAAAABkARQnAQ' width=400 />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AwQbT7WotYwAAAAAAAAAAABkARQnAQ' width=400 />
 
-> （左）图 3. 世界网络 IXP 对等图。（右）图 4. 美国移民图。
+> (Left) Figure 3. The world IXP peering network. (Right) Figure 4. The American immigration network.
 
-## 问题
-虽然点-线图提供了直观的可视化，但是当数据存在大量节点和边时，视觉混乱（Visual Clutter）很快成为严重的问题。点-线图中的视觉混乱通常是边缘拥塞的直接结果，而在如交通网络一类数据中，节点位置通常具有明确定义的含义，并不总是可以修改节点位置以减少视觉混乱，如图 1～4 四个例子。因此，学术界诸多研究者设计了各种通过优化边的方式减轻上述视觉混乱，其中边绑定（Edge Bundling）方法被广泛研究和应用。各种边绑定的方法总结在【[链接](https://yuque.antfin-inc.com/shiwu.wyy/go1ec6/znmtuw)】。
+## Problem
+Though the node-link diagram is intuitive, the severe visual clutter problem still exists when the graph has large amount of data. The visual clutter of the node-link diagram mostly moes from the edge crossings and congestion. As shown in Figure 1~4, in the traffic networks, the positions of the node often have well-defined geographical meanings, which means the node positions are usually non-editable for reducing the visual clutter. Lots of research works focus on the methods to improve the visual clustter on edges, where the Edge Bundling is a widely used way to achieve it. The researches about edge bundlings are summarized 「[HERE](https://yuque.antfin-inc.com/shiwu.wyy/go1ec6/znmtuw)」.
 
-例如下面这一个复杂的美国航线数据集，节点代表美国城市，带有坐标和经纬度信息；一条边代表一条航线：
+Here goes a example with complicated American airlines data, where the nodes represent the cities with latitute and longitute; the edges represent the airlines:
 ```json
 {
     "nodes": [{
@@ -36,7 +34,7 @@ order: 2
         "lon": -92.224444,
         "lat": 34.729444
     },
-    ...
+    // ... Other nodes
     ],
     "edges": [
       {
@@ -48,16 +46,16 @@ order: 2
         "target": "13",
         "id": "e1"
       },
-      ...
+      // ... Other edges
     ]
 }
 ```
 
-如果使用 G6 简单地将节点和边渲染出来，将会得到如下结果：
+Render the nodes and edges by G6 directly, we will obtain the result:
 <br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zYUrQqDGslMAAAAAAAAAAABkARQnAQ'  width=850 />
 
-> 图 5. G6 渲染原始数据结果
+> Figure 5. Render the source data by G6.
 
 
 我们发现简单地将该数据渲染后的结果航线纵横交错，穿梭在密集的城市当中，视觉上十分混乱，即难以看清细节，也不能发现航线的总体趋势。
