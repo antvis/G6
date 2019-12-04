@@ -3,24 +3,23 @@ title: Interaction Mode
 order: 7
 ---
 
-[The English Version is on the Way~~~]
+In this chapter, we will introduce the interactions in G6 by adding nodes and edges. You nee to be familiar with the following before reading this chapter:
 
-本章以添加节点及在两个节点之间连线为例进行介绍 G6 中的交互。在阅读本章之前，需要先熟悉以下内容：
-
-- [自定义交互行为 Behavior](/zh/docs/manual/advanced/custom-behavior)；
-- [交互模式 Mode](/zh/docs/manual/middle/states/mode)。
+- [Custom Behavior](/en/docs/manual/advanced/custom-behavior)；
+- [Mode](/en/docs/manual/middle/states/mode)。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zwgcTYCrr6sAAAAAAAAAAABkARQnAQ' width=400 />
 
-<br />上图是本文要实现的最终效果。完整 demo 代码参见：[动态添加元素](https://codepen.io/Yanyan-Wang/pen/qBBNaye)。<br />方下拉菜单中有三个选项，用于切换交互模式 mode：
+<br />The final result in shown above. The complete code: [Adding Items](https://codepen.io/Yanyan-Wang/pen/qBBNaye). <br />There are three mode options in the drop-down menu on the upper left.
 
-- 选择“默认”按钮时，切换到 default 交互模式：拖拽节点时节点跟随鼠标移动；点击节点时选中该节点；
-- 选择“添加节点”按钮时，切换到 addNode 交互模式：点击空白区域在点击处增加一个节点；点击节点时选中该节点；
-- 选择“添加边”按钮时，切换到 addEdge 交互模式：依次点击两个节点将会在这两个节点之间添加一条边。
+- Switch to the default interactive mode when the "Default" button is selected: The dragged node will move with the mouse; The node will be selected by clicking;
+- Switch to the addNode interactive mode when the "Add Node" button is selected: Add a node by clicking canvas; Select a node by clicking node;
+- Switch to the addEdge interactive mode when the "Add Edge" button is selected: Add an edge by clicking the end nodes in order.
 
-**使用多个 mode 的原因**<br />  相同的鼠标操作，在不同场景下有不同的含义。例如：
+**The reason for using multiple modes:**<br /> 
+The same mouse operation has different meanings in different scenarios. For example:
 
-- 点击空白画布取消目前图上所有节点的选中状态、点击空白画布在响应位置添加节点，这两种需求都对应了用户点击画布空白处的操作；
+- Canceling the selected state by clicking the canvas V.S. Adding new node on the clicked position on the canvas. Both these two requirements are binded to the operation of clicking the canvas;
 - 点击选中、点击两个节点添加边都涉及到了鼠标在节点上的点击操作。
 
 为了区分这些操作的含义，我们使用交互模式 mode 划分不同的场景。<br />
