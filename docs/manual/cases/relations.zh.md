@@ -78,25 +78,25 @@ A 和 B 之间可能会存在多个同事关系，如 A 和 B 在 company1 公�
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7V_-TJv9ZgQAAAAAAAAAAABkARQnAQ' width=850 />
 
-尤其在特别复杂的网络中，该功能特别有用。
+该功能尤其适用于探索特别复杂的网络中。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cYv4RocCh34AAAAAAAAAAABkARQnAQ' width=850 />
 
 
 ### 隐藏 / 显示节点
-在分析过程中，对于一些不是很重要的节点，我们可以选择隐藏掉它和与它相关的边，这样就方便我们将注意力集中在重点的节点上面。当分析完以后，我们还可以选择将隐藏的节点全部显示出来。
+在分析过程中，我们可以选择性地隐藏不重要的节点及其相关边，方便我们将注意力集中在重点的节点上面。当分析完成以后，可以选择将隐藏的节点全部显示出来。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2L89QI_u16AAAAAAAAAAAABkARQnAQ' width=850 />
 
 
 ### 隐藏 / 显示 Label
-当边特别多时，边上的 label 不仅会重叠在一起，也会影响我们进一步的分析，我们选择将边上的 label 隐藏。
+当边的数量特别大时，边上的 label 相互重叠，影响我们进一步的分析。此时，可以选择将边上的 label 隐藏。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YXxGQIrYgxMAAAAAAAAAAABkARQnAQ' width=850 />
 
 ## 总结
 
-本应用以模拟的社交网络数据为例，演示了通过使用 [G6](https://github.com/antvis/g6) 构建的一个图分析的应用。在实际的场景中，不仅仅局限于社交网络数据，任何重关系类的数据，都适合使用图分析的技术来进行分析，如风控、反洗钱、信用卡诈骗等金融领域，商品、商家及卖家等电商领域。通过使用图分析技术，我们可以很轻易地具备传统分析方法所欠缺的能力，如分析朋友的朋友这种多度关系的能力。[G6](https://github.com/antvis/g6) 是一款图可视化引擎，专注于图分析领域，非常适合用来构建重型的图分析应用。
+本应用以模拟的社交网络数据为例，演示了使用 [G6](https://github.com/antvis/g6) 构建的一个图分析的应用。在实际的场景中，不局限于社交网络数据，任何重关系类的数据，都可使用图分析的技术进行分析，如风控、反洗钱、信用卡诈骗等金融领域；商品、商家及卖家等电商领域。[G6](https://github.com/antvis/g6) 是一款开源的图可视化引擎，专注于关系数据的展示与分析，非常适合用于构建重型的图分析应用。
 
 ## 应用地址
 

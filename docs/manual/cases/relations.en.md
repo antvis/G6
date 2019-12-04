@@ -56,47 +56,49 @@ Suppose that we know a circle of friends: A is a friend of B, B is a friend of C
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z895QL8sBWQAAAAAAAAAAABkARQnAQ' width=850 />
 
 ## Circle Query
-对于已知的圈，我们可以查询每个圈中包含的节点，以及它们之间的关系。
+For the known circles, we are able to query to nodes and relationships about them.
 
-适用场景：查询指定朋友圈中所有的用户以及用户之间的关系。
+**Applicable Scene:** Query the person and relationships in the circles of friends.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZFytR6C3uYIAAAAAAAAAAABkARQnAQ' width=850 />
 
 
 ## Efficient Analysis
-图分析应用中，为了提升分析的效率，我们提供了数据过滤、标记重点节点和边、隐藏 / 显示 Label等辅助功能，可帮助用户更快更好地进行分析。
+To improve the efficiency of analyzing, we provides data filtering, node/edge marking, node/edge hiding/showing, label hiding/showing, etc.
 
 
 ### Data Filtering
-当画布上存在大量的节点及边时，想要进行高效分析是件很困难的事情，我们可以通过过滤的功能，将暂时不需要关注的类型的节点和边先隐藏起来，以便我们将精力放在重点的节点和边上面。
+It is hard for users to explore a graph with large amount of nodes and edges. By utilizing data filtering, the unconcerned items will be hided.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*MydBT7sgPHIAAAAAAAAAAABkARQnAQ' width=850 />
 
 
 ### Mark the Node and Edge
-在分析过程中，将重点需要关注的节点和边进行标记，可以在复杂的网络关系中很清晰地呈现出我们需要重点关注的内容。
+Marking the important nodes and edges helps users analyze the information about the focus items.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7V_-TJv9ZgQAAAAAAAAAAABkARQnAQ' width=850 />
 
-尤其在特别复杂的网络中，该功能特别有用。
+This function is appropriate for the exploration on complex network.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cYv4RocCh34AAAAAAAAAAABkARQnAQ' width=850 />
 
 
 ### Hide / Show Node
-在分析过程中，对于一些不是很重要的节点，我们可以选择隐藏掉它和与它相关的边，这样就方便我们将注意力集中在重点的节点上面。当分析完以后，我们还可以选择将隐藏的节点全部显示出来。
+During the analysis process, we can selectively hide unimportant nodes and their related edges, so that we can focus on the important nodes. When the analysis is completed, we can choose to display all hidden items.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2L89QI_u16AAAAAAAAAAAABkARQnAQ' width=850 />
 
 
 ### Hide / Show Label
-当边特别多时，边上的 label 不仅会重叠在一起，也会影响我们进一步的分析，我们选择将边上的 label 隐藏。
+When the number of edges is particularly large, the labels on the edges overlap each other, affecting our further analysis. At this point, you can choose to hide the labels on the edges.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YXxGQIrYgxMAAAAAAAAAAABkARQnAQ' width=850 />
 
 ## Conclusion
 
-本应用以模拟的社交网络数据为例，演示了通过使用 [G6](https://github.com/antvis/g6) 构建的一个图分析的应用。在实际的场景中，不仅仅局限于社交网络数据，任何重关系类的数据，都适合使用图分析的技术来进行分析，如风控、反洗钱、信用卡诈骗等金融领域，商品、商家及卖家等电商领域。通过使用图分析技术，我们可以很轻易地具备传统分析方法所欠缺的能力，如分析朋友的朋友这种多度关系的能力。[G6](https://github.com/antvis/g6) 是一款图可视化引擎，专注于图分析领域，非常适合用来构建重型的图分析应用。
+
+This application uses simulated social network data as an example to demonstrate a graph analysis application powered by [G6](https://github.com/antvis/g6). 
+In actual scenarios, it is not limited to social network data. Any relational data can be analyzed using graph analysis techniques, such as risk control, anti-money laundering, credit card fraud, and other business fields. G6](https://github.com/antvis/g6) is an open source graph visualization engine that focuses on the demonstration and the analysis of relational data, and it is appropriate for building graph analysis applications.
 
 ## Application Address
 
