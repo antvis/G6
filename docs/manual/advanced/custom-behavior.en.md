@@ -3,9 +3,9 @@ title: Custom Behavior
 order: 5
 ---
 
-G6 provides abundant [Built-in Behavior](/zh/docs/manual/middle/states/defaultBehavior). Besides, you can custom your type of behaviors to satisfy the special requirements.
+G6 provides abundant [Built-in Behavior](/en/docs/manual/middle/states/defaultBehavior). Besides, you can custom your type of behaviors to satisfy the special requirements.
 
-In G6, we mainly take three scenarii into consideration:
+In G6, we mainly take three scenarios into consideration:
 
 - Demonstrating the relational data;
 - Modeling the visualization;
@@ -17,10 +17,10 @@ It is necessary to incorporate the interactions when the information is too comp
 - Utilizing the ttoltip to show the detail information of a node;
 - Adding/removing/modifying/querying a graph item.
 
-Due to the complex and the diversity of the interactions in different scenarii and bussiness, we did not build all the interactions into G6:
+Due to the complex and the diversity of the interactions in different scenarios and bussiness, we did not build all the interactions into G6:
 
 - Some systems require to add nodes by clicking a tool bar, some require toe add by dragging from a panel;
-- Some scenarii add edges by dragging from an anchor point, some add by clicking the end nodes;
+- Some scenarios add edges by dragging from an anchor point, some add by clicking the end nodes;
 - Some edges are allowed to link to any node, some only can be linked to specific anchor points;
 - Some users require to custom the process of activating and endding.
 - ...
@@ -81,7 +81,7 @@ G6.registerBehavior('activate-node', {
     }
   },
   removeNodesState() {
-    graph.findAllByState('active').forEach(node => {
+    graph.findAllByState('node', 'active').forEach(node => {
         graph.setItemState(node, 'active', false);
       });
   }  

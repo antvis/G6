@@ -12,7 +12,7 @@ The life cycle of an instance of Graph is: Initialize -> Load data -> Render -> 
 
 In [Getting Started](/en/docs/manual/getting-started), we introduce the process of initialization, data loading, graph rendering. In this document, we will introduce the initialization/instantiating process in detail.
 
-## Premise
+## Prerequisite Code
 The code for interpretation of this chapter will base on the following JavaScript code embedded in HTML. By defining the data, instantiating the graph, loading the data, and rendering the graph, the code below results in the graph in the figure:<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Lo6lT7SrhB8AAAAAAAAAAABkARQnAQ' width='200' />
 
@@ -68,7 +68,7 @@ The code for interpretation of this chapter will base on the following JavaScrip
 ```
 
 ## Initialize/Instantiate a Graph
-Instantiate a Graph by `new G6.Graph(config)`, where the parameter `config` is an object of graph configurations. Most global configurations are assigned here. As shown in [Premise](#Premise), we instantiate a Graph:
+Instantiate a Graph by `new G6.Graph(config)`, where the parameter `config` is an object of graph configurations. Most global configurations are assigned here. As shown in [Prerequisite Code](#Prerequisite Code), we instantiate a Graph:
 ```javascript
  const graph = new G6.Graph({
    container: 'mountNode', // Assign the id of the graph container
@@ -153,7 +153,7 @@ There are some commonly used configurations. For complete configurations, please
       Type: Array. The plugins to assist the anaysis. Refer to [Plugins and Tools](/en/docs/manual/tutorial/plugins). 
 
 ## Commonly Used Functions
-There are two required functions in the code of [Premise](#Premise):
+There are two required functions in the code of [Prerequisite Code](#Prerequisite Code):
 ```javascript
 // Load the data
 graph.data(data);

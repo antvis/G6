@@ -186,7 +186,7 @@ G6.registerBehavior('zoom-canvas-exclude-lockedNode', {
     const pixelRatio = canvas.get('pixelRatio');
     const sensitivity = this.get('sensitivity');
     let ratio = graph.getZoom();
-    // 兼容IE、Firefox及Chrome
+    // 兼容 IE、Firefox 及 Chrome
     if (e.wheelDelta < 0) {
       ratio = 1 - DELTA * sensitivity;
     } else {

@@ -3,14 +3,11 @@ title: Lock Node
 order: 10
 ---
 
-[The English Version is on the Way~~~]
-
-G6 3.1.4 版本中新增了 `lock()`、`unlock()` 和 `hasLocked()` 三个 API，方便用户锁定某个节点。默认情况下，当锁定某个节点后，拖动节点时锁定的节点不会有任何反应，但拖动画布和缩放画布时，仍然会对锁定的节点有影响，如果不想让锁定的节点收到拖动画布和缩放画布的影响，可以通过[自定义 Behavior](/zh/docs/manual/advanced/custom-behavior) 的方式来实现。
+The functions for locking a node `lock()`, `unlock()`, and `hasLocked()` are supported by the versions after G6 V3.1.4. The locked node will not response the drag event any more. But it still can be moved while dragging and zooming the canvas. You can register a [Custom Behavior](/en/docs/manual/advanced/custom-behavior) to fix the node when dragging and zooming.
 
 
-## 拖动画布时候不处理锁定的节点
-G6 内置的 `drag-canvas` 不区分节点是否锁定，全部一视同仁。绝大数情况下，这种行为是完全没问题的，但某些业务可能会要求锁定的节点，拖动画布时也不能移动，对于这种情况，可以通过重新定义拖动画布的 Behavior 来实现。
-
+## Fix the Locked Node While Dragging
+The built-in `drag-canvas` in G6 does not take the locked node into consideration. In most situations, it is a reasonable Behavior. For some special requirements that require to fix hte locked node when dragging, you can register a custom Behavior as shown bolow to achieve them.
 ```javascript
 import G6 from '@antv/g6';
 const Util = G6.Util;
@@ -54,7 +51,7 @@ G6.registerBehavior('drag-canvas-exclude-lockedNode', {
       x: clientX,
       y: clientY
     };
-    // 和内置 drag-canvas 不同的地方是在这里
+    // The difference to built-in drag-canvas:
     const lockedNodes = this.graph.findAll('node', node => !node.hasLocked());
     lockedNodes.forEach(node => {
       node.get('group').translate(dx, dy);
@@ -117,7 +114,7 @@ G6.registerBehavior('drag-canvas-exclude-lockedNode', {
     if (this.dragging) {
       this.origin = null;
       this.dragging = false;
-      // 终止时需要判断此时是否在监听画布外的 mouseup 事件，若有则解绑
+      // Check whether it exists mouseup event outside. Unbind it if it exists.
       const fn = this.fn;
       if (fn) {
         body.removeEventListener('mouseup', fn, false);
@@ -125,7 +122,7 @@ G6.registerBehavior('drag-canvas-exclude-lockedNode', {
       }
     }
   },
-  // 若在拖拽时，鼠标移出画布区域，此时放开鼠标无法终止 drag 行为。在画布外监听 mouseup 事件，放开则终止
+  // If user move the mouse out of the canvas when dragging, the drag event might not be ended by releasing the mouse. Thus, listen to the mouseup event ouside the canvas to end it.
   onOutOfRange(e) {
     if (this.dragging) {
       const self = this;
@@ -158,8 +155,8 @@ G6.registerBehavior('drag-canvas-exclude-lockedNode', {
 ```
 
 
-## 缩放画布时不处理锁定的节点
-默认情况下，G6 内置的 `zoom-canvas` 在缩放画布时候也会对锁定的节点缩放，如果缩放过程中不需要操作锁定的节点，则可以通过下面的方式来实现。
+## Fix the Locked Node While Zooming
+Built-in Behavior `zoom-canvas` zooms all the nodes including locked nodes. Register a custom Behavior to fix the locked nodes.
 
 ```javascript
 const DELTA = 0.05;
@@ -188,7 +185,7 @@ G6.registerBehavior('zoom-canvas-exclude-lockedNode', {
     const pixelRatio = canvas.get('pixelRatio');
     const sensitivity = this.get('sensitivity');
     let ratio = graph.getZoom();
-    // 兼容IE、Firefox及Chrome
+    // To be Compatible with IE, Firefox, and Chrome
     if (e.wheelDelta < 0) {
       ratio = 1 - DELTA * sensitivity;
     } else {

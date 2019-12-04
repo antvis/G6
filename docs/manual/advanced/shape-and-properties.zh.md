@@ -3,13 +3,13 @@ title: 关键概念-图形 Shape 及其属性
 order: 0
 ---
 
-G6 中的元素（节点/边）是**由一个或多个小**[**图形 Shape**](https://www.yuque.com/antv/g6/shape-crycle)**组成**，主要通过自定义节点或自定义边时在 `draw` 方法中使用 `group.addShape` 添加，G6 中支持以下的图形 Shape：
+G6 中的元素（节点/边）是**由一个或多个**[**图形 Shape**](/zh/docs/manual/middle/keyConcept)**组成**，主要通过自定义节点或自定义边时在 `draw` 方法中使用 `group.addShape` 添加，G6 中支持以下的图形 Shape：
 
 - circle：圆；
 - rect：矩形；
 - ellipse：椭圆；
 - image：图片；
-- text：文本的属性请参考[这里](https://www.yuque.com/antv/g6/gs4gno)；
+- text：文本的属性请参考[这里](/zh/docs/manual/advanced/label-properties)；
 - fan：扇形；
 - marker：标记；
 - polygon：多边形；
@@ -20,13 +20,13 @@ G6 中的元素（节点/边）是**由一个或多个小**[**图形 Shape**](ht
 
 | 属性名 | 含义 | 备注 |
 | --- | --- | --- |
-| fill | 设置用于填充绘画的颜色、渐变或模式 | 对应 canvas 属性 `fillStyle` |
-| stroke | 设置用于笔触的颜色、渐变或模式 | 对应 canvas 属性 `strokeStyle` |
+| fill | 设置用于填充绘画的颜色、渐变或模式 | 对应 Canvas 属性 `fillStyle` |
+| stroke | 设置用于笔触的颜色、渐变或模式 | 对应 Canvas 属性 `strokeStyle` |
 | shadowColor | 设置用于阴影的颜色 |  |
 | shadowBlur | 设置用于阴影的模糊级别 | 数值越大，越模糊 |
 | shadowOffsetX | 设置阴影距形状的水平距离 |  |
 | shadowOffsetY | 设置阴影距形状的垂直距离 |  |
-| opacity | 设置绘图的当前 alpha 或透明值 | 对应 canvas 属性 `globalAlpha` |
+| opacity | 设置绘图的当前 alpha 或透明值 | 对应 Canvas 属性 `globalAlpha` |
 
 ### 用法
 ```javascript
@@ -209,7 +209,7 @@ group.addShape('rect', {
 ```
 
 ## 路径 Path
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;注意：</span>
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;⚠️**注意：**</span>
 边太细时候点击不中，请设置 `lineAppendWidth` 属性值。
 ### 属性
 | 属性名 | 含义 | 备注 |
@@ -230,11 +230,11 @@ group.addShape('rect', {
 group.addShape('path', {
   attrs: {
     startArrow: {
-      path: 'M 10,0 L -10,-10 L -10,10 Z',  // 自定义箭头为中心点在(0, 0)，指向 x 轴正方向的path
+      path: 'M 10,0 L -10,-10 L -10,10 Z',  // 自定义箭头为中心点在(0, 0)，指向 x 轴正方向的 path
       d: 10
     },
     endArrow: {
-      path: 'M 10,0 L -10,-10 L -10,10 Z',  // 自定义箭头为中心点在(0, 0)，指向 x 轴正方向的path
+      path: 'M 10,0 L -10,-10 L -10,10 Z',  // 自定义箭头为中心点在(0, 0)，指向 x 轴正方向的 path
       d: 10
     },
     path: [

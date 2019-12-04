@@ -18,7 +18,7 @@ There are 3 steps to implement the expected effect:
 - Step 3: Change the visual levels in the listener function of mouse entering.
 
 
-## Premise
+## Prerequisite Code
 The following code imports G6, defines the data, instantiates the Graph, renders the graph. We will modify this code to implement the expected effect.
 ```javascript
   // The source data
@@ -91,7 +91,7 @@ The following code imports G6, defines the data, instantiates the Graph, renders
 
 
 ### Usage
-Modify the code about instantiating the Graph in Premise. Add `groupByTypes` with `false`:
+Modify the code about instantiating the Graph in Prerequisite Code. Add `groupByTypes` with `false`:
 ```javascript
 const graph = new G6.Graph({
   // ...  // Other configurations

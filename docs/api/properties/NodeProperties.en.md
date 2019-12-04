@@ -92,7 +92,7 @@ group.addShape('ellipse', {
 | rs | The horizontal raidus of the fan. |  |
 | re | The vertical raidus of the fan. |  |
 | startAngle | The start angle. | Radian system represented by Math.PI. |
-| endAngle |  The end angle. |  |
+| endAngle |  The end angle. | Radian system represented by Math.PI. |
 | clockwise | It will be rendered clockwisely if it is `true`, counterclockwisely if it is `false`. |  |
 
 

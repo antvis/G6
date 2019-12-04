@@ -1,36 +1,34 @@
 ---
-title: Key Concept - Graphics Shape
+title: Graphics Shape Properties
 order: 0
 ---
 
-[The English Version is on the Way~~~]
+An item (node/edge) in G6 **Consists of One or More**[**Graphics Shape**](/en/docs/manual/middle/keyConcept). You can add shapes to a custom item by `group.addShape` in the `draw` function of registering item. The shapes in G6:
 
-G6 中的元素（节点/边）是**由一个或多个小**[**图形 Shape**](https://www.yuque.com/antv/g6/shape-crycle)**组成**，主要通过自定义节点或自定义边时在 `draw` 方法中使用 `group.addShape` 添加，G6 中支持以下的图形 Shape：
+- circle;
+- rect;
+- ellipse;
+- image;
+- text: [Text Properties](/en/docs/manual/advanced/label-properties)；
+- fan;
+- marker;
+- polygon;
+- path.
 
-- circle：圆；
-- rect：矩形；
-- ellipse：椭圆；
-- image：图片；
-- text：文本的属性请参考[这里](https://www.yuque.com/antv/g6/gs4gno)；
-- fan：扇形；
-- marker：标记；
-- polygon：多边形；
-- path：路径。
-
-## 各图形 Shape 的通用属性
+## The Common Properties of Shapes
 
 
-| 属性名 | 含义 | 备注 |
+| Name | Description | Remark |
 | --- | --- | --- |
-| fill | 设置用于填充绘画的颜色、渐变或模式 | 对应 canvas 属性 `fillStyle` |
-| stroke | 设置用于笔触的颜色、渐变或模式 | 对应 canvas 属性 `strokeStyle` |
-| shadowColor | 设置用于阴影的颜色 |  |
-| shadowBlur | 设置用于阴影的模糊级别 | 数值越大，越模糊 |
-| shadowOffsetX | 设置阴影距形状的水平距离 |  |
-| shadowOffsetY | 设置阴影距形状的垂直距离 |  |
-| opacity | 设置绘图的当前 alpha 或透明值 | 对应 canvas 属性 `globalAlpha` |
+| fill | The color, gradient color, or the pattern for filling | Corresponds to the `fillStyle` of Canvas |
+| stroke | The color, gradient color, or pattern for the stroke | Corresponds to the `strokeStyle` of Canvas |
+| shadowColor | The color for shadow |  |
+| shadowBlur | The blur level for shadow | Larger the value, more blur |
+| shadowOffsetX | The horizontal offset of the shadow |  |
+| shadowOffsetY | The vertical offset of the shadow  |  |
+| opacity | The opacity (alpha value) of the shape | Corresponds to the `globalAlpha` of Canvas |
 
-### 用法
+### Usage
 ```javascript
 group.addShape('rect', {
 	attrs: {
@@ -44,16 +42,16 @@ group.addShape('rect', {
 })
 ```
 
-## 圆图形 Circle
-### 属性
-| 属性名 | 含义 | 备注 |
+## Circle
+### Property
+| Name | Description | Remark |
 | --- | --- | --- |
-| x | 圆心的 x 坐标 |  |
-| y | 圆心的 y 坐标 |  |
-| r | 圆的半径 |  |
+| x | The x coordinate of the center |  |
+| y | The y coordinate of the center |  |
+| r | The radius |  |
 
 
-### 用法
+### Usage
 ```javascript
 group.addShape('circle', {
 	attrs: {
@@ -65,17 +63,17 @@ group.addShape('circle', {
 })
 ```
 
-## 椭圆图形 Ellipse
-### 属性
-| 属性名 | 含义 | 备注 |
+## Ellipse
+### Property
+| Name | Description | Remark |
 | --- | --- | --- |
-| x | 圆心的 x 坐标 |  |
-| y | 圆心的 y 坐标 |  |
-| rx | 水平半径 |  |
-| ry | 垂直半径 |  |
+| x | The x coordinate of the center |  |
+| y | The y coordinate of the center |  |
+| rx | The horizontal radius of the ellipse |  |
+| ry | The vertical radius of the ellipse |  |
 
  
-### 用法
+### Usage
 ```javascript
 group.addShape('ellipse', {
 	attrs: {
@@ -88,20 +86,20 @@ group.addShape('ellipse', {
 })
 ```
 
-## 扇形图形 Fan
-### 属性
-| 属性名 | 含义 | 备注 |
+## Fan
+### Property
+| Name | Description | Remark |
 | --- | --- | --- |
-| x | 扇形圆心的 x 坐标 |  |
-| y | 扇形圆心的 y 坐标 |  |
-| rs | 水平半径 |  |
-| re | 垂直半径 |  |
-| startAngle | 起点弧度 | 弧度是弧度，即使用 Math.PI 表示 |
-| endAngle |  终点弧度 |  |
-| clockwise | 为 `true` 时顺时针渲染，为 `false` 时逆时针渲染 |  |
+| x | The x coordinate of the center |  |
+| y | The y coordinate of the center |  |
+| rs | The horizontal radius of the fan |  |
+| re | The vertical radius of the fan |  |
+| startAngle | The start angle | Radian system represented by Math.PI |
+| endAngle |  The end angle | Radian system represented by Math.PI |
+| clockwise | It will be rendered clockwisely if it is `true`, counterclockwisely if it is `false` |  |
 
 
-### 用法
+### Usage
 ```javascript
 group.addShape('fan', {
   attrs: {
@@ -117,18 +115,18 @@ group.addShape('fan', {
 })
 ```
 
-## 图片图形 Image
-### 属性
-| 属性名 | 含义 | 备注 |
+## Image
+### Property
+| Name | Description | Remark |
 | --- | --- | --- |
-| x | 图片左上角的 x 坐标 |  |
-| y |  图片左上角的 y 坐标 |  |
-| width | 图片宽度 |  |
-| height | 图片高度 |  |
-| img | 图片源 | G6 支持多种格式的图片：url、ImageData、Image、canvas |
+| x | The x coordinate of the left top of the image |  |
+| y | The y coordinate of the left top of the image |  |
+| width | The width of the image |  |
+| height | The height of the image |  |
+| img | The source of the image | Supports: url, ImageData, Image, and canvas |
 
 
-### 用法
+### Usage
 ```javascript
 group.addShape('image', {
   attrs: {
@@ -139,17 +137,17 @@ group.addShape('image', {
 })
 ```
 
-## 标记图形 Marker
-### 属性
-| 属性名 | 含义 | 备注 |
+## Marker
+### Property
+| Name | Description | Remark |
 | --- | --- | --- |
-| x | 中心的 x 坐标 |  |
-| y | 中心的 y 坐标 |  |
-| r | 形状半径 |  |
-| symbol | 指定形状 | 内置了一些常用形状，如圆形 `circle` ， 矩形 `square` ， 菱形 `diamond` ，三角形 `triangle` ， 倒三角形 `triangle-down` ，也可以是自定义的 path 路径。 |
+| x | The x coordinate of the center |  |
+| y | The y coordinate of the center |  |
+| r | The radius of the marker |  |
+| symbol | The shape | We built in some commonly used shapes for it: `circle`, `square`, `diamond`, `triangle`, and `triangle-down`. You can custom it by path |
 
 
-### 用法
+### Usage
 ```javascript
 group.addShape('marker', {
   attrs: {
@@ -168,14 +166,14 @@ group.addShape('marker', {
 });
 ```
 
-## 多边形图形 Polygon
-### 属性
-| 属性名 | 含义 | 备注 |
+## Polygon
+### Property
+| Name | Description | Remark |
 | --- | --- | --- |
-| points | 多边形的所有端点坐标 | 数组形式 |
+| points | A set of vertexes' coordinates of the polygon | It is an array |
 
 
-### 用法
+### Usage
 ```javascript
 group.addShape('polygon', {
   attrs: {
@@ -185,18 +183,18 @@ group.addShape('polygon', {
 });
 ```
 
-## 矩形图形 Rect
-### 属性
-| 属性名 | 含义 | 备注 |
+## Rect
+### Property
+| Name | Description | Remark |
 | --- | --- | --- |
-| x | 矩形左上角的 x 坐标 |  |
-| y | 矩形左上角的 y 坐标 |  |
-| width | 矩形的宽度 |  |
-| height | 矩形的高度 |  |
-| radius | 定义圆角 | 支持整数或数组形式， 分别对应左上、右上、右下、左下角的半径：<br />- radius 缩写为 1 或 [ 1 ] 相当于 [ 1, 1, 1, 1 ]<br />- radius 缩写为 [ 1, 2 ] 相当于 [ 1, 2, 1, 2 ]<br />- radius 缩写为 [ 1, 2, 3 ] 相当于 [ 1, 2, 3, 2 ]<br /> |
+| x | The x coordinate of the left top |  |
+| y | The y coordinate of the left top |  |
+| width | The width of the rect |  |
+| height | The height of the rect |  |
+| radius | The border radius. | It can be an integer or an array, representing the border radii of lefttop, righttop, rightbottom, leftbotton respectively. <br />- `radius = 1` or `radius = [ 1 ]` is equal to `radius = [ 1, 1, 1, 1 ]`<br />- `radius = [ 1, 2 ]` is equal to `radius = [ 1, 2, 1, 2 ]`<br />- `radius: [ 1, 2, 3 ]` is equal to `radius: [ 1, 2, 3, 2 ]`<br /> |
 
  
-### 用法
+### Usage
 ```javascript
 group.addShape('rect', {
   attrs: {
@@ -210,33 +208,34 @@ group.addShape('rect', {
 });
 ```
 
-## 路径 Path
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;注意：</span>
-边太细时候点击不中，请设置 `lineAppendWidth` 属性值。
-### 属性
-| 属性名 | 含义 | 备注 |
+## Path
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;⚠️**Attention:** </span>
+When the edge is too thin to be hitted by mouse, set **lineAppendWidth** to enlarge the hitting area.
+
+### Property
+| Name | Description | Remark |
 | --- | --- | --- |
-| path |  线条路径 | 可以是 String 形式，也可以是线段的数组。 |
-| startArrow | 起始端的箭头 | 为 `true` 时为默认的箭头效果，也可以是一个自定义箭头 |
-| endArrow | 末尾端的箭头 | 为 `true` 时为默认的箭头效果，也可以是一个自定义箭头 |
-| lineAppendWidth | 边的击中范围 | 提升边的击中范围，扩展响应范围，数值越大，响应范围越广 |
-| lineCap | 设置线条的结束端点样式 |  |
-| lineJoin | 设置两条线相交时，所创建的拐角形状 |  |
-| lineWidth | 设置当前的线条宽度 |  |
-| miterLimit | 设置最大斜接长度 |  |
-| lineDash | 设置线的虚线样式，可以指定一个数组 | 一组描述交替绘制线段和间距（坐标空间单位）长度的数字。 如果数组元素的数量是奇数， 数组的元素会被复制并重复。例如， [5, 15, 25] 会变成 [5, 15, 25, 5, 15, 25]。 |
+| path | The path. | It can be a String, or an Array of path |
+| startArrow | The arrow on the start of the path | When `startArrow` is `true`, show a default arrow on the start of the path. User can custom an arrow by path |
+| endArrow | The arrow on the end of the path | When `startArrow` is `true`, show a default arrow on the end of the path. User can custom an arrow by path |
+| lineAppendWidth | The hitting area of the path | Enlarge the hitting area by enlarging its value |
+| lineCap | The style of two ends of the path |  |
+| lineJoin | The style of the intersection of two path |  |
+| lineWidth | The line width of the current path |  |
+| miterLimit | The maximum miter length |  |
+| lineDash | The style of the dash line. | It is an array that describes the length of gaps and line segments. If the number of the elements in the array is odd, the elements will be dulplicated. Such as [5, 15, 25] will be regarded as [5, 15, 25, 5, 15, 25] |
 
 
-### 用法
+### Usage
 ```javascript
 group.addShape('path', {
   attrs: {
     startArrow: {
-      path: 'M 10,0 L -10,-10 L -10,10 Z',  // 自定义箭头为中心点在(0, 0)，指向 x 轴正方向的path
+      path: 'M 10,0 L -10,-10 L -10,10 Z',  // The custom arrow is a path centered at (0, 0), and points to the positive direction of x-axis
       d: 10
     },
     endArrow: {
-      path: 'M 10,0 L -10,-10 L -10,10 Z',  // 自定义箭头为中心点在(0, 0)，指向 x 轴正方向的path
+      path: 'M 10,0 L -10,-10 L -10,10 Z',  // The custom arrow is a path centered at (0, 0), and points to the positive direction of x-axis
       d: 10
     },
     path: [
