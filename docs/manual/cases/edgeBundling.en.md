@@ -104,20 +104,19 @@ nodes.forEach(n => {
 });
 const sizeRange = [1, 20];
 const degreeDataRange = [minDegree, maxDegree];
-// 将范围是 degreeDataRange 的 degree 属性映射到范围 sizeRange 上后，
-// 写入到 nodes 中元素的‘size’属性中
+// The range of the degree is degreeDataRange, now we map it onto sizeRange and write the 'size' into node data.
 scaleNodeProp(nodes, 'size', 'degree', degreeDataRange, sizeRange);
 ```
 
 `scaleNodeProp()` 方法将指定的节点属性 `refPropName` 根据给定数值范围 `outRange` 归一化，映射到另一个属性 `propName` 上：
 ```javascript
 /**
- * 映射属性
- * @param  {array} nodes          对象数组
- * @param  {string} propName      写入的属性名称
- * @param  {string} refPropName   被归一化的属性名称
- * @param  {array} dataRange      被归一化的属性的值范围 [min, max]
- * @param  {array} outRange       写入的属性的值范围 [min, max]
+ * Mapping properties
+ * @param  {array} nodes          The array of nodes
+ * @param  {string} propName      The name of the property to be writed
+ * @param  {string} refPropName   The name of the property to be normalized
+ * @param  {array} dataRange      The range of the property to be normalized, [min, max]
+ * @param  {array} outRange       The arange of the property to be writed, [min, max]
  */
 function scaleNodeProp(nodes, propName, refPropName, dataRange, outRange) {
   const outLength = outRange[1] - outRange[0];
@@ -128,20 +127,20 @@ function scaleNodeProp(nodes, propName, refPropName, dataRange, outRange) {
 }
 ```
 
-通过上面两段代码，我们已经将归一化的度数映射到节点大小 `size` 上。
+Now, we have normalized the degrees onto the `size`s of nodes.
 
 
-### 实例化边绑定插件
-G6 中提供的边绑定插件是基于 FEDB（[Force-Directed Edge Bundling for Graph Visualization](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.212.7989&rep=rep1&type=pdf)）一文的实现。可以通过调节参数调整边绑定的效果。
+### Instantiate the Bundling Plugin
+The edge bunlding technique in G6 is implemented according to the paper FEDB ([Force-Directed Edge Bundling for Graph Visualization](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.212.7989&rep=rep1&type=pdf)). By tuning the configurations, you can adjust the bundling result easily.
 ```javascript
 const edgeBundling = new Bundling({
-    bundleThreshold: 0.6, // 绑定的容忍度。数值越低，被绑定在一起的边相似度越高，即被绑在一起的边更少。
-    K: 100 // 绑定的强度
+    bundleThreshold: 0.6, // The tolerance of bundling. Lower number, the higher similarity of the bundled edges is required, the smaller number of edges to be bundled together.
+    K: 100 // The strength of the bundling
  });
 ```
 
 
-### 自定义饼图节点
+### Custom Pie Node
 在第一步中，我们已经为节点大小 size 映射了每个节点的总度数。为了更详细展示每个城市飞出和飞入航班的比例，我们希望在每个节点上显示一个类似于饼图的效果。例如<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*stNMRLlBLMUAAAAAAAAAAABkARQnAQ' width=60 /> ，桔红色扇形代表飞入该城市的航班比例，青色代表飞出该城市的航班比例。G6 原生的 circle 、rect 等节点形状不能满足这一需求，但 G6 提供了节点的扩展机制，通过下面的代码片段，可以在 G6 中注册一个自定义的节点：
 ```javascript
 const lightBlue = 'rgb(119, 243, 252)';

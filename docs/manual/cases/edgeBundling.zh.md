@@ -105,7 +105,7 @@ nodes.forEach(n => {
 const sizeRange = [1, 20];
 const degreeDataRange = [minDegree, maxDegree];
 // 将范围是 degreeDataRange 的 degree 属性映射到范围 sizeRange 上后，
-// 写入到 nodes 中元素的‘size’属性中
+// 写入到 nodes 中元素的 ‘size’ 属性中
 scaleNodeProp(nodes, 'size', 'degree', degreeDataRange, sizeRange);
 ```
 
