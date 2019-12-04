@@ -37,10 +37,10 @@ The reuslt of **groupType: `'circle'`**<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*g_ntQK8Oz3cAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
 ### groupStyle
-`groupStyle` indicates the styles of the Node Groups in different states, e.g. the styles in default state, hover state, and collapse state.
+`groupStyle` indicates the styles of the Node Groups in different states, e.g. default state, hover state, and collapse state.
 
 #### Common Attribute
-The common attributes of the groups in the default, hover and collapse states are simlar to nodes, which are introduced in [Node Properties](/zh/docs/api/properties/NodeProperties). Besides, the group style in default and collapse states have some special attributes below:
+The common attributes of the groups in the default, hover and collapse states are similar to nodes, which are introduced in [Node Properties](/en/docs/api/properties/NodeProperties). Besides, the group style in default and collapse states have some special attributes below:
 
 #### default
 | Name | Description | Type | Remark |
