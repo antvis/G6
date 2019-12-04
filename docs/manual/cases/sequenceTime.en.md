@@ -81,28 +81,32 @@ Users can find the abnormal nodes easily by viewing the demonstration of emergen
 Actually, a graph can only map the state profile of the actual system at a moment. The problem does not occur instantaneously, but more like the undulating waters of a lake. To understand the state of the system at any time, we need to use the ability of timing analysis. It can be achieved by the time series analysis tool:<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hPxRT6SbgskAAAAAAAAAAABkARQnAQ' width=850 height=200 />
 
-这个工具对时间的控制分为了三个层次 分 -> 小时 -> 天。用户通过日期选择控件在不同日期间切换，通过全天的时间轴分析24小时波动趋势，并选择具体时段确定要进行分析分钟级切面，最终通过选择具体切面来进行分析。<br />
+This tool has three levels of time control: minutes -> hour -> day. The user switches between different days through the date selection control, analyzes the 24-hour fluctuation trend through the time axis throughout the day, and selects the specific time period to determine the minute-level analysis to be performed. Finally, the analysis is performed by selecting the specific aspect.<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*pD71SJOp69YAAAAAAAAAAABkARQnAQ' width=850 height=350 />
 
-时序分析模块就是增加时间轴，默认展示最近一小时每分钟的错误总数柱形图，点击柱形图表示选择某时间点，选择后可触发全部功能请求接口，刷新全部功能。<br />当选择出具体时间点后，页面中所有功能需要重新刷新，所以，选择时间的数据模型层在本页面模块相对全局的位置，而所有需要依据此数据而变化的子模块应该在生命周期中监听该数据。大图数据当然也需要在请求到新的数据后更新。<br />处理好以上细节后，我们的大图就有了一个非常强大的时序分析能力。
+The timing analysis module has added a time axis. By default, a bar chart of the total number of errors per hour in the last hour is displayed. Clicking the bar chart indicates that a certain time point is selected. After selection, all function request interfaces are triggered to refresh all functions.<br />After selecting a specific time point, all functions in the page need to be refreshed again. Therefore, the data model layer of the selection time is relatively global in this page module, and all submodules that need to be changed based on this data should listen to this data during the life cycle. The demonstration also needs to be updated after new data is requested. After handling the above details, our demonstration has a very powerful timing analysis capability.
+
 
 
 ### Node Information Extensions
-从体验上考虑，当我们处理应急工作时最想做到的是用户能够不依赖其他应用，直接在我们的图上能够找到问题最根本的原因，但是受限于目前图可视化的局限，目前所有的信息都收敛到一个“node”的色块上，能够映射上去的信息非常有限，所以一个自然的思路是对节点表达能力进行扩展。<br />得益于G6底层G的渲染能力，我们可以比较容易的在节点上扩展出我们想要的表达方式，通过下面的示例，可以看到G6的节点扩展能力是非常强悍的。
+From the perspective of experience, when we deal with emergency work, what we want to do most is that users do not rely on other applications, and can directly find the most fundamental cause of the problem on our demonstation. 
+However, due to the limitations of the current graph visualization, all the information currently converges to a "node" color block, and the information that can be mapped is very limited. 
+Therefore, a natural idea is to expand the node expression ability.<br />Thanks to G6's rendering capabilities, we can easily expand the expressions we want on the nodes. Through the following example, you can see that the node extension capability of G6 is very powerful.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*vV8UR50p1ZIAAAAAAAAAAABkARQnAQ' width=850 height=400/>
 
-<br />我们再来看看扩展后的交互能力：
+<br />The abilities after extend:
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v3MhT61nn1YAAAAAAAAAAABkARQnAQ' width=850 height=300 />
 
-接下来，我们将使用 G6 实现下面的功能：
+We achieve these features by G6:
 
 <video src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/file/A*A2k9QKpYSswAAAAAAAAAAABkARQnAQ' controls width=350 height=350></video>
 
-<br />有了这样的基础后，节点样式不局限于简单的几何形状，而是把具有代表意义的信息映射到节点上，从而使节点的形状一眼看上就能大致反应某节点的特点。这样在某些多个节点需要对比的场景下也是具有意义的。<br />
-<br />本次应急工作台，先选用一小时内的错误量数据来扩展节点信息。具体方案是，将这些时序信息分布到原有节点的圆周上，信息值的大小用放射状的柱状图来映射。<br />
+<br />With such a foundation, node styles are not limited to simple geometric shapes, but instead map representative information to nodes so that the shape of a node can roughly reflect the characteristics of a node at a glance. This is also meaningful in some scenarios where multiple nodes need to be compared.<br />
+<br />
+In this emergency workbench, the error data within one hour is selected to expand the node information. The specific solution is to distribute these time series information on the circumference of the original node, and the size of the information value is mapped with a radial histogram.<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*PEFPSZwgqScAAAAAAAAAAABkARQnAQ' width=850 height=550 />
 
@@ -114,7 +118,7 @@ Actually, a graph can only map the state profile of the actual system at a momen
 
 
 ## Conclusion & Future Work
-总体来讲，应急工作台深度聚焦业务场景，提供的功能齐备，逻辑合理 ，流程完整。未来可以深入的事情还有很多：比如，节点信息的扩展可以更加丰富点，有更多更丰富的数据可以映射到节点图形中来；当前布局是基于Dagre的有向图层次布局，在布局复杂链路的时候可能还是存在不够清晰的情况；当前的应急工作台尽管基于此前的星云大图，但是却舍弃了节点在整个域架构中的“位置”信息。这些都是需要我们持续深入优化下去的。
+In general, the emergency workbench is deeply focused on business scenarios, providing complete functions, reasonable logic, and complete processes. There are many things that can be deepened in the future. For example, the extension of node information can be more abundant, and richer data properties can be mapped into the node shapes; The current layout is based on the hierarchical layout: Dagre, some complex paths are not clear enough; Although the current emergency workbench is based on the previous Nebula demonstration, it has discarded the 'location' information of nodes in the entire domain architecture. All these problems should be optimized continually in the future.
 
 
 ## Demo Address
