@@ -12,9 +12,9 @@ order: 7
 
 <br />上图是本文要实现的最终效果。完整 demo 代码参见：[动态添加元素](https://codepen.io/Yanyan-Wang/pen/qBBNaye)。<br />左上方的下拉菜单中有三个选项，用于切换交互模式 mode：
 
-- 选择“默认”按钮时，切换到 default 交互模式：拖拽节点时节点跟随鼠标移动；点击节点时选中该节点；
-- 选择“添加节点”按钮时，切换到 addNode 交互模式：点击空白区域在点击处增加一个节点；点击节点时选中该节点；
-- 选择“添加边”按钮时，切换到 addEdge 交互模式：依次点击两个节点将会在这两个节点之间添加一条边。
+- 选择 “Default” 按钮时，切换到 default 交互模式：拖拽节点时节点跟随鼠标移动；点击节点时选中该节点；
+- 选择 “Add Node” 按钮时，切换到 addNode 交互模式：点击空白区域在点击处增加一个节点；点击节点时选中该节点；
+- 选择 “Add Edge” 按钮时，切换到 addEdge 交互模式：依次点击两个节点将会在这两个节点之间添加一条边。
 
 **使用多个 mode 的原因**<br />  相同的鼠标操作，在不同场景下有不同的含义。例如：
 
@@ -102,13 +102,13 @@ document.getElementById('selector').addEventListener('change', e => {
 
 
 #### 添加节点
-在上面的实例中，当选中添加节点按钮时，会切换到添加节点的 Mode 上。实现在点击空白画布时，在点击位置添加节点的方式是通过 `G6.registerBehavior` 自定义名为 `'click-add-node'`（名字可以自由设定） 的 Behavior 实现的 。
+在上面的例子中，当选中添加节点按钮时，会切换到 `addNode` 的 Mode 上。`addNode` Mode 包含了 `'click-add-node'`, `'click-select'` 两个 Behavior。`'click-add-node'` 实现了在点击空白画布时，在点击位置添加节点。这是通过使用 `G6.registerBehavior` 自定义一个名为 `'click-add-node'`（名字可以自由设定） 的 Behavior 实现的。
 ```javascript
-// 封装点击添加边的交互
+// 封装点击添加节点的交互
 G6.registerBehavior('click-add-node', {
   // 设定该自定义行为需要监听的事件及其响应函数
   getEvents() {
-    // 监听的事件为 cnavas:click，响应函数时 onClick
+    // 监听的事件为 cnavas:click，响应函数是 onClick
    return {
      'canvas:click': 'onClick'
    };

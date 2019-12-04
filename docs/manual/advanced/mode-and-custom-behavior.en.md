@@ -19,14 +19,14 @@ In this chapter, we will introduce the interactions in G6 by adding nodes and ed
 **The reason for using multiple modes:**<br /> 
 The same mouse operation has different meanings in different scenarios. For example:
 
-- Canceling the selected state by clicking the canvas V.S. Adding new node on the clicked position on the canvas. Both these two requirements are binded to the operation of clicking the canvas;
-- 点击选中、点击两个节点添加边都涉及到了鼠标在节点上的点击操作。
+- Canceling the selected state by clicking the canvas V.S. Adding new node on the clicked position on the canvas. Both these two requirements are binded to the event of clicking the canvas;
+- Selecting a node by clicking it V.S. Adding an edge by clicking two end nodes. Both these two requirements are binded to the event of clicking the node.
 
-为了区分这些操作的含义，我们使用交互模式 mode 划分不同的场景。<br />
+To distinguish the meanings of these operations, we utilize the interaction modes on a graph for different scenarios .<br />
 
 
-## 前提代码
-下面 HTML 代码是本文的基础代码，后续功能将在这份代码中增量添加。下面代码定义了左上方的下拉菜单，以及后面将会用到图上的初始数据 `data`。
+## Prerequisite Code
+Here goes the basic HTML code for this chapter. We will add new codes incrementally to enable new functions. This prerequisite code defines the drop-down menu and the source `data`.
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -35,16 +35,16 @@ The same mouse operation has different meanings in different scenarios. For exam
   <title>Interactively Add</title>
 </head>
 <body>
-  <!-- 左上方的下拉菜单 -->
+  <!-- The drop-down menu on the upper left -->
   <select id="selector">
-    <option value="default">默认</option>
-    <option value="addNode">添加节点</option>
-    <option value="addEdge">添加边</option>
+    <option value="default">Default</option>
+    <option value="addNode">Add Node</option>
+    <option value="addEdge">Add Edge</option>
   </select>
   <div id="mountNode"></div>
   <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.0/build/g6.js"></script>
   <script>
-    // 初始数据
+    // Source data
   	const data = {
       nodes: [{
         id: 'node1',
@@ -71,21 +71,21 @@ The same mouse operation has different meanings in different scenarios. For exam
 ```
 
 
-## 配置交互模式
-下面代码实例化了图，并配置了交互模式的集合 `modes`，其中包括 `default` 默认交互模式、`addNode` 增加节点交互模式、`addEdge` 增加边交互模式。每种交互模式中都包含了各自的交互行为，其中 `'drag-node'`（拖拽节点） 和 `'click-select'`（点击选中） 是 G6 内置的交互行为，`'click-add-node'`（点击空白画布添加节点） 和 `'click-add-edge'`（点击两个节点添加边） 需要我们在后面进行自定义。
+## Configure the Interaction Mode
+The following code instantiates the Graph, and configure the interaction `modes`, including `default` Mode, `addNode` Mode, and `addEdge` Mode. There are several interaction Behaviors inside each Mode, where `'drag-node'` and `'click-select'` are the built-in Behaviors of G6. `'click-add-node'` and `'click-add-edge'` are the custom Behavior to be defined.
 ```javascript
 // const data = ...
 const graph = new G6.Graph({
   container: 'mountNode',
   width: 500,
   height: 500,
-  // 交互模式集合
+  // The set of interaction Modes
   modes: {
-    // 默认交互模式
+    // Default mode
     default: ['drag-node', 'click-select'],
-    // 增加节点交互模式
+    // The Mode of adding nodes
     addNode: ['click-add-node', 'click-select'],
-    // 增加边交互模式
+    // The Mode of adding edges
     addEdge: ['click-add-edge', 'click-select']
   }
  });
@@ -93,23 +93,24 @@ const graph = new G6.Graph({
 graph.data(data);
 graph.render();
 
-// 监听左上角下拉菜单的变化，根据其变化切换图的交互模式
+// Listen to the change of the drop-down menu to swith the interaction Mode
 document.getElementById('selector').addEventListener('change', e => {
   const value = e.target.value;
-  // 切换交互模式
+  // Switch the interaction Mode
   graph.setMode(value);
 });
 ```
 
 
-#### 添加节点
-在上面的实例中，当选中添加节点按钮时，会切换到添加节点的 Mode 上。实现在点击空白画布时，在点击位置添加节点的方式是通过 `G6.registerBehavior` 自定义名为 `'click-add-node'`（名字可以自由设定） 的 Behavior 实现的 。
+#### Add a Node
+When user select the 'Add Node' button in the menu, the Mode will be switched to the addNode, which includes two Behaviors: `'click-add-node'` and `'click-select'`. The `'click-add-node'` is registered by `G6.registerBehavior`. P.S. the name of `'click-add-node'` can be assigned to any one you like.
+
 ```javascript
-// 封装点击添加边的交互
+// Register the custom Behavior of adding a node by clicking
 G6.registerBehavior('click-add-node', {
-  // 设定该自定义行为需要监听的事件及其响应函数
+  // Bind the events and response functions for this custom Behavior
   getEvents() {
-    // 监听的事件为 cnavas:click，响应函数时 onClick
+    // The event to be listned is cnavas:click. The response function is onClick
    return {
      'canvas:click': 'onClick'
    };
