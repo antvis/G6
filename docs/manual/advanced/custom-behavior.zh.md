@@ -81,7 +81,7 @@ G6.registerBehavior('activate-node', {
     }
   },
   removeNodesState() {
-    graph.findAllByState('active').forEach(node => {
+    graph.findAllByState('node', 'active').forEach(node => {
         graph.setItemState(node, 'active', false);
       });
   }  
