@@ -11,7 +11,7 @@ Node inherits from item. The functions of Item are also available for Node.
 
 Lock the current node. The locked node will not response the drag event any more.
 
-Tips: the locked node still can be moved while dragging and zooming the canvas. If you want to fix the node in these two situations, please refer to [Fix the node while dragging the canvas](/zh/docs/manual/advanced/lock-node#拖动画布时候不处理锁定的节点) and [Fix the node while zooming the canvas](/zh/docs/manual/advanced/lock-node#拖动画布时候不处理锁定的节点) to register a custom Behavior.
+Tips: the locked node still can be moved while dragging and zooming the canvas. If you want to fix the node in these two situations, please refer to [Fix the Locked Node While Dragging](/en/docs/manual/advanced/lock-node#fix-the-locked-node-while-dragging) and [Fix the Locked Node while Zooming](/en/docs/manual/advanced/lock-node#fix-the-locked-node-while-zooming) to register a custom Behavior.
 
 
 **Usage**
