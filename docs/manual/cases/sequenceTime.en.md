@@ -65,18 +65,20 @@ There are some extensions in the detail view of the app:
 ## Implementation of Main Technologies
 
 
-### 应急大图
-应急大图是一幅有状态的架构大图，主要目的是其一展示系统间关系，分析系统或接口间依赖，其二，除架构上的相关信息外，整个系统集群在某时刻的正常或异常状态的展示和分析，从运维的角度看则更具备意义。通过大图用户就能直观看到业务链路上那个节点出了问题。<br />应急大图我们提供了两种模式：流量视角和链路视角。<br />
+### Demonstration of Emergency
+The demonstration of emergency is an architecture graph with states, which aims to visualize and analyze the relationships between systems and showing the abnormal states for operation and maintenance. 
+Users can find the abnormal nodes easily by viewing the demonstration of emergency.
+<br />We provide two views for the demonstration of emergency: flow and path.<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cilcQ7Z1_OYAAAAAAAAAAABkARQnAQ' width=425 height=250 />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zOJzTL-l89cAAAAAAAAAAABkARQnAQ' width=425 height=250 />
 
-<br />流量视角的大家第一眼看起来会觉得很酷炫，但实际在应急工作中有太多的冗余信息，对快速把握问题的核心原因没有帮助，所以在应急工作台上大图的构建采用了更加清晰的链路视图。二者的核心数据是一致的，只是链路视图是将流量线做了合并。<br />
+<br />The flow view looks fantastic at first glance, but there are lots of redundant information in actual emergency works. It is not helpful for handling the key problem quickly. Therefore, we use the path view on the emergency workbench to show the graph more clearly. The core data of these two views are the same. The path view  bundles the flow paths.<br />
 
 
-### 大图的时序分析
-实际上，一张图上某一时刻只能映射出实际系统某一刻的状态剖面。但问题的发生不是瞬时抖动的，而更像是湖面波澜起伏的湖水时高时低。想要了解任意时刻系统的状态，这个时候我们就需要借助时序分析的能力，这个就是通过下面时序分析的工具来实现的：<br />
+### Time Series Analysis
+Actually, a graph can only map the state profile of the actual system at a moment. The problem does not occur instantaneously, but more like the undulating waters of a lake. To understand the state of the system at any time, we need to use the ability of timing analysis. It can be achieved by the time series analysis tool:<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hPxRT6SbgskAAAAAAAAAAABkARQnAQ' width=850 height=200 />
 
 这个工具对时间的控制分为了三个层次 分 -> 小时 -> 天。用户通过日期选择控件在不同日期间切换，通过全天的时间轴分析24小时波动趋势，并选择具体时段确定要进行分析分钟级切面，最终通过选择具体切面来进行分析。<br />
@@ -86,7 +88,7 @@ There are some extensions in the detail view of the app:
 时序分析模块就是增加时间轴，默认展示最近一小时每分钟的错误总数柱形图，点击柱形图表示选择某时间点，选择后可触发全部功能请求接口，刷新全部功能。<br />当选择出具体时间点后，页面中所有功能需要重新刷新，所以，选择时间的数据模型层在本页面模块相对全局的位置，而所有需要依据此数据而变化的子模块应该在生命周期中监听该数据。大图数据当然也需要在请求到新的数据后更新。<br />处理好以上细节后，我们的大图就有了一个非常强大的时序分析能力。
 
 
-### 节点信息扩展
+### Node Information Extensions
 从体验上考虑，当我们处理应急工作时最想做到的是用户能够不依赖其他应用，直接在我们的图上能够找到问题最根本的原因，但是受限于目前图可视化的局限，目前所有的信息都收敛到一个“node”的色块上，能够映射上去的信息非常有限，所以一个自然的思路是对节点表达能力进行扩展。<br />得益于G6底层G的渲染能力，我们可以比较容易的在节点上扩展出我们想要的表达方式，通过下面的示例，可以看到G6的节点扩展能力是非常强悍的。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*vV8UR50p1ZIAAAAAAAAAAABkARQnAQ' width=850 height=400/>
@@ -104,17 +106,18 @@ There are some extensions in the detail view of the app:
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*PEFPSZwgqScAAAAAAAAAAABkARQnAQ' width=850 height=550 />
 
-### 完整的应用演示
+### Complete Demo
 
 <video src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/file/A*7W5ZQa3KUKIAAAAAAAAAAABkARQnAQ' width=850 height=400 controls>
   <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9NAiSJrAlYMAAAAAAAAAAABkARQnAQ' width=850 height=400 />
 </video>
 
 
-## 总结展望
+## Conclusion & Future Work
 总体来讲，应急工作台深度聚焦业务场景，提供的功能齐备，逻辑合理 ，流程完整。未来可以深入的事情还有很多：比如，节点信息的扩展可以更加丰富点，有更多更丰富的数据可以映射到节点图形中来；当前布局是基于Dagre的有向图层次布局，在布局复杂链路的时候可能还是存在不够清晰的情况；当前的应急工作台尽管基于此前的星云大图，但是却舍弃了节点在整个域架构中的“位置”信息。这些都是需要我们持续深入优化下去的。
 
 
-## 应用地址
-源码：[https://github.com/scaletimes/g6-flow-demo](https://github.com/scaletimes/g6-flow-demo.git)<br />G6 官网：[https://g6.antv.vision/](https://g6.antv.vision/)
-<br />G6 GitHub：[https://github.com/antvis/g6](https://github.com/antvis/g6)
+## Demo Address
+Code: [https://github.com/scaletimes/g6-flow-demo](https://github.com/scaletimes/g6-flow-demo.git)
+<br />Official website of G6: [https://g6.antv.vision/](https://g6.antv.vision/)
+<br />GitHub of G6: [https://github.com/antvis/g6](https://github.com/antvis/g6)
