@@ -18,7 +18,7 @@ Most graphs are visualized as node-link diagram, which is appropriate for traffi
 ## Problem
 Though the node-link diagram is intuitive, the severe visual clutter problem still exists when the graph has large amount of data. The visual clutter of the node-link diagram mostly moes from the edge crossings and congestion. As shown in Figure 1~4, in the traffic networks, the positions of the node often have well-defined geographical meanings, which means the node positions are usually non-editable for reducing the visual clutter. Lots of research works focus on the methods to improve the visual clustter on edges, where the Edge Bundling is a widely used way to achieve it. The researches about edge bundlings are summarized 「[HERE](https://yuque.antfin-inc.com/shiwu.wyy/go1ec6/znmtuw)」.
 
-Here goes a example with complicated American airlines data, where the nodes represent the cities with latitute and longitute; the edges represent the airlines:
+Here goes a example with complicated American flights data, where the nodes represent the cities with latitute and longitute; the edges represent the flights:
 ```json
 {
     "nodes": [{
@@ -62,7 +62,7 @@ Figure 5 shows the result with chaotic crossings which is hard for users to figu
 
 
 ## Expected Effect
-We wish to improve the visual clutter of Figure 5 by edge bundling to show the global trends and structures and highlight the important cities with many airlines. These cities might be the important traffic pivots. We also try to illustrate some statistical informations for analysis. Powered by G6, we are able to achive the result with: Bundling the edges, Mapping the edge directions to gradient colors(departure-orange, arrival-cyan) of the edge; Mapping the total number of airlines about the cities to the size of the node; Adding interactions of hover; Utilizing the tooltip to show the longitute and latitute.
+We wish to improve the visual clutter of Figure 5 by edge bundling to show the global trends and structures and highlight the important cities with many flights. These cities might be the important traffic pivots. We also try to illustrate some statistical informations for analysis. Powered by G6, we are able to achive the result with: Bundling the edges, Mapping the edge directions to gradient colors(departure-orange, arrival-cyan) of the edge; Mapping the total number of flights about the cities to the size of the node; Adding interactions of hover; Utilizing the tooltip to show the longitute and latitute.
 
 <br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*BC4AQbOd6HIAAAAAAAAAAABkARQnAQ' width=850 />
@@ -141,25 +141,25 @@ const edgeBundling = new Bundling({
 
 
 ### Custom Pie Node
-在第一步中，我们已经为节点大小 size 映射了每个节点的总度数。为了更详细展示每个城市飞出和飞入航班的比例，我们希望在每个节点上显示一个类似于饼图的效果。例如<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*stNMRLlBLMUAAAAAAAAAAABkARQnAQ' width=60 /> ，桔红色扇形代表飞入该城市的航班比例，青色代表飞出该城市的航班比例。G6 原生的 circle 、rect 等节点形状不能满足这一需求，但 G6 提供了节点的扩展机制，通过下面的代码片段，可以在 G6 中注册一个自定义的节点：
+In the first step, we have mapped the degrees of nodes onto their size. To demonstrate the ratio of leaving and arriving flights, we design a pie-chart node for each city. For example, <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*stNMRLlBLMUAAAAAAAAAAABkARQnAQ' width=60 />, the orange fan represents the number of arriving flights, and the cyan fan represents the number of leaving flights. The built-in nodes in G6 do not meet such requirement. Thus, we now register a custom node by the custom mechanism of G6:
 ```javascript
 const lightBlue = 'rgb(119, 243, 252)';
 const lightOrange = 'rgb(230, 100, 64)';
 
-// 注册自定义名为 pie-node 的节点类型
+// Register a type of custom node named pie-node
 G6.registerNode('pie-node', {
   drawShape: (cfg, group) => {
-    const radius = cfg.size / 2; // 节点半径
-    const inPercentage = cfg.inDegree / cfg.degree; // 入度占总度数的比例
-    const inAngle = inPercentage * Math.PI * 2; // 入度在饼图中的夹角大小
-    const outAngle = Math.PI * 2 - inAngle; // 出度在饼图中的夹角大小
-    const inArcEnd = [radius * Math.cos(inAngle), radius * Math.sin(inAngle)]; //入度饼图弧结束位置
+    const radius = cfg.size / 2; // The radius the of node
+    const inPercentage = cfg.inDegree / cfg.degree; // The percentage of the inDegree
+    const inAngle = inPercentage * Math.PI * 2; // The angle of the fan of inDegree
+    const outAngle = Math.PI * 2 - inAngle; // The angle of the fan of outDegree
+    const inArcEnd = [radius * Math.cos(inAngle), radius * Math.sin(inAngle)]; // The end point of the inDegree fan
     let isInBigArc = 1, isOutBigArc = 0;
     if (inAngle > Math.PI) {
       isInBigArc = 0;
       isOutBigArc = 1;
     }
-    // 定义代表入度的扇形形状
+    // The inDegree fan
     const fanIn = group.addShape('path', {
       attrs: {
         path: [
@@ -172,7 +172,7 @@ G6.registerNode('pie-node', {
         fill: lightOrange
       }
     });
-    // 定义代表出度的扇形形状
+    // The outDegree fan
     const fanOut = group.addShape('path', {
       attrs: {
         path: [
@@ -185,28 +185,28 @@ G6.registerNode('pie-node', {
         fill: lightBlue
       }
     });
-    // 返回 keyshape
+    // return the keyshape
     return fanIn;
   }
 },
 "single-shape"
 );
 ```
-这样，我们就在 G6 中注册了一个名为 pie-node 的节点类型。
+The code above registers a 'pie-node' type node.
 
 
-### 实例化图
-在这一步中，我们在实例化图时，并为之指定边绑定插件、节点类型（刚才自定义的 pie-node）、节点样式、边样式（渐变色）。
+### Instantiate the Graph
+Now, we are going to register a graph and assign the Edge Bundling plugin, node type ('pie-node'), and item styles for it.
 ```javascript
   const edgeBundling = new Bundling({
-    bundleThreshold: 0.6, // 绑定的容忍度。数值越低，被绑定在一起的边相似度越高，即被绑在一起的边更少。
-    K: 100 // 绑定的强度
+    bundleThreshold: 0.6, // The tolerance of bundling. Lower number, the higher similarity of the bundled edges is required, the smaller number of edges to be bundled together.
+    K: 100 // The strength of the bundling
   });
   const graph = new G6.Graph({
    container: 'mountNode',
    width: 1000,
    height: 800,
-   plugins: [ edgeBundling ], // 加入插件
+   plugins: [ edgeBundling ], // Add the plugin
    fitView: true,
    defaultNode: {
      size: 3,
@@ -222,20 +222,20 @@ G6.registerNode('pie-node', {
    edgeStyle: {
     default: {
       lineWidth: 0.7,
-      strokeOpacity: 0.1, // 设置边透明度，在边聚集的部分透明度将会叠加，从而具备突出高密度区域的效果
+      strokeOpacity: 0.1, // The opacity of the edge. The transparency of the gathered edges will be superimposed, which has the effect of highlighting high-density areas
       stroke: 'l(0) 0:' + llightBlue16 + ' 1:' + llightOrange16
     }
   }
  });
 ```
 
-这里出发端的颜色为 `llightBlue16`，结束端的颜色为 `llightOrange16`：
+The edge begin with `llightBlue16` color and end with `llightOrange16` color:
 ```javascript
 const llightBlue16 = '#C8FDFC';
 const llightOrange16 = '#FFAA86';
 ```
 
-为了配合节点和边的颜色，这里将页面的 body 的颜色设置为黑色：
+Set the background of the body to be black to reach a better visual effect:
 ```html
 <style>
   body{
@@ -244,17 +244,17 @@ const llightOrange16 = '#FFAA86';
 </style>
 ```
 
-### 执行绑定和渲染
-有了 graph 实例和 edgeBundling 实例后，我们执行下面代码进行绑定操作和图的数据读入及渲染：
+### Execute the Bundling and Render
+The Graph and the Edge Bundling Plugin have been instantiated to `graph` and `edgeBundling`. The following code executes the bundling and load the data, render the graph:
 ```javascript
-edgeBundling.bundling(data); // 执行插件的绑定操作
+edgeBundling.bundling(data); // Execute the bundling
 graph.data(data);
 graph.render();
 ```
 
 
-#### 设置 tooltip 与交互操作
-使用 tooltip，可以在鼠标 hover 到节点上时展示该节点的其他属性值。首先在 html 中设定 tooltip 的样式：
+#### Configure Tooltip and Interactions
+Tooltip shows the detail information when the mouse hovers on a node. We first configure the style for the tooltip in HTML:
 ```html
 <style>
   .g6-tooltip {
@@ -269,7 +269,7 @@ graph.render();
 </style>
 ```
 
-然后，在上一步实例化 `graph` 时，增加一个名为 `modes` 的配置项到参数中，如下写法启动了 `drag-canvas` 画图拖动操作、`zoom-canvas` 画布放缩操作，以及 `tooltip`，在 `formatText` 函数中指定了 `tooltip` 显示的文本内容：
+Then, we add a configuration `modes` onto the graph in the code about instantiating the Graph. As shown below, the `drag-canvas`, `zoom-canvas`, and `tooltip` are activated. The content of the `tooltip` is defined in `formatText`:
 ```javascript
  modes: {
    default: [ 'drag-canvas', 'zoom-canvas', {
@@ -285,33 +285,33 @@ graph.render();
  }
 ```
 
-这样，当鼠标移动到节点上时，带有经纬度信息的 `tooltip` 将会出现：<br />
+After these configurations, the `tooltip` with longitude and latitude will show up when mouse hovers a node:<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*d3mSS6mETf8AAAAAAAAAAABkARQnAQ' width=850 />
 
 > tooltip
 
 
-同时，可以拖拽和放缩画布：
+In the sametime, the canvas is draggable and zoomable:
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5h5tR5eDM6UAAAAAAAAAAABkARQnAQ' width=850 height=350 />
 
-> 缩放和拖动画布。
+> Drag and zoom the canvas
 
 
-## 分析
+## Analysis
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ePUIQZaDVecAAAAAAAAAAABkARQnAQ' width=850 />
 
-> 最终效果图。节点大小代表飞入及飞出该城市航线总数。节点饼图展示飞出与飞入航线比例统计信息（橙红色为飞入，青色为飞出）。边的渐变色代表航班的飞行方向。起始端：青色；结束端：橙红色。
+> The final result. The size of the node indicates the total flights about the city. The pie node indicates the ratio of leaving flights and arriving flights (orange for arriving, cyan for leaving). The gradient color of an edge indicates its direction (cyan for start, orange for end).
 
 
-最后，让我们一起分析如下的最终结果图给我们带来的信息：
+Now, let's analyze the final result:
 
-- 大节点主要集中在中偏东部，根据其经纬度，可以推测这些城市有：亚特兰大、纽约、芝加哥、休斯顿、堪萨斯等，这些城市都是美国重要的交通枢纽；
-- 美国东部的线桔红色居多，说明东部城市的飞入航班较多；
-- 相反，西部城市的飞出航班较多；
-- 整体飞行方向从东至西；
-- 东部的航线也较之于西部更加密集、频繁；
-- 西海岸由西雅图和波特兰飞往洛杉矶的航班较多。
+- Large nodes are mainly concentrated in the east-central region. According to the positions, It can be speculated that these cities are: Atlanta, New York, Chicago, Houston, Kansas, etc. All these cities are important transportation hubs in the United States;
+- There are lots of orange edges in the east American, which means there are more arriving flights in east American;
+- In contrast, there are more leaving flights from western cities;
+- Flight directions are start from east and end in west overall;
+- The eastern flights are also denser and more frequent than the western ones;
+- There are more flights on the west coast from Seattle and Portland to Los Angeles.
 
-上述发现很容易被解释：美国东部是美国的经济、政治集中区域。
+The above findings can be easily explained: The eastern United States is the economic and political concentration region of the United States.
 

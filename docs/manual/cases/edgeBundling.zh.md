@@ -142,7 +142,7 @@ const edgeBundling = new Bundling({
 
 
 ### 自定义饼图节点
-在第一步中，我们已经为节点大小 size 映射了每个节点的总度数。为了更详细展示每个城市飞出和飞入航班的比例，我们希望在每个节点上显示一个类似于饼图的效果。例如<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*stNMRLlBLMUAAAAAAAAAAABkARQnAQ' width=60 /> ，桔红色扇形代表飞入该城市的航班比例，青色代表飞出该城市的航班比例。G6 原生的 circle 、rect 等节点形状不能满足这一需求，但 G6 提供了节点的扩展机制，通过下面的代码片段，可以在 G6 中注册一个自定义的节点：
+在第一步中，我们已经为节点大小 size 映射了每个节点的总度数。为了更详细展示每个城市飞出和飞入航班的比例，我们希望在每个节点上显示一个类似于饼图的效果。例如<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*stNMRLlBLMUAAAAAAAAAAABkARQnAQ' width=60 /> ，桔红色扇形代表飞入该城市的航班比例，青色代表飞出该城市的航班比例。G6 内置的 circle 、rect 等节点形状不能满足这一需求，但 G6 提供了节点的扩展机制，通过下面的代码片段，可以在 G6 中注册一个自定义的节点：
 ```javascript
 const lightBlue = 'rgb(119, 243, 252)';
 const lightOrange = 'rgb(230, 100, 64)';
@@ -154,7 +154,7 @@ G6.registerNode('pie-node', {
     const inPercentage = cfg.inDegree / cfg.degree; // 入度占总度数的比例
     const inAngle = inPercentage * Math.PI * 2; // 入度在饼图中的夹角大小
     const outAngle = Math.PI * 2 - inAngle; // 出度在饼图中的夹角大小
-    const inArcEnd = [radius * Math.cos(inAngle), radius * Math.sin(inAngle)]; //入度饼图弧结束位置
+    const inArcEnd = [radius * Math.cos(inAngle), radius * Math.sin(inAngle)]; // 入度饼图弧结束位置
     let isInBigArc = 1, isOutBigArc = 0;
     if (inAngle > Math.PI) {
       isInBigArc = 0;
@@ -255,7 +255,7 @@ graph.render();
 
 
 #### 设置 tooltip 与交互操作
-使用 tooltip，可以在鼠标 hover 到节点上时展示该节点的其他属性值。首先在 html 中设定 tooltip 的样式：
+使用 tooltip，可以在鼠标 hover 到节点上时展示该节点的其他属性值。首先在 HTML 中设定 tooltip 的样式：
 ```html
 <style>
   .g6-tooltip {
@@ -295,7 +295,7 @@ graph.render();
 同时，可以拖拽和放缩画布：
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5h5tR5eDM6UAAAAAAAAAAABkARQnAQ' width=850 height=350 />
 
-> 缩放和拖动画布。
+> 缩放和拖动画布
 
 
 ## 分析
