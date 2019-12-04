@@ -108,7 +108,7 @@ document.getElementById('selector').addEventListener('change', e => {
 G6.registerBehavior('click-add-node', {
   // 设定该自定义行为需要监听的事件及其响应函数
   getEvents() {
-    // 监听的事件为 cnavas:click，响应函数是 onClick
+    // 监听的事件为 canvas:click，响应函数是 onClick
    return {
      'canvas:click': 'onClick'
    };
@@ -127,7 +127,7 @@ G6.registerBehavior('click-add-node', {
 ```
 
 #### 添加边
-在上面的案例中，当需要在两个节点之间连线时，要先切换到添加边的 Mode 上。下面代码自定义了名为 `'click-add-edge'`（名字可以自由设定）的 Behavior 实现两个节点之间连线。
+在上面的例子中，当需要在两个节点之间连线时，要先切换到添加边的 Mode 上。下面代码自定义了名为 `'click-add-edge'`（名字可以自由设定）的 Behavior 实现两个节点之间连线。
 ```javascript
 // 封装点击添加边的交互
 G6.registerBehavior('click-add-edge', {

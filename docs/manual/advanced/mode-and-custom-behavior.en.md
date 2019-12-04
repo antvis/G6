@@ -110,42 +110,42 @@ When user select the 'Add Node' button in the menu, the Mode will be switched to
 G6.registerBehavior('click-add-node', {
   // Bind the events and response functions for this custom Behavior
   getEvents() {
-    // The event to be listned is cnavas:click. The response function is onClick
    return {
-     'canvas:click': 'onClick'
+     'canvas:click': 'onClick' // The event to be listned is canvas:click. The response function is onClick
    };
  	},
-  // 点击事件
+  // The click event
   onClick(ev) {
     const graph = this.graph;
-    // 在图上新增一个节点
+    // Add a new node on the canvas
     const node = graph.addItem('node', {
       x: ev.x,
       y: ev.y,
-      id: G6.Util.uniqueId()  // 生成唯一的 id
+      id: G6.Util.uniqueId()  // Generate a unique id
     });
   }
 });
 ```
 
-#### 添加边
-在上面的案例中，当需要在两个节点之间连线时，要先切换到添加边的 Mode 上。下面代码自定义了名为 `'click-add-edge'`（名字可以自由设定）的 Behavior 实现两个节点之间连线。
+#### Add a Node
+To add an edge between two end nodes, the users need to switch to the `addEdge` Mode, which includes two behaviors: `'click-add-edge'` and `'click-select'`. The `'click-add-edge'` is registered by `G6.registerBehavior`. P.S. the name of `'click-add-edge'` can be assigned to any one you like.
+
 ```javascript
-// 封装点击添加边的交互
+// Register the custom Behavior of adding a edge by clicking
 G6.registerBehavior('click-add-edge', {
-  // 设定该自定义行为需要监听的事件及其响应函数
+  // Bind the events and response functions for this custom Behavior
   getEvents() {
    return {
-     'node:click': 'onClick' ,   // 监听事件 node:click，响应函数时 onClick
-     mousemove: 'onMousemove',   // 监听事件 mousemove，响应函数时 onMousemove
-     'edge:click': 'onEdgeClick' // 监听事件 edge:click，响应函数时 onEdgeClick
+     'node:click': 'onClick' ,   // The event to be listned is node:click. The response function is onClick
+     mousemove: 'onMousemove',   // The event to be listned is mousemove. The response function is onMousemove
+     'edge:click': 'onEdgeClick' // The event to be listned is edge:click. The response function is onEdgeClick
    };
  	},
-  // getEvents 中定义的 'node:click' 的响应函数
+  // The response function for 'node:click' defined in getEvents
   onClick(ev) {
     const node = ev.item;
     const graph = this.graph;
-    // 鼠标当前点击的节点的位置
+    // The position of the node where the mouse is currently clicking on
     const point = {x: ev.x, y: ev.y};
     const model = node.getModel();
     if (this.addingEdge && this.edge) {
@@ -156,7 +156,7 @@ G6.registerBehavior('click-add-edge', {
       this.edge = null;
       this.addingEdge = false;
     } else {
-      // 在图上新增一条边，结束点是鼠标当前点击的节点的位置
+      // Add a new edge to the graph with the currently clicked node's position as the end point
       this.edge = graph.addItem('edge', {
         source: model.id,
         target: point
@@ -164,21 +164,21 @@ G6.registerBehavior('click-add-edge', {
       this.addingEdge = true;
     }
   },
-  // getEvents 中定义的 mousemove 的响应函数
+  // The response function for mousemove defined in getEvents
   onMousemove(ev) {
-    // 鼠标的当前位置
+    // The current position of the mouse
   	const point = {x: ev.x, y: ev.y};
     if (this.addingEdge && this.edge) {
-      // 更新边的结束点位置为当前鼠标位置
+      // Update the end point of the edge to be the current position of the mouse
       this.graph.updateItem(this.edge, {
         target: point
       });
     }
 	},
-  // getEvents 中定义的 'edge:click' 的响应函数
+  // The response function for 'edge:click' defined in getEvents
   onEdgeClick(ev) {
     const currentEdge = ev.item;
-    // 拖拽过程中，点击会点击到新增的边上
+    // The click event while dragging
     if (this.addingEdge && this.edge == currentEdge) {
       graph.removeItem(this.edge);
       this.edge = null;
@@ -188,5 +188,5 @@ G6.registerBehavior('click-add-edge', {
 });
 ```
 
-## 完整代码
-完整 demo 代码参见：[动态添加元素](https://codepen.io/Yanyan-Wang/pen/qBBNaye)。
+## Complete COde
+[Adding Items](https://codepen.io/Yanyan-Wang/pen/qBBNaye)。
