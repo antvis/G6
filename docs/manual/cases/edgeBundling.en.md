@@ -58,22 +58,23 @@ Render the nodes and edges by G6 directly, we will obtain the result:
 > Figure 5. Render the source data by G6.
 
 
-我们发现简单地将该数据渲染后的结果航线纵横交错，穿梭在密集的城市当中，视觉上十分混乱，即难以看清细节，也不能发现航线的总体趋势。
+Figure 5 shows the result with chaotic crossings which is hard for users to figure out the details and global trends.
 
 
-## 期待效果
-我们希望可以通过边绑定的方法降低图 5 的视觉混乱，从而清晰图的整体走势、结构，突出航线频繁的城市，它们可能是重要的交通枢纽，并展示更多的统计信息，以便观察者进行分析。借助 G6，我们可以实现如下效果。通过边绑定，边的交错混乱情况被降低，颜色映射航班的飞行方向（出发（橙红色）与降落（青色））。节点大小表示到达与离开该城市的航班总数量，每个节点使用了饼图展示达到（橙红色）和离开（青色）航班的比例。并增加 hover 的交互，使用 tooltip 展示每个城市的经纬度。
+## Expected Effect
+We wish to improve the visual clutter of Figure 5 by edge bundling to show the global trends and structures and highlight the important cities with many airlines. These cities might be the important traffic pivots. We also try to illustrate some statistical informations for analysis. Powered by G6, we are able to achive the result with: Bundling the edges, Mapping the edge directions to gradient colors(departure-orange, arrival-cyan) of the edge; Mapping the total number of airlines about the cities to the size of the node; Adding interactions of hover; Utilizing the tooltip to show the longitute and latitute.
+
 <br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*BC4AQbOd6HIAAAAAAAAAAABkARQnAQ' width=850 />
 
-> 期待效果图及 tooltip 效果。
+> The expected effect and the tooltip.
 
 
 
-## 实现步骤
+## Implement Steps
 
-### 统计必要信息
-首先，我们使用简单的 JS 根据数据统计每个节点的总度数（degree，即出入该城市的航线总数）、出度（outDegree，即飞出该城市的航线数）、入度（inDegree，即飞入该城市成航线数），为后续映射到节点上做好准备。
+### Statistics Information
+First, we count the total degrees of each node based on the data by simple JavaScript code. The `degree` of a node indicates the total number of the flights arriving and leaving the city; The `outDegree` indicates the leaving flights; The `inDegree` indicates the arriving flights.
 ```javascript
 const nodes = data.nodes;
 const edges = data.edges;
@@ -83,7 +84,7 @@ nodes.forEach(n => {
   n.inDegree = 0;
   n.outDegree = 0;
 });
-// compute the degree of each node
+// Compute the degree of each node
 const nodeIdMap = new Map();
 nodes.forEach(node => {
   nodeIdMap.set(node.id, node);

@@ -18,7 +18,7 @@ order: 1
 
 
 ## Path
-⚠️**Attention:** when the edge is too thin to be hitted by mouse, set **lineAppendWidth** to enlarge the hitting area.
+⚠️**Attention:** When the edge is too thin to be hitted by mouse, set **lineAppendWidth** to enlarge the hitting area.
 
 **Property**
 
