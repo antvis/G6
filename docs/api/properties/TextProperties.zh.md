@@ -8,13 +8,13 @@ order: 2
 
 | Name | Description | Remark |
 | --- | --- | --- |
-| fill | 设置用于填充绘画的颜色、渐变或模式 | 对应 canvas 属性 `fillStyle` |
-| stroke | 设置用于笔触的颜色、渐变或模式 | 对应 canvas 属性 `strokeStyle` |
+| fill | 设置用于填充绘画的颜色、渐变或模式 | 对应 Canvas 属性 `fillStyle` |
+| stroke | 设置用于笔触的颜色、渐变或模式 | 对应 Canvas 属性 `strokeStyle` |
 | shadowColor | 设置用于阴影的颜色 |  |
 | shadowBlur | 设置用于阴影的模糊级别 | 数值越大，越模糊 |
 | shadowOffsetX | 设置阴影距形状的水平距离 |  |
 | shadowOffsetY | 设置阴影距形状的垂直距离 |  |
-| opacity | 设置绘图的当前 alpha 或透明值 | 对应 canvas 属性 `globalAlpha` |
+| opacity | 设置绘图的当前 alpha 或透明值 | 对应 Canvas 属性 `globalAlpha` |
 | font | 设置文本内容的当前字体属性 |  |
 | textAlign | 设置文本内容的当前对齐方式 | 支持的属性：`'center'` / `'end'` / `'left'` / `'right'` / `'start'`，默认值为 `'start'` |
 | textBaseline | 设置在绘制文本时使用的当前文本基线 | 支持的属性: <br />`'top'` / `'middle'` / `'bottom'` / `'alphabetic'` / `'hanging'`。默认值为`'bottom'` |
@@ -65,11 +65,7 @@ graph.update(node, {
 })
 ```
 
-<<<<<<< HEAD
 通过以上代码修改 node 中文本的样式，效果如下图：
-=======
-Modify the style of text of node as the code above, and we get the result:
->>>>>>> feat: english version of API
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*euH9SLcS2IoAAAAAAAAAAABkARQnAQ' width=350>
 

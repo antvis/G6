@@ -33,7 +33,7 @@ const graph = new G6.Graph({
     width: 300,
     height: 300
   }
-);
+});
 ```
 
 ## MDS
@@ -61,7 +61,7 @@ const graph = new G6.Graph({
   layout: {
     type: 'mds'
   }
-);
+});
 ```
 
 ## Force
@@ -89,7 +89,7 @@ Force is the classical force-dicrected layout algorithm, which corresponds to fo
 
 
 #### preventOverlap
-**Type**: Number<br />**Default**: false<br />**Required**: false<br />**Description**: Whether prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned.
+**Type**: Number<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned.
 
 #### collideStrength
 **Type**: Number<br />**Default**: 1<br />**Required**: false<br />**Description**: The strength of force for preventing node overlappings. The range is [0, 1]
@@ -99,17 +99,23 @@ Force is the classical force-dicrected layout algorithm, which corresponds to fo
 **Type**: Number<br />**Default**: 10<br />**Required**: false<br />**Description**: The diameter of the node. It is used for preventing node overlappings. If `nodeSize` is not assigned, the size property in node data will take effect. If the size in node data does not exist either, `nodeSize` is assigned to 10 by default
 
 #### nodeSpacing
-**Type**: Number / Function<br />**Default**: 0<br />**Required**: false 
-**Example**: Example 1:  10
+**Type**: Number / Function
+<br />**Default**: 0
+<br />**Required**: false 
+<br />**Example**: Example 1:  10
 <br />Example 2:  
-<br />d => {
-  <br />  // d is a node
-  <br />  if (d.id === 'node1') {
-    <br />    return 100;
-    <br />  }
-    <br />  return 10;
-    <br />}
-    <br />**Description**: 
+
+```javascript
+d => {
+  // d is a node
+  if (d.id === 'node1') {
+    return 100;
+  }
+  return 10;
+}
+```
+
+<br />**Description**: 
 Takes effect when `preventOverlap` is `true`. It is the minimum distance between nodes to prevent node overlappings. It can be a function to define different distances for different nodes (example 2)
 
 #### alpha
@@ -117,7 +123,7 @@ Takes effect when `preventOverlap` is `true`. It is the minimum distance between
 
 
 #### alphaDecay
-**Type**: Number<br />**Default**: 0.028<br />**Required**: false<br />**Description**: The decay ratio of alpha for convergence. THe range is [0, 1]. 0.028 corresponds to 300 times iteration
+**Type**: Number<br />**Default**: 0.028<br />**Required**: false<br />**Description**: The decay ratio of alpha for convergence. The range is [0, 1]. 0.028 corresponds to 300 iterations
 
 
 #### alphaMin
@@ -166,12 +172,13 @@ const graph = new G6.Graph({
       console.log('force layout done');
     }
   }
-);
+});
 ```
 
 ## Fruchterman
 
-Fruchterman is a kind of force-directed layout. G6 implements it according to the paper[Graph Drawing by Force-directed Placement](http://www.mathe2.uni-bayreuth.de/axel/papers/reingold:graph_drawing_by_force_directed_placement.pdf). 
+Fruchterman is a kind of force-directed layout. G6 implements it according to the paper
+<a href='http://www.mathe2.uni-bayreuth.de/axel/papers/reingold:graph_drawing_by_force_directed_placement.pdf' target='_blank'>Graph Drawing by Force-directed Placement</a>.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*jK3ITYqVJnQAAAAAAAAAAABkARQnAQ' width=600 />
 
@@ -194,7 +201,7 @@ Fruchterman is a kind of force-directed layout. G6 implements it according to th
 
 
 #### clustering
-**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether layout by cluster
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to layout by cluster
 
 
 #### clusterGravity
@@ -221,12 +228,15 @@ const graph = new G6.Graph({
     clusterGravity: 30,
     maxIteration: 2000
   }
-);
+});
 ```
 
 ## Circular
 
-Circular layout arranges the node on a circle. By tuning the configurations, user can adjust the node ordering method, division number, radial layout, and so on. G6 implements it according to the paper: [A framework and algorithms for circular drawings of graphs](https://www.sciencedirect.com/science/article/pii/S1570866705000031). <br />
+Circular layout arranges the node on a circle. By tuning the configurations, user can adjust the node ordering method, division number, radial layout, and so on. G6 implements it according to the paper: 
+<a href='https://www.sciencedirect.com/science/article/pii/S1570866705000031' target='_blank'>A framework and algorithms for circular drawings of graphs</a>.
+
+ <br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-3idTK1xa6wAAAAAAAAAAABkARQnAQ' width=270 />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_nLORItzM5QAAAAAAAAAAABkARQnAQ' width=270 />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6J6BRIjmXKAAAAAAAAAAAABkARQnAQ' width=270 />
@@ -251,7 +261,7 @@ Circular layout arranges the node on a circle. By tuning the configurations, use
 
 
 #### clockwise
-**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Description**: Whether layout clockwisely
+**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Description**: Whether to layout clockwisely
 
 
 #### divisions
@@ -287,14 +297,15 @@ const graph = new G6.Graph({
     ordering: 'degree',
     angleRatio: 1
   }
-);
+});
 ```
 
 ## Radial
 
-Radial layout arranges the nodes to concentrics centered at a focus node according to their shortest path length to the focus node. G6 implements it according to the paper: [More Flexible Radial Layout](http://emis.ams.org/journals/JGAA/accepted/2011/BrandesPich2011.15.1.pdf). 
+Radial layout arranges the nodes to concentrics centered at a focus node according to their shortest path length to the focus node. G6 implements it according to the paper: 
+<a href='http://emis.ams.org/journals/JGAA/accepted/2011/BrandesPich2011.15.1.pdf' target='_blank'>More Flexible Radial Layout</a>.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GAFjRJeAoAsAAAAAAAAAAABkARQnAQ' width=600 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GAFjRJeAoAsAAAAAAAAAAABkARQnAQ' width=450 />
 
 ### Configuration
 
@@ -319,7 +330,7 @@ Radial layout arranges the nodes to concentrics centered at a focus node accordi
 
 
 #### preventOverlap
-**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned.
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned.
 
 
 #### nodeSize
@@ -327,17 +338,23 @@ Radial layout arranges the nodes to concentrics centered at a focus node accordi
 
 
 #### nodeSpacing
-**Type**: Number / Function<br />**Default**: 0<br />**Required**: false 
-**Example**: Example 1:  10
+**Type**: Number / Function
+<br />**Default**: 0
+<br />**Required**: false 
+<br />**Example**: Example 1:  10
 <br />Example 2:  
-<br />d => {
-  <br />  // d is a node
-  <br />  if (d.id === 'node1') {
-    <br />    return 100;
-    <br />  }
-    <br />  return 10;
-    <br />}
-    <br />**Description**: 
+
+```javascript
+d => {
+  // d is a node
+  if (d.id === 'node1') {
+    return 100;
+  }
+  return 10;
+}
+```
+
+<br />**Description**: 
 Takes effect when `preventOverlap` is `true`. It is the minimum distance between nodes to prevent node overlappings. It can be a function to define different distances for different nodes (example 2)
 
 
@@ -346,7 +363,7 @@ Takes effect when `preventOverlap` is `true`. It is the minimum distance between
 
 
 #### strictRadial
-**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Description**: Whether layout the graph as strict radial, which means the nodes will be arranged on each circle strictly. Takes effect only when `preventOverlap` is `true`
+**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Description**: Whether to layout the graph as strict radial, which means the nodes will be arranged on each circle strictly. Takes effect only when `preventOverlap` is `true`
 
 - When `preventOverlap` is `true`, and `strictRadial` is `false`, the overlapped nodes are arranged along their circles strictly. But for the situation that there are too many nodes on a circle to be arranged, the overlappings might not be eliminated completely
 - When `preventOverlap` is `true`, and `strictRadial` is `true` , the overlapped nodes can be arranged around their circle with small offsets.
@@ -381,7 +398,7 @@ const graph = new G6.Graph({
     nodeSize: 30,
     strictRadial: false
   }
-);
+});
 ```
 
 ## Dagre
@@ -445,7 +462,7 @@ Dagre is an hierarchical layout.
 
 
 #### controlPoints
-**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Description**: Whether keep the control points of layout
+**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Description**: Whether to keep the control points of layout
 
 
 ### Function
@@ -467,7 +484,7 @@ const graph = new G6.Graph({
     ranksep: 50,
     controlPoints: true
   }
-);
+});
 ```
 
 ## Concentric
@@ -484,7 +501,7 @@ Concentric arranges the nodes on several concentric circles. By tuning the param
 
 
 #### preventOverlap
-**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. If the size in node data does not exist either, `nodeSize` is assigned to 30 by default
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. If the size in node data does not exist either, `nodeSize` is assigned to 30 by default
 
 
 #### nodeSize
@@ -512,7 +529,7 @@ Concentric arranges the nodes on several concentric circles. By tuning the param
 
 
 #### maxLevelDiff
-**Type**: Number<br />**默认值:**undefined<br />**Required**: false<br />**Description**: The sum of concentric values in each level. If it is undefined, maxValue / 4 will take place, where maxValue is the max value of ordering properties. For example, if `sortBy='degree'`, maxValue is the max degree value of all the nodes
+**Type**: Number<br />**默认值:**undefined<br />**Required**: false<br />**Description**: The sum of concentric values in each level. If it is undefined, maxValue / 4 will take place, where maxValue is the max value of ordering properties. For example, if `sortBy` is `'degree'`, maxValue is the max degree value of all the nodes
 
 
 #### sortBy
@@ -543,14 +560,14 @@ const graph = new G6.Graph({
     maxLevelDiff: 10,
     sortBy: 'degree'
   }
-);
+});
 ```
 
 ## Grid
 
 Grid orders the nodes according to the configurations and arranged them onto grid.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Oh6mRLVEBBIAAAAAAAAAAABkARQnAQ' width=850 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Oh6mRLVEBBIAAAAAAAAAAABkARQnAQ' width=650 />
 
 ### Configuration
 
@@ -559,7 +576,7 @@ Grid orders the nodes according to the configurations and arranged them onto gri
 
 
 #### preventOverlap
-**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. If the size in node data does not exist either, `nodeSize` is assigned to 30 by default
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. If the size in node data does not exist either, `nodeSize` is assigned to 30 by default
 
 
 #### nodeSize
@@ -608,5 +625,5 @@ const graph = new G6.Graph({
     cols: 5,
     sortBy: 'degree'
   }
-);
+});
 ```

@@ -77,7 +77,7 @@ export default function() {
 ```
 
 ### Render the React Components
-The styles of the built-in tooltips on nodes/edges and thecontext menu on nodes are too simple to satisfy the complex requirements. Now we show how to custom React components for these tools, then the styles of them can be controlled by users. During the interaction, G6 defines the render timing and position of these components. When the timing and the position are available, they can be managed by React state.
+The styles of the built-in tooltips on nodes/edges and thecontext menu on nodes are too simple to satisfy the complex requirements. Now we show how to customize React components for these tools, then the styles of them can be controlled by users. During the interaction, G6 defines the render timing and position of these components. When the timing and the position are available, they can be managed by React state.
 ```javascript
 // The coordinate of node tooltip
 const [showNodeTooltip, setShowNodeTooltip] = useState(false)

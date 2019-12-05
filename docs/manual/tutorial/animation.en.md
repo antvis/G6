@@ -3,7 +3,7 @@ title: Animation*
 order: 6
 ---
 
-The animation mechanism is too complicated to understand by beginners and out of the scope of the tutorial. In this chapter, we only introduce the animation in G6 briefly. For more information, please refer to [Basic Animation](../advanced/animation).
+The animation mechanism is too complicated to understand by beginners and out of the scope of the tutorial. In this chapter, we only introduce the animation in G6 briefly. For more information, please refer to [Basic Animation](/en/docs/manual/advanced/animation/).
 
 There are two levels of animation in G6:
 
@@ -22,14 +22,14 @@ Configure `animate: true` when instantiating a graph to achieve it.
 ```javascript
 const graph = new G6.Graph({
   // ...                      // Other configurations
-  animate: true            // Boolean, whether activate the animation when global changes happen
+  animate: true            // Boolean, whether to activate the animation when global changes happen
 });
 ```
 
 ## Item Animation
-G6 allows user to custom animation for item when register a type of custom item. <br />
+G6 allows user to customize animation for item when register a type of custom item. <br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hYJSQaneVmgAAAAAAAAAAABkARQnAQ' width=330 />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-90pSrm4hkUAAAAAAAAAAABkARQnAQ' width=330 />
 
-For more cases, please refer to [Animation Case](/zh/examples/scatter/node)。
+For more cases, please refer to [Animation Case](/en/examples/scatter/node).

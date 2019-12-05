@@ -127,10 +127,10 @@ const graph = new G6.Graph({
 
 | Name | Description | Type | Remark |
 | --- | --- | --- | --- |
-| top | Whether show the top link point | Boolean | `false` by default |
-| bottom | Whether show the bototm link point | Boolean | `false` by default |
-| left | Whether show the left link point | Boolean | `false` by default |
-| right | Whether show the right link point | Boolean | `false` by default |
+| top | Whether to show the top link point | Boolean | `false` by default |
+| bottom | Whether to show the bototm link point | Boolean | `false` by default |
+| left | Whether to show the left link point | Boolean | `false` by default |
+| right | Whether to show the right link point | Boolean | `false` by default |
 | size | The size of the link points | Number | `3` by default |
 | fill | The filling color of the link points | String | `'#72CC4A'` by default |
 | stroke | The stroke color of the link points | String | `'#72CC4A'` by default |

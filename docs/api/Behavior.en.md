@@ -5,7 +5,7 @@ order: 5
 
 Behavior is the compound interactions in G6. In general, a Behavior includes one or more event listeners and a set of item operations.
 
-By default, Behavior has three callbacks: `shouldBegin`, `shouldUpdate`, and `shouldEnd`, representing the beginning of the behavior, whether update the items, the ending of the behavior respectively. If they return `false`, the default behavior will be prevented.
+By default, Behavior has three callbacks: `shouldBegin`, `shouldUpdate`, and `shouldEnd`, representing the beginning of the behavior, whether to update the items, the ending of the behavior respectively. If they return `false`, the default behavior will be prevented.
 
 ## Usage
 ```javascript
@@ -30,7 +30,7 @@ G6.registerBehavior('behaviorName', {
 ```
 
 ## getEvents()
-Define and handle events when user custom a Behavior.
+Define and handle events when user customize a Behavior.
 
 The usage of `getEvents()` can be refered to [Event](./Event)。
 
@@ -74,7 +74,7 @@ G6.registerBehavior('behaviorName', {
 | removed | Boolean | Whether the target is removed / destroyed. |
 | timeStamp | Number | The time stamp. |
 | bubbles | Boolean | Whether it is a bubbled event. |
-| defaultPrevented | Boolean | Whether prevent the default event. |
+| defaultPrevented | Boolean | Whether to prevent the default event. |
 | cancelable | Boolean | Whether it is cancelable. |
 
 
@@ -117,7 +117,7 @@ G6.registerBehavior('behaviorName', {
 ```
 
 ## shouldBegin(evt)
-Whether prevent the behavior. Return `true` by default, which means do not prevent the behavior. User should call it by themselves.
+Whether to prevent the behavior. Return `true` by default, which means do not prevent the behavior. User should call it by themselves.
 
 **Usage**
 ```javascript
@@ -130,7 +130,7 @@ G6.registerBehavior('behaviorName', {
 ```
 
 ## shouldUpdate(evt)
-Whether update the data and the view. Returns `true` by default, which means allow updating. 
+Whether to update the data and the view. Returns `true` by default, which means allow updating. 
 
 **Usage**
 ```javascript
@@ -154,4 +154,4 @@ const graph = new G6.Graph({
 ```
 
 ## shouldEnd(evt)
-Whether end the behavior. Returns `true` by default.
+Whether to end the behavior. Returns `true` by default.

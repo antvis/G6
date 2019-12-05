@@ -3,10 +3,11 @@ title: Update Label
 order: 0
 ---
 
-在 G6 中，可以通过以下三种方式更新文本样式。
+There are three ways to modify the styles for labels in G6.
 
-#### 实例化Graph
-实例化Graph时，可以通过在defaultNode或defaultEdge中指定**labelCfg**属性修改文本的样式。
+#### Configure When Instantiating Graph
+When instantiating a Graph, assign `**labelCfg**` in `defaultNode` or `defaultEdge` to configure the styles for labels of global nodes and global edges respectively.
+
 
 ```javascript
 const graph = new G6.Graph({
@@ -34,7 +35,7 @@ const graph = new G6.Graph({
   });
 ```
 
-#### 数据中指定labelCfg
+#### Configure style in Data
 
 ```javascript
 const data = {
@@ -53,17 +54,17 @@ const data = {
 }
 ```
 
-#### 使用update/updateItem
+#### update/updateItem
 
-使用update/updateItem更新节点或边时，也可以更新节点或边上的文本。
+When using `update/updateItem` to update a node or edge, the label can be updated as well.
 
 ```javascript
 graph.updateItem(node, {
-  // 节点的样式
+  // The style of the node
   style: {
   	stroke: 'blue'
   },
-  // 节点上文本的样式
+  // The configurations of the label on the node
 	labelCfg: {
   	style: {
     	fill: '#fff',
@@ -73,4 +74,4 @@ graph.updateItem(node, {
 })
 ```
 
-想知道文本都可以设置哪些属性，请👉参考[文本属性样式](/zh/docs/api/properties/TextProperties)。
+For more information about the label styles, refer to [Label Properties](/zh/docs/api/properties/TextProperties)。

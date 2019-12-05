@@ -29,7 +29,7 @@ We found the interactions are sundry and versatile. And the conflicts and config
 
 
 ## The Life Cycle of Behavior
-To custom an Behavior, it is important to comprehend the life cycle of Behavior. Interaction Behaviors are related to the events from users, including the processes:
+To customize a Behavior, it is important to comprehend the life cycle of Behavior. Interaction Behaviors are related to the events from users, including the processes:
 
 - Bind the event;
 - Activate the event;
@@ -39,7 +39,7 @@ To custom an Behavior, it is important to comprehend the life cycle of Behavior.
 
 
 ## registerBehavior
-You can custom a Behavior by `G6.registerBehavior`. The following code implements a custom Behavior named `'activate-node'`, which changes the state `active` of the clicked node to be `true`, and restores the state `active` to be `false` when the user clicking the node again or clicking the canvas.
+You can customize a Behavior by `G6.registerBehavior`. The following code implements a custom Behavior named `'activate-node'`, which changes the state `active` of the clicked node to be `true`, and restores the state `active` to be `false` when the user clicking the node again or clicking the canvas.
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;⚠️**Attension:** </span>
 

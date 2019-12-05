@@ -28,7 +28,7 @@ Graph 的生命周期为：初始化—>加载数据—>渲染—>更新—>销�
 | edgeStateStyles | Object | {} | 各个状态下边的样式，例如 `hover`、`selected`，3.1版本新增。 |
 | defaultNode | Object | {} | 默认状态下节点的配置，比如 `shape`, `size`, `color`。会被写入的 data 覆盖。 |
 | defaultEdge | Object | {} | 默认状态下边的配置，比如 `shape`, `size`, `color`。会被写入的 data 覆盖。 |
-| plugins | Array | [] | 向 graph 注册插件。插件机制请见：[plugin](/zh/docs/manual/tutorial/plugins#插件) |
+| plugins | Array | [] | 向 graph 注册插件。插件机制请见：[插件](/zh/docs/manual/tutorial/plugins#插件) |
 | animate | Boolean | false | 是否启用全局动画。 |
 | animateCfg | Object |  | 动画配置项，仅在 `animate` 为 `true` 时有效。 |
 | animateCfg.<br />onFrame | Function | null  | 回调函数，用于自定义节点运动路径，为空时线性运动。 |
@@ -38,11 +38,11 @@ Graph 的生命周期为：初始化—>加载数据—>渲染—>更新—>销�
 | maxZoom | Number | 10 | 最大缩放比例 |
 | pixelRatio | Number | 1.0 | 像素比率 |
 | groupType | String | circle | 节点分组类型，支持 circle 和 rect |
-| groupStyle | Object |  | groupStyle 用于指定分组的样式，详情参看[节点分组](/zh/docs/manual/middle/nodeGroup) |
+| groupStyle | Object |  | groupStyle 用于指定分组的样式，详情参看 [节点分组 Group](/zh/docs/manual/middle/nodeGroup) 教程 |
 | layout | Object |  | 布局配置项，使用 type 字段指定使用的布局方式，type可取以下值：random, radial, mds, circular, fruchterman, force, dagre，各布局详细的配置请参考 [Layout API 文档](/zh/docs/api/layout/Layout) |
 
 
-**重点说明**: G6 3.1 版本中实例化 Graph 时，新增了 `nodeStateStyles` 及 `edgeStateStyles` 两个配置项，删除了 `nodeStyle` 和 `edgeStyle` ，使用 3.1 以下版本的同学，只需要将 `nodeStyle` 改成 `nodeStateStyles` ，将 `edgeStyle` 改成 `edgeStateStyles` ，配置内容保持不变。
+⚠️**注意：**：G6 3.1 版本中实例化 Graph 时，新增了 `nodeStateStyles` 及 `edgeStateStyles` 两个配置项，删除了 `nodeStyle` 和 `edgeStyle` ，使用 3.1 以下版本的同学，只需要将 `nodeStyle` 改成 `nodeStateStyles` ，将 `edgeStyle` 改成 `edgeStateStyles` ，配置内容保持不变。
 
 **用法**
 
@@ -118,7 +118,7 @@ graph.render()
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | data | Object | true | 渲染图的数据 |
-| groupType | string | true | group 类型，支持 circle、rect |
+| groupType | string | true | group 类型，支持 `'circle'`、`'rect'` |
 
 **用法**
 
@@ -155,7 +155,7 @@ const data = {
   ]
 };
 
-// graph是Graph的实例
+// graph 是 Graph 的实例
 graph.renderCustomGroup(data, "circle");
 ```
 ### 
@@ -237,7 +237,7 @@ graph.changeData(data)
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| groupId | String | true | 分组ID |
+| groupId | String | true | 分组 ID |
 
 
 **用法**
@@ -253,7 +253,7 @@ graph.collapseGroup('groupId')
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| groupId | String | true | 分组ID |
+| groupId | String | true | 分组 ID |
 
 
 **用法**
@@ -270,8 +270,8 @@ graph.expandGroup('groupId')
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| type | String | true | 元素类型，可选值为 node、edge 和group |
-| model | Object | true | 元素的数据模型，type = 'group' 时，参看[手动创建节点分组文档](/zh/docs/manual/advanced/create-node-group) |
+| type | String | true | 元素类型，可选值为 `'node'`、`'edge'` 和 `'group'` |
+| model | Object | true | 元素的数据模型，`type: 'group'` 时，参看 [手动创建节点分组文档](/zh/docs/manual/advanced/create-node-group) |
 
 **用法**
 
@@ -446,7 +446,7 @@ graph.setAutoPaint(autoPaint);
 
 ## 布局
 
-G6 3.1 内置了丰富的布局。关于如何使用 G6 中内置的布局，请参考 [Layout API文档](/zh/docs/api/layout/Layout)。
+G6 3.1 内置了丰富的布局。关于如何使用 G6 中内置的布局，请参考 [Layout API](/zh/docs/api/layout/Layout)。
 
 ### layout()
 重新以当前配置的属性进行一次布局。
@@ -633,7 +633,7 @@ graph.setItemState('node1', 'selected', true);
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | item | String / Object | true | 元素 ID 或元素实例 |
-| states | String / Array | null  | false | 取值可以是单个状态值，也可以是状态值数组或 null，当为 null 时，清除该元素的**第一个**状态。 |
+| states | String / Array | null  | false | 取值可以是单个状态值，也可以是状态值数组或 `null`，当为 `null` 时，清除该元素的**第一个**状态。 |
 
 
 **用法**
@@ -793,7 +793,7 @@ graph.setMode('custom')
 
 **返回值**
 
-- 返回值类型：string；
+- 返回值类型：String；
 - 返回值表示当前的行为模式。
 
 **用法**
@@ -810,8 +810,8 @@ const mode = graph.getCurrentMode()
 
 **返回值**
 
-- 返回值类型：number；
-- 返回值表示当前视口的缩放比例， 默认值为 1。
+- 返回值类型：Number；
+- 返回值表示当前视口的缩放比例， 默认值为 `1`。
 
 **用法**
 
@@ -828,15 +828,15 @@ const zoom = graph.getZoom()
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | ratio | Number | true | 缩放比例 |
-| center | Object | false | 以 center 的 x、y 坐标为中心缩放，如果省略了 center 参数，则以元素当前位置为中心缩放 |
+| center | Object | false | 以 `center` 的 `x`、`y` 坐标为中心缩放，如果省略了 `center` 参数，则以元素当前位置为中心缩放 |
 
 **用法**
 
 ```javascript
-// 以(100, 100)为中心点，放大3倍
+// 以 (100, 100) 为中心点，放大3倍
 graph.zoom(3, { x: 100, y: 100 });
 
-// 以当前元素位置为中心，缩小到0.5
+// 以当前元素位置为中心，缩小到 0.5
 graph.zoom(0.5)
 ```
 
@@ -848,16 +848,16 @@ graph.zoom(0.5)
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | toRatio | Number | true | 固定比例值 |
-| center | Object | false | 以 center 的 x、y 坐标为中心缩放，如果省略了 center 参数，则以元素当前位置为中心缩放 |
+| center | Object | false | 以 `center` 的 `x`、`y` 坐标为中心缩放，如果省略了 `center` 参数，则以元素当前位置为中心缩放 |
 
 
 **用法**
 
 ```javascript
-// 以(100, 100)为中心点，放大3倍
+// 以 (100, 100) 为中心点，放大3倍
 graph.zoomTo(3, { x: 100, y: 100 });
 
-// 以当前元素位置为中心，缩小到0.5
+// 以当前元素位置为中心，缩小到 0.5
 graph.zoomTo(0.5)
 ```
 
@@ -962,7 +962,7 @@ graph.fitView([20, 10, 20, 15])
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| type | String | true | 元素类型，可选值为 node、edge |
+| type | String | true | 元素类型，可选值为 `'node'`、`'edge'` |
 | fn | Function | true | 查找的规则 |
 
 
@@ -1007,7 +1007,7 @@ const node = graph.findById('node')
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| type | String | true | 元素类型，可选值为 node、edge |
+| type | String | true | 元素类型，可选值为 `'node'`、`'edge'` |
 | fn | Function | true | 查找的规则 |
 
 
@@ -1031,8 +1031,8 @@ const nodes = graph.findAll('node', node => {
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| type | String | true | 元素类型，可选值为 node、edge |
-| state | String | true | 状态 |
+| type | String | true | 元素类型，可选值为 `'node'`、`'edge'` |
+| state | String | true | 状态名称 |
 
 
 **返回值**
@@ -1128,7 +1128,7 @@ const edges = graph.getEdges()
 
 ```javascript
 const point = graph.getPointByClient(e.clientX, e.clientY);
-console.log('视口x/y坐标分别为:', point.x, point.y)
+console.log('视口 x/y 坐标分别为:', point.x, point.y)
 ```
 
 ### getClientByPoint(x, y)
@@ -1145,7 +1145,7 @@ console.log('视口x/y坐标分别为:', point.x, point.y)
 **返回值**
 
 - 返回值类型：Object；
-- 包含的属性：x 和 y 属性，分别表示屏幕/页面的 x、y 坐标。
+- 包含的属性：`x` 和 `y` 属性，分别表示屏幕/页面的 x、y 坐标。
 
 **用法**
 
@@ -1202,7 +1202,7 @@ console.log('Canvas画布的x/y坐标分别为:', point.x, point.y)
 
 ## 动画
 ### positionsAnimate()
-根据 Graph 上的 animateCfg 配置项，处理视口中节点的动画。
+根据当前数据中的节点位置，动画更新节点位置。将会使用 graph 上的 `animateCfg` 配置项作为动画行为的依据。
 
 ### stopAnimate()
 停止画布上的所有动画。
@@ -1282,7 +1282,7 @@ const autoPaint = graph.get('autoPaint')
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | key | String | true | 属性的键 |
-| val | String / Object | Array | true | 属性的值 |
+| val | String / Object / Array | true | 属性的值 |
 
 
 **用法**

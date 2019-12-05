@@ -26,4 +26,4 @@ title: API
 **Type**: Number<br />**Default**: 50<br />**Required**: false<br />**Explanation**: The level separation(px)
 
 ## controlPoints
-**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Explanation**: Whether keep the control points of edges
+**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Explanation**: Whether to keep the control points of edges

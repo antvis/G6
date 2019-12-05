@@ -3,7 +3,7 @@ title: Event
 order: 6
 ---
 
-通用事件、Node 事件、Edge 事件及 Canvas 事件回调的参数请参考[Behavior 文档](./Behavior)。
+通用事件、Node 事件、Edge 事件及 Canvas 事件回调的参数请参考 [Behavior API](./Behavior)。
 
 ## 通用事件
 
@@ -28,7 +28,7 @@ order: 6
 | keydown | 按下键盘键触发该事件 |
 | keyup | 释放键盘键触发该事件 |
 | touchstart | 当手指触摸屏幕时候触发，即使已经有一个手指放在屏幕上也会触发 |
-| touchmove | 当手指在屏幕上滑动的时候连续地触发。在这个事件发生期间，调用 preventDefault() 事件可以阻止滚动。 |
+| touchmove | 当手指在屏幕上滑动的时候连续地触发。在这个事件发生期间，调用 `preventDefault()` 事件可以阻止滚动。 |
 | touchend | 当手指从屏幕上离开的时候触发 |
 
 

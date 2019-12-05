@@ -71,7 +71,7 @@ ModelRect node has the attributes shown below. The attribute with Object type wi
 ```javascript
     // The configuration of the logo icon in the node
     logoIcon: {
-      // Whether show the icon. false means hide the icon
+      // Whether to show the icon. false means hide the icon
       show: true,
       x: 0,
       y: 0,
@@ -84,7 +84,7 @@ ModelRect node has the attributes shown below. The attribute with Object type wi
     },
     // The configuration of the state icon in the node
     stateIcon: {
-      // Whether show the icon. false means hide the icon
+      // Whether to show the icon. false means hide the icon
       show: true,
       x: 0,
       y: 0,
@@ -155,10 +155,10 @@ const graph = new G6.Graph({
 
 | Name | Description | Type | Remark |
 | --- | --- | --- | --- |
-| top | Whether show the top link point | Boolean | `false` by default |
-| bottom | Whether show the bototm link point | Boolean | `false` by default |
-| left | Whether show the left link point | Boolean | `false` by default |
-| right | Whether show the right link point | Boolean | `false` by default |
+| top | Whether to show the top link point | Boolean | `false` by default |
+| bottom | Whether to show the bototm link point | Boolean | `false` by default |
+| left | Whether to show the left link point | Boolean | `false` by default |
+| right | Whether to show the right link point | Boolean | `false` by default |
 | size | The size of the link points | Number | `3` by default |
 | fill | The filling color of the link points | String | `'#72CC4A'` by default |
 | stroke | The stroke color of the link points | String | `'#72CC4A'` by default |
@@ -193,7 +193,7 @@ const graph = new G6.Graph({
 
 | Name | Description | Type | Remark |
 | --- | --- | --- | --- |
-| show | Whether show the left rect | Boolean | `true` by default |
+| show | Whether to show the left rect | Boolean | `true` by default |
 | width | The width of the left rect | Number | `4` by default |
 | fill | The filling color the the left rect | String | `'#40a9ff'` by default |
 | radius | The border radius of the left rect | Number | `2` by default |
@@ -225,7 +225,7 @@ const graph = new G6.Graph({
 
 | Name | Description | Type | Remark |
 | --- | --- | --- | --- |
-| show | Whether show the icon | Boolean | `true` by default |
+| show | Whether to show the icon | Boolean | `true` by default |
 | img | The url of the icon image | String | <br />- The default image for `logoIcon` is <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*KpqSS4INnRUAAAAAAAAAAABkARQnAQ' width=25/><br />- The default image for  `stateIcon` is <img src='https://gw.alipayobjects.com/zos/basement_prod/300a2523-67e0-4cbf-9d4a-67c077b40395.svg' width=25/><br /> |
 | width | The width of the icon | Number | `16` by default |
 | height | The height of the icon | Number | `16` by default |

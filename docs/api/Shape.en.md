@@ -6,9 +6,12 @@ order: 7
 This document shows the functions that should be implemented or rewrited when custom nodes by `G6.registerNode` or custom edges by `G6.registerEdge`. 
 
 ## Usage
-```
+The following code is an example of customizing a type of edge:
+```javascript
 import G6 from '@antv/g6'
-G6.registerNode('nodeName', {
+G6.registerEdge('edgeName', {
+  labelPosition: 'center',
+  labelAutoRotate: true,
   draw(cfg, group) {
     // The other functions such as drawShape anddrawLabel can be called in draw(cfg, group)
     this.drawShape()
@@ -25,28 +28,25 @@ G6.registerNode('nodeName', {
   update(cfg, item) {
     // Update the item according
   }
-}, 'circle')
+}, 'line')
 ```
 
 ## Attributes
 
-### itemType
-The type of the item. Options: `'node'`, `'edge'`.
-
 ### labelPosition
 The relative positions of label to the item. `'center'` by default.
 
-- When `itemType` is `'node'`, options of `labelPosition` includes: `'top'`, `'bottom'`, `'left'`, `'right'` and `'center'`;
-- When `itemType` is `'edge'`, options of `labelPosition` includes: `'start'`, `'end'` and `'center'`.
+- When registering a type of node by `registerNode`, options of `labelPosition` includes: `'top'`, `'bottom'`, `'left'`, `'right'` and `'center'`;
+- When registering a type of edge by `registerEdge`, options of `labelPosition` includes: `'start'`, `'end'` and `'center'`.
 
 ### labelAutoRotate
-> Takes effect only when registerEdge.
+> Takes effect only when `registerEdge`.
 
-Whether rotate the label according to the edge. `false` by default.
+Whether to rotate the label according to the edge. `false` by default.
 
 **Tips: this is an unique attribute for edge.**
 
-## Draw
+## Draw Functions
 The parameters for the four functions about draw are the same. Please refer to `draw()`.
 
 ### draw(cfg, group)
@@ -62,7 +62,7 @@ Draw the node or edge, including the label on the it. Return `keyShape` of it.
 ### afterDraw(cfg, group)
 This function will be called after the node or edge being drawed. It is appropriate for extending graphics or animations for built-in node or edge.
 
-## Update
+## Update Functions
 
 ### update(cfg, item)
 Update the node or edge, including the label on it.
@@ -78,7 +78,7 @@ Update the node or edge, including the label on it.
 This function will be called after the node or edge being updated.
 
 ### shouldUpdate(type)
-Whether allow the node or edge to be updated.
+Whether to allow the node or edge to be updated.
 
 **Paramters**
 

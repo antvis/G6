@@ -18,7 +18,7 @@ redirect_from:
 
 
 ## What is G6
-[G6](https://github.com/antvis/g6) is a graph visualization engine, which provides a set of basic mechanisms, including rendering, layout, analysis, interaction, animation, and other auxiliary tools. G6 aims to simplify the complex relationships, and help people to obtain the insight of relational data.
+<a href='https://github.com/antvis/g6' target='_blank'>G6</a> is a graph visualization engine, which provides a set of basic mechanisms, including rendering, layout, analysis, interaction, animation, and other auxiliary tools. G6 aims to simplify the complex relationships, and help people to obtain the insight of relational data.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zTjwQaXokeQAAAAAAAAAAABkARQnAQ' width=550 />
 
@@ -27,10 +27,12 @@ Developers are able to build graph visualization **analysis** applications or gr
 <img src="https://user-images.githubusercontent.com/6113694/44995293-02858600-afd5-11e8-840c-349e4730d63d.gif" height=150><img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*I9OdTbXJIi0AAAAAAAAAAABkARQnAQ" height=150><img src="https://user-images.githubusercontent.com/6113694/44995332-2ba61680-afd5-11e8-8cab-db0e9d08ceb7.gif" height=150>
 
 <img src="https://gw.alipayobjects.com/zos/rmsportal/HQxYguinFOMIXrGQOABY.gif" height=150><img src="https://gw.alipayobjects.com/zos/rmsportal/nAugyFgrbrUWPmDIDiQm.gif" height=150><img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*xoufSYcjK2AAAAAAAAAAAABkARQnAQ" height=150>
+
 > Powerful Layouts
 
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dJT3SIVta6QAAAAAAAAAAABkARQnAQ' width=800 />
+
 > Powerful Animation and Interactions
 
 ## Features
@@ -94,7 +96,7 @@ $ npm install @antv/g6
 
 [![Edit compassionate-lalande-5lxm7](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/compassionate-lalande-5lxm7?fontsize=14&hidenavigation=1&theme=dark)
 
-For more information about the usage, please refer to [Getting Started](https://antv-g6.gitee.io/en/docs/manual/getting-started).
+For more information about the usage, please refer to [Getting Started](/en/docs/manual/getting-started).
 
 ## Documents
 - [Tutorial](/en/docs/manual/tutorial/preface)
@@ -106,9 +108,9 @@ For more information about the usage, please refer to [Getting Started](https://
 ## Links
 Some implementations combined with front-end libraries from the third party:
 
-- [Flow visualization editor powered by G6 and React](https://github.com/guozhaolong/wfd) - [Workflow Designer](https://github.com/guozhaolong/wfd)；
-- [Visualization editor powered by G6 and Vue](https://github.com/caoyu48/vue-g6-editor)；
-- [Visualization and graphics editor powered by G6 and Vue](https://github.com/OXOYO/X-Flowchart-Vue) - [A visual graph editor based on G6 and Vue](https://github.com/OXOYO/X-Flowchart-Vue)。
+- <a href='https://github.com/guozhaolong/wfd' target='_blank'>Flow visualization editor powered by G6 and React - Workflow Designer</a>;
+- <a href='https://github.com/caoyu48/vue-g6-editor' target='_blank'>Visualization editor powered by G6 and Vue</a>;
+- <a href='https://github.com/OXOYO/X-Flowchart-Vue' target='_blank'>Visualization and graphics editor powered by G6 and Vue - A visual graph editor based on G6 and Vue</a>.
 
 
 ## G6 Communication Group
@@ -119,12 +121,12 @@ Users are welcome to join the **G6 Communication Group** (It is a DingTalk group
 
 ## How to Contribute
 
-Please let us know what you are you going to help. Do check out [issues](https://github.com/antvis/g6/issues) for bug reports or suggestions first.
+Please let us know what you are you going to help. Do check out <a href='https://github.com/antvis/g6/issues' target='_blank'>issues</a> for bug reports or suggestions first.
 
-To become a contributor, please follow our [contributing guide](https://github.com/antvis/g6/blob/master/CONTRIBUTING.md).
+To become a contributor, please follow our <a href='https://github.com/antvis/g6/blob/master/CONTRIBUTING.md' target='_blank'>Contributing Guide</a>.
 
 ## License
 
-[MIT license](./LICENSE).
+<a href='https://github.com/antvis/g6/blob/master/LICENSE' target='_blank'>MIT license</a>.
 
 

@@ -20,7 +20,7 @@ Configure `animate: true` when instantiating a graph to achieve it.
 ```javascript
 const graph = new G6.Graph({
   // ...                      // Other configurations
-  animate: true,           // Boolean, whether activate the animation when global changes happen
+  animate: true,           // Boolean, whether to activate the animation when global changes happen
   animateCfg: {
     duration: 500,         // Number, the duration of one animation
     easing: 'linearEasing' // String, the easing function

@@ -84,7 +84,7 @@ Common graph layout API: [Layout API](https://www.yuque.com/antv/g6/agbmu2)。
 | linkDistance | Number | Function | Example 1: `50` <br />Example 2:<br />d => {<br />  // d is an edge<br />  if (d.id === 'edge1') {<br />    return 100;<br />  }<br />  return 50;<br />} | 50 | The edge length. It can be a function to define the different edge lengths for different edges (Example 2) |
 | nodeStrength | Number | Function | Example 1: `-30` <br />Example 2:<br />d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return -100;<br />  }<br />  return -30;<br />} | null | The strength of node force. Positive value means attractive force, negative value means repulsive force (Example 2) |
 | edgeStrength | Number | Example 1: 1 <br />Example 2:<br />d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 10;<br />  }<br />  return 1;<br />} | null | The strength of edge force. Calculated according to the degree of nodes by default (Example 2) |
-| preventOverlap | Boolean | false | false | Whether prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. If the `nodeSize` and size in data are both undefiend, `nodeSize` will be assigned to 10 by default |
+| preventOverlap | Boolean | false | false | Whether to prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. If the `nodeSize` and size in data are both undefiend, `nodeSize` will be assigned to 10 by default |
 | nodeSize | Array | Number | 20 | undefined | The diameter of the node. It is used for preventing node overlappings. If `nodeSize` is not assigned, the size property in node data will take effect. If the size in node data does not exist either, `nodeSize` is assigned to 10 by default |
 | nodeSpacing<br /><br />~~Supported after V3.1.6~~ | Number / Function | Example 1:  10<br />Example 2:  <br />d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150/><br />Takes effect when `preventOverlap` is `true`. It is the minimum distance between nodes to prevent node overlappings. It can be a function to define different distances for different nodes (example 2)<br /> |
 | alphaDecay | Number | 0.03 | 0.028 | The decay ratio of alpha for convergence. THe range is [0, 1]. 0.028 corresponds to 300 times iteration|
@@ -109,7 +109,7 @@ Common graph layout API: [Layout API](https://www.yuque.com/antv/g6/agbmu2)。
 | maxIteration | Number | 1000 | 1000 | The maximum interation number |
 | gravity | Number | 10 | 10 | The gravity, which affects the compactness of the layout |
 | speed | Number | 1 | 1 | The moving speed in each iteration. Large value might lead to violent swing |
-| clustering | Boolean | false | false | Whether layout by clustering |
+| clustering | Boolean | false | false | Whether to layout by clustering |
 | clusterGravity | Number | 30 | 10 | The gravity of each clusterm which affects the compactness of each cluster |
 
 
@@ -129,7 +129,7 @@ Common graph layout API: [Layout API](https://www.yuque.com/antv/g6/agbmu2)。
 | radius | Number | 50 | null | The radius of the circle. If the `raidus` exists, `startRadius` and `endRadius` do not take effect. |
 | startRadius | Number | 10 | null | The start radius of spiral layout |
 | endRadius | Number | 100 | null | The end radius of spiral layout |
-| clockwise | Boolean | true | true | Whether layout clockwisely |
+| clockwise | Boolean | true | true | Whether to layout clockwisely |
 | divisions | Number | 3 | 1 | The division number of the nodes on the circle. Takes effect when `endRadius - startRadius !== 0` |
 | ordering | String | null | 'topology' | 'degree' | null | The ordering method for nodes. `null` by default, which means the nodes are arranged in data order. 'topology' means in topology order; 'degree' means in degree order. |
 | angleRatio | Number | 1 | 1 | How many 2*PIs Between the first node and the last node |
@@ -150,11 +150,11 @@ Common graph layout API: [Layout API](https://www.yuque.com/antv/g6/agbmu2)。
 | maxIteration | Number | 1000 | 1000 | The max iteration number. |
 | focusNode | String / Object | 'node1' | null | The focus node of the radial layout. The first node of the data is the default value. It can be the id of a node or the node item. |
 | unitRadius | Number | 10 | 100 | The separation between adjacent circles. If `unitRadius` is not assigned, the layout will fill the canvas automatically. |
-| preventOverlap | Boolean | false | false | Whether prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. |
+| preventOverlap | Boolean | false | false | Whether to prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. |
 | maxPreventOverlapIteration | Number | 500 | 200 | The maximum iteration number of preventing node overlappings |
 | nodeSize | Number | 10 | 10 | The diameter of the node. It is used for preventing node overlappings. <br />~~Supported after V3.1.6~~: <br />The size in the node data will take effect if `nodeSize` is not assigned. If the size in node data does not exist either, `nodeSize` is assigned to 10 by default |
 | nodeSpacing<br />~~Supported after V3.1.6~~ | Number / Function | Example 1:  10<br />Example 2:  <br />d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cFq4QbXVx7sAAAAAAAAAAABkARQnAQ' width=150/><br />Takes effect when `preventOverlap` is `true`. It is the minimum distance between nodes to prevent node overlappings. It can be a function to define different distances for different nodes (example 2)<br /> |
-| strictRadial | Boolean | true | false | Whether layout the graph as strict radial, which means the nodes will be arranged on each circle strictly. Takes effect only when `preventOverlap` is `true`. Refer to [Radial-strictRadial API](/en/docs/api/layout/Graph/#strictradial)<br />- When `preventOverlap` is `true`, and `strictRadial` is `false`, the overlapped nodes are arranged along their circles strictly. But for the situation that there are too many nodes on a circle to be arranged, the overlappings might not be eliminated completely <br />- When `preventOverlap` is `true`, and `strictRadial` is `true` , the overlapped nodes can be arranged around their circle with small offsets.<br /> |
+| strictRadial | Boolean | true | false | Whether to layout the graph as strict radial, which means the nodes will be arranged on each circle strictly. Takes effect only when `preventOverlap` is `true`. Refer to [Radial-strictRadial API](/en/docs/api/layout/Graph/#strictradial)<br />- When `preventOverlap` is `true`, and `strictRadial` is `false`, the overlapped nodes are arranged along their circles strictly. But for the situation that there are too many nodes on a circle to be arranged, the overlappings might not be eliminated completely <br />- When `preventOverlap` is `true`, and `strictRadial` is `true` , the overlapped nodes can be arranged around their circle with small offsets.<br /> |
 
 
 #### MDS
@@ -177,7 +177,7 @@ Common graph layout API: [Layout API](https://www.yuque.com/antv/g6/agbmu2)。
 | ranksep | Number | 40 | 50 | The separations between adjacent levels with unit px. When `rankdir` is `'TB'` or `'BT'`, `ranksep` represents the vertical separations between adjacent levels; when `rankdir` is `'LR'` or `'RL'`, `rankdir` represents the horizontal separations between adjacent levels |
 | nodesepFunc<br /><br />~~Supported after V3.1.6~~ | Function | d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | The function for node separation with unit px. You can adjust the separations between different node pairs by using this function instead of `nodesep`. When `rankdir` is `'LR'` or `'RL'`, `nodesep` represents the vertical separations between nodes. The priority of `nodesepFunc` is lower than `nodesep`, which means if `nodesep` is assigned, the `nodesepFunc` will not take effect |
 | ranksepFunc<br /><br />~~Supported after V3.1.6~~ | Function | d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | The function for level separation with unit px. You can adjust the separations between different adjacent levels by using this function instead of `ranksep`. When `rankdir` is `'TB'` or `'BT'`, `ranksep` represents the vertical separations between adjacent levels; when `rankdir` is `'LR'` or `'RL'`, `rankdir` represents the horizontal separations between adjacent levels. The priority of `ranksepFunc` is lower than `ranksep`, which means if `ranksep` is assigned, the `ranksepFunc` will not take effect |
-| controlPoints | Boolean | true | true | Whether keep the control points of layout |
+| controlPoints | Boolean | true | true | Whether to keep the control points of layout |
 
 
 #### Concentric
@@ -188,7 +188,7 @@ Common graph layout API: [Layout API](https://www.yuque.com/antv/g6/agbmu2)。
 | center | Array | [ 0, 0 ] | The center of the graph | The center of the layout |
 | nodeSize | Number | 30 | 30 | The diameter of the node. It is used for preventing node overlappings |
 | minNodeSpacing | Number | 10 | 10 | The minimum separation between adjacent circles |
-| preventOverlap | Boolean | false | false | Whether prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. If the size in node data does not exist either, `nodeSize` is assigned to 30 by default |
+| preventOverlap | Boolean | false | false | Whether to prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. If the size in node data does not exist either, `nodeSize` is assigned to 30 by default |
 | sweep | Number | Math.PI | undefined | How many radians should be between the first and last node (defaults to full circle). If it is undefined, 2 * Math.PI * (1 - 1 / |level.nodes|) will be used, where level.nodes is nodes set of each level, |level.nodes| is the number of nodes of the level |
 | equidistant | Boolean | false | false | Whether levels have an equal radial distance between them, may cause bounding box overflow |
 | startAngle | Number | 3.14 | 3 / 2 * Math.PI | Where nodes start in radians |
@@ -203,7 +203,7 @@ Common graph layout API: [Layout API](https://www.yuque.com/antv/g6/agbmu2)。
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
 | begin | Array | [ 0, 0 ] | [ 0, 0 ] | 网格开始位置(左上角) |
-| preventOverlap | Boolean | false | false | Whether prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. If the size in node data does not exist either, `nodeSize` is assigned to 30 by default |
+| preventOverlap | Boolean | false | false | Whether to prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. If the size in node data does not exist either, `nodeSize` is assigned to 30 by default |
 | preventOverlapPadding | Number | 10 | 10 | The minimum padding between nodes to prevent node overlappings. Takes effect when `preventOverlap` is `true` |
 | nodeSize | Number | 30 | 30 | The diameter of the node. It is used for preventing node overlappings. |
 | condense | Boolean | false | false | Wheter to utilize the minimum space of the canvas. `false` means utilizing the full space, `true` means utilizing the minimum space. |
@@ -370,7 +370,7 @@ In the first stage, the graph is arranged by random layout. Transform to force l
         container: 'mountNode',  // String | HTMLElement, Required, the id of the container or the container object
         width: 300,              // Number, Required, The width of the graph
         height: 300,             // Number, Required, The height of the graph
-        animate: true            // Boolean, whether activate the animation while changing the layout
+        animate: true            // Boolean, whether to activate the animation while changing the layout
       });
 
       // Load data and render
@@ -386,7 +386,7 @@ In the first stage, the graph is arranged by random layout. Transform to force l
       setTimeout(() => {
         graph.updateLayout({
           type: 'force',               // Layout name
-          preventOverlap: true,        // Whether prevent the node overlappings
+          preventOverlap: true,        // Whether to prevent the node overlappings
           nodeSize: 40,                // The node size for collide detection
           linkDistance: 100            // The edge length
         });

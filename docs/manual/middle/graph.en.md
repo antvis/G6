@@ -100,7 +100,7 @@ There are some commonly used configurations. For complete configurations, please
 
 - `fitView`
 
-      Type: Boolean; Default: 'false'. Whether fit the canvas to the view port automatically.
+      Type: Boolean; Default: 'false'. Whether to fit the canvas to the view port automatically.
 
 - `fitViewPadding`
 
@@ -140,7 +140,7 @@ There are some commonly used configurations. For complete configurations, please
 
 - `animate`
 
-      Type: Boolean; Default: 'false'. Whether activate the global animation. If it is `true`, the positions of nodes will be changed animatively when the layout is changed. 
+      Type: Boolean; Default: 'false'. Whether to activate the global animation. If it is `true`, the positions of nodes will be changed animatively when the layout is changed. 
 
 - `animateCfg`
 

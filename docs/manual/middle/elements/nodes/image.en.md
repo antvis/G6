@@ -100,7 +100,7 @@ size: 200,
 | type | The type of shape of clipping | String | Options: `'circle'`, `'rect'`, `'ellipse'` |
 | x | The x coordinate of the clipping shape | Number | 0 by default. Only takes effect when the `type` is `'circle'`, `'rect'`, or `'ellipse'` |
 | y | The y coordinate of the clipping shape | Number | 0 by default. Only takes effect when the `type` is `'circle'`, `'rect'`, or `'ellipse' |
-| show | Whether clip the image | Boolean | Do not clip by default. |
+| show | Whether to clip the image | Boolean | Do not clip by default. |
 | r | The radius of circle clipping | Number | Takes effect when the `type` is `'circle'` |
 | width | The width of the clipping | Number | Takes effect when the `type` is `'rect'` |
 | height | The height of the clipping | Number | Takes effect when the `type` is `'rect'` |

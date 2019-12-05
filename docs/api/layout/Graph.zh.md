@@ -33,12 +33,12 @@ const graph = new G6.Graph({
     width: 300,
     height: 300
   }
-);
+});
 ```
 
 ## MDS
 
-MDS 布局是高维数据降维算法布局，该算法全称 Multidimensional scaling 。<br />
+MDS 布局是高维数据降维算法布局，该算法全称 Multidimensional Scaling 。<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aUS7TJR2NHcAAAAAAAAAAABkARQnAQ' width=600 />
 
 ### 属性
@@ -61,12 +61,12 @@ const graph = new G6.Graph({
   layout: {
     type: 'mds'
   }
-);
+});
 ```
 
 ## Force
 
-Force 布局经典的力导向布局方法，与 d3 的力导向布局方法相对应。其属性也与 d3 的力道布局参数相对应。
+Force 布局经典的力导向布局方法，与 d3 的力导向布局方法相对应。其属性也与 d3.js 的力导布局参数相对应。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Nt45Q6nnK2wAAAAAAAAAAABkARQnAQ' width=600 />
 
@@ -97,20 +97,24 @@ Force 布局经典的力导向布局方法，与 d3 的力导向布局方法相�
 
 
 #### nodeSize
-**类型**： Number<br />**默认值**：10<br />**是否必须**：false<br />**说明**：节点大小（直径）。用于碰撞检测。若不指定，则根据传入的节点的 size 属性计算。若即不指定，即节点中也没有 `size`，则默认大小为 10
+**类型**： Number<br />**默认值**：10<br />**是否必须**：false<br />**说明**：节点大小（直径）。用于碰撞检测。若不指定，则根据传入的节点的 size 属性计算。若即不指定，即节点中也没有 `size`，则默认大小为 `10`
 
 #### nodeSpacing
 **类型**: Number / Function<br />**默认值**: 0<br />**是否必须**: false 
-**示例**: Example 1:  10
+<br />**示例**: Example 1:  10
 <br />Example 2:  
-<br />d => {
-  <br />  // d is a node
-  <br />  if (d.id === 'node1') {
-    <br />    return 100;
-    <br />  }
-    <br />  return 10;
-    <br />}
-    <br />**Description**: 
+
+```javascript
+d => {
+  // d is a node
+  if (d.id === 'node1') {
+    return 100;
+  }
+  return 10;
+}
+```
+
+<br />**描述**: 
 `preventOverlap` 为 `true` 时生效, 防止重叠时节点边缘间距的最小值。可以是回调函数, 为不同节点设置不同的最小间距, 如示例 2 所示
 
 #### alpha
@@ -118,7 +122,7 @@ Force 布局经典的力导向布局方法，与 d3 的力导向布局方法相�
 
 
 #### alphaDecay
-**类型**：Number<br />**默认值**：0.028<br />**是否必须**：false<br />**说明**：迭代阈值的衰减率。[0, 1]，0.028 对应迭代书为 300
+**类型**：Number<br />**默认值**：0.028<br />**是否必须**：false<br />**说明**：迭代阈值的衰减率。范围 [0, 1]。0.028 对应迭代数为 300
 
 
 #### alphaMin
@@ -126,7 +130,7 @@ Force 布局经典的力导向布局方法，与 d3 的力导向布局方法相�
 
 
 #### forceSimulation
-**类型**：Object<br />**默认值**：null<br />**是否必须**：false<br />**说明**：自定义 force 方法，若不指定，则使用 d3 的方法
+**类型**：Object<br />**默认值**：null<br />**是否必须**：false<br />**说明**：自定义 force 方法，若不指定，则使用 d3.js 的方法
 
 
 #### onTick
@@ -172,7 +176,8 @@ const graph = new G6.Graph({
 
 ## Fruchterman
 
-Fruchterman 布局是一种力导布局。算法原文：[Graph Drawing by Force-directed Placement](http://www.mathe2.uni-bayreuth.de/axel/papers/reingold:graph_drawing_by_force_directed_placement.pdf)。
+Fruchterman 布局是一种力导布局。算法原文：
+<a href='http://www.mathe2.uni-bayreuth.de/axel/papers/reingold:graph_drawing_by_force_directed_placement.pdf' target='_blank'>Graph Drawing by Force-directed Placement</a>
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*jK3ITYqVJnQAAAAAAAAAAABkARQnAQ' width=600 />
 
@@ -222,12 +227,15 @@ const graph = new G6.Graph({
     clusterGravity: 30,       // 可选
     maxIteration: 2000
   }
-);
+});
 ```
 
 ## Circular
 
-Circular 布局将所有节点布局在一个圆环上，可以选择节点在圆环上的排列顺序。可以通过参数的配置扩展出环的分组布局、螺旋形布局等。原文链接：[A framework and algorithms for circular drawings of graphs]()。<br />
+Circular 布局将所有节点布局在一个圆环上，可以选择节点在圆环上的排列顺序。可以通过参数的配置扩展出环的分组布局、螺旋形布局等。原文链接：
+<a href='https://www.sciencedirect.com/science/article/pii/S1570866705000031' target='_blank'>A framework and algorithms for circular drawings of graphs</a>。
+
+<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-3idTK1xa6wAAAAAAAAAAABkARQnAQ' width=270 />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_nLORItzM5QAAAAAAAAAAABkARQnAQ' width=270 />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6J6BRIjmXKAAAAAAAAAAAABkARQnAQ' width=270 />
@@ -289,14 +297,15 @@ const graph = new G6.Graph({
     ordering: 'degree',    // 可选
     angleRatio: 1          // 可选
   }
-);
+});
 ```
 
 ## Radial
 
-Radial 布局是将图布局成辐射状的布局方法。以一个 focusNode 为中心，其余节点按照与 focusNode 的度数关系排列在不同距离的环上。距离 focusNode 一度的节点布局在与其最近的第一个环上，距离 focusNode 二度的节点布局在第二个环上，以此类推。算法原文链接：[More Flexible Radial Layout](http://emis.ams.org/journals/JGAA/accepted/2011/BrandesPich2011.15.1.pdf)。
+Radial 布局是将图布局成辐射状的布局方法。以一个 focusNode 为中心，其余节点按照与 focusNode 的度数关系排列在不同距离的环上。距离 focusNode 一度的节点布局在与其最近的第一个环上，距离 focusNode 二度的节点布局在第二个环上，以此类推。算法原文链接：
+<a href='http://emis.ams.org/journals/JGAA/accepted/2011/BrandesPich2011.15.1.pdf' target='_blank'>More Flexible Radial Layout</a>。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GAFjRJeAoAsAAAAAAAAAAABkARQnAQ' width=600 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GAFjRJeAoAsAAAAAAAAAAABkARQnAQ' width=450 />
 
 ### 属性
 
@@ -330,16 +339,20 @@ Radial 布局是将图布局成辐射状的布局方法。以一个 focusNode �
 
 #### nodeSpacing
 **类型**: Number / Function<br />**默认值**: 0<br />**是否必须**: false 
-**示例**: Example 1:  10
+<br />**示例**: Example 1:  10
 <br />Example 2:  
-<br />d => {
-  <br />  // d is a node
-  <br />  if (d.id === 'node1') {
-    <br />    return 100;
-    <br />  }
-    <br />  return 10;
-    <br />}
-    <br />**Description**: 
+
+```javascript
+d => {
+  // d is a node
+  if (d.id === 'node1') {
+    return 100;
+  }
+  return 10;
+}
+```
+
+<br />**描述**: 
 `preventOverlap` 为 `true` 时生效, 防止重叠时节点边缘间距的最小值。可以是回调函数, 为不同节点设置不同的最小间距, 如示例 2 所示
 
 
@@ -383,7 +396,7 @@ const graph = new G6.Graph({
     nodeSize: 30,             // 可选
     strictRadial: false       // 可选
   }
-);
+});
 ```
 
 ## Dagre
@@ -401,8 +414,6 @@ Dagre 是一种层次布局。
 - 'BT'：从下至上布局；
 - 'LR'：从左至右布局；
 - 'RL'：从右至左布局。
-
-<br />
 
 
 #### align
@@ -469,7 +480,7 @@ const graph = new G6.Graph({
     ranksep: 50,             // 可选
     controlPoints: true      // 可选
   }
-);
+});
 ```
 
 ## Concentric
@@ -514,7 +525,7 @@ Concentric 布局为同心圆布局，用户可以指定节点某个属性为排
 
 
 #### maxLevelDiff
-**类型**： Number<br />**默认值：**undefined<br />**是否必须**：false<br />**说明**：每一层同心值的求和。若为 undefined，则将会被设置为 maxValue / 4 ，其中 maxValue 为最大的排序依据的属性值。例如，若 `sortBy='degree'`，则 maxValue 为所有节点中度数最大的节点的度数
+**类型**： Number<br />**默认值：**undefined<br />**是否必须**：false<br />**说明**：每一层同心值的求和。若为 undefined，则将会被设置为 maxValue / 4 ，其中 maxValue 为最大的排序依据的属性值。例如，若 `sortBy` 为 `'degree'`，则 maxValue 为所有节点中度数最大的节点的度数
 
 
 #### sortBy
@@ -545,14 +556,14 @@ const graph = new G6.Graph({
     maxLevelDiff: 10,         // 可选
     sortBy: 'degree'          // 可选
   }
-);
+});
 ```
 
 ## Grid
 
 Grid 布局是将所有节点通过某种指定属性排序后，整齐地放置在网格上。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Oh6mRLVEBBIAAAAAAAAAAABkARQnAQ' width=850 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Oh6mRLVEBBIAAAAAAAAAAABkARQnAQ' width=650 />
 
 ### 属性
 
@@ -610,5 +621,5 @@ const graph = new G6.Graph({
     cols: 5,                  // 可选
     sortBy: 'degree'          // 可选
   }
-);
+});
 ```
