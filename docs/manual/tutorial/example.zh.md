@@ -53,7 +53,7 @@ order: 1
 
 - `nodes` 数组中包含节点对象，唯一的 `id` 是每个节点对象中必要的属性，`x`、 `y` 用于定位；
 - `edges` 数组中包含边对象，`source` 和 `target` 是每条边的必要属性，分别代表了该边的起始点 `id` 与 目标点 `id`。
-- 点和边的更多属性参见：[内置的节点](../middle/elements/defaultNode)，[内置的边](../middle/elements/defaultEdge)。
+- 点和边的更多属性参见：[内置的节点](/zh/docs/manual/middle/elements/nodes/defaultNode)，[内置的边](/zh/docs/manual/middle/elements/edges/defaultEdge) 教程。
 
 ### 图实例化
 图实例化时，至少需要为图设置容器、宽、高：
@@ -85,7 +85,7 @@ order: 1
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YTfpQYVGhuEAAAAAAAAAAABkARQnAQ' width=400 />
 
 ## 真实数据加载
-上文中，我们使用了仅含有两个节点和一条边的数据，直接将数据定义放在了代码中。而真实场景的数据通常是远程接口请求加载的。为了方便，我们已经给读者准备好了一份 json 数据文件，地址如下：<br />`https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json`
+上文中，我们使用了仅含有两个节点和一条边的数据，直接将数据定义放在了代码中。而真实场景的数据通常是远程接口请求加载的。为了方便，我们已经给读者准备好了一份 JSON 数据文件，地址如下：<br />`https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json`
 
 ### 加载远程数据
 修改 index.html，通过 `fetch` 函数异步加载远程的数据源，并传入 G6 的图实例中：
@@ -103,7 +103,7 @@ order: 1
   main();
 </script>
 ```
-> `fetch` 函数允许我们发起网络请求，加载数据，而其异步的过程可以通过 async/await 进行更合理的控制。这里我们为了方便起见，将主要逻辑放在了 `main` 函数里面。如果读者对 `fetch` 和 `async`/`await` 的知识有疑问，可以参考：[async function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)，[Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
+> `fetch` 函数允许我们发起网络请求，加载数据，而其异步的过程可以通过 async/await 进行更合理的控制。这里我们为了方便起见，将主要逻辑放在了 `main` 函数里面。如果读者对 `fetch` 和 `async`/`await` 的知识有疑问，可以参考：<a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function' target='_blank'>async function</a>，<a href='https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API' target='_blank'>Fetch API</a>
 
 
 运行后，我们得到了下图结果：
@@ -151,11 +151,11 @@ const graph = new G6.Graph({
 
 | 配置项 | 类型 | 选项 / 示例 | 默认 | 说明 |
 | --- | --- | --- | --- | --- |
-| renderer | String | 'canvas' / 'svg' | 'canvas' | 绘制图的方式是 canvas 还是 SVG。 |
+| renderer | String | 'canvas' / 'svg' | 'canvas' | 绘制图的方式是 Canvas 还是 SVG。 |
 | fitView | Boolean | true / false | false | 是否将图适配到画布大小，可以防止超出画布或留白太多。 |
 | fitViewPadding | Number / Array | 20 / [ 20, 40, 50, 20 ] | 0 | 画布上的四周留白宽度。 |
 | animate | Boolean | true / false | false | 是否启用图的动画。 |
-| modes | Object | {<br />  default: [ 'drag-node', 'drag-canvas' ]<br />} | null | 图上行为模式的集合。由于比较复杂，按需参见：[G6 中的 mode](../middle/mode)。 |
+| modes | Object | {<br />  default: [ 'drag-node', 'drag-canvas' ]<br />} | null | 图上行为模式的集合。由于比较复杂，按需参见：[G6 中的 Mode](/zh/docs/manual/middle/states/mode) 教程。 |
 | defaultNode | Object | {<br />  shape: 'circle',<br />  color: '#000',<br />  style: {<br />    ......<br />  }<br />} | null | 节点默认的属性，包括节点的一般属性和样式属性（style）。 |
 | defaultEdge | Object | {<br />  shape: 'polyline',<br />  color: '#000',<br />  style: {<br />    ......<br />  }<br />} | null | 边默认的属性，包括边的一般属性和样式属性（style）。 |
 | nodeStateStyles | Object | {<br />  hover: {<br />    ......<br />  },<br />  select: {<br />    ......<br />  }<br />} | null | 节点在除默认状态外，其他状态下的样式属性（style）。例如鼠标放置（hover）、选中（select）等状态。 |
