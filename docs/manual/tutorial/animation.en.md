@@ -27,7 +27,7 @@ const graph = new G6.Graph({
 ```
 
 ## Item Animation
-G6 allows user to custom animation for item when register a type of custom item. <br />
+G6 allows user to customize animation for item when register a type of custom item. <br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hYJSQaneVmgAAAAAAAAAAABkARQnAQ' width=330 />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-90pSrm4hkUAAAAAAAAAAABkARQnAQ' width=330 />

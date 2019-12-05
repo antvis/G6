@@ -9,13 +9,13 @@ order: 0
 
 | 属性名 | 含义 | 备注 |
 | --- | --- | --- |
-| fill | 设置用于填充绘画的颜色、渐变或模式 | 对应 canvas 属性`fillStyle` |
-| stroke | 设置用于笔触的颜色、渐变或模式 | 对应 canvas 属性`strokeStyle` |
+| fill | 设置用于填充绘画的颜色、渐变或模式 | 对应 Canvas 属性`fillStyle` |
+| stroke | 设置用于笔触的颜色、渐变或模式 | 对应 Canvas 属性`strokeStyle` |
 | shadowColor | 设置用于阴影的颜色 |  |
 | shadowBlur | 设置用于阴影的模糊级别 | 数值越大，越模糊 |
 | shadowOffsetX | 设置阴影距形状的水平距离 |  |
 | shadowOffsetY | 设置阴影距形状的垂直距离 |  |
-| opacity | 设置绘图的当前 alpha 或透明值 | 对应canvas属性`globalAlpha` |
+| opacity | 设置绘图的当前 alpha 或透明值 | 对应 Canvas 属性`globalAlpha` |
 
 **用法**
 ```javascript
@@ -35,11 +35,11 @@ group.addShape('rect', {
 
 **属性**
 
-| 属性名 | 含义 | 备注 |
-| --- | --- | --- |
-| x | 圆心的 x 坐标 |  |
-| y | 圆心的 y 坐标 |  |
-| r | 圆的半径 |  |
+| 属性名 | 含义 |
+| --- | --- |
+| x | 圆心的 x 坐标 |
+| y | 圆心的 y 坐标 |
+| r | 圆的半径 |
 
 
 **用法**
@@ -58,12 +58,12 @@ group.addShape('circle', {
 
 **属性**
 
-| 属性名 | 含义 | 备注 |
-| --- | --- | --- |
-| x | 圆心的 x 坐标 |  |
-| y | 圆心的 y 坐标 |  |
-| rx | 水平半径 |  |
-| ry | 垂直半径 |  |
+| 属性名 | 含义 |
+| --- | --- |
+| x | 圆心的 x 坐标 |
+| y | 圆心的 y 坐标 |
+| rx | 水平半径 |
+| ry | 垂直半径 |
 
  
 
@@ -92,7 +92,7 @@ group.addShape('ellipse', {
 | rs | 水平半径 |  |
 | re | 垂直半径 |  |
 | startAngle | 起点弧度 | 弧度制，即使用 Math.PI 表示 |
-| endAngle |  终点弧度 |  |
+| endAngle |  终点弧度 | 弧度制，即使用 Math.PI 表示 |
 | clockwise | 为 `true` 时顺时针渲染，为 `false` 时逆时针渲染 |  |
 
 

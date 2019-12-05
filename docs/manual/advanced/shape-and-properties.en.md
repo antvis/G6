@@ -144,7 +144,7 @@ group.addShape('image', {
 | x | The x coordinate of the center |  |
 | y | The y coordinate of the center |  |
 | r | The radius of the marker |  |
-| symbol | The shape | We built in some commonly used shapes for it: `circle`, `square`, `diamond`, `triangle`, and `triangle-down`. You can custom it by path |
+| symbol | The shape | We built in some commonly used shapes for it: `circle`, `square`, `diamond`, `triangle`, and `triangle-down`. You can customize it by path |
 
 
 ### Usage
@@ -216,8 +216,8 @@ When the edge is too thin to be hitted by mouse, set **lineAppendWidth** to enla
 | Name | Description | Remark |
 | --- | --- | --- |
 | path | The path. | It can be a String, or an Array of path |
-| startArrow | The arrow on the start of the path | When `startArrow` is `true`, show a default arrow on the start of the path. User can custom an arrow by path |
-| endArrow | The arrow on the end of the path | When `startArrow` is `true`, show a default arrow on the end of the path. User can custom an arrow by path |
+| startArrow | The arrow on the start of the path | When `startArrow` is `true`, show a default arrow on the start of the path. User can customize an arrow by path |
+| endArrow | The arrow on the end of the path | When `startArrow` is `true`, show a default arrow on the end of the path. User can customize an arrow by path |
 | lineAppendWidth | The hitting area of the path | Enlarge the hitting area by enlarging its value |
 | lineCap | The style of two ends of the path |  |
 | lineJoin | The style of the intersection of two path |  |

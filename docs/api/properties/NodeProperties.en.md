@@ -35,11 +35,11 @@ group.addShape('rect', {
 
 **Property**
 
-| Name | Description | Remark |
-| --- | --- | --- |
-| x | The x of the center of the circle. |  |
-| y | The y of the center of the circle. |  |
-| r | The radius of the circle. |  |
+| Name | Description |
+| --- | --- |
+| x | The x of the center of the circle. |
+| y | The y of the center of the circle. |
+| r | The radius of the circle. |
 
 
 **Usage**
@@ -58,12 +58,12 @@ group.addShape('circle', {
 
 **Property**
 
-| Name | Description | Remark |
-| --- | --- | --- |
-| x | The x of the center of the ellipse. |  |
-| y | The y of the center of the ellipse. |  |
-| rx | The horizontal raidus of the ellipse. |  |
-| ry | The vertical raidus of the ellipse. |  |
+| Name | Description |
+| --- | --- |
+| x | The x of the center of the ellipse. |
+| y | The y of the center of the ellipse. |
+| rx | The horizontal raidus of the ellipse. |
+| ry | The vertical raidus of the ellipse. |
 
  
 
@@ -149,7 +149,7 @@ group.addShape('image', {
 | x | The x of the center of the marker. |  |
 | y | The y of the center of the marker. |  |
 | r | The radius of the marker. |  |
-| symbol | The shape name. | There are several built-in shapes: `circle`, `square`, `diamond`, `triangle`, `triangle-down`. And user could custom a shape as marker. |
+| symbol | The shape name. | There are several built-in shapes: `circle`, `square`, `diamond`, `triangle`, `triangle-down`. And user could customize a shape as marker. |
 
 
 
