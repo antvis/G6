@@ -36,7 +36,7 @@ const data = {
 
  | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| layout | Object | null | **V3.0.4 supports configurations for TreeGraph layout**. Before V3.0.4, the layout is formatted as a function. We recommend developers to use configurations now. |
+| layout | Object | null | *V3.0.4 supports configurations for TreeGraph layout*. Before V3.0.4, the layout is formatted as a function. We recommend developers to use configurations now. |
 | animate | Boolean | true | Whether activate animation for relayout. |
 
 
