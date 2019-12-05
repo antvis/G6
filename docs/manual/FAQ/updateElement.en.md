@@ -7,7 +7,7 @@ There are three ways to modify the styles for items in G6.
 
 #### Configure When Instantiating Graph
 
-When instantiating a Graph, assign `**style**` in `defaultNode` or `defaultEdge` to configure the sytles for global nodes and global edges respectively.
+When instantiating a Graph, assign `**style**` in `defaultNode` or `defaultEdge` to configure the styles for global nodes and global edges respectively.
 
 ```javascript
 const graph = new G6.Graph({
