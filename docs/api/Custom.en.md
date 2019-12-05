@@ -12,7 +12,7 @@ When the built-in nodes cannot satisfy your requirments, custom a type of node b
 ### Parameters
 
 | Name       | Type   | Required | Description                                                                                                                                                                |
-| -------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| -------------- | ------ | -------- | ----------------------------------------------------------------- |
 | nodeName       | String | true     | The unique name of the custom node.                                                                                                                                     |
 | options        | Object | true     | The configurations of custom node, include functions of complete life cycles. Please refer to [Shape API](./Shape).                                          |
 | extendNodeName | String | false    | Specifies the inherited node type of the custom node. Declare this attribute if you want to extend a built-in node. [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) document. |
@@ -51,7 +51,7 @@ G6.registerNode(
      */
     afterUpdate(cfg, node) {},
     /**
-     * After [`graph.setItemState(item, state, value)`] is called, this function will do some responses.
+     * After graph.setItemState(item, state, value) is called, this function will do some responses.
      * @param  {String} name The name of state
      * @param  {Object} value The value of the state
      * @param  {Node} node The node
@@ -75,7 +75,7 @@ When the built-in edges cannot satisfy your requirments, custom a type of edge b
 ### Parameters
 
 | Name           | Type   | Required | Description                                                                                                                                    |
-| -------------- | ------ | -------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| -------------- | ------ | -------- | --------------------------------------- |
 | edgeName       | String | true     | The unique name of the custom edge.                                                                                                                         |
 | options        | Object | true     | The configurations of custom edge, include functions of complete life cycles. Please refer to [Shape API](/en/docs/api/Shape).                |
 | extendEdgeName | String | false    | Specifies the inherited node type of the custom node. Declare this attribute if you want to extend the a built-in edge. [Built-in Edges](/en/docs/manual/middle/elements/defaultEdge) document. |
@@ -132,8 +132,8 @@ When the built-in Behaviors cannot satisfy your requirments, custom a type of Be
 ### Parameters
 
 | Name          | Type   | Required | Description                                                                                                                          |
-| ------------ | ------ | -------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| behaviorName | String | true     | The name of custom Behavior                                                                                                        |
+| ------------ | ------ | -------- | ------------------------------------------------------- |
+| behaviorName | String | true     | The name of custom Behavior.                                                                                                        |
 | behavior     | Object | true     | The configurations of custom Behavior. For more information, please refer to [Behavior API](/en/docs/api/Behavior). |
 
 ### Usage
@@ -188,7 +188,7 @@ When the built-in Layouts cannot satisfy your requirments, custom a type of Layo
 ### Parameters
 
 | Name       | Type   | Required | Description                                                                                                          |
-| ---------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------- |
+| ---------- | ------ | -------- | ----------------------------------------------- |
 | layoutName | String | true     | The name of the custom layout.                                                                                                |
 | layout     | Object | true     | The configurations of the custom layout. For more information, please refer to [Layout API](/en/docs/manual/middle/layout). |
 
