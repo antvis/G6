@@ -3,6 +3,7 @@ title: 两节点间存在多条边
 order: 4
 ---
 
+### 问题
 有如下的一份数据，如何使用 [G6](https://github.com/antvis/g6) 让两个节点之间连多条边？
 
 ```javascript
@@ -66,7 +67,7 @@ So Easy!
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9u0BTpCAn-4AAAAAAAAAAABkARQnAQ' width=345 />
 
 
-如果两个节点之间需要显示3条、4条甚至更多条边，该怎么做呢？
+如果两个节点之间需要显示 3 条、4 条甚至更多条边，该怎么做呢？
 
 我们把数据改成下面这样试试：
 
@@ -103,18 +104,20 @@ const data = {
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9u0BTpCAn-4AAAAAAAAAAABkARQnAQ' width=345 />
 
-这个时候，就需要借助 G6 的「自定义边」功能了。
+### 解决方案
+
+这个时候，需要借助 G6 的 [自定义边](/zh/docs/manual/advanced/custom-edge) 功能。
 
 有了这个黑科技，什么样的需求，那还不是分分钟的事。
 
-当然了，在使用「自定义边」的之前，有两件事还是需要明确下的：
+在使用「自定义边」前，需要明确两件事：
 
-- **两个节点之间同方向超过一条边的，总需要有个标识来区分；**
+- **需要有个标识来区分两个节点之间是否超过一条同方向边**；
 - **需要有一个值控制边的弯曲度，以防边重叠**。
 
-我们就在边数据中添加一个 edgeType 用于区分不同的边。有了这个约定以后，就可以开始动手撸码了。
+因此，我们在每条边的数据中添加一个 `edgeType` 属性以区分不同的边。有了这个约定以后，就可以开始动手撸码了。
 
-完善的自定义边的代码如下所示。
+完善的自定义边的代码如下。
 
 <iframe
      src="https://codesandbox.io/embed/restless-breeze-fhief?fontsize=14&hidenavigation=1&theme=dark"
@@ -124,4 +127,4 @@ const data = {
      sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
    ></iframe>
 
-到这里为止，我们也就实现了让两个节点之间展示多条边的功能。
+至此，我们实现了让两个节点之间展示多条边的功能。
