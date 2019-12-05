@@ -3,7 +3,7 @@ title: Item
 order: 0
 ---
 
-Item is the object of node / edge G6.
+Item is the object of node / edge in G6.
 
 
 ## Update
@@ -67,7 +67,7 @@ Update the position of the item. We recommend to call this function for single i
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| cfg | Object | true | The configurations of the item, including x and y. The x and y value in source data model will take effect if there are no x and y in `cfg`. |
+| cfg | Object | true | The configurations of the item, including `x` and `y`. The x and y value in source data model will take effect if there are no `x` and `y` in `cfg`. |
 
 
 
