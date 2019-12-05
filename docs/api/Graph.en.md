@@ -19,7 +19,7 @@ The life cycle of an instance of Graph is: Initialize -> Load data -> Render -> 
 | container | String|HTMLElement  | The DOM container of graph, it can be the id of a DOM element or the an HTML node. |
 | width | Number | undefined | The width of the canvas for graph with the unit 'px'. |
 | height | Number | undefined | The height of the canvas for graph with the unit 'px'. |
-| renderer | String | canvas | The engine for rendering. Options: 'canvas' or 'svg'. |
+| renderer | String | canvas | The engine for rendering. Options: `'canvas'` or `'svg'`. |
 | fitView | Boolean | false | Whether fit the canvas to the view port. |
 | fitViewPadding | Array | Number  | Takes effect only when `fitView: true`. It is the padding between canvas and the border of view port.<br />- It can be a value, e.g. `fitViewPadding: 20`, which means the padding to the top, left, right, bottom are the same.<br />- Or an array, e.g. `fitViewPadding: [ 20, 40, 50, 20 ]`, the four values in the array indicate the padding to the top, right, bottom, left respectively. |
 | groupByTypes | Boolean | true | Whether group the nodes and edges separately. When it is false, all the items (including nodes and edges) are in the same group, and the order/zindex of them are determined according to the order of their generation. |
@@ -29,7 +29,7 @@ The life cycle of an instance of Graph is: Initialize -> Load data -> Render -> 
 | edgeStateStyles | Object | {} | The edge styles on different states, e.g. hover, selected. It is a new feature of G6 3.1. |
 | defaultNode | Object | {} | Default node configurations in global, including shape, size, color and so on. Its priority is lower than the configurations in data. |
 | defaultEdge | Object | {} | Default edge configurations in global, including shape, size, color and so on. Its priority is lower than the configurations in data. |
-| plugins | Array | [] | Plugins for graph. Please refer to [plugin](/en/docs/manual/tutorial/plugins#插件) for detail.|
+| plugins | Array | [] | Plugins for graph. Please refer to [Plugin](/en/docs/manual/tutorial/plugins##plugin) for detail.|
 | animate | Boolean | false | Wheter activate the global animation. Which will take effect while changing layouts, changing data, and other global operations. |
 | animateCfg | Object |  | The configurations for global animation. Takes effect only when `animate: true`. |
 | animateCfg.<br />onFrame | Function | null  |  The callback function for every frame of animation. The path of custom animation for node can be defined here. The nodes will move linearly when `onFrame` is null. |
@@ -38,9 +38,9 @@ The life cycle of an instance of Graph is: Initialize -> Load data -> Render -> 
 | minZoom | Number | 0.2 | The minimum zoom ratio. |
 | maxZoom | Number | 10 | The maximum zoom ratio. |
 | pixelRatio | Number | 1.0 | Pixel ratio. |
-| groupType | String | circle | Group type for nodes. Options: 'circle' or 'rect' |
+| groupType | String | circle | Group type for nodes. Options: `'circle'` or `'rect'`. |
 | groupStyle | Object |  | Group style for nodes, please refer to [Node Group](/en/docs/manual/middle/nodeGroup) for detail. |
-| layout | Object |  | Configurations for layout. The `type` in it is the name of layout method with the options: 'random', 'radial', 'mds', 'circular', 'fruchterman', 'force', 'dagre', 'concentric', 'grid'. For more configurations for different layout methods, please refer to  [Layout API](/en/docs/api/layout/Layout) |
+| layout | Object |  | Configurations for layout. The `type` in it is the name of layout method with the options: `'random'`, `'radial'`, `'mds'`, `'circular'`, `'fruchterman'`, `'force'`, `'dagre'`, `'concentric'`, `'grid'`. For more configurations for different layout methods, please refer to [Layout API](/en/docs/api/layout/Layout). |
 
 
 ⚠️**Attention:** In G6 3.1, we added two new configurations for graph: `nodeStateStyles` and `edgeStateStyles`. In the same time, we deleted `nodeStyle` and `edgeStyle` . To upgrate, replace `nodeStyle` with `nodeStateStyles`, and replace `edgeStyle` with `edgeStateStyles`, and keep the sub-configuration inside them.
@@ -119,7 +119,7 @@ Render a node group according to the data.
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | data | Object | true | The data to be rendered |
-| groupType | string | true | Type of node group. Options: 'circle' or 'rect' |
+| groupType | String | true | Type of node group. Options: `'circle'` or `'rect'` |
 
 **Usage**
 
@@ -271,8 +271,8 @@ Add item(node, edge, or group) to the graph.
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| type | String | true | The type of the item. Options: 'node', 'edge', and 'group'. |
-| model | Object | true | The data model of the item. When type = 'group', refer to [Create Node Group](/en/docs/manual/advanced/create-node-group) |
+| type | String | true | The type of the item. Options: `'node'`, `'edge'`, and `'group'`. |
+| model | Object | true | The data model of the item. When `type: 'group'`, refer to [Create Node Group](/en/docs/manual/advanced/create-node-group) |
 
 **Usage**
 
@@ -497,7 +497,7 @@ graph.on('node:dragend', e => {
 ### updateLayout(cfg)
 Update the layout configurations.
 
-1. If there is `type` in `cfg`, `type` is a String and it is different from current layout method, `updateLayout(cfg)` will change the layout method and relayout;
+1. If there is `type` in `cfg`, `type` is a string and it is different from current layout method, `updateLayout(cfg)` will change the layout method and relayout;
 1. If there is no `type` in `cfg`, `updateLayout(cfg)` will relayout with current layout method and new layout configurations.
 
 **Parameters**
@@ -820,7 +820,7 @@ Change the zoom ratio. The parameter ratio is the related ratio about the curren
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | ratio | Number | true | Zoom ratio.|
-| center | Object | false | Zoom at the center with x and y. If the center is ignored, this operation will zoom the graph with the current graph center. |
+| center | Object | false | Zoom at the `center` with `x` and `y`. If the `center` is ignored, this operation will zoom the graph with the current graph center. |
 
 **Usage**
 
@@ -840,7 +840,7 @@ Zoom the canvas at the center to a fixed ratio.
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | toRatio | Number | true | Fixed zoom ratio. |
-| center | Object | false | Zoom at the center with x and y. If the center is ignored, this operation will zoom the graph with the current graph center. |
+| center | Object | false | Zoom at the `center` with `x` and `y`. If the `center` is ignored, this operation will zoom the graph with the current graph center. |
 
 
 **Usage**
@@ -954,7 +954,7 @@ Find single item according to a rule.
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| type | String | true | Type of the item. Options: 'node', 'edge'. |
+| type | String | true | Type of the item. Options: `'node'`, `'edge'`. |
 | fn | Function | true | Rule for searching. |
 
 
@@ -999,7 +999,7 @@ Find all the items that match the rule.
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| type | String | true | The type of the item. Options: 'node', 'edge'. |
+| type | String | true | The type of the item. Options: `'node'`, `'edge'`. |
 | fn | Function | true | Rule for searching. |
 
 
@@ -1023,7 +1023,7 @@ Find all the items whose value of state is true.
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| type | String | true | The type of the item. Options: 'node', 'edge'. |
+| type | String | true | The type of the item. Options: `'node'`, `'edge'`. |
 | state | String | true | State for searching. |
 
 
@@ -1097,7 +1097,7 @@ const edges = graph.getEdges()
 ## Coordinate Transformation
 In this part, we will describe the methods about transformation between view port, canvas, and client coordinates. The relationships between them are shown below:
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*loahSq940hMAAAAAAAAAAABkARQnAQ' width=565 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M_xPSqLZYawAAAAAAAAAAABkARQnAQ' width=565 />
 
 ### getPointByClient(clientX, clientY)
 Transform client/screen coordinates into view port coordinates.
@@ -1136,7 +1136,7 @@ Transform view port coordinates into client/screen coordinates.
 **Return**
 
 - Type of the return value: Object;
-- Includes x and y.
+- Includes `x` and `y`.
 
 **Usage**
 
@@ -1193,7 +1193,7 @@ console.log('The x and y coordinates of canvas: ', point.x, point.y)
 
 ## Animation
 ### positionsAnimate()
-Update the node positions according to the data model animatively.
+Update the node positions according to the data model animatively. The `animateCfg` of the graph will be the animation configurations.
 
 ### stopAnimate()
 Stop the animation on the canvas.
@@ -1273,7 +1273,7 @@ Set the value to an attribute.
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | key | String | true | The key of the attribute. |
-| val | String / Object | Array | true | The value of the attribute. |
+| val | String / Object / Array | true | The value of the attribute. |
 
 
 **Usage**
