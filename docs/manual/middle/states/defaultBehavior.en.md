@@ -3,19 +3,19 @@ title: Built-in Behavior
 order: 4
 ---
 
-## 什么是 Behavior
+## What is Behavior
 Behavior 是 G6 提供的定义图上交互事件的机制。它与[交互模式 Mode](/zh/docs/manual/middle/states/mode) 搭配使用，如何将下文所述各种 Behavior 配置到图上，见 [交互模式](/zh/docs/manual/middle/states/mode)。
 
-## 内置 Behavior
+## Built-in Behavior
 理论上说 G6 上的所有基础图形、Item（节点/边）都能通过事件来进行操作，考虑到通用性， G6目前共提供了以下9个内置的 Behavior。
 
 ### drag-canvas
 
-- 含义：拖拽画布；
+- Description: Allowing users drag canvas;
 - `type: 'drag-canvas'`；
-- `direction`: 允许拖拽方向，支持`'x'`， `'y'`，`'both'`，默认方向为 `'both'`。
+- `direction`: The direction of dragging that is allowed. Options: `'x'`, `'y'`, `'both'`. `'both'` by default.
 
-**默认配置**
+**Default Configuration**
 ```javascript
 const graph = new G6.Graph({
 	modes: {
@@ -24,9 +24,9 @@ const graph = new G6.Graph({
 })
 ```
 
-默认配置下，可以在 x 和 y 两个方向上拖动画布。
+By default, the x and y directions are both allowed.
 
-**配置参数**
+**Configuration**
 ```javascript
 const graph = new G6.Graph({
 	modes: {

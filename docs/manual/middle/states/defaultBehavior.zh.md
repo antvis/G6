@@ -13,7 +13,7 @@ Behavior 是 G6 提供的定义图上交互事件的机制。它与[交互模式
 
 - 含义：拖拽画布；
 - `type: 'drag-canvas'`；
-- `direction`: 允许拖拽方向，支持`'x'`， `'y'`，`'both'`，默认方向为 `'both'`。
+- `direction`：允许拖拽方向，支持`'x'`，`'y'`，`'both'`，默认方向为 `'both'`。
 
 **默认配置**
 ```javascript
