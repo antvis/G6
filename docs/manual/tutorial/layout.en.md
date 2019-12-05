@@ -24,7 +24,7 @@ When there is no node position information in the data, or the location informat
 - Mindmap Layout;
 - Intended Layout.
 
-For more information about each layout algorithm, please refer to [Layout API](/en/docs/api/Layout). We will utilize Force Layout in the tutorial.
+For more information about each layout algorithm, please refer to [Layout API](/en/docs/api/layout/Layout). We will utilize Force Layout in the tutorial.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qnUwSZVjYOMAAAAAAAAAAABkARQnAQ' width=550 />
 
@@ -45,7 +45,7 @@ When the `layout` is not assigned to graph instance:
 - If there is no position information in node data, arrange the nodes with Random Layout by default.
 
 ## Configure the Layout
-It is very simple to configure a layout for a graph in G6. Just assign `layout` to the graph when instantiating. The following code configures the layout with `type: 'force'`, which is the classical force-directed layout algorithm. And set `preventOverlap: true` to avoid node overlappings. More configurations are described in: [Layout API](/en/docs/api/Layout)。
+It is very simple to configure a layout for a graph in G6. Just assign `layout` to the graph when instantiating. The following code configures the layout with `type: 'force'`, which is the classical force-directed layout algorithm. And set `preventOverlap: true` to avoid node overlappings. More configurations are described in: [Layout API](/en/docs/api/layout/Layout).
 ```javascript
 const graph = new G6.Graph({
   ...                      // Other configurations
@@ -76,9 +76,9 @@ const graph = new G6.Graph({
 The result:
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AXrdQIm3oCIAAAAAAAAAAABkARQnAQ' width=350 />
-<br />![image.png]
+<br />
 
-> Transformation between different layouts and configurations are described in: [Layout Transformation](../middle/layout)。
+> Transformation between different layouts and configurations are described in: [Layout Transformation](/en/docs/manual/middle/layout/#layout-transformation-mechanism).
 
 
 **Tips:** <br />The layout algorithm will be executed in `graph.render()`.

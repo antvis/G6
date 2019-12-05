@@ -22,7 +22,7 @@ order: 3
 - Mindmap Layout：脑图布局；
 - Intended Layout：缩进布局。
 
-各种布局方法的具体介绍及其配置参见 [Layout API](/zh/docs/api/Layout)。本教程中，我们使用的是力导向布局 (Force Layout)。
+各种布局方法的具体介绍及其配置参见 [Layout API](/zh/docs/api/layout/Layout)。本教程中，我们使用的是力导向布局 (Force Layout)。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qnUwSZVjYOMAAAAAAAAAAABkARQnAQ' width=550 />
 
@@ -43,7 +43,7 @@ const graph = new G6.Graph({
 - 若数据中节点没有位置信息，则默认使用 Random Layout 进行布局。
 
 ## 配置布局
-G6 使用布局的方式非常简单，在图实例化的时候，加上 layout 配置即可。下面代码在实例化图时设置了布局方法为 `type: 'force'`，即经典力导向图布局。并设置了参数 `preventOverlap: true` ，表示希望节点不重叠。力导向布局的更多配置项参见：[Layout API](/zh/docs/api/Layout)。
+G6 使用布局的方式非常简单，在图实例化的时候，加上 layout 配置即可。下面代码在实例化图时设置了布局方法为 `type: 'force'`，即经典力导向图布局。并设置了参数 `preventOverlap: true` ，表示希望节点不重叠。力导向布局的更多配置项参见：[Layout API](/zh/docs/api/layout/Layout)。
 ```javascript
 const graph = new G6.Graph({
   ...                      // 其他配置项
@@ -74,9 +74,9 @@ const graph = new G6.Graph({
 结果如下：
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AXrdQIm3oCIAAAAAAAAAAABkARQnAQ' width=350 />
-<br />![image.png]
+<br />
 
-> 不同布局之间、相同布局不同参数允许动态切换和过渡，具体参见：[布局切换](../middle/layout)。
+> 不同布局之间、相同布局不同参数允许动态切换和过渡，具体参见：[布局切换](/zh/docs/manual/middle/layout/#布局的切换机制)。
 
 
  提示 <br />布局将在调用 `graph.render()` 时执行计算。

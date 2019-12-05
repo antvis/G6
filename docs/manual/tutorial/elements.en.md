@@ -12,15 +12,15 @@ There are `Node` and `Edge` two types of items in a graph. In the last chapter, 
 
 ## Basic Concept
 ### Graph Item
-There are `Node` and `Edge` two types of items in a graph. Several [Built-in Nodes](../middle/elements/defaultNode) and [Built-in Edges](../middle/elements/defaultEdge) are provided by G6. The main difference between different types of items is their [Graphics Shape](../middle/keyConcept). For example, a node's graphics shape can be a circle, a rect, an image, or others.
+There are `Node` and `Edge` two types of items in a graph. Several [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) and [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge) are provided by G6. The main difference between different types of items is their [Graphics Shape](/en/docs/manual/middle/keyConcept#graphics-shape). For example, a node's graphics shape can be a circle, a rect, an image, or others.
 
 ## Attributes of Item
 The attributes of an item can be be divided into two categories:
 
-- **Style Attribute `style`**: Corresponds to the style in Canvas. When the [State](../middle/states/state) of an item is changed, the style can be updated. It is an object named`style`;
-- **Other Attribute**: Such as graphics `shape`, `id`, they are a kind of attributes that will not be changed when the [State](../middle/states/state) of the item is changed.
+- **Style Attribute `style`**: Corresponds to the style in Canvas. When the [State](/en/docs/manual/middle/states/state) of an item is changed, the style can be updated. It is an object named `style`;
+- **Other Attribute**: Such as graphics `shape`, `id`, they are a kind of attributes that will not be changed when the [State](/en/docs/manual/middle/states/state) of the item is changed.
 
-For example, When you change the state `'hover'` or `'click'` to `true` for a node A, only the **style attributes** of A can be updated, e.g. `fill`, `stroke`, and so on. The **other attributes** such as `shape` can not be changed. To update the other attributes, configure A by [graph.updateItem](../../api/Graph) manually.
+For example, When you change the state `'hover'` or `'click'` to `true` for a node A, only the **style attributes** of A can be updated, e.g. `fill`, `stroke`, and so on. The **other attributes** such as `shape` can not be changed. To update the other attributes, configure A by [graph.updateItem](/en/docs/api/Graph/#updateitemitem-model) manually.
 
 ### Data Structure
 The data structure of a node:
@@ -78,7 +78,7 @@ To satisfy different scenario, G6 provides 7 ways to configure the attributes fo
 > Figure 2  **Tutorial Demo** with items configured by global configurations.
 
 
-<br />Configuer the `defaultNode` and `defaultEdge` for graph to achieve the expected effect: 
+<br />Configure the `defaultNode` and `defaultEdge` for graph to achieve the expected effect: 
 ```javascript
 const graph = new G6.Graph({
   // ...                   // Other configurations of the graph
@@ -155,7 +155,7 @@ The result:
 > Figure 3
 
 
-From figure 3, we find some nodes are rendered as rects, some are ellipses. We also set the size to override the size in global configuration. The size is an array when the node is a rect or an ellipse. We did not set the size for circle node, so `size: 30` in global configuration will still take effect for circle node. That is to say, configuring items by writing into data has higher priority than global configurations.
+From figure 3, we find some nodes are rendered as rects, some are ellipses. We also set the `size` to override the `size` in global configuration. The `size` is an array when the node is a rect or an ellipse. We did not set the `size` for circle node, so `size: 30` in global configuration will still take effect for circle node. That is to say, configuring items by writing into data has higher priority than global configurations.
 
 We further set the line widths for edges according to their weight:
 ```javascript
