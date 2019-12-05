@@ -197,9 +197,9 @@ G6.registerNode('diamond', {
 
 ## 2. Extend a Built-in Node
 ### Extend the Shape
-There are several [Built-in Nodes](/en/docs/manual/middle/elements/defaultNode) in G6. You can extend them to make some modification on them. It is similar to register the diamond node. [simple-shape](https://github.com/antvis/g6/blob/master/src/shape/single-shape-mixin.js) is the base class of all the graphics shape, you can also extend it.
+There are several [Built-in Nodes](/en/docs/manual/middle/elements/defaultNode) in G6. You can extend them to make some modification on them. It is similar to register the diamond node. [single-shape](https://github.com/antvis/g6/blob/master/src/shape/single-shape-mixin.js) is the base class of all the graphics shape, you can also extend it.
 
-For example, we are going to extend the single-shape. `draw`, `update`, and `setState` have been implemented in the [simple-shape](https://github.com/antvis/g6/blob/master/src/shape/single-shape-mixin.js). Thus, we only rewrite the `getShapeStyle`, which returns the path and the styles of graphics shapes.
+For example, we are going to extend the single-shape. `draw`, `update`, and `setState` have been implemented in the [single-shape](https://github.com/antvis/g6/blob/master/src/shape/single-shape-mixin.js). Thus, we only rewrite the `getShapeStyle`, which returns the path and the styles of graphics shapes.
 ```javascript
 G6.registerNode('diamond', {
   shapeType: 'path', // It is required when group.addShape

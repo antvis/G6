@@ -1,9 +1,10 @@
 ---
-title: 使用 G6 让两个节点之间连多条边
+title: Multiple Edges between Two Nodes
 order: 4
 ---
 
-有如下的一份数据，如何使用 [G6](https://github.com/antvis/g6) 让两个节点之间连多条边？
+### Problem
+For such a data below, how to link two nodes with multiple edges?
 
 ```javascript
 const data = {
