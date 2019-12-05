@@ -1,1 +1,3 @@
-declare module '*.json'
+declare module '*.json' {
+  export const version: string;
+}

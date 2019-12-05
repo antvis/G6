@@ -8,10 +8,10 @@
     "importHelpers": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
-    "types": ["jest"],
-    "resolveJsonModule": true
+    "types": ["jest"]
   },
   "include": ["src"],
   "typedocOptions": {
