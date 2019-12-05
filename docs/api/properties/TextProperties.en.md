@@ -1,5 +1,5 @@
 ---
-title: Properties of Text
+title: Text Properties
 order: 2
 ---
 

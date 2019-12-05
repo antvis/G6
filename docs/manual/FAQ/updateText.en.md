@@ -3,7 +3,7 @@ title: Update Label
 order: 0
 ---
 
-在 G6 中，可以通过以下三种方式更新文本样式。
+There are three ways to modify the styles for text in G6.
 
 #### 实例化Graph
 实例化Graph时，可以通过在defaultNode或defaultEdge中指定**labelCfg**属性修改文本的样式。

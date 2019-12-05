@@ -1,5 +1,5 @@
 ---
-title: Properties of Node
+title: Node Properties
 order: 0
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: Properties of Edge
+title: Edge Properties
 order: 1
 ---
 
