@@ -10,9 +10,9 @@ Recently, we received some feedbacks about usage of G6 in IE. Some users found t
 
 ## Solution
 
-们在项目中只需要引入 `babel-polyfill` 即可，具体使用方法如下：
-- 在主入门文件中引入 `babel-polyfill` ；
-- 在 `bable-loader` 中加入如下代码：
+Import `babel-polyfill` into your project:
+- Import `babel-polyfill` in your main entrance file;
+- Add some code into `bable-loader`:
 
 ```
 {
@@ -22,22 +22,23 @@ Recently, we received some feedbacks about usage of G6 in IE. Some users found t
 }
 ```
 
-> include 表示哪些目录中的 .js 文件需要进行 babel-loader；exclude 表示哪些目录中的 .js 文件不要进行 babel-loader。
+> include indicates the directories of the .js files should to be babel-loader; exclude represents the directories of .js files should not to be babel-loader。
 
 
-include 中的内容请根据具体项目情况设置。
+The content of include should be assigned according to your project.
 
-更详细的请参考：https://blog.csdn.net/y491887095/article/details/81541502。
+Refer to [The Link](https://blog.csdn.net/y491887095/article/details/81541502) for more detail.
 
 
-另外，针对@vue/cli、umi、create-react-app搭建的项目给出一些解决方案，**务必确保在没有引入 G6 时你的项目可以正常运行在IE上**。
+In addition, there are some solutions for the projects with @vue/cli, umi, and create-react-app.
+**First, ensure your project can be ran on IE without G6**.
 
-类似如下错误。
+You may find the error:
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dIrtS6eorxUAAAAAAAAAAABkARQnAQ' width=800 />
 
 ### vue/cli
 
-本[案例](https://github.com/lxfu/vue-g6)是基于@vue/cli(V: 4.0.5)，如果你的版本是3.x的话可能写法上会有出入，@vue/cli怎么解决依赖兼容性问题呢？<br />遇到问题首先想到的是官网，没错，先看看[官网](https://cli.vuejs.org/zh/guide/browser-compatibility.html#polyfill)上有没有类似的教程，从官网上我们定位到浏览器兼容性，如下
+[Vue Demo](https://github.com/lxfu/vue-g6) is based on @vue/cli(V: 4.0.5). There will be some small differences to the 3.x version. @vue/cli怎么解决依赖兼容性问题呢？<br />遇到问题首先想到的是官网，没错，先看看[官网](https://cli.vuejs.org/zh/guide/browser-compatibility.html#polyfill)上有没有类似的教程，从官网上我们定位到浏览器兼容性，如下
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*CuVeQ5k5RloAAAAAAAAAAABkARQnAQ' width=850 />
 
 从文章中我们貌似已经找到了问题的答案，我们需要新建vue.config.js文件（和package.json同一目录），在里面添加transpileDependencies选项：

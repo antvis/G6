@@ -29,14 +29,14 @@ include 中的内容请根据具体项目情况设置。
 更详细的请参考：https://blog.csdn.net/y491887095/article/details/81541502。
 
 
-另外，针对@vue/cli、umi、create-react-app搭建的项目给出一些解决方案，**务必确保在没有引入 G6 时你的项目可以正常运行在IE上**。
+另外，针对 @vue/cli、umi、create-react-app 搭建的项目给出一些解决方案，**务必确保在没有引入 G6 时你的项目可以正常运行在IE上**。
 
 类似如下错误。
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dIrtS6eorxUAAAAAAAAAAABkARQnAQ' width=800 />
 
 ### vue/cli
 
-本[案例](https://github.com/lxfu/vue-g6)是基于@vue/cli(V: 4.0.5)，如果你的版本是3.x的话可能写法上会有出入，@vue/cli怎么解决依赖兼容性问题呢？<br />遇到问题首先想到的是官网，没错，先看看[官网](https://cli.vuejs.org/zh/guide/browser-compatibility.html#polyfill)上有没有类似的教程，从官网上我们定位到浏览器兼容性，如下
+本[案例](https://github.com/lxfu/vue-g6)是基于 @vue/cli(V: 4.0.5)，3.x 版本可能在写法上有些出入。@vue/cli 怎么解决依赖兼容性问题呢？<br />遇到问题首先查看 [Vue 官网](https://cli.vuejs.org/zh/guide/browser-compatibility.html#polyfill)上有没有类似的教程，从官网上我们定位到浏览器兼容性，如下
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*CuVeQ5k5RloAAAAAAAAAAABkARQnAQ' width=850 />
 
 从文章中我们貌似已经找到了问题的答案，我们需要新建vue.config.js文件（和package.json同一目录），在里面添加transpileDependencies选项：
