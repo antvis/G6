@@ -199,7 +199,7 @@ G6 中已经[内置了一些节点](/zh/docs/manual/middle/elements/defaultNode)
 下面以基于 single-shape 为例进行扩展。`draw`，`update`，`setState` 方法在 [single-shape ](https://github.com/antvis/g6/blob/master/src/shape/single-shape-mixin.js)中都有实现，这里仅需要复写 `getShapeStyle` 方法即可。返回的对象中包含自定义图形的路径和其他样式。
 ```javascript
 G6.registerNode('diamond', {
-  shapeType: 'path', // group.addShape 时需要指定的类型
+  shapeType: 'path', // 继承自 'single-shape' 时必须指定，否则不需要填写。调用 group.addShape 使用该自定义形状时的类型名称
   getShapeStyle(cfg) {
     const size = this.getSize(cfg); // 转换成 [width, height] 的模式
     const color = cfg.color;
