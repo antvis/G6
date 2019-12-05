@@ -6,6 +6,8 @@ order: 6
 ## What is State
 The **State** in G6 is the state of an item (node/edge), including **Interaction State** and **Bussiness State**.
 
+In G6, the way to configure interaction state and business state is the same. For some users who only use G6 to develop of a certain requirement, and do not want to understand G6 in depth, there is no need to distinguish the difference between the interactive state and the business state. You can define and use the states in the same way without understanding cost. 
+
 ### Interaction State
 The interaction state is closely related to specific interaction actions, such as the user using a mouse to select a node, or hover an edge.
 
@@ -17,18 +19,57 @@ Business state refers to the states customized according to the user's business 
 ## When to Use State
 The principle of judging whether or not to use state comes from the perspective of interaction and business:
 
-- Interaction State: Some interactions need to change the style and attributes of nodes or edges;
-- Bussiness State: The content presented to the user will change based on the data (eg 1 for success, 0 for failure).
+- Some interactions need to change the style and attributes of nodes or edges;
+- The content presented to the user will change based on the data (eg 1 for success, 0 for failure).
 
-满足上述条件其一，则应该使用 state。
+If one of these conditions is met, state should be used.
+
+## Using state
+After defining the state, you can activate it by **`graph.setItemState`**, which can be called in the listeners like `graph.on` or the custom Behavior, or any place as you wish.
+
+### graph.on
+Activate the hover state in the event listeners.
+```javascript
+graph.on('node:mouseenter', evt => {
+  const { item } = evt
+  graph.setItemState(item, 'hover', true)
+})
+
+graph.on('node:mouseleave', evt => {
+  const { item } = evt
+  graph.setItemState(item, 'hover', false)
+})
+```
+
+### Behavior
+Activate the selected state in custom Behavior.
+```javascript
+G6.registerBehavior('nodeClick', {
+  getEvents() {
+    return {
+      'node:click': 'onClick'
+    };
+  },
+  onClick(e) {
+    e.preventDefault();
+    if (!this.shouldUpdate.call(this, e)) {
+      return;
+    }
+    const { item } = e;
+    const graph = this.graph;
+    graph.setItemState(item, 'selected', true)
+  }
+})
+```
+
 
 ## Configure Styles for State
-在 G6 中，配置交互状态和业务状态的方式是相同的。对于部分只使用 G6 来完成某个需求的开发，而不想深入理解G6的用户，其实不用区分交互状态和业务状态的区别，使用相同的方式定义状态，使用相同的方式使用状态，完全没有理解成本。
+In last section, we call `graph.setItemState` to activate/inactivate the states on a node or an edge. But it just marks the state on the item object. To reflect these states to the visual space which is observed by the end users, we need to set the item styles for different states to response the states change.
 
-在 G6 中，定义 state 时，我们有两种选择：
+There are two choices to define the styles of a state:
 
-- 在实例化 Graph 时，通过 `nodeStateStyles` 和 `edgeStateStyles` 来定义；
-- 在自定义节点时，在 options 配置项的 `stateStyles` 中定义状态。
+- Define the state styles in `nodeStateStyles` and `edgeStateStyles` when instantiating a Graph;
+- Configure the `stateStyles` in options when customizing a node/edge.
 
 ### Configure When instantiating a Graph
 ```javascript
@@ -53,26 +94,26 @@ const graph = new G6.Graph({
 })
 ```
 
-上面的实例代码中，我们在实例化 Graph 时候，通过 `nodeStateStyles` 定义了交互状态 `hover` 和业务状态`running`，当用户操作过程中，鼠标 `hover` 到某个节点上时，节点的填充色就会变为指定的颜色，当某个任务状态变为正在执行时，节点的边框就会变为 `running` 状态定义的颜色。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Beu6QY_ETOgAAAAAAAAAAABkARQnAQ' width=150/>
+The code above defines the styles of interaction state `hover` and bussiness state `running` by  `nodeStateStyles`, which means when the mouse `hover` a node, the filling color of the node will be changed into `'#d3adf7'`. When the `running` of a node is activated, the stroke color of the node will be changed into `'steelblue'`.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Beu6QY_ETOgAAAAAAAAAAABkARQnAQ' width=150/>
 
-同理，defaultEdge 中的 style 属性定义了默认状态下边的样式，使用 `edgeStateStyles` 可以定义不同状态下边的样式。
+Similarly, the `style` of `defaultEdge` defines the styles of the node on the default state. And  `edgeStateStyles` can be used for defined the styles on other states.
 
 ### Configure Styles When Customizing Node
-下面代码是在自定义节点时候通过 `stateStyles` 定义的交互状态 `hover` 和 `selected`。用户在操作过程中，如果hover到某个节点，则节点的透明度会变为 0.8，如果选中某个节点，选中节点的边框宽度变为 3。
+The following code defines the styles for interaction states `hover` and `selected` by `stateStyles`. When user hovers anode, the opacity of the node will reduce to 0.8. When user clicks the ndoe, the line width of the stroke will widen to 3.
 ```javascript
 G6.registerNode('customShape', {
-  // 自定义节点时的配置
+  // The configurations of the custom node
   options: {
     size: 60,
     style: {
       lineWidth: 1
     },
     stateStyles: {
-      // 鼠标hover状态下的配置
+      // The style of the node when the mouse hovers the node
       hover: {
         fillOpacity: 0.8
       },
-      // 选中节点状态下的配置
+      // The style of the node when the node is selected
       selected: {
         lineWidth: 3
       }
@@ -82,45 +123,6 @@ G6.registerNode('customShape', {
 ```
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1DFnTKfmfLcAAAAAAAAAAABkARQnAQ' width=150/>
 
-## Using state
-不管使用哪种方式，当我们定义好了 state 以后，**使用 `graph.setItemState` 来使定义的状态生效**。
-
-那么，我们该在什么地方使用 **`graph.setItemState`** 来使 state 生效呢？一种是直接使用 `graph.on` 监听事件，在回调中使 state 生效，另一种是在自定义 Behavior 中使 state 生效。
-
-### graph.on
-在回调函数中使定义的交互状态 hover 生效。
-```javascript
-graph.on('node:mouseenter', evt => {
-  const { item } = evt
-  graph.setItemState(item, 'hover', true)
-})
-
-graph.on('node:mouseleave', evt => {
-  const { item } = evt
-  graph.setItemState(item, 'hover', false)
-})
-```
-
-### Behavior
-在自定义 Behavior 中使定义的交互状态 selected 生效。
-```javascript
-G6.registerBehavior('nodeClick', {
-  getEvents() {
-    return {
-      'node:click': 'onClick'
-    };
-  },
-  onClick(e) {
-    e.preventDefault();
-    if (!this.shouldUpdate.call(this, e)) {
-      return;
-    }
-    const { item } = e;
-    const graph = this.graph;
-    graph.setItemState(item, 'selected', true)
-  }
-})
-```
 
 ## Conclusion
-G6 底层提供了状态管理的能力，通过使用 state，简化了状态管理，降低了用户的认知成本。更多关于 G6 中状态的内容请参考 [The Thinking of State in G6](https://www.yuque.com/antv/g6/xiux28)。
+G6 provides the state management for simplify the states of the items. For more information about the state thinking, please refer to [The Thinking of State in G6](https://www.yuque.com/antv/g6/xiux28).
