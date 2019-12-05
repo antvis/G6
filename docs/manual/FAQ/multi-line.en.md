@@ -3,7 +3,7 @@ title: Multiple Edges between Two Nodes
 order: 4
 ---
 
-### Problem
+## Problem
 For such a data below, how to link two nodes with multiple edges?
 
 ```javascript
@@ -104,7 +104,7 @@ We found that the code above can not handle this situation any more. The result:
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9u0BTpCAn-4AAAAAAAAAAABkARQnAQ' width=345 />
 
-### Solution
+## Solution
 
 To solve this problem, we utlize the [Custom Edge](/en/docs/manual/advanced/custom-edge) of G6.
 

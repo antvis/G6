@@ -3,10 +3,10 @@ title: 如何设置 Edge 前置
 order: 6
 ---
 
-### 问题
+## 问题
 G6 3.x 中如何设置让 Edge 前置，即让 Edge 显示到最上面。
 
-### 解决方案
+## 解决方案
 G6 3.x 中 edge 默认是在 node 的下面，所有 node 属于一个名为 `nodeGroup` 的[图形分组](/zh/docs/manual/advanced/graphics-group)，所有 edge 属于名为 `edgeGroup` 的[图形分组](/zh/docs/manual/advanced/graphics-group)。可以通过修改图形分组的层级以改变全体节点与全体边的层级。在改变层级后，必须调用 `graph.paint()` 以重新绘制图。
 
 ```javascript

@@ -3,10 +3,10 @@ title: Render the Edge on the Top
 order: 6
 ---
 
-### Problem
+## Problem
 How to render the edges on the top of nodes in G6 3.x?
 
-### Solution
+## Solution
 In G6 3.x, nodes are rendered on the top of edges by default. All the nodes are grouped by a [Graphics Group](/en/docs/manual/advanced/graphics-group) named `nodeGroup`, and all the edges are grouped by a [Graphics Group](/en/docs/manual/advanced/graphics-group) named `edgeGroup`. You can modify the visual levels of the groups to change the visual levels of all nodes and all edges. After changing the visual levels, do remember to call `graph.paint()` to repaint the graph.
 
 ```javascript

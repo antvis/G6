@@ -3,7 +3,7 @@ title: 两节点间存在多条边
 order: 4
 ---
 
-### 问题
+## 问题
 有如下的一份数据，如何使用 [G6](https://github.com/antvis/g6) 让两个节点之间连多条边？
 
 ```javascript
@@ -104,7 +104,7 @@ const data = {
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9u0BTpCAn-4AAAAAAAAAAABkARQnAQ' width=345 />
 
-### 解决方案
+## 解决方案
 
 这个时候，需要借助 G6 的 [自定义边](/zh/docs/manual/advanced/custom-edge) 功能。
 

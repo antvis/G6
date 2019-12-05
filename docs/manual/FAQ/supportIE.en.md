@@ -3,14 +3,39 @@ title: Use G6 with IE
 order: 3
 ---
 
-最近 [G6 图可视化交流群](/zh/docs/manual/getting-started/#g6-图可视化交流群)里面有同学反馈说 G6 不支持 IE，官网上的 Demo 在 IE 上完全打不开，对于这样对问题，我们有考虑过怎么处理，最终没有选择内部处理，具体原因自行脑补。
+## Problem
 
-下面针对@vue/cli、umi、create-react-app搭建的项目给出一些解决方案，**务必确保在没有引入 G6 时你的项目可以正常运行在IE上**。
+Recently, we received some feedbacks about usage of G6 in IE. Some users found there are some display problems when using G6 in IE. 
+
+
+## Solution
+
+们在项目中只需要引入 `babel-polyfill` 即可，具体使用方法如下：
+- 在主入门文件中引入 `babel-polyfill` ；
+- 在 `bable-loader` 中加入如下代码：
+
+```
+{
+    test: /\.js$/,
+    loader: 'babel-loader',
+    include: [resolve('src'), resolve('node_modules/@antv/g6')]
+}
+```
+
+> include 表示哪些目录中的 .js 文件需要进行 babel-loader；exclude 表示哪些目录中的 .js 文件不要进行 babel-loader。
+
+
+include 中的内容请根据具体项目情况设置。
+
+更详细的请参考：https://blog.csdn.net/y491887095/article/details/81541502。
+
+
+另外，针对@vue/cli、umi、create-react-app搭建的项目给出一些解决方案，**务必确保在没有引入 G6 时你的项目可以正常运行在IE上**。
 
 类似如下错误。
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dIrtS6eorxUAAAAAAAAAAABkARQnAQ' width=800 />
 
-## vue/cli
+### vue/cli
 
 本[案例](https://github.com/lxfu/vue-g6)是基于@vue/cli(V: 4.0.5)，如果你的版本是3.x的话可能写法上会有出入，@vue/cli怎么解决依赖兼容性问题呢？<br />遇到问题首先想到的是官网，没错，先看看[官网](https://cli.vuejs.org/zh/guide/browser-compatibility.html#polyfill)上有没有类似的教程，从官网上我们定位到浏览器兼容性，如下
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*CuVeQ5k5RloAAAAAAAAAAABkARQnAQ' width=850 />
@@ -46,7 +71,7 @@ module.exports = {
 到此，完美解决问题。
 
 
-## create-react-app
+### create-react-app
 
 如果你使用create-react-app(V: 3.0.0)初始化项目，那么恭喜你，create-react-app已经内置了依赖兼容性的处理方案，你只需要配置项目自身的兼容性问题即可，配置有多种方式，可参考[这里]。(https://create-react-app.dev/docs/supported-browsers-features/#configuring-supported-browsers)。<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aeWfSKGfgycAAAAAAAAAAABkARQnAQ' width=850 />
@@ -55,7 +80,7 @@ module.exports = {
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NcvcSL90CvUAAAAAAAAAAABkARQnAQ' width=850 />
 
 
-## umi
+### umi
 
 如果你使用的是umi，再次恭喜你，umi不仅内置了依赖兼容性方案，而且配置简单，如果有任何问题，你可以在答疑群里面@云谦大佬。
 
@@ -63,4 +88,6 @@ module.exports = {
 export default {
   browserslist: ['> 1%', 'last 2 versions'],
 };
+```
+
 ```
