@@ -161,7 +161,7 @@ const data = {
       fill: "red"
     }
   },
-  backgroundConfig: null, // It is a custom property for judging whether draw the circle background
+  backgroundConfig: null, // It is a custom property for judging whether to draw the circle background
   size: 30,
   children: [
     {

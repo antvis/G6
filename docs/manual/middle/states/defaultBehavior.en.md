@@ -56,7 +56,7 @@ The canvas can be dragged along x direction only.<br /><img src='https://gw.alip
 - `type: 'drag-node'`;
 - `delegateStyle`: The drawing properties when the nodes are dragged.  `{ strokeOpacity: 0.6, fillOpacity: 0.6 }` by default;
 - `updateEdge`: Whether to update all connected edges when dragging nodes. `true` by default.
-- *Supported after V3.1.2* `enableDelegate`: Whether activate `delegate` when dragging nodes, which means whether use a virtual rect moved with the dragging mouse instead of the node. The effect is shown in the figures below. `false` by default.
+- *Supported after V3.1.2* `enableDelegate`: Whether activate `delegate` when dragging nodes, which means whether to use a virtual rect moved with the dragging mouse instead of the node. The effect is shown in the figures below. `false` by default.
 
 **Default Configuration**
 ```javascript
@@ -164,7 +164,7 @@ The usage of edge-tooltip is similar to tooltip. It will be activated when the u
   - `trigger: 'mouseenter'`. `mousenter` means acitvating when the mouse enter a node; `click` means activating when the mouse click a node;
   - `activeState: 'active'`. The state name when the node is activated. When `activate-relations` is activated, the related nodes and edges will have this state. `active` by default. It can be combined with `nodeStyle` and `edgeStyle` of graph to enrich the visual effect;
   - `inactiveState: 'inactive'`. The state name when of the node is inactivated. All the nodes and edges which are not activated by `activate-relations` will have this state. `inactive` by default. It can be combined with `nodeStyle` and `edgeStyle` of graph to enrich the visual effect;
-  - *Supported after V3.1.2* `resetSelected`: Whether reset the selected nodes when highlight the related nodes. `false` by default, which means the selected state will not be covered by `activate-relations`.
+  - *Supported after V3.1.2* `resetSelected`: Whether to reset the selected nodes when highlight the related nodes. `false` by default, which means the selected state will not be covered by `activate-relations`.
 
 
 <br />**Default Configuration**<br />

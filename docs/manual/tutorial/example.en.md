@@ -132,7 +132,7 @@ Here goes a part of tutorial-data.json. There are `x` and `y` in node data, and 
 
 G6 will render the graph according to the position information in the data once G6 finds `x` and `y` in the data. This mechanism satisfies the requirement that rendering the source data. To solve the problem of the graph out of the view port partially, two configurations are provided:
 
--  `fitView`: Whether fit the graph to the canvas;
+-  `fitView`: Whether to fit the graph to the canvas;
 -  `fitViewPadding`: The padding between the content of the graph and the borders of the canvas.
 
 We modify the code about instantiating Graph as shown below:
@@ -155,9 +155,9 @@ The configurations below will be used in the following Tutorial:
 | Name | Type | Options / Example | Default | Description |
 | --- | --- | --- | --- | --- |
 | renderer | String | 'canvas' / 'svg' | 'canvas' | Render engine of the graph. |
-| fitView | Boolean | true / false | false | Whether fit the graph to the canvas. |
+| fitView | Boolean | true / false | false | Whether to fit the graph to the canvas. |
 | fitViewPadding | Number / Array | 20 / [ 20, 40, 50, 20 ] | 0 | The padding between the content of the graph and the borders of the canvas. |
-| animate | Boolean | true / false | false | Whether activate the global animation. |
+| animate | Boolean | true / false | false | Whether to activate the global animation. |
 | modes | Object | {<br />  default: [ 'drag-node', 'drag-canvas' ]<br />} | null | The set of graph interaction modes. This is a complicated concept, refer to [Mode](../middle/mode) for more detial. |
 | defaultNode | Object | {<br />  shape: 'circle',<br />  color: '#000',<br />  style: {<br />    ......<br />  }<br />} | null | The default global attributes for nodes, includes styles attributes and other attributes. |
 | defaultEdge | Object | {<br />  shape: 'polyline',<br />  color: '#000',<br />  style: {<br />    ......<br />  }<br />} | null | The default global attributes for edges, includes styles attributes and other attributes. |

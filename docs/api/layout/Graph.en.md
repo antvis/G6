@@ -89,7 +89,7 @@ Force is the classical force-dicrected layout algorithm, which corresponds to fo
 
 
 #### preventOverlap
-**Type**: Number<br />**Default**: false<br />**Required**: false<br />**Description**: Whether prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned.
+**Type**: Number<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned.
 
 #### collideStrength
 **Type**: Number<br />**Default**: 1<br />**Required**: false<br />**Description**: The strength of force for preventing node overlappings. The range is [0, 1]
@@ -201,7 +201,7 @@ Fruchterman is a kind of force-directed layout. G6 implements it according to th
 
 
 #### clustering
-**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether layout by cluster
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to layout by cluster
 
 
 #### clusterGravity
@@ -261,7 +261,7 @@ Circular layout arranges the node on a circle. By tuning the configurations, use
 
 
 #### clockwise
-**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Description**: Whether layout clockwisely
+**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Description**: Whether to layout clockwisely
 
 
 #### divisions
@@ -330,7 +330,7 @@ Radial layout arranges the nodes to concentrics centered at a focus node accordi
 
 
 #### preventOverlap
-**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned.
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned.
 
 
 #### nodeSize
@@ -363,7 +363,7 @@ Takes effect when `preventOverlap` is `true`. It is the minimum distance between
 
 
 #### strictRadial
-**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Description**: Whether layout the graph as strict radial, which means the nodes will be arranged on each circle strictly. Takes effect only when `preventOverlap` is `true`
+**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Description**: Whether to layout the graph as strict radial, which means the nodes will be arranged on each circle strictly. Takes effect only when `preventOverlap` is `true`
 
 - When `preventOverlap` is `true`, and `strictRadial` is `false`, the overlapped nodes are arranged along their circles strictly. But for the situation that there are too many nodes on a circle to be arranged, the overlappings might not be eliminated completely
 - When `preventOverlap` is `true`, and `strictRadial` is `true` , the overlapped nodes can be arranged around their circle with small offsets.
@@ -462,7 +462,7 @@ Dagre is an hierarchical layout.
 
 
 #### controlPoints
-**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Description**: Whether keep the control points of layout
+**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Description**: Whether to keep the control points of layout
 
 
 ### Function
@@ -501,7 +501,7 @@ Concentric arranges the nodes on several concentric circles. By tuning the param
 
 
 #### preventOverlap
-**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. If the size in node data does not exist either, `nodeSize` is assigned to 30 by default
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. If the size in node data does not exist either, `nodeSize` is assigned to 30 by default
 
 
 #### nodeSize
@@ -576,7 +576,7 @@ Grid orders the nodes according to the configurations and arranged them onto gri
 
 
 #### preventOverlap
-**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. If the size in node data does not exist either, `nodeSize` is assigned to 30 by default
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. If the size in node data does not exist either, `nodeSize` is assigned to 30 by default
 
 
 #### nodeSize

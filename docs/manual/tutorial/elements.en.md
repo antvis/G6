@@ -110,7 +110,7 @@ const graph = new G6.Graph({
     },
     // The attributes for label of edges
     labelCfg: {            
-      autoRotate: true     // Whether rotate the label according to the edges
+      autoRotate: true     // Whether to rotate the label according to the edges
     }
   },
 });
@@ -184,7 +184,7 @@ const graph = new G6.Graph({
   defaultEdge: {
     // Remove the style here
     labelCfg: {        // The attributes for label of edges
-      autoRotate: true // Whether rotate the label according to the edges
+      autoRotate: true // Whether to rotate the label according to the edges
     }
   }
 });

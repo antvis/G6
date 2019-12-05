@@ -20,10 +20,10 @@ The life cycle of an instance of Graph is: Initialize -> Load data -> Render -> 
 | width | Number | undefined | The width of the canvas for graph with the unit 'px'. |
 | height | Number | undefined | The height of the canvas for graph with the unit 'px'. |
 | renderer | String | canvas | The engine for rendering. Options: `'canvas'` or `'svg'`. |
-| fitView | Boolean | false | Whether fit the canvas to the view port. |
+| fitView | Boolean | false | Whether to fit the canvas to the view port. |
 | fitViewPadding | Array | Number  | Takes effect only when `fitView: true`. It is the padding between canvas and the border of view port.<br />- It can be a value, e.g. `fitViewPadding: 20`, which means the padding to the top, left, right, bottom are the same.<br />- Or an array, e.g. `fitViewPadding: [ 20, 40, 50, 20 ]`, the four values in the array indicate the padding to the top, right, bottom, left respectively. |
-| groupByTypes | Boolean | true | Whether group the nodes and edges separately. When it is false, all the items (including nodes and edges) are in the same group, and the order/zindex of them are determined according to the order of their generation. |
-| autoPaint | Boolean | true | Whether paint the graph automatically while item updated or view port changed. In order to enhance the performance, we recommend to turn off `antoPaint` when you are doing bulk operation on nodes or edges. This can be refered to [`setAutoPaint()`](#setautopaintauto). |
+| groupByTypes | Boolean | true | Whether to group the nodes and edges separately. When it is false, all the items (including nodes and edges) are in the same group, and the order/zindex of them are determined according to the order of their generation. |
+| autoPaint | Boolean | true | Whether to paint the graph automatically while item updated or view port changed. In order to enhance the performance, we recommend to turn off `antoPaint` when you are doing bulk operation on nodes or edges. This can be refered to [`setAutoPaint()`](#setautopaintauto). |
 | modes | Object |  | The interaction modes of this graph. Please refer to [Interaction Mode](/en/docs/manual/middle/states/mode) for detail。 |
 | nodeStateStyles | Object | {} | The node styles on different states, e.g. hover, selected. It is a new feature of G6 3.1. |
 | edgeStateStyles | Object | {} | The edge styles on different states, e.g. hover, selected. It is a new feature of G6 3.1. |
@@ -416,13 +416,13 @@ graph.setAutoPaint(autoPaint);
 ```
 
 ### setAutoPaint(auto)
-Whether repaint the canvas automatically after updating or deleting items.
+Whether to repaint the canvas automatically after updating or deleting items.
 
 **Parameters**
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| auto | Boolean | true | Whether repaint the canvas automatically. |
+| auto | Boolean | true | Whether to repaint the canvas automatically. |
 
 
 **Usage**
@@ -611,7 +611,7 @@ This function will emit events `beforitemstatechange` and `afteritemstatechange`
 | --- | --- | --- | --- |
 | item | String / Object | true | The id or the instance of the item. |
 | state | String | true | The value of state. State can be comstomized as selected, hover, actived, and so on. |
-| enabled | Boolean | true | Whether activate the state. |
+| enabled | Boolean | true | Whether to activate the state. |
 
 **Usage**
 

@@ -210,7 +210,7 @@ const type = item.get('type')
 
 
 ### enableCapture(enable)
-Whether enable the item to be picked and enable its interaction events.
+Whether to enable the item to be picked and enable its interaction events.
 
 
 **Parameters**

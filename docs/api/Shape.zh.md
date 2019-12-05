@@ -5,12 +5,15 @@ order: 7
 
 本文介绍的 Shape 相关方法是在自定义节点（registerNode）或自定义边（registerEdge）的过程中需要部分实现或复写的方法。
 
-**友情提示：**以下属性和 API 方法，全部用于自定义节点和边时候使用，即作为 `G6.registerNode` / `G6.registerEdge` 的第二个参数中的方法使用。
+**友情提示：**以下属性和 API 方法，全部用于自定义节点和边时候使用，即作为 `G6.registerNode` / `G6.registerEdge` 的第二个参数中的方法。
 
 ## 用法
-```
+下面以注册边为例：
+```javascript
 import G6 from '@antv/g6'
-G6.registerNode('nodeName', {
+G6.registerEdge('edgeName', {
+  labelPosition: 'center',
+  labelAutoRotate: true,
   draw(cfg, group) {
     // 定义的其他方法，都可以在draw里面调用， 如 drawShape、drawLabel 等。
     this.drawShape()
@@ -28,28 +31,25 @@ G6.registerNode('nodeName', {
     // 更新绘制的元素
 
   }
-}, 'circle')
+}, 'line')
 ```
 
 ## 属性
 
-### itemType
-元素类型，目前支持 `'node'`、`'edge'`，后续可能会支持 `'group'`。
-
 ### labelPosition
 文本相对于图形的位置，默认值为 `'center'`。
 
-- 当 `itemType` 为 `'node'` 时，`labelPosition` 值包括：`'top'`、`'bottom'`、`'left'`、`'right'` 和 `'center'`；
-- 当 `itemType` 为 `'edge'` 时，`labelPosition` 值包括：`'start'`、`'end'` 和 `'center'`。
+- 当使用 `registerNode` 注册节点时，`labelPosition` 可选值包括：`'top'`、`'bottom'`、`'left'`、`'right'` 和 `'center'`；
+- 当使用 `registerEdge` 注册边时，`labelPosition` 可选值包括：`'start'`、`'end'` 和 `'center'`。
 
 ### labelAutoRotate
-> 只有在 registerEdge 时有用。
+> 只有在 `registerEdge` 时有用。
 
 文本是否跟着线自动旋转，默认值为 `false`。
 
-**提示：edge特有。**
+**提示：edge 特有。**
 
-## 绘制
+## 绘制函数
 绘制部分四个 API 的参数完全相同，参数说明部分参考 `draw()` 方法。
 
 ### draw(cfg, group)
@@ -65,7 +65,7 @@ G6.registerNode('nodeName', {
 ### afterDraw(cfg, group)
 绘制完成以后的操作，用户可继承现有的节点或边，在 `afterDraw()` 方法中扩展图形或添加动画。
 
-## 更新
+## 更新函数
 
 ### update(cfg, item)
 更新节点或边，包括节点或边上的文本。

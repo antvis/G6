@@ -54,7 +54,7 @@ The table below shows the built-in edges and their special attributes:
 | stroke | false | String | The stroke color |
 | lineWidth | false | Number | The line width |
 | lineAppendWidth | false | Number | The width of the response area for interaction. In other words, when the edge is too thin to be hitted by mouse, enlarge the value of `lineWidth` to widen the response area |
-| endArrow | false | Boolean | Whether show the end arrow |
+| endArrow | false | Boolean | Whether to show the end arrow |
 | strokeOpacity | false | Number | The stroke opacity |
 | shadowColor | false | String | The color of the shadow |
 | shadowBlur | false | Number | The blur degree of the shadow |
@@ -88,7 +88,7 @@ const graph = new G6.Graph({
 | refX | false | Number | x offset of the label |
 | refY | false | Number | y offset of the label |
 | position | false | String | The relative position to the edge. Options: `'start'`, `'middle'`, and `'end'`. `'middle'` by default |
-| autoRotate | false | Boolean | Whether activate ratating according to the edge automatically. `false` by default |
+| autoRotate | false | Boolean | Whether to activate ratating according to the edge automatically. `false` by default |
 | style | false | Object | The style attribute of the label |
 
 
@@ -268,7 +268,7 @@ By writing the attributes into the data, we adjust the style and the label of th
   label: 'cubic-vertical',
   labelCfg: {
   	position: 'center', // The position of the label=
-    autoRotate: true,   // Whether rotate the label according to the edge
+    autoRotate: true,   // Whether to rotate the label according to the edge
     style: {
       stroke: 'white',  // White stroke for the label
     	lineWidth: 5,     // The line width of the stroke

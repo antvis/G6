@@ -37,7 +37,7 @@ const data = {
  | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | layout | Object | null | *V3.0.4 supports configurations for TreeGraph layout*. Before V3.0.4, the layout is formatted as a function. We recommend developers to use configurations now. |
-| animate | Boolean | true | Whether activate animation for relayout. |
+| animate | Boolean | true | Whether to activate animation for relayout. |
 
 
 **Usage**
@@ -109,7 +109,7 @@ Different results with different `direction` values.
 | rankSep | Number | 200 | The separation between nodes in adjacent levels. |
 | nodeSize | Number | 20 | The node size. |
 | subTreeSep | Number | 10 | The separation between sub trees. |
-| isHorizontal | Boolean | true | Whether layout the tree in horizontal. |
+| isHorizontal | Boolean | true | Whether to layout the tree in horizontal. |
 
 
 ### compactBox
@@ -316,7 +316,7 @@ Refresh the layout. Usually, it is called after changing data.
 
 | Name | Type | Required| Description |
 | --- | --- | --- | --- |
-| fitView | Boolean | false | Whether fit view after refreshing layout. |
+| fitView | Boolean | false | Whether to fit view after refreshing layout. |
 
 
 **Usage**

@@ -131,7 +131,7 @@ const graph = new G6.Graph({
 
 - `position`: The relative position to the source/target node. Options: `top`, `top-right`, `right`,`bottom-right`, `bottom`, `bottom-left`, `left`, `top-left`. `top` by default.
 - `dist`: The distance between the keyShape of the source/target node to the highest position of the loop. It is equal to the height of the source/target node by default.
-- `clockwise`: Whether draw the loop clockwisely. `true` by default
+- `clockwise`: Whether to draw the loop clockwisely. `true` by default
 
 Base on the code in [style](#style) section, we add `loopCfg` to `defaultEdge`.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z9dwTZvACcEAAAAAAAAAAABkARQnAQ' width=100/>
