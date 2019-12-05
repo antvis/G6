@@ -9,15 +9,15 @@ order: 10
 
 当内置节点不满足需求时，可以通过 `G6.registerNode(nodeName, options, extendNodeName)` 方法自定义节点。
 
-**参数**
+### 参数
 
 | 名称           | 类型   | 是否必选 | 描述                                                                                                                                                               |
 | -------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | nodeName       | String | true     | 自定义节点名称，需保持唯一性。                                                                                                                                     |
-| options        | Object | true     | 自定义节点时的配置项，配置项中包括完整的生命周期方法，具体请参考：[Shape 文档](./Shape)。                                          |
-| extendNodeName | String | false    | 自定义节点时可基于内置节点进行定义，该字段表示内置节点名称，所有内置节点请参考：[内置节点](/zh/docs/manual/middle/elements/nodes/defaultNode)。 |
+| options        | Object | true     | 自定义节点时的配置项，配置项中包括完整的生命周期方法，具体请参考：[Shape API](./Shape)。                                          |
+| extendNodeName | String | false    | 自定义节点时可基于内置节点进行定义，该字段表示内置节点名称，所有内置节点请参考：[内置节点](/zh/docs/manual/middle/elements/nodes/defaultNode) 教程。 |
 
-**用法**
+### 用法
 
 ```javascript
 G6.registerNode(
@@ -27,7 +27,7 @@ G6.registerNode(
      * 绘制节点，包含文本
      * @param  {Object} cfg 节点的配置项
      * @param  {G.Group} group 节点的容器
-     * @return {G.Shape} 绘制的图形，通过node.get('keyShape') 可以获取到
+     * @return {G.Shape} 绘制的图形，通过 node.get('keyShape') 可以获取到
      */
     draw(cfg, group) {},
     /**
@@ -73,15 +73,15 @@ G6.registerNode(
 
 当内置的边不能满足需求时，可以通过 `registerEdge(edgeName, options, extendEdgeName)` 方法注册自定义的边。
 
-**参数**
+### 参数
 
 | 名称           | 类型   | 是否必选 | 描述                                                                                                                                   |
 | -------------- | ------ | -------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | edgeName       | String | true     | 自定义边的名称                                                                                                                         |
-| options        | Object | true     | 自定义边时的配置项，配置项中包括完整的生命周期方法，具体请参考：[Shape 文档](/zh/docs/api/Shape)。                |
-| extendEdgeName | String | false    | 自定义边时可基于内置边进行定义，该字段表示内置边的名称，所有内置边请参考：[内置边](/zh/docs/manual/middle/elements/defaultEdge)。 |
+| options        | Object | true     | 自定义边时的配置项，配置项中包括完整的生命周期方法，具体请参考：[Shape API](/zh/docs/api/Shape)。                |
+| extendEdgeName | String | false    | 自定义边时可基于内置边进行定义，该字段表示内置边的名称，所有内置边请参考：[内置边](/zh/docs/manual/middle/elements/defaultEdge) 教程。 |
 
-**用法**
+### 用法
 
 ```javascript
 G6.registerEdge(
@@ -91,7 +91,7 @@ G6.registerEdge(
      * 绘制边，包含文本
      * @param  {Object} cfg 边的配置项
      * @param  {G.Group} group 边的容器
-     * @return {G.Shape} 绘制的图形，通过node.get('keyShape') 可以获取到
+     * @return {G.Shape} 绘制的图形，通过 node.get('keyShape') 可以获取到
      */
     draw(cfg, group) {},
     /**
@@ -131,14 +131,14 @@ G6.registerEdge(
 
 当内置的 Behavior 不能满足需求时，使用 `registerBehavior(behaviorName, behavior)` 方法注册自定义的交互行为。
 
-**参数**
+### 参数
 
 | 名称         | 类型   | 是否必选 | 描述                                                                                                                          |
 | ------------ | ------ | -------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | behaviorName | String | true     | 自定义 Behavior 的名称                                                                                                        |
-| behavior     | Object | true     | 自定义 behavior 时的配置项，配置项中包括的方法及作用具体请参考：[Behavior 文档](/zh/docs/api/Behavior)。 |
+| behavior     | Object | true     | 自定义 behavior 时的配置项，配置项中包括的方法及作用具体请参考：[Behavior API](/zh/docs/api/Behavior)。 |
 
-**用法**
+### 用法
 
 ```javascript
 // 注册自定义 Behavior
@@ -186,14 +186,14 @@ G6.registerBehavior('behaviorName', {
 
 当内置布局不满足需求时，可以通过 `G6.registerLayout(layoutName, layout)` 方法自定义布局。
 
-**参数**
+### 参数
 
 | 名称       | 类型   | 是否必选 | 描述                                                                                                          |
 | ---------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------- |
 | layoutName | String | true     | 自定义布局名称                                                                                                |
-| layout     | Object | true     | 自定义布局的配置项，配置项中包括的方法及作用具体请参考：[Layout 文档](/zh/docs/manual/middle/layout)。 |
+| layout     | Object | true     | 自定义布局的配置项，配置项中包括的方法及作用具体请参考：[Layout API](/zh/docs/manual/middle/layout)。 |
 
-**用法**
+### 用法
 
 ```javascript
 G6.registerLayout('layoutName', {

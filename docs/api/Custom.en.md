@@ -9,15 +9,15 @@ This document will introduce custom mechanism in G6, including custom node, cust
 
 When the built-in nodes cannot satisfy your requirments, custom a type of node by `G6.registerNode(nodeName, options, extendedNodeName)`.
 
-**Parameters**
+### Parameters
 
 | Name       | Type   | Required | Description                                                                                                                                                                |
 | -------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | nodeName       | String | true     | The unique name of the custom node.                                                                                                                                     |
-| options        | Object | true     | The configurations of custom node, include functions of complete life cycles. Please refer to [Shape](./Shape)。                                          |
-| extendNodeName | String | false    | Specifies the inherited node type of the custom node. Declare this attribute if you want to extend a built-in node. [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode)。 |
+| options        | Object | true     | The configurations of custom node, include functions of complete life cycles. Please refer to [Shape API](./Shape).                                          |
+| extendNodeName | String | false    | Specifies the inherited node type of the custom node. Declare this attribute if you want to extend a built-in node. [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) document. |
 
-**Usage**
+### Usage
 
 ```javascript
 G6.registerNode(
@@ -72,15 +72,15 @@ G6.registerNode(
 
 When the built-in edges cannot satisfy your requirments, custom a type of edge by `G6.registerEdge(edgeName, options, extendedEdgeName)`.
 
-**Parameters**
+### Parameters
 
 | Name           | Type   | Required | Description                                                                                                                                    |
 | -------------- | ------ | -------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | edgeName       | String | true     | The unique name of the custom edge.                                                                                                                         |
-| options        | Object | true     | The configurations of custom edge, include functions of complete life cycles. Please refer to [Shape](/zh/docs/api/Shape)。                |
-| extendEdgeName | String | false    | Specifies the inherited node type of the custom node. Declare this attribute if you want to extend the a built-in edge. [Built-in Edges](/zh/docs/manual/middle/elements/defaultEdge)。 |
+| options        | Object | true     | The configurations of custom edge, include functions of complete life cycles. Please refer to [Shape API](/en/docs/api/Shape).                |
+| extendEdgeName | String | false    | Specifies the inherited node type of the custom node. Declare this attribute if you want to extend the a built-in edge. [Built-in Edges](/en/docs/manual/middle/elements/defaultEdge) document. |
 
-**Usage**
+### Usage
 
 ```javascript
 G6.registerEdge(
@@ -129,14 +129,14 @@ G6.registerEdge(
 
 When the built-in Behaviors cannot satisfy your requirments, custom a type of Behavior by `G6.registerBehavior(behaviorName, behavior)`.
 
-**Parameters**
+### Parameters
 
 | Name          | Type   | Required | Description                                                                                                                          |
 | ------------ | ------ | -------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | behaviorName | String | true     | The name of custom Behavior                                                                                                        |
-| behavior     | Object | true     | The configurations of custom Behavior. For more information, please refer to [Behavior](/en/docs/api/Behavior)。 |
+| behavior     | Object | true     | The configurations of custom Behavior. For more information, please refer to [Behavior API](/en/docs/api/Behavior). |
 
-**Usage**
+### Usage
 
 ```javascript
 // Custom a type of Behavior
@@ -185,14 +185,14 @@ G6.registerBehavior('behaviorName', {
 When the built-in Layouts cannot satisfy your requirments, custom a type of Layout by `G6.registerLayout(layoutName, layout)`.
 
 
-**Parameters**
+### Parameters
 
 | Name       | Type   | Required | Description                                                                                                          |
 | ---------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------- |
 | layoutName | String | true     | The name of the custom layout.                                                                                                |
-| layout     | Object | true     | The configurations of the custom layout. For more information, please refer to [Layout](/en/docs/manual/middle/layout)。 |
+| layout     | Object | true     | The configurations of the custom layout. For more information, please refer to [Layout API](/en/docs/manual/middle/layout). |
 
-**Usage**
+### Usage
 
 ```javascript
 G6.registerLayout('layoutName', {
