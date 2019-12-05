@@ -28,7 +28,7 @@ Graph 的生命周期为：初始化—>加载数据—>渲染—>更新—>销�
 | edgeStateStyles | Object | {} | 各个状态下边的样式，例如 `hover`、`selected`，3.1版本新增。 |
 | defaultNode | Object | {} | 默认状态下节点的配置，比如 `shape`, `size`, `color`。会被写入的 data 覆盖。 |
 | defaultEdge | Object | {} | 默认状态下边的配置，比如 `shape`, `size`, `color`。会被写入的 data 覆盖。 |
-| plugins | Array | [] | 向 graph 注册插件。插件机制请见：[plugin](/zh/docs/manual/tutorial/plugins#插件) |
+| plugins | Array | [] | 向 graph 注册插件。插件机制请见：[插件](/zh/docs/manual/tutorial/plugins#插件) |
 | animate | Boolean | false | 是否启用全局动画。 |
 | animateCfg | Object |  | 动画配置项，仅在 `animate` 为 `true` 时有效。 |
 | animateCfg.<br />onFrame | Function | null  | 回调函数，用于自定义节点运动路径，为空时线性运动。 |
@@ -38,11 +38,11 @@ Graph 的生命周期为：初始化—>加载数据—>渲染—>更新—>销�
 | maxZoom | Number | 10 | 最大缩放比例 |
 | pixelRatio | Number | 1.0 | 像素比率 |
 | groupType | String | circle | 节点分组类型，支持 circle 和 rect |
-| groupStyle | Object |  | groupStyle 用于指定分组的样式，详情参看[节点分组](/zh/docs/manual/middle/nodeGroup) |
+| groupStyle | Object |  | groupStyle 用于指定分组的样式，详情参看 [节点分组 Group](/zh/docs/manual/middle/nodeGroup) 教程 |
 | layout | Object |  | 布局配置项，使用 type 字段指定使用的布局方式，type可取以下值：random, radial, mds, circular, fruchterman, force, dagre，各布局详细的配置请参考 [Layout API 文档](/zh/docs/api/layout/Layout) |
 
 
-**重点说明**: G6 3.1 版本中实例化 Graph 时，新增了 `nodeStateStyles` 及 `edgeStateStyles` 两个配置项，删除了 `nodeStyle` 和 `edgeStyle` ，使用 3.1 以下版本的同学，只需要将 `nodeStyle` 改成 `nodeStateStyles` ，将 `edgeStyle` 改成 `edgeStateStyles` ，配置内容保持不变。
+⚠️**注意：**：G6 3.1 版本中实例化 Graph 时，新增了 `nodeStateStyles` 及 `edgeStateStyles` 两个配置项，删除了 `nodeStyle` 和 `edgeStyle` ，使用 3.1 以下版本的同学，只需要将 `nodeStyle` 改成 `nodeStateStyles` ，将 `edgeStyle` 改成 `edgeStateStyles` ，配置内容保持不变。
 
 **用法**
 

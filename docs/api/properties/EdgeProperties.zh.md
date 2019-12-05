@@ -18,7 +18,7 @@ order: 1
 
 
 ## 线条 Path
-特别注意：当边太细时候点击不中时，请设置 **lineAppendWidth** 属性值。
+⚠️**注意：**当边太细时候点击不中时，请设置 **lineAppendWidth** 属性值。
 
 **属性**
 

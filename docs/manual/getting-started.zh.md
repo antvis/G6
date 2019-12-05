@@ -34,7 +34,7 @@ import G6 from '@antv/g6'
 <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-{$version}/build/g6.js"></script>
 ```
 
- 注意 
+⚠️**注意：**
 
 - 在 `{$version}` 中填写版本号，例如 `3.2.3`；
 - 最新版为 3.2.3，可以在 [npm](https://www.npmjs.com/package/@antv/g6) 查看最新版本；

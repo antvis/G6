@@ -52,7 +52,7 @@ The data for G6 should be JSON format, includes array attributes `nodes` and `ed
 </script>
 ```
 
-**Attention**
+⚠️**Attention**
 
 - `nodes` is an array of nodes, the `id` is an unique and required property; the `x` and `y` are the coordinates of the node;
 - `edges` is an array of edges, `source` and `target` are required, represent the `id` of the source node and the `id` of the target node respectively.

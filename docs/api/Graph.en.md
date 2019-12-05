@@ -1081,11 +1081,7 @@ const nodes = graph.getNodes()
 ### getEdges()
 Get all the edge items in the graph.
 
-<<<<<<< HEAD
 ⚠️**Attention:** it returns the items but not data models.
-=======
-Attention: it returns the items but not data models.
->>>>>>> feat: english version of API
 
 **Return**
 
