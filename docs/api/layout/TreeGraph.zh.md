@@ -4,9 +4,9 @@ order: 2
 ---
 ## CompactBox 紧凑树布局
 
-紧凑盒树布局。这是树图的默认布局，其特点是布局时统合考虑每个树节点的包围盒，由经典的[Reingold–Tilford tidy布局算法](http://emr.cs.iit.edu/~reingold/tidier-drawings.pdf)演进而来，适合于脑图等应用场景。
+紧凑盒树布局。这是树图的默认布局，其特点是布局时统合考虑每个树节点的包围盒，由经典的 <a href='http://emr.cs.iit.edu/~reingold/tidier-drawings.pdf' target='_blank'>Reingold–Tilford tidy 布局算法</a>演进而来，适合于脑图等应用场景。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z-ESRoHTpvIAAAAAAAAAAABkARQnAQ' width=850 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z-ESRoHTpvIAAAAAAAAAAABkARQnAQ' width=650 />
 
 ### 属性
 
@@ -104,7 +104,7 @@ order: 2
 
 ## Dendrogram 生态树布局
 
-[生态树](https://en.wikipedia.org/wiki/Dendrogram)布局。特点是所有子节点布局在同一层级，不考虑节点大小，每个节点被当成 1 px 处理。适用于表示层次聚类。
+<a href='https://en.wikipedia.org/wiki/Dendrogram' target='_blank'>生态树</a>布局的特点是所有子节点布局在同一层级，不考虑节点大小，每个节点被当成 1px 处理。适用于表示层次聚类。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zX7tSLqBvwcAAAAAAAAAAABkARQnAQ' width=400 />
 
@@ -161,7 +161,7 @@ order: 2
 ### 属性
 
 #### direction
-**类型**：String<br />**可选值**：'LR' | 'RL' | 'H'<br />**默认值**：'LR'<br />**是否必须**：false<br />**说明**：树布局的方向，默认为，其他选项说明
+**类型**：String<br />**可选值**：'LR' | 'RL' | 'H'<br />**默认值**：'LR'<br />**是否必须**：false<br />**说明**：树布局的方向，默认为，其他选项说明：
 
 - LR —— 根节点在左，往右布局（下图左）<br />
 - RL —— 根节点在右，往左布局（下图中）<br />
