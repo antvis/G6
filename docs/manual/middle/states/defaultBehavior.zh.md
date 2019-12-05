@@ -46,7 +46,7 @@ const graph = new G6.Graph({
 
 - 含义：缩放画布；
 - `type: 'zoom-canvas'`；
-- `sensitivity`: 缩放灵敏度，支持 1-10 的数值，默认灵敏度为 5。
+- `sensitivity`：缩放灵敏度，支持 1-10 的数值，默认灵敏度为 5。
 
 **提示：若要限定缩放尺寸，请在 graph 上设置 **`**minZoom**`** 和 **`**maxZoom**`**。**
 
@@ -54,9 +54,9 @@ const graph = new G6.Graph({
 
 - 含义：拖拽节点；
 - `type: 'drag-node'`；
-- `delegateStyle`: 节点拖拽时的绘图属性，默认为 `{ strokeOpacity: 0.6, fillOpacity: 0.6 }`；
-- `updateEdge`: 是否在拖拽节点时更新所有与之相连的边，默认为 `true` 。
-- 3.1.2 `enableDelegate`：拖动节点过程中是否启用 `delegate`，即在拖动过程中是否使用方框代替元素的直接移动，效果区别见下面两个动图。默认值为 `false`。
+- `delegateStyle`：节点拖拽时的绘图属性，默认为 `{ strokeOpacity: 0.6, fillOpacity: 0.6 }`；
+- `updateEdge`：是否在拖拽节点时更新所有与之相连的边，默认为 `true` 。
+- *V3.1.2 后支持* `enableDelegate`：拖动节点过程中是否启用 `delegate`，即在拖动过程中是否使用方框代替元素的直接移动，效果区别见下面两个动图。默认值为 `false`。
 
 **默认配置**
 ```javascript
@@ -87,8 +87,8 @@ const graph = new G6.Graph({
 
 - 含义：点击选中节点，再次点击节点或点击 Canvas 取消选中状态；
 - `type: 'click-select'`；
-- `multiple`: 是否允许多选，默认为 `true`，当设置为 `false`，表示不允许多选，此时 `trigger` 参数无效。
-- 3.1.2 `trigger`: 指定按住哪个键进行多选，默认为 shift，按住 Shift 键多选，用户可配置 shift、ctrl、alt；
+- `multiple`：是否允许多选，默认为 `true`，当设置为 `false`，表示不允许多选，此时 `trigger` 参数无效。
+- *V3.1.2 后支持* `trigger`：指定按住哪个键进行多选，默认为 shift，按住 Shift 键多选，用户可配置 shift、ctrl、alt；
 
 **默认配置**<br />**
 ```javascript
@@ -115,13 +115,13 @@ const graph = new G6.Graph({
 })
 ```
 
-以上配置中，用户可按住 **Ctrl** 键进行多选，也可以配置 **Alt** 键。当配置了 `multiple` 参数为 `false`，则表示不允许多谢，此时 `trigger` 参数无效。
+以上配置中，用户可按住 **Ctrl** 键进行多选，也可以配置 **Alt** 键。当配置了 `multiple` 参数为 `false`，则表示不允许多选，此时 `trigger` 参数无效。
 
 ### tooltip
 
 - 含义：节点文本提示；
 - `type: 'tooltip'`；
-- `formatText(model)` 格式化函数，可以返回文本或者 HTML；
+- `formatText(model)`：格式化函数，可以返回文本或者 HTML；
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -154,17 +154,17 @@ const graph = new G6.Graph({
 
 - 含义：边文本提示；
 - `type: 'edge-tooltip'`；
-- `formatText(model)` 格式化函数，可以返回文本或者 HTML。
+- `formatText(model)`：格式化函数，可以返回文本或者 HTML。
 
 ### activate-relations
 
 - 含义：当鼠标移到某节点时，突出显示该节点以及与其直接关联的节点和连线；
 - `type: 'activate-relations'`；
 - 参数：
-  - `trigger: 'mouseenter'`, 可以是 `mousenter` , 鼠标移入时触发；也可以是 `click` ，鼠标点击时触发；
-  - `activeState: 'active'`, 活跃节点状态；当行为被触发，需要被突出显示的节点和边都会附带此状态，默认值为 `active`；可以与 graph 实例的 `nodeStyle` 和 `edgeStyle` 结合实现丰富的视觉效果。
-  - `inactiveState: 'inactive'`，非活跃节点状态，不需要被突出显示的节点和边都会附带此状态，默认值为 `inactive`；可以与 graph 实例的 `nodeStyle` 和 `edgeStyle` 结合实现丰富的视觉效果；
-  - 3.1.2 `resetSelected`：高亮相连节点时是否重置已经选中的节点，默认为false，即选中的节点状态不会被 `activate-relations` 覆盖。
+  - `trigger: 'mouseenter'`。可以是 `mousenter`，表示鼠标移入时触发；也可以是 `click`，鼠标点击时触发；
+  - `activeState: 'active'`。活跃节点状态。当行为被触发，需要被突出显示的节点和边都会附带此状态，默认值为 `active`；可以与 graph 实例的 `nodeStyle` 和 `edgeStyle` 结合实现丰富的视觉效果。
+  - `inactiveState: 'inactive'`。非活跃节点状态。不需要被突出显示的节点和边都会附带此状态。默认值为 `inactive`。可以与 graph 实例的 `nodeStyle` 和 `edgeStyle` 结合实现丰富的视觉效果；
+  - *V3.1.2 后支持* `resetSelected`：高亮相连节点时是否重置已经选中的节点，默认为 `false`，即选中的节点状态不会被 `activate-relations` 覆盖。
 
 
 <br />**默认配置**<br />
@@ -202,13 +202,12 @@ const graph = new G6.Graph({
 - 含义：拖动框选节点；
 - `type: 'brush-select'`；
 - 参数：
-  - `brushStyle`：拖动框选框的样式；
+  - `brushStyle`：拖动框选框的样式，包括 `fill`、`fillOpacity`、`stroke` 和 `lineWidth` 四个属性;
   - `onSelect(nodes)`：选中节点时的回调，参数 `nodes` 表示选中的节点；
   - `onDeselect(nodes)`：取消选中节点时的回调，参数 `nodes` 表示取消选中的节点；
-  - `brushStyle`：框选时样式的配置项，包括 `fill`、`fillOpacity`、`stroke` 和 `lineWidth` 四个属性；
   - `selectedState`：选中的状态，默认值为 `'selected'`；
   - `includeEdges`：框选过程中是否选中边，默认为 `true`，用户配置为 `false` 时，则不选中边；
-  - 3.1.2 `trigger`：触发框选的动作，默认为 `'shift'`，即用户按住 Shift 键拖动就可以进行框选操作，可配置的的选项为: `'shift'`、`'ctrl' / 'control'`、`'alt'` 和 `'drag'` ，不区分大小写：
+  - *V3.1.2 后支持* `trigger`：触发框选的动作，默认为 `'shift'`，即用户按住 Shift 键拖动就可以进行框选操作，可配置的的选项为: `'shift'`、`'ctrl' / 'control'`、`'alt'` 和 `'drag'` ，不区分大小写：
     - `'shift'`：按住 Shift 键进行拖动框选；
     - `'ctrl' / 'control'`：按住 Ctrl 键进行拖动框选；
     - `'alt'`：按住 Alt 键进行拖动框选；
@@ -257,7 +256,7 @@ const graph = new G6.Graph({
 
 当用户配置 `brush-select` 的 `trigger` 为 `drag`，同时又配置了 `drag-canvas` 时，在交互上面会出现冲突的情况。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*umffRa8rHtUAAAAAAAAAAABkARQnAQ' width=400/>
 
-可以看到，在拖动过程中也出现了框选的情况，这种情况很显然不是我们期望的效果，除过使用 `brush-select `的 `trigger` 参数避免这种冲突外，我们还可以通过下面的方式来实现：
+可以看到，在拖动过程中也出现了框选的情况，这种情况很显然不是我们期望的效果，除过使用 `brush-select` 的 `trigger` 参数避免这种冲突外，我们还可以通过下面的方式来实现：
 
 ```javascript
 const graph = new G6.Graph({
@@ -273,17 +272,15 @@ const graph = new G6.Graph({
 })
 ```
 
-上面这种方式是使用不同的 mode 来区分，mode 可以达到使用相同交互动作而产生不同的效果，更多关于 mode 的内容请参数 [G6 中的 Mode 文档](./mode)。
-
-使用 mode 区分，默认情况下使用的是 `drag-canvas`，但用户需要切换到框选时，通过 `graph.setModel('brush')` 即可实现，此时同样的交互产生的就是框选的效果。
+上面这种方式是使用不同的 mode 来区分，mode 可以达到使用相同交互动作而产生不同的效果。默认模式中，使用的是拖拽操作由 `drag-canvas` 响应。当用户通过通过 `graph.setMode('brush')` 切换到 brush 模式后，此时同样的拖拽操作由 `brush-select` 响应。更多关于 mode 的内容请参考 [Mode](./mode) 教程。
 
 ### collapse-expand
 
 - 含义：只适用于树图，展开或收起节点；
 - `type: 'collapse-expand'`；
 - 参数：
-  - `trigger`：收起和展开树图的方式，支持`click`和`dblclick`两种方式，默认为`click`；
-  - `onChange`：收起或展开的回调函数，警告 `3.1.2 `版本中将移除。
+  - `trigger`：收起和展开树图的方式，支持 `'click'` 和 `'dblclick'` 两种方式。默认为 `'click'`，即单击；
+  - `onChange`：收起或展开的回调函数。警告：V3.1.2 版本中将移除。
 
 
 **用法**
@@ -309,7 +306,7 @@ const graph = new G6.TreeGraph({
 - 含义：收起和展开群组；
 - `type：'collapse-expand-group'`
 - 参数：
-  - 3.1.2 trigger：收起和展开节点分组的方式，支持`click`和`dblclick`两种方式，默认为`dblclick`
+  - *V3.1.2 后支持* trigger：收起和展开节点分组的方式。支持 `'click'` 和 `'dblclick'` 两种方式。默认为 `'dblclick'`，即双击。
 
 **默认配置**
 ```javascript
@@ -358,7 +355,7 @@ const graph = new G6.Graph({
 - 含义：拖动节点分组中的节点；
 - `type：'drag-node-with-group'`；
 - 参数：
-  - `delegateStyle`：拖动节点分组时 `delegate` 的样式；
+  - `delegateStyle`：拖动节点时 `delegate` 的样式；
   - `maxMultiple`：
   - `minMultiple`。
 
