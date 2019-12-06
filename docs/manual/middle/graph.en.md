@@ -8,7 +8,9 @@ order: 1
 
 Graph is the carrier of G6. All the operations about events, behaviors, items are mounted on the instance of Graph.
 
-The life cycle of an instance of Graph is: Initialize -> Load data -> Render -> Update -> Destroy.
+The life cycle of an instance of Graph is: 
+
+Initialize -> Load data -> Render -> Update -> Destroy.
 
 In [Getting Started](/en/docs/manual/getting-started), we introduce the process of initialization, data loading, graph rendering. In this document, we will introduce the initialization/instantiating process in detail.
 

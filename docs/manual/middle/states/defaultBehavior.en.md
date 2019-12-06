@@ -4,10 +4,10 @@ order: 4
 ---
 
 ## What is Behavior
-Behavior 是 G6 提供的定义图上交互事件的机制。它与[交互模式 Mode](/zh/docs/manual/middle/states/mode) 搭配使用，如何将下文所述各种 Behavior 配置到图上，见 [交互模式](/zh/docs/manual/middle/states/mode)。
+Behavior is the interaction mechanism in G6. It is used with [Interaction Mode](/en/docs/manual/middle/states/mode). This document introduces the Built-in behaviors in G6. Besides, you can register a type of [Custom Behavior](/zh/docs/manual/advanced/custom-behavior). The document [Interaction Mode](/en/docs/manual/middle/states/mode) introduces how to configure the Behaviors onto the graph.
 
 ## Built-in Behavior
-理论上说 G6 上的所有基础图形、Item（节点/边）都能通过事件来进行操作，考虑到通用性， G6目前共提供了以下9个内置的 Behavior。
+All the basic graphics Shapes, Items(nodes/edges) can be interacted by events. To achieve it with versatility, there are 9 built-in Behaviors in G6.
 
 ### drag-canvas
 
@@ -48,7 +48,7 @@ The canvas can be dragged along x direction only.<br /><img src='https://gw.alip
 - `type: 'zoom-canvas'`;
 - `sensitivity`: The sensitivity of the zooming, range from 1 to 10. `5` by default.
 
-**Tips: Assign values for `**minZoom**` and  `**maxZoom**` on the graph to limit the zooming ratio.** 
+**Tips: Assign values for `minZoom` and  `maxZoom` on the graph to limit the zooming ratio.** 
 
 ### drag-node
 
@@ -90,7 +90,8 @@ const graph = new G6.Graph({
 - `multiple`: Whether to allow multiple selection. `true` by default. `false` means multiple selection is not allowed, and the `trigger` will not take effect.
 - *Supported after V3.1.2* `trigger`: Specify which key to hold for multiple selection. `shift` by default, which means multiple selection is activated when the shift button is pressed. Options: `'shift'`, `'ctrl'`, `'alt'`, and so on;
 
-**Default Configuration**<br />**
+**Default Configuration**
+
 ```javascript
 const graph = new G6.Graph({
 	modes: {
@@ -122,6 +123,7 @@ With the configuration above, users are allowed to select more than one nodes wh
 - Description: The tooltip for node;
 - `type: 'tooltip'`;
 - `formatText(model)`: Format function, returns a text string or an HTML element.
+
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -138,7 +140,8 @@ const graph = new G6.Graph({
 });
 ```
 
-**Tips: Since there are no styles for tooltip in G6, you need to define the styles for it as: **
+**Tips: Since there are no styles for tooltip in G6, you need to define the styles for it as:**
+
 ```css
 .g6-tooltip {
   padding: 10px 6px;
@@ -223,6 +226,7 @@ const graph = new G6.Graph({
 })
 ```
 Select by brushing when the Shift button is pressed by default. And the edges are selectable as well.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IJizQonX75wAAAAAAAAAAABkARQnAQ' width=400/>
+
 **Configuration**
 ```javascript
 const graph = new G6.Graph({
@@ -240,7 +244,7 @@ const graph = new G6.Graph({
 
 By the configurations above, the operation is activated when the Ctrl button is pressed, and the edges will not be selected during the process.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1xNZT7mPFK4AAAAAAAAAAABkARQnAQ' width=400/>
 
-**Conflict Configuration**
+**Conflict Configuration：**
 ```javascript
 const graph = new G6.Graph({
 	modes: {

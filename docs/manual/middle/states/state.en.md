@@ -125,4 +125,4 @@ G6.registerNode('customShape', {
 
 
 ## Conclusion
-G6 provides the state management for simplify the states of the items. For more information about the state thinking, please refer to [The Thinking of State in G6](https://www.yuque.com/antv/g6/xiux28).
+G6 provides the state management for simplify the states of the items. For more information about the state thinking, please refer to <a href='https://www.yuque.com/antv/g6/xiux28' target='_blank'>The Thinking of the State in G6</a>.

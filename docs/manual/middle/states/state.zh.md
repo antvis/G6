@@ -124,4 +124,4 @@ G6.registerNode('customShape', {
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1DFnTKfmfLcAAAAAAAAAAABkARQnAQ' width=150/>
 
 ## 小结
-G6 底层提供了状态管理的能力，通过使用 state，简化了状态管理，降低了用户的认知成本。更多关于 G6 中状态的内容请参考 [G6 状态量思考](https://www.yuque.com/antv/g6/xiux28)。
+G6 底层提供了状态管理的能力，通过使用 state，简化了状态管理，降低了用户的认知成本。更多关于 G6 中状态的内容请参考 <a href='https://www.yuque.com/antv/g6/xiux28' target='_blank'>G6 状态量思考</a>。

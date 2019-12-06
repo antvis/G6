@@ -36,7 +36,7 @@ order: 7
 ## 一般图 Graph
 
 ### 配置一般图布局
-用户可以通过在实例化图时使用图的配置项 `layout` 指定布局方法。下面代码在实例化图时设置了布局方法为 `type: 'force'`，即经典力导向图布局。并设置了参数 `preventOverlap: true` 和 `nodeSize: 30`，表示希望节点不重叠。节点大小 `nodeSize` 用于算法中判断节点是否重叠，更多配置项见 [Graph 各布局的配置项](https://www.yuque.com/antv/g6/qopkkg#a73ba)。
+用户可以通过在实例化图时使用图的配置项 `layout` 指定布局方法。下面代码在实例化图时设置了布局方法为 `type: 'force'`，即经典力导向图布局。并设置了参数 `preventOverlap: true` 和 `nodeSize: 30`，表示希望节点不重叠。节点大小 `nodeSize` 用于算法中判断节点是否重叠，更多配置项见各布局的配置项。
 ```javascript
 const graph = new G6.Graph({
   ...                      // 其他配置项
@@ -55,7 +55,7 @@ const graph = new G6.Graph({
 - 若数据中节点没有位置信息，则默认使用 Random Layout 进行布局。
 
 ### 一般图布局方法
-图布局通用 API：[Layout API](https://www.yuque.com/antv/g6/agbmu2)。
+图布局通用 API：[Layout API](/zh/docs/api/layout/Graph)。
 
 #### Random
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M5FySIdhX4oAAAAAAAAAAABkARQnAQ' width='400'/>
@@ -100,7 +100,7 @@ const graph = new G6.Graph({
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*DibyQYaI2qYAAAAAAAAAAABkARQnAQ' width='400' />
 
 <br />**描述**：Fruchterman 布局，一种力导布局。
-<br />**API**：[Fruchterman API](https://www.yuque.com/antv/g6/vzqn07)
+<br />**API**：[Fruchterman API](/zh/docs/api/layout/Graph/#fruchterman)
 <br />**参数**：
 
 | 参数名 | 类型 | 示例 | 默认值 | 说明 |
@@ -121,7 +121,7 @@ const graph = new G6.Graph({
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mCXwQYRV8IkAAAAAAAAAAABkARQnAQ' width='200' />
 
 <br />**描述**：环形布局。
-<br />**API**：[Circular API](https://www.yuque.com/antv/g6/ml1qe3)
+<br />**API**：[Circular API](/zh/docs/api/layout/Graph/#circular)
 <br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
@@ -142,7 +142,7 @@ const graph = new G6.Graph({
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FZIpRKpJo_MAAAAAAAAAAABkARQnAQ' width='200' />
 
 <br />**描述**：辐射状布局。
-<br />**API**：[Radial API](https://www.yuque.com/antv/g6/ngp0vg#7ZOs7)
+<br />**API**：[Radial API](/zh/docs/api/layout/Graph/#radial)
 <br />**参数**：
 
 | 参数名 | 类型 | 示例 | 默认值 | 说明 |
@@ -161,7 +161,7 @@ const graph = new G6.Graph({
 
 
 #### MDS
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6OPTT7bz5sUAAAAAAAAAAABkARQnAQ' width=400/><br />**描述**：高维数据降维算法布局。<br />**API**：[MDS API](https://www.yuque.com/antv/g6/kbvo7q)<br />**参数**：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6OPTT7bz5sUAAAAAAAAAAABkARQnAQ' width=400/><br />**描述**：高维数据降维算法布局。<br />**API**：[MDS API](/zh/docs/api/layout/Graph/#mds)<br />**参数**：
 
 | 参数名 | 类型 | 示例 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -171,7 +171,7 @@ const graph = new G6.Graph({
 
 
 #### Dagre
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RQEORY5A_LoAAAAAAAAAAABkARQnAQ' width=250/><br />**描述**：层次布局。<br />**API**：[Dagre API](https://www.yuque.com/antv/g6/fkhp3c)<br />**参数**：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RQEORY5A_LoAAAAAAAAAAABkARQnAQ' width=250/><br />**描述**：层次布局。<br />**API**：[Dagre API](/zh/docs/api/layout/Graph/#dagre)<br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -186,7 +186,7 @@ const graph = new G6.Graph({
 
 
 #### Concentric
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ux0-SYBy6Y8AAAAAAAAAAABkARQnAQ' width=300/><br />注：该算法参考 [cytoscape.js](https://github.com/cytoscape/cytoscape.js)，遵守 MIT 开源协议。<br />**描述**：同心圆布局。<br />**API**：[Concentric API](https://www.yuque.com/antv/g6/lx038n)<br />**参数**：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ux0-SYBy6Y8AAAAAAAAAAABkARQnAQ' width=300/><br />注：该算法参考 [cytoscape.js](https://github.com/cytoscape/cytoscape.js)，遵守 MIT 开源协议。<br />**描述**：同心圆布局。<br />**API**：[Concentric API](/zh/docs/api/layout/Graph/#concentric)<br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -204,7 +204,7 @@ const graph = new G6.Graph({
 
 
 #### Grid
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5U3_TZVolpEAAAAAAAAAAABkARQnAQ' width=300/><br />注：该算法参考 [cytoscape.js](https://github.com/cytoscape/cytoscape.js)，遵守 MIT 开源协议。<br />**描述**：网格布局。<br />**API**：[Grid API](https://www.yuque.com/antv/g6/wn4kg9)<br />**参数**：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5U3_TZVolpEAAAAAAAAAAABkARQnAQ' width=300/><br />注：该算法参考 [cytoscape.js](https://github.com/cytoscape/cytoscape.js)，遵守 MIT 开源协议。<br />**描述**：网格布局。<br />**API**：[Grid API](/zh/docs/api/layout/Graph/#grid)<br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -244,7 +244,7 @@ const graph = new G6.TreeGraph({
 
 ### 树图布局方法
 #### compactBox
-**描述**：紧凑树布局。从根节点开始，同一深度的节点在同一层，并且布局时会将节点大小考虑进去。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FltbQZAa-nMAAAAAAAAAAABkARQnAQ' width=400/><br />**API**：[CompactBox API](https://www.yuque.com/antv/g6/rufc7b)<br />**参数**：
+**描述**：紧凑树布局。从根节点开始，同一深度的节点在同一层，并且布局时会将节点大小考虑进去。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FltbQZAa-nMAAAAAAAAAAABkARQnAQ' width=400/><br />**API**：[CompactBox API](/zh/docs/api/layout/TreeGraph/#compactbox-紧凑树布局)<br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -258,7 +258,7 @@ const graph = new G6.TreeGraph({
 
 
 #### dendrogram
-**描述**：生态树布局。不管数据的深度多少，总是叶节点对齐。不考虑节点大小，布局时将节点视为1个像素点。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XehWSKAWdrwAAAAAAAAAAABkARQnAQ' width=300/><br />**API**：[Dendrogram API](https://www.yuque.com/antv/g6/co00r6)<br />**参数**：
+**描述**：生态树布局。不管数据的深度多少，总是叶节点对齐。不考虑节点大小，布局时将节点视为1个像素点。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XehWSKAWdrwAAAAAAAAAAABkARQnAQ' width=300/><br />**API**：[Dendrogram API](/zh/docs/api/layout/TreeGraph/#dendrogram-生态树布局)<br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -271,7 +271,7 @@ const graph = new G6.TreeGraph({
 #### indented
 **描述**：缩进树布局。每个元素会占一行/一列。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zuBlR4oBIE0AAAAAAAAAAABkARQnAQ' width=150/>
 
-**API**：[Indented API](https://www.yuque.com/antv/g6/hl4syb)<br />**参数**：
+**API**：[Indented API](/zh/docs/api/layout/TreeGraph/#indented-缩进树布局)<br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -284,7 +284,7 @@ const graph = new G6.TreeGraph({
 
 
 #### mindmap
-**描述**：脑图布局。深度相同的节点将会被放置在同一层，与 compactBox 不同的是，布局不会考虑节点的大小。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sRi6Q6Qrm-oAAAAAAAAAAABkARQnAQ' width=400/><br />**API**：[Mindmap API](https://www.yuque.com/antv/g6/wk3mh8)<br />**参数**：
+**描述**：脑图布局。深度相同的节点将会被放置在同一层，与 compactBox 不同的是，布局不会考虑节点的大小。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sRi6Q6Qrm-oAAAAAAAAAAABkARQnAQ' width=400/><br />**API**：[Mindmap API](/zh/docs/api/layout/TreeGraph/#mindmap-脑图树布局)<br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |

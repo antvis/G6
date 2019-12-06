@@ -37,6 +37,7 @@ In this ducoment, we will introduce the layout algorithms in detail.
 
 ### Configure the Graph
 Configure `layout` to the Graph instance to assign the layout methods and their configurations. The following code assigns the layout with `type: 'force'`, which means the classical force-directed layout algorithm. The configurations `preventOverlap: true` and `nodeSize: 30` are assigned to prevent node overlappings, where the `nodeSize` is used for collide detection. More layout configurations can be found in the following sections.
+
 ```javascript
 const graph = new G6.Graph({
   // ...                      // Other configurations for the graph
@@ -55,7 +56,7 @@ When the `layout` is not assigned:
 - If the position information does not exist in the node data, Random Layout will take effect by default.
 
 ### Layouts for Graph
-Common graph layout API: [Layout API](https://www.yuque.com/antv/g6/agbmu2)。
+General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 
 #### Random
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M5FySIdhX4oAAAAAAAAAAABkARQnAQ' width='400'/>
@@ -158,7 +159,7 @@ Common graph layout API: [Layout API](https://www.yuque.com/antv/g6/agbmu2)。
 
 
 #### MDS
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6OPTT7bz5sUAAAAAAAAAAABkARQnAQ' width=400/><br />**Description**: MDS (Multidimensional scaling) is used for project high dimensional data onto low dimensional space.<br />**API**: [MDS API](https://www.yuque.com/antv/g6/kbvo7q)<br />**Configuration**: 
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6OPTT7bz5sUAAAAAAAAAAABkARQnAQ' width=400/><br />**Description**: MDS (Multidimensional scaling) is used for project high dimensional data onto low dimensional space.<br />**API**: [MDS API](/en/docs/api/layout/Graph/#mds)<br />**Configuration**: 
 
 | Name | Type | Example | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -238,7 +239,7 @@ const graph = new G6.TreeGraph({
 
 ### Layouts for TreeGraph
 #### compactBox
-**Description**: CompactBox is the default layout for TreeGraph. It will consider the bounding box of each node when layout.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FltbQZAa-nMAAAAAAAAAAABkARQnAQ' width=400/><br />**API**: [CompactBox API](https://www.yuque.com/antv/g6/rufc7b)<br />**Configuration**: 
+**Description**: CompactBox is the default layout for TreeGraph. It will consider the bounding box of each node when layout.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FltbQZAa-nMAAAAAAAAAAABkARQnAQ' width=400/><br />**API**: [CompactBox API](/en/docs/api/layout/TreeGraph/#compactbox)<br />**Configuration**: 
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -252,7 +253,7 @@ const graph = new G6.TreeGraph({
 
 
 #### dendrogram
-**Description**: Arranges all the leaves on the same level. It is appropriate for hierarchical clustering. It does not consider the node size, which will be regarded as 1 px.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XehWSKAWdrwAAAAAAAAAAABkARQnAQ' width=300/><br />**API**: [Dendrogram API](https://www.yuque.com/antv/g6/co00r6)<br />**Configuration**: 
+**Description**: Arranges all the leaves on the same level. It is appropriate for hierarchical clustering. It does not consider the node size, which will be regarded as 1 px.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XehWSKAWdrwAAAAAAAAAAABkARQnAQ' width=300/><br />**API**: [Dendrogram API](/en/docs/api/layout/TreeGraph/#dendrogram)<br />**Configuration**: 
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -265,11 +266,11 @@ const graph = new G6.TreeGraph({
 #### indented
 **Description**: Indented layout represents the hierarchy by indent between them. Each node will take a row/column. It is appropriate for file directory.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zuBlR4oBIE0AAAAAAAAAAABkARQnAQ' width=150/>
 
-**API**: [Indented API](https://www.yuque.com/antv/g6/hl4syb)<br />**Configuration**: 
+**API**: [Indented API](/en/docs/api/layout/TreeGraph/#indented)<br />**Configuration**: 
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
-| direction | String | 'LR' / 'RL' / 'H' | 'LR' | layout 的方向。<br />'LR' ——  Root is on the left, layout from the left to the right(left image below)<br />'RL' —— Root is on the right, layout from the right to the left(center image below)<br />'H' —— Root is on the middle, layout in horizontal symmetry(right image below)<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Hn9wT6j1tEMAAAAAAAAAAABkARQnAQ' alt='indented1' width='80' /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dXx3QrjSsgsAAAAAAAAAAABkARQnAQ' alt='indented2' width='60' /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ULkFQqi04moAAAAAAAAAAABkARQnAQ' alt='indented3' width='120' /> |
+| direction | String | 'LR' / 'RL' / 'H' | 'LR' | layout direction<br />'LR' ——  Root is on the left, layout from the left to the right(left image below)<br />'RL' —— Root is on the right, layout from the right to the left(center image below)<br />'H' —— Root is on the middle, layout in horizontal symmetry(right image below)<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Hn9wT6j1tEMAAAAAAAAAAABkARQnAQ' alt='indented1' width='80' /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dXx3QrjSsgsAAAAAAAAAAABkARQnAQ' alt='indented2' width='60' /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ULkFQqi04moAAAAAAAAAAABkARQnAQ' alt='indented3' width='120' /> |
 | indent | Number | 80 | 20 | Colunm separation |
 | getHeight | Function | (d) => {<br />  // d is a node<br />  return 10;<br />} | undefined | The height of each node |
 | getWidth | Function | (d) => {<br />  // d is a node<br />  return 20;<br />} | undefined | The width of each node |
@@ -277,11 +278,11 @@ const graph = new G6.TreeGraph({
 
 
 #### mindmap
-**Description**: Mindmap arranged the nodes with same depth on the same level. Different from compactBox, it does not consider the size of nodes while doing layout.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sRi6Q6Qrm-oAAAAAAAAAAABkARQnAQ' width=400/><br />**API**: [Mindmap API](https://www.yuque.com/antv/g6/wk3mh8)<br />**Configuration**: 
+**Description**: Mindmap arranged the nodes with same depth on the same level. Different from compactBox, it does not consider the size of nodes while doing layout.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sRi6Q6Qrm-oAAAAAAAAAAABkARQnAQ' width=400/><br />**API**: [Mindmap API](/en/docs/api/layout/TreeGraph/#mindmap)<br />**Configuration**: 
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
-| direction | String | 'H' / 'V' | 'H' | layout 的方向。<br />- H: Root is on the middle, layout in horizontal symmetry.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EXdUT4xCVV4AAAAAAAAAAABkARQnAQ' width=150/><br />- V: Root is on the middle, layout in vertical symmetry.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*yOpETr8s_-kAAAAAAAAAAABkARQnAQ' width=150/> |
+| direction | String | 'H' / 'V' | 'H' | layout direction<br />- H: Root is on the middle, layout in horizontal symmetry.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EXdUT4xCVV4AAAAAAAAAAABkARQnAQ' width=150/><br />- V: Root is on the middle, layout in vertical symmetry.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*yOpETr8s_-kAAAAAAAAAAABkARQnAQ' width=150/> |
 | getHeight | Function | (d) => {<br />  // d is a node<br />  return 10;<br />} | undefined | The height of each node |
 | getWidth | Function | (d) => {<br />  // d is a node<br />  return 20;<br />} | undefined | The width of each node |
 | getVGap | Function | (d) => {<br />  // d is a node<br />  return 100;<br />} | 18 | The vertical separation of nodes |

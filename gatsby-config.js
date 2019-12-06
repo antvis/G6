@@ -135,20 +135,12 @@ module.exports = {
         order: 4
       },
       {
-        slug: 'api/properties',
-        title: {
-          zh: '图形属性',
-          en: 'Shape Properties'
-        },
-        order: 5
-      },
-      {
         slug: 'api/layout',
         title: {
           zh: 'Layout',
           en: 'Layout'
         },
-        order: 6
+        order: 5
       }
     ],
     examples: [

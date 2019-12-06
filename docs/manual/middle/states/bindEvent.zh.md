@@ -12,9 +12,9 @@ order: 1
   - 节点/边状态改变时的事件：`beforerefreshitem` 与 `afterrefreshitem`；
   - 布局时机：`beforelayout` 与 `afterlayout`。
 
-如果要了解 G6 支持的所有事件，请参考 [Event文档](/zh/docs/api/Event)。
+如果要了解 G6 支持的所有事件，请参考 [Event API](/zh/docs/api/Event)。
 
-G6 上所有的事件都需要在graph上监听。
+G6 上所有的事件都需要在 graph 上监听。
 ```javascript
 graph.on('click', ev => {
   const shape = ev.target;
