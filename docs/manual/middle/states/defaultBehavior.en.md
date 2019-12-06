@@ -273,7 +273,7 @@ const graph = new G6.Graph({
 ```
 
 It is a solution to put these two conflicting events into two mdoes. They will be activated on different graph modes. Dragging operation corresponds to `drag-canvas` in the default mode. When user switch the state to brush mode by `graph.setModel('brush')`, the dragging operation will be responsed by `brush-select` instead.
-Refer to [Mode](./mode) for more information.
+Refer to [Mode](/en/docs/manual/middle/states/mode) for more information.
 
 ### collapse-expand
 

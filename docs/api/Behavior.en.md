@@ -32,7 +32,7 @@ G6.registerBehavior('behaviorName', {
 ## getEvents()
 Define and handle events when user customize a Behavior.
 
-The usage of `getEvents()` can be refered to [Event](./Event)。
+The usage of `getEvents()` can be refered to [Event](/en/docs/api/Event)。
 
 **Usage**
 ```javascript

@@ -194,7 +194,7 @@ graph.render();
 ### 操作分组
 只是简单地将分组渲染出来，并没有多大的实用价值，只有支持一系列的交互操作后，才能最大程度地体现分组的价值。
 
-在 G6 中，我们内置了 `drag-group`、`collapse-expand-group` 及  `drag-node-with-group`  三个[Behavior](./defaultBehavior)，共支持以下的交互行为：
+在 G6 中，我们内置了 `drag-group`、`collapse-expand-group` 及  `drag-node-with-group`  三个[Behavior](/zh/docs/manual/middle/states/defaultBehavior)，共支持以下的交互行为：
 
 - 拖动分组；
 - 通过拖拽，动态改变分组中的节点数量及分组大小；

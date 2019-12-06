@@ -15,7 +15,7 @@ A built-in node modelRect has the default style as below, the label is drawed on
 
 
 ## Usage
-As stated in [Built-in Nodes](../defaultNode) , there are two ways to configure the node: Configure it when instantiating a Graph globally; Configure it in the data.
+As stated in [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) , there are two ways to configure the node: Configure it when instantiating a Graph globally; Configure it in the data.
 
 
 ### 1 Global Configure When Instantiating a Graph
@@ -199,7 +199,7 @@ const graph = new G6.Graph({
 | --- | --- | --- | --- |
 | show | Whether to show the left rect | Boolean | `true` by default |
 | width | The width of the left rect | Number | `4` by default |
-| fill | The filling color the the left rect | String | `'#40a9ff'` by default |
+| fill | The filling color of the left rect | String | `'#40a9ff'` by default |
 | radius | The border radius of the left rect | Number | `2` by default |
 
 

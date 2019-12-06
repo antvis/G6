@@ -10,7 +10,7 @@ A built-in node Ellipse has the default style as below, the label is drawed on t
 
 
 ## Usage
-As stated in [Built-in Nodes](../defaultNode) , there are two ways to configure the node: Configure it when instantiating a Graph globally; Configure it in the data.
+As stated in [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) , there are two ways to configure the node: Configure it when instantiating a Graph globally; Configure it in the data.
 
 
 ### 1 Global Configure When Instantiating a Graph
@@ -51,7 +51,7 @@ The [Node Common Properties](/en/docs/manual/middle/elements/nodes/defaultNode/#
 
 | Name | Description | Type | Remark |
 | --- | --- | --- | --- |
-| size | The size of the ellipse | Number / Array | When it is a number, the ellipse looks like a circle. When it is an array, the `size[0]` is the major diameter, the `size[1]` the the minor diameter |
+| size | The size of the ellipse | Number / Array | When it is a number, the ellipse looks like a circle. When it is an array, the `size[0]` is the major diameter, the `size[1]` is the minor diameter |
 | style | The default style of ellipse node | Object | Correspond to the styles in Canvas |
 | label | The text of the label | String |  |
 | labelCfg | The configurations of the label | Object |  |

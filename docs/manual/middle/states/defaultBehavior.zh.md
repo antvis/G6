@@ -272,7 +272,7 @@ const graph = new G6.Graph({
 })
 ```
 
-上面这种方式是使用不同的 mode 来区分，mode 可以达到使用相同交互动作而产生不同的效果。默认模式中，使用的是拖拽操作由 `drag-canvas` 响应。当用户通过通过 `graph.setMode('brush')` 切换到 brush 模式后，此时同样的拖拽操作由 `brush-select` 响应。更多关于 mode 的内容请参考 [Mode](./mode) 教程。
+上面这种方式是使用不同的 mode 来区分，mode 可以达到使用相同交互动作而产生不同的效果。默认模式中，使用的是拖拽操作由 `drag-canvas` 响应。当用户通过通过 `graph.setMode('brush')` 切换到 brush 模式后，此时同样的拖拽操作由 `brush-select` 响应。更多关于 mode 的内容请参考 [Mode](/zh/docs/manual/middle/states/mode) 教程。
 
 ### collapse-expand
 

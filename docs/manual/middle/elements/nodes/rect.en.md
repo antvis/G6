@@ -7,7 +7,7 @@ A built-in node Rect has the default style as below, the label is drawed on the 
 
 
 ## Usage
-As stated in [Built-in Nodes](../defaultNode) , there are two ways to configure the node: Configure it when instantiating a Graph globally; Configure it in the data.
+As stated in [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) , there are two ways to configure the node: Configure it when instantiating a Graph globally; Configure it in the data.
 
 
 ### 1 Global Configure When Instantiating a Graph

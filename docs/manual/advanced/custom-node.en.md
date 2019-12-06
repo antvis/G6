@@ -333,7 +333,7 @@ In general, nodes and edges should response the states change by styles chaging.
 1. Add a flag on the node data, control the style according to the flag in `draw` when registering a custom node;
 2. Separate the interactive states from source data and `draw`, update the node only.
 
-We recommend adjust the state styles by the the second way, which can be achieved by:
+We recommend adjust the state styles by the second way, which can be achieved by:
 
 - Response the states in `setState` function when registering a node/edge;
 - Set/change the state by `graph.setItemState()`.

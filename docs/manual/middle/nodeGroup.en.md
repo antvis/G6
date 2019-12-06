@@ -195,7 +195,7 @@ The result: <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img
 
 ### Manipulate the Group
 
-The built-in [Behavior](./defaultBehavior)s `drag-group`, `collapse-expand-group`, and `drag-node-with-group` allow user to manipulate the group:
+The built-in [Behavior](/en/docs/manual/middle/states/defaultBehavior)s `drag-group`, `collapse-expand-group`, and `drag-node-with-group` allow user to manipulate the group:
 
 - Drag the group;
 - Unrelate the node and its group by dragging the node out of the group;

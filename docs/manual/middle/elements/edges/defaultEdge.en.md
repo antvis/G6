@@ -22,14 +22,14 @@ The table below shows the built-in edges and their special properties:
 
 | Name | Description |  |
 | --- | --- | --- |
-| line | A straight line connected two end nodes: <br />- controlPoints do not take effect<br />- Refer to properties of line for more information<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-LM-RJnlI20AAAAAAAAAAABkARQnAQ' width=100/> |
-| polyline | A polyline with one or more control points: <br />- controlPoints is the set of all the control points of polyline. If it is not assigned, G6 will calculate it by [A* Algorithm](https://yuque.alibaba-inc.com/antv/blog/polyline-edges-with-border-radius)<br />- Refer to properties of polyline for more information<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*q2pIQ6h622IAAAAAAAAAAABkARQnAQ' width=100/> |
-| arc | An arc connects two end nodes: <br />- controlPoints do not take effects<br />- control the bending and direction by `curveOffset`<br />- Refer to properties of arc for more informatio<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SmS8QZjTlEkAAAAAAAAAAABkARQnAQ' width=100/> |
+| line | A straight line connected two end nodes: <br />- `controlPoints` does not take effect<br />- Refer to properties of line for more information<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-LM-RJnlI20AAAAAAAAAAABkARQnAQ' width=100/> |
+| polyline | A polyline with one or more control points: <br />- `controlPoints` is the set of all the control points of polyline. If it is not assigned, G6 will calculate it by <a href='https://yuque.alibaba-inc.com/antv/blog/polyline-edges-with-border-radius' target='_blank'>A* algorithm</a><br />- Refer to properties of polyline for more information<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*q2pIQ6h622IAAAAAAAAAAABkARQnAQ' width=100/> |
+| arc | An arc connects two end nodes: <br />- `controlPoints` does not take effects<br />- control the bending and direction by `curveOffset`<br />- Refer to properties of arc for more informatio<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SmS8QZjTlEkAAAAAAAAAAABkARQnAQ' width=100/> |
 | quadratic | A quadratic bezier curve with one control point: <br />- The curve will be bended on the center if the `controlPoints` is not defined <br />- Refer to properties of quadratic for more informatio<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IADsTq4eH50AAAAAAAAAAABkARQnAQ' width=100/> |
 | cubic | A cubic bezier curve with two control points: <br />- The curve will be bended on the position of 1/3 and 2/3 if the `controlPoints` is not defined<br />- Refer to properties of cubic for more informatio<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ldiCT7xnrM4AAAAAAAAAAABkARQnAQ' width=100/> |
 | cubic-vertical | The vertical cubic bezier curve. The user can not assign the control point for this type of edge | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*WtNPRKSZv1kAAAAAAAAAAABkARQnAQ' width=100/> |
-| cubic-horizontal | The horizontal cubic bezier curve. The user can not assign the control point for this type of edge | <img src='' width=100/> |
-| loop | Self-loop edge. Refer to properties of loop for more informatio | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iNiVRIsov4MAAAAAAAAAAABkARQnAQ' width=100/> |
+| cubic-horizontal | The horizontal cubic bezier curve. The user can not assign the control point for this type of edge | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iNiVRIsov4MAAAAAAAAAAABkARQnAQ' width=100/> |
+| loop | Self-loop edge. Refer to properties of loop for more informatio | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sPBIR40KLOkAAAAAAAAAAABkARQnAQ' width=70/> |
 
 ## The Common Property
 
@@ -46,7 +46,8 @@ The table below shows the built-in edges and their special properties:
 | labelCfg | false | Object | The configurations of the label |
 
 
-#### style
+
+### style
 `style` is an object to configure the stroke color, shadow, and so on. Here is the commonly used properties in `style`:
 
 | Name | Required | Type | Remark |
@@ -54,13 +55,14 @@ The table below shows the built-in edges and their special properties:
 | stroke | false | String | The stroke color |
 | lineWidth | false | Number | The line width |
 | lineAppendWidth | false | Number | The width of the response area for interaction. In other words, when the edge is too thin to be hitted by mouse, enlarge the value of `lineWidth` to widen the response area |
-| endArrow | false | Boolean | Whether to show the end arrow |
+| endArrow | false | Boolean / Object | The arrow on the end of the edge. When `startArrow` is `true`, show a default arrow on the end of the edge. User can customize an arrow by path |
+| startArrow | false | Boolean / Object | The arrow on the start of the edge. When `startArrow` is `true`, show a default arrow on the start of the edge. User can customize an arrow by path |
 | strokeOpacity | false | Number | The stroke opacity |
 | shadowColor | false | String | The color of the shadow |
 | shadowBlur | false | Number | The blur degree of the shadow |
 | shadowOffsetX | false | Number | The x offset of the shadow |
 | shadowOffsetX | false | Number | The y offset of the shadow |
-| ... |  |  |  |
+| lineDash | false | Array | The style of the dash line. It is an array that describes the length of gaps and line segments. If the number of the elements in the array is odd, the elements will be dulplicated. Such as [5, 15, 25] will be regarded as [5, 15, 25, 5, 15, 25] |
 
 
 Configure `style` globally when instantiating the Graph:
@@ -80,7 +82,7 @@ const graph = new G6.Graph({
 })
 ```
 
-#### label and labelCfg
+### label and labelCfg
 `label` is a string which indicates the content of the label. <br />`labelCfg` is an object to configure the label. The commonly used configurations of `labelCfg`:
 
 | Name | Required | Type | Remark |
@@ -102,7 +104,7 @@ The commonly used configurations for the `style` in the above table are:
 | opacity | false | Number | The opacity |
 | font | false | String | The font |
 | fontSize | false | Number | The font size |
-| ... |  |  |  |
+| ... The label styles of node and edge are the same, summarized in [Text Shape API](/en/docs/api/shapeProperties/#text) |  |  |  |
 
 
 The following code shows how to configure `label` and `labelCfg` globally when instantiating a Graph:
@@ -282,4 +284,4 @@ By writing the properties into the data, we adjust the style and the label of th
 
 ## Related Reading
 
-- [State](../../states/state) —— Change the styles during the interaction process.
+- [State](/en/docs/manual/middle/states/state) —— Change the styles during the interaction process.

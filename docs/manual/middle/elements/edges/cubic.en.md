@@ -8,7 +8,7 @@ A built-in edge Cubic has the default style as below.<br />
 
 
 ## Usage
-As stated in [Built-in Edges](../defaultEdge) , there are two ways to configure the edge: Configure it when instantiating a Graph globally; Configure it in the data.
+As stated in [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge) , there are two ways to configure the edge: Configure it when instantiating a Graph globally; Configure it in the data.
 
 
 ### 1 Global Configure When Instantiating a Graph
@@ -49,7 +49,7 @@ const data = {
 
 
 ## Property
-Cubic edge has the properties shown below. The properties with object type will be described in detail after the table.
+Cubic edge has the [Common Edge Properties](/en/docs/manual/middle/elements/edges/defaultEdge/#the-common-property), and some commonly used properties are shown below. The properties with object type will be described in detail after the table.
 
 | Name | Description | Type | Remark |
 | --- | --- | --- | --- |
@@ -61,7 +61,7 @@ Cubic edge has the properties shown below. The properties with object type will 
 
 
 ### style
-`style` is an object which is the same as the common style property of edge. Refer to [Built-in Edges].
+`style` is an object which is the same as the [Common Edge Style Properties](/en/docs/manual/middle/elements/edges/defaultEdge/#style).
 The following code shows how to configure the `style` globally when instantiating a Graph.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Do6IQouIA9AAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
@@ -103,7 +103,7 @@ graph.render();
 
 
 ### labelCfg
-`labelCfg` is an object which is the same as the common property of edge. Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge).
+`labelCfg` is an object which is the same as the [Common Edge Label Properties](/en/docs/manual/middle/elements/edges/defaultEdge/#label-and-labelcfg).
 Base on the code in [style](#style) section, we add `labelCfg` to `defaultEdge`.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ySTVQ7MrMtgAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript

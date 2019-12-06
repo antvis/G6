@@ -8,7 +8,7 @@ A built-in edge Polyline has the default style as below.<br />
 
 
 ## Usage
-As stated in [Built-in Edges](../defaultEdge) , there are two ways to configure the edge: Configure it when instantiating a Graph globally; Configure it in the data.
+As stated in [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge) , there are two ways to configure the edge: Configure it when instantiating a Graph globally; Configure it in the data.
 
 
 ### 1 Global Configure When Instantiating a Graph
@@ -49,7 +49,7 @@ const data = {
 
 
 ## Property
-Polyline edge has the properties shown below. The properties with object type will be described in detail after the table
+Polyline edge has the [Common Edge Properties](/en/docs/manual/middle/elements/edges/defaultEdge/#the-common-property), and some commonly used properties are shown below. The properties with object type will be described in detail after the table
 
 ```javascript
 color: '#87e8de',
@@ -80,7 +80,7 @@ labelCfg: {
 
 
 ### style
-`style` is an object. There are two special properties in `style` for polyline edge:
+`style` is an object. The [Common Edge Style Properties](/en/docs/manual/middle/elements/edges/defaultEdge/#style) are available for polyline edge. There are two special properties in `style` for polyline edge:
 
 -  `radius`, he border radius of the bend;
 -  `offset`, The minimum distance between the bend and the source/target node, `5` by default.
@@ -128,7 +128,7 @@ graph.render();
 
 
 ### labelCfg
-`labelCfg` is an object which is the same as the common property of edge. Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge).
+`labelCfg` is an object which is the same as the [Common Edge Label Properties](/en/docs/manual/middle/elements/edges/defaultEdge/#label-and-labelcfg).
 Base on the code in [style](#style) section, we add `labelCfg` to `defaultEdge`.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HT4OTobglpoAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript

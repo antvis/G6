@@ -14,7 +14,7 @@ When the built-in nodes cannot satisfy your requirments, custom a type of node b
 | Name       | Type   | Required | Description                                                                                                                                                                |
 | -------------- | ------ | -------- | ----------------------------------------------------------------- |
 | nodeName       | String | true     | The unique name of the custom node.                                                                                                                                     |
-| options        | Object | true     | The configurations of custom node, include functions of complete life cycles. Please refer to [Shape API](./Shape).                                          |
+| options        | Object | true     | The configurations of custom node, include functions of complete life cycles. Please refer to [Shape API](/en/docs/api/Shape).                                          |
 | extendNodeName | String | false    | Specifies the inherited node type of the custom node. Declare this property if you want to extend a built-in node. [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) document. |
 
 ### Usage

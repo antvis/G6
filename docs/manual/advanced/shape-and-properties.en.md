@@ -224,7 +224,7 @@ When the edge is too thin to be hitted by mouse, set **lineAppendWidth** to enla
 | lineJoin | The style of the intersection of two path |  |
 | lineWidth | The line width of the current path |  |
 | miterLimit | The maximum miter length |  |
-| lineDash | The style of the dash line. | It is an array that describes the length of gaps and line segments. If the number of the elements in the array is odd, the elements will be dulplicated. Such as [5, 15, 25] will be regarded as [5, 15, 25, 5, 15, 25] |
+| lineDash | The style of the dash line | It is an array that describes the length of gaps and line segments. If the number of the elements in the array is odd, the elements will be dulplicated. Such as [5, 15, 25] will be regarded as [5, 15, 25, 5, 15, 25] |
 
 
 ### Usage

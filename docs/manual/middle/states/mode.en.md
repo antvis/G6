@@ -6,7 +6,7 @@ order: 5
 ## What is Mode
 When a user interacts with a graph, there may be different interaction modes due to different intents. For example, clicking a node in edit mode requires a pop-up window for the user to edit, and clicking a node in view mode requires selecting a node.
 
-To address the problem above, G6 provides the interaction Mode. It is a manage mechanism for the [Behavior](./defaultBehavior) on a graph. There can be multiple interaction modes on a graph, each interaction mode contains multiple interaction [Behavior](./defaultBehavior)s.
+To address the problem above, G6 provides the interaction Mode. It is a manage mechanism for the [Behavior](/en/docs/manual/middle/states/defaultBehavior) on a graph. There can be multiple interaction modes on a graph, each interaction mode contains multiple interaction [Behavior](/en/docs/manual/middle/states/defaultBehavior)s.
 
 For example, there are two modes on a graph: default and edit:
 - default mode contains click to select node behavior and drag canvas behavior;
@@ -29,7 +29,7 @@ const graph = new G6.Graph({
 });
 ```
 
-There are two modes on the graph defined above: `default` and `edit`. The `default` mode contains two [Behavior](./defaultBehavior)s: `'drag-canvas'` and `'``zoom-canvas'` with default configurations.
+There are two modes on the graph defined above: `default` and `edit`. The `default` mode contains two [Behavior](/en/docs/manual/middle/states/defaultBehavior)s: `'drag-canvas'` and `'``zoom-canvas'` with default configurations.
 
 ## Switch Mode
 The `default` mode takes effect by default. Users are allowed to drag and zoom the canvas. Swich the mode to edit mode by `graph.``setMode('edit')` to select a node by clicking.
@@ -47,7 +47,7 @@ Now, the graph supports clicking to select nodes. The `'drag-canvas'` and `'zoom
 
 
 ## Edit Mode
-If there are existing Behaviors ([Built-in Behavior](./defaultBehavior) or [Custom Behavior](../../advanced/custom-behavior)), You can add them to a mode by `graph.addBehaviors`, and also remove some Behaviors by `graph.removeBehaviors`:
+If there are existing Behaviors ([Built-in Behavior](/en/docs/manual/middle/states/defaultBehavior) or [Custom Behavior](/en/docs/manual/advanced/custom-behavior)), You can add them to a mode by `graph.addBehaviors`, and also remove some Behaviors by `graph.removeBehaviors`:
 
 ```javascript
 // Add drag-canvas with configurations from default mode
@@ -74,5 +74,5 @@ graph.removeBehaviors([ 'drag-canvas', 'zoom-canvas' ], 'default');
 
 ## Related Reading
 
-- [Built-in Behavior](./defaultBehavior)
-- [Custom Behavior](../../advanced/custom-behavior)
+- [Built-in Behavior](/en/docs/manual/middle/states/defaultBehavior)
+- [Custom Behavior](/en/docs/manual/advanced/custom-behavior)

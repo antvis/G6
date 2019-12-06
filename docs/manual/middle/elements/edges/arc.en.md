@@ -7,7 +7,7 @@ A built-in edge Arc has the default style as below.<br /><img src='https://gw.al
 
 
 ## Usage
-As stated in [Built-in Edges](../defaultEdge) , there are two ways to configure the edge: Configure it when instantiating a Graph globally; Configure it in the data.
+As stated in [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge) , there are two ways to configure the edge: Configure it when instantiating a Graph globally; Configure it in the data.
 
 
 ### 1 Global Configure When Instantiating a Graph
@@ -48,7 +48,7 @@ const data = {
 
 
 ## Property
-Arc edge has the properties shown below, where `curveOffset` is the special property for arc edge , controlling the size and the bending direction of the arc.
+Arc edge has the [Common Edge Properties](/en/docs/manual/middle/elements/edges/defaultEdge/#the-common-property), and some commonly used properties are shown below, where `curveOffset` is the special property for arc edge , controlling the size and the bending direction of the arc.
 
 ```javascript
 color: '#87e8de',
@@ -118,8 +118,8 @@ graph.render();
 
 
 ### style
-`style` is an object which is the same as the common style property of edge. Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge).
-Base on the code in [curveOffset](#Special Property: curveOffset) section, we add `style` to `defaultEdge`.
+`style` is an object which is the same as the [Common Edge Style Properties](/en/docs/manual/middle/elements/edges/defaultEdge/#style).
+Base on the code in [curveOffset](#special-property-curveoffset) section, we add `style` to `defaultEdge`.
 <br />!
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LH4lT64i304AAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
@@ -141,8 +141,8 @@ const graph = new G6.Graph({
 
 
 ### labelCfg
-`labelCfg` is an object which is the same as the common property of edge. Refer to [Built-in Edges].
-Base on the code in [Special Property: curveOffset](#Special Properties: curveOffset) section, we add `labelCfg` to `defaultEdge`.<br />
+`labelCfg` is an object which is the same as the [Common Edge Label Properties](/en/docs/manual/middle/elements/edges/defaultEdge/#label-and-labelcfg).
+Base on the code in [Special Property: curveOffset](#special-property-curveoffset) section, we add `labelCfg` to `defaultEdge`.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*xu0FSKNxQNUAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
 const data = {

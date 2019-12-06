@@ -7,7 +7,7 @@ G6 内置了圆弧 arc 边，其默认样式如下。<br /><img src='https://g
 
 
 ## 使用方法
-如 [内置边](../defaultEdge) 一节所示，配置边的方式有两种：实例化图时全局配置，在数据中动态配置。
+如 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge) 一节所示，配置边的方式有两种：实例化图时全局配置，在数据中动态配置。
 
 
 ### 1 实例化图时全局配置
@@ -48,7 +48,7 @@ const data = {
 
 
 ## 配置项说明
-arc 边支持以下的配置项，其中 `curveOffset` 属性是 `arc` 特有的属性，它控制了圆弧的大小以及弯曲的方向。
+arc 边支持 [边通用配置项](zh/docs/manual/middle/elements/edges/defaultEdge/#边的通用属性)，以下表格对部分常用配置项进行说明。其中 `curveOffset` 属性是 `arc` 特有的属性，它控制了圆弧的大小以及弯曲的方向。
 ```javascript
 color: '#87e8de',
 curveOffset: 20,  // 圆弧顶端距离两线中心位置的距离
@@ -79,6 +79,7 @@ labelCfg: {
 ### 特殊属性：弧度 curveOffset
 `curveOffset` 属性是 `arc` 特有的属性，它控制了圆弧的大小以及弯曲的方向。下面代码演示在实例化图时全局配置方法中配置 `curveOffset`。<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*63NxRppr3tUAAAAAAAAAAABkARQnAQ' width=150/>
+
 ```javascript
 const data = {
   nodes: [{
@@ -117,7 +118,7 @@ graph.render();
 
 
 ### 样式属性 style
-Object 类型。配置项与边的通用样式属性相同，见 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge)。基于上面 [特殊属性：弧度 curveOffset](#特殊属性：弧度 curveOffset) 中的代码，下面代码在 `defaultEdge` 中增加了 `style` 配置项进行边的样式的配置，使之达到如下图效果。<br />!
+Object 类型。配置项与 [边通用样式属性](/zh/docs/manual/middle/elements/edges/defaultEdge/#样式属性-style) 相同。基于上面 [特殊属性：弧度 curveOffset](#特殊属性：弧度-curveoffset) 中的代码，下面代码在 `defaultEdge` 中增加了 `style` 配置项进行边的样式的配置，使之达到如下图效果。<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LH4lT64i304AAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
 const data = {
@@ -138,7 +139,7 @@ const graph = new G6.Graph({
 
 
 ### 标签文本配置 labelCfg
-Object 类型。其配置与边的通用文本配置相同，见 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge)。基于上面 [弧度 curveOffset](/zh/docs/manual/middle/elements/edges/arc/#特殊属性：弧度-curveoffset) 中的代码，下面代码在 `defaultEdge` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br />
+Object 类型。支持 [边通用标签配置](/zh/docs/manual/middle/elements/edges/defaultEdge/#标签文本-label-及其配置-labelcfg)。基于上面 [弧度 curveOffset](/zh/docs/manual/middle/elements/edges/arc/#特殊属性：弧度-curveoffset) 中的代码，下面代码在 `defaultEdge` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*xu0FSKNxQNUAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
 const data = {

@@ -3,7 +3,7 @@ title: 监听和绑定事件
 order: 1
 ---
 
-除了 [内置交互行为 Behavior](./defaultBehavior) 和 [交互模式 Mode](./mode) 搭配的事件管理方式外，G6 提供了直接的单个事件、时机的监听方法，可以监听画布、节点、边、以及各函数被调用的时机等。这些事件可以分为以下四个层次：
+除了 [内置交互行为 Behavior](/zh/docs/manual/middle/states/defaultBehavior) 和 [交互模式 Mode](/zh/docs/manual/middle/states/mode) 搭配的事件管理方式外，G6 提供了直接的单个事件、时机的监听方法，可以监听画布、节点、边、以及各函数被调用的时机等。这些事件可以分为以下四个层次：
 
 - 画布、图形层次的事件，`mousedown`，`mouseup`，`click`，`mouseenter`，`mouseleave` 等；
 - 节点/边 上的事件，`node:mousedown`，`edge:click` 等，以 `type:eventName` 为事件名称；

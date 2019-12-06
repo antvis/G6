@@ -96,7 +96,7 @@ G6 作为一款专业的图可视化引擎，具有以下特性：
   graph.render();
 ```
 
-更详细的内容请参考 [快速上手](./getting-started) 文档。
+更详细的内容请参考 [快速上手](/zh/docs/manual/getting-startedd) 文档。
 
 ## 友情链接
 结合前端库的第三方实现：
