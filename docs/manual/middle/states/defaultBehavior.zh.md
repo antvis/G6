@@ -7,7 +7,7 @@ order: 4
 Behavior 是 G6 提供的定义图上交互事件的机制。它与[交互模式 Mode](/zh/docs/manual/middle/states/mode) 搭配使用，如何将下文所述各种 Behavior 配置到图上，见 [交互模式](/zh/docs/manual/middle/states/mode)。
 
 ## 内置 Behavior
-理论上说 G6 上的所有基础图形、Item（节点/边）都能通过事件来进行操作，考虑到通用性， G6目前共提供了以下9个内置的 Behavior。
+理论上， G6 上的所有基础图形、Item（节点/边）都能通过事件来进行操作。考虑到通用性，G6 目前共提供了以下 9 个内置的 Behavior。此外，用户可以注册 [自定义 Behavior](/zh/docs/manual/advanced/custom-behavior)。
 
 ### drag-canvas
 
@@ -48,7 +48,7 @@ const graph = new G6.Graph({
 - `type: 'zoom-canvas'`；
 - `sensitivity`：缩放灵敏度，支持 1-10 的数值，默认灵敏度为 5。
 
-**提示：若要限定缩放尺寸，请在 graph 上设置 **`**minZoom**`** 和 **`**maxZoom**`**。**
+**提示：若要限定缩放尺寸，请在 graph 上设置 `minZoom` 和 `maxZoom`。**
 
 ### drag-node
 
@@ -90,7 +90,8 @@ const graph = new G6.Graph({
 - `multiple`：是否允许多选，默认为 `true`，当设置为 `false`，表示不允许多选，此时 `trigger` 参数无效。
 - *V3.1.2 后支持* `trigger`：指定按住哪个键进行多选，默认为 shift，按住 Shift 键多选，用户可配置 shift、ctrl、alt；
 
-**默认配置**<br />**
+**默认配置**
+
 ```javascript
 const graph = new G6.Graph({
 	modes: {
@@ -122,6 +123,7 @@ const graph = new G6.Graph({
 - 含义：节点文本提示；
 - `type: 'tooltip'`；
 - `formatText(model)`：格式化函数，可以返回文本或者 HTML；
+
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -178,6 +180,7 @@ const graph = new G6.Graph({
 ```
 默认情况下，选中的节点状态，在操作完以后仍然会保持选中状态。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bG31RqbM4JMAAAAAAAAAAABkARQnAQ' width=400/>
 
+
 **配置参数**
 ```javascript
 const graph = new G6.Graph({
@@ -222,7 +225,10 @@ const graph = new G6.Graph({
   }
 })
 ```
-默认情况下，按住 Shift 键进行框选，选中节点的同时，也会选中边。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IJizQonX75wAAAAAAAAAAABkARQnAQ' width=400/>
+默认情况下，按住 Shift 键进行框选，选中节点的同时，也会选中边。
+<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IJizQonX75wAAAAAAAAAAABkARQnAQ' width=400/>
+
+
 **配置参数**
 ```javascript
 const graph = new G6.Graph({
@@ -240,7 +246,7 @@ const graph = new G6.Graph({
 
 上面的配置，按住 Ctrl 键，进行框选，框选过程中不会选中边。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1xNZT7mPFK4AAAAAAAAAAABkARQnAQ' width=400/>
 
-**配置冲突**
+**冲突的配置：**
 ```javascript
 const graph = new G6.Graph({
 	modes: {
@@ -272,7 +278,7 @@ const graph = new G6.Graph({
 })
 ```
 
-上面这种方式是使用不同的 mode 来区分，mode 可以达到使用相同交互动作而产生不同的效果。默认模式中，使用的是拖拽操作由 `drag-canvas` 响应。当用户通过通过 `graph.setMode('brush')` 切换到 brush 模式后，此时同样的拖拽操作由 `brush-select` 响应。更多关于 mode 的内容请参考 [Mode](./mode) 教程。
+上面这种方式是使用不同的 mode 来区分，mode 可以达到使用相同交互动作而产生不同的效果。默认模式中，使用的是拖拽操作由 `drag-canvas` 响应。当用户通过通过 `graph.setMode('brush')` 切换到 brush 模式后，此时同样的拖拽操作由 `brush-select` 响应。更多关于 mode 的内容请参考 [Mode](/zh/docs/manual/middle/states/mode) 教程。
 
 ### collapse-expand
 
@@ -356,7 +362,7 @@ const graph = new G6.Graph({
 - `type：'drag-node-with-group'`；
 - 参数：
   - `delegateStyle`：拖动节点时 `delegate` 的样式；
-  - `maxMultiple`：
+  - `maxMultiple`；
   - `minMultiple`。
 
 **默认配置**

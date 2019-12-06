@@ -3,7 +3,7 @@ title: Event
 order: 6
 ---
 
-The parameters of callbacks for common events, Node events, and Edge events are described in [Behavior API](./Behavior).
+The parameters of callbacks for common events, Node events, and Edge events are described in [Behavior API](/en/docs/api/Behavior).
 
 ## Common Event
 

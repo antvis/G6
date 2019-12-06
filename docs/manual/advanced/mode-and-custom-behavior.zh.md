@@ -10,7 +10,7 @@ order: 7
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zwgcTYCrr6sAAAAAAAAAAABkARQnAQ' width=400 />
 
-<br />上图是本文要实现的最终效果。完整 demo 代码参见：[动态添加元素](https://codepen.io/Yanyan-Wang/pen/qBBNaye)。<br />左上方的下拉菜单中有三个选项，用于切换交互模式 mode：
+<br />上图是本文要实现的最终效果。完整 demo 代码参见：<a href='https://codepen.io/Yanyan-Wang/pen/qBBNaye' target='_blank'>动态添加元素</a>。<br />左上方的下拉菜单中有三个选项，用于切换交互模式 mode：
 
 - 选择 “Default” 按钮时，切换到 default 交互模式：拖拽节点时节点跟随鼠标移动；点击节点时选中该节点；
 - 选择 “Add Node” 按钮时，切换到 addNode 交互模式：点击空白区域在点击处增加一个节点；点击节点时选中该节点；
@@ -187,4 +187,4 @@ G6.registerBehavior('click-add-edge', {
 ```
 
 ## 完整代码
-完整 demo 代码参见：[动态添加元素](https://codepen.io/Yanyan-Wang/pen/qBBNaye)。
+完整 demo 代码参见：<a href='https://codepen.io/Yanyan-Wang/pen/qBBNaye' target='_blank'>动态添加元素</a>。

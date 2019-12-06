@@ -4,10 +4,10 @@ order: 4
 ---
 
 ## What is Behavior
-Behavior 是 G6 提供的定义图上交互事件的机制。它与[交互模式 Mode](/zh/docs/manual/middle/states/mode) 搭配使用，如何将下文所述各种 Behavior 配置到图上，见 [交互模式](/zh/docs/manual/middle/states/mode)。
+Behavior is the interaction mechanism in G6. It is used with [Interaction Mode](/en/docs/manual/middle/states/mode). This document introduces the Built-in behaviors in G6. Besides, you can register a type of [Custom Behavior](/zh/docs/manual/advanced/custom-behavior). The document [Interaction Mode](/en/docs/manual/middle/states/mode) introduces how to configure the Behaviors onto the graph.
 
 ## Built-in Behavior
-理论上说 G6 上的所有基础图形、Item（节点/边）都能通过事件来进行操作，考虑到通用性， G6目前共提供了以下9个内置的 Behavior。
+All the basic graphics Shapes, Items(nodes/edges) can be interacted by events. To achieve it with versatility, there are 9 built-in Behaviors in G6.
 
 ### drag-canvas
 
@@ -48,7 +48,7 @@ The canvas can be dragged along x direction only.<br /><img src='https://gw.alip
 - `type: 'zoom-canvas'`;
 - `sensitivity`: The sensitivity of the zooming, range from 1 to 10. `5` by default.
 
-**Tips: Assign values for `**minZoom**` and  `**maxZoom**` on the graph to limit the zooming ratio.** 
+**Tips: Assign values for `minZoom` and  `maxZoom` on the graph to limit the zooming ratio.** 
 
 ### drag-node
 
@@ -56,7 +56,7 @@ The canvas can be dragged along x direction only.<br /><img src='https://gw.alip
 - `type: 'drag-node'`;
 - `delegateStyle`: The drawing properties when the nodes are dragged.  `{ strokeOpacity: 0.6, fillOpacity: 0.6 }` by default;
 - `updateEdge`: Whether to update all connected edges when dragging nodes. `true` by default.
-- *Supported after V3.1.2* `enableDelegate`: Whether activate `delegate` when dragging nodes, which means whether to use a virtual rect moved with the dragging mouse instead of the node. The effect is shown in the figures below. `false` by default.
+- *Supported from V3.1.2* `enableDelegate`: Whether activate `delegate` when dragging nodes, which means whether to use a virtual rect moved with the dragging mouse instead of the node. The effect is shown in the figures below. `false` by default.
 
 **Default Configuration**
 ```javascript
@@ -88,9 +88,10 @@ const graph = new G6.Graph({
 - Description: Select a node by clicking. Cancel the selected state by clicking the node agian or clicking the canvas;
 - `type: 'click-select'`;
 - `multiple`: Whether to allow multiple selection. `true` by default. `false` means multiple selection is not allowed, and the `trigger` will not take effect.
-- *Supported after V3.1.2* `trigger`: Specify which key to hold for multiple selection. `shift` by default, which means multiple selection is activated when the shift button is pressed. Options: `'shift'`, `'ctrl'`, `'alt'`, and so on;
+- *Supported from V3.1.2* `trigger`: Specify which key to hold for multiple selection. `shift` by default, which means multiple selection is activated when the shift button is pressed. Options: `'shift'`, `'ctrl'`, `'alt'`, and so on;
 
-**Default Configuration**<br />**
+**Default Configuration**
+
 ```javascript
 const graph = new G6.Graph({
 	modes: {
@@ -122,6 +123,7 @@ With the configuration above, users are allowed to select more than one nodes wh
 - Description: The tooltip for node;
 - `type: 'tooltip'`;
 - `formatText(model)`: Format function, returns a text string or an HTML element.
+
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -138,7 +140,8 @@ const graph = new G6.Graph({
 });
 ```
 
-**Tips: Since there are no styles for tooltip in G6, you need to define the styles for it as: **
+**Tips: Since there are no styles for tooltip in G6, you need to define the styles for it as:**
+
 ```css
 .g6-tooltip {
   padding: 10px 6px;
@@ -164,7 +167,7 @@ The usage of edge-tooltip is similar to tooltip. It will be activated when the u
   - `trigger: 'mouseenter'`. `mousenter` means acitvating when the mouse enter a node; `click` means activating when the mouse click a node;
   - `activeState: 'active'`. The state name when the node is activated. When `activate-relations` is activated, the related nodes and edges will have this state. `active` by default. It can be combined with `nodeStyle` and `edgeStyle` of graph to enrich the visual effect;
   - `inactiveState: 'inactive'`. The state name when of the node is inactivated. All the nodes and edges which are not activated by `activate-relations` will have this state. `inactive` by default. It can be combined with `nodeStyle` and `edgeStyle` of graph to enrich the visual effect;
-  - *Supported after V3.1.2* `resetSelected`: Whether to reset the selected nodes when highlight the related nodes. `false` by default, which means the selected state will not be covered by `activate-relations`.
+  - *Supported from V3.1.2* `resetSelected`: Whether to reset the selected nodes when highlight the related nodes. `false` by default, which means the selected state will not be covered by `activate-relations`.
 
 
 <br />**Default Configuration**<br />
@@ -207,7 +210,7 @@ Assign `true` to `resetSelected` to reset the selected states for nodes after th
   - `onDeselect(nodes)`: The callback function when canceling selections. `nodes` is the selected ndoes;
   - `selectedState`: The state of the selected nodes. `'selected'` by default;
   - `includeEdges`: Whether to select the edges when selecting by brushing. `true` by default. `false` means do not select the edges.
-  - *Supported after V3.1.2* `trigger`: The trigger button for this operation. `'shift'` by default, which means the select by brushing operation will be activated by pressing Shift button. Options: `'shift'`, `'ctrl' / 'control'`, `'alt'` and `'drag'`, not case sensitive:
+  - *Supported from V3.1.2* `trigger`: The trigger button for this operation. `'shift'` by default, which means the select by brushing operation will be activated by pressing Shift button. Options: `'shift'`, `'ctrl' / 'control'`, `'alt'` and `'drag'`, not case sensitive:
     - `'shift'`: Select by brushing when Shift is pressed;
     - `'ctrl' / 'control'`: Select by brushing when Ctrl is pressed;
     - `'alt'`: Select by brushing when Alt is pressed;
@@ -223,6 +226,7 @@ const graph = new G6.Graph({
 })
 ```
 Select by brushing when the Shift button is pressed by default. And the edges are selectable as well.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IJizQonX75wAAAAAAAAAAABkARQnAQ' width=400/>
+
 **Configuration**
 ```javascript
 const graph = new G6.Graph({
@@ -240,7 +244,7 @@ const graph = new G6.Graph({
 
 By the configurations above, the operation is activated when the Ctrl button is pressed, and the edges will not be selected during the process.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1xNZT7mPFK4AAAAAAAAAAABkARQnAQ' width=400/>
 
-**Conflict Configuration**
+**Conflict Configuration：**
 ```javascript
 const graph = new G6.Graph({
 	modes: {
@@ -273,7 +277,7 @@ const graph = new G6.Graph({
 ```
 
 It is a solution to put these two conflicting events into two mdoes. They will be activated on different graph modes. Dragging operation corresponds to `drag-canvas` in the default mode. When user switch the state to brush mode by `graph.setModel('brush')`, the dragging operation will be responsed by `brush-select` instead.
-Refer to [Mode](./mode) for more information.
+Refer to [Mode](/en/docs/manual/middle/states/mode) for more information.
 
 ### collapse-expand
 
@@ -281,7 +285,7 @@ Refer to [Mode](./mode) for more information.
 - `type: 'collapse-expand'`;
 - Configuration: 
   - `trigger`: The operation for collapsing and expanding. Options: `click` and `dblclick`. `click` by default;
-  - `onChange`: The callback function after collapsing or expanding. **Warining**: it will be removed after V3.1.2.
+  - `onChange`: The callback function after collapsing or expanding. **Warining**: it will be removed from V3.1.2.
 
 
 **Usage**
@@ -307,7 +311,7 @@ const graph = new G6.TreeGraph({
 - Description: Collapse or expand a node group;
 - `type: 'collapse-expand-group'`
 - Configurations: 
-  - *Supported after V3.1.2* trigger: The operation for collapsing and expanding. Options: `click` and `dblclick`. `dblclick` by default, which means double click.
+  - *Supported from V3.1.2* trigger: The operation for collapsing and expanding. Options: `click` and `dblclick`. `dblclick` by default, which means double click.
 
 **Default Configuration**
 ```javascript
@@ -357,8 +361,8 @@ const graph = new G6.Graph({
 - `type: 'drag-node-with-group'`;
 - Configuration: 
   - `delegateStyle`: The style of the `delegate` when dragging the node.
-  - `maxMultiple`: 
-  - `minMultiple`。
+  - `maxMultiple`;
+  - `minMultiple`.
 
 **Default Configuration**
 ```javascript

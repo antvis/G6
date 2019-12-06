@@ -22,7 +22,7 @@ Demo 包括以下功能点：
 - 节点上面弹出右键菜单；
 - tooltip 及 ContextMenu 如何渲染自定义的 React 组件。
 
-在 React 中，通过 `**ReactDOM.findDOMNode(ref.current)**`获取到真实的 DOM 元素。
+在 React 中，通过 `ReactDOM.findDOMNode(ref.current)`获取到真实的 DOM 元素。
 
 ```javascript
 import React, { useEffect, useState } from 'react';
@@ -109,6 +109,6 @@ return (
 );
 ```
 
-完整的 Demo 源码请👉戳[这里](https://github.com/baizn/g6-in-react)。
+完整的 Demo 源码请戳 「<a href='https://github.com/baizn/g6-in-react' target='_blank'>这里</a>」。
 
 关于 G6 如何在 Vue 及 Angular 中使用，还望社区中有相关实践的同学能提供一些，供其他同学学习和参考，非常感谢！

@@ -3,7 +3,7 @@ title: 自定义边
 order: 3
 ---
 
-G6 除了提供丰富的 [内置边](/zh/docs/manual/middle/elements/defaultEdge) 外，还提供了自定义边的机制，方便用户开发更加定制化的边，包括含有复杂图形的边、复杂交互的边、带有动画的边等。
+G6 除了提供丰富的 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge) 外，还提供了自定义边的机制，方便用户开发更加定制化的边，包括含有复杂图形的边、复杂交互的边、带有动画的边等。
 
 在本章中我们会通过四个案例，从简单到复杂讲解边的自定义：<br />1. 从无到有的定义边；<br />2. 扩展现有边：<br />3. 边的交互样式；<br />4. 自定义带箭头的边。
 
@@ -85,7 +85,7 @@ const data = {
 ## 2. 扩展现有边
 通过 `afterDraw` 接口给现有的曲线增加动画。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-l9lQ7Ck1QcAAAAAAAAAAABkARQnAQ' alt='img' width='150'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-l9lQ7Ck1QcAAAAAAAAAAABkARQnAQ' alt='img' width='250'/>
 
 ```javascript
 G6.registerEdge('line-growth', {
@@ -117,7 +117,10 @@ G6.registerEdge('line-growth', {
 效果如下图所示。<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IWLxRZomOfMAAAAAAAAAAABkARQnAQ' alt='img' width='350'/>
-<br />提示：边如果过细点击时很难击中，可以设置 `**lineAppendWidth**` 来提升击中范围。
+<br />
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️注意:</strong></span>
+
+边如果过细点击时很难击中，可以设置 `lineAppendWidth` 来提升击中范围。
 
 ```javascript
 // 基于 line 扩展出新的边

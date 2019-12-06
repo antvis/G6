@@ -60,4 +60,4 @@ graph.updateItem(node, {
 })
 ```
 
-想要知道节点都支持哪些属性样式，请参考[节点支持的属性](/zh/docs/api/properties/NodeProperties)。
+想要知道节点都支持哪些属性样式，请参考 [节点样式属性](/zh/docs/manual/middle/elements/nodes/defaultNode/#样式属性-style)。

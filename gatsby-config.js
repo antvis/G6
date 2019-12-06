@@ -64,6 +64,14 @@ module.exports = {
         order: 4
       },
       {
+        slug: 'manual/middle/keyconcept',
+        title: {
+          zh: '关键名词解释',
+          en: 'Key Concept'
+        },
+        order: 2
+      },
+      {
         slug: 'manual/middle/states',
         title: {
           zh: '交互与事件',
@@ -76,7 +84,8 @@ module.exports = {
         title: {
           zh: '节点与边',
           en: 'Graph Element'
-        }
+        },
+        order: 3
       },
       {
         slug: 'manual/middle/elements/nodes',
@@ -103,6 +112,14 @@ module.exports = {
         order: 5
       },
       {
+        slug: 'manual/advanced/keyconcept',
+        title: {
+          zh: '关键概念',
+          en: 'Advanced'
+        },
+        order: 1
+      },
+      {
         slug: 'manual/cases',
         title: {
           zh: '综合应用',
@@ -126,20 +143,12 @@ module.exports = {
         order: 4
       },
       {
-        slug: 'api/properties',
-        title: {
-          zh: '图形属性',
-          en: 'Shape Properties'
-        },
-        order: 5
-      },
-      {
         slug: 'api/layout',
         title: {
           zh: 'Layout',
           en: 'Layout'
         },
-        order: 6
+        order: 5
       }
     ],
     examples: [

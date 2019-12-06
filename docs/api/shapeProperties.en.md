@@ -1,11 +1,22 @@
 ---
-title: Node Properties
-order: 0
+title: Shape Properties
+order: 4
 ---
 
-### Common Property
+Shape is the basic element on an item (node/edge). The `style` of a node or an edge corresponds to the shape properties of its keyShap (key shape). The `style` in `labelCfg` of a label on a node or an edge corresponds to the properties of text shape.
 
-**Property**
+G6 has these shapes:
+- [circle](#circle);
+- [rect](#rect);
+- [ellipse](#ellipse);
+- [polygon](#polygon);
+- [fan](#fan);
+- [image](#image);
+- [marker](#marker);
+- [path](#path);
+- [text](#text).
+
+### Common Property
 
 | Name | Description | Remark |
 | --- | --- | --- |
@@ -17,7 +28,7 @@ order: 0
 | shadowOffsetY | The vertical offset of the shadow. |  |
 | opacity | The opacity (alpha value) of the shape. | The corresponding property in canvas is  `globalAlpha`. |
 
-**Usage**
+## Usage
 ```javascript
 group.addShape('rect', {
 	attrs: {
@@ -33,7 +44,7 @@ group.addShape('rect', {
 
 ### Circle
 
-**Property**
+### Special Property
 
 | Name | Description |
 | --- | --- |
@@ -42,7 +53,7 @@ group.addShape('rect', {
 | r | The radius of the circle. |
 
 
-**Usage**
+### Usage
 ```javascript
 group.addShape('circle', {
 	attrs: {
@@ -56,7 +67,7 @@ group.addShape('circle', {
 
 ### Ellipse
 
-**Property**
+### Special Property
 
 | Name | Description |
 | --- | --- |
@@ -67,7 +78,7 @@ group.addShape('circle', {
 
  
 
-**Usage**
+### Usage
 ```javascript
 group.addShape('ellipse', {
 	attrs: {
@@ -83,7 +94,7 @@ group.addShape('ellipse', {
 
 ### Fan
 
-**Property**
+### Special Property
 
 | Name | Description | Remark |
 | --- | --- | --- |
@@ -97,7 +108,7 @@ group.addShape('ellipse', {
 
 
 
-**Usage**
+### Usage
 ```javascript
 group.addShape('fan', {
   attrs: {
@@ -116,7 +127,7 @@ group.addShape('fan', {
 
 ### Image
 
-**Property**
+### Special Property
 
 | Name | Description | Remark |
 | --- | --- | --- |
@@ -128,7 +139,7 @@ group.addShape('fan', {
 
 
 
-**Usage**
+### Usage
 ```javascript
 group.addShape('image', {
   attrs: {
@@ -142,7 +153,7 @@ group.addShape('image', {
 
 ### Marker
 
-**Property**
+### Special Property
 
 | Name | Description | Remark |
 | --- | --- | --- |
@@ -153,7 +164,7 @@ group.addShape('image', {
 
 
 
-**Usage**
+### Usage
 ```javascript
 group.addShape('marker', {
   attrs: {
@@ -175,7 +186,7 @@ group.addShape('marker', {
 
 ### Polygon
 
-**Property**
+### Special Property
 
 | Name | Description | Remark |
 | --- | --- | --- |
@@ -183,7 +194,7 @@ group.addShape('marker', {
 
 
 
-**Usage**
+### Usage
 ```javascript
 group.addShape('polygon', {
   attrs: {
@@ -196,7 +207,7 @@ group.addShape('polygon', {
 
 ### Rect
 
-**Property**
+### Special Property
 
 | Name | Description | Remark |
 | --- | --- | --- |
@@ -208,7 +219,7 @@ group.addShape('polygon', {
 
  
 
-**Usage**
+### Usage
 ```javascript
 group.addShape('rect', {
   attrs: {
@@ -218,6 +229,89 @@ group.addShape('rect', {
     height: 150,
     stroke: 'black',
     radius: [2, 4]
+  }
+});
+```
+
+## Path
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> When the edge is too thin to be hitted by mouse, set **lineAppendWidth** to enlarge the hitting area.
+
+### Special Property
+
+| Name | Description | Remark |
+| --- | --- | --- |
+| path | The path. | It can be a String, or an Array of path. |
+| startArrow | The arrow on the start of the path. | When `startArrow` is `true`, show a default arrow on the start of the path. User can custom an arrow by path. |
+| endArrow | The arrow on the end of the path. | When `startArrow` is `true`, show a default arrow on the end of the path. User can custom an arrow by path. |
+| lineAppendWidth | The hitting area of the path. | Enlarge the hitting area by enlarging its value. |
+| lineCap | The style of two ends of the path. |  |
+| lineJoin | The style of the intersection of two path. |  |
+| lineWidth | The line width of the current path. |  |
+| miterLimit | The maximum miter length. |  |
+| lineDash | The style of the dash line. | It is an array that describes the length of gaps and line segments. If the number of the elements in the array is odd, the elements will be dulplicated. Such as [5, 15, 25] will be regarded as [5, 15, 25, 5, 15, 25]. |
+
+
+### Usage
+```javascript
+group.addShape('path', {
+  attrs: {
+    startArrow: {
+      // The custom arrow is a path centered at (0, 0), and points to the positive direction of x-axis
+      path: 'M 10,0 L -10,-10 L -10,10 Z',
+      d: 10
+    },
+    endArrow: {
+      // The custom arrow is a path centered at (0, 0), and points to the positive direction of x-axis
+      path: 'M 10,0 L -10,-10 L -10,10 Z',
+      d: 10
+    },
+    path: [
+      [ 'M', 100, 100 ],
+      [ 'L', 200, 200 ]
+    ],
+    stroke: '#000',
+    lineWidth: 8,
+    lineAppendWidth: 5
+  }
+});
+```
+
+
+## Text
+### Properties
+
+| Name | Description | Remark |
+| --- | --- | --- |
+| fill | The color or gradient color for filling. | The corresponding property in Canvas is `fillStyle`. |
+| stroke | The color, gradient color, or pattern for stroke. | The corresponding property in Canvas is `strokeStyle`. |
+| shadowColor | The color for shadow. |  |
+| shadowBlur | The blur level for shadow. | Larger the value, more blur. |
+| shadowOffsetX | The horizontal offset of the shadow. |  |
+| shadowOffsetY | The vertical offset of the shadow. |  |
+| opacity | The opacity (alpha value) of the shape. | The corresponding property in Canvas is `globalAlpha`. |
+| font | The font of the text. |  |
+| textAlign | The align way of the text. | Options: `'center'` / `'end'` / `'left'` / `'right'` / `'start'`. `'start'` by default. |
+| textBaseline | The base line of the text. | Options: <br />`'top'` / `'middle'` / `'bottom'` / `'alphabetic'` / `'hanging'`. `'bottom'` by default. |
+| fontStyle | The font style of the text. | The corresponding property in CSS is `font-style` |
+| fontVariant | The font variant of the text. | The corresponding property in CSS is `font-variant` |
+| fontWeight | The font weight of the text. | The corresponding property in CSS is `font-weight` |
+| fontSize | The font size of the text. | The corresponding property in CSS is `font-size` |
+| fontFamily | The font family of the text. | The corresponding property in CSS is `font-family` |
+| autoRotate | Wheter rotate the text according to the edge automatically if it is a label of an edge. |  |
+
+
+### Usage
+
+```javascript
+group.addShape('text', {
+  attrs: {
+    text: 'test text',
+    fill: 'red',
+    fontWeight: 400,
+    shadowOffsetX: 10,
+    shadowOffsetY: 10,
+    shadowColor: 'blue',
+    shadowBlur: 10
   }
 });
 ```

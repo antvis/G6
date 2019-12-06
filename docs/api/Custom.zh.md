@@ -14,7 +14,7 @@ order: 10
 | 名称           | 类型   | 是否必选 | 描述                                                                                                                                                               |
 | -------------- | ------ | -------- | ---------------------------------------- |
 | nodeName       | String | true     | 自定义节点名称，需保持唯一性。                                                                                                                                     |
-| options        | Object | true     | 自定义节点时的配置项，配置项中包括完整的生命周期方法，具体请参考：[Shape API](./Shape)。                                          |
+| options        | Object | true     | 自定义节点时的配置项，配置项中包括完整的生命周期方法，具体请参考：[Shape API](/zh/docs/api/Shape)。                                          |
 | extendNodeName | String | false    | 自定义节点时可基于内置节点进行定义，该字段表示内置节点名称，所有内置节点请参考：[内置节点](/zh/docs/manual/middle/elements/nodes/defaultNode) 教程。 |
 
 ### 用法
@@ -79,7 +79,7 @@ G6.registerNode(
 | -------------- | ------ | -------- | -------------------------------------------------- |
 | edgeName       | String | true     | 自定义边的名称                                                                                                                         |
 | options        | Object | true     | 自定义边时的配置项，配置项中包括完整的生命周期方法，具体请参考：[Shape API](/zh/docs/api/Shape)。                |
-| extendEdgeName | String | false    | 自定义边时可基于内置边进行定义，该字段表示内置边的名称，所有内置边请参考：[内置边](/zh/docs/manual/middle/elements/defaultEdge) 教程。 |
+| extendEdgeName | String | false    | 自定义边时可基于内置边进行定义，该字段表示内置边的名称，所有内置边请参考：[内置边](/zh/docs/manual/middle/elements/edges/defaultEdge) 教程。 |
 
 ### 用法
 

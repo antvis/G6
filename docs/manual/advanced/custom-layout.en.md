@@ -3,9 +3,9 @@ title: Custom Layout
 order: 4
 ---
 
-G6 provides abundant commonly used built-in layouts for Graph and TreeGraph respectively. The usage can be found in: [Utilize Layout](/en/docs/manual/middle/layout), [Layout API](/en/docs/api/Layout). Custom layout mechanism of G6 allows the users to design their own type of layout to meet their special requirements.
+G6 provides abundant commonly used built-in layouts for Graph and TreeGraph respectively. The usage can be found in: [Utilizing Layout](/en/docs/manual/middle/layout), [Layout API](/en/docs/api/layout/Layout). Custom layout mechanism of G6 allows the users to design their own type of layout to meet their special requirements.
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;⚠️**Attention:** </span>
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️Attention:</strong> </span>
 The TreeGraph does not support custom layout temporarily.
 
 In this document, we will introduce the custom layout by registering a layout for Bigraph.
@@ -102,7 +102,7 @@ To reduce the edge crossings, we sort the nodes in `part1` and `part2` respectiv
 - Step 4: Sort the nodes in `part1` and `part2` respectively according to their indexed. The result order determine the postions of the nodes in the final layout.
 
 ## Implementation
-The following code below register a layout named `'bigraph-layout'` for Bigraph. The complete code can be found in: [Cusom Layout-Bigraph](/en/examples/net/layoutMechanism#customBigraph). The usage of custom layout is the same as built-in layouts: configure the `layout` to the graph when instantiating. Refer to: [Utilize Layout](/en/docs/manual/middle/layout)。
+The following code below register a layout named `'bigraph-layout'` for Bigraph. The complete code can be found in: <a href='/en/examples/net/layoutMechanism#customBigraph' target='_blank'>Cusom Layout-Bigraph</a>. The usage of custom layout is the same as built-in layouts: configure the `layout` to the graph when instantiating. Refer to: [Utilizing Layout](/en/docs/manual/middle/layout).
 
 ```javascript
 G6.registerLayout('bigraph-layout', {

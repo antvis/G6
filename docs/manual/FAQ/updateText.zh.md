@@ -73,4 +73,4 @@ graph.updateItem(node, {
 })
 ```
 
-想知道文本都可以设置哪些属性，请参考[文本属性样式](/zh/docs/api/properties/TextProperties)。
+想知道文本都可以设置哪些属性，请参考 [节点上的文本属性](/zh/docs/manual/middle/elements/nodes/defaultNode/#标签文本-label-及其配置-labelcfg) 或 [边上的文本属性](/zh/docs/manual/middle/elements/edges/defaultEdge/#标签文本-label-及其配置-labelcfg)。

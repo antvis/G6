@@ -58,4 +58,4 @@ graph.updateItem(node, {
 })
 ```
 
-For more information about the styles, refer to [Node Properties](/en/docs/api/properties/NodeProperties).
+For more information about the styles, refer to [Node Style Properties](/zh/docs/manual/middle/elements/nodes/defaultNode/#style).

@@ -52,8 +52,8 @@ G6 作为一款专业的图可视化引擎，具有以下特性：
 
 ## G6 文档
 - [G6 入门教程](/zh/docs/manual/tutorial/preface)
-- [G6 核心概念](/zh/docs/manual/middle/keyConcept)
-- [G6 高级指引](/zh/docs/manual/advanced/shape-and-properties)
+- [G6 核心概念](/zh/docs/manual/middle/graph)
+- [G6 高级指引](/zh/docs/manual/advanced/keyconcept/shape-and-properties)
 - [API](/zh/docs/api/Graph)
 
 ## 快速上手
@@ -96,7 +96,7 @@ G6 作为一款专业的图可视化引擎，具有以下特性：
   graph.render();
 ```
 
-更详细的内容请参考 [快速上手](./getting-started) 文档。
+更详细的内容请参考 [快速上手](/zh/docs/manual/getting-startedd) 文档。
 
 ## 友情链接
 结合前端库的第三方实现：

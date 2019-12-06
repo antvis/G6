@@ -3,17 +3,17 @@ title: Graphics Shape Properties
 order: 0
 ---
 
-An item (node/edge) in G6 **Consists of One or More**[**Graphics Shape**](/en/docs/manual/middle/keyConcept). You can add shapes to a custom item by `group.addShape` in the `draw` function of registering item. The shapes in G6:
+An item (node/edge) in G6 **Consists of One or More** [**Graphics Shape**](/en/docs/manual/middle/keyconcept/shape-keyshape). You can add shapes to a custom item by `group.addShape` in the `draw` function of registering item. The shapes in G6:
 
-- circle;
-- rect;
-- ellipse;
-- image;
-- text: [Text Properties](/en/docs/manual/advanced/label-properties)；
-- fan;
-- marker;
-- polygon;
-- path.
+- [circle](#circle);
+- [rect](#rect);
+- [ellipse](#ellipse);
+- [polygon](#polygon);
+- [fan](#fan);
+- [image](#image);
+- [marker](#marker);
+- [path](#path);
+- [text](#text).
 
 ## The Common Properties of Shapes
 
@@ -44,11 +44,11 @@ group.addShape('rect', {
 
 ## Circle
 ### Property
-| Name | Description | Remark |
-| --- | --- | --- |
-| x | The x coordinate of the center |  |
-| y | The y coordinate of the center |  |
-| r | The radius |  |
+| Name | Description |
+| --- | --- |
+| x | The x coordinate of the center |
+| y | The y coordinate of the center |
+| r | The radius |
 
 
 ### Usage
@@ -63,14 +63,40 @@ group.addShape('circle', {
 })
 ```
 
-## Ellipse
+
+## Rect
 ### Property
 | Name | Description | Remark |
 | --- | --- | --- |
-| x | The x coordinate of the center |  |
-| y | The y coordinate of the center |  |
-| rx | The horizontal radius of the ellipse |  |
-| ry | The vertical radius of the ellipse |  |
+| x | The x coordinate of the left top |  |
+| y | The y coordinate of the left top |  |
+| width | The width of the rect |  |
+| height | The height of the rect |  |
+| radius | The border radius. | It can be an integer or an array, representing the border radii of lefttop, righttop, rightbottom, leftbotton respectively. <br />- `radius: 1` or `radius: [ 1 ]` is equal to `radius: [ 1, 1, 1, 1 ]`<br />- `radius: [ 1, 2 ]` is equal to `radius: [ 1, 2, 1, 2 ]`<br />- `radius: [ 1, 2, 3 ]` is equal to `radius: [ 1, 2, 3, 2 ]`<br /> |
+
+ 
+### Usage
+```javascript
+group.addShape('rect', {
+  attrs: {
+    x: 150,
+    y: 150,
+    width: 150,
+    height: 150,
+    stroke: 'black',
+    radius: [2, 4]
+  }
+});
+```
+
+## Ellipse
+### Property
+| Name | Description |
+| --- | --- |
+| x | The x coordinate of the center |
+| y | The y coordinate of the center |
+| rx | The horizontal radius of the ellipse |
+| ry | The vertical radius of the ellipse |
 
  
 ### Usage
@@ -84,6 +110,23 @@ group.addShape('ellipse', {
     fill: 'blue'
   }
 })
+```
+
+## Polygon
+### Property
+| Name | Description | Remark |
+| --- | --- | --- |
+| points | A set of vertexes' coordinates of the polygon | It is an array |
+
+
+### Usage
+```javascript
+group.addShape('polygon', {
+  attrs: {
+    points:[[ 30, 30 ], [ 40, 20 ], [ 30, 50 ], [ 60, 100 ]],
+    fill: 'red'
+  }
+});
 ```
 
 ## Fan
@@ -166,51 +209,9 @@ group.addShape('marker', {
 });
 ```
 
-## Polygon
-### Property
-| Name | Description | Remark |
-| --- | --- | --- |
-| points | A set of vertexes' coordinates of the polygon | It is an array |
-
-
-### Usage
-```javascript
-group.addShape('polygon', {
-  attrs: {
-    points:[[ 30, 30 ], [ 40, 20 ], [ 30, 50 ], [ 60, 100 ]],
-    fill: 'red'
-  }
-});
-```
-
-## Rect
-### Property
-| Name | Description | Remark |
-| --- | --- | --- |
-| x | The x coordinate of the left top |  |
-| y | The y coordinate of the left top |  |
-| width | The width of the rect |  |
-| height | The height of the rect |  |
-| radius | The border radius. | It can be an integer or an array, representing the border radii of lefttop, righttop, rightbottom, leftbotton respectively. <br />- `radius = 1` or `radius = [ 1 ]` is equal to `radius = [ 1, 1, 1, 1 ]`<br />- `radius = [ 1, 2 ]` is equal to `radius = [ 1, 2, 1, 2 ]`<br />- `radius: [ 1, 2, 3 ]` is equal to `radius: [ 1, 2, 3, 2 ]`<br /> |
-
- 
-### Usage
-```javascript
-group.addShape('rect', {
-  attrs: {
-    x: 150,
-    y: 150,
-    width: 150,
-    height: 150,
-    stroke: 'black',
-    radius: [2, 4]
-  }
-});
-```
-
 ## Path
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;⚠️**Attention:** </span>
-When the edge is too thin to be hitted by mouse, set **lineAppendWidth** to enlarge the hitting area.
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️Attention:</strong> </span>
+ When the edge is too thin to be hitted by mouse, set **lineAppendWidth** to enlarge the hitting area.
 
 ### Property
 | Name | Description | Remark |
@@ -223,7 +224,7 @@ When the edge is too thin to be hitted by mouse, set **lineAppendWidth** to enla
 | lineJoin | The style of the intersection of two path |  |
 | lineWidth | The line width of the current path |  |
 | miterLimit | The maximum miter length |  |
-| lineDash | The style of the dash line. | It is an array that describes the length of gaps and line segments. If the number of the elements in the array is odd, the elements will be dulplicated. Such as [5, 15, 25] will be regarded as [5, 15, 25, 5, 15, 25] |
+| lineDash | The style of the dash line | It is an array that describes the length of gaps and line segments. If the number of the elements in the array is odd, the elements will be dulplicated. Such as [5, 15, 25] will be regarded as [5, 15, 25, 5, 15, 25] |
 
 
 ### Usage
@@ -245,6 +246,45 @@ group.addShape('path', {
     stroke: '#000',
     lineWidth: 8,
     lineAppendWidth: 5
+  }
+});
+```
+
+## Text
+### Properties
+
+| Name | Description | Remark |
+| --- | --- | --- |
+| fill | The color or gradient color for filling. | The corresponding property in Canvas is `fillStyle`. |
+| stroke | The color, gradient color, or pattern for stroke. | The corresponding property in Canvas is `strokeStyle`. |
+| shadowColor | The color for shadow. |  |
+| shadowBlur | The blur level for shadow. | Larger the value, more blur. |
+| shadowOffsetX | The horizontal offset of the shadow. |  |
+| shadowOffsetY | The vertical offset of the shadow. |  |
+| opacity | The opacity (alpha value) of the shape. | The corresponding property in Canvas is `globalAlpha`. |
+| font | The font of the text. |  |
+| textAlign | The align way of the text. | Options: `'center'` / `'end'` / `'left'` / `'right'` / `'start'`. `'start'` by default. |
+| textBaseline | The base line of the text. | Options: <br />`'top'` / `'middle'` / `'bottom'` / `'alphabetic'` / `'hanging'`. `'bottom'` by default. |
+| fontStyle | The font style of the text. | The corresponding property in CSS is `font-style` |
+| fontVariant | The font variant of the text. | The corresponding property in CSS is `font-variant` |
+| fontWeight | The font weight of the text. | The corresponding property in CSS is `font-weight` |
+| fontSize | The font size of the text. | The corresponding property in CSS is `font-size` |
+| fontFamily | The font family of the text. | The corresponding property in CSS is `font-family` |
+| autoRotate | Wheter rotate the text according to the edge automatically if it is a label of an edge. |  |
+
+
+### Usage
+
+```javascript
+group.addShape('text', {
+  attrs: {
+    text: 'test text',
+    fill: 'red',
+    fontWeight: 400,
+    shadowOffsetX: 10,
+    shadowOffsetY: 10,
+    shadowColor: 'blue',
+    shadowBlur: 10
   }
 });
 ```

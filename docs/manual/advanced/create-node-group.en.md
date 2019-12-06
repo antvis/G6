@@ -39,8 +39,8 @@ The reuslt of **groupType: `'circle'`**<br />
 ### groupStyle
 `groupStyle` indicates the styles of the Node Groups in different states, e.g. default state, hover state, and collapse state.
 
-#### Common Attribute
-The common attributes of the groups in the default, hover and collapse states are similar to nodes, which are introduced in [Node Properties](/en/docs/api/properties/NodeProperties). Besides, the group style in default and collapse states have some special attributes below:
+#### Common Property
+The common propertoes of the groups in the default, hover and collapse states are similar to nodes, which are introduced in [Shape Properties](/en/docs/api/shapeProperties). Besides, the group style in default and collapse states have some special properties below:
 
 #### default
 | Name | Description | Type | Remark |
@@ -74,7 +74,7 @@ Create Group.
 | nodes | The nodes or the id of the ndoes in the Group | Array | The array of node objects or ids |
 | type | The type of the Group | String | Options: `'circle'`, `'rect'`. `'circle'` by default |
 | zIndex | The zIndex of the Group | Number | `0` by default |
-| title | The title text or the configurations | Object / String | When it is a string, the styles of it is uneditable. When it is an object, the configurations can be found in [Node Group](/en/docs/manual/middle/nodeGroup) |
+| title | The title text or the configurations | Object / String | When it is a string, the styles of it is uneditable. When it is an object, the configurations can be found in [Node Group](/en/docs/manual/middle/nodeGroup/#data-structure) |
 
 ```javascript
 const nodes = ['node1', 'node2']

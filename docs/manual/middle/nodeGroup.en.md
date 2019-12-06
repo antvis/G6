@@ -6,7 +6,7 @@ order: 8
 > The title of Node Group is supported from G6 V3.1.2.
 
 
-Node Group is a practical function for graph visualization. It is supported from G6 V3.0.5. Refer to the demo [Demo](/en/examples/interaction/nodeGroup). <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*G1OBSJf672QAAAAAAAAAAABkARQnAQ' width=400/>
+Node Group is a practical function for graph visualization. It is supported from G6 V3.0.5. Refer to the demo <a href='/zh/examples/interaction/nodeGroup' target='_blank'>Demo</a>. <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*G1OBSJf672QAAAAAAAAAAABkARQnAQ' width=400/>
 
 ### Data Structure
 In data, Node Group are defined as array `group`, and each node data has a property `groupId`.
@@ -18,7 +18,7 @@ The `title` for a group can be a string or an object:
   - text: required, a string indicates the text of the group title;
   - offsetX: the x offset of the title, `0` by default;
   - offsetY: the y offset of the title, `0` by default;
-  - stroke: the stroke color. The `fill`, `fontSize`, and other [Text Attributes](/en/docs/api/properties/TextProperties).
+  - stroke: the stroke color. The `fill`, `fontSize`, and other [Label Styles on Node](/en/docs/manual/middle/elements/nodes/defaultNode/#label-and-labelcfg).
 
 
 
@@ -195,7 +195,7 @@ The result: <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img
 
 ### Manipulate the Group
 
-The built-in [Behavior](./defaultBehavior)s `drag-group`, `collapse-expand-group`, and `drag-node-with-group` allow user to manipulate the group:
+The built-in [Behavior](/en/docs/manual/middle/states/defaultBehavior)s `drag-group`, `collapse-expand-group`, and `drag-node-with-group` allow user to manipulate the group:
 
 - Drag the group;
 - Unrelate the node and its group by dragging the node out of the group;

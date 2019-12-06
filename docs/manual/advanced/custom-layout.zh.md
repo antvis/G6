@@ -3,9 +3,9 @@ title: 自定义布局 Layout
 order: 4
 ---
 
-G6 提供了一般图和树图的一些常用布局，使用方式参见：中级教程 [使用布局 Layout](/zh/docs/manual/middle/layout)，[Layout API](/zh/docs/api/Layout)。当这些内置布局无法满足需求时，G6 还提供了一般图的自定义布局的机制，方便用户进行更定制化的扩展。
+G6 提供了一般图和树图的一些常用布局，使用方式参见：中级教程 [使用布局 Layout](/zh/docs/manual/middle/layout)，[Layout API](/zh/docs/api/layout/Layout)。当这些内置布局无法满足需求时，G6 还提供了一般图的自定义布局的机制，方便用户进行更定制化的扩展。
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;⚠️**注意：**</span>
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️注意:</strong></span>
 树图暂时不支持自定义布局。
 
 本文将会通过自定义 Bigraph 布局的例子讲解自定义布局。
@@ -102,7 +102,7 @@ const data = {
 - Step 4：两部分节点分别按照节点的序号 index 进行排序，最终按照节点顺序安排节点位置。
 
 ## 实现
-下面代码展示了自定义名为 `'bigraph-layout'` 的二分图布局，完整代码参见：[自定义布局-二分图](/zh/examples/net/layoutMechanism#customBigraph)。使用该布局的方式与使用内置布局方式相同，都是在实例化图时将其配置到 `layout` 配置项中，详见：[使用布局 Layout](/zh/docs/manual/middle/layout)。
+下面代码展示了自定义名为 `'bigraph-layout'` 的二分图布局，完整代码参见：<a href='/zh/examples/net/layoutMechanism#customBigraph' target='_blank'>自定义布局-二分图</a>。使用该布局的方式与使用内置布局方式相同，都是在实例化图时将其配置到 `layout` 配置项中，详见：[使用布局 Layout](/zh/docs/manual/middle/layout)。
 
 ```javascript
 G6.registerLayout('bigraph-layout', {

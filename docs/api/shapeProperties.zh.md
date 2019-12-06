@@ -1,34 +1,37 @@
 ---
-title: 关键概念-图形 Shape 及其属性
-order: 0
+title: 各图形属性
+order: 4
 ---
 
-G6 中的元素（节点/边）是**由一个或多个**[**图形 Shape**](/zh/docs/manual/middle/keyConcept)**组成**，主要通过自定义节点或自定义边时在 `draw` 方法中使用 `group.addShape` 添加，G6 中支持以下的图形 Shape：
+图形是组成图上一个元素（节点/边）的基本单位。节点/边的 `style` 属性即对应了各自 keyShape（关键图形）的图形属性。节点或边上标签 `labelCfg` 中的 `style` 属性对应了 text 图形的图形属性。
 
-- circle：圆；
-- rect：矩形；
-- ellipse：椭圆；
-- image：图片；
-- text：文本的属性请参考[这里](/zh/docs/manual/advanced/label-properties)；
-- fan：扇形；
-- marker：标记；
-- polygon：多边形；
-- path：路径。
+G6 支持以下图形：
+- [circle](#圆图形-circle)：圆；
+- [rect](#矩形图形-rect)：矩形；
+- [ellipse](#椭圆图形-ellipse)：椭圆；
+- [polygon](#多边形图形-polygon)：多边形；
+- [fan](#扇形图形-fan)：扇形；
+- [image](#图片图形-image)：图片；
+- [marker](#标记图形-marker)：标记；
+- [path](#路径-path)：路径；
+- [text](#文本-text)：文本。
 
-## 各图形 Shape 的通用属性
 
+## 通用属性
 
 | 属性名 | 含义 | 备注 |
 | --- | --- | --- |
 | fill | 设置用于填充绘画的颜色、渐变或模式 | 对应 Canvas 属性 `fillStyle` |
 | stroke | 设置用于笔触的颜色、渐变或模式 | 对应 Canvas 属性 `strokeStyle` |
+| lineWidth | 描边宽度 | |
 | shadowColor | 设置用于阴影的颜色 |  |
 | shadowBlur | 设置用于阴影的模糊级别 | 数值越大，越模糊 |
 | shadowOffsetX | 设置阴影距形状的水平距离 |  |
 | shadowOffsetY | 设置阴影距形状的垂直距离 |  |
 | opacity | 设置绘图的当前 alpha 或透明值 | 对应 Canvas 属性 `globalAlpha` |
+| fillOpacity | 设置填充的 alpha 或透明值 |  |
 
-### 用法
+## 用法
 ```javascript
 group.addShape('rect', {
 	attrs: {
@@ -43,12 +46,14 @@ group.addShape('rect', {
 ```
 
 ## 圆图形 Circle
-### 属性
-| 属性名 | 含义 | 备注 |
-| --- | --- | --- |
-| x | 圆心的 x 坐标 |  |
-| y | 圆心的 y 坐标 |  |
-| r | 圆的半径 |  |
+
+### 特殊属性
+
+| 属性名 | 含义 |
+| --- | --- |
+| x | 圆心的 x 坐标 |
+| y | 圆心的 y 坐标 |
+| r | 圆的半径 |
 
 
 ### 用法
@@ -64,15 +69,18 @@ group.addShape('circle', {
 ```
 
 ## 椭圆图形 Ellipse
-### 属性
-| 属性名 | 含义 | 备注 |
-| --- | --- | --- |
-| x | 圆心的 x 坐标 |  |
-| y | 圆心的 y 坐标 |  |
-| rx | 水平半径 |  |
-| ry | 垂直半径 |  |
+
+### 特殊属性
+
+| 属性名 | 含义 |
+| --- | --- |
+| x | 圆心的 x 坐标 |
+| y | 圆心的 y 坐标 |
+| rx | 水平半径 |
+| ry | 垂直半径 |
 
  
+
 ### 用法
 ```javascript
 group.addShape('ellipse', {
@@ -86,17 +94,21 @@ group.addShape('ellipse', {
 })
 ```
 
+
 ## 扇形图形 Fan
-### 属性
+
+### 特殊属性
+
 | 属性名 | 含义 | 备注 |
 | --- | --- | --- |
 | x | 扇形圆心的 x 坐标 |  |
 | y | 扇形圆心的 y 坐标 |  |
 | rs | 水平半径 |  |
 | re | 垂直半径 |  |
-| startAngle | 起点弧度 | 弧度是弧度，即使用 Math.PI 表示 |
-| endAngle |  终点弧度 |  |
+| startAngle | 起点弧度 | 弧度制，即使用 Math.PI 表示 |
+| endAngle |  终点弧度 | 弧度制，即使用 Math.PI 表示 |
 | clockwise | 为 `true` 时顺时针渲染，为 `false` 时逆时针渲染 |  |
+
 
 
 ### 用法
@@ -115,15 +127,19 @@ group.addShape('fan', {
 })
 ```
 
+
 ## 图片图形 Image
-### 属性
+
+### 特殊属性
+
 | 属性名 | 含义 | 备注 |
 | --- | --- | --- |
 | x | 图片左上角的 x 坐标 |  |
 | y |  图片左上角的 y 坐标 |  |
 | width | 图片宽度 |  |
 | height | 图片高度 |  |
-| img | 图片源 | G6 支持多种格式的图片：url、ImageData、Image、canvas |
+| img | 图片源 | G6 支持多种格式的图片：<br />- url<br />- ImageData<br />- Image<br />- canvas<br /> |
+
 
 
 ### 用法
@@ -137,14 +153,18 @@ group.addShape('image', {
 })
 ```
 
+
 ## 标记图形 Marker
-### 属性
+
+### 特殊属性
+
 | 属性名 | 含义 | 备注 |
 | --- | --- | --- |
 | x | 中心的 x 坐标 |  |
 | y | 中心的 y 坐标 |  |
 | r | 形状半径 |  |
-| symbol | 指定形状 | 内置了一些常用形状，如圆形 `circle` ， 矩形 `square` ， 菱形 `diamond` ，三角形 `triangle` ， 倒三角形 `triangle-down` ，也可以是自定义的 path 路径。 |
+| symbol | 指定形状 | 内置了一些常用形状，如圆形 `circle`，矩形 `square`，菱形 `diamond`，三角形 `triangle`，倒三角形 `triangle-down`，也可以是自定义的 path 路径。 |
+
 
 
 ### 用法
@@ -158,7 +178,7 @@ group.addShape('marker', {
       return [
         [ 'M', x, y ],
         [ 'L', x + r, y + r ],
-        [ 'L', x + r * 2, y ],
+        [ 'L'，x + r * 2, y ],
         [ 'Z' ]
       ]
     }
@@ -166,11 +186,15 @@ group.addShape('marker', {
 });
 ```
 
+
 ## 多边形图形 Polygon
-### 属性
+
+### 特殊属性
+
 | 属性名 | 含义 | 备注 |
 | --- | --- | --- |
 | points | 多边形的所有端点坐标 | 数组形式 |
+
 
 
 ### 用法
@@ -183,17 +207,21 @@ group.addShape('polygon', {
 });
 ```
 
+
 ## 矩形图形 Rect
-### 属性
+
+### 特殊属性
+
 | 属性名 | 含义 | 备注 |
 | --- | --- | --- |
 | x | 矩形左上角的 x 坐标 |  |
 | y | 矩形左上角的 y 坐标 |  |
 | width | 矩形的宽度 |  |
 | height | 矩形的高度 |  |
-| radius | 定义圆角 | 支持整数或数组形式， 分别对应左上、右上、右下、左下角的半径：<br />- radius 缩写为 1 或 [ 1 ] 相当于 [ 1, 1, 1, 1 ]<br />- radius 缩写为 [ 1, 2 ] 相当于 [ 1, 2, 1, 2 ]<br />- radius 缩写为 [ 1, 2, 3 ] 相当于 [ 1, 2, 3, 2 ]<br /> |
+| radius | 定义圆角 | 支持整数或数组形式，分别对应左上、右上、右下、左下角的半径：<br />- radius 缩写为 1 或 [ 1 ] 相当于 [ 1, 1, 1, 1 ]<br />- radius 缩写为 [ 1, 2 ] 相当于 [ 1, 2, 1, 2 ]<br />- radius 缩写为 [ 1, 2, 3 ] 相当于 [ 1, 2, 3, 2 ]<br /> |
 
  
+
 ### 用法
 ```javascript
 group.addShape('rect', {
@@ -208,10 +236,12 @@ group.addShape('rect', {
 });
 ```
 
-## 路径 Path
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;⚠️**注意：**</span>
-边太细时候点击不中，请设置 `lineAppendWidth` 属性值。
-### 属性
+
+## 线条 Path
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️注意:</strong></span>当边太细时候点击不中时，请设置 **lineAppendWidth** 属性值。
+
+### 特殊属性
+
 | 属性名 | 含义 | 备注 |
 | --- | --- | --- |
 | path |  线条路径 | 可以是 String 形式，也可以是线段的数组。 |
@@ -249,4 +279,39 @@ group.addShape('path', {
 ```
 
 
+## 文本 Text
+### 特殊属性
 
+| 属性名 | 含义 | 备注 |
+| --- | --- | --- |
+| fill | 设置用于填充绘画的颜色、渐变或模式 | 对应 Canvas 属性 `fillStyle` |
+| stroke | 设置用于笔触的颜色、渐变或模式 | 对应 Canvas 属性 `strokeStyle` |
+| shadowColor | 设置用于阴影的颜色 |  |
+| shadowBlur | 设置用于阴影的模糊级别 | 数值越大，越模糊 |
+| shadowOffsetX | 设置阴影距形状的水平距离 |  |
+| shadowOffsetY | 设置阴影距形状的垂直距离 |  |
+| opacity | 设置绘图的当前 alpha 或透明值 | 对应 Canvas 属性 `globalAlpha` |
+| font | 设置文本内容的当前字体属性 |  |
+| textAlign | 设置文本内容的当前对齐方式 | 支持的属性：`center` / `end` / `left` / `right` / `start`，默认值为 `start` |
+| textBaseline | 设置在绘制文本时使用的当前文本基线 | 支持的属性:<br />`top` / `middle` / `bottom` / `alphabetic` / `hanging`。默认值为 `bottom` |
+| fontStyle | 字体样式 | 对应 `font-style` |
+| fontVariant | 设置为小型大写字母字体 | 对应 `font-variant` |
+| fontWeight | 字体粗细 | 对应 `font-weight` |
+| fontSize | 字体大小 | 对应 `font-size` |
+| fontFamily | 字体系列 | 对应 `font-family` |
+
+### 用法
+
+```javascript
+group.addShape('text', {
+  attrs: {
+    text: 'test text',
+    fill: 'red',
+    fontWeight: 400,
+    shadowOffsetX: 10,
+    shadowOffsetY: 10,
+    shadowColor: 'blue',
+    shadowBlur: 10
+  }
+});
+```

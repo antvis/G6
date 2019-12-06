@@ -156,7 +156,7 @@ graph.on('edge:click', e => {
       container: 'mountNode',
       width: 800,
       height: 600,
-      // Default attributes for all the nodes
+      // Default properties for all the nodes
       defaultNode: {
         labelCfg: {
           style: {
@@ -164,7 +164,7 @@ graph.on('edge:click', e => {
           }
         }
       },
-      // Default attributes for all the edges
+      // Default properties for all the edges
       defaultEdge: {
         labelCfg: {
           autoRotate: true
@@ -288,4 +288,4 @@ graph.on('edge:click', e => {
 </html>
 ```
 
-**⚠️Attention**: <br />Replace the url `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` to change the data into yours.
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> <br />Replace the url `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` to change the data into yours.

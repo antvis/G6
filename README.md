@@ -130,7 +130,7 @@ $ npm run dev
 
 ## Documents
 - [Tutorial](/en/docs/manual/tutorial/preface)
-- [Key Concepts](/en/docs/manual/middle/keyConcept)
+- [Key Concepts](/en/docs/manual/middle/graph)
 - [Advanced Guides](/en/docs/manual/advanced/shape-and-properties)
 - [API Reference](/en/docs/api/Graph)
 

@@ -43,9 +43,9 @@ You can customize a Behavior by `G6.registerBehavior`. The following code implem
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;⚠️**Attension:** </span>
 
-- The following code set the states for different behaviors, but does not assign the state styles for manipulated nodes. To change the styles when the states changed, refer to [State Styles](/en/docs/manual/middle/states/state)。
+- The following code set the states for different behaviors, but does not assign the state styles for manipulated nodes. To change the styles when the states changed, refer to [State Styles](/en/docs/manual/middle/states/state).
 - The configurations of customizing Behavior are introduced in [Behavior API](/en/docs/api/Behavior)；
-- `getEvent` returns the events which are listened by the Behavior. The events in G6 are introduced in [Event API](/en/docs/api/Event)。
+- `getEvent` returns the events which are listened by the Behavior. The events in G6 are introduced in [Event API](/en/docs/api/Event).
 
 ```javascript
 G6.registerBehavior('activate-node', {

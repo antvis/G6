@@ -5,7 +5,7 @@ order: 1
 
 ## 什么是 Graph
 中文字“图”在大家的传统认知里指的是图画、图像，而图论与可视化中的“图”—— Graph 则有着更精确的定位：主体（objects）与关系（relationships）的组成。它甚至不局限于视觉，主体与关系的数据也可以称为图。<br />
-—— 摘自 [AntV 专栏](https://zhuanlan.zhihu.com/aiux-antv)文章：Graph Visualization ·[ ](https://zhuanlan.zhihu.com/p/83685690)知多少 之 《[HelloWorld](https://zhuanlan.zhihu.com/p/83685690) [图可视化](https://zhuanlan.zhihu.com/p/83685690)》
+> —— 摘自 <a href='https://zhuanlan.zhihu.com/aiux-antv' target='_blank'>AntV 专栏</a>文章：<a href='https://zhuanlan.zhihu.com/p/83685690' target='_blank'>Graph Visualization · 知多少 之 《HelloWorld 图可视化》</a>。
 
 在 G6 中，Graph 对象是图的载体，它包含了图上的所有元素（节点、边等），同时挂载了图的相关操作（如交互监听、元素操作、渲染等）。<br />Graph 对象的生命周期为：初始化 —> 加载数据 —> 渲染 —> 更新 —> 销毁。
 
@@ -109,25 +109,25 @@ order: 1
 
 - `defaultNode`
 
-      类型：Object。默认情况下全局节点的配置项，包括样式属性和其他属性。详见 [内置节点](/zh/docs/manual/middle/elements/nodes/defaultNode)。
+      类型：Object。默认情况下全局节点的配置项，包括样式属性和其他属性。详见 [内置节点](/zh/docs/manual/middle/elements/nodes/defaultNode) 教程。
 
 - `defaultEdge`
 
-      类型：Object。默认情况下全局边的配置项，包括样式属性和其他属性。详见 [内置边](/zh/docs/manual/middle/elements/nodes/defaultEdge)。
+      类型：Object。默认情况下全局边的配置项，包括样式属性和其他属性。详见 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge) 教程。
 
 - `nodeStateStyles`
 
-      类型：Object。除默认状态外的其他状态下节点的样式配置。详见 [状态 State](/zh/docs/manual/middle/states/state)。
+      类型：Object。除默认状态外的其他状态下节点的样式配置。详见 [状态 State](/zh/docs/manual/middle/states/state) 教程。
 
 - `edgeStateStyles`
 
-      类型：Object。除默认状态外的其他状态下边的样式配置。详见 [状态 State](/zh/docs/manual/middle/states/state)。
+      类型：Object。除默认状态外的其他状态下边的样式配置。详见 [状态 State](/zh/docs/manual/middle/states/state) 教程。
 
 #### 布局相关
 
 - `layout`
 
-      类型：Object。若数据中不存在节点位置，则默认为随机布局。配置布局类型及其参数。详见 [使用布局 Layout](/zh/docs/manual/middle/layout)，[Layout API](/zh/docs/api/layout/Layout)。
+      类型：Object。若数据中不存在节点位置，则默认为随机布局。配置布局类型及其参数。详见 [使用布局 Layout](/zh/docs/manual/middle/layout) 教程，[Layout API](/zh/docs/api/layout/Layout)。
 
 #### 交互行为相关
 

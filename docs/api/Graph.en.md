@@ -43,7 +43,7 @@ The life cycle of an instance of Graph is: Initialize -> Load data -> Render -> 
 | layout | Object |  | Configurations for layout. The `type` in it is the name of layout method with the options: `'random'`, `'radial'`, `'mds'`, `'circular'`, `'fruchterman'`, `'force'`, `'dagre'`, `'concentric'`, `'grid'`. For more configurations for different layout methods, please refer to [Layout API](/en/docs/api/layout/Layout). |
 
 
-⚠️**Attention:** In G6 3.1, we added two new configurations for graph: `nodeStateStyles` and `edgeStateStyles`. In the same time, we deleted `nodeStyle` and `edgeStyle` . To upgrate, replace `nodeStyle` with `nodeStateStyles`, and replace `edgeStyle` with `edgeStateStyles`, and keep the sub-configuration inside them.
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> In G6 3.1, we added two new configurations for graph: `nodeStateStyles` and `edgeStateStyles`. In the same time, we deleted `nodeStyle` and `edgeStyle` . To upgrate, replace `nodeStyle` with `nodeStateStyles`, and replace `edgeStyle` with `edgeStateStyles`, and keep the sub-configuration inside them.
 
 **Usage**
 
@@ -646,7 +646,7 @@ graph.clearItemStates(node);
 ### node(nodeFn)
 Set the style and other configurations for each node.
 
-⚠️**Attention:** this funcion must **be called before graph.render()**. It does not take effect otherwise.
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> this funcion must **be called before graph.render()**. It does not take effect otherwise.
 
 **Parameters**
 
@@ -674,7 +674,7 @@ graph.render()
 ### edge(edgeFn)
 Set the style and other configurations for each edge.
 
-⚠️**Attention:** this funcion must **be called before graph.render()**. It does not take effect otherwise.
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> this funcion must **be called before graph.render()**. It does not take effect otherwise.
 
 **Parameters**
 
@@ -1065,7 +1065,7 @@ graph.save()
 ### getNodes()
 Get all the node items in the graph.
 
-⚠️**Attention:** it returns the items but not data models.
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> it returns the items but not data models.
 
 **Return**
 
@@ -1081,7 +1081,7 @@ const nodes = graph.getNodes()
 ### getEdges()
 Get all the edge items in the graph.
 
-⚠️**Attention:** it returns the items but not data models.
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> it returns the items but not data models.
 
 **Return**
 
@@ -1243,13 +1243,13 @@ graph.removePlugin(miniMap)
 ```
 
 ### get(key)
-Get ant attribute of graph by key.
+Get an property of graph by key.
 
 **Parameters**
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| key | String | true | Key of the attribute. |
+| key | String | true | Key of the property. |
 
 
 **Usage**
@@ -1266,14 +1266,14 @@ const autoPaint = graph.get('autoPaint')
 ```
 
 ### set(key, val)
-Set the value to an attribute.
+Set the value to an property.
 
 **Parameters**
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| key | String | true | The key of the attribute. |
-| val | String / Object / Array | true | The value of the attribute. |
+| key | String | true | The key of the property. |
+| val | String / Object / Array | true | The value of the property. |
 
 
 **Usage**

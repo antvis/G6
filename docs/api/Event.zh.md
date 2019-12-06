@@ -3,7 +3,7 @@ title: Event
 order: 6
 ---
 
-通用事件、Node 事件、Edge 事件及 Canvas 事件回调的参数请参考 [Behavior API](./Behavior)。
+通用事件、Node 事件、Edge 事件及 Canvas 事件回调的参数请参考 [Behavior API](/zh/docs/api/Behavior)。
 
 ## 通用事件
 

@@ -19,7 +19,7 @@ Business state refers to the states customized according to the user's business 
 ## When to Use State
 The principle of judging whether or not to use state comes from the perspective of interaction and business:
 
-- Some interactions need to change the style and attributes of nodes or edges;
+- Some interactions need to change the style and properties of nodes or edges;
 - The content presented to the user will change based on the data (eg 1 for success, 0 for failure).
 
 If one of these conditions is met, state should be used.
@@ -125,4 +125,4 @@ G6.registerNode('customShape', {
 
 
 ## Conclusion
-G6 provides the state management for simplify the states of the items. For more information about the state thinking, please refer to [The Thinking of State in G6](https://www.yuque.com/antv/g6/xiux28).
+G6 provides the state management for simplify the states of the items. For more information about the state thinking, please refer to <a href='https://www.yuque.com/antv/g6/xiux28' target='_blank'>The Thinking of the State in G6</a>.

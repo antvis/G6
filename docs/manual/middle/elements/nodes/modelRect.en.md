@@ -15,7 +15,7 @@ A built-in node modelRect has the default style as below, the label is drawed on
 
 
 ## Usage
-As stated in [Built-in Nodes](../defaultNode) , there are two ways to configure the node: Configure it when instantiating a Graph globally; Configure it in the data.
+As stated in [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) , there are two ways to configure the node: Configure it when instantiating a Graph globally; Configure it in the data.
 
 
 ### 1 Global Configure When Instantiating a Graph
@@ -35,7 +35,7 @@ const graph = new G6.Graph({
 
 
 ### 2 Configure in the Data
-To configure different nodes with different attributes, you can write the attributes into the node data.
+To configure different nodes with different properties, you can write the properties into the node data.
 ```javascript
 const data = {
   nodes: [{
@@ -52,8 +52,8 @@ const data = {
 ```
 
 
-## Attribute
-ModelRect node has the attributes shown below. The attribute with Object type will be described after the table:
+## Property
+The [Node Common Properties](/en/docs/manual/middle/elements/nodes/defaultNode/#common-property) are available for ModelRect node, some special properties are shown below. The property with Object type will be described after the table:
 
 | Name | Description | Type | Remark |
 | --- | --- | --- | --- |
@@ -62,10 +62,10 @@ ModelRect node has the attributes shown below. The attribute with Object type wi
 | label | The text of the label | String |  |
 | labelCfg | The configurations of the label | Object |  |
 | stateStyles | The styles in different states | Object | Only takes effect on keyShape |
-| linkPoints | The link points of the related edges | Object | They are invisible by default |
-| **preRect** | **Left rect of the node** | **Object** | **Special attribute for modelRect** |
-| **logoIcon** | **The left logo icon** | **Object** | **Special attribute for modelRect** |
-| **stateIcon** | **The right state icon** | **Object** | **Special attribute for modelRect** |
+| linkPoints | The link points **in visual** | Object | They are invisible by default. It is usually used with the [anchorPoints](http://localhost:8000/en/docs/manual/middle/elements/nodes/defaultNode/#common-property). The differences are described in [linkPoints](#linkpoints) |
+| **preRect** | **Left rect of the node** | **Object** | **Special property for modelRect** |
+| **logoIcon** | **The left logo icon** | **Object** | **Special property for modelRect** |
+| **stateIcon** | **The right state icon** | **Object** | **Special property for modelRect** |
 
 
 ```javascript
@@ -99,7 +99,7 @@ ModelRect node has the attributes shown below. The attribute with Object type wi
 
 
 ### style
-`style` is an object to configure the filling color, stroke, and other styles. The following code shows how to configure the `style` globally when instantiating a Graph.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cJeKS59n4FAAAAAAAAAAAABkARQnAQ' width=150/>
+The [Node Common Styles](/en/docs/manual/middle/elements/nodes/defaultNode/#style) are available for Circle node.`style` is an object to configure the filling color, stroke, and other styles. The following code shows how to configure the `style` globally when instantiating a Graph.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cJeKS59n4FAAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
 const data = {
   nodes: [{
@@ -129,7 +129,7 @@ graph.render();
 
 
 ### labelCfg
-`labelCfg` is an object to configure the label of the node. Base on the code in [style](#style) section, we add `labelCfg` to `defaultNode`.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*x_XKQq4m3IkAAAAAAAAAAABkARQnAQ' width=150/>
+`labelCfg` is an object to configure the label of the node. The [Node Common Label Configurations](/en/docs/manual/middle/elements/nodes/defaultNode/#label-and-labelcfg) are available. Base on the code in [style](#style) section, we add `labelCfg` to `defaultNode`.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*x_XKQq4m3IkAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
 const data = {
   // ... data
@@ -137,7 +137,7 @@ const data = {
 const graph = new G6.Graph({
   // ... Other configurations for graph
   defaultNode: {
-    // ... Other attributes for node
+    // ... Other properties for node
     labelCfg: {
       style: {
         fill: '#9254de',
@@ -151,18 +151,22 @@ const graph = new G6.Graph({
 
 
 ### linkPoints
-`linkPoints` is an object to configure the link points on the 「top, bottom, left, and right」.
+`linkPoints` is an object to configure the small circles on the 「top, bottom, left, and right」.
+
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> It is different from `anchorPoints`:
+`anchorPoints` is an 「**array**」 that indicates the actual relative positions used to specify the join position of the relevant edge of the node (refer to [anchorPoints](/en/docs/manual/middle/keyconcept/anchorpoint));
+`linkPoints` is an object that indicates whether 「**render**」the four small circles, which do not connect the relevant edges. These two properties are often used together.
 
 | Name | Description | Type | Remark |
 | --- | --- | --- | --- |
-| top | Whether to show the top link point | Boolean | `false` by default |
-| bottom | Whether to show the bototm link point | Boolean | `false` by default |
-| left | Whether to show the left link point | Boolean | `false` by default |
-| right | Whether to show the right link point | Boolean | `false` by default |
-| size | The size of the link points | Number | `3` by default |
-| fill | The filling color of the link points | String | `'#72CC4A'` by default |
-| stroke | The stroke color of the link points | String | `'#72CC4A'` by default |
-| lineWidth | The line width of the link points | Number | `1` by default |
+| top | Whether to show the top small circle | Boolean | `false` by default |
+| bottom | Whether to show the bototm small circle | Boolean | `false` by default |
+| left | Whether to show the left small circle | Boolean | `false` by default |
+| right | Whether to show the right small circle | Boolean | `false` by default |
+| size | The size of the small circles | Number | `3` by default |
+| fill | The filling color of the small circles | String | `'#72CC4A'` by default |
+| stroke | The stroke color of the small circles | String | `'#72CC4A'` by default |
+| lineWidth | The line width of the small circles | Number | `1` by default |
 
 
 Base on the code in [style](#style) section, we add `linkPoints` to `defaultNode`.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Tp2WQ70bCGgAAAAAAAAAAABkARQnAQ' width=150/>
@@ -195,7 +199,7 @@ const graph = new G6.Graph({
 | --- | --- | --- | --- |
 | show | Whether to show the left rect | Boolean | `true` by default |
 | width | The width of the left rect | Number | `4` by default |
-| fill | The filling color the the left rect | String | `'#40a9ff'` by default |
+| fill | The filling color of the left rect | String | `'#40a9ff'` by default |
 | radius | The border radius of the left rect | Number | `2` by default |
 
 
