@@ -1,5 +1,5 @@
 ---
-title: Node Properties
+title: Node Shape Properties
 order: 0
 ---
 

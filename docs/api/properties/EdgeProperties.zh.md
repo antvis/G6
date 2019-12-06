@@ -1,5 +1,5 @@
 ---
-title: 边属性
+title: 边各图形属性
 order: 1
 ---
 

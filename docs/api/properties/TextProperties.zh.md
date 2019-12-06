@@ -1,9 +1,9 @@
 ---
-title: Attributes of Text
+title: 文本图形属性
 order: 2
 ---
 
-### Attributes
+### 属性
 文本有以下可用的属性。
 
 | Name | Description | Remark |

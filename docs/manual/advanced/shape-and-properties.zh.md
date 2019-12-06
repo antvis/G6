@@ -5,18 +5,17 @@ order: 0
 
 G6 中的元素（节点/边）是**由一个或多个**[**图形 Shape**](/zh/docs/manual/middle/keyConcept)**组成**，主要通过自定义节点或自定义边时在 `draw` 方法中使用 `group.addShape` 添加，G6 中支持以下的图形 Shape：
 
-- circle：圆；
-- rect：矩形；
-- ellipse：椭圆；
-- image：图片；
-- text：文本的属性请参考[这里](/zh/docs/manual/advanced/label-properties)；
-- fan：扇形；
-- marker：标记；
-- polygon：多边形；
-- path：路径。
+- [circle](#圆图形-circle)：圆；
+- [rect](#矩形图形-rect)：矩形；
+- [ellipse](#椭圆图形-ellipse)：椭圆；
+- [polygon](#多边形图形-polygon)：多边形；
+- [fan](#扇形图形-fan)：扇形；
+- [image](#图片图形-image)：图片；
+- [marker](#标记图形-marker)：标记；
+- [path](#路径-path)：路径。
+- [text](#文本-text)：文本；
 
 ## 各图形 Shape 的通用属性
-
 
 | 属性名 | 含义 | 备注 |
 | --- | --- | --- |
@@ -63,6 +62,33 @@ group.addShape('circle', {
 })
 ```
 
+
+## 矩形图形 Rect
+### 属性
+| 属性名 | 含义 | 备注 |
+| --- | --- | --- |
+| x | 矩形左上角的 x 坐标 |  |
+| y | 矩形左上角的 y 坐标 |  |
+| width | 矩形的宽度 |  |
+| height | 矩形的高度 |  |
+| radius | 定义圆角 | 支持整数或数组形式， 分别对应左上、右上、右下、左下角的半径：<br />- radius 缩写为 1 或 [ 1 ] 相当于 [ 1, 1, 1, 1 ]<br />- radius 缩写为 [ 1, 2 ] 相当于 [ 1, 2, 1, 2 ]<br />- radius 缩写为 [ 1, 2, 3 ] 相当于 [ 1, 2, 3, 2 ]<br /> |
+
+ 
+### 用法
+```javascript
+group.addShape('rect', {
+  attrs: {
+    x: 150,
+    y: 150,
+    width: 150,
+    height: 150,
+    stroke: 'black',
+    radius: [2, 4]
+  }
+});
+```
+
+
 ## 椭圆图形 Ellipse
 ### 属性
 | 属性名 | 含义 | 备注 |
@@ -84,6 +110,23 @@ group.addShape('ellipse', {
     fill: 'blue'
   }
 })
+```
+
+## 多边形图形 Polygon
+### 属性
+| 属性名 | 含义 | 备注 |
+| --- | --- | --- |
+| points | 多边形的所有端点坐标 | 数组形式 |
+
+
+### 用法
+```javascript
+group.addShape('polygon', {
+  attrs: {
+    points:[[ 30, 30 ], [ 40, 20 ], [ 30, 50 ], [ 60, 100 ]],
+    fill: 'red'
+  }
+});
 ```
 
 ## 扇形图形 Fan
@@ -166,48 +209,6 @@ group.addShape('marker', {
 });
 ```
 
-## 多边形图形 Polygon
-### 属性
-| 属性名 | 含义 | 备注 |
-| --- | --- | --- |
-| points | 多边形的所有端点坐标 | 数组形式 |
-
-
-### 用法
-```javascript
-group.addShape('polygon', {
-  attrs: {
-    points:[[ 30, 30 ], [ 40, 20 ], [ 30, 50 ], [ 60, 100 ]],
-    fill: 'red'
-  }
-});
-```
-
-## 矩形图形 Rect
-### 属性
-| 属性名 | 含义 | 备注 |
-| --- | --- | --- |
-| x | 矩形左上角的 x 坐标 |  |
-| y | 矩形左上角的 y 坐标 |  |
-| width | 矩形的宽度 |  |
-| height | 矩形的高度 |  |
-| radius | 定义圆角 | 支持整数或数组形式， 分别对应左上、右上、右下、左下角的半径：<br />- radius 缩写为 1 或 [ 1 ] 相当于 [ 1, 1, 1, 1 ]<br />- radius 缩写为 [ 1, 2 ] 相当于 [ 1, 2, 1, 2 ]<br />- radius 缩写为 [ 1, 2, 3 ] 相当于 [ 1, 2, 3, 2 ]<br /> |
-
- 
-### 用法
-```javascript
-group.addShape('rect', {
-  attrs: {
-    x: 150,
-    y: 150,
-    width: 150,
-    height: 150,
-    stroke: 'black',
-    radius: [2, 4]
-  }
-});
-```
-
 ## 路径 Path
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;⚠️**注意：**</span>
 边太细时候点击不中，请设置 `lineAppendWidth` 属性值。
@@ -244,6 +245,45 @@ group.addShape('path', {
     stroke: '#000',
     lineWidth: 8,
     lineAppendWidth: 5
+  }
+});
+```
+
+## 文本 Text
+### 属性
+
+| 属性名 | 含义 | 备注 |
+| --- | --- | --- |
+| fill | 设置用于填充绘画的颜色、渐变或模式 | 对应 Canvas 属性 `fillStyle` |
+| stroke | 设置用于笔触的颜色、渐变或模式 | 对应 Canvas 属性 `strokeStyle` |
+| shadowColor | 设置用于阴影的颜色 |  |
+| shadowBlur | 设置用于阴影的模糊级别 | 数值越大，越模糊 |
+| shadowOffsetX | 设置阴影距形状的水平距离 |  |
+| shadowOffsetY | 设置阴影距形状的垂直距离 |  |
+| opacity | 设置绘图的当前 alpha 或透明值 | 对应 Canvas 属性 `globalAlpha` |
+| font | 设置文本内容的当前字体属性 |  |
+| textAlign | 设置文本内容的当前对齐方式 | 支持的属性：`center` / `end` / `left` / `right` / `start`，默认值为 `start` |
+| textBaseline | 设置在绘制文本时使用的当前文本基线 | 支持的属性:<br />`top` / `middle` / `bottom` / `alphabetic` / `hanging`。默认值为 `bottom` |
+| fontStyle | 字体样式 | 对应 `font-style` |
+| fontVariant | 设置为小型大写字母字体 | 对应 `font-variant` |
+| fontWeight | 字体粗细 | 对应 `font-weight` |
+| fontSize | 字体大小 | 对应 `font-size` |
+| fontFamily | 字体系列 | 对应 `font-family` |
+
+### 用法
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0xkLS5shGJUAAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
+
+```javascript
+group.addShape('text', {
+  attrs: {
+    text: 'test text',
+    x: 0,
+    y: 10,
+    fontSize: 14,
+    textAlign: 'left',
+    textBaseline: 'middle',
+    fill: '#0000D9'
   }
 });
 ```

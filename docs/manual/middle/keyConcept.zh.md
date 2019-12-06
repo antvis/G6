@@ -6,11 +6,11 @@ order: 0
 ## 图形 Shape
 Shape 指 G6 中的图形、形状，它可以是圆形、矩形、路径等。它一般与 G6 中的节点、边相关。G6 中的每一种节点或边由一个或多个 Shape 组成。
 
-例如下图（左）的节点包含了一个圆形图形；下图（中）的节点含有有一个圆形和一个文本图形；下图（右）的节点中含有 5 个圆形（蓝绿色的圆和上下左右四个锚点）、一个文本图形。但每种节点和边都会有自己的唯一关键图形 keyShape，下图中三个节点的 keyShape 都是蓝绿色的圆，keyShape 主要用于交互检测、样式随[状态](/zh/docs/manual/middle/states/state)自动更新等，见 [keyShape](#UNCAz)。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OcaaTIIu_4cAAAAAAAAAAABkARQnAQ' width=50/>     <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*r5M0Sowd1R8AAAAAAAAAAABkARQnAQ' width=50/>      <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*pHoETad75CIAAAAAAAAAAABkARQnAQ' width=50/>
+例如下图（左）的节点包含了一个圆形图形；下图（中）的节点含有有一个圆形和一个文本图形；下图（右）的节点中含有 5 个圆形（蓝绿色的圆和上下左右四个锚点）、一个文本图形。但每种节点和边都会有自己的唯一关键图形 keyShape，下图中三个节点的 keyShape 都是蓝绿色的圆，keyShape 主要用于交互检测、样式随[状态](/zh/docs/manual/middle/states/state)自动更新等，见 [keyShape](#keyshape)。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OcaaTIIu_4cAAAAAAAAAAABkARQnAQ' width=50/>     <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*r5M0Sowd1R8AAAAAAAAAAABkARQnAQ' width=50/>      <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*pHoETad75CIAAAAAAAAAAABkARQnAQ' width=50/>
 > （左）只含有一个圆形图形的节点，keyShape 是该圆形。（中）含有圆形和文本图形的节点，keyShape 是圆形。（右）含有主要圆形、文本、上下左右四个小圆形的节点，keyShape 是圆形。
 
 
-G6 使用不同的 shape 及组合，设计了多种内置的节点和边。G6 内置节点的有 'circle'， 'rect'，'ellipse'，...（详见 [内置节点](/zh/docs/manual/middle/elements/nodes/defaultNode)）；内置边的有 'line'，'polyline'，'cubic'，...（详见 [内置边](/zh/docs/manual/middle/elements/nodes/defaultEdge)）。
+G6 使用不同的 shape 及组合，设计了多种内置的节点和边。G6 内置节点的有 'circle'， 'rect'，'ellipse'，...（详见 [内置节点](/zh/docs/manual/middle/elements/nodes/defaultNode)）；内置边的有 'line'，'polyline'，'cubic'，...（详见 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge)）。
 
 除了使用内置的节点和边外，G6 还允许用户通过自己搭配和组合 Shape 进行节点和边的自定义，详见 [自定义节点](/zh/docs/manual/advanced/custom-node) 和 [自定义边](/zh/docs/manual/advanced/custom-edge)。
 
@@ -51,11 +51,11 @@ Shape 作为 Graph 上的核心元素，这几个阶段都需要考虑，但是�
 - `update(cfg, n)`: 更新，更新时的配置项（更新的字段和原始字段的合并）和元素对象；
 - `setState(name, value, item)`: 响应节点状态的变化。
 
-关于自定义 Shape 更多的方法请[参考 Shape API 文档](/zh/docs/api/Shape)。
+关于自定义 Shape 更多的方法请参考 [Shape API](/zh/docs/api/Shape)。
 
 ## anchorPoint
 
-节点的连接点 anchorPoint 指的是边连入节点的相对位置，即节点与其相关边的交点位置。anchorPoints 是一个二维数组，每一项表示一个连接点的位置，在一个[图形 shape](/zh/docs/manual/middle/keyConcept) 中，连接点的位置如下图所示，x 和 y 方向上范围都是 [0, 1]：<br />
+节点的连接点 anchorPoint 指的是边连入节点的相对位置，即节点与其相关边的交点位置。anchorPoints 是一个二维数组，每一项表示一个连接点的位置，在一个[图形 Shape](/zh/docs/manual/middle/keyConcept#图形-shape) 中，连接点的位置如下图所示，x 和 y 方向上范围都是 [0, 1]：<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EJTyR4j9VN4AAAAAAAAAAABkARQnAQ' width='600' height='300' />
 
 节点中有了 anchorPoints 之后，相关边可以分别选择连入起始点、结束点的哪一个 anchorPoint。当需要在节点之间连多条线时，这种机制能够使边的连入更美观。

@@ -3,11 +3,11 @@ title: 节点与边的层级
 order: 4
 ---
 
-节点与边在视觉上的层级涉及到了它们相对应的[图形分组 Group](/zh/docs/manual/advanced/graphics-group)。本文提到的所有分组 Group 都为 G6 的 [图形分组 Group](/zh/docs/manual/advanced/graphics-group)，而非 G6 的 [节点分组 Group](/zh/docs/manual/middle/nodeGroup)，请注意区分这两种 Group，其区别在 [图形分组 Group](/zh/docs/manual/advanced/graphics-group) 中说明。
+节点与边在视觉上的层级涉及到了它们相对应的 [图形分组 Group](/zh/docs/manual/advanced/graphics-group)。本文提到的所有分组 Group 都为 G6 的图形分组 Group，而非 G6 的 [节点分组 Group](/zh/docs/manual/middle/nodeGroup)，请注意区分这两种 Group，其区别在 [图形分组 Group](/zh/docs/manual/advanced/graphics-group) 中说明。
 
 在 [图形分组 Group](/zh/docs/manual/advanced/graphics-group) 中我们提到：在 G6 中，Graph 的一个实例中的所有节点属于同一个变量名为 `nodeGroup` 的 group，所有的边属于同一个变量名为 `edgeGroup` 的 group。节点 group 在视觉上的层级（zIndex）高于边 group，即所有节点会绘制在所有边的上层。
 
-但有时，我们需要让边在视觉上在节点上层。例如，高亮节点及其相关边和邻居、高亮一条边等。可以通过配合图实例的配置项 `groupByTypes` 以及节点和边的 `toFront()` 与 `toBack()` 函数实现。为实现如下效果：鼠标进入节点时，提升相关边以及邻居节点的层级；离开节点时恢复；鼠标进入边时，提升边及其两端点的层级；离开边时恢复。[Demo 完整代码](https://codepen.io/Yanyan-Wang/pen/GRRNzGN)。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*uWGAR5-w-TcAAAAAAAAAAABkARQnAQ' width=150/>
+但有时，我们需要让边在视觉上在节点上层。例如，高亮节点及其相关边和邻居、高亮一条边等。可以通过配合图实例的配置项 `groupByTypes` 以及节点和边的 `toFront()` 与 `toBack()` 函数实现。为实现如下效果：鼠标进入节点时，提升相关边以及邻居节点的层级；离开节点时恢复；鼠标进入边时，提升边及其两端点的层级；离开边时恢复。<a href='https://codepen.io/Yanyan-Wang/pen/GRRNzGN' target='_blank'>Demo 完整代码</a>。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*uWGAR5-w-TcAAAAAAAAAAABkARQnAQ' width=150/>
 
 要实现上图效果，需要以下步骤：
 
@@ -85,7 +85,7 @@ order: 4
 ### 参数描述
 | 名称 | 类型 | 默认值 | 描述 |
 | --- | --- | --- | --- |
-| groupByTypes | Boolean | true | 各种元素是否在一个分组内，决定节点和边的层级问题，默认情况下所有的节点在一个分组中，所有的边在一个分组中，当这个参数为 false 时，节点和边的层级根据生成的顺序确定。 |
+| groupByTypes | Boolean | true | 各种元素是否在一个分组内，决定节点和边的层级问题，默认情况下所有的节点在一个分组中，所有的边在一个分组中，当这个参数为 `false` 时，节点和边的层级根据生成的顺序确定。 |
 
 
 ### 使用方式

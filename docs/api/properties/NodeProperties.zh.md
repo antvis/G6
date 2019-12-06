@@ -1,5 +1,5 @@
 ---
-title: 节点属性
+title: 节点各图形属性
 order: 0
 ---
 
@@ -9,13 +9,13 @@ order: 0
 
 | 属性名 | 含义 | 备注 |
 | --- | --- | --- |
-| fill | 设置用于填充绘画的颜色、渐变或模式 | 对应 Canvas 属性`fillStyle` |
-| stroke | 设置用于笔触的颜色、渐变或模式 | 对应 Canvas 属性`strokeStyle` |
+| fill | 设置用于填充绘画的颜色、渐变或模式 | 对应 Canvas 属性 `fillStyle` |
+| stroke | 设置用于笔触的颜色、渐变或模式 | 对应 Canvas 属性 `strokeStyle` |
 | shadowColor | 设置用于阴影的颜色 |  |
 | shadowBlur | 设置用于阴影的模糊级别 | 数值越大，越模糊 |
 | shadowOffsetX | 设置阴影距形状的水平距离 |  |
 | shadowOffsetY | 设置阴影距形状的垂直距离 |  |
-| opacity | 设置绘图的当前 alpha 或透明值 | 对应 Canvas 属性`globalAlpha` |
+| opacity | 设置绘图的当前 alpha 或透明值 | 对应 Canvas 属性 `globalAlpha` |
 
 **用法**
 ```javascript

@@ -6,12 +6,12 @@ order: 0
 ## Graphics Shape
 Graphics Shape (hereinafter referred to as Shape) in G6 is the shape of items (nodes/edges), it can be a circle, a rect, path, and so on. A node or an edge is made up of one or several Shapes.
 
-In the figure(Left) below, there is a node with a circle Shape; (Center) a node with a circle Shape and a text Shape; (right) a node with a text Shape and 5 circle Shapes including the main circle and four anchor points. Each node or edge has only one keyShape. The keyShape of each nodes in the figure below is the green circle. [keyShape](#UNCAz) is the Shape that responses interactions and [State](/zh/docs/manual/middle/states/state) changing. 
+In the figure(Left) below, there is a node with a circle Shape; (Center) a node with a circle Shape and a text Shape; (right) a node with a text Shape and 5 circle Shapes including the main circle and four anchor points. Each node or edge has only one keyShape. The keyShape of each nodes in the figure below is the green circle. [keyShape](#keyshape) is the Shape that responses interactions and [State](/en/docs/manual/middle/states/state) changing. 
 <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OcaaTIIu_4cAAAAAAAAAAABkARQnAQ' width=50/>     <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*r5M0Sowd1R8AAAAAAAAAAABkARQnAQ' width=50/>      <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*pHoETad75CIAAAAAAAAAAABkARQnAQ' width=50/>
 > (Left) A node with one circle Shape, the keyShape is the circle. (Center) A node with a text Shape and the circle Shape, the keyShape is the circle. (Right) A node with a text Shape and five circle Shapes including the main circle and four anchors, the keyShape is the green circle.
 
 
-G6 designs abundant built-in nodes and edges by combing different Shapes. Built-in nodes includes 'circle', 'rect', 'ellipse', ...(Refer to [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode)); Built-in edges includes 'line', 'polyline', 'cubic', ... (Refer to [Built-in Edges](/en/docs/manual/middle/elements/nodes/defaultEdge)).
+G6 designs abundant built-in nodes and edges by combing different Shapes. Built-in nodes includes 'circle', 'rect', 'ellipse', ...(Refer to [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode)); Built-in edges includes 'line', 'polyline', 'cubic', ... (Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge)).
 
 Besides, G6 allows users to define their own types of item by register a custom node or an custom edge. Refer to [Custom Node](/en/docs/manual/advanced/custom-node) and [Custom Edge](/en/docs/manual/advanced/custom-edge).
 
@@ -52,11 +52,11 @@ There are three key functions of custom node and edge which should be rewrited a
 - `update(cfg, n)`: Update the item according to the configurations and the item;
 - `setState(name, value, item)`: Response the states change for items.
 
-For more information, refer to [Shape API](/en/docs/api/Shape)。
+For more information, refer to [Shape API](/en/docs/api/Shape).
 
 ## anchorPoint
 
-The anchorPoint of a node is the link point where the related edges link to. In other words, it is the intersection of a node and its related edges. anchorPoints is a 2d array, each element represents the position of one anchor point. The positions of the anchor points in a [Shape](/en/docs/manual/middle/keyConcept) are shown below, the range of each x and y is [0, 1]:<br />
+The anchorPoint of a node is the link point where the related edges link to. In other words, it is the intersection of a node and its related edges. anchorPoints is a 2d array, each element represents the position of one anchor point. The positions of the anchor points in a [Shape](/en/docs/manual/middle/keyConcept#graphics-shape) are shown below, the range of each x and y is [0, 1]:<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EJTyR4j9VN4AAAAAAAAAAABkARQnAQ' width='600' height='300' />
 
 You can select the link points for an edge by `sourceAnchor` and `targetAnchor` if there are anchorPoints in the source and target node. Where This `sourceAnchor` and `targetAnchor` indicate the index of the array of anchorPoints. mechanism beautifies the graphs when there are multiple edges between two nodes.
