@@ -87,10 +87,10 @@ const graph = new G6.Graph({
 | preventOverlap | Boolean | false | false | 是否防止重叠，必须配合属性 `nodeSize` ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测。若未设置 `nodeSize` ，则根据节点数据中的 `size` 进行碰撞检测。若二者都未设置，则默认以 10 为节点大小进行碰撞检测 |
 | nodeSize | Array | Number | 20 | undefined | 节点大小（直径）。用于碰撞检测。<br />若不指定，则根据传入的数据节点中的 `size` 字段计算。若即不指定，节点中也没有 `size`，则默认大小为 10 |
 | nodeSpacing<br /><br />**V3.1.6 后支持** | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150/><br />`preventOverlap` 为 `true` 时生效，防止重叠时节点边缘间距的最小值。可以是回调函数，为不同节点设置不同的最小间距，如示例 2 所示<br /> |
-| alphaDecay | Number | 0.03 | 0.028 | 迭代阈值的衰减率。[0, 1]，0.028 对应迭代数为 300 |
+| alphaDecay | Number | 0.03 | 0.028 | 迭代阈值的衰减率。范围 [0, 1]，0.028 对应迭代数为 300 |
 | alphaMin | Number | 0.03 | 0.001 | 停止迭代的阈值 |
 | alpha | Number | 0.1 | 0.3 | 当前阈值 |
-| collideStrength | Number | 0.8 | 1 | 防止重叠的力强度，[0, 1]。 |
+| collideStrength | Number | 0.8 | 1 | 防止重叠的力强度，范围 [0, 1]。 |
 | forceSimulation | Object |  | null | 自定义 force 方法，若不指定，则使用 d3 的方法。 |
 | onTick | Function |  | {} | 每一次迭代的回调函数 |
 | onLayoutEnd | Function |  | {} | 布局完成后的回调函数 |
@@ -152,10 +152,10 @@ const graph = new G6.Graph({
 | maxIteration | Number | 1000 | 1000 | 停止迭代到最大迭代数 |
 | focusNode | String / Object | 'node1' | null | 中心点，默认为数据中第一个节点。可以传入节点 id 或节点本身。 |
 | unitRadius | Number | 10 | 100 | 每一圈距离上一圈的距离。默认填充整个画布，即根据图的大小决定 |
-| preventOverlap | Boolean | false | false | 是否防止重叠，必须配合属性 `nodeSize` ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测。<br />~~*V3.1.6 后支持*~~：<br />若未设置 `nodeSize`，则将会根据数据中节点的 size 字段数值进行碰撞检测计算。若二者皆未设置，则以节点大小为 10 进行计算。 |
+| preventOverlap | Boolean | false | false | 是否防止重叠，必须配合属性 `nodeSize` ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测。<br />*V3.1.6 后支持*：<br />若未设置 `nodeSize`，则将会根据数据中节点的 `size` 字段数值进行碰撞检测计算。若二者皆未设置，则以节点大小为 `10` 进行计算。 |
 | maxPreventOverlapIteration | Number | 500 | 200 | 防止重叠步骤的最大迭代次数 |
-| nodeSize | Number | 10 | 10 | 节点大小（直径）。用于防止节点重叠时的碰撞检测。<br />~~*V3.1.6 后支持*~~：<br />若未设置则使用数据中节点的 `size` 字段数值进行碰撞检测计算。若二者皆未设置，则以节点大小为 10 进行计算。 |
-| nodeSpacing<br />~~*V3.1.6 后支持*~~ | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cFq4QbXVx7sAAAAAAAAAAABkARQnAQ' width=150/><br />`preventOverlap` 为 `true` 时生效，防止重叠时节点边缘间距的最小值。可以是回调函数，为不同节点设置不同的最小间距，如示例 2 所示<br /> |
+| nodeSize | Number | 10 | 10 | 节点大小（直径）。用于防止节点重叠时的碰撞检测。<br />*V3.1.6 后支持*：<br />若未设置则使用数据中节点的 `size` 字段数值进行碰撞检测计算。若二者皆未设置，则以节点大小为 `10` 进行计算。 |
+| nodeSpacing<br />*V3.1.6 后支持* | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cFq4QbXVx7sAAAAAAAAAAABkARQnAQ' width=150/><br />`preventOverlap` 为 `true` 时生效，防止重叠时节点边缘间距的最小值。可以是回调函数，为不同节点设置不同的最小间距，如示例 2 所示<br /> |
 | strictRadial | Boolean | true | false | 是否必须是严格的 radial 布局，即每一层的节点严格布局在一个环上。`preventOverlap` 为 `true` 时生效。详见 [Radial-strictRadial API](/zh/docs/api/layout/Graph/#strictradial)<br />- 当 `preventOverlap` 为 `true`，且 `strictRadial` 为 `false` 时，有重叠的节点严格沿着所在的环展开，但在一个环上若节点过多，可能无法完全避免节点重叠。<br />- 当 `preventOverlap` 为 `true`，且 `strictRadial` 为 `true` 时，允许同环上重叠的节点不严格沿着该环布局，可以在该环的前后偏移以避免重叠。<br /> |
 
 
@@ -179,14 +179,14 @@ const graph = new G6.Graph({
 | align | String | 'UL' / 'UR' / 'DL' / 'DR' | 'UL' | 节点对齐方式。U：upper；D：down；L：left；R：right |
 | nodesep | Number | 40 | 50 | 在 `rankdir` 为 `'TB'` 或 `'BT'` 时代表节点水平间距(px)；在 `rankdir` 为 `'LR'` 或 `'RL'` 时代表节点的竖直间距。优先级高于 `nodesepFunc` |
 | ranksep | Number | 40 | 50 | 层间距（px）。在`rankdir` 为 `'TB'` 或 `'BT'` 时是竖直方向相邻层间距；在`rankdir` 为 `'LR'` 或 `'RL'` 时代表水平方向相邻层间距。优先级高于 `ranksepFunc` |
-| nodesepFunc<br /><br />~~*V3.1.6 后支持*~~ | Function | d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | 节点水平间距（px）的回调函数，通过该参数可以对不同节点设置不同的节点间距。在`rankdir` 为 'TB' 或 'BT' 时是节点的水平间距；在`rankdir` 为 'LR' 或 'RL' 时是节点的竖直间距。优先级低于 `nodesep`，即若设置了 `nodesep`，则 `nodesepFunc` 不生效 |
-| ranksepFunc<br /><br />~~*V3.1.6 后支持*~~ | Function | d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | 层间距（px）的回调函数，通过该参数可以对不同节点设置不同的层间距。在`rankdir` 为 'TB' 或 'BT' 时是竖直方向相邻层间距；在`rankdir` 为 'LR' 或 'RL' 时代表水平方向相邻层间距。优先级低于 `ranksep`，即若设置了 `ranksep`，则 `ranksepFunc` 不生效 |
+| nodesepFunc<br /><br />*V3.1.6 后支持* | Function | d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | 节点水平间距（px）的回调函数，通过该参数可以对不同节点设置不同的节点间距。在`rankdir` 为 'TB' 或 'BT' 时是节点的水平间距；在`rankdir` 为 'LR' 或 'RL' 时是节点的竖直间距。优先级低于 `nodesep`，即若设置了 `nodesep`，则 `nodesepFunc` 不生效 |
+| ranksepFunc<br /><br />*V3.1.6 后支持* | Function | d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | 层间距（px）的回调函数，通过该参数可以对不同节点设置不同的层间距。在`rankdir` 为 'TB' 或 'BT' 时是竖直方向相邻层间距；在`rankdir` 为 'LR' 或 'RL' 时代表水平方向相邻层间距。优先级低于 `ranksep`，即若设置了 `ranksep`，则 `ranksepFunc` 不生效 |
 | controlPoints | Boolean | true | true | 是否保留布局连线的控制点 |
 
 
 
 #### Concentric
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ux0-SYBy6Y8AAAAAAAAAAABkARQnAQ' width=300/><br />注：该算法参考 [cytoscape.js](https://github.com/cytoscape/cytoscape.js)，遵守 MIT 开源协议。<br />**描述**：同心圆布局。<br />**API**：[Concentric API](/zh/docs/api/layout/Graph/#concentric)<br />**参数**：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ux0-SYBy6Y8AAAAAAAAAAABkARQnAQ' width=300/><br />注：该算法参考 <a href='https://github.com/cytoscape/cytoscape.js' target='_blank'>cytoscape.js</a>，遵守 MIT 开源协议。<br />**描述**：同心圆布局。<br />**API**：[Concentric API](/zh/docs/api/layout/Graph/#concentric)<br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -204,7 +204,7 @@ const graph = new G6.Graph({
 
 
 #### Grid
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5U3_TZVolpEAAAAAAAAAAABkARQnAQ' width=300/><br />注：该算法参考 [cytoscape.js](https://github.com/cytoscape/cytoscape.js)，遵守 MIT 开源协议。<br />**描述**：网格布局。<br />**API**：[Grid API](/zh/docs/api/layout/Graph/#grid)<br />**参数**：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5U3_TZVolpEAAAAAAAAAAABkARQnAQ' width=300/><br />注：该算法参考 <a href='https://github.com/cytoscape/cytoscape.js' target='_blank'>cytoscape.js</a>，遵守 MIT 开源协议。<br />**描述**：网格布局。<br />**API**：[Grid API](/zh/docs/api/layout/Graph/#grid)<br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
