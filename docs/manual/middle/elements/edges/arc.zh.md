@@ -114,7 +114,7 @@ graph.data(data);
 graph.render();
 ```
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">⚠️**注意：**</span><br />上面代码使用了 graph 的配置项 `linkCenter: true` 以设置 arc 边连入节点的中心，保证美观性。
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️注意:</strong></span><br />上面代码使用了 graph 的配置项 `linkCenter: true` 以设置 arc 边连入节点的中心，保证美观性。
 
 
 ### 样式属性 style

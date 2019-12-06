@@ -3,7 +3,7 @@ title: Custom Edge
 order: 3
 ---
 
-G6 provides abundant [Built-in Edges](/en/docs/manual/middle/elements/defaultEdge). Besides, the custom machanism allows the users to design their own type of edges. An edge with complex graphics shapes, complex interactions, fantastic animations can be implemented easily.
+G6 provides abundant [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge). Besides, the custom machanism allows the users to design their own type of edges. An edge with complex graphics shapes, complex interactions, fantastic animations can be implemented easily.
 
 In this document, we will introduce the custom edge by four examples:
 <br />1. Register a bran-new edge;
@@ -90,7 +90,7 @@ const data = {
 ## 2. Extend the Built-in Edge
 In this section, we add animation to a built-in edge by `afterDraw`.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-l9lQ7Ck1QcAAAAAAAAAAABkARQnAQ' alt='img' width='150'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-l9lQ7Ck1QcAAAAAAAAAAABkARQnAQ' alt='img' width='250'/>
 
 ```javascript
 G6.registerEdge('line-growth', {
@@ -122,7 +122,10 @@ In this section, we implement a type of edge with the interaction styles below:
 The result:<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IWLxRZomOfMAAAAAAAAAAABkARQnAQ' alt='img' width='350'/>
-<br /><span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">⚠️**Attention:**</span> when the edge is too thin to be hitted by mouse, set **lineAppendWidth** to enlarge the hitting area.
+<br />
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">
+<strong>⚠️Attention:</strong>
+</span> when the edge is too thin to be hitted by mouse, set `lineAppendWidth` to enlarge the hitting area.
 
 ```javascript
 // Extend a new type of edge by extending line edge

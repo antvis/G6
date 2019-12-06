@@ -83,7 +83,7 @@ layout 目前支持 dendrogram、compactBox、mindmap 和 indeted 四种布局�
 | direction | String | LR | 布局方向，有 `LR` , `RL` , `TB` , `BT` , `H` , `V` 可选。<br />L：左；R：右；T：上；B：下；H：垂直；V：水平。 |
 | getChildren | Function |  | 返回当前节点的所有子节点 |
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">⚠️**注意：**</span>当 `type='indeted'` 时，`direction` 只能取 `'LR'`、`'RL'` 和 `'H'` 这三个值。
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️注意:</strong></span>当 `type='indeted'` 时，`direction` 只能取 `'LR'`、`'RL'` 和 `'H'` 这三个值。
 
 
 ### dendrogram
@@ -137,7 +137,7 @@ layout 目前支持 dendrogram、compactBox、mindmap 和 indeted 四种布局�
 | getVGap | Function | 18 | 指定节点之间的垂直间距 |
 | getHGap | Function | 18 | 指定节点之间的水平间距 |
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">⚠️**注意：**</span>使用 `getWidth`、`getHeight`、`getVGap` 和 `getHGap` 指定节点的宽高及间距后，并不会改变节点的大小，具体原理如下所示：
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️注意:</strong></span>使用 `getWidth`、`getHeight`、`getVGap` 和 `getHGap` 指定节点的宽高及间距后，并不会改变节点的大小，具体原理如下所示：
 ```javascript
 /*
    * Gaps: filling space between nodes
@@ -240,7 +240,7 @@ treeGraph.addChild(data, 'root')
 | data | Object | true | 子树的数据 |
 | parent | Node | String | false | 父节点或父节点 ID |
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">⚠️**注意：**</span>当 `parent` 参数为空时，则全量更新。
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️注意:</strong></span>当 `parent` 参数为空时，则全量更新。
 
 **用法**
 

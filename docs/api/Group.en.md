@@ -39,7 +39,7 @@ group.addGroup({
 
 
 ### addShape(type, cfgs)
-Add a new shape into the group<br /><span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">⚠️**Attention:**</span> the clip and transform operations will affect all the shapes in the group. The graphics and their properties are introduced in [Shape API](/en/docs/api/Shape)。
+Add a new shape into the group<br /><span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> the clip and transform operations will affect all the shapes in the group. The graphics and their properties are introduced in [Shape API](/en/docs/api/Shape)。
 
 
 **Parameters**

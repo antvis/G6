@@ -6,7 +6,7 @@ order: 6
 A built-in edge Line has the default style as below.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sPBIR40KLOkAAAAAAAAAAABkARQnAQ' width=100/>
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">⚠️**Attention:**</span> <br />loop edge is appropriate for the self-loop edges whose target node and the source node are the same. In other words, a loop edge connect a node to itself. There will be a strange result if the loop edge is applied to the edge which is not a self-loop.
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> <br />loop edge is appropriate for the self-loop edges whose target node and the source node are the same. In other words, a loop edge connect a node to itself. There will be a strange result if the loop edge is applied to the edge which is not a self-loop.
 <br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*JgYrTabHWskAAAAAAAAAAABkARQnAQ' width='75' height='176' />
 

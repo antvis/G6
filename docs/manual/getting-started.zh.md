@@ -34,7 +34,7 @@ import G6 from '@antv/g6'
 <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-{$version}/build/g6.js"></script>
 ```
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">⚠️**注意：**</span>
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️注意:</strong></span>
 
 - 在 `{$version}` 中填写版本号，例如 `3.2.3`；
 - 最新版为 3.2.3，可以在 <a href='https://www.npmjs.com/package/@antv/g6' target='_blank'>NPM</a> 查看最新版本；

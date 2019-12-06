@@ -177,7 +177,7 @@ const data = {
 ### Configure with graph.edge(edgeFn)
 By this way, we can configure different nodes with different properties.<br />
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">⚠️**Attention:**</span>
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span>
 
 - `graph.edge(edgeFn)` must be called **before calling render()**. It does not take effect otherwise;
 - It has the highest priority that will rewrite the same properties configured by other ways;

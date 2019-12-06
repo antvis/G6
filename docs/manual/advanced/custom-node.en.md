@@ -3,7 +3,7 @@ title: Custom Node
 order: 2
 ---
 
-G6 provides abundant [Built-in Nodes](/en/docs/manual/middle/elements/defaultNode), including [circle](/en/docs/manual/middle/elements/nodes/circle), [rect](/en/docs/manual/middle/elements/nodes/rect, [ellipse](/en/docs/manual/middle/elements/nodes/ellipse), [diamond](/en/docs/manual/middle/elements/nodes/diamond), [triangle](/en/docs/manual/middle/elements/nodes/triangle), [star](/en/docs/manual/middle/elements/nodes/star), [image](/en/docs/manual/middle/elements/nodes/image), [modelRect](/en/docs/manual/middle/elements/nodes/modelRect). Besides, the custom machanism allows the users to design their own type of nodes by `G6.registerNode('nodeName', options)`. A node with complex graphics shapes, complex interactions, fantastic animations can be implemented easily.
+G6 provides abundant [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode), including [circle](/en/docs/manual/middle/elements/nodes/circle), [rect](/en/docs/manual/middle/elements/nodes/rect, [ellipse](/en/docs/manual/middle/elements/nodes/ellipse), [diamond](/en/docs/manual/middle/elements/nodes/diamond), [triangle](/en/docs/manual/middle/elements/nodes/triangle), [star](/en/docs/manual/middle/elements/nodes/star), [image](/en/docs/manual/middle/elements/nodes/image), [modelRect](/en/docs/manual/middle/elements/nodes/modelRect). Besides, the custom machanism allows the users to design their own type of nodes by `G6.registerNode('nodeName', options)`. A node with complex graphics shapes, complex interactions, fantastic animations can be implemented easily.
 
 In this document, we will introduce the custom enodeby four examples:
 <br />1. Register a bran-new edge;
@@ -79,7 +79,7 @@ G6.registerNode('nodeName', {
 }, extendNodeName);
 ```
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;⚠️**Attention:** </span>
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️Attention:</strong> </span>
 
 - `draw` is required if the custom node does not extend any parent;
 - `update` is not required. If it is undefined, the `draw` will be called when updating the node, which means all the graphics will be cleared and repaint;
@@ -171,7 +171,7 @@ Therefore, rewrite the `update` function when registering a node for partial rep
 
 To update a few graphics shapes of a node in `update`, you need find the graphics shapes to be updated frist:
 
-- Find the [keyShape](/en/docs/manual/middle/keyconcept/shape-keyshape) by `group.get('children')[0]`, which is the return value of `draw`;
+- Find the [keyShape](/en/docs/manual/middle/keyconcept/shape-keyshape#keyshape) by `group.get('children')[0]`, which is the return value of `draw`;
 - Find the graphics shape of label by `group.get('children')[1]`.
 
 The code shown below update the path and the color of the keyShape of the diamond:
@@ -197,9 +197,9 @@ G6.registerNode('diamond', {
 
 ## 2. Extend a Built-in Node
 ### Extend the Shape
-There are several [Built-in Nodes](/en/docs/manual/middle/elements/defaultNode) in G6. You can extend them to make some modification on them. It is similar to register the diamond node. [single-shape](https://github.com/antvis/g6/blob/master/src/shape/single-shape-mixin.js) is the base class of all the graphics shape, you can also extend it.
+There are several [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) in G6. You can extend them to make some modification on them. It is similar to register the diamond node. <a href='https://github.com/antvis/g6/blob/master/src/shape/single-shape-mixin.js' target='_blank'>single-shape</a> is the base class of all the graphics shape, you can also extend it.
 
-For example, we are going to extend the single-shape. `draw`, `update`, and `setState` have been implemented in the [single-shape](https://github.com/antvis/g6/blob/master/src/shape/single-shape-mixin.js). Thus, we only rewrite the `getShapeStyle`, which returns the path and the styles of graphics shapes.
+For example, we are going to extend the single-shape. `draw`, `update`, and `setState` have been implemented in the <a href='https://github.com/antvis/g6/blob/master/src/shape/single-shape-mixin.js' target='_blank'>single-shape</a>. Thus, we only rewrite the `getShapeStyle`, which returns the path and the styles of graphics shapes.
 ```javascript
 G6.registerNode('diamond', {
   shapeType: 'path', // It is required when the shape inherits from 'single-shape', not required otherwise
@@ -277,7 +277,7 @@ For more information about animation, please refer to [Basic Ainmation](/en/docs
 <br />
 
 ## 3. Adjust the anchorPoint
-The [anchorPoint](/en/docs/manual/middle/keyconcept/shape-keyshape) of a node is **the intersection of the node and its related edges**.<br />
+The [anchorPoint](/en/docs/manual/middle/keyconcept/anchorpoint) of a node is **the intersection of the node and its related edges**.<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mJ85Q5WRJLwAAAAAAAAAAABkARQnAQ' alt='img' width='200'/>
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*99aSR5zbd44AAAAAAAAAAABkARQnAQ' alt='img' width='200'/>

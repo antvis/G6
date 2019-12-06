@@ -429,6 +429,6 @@ graph.on('node:mouseleave', ev => {
 // graph.render();
 ```
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;⚠️**注意：**</span>
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️注意:</strong></span>
 running 为 false 时，要停止动画，同时把 lineDash 清空。
 

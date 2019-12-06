@@ -71,7 +71,7 @@ To satisfy different scenario, G6 provides 7 ways to configure the properties fo
 - `defaultNode`: The **Style Property** and **Other Properties** in the default state;
 - `defaultEdge`: The **Style Property** and **Other Properties** in the default state.
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">⚠️**Attention:**</span> It is a way of unified global configuration, which does not distinguish the nodes with different properties (e.g. `class` and `weight`) in their data. That is to say, only R1, R2, R3, and R4 can be satisfied now:
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> It is a way of unified global configuration, which does not distinguish the nodes with different properties (e.g. `class` and `weight`) in their data. That is to say, only R1, R2, R3, and R4 can be satisfied now:
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bufdS75wcmMAAAAAAAAAAABkARQnAQ' width=450 height=450 />
 
@@ -290,4 +290,4 @@ graph.render()
 </html>
 ```
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">⚠️**Attention:**</span> <br />Replace the url `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` to change the data into yours.
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> <br />Replace the url `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` to change the data into yours.

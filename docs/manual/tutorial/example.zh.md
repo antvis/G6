@@ -49,7 +49,7 @@ order: 1
 </script>
 ```
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">⚠️**注意：**</span>
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️注意:</strong></span>
 
 - `nodes` 数组中包含节点对象，唯一的 `id` 是每个节点对象中必要的属性，`x`、 `y` 用于定位；
 - `edges` 数组中包含边对象，`source` 和 `target` 是每条边的必要属性，分别代表了该边的起始点 `id` 与 目标点 `id`。
@@ -196,4 +196,4 @@ const graph = new G6.Graph({
 </html>
 ```
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">⚠️**注意：**</span><br />若需更换数据，请替换 `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` 为新的数据文件地址。
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️注意:</strong></span><br />若需更换数据，请替换 `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` 为新的数据文件地址。

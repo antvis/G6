@@ -139,7 +139,7 @@ const graph = new G6.Graph({
 ### linkPoints
 Object 类型。通过配置 `linkPoints` ，可以指定节点上「上、左、右」三个小圆点。
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">⚠️**注意：**</span>区分于 `anchorPoints`：
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️注意:</strong></span>区分于 `anchorPoints`：
 `anchorPoints` 是真正用于指定该节点相关边的连入位置的「**数组**」，见 [anchorPoints](/zh/docs/manual/middle/keyconcept/anchorpoint)；
 而 `linkPoints` 仅是指定是否「**绘制**」出四个圆点，不起实际的连接相关边的作用。二者常常配合使用。
 

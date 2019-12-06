@@ -6,7 +6,7 @@ order: 6
 G6 内置了折线 loop 边，其默认样式如下。<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sPBIR40KLOkAAAAAAAAAAABkARQnAQ' width=100/>
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">⚠️**注意：**</span><br />loop 边适用于自环边，即起始点与结束点为相同节点的边，在不同端点的边上适用 loop 边将会出现异常效果。
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️注意:</strong></span><br />loop 边适用于自环边，即起始点与结束点为相同节点的边，在不同端点的边上适用 loop 边将会出现异常效果。
 <br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*JgYrTabHWskAAAAAAAAAAABkARQnAQ' width='75' height='176' />
 

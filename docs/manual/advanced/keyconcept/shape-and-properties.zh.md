@@ -210,7 +210,7 @@ group.addShape('marker', {
 ```
 
 ## 路径 Path
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;⚠️**注意：**</span>
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️注意:</strong></span>
 边太细时候点击不中，请设置 `lineAppendWidth` 属性值。
 ### 属性
 | 属性名 | 含义 | 备注 |

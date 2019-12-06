@@ -114,7 +114,7 @@ graph.data(data);
 graph.render();
 ```
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">⚠️**Attention:**</span> <br /> `linkCenter: true` is assigned to the graph in the code above to ensure the arc edges link to the center of their end nodes.
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> <br /> `linkCenter: true` is assigned to the graph in the code above to ensure the arc edges link to the center of their end nodes.
 
 
 ### style

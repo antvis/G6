@@ -429,6 +429,6 @@ graph.on('node:mouseleave', ev => {
 // graph.render();
 ```
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;⚠️**Attention:**</span>
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️Attention:</strong></span>
 When running is turned to be false, the animation should be stopped and the lineDash should be cleared.
 

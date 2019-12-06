@@ -210,7 +210,7 @@ group.addShape('marker', {
 ```
 
 ## Path
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;⚠️**Attention:** </span>
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️Attention:</strong> </span>
  When the edge is too thin to be hitted by mouse, set **lineAppendWidth** to enlarge the hitting area.
 
 ### Property

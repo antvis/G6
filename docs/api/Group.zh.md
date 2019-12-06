@@ -39,7 +39,7 @@ group.addGroup({
 
 
 ### addShape(type, cfgs)
-向分组中添加新的图形。<br /><span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">⚠️**注意：**</span>：在分组上添加的 clip， transform 等操作会影响到该分组中的所有图形。所有图形及其绘图属性请见 [Shape API](/zh/docs/api/Shape)。
+向分组中添加新的图形。<br /><span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️注意:</strong></span>：在分组上添加的 clip， transform 等操作会影响到该分组中的所有图形。所有图形及其绘图属性请见 [Shape API](/zh/docs/api/Shape)。
 
 
 **参数**
