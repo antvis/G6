@@ -362,7 +362,7 @@ const graph = new G6.Graph({
 - `type：'drag-node-with-group'`；
 - 参数：
   - `delegateStyle`：拖动节点时 `delegate` 的样式；
-  - `maxMultiple`：
+  - `maxMultiple`；
   - `minMultiple`。
 
 **默认配置**

@@ -361,8 +361,8 @@ const graph = new G6.Graph({
 - `type: 'drag-node-with-group'`;
 - Configuration: 
   - `delegateStyle`: The style of the `delegate` when dragging the node.
-  - `maxMultiple`: 
-  - `minMultiple`。
+  - `maxMultiple`;
+  - `minMultiple`.
 
 **Default Configuration**
 ```javascript
