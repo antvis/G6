@@ -1,22 +1,9 @@
-import each from '@antv/util/lib/each'
-import wrapBehavior from '@antv/util/lib/wrap-behavior'
-import { IModel, IModelCfg, IModelStyle } from '../interface'
-import { G6Event, IEvent } from '../interface/event'
-import { IGraph } from '../interface/graph'
+import { IBehavior } from '../interface/behavior'
 import BehaviorOption from './behaviorOption'
-
-interface IBehavior {
-  [key: string]: <T>(event?: T) => unknown;
-  getDefaultCfg?: () => IModelCfg;
-  getEvents: () => { [key in G6Event]?: string };
-  shouldBegin?: (cfg?: IModel) => any;
-  shouldUpdate?: (cfg?: IModel) => boolean;
-  shouldEnd?: (cfg?: IModel) => boolean;
-}
 
 export default class Behavior {
   private static types = {}
-  public static registerBehavior(type: string, behavior: IBehavior) {
+  public static registerBehavior<T extends IBehavior>(type: string, behavior: T) {
     if(!behavior) {
       throw new Error(`please specify handler for this behavior: ${type}`)
     }

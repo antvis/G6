@@ -1,14 +1,19 @@
 import Behavior from '../../../src/behavior'
+import { IBehavior } from '../../../src/interface/behavior';
+interface IOnClickBehavior extends IBehavior {
+  onClick: () => void;
+}
+
 describe('Behavior', () => {
   it('register signle behavior', () => {
-    Behavior.registerBehavior('first-behavior', {
+    Behavior.registerBehavior<IOnClickBehavior>('first-behavior', {
       getEvents() {
         return {
           click: 'onClick'
         }
       },
-      onClick(evt) {
-        console.log('trigger click', evt)
+      onClick() {
+        console.log('trigger click')
       },
       shouldBegin() {
         return false

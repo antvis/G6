@@ -1,29 +1,66 @@
+import { IEdge, INode } from './item'
+import { IPoint } from './math';
+import  { IShapeStyle } from './shape'
 
-export type IModelStyle = Partial<{
-  fill: string;
-  stroke: string;
-  strokeWidth: number
+type IModelStyle = Partial<{
+  style: {
+    [key: string]: IShapeStyle
+  };
+  stateStyles: {
+    [key: string]: IShapeStyle;
+  };
+  // loop edge config
+  loopCfg: {
+    dist?: number;
+    position?: string;
+    // 如果逆时针画，交换起点和终点
+    clockwise?: boolean;
+  };
 }>
-
-export interface IModelCfg {
-  style?: IModelStyle;
+interface IModelStyle1 {
+  style?: {
+    [key: string]: IShapeStyle
+  };
   stateStyles?: {
-    [key: string]: IModelStyle;
+    [key: string]: IShapeStyle;
+  };
+  // loop edge config
+  loopCfg?: {
+    dist?: number;
+    position?: string;
+    // 如果逆时针画，交换起点和终点
+    clockwise?: boolean;
   }
 }
 
-export interface INodeConfig {
+export type IModelConfig = INodeConfig | IEdgeConfig
+
+export interface INodeConfig extends IModelStyle {
   id: string;
-  [key: string]: string | IModelCfg;
+  label?: string;
+  groupId?: string;
+  description?: string;
+  x?: number;
+  y?: number;
 }
 
-export interface IEdgeConfig {
+export interface IEdgeConfig extends IModelStyle  {
   source: string;
   target: string;
-  [key: string]: string | IModelCfg;
+  label?: string;
+  sourceNode?: INode;
+  targetNode?: INode;
+  startPoint?: IPoint;
+  endPoint?: IPoint;
+  controlPoints?: IPoint[];
 }
 
 export interface IGroupConfig {
-  groupId: string;
-  [key: string]: string | IModelCfg;
+  id: string;
+  parentId?: string;
+  [key: string]: string | IModelStyle;
+}
+
+export interface IGroupNodeIds {
+  [key: string]: string[];
 }

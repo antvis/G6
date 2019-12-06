@@ -1,3 +1,6 @@
+import GraphEvent from '_@antv_g-base@0.1.1@@antv/g-base/lib/event/graph-event';
+import { IItem } from './item';
+
 export enum G6Event {
   CLICK = 'click',
   MOUSEDOWN = 'mousedown',
@@ -24,3 +27,15 @@ export enum G6Event {
 }
 
 export type IEvent = Record<G6Event, string>
+
+export interface IG6GraphEvent extends GraphEvent {
+  item: IItem;
+}
+
+export class G6GraphEvent extends GraphEvent implements IG6GraphEvent {
+  public item: IItem
+  constructor(type, event) {
+    super(type, event)
+    this.item = event.item
+  }
+}
