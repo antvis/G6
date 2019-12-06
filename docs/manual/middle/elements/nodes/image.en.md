@@ -57,7 +57,7 @@ const data = {
 
 
 ## Property
-Image node has the properties shown below. The property with Object type will be described after the table:
+The [Node Common Properties](/en/docs/manual/middle/elements/nodes/defaultNode/#common-property) are available for Image node, some special properties are shown below. The property with Object type will be described after the table:
 
 ```javascript
 img: 'https://yyb.gtimg.com/aiplat/page/product/visionimgidy/img/demo6-16a47e5d31.jpg?max_age=31536000',
@@ -88,7 +88,7 @@ size: 200,
 | **img** | **The URL addgress** | **String** | **special property for image node** |
 | size | The size of the node | Number | Array | When it is a number, the width and the height are the same |
 | label | The text of the label | String |  |
-| labelCfg | The configurations for the label | Object |  |
+| labelCfg | The configurations for the label | Object | The [Node Common Label Configurations](/en/docs/manual/middle/elements/nodes/defaultNode/#label-and-labelcfg) are available. |
 | **clipCfg** | **The configurations for clipping** | **Object** | **Do not clip by default. It is a special property for image node** |
 
 

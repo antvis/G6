@@ -58,7 +58,7 @@ const data = {
 
 ## 配置项说明
 
-image 节点支持以下的配置项：
+image 节点支持 [节点通用配置](/zh/docs/manual/middle/elements/nodes/defaultNode#节点的通用属性)，下表对部分属性进行解释：
 ```javascript
 img: 'https://yyb.gtimg.com/aiplat/page/product/visionimgidy/img/demo6-16a47e5d31.jpg?max_age=31536000',
 size: 200,
@@ -88,7 +88,7 @@ size: 200,
 | **img** | **图片 URL 地址** | **String** | **image 节点特有** |
 | size | 图片大小 | Number | Array | `size` 为单个值时，表示宽高相等 |
 | label | 标签文本内容 | String |  |
-| labelCfg | 标签文本配置项 | Object |  |
+| labelCfg | 标签文本配置项 | Object | 支持 [节点通用标签配置](/zh/docs/manual/middle/elements/nodes/defaultNode/#标签文本-label-及其配置-labelcfg)。 |
 | **clipCfg** | **裁剪图片的配置项** | **Object** | **默认不裁剪，image 节点特有** |
 
 

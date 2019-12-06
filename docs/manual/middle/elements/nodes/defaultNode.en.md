@@ -36,7 +36,7 @@ The table below shows the built-in nodes and their special properties:
 | labelCfg | false | Object | The configurations of the label |
 
 
-#### style
+### style
 `style` is an object to configure the filling color, stroke color, shadow, and so on. Here is the commonly used properties in `style`:
 
 | Name | Required | Type | Remark |
@@ -70,7 +70,7 @@ const graph = new G6.Graph({
 })
 ```
 
-#### label and labelCfg
+### label and labelCfg
 `label` is a string which indicates the content of the label. <br />`labelCfg` is an object to configure the label. The commonly used configurations of `labelCfg`:
 
 | Name | Required | Type | Remark |

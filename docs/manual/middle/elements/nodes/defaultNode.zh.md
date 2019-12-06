@@ -31,13 +31,13 @@ G6 的内置节点包括 circle，rect，ellipse，diamond，triangle，star，i
 | y | false | Number |  y 坐标 |
 | shape | false | String | 节点图形，默认为 `'circle'` |
 | size | false | Number / Array | 节点的大小 |
-| anchorPoints | false | Array | 指定边连如节点的连接点的位置（相对于该节点而言），可以为空。例如: `[0, 0]`，代表节点左上角的锚点，`[1, 1]`,代表节点右下角的锚点 |
+| anchorPoints | false | Array | 指定边连入节点的连接点的位置（相对于该节点而言），可以为空。例如: `[0, 0]`，代表节点左上角的锚点，`[1, 1]`,代表节点右下角的锚点 |
 | style | false | Object | 节点的样式属性。 |
 | label | false | String | 文本文字 |
 | labelCfg | false | Object | 文本配置项 |
 
 
-#### 样式属性 style
+### 样式属性 style
 
 Object 类型。通过 `style` 配置来修改节点的填充色、边框颜色、阴影等属性。下表是 `style` 对象中常用的配置项：
 
@@ -72,7 +72,7 @@ const graph = new G6.Graph({
 })
 ```
 
-#### 标签文本 label 及其配置 labelCfg
+### 标签文本 label 及其配置 labelCfg
 `label` String 类型。标签文本的文字内容。<br />`labelCfg` Object 类型。配置标签文本。下面是 `labelCfg` 对象中的常用配置项：
 
 | 名称 | 是否必须 | 类型 | 备注 |
