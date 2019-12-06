@@ -4,5 +4,6 @@ export default {
   nodeContainerClassName: 'node-container',
   edgeContainerClassName: 'edge-container',
   customGroupContainerClassName: 'custom-group-container',
-  delegateContainerClassName: 'delegate-container'
+  delegateContainerClassName: 'delegate-container',
+  defaultLoopPosition: 'top',
 }

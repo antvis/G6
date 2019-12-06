@@ -10,3 +10,11 @@ export interface IGraphData {
   edges?: IEdgeConfig[];
   groups?: IGroupConfig[];
 }
+
+export interface ITreeGraphData {
+  id: string;
+  label?: string;
+  x?: number;
+  y?: number;
+  children?: ITreeGraphData[];
+}

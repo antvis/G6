@@ -1,0 +1,66 @@
+import groupBy, { ObjectType } from '@antv/util/lib/group-by'
+import { IGraphData } from '../../src/interface/graph'
+import { IGroupConfig, IGroupNodeIds } from '../interface/model';
+
+export const getAllNodeInGroups = (data: IGraphData): IGroupNodeIds => {
+  const groupById: ObjectType<IGroupConfig> = groupBy(data.groups, 'id');
+  const groupByParentId: ObjectType<IGroupConfig> = groupBy(data.groups, 'parentId');
+
+  const result = {};
+  for (const parentId in groupByParentId) {
+    if (!parentId) {
+      continue;
+    }
+    // 获取当前parentId的所有子group ID
+    const subGroupIds = groupByParentId[parentId];
+
+    // 获取在parentid群组中的节点
+    const nodeInParentGroup = groupById[parentId];
+
+    if (nodeInParentGroup && subGroupIds) {
+      // 合并
+      const parentGroupNodes = [ ...subGroupIds, ...nodeInParentGroup ];
+      result[parentId] = parentGroupNodes;
+    } else if (subGroupIds) {
+      result[parentId] = subGroupIds;
+    }
+  }
+  const allGroupsId = Object.assign({}, groupById, result);
+
+  // 缓存所有group包括的groupID
+  const groupIds = {};
+  for (const groupId in allGroupsId) {
+    if (!groupId || groupId === 'undefined') {
+      continue;
+    }
+    const subGroupIds = allGroupsId[groupId].map(node => node.id);
+
+    // const nodesInGroup = data.nodes.filter(node => node.groupId === groupId).map(node => node.id);
+    groupIds[groupId] = subGroupIds;
+  }
+
+  // 缓存所有groupID对应的Node
+  const groupNodes: IGroupNodeIds = {} as IGroupNodeIds;
+  for (const groupId in groupIds) {
+    if (!groupId || groupId === 'undefined') {
+      continue;
+    }
+
+    const subGroupIds = groupIds[groupId];
+
+    // const subGroupIds = allGroupsId[groupId].map(node => node.id);
+
+    // 解析所有子群组
+    const parentSubGroupIds = [];
+
+    for (const subId of subGroupIds) {
+      const tmpGroupId = allGroupsId[subId].map(node => node.id);
+      // const tmpNodes = data.nodes.filter(node => node.groupId === subId).map(node => node.id);
+      parentSubGroupIds.push(...tmpGroupId);
+    }
+
+    const nodesInGroup = data.nodes.filter(node => parentSubGroupIds.indexOf(node.groupId) > -1).map(node => node.id);
+    groupNodes[groupId] = nodesInGroup;
+  }
+  return groupNodes;
+}

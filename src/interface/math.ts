@@ -4,3 +4,5 @@ export interface IPoint {
 }
 
 export type IMatrix = number[];
+
+export type IPadding = number | string | number[];
