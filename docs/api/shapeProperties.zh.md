@@ -17,9 +17,7 @@ G6 支持以下图形：
 - [text](#文本-text)：文本。
 
 
-### 通用属性
-
-### 属性
+## 通用属性
 
 | 属性名 | 含义 | 备注 |
 | --- | --- | --- |
@@ -33,7 +31,7 @@ G6 支持以下图形：
 | opacity | 设置绘图的当前 alpha 或透明值 | 对应 Canvas 属性 `globalAlpha` |
 | fillOpacity | 设置填充的 alpha 或透明值 |  |
 
-### 用法
+## 用法
 ```javascript
 group.addShape('rect', {
 	attrs: {
@@ -47,9 +45,9 @@ group.addShape('rect', {
 })
 ```
 
-### 圆图形 Circle
+## 圆图形 Circle
 
-### 属性
+### 特殊属性
 
 | 属性名 | 含义 |
 | --- | --- |
@@ -70,9 +68,9 @@ group.addShape('circle', {
 })
 ```
 
-### 椭圆图形 Ellipse
+## 椭圆图形 Ellipse
 
-### 属性
+### 特殊属性
 
 | 属性名 | 含义 |
 | --- | --- |
@@ -97,9 +95,9 @@ group.addShape('ellipse', {
 ```
 
 
-### 扇形图形 Fan
+## 扇形图形 Fan
 
-### 属性
+### 特殊属性
 
 | 属性名 | 含义 | 备注 |
 | --- | --- | --- |
@@ -130,9 +128,9 @@ group.addShape('fan', {
 ```
 
 
-### 图片图形 Image
+## 图片图形 Image
 
-### 属性
+### 特殊属性
 
 | 属性名 | 含义 | 备注 |
 | --- | --- | --- |
@@ -156,9 +154,9 @@ group.addShape('image', {
 ```
 
 
-### 标记图形 Marker
+## 标记图形 Marker
 
-### 属性
+### 特殊属性
 
 | 属性名 | 含义 | 备注 |
 | --- | --- | --- |
@@ -189,9 +187,9 @@ group.addShape('marker', {
 ```
 
 
-### 多边形图形 Polygon
+## 多边形图形 Polygon
 
-### 属性
+### 特殊属性
 
 | 属性名 | 含义 | 备注 |
 | --- | --- | --- |
@@ -210,9 +208,9 @@ group.addShape('polygon', {
 ```
 
 
-### 矩形图形 Rect
+## 矩形图形 Rect
 
-### 属性
+### 特殊属性
 
 | 属性名 | 含义 | 备注 |
 | --- | --- | --- |
@@ -242,7 +240,7 @@ group.addShape('rect', {
 ## 线条 Path
 ⚠️**注意：**当边太细时候点击不中时，请设置 **lineAppendWidth** 属性值。
 
-### 属性
+### 特殊属性
 
 | 属性名 | 含义 | 备注 |
 | --- | --- | --- |
@@ -282,7 +280,7 @@ group.addShape('path', {
 
 
 ## 文本 Text
-### 属性
+### 特殊属性
 
 | 属性名 | 含义 | 备注 |
 | --- | --- | --- |
@@ -304,18 +302,16 @@ group.addShape('path', {
 
 ### 用法
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0xkLS5shGJUAAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
-
 ```javascript
 group.addShape('text', {
   attrs: {
     text: 'test text',
-    x: 0,
-    y: 10,
-    fontSize: 14,
-    textAlign: 'left',
-    textBaseline: 'middle',
-    fill: '#0000D9'
+    fill: 'red',
+    fontWeight: 400,
+    shadowOffsetX: 10,
+    shadowOffsetY: 10,
+    shadowColor: 'blue',
+    shadowBlur: 10
   }
 });
 ```

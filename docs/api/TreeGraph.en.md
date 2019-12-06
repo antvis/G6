@@ -5,7 +5,7 @@ order: 2
 
 If you are going to visualize a tree, TreeGraph of G6 is more appropriate than Graph. The main differences between `G6.TreeGraph` and `G6.Graph` are data structure and built-in layout algorithms:
 
-- Data structure: In G6, the tree data has nested structure. Edges are implicit in it. Each node data has `id` and `children` attributes at least:
+- Data structure: In G6, the tree data has nested structure. Edges are implicit in it. Each node data has `id` and `children` properties at least:
 
 ```javascript
 const data = {
@@ -24,7 +24,7 @@ const data = {
 ```
 
 - Tree layout algorithms:
-  - Tree layout algorithms do not modify the source data. it generates a new data instead. And the source data will be an attribute of the new data. This mechanism will reduce the complexity of transformation from nested data to nodes and edges in graph.
+  - Tree layout algorithms do not modify the source data. it generates a new data instead. And the source data will be a property of the new data. This mechanism will reduce the complexity of transformation from nested data to nodes and edges in graph.
   - The layout will be re-calculated after adding / deleting / expanding / collapsing nodes on the tree. 
 
 

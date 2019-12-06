@@ -27,7 +27,7 @@ const graph = new G6.Graph({
 
 
 ### 2 Configure in the Data
-To configure different nodes with different attributes, you can write the attributes into the node data.
+To configure different nodes with different properties, you can write the properties into the node data.
 ```javascript
 const data = {
   nodes: [{
@@ -44,8 +44,8 @@ const data = {
 ```
 
 
-## Attribute
-Triangle node has the attributes shown below. The spetial attribute type will be described after the table:
+## Property
+Triangle node has the properties shown below. The spetial property type will be described after the table:
 
 | Name | Description | Type | Remark |
 | --- | --- | --- | --- |
@@ -121,7 +121,7 @@ const data = {
 const graph = new G6.Graph({
   // ... Other configurations for graph
   defaultNode: {
-    // ... Other attributes for node
+    // ... Other properties for node
     labelCfg: {
       position: 'center',
       style: {
@@ -183,7 +183,7 @@ const graph = new G6.Graph({
 | width | The width of the icon | Number | `16` by default |
 | height | The height of the icon | Number | `16` by default |
 | img | The image url of the icon | String | |
-| **offset** | **The offset of the icon** | **Number** | **`0` by default. It is a special attribute for triangle node** |
+| **offset** | **The offset of the icon** | **Number** | **`0` by default. It is a special property for triangle node** |
 
 
 Base on the code in [style](#style) section, we add `icon` to `defaultNode`.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2w62R5ZYtVAAAAAAAAAAAABkARQnAQ' width=100/>

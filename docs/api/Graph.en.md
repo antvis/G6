@@ -1243,13 +1243,13 @@ graph.removePlugin(miniMap)
 ```
 
 ### get(key)
-Get ant attribute of graph by key.
+Get an property of graph by key.
 
 **Parameters**
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| key | String | true | Key of the attribute. |
+| key | String | true | Key of the property. |
 
 
 **Usage**
@@ -1266,14 +1266,14 @@ const autoPaint = graph.get('autoPaint')
 ```
 
 ### set(key, val)
-Set the value to an attribute.
+Set the value to an property.
 
 **Parameters**
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| key | String | true | The key of the attribute. |
-| val | String / Object / Array | true | The value of the attribute. |
+| key | String | true | The key of the property. |
+| val | String / Object / Array | true | The value of the property. |
 
 
 **Usage**

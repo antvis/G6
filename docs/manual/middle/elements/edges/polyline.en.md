@@ -27,7 +27,7 @@ const graph = new G6.Graph({
 
 
 ### 2 Configure in the Data
-To configure different edges with different attributes, you can write the attributes into the edge data.
+To configure different edges with different properties, you can write the properties into the edge data.
 ```javascript
 const data = {
   nodes: [
@@ -39,7 +39,7 @@ const data = {
     shape: 'polyline',
     //... // Other configurations for edges
     style: {
-      //...  // Style attributes for edges
+      //...  // Style properties for edges
     }
   },
     //... // Other edges
@@ -48,8 +48,8 @@ const data = {
 ```
 
 
-## Attribute
-Polyline edge has the attributes shown below. The attributes with object type will be described in detail after the table
+## Property
+Polyline edge has the properties shown below. The properties with object type will be described in detail after the table
 
 ```javascript
 color: '#87e8de',
@@ -73,19 +73,19 @@ labelCfg: {
 | --- | --- | --- | --- |
 | color | The color of the edge | String | The priority id lower than `stroke` in `style` |
 | style | The default style of edge | Object | Correspond to the styles in Canvas |
-| **style.radius** | **The border radius of the bend** | **Number** | **It is a special attribute for polyline edge** |
-| **style.offset** | **The minimum distance between the bend and the source/target node** | **Number** | **`5` by default. It is a special attribute for polyline edge** |
+| **style.radius** | **The border radius of the bend** | **Number** | **It is a special property for polyline edge** |
+| **style.offset** | **The minimum distance between the bend and the source/target node** | **Number** | **`5` by default. It is a special property for polyline edge** |
 | label | The text of the label | String |  |
 | labelCfg | The configurations of the label | Object |  |
 
 
 ### style
-`style` is an object. There are two special attributes in `style` for polyline edge:
+`style` is an object. There are two special properties in `style` for polyline edge:
 
 -  `radius`, he border radius of the bend;
 -  `offset`, The minimum distance between the bend and the source/target node, `5` by default.
 
-The other style attributes are the same as the common style attribute of edge. Refer to [Built-in Edges].
+The other style properties are the same as the common style property of edge. Refer to [Built-in Edges].
 The following code shows how to configure the `style` globally when instantiating a Graph.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SzMGQ70SLwEAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
@@ -128,7 +128,7 @@ graph.render();
 
 
 ### labelCfg
-`labelCfg` is an object which is the same as the common attribute of edge. Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge).
+`labelCfg` is an object which is the same as the common property of edge. Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge).
 Base on the code in [style](#style) section, we add `labelCfg` to `defaultEdge`.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HT4OTobglpoAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
@@ -138,7 +138,7 @@ const data = {
 const graph = new G6.Graph({
   // ... Other configurations for graph
   defaultEdge: {
-    // ... Other attributes for edges
+    // ... Other properties for edges
     labelCfg: {
     	refY: -10,
       refX: 60

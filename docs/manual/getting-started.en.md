@@ -59,7 +59,7 @@ Create an HTML container for graph canvas, `div` tag in general. G6 will append
 
 ### Step 2 Data Preparation
 
-The data for G6 should be JSON format, includes array attributes `nodes` and `edges`:
+The data for G6 should be JSON format, includes arrays `nodes` and `edges`:
 
 ```javascript
 const data = {

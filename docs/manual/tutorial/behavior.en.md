@@ -156,7 +156,7 @@ graph.on('edge:click', e => {
       container: 'mountNode',
       width: 800,
       height: 600,
-      // Default attributes for all the nodes
+      // Default properties for all the nodes
       defaultNode: {
         labelCfg: {
           style: {
@@ -164,7 +164,7 @@ graph.on('edge:click', e => {
           }
         }
       },
-      // Default attributes for all the edges
+      // Default properties for all the edges
       defaultEdge: {
         labelCfg: {
           autoRotate: true

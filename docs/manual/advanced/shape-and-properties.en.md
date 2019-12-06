@@ -12,7 +12,7 @@ An item (node/edge) in G6 **Consists of One or More**[**Graphics Shape**](/en/do
 - [fan](#fan);
 - [image](#image);
 - [marker](#marker);
-- [path]();
+- [path](#path);
 - [text](#text).
 
 ## The Common Properties of Shapes
@@ -246,6 +246,45 @@ group.addShape('path', {
     stroke: '#000',
     lineWidth: 8,
     lineAppendWidth: 5
+  }
+});
+```
+
+## Text
+### Properties
+
+| Name | Description | Remark |
+| --- | --- | --- |
+| fill | The color or gradient color for filling. | The corresponding property in Canvas is `fillStyle`. |
+| stroke | The color, gradient color, or pattern for stroke. | The corresponding property in Canvas is `strokeStyle`. |
+| shadowColor | The color for shadow. |  |
+| shadowBlur | The blur level for shadow. | Larger the value, more blur. |
+| shadowOffsetX | The horizontal offset of the shadow. |  |
+| shadowOffsetY | The vertical offset of the shadow. |  |
+| opacity | The opacity (alpha value) of the shape. | The corresponding property in Canvas is `globalAlpha`. |
+| font | The font of the text. |  |
+| textAlign | The align way of the text. | Options: `'center'` / `'end'` / `'left'` / `'right'` / `'start'`. `'start'` by default. |
+| textBaseline | The base line of the text. | Options: <br />`'top'` / `'middle'` / `'bottom'` / `'alphabetic'` / `'hanging'`. `'bottom'` by default. |
+| fontStyle | The font style of the text. | The corresponding property in CSS is `font-style` |
+| fontVariant | The font variant of the text. | The corresponding property in CSS is `font-variant` |
+| fontWeight | The font weight of the text. | The corresponding property in CSS is `font-weight` |
+| fontSize | The font size of the text. | The corresponding property in CSS is `font-size` |
+| fontFamily | The font family of the text. | The corresponding property in CSS is `font-family` |
+| autoRotate | Wheter rotate the text according to the edge automatically if it is a label of an edge. |  |
+
+
+### Usage
+
+```javascript
+group.addShape('text', {
+  attrs: {
+    text: 'test text',
+    fill: 'red',
+    fontWeight: 400,
+    shadowOffsetX: 10,
+    shadowOffsetY: 10,
+    shadowColor: 'blue',
+    shadowBlur: 10
   }
 });
 ```

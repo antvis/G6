@@ -110,19 +110,19 @@ There are some commonly used configurations. For complete configurations, please
 
 - `defaultNode`
 
-      Type: Object. The global configuration for all the nodes in the graph in default state. It includes the style attributes and other attributes of nodes. Refer to [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode). 
+      Type: Object. The global configuration for all the nodes in the graph in default state. It includes the style properties and other properties of nodes. Refer to [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode). 
 
 - `defaultEdge`
 
-      Type: Object. The global configuration for all the edges in the graph in default state. It includes the style attributes and other attributes of edges. Refer to [Built-in Edges](/en/docs/manual/middle/elements/nodes/defaultEdge). 
+      Type: Object. The global configuration for all the edges in the graph in default state. It includes the style properties and other properties of edges. Refer to [Built-in Edges](/en/docs/manual/middle/elements/nodes/defaultEdge). 
 
 - `nodeStateStyles`
 
-      Type: Object. The style attributes of nodes in different states expect for default state. Refer to [State](/en/docs/manual/middle/states/state). 
+      Type: Object. The style properties of nodes in different states expect for default state. Refer to [State](/en/docs/manual/middle/states/state). 
 
 - `edgeStateStyles`
 
-      Type: Object. The style attributes of edges in different states expect for default state. Refer to [State](/en/docs/manual/middle/states/state). 
+      Type: Object. The style properties of edges in different states expect for default state. Refer to [State](/en/docs/manual/middle/states/state). 
 
 #### Layout
 

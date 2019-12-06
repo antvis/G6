@@ -17,7 +17,7 @@ order: 4
 | font | The font |  |
 | textAlign | The align way of the text. | Options: `'center'` / `'end'` / `'left'` / `'right'` / `'start'`. `'start'` by default. |
 | textBaseline | The base line of the text. | Options: <br />`'top'` / `'middle'` / `'bottom'` / `'alphabetic'` / `'hanging'`. `'bottom'` by default. |
-| fontStyle | The font style of the text. | The corresponding attribute in CSS is `font-style` |
+| fontStyle | The font style of the text. | The corresponding property in CSS is `font-style` |
 | fontVariant | The font weight of the text. | The corresponding property in CSS is `font-weight` |
 | fontWeight | 字体粗细 | 对应 font-weight |
 | fontSize | The font size of the text. | The corresponding property in CSS is `font-size` |

@@ -92,7 +92,7 @@ const graph = new G6.Graph({
 | opacity | false | Number | 文本透明度 |
 | font | false | String | 文本内容的当前字体属性 |
 | fontSize | false | Number | 文本字体大小 |
-| ... |  |  |  |
+| ... 节点标签与边标签样式属性相同，统一整理在 [Text 图形 API](/zh/docs/api/shapeProperties/#文本-text) |  |  |  |
 
 
 下面代码演示在实例化图时全局配置方法中配置 `label` 和 `labelCfg`。
@@ -167,7 +167,7 @@ const data = {
 }
 ```
 
-### 使用 graph.node(nodeFn) 配置
+### 使用 graph.node()
 该方法可以为不同节点进行不同的配置。
 
 <br />**提示:**
@@ -176,7 +176,7 @@ const data = {
 - 由于该方法优先级最高，将覆盖其他地方对节点的配置，这可能将造成一些其他配置不生效的疑惑；
 - 该方法在增加元素、更新元素时会被调用，如果数据量大、每个节点上需要更新的内容多时，可能会有性能问题。
 
-```
+```javascript
 // const data = ...
 // const graph = ...
 graph.node((node) => {
@@ -193,9 +193,9 @@ graph.data(data);
 graph.render();
 ```
 
-## 实例演练
+## 示例
 
-```
+```javascript
 const data = {
   nodes: [{
     x: 100,
@@ -307,4 +307,4 @@ graph.render();
 
 ## 相关阅读
 
-- [状态 State](../../states/state) —— 交互过程中的样式变化。
+- [状态 State](/zh/docs/manual/middle/states/state) —— 交互过程中的样式变化。

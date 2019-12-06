@@ -26,7 +26,7 @@ const graph = new G6.Graph({
 
 
 ### 2 Configure in the Data
-To configure different nodes with different attributes, you can write the attributes into the node data.
+To configure different nodes with different properties, you can write the properties into the node data.
 ```javascript
 const data = {
   nodes: [{
@@ -43,8 +43,8 @@ const data = {
 ```
 
 
-## Attribute
-Star node has the attributes shown below. The attribute with Object type will be described after the table:
+## Property
+Star node has the properties shown below. The property with Object type will be described after the table:
 
 | Name | Description | Type | Remark |
 | --- | --- | --- | --- |
@@ -98,7 +98,7 @@ const data = {
 const graph = new G6.Graph({
   // ... Other configurations for graph
   defaultNode: {
-    // ... Other attributes for node
+    // ... Other properties for node
     labelCfg: {
       style: {
         fill: '#9254de',
@@ -117,8 +117,8 @@ const graph = new G6.Graph({
 | Name | Description | Type | Remark |
 | --- | --- | --- | --- |
 | top | Whether to show the top link point | Boolean | `false` by default |
-| **leftBottom** | **Whether to show the left bottom link point** | **Boolean** | **`false` by default. It is a special attribute for star node** |
-| **rightBottom** | **Whether to show the right bottom link point** | **Boolean** | **`false` by default. It is a special attribute for star node** |
+| **leftBottom** | **Whether to show the left bottom link point** | **Boolean** | **`false` by default. It is a special property for star node** |
+| **rightBottom** | **Whether to show the right bottom link point** | **Boolean** | **`false` by default. It is a special property for star node** |
 | left | Whether to show the left link point | Boolean | `false` by default |
 | right | Whether to show the right link point | Boolean | `false` by default |
 | size | The size of the link points | Number | `3` by default |

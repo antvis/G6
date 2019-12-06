@@ -58,7 +58,7 @@ In this example, we are going to magnify and shrink the node. <br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aAjWQ4n_OOEAAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
 
-We first find the graphics shape to be animated by `group.get('children')[0]`. Here we find the 0th graphics shape of this type of node. Then, we call `animate` for the node to define the attributes for each frame(`onFrame` returns the attributes of each frame).
+We first find the graphics shape to be animated by `group.get('children')[0]`. Here we find the 0th graphics shape of this type of node. Then, we call `animate` for the node to define the properties for each frame(`onFrame` returns the properties of each frame).
 ```javascript
 // Magnify and shrink animation
 G6.registerNode('circle-animate', {
@@ -69,13 +69,13 @@ G6.registerNode('circle-animate', {
     shape.animate({
       // Whehter play the animation repeatly
       repeat: true,
-      // Returns the attributes for each frame. The input parameter ratio is a number that range from 0 to 1. The return value is an object that defines the attributes for this frame.
+      // Returns the properties for each frame. The input parameter ratio is a number that range from 0 to 1. The return value is an object that defines the properties for this frame.
       onFrame(ratio) {
         // Magnify first, and then shrink
         const diff = ratio <=0.5 ? ratio * 10 : (1 - ratio) * 10;
         let radius = cfg.size;
         if (isNaN(radius)) radius = radius[0];
-        // The attributes for this frame. Only radius for this example
+        // The properties for this frame. Only radius for this example
         return {
           r: radius / 2 + diff
         }
@@ -183,7 +183,7 @@ G6.registerNode('inner-animate', {
     image.animate({
       // Play the animation repeatly
       repeat: true,
-      // Returns the attributes for each frame. The input parameter ratio is a number that range from 0 to 1. The return value is an object that defines the attributes for this frame.
+      // Returns the properties for each frame. The input parameter ratio is a number that range from 0 to 1. The return value is an object that defines the properties for this frame.
       onFrame(ratio) {
         // Rotate by manipulating matrix
         // The current matrix
@@ -192,7 +192,7 @@ G6.registerNode('inner-animate', {
         const toMatrix = Util.transform(matrix, [
           ['r', ratio * Math.PI * 2]
         ]) ;
-        // The attributes of this frame. Only target matrix for this demo
+        // The properties of this frame. Only target matrix for this demo
         return {
           matrix: toMatrix
         };
@@ -243,11 +243,11 @@ G6.registerEdge('circle-running', {
     circle.animate({
       // Play the animation repeatly
       repeat: true,
-      // Returns the attributes for each frame. The input parameter ratio is a number that range from 0 to 1. The return value is an object that defines the attributes for this frame
+      // Returns the properties for each frame. The input parameter ratio is a number that range from 0 to 1. The return value is an object that defines the properties for this frame
       onFrame(ratio) {
         // Get the position on the edge according to the ratio
         const tmpPoint = shape.getPoint(ratio);
-        // Return the attributes of this frame, x and y for this demo
+        // Return the properties of this frame, x and y for this demo
         return {
           x: tmpPoint.x,
           y: tmpPoint.y
@@ -297,14 +297,14 @@ G6.registerEdge('line-dash', {
     shape.animate({
       // Play the animation repeatly
       repeat: true,
-      // Returns the attributes for each frame. The input parameter ratio is a number that range from 0 to 1. The return value is an object that defines the attributes for this frame
+      // Returns the properties for each frame. The input parameter ratio is a number that range from 0 to 1. The return value is an object that defines the properties for this frame
       onFrame(ratio) {
         const cfg = {
           lineDash: dashArray[index].concat(totalArray)
         };
         // Move 1 each frame
         index = (index + 1) % interval;
-        // Return the attributes of this frame, lineDash for this demo
+        // Return the properties of this frame, lineDash for this demo
         return cfg;
       }
     }, 3000);  // The duration for one animation
@@ -325,7 +325,7 @@ G6.registerEdge('line-growth', {
     shape.animate({
       // Play the animation repeatly
       repeat: true,
-      // Returns the attributes for each frame. The input parameter ratio is a number that range from 0 to 1. The return value is an object that defines the attributes for this frame
+      // Returns the properties for each frame. The input parameter ratio is a number that range from 0 to 1. The return value is an object that defines the properties for this frame
       onFrame(ratio) {
         const startLen = ratio * length;
         // Calculate the lineDash
@@ -386,7 +386,7 @@ G6.registerEdge('can-running', {
         shape.animate({
           // Play the animation repeatly
           repeat: true,
-          // Returns the attributes for each frame. The input parameter ratio is a number that range from 0 to 1. The return value is an object that defines the attributes for this frame
+          // Returns the properties for each frame. The input parameter ratio is a number that range from 0 to 1. The return value is an object that defines the properties for this frame
           onFrame(ratio) {
             const cfg = {
               lineDash: dashArray[index].concat(totalArray)

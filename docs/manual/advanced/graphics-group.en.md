@@ -12,7 +12,7 @@ order: 1
 <br />
 
 ## What
-Graphics Group (hereinafter referred to as Group) in G6 is similar to [`<g>`](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g) [tag](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g) in [SVG](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g): Group a container of a group of graphics. The transformations on a Group such as clipping, rotating, zooming, and translating will be applied to all the children of the Group. The attributes like color and position will also be inherited by its children. Besides, Group can be nested for complicated objects.
+Graphics Group (hereinafter referred to as Group) in G6 is similar to [`<g>`](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g) [tag](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g) in [SVG](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g): Group a container of a group of graphics. The transformations on a Group such as clipping, rotating, zooming, and translating will be applied to all the children of the Group. The properties like color and position will also be inherited by its children. Besides, Group can be nested for complicated objects.
 
 In G6, all the nodes instances in a Graph is grouped by a Group named `nodeGroup`, all the edges instances are grouped by `edgeGroup`. And the visual level (zIndex) of `nodeGroup` is higher than `edgeGroup`, which means all the nodes will be drawed on the top of all the edges.
 

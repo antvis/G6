@@ -31,7 +31,7 @@ G6.registerEdge('edgeName', {
 }, 'line')
 ```
 
-## Attributes
+## Properties
 
 ### labelPosition
 The relative positions of label to the item. `'center'` by default.
@@ -44,7 +44,7 @@ The relative positions of label to the item. `'center'` by default.
 
 Whether to rotate the label according to the edge. `false` by default.
 
-**Tips: this is an unique attribute for edge.**
+**Tips: this is an unique property for edge.**
 
 ## Draw Functions
 The parameters for the four functions about draw are the same. Please refer to `draw()`.

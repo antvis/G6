@@ -6,19 +6,17 @@ order: 4
 Shape is the basic element on an item (node/edge). The `style` of a node or an edge corresponds to the shape properties of its keyShap (key shape). The `style` in `labelCfg` of a label on a node or an edge corresponds to the properties of text shape.
 
 G6 has these shapes:
-- [circle](#圆图形-circle)：圆；
-- [rect](#矩形图形-rect)：矩形；
-- [ellipse](#椭圆图形-ellipse)：椭圆；
-- [polygon](#多边形图形-polygon)：多边形；
-- [fan](#扇形图形-fan)：扇形；
-- [image](#图片图形-image)：图片；
-- [marker](#标记图形-marker)：标记；
-- [path](#路径-path)：路径。
-- [text](#文本-text)：文本；
+- [circle](#circle);
+- [rect](#rect);
+- [ellipse](#ellipse);
+- [polygon](#polygon);
+- [fan](#fan);
+- [image](#image);
+- [marker](#marker);
+- [path](#path);
+- [text](#text).
 
 ### Common Property
-
-### Property
 
 | Name | Description | Remark |
 | --- | --- | --- |
@@ -30,7 +28,7 @@ G6 has these shapes:
 | shadowOffsetY | The vertical offset of the shadow. |  |
 | opacity | The opacity (alpha value) of the shape. | The corresponding property in canvas is  `globalAlpha`. |
 
-### Usage
+## Usage
 ```javascript
 group.addShape('rect', {
 	attrs: {
@@ -46,7 +44,7 @@ group.addShape('rect', {
 
 ### Circle
 
-### Property
+### Special Property
 
 | Name | Description |
 | --- | --- |
@@ -69,7 +67,7 @@ group.addShape('circle', {
 
 ### Ellipse
 
-### Property
+### Special Property
 
 | Name | Description |
 | --- | --- |
@@ -96,7 +94,7 @@ group.addShape('ellipse', {
 
 ### Fan
 
-### Property
+### Special Property
 
 | Name | Description | Remark |
 | --- | --- | --- |
@@ -129,7 +127,7 @@ group.addShape('fan', {
 
 ### Image
 
-### Property
+### Special Property
 
 | Name | Description | Remark |
 | --- | --- | --- |
@@ -155,7 +153,7 @@ group.addShape('image', {
 
 ### Marker
 
-### Property
+### Special Property
 
 | Name | Description | Remark |
 | --- | --- | --- |
@@ -188,7 +186,7 @@ group.addShape('marker', {
 
 ### Polygon
 
-### Property
+### Special Property
 
 | Name | Description | Remark |
 | --- | --- | --- |
@@ -209,7 +207,7 @@ group.addShape('polygon', {
 
 ### Rect
 
-### Property
+### Special Property
 
 | Name | Description | Remark |
 | --- | --- | --- |
@@ -238,7 +236,7 @@ group.addShape('rect', {
 ## Path
 ⚠️**Attention:** When the edge is too thin to be hitted by mouse, set **lineAppendWidth** to enlarge the hitting area.
 
-### Property
+### Special Property
 
 | Name | Description | Remark |
 | --- | --- | --- |
@@ -303,41 +301,17 @@ group.addShape('path', {
 
 
 ### Usage
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*euH9SLcS2IoAAAAAAAAAAABkARQnAQ' width=350>
+
 ```javascript
-const data = {
-	nodes: [
-  	{
-      id: 'node1',
-      x: 100,
-      y: 100,
-      shape: 'rect',
-      label: 'rect'
-    }
-  ]
-}
-
-const graph = new G6.Graph({
-  container: 'mountNode',
-  width: 500,
-  height: 500
-});
-graph.data(data);
-graph.render();
-
-const node = graph.findById('node1')
-graph.update(node, {
-  style: {
-    stroke: 'blue'
-  },
-  labelCfg: {
-    style: {
-      fill: 'red',
-      shadowOffsetX: 10,
-      shadowOffsetY: 10,
-      shadowColor: 'blue',
-      shadowBlur: 10
-    }
+group.addShape('text', {
+  attrs: {
+    text: 'test text',
+    fill: 'red',
+    fontWeight: 400,
+    shadowOffsetX: 10,
+    shadowOffsetY: 10,
+    shadowColor: 'blue',
+    shadowBlur: 10
   }
-})
+});
 ```

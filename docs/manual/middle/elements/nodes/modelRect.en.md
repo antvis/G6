@@ -35,7 +35,7 @@ const graph = new G6.Graph({
 
 
 ### 2 Configure in the Data
-To configure different nodes with different attributes, you can write the attributes into the node data.
+To configure different nodes with different properties, you can write the properties into the node data.
 ```javascript
 const data = {
   nodes: [{
@@ -52,8 +52,8 @@ const data = {
 ```
 
 
-## Attribute
-ModelRect node has the attributes shown below. The attribute with Object type will be described after the table:
+## Property
+ModelRect node has the properties shown below. The property with Object type will be described after the table:
 
 | Name | Description | Type | Remark |
 | --- | --- | --- | --- |
@@ -63,9 +63,9 @@ ModelRect node has the attributes shown below. The attribute with Object type wi
 | labelCfg | The configurations of the label | Object |  |
 | stateStyles | The styles in different states | Object | Only takes effect on keyShape |
 | linkPoints | The link points of the related edges | Object | They are invisible by default |
-| **preRect** | **Left rect of the node** | **Object** | **Special attribute for modelRect** |
-| **logoIcon** | **The left logo icon** | **Object** | **Special attribute for modelRect** |
-| **stateIcon** | **The right state icon** | **Object** | **Special attribute for modelRect** |
+| **preRect** | **Left rect of the node** | **Object** | **Special property for modelRect** |
+| **logoIcon** | **The left logo icon** | **Object** | **Special property for modelRect** |
+| **stateIcon** | **The right state icon** | **Object** | **Special property for modelRect** |
 
 
 ```javascript
@@ -137,7 +137,7 @@ const data = {
 const graph = new G6.Graph({
   // ... Other configurations for graph
   defaultNode: {
-    // ... Other attributes for node
+    // ... Other properties for node
     labelCfg: {
       style: {
         fill: '#9254de',

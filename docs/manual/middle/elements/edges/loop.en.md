@@ -30,7 +30,7 @@ const graph = new G6.Graph({
 
 
 ### 2 Configure in the Data
-To configure different edges with different attributes, you can write the attributes into the edge data.
+To configure different edges with different properties, you can write the properties into the edge data.
 ```javascript
 const data = {
   nodes: [
@@ -42,7 +42,7 @@ const data = {
     shape: 'loop',
     //... // Other configurations for edges
     style: {
-      //...  // Style attributes for edges
+      //...  // Style properties for edges
     }
   },
     //... // Other edges
@@ -51,8 +51,8 @@ const data = {
 ```
 
 
-## Attribute
-Loop edge has the attributes shown below. The attributes with object type will be described in detail after the table, where `loopCfg` is the special attribute for loop edge.
+## Property
+Loop edge has the properties shown below. The properties with object type will be described in detail after the table, where `loopCfg` is the special property for loop edge.
 
 loop 边支持以下的配置项，对于 Object 类型的配置项将在后面有详细讲解：
 
@@ -62,12 +62,12 @@ loop 边支持以下的配置项，对于 Object 类型的配置项将在后面�
 | style | The default style of edge | Object | Correspond to the styles in Canvas |
 | label | The text of the label | String |  |
 | labelCfg | The configurations of the label | Object |  |
-| **loopCfg** | **Special attribute for loop edge** | **Object** |  |
+| **loopCfg** | **Special property for loop edge** | **Object** |  |
 
 
 
 ### style
-`style` is an object which is the same as the common style attribute of edge. Refer to [Built-in Edges].
+`style` is an object which is the same as the common style property of edge. Refer to [Built-in Edges].
 The following code shows how to configure the `style` globally when instantiating a Graph.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dAV3QIY2ZxkAAAAAAAAAAABkARQnAQ' width=100/>
 ```javascript
@@ -105,7 +105,7 @@ graph.render();
 
 
 ### labelCfg
-`labelCfg` is an object which is the same as the common attribute of edge. Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge).
+`labelCfg` is an object which is the same as the common property of edge. Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge).
 Base on the code in [style](#style) section, we add `labelCfg` to `defaultEdge`.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6hcBSId1XzAAAAAAAAAAAABkARQnAQ' width=100/>
 ```javascript
@@ -115,7 +115,7 @@ const data = {
 const graph = new G6.Graph({
   // ... Other configurations for graph
   defaultEdge: {
-    // ... Other attributes for edges
+    // ... Other properties for edges
     labelCfg: {
       refY: -5,
       refX: 30
@@ -142,7 +142,7 @@ const data = {
 const graph = new G6.Graph({
   // ... Other configurations for graph
   defaultEdge: {
-    // ... Other attributes for edges
+    // ... Other properties for edges
     loopCfg: {
       position: 'left',
       dist: 100,

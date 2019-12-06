@@ -272,8 +272,6 @@ group.addShape('path', {
 
 ### 用法
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0xkLS5shGJUAAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
-
 ```javascript
 group.addShape('text', {
   attrs: {

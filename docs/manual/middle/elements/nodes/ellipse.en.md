@@ -29,7 +29,7 @@ const graph = new G6.Graph({
 
 
 ### 2 Configure in the Data
-To configure different nodes with different attributes, you can write the attributes into the node data.
+To configure different nodes with different properties, you can write the properties into the node data.
 ```javascript
 const data = {
   nodes: [{
@@ -46,8 +46,8 @@ const data = {
 ```
 
 
-## Attribute
-Ellipse node has the attributes shown below. The attribute with Object type will be described after the table:<br />
+## Property
+Ellipse node has the properties shown below. The property with Object type will be described after the table:<br />
 
 | Name | Description | Type | Remark |
 | --- | --- | --- | --- |
@@ -100,7 +100,7 @@ const data = {
 const graph = new G6.Graph({
   // ... Other configurations for graph
   defaultNode: {
-    // ... Other attributes for node
+    // ... Other properties for node
     labelCfg: {
       offset: 20,
       style: {
