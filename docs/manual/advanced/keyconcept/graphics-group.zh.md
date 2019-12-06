@@ -1,5 +1,5 @@
 ---
-title: 关键概念-图形分组 Group
+title: 图形分组 Group
 order: 1
 ---
 

@@ -34,7 +34,7 @@ import G6 from '@antv/g6'
 <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-{$version}/build/g6.js"></script>
 ```
 
-⚠️**Attention**
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">⚠️**Attention:**</span>
 
 - Replace `{$version}` by the version number. e.g. `3.2.3`;
 - The last version of G6 is 3.2.3, which can be checked on <a href='https://www.npmjs.com/package/@antv/g6' target='_blank'>NPM</a>;
@@ -81,7 +81,7 @@ const data = {
 };
 ```
 
-⚠️**Attention**
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">⚠️**Attention:**</span>
 
 - `nodes` is an array of nodes, the `id` is unique and required property; the `x` and `y` are coordinates of the node;
 - `edges` is an array of edges, `source` and `target` are required, represent the `id` of the source node and the `id` of the target node respectively;
@@ -182,4 +182,4 @@ In this chapter, we only briefly introduce the installation and usage. In G6 Tut
 - Configure the animation;
 - The usage of components.
 
-For more advanced functions, please refer to [Key Concepts](/en/docs/manual/middle/graph) and [Advanced Guides](/en/docs/manual/advanced/shape-and-properties).
+For more advanced functions, please refer to [Key Concepts](/en/docs/manual/middle/graph) and [Advanced Guides](/en/docs/manual/advanced/keyconcept/shape-and-properties).

@@ -55,18 +55,8 @@ The table below shows the built-in edges and their special properties:
 | stroke | false | String | The stroke color |
 | lineWidth | false | Number | The line width |
 | lineAppendWidth | false | Number | The width of the response area for interaction. In other words, when the edge is too thin to be hitted by mouse, enlarge the value of `lineWidth` to widen the response area |
-| endArrow | false | Boolean / Object | The arrow on the end of the edge. When `startArrow` is `true`, show a default arrow on the end of the edge. User can customize an arrow by path, e.g.:
-
-endArrow: {
-  path: 'M 10,0 L -10,-10 L -10,10 Z', // Customize the path for the arrow
-  d: 10 // offset
-} |
-| startArrow | false | Boolean / Object | The arrow on the start of the edge. When `startArrow` is `true`, show a default arrow on the start of the edge. User can customize an arrow by path, e.g.:
-
-endArrow: {
-  path: 'M 10,0 L -10,-10 L -10,10 Z', // Customize the path for the arrow
-  d: 10 // offset
-} |
+| endArrow | false | Boolean / Object | The arrow on the end of the edge. When `startArrow` is `true`, show a default arrow on the end of the edge. User can customize an arrow by path, e.g.:<br />endArrow: {<br />  path: 'M 10,0 L -10,-10 L -10,10 Z', // Customize the path for the arrow<br />  d: 10 // offset<br />} |
+| startArrow | false | Boolean / Object | The arrow on the start of the edge. When `startArrow` is `true`, show a default arrow on the start of the edge. User can customize an arrow by path, e.g.:<br />endArrow: {<br />  path: 'M 10,0 L -10,-10 L -10,10 Z', // Customize the path for the arrow<br />  d: 10 // offset<br />} |
 | strokeOpacity | false | Number | The stroke opacity |
 | shadowColor | false | String | The color of the shadow |
 | shadowBlur | false | Number | The blur degree of the shadow |
@@ -187,7 +177,7 @@ const data = {
 ### Configure with graph.edge(edgeFn)
 By this way, we can configure different nodes with different properties.<br />
 
-⚠️**Attention:** 
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">⚠️**Attention:**</span>
 
 - `graph.edge(edgeFn)` must be called **before calling render()**. It does not take effect otherwise;
 - It has the highest priority that will rewrite the same properties configured by other ways;

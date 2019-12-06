@@ -122,7 +122,7 @@ In this section, we implement a type of edge with the interaction styles below:
 The result:<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IWLxRZomOfMAAAAAAAAAAABkARQnAQ' alt='img' width='350'/>
-<br />⚠️**Attention:** when the edge is too thin to be hitted by mouse, set **lineAppendWidth** to enlarge the hitting area.
+<br /><span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">⚠️**Attention:**</span> when the edge is too thin to be hitted by mouse, set **lineAppendWidth** to enlarge the hitting area.
 
 ```javascript
 // Extend a new type of edge by extending line edge

@@ -1,5 +1,5 @@
 ---
-title: 关键概念-图形 Shape 及其属性
+title: 图形 Shape 及其属性
 order: 0
 ---
 

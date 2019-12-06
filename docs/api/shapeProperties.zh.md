@@ -238,7 +238,7 @@ group.addShape('rect', {
 
 
 ## 线条 Path
-⚠️**注意：**当边太细时候点击不中时，请设置 **lineAppendWidth** 属性值。
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">⚠️**注意：**</span>当边太细时候点击不中时，请设置 **lineAppendWidth** 属性值。
 
 ### 特殊属性
 

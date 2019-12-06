@@ -1,5 +1,5 @@
 ---
-title: Key Concept - Graphics Group
+title: Graphics Group
 order: 1
 ---
 

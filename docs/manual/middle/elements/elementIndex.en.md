@@ -3,9 +3,9 @@ title: The Visual Level of Node and Edge
 order: 4
 ---
 
-The visual levels (zIndex) of nodes and edges are refered to their [Graphics Group](/en/docs/manual/advanced/graphics-group) (hereinafter referred to as Shape). (⚠️**Attention:** The Graphics Group is different from the [Node Group](/en/docs/manual/middle/nodeGroup), the differences are described in [Graphics Group](/en/docs/manual/advanced/graphics-group)).
+The visual levels (zIndex) of nodes and edges are refered to their [Graphics Group](/en/docs/manual/advanced/keyconcept/graphics-group) (hereinafter referred to as Shape). (<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">⚠️**Attention:**</span> The Graphics Group is different from the [Node Group](/en/docs/manual/middle/nodeGroup), the differences are described in [Graphics Group](/en/docs/manual/advanced/keyconcept/graphics-group)).
 
-In [Graphics Group](/en/docs/manual/advanced/graphics-group), we stated: All the nodes instances in a Graph is grouped by a Group named `nodeGroup`, all the edges instances are grouped by `edgeGroup`. And the visual level (zIndex) of `nodeGroup` is higher than `edgeGroup`, which means all the nodes will be drawed on the top of all the edges.
+In [Graphics Group](/en/docs/manual/advanced/keyconcept/graphics-group), we stated: All the nodes instances in a Graph is grouped by a Group named `nodeGroup`, all the edges instances are grouped by `edgeGroup`. And the visual level (zIndex) of `nodeGroup` is higher than `edgeGroup`, which means all the nodes will be drawed on the top of all the edges.
 
 Sometimes, we want to draw the edges on the top. For example, highlighting a node and its related edges. In this situation, you can configure `groupByTypes` of the graph to false and call `toFront()` and `toBack()` to order the nodes or edges.
 

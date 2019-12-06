@@ -69,7 +69,7 @@ order: 2
 - `defaultNode`：节点在默认状态下的**样式属性**（`style`）和**其他属性**；
 - `defaultEdge`：边在默认状态下的**样式属性**（`style`）和**其他属性**。
 
-⚠️**注意：**由于是统一的配置，不能根据数据中的属性（如 `class`、`weight`）等值的不同进行个性化设置，因此只能满足 R1、R2、R3、R4 需求。达到如下效果：
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">⚠️**注意：**</span>由于是统一的配置，不能根据数据中的属性（如 `class`、`weight`）等值的不同进行个性化设置，因此只能满足 R1、R2、R3、R4 需求。达到如下效果：
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bufdS75wcmMAAAAAAAAAAABkARQnAQ' width=450 height=450 />
 

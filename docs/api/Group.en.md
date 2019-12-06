@@ -3,7 +3,7 @@ title: Graphics Group
 order: 8
 ---
 
-Graphics Group (hereinafter referred to as Group) in G6 is similar to <a href='https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g' target='_blank'> `<g>` tag in SVG </a>: Group a container of a group of graphics. The transformations on a Group such as clipping, rotating, zooming, and translating will be applied to all the children of the Group. The properties like color and position will also be inherited by its children. Besides, Group can be nested for complicated objects. For more information about Group, please refer to [Graphics Group](/en/docs/manual/advanced/graphics-group) document.
+Graphics Group (hereinafter referred to as Group) in G6 is similar to <a href='https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g' target='_blank'> `<g>` tag in SVG </a>: Group a container of a group of graphics. The transformations on a Group such as clipping, rotating, zooming, and translating will be applied to all the children of the Group. The properties like color and position will also be inherited by its children. Besides, Group can be nested for complicated objects. For more information about Group, please refer to [Graphics Group](/en/docs/manual/advanced/keyconcept/graphics-group) document.
 
 
 ## Instance Declaration 
@@ -39,14 +39,14 @@ group.addGroup({
 
 
 ### addShape(type, cfgs)
-Add a new shape into the group<br />⚠️**Attention:** the clip and transform operations will affect all the shapes in the group. The graphics and their properties are introduced in [Shape API](/en/docs/api/Shape)。
+Add a new shape into the group<br /><span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">⚠️**Attention:**</span> the clip and transform operations will affect all the shapes in the group. The graphics and their properties are introduced in [Shape API](/en/docs/api/Shape)。
 
 
 **Parameters**
 
 | Name | Type | Description |
 | --- | --- | --- |
-| type | String | The type of the shape. Options: `'rect'`, `'circle'`, `'fan'`, `'ellipse'`, `'marker'`, `'image'`, and so on. Please refer to [Graphics Shape Properties](/en/docs/manual/advanced/shape-and-properties) document |
+| type | String | The type of the shape. Options: `'rect'`, `'circle'`, `'fan'`, `'ellipse'`, `'marker'`, `'image'`, and so on. Please refer to [Graphics Shape Properties](/en/docs/manual/advanced/keyconcept/shape-and-properties) document |
 | cfg | Object | The configurations of the shape. |
 
 

@@ -52,7 +52,7 @@ The data for G6 should be JSON format, includes array properties `nodes` and `ed
 </script>
 ```
 
-⚠️**Attention**
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">⚠️**Attention:**</span>
 
 - `nodes` is an array of nodes, the `id` is an unique and required property; the `x` and `y` are the coordinates of the node;
 - `edges` is an array of edges, `source` and `target` are required, represent the `id` of the source node and the `id` of the target node respectively.
@@ -199,4 +199,4 @@ The configurations below will be used in the following Tutorial:
 </html>
 ```
 
-**⚠️注意** <br />Replace the url `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` to change the data into yours.
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">⚠️**注意：**</span><br />Replace the url `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` to change the data into yours.

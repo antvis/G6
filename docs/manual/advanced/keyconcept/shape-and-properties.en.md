@@ -3,7 +3,7 @@ title: Graphics Shape Properties
 order: 0
 ---
 
-An item (node/edge) in G6 **Consists of One or More**[**Graphics Shape**](/en/docs/manual/middle/keyconcept/shape-keyshape). You can add shapes to a custom item by `group.addShape` in the `draw` function of registering item. The shapes in G6:
+An item (node/edge) in G6 **Consists of One or More** [**Graphics Shape**](/en/docs/manual/middle/keyconcept/shape-keyshape). You can add shapes to a custom item by `group.addShape` in the `draw` function of registering item. The shapes in G6:
 
 - [circle](#circle);
 - [rect](#rect);
@@ -44,11 +44,11 @@ group.addShape('rect', {
 
 ## Circle
 ### Property
-| Name | Description | Remark |
-| --- | --- | --- |
-| x | The x coordinate of the center |  |
-| y | The y coordinate of the center |  |
-| r | The radius |  |
+| Name | Description |
+| --- | --- |
+| x | The x coordinate of the center |
+| y | The y coordinate of the center |
+| r | The radius |
 
 
 ### Usage
@@ -72,7 +72,7 @@ group.addShape('circle', {
 | y | The y coordinate of the left top |  |
 | width | The width of the rect |  |
 | height | The height of the rect |  |
-| radius | The border radius. | It can be an integer or an array, representing the border radii of lefttop, righttop, rightbottom, leftbotton respectively. <br />- `radius = 1` or `radius = [ 1 ]` is equal to `radius = [ 1, 1, 1, 1 ]`<br />- `radius = [ 1, 2 ]` is equal to `radius = [ 1, 2, 1, 2 ]`<br />- `radius: [ 1, 2, 3 ]` is equal to `radius: [ 1, 2, 3, 2 ]`<br /> |
+| radius | The border radius. | It can be an integer or an array, representing the border radii of lefttop, righttop, rightbottom, leftbotton respectively. <br />- `radius: 1` or `radius: [ 1 ]` is equal to `radius: [ 1, 1, 1, 1 ]`<br />- `radius: [ 1, 2 ]` is equal to `radius: [ 1, 2, 1, 2 ]`<br />- `radius: [ 1, 2, 3 ]` is equal to `radius: [ 1, 2, 3, 2 ]`<br /> |
 
  
 ### Usage
@@ -91,12 +91,12 @@ group.addShape('rect', {
 
 ## Ellipse
 ### Property
-| Name | Description | Remark |
-| --- | --- | --- |
-| x | The x coordinate of the center |  |
-| y | The y coordinate of the center |  |
-| rx | The horizontal radius of the ellipse |  |
-| ry | The vertical radius of the ellipse |  |
+| Name | Description |
+| --- | --- |
+| x | The x coordinate of the center |
+| y | The y coordinate of the center |
+| rx | The horizontal radius of the ellipse |
+| ry | The vertical radius of the ellipse |
 
  
 ### Usage
@@ -211,7 +211,7 @@ group.addShape('marker', {
 
 ## Path
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;⚠️**Attention:** </span>
-When the edge is too thin to be hitted by mouse, set **lineAppendWidth** to enlarge the hitting area.
+ When the edge is too thin to be hitted by mouse, set **lineAppendWidth** to enlarge the hitting area.
 
 ### Property
 | Name | Description | Remark |
