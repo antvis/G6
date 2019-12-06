@@ -52,7 +52,7 @@ G6 作为一款专业的图可视化引擎，具有以下特性：
 
 ## G6 文档
 - [G6 入门教程](/zh/docs/manual/tutorial/preface)
-- [G6 核心概念](/zh/docs/manual/middle/keyConcept)
+- [G6 核心概念](/zh/docs/manual/middle/graph)
 - [G6 高级指引](/zh/docs/manual/advanced/shape-and-properties)
 - [API](/zh/docs/api/Graph)
 

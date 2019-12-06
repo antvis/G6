@@ -6,7 +6,7 @@ order: 1
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;⚠️**注意：**</span>
 <br />图形分组 Group 与 [节点分组 Group](/zh/docs/manual/middle/nodeGroup) 虽然都名为 Group，但属于不同层次的概念。
 
-- 图形分组针对 [图形 Shape](/zh/docs/manual/middle/keyConcept) 层次的分组；
+- 图形分组针对 [图形 Shape](/zh/docs/manual/middle/keyconcept/shape-keyshape) 层次的分组；
 - [节点分组 Group](/zh/docs/manual/middle/nodeGroup) 是针对 [节点](/zh/docs/manual/middle/elements/defaultNode) 的分组，与数据结构中的层次、分组对应。
 
 <br />

@@ -12,7 +12,7 @@ order: 2
 
 ## 基本概念
 ### 图的元素
-图的元素特指图上的**节点** `Node` 和**边** `Edge` 。G6 内置了一系列 [内置的节点](/zh/docs/manual/middle/elements/nodes/defaultNode) 和 [内置的边](/zh/docs/manual/middle/elements/edges/defaultEdge)，供用户自由选择。G6 不同的内置节点或不同的内置边主要区别在于元素的 [图形 Shape](/zh/docs/manual/middle/keyConcept#图形-shape)，例如，节点可以是圆形、矩形、图片等。
+图的元素特指图上的**节点** `Node` 和**边** `Edge` 。G6 内置了一系列 [内置的节点](/zh/docs/manual/middle/elements/nodes/defaultNode) 和 [内置的边](/zh/docs/manual/middle/elements/edges/defaultEdge)，供用户自由选择。G6 不同的内置节点或不同的内置边主要区别在于元素的 [图形 Shape](/zh/docs/manual/middle/keyconcept/shape-keyshape)，例如，节点可以是圆形、矩形、图片等。
 
 ## 元素的属性
 不论是节点还是边，它们的属性分为两种：

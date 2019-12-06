@@ -129,7 +129,7 @@ $ npm run dev
 
 ## 文档
 - [入门教程](/zh/docs/manual/tutorial/preface)
-- [核心概念](/zh/docs/manual/middle/keyConcept)
+- [核心概念](/zh/docs/manual/middle/graph)
 - [高级指引](/zh/docs/manual/advanced/shape-and-properties)
 - [API](/zh/docs/api/Graph)
 

@@ -26,7 +26,7 @@ There are 6 chapters in this tutorial:
 - Plugins & Tools
 - *Animation (not Required)
 
-**Tips:** <br />This tutorial is designed for people who prefer to learn by doing. If you prefer learning concepts from the ground up, check out our [Key Concepts](/en/docs/manual/middle/keyConcept/). You might find this tutorial and the guide complementary to each other.
+**Tips:** <br />This tutorial is designed for people who prefer to learn by doing. If you prefer learning concepts from the ground up, check out our [Key Concepts](/en/docs/manual/middle/graph). You might find this tutorial and the guide complementary to each other.
 
 ## Prerequisites
 It doesn't matter if you're not familiar with G6. But we’ll assume that you have some familiarity with HTML and JavaScript, but you should be able to follow along even if you’re coming from a different programming language. You might be tempted to skip if you already know the basics of G6. 

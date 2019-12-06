@@ -6,7 +6,7 @@ order: 1
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;⚠️**Attention:** </span>
 <br />Graphics Group and [Node Group](/en/docs/manual/middle/nodeGroup) are totally different concepts with the same name Group.
 
-- Graphics Group is the group for [Graphics Shape](/en/docs/manual/middle/keyConcept) 层次的分组；
+- Graphics Group is the group for [Graphics Shape](/en/docs/manual/middle/keyconcept/shape-keyshape) 层次的分组；
 - [Node Group](/en/docs/manual/middle/nodeGroup) is the group for [Node](/en/docs/manual/middle/elements/defaultNode)s, which is related to the hierarchy and groups in the data.
 
 <br />
