@@ -54,7 +54,7 @@ star 节点支持 [节点通用配置](/zh/docs/manual/middle/elements/nodes/def
 | label | 标签文本内容 | String |  |
 | labelCfg | 标签文本配置项 | Object |  |
 | stateStyles | 各状态下的样式 | Object | 只对 keyShape 起作用 |
-| linkPoints | 五角星上的链接点 | Object | 默认不显示 |
+| linkPoints | **视觉上的**五个锚点 | Object | 默认不显示，应与 [anchorPoints](/zh/docs/manual/middle/elements/nodes/defaultNode/#节点的通用属性) 配合使用。二者区别请看 [linkPoints](#linkpoints) |
 | icon | 五角星上icon配置 | Object | 默认不显示 icon |
 
 
@@ -111,20 +111,24 @@ const graph = new G6.Graph({
 ```
 
 
-### 边的连入点 linkPoints
-Object 类型。通过配置 `linkPoints` ，可以指定圆周围「上、左下、➡右下、左、右」五个方向上边的连入点。
+### linkPoints
+Object 类型。通过配置 `linkPoints` ，可以指定圆周围「上、左下、➡右下、左、右」五个小圆点。
+
+⚠️**注意：** 区分于 `anchorPoints`：
+`anchorPoints` 是真正用于指定该节点相关边的连入位置的「**数组**」，见 [anchorPoints](/zh/docs/manual/middle/keyConcept/#anchorpoint)；
+而 `linkPoints` 仅是指定是否「**绘制**」出四个圆点，不起实际的连接相关边的作用。二者常常配合使用。
 
 | 名称 | 含义 | 类型 | 备注 |
 | --- | --- | --- | --- |
-| top | 是否显示上部的连接点 | Boolean | 默认为 `false` |
-| **leftBottom** | **是否显示左底部的连接点** | **Boolean** | **默认为 `false`，star 特有** |
-| **rightBottom** | **是否显示右底部的连接点** | **Boolean** | **默认为 `false`，star 特有** |
-| left | 是否显示左侧的连接点 | Boolean | 默认为 `false` |
-| right | 是否显示右侧的连接点 | Boolean | 默认为 `false` |
-| size | 连接点的大小 | Number | 默认为 3 |
-| fill | 连接点的填充色 | String | 默认为 `'#72CC4A'` |
-| stroke | 连接点的边框颜色 | String | 默认为 `'#72CC4A'` |
-| lineWidth | 连接点边框的宽度 | Number | 默认为 `1` |
+| top | 是否显示上部的圆点 | Boolean | 默认为 `false` |
+| **leftBottom** | **是否显示左底部的圆点** | **Boolean** | **默认为 `false`，star 特有** |
+| **rightBottom** | **是否显示右底部的圆点** | **Boolean** | **默认为 `false`，star 特有** |
+| left | 是否显示左侧的圆点 | Boolean | 默认为 `false` |
+| right | 是否显示右侧的圆点 | Boolean | 默认为 `false` |
+| size | 圆点的大小 | Number | 默认为 3 |
+| fill | 圆点的填充色 | String | 默认为 `'#72CC4A'` |
+| stroke | 圆点的边框颜色 | String | 默认为 `'#72CC4A'` |
+| lineWidth | 圆点边框的宽度 | Number | 默认为 `1` |
 
 
 基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `linkPoints` 配置项进行连入点的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*MmLYQ6cSjiYAAAAAAAAAAABkARQnAQ' width=100/>
