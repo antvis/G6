@@ -6,13 +6,13 @@ order: 1
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;⚠️**Attention:** </span>
 <br />Graphics Group and [Node Group](/en/docs/manual/middle/nodeGroup) are totally different concepts with the same name Group.
 
-- Graphics Group is the group for [Graphics Shape](/en/docs/manual/middle/keyconcept/shape-keyshape) 层次的分组；
-- [Node Group](/en/docs/manual/middle/nodeGroup) is the group for [Node](/en/docs/manual/middle/elements/defaultNode)s, which is related to the hierarchy and groups in the data.
+- Graphics Group is the group for [Graphics Shape](/en/docs/manual/middle/keyconcept/shape-keyshape);
+- [Node Group](/en/docs/manual/middle/nodeGroup) is the group for [Node](/en/docs/manual/middle/elements/nodes/defaultNode)s, which is related to the hierarchy and groups in the data.
 
 <br />
 
 ## What
-Graphics Group (hereinafter referred to as Group) in G6 is similar to [`<g>`](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g) [tag](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g) in [SVG](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g): Group a container of a group of graphics. The transformations on a Group such as clipping, rotating, zooming, and translating will be applied to all the children of the Group. The properties like color and position will also be inherited by its children. Besides, Group can be nested for complicated objects.
+Graphics Group (hereinafter referred to as Group) in G6 is similar to <a href='https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g' target='_blank'> `<g>` tag in SVG </a>: Group a container of a group of graphics. The transformations on a Group such as clipping, rotating, zooming, and translating will be applied to all the children of the Group. The properties like color and position will also be inherited by its children. Besides, Group can be nested for complicated objects.
 
 In G6, all the nodes instances in a Graph is grouped by a Group named `nodeGroup`, all the edges instances are grouped by `edgeGroup`. And the visual level (zIndex) of `nodeGroup` is higher than `edgeGroup`, which means all the nodes will be drawed on the top of all the edges.
 
@@ -33,7 +33,7 @@ Graphics Group is refered by [Custom Node](/en/docs/manual/advanced/custom-node)
 <br />
 
 ## How
-The functions below will be used in [Custom Node](/en/docs/manual/advanced/custom-node) and [Custom Edge](/en/docs/manual/advanced/custom-edge)时用到。
+The functions below will be used in [Custom Node](/en/docs/manual/advanced/custom-node) and [Custom Edge](/en/docs/manual/advanced/custom-edge).
 
 ### Instantiating a Group
 ```
