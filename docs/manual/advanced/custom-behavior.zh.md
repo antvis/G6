@@ -43,7 +43,7 @@ G6 除了提供丰富的 [内置交互行为 Behavior](/zh/docs/manual/middle/st
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️注意:</strong></span>
 
-- 下面代码仅设置了不同交互后节点的状态，没有指定这些状态下节点的样式。若需要根据节点状态变化它的样式，参见 [配置不同 State 样式](/zh/docs/manual/middle/states/state)。
+- 下面代码仅设置了不同交互后节点的状态，没有指定这些状态下节点的样式。若需要根据节点状态变化它的样式，参见 [配置不同 State 下的节点样式](/zh/docs/manual/middle/states/state)。
 - 自定义 Behavior 时，可选的方法请参数 [Behavior API](/zh/docs/api/Behavior)；
 - `getEvent` 返回该 Behavior 所需监听事件的对象，G6 中支持的所有事件，请参考 [Event API](/zh/docs/api/Event)。
 

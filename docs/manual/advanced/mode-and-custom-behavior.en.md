@@ -5,12 +5,12 @@ order: 7
 
 In this chapter, we will introduce the interactions in G6 by adding nodes and edges. You nee to be familiar with the following before reading this chapter:
 
-- [Custom Behavior](/en/docs/manual/advanced/custom-behavior)；
-- [Mode](/en/docs/manual/middle/states/mode)。
+- [Custom Behavior](/en/docs/manual/advanced/custom-behavior);
+- [Mode](/en/docs/manual/middle/states/mode).
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zwgcTYCrr6sAAAAAAAAAAABkARQnAQ' width=400 />
 
-<br />The final result in shown above. The complete code: [Adding Items](https://codepen.io/Yanyan-Wang/pen/qBBNaye). <br />There are three mode options in the drop-down menu on the upper left.
+<br />The final result in shown above. The complete code: <a href='https://codepen.io/Yanyan-Wang/pen/qBBNaye' target='_blank'>Adding Items</a><br />There are three mode options in the drop-down menu on the upper left.
 
 - Switch to the default interactive mode when the "Default" button is selected: The dragged node will move with the mouse; The node will be selected by clicking;
 - Switch to the addNode interactive mode when the "Add Node" button is selected: Add a node by clicking canvas; Select a node by clicking node;
@@ -189,4 +189,4 @@ G6.registerBehavior('click-add-edge', {
 ```
 
 ## Complete COde
-[Adding Items](https://codepen.io/Yanyan-Wang/pen/qBBNaye)。
+<a href='https://codepen.io/Yanyan-Wang/pen/qBBNaye' target='_blank'>Adding Items</a>.

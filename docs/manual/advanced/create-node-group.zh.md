@@ -76,7 +76,7 @@ default、hover 和 collapse 支持的所有通用的属性参考[图形属性](
 | nodes | 分组中包含的节点或节点 ID | Array | 节点实例或节点 ID |
 | type | 分组类型 | String | 默认 `'circle'` ，支持 `'circle'` 和 `'rect'` |
 | zIndex | 分组层级 | Number | 默认 `0` |
-| title | 分组标题配置 | Object / String | 为 String 类型时，不能配置其他属性，为 Object 时的配置参考[这里](/en/docs/manual/middle/nodeGroup) |
+| title | 分组标题配置 | Object / String | 为 String 类型时，不能配置其他属性，为 Object 时的配置参考[这里](/zh/docs/manual/middle/nodeGroup/#数据结构) |
 
 ```javascript
 const nodes = ['node1', 'node2']
