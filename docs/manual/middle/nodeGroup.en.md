@@ -6,7 +6,7 @@ order: 8
 > The title of Node Group is supported from G6 V3.1.2.
 
 
-Node Group is a practical function for graph visualization. It is supported from G6 V3.0.5. Refer to the demo [Demo](/en/examples/interaction/nodeGroup). <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*G1OBSJf672QAAAAAAAAAAABkARQnAQ' width=400/>
+Node Group is a practical function for graph visualization. It is supported from G6 V3.0.5. Refer to the demo <a href='/zh/examples/interaction/nodeGroup' target='_blank'>Demo</a>. <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*G1OBSJf672QAAAAAAAAAAABkARQnAQ' width=400/>
 
 ### Data Structure
 In data, Node Group are defined as array `group`, and each node data has a property `groupId`.

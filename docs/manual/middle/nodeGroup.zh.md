@@ -6,7 +6,7 @@ order: 8
 > New Feature：自 G6 3.1.2 开始支持自定义节点分组的标题了，可以渲染带有标题的分组。
 
 
-对于熟悉图可视化类库的用户来说，节点分组可能是比较实用的一个功能。自 G6 3.0.5 版本开始，G6 加入了节点分组的功能，详情参考[Demo](/zh/examples/interaction/nodeGroup)。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*G1OBSJf672QAAAAAAAAAAABkARQnAQ' width=400/>
+对于熟悉图可视化类库的用户来说，节点分组可能是比较实用的一个功能。自 G6 3.0.5 版本开始，G6 加入了节点分组的功能，详情参考 <a href='/zh/examples/interaction/nodeGroup' target='_blank'>Demo</a>。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*G1OBSJf672QAAAAAAAAAAABkARQnAQ' width=400/>
 
 ### 数据结构
 新增节点分组功能时，尽量保持了 G6 数据结构的稳定性。为了体现分组的特性，我们在 nodes 数据项中加入了 groupId 属性，另外新增了 groups 字段，用于表示数据中所包括的分组及各分组之间的层级关系。
@@ -194,7 +194,7 @@ graph.render();
 ### 操作分组
 只是简单地将分组渲染出来，并没有多大的实用价值，只有支持一系列的交互操作后，才能最大程度地体现分组的价值。
 
-在 G6 中，我们内置了 `drag-group`、`collapse-expand-group` 及  `drag-node-with-group`  三个[Behavior](/zh/docs/manual/middle/states/defaultBehavior)，共支持以下的交互行为：
+在 G6 中，我们内置了 `drag-group`、`collapse-expand-group` 及  `drag-node-with-group`  三个 [Behavior](/zh/docs/manual/middle/states/defaultBehavior)，共支持以下的交互行为：
 
 - 拖动分组；
 - 通过拖拽，动态改变分组中的节点数量及分组大小；

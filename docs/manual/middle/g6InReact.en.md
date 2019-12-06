@@ -22,7 +22,7 @@ The demo includes these functions:
 - Utilize the context menu on node;
 - Render the custom React components of tooltip and ContextMenu.
 
-In React, you can fetch the DOM element by `**ReactDOM.findDOMNode(ref.current)**`.
+In React, you can fetch the DOM element by `ReactDOM.findDOMNode(ref.current)`.
 
 ```javascript
 import React, { useEffect, useState } from 'react';
@@ -108,6 +108,6 @@ return (
 );
 ```
 
-The complete code of this demo 👉[Demo](https://github.com/baizn/g6-in-react)。
+The complete code of this demo 「<a href='https://github.com/baizn/g6-in-react' target='_blank'>HERE</a>」.
 
 You are welcome to provide the usages of G6 in Vue and Angular. Thank you!
