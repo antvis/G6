@@ -84,8 +84,8 @@ const data = {
 ⚠️**Attention**
 
 - `nodes` is an array of nodes, the `id` is unique and required property; the `x` and `y` are coordinates of the node;
-- `edges` is an array of edges, `source` and `target` are required, represent the `id` of the source node and the `id` of the target node respectively.
-- The properties of node and edge are described in [Nodes Properties](/en/docs/api/properties/NodeProperties) and [Edges Properties](/en/docs/api/properties/EdgeProperties)
+- `edges` is an array of edges, `source` and `target` are required, represent the `id` of the source node and the `id` of the target node respectively;
+- The properties of node and edge are described in [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) and [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge).
 
 
 ### Step 3 Instantiate the Graph

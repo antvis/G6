@@ -32,14 +32,13 @@ G6 的内置节点包括 circle，rect，ellipse，diamond，triangle，star，i
 | shape | false | String | 节点图形，默认为 `'circle'` |
 | size | false | Number / Array | 节点的大小 |
 | anchorPoints | false | Array | 指定边连如节点的连接点的位置（相对于该节点而言），可以为空。例如: `[0, 0]`，代表节点左上角的锚点，`[1, 1]`,代表节点右下角的锚点 |
-| style | false | Object | 节点的样式属性。⚠️**注意：**`style` 属性与该节点的 [keyShape](/zh/docs/manual/middle/keyConcept#keyshape) 的 [图形属性](/zh/docs/api/properties/NodeProperties) 相对应。 |
+| style | false | Object | 节点的样式属性。 |
 | label | false | String | 文本文字 |
 | labelCfg | false | Object | 文本配置项 |
 
 
 #### 样式属性 style
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">⚠️**注意：**`style` 属性与该节点的 [keyShape](/zh/docs/manual/middle/keyConcept#keyshape) 的 [图形属性](/zh/docs/api/properties/NodeProperties) 相对应。</span>
-<br />
+
 Object 类型。通过 `style` 配置来修改节点的填充色、边框颜色、阴影等属性。下表是 `style` 对象中常用的配置项：
 
 | 名称 | 是否必须 | 类型 | 备注 |
@@ -51,7 +50,8 @@ Object 类型。通过 `style` 配置来修改节点的填充色、边框颜色�
 | shadowBlur | false | Number | 阴影范围 |
 | shadowOffsetX | false | Number | 阴影 x 方向偏移量 |
 | shadowOffsetX | false | Number | 阴影 y 方向偏移量 |
-| ... |  |  |  |
+| opacity | false | Number | 设置绘图的当前 alpha 或透明值 |
+| fillOpacity | false | Number | 设置填充的 alpha 或透明值 |
 
 
 下面代码演示在实例化图时全局配置方法中配置 `style`：
@@ -79,12 +79,10 @@ const graph = new G6.Graph({
 | --- | --- | --- | --- |
 | position | false | String | 文本相对于节点的位置，目前支持的位置有:  `'center'`，`'top'`，`'left'`，`'right'`，`'bottom'`。默认为 `'center'` |
 | offset | false | Number / Array | 文本的偏移，在 `'top'`，`'left'`，`'right'`，`'bottom'` 位置上的偏移量 |
-| style | false | Object | 标签的样式属性。⚠️**注意：**`style` 属性与该文本的 [图形属性](/zh/docs/api/properties/TextProperties) 相对应。 |
+| style | false | Object | 标签的样式属性。 |
 
 
 上表中的标签的样式属性 `style` 的常用配置项如下： 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">
-⚠️**注意：**`style` 属性与该文本的 [图形属性](/zh/docs/api/properties/TextProperties) 相对应。</span>
 
 | 名称 | 是否必须 | 类型 | 备注 |
 | --- | --- | --- | --- |
@@ -94,7 +92,7 @@ const graph = new G6.Graph({
 | opacity | false | Number | 文本透明度 |
 | font | false | String | 文本内容的当前字体属性 |
 | fontSize | false | Number | 文本字体大小 |
-| ... 由于节点和边上标签的样式属性相同，统一整理在 [文本属性]() |  |  |  |
+| ... |  |  |  |
 
 
 下面代码演示在实例化图时全局配置方法中配置 `label` 和 `labelCfg`。

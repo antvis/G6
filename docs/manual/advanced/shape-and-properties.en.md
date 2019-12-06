@@ -5,15 +5,15 @@ order: 0
 
 An item (node/edge) in G6 **Consists of One or More**[**Graphics Shape**](/en/docs/manual/middle/keyConcept). You can add shapes to a custom item by `group.addShape` in the `draw` function of registering item. The shapes in G6:
 
-- circle;
-- rect;
-- ellipse;
-- image;
-- text: [Text Properties](/en/docs/manual/advanced/label-properties)；
-- fan;
-- marker;
-- polygon;
-- path.
+- [circle](#circle);
+- [rect](#rect);
+- [ellipse](#ellipse);
+- [polygon](#polygon);
+- [fan](#fan);
+- [image](#image);
+- [marker](#marker);
+- [path]();
+- [text](#text).
 
 ## The Common Properties of Shapes
 
@@ -63,6 +63,32 @@ group.addShape('circle', {
 })
 ```
 
+
+## Rect
+### Property
+| Name | Description | Remark |
+| --- | --- | --- |
+| x | The x coordinate of the left top |  |
+| y | The y coordinate of the left top |  |
+| width | The width of the rect |  |
+| height | The height of the rect |  |
+| radius | The border radius. | It can be an integer or an array, representing the border radii of lefttop, righttop, rightbottom, leftbotton respectively. <br />- `radius = 1` or `radius = [ 1 ]` is equal to `radius = [ 1, 1, 1, 1 ]`<br />- `radius = [ 1, 2 ]` is equal to `radius = [ 1, 2, 1, 2 ]`<br />- `radius: [ 1, 2, 3 ]` is equal to `radius: [ 1, 2, 3, 2 ]`<br /> |
+
+ 
+### Usage
+```javascript
+group.addShape('rect', {
+  attrs: {
+    x: 150,
+    y: 150,
+    width: 150,
+    height: 150,
+    stroke: 'black',
+    radius: [2, 4]
+  }
+});
+```
+
 ## Ellipse
 ### Property
 | Name | Description | Remark |
@@ -84,6 +110,23 @@ group.addShape('ellipse', {
     fill: 'blue'
   }
 })
+```
+
+## Polygon
+### Property
+| Name | Description | Remark |
+| --- | --- | --- |
+| points | A set of vertexes' coordinates of the polygon | It is an array |
+
+
+### Usage
+```javascript
+group.addShape('polygon', {
+  attrs: {
+    points:[[ 30, 30 ], [ 40, 20 ], [ 30, 50 ], [ 60, 100 ]],
+    fill: 'red'
+  }
+});
 ```
 
 ## Fan
@@ -162,48 +205,6 @@ group.addShape('marker', {
         [ 'Z' ]
       ]
     }
-  }
-});
-```
-
-## Polygon
-### Property
-| Name | Description | Remark |
-| --- | --- | --- |
-| points | A set of vertexes' coordinates of the polygon | It is an array |
-
-
-### Usage
-```javascript
-group.addShape('polygon', {
-  attrs: {
-    points:[[ 30, 30 ], [ 40, 20 ], [ 30, 50 ], [ 60, 100 ]],
-    fill: 'red'
-  }
-});
-```
-
-## Rect
-### Property
-| Name | Description | Remark |
-| --- | --- | --- |
-| x | The x coordinate of the left top |  |
-| y | The y coordinate of the left top |  |
-| width | The width of the rect |  |
-| height | The height of the rect |  |
-| radius | The border radius. | It can be an integer or an array, representing the border radii of lefttop, righttop, rightbottom, leftbotton respectively. <br />- `radius = 1` or `radius = [ 1 ]` is equal to `radius = [ 1, 1, 1, 1 ]`<br />- `radius = [ 1, 2 ]` is equal to `radius = [ 1, 2, 1, 2 ]`<br />- `radius: [ 1, 2, 3 ]` is equal to `radius: [ 1, 2, 3, 2 ]`<br /> |
-
- 
-### Usage
-```javascript
-group.addShape('rect', {
-  attrs: {
-    x: 150,
-    y: 150,
-    width: 150,
-    height: 150,
-    stroke: 'black',
-    radius: [2, 4]
   }
 });
 ```

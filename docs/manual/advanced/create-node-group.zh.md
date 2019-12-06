@@ -42,7 +42,7 @@ const graph = new G6.Graph({
 `groupStyle` 用于指定分组在默认（default）、交互过程中（hover）及收起（collapse）状态下的样式。
 
 #### 通用属性
-default、hover 和 collapse 支持的所有通用的属性参考[属性配置项](/zh/docs/api/properties/NodeProperties)。除过这些通用的属性，default 和 collapse 分别还支持以下特有属性。
+default、hover 和 collapse 支持的所有通用的属性参考[图形属性](/zh/docs/api/shapeProperties)。除过这些通用的属性，default 和 collapse 分别还支持以下特有属性。
 
 #### default
 | 属性名称 | 含义 | 类型 | 备注 |

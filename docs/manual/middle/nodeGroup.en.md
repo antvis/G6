@@ -18,7 +18,7 @@ The `title` for a group can be a string or an object:
   - text: required, a string indicates the text of the group title;
   - offsetX: the x offset of the title, `0` by default;
   - offsetY: the y offset of the title, `0` by default;
-  - stroke: the stroke color. The `fill`, `fontSize`, and other [Text Attributes](/en/docs/api/properties/TextProperties).
+  - stroke: the stroke color. The `fill`, `fontSize`, and other [Label Styles on Node](/en/docs/manual/middle/elements/nodes/defaultNode/#label-and-labelcfg).
 
 
 
