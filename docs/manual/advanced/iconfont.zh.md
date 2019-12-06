@@ -4,13 +4,13 @@ order: 9
 ---
 
 ## 简介
-为什么使用 iconfont？ 兼容性好、种类多、多色等。在此不做过多介绍，请直接移步[阿里巴巴-iconfont平台](https://www.iconfont.cn)。
+为什么使用 iconfont？ 兼容性好、种类多、多色等。在此不做过多介绍，请直接移步 <a href='https://www.iconfont.cn' target='_blank'>阿里巴巴-iconfont平台</a>。
 
 ## 效果
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rJ3lQa0HR-wAAAAAAAAAAABkARQnAQ' alt='result' width='450'/>
 
 ## 下载字体图标
-直接去到[阿里巴巴字体图标库](https://www.iconfont.cn)搜索下载即可，简要操作流程是：搜索图标（例如篮球）-> 选择自己喜欢的图标添加入库 -> 点击页面右上角的购物车可以看到我们加入的图标 -> 添加至项目，如果没有项目到话可以新建一个 -> 在我到项目里面点击下载至本地 -> 解压。如果一切操作正常的话可以得到如下解压文件：<br />
+直接到 <a href='https://www.iconfont.cn' target='_blank'>阿里巴巴字体图标库</a> 搜索下载即可，简要操作流程是：搜索图标（例如篮球）-> 选择自己喜欢的图标添加入库 -> 点击页面右上角的购物车可以看到我们加入的图标 -> 添加至项目，如果没有项目到话可以新建一个 -> 在我到项目里面点击下载至本地 -> 解压。如果一切操作正常的话可以得到如下解压文件：<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EnNmQ5m7xHUAAAAAAAAAAABkARQnAQ' alt='download' width='550'/>
 
 选中红色区域的所有文件（这里面很多文件是不需要的，为了方便起见，我们全部复制即可，不需要的也不会被打包），复制到项目里面，一般放在目录 'static/icons' 或者 'assets/icons' 下面，如果没有的话可以新建目录，当然你也可以放到任意你喜欢的位置，只要引入的时候路径对即可，到此 iconfont 引入完毕。
@@ -278,7 +278,7 @@ graph.render();
 ```
 
 ## 注意事项
-看了代码大家应该很清楚了，实质就是用了 text 图形，但有几个需要注意的地方：<br />**1、text 的 fontFamily 必须和 iconfont.css 里面的 font-family 保持一致：**<br />
+看了代码大家应该很清楚了，实质就是用了 text 图形，但有几个需要注意的地方：<br />**1、text 的 `fontFamily` 必须和 iconfont.css 里面的 `font-family` 保持一致：**<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v0CoQoNIyJ8AAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wndRQo6U-oUAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>

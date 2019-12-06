@@ -30,7 +30,7 @@ const graph = new G6.Graph({
 ### easing 函数
 easing 函数是指动画的函数。例如线性插值、先快后慢等。<br />G6 支持所有 d3.js 中的动画函数。因此，上面代码中 `animateCfg` 配置中的 String 类型的 `easing` 可以取值有：<br />`'easeLinear'` ，<br />`'easePolyIn'` ，`'easePolyOut'` ， `'easePolyInOut'`  ，<br />`'``easeQuad``'` ，`'easeQuadIn'` ，`'easeQuadOut'` ， `'easeQuadInOut'` 。
 
-更多取值及所有取值含义参见：[d3 Easings](https://github.com/d3/d3/blob/master/API.md#easings-d3-ease)。
+更多取值及所有取值含义参见：<a href='https://github.com/d3/d3/blob/master/API.md#easings-d3-ease' target='_blank'>d3 Easings</a>。
 
 
 ## 元素动画
@@ -51,7 +51,7 @@ easing 函数是指动画的函数。例如线性插值、先快后慢等。<br 
 <br />
 
 以上三个动画节点的 demo 代码见：
-[节点动画](/zh/examples/scatter/node)。
+<a href='/zh/examples/scatter/node' target='_blank'>节点动画</a>。
 
 #### 节点上图形的动画
 <br />
@@ -211,10 +211,10 @@ G6.registerNode('inner-animate', {
 
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OAGPRZbYpw4AAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VUgETK6aMzcAAAAAAAAAAABkARQnAQ' alt='download' width='110'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VUgETK6aMzcAAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-l9lQ7Ck1QcAAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
 
-以上三个边动画的 demo 代码见：[边动画](/zh/examples/scatter/edge)。
+以上三个边动画的 demo 代码见：<a href='/zh/examples/scatter/edge' target='_blank'>边动画</a>。
 
 #### 圆点运动
 本例通过在 `afterDraw` 方法中为边增加了一个 circle 图形，该图形沿着线运动。沿着线运动的原理：设定每一帧中，该 circle 在线上的相对位置。<br />
@@ -340,14 +340,14 @@ G6.registerEdge('line-growth', {
 ```
 
 ### 交互动画
-在交互的过程中也可以添加动画。如下图所示，当鼠标移到节点上时，所有与该节点相关联的边都展示虚线运动的动画。<br />![交互动画.gif](https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-90pSrm4hkUAAAAAAAAAAABkARQnAQ)<br />上图完整 demo 即代码参见：[状态切换动画](/zh/examples/scatter/stateChange)。
+在交互的过程中也可以添加动画。如下图所示，当鼠标移到节点上时，所有与该节点相关联的边都展示虚线运动的动画。<br />![交互动画.gif](https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-90pSrm4hkUAAAAAAAAAAABkARQnAQ)<br />上图完整 demo 即代码参见：<a href='/zh/examples/scatter/stateChange' target='_blank'>状态切换动画</a>。
 
 这种动画涉及到了边的 [状态](/zh/docs/manual/middle/states/state)。在自定义边时复写 `setState` 方法，可对边的各种状态进行监听。鼠标移动到节点上，相关边的某个状态被开启，`setState` 方法中监听到后开启动画效果。步骤如下：
 
 - 自定义边中复写 `setState` 方法监听该边的状态，以及某状态下的动画效果；
 - 监听中间的节点的 `mouseenter` 和 `mouseleave` 事件，触发相关边的状态变化。
 
-下面代码节选自 demo [状态切换动画](/zh/examples/scatter/stateChange)，请注意省略了部分代码，只展示了交互相关以及边动画相关的代码。
+下面代码节选自 demo <a href='/zh/examples/scatter/stateChange' target='_blank'>状态切换动画</a>，请注意省略了部分代码，只展示了交互相关以及边动画相关的代码。
 ```javascript
 // const data = ...
 // const graph = new G6.Graph({...});
@@ -430,5 +430,5 @@ graph.on('node:mouseleave', ev => {
 ```
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️注意:</strong></span>
-running 为 false 时，要停止动画，同时把 lineDash 清空。
+`running` 为 `false` 时，要停止动画，同时把 `lineDash` 清空。
 

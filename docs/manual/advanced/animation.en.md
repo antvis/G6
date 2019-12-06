@@ -28,9 +28,9 @@ const graph = new G6.Graph({
 });
 ```
 
-G6 supports all the easing functions in d3.js. Thus, the options of `easing` in `animateCfg`: <br />`'easeLinear'` ，<br />`'easePolyIn'` ，`'easePolyOut'` ， `'easePolyInOut'`  ，<br />`'``easeQuad``'` ，`'easeQuadIn'` ，`'easeQuadOut'` ， `'easeQuadInOut'` 。
+G6 supports all the easing functions in d3.js. Thus, the options of `easing` in `animateCfg`: <br />`'easeLinear'`, <br />`'easePolyIn'`, `'easePolyOut'`,  `'easePolyInOut'`  , <br />`'``easeQuad``'`, `'easeQuadIn'`, `'easeQuadOut'`, `'easeQuadInOut'` .
 
-For more detail of the easing functions, please refer to: [d3 Easings](https://github.com/d3/d3/blob/master/API.md#easings-d3-ease)。
+For more detail of the easing functions, please refer to: <a href='https://github.com/d3/d3/blob/master/API.md#easings-d3-ease' target='_blank'>d3 Easings</a>.
 
 
 ## Item Animation
@@ -51,7 +51,7 @@ We are going to introduce this part by three demos:
 <br />
 
 The code of the three demos can be found at:
-[Node Animation](/en/examples/scatter/node)。
+<a href='/en/examples/scatter/node' target='_blank'>Node Animation</a>.
 
 #### The Graphics Animation
 In this example, we are going to magnify and shrink the node. <br />
@@ -207,14 +207,14 @@ We are going to introduce this part by three demos:
 
 - A circle move along the edge (Left of the figure below);
 - A running dashed line (Center of the figure below. The gif may look like a static edge due to the low fps problem. You can check out the demo by link);
-- A growing line （Right of the figure below).
+- A growing line (Right of the figure below).
 
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OAGPRZbYpw4AAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VUgETK6aMzcAAAAAAAAAAABkARQnAQ' alt='download' width='110'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VUgETK6aMzcAAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-l9lQ7Ck1QcAAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
 
-The code of the three demo can be found in: [Edge Animation](/en/examples/scatter/edge)。
+The code of the three demo can be found in: <a href='/en/examples/scatter/edge' target='_blank'>Edge Animation</a>.
 
 #### A Moving Circle
 In this demo, we add a circle shape with moving animation in `afterDraw`. In each frame, we return the relative position of the circle on the edge.<br />
@@ -340,14 +340,14 @@ G6.registerEdge('line-growth', {
 ```
 
 ### Interaction Animation
-G6 allows user to add animation for the interaction. As showin in the figure beow, when the mouse enters the node, the related edges will show the dashed line animation.<br />![交互动画.gif](https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-90pSrm4hkUAAAAAAAAAAABkARQnAQ)<br />The code for the demo can be found in: [Animation of State Changing](/en/examples/scatter/stateChange)。
+G6 allows user to add animation for the interaction. As showin in the figure beow, when the mouse enters the node, the related edges will show the dashed line animation.<br />![交互动画.gif](https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-90pSrm4hkUAAAAAAAAAAABkARQnAQ)<br />The code for the demo can be found in: <a href='/en/examples/scatter/stateChange' target='_blank'>Animation of State Changing</a>.
 
 This kind of animation is related to the [State](/en/docs/manual/middle/states/state) of edge. Rewrite the function `setState` to response the state changing. When the mouse enters a node, some state of the related edges are activated. The `setState` of the edges activate the animation once it receive the state changing. The steps are: 
 
 - Rewrite the `setState` in custom edge, and listen to the state changing in this function;
 - Listen the `mouseenter` and `mouseleave` of the nodes to activate the state of the related edges.
 
-The code below is a part of the code in [Animation of State Changing](/en/examples/scatter/stateChange). Please note that we have omit some code to emphasize the code related to the animation.
+The code below is a part of the code in <a href='/en/examples/scatter/stateChange' target='_blank'>Animation of State Changing</a>. Please note that we have omit some code to emphasize the code related to the animation.
 ```javascript
 // const data = ...
 // const graph = new G6.Graph({...});
@@ -430,5 +430,5 @@ graph.on('node:mouseleave', ev => {
 ```
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️Attention:</strong></span>
-When running is turned to be false, the animation should be stopped and the lineDash should be cleared.
+When `running` is turned to be `false`, the animation should be stopped and the `lineDash` should be cleared.
 
