@@ -3,7 +3,7 @@ import BehaviorOption from './behaviorOption'
 
 export default class Behavior {
   private static types = {}
-  public static registerBehavior<T extends IBehavior>(type: string, behavior: T) {
+  public static registerBehavior<T, U>(type: string, behavior: IBehavior<U>) {
     if(!behavior) {
       throw new Error(`please specify handler for this behavior: ${type}`)
     }
