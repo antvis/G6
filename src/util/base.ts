@@ -3,7 +3,7 @@ import isArray from '@antv/util/lib/is-array'
 import isNil from '@antv/util/lib/is-nil'
 import isNumber from "@antv/util/lib/is-number";
 import isString from '@antv/util/lib/is-string'
-import { G6GraphEvent, IG6GraphEvent } from '../interface/event';
+import { G6GraphEvent, IG6GraphEvent } from '../interface/behavior';
 import { IPadding } from "../interface/math";
 
 /**

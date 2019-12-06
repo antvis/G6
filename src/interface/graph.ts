@@ -1,4 +1,4 @@
-import { G6Event } from './event'
+import { G6Event } from './behavior'
 import { IEdgeConfig, IGroupConfig, INodeConfig } from './model'
 export interface IGraph {
   on: (event: G6Event, handler: () => void) => void;
