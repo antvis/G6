@@ -4,7 +4,7 @@ order: 4
 ---
 
 ## 问题
-有如下的一份数据，如何使用 [G6](https://github.com/antvis/g6) 让两个节点之间连多条边？
+有如下的一份数据，如何使用 <a href='https://github.com/antvis/g6' target=''>G6</a> 让两个节点之间连多条边？
 
 ```javascript
 const data = {

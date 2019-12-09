@@ -97,11 +97,10 @@ When the number of edges is particularly large, the labels on the edges overlap 
 ## Conclusion
 
 
-This application uses simulated social network data as an example to demonstrate a graph analysis application powered by [G6](https://github.com/antvis/g6). 
-In actual scenarios, it is not limited to social network data. Any relational data can be analyzed using graph analysis techniques, such as risk control, anti-money laundering, credit card fraud, and other business fields. G6](https://github.com/antvis/g6) is an open source graph visualization engine that focuses on the demonstration and the analysis of relational data, and it is appropriate for building graph analysis applications.
+This application uses simulated social network data as an example to demonstrate a graph analysis application powered by <a href='https://github.com/antvis/g6' target='_blank'>G6</a>. 
+In actual scenarios, it is not limited to social network data. Any relational data can be analyzed using graph analysis techniques, such as risk control, anti-money laundering, credit card fraud, and other business fields. <a href='https://github.com/antvis/g6' target='_blank'>G6</a> is an open source graph visualization engine that focuses on the demonstration and the analysis of relational data, and it is appropriate for building graph analysis applications.
 
 ## Application Address
 
-<br />
-Official website of G6: [https://g6.antv.vision/](https://g6.antv.vision/)
-<br />GitHub of G6: [https://github.com/antvis/g6](https://github.com/antvis/g6)
+<br />Official website of G6: <a href='https://g6.antv.vision/' target='_blank'>https://g6.antv.vision/</a>
+<br />GitHub of G6: <a href='https://github.com/antvis/g6' target='_blank'>https://github.com/antvis/g6</a>

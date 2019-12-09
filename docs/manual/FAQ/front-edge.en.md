@@ -7,7 +7,7 @@ order: 6
 How to render the edges on the top of nodes in G6 3.x?
 
 ## Solution
-In G6 3.x, nodes are rendered on the top of edges by default. All the nodes are grouped by a [Graphics Group](/en/docs/manual/advanced/keyconcept/graphics-group) named `nodeGroup`, and all the edges are grouped by a [Graphics Group](/en/docs/manual/advanced/keyconcept/graphics-group) named `edgeGroup`. You can modify the visual levels of the groups to change the visual levels of all nodes and all edges. After changing the visual levels, do remember to call `graph.paint()` to repaint the graph.
+In G6 3.x, nodes are rendered on the top of edges by default. All the nodes are grouped by a [Graphics Group](/en/docs/manual/advanced/keyconcept/graphics-group) named `nodeGroup`, and all the edges are grouped by another [Graphics Group](/en/docs/manual/advanced/keyconcept/graphics-group) named `edgeGroup`. You can modify the visual levels of the groups to change the visual levels of all nodes and all edges. After changing the visual levels, do remember to call `graph.paint()` to repaint the graph.
 
 ```javascript
  document.getElementById('changeView').addEventListener('click', (evt) => {
@@ -36,4 +36,4 @@ document.getElementById('changeView').addEventListener('click', (evt) => {
     })
 ```
 
-Refer to [#issues 817](https://github.com/antvis/G6/issues/817) for detail.
+Refer to <a href='https://github.com/antvis/G6/issues/817' target='_blank'>#issues 817</a> for detail.

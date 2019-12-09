@@ -7,7 +7,7 @@ G6 提供了三种修改节点样式的方法。
 
 #### 实例化 Graph
 
-实例化 Graph 时，可以通过在 `defaultNode` 或 `defaultEdge` 中指定 `**style**` 分别配置全局节点和全局边的样式属性。
+实例化 Graph 时，可以通过在 `defaultNode` 或 `defaultEdge` 中指定 `style` 分别配置全局节点和全局边的样式属性。
 
 ```javascript
 const graph = new G6.Graph({

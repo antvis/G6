@@ -108,7 +108,7 @@ const degreeDataRange = [minDegree, maxDegree];
 scaleNodeProp(nodes, 'size', 'degree', degreeDataRange, sizeRange);
 ```
 
-`scaleNodeProp()` 方法将指定的节点属性 `refPropName` 根据给定数值范围 `outRange` 归一化，映射到另一个属性 `propName` 上：
+`scaleNodeProp()` maps the node property `refPropName` to another property `propName` with the  range `outRange`:
 ```javascript
 /**
  * Mapping properties
@@ -131,7 +131,7 @@ Now, we have normalized the degrees onto the `size`s of nodes.
 
 
 ### Instantiate the Bundling Plugin
-The edge bunlding technique in G6 is implemented according to the paper FEDB ([Force-Directed Edge Bundling for Graph Visualization](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.212.7989&rep=rep1&type=pdf)). By tuning the configurations, you can adjust the bundling result easily.
+The edge bunlding technique in G6 is implemented according to the paper FEDB (<a href='http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.212.7989&rep=rep1&type=pdf' target='_blank'>Force-Directed Edge Bundling for Graph Visualization</a>). By tuning the configurations, you can adjust the bundling result easily.
 ```javascript
 const edgeBundling = new Bundling({
     bundleThreshold: 0.6, // The tolerance of bundling. Lower number, the higher similarity of the bundled edges is required, the smaller number of edges to be bundled together.
@@ -291,8 +291,9 @@ After these configurations, the `tooltip` with longitude and latitude will show 
 > tooltip
 
 
-In the sametime, the canvas is draggable and zoomable:
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5h5tR5eDM6UAAAAAAAAAAABkARQnAQ' width=850 height=350 />
+In the same time, the canvas is draggable and zoomable:
+<br />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5h5tR5eDM6UAAAAAAAAAAABkARQnAQ' width=550 height=350 />
 
 > Drag and zoom the canvas
 
