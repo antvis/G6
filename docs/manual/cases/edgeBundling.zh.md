@@ -132,7 +132,7 @@ function scaleNodeProp(nodes, propName, refPropName, dataRange, outRange) {
 
 
 ### 实例化边绑定插件
-G6 中提供的边绑定插件是基于 FEDB（[Force-Directed Edge Bundling for Graph Visualization](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.212.7989&rep=rep1&type=pdf)）一文的实现。可以通过调节参数调整边绑定的效果。
+G6 中提供的边绑定插件是基于 FEDB（<a href='http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.212.7989&rep=rep1&type=pdf' target='_blank'>Force-Directed Edge Bundling for Graph Visualization</a>）一文的实现。可以通过调节参数调整边绑定的效果。
 ```javascript
 const edgeBundling = new Bundling({
     bundleThreshold: 0.6, // 绑定的容忍度。数值越低，被绑定在一起的边相似度越高，即被绑在一起的边更少。
@@ -293,7 +293,7 @@ graph.render();
 
 
 同时，可以拖拽和放缩画布：
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5h5tR5eDM6UAAAAAAAAAAABkARQnAQ' width=850 height=350 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5h5tR5eDM6UAAAAAAAAAAABkARQnAQ' width=550 height=350 />
 
 > 缩放和拖动画布
 

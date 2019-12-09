@@ -122,6 +122,6 @@ In general, the emergency workbench is deeply focused on business scenarios, pro
 
 
 ## Demo Address
-Code: [https://github.com/scaletimes/g6-flow-demo](https://github.com/scaletimes/g6-flow-demo.git)
-<br />Official website of G6: [https://g6.antv.vision/](https://g6.antv.vision/)
-<br />GitHub of G6: [https://github.com/antvis/g6](https://github.com/antvis/g6)
+Code: <a href='https://github.com/scaletimes/g6-flow-demo.git' target='_blank'>https://github.com/scaletimes/g6-flow-demo</a>
+<br />Official website of G6: <a href='https://g6.antv.vision/' target='_blank'>https://g6.antv.vision/</a>
+<br />GitHub of G6: <a href='https://github.com/antvis/g6' target='_blank'>https://github.com/antvis/g6</a>

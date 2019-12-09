@@ -6,7 +6,7 @@ order: 0
 There are three ways to modify the styles for labels in G6.
 
 #### Configure When Instantiating Graph
-When instantiating a Graph, assign `**labelCfg**` in `defaultNode` or `defaultEdge` to configure the styles for labels of global nodes and global edges respectively.
+When instantiating a Graph, assign `labelCfg` in `defaultNode` or `defaultEdge` to configure the styles for labels of global nodes and global edges respectively.
 
 
 ```javascript
@@ -35,7 +35,7 @@ const graph = new G6.Graph({
   });
 ```
 
-#### Configure style in Data
+#### Configure Style in Data
 
 ```javascript
 const data = {

@@ -27,7 +27,7 @@ Import `babel-polyfill` into your project:
 
 The content of include should be assigned according to your project.
 
-Refer to [The Link](https://blog.csdn.net/y491887095/article/details/81541502) for more detail.
+Refer to <a href='https://blog.csdn.net/y491887095/article/details/81541502' target='_blank'>The Link</a> for more detail.
 
 
 In addition, there are some solutions for the projects with @vue/cli, umi, and create-react-app.
@@ -38,14 +38,14 @@ You may find the error:
 
 ### vue/cli
 
-[Vue Demo](https://github.com/lxfu/vue-g6) is based on @vue/cli(V: 4.0.5). There will be some small differences to the 3.x version. Now, we are going to solve the compatibility issues of @vue/cli.<br />First, we find the document on [Vue Official Website](https://cli.vuejs.org/zh/guide/browser-compatibility.html#polyfill), which points out the problem of browser compatibility:
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*CuVeQ5k5RloAAAAAAAAAAABkARQnAQ' width=850 />
+The <a href='https://github.com/lxfu/vue-g6' target='_blank'>G6 Vue Demo</a> is based on @vue/cli(V: 4.0.5). There will be some small differences to the 3.x version. Now, we are going to solve the compatibility issues of @vue/cli.<br />First, we find the document on <a href='https://cli.vuejs.org/guide/browser-compatibility.html#polyfills' target='_blank'>Vue Official Website</a>, which points out the problem of browser compatibility:
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*J_aTR7CdPnwAAAAAAAAAAABkARQnAQ' width=850 />
 
 New a vue.config.js file in the same directory of package.json, and add `transpileDependencies`:
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EDkTRpk9TxoAAAAAAAAAAABkARQnAQ' width=850 />
 
 
-The value of `transpileDependencies` is [] by default, which means no Babel with all the node_modules files. Now, we add the files should be Bable into `transpileDependencies` as below. Note that the dependencies to be added **should not contain node_modules, and use the package name @antv/g6**. The reason is that the @vue/cli will add the prefix node_modules automatically. The @antv/g6 must be same consistent to that in package.json. Use npm while installing the dependencies. If you are using yarn or cnpm, you should make sure that there are no modified package name in node_modules.
+The value of `transpileDependencies` is `[]` by default, which means no Babel with all the node_modules files. Now, we add the files should be Bable into `transpileDependencies` as below. Note that the dependencies to be added **should not contain node_modules, and use the package name @antv/g6**. The reason is that the @vue/cli will add the prefix node_modules automatically. The @antv/g6 must be same consistent to that in package.json. Use npm while installing the dependencies. If you are using yarn or cnpm, you should make sure that there are no modified package name in node_modules.
 
 ```javascript
 module.exports = {
@@ -74,7 +74,7 @@ Now, the prolem is solved.
 
 ### create-react-app
 
-If you are using create-react-app(V: 3.0.0) to initiate your project, create-react-app has built in the solution for compatibility. You only need to configure the compatibility of the project by several methods. Please refer to [HERE](https://create-react-app.dev/docs/supported-browsers-features/#configuring-supported-browsers).<br />
+If you are using create-react-app(V: 3.0.0) to initiate your project, create-react-app has built in the solution for compatibility. You only need to configure the compatibility of the project by several methods. Please refer to <a href='https://create-react-app.dev/docs/supported-browsers-features/#configuring-supported-browsers' target='_blank'>HERE</a>.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aeWfSKGfgycAAAAAAAAAAABkARQnAQ' width=850 />
 
 If you want to figure out the inner solving process, run `npm run eject` or `yarn run eject` to check the inner configurations of create-react-app. This operation is irreversible.
