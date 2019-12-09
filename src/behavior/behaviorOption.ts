@@ -1,6 +1,6 @@
 import each from '@antv/util/lib/each'
 import wrapBehavior from '@antv/util/lib/wrap-behavior'
-import { G6Event } from '../interface/behavior'
+import { G6Event } from '../../types';
 import { IGraph } from '../interface/graph'
 
 export default class BehaviorOption {

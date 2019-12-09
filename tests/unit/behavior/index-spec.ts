@@ -1,4 +1,6 @@
+import '../../../src/behavior'
 import Behavior from '../../../src/behavior/behavior'
+import { IBehavior } from '../../../types';
 
 describe('Behavior', () => {
   it('register signle behavior', () => {
@@ -19,13 +21,14 @@ describe('Behavior', () => {
     expect(Behavior.hasBehavior('first-behavior')).toBe(true)
     expect(Behavior.hasBehavior('test')).toBe(false)
     const BehaviorInstance = Behavior.getBehavior('first-behavior')
+    
     const instance = new BehaviorInstance()
     const events = instance.getEvents()
     expect(Object.keys(events)).toEqual(['click'])
     expect(instance.shouldBegin()).toEqual(false);
   })
 
-  it.only('register multiple behavior', () => {
+  it('register multiple behavior', () => {
     Behavior.registerBehavior('first', {
       getEvents() {
         return {
@@ -60,8 +63,10 @@ describe('Behavior', () => {
       }
     })
 
-    const firstInstance = Behavior.getBehavior('first')
-    const secondBehavior = Behavior.getBehavior('second')
+    const FirstInstance = Behavior.getBehavior('first')
+    const SecondBehavior = Behavior.getBehavior('second')
+    const firstInstance = new FirstInstance()
+    const secondBehavior = new SecondBehavior()
     expect(firstInstance).not.toBe(undefined);
     expect(secondBehavior).not.toBe(undefined);
     expect(Behavior.getBehavior('three')).toBe(undefined);
@@ -69,20 +74,31 @@ describe('Behavior', () => {
     expect(Behavior.hasBehavior('three')).toBe(false);
 
     const config1 = firstInstance.getDefaultCfg();
-    console.log('config1.style', config1)
     expect(config1.style).toBe(undefined);
 
     const events1 = firstInstance.getEvents()
-    console.log(events1, Object.keys(events1), events1)
     expect(Object.keys(events1).length).toEqual(3);
     expect(Object.keys(events1)).toEqual(['click', 'edge:click', 'contextmenu'])
 
     const config = secondBehavior.getDefaultCfg();
     expect(config.style.fill).toEqual('red');
     expect(config.style.fill).not.toEqual('blue');
-    console.log('config.style', config.style)
-
     const drag = secondBehavior.onDrag()
     expect(drag).toEqual('drag')
+  })
+})
+
+describe('Default Behavior', () => {
+  it('drag-canvas', () => {
+    const DragCanvas = Behavior.getBehavior('drag-canvas')
+    expect(DragCanvas).not.toBe(undefined)
+
+    const dragCanvas: IBehavior = new DragCanvas()
+    const config = dragCanvas.getDefaultCfg()
+    expect(config).toEqual({ direction: 'both' })
+
+    const events = dragCanvas.getEvents()
+    const keys = Object.keys(events)
+    expect(keys.length).toBe(7)
   })
 })

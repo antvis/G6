@@ -1,14 +1,11 @@
 import Group from "@antv/g-canvas/lib/group";
-import { Path } from "@antv/g-canvas/lib/shape";
 import ShapeBase from "@antv/g-canvas/lib/shape/base";
 import { BBox } from "@antv/g-canvas/lib/types";
 import { vec2 } from "@antv/matrix-util";
 import each from '@antv/util/lib/each'
+import { IEdgeConfig, IPoint, ITreeGraphData } from "../../types";
 import Global from '../global'
-import { ITreeGraphData } from "../interface/graph";
 import { INode } from "../interface/item";
-import { IPoint } from "../interface/math";
-import { IEdgeConfig } from "../interface/model";
 import { applyMatrix } from "./math";
 
 const PI: number =  Math.PI

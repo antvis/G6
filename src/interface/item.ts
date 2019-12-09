@@ -1,9 +1,7 @@
 import Group from "@antv/g-canvas/lib/group";
 import ShapeBase from "@antv/g-canvas/lib/shape/base";
 import { BBox } from "@antv/g-canvas/lib/types";
-import { IPoint } from "./math";
-import { IModelConfig, INodeConfig } from "./model";
-import { IShapeStyle } from './shape'
+import { IModelConfig, INodeConfig, IPoint, IShapeStyle } from '../../types'
 
 // item 的配置项
 interface IItemConfig {

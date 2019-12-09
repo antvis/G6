@@ -1,17 +1,22 @@
-import { IBehavior } from '../interface/behavior'
+import clone from '@antv/util/lib/clone'
+import { IBehaviorOpation } from '../../types';
 import BehaviorOption from './behaviorOption'
 
 export default class Behavior {
   private static types = {}
-  public static registerBehavior<T, U>(type: string, behavior: IBehavior<U>) {
+  public static registerBehavior<T, U>(type: string, behavior: IBehaviorOpation<U>) {
     if(!behavior) {
       throw new Error(`please specify handler for this behavior: ${type}`)
     }
-    // TODO 将传进来的Behavior和默认的合并
 
-    const instance = new BehaviorOption()
-    Object.assign(instance, behavior)
-    this.types[type] = instance
+    const _proptype = clone(BehaviorOption.prototype)
+   
+    Object.assign(_proptype, behavior)
+
+    const base = function() {}
+    base.prototype = _proptype
+    
+    this.types[type] = base
   }
 
   public static hasBehavior(type: string) {

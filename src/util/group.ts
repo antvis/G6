@@ -1,6 +1,5 @@
 import groupBy, { ObjectType } from '@antv/util/lib/group-by'
-import { IGraphData } from '../../src/interface/graph'
-import { IGroupConfig, IGroupNodeIds } from '../interface/model';
+import { IGraphData, IGroupConfig, IGroupNodeIds } from '../../types';
 
 export const getAllNodeInGroups = (data: IGraphData): IGroupNodeIds => {
   const groupById: ObjectType<IGroupConfig> = groupBy(data.groups, 'id');
