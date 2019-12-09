@@ -1,7 +1,5 @@
 import { mat3, vec3 } from '@antv/matrix-util'
-import { IGraphData } from '../interface/graph'
-import { IMatrix, IPoint } from '../interface/math'
-import { ICircle, IEllipse, IRect } from '../interface/shape'
+import { ICircle, IEllipse, IGraphData, IMatrix, IPoint, IRect } from '../../types'
 
 /**
  * 是否在区间内

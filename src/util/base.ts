@@ -3,8 +3,8 @@ import isArray from '@antv/util/lib/is-array'
 import isNil from '@antv/util/lib/is-nil'
 import isNumber from "@antv/util/lib/is-number";
 import isString from '@antv/util/lib/is-string'
-import { G6GraphEvent, IG6GraphEvent } from '../interface/behavior';
-import { IPadding } from "../interface/math";
+import { IG6GraphEvent, IPadding } from "../../types";
+import { G6GraphEvent } from '../interface/behavior';
 
 /**
  * turn padding into [top, right, bottom, right]
