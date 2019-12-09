@@ -1,10 +1,8 @@
 import Group from "@antv/g-canvas/lib/group";
-import ShapeBase from "@antv/g-canvas/lib/shape/base";
-import { BBox } from "@antv/g-canvas/lib/types";
-import { IModelConfig, INodeConfig, IPoint, IShapeStyle } from '../../types'
+import { IBBox, IModelConfig, INodeConfig, IPoint, IShapeBase, IShapeStyle } from '../../types'
 
 // item 的配置项
-interface IItemConfig {
+export type IItemConfig = Partial<{
   /**
    * id
    */
@@ -46,21 +44,19 @@ interface IItemConfig {
   /**
    * key shape to calculate item's bbox
    */
-  keyShape: ShapeBase,
+  keyShape: IShapeBase,
   /**
    * item's states, such as selected or active
    * @type Array
    */
   states: string[];
 
-}
+}>
 
 export interface IItem {
   _cfg: IItemConfig;
 
   isItem(): boolean;
-
-  getDefaultCfg(): IItemConfig;
 
   getKeyShapeStyle(): IShapeStyle;
 
@@ -103,7 +99,7 @@ export interface IItem {
    * 节点的关键形状，用于计算节点大小，连线截距等
    * @return {G.Shape} 关键形状
    */
-  getKeyShape(): ShapeBase;
+  getKeyShape(): IShapeBase;
 
   /**
    * 节点数据模型
@@ -147,11 +143,6 @@ export interface IItem {
   updatePosition(cfg: INodeConfig): void;
 
   /**
-   * 更新/刷新等操作后，清除 cache
-   */
-  clearCache(): void;
-
-  /**
    * 绘制元素
    */
   draw(): void;
@@ -159,7 +150,7 @@ export interface IItem {
   /**
    * 获取元素的包围盒
    */
-  getBBox(): BBox;
+  getBBox(): IBBox;
 
   /**
    * 将元素放到最前面
@@ -194,6 +185,8 @@ export interface IItem {
   enableCapture(enable: boolean): void;
 
   isVisible(): boolean;
+
+  isOnlyMove(cfg: IModelConfig): boolean;
 
   get<T>(key: string): T;
   set<T>(key: string, value: T): void;
@@ -251,8 +244,6 @@ export interface INode extends IItem {
    * @param {Edge} edge 边
    */
   removeEdge(edge: IEdge): void;
-
-  clearCache(): void;
 
   /**
    * 获取锚点的定义
