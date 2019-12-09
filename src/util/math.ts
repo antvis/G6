@@ -1,4 +1,6 @@
+import Group from '@antv/g-canvas/lib/group';
 import { mat3, vec3 } from '@antv/matrix-util'
+import { transform } from '@antv/matrix-util'
 import { ICircle, IEllipse, IGraphData, IMatrix, IPoint, IRect } from '../../types'
 
 /**
@@ -294,4 +296,16 @@ export const getAdjMatrix = (data: IGraphData, directed: boolean): IMatrix[] => 
     }
   });
   return matrix;
+}
+
+/**
+ * 平移group
+ * @param group Group 实例
+ * @param point 坐标
+ */
+export const translate = (group: Group, point: IPoint) => {
+  const matrix: IMatrix = group.getMatrix()
+  transform(matrix, [
+    [ 't',  point.x, point.y ]
+  ])
 }

@@ -1,7 +1,10 @@
 import GraphEvent from '@antv/g-base/lib/event/graph-event';
+import { BBox } from '@antv/g-base/lib/types';
 import { IGraph } from '../src/interface/graph';
 import { IItem, INode } from '../src/interface/item'
+import ShapeBase from '_@antv_g-canvas@0.1.1@@antv/g-canvas/lib/shape/base';
 
+// Math types
 export interface IPoint {
   x: number;
   y: number;
@@ -9,8 +12,14 @@ export interface IPoint {
 
 export type IMatrix = number[];
 
+export interface IBBox extends BBox {
+  centerX?: number;
+  centerY?: number;
+}
+
 export type IPadding = number | string | number[];
 
+// Shape types
 export type IShapeStyle = Partial<{
   x: number;
   y: number;
@@ -27,6 +36,10 @@ export type IShapeStyle = Partial<{
   [key: string]: string | number | object | object[]
 }>
 
+export interface IShapeBase extends ShapeBase {
+  isKeyShape: boolean;
+}
+
 export interface IRect extends IPoint {
   width: number;
   height: number;
@@ -41,7 +54,8 @@ export interface IEllipse extends IPoint {
   ry: number;
 }
 
-type IModelStyle = Partial<{
+// model types (node edge group)
+export type IModelStyle = Partial<{
   style: {
     [key: string]: IShapeStyle
   };
@@ -56,23 +70,8 @@ type IModelStyle = Partial<{
     clockwise?: boolean;
   };
 }>
-interface IModelStyle1 {
-  style?: {
-    [key: string]: IShapeStyle
-  };
-  stateStyles?: {
-    [key: string]: IShapeStyle;
-  };
-  // loop edge config
-  loopCfg?: {
-    dist?: number;
-    position?: string;
-    // 如果逆时针画，交换起点和终点
-    clockwise?: boolean;
-  }
-}
 
-export type IModelConfig = INodeConfig | IEdgeConfig
+export type IModelConfig = INodeConfig & IEdgeConfig
 
 export interface INodeConfig extends IModelStyle {
   id: string;
@@ -81,6 +80,7 @@ export interface INodeConfig extends IModelStyle {
   description?: string;
   x?: number;
   y?: number;
+  shape?: string;
 }
 
 export interface IEdgeConfig extends IModelStyle  {
@@ -92,6 +92,7 @@ export interface IEdgeConfig extends IModelStyle  {
   startPoint?: IPoint;
   endPoint?: IPoint;
   controlPoints?: IPoint[];
+  shape?: string;
 }
 
 export interface IGroupConfig {

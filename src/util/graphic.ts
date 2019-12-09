@@ -1,9 +1,7 @@
 import Group from "@antv/g-canvas/lib/group";
-import ShapeBase from "@antv/g-canvas/lib/shape/base";
-import { BBox } from "@antv/g-canvas/lib/types";
 import { vec2 } from "@antv/matrix-util";
 import each from '@antv/util/lib/each'
-import { IEdgeConfig, IPoint, ITreeGraphData } from "../../types";
+import { IBBox, IEdgeConfig, IPoint, IShapeBase, ITreeGraphData } from "../../types";
 import Global from '../global'
 import { INode } from "../interface/item";
 import { applyMatrix } from "./math";
@@ -16,7 +14,7 @@ const cos: (x: number) => number = Math.cos
 const SELF_LINK_SIN: number = sin(PI / 8);
 const SELF_LINK_COS: number = cos(PI / 8); 
 
-export const getBBox = (element: ShapeBase, group: Group): BBox => {
+export const getBBox = (element: IShapeBase, group: Group): IBBox => {
   const bbox = element.getBBox();
   let leftTop: IPoint = {
     x: bbox.minX,
@@ -57,8 +55,8 @@ export const getLoopCfgs = (cfg: IEdgeConfig): IEdgeConfig => {
   const container: Group = item.get('group')
   const containerMatrix = container.getMatrix()
 
-  const keyShape: ShapeBase = item.getKeyShape()
-  const bbox: BBox = keyShape.getBBox()
+  const keyShape: IShapeBase = item.getKeyShape()
+  const bbox: IBBox = keyShape.getBBox()
 
   const loopCfg = cfg.loopCfg || {}
   // 距离keyShape边的最高距离
