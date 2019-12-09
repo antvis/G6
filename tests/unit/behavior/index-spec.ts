@@ -1,5 +1,4 @@
-import Behavior from '../../../src/behavior'
-import { IBehavior } from '../../../src/interface/behavior';
+import Behavior from '../../../src/behavior/behavior'
 
 describe('Behavior', () => {
   it('register signle behavior', () => {
@@ -20,12 +19,13 @@ describe('Behavior', () => {
     expect(Behavior.hasBehavior('first-behavior')).toBe(true)
     expect(Behavior.hasBehavior('test')).toBe(false)
     const BehaviorInstance = Behavior.getBehavior('first-behavior')
-    const events = BehaviorInstance.getEvents()
+    const instance = new BehaviorInstance()
+    const events = instance.getEvents()
     expect(Object.keys(events)).toEqual(['click'])
-    expect(BehaviorInstance.shouldBegin()).toEqual(false);
+    expect(instance.shouldBegin()).toEqual(false);
   })
 
-  it('register multiple behavior', () => {
+  it.only('register multiple behavior', () => {
     Behavior.registerBehavior('first', {
       getEvents() {
         return {
@@ -60,25 +60,27 @@ describe('Behavior', () => {
       }
     })
 
-    const firstBehavior = Behavior.getBehavior('first')
+    const firstInstance = Behavior.getBehavior('first')
     const secondBehavior = Behavior.getBehavior('second')
-    expect(firstBehavior).not.toBe(undefined);
+    expect(firstInstance).not.toBe(undefined);
     expect(secondBehavior).not.toBe(undefined);
     expect(Behavior.getBehavior('three')).toBe(undefined);
     expect(Behavior.hasBehavior('first')).toBe(true);
     expect(Behavior.hasBehavior('three')).toBe(false);
 
-    const config1 = firstBehavior.getDefaultCfg();
+    const config1 = firstInstance.getDefaultCfg();
+    console.log('config1.style', config1)
     expect(config1.style).toBe(undefined);
 
-    const events1 = firstBehavior.getEvents()
-    console.log(events1, Object.keys(events1))
+    const events1 = firstInstance.getEvents()
+    console.log(events1, Object.keys(events1), events1)
     expect(Object.keys(events1).length).toEqual(3);
     expect(Object.keys(events1)).toEqual(['click', 'edge:click', 'contextmenu'])
 
     const config = secondBehavior.getDefaultCfg();
     expect(config.style.fill).toEqual('red');
     expect(config.style.fill).not.toEqual('blue');
+    console.log('config.style', config.style)
 
     const drag = secondBehavior.onDrag()
     expect(drag).toEqual('drag')

@@ -26,7 +26,14 @@ export enum G6Event {
   NODE_CONTEXTMENU = 'node:contextmenu',
   EDGE_CONTEXTMENU = 'edge:contextmenu',
   NODE_DBLCLICK = 'node:dblclick',
-  EDGE_DBLCLICK = 'edge:dblclick'
+  EDGE_DBLCLICK = 'edge:dblclick',
+  CANVAS_MOUSEDOWN = 'canvas:mousedown',
+  CANVAS_MOUSEMOVE = 'canvas:mousemove',
+  CANVAS_MOUSEUP = 'canvas:mouseup',
+  CANVAS_CLICK = 'canvas:click',
+  CANVAS_MOSUELEAVE = 'canvas:mouseleave',
+  KEYUP = 'keyup',
+  KEYDOWN = 'keydown'
 }
 
 type GetEvents = 'getEvents';

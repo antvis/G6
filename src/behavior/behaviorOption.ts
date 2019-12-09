@@ -7,7 +7,7 @@ export default class BehaviorOption {
   private _events = null
   private graph = null
   private _cfg
-  constructor(cfg) {
+  constructor(cfg?: object) {
     const events = this.getEvents()
     this._cfg = {}
     this._events = null
@@ -21,7 +21,7 @@ export default class BehaviorOption {
     }
   }
 
-  public getDefaultCfg() {
+  private getDefaultCfg() {
     return {
 
     }
