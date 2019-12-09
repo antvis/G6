@@ -1,8 +1,8 @@
 import GraphEvent from '@antv/g-base/lib/event/graph-event';
 import { BBox } from '@antv/g-base/lib/types';
+import ShapeBase from '@antv/g-canvas/lib/shape/base';
 import { IGraph } from '../src/interface/graph';
 import { IItem, INode } from '../src/interface/item'
-import ShapeBase from '_@antv_g-canvas@0.1.1@@antv/g-canvas/lib/shape/base';
 
 // Math types
 export interface IPoint {
@@ -71,28 +71,29 @@ export type IModelStyle = Partial<{
   };
 }>
 
-export type IModelConfig = INodeConfig & IEdgeConfig
+// export type IModelConfig = INodeConfig & IEdgeConfig
 
-export interface INodeConfig extends IModelStyle {
-  id: string;
+export interface IModelConfig extends IModelStyle {
+  shape?: string;
   label?: string;
-  groupId?: string;
-  description?: string;
   x?: number;
   y?: number;
-  shape?: string;
+}
+export interface INodeConfig extends IModelConfig {
+  id: string;
+  groupId?: string;
+  description?: string;
 }
 
-export interface IEdgeConfig extends IModelStyle  {
+export interface IEdgeConfig extends IModelConfig  {
+  id?: string;
   source: string;
   target: string;
-  label?: string;
   sourceNode?: INode;
   targetNode?: INode;
   startPoint?: IPoint;
   endPoint?: IPoint;
   controlPoints?: IPoint[];
-  shape?: string;
 }
 
 export interface IGroupConfig {

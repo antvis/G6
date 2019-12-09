@@ -1,0 +1,217 @@
+import isNil from '@antv/util/lib/is-nil';
+import isPlainObject from '@antv/util/lib/is-plain-object'
+import { IEdgeConfig, INodeConfig, IPoint } from '../../types';
+import { IEdge, INode } from "../interface/item";
+import Item from "./item";
+
+const END_MAP = { source: 'start', target: 'end' };
+const ITEM_NAME_SUFFIX = 'Node'; // 端点的后缀，如 sourceNode, targetNode
+const POINT_NAME_SUFFIX = 'Point'; // 起点或者结束点的后缀，如 startPoint, endPoint
+const ANCHOR_NAME_SUFFIX = 'Anchor';
+
+export default class Edge extends Item implements IEdge {
+  protected getDefaultCfg() {
+    return {
+      type: 'edge',
+      sourceNode: null,
+      targetNode: null,
+      startPoint: null,
+      endPoint: null,
+      linkCenter: false
+    }
+  }
+
+  private setEnd(name: string, value: INode) {
+    const pointName = END_MAP[name] + POINT_NAME_SUFFIX;
+    const itemName = name + ITEM_NAME_SUFFIX;
+    const preItem = this.get(itemName);
+    if(preItem) {
+      // 如果之前存在节点，则移除掉边
+      preItem.removeEdge(this)
+    }
+
+    if (isPlainObject(value)) { // 如果设置成具体的点，则清理节点
+      this.set(pointName, value);
+      this.set(itemName, null);
+    } else {
+      value!.addEdge(this);
+      this.set(itemName, value);
+      this.set(pointName, null);
+    }
+  }
+
+  /**
+   * 获取连接点的坐标
+   * @param name source | target
+   * @param model 边的数据模型
+   * @param controlPoints 控制点
+   */
+  private getLinkPoint(name: 'source' | 'target', model: IEdgeConfig, controlPoints: IPoint[]): IPoint {
+    const pointName = END_MAP[name] + POINT_NAME_SUFFIX;
+    const itemName = name + ITEM_NAME_SUFFIX;
+    let point = this.get(pointName);
+    if (!point) {
+      const item = this.get(itemName);
+      const anchorName = name + ANCHOR_NAME_SUFFIX;
+      const prePoint = this.getPrePoint(name, controlPoints);
+      const anchorIndex = model[anchorName];
+      if (isNil(anchorIndex)) { // 如果有锚点，则使用锚点索引获取连接点
+        point = item.getLinkPointByAnchor(anchorIndex);
+      }
+      // 如果锚点没有对应的点或者没有锚点，则直接计算连接点
+      point = point || item.getLinkPoint(prePoint);
+      if (isNil(point.index)) {
+        this.set(name + 'AnchorIndex', point.index);
+      }
+    }
+    return point;
+  }
+
+  /**
+   * 获取同端点进行连接的点，计算交汇点
+   * @param name 
+   * @param controlPoints 
+   */
+  private getPrePoint(name: 'source' | 'target', controlPoints: IPoint[]): INodeConfig | IPoint {
+    if (controlPoints && controlPoints.length) {
+      const index = name === 'source' ? 0 : controlPoints.length - 1;
+      return controlPoints[index];
+    }
+    const oppositeName = name === 'source' ? 'target' : 'source'; // 取另一个节点的位置
+    return this.getEndPoint(oppositeName);
+  }
+
+  /**
+   * 获取端点的位置
+   * @param name 
+   */
+  private  getEndPoint(name: string): INodeConfig | IPoint {
+    const itemName = name + ITEM_NAME_SUFFIX;
+    const pointName = END_MAP[name] + POINT_NAME_SUFFIX;
+    const item = this.get(itemName);
+      // 如果有端点，直接使用 model
+    if (item) {
+      return item.get('model');
+    }  // 否则直接使用点
+    return this.get(pointName);
+  }
+
+  /**
+   * 通过端点的中心获取控制点
+   * @param model 
+   */
+  private getControlPointsByCenter(model) {
+    const sourcePoint = this.getEndPoint('source');
+    const targetPoint = this.getEndPoint('target');
+    const shapeFactory = this.get('shapeFactory');
+    return shapeFactory.getControlPoints(model.shape, {
+      startPoint: sourcePoint,
+      endPoint: targetPoint
+    });
+  }
+
+  private getEndCenter(name: string): IPoint {
+    const itemName = name + ITEM_NAME_SUFFIX;
+    const pointName = END_MAP[name] + POINT_NAME_SUFFIX;
+    const item = this.get(itemName);
+      // 如果有端点，直接使用 model
+    if (item) {
+      const bbox = item.getBBox();
+      return {
+        x: bbox.centerX,
+        y: bbox.centerY
+      };
+    }  // 否则直接使用点
+    return this.get(pointName);
+  }
+
+  protected init() {
+    super.init()
+  }
+
+  public getShapeCfg(model: IEdgeConfig): IEdgeConfig {
+    const self = this;
+    const linkCenter: boolean = self.get('linkCenter'); // 如果连接到中心，忽视锚点、忽视控制点
+    const cfg: any = super.getShapeCfg(model);
+    if (linkCenter) {
+      cfg.startPoint = self.getEndCenter('source');
+      cfg.endPoint = self.getEndCenter('target');
+    } else {
+      const controlPoints = cfg.controlPoints || self.getControlPointsByCenter(cfg);
+      cfg.startPoint = self.getLinkPoint('source', model, controlPoints);
+      cfg.endPoint = self.getLinkPoint('target', model, controlPoints);
+    }
+    cfg.sourceNode = self.get('sourceNode');
+    cfg.targetNode = self.get('targetNode');
+    return cfg;
+  }
+
+  /**
+   * 获取边的数据模型
+   */
+  public getModel(): IEdgeConfig {
+    const model: IEdgeConfig = this.get('model');
+    const out = Object.assign({}, model);
+    const sourceItem = this.get('source' + ITEM_NAME_SUFFIX);
+    const targetItem = this.get('target' + ITEM_NAME_SUFFIX);
+    if (sourceItem) {
+      out.source = sourceItem.get('id');
+      delete out['source' + ITEM_NAME_SUFFIX];
+    } else {
+      out.source = this.get('start' + POINT_NAME_SUFFIX);
+    }
+    if (targetItem) {
+      out.target = targetItem.get('id');
+      delete out['target' + ITEM_NAME_SUFFIX];
+    } else {
+      out.target = this.get('end' + POINT_NAME_SUFFIX);
+    }
+    return out;
+  }
+
+  public setSource(source: INode) {
+    this.setEnd('source', source)
+    this.set('source', source)
+  }
+
+  public setTarget(target: INode) {
+    this.setEnd('target', target)
+    this.set('target', target)
+  }
+
+  public getSource(): INode {
+    return this.get('source')
+  }
+
+  public getTarget(): INode {
+    return this.get('target')
+  }
+
+  public updatePosition() {}
+
+  /**
+   * 边不需要重计算容器位置，直接重新计算 path 位置
+   * @param {object} cfg 待更新数据
+   */
+  public update(cfg: IEdgeConfig) {
+    const model: IEdgeConfig = this.get('model');
+    Object.assign(model, cfg);
+    this.updateShape();
+    this.afterUpdate();
+    this.clearCache();
+  }
+
+  public destroy() {
+    const sourceItem: INode = this.get('source' + ITEM_NAME_SUFFIX);
+    const targetItem: INode = this.get('target' + ITEM_NAME_SUFFIX);
+    if(sourceItem && !sourceItem.destroyed) {
+      sourceItem.removeEdge(this)
+    }
+
+    if(targetItem && !targetItem.destroyed) {
+      targetItem.removeEdge(this);
+    }
+    super.destroy();
+  }
+
+}
