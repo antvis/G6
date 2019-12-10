@@ -3,7 +3,7 @@ import { vec2 } from "@antv/matrix-util";
 import each from '@antv/util/lib/each'
 import Global from '@g6/global'
 import { INode } from "@g6/interface/item";
-import { IBBox, IEdgeConfig, IPoint, IShapeBase, ITreeGraphData } from '@g6/types';
+import { EdgeConfig, IBBox, IPoint, IShapeBase, TreeGraphData } from '@g6/types';
 import { applyMatrix } from "./math";
 
 const PI: number =  Math.PI
@@ -50,7 +50,7 @@ export const getBBox = (element: IShapeBase, group: Group): IBBox => {
  * get loop edge config
  * @param cfg edge config
  */
-export const getLoopCfgs = (cfg: IEdgeConfig): IEdgeConfig => {
+export const getLoopCfgs = (cfg: EdgeConfig): EdgeConfig => {
   const item: INode = cfg.sourceNode || cfg.targetNode
   const container: Group = item.get('group')
   const containerMatrix = container.getMatrix()
@@ -267,7 +267,7 @@ export const getLoopCfgs = (cfg: IEdgeConfig): IEdgeConfig => {
 //   return result;
 // }
 
-const traverse = (data: ITreeGraphData, fn: (param: ITreeGraphData) => boolean) => {
+const traverse = (data: TreeGraphData, fn: (param: TreeGraphData) => boolean) => {
   if(!fn(data)) {
     return
   }
@@ -276,7 +276,7 @@ const traverse = (data: ITreeGraphData, fn: (param: ITreeGraphData) => boolean) 
   })
 }
 
-export const traverseTree = (data: ITreeGraphData, fn: (param: ITreeGraphData) => boolean) => {
+export const traverseTree = (data: TreeGraphData, fn: (param: TreeGraphData) => boolean) => {
   if(typeof fn !== 'function') {
     return
   }
@@ -288,7 +288,7 @@ export const traverseTree = (data: ITreeGraphData, fn: (param: ITreeGraphData) =
  * @param data Tree graph data
  * @param layout 
  */
-export const radialLayout = (data: ITreeGraphData, layout?: string): ITreeGraphData => {
+export const radialLayout = (data: TreeGraphData, layout?: string): TreeGraphData => {
   // 布局方式有 H / V / LR / RL / TB / BT
   const VERTICAL_LAYOUTS: string[] = [ 'V', 'TB', 'BT' ];
   const min: IPoint = {

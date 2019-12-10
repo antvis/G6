@@ -1,7 +1,7 @@
 import isNil from '@antv/util/lib/is-nil';
 import isPlainObject from '@antv/util/lib/is-plain-object'
 import { IEdge, INode } from "@g6/interface/item";
-import { IEdgeConfig, INodeConfig, IPoint } from '@g6/types';
+import { EdgeConfig, IPoint, NodeConfig, SourceTarget } from '@g6/types';
 import Item from "./item";
 
 const END_MAP = { source: 'start', target: 'end' };
@@ -46,7 +46,7 @@ export default class Edge extends Item implements IEdge {
    * @param model 边的数据模型
    * @param controlPoints 控制点
    */
-  private getLinkPoint(name: 'source' | 'target', model: IEdgeConfig, controlPoints: IPoint[]): IPoint {
+  private getLinkPoint(name: SourceTarget, model: EdgeConfig, controlPoints: IPoint[]): IPoint {
     const pointName = END_MAP[name] + POINT_NAME_SUFFIX;
     const itemName = name + ITEM_NAME_SUFFIX;
     let point = this.get(pointName);
@@ -72,7 +72,7 @@ export default class Edge extends Item implements IEdge {
    * @param name 
    * @param controlPoints 
    */
-  private getPrePoint(name: 'source' | 'target', controlPoints: IPoint[]): INodeConfig | IPoint {
+  private getPrePoint(name: SourceTarget, controlPoints: IPoint[]): NodeConfig | IPoint {
     if (controlPoints && controlPoints.length) {
       const index = name === 'source' ? 0 : controlPoints.length - 1;
       return controlPoints[index];
@@ -85,7 +85,7 @@ export default class Edge extends Item implements IEdge {
    * 获取端点的位置
    * @param name 
    */
-  private  getEndPoint(name: string): INodeConfig | IPoint {
+  private  getEndPoint(name: string): NodeConfig | IPoint {
     const itemName = name + ITEM_NAME_SUFFIX;
     const pointName = END_MAP[name] + POINT_NAME_SUFFIX;
     const item = this.get(itemName);
@@ -129,7 +129,7 @@ export default class Edge extends Item implements IEdge {
     super.init()
   }
 
-  public getShapeCfg(model: IEdgeConfig): IEdgeConfig {
+  public getShapeCfg(model: EdgeConfig): EdgeConfig {
     const self = this;
     const linkCenter: boolean = self.get('linkCenter'); // 如果连接到中心，忽视锚点、忽视控制点
     const cfg: any = super.getShapeCfg(model);
@@ -149,8 +149,8 @@ export default class Edge extends Item implements IEdge {
   /**
    * 获取边的数据模型
    */
-  public getModel(): IEdgeConfig {
-    const model: IEdgeConfig = this.get('model');
+  public getModel(): EdgeConfig {
+    const model: EdgeConfig = this.get('model');
     const out = Object.assign({}, model);
     const sourceItem = this.get('source' + ITEM_NAME_SUFFIX);
     const targetItem = this.get('target' + ITEM_NAME_SUFFIX);
@@ -193,8 +193,8 @@ export default class Edge extends Item implements IEdge {
    * 边不需要重计算容器位置，直接重新计算 path 位置
    * @param {object} cfg 待更新数据
    */
-  public update(cfg: IEdgeConfig) {
-    const model: IEdgeConfig = this.get('model');
+  public update(cfg: EdgeConfig) {
+    const model: EdgeConfig = this.get('model');
     Object.assign(model, cfg);
     this.updateShape();
     this.afterUpdate();

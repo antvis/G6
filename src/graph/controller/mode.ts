@@ -2,8 +2,8 @@ import each from '@antv/util/lib/each'
 import isArray from '@antv/util/lib/is-array'
 import isString from '@antv/util/lib/is-string'
 import Behavior from '@g6/behavior/behavior'
+import { IBehavior } from '@g6/interface/behavior';
 import { IGraph, IMode, IModeType } from '@g6/interface/graph';
-import { IBehavior } from 'types';
 
 export default class Mode {
   private graph: IGraph

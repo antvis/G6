@@ -1,5 +1,5 @@
 import Group from "@antv/g-canvas/lib/group";
-import { IBBox, IModelConfig, INodeConfig, IPoint, IShapeBase, IShapeStyle } from '@g6/types'
+import { IBBox, IPoint, IShapeBase, ModelConfig, NodeConfig, ShapeStyle } from '@g6/types'
 
 // item 的配置项
 export type IItemConfig = Partial<{
@@ -16,7 +16,7 @@ export type IItemConfig = Partial<{
   /**
    * data model
    */
-  model: IModelConfig;
+  model: ModelConfig;
 
   /**
    * G Group
@@ -60,7 +60,7 @@ export interface IItem {
 
   isItem(): boolean;
 
-  getKeyShapeStyle(): IShapeStyle;
+  getKeyShapeStyle(): ShapeStyle;
 
   /**
    * 获取当前元素的所有状态
@@ -75,11 +75,11 @@ export interface IItem {
    */
   hasState(state: string): boolean;
 
-  getStateStyle(state: string): IShapeStyle;
+  getStateStyle(state: string): ShapeStyle;
 
-  getOriginStyle(): IShapeStyle;
+  getOriginStyle(): ShapeStyle;
 
-  getCurrentStatesStyle(): IShapeStyle;
+  getCurrentStatesStyle(): ShapeStyle;
 
   /**
    * 更改元素状态， visible 不属于这个范畴
@@ -107,7 +107,7 @@ export interface IItem {
    * 节点数据模型
    * @return {Object} 数据模型
    */
-  getModel(): IModelConfig;
+  getModel(): ModelConfig;
 
   /**
    * 节点类型
@@ -115,7 +115,7 @@ export interface IItem {
    */
   getType(): string;
 
-  getShapeCfg(model: IModelConfig): IModelConfig;
+  getShapeCfg(model: ModelConfig): ModelConfig;
 
   /**
    * 刷新一般用于处理几种情况
@@ -131,7 +131,7 @@ export interface IItem {
    * @internal 仅提供给 Graph 使用，外部直接调用 graph.update 接口
    * @param  {Object} cfg       配置项，可以是增量信息
    */
-  update(cfg: IModelConfig): void;
+  update(cfg: ModelConfig): void;
 
   /**
    * 更新元素内容，样式
@@ -142,7 +142,7 @@ export interface IItem {
    * 更新位置，避免整体重绘
    * @param {object} cfg 待更新数据
    */
-  updatePosition(cfg: INodeConfig): void;
+  updatePosition(cfg: NodeConfig): void;
 
   /**
    * 绘制元素
@@ -188,7 +188,7 @@ export interface IItem {
 
   isVisible(): boolean;
 
-  isOnlyMove(cfg: IModelConfig): boolean;
+  isOnlyMove(cfg: ModelConfig): boolean;
 
   get<T>(key: string): T;
   set<T>(key: string, value: T): void;
@@ -252,4 +252,10 @@ export interface INode extends IItem {
    * @return {array} anchorPoints， {x,y,...cfg}
    */
   getAnchorPoints(): IPoint[];
+
+  hasLocked(): boolean;
+
+  lock(): void;
+
+  unlock(): void;
 }
