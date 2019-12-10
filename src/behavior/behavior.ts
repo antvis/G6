@@ -1,5 +1,5 @@
 import clone from '@antv/util/lib/clone'
-import { IBehaviorOpation } from '../../types';
+import { IBehaviorOpation } from '@g6/types';
 import BehaviorOption from './behaviorOption'
 
 export default class Behavior {

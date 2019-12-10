@@ -1,7 +1,7 @@
 import Group from '@antv/g-canvas/lib/group';
 import { mat3, vec3 } from '@antv/matrix-util'
 import { transform } from '@antv/matrix-util'
-import { ICircle, IEllipse, IGraphData, IMatrix, IPoint, IRect } from '../../types'
+import { ICircle, IEllipse, IGraphData, IMatrix, IPoint, IRect } from '@g6/types'
 
 /**
  * 是否在区间内

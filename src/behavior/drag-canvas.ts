@@ -1,5 +1,5 @@
-import { G6Event, IG6GraphEvent } from "../../types";
-import { cloneEvent } from '../util/base'
+import { G6Event, IG6GraphEvent } from "@g6/types";
+import { cloneEvent } from '@g6/util/base'
 const abs = Math.abs
 const DRAG_OFFSET = 10
 const ALLOW_EVENTS = [ 16, 17, 18 ]

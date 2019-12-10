@@ -1,10 +1,9 @@
-import GraphEvent from '@antv/g-base/lib/event/graph-event'
 import isArray from '@antv/util/lib/is-array'
 import isNil from '@antv/util/lib/is-nil'
 import isNumber from "@antv/util/lib/is-number";
 import isString from '@antv/util/lib/is-string'
-import { IG6GraphEvent, IPadding } from "../../types";
-import { G6GraphEvent } from '../interface/behavior';
+import { G6GraphEvent } from '@g6/interface/behavior';
+import { IG6GraphEvent, IPadding } from '@g6/types';
 
 /**
  * turn padding into [top, right, bottom, right]

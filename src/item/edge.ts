@@ -1,7 +1,7 @@
 import isNil from '@antv/util/lib/is-nil';
 import isPlainObject from '@antv/util/lib/is-plain-object'
-import { IEdgeConfig, INodeConfig, IPoint } from '../../types';
-import { IEdge, INode } from "../interface/item";
+import { IEdge, INode } from "@g6/interface/item";
+import { IEdgeConfig, INodeConfig, IPoint } from '@g6/types';
 import Item from "./item";
 
 const END_MAP = { source: 'start', target: 'end' };

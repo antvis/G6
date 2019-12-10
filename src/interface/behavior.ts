@@ -1,6 +1,6 @@
 
 import GraphEvent from '@antv/g-base/lib/event/graph-event';
-import { IG6GraphEvent } from "../../types";
+import { IG6GraphEvent } from '@g6/types';
 import { IItem } from './item';
 
 

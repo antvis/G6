@@ -1,9 +1,9 @@
 import Group from "@antv/g-canvas/lib/group";
 import { vec2 } from "@antv/matrix-util";
 import each from '@antv/util/lib/each'
-import { IBBox, IEdgeConfig, IPoint, IShapeBase, ITreeGraphData } from "../../types";
-import Global from '../global'
-import { INode } from "../interface/item";
+import Global from '@g6/global'
+import { INode } from "@g6/interface/item";
+import { IBBox, IEdgeConfig, IPoint, IShapeBase, ITreeGraphData } from '@g6/types';
 import { applyMatrix } from "./math";
 
 const PI: number =  Math.PI
