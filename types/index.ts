@@ -8,6 +8,8 @@ import { IItem, INode } from '../src/interface/item'
 export interface IPoint {
   x: number;
   y: number;
+  // 获取连接点时使用
+  anchorIndex?: number;
 }
 
 export type IMatrix = number[];
