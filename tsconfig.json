@@ -11,7 +11,12 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
-    "types": ["jest"]
+    "types": ["jest"],
+    "baseUrl": ".",
+    "paths": {
+      "@g6/*": ["./src/*"],
+      "@g6/types": ["./types"]
+    }
   },
   "include": ["src"],
   "typedocOptions": {
