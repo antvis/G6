@@ -129,10 +129,10 @@ $ npm run dev
 ```
 
 ## Documents
-- [Tutorial](/en/docs/manual/tutorial/preface)
-- [Key Concepts](/en/docs/manual/middle/graph)
-- [Advanced Guides](/en/docs/manual/advanced/shape-and-properties)
-- [API Reference](/en/docs/api/Graph)
+- <a href='https://g6.antv.vision/en/docs/manual/tutorial/preface' target='_blank'>Tutorial</a>
+- <a href='https://g6.antv.vision/en/docs/manual/middle/graph' target='_blank'>Middle Guides</a>
+- <a href='https://g6.antv.vision/en/docs/manual/advanced/keyconcept/shape-and-properties' target='_blank'>Advanced Guides</a>
+- <a href='https://g6.antv.vision/en/docs/api/Graph/' target='_blank'>API Reference</a>
 
 
 ## G6 Communication Group

@@ -128,10 +128,10 @@ $ npm run dev
 ```
 
 ## 文档
-- [入门教程](/zh/docs/manual/tutorial/preface)
-- [核心概念](/zh/docs/manual/middle/graph)
-- [高级指引](/zh/docs/manual/advanced/shape-and-properties)
-- [API](/zh/docs/api/Graph)
+- <a href='https://g6.antv.vision/zh/docs/manual/tutorial/preface' target='_blank'>入门教程</a>
+- <a href='https://g6.antv.vision/zh/docs/manual/middle/graph' target='_blank'>核心概念</a>
+- <a href='https://g6.antv.vision/zh/docs/manual/advanced/keyconcept/shape-and-properties' target='_blank'>高级指引</a>
+- <a href='https://g6.antv.vision/zh/docs/api/Graph/' target='_blank'>API</a>
 
 
 ## G6 图可视化交流群

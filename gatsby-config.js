@@ -59,7 +59,7 @@ module.exports = {
         slug: 'manual/middle',
         title: {
           zh: '核心概念',
-          en: 'Middle'
+          en: 'Key Concepts'
         },
         order: 4
       },
@@ -67,7 +67,7 @@ module.exports = {
         slug: 'manual/middle/keyconcept',
         title: {
           zh: '关键名词解释',
-          en: 'Key Concept'
+          en: 'Middle Guides'
         },
         order: 2
       },
@@ -115,7 +115,7 @@ module.exports = {
         slug: 'manual/advanced/keyconcept',
         title: {
           zh: '关键概念',
-          en: 'Advanced'
+          en: 'Key Concepts'
         },
         order: 1
       },
