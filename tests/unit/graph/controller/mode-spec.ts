@@ -1,10 +1,10 @@
 import { Mode } from '../../../../src/graph/controller'
 import Graph from '../../../../src/graph/graph'
-import { IGraph, IGraphOptions } from '../../../../src/interface/graph';
+import { GraphOptions, IGraph } from '../../../../src/interface/graph';
 
 describe('Mode Controller', () => {
   it('signle mode', () => {
-    const cfg: IGraphOptions = {
+    const cfg: GraphOptions = {
       container: 'x',
       width: 200,
       height: 100

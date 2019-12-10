@@ -2,7 +2,7 @@ import each from '@antv/util/lib/each'
 import isNil from '@antv/util/lib/is-nil';
 import mix from '@antv/util/lib/mix'
 import { IEdge, INode } from '@g6/interface/item';
-import { INodeConfig, IPoint, IShapeBase } from '@g6/types';
+import { IPoint, IShapeBase, NodeConfig } from '@g6/types';
 import { distance, getCircleIntersectByPoint, getEllispeIntersectByPoint, getRectIntersectByPoint } from '@g6/util/math';
 import Item from './item'
 
@@ -123,7 +123,7 @@ export default class Node extends Item implements INode {
       anchorPoints = [];
       const shapeFactory = this.get('shapeFactory');
       const bbox = this.getBBox();
-      const model: INodeConfig = this.get('model');
+      const model: NodeConfig = this.get('model');
       const shapeCfg = this.getShapeCfg(model);
       const points = shapeFactory.getAnchorPoints(model.shape, shapeCfg) || [];
       each(points, (pointArr, index) => {
@@ -162,7 +162,7 @@ export default class Node extends Item implements INode {
     this.set('locked', false);
   }
 
-  public hasLocked() {
+  public hasLocked(): boolean {
     return this.get('locked');
   }
 
@@ -187,7 +187,7 @@ export default class Node extends Item implements INode {
    * 是否仅仅移动节点，其他属性没变化
    * @param cfg 节点数据模型
    */
-  public isOnlyMove(cfg: INodeConfig): boolean {
+  public isOnlyMove(cfg: NodeConfig): boolean {
     if(!cfg) {
       return false
     }

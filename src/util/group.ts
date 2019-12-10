@@ -1,9 +1,9 @@
 import groupBy, { ObjectType } from '@antv/util/lib/group-by'
-import { IGraphData, IGroupConfig, IGroupNodeIds } from '@g6/types';
+import { GraphData, GroupConfig, GroupNodeIds } from '@g6/types';
 
-export const getAllNodeInGroups = (data: IGraphData): IGroupNodeIds => {
-  const groupById: ObjectType<IGroupConfig> = groupBy(data.groups, 'id');
-  const groupByParentId: ObjectType<IGroupConfig> = groupBy(data.groups, 'parentId');
+export const getAllNodeInGroups = (data: GraphData): GroupNodeIds => {
+  const groupById: ObjectType<GroupConfig> = groupBy(data.groups, 'id');
+  const groupByParentId: ObjectType<GroupConfig> = groupBy(data.groups, 'parentId');
 
   const result = {};
   for (const parentId in groupByParentId) {
@@ -39,7 +39,7 @@ export const getAllNodeInGroups = (data: IGraphData): IGroupNodeIds => {
   }
 
   // 缓存所有groupID对应的Node
-  const groupNodes: IGroupNodeIds = {} as IGroupNodeIds;
+  const groupNodes: GroupNodeIds = {} as GroupNodeIds;
   for (const groupId in groupIds) {
     if (!groupId || groupId === 'undefined') {
       continue;

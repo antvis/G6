@@ -1,5 +1,5 @@
 import EventEmitter from '@antv/event-emitter';
-import { G6Event, IModelStyle, IShapeStyle } from '@g6/types'
+import { Easeing, ModelStyle, ShapeStyle } from '@g6/types'
 
 export interface IModeOption {
   type: string;
@@ -16,7 +16,7 @@ export interface ILayoutOptions {
   type: string;
 }
 
-export interface IGraphOptions {
+export interface GraphOptions {
   /**
    * 图的 DOM 容器，可以传入该 DOM 的 id 或者直接传入容器的 HTML 节点对象
    */
@@ -53,7 +53,7 @@ export interface IGraphOptions {
 
   groupStyle?: {
     style: {
-      [key: string]: IShapeStyle
+      [key: string]: ShapeStyle
     };
   };
 
@@ -75,7 +75,7 @@ export interface IGraphOptions {
     shape?: string,
     size?: string,
     color?: string,
-  } & IModelStyle;
+  } & ModelStyle;
 
   /**
    * 默认状态下边的配置，比如 shape, size, color。会被写入的 data 覆盖。
@@ -84,11 +84,11 @@ export interface IGraphOptions {
     shape?: string,
     size?: string,
     color?: string,
-  } & IModelStyle;
+  } & ModelStyle;
 
-  nodeStateStyles?: IModelStyle;
+  nodeStateStyles?: ModelStyle;
 
-  edgeStateStyles?: IModelStyle;
+  edgeStateStyles?: ModelStyle;
 
   /**
    * 向 graph 注册插件。插件机制请见：plugin
@@ -106,7 +106,7 @@ export interface IGraphOptions {
     /**
      * 回调函数，用于自定义节点运动路径。
      */
-    onFrame?: () => void | null;
+    onFrame?: () => unknown;
     /**
      * 动画时长，单位为毫秒。
      */
@@ -115,7 +115,7 @@ export interface IGraphOptions {
      * 动画动效。
      * 默认值：easeLinear
      */
-    easing?: string;
+    easing?: Easeing;
   };
   /**
    * 最小缩放比例
@@ -142,6 +142,6 @@ export interface IGraphOptions {
 }
 
 export interface IGraph extends EventEmitter {
-  get: (key: string) => any;
+  get<T>(key: string): T;
 }
 

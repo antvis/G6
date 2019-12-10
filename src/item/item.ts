@@ -5,7 +5,7 @@ import isPlainObject from '@antv/util/lib/is-plain-object'
 import isString from '@antv/util/lib/is-string'
 import uniqueId from '@antv/util/lib/unique-id'
 import { IItem, IItemConfig } from "@g6/interface/item";
-import { IBBox, IModelConfig, IModelStyle, IPoint, IShapeBase } from '@g6/types';
+import { IBBox, IPoint, IShapeBase, ModelConfig, ModelStyle } from '@g6/types';
 import { getBBox } from '@g6/util/graphic';
 import { translate } from '@g6/util/math';
 
@@ -33,7 +33,7 @@ export default  class Item implements IItem {
      * data model
      * @type {object}
      */
-    model: {} as IModelConfig,
+    model: {} as ModelConfig,
 
     /**
      * g group
@@ -119,7 +119,7 @@ export default  class Item implements IItem {
     const self = this;
     const shapeFactory = self.get('shapeFactory');
     const group: Group = self.get('group');
-    const model: IModelConfig = self.get('model');
+    const model: ModelConfig = self.get('model');
     group.clear();
 
     if (!shapeFactory) {
@@ -224,10 +224,10 @@ export default  class Item implements IItem {
     this.afterDraw()
   }
 
-  public getKeyShapeStyle(): IModelStyle {
+  public getKeyShapeStyle(): ModelStyle {
     const keyShape = this.getKeyShape();
     if (keyShape) {
-      const styles: IModelStyle = {};
+      const styles: ModelStyle = {};
       each(keyShape.attr(), (val, key) => {
         if (RESERVED_STYLES.indexOf(key) < 0) {
           styles[key] = val;
@@ -238,7 +238,7 @@ export default  class Item implements IItem {
   }
 
   // TODO 确定还是否需要该方法
-  public getShapeCfg(model: IModelConfig): IModelConfig {
+  public getShapeCfg(model: ModelConfig): ModelConfig {
     const styles = this.get('styles');
     if (styles && styles.default) {
       // merge graph的item样式与数据模型中的样式
@@ -263,11 +263,11 @@ export default  class Item implements IItem {
   /**
    * get keyshape style
    */
-  public getOriginStyle(): IModelStyle {
+  public getOriginStyle(): ModelStyle {
     return this.get('originStyle');
   }
 
-  public getCurrentStatesStyle(): IModelStyle {
+  public getCurrentStatesStyle(): ModelStyle {
     const self = this;
     const originStyle = self.getOriginStyle();
     each(self.getStates(), state => {
@@ -296,7 +296,7 @@ export default  class Item implements IItem {
     }
 
     if (shapeFactory) {
-      const model: IModelConfig = this.get('model');
+      const model: ModelConfig = this.get('model');
       shapeFactory.setState(model.shape, state, enable, this);
     }
   }
@@ -345,7 +345,7 @@ export default  class Item implements IItem {
    * 节点数据模型
    * @return {Object} 数据模型
    */
-  public getModel(): IModelConfig {
+  public getModel(): ModelConfig {
     return this.get('model');
   }
 
@@ -390,7 +390,7 @@ export default  class Item implements IItem {
    * 因为数据从外部被修改无法判断一些属性是否被修改，直接走位置和 shape 的更新
    */
   public refresh() {
-    const model: IModelConfig = this.get('model');
+    const model: ModelConfig = this.get('model');
     // 更新元素位置
     this.updatePosition(model);
     // 更新元素内容，样式
@@ -401,7 +401,7 @@ export default  class Item implements IItem {
     this.clearCache();
   }
 
-  public isOnlyMove(cfg?: IModelConfig): boolean {
+  public isOnlyMove(cfg?: ModelConfig): boolean {
     return false
   }
 
@@ -410,8 +410,8 @@ export default  class Item implements IItem {
    * @internal 仅提供给 Graph 使用，外部直接调用 graph.update 接口
    * @param  {Object} cfg       配置项，可以是增量信息
    */
-  public update(cfg: IModelConfig) {
-    const model: IModelConfig = this.get('model');
+  public update(cfg: ModelConfig) {
+    const model: ModelConfig = this.get('model');
     const originPosition: IPoint = { x: model.x, y: model.y };
 
     // 直接将更新合到原数据模型上，可以保证用户在外部修改源数据然后刷新时的样式符合期待。
@@ -459,8 +459,8 @@ export default  class Item implements IItem {
    * 更新位置，避免整体重绘
    * @param {object} cfg 待更新数据
    */
-  public updatePosition(cfg: IModelConfig) {
-    const model: IModelConfig = this.get('model');
+  public updatePosition(cfg: ModelConfig) {
+    const model: ModelConfig = this.get('model');
 
     const x = isNil(cfg.x) ? model.x : cfg.x;
     const y = isNil(cfg.y) ? model.y : cfg.y;

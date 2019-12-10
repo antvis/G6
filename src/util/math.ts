@@ -1,7 +1,7 @@
 import Group from '@antv/g-canvas/lib/group';
 import { mat3, vec3 } from '@antv/matrix-util'
 import { transform } from '@antv/matrix-util'
-import { ICircle, IEllipse, IGraphData, IMatrix, IPoint, IRect } from '@g6/types'
+import { GraphData, ICircle, IEllipse, IMatrix, IPoint, IRect } from '@g6/types'
 
 /**
  * 是否在区间内
@@ -273,7 +273,7 @@ export const floydWarshall = (adjMatrix: IMatrix[]): IMatrix[] => {
  * @param data graph data
  * @param directed whether it's a directed graph
  */
-export const getAdjMatrix = (data: IGraphData, directed: boolean): IMatrix[] => {
+export const getAdjMatrix = (data: GraphData, directed: boolean): IMatrix[] => {
   const nodes = data.nodes;
   const edges = data.edges;
   const matrix: IMatrix[] = [];
