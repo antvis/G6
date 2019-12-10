@@ -1,9 +1,9 @@
 import each from '@antv/util/lib/each'
+import isNil from '@antv/util/lib/is-nil';
 import mix from '@antv/util/lib/mix'
-import isNil from '_@antv_util@2.0.6@@antv/util/lib/is-nil';
-import { INodeConfig, IPoint, IShapeBase } from '../../types';
-import { IEdge, INode } from '../interface/item';
-import { distance, getCircleIntersectByPoint, getEllispeIntersectByPoint, getRectIntersectByPoint } from '../util/math';
+import { IEdge, INode } from '@g6/interface/item';
+import { INodeConfig, IPoint, IShapeBase } from '@g6/types';
+import { distance, getCircleIntersectByPoint, getEllispeIntersectByPoint, getRectIntersectByPoint } from '@g6/util/math';
 import Item from './item'
 
 const CACHE_ANCHOR_POINTS = 'anchorPointsCache'

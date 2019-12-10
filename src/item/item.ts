@@ -4,10 +4,10 @@ import isNil from '@antv/util/lib/is-nil';
 import isPlainObject from '@antv/util/lib/is-plain-object'
 import isString from '@antv/util/lib/is-string'
 import uniqueId from '@antv/util/lib/unique-id'
-import { IBBox, IEdgeConfig, IModelConfig, IModelStyle, INodeConfig, IPoint, IShapeBase } from '../../types';
-import { IItem, IItemConfig } from "../interface/item";
-import { getBBox } from '../util/graphic';
-import { translate } from '../util/math';
+import { IItem, IItemConfig } from "@g6/interface/item";
+import { IBBox, IModelConfig, IModelStyle, IPoint, IShapeBase } from '@g6/types';
+import { getBBox } from '@g6/util/graphic';
+import { translate } from '@g6/util/math';
 
 const CACHE_BBOX = 'bboxCache';
 

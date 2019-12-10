@@ -1,5 +1,5 @@
 import Group from "@antv/g-canvas/lib/group";
-import { IBBox, IEdgeConfig, IModelConfig, INodeConfig, IPoint, IShapeBase, IShapeStyle } from '../../types'
+import { IBBox, IModelConfig, INodeConfig, IPoint, IShapeBase, IShapeStyle } from '@g6/types'
 
 // item 的配置项
 export type IItemConfig = Partial<{
