@@ -12,7 +12,7 @@ export interface IPoint {
   anchorIndex?: number;
 }
 
-export type IMatrix = number[];
+export type Matrix = number[];
 
 export interface IBBox extends BBox {
   centerX?: number;
