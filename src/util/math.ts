@@ -1,7 +1,8 @@
+import { Point } from '@antv/g-base/lib/types';
 import Group from '@antv/g-canvas/lib/group';
 import { mat3, vec3 } from '@antv/matrix-util'
 import { transform } from '@antv/matrix-util'
-import { GraphData, ICircle, IEllipse, IMatrix, IPoint, IRect } from '@g6/types'
+import { GraphData, ICircle, IEllipse, IRect, Matrix } from '@g6/types'
 
 /**
  * 是否在区间内
@@ -14,24 +15,24 @@ const isBetween = (value: number, min: number, max: number) => value >= min && v
 
 /**
  * 获取两条线段的交点
- * @param  {IPoint}  p0 第一条线段起点
- * @param  {IPoint}  p1 第一条线段终点
- * @param  {IPoint}  p2 第二条线段起点
- * @param  {IPoint}  p3 第二条线段终点
- * @return {IPoint}  交点
+ * @param  {Point}  p0 第一条线段起点
+ * @param  {Point}  p1 第一条线段终点
+ * @param  {Point}  p2 第二条线段起点
+ * @param  {Point}  p3 第二条线段终点
+ * @return {Point}  交点
  */
-const getLineIntersect = (p0: IPoint, p1: IPoint, p2: IPoint, p3: IPoint): IPoint => {
+const getLineIntersect = (p0: Point, p1: Point, p2: Point, p3: Point): Point => {
   const tolerance = 0.001;
 
-  const E: IPoint = {
+  const E: Point = {
     x: p2.x - p0.x,
     y: p2.y - p0.y
   };
-  const D0: IPoint = {
+  const D0: Point = {
     x: p1.x - p0.x,
     y: p1.y - p0.y
   };
-  const D1: IPoint = {
+  const D1: Point = {
     x: p3.x - p2.x,
     y: p3.y - p2.y
   };
@@ -39,7 +40,7 @@ const getLineIntersect = (p0: IPoint, p1: IPoint, p2: IPoint, p3: IPoint): IPoin
   const sqrKross: number = kross * kross;
   const sqrLen0: number = D0.x * D0.x + D0.y * D0.y;
   const sqrLen1: number = D1.x * D1.x + D1.y * D1.y;
-  let point: IPoint;
+  let point: Point;
   if (sqrKross > tolerance * sqrLen0 * sqrLen1) {
     const s = (E.x * D1.y - E.y * D1.x) / kross;
     const t = (E.x * D0.y - E.y * D0.x) / kross;
@@ -56,15 +57,15 @@ const getLineIntersect = (p0: IPoint, p1: IPoint, p2: IPoint, p3: IPoint): IPoin
 /**
  * point and rectangular intersection point
  * @param  {IRect} rect  rect
- * @param  {IPoint} point point
- * @return {IPointIPoint} rst;
+ * @param  {Point} point point
+ * @return {PointPoint} rst;
  */
-export const getRectIntersectByPoint = (rect: IRect, point: IPoint): IPoint => {
+export const getRectIntersectByPoint = (rect: IRect, point: Point): Point => {
   const { x, y, width, height } = rect;
   const cx = x + width / 2;
   const cy = y + height / 2;
-  const points: IPoint[] = [];
-  const center: IPoint = {
+  const points: Point[] = [];
+  const center: Point = {
     x: cx,
     y: cy
   };
@@ -88,7 +89,7 @@ export const getRectIntersectByPoint = (rect: IRect, point: IPoint): IPoint => {
     x,
     y
   });
-  let rst: IPoint;
+  let rst: Point;
   for (let i = 1; i < points.length; i++) {
     rst = getLineIntersect(points[i - 1], points[i], center, point);
     if (rst) {
@@ -101,10 +102,10 @@ export const getRectIntersectByPoint = (rect: IRect, point: IPoint): IPoint => {
 /**
  * get point and circle inIntersect
  * @param {ICircle} circle 圆点，x,y,r
- * @param {IPoint} point 点 x,y
- * @return {IPoint} applied point
+ * @param {Point} point 点 x,y
+ * @return {Point} applied point
  */
-export const getCircleIntersectByPoint = (circle: ICircle, point: IPoint): IPoint => {
+export const getCircleIntersectByPoint = (circle: ICircle, point: Point): Point => {
   const cx = circle.x;
   const cy = circle.y;
   const r = circle.r;
@@ -130,7 +131,7 @@ export const getCircleIntersectByPoint = (circle: ICircle, point: IPoint): IPoin
  * @param {Object} point 点 x,y
  * @return {object} applied point
  */
-export const getEllispeIntersectByPoint = (ellipse: IEllipse, point: IPoint): IPoint => {
+export const getEllispeIntersectByPoint = (ellipse: IEllipse, point: Point): Point => {
   const a = ellipse.rx;
   const b = ellipse.ry;
   const cx = ellipse.x;
@@ -154,11 +155,11 @@ export const getEllispeIntersectByPoint = (ellipse: IEllipse, point: IPoint): IP
 /**
  * coordinate matrix transformation
  * @param  {number} point   coordinate
- * @param  {IMatrix} matrix  matrix
+ * @param  {Matrix} matrix  matrix
  * @param  {number} tag     could be 0 or 1
- * @return {IPoint} transformed point
+ * @return {Point} transformed point
  */
-export const applyMatrix = (point: IPoint, matrix: IMatrix, tag: 0 | 1 = 1): IPoint => {
+export const applyMatrix = (point: Point, matrix: Matrix, tag: 0 | 1 = 1): Point => {
   const vector = [ point.x, point.y, tag ]
   vec3.transformMat3(vector, vector, matrix)
 
@@ -175,7 +176,7 @@ export const applyMatrix = (point: IPoint, matrix: IMatrix, tag: 0 | 1 = 1): IPo
  * @param  {number} tag     could be 0 or 1
  * @return {object} transformed point
  */
-export const invertMatrix = (point: IPoint, matrix: IMatrix, tag: 0 | 1 = 1): IPoint => {
+export const invertMatrix = (point: Point, matrix: Matrix, tag: 0 | 1 = 1): Point => {
   const inversedMatrix = mat3.invert([], matrix)
   const vector = [ point.x, point.y, tag ]
   vec3.transformMat3(vector, vector, inversedMatrix)
@@ -192,7 +193,7 @@ export const invertMatrix = (point: IPoint, matrix: IMatrix, tag: 0 | 1 = 1): IP
  * @param p2 second coordinate
  * @param p3 three coordinate
  */
-export const getCircleCenterByPoints = (p1: IPoint, p2: IPoint, p3: IPoint): IPoint => {
+export const getCircleCenterByPoints = (p1: Point, p2: Point, p3: Point): Point => {
   const a = p1.x - p2.x;
   const b = p1.y - p2.y;
   const c = p1.x - p3.x;
@@ -211,7 +212,7 @@ export const getCircleCenterByPoints = (p1: IPoint, p2: IPoint, p3: IPoint): IPo
  * @param p1 first point
  * @param p2 second point
  */
-export const distance = (p1: IPoint, p2: IPoint): number => {
+export const distance = (p1: Point, p2: Point): number => {
   const vx = p1.x - p2.x;
   const vy = p1.y - p2.y;
   return Math.sqrt(vx * vx + vy * vy);
@@ -222,8 +223,8 @@ export const distance = (p1: IPoint, p2: IPoint): number => {
  * @param matrix [ [], [], [] ]
  * @param scale 
  */
-export const scaleMatrix = (matrix: IMatrix[], scale: number) => {
-  const result: IMatrix[] = []
+export const scaleMatrix = (matrix: Matrix[], scale: number) => {
+  const result: Matrix[] = []
   matrix.forEach(row => {
     const newRow = []
     row.forEach(v => {
@@ -239,9 +240,9 @@ export const scaleMatrix = (matrix: IMatrix[], scale: number) => {
  * @param  {array} adjMatrix   adjacency matrix
  * @return {array} distances   shortest path distances matrix
  */
-export const floydWarshall = (adjMatrix: IMatrix[]): IMatrix[] => {
+export const floydWarshall = (adjMatrix: Matrix[]): Matrix[] => {
   // initialize
-  const dist: IMatrix[] = [];
+  const dist: Matrix[] = [];
   const size = adjMatrix.length;
   for (let i = 0; i < size; i += 1) {
     dist[i] = [];
@@ -273,10 +274,10 @@ export const floydWarshall = (adjMatrix: IMatrix[]): IMatrix[] => {
  * @param data graph data
  * @param directed whether it's a directed graph
  */
-export const getAdjMatrix = (data: GraphData, directed: boolean): IMatrix[] => {
+export const getAdjMatrix = (data: GraphData, directed: boolean): Matrix[] => {
   const nodes = data.nodes;
   const edges = data.edges;
-  const matrix: IMatrix[] = [];
+  const matrix: Matrix[] = [];
   // map node with index in data.nodes
   const nodeMap = new Map();
   nodes.forEach((node, i) => {
@@ -303,8 +304,8 @@ export const getAdjMatrix = (data: GraphData, directed: boolean): IMatrix[] => {
  * @param group Group 实例
  * @param point 坐标
  */
-export const translate = (group: Group, point: IPoint) => {
-  const matrix: IMatrix = group.getMatrix()
+export const translate = (group: Group, point: Point) => {
+  const matrix: Matrix = group.getMatrix()
   transform(matrix, [
     [ 't',  point.x, point.y ]
   ])
