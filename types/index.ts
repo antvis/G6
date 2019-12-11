@@ -90,8 +90,14 @@ export type Easeing =
 export interface ModelConfig extends ModelStyle {
   shape?: string;
   label?: string;
+  labelCfg?: object;
+  groupId?: string;
+  description?: string;
   x?: number;
   y?: number;
+  size: number;
+  controlPoints?: IPoint[];
+  anchorPoints?: IPoint[];
 }
 export interface NodeConfig extends ModelConfig {
   id: string;
@@ -103,6 +109,8 @@ export interface EdgeConfig extends ModelConfig  {
   id?: string;
   source: string;
   target: string;
+  label?: string;
+  labelCfg?: object;
   sourceNode?: INode;
   targetNode?: INode;
   startPoint?: IPoint;
@@ -199,4 +207,15 @@ export interface IG6GraphEvent extends GraphEvent {
   canvasY: number;
   wheelDelta: number;
   detail: number;
+}
+
+export interface IBehavior {
+  constructor: (cfg?: object) => void;
+  getEvents: () => { [key in G6Event]?: string };
+  shouldBegin: () => boolean;
+  shouldUpdate: () => boolean;
+  shouldEnd: () => boolean;
+  bind: (graph: IGraph) => void;
+  unbind: (graph: IGraph) => void;
+  [key: string]: (...args: DefaultBehaviorType[]) => unknown;
 }
