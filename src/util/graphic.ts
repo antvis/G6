@@ -1,11 +1,9 @@
 import Group from "@antv/g-canvas/lib/group";
-import ShapeBase from "@antv/g-canvas/lib/shape/base";
-import { BBox } from "@antv/g-canvas/lib/types";
 import { vec2 } from "@antv/matrix-util";
 import each from '@antv/util/lib/each'
-import { IEdgeConfig, IPoint, ITreeGraphData } from "../../types";
-import Global from '../global'
-import { INode } from "../interface/item";
+import Global from '@g6/global'
+import { INode } from "@g6/interface/item";
+import { EdgeConfig, IBBox, IPoint, IShapeBase, TreeGraphData } from '@g6/types';
 import { applyMatrix } from "./math";
 
 const PI: number =  Math.PI
@@ -16,7 +14,7 @@ const cos: (x: number) => number = Math.cos
 const SELF_LINK_SIN: number = sin(PI / 8);
 const SELF_LINK_COS: number = cos(PI / 8); 
 
-export const getBBox = (element: ShapeBase, group: Group): BBox => {
+export const getBBox = (element: IShapeBase, group: Group): IBBox => {
   const bbox = element.getBBox();
   let leftTop: IPoint = {
     x: bbox.minX,
@@ -52,13 +50,13 @@ export const getBBox = (element: ShapeBase, group: Group): BBox => {
  * get loop edge config
  * @param cfg edge config
  */
-export const getLoopCfgs = (cfg: IEdgeConfig): IEdgeConfig => {
+export const getLoopCfgs = (cfg: EdgeConfig): EdgeConfig => {
   const item: INode = cfg.sourceNode || cfg.targetNode
   const container: Group = item.get('group')
   const containerMatrix = container.getMatrix()
 
-  const keyShape: ShapeBase = item.getKeyShape()
-  const bbox: BBox = keyShape.getBBox()
+  const keyShape: IShapeBase = item.getKeyShape()
+  const bbox: IBBox = keyShape.getBBox()
 
   const loopCfg = cfg.loopCfg || {}
   // 距离keyShape边的最高距离
@@ -269,7 +267,7 @@ export const getLoopCfgs = (cfg: IEdgeConfig): IEdgeConfig => {
 //   return result;
 // }
 
-const traverse = (data: ITreeGraphData, fn: (param: ITreeGraphData) => boolean) => {
+const traverse = (data: TreeGraphData, fn: (param: TreeGraphData) => boolean) => {
   if(!fn(data)) {
     return
   }
@@ -278,7 +276,7 @@ const traverse = (data: ITreeGraphData, fn: (param: ITreeGraphData) => boolean) 
   })
 }
 
-export const traverseTree = (data: ITreeGraphData, fn: (param: ITreeGraphData) => boolean) => {
+export const traverseTree = (data: TreeGraphData, fn: (param: TreeGraphData) => boolean) => {
   if(typeof fn !== 'function') {
     return
   }
@@ -290,7 +288,7 @@ export const traverseTree = (data: ITreeGraphData, fn: (param: ITreeGraphData) =
  * @param data Tree graph data
  * @param layout 
  */
-export const radialLayout = (data: ITreeGraphData, layout?: string): ITreeGraphData => {
+export const radialLayout = (data: TreeGraphData, layout?: string): TreeGraphData => {
   // 布局方式有 H / V / LR / RL / TB / BT
   const VERTICAL_LAYOUTS: string[] = [ 'V', 'TB', 'BT' ];
   const min: IPoint = {

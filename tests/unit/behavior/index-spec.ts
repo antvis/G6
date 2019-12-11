@@ -1,6 +1,6 @@
 import '../../../src/behavior'
 import Behavior from '../../../src/behavior/behavior'
-import { IBehavior } from '../../../types';
+import { IBehavior } from '../../../src/interface/behavior';
 
 describe('Behavior', () => {
   it('register signle behavior', () => {

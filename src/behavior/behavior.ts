@@ -1,10 +1,10 @@
 import clone from '@antv/util/lib/clone'
-import { IBehaviorOpation } from '../../types';
+import { BehaviorOpation } from '@g6/types';
 import BehaviorOption from './behaviorOption'
 
 export default class Behavior {
   private static types = {}
-  public static registerBehavior<T, U>(type: string, behavior: IBehaviorOpation<U>) {
+  public static registerBehavior<T, U>(type: string, behavior: BehaviorOpation<U>) {
     if(!behavior) {
       throw new Error(`please specify handler for this behavior: ${type}`)
     }
