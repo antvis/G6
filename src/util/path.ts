@@ -1,6 +1,6 @@
 import { vec2 } from '@antv/matrix-util'
 import { catmullRom2Bezier } from '@antv/path-util'
-import { IPoint } from '../../types'
+import { IPoint } from '@g6/types'
 
 /**
  * 替换字符串中的字段

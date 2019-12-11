@@ -26,7 +26,7 @@
     "clean": "rimraf esm lib dist",
     "lint": "lint-staged",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/behavior/index-spec.ts",
+    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/graph/controller/mode-spec.ts",
     "coverage": "jest --coverage",
     "ci": "run-s build coverage",
     "doc": "rimraf apis && typedoc",
@@ -80,18 +80,6 @@
       "prettier --write",
       "git add"
     ]
-  },
-  "jest": {
-    "runner": "jest-electron/runner",
-    "testEnvironment": "jest-electron/environment",
-    "preset": "ts-jest",
-    "collectCoverage": false,
-    "collectCoverageFrom": [
-      "src/**/*.{ts,js}",
-      "!**/node_modules/**",
-      "!**/vendor/**"
-    ],
-    "testRegex": "/tests/.*-spec\\.ts?$"
   },
   "repository": {
     "type": "git",
