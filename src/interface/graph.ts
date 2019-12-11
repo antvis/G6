@@ -1,5 +1,8 @@
 import EventEmitter from '@antv/event-emitter';
-import { Easeing, ModelStyle, ShapeStyle } from '@g6/types'
+import { Point } from '@antv/g-base/lib/types';
+import Graph from '@g6/graph/graph';
+import { Easeing, ModelStyle, Padding, ShapeStyle } from '@g6/types'
+import { IItem } from './item';
 
 export interface IModeOption {
   type: string;
@@ -44,7 +47,7 @@ export interface GraphOptions {
    * 也可以是一个数组，例如：fitViewPadding: [20, 40, 50,20]
    * 当指定一个值时，四边的边距都相等，当指定数组时，数组内数值依次对应 上，右，下，左四边的边距。
    */
-  fitViewPadding?: number[] | number;
+  fitViewPadding?: Padding;
   /**
    * 各种元素是否在一个分组内，决定节点和边的层级问题，默认情况下所有的节点在一个分组中，所有的边在一个分组中，当这个参数为 false 时，节点和边的层级根据生成的顺序确定。
    * 默认值：true
@@ -142,6 +145,10 @@ export interface GraphOptions {
 }
 
 export interface IGraph extends EventEmitter {
-  get<T>(key: string): T;
+  get<T = any>(key: string): T;
+  set<T = any>(key: string | object, value?: T): Graph;
+  findById(id: string): IItem;
+  translate(dx: number, dy: number): void;
+  zoom(ratio: number, center: Point): void;
 }
 
