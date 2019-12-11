@@ -74,7 +74,7 @@ export default class Mode {
     this.currentBehaves = behaves;
   }
 
-  private mergeBehaviors(modeBehaviors: IModeType[], behaviors: IModeType[]): IModeType[] {
+  private mergeBehaviors(modeBehaviors: IModeType[], behaviors): IModeType[] {
     each(behaviors, behavior => {
       if (modeBehaviors.indexOf(behavior) < 0) {
         if (isString(behavior)) {
@@ -86,7 +86,7 @@ export default class Mode {
     return modeBehaviors;
   }
 
-  private filterBehaviors(modeBehaviors: IModeType[], behaviors: IModeType[]): IModeType[] {
+  private filterBehaviors(modeBehaviors: IModeType[], behaviors): IModeType[] {
     const result: IModeType[] = [];
     modeBehaviors.forEach(behavior => {
       let type: string = ''
@@ -105,7 +105,9 @@ export default class Mode {
   public setMode(mode: string): Mode {
     const modes = this.modes;
     const graph = this.graph;
-    const behaviors = modes[mode];
+    const current = mode
+    
+    const behaviors = modes[current];
     if (!behaviors) {
       return;
     }
@@ -115,7 +117,7 @@ export default class Mode {
       behave.unbind(graph);
     });
 
-    this.setBehaviors(mode);
+    this.setBehaviors(current);
 
     graph.emit('aftermodechange', { mode });
     this.mode = mode;
@@ -132,23 +134,24 @@ export default class Mode {
    * @returns {Mode}
    * @memberof Mode
    */
-  public manipulateBehaviors(behaviors: IModeType[], modes: IModeType[] | IModeType, isAdd: boolean): Mode {
+  public manipulateBehaviors(behaviors: IModeType[] | IModeType, modes: string[] | string, isAdd: boolean): Mode {
     const self = this
+    let behaves = behaviors
     if(!isArray(behaviors)) {
-      behaviors = [ behaviors ]
+      behaves = [ behaviors ]
     }
 
     if(isArray(modes)) {
       each(modes, mode => {
         if (!self.modes[mode]) {
           if (isAdd) {
-            self.modes[mode] = [].concat(behaviors);
+            self.modes[mode] = [].concat(behaves);
           }
         } else {
           if (isAdd) {
-            self.modes[mode] = this.mergeBehaviors(self.modes[mode], behaviors);
+            self.modes[mode] = this.mergeBehaviors(self.modes[mode], behaves);
           } else {
-            self.modes[mode] = this.filterBehaviors(self.modes[mode], behaviors);
+            self.modes[mode] = this.filterBehaviors(self.modes[mode], behaves);
           }
         }
       })
@@ -156,15 +159,21 @@ export default class Mode {
       return this
     }
 
-    let currentMode: string = ''
+    let currentMode = modes
     if(!modes) {
-      currentMode = this.mode
+      currentMode = this.mode // isString(this.mode) ? this.mode : this.mode.type
     }
-
+    
+    if(!this.modes[currentMode]) {
+      if (isAdd) {
+        self.modes[currentMode] = [].concat(behaves);
+      }
+    }
+    
     if (isAdd) {
-      self.modes[currentMode] = this.mergeBehaviors(self.modes[currentMode], behaviors);
+      self.modes[currentMode] = this.mergeBehaviors(self.modes[currentMode], behaves);
     } else {
-      self.modes[currentMode] = this.filterBehaviors(self.modes[currentMode], behaviors);
+      self.modes[currentMode] = this.filterBehaviors(self.modes[currentMode], behaves);
     }
 
     self.setMode(this.mode)
