@@ -146,9 +146,9 @@ const data = {
   nodes: [
     {
       id: 'nodeD',
-      x: 250,
+      x: 150,
       y: 150,
-      label: 'Area',
+      label: 'Area1',
       shape: 'area',
       anchorPoints: [
       [ 0, 0.5 ], [ 1, 0.5 ]
@@ -161,6 +161,30 @@ const data = {
           { cat: 'cal', values: [ 10, 10, 20, 20, 20 ], color: '#9270CA' }
       ],
       centerColor: '#5b8ff9'
+    },
+    {
+      id: 'nodeD2',
+      x: 500,
+      y: 150,
+      label: 'Area2',
+      shape: 'area',
+      anchorPoints: [
+      [ 0, 0.5 ], [ 1, 0.5 ]
+      ],
+      details: [
+        { cat: 'pv', values: [ 10, 10, 80, 20, 10 ], color: '#5ad8a6' },
+        { cat: 'dal', values: [ 20, 30, 10, 50, 40 ], color: '#ff99c3' },
+        { cat: 'uv', values: [ 10, 50, 30, 20, 30 ], color: '#6dc8ec' },
+        { cat: 'sal', values: [ 70, 30, 20, 20, 20 ], color: '#269a99' },
+        { cat: 'cal', values: [ 50, 10, 20, 70, 30 ], color: '#9270CA' }
+      ],
+      centerColor: '#5b8ff9'
+    }
+  ],
+  edges: [
+    {
+      source: 'nodeD',
+      target: 'nodeD2'
     }
   ]
 };
