@@ -1,16 +1,12 @@
 import Group from "@antv/g-canvas/lib/group";
-<<<<<<< HEAD
-=======
 import Path from "@antv/g/lib/shapes/path";
-import ShapeBase from "@antv/g-canvas/lib/shape/base";
-import { BBox } from "@antv/g-canvas/lib/types";
->>>>>>> add: temple ts files for shape
 import { vec2 } from "@antv/matrix-util";
 import each from '@antv/util/lib/each'
 import Global from '@g6/global'
 import { INode } from "@g6/interface/item";
 import { EdgeConfig, IBBox, IPoint, IShapeBase, TreeGraphData } from '@g6/types';
 import { applyMatrix } from "./math";
+import { LabelStyle } from '../../types';
 
 const PI: number =  Math.PI
 const sin: (x: number) => number = Math.sin
@@ -210,7 +206,7 @@ export const getLoopCfgs = (cfg: EdgeConfig): EdgeConfig => {
  * @param {boolean} rotate     是否根据线条斜率旋转文本
  * @return {object} 文本的 x, y, 文本的旋转角度
  */
-export const getLabelPosition = (pathShape: Path, percent: number, refX: number, refY: number, rotate: boolean) => {
+export const getLabelPosition = (pathShape: Path, percent: number, refX: number, refY: number, rotate: boolean): LabelStyle => {
   const TAN_OFFSET = 0.0001;
   let vector: number[][] = [];
   const point: IPoint = pathShape.getPoint(percent);

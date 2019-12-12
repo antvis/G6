@@ -5,6 +5,8 @@ export default {
   edgeContainerClassName: 'edge-container',
   customGroupContainerClassName: 'custom-group-container',
   delegateContainerClassName: 'delegate-container',
+  defaultShapeFillColor: '#91d5ff',
+  defaultShapeStrokeColor: '#91d5ff',
   defaultLoopPosition: 'top',
   nodeLabel: {
     style: {
@@ -17,7 +19,8 @@ export default {
   defaultNode: {
     shape: 'circle',
     style: {
-      fill: '#fff'
+      fill: '#fff',
+      stroke: '#000'
     },
     size: 40,
     color: '#333'
@@ -34,5 +37,14 @@ export default {
     style: {},
     size: 1,
     color: '#333'
+  },
+  // 节点应用状态后的样式，默认仅提供 active 和 selected 用户可以自己扩展
+  nodeStateStyle: {
+    active: {
+      fillOpacity: 0.8
+    },
+    selected: {
+      lineWidth: 2
+    }
   },
 }
