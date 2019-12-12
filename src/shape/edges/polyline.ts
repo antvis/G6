@@ -1,12 +1,11 @@
 import Shape from '../shape'
 import { each, deepMix } from '@antv/util'
-import { pointsToPolygon } from '../../util/path'
+import { pointsToPolygon } from '@g6/util/path'
 import { getPathWithBorderRadiusByPolyline, simplifyPolyline, getPolylinePoints } from './polyline-util';
 import Global from '../../global'
+import { Point } from '@antv/g-base/lib/types';
+import { IItem } from '@g6/interface/item'
 
-
-const CLS_SHAPE_SUFFIX = '-shape';
-const CLS_LABEL_SUFFIX = '-label';
 
 // 折线
 Shape.registerEdge('polyline', {
@@ -49,15 +48,13 @@ Shape.registerEdge('polyline', {
     return keyShape;
   },
   getShapeStyle(cfg) {
-    const customOptions = this.getCustomConfig(cfg) || {};
     const { style: defaultStyle } = this.options;
-    const { style: customStyle } = customOptions;
 
     const strokeStyle = {
       stroke: cfg.color
     };
 
-    const style = deepMix({}, defaultStyle, customStyle, strokeStyle, cfg.style);
+    const style = deepMix({}, defaultStyle, strokeStyle, cfg.style);
     cfg = this.getPathPoints(cfg);
     this.radius = style.radius;
     this.offset = style.offset;
@@ -73,7 +70,7 @@ Shape.registerEdge('polyline', {
     points.push(endPoint);
     const source = cfg.sourceNode;
     const target = cfg.targetNode;
-    let routeCfg = { radius: style.radius };
+    let routeCfg: object = { radius: style.radius };
     if (!controlPoints) {
       routeCfg = { source, target, offset: style.offset, radius: style.radius };
     }
@@ -83,14 +80,15 @@ Shape.registerEdge('polyline', {
     }, { path });
     return attrs;
   },
-  getPath(points, routeCfg) {
+  getPath(points: Point[], routeCfg): Array<Array<any>> | string {
     const { source, target, offset, radius } = routeCfg;
     if (!offset) {
-      let path = [];
+      let path: Array<Array<any>> | string;
       if (radius) {
         path = getPathWithBorderRadiusByPolyline(points, radius);
       } else {
         each(points, (point, index) => {
+          path = [];
           if (index === 0) {
             path.push([ 'M', point.x, point.y ]);
           } else {
@@ -111,44 +109,46 @@ Shape.registerEdge('polyline', {
     return pointsToPolygon(polylinePoints);
   },
 
-  update(cfg, item) {
-    const group = item.getContainer();
-    const shapeClassName = this.itemType + CLS_SHAPE_SUFFIX;
-    const shape = group.findByClassName(shapeClassName);
-    if (!cfg.style) {
-      cfg.style = {};
-    }
-    const oriShapeAttrs = shape.attr();
-    cfg.style.radius = cfg.style.radius || oriShapeAttrs.radius;
-    cfg.style.offset = cfg.style.offset || oriShapeAttrs.offset;
-    const shapeStyle = this.getShapeStyle(cfg);
-    shape.attr(shapeStyle);
-    const labelClassName = this.itemType + CLS_LABEL_SUFFIX;
-    const label = group.findByClassName(labelClassName);
-		// 此时需要考虑之前是否绘制了 label 的场景存在三种情况
-		// 1. 更新时不需要 label，但是原先存在 label，此时需要删除
-		// 2. 更新时需要 label, 但是原先不存在，创建节点
-		// 3. 如果两者都存在，更新
-    if (!cfg.label) {
-      label && label.remove();
-    } else {
-      if (!label) {
-        const newLabel = this.drawLabel(cfg, group);
-        newLabel.set('className', labelClassName);
-      } else {
-        const { labelCfg: defaultLabelCfg } = this.options;
-        const { labelCfg: customLabelCfg } = this.getCustomConfig(cfg) || {};
+  update(cfg, item: IItem) {
 
-        const labelCfg = deepMix({}, defaultLabelCfg, customLabelCfg, cfg.labelCfg);
-        const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
-        /**
-         * fixme g中shape的rotate是角度累加的，不是label的rotate想要的角度
-         * 由于现在label只有rotate操作，所以在更新label的时候如果style中有rotate就重置一下变换
-         * 后续会基于g的Text复写一个Label出来处理这一类问题
-         */
-        label.resetMatrix();
-        label.attr(labelStyle);
-      }
-    }
+    // TODO: after findByClassName is defined by G
+
+    // const group = item.getContainer();
+    // const shapeClassName = this.itemType + CLS_SHAPE_SUFFIX;
+    // const shape = group.findByClassName(shapeClassName);
+    // if (!cfg.style) {
+    //   cfg.style = {};
+    // }
+    // const oriShapeAttrs = shape.attr();
+    // cfg.style.radius = cfg.style.radius || oriShapeAttrs.radius;
+    // cfg.style.offset = cfg.style.offset || oriShapeAttrs.offset;
+    // const shapeStyle = this.getShapeStyle(cfg);
+    // shape.attr(shapeStyle);
+    // const labelClassName = this.itemType + CLS_LABEL_SUFFIX;
+    // const label = group.findByClassName(labelClassName);
+		// // 此时需要考虑之前是否绘制了 label 的场景存在三种情况
+		// // 1. 更新时不需要 label，但是原先存在 label，此时需要删除
+		// // 2. 更新时需要 label, 但是原先不存在，创建节点
+		// // 3. 如果两者都存在，更新
+    // if (!cfg.label) {
+    //   label && label.remove();
+    // } else {
+    //   if (!label) {
+    //     const newLabel = this.drawLabel(cfg, group);
+    //     newLabel.set('className', labelClassName);
+    //   } else {
+    //     const { labelCfg: defaultLabelCfg } = this.options;
+
+    //     const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
+    //     const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
+    //     /**
+    //      * fixme g中shape的rotate是角度累加的，不是label的rotate想要的角度
+    //      * 由于现在label只有rotate操作，所以在更新label的时候如果style中有rotate就重置一下变换
+    //      * 后续会基于g的Text复写一个Label出来处理这一类问题
+    //      */
+    //     label.resetMatrix();
+    //     label.attr(labelStyle);
+    //   }
+    // }
   }
 }, 'single-line');
