@@ -4,20 +4,22 @@
  * @author dxq613@gmail.com
  */
 
-import Shape from './shape';
-import { each, deepMix, isNil } from '@antv/util'
-import { getLabelPosition, getLoopCfgs } from '../util/graphic'
-import { getSpline, getControlPoint } from '../util/path';
-import { getCircleCenterByPoints, distance } from '../util/math'
-import Global from '../global'
+import Shape from './shape'
 import SingleShape from './single-shape-mixin'
-import { IEdgeConfig, IPoint } from '../../types/index'
-import { ILabelConfig } from '../interface/shape'
+import { each, deepMix, isNil } from '@antv/util'
+import { getLabelPosition, getLoopCfgs } from '@g6/util/graphic'
+import { getSpline, getControlPoint } from '@g6/util/path';
+import { getCircleCenterByPoints, distance } from '@g6/util/math'
+import Global from '../global'
+import { EdgeConfig, LabelStyle } from '@g6/types'
+import { ILabelConfig } from '@g6/interface/shape'
 import { G } from '@antv/g/lib'
+import { Point } from '@antv/g-base/lib/types';
+
 const CLS_SHAPE = 'edge-shape';
 
 // start,end 倒置，center 不变
-function revertAlign(labelPosition: string) {
+function revertAlign(labelPosition: string): string {
   let textAlign = labelPosition;
   if (labelPosition === 'start') {
     textAlign = 'end';
@@ -27,33 +29,32 @@ function revertAlign(labelPosition: string) {
   return textAlign;
 }
 
-
-// 注册 Edge 的工厂方法
+// 注册 Node 的工厂方法
 Shape.registerFactory('edge', {
   defaultShapeType: 'line'
 });
 
-const singleEdgeDefinition = Object.assign({}, SingleShape, {
-  itemType: 'edge',
+export default class SingleEdge extends SingleShape {
+  itemType = 'edge'
   /**
    * 文本的位置
    * @type {String}
    */
-  labelPosition: 'center', // start, end, center
+  labelPosition = 'center' // start, end, center
   /**
    * 文本是否跟着线自动旋转，默认 false
    * @type {Boolean}
    */
-  labelAutoRotate: false,
+  labelAutoRotate = false
   /**
    * 获取边的 path
    * @internal 供扩展的边覆盖
    * @param  {Array} points 构成边的点的集合
    * @return {Array} 构成 path 的数组
    */
-  getPath(points: IPoint[]) {
+  getPath(points: Point[]) {
     const path = [];
-    each(points, (point: IPoint, index: number) => {
+    each(points, (point: Point, index: number) => {
       if (index === 0) {
         path.push([ 'M', point.x, point.y ]);
       } else {
@@ -61,16 +62,15 @@ const singleEdgeDefinition = Object.assign({}, SingleShape, {
       }
     });
     return path;
-  },
-  getShapeStyle(cfg: IEdgeConfig) {
-    const customOptions = this.getCustomConfig(cfg) || {};
+  }
+  getShapeStyle(cfg: EdgeConfig) {
+    console.log('this.options', this.options);
     const { style: defaultStyle } = this.options;
-    const { style: customStyle } = customOptions;
     const strokeStyle = {
       stroke: cfg.color
     };
     // 如果设置了color，则覆盖默认的stroke属性
-    const style = deepMix({}, defaultStyle, customStyle, strokeStyle, cfg.style);
+    const style = deepMix({}, defaultStyle, strokeStyle, cfg.style);
 
     const size = cfg.size || Global.defaultEdge.size;
     cfg = this.getPathPoints(cfg);
@@ -91,11 +91,19 @@ const singleEdgeDefinition = Object.assign({}, SingleShape, {
       path
     }, style);
     return styles;
-  },
-  getLabelStyleByPosition(cfg: IEdgeConfig, labelCfg: ILabelConfig, group: G.Group) {
+  }
+  getLabelStyleByPosition(cfg?: EdgeConfig, labelCfg?: ILabelConfig, group?: G.Group): LabelStyle {
+    
+
     const labelPosition = labelCfg.position || this.labelPosition; // 文本的位置用户可以传入
-    const style = {};
-    const pathShape = group.findByClassName(CLS_SHAPE);
+    console.log('label position', labelCfg.position, this.labelPosition)
+    const style: LabelStyle = {};
+
+    // TODO: wait for findByClassName defined by G
+    // const pathShape = group.findByClassName(CLS_SHAPE);
+
+    const pathShape = group.get('children')[0];
+
     // 不对 pathShape 进行判空，如果线不存在，说明有问题了
     let pointPercent;
     if (labelPosition === 'start') {
@@ -118,8 +126,9 @@ const singleEdgeDefinition = Object.assign({}, SingleShape, {
     style.y = offsetStyle.y;
     style.rotate = offsetStyle.rotate;
     style.textAlign = this._getTextAlign(labelPosition, offsetStyle.angle);
+    console.log('label text align', style.textAlign, labelPosition, offsetStyle.angle)
     return style;
-  },
+  }
   // 获取文本对齐方式
   _getTextAlign(labelPosition: string, angle: number) {
     let textAlign = 'center';
@@ -135,23 +144,23 @@ const singleEdgeDefinition = Object.assign({}, SingleShape, {
       }
     }
     return textAlign;
-  },
+  }
   /**
    * @internal 获取边的控制点
    * @param  {Object} cfg 边的配置项
    * @return {Array} 控制点的数组
    */
-  getControlPoints(cfg: IEdgeConfig) {
+  getControlPoints(cfg: EdgeConfig) {
     return cfg.controlPoints;
-  },
+  }
   /**
    * @internal 处理需要重计算点和边的情况
    * @param {Object} cfg 边的配置项
    * @return {Object} 边的配置项
    */
-  getPathPoints(cfg: IEdgeConfig) {
+  getPathPoints(cfg: EdgeConfig) {
     return cfg;
-  },
+  }
   /**
    * 绘制边
    * @override
@@ -159,28 +168,27 @@ const singleEdgeDefinition = Object.assign({}, SingleShape, {
    * @param  {G.Group} group 边的容器
    * @return {G.Shape} 图形
    */
-  drawShape(cfg: IEdgeConfig, group: G.Group) {
+  drawShape(cfg: EdgeConfig, group: G.Group) {
+    console.log('drawshape in edge .ts');
     const shapeStyle = this.getShapeStyle(cfg);
     const shape = group.addShape('path', {
       className: CLS_SHAPE,
       attrs: shapeStyle
     });
     return shape;
-  },
-  drawLabel(cfg: IEdgeConfig, group: G.Group) {
-    const customStyle = this.getCustomConfig(cfg) || {};
-    const defaultConfig = customStyle.default || {};
-    const labelCfg = deepMix({}, this.options.labelCfg, defaultConfig.labelCfg, cfg.labelCfg);
+  }
+  drawLabel(cfg: EdgeConfig, group: G.Group) {
+    const labelCfg = deepMix({}, this.options.labelCfg, cfg.labelCfg);
     const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
     const label = group.addShape('text', {
       attrs: labelStyle
     });
     return label;
   }
-});
+};
 
 // // 直线
-Shape.registerEdge('single-line', singleEdgeDefinition);
+Shape.registerEdge('single-line', Object.assign({}, SingleShape.prototype, SingleEdge.prototype, new SingleEdge()))
 
 // // 直线, 不支持控制点
 Shape.registerEdge('line', {
@@ -188,23 +196,21 @@ Shape.registerEdge('line', {
   getControlPoints() {
     return [];
   }
-}, 'single-line');
+});
 
-// // 折线，支持多个控制点
-// Shape.registerEdge('polyline', {}, 'single-line');
 
 // 直线
 Shape.registerEdge('spline', {
-  getPath(points: IPoint[]) {
+  getPath(points: Point[]) {
     const path = getSpline(points);
     return path;
   }
-}, 'single-line');
+});
 
 Shape.registerEdge('arc', {
   curveOffset: 20,
   clockwise: 1,
-  getControlPoints(cfg: IEdgeConfig) {
+  getControlPoints(cfg: EdgeConfig) {
     const startPoint = cfg.startPoint;
     const endPoint = cfg.endPoint;
     const midPoint = {
@@ -255,7 +261,7 @@ Shape.registerEdge('arc', {
 
     return controlPoints;
   },
-  getPath(points: IPoint[]) {
+  getPath(points: Point[]) {
     const path = [];
     path.push([ 'M', points[0].x, points[0].y ]);
     // 控制点与端点共线
@@ -266,12 +272,12 @@ Shape.registerEdge('arc', {
     }
     return path;
   }
-}, 'single-line');
+});
 
 Shape.registerEdge('quadratic', {
   curvePosition: 0.5, // 弯曲的默认位置
   curveOffset: -20, // 弯曲度，沿着startPoint, endPoint 的垂直向量（顺时针）方向，距离线的距离，距离越大越弯曲
-  getControlPoints(cfg: IEdgeConfig) {
+  getControlPoints(cfg: EdgeConfig) {
     let controlPoints = cfg.controlPoints; // 指定controlPoints
     if (!controlPoints || !controlPoints.length) {
       const { startPoint, endPoint } = cfg;
@@ -280,18 +286,18 @@ Shape.registerEdge('quadratic', {
     }
     return controlPoints;
   },
-  getPath(points: IPoint[]) {
+  getPath(points: Point[]) {
     const path = [];
     path.push([ 'M', points[0].x, points[0].y ]);
     path.push([ 'Q', points[1].x, points[1].y, points[2].x, points[2].y ]);
     return path;
   }
-}, 'single-line');
+});
 
 Shape.registerEdge('cubic', {
   curvePosition: [ 1 / 2, 1 / 2 ],
   curveOffset: [ -20, 20 ],
-  getControlPoints(cfg: IEdgeConfig) {
+  getControlPoints(cfg: EdgeConfig) {
     let controlPoints = cfg.controlPoints; // 指定controlPoints
     if (!controlPoints || !controlPoints.length) {
       const { startPoint, endPoint } = cfg;
@@ -301,18 +307,18 @@ Shape.registerEdge('cubic', {
     }
     return controlPoints;
   },
-  getPath(points: IPoint[]) {
+  getPath(points: Point[]) {
     const path = [];
     path.push([ 'M', points[0].x, points[0].y ]);
     path.push([ 'C', points[1].x, points[1].y, points[2].x, points[2].y, points[3].x, points[3].y ]);
     return path;
   }
-}, 'single-line');
+});
 
 // 垂直方向的三阶贝塞尔曲线，不再考虑用户外部传入的控制点
 Shape.registerEdge('cubic-vertical', {
   curvePosition: [ 1 / 2, 1 / 2 ],
-  getControlPoints(cfg: IEdgeConfig) {
+  getControlPoints(cfg: EdgeConfig) {
     const { startPoint, endPoint } = cfg;
     const innerPoint1 = {
       x: startPoint.x,
@@ -330,7 +336,7 @@ Shape.registerEdge('cubic-vertical', {
 // 水平方向的三阶贝塞尔曲线，不再考虑用户外部传入的控制点
 Shape.registerEdge('cubic-horizontal', {
   curvePosition: [ 1 / 2, 1 / 2 ],
-  getControlPoints(cfg: IEdgeConfig) {
+  getControlPoints(cfg: EdgeConfig) {
     const { startPoint, endPoint } = cfg;
     const innerPoint1 = {
       x: (endPoint.x - startPoint.x) * this.curvePosition[0] + startPoint.x,
@@ -346,16 +352,16 @@ Shape.registerEdge('cubic-horizontal', {
 }, 'cubic');
 
 Shape.registerEdge('loop', {
-  getPathPoints(cfg: IEdgeConfig) {
+  getPathPoints(cfg: EdgeConfig) {
     return getLoopCfgs(cfg);
   },
-  getControlPoints(cfg: IEdgeConfig) {
+  getControlPoints(cfg: EdgeConfig) {
     return cfg.controlPoints;
   },
-  afterDraw(cfg: IEdgeConfig) {
+  afterDraw(cfg: EdgeConfig) {
     cfg.controlPoints = null;
   },
-  afterUpdate(cfg: IEdgeConfig) {
+  afterUpdate(cfg: EdgeConfig) {
     cfg.controlPoints = null;
   }
 }, 'cubic');

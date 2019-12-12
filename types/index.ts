@@ -3,6 +3,8 @@ import { BBox } from '@antv/g-base/lib/types';
 import ShapeBase from '@antv/g-canvas/lib/shape/base';
 import { IGraph } from '../src/interface/graph';
 import { IItem, INode } from '../src/interface/item'
+import { G } from '@antv/g/lib'
+
 
 // Math types
 export interface IPoint {
@@ -35,6 +37,7 @@ export type ShapeStyle = Partial<{
   points: object[];
   matrix: number[];
   opacity: number;
+  size: number | Array<number>;
   [key: string]: string | number | object | object[]
 }>
 
@@ -66,6 +69,23 @@ export type ModelStyle = Partial<{
   stateStyles: {
     [key: string]: ShapeStyle;
   };
+  linkPoints: {
+    top?: boolean;
+    right?: boolean;
+    bottom?: boolean;
+    left?: boolean;
+    size?: number;
+    lineWidth?: number;
+    fill?: string;
+    stroke?: string;
+  }
+  icon: {
+    show?: boolean;
+    // icon的地址，字符串类型
+    img?: string;
+    width?: number;
+    height?: number;
+  }
   // loop edge config
   loopCfg: {
     dist?: number;
@@ -73,6 +93,44 @@ export type ModelStyle = Partial<{
     // 如果逆时针画，交换起点和终点
     clockwise?: boolean;
   };
+  labelCfg?: object;
+  anchorPoints: IPoint[];
+  controlPoints: IPoint[];
+  size: number | number[];
+  img: string;
+
+  clipCfg: {
+    show?: boolean;
+    type?: string;
+    // circle
+    r?: number,
+    // ellipse
+    rx?: number,
+    ry?: number,
+    // rect
+    width?: number,
+    height?: number,
+    // polygon
+    points?: Array<Array<number>>;
+    // path
+    path?: Array<Array<string | number>>;
+    // 坐标
+    x?: number,
+    y?: number,
+    // clip 的属性样式
+    style?: {
+      lineWidth?: number
+    }
+  }
+}>
+
+export type LabelStyle = Partial<{
+  rotate: number;
+  textAlign: string;
+  angle: number;
+  x: number;
+  y: number;
+  text: string;
 }>
 
 export type Easeing =
@@ -95,9 +153,14 @@ export interface ModelConfig extends ModelStyle {
   description?: string;
   x?: number;
   y?: number;
-  size: number;
+  size?: number;
   controlPoints?: IPoint[];
   anchorPoints?: IPoint[];
+  color?: string;
+  preRect?: object;
+  logoIcon?: object;
+  stateIcon?: object;
+  innerR?: number;
 }
 export interface NodeConfig extends ModelConfig {
   id: string;
@@ -116,6 +179,8 @@ export interface EdgeConfig extends ModelConfig  {
   startPoint?: IPoint;
   endPoint?: IPoint;
   controlPoints?: IPoint[];
+  color?: string;
+  curveOffset?: number;
 }
 
 export interface NodeMapConfig {
@@ -198,6 +263,31 @@ export type BehaviorOpation<U> = {
   T extends Unbind ? (graph: IGraph) => void :
   (...args: DefaultBehaviorType[]) => unknown;
 }
+
+
+type Draw = 'draw';
+type AfterDraw = 'afterDraw';
+type AfterUpdate = 'afterUpdate';
+type SetState = 'setState'
+type GetControlPoints = 'getControlPoints'
+type GetAnchorPoints = 'getAnchorPoints'
+type Update = 'update'
+
+export type DefaultShapeType = string | number | object
+
+export type ShapeOption<U> = {
+  [T in keyof U]:
+  T extends Draw ? (cfg?: ModelConfig, group?: G.Group) => G.Shape :
+  T extends AfterDraw ? (cfg?: ModelConfig, group?: G.Group, rst?: G.Shape) => void :
+  T extends AfterUpdate ? (cfg?: ModelConfig, item?: IItem) => void :
+  T extends SetState ? (name?: string, value?: string | boolean, item?: IItem) => void :
+  T extends GetControlPoints ? (cfg: ModelConfig) => IPoint[] :
+  T extends GetAnchorPoints ? (cfg: ModelConfig) => IPoint[] :
+  T extends Update ? (cfg: ModelConfig, item: IItem) => void :
+  (...args: DefaultShapeType[]) => unknown;
+}
+
+
 
 export type IEvent = Record<G6Event, string>
 
