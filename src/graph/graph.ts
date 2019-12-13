@@ -8,7 +8,7 @@ import deepMix from '@antv/util/lib/deep-mix'
 import isPlainObject from '@antv/util/lib/is-plain-object';
 import isString from '@antv/util/lib/is-string'
 import { GraphOptions, IGraph, IStates } from '@g6/interface/graph';
-import { IItem, INode } from '@g6/interface/item';
+import { IItem } from '@g6/interface/item';
 import { EdgeConfig, GraphData, GroupConfig, Matrix, NodeConfig, NodeMapConfig } from '@g6/types';
 import { translate } from '@g6/util/math'
 import { EventController, ModeController, ViewController } from './controller'
@@ -376,7 +376,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {number} canvasY 画布 y 坐标
    * @return {object} 视口坐标
    */
-  public getPointByCanvas(canvasX, canvasY): Point {
+  public getPointByCanvas(canvasX: number, canvasY: number): Point {
     return this.get('viewController').getPointByCanvas(canvasX, canvasY);
   }
 
@@ -386,7 +386,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {number} y 视口 y 坐标
    * @return {object} 画布坐标
    */
-  public getCanvasByPoint(x, y): Point {
+  public getCanvasByPoint(x: number, y: number): Point {
     return this.get('viewController').getCanvasByPoint(x, y);
   }
 }
