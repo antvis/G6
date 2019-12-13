@@ -7,8 +7,8 @@ import clone from '@antv/util/lib/clone';
 import deepMix from '@antv/util/lib/deep-mix'
 import isPlainObject from '@antv/util/lib/is-plain-object';
 import isString from '@antv/util/lib/is-string'
-import { GraphOptions, IGraph } from '@g6/interface/graph';
-import { IItem } from '@g6/interface/item';
+import { GraphOptions, IGraph, IStates } from '@g6/interface/graph';
+import { IItem, INode } from '@g6/interface/item';
 import { EdgeConfig, GraphData, GroupConfig, Matrix, NodeConfig, NodeMapConfig } from '@g6/types';
 import { translate } from '@g6/util/math'
 import { EventController, ModeController, ViewController } from './controller'
@@ -34,8 +34,14 @@ interface PrivateGraphOption extends GraphOptions {
 
   groupNodes: NodeMapConfig;
 
-  // TODO 需要确定下还是否需要 states
-  states: any;
+  /**
+   * 格式：
+   * {
+   *  hover: [Node, Node],
+   *  selected: [Node]
+   * }
+   */
+  states: IStates;
 }
 
 export default class Graph extends EventEmitter implements IGraph {

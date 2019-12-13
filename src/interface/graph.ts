@@ -2,7 +2,7 @@ import EventEmitter from '@antv/event-emitter';
 import { Point } from '@antv/g-base/lib/types';
 import Graph from '@g6/graph/graph';
 import { Easeing, ModelStyle, Padding, ShapeStyle } from '@g6/types'
-import { IItem } from './item';
+import { IItem, INode } from './item';
 
 export interface IModeOption {
   type: string;
@@ -147,6 +147,10 @@ export interface GraphOptions {
   linkCenter?: boolean;
 }
 
+// Graph 配置项中 state 的类型
+export interface IStates {
+  [key: string]: INode[]
+}
 export interface IGraph extends EventEmitter {
   getDefaultCfg(): GraphOptions;
   get<T = any>(key: string): T;
