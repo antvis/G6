@@ -1,25 +1,33 @@
-import { Mode } from '../../../../src/graph/controller'
+import { ModeController } from '../../../../src/graph/controller'
 import Graph from '../../../../src/graph/graph'
-import { GraphOptions, IGraph, IModeOption } from '../../../../src/interface/graph';
+import { GraphOptions, IModeOption } from '../../../../src/interface/graph';
+
+const div = document.createElement('div');
+div.id = 'graph-spec';
+document.body.appendChild(div);
 
 describe('Mode Controller', () => {
   it('signle mode', () => {
     const cfg: GraphOptions = {
-      container: 'x',
+      container: 'graph-spec',
       width: 200,
-      height: 100
+      height: 100,
+      modes: {
+        default: ['drag']
+      }
     }
-    const graph: IGraph = new Graph(cfg)
-    const modeController = new Mode(graph)
+    const graph: Graph = new Graph(cfg)
+    const modeController = new ModeController(graph)
     expect(Object.keys(modeController.modes).length).toBe(1);
-    expect(modeController.modes.default).not.toBe(undefined);
-    expect(modeController.modes.default.length).toBe(0);
+    console.log(modeController.modes)
+    expect(modeController.modes.default[0]).toEqual({ type: 'drag' });
+    expect(modeController.modes.default.length).toBe(1);
     expect(modeController.mode).toBe('default');
   })
   
   it('setMode', () => {
     const cfg: GraphOptions = {
-      container: 'x',
+      container: 'graph-spec',
       width: 200,
       height: 100,
       modes: {
@@ -27,8 +35,8 @@ describe('Mode Controller', () => {
         edit: ['canvans', 'zoom']
       }
     }
-    const graph: IGraph = new Graph(cfg)
-    const modeController = new Mode(graph)
+    const graph: Graph = new Graph(cfg)
+    const modeController = new ModeController(graph)
     modeController.setMode('edit')
     expect(modeController.modes.edit).not.toBe(undefined)
     expect(modeController.modes.edit.length).toBe(2)
@@ -37,7 +45,7 @@ describe('Mode Controller', () => {
 
   it('manipulateBehaviors', () => {
     const cfg: GraphOptions = {
-      container: 'x',
+      container: 'graph-spec',
       width: 200,
       height: 100,
       modes: {
@@ -45,8 +53,8 @@ describe('Mode Controller', () => {
         edit: ['canvans', 'zoom']
       }
     }
-    const graph: IGraph = new Graph(cfg)
-    const modeController = new Mode(graph)
+    const graph: Graph = new Graph(cfg)
+    const modeController = new ModeController(graph)
     modeController.manipulateBehaviors(['delete'], 'xxx', true)
     expect(Object.keys(modeController.modes).length).toBe(3)
     expect(modeController.modes.xxx).not.toBe(undefined)
@@ -66,7 +74,7 @@ describe('Mode Controller', () => {
 
   it('add & remove behavior to several modes', () => {
     const cfg: GraphOptions = {
-      container: 'x',
+      container: 'graph-spec',
       width: 500,
       height: 500,
       pixelRatio: 2,
@@ -76,13 +84,12 @@ describe('Mode Controller', () => {
         custom2: []
       }
     }
-    const graph: IGraph = new Graph(cfg)
-    const modeController = new Mode(graph)
+    const graph = new Graph(cfg)
+    const modeController = new ModeController(graph)
     expect(Object.keys(modeController.modes).length).toBe(3);
     modeController.manipulateBehaviors([ 'aa', 'bb' ], [ 'custom1', 'custom2' ], true);
     expect(modeController.modes.custom1.length).toBe(2);
     expect(modeController.modes.custom2.length).toBe(2);
-    console.log(modeController.modes)
     
     const custom1: IModeOption = modeController.modes.custom1[0] as IModeOption
     const custom2: IModeOption = modeController.modes.custom1[1] as IModeOption
