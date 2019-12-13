@@ -1,11 +1,15 @@
 import EventEmitter from '@antv/event-emitter';
 import { Point } from '@antv/g-base/lib/types';
 import Graph from '@g6/graph/graph';
-import { Easeing, ModelStyle, Padding, ShapeStyle } from '@g6/types'
+import { Easeing, ModelStyle, Padding, ShapeStyle, IG6GraphEvent } from '@g6/types'
 import { IItem, INode } from './item';
 
 export interface IModeOption {
   type: string;
+  delegate?: boolean;
+  delegateStyle?: object;
+  updateEdge?: boolean;
+  shouldUpdate?: (e: IG6GraphEvent) => boolean;
 }
 
 export type IModeType = string | IModeOption
@@ -191,4 +195,3 @@ export interface IGraph extends EventEmitter {
    */
   getCanvasByPoint(x: number, y: number): Point;
 }
-

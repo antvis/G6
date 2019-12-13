@@ -154,7 +154,7 @@ Shape.registerNode('diamond', {
       });
     }
   },
-  getPath(cfg: NodeConfig): G.Path {
+  getPath(cfg: NodeConfig): Array<Array<string | number>> {
     const size = this.getSize(cfg);
     const width = size[0];
     const height = size[1];
@@ -284,4 +284,4 @@ Shape.registerNode('diamond', {
       });
     }
   }
-}, 'single-shape');
+}, 'single-node');

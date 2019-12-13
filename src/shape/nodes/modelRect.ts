@@ -83,7 +83,7 @@ Shape.registerNode('modelRect', {
       offset: -5
     },
     // 连接点，默认为左右
-    anchorPoints: [[ 0, 0.5 ], [ 1, 0.5 ]]
+    anchorPoints: [{ x: 0, y: 0.5 }, { x: 1, y: 0.5 }]
   },
   shapeType: 'modelRect',
   drawShape(cfg: NodeConfig, group: G.Group): G.Shape {
@@ -478,5 +478,5 @@ Shape.registerNode('modelRect', {
       });
     }
   }
-}, 'single-shape');
+}, 'single-node');
 

@@ -279,6 +279,6 @@ Shape.registerNode('ellipse', {
       });
     }
   }
-}, 'single-shape');
+}, 'single-node');
 
 // Shape.registerNode('ellipse', Ellipse);
