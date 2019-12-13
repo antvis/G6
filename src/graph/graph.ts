@@ -257,6 +257,25 @@ export default class Graph extends EventEmitter implements IGraph {
       groupStyle: {}
     };
   }
+  private _initCanvas() {
+    let container = this.get('container');
+    if (isString(container)) {
+      container = document.getElementById(container);
+      this.set('container', container);
+    }
+    if (!container) {
+      throw Error('invalid container');
+    }
+    const canvas = new GCanvas({
+      container,
+      width: this.get('width'),
+      height: this.get('height'),
+      renderer: this.get('renderer'),
+      pixelRatio: this.get('pixelRatio')
+    });
+    this.set('canvas', canvas);
+    // this._initGroups();
+  }
 
   /**
    * 将值设置到 this._cfg 变量上面

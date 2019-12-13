@@ -1,6 +1,7 @@
 import Shape from '../shape'
 import deepMix from '@antv/util/lib/deep-mix';
 import Global from '../../global'
+import { ModelConfig } from '@g6/types'
 
 // 菱形shape
 Shape.registerNode('triangle', {
@@ -217,7 +218,7 @@ Shape.registerNode('triangle', {
       }
     }
   },
-  getPath(cfg) {
+  getPath(cfg: ModelConfig) {
     const { direction: defaultDirection } = this.options;
 
     const direction = cfg.direction || defaultDirection;
@@ -423,4 +424,4 @@ Shape.registerNode('triangle', {
       }
     }
   }
-}, 'single-shape');
+}, 'single-node');

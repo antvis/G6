@@ -277,7 +277,7 @@ Shape.registerNode('circle', {
       });
     }
   }
-}, 'single-shape');
+}, 'single-node');
 
 
 

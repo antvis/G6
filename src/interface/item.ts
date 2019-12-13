@@ -1,5 +1,7 @@
 import Group from "@antv/g-canvas/lib/group";
 import { IBBox, IPoint, IShapeBase, ModelConfig, NodeConfig, ShapeStyle } from '@g6/types'
+import { Point } from '@antv/g-base/lib/types';
+
 
 // item 的配置项
 export type IItemConfig = Partial<{
@@ -142,7 +144,7 @@ export interface IItem {
    * 更新位置，避免整体重绘
    * @param {object} cfg 待更新数据
    */
-  updatePosition(cfg: NodeConfig): void;
+  updatePosition(cfg: Point): void;
 
   /**
    * 绘制元素
