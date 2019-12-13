@@ -144,23 +144,23 @@ export default class Shape {
     return Shape[factoryType]
   }
   public static registerNode(shapeType: string, nodeDefinition: ShapeOptions, extendShapeType?: string) {
-    const shapeFactory = Shape['Node'];
+    const shapeFactory = Shape.Node;
     extendShapeType = extendShapeType ? extendShapeType : 'single-node'
     const extendShape = shapeFactory.getShape(extendShapeType);
 
     const shapeObj = Object.assign({}, extendShape, nodeDefinition)
-    shapeObj['type'] = shapeType
-    shapeObj['itemType'] = 'node'
+    shapeObj.type = shapeType
+    shapeObj.itemType = 'node'
     shapeFactory[shapeType] = shapeObj
     return shapeObj
   }
   public static registerEdge(shapeType: string, edgeDefinition: ShapeOptions, extendShapeType?: string) {
-    const shapeFactory = Shape['Edge'];
+    const shapeFactory = Shape.Edge;
     extendShapeType = extendShapeType ? extendShapeType : 'single-edge'
     const extendShape = shapeFactory.getShape(extendShapeType);
     const shapeObj = Object.assign({}, extendShape, edgeDefinition)
-    shapeObj['type'] = shapeType
-    shapeObj['itemType'] = 'edge'
+    shapeObj.type = shapeType
+    shapeObj.itemType = 'edge'
     shapeFactory[shapeType] = shapeObj
     return shapeObj
   }
