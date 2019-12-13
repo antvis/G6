@@ -52,9 +52,7 @@ const ShapeFactoryBase = {
    */
   draw(type: string, cfg: ModelConfig, group: G.Group): G.Shape {
     const shape = this.getShape(type)
-    console.log('drawdraw', type, shape);
     const rst = shape.draw(cfg, group)
-    console.log('keyshapekeyshape', rst);
     shape.afterDraw(cfg, group, rst)
     return rst
   },
@@ -135,7 +133,6 @@ export default class Shape {
     const className = ucfirst(factoryType)
     const factoryBase = ShapeFactoryBase
     const shapeFactory = Object.assign({}, factoryBase, cfg)
-    console.log('shapeFactoryshapeFactory', shapeFactory);
     Shape[className] = shapeFactory
     shapeFactory.className = className
     // addRegister(shapeFactory)
@@ -162,7 +159,6 @@ export default class Shape {
     extendShapeType = extendShapeType ? extendShapeType : 'single-edge'
     const extendShape = shapeFactory.getShape(extendShapeType);
     const shapeObj = Object.assign({}, extendShape, edgeDefinition)
-    console.log('shapeObjshapeObjshapeObj', shapeObj, extendShape);
     shapeObj['type'] = shapeType
     shapeObj['itemType'] = 'edge'
     shapeFactory[shapeType] = shapeObj
