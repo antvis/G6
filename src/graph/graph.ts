@@ -12,13 +12,6 @@ import { IItem } from '@g6/interface/item';
 import { EdgeConfig, GraphData, GroupConfig, Matrix, NodeConfig, NodeMapConfig } from '@g6/types';
 import { translate } from '@g6/util/math'
 import { EventController, ModeController, ViewController } from './controller'
-import { Matrix } from '@g6/types';
-import { translate } from '@g6/util/math'
-import { Point } from '_@antv_g-base@0.1.1@@antv/g-base/lib/types';
-import Group from '_@antv_g-canvas@0.1.1@@antv/g-canvas/lib/group';
-import { mat3 } from '_@antv_matrix-util@2.0.4@@antv/matrix-util/lib';
-import clone from '_@antv_util@2.0.6@@antv/util/lib/clone';
-import isPlainObject from '_@antv_util@2.0.6@@antv/util/lib/is-plain-object';
 
 interface PrivateGraphOption extends GraphOptions {
   data: GraphData;
