@@ -1,4 +1,4 @@
-const G = require('@antv/g');
+const G = require('@antv/g6').G;
 const Base = require('../base');
 const isString = require('@antv/util/lib/type/is-string');
 const isNil = require('@antv/util/lib/type/is-nil');
@@ -108,6 +108,9 @@ class Minimap extends Base {
       if (width > size[0] || height > size[1]) {
         return;
       }
+
+      zoom = graph.getZoom();
+      ratio = this.get('ratio');
 
       dragging = true;
       x = e.clientX;
