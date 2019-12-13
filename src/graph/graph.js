@@ -513,19 +513,6 @@ class Graph extends EventEmitter {
       self.add(EDGE, edge);
     });
 
-    // 防止传入的数据不存在nodes
-    if (data.nodes) {
-      // 获取所有有groupID的node
-      const nodeInGroup = data.nodes.filter(node => node.groupId);
-
-      // 所有node中存在groupID，则说明需要群组
-      if (nodeInGroup.length > 0) {
-        // 渲染群组
-        const groupType = self.get('groupType');
-        this.renderCustomGroup(data, groupType);
-      }
-    }
-
     if (!this.get('groupByTypes')) {
       // 为提升性能，选择数量少的进行操作
       if (data.nodes.length < data.edges.length) {
@@ -546,15 +533,31 @@ class Graph extends EventEmitter {
 
     // layout
     const layoutController = self.get('layoutController');
-    layoutController.layout();
-    self.refreshPositions();
-
-    if (self.get('fitView')) {
-      self.get('viewController')._fitView();
+    if (!layoutController.layout(success)) {
+      success();
     }
-    self.paint();
-    self.setAutoPaint(autoPaint);
-    self.emit('afterrender');
+
+    function success() {
+      if (self.get('fitView')) {
+        self.get('viewController')._fitView();
+      }
+      self.paint();
+      self.setAutoPaint(autoPaint);
+      self.emit('afterrender');
+    }
+
+    // 防止传入的数据不存在nodes
+    if (data.nodes) {
+      // 获取所有有groupID的node
+      const nodeInGroup = data.nodes.filter(node => node.groupId);
+
+      // 所有node中存在groupID，则说明需要群组
+      if (nodeInGroup.length > 0) {
+        // 渲染群组
+        const groupType = self.get('groupType');
+        this.renderCustomGroup(data, groupType);
+      }
+    }
   }
 
   /**
@@ -649,12 +652,13 @@ class Graph extends EventEmitter {
     this.set({ nodes: items.nodes, edges: items.edges });
     const layoutController = this.get('layoutController');
     layoutController.changeData();
-    if (self.get('animate')) {
+    if (self.get('animate') && !layoutController.getLayoutType()) {
+      // 如果没有指定布局
       self.positionsAnimate();
     } else {
-      this.paint();
+      self.paint();
     }
-    this.setAutoPaint(autoPaint);
+    self.setAutoPaint(autoPaint);
     return this;
   }
   _diffItems(type, items, models) {
@@ -1179,8 +1183,9 @@ class Graph extends EventEmitter {
     if (!newLayoutType || oriLayoutType === newLayoutType) {
       // no type or same type, update layout
       const layoutCfg = {};
-      Util.mix(layoutCfg, cfg);
+      Util.mix(layoutCfg, oriLayoutCfg, cfg);
       layoutCfg.type = oriLayoutType ? oriLayoutType : 'random';
+      this.set('layout', layoutCfg);
       layoutController.updateLayoutCfg(layoutCfg);
     } else { // has different type, change layout
       this.set('layout', cfg);
@@ -1193,6 +1198,13 @@ class Graph extends EventEmitter {
    */
   layout() {
     const layoutController = this.get('layoutController');
+    const layoutCfg = this.get('layout');
+
+    if (layoutCfg.workerEnabled) {
+      // 如果使用web worker布局
+      layoutController.layout();
+      return;
+    }
     if (layoutController.layoutMethod) {
       layoutController.relayout();
     } else {

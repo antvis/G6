@@ -107,7 +107,8 @@ Shape.registerNode('diamond', {
           y: 0,
           r: markSize
         },
-        className: 'diamond-mark-left'
+        className: 'diamond-mark-left',
+        isAnchorPoint: true
       });
     }
 
@@ -120,7 +121,8 @@ Shape.registerNode('diamond', {
           y: 0,
           r: markSize
         },
-        className: 'diamond-mark-right'
+        className: 'diamond-mark-right',
+        isAnchorPoint: true
       });
     }
 
@@ -133,7 +135,8 @@ Shape.registerNode('diamond', {
           y: -height / 2,
           r: markSize
         },
-        className: 'diamond-mark-top'
+        className: 'diamond-mark-top',
+        isAnchorPoint: true
       });
     }
 
@@ -146,7 +149,8 @@ Shape.registerNode('diamond', {
           y: height / 2,
           r: markSize
         },
-        className: 'diamond-mark-bottom'
+        className: 'diamond-mark-bottom',
+        isAnchorPoint: true
       });
     }
   },

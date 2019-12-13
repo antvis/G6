@@ -68,6 +68,9 @@ module.exports = {
   },
   onKeyDown(e) {
     const code = e.key;
+    if (!code) {
+      return;
+    }
     if (ALLOW_EVENTS.indexOf(code.toLowerCase() > -1)) {
       this.keydown = true;
     } else {

@@ -1,0 +1,18 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "radialDendrogram.js",
+      "title": "生态辐射树",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mS3_Rb4VuPoAAAAAAAAAAABkARQnAQ"
+    }, 
+    {
+      "filename": "radialCompactBox.js",
+      "title": "紧凑辐射树",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*xENwSLuyTZ4AAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}

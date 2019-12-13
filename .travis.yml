@@ -1,12 +1,10 @@
 language: node_js
 
 node_js:
-  - "8"
   - "10"
 
 env:
-  matrix:
-    - TEST_TYPE=ci
+  - NODE_ENV=test
 
 addons:
   apt:
@@ -20,7 +18,4 @@ install:
   - npm install
 
 script:
-  - |
-    if [ "$TEST_TYPE" = ci ]; then
-      npm run ci
-    fi
+  - npm run ci

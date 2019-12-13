@@ -1,0 +1,48 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+    "filename": "areaChart.js",
+    "title": "面积图",
+    "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YWuhR5ZjZfkAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "stackChart.js",
+      "title": "堆叠图",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*giZSRafSctgAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "lineChart.js",
+      "title": "折线图",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mKmaTIBtVAUAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "barChart.js",
+      "title": "南丁格尔图",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lX3gRZWvbp4AAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "pointChart.js",
+      "title": "点线图",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M0ycSarMV2sAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "pieChart.js",
+      "title": "饼图",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*idENQpnwA1sAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "card.js",
+      "title": "卡片",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*3cRGRb5nB_UAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "list.js",
+      "title": "列表",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*pxKjQ5dZx80AAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}

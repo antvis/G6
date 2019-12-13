@@ -1,4 +1,4 @@
-const G = require('@antv/g6').G;
+const G = require('@antv/g');
 const Base = require('../base');
 const isString = require('@antv/util/lib/type/is-string');
 const isNil = require('@antv/util/lib/type/is-nil');

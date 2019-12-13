@@ -1,0 +1,13 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "partialNode.js",
+      "title": "响应节点中部分区域",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rszjRrAopBkAAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}

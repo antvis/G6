@@ -10,11 +10,40 @@
 
 [中文 README](README-zh_CN.md)
 
-G6 is a graph visualization framework which provides a set of basic mechanisms, including rendering, layout, interaction, animation, analysis, and other auxiliary tools. Developers are able to build graph visualization **analysis** applications or graph visualization **modeling** applications easily. For more details, please see our [doc](https://www.yuque.com/antv/g6/intro).
 
-<img src="https://user-images.githubusercontent.com/6113694/44995293-02858600-afd5-11e8-840c-349e4730d63d.gif" height=150><img src="https://cdn.nlark.com/yuque/0/2018/gif/93506/1535955277773-840190f8-836a-4bd6-875a-b3a18e6cebf1.gif" height=150><img src="https://user-images.githubusercontent.com/6113694/44995332-2ba61680-afd5-11e8-8cab-db0e9d08ceb7.gif" height=150>
+## What is G6
+[G6](https://github.com/antvis/g6) is a graph visualization engine, which provides a set of basic mechanisms, including rendering, layout, analysis, interaction, animation, and other auxiliary tools. G6 aims to simplify the relationships, and help people to obtain the insight of relational data.
 
-<img src="https://gw.alipayobjects.com/zos/rmsportal/HQxYguinFOMIXrGQOABY.gif" height=150><img src="https://gw.alipayobjects.com/zos/rmsportal/nAugyFgrbrUWPmDIDiQm.gif" height=150><img src="https://cdn.nlark.com/yuque/0/2019/gif/174835/1552990627466-92a4ce23-79b2-4930-ab05-6478b56ce880.gif" height=150>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zTjwQaXokeQAAAAAAAAAAABkARQnAQ' width=550 />
+
+Developers are able to build graph visualization **analysis** applications or graph visualization **modeling** applications easily.
+
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zau8QJcVpDQAAAAAAAAAAABkARQnAQ' height=200 /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RIlETY_S6IoAAAAAAAAAAABkARQnAQ' height=200 />
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cDzXR4jIWr8AAAAAAAAAAABkARQnAQ' height=150 /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*DifbSahOblAAAAAAAAAAAABkARQnAQ' height=150 /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HTasSJGC4koAAAAAAAAAAABkARQnAQ' height=150 />
+
+> Powerful Animation and Interactions
+
+
+<img src="https://user-images.githubusercontent.com/6113694/44995293-02858600-afd5-11e8-840c-349e4730d63d.gif" height=150><img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*I9OdTbXJIi0AAAAAAAAAAABkARQnAQ" height=150><img src="https://user-images.githubusercontent.com/6113694/44995332-2ba61680-afd5-11e8-8cab-db0e9d08ceb7.gif" height=150>
+
+<img src="https://gw.alipayobjects.com/zos/rmsportal/HQxYguinFOMIXrGQOABY.gif" height=150><img src="https://gw.alipayobjects.com/zos/rmsportal/nAugyFgrbrUWPmDIDiQm.gif" height=150><img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*xoufSYcjK2AAAAAAAAAAAABkARQnAQ" height=150>
+
+> Powerful Layouts
+
+## Features
+- Abundant Built-in Items: Nodes and edges with free configurations;
+- Steerable Interactions: More than 10 basic interaction behaviors ;
+- Powerful Layout: More than 10 layout algorithms;
+- Convenient Components: Outstanding ability and performance;
+- Friendly User Experience: Complete documents for different levels of user requirements. TypeScript supported.
+
+G6 concentrates on the principle of 'good by default'. In addition, the custom mechanism of the item, interation behavior, and layout satisfies the customazation requirements.
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Y0c6S7cxjVkAAAAAAAAAAABkARQnAQ' width=800 height=200 />
+
+> Abundant Built-in Items
 
 ## Installation
 
@@ -24,49 +53,68 @@ $ npm install @antv/g6
 
 ## Usage
 
-<img src="https://gw.alipayobjects.com/zos/rmsportal/qSUOQUhnRrHCLvEjhZGP.png" />
+<img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*khbvSrptr0kAAAAAAAAAAABkARQnAQ" width=437 height=148 />
+
 
 ```js
 import G6 from '@antv/g6';
 
 const data = {
-  nodes: [{
-    id: 'node1',
-    x: 100,
-    y: 200
-  },{
-    id: 'node2',
-    x: 300,
-    y: 200
-  }],
-  edges: [{
-    target: 'node2',
-    source: 'node1'
-  }]
+  nodes: [
+    {
+      id: 'node1',
+      label: 'Circle1',
+      x: 150,
+      y: 150
+    },
+    {
+      id: 'node2',
+      label: 'Circle2',
+      x: 400,
+      y: 150
+    }
+  ],
+  edges: [
+    {
+      source: 'node1',
+      target: 'node2'
+    }
+  ]
 };
+
 const graph = new G6.Graph({
-  container: 'mountNode',
+  container: 'container',
   width: 500,
   height: 500,
   defaultNode: {
     shape: 'circle',
+    size: [ 100 ],
+    color: '#5B8FF9',
     style: {
-      fill: '#40a9ff',
-      stroke: '#096dd9'
-    }
-  },
-  nodeStateStyles: {
-    hover: {
+      fill: '#9EC9FF',
       lineWidth: 3
     },
-    select: {
-      lineWidth: 5
+    labelCfg: {
+      style: {
+        fill: '#fff',
+        fontSize: 20
+      }
+    }
+  },
+  defaultEdge: {
+    style: {
+      stroke: '#e2e2e2'
     }
   }
 });
+
 graph.data(data);
 graph.render();
 ```
+
+[![Edit compassionate-lalande-5lxm7](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/compassionate-lalande-5lxm7?fontsize=14&hidenavigation=1&theme=dark)
+
+For more information of the usage, please refer to [Getting Started](https://antv-g6.gitee.io/en/docs/manual/getting-started).
 
 ## Development
 
@@ -80,9 +128,22 @@ $ npm run test-live
 $ npm run dev
 ```
 
+## Documents
+- <a href='https://g6.antv.vision/en/docs/manual/tutorial/preface' target='_blank'>Tutorial</a>
+- <a href='https://g6.antv.vision/en/docs/manual/middle/graph' target='_blank'>Middle Guides</a>
+- <a href='https://g6.antv.vision/en/docs/manual/advanced/keyconcept/shape-and-properties' target='_blank'>Advanced Guides</a>
+- <a href='https://g6.antv.vision/en/docs/api/Graph/' target='_blank'>API Reference</a>
+
+
+## G6 Communication Group
+Users are welcome to join the **G6 Communication Group** (It is a DingTalk group). We are also welcome the github issues.
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dsXsSpgynmUAAAAAAAAAAABkARQnAQ' width=400>
+
+
 ## How to Contribute
 
-Please let us know how can we help. Do check out [issues](https://github.com/antvis/g6/issues) for bug reports or suggestions first.
+Please let us know what you are you going to help. Do check out [issues](https://github.com/antvis/g6/issues) for bug reports or suggestions first.
 
 To become a contributor, please follow our [contributing guide](https://github.com/antvis/g6/blob/master/CONTRIBUTING.md).
 

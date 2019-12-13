@@ -1,6 +1,7 @@
 const Util = require('../../util');
 const Item = require('../../item');
 const deepMix = require('@antv/util/lib/deep-mix');
+const isObject = require('@antv/util/lib/type/is-object');
 
 const NODE = 'node';
 const EDGE = 'edge';
@@ -35,7 +36,7 @@ class ItemController {
       // 很多布局会直接修改原数据模型，所以不能用 merge 的形式，逐个写入原 model 中
       Util.each(defaultModel, (val, cfg) => {
         if (!hasOwnProperty.call(model, cfg)) {
-          if (Util.isObject(val)) {
+          if (isObject(val)) {
             model[cfg] = Util.clone(val);
           } else {
             model[cfg] = defaultModel[cfg];
@@ -105,7 +106,7 @@ class ItemController {
       // merge update传进来的对象参数，model中没有的数据不做处理，对象和字符串值也不做处理，直接替换原来的
       Util.each(cfg, (val, key) => {
         if (model[key]) {
-          if (Util.isObject(val) && !Util.isArray(val)) {
+          if (isObject(val) && !Util.isArray(val)) {
             cfg[key] = Util.mix({}, model[key], cfg[key]);
           }
         }

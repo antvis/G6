@@ -8,7 +8,7 @@
   "author": "https://github.com/orgs/antvis/people",
   "repository": {
     "type": "git",
-    "url": "git@github.com:antvis/g6.git"
+    "url": "https://github.com/antvis/g6"
   },
   "bugs": {
     "url": "https://github.com/antvis/g6/issues"
@@ -36,8 +36,8 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@antv/hierarchy": "~0.4.0",
-    "@antv/torch": "^1.0.3",
+    "@antv/gatsby-theme-antv": "^0.10.17",
+    "@antv/torch": "^1.0.5",
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
@@ -45,6 +45,7 @@
     "babel-loader": "^8.0.0",
     "babel-plugin-module-resolver": "^3.1.1",
     "babel-plugin-transform-remove-strict-mode": "~0.0.2",
+    "babel-preset-gatsby": "^0.2.20",
     "body-parser": "~1.18.2",
     "chai": "~4.1.2",
     "chai-almost": "^1.0.1",
@@ -62,18 +63,22 @@
     "eslint-plugin-jsx-a11y": "~5.1.1",
     "eslint-plugin-react": "~7.1.0",
     "event-simulate": "~1.0.0",
-    "get-port": "~3.2.0",
+    "gatsby": "^2.16.0",
+    "get-port": "^5.0.0",
+    "gh-pages": "^2.1.1",
     "hard-source-webpack-plugin": "~0.13.1",
     "home": "~1.0.1",
+    "insert-css": "^2.0.0",
     "jquery": "^3.3.1",
     "jszip": "~3.1.5",
     "nightmare": "~2.10.0",
-    "numericjs": "^1.2.6",
     "nunjucks": "~3.0.1",
-    "open": "~0.0.5",
+    "open": "~7.0.0",
     "parseurl": "~1.3.2",
     "pre-commit": "~1.2.2",
+    "prettier": "^1.18.2",
     "radixsort": "~1.0.0",
+    "react-i18next": "^11.0.1",
     "serve-static": "~1.13.2",
     "shelljs": "~0.7.8",
     "svgson": "^2.1.1",
@@ -83,6 +88,11 @@
     "worker-loader": "^2.0.0"
   },
   "scripts": {
+    "start": "npm run site:develop",
+    "site:develop": "GATSBY=true gatsby develop --open",
+    "site:build": "npm run site:clean && GATSBY=true gatsby build --prefix-paths",
+    "site:clean": "gatsby clean",
+    "site:deploy": "npm run site:build && gh-pages -d public",
     "update": "rm -rf node_modules/ && tnpm i && rm -rf build && tnpm run build",
     "build": "webpack",
     "build-lib": "babel src --out-dir lib",
@@ -99,8 +109,7 @@
     "lint-fix": "eslint --ext .html,.js --fix ./",
     "prepublishOnly": "npm run build-lib && npm run build",
     "screenshot": "node ./bin/screenshot.js",
-    "start": "npm run dev",
-    "test": "torch --compile --renderer --opts test/mocha.opts --recursive ./test/unit",
+    "test": "npm run build && torch --compile --renderer --opts test/mocha.opts --recursive ./test/unit",
     "test-live": "torch --compile --interactive --watch --opts test/mocha.opts --recursive ./test/unit",
     "test-live-shape": "torch --compile --interactive --watch --opts test/mocha.opts --recursive ./test/unit/shape/nodes/modelRect-spec.js",
     "test-live-util": "torch --compile --interactive --watch --opts test/mocha.opts --recursive ./test/unit/shape/edge-spec.js",
@@ -121,9 +130,12 @@
     "@antv/g": "~3.4.6",
     "@antv/hierarchy": "~0.6.1",
     "@antv/util": "~1.3.1",
+    "d3": "^5.9.1",
+    "d3-sankey": "^0.12.3",
     "d3-force": "^2.0.1",
     "dagre": "^0.8.4",
-    "numeric": "^1.2.6"
+    "numeric": "^1.2.6",
+    "numericjs": "^1.2.6"
   },
   "engines": {
     "node": ">=8.9.0"

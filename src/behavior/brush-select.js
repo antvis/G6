@@ -200,8 +200,11 @@ module.exports = {
   },
   onKeyDown(e) {
     const code = e.key;
+    if (!code) {
+      return;
+    }
     // 按住control键时，允许用户设置trigger为ctrl
-    if (code && (code.toLowerCase() === this.trigger.toLowerCase())
+    if (code.toLowerCase() === this.trigger.toLowerCase()
       || code.toLowerCase() === 'control') {
       this.keydown = true;
     } else {

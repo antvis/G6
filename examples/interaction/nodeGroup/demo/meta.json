@@ -1,0 +1,18 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "circle.js",
+      "title": "圆形分组",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*S_-uR6WO-ZgAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "rect.js",
+      "title": "矩形分组",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*DuaCTKCCUAoAAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}

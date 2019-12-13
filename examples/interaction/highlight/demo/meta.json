@@ -1,0 +1,18 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "activateRelations.js",
+      "title": "内置的高亮节点",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*A3iMQo8L_McAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "highlightDark.js",
+      "title": "自定义highlightDark",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*A3iMQo8L_McAAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}

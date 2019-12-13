@@ -1,0 +1,26 @@
+{
+  "首页": "Home Page",
+  "G6 图可视化引擎": "G6 Graph Visualization Engine",
+  "G6 是一个简单、易用、完备的图可视化引擎，它在高定制能力的基础上，提供了一系列设计优雅、便于使用的图可视化解决方案。能帮助开发者搭建属于自己的图可视化、图分析、或图编辑器应用。":
+    "G6 is graph visualization engine with simplicity and convenience. Based on the ability of customize, it provides a set of elegant graph visualization solutions, and helps developers to build up applications for graph visualization, graph analysis, and graph editor.",
+  "继续了解": "More",
+  "下载使用": "Download",
+  "推荐": "Recommand",
+  "更新": "Update",
+  "感谢信赖": "WE ARE TRUSTED BY",
+  "专注关系，完备基建": "Dedicated & Complete",
+  "G6 是一个专注于关系数据的、完备的图可视化引擎": "G6 is a complete graph visualization engine, which focuses on relational data",
+  "领域深钻，顶尖方案": "Top Solution",
+  "扎根实际具体业务场景、结合业界领先成果，沉淀顶尖解决方案": "According to practical bussiness scenarios, we found out the top solutions",
+  "简单易用，扩展灵活": "Simple & Extendable",
+  "精心设计的简单、灵活、高可拓展的接口，满足你的无限创意": "Well-designed simple, flexible, and extendable intefaces will satisfy your infinite originality",
+  "基于 G6 的关系时序分析应用": "Dynamic Relationships Analysis Powered by G6",
+  "基于 G6 的关系时序分析应用，解决应急过程中流程、影响面、应急预案等一系列应急决策辅助信息和手段，快速止血以减少和避免故障升级。":
+    "This is an application for dynamic relationships analysis based on G6, which helps people deal with the flow, influence, and find out solutions to avoid losses and faults.",
+  "基于 G6 的图分析应用": "Graph Analysis App Powered by G6",
+  "社交网络分析是图可视化中一个重要的应用场景。随着社交网络越来越流行，人与人、人与组织之间的关系变得越来越复杂，使用传统的分析手段，已经很难满足我们的分析需求。在这种情况下，图分析及图可视化显得愈发重要。":
+    "Social network is an important scenario in graph visualization. The relationships become complicate with the development of social network. Graph visualization and analysis do well on these complex cases.",
+  "基于 G6 的动态决策树": "Interactive Decision Graph Powered by G6",
+  "基于 G6 实现的动态决策树，辅助用户寻找合适的可视化方式。它展示了 G6 强大的自定义节点和动画的能力。":
+    "It is an interactive graph for users to find out an appropriate visualization method for their requirements. The demo shows the powerful custom node and animation ability of G6."
+}
