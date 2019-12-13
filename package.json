@@ -33,6 +33,7 @@
     "dist": "webpack --config webpack.config.js --mode production"
   },
   "dependencies": {
+    "@antv/dom-util": "^2.0.1",
     "@antv/event-emitter": "~0.1.0",
     "@antv/g-base": "^0.1.0-beta.10",
     "@antv/g-canvas": "^0.1.0-beta.11",
