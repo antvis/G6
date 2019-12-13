@@ -5,28 +5,25 @@
 import Global from '../global'
 import each from '@antv/util/lib/each'
 import { get, cloneDeep, merge } from 'lodash'
-import { IShape } from '@g6/interface/shape'
+import { ShapeOptions } from '@g6/interface/shape'
 import { G } from '@antv/g/lib'
 import { ILabelConfig } from '@g6/interface/shape'
 import { IItem } from '@g6/interface/item'
-import { ModelConfig, ModelStyle, IPoint, LabelStyle } from '@g6/types'
+import { ModelConfig, IPoint, LabelStyle, ShapeStyle } from '@g6/types'
 
 const CLS_SHAPE_SUFFIX = '-shape'
 const CLS_LABEL_SUFFIX = '-label'
 
 // 单个 shape 带有一个 label，共用这段代码
-export default class SingleShape implements IShape {
+export const shapeBase: ShapeOptions = {
   // 默认样式及配置
-  options: ModelStyle = {}
-  itemType: string = '' // node, edge, group, anchor 等
+  options: {},
+  itemType: '', // node, edge, group, anchor 等
   /**
    * 形状的类型，例如 circle，ellipse，polyline...
    */
-  type: string = ''
+  type: '',
 
-  get(name: string) {
-    return this[name];
-  }
 	/**
 	 * 绘制节点/边，包含文本
 	 * @override
@@ -37,25 +34,23 @@ export default class SingleShape implements IShape {
   draw(cfg: ModelConfig, group: G.Group): G.Shape {
     console.log('draw in single shape mixin');
     const shape: G.Shape = this.drawShape(cfg, group)
-    shape.set('className', this.get('itemType') + CLS_SHAPE_SUFFIX)
-    console.log('cfg.label', cfg.label, this.get('itemType'), this['itemType'], this.get('options'));
+    shape.set('className', this.itemType + CLS_SHAPE_SUFFIX)
     if (cfg.label) {
       const label = this.drawLabel(cfg, group)
-      label.set('className', this.get('itemType') + CLS_LABEL_SUFFIX)
+      label.set('className', this.itemType + CLS_LABEL_SUFFIX)
       console.log('after drawing label', label);
     }
     return shape
-  }
+  },
   /**
   * 绘制完成后的操作，便于用户继承现有的节点、边
   */
   afterDraw(cfg?: ModelConfig, group?: G.Group, keyShape?: G.Shape) {
 
-  }
+  },
   drawShape(cfg?: ModelConfig, group?: G.Group) {
-    console.log('draw shape in base');
 
-  }
+  },
   drawLabel(cfg: ModelConfig, group: G.Group): G.Shape {
     const { labelCfg: defaultLabelCfg } = this.options
 
@@ -67,11 +62,11 @@ export default class SingleShape implements IShape {
     })
     console.log('groupgroup', group);
     return label
-  }
+  },
   getLabelStyleByPosition(cfg?: ModelConfig, labelCfg?: ILabelConfig, group?: G.Group): LabelStyle {
     console.log('base get label by positions');
     return {};
-  }
+  },
   /**
 	 * 获取文本的配置项
 	 * @internal 用户创建和更新节点/边时，同时会更新文本
@@ -88,16 +83,16 @@ export default class SingleShape implements IShape {
     const defaultStyle = Global[attrName] ? Global[attrName].style : null
     const labelStyle = Object.assign({}, defaultStyle, calculateStyle, labelCfg.style)
     return labelStyle
-  }
+  },
   /**
 	 * 获取图形的配置项
 	 * @internal 仅在定义这一类节点使用，用户创建和更新节点
 	 * @param  {Object} cfg 节点的配置项
 	 * @return {Object} 图形的配置项
 	 */
-  getShapeStyle(cfg: ModelConfig): object {
+  getShapeStyle(cfg: ModelConfig): ShapeStyle {
     return cfg.style
-  }
+  },
 	/**
 	 * 更新节点，包含文本
 	 * @override
@@ -136,12 +131,12 @@ export default class SingleShape implements IShape {
     //     label.attr(labelStyle)
     //   }
     // }
-  }
+  },
 
   // update(cfg, item) // 默认不定义
   afterUpdate(cfg?: ModelConfig, item?: IItem) {
 
-  }
+  },
 	/**
 	 * 设置节点的状态，主要是交互状态，业务状态请在 draw 方法中实现
 	 * 单图形的节点仅考虑 selected、active 状态，有其他状态需求的用户自己复写这个方法
@@ -170,7 +165,7 @@ export default class SingleShape implements IShape {
       })
       shape.attr(style)
     }
-  }
+  },
   /**
    * 获取不同状态下的样式
    *
@@ -198,7 +193,7 @@ export default class SingleShape implements IShape {
       merge(style, get(defaultStyle, state, {}), state, model.style)
     })
     return style
-  }
+  },
   /**
    * 获取控制点
    * @param  {Object} cfg 节点、边的配置项
@@ -206,7 +201,7 @@ export default class SingleShape implements IShape {
    */
   getControlPoints(cfg: ModelConfig): IPoint[] {
     return cfg.controlPoints
-  }
+  },
   /**
    * 获取控制点
    * @param  {Object} cfg 节点、边的配置项

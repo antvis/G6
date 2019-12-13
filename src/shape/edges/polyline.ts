@@ -1,10 +1,12 @@
 import Shape from '../shape'
 import { each, deepMix } from '@antv/util'
 import { pointsToPolygon } from '@g6/util/path'
+import { IShapeBase, ModelConfig } from '@g6/types'
 import { getPathWithBorderRadiusByPolyline, simplifyPolyline, getPolylinePoints } from './polyline-util';
 import Global from '../../global'
 import { Point } from '@antv/g-base/lib/types';
 import { IItem } from '@g6/interface/item'
+import Group from '@antv/g-canvas/lib/group'
 
 
 // 折线
@@ -39,7 +41,7 @@ Shape.registerEdge('polyline', {
   shapeType: 'polyline',
   // 文本位置
   labelPosition: 'center',
-  drawShape(cfg, group) {
+  drawShape(cfg: ModelConfig, group: Group) {
     const shapeStyle = this.getShapeStyle(cfg);
     const keyShape = group.addShape('path', {
       className: 'edge-shape',
@@ -47,7 +49,7 @@ Shape.registerEdge('polyline', {
     });
     return keyShape;
   },
-  getShapeStyle(cfg) {
+  getShapeStyle(cfg: ModelConfig) {
     const { style: defaultStyle } = this.options;
 
     const strokeStyle = {
@@ -80,7 +82,7 @@ Shape.registerEdge('polyline', {
     }, { path });
     return attrs;
   },
-  getPath(points: Point[], routeCfg): Array<Array<any>> | string {
+  getPath(points: Point[], routeCfg: { source: IShapeBase, target: IShapeBase, offset: number, radius: number }): Array<Array<string | number>> | string {
     const { source, target, offset, radius } = routeCfg;
     if (!offset) {
       let path: Array<Array<any>> | string;
@@ -109,7 +111,7 @@ Shape.registerEdge('polyline', {
     return pointsToPolygon(polylinePoints);
   },
 
-  update(cfg, item: IItem) {
+  update(cfg: ModelConfig, item: IItem) {
 
     // TODO: after findByClassName is defined by G
 

@@ -6,6 +6,7 @@ import { IItem, INode } from '../src/interface/item'
 import { G } from '@antv/g/lib'
 
 
+
 // Math types
 export interface IPoint {
   x: number;
@@ -63,9 +64,8 @@ export type SourceTarget = 'source' | 'target'
 
 // model types (node edge group)
 export type ModelStyle = Partial<{
-  style: {
-    [key: string]: ShapeStyle
-  };
+  [key: string]: unknown
+  style: ShapeStyle;
   stateStyles: {
     [key: string]: ShapeStyle;
   };
@@ -78,6 +78,7 @@ export type ModelStyle = Partial<{
     lineWidth?: number;
     fill?: string;
     stroke?: string;
+    [key: string]: unknown;
   }
   icon: {
     show?: boolean;
@@ -85,6 +86,7 @@ export type ModelStyle = Partial<{
     img?: string;
     width?: number;
     height?: number;
+    offset?: number;
   }
   // loop edge config
   loopCfg: {
@@ -161,6 +163,9 @@ export interface ModelConfig extends ModelStyle {
   logoIcon?: object;
   stateIcon?: object;
   innerR?: number;
+  direction?: string;
+  startPoint?: IPoint;
+  endPoint?: IPoint;
 }
 export interface NodeConfig extends ModelConfig {
   id: string;
@@ -235,6 +240,9 @@ export enum G6Event {
   EDGE_CONTEXTMENU = 'edge:contextmenu',
   NODE_DBLCLICK = 'node:dblclick',
   EDGE_DBLCLICK = 'edge:dblclick',
+  NODE_DRAGSTART = 'node:dragstart',
+  NODE_DRAG = 'node:drag',
+  NODE_DRAGEND = 'node:dragend',
   CANVAS_MOUSEDOWN = 'canvas:mousedown',
   CANVAS_MOUSEMOVE = 'canvas:mousemove',
   CANVAS_MOUSEUP = 'canvas:mouseup',
@@ -265,29 +273,6 @@ export type BehaviorOpation<U> = {
 }
 
 
-type Draw = 'draw';
-type AfterDraw = 'afterDraw';
-type AfterUpdate = 'afterUpdate';
-type SetState = 'setState'
-type GetControlPoints = 'getControlPoints'
-type GetAnchorPoints = 'getAnchorPoints'
-type Update = 'update'
-
-export type DefaultShapeType = string | number | object
-
-export type ShapeOption<U> = {
-  [T in keyof U]:
-  T extends Draw ? (cfg?: ModelConfig, group?: G.Group) => G.Shape :
-  T extends AfterDraw ? (cfg?: ModelConfig, group?: G.Group, rst?: G.Shape) => void :
-  T extends AfterUpdate ? (cfg?: ModelConfig, item?: IItem) => void :
-  T extends SetState ? (name?: string, value?: string | boolean, item?: IItem) => void :
-  T extends GetControlPoints ? (cfg: ModelConfig) => IPoint[] :
-  T extends GetAnchorPoints ? (cfg: ModelConfig) => IPoint[] :
-  T extends Update ? (cfg: ModelConfig, item: IItem) => void :
-  (...args: DefaultShapeType[]) => unknown;
-}
-
-
 
 export type IEvent = Record<G6Event, string>
 
@@ -297,6 +282,9 @@ export interface IG6GraphEvent extends GraphEvent {
   canvasY: number;
   wheelDelta: number;
   detail: number;
+}
+export interface IG6GraphNodeEvent extends IG6GraphEvent {
+  item: INode;
 }
 
 export interface IBehavior {
@@ -308,4 +296,10 @@ export interface IBehavior {
   bind: (graph: IGraph) => void;
   unbind: (graph: IGraph) => void;
   [key: string]: (...args: DefaultBehaviorType[]) => unknown;
+}
+
+export type Data = {
+  nodes?: NodeConfig[]
+  edges?: EdgeConfig[]
+  groups?: GroupConfig[]
 }

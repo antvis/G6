@@ -1,7 +1,6 @@
 import Shape from '../shape'
 import { NodeConfig } from '@g6/types'
 import { G } from '@antv/g/lib'
-import SingleNode from '../node'
 
 /**
  * 基本的图片，可以添加文本，默认文本在图片的下面
@@ -133,4 +132,4 @@ Shape.registerNode('image', {
     }, cfg.style);
     return style;
   }
-}, 'single-shape');
+}, 'single-node');

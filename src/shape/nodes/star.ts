@@ -353,4 +353,4 @@ Shape.registerNode('star', {
       });
     }
   }
-}, 'single-shape');
+}, 'single-node');
