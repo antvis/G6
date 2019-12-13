@@ -282,6 +282,7 @@ export interface IG6GraphEvent extends GraphEvent {
   canvasY: number;
   wheelDelta: number;
   detail: number;
+  target: G.Shape;
 }
 export interface IG6GraphNodeEvent extends IG6GraphEvent {
   item: INode;
