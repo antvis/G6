@@ -1,4 +1,4 @@
-const G = require('@antv/g');
+const G = require('@antv/g6').G;
 const Base = require('../base');
 const isString = require('@antv/util/lib/type/is-string');
 const isNil = require('@antv/util/lib/type/is-nil');
@@ -90,8 +90,6 @@ class Minimap extends Base {
       top,            // 缓存viewport当前对于画布的y
       width,          // 缓存viewport当前宽度
       height,         // 缓存viewport当前高度
-      offsetX,        // 计算X方向偏移值，在缩放下大图移动到可视区域外时 viewport 的top、left 会和大图的位置有相对偏移，offsetY 同理
-      offsetY,
       ratio,
       zoom;           // 缓存zoom
     containerDOM.addEventListener('mousedown', e => {
@@ -107,22 +105,12 @@ class Minimap extends Base {
       width = parseInt(style.width, 10);
       height = parseInt(style.height, 10);
 
-      if (width >= size[0] || height >= size[1]) {
+      if (width > size[0] || height > size[1]) {
         return;
       }
 
-      // 可以拖拽，则需要计算是否又偏移
       zoom = graph.getZoom();
       ratio = this.get('ratio');
-
-      const topLeft = graph.getPointByCanvas(0, 0);
-
-      // 修正偏移值
-      offsetX = left / ratio - topLeft.x;
-      offsetY = top / ratio - topLeft.y;
-
-      // 修正偏移值
-      graph.translate(-offsetX / ratio, -offsetY / ratio);
 
       dragging = true;
       x = e.clientX;
