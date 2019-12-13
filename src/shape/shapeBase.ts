@@ -32,13 +32,11 @@ export const shapeBase: ShapeOptions = {
 	 * @return {G.Shape} 绘制的图形
 	 */
   draw(cfg: ModelConfig, group: G.Group): G.Shape {
-    console.log('draw in single shape mixin');
     const shape: G.Shape = this.drawShape(cfg, group)
     shape.set('className', this.itemType + CLS_SHAPE_SUFFIX)
     if (cfg.label) {
       const label = this.drawLabel(cfg, group)
       label.set('className', this.itemType + CLS_LABEL_SUFFIX)
-      console.log('after drawing label', label);
     }
     return shape
   },
@@ -56,15 +54,12 @@ export const shapeBase: ShapeOptions = {
 
     const labelCfg = merge({}, defaultLabelCfg, cfg.labelCfg)
     const labelStyle = this.getLabelStyle(cfg, labelCfg, group)
-    console.log('drawing label', labelStyle);
     const label = group.addShape('text', {
       attrs: labelStyle
     })
-    console.log('groupgroup', group);
     return label
   },
   getLabelStyleByPosition(cfg?: ModelConfig, labelCfg?: ILabelConfig, group?: G.Group): LabelStyle {
-    console.log('base get label by positions');
     return {};
   },
   /**
@@ -79,7 +74,6 @@ export const shapeBase: ShapeOptions = {
     const calculateStyle = this.getLabelStyleByPosition(cfg, labelCfg, group)
     calculateStyle.text = cfg.label
     const attrName = this.itemType + 'Label' // 取 nodeLabel，edgeLabel 的配置项
-    console.log('global', attrName);
     const defaultStyle = Global[attrName] ? Global[attrName].style : null
     const labelStyle = Object.assign({}, defaultStyle, calculateStyle, labelCfg.style)
     return labelStyle
