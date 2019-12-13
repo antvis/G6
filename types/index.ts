@@ -76,7 +76,7 @@ export type ModelStyle = Partial<{
 }>
 
 export type Easeing =
-  'easeLinear'
+    | 'easeLinear'
     | 'easePolyIn'
     | 'easePolyOut'
     | 'easePolyInOut'
@@ -108,6 +108,10 @@ export interface EdgeConfig extends ModelConfig  {
   startPoint?: IPoint;
   endPoint?: IPoint;
   controlPoints?: IPoint[];
+}
+
+export interface NodeMapConfig {
+  [key: string]: NodeConfig
 }
 
 export interface GroupConfig {
@@ -191,4 +195,8 @@ export type IEvent = Record<G6Event, string>
 
 export interface IG6GraphEvent extends GraphEvent {
   item: IItem;
+  canvasX: number;
+  canvasY: number;
+  wheelDelta: number;
+  detail: number;
 }
