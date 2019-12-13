@@ -1,6 +1,6 @@
 import { ModeController } from '../../../../src/graph/controller'
 import Graph from '../../../../src/graph/graph'
-import { GraphOptions, IModeOption } from '../../../../src/interface/graph';
+import { GraphOptions, IGraph, IModeOption } from '../../../../src/interface/graph';
 
 const div = document.createElement('div');
 div.id = 'graph-spec';
@@ -37,6 +37,7 @@ describe('Mode Controller', () => {
     }
     const graph: Graph = new Graph(cfg)
     const modeController = new ModeController(graph)
+
     modeController.setMode('edit')
     expect(modeController.modes.edit).not.toBe(undefined)
     expect(modeController.modes.edit.length).toBe(2)
@@ -55,6 +56,7 @@ describe('Mode Controller', () => {
     }
     const graph: Graph = new Graph(cfg)
     const modeController = new ModeController(graph)
+
     modeController.manipulateBehaviors(['delete'], 'xxx', true)
     expect(Object.keys(modeController.modes).length).toBe(3)
     expect(modeController.modes.xxx).not.toBe(undefined)
@@ -84,6 +86,7 @@ describe('Mode Controller', () => {
         custom2: []
       }
     }
+    
     const graph = new Graph(cfg)
     const modeController = new ModeController(graph)
     expect(Object.keys(modeController.modes).length).toBe(3);

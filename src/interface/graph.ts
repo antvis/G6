@@ -186,6 +186,5 @@ export interface IGraph extends EventEmitter {
    * @return {Point} 画布坐标
    */
   getCanvasByPoint(x: number, y: number): Point;
-
 }
 
