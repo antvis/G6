@@ -14,7 +14,7 @@ module.exports = {
   moduleDirectories: [ 'node_modules', 'src' ],
   moduleFileExtensions: [ 'js', 'ts', 'json' ],
   moduleNameMapper: {
-    '@g6/(.*)': '<rootDir>/src/$1',
-    '@g6/types': '<rootDir>/types'
+    '@g6/types': '<rootDir>/types',
+    '@g6/(.*)': '<rootDir>/src/$1'
   }
 };

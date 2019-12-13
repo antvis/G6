@@ -11,7 +11,7 @@ export interface IModeOption {
 export type IModeType = string | IModeOption
 
 export interface IMode {
-  default: IModeType[]
+  default?: IModeType[]
   [key: string]: IModeType[]
 }
 
@@ -54,8 +54,11 @@ export interface GraphOptions {
    */
   groupByTypes?: boolean;
 
+  // 是否有向图
+  directed?: boolean;
+
   groupStyle?: {
-    style: {
+    style?: {
       [key: string]: ShapeStyle
     };
   };
@@ -145,10 +148,43 @@ export interface GraphOptions {
 }
 
 export interface IGraph extends EventEmitter {
+  getDefaultCfg(): GraphOptions;
   get<T = any>(key: string): T;
   set<T = any>(key: string | object, value?: T): Graph;
   findById(id: string): IItem;
   translate(dx: number, dy: number): void;
   zoom(ratio: number, center: Point): void;
+
+  /**
+   * 将屏幕坐标转换为视口坐标
+   * @param {number} clientX 屏幕 x 坐标
+   * @param {number} clientY 屏幕 y 坐标
+   * @return {Point} 视口坐标
+   */
+  getPointByClient(clientX: number, clientY: number): Point;
+
+  /**
+   * 将视口坐标转换为屏幕坐标
+   * @param {number} x 视口x坐标
+   * @param {number} y 视口y坐标
+   * @return {object} 视口坐标
+   */
+  getClientByPoint(x: number, y: number): Point;
+
+  /**
+   * 将画布坐标转换为视口坐标
+   * @param {number} canvasX 画布 x 坐标
+   * @param {number} canvasY 画布 y 坐标
+   * @return {Point} 视口坐标
+   */
+  getPointByCanvas(canvasX: number, canvasY: number): Point;
+
+  /**
+   * 将视口坐标转换为画布坐标
+   * @param {number} x 视口 x 坐标
+   * @param {number} y 视口 y 坐标
+   * @return {Point} 画布坐标
+   */
+  getCanvasByPoint(x: number, y: number): Point;
 }
 
