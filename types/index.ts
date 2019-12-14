@@ -42,6 +42,7 @@ export type ShapeStyle = Partial<{
   [key: string]: string | number | object | object[]
 }>
 
+
 export interface IShapeBase extends ShapeBase {
   isKeyShape: boolean;
 }
@@ -133,6 +134,10 @@ export type LabelStyle = Partial<{
   x: number;
   y: number;
   text: string;
+  stroke: string | null;
+  opacity: number;
+  fontSize: number;
+  fill: string | null;
 }>
 
 export type Easeing =

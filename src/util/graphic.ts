@@ -4,9 +4,8 @@ import { vec2 } from "@antv/matrix-util";
 import each from '@antv/util/lib/each'
 import Global from '@g6/global'
 import { INode } from "@g6/interface/item";
-import { EdgeConfig, IBBox, IPoint, IShapeBase, TreeGraphData } from '@g6/types';
+import { EdgeConfig, IBBox, IPoint, IShapeBase, TreeGraphData, LabelStyle } from '@g6/types';
 import { applyMatrix } from "./math";
-import { LabelStyle } from '../../types';
 
 const PI: number =  Math.PI
 const sin: (x: number) => number = Math.sin
