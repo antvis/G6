@@ -46,7 +46,7 @@ export const shapeBase: ShapeOptions = {
   afterDraw(cfg?: ModelConfig, group?: G.Group, keyShape?: G.Shape) {
 
   },
-  drawShape(cfg?: ModelConfig, group?: G.Group) {
+  drawShape(cfg?: ModelConfig, group?: G.Group): G.Shape {
 
   },
   drawLabel(cfg: ModelConfig, group: G.Group): G.Shape {
@@ -70,7 +70,7 @@ export const shapeBase: ShapeOptions = {
 	 * @param {G.Group} group 父容器，label 的定位可能与图形相关
 	 * @return {Object} 图形的配置项
 	 */
-  getLabelStyle(cfg: ModelConfig, labelCfg, group: G.Group): object {
+  getLabelStyle(cfg: ModelConfig, labelCfg, group: G.Group): LabelStyle {
     const calculateStyle = this.getLabelStyleByPosition(cfg, labelCfg, group)
     calculateStyle.text = cfg.label
     const attrName = this.itemType + 'Label' // 取 nodeLabel，edgeLabel 的配置项
@@ -168,7 +168,7 @@ export const shapeBase: ShapeOptions = {
    * @param {Item} item Node或Edge的实例
    * @return {object} 样式
    */
-  getStateStyle(name: string, value: string | boolean, item: IItem) {
+  getStateStyle(name: string, value: string | boolean, item: IItem): ShapeStyle {
     const model = item.getModel()
     const { style: defaultStyle, stateStyles: defaultStateStyle } = this.options
 

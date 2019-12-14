@@ -1,15 +1,15 @@
 import { IItem } from '@g6/interface/item'
 import { G } from '@antv/g/lib'
-import { ModelConfig, ModelStyle, IPoint, LabelStyle } from '@g6/types'
+import { ModelConfig, ModelStyle, IPoint, LabelStyle, ShapeStyle } from '@g6/types'
 import { Point } from '@antv/g-base/lib/types';
 
 
 export type ILabelConfig = Partial<{
-  position?: string;
-  offset?: number;
-  refX?: number;
-  refY?: number;
-  autoRotate?: boolean;
+  position: string;
+  offset: number;
+  refX: number;
+  refY: number;
+  autoRotate: boolean;
 }>
 
 export type ShapeOptions = Partial<{
@@ -30,12 +30,12 @@ export type ShapeOptions = Partial<{
    */
   draw(cfg?: ModelConfig, group?: G.Group): G.Shape
 
-  drawShape(cfg?: ModelConfig, group?: G.Group)
+  drawShape(cfg?: ModelConfig, group?: G.Group): G.Shape
   drawLabel(cfg: ModelConfig, group: G.Group): G.Shape
   getLabelStyleByPosition(cfg?: ModelConfig, labelCfg?: ILabelConfig, group?: G.Group): LabelStyle
-  getLabelStyle(cfg: ModelConfig, labelCfg, group: G.Group): object
-  getShapeStyle(cfg: ModelConfig): object
-  getStateStyle(name: string, value: string | boolean, item: IItem)
+  getLabelStyle(cfg: ModelConfig, labelCfg, group: G.Group): LabelStyle
+  getShapeStyle(cfg: ModelConfig): ShapeStyle
+  getStateStyle(name: string, value: string | boolean, item: IItem): ShapeStyle
 
   /**
    * 绘制完成后的操作，便于用户继承现有的节点、边
