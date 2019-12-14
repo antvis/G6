@@ -5,6 +5,8 @@
 
 import { upperFirst } from '@antv/util'
 import { G } from '@antv/g/lib'
+import GGroup from '@antv/g-canvas/lib/group';
+
 import { ShapeOptions } from '@g6/interface/shape'
 import { IItem } from '@g6/interface/item'
 import { ModelConfig, IPoint } from '@g6/types'
@@ -50,7 +52,7 @@ const ShapeFactoryBase = {
    * @param  {G.Group} group 图形的分组
    * @return {G.Shape} 图形对象
    */
-  draw(type: string, cfg: ModelConfig, group: G.Group): G.Shape {
+  draw(type: string, cfg: ModelConfig, group: GGroup): G.Shape {
     const shape = this.getShape(type)
     const rst = shape.draw(cfg, group)
     shape.afterDraw(cfg, group, rst)
@@ -140,8 +142,8 @@ export default class Shape {
   }
   public static getFactory(factoryType: string) {
     // const self = this
-    factoryType = ucfirst(factoryType)
-    return Shape[factoryType]
+    const className = ucfirst(factoryType)
+    return Shape[className]
   }
   public static registerNode(shapeType: string, nodeDefinition: ShapeOptions, extendShapeType?: string) {
     const shapeFactory = Shape.Node;
