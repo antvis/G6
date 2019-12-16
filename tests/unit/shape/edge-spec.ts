@@ -53,11 +53,8 @@ describe('shape edge test', () => {
     //     label: '这是一条线'
     //   }, group);
 
-    //   console.log(shape.attr('path').length);
     //   expect(shape.attr('path').length).toEqual(2);
-    //   const label = group.get('children')[1];
-    //   console.log(label.attr('x'), label.attr('y'));
-    //   console.log(group.getCount());
+    //   const label = group.get('children')[1];;
     //   expect(shape.attr('path').length).toEqual(2);
     //   expect(label.attr('x')).toEqual((100 + 150) / 2);
     //   expect(label.attr('y')).toEqual((100 + 50) / 2);
@@ -249,7 +246,6 @@ describe('shape edge test', () => {
   //         }
   //       }, group);
   //       const label = group.get('children')[1];
-  //       console.log('labellabellabellabel', label, label.attr('textAlign'));
   //       expect(label.attr('textAlign')).toEqual('center');
 
   //       expect(label.attr('stroke')).toEqual('white');
