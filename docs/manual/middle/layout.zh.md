@@ -4,7 +4,7 @@ order: 7
 ---
 
 ## 简介
-图布局是指图中节点的排布方式，根据图的数据结构不同，布局可以分为两类：一般图布局、树图布局。G6 为这两类图都内置了一些常用的图布局算法。使用内置的图布局可以完成[布局的参数、方法、数据的切换](#布局的切换机制)等。
+图布局是指图中节点的排布方式，根据图的数据结构不同，布局可以分为两类：一般图布局、树图布局。G6 为这两类图都内置了一些常用的图布局算法。使用内置的图布局可以完成[布局的参数、方法、数据的切换](#布局的切换机制)等。G6 还提供了一般图布局的 web-worker 机制，在大规模图布局中使用该机制可以使布局计算不阻塞页面。
 
 除了内置布局方法外，一般图布局还支持 [自定义布局](/zh/docs/manual/advanced/custom-layout) 机制。
 
@@ -44,10 +44,12 @@ const graph = new G6.Graph({
   	type: 'force',
     preventOverlap: true,
     nodeSize: 30,
-    ...                    // 其他配置
+    // ...                    // 其他配置
   }
 });
 ```
+
+除了每种布局方法各自的配置项外，所有布局方法都可以在上面代码的 `layout` 中配置 `workerEnabled: true` 以开启布局的 web-worker 机制。开启后图的布局计算过程将不会阻塞页面。
 
 当实例化图时没有配置布局时：
 
@@ -69,6 +71,7 @@ const graph = new G6.Graph({
 | center | Array | [ 0, 0 ] | 图的中心 | 布局的中心 |
 | width | Number | 300 | 图的宽 |  |
 | height | Number | 300 | 图的高 |  |
+| workerEnabled | Boolean | true / false | false | 是否启用 web-worker 以防布局计算时间过长阻塞页面交互 |
 
 #### Force
 
@@ -94,6 +97,7 @@ const graph = new G6.Graph({
 | forceSimulation | Object |  | null | 自定义 force 方法，若不指定，则使用 d3 的方法。 |
 | onTick | Function |  | {} | 每一次迭代的回调函数 |
 | onLayoutEnd | Function |  | {} | 布局完成后的回调函数 |
+| workerEnabled | Boolean | true / false | false | 是否启用 web-worker 以防布局计算时间过长阻塞页面交互 |
 
 #### Fruchterman
 
@@ -111,6 +115,7 @@ const graph = new G6.Graph({
 | speed | Number | 1 | 1 | 每次迭代节点移动的速度。速度太快可能会导致强烈震荡 |
 | clustering | Boolean | false | false | 是否按照聚类布局 |
 | clusterGravity | Number | 30 | 10 | 聚类内部的重力大小，影响聚类的紧凑程度 |
+| workerEnabled | Boolean | true / false | false | 是否启用 web-worker 以防布局计算时间过长阻塞页面交互 |
 
 
 
@@ -134,6 +139,7 @@ const graph = new G6.Graph({
 | divisions | Number | 3 | 1 | 节点在环上的分段数（几个段将均匀分布），在 `endRadius - startRadius != 0` 时生效 |
 | ordering | String | null | 'topology' | 'degree' | null | 节点在环上排序的依据。默认 null 代表直接使用数据中的顺序。'topology' 按照拓扑排序。'degree' 按照度数大小排序 |
 | angleRatio | Number | 1 | 1 | 从第一个节点到最后节点之间相隔多少个 2*PI |
+| workerEnabled | Boolean | true / false | false | 是否启用 web-worker 以防布局计算时间过长阻塞页面交互 |
 
 
 
@@ -157,6 +163,7 @@ const graph = new G6.Graph({
 | nodeSize | Number | 10 | 10 | 节点大小（直径）。用于防止节点重叠时的碰撞检测。<br />*V3.1.6 后支持*：<br />若未设置则使用数据中节点的 `size` 字段数值进行碰撞检测计算。若二者皆未设置，则以节点大小为 `10` 进行计算。 |
 | nodeSpacing<br />*V3.1.6 后支持* | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cFq4QbXVx7sAAAAAAAAAAABkARQnAQ' width=150/><br />`preventOverlap` 为 `true` 时生效，防止重叠时节点边缘间距的最小值。可以是回调函数，为不同节点设置不同的最小间距，如示例 2 所示<br /> |
 | strictRadial | Boolean | true | false | 是否必须是严格的 radial 布局，即每一层的节点严格布局在一个环上。`preventOverlap` 为 `true` 时生效。详见 [Radial-strictRadial API](/zh/docs/api/layout/Graph/#strictradial)<br />- 当 `preventOverlap` 为 `true`，且 `strictRadial` 为 `false` 时，有重叠的节点严格沿着所在的环展开，但在一个环上若节点过多，可能无法完全避免节点重叠。<br />- 当 `preventOverlap` 为 `true`，且 `strictRadial` 为 `true` 时，允许同环上重叠的节点不严格沿着该环布局，可以在该环的前后偏移以避免重叠。<br /> |
+| workerEnabled | Boolean | true / false | false | 是否启用 web-worker 以防布局计算时间过长阻塞页面交互 |
 
 
 
@@ -167,6 +174,7 @@ const graph = new G6.Graph({
 | --- | --- | --- | --- | --- |
 | center | Array | [ 0, 0 ] | 图的中心 | 布局的中心 |
 | linkDistance | Number | 50 | 50 | 边长 |
+| workerEnabled | Boolean | true / false | false | 是否启用 web-worker 以防布局计算时间过长阻塞页面交互 |
 
 
 
@@ -182,6 +190,7 @@ const graph = new G6.Graph({
 | nodesepFunc<br /><br />*V3.1.6 后支持* | Function | d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | 节点水平间距（px）的回调函数，通过该参数可以对不同节点设置不同的节点间距。在`rankdir` 为 'TB' 或 'BT' 时是节点的水平间距；在`rankdir` 为 'LR' 或 'RL' 时是节点的竖直间距。优先级低于 `nodesep`，即若设置了 `nodesep`，则 `nodesepFunc` 不生效 |
 | ranksepFunc<br /><br />*V3.1.6 后支持* | Function | d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | 层间距（px）的回调函数，通过该参数可以对不同节点设置不同的层间距。在`rankdir` 为 'TB' 或 'BT' 时是竖直方向相邻层间距；在`rankdir` 为 'LR' 或 'RL' 时代表水平方向相邻层间距。优先级低于 `ranksep`，即若设置了 `ranksep`，则 `ranksepFunc` 不生效 |
 | controlPoints | Boolean | true | true | 是否保留布局连线的控制点 |
+| workerEnabled | Boolean | true / false | false | 是否启用 web-worker 以防布局计算时间过长阻塞页面交互 |
 
 
 
@@ -200,6 +209,7 @@ const graph = new G6.Graph({
 | clockwise | Boolean | false | false | 是否按照顺时针顺序 |
 | maxLevelDiff | Number | 0.5 | undefined | 每一层同心值的求和。若为 undefined，则将会被设置为 maxValue / 4 ，其中 maxValue 为最大的排序依据的属性值。例如，若 sortBy='degree'，则 maxValue 为所有节点中度数最大的节点的度数 |
 | sortBy | String | 'degree' / 'property1' / 'weight' / ... | undefined | 指定的节点排序的依据（节点属性名）。该属性值高的放在中心。如果是 `sortBy` 为 `undefined` 则会计算节点度数，度数最高的放在中心。<br /> |
+| workerEnabled | Boolean | true / false | false | 是否启用 web-worker 以防布局计算时间过长阻塞页面交互 |
 
 
 
@@ -216,6 +226,7 @@ const graph = new G6.Graph({
 | rows | Number | 5 | undefined | 网格的行数，为 undefined 时算法根据节点数量、布局空间、`cols`（若指定）自动计算 |
 | cols | Number | 5 | undefined | 网格的列数，为 undefined 时算法根据节点数量、布局空间、`rows`（若指定）自动计算 |
 | sortBy | String | 'degree' / 'property1' / 'weight' / ... | 'degree' | 指定排序的依据（节点属性名），数值越高则该节点被放置得越中心。若为 undefined，则会计算节点的度数，度数越高，节点将被放置得越中心 |
+| workerEnabled | Boolean | true / false | false | 是否启用 web-worker 以防布局计算时间过长阻塞页面交互 |
 
 
 ## 树图 TreeGraph

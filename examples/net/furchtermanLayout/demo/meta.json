@@ -18,6 +18,11 @@
       "filename": "fruchtermanConfigurationTranslate.js",
       "title": "Fruchterman 布局参数动态变化",
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*W9MoQoKaQbYAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "fruchtermanWebWorker.js",
+      "title": "Fruchterman 使用 web-worker",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0sl9RZ7Cp28AAAAAAAAAAABkARQnAQ"
     }
   ]
 }

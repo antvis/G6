@@ -4,7 +4,7 @@ order: 7
 ---
 
 ## Introduction
-Graph layouts are the algorithms arranging the node positions to obtain a understandable visualizaiton. According to the differences of data strucutre, the layouts can be categorized into: general graph layout and tree graph layout. There are several layout algorithms for them respectively. By utilizing the built-in layouts, [Translating the layouts and their configurations, translating the data](#layout-transformation-mechanism) can be achieved.
+Graph layouts are the algorithms arranging the node positions to obtain a understandable visualizaiton. According to the differences of data strucutre, the layouts can be categorized into: general graph layout and tree graph layout. There are several layout algorithms for them respectively. By utilizing the built-in layouts, [Translating the layouts and their configurations, translating the data](#layout-transformation-mechanism) can be achieved. Besides, G6 provides the web-worker for general graph layout in case layout calculation takes too long to block page interaction.
 
 Besides, G6 supports [Custom Layout](/en/docs/manual/advanced/custom-layout) mechanism for users to design their own layout algorithm.
 
@@ -50,6 +50,8 @@ const graph = new G6.Graph({
 });
 ```
 
+Different layout algorithms have different configurations. For all the general graph layout algorithms in G6, you can enable the web-worker by configure `workerEnabled: true` in the `layout` configuration above. With web-worker, layout algorithms performed on large data with high cost will not block the web page.
+
 When the `layout` is not assigned:
 
 - If there is position information with `x` and `y` in node data, G6 renders the graph with them;
@@ -70,6 +72,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 | center | Array | [ 0, 0 ] | The center of the graph | The center of the layout |
 | width | Number | 300 | The width of the graph |  |
 | height | Number | 300 | The height of the graph |  |
+| workerEnabled | Boolean | true / false | false | Whether to enable the web-worker in case layout calculation takes too long to block page interaction |
 
 #### Force
 
@@ -95,6 +98,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 | forceSimulation | Object |  | null | Customed force simulation. If it is not assigned, the force simulation of d3.js will take effect |
 | onTick | Function |  | {} | The callback function of each iteration |
 | onLayoutEnd | Function |  | {} | The callback function after layout |
+| workerEnabled | Boolean | true / false | false | Whether to enable the web-worker in case layout calculation takes too long to block page interaction |
 
 #### Fruchterman
 
@@ -112,6 +116,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 | speed | Number | 1 | 1 | The moving speed in each iteration. Large value might lead to violent swing |
 | clustering | Boolean | false | false | Whether to layout by clustering |
 | clusterGravity | Number | 30 | 10 | The gravity of each clusterm which affects the compactness of each cluster |
+| workerEnabled | Boolean | true / false | false | Whether to enable the web-worker in case layout calculation takes too long to block page interaction |
 
 
 #### Circular
@@ -134,6 +139,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 | divisions | Number | 3 | 1 | The division number of the nodes on the circle. Takes effect when `endRadius - startRadius !== 0` |
 | ordering | String | null | 'topology' | 'degree' | null | The ordering method for nodes. `null` by default, which means the nodes are arranged in data order. 'topology' means in topology order; 'degree' means in degree order. |
 | angleRatio | Number | 1 | 1 | How many 2*PIs Between the first node and the last node |
+| workerEnabled | Boolean | true / false | false | Whether to enable the web-worker in case layout calculation takes too long to block page interaction |
 
 
 #### Radial
@@ -156,6 +162,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 | nodeSize | Number | 10 | 10 | The diameter of the node. It is used for preventing node overlappings. <br />*Supported from V3.1.6*: <br />The size in the node data will take effect if `nodeSize` is not assigned. If the size in node data does not exist either, `nodeSize` is assigned to 10 by default |
 | nodeSpacing<br />*Supported from V3.1.6* | Number / Function | Example 1:  10<br />Example 2:  <br />d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cFq4QbXVx7sAAAAAAAAAAABkARQnAQ' width=150/><br />Takes effect when `preventOverlap` is `true`. It is the minimum distance between nodes to prevent node overlappings. It can be a function to define different distances for different nodes (example 2)<br /> |
 | strictRadial | Boolean | true | false | Whether to layout the graph as strict radial, which means the nodes will be arranged on each circle strictly. Takes effect only when `preventOverlap` is `true`. Refer to [Radial-strictRadial API](/en/docs/api/layout/Graph/#strictradial)<br />- When `preventOverlap` is `true`, and `strictRadial` is `false`, the overlapped nodes are arranged along their circles strictly. But for the situation that there are too many nodes on a circle to be arranged, the overlappings might not be eliminated completely <br />- When `preventOverlap` is `true`, and `strictRadial` is `true` , the overlapped nodes can be arranged around their circle with small offsets.<br /> |
+| workerEnabled | Boolean | true / false | false | Whether to enable the web-worker in case layout calculation takes too long to block page interaction |
 
 
 #### MDS
@@ -165,6 +172,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 | --- | --- | --- | --- | --- |
 | center | Array | [ 0, 0 ] | The center of the graph | The center of the layout |
 | linkDistance | Number | 50 | 50 | The edge length |
+| workerEnabled | Boolean | true / false | false | Whether to enable the web-worker in case layout calculation takes too long to block page interaction |
 
 
 #### Dagre
@@ -179,6 +187,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 | nodesepFunc<br /><br />*Supported from V3.1.6* | Function | d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | The function for node separation with unit px. You can adjust the separations between different node pairs by using this function instead of `nodesep`. When `rankdir` is `'LR'` or `'RL'`, `nodesep` represents the vertical separations between nodes. The priority of `nodesepFunc` is lower than `nodesep`, which means if `nodesep` is assigned, the `nodesepFunc` will not take effect |
 | ranksepFunc<br /><br />*Supported from V3.1.6* | Function | d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | The function for level separation with unit px. You can adjust the separations between different adjacent levels by using this function instead of `ranksep`. When `rankdir` is `'TB'` or `'BT'`, `ranksep` represents the vertical separations between adjacent levels; when `rankdir` is `'LR'` or `'RL'`, `rankdir` represents the horizontal separations between adjacent levels. The priority of `ranksepFunc` is lower than `ranksep`, which means if `ranksep` is assigned, the `ranksepFunc` will not take effect |
 | controlPoints | Boolean | true | true | Whether to keep the control points of layout |
+| workerEnabled | Boolean | true / false | false | Whether to enable the web-worker in case layout calculation takes too long to block page interaction |
 
 
 #### Concentric
@@ -196,6 +205,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 | clockwise | Boolean | false | false | Place the nodes in clockwise or not |
 | maxLevelDiff | Number | 0.5 | undefined | The sum of concentric values in each level. If it is undefined, maxValue / 4 will take place, where maxValue is the max value of ordering properties. For example, if `sortBy='degree'`, maxValue is the max degree value of all the nodes |
 | sortBy | String | 'property1' / 'weight' / ... | undefined | Order the nodes according to this parameter. It is the property's name of node. The node with higher value will be placed to the center. If it is undefined, the algorithm will order the nodes by their degree<br /> |
+| workerEnabled | Boolean | true / false | false | Whether to enable the web-worker in case layout calculation takes too long to block page interaction |
 
 
 #### Grid
@@ -211,6 +221,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 | rows | Number | 5 | undefined | The row number of the grid. If `rows` is undefined, the algorithm will calculate it according to the space and node numbers automatically |
 | cols | Number | 5 | undefined | The column number of the grid. If `cols` is undefined, the algorithm will calculate it according to the space and node numbers automatically |
 | sortBy | String | 'property1' / 'weight' / ... | 'degree' | The ordering method for nodes. Smaller the index in the ordered array, more center the node will be placed. If `sortBy` is undefined, the algorithm order the nodes according to their degrees |
+| workerEnabled | Boolean | true / false | false | Whether to enable the web-worker in case layout calculation takes too long to block page interaction |
 
 
 ## TreeGraph

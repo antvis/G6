@@ -12,3 +12,4 @@ G6 内置的 Fruchterman 布局可在实例化 Graph 时使用该布局。除此
 - 代码演示 1 ：基本的 Fruchterman 布局。
 - 代码演示 2 ：Fruchterman 的聚类布局。
 - 代码演示 3 ：Fruchterman 布局参数动态变化。
+- 代码演示 4 ：Fruchterman 使用 web-worker 以避免阻塞页面。
