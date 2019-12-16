@@ -4,7 +4,7 @@ import Canvas from '@antv/g-canvas/lib/canvas';
 import ShapeBase from '@antv/g-canvas/lib/shape/base';
 import Node from '@g6/item/node';
 import { IGraph } from '../src/interface/graph';
-import { IEdge, IItemBase, INode } from '../src/interface/item';
+import { IEdge, INode } from '../src/interface/item';
 
 // Math types
 export interface IPoint {
@@ -14,6 +14,8 @@ export interface IPoint {
   anchorIndex?: number;
   [key: string]: number | undefined;
 }
+
+export type IPointTuple = [number, number];
 
 export type Matrix = number[];
 
