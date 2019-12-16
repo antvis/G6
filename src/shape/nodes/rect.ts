@@ -1,6 +1,7 @@
 import Shape from '../shape'
 import { NodeConfig } from '@g6/types'
-import { G } from '@antv/g/lib'
+import GGroup from '@antv/g-canvas/lib/group';
+import { IShape } from '@antv/g-canvas/lib/interfaces'
 import { IItem } from '@g6/interface/item';
 import deepMix from '@antv/util/lib/deep-mix';
 import Global from '../../global'
@@ -50,7 +51,7 @@ Shape.registerNode('rect', {
   },
   shapeType: 'rect',
   labelPosition: 'center',
-  drawShape(cfg: NodeConfig, group: G.Group): G.Shape {
+  drawShape(cfg: NodeConfig, group: GGroup): IShape {
     const style = this.getShapeStyle(cfg);
 
     const keyShape = group.addShape('rect', {
@@ -66,7 +67,7 @@ Shape.registerNode('rect', {
    * @param {Object} cfg data数据配置项
    * @param {Group} group Group实例
    */
-  drawLinkPoints(cfg: NodeConfig, group: G.Group) {
+  drawLinkPoints(cfg: NodeConfig, group: GGroup) {
     const { linkPoints: defaultLinkPoints } = this.options;
     const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
 
@@ -186,68 +187,71 @@ Shape.registerNode('rect', {
     // }
     // this.updateLinkPoints(cfg, group);
   },
+
+  // TODO: after findByClassName is defined by G
+  
   /**
    * 更新linkPoints
    * @param {Object} cfg 节点数据配置项
    * @param {Group} group Item所在的group
    */
-  updateLinkPoints(cfg: NodeConfig, group: G.Group) {
-    const { linkPoints: defaultLinkPoints } = this.options;
-    const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
+  // updateLinkPoints(cfg: NodeConfig, group: GGroup) {
+  //   const { linkPoints: defaultLinkPoints } = this.options;
+  //   const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
 
-    const { size: markSize, fill: markFill, stroke: markStroke, lineWidth: borderWidth } = linkPoints;
+  //   const { size: markSize, fill: markFill, stroke: markStroke, lineWidth: borderWidth } = linkPoints;
 
-    const size = this.getSize(cfg);
-    const width = size[0];
-    const height = size[1];
+  //   const size = this.getSize(cfg);
+  //   const width = size[0];
+  //   const height = size[1];
 
-    const markLeft = group.findByClassName('rect-mark-left');
-    if (markLeft) {
-      markLeft.attr({
-        x: -width / 2,
-        y: 0,
-        r: markSize,
-        fill: markFill,
-        stroke: markStroke,
-        lineWidth: borderWidth
-      });
-    }
+  //   const markLeft = group.findByClassName('rect-mark-left');
+  //   if (markLeft) {
+  //     markLeft.attr({
+  //       x: -width / 2,
+  //       y: 0,
+  //       r: markSize,
+  //       fill: markFill,
+  //       stroke: markStroke,
+  //       lineWidth: borderWidth
+  //     });
+  //   }
 
-    const markRight = group.findByClassName('rect-mark-right');
-    if (markRight) {
-      markRight.attr({
-        x: width / 2,
-        y: 0,
-        r: markSize,
-        fill: markFill,
-        stroke: markStroke,
-        lineWidth: borderWidth
-      });
-    }
+  //   const markRight = group.findByClassName('rect-mark-right');
+  //   if (markRight) {
+  //     markRight.attr({
+  //       x: width / 2,
+  //       y: 0,
+  //       r: markSize,
+  //       fill: markFill,
+  //       stroke: markStroke,
+  //       lineWidth: borderWidth
+  //     });
+  //   }
 
-    const markTop = group.findByClassName('rect-mark-top');
-    if (markTop) {
-      markTop.attr({
-        x: 0,
-        y: -height / 2,
-        r: markSize,
-        fill: markFill,
-        stroke: markStroke,
-        lineWidth: borderWidth
-      });
-    }
+  //   const markTop = group.findByClassName('rect-mark-top');
+  //   if (markTop) {
+  //     markTop.attr({
+  //       x: 0,
+  //       y: -height / 2,
+  //       r: markSize,
+  //       fill: markFill,
+  //       stroke: markStroke,
+  //       lineWidth: borderWidth
+  //     });
+  //   }
 
-    const markBottom = group.findByClassName('rect-mark-bottom');
-    if (markBottom) {
-      markBottom.attr({
-        x: 0,
-        y: height / 2,
-        r: markSize,
-        fill: markFill,
-        stroke: markStroke,
-        lineWidth: borderWidth
-      });
-    }
-  }
+  //   const markBottom = group.findByClassName('rect-mark-bottom');
+  //   if (markBottom) {
+  //     markBottom.attr({
+  //       x: 0,
+  //       y: height / 2,
+  //       r: markSize,
+  //       fill: markFill,
+  //       stroke: markStroke,
+  //       lineWidth: borderWidth
+  //     });
+  //   }
+  // }
 }, 'single-node');
 

@@ -8,7 +8,8 @@ import { isNil, isArray } from '@antv/util/lib'
 import Global from '../global'
 import { ILabelConfig, ShapeOptions } from '@g6/interface/shape'
 import { NodeConfig, LabelStyle } from '@g6/types'
-import { G } from '@antv/g/lib'
+import { IShape } from '@antv/g-canvas/lib/interfaces'
+import GGroup from '@antv/g-canvas/lib/group';
 
 
 const singleNode: ShapeOptions = {
@@ -85,7 +86,7 @@ const singleNode: ShapeOptions = {
     }
     return style
   },
-  drawShape(cfg: NodeConfig, group: G.Group): G.Shape {
+  drawShape(cfg: NodeConfig, group: GGroup): IShape {
     const shapeType = this.shapeType // || this.type，都已经加了 shapeType
     const style = this.getShapeStyle(cfg)
     const shape = group.addShape(shapeType, {

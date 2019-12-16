@@ -6,7 +6,8 @@ import Global from '../global'
 import each from '@antv/util/lib/each'
 import { get, cloneDeep, merge } from 'lodash'
 import { ShapeOptions } from '@g6/interface/shape'
-import { G } from '@antv/g/lib'
+import GGroup from '@antv/g-canvas/lib/group';
+import { IShape } from '@antv/g-canvas/lib/interfaces'
 import { ILabelConfig } from '@g6/interface/shape'
 import { IItem } from '@g6/interface/item'
 import { ModelConfig, IPoint, LabelStyle, ShapeStyle } from '@g6/types'
@@ -31,8 +32,8 @@ export const shapeBase: ShapeOptions = {
 	 * @param  {G.Group} group 节点的容器
 	 * @return {G.Shape} 绘制的图形
 	 */
-  draw(cfg: ModelConfig, group: G.Group): G.Shape {
-    const shape: G.Shape = this.drawShape(cfg, group)
+  draw(cfg: ModelConfig, group: GGroup): IShape {
+    const shape: IShape = this.drawShape(cfg, group)
     shape.set('className', this.itemType + CLS_SHAPE_SUFFIX)
     if (cfg.label) {
       const label = this.drawLabel(cfg, group)
@@ -43,13 +44,13 @@ export const shapeBase: ShapeOptions = {
   /**
   * 绘制完成后的操作，便于用户继承现有的节点、边
   */
-  afterDraw(cfg?: ModelConfig, group?: G.Group, keyShape?: G.Shape) {
+  afterDraw(cfg?: ModelConfig, group?: GGroup, keyShape?: IShape) {
 
   },
-  drawShape(cfg?: ModelConfig, group?: G.Group): G.Shape {
-
+  drawShape(cfg?: ModelConfig, group?: GGroup): IShape {
+    return null;
   },
-  drawLabel(cfg: ModelConfig, group: G.Group): G.Shape {
+  drawLabel(cfg: ModelConfig, group: GGroup): IShape {
     const { labelCfg: defaultLabelCfg } = this.options
 
     const labelCfg = merge({}, defaultLabelCfg, cfg.labelCfg)
@@ -59,7 +60,7 @@ export const shapeBase: ShapeOptions = {
     })
     return label
   },
-  getLabelStyleByPosition(cfg?: ModelConfig, labelCfg?: ILabelConfig, group?: G.Group): LabelStyle {
+  getLabelStyleByPosition(cfg?: ModelConfig, labelCfg?: ILabelConfig, group?: GGroup): LabelStyle {
     return {};
   },
   /**
@@ -70,7 +71,7 @@ export const shapeBase: ShapeOptions = {
 	 * @param {G.Group} group 父容器，label 的定位可能与图形相关
 	 * @return {Object} 图形的配置项
 	 */
-  getLabelStyle(cfg: ModelConfig, labelCfg, group: G.Group): LabelStyle {
+  getLabelStyle(cfg: ModelConfig, labelCfg, group: GGroup): LabelStyle {
     const calculateStyle = this.getLabelStyleByPosition(cfg, labelCfg, group)
     calculateStyle.text = cfg.label
     const attrName = this.itemType + 'Label' // 取 nodeLabel，edgeLabel 的配置项
@@ -140,7 +141,7 @@ export const shapeBase: ShapeOptions = {
 	 * @param  {G6.Item} item 节点
 	 */
   setState(name: string, value: boolean, item: IItem) {
-    const shape: G.Shape = item.get('keyShape')
+    const shape: IShape = item.get('keyShape')
     if (!shape) {
       return
     }

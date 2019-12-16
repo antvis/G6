@@ -196,7 +196,7 @@ export interface IItem {
   set<T>(key: string, value: T): void;
 }
 
-export interface IEdge extends IItem {
+export interface IEdge {
   setSource(source: INode): void;
   setTarget(target: INode): void;
   getSource(): INode;
@@ -204,7 +204,7 @@ export interface IEdge extends IItem {
 
 }
 
-export interface INode extends IItem {
+export interface INode {
   /**
    * 获取从节点关联的所有边
    * @return {Array} 边的集合

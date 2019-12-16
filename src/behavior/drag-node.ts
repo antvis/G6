@@ -8,7 +8,7 @@
 import isString from '@antv/util/lib/is-string'
 import deepMix from '@antv/util/lib/deep-mix';
 import Global from '../global'
-import { G6Event, IG6GraphNodeEvent, NodeConfig } from "@g6/types";
+import { G6Event, IG6GraphEvent, NodeConfig } from "@g6/types";
 import { IItem, INode } from '@g6/interface/item';
 import { Point } from '@antv/g-base/lib/types';
 
@@ -32,12 +32,12 @@ export default {
       'canvas:mouseleave': 'onOutOfRange'
     };
   },
-  onDragStart(e: IG6GraphNodeEvent) {
+  onDragStart(e: IG6GraphEvent) {
     if (!this.shouldBegin.call(this, e)) {
       return;
     }
 
-    const item: INode = e.item;
+    const item = e.item;
     const target = e.target;
     const hasLocked = item.hasLocked();
     if (hasLocked) {
@@ -92,7 +92,7 @@ export default {
     this.point = {};
     this.originPoint = {};
   },
-  onDrag(e: IG6GraphNodeEvent) {
+  onDrag(e: IG6GraphEvent) {
     if (!this.origin) {
       return;
     }
@@ -120,7 +120,7 @@ export default {
     graph.paint();
     graph.setAutoPaint(autoPaint);
   },
-  onDragEnd(e: IG6GraphNodeEvent) {
+  onDragEnd(e: IG6GraphEvent) {
     if (!this.origin || !this.shouldEnd.call(this, e)) {
       return;
     }
@@ -165,7 +165,7 @@ export default {
     graph.setAutoPaint(autoPaint);
   },
   // 若在拖拽时，鼠标移出画布区域，此时放开鼠标无法终止 drag 行为。在画布外监听 mouseup 事件，放开则终止
-  onOutOfRange(e: IG6GraphNodeEvent) {
+  onOutOfRange(e: IG6GraphEvent) {
     const self = this;
     if (this.origin) {
       const canvasElement = self.graph.get('canvas').get('el');
@@ -178,7 +178,7 @@ export default {
       body.addEventListener('keyup', fn, false);
     }
   },
-  _update(item: IItem, e: IG6GraphNodeEvent, force: boolean) {
+  _update(item: IItem, e: IG6GraphEvent, force: boolean) {
     const origin = this.origin;
     const model: NodeConfig = item.get('model');
     const nodeId: string = item.get('id');

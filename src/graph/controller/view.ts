@@ -7,7 +7,7 @@ import { IItem } from '@g6/interface/item';
 import { Matrix, Padding } from '@g6/types';
 import { formatPadding } from '@g6/util/base'
 import { applyMatrix, invertMatrix } from '@g6/util/math';
-import isNumber from '_@antv_util@2.0.6@@antv/util/lib/is-number';
+import isNumber from "@antv/util/lib/is-number";
 
 export default class View {
   private graph: IGraph = null

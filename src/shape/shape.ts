@@ -4,8 +4,8 @@
  */
 
 import { upperFirst } from '@antv/util'
-import { G } from '@antv/g/lib'
 import GGroup from '@antv/g-canvas/lib/group';
+import { IShape } from '@antv/g-canvas/lib/interfaces'
 
 import { ShapeOptions } from '@g6/interface/shape'
 import { IItem } from '@g6/interface/item'
@@ -52,7 +52,7 @@ const ShapeFactoryBase = {
    * @param  {G.Group} group 图形的分组
    * @return {G.Shape} 图形对象
    */
-  draw(type: string, cfg: ModelConfig, group: GGroup): G.Shape {
+  draw(type: string, cfg: ModelConfig, group: GGroup): IShape {
     const shape = this.getShape(type)
     const rst = shape.draw(cfg, group)
     shape.afterDraw(cfg, group, rst)

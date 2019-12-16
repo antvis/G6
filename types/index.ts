@@ -2,8 +2,9 @@ import GraphEvent from '@antv/g-base/lib/event/graph-event';
 import { BBox } from '@antv/g-base/lib/types';
 import ShapeBase from '@antv/g-canvas/lib/shape/base';
 import { IGraph } from '../src/interface/graph';
-import { IItem, INode } from '../src/interface/item'
-import { G } from '@antv/g/lib'
+import { INode, IEdge, IItem } from '../src/interface/item'
+import Canvas from '@antv/g-canvas/lib/canvas';
+import Node from '@g6/item/node'
 
 
 
@@ -184,8 +185,8 @@ export interface EdgeConfig extends ModelConfig  {
   target: string;
   label?: string;
   labelCfg?: object;
-  sourceNode?: INode;
-  targetNode?: INode;
+  sourceNode?: Node;
+  targetNode?: Node;
   startPoint?: IPoint;
   endPoint?: IPoint;
   controlPoints?: IPoint[];
@@ -239,22 +240,32 @@ export enum G6Event {
   DRAGENTER = 'dragenter',
   DRAGLEAVE = 'dragleave',
   DDROP = 'drop',
+  KEYUP = 'keyup',
+  KEYDOWN = 'keydown',
+  WHEEL = 'wheel',
+
   NODE_CLICK = 'node:click',
-  EDGE_CLICK = 'edge:click',
   NODE_CONTEXTMENU = 'node:contextmenu',
-  EDGE_CONTEXTMENU = 'edge:contextmenu',
   NODE_DBLCLICK = 'node:dblclick',
-  EDGE_DBLCLICK = 'edge:dblclick',
   NODE_DRAGSTART = 'node:dragstart',
   NODE_DRAG = 'node:drag',
   NODE_DRAGEND = 'node:dragend',
+  NODE_MOUSEENTER = 'node:mouseenter',
+  NODE_MOUSELEAVE = 'node:mouseleave',
+  NODE_MOUSEMOVE = 'node:mousemove',
+
+  EDGE_CLICK = 'edge:click',
+  EDGE_CONTEXTMENU = 'edge:contextmenu',
+  EDGE_DBLCLICK = 'edge:dblclick',
+  EDGE_MOUSEENTER = 'edge:mouseenter',
+  EDGE_MOUSELEAVE = 'edge:mouseleave',
+  EDGE_MOUSEMOVE = 'edge:mousemove',
+
   CANVAS_MOUSEDOWN = 'canvas:mousedown',
   CANVAS_MOUSEMOVE = 'canvas:mousemove',
   CANVAS_MOUSEUP = 'canvas:mouseup',
   CANVAS_CLICK = 'canvas:click',
   CANVAS_MOSUELEAVE = 'canvas:mouseleave',
-  KEYUP = 'keyup',
-  KEYDOWN = 'keydown'
 }
 
 type GetEvents = 'getEvents';
@@ -282,15 +293,13 @@ export type BehaviorOpation<U> = {
 export type IEvent = Record<G6Event, string>
 
 export interface IG6GraphEvent extends GraphEvent {
-  item: IItem;
+  item: IItem & INode & IEdge;
   canvasX: number;
   canvasY: number;
   wheelDelta: number;
   detail: number;
-  target: G.Shape;
-}
-export interface IG6GraphNodeEvent extends IG6GraphEvent {
-  item: INode;
+  key?: string;
+  target: IItem & INode & IEdge & Canvas;
 }
 
 export interface IBehavior {
