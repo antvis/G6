@@ -1,8 +1,8 @@
 import EventEmitter from '@antv/event-emitter';
-import { Point } from '@antv/g-base/lib/types';
+import { AnimateCfg, Point } from '@antv/g-base/lib/types';
 import Graph from '@g6/graph/graph';
-import { Easeing, IG6GraphEvent, ModelStyle, Padding, ShapeStyle } from '@g6/types'
-import { IItem, INode } from './item';
+import { GraphData, IG6GraphEvent, ITEM_TYPE, ItemType, ModelConfig, ModelStyle, Padding, ShapeStyle } from '@g6/types'
+import { IEdge, IItem, INode } from './item';
 
 export interface IModeOption {
   type: string;
@@ -23,6 +23,12 @@ export interface ILayoutOptions {
   type: string;
 }
 
+export interface GraphAnimateConfig extends AnimateCfg {
+  /**
+   * 回调函数，用于自定义节点运动路径。
+   */
+  onFrame?: (item: IItem, ratio: number, data?: GraphData, originAttrs?: ShapeStyle) => unknown;
+}
 export interface GraphOptions {
   /**
    * 图的 DOM 容器，可以传入该 DOM 的 id 或者直接传入容器的 HTML 节点对象
@@ -112,21 +118,7 @@ export interface GraphOptions {
   /**
    * 动画配置项，仅在animate为true时有效。
    */
-  animateCfg?: {
-    /**
-     * 回调函数，用于自定义节点运动路径。
-     */
-    onFrame?: () => unknown;
-    /**
-     * 动画时长，单位为毫秒。
-     */
-    duration?: number;
-    /**
-     * 动画动效。
-     * 默认值：easeLinear
-     */
-    easing?: Easeing;
-  };
+  animateCfg?: GraphAnimateConfig;
   /**
    * 最小缩放比例
    * 默认值 0.2
@@ -159,7 +151,7 @@ export interface IGraph extends EventEmitter {
   getDefaultCfg(): GraphOptions;
   get<T = any>(key: string): T;
   set<T = any>(key: string | object, value?: T): Graph;
-  findById(id: string): IItem;
+  findById(id: string): ItemType;
   translate(dx: number, dy: number): void;
   zoom(ratio: number, center: Point): void;
 
@@ -194,4 +186,151 @@ export interface IGraph extends EventEmitter {
    * @return {Point} 画布坐标
    */
   getCanvasByPoint(x: number, y: number): Point;
+
+  /**
+   * 设置是否在更新/刷新后自动重绘
+   * @param {boolean} auto 自动重绘
+   */
+  setAutoPaint(auto: boolean): void;
+
+  /**
+   * 刷新元素
+   * @param {ItemType} item 元素id或元素实例
+   */
+  refreshItem(item: ItemType): void;
+
+  /**
+   * 删除元素
+   * @param {ItemType} item 元素id或元素实例
+   */
+  removeItem(item: ItemType): void;
+
+  /**
+   * 删除元素
+   * @param {ItemType} item 元素id或元素实例
+   */
+  remove(item: ItemType): void;
+
+  /**
+   * 新增元素 或 节点分组
+   * @param {string} type 元素类型(node | edge | group)
+   * @param {ModelConfig} model 元素数据模型
+   * @return {ItemType} 元素实例
+   */
+  addItem(type: ITEM_TYPE, model: ModelConfig): ItemType;
+
+  add(type: ITEM_TYPE, model: ModelConfig): ItemType;
+
+  /**
+   * 更新元素
+   * @param {ItemType} item 元素id或元素实例
+   * @param {ModelConfig} cfg 需要更新的数据
+   */
+  updateItem(item: ItemType, cfg: ModelConfig): void;
+
+  update(item: ItemType, cfg: ModelConfig): void;
+
+  /**
+   * 设置元素状态
+   * @param {ItemType} item 元素id或元素实例
+   * @param {string} state 状态
+   * @param {boolean} enabled 是否启用状态
+   */
+  setItemState(item: ItemType, state: string, enabled: boolean): void;
+
+  /**
+   * 设置视图初始化数据
+   * @param {GraphData} data 初始化数据
+   */
+  data(data: GraphData): void;
+
+  /**
+   * 当源数据在外部发生变更时，根据新数据刷新视图。但是不刷新节点位置
+   */
+  refresh(): void;
+
+  /**
+   * 根据 graph 上的 animateCfg 进行视图中节点位置动画接口
+   */
+  positionsAnimate(): void;
+
+  /**
+   * 当节点位置在外部发生改变时，刷新所有节点位置，重计算边
+   */
+  refreshPositions(): void;
+
+  /**
+   * 根据data接口的数据渲染视图
+   */
+  render(): void;
+
+  /**
+   * 获取当前图中所有节点的item实例
+   */
+  getNodes(): INode[];
+
+  /**
+   * 获取当前图中所有边的item实例
+   */
+  getEdges(): IEdge[];
+
+  /**
+   * 获取当前视口伸缩比例
+   * @return {number} 比例
+   */
+  getZoom(): number;
+
+  /**
+   * 获取当前的行为模式
+   */
+  getCurrentMode(): string;
+
+  /**
+   * 切换行为模式
+   * @param {string} mode 指定模式
+   */
+  setMode(mode: string): Graph;
+
+  isAnimating(): boolean;
+
+  stopAnimate(): void;
+
+  /**
+   * 清除画布元素
+   */
+  clear(): Graph;
+
+  /**
+   * 根据数据渲染群组
+   * @param {GraphData} data 渲染图的数据
+   * @param {string} groupType group类型
+   */
+  renderCustomGroup(data: GraphData, groupType: string): void;
+
+  /**
+   * 接收数据进行渲染
+   * @Param {GraphData} data 初始化数据
+   */
+  read(data: GraphData): void;
+
+  /**
+   * 更改源数据，根据新数据重新渲染视图
+   * @param {GraphData} data 源数据
+   * @return {object} this
+   */
+  changeData(data: GraphData): Graph;
+
+  /**
+   * 导出图数据
+   * @return {GraphData} data
+   */
+  save(): GraphData;
+
+  /**
+   * 改变画布大小
+   * @param  {number} width  画布宽度
+   * @param  {number} height 画布高度
+   * @return {Graph} this
+   */
+  changeSize(width: number, height: number): Graph;
 }
