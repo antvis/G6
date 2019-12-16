@@ -33,6 +33,11 @@
       "filename": "forceBubbles.js",
       "title": "力导向气泡图",
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*prZhSI341hUAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "forceConstrainedInRect.js",
+      "title": "约束在一定范围内布局",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-4H8SaV8QKwAAAAAAAAAAABkARQnAQ"
     }
   ]
 }

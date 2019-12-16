@@ -14,3 +14,4 @@ The classical force-directed layout in G6 comes from d3.js. As the demo below, y
 - Example 4 : Fix the dragged node.
 - Example 5 : Translate the layout parameters in dynamic.
 - Example 6 : The bubbles layout and interactions.
+- Example 7 : Constrain the layout in a certain area.
