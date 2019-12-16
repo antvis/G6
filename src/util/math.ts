@@ -1,8 +1,8 @@
 import { Point } from '@antv/g-base/lib/types';
-import Group from '@antv/g-canvas/lib/group';
 import { mat3, vec3 } from '@antv/matrix-util'
 import { transform } from '@antv/matrix-util'
 import { GraphData, ICircle, IEllipse, IRect, Matrix } from '@g6/types'
+import { IGroup } from '@antv/g-canvas/lib/interfaces';
 
 /**
  * 是否在区间内
@@ -304,7 +304,7 @@ export const getAdjMatrix = (data: GraphData, directed: boolean): Matrix[] => {
  * @param group Group 实例
  * @param point 坐标
  */
-export const translate = (group: Group, point: Point) => {
+export const translate = (group: IGroup, point: Point) => {
   const matrix: Matrix = group.getMatrix()
   transform(matrix, [
     [ 't',  point.x, point.y ]

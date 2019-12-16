@@ -2,7 +2,8 @@ import Shape from '../shape'
 import deepMix from '@antv/util/lib/deep-mix';
 import Global from '../../global'
 import { NodeConfig } from '@g6/types'
-import { G } from '@antv/g/lib'
+import { IShape } from '@antv/g-canvas/lib/interfaces'
+import GGroup from '@antv/g-canvas/lib/group';
 import { IItem } from '@g6/interface/item';
 
 /**
@@ -60,7 +61,7 @@ Shape.registerNode('ellipse', {
   shapeType: 'ellipse',
   // 文本位置
   labelPosition: 'center',
-  drawShape(cfg: NodeConfig, group: G.Group): G.Shape {
+  drawShape(cfg: NodeConfig, group: GGroup): IShape {
     const { icon: defaultIcon } = this.options;
     const style = this.getShapeStyle(cfg);
     const icon = deepMix({}, defaultIcon, cfg.icon);
@@ -92,7 +93,7 @@ Shape.registerNode('ellipse', {
    * @param {Object} cfg data数据配置项
    * @param {Group} group Group实例
    */
-  drawLinkPoints(cfg: NodeConfig, group: G.Group) {
+  drawLinkPoints(cfg: NodeConfig, group: GGroup) {
     const { linkPoints: defaultLinkPoints } = this.options;
     const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
 
@@ -224,61 +225,64 @@ Shape.registerNode('ellipse', {
 
     // this.updateLinkPoints(cfg, group);
   },
+
+    // TODO: after findByClassName is defined by G
+    
   /**
    * 更新linkPoints
    * @param {Object} cfg 节点数据配置项
    * @param {Group} group Item所在的group
    */
-  updateLinkPoints(cfg: NodeConfig, group: G.Group) {
-    const { linkPoints: defaultLinkPoints } = this.options;
-    const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
+  // updateLinkPoints(cfg: NodeConfig, group: GGroup) {
+  //   const { linkPoints: defaultLinkPoints } = this.options;
+  //   const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
 
-    const { size: markSize, ...markStyles } = linkPoints;
+  //   const { size: markSize, ...markStyles } = linkPoints;
 
-    const size = this.getSize(cfg);
-    const rx = size[0] / 2;
-    const ry = size[1] / 2;
+  //   const size = this.getSize(cfg);
+  //   const rx = size[0] / 2;
+  //   const ry = size[1] / 2;
 
-    const markLeft: G.Shape = group.findByClassName('ellipse-mark-left');
-    if (markLeft) {
-      markLeft.attr({
-        ...markStyles,
-        x: -rx,
-        y: 0,
-        r: markSize
-      });
-    }
+  //   const markLeft: IShape = group.findByClassName('ellipse-mark-left');
+  //   if (markLeft) {
+  //     markLeft.attr({
+  //       ...markStyles,
+  //       x: -rx,
+  //       y: 0,
+  //       r: markSize
+  //     });
+  //   }
 
-    const markRight: G.Shape = group.findByClassName('ellipse-mark-right');
-    if (markRight) {
-      markRight.attr({
-        ...markStyles,
-        x: rx,
-        y: 0,
-        r: markSize
-      });
-    }
+  //   const markRight: IShape = group.findByClassName('ellipse-mark-right');
+  //   if (markRight) {
+  //     markRight.attr({
+  //       ...markStyles,
+  //       x: rx,
+  //       y: 0,
+  //       r: markSize
+  //     });
+  //   }
 
-    const markTop: G.Shape = group.findByClassName('ellipse-mark-top');
-    if (markTop) {
-      markTop.attr({
-        ...markStyles,
-        x: 0,
-        y: -ry,
-        r: markSize
-      });
-    }
+  //   const markTop: IShape = group.findByClassName('ellipse-mark-top');
+  //   if (markTop) {
+  //     markTop.attr({
+  //       ...markStyles,
+  //       x: 0,
+  //       y: -ry,
+  //       r: markSize
+  //     });
+  //   }
 
-    const markBottom: G.Shape = group.findByClassName('ellipse-mark-bottom');
-    if (markBottom) {
-      markBottom.attr({
-        ...markStyles,
-        x: 0,
-        y: ry,
-        r: markSize
-      });
-    }
-  }
+  //   const markBottom: IShape = group.findByClassName('ellipse-mark-bottom');
+  //   if (markBottom) {
+  //     markBottom.attr({
+  //       ...markStyles,
+  //       x: 0,
+  //       y: ry,
+  //       r: markSize
+  //     });
+  //   }
+  // }
 }, 'single-node');
 
 // Shape.registerNode('ellipse', Ellipse);

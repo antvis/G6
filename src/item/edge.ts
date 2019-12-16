@@ -1,7 +1,8 @@
 import isNil from '@antv/util/lib/is-nil';
 import isPlainObject from '@antv/util/lib/is-plain-object'
-import { IEdge, INode } from "@g6/interface/item";
+import { IEdge, INode, IItem } from "@g6/interface/item";
 import { EdgeConfig, IPoint, NodeConfig, SourceTarget } from '@g6/types';
+import Node from './node'
 import Item from "./item";
 
 const END_MAP = { source: 'start', target: 'end' };
@@ -202,8 +203,8 @@ export default class Edge extends Item implements IEdge {
   }
 
   public destroy() {
-    const sourceItem: INode = this.get('source' + ITEM_NAME_SUFFIX);
-    const targetItem: INode = this.get('target' + ITEM_NAME_SUFFIX);
+    const sourceItem: Node = this.get('source' + ITEM_NAME_SUFFIX);
+    const targetItem: Node = this.get('target' + ITEM_NAME_SUFFIX);
     if(sourceItem && !sourceItem.destroyed) {
       sourceItem.removeEdge(this)
     }

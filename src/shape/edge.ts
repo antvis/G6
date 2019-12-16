@@ -13,7 +13,8 @@ import { getCircleCenterByPoints, distance } from '@g6/util/math'
 import Global from '../global'
 import { EdgeConfig, LabelStyle, IPoint, ShapeStyle } from '@g6/types'
 import { ILabelConfig, ShapeOptions } from '@g6/interface/shape'
-import { G } from '@antv/g/lib'
+import { IShape } from '@antv/g-canvas/lib/interfaces'
+import GGroup from '@antv/g-canvas/lib/group';
 import { Point } from '@antv/g-base/lib/types';
 
 const CLS_SHAPE = 'edge-shape';
@@ -87,7 +88,7 @@ const singleEdge: ShapeOptions = {
     }, style);
     return styles;
   },
-  getLabelStyleByPosition(cfg?: EdgeConfig, labelCfg?: ILabelConfig, group?: G.Group): LabelStyle {
+  getLabelStyleByPosition(cfg?: EdgeConfig, labelCfg?: ILabelConfig, group?: GGroup): LabelStyle {
     
 
     const labelPosition = labelCfg.position || this.labelPosition; // 文本的位置用户可以传入
@@ -120,6 +121,7 @@ const singleEdge: ShapeOptions = {
     style.y = offsetStyle.y;
     style.rotate = offsetStyle.rotate;
     style.textAlign = this._getTextAlign(labelPosition, offsetStyle.angle);
+    console.log('get style by position', labelPosition, style);
     return style;
   },
   // 获取文本对齐方式
@@ -161,7 +163,7 @@ const singleEdge: ShapeOptions = {
    * @param  {G.Group} group 边的容器
    * @return {G.Shape} 图形
    */
-  drawShape(cfg: EdgeConfig, group: G.Group): G.Shape {
+  drawShape(cfg: EdgeConfig, group: GGroup): IShape {
     const shapeStyle = this.getShapeStyle(cfg);
     const shape = group.addShape('path', {
       className: CLS_SHAPE,
@@ -169,12 +171,13 @@ const singleEdge: ShapeOptions = {
     });
     return shape;
   },
-  drawLabel(cfg: EdgeConfig, group: G.Group): G.Shape {
+  drawLabel(cfg: EdgeConfig, group: GGroup): IShape {
     const labelCfg = deepMix({}, this.options.labelCfg, cfg.labelCfg);
     const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
     const label = group.addShape('text', {
       attrs: labelStyle
     });
+    console.log('edge draw label', label);
     return label;
   }
 };

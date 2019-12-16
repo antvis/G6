@@ -1,6 +1,8 @@
 import Shape from '../shape'
 import { NodeConfig } from '@g6/types'
-import { G } from '@antv/g/lib'
+import GGroup from '@antv/g-canvas/lib/group';
+import { IShape } from '@antv/g-canvas/lib/interfaces'
+import { Circle, Rect, Ellipse, Polygon, Path } from '@antv/g-canvas/lib/shape'
 
 /**
  * 基本的图片，可以添加文本，默认文本在图片的下面
@@ -47,7 +49,7 @@ Shape.registerNode('image', {
   },
   shapeType: 'image',
   labelPosition: 'bottom',
-  drawShape(cfg: NodeConfig, group: G.Group): G.Shape {
+  drawShape(cfg: NodeConfig, group: GGroup): IShape {
     const shapeType = this.shapeType; // || this.type，都已经加了 shapeType
     const style = this.getShapeStyle(cfg);
     const shape = group.addShape(shapeType, {
@@ -56,7 +58,7 @@ Shape.registerNode('image', {
     this.drawClip(cfg, shape);
     return shape;
   },
-  drawClip(cfg: NodeConfig, shape: G.Shape) {
+  drawClip(cfg: NodeConfig, shape: IShape) {
     const clip = Object.assign({}, this.options.clipCfg, cfg.clipCfg);
 
     if (!clip.show) {
@@ -67,7 +69,7 @@ Shape.registerNode('image', {
     let clipShape = null;
     if (type === 'circle') {
       const { r } = clip;
-      clipShape = new G.Circle({
+      clipShape = new Circle({
         attrs: {
           r,
           x,
@@ -77,7 +79,7 @@ Shape.registerNode('image', {
       });
     } else if (type === 'rect') {
       const { width, height } = clip;
-      clipShape = new G.Rect({
+      clipShape = new Rect({
         attrs: {
           x,
           y,
@@ -88,7 +90,7 @@ Shape.registerNode('image', {
       });
     } else if (type === 'ellipse') {
       const { rx, ry } = clip;
-      clipShape = new G.Ellipse({
+      clipShape = new Ellipse({
         attrs: {
           x,
           y,
@@ -99,7 +101,7 @@ Shape.registerNode('image', {
       });
     } else if (type === 'polygon') {
       const { points } = clip;
-      clipShape = new G.Polygon({
+      clipShape = new Polygon({
         attrs: {
           points,
           ...style
@@ -107,7 +109,7 @@ Shape.registerNode('image', {
       });
     } else if (type === 'path') {
       const { path } = clip;
-      clipShape = new G.Path({
+      clipShape = new Path({
         attrs: {
           path,
           ...style

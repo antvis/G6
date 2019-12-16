@@ -26,7 +26,7 @@
     "clean": "rimraf esm lib dist",
     "lint": "lint-staged",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/shape/shape-spec.ts",
+    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/shape/edge-spec.ts",
     "coverage": "jest --coverage",
     "ci": "run-s build coverage",
     "doc": "rimraf apis && typedoc",
@@ -64,7 +64,8 @@
     "tslint-config-prettier": "^1.18.0",
     "typedoc": "^0.15.0",
     "typedoc-plugin-markdown": "^2.2.11",
-    "typescript": "^3.5.3"
+    "typescript": "^3.5.3",
+    "webpack-cli": "^3.3.10"
   },
   "husky": {
     "hooks": {
