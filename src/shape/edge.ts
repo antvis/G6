@@ -121,7 +121,6 @@ const singleEdge: ShapeOptions = {
     style.y = offsetStyle.y;
     style.rotate = offsetStyle.rotate;
     style.textAlign = this._getTextAlign(labelPosition, offsetStyle.angle);
-    console.log('get style by position', labelPosition, style);
     return style;
   },
   // 获取文本对齐方式
@@ -177,7 +176,6 @@ const singleEdge: ShapeOptions = {
     const label = group.addShape('text', {
       attrs: labelStyle
     });
-    console.log('edge draw label', label);
     return label;
   }
 };
