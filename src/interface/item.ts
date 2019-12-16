@@ -1,6 +1,7 @@
-import Group from "@antv/g-canvas/lib/group";
-import { IBBox, IPoint, IShapeBase, ModelConfig, NodeConfig, ShapeStyle } from '@g6/types'
+import { IGroup } from '@antv/g-base/lib/interfaces';
 import { Point } from '@antv/g-base/lib/types';
+import Group from "@antv/g-canvas/lib/group";
+import { IBBox, IPoint, IShapeBase, ModelConfig, ShapeStyle } from '@g6/types'
 
 
 // item 的配置项
@@ -23,7 +24,7 @@ export type IItemConfig = Partial<{
   /**
    * G Group
    */
-  group: Group;
+  group: IGroup;
 
   /**
    * is open animate

@@ -1,10 +1,10 @@
 import GraphEvent from '@antv/g-base/lib/event/graph-event';
 import { BBox } from '@antv/g-base/lib/types';
-import ShapeBase from '@antv/g-canvas/lib/shape/base';
-import { IGraph } from '../src/interface/graph';
-import { INode, IEdge, IItem } from '../src/interface/item'
 import Canvas from '@antv/g-canvas/lib/canvas';
+import ShapeBase from '@antv/g-canvas/lib/shape/base';
 import Node from '@g6/item/node'
+import { IGraph } from '../src/interface/graph';
+import { IEdge, IItem, INode } from '../src/interface/item'
 
 
 
@@ -39,7 +39,7 @@ export type ShapeStyle = Partial<{
   points: object[];
   matrix: number[];
   opacity: number;
-  size: number | Array<number>;
+  size: number | number[];
   [key: string]: string | number | object | object[]
 }>
 
@@ -115,7 +115,7 @@ export type ModelStyle = Partial<{
     width?: number,
     height?: number,
     // polygon
-    points?: Array<Array<number>>;
+    points?: number[][];
     // path
     path?: Array<Array<string | number>>;
     // 坐标
@@ -302,19 +302,3 @@ export interface IG6GraphEvent extends GraphEvent {
   target: IItem & INode & IEdge & Canvas;
 }
 
-export interface IBehavior {
-  constructor: (cfg?: object) => void;
-  getEvents: () => { [key in G6Event]?: string };
-  shouldBegin: () => boolean;
-  shouldUpdate: () => boolean;
-  shouldEnd: () => boolean;
-  bind: (graph: IGraph) => void;
-  unbind: (graph: IGraph) => void;
-  [key: string]: (...args: DefaultBehaviorType[]) => unknown;
-}
-
-export type Data = {
-  nodes?: NodeConfig[]
-  edges?: EdgeConfig[]
-  groups?: GroupConfig[]
-}
