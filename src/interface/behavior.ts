@@ -1,9 +1,9 @@
 
 import GraphEvent from '@antv/g-base/lib/event/graph-event';
+import Canvas from '@antv/g-canvas/lib/canvas';
 import { G6Event, IG6GraphEvent } from '@g6/types';
 import { IGraph } from './graph';
-import { IItem, INode, IEdge } from './item';
-import Canvas from '@antv/g-canvas/lib/canvas';
+import { IEdge, IItem, INode } from './item';
 
 
 

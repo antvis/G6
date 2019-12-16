@@ -1,7 +1,7 @@
 import EventEmitter from '@antv/event-emitter';
 import { Point } from '@antv/g-base/lib/types';
 import Graph from '@g6/graph/graph';
-import { Easeing, ModelStyle, Padding, ShapeStyle, IG6GraphEvent } from '@g6/types'
+import { Easeing, IG6GraphEvent, ModelStyle, Padding, ShapeStyle } from '@g6/types'
 import { IItem, INode } from './item';
 
 export interface IModeOption {

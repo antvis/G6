@@ -1,9 +1,9 @@
 import isNil from '@antv/util/lib/is-nil';
 import isPlainObject from '@antv/util/lib/is-plain-object'
-import { IEdge, INode, IItem } from "@g6/interface/item";
+import { IEdge, INode } from "@g6/interface/item";
 import { EdgeConfig, IPoint, NodeConfig, SourceTarget } from '@g6/types';
+import Item from './item';
 import Node from './node'
-import Item from "./item";
 
 const END_MAP = { source: 'start', target: 'end' };
 const ITEM_NAME_SUFFIX = 'Node'; // 端点的后缀，如 sourceNode, targetNode
