@@ -18,6 +18,9 @@ Random is the default layout in G6. It will take effect when `layout` is not ass
 #### height
 **Type**: Number<br />**Default**: The height of the graph<br />**Required**: false<br />**Description**: The height of the layout
 
+#### workerEnabled
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to enable the web-worker in case layout calculation takes too long to block page interaction
+
 ### Function
 The same as the superclass Layout, users do not need to concern about the function calling, which will be controlled by G6.
 
@@ -48,6 +51,9 @@ MDS (Multidimensional scaling) is used for project high dimensional data onto l
 #### linkDistance
 **Type**: Number<br />**Default**: 50<br />**Required**: false<br />**Description**: The edge length
 
+#### workerEnabled
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to enable the web-worker in case layout calculation takes too long to block page interaction
+
 ### Function
 The same as the superclass Layout, users do not need to concern about the function calling, which will be controlled by G6.
 
@@ -59,7 +65,8 @@ const graph = new G6.Graph({
   width: 1000,
   height: 600,
   layout: {
-    type: 'mds'
+    type: 'mds',
+    workerEnabled: true       // Whether to activate web-worker
   }
 });
 ```
@@ -142,6 +149,10 @@ Takes effect when `preventOverlap` is `true`. It is the minimum distance between
 **Type**: Function<br />**Default**: {}<br />**Required**: false<br />**Description**: The callback function after layout
 
 
+#### workerEnabled
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to enable the web-worker in case layout calculation takes too long to block page interaction
+
+
 ### Function
 The same as the superclass Layout, users do not need to concern about the function calling, which will be controlled by G6.
 
@@ -208,6 +219,10 @@ Fruchterman is a kind of force-directed layout. G6 implements it according to th
 **Type**: Number<br />**Default**: 10<br />**Required**: false<br />**Description**: The gravity of each cluster, which will affect the compactness of each cluster. Takes effect only when `clustering` is `true`
 
 
+#### workerEnabled
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to enable the web-worker in case layout calculation takes too long to block page interaction
+
+
 ### Function
 The same as the superclass Layout, users do not need to concern about the function calling, which will be controlled by G6.
 
@@ -226,7 +241,8 @@ const graph = new G6.Graph({
     speed: 2,
     clustering: true,
     clusterGravity: 30,
-    maxIteration: 2000
+    maxIteration: 2000,
+    workerEnabled: true       // Whether to activate web-worker
   }
 });
 ```
@@ -274,6 +290,11 @@ Circular layout arranges the node on a circle. By tuning the configurations, use
 
 #### angleRatio
 **Type**: Number<br />**Default**: 1<br />**Required**: false<br />**Description**: How many 2*PIs Between the first node and the last node
+
+
+#### workerEnabled
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to enable the web-worker in case layout calculation takes too long to block page interaction
+
 
 ### Function
 The same as the superclass Layout, users do not need to concern about the function calling, which will be controlled by G6.
@@ -375,6 +396,9 @@ Takes effect when `preventOverlap` is `true`. It is the minimum distance between
 > （Left）preventOverlap = false.（Center）preventOverlap = false, strictRadial = true. (Right)preventOverlap = false, strictRadial = false.
 
 
+#### workerEnabled
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to enable the web-worker in case layout calculation takes too long to block page interaction
+
 
 ### Function
 The same as the superclass Layout, users do not need to concern about the function calling, which will be controlled by G6.
@@ -388,7 +412,7 @@ const graph = new G6.Graph({
   width: 1000,
   height: 600,
   layout: {
-    type: 'circular',
+    type: 'radial',
     center: [ 200, 200 ],     // The center of the graph by default
     linkDistance: 50,         // The edge length
     maxIteration: 1000,
@@ -396,7 +420,8 @@ const graph = new G6.Graph({
     unitRadius: 100,
     preventOverlap: true,     // nodeSize or size in data is required for preventOverlap: true
     nodeSize: 30,
-    strictRadial: false
+    strictRadial: false,
+    workerEnabled: true       // Whether to activate web-worker
   }
 });
 ```
@@ -463,6 +488,10 @@ Dagre is an hierarchical layout.
 
 #### controlPoints
 **Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Description**: Whether to keep the control points of layout
+
+
+#### workerEnabled
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to enable the web-worker in case layout calculation takes too long to block page interaction
 
 
 ### Function
@@ -536,6 +565,10 @@ Concentric arranges the nodes on several concentric circles. By tuning the param
 **Type**: String<br />**Default**: undefined<br />**Required**: false<br />**Description**: Order the nodes according to this parameter. It is the property's name of node. The node with higher value will be placed to the center. If it is undefined, the algorithm will order the nodes by their degree
 
 
+#### workerEnabled
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to enable the web-worker in case layout calculation takes too long to block page interaction
+
+
 ### Function
 The same as the superclass Layout, users do not need to concern about the function calling, which will be controlled by G6.
 
@@ -558,7 +591,8 @@ const graph = new G6.Graph({
     startAngle: 0,
     clockwise: false,
     maxLevelDiff: 10,
-    sortBy: 'degree'
+    sortBy: 'degree',
+    workerEnabled: true       // Whether to activate web-worker
   }
 });
 ```
@@ -603,6 +637,10 @@ Grid orders the nodes according to the configurations and arranged them onto gri
 **Type**: String<br />**Default**: undefined<br />**Required**: false<br />**Description**: The ordering method for nodes. Smaller the index in the ordered array, more center the node will be placed. If `sortBy` is undefined, the algorithm order the nodes according to their degrees
 
 
+#### workerEnabled
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to enable the web-worker in case layout calculation takes too long to block page interaction
+
+
 ### Function
 The same as the superclass Layout, users do not need to concern about the function calling, which will be controlled by G6.
 
@@ -615,7 +653,7 @@ const graph = new G6.Graph({
   width: 1000,
   height: 600,
   layout: {
-    type: 'concentric',
+    type: 'grid',
     begin: [ 0, 0 ],
     preventOverlap: true,     // nodeSize or size in data is required for preventOverlap: true
     preventOverlapPdding: 20,
