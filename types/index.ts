@@ -1,12 +1,10 @@
 import GraphEvent from '@antv/g-base/lib/event/graph-event';
 import { BBox } from '@antv/g-base/lib/types';
-import ShapeBase from '@antv/g-canvas/lib/shape/base';
-import { IGraph } from '../src/interface/graph';
-import { INode, IEdge, IItem } from '../src/interface/item'
 import Canvas from '@antv/g-canvas/lib/canvas';
-import Node from '@g6/item/node'
-
-
+import ShapeBase from '@antv/g-canvas/lib/shape/base';
+import Node from '@g6/item/node';
+import { IGraph } from '../src/interface/graph';
+import { IEdge, IItem, INode } from '../src/interface/item';
 
 // Math types
 export interface IPoint {
@@ -15,6 +13,8 @@ export interface IPoint {
   // 获取连接点时使用
   anchorIndex?: number;
 }
+
+export type IPointTuple = [number, number];
 
 export type Matrix = number[];
 
@@ -39,10 +39,9 @@ export type ShapeStyle = Partial<{
   points: object[];
   matrix: number[];
   opacity: number;
-  size: number | Array<number>;
-  [key: string]: string | number | object | object[]
-}>
-
+  size: number | number[];
+  [key: string]: string | number | object | object[];
+}>;
 
 export interface IShapeBase extends ShapeBase {
   isKeyShape: boolean;
@@ -62,11 +61,11 @@ export interface IEllipse extends IPoint {
   ry: number;
 }
 
-export type SourceTarget = 'source' | 'target'
+export type SourceTarget = 'source' | 'target';
 
 // model types (node edge group)
 export type ModelStyle = Partial<{
-  [key: string]: unknown
+  [key: string]: unknown;
   style: ShapeStyle;
   stateStyles: {
     [key: string]: ShapeStyle;
@@ -81,7 +80,7 @@ export type ModelStyle = Partial<{
     fill?: string;
     stroke?: string;
     [key: string]: unknown;
-  }
+  };
   icon: {
     show?: boolean;
     // icon的地址，字符串类型
@@ -89,7 +88,7 @@ export type ModelStyle = Partial<{
     width?: number;
     height?: number;
     offset?: number;
-  }
+  };
   // loop edge config
   loopCfg: {
     dist?: number;
@@ -107,26 +106,26 @@ export type ModelStyle = Partial<{
     show?: boolean;
     type?: string;
     // circle
-    r?: number,
+    r?: number;
     // ellipse
-    rx?: number,
-    ry?: number,
+    rx?: number;
+    ry?: number;
     // rect
-    width?: number,
-    height?: number,
+    width?: number;
+    height?: number;
     // polygon
-    points?: Array<Array<number>>;
+    points?: number[][];
     // path
     path?: Array<Array<string | number>>;
     // 坐标
-    x?: number,
-    y?: number,
+    x?: number;
+    y?: number;
     // clip 的属性样式
     style?: {
-      lineWidth?: number
-    }
-  }
-}>
+      lineWidth?: number;
+    };
+  };
+}>;
 
 export type LabelStyle = Partial<{
   rotate: number;
@@ -139,19 +138,18 @@ export type LabelStyle = Partial<{
   opacity: number;
   fontSize: number;
   fill: string | null;
-}>
+}>;
 
 export type Easeing =
-    | 'easeLinear'
-    | 'easePolyIn'
-    | 'easePolyOut'
-    | 'easePolyInOut'
-    | 'easeQuad'
-    | 'easeQuadIn'
-    | 'easeQuadOut'
-    | 'easeQuadInOut'
-    | string
-
+  | 'easeLinear'
+  | 'easePolyIn'
+  | 'easePolyOut'
+  | 'easePolyInOut'
+  | 'easeQuad'
+  | 'easeQuadIn'
+  | 'easeQuadOut'
+  | 'easeQuadInOut'
+  | string;
 
 export interface ModelConfig extends ModelStyle {
   shape?: string;
@@ -179,7 +177,7 @@ export interface NodeConfig extends ModelConfig {
   description?: string;
 }
 
-export interface EdgeConfig extends ModelConfig  {
+export interface EdgeConfig extends ModelConfig {
   id?: string;
   source: string;
   target: string;
@@ -195,7 +193,7 @@ export interface EdgeConfig extends ModelConfig  {
 }
 
 export interface NodeMapConfig {
-  [key: string]: NodeConfig
+  [key: string]: NodeConfig;
 }
 
 export interface GroupConfig {
@@ -271,26 +269,29 @@ export enum G6Event {
 type GetEvents = 'getEvents';
 type ShouldBegin = 'shouldBegin';
 type ShouldUpdate = 'shouldUpdate';
-type ShouldEnd = 'shouldEnd'
-type Bind = 'bind'
-type Unbind = 'unbind'
+type ShouldEnd = 'shouldEnd';
+type Bind = 'bind';
+type Unbind = 'unbind';
 
-export type DefaultBehaviorType = IG6GraphEvent | string | number | object
+export type DefaultBehaviorType = IG6GraphEvent | string | number | object;
 
 export type BehaviorOpation<U> = {
-  [T in keyof U]:
-  T extends GetEvents ? () => { [key in G6Event]?: string } :
-  T extends ShouldBegin ? (cfg?: ModelConfig) => boolean :
-  T extends ShouldEnd ? (cfg?: ModelConfig) => boolean :
-  T extends ShouldUpdate ? (cfg?: ModelConfig) => boolean :
-  T extends Bind ? (graph: IGraph) => void :
-  T extends Unbind ? (graph: IGraph) => void :
-  (...args: DefaultBehaviorType[]) => unknown;
-}
+  [T in keyof U]: T extends GetEvents
+    ? () => { [key in G6Event]?: string }
+    : T extends ShouldBegin
+    ? (cfg?: ModelConfig) => boolean
+    : T extends ShouldEnd
+    ? (cfg?: ModelConfig) => boolean
+    : T extends ShouldUpdate
+    ? (cfg?: ModelConfig) => boolean
+    : T extends Bind
+    ? (graph: IGraph) => void
+    : T extends Unbind
+    ? (graph: IGraph) => void
+    : (...args: DefaultBehaviorType[]) => unknown;
+};
 
-
-
-export type IEvent = Record<G6Event, string>
+export type IEvent = Record<G6Event, string>;
 
 export interface IG6GraphEvent extends GraphEvent {
   item: IItem & INode & IEdge;
@@ -313,8 +314,8 @@ export interface IBehavior {
   [key: string]: (...args: DefaultBehaviorType[]) => unknown;
 }
 
-export type Data = {
-  nodes?: NodeConfig[]
-  edges?: EdgeConfig[]
-  groups?: GroupConfig[]
+export interface Data {
+  nodes?: NodeConfig[];
+  edges?: EdgeConfig[];
+  groups?: GroupConfig[];
 }

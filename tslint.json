@@ -8,6 +8,7 @@
     "no-bitwise": false,
     "only-arrow-functions": false,
     "object-literal-sort-keys": false,
+    "prefer-for-of": false,
     "no-empty": false,
     "no-console": false,
     "member-ordering": false
