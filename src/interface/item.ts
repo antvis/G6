@@ -1,7 +1,7 @@
 import { IGroup } from '@antv/g-base/lib/interfaces';
 import { Point } from '@antv/g-base/lib/types';
 import Group from "@antv/g-canvas/lib/group";
-import { IBBox, IPoint, IShapeBase, ModelConfig, ShapeStyle } from '@g6/types'
+import { IBBox, IPoint, IShapeBase, ModelConfig, ModelStyle, ShapeStyle } from '@g6/types'
 
 
 // item 的配置项
@@ -54,6 +54,15 @@ export type IItemConfig = Partial<{
    */
   states: string[];
 
+  /**
+   * Item 的样式
+   */
+  styles: ModelStyle;
+
+  source: string | IItem;
+  target: string | IItem;
+
+  linkCenter: boolean;
 }>
 
 export interface IItem {
@@ -193,11 +202,13 @@ export interface IItem {
 
   isOnlyMove(cfg: ModelConfig): boolean;
 
-  get<T>(key: string): T;
-  set<T>(key: string, value: T): void;
+  get<T = any>(key: string): T;
+  set<T = any>(key: string, value: T): void;
+
+  destroy(): void;
 }
 
-export interface IEdge {
+export interface IEdge extends IItem {
   setSource(source: INode): void;
   setTarget(target: INode): void;
   getSource(): INode;
@@ -205,7 +216,7 @@ export interface IEdge {
 
 }
 
-export interface INode {
+export interface INode extends IItem {
   /**
    * 获取从节点关联的所有边
    * @return {Array} 边的集合

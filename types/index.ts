@@ -204,6 +204,8 @@ export interface GroupConfig {
   [key: string]: string | ModelStyle;
 }
 
+// export type ModelConfig = NodeConfig | EdgeConfig | GroupConfig
+
 export interface GroupNodeIds {
   [key: string]: string[];
 }
@@ -302,3 +304,10 @@ export interface IG6GraphEvent extends GraphEvent {
   target: IItem & INode & IEdge & Canvas;
 }
 
+export type ItemType = INode | IEdge
+
+export enum ITEM_TYPE {
+  NODE = 'node',
+  EDGE = 'edge',
+  GROUP = 'group'
+}

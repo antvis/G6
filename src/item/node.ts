@@ -4,8 +4,8 @@ import mix from '@antv/util/lib/mix'
 import { IEdge, INode } from '@g6/interface/item';
 import { IPoint, IShapeBase, NodeConfig } from '@g6/types';
 import { distance, getCircleIntersectByPoint, getEllispeIntersectByPoint, getRectIntersectByPoint } from '@g6/util/math';
-import Item from './item'
 import Edge from './edge';
+import Item from './item'
 
 const CACHE_ANCHOR_POINTS = 'anchorPointsCache'
 const CACHE_BBOX = 'bboxCache'
