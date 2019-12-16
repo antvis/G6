@@ -24,7 +24,7 @@ export default class Event implements IEvent {
   private extendEvents: any[]
   private canvasHandler: Fun;
   private dragging: boolean
-  private preItem: IItem
+  private preItem
 
   constructor(graph: IGraph) {
     this.graph = graph
@@ -80,7 +80,7 @@ export default class Event implements IEvent {
   protected onCanvasEvents(evt: IG6GraphEvent) {
     const self = this;
     const graph = self.graph;
-    const canvas: Canvas = graph.get('canvas');
+    const canvas = graph.get('canvas');
     const pixelRatio: number = canvas.get('pixelRatio');
     const target = evt.target;
     const eventType = evt.type;
@@ -121,7 +121,7 @@ export default class Event implements IEvent {
       return;
     }
 
-    const item: IItem = itemShape.get('item');
+    const item = itemShape.get('item');
     if (item.destroyed) {
       return;
     }
@@ -183,7 +183,7 @@ export default class Event implements IEvent {
     const item = evt.target === canvas ? null : evt.item;
     const preItem = this.preItem;
 
-    evt = cloneEvent(evt)
+    evt = cloneEvent(evt) as IG6GraphEvent
 
     // 从前一个item直接移动到当前item，触发前一个item的leave事件
     if (preItem && preItem !== item && !preItem.destroyed) {

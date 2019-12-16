@@ -5,7 +5,8 @@
 
 import Shape from '../../../src/shape/shape'
 import Global from '../../../src/global';
-import { Canvas } from '@antv/g/lib';
+import Canvas from '@antv/g-canvas/lib/canvas';
+import { translate } from '../../../src/util/math'
 import '../../../src/shape/node'
 import '../../../src/shape/nodes'
 
@@ -14,7 +15,7 @@ div.id = 'node-shape';
 document.body.appendChild(div);
 
 const canvas = new Canvas({
-  containerId: 'node-shape',
+  container: 'node-shape',
   width: 500,
   height: 500
 });
@@ -36,7 +37,7 @@ describe('shape node test', () => {
     const factory = Shape.getFactory('node');
     it('circle no label', () => {
       const group = canvas.addGroup();
-      group.translate(50, 50);
+      translate(group, { x: 50, y: 50 })
       const shape = factory.draw('circle', {
         size: 40,
         color: 'red'
@@ -48,7 +49,7 @@ describe('shape node test', () => {
 
     it('circle with label', () => {
       const group = canvas.addGroup();
-      group.translate(50, 100);
+      translate(group, { x: 50, y: 100 })
       factory.draw('circle', {
         size: 20,
         color: 'blue',
@@ -60,7 +61,7 @@ describe('shape node test', () => {
 
     it('ellipse', () => {
       const group = canvas.addGroup();
-      group.translate(100, 50);
+      translate(group, { x: 100, y: 50 })
       const shape = factory.draw('ellipse', {
         size: [ 40, 20 ],
         color: 'yellow',
@@ -76,7 +77,7 @@ describe('shape node test', () => {
       const group = canvas.addGroup({
         id: 'rect'
       });
-      group.translate(100, 100);
+      translate(group, { x: 100, y: 100 })
       const shape = factory.draw('rect', {
         size: [ 40, 20 ],
         color: 'yellow',
@@ -100,7 +101,7 @@ describe('shape node test', () => {
 
     it('image', () => {
       const group = canvas.addGroup();
-      group.translate(150, 100);
+      translate(group, { x: 150, y: 100 })
       const shape = factory.draw('image', {
         size: [ 40, 20 ],
         label: 'my custom image',
@@ -159,51 +160,54 @@ describe('shape node test', () => {
     //   canvas.draw();
     // });
 
-    xit('active', () => {
-      const rectGroup = canvas.findById('rect');
-      const shape = rectGroup.get('children')[0];
-			// 伪造 item, 仅测试接口和图形的变化，不测试一致性
-      const item = {
-        getContainer() {
-          return rectGroup;
-        },
-        get() {
-          return '';
-        }
-      };
 
-      expect(shape.attr('fillOpacity')).toBe(1);
-      factory.setState('rect', 'active', true, item);
-      expect(shape.attr('fillOpacity')).toBe(Global.nodeStateStyle.active.fillOpacity);
-      expect(shape.attr('fillOpacity')).not.toBe(1);
-      factory.setState('rect', 'active', false, item);
-      expect(shape.attr('fillOpacity')).toBe(1);
-    });
+    // TODO: wait for g findById
+    
+    // xit('active', () => {
+    //   const rectGroup = canvas.findById('rect');
+    //   const shape = rectGroup.get('children')[0];
+		// 	// 伪造 item, 仅测试接口和图形的变化，不测试一致性
+    //   const item = {
+    //     getContainer() {
+    //       return rectGroup;
+    //     },
+    //     get() {
+    //       return '';
+    //     }
+    //   };
 
-    xit('selected', () => {
-      const rectGroup = canvas.findById('rect');
-      const shape = rectGroup.get('children')[0];
-			// 伪造 item, 仅测试接口和图形的变化，不测试一致性
-      const item = {
-        getContainer() {
-          return rectGroup;
-        },
-        get() {
-          return '';
-        }
-      };
-      expect(shape.attr('lineWidth')).toBe(1);
-      factory.setState('rect', 'selected', true, item);
+    //   expect(shape.attr('fillOpacity')).toBe(1);
+    //   factory.setState('rect', 'active', true, item);
+    //   expect(shape.attr('fillOpacity')).toBe(Global.nodeStateStyle.active.fillOpacity);
+    //   expect(shape.attr('fillOpacity')).not.toBe(1);
+    //   factory.setState('rect', 'active', false, item);
+    //   expect(shape.attr('fillOpacity')).toBe(1);
+    // });
 
-      expect(shape.attr('lineWidth')).toBe(Global.nodeStateStyle.selected.lineWidth);
-      factory.setState('rect', 'selected', false, item);
-      expect(shape.attr('lineWidth')).toBe(1);
+    // xit('selected', () => {
+    //   const rectGroup = canvas.findById('rect');
+    //   const shape = rectGroup.get('children')[0];
+		// 	// 伪造 item, 仅测试接口和图形的变化，不测试一致性
+    //   const item = {
+    //     getContainer() {
+    //       return rectGroup;
+    //     },
+    //     get() {
+    //       return '';
+    //     }
+    //   };
+    //   expect(shape.attr('lineWidth')).toBe(1);
+    //   factory.setState('rect', 'selected', true, item);
 
-    });
+    //   expect(shape.attr('lineWidth')).toBe(Global.nodeStateStyle.selected.lineWidth);
+    //   factory.setState('rect', 'selected', false, item);
+    //   expect(shape.attr('lineWidth')).toBe(1);
+
+    // });
 
     it('label position', () => {
       const group = canvas.addGroup();
-      group.translate(200, 200);
+      translate(group, { x: 200, y: 200 });
       factory.draw('ellipse', {
         size: [ 60, 20 ],
         color: 'green',

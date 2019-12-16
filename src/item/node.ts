@@ -5,6 +5,7 @@ import { IEdge, INode } from '@g6/interface/item';
 import { IPoint, IShapeBase, NodeConfig } from '@g6/types';
 import { distance, getCircleIntersectByPoint, getEllispeIntersectByPoint, getRectIntersectByPoint } from '@g6/util/math';
 import Item from './item'
+import Edge from './edge';
 
 const CACHE_ANCHOR_POINTS = 'anchorPointsCache'
 const CACHE_BBOX = 'bboxCache'
@@ -43,9 +44,9 @@ export default class Node extends Item implements INode {
   /**
    * 获取所有的入边
    */
-  public getInEdges(): IEdge[] {
+  public getInEdges(): Edge[] {
     const self = this;
-    return this.get('edges').filter((edge: IEdge) => {
+    return this.get('edges').filter((edge: Edge) => {
       return edge.get('target') === self;
     });
   }
@@ -53,9 +54,9 @@ export default class Node extends Item implements INode {
   /**
    * 获取所有的出边
    */
-  public getOutEdges(): IEdge[] {
+  public getOutEdges(): Edge[] {
     const self = this;
-    return this.get('edges').filter((edge: IEdge) => {
+    return this.get('edges').filter((edge: Edge) => {
       return edge.get('source') === self;
     });
   }

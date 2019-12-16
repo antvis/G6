@@ -1,6 +1,7 @@
 import Shape from '../shape'
 import { NodeConfig } from '@g6/types'
-import { G } from '@antv/g/lib'
+import GGroup from '@antv/g-canvas/lib/group';
+import { IShape } from '@antv/g-canvas/lib/interfaces'
 import { IItem } from '@g6/interface/item';
 import deepMix from '@antv/util/lib/deep-mix';
 import Global from '../../global'
@@ -58,7 +59,7 @@ Shape.registerNode('star', {
   shapeType: 'star',
   // 文本位置
   labelPosition: 'center',
-  drawShape(cfg: NodeConfig, group: G.Group): G.Shape {
+  drawShape(cfg: NodeConfig, group: GGroup): IShape {
     const { icon: defaultIcon } = this.options;
     const style = this.getShapeStyle(cfg);
     const icon = deepMix({}, defaultIcon, cfg.icon);
@@ -90,7 +91,7 @@ Shape.registerNode('star', {
    * @param {Object} cfg data数据配置项
    * @param {Group} group Group实例
    */
-  drawLinkPoints(cfg: NodeConfig, group: G.Group) {
+  drawLinkPoints(cfg: NodeConfig, group: GGroup) {
     const { linkPoints: defaultLinkPoints } = this.options;
     const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
 
@@ -270,87 +271,90 @@ Shape.registerNode('star', {
 
     // this.updateLinkPoints(cfg, group);
   },
+
+  // TODO: after findByClassName is defined by G
+
   /**
    * 更新linkPoints
    * @param {Object} cfg 节点数据配置项
    * @param {Group} group Item所在的group
    */
-  updateLinkPoints(cfg: NodeConfig, group: G.Group) {
-    const { linkPoints: defaultLinkPoints } = this.options;
-    const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
+  // updateLinkPoints(cfg: NodeConfig, group: GGroup) {
+  //   const { linkPoints: defaultLinkPoints } = this.options;
+  //   const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
 
-    const { size: markSize, ...markStyle } = linkPoints;
+  //   const { size: markSize, ...markStyle } = linkPoints;
 
-    const size = this.getSize(cfg);
-    const outerR = size[0];
+  //   const size = this.getSize(cfg);
+  //   const outerR = size[0];
 
-    const markRight = group.findByClassName('star-mark-right');
-    if (markRight) {
-      const x = Math.cos((18 + 72 * 0) / 180 * Math.PI) * outerR;
-      const y = Math.sin((18 + 72 * 0) / 180 * Math.PI) * outerR;
+  //   const markRight = group.findByClassName('star-mark-right');
+  //   if (markRight) {
+  //     const x = Math.cos((18 + 72 * 0) / 180 * Math.PI) * outerR;
+  //     const y = Math.sin((18 + 72 * 0) / 180 * Math.PI) * outerR;
 
-      markRight.attr({
-        ...markStyle,
-        x,
-        y: -y,
-        r: markSize
-      });
-    }
+  //     markRight.attr({
+  //       ...markStyle,
+  //       x,
+  //       y: -y,
+  //       r: markSize
+  //     });
+  //   }
 
-    const markTop = group.findByClassName('star-mark-top');
-    if (markTop) {
-      const x = Math.cos((18 + 72 * 1) / 180 * Math.PI) * outerR;
-      const y = Math.sin((18 + 72 * 1) / 180 * Math.PI) * outerR;
+  //   const markTop = group.findByClassName('star-mark-top');
+  //   if (markTop) {
+  //     const x = Math.cos((18 + 72 * 1) / 180 * Math.PI) * outerR;
+  //     const y = Math.sin((18 + 72 * 1) / 180 * Math.PI) * outerR;
 
-      // top circle
-      markTop.attr({
-        ...markStyle,
-        x,
-        y: -y,
-        r: markSize
-      });
-    }
+  //     // top circle
+  //     markTop.attr({
+  //       ...markStyle,
+  //       x,
+  //       y: -y,
+  //       r: markSize
+  //     });
+  //   }
 
-    const markLeft = group.findByClassName('star-mark-left');
-    if (markLeft) {
-      const x = Math.cos((18 + 72 * 2) / 180 * Math.PI) * outerR;
-      const y = Math.sin((18 + 72 * 2) / 180 * Math.PI) * outerR;
+  //   const markLeft = group.findByClassName('star-mark-left');
+  //   if (markLeft) {
+  //     const x = Math.cos((18 + 72 * 2) / 180 * Math.PI) * outerR;
+  //     const y = Math.sin((18 + 72 * 2) / 180 * Math.PI) * outerR;
 
-      // left circle
-      markLeft.attr({
-        ...markStyle,
-        x,
-        y: -y,
-        r: markSize
-      });
-    }
+  //     // left circle
+  //     markLeft.attr({
+  //       ...markStyle,
+  //       x,
+  //       y: -y,
+  //       r: markSize
+  //     });
+  //   }
 
-    const markLeftBottom = group.findByClassName('star-mark-left-bottom');
-    if (markLeftBottom) {
-      const x = Math.cos((18 + 72 * 3) / 180 * Math.PI) * outerR;
-      const y = Math.sin((18 + 72 * 3) / 180 * Math.PI) * outerR;
+  //   const markLeftBottom = group.findByClassName('star-mark-left-bottom');
+  //   if (markLeftBottom) {
+  //     const x = Math.cos((18 + 72 * 3) / 180 * Math.PI) * outerR;
+  //     const y = Math.sin((18 + 72 * 3) / 180 * Math.PI) * outerR;
 
-      // bottom circle
-      markLeftBottom.attr({
-        ...markStyle,
-        x,
-        y: -y,
-        r: markSize
-      });
-    }
+  //     // bottom circle
+  //     markLeftBottom.attr({
+  //       ...markStyle,
+  //       x,
+  //       y: -y,
+  //       r: markSize
+  //     });
+  //   }
 
-    const markRightBottom = group.findByClassName('star-mark-right-bottom');
-    if (markRightBottom) {
-      const x = Math.cos((18 + 72 * 4) / 180 * Math.PI) * outerR;
-      const y = Math.sin((18 + 72 * 4) / 180 * Math.PI) * outerR;
+  //   const markRightBottom = group.findByClassName('star-mark-right-bottom');
+  //   if (markRightBottom) {
+  //     const x = Math.cos((18 + 72 * 4) / 180 * Math.PI) * outerR;
+  //     const y = Math.sin((18 + 72 * 4) / 180 * Math.PI) * outerR;
 
-      // bottom circle
-      markRightBottom.attr({
-        ...markStyle,
-        x,
-        y: -y,
-        r: markSize
-      });
-    }
-  }
+  //     // bottom circle
+  //     markRightBottom.attr({
+  //       ...markStyle,
+  //       x,
+  //       y: -y,
+  //       r: markSize
+  //     });
+  //   }
+  // }
 }, 'single-node');

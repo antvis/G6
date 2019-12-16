@@ -5,7 +5,7 @@ import isPlainObject from '@antv/util/lib/is-plain-object'
 import isString from '@antv/util/lib/is-string'
 import uniqueId from '@antv/util/lib/unique-id'
 import { IItem, IItemConfig } from "@g6/interface/item";
-import { IBBox, IPoint, IShapeBase, ModelConfig, ModelStyle } from '@g6/types';
+import { IBBox, IPoint, IShapeBase, ModelConfig, ModelStyle, ShapeStyle } from '@g6/types';
 import { getBBox } from '@g6/util/graphic';
 import { translate } from '@g6/util/math';
 
@@ -224,10 +224,10 @@ export default  class Item implements IItem {
     this.afterDraw()
   }
 
-  public getKeyShapeStyle(): ModelStyle {
+  public getKeyShapeStyle(): ShapeStyle {
     const keyShape = this.getKeyShape();
     if (keyShape) {
-      const styles: ModelStyle = {};
+      const styles: ShapeStyle = {};
       each(keyShape.attr(), (val, key) => {
         if (RESERVED_STYLES.indexOf(key) < 0) {
           styles[key] = val;
@@ -263,11 +263,11 @@ export default  class Item implements IItem {
   /**
    * get keyshape style
    */
-  public getOriginStyle(): ModelStyle {
+  public getOriginStyle(): ShapeStyle {
     return this.get('originStyle');
   }
 
-  public getCurrentStatesStyle(): ModelStyle {
+  public getCurrentStatesStyle(): ShapeStyle {
     const self = this;
     const originStyle = self.getOriginStyle();
     each(self.getStates(), state => {

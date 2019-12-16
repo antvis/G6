@@ -2,7 +2,8 @@ import Shape from '../shape'
 import deepMix from '@antv/util/lib/deep-mix';
 import Global from '../../global'
 import { NodeConfig } from '@g6/types'
-import { G } from '@antv/g/lib'
+import { IShape } from '@antv/g-canvas/lib/interfaces'
+import GGroup from '@antv/g-canvas/lib/group';
 import { IItem } from '@g6/interface/item';
 
 
@@ -59,11 +60,11 @@ Shape.registerNode('circle', {
   shapeType: 'circle',
   // 文本位置
   labelPosition: 'center',
-  drawShape(cfg: NodeConfig, group: G.Group): G.Shape {
+  drawShape(cfg: NodeConfig, group: GGroup): IShape {
     const { icon: defaultIcon } = this.options;
     const style = this.getShapeStyle(cfg);
     const icon = deepMix({}, defaultIcon, cfg.icon);
-    const keyShape = group.addShape('circle', {
+    const keyShape: IShape = group.addShape('circle', {
       attrs: style
     });
 
@@ -90,7 +91,7 @@ Shape.registerNode('circle', {
    * @param {Object} cfg data数据配置项
    * @param {Group} group Group实例
    */
-  drawLinkPoints(cfg: NodeConfig, group: G.Group) {
+  drawLinkPoints(cfg: NodeConfig, group: GGroup) {
     const { linkPoints: defaultLinkPoints } = this.options;
     const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
 
@@ -215,70 +216,68 @@ Shape.registerNode('circle', {
 
     // this.updateLinkPoints(cfg, group);
   },
+
+  // TODO: after findByClassName is defined by G
   /**
    * 更新linkPoints
    * @param {Object} cfg 节点数据配置项
    * @param {Group} group Item所在的group
    */
-  updateLinkPoints(cfg: NodeConfig, group: G.Group) {
-    const { linkPoints: defaultLinkPoints } = this.options;
-    const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
+//   updateLinkPoints(cfg: NodeConfig, group: GGroup) {
+//     const { linkPoints: defaultLinkPoints } = this.options;
+//     const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
 
-    const { size: markSize, fill: markFill, stroke: markStroke, lineWidth: borderWidth } = linkPoints;
+//     const { size: markSize, fill: markFill, stroke: markStroke, lineWidth: borderWidth } = linkPoints;
 
-    const size = this.getSize(cfg);
-    const r = size[0] / 2;
+//     const size = this.getSize(cfg);
+//     const r = size[0] / 2;
 
-    const markLeft: G.Shape = group.findByClassName('circle-mark-left');
-    if (markLeft) {
-      markLeft.attr({
-        x: -r,
-        y: 0,
-        r: markSize,
-        fill: markFill,
-        stroke: markStroke,
-        lineWidth: borderWidth
-      });
-    }
+//     const markLeft: ShapeBase = group.findByClassName('circle-mark-left');
+//     if (markLeft) {
+//       markLeft.attr({
+//         x: -r,
+//         y: 0,
+//         r: markSize,
+//         fill: markFill,
+//         stroke: markStroke,
+//         lineWidth: borderWidth
+//       });
+//     }
 
-    const markRight: G.Shape = group.findByClassName('circle-mark-right');
-    if (markRight) {
-      markRight.attr({
-        x: r,
-        y: 0,
-        r: markSize,
-        fill: markFill,
-        stroke: markStroke,
-        lineWidth: borderWidth
-      });
-    }
+//     const markRight: ShapeBase = group.findByClassName('circle-mark-right');
+//     if (markRight) {
+//       markRight.attr({
+//         x: r,
+//         y: 0,
+//         r: markSize,
+//         fill: markFill,
+//         stroke: markStroke,
+//         lineWidth: borderWidth
+//       });
+//     }
 
-    const markTop: G.Shape = group.findByClassName('circle-mark-top');
-    if (markTop) {
-      markTop.attr({
-        x: 0,
-        y: -r,
-        r: markSize,
-        fill: markFill,
-        stroke: markStroke,
-        lineWidth: borderWidth
-      });
-    }
+//     const markTop: ShapeBase = group.findByClassName('circle-mark-top');
+//     if (markTop) {
+//       markTop.attr({
+//         x: 0,
+//         y: -r,
+//         r: markSize,
+//         fill: markFill,
+//         stroke: markStroke,
+//         lineWidth: borderWidth
+//       });
+//     }
 
-    const markBottom: G.Shape = group.findByClassName('circle-mark-bottom');
-    if (markBottom) {
-      markBottom.attr({
-        x: 0,
-        y: r,
-        r: markSize,
-        fill: markFill,
-        stroke: markStroke,
-        lineWidth: borderWidth
-      });
-    }
-  }
+//     const markBottom: ShapeBase = group.findByClassName('circle-mark-bottom');
+//     if (markBottom) {
+//       markBottom.attr({
+//         x: 0,
+//         y: r,
+//         r: markSize,
+//         fill: markFill,
+//         stroke: markStroke,
+//         lineWidth: borderWidth
+//       });
+//     }
+//   }
 }, 'single-node');
-
-
-
-// Shape.registerNode('circle', Circle);
