@@ -1,5 +1,5 @@
 ---
-title: TreeGraph
+title: TreeGraph Layout
 order: 2
 ---
 ## CompactBox
