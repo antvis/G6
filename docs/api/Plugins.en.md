@@ -7,7 +7,7 @@ There are several plugins in G6 which can be used inside and ouside G6 freely.
 - [Grid](#grid)
 - [Minimap](#minimap)
 - [Context Menu](context-menu)
-- [Edge Bundling](edge-bundling)
+- [Edge Bundling](#edge-bundling)
 
 ## Configure to Graph
 In G6, Minimap is a plugin, which is packed as independent package. Here, we import Grid and Minimap for example:

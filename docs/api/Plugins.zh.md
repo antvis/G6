@@ -7,7 +7,7 @@ G6 中支持插件提供了一些可插拔的组件，可自用使用在 G6 或�
 - [Grid](#grid)
 - [Minimap](#minimap)
 - [Context Menu](context-menu)
-- [Edge Bundling](edge-bundling)
+- [Edge Bundling](#edge-bundling)
 
 ## 配置方法
 G6 的插件是独立的包，需要单独引入，以 Grid 和 Minimap 插件为例：
