@@ -1,6 +1,6 @@
 import EventEmitter from '@antv/event-emitter'
 import { IGroup } from '@antv/g-base/lib/interfaces';
-import { AnimateCfg, Point } from '@antv/g-base/lib/types';
+import { Point } from '@antv/g-base/lib/types';
 import GCanvas from '@antv/g-canvas/lib/canvas'
 import Canvas from '@antv/g-canvas/lib/canvas';
 import Group from '@antv/g-canvas/lib/group';
@@ -10,12 +10,12 @@ import deepMix from '@antv/util/lib/deep-mix'
 import each from '@antv/util/lib/each'
 import isPlainObject from '@antv/util/lib/is-plain-object';
 import isString from '@antv/util/lib/is-string'
-import { GraphAnimateConfig, GraphOptions, IGraph, IStates } from '@g6/interface/graph';
-import { IEdge, IItem, INode } from '@g6/interface/item';
-import { EdgeConfig, GraphData, GroupConfig, ITEM_TYPE, ItemType, Matrix, ModelConfig, NodeConfig, NodeMapConfig } from '@g6/types';
+import { GraphAnimateConfig, GraphOptions, IGraph, IModeOption, IModeType, IStates } from '@g6/interface/graph';
+import { IEdge, IItemBase, INode } from '@g6/interface/item';
+import { EdgeConfig, GraphData, GroupConfig, Item, ITEM_TYPE, Matrix, ModelConfig, NodeConfig, NodeMapConfig, Padding } from '@g6/types';
 import { translate } from '@g6/util/math'
 import Global from '../global'
-import { EventController, ModeController, ViewController } from './controller'
+import { EventController, ItemController, ModeController, StateController, ViewController } from './controller'
 
 const NODE = 'node'
 const EDGE = 'edge'
@@ -69,12 +69,19 @@ export default class Graph extends EventEmitter implements IGraph {
     const eventController = new EventController(this)
     const viewController = new ViewController(this)
     const modeController = new ModeController(this)
+    const itemController = new ItemController(this)
+    const stateController = new StateController(this)
 
     this.set({
       eventController,
       viewController,
-      modeController
+      modeController,
+      itemController,
+      stateController
     })
+
+    // TODO  缺少初始化plugin的方法的实现
+    this.initPlugin()
   }
 
   private initCanvas() {
@@ -100,6 +107,12 @@ export default class Graph extends EventEmitter implements IGraph {
     })
 
     this.set('canvas', canvas)
+
+    this.initGroups()
+  }
+
+  private initPlugin(): void {
+
   }
 
   // 初始化所有 Group
@@ -329,12 +342,118 @@ export default class Graph extends EventEmitter implements IGraph {
   }
 
   /**
+   * 清理元素多个状态
+   * @param {string|Item} item 元素id或元素实例
+   * @param {string[]} states 状态
+   */
+  public clearItemStates(item: Item, states: string[]): void {
+    if(isString(item))  {
+      item = this.findById(item)
+    }
+
+    const itemController: ItemController = this.get('itemController')
+
+    itemController.clearItemStates(item, states)
+
+    if(!states) {
+      states = item.get<string[]>('states')
+    }
+
+    const stateController: StateController = this.get('stateController')
+    stateController.updateStates(item, states, false)
+  }
+
+  /**
+   * 设置各个节点样式，以及在各种状态下节点 keyShape 的样式。
+   * 若是自定义节点切在各种状态下
+   * graph.node(node => {
+   *  return {
+   *    {
+   *       shape: 'rect',
+   *      label: node.id,
+   *       style: { fill: '#666' },
+   *      stateStyles: {
+   *         selected: { fill: 'blue' },
+   *         custom: { fill: 'green' }
+   *       }
+   *     }
+   *  }
+   * });
+   * @param {function} nodeFn 指定每个节点样式
+   */
+  public node(nodeFn: (config: NodeConfig) => NodeConfig): void {
+    if (typeof nodeFn === 'function') {
+      this.set('nodeMapper', nodeFn);
+    }
+  }
+
+  /**
+   * 设置各个边样式
+   * @param {function} edgeFn 指定每个边的样式,用法同 node
+   */
+  public edge(edgeFn: (config: EdgeConfig) => EdgeConfig): void {
+    if (typeof edgeFn === 'function') {
+      this.set('edgeMapper', edgeFn);
+    }
+  }
+
+  /**
    * 根据 ID 查询图元素实例
    * @param id 图元素 ID
    */
-  public findById(id: string): ItemType {
+  public findById(id: string): Item {
     return this.get('itemMap')[id]
   }
+
+  /**
+   * 根据对应规则查找单个元素
+   * @param {ITEM_TYPE} type 元素类型(node | edge | group)
+   * @param {(item: T, index: number) => T} fn 指定规则
+   * @return {T} 元素实例
+   */
+  public find<T = IItemBase>(type: ITEM_TYPE, fn: (item: T, index?: number) => T): T  {
+    let result;
+    const items = this.get(type + 's');
+
+    each(items, (item, i) => {
+      if (fn(item, i)) {
+        result = item;
+        return false;
+      }
+    });
+
+    return result;
+  }
+
+  /**
+   * 查找所有满足规则的元素
+   * @param {string} type 元素类型(node|edge)
+   * @param {string} fn 指定规则
+   * @return {array} 元素实例
+   */
+  public findAll<T = IItemBase>(type: ITEM_TYPE, fn: (item: T, index?: number) => T): T[] {
+    const result = [];
+
+    each(this.get(type + 's'), (item, i) => {
+      if (fn(item, i)) {
+        result.push(item);
+      }
+    });
+
+    return result;
+  }
+
+  /**
+   * 查找所有处于指定状态的元素
+   * @param {string} type 元素类型(node|edge)
+   * @param {string} state z状态
+   * @return {object} 元素实例
+   */
+  // public findAllByState<T>(type: ITEM_TYPE, state: string): T[] {
+  //   return this.findAll(type, (item) => {
+  //     return item.hasState(state);
+  //   });
+  // }
 
   /**
    * 平移画布
@@ -346,6 +465,60 @@ export default class Graph extends EventEmitter implements IGraph {
     translate(group, { x: dx, y: dy })
     this.emit('viewportchange', { action: 'translate', matrix: group.getMatrix() });
     this.autoPaint();
+  }
+
+  /**
+   * 平移画布到某点
+   * @param {number} x 水平坐标
+   * @param {number} y 垂直坐标
+   */
+  public moveTo(x: number, y: number): void {
+    const group: Group = this.get('group');
+    // TODO move 需要提取到 util 方法中
+    // group.move(x, y);
+
+    this.emit('viewportchange', { action: 'move', matrix: group.getMatrix() });
+
+    this.autoPaint();
+  }
+
+  /**
+   * 调整视口适应视图
+   * @param {object} padding 四周围边距
+   */
+  public fitView(padding: Padding) {
+    if (padding) {
+      this.set('fitViewPadding', padding);
+    }
+
+    const viewController: ViewController = this.get('viewController')
+    viewController.fitView();
+
+    this.paint();
+  }
+
+  /**
+   * 新增行为
+   * @param {string | IModeOption | IModeType[]} behaviors 添加的行为
+   * @param {string | string[]} modes 添加到对应的模式
+   * @return {Graph} Graph
+   */
+  public addBehaviors(behaviors: string | IModeOption | IModeType[], modes: string | string[]): Graph {
+    const modeController: ModeController = this.get('modeController')
+    modeController.manipulateBehaviors(behaviors, modes, true);
+    return this;
+  }
+
+  /**
+   * 移除行为
+   * @param {string | IModeOption | IModeType[]} behaviors 移除的行为
+   * @param {string | string[]} modes 从指定的模式中移除
+   * @return {Graph} Graph
+   */
+  public removeBehaviors(behaviors: string | IModeOption | IModeType[], modes: string | string[]): Graph {
+    const modeController: ModeController = this.get('modeController')
+    modeController.manipulateBehaviors(behaviors, modes, false);
+    return this;
   }
 
   /**
@@ -380,6 +553,27 @@ export default class Graph extends EventEmitter implements IGraph {
   }
 
   /**
+   * 伸缩视口到一固定比例
+   * @param {number} toRatio 伸缩比例
+   * @param {Point} center 以center的x, y坐标为中心缩放
+   */
+  public zoomTo(toRatio: number, center: Point): void {
+    const ratio = toRatio / this.getZoom();
+    this.zoom(ratio, center);
+  }
+
+  /**
+   * 将元素移动到视口中心
+   * @param {Item} item 指定元素
+   */
+  public focusItem(item: Item): void {
+    const viewController: ViewController = this.get('viewController')
+    viewController.focus(item)
+
+    this.autoPaint()
+  }
+
+  /**
    * 自动重绘
    * @internal 仅供内部更新机制调用，外部根据需求调用 render 或 paint 接口
    */
@@ -405,7 +599,8 @@ export default class Graph extends EventEmitter implements IGraph {
    * @return {Point} 视口坐标
    */
   public getPointByClient(clientX: number, clientY: number): Point {
-    return this.get('viewController').getPointByClient(clientX, clientY);
+    const viewController: ViewController = this.get('viewController')
+    return viewController.getPointByClient(clientX, clientY);
   }
 
   /**
@@ -415,7 +610,8 @@ export default class Graph extends EventEmitter implements IGraph {
    * @return {Point} 视口坐标
    */
   public getClientByPoint(x: number, y: number): Point {
-    return this.get('viewController').getClientByPoint(x, y);
+    const viewController: ViewController = this.get('viewController')
+    return viewController.getClientByPoint(x, y);
   }
 
   /**
@@ -425,7 +621,8 @@ export default class Graph extends EventEmitter implements IGraph {
    * @return {object} 视口坐标
    */
   public getPointByCanvas(canvasX: number, canvasY: number): Point {
-    return this.get('viewController').getPointByCanvas(canvasX, canvasY);
+    const viewController: ViewController = this.get('viewController')
+    return viewController.getPointByCanvas(canvasX, canvasY);
   }
 
   /**
@@ -435,15 +632,35 @@ export default class Graph extends EventEmitter implements IGraph {
    * @return {object} 画布坐标
    */
   public getCanvasByPoint(x: number, y: number): Point {
-    return this.get('viewController').getCanvasByPoint(x, y);
+    const viewController: ViewController = this.get('viewController')
+    return viewController.getCanvasByPoint(x, y);
+  }
+
+  /**
+   * 显示元素
+   * @param {Item} item 指定元素
+   */
+  public showItem(item: Item): void {
+    const itemController: ItemController = this.get('itemController')
+    itemController.changeItemVisibility(item, true) 
+  }
+
+  /**
+   * 隐藏元素
+   * @param {Item} item 指定元素
+   */
+  public hideItem(item: Item): void {
+    const itemController: ItemController = this.get('itemController')
+    itemController.changeItemVisibility(item, false) 
   }
 
   /**
    * 刷新元素
    * @param {string|object} item 元素id或元素实例
    */
-  public refreshItem(item: string | IItem) {
-    this.get('itemController').refreshItem(item);
+  public refreshItem(item: Item) {
+    const itemController: ItemController = this.get('itemController')
+    itemController.refreshItem(item);
   }
 
   /**
@@ -456,17 +673,17 @@ export default class Graph extends EventEmitter implements IGraph {
 
   /**
    * 删除元素
-   * @param {ItemType} item 元素id或元素实例
+   * @param {Item} item 元素id或元素实例
    */
-  public remove(item: ItemType): void {
+  public remove(item: Item): void {
     this.removeItem(item);
   }
 
   /**
    * 删除元素
-   * @param {ItemType} item 元素id或元素实例
+   * @param {Item} item 元素id或元素实例
    */
-  public removeItem(item: ItemType): void {
+  public removeItem(item: Item): void {
     // 如果item是字符串，且查询的节点实例不存在，则认为是删除group
     let nodeItem = null;
     if (isString(item)) {
@@ -484,9 +701,9 @@ export default class Graph extends EventEmitter implements IGraph {
    * 新增元素 或 节点分组
    * @param {string} type 元素类型(node | edge | group)
    * @param {ModelConfig} model 元素数据模型
-   * @return {ItemType} 元素实例
+   * @return {Item} 元素实例
    */
-  public addItem(type: ITEM_TYPE, model: ModelConfig): ItemType {
+  public addItem(type: ITEM_TYPE, model: ModelConfig): Item {
     if (type === 'group') {
       const { groupId, nodes, type: groupType, zIndex, title } = model;
       let groupTitle = title;
@@ -502,35 +719,35 @@ export default class Graph extends EventEmitter implements IGraph {
     return this.get('itemController').addItem(type, model);
   }
 
-  public add(type: ITEM_TYPE, model: ModelConfig): ItemType {
+  public add(type: ITEM_TYPE, model: ModelConfig): Item {
     return this.addItem(type, model)
   }
 
   /**
    * 更新元素
-   * @param {ItemType} item 元素id或元素实例
+   * @param {Item} item 元素id或元素实例
    * @param {ModelConfig} cfg 需要更新的数据
    */
-  public updateItem(item: ItemType, cfg: ModelConfig): void {
+  public updateItem(item: Item, cfg: ModelConfig): void {
     this.get('itemController').updateItem(item, cfg);
   }
 
   /**
    * 更新元素
-   * @param {ItemType} item 元素id或元素实例
+   * @param {Item} item 元素id或元素实例
    * @param {ModelConfig} cfg 需要更新的数据
    */
-  public update(item: ItemType, cfg: ModelConfig): void {
+  public update(item: Item, cfg: ModelConfig): void {
     this.updateItem(item, cfg)
   }
 
   /**
    * 设置元素状态
-   * @param {ItemType} item 元素id或元素实例
+   * @param {Item} item 元素id或元素实例
    * @param {string} state 状态
    * @param {boolean} enabled 是否启用状态
    */
-  public setItemState(item: ItemType, state: string, enabled: boolean): void {
+  public setItemState(item: Item, state: string, enabled: boolean): void {
     if (isString(item)) {
       item = this.findById(item);
     }
@@ -600,7 +817,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
     function success() {
       if (self.get('fitView')) {
-        self.get('viewController')._fitView();
+        self.get('viewController').fitView();
       }
       self.paint();
       self.setAutoPaint(autoPaint);
@@ -827,7 +1044,7 @@ export default class Graph extends EventEmitter implements IGraph {
     canvas.animate({
       onFrame(ratio) {
         each(toNodes, data => {
-          const node: ItemType = self.findById(data.id);
+          const node: Item = self.findById(data.id);
 
           if (!node || node.destroyed) {
             return;

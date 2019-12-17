@@ -3,7 +3,7 @@ import GraphEvent from '@antv/g-base/lib/event/graph-event';
 import Canvas from '@antv/g-canvas/lib/canvas';
 import { G6Event, IG6GraphEvent } from '@g6/types';
 import { IGraph } from './graph';
-import { IEdge, IItem, INode } from './item';
+import { IEdge, IItemBase, INode } from './item';
 
 
 
@@ -20,12 +20,12 @@ export interface IBehavior {
 }
 
 export class G6GraphEvent extends GraphEvent implements IG6GraphEvent {
-  public item: IItem & INode & IEdge;
+  public item: IItemBase & INode & IEdge;
   public canvasX: number
   public canvasY: number
   public wheelDelta: number
   public detail: number
-  public target: IItem & INode & IEdge & Canvas;
+  public target: IItemBase & INode & IEdge & Canvas;
   constructor(type, event) {
     super(type, event)
     this.item = event.item

@@ -8,10 +8,10 @@ import isString from '@antv/util/lib/is-string'
 import upperFirst from '@antv/util/lib/upper-first'
 import Edge from '@g6/item/edge';
 import Node from '@g6/item/node';
-import { EdgeConfig, ITEM_TYPE, ItemType, ModelConfig, NodeConfig, NodeMapConfig } from '@g6/types';
+import { EdgeConfig, Item, ITEM_TYPE, ModelConfig, NodeConfig, NodeMapConfig } from '@g6/types';
 import Graph from '../graph';
 
-import { IEdge, IItem, INode } from '@g6/interface/item';
+import { IEdge, IItemBase, INode } from '@g6/interface/item';
 
 const NODE = 'node';
 const EDGE = 'edge';
@@ -33,10 +33,10 @@ export default class ItemController {
    *
    * @param {ITEM_TYPE} type 实例类型，node 或 edge
    * @param {(NodeConfig & EdgeConfig)} model 数据模型
-   * @returns {(ItemType)}
+   * @returns {(Item)}
    * @memberof ItemController
    */
-  public addItem<T = ItemType>(type: ITEM_TYPE, model: NodeConfig & EdgeConfig): T {
+  public addItem<T = Item>(type: ITEM_TYPE, model: NodeConfig & EdgeConfig): T {
     const graph = this.graph;
     const parent: Group = graph.get(type + 'Group') || graph.get('group');
     const upperType = upperFirst(type);
@@ -71,8 +71,8 @@ export default class ItemController {
     graph.emit('beforeadditem', { type, model });
 
     if(type === EDGE) {
-      let source: string | IItem = model.source
-      let target: string | IItem = model.target
+      let source: string | IItemBase = model.source
+      let target: string | IItemBase = model.target
 
       if (source && isString(source)) {
         source = graph.findById(source);
@@ -112,16 +112,16 @@ export default class ItemController {
   /**
    * 更新节点或边
    *
-   * @param {ItemType} item ID 或 实例
+   * @param {Item} item ID 或 实例
    * @param {(EdgeConfig | NodeConfig)} cfg 数据模型
    * @returns
    * @memberof ItemController
    */
-  public updateItem(item: ItemType, cfg: EdgeConfig | NodeConfig) {
+  public updateItem(item: Item, cfg: EdgeConfig | NodeConfig) {
     const graph = this.graph;
     
     if (isString(item)) {
-      item = graph.findById(item) as ItemType;
+      item = graph.findById(item) as Item;
     }
 
     if (!item || item.destroyed) {
@@ -200,11 +200,11 @@ export default class ItemController {
   /**
    * 删除指定的节点或边
    *
-   * @param {ItemType} item item ID 或实例
+   * @param {Item} item item ID 或实例
    * @returns {void}
    * @memberof ItemController
    */
-  public removeItem(item: ItemType): void {
+  public removeItem(item: Item): void {
     const graph = this.graph;
     if (isString(item)) {
       item = graph.findById(item);
@@ -241,13 +241,13 @@ export default class ItemController {
   /**
    * 更新 item 状态
    *
-   * @param {ItemType} item Item 实例
+   * @param {Item} item Item 实例
    * @param {string} state 状态名称
    * @param {boolean} enabled 是否启用状态
    * @returns {void}
    * @memberof ItemController
    */
-  public setItemState(item: ItemType, state: string, enabled: boolean): void {
+  public setItemState(item: Item, state: string, enabled: boolean): void {
     const graph = this.graph;
 
     if (item.hasState(state) === enabled) {
@@ -265,11 +265,11 @@ export default class ItemController {
   /**
    * 清除所有指定的状态
    *
-   * @param {ItemType} item Item 实例
+   * @param {Item} item Item 实例
    * @param {string[]} states 状态名称集合
    * @memberof ItemController
    */
-  public clearItemStates(item: ItemType, states: string[]): void {
+  public clearItemStates(item: Item, states: string[]): void {
     const graph = this.graph;
 
     if (isString(item)) {
@@ -287,10 +287,10 @@ export default class ItemController {
   /**
    * 刷新指定的 Item
    *
-   * @param {ItemType} item Item ID 或 实例
+   * @param {Item} item Item ID 或 实例
    * @memberof ItemController
    */
-  public refreshItem(item: ItemType): void {
+  public refreshItem(item: Item): void {
     const graph = this.graph;
 
     if (isString(item)) {
@@ -309,11 +309,11 @@ export default class ItemController {
   /**
    * 改变Item的显示状态
    *
-   * @param {ItemType} item Item ID 或 实例
+   * @param {Item} item Item ID 或 实例
    * @param {boolean} visible 是否显示
    * @memberof ItemController
    */
-  public changeItemVisibility(item: ItemType, visible: boolean): void {
+  public changeItemVisibility(item: Item, visible: boolean): void {
     const self = this;
     const graph = self.graph;
 

@@ -6,20 +6,15 @@ import each from '@antv/util/lib/each'
 import isNil from '@antv/util/lib/is-nil';
 import wrapBehavior from '@antv/util/lib/wrap-behavior';
 import { IGraph } from '@g6/interface/graph';
-import { IItem } from '@g6/interface/item';
 import { G6Event, IG6GraphEvent, Matrix } from '@g6/types';
 import { cloneEvent } from '@g6/util/base';
-
-interface IEvent {
-  destroy: () => void;
-}
 
 type Fun = () => void
 
 const ORIGIN_MATRIX = [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ];
 const MATRIX_LEN = 9;
 
-export default class Event implements IEvent {
+export default class EventController {
   private graph: IGraph
   private extendEvents: any[]
   private canvasHandler: Fun;

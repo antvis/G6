@@ -5,12 +5,12 @@
  * @LastEditTime: 2019-08-22 18:41:45
  * @Description: 拖动节点的Behavior
  */
-import isString from '@antv/util/lib/is-string'
-import deepMix from '@antv/util/lib/deep-mix';
-import Global from '../global'
-import { G6Event, IG6GraphEvent, NodeConfig } from "@g6/types";
-import { IItem, INode } from '@g6/interface/item';
 import { Point } from '@antv/g-base/lib/types';
+import deepMix from '@antv/util/lib/deep-mix';
+import isString from '@antv/util/lib/is-string'
+import { IItemBase } from '@g6/interface/item';
+import { G6Event, IG6GraphEvent, NodeConfig } from "@g6/types";
+import Global from '../global'
 
 
 const body = document.body;
@@ -74,8 +74,8 @@ export default {
       // 拖动多个节点
       if (nodes.length > 1) {
         nodes.forEach(node => {
-          const hasLocked = node.hasLocked();
-          if (!hasLocked) {
+          const locked = node.hasLocked();
+          if (!locked) {
             this.targets.push(node);
           }
         });
@@ -178,7 +178,7 @@ export default {
       body.addEventListener('keyup', fn, false);
     }
   },
-  _update(item: IItem, e: IG6GraphEvent, force: boolean) {
+  _update(item: IItemBase, e: IG6GraphEvent, force: boolean) {
     const origin = this.origin;
     const model: NodeConfig = item.get('model');
     const nodeId: string = item.get('id');
@@ -220,15 +220,15 @@ export default {
       const parent = this.graph.get('group');
       const attrs = deepMix({}, Global.delegateStyle, this.delegateStyle);
       if (this.targets.length > 0) {
-        const { x, y, width, height, minX, minY } = this.calculationGroupPosition();
-        this.originPoint = { x, y, width, height, minX, minY };
+        const { x: cx, y: cy, width, height, minX, minY } = this.calculationGroupPosition();
+        this.originPoint = { x: cx, y: cy, width, height, minX, minY };
         // model上的x, y是相对于图形中心的，delegateShape是g实例，x,y是绝对坐标
         this.shape = parent.addShape('rect', {
           attrs: {
             width,
             height,
-            x,
-            y,
+            x: cx,
+            y: cy,
             ...attrs
           }
         });

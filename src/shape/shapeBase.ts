@@ -2,15 +2,15 @@
  * @fileOverview 自定义节点和边的过程中，发现大量重复代码
  * @author dxq613@gmail.com
  */
-import Global from '../global'
-import each from '@antv/util/lib/each'
-import { get, cloneDeep, merge } from 'lodash'
-import { ShapeOptions } from '@g6/interface/shape'
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
+import each from '@antv/util/lib/each'
+import { IItemBase } from '@g6/interface/item'
+import { ShapeOptions } from '@g6/interface/shape'
 import { ILabelConfig } from '@g6/interface/shape'
-import { IItem } from '@g6/interface/item'
-import { ModelConfig, IPoint, LabelStyle, ShapeStyle } from '@g6/types'
+import { IPoint, LabelStyle, ModelConfig, ShapeStyle } from '@g6/types'
+import { cloneDeep, get, merge } from 'lodash'
+import Global from '../global'
 
 const CLS_SHAPE_SUFFIX = '-shape'
 const CLS_LABEL_SUFFIX = '-label'
@@ -42,8 +42,11 @@ export const shapeBase: ShapeOptions = {
     return shape
   },
   /**
-  * 绘制完成后的操作，便于用户继承现有的节点、边
-  */
+   * 绘制完成后的操作，便于用户继承现有的节点、边
+   * @param cfg 
+   * @param group 
+   * @param keyShape 
+   */
   afterDraw(cfg?: ModelConfig, group?: GGroup, keyShape?: IShape) {
 
   },
@@ -63,14 +66,13 @@ export const shapeBase: ShapeOptions = {
   getLabelStyleByPosition(cfg?: ModelConfig, labelCfg?: ILabelConfig, group?: GGroup): LabelStyle {
     return {};
   },
+
   /**
-	 * 获取文本的配置项
-	 * @internal 用户创建和更新节点/边时，同时会更新文本
-	 * @param  {Object} cfg 节点的配置项
-   * @param {Object} labelCfg 文本的配置项
-	 * @param {G.Group} group 父容器，label 的定位可能与图形相关
-	 * @return {Object} 图形的配置项
-	 */
+   * 获取文本的配置项
+   * @param cfg 节点的配置项
+   * @param labelCfg 文本的配置项
+   * @param group 父容器，label 的定位可能与图形相关
+   */
   getLabelStyle(cfg: ModelConfig, labelCfg, group: GGroup): LabelStyle {
     const calculateStyle = this.getLabelStyleByPosition(cfg, labelCfg, group)
     calculateStyle.text = cfg.label
@@ -79,12 +81,11 @@ export const shapeBase: ShapeOptions = {
     const labelStyle = Object.assign({}, defaultStyle, calculateStyle, labelCfg.style)
     return labelStyle
   },
+  
   /**
-	 * 获取图形的配置项
-	 * @internal 仅在定义这一类节点使用，用户创建和更新节点
-	 * @param  {Object} cfg 节点的配置项
-	 * @return {Object} 图形的配置项
-	 */
+   * 获取图形的配置项
+   * @param cfg 
+   */
   getShapeStyle(cfg: ModelConfig): ShapeStyle {
     return cfg.style
   },
@@ -94,7 +95,7 @@ export const shapeBase: ShapeOptions = {
 	 * @param  {Object} cfg 节点/边的配置项
 	 * @param  {G6.Item} item 节点/边
 	 */
-  update(cfg: ModelConfig, item: IItem) {
+  update(cfg: ModelConfig, item: IItemBase) {
     // TODO: after findByClassName is defined by G
 
     // const group = item.getContainer()
@@ -129,7 +130,7 @@ export const shapeBase: ShapeOptions = {
   },
 
   // update(cfg, item) // 默认不定义
-  afterUpdate(cfg?: ModelConfig, item?: IItem) {
+  afterUpdate(cfg?: ModelConfig, item?: IItemBase) {
 
   },
 	/**
@@ -140,7 +141,7 @@ export const shapeBase: ShapeOptions = {
 	 * @param  {String | Boolean} value 状态值
 	 * @param  {G6.Item} item 节点
 	 */
-  setState(name: string, value: boolean, item: IItem) {
+  setState(name: string, value: boolean, item: IItemBase) {
     const shape: IShape = item.get('keyShape')
     if (!shape) {
       return
@@ -169,7 +170,7 @@ export const shapeBase: ShapeOptions = {
    * @param {Item} item Node或Edge的实例
    * @return {object} 样式
    */
-  getStateStyle(name: string, value: string | boolean, item: IItem): ShapeStyle {
+  getStateStyle(name: string, value: string | boolean, item: IItemBase): ShapeStyle {
     const model = item.getModel()
     const { style: defaultStyle, stateStyles: defaultStateStyle } = this.options
 

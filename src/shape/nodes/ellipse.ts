@@ -1,10 +1,10 @@
-import Shape from '../shape'
-import deepMix from '@antv/util/lib/deep-mix';
-import Global from '../../global'
-import { NodeConfig } from '@g6/types'
-import { IShape } from '@antv/g-canvas/lib/interfaces'
 import GGroup from '@antv/g-canvas/lib/group';
-import { IItem } from '@g6/interface/item';
+import { IShape } from '@antv/g-canvas/lib/interfaces'
+import deepMix from '@antv/util/lib/deep-mix';
+import { IItemBase } from '@g6/interface/item';
+import { NodeConfig } from '@g6/types'
+import Global from '../../global'
+import Shape from '../shape'
 
 /**
  * 基本的椭圆，可以添加文本，默认文本居中
@@ -182,7 +182,7 @@ Shape.registerNode('ellipse', {
     }, style);
     return styles;
   },
-  update(cfg: NodeConfig, item: IItem) {
+  update(cfg: NodeConfig, item: IItemBase) {
 
     // TODO: after findByClassName is defined by G
 

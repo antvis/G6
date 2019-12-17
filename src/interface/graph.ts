@@ -1,8 +1,8 @@
 import EventEmitter from '@antv/event-emitter';
 import { AnimateCfg, Point } from '@antv/g-base/lib/types';
 import Graph from '@g6/graph/graph';
-import { GraphData, IG6GraphEvent, ITEM_TYPE, ItemType, ModelConfig, ModelStyle, Padding, ShapeStyle } from '@g6/types'
-import { IEdge, IItem, INode } from './item';
+import { EdgeConfig, GraphData, IG6GraphEvent, Item, ITEM_TYPE, ModelConfig, ModelStyle, NodeConfig, Padding, ShapeStyle } from '@g6/types'
+import { IEdge, IItemBase, INode } from './item';
 
 export interface IModeOption {
   type: string;
@@ -27,7 +27,7 @@ export interface GraphAnimateConfig extends AnimateCfg {
   /**
    * 回调函数，用于自定义节点运动路径。
    */
-  onFrame?: (item: IItem, ratio: number, data?: GraphData, originAttrs?: ShapeStyle) => unknown;
+  onFrame?: (item: IItemBase, ratio: number, data?: GraphData, originAttrs?: ShapeStyle) => unknown;
 }
 export interface GraphOptions {
   /**
@@ -151,7 +151,7 @@ export interface IGraph extends EventEmitter {
   getDefaultCfg(): GraphOptions;
   get<T = any>(key: string): T;
   set<T = any>(key: string | object, value?: T): Graph;
-  findById(id: string): ItemType;
+  findById(id: string): Item;
   translate(dx: number, dy: number): void;
   zoom(ratio: number, center: Point): void;
 
@@ -194,49 +194,54 @@ export interface IGraph extends EventEmitter {
   setAutoPaint(auto: boolean): void;
 
   /**
+   * 仅画布重新绘制
+   */
+  paint(): void;
+
+  /**
    * 刷新元素
-   * @param {ItemType} item 元素id或元素实例
+   * @param {Item} item 元素id或元素实例
    */
-  refreshItem(item: ItemType): void;
+  refreshItem(item: Item): void;
 
   /**
    * 删除元素
-   * @param {ItemType} item 元素id或元素实例
+   * @param {Item} item 元素id或元素实例
    */
-  removeItem(item: ItemType): void;
+  removeItem(item: Item): void;
 
   /**
    * 删除元素
-   * @param {ItemType} item 元素id或元素实例
+   * @param {Item} item 元素id或元素实例
    */
-  remove(item: ItemType): void;
+  remove(item: Item): void;
 
   /**
    * 新增元素 或 节点分组
    * @param {string} type 元素类型(node | edge | group)
    * @param {ModelConfig} model 元素数据模型
-   * @return {ItemType} 元素实例
+   * @return {Item} 元素实例
    */
-  addItem(type: ITEM_TYPE, model: ModelConfig): ItemType;
+  addItem(type: ITEM_TYPE, model: ModelConfig): Item;
 
-  add(type: ITEM_TYPE, model: ModelConfig): ItemType;
+  add(type: ITEM_TYPE, model: ModelConfig): Item;
 
   /**
    * 更新元素
-   * @param {ItemType} item 元素id或元素实例
+   * @param {Item} item 元素id或元素实例
    * @param {ModelConfig} cfg 需要更新的数据
    */
-  updateItem(item: ItemType, cfg: ModelConfig): void;
+  updateItem(item: Item, cfg: ModelConfig): void;
 
-  update(item: ItemType, cfg: ModelConfig): void;
+  update(item: Item, cfg: ModelConfig): void;
 
   /**
    * 设置元素状态
-   * @param {ItemType} item 元素id或元素实例
+   * @param {Item} item 元素id或元素实例
    * @param {string} state 状态
    * @param {boolean} enabled 是否启用状态
    */
-  setItemState(item: ItemType, state: string, enabled: boolean): void;
+  setItemState(item: Item, state: string, enabled: boolean): void;
 
   /**
    * 设置视图初始化数据
@@ -333,4 +338,72 @@ export interface IGraph extends EventEmitter {
    * @return {Graph} this
    */
   changeSize(width: number, height: number): Graph;
+
+  /**
+   * 清理元素多个状态
+   * @param {string|Item} item 元素id或元素实例
+   * @param {String[]} states 状态
+   */
+  clearItemStates(item: Item, states: string[]): void;
+
+  /**
+   * 设置各个节点样式，以及在各种状态下节点 keyShape 的样式。
+   * 若是自定义节点切在各种状态下
+   * graph.node(node => {
+   *  return {
+   *    {
+   *       shape: 'rect',
+   *      label: node.id,
+   *       style: { fill: '#666' },
+   *      stateStyles: {
+   *         selected: { fill: 'blue' },
+   *         custom: { fill: 'green' }
+   *       }
+   *     }
+   *  }
+   * });
+   * @param {function} nodeFn 指定每个节点样式
+   */
+  node(nodeFn: (config: NodeConfig) => NodeConfig): void;
+
+  /**
+   * 设置各个边样式
+   * @param {function} edgeFn 指定每个边的样式,用法同 node
+   */
+  edge(edgeFn: (config: EdgeConfig) => EdgeConfig): void;
+  /**
+   * 平移画布到某点
+   * @param {number} x 水平坐标
+   * @param {number} y 垂直坐标
+   */
+  moveTo(x: number, y: number): void;
+
+  /**
+   * 根据对应规则查找单个元素
+   * @param {ITEM_TYPE} type 元素类型(node | edge | group)
+   * @param {(item: T, index: number) => T} fn 指定规则
+   * @return {T} 元素实例
+   */
+  find<T = IItemBase>(type: ITEM_TYPE, fn: (item: T, index: number) => T): T;
+
+  /**
+   * 查找所有满足规则的元素
+   * @param {string} type 元素类型(node|edge)
+   * @param {string} fn 指定规则
+   * @return {array} 元素实例
+   */
+  findAll<T = IItemBase>(type: ITEM_TYPE, fn: (item: T, index: number) => T): T[];
+
+  /**
+   * 查找所有处于指定状态的元素
+   * @param {string} type 元素类型(node|edge)
+   * @param {string} state z状态
+   * @return {object} 元素实例
+   */
+  // findAllByState<T = IItemBase>(type: ITEM_TYPE, state: string): T[];
+
+  /**
+   * 返回图表的 dataUrl 用于生成图片
+   */
+  // toDataURL(): void;
 }
