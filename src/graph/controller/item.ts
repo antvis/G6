@@ -13,17 +13,6 @@ import Graph from '../graph';
 
 import { IEdge, IItem, INode } from '@g6/interface/item';
 
-interface IItemConstroller {
-  addItem: (type: ITEM_TYPE, model: ModelConfig) => INode | IEdge;
-  updateItem<T extends ItemType>(item: T, cfg: ModelConfig): void;
-  removeItem: (item: ItemType) => void;
-  setItemState: (item: ItemType, state: string, enabled: boolean) => void;
-  clearItemStates: (item: ItemType, states: string[]) => void;
-  refreshItem: (item: ItemType) => void;
-  changeItemVisibility: (item: ItemType, visible: boolean) => void;
-  destroy: () => void;
-}
-
 const NODE = 'node';
 const EDGE = 'edge';
 const CFG_PREFIX = 'default';
@@ -31,7 +20,7 @@ const MAPPER_SUFFIX = 'Mapper';
 const STATE_SUFFIX = 'stateStyles';
 const hasOwnProperty = Object.hasOwnProperty;
 
-export default class ItemController implements IItemConstroller {
+export default class ItemController {
   private graph: Graph
   public destroyed: boolean
   constructor(graph: Graph) {
@@ -44,10 +33,10 @@ export default class ItemController implements IItemConstroller {
    *
    * @param {ITEM_TYPE} type 实例类型，node 或 edge
    * @param {(NodeConfig & EdgeConfig)} model 数据模型
-   * @returns {(Node | Edge)}
+   * @returns {(ItemType)}
    * @memberof ItemController
    */
-  public addItem(type: ITEM_TYPE, model: NodeConfig & EdgeConfig): Node | Edge {
+  public addItem<T = ItemType>(type: ITEM_TYPE, model: NodeConfig & EdgeConfig): T {
     const graph = this.graph;
     const parent: Group = graph.get(type + 'Group') || graph.get('group');
     const upperType = upperFirst(type);
