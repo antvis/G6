@@ -1,45 +1,45 @@
-// import '../../../src/behavior'
-// import Behavior from '../../../src/behavior/behavior'
-// import { IBehavior } from '../../../src/interface/behavior';
+import '../../../src/behavior'
+import Behavior from '../../../src/behavior/behavior'
+import { IBehavior } from '../../../src/interface/behavior';
 
-// import Simulate from 'event-simulate';
-// import Graph from '../../../src/graph/graph'
+import Simulate from 'event-simulate';
+import Graph from '../../../src/graph/graph'
 // import { G } from '@antv/g/lib'
 
 
-// const div = document.createElement('div');
-// div.id = 'drag-spec';
-// document.body.appendChild(div);
+const div = document.createElement('div');
+div.id = 'drag-spec';
+document.body.appendChild(div);
 
 describe('drag-node', () => {
   it('drag node', () => {
-  //   const graph = new Graph({
-  //     container: div,
-  //     width: 500,
-  //     height: 500,
-  //     modes: {
-  //       default: [{
-  //         type: 'drag-node',
-  //         delegate: false
-  //       }]
-  //     },
-  //     pixelRatio: 2
-    });
-  //   const node = graph.addItem('node', { color: '#666', x: 50, y: 50, r: 20, style: { lineWidth: 2, fill: '#666' } });
-  //   graph.paint();
-  //   graph.emit('node:dragstart', { x: 100, y: 100, item: node });
-  //   graph.emit('node:drag', { x: 120, y: 120, item: node });
-  //   const dragMatrix = node.get('group').getMatrix();
-  //   expect(dragMatrix[6]).toEqual(50);
-  //   expect(dragMatrix[7]).toEqual(50);
+    // const graph = new Graph({
+    //   container: div,
+    //   width: 500,
+    //   height: 500,
+    //   modes: {
+    //     default: [{
+    //       type: 'drag-node',
+    //       delegate: false
+    //     }]
+    //   },
+    //   pixelRatio: 2
+    // });
+    // const node = graph.addItem('node', { color: '#666', x: 50, y: 50, r: 20, style: { lineWidth: 2, fill: '#666' } });
+    // graph.paint();
+    // graph.emit('node:dragstart', { x: 100, y: 100, item: node });
+    // graph.emit('node:drag', { x: 120, y: 120, item: node });
+    // const dragMatrix = node.get('group').getMatrix();
+    // expect(dragMatrix[6]).toEqual(50);
+    // expect(dragMatrix[7]).toEqual(50);
 
-  //   graph.emit('node:dragend', { x: 120, y: 120, item: node });
-  //   const matrix = node.get('group').getMatrix();
-  //   expect(matrix[0]).toEqual(1);
-  //   expect(matrix[6]).toEqual(70);
-  //   expect(matrix[7]).toEqual(70);
-  //   graph.destroy();
-  // });
+    // graph.emit('node:dragend', { x: 120, y: 120, item: node });
+    // const matrix = node.get('group').getMatrix();
+    // expect(matrix[0]).toEqual(1);
+    // expect(matrix[6]).toEqual(70);
+    // expect(matrix[7]).toEqual(70);
+    // graph.destroy();
+  });
   // it('delegate drag node with edge', () => {
   //   const graph = new Graph({
   //     container: div,
