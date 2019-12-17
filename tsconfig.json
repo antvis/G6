@@ -21,7 +21,7 @@
   "include": ["src"],
   "typedocOptions": {
     "mode": "modules",
-    "out": "docs/api",
+    "out": "docs/api-ts",
     "excludePrivate": true,
     "excludeProtected": true,
     "excludeExternals": true,
