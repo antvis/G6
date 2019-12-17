@@ -11,7 +11,7 @@ import each from '@antv/util/lib/each'
 import isPlainObject from '@antv/util/lib/is-plain-object';
 import isString from '@antv/util/lib/is-string'
 import { GraphAnimateConfig, GraphOptions, IGraph, IModeOption, IModeType, IStates } from '@g6/interface/graph';
-import { IEdge, IItemBase, INode } from '@g6/interface/item';
+import { IEdge, INode } from '@g6/interface/item';
 import { EdgeConfig, GraphData, GroupConfig, Item, ITEM_TYPE, Matrix, ModelConfig, NodeConfig, NodeMapConfig, Padding } from '@g6/types';
 import { translate } from '@g6/util/math'
 import Global from '../global'
@@ -411,7 +411,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {(item: T, index: number) => T} fn 指定规则
    * @return {T} 元素实例
    */
-  public find<T = IItemBase>(type: ITEM_TYPE, fn: (item: T, index?: number) => T): T  {
+  public find<T = Item>(type: ITEM_TYPE, fn: (item: T, index?: number) => T): T  {
     let result;
     const items = this.get(type + 's');
 
@@ -431,7 +431,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {string} fn 指定规则
    * @return {array} 元素实例
    */
-  public findAll<T = IItemBase>(type: ITEM_TYPE, fn: (item: T, index?: number) => T): T[] {
+  public findAll<T = Item>(type: ITEM_TYPE, fn: (item: T, index?: number) => T): T[] {
     const result = [];
 
     each(this.get(type + 's'), (item, i) => {

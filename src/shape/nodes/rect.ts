@@ -1,8 +1,7 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
 import deepMix from '@antv/util/lib/deep-mix';
-import { IItemBase } from '@g6/interface/item';
-import { NodeConfig } from '@g6/types'
+import { Item, NodeConfig } from '@g6/types'
 import Global from '../../global'
 import Shape from '../shape'
 
@@ -156,7 +155,7 @@ Shape.registerNode('rect', {
     }, style);
     return styles;
   },
-  update(cfg: NodeConfig, item: IItemBase) {
+  update(cfg: NodeConfig, item: Item) {
 
     // TODO: after findByClassName is defined by G
 

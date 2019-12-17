@@ -6,10 +6,8 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
 import { upperFirst } from '@antv/util'
-
-import { IItemBase } from '@g6/interface/item'
 import { ShapeOptions } from '@g6/interface/shape'
-import { IPoint, ModelConfig } from '@g6/types'
+import { IPoint, Item, ModelConfig } from '@g6/types'
 
 const cache = {} // ucfirst 开销过大，进行缓存
 // 首字母大写
@@ -64,7 +62,7 @@ const ShapeFactoryBase = {
    * @param  {Object} cfg 配置项
    * @param  {G6.Item} item 节点、边、分组等
    */
-  update(type: string, cfg: ModelConfig, item: IItemBase) {
+  update(type: string, cfg: ModelConfig, item: Item) {
     const shape = this.getShape(type)
     if (shape.update) { // 防止没定义 update 函数
       shape.update(cfg, item)
@@ -78,7 +76,7 @@ const ShapeFactoryBase = {
    * @param {String | Boolean} value 状态值
    * @param {G6.Item} item  节点、边、分组等
    */
-  setState(type: string, name: string, value: string | boolean, item: IItemBase) {
+  setState(type: string, name: string, value: string | boolean, item: Item) {
     const shape = this.getShape(type)
     shape.setState(name, value, item)
   },

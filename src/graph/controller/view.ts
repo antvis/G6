@@ -4,8 +4,7 @@ import Group from '@antv/g-canvas/lib/group';
 import isNumber from "@antv/util/lib/is-number";
 import isString from '@antv/util/lib/is-string'
 import { IGraph } from "@g6/interface/graph";
-import { IItemBase } from '@g6/interface/item';
-import { Matrix, Padding } from '@g6/types';
+import { Item, Matrix, Padding } from '@g6/types';
 import { formatPadding } from '@g6/util/base'
 import { applyMatrix, invertMatrix } from '@g6/util/math';
 
@@ -116,7 +115,7 @@ export default class ViewController {
    * 将元素移动到画布中心
    * @param item Item 实例或 id
    */
-  public focus(item: string | IItemBase) {
+  public focus(item: string | Item) {
     if(isString(item)) {
       item = this.graph.findById(item)
     }

@@ -1,12 +1,11 @@
-import Shape from '../shape'
-import { each, deepMix } from '@antv/util'
-import { pointsToPolygon } from '@g6/util/path'
-import { IShapeBase, ModelConfig } from '@g6/types'
-import { getPathWithBorderRadiusByPolyline, simplifyPolyline, getPolylinePoints } from './polyline-util';
-import Global from '../../global'
 import { Point } from '@antv/g-base/lib/types';
-import { IItemBase } from '@g6/interface/item'
 import Group from '@antv/g-canvas/lib/group'
+import { deepMix, each } from '@antv/util'
+import { IShapeBase, Item, ModelConfig } from '@g6/types'
+import { pointsToPolygon } from '@g6/util/path'
+import Global from '../../global'
+import Shape from '../shape'
+import { getPathWithBorderRadiusByPolyline, getPolylinePoints, simplifyPolyline } from './polyline-util';
 
 
 // 折线
@@ -85,7 +84,7 @@ Shape.registerEdge('polyline', {
   getPath(points: Point[], routeCfg: { source: IShapeBase, target: IShapeBase, offset: number, radius: number }): Array<Array<string | number>> | string {
     const { source, target, offset, radius } = routeCfg;
     if (!offset) {
-      let path: Array<Array<any>> | string;
+      let path: any[][] | string;
       if (radius) {
         path = getPathWithBorderRadiusByPolyline(points, radius);
       } else {
@@ -100,18 +99,19 @@ Shape.registerEdge('polyline', {
       }
       return path;
     }
+    let polylinePoints
     if (radius) {
-      const polylinePoints = simplifyPolyline(
+      polylinePoints = simplifyPolyline(
         getPolylinePoints(points[0], points[points.length - 1], source, target, offset)
       );
       return getPathWithBorderRadiusByPolyline(polylinePoints, radius);
     }
-    const polylinePoints = getPolylinePoints(points[0],
+    polylinePoints = getPolylinePoints(points[0],
       points[points.length - 1], source, target, offset);
     return pointsToPolygon(polylinePoints);
   },
 
-  update(cfg: ModelConfig, item: IItemBase) {
+  update(cfg: ModelConfig, item: Item) {
 
     // TODO: after findByClassName is defined by G
 

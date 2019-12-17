@@ -1,7 +1,7 @@
 import { IGroup } from '@antv/g-base/lib/interfaces';
 import { Point } from '@antv/g-base/lib/types';
 import Group from "@antv/g-canvas/lib/group";
-import { IBBox, IPoint, IShapeBase, ModelConfig, ModelStyle, ShapeStyle } from '@g6/types'
+import { IBBox, IPoint, IShapeBase, Item, ModelConfig, ModelStyle, ShapeStyle } from '@g6/types'
 
 
 // item 的配置项
@@ -59,8 +59,8 @@ export type IItemBaseConfig = Partial<{
    */
   styles: ModelStyle;
 
-  source: string | IItemBase;
-  target: string | IItemBase;
+  source: string | Item;
+  target: string | Item;
 
   linkCenter: boolean;
 }>

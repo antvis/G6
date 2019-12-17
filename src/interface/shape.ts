@@ -1,8 +1,7 @@
 import { Point } from '@antv/g-base/lib/types';
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
-import { IItemBase } from '@g6/interface/item'
-import { IPoint, LabelStyle, ModelConfig, ModelStyle, ShapeStyle } from '@g6/types'
+import { IPoint, Item, LabelStyle, ModelConfig, ModelStyle, ShapeStyle } from '@g6/types'
 
 
 export type ILabelConfig = Partial<{
@@ -36,19 +35,19 @@ export type ShapeOptions = Partial<{
   getLabelStyleByPosition(cfg?: ModelConfig, labelCfg?: ILabelConfig, group?: GGroup): LabelStyle
   getLabelStyle(cfg: ModelConfig, labelCfg, group: GGroup): LabelStyle
   getShapeStyle(cfg: ModelConfig): ShapeStyle
-  getStateStyle(name: string, value: string | boolean, item: IItemBase): ShapeStyle
+  getStateStyle(name: string, value: string | boolean, item: Item): ShapeStyle
 
   /**
    * 绘制完成后的操作，便于用户继承现有的节点、边
    */
   afterDraw(cfg?: ModelConfig, group?: GGroup, rst?: IShape)
 
-  afterUpdate(cfg?: ModelConfig, item?: IItemBase)
+  afterUpdate(cfg?: ModelConfig, item?: Item)
 
   /**
    * 设置节点、边状态
    */
-  setState(name?: string, value?: string | boolean, item?: IItemBase)
+  setState(name?: string, value?: string | boolean, item?: Item)
 
 
   /**
@@ -66,7 +65,7 @@ export type ShapeOptions = Partial<{
   getAnchorPoints(cfg: ModelConfig): IPoint[]
 
   // 如果没定义 update 方法，每次都调用 draw 方法
-  update(cfg: ModelConfig, item: IItemBase)
+  update(cfg: ModelConfig, item: Item)
 
   // 获取节点的大小，只对节点起效
   getSize: (cfg: ModelConfig) => number | number[]
