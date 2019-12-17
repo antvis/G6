@@ -5,7 +5,7 @@ import { IBBox, IPoint, IShapeBase, ModelConfig, ModelStyle, ShapeStyle } from '
 
 
 // item 的配置项
-export type IItemConfig = Partial<{
+export type IItemBaseConfig = Partial<{
   /**
    * id
    */
@@ -59,14 +59,14 @@ export type IItemConfig = Partial<{
    */
   styles: ModelStyle;
 
-  source: string | IItem;
-  target: string | IItem;
+  source: string | IItemBase;
+  target: string | IItemBase;
 
   linkCenter: boolean;
 }>
 
-export interface IItem {
-  _cfg: IItemConfig;
+export interface IItemBase {
+  _cfg: IItemBaseConfig;
 
   destroyed: boolean;
 
@@ -208,7 +208,7 @@ export interface IItem {
   destroy(): void;
 }
 
-export interface IEdge extends IItem {
+export interface IEdge extends IItemBase {
   setSource(source: INode): void;
   setTarget(target: INode): void;
   getSource(): INode;
@@ -216,7 +216,7 @@ export interface IEdge extends IItem {
 
 }
 
-export interface INode extends IItem {
+export interface INode extends IItemBase {
   /**
    * 获取从节点关联的所有边
    * @return {Array} 边的集合

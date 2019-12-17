@@ -4,7 +4,7 @@ import Canvas from '@antv/g-canvas/lib/canvas';
 import ShapeBase from '@antv/g-canvas/lib/shape/base';
 import Node from '@g6/item/node'
 import { IGraph } from '../src/interface/graph';
-import { IEdge, IItem, INode } from '../src/interface/item'
+import { IEdge, IItemBase, INode } from '../src/interface/item'
 
 
 
@@ -290,21 +290,19 @@ export type BehaviorOpation<U> = {
   (...args: DefaultBehaviorType[]) => unknown;
 }
 
-
-
 export type IEvent = Record<G6Event, string>
 
 export interface IG6GraphEvent extends GraphEvent {
-  item: IItem & INode & IEdge;
+  item: IItemBase & INode & IEdge;
   canvasX: number;
   canvasY: number;
   wheelDelta: number;
   detail: number;
   key?: string;
-  target: IItem & INode & IEdge & Canvas;
+  target: IItemBase & INode & IEdge & Canvas;
 }
 
-export type ItemType = INode | IEdge
+export type Item = INode | IEdge
 
 export enum ITEM_TYPE {
   NODE = 'node',

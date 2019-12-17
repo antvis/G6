@@ -5,7 +5,7 @@ import Behavior from '@g6/behavior/behavior'
 import { IBehavior } from '@g6/interface/behavior';
 import { IGraph, IMode, IModeType } from '@g6/interface/graph';
 
-export default class Mode {
+export default class ModeController {
   private graph: IGraph
   /**
    * modes = {
@@ -102,7 +102,7 @@ export default class Mode {
     return result;
   }
 
-  public setMode(mode: string): Mode {
+  public setMode(mode: string): ModeController {
     const modes = this.modes;
     const graph = this.graph;
     const current = mode
@@ -134,7 +134,7 @@ export default class Mode {
    * @returns {Mode}
    * @memberof Mode
    */
-  public manipulateBehaviors(behaviors: IModeType[] | IModeType, modes: string[] | string, isAdd: boolean): Mode {
+  public manipulateBehaviors(behaviors: IModeType[] | IModeType, modes: string[] | string, isAdd: boolean): ModeController {
     const self = this
     let behaves = behaviors
     if(!isArray(behaviors)) {

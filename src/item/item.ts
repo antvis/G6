@@ -4,7 +4,7 @@ import isNil from '@antv/util/lib/is-nil';
 import isPlainObject from '@antv/util/lib/is-plain-object'
 import isString from '@antv/util/lib/is-string'
 import uniqueId from '@antv/util/lib/unique-id'
-import { IItem, IItemConfig } from "@g6/interface/item";
+import { IItemBase, IItemBaseConfig } from "@g6/interface/item";
 import { IBBox, IPoint, IShapeBase, ModelConfig, ModelStyle, ShapeStyle } from '@g6/types';
 import { getBBox } from '@g6/util/graphic';
 import { translate } from '@g6/util/math';
@@ -14,9 +14,9 @@ const CACHE_BBOX = 'bboxCache';
 const RESERVED_STYLES = [ 'fillStyle', 'strokeStyle', 
   'path', 'points', 'img', 'symbol' ];
 
-export default  class Item implements IItem {
-  public _cfg: IItemConfig = {}
-  private defaultCfg: IItemConfig = {
+export default  class ItemBase implements IItemBase {
+  public _cfg: IItemBaseConfig = {}
+  private defaultCfg: IItemBaseConfig = {
     /**
      * id
      * @type {string}
@@ -77,7 +77,7 @@ export default  class Item implements IItem {
 
   public destroyed: boolean = false
 
-  constructor(cfg: IItemConfig) {
+  constructor(cfg: IItemBaseConfig) {
     this._cfg = Object.assign(this.defaultCfg, this.getDefaultCfg(), cfg)
     const group = cfg.group
     group.set('item', this)
