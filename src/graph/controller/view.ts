@@ -1,15 +1,15 @@
 import Canvas from '@antv/g-base/lib/abstract/canvas';
 import { Point } from '@antv/g-base/lib/types';
 import Group from '@antv/g-canvas/lib/group';
+import isNumber from "@antv/util/lib/is-number";
 import isString from '@antv/util/lib/is-string'
 import { IGraph } from "@g6/interface/graph";
-import { IItem } from '@g6/interface/item';
+import { IItemBase } from '@g6/interface/item';
 import { Matrix, Padding } from '@g6/types';
 import { formatPadding } from '@g6/util/base'
 import { applyMatrix, invertMatrix } from '@g6/util/math';
-import isNumber from "@antv/util/lib/is-number";
 
-export default class View {
+export default class ViewController {
   private graph: IGraph = null
   public destroyed: boolean = false
   constructor(graph: IGraph) {
@@ -30,7 +30,7 @@ export default class View {
   }
 
   // fit view graph
-  private fitView() {
+  public fitView() {
     const padding = this.getFormatPadding();
     const graph = this.graph;
     const group: Group = graph.get('group');
@@ -116,7 +116,7 @@ export default class View {
    * 将元素移动到画布中心
    * @param item Item 实例或 id
    */
-  public focus(item: string | IItem) {
+  public focus(item: string | IItemBase) {
     if(isString(item)) {
       item = this.graph.findById(item)
     }

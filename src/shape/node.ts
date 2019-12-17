@@ -2,14 +2,14 @@
  * @fileOverview common node shape
  * @author huangtonger@aliyun.com
  */
+import GGroup from '@antv/g-canvas/lib/group';
+import { IShape } from '@antv/g-canvas/lib/interfaces'
+import { isArray, isNil } from '@antv/util/lib'
+import { ILabelConfig, ShapeOptions } from '@g6/interface/shape'
+import { LabelStyle, NodeConfig } from '@g6/types'
+import Global from '../global'
 import Shape from './shape'
 import { shapeBase } from './shapeBase'
-import { isNil, isArray } from '@antv/util/lib'
-import Global from '../global'
-import { ILabelConfig, ShapeOptions } from '@g6/interface/shape'
-import { NodeConfig, LabelStyle } from '@g6/types'
-import { IShape } from '@antv/g-canvas/lib/interfaces'
-import GGroup from '@antv/g-canvas/lib/group';
 
 
 const singleNode: ShapeOptions = {

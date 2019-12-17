@@ -5,7 +5,7 @@ import { IShapeBase, ModelConfig } from '@g6/types'
 import { getPathWithBorderRadiusByPolyline, simplifyPolyline, getPolylinePoints } from './polyline-util';
 import Global from '../../global'
 import { Point } from '@antv/g-base/lib/types';
-import { IItem } from '@g6/interface/item'
+import { IItemBase } from '@g6/interface/item'
 import Group from '@antv/g-canvas/lib/group'
 
 
@@ -111,7 +111,7 @@ Shape.registerEdge('polyline', {
     return pointsToPolygon(polylinePoints);
   },
 
-  update(cfg: ModelConfig, item: IItem) {
+  update(cfg: ModelConfig, item: IItemBase) {
 
     // TODO: after findByClassName is defined by G
 
