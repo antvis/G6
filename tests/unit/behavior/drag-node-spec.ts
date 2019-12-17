@@ -13,76 +13,76 @@ document.body.appendChild(div);
 
 describe('drag-node', () => {
   it('drag node', () => {
-    // const graph = new Graph({
-    //   container: div,
-    //   width: 500,
-    //   height: 500,
-    //   modes: {
-    //     default: [{
-    //       type: 'drag-node',
-    //       delegate: false
-    //     }]
-    //   },
-    //   pixelRatio: 2
-    // });
-    // const node = graph.addItem('node', { color: '#666', x: 50, y: 50, r: 20, style: { lineWidth: 2, fill: '#666' } });
-    // graph.paint();
-    // graph.emit('node:dragstart', { x: 100, y: 100, item: node });
-    // graph.emit('node:drag', { x: 120, y: 120, item: node });
-    // const dragMatrix = node.get('group').getMatrix();
-    // expect(dragMatrix[6]).toEqual(50);
-    // expect(dragMatrix[7]).toEqual(50);
+    const graph: Graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: [{
+          type: 'drag-node',
+          delegate: false
+        }]
+      },
+      pixelRatio: 2
+    });
+    const node = graph.addItem('node', { color: '#666', x: 50, y: 50, r: 20, style: { lineWidth: 2, fill: '#666' } });
+    graph.paint();
+    graph.emit('node:dragstart', { x: 100, y: 100, item: node });
+    graph.emit('node:drag', { x: 120, y: 120, item: node });
+    const dragMatrix = node.get('group').getMatrix();
+    expect(dragMatrix[6]).toEqual(50);
+    expect(dragMatrix[7]).toEqual(50);
 
-    // graph.emit('node:dragend', { x: 120, y: 120, item: node });
-    // const matrix = node.get('group').getMatrix();
-    // expect(matrix[0]).toEqual(1);
-    // expect(matrix[6]).toEqual(70);
-    // expect(matrix[7]).toEqual(70);
-    // graph.destroy();
+    graph.emit('node:dragend', { x: 120, y: 120, item: node });
+    const matrix = node.get('group').getMatrix();
+    expect(matrix[0]).toEqual(1);
+    expect(matrix[6]).toEqual(70);
+    expect(matrix[7]).toEqual(70);
+    graph.destroy();
   });
-  // it('delegate drag node with edge', () => {
-  //   const graph = new Graph({
-  //     container: div,
-  //     width: 500,
-  //     height: 500,
-  //     renderer: 'svg',
-  //     modes: {
-  //       default: [{
-  //         type: 'drag-node',
-  //         delegateStyle: {
-  //           fillOpacity: 0.8
-  //         }
-  //       }]
-  //     },
-  //     pixelRatio: 2
-  //   });
-  //   const src = graph.addItem('node', { id: 'source', color: '#666', x: 50, y: 50, size: 20, style: { lineWidth: 2, fill: '#666' } });
-  //   const target = graph.addItem('node', { id: 'target', color: '#666', x: 300, y: 300, size: 20, shape: 'rect', style: { lineWidth: 2, fill: '#666' } });
-  //   const edge = graph.addItem('edge', { source: src, target });
-  //   graph.paint();
-  //   let path = edge.get('group').get('children')[0].attr('path');
-  //   expect(path[0][1]).toEqual(57.77817459305202);
-  //   expect(path[0][2]).toEqual(57.77817459305202);
-  //   expect(path[1][1]).toEqual(289);
-  //   expect(path[1][2]).toEqual(289);
-  //   graph.emit('node:dragstart', { x: 100, y: 100, item: src });
-  //   graph.emit('node:drag', { x: 120, y: 120, item: src });
-  //   path = edge.get('group').get('children')[0].attr('path');
-  //   expect(path[0][1]).toEqual(57.77817459305202);
-  //   expect(path[0][2]).toEqual(57.77817459305202);
-  //   expect(path[1][1]).toEqual(289);
-  //   expect(path[1][2]).toEqual(289);
-  //   const delegateShape = src.get('delegateShape');
-  //   expect(delegateShape).not.toBe(undefined);
-  //   graph.emit('node:dragend', { x: 140, y: 140, item: src });
-  //   path = edge.get('group').get('children')[0].attr('path');
-  //   expect(path[0][1]).toEqual(97.77817459305203);
-  //   expect(path[0][2]).toEqual(97.77817459305203);
-  //   expect(path[1][1]).toEqual(289);
-  //   expect(path[1][2]).toEqual(289);
-  //   expect(!!src.get('delegateShape')).toBe(false);
-  //   graph.destroy();
-  // });
+  it('delegate drag node with edge', () => {
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      renderer: 'svg',
+      modes: {
+        default: [{
+          type: 'drag-node',
+          delegateStyle: {
+            fillOpacity: 0.8
+          }
+        }]
+      },
+      pixelRatio: 2
+    });
+    const src = graph.addItem('node', { id: 'source', color: '#666', x: 50, y: 50, size: 20, style: { lineWidth: 2, fill: '#666' } });
+    const target = graph.addItem('node', { id: 'target', color: '#666', x: 300, y: 300, size: 20, shape: 'rect', style: { lineWidth: 2, fill: '#666' } });
+    const edge = graph.addItem('edge', { source: src, target });
+    graph.paint();
+    let path = edge.get('group').get('children')[0].attr('path');
+    expect(path[0][1]).toEqual(57.77817459305202);
+    expect(path[0][2]).toEqual(57.77817459305202);
+    expect(path[1][1]).toEqual(289);
+    expect(path[1][2]).toEqual(289);
+    graph.emit('node:dragstart', { x: 100, y: 100, item: src });
+    graph.emit('node:drag', { x: 120, y: 120, item: src });
+    path = edge.get('group').get('children')[0].attr('path');
+    expect(path[0][1]).toEqual(57.77817459305202);
+    expect(path[0][2]).toEqual(57.77817459305202);
+    expect(path[1][1]).toEqual(289);
+    expect(path[1][2]).toEqual(289);
+    const delegateShape = src.get('delegateShape');
+    expect(delegateShape).not.toBe(undefined);
+    graph.emit('node:dragend', { x: 140, y: 140, item: src });
+    path = edge.get('group').get('children')[0].attr('path');
+    expect(path[0][1]).toEqual(97.77817459305203);
+    expect(path[0][2]).toEqual(97.77817459305203);
+    expect(path[1][1]).toEqual(289);
+    expect(path[1][2]).toEqual(289);
+    expect(!!src.get('delegateShape')).toBe(false);
+    graph.destroy();
+  });
   // it('drag node without size', () => {
   //   const graph = new Graph({
   //     container: div,

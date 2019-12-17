@@ -16,5 +16,10 @@ module.exports = {
   moduleNameMapper: {
     '@g6/types': '<rootDir>/types',
     '@g6/(.*)': '<rootDir>/src/$1'
+  },
+  globals: {
+    'ts-jest': {
+      diagnostics: false
+    }
   }
 };
