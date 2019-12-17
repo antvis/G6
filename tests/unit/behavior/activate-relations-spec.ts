@@ -1,21 +1,21 @@
 import Graph from '../../../src/graph/graph'
 
 describe('activate-relations', () => {
-  // const div = document.createElement('div');
-  // div.id = 'activate-relations-spec';
-  // document.body.appendChild(div);
-  // const graph = new Graph({
-  //   container: div,
-  //   width: 500,
-  //   height: 500,
-  //   pixelRatio: 2,
-  //   modes: { default: [] }
-  // });
-  // const node1 = graph.addItem('node', { id: 'node1', x: 100, y: 100, label: 'node1' });
-  // const node2 = graph.addItem('node', { id: 'node2', x: 200, y: 200, label: 'node2' });
-  // graph.addItem('node', { id: 'node3', x: 80, y: 150, label: 'node3' });
-  // graph.addItem('edge', { source: 'node1', target: 'node2' });
-  // graph.addItem('edge', { source: 'node1', target: 'node3' });
+  const div = document.createElement('div');
+  div.id = 'activate-relations-spec';
+  document.body.appendChild(div);
+  const graph = new Graph({
+    container: div,
+    width: 500,
+    height: 500,
+    pixelRatio: 2,
+    modes: { default: [] }
+  });
+  const node1 = graph.addItem('node', { id: 'node1', x: 100, y: 100, label: 'node1' });
+  const node2 = graph.addItem('node', { id: 'node2', x: 200, y: 200, label: 'node2' });
+  graph.addItem('node', { id: 'node3', x: 80, y: 150, label: 'node3' });
+  graph.addItem('edge', { source: 'node1', target: 'node2' });
+  graph.addItem('edge', { source: 'node1', target: 'node3' });
   it('default activate', done => {
     // graph.on('afteractivaterelations', e => {
     //   const action = e.action;
