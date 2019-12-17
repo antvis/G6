@@ -1343,7 +1343,6 @@ export default class Graph extends EventEmitter implements IGraph {
     this.get('layoutController').destroy();
     this.get('customGroupControll').destroy();
     this.get('canvas').destroy();
-
     this._cfg = null;
     this.destroyed = true;
   }
