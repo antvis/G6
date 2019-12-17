@@ -13,7 +13,7 @@ const CACHE_BBOX = 'bboxCache';
 
 const RESERVED_STYLES = [ 'fillStyle', 'strokeStyle', 
   'path', 'points', 'img', 'symbol' ];
-
+  
 export default  class ItemBase implements IItemBase {
   public _cfg: IItemBaseConfig = {}
   private defaultCfg: IItemBaseConfig = {
