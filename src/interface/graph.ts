@@ -194,6 +194,18 @@ export interface IGraph extends EventEmitter {
   setAutoPaint(auto: boolean): void;
 
   /**
+   * 显示元素
+   * @param {Item} item 指定元素
+   */
+  showItem(item: Item): void;
+
+  /**
+   * 隐藏元素
+   * @param {Item} item 指定元素
+   */
+  hideItem(item: Item): void;
+
+  /**
    * 仅画布重新绘制
    */
   paint(): void;
@@ -203,6 +215,25 @@ export interface IGraph extends EventEmitter {
    * @param {Item} item 元素id或元素实例
    */
   refreshItem(item: Item): void;
+
+  /**
+   * 将元素移动到视口中心
+   * @param {Item} item 指定元素
+   */
+  focusItem(item: Item): void;
+
+  /**
+   * 调整视口适应视图
+   * @param {Padding} padding 四周围边距
+   */
+  fitView(padding: Padding): void;
+
+  /**
+   * 伸缩视口到一固定比例
+   * @param {number} toRatio 伸缩比例
+   * @param {Point} center 以center的x, y坐标为中心缩放
+   */
+  zoomTo(toRatio: number, center: Point): void;
 
   /**
    * 删除元素
@@ -301,6 +332,22 @@ export interface IGraph extends EventEmitter {
   stopAnimate(): void;
 
   /**
+   * 新增行为
+   * @param {string | IModeOption | IModeType[]} behaviors 添加的行为
+   * @param {string | string[]} modes 添加到对应的模式
+   * @return {Graph} Graph
+   */
+  addBehaviors(behaviors: string | IModeOption | IModeType[], modes: string | string[]): Graph;
+
+  /**
+   * 移除行为
+   * @param {string | IModeOption | IModeType[]} behaviors 移除的行为
+   * @param {string | string[]} modes 从指定的模式中移除
+   * @return {Graph} Graph
+   */
+  removeBehaviors(behaviors: string | IModeOption | IModeType[], modes: string | string[]): Graph;
+
+  /**
    * 清除画布元素
    */
   clear(): Graph;
@@ -384,7 +431,7 @@ export interface IGraph extends EventEmitter {
    * @param {(item: T, index: number) => T} fn 指定规则
    * @return {T} 元素实例
    */
-  find<T = Item>(type: ITEM_TYPE, fn: (item: T, index: number) => T): T;
+  find<T extends Item>(type: ITEM_TYPE, fn: (item: T, index: number) => boolean): T;
 
   /**
    * 查找所有满足规则的元素
@@ -392,7 +439,7 @@ export interface IGraph extends EventEmitter {
    * @param {string} fn 指定规则
    * @return {array} 元素实例
    */
-  findAll<T = Item>(type: ITEM_TYPE, fn: (item: T, index: number) => T): T[];
+  findAll<T extends Item>(type: ITEM_TYPE, fn: (item: T, index: number) => boolean): T[];
 
   /**
    * 查找所有处于指定状态的元素
@@ -400,10 +447,59 @@ export interface IGraph extends EventEmitter {
    * @param {string} state z状态
    * @return {object} 元素实例
    */
-  // findAllByState<T = Item>(type: ITEM_TYPE, state: string): T[];
+  findAllByState<T extends Item>(type: ITEM_TYPE, state: string): T[];
 
   /**
    * 返回图表的 dataUrl 用于生成图片
    */
-  // toDataURL(): void;
+  toDataURL(): string;
+
+  /**
+   * 画布导出图片
+   * @param {String} name 图片的名称
+   */
+  downloadImage(name: string): void;
+
+  // TODO 需要添加布局配置类型
+  /**
+   * 更换布局配置项
+   * @param {object} cfg 新布局配置项
+   * 若 cfg 含有 type 字段或为 String 类型，且与现有布局方法不同，则更换布局
+   * 若 cfg 不包括 type ，则保持原有布局方法，仅更新布局配置项
+   */
+  updateLayout(cfg): void;
+
+  /**
+   * 重新以当前示例中配置的属性进行一次布局
+   */
+  layout(): void;
+
+  /**
+   * 添加插件
+   * @param {object} plugin 插件实例
+   */
+  addPlugin(plugin): void;
+
+  /**
+   * 添加插件
+   * @param {object} plugin 插件实例
+   */
+  removePlugin(plugin): void;
+
+  /**
+   * 收起分组
+   * @param {string} groupId 分组ID
+   */
+  collapseGroup(groupId: string): void;
+
+  /**
+   * 展开分组
+   * @param {string} groupId 分组ID
+   */
+  expandGroup(groupId: string): void;
+
+  /**
+   * 销毁画布
+   */
+  destroy(): void;
 }
