@@ -1,8 +1,8 @@
-import { each } from '@antv/util'
 import { BBox } from '@antv/g-canvas/lib/types';
+import { each } from '@antv/util'
 import { IShapeBase } from '@g6/types'
 
-type PolyPoint = {
+interface PolyPoint {
   x: number,
   y: number;
   id?: string
@@ -107,10 +107,10 @@ export const getExpandedBBoxPoint = (bbox, point: PolyPoint): PolyPoint => {
   };
 };
 /**
-     * @param {object} b1 bbox1
-     * @param {object} b2 bbox2
-     * @return {object} { x, y, height, maxX, maxY, minX, minY, width }
-     **/
+ * 
+ * @param b1 
+ * @param b2 
+ */
 export const mergeBBox = (b1: BBox, b2: BBox): BBox => {
   const minX = Math.min(b1.minX, b2.minX);
   const minY = Math.min(b1.minY, b2.minY);
@@ -196,8 +196,8 @@ export const _costByPoints = (p: PolyPoint, points: PolyPoint[]): number => {
   let result = 0;
   points.forEach(point => {
     if (point) {
-      if (p.x === point.x) result += offset;
-      if (p.y === point.y) result += offset;
+      if (p.x === point.x) { result += offset; }
+      if (p.y === point.y) { result += offset; }
     }
   });
   return result;
@@ -282,14 +282,14 @@ export const pathFinder = (points: PolyPoint[], start: PolyPoint, goal, sBBox, t
     closedSet.push(current);
 
     getNeighborPoints(points, current, sBBox, tBBox).forEach(neighbor => {
-      if (closedSet.indexOf(neighbor) !== -1) return;
+      if (closedSet.indexOf(neighbor) !== -1) { return; }
 
       if (openSet.indexOf(neighbor) === -1) {
         openSet.push(neighbor);
       }
 
       const tentativeGScore = fScore[ current.id ] + distance(current, neighbor); // + distance(neighbor, goal);
-      if (gScore[ `${neighbor.x}-${neighbor.y}` ] && (tentativeGScore >= gScore[ `${neighbor.x}-${neighbor.y}` ])) return;
+      if (gScore[ `${neighbor.x}-${neighbor.y}` ] && (tentativeGScore >= gScore[ `${neighbor.x}-${neighbor.y}` ])) { return; }
 
       cameFrom[ `${neighbor.x}-${neighbor.y}` ] = current.id;
       gScore[ `${neighbor.x}-${neighbor.y}` ] = tentativeGScore;

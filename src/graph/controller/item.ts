@@ -11,7 +11,7 @@ import Node from '@g6/item/node';
 import { EdgeConfig, Item, ITEM_TYPE, ModelConfig, NodeConfig, NodeMapConfig } from '@g6/types';
 import Graph from '../graph';
 
-import { IEdge, IItemBase, INode } from '@g6/interface/item';
+import { IEdge, INode } from '@g6/interface/item';
 
 const NODE = 'node';
 const EDGE = 'edge';
@@ -71,8 +71,8 @@ export default class ItemController {
     graph.emit('beforeadditem', { type, model });
 
     if(type === EDGE) {
-      let source: string | IItemBase = model.source
-      let target: string | IItemBase = model.target
+      let source: string | Item = model.source
+      let target: string | Item = model.target
 
       if (source && isString(source)) {
         source = graph.findById(source);

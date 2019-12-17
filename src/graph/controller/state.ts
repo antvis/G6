@@ -1,7 +1,7 @@
 import each from '@antv/util/lib/each'
 import isString from '@antv/util/lib/is-string'
 import { IGraph, IStates } from '@g6/interface/graph';
-import { IItemBase } from '@g6/interface/item';
+import { Item } from '@g6/types';
 
 interface ICachedStates {
   enabled: IStates;
@@ -37,13 +37,13 @@ export default class StateController {
    * 检查 cache 的可用性
    *
    * @private
-   * @param {IItemBase} item
+   * @param {Item} item
    * @param {string} state
    * @param {object} cache
    * @returns
    * @memberof State
    */
-  private checkCache(item: IItemBase, state: string, cache: object) {
+  private checkCache(item: Item, state: string, cache: object) {
     if (!cache[state]) {
       return;
     }
@@ -57,12 +57,12 @@ export default class StateController {
    * 缓存 state
    *
    * @private
-   * @param {IItemBase} item Item 实例
+   * @param {Item} item Item 实例
    * @param {string} state 状态名称
    * @param {object} states
    * @memberof State
    */
-  private cacheState(item: IItemBase, state: string, states: object) {
+  private cacheState(item: Item, state: string, states: object) {
     if (!states[state]) {
       states[state] = [];
     }
@@ -72,12 +72,12 @@ export default class StateController {
   /**
    * 更新 Item 的状态
    *
-   * @param {IItemBase} item Item实例
+   * @param {Item} item Item实例
    * @param {string} state 状态名称
    * @param {boolean} enabled 状态是否可用
    * @memberof State
    */
-  public updateState(item: IItemBase, state: string, enabled: boolean) {
+  public updateState(item: Item, state: string, enabled: boolean) {
     if (item.destroyed) {
       return;
     }
@@ -110,12 +110,12 @@ export default class StateController {
   /**
    * 批量更新 states，兼容 updateState，支持更新一个 state
    *
-   * @param {IItemBase} item
+   * @param {Item} item
    * @param {(string | string[])} states
    * @param {boolean} enabled
    * @memberof State
    */
-  public updateStates(item: IItemBase, states: string | string[], enabled: boolean) {
+  public updateStates(item: Item, states: string | string[], enabled: boolean) {
     const self = this;
     if (isString(states)) {
       self.updateState(item, states, enabled);
