@@ -5,10 +5,9 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
 import each from '@antv/util/lib/each'
-import { IItemBase } from '@g6/interface/item'
 import { ShapeOptions } from '@g6/interface/shape'
 import { ILabelConfig } from '@g6/interface/shape'
-import { IPoint, LabelStyle, ModelConfig, ShapeStyle } from '@g6/types'
+import { IPoint, Item, LabelStyle, ModelConfig, ShapeStyle } from '@g6/types'
 import { cloneDeep, get, merge } from 'lodash'
 import Global from '../global'
 
@@ -95,7 +94,7 @@ export const shapeBase: ShapeOptions = {
 	 * @param  {Object} cfg 节点/边的配置项
 	 * @param  {G6.Item} item 节点/边
 	 */
-  update(cfg: ModelConfig, item: IItemBase) {
+  update(cfg: ModelConfig, item: Item) {
     // TODO: after findByClassName is defined by G
 
     // const group = item.getContainer()
@@ -130,7 +129,7 @@ export const shapeBase: ShapeOptions = {
   },
 
   // update(cfg, item) // 默认不定义
-  afterUpdate(cfg?: ModelConfig, item?: IItemBase) {
+  afterUpdate(cfg?: ModelConfig, item?: Item) {
 
   },
 	/**
@@ -141,7 +140,7 @@ export const shapeBase: ShapeOptions = {
 	 * @param  {String | Boolean} value 状态值
 	 * @param  {G6.Item} item 节点
 	 */
-  setState(name: string, value: boolean, item: IItemBase) {
+  setState(name: string, value: boolean, item: Item) {
     const shape: IShape = item.get('keyShape')
     if (!shape) {
       return
@@ -170,7 +169,7 @@ export const shapeBase: ShapeOptions = {
    * @param {Item} item Node或Edge的实例
    * @return {object} 样式
    */
-  getStateStyle(name: string, value: string | boolean, item: IItemBase): ShapeStyle {
+  getStateStyle(name: string, value: string | boolean, item: Item): ShapeStyle {
     const model = item.getModel()
     const { style: defaultStyle, stateStyles: defaultStateStyle } = this.options
 

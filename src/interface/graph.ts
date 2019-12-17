@@ -2,7 +2,7 @@ import EventEmitter from '@antv/event-emitter';
 import { AnimateCfg, Point } from '@antv/g-base/lib/types';
 import Graph from '@g6/graph/graph';
 import { EdgeConfig, GraphData, IG6GraphEvent, Item, ITEM_TYPE, ModelConfig, ModelStyle, NodeConfig, Padding, ShapeStyle } from '@g6/types'
-import { IEdge, IItemBase, INode } from './item';
+import { IEdge, INode } from './item';
 
 export interface IModeOption {
   type: string;
@@ -27,7 +27,7 @@ export interface GraphAnimateConfig extends AnimateCfg {
   /**
    * 回调函数，用于自定义节点运动路径。
    */
-  onFrame?: (item: IItemBase, ratio: number, data?: GraphData, originAttrs?: ShapeStyle) => unknown;
+  onFrame?: (item: Item, ratio: number, data?: GraphData, originAttrs?: ShapeStyle) => unknown;
 }
 export interface GraphOptions {
   /**
@@ -384,7 +384,7 @@ export interface IGraph extends EventEmitter {
    * @param {(item: T, index: number) => T} fn 指定规则
    * @return {T} 元素实例
    */
-  find<T = IItemBase>(type: ITEM_TYPE, fn: (item: T, index: number) => T): T;
+  find<T = Item>(type: ITEM_TYPE, fn: (item: T, index: number) => T): T;
 
   /**
    * 查找所有满足规则的元素
@@ -392,7 +392,7 @@ export interface IGraph extends EventEmitter {
    * @param {string} fn 指定规则
    * @return {array} 元素实例
    */
-  findAll<T = IItemBase>(type: ITEM_TYPE, fn: (item: T, index: number) => T): T[];
+  findAll<T = Item>(type: ITEM_TYPE, fn: (item: T, index: number) => T): T[];
 
   /**
    * 查找所有处于指定状态的元素
@@ -400,7 +400,7 @@ export interface IGraph extends EventEmitter {
    * @param {string} state z状态
    * @return {object} 元素实例
    */
-  // findAllByState<T = IItemBase>(type: ITEM_TYPE, state: string): T[];
+  // findAllByState<T = Item>(type: ITEM_TYPE, state: string): T[];
 
   /**
    * 返回图表的 dataUrl 用于生成图片

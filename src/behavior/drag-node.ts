@@ -8,8 +8,8 @@
 import { Point } from '@antv/g-base/lib/types';
 import deepMix from '@antv/util/lib/deep-mix';
 import isString from '@antv/util/lib/is-string'
-import { IItemBase } from '@g6/interface/item';
-import { G6Event, IG6GraphEvent, NodeConfig } from "@g6/types";
+import { INode } from '@g6/interface/item';
+import { G6Event, IG6GraphEvent, Item, NodeConfig } from "@g6/types";
 import Global from '../global'
 
 
@@ -37,7 +37,7 @@ export default {
       return;
     }
 
-    const item = e.item;
+    const item: INode = e.item as INode;
     const target = e.target;
     const hasLocked = item.hasLocked();
     if (hasLocked) {
@@ -178,7 +178,7 @@ export default {
       body.addEventListener('keyup', fn, false);
     }
   },
-  _update(item: IItemBase, e: IG6GraphEvent, force: boolean) {
+  _update(item: Item, e: IG6GraphEvent, force: boolean) {
     const origin = this.origin;
     const model: NodeConfig = item.get('model');
     const nodeId: string = item.get('id');

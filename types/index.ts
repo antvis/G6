@@ -293,13 +293,13 @@ export type BehaviorOpation<U> = {
 export type IEvent = Record<G6Event, string>
 
 export interface IG6GraphEvent extends GraphEvent {
-  item: IItemBase & INode & IEdge;
+  item: Item;
   canvasX: number;
   canvasY: number;
   wheelDelta: number;
   detail: number;
   key?: string;
-  target: IItemBase & INode & IEdge & Canvas;
+  target: Item & Canvas;
 }
 
 export type Item = INode | IEdge
