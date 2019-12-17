@@ -1,6 +1,6 @@
 import EventEmitter from '@antv/event-emitter'
 import { IGroup } from '@antv/g-base/lib/interfaces';
-import { Point } from '@antv/g-base/lib/types';
+import { BBox, Point } from '@antv/g-base/lib/types';
 import GCanvas from '@antv/g-canvas/lib/canvas'
 import Canvas from '@antv/g-canvas/lib/canvas';
 import Group from '@antv/g-canvas/lib/group';
@@ -13,12 +13,16 @@ import isString from '@antv/util/lib/is-string'
 import { GraphAnimateConfig, GraphOptions, IGraph, IModeOption, IModeType, IStates } from '@g6/interface/graph';
 import { IEdge, INode } from '@g6/interface/item';
 import { EdgeConfig, GraphData, GroupConfig, Item, ITEM_TYPE, Matrix, ModelConfig, NodeConfig, NodeMapConfig, Padding } from '@g6/types';
-import { translate } from '@g6/util/math'
+import { move, translate } from '@g6/util/math'
 import Global from '../global'
 import { EventController, ItemController, ModeController, StateController, ViewController } from './controller'
 
 const NODE = 'node'
 const EDGE = 'edge'
+
+interface IGroupBBox {
+  [key:string]: BBox;
+}
 
 interface PrivateGraphOption extends GraphOptions {
   data: GraphData;
@@ -36,8 +40,7 @@ interface PrivateGraphOption extends GraphOptions {
 
   callback: () => void;
 
-  // TODO 需要将暴力出去的配置和内部使用的进行区分
-  groupBBoxs: any;
+  groupBBoxs: IGroupBBox;
 
   groupNodes: NodeMapConfig;
 
@@ -54,12 +57,14 @@ interface PrivateGraphOption extends GraphOptions {
 export default class Graph extends EventEmitter implements IGraph {
   private animating: boolean
   private _cfg: GraphOptions
+  public destroyed: boolean
 
   constructor(cfg: GraphOptions) {
     super()
     this._cfg = deepMix(this.getDefaultCfg(), cfg)
     this.init()
     this.animating = false
+    this.destroyed = false
   }
 
   private init() {
@@ -411,7 +416,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {(item: T, index: number) => T} fn 指定规则
    * @return {T} 元素实例
    */
-  public find<T = Item>(type: ITEM_TYPE, fn: (item: T, index?: number) => T): T  {
+  public find<T extends Item>(type: ITEM_TYPE, fn: (item: T, index?: number) => boolean): T  {
     let result;
     const items = this.get(type + 's');
 
@@ -431,7 +436,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {string} fn 指定规则
    * @return {array} 元素实例
    */
-  public findAll<T = Item>(type: ITEM_TYPE, fn: (item: T, index?: number) => T): T[] {
+  public findAll<T extends Item>(type: ITEM_TYPE, fn: (item: T, index?: number) => boolean): T[] {
     const result = [];
 
     each(this.get(type + 's'), (item, i) => {
@@ -446,14 +451,14 @@ export default class Graph extends EventEmitter implements IGraph {
   /**
    * 查找所有处于指定状态的元素
    * @param {string} type 元素类型(node|edge)
-   * @param {string} state z状态
+   * @param {string} state 状态
    * @return {object} 元素实例
    */
-  // public findAllByState<T>(type: ITEM_TYPE, state: string): T[] {
-  //   return this.findAll(type, (item) => {
-  //     return item.hasState(state);
-  //   });
-  // }
+  public findAllByState<T extends Item>(type: ITEM_TYPE, state: string): T[] {
+    return this.findAll(type, (item) => {
+      return item.hasState(state);
+    });
+  }
 
   /**
    * 平移画布
@@ -474,8 +479,8 @@ export default class Graph extends EventEmitter implements IGraph {
    */
   public moveTo(x: number, y: number): void {
     const group: Group = this.get('group');
-    // TODO move 需要提取到 util 方法中
-    // group.move(x, y);
+
+    move(group, { x, y });
 
     this.emit('viewportchange', { action: 'move', matrix: group.getMatrix() });
 
@@ -486,7 +491,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * 调整视口适应视图
    * @param {object} padding 四周围边距
    */
-  public fitView(padding: Padding) {
+  public fitView(padding: Padding): void {
     if (padding) {
       this.set('fitViewPadding', padding);
     }
@@ -1161,5 +1166,185 @@ export default class Graph extends EventEmitter implements IGraph {
     // 清空画布时同时清除数据
     this.set({ itemMap: {}, nodes: [], edges: [], groups: [] });
     return this;
+  }
+
+  /**
+   * 返回图表的 dataUrl 用于生成图片
+   * @return {string} 图片 dataURL
+   */
+  public toDataURL(): string {
+    const canvas: Canvas = this.get('canvas');
+    const canvasDom = canvas.get('el');
+    const dataURL = canvasDom.toDataURL('image/png');
+    return dataURL;
+  }
+
+  /**
+   * 画布导出图片
+   * @param {String} name 图片的名称
+   */
+  public downloadImage(name: string): void {
+    const self = this;
+
+    if (self.isAnimating()) {
+      self.stopAnimate();
+    }
+
+    const fileName: string = (name || 'graph') + ('.png');
+    const link: HTMLAnchorElement = document.createElement('a');
+    setTimeout(() => {
+      const dataURL = self.toDataURL();
+      if (typeof window !== 'undefined') {
+        if (window.Blob && window.URL) {
+          const arr = dataURL.split(',');
+          const mime = arr[0].match(/:(.*?);/)[1];
+          const bstr = atob(arr[1]);
+          let n = bstr.length;
+          const u8arr = new Uint8Array(n);
+
+          while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+          }
+
+          const blobObj = new Blob([ u8arr ], { type: mime });
+
+          if (window.navigator.msSaveBlob) {
+            window.navigator.msSaveBlob(blobObj, fileName);
+          } else {
+            link.addEventListener('click', function() {
+              link.download = fileName;
+              link.href = window.URL.createObjectURL(blobObj);
+            });
+          }
+        }
+      }
+
+      const e = document.createEvent('MouseEvents');
+      e.initEvent('click', false, false);
+
+      link.dispatchEvent(e);
+    }, 16);
+  }
+
+  /**
+   * 更换布局配置项
+   * @param {object} cfg 新布局配置项
+   * 若 cfg 含有 type 字段或为 String 类型，且与现有布局方法不同，则更换布局
+   * 若 cfg 不包括 type ，则保持原有布局方法，仅更新布局配置项
+   */
+  public updateLayout(cfg): void {
+    const layoutController = this.get('layoutController');
+    let newLayoutType;
+
+    if (isString(cfg)) {
+      newLayoutType = cfg;
+      cfg = {
+        type: newLayoutType
+      };
+    } else {
+      newLayoutType = cfg.type;
+    }
+
+    const oriLayoutCfg = this.get('layout');
+    const oriLayoutType = oriLayoutCfg ? oriLayoutCfg.type : undefined;
+
+    if (!newLayoutType || oriLayoutType === newLayoutType) {
+      // no type or same type, update layout
+      const layoutCfg: any = {};
+      Object.assign(layoutCfg, oriLayoutCfg, cfg);
+      layoutCfg.type = oriLayoutType ? oriLayoutType : 'random';
+
+      this.set('layout', layoutCfg);
+
+      layoutController.updateLayoutCfg(layoutCfg);
+    } else { // has different type, change layout
+      this.set('layout', cfg);
+      layoutController.changeLayout(newLayoutType);
+    }
+  }
+
+  /**
+   * 重新以当前示例中配置的属性进行一次布局
+   */
+  public layout(): void {
+    const layoutController = this.get('layoutController');
+    const layoutCfg = this.get('layout');
+
+    if (layoutCfg.workerEnabled) {
+      // 如果使用web worker布局
+      layoutController.layout();
+      return;
+    }
+    if (layoutController.layoutMethod) {
+      layoutController.relayout();
+    } else {
+      layoutController.layout();
+    }
+  }
+
+  /**
+   * 收起分组
+   * @param {string} groupId 分组ID
+   */
+  public collapseGroup(groupId: string): void {
+    this.get('customGroupControll').collapseGroup(groupId);
+  }
+
+  /**
+   * 展开分组
+   * @param {string} groupId 分组ID
+   */
+  public expandGroup(groupId: string): void {
+    this.get('customGroupControll').expandGroup(groupId);
+  }
+
+  // TODO plugin 机制完善后再补充类型
+  /**
+   * 添加插件
+   * @param {object} plugin 插件实例
+   */
+  public addPlugin(plugin): void {
+    const self = this;
+    if (plugin.destroyed) {
+      return;
+    }
+    self.get('plugins').push(plugin);
+    plugin.initPlugin(self);
+  }
+
+  /**
+   * 添加插件
+   * @param {object} plugin 插件实例
+   */
+  public removePlugin(plugin): void {
+    const plugins = this.get('plugins');
+    const index = plugins.indexOf(plugin);
+    if (index >= 0) {
+      plugin.destroyPlugin();
+      plugins.splice(index, 1);
+    }
+  }
+
+  /**
+   * 销毁画布
+   */
+  public destroy() {
+    this.clear();
+
+    each(this.get('plugins'), plugin => {
+      plugin.destroyPlugin();
+    });
+
+    this.get('eventController').destroy();
+    this.get('itemController').destroy();
+    this.get('modeController').destroy();
+    this.get('viewController').destroy();
+    this.get('stateController').destroy();
+    this.get('layoutController').destroy();
+    this.get('customGroupControll').destroy();
+    this.get('canvas').destroy();
+
+    this._cfg = null;
+    this.destroyed = true;
   }
 }

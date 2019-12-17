@@ -1,8 +1,7 @@
 import { Point } from '@antv/g-base/lib/types';
-import { mat3, vec3 } from '@antv/matrix-util'
-import { transform } from '@antv/matrix-util'
-import { GraphData, ICircle, IEllipse, IRect, Matrix } from '@g6/types'
 import { IGroup } from '@antv/g-canvas/lib/interfaces';
+import { mat3, transform, vec3 } from '@antv/matrix-util'
+import { GraphData, ICircle, IEllipse, IRect, Matrix } from '@g6/types'
 
 /**
  * 是否在区间内
@@ -308,5 +307,17 @@ export const translate = (group: IGroup, point: Point) => {
   const matrix: Matrix = group.getMatrix()
   transform(matrix, [
     [ 't',  point.x, point.y ]
+  ])
+}
+
+/**
+ * 移动到指定坐标点
+ * @param group Group 实例
+ * @param point 移动到的坐标点
+ */
+export const move = (group: IGroup, point: Point) => {
+  const matrix: Matrix = group.getMatrix()
+  transform(matrix, [
+    ['t', point.x, point.y ]
   ])
 }
