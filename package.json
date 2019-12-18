@@ -26,7 +26,7 @@
     "clean": "rimraf esm lib dist",
     "lint": "lint-staged",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/behavior/activate-relations-spec.ts",
+    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/shape/edges/polyline-spec.ts",
     "coverage": "jest --coverage",
     "ci": "run-s build coverage",
     "doc": "rimraf apis && typedoc",

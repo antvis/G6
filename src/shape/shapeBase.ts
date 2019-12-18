@@ -170,13 +170,15 @@ export const shapeBase: ShapeOptions = {
    */
   getStateStyle(name: string, value: string | boolean, item: Item): ShapeStyle {
     const model = item.getModel()
-    const { style: defaultStyle, stateStyles: defaultStateStyle } = this.options
+
+    const { style: defaultStyle } = this.options
+    // const { style: defaultStyle, stateStyles: defaultStateStyle } = this.options
 
     let currentStateStyle: string | number | object | object[] = defaultStyle
 
-    if (defaultStateStyle[name]) {
-      currentStateStyle = defaultStateStyle[name]
-    }
+    // if (defaultStateStyle[name]) {
+    //   currentStateStyle = defaultStateStyle[name]
+    // }
     if (value) {
       return merge({}, currentStateStyle, model.style)
     }

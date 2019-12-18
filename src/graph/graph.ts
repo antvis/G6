@@ -814,11 +814,12 @@ export default class Graph extends EventEmitter implements IGraph {
       }
     }
 
+    // TODO: wait for layout ts
     // layout
-    const layoutController = self.get('layoutController');
-    if (!layoutController.layout(success)) {
-      success();
-    }
+    // const layoutController = self.get('layoutController');
+    // if (!layoutController.layout(success)) {
+    //   success();
+    // }
 
     function success() {
       if (self.get('fitView')) {
@@ -917,10 +918,12 @@ export default class Graph extends EventEmitter implements IGraph {
 
     this.set({ nodes: items.nodes, edges: items.edges });
 
-    const layoutController = this.get('layoutController');
-    layoutController.changeData();
+    // TODO: wait for layout ts
+    // const layoutController = this.get('layoutController');
+    // layoutController.changeData();
 
-    if (self.get('animate') && !layoutController.getLayoutType()) {
+    // if (self.get('animate') && !layoutController.getLayoutType()) {
+    if (self.get('animate')) {
       // 如果没有指定布局
       self.positionsAnimate();
     } else {
