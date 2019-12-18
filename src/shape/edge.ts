@@ -188,7 +188,7 @@ Shape.registerEdge('single-edge', singleEdgeDef)
 Shape.registerEdge('line', {
   // 控制点不生效
   getControlPoints() {
-    return [];
+    return undefined;
   }
 });
 

@@ -255,8 +255,7 @@ export default  class ItemBase implements IItemBase {
    * @param state 状态名称
    */
   public getStateStyle(state: string) {
-    const type: string = this.getType()
-    const styles = this.get(`${type}StateStyles`);
+    const styles = this.get('styles');
     const stateStyle = styles && styles[state];
     return stateStyle;
   }
