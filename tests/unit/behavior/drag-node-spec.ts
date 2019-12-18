@@ -155,31 +155,29 @@ describe('drag-node', () => {
   //   expect(matrix[4]).toEqual(0.6484664555997507);
   // });
 
-  // shouldUpdate, can not be rewrited by configurations
-  // it('prevent default', () => {
-  //   const graph = new Graph({
-  //     container: div,
-  //     width: 500,
-  //     height: 500,
-  //     modes: {
-  //       default: [{
-  //         type: 'drag-node',
-  //         enableDelegate: false,
-  //         shouldUpdate: e => { expect(e).not.toBe(undefined); return false; }
-  //       }]
-  //     },
-  //     pixelRatio: 2
-  //   });
-  //   const node = graph.addItem('node', { color: '#666', x: 50, y: 50, r: 20, style: { lineWidth: 2, fill: '#666' } });
-  //   graph.paint();
-  //   graph.emit('node:dragstart', { x: 100, y: 100, item: node });
-  //   graph.emit('node:drag', { x: 120, y: 120, item: node });
-  //   const matrix = node.get('group').getMatrix();
-  //   console.log(matrix);
-  //   expect(matrix[0]).toEqual(1);
-  //   expect(matrix[6]).toEqual(50);
-  //   expect(matrix[7]).toEqual(50);
-  // });
+  it('prevent default', () => {
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: [{
+          type: 'drag-node',
+          enableDelegate: false,
+          shouldUpdate: e => { expect(e).not.toBe(undefined); return false; }
+        }]
+      },
+      pixelRatio: 2
+    });
+    const node = graph.addItem('node', { color: '#666', x: 50, y: 50, r: 20, style: { lineWidth: 2, fill: '#666' } });
+    graph.paint();
+    graph.emit('node:dragstart', { x: 100, y: 100, item: node });
+    graph.emit('node:drag', { x: 120, y: 120, item: node });
+    const matrix = node.get('group').getMatrix();
+    expect(matrix[0]).toEqual(1);
+    expect(matrix[6]).toEqual(50);
+    expect(matrix[7]).toEqual(50);
+  });
   it('drag node not update edge', () => {
     const graph = new Graph({
       container: div,
