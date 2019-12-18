@@ -24,20 +24,6 @@ Shape.registerNode('modelRect', {
       },
       offset: 30
     },
-    stateStyles: {
-      // hover状态下的配置
-      hover: {
-        lineWidth: 2,
-        stroke: '#1890ff',
-        fill: '#e6f7ff'
-      },
-      // 节点选中状态下的配置
-      selected: {
-        lineWidth: 3,
-        stroke: '#1890ff',
-        fill: '#e6f7ff'
-      }
-    },
     preRect: {
       show: true,
       width: 4,

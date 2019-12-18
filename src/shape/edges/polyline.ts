@@ -27,16 +27,6 @@ Shape.registerEdge('polyline', {
       style: {
         fill: '#595959'
       }
-    },
-    stateStyles: {
-      // 鼠标hover状态下的配置
-      hover: {
-        lineWidth: 3
-      },
-      // 选中边状态下的配置
-      selected: {
-        lineWidth: 5
-      }
     }
   },
   shapeType: 'polyline',
@@ -86,20 +76,19 @@ Shape.registerEdge('polyline', {
   getPath(points: Point[], routeCfg: { source: IShapeBase, target: IShapeBase, offset: number, radius: number }): Array<Array<string | number>> | string {
     const { source, target, offset, radius } = routeCfg;
     if (!offset) {
-      let path: any[][] | string;
       if (radius) {
-        path = getPathWithBorderRadiusByPolyline(points, radius);
+        return getPathWithBorderRadiusByPolyline(points, radius);
       } else {
+        const pathArray = [];
         each(points, (point, index) => {
-          path = [];
           if (index === 0) {
-            path.push([ 'M', point.x, point.y ]);
+            pathArray.push([ 'M', point.x, point.y ]);
           } else {
-            path.push([ 'L', point.x, point.y ]);
+            pathArray.push([ 'L', point.x, point.y ]);
           }
         });
+        return pathArray;
       }
-      return path;
     }
     let polylinePoints
     if (radius) {
@@ -151,5 +140,8 @@ Shape.registerEdge('polyline', {
         label.attr(labelStyle);
       }
     }
+  },
+  getControlPoints(cfg: ModelConfig) {
+    return cfg.controlPoints;
   }
 }, 'single-line');

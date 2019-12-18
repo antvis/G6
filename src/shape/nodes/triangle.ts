@@ -21,16 +21,6 @@ Shape.registerNode('triangle', {
       },
       offset: 15
     },
-    stateStyles: {
-      // 鼠标hover状态下的配置
-      hover: {
-        fillOpacity: 0.8
-      },
-      // 选中节点状态下的配置
-      selected: {
-        lineWidth: 3
-      }
-    },
     // 节点上左右上下四个方向上的链接circle配置
     linkPoints: {
       top: false,

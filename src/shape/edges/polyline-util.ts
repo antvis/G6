@@ -55,6 +55,7 @@ export const filterConnectPoints = (points: PolyPoint[]): PolyPoint[] => {
   const pointsMap = {};
   points.forEach((p) => {
     const id = `${p.x}-${p.y}`;
+    p.id = id;
     pointsMap[ id ] = p;
   });
   each(pointsMap, p => {

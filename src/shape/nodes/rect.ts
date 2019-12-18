@@ -23,16 +23,6 @@ Shape.registerNode('rect', {
         fontSize: 12
       }
     },
-    stateStyles: {
-      // hover状态下的配置
-      hover: {
-        fillOpacity: 0.8
-      },
-      // 节点选中状态下的配置
-      selected: {
-        lineWidth: 3
-      }
-    },
     // 节点上左右上下四个方向上的链接circle配置
     linkPoints: {
       top: false,

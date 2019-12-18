@@ -21,11 +21,12 @@ export default class Behavior {
 
     const base = function(cfg: object) {
       const self = this
+
+      Object.assign(self, self.getDefaultCfg(), cfg)
+
       const events = self.getEvents()
       self._events = null
 
-      Object.assign(self, self.getDefaultCfg(), cfg)
-      
       const eventsToBind = {}
 
       if(events) {
