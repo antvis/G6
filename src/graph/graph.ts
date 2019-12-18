@@ -11,7 +11,7 @@ import each from '@antv/util/lib/each'
 import isPlainObject from '@antv/util/lib/is-plain-object';
 import isString from '@antv/util/lib/is-string'
 import { GraphAnimateConfig, GraphOptions, IGraph, IModeOption, IModeType, IStates } from '@g6/interface/graph';
-import { IEdge, INode } from '@g6/interface/item';
+import { IEdge, INode, IItemBase } from '@g6/interface/item';
 import { EdgeConfig, GraphData, GroupConfig, Item, ITEM_TYPE, Matrix, ModelConfig, NodeConfig, NodeMapConfig, Padding } from '@g6/types';
 import { move, translate } from '@g6/util/math'
 import Global from '../global'
@@ -1340,8 +1340,8 @@ export default class Graph extends EventEmitter implements IGraph {
     this.get('modeController').destroy();
     this.get('viewController').destroy();
     this.get('stateController').destroy();
-    this.get('layoutController').destroy();
-    this.get('customGroupControll').destroy();
+    // this.get('layoutController').destroy();
+    // this.get('customGroupControll').destroy();
     this.get('canvas').destroy();
     this._cfg = null;
     this.destroyed = true;
