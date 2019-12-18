@@ -304,10 +304,11 @@ export const getAdjMatrix = (data: GraphData, directed: boolean): Matrix[] => {
  * @param point 坐标
  */
 export const translate = (group: IGroup, point: Point) => {
-  const matrix: Matrix = group.getMatrix()
-  transform(matrix, [
+  let matrix: Matrix = group.getMatrix()
+  matrix = transform(matrix, [
     [ 't',  point.x, point.y ]
   ])
+  group.setMatrix(matrix)
 }
 
 /**
@@ -320,4 +321,5 @@ export const move = (group: IGroup, point: Point) => {
   transform(matrix, [
     ['t', point.x, point.y ]
   ])
+  group.setMatrix(matrix)
 }

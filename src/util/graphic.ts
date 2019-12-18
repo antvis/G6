@@ -199,8 +199,6 @@ export const getLoopCfgs = (cfg: EdgeConfig): EdgeConfig => {
   return cfg;
 }
 
-// TODO: wait for G
-
 /**
  * 根据 label 所在线条的位置百分比，计算 label 坐标
  * @param {object}  pathShape  G 的 path 实例，一般是 Edge 实例的 keyShape
@@ -211,66 +209,69 @@ export const getLoopCfgs = (cfg: EdgeConfig): EdgeConfig => {
  * @return {object} 文本的 x, y, 文本的旋转角度
  */
 export const getLabelPosition = (pathShape: Path, percent: number, refX: number, refY: number, rotate: boolean): LabelStyle => {
-//   const TAN_OFFSET = 0.0001;
-//   let vector: number[][] = [];
-//   const point: IPoint = pathShape.getPoint(percent);
-//   if (point === null) {
-//     return {
-//       x: 0,
-//       y: 0,
-//       angle: 0
-//     };
-//   }
+  const TAN_OFFSET = 0.0001;
+  let vector: number[][] = [];
+  const point: IPoint = pathShape.getPoint(percent);
+  if (point === null) {
+    return {
+      x: 0,
+      y: 0,
+      angle: 0
+    };
+  }
 
-//   // 头尾最可能，放在最前面，使用 g path 上封装的方法
-//   if (percent < TAN_OFFSET) {
-//     vector = pathShape.getStartTangent().reverse();
-//   } else if (percent > (1 - TAN_OFFSET)) {
-//     vector = pathShape.getEndTangent();
-//   } else {
-//     // 否则取指定位置的点,与少量偏移的点，做微分向量
-//     const offsetPoint: IPoint = pathShape.getPoint(percent + TAN_OFFSET);
-//     vector.push([ point.x, point.y ]);
-//     vector.push([ offsetPoint.x, offsetPoint.y ]);
-//   }
 
-//   let rad: number = Math.atan2(vector[1][1] - vector[0][1], vector[1][0] - vector[0][0]);
+// TODO: wait for G
+
+  // 头尾最可能，放在最前面，使用 g path 上封装的方法
+  // if (percent < TAN_OFFSET) {
+  //   vector = pathShape.getStartTangent().reverse();
+  // } else if (percent > (1 - TAN_OFFSET)) {
+  //   vector = pathShape.getEndTangent();
+  // } else {
+    // 否则取指定位置的点,与少量偏移的点，做微分向量
+    const offsetPoint: IPoint = pathShape.getPoint(percent + TAN_OFFSET);
+    vector.push([ point.x, point.y ]);
+    vector.push([ offsetPoint.x, offsetPoint.y ]);
+  // }
+
+  let rad: number = Math.atan2(vector[1][1] - vector[0][1], vector[1][0] - vector[0][0]);
   
-//   if (rad < 0) {
-//     rad += PI * 2;
-//   }
+  if (rad < 0) {
+    rad += PI * 2;
+  }
 
-//   if (refX) {
-//     point.x += cos(rad) * refX;
-//     point.y += sin(rad) * refX;
-//   }
-//   if (refY) {
-//     // 默认方向是 x 轴正方向，法线是 求出角度 - 90°
-//     let normal = rad - PI / 2;
-//     // 若法线角度在 y 轴负方向，切到正方向，保证 refY 相对于 y 轴正方向
-//     if (rad > 1 / 2 * PI && rad < 3 * 1 / 2 * PI) {
-//       normal -= PI;
-//     }
-//     point.x += cos(normal) * refY;
-//     point.y += sin(normal) * refY;
-//   }
+  if (refX) {
+    point.x += cos(rad) * refX;
+    point.y += sin(rad) * refX;
+  }
+  if (refY) {
+    // 默认方向是 x 轴正方向，法线是 求出角度 - 90°
+    let normal = rad - PI / 2;
+    // 若法线角度在 y 轴负方向，切到正方向，保证 refY 相对于 y 轴正方向
+    if (rad > 1 / 2 * PI && rad < 3 * 1 / 2 * PI) {
+      normal -= PI;
+    }
+    point.x += cos(normal) * refY;
+    point.y += sin(normal) * refY;
+  }
 
-//   const result = {
-//     x: point.x,
-//     y: point.y,
-//     angle: rad
-//   };
+  const result = {
+    x: point.x,
+    y: point.y,
+    angle: rad
+  };
 
-//   if (rotate) {
-//     if (rad > 1 / 2 * PI && rad < 3 * 1 / 2 * PI) {
-//       rad -= PI;
-//     }
-//     return {
-//       rotate: rad,
-//       ...result
-//     };
-//   }
-//   return result;
+  if (rotate) {
+    if (rad > 1 / 2 * PI && rad < 3 * 1 / 2 * PI) {
+      rad -= PI;
+    }
+    return {
+      rotate: rad,
+      ...result
+    };
+  }
+  return result;
   return {}
 }
 

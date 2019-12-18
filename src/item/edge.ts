@@ -128,6 +128,9 @@ export default class Edge extends Item implements IEdge {
 
   protected init() {
     super.init()
+    // 初始化两个端点
+    this.setSource(this.get('source'));
+    this.setTarget(this.get('target'));
   }
 
   public getShapeCfg(model: EdgeConfig): EdgeConfig {
