@@ -71,7 +71,7 @@ module.exports = {
     if (!code) {
       return;
     }
-    if (ALLOW_EVENTS.indexOf(code.toLowerCase() > -1)) {
+    if (ALLOW_EVENTS.indexOf(code.toLowerCase()) > -1) {
       this.keydown = true;
     } else {
       this.keydown = false;
