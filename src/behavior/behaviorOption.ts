@@ -1,32 +1,14 @@
 import each from '@antv/util/lib/each'
-import wrapBehavior from '@antv/util/lib/wrap-behavior'
-import { IBehavior } from '@g6/interface/behavior';
 import { IGraph } from '@g6/interface/graph'
 import { G6Event } from '@g6/types';
 
-export default class BehaviorOption implements IBehavior {
-  private _events = null
-  private graph = null
-  private _cfg
-  constructor(cfg?: object) {
-    const events = this.getEvents()
-    this._cfg = {}
-    this._events = null
-    Object.assign(this._cfg, this.getDefaultCfg(), cfg)
-    const eventsToBind = {}
-    if(events) {
-      each(events, (handle, event) => {
-        eventsToBind[event] = wrapBehavior(this, handle)
-      })
-      this._events = eventsToBind
-    }
-  }
-
-  public getDefaultCfg() {
+// 自定义 Behavior 时候共有的方法
+export default {
+  getDefaultCfg() {
     return {
 
     }
-  }
+  },
 
   /**
    * register event handler, behavior will auto bind events
@@ -35,48 +17,48 @@ export default class BehaviorOption implements IBehavior {
    *  clicl: 'onClick'
    * }
    */
-  public getEvents() {
+  getEvents() {
     return {
 
     }
-  }
+  },
 
-  public shouldBegin() {
+  shouldBegin() {
     return true
-  }
+  },
 
-  public shouldUpdate() {
+  shouldUpdate() {
     return true
-  }
+  },
 
-  public shouldEnd() {
+  shouldEnd() {
     return true
-  }
+  },
 
   /**
    * auto bind events when register behavior
    * @param graph Graph instance
    */
-  public bind(graph: IGraph) {
+  bind(graph: IGraph) {
     const events = this._events
     this.graph = graph
     each(events, (handler: () => void, event: G6Event) => {
       graph.on(event, handler)
     })
-  }
+  },
 
-  public unbind(graph: IGraph) {
+  unbind(graph: IGraph) {
     const events = this._events
     each(events, (handler: () => void, event: G6Event) => {
       graph.off(event, handler)
     })
-  }
+  },
 
-  public get(val) {
+  get(val) {
     return this[val]
-  }
+  },
 
-  public set(key, val) {
+  set(key, val) {
     this[key] = val
     return this
   }
