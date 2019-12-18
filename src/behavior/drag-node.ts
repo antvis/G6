@@ -96,7 +96,7 @@ export default {
     if (!this.origin) {
       return;
     }
-    if (!this.get('shouldUpdate').call(this, e)) {
+    if (!this.shouldUpdate(this, e)) {
       return;
     }
     const graph = this.graph;
@@ -105,16 +105,16 @@ export default {
 
     // 当targets中元素时，则说明拖动的是多个选中的元素
     if (this.targets.length > 0) {
-      if (this.enableDelegate) {
+      if (this.get('enableDelegate')) {
         this._updateDelegate(e);
       } else {
         this.targets.forEach(target => {
-          this._update(target, e, this.enableDelegate);
+          this._update(target, e, this.get('enableDelegate'));
         });
       }
     } else {
       // 只拖动单个元素
-      this._update(this.target, e, this.enableDelegate);
+      this._update(this.target, e, this.get('enableDelegate'));
     }
 
     graph.paint();
@@ -242,7 +242,6 @@ export default {
             ...attrs
           }
         });
-        this.target.set('delegateShape', this.shape);
       }
       this.shape.set('capture', false);
     } else {
@@ -260,6 +259,7 @@ export default {
         });
       }
     }
+    this.target.set('delegateShape', this.shape);
 
     // this.graph.paint();
   },

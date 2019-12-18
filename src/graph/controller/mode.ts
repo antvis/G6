@@ -7,6 +7,7 @@ import { IGraph, IMode, IModeType } from '@g6/interface/graph';
 
 export default class ModeController {
   private graph: IGraph
+  public destroyed: boolean
   /**
    * modes = {
    *  default: [ 'drag-node', 'zoom-canvas' ],
@@ -33,6 +34,7 @@ export default class ModeController {
   private currentBehaves: IBehavior[]
   constructor(graph: IGraph) {
     this.graph = graph
+    this.destroyed = false
     this.modes = graph.get('modes') || {
       default: []
     }
@@ -181,4 +183,10 @@ export default class ModeController {
     return this
   }
 
+  public destroy() {
+    this.graph = null;
+    this.modes = null;
+    this.currentBehaves = null;
+    this.destroyed = true;
+  }
 }

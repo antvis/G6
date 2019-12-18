@@ -183,105 +183,99 @@ Shape.registerNode('ellipse', {
   },
   update(cfg: NodeConfig, item: Item) {
 
-    // TODO: after findByClassName is defined by G
+    const { style: defaultStyle, icon: defaultIcon, labelCfg: defaultLabelCfg } = this.options;
+    const style = deepMix({}, defaultStyle, cfg.style);
+    const icon = deepMix({}, defaultIcon, cfg.icon);
+    const size = this.getSize(cfg);
 
-    // const { style: defaultStyle, icon: defaultIcon, labelCfg: defaultLabelCfg } = this.options;
-    // const style = deepMix({}, defaultStyle, cfg.style);
-    // const icon = deepMix({}, defaultIcon, cfg.icon);
-    // const size = this.getSize(cfg);
+    const rx = size[0] / 2;
+    const ry = size[1] / 2;
 
-    // const rx = size[0] / 2;
-    // const ry = size[1] / 2;
+    const keyShape = item.get('keyShape')[0];
 
-    // const keyShape: G.Shape = item.get('keyShape');
+    keyShape.attr({
+      ...style,
+      rx,
+      ry
+    });
 
-    // keyShape.attr({
-    //   ...style,
-    //   rx,
-    //   ry
-    // });
+    const group = item.getContainer();
 
-    // const group = item.getContainer();
+    const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
+    const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
+    const text = group.find(element => { return element.get('className') === 'node-label'})
+    if (text) {
+      text.attr({
+        ...labelStyle
+      });
+    }
 
-    // const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
-    // const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
-    // const text: G.Shape = group.findByClassName('node-label');
-    // if (text) {
-    //   text.attr({
-    //     ...labelStyle
-    //   });
-    // }
+    const ellipseIcon = group.find(element => { return element.get('className') === 'ellipse-icon'})
+    const { width: w, height: h } = icon;
+    if (ellipseIcon) {
+      ellipseIcon.attr({
+        x: -w / 2,
+        y: -h / 2,
+        ...icon
+      });
+    }
 
-    // const ellipseIcon = group.findByClassName('ellipse-icon');
-    // const { width: w, height: h } = icon;
-    // if (ellipseIcon) {
-    //   ellipseIcon.attr({
-    //     x: -w / 2,
-    //     y: -h / 2,
-    //     ...icon
-    //   });
-    // }
-
-    // this.updateLinkPoints(cfg, group);
+    this.updateLinkPoints(cfg, group);
   },
-
-    // TODO: after findByClassName is defined by G
     
   /**
    * 更新linkPoints
    * @param {Object} cfg 节点数据配置项
    * @param {Group} group Item所在的group
    */
-  // updateLinkPoints(cfg: NodeConfig, group: GGroup) {
-  //   const { linkPoints: defaultLinkPoints } = this.options;
-  //   const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
+  updateLinkPoints(cfg: NodeConfig, group: GGroup) {
+    const { linkPoints: defaultLinkPoints } = this.options;
+    const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
 
-  //   const { size: markSize, ...markStyles } = linkPoints;
+    const { size: markSize, ...markStyles } = linkPoints;
 
-  //   const size = this.getSize(cfg);
-  //   const rx = size[0] / 2;
-  //   const ry = size[1] / 2;
+    const size = this.getSize(cfg);
+    const rx = size[0] / 2;
+    const ry = size[1] / 2;
 
-  //   const markLeft: IShape = group.findByClassName('ellipse-mark-left');
-  //   if (markLeft) {
-  //     markLeft.attr({
-  //       ...markStyles,
-  //       x: -rx,
-  //       y: 0,
-  //       r: markSize
-  //     });
-  //   }
+    const markLeft = group.find(element => { return element.get('className') === 'ellipse-mark-left'})
+    if (markLeft) {
+      markLeft.attr({
+        ...markStyles,
+        x: -rx,
+        y: 0,
+        r: markSize
+      });
+    }
 
-  //   const markRight: IShape = group.findByClassName('ellipse-mark-right');
-  //   if (markRight) {
-  //     markRight.attr({
-  //       ...markStyles,
-  //       x: rx,
-  //       y: 0,
-  //       r: markSize
-  //     });
-  //   }
+    const markRight = group.find(element => { return element.get('className') === 'ellipse-mark-right'})
+    if (markRight) {
+      markRight.attr({
+        ...markStyles,
+        x: rx,
+        y: 0,
+        r: markSize
+      });
+    }
 
-  //   const markTop: IShape = group.findByClassName('ellipse-mark-top');
-  //   if (markTop) {
-  //     markTop.attr({
-  //       ...markStyles,
-  //       x: 0,
-  //       y: -ry,
-  //       r: markSize
-  //     });
-  //   }
+    const markTop = group.find(element => { return element.get('className') === 'ellipse-mark-top'})
+    if (markTop) {
+      markTop.attr({
+        ...markStyles,
+        x: 0,
+        y: -ry,
+        r: markSize
+      });
+    }
 
-  //   const markBottom: IShape = group.findByClassName('ellipse-mark-bottom');
-  //   if (markBottom) {
-  //     markBottom.attr({
-  //       ...markStyles,
-  //       x: 0,
-  //       y: ry,
-  //       r: markSize
-  //     });
-  //   }
-  // }
+    const markBottom = group.find(element => { return element.get('className') === 'ellipse-mark-bottom'})
+    if (markBottom) {
+      markBottom.attr({
+        ...markStyles,
+        x: 0,
+        y: ry,
+        r: markSize
+      });
+    }
+  }
 }, 'single-node');
-
-// Shape.registerNode('ellipse', Ellipse);

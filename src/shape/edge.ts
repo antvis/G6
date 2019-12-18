@@ -95,7 +95,8 @@ const singleEdge: ShapeOptions = {
     const style: LabelStyle = {};
 
     // TODO: wait for findByClassName defined by G
-    // const pathShape = group.findByClassName(CLS_SHAPE);
+    // const pathShape = group.findAllByName(CLS_SHAPE)[0];
+    // const pathShape = group.find(element => { return element.get('className') === CLS_SHAPE})
 
     const pathShape = group.get('children')[0];
 
