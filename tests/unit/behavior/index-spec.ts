@@ -73,33 +73,31 @@ describe('Behavior', () => {
     expect(Behavior.hasBehavior('first')).toBe(true);
     expect(Behavior.hasBehavior('three')).toBe(false);
 
-// wait for behavior constructor
-    // const config1 = firstInstance.getDefaultCfg();
-    // expect(config1.style).toBe(undefined);
+    const config1 = firstInstance.getDefaultCfg();
+    expect(config1.style).toBe(undefined);
 
-    // const events1 = firstInstance.getEvents()
-    // expect(Object.keys(events1).length).toEqual(3);
-    // expect(Object.keys(events1)).toEqual(['click', 'edge:click', 'contextmenu'])
+    const events1 = firstInstance.getEvents()
+    expect(Object.keys(events1).length).toEqual(3);
+    expect(Object.keys(events1)).toEqual(['click', 'edge:click', 'contextmenu'])
 
-    // const config = secondBehavior.getDefaultCfg();
-    // expect(config.style.fill).toEqual('red');
-    // expect(config.style.fill).not.toEqual('blue');
-    // const drag = secondBehavior.onDrag()
-    // expect(drag).toEqual('drag')
+    const config = secondBehavior.getDefaultCfg();
+    expect(config.style.fill).toEqual('red');
+    expect(config.style.fill).not.toEqual('blue');
+    const drag = secondBehavior.onDrag()
+    expect(drag).toEqual('drag')
   })
 })
-// wait for behavior constructor
 describe('Default Behavior', () => {
   it('drag-canvas', () => {
-    // const DragCanvas = Behavior.getBehavior('drag-canvas')
-    // expect(DragCanvas).not.toBe(undefined)
+    const DragCanvas = Behavior.getBehavior('drag-canvas')
+    expect(DragCanvas).not.toBe(undefined)
 
-    // const dragCanvas: IBehavior = new DragCanvas()
-    // const config = dragCanvas.getDefaultCfg()
-    // expect(config).toEqual({ direction: 'both' })
+    const dragCanvas: IBehavior = new DragCanvas()
+    const config = dragCanvas.getDefaultCfg()
+    expect(config).toEqual({ direction: 'both' })
 
-    // const events = dragCanvas.getEvents()
-    // const keys = Object.keys(events)
-    // expect(keys.length).toBe(7)
+    const events = dragCanvas.getEvents()
+    const keys = Object.keys(events)
+    expect(keys.length).toBe(7)
   })
 })
