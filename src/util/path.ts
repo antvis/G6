@@ -1,45 +1,45 @@
-import { vec2 } from '@antv/matrix-util'
-import { catmullRom2Bezier } from '@antv/path-util'
-import { IPoint } from '@g6/types'
+import { vec2 } from '@antv/matrix-util';
+import { catmullRom2Bezier } from '@antv/path-util';
+import { IPoint } from '@g6/types';
 
 /**
  * 替换字符串中的字段
  * @param {String} str 模版字符串
  * @param {Object} o json data
  */
-const substitute = (str: string, o): string => {
-  if(!str || !o) {
-    return str
+const substitute = (str: string, o: any): string => {
+  if (!str || !o) {
+    return str;
   }
 
   return str.replace(/\\?\{([^{}]+)\}/g, (match: string, name: string) => {
-    if(match.charAt(0) === '\\') {
-      return match.slice(1)
+    if (match.charAt(0) === '\\') {
+      return match.slice(1);
     }
-    return o[name] || ''
-  })
-}
+    return o[name] || '';
+  });
+};
 
 /**
  * 给定坐标获取三次贝塞尔曲线的 M 及 C 值
  * @param points coordinate set
  */
 export const getSpline = (points: IPoint[]) => {
-  const data: number[] = []
+  const data: number[] = [];
 
-  if(points.length < 2) {
-    console.warn(`point length must largn than 2, now it's ${points.length}`)
+  if (points.length < 2) {
+    console.warn(`point length must largn than 2, now it's ${points.length}`);
   }
-  for(const point of points) {
-    const { x, y } = point
-    data.push(x)
-    data.push(y)
+  for (const point of points) {
+    const { x, y } = point;
+    data.push(x);
+    data.push(y);
   }
 
-  const spliePath = catmullRom2Bezier(data)
-  spliePath.unshift([ 'M', points[0].x, points[0].y ])
-  return spliePath
-}
+  const spliePath = catmullRom2Bezier(data);
+  spliePath.unshift(['M', points[0].x, points[0].y]);
+  return spliePath;
+};
 
 /**
  * 根据起始点、相对位置、偏移量计算控制点
@@ -50,24 +50,27 @@ export const getSpline = (points: IPoint[]) => {
  * @return {IPoint} 控制点，包含 x,y
  */
 export const getControlPoint = (
-  startPoint: IPoint, endPoint: IPoint, percent: number = 0, offset: number = 0): IPoint => {
-  
+  startPoint: IPoint,
+  endPoint: IPoint,
+  percent: number = 0,
+  offset: number = 0
+): IPoint => {
   const point: IPoint = {
     x: (1 - percent) * startPoint.x + percent * endPoint.x,
-    y: (1 - percent) * startPoint.y + percent * endPoint.y
+    y: (1 - percent) * startPoint.y + percent * endPoint.y,
   };
 
-  let tangent = []
-  vec2.normalize(tangent, [ endPoint.x - startPoint.x, endPoint.x - startPoint.y ])
+  let tangent: number[] = [];
+  vec2.normalize(tangent, [endPoint.x - startPoint.x, endPoint.x - startPoint.y]);
 
-  if(tangent.length === 0) {
-    tangent = [ 0, 0 ]
+  if (tangent.length === 0) {
+    tangent = [0, 0];
   }
-  const perpendicular = [ -tangent[1] * offset, tangent[0] * offset ];  // 垂直向量
+  const perpendicular = [-tangent[1] * offset, tangent[0] * offset]; // 垂直向量
   point.x += perpendicular[0];
   point.y += perpendicular[1];
-  return point; 
-}
+  return point;
+};
 
 /**
  * 点集转化为Path多边形
@@ -76,12 +79,12 @@ export const getControlPoint = (
  * @return {Array} Path
  */
 export const pointsToPolygon = (points: IPoint[], z?: boolean): string => {
-  if(!points.length) {
-    return ''
+  if (!points.length) {
+    return '';
   }
 
-  let path = ''
-  let str = ''
+  let path = '';
+  let str = '';
 
   for (let i = 0, length = points.length; i < length; i++) {
     const item = points[i];
@@ -97,4 +100,4 @@ export const pointsToPolygon = (points: IPoint[], z?: boolean): string => {
     path += 'Z';
   }
   return path;
-}
+};
