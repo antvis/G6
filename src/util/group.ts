@@ -1,11 +1,11 @@
-import groupBy, { ObjectType } from '@antv/util/lib/group-by'
+import groupBy, { ObjectType } from '@antv/util/lib/group-by';
 import { GraphData, GroupConfig, GroupNodeIds } from '@g6/types';
 
-export const getAllNodeInGroups = (data: GraphData): GroupNodeIds => {
+export const getAllNodeInGroups = (data: GraphData & { groups: GroupConfig[] }): GroupNodeIds => {
   const groupById: ObjectType<GroupConfig> = groupBy(data.groups, 'id');
   const groupByParentId: ObjectType<GroupConfig> = groupBy(data.groups, 'parentId');
 
-  const result = {};
+  const result: { [key: string]: GroupConfig[] } = {};
   for (const parentId in groupByParentId) {
     if (!parentId) {
       continue;
@@ -18,7 +18,7 @@ export const getAllNodeInGroups = (data: GraphData): GroupNodeIds => {
 
     if (nodeInParentGroup && subGroupIds) {
       // 合并
-      const parentGroupNodes = [ ...subGroupIds, ...nodeInParentGroup ];
+      const parentGroupNodes = [...subGroupIds, ...nodeInParentGroup];
       result[parentId] = parentGroupNodes;
     } else if (subGroupIds) {
       result[parentId] = subGroupIds;
@@ -27,12 +27,12 @@ export const getAllNodeInGroups = (data: GraphData): GroupNodeIds => {
   const allGroupsId = Object.assign({}, groupById, result);
 
   // 缓存所有group包括的groupID
-  const groupIds = {};
+  const groupIds: { [key: string]: string[] } = {};
   for (const groupId in allGroupsId) {
     if (!groupId || groupId === 'undefined') {
       continue;
     }
-    const subGroupIds = allGroupsId[groupId].map(node => node.id);
+    const subGroupIds = allGroupsId[groupId].map((node) => node.id);
 
     // const nodesInGroup = data.nodes.filter(node => node.groupId === groupId).map(node => node.id);
     groupIds[groupId] = subGroupIds;
@@ -50,16 +50,18 @@ export const getAllNodeInGroups = (data: GraphData): GroupNodeIds => {
     // const subGroupIds = allGroupsId[groupId].map(node => node.id);
 
     // 解析所有子群组
-    const parentSubGroupIds = [];
+    const parentSubGroupIds: string[] = [];
 
     for (const subId of subGroupIds) {
-      const tmpGroupId = allGroupsId[subId].map(node => node.id);
+      const tmpGroupId = allGroupsId[subId].map((node) => node.id);
       // const tmpNodes = data.nodes.filter(node => node.groupId === subId).map(node => node.id);
       parentSubGroupIds.push(...tmpGroupId);
     }
 
-    const nodesInGroup = data.nodes.filter(node => parentSubGroupIds.indexOf(node.groupId) > -1).map(node => node.id);
+    const nodesInGroup = data.nodes
+      ? data.nodes.filter((node) => parentSubGroupIds.indexOf(node.groupId!) > -1).map((node) => node.id)
+      : [];
     groupNodes[groupId] = nodesInGroup;
   }
   return groupNodes;
-}
+};
