@@ -279,6 +279,11 @@ class CustomGroup {
         maxy = maxY;
       }
     }
+    minx = minx === Infinity ? 100 : minx;
+    miny = miny === Infinity ? 100 : miny;
+    maxx = maxx === -Infinity ? 200 : maxx;
+    maxy = maxy === -Infinity ? 200 : maxy;
+    
     const x = Math.floor(minx);
     const y = Math.floor(miny);
     const width = Math.ceil(maxx) - x;
