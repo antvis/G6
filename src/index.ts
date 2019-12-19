@@ -1,11 +1,12 @@
-export default class G6 {
-  private version: string
+import Shape from './shape';
+import Behaviors from './behavior';
+import { version } from '../package.json'
 
-  private constructor() {
-
-  }
-
-  public getVersion() {
-    console.log(this.version)
-  }
+export default {
+  version,
+  registerNode: Shape.registerNode,
+  registerEdge: Shape.registerEdge,
+  registerBehavior: Behaviors.registerBehavior
 }
+
+// export default G6
