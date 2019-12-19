@@ -106,15 +106,15 @@ export default {
     // 当targets中元素时，则说明拖动的是多个选中的元素
     if (this.targets.length > 0) {
       if (this.get('enableDelegate')) {
-        this._updateDelegate(e);
+        this.updateDelegate(e);
       } else {
         this.targets.forEach(target => {
-          this._update(target, e, this.get('enableDelegate'));
+          this.update(target, e, this.get('enableDelegate'));
         });
       }
     } else {
       // 只拖动单个元素
-      this._update(this.target, e, this.get('enableDelegate'));
+      this.update(this.target, e, this.get('enableDelegate'));
     }
 
     graph.paint();
@@ -144,9 +144,9 @@ export default {
 
     if (this.targets.length > 0) {
       // 获取所有已经选中的节点
-      this.targets.forEach(node => this._update(node, e));
+      this.targets.forEach(node => this.update(node, e));
     } else if (this.target) {
-      this._update(this.target, e);
+      this.update(this.target, e);
     }
 
     this.point = {};
@@ -178,7 +178,7 @@ export default {
       body.addEventListener('keyup', fn, false);
     }
   },
-  _update(item: Item, e: IG6GraphEvent, force: boolean) {
+  update(item: Item, e: IG6GraphEvent, force: boolean) {
     const origin = this.origin;
     const model: NodeConfig = item.get('model');
     const nodeId: string = item.get('id');
@@ -194,7 +194,7 @@ export default {
 
     // 拖动单个未选中元素
     if (force) {
-      this._updateDelegate(e, x, y);
+      this.updateDelegate(e, x, y);
       return;
     }
 
@@ -213,7 +213,7 @@ export default {
    * @param {number} x 拖动单个元素时候的x坐标
    * @param {number} y 拖动单个元素时候的y坐标
    */
-  _updateDelegate(e, x, y) {
+  updateDelegate(e, x, y) {
     const bbox = e.item.get('keyShape').getBBox();
     if (!this.shape) {
       // 拖动多个

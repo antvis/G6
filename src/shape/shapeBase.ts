@@ -7,7 +7,7 @@ import { IShape } from '@antv/g-canvas/lib/interfaces'
 import each from '@antv/util/lib/each'
 import { ShapeOptions } from '@g6/interface/shape'
 import { ILabelConfig } from '@g6/interface/shape'
-import { IPoint, Item, LabelStyle, ModelConfig, ShapeStyle } from '@g6/types'
+import { IPoint, Item, LabelStyle, ModelConfig, ShapeStyle, ModelStyle } from '@g6/types'
 import { cloneDeep, get, merge } from 'lodash'
 import Global from '../global'
 
@@ -172,13 +172,9 @@ export const shapeBase: ShapeOptions = {
     const model = item.getModel()
 
     const { style: defaultStyle } = this.options
-    // const { style: defaultStyle, stateStyles: defaultStateStyle } = this.options
 
-    let currentStateStyle: string | number | object | object[] = defaultStyle
-
-    // if (defaultStateStyle[name]) {
-    //   currentStateStyle = defaultStateStyle[name]
-    // }
+    let currentStateStyle: ModelStyle = defaultStyle
+    
     if (value) {
       return merge({}, currentStateStyle, model.style)
     }

@@ -1,8 +1,9 @@
 import each from '@antv/util/lib/each'
 import { G6Event, IG6GraphEvent } from "@g6/types";
+import { isString } from '@antv/util';
 
 const DEFAULT_TRIGGER = 'shift';
-const ALLOW_EVENTS = [ 'shift', 'ctrl', 'alt' ];
+const ALLOW_EVENTS = [ 'shift', 16, 'ctrl', 17, 'alt', 18 ];
 
 export default {
   getDefaultCfg(): object {
@@ -12,6 +13,11 @@ export default {
     };
   },
   getEvents(): { [key in G6Event]?: string } {
+    // 检测输入是否合法
+    if (!(ALLOW_EVENTS.indexOf(this.trigger.toLowerCase()) > -1)) {
+      this.trigger = DEFAULT_TRIGGER;
+      console.warn('Behavior brush-select的trigger参数不合法，请输入drag、shift、ctrl或alt');
+    }
     if (!this.multiple) {
       return {
         'node:click': 'onClick',
@@ -31,6 +37,7 @@ export default {
     const graph = self.graph;
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
+    // allow to select multiple nodes but did not press a key || do not allow the select multiple nodes
     if (!self.keydown || !self.multiple) {
       const selected = graph.findAllByState('node', 'selected');
       each(selected, node => {
@@ -69,11 +76,11 @@ export default {
     graph.setAutoPaint(autoPaint);
   },
   onKeyDown(e: IG6GraphEvent) {
-    const code = e.key;
+    let code = e.key;
     if (!code) {
       return;
     }
-    if (ALLOW_EVENTS.indexOf(code.toLowerCase()) > -1) {
+    if (code === this.trigger) {
       this.keydown = true;
     } else {
       this.keydown = false;
