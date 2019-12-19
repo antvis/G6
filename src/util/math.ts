@@ -1,7 +1,7 @@
 import { Point } from '@antv/g-base/lib/types';
 import { IGroup } from '@antv/g-canvas/lib/interfaces';
-import { mat3, transform, vec3 } from '@antv/matrix-util'
-import { GraphData, ICircle, IEllipse, IRect, Matrix } from '@g6/types'
+import { mat3, transform, vec3 } from '@antv/matrix-util';
+import { GraphData, ICircle, IEllipse, IRect, Matrix } from '@g6/types';
 
 /**
  * 是否在区间内
@@ -10,7 +10,7 @@ import { GraphData, ICircle, IEllipse, IRect, Matrix } from '@g6/types'
  * @param   {number}       max    最大值
  * @return  {boolean}      bool   布尔
  */
-const isBetween = (value: number, min: number, max: number) => value >= min && value <= max
+const isBetween = (value: number, min: number, max: number) => value >= min && value <= max;
 
 /**
  * 获取两条线段的交点
@@ -20,38 +20,38 @@ const isBetween = (value: number, min: number, max: number) => value >= min && v
  * @param  {Point}  p3 第二条线段终点
  * @return {Point}  交点
  */
-const getLineIntersect = (p0: Point, p1: Point, p2: Point, p3: Point): Point => {
+const getLineIntersect = (p0: Point, p1: Point, p2: Point, p3: Point): Point | null => {
   const tolerance = 0.001;
 
   const E: Point = {
     x: p2.x - p0.x,
-    y: p2.y - p0.y
+    y: p2.y - p0.y,
   };
   const D0: Point = {
     x: p1.x - p0.x,
-    y: p1.y - p0.y
+    y: p1.y - p0.y,
   };
   const D1: Point = {
     x: p3.x - p2.x,
-    y: p3.y - p2.y
+    y: p3.y - p2.y,
   };
   const kross: number = D0.x * D1.y - D0.y * D1.x;
   const sqrKross: number = kross * kross;
   const sqrLen0: number = D0.x * D0.x + D0.y * D0.y;
   const sqrLen1: number = D1.x * D1.x + D1.y * D1.y;
-  let point: Point;
+  let point: Point | null = null;
   if (sqrKross > tolerance * sqrLen0 * sqrLen1) {
     const s = (E.x * D1.y - E.y * D1.x) / kross;
     const t = (E.x * D0.y - E.y * D0.x) / kross;
     if (isBetween(s, 0, 1) && isBetween(t, 0, 1)) {
       point = {
         x: p0.x + s * D0.x,
-        y: p0.y + s * D0.y
+        y: p0.y + s * D0.y,
       };
     }
   }
   return point;
-}
+};
 
 /**
  * point and rectangular intersection point
@@ -59,36 +59,36 @@ const getLineIntersect = (p0: Point, p1: Point, p2: Point, p3: Point): Point => 
  * @param  {Point} point point
  * @return {PointPoint} rst;
  */
-export const getRectIntersectByPoint = (rect: IRect, point: Point): Point => {
+export const getRectIntersectByPoint = (rect: IRect, point: Point): Point | null => {
   const { x, y, width, height } = rect;
   const cx = x + width / 2;
   const cy = y + height / 2;
   const points: Point[] = [];
   const center: Point = {
     x: cx,
-    y: cy
+    y: cy,
   };
   points.push({
     x,
-    y
+    y,
   });
   points.push({
     x: x + width,
-    y
+    y,
   });
   points.push({
     x: x + width,
-    y: y + height
+    y: y + height,
   });
   points.push({
     x,
-    y: y + height
+    y: y + height,
   });
   points.push({
     x,
-    y
+    y,
   });
-  let rst: Point;
+  let rst: Point | null = null;
   for (let i = 1; i < points.length; i++) {
     rst = getLineIntersect(points[i - 1], points[i], center, point);
     if (rst) {
@@ -96,7 +96,7 @@ export const getRectIntersectByPoint = (rect: IRect, point: Point): Point => {
     }
   }
   return rst;
-}
+};
 
 /**
  * get point and circle inIntersect
@@ -104,25 +104,25 @@ export const getRectIntersectByPoint = (rect: IRect, point: Point): Point => {
  * @param {Point} point 点 x,y
  * @return {Point} applied point
  */
-export const getCircleIntersectByPoint = (circle: ICircle, point: Point): Point => {
+export const getCircleIntersectByPoint = (circle: ICircle, point: Point): Point | null => {
   const cx = circle.x;
   const cy = circle.y;
   const r = circle.r;
   const { x, y } = point;
-  const d = Math.sqrt(Math.pow((x - cx), 2) + Math.pow((y - cy), 2));
+  const d = Math.sqrt(Math.pow(x - cx, 2) + Math.pow(y - cy, 2));
   if (d < r) {
     return null;
   }
-  const dx = (x - cx);
-  const dy = (y - cy);
+  const dx = x - cx;
+  const dy = y - cy;
   const signX = Math.sign(dx);
   const signY = Math.sign(dy);
   const angle = Math.atan(dy / dx);
   return {
     x: cx + Math.abs(r * Math.cos(angle)) * signX,
-    y: cy + Math.abs(r * Math.sin(angle)) * signY
+    y: cy + Math.abs(r * Math.sin(angle)) * signY,
   };
-}
+};
 
 /**
  * get point and ellipse inIntersect
@@ -135,21 +135,21 @@ export const getEllispeIntersectByPoint = (ellipse: IEllipse, point: Point): Poi
   const b = ellipse.ry;
   const cx = ellipse.x;
   const cy = ellipse.y;
-  
-  const dx = (point.x - cx);
-  const dy = (point.y - cy);
+
+  const dx = point.x - cx;
+  const dy = point.y - cy;
   // 直接通过 x,y 求夹角，求出来的范围是 -PI, PI
   let angle = Math.atan2(dy / b, dx / a);
 
   if (angle < 0) {
     angle += 2 * Math.PI; // 转换到 0，2PI
   }
-  
+
   return {
     x: cx + a * Math.cos(angle),
-    y: cy + b * Math.sin(angle)
+    y: cy + b * Math.sin(angle),
   };
-}
+};
 
 /**
  * coordinate matrix transformation
@@ -159,14 +159,14 @@ export const getEllispeIntersectByPoint = (ellipse: IEllipse, point: Point): Poi
  * @return {Point} transformed point
  */
 export const applyMatrix = (point: Point, matrix: Matrix, tag: 0 | 1 = 1): Point => {
-  const vector = [ point.x, point.y, tag ]
-  vec3.transformMat3(vector, vector, matrix)
+  const vector = [point.x, point.y, tag];
+  vec3.transformMat3(vector, vector, matrix);
 
   return {
     x: vector[0],
-    y: vector[1]
-  }
-}
+    y: vector[1],
+  };
+};
 
 /**
  * coordinate matrix invert transformation
@@ -176,18 +176,18 @@ export const applyMatrix = (point: Point, matrix: Matrix, tag: 0 | 1 = 1): Point
  * @return {object} transformed point
  */
 export const invertMatrix = (point: Point, matrix: Matrix, tag: 0 | 1 = 1): Point => {
-  const inversedMatrix = mat3.invert([], matrix)
-  const vector = [ point.x, point.y, tag ]
-  vec3.transformMat3(vector, vector, inversedMatrix)
+  const inversedMatrix = mat3.invert([], matrix);
+  const vector = [point.x, point.y, tag];
+  vec3.transformMat3(vector, vector, inversedMatrix);
 
   return {
     x: vector[0],
-    y: vector[1]
-  }
-}
+    y: vector[1],
+  };
+};
 
 /**
- * 
+ *
  * @param p1 First coordinate
  * @param p2 second coordinate
  * @param p3 three coordinate
@@ -202,9 +202,9 @@ export const getCircleCenterByPoints = (p1: Point, p2: Point, p3: Point): Point 
   const denominator = b * c - a * d;
   return {
     x: -(d * e - b * f) / denominator,
-    y: -(a * f - c * e) / denominator
+    y: -(a * f - c * e) / denominator,
   };
-}
+};
 
 /**
  * get distance by two points
@@ -215,24 +215,24 @@ export const distance = (p1: Point, p2: Point): number => {
   const vx = p1.x - p2.x;
   const vy = p1.y - p2.y;
   return Math.sqrt(vx * vx + vy * vy);
-}
+};
 
 /**
  * scale matrix
  * @param matrix [ [], [], [] ]
- * @param scale 
+ * @param scale
  */
 export const scaleMatrix = (matrix: Matrix[], scale: number) => {
-  const result: Matrix[] = []
-  matrix.forEach(row => {
-    const newRow = []
-    row.forEach(v => {
-      newRow.push(v * scale)
-    })
-    result.push(newRow)
-  })
-  return result
-}
+  const result: Matrix[] = [];
+  matrix.forEach((row) => {
+    const newRow: number[] = [];
+    row.forEach((v) => {
+      newRow.push(v * scale);
+    });
+    result.push(newRow);
+  });
+  return result;
+};
 
 /**
  * Floyd Warshall algorithm for shortest path distances matrix
@@ -266,7 +266,7 @@ export const floydWarshall = (adjMatrix: Matrix[]): Matrix[] => {
     }
   }
   return dist;
-}
+};
 
 /**
  * get adjacency matrix
@@ -279,24 +279,30 @@ export const getAdjMatrix = (data: GraphData, directed: boolean): Matrix[] => {
   const matrix: Matrix[] = [];
   // map node with index in data.nodes
   const nodeMap = new Map();
-  nodes.forEach((node, i) => {
-    nodeMap.set(node.id, i);
-    const row = [];
-    matrix.push(row);
-  });
 
-  edges.forEach(e => {
-    const source = e.source;
-    const target = e.target;
-    const sIndex = nodeMap.get(source);
-    const tIndex = nodeMap.get(target);
-    matrix[sIndex][tIndex] = 1;
-    if (!directed) {
-      matrix[tIndex][sIndex] = 1;
-    }
-  });
+  if (nodes) {
+    nodes.forEach((node, i) => {
+      nodeMap.set(node.id, i);
+      const row: number[] = [];
+      matrix.push(row);
+    });
+  }
+
+  if (edges) {
+    edges.forEach((e) => {
+      const source = e.source;
+      const target = e.target;
+      const sIndex = nodeMap.get(source);
+      const tIndex = nodeMap.get(target);
+      matrix[sIndex][tIndex] = 1;
+      if (!directed) {
+        matrix[tIndex][sIndex] = 1;
+      }
+    });
+  }
+
   return matrix;
-}
+};
 
 /**
  * 平移group
@@ -304,11 +310,9 @@ export const getAdjMatrix = (data: GraphData, directed: boolean): Matrix[] => {
  * @param point 坐标
  */
 export const translate = (group: IGroup, point: Point) => {
-  const matrix: Matrix = group.getMatrix()
-  transform(matrix, [
-    [ 't',  point.x, point.y ]
-  ])
-}
+  const matrix: Matrix = group.getMatrix();
+  transform(matrix, [['t', point.x, point.y]]);
+};
 
 /**
  * 移动到指定坐标点
@@ -316,8 +320,6 @@ export const translate = (group: IGroup, point: Point) => {
  * @param point 移动到的坐标点
  */
 export const move = (group: IGroup, point: Point) => {
-  const matrix: Matrix = group.getMatrix()
-  transform(matrix, [
-    ['t', point.x, point.y ]
-  ])
-}
+  const matrix: Matrix = group.getMatrix();
+  transform(matrix, [['t', point.x, point.y]]);
+};
