@@ -57,7 +57,7 @@ Cubic edge has the [Common Edge Properties](/en/docs/manual/middle/elements/edge
 | style | The default style of edge | Object | Correspond to the styles in Canvas |
 | label | The text of the label | String |  |
 | labelCfg | The configurations of the label | Object |  |
-| controlPoints | The array of the control points for the cubic curve | Array | If it is not assgined, the default control points on the 1/3 and 2/3 of the curve will take effect. e.g. [{x: 10, y: 20}, {x: 15, y: 30}] |
+| controlPoints | The array of the control points for the cubic curve | Array | If it is not assgined, the default control points on the 1/3 and 2/3 of the curve will take effect. e.g. `[{ x: 10, y: 20 }, { x: 15, y: 30 }]` |
 
 
 

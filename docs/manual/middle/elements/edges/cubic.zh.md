@@ -57,7 +57,7 @@ quadratic 边支持 [边通用配置项](zh/docs/manual/middle/elements/edges/de
 | style | 边的样式 | Object | Canvas 支持的属性 |
 | label | 标签文本文字 | String |  |
 | labelCfg | 标签文本配置项 | Object |  |
-| controlPoints | 控制点数组 | Array | 不指定时将会使用默认的控制点：曲线 1/3 和 2/3 处。示例：[{x: 10, y: 20}, {x: 15, y: 30}] |
+| controlPoints | 控制点数组 | Array | 不指定时将会使用默认的控制点：曲线 1/3 和 2/3 处。示例：`[{ x: 10, y: 20 }, { x: 15, y: 30 }]` |
 
 
 ### 样式属性 style
