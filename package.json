@@ -110,7 +110,7 @@
     "prepublishOnly": "npm run build-lib && npm run build",
     "screenshot": "node ./bin/screenshot.js",
     "test": "npm run build && torch --compile --renderer --opts test/mocha.opts --recursive ./test/unit",
-    "test-live": "torch --compile --interactive --watch --opts test/mocha.opts --recursive ./test/unit",
+    "test-live": "torch --compile --interactive --watch --opts test/mocha.opts --recursive ./test/unit/behavior/zoom-spec.js",
     "test-live-shape": "torch --compile --interactive --watch --opts test/mocha.opts --recursive ./test/unit/shape/nodes/modelRect-spec.js",
     "test-live-util": "torch --compile --interactive --watch --opts test/mocha.opts --recursive ./test/unit/shape/edge-spec.js",
     "test-bugs": "torch --compile --renderer --recursive ./test/bugs",

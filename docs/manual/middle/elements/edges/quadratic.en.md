@@ -57,6 +57,7 @@ Quadratic edge has the [Common Edge Properties](/en/docs/manual/middle/elements/
 | style | The default style of edge | Object | Correspond to the styles in Canvas |
 | label | The text of the label | String |  |
 | labelCfg | The configurations of the label | Object |  |
+| controlPoints | The array of the control points for the quadratic curve | Array | If it is not assgined, the default control point on the center of the curve will take effect. e.g. [{x: 10, y: 20}] |
 
 
 
