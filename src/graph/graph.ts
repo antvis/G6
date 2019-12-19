@@ -531,11 +531,14 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param ratio 伸缩比例
    * @param center 以center的x, y坐标为中心缩放
    */
-  public zoom(ratio: number,  center: Point): void {
+  public zoom(ratio: number,  center?: Point): void {
     const group: Group = this.get('group')
-    const matrix: Matrix = clone(group.getMatrix())
+    let matrix: Matrix = clone(group.getMatrix())
     const minZoom: number = this.get('minZoom')
     const maxZoom: number = this.get('maxZoom')
+
+    if (!matrix) matrix = mat3.create();
+    console.log('zoom matrix', matrix);
 
     if(center) {
       mat3.translate(matrix, matrix, [ -center.x, -center.y ])
@@ -1134,7 +1137,8 @@ export default class Graph extends EventEmitter implements IGraph {
    * @return {number} 比例
    */
   public getZoom(): number {
-    return this.get('group').getMatrix()[0];
+    const matrix = this.get('group').getMatrix();
+    return matrix ? matrix[0] : 1;
   }
 
   /**
