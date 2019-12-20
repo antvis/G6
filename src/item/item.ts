@@ -5,10 +5,10 @@ import isPlainObject from '@antv/util/lib/is-plain-object'
 import isString from '@antv/util/lib/is-string'
 import uniqueId from '@antv/util/lib/unique-id'
 import { IItemBase, IItemBaseConfig } from "@g6/interface/item";
+import Shape from '@g6/shape/shape';
 import { IBBox, IPoint, IShapeBase, ModelConfig, ModelStyle, ShapeStyle } from '@g6/types';
 import { getBBox } from '@g6/util/graphic';
 import { translate } from '@g6/util/math';
-import Shape from '@g6/shape/shape';
 
 const CACHE_BBOX = 'bboxCache';
 
@@ -132,6 +132,7 @@ export default class ItemBase implements IItemBase {
     self.updatePosition(model);
     const cfg = self.getShapeCfg(model); // 可能会附加额外信息
     const shapeType: string = cfg.shape;
+
     const keyShape: IShapeBase = shapeFactory.draw(shapeType, cfg, group);
     if (keyShape) {
       keyShape.isKeyShape = true;
