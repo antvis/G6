@@ -11,7 +11,7 @@ import each from '@antv/util/lib/each'
 import isPlainObject from '@antv/util/lib/is-plain-object';
 import isString from '@antv/util/lib/is-string'
 import { GraphAnimateConfig, GraphOptions, IGraph, IModeOption, IModeType, IStates } from '@g6/interface/graph';
-import { IEdge, INode, IItemBase } from '@g6/interface/item';
+import { IEdge, INode } from '@g6/interface/item';
 import { EdgeConfig, GraphData, GroupConfig, Item, ITEM_TYPE, Matrix, ModelConfig, NodeConfig, NodeMapConfig, Padding } from '@g6/types';
 import { move, translate } from '@g6/util/math'
 import Global from '../global'
@@ -537,7 +537,9 @@ export default class Graph extends EventEmitter implements IGraph {
     const minZoom: number = this.get('minZoom')
     const maxZoom: number = this.get('maxZoom')
 
-    if (!matrix) matrix = mat3.create();
+    if (!matrix) { 
+      matrix = mat3.create(); 
+    }
 
     if(center) {
       mat3.translate(matrix, matrix, [ -center.x, -center.y ])
@@ -723,7 +725,8 @@ export default class Graph extends EventEmitter implements IGraph {
 
       return this.get('customGroupControll').create(groupId, nodes, groupType, zIndex, true, groupTitle);
     }
-    return this.get('itemController').addItem(type, model);
+    const itemController: ItemController = this.get('itemController')
+    return itemController.addItem(type, model);
   }
 
   public add(type: ITEM_TYPE, model: ModelConfig): Item {

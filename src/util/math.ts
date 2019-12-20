@@ -159,8 +159,12 @@ export const getEllispeIntersectByPoint = (ellipse: IEllipse, point: Point): Poi
  * @return {Point} transformed point
  */
 export const applyMatrix = (point: Point, matrix: Matrix, tag: 0 | 1 = 1): Point => {
-  const vector = [point.x, point.y, tag];
-  vec3.transformMat3(vector, vector, matrix);
+  const vector = [ point.x, point.y, tag ]
+  if(!matrix) {
+    matrix = mat3.create()
+  }
+  
+  vec3.transformMat3(vector, vector, matrix)
 
   return {
     x: vector[0],
@@ -176,7 +180,10 @@ export const applyMatrix = (point: Point, matrix: Matrix, tag: 0 | 1 = 1): Point
  * @return {object} transformed point
  */
 export const invertMatrix = (point: Point, matrix: Matrix, tag: 0 | 1 = 1): Point => {
-  if (!matrix) matrix = mat3.create();
+  if (!matrix) { 
+    matrix = mat3.create(); 
+  }
+
   const inversedMatrix = mat3.invert([], matrix)
   const vector = [ point.x, point.y, tag ]
   vec3.transformMat3(vector, vector, inversedMatrix)

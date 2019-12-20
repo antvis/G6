@@ -36,7 +36,7 @@ export default class ItemController {
    * @returns {(Item)}
    * @memberof ItemController
    */
-  public addItem<T = Item>(type: ITEM_TYPE, model: NodeConfig & EdgeConfig): T {
+  public addItem<T extends Item>(type: ITEM_TYPE, model: ModelConfig): T {
     const graph = this.graph;
     const parent: Group = graph.get(type + 'Group') || graph.get('group');
     const upperType = upperFirst(type);
@@ -71,8 +71,8 @@ export default class ItemController {
     graph.emit('beforeadditem', { type, model });
 
     if(type === EDGE) {
-      let source: string | Item = model.source
-      let target: string | Item = model.target
+      let source: string | Item = (model as EdgeConfig).source
+      let target: string | Item = (model as EdgeConfig).target
 
       if (source && isString(source)) {
         source = graph.findById(source);
@@ -82,8 +82,9 @@ export default class ItemController {
       }
 
       if (!source || !target) {
-        console.warn('The source or target node of edge ' + model.id + ' does not exist!');
-        return;
+        throw new Error('The source or target node of edge ' + model.id + ' does not exist!')
+        // console.warn('The source or target node of edge ' + model.id + ' does not exist!');
+        // return;
       }
 
       item = new Edge({
@@ -249,7 +250,6 @@ export default class ItemController {
    */
   public setItemState(item: Item, state: string, enabled: boolean): void {
     const graph = this.graph;
-
     if (item.hasState(state) === enabled) {
       return;
     }

@@ -56,12 +56,12 @@ export default class Edge extends Item implements IEdge {
       const anchorName = name + ANCHOR_NAME_SUFFIX;
       const prePoint = this.getPrePoint(name, controlPoints);
       const anchorIndex = model[anchorName];
-      if (isNil(anchorIndex)) { // 如果有锚点，则使用锚点索引获取连接点
+      if (!isNil(anchorIndex)) { // 如果有锚点，则使用锚点索引获取连接点
         point = item.getLinkPointByAnchor(anchorIndex);
       }
       // 如果锚点没有对应的点或者没有锚点，则直接计算连接点
       point = point || item.getLinkPoint(prePoint);
-      if (isNil(point.index)) {
+      if (!isNil(point.index)) {
         this.set(name + 'AnchorIndex', point.index);
       }
     }
