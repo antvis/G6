@@ -25,7 +25,7 @@ export default class EventController {
     this.graph = graph
     this.extendEvents = []
     this.dragging = false
-    // this.initEvents()
+    this.initEvents()
   }
 
   // 初始化 G6 中的事件
@@ -52,6 +52,11 @@ export default class EventController {
 
   // 判断 viewport 是否改变，通过和单位矩阵对比
   private isViewportChanged(matrix: Matrix) {
+    // matrix 为 null， 则说明没有变化
+    if(!matrix) {
+      return false
+    }
+
     for (let i = 0; i < MATRIX_LEN; i++) {
       if (matrix[i] !== ORIGIN_MATRIX[i]) {
         return true;
@@ -90,6 +95,7 @@ export default class EventController {
 
     const group: Group = graph.get('group')
     const matrix: Matrix = group.getMatrix()
+    
     if(this.isViewportChanged(matrix)) {
       point = graph.getPointByCanvas(evt.canvasX, evt.canvasY)
     }
@@ -110,7 +116,7 @@ export default class EventController {
       return;
     }
 
-    const itemShape = this.getItemRoot(target);
+    const itemShape: ShapeBase = this.getItemRoot(target);
     if (!itemShape) {
       graph.emit(eventType, evt);
       return;
