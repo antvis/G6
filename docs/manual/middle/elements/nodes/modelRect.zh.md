@@ -63,8 +63,10 @@ modelRect 节点支持 [节点通用配置](/zh/docs/manual/middle/elements/node
 | stateStyles | 各状态下的样式 | Object | 只对 keyShape 起作用 |
 | linkPoints | **视觉上的**四个锚点 | Object | 默认不显示，应与 [anchorPoints](/zh/docs/manual/middle/elements/nodes/defaultNode/#节点的通用属性) 配合使用。二者区别请看 [linkPoints](#linkpoints) |
 | **preRect** | **左侧的小矩形** | **Object** | **modelRect 节点特有** |
-| **logoIcon** | **左侧的logo图标** | **Object** | **modelRect 节点特有** |
+| **logoIcon** | **左侧的 logo 图标** | **Object** | **modelRect 节点特有** |
 | **stateIcon** | **右侧的状态图标** | **Object** | **modelRect 节点特有** |
+| **description** | **节点主要文本下方的描述文本** | **String** | **modelRect 节点特有** |
+| **descriptionCfg** | **描述文本的配置项** | **Object** | **modelRect 节点特有** |
 
 
 ```javascript
@@ -141,6 +143,34 @@ const graph = new G6.Graph({
       style: {
         fill: '#9254de',
         fontSize: 18
+      }
+    }
+  }
+});
+// ...
+```
+
+
+### 描述文本配置 descriptionCfg
+Object 类型。通过 `descriptionCfg` 配置标签文本。支持 [节点通用标签配置](/zh/docs/manual/middle/elements/nodes/defaultNode/#标签文本-label-及其配置-labelcfg)。此外，还有一个特殊属性：
+
+| 名称 | 含义 | 类型 | 备注 |
+| --- | --- | --- | --- |
+| paddingTop | 距离上方标签文本的垂直距离 | Number | 默认为 `0` |
+
+
+基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `descriptionCfg` 配置项进行描述文本的配置。
+```javascript
+const data = {
+  // ... data 内容
+};
+const graph = new G6.Graph({
+  // ... 图的其他属性
+  defaultNode: {
+    // ... 节点其他属性
+    descriptionCfg: {
+      style: {
+        fill: '#f00',
       }
     }
   }
