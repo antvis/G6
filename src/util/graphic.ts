@@ -208,20 +208,25 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
  * @param {boolean} rotate     是否根据线条斜率旋转文本
  * @return {object} 文本的 x, y, 文本的旋转角度
  */
-export const getLabelPosition = (pathShape: Path, percent: number, refX: number, refY: number, rotate: boolean): LabelStyle => {
+export const getLabelPosition = (
+  pathShape: Path,
+  percent: number,
+  refX: number,
+  refY: number,
+  rotate: boolean
+): LabelStyle => {
   const TAN_OFFSET = 0.0001;
-  let vector: number[][] = [];
+  const vector: number[][] = [];
   const point: IPoint = pathShape.getPoint(percent);
   if (point === null) {
     return {
       x: 0,
       y: 0,
-      angle: 0
+      angle: 0,
     };
   }
 
-
-// TODO: wait for G
+  // TODO: wait for G
 
   // 头尾最可能，放在最前面，使用 g path 上封装的方法
   // if (percent < TAN_OFFSET) {
@@ -229,14 +234,14 @@ export const getLabelPosition = (pathShape: Path, percent: number, refX: number,
   // } else if (percent > (1 - TAN_OFFSET)) {
   //   vector = pathShape.getEndTangent();
   // } else {
-    // 否则取指定位置的点,与少量偏移的点，做微分向量
-    const offsetPoint: IPoint = pathShape.getPoint(percent + TAN_OFFSET);
-    vector.push([ point.x, point.y ]);
-    vector.push([ offsetPoint.x, offsetPoint.y ]);
+  // 否则取指定位置的点,与少量偏移的点，做微分向量
+  const offsetPoint: IPoint = pathShape.getPoint(percent + TAN_OFFSET);
+  vector.push([point.x, point.y]);
+  vector.push([offsetPoint.x, offsetPoint.y]);
   // }
 
   let rad: number = Math.atan2(vector[1][1] - vector[0][1], vector[1][0] - vector[0][0]);
-  
+
   if (rad < 0) {
     rad += PI * 2;
   }
@@ -249,7 +254,7 @@ export const getLabelPosition = (pathShape: Path, percent: number, refX: number,
     // 默认方向是 x 轴正方向，法线是 求出角度 - 90°
     let normal = rad - PI / 2;
     // 若法线角度在 y 轴负方向，切到正方向，保证 refY 相对于 y 轴正方向
-    if (rad > 1 / 2 * PI && rad < 3 * 1 / 2 * PI) {
+    if (rad > (1 / 2) * PI && rad < ((3 * 1) / 2) * PI) {
       normal -= PI;
     }
     point.x += cos(normal) * refY;
@@ -259,21 +264,20 @@ export const getLabelPosition = (pathShape: Path, percent: number, refX: number,
   const result = {
     x: point.x,
     y: point.y,
-    angle: rad
+    angle: rad,
   };
 
   if (rotate) {
-    if (rad > 1 / 2 * PI && rad < 3 * 1 / 2 * PI) {
+    if (rad > (1 / 2) * PI && rad < ((3 * 1) / 2) * PI) {
       rad -= PI;
     }
     return {
       rotate: rad,
-      ...result
+      ...result,
     };
   }
   return result;
-}
-
+};
 
 const traverse = <T extends { children?: T[] }>(data: T, fn: (param: T) => boolean) => {
   if (!fn(data)) {
@@ -318,7 +322,7 @@ export const radialLayout = (data: TreeGraphDataWithPosition, layout?: string): 
     y: -Infinity,
   };
   // 默认布局是垂直布局TB，此时x对应rad，y对应r
-  let rScale = 'x';
+  let rScale: 'x' | 'y' = 'x';
   let radScale: 'x' | 'y' = 'y';
   if (layout && VERTICAL_LAYOUTS.indexOf(layout) >= 0) {
     // 若是水平布局，y对应rad，x对应r
