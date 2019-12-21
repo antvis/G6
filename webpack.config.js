@@ -3,17 +3,20 @@ const resolve = require('path').resolve;
 
 module.exports = {
   entry: {
-    g6: './src/index.ts'
+    g6: './src/index.ts',
   },
   output: {
     filename: '[name].min.js',
     library: 'G6',
     libraryTarget: 'umd',
-    path: resolve(process.cwd(), 'dist/')
+    path: resolve(process.cwd(), 'dist/'),
   },
   resolve: {
+    alias: {
+      '@g6': resolve(process.cwd(), './src'),
+    },
     // Add `.ts` as a resolvable extension.
-    extensions: [ '.ts', '.js' ]
+    extensions: ['.ts', '.js'],
   },
   module: {
     rules: [
@@ -22,24 +25,21 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            babelrc: true
-          }
-        }
+            babelrc: true,
+          },
+        },
       },
       {
         test: /\.ts$/,
         use: {
           loader: 'ts-loader',
           options: {
-            transpileOnly: true
-          }
-        }
-      }
-    ]
+            transpileOnly: true,
+          },
+        },
+      },
+    ],
   },
-  plugins: [
-    new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.optimize.AggressiveMergingPlugin()
-  ],
-  devtool: 'source-map'
+  plugins: [new webpack.NoEmitOnErrorsPlugin(), new webpack.optimize.AggressiveMergingPlugin()],
+  devtool: 'source-map',
 };

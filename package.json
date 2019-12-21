@@ -25,6 +25,7 @@
     "build:umd": "webpack --config webpack.config.js --mode production",
     "clean": "rimraf esm lib dist",
     "lint": "lint-staged",
+    "tslint": "tslint -c tslint.json 'src/**/*.ts'",
     "test": "jest",
     "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/",
     "coverage": "jest --coverage",
@@ -65,12 +66,13 @@
     "typedoc": "^0.15.0",
     "typedoc-plugin-markdown": "^2.2.11",
     "typescript": "^3.5.3",
+    "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10",
     "event-simulate": "~1.0.0"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "run-s lint build test"
+      "pre-commit": "run-s lint"
     }
   },
   "lint-staged": {
