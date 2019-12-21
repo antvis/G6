@@ -97,7 +97,8 @@ const singleEdge: ShapeOptions = {
     const style: LabelStyle = {};
 
     // TODO: wait for findByClassName defined by G
-    // const pathShape = group.findByClassName(CLS_SHAPE);
+    // const pathShape = group.findAllByName(CLS_SHAPE)[0];
+    // const pathShape = group.find(element => { return element.get('className') === CLS_SHAPE})
 
     const pathShape = group.get('children')[0];
 
@@ -123,7 +124,6 @@ const singleEdge: ShapeOptions = {
     style.y = offsetStyle.y;
     style.rotate = offsetStyle.rotate;
     style.textAlign = this._getTextAlign(labelPosition, offsetStyle.angle);
-    console.log('get style by position', labelPosition, style);
     return style;
   },
   // 获取文本对齐方式
@@ -179,7 +179,6 @@ const singleEdge: ShapeOptions = {
     const label = group.addShape('text', {
       attrs: labelStyle,
     });
-    console.log('edge draw label', label);
     return label;
   },
 };
@@ -191,8 +190,8 @@ Shape.registerEdge('single-edge', singleEdgeDef);
 Shape.registerEdge('line', {
   // 控制点不生效
   getControlPoints() {
-    return [];
-  },
+    return undefined;
+  }
 });
 
 // 直线

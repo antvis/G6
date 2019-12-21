@@ -176,9 +176,10 @@ export const applyMatrix = (point: Point, matrix: Matrix, tag: 0 | 1 = 1): Point
  * @return {object} transformed point
  */
 export const invertMatrix = (point: Point, matrix: Matrix, tag: 0 | 1 = 1): Point => {
-  const inversedMatrix = mat3.invert([], matrix);
-  const vector = [point.x, point.y, tag];
-  vec3.transformMat3(vector, vector, inversedMatrix);
+  if (!matrix) matrix = mat3.create();
+  const inversedMatrix = mat3.invert([], matrix)
+  const vector = [ point.x, point.y, tag ]
+  vec3.transformMat3(vector, vector, inversedMatrix)
 
   return {
     x: vector[0],
@@ -307,12 +308,15 @@ export const getAdjMatrix = (data: GraphData, directed: boolean): Matrix[] => {
 /**
  * 平移group
  * @param group Group 实例
- * @param point 坐标
+ * @param vec 移动向量
  */
-export const translate = (group: IGroup, point: Point) => {
-  const matrix: Matrix = group.getMatrix();
-  transform(matrix, [['t', point.x, point.y]]);
-};
+export const translate = (group: IGroup, vec: Point) => {
+  let matrix: Matrix = group.getMatrix()
+  matrix = transform(matrix, [
+    [ 't',  vec.x, vec.y ]
+  ])
+  group.setMatrix(matrix)
+}
 
 /**
  * 移动到指定坐标点
@@ -320,6 +324,13 @@ export const translate = (group: IGroup, point: Point) => {
  * @param point 移动到的坐标点
  */
 export const move = (group: IGroup, point: Point) => {
-  const matrix: Matrix = group.getMatrix();
-  transform(matrix, [['t', point.x, point.y]]);
-};
+  const matrix: Matrix = group.getMatrix()
+  const orix = group.get('x') || 0;
+  const oriy = group.get('y') || 0;
+  transform(matrix, [
+    ['t', point.x - orix, point.y - oriy ]
+  ])
+  group.set('x', point.x) // ??
+  group.set('y', point.y) // ??
+  group.setMatrix(matrix)
+}

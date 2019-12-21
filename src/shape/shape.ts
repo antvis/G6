@@ -105,26 +105,6 @@ const ShapeFactoryBase = {
   }
 }
 
-// 统一 registerNode, registerEdge, registerGuide 的实现
-// function addRegister(shapeFactory: {
-//   className: string,
-//   getShape: Function
-// }) {
-//   const functionName = 'register' + shapeFactory.className
-//   Shape[functionName] = function(shapeType: string, cfg: ModelConfig, extendShapeType?: string): object {
-    
-//     let extendShape = ShapeBase
-//     if (extendShapeType) {
-//       extendShape = shapeFactory.getShape(extendShapeType)
-//     } else {
-//       extendShape = shapeFactory.className === 'Node' ? shapeFactory.getShape('single-shape') : shapeFactory.getShape('single-line');
-//     }
-//     const shapeObj = Object.assign({}, extendShape, cfg)
-//     shapeObj['type'] = shapeType
-//     shapeFactory[shapeType] = shapeObj
-//     return shapeObj
-//   }
-// }
 
 export default class Shape {
   public static Node;

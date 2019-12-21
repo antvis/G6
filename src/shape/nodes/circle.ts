@@ -24,16 +24,6 @@ Shape.registerNode('circle', {
       },
       offset: 0
     },
-    stateStyles: {
-      // 鼠标hover状态下的配置
-      hover: {
-        fillOpacity: 0.8
-      },
-      // 选中节点状态下的配置
-      selected: {
-        lineWidth: 3
-      }
-    },
     // 节点上左右上下四个方向上的链接circle配置
     linkPoints: {
       top: false,
@@ -177,106 +167,103 @@ Shape.registerNode('circle', {
   },
   update(cfg: NodeConfig, item: Item) {
 
-    // TODO: after findByClassName is defined by G
+    const { style: defaultStyle, icon: defaultIcon, labelCfg: defaultLabelCfg } = this.options;
+    const style = deepMix({}, defaultStyle, cfg.style);
+    const icon = deepMix({}, defaultIcon, cfg.icon);
+    const size = this.getSize(cfg);
+    const r = size[0] / 2;
 
-    // const { style: defaultStyle, icon: defaultIcon, labelCfg: defaultLabelCfg } = this.options;
-    // const style = deepMix({}, defaultStyle, cfg.style);
-    // const icon = deepMix({}, defaultIcon, cfg.icon);
-    // const size = this.getSize(cfg);
-    // const r = size[0] / 2;
+    const group = item.getContainer();
 
-    // const group = item.getContainer();
+    const keyShape: IShape = item.get('keyShape');
+    keyShape.attr({
+      ...style,
+      r
+    });
 
-    // const keyShape: G.Shape = item.get('keyShape');
-    // keyShape.attr({
-    //   ...style,
-    //   r
-    // });
+    const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
+    const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
 
-    // const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
-    // const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
+    const text = group.find(element => { return element.get('className') === 'node-label'})
+    if (text) {
+      text.attr({
+        ...labelStyle
+      });
+    }
 
-    // const text: G.Shape = group.findByClassName('node-label');
-    // if (text) {
-    //   text.attr({
-    //     ...labelStyle
-    //   });
-    // }
+    const circleIcon = group.find(element => { return element.get('className') === 'circle-icon'})
+    const { width: w, height: h } = icon;
+    if (circleIcon) {
+      circleIcon.attr({
+        x: -w / 2,
+        y: -h / 2,
+        ...icon
+      });
+    }
 
-    // const circleIcon: G.Shape = group.findByClassName('circle-icon');
-    // const { width: w, height: h } = icon;
-    // if (circleIcon) {
-    //   circleIcon.attr({
-    //     x: -w / 2,
-    //     y: -h / 2,
-    //     ...icon
-    //   });
-    // }
-
-    // this.updateLinkPoints(cfg, group);
+    this.updateLinkPoints(cfg, group);
   },
 
-  // TODO: after findByClassName is defined by G
   /**
    * 更新linkPoints
    * @param {Object} cfg 节点数据配置项
    * @param {Group} group Item所在的group
    */
-//   updateLinkPoints(cfg: NodeConfig, group: GGroup) {
-//     const { linkPoints: defaultLinkPoints } = this.options;
-//     const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
+  updateLinkPoints(cfg: NodeConfig, group: GGroup) {
+    const { linkPoints: defaultLinkPoints } = this.options;
+    const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
 
-//     const { size: markSize, fill: markFill, stroke: markStroke, lineWidth: borderWidth } = linkPoints;
+    const { size: markSize, fill: markFill, stroke: markStroke, lineWidth: borderWidth } = linkPoints;
 
-//     const size = this.getSize(cfg);
-//     const r = size[0] / 2;
+    const size = this.getSize(cfg);
+    const r = size[0] / 2;
 
-//     const markLeft: ShapeBase = group.findByClassName('circle-mark-left');
-//     if (markLeft) {
-//       markLeft.attr({
-//         x: -r,
-//         y: 0,
-//         r: markSize,
-//         fill: markFill,
-//         stroke: markStroke,
-//         lineWidth: borderWidth
-//       });
-//     }
+    const markLeft = group.find(element => { return element.get('className') === 'circle-mark-left'})
+    if (markLeft) {
+      markLeft.attr({
+        x: -r,
+        y: 0,
+        r: markSize,
+        fill: markFill,
+        stroke: markStroke,
+        lineWidth: borderWidth
+      });
+    }
 
-//     const markRight: ShapeBase = group.findByClassName('circle-mark-right');
-//     if (markRight) {
-//       markRight.attr({
-//         x: r,
-//         y: 0,
-//         r: markSize,
-//         fill: markFill,
-//         stroke: markStroke,
-//         lineWidth: borderWidth
-//       });
-//     }
+    const markRight = group.find(element => { return element.get('className') === 'circle-mark-right'})
+    if (markRight) {
+      markRight.attr({
+        x: r,
+        y: 0,
+        r: markSize,
+        fill: markFill,
+        stroke: markStroke,
+        lineWidth: borderWidth
+      });
+    }
 
-//     const markTop: ShapeBase = group.findByClassName('circle-mark-top');
-//     if (markTop) {
-//       markTop.attr({
-//         x: 0,
-//         y: -r,
-//         r: markSize,
-//         fill: markFill,
-//         stroke: markStroke,
-//         lineWidth: borderWidth
-//       });
-//     }
+    const markTop = group.find(element => { return element.get('className') === 'circle-mark-top'})
+    if (markTop) {
+      markTop.attr({
+        x: 0,
+        y: -r,
+        r: markSize,
+        fill: markFill,
+        stroke: markStroke,
+        lineWidth: borderWidth
+      });
+    }
 
-//     const markBottom: ShapeBase = group.findByClassName('circle-mark-bottom');
-//     if (markBottom) {
-//       markBottom.attr({
-//         x: 0,
-//         y: r,
-//         r: markSize,
-//         fill: markFill,
-//         stroke: markStroke,
-//         lineWidth: borderWidth
-//       });
-//     }
-//   }
+    const markBottom = group.find(element => { return element.get('className') === 'circle-mark-bottom'})
+    if (markBottom) {
+      markBottom.attr({
+        x: 0,
+        y: r,
+        r: markSize,
+        fill: markFill,
+        stroke: markStroke,
+        lineWidth: borderWidth
+      });
+    }
+  }
 }, 'single-node');

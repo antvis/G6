@@ -24,20 +24,6 @@ Shape.registerNode('modelRect', {
       },
       offset: 30
     },
-    stateStyles: {
-      // hover状态下的配置
-      hover: {
-        lineWidth: 2,
-        stroke: '#1890ff',
-        fill: '#e6f7ff'
-      },
-      // 节点选中状态下的配置
-      selected: {
-        lineWidth: 3,
-        stroke: '#1890ff',
-        fill: '#e6f7ff'
-      }
-    },
     preRect: {
       show: true,
       width: 4,
@@ -320,166 +306,162 @@ Shape.registerNode('modelRect', {
   },
   update(cfg: NodeConfig, item: Item) {
 
-    // TODO: after findByClassName is defined by G
+    const { style: defaultStyle, labelCfg: defaultLabelCfg, preRect: defaultPreRect,
+      logoIcon: defaultLogoIcon, stateIcon: defaultStateIcon } = this.options;
+    const style = deepMix({}, defaultStyle, cfg.style);
+    const size = this.getSize(cfg);
+    const width = size[0];
+    const height = size[1];
+    const keyShape = item.get('keyShape');
+    keyShape.attr({
+      ...style,
+      x: -width / 2,
+      y: -height / 2,
+      width,
+      height
+    });
 
-    // const { style: defaultStyle, labelCfg: defaultLabelCfg, preRect: defaultPreRect,
-    //   logoIcon: defaultLogoIcon, stateIcon: defaultStateIcon } = this.options;
-    // const style = deepMix({}, defaultStyle, cfg.style);
-    // const size = this.getSize(cfg);
-    // const width = size[0];
-    // const height = size[1];
-    // const keyShape: G.Shape = item.get('keyShape');
-    // keyShape.attr({
-    //   ...style,
-    //   x: -width / 2,
-    //   y: -height / 2,
-    //   width,
-    //   height
-    // });
+    const group = item.getContainer();
 
-    // const group = item.getContainer();
+    const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
+    const text = group.find(element => { return element.get('className') === 'node-label'})
 
-    // const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
-    // const text = group.findByClassName('node-label');
+    const logoIcon = deepMix({}, defaultLogoIcon, cfg.logoIcon);
 
-    // const logoIcon = deepMix({}, defaultLogoIcon, cfg.logoIcon);
+    const { show, width: w } = logoIcon;
 
-    // const { show, width: w } = logoIcon;
+    const { offset, style: fontStyle } = labelCfg;
+    let offsetX = -width / 2 + offset;
 
-    // const { offset, style: fontStyle } = labelCfg;
-    // let offsetX = -width / 2 + offset;
+    if (show) {
+      offsetX = -width / 2 + w + offset;
+    }
 
-    // if (show) {
-    //   offsetX = -width / 2 + w + offset;
-    // }
+    const descriptionText = group.find(element => { return element.get('className') === 'rect-description'})
+    if (descriptionText) {
+      // 正常情况下，如果descriptionText存在，text一定会存在，为了保证起见，多加一层判断
+      if (text) {
+        text.attr({
+          ...fontStyle,
+          y: -5,
+          x: offsetX
+        });
+      }
+      descriptionText.attr({
+        x: offsetX,
+        y: 17
+      });
+    } else {
+      if (text) {
+        text.attr({
+          ...fontStyle,
+          x: offsetX,
+          y: -5
+        });
+      }
+    }
 
-    // const descriptionText = group.findByClassName('rect-description');
-    // if (descriptionText) {
-    //   // 正常情况下，如果descriptionText存在，text一定会存在，为了保证起见，多加一层判断
-    //   if (text) {
-    //     text.attr({
-    //       ...fontStyle,
-    //       y: -5,
-    //       x: offsetX
-    //     });
-    //   }
-    //   descriptionText.attr({
-    //     x: offsetX,
-    //     y: 17
-    //   });
-    // } else {
-    //   if (text) {
-    //     text.attr({
-    //       ...fontStyle,
-    //       x: offsetX,
-    //       y: -5
-    //     });
-    //   }
-    // }
+    const preRectShape = group.find(element => { return element.get('className') === 'pre-rect'})
+    if (preRectShape) {
+      const preRect = deepMix({}, defaultPreRect, cfg.preRect);
+      preRectShape.attr({
+        ...preRect,
+        x: -width / 2,
+        y: -height / 2,
+        height
+      });
+    }
 
-    // const preRectShape = group.findByClassName('pre-rect');
-    // if (preRectShape) {
-    //   const preRect = deepMix({}, defaultPreRect, cfg.preRect);
-    //   preRectShape.attr({
-    //     ...preRect,
-    //     x: -width / 2,
-    //     y: -height / 2,
-    //     height
-    //   });
-    // }
+    const logoIconShape = group.find(element => { return element.get('className') === 'rect-logo-icon'})
+    if (logoIconShape) {
+      const { width: w, height: h, x, y, offset, ...logoIconStyle } = logoIcon;
+      logoIconShape.attr({
+        ...logoIconStyle,
+        x: x || -width / 2 + w + offset,
+        y: y || -h / 2,
+        width: w,
+        height: h
+      });
+    }
 
-    // const logoIconShape = group.findByClassName('rect-logo-icon');
-    // if (logoIconShape) {
-    //   const { width: w, height: h, x, y, offset, ...logoIconStyle } = logoIcon;
-    //   logoIconShape.attr({
-    //     ...logoIconStyle,
-    //     x: x || -width / 2 + w + offset,
-    //     y: y || -h / 2,
-    //     width: w,
-    //     height: h
-    //   });
-    // }
+    const stateIconShape = group.find(element => { return element.get('className') === 'rect-state-icon'})
+    if (stateIconShape) {
+      const stateIcon = deepMix({}, defaultStateIcon, cfg.stateIcon);
+      const { width: w, height: h, x, y, offset, ...stateIconStyle } = stateIcon;
+      stateIconShape.attr({
+        ...stateIconStyle,
+        x: x || width / 2 - w + offset,
+        y: y || -h / 2,
+        width: w,
+        height: h
+      });
+    }
 
-    // const stateIconShape = group.findByClassName('rect-state-icon');
-    // if (stateIconShape) {
-    //   const stateIcon = deepMix({}, defaultStateIcon, cfg.stateIcon);
-    //   const { width: w, height: h, x, y, offset, ...stateIconStyle } = stateIcon;
-    //   stateIconShape.attr({
-    //     ...stateIconStyle,
-    //     x: x || width / 2 - w + offset,
-    //     y: y || -h / 2,
-    //     width: w,
-    //     height: h
-    //   });
-    // }
-
-    // this.updateLinkPoints(cfg, group);
+    this.updateLinkPoints(cfg, group);
   },
   
-// TODO: after findByClassName is defined by G
-
   /**
    * 更新linkPoints
    * @param {Object} cfg 节点数据配置项
    * @param {Group} group Item所在的group
    */
-  // updateLinkPoints(cfg: NodeConfig, group: GGroup) {
-  //   const { linkPoints: defaultLinkPoints } = this.options;
-  //   const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
+  updateLinkPoints(cfg: NodeConfig, group: GGroup) {
+    const { linkPoints: defaultLinkPoints } = this.options;
+    const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
 
-  //   const { size: markSize, fill: markFill, stroke: markStroke, lineWidth: borderWidth } = linkPoints;
+    const { size: markSize, fill: markFill, stroke: markStroke, lineWidth: borderWidth } = linkPoints;
 
-  //   const size = this.getSize(cfg);
-  //   const width = size[0];
-  //   const height = size[1];
+    const size = this.getSize(cfg);
+    const width = size[0];
+    const height = size[1];
 
-  //   const markLeft: IShape = group.findByClassName('rect-mark-left');
-  //   if (markLeft) {
-  //     markLeft.attr({
-  //       x: -width / 2,
-  //       y: 0,
-  //       r: markSize,
-  //       fill: markFill,
-  //       stroke: markStroke,
-  //       lineWidth: borderWidth
-  //     });
-  //   }
+    const markLeft = group.find(element => { return element.get('className') === 'rect-mark-left'})
+    if (markLeft) {
+      markLeft.attr({
+        x: -width / 2,
+        y: 0,
+        r: markSize,
+        fill: markFill,
+        stroke: markStroke,
+        lineWidth: borderWidth
+      });
+    }
 
-  //   const markRight: IShape = group.findByClassName('rect-mark-right');
-  //   if (markRight) {
-  //     markRight.attr({
-  //       x: width / 2,
-  //       y: 0,
-  //       r: markSize,
-  //       fill: markFill,
-  //       stroke: markStroke,
-  //       lineWidth: borderWidth
-  //     });
-  //   }
+    const markRight = group.find(element => { return element.get('className') === 'rect-mark-right'})
+    if (markRight) {
+      markRight.attr({
+        x: width / 2,
+        y: 0,
+        r: markSize,
+        fill: markFill,
+        stroke: markStroke,
+        lineWidth: borderWidth
+      });
+    }
 
-  //   const markTop: IShape = group.findByClassName('rect-mark-top');
-  //   if (markTop) {
-  //     markTop.attr({
-  //       x: 0,
-  //       y: -height / 2,
-  //       r: markSize,
-  //       fill: markFill,
-  //       stroke: markStroke,
-  //       lineWidth: borderWidth
-  //     });
-  //   }
+    const markTop = group.find(element => { return element.get('className') === 'rect-mark-top'})
+    if (markTop) {
+      markTop.attr({
+        x: 0,
+        y: -height / 2,
+        r: markSize,
+        fill: markFill,
+        stroke: markStroke,
+        lineWidth: borderWidth
+      });
+    }
 
-  //   const markBottom: IShape = group.findByClassName('rect-mark-bottom');
-  //   if (markBottom) {
-  //     markBottom.attr({
-  //       x: 0,
-  //       y: height / 2,
-  //       r: markSize,
-  //       fill: markFill,
-  //       stroke: markStroke,
-  //       lineWidth: borderWidth
-  //     });
-  //   }
-  // }
+    const markBottom = group.find(element => { return element.get('className') === 'rect-mark-bottom'})
+    if (markBottom) {
+      markBottom.attr({
+        x: 0,
+        y: height / 2,
+        r: markSize,
+        fill: markFill,
+        stroke: markStroke,
+        lineWidth: borderWidth
+      });
+    }
+  }
 }, 'single-node');
 

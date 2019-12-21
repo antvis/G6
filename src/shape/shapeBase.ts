@@ -7,7 +7,7 @@ import { IShape } from '@antv/g-canvas/lib/interfaces'
 import each from '@antv/util/lib/each'
 import { ShapeOptions } from '@g6/interface/shape'
 import { ILabelConfig } from '@g6/interface/shape'
-import { IPoint, Item, LabelStyle, ModelConfig, ShapeStyle } from '@g6/types'
+import { IPoint, Item, LabelStyle, ModelConfig, ShapeStyle, ModelStyle } from '@g6/types'
 import { cloneDeep, get, merge } from 'lodash'
 import Global from '../global'
 
@@ -95,37 +95,36 @@ export const shapeBase: ShapeOptions = {
 	 * @param  {G6.Item} item 节点/边
 	 */
   update(cfg: ModelConfig, item: Item) {
-    // TODO: after findByClassName is defined by G
+    const group = item.getContainer()
+    const shapeClassName = this.itemType + CLS_SHAPE_SUFFIX
+    const shape = group.find(element => { return element.get('className') === shapeClassName})
+    const shapeStyle = this.getShapeStyle(cfg)
+    shape && shape.attr(shapeStyle)
+    const labelClassName = this.itemType + CLS_LABEL_SUFFIX
+    const label = group.find(element => { return element.get('className') === labelClassName})
 
-    // const group = item.getContainer()
-    // const shapeClassName = this.itemType + CLS_SHAPE_SUFFIX
-    // const shape = group.findByClassName(shapeClassName)
-    // const shapeStyle = this.getShapeStyle(cfg)
-    // shape && shape.attr(shapeStyle)
-    // const labelClassName = this.itemType + CLS_LABEL_SUFFIX
-    // const label = group.findByClassName(labelClassName)
-		// // 此时需要考虑之前是否绘制了 label 的场景存在三种情况
-		// // 1. 更新时不需要 label，但是原先存在 label，此时需要删除
-		// // 2. 更新时需要 label, 但是原先不存在，创建节点
-		// // 3. 如果两者都存在，更新
-    // if (!cfg.label) {
-    //   label && label.remove()
-    // } else {
-    //   if (!label) {
-    //     const newLabel = this.drawLabel(cfg, group)
-    //     newLabel.set('className', labelClassName)
-    //   } else {
-    //     const labelCfg = cfg.labelCfg || {}
-    //     const labelStyle = this.getLabelStyle(cfg, labelCfg, group)
-    //     /**
-    //      * fixme g中shape的rotate是角度累加的，不是label的rotate想要的角度
-    //      * 由于现在label只有rotate操作，所以在更新label的时候如果style中有rotate就重置一下变换
-    //      * 后续会基于g的Text复写一个Label出来处理这一类问题
-    //      */
-    //     label.resetMatrix()
-    //     label.attr(labelStyle)
-    //   }
-    // }
+		// 此时需要考虑之前是否绘制了 label 的场景存在三种情况
+		// 1. 更新时不需要 label，但是原先存在 label，此时需要删除
+		// 2. 更新时需要 label, 但是原先不存在，创建节点
+		// 3. 如果两者都存在，更新
+    if (!cfg.label) {
+      label && label.remove()
+    } else {
+      if (!label) {
+        const newLabel = this.drawLabel(cfg, group)
+        newLabel.set('className', labelClassName)
+      } else {
+        const labelCfg = cfg.labelCfg || {}
+        const labelStyle = this.getLabelStyle(cfg, labelCfg, group)
+        /**
+         * fixme g中shape的rotate是角度累加的，不是label的rotate想要的角度
+         * 由于现在label只有rotate操作，所以在更新label的时候如果style中有rotate就重置一下变换
+         * 后续会基于g的Text复写一个Label出来处理这一类问题
+         */
+        label.resetMatrix()
+        label.attr(labelStyle)
+      }
+    }
   },
 
   // update(cfg, item) // 默认不定义
@@ -171,13 +170,11 @@ export const shapeBase: ShapeOptions = {
    */
   getStateStyle(name: string, value: string | boolean, item: Item): ShapeStyle {
     const model = item.getModel()
-    const { style: defaultStyle, stateStyles: defaultStateStyle } = this.options
 
-    let currentStateStyle: string | number | object | object[] = defaultStyle
+    const { style: defaultStyle } = this.options
 
-    if (defaultStateStyle[name]) {
-      currentStateStyle = defaultStateStyle[name]
-    }
+    let currentStateStyle: ModelStyle = defaultStyle
+    
     if (value) {
       return merge({}, currentStateStyle, model.style)
     }
