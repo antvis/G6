@@ -67,7 +67,7 @@ export default {
 
     let brush = this.brush;
     if (!brush) {
-      brush = this._createBrush();
+      brush = this.createBrush();
     }
     this.originPoint = { x: e.canvasX, y: e.canvasY };
     brush.attr({ width: 0, height: 0 });
@@ -83,7 +83,7 @@ export default {
       return;
     }
 
-    this._updateBrush(e);
+    this.updateBrush(e);
     this.graph.paint();
   },
   onMouseUp(e: IG6GraphEvent) {
@@ -100,7 +100,7 @@ export default {
     graph.setAutoPaint(false);
     this.brush.destroy();
     this.brush = null;
-    this._getSelectedNodes(e);
+    this.getSelectedNodes(e);
     this.dragging = false;
     this.graph.paint();
     graph.setAutoPaint(autoPaint);
@@ -127,7 +127,7 @@ export default {
     graph.paint();
     graph.setAutoPaint(autoPaint);
   },
-  _getSelectedNodes(e: IG6GraphEvent) {
+  getSelectedNodes(e: IG6GraphEvent) {
     const graph = this.graph;
     const state = this.selectedState;
     const originPoint = this.originPoint;
@@ -182,7 +182,7 @@ export default {
       edges: selectedEdges
     }, select: true });
   },
-  _createBrush() {
+  createBrush() {
     const self = this;
     const brush = self.graph.get('canvas').addShape('rect', {
       attrs: self.brushStyle,
@@ -191,7 +191,7 @@ export default {
     this.brush = brush;
     return brush;
   },
-  _updateBrush(e: IG6GraphEvent) {
+  updateBrush(e: IG6GraphEvent) {
     const originPoint = this.originPoint;
     this.brush.attr({
       width: abs(e.canvasX - originPoint.x),

@@ -21,16 +21,6 @@ Shape.registerNode('triangle', {
       },
       offset: 15
     },
-    stateStyles: {
-      // 鼠标hover状态下的配置
-      hover: {
-        fillOpacity: 0.8
-      },
-      // 选中节点状态下的配置
-      selected: {
-        lineWidth: 3
-      }
-    },
     // 节点上左右上下四个方向上的链接circle配置
     linkPoints: {
       top: false,
@@ -275,41 +265,38 @@ Shape.registerNode('triangle', {
     return styles;
   },
   update(cfg, item) {
+    const group = item.getContainer();
+    const { style: defaultStyle, icon: defaultIcon, labelCfg: defaultLabelCfg } = this.options;
+    const style = deepMix({}, defaultStyle, cfg.style);
+    const icon = deepMix({}, defaultIcon, cfg.icon);
+    const keyShape = item.get('keyShape');
+    const path = this.getPath(cfg);
+    keyShape.attr({
+      path,
+      ...style
+    });
 
-    // TODO: after findByClassName is defined by G
+    const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
+    const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
 
-    // const group = item.getContainer();
-    // const { style: defaultStyle, icon: defaultIcon, labelCfg: defaultLabelCfg } = this.options;
-    // const style = deepMix({}, defaultStyle, cfg.style);
-    // const icon = deepMix({}, defaultIcon, cfg.icon);
-    // const keyShape = item.get('keyShape');
-    // const path = this.getPath(cfg);
-    // keyShape.attr({
-    //   path,
-    //   ...style
-    // });
+    const text = group.find(element => { return element.get('className') === 'node-label'})
+    if (text) {
+      text.attr({
+        ...labelStyle
+      });
+    }
 
-    // const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
-    // const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
+    const triangleIcon = group.find(element => { return element.get('className') === 'triangle-icon'})
+    if (triangleIcon) {
+      const { width: w, height: h } = icon;
+      triangleIcon.attr({
+        x: -w / 2,
+        y: -h / 2,
+        ...icon
+      });
+    }
 
-    // const text = group.findByClassName('node-label');
-    // if (text) {
-    //   text.attr({
-    //     ...labelStyle
-    //   });
-    // }
-
-    // const triangleIcon = group.findByClassName('triangle-icon');
-    // if (triangleIcon) {
-    //   const { width: w, height: h } = icon;
-    //   triangleIcon.attr({
-    //     x: -w / 2,
-    //     y: -h / 2,
-    //     ...icon
-    //   });
-    // }
-
-    // this.updateLinkPoints(cfg, group);
+    this.updateLinkPoints(cfg, group);
   },
   /**
    * 更新linkPoints

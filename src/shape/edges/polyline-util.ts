@@ -53,8 +53,9 @@ export const filterConnectPoints = (points: PolyPoint[]): PolyPoint[] => {
   // pre-process: remove duplicated points
   const result = [];
   const pointsMap = {};
-  points.forEach((p) => {
+  points.forEach(p => {
     const id = `${p.x}-${p.y}`;
+    p.id = id;
     pointsMap[ id ] = p;
   });
   each(pointsMap, p => {

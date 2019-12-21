@@ -22,16 +22,6 @@ Shape.registerNode('star', {
       },
       offset: 0
     },
-    stateStyles: {
-      // 鼠标hover状态下的配置
-      hover: {
-        fillOpacity: 0.8
-      },
-      // 选中节点状态下的配置
-      selected: {
-        lineWidth: 3
-      }
-    },
     // 节点上左右上下四个方向上的链接circle配置
     linkPoints: {
       top: false,
@@ -233,127 +223,121 @@ Shape.registerNode('star', {
     return styles;
   },
   update(cfg: NodeConfig, item: Item) {
+    const group = item.getContainer();
+    const { style: defaultStyle, icon: defaultIcon, labelCfg: defaultLabelCfg } = this.options;
+    const style = deepMix({}, defaultStyle, cfg.style);
+    const icon = deepMix({}, defaultIcon, cfg.icon);
 
-    // TODO: after findByClassName is defined by G
+    const keyShape = item.get('keyShape');
+    const path = this.getPath(cfg);
+    keyShape.attr({
+      path,
+      ...style
+    });
 
-    // const group = item.getContainer();
-    // const { style: defaultStyle, icon: defaultIcon, labelCfg: defaultLabelCfg } = this.options;
-    // const style = deepMix({}, defaultStyle, cfg.style);
-    // const icon = deepMix({}, defaultIcon, cfg.icon);
+    const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
+    const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
 
-    // const keyShape: G.Shape = item.get('keyShape');
-    // const path = this.getPath(cfg);
-    // keyShape.attr({
-    //   path,
-    //   ...style
-    // });
+    const text = group.find(element => { return element.get('className') === 'node-label'})
+    if (text) {
+      text.attr({
+        ...labelStyle
+      });
+    }
 
-    // const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
-    // const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
+    const starIcon = group.find(element => { return element.get('className') === 'star-icon'})
+    if (starIcon) {
+      const { width: w, height: h } = icon;
+      starIcon.attr({
+        x: -w / 2,
+        y: -h / 2,
+        ...icon
+      });
+    }
 
-    // const text = group.findByClassName('node-label');
-    // if (text) {
-    //   text.attr({
-    //     ...labelStyle
-    //   });
-    // }
-
-    // const starIcon = group.findByClassName('star-icon');
-    // if (starIcon) {
-    //   const { width: w, height: h } = icon;
-    //   starIcon.attr({
-    //     x: -w / 2,
-    //     y: -h / 2,
-    //     ...icon
-    //   });
-    // }
-
-    // this.updateLinkPoints(cfg, group);
+    this.updateLinkPoints(cfg, group);
   },
-
-  // TODO: after findByClassName is defined by G
 
   /**
    * 更新linkPoints
    * @param {Object} cfg 节点数据配置项
    * @param {Group} group Item所在的group
    */
-  // updateLinkPoints(cfg: NodeConfig, group: GGroup) {
-  //   const { linkPoints: defaultLinkPoints } = this.options;
-  //   const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
+  updateLinkPoints(cfg: NodeConfig, group: GGroup) {
+    const { linkPoints: defaultLinkPoints } = this.options;
+    const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
 
-  //   const { size: markSize, ...markStyle } = linkPoints;
+    const { size: markSize, ...markStyle } = linkPoints;
 
-  //   const size = this.getSize(cfg);
-  //   const outerR = size[0];
+    const size = this.getSize(cfg);
+    const outerR = size[0];
 
-  //   const markRight = group.findByClassName('star-mark-right');
-  //   if (markRight) {
-  //     const x = Math.cos((18 + 72 * 0) / 180 * Math.PI) * outerR;
-  //     const y = Math.sin((18 + 72 * 0) / 180 * Math.PI) * outerR;
+    const markRight = group.find(element => { return element.get('className') === 'star-mark-right'})
+    if (markRight) {
+      const x = Math.cos((18 + 72 * 0) / 180 * Math.PI) * outerR;
+      const y = Math.sin((18 + 72 * 0) / 180 * Math.PI) * outerR;
 
-  //     markRight.attr({
-  //       ...markStyle,
-  //       x,
-  //       y: -y,
-  //       r: markSize
-  //     });
-  //   }
+      markRight.attr({
+        ...markStyle,
+        x,
+        y: -y,
+        r: markSize
+      });
+    }
 
-  //   const markTop = group.findByClassName('star-mark-top');
-  //   if (markTop) {
-  //     const x = Math.cos((18 + 72 * 1) / 180 * Math.PI) * outerR;
-  //     const y = Math.sin((18 + 72 * 1) / 180 * Math.PI) * outerR;
+    const markTop = group.find(element => { return element.get('className') === 'star-mark-top'})
+    if (markTop) {
+      const x = Math.cos((18 + 72 * 1) / 180 * Math.PI) * outerR;
+      const y = Math.sin((18 + 72 * 1) / 180 * Math.PI) * outerR;
 
-  //     // top circle
-  //     markTop.attr({
-  //       ...markStyle,
-  //       x,
-  //       y: -y,
-  //       r: markSize
-  //     });
-  //   }
+      // top circle
+      markTop.attr({
+        ...markStyle,
+        x,
+        y: -y,
+        r: markSize
+      });
+    }
 
-  //   const markLeft = group.findByClassName('star-mark-left');
-  //   if (markLeft) {
-  //     const x = Math.cos((18 + 72 * 2) / 180 * Math.PI) * outerR;
-  //     const y = Math.sin((18 + 72 * 2) / 180 * Math.PI) * outerR;
+    const markLeft = group.find(element => { return element.get('className') === 'star-mark-left'})
+    if (markLeft) {
+      const x = Math.cos((18 + 72 * 2) / 180 * Math.PI) * outerR;
+      const y = Math.sin((18 + 72 * 2) / 180 * Math.PI) * outerR;
 
-  //     // left circle
-  //     markLeft.attr({
-  //       ...markStyle,
-  //       x,
-  //       y: -y,
-  //       r: markSize
-  //     });
-  //   }
+      // left circle
+      markLeft.attr({
+        ...markStyle,
+        x,
+        y: -y,
+        r: markSize
+      });
+    }
 
-  //   const markLeftBottom = group.findByClassName('star-mark-left-bottom');
-  //   if (markLeftBottom) {
-  //     const x = Math.cos((18 + 72 * 3) / 180 * Math.PI) * outerR;
-  //     const y = Math.sin((18 + 72 * 3) / 180 * Math.PI) * outerR;
+    const markLeftBottom = group.find(element => { return element.get('className') === 'star-mark-left-bottom'})
+    if (markLeftBottom) {
+      const x = Math.cos((18 + 72 * 3) / 180 * Math.PI) * outerR;
+      const y = Math.sin((18 + 72 * 3) / 180 * Math.PI) * outerR;
 
-  //     // bottom circle
-  //     markLeftBottom.attr({
-  //       ...markStyle,
-  //       x,
-  //       y: -y,
-  //       r: markSize
-  //     });
-  //   }
+      // bottom circle
+      markLeftBottom.attr({
+        ...markStyle,
+        x,
+        y: -y,
+        r: markSize
+      });
+    }
+    const markRightBottom = group.find(element => { return element.get('className') === 'star-mark-right-bottom'})
+    if (markRightBottom) {
+      const x = Math.cos((18 + 72 * 4) / 180 * Math.PI) * outerR;
+      const y = Math.sin((18 + 72 * 4) / 180 * Math.PI) * outerR;
 
-  //   const markRightBottom = group.findByClassName('star-mark-right-bottom');
-  //   if (markRightBottom) {
-  //     const x = Math.cos((18 + 72 * 4) / 180 * Math.PI) * outerR;
-  //     const y = Math.sin((18 + 72 * 4) / 180 * Math.PI) * outerR;
-
-  //     // bottom circle
-  //     markRightBottom.attr({
-  //       ...markStyle,
-  //       x,
-  //       y: -y,
-  //       r: markSize
-  //     });
-  //   }
-  // }
+      // bottom circle
+      markRightBottom.attr({
+        ...markStyle,
+        x,
+        y: -y,
+        r: markSize
+      });
+    }
+  }
 }, 'single-node');

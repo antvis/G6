@@ -8,6 +8,7 @@ import { IItemBase, IItemBaseConfig } from "@g6/interface/item";
 import { IBBox, IPoint, IShapeBase, ModelConfig, ModelStyle, ShapeStyle } from '@g6/types';
 import { getBBox } from '@g6/util/graphic';
 import { translate } from '@g6/util/math';
+import Shape from '@g6/shape/shape';
 
 const CACHE_BBOX = 'bboxCache';
 
@@ -154,8 +155,8 @@ export default  class ItemBase implements IItemBase {
 
   protected init() {
     // TODO 实例化工厂方法，需要等 Shape 重构完成
-    // const shapeFactory = Shape.getFactory(this.get('type'));
-    // this.set('shapeFactory', shapeFactory);
+    const shapeFactory = Shape.getFactory(this.get('type'));
+    this.set('shapeFactory', shapeFactory);
   }
 
   /**
@@ -254,8 +255,7 @@ export default  class ItemBase implements IItemBase {
    * @param state 状态名称
    */
   public getStateStyle(state: string) {
-    const type: string = this.getType()
-    const styles = this.get(`${type}StateStyles`);
+    const styles = this.get('styles');
     const stateStyle = styles && styles[state];
     return stateStyle;
   }

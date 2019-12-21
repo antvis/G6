@@ -11,7 +11,7 @@ import each from '@antv/util/lib/each'
 import isPlainObject from '@antv/util/lib/is-plain-object';
 import isString from '@antv/util/lib/is-string'
 import { GraphAnimateConfig, GraphOptions, IGraph, IModeOption, IModeType, IStates } from '@g6/interface/graph';
-import { IEdge, INode } from '@g6/interface/item';
+import { IEdge, INode, IItemBase } from '@g6/interface/item';
 import { EdgeConfig, GraphData, GroupConfig, Item, ITEM_TYPE, Matrix, ModelConfig, NodeConfig, NodeMapConfig, Padding } from '@g6/types';
 import { move, translate } from '@g6/util/math'
 import Global from '../global'
@@ -531,11 +531,14 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param ratio 伸缩比例
    * @param center 以center的x, y坐标为中心缩放
    */
-  public zoom(ratio: number,  center: Point): void {
+  public zoom(ratio: number,  center?: Point): void {
     const group: Group = this.get('group')
-    const matrix: Matrix = clone(group.getMatrix())
+    let matrix: Matrix = clone(group.getMatrix())
     const minZoom: number = this.get('minZoom')
     const maxZoom: number = this.get('maxZoom')
+
+    if (!matrix) matrix = mat3.create();
+    console.log('zoom matrix', matrix);
 
     if(center) {
       mat3.translate(matrix, matrix, [ -center.x, -center.y ])
@@ -814,11 +817,12 @@ export default class Graph extends EventEmitter implements IGraph {
       }
     }
 
+    // TODO: wait for layout ts
     // layout
-    const layoutController = self.get('layoutController');
-    if (!layoutController.layout(success)) {
-      success();
-    }
+    // const layoutController = self.get('layoutController');
+    // if (!layoutController.layout(success)) {
+    //   success();
+    // }
 
     function success() {
       if (self.get('fitView')) {
@@ -917,10 +921,12 @@ export default class Graph extends EventEmitter implements IGraph {
 
     this.set({ nodes: items.nodes, edges: items.edges });
 
-    const layoutController = this.get('layoutController');
-    layoutController.changeData();
+    // TODO: wait for layout ts
+    // const layoutController = this.get('layoutController');
+    // layoutController.changeData();
 
-    if (self.get('animate') && !layoutController.getLayoutType()) {
+    // if (self.get('animate') && !layoutController.getLayoutType()) {
+    if (self.get('animate')) {
       // 如果没有指定布局
       self.positionsAnimate();
     } else {
@@ -1131,7 +1137,8 @@ export default class Graph extends EventEmitter implements IGraph {
    * @return {number} 比例
    */
   public getZoom(): number {
-    return this.get('group').getMatrix()[0];
+    const matrix = this.get('group').getMatrix();
+    return matrix ? matrix[0] : 1;
   }
 
   /**
@@ -1340,10 +1347,9 @@ export default class Graph extends EventEmitter implements IGraph {
     this.get('modeController').destroy();
     this.get('viewController').destroy();
     this.get('stateController').destroy();
-    this.get('layoutController').destroy();
-    this.get('customGroupControll').destroy();
+    // this.get('layoutController').destroy();
+    // this.get('customGroupControll').destroy();
     this.get('canvas').destroy();
-
     this._cfg = null;
     this.destroyed = true;
   }

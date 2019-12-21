@@ -118,33 +118,34 @@ describe('shape node test', () => {
       expect(group.getCount()).toBe(2);
     });
 
-    // TODO: wait for getByClassName defined by G
+    // item.get is not a function
     // it('update', () => {
-    //   const rectGroup = canvas.findById('rect');
-    //   const shape = rectGroup.get('children')[0];
-		// 	// 伪造 item, 仅测试接口和图形的变化，不测试一致性
-    //   const item = {
-    //     getContainer() {
-    //       return rectGroup;
-    //     }
-    //   };
-    //   factory.update('rect', {
-    //     size: [ 100, 50 ],
-    //     style: {
-    //       fill: 'red'
-    //     }
-    //   }, item);
-    //   expect(shape.attr('x')).toBe(-50);
-    //   expect(shape.attr('y')).toBe(-25);
-    //   expect(shape.attr('width')).toBe(100);
-    //   expect(rectGroup.getCount()).toBe(1);
-    //   factory.update('rect', {
-    //     size: [ 50, 30 ],
-    //     style: {
-    //       fill: 'red'
-    //     },
-    //     label: 'new rect'
-    //   }, item);
+      // const rectGroup = canvas.findById('rect');
+      // const shape = rectGroup.get('children')[0];
+			// // 伪造 item, 仅测试接口和图形的变化，不测试一致性
+      // const item = {
+      //   getContainer() {
+      //     return rectGroup;
+      //   }
+      // };
+      // factory.update('rect', {
+      //   size: [ 100, 50 ],
+      //   style: {
+      //     fill: 'red'
+      //   }
+      // }, item);
+      // expect(shape.attr('x')).toBe(-50);
+      // expect(shape.attr('y')).toBe(-25);
+      // expect(shape.attr('width')).toBe(100);
+      // // TODO
+      // // expect(rectGroup.getCount()).toBe(1);
+      // factory.update('rect', {
+      //   size: [ 50, 30 ],
+      //   style: {
+      //     fill: 'red'
+      //   },
+      //   label: 'new rect'
+      // }, item);
 
     //   expect(rectGroup.getCount()).toBe(2);
     //   const label = rectGroup.get('children')[1];

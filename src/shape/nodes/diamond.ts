@@ -22,16 +22,6 @@ Shape.registerNode('diamond', {
         fill: '#595959'
       }
     },
-    stateStyles: {
-      // 鼠标hover状态下的配置
-      hover: {
-        fillOpacity: 0.8
-      },
-      // 选中节点状态下的配置
-      selected: {
-        lineWidth: 3
-      }
-    },
     // 节点上左右上下四个方向上的链接circle配置
     linkPoints: {
       top: false,
@@ -185,106 +175,102 @@ Shape.registerNode('diamond', {
   },
   update(cfg: NodeConfig, item: Item) {
 
-    // TODO: after findByClassName is defined by G
+    const group = item.getContainer();
+    const { style: defaultStyle, icon: defaultIcon, labelCfg: defaultLabelCfg } = this.options;
+    const style = deepMix({}, defaultStyle, cfg.style);
+    const icon = deepMix({}, defaultIcon, cfg.icon);
 
-    // const group = item.getContainer();
-    // const { style: defaultStyle, icon: defaultIcon, labelCfg: defaultLabelCfg } = this.options;
-    // const style = deepMix({}, defaultStyle, cfg.style);
-    // const icon = deepMix({}, defaultIcon, cfg.icon);
+    const keyShape = item.get('keyShape');
+    const path = this.getPath(cfg);
+    keyShape.attr({
+      path,
+      ...style
+    });
 
-    // const keyShape: G.Shape = item.get('keyShape');
-    // const path = this.getPath(cfg);
-    // keyShape.attr({
-    //   path,
-    //   ...style
-    // });
+    const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
+    const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
 
-    // const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
-    // const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
+    const text = group.find(element => { return element.get('className') === 'node-label'})
+    if (text) {
+      text.attr({
+        ...labelStyle
+      });
+    }
 
-    // const text: G.Shape = group.findByClassName('node-label');
-    // if (text) {
-    //   text.attr({
-    //     ...labelStyle
-    //   });
-    // }
+    const diamondIcon = group.find(element => { return element.get('className') === 'diamond-icon'})
+    if (diamondIcon) {
+      const { width: w, height: h } = icon;
+      diamondIcon.attr({
+        x: -w / 2,
+        y: -h / 2,
+        ...icon
+      });
+    }
 
-    // const diamondIcon: G.Shape = group.findByClassName('diamond-icon');
-    // if (diamondIcon) {
-    //   const { width: w, height: h } = icon;
-    //   diamondIcon.attr({
-    //     x: -w / 2,
-    //     y: -h / 2,
-    //     ...icon
-    //   });
-    // }
-
-    // this.updateLinkPoints(cfg, group);
+    this.updateLinkPoints(cfg, group);
   },
-
-  // TODO: after findByClassName is defined by G
   
   /**
    * 更新linkPoints
    * @param {Object} cfg 节点数据配置项
    * @param {Group} group Item所在的group
    */
-  // updateLinkPoints(cfg: NodeConfig, group: GGroup) {
-  //   const { linkPoints: defaultLinkPoints } = this.options;
-  //   const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
+  updateLinkPoints(cfg: NodeConfig, group: GGroup) {
+    const { linkPoints: defaultLinkPoints } = this.options;
+    const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
 
-  //   const { size: markSize, fill: markFill, stroke: markStroke, lineWidth: borderWidth } = linkPoints;
+    const { size: markSize, fill: markFill, stroke: markStroke, lineWidth: borderWidth } = linkPoints;
 
-  //   const size = this.getSize(cfg);
-  //   const width = size[0];
-  //   const height = size[1];
+    const size = this.getSize(cfg);
+    const width = size[0];
+    const height = size[1];
 
-  //   const markLeft: IShape = group.findByClassName('diamond-mark-left');
-  //   if (markLeft) {
-  //     markLeft.attr({
-  //       x: -width / 2,
-  //       y: 0,
-  //       r: markSize,
-  //       fill: markFill,
-  //       stroke: markStroke,
-  //       lineWidth: borderWidth
-  //     });
-  //   }
+    const markLeft = group.find(element => { return element.get('className') === 'diamond-mark-left'})
+    if (markLeft) {
+      markLeft.attr({
+        x: -width / 2,
+        y: 0,
+        r: markSize,
+        fill: markFill,
+        stroke: markStroke,
+        lineWidth: borderWidth
+      });
+    }
 
-  //   const markRight: IShape = group.findByClassName('diamond-mark-right');
-  //   if (markRight) {
-  //     markRight.attr({
-  //       x: width / 2,
-  //       y: 0,
-  //       r: markSize,
-  //       fill: markFill,
-  //       stroke: markStroke,
-  //       lineWidth: borderWidth
-  //     });
-  //   }
+    const markRight = group.find(element => { return element.get('className') === 'diamond-mark-right'})
+    if (markRight) {
+      markRight.attr({
+        x: width / 2,
+        y: 0,
+        r: markSize,
+        fill: markFill,
+        stroke: markStroke,
+        lineWidth: borderWidth
+      });
+    }
 
-  //   const markTop: IShape = group.findByClassName('diamond-mark-top');
-  //   if (markTop) {
-  //     markTop.attr({
-  //       x: 0,
-  //       y: -height / 2,
-  //       r: markSize,
-  //       fill: markFill,
-  //       stroke: markStroke,
-  //       lineWidth: borderWidth
-  //     });
-  //   }
+    const markTop = group.find(element => { return element.get('className') === 'diamond-mark-top'})
+    if (markTop) {
+      markTop.attr({
+        x: 0,
+        y: -height / 2,
+        r: markSize,
+        fill: markFill,
+        stroke: markStroke,
+        lineWidth: borderWidth
+      });
+    }
 
-  //   const markBottom: IShape = group.findByClassName('diamond-mark-bottom');
-  //   if (markBottom) {
-  //     markBottom.attr({
-  //       x: 0,
-  //       y: height / 2,
-  //       r: markSize,
-  //       fill: markFill,
-  //       stroke: markStroke,
-  //       lineWidth: borderWidth
-  //     });
-  //   }
-  // }
+    const markBottom = group.find(element => { return element.get('className') === 'diamond-mark-bottom'})
+    if (markBottom) {
+      markBottom.attr({
+        x: 0,
+        y: height / 2,
+        r: markSize,
+        fill: markFill,
+        stroke: markStroke,
+        lineWidth: borderWidth
+      });
+    }
+  }
 }, 'single-node');
