@@ -250,7 +250,6 @@ describe('shape node test', () => {
       expect(label.attr('x')).toBe(0);
       expect(label.attr('y')).toBe(-10 - Global.nodeLabel.offset);
 
-      // TODO: item.get is not defined, keyshape can not be fetched
       factory.update('ellipse', {
         size: [ 60, 20 ],
         color: 'green',
