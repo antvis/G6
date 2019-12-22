@@ -97,7 +97,7 @@ Shape.registerNode('circle', {
           y: 0,
           r: markSize
         },
-        className: 'circle-mark-left',
+        className: 'link-point-left',
         isAnchorPoint: true
       });
     }
@@ -111,7 +111,7 @@ Shape.registerNode('circle', {
           y: 0,
           r: markSize
         },
-        className: 'circle-mark-right',
+        className: 'link-point-right',
         isAnchorPoint: true
       });
     }
@@ -125,7 +125,7 @@ Shape.registerNode('circle', {
           y: -r,
           r: markSize
         },
-        className: 'circle-mark-top',
+        className: 'link-point-top',
         isAnchorPoint: true
       });
     }
@@ -139,7 +139,7 @@ Shape.registerNode('circle', {
           y: r,
           r: markSize
         },
-        className: 'circle-mark-bottom',
+        className: 'link-point-bottom',
         isAnchorPoint: true
       });
     }
@@ -181,14 +181,22 @@ Shape.registerNode('circle', {
       r
     });
 
-    const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
-    const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
-
-    const text = group.find(element => { return element.get('className') === 'node-label'})
-    if (text) {
-      text.attr({
-        ...labelStyle
-      });
+    const label = group.find(element => { return element.get('className') === 'node-label'})
+    if (cfg.label) {
+      if (!label) {
+        const newLabel = this.drawLabel(cfg, group)
+        newLabel.set('className', 'node-label')
+      } else {
+        const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
+        const labelStyle = this.getLabelStyle(cfg, labelCfg, group)
+        /**
+         * fixme g中shape的rotate是角度累加的，不是label的rotate想要的角度
+         * 由于现在label只有rotate操作，所以在更新label的时候如果style中有rotate就重置一下变换
+         * 后续会基于g的Text复写一个Label出来处理这一类问题
+         */
+        label.resetMatrix()
+        label.attr(labelStyle)
+      }
     }
 
     const circleIcon = group.find(element => { return element.get('className') === 'circle-icon'})
@@ -202,68 +210,5 @@ Shape.registerNode('circle', {
     }
 
     this.updateLinkPoints(cfg, group);
-  },
-
-  /**
-   * 更新linkPoints
-   * @param {Object} cfg 节点数据配置项
-   * @param {Group} group Item所在的group
-   */
-  updateLinkPoints(cfg: NodeConfig, group: GGroup) {
-    const { linkPoints: defaultLinkPoints } = this.options;
-    const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
-
-    const { size: markSize, fill: markFill, stroke: markStroke, lineWidth: borderWidth } = linkPoints;
-
-    const size = this.getSize(cfg);
-    const r = size[0] / 2;
-
-    const markLeft = group.find(element => { return element.get('className') === 'circle-mark-left'})
-    if (markLeft) {
-      markLeft.attr({
-        x: -r,
-        y: 0,
-        r: markSize,
-        fill: markFill,
-        stroke: markStroke,
-        lineWidth: borderWidth
-      });
-    }
-
-    const markRight = group.find(element => { return element.get('className') === 'circle-mark-right'})
-    if (markRight) {
-      markRight.attr({
-        x: r,
-        y: 0,
-        r: markSize,
-        fill: markFill,
-        stroke: markStroke,
-        lineWidth: borderWidth
-      });
-    }
-
-    const markTop = group.find(element => { return element.get('className') === 'circle-mark-top'})
-    if (markTop) {
-      markTop.attr({
-        x: 0,
-        y: -r,
-        r: markSize,
-        fill: markFill,
-        stroke: markStroke,
-        lineWidth: borderWidth
-      });
-    }
-
-    const markBottom = group.find(element => { return element.get('className') === 'circle-mark-bottom'})
-    if (markBottom) {
-      markBottom.attr({
-        x: 0,
-        y: r,
-        r: markSize,
-        fill: markFill,
-        stroke: markStroke,
-        lineWidth: borderWidth
-      });
-    }
   }
 }, 'single-node');

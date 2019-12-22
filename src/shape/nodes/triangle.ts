@@ -122,7 +122,7 @@ Shape.registerNode('triangle', {
             y: leftPos[1],
             r: markSize
           },
-          className: 'triangle-mark-left'
+          className: 'link-point-left'
         });
       }
     }
@@ -149,7 +149,7 @@ Shape.registerNode('triangle', {
             y: rightPos[1],
             r: markSize
           },
-          className: 'triangle-mark-right'
+          className: 'link-point-right'
         });
       }
     }
@@ -176,7 +176,7 @@ Shape.registerNode('triangle', {
             y: topPos[1],
             r: markSize
           },
-          className: 'triangle-mark-top'
+          className: 'link-point-top'
         });
       }
     }
@@ -203,7 +203,7 @@ Shape.registerNode('triangle', {
             y: bottomPos[1],
             r: markSize
           },
-          className: 'triangle-mark-bottom'
+          className: 'link-point-bottom'
         });
       }
     }
@@ -276,14 +276,22 @@ Shape.registerNode('triangle', {
       ...style
     });
 
-    const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
-    const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
-
-    const text = group.find(element => { return element.get('className') === 'node-label'})
-    if (text) {
-      text.attr({
-        ...labelStyle
-      });
+    const label = group.find(element => { return element.get('className') === 'node-label'})
+    if (cfg.label) {
+      if (!label) {
+        const newLabel = this.drawLabel(cfg, group)
+        newLabel.set('className', 'node-label')
+      } else {
+        const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
+        const labelStyle = this.getLabelStyle(cfg, labelCfg, group)
+        /**
+         * fixme g中shape的rotate是角度累加的，不是label的rotate想要的角度
+         * 由于现在label只有rotate操作，所以在更新label的时候如果style中有rotate就重置一下变换
+         * 后续会基于g的Text复写一个Label出来处理这一类问题
+         */
+        label.resetMatrix()
+        label.attr(labelStyle)
+      }
     }
 
     const triangleIcon = group.find(element => { return element.get('className') === 'triangle-icon'})
@@ -305,108 +313,173 @@ Shape.registerNode('triangle', {
    */
   updateLinkPoints(cfg, group) {
     const { linkPoints: defaultLinkPoints, direction: defaultDirection } = this.options;
-    const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
 
     const direction = cfg.direction || defaultDirection;
 
+    const markLeft = group.find(element => { return element.get('className') === 'link-point-left'})
+    const markRight = group.find(element => { return element.get('className') === 'link-point-right'})
+    const markTop = group.find(element => { return element.get('className') === 'link-point-top'})
+    const markBottom = group.find(element => { return element.get('className') === 'link-point-bottom'})
 
-    const { size: markSize, ...markStyle } = linkPoints;
+    let currentLinkPoints = undefined;
+    if (markLeft) {
+      currentLinkPoints = markLeft.get('attrs');
+    }
+    if (markRight && !currentLinkPoints) {
+      currentLinkPoints = markRight.get('attrs');
+    }
+    if (markTop && !currentLinkPoints) {
+      currentLinkPoints = markTop.get('attrs');
+    }
+    if (markBottom && !currentLinkPoints) {
+      currentLinkPoints = markBottom.get('attrs');
+    }
+    if (!currentLinkPoints) currentLinkPoints = defaultLinkPoints;
+
+    const linkPoints = deepMix({}, currentLinkPoints, cfg.linkPoints);
+
+    const { fill: markFill, stroke: markStroke, lineWidth: borderWidth } = linkPoints;
+    let markSize = linkPoints.size;
+    if (!markSize) markSize = linkPoints.r;
+    const { left, right, top, bottom} = cfg.linkPoints ? cfg.linkPoints : { left: undefined, right: undefined, top: undefined, bottom: undefined };
 
     const size = this.getSize(cfg);
     const len = size[0];
+    const styles = {
+      r: markSize,
+      fill: markFill,
+      stroke: markStroke,
+      lineWidth: borderWidth
+    }
 
-    const markLeft = group.findByClassName('triangle-mark-left');
-    if (markLeft) {
-      let leftPos = null;
-      const diffY = len * Math.sin((1 / 3) * Math.PI);
-      const r = len * Math.sin((1 / 3) * Math.PI);
-      if (direction === 'up') {
-        leftPos = [ -r, diffY ];
-      } else if (direction === 'down') {
-        leftPos = [ -r, -diffY ];
-      } else if (direction === 'left') {
-        leftPos = [ -r, r - diffY ];
-      }
 
-      if (leftPos) {
-        // left circle
-        markLeft.attr({
-          ...markStyle,
-          x: leftPos[0],
-          y: leftPos[1],
-          r: markSize
+    let leftPos = null;
+    const diffY = len * Math.sin((1 / 3) * Math.PI);
+    const r = len * Math.sin((1 / 3) * Math.PI);
+    if (direction === 'up') {
+      leftPos = [ -r, diffY ];
+    } else if (direction === 'down') {
+      leftPos = [ -r, -diffY ];
+    } else if (direction === 'left') {
+      leftPos = [ -r, r - diffY ];
+    }
+    if (leftPos) {
+      if (markLeft) {
+        if (!left && left !== undefined) {
+          markLeft.remove();
+        } else {
+          markLeft.attr({
+            x: leftPos[0],
+            y: leftPos[1],
+            ...styles
+          });
+        }
+      } else if (left) {
+        group.addShape('circle', {
+          attrs: {
+            x: leftPos[0],
+            y: leftPos[1],
+            ...styles
+          },
+          className: 'link-point-left',
+          isAnchorPoint: true
         });
       }
     }
 
-    const markRight = group.findByClassName('triangle-mark-right');
-    if (markRight) {
-      let rightPos = null;
-      const diffY = len * Math.sin((1 / 3) * Math.PI);
-      const r = len * Math.sin((1 / 3) * Math.PI);
-      if (direction === 'up') {
-        rightPos = [ r, diffY ];
-      } else if (direction === 'down') {
-        rightPos = [ r, -diffY ];
-      } else if (direction === 'right') {
-        rightPos = [ r, r - diffY ];
-      }
+    let rightPos = null;
+    if (direction === 'up') {
+      rightPos = [ r, diffY ];
+    } else if (direction === 'down') {
+      rightPos = [ r, -diffY ];
+    } else if (direction === 'right') {
+      rightPos = [ r, r - diffY ];
+    }
+    if (rightPos) {
+      if (markRight) {
+        if (!right && right !== undefined) {
+          markRight.remove();
+        } else {
+          markRight.attr({
+            x: rightPos[0],
+            y: rightPos[1],
+            ...styles
+          });
+        }
+      } else if (right) {
+        group.addShape('circle', {
+          attrs: {
+            x: rightPos[0],
+            y: rightPos[1],
+            ...styles
+          },
+          className: 'link-point-right',
+          isAnchorPoint: true
+        });
+      }  
+    }
 
-      if (rightPos) {
-        markRight.attr({
-          ...markStyle,
-          x: rightPos[0],
-          y: rightPos[1],
-          r: markSize
+    let topPos = null;
+    if (direction === 'up') {
+      topPos = [ r - diffY, -diffY ];
+    } else if (direction === 'left') {
+      topPos = [ r, -diffY ];
+    } else if (direction === 'right') {
+      topPos = [ -r, -diffY ];
+    }
+    if (topPos) {
+      if (markTop) {
+        if (!top && top !== undefined) {
+          markTop.remove();
+        } else {
+          // top circle
+          markTop.attr({
+            x: topPos[0],
+            y: topPos[1],
+            ...styles
+          });
+        }
+      } else if (top) {
+        group.addShape('circle', {
+          attrs: {
+            x: topPos[0],
+            y: topPos[1],
+            ...styles
+          },
+          className: 'link-point-top',
+          isAnchorPoint: true
         });
       }
     }
 
-    const markTop = group.findByClassName('triangle-mark-top');
-    if (markTop) {
-      let topPos = null;
-      const diffY = len * Math.sin((1 / 3) * Math.PI);
-      const r = len * Math.sin((1 / 3) * Math.PI);
-      if (direction === 'up') {
-        topPos = [ r - diffY, -diffY ];
-      } else if (direction === 'left') {
-        topPos = [ r, -diffY ];
-      } else if (direction === 'right') {
-        topPos = [ -r, -diffY ];
-      }
-
-      if (topPos) {
-        // top circle
-        markTop.attr({
-          ...markStyle,
-          x: topPos[0],
-          y: topPos[1],
-          r: markSize
-        });
-      }
+    let bottomPos = null;
+    if (direction === 'down') {
+      bottomPos = [ -r + diffY, diffY ];
+    } else if (direction === 'left') {
+      bottomPos = [ r, diffY ];
+    } else if (direction === 'right') {
+      bottomPos = [ -r, diffY ];
     }
-
-    const markBottom = group.findByClassName('triangle-mark-bottom');
-    if (markBottom) {
-      let bottomPos = null;
-      const diffY = len * Math.sin((1 / 3) * Math.PI);
-      const r = len * Math.sin((1 / 3) * Math.PI);
-
-      if (direction === 'down') {
-        bottomPos = [ -r + diffY, diffY ];
-      } else if (direction === 'left') {
-        bottomPos = [ r, diffY ];
-      } else if (direction === 'right') {
-        bottomPos = [ -r, diffY ];
-      }
-
-      if (bottomPos) {
-        // bottom circle
-        markBottom.attr({
-          ...markStyle,
-          x: bottomPos[0],
-          y: bottomPos[1],
-          r: markSize
+    if (bottomPos) {
+      if (markBottom) {
+        if (!bottom && bottom !== undefined) {
+          markBottom.remove();
+        } else {
+          markBottom.attr({
+            x: bottomPos[0],
+            y: bottomPos[1],
+            ...styles
+          });
+        }
+      } else if (bottom) {
+        group.addShape('circle', {
+          attrs: {
+            x: bottomPos[0],
+            y: bottomPos[1],
+            ...styles
+          },
+          className: 'link-point-bottom',
+          isAnchorPoint: true
         });
       }
     }

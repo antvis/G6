@@ -102,7 +102,7 @@ Shape.registerNode('star', {
           y: -y1,
           r: markSize
         },
-        className: 'star-mark-right'
+        className: 'link-point-right'
       });
     }
 
@@ -119,7 +119,7 @@ Shape.registerNode('star', {
           y: -y1,
           r: markSize
         },
-        className: 'star-mark-top'
+        className: 'link-point-top'
       });
     }
 
@@ -136,7 +136,7 @@ Shape.registerNode('star', {
           y: -y1,
           r: markSize
         },
-        className: 'star-mark-left'
+        className: 'link-point-left'
       });
     }
 
@@ -153,7 +153,7 @@ Shape.registerNode('star', {
           y: -y1,
           r: markSize
         },
-        className: 'star-mark-left-bottom'
+        className: 'link-point-left-bottom'
       });
     }
 
@@ -170,7 +170,7 @@ Shape.registerNode('star', {
           y: -y1,
           r: markSize
         },
-        className: 'star-mark-right-bottom'
+        className: 'link-point-right-bottom'
       });
     }
   },
@@ -235,14 +235,22 @@ Shape.registerNode('star', {
       ...style
     });
 
-    const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
-    const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
-
-    const text = group.find(element => { return element.get('className') === 'node-label'})
-    if (text) {
-      text.attr({
-        ...labelStyle
-      });
+    const label = group.find(element => { return element.get('className') === 'node-label'})
+    if (cfg.label) {
+      if (!label) {
+        const newLabel = this.drawLabel(cfg, group)
+        newLabel.set('className', 'node-label')
+      } else {
+        const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
+        const labelStyle = this.getLabelStyle(cfg, labelCfg, group)
+        /**
+         * fixme g中shape的rotate是角度累加的，不是label的rotate想要的角度
+         * 由于现在label只有rotate操作，所以在更新label的时候如果style中有rotate就重置一下变换
+         * 后续会基于g的Text复写一个Label出来处理这一类问题
+         */
+        label.resetMatrix()
+        label.attr(labelStyle)
+      }
     }
 
     const starIcon = group.find(element => { return element.get('className') === 'star-icon'})
@@ -265,78 +273,167 @@ Shape.registerNode('star', {
    */
   updateLinkPoints(cfg: NodeConfig, group: GGroup) {
     const { linkPoints: defaultLinkPoints } = this.options;
-    const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
+    
+    const markLeft = group.find(element => { return element.get('className') === 'link-point-left'})
+    const markRight= group.find(element => { return element.get('className') === 'link-point-right'})
+    const markTop = group.find(element => { return element.get('className') === 'link-point-top'})
+    const markLeftBottom = group.find(element => { return element.get('className') === 'link-point-left-bottom'})
+    const markRightBottom = group.find(element => { return element.get('className') === 'link-point-right-bottom'})
+    
 
-    const { size: markSize, ...markStyle } = linkPoints;
+    let currentLinkPoints = undefined;
+    if (markLeft) {
+      currentLinkPoints = markLeft.get('attrs');
+    }
+    if (markRight && !currentLinkPoints) {
+      currentLinkPoints = markRight.get('attrs');
+    }
+    if (markTop && !currentLinkPoints) {
+      currentLinkPoints = markTop.get('attrs');
+    }
+    if (markLeftBottom && !currentLinkPoints) {
+      currentLinkPoints = markLeftBottom.get('attrs');
+    }
+    if (markRightBottom && !currentLinkPoints) {
+      currentLinkPoints = markRightBottom.get('attrs');
+    }
+    if (!currentLinkPoints) currentLinkPoints = defaultLinkPoints;
+
+    const linkPoints = deepMix({}, currentLinkPoints, cfg.linkPoints);
+
+
+    const { fill: markFill, stroke: markStroke, lineWidth: borderWidth } = linkPoints;
+    let markSize = linkPoints.size;
+    if (!markSize) markSize = linkPoints.r;
+    const { left, right, top, leftBottom, rightBottom } = cfg.linkPoints ? cfg.linkPoints : { left: undefined, right: undefined, top: undefined, leftBottom: undefined, rightBottom: undefined };
+
 
     const size = this.getSize(cfg);
     const outerR = size[0];
+    const styles = {
+      r: markSize,
+      fill: markFill,
+      stroke: markStroke,
+      lineWidth: borderWidth
+    }
 
-    const markRight = group.find(element => { return element.get('className') === 'star-mark-right'})
+    let x = Math.cos((18 + 72 * 0) / 180 * Math.PI) * outerR;
+    let y = Math.sin((18 + 72 * 0) / 180 * Math.PI) * outerR;
     if (markRight) {
-      const x = Math.cos((18 + 72 * 0) / 180 * Math.PI) * outerR;
-      const y = Math.sin((18 + 72 * 0) / 180 * Math.PI) * outerR;
-
-      markRight.attr({
-        ...markStyle,
-        x,
-        y: -y,
-        r: markSize
+      if (!right && right !== undefined) {
+        markRight.remove();
+      } else {
+        markRight.attr({
+          x,
+          y: -y,
+          ...styles
+        });
+      }
+    } else if (right) {
+      group.addShape('circle', {
+        attrs: {
+          x,
+          y: -y,
+          ...styles
+        },
+        className: 'link-point-right',
+        isAnchorPoint: true
       });
     }
 
-    const markTop = group.find(element => { return element.get('className') === 'star-mark-top'})
+    x = Math.cos((18 + 72 * 1) / 180 * Math.PI) * outerR;
+    y = Math.sin((18 + 72 * 1) / 180 * Math.PI) * outerR;
     if (markTop) {
-      const x = Math.cos((18 + 72 * 1) / 180 * Math.PI) * outerR;
-      const y = Math.sin((18 + 72 * 1) / 180 * Math.PI) * outerR;
-
-      // top circle
-      markTop.attr({
-        ...markStyle,
-        x,
-        y: -y,
-        r: markSize
+      if (!top && top !== undefined) {
+        markTop.remove();
+      } else {
+        markTop.attr({
+          x,
+          y: -y,
+          ...styles
+        });
+      }
+    } else if (top) {
+      group.addShape('circle', {
+        attrs: {
+          x,
+          y: -y,
+          ...styles
+        },
+        className: 'link-point-top',
+        isAnchorPoint: true
       });
     }
 
-    const markLeft = group.find(element => { return element.get('className') === 'star-mark-left'})
+    x = Math.cos((18 + 72 * 2) / 180 * Math.PI) * outerR;
+    y = Math.sin((18 + 72 * 2) / 180 * Math.PI) * outerR;
     if (markLeft) {
-      const x = Math.cos((18 + 72 * 2) / 180 * Math.PI) * outerR;
-      const y = Math.sin((18 + 72 * 2) / 180 * Math.PI) * outerR;
-
-      // left circle
-      markLeft.attr({
-        ...markStyle,
-        x,
-        y: -y,
-        r: markSize
+      if (!left && left !== undefined) {
+        markLeft.remove();
+      } else {
+        markLeft.attr({
+          x,
+          y: -y,
+          ...styles
+        });
+      }
+    } else if (left) {
+      group.addShape('circle', {
+        attrs: {
+          x,
+          y: -y,
+          ...styles
+        },
+        className: 'link-point-left',
+        isAnchorPoint: true
       });
     }
 
-    const markLeftBottom = group.find(element => { return element.get('className') === 'star-mark-left-bottom'})
+    x = Math.cos((18 + 72 * 3) / 180 * Math.PI) * outerR;
+    y = Math.sin((18 + 72 * 3) / 180 * Math.PI) * outerR;
     if (markLeftBottom) {
-      const x = Math.cos((18 + 72 * 3) / 180 * Math.PI) * outerR;
-      const y = Math.sin((18 + 72 * 3) / 180 * Math.PI) * outerR;
-
-      // bottom circle
-      markLeftBottom.attr({
-        ...markStyle,
-        x,
-        y: -y,
-        r: markSize
+      if (!leftBottom && leftBottom !== undefined) {
+        markLeftBottom.remove();
+      } else {
+        markLeftBottom.attr({
+          x,
+          y: -y,
+          ...styles
+        });
+      }
+    } else if (leftBottom) {
+      group.addShape('circle', {
+        attrs: {
+          x,
+          y: -y,
+          ...styles
+        },
+        className: 'link-point-left-bottom',
+        isAnchorPoint: true
       });
     }
-    const markRightBottom = group.find(element => { return element.get('className') === 'star-mark-right-bottom'})
-    if (markRightBottom) {
-      const x = Math.cos((18 + 72 * 4) / 180 * Math.PI) * outerR;
-      const y = Math.sin((18 + 72 * 4) / 180 * Math.PI) * outerR;
 
-      // bottom circle
-      markRightBottom.attr({
-        ...markStyle,
-        x,
-        y: -y,
-        r: markSize
+    x = Math.cos((18 + 72 * 4) / 180 * Math.PI) * outerR;
+    y = Math.sin((18 + 72 * 4) / 180 * Math.PI) * outerR;
+    if (markRightBottom) {
+      if (!rightBottom && rightBottom !== undefined) {
+        markLeftBottom.remove();
+      } else {
+        markRightBottom.attr({
+          x,
+          y: -y,
+          ...styles
+        });
+      }
+    } else if (rightBottom) {
+      group.addShape('circle', {
+        attrs: {
+          x,
+          y: -y,
+          ...styles
+        },
+        className: 'link-point-right-bottom',
+        isAnchorPoint: true
       });
     }
   }

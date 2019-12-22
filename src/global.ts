@@ -40,12 +40,6 @@ export default {
   },
   // 节点应用状态后的样式，默认仅提供 active 和 selected 用户可以自己扩展
   nodeStateStyle: {
-    active: {
-      fillOpacity: 0.8
-    },
-    selected: {
-      lineWidth: 2
-    }
   },
   delegateStyle: {
     fill: '#F3F9FF',

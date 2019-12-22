@@ -22,7 +22,14 @@ Shape.registerNode('modelRect', {
         fill: '#595959',
         fontSize: 14
       },
-      offset: 30
+      offset: 30 // 距离左侧的 offset，没有设置 y 轴上移动的配置
+    },
+    descriptionCfg: {
+      style: {
+        fontSize: 12,
+        fill: '#bfbfbf'
+      },
+      paddingTop: 0
     },
     preRect: {
       show: true,
@@ -182,7 +189,7 @@ Shape.registerNode('modelRect', {
           y: 0,
           r: markSize
         },
-        className: 'rect-mark-left',
+        className: 'link-point-left',
         isAnchorPoint: true
       });
     }
@@ -196,7 +203,7 @@ Shape.registerNode('modelRect', {
           y: 0,
           r: markSize
         },
-        className: 'rect-mark-right',
+        className: 'link-point-right',
         isAnchorPoint: true
       });
     }
@@ -210,7 +217,7 @@ Shape.registerNode('modelRect', {
           y: -height / 2,
           r: markSize
         },
-        className: 'rect-mark-top',
+        className: 'link-point-top',
         isAnchorPoint: true
       });
     }
@@ -224,17 +231,19 @@ Shape.registerNode('modelRect', {
           y: height / 2,
           r: markSize
         },
-        className: 'rect-mark-bottom',
+        className: 'link-point-bottom',
         isAnchorPoint: true
       });
     }
   },
   drawLabel(cfg: NodeConfig, group: GGroup): IShape {
-    const { labelCfg: defaultLabelCfg, logoIcon: defaultLogoIcon } = this.options;
+    const { labelCfg: defaultLabelCfg, logoIcon: defaultLogoIcon, descriptionCfg: defaultDescritionCfg } = this.options;
 
     const logoIcon = deepMix({}, defaultLogoIcon, cfg.logoIcon);
 
     const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
+
+    const descriptionCfg = deepMix({}, defaultDescritionCfg, cfg.descriptionCfg);
 
     const size = this.getSize(cfg);
     const width = size[0];
@@ -249,23 +258,23 @@ Shape.registerNode('modelRect', {
     }
 
     const { style: fontStyle } = labelCfg;
+    const { style: descriptionStyle, paddingTop: descriptionPaddingTop } = descriptionCfg;
     if (cfg.description) {
       label = group.addShape('text', {
         attrs: {
           ...fontStyle,
-          y: -5,
           x: offsetX,
+          y: -5,
           text: cfg.label
         }
       });
 
       group.addShape('text', {
         attrs: {
-          text: cfg.description,
-          fontSize: 12,
+          ...descriptionStyle,
           x: offsetX,
-          y: 17,
-          fill: '#bfbfbf'
+          y: 17 + descriptionPaddingTop,
+          text: cfg.description
         },
         className: 'rect-description'
       });
@@ -306,8 +315,7 @@ Shape.registerNode('modelRect', {
   },
   update(cfg: NodeConfig, item: Item) {
 
-    const { style: defaultStyle, labelCfg: defaultLabelCfg, preRect: defaultPreRect,
-      logoIcon: defaultLogoIcon, stateIcon: defaultStateIcon } = this.options;
+    const { style: defaultStyle, labelCfg: defaultLabelCfg, descriptionCfg: defaultDescritionCfg } = this.options;
     const style = deepMix({}, defaultStyle, cfg.style);
     const size = this.getSize(cfg);
     const width = size[0];
@@ -323,47 +331,80 @@ Shape.registerNode('modelRect', {
 
     const group = item.getContainer();
 
-    const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
-    const text = group.find(element => { return element.get('className') === 'node-label'})
+    let labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
 
-    const logoIcon = deepMix({}, defaultLogoIcon, cfg.logoIcon);
+    const logoIconShape = group.find(element => { return element.get('className') === 'rect-logo-icon'})
 
-    const { show, width: w } = logoIcon;
+    const logoIcon = deepMix({}, logoIconShape.get('attrs'), cfg.logoIcon);
 
-    const { offset, style: fontStyle } = labelCfg;
-    let offsetX = -width / 2 + offset;
+    const { width: w } = logoIcon;
+    const show = cfg.logoIcon ? cfg.logoIcon.show : undefined;
 
-    if (show) {
-      offsetX = -width / 2 + w + offset;
+    const { offset } = labelCfg;
+    let offsetX = -width / 2 + w + offset;
+
+    if (!show && show !== undefined) {
+      offsetX = -width / 2 + offset;
     }
-
-    const descriptionText = group.find(element => { return element.get('className') === 'rect-description'})
-    if (descriptionText) {
-      // 正常情况下，如果descriptionText存在，text一定会存在，为了保证起见，多加一层判断
-      if (text) {
-        text.attr({
-          ...fontStyle,
-          y: -5,
-          x: offsetX
+    
+    const label = group.find(element => { return element.get('className') === 'node-label'})
+    const description = group.find(element => { return element.get('className') === 'rect-description'})
+    if (cfg.label) {
+      if (!label) {
+        group.addShape('text', {
+          attrs: {
+            ...labelCfg.style,
+            x: offsetX,
+            y: cfg.description ? -5 : 7,
+            text: cfg.label
+          },
+          className: 'node-label'
         });
+      } else {
+        const cfgStyle = cfg.labelCfg ? cfg.labelCfg.style : {};
+        const labelStyle = deepMix({}, label.get('attrs'), cfgStyle);
+        if (cfg.label) labelStyle.text = cfg.label;
+        labelStyle.x = offsetX;
+        if (cfg.description) labelStyle.y = -5;
+        if (description) {
+          description.resetMatrix()
+          description.attr({
+            x: offsetX
+          })
+        }
+        label.resetMatrix()
+        label.attr(labelStyle)
       }
-      descriptionText.attr({
-        x: offsetX,
-        y: 17
-      });
-    } else {
-      if (text) {
-        text.attr({
-          ...fontStyle,
-          x: offsetX,
-          y: -5
+    }
+    if (cfg.description) {
+      const descriptionCfg = deepMix({}, defaultDescritionCfg, cfg.descriptionCfg);
+      const { paddingTop } = descriptionCfg;
+      if (!description) {
+        group.addShape('text', {
+          attrs: {
+            ...descriptionCfg.style,
+            x: offsetX,
+            y: 17 + paddingTop,
+            text: cfg.description
+          },
+          className: 'rect-description'
         });
+      } else {
+        const cfgStyle = cfg.descriptionCfg ? cfg.descriptionCfg.style : {};
+        const descriptionStyle = deepMix({}, description.get('attrs'), cfgStyle);
+        if (cfg.description) descriptionStyle.text = cfg.description;
+        descriptionStyle.x = offsetX;
+        description.resetMatrix()
+        description.attr({
+          ...descriptionStyle,
+          y: 17 + paddingTop,
+        })
       }
     }
 
     const preRectShape = group.find(element => { return element.get('className') === 'pre-rect'})
     if (preRectShape) {
-      const preRect = deepMix({}, defaultPreRect, cfg.preRect);
+      const preRect = deepMix({}, preRectShape.get('attrs'), cfg.preRect);
       preRectShape.attr({
         ...preRect,
         x: -width / 2,
@@ -372,21 +413,29 @@ Shape.registerNode('modelRect', {
       });
     }
 
-    const logoIconShape = group.find(element => { return element.get('className') === 'rect-logo-icon'})
     if (logoIconShape) {
-      const { width: w, height: h, x, y, offset, ...logoIconStyle } = logoIcon;
-      logoIconShape.attr({
-        ...logoIconStyle,
-        x: x || -width / 2 + w + offset,
-        y: y || -h / 2,
-        width: w,
-        height: h
-      });
+      if (!show && show !== undefined) {
+        logoIconShape.remove();
+      } else {
+        const { width: w, height: h, x, y, offset, ...logoIconStyle } = logoIcon;
+        logoIconShape.attr({
+          ...logoIconStyle,
+          x: x || -width / 2 + w + offset,
+          y: y || -h / 2,
+          width: w,
+          height: h
+        });
+      }
+    } else if (show) {
+      this.drawLogoIcon(cfg, group);
     }
 
     const stateIconShape = group.find(element => { return element.get('className') === 'rect-state-icon'})
+    const stateIcon = deepMix({}, stateIconShape.get('attrs'), cfg.stateIcon);
     if (stateIconShape) {
-      const stateIcon = deepMix({}, defaultStateIcon, cfg.stateIcon);
+      if (!stateIcon.show && stateIcon.show !== undefined) {
+        stateIconShape.remove();
+      }
       const { width: w, height: h, x, y, offset, ...stateIconStyle } = stateIcon;
       stateIconShape.attr({
         ...stateIconStyle,
@@ -395,73 +444,11 @@ Shape.registerNode('modelRect', {
         width: w,
         height: h
       });
+    } else if (stateIcon.show) {
+      this.drawStateIcon(cfg, group);
     }
 
     this.updateLinkPoints(cfg, group);
-  },
-  
-  /**
-   * 更新linkPoints
-   * @param {Object} cfg 节点数据配置项
-   * @param {Group} group Item所在的group
-   */
-  updateLinkPoints(cfg: NodeConfig, group: GGroup) {
-    const { linkPoints: defaultLinkPoints } = this.options;
-    const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
-
-    const { size: markSize, fill: markFill, stroke: markStroke, lineWidth: borderWidth } = linkPoints;
-
-    const size = this.getSize(cfg);
-    const width = size[0];
-    const height = size[1];
-
-    const markLeft = group.find(element => { return element.get('className') === 'rect-mark-left'})
-    if (markLeft) {
-      markLeft.attr({
-        x: -width / 2,
-        y: 0,
-        r: markSize,
-        fill: markFill,
-        stroke: markStroke,
-        lineWidth: borderWidth
-      });
-    }
-
-    const markRight = group.find(element => { return element.get('className') === 'rect-mark-right'})
-    if (markRight) {
-      markRight.attr({
-        x: width / 2,
-        y: 0,
-        r: markSize,
-        fill: markFill,
-        stroke: markStroke,
-        lineWidth: borderWidth
-      });
-    }
-
-    const markTop = group.find(element => { return element.get('className') === 'rect-mark-top'})
-    if (markTop) {
-      markTop.attr({
-        x: 0,
-        y: -height / 2,
-        r: markSize,
-        fill: markFill,
-        stroke: markStroke,
-        lineWidth: borderWidth
-      });
-    }
-
-    const markBottom = group.find(element => { return element.get('className') === 'rect-mark-bottom'})
-    if (markBottom) {
-      markBottom.attr({
-        x: 0,
-        y: height / 2,
-        r: markSize,
-        fill: markFill,
-        stroke: markStroke,
-        lineWidth: borderWidth
-      });
-    }
   }
 }, 'single-node');
 

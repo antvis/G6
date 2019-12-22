@@ -91,6 +91,7 @@ export default {
 
     this.point = {};
     this.originPoint = {};
+
   },
   onDrag(e: IG6GraphEvent) {
     if (!this.origin) {
@@ -175,7 +176,7 @@ export default {
         }
       };
       this.fn = fn;
-      body.addEventListener('keyup', fn, false);
+      body.addEventListener('mouseup', fn, true);
     }
   },
   update(item: Item, e: IG6GraphEvent, force: boolean) {
