@@ -15,7 +15,7 @@ const CACHE_BBOX = 'bboxCache';
 const RESERVED_STYLES = [ 'fillStyle', 'strokeStyle', 
   'path', 'points', 'img', 'symbol' ];
   
-export default  class ItemBase implements IItemBase {
+export default class ItemBase implements IItemBase {
   public _cfg: IItemBaseConfig = {}
   private defaultCfg: IItemBaseConfig = {
     /**
@@ -91,6 +91,9 @@ export default  class ItemBase implements IItemBase {
 
     this.set('id', id)
     group.set('id', id)
+
+    const stateStyles = this.get('model').stateStyles;
+    this.set('stateStyles', stateStyles);
 
     this.init()
     this.draw()

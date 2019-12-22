@@ -538,7 +538,6 @@ export default class Graph extends EventEmitter implements IGraph {
     const maxZoom: number = this.get('maxZoom')
 
     if (!matrix) matrix = mat3.create();
-    console.log('zoom matrix', matrix);
 
     if(center) {
       mat3.translate(matrix, matrix, [ -center.x, -center.y ])

@@ -101,7 +101,7 @@ Shape.registerNode('ellipse', {
           y: 0,
           r: markSize
         },
-        className: 'ellipse-mark-left',
+        className: 'link-point-left',
         isAnchorPoint: true
       });
     }
@@ -115,7 +115,7 @@ Shape.registerNode('ellipse', {
           y: 0,
           r: markSize
         },
-        className: 'ellipse-mark-right',
+        className: 'link-point-right',
         isAnchorPoint: true
       });
     }
@@ -129,7 +129,7 @@ Shape.registerNode('ellipse', {
           y: -ry,
           r: markSize
         },
-        className: 'ellipse-mark-top',
+        className: 'link-point-top',
         isAnchorPoint: true
       });
     }
@@ -143,7 +143,7 @@ Shape.registerNode('ellipse', {
           y: ry,
           r: markSize
         },
-        className: 'ellipse-mark-bottom',
+        className: 'link-point-bottom',
         isAnchorPoint: true
       });
     }
@@ -181,7 +181,7 @@ Shape.registerNode('ellipse', {
     const rx = size[0] / 2;
     const ry = size[1] / 2;
 
-    const keyShape = item.get('keyShape')[0];
+    const keyShape = item.get('keyShape');
 
     keyShape.attr({
       ...style,
@@ -191,13 +191,22 @@ Shape.registerNode('ellipse', {
 
     const group = item.getContainer();
 
-    const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
-    const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
-    const text = group.find(element => { return element.get('className') === 'node-label'})
-    if (text) {
-      text.attr({
-        ...labelStyle
-      });
+    const label = group.find(element => { return element.get('className') === 'node-label'})
+    if (cfg.label) {
+      if (!label) {
+        const newLabel = this.drawLabel(cfg, group)
+        newLabel.set('className', 'node-label')
+      } else {
+        const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
+        const labelStyle = this.getLabelStyle(cfg, labelCfg, group)
+        /**
+         * fixme g中shape的rotate是角度累加的，不是label的rotate想要的角度
+         * 由于现在label只有rotate操作，所以在更新label的时候如果style中有rotate就重置一下变换
+         * 后续会基于g的Text复写一个Label出来处理这一类问题
+         */
+        label.resetMatrix()
+        label.attr(labelStyle)
+      }
     }
 
     const ellipseIcon = group.find(element => { return element.get('className') === 'ellipse-icon'})
@@ -211,61 +220,5 @@ Shape.registerNode('ellipse', {
     }
 
     this.updateLinkPoints(cfg, group);
-  },
-    
-  /**
-   * 更新linkPoints
-   * @param {Object} cfg 节点数据配置项
-   * @param {Group} group Item所在的group
-   */
-  updateLinkPoints(cfg: NodeConfig, group: GGroup) {
-    const { linkPoints: defaultLinkPoints } = this.options;
-    const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
-
-    const { size: markSize, ...markStyles } = linkPoints;
-
-    const size = this.getSize(cfg);
-    const rx = size[0] / 2;
-    const ry = size[1] / 2;
-
-    const markLeft = group.find(element => { return element.get('className') === 'ellipse-mark-left'})
-    if (markLeft) {
-      markLeft.attr({
-        ...markStyles,
-        x: -rx,
-        y: 0,
-        r: markSize
-      });
-    }
-
-    const markRight = group.find(element => { return element.get('className') === 'ellipse-mark-right'})
-    if (markRight) {
-      markRight.attr({
-        ...markStyles,
-        x: rx,
-        y: 0,
-        r: markSize
-      });
-    }
-
-    const markTop = group.find(element => { return element.get('className') === 'ellipse-mark-top'})
-    if (markTop) {
-      markTop.attr({
-        ...markStyles,
-        x: 0,
-        y: -ry,
-        r: markSize
-      });
-    }
-
-    const markBottom = group.find(element => { return element.get('className') === 'ellipse-mark-bottom'})
-    if (markBottom) {
-      markBottom.attr({
-        ...markStyles,
-        x: 0,
-        y: ry,
-        r: markSize
-      });
-    }
   }
 }, 'single-node');

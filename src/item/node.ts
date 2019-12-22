@@ -193,8 +193,8 @@ export default class Node extends Item implements INode {
       return false
     }
 
-    const existX = isNil(cfg.x)
-    const existY = isNil(cfg.y)
+    const existX = !isNil(cfg.x)
+    const existY = !isNil(cfg.y)
 
     const keys = Object.keys(cfg)
 

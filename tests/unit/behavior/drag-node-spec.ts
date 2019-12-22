@@ -203,37 +203,37 @@ describe('drag-node', () => {
   });
 
   // BUG
-  // it('out of range', () => {
-  //   const graph = new Graph({
-  //     container: div,
-  //     width: 500,
-  //     height: 500,
-  //     modes: {
-  //       default: [ 'drag-node' ]
-  //     },
-  //     pixelRatio: 2
-  //   });
-  //   const node = graph.addItem('node', { color: '#666', x: 50, y: 50, r: 20, style: { lineWidth: 2, fill: '#666' } });
-  //   graph.emit('node:dragstart', { x: 100, y: 100, item: node });
-  //   expect(node.getContainer().getMatrix()[6]).toEqual(50);
-  //   expect(node.getContainer().getMatrix()[7]).toEqual(50);
-  //   graph.emit('canvas:mouseleave', { x: 600, y: 600, item: node });
-  //   Simulate.simulate(document.body, 'mouseup', {
-  //     clientY: 100,
-  //     clientX: 100
-  //   });
-  //   expect(node.getContainer().getMatrix()[6]).toEqual(550);
-  //   expect(node.getContainer().getMatrix()[7]).toEqual(550);
-  //   graph.updateItem(node, { x: 50, y: 50 });
-  //   expect(node.getContainer().getMatrix()[6]).toEqual(50);
-  //   expect(node.getContainer().getMatrix()[7]).toEqual(50);
-  //   Simulate.simulate(document.body, 'mouseup', {
-  //     clientY: 100,
-  //     clientX: 100
-  //   });
-  //   expect(node.getContainer().getMatrix()[6]).toEqual(50);
-  //   expect(node.getContainer().getMatrix()[7]).toEqual(50);
-  // });
+  it('out of range', () => {
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: [ 'drag-node' ]
+      },
+      pixelRatio: 2
+    });
+    const node = graph.addItem('node', { color: '#666', x: 50, y: 50, r: 20, style: { lineWidth: 2, fill: '#666' } });
+    graph.emit('node:dragstart', { x: 100, y: 100, item: node });
+    expect(node.getContainer().getMatrix()[6]).toEqual(50);
+    expect(node.getContainer().getMatrix()[7]).toEqual(50);
+    graph.emit('canvas:mouseleave', { x: 600, y: 600, item: node });
+    Simulate.simulate(document.body, 'mouseup', {
+      clientY: 100,
+      clientX: 100
+    });
+    expect(node.getContainer().getMatrix()[6]).toEqual(550);
+    expect(node.getContainer().getMatrix()[7]).toEqual(550);
+    graph.updateItem(node, { x: 50, y: 50 });
+    expect(node.getContainer().getMatrix()[6]).toEqual(50);
+    expect(node.getContainer().getMatrix()[7]).toEqual(50);
+    Simulate.simulate(document.body, 'mouseup', {
+      clientY: 100,
+      clientX: 100
+    });
+    expect(node.getContainer().getMatrix()[6]).toEqual(50);
+    expect(node.getContainer().getMatrix()[7]).toEqual(50);
+  });
 
   it('unbind', () => {
     const graph = new Graph({
