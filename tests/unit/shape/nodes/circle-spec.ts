@@ -173,16 +173,16 @@ describe.only('circle test', () => {
       expect(keyShape.attr('lineWidth')).toEqual(1);
 
       const markTop = group.find(g => {
-        return g.get('className') === 'circle-mark-top';
+        return g.get('className') === 'link-point-top';
       });
-      expect(markTop).not.toBe(undefined);
+      expect(markTop).not.toBe(null);
       expect(markTop.attr('r')).toEqual(5);
       expect(markTop.attr('fill')).toEqual('#fff');
 
       const markBottom = group.find(g => {
-        return g.get('className') === 'circle-mark-bottom';
+        return g.get('className') === 'link-point-bottom';
       });
-      expect(markBottom).not.toBe(undefined);
+      expect(markBottom).not.toBe(null);
 
       let hasTrigger = false;
       expect(hasTrigger).toBe(false);

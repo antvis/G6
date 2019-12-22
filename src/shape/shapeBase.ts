@@ -104,12 +104,10 @@ export const shapeBase: ShapeOptions = {
     const label = group.find(element => { return element.get('className') === labelClassName})
 
 		// 此时需要考虑之前是否绘制了 label 的场景存在三种情况
-		// 1. 更新时不需要 label，但是原先存在 label，此时需要删除
-		// 2. 更新时需要 label, 但是原先不存在，创建节点
+		// 1. 更新时没有传递 label，代表不需要更新 label
+		// 2. 更新时需要改变 label, 但是原先不存在，创建 label
 		// 3. 如果两者都存在，更新
-    if (!cfg.label) {
-      label && label.remove()
-    } else {
+    if (cfg.label) {
       if (!label) {
         const newLabel = this.drawLabel(cfg, group)
         newLabel.set('className', labelClassName)
@@ -176,7 +174,8 @@ export const shapeBase: ShapeOptions = {
     let currentStateStyle: ModelStyle = defaultStyle
     
     if (value) {
-      return merge({}, currentStateStyle, model.style)
+      const modelStateStyle = model.stateStyles ? model.stateStyles[name] : undefined;
+      return merge({}, currentStateStyle, model.style, modelStateStyle)
     }
 
     const states = item.getStates()

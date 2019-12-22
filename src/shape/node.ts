@@ -10,6 +10,8 @@ import { LabelStyle, NodeConfig } from '@g6/types'
 import Global from '../global'
 import Shape from './shape'
 import { shapeBase } from './shapeBase'
+import deepMix from '@antv/util/lib/deep-mix';
+
 
 
 const singleNode: ShapeOptions = {
@@ -93,6 +95,138 @@ const singleNode: ShapeOptions = {
       attrs: style
     })
     return shape
+  },
+
+  /**
+   * 更新linkPoints
+   * @param {Object} cfg 节点数据配置项
+   * @param {Group} group Item所在的group
+   */
+  updateLinkPoints(cfg: NodeConfig, group: GGroup) {
+    const { linkPoints: defaultLinkPoints } = this.options;
+
+    const markLeft = group.find(element => { return element.get('className') === 'link-point-left'})
+    const markRight= group.find(element => { return element.get('className') === 'link-point-right'})
+    const markTop = group.find(element => { return element.get('className') === 'link-point-top'})
+    const markBottom = group.find(element => { return element.get('className') === 'link-point-bottom'})
+
+    let currentLinkPoints = undefined;
+    if (markLeft) {
+      currentLinkPoints = markLeft.get('attrs');
+    }
+    if (markRight && !currentLinkPoints) {
+      currentLinkPoints = markRight.get('attrs');
+    }
+    if (markTop && !currentLinkPoints) {
+      currentLinkPoints = markTop.get('attrs');
+    }
+    if (markBottom && !currentLinkPoints) {
+      currentLinkPoints = markBottom.get('attrs');
+    }
+    if (!currentLinkPoints) currentLinkPoints = defaultLinkPoints;
+
+    const linkPoints = deepMix({}, currentLinkPoints, cfg.linkPoints);
+
+    const { fill: markFill, stroke: markStroke, lineWidth: borderWidth } = linkPoints;
+    let markSize = linkPoints.size;
+    if (!markSize) markSize = linkPoints.r;
+    const { left, right, top, bottom } = cfg.linkPoints ? cfg.linkPoints : { left: undefined, right: undefined, top: undefined, bottom: undefined};
+
+    const size = this.getSize(cfg);
+    const width = size[0];
+    const height = size[1];
+    const styles = {
+      r: markSize,
+      fill: markFill,
+      stroke: markStroke,
+      lineWidth: borderWidth
+    }
+
+    if (markLeft) {
+      if (!left && left !== undefined) {
+        markLeft.remove();
+      } else {
+        markLeft.attr({
+          x: -width / 2,
+          y: 0,
+          ...styles
+        });
+      }
+    } else if (left) {
+      group.addShape('circle', {
+        attrs: {
+          x: -width / 2,
+          y: 0,
+          ...styles
+        },
+        className: 'link-point-left',
+        isAnchorPoint: true
+      });
+    }
+
+    if (markRight) {
+      if (!right && right !== undefined) {
+        markRight.remove();
+      }
+      markRight.attr({
+        x: width / 2,
+        y: 0,
+        ...styles
+      });
+    } else if (right) {
+      group.addShape('circle', {
+        attrs: {
+          x: width / 2,
+          y: 0,
+          ...styles
+        },
+        className: 'link-point-right',
+        isAnchorPoint: true
+      });
+    }
+
+    if (markTop) {
+      if (!top && top !== undefined) {
+        markTop.remove();
+      }
+      markTop.attr({
+        x: 0,
+        y: -height / 2,
+        ...styles
+      });
+    } else if (top) {
+      group.addShape('circle', {
+        attrs: {
+          x: 0,
+          y: -height / 2,
+          ...styles
+        },
+        className: 'link-point-top',
+        isAnchorPoint: true
+      });
+    }
+
+    if (markBottom) {
+      if (!bottom && bottom !== undefined) {
+        markBottom.remove();
+      } else {
+        markBottom.attr({
+          x: 0,
+          y: height / 2,
+          ...styles
+        });
+      }
+    } else if (bottom) {
+      group.addShape('circle', {
+        attrs: {
+          x: 0,
+          y: height / 2,
+          ...styles
+        },
+        className: 'link-point-bottom',
+        isAnchorPoint: true
+      });
+    }
   }
 }
 

@@ -154,7 +154,14 @@ export type Easeing =
 export interface ModelConfig extends ModelStyle {
   shape?: string;
   label?: string;
-  labelCfg?: object;
+  labelCfg?: {
+    style?: object;
+    [key: string]: unknown;
+  };
+  descriptionCfg?: {
+    style?: object;
+    [key: string]: unknown;
+  };
   groupId?: string;
   description?: string;
   x?: number;
@@ -164,7 +171,10 @@ export interface ModelConfig extends ModelStyle {
   anchorPoints?: IPoint[];
   color?: string;
   preRect?: object;
-  logoIcon?: object;
+  logoIcon?: {
+    show?: boolean;
+    [key: string]: unknown;
+  };
   stateIcon?: object;
   innerR?: number;
   direction?: string;
@@ -182,7 +192,10 @@ export interface EdgeConfig extends ModelConfig {
   source: string;
   target: string;
   label?: string;
-  labelCfg?: object;
+  labelCfg?: {
+    style?: object;
+    [key: string]: unknown;
+  };
   sourceNode?: Node;
   targetNode?: Node;
   startPoint?: IPoint;
