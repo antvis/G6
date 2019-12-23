@@ -310,6 +310,89 @@ describe.only('model rect test', () => {
     expect(graph.destroyed).toBe(true);
   });
 
+  it('update label and description, keep the current unchanged part', () => {
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      pixelRatio: 2,
+      defaultNode: {
+        shape: 'modelRect'
+      }
+    });
+    const data = {
+      nodes: [
+        {
+          id: 'node',
+          label: 'old label',
+          description: 'old description',
+          x: 100,
+          y: 100
+        }
+      ]
+    };
+    graph.data(data);
+    graph.render();
+
+    const node = graph.getNodes()[0];
+    const group = node.get('group');
+
+    node.update({
+      label: 'new label',
+      labelCfg: {
+        style: {
+          fill: '#ff0'
+        }
+      },
+      descriptionCfg: {
+        style: {
+          fill: '#000',
+          shadowColor: '#000',
+          shadowBlur: 5
+        }
+      }
+    })
+
+    const label = group.find(g => {
+      return g.get('className') === 'node-label';
+    });
+    const description = group.find(g => {
+      return g.get('className') === 'rect-description';
+    });
+    expect(label).not.toEqual(null);
+    expect(label.attr('text')).toEqual('new label');
+    expect(label.attr('fill')).toEqual('#ff0');
+    expect(description.attr('fill')).toEqual('#000');
+    expect(description.attr('shadowBlur')).toEqual(5);
+
+    // test if it will keep the current fill without setting
+    node.update({
+      labelCfg: {
+        position: 'center',
+        style: {
+          stroke: 'black',
+          lineWidth: 3
+        }
+      },
+      descriptionCfg: {
+        style: {
+          shadowOffsetX: 10,
+          shadowOffsetY: 10
+        }
+      }
+    });
+    expect(label.attr('text')).toEqual('new label');
+    expect(label.attr('fill')).toEqual('#ff0');
+    expect(label.attr('stroke')).toEqual('black');
+    expect(label.attr('lineWidth')).toEqual(3);
+    expect(description.attr('fill')).toEqual('#000');
+    expect(description.attr('shadowBlur')).toEqual(5);
+    expect(description.attr('shadowOffsetX')).toEqual(10);
+    
+    graph.destroy();
+    expect(graph.destroyed).toBe(true);
+  })
+
   describe('icon and linkPoint test', () => {
     it('icon and linkPoints test', () => {
       const graph = new Graph({
@@ -442,7 +525,7 @@ describe.only('model rect test', () => {
         return g.get('className') === 'link-point-left';
       });
       expect(leftPoint).not.toBe(null);
-      expect(leftPoint.attr('r')).toBe(10);
+      expect(leftPoint.attr('r')).toBe(5);
       expect(leftPoint.attr('fill')).toBe('#f00');
       expect(leftPoint.attr('stroke')).toBe('#0f0');
       expect(leftPoint.attr('lineWidth')).toBe(2);
@@ -482,7 +565,7 @@ describe.only('model rect test', () => {
       const bottomPoint2 = group.find(g => {
         return g.get('className') === 'link-point-bottom';
       });
-      expect(bottomPoint2.attr('r')).toBe(10);
+      expect(bottomPoint2.attr('r')).toBe(5);
       expect(bottomPoint2.attr('fill')).toBe('#f00');
       expect(bottomPoint2.attr('stroke')).toBe('#000');
 

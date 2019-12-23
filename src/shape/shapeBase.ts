@@ -10,6 +10,7 @@ import { ILabelConfig } from '@g6/interface/shape'
 import { IPoint, Item, LabelStyle, ModelConfig, ShapeStyle, ModelStyle } from '@g6/types'
 import { cloneDeep, get, merge } from 'lodash'
 import Global from '../global'
+import deepMix from '@antv/util/lib/deep-mix';
 
 const CLS_SHAPE_SUFFIX = '-shape'
 const CLS_LABEL_SUFFIX = '-label'
@@ -95,30 +96,40 @@ export const shapeBase: ShapeOptions = {
 	 * @param  {G6.Item} item 节点/边
 	 */
   update(cfg: ModelConfig, item: Item) {
+    this.updateShapeStyle(cfg, item);
+    this.updateLabel(cfg, item);
+  },
+  updateShapeStyle(cfg: ModelConfig, item: Item) {
     const group = item.getContainer()
     const shapeClassName = this.itemType + CLS_SHAPE_SUFFIX
     const shape = group.find(element => { return element.get('className') === shapeClassName})
-    const shapeStyle = this.getShapeStyle(cfg)
+    const shapeStyle = deepMix({}, shape.attr(), cfg.style);
     shape && shape.attr(shapeStyle)
+
+  },
+
+  updateLabel(cfg: ModelConfig, item: Item) {
+
+    const group = item.getContainer();
+    const { labelCfg: defaultLabelCfg } = this.options;
     const labelClassName = this.itemType + CLS_LABEL_SUFFIX
     const label = group.find(element => { return element.get('className') === labelClassName})
-
-		// 此时需要考虑之前是否绘制了 label 的场景存在三种情况
-		// 1. 更新时没有传递 label，代表不需要更新 label
-		// 2. 更新时需要改变 label, 但是原先不存在，创建 label
-		// 3. 如果两者都存在，更新
-    if (cfg.label) {
-      if (!label) {
+    if (cfg.label) { // 若传入的新配置中有 label，（用户没传入但原先有 label，label 也会有值）
+      if (!label) { // 若原先不存在 label，则绘制一个新的 label
         const newLabel = this.drawLabel(cfg, group)
+        const labelClassName = this.itemType + CLS_LABEL_SUFFIX
         newLabel.set('className', labelClassName)
-      } else {
-        const labelCfg = cfg.labelCfg || {}
-        const labelStyle = this.getLabelStyle(cfg, labelCfg, group)
-        /**
-         * fixme g中shape的rotate是角度累加的，不是label的rotate想要的角度
-         * 由于现在label只有rotate操作，所以在更新label的时候如果style中有rotate就重置一下变换
-         * 后续会基于g的Text复写一个Label出来处理这一类问题
-         */
+      } else { // 若原先存在 label，则更新样式。与 getLabelStyle 不同在于这里需要融合当前 label 的样式
+        // 用于融合 style 以外的属性：position, offset, ...
+        const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
+
+        // 获取位置信息
+        const calculateStyle = this.getLabelStyleByPosition(cfg, labelCfg, group)
+        calculateStyle.text = cfg.label
+        // 取 nodeLabel，edgeLabel 的配置项
+        const cfgStyle = cfg.labelCfg ? cfg.labelCfg.style : undefined;
+        // 需要融合当前 label 的样式 label.attr()。不再需要全局/默认样式，因为已经应用在当前的 label 上
+        const labelStyle = Object.assign({}, label.attr(), calculateStyle, cfgStyle)
         label.resetMatrix()
         label.attr(labelStyle)
       }

@@ -9,7 +9,7 @@ import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
 import { deepMix, each, isNil } from '@antv/util';
 import { ILabelConfig, ShapeOptions } from '@g6/interface/shape';
-import { EdgeConfig, EdgeData, IPoint, LabelStyle, ShapeStyle } from '@g6/types';
+import { EdgeConfig, EdgeData, IPoint, LabelStyle, ShapeStyle, Item } from '@g6/types';
 import { getLabelPosition, getLoopCfgs } from '@g6/util/graphic';
 import { distance, getCircleCenterByPoints } from '@g6/util/math';
 import { getControlPoint, getSpline } from '@g6/util/path';
@@ -91,6 +91,33 @@ const singleEdge: ShapeOptions = {
       style
     );
     return styles;
+  },
+  updateShapeStyle(cfg: EdgeConfig, item: Item) {
+    const group = item.getContainer();
+    const strokeStyle = {
+      stroke: cfg.color
+    };
+    const shape = group.find(element => { return element.get('className') === 'edge-shape'})
+
+    const size = cfg.size;
+    cfg = this.getPathPoints(cfg);
+    const startPoint = cfg.startPoint;
+    const endPoint = cfg.endPoint;
+    const controlPoints = this.getControlPoints(cfg);
+    let points = [ startPoint ]; // 添加起始点
+    // 添加控制点
+    if (controlPoints) {
+      points = points.concat(controlPoints);
+    }
+    // 添加结束点
+    points.push(endPoint);
+    const path = this.getPath(points);
+    const style = deepMix({}, strokeStyle, shape.attr(), {
+      lineWidth: size,
+      path
+    }, cfg.style);
+
+    shape && shape.attr(style)
   },
   getLabelStyleByPosition(cfg?: EdgeConfig, labelCfg?: ILabelConfig, group?: GGroup): LabelStyle {
     const labelPosition = labelCfg.position || this.labelPosition; // 文本的位置用户可以传入

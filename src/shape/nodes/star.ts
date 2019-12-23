@@ -1,7 +1,7 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
 import deepMix from '@antv/util/lib/deep-mix';
-import { Item, NodeConfig } from '@g6/types'
+import { Item, NodeConfig, ShapeStyle } from '@g6/types'
 import Global from '../../global'
 import Shape from '../shape'
 
@@ -211,12 +211,12 @@ Shape.registerNode('star', {
    * @param {Object} cfg 节点数据模型
    * @return {Object} 节点的样式
    */
-  getShapeStyle(cfg: NodeConfig) {
+  getShapeStyle(cfg: NodeConfig): ShapeStyle {
     const { style: defaultStyle } = this.options;
     const strokeStyle = {
       stroke: cfg.color
     };
-    // 如果设置了color，则覆盖默认的stroke属性
+    // 如果设置了color，则覆盖原来默认的 stroke 属性。但 cfg 中但 stroke 属性优先级更高
     const style = deepMix({}, defaultStyle, strokeStyle, cfg.style);
     const path = this.getPath(cfg);
     const styles = { path, ...style };
@@ -224,45 +224,18 @@ Shape.registerNode('star', {
   },
   update(cfg: NodeConfig, item: Item) {
     const group = item.getContainer();
-    const { style: defaultStyle, icon: defaultIcon, labelCfg: defaultLabelCfg } = this.options;
-    const style = deepMix({}, defaultStyle, cfg.style);
-    const icon = deepMix({}, defaultIcon, cfg.icon);
-
-    const keyShape = item.get('keyShape');
+    const { style: defaultStyle } = this.options;
     const path = this.getPath(cfg);
-    keyShape.attr({
-      path,
-      ...style
-    });
+    // 下面这些属性需要覆盖默认样式与目前样式，但若在 cfg 中有指定则应该被 cfg 的相应配置覆盖。
+    const strokeStyle = {
+      stroke: cfg.color,
+      path
+    };
+    // 与 getShapeStyle 不同在于，update 时需要获取到当前的 style 进行融合。即新传入的配置项中没有涉及的属性，保留当前的配置。
+    const keyShape = item.get('keyShape');
+    const style = deepMix({}, defaultStyle, keyShape.attr(), strokeStyle, cfg.style);
 
-    const label = group.find(element => { return element.get('className') === 'node-label'})
-    if (cfg.label) {
-      if (!label) {
-        const newLabel = this.drawLabel(cfg, group)
-        newLabel.set('className', 'node-label')
-      } else {
-        const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
-        const labelStyle = this.getLabelStyle(cfg, labelCfg, group)
-        /**
-         * fixme g中shape的rotate是角度累加的，不是label的rotate想要的角度
-         * 由于现在label只有rotate操作，所以在更新label的时候如果style中有rotate就重置一下变换
-         * 后续会基于g的Text复写一个Label出来处理这一类问题
-         */
-        label.resetMatrix()
-        label.attr(labelStyle)
-      }
-    }
-
-    const starIcon = group.find(element => { return element.get('className') === 'star-icon'})
-    if (starIcon) {
-      const { width: w, height: h } = icon;
-      starIcon.attr({
-        x: -w / 2,
-        y: -h / 2,
-        ...icon
-      });
-    }
-
+    this.updateShape(cfg, item, style, true);
     this.updateLinkPoints(cfg, group);
   },
 
@@ -283,24 +256,23 @@ Shape.registerNode('star', {
 
     let currentLinkPoints = undefined;
     if (markLeft) {
-      currentLinkPoints = markLeft.get('attrs');
+      currentLinkPoints = markLeft.attr();
     }
     if (markRight && !currentLinkPoints) {
-      currentLinkPoints = markRight.get('attrs');
+      currentLinkPoints = markRight.attr();
     }
     if (markTop && !currentLinkPoints) {
-      currentLinkPoints = markTop.get('attrs');
+      currentLinkPoints = markTop.attr();
     }
     if (markLeftBottom && !currentLinkPoints) {
-      currentLinkPoints = markLeftBottom.get('attrs');
+      currentLinkPoints = markLeftBottom.attr();
     }
     if (markRightBottom && !currentLinkPoints) {
-      currentLinkPoints = markRightBottom.get('attrs');
+      currentLinkPoints = markRightBottom.attr();
     }
     if (!currentLinkPoints) currentLinkPoints = defaultLinkPoints;
 
     const linkPoints = deepMix({}, currentLinkPoints, cfg.linkPoints);
-
 
     const { fill: markFill, stroke: markStroke, lineWidth: borderWidth } = linkPoints;
     let markSize = linkPoints.size;
@@ -324,17 +296,17 @@ Shape.registerNode('star', {
         markRight.remove();
       } else {
         markRight.attr({
+          ...styles,
           x,
-          y: -y,
-          ...styles
+          y: -y
         });
       }
     } else if (right) {
       group.addShape('circle', {
         attrs: {
+          ...styles,
           x,
-          y: -y,
-          ...styles
+          y: -y
         },
         className: 'link-point-right',
         isAnchorPoint: true
@@ -348,17 +320,17 @@ Shape.registerNode('star', {
         markTop.remove();
       } else {
         markTop.attr({
+          ...styles,
           x,
-          y: -y,
-          ...styles
+          y: -y
         });
       }
     } else if (top) {
       group.addShape('circle', {
         attrs: {
+          ...styles,
           x,
-          y: -y,
-          ...styles
+          y: -y
         },
         className: 'link-point-top',
         isAnchorPoint: true
@@ -372,17 +344,17 @@ Shape.registerNode('star', {
         markLeft.remove();
       } else {
         markLeft.attr({
+          ...styles,
           x,
-          y: -y,
-          ...styles
+          y: -y
         });
       }
     } else if (left) {
       group.addShape('circle', {
         attrs: {
+          ...styles,
           x,
-          y: -y,
-          ...styles
+          y: -y
         },
         className: 'link-point-left',
         isAnchorPoint: true
@@ -396,17 +368,17 @@ Shape.registerNode('star', {
         markLeftBottom.remove();
       } else {
         markLeftBottom.attr({
+          ...styles,
           x,
-          y: -y,
-          ...styles
+          y: -y
         });
       }
     } else if (leftBottom) {
       group.addShape('circle', {
         attrs: {
+          ...styles,
           x,
-          y: -y,
-          ...styles
+          y: -y
         },
         className: 'link-point-left-bottom',
         isAnchorPoint: true
@@ -420,17 +392,17 @@ Shape.registerNode('star', {
         markLeftBottom.remove();
       } else {
         markRightBottom.attr({
+          ...styles,
           x,
-          y: -y,
-          ...styles
+          y: -y
         });
       }
     } else if (rightBottom) {
       group.addShape('circle', {
         attrs: {
+          ...styles,
           x,
-          y: -y,
-          ...styles
+          y: -y
         },
         className: 'link-point-right-bottom',
         isAnchorPoint: true

@@ -387,7 +387,7 @@ describe('shape node test', () => {
         return g.get('className') === 'link-point-left';
       });
       expect(leftPoint).not.toBe(null);
-      expect(leftPoint.attr('r')).toBe(10);
+      expect(leftPoint.attr('r')).toBe(5);
       expect(leftPoint.attr('fill')).toBe('#f00');
       expect(leftPoint.attr('stroke')).toBe('#0f0');
       expect(leftPoint.attr('lineWidth')).toBe(2);
@@ -427,7 +427,7 @@ describe('shape node test', () => {
       const bottomPoint2 = group.find(g => {
         return g.get('className') === 'link-point-bottom';
       });
-      expect(bottomPoint2.attr('r')).toBe(10);
+      expect(bottomPoint2.attr('r')).toBe(5);
       expect(bottomPoint2.attr('fill')).toBe('#f00');
       expect(bottomPoint2.attr('stroke')).toBe('#000');
 
@@ -494,7 +494,7 @@ describe('shape node test', () => {
         return g.get('className') === 'link-point-left';
       });
       expect(leftPoint).not.toBe(null);
-      expect(leftPoint.attr('r')).toBe(10);
+      expect(leftPoint.attr('r')).toBe(5);
       expect(leftPoint.attr('fill')).toBe('#f00');
       expect(leftPoint.attr('stroke')).toBe('#0f0');
       expect(leftPoint.attr('lineWidth')).toBe(2);
@@ -534,7 +534,7 @@ describe('shape node test', () => {
       const bottomPoint2 = group.find(g => {
         return g.get('className') === 'link-point-bottom';
       });
-      expect(bottomPoint2.attr('r')).toBe(10);
+      expect(bottomPoint2.attr('r')).toBe(5);
       expect(bottomPoint2.attr('fill')).toBe('#f00');
       expect(bottomPoint2.attr('stroke')).toBe('#000');
 
@@ -601,7 +601,7 @@ describe('shape node test', () => {
         return g.get('className') === 'link-point-left';
       });
       expect(leftPoint).not.toBe(null);
-      expect(leftPoint.attr('r')).toBe(10);
+      expect(leftPoint.attr('r')).toBe(5);
       expect(leftPoint.attr('fill')).toBe('#f00');
       expect(leftPoint.attr('stroke')).toBe('#0f0');
       expect(leftPoint.attr('lineWidth')).toBe(2);
@@ -641,7 +641,7 @@ describe('shape node test', () => {
       const bottomPoint2 = group.find(g => {
         return g.get('className') === 'link-point-bottom';
       });
-      expect(bottomPoint2.attr('r')).toBe(10);
+      expect(bottomPoint2.attr('r')).toBe(5);
       expect(bottomPoint2.attr('fill')).toBe('#f00');
       expect(bottomPoint2.attr('stroke')).toBe('#000');
 
@@ -707,7 +707,7 @@ describe('shape node test', () => {
         return g.get('className') === 'link-point-left';
       });
       expect(leftPoint).not.toBe(null);
-      expect(leftPoint.attr('r')).toBe(10);
+      expect(leftPoint.attr('r')).toBe(5);
       expect(leftPoint.attr('fill')).toBe('#f00');
       expect(leftPoint.attr('stroke')).toBe('#0f0');
       expect(leftPoint.attr('lineWidth')).toBe(2);
@@ -747,7 +747,7 @@ describe('shape node test', () => {
       const bottomPoint2 = group.find(g => {
         return g.get('className') === 'link-point-bottom';
       });
-      expect(bottomPoint2.attr('r')).toBe(10);
+      expect(bottomPoint2.attr('r')).toBe(5);
       expect(bottomPoint2.attr('fill')).toBe('#f00');
       expect(bottomPoint2.attr('stroke')).toBe('#000');
 
