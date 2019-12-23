@@ -14,6 +14,7 @@ module.exports = {
   resolve: {
     alias: {
       '@g6': resolve(process.cwd(), './src'),
+      '@g6/types': resolve(process.cwd(), './types')
     },
     // Add `.ts` as a resolvable extension.
     extensions: ['.ts', '.js'],
