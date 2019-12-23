@@ -196,4 +196,213 @@ describe.only('triangle test', () => {
       expect(graph.destroyed).toBe(true);
     });
   });
+
+  describe('update', () => {
+    it('update styles', () => {
+      const graph = new Graph({
+        container: div,
+        width: 500,
+        height: 500,
+        pixelRatio: 2,
+        defaultNode: {
+          shape: 'triangle',
+          size: 50,
+          style: {
+            fill: 'red',
+            stroke: '#ccc'
+          },
+          icon: {
+            show: true
+          }
+        }
+      });
+      const data = {
+        nodes: [
+          {
+            id: 'node',
+            label: 'triangle',
+            x: 200,
+            y: 100,
+            color: '#00f',
+            style: {
+              lineWidth: 3
+            }
+          }
+        ]
+      };
+      graph.data(data);
+      graph.render();
+
+      const nodes = graph.getNodes();
+      const node = nodes[0];
+      node.update({
+        color: '#0ff',
+        style: {
+          fill: 'black'
+        }
+      })
+      const group = node.get('group');
+      expect(group.getCount()).toEqual(3);
+      const keyShape = node.getKeyShape();
+      expect(keyShape.attr('stroke')).toBe('#0ff');
+      expect(keyShape.attr('fill')).toBe('black');
+      // expect the un-reset attribute to be kept as previous
+      expect(keyShape.attr('lineWidth')).toBe(3);
+
+      graph.destroy();
+      expect(graph.destroyed).toBe(true);
+    });
+    it('update label', () => {
+      const graph = new Graph({
+        container: div,
+        width: 500,
+        height: 500
+      });
+      const data = {
+        nodes: [
+          {
+            shape: 'triangle',
+            id: 'node',
+            label: 'old triangle label',
+            x: 200,
+            y: 100
+          }
+        ]
+      };
+      graph.data(data);
+      graph.render();
+
+      const nodes = graph.getNodes();
+      const node = nodes[0];
+      const group = node.get('group');
+      node.update({
+        label: 'new triangle label',
+        labelCfg: {
+          style: {
+            fill: '#ff0'
+          }
+        }
+      })
+
+      const label = group.find(g => {
+        return g.get('className') === 'node-label';
+      });
+      expect(label).not.toEqual(null);
+      expect(label.attr('text')).toEqual('new triangle label');
+      expect(label.attr('fill')).toEqual('#ff0');
+
+      node.update({
+        labelCfg: {
+          position: 'center',
+          style: {
+            stroke: 'black',
+            lineWidth: 3
+          }
+        }
+      });
+      expect(label.attr('text')).toEqual('new triangle label');
+      expect(label.attr('fill')).toEqual('#ff0');
+      expect(label.attr('stroke')).toEqual('black');
+      expect(label.attr('lineWidth')).toEqual(3);
+
+      graph.destroy();
+      expect(graph.destroyed).toBe(true);
+    });
+    it('update label from none', () => {
+      const graph = new Graph({
+        container: div,
+        width: 500,
+        height: 500
+      });
+      const data = {
+        nodes: [
+          {
+            shape: 'triangle',
+            id: 'node',
+            x: 200,
+            y: 100
+          }
+        ]
+      };
+      graph.data(data);
+      graph.render();
+
+      const nodes = graph.getNodes();
+      const node = nodes[0];
+      const group = node.get('group');
+      node.update({
+        label: 'triangle label'
+      })
+
+      const label = group.find(g => {
+        return g.get('className') === 'node-label';
+      });
+      expect(label).not.toEqual(null);
+      expect(label.attr('text')).toEqual('triangle label');
+
+      graph.destroy();
+      expect(graph.destroyed).toBe(true);
+    });
+    it('update icon', () => {
+      const graph = new Graph({
+        container: div,
+        width: 500,
+        height: 500,
+      });
+      const data = {
+        nodes: [
+          {
+            id: 'node',
+            shape: 'triangle',
+            label: 'triangle',
+            x: 200,
+            y: 100
+          }
+        ]
+      };
+      graph.data(data);
+      graph.render();
+
+      const nodes = graph.getNodes();
+      const node = nodes[0];
+      const newImg = 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mt47RKxGy8kAAAAAAAAAAABkARQnAQ';
+      node.update({
+        icon: {
+          show: true,
+          img: newImg,
+          width: 50,
+          height: 50
+        }
+      })
+      let group = node.get('group');
+      expect(group.getCount()).toEqual(3);
+      const icon = group.find(g => {
+        return g.get('className') === 'triangle-icon';
+      });
+      expect(icon.attr('width')).toEqual(50);
+      expect(icon.attr('x')).toEqual(-25);
+      expect(icon.attr('y')).toEqual(-25);
+      expect(icon.attr('img')).toEqual(newImg);
+      
+      node.update({
+        icon: {
+          width: 80,
+        }
+      })
+      group = node.get('group');
+      expect(group.getCount()).toEqual(3);
+      expect(icon.attr('width')).toEqual(80);
+      expect(icon.attr('x')).toEqual(-40);
+      
+      node.update({
+        icon: {
+          show: false
+        }
+      })
+      group = node.get('group');
+      expect(group.getCount()).toEqual(2);
+      graph.destroy();
+      expect(graph.destroyed).toBe(true);
+    });
+  });
 });

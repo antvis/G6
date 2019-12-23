@@ -1,7 +1,9 @@
 import Shape from '../shape'
 import deepMix from '@antv/util/lib/deep-mix';
 import Global from '../../global'
-import { ModelConfig } from '@g6/types'
+import GGroup from '@antv/g-canvas/lib/group';
+import { IShape } from '@antv/g-canvas/lib/interfaces'
+import { ModelConfig, NodeConfig, Item } from '@g6/types'
 
 // 菱形shape
 Shape.registerNode('triangle', {
@@ -47,7 +49,7 @@ Shape.registerNode('triangle', {
   shapeType: 'triangle',
   // 文本位置
   labelPosition: 'bottom',
-  drawShape(cfg, group) {
+  drawShape(cfg: NodeConfig, group: GGroup): IShape {
     const { icon: defaultIcon, direction: defaultDirection } = this.options;
     const style = this.getShapeStyle(cfg);
     const icon = deepMix({}, defaultIcon, cfg.icon);
@@ -89,7 +91,7 @@ Shape.registerNode('triangle', {
    * @param {Object} cfg data数据配置项
    * @param {Group} group Group实例
    */
-  drawLinkPoints(cfg, group) {
+  drawLinkPoints(cfg: NodeConfig, group: GGroup) {
     const { linkPoints: defaultLinkPoints, direction: defaultDirection } = this.options;
     const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
 
@@ -253,7 +255,7 @@ Shape.registerNode('triangle', {
    * @param {Object} cfg 节点数据模型
    * @return {Object} 节点的样式
    */
-  getShapeStyle(cfg) {
+  getShapeStyle(cfg: NodeConfig) {
     const { style: defaultStyle } = this.options;
     const strokeStyle = {
       stroke: cfg.color
@@ -264,46 +266,21 @@ Shape.registerNode('triangle', {
     const styles = { path, ...style };
     return styles;
   },
-  update(cfg, item) {
+  update(cfg: NodeConfig, item: Item)  {
     const group = item.getContainer();
-    const { style: defaultStyle, icon: defaultIcon, labelCfg: defaultLabelCfg } = this.options;
-    const style = deepMix({}, defaultStyle, cfg.style);
-    const icon = deepMix({}, defaultIcon, cfg.icon);
-    const keyShape = item.get('keyShape');
+    const { style: defaultStyle } = this.options;
     const path = this.getPath(cfg);
-    keyShape.attr({
-      path,
-      ...style
-    });
+    // 下面这些属性需要覆盖默认样式与目前样式，但若在 cfg 中有指定则应该被 cfg 的相应配置覆盖。
+    const strokeStyle = {
+      stroke: cfg.color,
+      path
+    };
+    // 与 getShapeStyle 不同在于，update 时需要获取到当前的 style 进行融合。即新传入的配置项中没有涉及的属性，保留当前的配置。
+    const keyShape = item.get('keyShape');
+    const style = deepMix({}, defaultStyle, keyShape.attr(), strokeStyle, cfg.style);
+    
 
-    const label = group.find(element => { return element.get('className') === 'node-label'})
-    if (cfg.label) {
-      if (!label) {
-        const newLabel = this.drawLabel(cfg, group)
-        newLabel.set('className', 'node-label')
-      } else {
-        const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
-        const labelStyle = this.getLabelStyle(cfg, labelCfg, group)
-        /**
-         * fixme g中shape的rotate是角度累加的，不是label的rotate想要的角度
-         * 由于现在label只有rotate操作，所以在更新label的时候如果style中有rotate就重置一下变换
-         * 后续会基于g的Text复写一个Label出来处理这一类问题
-         */
-        label.resetMatrix()
-        label.attr(labelStyle)
-      }
-    }
-
-    const triangleIcon = group.find(element => { return element.get('className') === 'triangle-icon'})
-    if (triangleIcon) {
-      const { width: w, height: h } = icon;
-      triangleIcon.attr({
-        x: -w / 2,
-        y: -h / 2,
-        ...icon
-      });
-    }
-
+    this.updateShape(cfg, item, style, true);
     this.updateLinkPoints(cfg, group);
   },
   /**
@@ -311,7 +288,7 @@ Shape.registerNode('triangle', {
    * @param {Object} cfg 节点数据配置项
    * @param {Group} group Item所在的group
    */
-  updateLinkPoints(cfg, group) {
+  updateLinkPoints(cfg: NodeConfig, group: GGroup) {
     const { linkPoints: defaultLinkPoints, direction: defaultDirection } = this.options;
 
     const direction = cfg.direction || defaultDirection;
@@ -323,16 +300,16 @@ Shape.registerNode('triangle', {
 
     let currentLinkPoints = undefined;
     if (markLeft) {
-      currentLinkPoints = markLeft.get('attrs');
+      currentLinkPoints = markLeft.attr();
     }
     if (markRight && !currentLinkPoints) {
-      currentLinkPoints = markRight.get('attrs');
+      currentLinkPoints = markRight.attr();
     }
     if (markTop && !currentLinkPoints) {
-      currentLinkPoints = markTop.get('attrs');
+      currentLinkPoints = markTop.attr();
     }
     if (markBottom && !currentLinkPoints) {
-      currentLinkPoints = markBottom.get('attrs');
+      currentLinkPoints = markBottom.attr();
     }
     if (!currentLinkPoints) currentLinkPoints = defaultLinkPoints;
 
@@ -369,17 +346,17 @@ Shape.registerNode('triangle', {
           markLeft.remove();
         } else {
           markLeft.attr({
+            ...styles,
             x: leftPos[0],
-            y: leftPos[1],
-            ...styles
+            y: leftPos[1]
           });
         }
       } else if (left) {
         group.addShape('circle', {
           attrs: {
+            ...styles,
             x: leftPos[0],
-            y: leftPos[1],
-            ...styles
+            y: leftPos[1]
           },
           className: 'link-point-left',
           isAnchorPoint: true
@@ -401,17 +378,17 @@ Shape.registerNode('triangle', {
           markRight.remove();
         } else {
           markRight.attr({
+            ...styles,
             x: rightPos[0],
-            y: rightPos[1],
-            ...styles
+            y: rightPos[1]
           });
         }
       } else if (right) {
         group.addShape('circle', {
           attrs: {
+            ...styles,
             x: rightPos[0],
-            y: rightPos[1],
-            ...styles
+            y: rightPos[1]
           },
           className: 'link-point-right',
           isAnchorPoint: true
@@ -434,17 +411,17 @@ Shape.registerNode('triangle', {
         } else {
           // top circle
           markTop.attr({
+            ...styles,
             x: topPos[0],
-            y: topPos[1],
-            ...styles
+            y: topPos[1]
           });
         }
       } else if (top) {
         group.addShape('circle', {
           attrs: {
+            ...styles,
             x: topPos[0],
-            y: topPos[1],
-            ...styles
+            y: topPos[1]
           },
           className: 'link-point-top',
           isAnchorPoint: true
@@ -466,17 +443,17 @@ Shape.registerNode('triangle', {
           markBottom.remove();
         } else {
           markBottom.attr({
+            ...styles,
             x: bottomPos[0],
-            y: bottomPos[1],
-            ...styles
+            y: bottomPos[1]
           });
         }
       } else if (bottom) {
         group.addShape('circle', {
           attrs: {
+            ...styles,
             x: bottomPos[0],
-            y: bottomPos[1],
-            ...styles
+            y: bottomPos[1]
           },
           className: 'link-point-bottom',
           isAnchorPoint: true

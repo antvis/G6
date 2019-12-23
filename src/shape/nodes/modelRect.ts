@@ -335,7 +335,7 @@ Shape.registerNode('modelRect', {
 
     const logoIconShape = group.find(element => { return element.get('className') === 'rect-logo-icon'})
 
-    const logoIcon = deepMix({}, logoIconShape.get('attrs'), cfg.logoIcon);
+    const logoIcon = deepMix({}, logoIconShape.attr(), cfg.logoIcon);
 
     const { width: w } = logoIcon;
     const show = cfg.logoIcon ? cfg.logoIcon.show : undefined;
@@ -362,7 +362,7 @@ Shape.registerNode('modelRect', {
         });
       } else {
         const cfgStyle = cfg.labelCfg ? cfg.labelCfg.style : {};
-        const labelStyle = deepMix({}, label.get('attrs'), cfgStyle);
+        const labelStyle = deepMix({}, label.attr(), cfgStyle);
         if (cfg.label) labelStyle.text = cfg.label;
         labelStyle.x = offsetX;
         if (cfg.description) labelStyle.y = -5;
@@ -391,7 +391,7 @@ Shape.registerNode('modelRect', {
         });
       } else {
         const cfgStyle = cfg.descriptionCfg ? cfg.descriptionCfg.style : {};
-        const descriptionStyle = deepMix({}, description.get('attrs'), cfgStyle);
+        const descriptionStyle = deepMix({}, description.attr(), cfgStyle);
         if (cfg.description) descriptionStyle.text = cfg.description;
         descriptionStyle.x = offsetX;
         description.resetMatrix()
@@ -404,7 +404,7 @@ Shape.registerNode('modelRect', {
 
     const preRectShape = group.find(element => { return element.get('className') === 'pre-rect'})
     if (preRectShape) {
-      const preRect = deepMix({}, preRectShape.get('attrs'), cfg.preRect);
+      const preRect = deepMix({}, preRectShape.attr(), cfg.preRect);
       preRectShape.attr({
         ...preRect,
         x: -width / 2,
@@ -431,7 +431,7 @@ Shape.registerNode('modelRect', {
     }
 
     const stateIconShape = group.find(element => { return element.get('className') === 'rect-state-icon'})
-    const stateIcon = deepMix({}, stateIconShape.get('attrs'), cfg.stateIcon);
+    const stateIcon = deepMix({}, stateIconShape.attr(), cfg.stateIcon);
     if (stateIconShape) {
       if (!stateIcon.show && stateIcon.show !== undefined) {
         stateIconShape.remove();

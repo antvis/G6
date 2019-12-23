@@ -6,7 +6,7 @@ import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
 import { isArray, isNil } from '@antv/util/lib'
 import { ILabelConfig, ShapeOptions } from '@g6/interface/shape'
-import { LabelStyle, NodeConfig } from '@g6/types'
+import { LabelStyle, NodeConfig, Item } from '@g6/types'
 import Global from '../global'
 import Shape from './shape'
 import { shapeBase } from './shapeBase'
@@ -112,23 +112,23 @@ const singleNode: ShapeOptions = {
 
     let currentLinkPoints = undefined;
     if (markLeft) {
-      currentLinkPoints = markLeft.get('attrs');
+      currentLinkPoints = markLeft.attr();
     }
     if (markRight && !currentLinkPoints) {
-      currentLinkPoints = markRight.get('attrs');
+      currentLinkPoints = markRight.attr();
     }
     if (markTop && !currentLinkPoints) {
-      currentLinkPoints = markTop.get('attrs');
+      currentLinkPoints = markTop.attr();
     }
     if (markBottom && !currentLinkPoints) {
-      currentLinkPoints = markBottom.get('attrs');
+      currentLinkPoints = markBottom.attr();
     }
     if (!currentLinkPoints) currentLinkPoints = defaultLinkPoints;
 
     const linkPoints = deepMix({}, currentLinkPoints, cfg.linkPoints);
 
     const { fill: markFill, stroke: markStroke, lineWidth: borderWidth } = linkPoints;
-    let markSize = linkPoints.size;
+    let markSize = linkPoints.size / 2;
     if (!markSize) markSize = linkPoints.r;
     const { left, right, top, bottom } = cfg.linkPoints ? cfg.linkPoints : { left: undefined, right: undefined, top: undefined, bottom: undefined};
 
@@ -147,17 +147,17 @@ const singleNode: ShapeOptions = {
         markLeft.remove();
       } else {
         markLeft.attr({
+          ...styles,
           x: -width / 2,
-          y: 0,
-          ...styles
+          y: 0
         });
       }
     } else if (left) {
       group.addShape('circle', {
         attrs: {
+          ...styles,
           x: -width / 2,
-          y: 0,
-          ...styles
+          y: 0
         },
         className: 'link-point-left',
         isAnchorPoint: true
@@ -169,16 +169,16 @@ const singleNode: ShapeOptions = {
         markRight.remove();
       }
       markRight.attr({
+        ...styles,
         x: width / 2,
-        y: 0,
-        ...styles
+        y: 0
       });
     } else if (right) {
       group.addShape('circle', {
         attrs: {
+          ...styles,
           x: width / 2,
-          y: 0,
-          ...styles
+          y: 0
         },
         className: 'link-point-right',
         isAnchorPoint: true
@@ -190,16 +190,16 @@ const singleNode: ShapeOptions = {
         markTop.remove();
       }
       markTop.attr({
+        ...styles,
         x: 0,
-        y: -height / 2,
-        ...styles
+        y: -height / 2
       });
     } else if (top) {
       group.addShape('circle', {
         attrs: {
+          ...styles,
           x: 0,
-          y: -height / 2,
-          ...styles
+          y: -height / 2
         },
         className: 'link-point-top',
         isAnchorPoint: true
@@ -211,21 +211,64 @@ const singleNode: ShapeOptions = {
         markBottom.remove();
       } else {
         markBottom.attr({
+          ...styles,
           x: 0,
-          y: height / 2,
-          ...styles
+          y: height / 2
         });
       }
     } else if (bottom) {
       group.addShape('circle', {
         attrs: {
+          ...styles,
           x: 0,
-          y: height / 2,
-          ...styles
+          y: height / 2
         },
         className: 'link-point-bottom',
         isAnchorPoint: true
       });
+    }
+  },
+  updateShape(cfg: NodeConfig, item: Item, keyShapeStyle: object, hasIcon: boolean) {
+    const keyShape = item.get('keyShape');
+    keyShape.attr({
+      ...keyShapeStyle
+    });
+
+    this.updateLabel(cfg, item);
+    // special for some types of nodes
+    hasIcon && this.updateIcon(cfg, item);
+  },
+  updateIcon(cfg, item) {
+    const group = item.getContainer();
+    const { icon: defaultIcon } = this.options;
+    const icon = deepMix({}, defaultIcon, cfg.icon);
+    const { show } = cfg.icon ? cfg.icon : { show: undefined };
+    const iconShape = group.find(element => { return element.get('className') === `${this.type}-icon`})
+    if (iconShape) { // 若原先存在 icon
+      if (show || show === undefined) { // 若传入 show: true, 或没有设置，则更新原有的 icon 样式
+        const iconConfig = deepMix({}, defaultIcon, iconShape.attr(), cfg.icon);
+        const { width: w, height: h } = iconConfig;
+        iconShape.attr({
+          ...iconConfig,
+          x: -w / 2,
+          y: -h / 2
+        });
+      } else { // 若传入了 show: false 则删除原先的 icon
+        iconShape.remove();
+      }
+    } else if (show) { // 如果原先不存在 icon，但传入了 show: true，则新增 icon
+      const { width: w, height: h } = icon;
+      group.addShape('image', {
+        attrs: {
+          ...icon,
+          x: -w / 2,
+          y: -h / 2,
+        },
+        className: `${this.type}-icon`
+      });
+      // to ensure the label is on the top of all the shapes
+      const labelShape = group.find(element => { return element.get('className') === `node-label`})
+      labelShape && labelShape.toFront();
     }
   }
 }
