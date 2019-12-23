@@ -146,39 +146,22 @@ Shape.registerNode('rect', {
     return styles;
   },
   update(cfg: NodeConfig, item: Item) {
-    const { style: defaultStyle, labelCfg: defaultLabelCfg } = this.options;
-    const style = deepMix({}, defaultStyle, cfg.style);
-    const size = this.getSize(cfg);
-    const width = size[0];
-    const height = size[1];
-    const keyShape = item.get('keyShape');
-    keyShape.attr({
-      x: -width / 2,
-      y: -height / 2,
-      width,
-      height,
-      ...style
-    });
-
     const group = item.getContainer();
+    const { style: defaultStyle } = this.options;
+    const size = this.getSize(cfg);
+    // 下面这些属性需要覆盖默认样式与目前样式，但若在 cfg 中有指定则应该被 cfg 的相应配置覆盖。
+    const strokeStyle = {
+      stroke: cfg.color,
+      x: -size[0] / 2,
+      y: -size[1] / 2,
+      width: size[0],
+      height: size[1]
+    };
+    // 与 getShapeStyle 不同在于，update 时需要获取到当前的 style 进行融合。即新传入的配置项中没有涉及的属性，保留当前的配置。
+    const keyShape = item.get('keyShape');
+    const style = deepMix({}, defaultStyle, keyShape.attr(), strokeStyle, cfg.style);
 
-    const label = group.find(element => { return element.get('className') === 'node-label'})
-    if (cfg.label) {
-      if (!label) {
-        const newLabel = this.drawLabel(cfg, group)
-        newLabel.set('className', 'node-label')
-      } else {
-        const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
-        const labelStyle = this.getLabelStyle(cfg, labelCfg, group)
-        /**
-         * fixme g中shape的rotate是角度累加的，不是label的rotate想要的角度
-         * 由于现在label只有rotate操作，所以在更新label的时候如果style中有rotate就重置一下变换
-         * 后续会基于g的Text复写一个Label出来处理这一类问题
-         */
-        label.resetMatrix()
-        label.attr(labelStyle)
-      }
-    }
+    this.updateShape(cfg, item, style, false);
     this.updateLinkPoints(cfg, group);
   }
 }, 'single-node');

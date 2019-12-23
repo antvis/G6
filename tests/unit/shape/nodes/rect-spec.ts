@@ -6,19 +6,19 @@ const div = document.createElement('div');
 div.id = 'graph-spec';
 document.body.appendChild(div);
 
-describe.only('circle test', () => {
-  describe('default circle test', () => {
+describe.only('rect test', () => {
+  describe('default rect test', () => {
     const cfg = {
       container: div,
       width: 500,
       height: 500,
       pixelRatio: 2,
       defaultNode: {
-        shape: 'circle'
+        shape: 'rect'
       }
     };
     const graph = new Graph(cfg);
-    it('default circle config', () => {
+    it('default rect config', () => {
       const data = {
         nodes: [
           {
@@ -35,17 +35,17 @@ describe.only('circle test', () => {
       expect(nodes.length).toEqual(1);
       const node = nodes[0];
       const keyShape = node.getKeyShape();
-      expect(keyShape.attr('r')).toEqual(30);
+      expect(keyShape.attr('width')).toEqual(100);
       expect(keyShape.attr('stroke')).toEqual('#91d5ff');
       expect(keyShape.attr('fill')).toEqual('#91d5ff');
     });
 
-    it('circle with label', () => {
+    it('rect with label', () => {
       const data = {
         nodes: [
           {
             id: 'node',
-            label: 'circle',
+            label: 'rect',
             x: 200,
             y: 100
           }
@@ -72,68 +72,16 @@ describe.only('circle test', () => {
     });
   });
 
-  describe('circle with icon and linkPoints', () => {
-    it('circle with icon', () => {
-      const graph = new Graph({
-        container: div,
-        width: 500,
-        height: 500,
-        pixelRatio: 2,
-        defaultNode: {
-          shape: 'circle',
-          size: 50,
-          style: {
-            fill: 'red',
-            stroke: '#ccc'
-          },
-          icon: {
-            show: true
-          }
-        }
-      });
-      const data = {
-        nodes: [
-          {
-            id: 'node',
-            label: 'circle',
-            x: 200,
-            y: 100
-          }
-        ]
-      };
-      graph.data(data);
-      graph.render();
+  describe('rect with linkPoints', () => {
 
-      const nodes = graph.getNodes();
-      const node = nodes[0];
-      const group = node.get('group');
-      // circle + icon + label
-      expect(group.getCount()).toEqual(3);
-      const keyShape = node.getKeyShape();
-      expect(keyShape.attr('fill')).toEqual('red');
-      expect(keyShape.attr('stroke')).toEqual('#ccc');
-      expect(keyShape.attr('r')).toEqual(25);
-
-      const icon = group.find(g => {
-        return g.get('className') === 'circle-icon';
-      });
-      expect(icon).not.toBe(undefined);
-      expect(icon.attr('img')).toEqual('https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg');
-      expect(icon.attr('width')).toEqual(16);
-      expect(icon.attr('height')).toEqual(16);
-
-      graph.destroy();
-      expect(graph.destroyed).toBe(true);
-    });
-
-    it('circle with linkPoints', () => {
+    it('rect with linkPoints', () => {
       const cfg = {
         container: div,
         width: 500,
         height: 500,
         pixelRatio: 2,
         defaultNode: {
-          shape: 'circle',
+          shape: 'rect',
           size: 35,
           style: {
             fill: 'blue'
@@ -151,7 +99,7 @@ describe.only('circle test', () => {
         nodes: [
           {
             id: 'node',
-            label: 'circle',
+            label: 'rect',
             x: 200,
             y: 100
           }
@@ -169,7 +117,7 @@ describe.only('circle test', () => {
       const keyShape = node.getKeyShape();
       expect(keyShape.attr('fill')).toEqual('blue');
       expect(keyShape.attr('stroke')).toEqual('#91d5ff');
-      expect(keyShape.attr('r')).toEqual(17.5);
+      expect(keyShape.attr('width')).toEqual(35);
       expect(keyShape.attr('lineWidth')).toEqual(1);
 
       const markTop = group.find(g => {
@@ -208,15 +156,12 @@ describe.only('circle test', () => {
         height: 500,
         pixelRatio: 2,
         defaultNode: {
-          shape: 'circle',
+          shape: 'rect',
           size: 50,
           style: {
             fill: 'red',
             stroke: '#ccc',
             lineWidth: 5
-          },
-          icon: {
-            show: true
           }
         }
       });
@@ -224,7 +169,7 @@ describe.only('circle test', () => {
         nodes: [
           {
             id: 'node',
-            label: 'circle',
+            label: 'rect',
             x: 200,
             y: 100
           }
@@ -243,73 +188,13 @@ describe.only('circle test', () => {
         }
       })
       const group = node.get('group');
-      expect(group.getCount()).toEqual(3);
+      expect(group.getCount()).toEqual(2);
       const keyShape = node.getKeyShape();
-      expect(keyShape.attr('r')).toBe(15);
+      expect(keyShape.attr('width')).toBe(30);
+      expect(keyShape.attr('height')).toBe(30);
       expect(keyShape.attr('fill')).toBe('steelblue');
       expect(keyShape.attr('lineWidth')).toBe(5);
 
-      graph.destroy();
-      expect(graph.destroyed).toBe(true);
-    });
-    it('update icon', () => {
-
-      const graph = new Graph({
-        container: div,
-        width: 500,
-        height: 500,
-      });
-      const data = {
-        nodes: [
-          {
-            id: 'node',
-            label: 'circle',
-            x: 200,
-            y: 100
-          }
-        ]
-      };
-      graph.data(data);
-      graph.render();
-
-      const nodes = graph.getNodes();
-      const node = nodes[0];
-      const newImg = 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mt47RKxGy8kAAAAAAAAAAABkARQnAQ';
-      node.update({
-        icon: {
-          show: true,
-          img: newImg,
-          width: 50,
-          height: 50
-        }
-      })
-      let group = node.get('group');
-      expect(group.getCount()).toEqual(3);
-      const icon = group.find(g => {
-        return g.get('className') === 'circle-icon';
-      });
-      expect(icon.attr('width')).toEqual(50);
-      expect(icon.attr('x')).toEqual(-25);
-      expect(icon.attr('y')).toEqual(-25);
-      expect(icon.attr('img')).toEqual(newImg);
-      
-      node.update({
-        icon: {
-          width: 80,
-        }
-      })
-      group = node.get('group');
-      expect(group.getCount()).toEqual(3);
-      expect(icon.attr('width')).toEqual(80);
-      expect(icon.attr('x')).toEqual(-40);
-      
-      node.update({
-        icon: {
-          show: false
-        }
-      })
-      group = node.get('group');
-      expect(group.getCount()).toEqual(2);
       graph.destroy();
       expect(graph.destroyed).toBe(true);
     });
@@ -323,7 +208,8 @@ describe.only('circle test', () => {
         nodes: [
           {
             id: 'node',
-            label: 'old circle label',
+            label: 'old rect label',
+            shape: 'rect',
             x: 200,
             y: 100
           }
@@ -336,7 +222,7 @@ describe.only('circle test', () => {
       const node = nodes[0];
       const group = node.get('group');
       node.update({
-        label: 'new circle label',
+        label: 'new rect label',
         labelCfg: {
           style: {
             fill: '#ff0'
@@ -348,7 +234,7 @@ describe.only('circle test', () => {
         return g.get('className') === 'node-label';
       });
       expect(label).not.toEqual(null);
-      expect(label.attr('text')).toEqual('new circle label');
+      expect(label.attr('text')).toEqual('new rect label');
       expect(label.attr('fill')).toEqual('#ff0');
 
       // test if it will keep the current fill without setting
@@ -361,7 +247,7 @@ describe.only('circle test', () => {
           }
         }
       });
-      expect(label.attr('text')).toEqual('new circle label');
+      expect(label.attr('text')).toEqual('new rect label');
       expect(label.attr('fill')).toEqual('#ff0');
       expect(label.attr('stroke')).toEqual('black');
       expect(label.attr('lineWidth')).toEqual(3);
@@ -379,6 +265,7 @@ describe.only('circle test', () => {
         nodes: [
           {
             id: 'node',
+            shape: 'rect',
             x: 200,
             y: 100
           }
@@ -391,7 +278,7 @@ describe.only('circle test', () => {
       const node = nodes[0];
       const group = node.get('group');
       node.update({
-        label: 'new circle label',
+        label: 'new rect label',
         labelCfg: {
           style: {
             fill: '#ff0'
@@ -403,7 +290,7 @@ describe.only('circle test', () => {
         return g.get('className') === 'node-label';
       });
       expect(label).not.toEqual(null);
-      expect(label.attr('text')).toEqual('new circle label');
+      expect(label.attr('text')).toEqual('new rect label');
       expect(label.attr('fill')).toEqual('#ff0');
 
       graph.destroy();

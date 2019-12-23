@@ -1,7 +1,7 @@
 import { Point } from '@antv/g-base/lib/types';
 import Group from '@antv/g-canvas/lib/group'
 import { deepMix, each } from '@antv/util'
-import { IShapeBase, Item, ModelConfig } from '@g6/types'
+import { IShapeBase, Item, ModelConfig, IPoint } from '@g6/types'
 import { pointsToPolygon } from '@g6/util/path'
 import Global from '../../global'
 import Shape from '../shape'
@@ -49,29 +49,37 @@ Shape.registerEdge('polyline', {
 
     const style = deepMix({}, defaultStyle, strokeStyle, cfg.style);
     cfg = this.getPathPoints(cfg);
+
     this.radius = style.radius;
     this.offset = style.offset;
+    const points = this.getControlPoints(cfg);
+    
+    const path = this.getPath(points, this.routeCfg);
+    const attrs = deepMix({}, Global.defaultEdge.style, style, {
+      lineWidth: cfg.size
+    }, { path });
+    return attrs;
+  },
+  getControlPoints(cfg: ModelConfig): IPoint[] {
     const startPoint = cfg.startPoint;
     const endPoint = cfg.endPoint;
-    const controlPoints = this.getControlPoints(cfg);
-    let points = [ startPoint ]; // 添加起始点
+    const controlPoints = cfg.controlPoints;
+    let points: IPoint[] = [ startPoint ]; // 添加起始点
     // 添加控制点
     if (controlPoints) {
       points = points.concat(controlPoints);
     }
     // 添加结束点
     points.push(endPoint);
+
     const source = cfg.sourceNode;
     const target = cfg.targetNode;
-    let routeCfg: object = { radius: style.radius };
+    let routeCfg: object = { radius: this.radius };
     if (!controlPoints) {
-      routeCfg = { source, target, offset: style.offset, radius: style.radius };
+      routeCfg = { source, target, offset: this.offset, radius: this.radius };
     }
-    const path = this.getPath(points, routeCfg);
-    const attrs = deepMix({}, Global.defaultEdge.style, style, {
-      lineWidth: cfg.size
-    }, { path });
-    return attrs;
+    this.routeCfg = routeCfg;
+    return points;
   },
   getPath(points: Point[], routeCfg: { source: IShapeBase, target: IShapeBase, offset: number, radius: number }): Array<Array<string | number>> | string {
     const { source, target, offset, radius } = routeCfg;
@@ -109,39 +117,22 @@ Shape.registerEdge('polyline', {
     if (!cfg.style) {
       cfg.style = {};
     }
-    const oriShapeAttrs = shape.attr();
-    cfg.style.radius = cfg.style.radius || oriShapeAttrs.radius;
-    cfg.style.offset = cfg.style.offset || oriShapeAttrs.offset;
-    const shapeStyle = this.getShapeStyle(cfg);
-    shape.attr(shapeStyle);
-    const labelClassName = this.itemType + CLS_LABEL_SUFFIX;
-    const label = group.find(element => { return element.get('className') === labelClassName})
-		// 此时需要考虑之前是否绘制了 label 的场景存在三种情况
-		// 1. 更新时不需要 label，但是原先存在 label，此时需要删除
-		// 2. 更新时需要 label, 但是原先不存在，创建节点
-		// 3. 如果两者都存在，更新
-    if (!cfg.label) {
-      label && label.remove();
-    } else {
-      if (!label) {
-        const newLabel = this.drawLabel(cfg, group);
-        newLabel.set('className', labelClassName);
-      } else {
-        const { labelCfg: defaultLabelCfg } = this.options;
+    // const oriShapeAttrs = shape.attr();
+    // cfg.style.radius = cfg.style.radius || oriShapeAttrs.radius;
+    // cfg.style.offset = cfg.style.offset || oriShapeAttrs.offset;
 
-        const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
-        const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
-        /**
-         * fixme g中shape的rotate是角度累加的，不是label的rotate想要的角度
-         * 由于现在label只有rotate操作，所以在更新label的时候如果style中有rotate就重置一下变换
-         * 后续会基于g的Text复写一个Label出来处理这一类问题
-         */
-        label.resetMatrix();
-        label.attr(labelStyle);
-      }
-    }
-  },
-  getControlPoints(cfg: ModelConfig) {
-    return cfg.controlPoints;
+    cfg = this.getPathPoints(cfg);
+    const points = this.getControlPoints(cfg);
+    
+    const path = this.getPath(points, this.routeCfg);
+     // 下面这些属性需要覆盖默认样式与目前样式，但若在 cfg 中有指定则应该被 cfg 的相应配置覆盖。
+     const strokeStyle = {
+      stroke: cfg.color,
+      path
+    };
+    const shapeStyle = deepMix({}, shape.attr(), strokeStyle, cfg.style);
+
+    shape.attr(shapeStyle);
+    this.updateLabel(cfg, item);
   }
 }, 'single-line');
