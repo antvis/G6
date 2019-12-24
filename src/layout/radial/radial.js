@@ -135,6 +135,7 @@ Layout.registerLayout('radial', {
 
 
     const eIdealD = self.eIdealDisMatrix(D, linkDistance, radii);
+
     // const eIdealD = scaleMatrix(D, linkDistance);
     self.eIdealDistances = eIdealD;
     // the weight matrix, Wij = 1 / dij^(-2)
@@ -278,7 +279,12 @@ Layout.registerLayout('radial', {
       row.forEach((v, j) => {
         if (i === j) newRow.push(0);
         else if (radii[i] === radii[j]) { // i and j are on the same circle
-          newRow.push(v * linkDis / (radii[i] / unitRadius));
+          if (self.sortBy === 'data') {
+            newRow.push(v * (Math.abs(i - j) * 10) / (radii[i] / unitRadius));
+          } else {
+            newRow.push(v * linkDis / (radii[i] / unitRadius));
+          }
+
         } else { // i and j are on different circle
           const link = (linkDis + unitRadius) / 2;
           newRow.push(v * link);

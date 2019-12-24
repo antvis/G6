@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>Radial Layout</title>
+  </head>
+  
+  <body>
+    <div id="mountNode"></div>
+    <script src="../build/g6.js"></script>
+    <script src="./assets/d3-4.13.0.min.js"></script>
+    <script src="../build/radial.js"></script>
+    <script>
+      const data = {
+        nodes: [{
+          id: "0",
+          label: "0"
+        },
+        {
+          id: "1",
+          label: "1"
+        },
+        {
+          id: "2",
+          label: "2"
+        },
+        {
+          id: "3",
+          label: "3"
+        },
+        {
+          id: "4",
+          label: "4"
+        },
+        {
+          id: "5",
+          label: "5"
+        },
+        {
+          id: "6",
+          label: "6"
+        },
+        {
+          id: "7",
+          label: "7"
+        },
+        {
+          id: "8",
+          label: "8"
+        },
+        {
+          id: "9",
+          label: "9"
+        },
+        {
+          id: "10",
+          label: "10"
+        },
+        {
+          id: "11",
+          label: "11"
+        },
+        {
+          id: "12",
+          label: "12"
+        },
+        {
+          id: "13",
+          label: "13"
+        },
+        {
+          id: "14",
+          label: "14"
+        },
+        {
+          id: "15",
+          label: "15"
+        },
+        {
+          id: "16",
+          label: "16"
+        },
+        {
+          id: "17",
+          label: "17"
+        },
+        {
+          id: "18",
+          label: "18"
+        },
+        {
+          id: "19",
+          label: "19"
+        },
+        {
+          id: "20",
+          label: "20"
+        },
+        {
+          id: "21",
+          label: "21"
+        },
+        {
+          id: "22",
+          label: "22"
+        },
+        {
+          id: "23",
+          label: "23"
+        },
+        {
+          id: "24",
+          label: "24"
+        },
+        {
+          id: "25",
+          label: "25"
+        },
+        {
+          id: "26",
+          label: "26"
+        },
+        {
+          id: "27",
+          label: "27"
+        },
+        {
+          id: "28",
+          label: "28"
+        },
+        {
+          id: "29",
+          label: "29"
+        },
+        {
+          id: "30",
+          label: "30"
+        },
+        {
+          id: "31",
+          label: "31"
+        },
+        {
+          id: "32",
+          label: "32"
+        },
+        {
+          id: "33",
+          label: "33"
+        }],
+        edges: [{
+          source: "0",
+          target: "1"
+        },
+        {
+          source: "0",
+          target: "2"
+        },
+        {
+          source: "0",
+          target: "3"
+        },
+        {
+          source: "0",
+          target: "4"
+        },
+        {
+          source: "0",
+          target: "5"
+        },
+        {
+          source: "0",
+          target: "7"
+        },
+        {
+          source: "0",
+          target: "8"
+        },
+        {
+          source: "0",
+          target: "9"
+        },
+        {
+          source: "0",
+          target: "10"
+        },
+        {
+          source: "0",
+          target: "11"
+        },
+        {
+          source: "0",
+          target: "13"
+        },
+        {
+          source: "0",
+          target: "14"
+        },
+        {
+          source: "0",
+          target: "15"
+        },
+        {
+          source: "0",
+          target: "16"
+        },
+        {
+          source: "2",
+          target: "3"
+        },
+        {
+          source: "4",
+          target: "5"
+        },
+        {
+          source: "4",
+          target: "6"
+        },
+        {
+          source: "5",
+          target: "6"
+        },
+        {
+          source: "7",
+          target: "13"
+        },
+        {
+          source: "8",
+          target: "14"
+        },
+        {
+          source: "9",
+          target: "10"
+        },
+        {
+          source: "10",
+          target: "22"
+        },
+        {
+          source: "10",
+          target: "14"
+        },
+        {
+          source: "10",
+          target: "12"
+        },
+        {
+          source: "10",
+          target: "24"
+        },
+        {
+          source: "10",
+          target: "21"
+        },
+        {
+          source: "10",
+          target: "20"
+        },
+        {
+          source: "11",
+          target: "24"
+        },
+        {
+          source: "11",
+          target: "22"
+        },
+        {
+          source: "11",
+          target: "14"
+        },
+        {
+          source: "12",
+          target: "13"
+        },
+        {
+          source: "16",
+          target: "17"
+        },
+        {
+          source: "16",
+          target: "18"
+        },
+        {
+          source: "16",
+          target: "21"
+        },
+        {
+          source: "16",
+          target: "22"
+        },
+        {
+          source: "17",
+          target: "18"
+        },
+        {
+          source: "17",
+          target: "20"
+        },
+        {
+          source: "18",
+          target: "19"
+        },
+        {
+          source: "19",
+          target: "20"
+        },
+        {
+          source: "19",
+          target: "33"
+        },
+        {
+          source: "19",
+          target: "22"
+        },
+        {
+          source: "19",
+          target: "23"
+        },
+        {
+          source: "20",
+          target: "21"
+        },
+        {
+          source: "21",
+          target: "22"
+        },
+        {
+          source: "22",
+          target: "24"
+        },
+        {
+          source: "22",
+          target: "25"
+        },
+        {
+          source: "22",
+          target: "26"
+        },
+        {
+          source: "22",
+          target: "23"
+        },
+        {
+          source: "22",
+          target: "28"
+        },
+        {
+          source: "22",
+          target: "30"
+        },
+        {
+          source: "22",
+          target: "31"
+        },
+        {
+          source: "22",
+          target: "32"
+        },
+        {
+          source: "22",
+          target: "33"
+        },
+        {
+          source: "23",
+          target: "28"
+        },
+        {
+          source: "23",
+          target: "27"
+        },
+        {
+          source: "23",
+          target: "29"
+        },
+        {
+          source: "23",
+          target: "30"
+        },
+        {
+          source: "23",
+          target: "31"
+        },
+        {
+          source: "23",
+          target: "33"
+        },
+        {
+          source: "32",
+          target: "33"
+        }]
+      };
+      const testdata = {
+        nodes: [{
+          id: "22018013015657",
+          label: "胡爱春",
+          nodeType: "Person"
+        },
+        {
+          id: "22017011813245",
+          label: "李肖远",
+          nodeType: "Person"
+        },
+        {
+          id: "22018013116039",
+          label: "赵龙",
+          nodeType: "Person"
+        },
+        {
+          id: "22018013015654",
+          label: "赵亚东",
+          nodeType: "Person"
+        },
+        {
+          id: "22018013015696",
+          label: "何二磊",
+          nodeType: "Person"
+        }],
+        edges: [{
+          target: "22018013116039",
+          edgeType: "Person2Person#Guarantee",
+          label: "担保(保证)",
+          properties: {},
+          source: "22018013015654",
+          timestamp: 1518019554489
+        },
+        {
+          target: "22017011813245",
+          edgeType: "Person2Person#Guarantee",
+          label: "担保(保证)",
+          properties: {},
+          source: "22018013015654",
+          timestamp: 1518034073051
+        },
+        {
+          target: "22018013015696",
+          edgeType: "Person2Person#Guarantee",
+          label: "担保(保证)",
+          properties: {},
+          source: "22018013015654",
+          timestamp: 1518102589066
+        },
+        {
+          target: "22018013015654",
+          edgeType: "Person2Person#Guarantee",
+          label: "担保(保证)",
+          properties: {},
+          source: "22018013015696",
+          timestamp: 1518028333742
+        },
+        {
+          target: "22018013015696",
+          edgeType: "Person2Person#Guarantee",
+          label: "担保(保证)",
+          properties: {},
+          source: "22018013116039",
+          timestamp: 1518037335045
+        },
+        {
+          target: "22018013015654",
+          edgeType: "Person2Person#Guarantee",
+          label: "担保(保证)",
+          properties: {},
+          source: "22017011813245",
+          timestamp: 1518102134180
+        },
+        {
+          target: "22018013015654",
+          edgeType: "Person2Person#Guarantee",
+          label: "担保(保证)",
+          properties: {},
+          source: "22018013116039",
+          timestamp: 1518037898347
+        }],
+        queryResult: "",
+        graphView: true
+      };
+
+      const usingData = data;
+      focusNode = usingData.nodes[0];
+      focusNode.style = {
+        fill: '#0a0'
+      }
+
+      const graph = new G6.Graph({
+        container: 'mountNode',
+        width: 1000,
+        height: 600,
+        layout: {
+          type: 'radial',
+          center: [500, 300],
+          maxIteration: 10,
+          focusNode,
+          unitRadius: 100,
+          linkDistance: 50,
+          preventOverlap: true,
+          nodeSize: 30,
+          sortBy: 'data'
+        },
+        modes: {
+          default: [{
+            type:
+            'brush-select',
+            onSelect(nodes) {
+              console.log('selected:', nodes);
+            },
+            onDeselect(nodes) {
+              console.log('deselect', nodes);
+            }
+          },
+          'drag-node']
+        },
+        defaultNode: {
+          size: [20, 20],
+          color: 'steelblue',
+          style: {
+            lineWidth: 2,
+            fill: '#fff'
+          }
+        },
+        defaultEdge: {
+          size: 1,
+          color: '#e2e2e2',
+          style: {
+            endArrow: {
+              path: 'M 4,0 L -4,-4 L -4,4 Z',
+              d: 4
+            }
+          }
+        },
+        nodeStateStyle: {
+          selected: {
+            fill: 'steelblue'
+          }
+        }
+      });
+      graph.data(usingData);
+      graph.render();
+    </script>
+  </body>
+</html>
