@@ -82,7 +82,6 @@ class LayoutController {
    */
   layout(success) {
     const self = this;
-    let layoutType = self.layoutType;
     const graph = self.graph;
     // const data = graph.get('data');
 
@@ -102,32 +101,23 @@ class LayoutController {
     }, self.layoutCfg);
     self.layoutCfg = layoutCfg;
 
-    if (layoutType === undefined) {
-      if (nodes[0] && nodes[0].x === undefined) {
-        // 创建随机布局
-        layoutType = layoutCfg.type = 'random';
-      } else { // 若未指定布局且数据中有位置信息，则不进行布局，直接按照原数据坐标绘制。
-        return false;
-      }
-    } else {
-      if (nodes[0] && nodes[0].x === undefined) {
-        // 初始化位置
-        self.initPositions(layoutCfg.center, nodes);
-      }
-    }
+    const hasLayoutType = !!self.layoutType;
 
     let layoutMethod = self.layoutMethod;
     if (layoutMethod) {
       layoutMethod.destroy();
     }
 
+    graph.emit('beforelayout');
+    const allHavePos = self.initPositions(layoutCfg.center, nodes);
+    if (!self.layoutType && !allHavePos) self.layoutType = 'random';
     this._stopWorker();
     if (layoutCfg.workerEnabled && this._layoutWithWorker(self.data, success)) {
       // 如果启用布局web worker并且浏览器支持web worker，用web worker布局。否则回退到不用web worker布局。
       return true;
     }
 
-    if (layoutType === 'force') {
+    if (self.layoutType === 'force') {
       const onTick = layoutCfg.onTick;
       const tick = () => {
         onTick && onTick();
@@ -142,16 +132,19 @@ class LayoutController {
     }
 
     try {
-      layoutMethod = new Layout[layoutType](layoutCfg);
+      layoutMethod = new Layout[self.layoutType](layoutCfg);
     } catch (e) {
       console.warn('The layout method: ' + layoutCfg + ' does not exist! Please specify it first.');
       return false;
     }
     layoutMethod.init(self.data);
-    graph.emit('beforelayout');
-    layoutMethod.execute();
+    // 若存在节点没有位置信息，且没有设置 layout，在 initPositions 中 random 给出了所有节点的位置，不需要再次执行 random 布局
+    // 所有节点都有位置信息（代表不是第一次进行布局），或指定了 layout，则执行布局
+    if (allHavePos || hasLayoutType) {
+      layoutMethod.execute();
+    }
     self.layoutMethod = layoutMethod;
-    if (layoutType !== 'force') {
+    if (self.layoutType !== 'force') {
       graph.emit('afterlayout');
       self.refreshLayout();
     }
@@ -390,15 +383,25 @@ class LayoutController {
     });
   }
 
-  // 初始化节点到 center
+  // 初始化节点到 center 附近
   initPositions(center, nodes) {
+    const self = this;
+    const graph = self.graph;
     if (!nodes) {
       return;
     }
+    let allHavePos = true;
     nodes.forEach(node => {
-      node.x = center[0] + Math.random();
-      node.y = center[1] + Math.random();
+      if (isNaN(node.x)) {
+        allHavePos = false;
+        node.x = (Math.random() - 0.5) * 0.9 * graph.get('width') + center[0];
+      }
+      if (isNaN(node.y)) {
+        allHavePos = false;
+        node.y = (Math.random() - 0.5) * 0.9 * graph.get('height') + center[1];
+      }
     });
+    return allHavePos;
   }
 
   destroy() {
