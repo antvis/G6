@@ -29,7 +29,7 @@ const graph = new G6.Graph({
 });
 ```
 
-以上是模式定义的一个例子。在图上定义了两个模式，分别是 `default`，`edit`。其中 `default` 包含两个 [Behavior](/zh/docs/manual/middle/states/defaultBehavior)：`'drag-canvas'` 和 `'``zoom-canvas'`，都使用行为的默认参数。
+以上是模式定义的一个例子。在图上定义了两个模式，分别是 `default`，`edit`。其中 `default` 包含两个 [Behavior](/zh/docs/manual/middle/states/defaultBehavior)：`'drag-canvas'` 和 '`zoom-canvas'`，都使用行为的默认参数。
 
 ## 切换 Mode
 默认时 graph 会使用 `default` 模式 ，可以拖动和缩放画布，当需要点击选中节点时，可以通过 `graph.setMode('edit')` 来切换到 `edit` 的 Mode 。
