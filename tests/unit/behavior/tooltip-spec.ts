@@ -11,7 +11,7 @@ describe('tooltip', () => {
     width: 500,
     height: 500,
     pixelRatio: 2,
-    modes: { default: [] }
+    modes: { default: ['drag-node'] }
   });
   it('basic tooltip', () => {
     graph.addBehaviors({
@@ -21,9 +21,6 @@ describe('tooltip', () => {
     graph.emit('node:mouseenter', { canvasX: 52, canvasY: 52, item: node });
     const tooltip = div.childNodes[1] as HTMLElement;
     expect(tooltip).not.toBe(null);
-    const bbox = tooltip.getBoundingClientRect();
-    expect(bbox.width).toEqual(28.390625);
-    expect(bbox.height).toEqual(22);
     const style = tooltip.style;
     expect(style.position).toEqual('absolute');
     expect(style.left).toEqual('64px');
@@ -73,6 +70,6 @@ describe('tooltip', () => {
     }], 'default');
     graph.emit('node:mouseenter', { canvasX: 52, canvasY: 52, item: node });
     const tooltip = div.childNodes[1] as HTMLElement;
-    expect(tooltip.innerHTML).toEqual('custom label');
+    expect(tooltip.innerText).toEqual('custom label');
   });
 });
