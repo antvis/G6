@@ -42,13 +42,19 @@ export default {
         }
       }
       graph.setItemState(node, activeState, false);
-      inactiveState && graph.setItemState(node, inactiveState, true);
+      if (inactiveState) {
+        graph.setItemState(node, inactiveState, true);
+      }
     });
     graph.getEdges().forEach(function(edge) {
       graph.setItemState(edge, activeState, false);
-      inactiveState && graph.setItemState(edge, inactiveState, true);
+      if (inactiveState) {
+        graph.setItemState(edge, inactiveState, true);
+      }
     });
-    inactiveState && graph.setItemState(item, inactiveState, false);
+    if (inactiveState) {
+      graph.setItemState(item, inactiveState, false);
+    }
     graph.setItemState(item, activeState, true);
     graph.getEdges().forEach(function(edge) {
       if (edge.getSource() === item) {
@@ -61,7 +67,9 @@ export default {
             graph.setItemState(target, 'selected', false);
           }
         }
-        inactiveState && graph.setItemState(target, inactiveState, false);
+        if (inactiveState) {
+          graph.setItemState(target, inactiveState, false);
+        }
         graph.setItemState(target, activeState, true);
         graph.setItemState(edge, activeState, true);
         graph.setItemState(edge, inactiveState, false);
@@ -78,7 +86,9 @@ export default {
           }
         }
 
-        inactiveState && graph.setItemState(source, inactiveState, false);
+        if (inactiveState) {
+          graph.setItemState(source, inactiveState, false);
+        }
         graph.setItemState(source, activeState, true);
         graph.setItemState(edge, activeState, true);
         graph.setItemState(edge, inactiveState, false);
