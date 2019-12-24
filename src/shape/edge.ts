@@ -145,6 +145,7 @@ const singleEdge: ShapeOptions = {
     if (cfg.startPoint.x === cfg.endPoint.x && cfg.startPoint.y === cfg.endPoint.y) {
       style.x = cfg.startPoint.x + refX ? refX : 0;
       style.y = cfg.endPoint.y + refY ? refY : 0;
+      style.text = cfg.label
       return style;
     }
     const autoRotate = isNil(labelCfg.autoRotate) ? this.labelAutoRotate : labelCfg.autoRotate;
