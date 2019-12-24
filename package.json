@@ -27,7 +27,7 @@
     "lint": "lint-staged",
     "tslint": "tslint -c tslint.json 'src/**/*.ts'",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/behavior/",
+    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/behavior/tooltip-spec.ts",
     "coverage": "jest --coverage",
     "ci": "run-s build coverage",
     "doc": "rimraf apis && typedoc",
