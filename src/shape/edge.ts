@@ -117,7 +117,9 @@ const singleEdge: ShapeOptions = {
       path
     }, cfg.style);
 
-    shape && shape.attr(style)
+    if (shape) {
+      shape.attr(style)
+    }
   },
   getLabelStyleByPosition(cfg?: EdgeConfig, labelCfg?: ILabelConfig, group?: GGroup): LabelStyle {
     const labelPosition = labelCfg.position || this.labelPosition; // 文本的位置用户可以传入
@@ -151,6 +153,7 @@ const singleEdge: ShapeOptions = {
     style.y = offsetStyle.y;
     style.rotate = offsetStyle.rotate;
     style.textAlign = this._getTextAlign(labelPosition, offsetStyle.angle);
+    style.text = cfg.label
     return style;
   },
   // 获取文本对齐方式

@@ -45,6 +45,7 @@ export default {
     const events = this._events
     this.graph = graph
     each(events, (handler: () => void, event: G6Event) => {
+      console.log('binding event', event, handler);
       graph.on(event, handler)
     })
   },
