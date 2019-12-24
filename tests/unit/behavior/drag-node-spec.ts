@@ -26,6 +26,15 @@ describe('drag-node', () => {
       },
       pixelRatio: 2
     });
+    const data = {
+      nodes: [{
+        id: 'node',
+        x: 50,
+        y: 50
+      }]
+    };
+    graph.data(data);
+    graph.render();
     const node = graph.addItem('node', { color: '#666', x: 50, y: 50, r: 20, style: { lineWidth: 2, fill: '#666' } });
     graph.paint();
     graph.emit('node:dragstart', { x: 100, y: 100, item: node });

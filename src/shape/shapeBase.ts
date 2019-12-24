@@ -64,7 +64,7 @@ export const shapeBase: ShapeOptions = {
     return label
   },
   getLabelStyleByPosition(cfg?: ModelConfig, labelCfg?: ILabelConfig, group?: GGroup): LabelStyle {
-    return {};
+    return { text: cfg.label };
   },
 
   /**
@@ -75,7 +75,7 @@ export const shapeBase: ShapeOptions = {
    */
   getLabelStyle(cfg: ModelConfig, labelCfg, group: GGroup): LabelStyle {
     const calculateStyle = this.getLabelStyleByPosition(cfg, labelCfg, group)
-    calculateStyle.text = cfg.label
+    calculateStyle.text = cfg.label;
     const attrName = this.itemType + 'Label' // 取 nodeLabel，edgeLabel 的配置项
     const defaultStyle = Global[attrName] ? Global[attrName].style : null
     const labelStyle = Object.assign({}, defaultStyle, calculateStyle, labelCfg.style)
@@ -104,8 +104,9 @@ export const shapeBase: ShapeOptions = {
     const shapeClassName = this.itemType + CLS_SHAPE_SUFFIX
     const shape = group.find(element => { return element.get('className') === shapeClassName})
     const shapeStyle = deepMix({}, shape.attr(), cfg.style);
-    shape && shape.attr(shapeStyle)
-
+    if (shape) {
+      shape.attr(shapeStyle)
+    }
   },
 
   updateLabel(cfg: ModelConfig, item: Item) {
@@ -125,7 +126,7 @@ export const shapeBase: ShapeOptions = {
 
         // 获取位置信息
         const calculateStyle = this.getLabelStyleByPosition(cfg, labelCfg, group)
-        calculateStyle.text = cfg.label
+        calculateStyle.text = cfg.label;
         // 取 nodeLabel，edgeLabel 的配置项
         const cfgStyle = cfg.labelCfg ? cfg.labelCfg.style : undefined;
         // 需要融合当前 label 的样式 label.attr()。不再需要全局/默认样式，因为已经应用在当前的 label 上

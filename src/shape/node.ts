@@ -86,6 +86,7 @@ const singleNode: ShapeOptions = {
         }
         break
     }
+    style.text = cfg.label
     return style
   },
   drawShape(cfg: NodeConfig, group: GGroup): IShape {
@@ -268,7 +269,9 @@ const singleNode: ShapeOptions = {
       });
       // to ensure the label is on the top of all the shapes
       const labelShape = group.find(element => { return element.get('className') === `node-label`})
-      labelShape && labelShape.toFront();
+      if (labelShape) {
+        labelShape.toFront();
+      }
     }
   }
 }
