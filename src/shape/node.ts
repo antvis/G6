@@ -44,7 +44,7 @@ const singleNode: ShapeOptions = {
 
     // 默认的位置（最可能的情形），所以放在最上面
     if (labelPosition === 'center') {
-      return { x: 0, y: 0 }
+      return { x: 0, y: 0, text: cfg.label }
     }
 
     let offset = labelCfg.offset
