@@ -1,12 +1,8 @@
 import '../../../src/behavior'
 import '../../../src/shape'
-import Behavior from '../../../src/behavior/behavior'
-import { IBehavior } from '../../../src/interface/behavior';
 
 import Simulate from 'event-simulate';
 import Graph from '../../../src/graph/graph'
-// import { G } from '@antv/g/lib'
-
 
 const div = document.createElement('div');
 div.id = 'drag-spec';
@@ -79,6 +75,7 @@ describe('drag-node', () => {
     graph.emit('node:dragstart', { x: 100, y: 100, item: source });
     graph.emit('node:drag', { x: 120, y: 120, item: source });
     path = edge.get('group').get('children')[0].attr('path');
+    console.log('path', path)
     expect(path[0][1]).toEqual(57.77817459305202);
     expect(path[0][2]).toEqual(57.77817459305202);
     expect(path[1][1]).toEqual(289);

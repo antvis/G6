@@ -5,12 +5,12 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
 import { isArray, isNil } from '@antv/util/lib'
+import deepMix from '@antv/util/lib/deep-mix';
 import { ILabelConfig, ShapeOptions } from '@g6/interface/shape'
-import { LabelStyle, NodeConfig, Item } from '@g6/types'
+import { Item, LabelStyle, NodeConfig } from '@g6/types'
 import Global from '../global'
 import Shape from './shape'
 import { shapeBase } from './shapeBase'
-import deepMix from '@antv/util/lib/deep-mix';
 
 
 
@@ -106,12 +106,12 @@ const singleNode: ShapeOptions = {
   updateLinkPoints(cfg: NodeConfig, group: GGroup) {
     const { linkPoints: defaultLinkPoints } = this.options;
 
-    const markLeft = group.find(element => { return element.get('className') === 'link-point-left'})
-    const markRight= group.find(element => { return element.get('className') === 'link-point-right'})
-    const markTop = group.find(element => { return element.get('className') === 'link-point-top'})
-    const markBottom = group.find(element => { return element.get('className') === 'link-point-bottom'})
+    const markLeft = group.find(element => element.get('className') === 'link-point-left')
+    const markRight= group.find(element => element.get('className') === 'link-point-right')
+    const markTop = group.find(element => element.get('className') === 'link-point-top')
+    const markBottom = group.find(element => element.get('className') === 'link-point-bottom')
 
-    let currentLinkPoints = undefined;
+    let currentLinkPoints;
     if (markLeft) {
       currentLinkPoints = markLeft.attr();
     }

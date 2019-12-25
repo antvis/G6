@@ -6,13 +6,32 @@ import each from '@antv/util/lib/each'
 import isNil from '@antv/util/lib/is-nil';
 import wrapBehavior from '@antv/util/lib/wrap-behavior';
 import { IGraph } from '@g6/interface/graph';
-import { G6Event, IG6GraphEvent, Matrix } from '@g6/types';
+import { IG6GraphEvent, Matrix } from '@g6/types';
 import { cloneEvent } from '@g6/util/base';
 
 type Fun = () => void
 
 const ORIGIN_MATRIX = [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ];
 const MATRIX_LEN = 9;
+
+const EVENTS = [
+  'click',
+  'mousedown',
+  'mouseup',
+  'dblclick',
+  'contextmenu',
+  'mouseenter',
+  'mouseout',
+  'mouseover',
+  'mousemove',
+  'mouseleave',
+  'dragstart',
+  'dragend',
+  'drag',
+  'dragenter',
+  'dragleave',
+  'drop'
+];
 
 export default class EventController {
   private graph: IGraph
@@ -38,7 +57,7 @@ export default class EventController {
     const canvasHandler: Fun = wrapBehavior(self, 'onCanvasEvents') as Fun;
     const originHandler = wrapBehavior(self, 'onExtendEvents');
     const wheelHandler = wrapBehavior(self, 'onWheelEvent');
-    each(G6Event, event => {
+    each(EVENTS, event => {
       canvas.on(event, canvasHandler);
     });
     this.canvasHandler = canvasHandler;
@@ -224,7 +243,7 @@ export default class EventController {
     const extendEvents = this.extendEvents
     const canvas: Canvas = graph.get('canvas');
 
-    each(G6Event, event => {
+    each(EVENTS, event => {
       canvas.off(event, canvasHandler);
     });
 

@@ -1,6 +1,7 @@
 import { Point } from '@antv/g-base/lib/types';
 import { IGroup } from '@antv/g-canvas/lib/interfaces';
 import { mat3, transform, vec3 } from '@antv/matrix-util';
+import isArray from '@antv/util/lib/is-array'
 import { GraphData, ICircle, IEllipse, IRect, Matrix } from '@g6/types';
 
 /**
@@ -228,14 +229,14 @@ export const distance = (p1: Point, p2: Point): number => {
 /**
  * scale matrix
  * @param matrix [ [], [], [] ]
- * @param scale
+ * @param ratio
  */
-export const scaleMatrix = (matrix: Matrix[], scale: number) => {
+export const scaleMatrix = (matrix: Matrix[], ratio: number) => {
   const result: Matrix[] = [];
   matrix.forEach((row) => {
     const newRow: number[] = [];
     row.forEach((v) => {
-      newRow.push(v * scale);
+      newRow.push(v * ratio);
     });
     result.push(newRow);
   });
@@ -339,5 +340,43 @@ export const move = (group: IGroup, point: Point) => {
   ])
   group.set('x', point.x) // ??
   group.set('y', point.y) // ??
+  group.setMatrix(matrix)
+}
+
+/**
+ * 缩放 group
+ * @param group Group 实例
+ * @param point 在x 和 y 方向上的缩放比例
+ */
+export const scale = (group: IGroup, ratio: number | number[]) => {
+  let matrix: Matrix = group.getMatrix()
+
+  let scaleXY = ratio
+  if(!isArray(ratio)) {
+    scaleXY = [ratio, ratio]
+  }
+
+  if(isArray(ratio) && ratio.length === 0) {
+    scaleXY = [ratio[0], ratio[0]]
+  }
+
+  matrix = transform(matrix, [
+    ['s', scaleXY[0], scaleXY[1]]
+  ])
+
+  group.setMatrix(matrix)
+}
+
+/**
+ * 
+ * @param group Group 实例
+ * @param ratio 选择角度
+ */
+export const rotate = (group: IGroup, angle: number) => {
+  let matrix: Matrix = group.getMatrix()
+  matrix = transform(matrix, [
+    ['r', angle]
+  ])
+
   group.setMatrix(matrix)
 }

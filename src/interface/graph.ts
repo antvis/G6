@@ -391,7 +391,7 @@ export interface IGraph extends EventEmitter {
    * @param {string|Item} item 元素id或元素实例
    * @param {String[]} states 状态
    */
-  clearItemStates(item: Item, states: string[]): void;
+  clearItemStates(item: Item, states?: string[]): void;
 
   /**
    * 设置各个节点样式，以及在各种状态下节点 keyShape 的样式。

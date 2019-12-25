@@ -351,7 +351,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {string|Item} item 元素id或元素实例
    * @param {string[]} states 状态
    */
-  public clearItemStates(item: Item, states: string[]): void {
+  public clearItemStates(item: Item, states?: string[]): void {
     if(isString(item))  {
       item = this.findById(item)
     }
