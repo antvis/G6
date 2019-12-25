@@ -566,7 +566,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {number} toRatio 伸缩比例
    * @param {Point} center 以center的x, y坐标为中心缩放
    */
-  public zoomTo(toRatio: number, center: Point): void {
+  public zoomTo(toRatio: number, center?: Point): void {
     const ratio = toRatio / this.getZoom();
     this.zoom(ratio, center);
   }
