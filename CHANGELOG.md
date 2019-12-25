@@ -1,4 +1,8 @@
 # ChangeLog
+#### 3.3
+- Graph API
+  - delete removeEvent function, use off;
+  
 #### 3.1.5 
 * feat: supports g6 types file
 * fix: set brush-select trigger param to ctrl not work
