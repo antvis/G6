@@ -51,7 +51,9 @@ Layout.registerLayout('radial', {
       nodeSize: undefined,        // 节点直径
       nodeSpacing: undefined,     // 节点间距，防止节点重叠时节点之间的最小距离（两节点边缘最短距离）
       strictRadial: true,              // 是否必须是严格的 radial 布局，即每一层的节点严格布局在一个环上。preventOverlap 为 true 时生效。
-      maxPreventOverlapIteration: 200  // 防止重叠步骤的最大迭代次数
+      maxPreventOverlapIteration: 200, // 防止重叠步骤的最大迭代次数
+      sortBy: undefined,
+      sortStrength: 10
     };
   },
   /**
@@ -274,13 +276,24 @@ Layout.registerLayout('radial', {
     const radii = self.radii;
     const unitRadius = self.unitRadius;
     const result = [];
+    const nodes = self.nodes;
     D.forEach((row, i) => {
       const newRow = [];
       row.forEach((v, j) => {
         if (i === j) newRow.push(0);
         else if (radii[i] === radii[j]) { // i and j are on the same circle
-          if (self.sortBy === 'data') {
-            newRow.push(v * (Math.abs(i - j) * 10) / (radii[i] / unitRadius));
+          if (self.sortBy === 'data') { // sort the nodes on the same circle according to the ordering of the data
+            newRow.push(v * (Math.abs(i - j) * self.sortStrength) / (radii[i] / unitRadius));
+          } else if (self.sortBy) { // sort the nodes on the same circle according to the attributes
+            let iValue = nodes[i][self.sortBy] || 0;
+            let jValue = nodes[j][self.sortBy] || 0;
+            if (Util.isString(iValue)) {
+              iValue = iValue.charCodeAt(0);
+            }
+            if (Util.isString(jValue)) {
+              jValue = jValue.charCodeAt(0);
+            }
+            newRow.push(v * (Math.abs(iValue - jValue) * self.sortStrength) / (radii[i] / unitRadius));
           } else {
             newRow.push(v * linkDis / (radii[i] / unitRadius));
           }
