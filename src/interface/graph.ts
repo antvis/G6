@@ -233,7 +233,7 @@ export interface IGraph extends EventEmitter {
    * @param {number} toRatio 伸缩比例
    * @param {Point} center 以center的x, y坐标为中心缩放
    */
-  zoomTo(toRatio: number, center: Point): void;
+  zoomTo(toRatio: number, center?: Point): void;
 
   /**
    * 删除元素

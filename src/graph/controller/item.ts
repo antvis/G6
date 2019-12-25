@@ -153,7 +153,7 @@ export default class ItemController {
       // merge update传进来的对象参数，model中没有的数据不做处理，对象和字符串值也不做处理，直接替换原来的
       each(cfg, (val, key) => {
         if (model[key]) {
-          if (isObject(val) && isArray(val)) {
+          if (isObject(val) && !isArray(val)) {
             cfg[key] = Object.assign({}, model[key], cfg[key]);
           }
         }
