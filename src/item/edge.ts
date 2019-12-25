@@ -137,6 +137,7 @@ export default class Edge extends Item implements IEdge {
     const self = this;
     const linkCenter: boolean = self.get('linkCenter'); // 如果连接到中心，忽视锚点、忽视控制点
     const cfg: any = super.getShapeCfg(model);
+    
     if (linkCenter) {
       cfg.startPoint = self.getEndCenter('source');
       cfg.endPoint = self.getEndCenter('target');

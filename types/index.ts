@@ -97,7 +97,7 @@ export type ModelStyle = Partial<{
     clockwise?: boolean;
   };
   labelCfg?: object;
-  anchorPoints: IPoint[];
+  anchorPoints: number[][];
   controlPoints: IPoint[];
   size: number | number[];
   img: string;
@@ -168,7 +168,6 @@ export interface ModelConfig extends ModelStyle {
   y?: number;
   size?: number;
   controlPoints?: IPoint[];
-  anchorPoints?: IPoint[];
   color?: string;
   preRect?: object;
   logoIcon?: {

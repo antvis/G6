@@ -1,8 +1,8 @@
 
-import Shape from '../../../src/shape/shape'
 import Canvas from '@antv/g-canvas/lib/canvas';
 import '../../../src/shape/edge'
 import '../../../src/shape/edges'
+import Shape from '../../../src/shape/shape'
 
 const div = document.createElement('div');
 div.id = 'edge-shape';
