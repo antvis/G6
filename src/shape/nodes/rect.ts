@@ -36,7 +36,8 @@ Shape.registerNode('rect', {
       stroke: '#72CC4A'
     },
     // 连接点，默认为左右
-    anchorPoints: [{ x: 0, y: 0.5 }, { x: 1, y: 0.5 }]
+    // anchorPoints: [{ x: 0, y: 0.5 }, { x: 1, y: 0.5 }]
+    anchorPoints: [[0, 0.5], [1, 0.5]]
   },
   shapeType: 'rect',
   labelPosition: 'center',

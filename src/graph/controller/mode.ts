@@ -67,6 +67,7 @@ export default class ModeController {
       if (!BehaviorInstance) {
         return;
       }
+      
       behave = new BehaviorInstance(behavior);
       if(behave) {
         behave.bind(graph)

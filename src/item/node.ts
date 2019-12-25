@@ -127,11 +127,12 @@ export default class Node extends Item implements INode {
       const model: NodeConfig = this.get('model');
       const shapeCfg = this.getShapeCfg(model);
       const points = shapeFactory.getAnchorPoints(model.shape, shapeCfg) || [];
+      
       each(points, (pointArr, index) => {
         const point = mix({
-          x: bbox.minX + pointArr.x * bbox.width,
-          y: bbox.minY + pointArr.y * bbox.height
-        }, pointArr.anchorIndex, {
+          x: bbox.minX + pointArr[0] * bbox.width,
+          y: bbox.minY + pointArr[1] * bbox.height
+        }, pointArr[2], {
           index
         });
         anchorPoints.push(point);

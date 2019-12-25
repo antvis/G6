@@ -76,7 +76,8 @@ Shape.registerNode('modelRect', {
       offset: -5
     },
     // 连接点，默认为左右
-    anchorPoints: [{ x: 0, y: 0.5 }, { x: 1, y: 0.5 }]
+    // anchorPoints: [{ x: 0, y: 0.5 }, { x: 1, y: 0.5 }]
+    anchorPoints: [[0, 0.5], [1, 0.5]]
   },
   shapeType: 'modelRect',
   drawShape(cfg: NodeConfig, group: GGroup): IShape {
@@ -331,9 +332,9 @@ Shape.registerNode('modelRect', {
 
     const group = item.getContainer();
 
-    let labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
+    const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
 
-    const logoIconShape = group.find(element => { return element.get('className') === 'rect-logo-icon'})
+    const logoIconShape = group.find(element => element.get('className') === 'rect-logo-icon')
 
     const logoIcon = deepMix({}, logoIconShape.attr(), cfg.logoIcon);
 
