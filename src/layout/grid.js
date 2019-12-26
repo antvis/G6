@@ -76,24 +76,15 @@ Layout.registerLayout('grid', {
     layoutNodes.sort((n1, n2) => {
       return n2[self.sortBy] - n1[self.sortBy];
     });
-
-    let width = self.width;
-    if (!width && typeof window !== 'undefined') {
-      width = window.innerWidth;
+    if (!self.width && typeof window !== 'undefined') {
+      self.width = window.innerWidth;
     }
-    let height = self.height;
-    if (!height && typeof height !== 'undefined') {
-      height = window.innerHeight;
+    if (!self.height && typeof window !== 'undefined') {
+      self.height = window.innerHeight;
     }
-    // width/height * splits^2 = cells where splits is number of times to split width
-    self.cells = n;
-    self.splits = Math.sqrt(self.cells * self.height / self.width);
-    self.rows = Math.round(self.splits);
-    self.cols = Math.round(self.width / self.height * self.splits);
-
     const oRows = self.rows;
     const oCols = self.cols != null ? self.cols : self.columns;
-
+    self.cells = n;
     // if rows or columns were set in self, use those values
     if (oRows != null && oCols != null) {
       self.rows = oRows;
@@ -104,8 +95,14 @@ Layout.registerLayout('grid', {
     } else if (oRows == null && oCols != null) {
       self.cols = oCols;
       self.rows = Math.ceil(self.cells / self.cols);
-    } else if (self.cols * self.rows > self.cells) {
-    // otherwise use the automatic values and adjust accordingly
+    } else {
+      // otherwise use the automatic values and adjust accordingly
+      // width/height * splits^2 = cells where splits is number of times to split width
+      self.splits = Math.sqrt(self.cells * self.height / self.width);
+      self.rows = Math.round(self.splits);
+      self.cols = Math.round(self.width / self.height * self.splits);
+    }
+    if (self.cols * self.rows > self.cells) {
     // if rounding was up, see if we can reduce rows or columns
       const sm = self.small();
       const lg = self.large();
