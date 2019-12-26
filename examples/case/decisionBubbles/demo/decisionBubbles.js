@@ -1,8 +1,7 @@
 import G6 from '@antv/g6';
 const Util = G6.Util;
 /**
- * 该示例演示自定义边和节点实现资金流转图效果
- * by 十吾
+ * by Shiwu
  */
 let showNodes = [];
 let showEdges = [];
