@@ -10,7 +10,7 @@ import ShapeBase from '@antv/g-canvas/lib/shape/base';
 import { Point } from '@antv/g-canvas/lib/types';
 import deepMix from '@antv/util/lib/deep-mix'
 import isString from '@antv/util/lib/is-string'
-import { IG6GraphEvent, Item, ITEM_TYPE } from "@g6/types";
+import { GraphData, IG6GraphEvent, Item, ITEM_TYPE } from "@g6/types";
 import { IGraph } from '../../interface/graph'
 import { IEdge, INode } from '../../interface/item';
 
@@ -895,7 +895,7 @@ export default class CustomGroup {
 
     // 判断是否拖动出了parent group外面，如果拖出了parent Group外面，则更新数据，去掉group关联
     // 获取groupId的父Group的ID
-    const { groups } = graph.save();
+    const { groups } = graph.save() as GraphData;
     let parentGroupId = null;
     let parentGroupData = null;
     for (const group of groups) {
