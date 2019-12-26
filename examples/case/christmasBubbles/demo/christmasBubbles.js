@@ -612,7 +612,7 @@ graph.on('node:click', e => {
           if (tnode.id === nodeId) {
             node = tnode;
           }
-        })
+        });
         if (!node) return;
         const randomAngle = Math.random() * 2 * Math.PI;
         node.x =
@@ -657,7 +657,7 @@ graph.on('node:click', e => {
         if (edge.source === model.id || edge.target === model.id) {
           curShowEdges.push(edge);
         }
-      })
+      });
     }
     setTimeout(() => {
       graph.changeData({
