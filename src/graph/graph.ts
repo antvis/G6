@@ -13,9 +13,11 @@ import isString from '@antv/util/lib/is-string'
 import { GraphAnimateConfig, GraphOptions, IGraph, IModeOption, IModeType, IStates } from '@g6/interface/graph';
 import { IEdge, INode } from '@g6/interface/item';
 import { EdgeConfig, GraphData, GroupConfig, Item, ITEM_TYPE, Matrix, ModelConfig, NodeConfig, NodeMapConfig, Padding } from '@g6/types';
+import { getAllNodeInGroups } from '@g6/util/group';
 import { move, translate } from '@g6/util/math'
+import { groupBy } from '_@antv_util@2.0.6@@antv/util/lib';
 import Global from '../global'
-import { EventController, ItemController, ModeController, StateController, ViewController } from './controller'
+import { CustomGroup, EventController, ItemController, ModeController, StateController, ViewController } from './controller'
 
 const NODE = 'node'
 const EDGE = 'edge'
@@ -76,13 +78,15 @@ export default class Graph extends EventEmitter implements IGraph {
     const modeController = new ModeController(this)
     const itemController = new ItemController(this)
     const stateController = new StateController(this)
+    const customGroupControll = new CustomGroup(this)
 
     this.set({
       eventController,
       viewController,
       modeController,
       itemController,
-      stateController
+      stateController,
+      customGroupControll
     })
 
     // TODO  缺少初始化plugin的方法的实现
@@ -945,7 +949,51 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {string} groupType group类型
    */
   public renderCustomGroup(data: GraphData, groupType: string) {
-    
+    const { groups, nodes } = data;
+
+    // 第一种情况，，不存在groups，则不存在嵌套群组
+    let groupIndex = 10;
+    if (!groups) {
+      // 存在单个群组
+      // 获取所有有groupID的node
+      const nodeInGroup = nodes.filter(node => node.groupId);
+      const groupsArr = [];
+      // 根据groupID分组
+      const groupIds = groupBy(nodeInGroup, 'groupId');
+      // tslint:disable-next-line:forin
+      for (const groupId in groupIds) {
+        const nodeIds = groupIds[groupId].map(node => node.id);
+        this.get('customGroupControll').create(groupId, nodeIds, groupType, groupIndex);
+        groupIndex--;
+        // 获取所有不重复的 groupId
+        if (!groupsArr.find(d => d.id === groupId)) {
+          groupsArr.push({
+            id: groupId
+          });
+        }
+      }
+
+      this.set({
+        groups: groupsArr
+      });
+
+    } else {
+      // 将groups的数据存到groups中
+      this.set({ groups });
+
+      // 第二种情况，存在嵌套的群组，数据中有groups字段
+      const groupNodes = getAllNodeInGroups(data);
+      // tslint:disable-next-line:forin
+      for (const groupId in groupNodes) {
+        const tmpNodes = groupNodes[groupId];
+        this.get('customGroupControll').create(groupId, tmpNodes, groupType, groupIndex);
+        groupIndex--;
+      }
+
+      // 对所有Group排序
+      const customGroup = this.get('customGroup');
+      customGroup.sort();
+    }
   }
 
   /**
@@ -1296,7 +1344,8 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {string} groupId 分组ID
    */
   public collapseGroup(groupId: string): void {
-    this.get('customGroupControll').collapseGroup(groupId);
+    const customGroupControll: CustomGroup = this.get('customGroupControll')
+    customGroupControll.collapseGroup(groupId);
   }
 
   /**
@@ -1304,7 +1353,8 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {string} groupId 分组ID
    */
   public expandGroup(groupId: string): void {
-    this.get('customGroupControll').expandGroup(groupId);
+    const customGroupControll: CustomGroup = this.get('customGroupControll')
+    customGroupControll.expandGroup(groupId);
   }
 
   // TODO plugin 机制完善后再补充类型
@@ -1350,7 +1400,7 @@ export default class Graph extends EventEmitter implements IGraph {
     this.get('viewController').destroy();
     this.get('stateController').destroy();
     // this.get('layoutController').destroy();
-    // this.get('customGroupControll').destroy();
+    this.get('customGroupControll').destroy();
     this.get('canvas').destroy();
     this._cfg = null;
     this.destroyed = true;
