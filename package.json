@@ -31,7 +31,8 @@
     "coverage": "jest --coverage",
     "ci": "run-s build coverage",
     "doc": "rimraf apis && typedoc",
-    "dist": "webpack --config webpack.config.js --mode production"
+    "dist": "webpack --config webpack.config.js --mode production",
+    "demos": "start-storybook"
   },
   "dependencies": {
     "@antv/dom-util": "^2.0.1",
@@ -46,7 +47,10 @@
   },
   "devDependencies": {
     "@antv/gatsby-theme-antv": "^0.9.25",
+    "@babel/core": "^7.7.7",
     "@types/jest": "^24.0.18",
+    "babel-loader": "^8.0.6",
+    "event-simulate": "~1.0.0",
     "gatsby": "^2.17.9",
     "gh-pages": "^2.1.1",
     "husky": "^3.0.4",
@@ -67,8 +71,7 @@
     "typedoc-plugin-markdown": "^2.2.11",
     "typescript": "^3.5.3",
     "webpack": "^4.41.4",
-    "webpack-cli": "^3.3.10",
-    "event-simulate": "~1.0.0"
+    "webpack-cli": "^3.3.10"
   },
   "husky": {
     "hooks": {

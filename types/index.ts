@@ -239,7 +239,8 @@ export interface TreeGraphData {
   x?: number;
   y?: number;
   children?: TreeGraphData[];
-  [key: string]: string | number | TreeGraphData[] | undefined;
+  depth?: number;
+  data?: TreeGraphData;
 }
 
 // Behavior type file
