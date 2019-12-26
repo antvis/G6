@@ -2,7 +2,7 @@ import { Point } from '@antv/g-base/lib/types';
 import Hierarchy from '@antv/hierarchy'
 import { each, isString } from '@antv/util/lib';
 import { GraphOptions, ITreeGraph } from '@g6/interface/graph';
-import { GraphData, Item, ITEM_TYPE, ShapeStyle, TreeGraphData } from '@g6/types';
+import { GraphData, Item, ITEM_TYPE, ModelConfig, ShapeStyle, TreeGraphData } from '@g6/types';
 import { radialLayout } from '@g6/util/graphic';
 import { traverseTree } from '@g6/util/graphic'
 import { ViewController } from './controller';
@@ -54,7 +54,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
    * @param children 树图数据
    * @param child 树图中某一个 Item 的数据
    */
-  private indexOfChild(children: TreeGraphData[], child: TreeGraphData): number {
+  private indexOfChild(children: TreeGraphData[], child: ModelConfig): number {
     let index = -1;
     each(children, (former, i) => {
       if (child.id === former.id) {
@@ -318,7 +318,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
     const parent = node.get('parent');
     if (parent && !parent.destroyed) {
       const siblings = self.findDataById(parent.get('id')).children;
-      const model: TreeGraphData = node.getModel() as TreeGraphData
+      const model = node.getModel()
 
       const index = self.indexOfChild(siblings, model);
       siblings.splice(index, 1);
