@@ -240,7 +240,7 @@ export interface TreeGraphData {
   y?: number;
   children?: TreeGraphData[];
   depth?: number;
-  data?: TreeGraphData;
+  data?: ModelConfig;
 }
 
 // Behavior type file
