@@ -179,6 +179,7 @@ export interface ModelConfig extends ModelStyle {
   direction?: string;
   startPoint?: IPoint;
   endPoint?: IPoint;
+  children?: TreeGraphData[];
 }
 export interface NodeConfig extends ModelConfig {
   id: string;
