@@ -32,18 +32,19 @@ const EVENTS = [
   'dragleave',
   'drop'
 ];
-
 export default class EventController {
   private graph: IGraph
   private extendEvents: any[]
   private canvasHandler: Fun;
   private dragging: boolean
   private preItem
+  public destroyed: boolean
 
   constructor(graph: IGraph) {
     this.graph = graph
     this.extendEvents = []
     this.dragging = false
+    this.destroyed = false
     this.initEvents()
   }
 
@@ -255,6 +256,7 @@ export default class EventController {
     this.preItem = null
     this.extendEvents.length = 0
     this.canvasHandler = null
+    this.destroyed = true
   }
 }
 
