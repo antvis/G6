@@ -15,7 +15,7 @@ import { IEdge, INode } from '@g6/interface/item';
 import { EdgeConfig, GraphData, GroupConfig, Item, ITEM_TYPE, Matrix, ModelConfig, NodeConfig, NodeMapConfig, Padding, TreeGraphData } from '@g6/types';
 import { getAllNodeInGroups } from '@g6/util/group';
 import { move, translate } from '@g6/util/math'
-import { groupBy } from '_@antv_util@2.0.6@@antv/util/lib';
+import { groupBy } from 'lodash';
 import Global from '../global'
 import { CustomGroup, EventController, ItemController, ModeController, StateController, ViewController } from './controller'
 
