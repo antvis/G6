@@ -285,7 +285,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
       return;
     }
 
-    const parentModel: TreeGraphData = self.findById(parent).getModel() as TreeGraphData;
+    const parentModel = self.findById(parent).getModel();
 
     const current = self.findById(data.id);
     // 如果不存在该节点，则添加
