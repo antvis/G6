@@ -75,6 +75,8 @@ lib
 *.cache
 public
 
+esm
+
 # 忽略三个 webworker Layout 的单测，因为找不到build/g6
 # web-worker-spec.js
 # force-web-worker-spec.js
