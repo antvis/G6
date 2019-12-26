@@ -2,7 +2,7 @@ import { Point } from '@antv/g-base/lib/types';
 import Hierarchy from '@antv/hierarchy'
 import { each, isString } from '@antv/util/lib';
 import { GraphOptions, ITreeGraph } from '@g6/interface/graph';
-import { GraphData, Item, ITEM_TYPE, ModelConfig, ShapeStyle, TreeGraphData } from '@g6/types';
+import { GraphData, Item, ITEM_TYPE, NodeConfig, ShapeStyle, TreeGraphData } from '@g6/types';
 import { radialLayout } from '@g6/util/graphic';
 import { traverseTree } from '@g6/util/graphic'
 import { ViewController } from './controller';
@@ -54,10 +54,10 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
    * @param children 树图数据
    * @param child 树图中某一个 Item 的数据
    */
-  private indexOfChild(children: TreeGraphData[], child: ModelConfig): number {
+  private indexOfChild(children: TreeGraphData[], id: string): number {
     let index = -1;
     each(children, (former, i) => {
-      if (child.id === former.id) {
+      if (id === former.id) {
         index = i;
         return false;
       }
@@ -148,7 +148,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
         for (let i = children.length - 1; i >= 0; i--) {
           const child = children[i].getModel();
 
-          if (self.indexOfChild(data.children, child) === -1) {
+          if (self.indexOfChild(data.children, child.id) === -1) {
             self.innerRemoveChild(child.id, {
               x: data.x,
               y: data.y
@@ -297,7 +297,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
         parentModel.children.push(data);
       }
     } else {
-      const index = self.indexOfChild(parentModel.children, data);
+      const index = self.indexOfChild(parentModel.children, data.id);
       parentModel.children[index] = data;
     }
     self.changeData();
@@ -318,9 +318,9 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
     const parent = node.get('parent');
     if (parent && !parent.destroyed) {
       const siblings = self.findDataById(parent.get('id')).children;
-      const model = node.getModel()
+      const model: NodeConfig = node.getModel() as NodeConfig
 
-      const index = self.indexOfChild(siblings, model);
+      const index = self.indexOfChild(siblings, model.id);
       siblings.splice(index, 1);
     }
     self.changeData();
