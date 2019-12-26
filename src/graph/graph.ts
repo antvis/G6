@@ -12,7 +12,7 @@ import isPlainObject from '@antv/util/lib/is-plain-object';
 import isString from '@antv/util/lib/is-string'
 import { GraphAnimateConfig, GraphOptions, IGraph, IModeOption, IModeType, IStates } from '@g6/interface/graph';
 import { IEdge, INode } from '@g6/interface/item';
-import { EdgeConfig, GraphData, GroupConfig, Item, ITEM_TYPE, Matrix, ModelConfig, NodeConfig, NodeMapConfig, Padding } from '@g6/types';
+import { EdgeConfig, GraphData, GroupConfig, Item, ITEM_TYPE, Matrix, ModelConfig, NodeConfig, NodeMapConfig, Padding, TreeGraphData } from '@g6/types';
 import { getAllNodeInGroups } from '@g6/util/group';
 import { move, translate } from '@g6/util/math'
 import { groupBy } from '_@antv_util@2.0.6@@antv/util/lib';
@@ -26,7 +26,7 @@ interface IGroupBBox {
   [key:string]: BBox;
 }
 
-interface PrivateGraphOption extends GraphOptions {
+export interface PrivateGraphOption extends GraphOptions {
   data: GraphData;
 
   // capture event
@@ -774,7 +774,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * 设置视图初始化数据
    * @param {GraphData} data 初始化数据
    */
-  public data(data: GraphData): void {
+  public data(data?: GraphData | TreeGraphData): void {
     this.set('data', data)
   }
 
@@ -893,7 +893,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {object} data 源数据
    * @return {object} this
    */
-  public changeData(data: GraphData): Graph {
+  public changeData(data?: GraphData | TreeGraphData): Graph {
     const self = this;
 
     if (!data) {
@@ -915,8 +915,8 @@ export default class Graph extends EventEmitter implements IGraph {
 
     this.setAutoPaint(false);
 
-    this.diffItems(ITEM_TYPE.NODE, items, data.nodes);
-    this.diffItems(ITEM_TYPE.EDGE, items, data.edges);
+    this.diffItems(ITEM_TYPE.NODE, items, (data as GraphData).nodes);
+    this.diffItems(ITEM_TYPE.EDGE, items, (data as GraphData).edges);
     
     each(itemMap, (item: INode, id: number) => {
       if (items.nodes.indexOf(item) < 0 && items.edges.indexOf(item) < 0) {
@@ -1000,7 +1000,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * 导出图数据
    * @return {object} data
    */
-  public save(): GraphData {
+  public save(): TreeGraphData | GraphData {
     const nodes = [];
     const edges = [];
     each(this.get('nodes'), (node: INode) => {

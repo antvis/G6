@@ -1,7 +1,7 @@
 import EventEmitter from '@antv/event-emitter';
 import { AnimateCfg, Point } from '@antv/g-base/lib/types';
 import Graph from '@g6/graph/graph';
-import { EdgeConfig, GraphData, IG6GraphEvent, Item, ITEM_TYPE, ModelConfig, ModelStyle, NodeConfig, Padding, ShapeStyle } from '@g6/types'
+import { EdgeConfig, GraphData, IG6GraphEvent, Item, ITEM_TYPE, ModelConfig, ModelStyle, NodeConfig, Padding, ShapeStyle, TreeGraphData } from '@g6/types'
 import { IEdge, INode } from './item';
 
 export interface IModeOption {
@@ -278,7 +278,7 @@ export interface IGraph extends EventEmitter {
    * 设置视图初始化数据
    * @param {GraphData} data 初始化数据
    */
-  data(data: GraphData): void;
+  data(data?: GraphData | TreeGraphData): void;
 
   /**
    * 当源数据在外部发生变更时，根据新数据刷新视图。但是不刷新节点位置
@@ -370,13 +370,13 @@ export interface IGraph extends EventEmitter {
    * @param {GraphData} data 源数据
    * @return {object} this
    */
-  changeData(data: GraphData): Graph;
+  changeData(data?: GraphData | TreeGraphData): Graph;
 
   /**
    * 导出图数据
    * @return {GraphData} data
    */
-  save(): GraphData;
+  save(): TreeGraphData | GraphData;
 
   /**
    * 改变画布大小
@@ -502,4 +502,52 @@ export interface IGraph extends EventEmitter {
    * 销毁画布
    */
   destroy(): void;
+}
+
+export interface ITreeGraph extends IGraph {
+  /**
+   * 添加子树到对应 id 的节点
+   * @param {TreeGraphData} data 子树数据模型
+   * @param {string | Item} parent 子树的父节点id
+   */
+  addChild(data: TreeGraphData, parent: string | Item): void;
+
+  /**
+   * 更新源数据，差量更新子树
+   * @param {TreeGraphData} data 子树数据模型
+   * @param {string} parent 子树的父节点id
+   */
+  updateChild(data: TreeGraphData, parent: string): void;
+
+  /**
+   * 删除子树
+   * @param {string} id 子树根节点id
+   */
+  removeChild(id: string): void;
+
+  /**
+   * 根据id获取对应的源数据
+   * @param {string} id 元素id
+   * @param {TreeGraphData | undefined} parent 从哪个节点开始寻找，为空时从根节点开始查找
+   * @return {TreeGraphData} 对应源数据
+   */
+  findDataById(id: string, parent?: TreeGraphData | undefined): TreeGraphData;
+
+  /**
+   * 布局动画接口，用于数据更新时做节点位置更新的动画
+   * @param {TreeGraphData} data 更新的数据
+   * @param {function} onFrame 定义节点位置更新时如何移动
+   */
+  layoutAnimate(data: TreeGraphData, onFrame?: (item: Item, ratio: number, originAttrs?: ShapeStyle, data?: TreeGraphData) => unknown): void;
+
+  /**
+   * 立即停止布局动画
+   */
+  stopLayoutAnimate(): void;
+
+  /**
+   * 是否在布局动画
+   * @return {boolean} 是否有布局动画
+   */
+  isLayoutAnimating(): boolean;
 }
