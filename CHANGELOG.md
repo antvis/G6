@@ -1,4 +1,9 @@
 # ChangeLog
+#### 3.2.5
+* feat: supports sort the nodes on one circle according to the data ordering or some attribute in radial layout
+* fix: grid layout with cols and rows
+* feat: fix the nodes with position information in their original data and random the positions of others when the layout is not defined for graph
+
 #### 3.2.3
 * fix: group position error
 * fix: supports not set layout type
