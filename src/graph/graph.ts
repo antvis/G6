@@ -495,7 +495,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * 调整视口适应视图
    * @param {object} padding 四周围边距
    */
-  public fitView(padding: Padding): void {
+  public fitView(padding?: Padding): void {
     if (padding) {
       this.set('fitViewPadding', padding);
     }

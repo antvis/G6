@@ -226,7 +226,7 @@ export interface IGraph extends EventEmitter {
    * 调整视口适应视图
    * @param {Padding} padding 四周围边距
    */
-  fitView(padding: Padding): void;
+  fitView(padding?: Padding): void;
 
   /**
    * 伸缩视口到一固定比例
