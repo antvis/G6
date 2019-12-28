@@ -279,6 +279,7 @@ class CustomGroup {
         maxy = maxY;
       }
     }
+    // hxy 可新增无节点group，适用于图编辑场景
     minx = minx === Infinity ? 100 : minx;
     miny = miny === Infinity ? 100 : miny;
     maxx = maxx === -Infinity ? 200 : maxx;
