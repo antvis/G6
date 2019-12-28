@@ -90,7 +90,6 @@ module.exports = {
       const nodeId = node.get('id');
       return currentNodeId === nodeId;
     });
-
     // 只拖动当前节点
     if (dragNodes.length === 0) {
       this.target = item;
@@ -135,7 +134,6 @@ module.exports = {
     if (!this.get('shouldUpdate').call(this, e)) {
       return;
     }
-
     // 当targets中元素时，则说明拖动的是多个选中的元素
     if (this.targets.length > 0) {
       this._updateDelegate(e);
@@ -149,10 +147,10 @@ module.exports = {
       if (groupId) {
         const customGroupControll = graph.get('customGroupControll');
         const customGroup = customGroupControll.getDeletageGroupById(groupId);
+
         if (customGroup) {
           const { nodeGroup: currentGroup } = customGroup;
           const keyShape = currentGroup.get('keyShape');
-
           // 当前
           if (this.inGroupId !== groupId) {
             customGroupControll.setGroupStyle(keyShape, 'default');
@@ -222,15 +220,18 @@ module.exports = {
 
       const itemBBox = item.getBBox();
       const currentGroupBBox = keyShape.getBBox();
-
-      const { x, y } = itemBBox;
+      // hxy 节点超出group是中心位置超出group 范围，不应该以左上角的x,y
+      const { centerX, centerY } = itemBBox;
       const { minX, minY, maxX, maxY } = currentGroupBBox;
 
       // 在自己的group中拖动，判断是否拖出了自己的group
       // this.inGroupId !== groupId，则说明拖出了原来的group，拖到了其他group上面，
       // 则删除item中的groupId字段，同时删除group中的nodeID
       if (
-          !(x < maxX * this.maxMultiple && x > minX * this.minMultiple && y < maxY * this.maxMultiple && y > minY * this.minMultiple)
+          !(centerX < maxX * this.maxMultiple &&
+            centerX > minX * this.minMultiple &&
+            centerY < maxY * this.maxMultiple &&
+            centerY > minY * this.minMultiple)
           || this.inGroupId !== groupId) {
         // 拖出了group，则删除item中的groupId字段，同时删除group中的nodeID
         const currentGroupNodes = groupNodes[groupId];
@@ -240,6 +241,9 @@ module.exports = {
 
         // 同时删除groupID中的节点
         delete model.groupId;
+      } else {
+        // hxy 节点在 group 范围内，更新group位置大小
+        customGroupControll.dynamicChangeGroupSize(evt, currentGroup, keyShape);
       }
        // 拖动到其他的group上面
       if (this.inGroupId !== groupId) {
