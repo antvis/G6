@@ -3,7 +3,7 @@
  * @author shiwu.wyy@antfin.com
  */
 
-import { IPointTuple, Matrix } from '@g6/types';
+import { IPointTuple } from '@g6/types';
 
 import Numeric from 'numericjs';
 import { floydWarshall, getAdjMatrix, scaleMatrix } from '../util/math';
@@ -18,8 +18,6 @@ export default class MDSLayout extends BaseLayout {
   /** 边长度 */
   public linkDistance: number;
 
-  // FIXME: 虽然记录了但是 unused，这种情况在 layout 中普遍存在
-  private distances: Matrix[];
   private scaledDistances;
 
   public getDefaultCfg() {
@@ -47,7 +45,6 @@ export default class MDSLayout extends BaseLayout {
     const adjMatrix = getAdjMatrix({ nodes, edges }, false);
     const distances = floydWarshall(adjMatrix);
     self.handleInfinity(distances);
-    self.distances = distances;
 
     // scale the ideal edge length acoording to linkDistance
     const scaledD = scaleMatrix(distances, linkDistance);

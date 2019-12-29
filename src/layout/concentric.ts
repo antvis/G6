@@ -15,7 +15,6 @@ type Node = NodeConfig & {
   size: number | number[];
 };
 type Edge = EdgeConfig;
-type NodeMap = Map<string, Node>;
 type NodeIdxMap = Map<string, string>;
 
 function getDegree(n: number, nodeIdxMap: NodeIdxMap, edges: Edge[]) {
@@ -62,7 +61,6 @@ export default class ConcentricLayout extends BaseLayout {
 
   private maxValueNode: number;
   private counterclockwise: boolean;
-  private nodeMap: NodeMap;
 
   public getDefaultCfg() {
     return {
@@ -124,7 +122,6 @@ export default class ConcentricLayout extends BaseLayout {
       nodeMap.set(node.id, node);
       nodeIdxMap.set(node.id, i);
     });
-    self.nodeMap = nodeMap;
 
     // get the node degrees
     if (self.sortBy === 'degree' || !isString(self.sortBy) || layoutNodes[0][self.sortBy] === undefined) {

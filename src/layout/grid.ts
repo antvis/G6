@@ -17,7 +17,6 @@ type Edge = EdgeConfig;
 
 type NodeIndexMap = Map<string, string>;
 
-// TODO: 这个函数多次出现了，可以抽一下 utils
 function getDegree(n: number, nodeIdxMap: NodeIndexMap, edges: Edge[]) {
   const degrees = [];
   for (let i = 0; i < n; i++) {
@@ -194,8 +193,8 @@ export default class GridLayout extends BaseLayout {
           node.y = 0;
         }
 
-        let nodew;
-        let nodeh;
+        let nodew: number;
+        let nodeh: number;
         if (isNaN(node.size)) {
           nodew = node.size[0];
           nodeh = node.size[1];
@@ -296,12 +295,12 @@ export default class GridLayout extends BaseLayout {
     return res;
   }
 
-  private used(row, col) {
+  private used(row: number, col: number) {
     const self = this;
     return self.cellUsed['c-' + row + '-' + col] || false;
   }
 
-  private use(row, col) {
+  private use(row: number, col: number) {
     const self = this;
     self.cellUsed['c-' + row + '-' + col] = true;
   }
