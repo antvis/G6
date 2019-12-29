@@ -3,7 +3,7 @@ import { EdgeConfig, GraphData, IPointTuple, NodeConfig } from '@g6/types';
 /**
  * 布局
  */
-export interface ILayout<Cfg> {
+export interface ILayout<Cfg = any> {
   /** 节点 */
   nodes: NodeConfig[];
   /** 边 */
@@ -15,7 +15,6 @@ export interface ILayout<Cfg> {
 
   /**
    * 定义自定义行为的默认参数，会与用户传入的参数进行合并
-   * TODO: 这个不如换成 constructor ?
    */
   getDefaultCfg(): void;
   /**
