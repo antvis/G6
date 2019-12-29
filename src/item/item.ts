@@ -4,7 +4,8 @@ import isNil from '@antv/util/lib/is-nil';
 import isPlainObject from '@antv/util/lib/is-plain-object'
 import isString from '@antv/util/lib/is-string'
 import uniqueId from '@antv/util/lib/unique-id'
-import { IItem, IItemConfig } from "@g6/interface/item";
+import { IItemBase, IItemBaseConfig } from "@g6/interface/item";
+import Shape from '@g6/shape/shape';
 import { IBBox, IPoint, IShapeBase, ModelConfig, ModelStyle, ShapeStyle } from '@g6/types';
 import { getBBox } from '@g6/util/graphic';
 import { translate } from '@g6/util/math';
@@ -13,10 +14,10 @@ const CACHE_BBOX = 'bboxCache';
 
 const RESERVED_STYLES = [ 'fillStyle', 'strokeStyle', 
   'path', 'points', 'img', 'symbol' ];
-
-export default  class Item implements IItem {
-  public _cfg: IItemConfig = {}
-  private defaultCfg: IItemConfig = {
+  
+export default class ItemBase implements IItemBase {
+  public _cfg: IItemBaseConfig = {}
+  private defaultCfg: IItemBaseConfig = {
     /**
      * id
      * @type {string}
@@ -77,7 +78,7 @@ export default  class Item implements IItem {
 
   public destroyed: boolean = false
 
-  constructor(cfg: IItemConfig) {
+  constructor(cfg: IItemBaseConfig) {
     this._cfg = Object.assign(this.defaultCfg, this.getDefaultCfg(), cfg)
     const group = cfg.group
     group.set('item', this)
@@ -90,6 +91,9 @@ export default  class Item implements IItem {
 
     this.set('id', id)
     group.set('id', id)
+
+    const stateStyles = this.get('model').stateStyles;
+    this.set('stateStyles', stateStyles);
 
     this.init()
     this.draw()
@@ -128,6 +132,7 @@ export default  class Item implements IItem {
     self.updatePosition(model);
     const cfg = self.getShapeCfg(model); // 可能会附加额外信息
     const shapeType: string = cfg.shape;
+
     const keyShape: IShapeBase = shapeFactory.draw(shapeType, cfg, group);
     if (keyShape) {
       keyShape.isKeyShape = true;
@@ -154,8 +159,8 @@ export default  class Item implements IItem {
 
   protected init() {
     // TODO 实例化工厂方法，需要等 Shape 重构完成
-    // const shapeFactory = Shape.getFactory(this.get('type'));
-    // this.set('shapeFactory', shapeFactory);
+    const shapeFactory = Shape.getFactory(this.get('type'));
+    this.set('shapeFactory', shapeFactory);
   }
 
   /**
@@ -254,8 +259,7 @@ export default  class Item implements IItem {
    * @param state 状态名称
    */
   public getStateStyle(state: string) {
-    const type: string = this.getType()
-    const styles = this.get(`${type}StateStyles`);
+    const styles = this.get('styles');
     const stateStyle = styles && styles[state];
     return stateStyle;
   }
@@ -445,6 +449,7 @@ export default  class Item implements IItem {
     // 2. 更新后的 shape 等于原先的 shape
     if (shapeFactory.shouldUpdate(shape) && shape === this.get('currentShape')) {
       const updateCfg = this.getShapeCfg(model);
+
       shapeFactory.update(shape, updateCfg, this);
     } else {
       // 如果不满足上面两种状态，重新绘制

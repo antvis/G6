@@ -5,8 +5,9 @@ import Behavior from '@g6/behavior/behavior'
 import { IBehavior } from '@g6/interface/behavior';
 import { IGraph, IMode, IModeType } from '@g6/interface/graph';
 
-export default class Mode {
+export default class ModeController {
   private graph: IGraph
+  public destroyed: boolean
   /**
    * modes = {
    *  default: [ 'drag-node', 'zoom-canvas' ],
@@ -33,6 +34,7 @@ export default class Mode {
   private currentBehaves: IBehavior[]
   constructor(graph: IGraph) {
     this.graph = graph
+    this.destroyed = false
     this.modes = graph.get('modes') || {
       default: []
     }
@@ -65,6 +67,7 @@ export default class Mode {
       if (!BehaviorInstance) {
         return;
       }
+      
       behave = new BehaviorInstance(behavior);
       if(behave) {
         behave.bind(graph)
@@ -102,7 +105,7 @@ export default class Mode {
     return result;
   }
 
-  public setMode(mode: string): Mode {
+  public setMode(mode: string): ModeController {
     const modes = this.modes;
     const graph = this.graph;
     const current = mode
@@ -134,7 +137,7 @@ export default class Mode {
    * @returns {Mode}
    * @memberof Mode
    */
-  public manipulateBehaviors(behaviors: IModeType[] | IModeType, modes: string[] | string, isAdd: boolean): Mode {
+  public manipulateBehaviors(behaviors: IModeType[] | IModeType, modes: string[] | string, isAdd: boolean): ModeController {
     const self = this
     let behaves = behaviors
     if(!isArray(behaviors)) {
@@ -181,4 +184,10 @@ export default class Mode {
     return this
   }
 
+  public destroy() {
+    this.graph = null;
+    this.modes = null;
+    this.currentBehaves = null;
+    this.destroyed = true;
+  }
 }

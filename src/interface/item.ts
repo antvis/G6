@@ -1,10 +1,11 @@
-import Group from "@antv/g-canvas/lib/group";
-import { IBBox, IPoint, IShapeBase, ModelConfig, NodeConfig, ShapeStyle } from '@g6/types'
+import { IGroup } from '@antv/g-base/lib/interfaces';
 import { Point } from '@antv/g-base/lib/types';
+import Group from "@antv/g-canvas/lib/group";
+import { IBBox, IPoint, IShapeBase, Item, ModelConfig, ModelStyle, ShapeStyle } from '@g6/types'
 
 
 // item 的配置项
-export type IItemConfig = Partial<{
+export type IItemBaseConfig = Partial<{
   /**
    * id
    */
@@ -23,7 +24,7 @@ export type IItemConfig = Partial<{
   /**
    * G Group
    */
-  group: Group;
+  group: IGroup;
 
   /**
    * is open animate
@@ -53,10 +54,19 @@ export type IItemConfig = Partial<{
    */
   states: string[];
 
+  /**
+   * Item 的样式
+   */
+  styles: ModelStyle;
+
+  source: string | Item;
+  target: string | Item;
+
+  linkCenter: boolean;
 }>
 
-export interface IItem {
-  _cfg: IItemConfig;
+export interface IItemBase {
+  _cfg: IItemBaseConfig;
 
   destroyed: boolean;
 
@@ -192,11 +202,13 @@ export interface IItem {
 
   isOnlyMove(cfg: ModelConfig): boolean;
 
-  get<T>(key: string): T;
-  set<T>(key: string, value: T): void;
+  get<T = any>(key: string): T;
+  set<T = any>(key: string, value: T): void;
+
+  destroy(): void;
 }
 
-export interface IEdge {
+export interface IEdge extends IItemBase {
   setSource(source: INode): void;
   setTarget(target: INode): void;
   getSource(): INode;
@@ -204,7 +216,7 @@ export interface IEdge {
 
 }
 
-export interface INode {
+export interface INode extends IItemBase {
   /**
    * 获取从节点关联的所有边
    * @return {Array} 边的集合

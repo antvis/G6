@@ -1,7 +1,9 @@
 import Shape from '../shape'
 import deepMix from '@antv/util/lib/deep-mix';
 import Global from '../../global'
-import { ModelConfig } from '@g6/types'
+import GGroup from '@antv/g-canvas/lib/group';
+import { IShape } from '@antv/g-canvas/lib/interfaces'
+import { ModelConfig, NodeConfig, Item } from '@g6/types'
 
 // 菱形shape
 Shape.registerNode('triangle', {
@@ -20,16 +22,6 @@ Shape.registerNode('triangle', {
         fill: '#595959'
       },
       offset: 15
-    },
-    stateStyles: {
-      // 鼠标hover状态下的配置
-      hover: {
-        fillOpacity: 0.8
-      },
-      // 选中节点状态下的配置
-      selected: {
-        lineWidth: 3
-      }
     },
     // 节点上左右上下四个方向上的链接circle配置
     linkPoints: {
@@ -57,7 +49,7 @@ Shape.registerNode('triangle', {
   shapeType: 'triangle',
   // 文本位置
   labelPosition: 'bottom',
-  drawShape(cfg, group) {
+  drawShape(cfg: NodeConfig, group: GGroup): IShape {
     const { icon: defaultIcon, direction: defaultDirection } = this.options;
     const style = this.getShapeStyle(cfg);
     const icon = deepMix({}, defaultIcon, cfg.icon);
@@ -99,7 +91,7 @@ Shape.registerNode('triangle', {
    * @param {Object} cfg data数据配置项
    * @param {Group} group Group实例
    */
-  drawLinkPoints(cfg, group) {
+  drawLinkPoints(cfg: NodeConfig, group: GGroup) {
     const { linkPoints: defaultLinkPoints, direction: defaultDirection } = this.options;
     const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
 
@@ -132,7 +124,7 @@ Shape.registerNode('triangle', {
             y: leftPos[1],
             r: markSize
           },
-          className: 'triangle-mark-left'
+          className: 'link-point-left'
         });
       }
     }
@@ -159,7 +151,7 @@ Shape.registerNode('triangle', {
             y: rightPos[1],
             r: markSize
           },
-          className: 'triangle-mark-right'
+          className: 'link-point-right'
         });
       }
     }
@@ -186,7 +178,7 @@ Shape.registerNode('triangle', {
             y: topPos[1],
             r: markSize
           },
-          className: 'triangle-mark-top'
+          className: 'link-point-top'
         });
       }
     }
@@ -213,7 +205,7 @@ Shape.registerNode('triangle', {
             y: bottomPos[1],
             r: markSize
           },
-          className: 'triangle-mark-bottom'
+          className: 'link-point-bottom'
         });
       }
     }
@@ -263,7 +255,7 @@ Shape.registerNode('triangle', {
    * @param {Object} cfg 节点数据模型
    * @return {Object} 节点的样式
    */
-  getShapeStyle(cfg) {
+  getShapeStyle(cfg: NodeConfig) {
     const { style: defaultStyle } = this.options;
     const strokeStyle = {
       stroke: cfg.color
@@ -274,152 +266,197 @@ Shape.registerNode('triangle', {
     const styles = { path, ...style };
     return styles;
   },
-  update(cfg, item) {
+  update(cfg: NodeConfig, item: Item)  {
+    const group = item.getContainer();
+    const { style: defaultStyle } = this.options;
+    const path = this.getPath(cfg);
+    // 下面这些属性需要覆盖默认样式与目前样式，但若在 cfg 中有指定则应该被 cfg 的相应配置覆盖。
+    const strokeStyle = {
+      stroke: cfg.color,
+      path
+    };
+    // 与 getShapeStyle 不同在于，update 时需要获取到当前的 style 进行融合。即新传入的配置项中没有涉及的属性，保留当前的配置。
+    const keyShape = item.get('keyShape');
+    const style = deepMix({}, defaultStyle, keyShape.attr(), strokeStyle, cfg.style);
+    
 
-    // TODO: after findByClassName is defined by G
-
-    // const group = item.getContainer();
-    // const { style: defaultStyle, icon: defaultIcon, labelCfg: defaultLabelCfg } = this.options;
-    // const style = deepMix({}, defaultStyle, cfg.style);
-    // const icon = deepMix({}, defaultIcon, cfg.icon);
-    // const keyShape = item.get('keyShape');
-    // const path = this.getPath(cfg);
-    // keyShape.attr({
-    //   path,
-    //   ...style
-    // });
-
-    // const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
-    // const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
-
-    // const text = group.findByClassName('node-label');
-    // if (text) {
-    //   text.attr({
-    //     ...labelStyle
-    //   });
-    // }
-
-    // const triangleIcon = group.findByClassName('triangle-icon');
-    // if (triangleIcon) {
-    //   const { width: w, height: h } = icon;
-    //   triangleIcon.attr({
-    //     x: -w / 2,
-    //     y: -h / 2,
-    //     ...icon
-    //   });
-    // }
-
-    // this.updateLinkPoints(cfg, group);
+    this.updateShape(cfg, item, style, true);
+    this.updateLinkPoints(cfg, group);
   },
   /**
    * 更新linkPoints
    * @param {Object} cfg 节点数据配置项
    * @param {Group} group Item所在的group
    */
-  updateLinkPoints(cfg, group) {
+  updateLinkPoints(cfg: NodeConfig, group: GGroup) {
     const { linkPoints: defaultLinkPoints, direction: defaultDirection } = this.options;
-    const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
 
     const direction = cfg.direction || defaultDirection;
 
+    const markLeft = group.find(element => { return element.get('className') === 'link-point-left'})
+    const markRight = group.find(element => { return element.get('className') === 'link-point-right'})
+    const markTop = group.find(element => { return element.get('className') === 'link-point-top'})
+    const markBottom = group.find(element => { return element.get('className') === 'link-point-bottom'})
 
-    const { size: markSize, ...markStyle } = linkPoints;
+    let currentLinkPoints = undefined;
+    if (markLeft) {
+      currentLinkPoints = markLeft.attr();
+    }
+    if (markRight && !currentLinkPoints) {
+      currentLinkPoints = markRight.attr();
+    }
+    if (markTop && !currentLinkPoints) {
+      currentLinkPoints = markTop.attr();
+    }
+    if (markBottom && !currentLinkPoints) {
+      currentLinkPoints = markBottom.attr();
+    }
+    if (!currentLinkPoints) currentLinkPoints = defaultLinkPoints;
+
+    const linkPoints = deepMix({}, currentLinkPoints, cfg.linkPoints);
+
+    const { fill: markFill, stroke: markStroke, lineWidth: borderWidth } = linkPoints;
+    let markSize = linkPoints.size;
+    if (!markSize) markSize = linkPoints.r;
+    const { left, right, top, bottom} = cfg.linkPoints ? cfg.linkPoints : { left: undefined, right: undefined, top: undefined, bottom: undefined };
 
     const size = this.getSize(cfg);
     const len = size[0];
+    const styles = {
+      r: markSize,
+      fill: markFill,
+      stroke: markStroke,
+      lineWidth: borderWidth
+    }
 
-    const markLeft = group.findByClassName('triangle-mark-left');
-    if (markLeft) {
-      let leftPos = null;
-      const diffY = len * Math.sin((1 / 3) * Math.PI);
-      const r = len * Math.sin((1 / 3) * Math.PI);
-      if (direction === 'up') {
-        leftPos = [ -r, diffY ];
-      } else if (direction === 'down') {
-        leftPos = [ -r, -diffY ];
-      } else if (direction === 'left') {
-        leftPos = [ -r, r - diffY ];
-      }
 
-      if (leftPos) {
-        // left circle
-        markLeft.attr({
-          ...markStyle,
-          x: leftPos[0],
-          y: leftPos[1],
-          r: markSize
+    let leftPos = null;
+    const diffY = len * Math.sin((1 / 3) * Math.PI);
+    const r = len * Math.sin((1 / 3) * Math.PI);
+    if (direction === 'up') {
+      leftPos = [ -r, diffY ];
+    } else if (direction === 'down') {
+      leftPos = [ -r, -diffY ];
+    } else if (direction === 'left') {
+      leftPos = [ -r, r - diffY ];
+    }
+    if (leftPos) {
+      if (markLeft) {
+        if (!left && left !== undefined) {
+          markLeft.remove();
+        } else {
+          markLeft.attr({
+            ...styles,
+            x: leftPos[0],
+            y: leftPos[1]
+          });
+        }
+      } else if (left) {
+        group.addShape('circle', {
+          attrs: {
+            ...styles,
+            x: leftPos[0],
+            y: leftPos[1]
+          },
+          className: 'link-point-left',
+          isAnchorPoint: true
         });
       }
     }
 
-    const markRight = group.findByClassName('triangle-mark-right');
-    if (markRight) {
-      let rightPos = null;
-      const diffY = len * Math.sin((1 / 3) * Math.PI);
-      const r = len * Math.sin((1 / 3) * Math.PI);
-      if (direction === 'up') {
-        rightPos = [ r, diffY ];
-      } else if (direction === 'down') {
-        rightPos = [ r, -diffY ];
-      } else if (direction === 'right') {
-        rightPos = [ r, r - diffY ];
-      }
+    let rightPos = null;
+    if (direction === 'up') {
+      rightPos = [ r, diffY ];
+    } else if (direction === 'down') {
+      rightPos = [ r, -diffY ];
+    } else if (direction === 'right') {
+      rightPos = [ r, r - diffY ];
+    }
+    if (rightPos) {
+      if (markRight) {
+        if (!right && right !== undefined) {
+          markRight.remove();
+        } else {
+          markRight.attr({
+            ...styles,
+            x: rightPos[0],
+            y: rightPos[1]
+          });
+        }
+      } else if (right) {
+        group.addShape('circle', {
+          attrs: {
+            ...styles,
+            x: rightPos[0],
+            y: rightPos[1]
+          },
+          className: 'link-point-right',
+          isAnchorPoint: true
+        });
+      }  
+    }
 
-      if (rightPos) {
-        markRight.attr({
-          ...markStyle,
-          x: rightPos[0],
-          y: rightPos[1],
-          r: markSize
+    let topPos = null;
+    if (direction === 'up') {
+      topPos = [ r - diffY, -diffY ];
+    } else if (direction === 'left') {
+      topPos = [ r, -diffY ];
+    } else if (direction === 'right') {
+      topPos = [ -r, -diffY ];
+    }
+    if (topPos) {
+      if (markTop) {
+        if (!top && top !== undefined) {
+          markTop.remove();
+        } else {
+          // top circle
+          markTop.attr({
+            ...styles,
+            x: topPos[0],
+            y: topPos[1]
+          });
+        }
+      } else if (top) {
+        group.addShape('circle', {
+          attrs: {
+            ...styles,
+            x: topPos[0],
+            y: topPos[1]
+          },
+          className: 'link-point-top',
+          isAnchorPoint: true
         });
       }
     }
 
-    const markTop = group.findByClassName('triangle-mark-top');
-    if (markTop) {
-      let topPos = null;
-      const diffY = len * Math.sin((1 / 3) * Math.PI);
-      const r = len * Math.sin((1 / 3) * Math.PI);
-      if (direction === 'up') {
-        topPos = [ r - diffY, -diffY ];
-      } else if (direction === 'left') {
-        topPos = [ r, -diffY ];
-      } else if (direction === 'right') {
-        topPos = [ -r, -diffY ];
-      }
-
-      if (topPos) {
-        // top circle
-        markTop.attr({
-          ...markStyle,
-          x: topPos[0],
-          y: topPos[1],
-          r: markSize
-        });
-      }
+    let bottomPos = null;
+    if (direction === 'down') {
+      bottomPos = [ -r + diffY, diffY ];
+    } else if (direction === 'left') {
+      bottomPos = [ r, diffY ];
+    } else if (direction === 'right') {
+      bottomPos = [ -r, diffY ];
     }
-
-    const markBottom = group.findByClassName('triangle-mark-bottom');
-    if (markBottom) {
-      let bottomPos = null;
-      const diffY = len * Math.sin((1 / 3) * Math.PI);
-      const r = len * Math.sin((1 / 3) * Math.PI);
-
-      if (direction === 'down') {
-        bottomPos = [ -r + diffY, diffY ];
-      } else if (direction === 'left') {
-        bottomPos = [ r, diffY ];
-      } else if (direction === 'right') {
-        bottomPos = [ -r, diffY ];
-      }
-
-      if (bottomPos) {
-        // bottom circle
-        markBottom.attr({
-          ...markStyle,
-          x: bottomPos[0],
-          y: bottomPos[1],
-          r: markSize
+    if (bottomPos) {
+      if (markBottom) {
+        if (!bottom && bottom !== undefined) {
+          markBottom.remove();
+        } else {
+          markBottom.attr({
+            ...styles,
+            x: bottomPos[0],
+            y: bottomPos[1]
+          });
+        }
+      } else if (bottom) {
+        group.addShape('circle', {
+          attrs: {
+            ...styles,
+            x: bottomPos[0],
+            y: bottomPos[1]
+          },
+          className: 'link-point-bottom',
+          isAnchorPoint: true
         });
       }
     }

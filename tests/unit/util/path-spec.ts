@@ -60,7 +60,6 @@ describe('Path Util Test', () => {
     expect(point).toEqual({ x: 0, y: 50 })
     
     const point2 = getControlPoint(start, end, 0.2, -2)
-    console.log(point2)
     expect(point2).toEqual({ x: 0, y: 20 })
   })
 

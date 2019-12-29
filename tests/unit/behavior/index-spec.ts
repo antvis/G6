@@ -87,7 +87,6 @@ describe('Behavior', () => {
     expect(drag).toEqual('drag')
   })
 })
-
 describe('Default Behavior', () => {
   it('drag-canvas', () => {
     const DragCanvas = Behavior.getBehavior('drag-canvas')

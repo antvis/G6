@@ -1,9 +1,9 @@
 import isNil from '@antv/util/lib/is-nil';
 import isPlainObject from '@antv/util/lib/is-plain-object'
-import { IEdge, INode, IItem } from "@g6/interface/item";
+import { IEdge, INode } from "@g6/interface/item";
 import { EdgeConfig, IPoint, NodeConfig, SourceTarget } from '@g6/types';
+import Item from './item';
 import Node from './node'
-import Item from "./item";
 
 const END_MAP = { source: 'start', target: 'end' };
 const ITEM_NAME_SUFFIX = 'Node'; // 端点的后缀，如 sourceNode, targetNode
@@ -56,12 +56,12 @@ export default class Edge extends Item implements IEdge {
       const anchorName = name + ANCHOR_NAME_SUFFIX;
       const prePoint = this.getPrePoint(name, controlPoints);
       const anchorIndex = model[anchorName];
-      if (isNil(anchorIndex)) { // 如果有锚点，则使用锚点索引获取连接点
+      if (!isNil(anchorIndex)) { // 如果有锚点，则使用锚点索引获取连接点
         point = item.getLinkPointByAnchor(anchorIndex);
       }
       // 如果锚点没有对应的点或者没有锚点，则直接计算连接点
       point = point || item.getLinkPoint(prePoint);
-      if (isNil(point.index)) {
+      if (!isNil(point.index)) {
         this.set(name + 'AnchorIndex', point.index);
       }
     }
@@ -128,12 +128,16 @@ export default class Edge extends Item implements IEdge {
 
   protected init() {
     super.init()
+    // 初始化两个端点
+    this.setSource(this.get('source'));
+    this.setTarget(this.get('target'));
   }
 
   public getShapeCfg(model: EdgeConfig): EdgeConfig {
     const self = this;
     const linkCenter: boolean = self.get('linkCenter'); // 如果连接到中心，忽视锚点、忽视控制点
     const cfg: any = super.getShapeCfg(model);
+    
     if (linkCenter) {
       cfg.startPoint = self.getEndCenter('source');
       cfg.endPoint = self.getEndCenter('target');

@@ -5,12 +5,12 @@
  * @LastEditTime: 2019-08-22 18:41:45
  * @Description: 拖动节点的Behavior
  */
-import isString from '@antv/util/lib/is-string'
-import deepMix from '@antv/util/lib/deep-mix';
-import Global from '../global'
-import { G6Event, IG6GraphEvent, NodeConfig } from "@g6/types";
-import { IItem, INode } from '@g6/interface/item';
 import { Point } from '@antv/g-base/lib/types';
+import deepMix from '@antv/util/lib/deep-mix';
+import isString from '@antv/util/lib/is-string'
+import { INode } from '@g6/interface/item';
+import { G6Event, IG6GraphEvent, Item, NodeConfig } from "@g6/types";
+import Global from '../global'
 
 
 const body = document.body;
@@ -37,7 +37,7 @@ export default {
       return;
     }
 
-    const item = e.item;
+    const item: INode = e.item as INode;
     const target = e.target;
     const hasLocked = item.hasLocked();
     if (hasLocked) {
@@ -74,8 +74,8 @@ export default {
       // 拖动多个节点
       if (nodes.length > 1) {
         nodes.forEach(node => {
-          const hasLocked = node.hasLocked();
-          if (!hasLocked) {
+          const locked = node.hasLocked();
+          if (!locked) {
             this.targets.push(node);
           }
         });
@@ -91,12 +91,13 @@ export default {
 
     this.point = {};
     this.originPoint = {};
+
   },
   onDrag(e: IG6GraphEvent) {
     if (!this.origin) {
       return;
     }
-    if (!this.get('shouldUpdate').call(this, e)) {
+    if (!this.shouldUpdate(this, e)) {
       return;
     }
     const graph = this.graph;
@@ -105,16 +106,16 @@ export default {
 
     // 当targets中元素时，则说明拖动的是多个选中的元素
     if (this.targets.length > 0) {
-      if (this.enableDelegate) {
-        this._updateDelegate(e);
+      if (this.get('enableDelegate')) {
+        this.updateDelegate(e);
       } else {
         this.targets.forEach(target => {
-          this._update(target, e, this.enableDelegate);
+          this.update(target, e, this.get('enableDelegate'));
         });
       }
     } else {
       // 只拖动单个元素
-      this._update(this.target, e, this.enableDelegate);
+      this.update(this.target, e, this.get('enableDelegate'));
     }
 
     graph.paint();
@@ -144,9 +145,9 @@ export default {
 
     if (this.targets.length > 0) {
       // 获取所有已经选中的节点
-      this.targets.forEach(node => this._update(node, e));
+      this.targets.forEach(node => this.update(node, e));
     } else if (this.target) {
-      this._update(this.target, e);
+      this.update(this.target, e);
     }
 
     this.point = {};
@@ -175,10 +176,10 @@ export default {
         }
       };
       this.fn = fn;
-      body.addEventListener('keyup', fn, false);
+      body.addEventListener('mouseup', fn, true);
     }
   },
-  _update(item: IItem, e: IG6GraphEvent, force: boolean) {
+  update(item: Item, e: IG6GraphEvent, force: boolean) {
     const origin = this.origin;
     const model: NodeConfig = item.get('model');
     const nodeId: string = item.get('id');
@@ -194,7 +195,7 @@ export default {
 
     // 拖动单个未选中元素
     if (force) {
-      this._updateDelegate(e, x, y);
+      this.updateDelegate(e, x, y);
       return;
     }
 
@@ -213,22 +214,22 @@ export default {
    * @param {number} x 拖动单个元素时候的x坐标
    * @param {number} y 拖动单个元素时候的y坐标
    */
-  _updateDelegate(e, x, y) {
+  updateDelegate(e, x, y) {
     const bbox = e.item.get('keyShape').getBBox();
     if (!this.shape) {
       // 拖动多个
       const parent = this.graph.get('group');
       const attrs = deepMix({}, Global.delegateStyle, this.delegateStyle);
       if (this.targets.length > 0) {
-        const { x, y, width, height, minX, minY } = this.calculationGroupPosition();
-        this.originPoint = { x, y, width, height, minX, minY };
+        const { x: cx, y: cy, width, height, minX, minY } = this.calculationGroupPosition();
+        this.originPoint = { x: cx, y: cy, width, height, minX, minY };
         // model上的x, y是相对于图形中心的，delegateShape是g实例，x,y是绝对坐标
         this.shape = parent.addShape('rect', {
           attrs: {
             width,
             height,
-            x,
-            y,
+            x: cx,
+            y: cy,
             ...attrs
           }
         });
@@ -242,7 +243,6 @@ export default {
             ...attrs
           }
         });
-        this.target.set('delegateShape', this.shape);
       }
       this.shape.set('capture', false);
     } else {
@@ -260,6 +260,7 @@ export default {
         });
       }
     }
+    this.target.set('delegateShape', this.shape);
 
     // this.graph.paint();
   },

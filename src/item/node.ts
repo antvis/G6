@@ -4,8 +4,8 @@ import mix from '@antv/util/lib/mix'
 import { IEdge, INode } from '@g6/interface/item';
 import { IPoint, IShapeBase, NodeConfig } from '@g6/types';
 import { distance, getCircleIntersectByPoint, getEllispeIntersectByPoint, getRectIntersectByPoint } from '@g6/util/math';
-import Item from './item'
 import Edge from './edge';
+import Item from './item'
 
 const CACHE_ANCHOR_POINTS = 'anchorPointsCache'
 const CACHE_BBOX = 'bboxCache'
@@ -127,6 +127,7 @@ export default class Node extends Item implements INode {
       const model: NodeConfig = this.get('model');
       const shapeCfg = this.getShapeCfg(model);
       const points = shapeFactory.getAnchorPoints(model.shape, shapeCfg) || [];
+      
       each(points, (pointArr, index) => {
         const point = mix({
           x: bbox.minX + pointArr[0] * bbox.width,
@@ -193,8 +194,8 @@ export default class Node extends Item implements INode {
       return false
     }
 
-    const existX = isNil(cfg.x)
-    const existY = isNil(cfg.y)
+    const existX = !isNil(cfg.x)
+    const existY = !isNil(cfg.y)
 
     const keys = Object.keys(cfg)
 

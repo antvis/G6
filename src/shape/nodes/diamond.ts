@@ -1,10 +1,9 @@
-import Shape from '../shape'
-import deepMix from '@antv/util/lib/deep-mix';
-import Global from '../../global'
-import { NodeConfig, ShapeStyle } from '@g6/types'
-import { IShape } from '@antv/g-canvas/lib/interfaces'
 import GGroup from '@antv/g-canvas/lib/group';
-import { IItem } from '@g6/interface/item';
+import { IShape } from '@antv/g-canvas/lib/interfaces'
+import deepMix from '@antv/util/lib/deep-mix';
+import { Item, NodeConfig, ShapeStyle } from '@g6/types'
+import Global from '../../global'
+import Shape from '../shape'
 
 
 // 菱形shape
@@ -21,16 +20,6 @@ Shape.registerNode('diamond', {
     labelCfg: {
       style: {
         fill: '#595959'
-      }
-    },
-    stateStyles: {
-      // 鼠标hover状态下的配置
-      hover: {
-        fillOpacity: 0.8
-      },
-      // 选中节点状态下的配置
-      selected: {
-        lineWidth: 3
       }
     },
     // 节点上左右上下四个方向上的链接circle配置
@@ -108,7 +97,7 @@ Shape.registerNode('diamond', {
           y: 0,
           r: markSize
         },
-        className: 'diamond-mark-left',
+        className: 'link-point-left',
         isAnchorPoint: true
       });
     }
@@ -122,7 +111,7 @@ Shape.registerNode('diamond', {
           y: 0,
           r: markSize
         },
-        className: 'diamond-mark-right',
+        className: 'link-point-right',
         isAnchorPoint: true
       });
     }
@@ -136,7 +125,7 @@ Shape.registerNode('diamond', {
           y: -height / 2,
           r: markSize
         },
-        className: 'diamond-mark-top',
+        className: 'link-point-top',
         isAnchorPoint: true
       });
     }
@@ -150,7 +139,7 @@ Shape.registerNode('diamond', {
           y: height / 2,
           r: markSize
         },
-        className: 'diamond-mark-bottom',
+        className: 'link-point-bottom',
         isAnchorPoint: true
       });
     }
@@ -184,108 +173,20 @@ Shape.registerNode('diamond', {
     const styles = { path, ...style };
     return styles;
   },
-  update(cfg: NodeConfig, item: IItem) {
+  update(cfg: NodeConfig, item: Item) {
+    const group = item.getContainer();
+    const { style: defaultStyle } = this.options;
+    const path = this.getPath(cfg);
+    // 下面这些属性需要覆盖默认样式与目前样式，但若在 cfg 中有指定则应该被 cfg 的相应配置覆盖。
+    const strokeStyle = {
+      stroke: cfg.color,
+      path
+    };
+    // 与 getShapeStyle 不同在于，update 时需要获取到当前的 style 进行融合。即新传入的配置项中没有涉及的属性，保留当前的配置。
+    const keyShape = item.get('keyShape');
+    const style = deepMix({}, defaultStyle, keyShape.attr(), strokeStyle, cfg.style);
 
-    // TODO: after findByClassName is defined by G
-
-    // const group = item.getContainer();
-    // const { style: defaultStyle, icon: defaultIcon, labelCfg: defaultLabelCfg } = this.options;
-    // const style = deepMix({}, defaultStyle, cfg.style);
-    // const icon = deepMix({}, defaultIcon, cfg.icon);
-
-    // const keyShape: G.Shape = item.get('keyShape');
-    // const path = this.getPath(cfg);
-    // keyShape.attr({
-    //   path,
-    //   ...style
-    // });
-
-    // const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
-    // const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
-
-    // const text: G.Shape = group.findByClassName('node-label');
-    // if (text) {
-    //   text.attr({
-    //     ...labelStyle
-    //   });
-    // }
-
-    // const diamondIcon: G.Shape = group.findByClassName('diamond-icon');
-    // if (diamondIcon) {
-    //   const { width: w, height: h } = icon;
-    //   diamondIcon.attr({
-    //     x: -w / 2,
-    //     y: -h / 2,
-    //     ...icon
-    //   });
-    // }
-
-    // this.updateLinkPoints(cfg, group);
-  },
-
-  // TODO: after findByClassName is defined by G
-  
-  /**
-   * 更新linkPoints
-   * @param {Object} cfg 节点数据配置项
-   * @param {Group} group Item所在的group
-   */
-  // updateLinkPoints(cfg: NodeConfig, group: GGroup) {
-  //   const { linkPoints: defaultLinkPoints } = this.options;
-  //   const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
-
-  //   const { size: markSize, fill: markFill, stroke: markStroke, lineWidth: borderWidth } = linkPoints;
-
-  //   const size = this.getSize(cfg);
-  //   const width = size[0];
-  //   const height = size[1];
-
-  //   const markLeft: IShape = group.findByClassName('diamond-mark-left');
-  //   if (markLeft) {
-  //     markLeft.attr({
-  //       x: -width / 2,
-  //       y: 0,
-  //       r: markSize,
-  //       fill: markFill,
-  //       stroke: markStroke,
-  //       lineWidth: borderWidth
-  //     });
-  //   }
-
-  //   const markRight: IShape = group.findByClassName('diamond-mark-right');
-  //   if (markRight) {
-  //     markRight.attr({
-  //       x: width / 2,
-  //       y: 0,
-  //       r: markSize,
-  //       fill: markFill,
-  //       stroke: markStroke,
-  //       lineWidth: borderWidth
-  //     });
-  //   }
-
-  //   const markTop: IShape = group.findByClassName('diamond-mark-top');
-  //   if (markTop) {
-  //     markTop.attr({
-  //       x: 0,
-  //       y: -height / 2,
-  //       r: markSize,
-  //       fill: markFill,
-  //       stroke: markStroke,
-  //       lineWidth: borderWidth
-  //     });
-  //   }
-
-  //   const markBottom: IShape = group.findByClassName('diamond-mark-bottom');
-  //   if (markBottom) {
-  //     markBottom.attr({
-  //       x: 0,
-  //       y: height / 2,
-  //       r: markSize,
-  //       fill: markFill,
-  //       stroke: markStroke,
-  //       lineWidth: borderWidth
-  //     });
-  //   }
-  // }
+    this.updateShape(cfg, item, style, true);
+    this.updateLinkPoints(cfg, group);
+  }
 }, 'single-node');

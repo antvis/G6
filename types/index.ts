@@ -4,7 +4,7 @@ import Canvas from '@antv/g-canvas/lib/canvas';
 import ShapeBase from '@antv/g-canvas/lib/shape/base';
 import Node from '@g6/item/node';
 import { IGraph } from '../src/interface/graph';
-import { IEdge, IItem, INode } from '../src/interface/item';
+import { IEdge, IItemBase, INode } from '../src/interface/item';
 
 // Math types
 export interface IPoint {
@@ -12,6 +12,7 @@ export interface IPoint {
   y: number;
   // 获取连接点时使用
   anchorIndex?: number;
+  [key: string]: number | undefined;
 }
 
 export type IPointTuple = [number, number];
@@ -21,6 +22,7 @@ export type Matrix = number[];
 export interface IBBox extends BBox {
   centerX?: number;
   centerY?: number;
+  [key: string]: number | undefined;
 }
 
 export type Padding = number | string | number[];
@@ -40,7 +42,7 @@ export type ShapeStyle = Partial<{
   matrix: number[];
   opacity: number;
   size: number | number[];
-  [key: string]: string | number | object | object[];
+  [key: string]: string | number | object | object[] | null;
 }>;
 
 export interface IShapeBase extends ShapeBase {
@@ -97,7 +99,7 @@ export type ModelStyle = Partial<{
     clockwise?: boolean;
   };
   labelCfg?: object;
-  anchorPoints: IPoint[];
+  anchorPoints: number[][];
   controlPoints: IPoint[];
   size: number | number[];
   img: string;
@@ -154,22 +156,32 @@ export type Easeing =
 export interface ModelConfig extends ModelStyle {
   shape?: string;
   label?: string;
-  labelCfg?: object;
+  labelCfg?: {
+    style?: object;
+    [key: string]: unknown;
+  };
+  descriptionCfg?: {
+    style?: object;
+    [key: string]: unknown;
+  };
   groupId?: string;
   description?: string;
   x?: number;
   y?: number;
   size?: number;
   controlPoints?: IPoint[];
-  anchorPoints?: IPoint[];
   color?: string;
   preRect?: object;
-  logoIcon?: object;
+  logoIcon?: {
+    show?: boolean;
+    [key: string]: unknown;
+  };
   stateIcon?: object;
   innerR?: number;
   direction?: string;
   startPoint?: IPoint;
   endPoint?: IPoint;
+  children?: TreeGraphData[];
 }
 export interface NodeConfig extends ModelConfig {
   id: string;
@@ -182,7 +194,10 @@ export interface EdgeConfig extends ModelConfig {
   source: string;
   target: string;
   label?: string;
-  labelCfg?: object;
+  labelCfg?: {
+    style?: object;
+    [key: string]: unknown;
+  };
   sourceNode?: Node;
   targetNode?: Node;
   startPoint?: IPoint;
@@ -192,6 +207,13 @@ export interface EdgeConfig extends ModelConfig {
   curveOffset?: number;
 }
 
+export type EdgeData = EdgeConfig & {
+  sourceNode: Node;
+  targetNode: Node;
+  startPoint: IPoint;
+  endPoint: IPoint;
+};
+
 export interface NodeMapConfig {
   [key: string]: NodeConfig;
 }
@@ -199,8 +221,10 @@ export interface NodeMapConfig {
 export interface GroupConfig {
   id: string;
   parentId?: string;
-  [key: string]: string | ModelStyle;
+  [key: string]: string | ModelStyle | undefined;
 }
+
+// export type ModelConfig = NodeConfig | EdgeConfig | GroupConfig
 
 export interface GroupNodeIds {
   [key: string]: string[];
@@ -218,6 +242,8 @@ export interface TreeGraphData {
   x?: number;
   y?: number;
   children?: TreeGraphData[];
+  depth?: number;
+  data?: ModelConfig;
 }
 
 // Behavior type file
@@ -294,28 +320,19 @@ export type BehaviorOpation<U> = {
 export type IEvent = Record<G6Event, string>;
 
 export interface IG6GraphEvent extends GraphEvent {
-  item: IItem & INode & IEdge;
+  item: Item;
   canvasX: number;
   canvasY: number;
   wheelDelta: number;
   detail: number;
   key?: string;
-  target: IItem & INode & IEdge & Canvas;
+  target: Item & Canvas;
 }
 
-export interface IBehavior {
-  constructor: (cfg?: object) => void;
-  getEvents: () => { [key in G6Event]?: string };
-  shouldBegin: () => boolean;
-  shouldUpdate: () => boolean;
-  shouldEnd: () => boolean;
-  bind: (graph: IGraph) => void;
-  unbind: (graph: IGraph) => void;
-  [key: string]: (...args: DefaultBehaviorType[]) => unknown;
-}
+export type Item = INode | IEdge;
 
-export interface Data {
-  nodes?: NodeConfig[];
-  edges?: EdgeConfig[];
-  groups?: GroupConfig[];
+export enum ITEM_TYPE {
+  NODE = 'node',
+  EDGE = 'edge',
+  GROUP = 'group',
 }

@@ -1,10 +1,9 @@
-import Shape from '../shape'
-import { NodeConfig } from '@g6/types'
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
-import { IItem } from '@g6/interface/item';
 import deepMix from '@antv/util/lib/deep-mix';
+import { Item, NodeConfig } from '@g6/types'
 import Global from '../../global'
+import Shape from '../shape'
 
 Shape.registerNode('rect', {
   // 自定义节点时的配置
@@ -24,16 +23,6 @@ Shape.registerNode('rect', {
         fontSize: 12
       }
     },
-    stateStyles: {
-      // hover状态下的配置
-      hover: {
-        fillOpacity: 0.8
-      },
-      // 节点选中状态下的配置
-      selected: {
-        lineWidth: 3
-      }
-    },
     // 节点上左右上下四个方向上的链接circle配置
     linkPoints: {
       top: false,
@@ -47,7 +36,8 @@ Shape.registerNode('rect', {
       stroke: '#72CC4A'
     },
     // 连接点，默认为左右
-    anchorPoints: [{ x: 0, y: 0.5 }, { x: 1, y: 0.5 }]
+    // anchorPoints: [{ x: 0, y: 0.5 }, { x: 1, y: 0.5 }]
+    anchorPoints: [[0, 0.5], [1, 0.5]]
   },
   shapeType: 'rect',
   labelPosition: 'center',
@@ -86,7 +76,7 @@ Shape.registerNode('rect', {
           y: 0,
           r: markSize
         },
-        className: 'rect-mark-left',
+        className: 'link-point-left',
         isAnchorPoint: true
       });
     }
@@ -100,7 +90,7 @@ Shape.registerNode('rect', {
           y: 0,
           r: markSize
         },
-        className: 'rect-mark-right',
+        className: 'link-point-right',
         isAnchorPoint: true
       });
     }
@@ -114,7 +104,7 @@ Shape.registerNode('rect', {
           y: -height / 2,
           r: markSize
         },
-        className: 'rect-mark-top',
+        className: 'link-point-top',
         isAnchorPoint: true
       });
     }
@@ -128,7 +118,7 @@ Shape.registerNode('rect', {
           y: height / 2,
           r: markSize
         },
-        className: 'rect-mark-bottom',
+        className: 'link-point-bottom',
         isAnchorPoint: true
       });
     }
@@ -156,102 +146,24 @@ Shape.registerNode('rect', {
     }, style);
     return styles;
   },
-  update(cfg: NodeConfig, item: IItem) {
+  update(cfg: NodeConfig, item: Item) {
+    const group = item.getContainer();
+    const { style: defaultStyle } = this.options;
+    const size = this.getSize(cfg);
+    // 下面这些属性需要覆盖默认样式与目前样式，但若在 cfg 中有指定则应该被 cfg 的相应配置覆盖。
+    const strokeStyle = {
+      stroke: cfg.color,
+      x: -size[0] / 2,
+      y: -size[1] / 2,
+      width: size[0],
+      height: size[1]
+    };
+    // 与 getShapeStyle 不同在于，update 时需要获取到当前的 style 进行融合。即新传入的配置项中没有涉及的属性，保留当前的配置。
+    const keyShape = item.get('keyShape');
+    const style = deepMix({}, defaultStyle, keyShape.attr(), strokeStyle, cfg.style);
 
-    // TODO: after findByClassName is defined by G
-
-    // const { style: defaultStyle, labelCfg: defaultLabelCfg } = this.options;
-    // const style = deepMix({}, defaultStyle, cfg.style);
-    // const size = this.getSize(cfg);
-    // const width = size[0];
-    // const height = size[1];
-
-    // const keyShape: G.Shape = item.get('keyShape');
-    // keyShape.attr({
-    //   x: -width / 2,
-    //   y: -height / 2,
-    //   width,
-    //   height,
-    //   ...style
-    // });
-
-    // const group = item.getContainer();
-
-    // const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
-    // const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
-    // const text = group.findByClassName('node-label');
-    // if (text) {
-    //   text.attr({
-    //     ...labelStyle
-    //   });
-    // }
-    // this.updateLinkPoints(cfg, group);
-  },
-
-  // TODO: after findByClassName is defined by G
-  
-  /**
-   * 更新linkPoints
-   * @param {Object} cfg 节点数据配置项
-   * @param {Group} group Item所在的group
-   */
-  // updateLinkPoints(cfg: NodeConfig, group: GGroup) {
-  //   const { linkPoints: defaultLinkPoints } = this.options;
-  //   const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
-
-  //   const { size: markSize, fill: markFill, stroke: markStroke, lineWidth: borderWidth } = linkPoints;
-
-  //   const size = this.getSize(cfg);
-  //   const width = size[0];
-  //   const height = size[1];
-
-  //   const markLeft = group.findByClassName('rect-mark-left');
-  //   if (markLeft) {
-  //     markLeft.attr({
-  //       x: -width / 2,
-  //       y: 0,
-  //       r: markSize,
-  //       fill: markFill,
-  //       stroke: markStroke,
-  //       lineWidth: borderWidth
-  //     });
-  //   }
-
-  //   const markRight = group.findByClassName('rect-mark-right');
-  //   if (markRight) {
-  //     markRight.attr({
-  //       x: width / 2,
-  //       y: 0,
-  //       r: markSize,
-  //       fill: markFill,
-  //       stroke: markStroke,
-  //       lineWidth: borderWidth
-  //     });
-  //   }
-
-  //   const markTop = group.findByClassName('rect-mark-top');
-  //   if (markTop) {
-  //     markTop.attr({
-  //       x: 0,
-  //       y: -height / 2,
-  //       r: markSize,
-  //       fill: markFill,
-  //       stroke: markStroke,
-  //       lineWidth: borderWidth
-  //     });
-  //   }
-
-  //   const markBottom = group.findByClassName('rect-mark-bottom');
-  //   if (markBottom) {
-  //     markBottom.attr({
-  //       x: 0,
-  //       y: height / 2,
-  //       r: markSize,
-  //       fill: markFill,
-  //       stroke: markStroke,
-  //       lineWidth: borderWidth
-  //     });
-  //   }
-  // }
+    this.updateShape(cfg, item, style, false);
+    this.updateLinkPoints(cfg, group);
+  }
 }, 'single-node');
 

@@ -6,31 +6,46 @@ import each from '@antv/util/lib/each'
 import isNil from '@antv/util/lib/is-nil';
 import wrapBehavior from '@antv/util/lib/wrap-behavior';
 import { IGraph } from '@g6/interface/graph';
-import { IItem } from '@g6/interface/item';
-import { G6Event, IG6GraphEvent, Matrix } from '@g6/types';
+import { IG6GraphEvent, Matrix } from '@g6/types';
 import { cloneEvent } from '@g6/util/base';
-
-interface IEvent {
-  destroy: () => void;
-}
 
 type Fun = () => void
 
 const ORIGIN_MATRIX = [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ];
 const MATRIX_LEN = 9;
 
-export default class Event implements IEvent {
+const EVENTS = [
+  'click',
+  'mousedown',
+  'mouseup',
+  'dblclick',
+  'contextmenu',
+  'mouseenter',
+  'mouseout',
+  'mouseover',
+  'mousemove',
+  'mouseleave',
+  'dragstart',
+  'dragend',
+  'drag',
+  'dragenter',
+  'dragleave',
+  'drop'
+];
+export default class EventController {
   private graph: IGraph
   private extendEvents: any[]
   private canvasHandler: Fun;
   private dragging: boolean
   private preItem
+  public destroyed: boolean
 
   constructor(graph: IGraph) {
     this.graph = graph
     this.extendEvents = []
     this.dragging = false
-    // this.initEvents()
+    this.destroyed = false
+    this.initEvents()
   }
 
   // 初始化 G6 中的事件
@@ -43,7 +58,7 @@ export default class Event implements IEvent {
     const canvasHandler: Fun = wrapBehavior(self, 'onCanvasEvents') as Fun;
     const originHandler = wrapBehavior(self, 'onExtendEvents');
     const wheelHandler = wrapBehavior(self, 'onWheelEvent');
-    each(G6Event, event => {
+    each(EVENTS, event => {
       canvas.on(event, canvasHandler);
     });
     this.canvasHandler = canvasHandler;
@@ -57,6 +72,11 @@ export default class Event implements IEvent {
 
   // 判断 viewport 是否改变，通过和单位矩阵对比
   private isViewportChanged(matrix: Matrix) {
+    // matrix 为 null， 则说明没有变化
+    if(!matrix) {
+      return false
+    }
+
     for (let i = 0; i < MATRIX_LEN; i++) {
       if (matrix[i] !== ORIGIN_MATRIX[i]) {
         return true;
@@ -95,6 +115,7 @@ export default class Event implements IEvent {
 
     const group: Group = graph.get('group')
     const matrix: Matrix = group.getMatrix()
+    
     if(this.isViewportChanged(matrix)) {
       point = graph.getPointByCanvas(evt.canvasX, evt.canvasY)
     }
@@ -115,7 +136,7 @@ export default class Event implements IEvent {
       return;
     }
 
-    const itemShape = this.getItemRoot(target);
+    const itemShape: ShapeBase = this.getItemRoot(target);
     if (!itemShape) {
       graph.emit(eventType, evt);
       return;
@@ -223,7 +244,7 @@ export default class Event implements IEvent {
     const extendEvents = this.extendEvents
     const canvas: Canvas = graph.get('canvas');
 
-    each(G6Event, event => {
+    each(EVENTS, event => {
       canvas.off(event, canvasHandler);
     });
 
@@ -235,6 +256,7 @@ export default class Event implements IEvent {
     this.preItem = null
     this.extendEvents.length = 0
     this.canvasHandler = null
+    this.destroyed = true
   }
 }
 

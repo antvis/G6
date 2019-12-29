@@ -2,15 +2,15 @@
  * @fileOverview 自定义节点和边的过程中，发现大量重复代码
  * @author dxq613@gmail.com
  */
-import Global from '../global'
-import each from '@antv/util/lib/each'
-import { get, cloneDeep, merge } from 'lodash'
-import { ShapeOptions } from '@g6/interface/shape'
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
+import deepMix from '@antv/util/lib/deep-mix';
+import each from '@antv/util/lib/each'
+import { ShapeOptions } from '@g6/interface/shape'
 import { ILabelConfig } from '@g6/interface/shape'
-import { IItem } from '@g6/interface/item'
-import { ModelConfig, IPoint, LabelStyle, ShapeStyle } from '@g6/types'
+import { IPoint, Item, LabelStyle, ModelConfig, ModelStyle, ShapeStyle } from '@g6/types'
+import { cloneDeep, get, merge } from 'lodash'
+import Global from '../global'
 
 const CLS_SHAPE_SUFFIX = '-shape'
 const CLS_LABEL_SUFFIX = '-label'
@@ -42,8 +42,11 @@ export const shapeBase: ShapeOptions = {
     return shape
   },
   /**
-  * 绘制完成后的操作，便于用户继承现有的节点、边
-  */
+   * 绘制完成后的操作，便于用户继承现有的节点、边
+   * @param cfg 
+   * @param group 
+   * @param keyShape 
+   */
   afterDraw(cfg?: ModelConfig, group?: GGroup, keyShape?: IShape) {
 
   },
@@ -61,30 +64,27 @@ export const shapeBase: ShapeOptions = {
     return label
   },
   getLabelStyleByPosition(cfg?: ModelConfig, labelCfg?: ILabelConfig, group?: GGroup): LabelStyle {
-    return {};
+    return { text: cfg.label };
   },
+
   /**
-	 * 获取文本的配置项
-	 * @internal 用户创建和更新节点/边时，同时会更新文本
-	 * @param  {Object} cfg 节点的配置项
-   * @param {Object} labelCfg 文本的配置项
-	 * @param {G.Group} group 父容器，label 的定位可能与图形相关
-	 * @return {Object} 图形的配置项
-	 */
+   * 获取文本的配置项
+   * @param cfg 节点的配置项
+   * @param labelCfg 文本的配置项
+   * @param group 父容器，label 的定位可能与图形相关
+   */
   getLabelStyle(cfg: ModelConfig, labelCfg, group: GGroup): LabelStyle {
     const calculateStyle = this.getLabelStyleByPosition(cfg, labelCfg, group)
-    calculateStyle.text = cfg.label
     const attrName = this.itemType + 'Label' // 取 nodeLabel，edgeLabel 的配置项
     const defaultStyle = Global[attrName] ? Global[attrName].style : null
     const labelStyle = Object.assign({}, defaultStyle, calculateStyle, labelCfg.style)
     return labelStyle
   },
+  
   /**
-	 * 获取图形的配置项
-	 * @internal 仅在定义这一类节点使用，用户创建和更新节点
-	 * @param  {Object} cfg 节点的配置项
-	 * @return {Object} 图形的配置项
-	 */
+   * 获取图形的配置项
+   * @param cfg 
+   */
   getShapeStyle(cfg: ModelConfig): ShapeStyle {
     return cfg.style
   },
@@ -94,42 +94,51 @@ export const shapeBase: ShapeOptions = {
 	 * @param  {Object} cfg 节点/边的配置项
 	 * @param  {G6.Item} item 节点/边
 	 */
-  update(cfg: ModelConfig, item: IItem) {
-    // TODO: after findByClassName is defined by G
+  update(cfg: ModelConfig, item: Item) {
+    this.updateShapeStyle(cfg, item);
+    this.updateLabel(cfg, item);
+  },
+  updateShapeStyle(cfg: ModelConfig, item: Item) {
+    const group = item.getContainer()
+    const shapeClassName = this.itemType + CLS_SHAPE_SUFFIX
+    const shape = group.find(element => element.get('className') === shapeClassName)
+    const shapeStyle = deepMix({}, shape.attr(), cfg.style);
+    if (shape) {
+      shape.attr(shapeStyle)
+    }
+  },
 
-    // const group = item.getContainer()
-    // const shapeClassName = this.itemType + CLS_SHAPE_SUFFIX
-    // const shape = group.findByClassName(shapeClassName)
-    // const shapeStyle = this.getShapeStyle(cfg)
-    // shape && shape.attr(shapeStyle)
-    // const labelClassName = this.itemType + CLS_LABEL_SUFFIX
-    // const label = group.findByClassName(labelClassName)
-		// // 此时需要考虑之前是否绘制了 label 的场景存在三种情况
-		// // 1. 更新时不需要 label，但是原先存在 label，此时需要删除
-		// // 2. 更新时需要 label, 但是原先不存在，创建节点
-		// // 3. 如果两者都存在，更新
-    // if (!cfg.label) {
-    //   label && label.remove()
-    // } else {
-    //   if (!label) {
-    //     const newLabel = this.drawLabel(cfg, group)
-    //     newLabel.set('className', labelClassName)
-    //   } else {
-    //     const labelCfg = cfg.labelCfg || {}
-    //     const labelStyle = this.getLabelStyle(cfg, labelCfg, group)
-    //     /**
-    //      * fixme g中shape的rotate是角度累加的，不是label的rotate想要的角度
-    //      * 由于现在label只有rotate操作，所以在更新label的时候如果style中有rotate就重置一下变换
-    //      * 后续会基于g的Text复写一个Label出来处理这一类问题
-    //      */
-    //     label.resetMatrix()
-    //     label.attr(labelStyle)
-    //   }
-    // }
+  updateLabel(cfg: ModelConfig, item: Item) {
+    const group = item.getContainer();
+    const { labelCfg: defaultLabelCfg } = this.options;
+    const labelClassName = this.itemType + CLS_LABEL_SUFFIX
+    const label = group.find(element => element.get('className') === labelClassName)
+
+    if (cfg.label) { // 若传入的新配置中有 label，（用户没传入但原先有 label，label 也会有值）
+      if (!label) { // 若原先不存在 label，则绘制一个新的 label
+        const newLabel = this.drawLabel(cfg, group)
+        newLabel.set('className', labelClassName)
+      } else { // 若原先存在 label，则更新样式。与 getLabelStyle 不同在于这里需要融合当前 label 的样式
+        // 用于融合 style 以外的属性：position, offset, ...
+        const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
+
+        // 获取位置信息
+        const calculateStyle = this.getLabelStyleByPosition(cfg, labelCfg, group)
+
+        // 取 nodeLabel，edgeLabel 的配置项
+        const cfgStyle = cfg.labelCfg ? cfg.labelCfg.style : undefined;
+
+        // 需要融合当前 label 的样式 label.attr()。不再需要全局/默认样式，因为已经应用在当前的 label 上
+        const labelStyle = Object.assign({}, label.attr(), calculateStyle, cfgStyle)
+
+        label.resetMatrix()
+        label.attr(labelStyle)
+      }
+    }
   },
 
   // update(cfg, item) // 默认不定义
-  afterUpdate(cfg?: ModelConfig, item?: IItem) {
+  afterUpdate(cfg?: ModelConfig, item?: Item) {
 
   },
 	/**
@@ -140,7 +149,7 @@ export const shapeBase: ShapeOptions = {
 	 * @param  {String | Boolean} value 状态值
 	 * @param  {G6.Item} item 节点
 	 */
-  setState(name: string, value: boolean, item: IItem) {
+  setState(name: string, value: boolean, item: Item) {
     const shape: IShape = item.get('keyShape')
     if (!shape) {
       return
@@ -169,17 +178,16 @@ export const shapeBase: ShapeOptions = {
    * @param {Item} item Node或Edge的实例
    * @return {object} 样式
    */
-  getStateStyle(name: string, value: string | boolean, item: IItem): ShapeStyle {
+  getStateStyle(name: string, value: string | boolean, item: Item): ShapeStyle {
     const model = item.getModel()
-    const { style: defaultStyle, stateStyles: defaultStateStyle } = this.options
 
-    let currentStateStyle: string | number | object | object[] = defaultStyle
+    const { style: defaultStyle } = this.options
 
-    if (defaultStateStyle[name]) {
-      currentStateStyle = defaultStateStyle[name]
-    }
+    const currentStateStyle: ModelStyle = defaultStyle
+    
     if (value) {
-      return merge({}, currentStateStyle, model.style)
+      const modelStateStyle = model.stateStyles ? model.stateStyles[name] : undefined;
+      return merge({}, currentStateStyle, model.style, modelStateStyle)
     }
 
     const states = item.getStates()

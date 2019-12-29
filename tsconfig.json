@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "esnext",
     "declaration": true,
     "sourceMap": true,
     "target": "es5",
@@ -21,7 +21,7 @@
   "include": ["src"],
   "typedocOptions": {
     "mode": "modules",
-    "out": "docs/api",
+    "out": "docs/api-ts",
     "excludePrivate": true,
     "excludeProtected": true,
     "excludeExternals": true,

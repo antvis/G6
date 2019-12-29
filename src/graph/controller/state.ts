@@ -1,14 +1,7 @@
 import each from '@antv/util/lib/each'
 import isString from '@antv/util/lib/is-string'
 import { IGraph, IStates } from '@g6/interface/graph';
-import { IItem } from '@g6/interface/item';
-
-interface IState {
-  updateState: (item: IItem, state: string, enabled: boolean) => void;
-  updateStates: (item: IItem, states: string  | string[], enabled: boolean) => void;
-  updateGraphStates: () => void;
-  destroy: () => void;
-}
+import { Item } from '@g6/types';
 
 interface ICachedStates {
   enabled: IStates;
@@ -18,7 +11,7 @@ interface ICachedStates {
 let timer = null
 const TIME_OUT = 16;
 
-export default class State implements IState {
+export default class StateController {
   private graph: IGraph
   private cachedStates: ICachedStates
   public destroyed: boolean
@@ -44,13 +37,13 @@ export default class State implements IState {
    * 检查 cache 的可用性
    *
    * @private
-   * @param {IItem} item
+   * @param {Item} item
    * @param {string} state
    * @param {object} cache
    * @returns
    * @memberof State
    */
-  private checkCache(item: IItem, state: string, cache: object) {
+  private checkCache(item: Item, state: string, cache: object) {
     if (!cache[state]) {
       return;
     }
@@ -64,12 +57,12 @@ export default class State implements IState {
    * 缓存 state
    *
    * @private
-   * @param {IItem} item Item 实例
+   * @param {Item} item Item 实例
    * @param {string} state 状态名称
    * @param {object} states
    * @memberof State
    */
-  private cacheState(item: IItem, state: string, states: object) {
+  private cacheState(item: Item, state: string, states: object) {
     if (!states[state]) {
       states[state] = [];
     }
@@ -79,12 +72,12 @@ export default class State implements IState {
   /**
    * 更新 Item 的状态
    *
-   * @param {IItem} item Item实例
+   * @param {Item} item Item实例
    * @param {string} state 状态名称
    * @param {boolean} enabled 状态是否可用
    * @memberof State
    */
-  public updateState(item: IItem, state: string, enabled: boolean) {
+  public updateState(item: Item, state: string, enabled: boolean) {
     if (item.destroyed) {
       return;
     }
@@ -117,12 +110,12 @@ export default class State implements IState {
   /**
    * 批量更新 states，兼容 updateState，支持更新一个 state
    *
-   * @param {IItem} item
+   * @param {Item} item
    * @param {(string | string[])} states
    * @param {boolean} enabled
    * @memberof State
    */
-  public updateStates(item: IItem, states: string | string[], enabled: boolean) {
+  public updateStates(item: Item, states: string | string[], enabled: boolean) {
     const self = this;
     if (isString(states)) {
       self.updateState(item, states, enabled);

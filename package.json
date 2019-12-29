@@ -25,18 +25,21 @@
     "build:umd": "webpack --config webpack.config.js --mode production",
     "clean": "rimraf esm lib dist",
     "lint": "lint-staged",
+    "tslint": "tslint -c tslint.json 'src/**/*.ts'",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/shape/edge-spec.ts",
+    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/graph/tree-graph-spec.ts",
     "coverage": "jest --coverage",
     "ci": "run-s build coverage",
     "doc": "rimraf apis && typedoc",
-    "dist": "webpack --config webpack.config.js --mode production"
+    "dist": "webpack --config webpack.config.js --mode production",
+    "demos": "start-storybook"
   },
   "dependencies": {
     "@antv/dom-util": "^2.0.1",
     "@antv/event-emitter": "~0.1.0",
     "@antv/g-base": "^0.1.0-beta.10",
-    "@antv/g-canvas": "^0.1.0-beta.11",
+    "@antv/g-canvas": "^0.3.2",
+    "@antv/hierarchy": "^0.6.1",
     "@antv/matrix-util": "^2.0.4",
     "@antv/path-util": "^2.0.3",
     "@antv/scale": "^0.2.0",
@@ -44,11 +47,15 @@
     "d3-force": "^2.0.1",
     "dagre": "^0.8.5",
     "numericjs": "^1.2.6",
+    "lodash": "^4.17.15",
     "tslib": "^1.10.0"
   },
   "devDependencies": {
     "@antv/gatsby-theme-antv": "^0.9.25",
+    "@babel/core": "^7.7.7",
     "@types/jest": "^24.0.18",
+    "babel-loader": "^8.0.6",
+    "event-simulate": "~1.0.0",
     "gatsby": "^2.17.9",
     "gh-pages": "^2.1.1",
     "husky": "^3.0.4",
@@ -67,13 +74,13 @@
     "tslint-config-prettier": "^1.18.0",
     "typedoc": "^0.15.0",
     "typedoc-plugin-markdown": "^2.2.11",
-    "typescript": "^3.7.3",
-    "webpack": "^4.41.2",
+    "typescript": "^3.5.3",
+    "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "run-s lint build test"
+      "pre-commit": "run-s lint"
     }
   },
   "lint-staged": {
