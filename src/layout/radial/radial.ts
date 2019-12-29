@@ -351,7 +351,6 @@ export default class RadialLayout extends BaseLayout {
     return result;
   }
 
-  // TODO: 没被用到的函数
   private handleAbnormalMatrix(adMatrix, focusIndex) {
     const rows = adMatrix.length;
     // 空行即代表该行是离散点，将单个离散点看作 focus 的邻居
