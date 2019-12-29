@@ -34,8 +34,7 @@ export default class FruchtermanGroup extends BaseLayout {
   /** 速度 */
   public speed: number;
   /** 聚类力大小  */
-  public groupGravity: number; // TODO: 这个在隔壁叫 clusterGravity，统一一下？
-  /** TODO: 这个字段缺了 */
+  public groupGravity: number;
   public nodeSize: number | number[] | ((node: Node) => number);
 
   public nodeRepulsiveCoefficient: number;
@@ -82,7 +81,6 @@ export default class FruchtermanGroup extends BaseLayout {
    * @param {object} data 数据
    */
   public init(data: any) {
-    // TODO: 看来 init 的参数需要单独换个类型
     const self = this;
     self.nodes = data.nodes;
     self.edges = data.edges;

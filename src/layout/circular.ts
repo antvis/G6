@@ -13,10 +13,9 @@ type Node = NodeConfig & {
 };
 type Edge = EdgeConfig;
 
-// TODO: 这个应该叫 NodeIndexMap 更好？
-type NodeMap = Map<string, string>;
+type NodeIndexMap = Map<string, string>;
 
-function getDegree(n: number, nodeMap: NodeMap, edges: Edge[]) {
+function getDegree(n: number, nodeMap: NodeIndexMap, edges: Edge[]) {
   const degrees = [];
   for (let i = 0; i < n; i++) {
     degrees[i] = 0;
@@ -28,7 +27,7 @@ function getDegree(n: number, nodeMap: NodeMap, edges: Edge[]) {
   return degrees;
 }
 
-function initHierarchy(nodes: Node[], edges: Edge[], nodeMap: NodeMap, directed: boolean) {
+function initHierarchy(nodes: Node[], edges: Edge[], nodeMap: NodeIndexMap, directed: boolean) {
   nodes.forEach((_, i: number) => {
     nodes[i].children = [];
     nodes[i].parent = [];
@@ -101,7 +100,7 @@ export default class CircularLayout extends BaseLayout {
   public nodes: Node[];
   public edges: Edge[];
 
-  private nodeMap: NodeMap;
+  private nodeMap: NodeIndexMap;
   private degrees;
   private astep;
 
