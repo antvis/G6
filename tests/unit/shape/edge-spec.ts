@@ -59,42 +59,40 @@ describe('shape edge test', () => {
       expect(label.attr('x')).toEqual((100 + 150) / 2);
       expect(label.attr('y')).toEqual((100 + 50) / 2);
       expect(group.getCount()).toEqual(2);
-      
-      // TODO: wait for getStartTangent defined by G
 
-      // const item = {
-      //   getContainer() {
-      //     return group;
-      //   },
-      //   get() {
-      //     return '';
-      //   }
-      // };
-      // factory.update('shape', {
-      //   startPoint: { x: 150, y: 50 },
-      //   endPoint: { x: 100, y: 100 },
-      //   color: 'blue',
-      //   label: '这是一条线',
-      //   labelCfg: {
-      //     position: 'start'
-      //   }
-      // }, item);
-      // canvas.draw();
-      // expect(label.attr('x')).toEqual(150);
-      // expect(label.attr('y')).toEqual(50);
-      // factory.update('shape', {
-      //   startPoint: { x: 150, y: 50 },
-      //   endPoint: { x: 100, y: 100 },
-      //   color: 'blue',
-      //   label: '这是一条线',
+      const item = {
+        getContainer() {
+          return group;
+        },
+        get() {
+          return '';
+        }
+      };
+      factory.update('shape', {
+        startPoint: { x: 150, y: 50 },
+        endPoint: { x: 100, y: 100 },
+        color: 'blue',
+        label: '这是一条线',
+        labelCfg: {
+          position: 'start'
+        }
+      }, item);
+      canvas.draw();
+      expect(label.attr('x')).toEqual(150);
+      expect(label.attr('y')).toEqual(50);
+      factory.update('shape', {
+        startPoint: { x: 150, y: 50 },
+        endPoint: { x: 100, y: 100 },
+        color: 'blue',
+        label: '这是一条线',
 
-      //   labelCfg: {
-      //     position: 'end'
-      //   }
-      // }, item);
-      // canvas.draw();
-      // expect(label.attr('x')).toEqual(100);
-      // expect(label.attr('y')).toEqual(100);
+        labelCfg: {
+          position: 'end'
+        }
+      }, item);
+      canvas.draw();
+      expect(label.attr('x')).toEqual(100);
+      expect(label.attr('y')).toEqual(100);
     });
 
     it('update points', () => {
@@ -287,46 +285,44 @@ describe('shape edge test', () => {
       canvas.draw();
     });
 
-      // TODO: wait for getStartTangent defined by G
-
-  //   it('not auto rotate, end', () => {
-  //     const center = { x: 450, y: 100 };
-  //     canvas.addShape('circle', {
-  //       attrs: {
-  //         x: center.x,
-  //         y: center.y,
-  //         r: 40,
-  //         stroke: 'blue'
-  //       }
-  //     });
-  //     for (let i = 0; i < 360; i += 30) {
-  //       const angle = i / 180 * Math.PI;
-  //       const startPoint = getPoint(center, 40, angle);
-  //       const endPoint = getPoint(center, 80, angle);
-  //       const group = canvas.addGroup();
-  //       factory.draw('line', {
-  //         startPoint,
-  //         endPoint,
-  //         color: 'red',
-  //         label: i.toString(),
-  //         style: {
-  //           endArrow: true
-  //         },
-  //         labelCfg: {
-  //           position: 'end'
-  //         }
-  //       }, group);
-  //       const label = group.get('children')[1];
-  //       if (angle < 1 / 2 * Math.PI) {
-  //         expect(label.attr('textAlign')).toEqual('end');
-  //       }
-  //       if (angle > 1 / 2 * Math.PI && angle < 3 / 2 * Math.PI) {
-  //         expect(label.attr('textAlign')).toEqual('start');
-  //       }
-	// 			// expect(label.attr('textAlign')).toEqual('center');
-  //     }
-  //     canvas.draw();
-  //   });
+    it('not auto rotate, end', () => {
+      const center = { x: 450, y: 100 };
+      canvas.addShape('circle', {
+        attrs: {
+          x: center.x,
+          y: center.y,
+          r: 40,
+          stroke: 'blue'
+        }
+      });
+      for (let i = 0; i < 360; i += 30) {
+        const angle = i / 180 * Math.PI;
+        const startPoint = getPoint(center, 40, angle);
+        const endPoint = getPoint(center, 80, angle);
+        const group = canvas.addGroup();
+        factory.draw('line', {
+          startPoint,
+          endPoint,
+          color: 'red',
+          label: i.toString(),
+          style: {
+            endArrow: true
+          },
+          labelCfg: {
+            position: 'end'
+          }
+        }, group);
+        const label = group.get('children')[1];
+        if (angle < 1 / 2 * Math.PI) {
+          expect(label.attr('textAlign')).toEqual('end');
+        }
+        if (angle > 1 / 2 * Math.PI && angle < 3 / 2 * Math.PI) {
+          expect(label.attr('textAlign')).toEqual('start');
+        }
+				// expect(label.attr('textAlign')).toEqual('center');
+      }
+      canvas.draw();
+    });
 
 
     it('auto rotate, middle', () => {
@@ -393,77 +389,72 @@ describe('shape edge test', () => {
       }
       canvas.draw();
     });
+    
+    it('auto rotate, end', () => {
+      const center = { x: 450, y: 300 };
+      canvas.addShape('circle', {
+        attrs: {
+          x: center.x,
+          y: center.y,
+          r: 40,
+          stroke: 'blue'
+        }
+      });
+      for (let i = 0; i < 360; i += 30) {
+        const angle = i / 180 * Math.PI;
+        const startPoint = getPoint(center, 40, angle);
+        const endPoint = getPoint(center, 80, angle);
+        const group = canvas.addGroup();
+        const shape = factory.draw('line', {
+          startPoint,
+          endPoint,
+          color: 'red',
+          label: i.toString(),
+          style: {
+            endArrow: true
+          },
+          labelCfg: {
+            position: 'end',
+            autoRotate: true
+          }
+        }, group);
+        const label = group.get('children')[1];
+        if (angle < 1 / 2 * Math.PI) {
+          expect(label.attr('textAlign')).toEqual('end');
+        }
+        if (angle > 1 / 2 * Math.PI && angle < 3 / 2 * Math.PI) {
+          expect(label.attr('textAlign')).toEqual('start');
+        }
 
-      // TODO: wait for getStartTangent defined by G
-  //   it('auto rotate, end', () => {
-  //     const center = { x: 450, y: 300 };
-  //     canvas.addShape('circle', {
-  //       attrs: {
-  //         x: center.x,
-  //         y: center.y,
-  //         r: 40,
-  //         stroke: 'blue'
-  //       }
-  //     });
-  //     for (let i = 0; i < 360; i += 30) {
-  //       const angle = i / 180 * Math.PI;
-  //       const startPoint = getPoint(center, 40, angle);
-  //       const endPoint = getPoint(center, 80, angle);
-  //       const group = canvas.addGroup();
-  //       const shape = factory.draw('line', {
-  //         startPoint,
-  //         endPoint,
-  //         color: 'red',
-  //         label: i.toString(),
-  //         style: {
-  //           endArrow: true
-  //         },
-  //         labelCfg: {
-  //           position: 'end',
-  //           autoRotate: true
-  //         }
-  //       }, group);
-  //       const label = group.get('children')[1];
-  //       if (angle < 1 / 2 * Math.PI) {
-  //         expect(label.attr('textAlign')).toEqual('end');
-  //       }
-  //       if (angle > 1 / 2 * Math.PI && angle < 3 / 2 * Math.PI) {
-  //         expect(label.attr('textAlign')).toEqual('start');
-  //       }
+        const point = shape.getPoint(1);
+        expect(label.attr('x')).toEqual(point.x);
+        expect(label.attr('y')).toEqual(point.y);
+      }
+      canvas.draw();
+    });
 
-  //       // TODO: wait for G
+    it('curve rotate center', () => {
+      const group = canvas.addGroup();
+      const shape = factory.draw('cubic', {
+        startPoint: { x: 100, y: 400 },
+        endPoint: { x: 200, y: 400 },
+        controlPoints: [{ x: 120, y: 380 }, { x: 160, y: 420 }],
+        color: 'blue',
+        label: 'curve in center',
+        labelCfg: {
+          autoRotate: true
+        }
+      }, group);
+      const path = shape.attr('path');
+      const label = group.get('children')[1];
+      expect(path.length).toEqual(2);
 
-  //       // const point = shape.getPoint(1);
-  //       // expect(label.attr('x')).toEqual(point.x);
-  //       // expect(label.attr('y')).toEqual(point.y);
-  //     }
-  //     canvas.draw();
-  //   });
+      const point = shape.getPoint(0.5);
+      expect(point.x).toEqual(label.attr('x'));
+      expect(point.y).toEqual(label.attr('y'));
 
-  //   it('curve rotate center', () => {
-  //     const group = canvas.addGroup();
-  //     const shape = factory.draw('cubic', {
-  //       startPoint: { x: 100, y: 400 },
-  //       endPoint: { x: 200, y: 400 },
-  //       controlPoints: [{ x: 120, y: 380 }, { x: 160, y: 420 }],
-  //       color: 'blue',
-  //       label: 'curve in center',
-  //       labelCfg: {
-  //         autoRotate: true
-  //       }
-  //     }, group);
-  //     const path = shape.attr('path');
-  //     const label = group.get('children')[1];
-  //     expect(path.length).toEqual(2);
-
-  //     // TODO: wait for G
-
-  //     // const point = shape.getPoint(0.5);
-  //     // expect(point.x).toEqual(label.attr('x'));
-  //     // expect(point.y).toEqual(label.attr('y'));
-
-  //     canvas.draw();
-  //   });
+      canvas.draw();
+    });
 
     it('curve rotate start', () => {
       const group = canvas.addGroup();

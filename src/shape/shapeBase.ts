@@ -11,6 +11,7 @@ import { ILabelConfig } from '@g6/interface/shape'
 import { IPoint, Item, LabelStyle, ModelConfig, ModelStyle, ShapeStyle } from '@g6/types'
 import { cloneDeep, get, merge } from 'lodash'
 import Global from '../global'
+import { mat3, transform } from '@antv/matrix-util';
 
 const CLS_SHAPE_SUFFIX = '-shape'
 const CLS_LABEL_SUFFIX = '-label'
@@ -131,8 +132,22 @@ export const shapeBase: ShapeOptions = {
         // 需要融合当前 label 的样式 label.attr()。不再需要全局/默认样式，因为已经应用在当前的 label 上
         const labelStyle = Object.assign({}, label.attr(), calculateStyle, cfgStyle)
 
-        label.resetMatrix()
-        label.attr(labelStyle)
+        // 计算 label 的旋转矩阵
+        if (labelStyle.rotate) {
+          // if G 4.x define the rotateAtStart, use it directly instead of using the following codes
+          let rotateMatrix = mat3.create(); 
+          rotateMatrix = transform(rotateMatrix, [
+            [ 't', -labelStyle.x, -labelStyle.y ],
+            [ 'r', labelStyle.rotate ],
+            [ 't', labelStyle.x, labelStyle.y ]
+          ]);
+          label.resetMatrix()
+          label.attr({...labelStyle, matrix: rotateMatrix})
+        } else {
+          label.resetMatrix()
+          label.attr(labelStyle)
+        }
+
       }
     }
   },

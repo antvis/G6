@@ -16,6 +16,8 @@ import { getControlPoint, getSpline } from '@g6/util/path';
 import Global from '../global';
 import Shape from './shape';
 import { shapeBase } from './shapeBase';
+import { mat3, transform } from '@antv/matrix-util';
+import { Path } from '@antv/g-canvas/lib/shape';
 
 const CLS_SHAPE = 'edge-shape';
 
@@ -125,11 +127,7 @@ const singleEdge: ShapeOptions = {
     const labelPosition = labelCfg.position || this.labelPosition; // 文本的位置用户可以传入
     const style: LabelStyle = {};
 
-    // TODO: wait for findByClassName defined by G
-    // const pathShape = group.findAllByName(CLS_SHAPE)[0];
-    // const pathShape = group.find(element => { return element.get('className') === CLS_SHAPE})
-
-    const pathShape = group.get('children')[0];
+    const pathShape = group.find(element => { return element.get('className') === CLS_SHAPE}) as Path;
 
     // 不对 pathShape 进行判空，如果线不存在，说明有问题了
     let pointPercent;
@@ -154,7 +152,7 @@ const singleEdge: ShapeOptions = {
     style.y = offsetStyle.y;
     style.rotate = offsetStyle.rotate;
     style.textAlign = this._getTextAlign(labelPosition, offsetStyle.angle);
-    style.text = cfg.label
+    style.text = cfg.label;
     return style;
   },
   // 获取文本对齐方式
@@ -207,10 +205,22 @@ const singleEdge: ShapeOptions = {
   drawLabel(cfg: EdgeConfig, group: GGroup): IShape {
     const labelCfg = deepMix({}, this.options.labelCfg, cfg.labelCfg);
     const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
-    const label = group.addShape('text', {
-      attrs: labelStyle,
-    });
-    return label;
+    if (labelStyle.rotate) {
+      // if G 4.x define the rotateAtStart, use it directly instead of using the following codes
+      let rotateMatrix = mat3.create(); 
+      rotateMatrix = transform(rotateMatrix, [
+        [ 't', -labelStyle.x, -labelStyle.y ],
+        [ 'r', labelStyle.rotate ],
+        [ 't', labelStyle.x, labelStyle.y ]
+      ])
+      return group.addShape('text', {
+        attrs: { matrix: rotateMatrix, ...labelStyle },
+      });
+    } else {
+      return group.addShape('text', {
+        attrs: labelStyle,
+      });
+    }
   },
 };
 
