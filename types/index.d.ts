@@ -93,6 +93,7 @@ declare namespace G6 {
   }
 
   export class Item {
+    destroyed: boolean;
     constructor(cfg: any);
 
     isItem(): boolean;
@@ -355,8 +356,7 @@ declare namespace G6 {
      */
     modes?: {
       default?: Array<string | IMode>;
-      addNode?: Array<string | IMode>;
-      addEdge?: Array<string | IMode>;
+      [key: string]: Array<string | IMode>;
     };
 
     /**
@@ -437,6 +437,8 @@ declare namespace G6 {
    * Graph Class
    */
   export class Graph {
+    // Graph 是否已经 destroyed
+    destroyed: boolean;
     constructor(options: GraphOptions);
 
     on<T = G6Event>(eventName: string, handler: (e: T) => void): void;
