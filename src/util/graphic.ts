@@ -215,7 +215,7 @@ export const getLabelPosition = (
   rotate: boolean
 ): LabelStyle => {
   const TAN_OFFSET = 0.0001;
-  const vector: number[][] = [];
+  let vector: number[][] = [];
   const point: IPoint = pathShape.getPoint(percent);
   if (point === null) {
     return {
@@ -225,19 +225,17 @@ export const getLabelPosition = (
     };
   }
 
-  // TODO: wait for G
-
   // 头尾最可能，放在最前面，使用 g path 上封装的方法
-  // if (percent < TAN_OFFSET) {
-  //   vector = pathShape.getStartTangent().reverse();
-  // } else if (percent > (1 - TAN_OFFSET)) {
-  //   vector = pathShape.getEndTangent();
-  // } else {
-  // 否则取指定位置的点,与少量偏移的点，做微分向量
-  const offsetPoint: IPoint = pathShape.getPoint(percent + TAN_OFFSET);
-  vector.push([point.x, point.y]);
-  vector.push([offsetPoint.x, offsetPoint.y]);
-  // }
+  if (percent < TAN_OFFSET) {
+    vector = pathShape.getStartTangent().reverse();
+  } else if (percent > (1 - TAN_OFFSET)) {
+    vector = pathShape.getEndTangent();
+  } else {
+    // 否则取指定位置的点,与少量偏移的点，做微分向量
+    const offsetPoint: IPoint = pathShape.getPoint(percent + TAN_OFFSET);
+    vector.push([point.x, point.y]);
+    vector.push([offsetPoint.x, offsetPoint.y]);
+  }
 
   let rad: number = Math.atan2(vector[1][1] - vector[0][1], vector[1][0] - vector[0][0]);
 
