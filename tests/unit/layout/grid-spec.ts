@@ -39,7 +39,6 @@ describe.only('grid layout', () => {
     });
     graph.data(data);
     graph.render();
-    expect(graph.getNodes()[0].getModel()).toEqual(true);
     expect(graph.getNodes()[0].getModel().x != null).toEqual(true);
     graph.destroy();
   });

@@ -169,7 +169,7 @@ export default class LayoutController {
     try {
       layoutMethod = new Layout[layoutType](layoutCfg);
     } catch (e) {
-      console.warn('The layout method: ' + layoutCfg + ' does not exist! Please specify it first.');
+      console.warn('The layout method: ' + layoutType + ' does not exist! Please specify it first.');
       return false;
     }
     layoutMethod.init(self.data);
