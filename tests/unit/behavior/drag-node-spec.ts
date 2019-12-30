@@ -75,7 +75,6 @@ describe('drag-node', () => {
     graph.emit('node:dragstart', { x: 100, y: 100, item: source });
     graph.emit('node:drag', { x: 120, y: 120, item: source });
     path = edge.get('group').get('children')[0].attr('path');
-    console.log('path', path)
     expect(path[0][1]).toEqual(57.77817459305202);
     expect(path[0][2]).toEqual(57.77817459305202);
     expect(path[1][1]).toEqual(289);
@@ -121,45 +120,43 @@ describe('drag-node', () => {
     expect(node.get('delegateShape')).toBe(null);
   });
 
-  // wait for G, in graphics.ts, getStartTangent and getEndTangent
-  // it('drag node & edge & label', () => {
-  //   const graph = new Graph({
-  //     container: div,
-  //     width: 500,
-  //     height: 500,
-  //     renderer: 'svg',
-  //     modes: {
-  //       default: [{
-  //         type: 'drag-node',
-  //         delegateStyle: {
-  //           fillOpacity: 0.8
-  //         }
-  //       }]
-  //     },
-  //     pixelRatio: 2
-  //   });
-  //   const source = graph.addItem('node', { id: 'source', color: '#666', x: 50, y: 50, style: { lineWidth: 2, fill: '#666' } });
-  //   const target = graph.addItem('node', { id: 'target', color: '#666', x: 300, y: 300, shape: 'rect', style: { lineWidth: 2, fill: '#666' } });
-  //   const edge = graph.addItem('edge', { source, target, label: 'test label', labelCfg: { autoRotate: true } });
-  //   const label = edge.get('group').find(g => {
-  //     return g.get('className') === 'edge-label';
-  //   });
-  //   expect(label).not.toBe(undefined);
-  //   debugger
-  //   let matrix = label.getMatrix();
-  //   expect(matrix[0]).toEqual(0.7071067811865476);
-  //   expect(matrix[1]).toEqual(0.7071067811865475);
-  //   expect(matrix[3]).toEqual(-0.7071067811865475);
-  //   expect(matrix[4]).toEqual(0.7071067811865476);
-  //   graph.emit('node:dragstart', { x: 100, y: 100, item: target });
-  //   graph.emit('node:drag', { x: 120, y: 120, item: target });
-  //   graph.emit('node:dragend', { x: 80, y: 120, item: target });
-  //   matrix = label.getMatrix();
-  //   expect(matrix[0]).toEqual(0.6484664555997507);
-  //   expect(matrix[1]).toEqual(0.7612432304867457);
-  //   expect(matrix[3]).toEqual(-0.7612432304867457);
-  //   expect(matrix[4]).toEqual(0.6484664555997507);
-  // });
+  it('drag node & edge & label', () => {
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      renderer: 'svg',
+      modes: {
+        default: [{
+          type: 'drag-node',
+          delegateStyle: {
+            fillOpacity: 0.8
+          }
+        }]
+      },
+      pixelRatio: 2
+    });
+    const source = graph.addItem('node', { id: 'source', color: '#666', x: 50, y: 50, style: { lineWidth: 2, fill: '#666' } });
+    const target = graph.addItem('node', { id: 'target', color: '#666', x: 300, y: 300, shape: 'rect', style: { lineWidth: 2, fill: '#666' } });
+    const edge = graph.addItem('edge', { source, target, label: 'test label', labelCfg: { autoRotate: true } });
+    const label = edge.get('group').find(g => {
+      return g.get('className') === 'edge-label';
+    });
+    expect(label).not.toBe(undefined);
+    let matrix = label.getMatrix();
+    expect(matrix[0]).toEqual(0.613259321235976);
+    expect(matrix[1]).toEqual(0.7898816398152257);
+    expect(matrix[3]).toEqual(-0.7898816398152257);
+    expect(matrix[4]).toEqual(0.613259321235976);
+    graph.emit('node:dragstart', { x: 100, y: 100, item: target });
+    graph.emit('node:drag', { x: 120, y: 120, item: target });
+    graph.emit('node:dragend', { x: 80, y: 120, item: target });
+    matrix = label.getMatrix();
+    expect(matrix[0]).toEqual(0.5419555222423545);
+    expect(matrix[1]).toEqual(0.8404071703115203);
+    expect(matrix[3]).toEqual(-0.8404071703115203);
+    expect(matrix[4]).toEqual(0.5419555222423545);
+  });
 
   it('prevent default', () => {
     const graph = new Graph({

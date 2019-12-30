@@ -304,49 +304,48 @@ describe('polyline e test', () => {
       expect(label.attr('shadowBlur')).toEqual(5);
     });
     it('label position', () => {
-      // const data = {
-      //   nodes: [
-      //     {
-      //       id: 'node1',
-      //       x: 200,
-      //       y: 200
-      //     },
-      //     {
-      //       id: 'node2',
-      //       x: 150,
-      //       y: 100
-      //     }
-      //   ],
-      //   edges: [
-      //     {
-      //       source: 'node1',
-      //       target: 'node2',
-      //       shape: 'polyline',
-      //     }
-      //   ]
-      // };
-      // graph.data(data);
-      // graph.render();
+      const data = {
+        nodes: [
+          {
+            id: 'node1',
+            x: 200,
+            y: 200
+          },
+          {
+            id: 'node2',
+            x: 150,
+            y: 100
+          }
+        ],
+        edges: [
+          {
+            source: 'node1',
+            target: 'node2',
+            shape: 'polyline',
+          }
+        ]
+      };
+      graph.data(data);
+      graph.render();
 
-      // const edges = graph.getEdges();
-      // const edge = edges[0];
-      // const group = edge.get('group');
+      const edges = graph.getEdges();
+      const edge = edges[0];
+      const group = edge.get('group');
 
-      // // the position should be used after G, graphics.ts
-      // edge.update({
-      //   label: 'new label',
-      //   labelCfg: {
-      //     position: 'end',
-      //     style: {
-      //       fill: '#0ff'
-      //     }
-      //   }
-      // })
-      // const label = group.find(g => {
-      //   return g.get('className') === 'edge-label';
-      // });
-      // expect(label.attr('fill')).toEqual('#0ff');
-      // expect(label.attr('text')).toEqual('new label');
+      edge.update({
+        label: 'new label',
+        labelCfg: {
+          position: 'end',
+          style: {
+            fill: '#0ff'
+          }
+        }
+      })
+      const label = group.find(g => {
+        return g.get('className') === 'edge-label';
+      });
+      expect(label.attr('fill')).toEqual('#0ff');
+      expect(label.attr('text')).toEqual('new label');
     });
   });
 });

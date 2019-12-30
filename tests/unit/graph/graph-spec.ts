@@ -2,7 +2,7 @@
 import G6 from '../../../src'
 import '../../../src/behavior'
 import { scale, translate } from '../../../src/util/math'
-import { GraphData } from '@g6/types';
+import { GraphData } from '../../../types';
 
 const div = document.createElement('div');
 div.id = 'global-spec';
