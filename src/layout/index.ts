@@ -32,7 +32,7 @@ const layouts = {
 
 // 注册布局
 each(layouts, (layout, type: string) => {
-  Layout.registerLayout(type, layout);
+  Layout.registerLayout(type, {}, layout);
 });
 
 export default Layout;
