@@ -7,6 +7,7 @@ import { EdgeConfig, GraphData, IPointTuple, NodeConfig } from '@g6/types';
 import { ILayout } from '../interface/layout';
 
 import augment from '@antv/util/lib/augment';
+import each from '@antv/util/lib/each';
 import mix from '@antv/util/lib/mix';
 
 type LayoutOption<Cfg = any> = Partial<ILayout<Cfg>>;
@@ -52,24 +53,35 @@ export class BaseLayout<Cfg = any> implements ILayout<Cfg> {
 
 const Layout: {
   [layoutType: string]: any;
-  registerLayout<Cfg>(type: string, layout: LayoutOption<Cfg>): void;
+  registerLayout<Cfg>(type: string, layout: LayoutOption<Cfg>, baseLayout): void;
 } = {
   /**
    * 注册布局的方法
    * @param {string} type 布局类型，外部引用指定必须，不要与已有布局类型重名
    * @param {object} layout 布局方法
    */
-  registerLayout<Cfg>(type: string, layout: LayoutOption<Cfg>) {
+  registerLayout<Cfg>(type: string, layout: LayoutOption<Cfg>, baseLayout) {
     if (!layout) {
       throw new Error('please specify handler for this layout:' + type);
     }
-    const gLayout = function(cfg: Cfg) {
-      const self = this;
-      mix(self, self.getDefaultCfg(), cfg);
-    };
-    augment(gLayout, layout);
+    // const gLayout = function(cfg: Cfg) {
+    //   const self = this;
+    //   mix(self, self.getDefaultCfg(), cfg);
+    // };
+    // augment(gLayout, layout);
 
-    Layout[type] = gLayout;
+    // tslint:disable-next-line: max-classes-per-file
+    class GLayout extends baseLayout {
+      constructor(cfg: Cfg) {
+        super();
+        const extendCfg = mix(this.getDefaultCfg(), layout, cfg);
+        each(extendCfg, (value, key) => {
+          this[key] = value;
+        });
+      }
+    }
+
+    Layout[type] = GLayout;
   },
 };
 
