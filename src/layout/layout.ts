@@ -6,11 +6,12 @@
 import { EdgeConfig, GraphData, IPointTuple, NodeConfig } from '@g6/types';
 import { ILayout } from '../interface/layout';
 
-import augment from '@antv/util/lib/augment';
+// import augment from '@antv/util/lib/augment';
 import each from '@antv/util/lib/each';
 import mix from '@antv/util/lib/mix';
 
 type LayoutOption<Cfg = any> = Partial<ILayout<Cfg>>;
+type LayoutConstructor<Cfg = any> = new () => BaseLayout<Cfg>;
 
 /**
  * 基础布局，将被自定义布局所继承
@@ -35,7 +36,9 @@ export class BaseLayout<Cfg = any> implements ILayout<Cfg> {
     self.execute();
   }
 
-  public getDefaultCfg() {}
+  public getDefaultCfg() {
+    return {};
+  }
 
   public updateCfg(cfg: Partial<Cfg>) {
     const self = this;
@@ -53,14 +56,14 @@ export class BaseLayout<Cfg = any> implements ILayout<Cfg> {
 
 const Layout: {
   [layoutType: string]: any;
-  registerLayout<Cfg>(type: string, layout: LayoutOption<Cfg>, baseLayout): void;
+  registerLayout<Cfg>(type: string, layout: LayoutOption<Cfg>, layoutCons: LayoutConstructor<Cfg>): void;
 } = {
   /**
    * 注册布局的方法
    * @param {string} type 布局类型，外部引用指定必须，不要与已有布局类型重名
    * @param {object} layout 布局方法
    */
-  registerLayout<Cfg>(type: string, layout: LayoutOption<Cfg>, baseLayout) {
+  registerLayout<Cfg>(type, layout, layoutCons = BaseLayout) {
     if (!layout) {
       throw new Error('please specify handler for this layout:' + type);
     }
@@ -71,11 +74,13 @@ const Layout: {
     // augment(gLayout, layout);
 
     // tslint:disable-next-line: max-classes-per-file
-    class GLayout extends baseLayout {
+    class GLayout extends layoutCons {
       constructor(cfg: Cfg) {
         super();
-        const extendCfg = mix(this.getDefaultCfg(), layout, cfg);
-        each(extendCfg, (value, key) => {
+        const props = {};
+        const defaultCfg = this.getDefaultCfg();
+        mix(props, defaultCfg, layout, cfg);
+        each(props, (value, key) => {
           this[key] = value;
         });
       }

@@ -7,7 +7,7 @@ div.id = 'force-layout-web-worker';
 document.body.appendChild(div);
 
 describe.only('force layout(web worker)', function() {
-  this.timeout(10000);
+  // this.timeout(10000);
 
   it('force layout(web worker) with default configs', function(done) {
     const node = data.nodes[0];

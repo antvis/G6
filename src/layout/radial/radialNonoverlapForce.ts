@@ -35,7 +35,6 @@ export default class RadialNonoverlapForce {
     dx?: number;
     dy?: number;
   }>;
-  private c: number[];
 
   constructor(params) {
     this.positions = params.positions;
@@ -60,7 +59,7 @@ export default class RadialNonoverlapForce {
     const iterations = self.iterations;
     const maxDisplace = self.width / 10;
     self.maxDisplace = maxDisplace;
-    self.c = disp;
+    self.disp = disp;
     for (let i = 0; i < iterations; i++) {
       positions.forEach((_, k) => {
         disp[k] = { x: 0, y: 0 };
