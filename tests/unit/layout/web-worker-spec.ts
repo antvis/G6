@@ -8,7 +8,7 @@ div.id = 'layout-web-worker';
 document.body.appendChild(div);
 
 describe.only('layout using web worker', function() {
-  this.timeout(10000);
+  // this.timeout(10000);
 
   it('change layout', function(done) {
     const node = data.nodes[0];

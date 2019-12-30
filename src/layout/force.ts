@@ -5,7 +5,7 @@
 
 import { GraphData, IPointTuple } from '@g6/types';
 
-import d3Force from 'd3-force';
+import * as d3Force from 'd3-force';
 
 import isArray from '@antv/util/lib/is-array';
 import isFunction from '@antv/util/lib/is-function';

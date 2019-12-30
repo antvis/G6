@@ -103,7 +103,7 @@ describe.only('preset layout', () => {
     expect(graph.getNodes()[1].getModel().y).toEqual(80);
 
     let painted = false;
-    graph.on('afterpaint', function() {
+    graph.once('afterpaint', function() {
       painted = true;
     });
     graph.changeData(data2);
