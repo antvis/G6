@@ -129,16 +129,24 @@ export default class GridLayout extends BaseLayout {
       return (n2 as any)[self.sortBy] - (n1 as any)[self.sortBy];
     });
 
-    self.width = self.width || window.innerHeight;
-    self.height = self.height || window.innerWidth;
-    // width/height * splits^2 = cells where splits is number of times to split width
-    self.cells = n;
-    self.splits = Math.sqrt((self.cells * self.height) / self.width);
-    self.rows = Math.round(self.splits);
-    self.cols = Math.round((self.width / self.height) * self.splits);
+    if (!self.width && typeof window !== 'undefined') {
+      let width = self.width;
+      self.width = window.innerWidth;
+      if (!width && typeof window !== 'undefined') {
+        width = window.innerWidth;
+      }
+    }
+    let height = self.height;
+    if (!self.height && typeof window !== 'undefined') {
+      if (!height && typeof height !== 'undefined') {
+        self.height = window.innerHeight;
+        height = window.innerHeight;
+      }
+    }
 
     const oRows = self.rows;
     const oCols = self.cols != null ? self.cols : self.columns;
+    self.cells = n;
 
     // if rows or columns were set in self, use those values
     if (oRows != null && oCols != null) {
@@ -150,7 +158,14 @@ export default class GridLayout extends BaseLayout {
     } else if (oRows == null && oCols != null) {
       self.cols = oCols;
       self.rows = Math.ceil(self.cells / self.cols);
-    } else if (self.cols * self.rows > self.cells) {
+    } else {
+      // otherwise use the automatic values and adjust accordingly	      // otherwise use the automatic values and adjust accordingly
+      // width/height * splits^2 = cells where splits is number of times to split width
+      self.splits = Math.sqrt((self.cells * self.height) / self.width);
+      self.rows = Math.round(self.splits);
+      self.cols = Math.round((self.width / self.height) * self.splits);
+    }
+    if (self.cols * self.rows > self.cells) {
       // otherwise use the automatic values and adjust accordingly
       // if rounding was up, see if we can reduce rows or columns
       const sm = self.small();
