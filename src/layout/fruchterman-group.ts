@@ -7,7 +7,7 @@ import { EdgeConfig, IPointTuple, NodeConfig } from '@g6/types';
 
 import isArray from '@antv/util/lib/is-array';
 import isNumber from '@antv/util/lib/is-number';
-import d3Force from 'd3-force';
+import * as d3Force from 'd3-force';
 
 import { BaseLayout } from './layout';
 
