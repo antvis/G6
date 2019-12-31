@@ -1,7 +1,6 @@
 const resolve = require('path').resolve;
 
 module.exports = ({ config }) => {
-  
   config.module.rules.push({
     test: /\.(ts|tsx)$/,
     loader: require.resolve('awesome-typescript-loader'),
