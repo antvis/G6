@@ -30,7 +30,10 @@ const EVENTS = [
   'drag',
   'dragenter',
   'dragleave',
-  'drop'
+  'drop',
+  'touchstart',
+  'touchmove',
+  'touchend',
 ];
 export default class EventController {
   private graph: IGraph

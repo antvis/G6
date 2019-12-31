@@ -16,9 +16,10 @@
   ],
   "scripts": {
     "start": "npm run site:develop",
-    "site:develop": "gatsby develop --open -H 0.0.0.0",
-    "site:build": "npm run site:clean && gatsby build --prefix-paths",
+    "site:develop": "GATSBY=true gatsby develop --open",
+    "site:build": "npm run site:clean && GATSBY=true gatsby build --prefix-paths",
     "site:clean": "gatsby clean",
+    "site:deploy": "npm run site:build && gh-pages -d public",
     "build": "npm run clean && run-p build:*",
     "build:esm": "tsc -p tsconfig.json --target ES5 --module ESNext --outDir esm",
     "build:cjs": "tsc -p tsconfig.json --target ES5 --module commonjs --outDir lib",
@@ -32,7 +33,7 @@
     "ci": "run-s build coverage",
     "doc": "rimraf apis && typedoc",
     "dist": "webpack --config webpack.config.js --mode production",
-    "demos": "start-storybook"
+    "demos": "start-storybook -p 8080 -c .storybook"
   },
   "dependencies": {
     "@antv/dom-util": "^2.0.1",
@@ -50,7 +51,14 @@
   "devDependencies": {
     "@antv/gatsby-theme-antv": "^0.9.25",
     "@babel/core": "^7.7.7",
+    "@babel/preset-react": "^7.7.4",
+    "@storybook/addon-actions": "^5.2.8",
+    "@storybook/addon-info": "^5.2.8",
+    "@storybook/addon-knobs": "^5.2.8",
+    "@storybook/react": "^5.2.8",
     "@types/jest": "^24.0.18",
+    "@types/node": "^12.12.22",
+    "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
     "event-simulate": "~1.0.0",
     "gatsby": "^2.17.9",
@@ -63,6 +71,8 @@
     "lint-staged": "^9.2.3",
     "npm-run-all": "^4.1.5",
     "prettier": "^1.18.2",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
     "react-i18next": "^11.1.0",
     "rimraf": "^3.0.0",
     "ts-jest": "^24.1.0",
