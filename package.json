@@ -26,8 +26,8 @@
     "clean": "rimraf esm lib dist",
     "lint": "lint-staged",
     "tslint": "tslint -c tslint.json 'src/**/*.ts'",
-    "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/graph/tree-graph-spec.ts",
+    "test": "npm run build && jest",
+    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/layout/web-worker-spec.ts",
     "coverage": "jest --coverage",
     "ci": "run-s build coverage",
     "doc": "rimraf apis && typedoc",
@@ -76,7 +76,8 @@
     "typedoc-plugin-markdown": "^2.2.11",
     "typescript": "^3.5.3",
     "webpack": "^4.41.4",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^3.3.10",
+    "worker-loader": "^2.0.0"
   },
   "husky": {
     "hooks": {
