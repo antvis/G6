@@ -1,5 +1,7 @@
-module.exports = ({ config }) => {
+const resolve = require('path').resolve;
 
+module.exports = ({ config }) => {
+  
   config.module.rules.push({
     test: /\.(ts|tsx)$/,
     loader: require.resolve('awesome-typescript-loader'),
@@ -33,6 +35,11 @@ module.exports = ({ config }) => {
   );
 
   config.resolve.extensions.push('.ts', '.tsx', '.js');
+
+  config.resolve.alias = {
+    '@g6/types': resolve(process.cwd(), './types'),
+    '@g6': resolve(process.cwd(), './src')
+  }
 
   return config;
 };
