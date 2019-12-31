@@ -9,7 +9,7 @@ const DefaultShape = () => {
   useEffect(() => {
     if(!graph) {
       graph = new G6.Graph({
-        container,
+        container: container.current as string | HTMLElement,
         width: 500,
         height: 500
       })
