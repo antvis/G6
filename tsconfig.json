@@ -5,6 +5,7 @@
     "declaration": true,
     "sourceMap": true,
     "target": "es5",
+    "outDir": "lib",
     "jsx": "react",
     "importHelpers": true,
     "moduleResolution": "node",
