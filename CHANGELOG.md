@@ -1,4 +1,8 @@
 # ChangeLog
+#### 3.2.7
+* feat: supports create the group without nodes in node-group;
+* fix: supports destoryed properties and fix issue [1094](https://github.com/antvis/G6/issues/1094);
+
 #### 3.2.6
 * feat: supports sort the nodes on one circle according to the data ordering or some attribute in radial layout
 * fix: grid layout with cols and rows

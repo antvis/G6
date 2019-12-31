@@ -215,7 +215,9 @@ module.exports = {
     const groupNodes = graph.get('groupNodes');
     if (this.inGroupId && groupId) {
       const currentGroup = _.get(customGroup, `${groupId}.nodeGroup`);
-      if (!currentGroup) {return;}
+      if (!currentGroup) {
+        return;
+      }
       const keyShape = currentGroup.get('keyShape');
 
       const itemBBox = item.getBBox();
@@ -265,7 +267,9 @@ module.exports = {
     } else if (this.inGroupId && !groupId) {
       // 将节点拖动到群组中
       const nodeInGroup = _.get(customGroup, `${this.inGroupId}.nodeGroup`);
-      if (!nodeInGroup) {return;}
+      if (!nodeInGroup) {
+        return;
+      }
       const keyShape = nodeInGroup.get('keyShape');
       // 将该节点添加到inGroupId中
       if (groupNodes[this.inGroupId].indexOf(id) === -1) {
@@ -282,7 +286,9 @@ module.exports = {
         groupNodes[gnode] = currentGroupNodes.filter(node => node !== id);
       }
       const currentGroup = _.get(customGroup, `${groupId}.nodeGroup`);
-      if (!currentGroup) {return;}
+      if (!currentGroup) {
+        return;
+      }
       const keyShape = currentGroup.get('keyShape');
       customGroupControll.dynamicChangeGroupSize(evt, currentGroup, keyShape);
       delete model.groupId;

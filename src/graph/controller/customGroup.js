@@ -250,7 +250,7 @@ class CustomGroup {
    * @return {object} 根据节点计算出来的包围盒坐标
    * @memberof ItemGroup
    */
-  calculationGroupPosition(nodes) {
+  calculationGroupPosition(nodes = []) {
     const graph = this.graph;
 
     let minx = Infinity;
@@ -284,7 +284,7 @@ class CustomGroup {
     miny = miny === Infinity ? 100 : miny;
     maxx = maxx === -Infinity ? 200 : maxx;
     maxy = maxy === -Infinity ? 200 : maxy;
-    
+
     const x = Math.floor(minx);
     const y = Math.floor(miny);
     const width = Math.ceil(maxx) - x;
