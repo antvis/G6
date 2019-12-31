@@ -17,7 +17,13 @@
     "paths": {
       "@g6/*": ["./src/*"],
       "@g6/types": ["./types"]
-    }
+    },
+    "plugins": [
+      {
+        "transform": "typescript-transform-paths",
+        "afterDeclarations": true
+      }
+    ]
   },
   "include": ["src"],
   "typedocOptions": {
