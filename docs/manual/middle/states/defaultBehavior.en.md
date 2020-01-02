@@ -56,7 +56,7 @@ The canvas can be dragged along x direction only.<br /><img src='https://gw.alip
 - `type: 'drag-node'`;
 - `delegateStyle`: The drawing properties when the nodes are dragged.  `{ strokeOpacity: 0.6, fillOpacity: 0.6 }` by default;
 - `updateEdge`: Whether to update all connected edges when dragging nodes. `true` by default.
-- *Supported from V3.1.2* `enableDelegate`: Whether activate `delegate` when dragging nodes, which means whether to use a virtual rect moved with the dragging mouse instead of the node. The effect is shown in the figures below. `false` by default.
+- `enableDelegate`: Whether activate `delegate` when dragging nodes, which means whether to use a virtual rect moved with the dragging mouse instead of the node. The effect is shown in the figures below. `false` by default.
 
 **Default Configuration**
 ```javascript
@@ -88,7 +88,7 @@ const graph = new G6.Graph({
 - Description: Select a node by clicking. Cancel the selected state by clicking the node agian or clicking the canvas;
 - `type: 'click-select'`;
 - `multiple`: Whether to allow multiple selection. `true` by default. `false` means multiple selection is not allowed, and the `trigger` will not take effect.
-- *Supported from V3.1.2* `trigger`: Specify which key to hold for multiple selection. `shift` by default, which means multiple selection is activated when the shift button is pressed. Options: `'shift'`, `'ctrl'`, `'alt'`, and so on;
+- `trigger`: Specify which key to hold for multiple selection. `shift` by default, which means multiple selection is activated when the shift button is pressed. Options: `'shift'`, `'ctrl'`, `'alt'`, and so on;
 
 **Default Configuration**
 
@@ -167,7 +167,7 @@ The usage of edge-tooltip is similar to tooltip. It will be activated when the u
   - `trigger: 'mouseenter'`. `mousenter` means acitvating when the mouse enter a node; `click` means activating when the mouse click a node;
   - `activeState: 'active'`. The state name when the node is activated. When `activate-relations` is activated, the related nodes and edges will have this state. `active` by default. It can be combined with `nodeStyle` and `edgeStyle` of graph to enrich the visual effect;
   - `inactiveState: 'inactive'`. The state name when of the node is inactivated. All the nodes and edges which are not activated by `activate-relations` will have this state. `inactive` by default. It can be combined with `nodeStyle` and `edgeStyle` of graph to enrich the visual effect;
-  - *Supported from V3.1.2* `resetSelected`: Whether to reset the selected nodes when highlight the related nodes. `false` by default, which means the selected state will not be covered by `activate-relations`.
+  - `resetSelected`: Whether to reset the selected nodes when highlight the related nodes. `false` by default, which means the selected state will not be covered by `activate-relations`.
 
 
 <br />**Default Configuration**<br />
@@ -210,7 +210,7 @@ Assign `true` to `resetSelected` to reset the selected states for nodes after th
   - `onDeselect(nodes)`: The callback function when canceling selections. `nodes` is the selected ndoes;
   - `selectedState`: The state of the selected nodes. `'selected'` by default;
   - `includeEdges`: Whether to select the edges when selecting by brushing. `true` by default. `false` means do not select the edges.
-  - *Supported from V3.1.2* `trigger`: The trigger button for this operation. `'shift'` by default, which means the select by brushing operation will be activated by pressing Shift button. Options: `'shift'`, `'ctrl' / 'control'`, `'alt'` and `'drag'`, not case sensitive:
+  - `trigger`: The trigger button for this operation. `'shift'` by default, which means the select by brushing operation will be activated by pressing Shift button. Options: `'shift'`, `'ctrl' / 'control'`, `'alt'` and `'drag'`, not case sensitive:
     - `'shift'`: Select by brushing when Shift is pressed;
     - `'ctrl' / 'control'`: Select by brushing when Ctrl is pressed;
     - `'alt'`: Select by brushing when Alt is pressed;
@@ -311,7 +311,7 @@ const graph = new G6.TreeGraph({
 - Description: Collapse or expand a node group;
 - `type: 'collapse-expand-group'`
 - Configurations: 
-  - *Supported from V3.1.2* trigger: The operation for collapsing and expanding. Options: `click` and `dblclick`. `dblclick` by default, which means double click.
+  - trigger: The operation for collapsing and expanding. Options: `click` and `dblclick`. `dblclick` by default, which means double click.
 
 **Default Configuration**
 ```javascript

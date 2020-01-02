@@ -56,7 +56,7 @@ const graph = new G6.Graph({
 - `type: 'drag-node'`；
 - `delegateStyle`：节点拖拽时的绘图属性，默认为 `{ strokeOpacity: 0.6, fillOpacity: 0.6 }`；
 - `updateEdge`：是否在拖拽节点时更新所有与之相连的边，默认为 `true` 。
-- *V3.1.2 后支持* `enableDelegate`：拖动节点过程中是否启用 `delegate`，即在拖动过程中是否使用方框代替元素的直接移动，效果区别见下面两个动图。默认值为 `false`。
+- `enableDelegate`：拖动节点过程中是否启用 `delegate`，即在拖动过程中是否使用方框代替元素的直接移动，效果区别见下面两个动图。默认值为 `false`。
 
 **默认配置**
 ```javascript
@@ -88,7 +88,7 @@ const graph = new G6.Graph({
 - 含义：点击选中节点，再次点击节点或点击 Canvas 取消选中状态；
 - `type: 'click-select'`；
 - `multiple`：是否允许多选，默认为 `true`，当设置为 `false`，表示不允许多选，此时 `trigger` 参数无效。
-- *V3.1.2 后支持* `trigger`：指定按住哪个键进行多选，默认为 shift，按住 Shift 键多选，用户可配置 shift、ctrl、alt；
+- `trigger`：指定按住哪个键进行多选，默认为 shift，按住 Shift 键多选，用户可配置 shift、ctrl、alt；
 
 **默认配置**
 
@@ -166,7 +166,7 @@ const graph = new G6.Graph({
   - `trigger: 'mouseenter'`。可以是 `mousenter`，表示鼠标移入时触发；也可以是 `click`，鼠标点击时触发；
   - `activeState: 'active'`。活跃节点状态。当行为被触发，需要被突出显示的节点和边都会附带此状态，默认值为 `active`；可以与 graph 实例的 `nodeStyle` 和 `edgeStyle` 结合实现丰富的视觉效果。
   - `inactiveState: 'inactive'`。非活跃节点状态。不需要被突出显示的节点和边都会附带此状态。默认值为 `inactive`。可以与 graph 实例的 `nodeStyle` 和 `edgeStyle` 结合实现丰富的视觉效果；
-  - *V3.1.2 后支持* `resetSelected`：高亮相连节点时是否重置已经选中的节点，默认为 `false`，即选中的节点状态不会被 `activate-relations` 覆盖。
+  - `resetSelected`：高亮相连节点时是否重置已经选中的节点，默认为 `false`，即选中的节点状态不会被 `activate-relations` 覆盖。
 
 
 <br />**默认配置**<br />
@@ -210,7 +210,7 @@ const graph = new G6.Graph({
   - `onDeselect(nodes)`：取消选中节点时的回调，参数 `nodes` 表示取消选中的节点；
   - `selectedState`：选中的状态，默认值为 `'selected'`；
   - `includeEdges`：框选过程中是否选中边，默认为 `true`，用户配置为 `false` 时，则不选中边；
-  - *V3.1.2 后支持* `trigger`：触发框选的动作，默认为 `'shift'`，即用户按住 Shift 键拖动就可以进行框选操作，可配置的的选项为: `'shift'`、`'ctrl' / 'control'`、`'alt'` 和 `'drag'` ，不区分大小写：
+  - `trigger`：触发框选的动作，默认为 `'shift'`，即用户按住 Shift 键拖动就可以进行框选操作，可配置的的选项为: `'shift'`、`'ctrl' / 'control'`、`'alt'` 和 `'drag'` ，不区分大小写：
     - `'shift'`：按住 Shift 键进行拖动框选；
     - `'ctrl' / 'control'`：按住 Ctrl 键进行拖动框选；
     - `'alt'`：按住 Alt 键进行拖动框选；
@@ -312,7 +312,7 @@ const graph = new G6.TreeGraph({
 - 含义：收起和展开群组；
 - `type：'collapse-expand-group'`
 - 参数：
-  - *V3.1.2 后支持* trigger：收起和展开节点分组的方式。支持 `'click'` 和 `'dblclick'` 两种方式。默认为 `'dblclick'`，即双击。
+  - trigger：收起和展开节点分组的方式。支持 `'click'` 和 `'dblclick'` 两种方式。默认为 `'dblclick'`，即双击。
 
 **默认配置**
 ```javascript

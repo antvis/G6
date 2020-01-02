@@ -7,7 +7,6 @@ Node inherits from item. The functions of Item are also available for Node.
 
 
 ## lock()
-> New feature of v3.1.4.
 
 Lock the current node. The locked node will not response the drag event any more.
 
@@ -23,7 +22,6 @@ node.lock();
 
 
 ## unlock()
-> New feature of V3.1.4.
 
 Unlock the locked node.
 
@@ -37,7 +35,6 @@ node.unlock();
 
 
 ## hasLocked()
-> New feature from V3.1.4.
 
 Query the lock state of the node.
 
