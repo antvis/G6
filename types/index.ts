@@ -334,3 +334,9 @@ export enum ITEM_TYPE {
   EDGE = 'edge',
   GROUP = 'group',
 }
+
+// 触发 viewportchange 事件的参数
+export interface ViewPortEventParam {
+  action: string;
+  matrix: Matrix;
+}
