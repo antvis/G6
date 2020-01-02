@@ -392,6 +392,16 @@ d => {
 > （左）preventOverlap = false。（中）preventOverlap = false，strictRadial = true。（右）preventOverlap = false，strictRadial = false。
 
 
+#### sortBy
+**类型**: String<br />**默认值**: undefined<br />**是否必须**: false<br />**说明**: 同层节点布局后相距远近的依据。默认 undefined ，表示根据数据的拓扑结构（节点间最短路径）排布，即关系越近/点对间最短路径越小的节点将会被尽可能排列在一起；'data' 表示按照节点在数据中的顺序排列，即在数据顺序上靠近的节点将会尽可能排列在一起；也可以指定为节点数据中的某个字段名，例如 'cluster'、'name' 等（必须在数据中存在）
+
+
+
+#### sortStrength
+**类型**: Number<br />**默认值**: 10<br />**是否必须**: false<br />**说明**: 同层节点根据 `sortBy` 排列的强度，数值越大，`sortBy` 指定的方式计算出距离越小的越靠近。`sortBy` 不为 `undefined` 时生效
+
+
+
 #### workerEnabled
 **类型**: Boolean<br />**默认值**: false<br />**是否必须**: false<br />**说明**: 是否启用 web-worker 以防布局计算时间过长阻塞页面交互
 
