@@ -88,7 +88,9 @@ Shape.registerNode('modelRect', {
     const height = size[1];
 
     const keyShape = group.addShape('rect', {
-      attrs: style
+      attrs: style,
+      className: 'modelRect-keyShape',
+      draggable: true
     });
 
     const preRect = deepMix({}, defaultPreRect, cfg.preRect);
@@ -335,10 +337,14 @@ Shape.registerNode('modelRect', {
     const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
 
     const logoIconShape = group.find(element => element.get('className') === 'rect-logo-icon')
+    const currentLogoIconAttr = logoIconShape ? logoIconShape.attr() : {};
 
-    const logoIcon = deepMix({}, logoIconShape.attr(), cfg.logoIcon);
+    const logoIcon = deepMix({}, currentLogoIconAttr, cfg.logoIcon);
 
-    const { width: w } = logoIcon;
+    let { width: w } = logoIcon;
+    if (w === undefined) {
+      w = this.options.logoIcon.width;
+    }
     const show = cfg.logoIcon ? cfg.logoIcon.show : undefined;
 
     const { offset } = labelCfg;
@@ -432,7 +438,8 @@ Shape.registerNode('modelRect', {
     }
 
     const stateIconShape = group.find(element => { return element.get('className') === 'rect-state-icon'})
-    const stateIcon = deepMix({}, stateIconShape.attr(), cfg.stateIcon);
+    const currentStateIconAttr = stateIconShape ? stateIconShape.attr() : {};
+    const stateIcon = deepMix({}, currentStateIconAttr, cfg.stateIcon);
     if (stateIconShape) {
       if (!stateIcon.show && stateIcon.show !== undefined) {
         stateIconShape.remove();

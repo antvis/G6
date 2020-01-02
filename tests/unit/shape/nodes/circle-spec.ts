@@ -141,6 +141,7 @@ describe.only('circle test', () => {
           linkPoints: {
             top: true,
             bottom: true,
+            left: true,
             fill: '#fff',
             size: 5
           }
@@ -164,7 +165,7 @@ describe.only('circle test', () => {
       const node = nodes[0];
       const group = node.get('group');
 
-      expect(group.getCount()).toEqual(4);
+      expect(group.getCount()).toEqual(5);
 
       const keyShape = node.getKeyShape();
       expect(keyShape.attr('fill')).toEqual('blue');

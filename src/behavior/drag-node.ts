@@ -7,7 +7,6 @@
  */
 import { Point } from '@antv/g-base/lib/types';
 import deepMix from '@antv/util/lib/deep-mix';
-import isString from '@antv/util/lib/is-string'
 import { INode } from '@g6/interface/item';
 import { G6Event, IG6GraphEvent, Item, NodeConfig } from "@g6/types";
 import Global from '../global'
@@ -38,13 +37,12 @@ export default {
     }
 
     const item: INode = e.item as INode;
-    const target = e.target;
-    const hasLocked = item.hasLocked();
-    if (hasLocked) {
+    if (item && item.hasLocked()) {
       return;
     }
 
     // 如果拖动的target 是linkPoints / anchorPoints 则不允许拖动
+    const target = e.target;
     if (target) {
       const isAnchorPoint = target.get('isAnchorPoint');
       if (isAnchorPoint) {
@@ -130,9 +128,9 @@ export default {
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
 
-    if (this.shape) {
-      this.shape.remove();
-      this.shape = null;
+    if (this.delegateRect) {
+      this.delegateRect.remove();
+      this.delegateRect = null;
     }
 
     if (this.target) {
@@ -216,7 +214,7 @@ export default {
    */
   updateDelegate(e, x, y) {
     const bbox = e.item.get('keyShape').getBBox();
-    if (!this.shape) {
+    if (!this.delegateRect) {
       // 拖动多个
       const parent = this.graph.get('group');
       const attrs = deepMix({}, Global.delegateStyle, this.delegateStyle);
@@ -224,7 +222,7 @@ export default {
         const { x: cx, y: cy, width, height, minX, minY } = this.calculationGroupPosition();
         this.originPoint = { x: cx, y: cy, width, height, minX, minY };
         // model上的x, y是相对于图形中心的，delegateShape是g实例，x,y是绝对坐标
-        this.shape = parent.addShape('rect', {
+        this.delegateRect = parent.addShape('rect', {
           attrs: {
             width,
             height,
@@ -234,7 +232,7 @@ export default {
           }
         });
       } else if (this.target) {
-        this.shape = parent.addShape('rect', {
+        this.delegateRect = parent.addShape('rect', {
           attrs: {
             width: bbox.width,
             height: bbox.height,
@@ -244,23 +242,25 @@ export default {
           }
         });
       }
-      this.shape.set('capture', false);
+      this.delegateRect.set('capture', false);
     } else {
       if (this.targets.length > 0) {
         const clientX = e.x - this.origin.x + this.originPoint.minX;
         const clientY = e.y - this.origin.y + this.originPoint.minY;
-        this.shape.attr({
+        this.delegateRect.attr({
           x: clientX,
           y: clientY
         });
       } else if (this.target) {
-        this.shape.attr({
+        this.delegateRect.attr({
           x: x + bbox.x,
           y: y + bbox.y
         });
       }
     }
-    this.target.set('delegateShape', this.shape);
+    if (this.target) {
+      this.target.set('delegateShape', this.delegateRect);
+    }
 
     // this.graph.paint();
   },
@@ -280,8 +280,8 @@ export default {
     let maxy = -Infinity;
 
     // 获取已节点的所有最大最小x y值
-    for (const id of nodes) {
-      const element = isString(id) ? graph.findById(id) : id;
+    for (const element of nodes) {
+      // const element = isString(id) ? graph.findById(id) : id;
       const bbox = element.getBBox();
       const { minX, minY, maxX, maxY } = bbox;
       if (minX < minx) {
@@ -300,10 +300,10 @@ export default {
         maxy = maxY;
       }
     }
-    const x = Math.floor(minx) - 20;
-    const y = Math.floor(miny) + 10;
-    const width = Math.ceil(maxx) - x;
-    const height = Math.ceil(maxy) - y;
+    const x = Math.floor(minx);
+    const y = Math.floor(miny);
+    const width = Math.ceil(maxx) - Math.floor(minx);
+    const height = Math.ceil(maxy) - Math.floor(miny);
 
     return {
       x,

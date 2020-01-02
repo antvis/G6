@@ -7,16 +7,9 @@
  */
 import deepMix from '@antv/util/lib/deep-mix';
 import { G6Event, IG6GraphEvent } from "@g6/types";
+import Global from '../global'
 
 const body = document.body;
-
-const delegateStyle = {
-  fill: '#F3F9FF',
-  fillOpacity: 0.5,
-  stroke: '#1890FF',
-  strokeOpacity: 0.9,
-  lineDash: [ 5, 5 ]
-};
 
 export default {
   getDefaultCfg(): object {
@@ -99,7 +92,7 @@ export default {
     // 修改群组位置
     const customGroupControll = graph.get('customGroupControll');
     const delegateShapeBBoxs = this.delegateShapeBBoxs[groupId];
-    customGroupControll.updateGroup(groupId, delegateShapeBBoxs);
+    customGroupControll.updateGroup(groupId, delegateShapeBBoxs, this.mouseOrigin);
 
     graph.setAutoPaint(autoPaint);
     graph.paint();
@@ -122,35 +115,37 @@ export default {
     const delegateType = item.get('type');
     if (!delegateShape) {
       const delegateGroup = graph.get('delegateGroup');
-      const { width, height } = groupBbox;
+      const { x: bboxX, y: bboxY, width, height } = groupBbox;
       const x = evt.canvasX - width / 2;
       const y = evt.canvasY - height / 2;
       const attrs = {
         width,
         height,
-        x,
-        y,
-        ...deepMix({}, delegateStyle, this.delegateStyle)
+        ...deepMix({}, Global.delegateStyle, this.delegateStyle)
       };
 
       // 如果delegate是circle
       if (delegateType === 'circle') {
-        const cx = evt.canvasX; // (width + 2 * x) / 2;
-        const cy = evt.canvasY; // (height + 2 * y) / 2;
         const r = width > height ? width / 2 : height / 2;
+        const cx = bboxX + r;
+        const cy = bboxY + r;
 
         delegateShape = delegateGroup.addShape('circle', {
           attrs: {
             x: cx,
             y: cy,
             r,
-            ...deepMix({}, delegateStyle, this.delegateStyle)
+            ...attrs
           }
         });
         self.shapeOrigin = { x: cx, y: cy };
       } else {
         delegateShape = delegateGroup.addShape('rect', {
-          attrs
+          attrs: {
+            x,
+            y,
+            ...attrs
+          }
         });
         self.shapeOrigin = { x: attrs.x, y: attrs.y };
       }

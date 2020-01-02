@@ -57,7 +57,9 @@ Shape.registerNode('triangle', {
     const direction = cfg.direction || defaultDirection;
 
     const keyShape = group.addShape('path', {
-      attrs: style
+      attrs: style,
+      className: 'triangle-keyShape',
+      draggable: true
     });
 
     const { width: w, height: h, show, offset } = icon;
@@ -298,20 +300,11 @@ Shape.registerNode('triangle', {
     const markTop = group.find(element => { return element.get('className') === 'link-point-top'})
     const markBottom = group.find(element => { return element.get('className') === 'link-point-bottom'})
 
-    let currentLinkPoints = undefined;
-    if (markLeft) {
-      currentLinkPoints = markLeft.attr();
+    let currentLinkPoints = defaultLinkPoints;
+    const existLinkPoint = markLeft || markRight || markTop || markBottom;
+    if (existLinkPoint) {
+      currentLinkPoints = existLinkPoint.attr();
     }
-    if (markRight && !currentLinkPoints) {
-      currentLinkPoints = markRight.attr();
-    }
-    if (markTop && !currentLinkPoints) {
-      currentLinkPoints = markTop.attr();
-    }
-    if (markBottom && !currentLinkPoints) {
-      currentLinkPoints = markBottom.attr();
-    }
-    if (!currentLinkPoints) currentLinkPoints = defaultLinkPoints;
 
     const linkPoints = deepMix({}, currentLinkPoints, cfg.linkPoints);
 

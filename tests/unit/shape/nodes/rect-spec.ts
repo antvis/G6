@@ -89,6 +89,8 @@ describe.only('rect test', () => {
           linkPoints: {
             top: true,
             bottom: true,
+            left: true,
+            right: true,
             fill: '#fff',
             size: 5
           }
@@ -112,7 +114,7 @@ describe.only('rect test', () => {
       const node = nodes[0];
       const group = node.get('group');
 
-      expect(group.getCount()).toEqual(4);
+      expect(group.getCount()).toEqual(6);
 
       const keyShape = node.getKeyShape();
       expect(keyShape.attr('fill')).toEqual('blue');

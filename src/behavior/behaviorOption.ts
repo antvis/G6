@@ -14,13 +14,11 @@ export default {
    * register event handler, behavior will auto bind events
    * for example:
    * return {
-   *  clicl: 'onClick'
+   *  click: 'onClick'
    * }
    */
   getEvents() {
-    return {
-
-    }
+    return {}
   },
 
   shouldBegin() {

@@ -6,7 +6,7 @@ const div = document.createElement('div');
 div.id = 'graph-spec';
 document.body.appendChild(div);
 
-describe.only('triangle test', () => {
+describe('triangle test', () => {
   describe('default triangle test', () => {
     it('default config', () => {
       const graph = new Graph({
@@ -100,6 +100,142 @@ describe.only('triangle test', () => {
   });
 
   describe('linkPoint test', () => {
+    it('draw linkPoints with up direction', () => {
+      const graph = new Graph({
+        container: div,
+        width: 500,
+        height: 500,
+        pixelRatio: 2
+      });
+      const data = {
+        nodes: [
+          {
+            id: 'node',
+            label: 'triangle',
+            linkPoints: {
+              top: true,
+              left: true,
+              right: true
+            },
+            shape: 'triangle',
+            x: 100,
+            y: 200
+          }
+        ]
+      };
+      graph.data(data);
+      graph.render();
+
+      const node = graph.getNodes()[0];
+      const group = node.get('group');
+      // triangle + label + linkPoints * 3
+      expect(group.getCount()).toEqual(5);
+      graph.destroy();
+      expect(graph.destroyed).toBe(true);
+    });
+    it('draw linkPoints with down direction', () => {
+      const graph = new Graph({
+        container: div,
+        width: 500,
+        height: 500,
+        pixelRatio: 2
+      });
+      const data = {
+        nodes: [
+          {
+            id: 'node',
+            label: 'triangle',
+            direction: 'down',
+            linkPoints: {
+              bottom: true,
+              left: true,
+              right: true
+            },
+            shape: 'triangle',
+            x: 100,
+            y: 200
+          }
+        ]
+      };
+      graph.data(data);
+      graph.render();
+
+      const node = graph.getNodes()[0];
+      const group = node.get('group');
+      // triangle + label + linkPoints * 3
+      expect(group.getCount()).toEqual(5);
+      graph.destroy();
+      expect(graph.destroyed).toBe(true);
+    });
+    it('draw linkPoints with left direction', () => {
+      const graph = new Graph({
+        container: div,
+        width: 500,
+        height: 500,
+        pixelRatio: 2
+      });
+      const data = {
+        nodes: [
+          {
+            id: 'node',
+            label: 'triangle',
+            direction: 'left',
+            linkPoints: {
+              bottom: true,
+              left: true,
+              top: true
+            },
+            shape: 'triangle',
+            x: 100,
+            y: 200
+          }
+        ]
+      };
+      graph.data(data);
+      graph.render();
+
+      const node = graph.getNodes()[0];
+      const group = node.get('group');
+      // triangle + label + linkPoints * 3
+      expect(group.getCount()).toEqual(5);
+      graph.destroy();
+      expect(graph.destroyed).toBe(true);
+    });
+    it('draw linkPoints with right direction', () => {
+      const graph = new Graph({
+        container: div,
+        width: 500,
+        height: 500,
+        pixelRatio: 2
+      });
+      const data = {
+        nodes: [
+          {
+            id: 'node',
+            label: 'triangle',
+            direction: 'right',
+            linkPoints: {
+              bottom: true,
+              right: true,
+              top: true
+            },
+            shape: 'triangle',
+            x: 100,
+            y: 200
+          }
+        ]
+      };
+      graph.data(data);
+      graph.render();
+
+      const node = graph.getNodes()[0];
+      const group = node.get('group');
+      // triangle + label + linkPoints * 3
+      expect(group.getCount()).toEqual(5);
+      graph.destroy();
+      expect(graph.destroyed).toBe(true);
+    });
+
     it('linkPoints update from show to hide', () => {
       const graph = new Graph({
         container: div,
@@ -141,9 +277,11 @@ describe.only('triangle test', () => {
       expect(topPoint).toBe(null);
 
       node.update({
+        direction: 'down',
         linkPoints: {
           left: false,
           right: true,
+          bottom: true,
           size: 10,
           fill: '#f00',
           stroke: '#0f0',
@@ -162,8 +300,13 @@ describe.only('triangle test', () => {
       expect(rightPoint.attr('fill')).toBe('#f00');
       expect(rightPoint.attr('stroke')).toBe('#0f0');
       expect(rightPoint.attr('lineWidth')).toBe(2);
+      const bottomPoint = group.find(g => {
+        return g.get('className') === 'link-point-bottom';
+      });
+      expect(bottomPoint).not.toBe(null);
 
       node.update({
+        direction: 'left',
         linkPoints: {
           left: false,
           top: true,
@@ -187,6 +330,7 @@ describe.only('triangle test', () => {
       expect(rightPoint2).not.toBe(null);
 
       node.update({
+        direction: 'right',
         linkPoints: {
           stroke: '#000',
         }
