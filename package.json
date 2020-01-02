@@ -2,10 +2,25 @@
   "name": "@antv/g6",
   "version": "3.3.0",
   "description": "A Graph Visualization Framework in JavaScript",
-  "main": "dist/g6.js",
-  "module": "dist/g6.esm.js",
-  "types": "dist/types/index.d.ts",
-  "browser": "dist/g6.min.js",
+  "keywords": [
+    "antv",
+    "g6",
+    "graph",
+    "graph analysis",
+    "graph editor",
+    "graph visualization",
+    "relational data"
+  ],
+  "homepage": "https://github.com/antvis/g6",
+  "bugs": {
+    "url": "https://github.com/antvis/g6/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/antvis/g6"
+  },
+  "license": "MIT",
+  "author": "https://github.com/orgs/antvis/people",
   "files": [
     "package.json",
     "esm",
@@ -14,25 +29,43 @@
     "LICENSE",
     "README.md"
   ],
+  "main": "dist/g6.js",
+  "module": "dist/g6.esm.js",
+  "browser": "dist/g6.min.js",
+  "types": "dist/types/index.d.ts",
   "scripts": {
-    "start": "npm run site:develop",
-    "site:develop": "GATSBY=true gatsby develop --open",
+    "build": "father build && npm run build:declaration && npm run build:umd",
+    "build:declaration": "ttsc --emitDeclarationOnly --outDir ./dist",
+    "build:umd": "webpack --config webpack.config.js --mode production",
+    "ci": "npm run build && npm run coverage",
+    "clean": "rimraf esm lib dist",
+    "coverage": "jest --coverage",
+    "demos": "start-storybook -p 8080 -c .storybook",
+    "dist": "webpack --config webpack.config.js --mode production",
+    "doc": "rimraf apis && typedoc",
+    "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx --format=pretty  \"./\"",
+    "prettier": "prettier -c --write \"**/*\"",
     "site:build": "npm run site:clean && GATSBY=true gatsby build --prefix-paths",
     "site:clean": "gatsby clean",
-    "watch": "father-build --esm --file g6 --watch src/index.ts",
-    "build": "father-build --esm  --cjs --file g6 src/index.ts && npm run build:declaration && npm run build:umd",
-    "build:umd": "webpack --config webpack.config.js --mode production",
-    "build:declaration": "ttsc --emitDeclarationOnly --outDir ./dist",
-    "clean": "rimraf esm lib dist",
-    "lint": "lint-staged",
-    "tslint": "tslint -c tslint.json 'src/**/*.ts'",
+    "site:develop": "GATSBY=true gatsby develop --open",
+    "start": "npm run site:develop",
     "test": "jest",
     "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/plugins/menu-spec.ts",
-    "coverage": "jest --coverage",
-    "ci": "run-s build coverage",
-    "doc": "rimraf apis && typedoc",
-    "dist": "webpack --config webpack.config.js --mode production",
-    "demos": "start-storybook -p 8080 -c .storybook"
+    "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
+    "watch": "father build -w"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,tsx,ts,less,md,json}": [
+      "prettier --write",
+      "git add"
+    ],
+    "**/*.{js,jsx}": "npm run lint-staged:js",
+    "**/*.{js,ts,tsx}": "npm run lint-staged:js"
   },
   "dependencies": {
     "@antv/dom-util": "^2.0.1",
@@ -44,8 +77,7 @@
     "@antv/path-util": "^2.0.3",
     "@antv/scale": "^0.2.0",
     "@antv/util": "~2.0.5",
-    "lodash": "^4.17.15",
-    "tslib": "^1.10.0"
+    "lodash": "^4.17.15"
   },
   "devDependencies": {
     "@antv/gatsby-theme-antv": "^0.9.25",
@@ -57,10 +89,11 @@
     "@storybook/react": "^5.2.8",
     "@types/jest": "^24.0.18",
     "@types/node": "^12.12.22",
+    "@umijs/fabric": "^2.0.0",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
     "event-simulate": "~1.0.0",
-    "father-build": "^1.17.1",
+    "father": "^2.29.1",
     "gatsby": "^2.17.9",
     "gh-pages": "^2.1.1",
     "husky": "^3.0.4",
@@ -69,7 +102,6 @@
     "jest-electron": "^0.1.7",
     "jest-extended": "^0.11.2",
     "lint-staged": "^9.2.3",
-    "npm-run-all": "^4.1.5",
     "pre-commit": "^1.2.2",
     "prettier": "^1.18.2",
     "react": "^16.12.0",
@@ -78,8 +110,6 @@
     "rimraf": "^3.0.0",
     "ts-jest": "^24.1.0",
     "ts-loader": "^6.2.1",
-    "tslint": "^5.18.0",
-    "tslint-config-prettier": "^1.18.0",
     "ttypescript": "^1.5.8",
     "typedoc": "^0.15.0",
     "typedoc-plugin-markdown": "^2.2.11",
@@ -87,40 +117,5 @@
     "typescript-transform-paths": "^1.1.14",
     "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "run-s lint"
-    }
-  },
-  "lint-staged": {
-    "*.{js,css,json,md}": [
-      "prettier --write",
-      "git add"
-    ],
-    "*.{ts}": [
-      "tslint -c tslint.json --fix",
-      "prettier --write",
-      "git add"
-    ]
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/antvis/g6"
-  },
-  "bugs": {
-    "url": "https://github.com/antvis/g6/issues"
-  },
-  "keywords": [
-    "antv",
-    "g6",
-    "graph",
-    "relational data",
-    "graph visualization",
-    "graph editor",
-    "graph analysis"
-  ],
-  "homepage": "https://github.com/antvis/g6",
-  "author": "https://github.com/orgs/antvis/people",
-  "license": "MIT"
+  }
 }
