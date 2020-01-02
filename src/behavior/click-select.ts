@@ -16,7 +16,7 @@ export default {
     // 检测输入是否合法
     if (!(ALLOW_EVENTS.indexOf(this.trigger.toLowerCase()) > -1)) {
       this.trigger = DEFAULT_TRIGGER;
-      console.warn('Behavior brush-select的trigger参数不合法，请输入drag、shift、ctrl或alt');
+      console.warn('Behavior brush-select 的 trigger 参数不合法，请输入 \'drag\'、\'shift\'、\'ctrl\' 或 \'alt\'');
     }
     if (!this.multiple) {
       return {
@@ -69,9 +69,6 @@ export default {
       graph.setItemState(node, 'selected', false);
     });
 
-    const selectedEdges = graph.findAllByState('edge', 'selected');
-    each(selectedEdges, edge => graph.setItemState(edge, 'selected', false));
-
     graph.paint();
     graph.setAutoPaint(autoPaint);
   },
@@ -80,6 +77,7 @@ export default {
     if (!code) {
       return;
     }
+    code = code.toLowerCase();
     if (code === this.trigger) {
       this.keydown = true;
     } else {

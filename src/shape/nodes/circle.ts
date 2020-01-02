@@ -55,6 +55,7 @@ Shape.registerNode('circle', {
     const icon = deepMix({}, defaultIcon, cfg.icon);
     const keyShape: IShape = group.addShape('circle', {
       attrs: style,
+      className: 'circle-keyShape',
       draggable: true
     });
 

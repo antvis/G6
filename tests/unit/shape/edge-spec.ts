@@ -1,8 +1,13 @@
 
 import Canvas from '@antv/g-canvas/lib/canvas';
+import '../../../src/shape/node'
+import '../../../src/shape/nodes'
 import '../../../src/shape/edge'
 import '../../../src/shape/edges'
+import '../../../src/behavior'
 import Shape from '../../../src/shape/shape'
+import Graph from '../../../src/graph/graph'
+
 
 const div = document.createElement('div');
 div.id = 'edge-shape';
@@ -94,6 +99,23 @@ describe('shape edge test', () => {
       expect(label.attr('x')).toEqual(100);
       expect(label.attr('y')).toEqual(100);
     });
+    it('line with overlapped nodes and label', () => {
+      const group = canvas.addGroup();
+      const shape = factory.draw('line', {
+        startPoint: { x: 150, y: 150 },
+        endPoint: { x: 150, y: 150 },
+        color: 'blue',
+        label: '这是一条线'
+      }, group);
+
+      expect(shape.attr('path').length).toEqual(2);
+      const label = group.get('children')[1];;
+      expect(shape.attr('path').length).toEqual(2);
+      expect(label.attr('x')).toEqual(150);
+      expect(label.attr('y')).toEqual(150);
+      expect(group.getCount()).toEqual(2);
+      canvas.draw();
+    });
 
     it('update points', () => {
       const group = canvas.addGroup();
@@ -155,6 +177,23 @@ describe('shape edge test', () => {
       const sqrt2 = Math.sqrt(2);
       expect(shape1.attr('path')[1]).toEqual([ 'Q', 150 - 20 * sqrt2 / 2, 150 + 20 * sqrt2 / 2, 100, 100 ]);
       canvas.draw();
+
+      // update with control points
+      const item = {
+        getContainer() {
+          return group1;
+        },
+        get() {
+          return '';
+        }
+      };
+      factory.update('quadratic', {
+        startPoint: { x: 300, y: 300 },
+        endPoint: { x: 250, y: 200 },
+        controlPoints: { x: 350, y: 350},
+        color: 'pink',
+        label: '这是不是另一条线'
+      }, item);
     });
 
     it('cubic', () => {
@@ -200,6 +239,123 @@ describe('shape edge test', () => {
 
       expect(shape.attr('path')[1]).toEqual([ 'C', 75, 0, 75, 150, 150, 150 ]);
       canvas.draw();
+    });
+
+    it('arc', () => {
+      const group = canvas.addGroup();
+      const shape = factory.draw('arc', {
+        startPoint: { x: 0, y: 0 },
+        endPoint: { x: 150, y: 150 },
+        color: 'red',
+        curveOffset: 10
+      }, group);
+      expect(shape.attr('path')[1]).toEqual([ 'A', 567.4999999999995, 567.4999999999995, 0, 0, 1, 150, 150 ]);
+
+      // update curveOffset to nagtive
+      const item = {
+        getContainer() {
+          return group;
+        },
+        get() {
+          return '';
+        }
+      };
+      factory.update('arc', {
+        startPoint: { x: 0, y: 0 },
+        endPoint: { x: 150, y: 150 },
+        curveOffset: -10
+      }, item);
+      expect(shape.attr('path')[1]).toEqual([ 'A', 567.4999999999995, 567.4999999999995, 0, 0, 0, 150, 150 ]);
+
+      // update to add controlpoints
+      factory.update('arc', {
+        startPoint: { x: 50, y: 50 },
+        endPoint: { x: 200, y: 200 },
+        controlPoints: [{ x: 150, y: 250 }]
+      }, item);
+      expect(shape.attr('path')[1]).toEqual([ 'A', 111.80339887498948, 111.80339887498948, 0, 0, 0, 200, 200 ]);
+
+      // update with controlpoints and different clockwise
+      factory.update('arc', {
+        startPoint: { x: 50, y: 50 },
+        endPoint: { x: 200, y: 200 },
+        controlPoints: [{ x: 100, y: 180 }]
+      }, item);
+      expect(shape.attr('path')[1]).toEqual([ 'A', 125.54879529489719, 125.54879529489719, 0, 0, 1, 200, 200 ]);
+
+      // update with controlpoints and different clockwise
+      factory.update('arc', {
+        startPoint: { x: 50, y: 200 },
+        endPoint: { x: 200, y: 50 },
+        controlPoints: [{ x: 150, y: 250 }]
+      }, item);
+      expect(shape.attr('path')[1]).toEqual([ 'A', 108.65337342004415, 108.65337342004415, 0, 0, 1, 200, 50 ]);
+
+      // update with controlpoints and different clockwise
+      factory.update('arc', {
+        startPoint: { x: 200, y: 200 },
+        endPoint: { x: 50, y: 50 },
+        controlPoints: [{ x: 100, y: 180 }]
+      }, item);
+      expect(shape.attr('path')[1]).toEqual([ 'A', 125.54879529489719, 125.54879529489719, 0, 0, 1, 50, 50 ]);
+
+      // update with controlpoints and different clockwise
+      factory.update('arc', {
+        startPoint: { x: 200, y: 50 },
+        endPoint: { x: 50, y: 200 },
+        controlPoints: [{ x: 100, y: 180 }]
+      }, item);
+      expect(shape.attr('path')[1]).toEqual([ 'A', 208.17994353176505, 208.17994353176505, 0, 0, 0, 50, 200 ]);
+
+      // update with controlpoints and different clockwise
+      factory.update('arc', {
+        startPoint: { x: 200, y: 200 },
+        endPoint: { x: 50, y: 50 },
+        controlPoints: [{ x: 100, y: 180 }]
+      }, item);
+      expect(shape.attr('path')[1]).toEqual([ 'A', 125.54879529489719, 125.54879529489719, 0, 0, 1, 50, 50 ]);
+
+      // update with controlpoint to on the same line of start and end, cannot generate a circle, but a line
+      factory.update('arc', {
+        startPoint: { x: 200, y: 200 },
+        endPoint: { x: 50, y: 50 },
+        controlPoints: [{ x: 100, y: 100 }]
+      }, item);
+      expect(shape.attr('path')[1]).toEqual([ 'L', 50, 50 ]);
+    });
+
+    it('loop', () => {
+      const div = document.createElement('div');
+      div.id = 'graph-spec';
+      document.body.appendChild(div);
+      const graph = new Graph({
+        container: div,
+        width: 500,
+        height: 500,
+        modes: {
+          default: ['drag-node']
+        }
+      });
+      const data = {
+        nodes: [{ id: 'node0', x: 100, y: 100 }],
+        edges: [{
+          source: 'node0',
+          target: 'node0',
+          shape: 'loop'
+        }]
+      };
+      graph.data(data);
+      graph.render();
+      const node = graph.getNodes()[0];
+      const edge = graph.getEdges()[0];
+      const path = edge.get('group').get('children')[0];
+      let bbox = path.getBBox();
+      expect(bbox.minX).toEqual(76.57695209490056);
+      graph.emit('node:dragstart', { x: 100, y: 100, item: node });
+      graph.emit('node:drag', { x: 200, y: 200, item: node });
+      graph.emit('node:dragend', { x: 200, y: 200, item: node });
+      bbox = path.getBBox();
+      expect(bbox.minX).toEqual(176.57695209490058);
     });
 
     it('clear', () => {

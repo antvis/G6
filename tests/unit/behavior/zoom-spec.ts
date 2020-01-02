@@ -43,7 +43,7 @@ describe('zoom-canvas', () => {
     expect(approximateEqual(matrix[4], 1.1)).toBe(true);
     expect(approximateEqual(matrix[6], -5)).toBe(true);
     expect(approximateEqual(matrix[7], -5)).toBe(true);
-    // TODO: G canvas.getBoundingClientRect, G canvas.getPointByClient return defferent results from 3.x
+    // G canvas.getBoundingClientRect, G canvas.getPointByClient return defferent results from 3.x
     // expect(approximateEqual(matrix[6], -10)).toBe(true);
     // expect(approximateEqual(matrix[7], -10)).toBe(true);
     graph.emit('wheel', e);
@@ -54,6 +54,24 @@ describe('zoom-canvas', () => {
     expect(approximateEqual(matrix[7], -10.5)).toBe(true);
     // expect(approximateEqual(matrix[6], -21)).toBe(true);
     // expect(approximateEqual(matrix[7], -21)).toBe(true);
+    graph.destroy();
+  });
+  it('prevent update', () => {
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: [{
+          type: 'zoom-canvas',
+          shouldUpdate: e => { expect(e).not.toBe(undefined); return false; }
+        }]
+      }
+    });
+    const e = createWheelEvent(graph.get('canvas').get('el'), 100, 100, 100);
+    graph.emit('wheel', e);
+    let matrix = graph.get('group').getMatrix();
+    expect(matrix).toBe(null);
     graph.destroy();
   });
   it('max zoom & min zoom', () => {

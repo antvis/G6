@@ -56,7 +56,9 @@ Shape.registerNode('ellipse', {
     const icon = deepMix({}, defaultIcon, cfg.icon);
 
     const keyShape = group.addShape('ellipse', {
-      attrs: style
+      attrs: style,
+      className: 'ellipse-keyShape',
+      draggable: true
     });
 
     const { width, height, show } = icon;

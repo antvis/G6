@@ -23,7 +23,7 @@ export default {
       trigger = this.trigger;
     } else {
       trigger = DEFAULT_TRIGGER;
-      console.warn('Behavior collapse-expand-group的trigger参数不合法，请输入click或dblclick');
+      console.warn('Behavior collapse-expand-group 的 trigger 参数不合法，请输入 \'click\' 或 \'dblclick \/');
     }
     return {
       [`${trigger}`]: 'onGroupClick'

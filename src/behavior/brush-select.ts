@@ -25,15 +25,12 @@ export default {
     };
   },
   getEvents(): { [key in G6Event]?: string } {
-    let trigger;
     // 检测输入是否合法
-    if (ALLOW_EVENTS.indexOf(this.trigger.toLowerCase()) > -1) {
-      trigger = this.trigger;
-    } else {
-      trigger = DEFAULT_TRIGGER;
-      console.warn('Behavior brush-select的trigger参数不合法，请输入drag、shift、ctrl或alt');
+    if (!(ALLOW_EVENTS.indexOf(this.trigger.toLowerCase()) > -1)) {
+      this.trigger = DEFAULT_TRIGGER;
+      console.warn('Behavior brush-select 的 trigger 参数不合法，请输入 \'drag\'、\'shift\'、\'ctrl\' 或 \'alt\'');
     }
-    if (trigger === 'drag') {
+    if (this.trigger === 'drag') {
       return {
         mousedown: 'onMouseDown',
         mousemove: 'onMouseMove',
@@ -87,6 +84,8 @@ export default {
     this.graph.paint();
   },
   onMouseUp(e: IG6GraphEvent) {
+
+    // TODO: 触发了 canvas:click 导致 clearStates
     if (!this.brush && !this.dragging) {
       return;
     }
@@ -98,11 +97,11 @@ export default {
     const graph = this.graph;
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
-    this.brush.destroy();
+    this.brush.remove(true); // remove and destroy
     this.brush = null;
     this.getSelectedNodes(e);
     this.dragging = false;
-    this.graph.paint();
+    graph.paint();
     graph.setAutoPaint(autoPaint);
   },
   clearStates() {
@@ -155,7 +154,6 @@ export default {
         }
       }
     });
-
     const selectedEdges = [];
     if (this.includeEdges) {
       // 选中边，边的source和target都在选中的节点中时才选中
@@ -197,7 +195,7 @@ export default {
       width: abs(e.canvasX - originPoint.x),
       height: abs(e.canvasY - originPoint.y),
       x: min(e.canvasX, originPoint.x),
-      y: min(e.canvasY, originPoint.y)
+      y: min(e.canvasY, originPoint.y),
     });
   },
   onKeyDown(e: IG6GraphEvent) {
@@ -216,7 +214,7 @@ export default {
   onKeyUp() {
     if (this.brush) {
       // 清除所有选中状态后，设置拖得动状态为false，并清除框选的brush
-      this.brush.destroy();
+      this.brush.remove(true);
       this.brush = null;
       this.dragging = false;
     }

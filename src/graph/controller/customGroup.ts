@@ -202,6 +202,7 @@ export default class CustomGroup {
           y: cy,
           r: lastR
         },
+        draggable: true,
         capture: true,
         zIndex,
         groupId
@@ -223,6 +224,7 @@ export default class CustomGroup {
           width: width + rectPadding * 2,
           height: height + rectPadding * 2
         },
+        draggable: true,
         capture: true,
         zIndex,
         groupId
@@ -886,12 +888,12 @@ export default class CustomGroup {
    * @param {string} groupId 节点分组ID
    * @param {object} position delegate的坐标位置
    */
-  public updateGroup(groupId: string, position: Point) {
+  public updateGroup(groupId: string, position: Point, originPosition: Point) {
     const graph = this.graph;
     const groupType = graph.get('groupType');
 
     // 更新群组里面节点和线的位置
-    this.updateItemInGroup(groupId, position);
+    this.updateItemInGroup(groupId, position, originPosition);
 
     // 判断是否拖动出了parent group外面，如果拖出了parent Group外面，则更新数据，去掉group关联
     // 获取groupId的父Group的ID
@@ -933,7 +935,8 @@ export default class CustomGroup {
 
         groupNodes[parentGroupId] = parentGroupNodes.filter(node => currentGroupNodes.indexOf(node) === -1);
 
-        const { x: x1, y: y1, width, height } = this.calculationGroupPosition(groupNodes[parentGroupId]);
+        const { x: x1, y: y1, width, height } = this.calculationGroupPosition(groupNodes[parentGroupId]); // x: x1, y: y1,
+        // const { x: x1, y: y1 } = originPosition;
         const paddingValue = this.getGroupPadding(parentGroupId);
 
         const groupTitleShape = parentGroup.find(element => element.get('className') === 'group-title')
@@ -942,8 +945,8 @@ export default class CustomGroup {
         let titleY = 0;
         if (groupType === 'circle') {
           const r = width > height ? width / 2 : height / 2;
-          const cx = (width + 2 * x1) / 2;
-          const cy = (height + 2 * y1) / 2;
+          const cx = x1;
+          const cy = y1;
           parentKeyShape.attr({
             r: r + paddingValue,
             x: cx,
@@ -986,7 +989,7 @@ export default class CustomGroup {
    * @param {string} groupId 节点分组ID
    * @param {object} position delegate的坐标位置
    */
-  public updateItemInGroup(groupId: string, position: Point) {
+  public updateItemInGroup(groupId: string, position: Point, originPosition: Point) {
     const graph = this.graph;
     const groupType = graph.get('groupType');
 

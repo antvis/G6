@@ -394,7 +394,7 @@ describe.only('model rect test', () => {
   })
 
   describe('icon and linkPoint test', () => {
-    it('icon and linkPoints test', () => {
+    it('icon and linkPoints(top bottom)', () => {
       const graph = new Graph({
         container: div,
         width: 500,
@@ -463,6 +463,59 @@ describe.only('model rect test', () => {
       });
       expect(markBottom).not.toBe(null);
       expect(markBottom.attr('y')).toEqual(35);
+      graph.destroy();
+      expect(graph.destroyed).toBe(true);
+    });
+    it('icon and linkPoints(left right)', () => {
+      const graph = new Graph({
+        container: div,
+        width: 500,
+        height: 500,
+        pixelRatio: 2,
+        defaultNode: {
+          shape: 'modelRect',
+          linkPoints: {
+            left: true,
+            right: true
+          }
+        }
+      });
+      const data = {
+        nodes: [
+          {
+            id: 'node',
+            label: '主题是modelRect',
+            description: '这里是很长很长很长的一段长文本',
+            x: 300,
+            y: 100
+          }
+        ]
+      };
+      graph.data(data);
+      graph.render();
+
+      const nodes = graph.getNodes();
+      const node = nodes[0];
+      const group = node.get('group');
+      // modelRect + label + description + stateIcon + logoIcon + preRect + linkPoints * 2
+      expect(group.getCount()).toEqual(8);
+      const markLeft = group.find(g => {
+        return g.get('className') === 'link-point-left';
+      });
+      expect(markLeft).not.toBe(null);
+      expect(markLeft.attr('r')).toEqual(3);
+      expect(markLeft.attr('y')).toEqual(0);
+
+      const markTop = group.find(g => {
+        return g.get('className') === 'link-point-top';
+      });
+      expect(markTop).toBe(null);
+
+      const markBottom = group.find(g => {
+        return g.get('className') === 'link-point-bottom';
+      });
+      expect(markBottom).toBe(null);
+      
       graph.destroy();
       expect(graph.destroyed).toBe(true);
     });
@@ -568,6 +621,100 @@ describe.only('model rect test', () => {
       expect(bottomPoint2.attr('r')).toBe(5);
       expect(bottomPoint2.attr('fill')).toBe('#f00');
       expect(bottomPoint2.attr('stroke')).toBe('#000');
+
+      graph.destroy();
+      expect(graph.destroyed).toBe(true);
+    });
+    it('icons update', () => {
+      const graph = new Graph({
+        container: div,
+        width: 500,
+        height: 500
+      });
+      const data = {
+        nodes: [
+          {
+            id: 'node',
+            label: '主题是modelRect',
+            description: '这里是很长很长很长的一段长文本',
+            stateIcon: {
+              show: true
+            },
+            logoIcon: {
+              show: false
+            },
+            shape: 'modelRect',
+            x: 100,
+            y: 200
+          }
+        ]
+      };
+      graph.data(data);
+      graph.render();
+
+      const node = graph.getNodes()[0];
+      const group = node.get('group');
+      // modelRect + label + description + stateIcon  + preRect
+      expect(group.getCount()).toEqual(5);
+      
+      node.update({
+        stateIcon: {
+          show: false
+        },
+        logoIcon: {
+          show: true
+        },
+      });
+      const stateIcon = group.find(g => {
+        return g.get('className') === 'rect-state-icon';
+      });
+      expect(stateIcon).toBe(null);
+
+      const logoIcon = group.find(g => {
+        return g.get('className') === 'rect-logo-icon';
+      });
+      expect(logoIcon).not.toBe(null);
+      expect(logoIcon.attr('x')).toBe(-76.5);
+
+
+      node.update({
+        stateIcon: {
+          show: true
+        }
+      });
+      const stateIcon2 = group.find(g => {
+        return g.get('className') === 'rect-state-icon';
+      });
+      expect(stateIcon2).not.toBe(null);
+      expect(stateIcon2.attr('x')).toBe(71.5);
+
+      // update the stateIcon
+      node.update({
+        stateIcon: {
+          offset: -10,
+          // to use the offset
+          x: null,
+          y: null
+        },
+        logoIcon: {
+          offset: 30,
+          // to use the offset
+          x: null,
+          y: null
+        },
+        labelCfg: {
+          offset: 60
+        }
+      });
+      const stateIcon3 = group.find(g => {
+        return g.get('className') === 'rect-state-icon';
+      });
+      expect(stateIcon3.attr('x')).toBe(66.5);
+
+      const logoIcon3 = group.find(g => {
+        return g.get('className') === 'rect-logo-icon';
+      });
+      expect(logoIcon3.attr('x')).toBe(-46.5);
 
       graph.destroy();
       expect(graph.destroyed).toBe(true);

@@ -93,7 +93,8 @@ const singleNode: ShapeOptions = {
     const shapeType = this.shapeType // || this.type，都已经加了 shapeType
     const style = this.getShapeStyle(cfg)
     const shape = group.addShape(shapeType, {
-      attrs: style
+      attrs: style,
+      draggable: true
     })
     return shape
   },

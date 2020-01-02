@@ -88,7 +88,7 @@ describe('drag-canvas', () => {
     expect(triggered).toBe(false);
     graph.destroy();
   });
-  it('drag with direction restrict', () => {
+  it('drag with x direction restrict', () => {
     const graph = new Graph({
       container: div,
       width: 500,
@@ -116,6 +116,31 @@ describe('drag-canvas', () => {
     expect(matrix[7]).toEqual(0);
     graph.emit('canvas:mouseup', { clientX: 200, clientY: 200 });
     expect(start).toBe(false);
+    graph.destroy();
+  });
+  it('drag with y direction restrict', () => {
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: [{
+          type: 'drag-canvas',
+          direction: 'y'
+        }]
+      },
+      pixelRatio: 2
+    });
+    let start = false;
+    graph.addItem('node', { x: 100, y: 100, color: '#666', type: 'rect', id: 'test' });
+    graph.paint();
+    graph.emit('canvas:mousedown', { clientX: 150, clientY: 150 });
+    graph.emit('canvas:mousemove', { clientX: 250, clientY: 250 });
+    const matrix = graph.get('group').getMatrix();
+    expect(matrix[6]).toEqual(0);
+    expect(matrix[7]).toEqual(100);
+    graph.emit('canvas:mouseup', { clientX: 250, clientY: 250 });
+    graph.destroy();
   });
   it('drag offset', () => {
     const graph = new Graph({
@@ -149,5 +174,96 @@ describe('drag-canvas', () => {
     graph.emit('canvas:click', { clientX: 170, clientY: 170 });
     graph.emit('canvas:mousemove', { clientX: 170, clientY: 170 });
     expect(dragging).toBe(false);
+    graph.destroy();
   });
+  it('drag with keydown', () => {
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: [{
+          type: 'drag-canvas'
+        }]
+      }
+    });
+    let triggered = false;
+    let dragging = false;
+    graph.on('canvas:dragstart', () => {
+      triggered = true;
+    });
+    graph.on('canvas:drag', () => {
+      dragging = true;
+    });
+
+    // mouse down and up without moving
+    graph.emit('canvas:mousedown', { clientX: 150, clientY: 150 });
+    graph.emit('canvas:mouseup', { clientX: 150, clientY: 150 });
+    expect(triggered).toBe(false);
+    expect(dragging).toBe(false);
+
+    graph.emit('keydown', { key: 'shift' })
+    graph.emit('canvas:mousedown', { clientX: 150, clientY: 150 });
+    expect(triggered).toBe(false);
+    expect(dragging).toBe(false);
+    graph.emit('canvas:mousemove', { clientX: 160, clientY: 160 });
+    expect(triggered).toBe(false);
+    graph.emit('canvas:mouseup', { clientX: 160, clientY: 160 });
+    expect(triggered).toBe(false);
+
+    graph.emit('keyup', { key: 'shift' })
+    graph.emit('canvas:mousedown', { clientX: 150, clientY: 150 });
+    graph.emit('canvas:mousemove', { clientX: 150, clientY: 150 });
+    expect(triggered).toBe(false);
+    expect(dragging).toBe(false);
+    graph.emit('canvas:mousemove', { clientX: 160, clientY: 160 });
+    expect(triggered).toBe(true);
+    graph.destroy();
+  });
+  it('drag with keydown code invalid', () => {
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: [{
+          type: 'drag-canvas'
+        }]
+      }
+    });
+    let triggered = false;
+    graph.on('canvas:dragstart', () => {
+      triggered = true;
+    });
+    graph.emit('keydown', {}) // key undefined
+    graph.emit('canvas:mousedown', { clientX: 150, clientY: 150 });
+    graph.emit('canvas:mouseup', { clientX: 160, clientY: 160 });
+    expect(triggered).toBe(false);
+    graph.emit('keyup', {}) 
+
+    graph.emit('keydown', { key: 'abc' }) // key invalid
+    graph.emit('canvas:mousedown', { clientX: 150, clientY: 150 });
+    graph.emit('canvas:mouseup', { clientX: 160, clientY: 160 });
+    expect(triggered).toBe(false);
+    graph.emit('keyup', {});
+    graph.destroy();
+
+  });
+  // wait for testing with demo. the document simulator problem
+  // it('drag out of canvas', () => {
+  //   const graph = new Graph({
+  //     container: div,
+  //     width: 500,
+  //     height: 500,
+  //     modes: {
+  //       default: [{
+  //         type: 'drag-canvas'
+  //       }]
+  //     }
+  //   });
+  //   graph.emit('canvas:mousedown', { clientX: 150, clientY: 150 });
+  //   graph.emit('canvas:mousemove', { clientX: 550, clientY: 550 });
+  //   graph.emit('canvas:mouseup', { clientX: 550, clientY: 550 });
+  //   graph.emit('canvas:mouseleave', { target: graph.get('canvas').get('el') });
+  // });
 });

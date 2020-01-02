@@ -1,8 +1,10 @@
 import Shape from '../shape'
-import { NodeConfig } from '@g6/types'
+import { NodeConfig, Item } from '@g6/types'
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
 import { Circle, Rect, Ellipse, Polygon, Path } from '@antv/g-canvas/lib/shape'
+import deepMix from '@antv/util/lib/deep-mix';
+
 
 /**
  * 基本的图片，可以添加文本，默认文本在图片的下面
@@ -53,7 +55,9 @@ Shape.registerNode('image', {
     const shapeType = this.shapeType; // || this.type，都已经加了 shapeType
     const style = this.getShapeStyle(cfg);
     const shape = group.addShape(shapeType, {
-      attrs: style
+      attrs: style,
+      className: 'image-keyShape',
+      draggable: true
     });
     this.drawClip(cfg, shape);
     return shape;
@@ -117,7 +121,7 @@ Shape.registerNode('image', {
       });
     }
     if (clipShape) {
-      shape.attr('clip', clipShape);
+      shape.set('clipShape', clipShape);
     }
   },
   getShapeStyle(cfg: NodeConfig) {
@@ -133,5 +137,14 @@ Shape.registerNode('image', {
       img
     }, cfg.style);
     return style;
+  },
+  updateShapeStyle(cfg: NodeConfig, item: Item) {
+    const group = item.getContainer()
+    const shapeClassName = this.itemType + '-shape'
+    const shape = group.find(element => element.get('className') === shapeClassName)
+    const shapeStyle = this.getShapeStyle(cfg);
+    if (shape) {
+      shape.attr(shapeStyle)
+    }
   }
 }, 'single-node');

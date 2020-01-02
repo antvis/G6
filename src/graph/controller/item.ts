@@ -83,8 +83,6 @@ export default class ItemController {
 
       if (!source || !target) {
         throw new Error('The source or target node of edge ' + model.id + ' does not exist!')
-        // console.warn('The source or target node of edge ' + model.id + ' does not exist!');
-        // return;
       }
 
       item = new Edge({
