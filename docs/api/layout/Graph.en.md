@@ -405,6 +405,7 @@ Takes effect when `preventOverlap` is `true`. It is the minimum distance between
 #### sortStrength
 **Type**: Number<br />**Default**: 10<br />**Required**: false<br />**Description**: The strength to sort the nodes in the same circle. Larger number means place the nodes with smaller distance of `sortBy` more closely. Takes effect only when `sortBy` is not `undefined`
 
+
 #### workerEnabled
 **Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to enable the web-worker in case layout calculation takes too long to block page interaction
 
