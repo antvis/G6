@@ -49,6 +49,61 @@ describe.only('star test', () => {
       graph.destroy();
       expect(graph.destroyed).toBe(true);
     });
+
+    it('linkPoints', () => {
+      const graph = new Graph({
+        container: div,
+        width: 500,
+        height: 500,
+        pixelRatio: 2,
+        defaultNode: {
+          shape: 'star'
+        }
+      });
+      const data = {
+        nodes: [
+          {
+            id: 'node',
+            label: 'star',
+            x: 100,
+            y: 100,
+            linkPoints: {
+              right: true,
+              leftBottom: true,
+              rightBottom: true
+            }
+          }
+        ]
+      };
+      graph.data(data);
+      graph.render();
+
+      const nodes = graph.getNodes();
+      const node = nodes[0];
+      const group = node.get('group');
+      // star + label
+      expect(group.getCount()).toEqual(5);
+      const keyShape = node.getKeyShape();
+      expect(keyShape.attr('fill')).toEqual('#91d5ff');
+
+      const leftbottom = group.find(g => {
+        return g.get('className') === 'link-point-left-bottom';
+      });
+      expect(leftbottom).not.toBe(null);
+
+      const rightbottom = group.find(g => {
+        return g.get('className') === 'link-point-right-bottom';
+      });
+      expect(rightbottom).not.toBe(null);
+
+      const right = group.find(g => {
+        return g.get('className') === 'link-point-right';
+      });
+      expect(right).not.toBe(null);
+
+      graph.destroy();
+      expect(graph.destroyed).toBe(true);
+    });
     it('update keyShape style', () => {
       const graph = new Graph({
         container: div,

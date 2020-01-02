@@ -2,7 +2,8 @@ import { G6Event, IG6GraphEvent } from "@g6/types";
 import { cloneEvent } from '@g6/util/base'
 const abs = Math.abs
 const DRAG_OFFSET = 10
-const ALLOW_EVENTS = [ 16, 17, 18 ]
+// const ALLOW_EVENTS = [ 16, 17, 18 ]
+const ALLOW_EVENTS = [ 'shift', 'ctrl', 'alt', 'control' ];
 
 export default {
   getDefaultCfg(): object {
@@ -102,10 +103,6 @@ export default {
     this.endDrag();
   },
   endDrag() {
-    if (!this.dragging) {
-      return;
-    }
-
     this.origin = null;
     this.dragging = false;
     // 终止时需要判断此时是否在监听画布外的 mouseup 事件，若有则解绑
@@ -129,14 +126,14 @@ export default {
       }
     };
     this.fn = fn;
-    document.body.addEventListener('mouseup', fn, false);
+    document.body.addEventListener('mouseup', fn, true);
   },
   onKeyDown(e: KeyboardEvent) {
-    const code:  number = e.keyCode || e.which;
+    const code = e.key;
     if (!code) {
       return;
     }
-    if (ALLOW_EVENTS.indexOf(code) > -1) {
+    if (ALLOW_EVENTS.indexOf(code.toLowerCase()) > -1) {
       this.keydown = true;
     } else {
       this.keydown = false;

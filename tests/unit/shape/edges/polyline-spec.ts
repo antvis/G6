@@ -53,6 +53,77 @@ describe('polyline e test', () => {
       expect(keyShape.attr('stroke')).toEqual('#333');
     });
 
+    it('polyline radius and default offset', () => {
+      const data = {
+        nodes: [
+          {
+            id: 'node1',
+            x: 200,
+            y: 200
+          },
+          {
+            id: 'node2',
+            x: 150,
+            y: 100
+          }
+        ],
+        edges: [
+          {
+            source: 'node1',
+            target: 'node2',
+            shape: 'polyline',
+            style: {
+              radius: 10,
+            }
+          }
+        ]
+      };
+      graph.data(data);
+      graph.render();
+
+      const edges = graph.getEdges();
+      expect(edges.length).toEqual(1);
+      const edge = edges[0];
+      const keyShape = edge.getKeyShape();
+      expect(keyShape.attr('lineWidth')).toEqual(1);
+      expect(keyShape.attr('stroke')).toEqual('#333');
+    });
+    it('polyline radius and no offset', () => {
+      const data = {
+        nodes: [
+          {
+            id: 'node1',
+            x: 200,
+            y: 200
+          },
+          {
+            id: 'node2',
+            x: 150,
+            y: 100
+          }
+        ],
+        edges: [
+          {
+            source: 'node1',
+            target: 'node2',
+            shape: 'polyline',
+            style: {
+              radius: 10,
+              offset: null
+            }
+          }
+        ]
+      };
+      graph.data(data);
+      graph.render();
+
+      const edges = graph.getEdges();
+      expect(edges.length).toEqual(1);
+      const edge = edges[0];
+      const keyShape = edge.getKeyShape();
+      expect(keyShape.attr('lineWidth')).toEqual(1);
+      expect(keyShape.attr('stroke')).toEqual('#333');
+    });
     it('polyline with label', () => {
       const data = {
         nodes: [

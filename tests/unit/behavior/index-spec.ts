@@ -86,6 +86,9 @@ describe('Behavior', () => {
     const drag = secondBehavior.onDrag()
     expect(drag).toEqual('drag')
   })
+  it('register behavior without object', () => {
+    expect(() => { Behavior.registerBehavior('first', undefined) }).toThrow();
+  })
 })
 describe('Default Behavior', () => {
   it('drag-canvas', () => {

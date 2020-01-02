@@ -25,7 +25,7 @@ export default {
   setAllItemStates(e: IG6GraphEvent) {
     const graph = this.get('graph');
     const item = e.item;
-    this.item = item;
+    this.set('item', item);
     if (!this.shouldUpdate(e.item, { event: e, action: 'activate' })) {
       return;
     }
@@ -59,39 +59,21 @@ export default {
     graph.getEdges().forEach(function(edge) {
       if (edge.getSource() === item) {
         const target = edge.getTarget();
-        const hasSelected = target.hasState('selected');
-        if (self.resetSelected) {
-          // inactiveState && graph.setItemState(target, inactiveState, false);
-          // graph.setItemState(target, activeState, true);
-          if (hasSelected) {
-            graph.setItemState(target, 'selected', false);
-          }
-        }
         if (inactiveState) {
           graph.setItemState(target, inactiveState, false);
         }
         graph.setItemState(target, activeState, true);
-        graph.setItemState(edge, activeState, true);
         graph.setItemState(edge, inactiveState, false);
+        graph.setItemState(edge, activeState, true);
         edge.toFront();
       } else if (edge.getTarget() === item) {
-        // inactiveState && graph.setItemState(edge.getSource(), inactiveState, false);
-        // graph.setItemState(edge.getSource(), activeState, true);
-
         const source = edge.getSource();
-        const hasSelected = source.hasState('selected');
-        if (self.resetSelected) {
-          if (hasSelected) {
-            graph.setItemState(source, 'selected', false);
-          }
-        }
-
         if (inactiveState) {
           graph.setItemState(source, inactiveState, false);
         }
         graph.setItemState(source, activeState, true);
-        graph.setItemState(edge, activeState, true);
         graph.setItemState(edge, inactiveState, false);
+        graph.setItemState(edge, activeState, true);
         edge.toFront();
       }
     });
@@ -119,6 +101,6 @@ export default {
     });
     graph.paint();
     graph.setAutoPaint(autoPaint);
-    graph.emit('afteractivaterelations', { item: e.item || this.item, action: 'deactivate' });
+    graph.emit('afteractivaterelations', { item: e.item || this.get('item'), action: 'deactivate' });
   }
 };

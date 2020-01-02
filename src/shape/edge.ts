@@ -141,8 +141,10 @@ const singleEdge: ShapeOptions = {
     const { refX, refY } = labelCfg; // 默认的偏移量
     // 如果两个节点重叠，线就变成了一个点，这时候label的位置，就是这个点 + 绝对偏移
     if (cfg.startPoint.x === cfg.endPoint.x && cfg.startPoint.y === cfg.endPoint.y) {
-      style.x = cfg.startPoint.x + refX ? refX : 0;
-      style.y = cfg.endPoint.y + refY ? refY : 0;
+      const offsetX = refX ? refX : 0;
+      const offsetY = refY ? refY : 0;
+      style.x = cfg.startPoint.x + offsetX;
+      style.y = cfg.startPoint.y + offsetY;
       style.text = cfg.label
       return style;
     }
@@ -257,17 +259,18 @@ Shape.registerEdge('arc', {
     let arcPoint;
     // 根据给定点计算圆弧
     if (cfg.controlPoints !== undefined) {
+      console.log('control point is defined');
       arcPoint = cfg.controlPoints[0];
       center = getCircleCenterByPoints(startPoint, arcPoint, endPoint);
       // 根据控制点和直线关系决定 clockwise值
       if (startPoint.x <= endPoint.x && startPoint.y > endPoint.y) {
-        this.clockwise = center.x > midPoint.x ? 1 : 0;
+        this.clockwise = center.x > arcPoint.x ? 0 : 1;
       } else if (startPoint.x <= endPoint.x && startPoint.y < endPoint.y) {
-        this.clockwise = center.x > midPoint.x ? 0 : 1;
+        this.clockwise = center.x > arcPoint.x ? 1 : 0;
       } else if (startPoint.x > endPoint.x && startPoint.y <= endPoint.y) {
-        this.clockwise = center.y < midPoint.y ? 1 : 0;
+        this.clockwise = center.y < arcPoint.y ? 0 : 1;
       } else {
-        this.clockwise = center.y < midPoint.y ? 1 : 0;
+        this.clockwise = center.y < arcPoint.y ? 1 : 0;
       }
       // 若给定点和两端点共线，无法生成圆弧，绘制直线
       if (

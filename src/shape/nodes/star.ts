@@ -54,7 +54,9 @@ Shape.registerNode('star', {
     const icon = deepMix({}, defaultIcon, cfg.icon);
 
     const keyShape = group.addShape('path', {
-      attrs: style
+      attrs: style,
+      className: 'star-keyShape',
+      draggable: true
     });
 
     const { width: w, height: h, show } = icon;
@@ -252,25 +254,12 @@ Shape.registerNode('star', {
     const markTop = group.find(element => { return element.get('className') === 'link-point-top'})
     const markLeftBottom = group.find(element => { return element.get('className') === 'link-point-left-bottom'})
     const markRightBottom = group.find(element => { return element.get('className') === 'link-point-right-bottom'})
-    
 
-    let currentLinkPoints = undefined;
-    if (markLeft) {
-      currentLinkPoints = markLeft.attr();
+    let currentLinkPoints = defaultLinkPoints;
+    const existLinkPoint = markLeft || markRight || markTop || markLeftBottom || markRightBottom;
+    if (existLinkPoint) {
+      currentLinkPoints = existLinkPoint.attr();
     }
-    if (markRight && !currentLinkPoints) {
-      currentLinkPoints = markRight.attr();
-    }
-    if (markTop && !currentLinkPoints) {
-      currentLinkPoints = markTop.attr();
-    }
-    if (markLeftBottom && !currentLinkPoints) {
-      currentLinkPoints = markLeftBottom.attr();
-    }
-    if (markRightBottom && !currentLinkPoints) {
-      currentLinkPoints = markRightBottom.attr();
-    }
-    if (!currentLinkPoints) currentLinkPoints = defaultLinkPoints;
 
     const linkPoints = deepMix({}, currentLinkPoints, cfg.linkPoints);
 

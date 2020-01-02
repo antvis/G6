@@ -46,7 +46,8 @@ Shape.registerNode('rect', {
 
     const keyShape = group.addShape('rect', {
       attrs: style,
-      className: 'rect-keyShape'
+      className: 'rect-keyShape',
+      draggable: true
     });
 
     this.drawLinkPoints(cfg, group);

@@ -8,6 +8,9 @@ import ClickSelect from './click-select'
 import ZoomCanvas from './zoom-canvas'
 import Tooltip from './tooltip'
 import EdgeTooltip from './edge-tooltip'
+import DragGroup from './drag-group'
+import DragNodeWidthGroup from './drag-node-with-group'
+import CollapseExpandGroup from './collapse-expand-group'
 
 const behaviors = {
   'drag-canvas': DragCanvas,
@@ -17,7 +20,10 @@ const behaviors = {
   'brush-select': BrushSelect,
   'click-select': ClickSelect,
   'tooltip': Tooltip,
-  'edge-tooltip': EdgeTooltip
+  'edge-tooltip': EdgeTooltip,
+  'drag-group': DragGroup,
+  'drag-node-with-group': DragNodeWidthGroup,
+  'collapse-expand-group': CollapseExpandGroup
 }
 
 each(behaviors, (behavior, type: string)  => {

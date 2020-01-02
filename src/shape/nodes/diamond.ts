@@ -53,7 +53,9 @@ Shape.registerNode('diamond', {
     const icon = deepMix({}, defaultIcon, cfg.icon);
 
     const keyShape = group.addShape('path', {
-      attrs: style
+      attrs: style,
+      className: 'diamond-keyShape',
+      draggable: true
     });
 
     const { width: w, height: h, show } = icon;

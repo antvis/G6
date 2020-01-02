@@ -12,19 +12,34 @@ describe('activate-relations', () => {
     height: 500,
     pixelRatio: 2,
     modes: { default: [] },
+    defaultNode: {
+      style: {
+        stroke: '#f00'
+      }
+    },
     nodeStateStyles: {
       active: {
-        fillOpacity: 0.8
+        fillOpacity: 0.8,
+        lineWidth: 3
+      },
+      selected: {
+        lineWidth: 5
+      }
+    },
+    edgeStateStyles: {
+      active: {
+        strokeOpacity: 0.8,
+        lineWidth: 3
       }
     }
   });
   
   const node1 = graph.addItem('node', { id: 'node1', x: 100, y: 100, label: 'node1' });
   const node2 = graph.addItem('node', { id: 'node2', x: 200, y: 200, label: 'node2' });
-  graph.addItem('node', { id: 'node3', x: 80, y: 150, label: 'node3' });
+  graph.addItem('node', { id: 'node3', x: 80, y: 250, label: 'node3' });
   graph.addItem('edge', { source: 'node1', target: 'node2' });
   graph.addItem('edge', { source: 'node1', target: 'node3' });
-  it('default activate', (done) => {
+  it('default activate', done => {
     graph.on('afteractivaterelations', e => {
       const action = e.action;
       if (e.item === node1) {
@@ -125,8 +140,6 @@ describe('activate-relations', () => {
     graph.emit('node:click', { item: node2 });
     graph.emit('canvas:click', {});
     graph.removeBehaviors([ 'activate-relations' ], 'default');
-    // graph.removeEvent();
-    graph.destroy();
   });
   it('custom state', done => {
     const graph2 = new Graph({
@@ -184,5 +197,52 @@ describe('activate-relations', () => {
     graph2.emit('node:mouseenter', { item: g2node2 });
     graph2.emit('node:mouseleave', { item: g2node2 });
     graph2.destroy();
+  });
+  it('should not update', () => {
+    graph.addBehaviors([{
+      type: 'activate-relations',
+      trigger: 'click',
+      shouldUpdate() { return false; }
+    }], 'default');
+    graph.emit('node:click', { item: node1 });
+    let nodes = graph.findAllByState('node', 'active');
+    let edges = graph.findAllByState('edge', 'active');
+    expect(nodes.length).toEqual(0);
+    expect(edges.length).toEqual(0);
+    graph.emit('canvas:click', {});
+    graph.emit('node:click', { item: node2 });
+    nodes = graph.findAllByState('node', 'active');
+    edges = graph.findAllByState('edge', 'active');
+    expect(nodes.length).toEqual(0);
+    expect(edges.length).toEqual(0);
+    graph.emit('canvas:click', {});
+    graph.removeBehaviors([ 'activate-relations' ], 'default');
+  });
+  it('combine selected state', () => {
+    graph.addBehaviors([{
+      type: 'activate-relations',
+      trigger: 'mouseenter',
+      resetSelected: true
+    }], 'default');
+    graph.addBehaviors([{
+      type: 'click-select'
+    }], 'default');
+
+    graph.emit('node:click', { item: node1 });
+    let nodes = graph.findAllByState('node', 'selected');
+    expect(nodes.length).toEqual(1);
+    graph.emit('node:mouseenter', { item: node2 });
+    nodes = graph.findAllByState('node', 'selected');
+    expect(nodes.length).toEqual(0);
+    nodes = graph.findAllByState('node', 'active');
+    const edges = graph.findAllByState('edge', 'active');
+    expect(nodes.length).toEqual(2);
+    expect(edges.length).toEqual(1);
+    graph.emit('node:click', { item: node1 });
+    nodes = graph.findAllByState('node', 'selected');
+    expect(nodes.length).toEqual(1);
+    graph.emit('node:mouseleave', {});
+    graph.removeBehaviors([ 'activate-relations' ], 'default');
+    graph.destroy();
   });
 });

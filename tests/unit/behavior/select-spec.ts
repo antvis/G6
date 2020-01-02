@@ -94,5 +94,55 @@ describe('select-node', () => {
     expect(node.hasState('selected')).toBe(true);
     graph.emit('canvas:click');
     expect(node.hasState('selected')).toBe(false);
+    graph.destroy();
+  });
+  it('invalid trigger, multiple is false', () => {
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: [{
+          type: 'click-select',
+          trigger: 'abc',
+          multiple: false
+        }]
+      }
+    });
+    graph.addItem('node', { color: '#666', x: 50, y: 50, size: 20, style: { lineWidth: 2, fill: '#666' } });
+    graph.paint();
+    expect(graph.get('modeController').currentBehaves[0].trigger).toEqual('shift');
+    graph.destroy();
+  });
+  it('invalid key', () => {
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: [{
+          type: 'click-select'
+        }]
+      }
+    });
+    const node1= graph.addItem('node', { color: '#666', x: 50, y: 50, size: 20, style: { lineWidth: 2, fill: '#666' } });
+    const node2 = graph.addItem('node', { color: '#666', x: 150, y: 150, size: 20, style: { lineWidth: 2, fill: '#666' } });
+    graph.paint();
+    graph.emit('node:click', { item: node1 });
+    expect(node1.getStates().length).toEqual(1);
+    expect(node1.getStates()[0]).toEqual('selected');
+    // key undefined
+    graph.emit('keydown', { key: undefined });
+    graph.emit('node:click', { item: node2 });
+    expect(node1.hasState('selected')).toBe(false);
+    expect(node2.hasState('selected')).toBe(true);
+
+    // different from trigger
+    graph.emit('keydown', { key: 'alt' });
+    graph.emit('node:click', { item: node1 });
+    graph.emit('node:click', { item: node2 });
+    expect(node1.hasState('selected')).toBe(false);
+    expect(node2.hasState('selected')).toBe(true);
+    graph.destroy();
   });
 });
