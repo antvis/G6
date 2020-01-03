@@ -1,6 +1,6 @@
 import modifyCSS from '@antv/dom-util/lib/modify-css'
-import Graph from '../../src/graph/graph';
-import { IG6GraphEvent } from '../../types'
+import Graph from '@g6/graph/graph';
+import { IG6GraphEvent } from '@g6/types'
 import Base from '../base'
 
 interface MenuConfig {

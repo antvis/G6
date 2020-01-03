@@ -1,4 +1,4 @@
-import Grid from '../../../plugins/grid';
+import Grid from '../../../src/plugins/grid';
 import G6 from '../../../src';
 
 const div = document.createElement('div');

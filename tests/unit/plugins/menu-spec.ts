@@ -1,5 +1,5 @@
 import Simulate from 'event-simulate';
-import Menu from '../../../plugins/menu';
+import Menu from '../../../src/plugins/menu';
 import G6 from '../../../src';
 
 const div = document.createElement('div');
