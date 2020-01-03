@@ -8,6 +8,7 @@ import { IPointTuple, NodeConfig } from '@g6/types';
 import isArray from '@antv/util/lib/is-array';
 import isNumber from '@antv/util/lib/is-array';
 import isString from '@antv/util/lib/is-string';
+import isFunction from '@antv/util/lib/is-function';
 import { floydWarshall, getAdjMatrix } from '../../util/math';
 
 import { BaseLayout } from '../layout';
@@ -59,7 +60,7 @@ export default class RadialLayout extends BaseLayout {
   /** 停止迭代的最大迭代数 */
   public maxIteration: number;
   /** 中心点，默认为数据中第一个点 */
-  public focusNode: Node;
+  public focusNode: String | Node;
   /** 每一圈半径 */
   public unitRadius: number;
   /** 默认边长度 */
@@ -74,6 +75,9 @@ export default class RadialLayout extends BaseLayout {
   public strictRadial: boolean;
   /** 防止重叠步骤的最大迭代次数 */
   public maxPreventOverlapIteration: number;
+
+  public sortBy: string;
+  public sortStrength: number;
 
   public width: number;
   public height: number;
@@ -96,6 +100,8 @@ export default class RadialLayout extends BaseLayout {
       nodeSpacing: undefined,
       strictRadial: true,
       maxPreventOverlapIteration: 200,
+      sortBy: undefined,	
+      sortStrength: 10
     };
   }
   /**
@@ -115,11 +121,11 @@ export default class RadialLayout extends BaseLayout {
     }
     const linkDistance = self.linkDistance;
     // layout
-    let focusNode = self.focusNode;
-    if (isString(focusNode)) {
+    let focusNode: Node;
+    if (isString(self.focusNode)) {
       let found = false;
       for (let i = 0; i < nodes.length; i++) {
-        if (nodes[i].id === focusNode.id) {
+        if (nodes[i].id === self.focusNode) {
           focusNode = nodes[i];
           self.focusNode = focusNode;
           found = true;
@@ -129,13 +135,12 @@ export default class RadialLayout extends BaseLayout {
       if (!found) {
         focusNode = null;
       }
+    } else {
+      focusNode = self.focusNode as Node;
     }
     // default focus node
     if (!focusNode) {
       focusNode = nodes[0];
-      if (!focusNode) {
-        return;
-      }
       self.focusNode = focusNode;
     }
     // the index of the focusNode in data
@@ -152,8 +157,14 @@ export default class RadialLayout extends BaseLayout {
 
     // the shortest path distance from each node to focusNode
     const focusNodeD = D[focusIndex];
-    const width = self.width || window.innerHeight;
-    const height = self.height || window.innerWidth;
+    if (!self.width && typeof window !== 'undefined') {
+      self.width = window.innerWidth;
+    }
+    if (!self.height && typeof window !== 'undefined') {
+      self.height = window.innerHeight;
+    }
+    const width = self.width;
+    const height = self.height;
     let semiWidth = width - center[0] > center[0] ? center[0] : width - center[0];
     let semiHeight = height - center[1] > center[1] ? center[1] : height - center[1];
     if (semiWidth === 0) {
@@ -183,7 +194,7 @@ export default class RadialLayout extends BaseLayout {
     self.weights = W;
 
     // the initial positions from mds
-    const mds = new MDS({ distances: eIdealD, linkDistance, dimension: 2 });
+    const mds = new MDS({ distances: eIdealD, linkDistance });
     let positions = mds.layout();
     positions.forEach((p) => {
       if (isNaN(p[0])) {
@@ -216,14 +227,13 @@ export default class RadialLayout extends BaseLayout {
         nodeSpacingFunc = () => {
           return nodeSpacing;
         };
-      } else if (typeof nodeSpacing === 'function') {
+      } else if (isFunction(nodeSpacing)) {
         nodeSpacingFunc = nodeSpacing;
       } else {
         nodeSpacingFunc = () => {
           return 0;
         };
       }
-
       if (!nodeSize) {
         nodeSizeFunc = (d) => {
           if (d.size) {
@@ -332,15 +342,29 @@ export default class RadialLayout extends BaseLayout {
     const radii = self.radii;
     const unitRadius = self.unitRadius;
     const result = [];
+    const nodes = self.nodes;
     D.forEach((row, i) => {
-      const newRow = [];
+      const newRow: number[] = [];
       row.forEach((v, j) => {
         if (i === j) {
           newRow.push(0);
-        } else if (radii[i] === radii[j]) {
-          // i and j are on the same circle
-          newRow.push((v * linkDis) / (radii[i] / unitRadius));
-        } else {
+        } else if (radii[i] === radii[j]) { // i and j are on the same circle	
+          if (self.sortBy === 'data') { // sort the nodes on the same circle according to the ordering of the data	
+            newRow.push(v * (Math.abs(i - j) * self.sortStrength) / (radii[i] / unitRadius));	
+          } else if (self.sortBy) { // sort the nodes on the same circle according to the attributes	
+            let iValue: number | string = nodes[i][self.sortBy] as number | string || 0;
+            let jValue: number | string = nodes[j][self.sortBy] as number | string || 0;
+            if (isString(iValue)) {	
+              iValue = iValue.charCodeAt(0);	
+            }
+            if (isString(jValue)) {	
+              jValue = jValue.charCodeAt(0);	
+            }	
+            newRow.push(v * (Math.abs(iValue - jValue) * self.sortStrength) / (radii[i] / unitRadius));	
+          } else {	
+            newRow.push(v * linkDis / (radii[i] / unitRadius));	
+          }	
+        } else { // i and j are on different circle
           // i and j are on different circle
           const link = (linkDis + unitRadius) / 2;
           newRow.push(v * link);
@@ -349,37 +373,6 @@ export default class RadialLayout extends BaseLayout {
       result.push(newRow);
     });
     return result;
-  }
-
-  private handleAbnormalMatrix(adMatrix, focusIndex) {
-    const rows = adMatrix.length;
-    // 空行即代表该行是离散点，将单个离散点看作 focus 的邻居
-    for (let i = 0; i < rows; i++) {
-      if (adMatrix[i].length === 0) {
-        adMatrix[i][focusIndex] = 1;
-        adMatrix[focusIndex][i] = 1;
-      }
-    }
-    // 如果第一行中有
-    // let hasDis = true;
-    // for (let j = 0; j < matrix[focusIndex].length; j++) {
-    //   if (!matrix[focusIndex][j]) hasDis = false;
-    // }
-    // if (hasDis) {
-    //   matrix[j][focusIndex] = 1;
-    //   matrix[focusIndex][j] = 1;
-    // }
-    // if (emptyMatrix) {
-    //   let value = 0;
-    //   for (let i = 0; i < rows; i++) {
-    //     for (let j = 0; j < rows; j++) {
-    //       if (i === focusIndex || j === focusIndex) value = 1;
-    //       matrix[i][j] = value;
-    //       value = 0;
-    //     }
-    //     value = 0;
-    //   }
-    // }
   }
 
   private handleInfinity(matrix, focusIndex, step) {

@@ -7,6 +7,7 @@ import dagre from 'dagre';
 
 import isArray from '@antv/util/lib/is-array';
 import { BaseLayout } from './layout';
+import { isNumber } from '@antv/util';
 
 /**
  * 随机布局
@@ -17,7 +18,7 @@ export default class DagreLayout extends BaseLayout {
   /** 节点对齐方式，可选 UL, UR, DL, DR */
   public align: undefined | 'UL' | 'UR' | 'DL' | 'DR';
   /** 节点大小 */
-  public nodeSize: number;
+  public nodeSize: number | number[];
   /** 节点水平间距(px) */
   public nodesepFunc: () => number;
   /** 每一层节点之间间距 */
@@ -34,12 +35,8 @@ export default class DagreLayout extends BaseLayout {
       rankdir: 'TB', // layout 方向, 可选 TB, BT, LR, RL
       align: undefined, // 节点对齐方式，可选 UL, UR, DL, DR
       nodeSize: undefined, // 节点大小
-      nodesepFunc() {
-        return 50;
-      }, // 节点水平间距(px)
-      ranksepFunc() {
-        return 50;
-      }, // 每一层节点之间间距
+      nodesepFunc: undefined, // 节点水平间距(px)
+      ranksepFunc: undefined, // 每一层节点之间间距
       nodesep: 50, // 节点水平间距(px)
       ranksep: 50, // 每一层节点之间间距
       controlPoints: true, // 是否保留布局连线的控制点
@@ -75,31 +72,20 @@ export default class DagreLayout extends BaseLayout {
         return [nodeSize, nodeSize];
       };
     }
-    let horisep = self.nodesep;
-    if (self.nodesepFunc) {
-      horisep = self.nodesepFunc();
-    }
-    let vertisep = self.ranksep;
-    if (self.ranksepFunc) {
-      vertisep = self.ranksepFunc();
-    }
+    let horisep: Function = getFunc(self.nodesepFunc, self.nodesep, 50);
+    let vertisep: Function = getFunc(self.ranksepFunc, self.ranksep, 50);
+
     const rankdir = self.rankdir;
     if (rankdir === 'LR' || rankdir === 'RL') {
-      horisep = self.ranksep;
-      if (self.ranksepFunc) {
-        horisep = self.ranksepFunc();
-      }
-      vertisep = self.nodesep;
-      if (self.nodesepFunc) {
-        vertisep = self.nodesepFunc();
-      }
+      horisep = getFunc(self.ranksepFunc, self.ranksep, 50);
+      vertisep = getFunc(self.nodesepFunc, self.nodesep, 50);
     }
     g.setDefaultEdgeLabel(() => ({}));
     g.setGraph(self);
     nodes.forEach((node) => {
       const size = nodeSizeFunc(node);
-      const hori = horisep;
-      const verti = vertisep;
+      const verti = vertisep(node);
+      const hori = horisep(node);
       const width = size[0] + 2 * hori;
       const height = size[1] + 2 * verti;
       g.setNode(node.id, { width, height });
@@ -123,4 +109,20 @@ export default class DagreLayout extends BaseLayout {
       }
     });
   }
+}
+
+function getFunc(func: Function, value: number, defaultValue: number ): Function {
+  let resultFunc;
+  if (func) {
+    resultFunc = func;
+  } else if (isNumber(value)) {
+    resultFunc = () => {
+      return value;
+    }
+  } else {
+    resultFunc = () => {
+      return defaultValue;
+    }
+  }
+  return resultFunc;
 }

@@ -19,7 +19,6 @@ describe('Mode Controller', () => {
     const graph: Graph = new Graph(cfg)
     const modeController = new ModeController(graph)
     expect(Object.keys(modeController.modes).length).toBe(1);
-    console.log(modeController.modes)
     expect(modeController.modes.default[0]).toEqual({ type: 'drag' });
     expect(modeController.modes.default.length).toBe(1);
     expect(modeController.mode).toBe('default');

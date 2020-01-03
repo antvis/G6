@@ -154,10 +154,15 @@ export default class CircularLayout extends BaseLayout {
     const degrees = getDegree(nodes.length, nodeMap, edges);
     self.degrees = degrees;
 
-    const width = self.width || window.innerHeight;
-    const height = self.height || window.innerWidth;
+    
+    if (!self.width && typeof window !== 'undefined') {
+      self.width = window.innerWidth;
+    }
+    if (!self.height && typeof window !== 'undefined') {
+      self.height = window.innerHeight;
+    }
     if (!radius && !startRadius && !endRadius) {
-      radius = height > width ? width / 2 : height / 2;
+      radius = self.height > self.width ? self.width / 2 : self.height / 2;
     } else if (!startRadius && endRadius) {
       startRadius = endRadius;
     } else if (startRadius && !endRadius) {

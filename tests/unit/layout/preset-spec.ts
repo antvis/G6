@@ -8,9 +8,7 @@ const data = {
   nodes: [
     {
       id: '0',
-      label: '0',
-      x: 100,
-      y: 30,
+      label: '0'
     },
     {
       id: '1',
@@ -89,12 +87,44 @@ const data2 = {
 };
 
 describe.only('preset layout', () => {
+  it('new graph without layout, part of the data has position infor', () => {
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500
+    });
+    graph.data(data);
+    graph.render();
+    expect(graph.getNodes()[0].getModel().x).not.toEqual(NaN);
+    expect(graph.getNodes()[0].getModel().y).not.toEqual(NaN);
+    expect(graph.getNodes()[1].getModel().x).toEqual(150);
+    expect(graph.getNodes()[1].getModel().y).toEqual(80);
+    graph.destroy();
+  });
   it('new graph without layout but has positions', () => {
     const graph = new G6.Graph({
       container: div,
       width: 500,
-      height: 500,
+      height: 500
     });
+    data.nodes[0].x = 100;
+    data.nodes[0].y = 30;
+    graph.data(data);
+    graph.render();
+    expect(graph.getNodes()[0].getModel().x).toEqual(100);
+    expect(graph.getNodes()[0].getModel().y).toEqual(30);
+    expect(graph.getNodes()[1].getModel().x).toEqual(150);
+    expect(graph.getNodes()[1].getModel().y).toEqual(80);
+    graph.destroy();
+  });
+  it('new graph without layout and change layout', () => {
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500
+    });
+    data.nodes[0].x = 100;
+    data.nodes[0].y = 30;
     graph.data(data);
     graph.render();
     expect(graph.getNodes()[0].getModel().x).toEqual(100);
@@ -103,9 +133,10 @@ describe.only('preset layout', () => {
     expect(graph.getNodes()[1].getModel().y).toEqual(80);
 
     let painted = false;
-    graph.once('afterpaint', function() {
+    graph.on('afterpaint', () => {
       painted = true;
     });
+
     graph.changeData(data2);
     expect(graph.getNodes()[0].getModel().x).toEqual(200);
     expect(graph.getNodes()[0].getModel().y).toEqual(130);
@@ -113,5 +144,82 @@ describe.only('preset layout', () => {
     expect(graph.getNodes()[1].getModel().y).toEqual(180);
     expect(painted).toEqual(true);
     graph.destroy();
+  });
+  it('new graph with layout, nodes has positions', () => {
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      layout: {
+        type: 'random'
+      }
+    });
+    graph.data(data);
+    graph.render();
+    expect(graph.getNodes()[0].getModel().x).not.toEqual(100);
+    expect(graph.getNodes()[0].getModel().y).not.toEqual(30);
+    expect(graph.getNodes()[1].getModel().x).not.toEqual(150);
+    expect(graph.getNodes()[1].getModel().y).not.toEqual(80);
+    graph.destroy();
+  });
+  it('update layout from undefined layout to force layout', () => {
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500
+    });
+    graph.data(data2);
+    graph.render();
+    expect(graph.getNodes()[1].getModel().x).toEqual(250);
+    expect(graph.getNodes()[1].getModel().y).toEqual(180);
+    graph.updateLayout({
+      type: 'force'
+    });
+    expect(graph.getNodes()[1].getModel().x).not.toEqual(NaN);
+    expect(graph.getNodes()[1].getModel().y).not.toEqual(NaN);
+    graph.destroy();
+  });
+
+  // it will return a console.warn to warn user to assign a type for it
+  it('update layout from undefined layout, configuration withou layout type', () => {
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500
+    });
+    graph.data(data2);
+    graph.render();
+    expect(graph.getNodes()[1].getModel().x).toEqual(250);
+    expect(graph.getNodes()[1].getModel().y).toEqual(180);
+    graph.updateLayout({
+      center: [100, 100]
+    });
+    expect(graph.getNodes()[1].getModel().x).not.toEqual(NaN);
+    expect(graph.getNodes()[1].getModel().y).not.toEqual(NaN);
+    graph.destroy();
+  });
+
+  it('update layout from force layout to circular layout', () => {
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      layout: {
+        type: 'force'
+      }
+    });
+    graph.data(data2);
+    graph.render();
+    expect(graph.getNodes()[1].getModel().x).not.toEqual(NaN);
+    expect(graph.getNodes()[1].getModel().y).not.toEqual(NaN);
+    graph.once('afterlayout', () => {
+      graph.updateLayout({
+        type: 'circular',
+        radius: 100
+      });
+      expect(graph.getNodes()[1].getModel().x).not.toEqual(NaN);
+      expect(graph.getNodes()[1].getModel().y).not.toEqual(NaN);
+      graph.destroy();
+    });
   });
 });

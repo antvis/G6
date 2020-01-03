@@ -44,15 +44,15 @@ export default class LayoutController {
     this.layoutType = layoutCfg.type;
     this.worker = null;
     this.workerData = {};
-    this._initLayout();
+    this.initLayout();
   }
 
-  private _initLayout() {
+  private initLayout() {
     // no data before rendering
   }
 
   // get layout worker and create one if not exists
-  private _getWorker() {
+  private getWorker() {
     if (this.worker) {
       return this.worker;
     }
@@ -68,7 +68,7 @@ export default class LayoutController {
   }
 
   // stop layout worker
-  private _stopWorker() {
+  private stopWorker() {
     const { workerData } = this;
 
     if (!this.worker) {
@@ -98,7 +98,6 @@ export default class LayoutController {
    */
   public layout(success?: () => void): boolean {
     const self = this;
-    let layoutType = self.layoutType;
     const graph = self.graph;
     // const data = graph.get('data');
 
@@ -122,33 +121,26 @@ export default class LayoutController {
     );
     self.layoutCfg = layoutCfg;
 
-    if (layoutType === undefined) {
-      if (nodes[0] && nodes[0].x === undefined) {
-        // 创建随机布局
-        layoutType = layoutCfg.type = 'random';
-      } else {
-        // 若未指定布局且数据中有位置信息，则不进行布局，直接按照原数据坐标绘制。
-        return false;
-      }
-    } else {
-      if (nodes[0] && nodes[0].x === undefined) {
-        // 初始化位置
-        self.initPositions(layoutCfg.center, nodes);
-      }
-    }
+    const hasLayoutType = !!self.layoutType;
 
     let layoutMethod = self.layoutMethod;
     if (layoutMethod) {
       layoutMethod.destroy();
     }
 
-    this._stopWorker();
-    if (layoutCfg.workerEnabled && this._layoutWithWorker(self.data, success)) {
+    graph.emit('beforelayout');	
+    const allHavePos = self.initPositions(layoutCfg.center, nodes);	
+    if (!self.layoutType && !allHavePos) {
+      self.layoutType = 'random';
+    }
+
+    this.stopWorker();
+    if (layoutCfg.workerEnabled && this.layoutWithWorker(self.data, success)) {
       // 如果启用布局web worker并且浏览器支持web worker，用web worker布局。否则回退到不用web worker布局。
       return true;
     }
 
-    if (layoutType === 'force') {
+    if (self.layoutType === 'force') {
       const onTick = layoutCfg.onTick;
       const tick = () => {
         if (onTick) {
@@ -165,20 +157,25 @@ export default class LayoutController {
         graph.emit('afterlayout');
       };
     }
-
-    try {
-      layoutMethod = new Layout[layoutType](layoutCfg);
-    } catch (e) {
-      console.warn('The layout method: ' + layoutType + ' does not exist! Please specify it first.');
-      return false;
-    }
-    layoutMethod.init(self.data);
-    graph.emit('beforelayout');
-    layoutMethod.execute();
-    self.layoutMethod = layoutMethod;
-    if (layoutType !== 'force') {
-      graph.emit('afterlayout');
-      self.refreshLayout();
+    
+    if (self.layoutType !== undefined) {
+      try {
+        layoutMethod = new Layout[self.layoutType](layoutCfg);
+      } catch (e) {
+        console.warn('The layout method: ' + self.layoutType + ' does not exist! Please specify it first.');
+        return false;
+      }
+      layoutMethod.init(self.data);
+      // 若存在节点没有位置信息，且没有设置 layout，在 initPositions 中 random 给出了所有节点的位置，不需要再次执行 random 布局	
+      // 所有节点都有位置信息，且指定了 layout，则执行布局（代表不是第一次进行布局）
+      if (hasLayoutType) { // allHavePos && 
+        layoutMethod.execute();	
+      }
+      self.layoutMethod = layoutMethod;
+      if (self.layoutType !== 'force') {
+        graph.emit('afterlayout');
+        self.refreshLayout();
+      }
     }
     return false;
   }
@@ -189,10 +186,10 @@ export default class LayoutController {
    * @param {function} success callback function
    * @return {boolean} 是否支持web worker
    */
-  private _layoutWithWorker(data, success?: () => void): boolean {
+  private layoutWithWorker(data, success?: () => void): boolean {
     const { nodes, edges } = data;
     const { layoutCfg, graph } = this;
-    const worker = this._getWorker();
+    const worker = this.getWorker();
     // 每次worker message event handler调用之间的共享数据，会被修改。
     const { workerData } = this;
 
@@ -213,13 +210,13 @@ export default class LayoutController {
     const filteredLayoutCfg = filterObject(layoutCfg, (value) => typeof value !== 'function');
     worker.postMessage({ type: LAYOUT_MESSAGE.RUN, nodes, edges, layoutCfg: filteredLayoutCfg });
     worker.onmessage = (event) => {
-      this._handleWorkerMessage(event, data, success);
+      this.handleWorkerMessage(event, data, success);
     };
     return true;
   }
 
   // success callback will be called when updating graph positions for the first time.
-  private _handleWorkerMessage(event, data, success?: () => void) {
+  private handleWorkerMessage(event, data, success?: () => void) {
     const { graph, workerData, layoutCfg } = this;
     const eventData = event.data;
     const { type } = eventData;
@@ -303,10 +300,14 @@ export default class LayoutController {
     const graph = self.graph;
     self.layoutType = cfg.type;
     const layoutMethod = self.layoutMethod;
+    if (!layoutMethod) {
+      console.warn('You did not assign any layout type and the graph has no previous layout method!');
+      return;
+    };
     self.data = self.setDataFromGraph();
 
-    this._stopWorker();
-    if (cfg.workerEnabled && this._layoutWithWorker(self.data, null)) {
+    this.stopWorker();
+    if (cfg.workerEnabled && this.layoutWithWorker(self.data, null)) {
       // 如果启用布局web worker并且浏览器支持web worker，用web worker布局。否则回退到不用web worker布局。
       return;
     }
@@ -360,15 +361,6 @@ export default class LayoutController {
       edges.push(model);
     });
     const data: any = { nodes, edges };
-    if (self.layoutType === 'fruchtermanGroup') {
-      // const groupsData = self.graph.get('groups');
-      // const customGroup = self.graph.get('customGroup');
-      // const groupController = self.graph.get('customGroupControll');
-      // data.groupsData = groupsData;
-      // data.customGroup = customGroup;
-      // data.groupController = groupController;
-      data.graph = self.graph;
-    }
     return data;
   }
 
@@ -418,15 +410,25 @@ export default class LayoutController {
     });
   }
 
-  // 初始化节点到 center
-  public initPositions(center, nodes) {
-    if (!nodes) {
-      return;
-    }
-    nodes.forEach((node) => {
-      node.x = center[0] + Math.random();
-      node.y = center[1] + Math.random();
-    });
+  // 初始化节点到 center 附近
+  public initPositions(center, nodes): boolean {
+    const self = this;	
+    const graph = self.graph;	
+    if (!nodes) {	
+      return;	
+    }	
+    let allHavePos = true;	
+    nodes.forEach(node => {	
+      if (isNaN(node.x)) {	
+        allHavePos = false;	
+        node.x = (Math.random() - 0.5) * 0.9 * graph.get('width') + center[0];	
+      }	
+      if (isNaN(node.y)) {	
+        allHavePos = false;	
+        node.y = (Math.random() - 0.5) * 0.9 * graph.get('height') + center[1];	
+      }	
+    });	
+    return allHavePos;
   }
 
   public destroy() {
