@@ -12,7 +12,6 @@ describe.only('circle test', () => {
       container: div,
       width: 500,
       height: 500,
-      pixelRatio: 2,
       defaultNode: {
         shape: 'circle'
       }
@@ -78,7 +77,6 @@ describe.only('circle test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2,
         defaultNode: {
           shape: 'circle',
           size: 50,
@@ -131,7 +129,6 @@ describe.only('circle test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2,
         defaultNode: {
           shape: 'circle',
           size: 35,
@@ -207,7 +204,6 @@ describe.only('circle test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2,
         defaultNode: {
           shape: 'circle',
           size: 50,

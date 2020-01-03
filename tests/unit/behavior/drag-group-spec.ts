@@ -354,7 +354,6 @@ describe('drag signle layer group', () => {
       container: div,
       width: 1500,
       height: 1000,
-      pixelRatio: 2,
       modes: {
         default: [ 'drag-node-with-group' ]
       },
@@ -538,7 +537,6 @@ describe('nesting layer group', () => {
       container: div,
       width: 1500,
       height: 1000,
-      pixelRatio: 2,
       modes: {
         default: [ 'drag-group', 'drag-node-with-group', 'collapse-expand-group' ]
       },
@@ -589,7 +587,6 @@ describe('nesting layer group', () => {
       container: div,
       width: 1500,
       height: 1000,
-      pixelRatio: 2,
       modes: {
         default: [ 'drag-group', 'drag-node-with-group', 'collapse-expand-group' ]
       },

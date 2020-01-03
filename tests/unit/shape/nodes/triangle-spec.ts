@@ -13,7 +13,6 @@ describe('triangle test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2,
         defaultNode: {
           shape: 'triangle'
         }
@@ -54,7 +53,6 @@ describe('triangle test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2,
         defaultNode: {
           shape: 'triangle',
           style: {
@@ -104,8 +102,7 @@ describe('triangle test', () => {
       const graph = new Graph({
         container: div,
         width: 500,
-        height: 500,
-        pixelRatio: 2
+        height: 500
       });
       const data = {
         nodes: [
@@ -137,8 +134,7 @@ describe('triangle test', () => {
       const graph = new Graph({
         container: div,
         width: 500,
-        height: 500,
-        pixelRatio: 2
+        height: 500
       });
       const data = {
         nodes: [
@@ -171,8 +167,7 @@ describe('triangle test', () => {
       const graph = new Graph({
         container: div,
         width: 500,
-        height: 500,
-        pixelRatio: 2
+        height: 500
       });
       const data = {
         nodes: [
@@ -205,8 +200,7 @@ describe('triangle test', () => {
       const graph = new Graph({
         container: div,
         width: 500,
-        height: 500,
-        pixelRatio: 2
+        height: 500
       });
       const data = {
         nodes: [
@@ -240,8 +234,7 @@ describe('triangle test', () => {
       const graph = new Graph({
         container: div,
         width: 500,
-        height: 500,
-        pixelRatio: 2
+        height: 500
       });
       const data = {
         nodes: [
@@ -347,7 +340,6 @@ describe('triangle test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2,
         defaultNode: {
           shape: 'triangle',
           size: 50,

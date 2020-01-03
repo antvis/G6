@@ -15,7 +15,6 @@ describe('polyline e test', () => {
       container: div,
       width: 500,
       height: 500,
-      pixelRatio: 2,
       defaultNode: {
         shape: 'polyline'
       }

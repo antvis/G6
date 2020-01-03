@@ -334,7 +334,6 @@ describe('shape node test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2
       });
       const data = {
         nodes: [
@@ -441,7 +440,6 @@ describe('shape node test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2
       });
       const data = {
         nodes: [
@@ -548,7 +546,6 @@ describe('shape node test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2
       });
       const data = {
         nodes: [
@@ -654,7 +651,6 @@ describe('shape node test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2
       });
       const data = {
         nodes: [

@@ -15,7 +15,6 @@ describe('drag-canvas', () => {
       modes: {
         default: [ 'drag-canvas' ]
       },
-      pixelRatio: 2
     });
     let start = false;
     graph.on('canvas:dragstart', () => { start = true; });
@@ -43,8 +42,7 @@ describe('drag-canvas', () => {
           type: 'drag-canvas',
           shouldUpdate: () => { return false; }
         }]
-      },
-      pixelRatio: 2
+      }
     });
     let start = false;
     graph.on('canvas:dragstart', () => { start = true; });
@@ -72,8 +70,7 @@ describe('drag-canvas', () => {
           shouldUpdate: () => { return false; }
         }],
         custom: []
-      },
-      pixelRatio: 2
+      }
     });
     let triggered = false;
     graph.setMode('custom');
@@ -98,8 +95,7 @@ describe('drag-canvas', () => {
           type: 'drag-canvas',
           direction: 'x'
         }]
-      },
-      pixelRatio: 2
+      }
     });
     let start = false;
     graph.addItem('node', { x: 100, y: 100, color: '#666', type: 'rect', id: 'test' });
@@ -128,8 +124,7 @@ describe('drag-canvas', () => {
           type: 'drag-canvas',
           direction: 'y'
         }]
-      },
-      pixelRatio: 2
+      }
     });
     let start = false;
     graph.addItem('node', { x: 100, y: 100, color: '#666', type: 'rect', id: 'test' });
@@ -151,8 +146,7 @@ describe('drag-canvas', () => {
         default: [{
           type: 'drag-canvas'
         }]
-      },
-      pixelRatio: 2
+      }
     });
     let triggered = false;
     let dragging = false;

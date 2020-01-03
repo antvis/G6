@@ -10,7 +10,6 @@ describe('activate-relations', () => {
     container: div,
     width: 500,
     height: 500,
-    pixelRatio: 2,
     modes: { default: [] },
     defaultNode: {
       style: {
@@ -146,7 +145,6 @@ describe('activate-relations', () => {
       container: div,
       width: 500,
       height: 500,
-      pixelRatio: 2,
       modes: { default: [] }
     });
     const g2node1 = graph2.addItem('node', { id: 'node1', x: 100, y: 100, label: 'node1' });

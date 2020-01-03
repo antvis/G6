@@ -10,7 +10,6 @@ describe('brush-select', () => {
     container: div,
     width: 500,
     height: 500,
-    pixelRatio: 2,
     modes: { default: [ 'zoom-canvas' ] }
   });
   const node1 = graph.addItem('node', { id: 'node1', x: 100, y: 100, label: 'node1' });
