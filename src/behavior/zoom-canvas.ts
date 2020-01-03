@@ -23,7 +23,6 @@ export default {
     const graph = this.graph;
     const canvas = graph.get('canvas');
     const point = canvas.getPointByClient(e.clientX, e.clientY);
-    const pixelRatio = canvas.get('pixelRatio');
     const sensitivity = this.get('sensitivity');
     let ratio = graph.getZoom();
     // 兼容IE、Firefox及Chrome
@@ -36,7 +35,7 @@ export default {
     if (zoom > this.get('maxZoom') || zoom < this.get('minZoom')) {
       return;
     }
-    graph.zoom(ratio, { x: point.x / pixelRatio, y: point.y / pixelRatio });
+    graph.zoom(ratio, { x: point.x, y: point.y });
     graph.paint();
     graph.emit('wheelzoom', e);
   }

@@ -82,9 +82,8 @@ export default class ViewController {
    */
   public getPointByClient(clientX: number, clientY: number): Point {
     const canvas: Canvas = this.graph.get('canvas');
-    const pixelRatio: number = canvas.get('pixelRatio');
     const canvasPoint: Point = canvas.getPointByClient(clientX, clientY);
-    return this.getPointByCanvas(canvasPoint.x / pixelRatio, canvasPoint.y / pixelRatio);
+    return this.getPointByCanvas(canvasPoint.x, canvasPoint.y);
   }
 
   /**
@@ -95,8 +94,7 @@ export default class ViewController {
   public getClientByPoint(x, y): Point {
     const canvas: Canvas = this.graph.get('canvas');
     const canvasPoint = this.getCanvasByPoint(x, y);
-    const pixelRatio = canvas.get('pixelRatio');
-    const point = canvas.getClientByPoint(canvasPoint.x * pixelRatio, canvasPoint.y * pixelRatio);
+    const point = canvas.getClientByPoint(canvasPoint.x, canvasPoint.y);
     // return { x: point.clientX, y: point.clientY };
     return { x: point.x, y: point.y };
   }

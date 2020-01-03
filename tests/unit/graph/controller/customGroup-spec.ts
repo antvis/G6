@@ -35,7 +35,6 @@ describe.only('signle layer group', () => {
       container: div,
       width: 1500,
       height: 1000,
-      pixelRatio: 2,
       modes: {
         default: [ 'drag-group' ]
       },
@@ -134,7 +133,6 @@ describe.only('signle layer group', () => {
       container: div,
       width: 1500,
       height: 1000,
-      pixelRatio: 2,
       modes: {
         default: [ 'drag-group' ]
       },
@@ -230,7 +228,6 @@ describe.only('signle layer group', () => {
       container: div,
       width: 1500,
       height: 1000,
-      pixelRatio: 2,
       modes: {
         default: [ 'drag-group' ]
       },
@@ -329,7 +326,6 @@ describe.only('signle layer group', () => {
       container: div,
       width: 1500,
       height: 1000,
-      pixelRatio: 2,
       modes: {
         default: [ 'drag-group' ]
       },
@@ -409,7 +405,6 @@ describe.only('signle layer group', () => {
       container: div,
       width: 1500,
       height: 1000,
-      pixelRatio: 2,
       modes: {
         default: [ 'drag-group' ]
       },
@@ -536,7 +531,6 @@ describe.only('signle layer group', () => {
       container: div,
       width: 1500,
       height: 1000,
-      pixelRatio: 2,
       modes: {
         default: [ 'drag-group' ]
       },
@@ -726,7 +720,6 @@ describe.only('nesting layer group', () => {
       container: div,
       width: 1500,
       height: 1000,
-      pixelRatio: 2,
       modes: {
         default: [ 'drag-group' ]
       },
@@ -873,7 +866,6 @@ describe.only('nesting layer group', () => {
       container: div,
       width: 1500,
       height: 1000,
-      pixelRatio: 2,
       modes: {
         default: [ 'drag-group' ]
       },
@@ -978,7 +970,6 @@ describe.only('create node group', () => {
       container: div,
       width: 1500,
       height: 1000,
-      pixelRatio: 2,
       modes: {
         default: [ 'drag-group' ]
       },

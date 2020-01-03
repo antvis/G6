@@ -131,12 +131,7 @@ export interface GraphOptions {
    * 默认值 10
    */
   maxZoom?: number;
-  /**
-   * 像素比率
-   * 默认值 1.0
-   */
-  pixelRatio?: number;
-
+  
   groupType?: string;
 
   /**

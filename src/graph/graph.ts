@@ -105,13 +105,11 @@ export default class Graph extends EventEmitter implements IGraph {
 
     const width: number = this.get('width')
     const height: number = this.get('height')
-    const pixelRatio: number = this.get('pixelRatio') || 1
 
     const canvas = new GCanvas({
       container,
       width,
-      height,
-      pixelRatio
+      height
     })
 
     this.set('canvas', canvas)

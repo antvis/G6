@@ -13,7 +13,6 @@ describe.only('model rect test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2,
         defaultNode: {
           shape: 'modelRect'
         }
@@ -81,7 +80,6 @@ describe.only('model rect test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2,
         defaultNode: {
           shape: 'modelRect',
           style: {
@@ -128,7 +126,6 @@ describe.only('model rect test', () => {
       container: div,
       width: 500,
       height: 500,
-      pixelRatio: 2,
       defaultNode: {
         shape: 'modelRect'
       }
@@ -220,7 +217,6 @@ describe.only('model rect test', () => {
       container: div,
       width: 500,
       height: 500,
-      pixelRatio: 2,
       defaultNode: {
         shape: 'modelRect'
       }
@@ -315,7 +311,6 @@ describe.only('model rect test', () => {
       container: div,
       width: 500,
       height: 500,
-      pixelRatio: 2,
       defaultNode: {
         shape: 'modelRect'
       }
@@ -399,7 +394,6 @@ describe.only('model rect test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2,
         defaultNode: {
           shape: 'modelRect',
           logoIcon: {
@@ -471,7 +465,6 @@ describe.only('model rect test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2,
         defaultNode: {
           shape: 'modelRect',
           linkPoints: {
@@ -523,8 +516,7 @@ describe.only('model rect test', () => {
       const graph = new Graph({
         container: div,
         width: 500,
-        height: 500,
-        pixelRatio: 2
+        height: 500
       });
       const data = {
         nodes: [

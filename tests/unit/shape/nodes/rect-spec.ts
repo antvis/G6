@@ -12,7 +12,6 @@ describe.only('rect test', () => {
       container: div,
       width: 500,
       height: 500,
-      pixelRatio: 2,
       defaultNode: {
         shape: 'rect'
       }
@@ -79,8 +78,7 @@ describe.only('rect test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2,
-        defaultNode: {
+          defaultNode: {
           shape: 'rect',
           size: 35,
           style: {
@@ -156,8 +154,7 @@ describe.only('rect test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2,
-        defaultNode: {
+          defaultNode: {
           shape: 'rect',
           size: 50,
           style: {

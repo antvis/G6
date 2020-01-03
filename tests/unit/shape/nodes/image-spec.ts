@@ -12,7 +12,6 @@ describe.only('image test', () => {
       container: div,
       width: 500,
       height: 500,
-      pixelRatio: 2,
       defaultNode: {
         shape: 'image'
       }
@@ -77,7 +76,6 @@ describe.only('image test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2,
         defaultNode: {
           shape: 'image',
           size: 150,
@@ -116,7 +114,6 @@ describe.only('image test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2,
         defaultNode: {
           shape: 'image',
           size: 150
@@ -160,7 +157,6 @@ describe.only('image test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2,
         defaultNode: {
           shape: 'image',
           size: 150
@@ -206,7 +202,6 @@ describe.only('image test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2,
         defaultNode: {
           shape: 'image',
           size: 150
@@ -252,7 +247,6 @@ describe.only('image test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2,
         defaultNode: {
           shape: 'image',
           size: 150
@@ -294,7 +288,6 @@ describe.only('image test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2,
         defaultNode: {
           shape: 'image',
           size: 150
@@ -339,7 +332,6 @@ describe.only('image test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2,
         defaultNode: {
           shape: 'image',
           size: 150,

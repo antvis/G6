@@ -13,7 +13,6 @@ describe('graph', () => {
     container: div,
     width: 500,
     height: 500,
-    pixelRatio: 2,
     modes: {
       default: ['drag-node']
     }
@@ -307,8 +306,8 @@ describe('graph', () => {
 
     let point = globalGraph.getPointByClient(bbox.left + 100, bbox.top + 100);
 
-    expect(point.x).toBe(50);
-    expect(point.y).toBe(50);
+    expect(point.x).toBe(100);
+    expect(point.y).toBe(100);
 
     translate(group, {
       x: 100,
@@ -316,21 +315,21 @@ describe('graph', () => {
     });
 
     point = globalGraph.getPointByClient(bbox.left + 100, bbox.top + 100);
-    expect(point.x).toBe(-50);
-    expect(point.y).toBe(-50);
+    expect(point.x).toBe(0);
+    expect(point.y).toBe(0);
 
     scale(group, [1.5, 1.5]);
     point = globalGraph.getPointByClient(bbox.left + 100, bbox.top + 100);
 
-    expect(point.x).toBe(-66.66666666666667);
-    expect(point.y).toBe(-66.66666666666667);
+    expect(point.x).toBe(-33.33333333333334);
+    expect(point.y).toBe(-33.33333333333334);
 
     group.resetMatrix();
 
     point = globalGraph.getClientByPoint(100, 100);
     
-    expect(point.x).toBe(bbox.left + 200);
-    expect(point.y).toBe(bbox.top + 200);
+    expect(point.x).toBe(bbox.left + 100);
+    expect(point.y).toBe(bbox.top + 100);
 
     translate(group, {
       x: 100,
@@ -339,8 +338,8 @@ describe('graph', () => {
 
     point = globalGraph.getClientByPoint(100, 100);
     
-    expect(point.x).toBe(bbox.left + 400);
-    expect(point.y).toBe(bbox.top + 400);
+    expect(point.x).toBe(bbox.left + 200);
+    expect(point.y).toBe(bbox.top + 200);
   });
 
   it('clear', () => {
@@ -354,7 +353,6 @@ describe('all node link center', () => {
     container: div,
     width: 500,
     height: 500,
-    pixelRatio: 2,
     linkCenter: true
   });
 
