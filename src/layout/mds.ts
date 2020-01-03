@@ -39,6 +39,7 @@ export default class MDSLayout extends BaseLayout {
     } else if (nodes.length === 1) {
       nodes[0].x = center[0];
       nodes[0].y = center[1];
+      return;
     }
     const linkDistance = self.linkDistance;
     // the graph-theoretic distance (shortest path distance) matrix

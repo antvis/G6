@@ -11,7 +11,6 @@ import Concentric from './concentric';
 import Dagre from './dagre';
 import Force from './force';
 import Fruchterman from './fruchterman';
-import FruchtermanGroup from './fruchterman-group';
 import Grid from './grid';
 import MDS from './mds';
 import Radial from './radial/radial';
@@ -23,7 +22,6 @@ const layouts = {
   dagre: Dagre,
   force: Force,
   fruchterman: Fruchterman,
-  fruchtermanGroup: FruchtermanGroup,
   grid: Grid,
   mds: MDS,
   radial: Radial,

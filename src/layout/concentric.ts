@@ -111,8 +111,12 @@ export default class ConcentricLayout extends BaseLayout {
       maxNodeSize = Math.max(maxNodeSize, nodeSize);
     });
 
-    self.width = self.width || window.innerHeight;
-    self.height = self.height || window.innerWidth;
+    if (!self.width && typeof window !== 'undefined') {
+      self.width = window.innerWidth;
+    }
+    if (!self.height && typeof window !== 'undefined') {
+      self.height = window.innerHeight;
+    }
     self.clockwise = self.counterclockwise !== undefined ? !self.counterclockwise : self.clockwise;
 
     // layout

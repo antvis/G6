@@ -167,6 +167,10 @@ const data: any = {
         },
       ],
     },
+    {
+      id: '9',
+      label: '9'
+    }
   ],
   edges: [
     {
@@ -201,19 +205,20 @@ const data: any = {
       source: '7',
       target: '8',
     },
+    {
+      source: '7',
+      target: '9',
+    },
   ],
 };
 
-describe.only('dagre layout', () => {
+describe('dagre layout', () => {
   it('layout with default configs', () => {
     const graph = new G6.Graph({
       container: div,
       layout: {
-        type: 'dagre',
-      },
-      width: 500,
-      height: 500,
-      fitView: true,
+        type: 'dagre'
+      }
     });
     graph.data(data);
     graph.render();
@@ -227,7 +232,7 @@ describe.only('dagre layout', () => {
     expect(mathEqual(edge.endPoint.y, 498));
     graph.destroy();
   });
-  it('modify configs', () => {
+  it('dagre with number nodeSize and sepFunc', () => {
     data.edges.forEach((edgeItem) => {
       delete edgeItem.startPoint;
       delete edgeItem.endPoint;
@@ -238,9 +243,136 @@ describe.only('dagre layout', () => {
       layout: {
         type: 'dagre',
         rankdir: 'LR',
-        marginx: 100,
-        marginy: 100,
         controlPoints: false,
+        nodeSize: 30,
+        nodesepFunc: () => {
+          return 10;
+        },
+        ranksepFunc: () => {
+          return 30;
+        }
+      },
+      width: 500,
+      height: 500,
+      fitView: true,
+    });
+    graph.data(data);
+    graph.render();
+
+    const node = data.nodes[0];
+    const edge = data.edges[0];
+    expect(mathEqual(node.x, 600));
+    expect(mathEqual(node.y, 1075));
+    expect(mathEqual(edge.startPoint.x, 531));
+    expect(mathEqual(edge.startPoint.y, 594));
+    expect(mathEqual(edge.endPoint.x, 597));
+    expect(mathEqual(edge.endPoint.y, 854));
+    expect(edge.controlPoints).toEqual(undefined);
+    graph.destroy();
+  });
+  it('dagre with array nodeSize', () => {
+    data.edges.forEach((edgeItem) => {
+      delete edgeItem.startPoint;
+      delete edgeItem.endPoint;
+      delete edgeItem.controlPoints;
+    });
+    const nodeSize = [100, 50];
+    const graph = new G6.Graph({
+      container: div,
+      layout: {
+        type: 'dagre',
+        controlPoints: false,
+        nodeSize,
+        nodesepFunc: () => {
+          return 10;
+        },
+        ranksepFunc: () => {
+          return 30;
+        }
+      },
+      defaultNode: {
+        size: nodeSize,
+        shape: 'rect'
+      },
+      width: 500,
+      height: 500,
+      fitView: true,
+    });
+    graph.data(data);
+    graph.render();
+
+    const node = data.nodes[0];
+    const edge = data.edges[0];
+    expect(mathEqual(node.x, 600));
+    expect(mathEqual(node.y, 1075));
+    expect(mathEqual(edge.startPoint.x, 531));
+    expect(mathEqual(edge.startPoint.y, 594));
+    expect(mathEqual(edge.endPoint.x, 597));
+    expect(mathEqual(edge.endPoint.y, 854));
+    expect(edge.controlPoints).toEqual(undefined);
+    graph.destroy();
+  });
+
+  // FIXME: controlpoints can not be writted into graph edges??
+  it('dagre with number size in node data, controlpoints', () => {
+    data.edges.forEach((edgeItem) => {
+      delete edgeItem.startPoint;
+      delete edgeItem.endPoint;
+      delete edgeItem.controlPoints;
+    });
+    data.nodes.forEach((node, i) => {
+      node.size = 20 + i * 5;
+    });
+    const graph = new G6.Graph({
+      container: div,
+      layout: {
+        type: 'dagre',
+        rankdir: 'LR',
+        controlPoints: true,
+        ranksep: null
+      },
+      defaultEdge: {
+        shape: 'polyline'
+      },
+      defaultNode: {
+        shape: 'rect'
+      },
+      width: 500,
+      height: 500,
+      fitView: true,
+    });
+    graph.data(data);
+    graph.render();
+
+    const node = data.nodes[0];
+    const edge = data.edges[0];
+    // expect(mathEqual(node.x, 600));
+    // expect(mathEqual(node.y, 1075));
+    // expect(mathEqual(edge.startPoint.x, 531));
+    // expect(mathEqual(edge.startPoint.y, 594));
+    // expect(mathEqual(edge.endPoint.x, 597));
+    // expect(mathEqual(edge.endPoint.y, 854));
+    // expect(edge.controlPoints).toEqual(undefined);
+    // graph.destroy();
+  });
+  it('dagre with array size in node data', () => {
+    data.edges.forEach((edgeItem) => {
+      delete edgeItem.startPoint;
+      delete edgeItem.endPoint;
+      delete edgeItem.controlPoints;
+    });
+    data.nodes.forEach((node, i) => {
+      node.size = [100, 70];
+      // node.shape = 'circle';
+    });
+    const graph = new G6.Graph({
+      container: div,
+      layout: {
+        type: 'dagre',
+        rankdir: 'LR'
+      },
+      defaultNode: {
+        shape: 'rect'
       },
       width: 500,
       height: 500,

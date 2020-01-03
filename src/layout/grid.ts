@@ -8,6 +8,7 @@ import { EdgeConfig, IPointTuple, NodeConfig } from '@g6/types';
 
 import isString from '@antv/util/lib/is-string';
 import { BaseLayout } from './layout';
+import { isArray, isNumber } from '@antv/util';
 
 type Node = NodeConfig & {
   degree: number;
@@ -49,7 +50,7 @@ export default class GridLayout extends BaseLayout {
   public position: (node: Node) => { row: number; col: number };
   /** a sorting function to order the nodes; e.g. function(a, b){ return a.datapublic ('weight') - b.data('weight') } */
   public sortBy: string;
-  public nodeSize: number;
+  public nodeSize: number | number[];
 
   public nodes: Node[];
   public edges: Edge[];
@@ -86,7 +87,7 @@ export default class GridLayout extends BaseLayout {
       cols: undefined,
       position() {},
       sortBy: 'degree',
-      nodeSize: 30,
+      nodeSize: 30
     };
   }
   /**
@@ -95,7 +96,6 @@ export default class GridLayout extends BaseLayout {
   public execute() {
     const self = this;
     const nodes = self.nodes;
-    // const edges = self.edges;
     const n = nodes.length;
     const center = self.center;
     if (n === 0) {
@@ -130,18 +130,10 @@ export default class GridLayout extends BaseLayout {
     });
 
     if (!self.width && typeof window !== 'undefined') {
-      let width = self.width;
       self.width = window.innerWidth;
-      if (!width && typeof window !== 'undefined') {
-        width = window.innerWidth;
-      }
     }
-    let height = self.height;
     if (!self.height && typeof window !== 'undefined') {
-      if (!height && typeof height !== 'undefined') {
-        self.height = window.innerHeight;
-        height = window.innerHeight;
-      }
+      self.height = window.innerHeight;
     }
 
     const oRows = self.rows;
@@ -202,7 +194,7 @@ export default class GridLayout extends BaseLayout {
 
     if (self.preventOverlap) {
       layoutNodes.forEach((node) => {
-        if (node.x == null || node.y == null) {
+        if (!node.x || !node.y) {
           // for bb
           node.x = 0;
           node.y = 0;
@@ -210,7 +202,7 @@ export default class GridLayout extends BaseLayout {
 
         let nodew: number;
         let nodeh: number;
-        if (isNaN(node.size)) {
+        if (isArray(node.size)) {
           nodew = node.size[0];
           nodeh = node.size[1];
         } else {
@@ -218,12 +210,15 @@ export default class GridLayout extends BaseLayout {
           nodeh = node.size;
         }
         if (isNaN(nodew) || isNaN(nodeh)) {
-          if (isNaN(self.nodeSize)) {
+          if (isArray(self.nodeSize)) {
             nodew = self.nodeSize[0];
             nodeh = self.nodeSize[1];
-          } else {
+          } else if (isNumber(self.nodeSize)) {
             nodew = self.nodeSize;
             nodeh = self.nodeSize;
+          } else {
+            nodew = 30;
+            nodeh = 30;
           }
         }
 

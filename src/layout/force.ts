@@ -13,6 +13,7 @@ import isNumber from '@antv/util/lib/is-number';
 import mix from '@antv/util/lib/mix';
 
 import { BaseLayout } from './layout';
+import { LAYOUT_MESSAGE } from './worker/layoutConst';
 
 /**
  * 经典力导布局 force-directed
@@ -27,7 +28,7 @@ export default class ForceLayout extends BaseLayout {
   /** 是否防止节点相互覆盖 */
   public preventOverlap: boolean;
   /** 节点大小 / 直径，用于防止重叠时的碰撞检测 */
-  public nodeSize: number | number[] | (() => number);
+  public nodeSize: number | number[] | ((d?: unknown) => number);
   /** 节点间距，防止节点重叠时节点之间的最小距离（两节点边缘最短距离） */
   public nodeSpacing: number;
   /** 默认边长度 */
@@ -42,6 +43,8 @@ export default class ForceLayout extends BaseLayout {
   public alpha: number;
   /** 防止重叠的力强度 */
   public collideStrength: number;
+  /** 是否启用web worker。前提是在web worker里执行布局，否则无效	*/
+  public workerEnabled: boolean;
 
   public tick: () => void;
 
@@ -69,6 +72,8 @@ export default class ForceLayout extends BaseLayout {
       tick() {},
       onLayoutEnd() {}, // 布局完成回调
       onTick() {}, // 每一迭代布局回调
+      // 是否启用web worker。前提是在web worker里执行布局，否则无效	
+      workerEnabled: false
     };
   }
 
@@ -112,14 +117,7 @@ export default class ForceLayout extends BaseLayout {
           .force('charge', nodeForce)
           .alpha(alpha)
           .alphaDecay(alphaDecay)
-          .alphaMin(alphaMin)
-          .on('tick', () => {
-            self.tick();
-          })
-          .on('end', () => {
-            self.ticking = false;
-            self.onLayoutEnd();
-          });
+          .alphaMin(alphaMin);
         if (self.preventOverlap) {
           self.overlapProcess(simulation);
         }
@@ -145,6 +143,32 @@ export default class ForceLayout extends BaseLayout {
           }
           simulation.force('link', edgeForce);
         }
+        if (self.workerEnabled && !isInWorker()) {
+          // 如果不是运行在web worker里，不用web worker布局
+          self.workerEnabled = false;
+          console.warn('workerEnabled option is only supported when running in web worker.');
+        }
+        if (!self.workerEnabled) {
+          simulation
+            .on('tick', () => {
+              self.tick();
+            })
+            .on('end', () => {
+              self.ticking = false;
+              self.onLayoutEnd && self.onLayoutEnd();
+            });
+          self.ticking = true;
+        } else { // worker is enabled
+          simulation.stop();
+          const totalTicks = getSimulationTicks(simulation);
+          for (let currentTick = 1; currentTick <= totalTicks; currentTick++) {
+            simulation.tick();
+            // currentTick starts from 1.
+            postMessage({ type: LAYOUT_MESSAGE.TICK, currentTick, totalTicks, nodes }, undefined);
+          }
+          self.ticking = false;
+        }
+
         self.forceSimulation = simulation;
         self.ticking = true;
       } catch (e) {
@@ -176,7 +200,7 @@ export default class ForceLayout extends BaseLayout {
       nodeSpacingFunc = () => {
         return nodeSpacing;
       };
-    } else if (typeof nodeSpacing === 'function') {
+    } else if (isFunction(nodeSpacing)) {
       nodeSpacingFunc = nodeSpacing;
     } else {
       nodeSpacingFunc = () => {
@@ -196,7 +220,10 @@ export default class ForceLayout extends BaseLayout {
         return 10 + nodeSpacingFunc(d);
       };
     } else if (isFunction(nodeSize)) {
-      nodeSizeFunc = nodeSize;
+      nodeSizeFunc = d => {
+        const size = nodeSize(d);
+        return size + nodeSpacingFunc(d);
+      };
     } else if (isArray(nodeSize)) {
       const larger = nodeSize[0] > nodeSize[1] ? nodeSize[0] : nodeSize[1];
       const radius = larger / 2;
@@ -238,4 +265,21 @@ export default class ForceLayout extends BaseLayout {
     self.edges = null;
     self.destroyed = true;
   }
+}
+
+// Return total ticks of d3-force simulation	
+function getSimulationTicks(simulation): number {	
+  const alphaMin = simulation.alphaMin();	
+  const alphaTarget = simulation.alphaTarget();	
+  const alpha = simulation.alpha();	
+  const totalTicksFloat = Math.log((alphaMin - alphaTarget) / (alpha - alphaTarget)) / Math.log(1 - simulation.alphaDecay());	
+  const totalTicks = Math.ceil(totalTicksFloat);	
+  return totalTicks;	
+}
+declare const WorkerGlobalScope;
+
+// 判断是否运行在web worker里	
+function isInWorker(): boolean {
+  // eslint-disable-next-line no-undef	
+  return typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope;	
 }

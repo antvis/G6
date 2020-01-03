@@ -14,6 +14,9 @@ describe.only('mds', () => {
       },
       width: 500,
       height: 500,
+      defaultNode: {
+        size: 10
+      }
     });
     graph.data(data);
     graph.render();
@@ -36,5 +39,74 @@ describe.only('mds', () => {
     graph.render();
     expect(data.nodes[0].x != null).toEqual(true);
     graph.destroy();
+  });
+
+
+  it('mds layout with no node', () => {
+    const graph = new G6.Graph({
+      container: div,
+      layout: {
+        type: 'mds',
+      },
+      width: 500,
+      height: 500,
+    });
+    graph.data({
+      nodes: []
+    });
+    graph.render();
+    graph.destroy();
+  });
+
+  it('mds layout with one node', () => {
+    const graph = new G6.Graph({
+      container: div,
+      layout: {
+        type: 'mds',
+      },
+      width: 500,
+      height: 500,
+    });
+    graph.data({
+      nodes: [{
+        id: 'node'
+      }]
+    });
+    graph.render();
+    const nodeModel = graph.getNodes()[0].getModel();
+    expect(nodeModel.x).toEqual(250);
+    expect(nodeModel.y).toEqual(250);
+    graph.destroy();
+  });
+  it('mds layout with unconnected graph', () => {
+    const graph = new G6.Graph({
+      container: div,
+      layout: {
+        type: 'mds',
+      },
+      width: 500,
+      height: 500,
+      defaultNode: {
+        size: 10
+      }
+    });
+    graph.data({
+      nodes: [{
+        id: 'node0'
+      }, {
+        id: 'node1'
+      }, {
+        id: 'node2'
+      }],
+      edges: [{
+        source: 'node0',
+        target: 'node1'
+      }]
+    });
+    graph.render();
+    // const nodeModel = graph.getNodes()[0].getModel();
+    // expect(nodeModel.x).toEqual(250);
+    // expect(nodeModel.y).toEqual(250);
+    // graph.destroy();
   });
 });
