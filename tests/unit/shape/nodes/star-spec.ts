@@ -13,7 +13,6 @@ describe.only('star test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2,
         defaultNode: {
           shape: 'star'
         }
@@ -55,7 +54,6 @@ describe.only('star test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2,
         defaultNode: {
           shape: 'star'
         }
@@ -109,7 +107,6 @@ describe.only('star test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2,
         defaultNode: {
           shape: 'star',
           style: {
@@ -159,8 +156,7 @@ describe.only('star test', () => {
       const graph = new Graph({
         container: div,
         width: 500,
-        height: 500,
-        pixelRatio: 2
+        height: 500
       });
       const data = {
         nodes: [
@@ -272,7 +268,6 @@ describe.only('star test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2,
         defaultNode: {
           shape: 'star',
           size: 50,

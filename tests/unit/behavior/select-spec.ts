@@ -15,7 +15,6 @@ describe('select-node', () => {
       modes: {
         default: [ 'click-select' ]
       },
-      pixelRatio: 2
     });
     const node = graph.addItem('node', { color: '#666', x: 50, y: 50, size: 20, style: { lineWidth: 2, fill: '#666' } });
     graph.paint();
@@ -34,7 +33,6 @@ describe('select-node', () => {
       modes: {
         default: [ 'click-select' ]
       },
-      pixelRatio: 2
     });
     const node1 = graph.addItem('node', { color: '#666', x: 50, y: 50, size: 20, style: { lineWidth: 2, fill: '#666' } });
     const node2 = graph.addItem('node', { color: '#666', x: 150, y: 150, size: 20, style: { lineWidth: 2, fill: '#666' } });
@@ -68,7 +66,6 @@ describe('select-node', () => {
           shouldUpdate: () => { return false; }
         }]
       },
-      pixelRatio: 2
     });
     const node = graph.addItem('node', { color: '#666', x: 50, y: 50, size: 20, style: { lineWidth: 2, fill: '#666' } });
     graph.paint();
@@ -86,7 +83,6 @@ describe('select-node', () => {
           type: 'click-select'
         }]
       },
-      pixelRatio: 2
     });
     const node = graph.addItem('node', { color: '#666', x: 50, y: 50, size: 20, style: { lineWidth: 2, fill: '#666' } });
     graph.paint();

@@ -104,7 +104,6 @@ export default class EventController {
     const self = this;
     const graph = self.graph;
     const canvas = graph.get('canvas');
-    const pixelRatio: number = canvas.get('pixelRatio');
     const target = evt.target;
     const eventType = evt.type;
     /**
@@ -112,8 +111,8 @@ export default class EventController {
      * (canvasX, canvasY): 相对于 <canvas> 左上角的坐标；
      * (x, y): 相对于整个画布的坐标, 与 model 的 x, y 是同一维度的。
      */
-    evt.canvasX = evt.x / pixelRatio;
-    evt.canvasY = evt.y / pixelRatio;
+    evt.canvasX = evt.x;
+    evt.canvasY = evt.y;
     let point = { x: evt.canvasX, y: evt.canvasY };
 
     const group: Group = graph.get('group')

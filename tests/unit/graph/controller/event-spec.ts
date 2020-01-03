@@ -10,7 +10,6 @@ describe('event', () => {
     container: div,
     width: 500,
     height: 500,
-    pixelRatio: 2
   });
   it('init event', () => {
     const canvas = graph.get('canvas');
@@ -162,8 +161,8 @@ describe('event', () => {
     // });
 
     graph.on('mouseup', e => {
-      expect(e.canvasX).toBe(5);
-      expect(e.canvasY).toBe(5);
+      expect(e.canvasX).toBe(10);
+      expect(e.canvasY).toBe(10);
       expect(e.x).toBe(-90);
       expect(e.y).toBe(-90);
     });

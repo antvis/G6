@@ -12,7 +12,6 @@ describe.only('ellipse test', () => {
       container: div,
       width: 500,
       height: 500,
-      pixelRatio: 2,
       defaultNode: {
         shape: 'ellipse'
       }
@@ -79,7 +78,6 @@ describe.only('ellipse test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2,
         defaultNode: {
           shape: 'ellipse',
           size: [ 50, 30 ],
@@ -133,7 +131,6 @@ describe.only('ellipse test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2,
         defaultNode: {
           shape: 'ellipse',
           size: [ 35, 10 ],
@@ -211,7 +208,6 @@ describe.only('ellipse test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2,
         defaultNode: {
           shape: 'ellipse',
           size: 50,

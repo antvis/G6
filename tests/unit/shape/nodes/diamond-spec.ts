@@ -12,7 +12,6 @@ describe.only('diamond test', () => {
       container: div,
       width: 500,
       height: 500,
-      pixelRatio: 2,
       defaultNode: {
         shape: 'diamond'
       }
@@ -79,7 +78,6 @@ describe.only('diamond test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2,
         defaultNode: {
           shape: 'diamond',
           size: [ 50, 30 ],
@@ -131,7 +129,6 @@ describe.only('diamond test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2,
         defaultNode: {
           shape: 'diamond',
           size: [ 35, 10 ],
@@ -207,7 +204,6 @@ describe.only('diamond test', () => {
         container: div,
         width: 500,
         height: 500,
-        pixelRatio: 2,
         defaultNode: {
           shape: 'diamond',
           size: 50,

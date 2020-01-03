@@ -16,7 +16,6 @@ describe('tree graph without animate', () => {
     container: div,
     width: 500,
     height: 500,
-    pixelRatio: 2,
     animate: false,
     modes: {
       default: [ 'drag-canvas', 'drag-node' ]
@@ -192,7 +191,6 @@ describe('tree graph with animate', () => {
     container: div,
     width: 500,
     height: 500,
-    pixelRatio: 2,
     animate: true,
     modes: {
       default: [ 'drag-canvas' ]

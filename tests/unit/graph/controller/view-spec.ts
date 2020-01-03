@@ -14,7 +14,6 @@ describe('view', () => {
     container: div,
     width: 500,
     height: 500,
-    pixelRatio: 2,
     fitView: true
   });
   it('default fit view', () => {

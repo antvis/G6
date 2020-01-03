@@ -56,7 +56,6 @@ describe('drag-node', () => {
           enableDelegate: true
         }]
       },
-      pixelRatio: 2
     });
     const data = {
       nodes: [{
@@ -264,7 +263,6 @@ describe('drag-node', () => {
           }
         }]
       },
-      pixelRatio: 2
     });
     const source = graph.addItem('node', { id: 'source', color: '#666', x: 50, y: 50, size: 20, style: { lineWidth: 2, fill: '#666', opacity: 0.1 } });
     const target = graph.addItem('node', { id: 'target', color: '#666', x: 300, y: 300, size: 20, shape: 'rect', style: { lineWidth: 2, fill: '#666', opacity: 0.1 } });
@@ -305,7 +303,6 @@ describe('drag-node', () => {
           enableDelegate: true
         }]
       },
-      pixelRatio: 2
     });
     let clicked = false;
     graph.on('node:click', () => {
@@ -338,7 +335,6 @@ describe('drag-node', () => {
           }
         }]
       },
-      pixelRatio: 2
     });
     const source = graph.addItem('node', { id: 'source', color: '#666', x: 50, y: 50, style: { lineWidth: 2, fill: '#666' } });
     const target = graph.addItem('node', { id: 'target', color: '#666', x: 300, y: 300, shape: 'rect', style: { lineWidth: 2, fill: '#666' } });
@@ -375,7 +371,6 @@ describe('drag-node', () => {
           shouldUpdate: e => { expect(e).not.toBe(undefined); return false; }
         }]
       },
-      pixelRatio: 2
     });
     const node = graph.addItem('node', { color: '#666', x: 50, y: 50, r: 20, style: { lineWidth: 2, fill: '#666' } });
     graph.paint();
@@ -399,7 +394,6 @@ describe('drag-node', () => {
           shouldBegin: e => { expect(e).not.toBe(undefined); return false; }
         }]
       },
-      pixelRatio: 2
     });
     const node = graph.addItem('node', { color: '#666', x: 50, y: 50, r: 20, style: { lineWidth: 2, fill: '#666' } });
     graph.paint();
@@ -423,7 +417,6 @@ describe('drag-node', () => {
           updateEdge: false
         }]
       },
-      pixelRatio: 2
     });
     const src = graph.addItem('node', { id: 'source', color: '#666', x: 50, y: 50, style: { lineWidth: 2, fill: '#666' } });
     const target = graph.addItem('node', { id: 'target', color: '#666', x: 300, y: 300, shape: 'rect', style: { lineWidth: 2, fill: '#666' } });
@@ -445,7 +438,6 @@ describe('drag-node', () => {
       modes: {
         default: [ 'drag-node' ]
       },
-      pixelRatio: 2
     });
     const node = graph.addItem('node', { color: '#666', x: 50, y: 50, r: 20, style: { lineWidth: 2, fill: '#666' } });
     graph.emit('node:dragstart', { x: 100, y: 100, item: node });
@@ -478,7 +470,6 @@ describe('drag-node', () => {
       modes: {
         default: [ 'drag-node' ]
       },
-      pixelRatio: 2
     });
     graph.removeBehaviors('drag-node', 'default');
     const node = graph.addItem('node', { color: '#666', x: 50, y: 50, r: 20, style: { lineWidth: 2, fill: '#666' } });
@@ -502,7 +493,6 @@ describe('drag-node', () => {
           enableDelegate: true
         }]
       },
-      pixelRatio: 2
     });
     const data = {
       nodes: [{
