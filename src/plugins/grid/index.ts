@@ -1,8 +1,8 @@
 import createDOM from '@antv/dom-util/lib/create-dom'
 import modifyCSS from '@antv/dom-util/lib/modify-css'
 import Canvas from '@antv/g-base/lib/abstract/canvas';
-import { IGraph } from '../../src/interface/graph';
-import { ViewPortEventParam } from '../../types';
+import { IGraph } from '@g6/interface/graph';
+import { ViewPortEventParam } from '@g6/types';
 import Base from '../base'
 
 // 网格背景图片

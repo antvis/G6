@@ -2,6 +2,7 @@
 import G6 from '../../../src'
 import '../../../src/behavior'
 import { scale, translate } from '../../../src/util/math'
+import { GraphData } from '@g6/types';
 
 const div = document.createElement('div');
 div.id = 'global-spec';
@@ -200,7 +201,7 @@ describe('graph', () => {
     expect(map.d).toBe(undefined);
     expect(map.e).not.toBe(undefined);
     expect(map.f).not.toBe(undefined);
-    const exported = globalGraph.save();
+    const exported: GraphData = globalGraph.save() as GraphData;
     // expect(JSON.stringify(exported)).not.to.throw;
     expect(exported.nodes.length).toBe(3);
     expect(exported.edges.length).toBe(1);
@@ -494,7 +495,7 @@ describe('all node link center', () => {
       container: div,
       width: 500,
       height: 500,
-      defaultStyle: {
+      defaultNode: {
         style: {
           fill: 'red',
           stroke: 'blue'
