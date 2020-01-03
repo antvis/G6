@@ -19,7 +19,7 @@ export default abstract class PluginBase {
    * 插件基类的构造函数
    * @param cfgs 插件的配置项
    */
-  constructor(cfgs) {
+  constructor(cfgs?: IPluginBase) {
     this._cfgs = deepMix(this.getDefaultCfgs(), cfgs);
   }
 
