@@ -573,7 +573,7 @@ export default class CustomGroup {
 
     // 群组中存在source和target其中有一个在群组内，一个在群组外的情况
     if (sourceOutTargetInEdges.length > 0 || sourceInTargetOutEdges.length > 0) {
-      const delegateNode = graph.add(ITEM_TYPE.NODE, options);
+      const delegateNode = graph.add('node', options);
       delegateNode.set('capture', false);
       delegateNode.hide();
       this.delegateInGroup[id] = {
