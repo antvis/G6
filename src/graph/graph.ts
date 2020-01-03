@@ -89,7 +89,6 @@ export default class Graph extends EventEmitter implements IGraph {
       customGroupControll
     })
 
-    // TODO  缺少初始化plugin的方法的实现
     this.initPlugin()
   }
 
@@ -121,7 +120,12 @@ export default class Graph extends EventEmitter implements IGraph {
   }
 
   private initPlugin(): void {
-
+    const self = this
+    each(self.get('plugins'), plugin => {
+      if (!plugin.destroyed && plugin.initPlugin) {
+        plugin.initPlugin(self);
+      }
+    });
   }
 
   // 初始化所有 Group
