@@ -25,11 +25,18 @@ export interface IBBox extends BBox {
 
 export type Padding = number | string | number[];
 
+export interface ArrowConfig {
+  d?: number;
+  path?: string;
+}
+
 // Shape types
 export type ShapeStyle = Partial<{
   x: number;
   y: number;
   r: number;
+  radius: number;
+  offset: number | number[];
   stroke: string | null;
   strokeOpacity: number;
   fill: string | null;
@@ -40,7 +47,8 @@ export type ShapeStyle = Partial<{
   matrix: number[];
   opacity: number;
   size: number | number[];
-  [key: string]: string | number | object | object[] | null;
+  endArrow: boolean | ArrowConfig;
+  startArrow: boolean | ArrowConfig;
 }>;
 
 export interface IShapeBase extends ShapeBase {
@@ -166,7 +174,7 @@ export interface ModelConfig extends ModelStyle {
   description?: string;
   x?: number;
   y?: number;
-  size?: number;
+  size?: number | number[];
   controlPoints?: IPoint[];
   color?: string;
   preRect?: object;
@@ -327,10 +335,13 @@ export interface IG6GraphEvent extends GraphEvent {
   target: Item & Canvas;
 }
 
+// Node Edge 实例或ID
 export type Item = INode | IEdge;
 
-export enum ITEM_TYPE {
-  NODE = 'node',
-  EDGE = 'edge',
-  GROUP = 'group',
+export type ITEM_TYPE = 'node' | 'edge' | 'group'
+
+// 触发 viewportchange 事件的参数
+export interface ViewPortEventParam {
+  action: string;
+  matrix: Matrix;
 }

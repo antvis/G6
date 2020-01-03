@@ -21,6 +21,8 @@ export interface IMode {
 
 export interface ILayoutOptions {
   type: string;
+  // TODO 这里需要补充完善布局的配置
+  [key: string]: any;
 }
 
 export interface GraphAnimateConfig extends AnimateCfg {
@@ -88,18 +90,18 @@ export interface GraphOptions {
    * 默认状态下节点的配置，比如 shape, size, color。会被写入的 data 覆盖。
    */
   defaultNode?: {
-    shape?: string,
-    size?: string,
-    color?: string,
+    shape?: string;
+    size?: number | number[];
+    color?: string;
   } & ModelStyle;
 
   /**
    * 默认状态下边的配置，比如 shape, size, color。会被写入的 data 覆盖。
    */
   defaultEdge?: {
-    shape?: string,
-    size?: string,
-    color?: string,
+    shape?: string;
+    size?: number | number[];
+    color?: string;
   } & ModelStyle;
 
   nodeStateStyles?: ModelStyle;
@@ -197,13 +199,13 @@ export interface IGraph extends EventEmitter {
    * 显示元素
    * @param {Item} item 指定元素
    */
-  showItem(item: Item): void;
+  showItem(item: Item | string): void;
 
   /**
    * 隐藏元素
    * @param {Item} item 指定元素
    */
-  hideItem(item: Item): void;
+  hideItem(item: Item | string): void;
 
   /**
    * 仅画布重新绘制
@@ -214,13 +216,13 @@ export interface IGraph extends EventEmitter {
    * 刷新元素
    * @param {Item} item 元素id或元素实例
    */
-  refreshItem(item: Item): void;
+  refreshItem(item: Item | string): void;
 
   /**
    * 将元素移动到视口中心
    * @param {Item} item 指定元素
    */
-  focusItem(item: Item): void;
+  focusItem(item: Item | string): void;
 
   /**
    * 调整视口适应视图
@@ -239,13 +241,13 @@ export interface IGraph extends EventEmitter {
    * 删除元素
    * @param {Item} item 元素id或元素实例
    */
-  removeItem(item: Item): void;
+  removeItem(item: Item | string): void;
 
   /**
    * 删除元素
    * @param {Item} item 元素id或元素实例
    */
-  remove(item: Item): void;
+  remove(item: Item | string): void;
 
   /**
    * 新增元素 或 节点分组
@@ -262,9 +264,9 @@ export interface IGraph extends EventEmitter {
    * @param {Item} item 元素id或元素实例
    * @param {ModelConfig} cfg 需要更新的数据
    */
-  updateItem(item: Item, cfg: ModelConfig): void;
+  updateItem(item: Item | string, cfg: ModelConfig): void;
 
-  update(item: Item, cfg: ModelConfig): void;
+  update(item: Item | string, cfg: ModelConfig): void;
 
   /**
    * 设置元素状态
@@ -272,7 +274,7 @@ export interface IGraph extends EventEmitter {
    * @param {string} state 状态
    * @param {boolean} enabled 是否启用状态
    */
-  setItemState(item: Item, state: string, enabled: boolean): void;
+  setItemState(item: Item | string, state: string, enabled: boolean): void;
 
   /**
    * 设置视图初始化数据
@@ -391,7 +393,7 @@ export interface IGraph extends EventEmitter {
    * @param {string|Item} item 元素id或元素实例
    * @param {String[]} states 状态
    */
-  clearItemStates(item: Item, states?: string[]): void;
+  clearItemStates(item: Item | string, states?: string[]): void;
 
   /**
    * 设置各个节点样式，以及在各种状态下节点 keyShape 的样式。

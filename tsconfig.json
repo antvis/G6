@@ -1,10 +1,12 @@
 {
   "compilerOptions": {
+    "rootDir": "./",
     "module": "esnext",
     "declaration": true,
     "sourceMap": true,
     "target": "es5",
     "outDir": "lib",
+    "jsx": "react",
     "importHelpers": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
@@ -24,7 +26,7 @@
       }
     ]
   },
-  "include": ["src"],
+  "include": ["src"],	
   "typedocOptions": {
     "mode": "modules",
     "out": "docs/api-ts",

@@ -89,7 +89,6 @@ export default class Graph extends EventEmitter implements IGraph {
       customGroupControll
     })
 
-    // TODO  缺少初始化plugin的方法的实现
     this.initPlugin()
   }
 
@@ -121,7 +120,12 @@ export default class Graph extends EventEmitter implements IGraph {
   }
 
   private initPlugin(): void {
-
+    const self = this
+    each(self.get('plugins'), plugin => {
+      if (!plugin.destroyed && plugin.initPlugin) {
+        plugin.initPlugin(self);
+      }
+    });
   }
 
   // 初始化所有 Group
@@ -355,7 +359,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {string|Item} item 元素id或元素实例
    * @param {string[]} states 状态
    */
-  public clearItemStates(item: Item, states?: string[]): void {
+  public clearItemStates(item: Item | string, states?: string[]): void {
     if(isString(item))  {
       item = this.findById(item)
     }
@@ -579,7 +583,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * 将元素移动到视口中心
    * @param {Item} item 指定元素
    */
-  public focusItem(item: Item): void {
+  public focusItem(item: Item | string): void {
     const viewController: ViewController = this.get('viewController')
     viewController.focus(item)
 
@@ -653,7 +657,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * 显示元素
    * @param {Item} item 指定元素
    */
-  public showItem(item: Item): void {
+  public showItem(item: Item | string): void {
     const itemController: ItemController = this.get('itemController')
     itemController.changeItemVisibility(item, true) 
   }
@@ -662,7 +666,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * 隐藏元素
    * @param {Item} item 指定元素
    */
-  public hideItem(item: Item): void {
+  public hideItem(item: Item | string): void {
     const itemController: ItemController = this.get('itemController')
     itemController.changeItemVisibility(item, false) 
   }
@@ -671,7 +675,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * 刷新元素
    * @param {string|object} item 元素id或元素实例
    */
-  public refreshItem(item: Item) {
+  public refreshItem(item: Item | string) {
     const itemController: ItemController = this.get('itemController')
     itemController.refreshItem(item);
   }
@@ -688,7 +692,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * 删除元素
    * @param {Item} item 元素id或元素实例
    */
-  public remove(item: Item): void {
+  public remove(item: Item | string): void {
     this.removeItem(item);
   }
 
@@ -696,7 +700,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * 删除元素
    * @param {Item} item 元素id或元素实例
    */
-  public removeItem(item: Item): void {
+  public removeItem(item: Item | string): void {
     // 如果item是字符串，且查询的节点实例不存在，则认为是删除group
     let nodeItem = null;
     if (isString(item)) {
@@ -742,7 +746,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {Item} item 元素id或元素实例
    * @param {ModelConfig} cfg 需要更新的数据
    */
-  public updateItem(item: Item, cfg: ModelConfig): void {
+  public updateItem(item: Item | string, cfg: ModelConfig): void {
     this.get('itemController').updateItem(item, cfg);
   }
 
@@ -751,7 +755,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {Item} item 元素id或元素实例
    * @param {ModelConfig} cfg 需要更新的数据
    */
-  public update(item: Item, cfg: ModelConfig): void {
+  public update(item: Item | string, cfg: ModelConfig): void {
     this.updateItem(item, cfg)
   }
 
@@ -761,7 +765,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {string} state 状态
    * @param {boolean} enabled 是否启用状态
    */
-  public setItemState(item: Item, state: string, enabled: boolean): void {
+  public setItemState(item: Item | string | string, state: string, enabled: boolean): void {
     if (isString(item)) {
       item = this.findById(item);
     }
@@ -796,11 +800,11 @@ export default class Graph extends EventEmitter implements IGraph {
     this.setAutoPaint(false);
 
     each(data.nodes, (node: NodeConfig) => {
-      self.add(ITEM_TYPE.NODE, node);
+      self.add('node', node);
     });
 
     each(data.edges, (edge: EdgeConfig) => {
-      self.add(ITEM_TYPE.EDGE, edge);
+      self.add('edge', edge);
     });
 
     if (!this.get('groupByTypes')) {
@@ -915,8 +919,8 @@ export default class Graph extends EventEmitter implements IGraph {
 
     this.setAutoPaint(false);
 
-    this.diffItems(ITEM_TYPE.NODE, items, (data as GraphData).nodes);
-    this.diffItems(ITEM_TYPE.EDGE, items, (data as GraphData).edges);
+    this.diffItems('node', items, (data as GraphData).nodes);
+    this.diffItems('edge', items, (data as GraphData).edges);
     
     each(itemMap, (item: INode, id: number) => {
       if (items.nodes.indexOf(item) < 0 && items.edges.indexOf(item) < 0) {

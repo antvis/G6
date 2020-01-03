@@ -118,7 +118,7 @@ export default class ItemController {
    * @returns
    * @memberof ItemController
    */
-  public updateItem(item: Item, cfg: EdgeConfig | NodeConfig) {
+  public updateItem(item: Item | string, cfg: EdgeConfig | NodeConfig) {
     const graph = this.graph;
     
     if (isString(item)) {
@@ -205,7 +205,7 @@ export default class ItemController {
    * @returns {void}
    * @memberof ItemController
    */
-  public removeItem(item: Item): void {
+  public removeItem(item: Item | string): void {
     const graph = this.graph;
     if (isString(item)) {
       item = graph.findById(item);
@@ -269,7 +269,7 @@ export default class ItemController {
    * @param {string[]} states 状态名称集合
    * @memberof ItemController
    */
-  public clearItemStates(item: Item, states: string[]): void {
+  public clearItemStates(item: Item | string, states: string[]): void {
     const graph = this.graph;
 
     if (isString(item)) {
@@ -290,7 +290,7 @@ export default class ItemController {
    * @param {Item} item Item ID 或 实例
    * @memberof ItemController
    */
-  public refreshItem(item: Item): void {
+  public refreshItem(item: Item | string): void {
     const graph = this.graph;
 
     if (isString(item)) {
@@ -313,7 +313,7 @@ export default class ItemController {
    * @param {boolean} visible 是否显示
    * @memberof ItemController
    */
-  public changeItemVisibility(item: Item, visible: boolean): void {
+  public changeItemVisibility(item: Item | string, visible: boolean): void {
     const self = this;
     const graph = self.graph;
 

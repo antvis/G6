@@ -85,7 +85,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
     model.x = treeData.x;
     model.y = treeData.y;
     model.depth = treeData.depth;
-    const node = self.addItem(ITEM_TYPE.NODE, model);
+    const node = self.addItem('node', model);
     if (parent) {
       node.set('parent', parent);
       if (animate) {
@@ -106,7 +106,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
       } else {
         childrenList.push(node);
       }
-      self.addItem(ITEM_TYPE.EDGE, { 
+      self.addItem('edge', { 
         source: parent, 
         target: node, 
         id: parent.get('id') + ':' + node.get('id') 
