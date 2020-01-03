@@ -4,7 +4,7 @@ const div = document.createElement('div');
 div.id = 'graph-spec';
 document.body.appendChild(div);
 
-const data = {
+const data: {nodes: object, edges: object} = {
   nodes: [
     {
       id: '0',
@@ -45,5 +45,19 @@ describe.only('random', () => {
     expect(graph.getNodes()[1].getModel().x).not.toEqual(undefined);
     expect(graph.getNodes()[1].getModel().y).not.toEqual(undefined);
     graph.destroy();
+  });
+  it('instantialize a random layout', () => {
+    const randomLayout = new G6.Layout['random']({
+      width: null,
+      height: null
+    });
+    randomLayout.init(data);
+    randomLayout.execute();
+    expect(data.nodes[0].x).not.toEqual(undefined);
+    expect(data.nodes[0].y).not.toEqual(undefined);
+    expect(data.nodes[1].x).not.toEqual(undefined);
+    expect(data.nodes[1].y).not.toEqual(undefined);
+    expect(randomLayout.width).not.toEqual(null);
+    expect(randomLayout.height).not.toEqual(null);
   });
 });

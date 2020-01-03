@@ -84,13 +84,17 @@ export default class FruchtermanLayout extends BaseLayout {
     const nodes = self.nodes;
     const edges = self.edges;
     const maxIteration = self.maxIteration;
-    const width = self.width || window.innerHeight;
-    const height = self.height || window.innerWidth;
+    if (!self.width && typeof window !== 'undefined') {
+      self.width = window.innerWidth;
+    }
+    if (!self.height && typeof window !== 'undefined') {
+      self.height = window.innerHeight;
+    }
     const center = self.center;
     const nodeMap = self.nodeMap;
     const nodeIndexMap = self.nodeIndexMap;
-    const maxDisplace = width / 10;
-    const k = Math.sqrt((width * height) / (nodes.length + 1));
+    const maxDisplace = self.width / 10;
+    const k = Math.sqrt((self.width * self.height) / (nodes.length + 1));
     const gravity = self.gravity;
     const speed = self.speed;
     const clustering = self.clustering;
@@ -190,11 +194,14 @@ export default class FruchtermanLayout extends BaseLayout {
         if (i === j) {
           return;
         }
-        const vecx = v.x - u.x;
-        const vecy = v.y - u.y;
+        let vecx = v.x - u.x;
+        let vecy = v.y - u.y;
         let vecLengthSqr = vecx * vecx + vecy * vecy;
         if (vecLengthSqr === 0) {
           vecLengthSqr = 1;
+          const sign = i > j ? 1 : -1;
+          vecx = 0.01 * sign;
+          vecy = 0.01 * sign;
         }
         const common = (k * k) / vecLengthSqr;
         disp[i].x += vecx * common;

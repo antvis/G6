@@ -42,8 +42,8 @@ describe.only('layout using web worker', function() {
         expect(node.x).not.toEqual(undefined);
         expect(node.y).not.toEqual(undefined);
         // FIXME:
-        // expect(count >= 1).toEqual(true);
-        // expect(ended).toEqual(true);
+        expect(count >= 1).toEqual(true);
+        expect(ended).toEqual(true);
         graph.destroy();
         done();
       });

@@ -89,11 +89,14 @@ export default class RadialNonoverlapForce {
         if (radii[i] !== radii[j]) {
           return;
         }
-        const vecx = v[0] - u[0];
-        const vecy = v[1] - u[1];
+        let vecx = v[0] - u[0];
+        let vecy = v[1] - u[1];
         let vecLength = Math.sqrt(vecx * vecx + vecy * vecy);
         if (vecLength === 0) {
           vecLength = 1;
+          const sign = i > j ? 1 : -1;
+          vecx = 0.01 * sign;
+          vecy = 0.01 * sign;
         }
         // these two nodes overlap
         if (vecLength < self.nodeSizeFunc(nodes[i]) / 2 + self.nodeSizeFunc(nodes[j]) / 2) {

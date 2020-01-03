@@ -32,11 +32,15 @@ export default class RandomLayout extends BaseLayout {
     const nodes = self.nodes;
     const layoutScale = 0.9;
     const center = self.center;
-    const width = self.width || window.innerHeight;
-    const height = self.height || window.innerWidth;
+    if (!self.width && typeof window !== 'undefined') {
+      self.width = window.innerWidth;
+    }
+    if (!self.height && typeof window !== 'undefined') {
+      self.height = window.innerHeight;
+    }
     nodes.forEach((node) => {
-      node.x = (Math.random() - 0.5) * layoutScale * width + center[0];
-      node.y = (Math.random() - 0.5) * layoutScale * height + center[1];
+      node.x = (Math.random() - 0.5) * layoutScale * self.width + center[0];
+      node.y = (Math.random() - 0.5) * layoutScale * self.height + center[1];
     });
   }
 }
