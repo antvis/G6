@@ -208,6 +208,7 @@ describe('force layout', () => {
         preventOverlap: true,
         nodeSpacing,
         nodeSize,
+        alphaDecay: 0.3,
         onLayoutEnd() {
           isEnd = true;
         }
