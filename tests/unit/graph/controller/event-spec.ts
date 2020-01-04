@@ -163,8 +163,8 @@ describe('event', () => {
     graph.on('mouseup', e => {
       expect(e.canvasX).toBe(10);
       expect(e.canvasY).toBe(10);
-      expect(e.x).toBe(-90);
-      expect(e.y).toBe(-90);
+      expect(e.x).toBe(-80);
+      expect(e.y).toBe(-80);
     });
 
     const canvas = graph.get('canvas').get('el');
