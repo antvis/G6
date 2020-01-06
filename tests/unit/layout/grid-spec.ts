@@ -274,6 +274,9 @@ describe.only('grid layout', () => {
   });
 
   it('grid layout with preventOverlap, nodeSize is an array', () => {
+    data.nodes.forEach(node => {
+      node['size'] = undefined;
+    });
     const graph = new G6.Graph({
       container: div,
       // 2 rows , 4 columns
@@ -306,6 +309,80 @@ describe.only('grid layout', () => {
     graph.render();
     expect(graph.getNodes()[1].getModel().x === graph.getNodes()[6].getModel().x).toEqual(true);
     expect(graph.getNodes()[1].getModel().y < graph.getNodes()[6].getModel().y).toEqual(true);
+    graph.destroy();
+  });
+
+  it('grid layout with position function', () => {
+    let rows = 0;
+    data.nodes.forEach((node, i) => {
+      node['col'] = i % 3;
+      node['row'] = rows;
+      if (node['col'] === 2) rows ++;
+    });
+    const graph = new G6.Graph({
+      container: div,
+      layout: {
+        type: 'grid',
+        position: d => {
+          return {
+            row: d['row'],
+            col: d['col']
+          }
+        }
+      },
+      width: 500,
+      height: 500,
+    });
+    graph.data(data);
+    graph.render();
+    expect(graph.getNodes()[0].getModel().x === graph.getNodes()[3].getModel().x).toEqual(true);
+    expect(graph.getNodes()[0].getModel().y < graph.getNodes()[3].getModel().y).toEqual(true);
+    expect(graph.getNodes()[3].getModel().x === graph.getNodes()[6].getModel().x).toEqual(true);
+    expect(graph.getNodes()[3].getModel().y < graph.getNodes()[6].getModel().y).toEqual(true);
+    graph.destroy();
+  });
+  it('grid layout with position function, col undefined', () => {
+    const graph = new G6.Graph({
+      container: div,
+      layout: {
+        type: 'grid',
+        position: d => {
+          return {
+            row: d['row']
+          }
+        }
+      },
+      width: 500,
+      height: 500,
+    });
+    graph.data(data);
+    graph.render();
+    expect(graph.getNodes()[1].getModel().x === graph.getNodes()[3].getModel().x).toEqual(true);
+    expect(graph.getNodes()[1].getModel().y < graph.getNodes()[3].getModel().y).toEqual(true);
+    expect(graph.getNodes()[3].getModel().x === graph.getNodes()[6].getModel().x).toEqual(true);
+    expect(graph.getNodes()[3].getModel().y < graph.getNodes()[6].getModel().y).toEqual(true);
+    graph.destroy();
+  });
+  it('grid layout with position function, row undefined', () => {
+    const graph = new G6.Graph({
+      container: div,
+      layout: {
+        type: 'grid',
+        position: d => {
+          return {
+            col: d['col']
+          }
+        }
+      },
+      width: 500,
+      height: 500,
+    });
+    graph.data(data);
+    graph.render();
+    expect(graph.getNodes()[3].getModel().x === graph.getNodes()[6].getModel().x).toEqual(true);
+    expect(graph.getNodes()[3].getModel().y < graph.getNodes()[6].getModel().y).toEqual(true);
+    expect(graph.getNodes()[6].getModel().x === graph.getNodes()[0].getModel().x).toEqual(true);
+    expect(graph.getNodes()[6].getModel().y < graph.getNodes()[0].getModel().y).toEqual(true);
     graph.destroy();
   });
 });

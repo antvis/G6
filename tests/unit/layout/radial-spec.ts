@@ -352,6 +352,55 @@ describe('radial', () => {
     graph.destroy();
   });
 
+  it('preventOverlap, no nodeSize, no data size', () => {
+    const unitRadius = 100;
+    const focusNode = data.nodes[5];
+    data.nodes.forEach(node => {
+      node.size = undefined;
+    });
+    const graph = new G6.Graph({
+      container: div,
+      layout: {
+        type: 'radial',
+        focusNode,
+        unitRadius,
+        preventOverlap: true
+      },
+      width: 500,
+      height: 500,
+    });
+    graph.data(data);
+    graph.render();
+
+    const descreteCom1Node1 = data.nodes[0];
+    const DistFnToDescreteCom1Node1 =
+      (descreteCom1Node1.x - focusNode.x) * (descreteCom1Node1.x - focusNode.x) +
+      (descreteCom1Node1.y - focusNode.y) * (descreteCom1Node1.y - focusNode.y);
+    const descreteCom1Node2 = data.nodes[1];
+    const DistFnToDescreteCom1Node2 =
+      (descreteCom1Node2.x - focusNode.x) * (descreteCom1Node2.x - focusNode.x) +
+      (descreteCom1Node2.y - focusNode.y) * (descreteCom1Node2.y - focusNode.y);
+    const descreteCom2Node1 = data.nodes[3];
+    const DistFnToDescreteCom2Node1 =
+      (descreteCom2Node1.x - focusNode.x) * (descreteCom2Node1.x - focusNode.x) +
+      (descreteCom2Node1.y - focusNode.y) * (descreteCom2Node1.y - focusNode.y);
+    const descreteCom2Node2 = data.nodes[4];
+    const DistFnToDescreteCom2Node2 =
+      (descreteCom2Node2.x - focusNode.x) * (descreteCom2Node2.x - focusNode.x) +
+      (descreteCom2Node2.y - focusNode.y) * (descreteCom2Node2.y - focusNode.y);
+    expect(numberEqual(DistFnToDescreteCom1Node1, unitRadius * unitRadius)).toEqual(true);
+    expect(numberEqual(DistFnToDescreteCom1Node2, 4 * unitRadius * unitRadius)).toEqual(true);
+    expect(numberEqual(DistFnToDescreteCom2Node1, unitRadius * unitRadius)).toEqual(true);
+    expect(numberEqual(DistFnToDescreteCom2Node2, 4 * unitRadius * unitRadius)).toEqual(true);
+
+    // non overlap
+    const overlapDist1 =
+      (descreteCom1Node1.x - descreteCom2Node1.x) * (descreteCom1Node1.x - descreteCom2Node1.x) +
+      (descreteCom1Node1.y - descreteCom2Node1.y) * (descreteCom1Node1.y - descreteCom2Node1.y);
+    expect(overlapDist1 > 100).toEqual(true);
+    expect(overlapDist1 > 100).toEqual(true);
+    graph.destroy();
+  });
 
   it('sort by data', () => {
     const unitRadius = 100;
