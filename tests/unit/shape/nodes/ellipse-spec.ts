@@ -6,7 +6,7 @@ const div = document.createElement('div');
 div.id = 'graph-spec';
 document.body.appendChild(div);
 
-describe.only('ellipse test', () => {
+describe('ellipse test', () => {
   describe('default ellipse test', () => {
     const cfg = {
       container: div,

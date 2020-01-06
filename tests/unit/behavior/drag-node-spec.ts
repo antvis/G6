@@ -429,7 +429,7 @@ describe('drag-node', () => {
     graph.destroy();
   });
 
-  // BUG
+  // FIXME: 第一次拖拽节点出画布后，节点行为正确。再次回到画布上，仍然处于 G 的 drag 状态，从而无法触发 dragStart。再次拖动才可以
   it('out of range', () => {
     const graph = new Graph({
       container: div,
@@ -440,6 +440,7 @@ describe('drag-node', () => {
       },
     });
     const node = graph.addItem('node', { color: '#666', x: 50, y: 50, r: 20, style: { lineWidth: 2, fill: '#666' } });
+    const node1 = graph.addItem('node', { color: '#666', x: 150, y: 50, r: 20, style: { lineWidth: 2, fill: '#666' } });
     graph.emit('node:dragstart', { x: 100, y: 100, item: node });
     expect(node.getContainer().getMatrix()[6]).toEqual(50);
     expect(node.getContainer().getMatrix()[7]).toEqual(50);
@@ -490,7 +491,7 @@ describe('drag-node', () => {
       modes: {
         default: [{
           type: 'drag-node',
-          enableDelegate: true
+          enableDelegate: false
         }]
       },
     });
@@ -501,11 +502,22 @@ describe('drag-node', () => {
         y: 50,
         linkPoints: {
           right: true
+        },
+        style: {
+          fill: '#f00'
+        }
+      }, {
+        id: 'node2',
+        x: 50,
+        y: 150,
+        linkPoints: {
+          right: true
         }
       }]
     };
     graph.data(data);
     graph.render();
+
     graph.on('node:click', e => {
       console.log(e);
       console.log(graph.getNodes()[0].get('group').get('children')[1]);
@@ -520,5 +532,54 @@ describe('drag-node', () => {
     expect(dragMatrix[6]).toEqual(50);
     expect(dragMatrix[7]).toEqual(50);
     graph.destroy();
+  });
+
+  xit('temple test for dragover, dragleave', () => {
+    const graph: Graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: [{
+          type: 'drag-node',
+          enableDelegate: false
+        }]
+      },
+    });
+
+    const canvas = graph.get('canvas');
+    const group = canvas.addGroup();
+    const circle1 = group.addShape('circle', {
+      attrs: {
+        fill: '#f00',
+        x: 100,
+        y: 100,
+        r: 30
+      },
+      draggable: true,
+      name: 'circle1'
+    });
+    const circle2 = group.addShape('circle', {
+      attrs: {
+        fill: '#0f0',
+        x: 100,
+        y: 200,
+        r: 30
+      },
+      draggable: true,
+      name: 'circle2'
+    });
+    canvas.on('drag', e => {
+      circle1.attr('x', e.x);
+      circle1.attr('y', e.y);
+    });
+    group.on('dragover', e => {
+      console.log('circle2 dragover');
+    });
+    group.on('dragleave', e => {
+      console.log('circle2 dragleave');
+    });
+    graph.paint();
+    canvas.draw();
   });
 });

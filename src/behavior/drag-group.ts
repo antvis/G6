@@ -9,8 +9,6 @@ import deepMix from '@antv/util/lib/deep-mix';
 import { G6Event, IG6GraphEvent } from "@g6/types";
 import Global from '../global'
 
-const body = document.body;
-
 export default {
   getDefaultCfg(): object {
     return {
@@ -142,12 +140,12 @@ export default {
       } else {
         delegateShape = delegateGroup.addShape('rect', {
           attrs: {
-            x,
-            y,
+            x: bboxX,
+            y: bboxY,
             ...attrs
           }
         });
-        self.shapeOrigin = { x: attrs.x, y: attrs.y };
+        self.shapeOrigin = { x: bboxX, y: bboxY };
       }
       // delegateShape.set('capture', false);
       self.delegateShapes[groupId] = delegateShape;
@@ -170,15 +168,17 @@ export default {
   },
   onOutOfRange(e: IG6GraphEvent) {
     const self = this;
-    if (this.origin) {
-      const canvasElement = self.graph.get('canvas').get('el');
-      const fn = ev => {
-        if (ev.target !== canvasElement) {
-          self.onDragEnd(e);
-        }
-      };
-      this.fn = fn;
-      body.addEventListener('mouseup', fn, false);
+    const canvasElement = self.graph.get('canvas').get('el');
+    function listener(ev) {
+      if (ev.target !== canvasElement) {
+        self.onDragEnd(e);
+        // 终止时需要判断此时是否在监听画布外的 mouseup 事件，若有则解绑
+        document.body.removeEventListener('mouseup', listener, true);
+      }
+    };
+
+    if (self.mouseOrigin) {
+      document.body.addEventListener('mouseup', listener, true);
     }
   }
 };

@@ -269,6 +269,8 @@ export enum G6Event {
   DRAG = 'drag',
   DRAGENTER = 'dragenter',
   DRAGLEAVE = 'dragleave',
+  DRAGOVER = 'dragover',
+  DRAGOUT = 'dragout',
   DDROP = 'drop',
   KEYUP = 'keyup',
   KEYDOWN = 'keydown',

@@ -6,7 +6,7 @@ const div = document.createElement('div');
 div.id = 'graph-spec';
 document.body.appendChild(div);
 
-describe.only('rect test', () => {
+describe('rect test', () => {
   describe('default rect test', () => {
     const cfg = {
       container: div,

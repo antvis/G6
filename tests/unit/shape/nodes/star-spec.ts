@@ -6,7 +6,7 @@ const div = document.createElement('div');
 div.id = 'graph-spec';
 document.body.appendChild(div);
 
-describe.only('star test', () => {
+describe('star test', () => {
   describe('default star test', () => {
     it('default config', () => {
       const graph = new Graph({

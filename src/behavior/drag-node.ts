@@ -11,9 +11,6 @@ import { INode } from '@g6/interface/item';
 import { G6Event, IG6GraphEvent, Item, NodeConfig } from "@g6/types";
 import Global from '../global'
 
-
-const body = document.body;
-
 export default {
   getDefaultCfg(): object {
     return {
@@ -28,8 +25,16 @@ export default {
       'node:dragstart': 'onDragStart',
       'node:drag': 'onDrag',
       'node:dragend': 'onDragEnd',
-      'canvas:mouseleave': 'onOutOfRange'
+      'canvas:mouseleave': 'onOutOfRange',
+      dragover: 'dragOver',
+      'dragleave': 'dragLeave'
     };
+  },
+  dragOver(e: IG6GraphEvent) {
+    console.log('drag over');
+  },
+  dragleave(e: IG6GraphEvent) {
+    console.log('drag leave');
   },
   onDragStart(e: IG6GraphEvent) {
     if (!this.shouldBegin.call(this, e)) {
@@ -153,12 +158,6 @@ export default {
     this.originPoint = {};
     this.targets.length = 0;
     this.target = null;
-    // 终止时需要判断此时是否在监听画布外的 mouseup 事件，若有则解绑
-    const fn = this.fn;
-    if (fn) {
-      body.removeEventListener('mouseup', fn, false);
-      this.fn = null;
-    }
 
     graph.paint();
     graph.setAutoPaint(autoPaint);
@@ -166,15 +165,17 @@ export default {
   // 若在拖拽时，鼠标移出画布区域，此时放开鼠标无法终止 drag 行为。在画布外监听 mouseup 事件，放开则终止
   onOutOfRange(e: IG6GraphEvent) {
     const self = this;
+
+    const canvasElement = self.graph.get('canvas').get('el');
+    function listener(ev) {
+      if (ev.target !== canvasElement) {
+        self.onDragEnd(e);
+        // 终止时需要判断此时是否在监听画布外的 mouseup 事件，若有则解绑
+        document.body.removeEventListener('mouseup', listener, true);
+      }
+    };
     if (this.origin) {
-      const canvasElement = self.graph.get('canvas').get('el');
-      const fn = ev => {
-        if (ev.target !== canvasElement) {
-          self.onDragEnd(e);
-        }
-      };
-      this.fn = fn;
-      body.addEventListener('mouseup', fn, true);
+      document.body.addEventListener('mouseup', listener, true);
     }
   },
   update(item: Item, e: IG6GraphEvent, force: boolean) {

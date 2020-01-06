@@ -468,6 +468,9 @@ export default class CustomGroup {
     const nodesInGroup = graph.get('groupNodes')[id];
     const { width: w, height: h } = this.calculationGroupPosition(nodesInGroup);
 
+    console.log('nodesInGroup', nodesInGroup);
+    console.log('w and h', w, h, collapse);
+
     // 更新Group的大小
     const keyShape = nodeGroup.get('keyShape');
     const { r, width, height, offsetX, offsetY, ...otherStyle } = collapse;
@@ -491,14 +494,7 @@ export default class CustomGroup {
 
     // 收起群组时候动画
     if (groupType === 'circle') {
-      const radius = keyShape.attr('r');
-      keyShape.animate({
-        onFrame(ratio) {
-          return {
-            r: radius - ratio * (radius - r)
-          };
-        }
-      }, 500, 'easeCubic');
+      keyShape.animate({ r }, 500, 'easeCubic');
       if (titleShape) {
         titleShape.attr({
           x: keyShape.attr('x') + offsetX,
@@ -506,14 +502,7 @@ export default class CustomGroup {
         });
       }
     } else if (groupType === 'rect') {
-      keyShape.animate({
-        onFrame(ratio) {
-          return {
-            width: w - ratio * (w - width),
-            height: h - ratio * (h - height)
-          };
-        }
-      }, 500, 'easeCubic');
+      keyShape.animate({ width, height }, 500, 'easeCubic');
       if (titleShape) {
         titleShape.attr({
           x: keyShape.attr('x') + 10,
@@ -671,22 +660,12 @@ export default class CustomGroup {
     const paddingValue = this.getGroupPadding(id);
     if (groupType === 'circle') {
       const r = width > height ? width / 2 : height / 2;
-      keyShape.animate({
-        onFrame(ratio) {
-          return {
-            r: collapse.r + ratio * (r - collapse.r + paddingValue)
-          };
-        }
-      }, 500, 'easeCubic');
+      keyShape.animate({ r: r + paddingValue }, 500, 'easeCubic');
     } else if (groupType === 'rect') {
       const { width: w, height: h } = collapse;
       keyShape.animate({
-        onFrame(ratio) {
-          return {
-            width: w + ratio * (width - w + paddingValue * defaultStyle.disCoefficient * 2),
-            height: h + ratio * (height - h + paddingValue * defaultStyle.disCoefficient * 2)
-          };
-        }
+        width: w + width + paddingValue * defaultStyle.disCoefficient * 2,
+        height: h + height + paddingValue * defaultStyle.disCoefficient * 2
       }, 500, 'easeCubic');
     }
 
@@ -701,21 +680,13 @@ export default class CustomGroup {
       const { offsetX = 0, offsetY = 0 } = groupTitle;
       if (groupType === 'circle') {
         titleShape.animate({
-          onFrame(ratio) {
-            return {
-              x: keyShape.attr('x') + offsetX,
-              y: keyShape.attr('y') - ratio * keyShape.attr('r') + offsetY
-            };
-          }
+          x: keyShape.attr('x') + offsetX,
+          y: keyShape.attr('y') - keyShape.attr('r') + offsetY
         }, 600, 'easeCubic');
       } else if (groupType === 'rect') {
         titleShape.animate({
-          onFrame(ratio) {
-            return {
-              x: keyShape.attr('x') + ratio * (15 + offsetX),
-              y: keyShape.attr('y') + ratio * (15 + offsetY)
-            };
-          }
+          x: keyShape.attr('x') + (15 + offsetX),
+          y: keyShape.attr('y') + (15 + offsetY)
         }, 600, 'easeCubic');
       }
     }
