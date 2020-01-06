@@ -9,8 +9,7 @@ import Graph from '@g6/graph/graph';
 import { Matrix, ShapeStyle } from '@g6/types';
 import { transform, mat3 } from '@antv/matrix-util'
 import { Point } from '@antv/g-math/lib/types';
-import { IGroup } from '@antv/g-base/lib/interfaces';
-import { IElement } from '_@antv_g-base@0.3.5@@antv/g-base/lib';
+import { IGroup, IElement } from '@antv/g-base/lib/interfaces';
 
 const max = Math.max;
 
