@@ -39,8 +39,8 @@ export default class FruchtermanLayout extends BaseLayout {
   public nodes: Node[];
   public edges: Edge[];
 
-  public nodeMap: NodeMap;
-  public nodeIndexMap: NodeIndexMap;
+  public nodeMap: object;
+  public nodeIndexMap: object;
 
   public getDefaultCfg() {
     return {
@@ -67,11 +67,11 @@ export default class FruchtermanLayout extends BaseLayout {
       nodes[0].y = center[1];
       return;
     }
-    const nodeMap = new Map();
-    const nodeIndexMap = new Map();
+    const nodeMap = {};
+    const nodeIndexMap = {};
     nodes.forEach((node, i) => {
-      nodeMap.set(node.id, node);
-      nodeIndexMap.set(node.id, i);
+      nodeMap[node.id] = node;
+      nodeIndexMap[node.id] = i;
     });
     self.nodeMap = nodeMap;
     self.nodeIndexMap = nodeIndexMap;
@@ -98,27 +98,27 @@ export default class FruchtermanLayout extends BaseLayout {
     const gravity = self.gravity;
     const speed = self.speed;
     const clustering = self.clustering;
-    const clusterMap = new Map();
+    const clusterMap = {}
     if (clustering) {
       nodes.forEach((n) => {
-        if (clusterMap.get(n.cluster) === undefined) {
+        if (clusterMap[n.cluster] === undefined) {
           const cluster = {
             name: n.cluster,
             cx: 0,
             cy: 0,
             count: 0,
           };
-          clusterMap.set(n.cluster, cluster);
+          clusterMap[n.cluster] = cluster;
         }
-        const c = clusterMap.get(n.cluster);
+        const c = clusterMap[n.cluster];
         c.cx += n.x;
         c.cy += n.y;
         c.count++;
       });
-      clusterMap.forEach((c) => {
-        c.cx /= c.count;
-        c.cy /= c.count;
-      });
+      for (let key in clusterMap) {
+        clusterMap[key].cx /= clusterMap[key].count;
+        clusterMap[key].cy /= clusterMap[key].count;
+      }
     }
     for (let i = 0; i < maxIteration; i++) {
       const disp = [];
@@ -131,28 +131,30 @@ export default class FruchtermanLayout extends BaseLayout {
       if (clustering) {
         const clusterGravity = self.clusterGravity || gravity;
         nodes.forEach((n, j) => {
-          const c = clusterMap.get(n.cluster);
+          const c = clusterMap[n.cluster];
           const distLength = Math.sqrt((n.x - c.cx) * (n.x - c.cx) + (n.y - c.cy) * (n.y - c.cy));
           const gravityForce = k * clusterGravity;
           disp[j].x -= (gravityForce * (n.x - c.cx)) / distLength;
           disp[j].y -= (gravityForce * (n.y - c.cy)) / distLength;
         });
 
-        clusterMap.forEach((c) => {
-          c.cx = 0;
-          c.cy = 0;
-          c.count = 0;
-        });
+
+        for (let key in clusterMap) {
+          clusterMap[key].cx = 0;
+          clusterMap[key].cy = 0;
+          clusterMap[key].count = 0;
+        }
+        
         nodes.forEach((n) => {
-          const c = clusterMap.get(n.cluster);
+          const c = clusterMap[n.cluster];
           c.cx += n.x;
           c.cy += n.y;
           c.count++;
         });
-        clusterMap.forEach((c) => {
-          c.cx /= c.count;
-          c.cy /= c.count;
-        });
+        for (let key in clusterMap) {
+          clusterMap[key].cx /= clusterMap[key].count;
+          clusterMap[key].cy /= clusterMap[key].count;
+        }
       }
 
       // gravity
@@ -181,7 +183,7 @@ export default class FruchtermanLayout extends BaseLayout {
   }
 
   // TODO: nodeMap、nodeIndexMap 等根本不需要依靠参数传递
-  private getDisp(nodes: Node[], edges: Edge[], nodeMap: NodeMap, nodeIndexMap: NodeIndexMap, disp, k) {
+  private getDisp(nodes: Node[], edges: Edge[], nodeMap: object, nodeIndexMap: object, disp, k) {
     const self = this;
     self.calRepulsive(nodes, disp, k);
     self.calAttractive(edges, nodeMap, nodeIndexMap, disp, k);
@@ -210,15 +212,15 @@ export default class FruchtermanLayout extends BaseLayout {
     });
   }
 
-  private calAttractive(edges: Edge[], nodeMap: NodeMap, nodeIndexMap: NodeIndexMap, disp, k) {
+  private calAttractive(edges: Edge[], nodeMap: object, nodeIndexMap: object, disp, k) {
     edges.forEach((e) => {
-      const uIndex = nodeIndexMap.get(e.source);
-      const vIndex = nodeIndexMap.get(e.target);
+      const uIndex = nodeIndexMap[e.source];
+      const vIndex = nodeIndexMap[e.target];
       if (uIndex === vIndex) {
         return;
       }
-      const u = nodeMap.get(e.source);
-      const v = nodeMap.get(e.target);
+      const u = nodeMap[e.source];
+      const v = nodeMap[e.target];
       const vecx = v.x - u.x;
       const vecy = v.y - u.y;
       const vecLength = Math.sqrt(vecx * vecx + vecy * vecy);

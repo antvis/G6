@@ -287,11 +287,11 @@ export const getAdjMatrix = (data: GraphData, directed: boolean): Matrix[] => {
   const edges = data.edges;
   const matrix: Matrix[] = [];
   // map node with index in data.nodes
-  const nodeMap = new Map();
+  const nodeMap = {};
 
   if (nodes) {
     nodes.forEach((node, i) => {
-      nodeMap.set(node.id, i);
+      nodeMap[node.id] = i;
       const row: number[] = [];
       matrix.push(row);
     });
@@ -301,8 +301,8 @@ export const getAdjMatrix = (data: GraphData, directed: boolean): Matrix[] => {
     edges.forEach((e) => {
       const source = e.source;
       const target = e.target;
-      const sIndex = nodeMap.get(source);
-      const tIndex = nodeMap.get(target);
+      const sIndex = nodeMap[source];
+      const tIndex = nodeMap[target];
       matrix[sIndex][tIndex] = 1;
       if (!directed) {
         matrix[tIndex][sIndex] = 1;

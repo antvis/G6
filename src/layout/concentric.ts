@@ -15,16 +15,15 @@ type Node = NodeConfig & {
   size: number | number[];
 };
 type Edge = EdgeConfig;
-type NodeIdxMap = Map<string, string>;
 
-function getDegree(n: number, nodeIdxMap: NodeIdxMap, edges: Edge[]) {
+function getDegree(n: number, nodeIdxMap: object, edges: Edge[]) {
   const degrees = [];
   for (let i = 0; i < n; i++) {
     degrees[i] = 0;
   }
   edges.forEach((e) => {
-    degrees[nodeIdxMap.get(e.source)] += 1;
-    degrees[nodeIdxMap.get(e.target)] += 1;
+    degrees[nodeIdxMap[e.source]] += 1;
+    degrees[nodeIdxMap[e.target]] += 1;
   });
   return degrees;
 }
@@ -120,11 +119,11 @@ export default class ConcentricLayout extends BaseLayout {
     self.clockwise = self.counterclockwise !== undefined ? !self.counterclockwise : self.clockwise;
 
     // layout
-    const nodeMap = new Map();
-    const nodeIdxMap = new Map();
+    const nodeMap = {};
+    const nodeIdxMap = {};
     layoutNodes.forEach((node, i) => {
-      nodeMap.set(node.id, node);
-      nodeIdxMap.set(node.id, i);
+      nodeMap[node.id] = node;
+      nodeIdxMap[node.id] = i;
     });
 
     // get the node degrees
