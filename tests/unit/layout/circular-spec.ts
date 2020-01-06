@@ -188,6 +188,37 @@ describe.only('circular layout', () => {
     graph.destroy();
   });
 
+  it('circular with topology-directed ordering', () => {
+    const graph = new G6.Graph({
+      container: div,
+      layout: {
+        type: 'circular',
+        ordering: 'topology-directed',
+        radius: 200
+      },
+      width: 500,
+      height: 500,
+    });
+    data.nodes.forEach(node => {
+      node.label = node.id;
+      node.size = 10;
+    });
+    graph.data(data);
+    graph.render();
+    const node0 = graph.findById('Uruguay').getModel();
+    const node1 = graph.findById('Tunisia').getModel();
+    const dist1 = (node0.x - node1.x) * (node0.x - node1.x) + (node0.y - node1.y) * (node0.y - node1.y);
+
+    const node2 = graph.findById('Switzerland').getModel();
+    const dist2 = (node2.x - node1.x) * (node2.x - node1.x) + (node2.y - node1.y) * (node2.y - node1.y);
+    expect(mathEqual(dist1, dist2)).toEqual(true);
+
+    const node3 = graph.findById('Sweden').getModel();
+    const dist3 = (node2.x - node3.x) * (node2.x - node3.x) + (node2.y - node3.y) * (node2.y - node3.y);
+    expect(mathEqual(dist3, dist2)).toEqual(true);
+    graph.destroy();
+  });
+
   it('circular with degree ordering, counterclockwise', () => {
     const graph = new G6.Graph({
       container: div,
@@ -216,6 +247,28 @@ describe.only('circular layout', () => {
     const node3 = graph.findById('Uruguay').getModel();
     const dist3 = (node2.x - node3.x) * (node2.x - node3.x) + (node2.y - node3.y) * (node2.y - node3.y);
     expect(mathEqual(dist3, dist2)).toEqual(true);
+    graph.destroy();
+  });
+
+  it('circular layout', () => {
+    const circularLayout = new G6.Layout['circular']({
+      center: [250, 250]
+    });
+    circularLayout.init(data);
+    circularLayout.execute();
+
+    const graph = new G6.Graph({
+      width: 500,
+      height: 500,
+      container: div
+    });
+    graph.data(data);
+    graph.render();
+
+    expect(graph.getNodes()[0].getModel().x).not.toEqual(undefined);
+    expect(graph.getNodes()[0].getModel().y).not.toEqual(undefined);
+    expect(graph.getNodes()[1].getModel().x).not.toEqual(undefined);
+    expect(graph.getNodes()[1].getModel().y).not.toEqual(undefined);
     graph.destroy();
   });
 });
