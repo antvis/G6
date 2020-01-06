@@ -126,9 +126,7 @@ export default class GridLayout extends BaseLayout {
       }
     }
     // sort nodes by value
-    layoutNodes.sort((n1, n2) => {
-      return (n2 as any)[self.sortBy] - (n1 as any)[self.sortBy];
-    });
+    layoutNodes.sort((n1, n2) => (n2 as any)[self.sortBy] - (n1 as any)[self.sortBy]);
 
     if (!self.width && typeof window !== 'undefined') {
       self.width = window.innerWidth;
