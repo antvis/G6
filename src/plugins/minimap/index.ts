@@ -423,7 +423,6 @@ export default class MiniMap extends Base {
     const ratio = Math.min(size[0] / width, size[1] / height);
 
     let matrix: Matrix = canvas.getMatrix()
-    console.log('matrix', matrix)
 
     canvas.resetMatrix();
 
@@ -448,11 +447,9 @@ export default class MiniMap extends Base {
     
     // canvas.translate(minX, minY);
     // canvas.scale(ratio * pixelRatio, ratio * pixelRatio);
-    console.log('----before-----', matrix)
     matrix = transform(matrix, [
       ['s', ratio * pixelRatio, ratio * pixelRatio]
     ])
-    console.log('----after-----', matrix)
     
     // 缩放到适合视口后, 平移到画布中心
     const dx = (size[0] - width * ratio) / 2;
