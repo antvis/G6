@@ -26,6 +26,7 @@ export default {
     };
   },
   onNodeClick(e: IG6GraphEvent) {
+    console.log('node click')
     const item = e.item;
     // 如果节点进行过更新，model 会进行 merge，直接改 model 就不能改布局，所以需要去改源数据
     const sourceData = this.graph.findDataById(item.get('id'));
@@ -49,6 +50,6 @@ export default {
     } catch (e) {
       console.warn('G6 自 3.0.4 版本支持直接从 item.getModel() 获取源数据(临时通知，将在3.2.0版本中清除)', e);
     }
-    this.graph.refreshLayout();
+    this.graph.layout();
   }
 };

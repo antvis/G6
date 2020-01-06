@@ -30,7 +30,6 @@ export default {
     if (isNaN(clientX) || isNaN(clientY)) {
       return;
     }
-
     let dx = clientX - origin.x;
     let dy = clientY - origin.y;
     if (this.get('direction') === 'x') {
@@ -103,30 +102,25 @@ export default {
     this.endDrag();
   },
   endDrag() {
-    this.origin = null;
-    this.dragging = false;
-    // 终止时需要判断此时是否在监听画布外的 mouseup 事件，若有则解绑
-    const fn = this.fn;
-    if (fn) {
-      document.body.removeEventListener('mouseup', fn, false);
-      this.fn = null;
-    }
+    const self = this;
+    self.origin = null;
+    self.dragging = false;
   },
   // 若在拖拽时，鼠标移出画布区域，此时放开鼠标无法终止 drag 行为。在画布外监听 mouseup 事件，放开则终止
   onOutOfRange(e: IG6GraphEvent) {
     if (!this.dragging) {
       return;
     }
-
     const self = this;
     const canvasElement = self.graph.get('canvas').get('el');
-    const fn = ev => {
+    function listener(ev) {
       if (ev.target !== canvasElement) {
         self.onMouseUp(e);
+        // 终止时需要判断此时是否在监听画布外的 mouseup 事件，若有则解绑
+        document.body.removeEventListener('mouseup', listener, true);
       }
     };
-    this.fn = fn;
-    document.body.addEventListener('mouseup', fn, true);
+    document.body.addEventListener('mouseup', listener, true);
   },
   onKeyDown(e: KeyboardEvent) {
     const code = e.key;

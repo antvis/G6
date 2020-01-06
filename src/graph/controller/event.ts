@@ -30,6 +30,8 @@ const EVENTS = [
   'drag',
   'dragenter',
   'dragleave',
+  'dragover',
+  'dragout',
   'drop',
   'touchstart',
   'touchmove',
