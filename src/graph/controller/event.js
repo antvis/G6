@@ -26,18 +26,6 @@ function getItemRoot(shape) {
   return shape;
 }
 
-const ORIGIN_MATRIX = [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ];
-const MATRIX_LEN = 9;
-
-function isViewportChanged(matrix) {
-  for (let i = 0; i < MATRIX_LEN; i++) {
-    if (matrix[i] !== ORIGIN_MATRIX[i]) {
-      return true;
-    }
-  }
-  return false;
-}
-
 class Event {
   constructor(graph) {
     this.graph = graph;
@@ -79,7 +67,7 @@ class Event {
     e.canvasX = e.x / pixelRatio;
     e.canvasY = e.y / pixelRatio;
     let point = { x: e.canvasX, y: e.canvasY };
-    if (isViewportChanged(graph.get('group').getMatrix())) {
+    if (Util.isViewportChanged(graph.get('group').getMatrix())) {
       point = graph.getPointByCanvas(e.canvasX, e.canvasY);
     }
     e.x = point.x;

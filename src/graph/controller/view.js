@@ -3,9 +3,8 @@
  * @author huangtonger@aliyun.com
  */
 
-
 const Util = require('../../util');
-const ORIGIN_MATRIX = [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ];
+const ORIGIN_MATRIX = Util.mat3.create();
 
 class View {
   constructor(graph) {

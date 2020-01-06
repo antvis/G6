@@ -1,11 +1,16 @@
 const Event = require('@antv/g/lib/event');
+const mat3 = require('@antv/util/lib/matrix/mat3');
+
+const ORIGIN_MATRIX = mat3.create();
+const MATRIX_LEN = 9;
+
 const BaseUtil = {
   deepMix: require('@antv/util/lib/deep-mix'),
   mix: require('@antv/util/lib/mix'),
   debounce: require('@antv/util/lib/debounce'),
   each: require('@antv/util/lib/each'),
   throttle: require('@antv/util/lib/throttle'),
-  mat3: require('@antv/util/lib/matrix/mat3'),
+  mat3,
   vec2: require('@antv/util/lib/matrix/vec2'),
   vec3: require('@antv/util/lib/matrix/vec3'),
   transform: require('@antv/util/lib/matrix/transform'),
@@ -56,6 +61,14 @@ const BaseUtil = {
     event.currentTarget = e.currentTarget;
     event.item = e.item;
     return event;
+  },
+  isViewportChanged(matrix) {
+    for (let i = 0; i < MATRIX_LEN; i++) {
+      if (matrix[i] !== ORIGIN_MATRIX[i]) {
+        return true;
+      }
+    }
+    return false;
   }
 };
 
