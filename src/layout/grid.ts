@@ -19,14 +19,14 @@ type Edge = EdgeConfig;
 
 type NodeIndexMap = Map<string, string>;
 
-function getDegree(n: number, nodeIdxMap: NodeIndexMap, edges: Edge[]) {
+function getDegree(n: number, nodeIdxMap: object, edges: Edge[]) {
   const degrees = [];
   for (let i = 0; i < n; i++) {
     degrees[i] = 0;
   }
   edges.forEach((e) => {
-    degrees[nodeIdxMap.get(e.source)] += 1;
-    degrees[nodeIdxMap.get(e.target)] += 1;
+    degrees[nodeIdxMap[e.source]] += 1;
+    degrees[nodeIdxMap[e.target]] += 1;
   });
   return degrees;
 }
@@ -112,9 +112,9 @@ export default class GridLayout extends BaseLayout {
     nodes.forEach((node) => {
       layoutNodes.push(node);
     });
-    const nodeIdxMap = new Map();
+    const nodeIdxMap = {};
     layoutNodes.forEach((node, i) => {
-      nodeIdxMap.set(node.id, i);
+      nodeIdxMap[node.id] = i;
     });
     if (self.sortBy === 'degree' || !isString(self.sortBy) || layoutNodes[0][self.sortBy] === undefined) {
       self.sortBy = 'degree';
