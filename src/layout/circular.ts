@@ -13,36 +13,34 @@ type Node = NodeConfig & {
 };
 type Edge = EdgeConfig;
 
-type NodeIndexMap = Map<string, string>;
-
-function getDegree(n: number, nodeMap: NodeIndexMap, edges: Edge[]) {
+function getDegree(n: number, nodeMap: object, edges: Edge[]) {
   const degrees = [];
   for (let i = 0; i < n; i++) {
     degrees[i] = 0;
   }
   edges.forEach((e) => {
-    degrees[nodeMap.get(e.source)] += 1;
-    degrees[nodeMap.get(e.target)] += 1;
+    degrees[nodeMap[e.source]] += 1;
+    degrees[nodeMap[e.target]] += 1;
   });
   return degrees;
 }
 
-function initHierarchy(nodes: Node[], edges: Edge[], nodeMap: NodeIndexMap, directed: boolean) {
+function initHierarchy(nodes: Node[], edges: Edge[], nodeMap: object, directed: boolean) {
   nodes.forEach((_, i: number) => {
     nodes[i].children = [];
     nodes[i].parent = [];
   });
   if (directed) {
     edges.forEach((e) => {
-      const sourceIdx = nodeMap.get(e.source);
-      const targetIdx = nodeMap.get(e.target);
+      const sourceIdx = nodeMap[e.source];
+      const targetIdx = nodeMap[e.target];
       nodes[sourceIdx].children.push(nodes[targetIdx]);
       nodes[targetIdx].parent.push(nodes[sourceIdx]);
     });
   } else {
     edges.forEach((e) => {
-      const sourceIdx = nodeMap.get(e.source);
-      const targetIdx = nodeMap.get(e.target);
+      const sourceIdx = nodeMap[e.source];
+      const targetIdx = nodeMap[e.target];
       nodes[sourceIdx].children.push(nodes[targetIdx]);
       nodes[targetIdx].children.push(nodes[sourceIdx]);
     });
@@ -100,7 +98,7 @@ export default class CircularLayout extends BaseLayout {
   public nodes: Node[];
   public edges: Edge[];
 
-  private nodeMap: NodeIndexMap;
+  private nodeMap: object;
   private degrees;
   private astep;
 
@@ -146,9 +144,9 @@ export default class CircularLayout extends BaseLayout {
     const endAngle = self.endAngle;
     const angleStep = (endAngle - startAngle) / n;
     // layout
-    const nodeMap = new Map();
+    const nodeMap = {};
     nodes.forEach((node, i) => {
-      nodeMap.set(node.id, i);
+      nodeMap[node.id] = i;
     });
     self.nodeMap = nodeMap;
     const degrees = getDegree(nodes.length, nodeMap, edges);
@@ -234,7 +232,7 @@ export default class CircularLayout extends BaseLayout {
         const children = orderedNodes[k].children;
         let foundChild = false;
         for (let j = 0; j < children.length; j++) {
-          const childIdx = nodeMap.get(children[j].id);
+          const childIdx = nodeMap[children[j].id];
           if (degrees[childIdx] === degrees[i] && pickFlags[childIdx] !== true) {
             orderedNodes.push(nodes[childIdx]);
             pickFlags[childIdx] = true;
