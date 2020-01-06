@@ -9,6 +9,7 @@ import { EdgeConfig, IPointTuple, NodeConfig } from '@g6/types';
 import isString from '@antv/util/lib/is-string';
 import { BaseLayout } from './layout';
 import { isArray, isNumber } from '@antv/util';
+import { Circle } from '@antv/g-canvas/lib/shape';
 
 type Node = NodeConfig & {
   degree: number;

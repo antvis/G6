@@ -167,4 +167,26 @@ describe('fruchterman', () => {
     expect(graph.getNodes()[1].getModel().y).not.toEqual(undefined);
     graph.destroy();
   });
+
+  it('instantiate layout', () => {
+    const fruchtermanLayout = new G6.Layout['fruchterman']({
+      center: [250, 250]
+    });
+    fruchtermanLayout.init(data);
+    fruchtermanLayout.execute();
+
+    const graph = new G6.Graph({
+      width: 500,
+      height: 500,
+      container: div
+    });
+    graph.data(data);
+    graph.render();
+
+    expect(graph.getNodes()[0].getModel().x).not.toEqual(undefined);
+    expect(graph.getNodes()[0].getModel().y).not.toEqual(undefined);
+    expect(graph.getNodes()[1].getModel().x).not.toEqual(undefined);
+    expect(graph.getNodes()[1].getModel().y).not.toEqual(undefined);
+    graph.destroy();
+  });
 });

@@ -93,7 +93,7 @@ export default class CircularLayout extends BaseLayout {
   /** 节点在环上分成段数（几个段将均匀分布），在 endRadius - startRadius != 0 时生效 */
   public divisions: number;
   /** 节点在环上排序的依据，可选: 'topology', 'degree', 'null' */
-  public ordering: 'topology' | 'degree' | 'null';
+  public ordering: 'topology' | 'topology-directed' | 'degree' | 'null';
   /** how many 2*pi from first to last nodes */
   public angleRatio: 1;
 
@@ -177,6 +177,9 @@ export default class CircularLayout extends BaseLayout {
     if (ordering === 'topology') {
       // layout according to the topology
       layoutNodes = self.topologyOrdering();
+    } else if (ordering === 'topology-directed') {
+      // layout according to the topology
+      layoutNodes = self.topologyOrdering(true);
     } else if (ordering === 'degree') {
       // layout according to the descent order of degrees
       layoutNodes = self.degreeOrdering();
@@ -205,7 +208,7 @@ export default class CircularLayout extends BaseLayout {
    * 根据节点的拓扑结构排序
    * @return {array} orderedNodes 排序后的结果
    */
-  public topologyOrdering() {
+  public topologyOrdering(directed: boolean = false) {
     const self = this;
     const degrees = self.degrees;
     const edges = self.edges;
@@ -215,7 +218,7 @@ export default class CircularLayout extends BaseLayout {
     const pickFlags = [];
     const n = nodes.length;
     pickFlags[0] = true;
-    initHierarchy(nodes, edges, nodeMap, false);
+    initHierarchy(nodes, edges, nodeMap, directed);
     let k = 0;
     nodes.forEach((node, i) => {
       if (i === 0) {
