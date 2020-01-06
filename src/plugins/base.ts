@@ -4,22 +4,24 @@ import each from '@antv/util/lib/each'
 import wrapBehavior from '@antv/util/lib/wrap-behavior'
 import Graph from '@g6/graph/graph';
 
-interface IPluginBase {
-  [key: string]: any;
+export interface IPluginBaseConfig {
+  container?: HTMLDivElement | null;
+  className?: string;
+  graph?: Graph;
 }
 
 export default abstract class PluginBase {
-  private _cfgs: IPluginBase
   private _events: {
     [key: string]: any
   }
+  public _cfgs: IPluginBaseConfig
   public destroyed: boolean
 
   /**
    * 插件基类的构造函数
    * @param cfgs 插件的配置项
    */
-  constructor(cfgs?: IPluginBase) {
+  constructor(cfgs?: IPluginBaseConfig) {
     this._cfgs = deepMix(this.getDefaultCfgs(), cfgs);
   }
 
