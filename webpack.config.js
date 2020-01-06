@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+// eslint-disable-next-line prefer-destructuring
 const resolve = require('path').resolve;
 
 module.exports = {
