@@ -12,7 +12,7 @@ function timerGame(callback, time = 50) {
 }
 
 describe('tree graph without animate', () => {
-  const graph = new G6.TreeGraph({
+  let graph = new G6.TreeGraph({
     container: div,
     width: 500,
     height: 500,
@@ -155,11 +155,51 @@ describe('tree graph without animate', () => {
       collapsed = false;
       graph.emit('node:click', { item: parent });
     }, 600);
+    graph.destroy();
   });
 
   it('collapse & expand with layout with parameter trigger=dblclick', () => {
-    graph.off();
+    // FIXME: graph.off() does not take effect
+    // graph.off();
+    graph = new G6.TreeGraph({
+      container: div,
+      width: 500,
+      height: 500,
+      animate: false,
+      modes: {
+        default: [ 'drag-canvas', 'drag-node' ]
+      },
+      layout: {
+        type: 'dendrogram',
+        direction: 'LR', // H / V / LR / RL / TB / BT
+        nodeSep: 50,
+        rankSep: 100
+      }
+    });
+    const data = {
+      isRoot: true,
+      id: 'Root',
+      children: [
+        {
+          id: 'SubTreeNode1',
+          children: [
+            {
+              id: 'SubTreeNode1.1'
+            },
+            {
+              id: 'SubTreeNode1.2'
+            }
+          ]
+        },
+        {
+          id: 'SubTreeNode2'
+        }
+      ]
+    };
+    graph.data(data);
+    graph.render();
     const parent = graph.findById('SubTreeNode1');
+    parent.getModel().label = 'parent'
     let child = graph.findById('SubTreeNode1.1');
     let collapsed = true;
     graph.addBehaviors([{

@@ -11,6 +11,7 @@ import EdgeTooltip from './edge-tooltip'
 import DragGroup from './drag-group'
 import DragNodeWidthGroup from './drag-node-with-group'
 import CollapseExpandGroup from './collapse-expand-group'
+import CollapseExpand from './collapse-expand'
 
 const behaviors = {
   'drag-canvas': DragCanvas,
@@ -23,7 +24,8 @@ const behaviors = {
   'edge-tooltip': EdgeTooltip,
   'drag-group': DragGroup,
   'drag-node-with-group': DragNodeWidthGroup,
-  'collapse-expand-group': CollapseExpandGroup
+  'collapse-expand-group': CollapseExpandGroup,
+  'collapse-expand': CollapseExpand
 }
 
 each(behaviors, (behavior, type: string)  => {

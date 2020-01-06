@@ -28,11 +28,13 @@ export default {
       'node:drag': 'onDrag',
       'node:dragend': 'onDragEnd',
       'canvas:mouseleave': 'onOutOfRange',
-      mouseenter: 'onMouseEnter',
-      mouseleave: 'onMouseLeave'
+      dragover: 'onDragOver',
+      // FIXME: does not response
+      dragleave: 'onDragLeave'
     };
   },
-  onMouseEnter(evt: IG6GraphEvent) {
+  onDragOver(evt: IG6GraphEvent) {
+    console.log('drag over');
     const { target } = evt;
     const groupId = target.get('groupId');
     if (groupId && this.origin) {
@@ -52,7 +54,8 @@ export default {
    * 拖动节点移除Group时的事件
    * @param {Event} evt 事件句柄
    */
-  onMouseLeave(evt: IG6GraphEvent) {
+  onDragLeave(evt: IG6GraphEvent) {
+    console.log('drag leave');
     const { target } = evt;
     const groupId = target.get('groupId');
     if (groupId && this.origin) {
@@ -66,9 +69,7 @@ export default {
 
         customGroupControll.setGroupStyle(keyShape, 'default');
       }
-
     }
-
     if (!groupId) {
       this.inGroupId = null;
     }
@@ -81,45 +82,20 @@ export default {
     const { item } = e;
     const graph = this.graph;
 
-    this.targets = [];
+    this.target = item;
+    // 拖动节点时，如果在Group中，则Group高亮
+    const model = item.getModel();
+    const { groupId } = model;
+    if (groupId) {
+      const customGroupControll = graph.get('customGroupControll');
+      const customGroup = customGroupControll.getDeletageGroupById(groupId);
+      if (customGroup) {
+        const { nodeGroup: currentGroup } = customGroup;
+        const keyShape = currentGroup.get('keyShape');
+        customGroupControll.setGroupStyle(keyShape, 'hover');
 
-    // 获取所有选中的元素
-    const nodes = graph.findAllByState('node', 'selected');
-
-    const currentNodeId = item.get('id');
-
-    // 当前拖动的节点是否是选中的节点
-    const dragNodes = nodes.filter(node => {
-      const nodeId = node.get('id');
-      return currentNodeId === nodeId;
-    });
-
-    // 只拖动当前节点
-    if (dragNodes.length === 0) {
-      this.target = item;
-      // 拖动节点时，如果在Group中，则Group高亮
-      const model = item.getModel();
-      const { groupId } = model;
-      if (groupId) {
-        const customGroupControll = graph.get('customGroupControll');
-        const customGroup = customGroupControll.getDeletageGroupById(groupId);
-        if (customGroup) {
-          const { nodeGroup: currentGroup } = customGroup;
-          const keyShape = currentGroup.get('keyShape');
-          customGroupControll.setGroupStyle(keyShape, 'hover');
-
-          // 初始拖动时候，如果是在当前群组中拖动，则赋值为当前groupId
-          this.inGroupId = groupId;
-        }
-      }
-    } else {
-      // 拖动多个节点
-      if (nodes.length > 1) {
-        nodes.forEach(node => {
-          this.targets.push(node);
-        });
-      } else {
-        this.targets.push(item);
+        // 初始拖动时候，如果是在当前群组中拖动，则赋值为当前groupId
+        this.inGroupId = groupId;
       }
     }
 
@@ -138,30 +114,24 @@ export default {
     if (!this.get('shouldUpdate').call(this, e)) {
       return;
     }
+  
+    this._update(this.target, e, true);
+    const { item } = e;
+    const graph = this.graph;
+    const model = item.getModel();
+    const { groupId } = model;
+    if (groupId) {
+      const customGroupControll = graph.get('customGroupControll');
+      const customGroup = customGroupControll.getDeletageGroupById(groupId);
+      if (customGroup) {
+        const { nodeGroup: currentGroup } = customGroup;
+        const keyShape = currentGroup.get('keyShape');
 
-    // 当targets中元素时，则说明拖动的是多个选中的元素
-    if (this.targets.length > 0) {
-      this._updateDelegate(e);
-    } else {
-      // 只拖动单个元素
-      this._update(this.target, e, true);
-      const { item } = e;
-      const graph = this.graph;
-      const model = item.getModel();
-      const { groupId } = model;
-      if (groupId) {
-        const customGroupControll = graph.get('customGroupControll');
-        const customGroup = customGroupControll.getDeletageGroupById(groupId);
-        if (customGroup) {
-          const { nodeGroup: currentGroup } = customGroup;
-          const keyShape = currentGroup.get('keyShape');
-
-          // 当前
-          if (this.inGroupId !== groupId) {
-            customGroupControll.setGroupStyle(keyShape, 'default');
-          } else {
-            customGroupControll.setGroupStyle(keyShape, 'hover');
-          }
+        // 当前
+        if (this.inGroupId !== groupId) {
+          customGroupControll.setGroupStyle(keyShape, 'default');
+        } else {
+          customGroupControll.setGroupStyle(keyShape, 'hover');
         }
       }
     }
@@ -184,24 +154,14 @@ export default {
       }
     }
 
-    if (this.targets.length > 0) {
-      // 获取所有已经选中的节点
-      this.targets.forEach(node => this._update(node, e));
-    } else if (this.target) {
+    if (this.target) {
       this._update(this.target, e);
     }
 
     this.point = {};
     this.origin = null;
     this.originPoint = {};
-    this.targets.length = 0;
     this.target = null;
-    // 终止时需要判断此时是否在监听画布外的 mouseup 事件，若有则解绑
-    const fn = this.fn;
-    if (fn) {
-      body.removeEventListener('mouseup', fn, false);
-      this.fn = null;
-    }
 
     this.setCurrentGroupStyle(e);
   },
@@ -292,15 +252,17 @@ export default {
   // 若在拖拽时，鼠标移出画布区域，此时放开鼠标无法终止 drag 行为。在画布外监听 mouseup 事件，放开则终止
   onOutOfRange(e: IG6GraphEvent) {
     const self = this;
-    if (this.origin) {
-      const canvasElement = self.graph.get('canvas').get('el');
-      const fn = ev => {
-        if (ev.target !== canvasElement) {
-          self.onDragEnd(e);
-        }
-      };
-      this.fn = fn;
-      body.addEventListener('mouseup', fn, false);
+    const canvasElement = self.graph.get('canvas').get('el');
+    function listener(ev) {
+      if (ev.target !== canvasElement) {
+        e.item = self.target;
+        self.onDragEnd(e);
+        // 终止时需要判断此时是否在监听画布外的 mouseup 事件，若有则解绑
+        document.body.removeEventListener('mouseup', listener, true);
+      }
+    };
+    if (self.origin) {
+      body.addEventListener('mouseup', listener, true);
     }
   },
   _update(item: Item, e: IG6GraphEvent, force: boolean) {
@@ -346,26 +308,7 @@ export default {
     if (!this.shape) {
       const parent = graph.get('group');
       const attrs = deepMix({}, Global.delegateStyle, this.delegateStyle);
-      // 拖动多个
-      if (this.targets.length > 0) {
-        const nodes = graph.findAllByState('node', 'selected');
-        if (nodes.length === 0) {
-          nodes.push(item);
-        }
-        const customGroupControll = graph.get('customGroupControll');
-        const { x, y, width, height } = customGroupControll.calculationGroupPosition(nodes);
-        this.originPoint = { x, y, width, height };
-        // model上的x, y是相对于图形中心的，delegateShape是g实例，x,y是绝对坐标
-        this.shape = parent.addShape('rect', {
-          attrs: {
-            width,
-            height,
-            x,
-            y,
-            ...attrs
-          }
-        });
-      } else if (this.target) {
+      if (this.target) {
         this.shape = parent.addShape('rect', {
           attrs: {
             width: bbox.width,
@@ -380,14 +323,7 @@ export default {
       this.shape.set('capture', false);
     }
 
-    if (this.targets.length > 0) {
-      const clientX = e.x - this.origin.x + this.originPoint.minX;
-      const clientY = e.y - this.origin.y + this.originPoint.minY;
-      this.shape.attr({
-        x: clientX,
-        y: clientY
-      });
-    } else if (this.target) {
+    if (this.target) {
       if (groupType === 'circle') {
         this.shape.attr({
           x: x - bbox.width / 2,

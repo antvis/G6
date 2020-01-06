@@ -6,7 +6,7 @@ const div = document.createElement('div');
 div.id = 'graph-spec';
 document.body.appendChild(div);
 
-describe.only('diamond test', () => {
+describe('diamond test', () => {
   describe('default diamond test', () => {
     const cfg = {
       container: div,

@@ -243,21 +243,73 @@ describe('drag-canvas', () => {
     graph.destroy();
 
   });
-  // wait for testing with demo. the document simulator problem
-  // it('drag out of canvas', () => {
-  //   const graph = new Graph({
-  //     container: div,
-  //     width: 500,
-  //     height: 500,
-  //     modes: {
-  //       default: [{
-  //         type: 'drag-canvas'
-  //       }]
-  //     }
-  //   });
-  //   graph.emit('canvas:mousedown', { clientX: 150, clientY: 150 });
-  //   graph.emit('canvas:mousemove', { clientX: 550, clientY: 550 });
-  //   graph.emit('canvas:mouseup', { clientX: 550, clientY: 550 });
-  //   graph.emit('canvas:mouseleave', { target: graph.get('canvas').get('el') });
-  // });
+
+  it('drag out of canvas', () => {
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: [{
+          type: 'drag-canvas'
+        }]
+      }
+    });
+    graph.emit('canvas:mousedown', { clientX: 150, clientY: 150 });
+    graph.emit('canvas:mousemove', { clientX: 550, clientY: 550 });
+    graph.emit('canvas:mouseleave', { target: graph.get('canvas').get('el') });
+
+    // mouseup out of the canvas
+    const event = document.createEvent("MouseEvents");
+		event.initMouseEvent(
+			"mouseup", 
+			true, 
+			true, 
+			document.defaultView, 
+			0, 
+			0, 0, 550, 550, // clientX = 550, clientY = 550
+			false, false, false, false, 
+			0, 
+			null
+		);
+    document.body.dispatchEvent(event);
+    const movedMatrix = graph.get('canvas').get('children')[0].getMatrix();
+    expect(movedMatrix[6]).toEqual(400);
+    expect(movedMatrix[7]).toEqual(400);
+  });
+
+  it('drag out of canvas, but it is not dragging', () => {
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: [{
+          type: 'drag-canvas'
+        }]
+      }
+    });
+    graph.emit('canvas:mousedown', { clientX: 150, clientY: 150 });
+    graph.emit('canvas:mousemove', { clientX: 350, clientY: 350 });
+    graph.emit('canvas:mouseup', { clientX: 350, clientY: 350 });
+    graph.emit('canvas:mouseleave', { target: graph.get('canvas').get('el') });
+
+    // mouseup out of the canvas
+    const event = document.createEvent("MouseEvents");
+		event.initMouseEvent(
+			"mouseup", 
+			true, 
+			true, 
+			document.defaultView, 
+			0, 
+			0, 0, 550, 550, // clientX = 550, clientY = 550
+			false, false, false, false, 
+			0, 
+			null
+		);
+    document.body.dispatchEvent(event);
+    const movedMatrix = graph.get('canvas').get('children')[0].getMatrix();
+    expect(movedMatrix[6]).toEqual(200);
+    expect(movedMatrix[7]).toEqual(200);
+  });
 });
