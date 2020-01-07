@@ -245,7 +245,7 @@ const singleNode: ShapeOptions = {
     const { icon: defaultIcon } = this.options;
     const icon = deepMix({}, defaultIcon, cfg.icon);
     const { show } = cfg.icon ? cfg.icon : { show: undefined };
-    const iconShape = group.find(element => { return element.get('className') === `${this.type}-icon`})
+    const iconShape = group.find(element => element.get('className') === `${this.type}-icon`)
     if (iconShape) { // 若原先存在 icon
       if (show || show === undefined) { // 若传入 show: true, 或没有设置，则更新原有的 icon 样式
         const iconConfig = deepMix({}, defaultIcon, iconShape.attr(), cfg.icon);
@@ -269,7 +269,7 @@ const singleNode: ShapeOptions = {
         className: `${this.type}-icon`
       });
       // to ensure the label is on the top of all the shapes
-      const labelShape = group.find(element => { return element.get('className') === `node-label`})
+      const labelShape = group.find(element => element.get('className') === `node-label`)
       if (labelShape) {
         labelShape.toFront();
       }

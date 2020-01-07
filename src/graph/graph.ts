@@ -379,16 +379,14 @@ export default class Graph extends EventEmitter implements IGraph {
    * 若是自定义节点切在各种状态下
    * graph.node(node => {
    *  return {
-   *    {
-   *       shape: 'rect',
-   *      label: node.id,
-   *       style: { fill: '#666' },
-   *      stateStyles: {
-   *         selected: { fill: 'blue' },
-   *         custom: { fill: 'green' }
-   *       }
+   *    shape: 'rect',
+   *    label: node.id,
+   *    style: { fill: '#666' },
+   *    stateStyles: {
+   *       selected: { fill: 'blue' },
+   *       custom: { fill: 'green' }
    *     }
-   *  }
+   *   }
    * });
    * @param {function} nodeFn 指定每个节点样式
    */
@@ -1023,7 +1021,8 @@ export default class Graph extends EventEmitter implements IGraph {
    * @return {object} this
    */
   public changeSize(width: number, height: number): Graph {
-    this.get('viewController').changeSize(width, height);
+    const viewController: ViewController = this.get('viewController')
+    viewController.changeSize(width, height);
     this.autoPaint();
     return this;
   }
@@ -1198,7 +1197,8 @@ export default class Graph extends EventEmitter implements IGraph {
    * @return {string} 当前行为模式
    */
   public getCurrentMode(): string {
-    return this.get('mode');
+    const modeController: ModeController = this.get('modeController')
+    return modeController.getMode();
   }
 
   /**
@@ -1207,8 +1207,8 @@ export default class Graph extends EventEmitter implements IGraph {
    * @return {object} this
    */
   public setMode(mode: string): Graph {
-    this.set('mode', mode);
-    this.get('modeController').setMode(mode);
+    const modeController: ModeController = this.get('modeController')
+    modeController.setMode(mode);
     return this;
   }
 
