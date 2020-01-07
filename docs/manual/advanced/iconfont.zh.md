@@ -37,82 +37,78 @@ PS: 本案文件目录为 '/static/icons'。
 
 ## 使用字体
 ```javascript
-G6.registerNode("iconfont", {
+G6.registerNode('iconfont', {
   draw(cfg, group) {
-    const {
-      backgroundConfig: backgroundStyle,
-      style,
-      labelCfg: labelStyle
-    } = cfg;
+    const { backgroundConfig: backgroundStyle, style, labelCfg: labelStyle } = cfg;
 
     if (backgroundStyle) {
-      group.addShape("circle", {
+      group.addShape('circle', {
         attrs: {
           x: 0,
           y: 0,
           r: cfg.size,
-          ...backgroundStyle
-        }
+          ...backgroundStyle,
+        },
       });
     }
 
-    const keyShape = group.addShape("text", {
+    const keyShape = group.addShape('text', {
       attrs: {
         x: 0,
         y: 0,
-        fontFamily: "iconfont", // 对应 CSS 里面的 font-family: "iconfont";
-        textAlign: "center",
-        textBaseline: "middle",
+        fontFamily: 'iconfont', // 对应css里面的font-family: "iconfont";
+        textAlign: 'center',
+        textBaseline: 'middle',
         text: cfg.text,
         fontSize: cfg.size,
-        ...style
-      }
+        ...style,
+      },
     });
     const labelY = backgroundStyle ? cfg.size * 2 : cfg.size;
 
-    group.addShape("text", {
+    group.addShape('text', {
       attrs: {
         x: 0,
         y: labelY,
-        textAlign: "center",
+        textAlign: 'center',
         text: cfg.label,
-        ...labelStyle.style
-      }
+        ...labelStyle.style,
+      },
     });
     return keyShape;
-  }
+  },
 });
 
-const COLOR = "#40a9ff";
+const COLOR = '#40a9ff';
 const graph = new G6.TreeGraph({
-  container: "mountNode",
+  container: 'mountNode',
   width: 800,
   height: 600,
   modes: {
-    default: ["collapse-expand", "drag-canvas", "drag-node"]
+    default: ['collapse-expand', 'drag-canvas', 'drag-node'],
   },
   defaultNode: {
     backgroundConfig: {
-      backgroundType: "circle",
+      backgroundType: 'circle',
       fill: COLOR,
-      stroke: "LightSkyBlue"
+      stroke: 'LightSkyBlue',
     },
-    shape: "iconfont",
+    shape: 'iconfont',
     size: 12,
     style: {
-      fill: "#fff"
+      fill: '#fff',
     },
     labelCfg: {
       style: {
         fill: COLOR,
-        fontSize: 12
-      }
-    }
+        fontSize: 12,
+      },
+    },
   },
   // 布局相关
   layout: {
-    type: "compactBox",
-    direction: "LR",
+    type: 'compactBox',
+    direction: 'LR',
     getId(d) {
       return d.id;
     },
@@ -127,150 +123,148 @@ const graph = new G6.TreeGraph({
     },
     getHGap() {
       return 60;
-    }
-  }
+    },
+  },
 });
 
 graph.edge(({ target }) => {
-  const fill =
-        target.get("model").backgroundConfig &&
-        target.get("model").backgroundConfig.fill;
+  const fill = target.get('model').backgroundConfig && target.get('model').backgroundConfig.fill;
   return {
-    shape: "cubic-horizontal",
+    shape: 'cubic-horizontal',
     color: fill || COLOR,
-    label: target.get("model").relation || "",
+    label: target.get('model').relation || '',
     labelCfg: {
       style: {
         fill: fill || COLOR,
-        fontSize: 12
-      }
-    }
+        fontSize: 12,
+      },
+    },
   };
 });
 
 const data = {
   isRoot: true,
-  id: "Root",
-  label: "可疑人员王**",
-  text: "&#xe622;", // 对应字体图标的 Unicode 码
+  id: 'Root',
+  label: '可疑人员王**',
+  text: '\ue6b2', // 对应iconfont.css 里面的content，注意加u，后面的自行修改一下。
   style: {
-    fill: "red"
+    fill: 'red',
   },
   labelCfg: {
     style: {
-      fill: "red"
-    }
+      fill: 'red',
+    },
   },
   backgroundConfig: null, // 自定义项，用于判读是否需要圆背景
   size: 30,
   children: [
     {
-      id: "SubTreeNode1",
-      label: "**网咖",
-      text: "&#xe605;",
-      relation: "上网",
+      id: 'SubTreeNode1',
+      label: '**网咖',
+      text: '&#xe605;',
+      relation: '上网',
       children: [
         {
-          id: "SubTreeNode2",
-          label: "多伦多",
-          text: "&#xe64b;"
+          id: 'SubTreeNode2',
+          label: '多伦多',
+          text: '&#xe64b;',
         },
         {
-          id: "id1",
-          label: "小王",
-          text: "&#xe622;",
+          id: 'id1',
+          label: '小王',
+          text: '&#xe622;',
           children: [
             {
-              id: "SubTreeNode1.2.1",
-              label: "182****2123",
-              text: "&#xe60d;"
+              id: 'SubTreeNode1.2.1',
+              label: '182****2123',
+              text: '&#xe60d;',
             },
             {
-              id: "SubTreeNode4",
-              label: "今晚在吗",
-              text: "&#xe629;"
-            }
-          ]
-        }
-      ]
+              id: 'SubTreeNode4',
+              label: '今晚在吗',
+              text: '&#xe629;',
+            },
+          ],
+        },
+      ],
     },
     {
-      id: "SubTreeNode3",
-      label: "subway",
-      text: "&#xe653;",
+      id: 'SubTreeNode3',
+      label: 'subway',
+      text: '&#xe653;',
       children: [
         {
-          id: "SubTreeNode3.1",
-          label: "王五",
-          text: "&#xe622;"
+          id: 'SubTreeNode3.1',
+          label: '王五',
+          text: '&#xe622;',
         },
         {
-          id: "SubTreeNode3.2",
-          label: "张三",
-          text: "&#xe622;"
-        }
-      ]
+          id: 'SubTreeNode3.2',
+          label: '张三',
+          text: '&#xe622;',
+        },
+      ],
     },
     {
-      id: "SubTreeNode5",
-      label: "小花",
-      relation: "老婆",
-      text: "&#xe74b;",
+      id: 'SubTreeNode5',
+      label: '小花',
+      relation: '老婆',
+      text: '&#xe74b;',
       backgroundConfig: {
-        fill: "Coral"
+        fill: 'Coral',
       },
       style: {
-        fill: "#fff"
+        fill: '#fff',
       },
       labelCfg: {
         style: {
-          fill: "Coral"
-        }
+          fill: 'Coral',
+        },
       },
       children: [
         {
-          id: "SubTreeNode1.2.1",
-          label: "182****2123",
-          text: "&#xe60d;",
-          relation: "通话",
+          id: 'SubTreeNode1.2.1',
+          label: '182****2123',
+          text: '&#xe60d;',
+          relation: '通话',
           backgroundConfig: {
-            fill: "Coral"
+            fill: 'Coral',
           },
           style: {
-            fill: "#fff"
+            fill: '#fff',
           },
           labelCfg: {
             style: {
-              fill: "Coral"
-            }
-          }
+              fill: 'Coral',
+            },
+          },
         },
         {
-          id: "SubTreeNode3.3",
-          label: "凶器",
-          text: "&#xe673;",
-          relation: "指纹",
+          id: 'SubTreeNode3.3',
+          label: '凶器',
+          text: '&#xe673;',
+          relation: '指纹',
           backgroundConfig: {
-            fill: "Coral"
+            fill: 'Coral',
           },
           style: {
-            fill: "#fff"
+            fill: '#fff',
           },
           labelCfg: {
             style: {
-              fill: "Coral"
-            }
-          }
-        }
-      ]
+              fill: 'Coral',
+            },
+          },
+        },
+      ],
     },
     {
-      id: "SubTreeNode6",
-      label: "马航37*",
-      relation: "乘坐",
-      text: "&#xe610;"
-    }
-  ]
+      id: 'SubTreeNode6',
+      label: '马航37*',
+      relation: '乘坐',
+      text: '&#xe610;',
+    },
+  ],
 };
 
 graph.data(data);
@@ -284,9 +278,49 @@ graph.render();
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wndRQo6U-oUAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
 
-**2、data 里面的 text 使用的是 Unicode，需要自行复制。**<br />
+**2、data 里面的 `text` 使用的是 iconfont.css 里面的 `content`，注意加 `u` 。如有需要可自行复制。**<br />
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SV8TRrKFLD8AAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*KO-IRbIXRGAAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NF3mQYRurWsAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*teUAQIkCffUAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
+
+
+## 工具函数 getIcon
+我们可以将 unicode 的转化封装成函数使用。这里注意，手动拼接 unicode 是不行的（`\\u${icon.unicode}`）。这里采用 iconfont.json 中的 `code_decimal` 进行转化。详细参考《[MDN String.fromCodePoint](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCodePoint)》。
+
+```javascript
+import fonts from '../fonts/iconfont.json';
+
+const icons = fonts.glyphs.map(icon => {
+    return {
+        name: icon.name,
+        unicode: String.fromCodePoint(icon.unicode_decimal), // `\\u${icon.unicode}`,
+    };
+});
+const getIcon =  (type: string) => {
+    const matchIcon = icons.find(icon => {
+        return icon.name === type;
+    }) || { unicode: '', name: 'default' };
+    return matchIcon.unicode;
+};
+```
+
+### 用法
+
+```javascript
+ {
+    shape: 'text',
+    attrs: {
+        id: 'node-icon',
+        x: 0,
+        y: 0,
+        fontSize: iconSize,
+        fill: primaryColor,
+        text: getIcon('logo'), // logo 为 unicode 对应的 name
+        fontFamily: 'iconfont', // 对应 CSS 里面的 font-family: "iconfont";
+        textAlign: 'center',
+        textBaseline: 'middle',
+    },
+  }
+```
