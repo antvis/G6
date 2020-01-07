@@ -1226,12 +1226,12 @@ describe('drag node with group', () => {
     graph.destroy();
   });
 
-  xit('drag a node without group, tmp test for dragover,dragleave', () => {
+  xit('temperal!!, drag a node without group, tmp test for dragover,dragleave', () => {
     const data2 = {
       nodes: [
         {
           id: 'node6',
-          // groupId: 'group1',
+          groupId: 'group1',
           label: 'rect',
           x: 100,
           y: 300
@@ -1243,12 +1243,12 @@ describe('drag node with group', () => {
           y: 100
         }
       ],
-      // groups: [
-      //   {
-      //     id: 'group1',
-      //     title: '1'
-      //   }
-      // ]
+      groups: [
+        {
+          id: 'group1',
+          title: '1'
+        }
+      ]
     };
     const graph = new Graph({
       container: div,

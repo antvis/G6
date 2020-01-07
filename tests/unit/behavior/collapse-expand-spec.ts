@@ -29,6 +29,7 @@ describe('collapse expand tree graph', () => {
       },
       {
         id: 'SubTreeNode1.2',
+        label: 'SubTreeNode1.2',
         children: [{
           id: 'SubTreeNode1.2.1'
         },
@@ -48,6 +49,7 @@ describe('collapse expand tree graph', () => {
     },
     {
       id: 'SubTreeNode3',
+      label: 'SubTreeNode3',
       children: [{
         id: 'SubTreeNode3.1'
       },
@@ -69,6 +71,7 @@ describe('collapse expand tree graph', () => {
     },
     {
       id: 'SubTreeNode7',
+      label: 'SubTreeNode7'
     },
     {
       id: 'SubTreeNode8'
@@ -83,9 +86,48 @@ describe('collapse expand tree graph', () => {
       id: 'SubTreeNode11'
     }]
   };
-  // FIXME: the nodes are updated, but the edges are remained unchanged.
+  const graph = new TreeGraph({
+    container: div,
+    width: 500,
+    height: 500,
+    layout: {
+      type: 'compactBox'
+    },
+    fitView: true,
+    modes: {
+      default: [ 'collapse-expand' ]
+    },
+    defaultNode: {
+      size: 10
+    }
+  });
+  graph.data(data);
+  graph.render();
+  const parent = graph.findById('SubTreeNode1.2');
   it('collapse tree graph', () => {
-    const graph = new TreeGraph({
+    graph.once('afterrefreshlayout', () => {
+      expect(parent.getModel().collapsed).toEqual(true);
+      expect(parent.get('children').length).toEqual(0);
+    });
+    graph.emit('node:click', { item: parent });
+  });
+  it('expand tree graph', () => {
+    graph.emit('node:click', { item: parent });
+    graph.once('afterrefreshlayout', () => {
+      expect(parent.getModel().collapsed).toEqual(false);
+      expect(parent.get('children').length).toEqual(2);
+    });
+  });
+  it('expand a leaf', () => {
+    const leaf = graph.findById('SubTreeNode7');
+    graph.once('afterrefreshlayout', () => {
+      expect(leaf.getModel().collapsed).toEqual(false);
+    });
+    graph.emit('node:click', { item: leaf });
+    graph.destroy();
+  });
+  it('collapse-expand with invalid trigger', () => {
+    const graph2 = new TreeGraph({
       container: div,
       width: 500,
       height: 500,
@@ -94,32 +136,83 @@ describe('collapse expand tree graph', () => {
       },
       fitView: true,
       modes: {
-        default: [ 'collapse-expand' ]
+        default: [{
+          type: 'collapse-expand',
+          trigger: 'testInvalid'
+        }]
       },
       defaultNode: {
         size: 10
       }
     });
-    graph.data(data);
-    graph.render();
-    // graph.emit('dblclick', {
-    // });
-    // graph.destroy();
+    graph2.data(data);
+    graph2.render();
+    const parent2 = graph2.findById('SubTreeNode1.2');
+    graph2.once('afterrefreshlayout', () => {
+      expect(parent2.getModel().collapsed).toEqual(true);
+      expect(parent2.get('children').length).toEqual(0);
+    });
+    graph2.emit('node:click', { item: parent2 });
+    graph2.destroy();
   });
-  it('expand tree graph', () => {
-    const graph = new TreeGraph({
+  it('prevent begin', () => {
+    const graph2 = new TreeGraph({
       container: div,
       width: 500,
       height: 500,
       layout: {
         type: 'compactBox'
       },
+      fitView: true,
       modes: {
-        default: [ 'collapse-expand' ]
+        default: [{
+          type: 'collapse-expand',
+          shouldBegin: () => {
+            return false;
+          }
+        }]
+      },
+      defaultNode: {
+        size: 10
       }
     });
-    graph.data(data);
-    graph.render();
-    graph.destroy();
+    graph2.data(data);
+    graph2.render();
+    const parent2 = graph2.findById('SubTreeNode3');
+    graph2.once('afterrefreshlayout', () => {
+      expect(parent2.getModel().collapsed).toEqual(false);
+    });
+    graph2.emit('node:click', { item: parent2 });
+    graph2.destroy();
+  });
+  it('prevent update', () => {
+    const graph2 = new TreeGraph({
+      container: div,
+      width: 500,
+      height: 500,
+      layout: {
+        type: 'compactBox'
+      },
+      fitView: true,
+      modes: {
+        default: [{
+          type: 'collapse-expand',
+          shouldUpdate: () => {
+            return false;
+          }
+        }]
+      },
+      defaultNode: {
+        size: 10
+      }
+    });
+    graph2.data(data);
+    graph2.render();
+    const parent2 = graph2.findById('SubTreeNode3');
+    graph2.once('afterrefreshlayout', () => {
+      expect(parent2.getModel().collapsed).toEqual(false);
+    });
+    graph2.emit('node:click', { item: parent2 });
+    graph2.destroy();
   });
 });

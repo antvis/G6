@@ -19,14 +19,14 @@ export default {
       trigger = this.trigger;
     } else {
       trigger = DEFAULT_TRIGGER;
-      console.warn('Behavior collapse-expand的trigger参数不合法，请输入click或dblclick');
+      console.warn('Behavior collapse-expand 的 trigger 参数不合法，请输入 \'click\' 或 \'dblclick\'');
     }
     return {
       [`node:${trigger}`]: 'onNodeClick'
     };
   },
   onNodeClick(e: IG6GraphEvent) {
-    console.log('node click')
+    console.log('click node');
     const item = e.item;
     // 如果节点进行过更新，model 会进行 merge，直接改 model 就不能改布局，所以需要去改源数据
     const sourceData = this.graph.findDataById(item.get('id'));
@@ -36,6 +36,7 @@ export default {
       return;
     }
     const collapsed = !sourceData.collapsed;
+    console.log('this.shouldBegin(e, collapsed)', this.shouldBegin(e, collapsed))
     if (!this.shouldBegin(e, collapsed)) {
       return;
     }
