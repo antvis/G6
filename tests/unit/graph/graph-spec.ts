@@ -2,7 +2,8 @@
 import G6 from '../../../src'
 import '../../../src/behavior'
 import { scale, translate } from '../../../src/util/math'
-import { GraphData } from '../../../types';
+import { GraphData, Item } from '../../../types';
+import Plugin from '../../../src/plugins'
 
 const div = document.createElement('div');
 div.id = 'global-spec';
@@ -17,6 +18,10 @@ describe('graph', () => {
       default: ['drag-node']
     }
   });
+
+  it('invalid container', ()  => {
+    expect(() => { new G6.Graph({}) }).toThrowError('invalid container')
+  })
   
   it('new & destroy graph', () => {
     const inst = new G6.Graph({
@@ -60,6 +65,75 @@ describe('graph', () => {
     expect(length - div.childNodes.length).toBe(1);
   });
 
+  it('render without data', () => {
+    const inst = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500
+    }) 
+
+    inst.data(null)
+
+    expect(() => { inst.render() }).toThrowError('data must be defined first')
+  })
+
+  it('groupByTypes is false & toDataURL', () => {
+    const inst = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      groupByTypes: false
+    })
+
+    const data = {
+      nodes: [
+        {
+          id: 'node1',
+          label: 'node1'
+        },{
+          id: 'node2'
+        }
+      ],
+      edges: [
+        {
+          id: 'edge1',
+          source: 'node1',
+          target: 'node2'
+        },
+        {
+          id: 'edge2',
+          source: 'node1',
+          target: 'node1'
+        },
+        {
+          id: 'edge3',
+          source: 'node2',
+          target: 'node2'
+        }
+      ]
+    }
+
+    inst.data(data)
+    inst.render()
+
+    const nodeGroup = inst.get('nodeGroup')
+    const edgeGroup = inst.get('edgeGroup')
+
+    expect(nodeGroup).toBe(undefined)
+    expect(edgeGroup).toBe(undefined)
+
+    const node = inst.findById('node1')
+    const edge = inst.findById('edge1')
+
+    const group1 = node.get('group').getParent()
+    const group2 = edge.get('group').getParent()
+
+    expect(group1).toEqual(group2)
+
+    const url = inst.toDataURL()
+    expect(url).not.toBe(null)
+  })
+
   it('translate', () => {
     const canvasMatrix = globalGraph.get('canvas').getMatrix();
     globalGraph.translate(100, 100);
@@ -72,6 +146,22 @@ describe('graph', () => {
 
     globalGraph.get('group').resetMatrix();
   });
+
+  it('moveTo', () => {
+    let group = globalGraph.get('group')
+    expect(group.get('x')).toBe(undefined)
+    expect(group.get('y')).toBe(undefined)
+    globalGraph.moveTo(100, 100);
+
+    group = globalGraph.get('group')
+    const matrix = globalGraph.get('group').getMatrix();
+
+    expect(matrix).toBe(null)
+    expect(group.get('x')).toBe(100);
+    expect(group.get('y')).toBe(100);
+
+    globalGraph.get('group').resetMatrix();
+  })
 
   it('zoom', () => {
     globalGraph.zoom(3, { x: 100, y: 100 });
@@ -86,6 +176,38 @@ describe('graph', () => {
 
     globalGraph.get('group').resetMatrix();
   });
+
+  it('minZoom & maxZoom', () => {
+    const graph = new G6.Graph({
+      container: div,
+      minZoom: 2,
+      maxZoom: 5,
+      width: 500,
+      height: 500
+    })
+
+    const data = {
+      nodes: [
+        {
+          id: 'node'
+        }
+      ]
+    }
+
+    graph.data(data)
+    graph.render()
+
+    let matrix = graph.get('group').getMatrix()
+    expect(matrix).toBe(null)
+    
+    graph.zoom(0.5, { x: 100, y: 100 })
+    matrix = graph.get('group').getMatrix()
+    expect(matrix).toBe(null)
+
+    graph.zoom(5.5)
+    matrix = graph.get('group').getMatrix()
+    expect(matrix).toBe(null)
+  })
 
   it('zoomTo', () => {
     let matrix = globalGraph.get('group').getMatrix();
@@ -108,7 +230,7 @@ describe('graph', () => {
     expect(matrix[7]).toBe(62.5);
   });
 
-  it('change size', () => {
+  it.only('change size', () => {
     const graph = new G6.Graph({
       container: div,
       width: 500,
@@ -124,8 +246,15 @@ describe('graph', () => {
     expect(graph.get('width')).toBe(300);
     expect(graph.get('height')).toBe(300);
     
+    // 专门用于测试使用非 number 类型 会报错的情况
+    expect(() => { graph.changeSize('x', 10)}).toThrowError('invalid canvas width & height, pleace make sure width & height type is number')
     graph.destroy();
   });
+
+  it('getCurrentMode', () => {
+    const mode = globalGraph.getCurrentMode()
+    expect(mode).toBe('default')
+  })
 
   it('data & changeData & save', () => {
     const data = {
@@ -260,6 +389,20 @@ describe('graph', () => {
     expect(group.getMatrix()[6]).toBe(50);
     expect(group.getMatrix()[7]).toBe(100);
   });
+
+  it('removeItem', () => {
+    let removeNode = globalGraph.findById('remove-item')
+    expect(removeNode).toBe(undefined)
+
+    const data = { id: 'remove-item', x: 10, y: 50, size: 50, className: 'test test2' };
+    const node = globalGraph.addItem('node', data);
+
+    expect(node).not.toBe(undefined)
+
+    globalGraph.removeItem('remove-item')
+    removeNode = globalGraph.findById('remove-item')
+    expect(removeNode).toBe(undefined)
+  })
 
   it('canvas point & model point convert', () => {
     const group = globalGraph.get('group');
@@ -483,7 +626,7 @@ describe('all node link center', () => {
     graph.setItemState(node, 'a', true);
     graph.setItemState(node, 'b', true);
 
-    graph.clearItemStates(node, ['a']);
+    graph.clearItemStates('a', ['a']);
     expect(graph.findAllByState('node', 'a').length).toBe(0);
     expect(graph.findAllByState('node', 'b').length).toBe(1);
   });
@@ -686,4 +829,179 @@ describe('all node link center', () => {
 
     expect(defaultGraph.destroyed).toBe(true)
   });
+})
+
+describe('mapper fn', () => {
+  const graph = new G6.Graph({
+    container: div,
+    width: 500,
+    height: 500,
+    defaultNode: {
+      shape: 'circle',
+      style: {
+        fill: 'red',
+        opacity: 1
+      }
+    }
+  });
+
+  it('node & edge mapper', () => {
+    graph.node(node => {
+      return {
+        id: node.id + 'Mapped',
+        size: [ 30, 30 ],
+        label: node.id,
+        shape: 'rect',
+        style: { fill: node.value === 100 ? '#666' : '#ccc' },
+        labelCfg: {
+          style: { fill: '#666' }
+        }
+      };
+    });
+
+    graph.edge(edge => {
+      return {
+        id: 'edge' + edge.id,
+        label: edge.id,
+        labelCfg: {
+          position: 'start'
+        },
+        style: {
+          fill: '#ccc',
+          opacity: 0.5
+        }
+      };
+    });
+
+    const node: Item = graph.addItem('node', { id: 'node', x: 100, y: 100, value: 100 });
+
+    expect(node.get('id')).toEqual('nodeMapped');
+
+    let keyShape = node.getKeyShape();
+    expect(keyShape.attr('width')).toEqual(30);
+    expect(keyShape.attr('height')).toEqual(30);
+    expect(keyShape.attr('fill')).toEqual('#666');
+
+    const container = node.getContainer()
+    let label = container.find(element => element.get('className') === 'node-label');
+    expect(label).not.toBe(undefined);
+    expect(label.attr('text')).toEqual('node');
+    expect(label.attr('fill')).toEqual('#666');
+
+    graph.addItem('node', { id: 'node2', x: 200, y: 200 });
+
+    const edge = graph.addItem('edge', { id: 'edge', source: 'nodeMapped', target: 'node2Mapped' });
+
+    keyShape = edge.getKeyShape();
+    expect(keyShape.attr('fill')).toEqual('#ccc');
+    expect(keyShape.attr('opacity')).toEqual(0.5);
+    expect(keyShape.get('type')).toEqual('path');
+
+    label = edge.getContainer().find(element => element.get('className') === 'edge-label');
+    expect(label).not.toBe(undefined);
+    expect(label.attr('text')).toEqual('edge');
+    expect(label.attr('x')).toEqual(115.5);
+    expect(label.attr('y')).toEqual(100);
+
+    graph.updateItem(node, { value: 50 });
+    expect(node.getKeyShape().attr('fill')).toEqual('#ccc');
+  });
+
+  it('node & edge mapper with states', () => {
+    graph.node(node => {
+      return {
+        shape: 'rect',
+        label: node.id,
+        style: { 
+          fill: '#666',
+          opacity: 1
+        },
+        stateStyles: {
+          selected: { fill: 'blue' },
+          custom: { fill: 'green', opacity: 0.5 }
+        }
+      };
+    });
+
+    graph.edge(() => {
+      return {
+        stateStyles: {
+          selected: { lineWidth: 2 },
+          custom: { opacity: 0.5 }
+        }
+      };
+    });
+
+    const node = graph.addItem('node', { id: 'node', x: 50, y: 50 });
+
+    let keyShape = node.getKeyShape();
+    expect(keyShape.attr('fill')).toEqual('#666');
+    expect(node.getContainer().find(element => element.get('className') === 'node-label')).not.toBe(undefined);
+
+    graph.setItemState(node, 'selected', true);
+    expect(keyShape.attr('blue'));
+
+    graph.setItemState(node, 'custom', true);
+    expect(keyShape.attr('green'));
+
+    graph.clearItemStates(node);
+    expect(keyShape.attr('fill')).toEqual('#666');
+
+    const edge = graph.addItem('edge', { id: 'edge2', source: 'node', target: 'node2Mapped' });
+
+    keyShape = edge.getKeyShape();
+    expect(keyShape.attr('stroke')).toEqual('#333');
+    expect(keyShape.attr('lineWidth')).toEqual(1);
+    expect(keyShape.attr('fillOpacity')).toEqual(1);
+
+    graph.setItemState(edge, 'selected', true);
+    expect(keyShape.attr('stroke')).toEqual('#333');
+    expect(keyShape.attr('lineWidth')).toEqual(2);
+    expect(keyShape.attr('fillOpacity')).toEqual(1);
+
+    graph.setItemState(edge, 'custom', true);
+    expect(keyShape.attr('stroke')).toEqual('#333');
+    expect(keyShape.attr('lineWidth')).toEqual(2);
+    expect(keyShape.attr('opacity')).toEqual(0.5);
+  });
+});
+
+describe('plugins & layout', () => {
+  it('add & remove plugins', () => {
+    const graph = new G6.Graph({
+      container: div,
+      height: 500,
+      width: 500
+    })
+  
+    const data = {
+      nodes: [
+        {
+          id: 'node',
+          label: 'node'
+        }
+      ]
+    }
+  
+    graph.data(data)
+    graph.render()
+  
+    let plugins = graph.get('plugins')
+    expect(plugins.length).toBe(0)
+  
+    const minimap = new Plugin.Minimap({
+      size: [200, 200]
+    })
+  
+    graph.addPlugin(minimap)
+    plugins = graph.get('plugins')
+    expect(plugins.length).toBe(1)
+  
+    graph.removePlugin(minimap)
+    plugins = graph.get('plugins')
+    expect(plugins.length).toBe(0)
+  
+    graph.destroy()
+    expect(graph.destroyed).toBe(true)
+  })
 })

@@ -279,7 +279,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
    * @param {TreeGraphData} data 子树数据模型
    * @param {string} parent 子树的父节点id
    */
-  public updateChild(data: TreeGraphData, parent: string): void {
+  public updateChild(data: TreeGraphData, parent?: string): void {
     const self = this;
 
     // 如果没有父节点或找不到该节点，是全量的更新，直接重置data
@@ -296,9 +296,8 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
       if (!parentModel.children) {
         // 当 current 不存在时，children 为空数组
         parentModel.children = [];
-      } else {
-        parentModel.children.push(data);
       }
+      parentModel.children.push(data);
     } else {
       const index = self.indexOfChild(parentModel.children, data.id);
       parentModel.children[index] = data;
