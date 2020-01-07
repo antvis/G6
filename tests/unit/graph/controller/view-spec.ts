@@ -80,7 +80,7 @@ describe('view', () => {
   it('focus item', () => {
     graph.clear();
     graph.zoom(2, { x: 250, y: 250 });
-    const node = graph.addItem('node', { shape: 'circle', x: 50, y: 50, size: 60, color: '#666' });
+    const node = graph.addItem('node', { id: 'focus-node', shape: 'circle', x: 50, y: 50, size: 60, color: '#666' });
     graph.focusItem(node);
 
     let centerPoint = graph.getPointByCanvas(250, 250);
@@ -93,7 +93,7 @@ describe('view', () => {
     expect(centerPoint.x).not.toBe(50);
     expect(centerPoint.y).not.toBe(50);
 
-    graph.focusItem(node);
+    graph.focusItem('focus-node');
     centerPoint = graph.getPointByCanvas(250, 250);
 
     expect(centerPoint.x - 50 < 0.1).toBe(true);

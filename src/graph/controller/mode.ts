@@ -128,6 +128,10 @@ export default class ModeController {
     return this;
   }
 
+  public getMode(): string {
+    return this.mode
+  }
+
   /**
    * 动态增加或删除 Behavior
    *

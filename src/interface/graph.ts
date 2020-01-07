@@ -514,7 +514,7 @@ export interface ITreeGraph extends IGraph {
    * @param {TreeGraphData} data 子树数据模型
    * @param {string} parent 子树的父节点id
    */
-  updateChild(data: TreeGraphData, parent: string): void;
+  updateChild(data: TreeGraphData, parent?: string): void;
 
   /**
    * 删除子树
