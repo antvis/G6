@@ -7,12 +7,10 @@ import isNil from '@antv/util/lib/is-nil';
 import wrapBehavior from '@antv/util/lib/wrap-behavior';
 import { IGraph } from '@g6/interface/graph';
 import { IG6GraphEvent, Matrix } from '@g6/types';
-import { cloneEvent } from '@g6/util/base';
+import { cloneEvent, isViewportChanged } from '@g6/util/base';
+import Graph from '../graph';
 
 type Fun = () => void
-
-const ORIGIN_MATRIX = [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ];
-const MATRIX_LEN = 9;
 
 const EVENTS = [
   'click',
@@ -56,38 +54,27 @@ export default class EventController {
   // 初始化 G6 中的事件
   private initEvents() {
     const self = this
-    const graph = this.graph;
-    const canvas = graph.get('canvas');
+    const graph: IGraph = this.graph;
+    const canvas: Canvas = graph.get('canvas');
     const el = canvas.get('el');
     const extendEvents = this.extendEvents;
+
     const canvasHandler: Fun = wrapBehavior(self, 'onCanvasEvents') as Fun;
     const originHandler = wrapBehavior(self, 'onExtendEvents');
     const wheelHandler = wrapBehavior(self, 'onWheelEvent');
+
     each(EVENTS, event => {
       canvas.on(event, canvasHandler);
     });
+
     this.canvasHandler = canvasHandler;
     extendEvents.push(addEventListener(el, 'DOMMouseScroll', wheelHandler));
     extendEvents.push(addEventListener(el, 'mousewheel', wheelHandler));
+
     if (typeof window !== 'undefined') {
       extendEvents.push(addEventListener(window as any, 'keydown', originHandler));
       extendEvents.push(addEventListener(window as any, 'keyup', originHandler));
     }
-  }
-
-  // 判断 viewport 是否改变，通过和单位矩阵对比
-  private isViewportChanged(matrix: Matrix) {
-    // matrix 为 null， 则说明没有变化
-    if(!matrix) {
-      return false
-    }
-
-    for (let i = 0; i < MATRIX_LEN; i++) {
-      if (matrix[i] !== ORIGIN_MATRIX[i]) {
-        return true;
-      }
-    }
-    return false;
   }
 
   // 获取 shape 的 item 对象
@@ -120,7 +107,7 @@ export default class EventController {
     const group: Group = graph.get('group')
     const matrix: Matrix = group.getMatrix()
     
-    if(this.isViewportChanged(matrix)) {
+    if(isViewportChanged(matrix)) {
       point = graph.getPointByCanvas(evt.canvasX, evt.canvasY)
     }
 
@@ -135,6 +122,7 @@ export default class EventController {
       }
       evt.target = canvas;
       evt.item = null;
+      
       graph.emit(eventType, evt);
       graph.emit('canvas:' + eventType, evt);
       return;
