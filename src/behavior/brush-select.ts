@@ -119,7 +119,7 @@ export default {
 
     this.selectedEdges = [];
     this.onDeselect && this.onDeselect(this.selectedNodes, this.selectedEdges);
-    graph.emit('nodeselectchange', { targets: {
+    graph.emit('nodeselectchange', { selectedItems: {
       nodes: [],
       edges: []
     }, select: false });
@@ -175,7 +175,7 @@ export default {
     this.selectedEdges = selectedEdges;
     this.selectedNodes = selectedNodes;
     this.onSelect && this.onSelect(selectedNodes, selectedEdges);
-    graph.emit('nodeselectchange', { targets: {
+    graph.emit('nodeselectchange', { selectedItems: {
       nodes: selectedNodes,
       edges: selectedEdges
     }, select: true });
