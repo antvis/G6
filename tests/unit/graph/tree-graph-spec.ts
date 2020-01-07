@@ -155,12 +155,10 @@ describe('tree graph without animate', () => {
       collapsed = false;
       graph.emit('node:click', { item: parent });
     }, 600);
-    graph.destroy();
+    // graph.destroy();
   });
 
   it('collapse & expand with layout with parameter trigger=dblclick', () => {
-    // FIXME: graph.off() does not take effect
-    // graph.off();
     graph = new G6.TreeGraph({
       container: div,
       width: 500,
