@@ -534,22 +534,24 @@ describe('drag-node', () => {
     graph.destroy();
   });
 
-  xit('temple test for dragover, dragleave', () => {
+  xit('temperal!! test for dragover, dragleave', () => {
     const graph: Graph = new Graph({
       container: div,
       width: 500,
       height: 500,
-      modes: {
-        default: [{
-          type: 'drag-node',
-          enableDelegate: false
-        }]
-      },
+      // modes: {
+      //   default: [{
+      //     type: 'drag-node',
+      //     enableDelegate: false
+      //   }]
+      // },
     });
 
     const canvas = graph.get('canvas');
-    const group = canvas.addGroup();
-    const circle1 = group.addShape('circle', {
+    const group = canvas.addGroup(); // node-group
+    const circle1Group = group.addGroup();
+    const circle2Group = group.addGroup();
+    const circle1 = circle1Group.addShape('circle', {
       attrs: {
         fill: '#f00',
         x: 100,
@@ -557,9 +559,9 @@ describe('drag-node', () => {
         r: 30
       },
       draggable: true,
-      name: 'circle1'
+      // name: 'circle1'
     });
-    const circle2 = group.addShape('circle', {
+    const circle2 = circle2Group.addShape('circle', {
       attrs: {
         fill: '#0f0',
         x: 100,
@@ -567,18 +569,26 @@ describe('drag-node', () => {
         r: 30
       },
       draggable: true,
-      name: 'circle2'
+      // name: 'circle2'
     });
     canvas.on('drag', e => {
       circle1.attr('x', e.x);
       circle1.attr('y', e.y);
     });
-    group.on('dragover', e => {
-      console.log('circle2 dragover');
-    });
-    group.on('dragleave', e => {
-      console.log('circle2 dragleave');
-    });
+    // group.on('dragover', e => {
+    //   console.log('circle2 dragover');
+    // });
+    // group.on('dragleave', e => {
+    //   console.log('circle2 dragleave');
+    // });
+    // canvas.on('*', e => {
+    //   if (e.type === 'mouseleave') {
+    //     console.log('mouseleave');
+    //   }
+    //   if (e.type === 'dragleave') {
+    //     console.log('dragleave');
+    //   }
+    // });
     graph.paint();
     canvas.draw();
   });

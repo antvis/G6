@@ -220,6 +220,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
    * @param {boolean} fitView 更新布局时是否需要适应窗口
    */
   public layout(fitView?: boolean) {
+    console.log('layout');
     const self = this;
     const data: TreeGraphData = self.get('data');
     const layoutMethod = self.get('layoutMethod')
@@ -239,11 +240,13 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
       viewController.fitView();
     }
 
+    console.log('animate', animate);
     if (!animate) {
       // 如果没有动画，目前仅更新了节点的位置，刷新一下边的样式
       self.refresh();
       self.paint();
     } else {
+      console.log('updtae edge');
       self.layoutAnimate(layoutData, null);
     }
     self.setAutoPaint(autoPaint);
@@ -376,46 +379,44 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
       }
     });
 
-    this.get('canvas').animate({
-      onFrame(ratio) {
-        traverseTree<TreeGraphData>(data, child => {
-          const node = self.findById(child.id);
+    this.get('canvas').animate(ratio => {
+      traverseTree<TreeGraphData>(data, child => {
+        const node = self.findById(child.id);
 
-          // 只有当存在node的时候才执行
-          if (node) {
-            let origin = node.get('origin');
-            const model = node.get('model');
+        // 只有当存在node的时候才执行
+        if (node) {
+          let origin = node.get('origin');
+          const model = node.get('model');
 
-            if (!origin) {
-              origin = {
-                x: model.x,
-                y: model.y
-              };
-              node.set('origin', origin);
-            }
-
-            if (onFrame) {
-              const attrs = onFrame(node, ratio, origin, data);
-              node.set('model', Object.assign(model, attrs));
-            } else {
-              model.x = origin.x + (child.x - origin.x) * ratio;
-              model.y = origin.y + (child.y - origin.y) * ratio;
-            }
+          if (!origin) {
+            origin = {
+              x: model.x,
+              y: model.y
+            };
+            node.set('origin', origin);
           }
-          return true
-        });
 
-        each(self.get('removeList'), node => {
-          const model = node.getModel();
-          const from = node.get('origin');
-          const to = node.get('to');
-          model.x = from.x + (to.x - from.x) * ratio;
-          model.y = from.y + (to.y - from.y) * ratio;
-        });
+          if (onFrame) {
+            const attrs = onFrame(node, ratio, origin, data);
+            node.set('model', Object.assign(model, attrs));
+          } else {
+            model.x = origin.x + (child.x - origin.x) * ratio;
+            model.y = origin.y + (child.y - origin.y) * ratio;
+          }
+        }
+        return true
+      });
 
-        self.refreshPositions();
-      }
-    }, 
+      each(self.get('removeList'), node => {
+        const model = node.getModel();
+        const from = node.get('origin');
+        const to = node.get('to');
+        model.x = from.x + (to.x - from.x) * ratio;
+        model.y = from.y + (to.y - from.y) * ratio;
+      });
+
+      self.refreshPositions();
+    },
     animateCfg.duration, 
     animateCfg.ease, 
     () => {
