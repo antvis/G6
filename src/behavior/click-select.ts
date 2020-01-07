@@ -50,12 +50,14 @@ export default {
       if (self.shouldUpdate.call(self, e)) {
         graph.setItemState(item, 'selected', false);
       }
-      graph.emit('nodeselectchange', { target: item, select: false });
+      const selectedNodes = graph.findAllByState('node', 'selected');
+      graph.emit('nodeselectchange', { target: item, selectedItems: { nodes: selectedNodes }, select: false });
     } else {
       if (self.shouldUpdate.call(self, e)) {
         graph.setItemState(item, 'selected', true);
       }
-      graph.emit('nodeselectchange', { target: item, select: true });
+      const selectedNodes = graph.findAllByState('node', 'selected');
+      graph.emit('nodeselectchange', { target: item, selectedItems: { nodes: selectedNodes }, select: true });
     }
     graph.setAutoPaint(autoPaint);
     graph.paint();
@@ -68,6 +70,7 @@ export default {
     each(selected, node => {
       graph.setItemState(node, 'selected', false);
     });
+    graph.emit('nodeselectchange', { selectedItems: { nodes: [], edges: [] }, select: false });
 
     graph.paint();
     graph.setAutoPaint(autoPaint);

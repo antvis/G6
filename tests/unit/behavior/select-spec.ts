@@ -18,6 +18,11 @@ describe('select-node', () => {
     });
     const node = graph.addItem('node', { color: '#666', x: 50, y: 50, size: 20, style: { lineWidth: 2, fill: '#666' } });
     graph.paint();
+
+    graph.once('nodeselectchange', e => {
+      expect(e.selectedItems.nodes.length).toEqual(1);
+    });
+
     graph.emit('node:click', { item: node });
     expect(node.getStates().length).toEqual(1);
     expect(node.hasState('selected')).toBe(true);
