@@ -248,8 +248,8 @@ export default class MiniMap extends Base {
   private updateGraphShapes() {
     const graph: Graph = this.get('graph');
     const canvas: GCanvas = this.get('canvas');
-    const graphGroup: IGroup = graph.get('group');
-    const clonedGroup: IElement = graphGroup.clone() as IElement;
+    const graphGroup = graph.get('group');
+    const clonedGroup = graphGroup.clone();
     
     // TODO 两个画布之间的数据同步
     // clonedGroup.resetMatrix();
