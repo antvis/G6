@@ -230,7 +230,7 @@ describe('graph', () => {
     expect(matrix[7]).toBe(62.5);
   });
 
-  it.only('change size', () => {
+  it('change size', () => {
     const graph = new G6.Graph({
       container: div,
       width: 500,
