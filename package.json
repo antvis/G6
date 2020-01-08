@@ -50,7 +50,7 @@
     "site:develop": "GATSBY=true gatsby develop --open",
     "start": "npm run site:develop",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/graph/graph-spec.ts",
+    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/state/node-state-spec.ts",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
     "watch": "father build -w"
   },
@@ -71,7 +71,7 @@
     "@antv/dom-util": "^2.0.1",
     "@antv/event-emitter": "~0.1.0",
     "@antv/g-base": "^0.3.5",
-    "@antv/g-canvas": "^0.3.5",
+    "@antv/g-canvas": "^0.3.6",
     "@antv/hierarchy": "^0.6.1",
     "@antv/matrix-util": "^2.0.4",
     "@antv/path-util": "^2.0.3",

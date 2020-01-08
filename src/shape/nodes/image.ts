@@ -127,11 +127,15 @@ Shape.registerNode('image', {
   getShapeStyle(cfg: NodeConfig) {
     const size = this.getSize(cfg);
     const img = cfg.img || this.options.img;
-    const width = size[0];
-    const height = size[1];
+    let width = size[0];
+    let height = size[1];
+    if (cfg.style) {
+      width = cfg.style.width || size[0];
+      height = cfg.style.height || size[1];
+    }
     const style = Object.assign({}, {
-      x: 0 - width / 2, // 节点的位置在上层确定，所以这里仅使用相对位置即可
-      y: 0 - height / 2,
+      x: -width / 2, // 节点的位置在上层确定，所以这里仅使用相对位置即可
+      y: -height / 2,
       width,
       height,
       img
