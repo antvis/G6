@@ -192,7 +192,7 @@ describe('force layout', () => {
     });
   });
 
-  it('preventOverlap with function nodeSpacing and function nodeSize', (done) => {
+  it('preventOverlap with function nodeSpacing and function nodeSize', (done) => {//
     let isEnd = false;
     const nodeSpacing = d => {
       return d.dsize[0] / 3;
@@ -248,6 +248,7 @@ describe('force layout', () => {
         type: 'force',
         preventOverlap: true,
         nodeSize,
+        alphaDecay: 0.3,
         onLayoutEnd() {
           isEnd = true;
         }
