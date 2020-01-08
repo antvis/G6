@@ -381,7 +381,7 @@ const data = {
 
 const container = document.getElementById('container');
 const descriptionDiv = document.createElement('div');
-descriptionDiv.innerHTML = 'Force 布局，linkDistance = 50，未防止重叠';
+descriptionDiv.innerHTML = 'Force layout, linkDistance = 50, preventOverlap: false';
 container.appendChild(descriptionDiv);
 const width = container.scrollWidth;
 const height = container.scrollHeight - 30;
@@ -430,7 +430,7 @@ setInterval(() => {
 
 function layoutConfigTranslation() {
   setTimeout(() => {
-    descriptionDiv.innerHTML = 'Force 布局，linkDistance = 100，防止重叠';
+    descriptionDiv.innerHTML = 'Force layout, linkDistance = 100, preventOverlap: true';
     graph.updateLayout({
       linkDistance: 100,
       preventOverlap: true,
@@ -439,7 +439,7 @@ function layoutConfigTranslation() {
   },
   2500);
   setTimeout(() => {
-    descriptionDiv.innerHTML = 'Force 布局，linkDistance = 50，未防止重叠';
+    descriptionDiv.innerHTML = 'Force layout, linkDistance = 50, preventOverlap: false';
     graph.updateLayout({
       linkDistance: 50,
       preventOverlap: false

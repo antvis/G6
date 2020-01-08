@@ -5,7 +5,7 @@ const height = document.getElementById('container').scrollHeight || 500;
 
 const graphDiv = document.getElementById('container');
 const descriptionDiv = document.createElement('div');
-descriptionDiv.innerHTML = '布局中，请稍等......本例使用了 web-worker，画布外的页面不会被阻塞。';
+descriptionDiv.innerHTML = 'Doing layout... web-worker is enabled in this demo, so the layout will not block the page.';
 graphDiv.appendChild(descriptionDiv);
 
 const graph = new G6.Graph({
@@ -40,7 +40,7 @@ const graph = new G6.Graph({
 });
 
 graph.on('afterlayout', () => {
-  descriptionDiv.innerHTML = '布局完成！';
+  descriptionDiv.innerHTML = 'Done!';
 });
 
 fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4b9bcbc25f.json')

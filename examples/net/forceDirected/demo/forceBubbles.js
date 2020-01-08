@@ -144,7 +144,7 @@ nodes.forEach(function(node) {
 });
 
 const tipDiv = document.createElement('div');
-tipDiv.innerHTML = '试一试点击或者拖动气泡';
+tipDiv.innerHTML = 'Try to click or drag a bubble!';
 const graphDiv = document.getElementById('mountNode');
 document.body.insertBefore(tipDiv, graphDiv);
 

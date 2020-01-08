@@ -324,7 +324,7 @@ graph.data(data);
 graph.render();
 
 const descriptionDiv = document.createElement('div');
-descriptionDiv.innerHTML = 'Radial 布局，中心点 = 0，单元半径 = 50，未防止重叠';
+descriptionDiv.innerHTML = 'Radial layout, focusNode =  = 0, unitRadius = 50, preventOverlap: false';
 const graphDiv = document.getElementById('mountNode');
 document.body.insertBefore(descriptionDiv, graphDiv);
 
@@ -336,7 +336,7 @@ setInterval(function() {
 
 function layoutConfigTranslation() {
   setTimeout(function() {
-    descriptionDiv.innerHTML = 'Radial 布局，中心点 = 0，单元半径 = 50，防止重叠';
+    descriptionDiv.innerHTML = 'Radial layout, focusNode =  = 0, unitRadius = 50, preventOverlap: true';
     graph.updateLayout({
       preventOverlap: true,
       nodeSize: 20
@@ -344,28 +344,28 @@ function layoutConfigTranslation() {
   }, 1000);
 
   setTimeout(function() {
-    descriptionDiv.innerHTML = 'Radial 布局，中心点 = 0，单元半径 = 80，防止重叠';
+    descriptionDiv.innerHTML = 'Radial layout, focusNode =  = 0, unitRadius = 80, preventOverlap: true';
     graph.updateLayout({
       unitRadius: 80
     });
   }, 2500);
 
   setTimeout(function() {
-    descriptionDiv.innerHTML = 'Radial 布局，中心点 = 10，单元半径 = 80，防止重叠';
+    descriptionDiv.innerHTML = 'Radial layout, focusNode =  = 10, unitRadius = 80, preventOverlap: true';
     graph.updateLayout({
       focusNode: '10'
     });
   }, 4000);
 
   setTimeout(function() {
-    descriptionDiv.innerHTML = 'Radial 布局，中心点 = 20，单元半径 = 80，防止重叠';
+    descriptionDiv.innerHTML = 'Radial layout, focusNode =  = 20, unitRadius = 80, preventOverlap: true';
     graph.updateLayout({
       focusNode: '20'
     });
   }, 5500);
 
   setTimeout(function() {
-    descriptionDiv.innerHTML = 'Radial 布局，中心点 = 0，单元半径 = 50，未防止重叠';
+    descriptionDiv.innerHTML = 'Radial layout, focusNode =  = 0, unitRadius = 50, preventOverlap: false';
     graph.updateLayout({
       focusNode: '0',
       preventOverlap: false,

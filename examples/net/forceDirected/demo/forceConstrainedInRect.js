@@ -3,7 +3,7 @@ import G6 from '@antv/g6';
 
 const graphDiv = document.getElementById('container');
 const descriptionDiv = document.createElement('div');
-descriptionDiv.innerHTML = '约束力导向布局在灰色区域范围当中';
+descriptionDiv.innerHTML = 'Constrians the nodes to be layed in the gray area with force-directed layout';
 graphDiv.appendChild(descriptionDiv);
 
 

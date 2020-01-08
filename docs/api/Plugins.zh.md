@@ -6,7 +6,6 @@ order: 9
 G6 中支持插件提供了一些可插拔的组件，可自用使用在 G6 或其他应用当中。这些插件包括：
 - [Grid](#grid)
 - [Minimap](#minimap)
-- [Context Menu](context-menu)
 - [Edge Bundling](#edge-bundling)
 
 ## 配置方法

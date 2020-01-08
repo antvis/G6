@@ -163,7 +163,7 @@ const data = {
   }]
 };
 const descriptionDiv = document.createElement('div');
-descriptionDiv.innerHTML = 'Dagre 布局，层级间距：1，同层节点间距：1，布局方向：Top->Bottom，节点对齐方式：DL';
+descriptionDiv.innerHTML = 'Dagre layout, rank seperation: 1, node seperation in same level: 1, layout direction: Top->Bottom, alignment of nodes: DL';
 const container = document.getElementById('container');
 container.appendChild(descriptionDiv);
 const width = container.scrollWidth;
@@ -210,35 +210,35 @@ layoutConfigTranslation();
 
 function layoutConfigTranslation() {
   setTimeout(function() {
-    descriptionDiv.innerHTML = 'Dagre 布局，层级间距：10，同层节点间距：1，布局方向：Top->Bottom，节点对齐方式：DL';
+    descriptionDiv.innerHTML = 'Dagre layout, rank seperation: 10, node seperation in same level: 1, layout direction: Top->Bottom, alignment of nodes: DL';
     graph.updateLayout({
       ranksep: 10
     });
   }, 1000);
 
   setTimeout(function() {
-    descriptionDiv.innerHTML = 'Dagre 布局，层级间距：10，同层节点间距：5，布局方向：Left->Right，节点对齐方式：DL';
+    descriptionDiv.innerHTML = 'Dagre layout, rank seperation: 10, node seperation in same level: 5, layout direction: Left->Right, alignment of nodes: DL';
     graph.updateLayout({
       nodesep: 5
     });
   }, 2500);
 
   setTimeout(function() {
-    descriptionDiv.innerHTML = 'Dagre 布局，层级间距：10，同层节点间距：5，布局方向：Left->Right，节点对齐方式：UL';
+    descriptionDiv.innerHTML = 'Dagre layout, rank seperation: 10, node seperation in same level: 5, layout direction: Left->Right, alignment of nodes: UL';
     graph.updateLayout({
       align: 'UL'
     });
   }, 4000);
 
   setTimeout(function() {
-    descriptionDiv.innerHTML = 'Dagre 布局，层级间距：10，同层节点间距：5，布局方向：Left->Right，节点对齐方式：UR';
+    descriptionDiv.innerHTML = 'Dagre layout, rank seperation: 10, node seperation in same level: 5, layout direction: Left->Right, alignment of nodes: UR';
     graph.updateLayout({
       align: 'UR'
     });
   }, 5500);
 
   setTimeout(function() {
-    descriptionDiv.innerHTML = 'Dagre 布局，层级间距：10，同层节点间距：5，布局方向：Left->Right，节点对齐方式：Down Right，节点对齐方式：DL';
+    descriptionDiv.innerHTML = 'Dagre layout, rank seperation: 10, node seperation in same level: 5, layout direction: Left->Right, alignment of nodes: Down Right, alignment of nodes: DL';
     graph.updateLayout({
       rankdir: 'LR',
       align: 'DL'
@@ -246,7 +246,7 @@ function layoutConfigTranslation() {
   }, 7000);
 
   setTimeout(function() {
-    descriptionDiv.innerHTML = 'Dagre 布局，层级间距：30，同层节点间距：5，布局方向：Left->Right，节点对齐方式：Down Right，节点对齐方式：DL';
+    descriptionDiv.innerHTML = 'Dagre layout, rank seperation: 30, node seperation in same level: 5, layout direction: Left->Right, alignment of nodes: Down Right, alignment of nodes: DL';
     graph.updateLayout({
       ranksep: 30
     });

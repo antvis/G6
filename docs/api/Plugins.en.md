@@ -6,7 +6,6 @@ order: 9
 There are several plugins in G6 which can be used inside and ouside G6 freely.
 - [Grid](#grid)
 - [Minimap](#minimap)
-- [Context Menu](context-menu)
 - [Edge Bundling](#edge-bundling)
 
 ## Configure to Graph
