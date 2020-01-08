@@ -3,7 +3,7 @@
  */
 
 module.exports = {
-  version: '3.2.7',
+  version: '3.2.8',
   rootContainerClassName: 'root-container',
   nodeContainerClassName: 'node-container',
   edgeContainerClassName: 'edge-container',
