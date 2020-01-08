@@ -216,6 +216,8 @@ describe('dagre layout', () => {
   it('layout with default configs', () => {
     const graph = new G6.Graph({
       container: div,
+      width: 500,
+      height: 500,
       layout: {
         type: 'dagre'
       }
@@ -224,12 +226,12 @@ describe('dagre layout', () => {
     graph.render();
     const node = data.nodes[0];
     const edge = data.edges[0];
-    expect(mathEqual(node.x, 215));
-    expect(mathEqual(node.y, 196));
-    expect(mathEqual(edge.startPoint.x, 522));
-    expect(mathEqual(edge.startPoint.y, 440));
-    expect(mathEqual(edge.endPoint.x, 765));
-    expect(mathEqual(edge.endPoint.y, 498));
+    expect(mathEqual(node.x, 165)).toEqual(true);
+    expect(mathEqual(node.y, 70)).toEqual(true);
+    expect(mathEqual(edge.startPoint.x, 143)).toEqual(true);
+    expect(mathEqual(edge.startPoint.y, 91)).toEqual(true);
+    expect(mathEqual(edge.endPoint.x, 70)).toEqual(true);
+    expect(mathEqual(edge.endPoint.y, 229)).toEqual(true);
     graph.destroy();
   });
   it('dagre with number nodeSize and sepFunc', () => {
@@ -261,12 +263,13 @@ describe('dagre layout', () => {
 
     const node = data.nodes[0];
     const edge = data.edges[0];
-    expect(mathEqual(node.x, 600));
-    expect(mathEqual(node.y, 1075));
-    expect(mathEqual(edge.startPoint.x, 531));
-    expect(mathEqual(edge.startPoint.y, 594));
-    expect(mathEqual(edge.endPoint.x, 597));
-    expect(mathEqual(edge.endPoint.y, 854));
+
+    expect(mathEqual(node.x, 45)).toEqual(true);
+    expect(mathEqual(node.y, 75)).toEqual(true);
+    expect(mathEqual(edge.startPoint.x, 73)).toEqual(true);
+    expect(mathEqual(edge.startPoint.y, 64)).toEqual(true);
+    expect(mathEqual(edge.endPoint.x, 156)).toEqual(true);
+    expect(mathEqual(edge.endPoint.y, 35)).toEqual(true);
     expect(edge.controlPoints).toEqual(undefined);
     graph.destroy();
   });
@@ -303,17 +306,17 @@ describe('dagre layout', () => {
 
     const node = data.nodes[0];
     const edge = data.edges[0];
-    expect(mathEqual(node.x, 600));
-    expect(mathEqual(node.y, 1075));
-    expect(mathEqual(edge.startPoint.x, 531));
-    expect(mathEqual(edge.startPoint.y, 594));
-    expect(mathEqual(edge.endPoint.x, 597));
-    expect(mathEqual(edge.endPoint.y, 854));
+
+    expect(mathEqual(node.x, 145)).toEqual(true);
+    expect(mathEqual(node.y, 55)).toEqual(true);
+    expect(mathEqual(edge.startPoint.x, 94)).toEqual(true);
+    expect(mathEqual(edge.startPoint.y, 55)).toEqual(true);
+    expect(mathEqual(edge.endPoint.x, 110)).toEqual(true);
+    expect(mathEqual(edge.endPoint.y, 215)).toEqual(true);
     expect(edge.controlPoints).toEqual(undefined);
     graph.destroy();
   });
 
-  // FIXME: controlpoints can not be writted into graph edges??
   it('dagre with number size in node data, controlpoints', () => {
     data.edges.forEach((edgeItem) => {
       delete edgeItem.startPoint;
@@ -346,14 +349,16 @@ describe('dagre layout', () => {
 
     const node = data.nodes[0];
     const edge = data.edges[0];
-    // expect(mathEqual(node.x, 600));
-    // expect(mathEqual(node.y, 1075));
-    // expect(mathEqual(edge.startPoint.x, 531));
-    // expect(mathEqual(edge.startPoint.y, 594));
-    // expect(mathEqual(edge.endPoint.x, 597));
-    // expect(mathEqual(edge.endPoint.y, 854));
-    // expect(edge.controlPoints).toEqual(undefined);
-    // graph.destroy();
+    expect(mathEqual(node.x, 60)).toEqual(true);
+    expect(mathEqual(node.y, 181)).toEqual(true);
+    expect(mathEqual(edge.startPoint.x, 70)).toEqual(true);
+    expect(mathEqual(edge.startPoint.y, 181)).toEqual(true);
+    expect(mathEqual(edge.endPoint.x, 172)).toEqual(true);
+    expect(mathEqual(edge.endPoint.y, 92)).toEqual(true);
+    expect(mathEqual(edge.controlPoints[0].x, 120)).toEqual(true);
+    expect(mathEqual(edge.controlPoints[0].y, 92.5)).toEqual(true);
+    expect(edge.controlPoints).not.toEqual(undefined);
+    graph.destroy();
   });
   it('dagre with array size in node data', () => {
     data.edges.forEach((edgeItem) => {
@@ -363,7 +368,6 @@ describe('dagre layout', () => {
     });
     data.nodes.forEach((node, i) => {
       node.size = [100, 70];
-      // node.shape = 'circle';
     });
     const graph = new G6.Graph({
       container: div,
@@ -383,13 +387,13 @@ describe('dagre layout', () => {
 
     const node = data.nodes[0];
     const edge = data.edges[0];
-    expect(mathEqual(node.x, 600));
-    expect(mathEqual(node.y, 1075));
-    expect(mathEqual(edge.startPoint.x, 531));
-    expect(mathEqual(edge.startPoint.y, 594));
-    expect(mathEqual(edge.endPoint.x, 597));
-    expect(mathEqual(edge.endPoint.y, 854));
-    expect(edge.controlPoints).toEqual(undefined);
+
+    expect(mathEqual(node.x, 100)).toEqual(true);
+    expect(mathEqual(node.y, 195)).toEqual(true);
+    expect(mathEqual(edge.startPoint.x, 150)).toEqual(true);
+    expect(mathEqual(edge.startPoint.y, 195)).toEqual(true);
+    expect(mathEqual(edge.endPoint.x, 300)).toEqual(true);
+    expect(mathEqual(edge.endPoint.y, 85)).toEqual(true);
     graph.destroy();
   });
 });

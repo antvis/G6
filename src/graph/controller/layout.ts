@@ -99,7 +99,6 @@ export default class LayoutController {
   public layout(success?: () => void): boolean {
     const self = this;
     const graph = self.graph;
-    // const data = graph.get('data');
 
     self.data = self.setDataFromGraph();
     const nodes = self.data.nodes;

@@ -1121,39 +1121,37 @@ export default class Graph extends EventEmitter implements IGraph {
     const canvas: Canvas = self.get('canvas');
 
     canvas.animate(
-      {
-        onFrame(ratio) {
-          each(toNodes, (data) => {
-            const node: Item = self.findById(data.id);
+      (ratio) => {
+        each(toNodes, (data) => {
+          const node: Item = self.findById(data.id);
 
-            if (!node || node.destroyed) {
-              return;
-            }
+          if (!node || node.destroyed) {
+            return;
+          }
 
-            let originAttrs: Point = node.get('originAttrs');
+          let originAttrs: Point = node.get('originAttrs');
 
-            const model: NodeConfig = node.get('model');
+          const model: NodeConfig = node.get('model');
 
-            if (!originAttrs) {
-              const containerMatrix = node.getContainer().getMatrix();
-              originAttrs = {
-                x: containerMatrix[6],
-                y: containerMatrix[7],
-              };
-              node.set('originAttrs', originAttrs);
-            }
+          if (!originAttrs) {
+            const containerMatrix = node.getContainer().getMatrix();
+            originAttrs = {
+              x: containerMatrix[6],
+              y: containerMatrix[7],
+            };
+            node.set('originAttrs', originAttrs);
+          }
 
-            if (onFrame) {
-              const attrs = onFrame(node, ratio, data, originAttrs);
-              node.set('model', Object.assign(model, attrs));
-            } else {
-              model.x = originAttrs.x + (data.x - originAttrs.x) * ratio;
-              model.y = originAttrs.y + (data.y - originAttrs.y) * ratio;
-            }
-          });
+          if (onFrame) {
+            const attrs = onFrame(node, ratio, data, originAttrs);
+            node.set('model', Object.assign(model, attrs));
+          } else {
+            model.x = originAttrs.x + (data.x - originAttrs.x) * ratio;
+            model.y = originAttrs.y + (data.y - originAttrs.y) * ratio;
+          }
+        });
 
-          self.refreshPositions();
-        },
+        self.refreshPositions();
       },
       animateCfg.duration,
       animateCfg.easing,
@@ -1178,7 +1176,7 @@ export default class Graph extends EventEmitter implements IGraph {
   public refreshPositions() {
     const self = this;
     self.emit('beforegraphrefreshposition');
-
+    
     const nodes: INode[] = self.get('nodes');
     const edges: IEdge[] = self.get('edges');
 
