@@ -306,8 +306,8 @@ Shape.registerNode('modelRect', {
     // 如果设置了color，则覆盖默认的stroke属性
     const style = deepMix({}, defaultStyle, strokeStyle, cfg.style);
     const size = this.getSize(cfg);
-    const width = size[0];
-    const height = size[1];
+    const width = style.width || size[0];
+    const height = style.height || size[1];
     const styles = Object.assign({}, {
       x: -width / 2,
       y: -height / 2,

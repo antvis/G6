@@ -38,6 +38,8 @@ export type ShapeStyle = Partial<{
   y: number;
   r: number;
   radius: number;
+  width: number;
+  height: number;
   offset: number | number[];
   stroke: string | null;
   strokeOpacity: number;
