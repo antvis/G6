@@ -250,7 +250,18 @@ class CustomGroup {
    * @return {object} 根据节点计算出来的包围盒坐标
    * @memberof ItemGroup
    */
-  calculationGroupPosition(nodes = []) {
+  calculationGroupPosition(nodes = [], position = {}) {
+    // hxy 可新增无节点group，适用于图编辑场景
+    if (nodes.length === 0) {
+      // 防止空group 无法计算大小
+      return {
+        x: position.x || 100,
+        y: position.y || 100,
+        width: 100,
+        height: 100
+      };
+    }
+
     const graph = this.graph;
 
     let minx = Infinity;
@@ -279,11 +290,6 @@ class CustomGroup {
         maxy = maxY;
       }
     }
-    // hxy 可新增无节点group，适用于图编辑场景
-    minx = minx === Infinity ? 100 : minx;
-    miny = miny === Infinity ? 100 : miny;
-    maxx = maxx === -Infinity ? 200 : maxx;
-    maxy = maxy === -Infinity ? 200 : maxy;
 
     const x = Math.floor(minx);
     const y = Math.floor(miny);
@@ -990,7 +996,8 @@ class CustomGroup {
       const groupKeyShape = nodeGroup.get('keyShape');
 
       const noCustomNodes = groupNodes[id].filter(node => node.indexOf('custom-node') === -1);
-      const { x, y, width, height } = this.calculationGroupPosition(noCustomNodes);
+      const { x, y, width, height } = this.calculationGroupPosition(noCustomNodes, position);
+
       let titleX = 0;
       let titleY = 0;
       if (groupType === 'circle') {
