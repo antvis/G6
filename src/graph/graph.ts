@@ -2,7 +2,6 @@ import EventEmitter from '@antv/event-emitter';
 import { IGroup } from '@antv/g-base/lib/interfaces';
 import { BBox, Point } from '@antv/g-base/lib/types';
 import GCanvas from '@antv/g-canvas/lib/canvas';
-import Canvas from '@antv/g-canvas/lib/canvas';
 import Group from '@antv/g-canvas/lib/group';
 import { mat3 } from '@antv/matrix-util/lib';
 import clone from '@antv/util/lib/clone';
@@ -150,7 +149,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
   // 初始化所有 Group
   private initGroups(): void {
-    const canvas: Canvas = this.get('canvas');
+    const canvas: GCanvas = this.get('canvas');
     const id: string = this.get('canvas').get('el').id;
 
     const group: IGroup = canvas.addGroup({
@@ -1118,7 +1117,7 @@ export default class Graph extends EventEmitter implements IGraph {
       self.stopAnimate();
     }
 
-    const canvas: Canvas = self.get('canvas');
+    const canvas: GCanvas = self.get('canvas');
 
     canvas.animate(
       (ratio) => {
@@ -1252,7 +1251,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @return {string} 图片 dataURL
    */
   public toDataURL(): string {
-    const canvas: Canvas = this.get('canvas');
+    const canvas: GCanvas = this.get('canvas');
     const canvasDom = canvas.get('el');
     const dataURL = canvasDom.toDataURL('image/png');
     return dataURL;
