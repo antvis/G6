@@ -247,6 +247,7 @@ class CustomGroup {
    * 根据GroupID计算群组位置，包括左上角左边及宽度和高度
    *
    * @param {object} nodes 符合条件的node集合：选中的node或具有同一个groupID的node
+   * @param {object} position delegate的坐标位置
    * @return {object} 根据节点计算出来的包围盒坐标
    * @memberof ItemGroup
    */
