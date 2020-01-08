@@ -28,7 +28,7 @@ export default class Edge extends Item implements IEdge {
     const preItem = this.get(itemName);
     if(preItem) {
       // 如果之前存在节点，则移除掉边
-      preItem.removeEdge(this)
+      preItem.removeEdge(this);
     }
 
     if (isPlainObject(value)) { // 如果设置成具体的点，则清理节点
@@ -155,18 +155,15 @@ export default class Edge extends Item implements IEdge {
    * 获取边的数据模型
    */
   public getModel(): EdgeConfig {
-    const model: EdgeConfig = this.get('model');
-    const out = Object.assign({}, model);
+    const out: EdgeConfig = this.get('model');
     const sourceItem = this.get('source' + ITEM_NAME_SUFFIX);
     const targetItem = this.get('target' + ITEM_NAME_SUFFIX);
     if (sourceItem) {
-      out.source = sourceItem.get('id');
       delete out['source' + ITEM_NAME_SUFFIX];
     } else {
       out.source = this.get('start' + POINT_NAME_SUFFIX);
     }
     if (targetItem) {
-      out.target = targetItem.get('id');
       delete out['target' + ITEM_NAME_SUFFIX];
     } else {
       out.target = this.get('end' + POINT_NAME_SUFFIX);
