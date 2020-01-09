@@ -25,16 +25,8 @@ export default {
       'node:dragstart': 'onDragStart',
       'node:drag': 'onDrag',
       'node:dragend': 'onDragEnd',
-      'canvas:mouseleave': 'onOutOfRange',
-      dragover: 'dragOver',
-      'dragleave': 'dragLeave'
+      'canvas:mouseleave': 'onOutOfRange'
     };
-  },
-  dragOver(e: IG6GraphEvent) {
-    console.log('drag over');
-  },
-  dragleave(e: IG6GraphEvent) {
-    console.log('drag leave');
   },
   onDragStart(e: IG6GraphEvent) {
     if (!this.shouldBegin.call(this, e)) {

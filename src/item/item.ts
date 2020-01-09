@@ -273,7 +273,7 @@ export default class ItemBase implements IItemBase {
 
   public getCurrentStatesStyle(): ShapeStyle {
     const self = this;
-    const originStyle = self.getOriginStyle();
+    const originStyle = Object.assign({}, self.getOriginStyle());
     each(self.getStates(), state => {
       Object.assign(originStyle, self.getStateStyle(state));
     });
