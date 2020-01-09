@@ -220,7 +220,6 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
    * @param {boolean} fitView 更新布局时是否需要适应窗口
    */
   public layout(fitView?: boolean) {
-    console.log('layout');
     const self = this;
     const data: TreeGraphData = self.get('data');
     const layoutMethod = self.get('layoutMethod')
@@ -240,13 +239,11 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
       viewController.fitView();
     }
 
-    console.log('animate', animate);
     if (!animate) {
       // 如果没有动画，目前仅更新了节点的位置，刷新一下边的样式
       self.refresh();
       self.paint();
     } else {
-      console.log('updtae edge');
       self.layoutAnimate(layoutData, null);
     }
     self.setAutoPaint(autoPaint);

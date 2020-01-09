@@ -26,7 +26,6 @@ export default {
     };
   },
   onNodeClick(e: IG6GraphEvent) {
-    console.log('click node');
     const item = e.item;
     // 如果节点进行过更新，model 会进行 merge，直接改 model 就不能改布局，所以需要去改源数据
     const sourceData = this.graph.findDataById(item.get('id'));
@@ -36,7 +35,6 @@ export default {
       return;
     }
     const collapsed = !sourceData.collapsed;
-    console.log('this.shouldBegin(e, collapsed)', this.shouldBegin(e, collapsed))
     if (!this.shouldBegin(e, collapsed)) {
       return;
     }
