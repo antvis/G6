@@ -28,7 +28,7 @@ export const getSpline = (points: IPoint[]) => {
   const data: number[] = [];
 
   if (points.length < 2) {
-    console.warn(`point length must largn than 2, now it's ${points.length}`);
+    throw new Error(`point length must largn than 2, now it's ${points.length}`);
   }
   for (const point of points) {
     const { x, y } = point;

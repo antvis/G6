@@ -39,6 +39,17 @@ describe('Path Util Test', () => {
     expect(three[6]).toEqual(7)
   })
 
+  it('getSpline thorw new error', () => {
+    const points = [
+      {
+        x: 10,
+        y: 12
+      }
+    ]
+
+    expect(() => getSpline(points)).toThrowError(`point length must largn than 2, now it's ${points.length}`)
+  })
+
   it('getControlPoint horizontal', () => {
     const start = { x: 0, y: 0 };
     const end = { x: 100, y: 0 };
@@ -81,6 +92,19 @@ describe('Path Util Test', () => {
     expect(point.y).toEqual(50 - sqrt2 * 10 / 2);
   })
 
+  it('getControlPoint percent is 0', () => {
+    const start = { x: 100, y: 100 };
+    const end = { x: 50, y: 20 };
+    const point = getControlPoint(start, end);
+    expect(point.x).toEqual(100);
+    expect(point.y).toEqual(100);
+  })
+
+  it('pointsToPolygon points.length = 0', () => {
+    const polygonPoint = pointsToPolygon([])
+    expect(polygonPoint).toEqual('')
+  })
+
   it('pointsToPolygon z = false', () => {
     const points = [
       {
@@ -111,5 +135,18 @@ describe('Path Util Test', () => {
 
     const polygonPoint = pointsToPolygon(points, true)
     expect(polygonPoint).toEqual('M1 2L5 5Z')
+  })
+
+  it('pointsToPolygon substitute', () => {
+    const points = [
+      {
+        x: 1,
+        y: 2
+      },
+      ''
+    ]
+
+    const polygonPoint = pointsToPolygon(points, true)
+    expect(polygonPoint).toEqual('M1 2L{x} {y}Z')
   })
 })

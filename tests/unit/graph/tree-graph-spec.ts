@@ -1,15 +1,9 @@
-import Hierarchy from '@antv/hierarchy';
 import G6 from '../../../src';
+import { timerOut } from '../util/timeOut'
 
 const div = document.createElement('div');
 div.id = 'tree-spec';
 document.body.appendChild(div);
-
-function timerGame(callback, time = 50) {
-  setTimeout(() => {
-    callback();
-  }, time);
-}
 
 describe('tree graph without animate', () => {
   let graph = new G6.TreeGraph({
@@ -166,7 +160,7 @@ describe('tree graph without animate', () => {
     });
     graph.addBehaviors('collapse-expand', 'default');
     graph.emit('node:click', { item: parent });
-    timerGame(() => {
+    timerOut(() => {
       collapsed = false;
       graph.emit('node:click', { item: parent });
     }, 600);
@@ -232,7 +226,7 @@ describe('tree graph without animate', () => {
       }
     });
     graph.emit('node:dblclick', { item: parent });
-    timerGame(() => {
+    timerOut(() => {
       collapsed = false;
       graph.emit('node:dblclick', { item: parent });
     }, 600);
@@ -446,7 +440,7 @@ describe('tree graph with animate', () => {
     graph.addBehaviors('collapse-expand', 'default');
     graph.emit('node:click', { item: parent });
 
-    timerGame(() => {
+    timerOut(() => {
       collapsed = false;
       graph.emit('node:click', { item: parent });
     }, 600);
@@ -478,7 +472,7 @@ describe('tree graph with animate', () => {
 
     graph.emit('node:dblclick', { item: parent });
 
-    timerGame(() => {
+    timerOut(() => {
       collapsed = false;
       graph.emit('node:dblclick', { item: parent });
     }, 600);

@@ -77,9 +77,9 @@
     "@antv/path-util": "^2.0.3",
     "@antv/scale": "^0.2.0",
     "@antv/util": "~2.0.5",
-    "lodash": "^4.17.15",
     "d3-force": "^2.0.1",
     "dagre": "^0.8.5",
+    "lodash": "^4.17.15",
     "numericjs": "^1.2.6",
     "tslib": "^1.10.0",
     "webpack": "^4.41.4"

@@ -86,7 +86,7 @@ const data2 = {
   ],
 };
 
-describe.only('preset layout', () => {
+describe('preset layout', () => {
   it('new graph without layout, part of the data has position infor', () => {
     const graph = new G6.Graph({
       container: div,

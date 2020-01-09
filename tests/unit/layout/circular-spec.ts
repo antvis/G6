@@ -6,7 +6,7 @@ const div = document.createElement('div');
 div.id = 'circular-layout';
 document.body.appendChild(div);
 
-describe.only('circular layout', () => {
+describe('circular layout', () => {
   it('circular layout with default configs', () => {
     const graph = new G6.Graph({
       container: div,

@@ -5,12 +5,17 @@ import Base, { IPluginBaseConfig } from '../base'
 
 interface MenuConfig extends IPluginBaseConfig {
   createDOM?: boolean;
-  getContent: (evt?: IG6GraphEvent) => string;
+  menu?: HTMLDivElement;
+  getContent?: (evt?: IG6GraphEvent) => string;
   onShow: (evt?: IG6GraphEvent) => boolean;
   onHide: (evt?: IG6GraphEvent) => boolean;
 }
 
 export default class Menu extends Base {
+  constructor(cfg: MenuConfig) {
+    super(cfg)
+  }
+
   public getDefaultCfgs(): MenuConfig {
     return {
       createDOM: true,                  // 是否渲染 dom

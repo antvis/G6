@@ -7,8 +7,7 @@ const div = document.createElement('div');
 div.id = 'force-layout';
 document.body.appendChild(div);
 
-describe.skip('edge bundling', () => {
-  // TODO Wait for layout
+describe('edge bundling', () => {
   const graph = new G6.Graph({
     container: div,
     width: 500,
@@ -31,6 +30,7 @@ describe.skip('edge bundling', () => {
 
     expect(graphData.edges[0].shape).toEqual('polyline');
     expect(graphData.edges[0].controlPoints.length > 2).toEqual(true);
+    bundle.destroy()
   });
 
   it('bundling on circular with fixed bundleThreshold and iterations', () => {
@@ -45,6 +45,7 @@ describe.skip('edge bundling', () => {
 
     expect(graphData.edges[0].shape).toEqual('polyline');
     expect(graphData.edges[0].controlPoints.length > 2).toEqual(true);
+    bundle.destroy()
   });
 
   it('bundling update', () => {
@@ -80,16 +81,27 @@ describe.skip('edge bundling', () => {
 
     expect(data2.edges[0].shape).toEqual('polyline');
     expect(data2.edges[0].controlPoints.length > 2).toEqual(true);
+    bundle.destroy()
   });
 
   it('bundling no position info, throw error', () => {
     const bundle = new Bundling();
     bundle.initPlugin(graph);
 
+    const data2: GraphData = {
+      nodes: [
+        { id: 'n0' }, { id: 'n1' }
+      ],
+      edges: [
+        { source: 'n0', target: 'n1' }
+      ]
+    };
+
     function fn() {
-      bundle.bundling(data);
+      bundle.bundling(data2);
     }
     expect(fn).toThrowError('please layout the graph or assign x and y for nodes first');
+    bundle.destroy()
     graph.destroy();
   });
 });
