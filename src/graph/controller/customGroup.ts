@@ -494,7 +494,10 @@ export default class CustomGroup {
 
     // 收起群组时候动画
     if (groupType === 'circle') {
-      keyShape.animate({ r }, 500, 'easeCubic');
+      keyShape.animate({ r }, {
+        duration: 500,
+        easing: 'easeCubic'
+      });
       if (titleShape) {
         titleShape.attr({
           x: keyShape.attr('x') + offsetX,
@@ -502,7 +505,10 @@ export default class CustomGroup {
         });
       }
     } else if (groupType === 'rect') {
-      keyShape.animate({ width, height }, 500, 'easeCubic');
+      keyShape.animate({ width, height }, {
+        duration: 500,
+        easing: 'easeCubic'
+      });
       if (titleShape) {
         titleShape.attr({
           x: keyShape.attr('x') + 10,
@@ -660,13 +666,19 @@ export default class CustomGroup {
     const paddingValue = this.getGroupPadding(id);
     if (groupType === 'circle') {
       const r = width > height ? width / 2 : height / 2;
-      keyShape.animate({ r: r + paddingValue }, 500, 'easeCubic');
+      keyShape.animate({ r: r + paddingValue }, {
+        duration: 500,
+        easing: 'easeCubic'
+      });
     } else if (groupType === 'rect') {
       const { width: w, height: h } = collapse;
       keyShape.animate({
         width: w + width + paddingValue * defaultStyle.disCoefficient * 2,
         height: h + height + paddingValue * defaultStyle.disCoefficient * 2
-      }, 500, 'easeCubic');
+      }, {
+        duration: 500,
+        easing: 'easeCubic'
+      });
     }
 
     if (titleShape) {
@@ -682,12 +694,18 @@ export default class CustomGroup {
         titleShape.animate({
           x: keyShape.attr('x') + offsetX,
           y: keyShape.attr('y') - keyShape.attr('r') + offsetY
-        }, 600, 'easeCubic');
+        }, {
+          duration: 600,
+          easing: 'easeCubic'
+        });
       } else if (groupType === 'rect') {
         titleShape.animate({
           x: keyShape.attr('x') + (15 + offsetX),
           y: keyShape.attr('y') + (15 + offsetY)
-        }, 600, 'easeCubic');
+        }, {
+          duration: 600,
+          easing: 'easeCubic'
+        });
       }
     }
 
