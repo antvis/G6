@@ -133,7 +133,6 @@ export default class StateController {
    */
   public updateGraphStates() {
     const states = this.graph.get('states')
-
     const cachedStates = this.cachedStates;
     
     each(cachedStates.disabled, (val, key) => {
@@ -148,6 +147,8 @@ export default class StateController {
       if (!states[key]) {
         states[key] = val;
       } else {
+        // TODO 需要测试是否能够走到这个分支
+        console.log('走到这里没有', states)
         const map = {};
         states[key].forEach(item => {
           if (!item.destroyed) {

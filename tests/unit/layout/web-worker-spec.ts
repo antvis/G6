@@ -9,7 +9,7 @@ document.body.appendChild(div);
 
 // jest.setTimeout(10000)
 
-describe.only('layout using web worker', function() {
+describe('layout using web worker', function() {
   it('change layout', function(done) {
     const node = data.nodes[0];
     const graph = new G6.Graph({

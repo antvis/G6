@@ -1,18 +1,13 @@
 import G6 from '../../../src'
 import Minimap from '../../../src/plugins/minimap'
 import Simulate from 'event-simulate'
+import { timerOut } from '../util/timeOut'
 
 const div = document.createElement('div');
 div.id = 'minimap';
 document.body.appendChild(div);
 const container = document.createElement('div');
 div.appendChild(container);
-
-function timerGame(callback, time = 50) {
-  setTimeout(() => {
-    callback();
-  }, time);
-}
 
 describe('minimap', () => {
   const minimap = new Minimap({ size: [ 200, 200 ] });
@@ -111,7 +106,7 @@ describe('minimap', () => {
       clientY: 120
     });
 
-    timerGame(() => {
+    timerOut(() => {
       expect(viewport.style.left).toEqual('20px');
       expect(viewport.style.top).toEqual('20px');
       expect(viewport.style.width).toEqual('0px');
@@ -134,7 +129,7 @@ describe('minimap', () => {
         clientY: 0
       });
 
-      timerGame(() => {
+      timerOut(() => {
         expect(viewport.style.left).toEqual('0px');
         expect(viewport.style.top).toEqual('0px');
         expect(viewport.style.width).toEqual('100px');

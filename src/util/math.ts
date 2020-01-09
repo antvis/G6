@@ -289,6 +289,9 @@ export const getAdjMatrix = (data: GraphData, directed: boolean): Matrix[] => {
   // map node with index in data.nodes
   const nodeMap = {};
 
+  if(!nodes) {
+    throw new Error('invalid nodes data!')
+  }
   if (nodes) {
     nodes.forEach((node, i) => {
       nodeMap[node.id] = i;

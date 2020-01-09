@@ -16,7 +16,7 @@ const data: {nodes: object, edges: object} = {
   edges: [],
 };
 
-describe.only('random', () => {
+describe('random', () => {
   it('new graph without layout, random by default', () => {
     const graph = new G6.Graph({
       container: div,

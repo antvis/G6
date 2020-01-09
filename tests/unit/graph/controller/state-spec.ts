@@ -1,14 +1,9 @@
 import G6 from '../../../../src'
+import { timerOut } from '../../util/timeOut'
 
 const div = document.createElement('div');
 div.id = 'state-controller';
 document.body.appendChild(div);
-
-function timerGame(callback, time = 50) {
-  setTimeout(() => {
-    callback();
-  }, time);
-}
 
 describe('graph state controller', () => {
   const graph = new G6.Graph({
@@ -18,7 +13,7 @@ describe('graph state controller', () => {
   });
   const data = {
     nodes: [
-      { id: 'node1', x: 100, y: 100 },
+      { id: 'node1', x: 100, y: 100, label: 'node1' },
       { id: 'node2', x: 120, y: 80 },
       { id: 'node3', x: 150, y: 150 }
     ],
@@ -44,7 +39,7 @@ describe('graph state controller', () => {
 
     graph.setItemState('node1', 'selected', true);
     
-    timerGame(() => {
+    timerOut(() => {
       expect(itemCount).toBe(1);
       expect(graphCount).toBe(0);
 
@@ -52,7 +47,7 @@ describe('graph state controller', () => {
       expect(graph.get('states').selected.length).toBe(1);
       expect(graph.get('states').selected[0]).toEqual(graph.findById('node1'));
 
-      timerGame(() => {
+      timerOut(() => {
         graph.setItemState('node1', 'selected', false);
         graph.setItemState('node1', 'selected', true);
         graph.setItemState('node2', 'selected', true);
@@ -65,7 +60,7 @@ describe('graph state controller', () => {
         graph.setItemState('node2', 'selected', false);
         graph.setItemState('node3', 'selected', false);
   
-        timerGame(() => {
+        timerOut(() => {
           expect(graph.get('states').selected.length).toBe(0);
         }, 90)
       }, 70)
@@ -86,4 +81,21 @@ describe('graph state controller', () => {
     expect(Object.keys(modes)).toEqual(['default'])
     expect(modes.default).toEqual([])
   });
+
+  it('updateGraphStates', () => {
+    const node1 = graph.findById('node1')
+    graph.setItemState(node1, 'selected', true)
+    graph.setItemState(node1, 'hover', true)
+    graph.setItemState('node2', 'hover', true)
+    graph.on('node:mouseenter', () => {
+      const states = graph.get('states')
+      expect(states).not.toBe(undefined)
+      expect(states.selected.length).toBe(1)
+      expect(states.hover.length).toBe(2)
+    })
+
+    timerOut(() => {
+      graph.emit('node:mouseenter', { item: node1 })
+    }, 20)
+  })
 });

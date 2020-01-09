@@ -378,7 +378,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {string|Item} item 元素id或元素实例
    * @param {string[]} states 状态
    */
-  public clearItemStates(item: Item | string, states?: string[]): void {
+  public clearItemStates(item: Item | string, states?: string[] | string): void {
     if(isString(item))  {
       item = this.findById(item)
     }
@@ -725,9 +725,11 @@ export default class Graph extends EventEmitter implements IGraph {
     }
 
     if (!nodeItem && isString(item)) {
-      this.get('customGroupControll').remove(item);
+      const customGroupControll: CustomGroup = this.get('customGroupControll')
+      customGroupControll.remove(item);
     } else {
-      this.get('itemController').removeItem(item);
+      const itemController: ItemController = this.get('itemController')
+      itemController.removeItem(item);
     }
   }
 
@@ -783,7 +785,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {string} state 状态
    * @param {boolean} enabled 是否启用状态
    */
-  public setItemState(item: Item | string | string, state: string, enabled: boolean): void {
+  public setItemState(item: Item | string, state: string, enabled: boolean): void {
     if (isString(item)) {
       item = this.findById(item);
     }
@@ -1380,7 +1382,6 @@ export default class Graph extends EventEmitter implements IGraph {
     customGroupControll.expandGroup(groupId);
   }
 
-  // TODO plugin 机制完善后再补充类型
   /**
    * 添加插件
    * @param {object} plugin 插件实例

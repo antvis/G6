@@ -227,6 +227,42 @@ describe('math util test', () => {
     expect(directedMatrix[1]).toEqual([])
   })
 
+  it('getAdjMatrix without nodes', () => {
+    const data = {
+      edges: [
+        {
+          source: 'node1',
+          target: 'node2'
+        },
+        {
+          source: 'node1',
+          target: 'node1'
+        }
+      ]
+    }
+
+    expect(() => {getAdjMatrix(data, false)}).toThrowError('invalid nodes data!')
+  })
+
+  it('getAdjMatrix without edges', () => {
+    const data1 = {
+      nodes: [
+        {
+          id: 'node1',
+          label: 'node1'
+        },
+        {
+          id: 'node2',
+          label: 'node2'
+        }
+      ]
+    }
+
+    const directedMatrix = getAdjMatrix(data1, true)
+    expect(directedMatrix[0]).toEqual([])
+    expect(directedMatrix[1]).toEqual([])
+  })
+
   it('floydWarshall', () => {
     const matrix = [
       [1, 1, 2],

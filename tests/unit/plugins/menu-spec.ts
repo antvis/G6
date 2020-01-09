@@ -18,6 +18,7 @@ describe('menu', () => {
       onShow(e) {
         expect(isNaN(e.canvasX)).toBe(false);
         expect(isNaN(e.canvasY)).toBe(false);
+        return true
       },
       onHide() {
         count++;
@@ -80,13 +81,19 @@ describe('menu', () => {
     const menu = new Menu({
       createDOM: false,
       menu: outDiv,
+      getContent(e) {
+        expect(e).not.toBe(undefined);
+        return 'test menu';
+      },
       onShow(e) {
         outDiv.style.left = e.canvasX + 'px';
         outDiv.style.top = e.canvasY + 'px';
         outDiv.style.visibility = 'visible';
+        return true
       },
       onHide() {
         outDiv.style.visibility = 'hidden';
+        return false
       }
     });
 

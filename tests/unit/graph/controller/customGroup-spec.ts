@@ -28,7 +28,7 @@ G6.registerNode('circleNode', {
   }
 }, 'circle');
 
-describe.only('signle layer group', () => {
+describe('signle layer group', () => {
 
   it('render signle group test', () => {
     const graph = new G6.Graph({
@@ -605,8 +605,8 @@ describe.only('signle layer group', () => {
     expect(groups.length).toBe(4);
 
     // 删除group1
-    const customGroup = graph.get('customGroupControll');
-    customGroup.remove('group1');
+    // const customGroup = graph.get('customGroupControll');
+    graph.remove('group1');
 
     const groupNodes1 = graph.get('groupNodes');
     const keys1 = Object.keys(groupNodes1);
@@ -625,7 +625,7 @@ describe.only('signle layer group', () => {
 
 });
 
-describe.only('nesting layer group', () => {
+describe('nesting layer group', () => {
   it('render nesting layer group', () => {
     const data = {
       nodes: [
@@ -924,7 +924,7 @@ describe.only('nesting layer group', () => {
 });
 
 // 手动创建分子
-describe.only('create node group', () => {
+describe('create node group', () => {
   it('use addItem create group', () => {
     const data = {
       nodes: [
