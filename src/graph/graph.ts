@@ -1154,20 +1154,21 @@ export default class Graph extends EventEmitter implements IGraph {
         });
 
         self.refreshPositions();
-      },
-      animateCfg.duration,
-      animateCfg.easing,
-      () => {
-        each(nodes, (node: INode) => {
-          node.set('originAttrs', null);
-        });
-
-        if (animateCfg.callback) {
-          animateCfg.callback();
+      }, {
+        duration: animateCfg.duration,
+        easing: animateCfg.easing,
+        callback: () => {
+          each(nodes, (node: INode) => {
+            node.set('originAttrs', null);
+          });
+  
+          if (animateCfg.callback) {
+            animateCfg.callback();
+          }
+  
+          self.emit('afteranimate');
+          self.animating = false;
         }
-
-        self.emit('afteranimate');
-        self.animating = false;
       }
     );
   }
