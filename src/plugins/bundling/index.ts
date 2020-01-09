@@ -4,7 +4,7 @@ import Graph from '@g6/graph/graph';
 import { GraphData, NodeConfig, NodeMapConfig, EdgeConfig } from '@g6/types';
 import { Point } from '@antv/g-base/lib/types';
 
-interface IBundlingConfig extends IPluginBaseConfig {
+interface BundlingConfig extends IPluginBaseConfig {
   edgeBundles?: Edge[];
   edgePoints?: NodeConfig[];
   K?: number;
@@ -47,10 +47,10 @@ function projectPointToEdge(p: Point, e): Point {
 }
 
 export default class Bundling extends Base {
-  constructor(cfg?: IBundlingConfig) {
+  constructor(cfg?: BundlingConfig) {
     super(cfg)
   }
-  public getDefaultCfgs(): IBundlingConfig {
+  public getDefaultCfgs(): BundlingConfig {
     return {
       edgeBundles: [],                 // |edges| arrays, each one stores the related edges' id
       edgePoints: [],                  // |edges| * divisions edge points

@@ -271,7 +271,7 @@ export default class ItemController {
    * @param {string[]} states 状态名称集合
    * @memberof ItemController
    */
-  public clearItemStates(item: Item | string, states: string[]): void {
+  public clearItemStates(item: Item | string, states: string | string[]): void {
     const graph = this.graph;
 
     if (isString(item)) {

@@ -201,8 +201,8 @@ export interface NodeConfig extends ModelConfig {
 
 export interface EdgeConfig extends ModelConfig {
   id?: string;
-  source: string;
-  target: string;
+  source?: string;
+  target?: string;
   label?: string;
   labelCfg?: {
     style?: object;

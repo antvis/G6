@@ -4,6 +4,7 @@ import '../../../src/behavior'
 import { scale, translate } from '../../../src/util/math'
 import { GraphData, Item } from '../../../types';
 import Plugin from '../../../src/plugins'
+import { timerOut } from '../util/timeOut'
 
 const div = document.createElement('div');
 div.id = 'global-spec';
@@ -619,16 +620,20 @@ describe('all node link center', () => {
 
     expect(graph.findAllByState('node', 'a').length).toBe(1);
     graph.clearItemStates(node);
-
+    
     expect(graph.findAllByState('node', 'a').length).toBe(0);
     expect(graph.findAllByState('node', 'b').length).toBe(0);
-
+    
     graph.setItemState(node, 'a', true);
     graph.setItemState(node, 'b', true);
-
+    
+    debugger
     graph.clearItemStates('a', ['a']);
     expect(graph.findAllByState('node', 'a').length).toBe(0);
     expect(graph.findAllByState('node', 'b').length).toBe(1);
+
+    graph.clearItemStates(node, 'b')
+    expect(graph.findAllByState('node', 'b').length).toBe(0)
   });
 
   it('default node & edge style', () => {
@@ -1003,5 +1008,58 @@ describe('plugins & layout', () => {
   
     graph.destroy()
     expect(graph.destroyed).toBe(true)
+  })
+
+  it('graph animate', () => {
+    const graph = new G6.Graph({
+      container: div,
+      height: 500,
+      width: 500
+    })
+
+    const data = {
+      nodes: [
+        {
+          id: 'node',
+          label: 'node',
+          groupId: 'g1'
+        },{
+          id: 'node1',
+          groupId: 'g2'
+        }
+      ],
+      groups: [
+        {
+          id: 'g1',
+          title: 'cokkdl'
+        },
+        {
+          id: 'g2'
+        }
+      ]
+    }
+  
+    graph.data(data)
+    graph.render()
+
+    graph.stopAnimate()
+    const isAnimating = graph.isAnimating()
+    expect(isAnimating).toBe(false)
+
+    graph.collapseGroup('g1')
+
+    let gnode = graph.findById('node')
+    
+    expect(gnode.get('visible')).toBe(false)
+
+    const g2Node = graph.findById('node1')
+    expect(g2Node.get('visible')).toBe(true)
+
+    graph.expandGroup('g1')
+
+    timerOut(() => {
+      gnode = graph.findById('node')
+      expect(gnode.get('visible')).toBe(true)
+    }, 500)
   })
 })

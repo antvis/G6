@@ -17,7 +17,7 @@ const DEFAULT_MODE = 'default';
 const KEYSHAPE_MODE = 'keyShape';
 const DELEGATE_MODE = 'delegate';
 
-interface IMiniMapConfig extends IPluginBaseConfig {
+interface MiniMapConfig extends IPluginBaseConfig {
   viewportClassName?: string;
   type?: 'default' | 'keyShape' | 'delegate';
   size: number[];
@@ -26,11 +26,11 @@ interface IMiniMapConfig extends IPluginBaseConfig {
 }
 
 export default class MiniMap extends Base {
-  constructor(cfg: IMiniMapConfig) {
+  constructor(cfg: MiniMapConfig) {
     super(cfg)
   }
 
-  public getDefaultCfgs(): IMiniMapConfig {
+  public getDefaultCfgs(): MiniMapConfig {
     return {
       container: null,
       className: 'g6-minimap',
@@ -70,7 +70,7 @@ export default class MiniMap extends Base {
   }
 
   private initViewport() {
-    const cfgs:IMiniMapConfig  = this._cfgs as IMiniMapConfig;
+    const cfgs:MiniMapConfig  = this._cfgs as MiniMapConfig;
     const size = cfgs.size;
     const graph = cfgs.graph;
     const canvas = this.get('canvas');
