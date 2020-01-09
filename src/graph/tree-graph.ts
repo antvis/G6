@@ -412,30 +412,31 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
       });
 
       self.refreshPositions();
-    },
-    animateCfg.duration, 
-    animateCfg.ease, 
-    () => {
-      each(self.getNodes(), node => {
-        node.set('origin', null);
-      });
-
-      each(self.get('removeList'), node => {
-        self.removeItem(node);
-      });
-
-      self.set('removeList', []);
-
-      if (animateCfg.callback) {
-        animateCfg.callback();
-      }
-
-      self.paint();
-      this.setAutoPaint(true);
-
-      self.emit('afteranimate', { data });
-    }, 
-    animateCfg.delay);
+    }, {
+      duration: animateCfg.duration,
+      easing: animateCfg.ease,
+      callback: () => {
+        each(self.getNodes(), node => {
+          node.set('origin', null);
+        });
+  
+        each(self.get('removeList'), node => {
+          self.removeItem(node);
+        });
+  
+        self.set('removeList', []);
+  
+        if (animateCfg.callback) {
+          animateCfg.callback();
+        }
+  
+        self.paint();
+        this.setAutoPaint(true);
+  
+        self.emit('afteranimate', { data });
+      },
+      delay: animateCfg.delay
+    });
   }
 
   /**
