@@ -34,7 +34,6 @@ export default {
     };
   },
   onDragOver(evt: IG6GraphEvent) {
-    // console.log('drag over');
     const { target } = evt;
     const groupId = target.get('groupId');
     if (groupId && this.origin) {
@@ -55,7 +54,6 @@ export default {
    * @param {Event} evt 事件句柄
    */
   onDragLeave(evt: IG6GraphEvent) {
-    // console.log('drag leave');
     const { target } = evt;
     const groupId = target.get('groupId');
     if (groupId && this.origin) {

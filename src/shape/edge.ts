@@ -259,7 +259,6 @@ Shape.registerEdge('arc', {
     let arcPoint;
     // 根据给定点计算圆弧
     if (cfg.controlPoints !== undefined) {
-      console.log('control point is defined');
       arcPoint = cfg.controlPoints[0];
       center = getCircleCenterByPoints(startPoint, arcPoint, endPoint);
       // 根据控制点和直线关系决定 clockwise值

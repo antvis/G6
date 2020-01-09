@@ -173,7 +173,6 @@ export const shapeBase: ShapeOptions = {
     const stateStyle = this.getStateStyle(name, value, item)
     const styles = merge({}, stateStyle, itemStateStyle)
     if (value) { // 如果设置状态,在原本状态上叠加绘图属性
-      console.log('aaa', styles);
       shape.attr(styles)
     } else { // 取消状态时重置所有状态，依次叠加仍有的状态
       const style = item.getCurrentStatesStyle()
@@ -183,7 +182,6 @@ export const shapeBase: ShapeOptions = {
           style[attr] = null
         }
       })
-      console.log('bbb', style);
       shape.attr(style)
     }
   },
@@ -199,12 +197,10 @@ export const shapeBase: ShapeOptions = {
     const model = item.getModel()
 
     const { style: defaultStyle } = this.options
-
-    const currentStateStyle: ModelStyle = defaultStyle
     
     if (value) {
       const modelStateStyle = model.stateStyles ? model.stateStyles[name] : undefined;
-      return merge({}, currentStateStyle, model.style, modelStateStyle)
+      return merge({}, model.style, modelStateStyle)
     }
 
     const states = item.getStates()
