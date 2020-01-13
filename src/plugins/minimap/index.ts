@@ -246,15 +246,15 @@ export default class MiniMap extends Base {
    * 将主图上的图形完全复制到小图
    */
   private updateGraphShapes() {
-    const graph: Graph = this.get('graph');
+    // const graph: Graph = this.get('graph');
+    const graph = this._cfgs.graph;
     const canvas: GCanvas = this.get('canvas');
     const graphGroup = graph.get('group');
     const clonedGroup = graphGroup.clone();
     
-    // TODO 两个画布之间的数据同步
-    // clonedGroup.resetMatrix();
-    // canvas.get('children')[0] = clonedGroup;
-    canvas.set('localRefresh', false)
+    clonedGroup.resetMatrix();
+    // clonedGroup.setMatrix(graph.get('group').getMatrix());
+    // canvas.set('localRefresh', false)
     canvas.clear()
     canvas.add(clonedGroup)
   }
@@ -390,6 +390,10 @@ export default class MiniMap extends Base {
     const canvas: GCanvas = this.get('canvas');
     const type: string = this.get('type');
 
+    if(canvas.destroyed) {
+      return
+    }
+
     switch (type) {
       case DEFAULT_MODE:
         this.updateGraphShapes();
@@ -418,48 +422,33 @@ export default class MiniMap extends Base {
       height = max(bbox.height, graph.get('height'));
     }
 
-    const pixelRatio = canvas.get('pixelRatio');
     const ratio = Math.min(size[0] / width, size[1] / height);
 
-    let matrix: Matrix = canvas.getMatrix()
-
     canvas.resetMatrix();
+    let matrix: Matrix = mat3.create(); 
 
     let minX = 0;
     let minY = 0;
     // 如果bbox为负，先平移到左上角
     if(Number.isFinite(bbox.minX)) {
-      minX = -(bbox.minX > 0 ? 0 : bbox.minX);
+      minX = bbox.minX > 0 ? 0 : -bbox.minX;
     }
 
     if(Number.isFinite(bbox.minY)) {
-      minY = -(bbox.minY > 0 ? 0 : bbox.minY);
+      minY = bbox.minY > 0 ? 0 : -bbox.minY;
     }
-
-    if (!matrix) { 
-      matrix = mat3.create(); 
-    }
-
-    matrix = transform(matrix, [
-      [ 't',  minX, minY ]
-    ])
-    
-    // canvas.translate(minX, minY);
-    // canvas.scale(ratio * pixelRatio, ratio * pixelRatio);
-    matrix = transform(matrix, [
-      ['s', ratio * pixelRatio, ratio * pixelRatio]
-    ])
     
     // 缩放到适合视口后, 平移到画布中心
     const dx = (size[0] - width * ratio) / 2;
     const dy = (size[1] - height * ratio) / 2;
-    // canvas.translate(dx * pixelRatio, dy * pixelRatio);
+
     matrix = transform(matrix, [
-      [ 't',  dx * pixelRatio, dy * pixelRatio ]
+      [ 't',  minX, minY ],
+      [ 's',  ratio, ratio ],
+      [ 't',  dx, dy ]
     ])
 
     canvas.setMatrix(matrix)
-    // canvas.draw();
 
     // 更新minimap视口
     this.set('ratio', ratio);

@@ -71,7 +71,7 @@
     "@antv/dom-util": "^2.0.1",
     "@antv/event-emitter": "~0.1.0",
     "@antv/g-base": "^0.3.5",
-    "@antv/g-canvas": "^0.3.6",
+    "@antv/g-canvas": "^0.3.8",
     "@antv/hierarchy": "^0.6.1",
     "@antv/matrix-util": "^2.0.4",
     "@antv/path-util": "^2.0.3",
@@ -80,9 +80,7 @@
     "d3-force": "^2.0.1",
     "dagre": "^0.8.5",
     "lodash": "^4.17.15",
-    "numericjs": "^1.2.6",
-    "tslib": "^1.10.0",
-    "webpack": "^4.41.4"
+    "numericjs": "^1.2.6"
   },
   "devDependencies": {
     "@antv/gatsby-theme-antv": "^0.9.25",
@@ -121,6 +119,7 @@
     "typescript": "^3.5.3",
     "typescript-transform-paths": "^1.1.14",
     "webpack-cli": "^3.3.10",
-    "worker-loader": "^2.0.0"
+    "worker-loader": "^2.0.0",
+    "webpack": "^4.41.4"
   }
 }
