@@ -6,16 +6,16 @@ order: 5
 
 Show and hide the node or the edge by the following four functions:
 ```javascript
-// Show the instance of the node nodeItem. The property visible will be true after calling the following code
+// Show the instance of the node nodeItem. The property `visible` of the node will be true after calling the following code
 nodeItem.show();
 
-// Hide the instance of the node nodeItem. The property visible will be false after calling the following code
+// Hide the instance of the node nodeItem. The property `visible` of the node will be false after calling the following code
 nodeItem.hide();
 
-// Show the instance of the edge edgeItem. The property visible will be true after calling the following code
+// Show the instance of the edge edgeItem. The property `visible` of the node will be true after calling the following code
 edgeItem.show();
 
-// Hide the instance of the edge edgeItem. The property visible will be false after calling the following code
+// Hide the instance of the edge edgeItem. The property `visible` of the node will be false after calling the following code
 edgeItem.hide();
 ```
 

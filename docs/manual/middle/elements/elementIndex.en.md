@@ -3,13 +3,13 @@ title: The Visual Level of Node and Edge
 order: 4
 ---
 
-The visual levels (zIndex) of nodes and edges are refered to their [Graphics Group](/en/docs/manual/advanced/graphics-group) (hereinafter referred to as Shape). (**Attention:** The Graphics Group is different from the [Node Group](/en/docs/manual/middle/nodeGroup), the differences are described in [Graphics Group](/en/docs/manual/advanced/graphics-group)).
+The visual levels (zIndex) of nodes and edges are refered to their [Graphics Group](/en/docs/manual/advanced/keyconcept/graphics-group) (hereinafter referred to as Shape). (<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> The Graphics Group is different from the [Node Group](/en/docs/manual/middle/nodeGroup), the differences are described in [Graphics Group](/en/docs/manual/advanced/keyconcept/graphics-group)).
 
-In [Graphics Group](/en/docs/manual/advanced/graphics-group), we stated: All the nodes instances in a Graph is grouped by a Group named `nodeGroup`, all the edges instances are grouped by `edgeGroup`. And the visual level (zIndex) of `nodeGroup` is higher than `edgeGroup`, which means all the nodes will be drawed on the top of all the edges.
+In [Graphics Group](/en/docs/manual/advanced/keyconcept/graphics-group), we stated: All the nodes instances in a Graph is grouped by a Group named `nodeGroup`, all the edges instances are grouped by `edgeGroup`. And the visual level (zIndex) of `nodeGroup` is higher than `edgeGroup`, which means all the nodes will be drawed on the top of all the edges.
 
 Sometimes, we want to draw the edges on the top. For example, highlighting a node and its related edges. In this situation, you can configure `groupByTypes` of the graph to false and call `toFront()` and `toBack()` to order the nodes or edges.
 
-The expected effect is: the related nodes and edges are drawed on the top of others when the mouse enters a node; Restore the visual levels (zIndex) when the mouse moves out of the node. [Complete Code of the Demo](https://codepen.io/Yanyan-Wang/pen/GRRNzGN)。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*uWGAR5-w-TcAAAAAAAAAAABkARQnAQ' width=150/>
+The expected effect is: the related nodes and edges are drawed on the top of others when the mouse enters a node; Restore the visual levels (zIndex) when the mouse moves out of the node. <a href='https://codepen.io/Yanyan-Wang/pen/GRRNzGN' target='_blank'>Complete Code of the Demo</a>. <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*uWGAR5-w-TcAAAAAAAAAAABkARQnAQ' width=150/>
 
 There are 3 steps to implement the expected effect:
 
@@ -18,7 +18,7 @@ There are 3 steps to implement the expected effect:
 - Step 3: Change the visual levels in the listener function of mouse entering.
 
 
-## Premise
+## Prerequisite Code
 The following code imports G6, defines the data, instantiates the Graph, renders the graph. We will modify this code to implement the expected effect.
 ```javascript
   // The source data
@@ -91,7 +91,7 @@ The following code imports G6, defines the data, instantiates the Graph, renders
 
 
 ### Usage
-Modify the code about instantiating the Graph in Premise. Add `groupByTypes` with `false`:
+Modify the code about instantiating the Graph in Prerequisite Code. Add `groupByTypes` with `false`:
 ```javascript
 const graph = new G6.Graph({
   // ...  // Other configurations

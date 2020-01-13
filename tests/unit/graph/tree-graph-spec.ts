@@ -238,7 +238,6 @@ describe('update child', () => {
     container: div,
     width: 500,
     height: 500,
-    pixelRatio: 2,
     animate: false,
     modes: {
       default: [ 'drag-canvas', 'drag-node' ]

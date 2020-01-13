@@ -125,7 +125,6 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
-  pixelRatio: 2,
   modes: {
     default: [ 'drag-canvas' ]
   },

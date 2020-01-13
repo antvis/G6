@@ -3,11 +3,11 @@ title: Update Item's Style
 order: 1
 ---
 
-G6 提供了三种修改节点样式的方法。
+There are three ways to modify the styles for items in G6.
 
-#### 实例化Graph
+#### Configure When Instantiating Graph
 
-实例化 Graph 时，可以通过在 `defaultNode` 或 `defaultEdge` 中指定 `**style**` 样式属性。
+When instantiating a Graph, assign `style` in `defaultNode` or `defaultEdge` to configure the styles for global nodes and global edges respectively.
 
 ```javascript
 const graph = new G6.Graph({
@@ -31,7 +31,7 @@ const graph = new G6.Graph({
   });
 ```
 
-#### 数据中指定style
+#### Configure style in Data
 ```javascript
 const data = {
 	nodes: [
@@ -47,17 +47,15 @@ const data = {
 }
 ```
 
-#### 使用 update / updateItem
-
-使用 `update` / `updateItem` 更新节点或边。
+#### update / updateItem
 
 ```javascript
 graph.updateItem(node, {
-  // 节点的样式
+  // The node style
   style: {
   	stroke: 'blue'
   }
 })
 ```
 
-想要知道节点都支持哪些属性样式，请👉参数[节点支持的属性](/zh/docs/api/properties/NodeProperties)。
+For more information about the styles, refer to [Node Style Properties](/en/docs/manual/middle/elements/nodes/defaultNode/#style).

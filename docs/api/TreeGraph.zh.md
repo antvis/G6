@@ -35,8 +35,8 @@ const data = {
 **参数**
 
 | 名称 | 类型 | 默认值 | 描述 |
-| --- | --- | --- | --- |
-| layout | Object | null | **3.0.4 版本开始支持树布局算法配置**。3.0.4 版本之前是 function 形式。建议开发者使用配置形式，操作粒度更细。 |
+| --- | --- | ----- | --- |
+| layout | Object | null | *V3.0.4 版本开始支持树布局算法配置*。V3.0.4 版本之前是 function 形式。建议开发者使用配置形式，操作粒度更细。 |
 | animate | Boolean | true | 默认打开重布局动画开关。 |
 
 
@@ -71,7 +71,7 @@ const treeGraph = new G6.TreeGraph({
 ```
 
 
-## layout配置项
+## layout 配置项
 layout 目前支持 dendrogram、compactBox、mindmap 和 indeted 四种布局方式。
 
 
@@ -83,7 +83,7 @@ layout 目前支持 dendrogram、compactBox、mindmap 和 indeted 四种布局�
 | direction | String | LR | 布局方向，有 `LR` , `RL` , `TB` , `BT` , `H` , `V` 可选。<br />L：左；R：右；T：上；B：下；H：垂直；V：水平。 |
 | getChildren | Function |  | 返回当前节点的所有子节点 |
 
-⚠️**注意：**当 `type='indeted'` 时，`direction` 只能取 LR、RL 和 H 这三个值。
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️注意:</strong></span>当 `type='indeted'` 时，`direction` 只能取 `'LR'`、`'RL'` 和 `'H'` 这三个值。
 
 
 ### dendrogram
@@ -94,11 +94,11 @@ layout 目前支持 dendrogram、compactBox、mindmap 和 indeted 四种布局�
 
 | LR | RL | H |
 | --- | --- | --- |
-| <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zX7tSLqBvwcAAAAAAAAAAABkARQnAQ' width='230' height='100'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qVbeR4oq4lYAAAAAAAAAAABkARQnAQ' width='230' height='100'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OHetRqedHOkAAAAAAAAAAABkARQnAQ' width='230' height='100'> |
+| <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zX7tSLqBvwcAAAAAAAAAAABkARQnAQ' width='180' height='100'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qVbeR4oq4lYAAAAAAAAAAABkARQnAQ' width='180' height='100'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OHetRqedHOkAAAAAAAAAAABkARQnAQ' width='250' height='100'> |
 
 | TB | BT | V |
 | --- | --- | --- |
-| <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*P_OETZsj17cAAAAAAAAAAABkARQnAQ' width='230' height='100'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*n6sFS57g424AAAAAAAAAAABkARQnAQ' width='230' height='100'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*CyVbQ5q_0_cAAAAAAAAAAABkARQnAQ' width='230' height='100'> |
+| <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*P_OETZsj17cAAAAAAAAAAABkARQnAQ' width='100' height='150'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*n6sFS57g424AAAAAAAAAAABkARQnAQ' width='100' height='150'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*CyVbQ5q_0_cAAAAAAAAAAABkARQnAQ' width='100' height='180'> |
 
 
 **dendrogram 配置项**
@@ -137,7 +137,7 @@ layout 目前支持 dendrogram、compactBox、mindmap 和 indeted 四种布局�
 | getVGap | Function | 18 | 指定节点之间的垂直间距 |
 | getHGap | Function | 18 | 指定节点之间的水平间距 |
 
-⚠️**注意：**使用 `getWidth`、`getHeight`、`getVGap` 和 `getHGap` 指定节点的宽高及间距后，并不会改变节点的大小，具体原理如下所示：
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️注意:</strong></span>使用 `getWidth`、`getHeight`、`getVGap` 和 `getHGap` 指定节点的宽高及间距后，并不会改变节点的大小，具体原理如下所示：
 ```javascript
 /*
    * Gaps: filling space between nodes
@@ -165,7 +165,7 @@ layout 目前支持 dendrogram、compactBox、mindmap 和 indeted 四种布局�
 
 | LR | RL | H |
 | --- | --- | --- |
-| <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560910055783-3783faed-29f0-4e34-9076-df951aa6ea10.png#align=left&display=inline&percent=0&size=0&status=done' width='230' height='100'> | <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560910055615-54aaca32-7de4-471e-8600-611854094b90.png#align=left&display=inline&percent=0&size=0&status=done' width='230' height='100'> | <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560910055676-86d316d8-9487-4b3d-99a4-27b4a8c091c0.png#align=left&display=inline&percent=0&size=0&status=done' width='230' height='100'> |
+| <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560910055783-3783faed-29f0-4e34-9076-df951aa6ea10.png#align=left&display=inline&percent=0&size=0&status=done' width='150' height='100'> | <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560910055615-54aaca32-7de4-471e-8600-611854094b90.png#align=left&display=inline&percent=0&size=0&status=done' width='150' height='100'> | <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560910055676-86d316d8-9487-4b3d-99a4-27b4a8c091c0.png#align=left&display=inline&percent=0&size=0&status=done' width='230' height='100'> |
 
 
 **indented配置项**
@@ -181,7 +181,7 @@ layout 目前支持 dendrogram、compactBox、mindmap 和 indeted 四种布局�
 
 **mindmap示意图**
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*J1l5RofvbP0AAAAAAAAAAABkARQnAQ' width='750'>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*J1l5RofvbP0AAAAAAAAAAABkARQnAQ' width='350'>
 
 **mindmap配置项**
 
@@ -240,7 +240,7 @@ treeGraph.addChild(data, 'root')
 | data | Object | true | 子树的数据 |
 | parent | Node | String | false | 父节点或父节点 ID |
 
-⚠️**注意：**当parent参数为空时，则全量更新。
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️注意:</strong></span>当 `parent` 参数为空时，则全量更新。
 
 **用法**
 

@@ -127,9 +127,9 @@ const data = {
   nodes: [
     {
       id: 'nodeC',
-      x: 250,
+      x: 150,
       y: 150,
-      label: 'Point',
+      label: 'Point2',
       shape: 'justPoints',
       anchorPoints: [
           [ 0, 0.5 ], [ 1, 0.5 ]
@@ -142,6 +142,29 @@ const data = {
         { cat: 'cal', values: [ 10, 10, 20, 20, 20 ], color: '#E8684A' }
       ],
       centerColor: '#5b8ff9'
+    }, {
+      id: 'nodeC2',
+      x: 500,
+      y: 150,
+      label: 'Point2',
+      shape: 'justPoints',
+      anchorPoints: [
+          [ 0, 0.5 ], [ 1, 0.5 ]
+      ],
+      details: [
+        { cat: 'pv', values: [ 10, 10, 50, 20, 10 ], color: '#5ad8a6' },
+        { cat: 'dal', values: [ 20, 30, 10, 50, 40 ], color: '#ff99c3' },
+        { cat: 'uv', values: [ 10, 50, 30, 20, 30 ], color: '#6dc8ec' },
+        { cat: 'sal', values: [ 50, 30, 20, 20, 20 ], color: '#269a99' },
+        { cat: 'cal', values: [ 50, 10, 20, 50, 30 ], color: '#9270CA' }
+      ],
+      centerColor: '#5b8ff9'
+    }
+  ],
+  edges: [
+    {
+      source: 'nodeC',
+      target: 'nodeC2'
     }
   ]
 };

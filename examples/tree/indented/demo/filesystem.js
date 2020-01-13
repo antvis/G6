@@ -66,7 +66,6 @@ const graph = new G6.TreeGraph({
   container: 'container',
   width,
   height,
-  pixelRatio: 2,
   linkCenter: true,
   modes: {
     default: [{

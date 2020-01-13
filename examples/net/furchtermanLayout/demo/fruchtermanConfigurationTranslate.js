@@ -343,7 +343,7 @@ nodes.forEach(function(node) {
 });
 const graphDiv = document.getElementById('container');
 const descriptionDiv = document.createElement('div');
-descriptionDiv.innerHTML = 'Fruchterman 布局，重力：1';
+descriptionDiv.innerHTML = 'Fruchterman layout, gravity = 1';
 graphDiv.appendChild(descriptionDiv);
 const width = graphDiv.scrollWidth;
 const height = graphDiv.scrollHeight - 30;
@@ -384,14 +384,14 @@ layoutConfigTranslation();
 
 function layoutConfigTranslation() {
   setTimeout(function() {
-    descriptionDiv.innerHTML = 'Fructherman 布局，重力：5';
+    descriptionDiv.innerHTML = 'Fructherman layout, gravity = 5';
     graph.updateLayout({
       gravity: 5
     });
   }, 1000);
 
   setTimeout(function() {
-    descriptionDiv.innerHTML = 'Fructherman 布局，重力：10，按聚类布局';
+    descriptionDiv.innerHTML = 'Fructherman layout, gravity = 10, layout by cluster';
     graph.updateLayout({
       gravity: 10,
       clustering: true
@@ -399,21 +399,21 @@ function layoutConfigTranslation() {
   }, 2500);
 
   setTimeout(function() {
-    descriptionDiv.innerHTML = 'Fructherman 布局，重力：20，按聚类布局';
+    descriptionDiv.innerHTML = 'Fructherman layout, gravity = 20, layout by cluster';
     graph.updateLayout({
       gravity: 20
     });
   }, 4000);
 
   setTimeout(function() {
-    descriptionDiv.innerHTML = 'Fructherman 布局，重力：50，按聚类布局';
+    descriptionDiv.innerHTML = 'Fructherman layout, gravity = 50, layout by cluster';
     graph.updateLayout({
       gravity: 50
     });
   }, 5500);
 
   setTimeout(function() {
-    descriptionDiv.innerHTML = 'Fructherman 布局，重力：80，按聚类布局';
+    descriptionDiv.innerHTML = 'Fructherman layout, gravity = 80, layout by cluster';
     graph.updateLayout({
       gravity: 80
     });

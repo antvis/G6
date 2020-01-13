@@ -11,7 +11,7 @@ G6 提供了 9 种内置边：
 - quadratic：二阶贝塞尔曲线；
 - cubic：三阶贝塞尔曲线；
 - cubic-vertical：垂直方向的三阶贝塞尔曲线，不考虑用户从外部传入的控制点；
-- cubic-horizontal；水平方向的三阶贝塞尔曲线，不考虑用户从外部传入的控制点；
+- cubic-horizontal：水平方向的三阶贝塞尔曲线，不考虑用户从外部传入的控制点；
 - loop：自环。
 
 这些内置边的默认样式分别如下图所示。<br />
@@ -22,14 +22,14 @@ G6 提供了 9 种内置边：
 
 | 名称 | 描述 |  |
 | --- | --- | --- |
-| line | 连接两个节点的直线：<br />- controlPoints 不生效<br />- 更多配置详见 line 边的配置<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-LM-RJnlI20AAAAAAAAAAABkARQnAQ' width=100/> |
-| polyline | 多段线段构成的折线，连接两个端点：<br />- controlPoints 表示所有线段的拐点，不指定时根据 [A* 算法](https://yuque.alibaba-inc.com/antv/blog/polyline-edges-with-border-radius)自动生成折线<br />- 更多配置详见 polyline 边的配置<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*q2pIQ6h622IAAAAAAAAAAABkARQnAQ' width=100/> |
-| arc | 连接两个节点的一段圆弧：<br />- controlPoints 不生效<br />- 使用 curveOffset 指定弧的弯曲程度，其正负影响弧弯曲的方向<br />- 更多配置详见 arc 边的配置<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SmS8QZjTlEkAAAAAAAAAAABkARQnAQ' width=100/> |
-| quadratic | 只有一个控制点的曲线：<br />- controlPoints 不指定时，会默认线的一半处弯曲<br />- 更多配置详见 quadratic 边的配置<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IADsTq4eH50AAAAAAAAAAABkARQnAQ' width=100/> |
-| cubic | 有两个控制点的曲线：<br />- controlPoints 不指定时，会默认线的 1/3, 2/3 处弯曲<br />- 更多配置详见 cubic 边的配置<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ldiCT7xnrM4AAAAAAAAAAABkARQnAQ' width=100/> |
+| line | 连接两个节点的直线：<br />- `controlPoints` 不生效<br />- 更多配置详见 line 边的配置<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-LM-RJnlI20AAAAAAAAAAABkARQnAQ' width=100/> |
+| polyline | 多段线段构成的折线，连接两个端点：<br />- `controlPoints` 表示所有线段的拐点，不指定时根据 <a href='https://yuque.alibaba-inc.com/antv/blog/polyline-edges-with-border-radius' target='_blank'>A* 算法</a>自动生成折线<br />- 更多配置详见 polyline 边的配置<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*q2pIQ6h622IAAAAAAAAAAABkARQnAQ' width=100/> |
+| arc | 连接两个节点的一段圆弧：<br />- `controlPoints` 不生效<br />- 使用 curveOffset 指定弧的弯曲程度，其正负影响弧弯曲的方向<br />- 更多配置详见 arc 边的配置<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SmS8QZjTlEkAAAAAAAAAAABkARQnAQ' width=100/> |
+| quadratic | 只有一个控制点的曲线：<br />- `controlPoints` 不指定时，会默认线的一半处弯曲<br />- 更多配置详见 quadratic 边的配置<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IADsTq4eH50AAAAAAAAAAABkARQnAQ' width=100/> |
+| cubic | 有两个控制点的曲线：<br />- `controlPoints` 不指定时，会默认线的 1/3, 2/3 处弯曲<br />- 更多配置详见 cubic 边的配置<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ldiCT7xnrM4AAAAAAAAAAABkARQnAQ' width=100/> |
 | cubic-vertical | 垂直方向的三阶贝塞尔曲线，不考虑用户从外部传入的控制点 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*WtNPRKSZv1kAAAAAAAAAAABkARQnAQ' width=100/> |
-| cubic-horizontal | 水平方向的三阶贝塞尔曲线，不考虑用户从外部传入的控制点 | <img src='' width=100/> |
-| loop | 自环。更多配置详见 loop 边的配置 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iNiVRIsov4MAAAAAAAAAAABkARQnAQ' width=100/> |
+| cubic-horizontal | 水平方向的三阶贝塞尔曲线，不考虑用户从外部传入的控制点 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iNiVRIsov4MAAAAAAAAAAABkARQnAQ' width=100/> |
+| loop | 自环。更多配置详见 loop 边的配置 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sPBIR40KLOkAAAAAAAAAAABkARQnAQ' width=70/> |
 
 ## 边的通用属性
 所有内置的边支持的通用属性：
@@ -47,7 +47,7 @@ G6 提供了 9 种内置边：
 | labelCfg | false | Object | 文本配置项 |
 
 
-#### 样式属性 style
+### 样式属性 style
 Object 类型。通过 `style` 配置来修改边的颜色、线宽等属性。下表是 `style` 对象中常用的配置项：
 
 | 名称 | 是否必须 | 类型 | 备注 |
@@ -55,13 +55,14 @@ Object 类型。通过 `style` 配置来修改边的颜色、线宽等属性。�
 | stroke | false | String | 边的颜色 |
 | lineWidth | false | Number | 边宽度 |
 | lineAppendWidth | false | Number | 边响应鼠标事件时的检测宽度，当 `lineWidth` 太小而不易选中时，可以通过该参数提升击中范围 |
-| endArrow | false | Boolean | 边的结束端是否有箭头 |
+| endArrow | false | Boolean / Object | 为 `true` 时在边的结束端绘制默认箭头，为 `false` 时不绘制结束端箭头。也可以是一个通过 path 自定义的箭头，例如：<br />endArrow: {<br />  path: 'M 10,0 L -10,-10 L -10,10 Z', // 自定义箭头路径<br />  d: 10 // 偏移量<br />} |
+| startArrow | false | Boolean / Object | 为 `true` 时在边的开始端绘制默认箭头，为 `false` 时不绘制开始端箭头。也可以是一个通过 path 自定义的箭头，例如：<br />endArrow: {<br />  path: 'M 10,0 L -10,-10 L -10,10 Z', // 自定义箭头路径<br />  d: 10 // 偏移量<br />} |
 | strokeOpacity | false | Number | 边透明度 |
 | shadowColor | false | String | 阴影颜色 |
 | shadowBlur | false | Number | 阴影模糊程度 |
 | shadowOffsetX | false | Number | 阴影 x 方向偏移量 |
 | shadowOffsetX | false | Number | 阴影 y 方向偏移量 |
-| ... |  |  |  |
+| lineDash | false | Array | 设置线的虚线样式，可以指定一个数组。一组描述交替绘制线段和间距（坐标空间单位）长度的数字。 如果数组元素的数量是奇数， 数组的元素会被复制并重复。例如， [5, 15, 25] 会变成 [5, 15, 25, 5, 15, 25]。 |
 
 
 下面代码演示在实例化图时全局配置方法中配置 `style`：
@@ -81,14 +82,14 @@ const graph = new G6.Graph({
 })
 ```
 
-#### 标签文本 label 及其配置 labelCfg
+### 标签文本 label 及其配置 labelCfg
 `label` String 类型。标签文本的文字内容。<br />`labelCfg` Object 类型。配置标签文本。下面是 `labelCfg` 对象中的常用配置项：
 
 | 名称 | 是否必须 | 类型 | 备注 |
 | --- | --- | --- | --- |
 | refX | false | Number | 标签在 x 方向的偏移量 |
 | refY | false | Number | 标签在 y 方向的偏移量 |
-| position | false | String | 文本相对于边的位置，目前支持的位置有: `'start'`，`'middle'`，`'end'`。默认为`'middle'`。 |
+| position | false | String | 文本相对于边的位置，目前支持的位置有：`'start'`，`'middle'`，`'end'`。默认为`'middle'`。 |
 | autoRotate | false | Boolean | 标签文字是否跟随边旋转，默认 `false` |
 | style | false | Object | 标签的样式属性 |
 
@@ -103,7 +104,7 @@ const graph = new G6.Graph({
 | opacity | false | Number | 文本透明度 |
 | font | false | String | 文本内容的当前字体属性 |
 | fontSize | false | Number | 文本字体大小 |
-| ... |  |  |  |
+| ... 节点标签与边标签样式属性相同，统一整理在 [Text 图形 API](/zh/docs/api/shapeProperties/#文本-text) |  |  |  |
 
 
 下面代码演示在实例化图时全局配置方法中配置 `label` 和 `labelCfg`。
@@ -173,12 +174,14 @@ const data = {
 }
 ```
 
-### 使用 graph.edge(edgeFn) 配置
+### 使用 graph.edge()
 该方法可以为不同边进行不同的配置。<br />提示：
 
 - 该方法必须**在 render 之前调用**，否则不起作用；
 - 由于该方法优先级最高，将覆盖其他地方对边的配置，这可能将造成一些其他配置不生效的疑惑；
 - 该方法在增加元素、更新元素时会被调用，如果数据量大、每条边上需要更新的内容多时，可能会有性能问题。
+
+
 ```javascript
 // const data = ...
 // const graph = ...
@@ -194,9 +197,12 @@ graph.edge((edge) => {
 
 graph.data(data);
 graph.render();
+
 ```
 
 ## 实例演示
+
+
 ```javascript
 const data = {
   nodes: [
@@ -281,4 +287,4 @@ graph.render();
 
 ## 相关阅读
 
-- [状态 State](../../states/state) —— 交互过程中的样式变化。
+- [状态 State](/zh/docs/manual/middle/states/state) —— 交互过程中的样式变化。

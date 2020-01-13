@@ -18,7 +18,7 @@ insertCss(`
    * by 十吾
    */
 const descriptionDiv = document.createElement('div');
-descriptionDiv.innerHTML = '读取数据 & 布局中，请稍候......';
+descriptionDiv.innerHTML = 'Reading data & Doing layout......';
 const graphDiv = document.getElementById('container');
 graphDiv.appendChild(descriptionDiv);
 const width = graphDiv.scrollWidth;
@@ -108,7 +108,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
     });
 
     graph.on('afterlayout', function() {
-      descriptionDiv.innerHTML = '布局完成！';
+      descriptionDiv.innerHTML = 'Done!';
     });
 
     graph.data(data);

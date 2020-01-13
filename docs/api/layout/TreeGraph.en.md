@@ -1,12 +1,12 @@
 ---
-title: TreeGraph
+title: TreeGraph Layout
 order: 2
 ---
 ## CompactBox
 
-CompactBox is the default layout for TreeGraph. It will consider the bounding box of each node when layout. It comes from classical [Reingold–Tilford tidy layout algorithm](http://emr.cs.iit.edu/~reingold/tidier-drawings.pdf).
+CompactBox is the default layout for TreeGraph. It will consider the bounding box of each node when layout. It comes from classical <a href='http://emr.cs.iit.edu/~reingold/tidier-drawings.pdf' target='_blank'>Reingold–Tilford tidy layout algorithm</a>.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z-ESRoHTpvIAAAAAAAAAAABkARQnAQ' width=850 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z-ESRoHTpvIAAAAAAAAAAABkARQnAQ' width=650 />
 
 ### Configuration
 
@@ -37,6 +37,16 @@ CompactBox is the default layout for TreeGraph. It will consider the bounding bo
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZFCiTLwCoAYAAAAAAAAAAABkARQnAQ' width=102/>
 
+
+#### getId
+**Type**: Function<br />**Example**: 
+```javascript
+(d) => {
+  // d is a node
+  return d.id + '_node';
+}
+```
+**Required**: false<br />**Description**: Sets the id for each node
 
 #### getWidth
 **Type**: Number | Function<br />**Example**: 
@@ -93,7 +103,7 @@ CompactBox is the default layout for TreeGraph. It will consider the bounding bo
 
 ## Dendrogram
 
-[Dendrogram](https://en.wikipedia.org/wiki/Dendrogram) arranges all the leaves on the same level. It is appropriate for hierarchical clustering.
+<a href='https://en.wikipedia.org/wiki/Dendrogram' target='_blank'>Dendrogram</a> arranges all the leaves on the same level. It is appropriate for hierarchical clustering. It does not consider the node size, which will be regarded as 1px.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zX7tSLqBvwcAAAAAAAAAAABkARQnAQ' width=400 />
 
@@ -147,7 +157,7 @@ Indented layout represents the hierarchy by indent between them. Each node will 
 ### Configuration
 
 #### direction
-**Type**: String<br />**Options**: 'LR' | 'RL' | 'H'<br />**Default**: 'LR'<br />**Required**: false<br />**Description**: The direction of layout. 
+**Type**: String<br />**Options**: 'LR' | 'RL' | 'H'<br />**Default**: 'LR'<br />**Required**: false<br />**Description**: The direction of layout:
 
 - LR —— Root is on the left, layout from the left to the right(left image below)<br />
 - RL —— Root is on the right, layout from the right to the left(center image below)<br />
@@ -156,6 +166,7 @@ Indented layout represents the hierarchy by indent between them. Each node will 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mq6YSIKrAt0AAAAAAAAAAABkARQnAQ' width=110 />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VGEnRbpvxlUAAAAAAAAAAABkARQnAQ' width=90 />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Vek6RqtUXNcAAAAAAAAAAABkARQnAQ' width=160 />
+
 > (Left)LR. (Center)RL. (Right)H.
 
 #### indent
@@ -170,7 +181,7 @@ Indented layout represents the hierarchy by indent between them. Each node will 
   return 100;
 }
 ```
-**Required**: false<br />**Description**: The width of node
+**Required**: false<br />**Description**: The width of each node
 
 #### getHeight
 **Type**: Number | Function<br />**Example**: 
@@ -181,7 +192,7 @@ Indented layout represents the hierarchy by indent between them. Each node will 
   return 100;
 }
 ```
-**Required**: false<br />**Description**: The height of node
+**Required**: false<br />**Description**: The height of each node
 
 #### getSide
 **Type**: Function<br />**Example**: 
@@ -222,7 +233,7 @@ Mindmap arranged the nodes with same depth on the same level. Different from com
   return 100;
 }
 ```
-**Required**: false<br />**Description**: The width of node
+**Required**: false<br />**Description**: The width of each node
 
 #### getHeight
 **Type**: Number | Function<br />**Example**: 
@@ -233,7 +244,7 @@ Mindmap arranged the nodes with same depth on the same level. Different from com
   return 100;
 }
 ```
-**Required**: false<br />**Description**: The height of node
+**Required**: false<br />**Description**: The height of each node
 
 
 #### getHGap
@@ -269,4 +280,4 @@ Mindmap arranged the nodes with same depth on the same level. Different from com
   return 'left';
 }
 ```
-**Default**: 'right'<br />**Required**: false<br />**Description**: The callback function of node position(left or right of root node). Only affects the nodes which are connected to the root node directly. And the descendant nodes will be placed according to it. 
+**Default**: 'right'<br />**Required**: false<br />**Description**: The callback function of node position(left or right of root node). Only affects the nodes which are connected to the root node directly. And the descendant nodes will be placed according to it

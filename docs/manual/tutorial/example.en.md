@@ -22,7 +22,7 @@ Create an HTML container for graph canvas, `div` tag in general. G6 will append
 
 ### Data Preparation
 
-The data for G6 should be JSON format, includes array attributes `nodes` and `edges`:
+The data for G6 should be JSON format, includes array properties `nodes` and `edges`:
 ```html
 <script>
   // console.log(G6.Global.version);
@@ -52,11 +52,11 @@ The data for G6 should be JSON format, includes array attributes `nodes` and `ed
 </script>
 ```
 
-**Attention**
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span>
 
 - `nodes` is an array of nodes, the `id` is an unique and required property; the `x` and `y` are the coordinates of the node;
 - `edges` is an array of edges, `source` and `target` are required, represent the `id` of the source node and the `id` of the target node respectively.
-- The properties of node and edge are described in [Properties of Nodes](/en/docs/api/properties/NodeProperties) and [Properties of Edges](/en/docs/api/properties/EdgeProperties)
+- The properties of node and edge are described in [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) and [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge) document.
 
 ### Instantiate the Graph
 The container, width, and height are required configurations when instantiating a Graph:
@@ -132,7 +132,7 @@ Here goes a part of tutorial-data.json. There are `x` and `y` in node data, and 
 
 G6 will render the graph according to the position information in the data once G6 finds `x` and `y` in the data. This mechanism satisfies the requirement that rendering the source data. To solve the problem of the graph out of the view port partially, two configurations are provided:
 
--  `fitView`: Whether fit the graph to the canvas;
+-  `fitView`: Whether to fit the graph to the canvas;
 -  `fitViewPadding`: The padding between the content of the graph and the borders of the canvas.
 
 We modify the code about instantiating Graph as shown below:
@@ -155,14 +155,14 @@ The configurations below will be used in the following Tutorial:
 | Name | Type | Options / Example | Default | Description |
 | --- | --- | --- | --- | --- |
 | renderer | String | 'canvas' / 'svg' | 'canvas' | Render engine of the graph. |
-| fitView | Boolean | true / false | false | Whether fit the graph to the canvas. |
+| fitView | Boolean | true / false | false | Whether to fit the graph to the canvas. |
 | fitViewPadding | Number / Array | 20 / [ 20, 40, 50, 20 ] | 0 | The padding between the content of the graph and the borders of the canvas. |
-| animate | Boolean | true / false | false | Whether activate the global animation. |
-| modes | Object | {<br />  default: [ 'drag-node', 'drag-canvas' ]<br />} | null | The set of graph interaction modes. This is a complicated concept, refer to [Mode](../middle/mode) for more detial. |
-| defaultNode | Object | {<br />  shape: 'circle',<br />  color: '#000',<br />  style: {<br />    ......<br />  }<br />} | null | The default global attributes for nodes, includes styles attributes and other attributes. |
-| defaultEdge | Object | {<br />  shape: 'polyline',<br />  color: '#000',<br />  style: {<br />    ......<br />  }<br />} | null | The default global attributes for edges, includes styles attributes and other attributes. |
-| nodeStateStyles | Object | {<br />  hover: {<br />    ......<br />  },<br />  select: {<br />    ......<br />  }<br />} | null | The style attributes of nodes in different states except for default state. Such as hover, select. |
-| edgeStateStyles | Object | {<br />  hover: {<br />    ......<br />  },<br />  select: {<br />    ......<br />  }<br />} | null | The style attributes of edges in different states except for default state. Such as hover, select. |
+| animate | Boolean | true / false | false | Whether to activate the global animation. |
+| modes | Object | {<br />  default: [ 'drag-node', 'drag-canvas' ]<br />} | null | The set of graph interaction modes. This is a complicated concept, refer to [Mode](/en/docs/manual/middle/states/mode) for more detial. |
+| defaultNode | Object | {<br />  shape: 'circle',<br />  color: '#000',<br />  style: {<br />    ......<br />  }<br />} | null | The default global properties for nodes, includes styles properties and other properties. |
+| defaultEdge | Object | {<br />  shape: 'polyline',<br />  color: '#000',<br />  style: {<br />    ......<br />  }<br />} | null | The default global properties for edges, includes styles properties and other properties. |
+| nodeStateStyles | Object | {<br />  hover: {<br />    ......<br />  },<br />  select: {<br />    ......<br />  }<br />} | null | The style properties of nodes in different states except for default state. Such as hover, select. |
+| edgeStateStyles | Object | {<br />  hover: {<br />    ......<br />  },<br />  select: {<br />    ......<br />  }<br />} | null | The style properties of edges in different states except for default state. Such as hover, select. |
 
 
 ## Complete Code
@@ -199,4 +199,4 @@ The configurations below will be used in the following Tutorial:
 </html>
 ```
 
-**⚠️注意** <br />Replace the url `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` to change the data into yours.
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️注意:</strong></span><br />Replace the url `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` to change the data into yours.

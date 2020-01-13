@@ -113,16 +113,16 @@ G6.registerEdge('can-running', {
           totalArray = totalArray.concat(lineDash);
         }
         let index = 0;
-        shape.animate({
-          onFrame() {
-            const cfg = {
-              lineDash: dashArray[index].concat(totalArray)
-            };
-            index = (index + 1) % interval;
-            return cfg;
-          },
-          repeat: true
-        }, 3000);
+        shape.animate(() => {
+          const cfg = {
+            lineDash: dashArray[index].concat(totalArray)
+          };
+          index = (index + 1) % interval;
+          return cfg;
+        }, {
+          repeat: true,
+          duration: 3000
+        });
       } else {
         shape.stopAnimate();
         shape.attr('lineDash', null);

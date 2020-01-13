@@ -102,10 +102,10 @@ const graph = new G6.Graph({
 });
 
 graph.on('beforelayout', function() {
-  tipDiv.innerHTML = '正在执行力导向布局...布局完成后本文字将会发生变化。';
+  tipDiv.innerHTML = 'Doing force-directed layout... the text will be changed after the layout being done.';
 });
 graph.on('afterlayout', function() {
-  tipDiv.innerHTML = '布局完成！';
+  tipDiv.innerHTML = 'Done!';
 });
 
 graph.data(data);

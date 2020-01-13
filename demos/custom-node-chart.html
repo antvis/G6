@@ -73,15 +73,19 @@
             // 加上交互动画
             fan.on('mouseenter', function(evt) {
               fan.animate({
-                  re: re  + 8,
-                  repeat: false     
-              }, 300);
+                re: re  + 8
+              }, {
+                repeat: false,
+                duration: 300
+              });
             });
             fan.on('mouseleave', function(evt) {
               fan.animate({
-                  re:re,
-                  repeat: false     
-              }, 300);
+                re: re
+              }, {
+                repeat: false,
+                duration: 300
+              });
             });
             
             // 设置class
@@ -193,15 +197,19 @@
               // 加上交互动画
               littleCircle.on('mouseenter', function(evt) {
                 littleCircle.animate({
-                    r: 5,
-                    repeat: false     
-                }, 200);
+                  r: 5
+                }, {
+                  repeat: false,
+                  duration: 200
+                });
               });
               littleCircle.on('mouseleave', function(evt) {
                 littleCircle.animate({
-                    r: 2,
-                    repeat: false     
-                }, 200);
+                  r: 2
+                }, {
+                  repeat: false,
+                  duration: 200
+                });
               });
               // 设置class
               littleCircle.set("className", 'littleCircle');

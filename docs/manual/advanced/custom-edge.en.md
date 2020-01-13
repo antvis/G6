@@ -1,23 +1,27 @@
 ---
-title: 自定义边
+title: Custom Edge
 order: 3
 ---
 
-G6 除了提供丰富的 [内置边](/zh/docs/manual/middle/elements/defaultEdge) 外，还提供了自定义边的机制，方便用户开发更加定制化的边，包括含有复杂图形的边、复杂交互的边、带有动画的边等。
+G6 provides abundant [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge). Besides, the custom machanism allows the users to design their own type of edges. An edge with complex graphics shapes, complex interactions, fantastic animations can be implemented easily.
 
-在本章中我们会通过四个案例，从简单到复杂讲解边的自定义：<br />1. 从无到有的定义边；<br />2. 扩展现有边：<br />3. 边的交互样式；<br />4. 自定义带箭头的边。
+In this document, we will introduce the custom edge by four examples:
+<br />1. Register a bran-new edge;
+<br />2. Register an edge by extending a built-in edge;
+<br />3. Register an edge with interactions and styles;
+<br />4. Register an edge with custom arrow.
 
 
-## 1. 从无到有定义边
-我们来实现垂直的折线：<br />
+## 1. Register a Bran-new Edge
+Now, we are goint to register a perpendicular polyline:<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HxY-TJ2vJFMAAAAAAAAAAABkARQnAQ' alt='img' width='150'/>
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ijy4QpaB-fgAAAAAAAAAAABkARQnAQ' alt='img' width='150'/>
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*gz09R5fM-HMAAAAAAAAAAABkARQnAQ' alt='img' width='150'/>
 
-> （左）直线边。（中）默认的折线边。（右）调整了节点的控制点后的折线边。
+> (Left) Straight line edge. (Center) A custom polyline edge. (Right) The result after modifying the link points of the end nodes.
 
-### 自定义边
+### Register a Custom Edge
 ```javascript
 G6.registerEdge('hvh', {
   draw(cfg, group) {
@@ -28,8 +32,8 @@ G6.registerEdge('hvh', {
         stroke: '#333',
         path: [
           ['M', startPoint.x, startPoint.y],
-          ['L', endPoint.x / 3 + 2 / 3 * startPoint.x , startPoint.y], // 三分之一处
-          ['L', endPoint.x / 3 + 2 / 3 * startPoint.x , endPoint.y],   // 三分之二处
+          ['L', endPoint.x / 3 + 2 / 3 * startPoint.x , startPoint.y], // 1/3
+          ['L', endPoint.x / 3 + 2 / 3 * startPoint.x , endPoint.y],   // 2/3
           ['L', endPoint.x, endPoint.y]
         ]
       }
@@ -39,11 +43,12 @@ G6.registerEdge('hvh', {
 });
 ```
 
-- 默认的 `startPoint`， `endPoint` 是两个端点中点的连接线分别同圆的交点；
-- 修改节点的锚点可以修改 `startPoint` 和 `endPoint` 的位置。
+Now, we have registered a custom edge named `'hvh'` whose result is shown in the center of the figure above. The default `startPoint` and `endPoint` in the custom edge are the intersection of the edge and the end nodes.
 
-### 示例数据
-通过以下的数据，使用自定义的 hvh 边，就可以实现上图最右边的效果。
+To achieve the result shown in the right of the figure, we modify the anchorPoints (link points) of the end nodes to change the positions of `startPoint` and `endPoint`.
+
+### Modify the anchorPoints in Data
+Now, we modify `anchorPoints` in the node data, and then assign `shape` to `'hvh'` in edge data as shown below.
 ```javascript
 const data = {
   nodes: [{
@@ -82,50 +87,53 @@ const data = {
 };
 ```
 
-## 2. 扩展现有边
-通过 `afterDraw` 接口给现有的曲线增加动画。
+## 2. Extend the Built-in Edge
+In this section, we add animation to a built-in edge by `afterDraw`.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-l9lQ7Ck1QcAAAAAAAAAAABkARQnAQ' alt='img' width='150'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-l9lQ7Ck1QcAAAAAAAAAAABkARQnAQ' alt='img' width='250'/>
 
 ```javascript
 G6.registerEdge('line-growth', {
   afterDraw(cfg, group) {
     const shape = group.get('children')[0];
     const length = shape.getTotalLength();
-    shape.animate({
-      onFrame(ratio) {
-        const startLen = ratio * length;
-        const cfg = {
-          lineDash: [startLen, length - startLen]
-        };
-        return cfg;
-      },
-      repeat: true
-    }, 2000);
+    shape.animate((ratio) => {
+      const startLen = ratio * length;
+      const cfg = {
+        lineDash: [startLen, length - startLen]
+      };
+      return cfg;
+    }, {
+      repeat: true,
+      duration: 2000
+    });
   }
 }, 'cubic');
 ```
 
 <br />
 
-## 3. 边的交互样式
-以点击选中、鼠标 hover 到边为示例，实现如下需求：
+## 3. Custom Edge with Interaction Styles
+In this section, we implement a type of edge with the interaction styles below:
 
-- 点击边时边变粗，再点击变成细；
-- 鼠标移动上去变成红色，离开变成 `'#333'` 。
+- Widen the edge by clicking. Restore it by clicking again;
+- Turn to red by mouse hovering. Restore it by mouse leaving.
 
-效果如下图所示。<br />
+The result:<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IWLxRZomOfMAAAAAAAAAAABkARQnAQ' alt='img' width='350'/>
-<br />提示：边如果过细点击时很难击中，可以设置 `**lineAppendWidth**` 来提升击中范围。
+<br />
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)">
+<strong>⚠️Attention:</strong>
+</span> when the edge is too thin to be hitted by mouse, set `lineAppendWidth` to enlarge the hitting area.
 
 ```javascript
-// 基于 line 扩展出新的图形
+// Extend a new type of edge by extending line edge
 G6.registerEdge('custom-edge', {
-  // 设置状态
+  // Response the states change
   setState(name, value, item) {
     const group = item.getContainer();
-    const shape = group.get('children')[0]; // 顺序根据 draw 时确定
+    const shape = group.get('children')[0]; // The order is determined by the ordering of been draw
     if(name === 'active') {
       if(value) {
         shape.attr('stroke', 'red');
@@ -143,10 +151,10 @@ G6.registerEdge('custom-edge', {
   }
 }, 'line');
 
-// 点击时选中，再点击时取消
+// Select by clicking, cancel by clicking again
 graph.on('edge:click', ev=> {
   const edge = ev.item;
-  graph.setItemState(edge, 'selected', !edge.hasState('selected')); // 切换选中
+  graph.setItemState(edge, 'selected', !edge.hasState('selected')); // Switch the 'selected' state
 });
 
 graph.on('edge:mouseenter' ,ev=> {
@@ -163,12 +171,12 @@ graph.on('edge:mouseleave' , ev=> {
 
 <br />
 
-## 4. 自定义带箭头的边
-很多时候，G6 默认提供的箭头并不能满足业务上的需求，这个时候，就需要我们自定义箭头。当然了，G6 也支持箭头样式的自定义。<br />
+## 4. Register Edge with Custom Arrow
+The default end arrows might not meet the requirements sometimes. You can register an edge with a custom arrow by the custom mechanism of G6.<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*f1G9RJ5dE2oAAAAAAAAAAABkARQnAQ' alt='img' width='250'/>
 
-> （左）G6 内置箭头。（右）自定义边带有自定义箭头。
+> (Left) Built-in arrow of G6. (Right) A custom edge with custom arrow.
 
 
 ```javascript

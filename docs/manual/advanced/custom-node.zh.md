@@ -3,7 +3,7 @@ title: 自定义节点
 order: 2
 ---
 
-G6 提供了一系列[内置节点](/zh/docs/manual/middle/elements/defaultNode)，包括 [circle](/zh/docs/manual/middle/elements/nodes/circle)、[rect](https://www.yuque.com/antv/g6/vdqpdt)、[ellipse](/zh/docs/manual/middle/elements/nodes/ellipse)、[diamond](/zh/docs/manual/middle/elements/nodes/diamond)、[triangle](/zh/docs/manual/middle/elements/nodes/triangle)、[star](/zh/docs/manual/middle/elements/nodes/star)、[image](/zh/docs/manual/middle/elements/nodes/image)、[modelRect](/zh/docs/manual/middle/elements/nodes/modelRect)。若内置节点无法满足需求，用户还可以通过 `G6.registerNode('nodeName', options)` 进行自定义节点，方便用户开发更加定制化的节点，包括含有复杂图形的节点、复杂交互的节点、带有动画的节点等。
+G6 提供了一系列[内置节点](/zh/docs/manual/middle/elements/nodes/defaultNode)，包括 [circle](/zh/docs/manual/middle/elements/nodes/circle)、[rect](/zh/docs/manual/middle/elements/nodes/rect)、[diamond](/zh/docs/manual/middle/elements/nodes/diamond)、[triangle](/zh/docs/manual/middle/elements/nodes/triangle)、[star](/zh/docs/manual/middle/elements/nodes/star)、[image](/zh/docs/manual/middle/elements/nodes/image)、[modelRect](/zh/docs/manual/middle/elements/nodes/modelRect)。若内置节点无法满足需求，用户还可以通过 `G6.registerNode('nodeName', options)` 进行自定义节点，方便用户开发更加定制化的节点，包括含有复杂图形的节点、复杂交互的节点、带有动画的节点等。
 
 在本章中我们会通过四个案例，从简单到复杂讲解节点的自定义。这四个案例是：
 <br />
@@ -15,7 +15,7 @@ G6 提供了一系列[内置节点](/zh/docs/manual/middle/elements/defaultNode)
 <br />
 <strong>4. 调整节点的鼠标选中/悬浮样式。</strong>样式变化响应；动画响应。
 
-通过 [图形 Shape](/zh/docs/manual/middle/keyConcept) 章节的学习，我们应该已经知道了自定义节点时需要满足以下两点：
+通过 [图形 Shape](/zh/docs/manual/middle/keyconcept/shape-keyshape) 章节的学习，我们应该已经知道了自定义节点时需要满足以下两点：
 
 - 控制节点的生命周期；
 - 解析用户输入的数据，在图形上展示。
@@ -31,10 +31,10 @@ G6.registerNode('nodeName', {
     }
   },
   /**
-	 * 绘制节点/边，包含文本
+	 * 绘制节点，包含文本
 	 * @param  {Object} cfg 节点的配置项
 	 * @param  {G.Group} group 节点的容器
-	 * @return {G.Shape} 绘制的图形，通过node.get('keyShape') 可以获取到
+	 * @return {G.Shape} 绘制的图形，通过 node.get('keyShape') 可以获取到
 	 */
 	draw(cfg, group) {},
   /**
@@ -58,27 +58,27 @@ G6.registerNode('nodeName', {
 	 */
   afterUpdate(cfg, node) {},
   /**
-	 * 设置节点的状态，主要是交互状态，业务状态请在 draw 方法中实现
-	 * 单图形的节点仅考虑 selected、active 状态，有其他状态需求的用户自己复写这个方法
+	 * 响应节点的状态变化，主要是交互状态，业务状态请在 draw 方法中实现
+	 * 默认情况下，节点的 keyShape 将会响应 selected、active 状态，有其他状态需求的用户自己复写这个方法
 	 * @param  {String} name 状态名称
 	 * @param  {Object} value 状态值
 	 * @param  {Node} node 节点
 	 */
   setState(name, value, node) {},
   /**
-   * 获取控制点
-   * @param  {Object} cfg 节点、边的配置项
-   * @return {Array|null} 控制点的数组,如果为 null，则没有控制点
+   * 获取锚点（相关边的连入点）
+   * @param  {Object} cfg 节点的配置项
+   * @return {Array|null} 锚点（相关边的连入点）的数组,如果为 null，则没有控制点
    */
   getAnchorPoints(cfg) {}
 }, extendNodeName);
 ```
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;注意：</span>
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️注意:</strong></span>
 
 - 如果不从任何现有的节点扩展新节点时，`draw` 方法是必须的；
-- `update` 方法可以不定义，数据更新时会走 draw 方法，所有图形清除重绘；
-- `afterDraw`，`afterUpdate` 方法一般用于扩展已有的节点/和边，例如：在矩形上附加图片，线上增加动画等；
+- `update` 方法可以不定义，数据更新时会走 `draw` 方法，所有图形清除重绘；
+- `afterDraw`，`afterUpdate` 方法一般用于扩展已有的节点，例如：在矩形节点上附加图片，圆节点增加动画等；
 - `setState` 方法一般也不需要复写，有全局的样式可以替换；
 - `getAnchorPoints` 方法仅在需要限制与边的连接点时才需要复写，也可以在数据中直接指定。
 
@@ -97,7 +97,7 @@ G6.registerNode('diamond', {
     const shape = group.addShape('path', {
     	attrs: {
         path: this.getPath(cfg), // 根据配置获取路径
-        stroke: cfg.color // 颜色应用到边上，如果应用到填充，则使用 fill: cfg.color
+        stroke: cfg.color // 颜色应用到描边上，如果应用到填充，则使用 fill: cfg.color
       }
     });
     if(cfg.label) { // 如果有文本
@@ -166,7 +166,7 @@ graph.render();
 
 在实现 diamond 的过程中，重写 `update` 方法，找到需要更新的 shape 进行更新，从而优化性能。寻找需要更新的图形可以通过：
 
-- `group.get('children')[0]` 找到 [关键图形 keyShape](/zh/docs/manual/middle/keyConcept)，也就是 `draw` 方法返回的 shape；
+- `group.get('children')[0]` 找到 [关键图形 keyShape](/zh/docs/manual/middle/keyconcept/shape-keyshape#keyshape)，也就是 `draw` 方法返回的 shape；
 - `group.get('children')[1]` 找到 label 图形。
 
 下面代码仅更新了 diamond 的关键图形的路径和颜色。
@@ -194,12 +194,12 @@ G6.registerNode('diamond', {
 
 ## 2. 扩展现有节点
 ### 扩展 Shape
-G6 中已经[内置了一些节点](/zh/docs/manual/middle/elements/defaultNode)，如果用户仅仅想对现有节点进行调整，复用原有的代码，则可以基于现有的节点进行扩展。同样实现 diamond ，可以基于 circle、ellipse、rect 等内置节点的进行扩展。[simple-shape](https://github.com/antvis/g6/blob/master/src/shape/single-shape-mixin.js) 是这些内置节点图形的基类，也可以基于它进行扩展。
+G6 中已经[内置了一些节点](/zh/docs/manual/middle/elements/nodes/defaultNode)，如果用户仅仅想对现有节点进行调整，复用原有的代码，则可以基于现有的节点进行扩展。同样实现 diamond ，可以基于 circle、ellipse、rect 等内置节点的进行扩展。<a href='https://github.com/antvis/g6/blob/master/src/shape/single-shape-mixin.js' target='_blank'>single-shape</a> 是这些内置节点图形的基类，也可以基于它进行扩展。
 
-下面以基于 single-shape 为例进行扩展。`draw`，`update`，`setState` 方法在 [simple-shape ](https://github.com/antvis/g6/blob/master/src/shape/single-shape-mixin.js)中都有实现，这里仅需要复写 `getShapeStyle` 方法即可。返回的对象中包含自定义图形的路径和其他样式。
+下面以基于 single-shape 为例进行扩展。`draw`，`update`，`setState` 方法在 <a href='https://github.com/antvis/g6/blob/master/src/shape/single-shape-mixin.js' target='_blank'>single-shape</a> 中都有实现，这里仅需要复写 `getShapeStyle` 方法即可。返回的对象中包含自定义图形的路径和其他样式。
 ```javascript
 G6.registerNode('diamond', {
-  shapeType: 'path', // group.addShape 时需要指定的类型
+  shapeType: 'path', // 继承自 'single-shape' 时必须指定，否则不需要填写
   getShapeStyle(cfg) {
     const size = this.getSize(cfg); // 转换成 [width, height] 的模式
     const color = cfg.color;
@@ -253,18 +253,19 @@ G6.registerNode('inner-animate', {
       }
     });
     // 执行旋转动画
-    image.animate({
-      onFrame(ratio) {
-        const matrix = Util.mat3.create();
-        const toMatrix = Util.transform(matrix, [
-          ['r', ratio * Math.PI * 2]
-        ]) ;
-        return {
-          matrix: toMatrix
-        };
-      },
+    image.animate((ratio) => {
+      const matrix = Util.mat3.create();
+      const toMatrix = Util.transform(matrix, [
+        ['r', ratio * Math.PI * 2]
+      ]) ;
+      return {
+        matrix: toMatrix
+      };
+    }, {
       repeat: true
-    }, 3000, 'easeCubic');
+      duration: 3000,
+      easing: 'easeCubic'
+    });
   }
 },
 // 继承了 rect 节点
@@ -276,7 +277,7 @@ G6.registerNode('inner-animate', {
 <br />
 
 ## 3. 调整锚点 anchorPoint
-节点上的[锚点 anchorPoint](/zh/docs/manual/middle/keyConcept) 作用是**确定节点与边的相交的位置**，看下面的场景：<br />
+节点上的[锚点 anchorPoint](/zh/docs/manual/middle/keyconcept/anchorpoint) 作用是**确定节点与边的相交的位置**，看下面的场景：<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mJ85Q5WRJLwAAAAAAAAAAABkARQnAQ' alt='img' width='200'/>
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*99aSR5zbd44AAAAAAAAAAABkARQnAQ' alt='img' width='200'/>
@@ -330,18 +331,18 @@ G6.registerNode('diamond', {
 常见的交互都需要节点和边通过样式变化做出反馈，例如鼠标移动到节点上、点击选中节点/边、通过交互激活边上的交互等，都需要改变节点和边的样式，有两种方式来实现这种效果：
 
 1. 在数据上添加标志字段，在自定义 shape 过程中根据约定进行渲染；
-1. 将交互状态同原始数据和绘制节点的逻辑分开，仅更新节点。
+2. 将交互状态同原始数据和绘制节点的逻辑分开，仅更新节点。
 
 我们推荐用户使用第二种方式来实现节点的状态调整，可以通过以下方式来实现：
 
-- 在 G6 中自定义节点/边时在 `setState` 方法中进行节点状态的设置；
+- 在 G6 中自定义节点/边时在 `setState` 方法中进行节点状态变化的响应；
 - 通过 `graph.setItemState()` 方法来设置状态。
 
 基于 rect 扩展出一个 custom 图形，默认填充色为白色，当鼠标点击时变成红色，实现这一效果的示例代码如下：
 ```javascript
 // 基于 rect 扩展出新的图形
 G6.registerNode('custom', {
-  // 设置状态
+  // 响应状态变化
 	setState(name, value, item) {
     const group = item.getContainer();
     const shape = group.get('children')[0]; // 顺序根据 draw 时确定
@@ -367,16 +368,18 @@ G6 并未限定节点的状态，只要你在 `setState` 方法中进行处理�
 
 ```javascript
 G6.registerNode('custom', {
-  // 设置状态
+  // 响应状态变化
   setState(name, value, item) {
     const group = item.getContainer();
     const shape = group.get('children')[0]; // 顺序根据 draw 时确定
     if(name === 'running') {
       if(value) {
         shape.animate({
-          r: 20,
-          repeat: true
-        }, 1000);
+          r: 20
+        }, {
+          repeat: true,
+          duration: 1000
+        });
       } else {
         shape.stopAnimate();
         shape.attr('r', 10);

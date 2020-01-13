@@ -18,16 +18,16 @@
           const cfg = item.get('model');
           if (name === 'running') {
             if (value) {
-              shape.animate({
+              shape.animate(ratio => {
+                const diff = ratio <= 0.5 ? ratio * 10 : (1 - ratio) * 10;
+                return {
+                  r: cfg.size / 2 + diff
+                };
+              }, {
                 repeat: true,
-                onFrame: function onFrame(ratio) {
-                  const diff = ratio <= 0.5 ? ratio * 10 : (1 - ratio) * 10;
-                  return {
-                    r: cfg.size / 2 + diff
-                  };
-                }
-              },
-              1000, 'easeCubic');
+                duration: 1000,
+                easing: 'easeCubic'
+              });
             } else {
               shape.stopAnimate();
               shape.attr('lineDash', null);

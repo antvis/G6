@@ -55,6 +55,7 @@ G6.registerNode('pie-node', {
 const data = {
   nodes: [
     {
+      id: 'pie1',
       size: 80,
       inDegree: 80,
       degree: 360,
@@ -62,11 +63,18 @@ const data = {
       y: 150
     },
     {
+      id: 'pie2',
       size: 80,
       inDegree: 280,
       degree: 360,
       x: 350,
       y: 150
+    }
+  ],
+  edges: [
+    {
+      source: 'pie1',
+      target: 'pie2'
     }
   ]
 };
@@ -76,6 +84,7 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
+  linkCenter: true,
   defaultNode: {
     shape: 'pie-node'
   }

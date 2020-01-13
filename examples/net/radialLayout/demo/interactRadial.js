@@ -480,7 +480,7 @@ const data2_m = {
 
 const graphDiv = document.getElementById('container');
 const descriptionDiv = document.createElement('div');
-descriptionDiv.innerHTML = '请尝试点击 2 号节点';
+descriptionDiv.innerHTML = 'Try to click node 2!';
 graphDiv.appendChild(descriptionDiv);
 
 const width = graphDiv.scrollWidth;
