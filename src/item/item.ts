@@ -158,7 +158,6 @@ export default class ItemBase implements IItemBase {
   }
 
   protected init() {
-    // TODO 实例化工厂方法，需要等 Shape 重构完成
     const shapeFactory = Shape.getFactory(this.get('type'));
     this.set('shapeFactory', shapeFactory);
   }
@@ -242,7 +241,6 @@ export default class ItemBase implements IItemBase {
     }
   }
 
-  // TODO 确定还是否需要该方法
   public getShapeCfg(model: ModelConfig): ModelConfig {
     const styles = this.get('styles');
     if (styles && styles.default) {
