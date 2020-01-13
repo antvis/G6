@@ -16,7 +16,7 @@ const graph = new G6.Graph({
 });
 ```
 
-The configurations of each layout algorithms are different. Please refer to corresponding API of layout.
+The configurations of each layout algorithms are different. Please refer to corresponding API of each layout in this directory.
 <br />When `layout` is not assigned on graph:
 
 - If there are `x` and `y` in node data, the graph will render with these information;
@@ -35,7 +35,7 @@ Initialize the layout.
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| data | Object | true | 布局中使用的数据 |
+| data | Object | true | The data for the layout |
 
 
 

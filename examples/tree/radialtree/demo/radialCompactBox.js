@@ -9,7 +9,6 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       container: 'container',
       width,
       height,
-      pixelRatio: 2,
       linkCenter: true,
       modes: {
         default: [{

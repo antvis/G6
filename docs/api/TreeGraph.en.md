@@ -5,7 +5,7 @@ order: 2
 
 If you are going to visualize a tree, TreeGraph of G6 is more appropriate than Graph. The main differences between `G6.TreeGraph` and `G6.Graph` are data structure and built-in layout algorithms:
 
-- Data structure: In G6, the tree data has nested structure. Edges are implicit in it. Each node data has `id` and `children` attributes at least:
+- Data structure: In G6, the tree data has nested structure. Edges are implicit in it. Each node data has `id` and `children` properties at least:
 
 ```javascript
 const data = {
@@ -24,7 +24,7 @@ const data = {
 ```
 
 - Tree layout algorithms:
-  - Tree layout algorithms do not modify the source data. it generates a new data instead. And the source data will be an attribute of the new data. This mechanism will reduce the complexity of transformation from nested data to nodes and edges in graph.
+  - Tree layout algorithms do not modify the source data. it generates a new data instead. And the source data will be a property of the new data. This mechanism will reduce the complexity of transformation from nested data to nodes and edges in graph.
   - The layout will be re-calculated after adding / deleting / expanding / collapsing nodes on the tree. 
 
 
@@ -36,8 +36,8 @@ const data = {
 
  | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| layout | Object | null | **V3.0.4 supports configurations for TreeGraph layout**. Before V3.0.4, the layout is formatted as a function. We recommend developers to use configurations now. |
-| animate | Boolean | true | Whether activate animation for relayout. |
+| layout | Object | null | *V3.0.4 supports configurations for TreeGraph layout*. Before V3.0.4, the layout is formatted as a function. We recommend developers to use configurations now. |
+| animate | Boolean | true | Whether to activate animation for relayout. |
 
 
 **Usage**
@@ -83,7 +83,7 @@ There are four layout algorithms for tree in G6: dendrogram, compactBox, mindmap
 | direction | String | LR | The direction of layout. Options: `'LR'` , `'RL'` , `'TB'` , `'BT'` , `'H'` , and `'V'`.<br />L: Left; R: right; T: top; B: bottom; H: horizontal; V: vertical. |
 | getChildren | Function |  | Return all the children nodes of the current node. |
 
-⚠️**Attention:** When`type='indeted'`, `direction` can only be `'LR'`, `'RL'`, and `'H'`.
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> When`type='indeted'`, `direction` can only be `'LR'`, `'RL'`, and `'H'`.
 
 
 ### dendrogram
@@ -109,7 +109,7 @@ Different results with different `direction` values.
 | rankSep | Number | 200 | The separation between nodes in adjacent levels. |
 | nodeSize | Number | 20 | The node size. |
 | subTreeSep | Number | 10 | The separation between sub trees. |
-| isHorizontal | Boolean | true | Whether layout the tree in horizontal. |
+| isHorizontal | Boolean | true | Whether to layout the tree in horizontal. |
 
 
 ### compactBox
@@ -137,7 +137,7 @@ Different effects for different `direction` values.
 | getVGap | Function | 18 | Set the vertical separations between nodes. |
 | getHGap | Function | 18 | Set the horizontal separations between nodes. |
 
-⚠️**Attention:** `getWidth`, `getHeight`, `getVGap`, and `getHGap` will not change the node size:
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> `getWidth`, `getHeight`, `getVGap`, and `getHGap` will not change the node size:
 ```javascript
 /*
    * Gaps: filling space between nodes
@@ -240,7 +240,7 @@ Incrementally update the children data of the parent.
 | data | Object | true | The data of subtreee. |
 | parent | Node | String | false | The id or instance of parent node. |
 
-⚠️**Attention:** When the `parent` is null, this operation will update the graph fully.
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> When the `parent` is null, this operation will update the graph fully.
 
 **Usage**
 
@@ -316,7 +316,7 @@ Refresh the layout. Usually, it is called after changing data.
 
 | Name | Type | Required| Description |
 | --- | --- | --- | --- |
-| fitView | Boolean | false | Whether fit view after refreshing layout. |
+| fitView | Boolean | false | Whether to fit view after refreshing layout. |
 
 
 **Usage**

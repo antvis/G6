@@ -22,9 +22,10 @@ G6 除了提供丰富的 [内置交互行为 Behavior](/zh/docs/manual/middle/st
 - 有些系统需要从工具栏上点击后添加节点，有些系统需要从面板栏上拖出出新的节点；
 - 有的业务添加边需要从锚点上拖拽出来，而有些直接点击节点后就可以拖拽出边；
 - 有些边可以连接到所有节点上，而有些边不能连接到具体某个节点的某个锚点上；
-- 所有的交互的触发、持续、结束都要允许能够进行个性化的判定。
+- 所有的交互的触发、持续、结束都要允许能够进行个性化的判定；
+- ……
 
-我们可以看到在图上的交互是繁杂多变的。各种冲突、各种配置项会让用户和开发者疲于应对。出于这些考虑， G6 提供了一套非常简单而灵活的机制来实现交互。
+我们可以看到在图上的交互是繁杂多变的。各种冲突、各种配置项会让用户和开发者疲于应对。出于这些考虑，G6 提供了一套非常简单而灵活的机制来实现交互。
 
 
 ## Behavior 的生命周期
@@ -38,11 +39,11 @@ G6 除了提供丰富的 [内置交互行为 Behavior](/zh/docs/manual/middle/st
 
 
 ## 自定义交互 registerBehavior
-通过 `G6.registerBehavior` 自定义 Behavior。下面代码实现了名为 `'activate-node' `的交互行为，在终端用户点击节点时，置该节点的 `active` 状态为 `true`；再次点击或点击画布时，置该节点的 `active` 状态为 `false`。
+通过 `G6.registerBehavior` 自定义 Behavior。下面代码实现了名为 `'activate-node'` 的交互行为，在终端用户点击节点时，置该节点的 `active` 状态为 `true`；再次点击或点击画布时，置该节点的 `active` 状态为 `false`。
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;注意：</span>
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️注意:</strong></span>
 
-- 下面代码仅设置了不同交互后节点的状态，没有指定这些状态下节点的样式。若需要根据节点状态变化它的样式，参见 [配置不同 State 样式](/zh/docs/manual/middle/states/state)。
+- 下面代码仅设置了不同交互后节点的状态，没有指定这些状态下节点的样式。若需要根据节点状态变化它的样式，参见 [配置不同 State 下的节点样式](/zh/docs/manual/middle/states/state)。
 - 自定义 Behavior 时，可选的方法请参数 [Behavior API](/zh/docs/api/Behavior)；
 - `getEvent` 返回该 Behavior 所需监听事件的对象，G6 中支持的所有事件，请参考 [Event API](/zh/docs/api/Event)。
 
@@ -66,21 +67,21 @@ G6.registerBehavior('activate-node', {
       graph.setItemState(item, 'active', false);
       return;
     }
-    // this 上即可取到配置，如果不允许多个active，先取消其他节点的active状态
+    // this 上即可取到配置，如果不允许多个 'active'，先取消其他节点的 'active' 状态
     if (!this.multiple) {
       this.removeNodesState();
     }
-    // 置点击的节点状态为active
+    // 置点击的节点状态 'active' 为 true
     graph.setItemState(item, 'active', true);
   },
   onCanvasClick(e) {
-    // shouldUpdate可以由用户复写，返回 true 时取消所有节点的active状态
+    // shouldUpdate 可以由用户复写，返回 true 时取消所有节点的 'active' 状态，即将 'active' 状态置为 false
     if (this.shouldUpdate(e)) {
       removeNodesState();
     }
   },
   removeNodesState() {
-    graph.findAllByState('active').forEach(node => {
+    graph.findAllByState('node', 'active').forEach(node => {
         graph.setItemState(node, 'active', false);
       });
   }  
@@ -96,7 +97,7 @@ const graph = new G6.Graph({
   width: 500,
   height: 500,
   modes: {
-   // 定义的 behavior 指定到这里，就可以支持Behavior中定义的交互
+   // 定义的 Behavior 指定到这里，就可以支持 Behavior 中定义的交互
    default: ['activate-node']
   }
 });

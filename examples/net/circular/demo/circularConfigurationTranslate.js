@@ -323,7 +323,7 @@ graph.data(data);
 graph.render();
 
 const descriptionDiv = document.createElement('div');
-descriptionDiv.innerHTML = 'Circular 布局，半径：撑满画布，排序方式：topology';
+descriptionDiv.innerHTML = 'Circular layout with radius: take full use of the canvas, ordering: topology';
 const graphDiv = document.getElementById('mountNode');
 document.body.insertBefore(descriptionDiv, graphDiv);
 
@@ -335,7 +335,7 @@ setInterval(function() {
 
 function layoutConfigTranslation() {
   setTimeout(function() {
-    descriptionDiv.innerHTML = 'Circular 布局，半径 = 200，分组数 = 5，排序方式：degree';
+    descriptionDiv.innerHTML = 'Circular layout, radius = 200, divisions = 5, ordering: degree';
     graph.updateLayout({
       radius: 200,
       startAngle: Math.PI / 4,
@@ -346,7 +346,7 @@ function layoutConfigTranslation() {
   }, 1000);
 
   setTimeout(function() {
-    descriptionDiv.innerHTML = 'Circular 布局，半径 = 200，分组数 = 3，排序方式：degree';
+    descriptionDiv.innerHTML = 'Circular layout, radius = 200, divisions = 3, ordering: degree';
     graph.updateLayout({
       startAngle: Math.PI / 4,
       endAngle: Math.PI,
@@ -355,7 +355,7 @@ function layoutConfigTranslation() {
   }, 2500);
 
   setTimeout(function() {
-    descriptionDiv.innerHTML = 'Circular 布局，半径 = 200，分组数 = 8，排序方式：degree';
+    descriptionDiv.innerHTML = 'Circular layout, radius = 200, divisions = 8, ordering: degree';
     graph.updateLayout({
       radius: 200,
       startAngle: 0,
@@ -365,7 +365,7 @@ function layoutConfigTranslation() {
   }, 4000);
 
   setTimeout(function() {
-    descriptionDiv.innerHTML = 'Circular 布局，半径 = 10～300（螺旋型），结束角：PI，分组数 = 1，排序方式：degree';
+    descriptionDiv.innerHTML = 'Circular layout, radius = 10～300(spiral), endAngle: PI, divisions = 1, ordering: degree';
     graph.updateLayout({
       radius: null,
       startRadius: 10,
@@ -377,21 +377,21 @@ function layoutConfigTranslation() {
   }, 5500);
 
   setTimeout(function() {
-    descriptionDiv.innerHTML = 'Circular 布局，半径 = 10～300（螺旋型），结束角：2 * PI，分组数 = 1，排序方式：degree';
+    descriptionDiv.innerHTML = 'Circular layout, radius = 10～300(spiral),endAngle: 2 * PI, divisions= 1, ordering: degree';
     graph.updateLayout({
       endAngle: 2 * Math.PI
     });
   }, 7000);
 
   setTimeout(function() {
-    descriptionDiv.innerHTML = 'Circular 布局，半径 = 200，排序方式：degree';
+    descriptionDiv.innerHTML = 'Circular layout, radius = 200, ordering: degree';
     graph.updateLayout({
       radius: 200
     });
   }, 8500);
 
   setTimeout(function() {
-    descriptionDiv.innerHTML = 'Circular 布局，半径 = topology';
+    descriptionDiv.innerHTML = 'Circular layout, radius = 200, ordering: topology';
     graph.updateLayout({
       radius: 200,
       ordering: 'topology'

@@ -7,23 +7,21 @@ Node inherits from item. The functions of Item are also available for Node.
 
 
 ## lock()
-> New feature of v3.1.4.
 
 Lock the current node. The locked node will not response the drag event any more.
 
-Tips: the locked node still can be moved while dragging and zooming the canvas. If you want to fix the node in these two situations, please refer to (Fix the node while dragging the canvas)[/zh/docs/manual/advanced/lock-node#拖动画布时候不处理锁定的节点] and (Fix the node while zooming the canvas)[/zh/docs/manual/advanced/lock-node#拖动画布时候不处理锁定的节点] .
+Tips: the locked node still can be moved while dragging and zooming the canvas. If you want to fix the node in these two situations, please refer to [Fix the Locked Node While Dragging](/en/docs/manual/advanced/lock-node#fix-the-locked-node-while-dragging) and [Fix the Locked Node while Zooming](/en/docs/manual/advanced/lock-node#fix-the-locked-node-while-zooming) to register a custom Behavior.
 
 
 **Usage**
 
 ```javascript
-const node = graph.findById('node')
-node.lock()
+const node = graph.findById('node');
+node.lock();
 ```
 
 
 ## unlock()
-> New feature of V3.1.4.
 
 Unlock the locked node.
 
@@ -31,13 +29,12 @@ Unlock the locked node.
 **Usage**
 
 ```javascript
-const node = graph.findById('node')
-node.unlock()
+const node = graph.findById('node');
+node.unlock();
 ```
 
 
 ## hasLocked()
-> New feature of V3.1.4.
 
 Query the lock state of the node.
 
@@ -51,8 +48,8 @@ Query the lock state of the node.
 **Usage**
 
 ```javascript
-const node = graph.findById('node')
-const hasLocked = node.hasLocked()
+const node = graph.findById('node');
+const hasLocked = node.hasLocked();
 ```
 
 
@@ -69,7 +66,7 @@ Get the related edges (the node is the source or the target of the edge) of the 
 **Usage**
 ```javascript
 // Get the related edges
-const edges = node.getEdges()
+const edges = node.getEdges();
 ```
 
 
@@ -86,7 +83,7 @@ Get the related in-edges, whose target is the node.
 **Usage**
 ```javascript
 // Get the related in-edges
-const edges = node.getInEdges()
+const edges = node.getInEdges();
 ```
 
 
@@ -103,7 +100,7 @@ Get the related out-edges, whose source is the node.
 **Usage**
 ```javascript
 // Get the related out-edges
-const edges = node.getOutEdges()
+const edges = node.getOutEdges();
 ```
 
 
@@ -134,7 +131,7 @@ Get all the anchor points of the node.
 **Usage**
 ```javascript
 // Get the anchor points of the node
-const anchor = node.getAnchorPoints()
+const anchor = node.getAnchorPoints();
 ```
 
 
@@ -152,7 +149,7 @@ Get the nearest anchor point of the node to `point`.
 
 **Return**
 
-- The type of return value: object；
+- The type of return value: Object；
 - Returns (x, y) of the found anchor point. If there is no anchor point found, returns the center of the node.
 
 
@@ -161,9 +158,9 @@ Get the nearest anchor point of the node to `point`.
 const point = {
 	x: 100,
   y: 105
-}
+};
 // Get the anchor point which is nearest to the point
-const linkPoint = node.getLinkPoint(point)
+const linkPoint = node.getLinkPoint(point);
 ```
 
 
@@ -189,7 +186,7 @@ Get the (x, y) of the anchor point with the `index`.
 **Usage**
 ```javascript
 // Get the first anchor point of the node
-const anchor = node.getLinkPointByAnchor(0)
+const anchor = node.getLinkPointByAnchor(0);
 ```
 
 ## addEdge(edge)
@@ -208,8 +205,8 @@ Add the `edge` to the node.
 ```javascript
 const edge = new Edge({
 	// TODO
-})
-node.addEdge(edge)
+});
+node.addEdge(edge);
 ```
 
 
@@ -227,6 +224,6 @@ Remove the `edge` from the node.
 
 **Usage**
 ```javascript
-const edge = // TODO
-node.removeEdge(edge)
+const edge = graph.findById('edge1'); 
+node.removeEdge(edge);
 ```

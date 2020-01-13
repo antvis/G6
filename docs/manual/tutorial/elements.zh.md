@@ -3,24 +3,24 @@ title: 元素及其配置
 order: 2
 ---
 
-图的元素特指图上的**节点**`Node`和**边**`Edge`。在上一章节中，我们已经将**Tutorial案例**的图绘制了出来，但是各个元素及其 `label` 在视觉上很简陋。本文通过将上一章节中简陋的元素美化成如下效果，介绍元素的属性、配置方法。
+图的元素特指图上的**节点** `Node` 和**边** `Edge` 。在上一章节中，我们已经将**Tutorial 案例**的图绘制了出来，但是各个元素及其 `label` 在视觉上很简陋。本文通过将上一章节中简陋的元素美化成如下效果，介绍元素的属性、配置方法。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*46GdQaNFiVIAAAAAAAAAAABkARQnAQ' width=450 height=450 />
 
-> 图 1  元素属性配置后的 **Tutorial案例**。
+> 图 1  元素属性配置后的 **Tutorial 案例**。
 
 
 ## 基本概念
 ### 图的元素
-图的元素特指图上的**节点**`Node`和**边**`Edge`。G6 内置了一系列 [内置的节点](../middle/elements/defaultNode) 和[内置的边](../middle/elements/defaultEdge)，供用户自由选择。G6 不同的内置节点或不同的内置边主要区别在于元素的 [图形Shape](../middle/keyConcept)，例如，节点可以是圆形、矩形、图片等。
+图的元素特指图上的**节点** `Node` 和**边** `Edge` 。G6 内置了一系列 [内置的节点](/zh/docs/manual/middle/elements/nodes/defaultNode) 和 [内置的边](/zh/docs/manual/middle/elements/edges/defaultEdge)，供用户自由选择。G6 不同的内置节点或不同的内置边主要区别在于元素的 [图形 Shape](/zh/docs/manual/middle/keyconcept/shape-keyshape)，例如，节点可以是圆形、矩形、图片等。
 
 ## 元素的属性
 不论是节点还是边，它们的属性分为两种：
 
-- **样式属性 `style`**：对应 Canvas 中的各种样式，在元素[状态State](../middle/states/state) 发生变化时，可以被改变；
-- **其他属性**：例如图形（ `shape`）、id（`id` ）一类在元素[状态State](../middle/states/state)发生变化时不能被改变的属性。
+- **样式属性 `style`**：对应 Canvas 中的各种样式，在元素[状态 State](/zh/docs/manual/middle/states/state) 发生变化时，可以被改变；
+- **其他属性**：例如图形（ `shape`）、id（`id` ）一类在元素[状态 State](/zh/docs/manual/middle/states/state) 发生变化时不能被改变的属性。
 
-例如，G6 设定 hover 或 click 节点，造成节点状态的改变，只能自动改变节点的**样式属性**（如 `fill`、`stroke` 等**）**，**其他属性**（如 `shape` 等）不能被改变。如果需要改变其他属性，要通过 [graph.updateItem](../../api/Graph) 手动配置。**样式属性**是一个名为 `style` 的对象， `style` 字段与其他属性并行。
+例如，G6 设定 hover 或 click 节点，造成节点状态的改变，只能自动改变节点的**样式属性**（如 `fill`、`stroke` 等**）**，**其他属性**（如 `shape` 等）不能被改变。如果需要改变其他属性，要通过 [graph.updateItem](/zh/docs/api/Graph/#updateitemitem-model) 手动配置。**样式属性**是一个名为 `style` 的对象， `style` 字段与其他属性并行。
 
 ### 数据结构
 以节点元素为例，其属性的数据结构如下：
@@ -46,7 +46,7 @@ order: 2
 }
 ```
 
-边元素的属性数据结构与节点元素相似，只是其他属性中多了 `source` 和 `target` 字段，代表起始和终止节点的 `id`。<br />细化在图 1 中 **Tutorial案例** 的视觉需求，我们需要完成：
+边元素的属性数据结构与节点元素相似，只是其他属性中多了 `source` 和 `target` 字段，代表起始和终止节点的 `id`。<br />细化在图 1 中 **Tutorial 案例** 的视觉需求，我们需要完成：
 
 - 视觉效果：
   - R1: 节点的描边和填充色，对应节点样式属性：`fill`，`stroke`；
@@ -69,11 +69,11 @@ order: 2
 - `defaultNode`：节点在默认状态下的**样式属性**（`style`）和**其他属性**；
 - `defaultEdge`：边在默认状态下的**样式属性**（`style`）和**其他属性**。
 
-⚠️**注意：**由于是统一的配置，不能根据数据中的属性（如 `class`、`weight`）等值的不同进行个性化设置，因此只能满足 R1、R2、R3、R4 需求。达到如下效果：
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️注意:</strong></span>由于是统一的配置，不能根据数据中的属性（如 `class`、`weight`）等值的不同进行个性化设置，因此只能满足 R1、R2、R3、R4 需求。达到如下效果：
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bufdS75wcmMAAAAAAAAAAABkARQnAQ' width=450 height=450 />
 
-> 图 2  全局配置元素属性后的 **Tutorial案例**。
+> 图 2  全局配置元素属性后的 **Tutorial 案例**。
 
 
 <br />通过如下方式在实例化图时 `defaultNode` 和 `defaultEdge` ，可以完成上图效果：
@@ -150,7 +150,7 @@ graph.data(remoteData);
 > 图 3
 
 
-可以看到，图中有一些节点被渲染成了矩形，还有一些被渲染成了椭圆形。除了设置 shape 属性之外，我们还覆盖了上文全局配置的节点的 size 属性，在矩形和椭圆的情况下，size 是一个数组；而在默认圆形的情况下，G6 仍然会去读全局配置的 size 属性为数字 30。也就是说，动态配置属性让我们既可以根据数据的不同配置不同的属性值，也可以有能力覆盖全局静态的属性值。
+可以看到，图中有一些节点被渲染成了矩形，还有一些被渲染成了椭圆形。除了设置 `shape` 属性之外，我们还覆盖了上文全局配置的节点的 `size` 属性，在矩形和椭圆的情况下，size 是一个数组；而在默认圆形的情况下，G6 仍然会去读全局配置的 `size` 属性为数字 `30`。也就是说，动态配置属性让我们既可以根据数据的不同配置不同的属性值，也可以有能力覆盖全局静态的属性值。
 
 进一步地，我们尝试根据数据的比重不同，配置不一样边的粗细：
 ```javascript

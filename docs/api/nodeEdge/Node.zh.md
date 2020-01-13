@@ -3,7 +3,7 @@ title: Node
 order: 1
 ---
 
-Node继承自Item，所以，Item上面的方法在Node实例中都可以调用。
+Node 继承自 Item。所以 Item 上面的方法在 Node 实例中都可以调用。
 
 
 ## lock()
@@ -11,14 +11,14 @@ Node继承自Item，所以，Item上面的方法在Node实例中都可以调用�
 
 锁定当前节点，锁定节点后，该节点不再响应拖动节点的事件。
 
-提示：锁定节点后，拖动画布和缩放画布的操作依然对该节点有效。如果想在锁定节点后，不响应拖动画布和缩放的事件，需要自定义拖动画布和缩放的 Behavior，具体可参考 (锁定节点不响应拖动画布的事件)[/zh/docs/manual/advanced/lock-node#拖动画布时候不处理锁定的节点] 和 (锁定节点不响应缩放事件)[/zh/docs/manual/advanced/lock-node#拖动画布时候不处理锁定的节点] 。
+提示：锁定节点后，拖动画布和缩放画布的操作依然对该节点有效。如果想在锁定节点后，不响应拖动画布和缩放的事件，需要自定义拖动画布和缩放的 Behavior，具体可参考 [锁定节点不响应拖动画布的事件](/zh/docs/manual/advanced/lock-node#拖动画布时候不处理锁定的节点) 和 [锁定节点不响应缩放事件](/zh/docs/manual/advanced/lock-node#拖动画布时候不处理锁定的节点)。
 
 
 **用法**
 
 ```javascript
-const node = graph.findById('node')
-node.lock()
+const node = graph.findById('node');
+node.lock();
 ```
 
 
@@ -31,8 +31,8 @@ node.lock()
 **用法**
 
 ```javascript
-const node = graph.findById('node')
-node.unlock()
+const node = graph.findById('node');
+node.unlock();
 ```
 
 
@@ -44,15 +44,15 @@ node.unlock()
 
 **返回值**
 
-- 返回值类型：boolean；
+- 返回值类型：Boolean；
 - 返回 true 表示当前解锁处于锁定状态，否则表示未锁定。
 
 
 **用法**
 
 ```javascript
-const node = graph.findById('node')
-const hasLocked = node.hasLocked()
+const node = graph.findById('node');
+const hasLocked = node.hasLocked();
 ```
 
 
@@ -69,7 +69,7 @@ const hasLocked = node.hasLocked()
 **用法**
 ```javascript
 // 获取与 node 关联的所有边
-const edges = node.getEdges()
+const edges = node.getEdges();
 ```
 
 
@@ -86,7 +86,7 @@ const edges = node.getEdges()
 **用法**
 ```javascript
 // 获取与 node 关联的所有入边
-const edges = node.getInEdges()
+const edges = node.getInEdges();
 ```
 
 
@@ -103,7 +103,7 @@ const edges = node.getInEdges()
 **用法**
 ```javascript
 // 获取与 node 关联的所有出边
-const edges = node.getOutEdges()
+const edges = node.getOutEdges();
 ```
 
 
@@ -134,7 +134,7 @@ const edges = node.getOutEdges()
 **用法**
 ```javascript
 // 获取定义在节点上的锚点数据
-const anchor = node.getAnchorPoints()
+const anchor = node.getAnchorPoints();
 ```
 
 
@@ -161,15 +161,15 @@ const anchor = node.getAnchorPoints()
 const point = {
 	x: 100,
   y: 105
-}
+};
 // 获取连接点
-const linkPoint = node.getLinkPoint(point)
+const linkPoint = node.getLinkPoint(point);
 ```
 
 
 
 ## getLinkPointByAnchor(index)
-根据锚点索引获取连接点的x、y坐标。
+根据锚点索引获取连接点的 x、y 坐标。
 
 
 **参数**
@@ -189,7 +189,7 @@ const linkPoint = node.getLinkPoint(point)
 **用法**
 ```javascript
 // 获取定义在节点上的第一个锚点
-const anchor = node.getLinkPointByAnchor(0)
+const anchor = node.getLinkPointByAnchor(0);
 ```
 
 ## addEdge(edge)
@@ -208,8 +208,8 @@ const anchor = node.getLinkPointByAnchor(0)
 ```javascript
 const edge = new Edge({
 	// TODO
-})
-node.addEdge(edge)
+});
+node.addEdge(edge);
 ```
 
 
@@ -227,6 +227,6 @@ node.addEdge(edge)
 
 **用法**
 ```javascript
-const edge = // TODO
-node.removeEdge(edge)
+const edge = graph.findById('edge1'); 
+node.removeEdge(edge);
 ```

@@ -13,9 +13,9 @@ order: 1
    ></iframe>
 
 ## Installation & Import
-There are two ways to import G6: by npm; by CDN.
+There are two ways to import G6: by NPM; by CDN.
 
-### 1 Import G6 by npm
+### 1 Import G6 by NPM
 
 **Step 1:** Run the following command under the your project's directory in terminal:
 
@@ -34,11 +34,11 @@ import G6 from '@antv/g6'
 <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-{$version}/build/g6.js"></script>
 ```
 
-⚠️**Attention**
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span>
 
 - Replace `{$version}` by the version number. e.g. `3.2.3`;
-- The last version of G6 is 3.2.3, which can be checked on [npm](https://www.npmjs.com/package/@antv/g6);
-- Please refer to the branch in Github: [https://github.com/antvis/g6/tree/master](https://github.com/antvis/g6/tree/master) for more detail.
+- The last version of G6 is 3.2.3, which can be checked on <a href='https://www.npmjs.com/package/@antv/g6' target='_blank'>NPM</a>;
+- Please refer to the branch in Github: <a href='https://github.com/antvis/g6/tree/master' target='_blank'>https://github.com/antvis/g6/tree/master</a> for more detail.
 
 ## Getting Started
 
@@ -59,7 +59,7 @@ Create an HTML container for graph canvas, `div` tag in general. G6 will append
 
 ### Step 2 Data Preparation
 
-The data for G6 should be JSON format, includes array attributes `nodes` and `edges`:
+The data for G6 should be JSON format, includes arrays `nodes` and `edges`:
 
 ```javascript
 const data = {
@@ -81,11 +81,11 @@ const data = {
 };
 ```
 
-⚠️**Attention**
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span>
 
 - `nodes` is an array of nodes, the `id` is unique and required property; the `x` and `y` are coordinates of the node;
-- `edges` is an array of edges, `source` and `target` are required, represent the `id` of the source node and the `id` of the target node respectively.
-- The properties of node and edge are described in [Properties of Nodes](/en/docs/api/properties/NodeProperties) and [Properties of Edges](/en/docs/api/properties/EdgeProperties)
+- `edges` is an array of edges, `source` and `target` are required, represent the `id` of the source node and the `id` of the target node respectively;
+- The properties of node and edge are described in [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) and [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge).
 
 
 ### Step 3 Instantiate the Graph
@@ -167,9 +167,9 @@ graph.render();    // Render the graph
 ```
 
 ## Using G6 with React
-We provide a demo about using G6 with React: [Demo](https://github.com/baizn/g6-in-react).
+We provide a demo about using G6 with React: <a href='https://github.com/baizn/g6-in-react' target='_blank'>Demo</a>.
 
-For more information about it, please refer to [Using G6 with React](/zh/docs/manual/middle/g6InReact). Welcome the [Issues](https://github.com/antvis/g6/issues)。
+For more information about it, please refer to [Using G6 with React](/en/docs/manual/middle/g6InReact). Welcome the <a href='https://github.com/antvis/g6/issues' target='_blank'>Issues</a>.
 
 
 ## More
@@ -182,4 +182,4 @@ In this chapter, we only briefly introduce the installation and usage. In G6 Tut
 - Configure the animation;
 - The usage of components.
 
-For more advanced functions, please refer to [Key Concepts](/zh/docs/manual/middle/keyConcept) and [Advanced Guides](/zh/docs/manual/advanced/shape-and-properties)。
+For more advanced functions, please refer to [Key Concepts](/en/docs/manual/middle/graph) and [Advanced Guides](/en/docs/manual/advanced/keyconcept/shape-and-properties).

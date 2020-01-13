@@ -61,15 +61,19 @@
             // 加上交互动画
             fan.on('mouseenter', function(evt) {
               fan.animate({
-                  re: re  + 8,
-                  repeat: false     
-              }, 300);
+                  re: re  + 8
+              }, {
+                repeat: false,
+                duration: 300
+              });
             });
             fan.on('mouseleave', function(evt) {
               fan.animate({
-                  re:re,
-                  repeat: false     
-              }, 300);
+                  re:re
+              }, {
+                repeat: false,
+                duration: 300
+              });
             });
             
             // 设置class

@@ -1,7 +1,14 @@
 # ChangeLog
 #### 3.3
 - Graph API
-  - delete removeEvent function, use off;
+  - refactor: delete removeEvent function, use off;
+- refactor: parameters of Shape animate changed, shape.animate(toAttrs, animateCfg) or shape.animate(onFrame, animateCfg);
+- feat: descriptionCfg for modelRect to define the style of description by user;
+- feat: update a node from without some shapes to with them, such as linkPoints, label, logo icon and state icon for modelRect;
+- feat: the callback paramter of event nodeselectchange is changed to { target, selectedItems, ... };
+- feat: support stateStyles in node and edge data;
+- feat: calculate pixelRatio by G automatically, user do not need to assign it to graph instance;
+- chore: G 4.0
   
 #### 3.1.5 
 * feat: supports g6 types file

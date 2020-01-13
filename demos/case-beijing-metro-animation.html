@@ -68,22 +68,31 @@
           const delayBase = Math.random() * 2000;
           back1.animate({ // 逐渐放大，并消失
             r: r + 10,
-            opacity: 0.0,
-            repeat: true // 循环
-          },
-          3000, 'easeCubic', null, delayBase) // 无延迟
+            opacity: 0.0
+          }, {
+            repeat: true, // 循环
+            duration: 3000,
+            easing: 'easeCubic',
+            delay: delayBase // 无延迟
+          });
           back2.animate({ // 逐渐放大，并消失
             r: r + 10,
-            opacity: 0.0,
-            repeat: true // 循环
-          },
-          3000, 'easeCubic', null, delayBase + 1000) // 1 秒延迟
+            opacity: 0.0
+          }, {
+            repeat: true, // 循环
+            duration: 3000,
+            easing: 'easeCubic',
+            delay: delayBase + 1000 // 1 秒延迟
+          });
           back3.animate({ // 逐渐放大，并消失
             r: r + 10,
-            opacity: 0.0,
-            repeat: true // 循环
-          },
-          3000, 'easeCubic', null, delayBase + 2000) // 2 秒延迟
+            opacity: 0.0
+          }, {
+            repeat: true, // 循环
+            duration: 3000,
+            easing: 'easeCubic',
+            delay: delayBase + 2000 // 2 秒延迟
+          });
         }
       },
       'circle');
@@ -109,21 +118,22 @@
                 shadowBlur: 30,
               }
             });
-            circle.animate({
-              onFrame(ratio) {
-                ratio += i / circleCount;
-                if (ratio > 1) {
-                  ratio %= 1;
-                }
-                const tmpPoint = shape.getPoint(ratio);
-                return {
-                  x: tmpPoint.x,
-                  y: tmpPoint.y
-                };
-              },
-              repeat: true
-            },
-            10 * length, 'easeCubic', null, delay);
+            circle.animate(ratio => {
+              ratio += i / circleCount;
+              if (ratio > 1) {
+                ratio %= 1;
+              }
+              const tmpPoint = shape.getPoint(ratio);
+              return {
+                x: tmpPoint.x,
+                y: tmpPoint.y
+              };
+            }, {
+              repeat: true,
+              duration: 10 * length,
+              easing: 'easeCubic',
+              delay
+            });
           }
         }
       },

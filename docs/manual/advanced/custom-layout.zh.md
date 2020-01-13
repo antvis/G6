@@ -3,9 +3,9 @@ title: 自定义布局 Layout
 order: 4
 ---
 
-G6 提供了一般图和树图的一些常用布局，使用方式参见：中级教程 [使用布局 Layout](/zh/docs/manual/middle/layout)，[Layout API](/zh/docs/api/Layout)。当这些内置布局无法满足需求时，G6 还提供了一般图的自定义布局的机制，方便用户进行更定制化的扩展。
+G6 提供了一般图和树图的一些常用布局，使用方式参见：中级教程 [使用布局 Layout](/zh/docs/manual/middle/layout)，[Layout API](/zh/docs/api/layout/Layout)。当这些内置布局无法满足需求时，G6 还提供了一般图的自定义布局的机制，方便用户进行更定制化的扩展。
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;注意：</span>
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️注意:</strong></span>
 树图暂时不支持自定义布局。
 
 本文将会通过自定义 Bigraph 布局的例子讲解自定义布局。
@@ -97,12 +97,12 @@ const data = {
 - Step 1：为 `'part1'` 和 `'part2'` 的节点初始化随机序号 index，都分别从 0 开始；
 - Step 2：遍历 `'part1'` 的节点，对每一个节点 A：
   - 找到与 A 相连的属于 `'part2'` 的节点的集合 ![]( https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-WOhQIGg9l8AAAAAAAAAAABkARQnAQ)，加和 ![]( https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-WOhQIGg9l8AAAAAAAAAAABkARQnAQ) 中所有节点的 index，并除以 ![]( https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-WOhQIGg9l8AAAAAAAAAAABkARQnAQ) 的元素个数，得数覆盖 A 的 index 值：![](https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VfXiSK1f02cAAAAAAAAAAABkARQnAQ)
-- Step 3：遍历 `'part1'` 的节点，对每一个节点 B（与 Step 2 相似）：
-  - 找到与 B 相连的属于 `'part2'` 的节点的集合 ![](https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GqZiSKI-nB8AAAAAAAAAAABkARQnAQ)，加和 ![](https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GqZiSKI-nB8AAAAAAAAAAABkARQnAQ) 中所有节点的 index，并除以 ![](https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GqZiSKI-nB8AAAAAAAAAAABkARQnAQ) 的元素个数，得数覆盖 B 的 index 值：![](https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-8b2Spfb4HIAAAAAAAAAAABkARQnAQ)
+- Step 3：遍历 `'part2'` 的节点，对每一个节点 B（与 Step 2 相似）：
+  - 找到与 B 相连的属于 `'part1'` 的节点的集合 ![](https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GqZiSKI-nB8AAAAAAAAAAABkARQnAQ)，加和 ![](https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GqZiSKI-nB8AAAAAAAAAAABkARQnAQ) 中所有节点的 index，并除以 ![](https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GqZiSKI-nB8AAAAAAAAAAABkARQnAQ) 的元素个数，得数覆盖 B 的 index 值：![](https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-8b2Spfb4HIAAAAAAAAAAABkARQnAQ)
 - Step 4：两部分节点分别按照节点的序号 index 进行排序，最终按照节点顺序安排节点位置。
 
 ## 实现
-下面代码展示了自定义名为 `'bigraph-layout'` 的二分图布局，完整代码参见：[自定义布局-二分图](/zh/examples/net/layoutMechanism#customBigraph)。使用该布局的方式与使用内置布局方式相同，都是在实例化图时将其配置到 `layout` 配置项中，详见：[使用布局 Layout](/zh/docs/manual/middle/layout)。
+下面代码展示了自定义名为 `'bigraph-layout'` 的二分图布局，完整代码参见：<a href='/zh/examples/net/layoutMechanism#customBigraph' target='_blank'>自定义布局-二分图</a>。使用该布局的方式与使用内置布局方式相同，都是在实例化图时将其配置到 `layout` 配置项中，详见：[使用布局 Layout](/zh/docs/manual/middle/layout)。
 
 ```javascript
 G6.registerLayout('bigraph-layout', {
@@ -111,7 +111,7 @@ G6.registerLayout('bigraph-layout', {
     return {
       center: [0, 0],          // 布局的中心
       biSep: 100,              // 两部分的间距
-      nodeSep: 20,             // 同一部分的节点艰巨
+      nodeSep: 20,             // 同一部分的节点间距
       direction: 'horizontal', // 两部分的分布方向
       nodeSize: 20             // 节点大小
     };

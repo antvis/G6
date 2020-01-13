@@ -394,6 +394,9 @@
         container: 'mountNode',
         width: 1000,
         height: 800,
+        // fitView: true,
+        // fitViewPadding: 40,
+        animate: true,
         layout: {
           type: 'circular',
           center: [500, 400],
@@ -413,6 +416,9 @@
               d: 4
             }
           }
+        },
+        modes: {
+          default: ['drag-canvas', 'zoom-canvas']
         }
       });
       graph.data(data);

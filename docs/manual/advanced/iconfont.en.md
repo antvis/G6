@@ -1,33 +1,33 @@
 ---
-title: 使用 Iconfont
+title: Utilizing Iconfont
 order: 9
 ---
 
-## 简介
-为什么使用 iconfont？ 兼容性好、种类多、多色等。在此不做过多介绍，请直接移步[阿里巴巴-iconfont平台](https://www.iconfont.cn)。
+## Introduction
+Due to the good compatibility, type diversity, color diversity, The iconfont is popupar for front-end developments now. Refer to the <a href='https://www.iconfont.cn' target='_blank'>Iconfont Library of Alibaba</a>.
 
-## 效果
+## Effect
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rJ3lQa0HR-wAAAAAAAAAAABkARQnAQ' alt='result' width='450'/>
 
-## 下载字体图标
-直接去到[阿里巴巴字体图标库](https://www.iconfont.cn)搜索下载即可，简要操作流程是：搜索图标（例如篮球） ->  选择自己喜欢的图标添加入库  ->  点击页面右上角的购物车可以看到我们加入的图标 -> 添加至项目，如果没有项目到话可以新建一个  ->  在我到项目里面点击下载至本地 -> 解压。如果一切操作正常的话可以得到如下解压文件：<br />
+## Download the iconfont
+Browse the <a href='https://www.iconfont.cn' target='_blank'>Iconfont Library of Alibaba</a> and download the iconfont you like by searching a iconfont -> adding it to your library -> going to your library by clicking the shopping cart logo on the right top -> adding it to your project (new one if you do not have any project) -> downloading the iconfont in 'my project' -> decompressing. You will get the files as shown below if everything is right:<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EnNmQ5m7xHUAAAAAAAAAAABkARQnAQ' alt='download' width='550'/>
 
-选中红色区域的所有文件（这里面很多文件是不需要的，为了方便起见，我们全部复制即可，不需要的也不会被打包），复制到项目里面，一般放在目录 'static/icons' 或者 'assets/icons' 下面，如果没有的话可以新建目录，当然你也可以放到任意你喜欢的位置，只要引入的时候路径对即可，到此 iconfont 引入完毕。
+Copy the files in the red area (there are lots of unecessary files, we can still copy them all since the unused files will not be packed)to your project. In general, the iconfont files are on the directory of 'static/icons' or 'assets/icons'. New the directory if there is no such directory. It is also fine to put them into any directory. But note to import the right path when you use it. Now, the importing process is done.
 
-PS: 本案文件目录为 '/static/icons'
+PS: The directory for this example is '/static/icons'.
 
 
-## 引入G6
-多种引入方式，请移步[快速上手](/zh/docs/manual/getting-started)。
-<br />PS: 本案例简单粗暴，通过CDN的方式引入。
+## Import G6
+There are several ways to import G6 introduced in [Getting Started](/en/docs/manual/getting-started).
+<br />PS: We import G6 by CDN in this example.
 
 ```html
 <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.2.0/build/g6.js"></script>
 ```
 
-## 添加字体图标
-引入方式可自行选择，下面为在 HTML 中引入的例子：
+## Import the Iconfont
+We import the iconfont in HTML here:
 
 ```html
 <style>
@@ -35,84 +35,80 @@ PS: 本案文件目录为 '/static/icons'
 </style>
 ```
 
-## 使用字体
+## Using Iconfont
 ```javascript
-G6.registerNode("iconfont", {
+G6.registerNode('iconfont', {
   draw(cfg, group) {
-    const {
-      backgroundConfig: backgroundStyle,
-      style,
-      labelCfg: labelStyle
-    } = cfg;
+    const { backgroundConfig: backgroundStyle, style, labelCfg: labelStyle } = cfg;
 
     if (backgroundStyle) {
-      group.addShape("circle", {
+      group.addShape('circle', {
         attrs: {
           x: 0,
           y: 0,
           r: cfg.size,
-          ...backgroundStyle
-        }
+          ...backgroundStyle,
+        },
       });
     }
 
-    const keyShape = group.addShape("text", {
+    const keyShape = group.addShape('text', {
       attrs: {
         x: 0,
         y: 0,
-        fontFamily: "iconfont", // 对应css里面的font-family: "iconfont";
-        textAlign: "center",
-        textBaseline: "middle",
+        fontFamily: 'iconfont', // 对应css里面的font-family: "iconfont";
+        textAlign: 'center',
+        textBaseline: 'middle',
         text: cfg.text,
         fontSize: cfg.size,
-        ...style
-      }
+        ...style,
+      },
     });
     const labelY = backgroundStyle ? cfg.size * 2 : cfg.size;
 
-    group.addShape("text", {
+    group.addShape('text', {
       attrs: {
         x: 0,
         y: labelY,
-        textAlign: "center",
+        textAlign: 'center',
         text: cfg.label,
-        ...labelStyle.style
-      }
+        ...labelStyle.style,
+      },
     });
     return keyShape;
-  }
+  },
 });
 
-const COLOR = "#40a9ff";
+const COLOR = '#40a9ff';
 const graph = new G6.TreeGraph({
-  container: "mountNode",
+  container: 'mountNode',
   width: 800,
   height: 600,
   modes: {
-    default: ["collapse-expand", "drag-canvas", "drag-node"]
+    default: ['collapse-expand', 'drag-canvas', 'drag-node'],
   },
   defaultNode: {
     backgroundConfig: {
-      backgroundType: "circle",
+      backgroundType: 'circle',
       fill: COLOR,
-      stroke: "LightSkyBlue"
+      stroke: 'LightSkyBlue',
     },
-    shape: "iconfont",
+    shape: 'iconfont',
     size: 12,
     style: {
-      fill: "#fff"
+      fill: '#fff',
     },
     labelCfg: {
       style: {
         fill: COLOR,
-        fontSize: 12
-      }
-    }
+        fontSize: 12,
+      },
+    },
   },
   // 布局相关
   layout: {
-    type: "compactBox",
-    direction: "LR",
+    type: 'compactBox',
+    direction: 'LR',
     getId(d) {
       return d.id;
     },
@@ -127,166 +123,205 @@ const graph = new G6.TreeGraph({
     },
     getHGap() {
       return 60;
-    }
-  }
+    },
+  },
 });
 
 graph.edge(({ target }) => {
-  const fill =
-        target.get("model").backgroundConfig &&
-        target.get("model").backgroundConfig.fill;
+  const fill = target.get('model').backgroundConfig && target.get('model').backgroundConfig.fill;
   return {
-    shape: "cubic-horizontal",
+    shape: 'cubic-horizontal',
     color: fill || COLOR,
-    label: target.get("model").relation || "",
+    label: target.get('model').relation || '',
     labelCfg: {
       style: {
         fill: fill || COLOR,
-        fontSize: 12
-      }
-    }
+        fontSize: 12,
+      },
+    },
   };
 });
 
 const data = {
   isRoot: true,
-  id: "Root",
-  label: "可疑人员王**",
-  text: "&#xe622;", // 对应字体图标的Unicode码，
+  id: 'Root',
+  label: '可疑人员王**',
+  text: '\ue6b2', // 对应iconfont.css 里面的content，注意加u，后面的自行修改一下。
   style: {
-    fill: "red"
+    fill: 'red',
   },
   labelCfg: {
     style: {
-      fill: "red"
-    }
+      fill: 'red',
+    },
   },
   backgroundConfig: null, // 自定义项，用于判读是否需要圆背景
   size: 30,
   children: [
     {
-      id: "SubTreeNode1",
-      label: "**网咖",
-      text: "&#xe605;",
-      relation: "上网",
+      id: 'SubTreeNode1',
+      label: '**网咖',
+      text: '&#xe605;',
+      relation: '上网',
       children: [
         {
-          id: "SubTreeNode2",
-          label: "多伦多",
-          text: "&#xe64b;"
+          id: 'SubTreeNode2',
+          label: '多伦多',
+          text: '&#xe64b;',
         },
         {
-          id: "id1",
-          label: "小王",
-          text: "&#xe622;",
+          id: 'id1',
+          label: '小王',
+          text: '&#xe622;',
           children: [
             {
-              id: "SubTreeNode1.2.1",
-              label: "182****2123",
-              text: "&#xe60d;"
+              id: 'SubTreeNode1.2.1',
+              label: '182****2123',
+              text: '&#xe60d;',
             },
             {
-              id: "SubTreeNode4",
-              label: "今晚在吗",
-              text: "&#xe629;"
-            }
-          ]
-        }
-      ]
+              id: 'SubTreeNode4',
+              label: '今晚在吗',
+              text: '&#xe629;',
+            },
+          ],
+        },
+      ],
     },
     {
-      id: "SubTreeNode3",
-      label: "subway",
-      text: "&#xe653;",
+      id: 'SubTreeNode3',
+      label: 'subway',
+      text: '&#xe653;',
       children: [
         {
-          id: "SubTreeNode3.1",
-          label: "王五",
-          text: "&#xe622;"
+          id: 'SubTreeNode3.1',
+          label: '王五',
+          text: '&#xe622;',
         },
         {
-          id: "SubTreeNode3.2",
-          label: "张三",
-          text: "&#xe622;"
-        }
-      ]
+          id: 'SubTreeNode3.2',
+          label: '张三',
+          text: '&#xe622;',
+        },
+      ],
     },
     {
-      id: "SubTreeNode5",
-      label: "小花",
-      relation: "老婆",
-      text: "&#xe74b;",
+      id: 'SubTreeNode5',
+      label: '小花',
+      relation: '老婆',
+      text: '&#xe74b;',
       backgroundConfig: {
-        fill: "Coral"
+        fill: 'Coral',
       },
       style: {
-        fill: "#fff"
+        fill: '#fff',
       },
       labelCfg: {
         style: {
-          fill: "Coral"
-        }
+          fill: 'Coral',
+        },
       },
       children: [
         {
-          id: "SubTreeNode1.2.1",
-          label: "182****2123",
-          text: "&#xe60d;",
-          relation: "通话",
+          id: 'SubTreeNode1.2.1',
+          label: '182****2123',
+          text: '&#xe60d;',
+          relation: '通话',
           backgroundConfig: {
-            fill: "Coral"
+            fill: 'Coral',
           },
           style: {
-            fill: "#fff"
+            fill: '#fff',
           },
           labelCfg: {
             style: {
-              fill: "Coral"
-            }
-          }
+              fill: 'Coral',
+            },
+          },
         },
         {
-          id: "SubTreeNode3.3",
-          label: "凶器",
-          text: "&#xe673;",
-          relation: "指纹",
+          id: 'SubTreeNode3.3',
+          label: '凶器',
+          text: '&#xe673;',
+          relation: '指纹',
           backgroundConfig: {
-            fill: "Coral"
+            fill: 'Coral',
           },
           style: {
-            fill: "#fff"
+            fill: '#fff',
           },
           labelCfg: {
             style: {
-              fill: "Coral"
-            }
-          }
-        }
-      ]
+              fill: 'Coral',
+            },
+          },
+        },
+      ],
     },
     {
-      id: "SubTreeNode6",
-      label: "马航37*",
-      relation: "乘坐",
-      text: "&#xe610;"
-    }
-  ]
+      id: 'SubTreeNode6',
+      label: '马航37*',
+      relation: '乘坐',
+      text: '&#xe610;',
+    },
+  ],
 };
 
 graph.data(data);
 graph.render();
 ```
 
-## 注意事项
-看了代码大家应该很清楚了，实质就是用了 text 图形，但有几个需要注意的地方：<br />**1、text的fontFamily必须和iconfont.css里面的font-family保持一致：**<br />
+## Attention
+In fact, iconfont is a text shape.
+<br />**1、The `fontFamily` of the text and the `font-family` in iconfont.css shoulde be kept consistent:**<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v0CoQoNIyJ8AAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wndRQo6U-oUAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
 
-**2、data 里面的 text 使用的是 Unicode，需要自行复制。**<br />
+**2、The `text` in data is the `content` in iconfont.css. And add an `u` after `\`.**<br />
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SV8TRrKFLD8AAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*KO-IRbIXRGAAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NF3mQYRurWsAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*teUAQIkCffUAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
+
+
+## Tool Function getIcon
+You can write a function as below to transform unicode. Attention, unicode cannot be connected manually (`\\u${icon.unicode}`). Here we use the `code_decimal` in iconfont.json. For more detail, please refer to [MDN String.fromCodePoint](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCodePoint).
+
+```javascript
+import fonts from '../fonts/iconfont.json';
+
+const icons = fonts.glyphs.map(icon => {
+    return {
+        name: icon.name,
+        unicode: String.fromCodePoint(icon.unicode_decimal), // `\\u${icon.unicode}`,
+    };
+});
+const getIcon =  (type: string) => {
+    const matchIcon = icons.find(icon => {
+        return icon.name === type;
+    }) || { unicode: '', name: 'default' };
+    return matchIcon.unicode;
+};
+```
+
+### Usage
+
+```javascript
+ {
+    shape: 'text',
+    attrs: {
+        id: 'node-icon',
+        x: 0,
+        y: 0,
+        fontSize: iconSize,
+        fill: primaryColor,
+        text: getIcon('logo'), //logo is the name of the unicode
+        fontFamily: 'iconfont', // same as font-family: "iconfont"; in CSS
+        textAlign: 'center',
+        textBaseline: 'middle',
+    },
+  }
+```

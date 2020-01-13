@@ -21,7 +21,6 @@ describe('minimap', () => {
         delegate: false
       }, 'zoom-canvas', 'click-select', 'drag-canvas' ]
     },
-    pixelRatio: 2,
     plugins: [ minimap ]
   });
 
@@ -191,7 +190,6 @@ describe('minimap', () => {
           delegate: false
         }, 'zoom-canvas', 'click-select', 'drag-canvas' ]
       },
-      pixelRatio: 2
     });
 
     const minimapContainer: HTMLElement = container.childNodes[0] as HTMLElement;
@@ -215,7 +213,6 @@ describe('minimap', () => {
       width: 500,
       height: 500,
       plugins: [ minimap ],
-      pixelRatio: 2
     });
     graph.addItem('node', { id: 'node1', x: -50, y: -50 });
     const canvas = minimap.getCanvas();

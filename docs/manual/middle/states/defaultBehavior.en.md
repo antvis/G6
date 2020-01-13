@@ -3,19 +3,19 @@ title: Built-in Behavior
 order: 4
 ---
 
-## 什么是 Behavior
-Behavior 是 G6 提供的定义图上交互事件的机制。它与[交互模式 Mode](/zh/docs/manual/middle/states/mode) 搭配使用，如何将下文所述各种 Behavior 配置到图上，见 [交互模式](/zh/docs/manual/middle/states/mode)。
+## What is Behavior
+Behavior is the interaction mechanism in G6. It is used with [Interaction Mode](/en/docs/manual/middle/states/mode). This document introduces the Built-in behaviors in G6. Besides, you can register a type of [Custom Behavior](/zh/docs/manual/advanced/custom-behavior). The document [Interaction Mode](/en/docs/manual/middle/states/mode) introduces how to configure the Behaviors onto the graph.
 
-## 内置 Behavior
-理论上说 G6 上的所有基础图形、Item（节点/边）都能通过事件来进行操作，考虑到通用性， G6目前共提供了以下9个内置的 Behavior。
+## Built-in Behavior
+All the basic graphics Shapes, Items(nodes/edges) can be interacted by events. To achieve it with versatility, there are 9 built-in Behaviors in G6.
 
 ### drag-canvas
 
-- 含义：拖拽画布；
-- `type: 'drag-canvas'`；
-- `direction`: 允许拖拽方向，支持`'x'`， `'y'`，`'both'`，默认方向为 `'both'`。
+- Description: Allows users drag canvas;
+- `type: 'drag-canvas'`;
+- `direction`: The direction of dragging that is allowed. Options: `'x'`, `'y'`, `'both'`. `'both'` by default.
 
-**默认配置**
+**Default Configuration**
 ```javascript
 const graph = new G6.Graph({
 	modes: {
@@ -24,9 +24,9 @@ const graph = new G6.Graph({
 })
 ```
 
-默认配置下，可以在 x 和 y 两个方向上拖动画布。
+By default, the x and y directions are both allowed.
 
-**配置参数**
+**Configuration**
 ```javascript
 const graph = new G6.Graph({
 	modes: {
@@ -40,25 +40,25 @@ const graph = new G6.Graph({
 })
 ```
 
-此时只能在 x 方向上面拖动，y 方向上不允许拖动。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*54yxRrW1A7sAAAAAAAAAAABkARQnAQ' width=400/>
+The canvas can be dragged along x direction only.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*54yxRrW1A7sAAAAAAAAAAABkARQnAQ' width=400/>
 
 ### zoom-canvas
 
-- 含义：缩放画布；
-- `type: 'zoom-canvas'`；
-- `sensitivity`: 缩放灵敏度，支持 1-10 的数值，默认灵敏度为 5。
+- Description: Zoom the canvas;
+- `type: 'zoom-canvas'`;
+- `sensitivity`: The sensitivity of the zooming, range from 1 to 10. `5` by default.
 
-**提示：若要限定缩放尺寸，请在 graph 上设置 **`**minZoom**`** 和 **`**maxZoom**`**。**
+**Tips: Assign values for `minZoom` and  `maxZoom` on the graph to limit the zooming ratio.** 
 
 ### drag-node
 
-- 含义：拖拽节点；
-- `type: 'drag-node'`；
-- `delegateStyle`: 节点拖拽时的绘图属性，默认为 `{ strokeOpacity: 0.6, fillOpacity: 0.6 }`；
-- `updateEdge`: 是否在拖拽节点时更新所有与之相连的边，默认为 `true` 。
-- 3.1.2 `enableDelegate`：拖动节点过程中是否启用 `delegate`，即在拖动过程中是否使用方框代替元素的直接移动，效果区别见下面两个动图。默认值为 `false`。
+- Description: Allows users drag nodes;
+- `type: 'drag-node'`;
+- `delegateStyle`: The drawing properties when the nodes are dragged.  `{ strokeOpacity: 0.6, fillOpacity: 0.6 }` by default;
+- `updateEdge`: Whether to update all connected edges when dragging nodes. `true` by default.
+- `enableDelegate`: Whether activate `delegate` when dragging nodes, which means whether to use a virtual rect moved with the dragging mouse instead of the node. The effect is shown in the figures below. `false` by default.
 
-**默认配置**
+**Default Configuration**
 ```javascript
 const graph = new G6.Graph({
 	modes: {
@@ -68,7 +68,7 @@ const graph = new G6.Graph({
 ```
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hre9Qa7yCfQAAAAAAAAAAABkARQnAQ' width=400/>
 
-**启用** `delegate`
+**Activate** `delegate`
 ```javascript
 const graph = new G6.Graph({
 	modes: {
@@ -85,12 +85,13 @@ const graph = new G6.Graph({
 
 ### click-select
 
-- 含义：点击选中节点，再次点击节点或点击 Canvas 取消选中状态；
-- `type: 'click-select'`；
-- `multiple`: 是否允许多选，默认为 `true`，当设置为 `false`，表示不允许多选，此时 `trigger` 参数无效。
-- 3.1.2 `trigger`: 指定按住哪个键进行多选，默认为 shift，按住 Shift 键多选，用户可配置 shift、ctrl、alt；
+- Description: Select a node by clicking. Cancel the selected state by clicking the node agian or clicking the canvas;
+- `type: 'click-select'`;
+- `multiple`: Whether to allow multiple selection. `true` by default. `false` means multiple selection is not allowed, and the `trigger` will not take effect.
+- `trigger`: Specify which key to hold for multiple selection. `shift` by default, which means multiple selection is activated when the shift button is pressed. Options: `'shift'`, `'ctrl'`, `'alt'`, and so on;
 
-**默认配置**<br />**
+**Default Configuration**
+
 ```javascript
 const graph = new G6.Graph({
 	modes: {
@@ -99,9 +100,9 @@ const graph = new G6.Graph({
 })
 ```
 
-按住 **`Shift`** 键可多选。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mOiIQqBof8sAAAAAAAAAAABkARQnAQ' width=400/>
+Press **`Shift`** button to select more items.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mOiIQqBof8sAAAAAAAAAAABkARQnAQ' width=400/>
 
-**配置参数**
+**Configuration**
 ```javascript
 const graph = new G6.Graph({
 	modes: {
@@ -115,13 +116,14 @@ const graph = new G6.Graph({
 })
 ```
 
-以上配置中，用户可按住 **Ctrl** 键进行多选，也可以配置 **Alt** 键。当配置了 `multiple` 参数为 `false`，则表示不允许多谢，此时 `trigger` 参数无效。
+With the configuration above, users are allowed to select more than one nodes when pressing **Ctrl**. You can also assign **Alt** for it. But the multiple selection is turned off when `multiple` is `false`, and the `trigger` will not take effect any more.
 
 ### tooltip
 
-- 含义：节点文本提示；
-- `type: 'tooltip'`；
-- `formatText(model)` 格式化函数，可以返回文本或者 HTML；
+- Description: The tooltip for node;
+- `type: 'tooltip'`;
+- `formatText(model)`: Format function, returns a text string or an HTML element.
+
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -138,7 +140,8 @@ const graph = new G6.Graph({
 });
 ```
 
-**提示：由于 G6 没有内置任何 tooltip 的样式，用户需要自己定义样式，例如：**
+**Tips: Since there are no styles for tooltip in G6, you need to define the styles for it as:**
+
 ```css
 .g6-tooltip {
   padding: 10px 6px;
@@ -150,24 +153,24 @@ const graph = new G6.Graph({
 ```
 
 ### edge-tooltip
-使用方式基本与 tooltip 相同，但是移到边时触发。主要是为了将两个交互区分开，以满足用户边与节点的提示样式或 HTML 结构不同，以及不需要在事件中去区分是节点事件还是边事件等。
+The usage of edge-tooltip is similar to tooltip. It will be activated when the user hover the mouse onto an edge.
 
-- 含义：边文本提示；
-- `type: 'edge-tooltip'`；
-- `formatText(model)` 格式化函数，可以返回文本或者 HTML。
+- Description: The tooltip for edge;
+- `type: 'edge-tooltip'`;
+- `formatText(model)`: Format function, returns a text string or an HTML element.
 
 ### activate-relations
 
-- 含义：当鼠标移到某节点时，突出显示该节点以及与其直接关联的节点和连线；
-- `type: 'activate-relations'`；
-- 参数：
-  - `trigger: 'mouseenter'`, 可以是 `mousenter` , 鼠标移入时触发；也可以是 `click` ，鼠标点击时触发；
-  - `activeState: 'active'`, 活跃节点状态；当行为被触发，需要被突出显示的节点和边都会附带此状态，默认值为 `active`；可以与 graph 实例的 `nodeStyle` 和 `edgeStyle` 结合实现丰富的视觉效果。
-  - `inactiveState: 'inactive'`，非活跃节点状态，不需要被突出显示的节点和边都会附带此状态，默认值为 `inactive`；可以与 graph 实例的 `nodeStyle` 和 `edgeStyle` 结合实现丰富的视觉效果；
-  - 3.1.2 `resetSelected`：高亮相连节点时是否重置已经选中的节点，默认为false，即选中的节点状态不会被 `activate-relations` 覆盖。
+- Description: Highlight the node and its related nodes and edges when the mouse enter the node;
+- `type: 'activate-relations'`;
+- Configurations: 
+  - `trigger: 'mouseenter'`. `mousenter` means acitvating when the mouse enter a node; `click` means activating when the mouse click a node;
+  - `activeState: 'active'`. The state name when the node is activated. When `activate-relations` is activated, the related nodes and edges will have this state. `active` by default. It can be combined with `nodeStyle` and `edgeStyle` of graph to enrich the visual effect;
+  - `inactiveState: 'inactive'`. The state name when of the node is inactivated. All the nodes and edges which are not activated by `activate-relations` will have this state. `inactive` by default. It can be combined with `nodeStyle` and `edgeStyle` of graph to enrich the visual effect;
+  - `resetSelected`: Whether to reset the selected nodes when highlight the related nodes. `false` by default, which means the selected state will not be covered by `activate-relations`.
 
 
-<br />**默认配置**<br />
+<br />**Default Configuration**<br />
 
 ```javascript
 const graph = new G6.Graph({
@@ -176,9 +179,9 @@ const graph = new G6.Graph({
   }
 })
 ```
-默认情况下，选中的节点状态，在操作完以后仍然会保持选中状态。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bG31RqbM4JMAAAAAAAAAAABkARQnAQ' width=400/>
+The selected state of the selected node will be maintained after the `activate-relations` operation by default.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bG31RqbM4JMAAAAAAAAAAABkARQnAQ' width=400/>
 
-**配置参数**
+**Configuration**
 ```javascript
 const graph = new G6.Graph({
 	modes: {
@@ -192,29 +195,28 @@ const graph = new G6.Graph({
 })
 ```
 
-配置 `resetSelected` 参数为 `true` 后，交互后会重置节点的选择状态。
+Assign `true` to `resetSelected` to reset the selected states for nodes after the `activate-relations` operation.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VQDrT5Qpq_sAAAAAAAAAAABkARQnAQ' width=400/>
 
 
 ### brush-select
 
-- 含义：拖动框选节点；
-- `type: 'brush-select'`；
-- 参数：
-  - `brushStyle`：拖动框选框的样式；
-  - `onSelect(nodes)`：选中节点时的回调，参数 `nodes` 表示选中的节点；
-  - `onDeselect(nodes)`：取消选中节点时的回调，参数 `nodes` 表示取消选中的节点；
-  - `brushStyle`：框选时样式的配置项，包括 `fill`、`fillOpacity`、`stroke` 和 `lineWidth` 四个属性；
-  - `selectedState`：选中的状态，默认值为 `'selected'`；
-  - `includeEdges`：框选过程中是否选中边，默认为 `true`，用户配置为 `false` 时，则不选中边；
-  - 3.1.2 `trigger`：触发框选的动作，默认为 `'shift'`，即用户按住 Shift 键拖动就可以进行框选操作，可配置的的选项为: `'shift'`、`'ctrl' / 'control'`、`'alt'` 和 `'drag'` ，不区分大小写：
-    - `'shift'`：按住 Shift 键进行拖动框选；
-    - `'ctrl' / 'control'`：按住 Ctrl 键进行拖动框选；
-    - `'alt'`：按住 Alt 键进行拖动框选；
-    - 风险 `'drag'`：不需要按任何键，进行拖动框选，如果同时配置了 `drag-canvas`，则会与该选项冲突。
+- Description: Allows uers to select nodes by brushing;
+- `type: 'brush-select'`;
+- Configurations: 
+  - `brushStyle`: The styles of the marquee. It contains four configurations: `fill`、`fillOpacity`、`stroke` and `lineWidth`;
+  - `onSelect(nodes)`: The callback function when selecting a node. `nodes` is the selected ndoes;
+  - `onDeselect(nodes)`: The callback function when canceling selections. `nodes` is the selected ndoes;
+  - `selectedState`: The state of the selected nodes. `'selected'` by default;
+  - `includeEdges`: Whether to select the edges when selecting by brushing. `true` by default. `false` means do not select the edges.
+  - `trigger`: The trigger button for this operation. `'shift'` by default, which means the select by brushing operation will be activated by pressing Shift button. Options: `'shift'`, `'ctrl' / 'control'`, `'alt'` and `'drag'`, not case sensitive:
+    - `'shift'`: Select by brushing when Shift is pressed;
+    - `'ctrl' / 'control'`: Select by brushing when Ctrl is pressed;
+    - `'alt'`: Select by brushing when Alt is pressed;
+    - `'drag'`: Select by brushing without any pressed buttons. Note that it will conflict with the `drag-canvas`.
 
-**默认配置**
+**Default Configuration**
 
 ```javascript
 const graph = new G6.Graph({
@@ -223,8 +225,9 @@ const graph = new G6.Graph({
   }
 })
 ```
-默认情况下，按住 Shift 键进行框选，选中节点的同时，也会选中边。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IJizQonX75wAAAAAAAAAAABkARQnAQ' width=400/>
-**配置参数**
+Select by brushing when the Shift button is pressed by default. And the edges are selectable as well.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IJizQonX75wAAAAAAAAAAABkARQnAQ' width=400/>
+
+**Configuration**
 ```javascript
 const graph = new G6.Graph({
 	modes: {
@@ -239,9 +242,9 @@ const graph = new G6.Graph({
 })
 ```
 
-上面的配置，按住 Ctrl 键，进行框选，框选过程中不会选中边。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1xNZT7mPFK4AAAAAAAAAAABkARQnAQ' width=400/>
+By the configurations above, the operation is activated when the Ctrl button is pressed, and the edges will not be selected during the process.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1xNZT7mPFK4AAAAAAAAAAABkARQnAQ' width=400/>
 
-**配置冲突**
+**Conflict Configuration：**
 ```javascript
 const graph = new G6.Graph({
 	modes: {
@@ -255,9 +258,9 @@ const graph = new G6.Graph({
 })
 ```
 
-当用户配置 `brush-select` 的 `trigger` 为 `drag`，同时又配置了 `drag-canvas` 时，在交互上面会出现冲突的情况。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*umffRa8rHtUAAAAAAAAAAABkARQnAQ' width=400/>
+When the `trigger` in `brush-select` is assigned to `drag`, an the `drag-canvas` exists in this mode, their operation will conflict.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*umffRa8rHtUAAAAAAAAAAABkARQnAQ' width=400/>
 
-可以看到，在拖动过程中也出现了框选的情况，这种情况很显然不是我们期望的效果，除过使用 `brush-select `的 `trigger` 参数避免这种冲突外，我们还可以通过下面的方式来实现：
+It is obvious that the selecting by brushing is activated while dragging the canvas. To avoid this situation, we can assign other values for `trigger` in `brush-select`. Besides, the following solution also works:
 
 ```javascript
 const graph = new G6.Graph({
@@ -273,20 +276,19 @@ const graph = new G6.Graph({
 })
 ```
 
-上面这种方式是使用不同的 mode 来区分，mode 可以达到使用相同交互动作而产生不同的效果，更多关于 mode 的内容请参数 [G6 中的 Mode 文档](./mode)。
-
-使用 mode 区分，默认情况下使用的是 `drag-canvas`，但用户需要切换到框选时，通过 `graph.setModel('brush')` 即可实现，此时同样的交互产生的就是框选的效果。
+It is a solution to put these two conflicting events into two mdoes. They will be activated on different graph modes. Dragging operation corresponds to `drag-canvas` in the default mode. When user switch the state to brush mode by `graph.setModel('brush')`, the dragging operation will be responsed by `brush-select` instead.
+Refer to [Mode](/en/docs/manual/middle/states/mode) for more information.
 
 ### collapse-expand
 
-- 含义：只适用于树图，展开或收起节点；
-- `type: 'collapse-expand'`；
-- 参数：
-  - `trigger`：收起和展开树图的方式，支持`click`和`dblclick`两种方式，默认为`click`；
-  - `onChange`：收起或展开的回调函数，警告 `3.1.2 `版本中将移除。
+- Description: Collapse or expand a subtree on a treeGraph
+- `type: 'collapse-expand'`;
+- Configuration: 
+  - `trigger`: The operation for collapsing and expanding. Options: `click` and `dblclick`. `click` by default;
+  - `onChange`: The callback function after collapsing or expanding. **Warining**: it will be removed from V3.1.2.
 
 
-**用法**
+**Usage**
 
 ```javascript
 const graph = new G6.TreeGraph({
@@ -306,12 +308,12 @@ const graph = new G6.TreeGraph({
 
 ### collapse-expand-group
 
-- 含义：收起和展开群组；
-- `type：'collapse-expand-group'`
-- 参数：
-  - 3.1.2 trigger：收起和展开节点分组的方式，支持`click`和`dblclick`两种方式，默认为`dblclick`
+- Description: Collapse or expand a node group;
+- `type: 'collapse-expand-group'`
+- Configurations: 
+  - trigger: The operation for collapsing and expanding. Options: `click` and `dblclick`. `dblclick` by default, which means double click.
 
-**默认配置**
+**Default Configuration**
 ```javascript
 const graph = new G6.Graph({
 	modes: {
@@ -320,7 +322,7 @@ const graph = new G6.Graph({
 })
 ```
 
-**配置参数**<br />配置 `trigger` 参数为 **`click`** 后，单击节点分组即可收起或展开分组。
+**Configuration**<br />Assign `trigger` to **`click`**, the collapsing or expanding a node group will be triggered by click.
 
 ```javascript
 const graph = new G6.Graph({
@@ -339,12 +341,12 @@ const graph = new G6.Graph({
 
 ### drag-group
 
-- 含义：拖动节点分组；
-- `type: 'drag-group'`；
-- 参数：
-  - `delegateStyle`：拖动节点分组时 `delegate` 的样式。
+- Description: Allows users drag node group;
+- `type: 'drag-group'`;
+- Configuration: 
+  - `delegateStyle`: The style of the `delegate` when dragging the group.
 
-**默认配置**
+**Default Configuration**
 ```javascript
 const graph = new G6.Graph({
 	modes: {
@@ -355,14 +357,14 @@ const graph = new G6.Graph({
 
 ### drag-node-with-group
 
-- 含义：拖动节点分组中的节点；
-- `type：'drag-node-with-group'`；
-- 参数：
-  - `delegateStyle`：拖动节点分组时 `delegate` 的样式；
-  - `maxMultiple`：
-  - `minMultiple`。
+- Description: Allow users to drag the nodes in the group;
+- `type: 'drag-node-with-group'`;
+- Configuration: 
+  - `delegateStyle`: The style of the `delegate` when dragging the node.
+  - `maxMultiple`;
+  - `minMultiple`.
 
-**默认配置**
+**Default Configuration**
 ```javascript
 const graph = new G6.Graph({
 	modes: {

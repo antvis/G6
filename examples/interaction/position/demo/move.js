@@ -80,15 +80,16 @@ function handleNodeClick(event) {
   let newX = void 0;
   let newY = void 0;
   // 动画每次平移一点，直到目标位置
-  graph.get('canvas').animate({
-    onFrame: function onFrame(ratio) {
-      newX = dx * ratio;
-      newY = dy * ratio;
-      graph.translate(newX - lastX, newY - lastY);
-      lastX = newX;
-      lastY = newY;
-    }
-  }, 300, 'easeCubic');
+  graph.get('canvas').animate(ratio => {
+    newX = dx * ratio;
+    newY = dy * ratio;
+    graph.translate(newX - lastX, newY - lastY);
+    lastX = newX;
+    lastY = newY;
+  }, {
+    duration: 300,
+    easing: 'easeCubic'
+  });
 }
 
 // 监听节点上的click事件

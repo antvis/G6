@@ -17,7 +17,7 @@ order: 2
 > （左）图 3. 世界网络 IXP 对等图。（右）图 4. 美国移民图。
 
 ## 问题
-虽然点-线图提供了直观的可视化，但是当数据存在大量节点和边时，视觉混乱（Visual Clutter）很快成为严重的问题。点-线图中的视觉混乱通常是边缘拥塞的直接结果，而在如交通网络一类数据中，节点位置通常具有明确定义的含义，并不总是可以修改节点位置以减少视觉混乱，如图 1～4 四个例子。因此，学术界诸多研究者设计了各种通过优化边的方式减轻上述视觉混乱，其中边绑定（Edge Bundling）方法被广泛研究和应用。各种边绑定的方法总结在【[链接](https://yuque.antfin-inc.com/shiwu.wyy/go1ec6/znmtuw)】。
+虽然点-线图提供了直观的可视化，但是当数据存在大量节点和边时，视觉混乱（Visual Clutter）很快成为严重的问题。点-线图中的视觉混乱通常是边缘拥塞的直接结果，而在如交通网络一类数据中，节点位置通常具有明确定义的含义，并不总是可以修改节点位置以减少视觉混乱，如图 1～4 四个例子。因此，学术界诸多研究者设计了各种通过优化边的方式减轻上述视觉混乱，其中边绑定（Edge Bundling）方法被广泛研究和应用。各种边绑定的方法总结在「<a href='https://yuque.antfin-inc.com/shiwu.wyy/go1ec6/znmtuw' target='_blank'>链接</a>」。
 
 例如下面这一个复杂的美国航线数据集，节点代表美国城市，带有坐标和经纬度信息；一条边代表一条航线：
 ```json
@@ -35,7 +35,7 @@ order: 2
         "lon": -92.224444,
         "lat": 34.729444
     },
-    ...
+    // ... 其他节点
     ],
     "edges": [
       {
@@ -47,7 +47,7 @@ order: 2
         "target": "13",
         "id": "e1"
       },
-      ...
+      // ... 其他边
     ]
 }
 ```
@@ -105,7 +105,7 @@ nodes.forEach(n => {
 const sizeRange = [1, 20];
 const degreeDataRange = [minDegree, maxDegree];
 // 将范围是 degreeDataRange 的 degree 属性映射到范围 sizeRange 上后，
-// 写入到 nodes 中元素的‘size’属性中
+// 写入到 nodes 中元素的 ‘size’ 属性中
 scaleNodeProp(nodes, 'size', 'degree', degreeDataRange, sizeRange);
 ```
 
@@ -132,7 +132,7 @@ function scaleNodeProp(nodes, propName, refPropName, dataRange, outRange) {
 
 
 ### 实例化边绑定插件
-G6 中提供的边绑定插件是基于 FEDB（[Force-Directed Edge Bundling for Graph Visualization](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.212.7989&rep=rep1&type=pdf)）一文的实现。可以通过调节参数调整边绑定的效果。
+G6 中提供的边绑定插件是基于 FEDB（<a href='http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.212.7989&rep=rep1&type=pdf' target='_blank'>Force-Directed Edge Bundling for Graph Visualization</a>）一文的实现。可以通过调节参数调整边绑定的效果。
 ```javascript
 const edgeBundling = new Bundling({
     bundleThreshold: 0.6, // 绑定的容忍度。数值越低，被绑定在一起的边相似度越高，即被绑在一起的边更少。
@@ -142,7 +142,7 @@ const edgeBundling = new Bundling({
 
 
 ### 自定义饼图节点
-在第一步中，我们已经为节点大小 size 映射了每个节点的总度数。为了更详细展示每个城市飞出和飞入航班的比例，我们希望在每个节点上显示一个类似于饼图的效果。例如<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*stNMRLlBLMUAAAAAAAAAAABkARQnAQ' width=60 /> ，桔红色扇形代表飞入该城市的航班比例，青色代表飞出该城市的航班比例。G6 原生的 circle 、rect 等节点形状不能满足这一需求，但 G6 提供了节点的扩展机制，通过下面的代码片段，可以在 G6 中注册一个自定义的节点：
+在第一步中，我们已经为节点大小 size 映射了每个节点的总度数。为了更详细展示每个城市飞出和飞入航班的比例，我们希望在每个节点上显示一个类似于饼图的效果。例如<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*stNMRLlBLMUAAAAAAAAAAABkARQnAQ' width=60 /> ，桔红色扇形代表飞入该城市的航班比例，青色代表飞出该城市的航班比例。G6 内置的 circle 、rect 等节点形状不能满足这一需求，但 G6 提供了节点的扩展机制，通过下面的代码片段，可以在 G6 中注册一个自定义的节点：
 ```javascript
 const lightBlue = 'rgb(119, 243, 252)';
 const lightOrange = 'rgb(230, 100, 64)';
@@ -154,7 +154,7 @@ G6.registerNode('pie-node', {
     const inPercentage = cfg.inDegree / cfg.degree; // 入度占总度数的比例
     const inAngle = inPercentage * Math.PI * 2; // 入度在饼图中的夹角大小
     const outAngle = Math.PI * 2 - inAngle; // 出度在饼图中的夹角大小
-    const inArcEnd = [radius * Math.cos(inAngle), radius * Math.sin(inAngle)]; //入度饼图弧结束位置
+    const inArcEnd = [radius * Math.cos(inAngle), radius * Math.sin(inAngle)]; // 入度饼图弧结束位置
     let isInBigArc = 1, isOutBigArc = 0;
     if (inAngle > Math.PI) {
       isInBigArc = 0;
@@ -255,7 +255,7 @@ graph.render();
 
 
 #### 设置 tooltip 与交互操作
-使用 tooltip，可以在鼠标 hover 到节点上时展示该节点的其他属性值。首先在 html 中设定 tooltip 的样式：
+使用 tooltip，可以在鼠标 hover 到节点上时展示该节点的其他属性值。首先在 HTML 中设定 tooltip 的样式：
 ```html
 <style>
   .g6-tooltip {
@@ -293,9 +293,9 @@ graph.render();
 
 
 同时，可以拖拽和放缩画布：
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5h5tR5eDM6UAAAAAAAAAAABkARQnAQ' width=850 height=350 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5h5tR5eDM6UAAAAAAAAAAABkARQnAQ' width=550 height=350 />
 
-> 缩放和拖动画布。
+> 缩放和拖动画布
 
 
 ## 分析

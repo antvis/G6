@@ -8,7 +8,7 @@ G6 内置了折线 polyline 边，其默认样式如下。<br />
 
 
 ## 使用方法
-如 [内置边](../defaultEdge) 一节所示，配置边的方式有两种：实例化图时全局配置，在数据中动态配置。
+如 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge) 一节所示，配置边的方式有两种：实例化图时全局配置，在数据中动态配置。
 
 
 ### 1 实例化图时全局配置
@@ -49,7 +49,7 @@ const data = {
 
 
 ## 配置项说明
-polyline 边支持以下的配置项：
+polyline 边支持 [边通用配置项](zh/docs/manual/middle/elements/edges/defaultEdge/#边的通用属性)，以下表格对部分常用配置项进行说明：
 ```javascript
 color: '#87e8de',
 style: {
@@ -74,13 +74,14 @@ labelCfg: {
 | style | 边的样式 | Object | Canvas支持的属性 |
 | **style.radius** | **拐弯处的圆角弧度** | **Number** | **若不设置则为直角，polyline 特有** |
 | **style.offset** | **拐弯处距离节点最小距离** | **Number** | **默认为 5，polyline 特有** |
+| controlPoints | 控制点数组 | Array | 不指定时根据 <a href='https://yuque.alibaba-inc.com/antv/blog/polyline-edges-with-border-radius' target='_blank'>A* 算法</a>自动生成折线。若指定了，则按照 `controlPoints` 指定的位置进行弯折。示例：`[{ x: 10, y: 20 }, { x: 20, y: 25 }, ...]` |
 | label | 标签文本文字 | String |  |
 | labelCfg | 标签文本配置项 | Object |  |
 
 
 
 ### 样式属性 style
-Object 类型。与其他类型的边不同的是，polyline 的 `style` 含有两个特殊属性：
+Object 类型。支持 [边通用样式属性](/zh/docs/manual/middle/elements/edges/defaultEdge/#样式属性-style)。与其他类型的边不同的是，polyline 的 `style` 含有两个特殊属性：
 
 -  `radius` ，弯折处的圆角半径，不设置则默认为直角；
 -  `offset` ，距离端点的最小距离，默认值为 5。
@@ -127,7 +128,7 @@ graph.render();
 
 
 ### 标签文本配置 labelCfg
-Object 类型。其它配置与边的通用文本配置相同，见 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge)。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultEdge` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br />
+Object 类型。支持 [边通用标签配置](/zh/docs/manual/middle/elements/edges/defaultEdge/#标签文本-label-及其配置-labelcfg)。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultEdge` 中增加了 `labelCfg` 配置项进行文本的配置，使之达到如下图效果。<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HT4OTobglpoAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
 const data = {

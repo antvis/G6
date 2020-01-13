@@ -4,19 +4,17 @@ G6.registerEdge('line-growth', {
   afterDraw(cfg, group) {
     const shape = group.get('children')[0];
     const length = shape.getTotalLength();
-    shape.animate({
-      // 动画重复
-      repeat: true,
-      // 每一帧的操作，入参 ratio：这一帧的比例值（Number）。返回值：这一帧需要变化的参数集（Object）。
-      onFrame(ratio) {
-        const startLen = ratio * length;
-        // 计算线的lineDash
-        const cfg = {
-          lineDash: [ startLen, length - startLen ]
-        };
-        return cfg;
-      }
-    }, 2000);  // 一次动画的时长为 2000
+    shape.animate(ratio => { // 每一帧的操作，入参 ratio：这一帧的比例值（Number）。返回值：这一帧需要变化的参数集（Object）。
+      const startLen = ratio * length;
+      // 计算线的lineDash
+      const cfg = {
+        lineDash: [ startLen, length - startLen ]
+      };
+      return cfg;
+    }, {
+      repeat: true, // 动画重复
+      duration: 2000// 一次动画的时长为 2000
+    });
   }
 }, 'cubic');   // 该自定义边继承了内置三阶贝塞尔曲线边 cubic
 
