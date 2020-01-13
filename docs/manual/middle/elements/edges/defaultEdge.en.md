@@ -18,20 +18,20 @@ There are 9 built-in edges in G6:
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*H6Y5SrPstw4AAAAAAAAAAABkARQnAQ' width='750' height='120' />
 
 ## Types of Default Nodes
-The table below shows the built-in edges and their special attributes:
+The table below shows the built-in edges and their special properties:
 
 | Name | Description |  |
 | --- | --- | --- |
-| line | A straight line connected two end nodes: <br />- controlPoints do not take effect<br />- Refer to attributes of line for more information<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-LM-RJnlI20AAAAAAAAAAABkARQnAQ' width=100/> |
-| polyline | A polyline with one or more control points: <br />- controlPoints is the set of all the control points of polyline. If it is not assigned, G6 will calculate it by [A* Algorithm](https://yuque.alibaba-inc.com/antv/blog/polyline-edges-with-border-radius)<br />- Refer to attributes of polyline for more information<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*q2pIQ6h622IAAAAAAAAAAABkARQnAQ' width=100/> |
-| arc | An arc connects two end nodes: <br />- controlPoints do not take effects<br />- control the bending and direction by `curveOffset`<br />- Refer to attributes of arc for more informatio<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SmS8QZjTlEkAAAAAAAAAAABkARQnAQ' width=100/> |
-| quadratic | A quadratic bezier curve with one control point: <br />- The curve will be bended on the center if the `controlPoints` is not defined <br />- Refer to attributes of quadratic for more informatio<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IADsTq4eH50AAAAAAAAAAABkARQnAQ' width=100/> |
-| cubic | A cubic bezier curve with two control points: <br />- The curve will be bended on the position of 1/3 and 2/3 if the `controlPoints` is not defined<br />- Refer to attributes of cubic for more informatio<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ldiCT7xnrM4AAAAAAAAAAABkARQnAQ' width=100/> |
+| line | A straight line connected two end nodes: <br />- `controlPoints` does not take effect<br />- Refer to properties of line for more information<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-LM-RJnlI20AAAAAAAAAAABkARQnAQ' width=100/> |
+| polyline | A polyline with one or more control points: <br />- `controlPoints` is the set of all the control points of polyline. If it is not assigned, G6 will calculate it by <a href='https://yuque.alibaba-inc.com/antv/blog/polyline-edges-with-border-radius' target='_blank'>A* algorithm</a><br />- Refer to properties of polyline for more information<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*q2pIQ6h622IAAAAAAAAAAABkARQnAQ' width=100/> |
+| arc | An arc connects two end nodes: <br />- `controlPoints` does not take effects<br />- control the bending and direction by `curveOffset`<br />- Refer to properties of arc for more informatio<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SmS8QZjTlEkAAAAAAAAAAABkARQnAQ' width=100/> |
+| quadratic | A quadratic bezier curve with one control point: <br />- The curve will be bended on the center if the `controlPoints` is not defined <br />- Refer to properties of quadratic for more informatio<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IADsTq4eH50AAAAAAAAAAABkARQnAQ' width=100/> |
+| cubic | A cubic bezier curve with two control points: <br />- The curve will be bended on the position of 1/3 and 2/3 if the `controlPoints` is not defined<br />- Refer to properties of cubic for more informatio<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ldiCT7xnrM4AAAAAAAAAAABkARQnAQ' width=100/> |
 | cubic-vertical | The vertical cubic bezier curve. The user can not assign the control point for this type of edge | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*WtNPRKSZv1kAAAAAAAAAAABkARQnAQ' width=100/> |
-| cubic-horizontal | The horizontal cubic bezier curve. The user can not assign the control point for this type of edge | <img src='' width=100/> |
-| loop | Self-loop edge. Refer to attributes of loop for more informatio | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iNiVRIsov4MAAAAAAAAAAABkARQnAQ' width=100/> |
+| cubic-horizontal | The horizontal cubic bezier curve. The user can not assign the control point for this type of edge | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iNiVRIsov4MAAAAAAAAAAABkARQnAQ' width=100/> |
+| loop | Self-loop edge. Refer to properties of loop for more informatio | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sPBIR40KLOkAAAAAAAAAAABkARQnAQ' width=70/> |
 
-## The Common Attribute
+## The Common Property
 
 | Name | Required | Type | Remark |
 | --- | --- | --- | --- |
@@ -46,21 +46,23 @@ The table below shows the built-in edges and their special attributes:
 | labelCfg | false | Object | The configurations of the label |
 
 
-#### style
-`style` is an object to configure the stroke color, shadow, and so on. Here is the commonly used attributes in `style`:
+
+### style
+`style` is an object to configure the stroke color, shadow, and so on. Here is the commonly used properties in `style`:
 
 | Name | Required | Type | Remark |
 | --- | --- | --- | --- |
 | stroke | false | String | The stroke color |
 | lineWidth | false | Number | The line width |
 | lineAppendWidth | false | Number | The width of the response area for interaction. In other words, when the edge is too thin to be hitted by mouse, enlarge the value of `lineWidth` to widen the response area |
-| endArrow | false | Boolean | Whether show the end arrow |
+| endArrow | false | Boolean / Object | The arrow on the end of the edge. When `startArrow` is `true`, show a default arrow on the end of the edge. User can customize an arrow by path, e.g.:<br />endArrow: {<br />  path: 'M 10,0 L -10,-10 L -10,10 Z', // Customize the path for the arrow<br />  d: 10 // offset<br />} |
+| startArrow | false | Boolean / Object | The arrow on the start of the edge. When `startArrow` is `true`, show a default arrow on the start of the edge. User can customize an arrow by path, e.g.:<br />endArrow: {<br />  path: 'M 10,0 L -10,-10 L -10,10 Z', // Customize the path for the arrow<br />  d: 10 // offset<br />} |
 | strokeOpacity | false | Number | The stroke opacity |
 | shadowColor | false | String | The color of the shadow |
 | shadowBlur | false | Number | The blur degree of the shadow |
 | shadowOffsetX | false | Number | The x offset of the shadow |
 | shadowOffsetX | false | Number | The y offset of the shadow |
-| ... |  |  |  |
+| lineDash | false | Array | The style of the dash line. It is an array that describes the length of gaps and line segments. If the number of the elements in the array is odd, the elements will be dulplicated. Such as [5, 15, 25] will be regarded as [5, 15, 25, 5, 15, 25] |
 
 
 Configure `style` globally when instantiating the Graph:
@@ -70,17 +72,17 @@ const graph = new G6.Graph({
   width: 800,
   height: 600,
   defaultEdge: {
-    // ... Other attributes for edges
+    // ... Other properties for edges
     style: {
       stroke: '#eaff8f',
       lineWidth: 5,
-      // ... Other style attributes
+      // ... Other style properties
     }
   }
 })
 ```
 
-#### label and labelCfg
+### label and labelCfg
 `label` is a string which indicates the content of the label. <br />`labelCfg` is an object to configure the label. The commonly used configurations of `labelCfg`:
 
 | Name | Required | Type | Remark |
@@ -88,8 +90,8 @@ const graph = new G6.Graph({
 | refX | false | Number | x offset of the label |
 | refY | false | Number | y offset of the label |
 | position | false | String | The relative position to the edge. Options: `'start'`, `'middle'`, and `'end'`. `'middle'` by default |
-| autoRotate | false | Boolean | Whether activate ratating according to the edge automatically. `false` by default |
-| style | false | Object | The style attribute of the label |
+| autoRotate | false | Boolean | Whether to activate ratating according to the edge automatically. `false` by default |
+| style | false | Object | The style property of the label |
 
 
 The commonly used configurations for the `style` in the above table are:
@@ -102,7 +104,7 @@ The commonly used configurations for the `style` in the above table are:
 | opacity | false | Number | The opacity |
 | font | false | String | The font |
 | fontSize | false | Number | The font size |
-| ... |  |  |  |
+| ... The label styles of node and edge are the same, summarized in [Text Shape API](/en/docs/api/shapeProperties/#text) |  |  |  |
 
 
 The following code shows how to configure `label` and `labelCfg` globally when instantiating a Graph:
@@ -112,7 +114,7 @@ const graph = new G6.Graph({
   width: 800,
   height: 600,
   defaultEdge: {
-    // ... Other attributes for nodes
+    // ... Other properties for nodes
     label: 'edge-label',
     labelCfg: {
     	refY: -10,
@@ -138,13 +140,13 @@ const graph = new G6.Graph({
   height: 600,
   defaultEdge: {
     shape: 'line',
-    // Other attributes for all the nodes
+    // Other properties for all the nodes
   }
 })
 ```
 
 ### Configure in Data
-To configure different nodes with different attributes, you can write the attributes into their data individually:
+To configure different nodes with different properties, you can write the properties into their data individually:
 ```javascript
 const data = {
   nodes: [
@@ -154,17 +156,17 @@ const data = {
     source: 'node0',
     target: 'node1'
     shape: 'polyline',
-    // ...    // Other attributes for this edge
+    // ...    // Other properties for this edge
     style: {
-      // ...  // Style attributes for this edge
+      // ...  // Style properties for this edge
     }
   },{
     source: 'node1',
     target: 'node2'
     shape: 'cubic',
-    // ...    // Other attributes for this edge
+    // ...    // Other properties for this edge
     style: {
-      // ...  // Style attributes for this edge
+      // ...  // Style properties for this edge
     }
   },
     // ... // edges
@@ -173,12 +175,12 @@ const data = {
 ```
 
 ### Configure with graph.edge(edgeFn)
-By this way, we can configure different nodes with different attributes.<br />
+By this way, we can configure different nodes with different properties.<br />
 
-⚠️**Attention:** 
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span>
 
 - `graph.edge(edgeFn)` must be called **before calling render()**. It does not take effect otherwise;
-- It has the highest priority that will rewrite the same attributes configured by other ways;
+- It has the highest priority that will rewrite the same properties configured by other ways;
 - Each edge will be updated when adding or updating items. It will cost a lot when the amount of the data is large.
 ```javascript
 // const data = ...
@@ -242,8 +244,8 @@ graph.render();
 The result: <br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LcCzSqTqifwAAAAAAAAAAABkARQnAQ' width='750' height='120' />
 
-### Adjust the Attributes
-By writing the attributes into the data, we adjust the style and the label of the edges of '9-10' and '11-12'.
+### Adjust the Properties
+By writing the properties into the data, we adjust the style and the label of the edges of '9-10' and '11-12'.
 ```javascript
 // Move the label of this edge
 {
@@ -268,7 +270,7 @@ By writing the attributes into the data, we adjust the style and the label of th
   label: 'cubic-vertical',
   labelCfg: {
   	position: 'center', // The position of the label=
-    autoRotate: true,   // Whether rotate the label according to the edge
+    autoRotate: true,   // Whether to rotate the label according to the edge
     style: {
       stroke: 'white',  // White stroke for the label
     	lineWidth: 5,     // The line width of the stroke
@@ -282,4 +284,4 @@ By writing the attributes into the data, we adjust the style and the label of th
 
 ## Related Reading
 
-- [State](../../states/state) —— Change the styles during the interaction process.
+- [State](/en/docs/manual/middle/states/state) —— Change the styles during the interaction process.

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>默认的图片节点</title>
+</head>
+<body>
+  <div id="mountNode"></div>
+  <div id="mountNode1"></div>
+  <script src="../build/g6.js"></script>
+  <script>
+
+    const data = {
+      nodes: [
+        {
+          id: 'node',
+          x: 200,
+          y: 200,
+          shape: 'rect'
+        }
+      ],
+      edges: [
+        {
+          source: 'node',
+          target: 'node',
+          shape: 'loop',
+          loopCfg: {
+            position: 'top',
+          }
+        },
+        {
+          source: 'node',
+          target: 'node',
+          shape: 'loop',
+          loopCfg: {
+            position: 'top-left',
+          }
+        },
+        {
+          source: 'node',
+          target: 'node',
+          shape: 'loop',
+          loopCfg: {
+            position: 'top-right',
+          }
+        },
+        {
+          source: 'node',
+          target: 'node',
+          shape: 'loop',
+          loopCfg: {
+            position: 'left',
+          }
+        },
+        {
+          source: 'node',
+          target: 'node',
+          shape: 'loop',
+          loopCfg: {
+            position: 'right',
+          }
+        },
+        {
+          source: 'node',
+          target: 'node',
+          shape: 'loop',
+          loopCfg: {
+            position: 'bottom-left',
+          }
+        },
+        {
+          source: 'node',
+          target: 'node',
+          shape: 'loop',
+          loopCfg: {
+            position: 'bottom-right',
+          }
+        },
+        {
+          source: 'node',
+          target: 'node',
+          shape: 'loop',
+          loopCfg: {
+            position: 'bottom',
+          }
+        }
+      ]
+    }
+
+    const graph = new G6.Graph({
+      container: 'mountNode',
+      width: 800,
+      height: 600,
+      defaultNode: {
+        shape: 'rect',
+        size: [60, 30],
+        color: 'green',
+      },
+      modes: {
+        default: ['drag-canvas', 'drag-node', {
+          type: 'brush-select',
+          trigger: 'ctrl'
+        }]
+      }
+    })
+
+    graph.data(data)
+    graph.render()
+
+    // graph.on('node:click', evt => {
+    //   const { item } = evt
+    //   graph.setItemState(item, 'select', true)
+    //   graph.updateItem(item, {
+    //     size: [ 260, 130],
+    //     style: {
+    //       opacity: 0.6
+    //     },
+    //     preRect: {
+    //       fill: 'blue'
+    //     },
+    //     linkPoints: {
+    //       fill: '#fff',
+    //       size: 5
+    //     },
+    //     stateIcon: {
+    //       img: 'https://gw.alipayobjects.com/zos/basement_prod/c781088a-c635-452a-940c-0173663456d4.svg'
+    //     }
+    //   })
+    // })
+
+    // graph.on('node:mouseenter', evt => {
+    //   const { item } = evt
+    //   graph.setItemState(item, 'hover', true)
+    // })
+
+    // graph.on('node:mouseleave', evt => {
+    //   const { item } = evt
+    //   graph.setItemState(item, 'hover', false)
+    // })
+
+    // graph.addItem('group', {
+    //   nodes: ['image', 'triangle'],
+    //   type: 'rect',
+    //   zIndex: 0,
+    //   title: {
+    //     text: '名称'
+    //   }
+    // })
+  </script>
+</body>
+</html>

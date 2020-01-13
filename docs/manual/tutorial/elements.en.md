@@ -3,7 +3,7 @@ title: Configure the Items
 order: 2
 ---
 
-There are `Node` and `Edge` two types of items in a graph. In the last chapter, we rendered the **Tutorial Demo** with items with rough styles. Now, we are going to beautify the items while introducing the attributes of the items.
+There are `Node` and `Edge` two types of items in a graph. In the last chapter, we rendered the **Tutorial Demo** with items with rough styles. Now, we are going to beautify the items while introducing the properties of the items.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*46GdQaNFiVIAAAAAAAAAAABkARQnAQ' width=450 height=450 />
 
@@ -12,15 +12,15 @@ There are `Node` and `Edge` two types of items in a graph. In the last chapter, 
 
 ## Basic Concept
 ### Graph Item
-There are `Node` and `Edge` two types of items in a graph. Several [Built-in Nodes](../middle/elements/defaultNode) and [Built-in Edges](../middle/elements/defaultEdge) are provided by G6. The main difference between different types of items is their [Graphics Shape](../middle/keyConcept). For example, a node's graphics shape can be a circle, a rect, an image, or others.
+There are `Node` and `Edge` two types of items in a graph. Several [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) and [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge) are provided by G6. The main difference between different types of items is their [Graphics Shape](/en/docs/manual/middle/keyconcept/shape-keyshape). For example, a node's graphics shape can be a circle, a rect, an image, or others.
 
-## Attributes of Item
-The attributes of an item can be be divided into two categories:
+## Properties of Item
+The properties of an item can be be divided into two categories:
 
-- **Style Attribute `style`**: Corresponds to the style in Canvas. When the [State](../middle/states/state) of an item is changed, the style can be updated. It is an object named`style`;
-- **Other Attribute**: Such as graphics `shape`, `id`, they are a kind of attributes that will not be changed when the [State](../middle/states/state) of the item is changed.
+- **Style Property `style`**: Corresponds to the style in Canvas. When the [State](/en/docs/manual/middle/states/state) of an item is changed, the style can be updated. It is an object named `style`;
+- **Other Property**: Such as graphics `shape`, `id`, they are a kind of properties that will not be changed when the [State](/en/docs/manual/middle/states/state) of the item is changed.
 
-For example, When you change the state `'hover'` or `'click'` to `true` for a node A, only the **style attributes** of A can be updated, e.g. `fill`, `stroke`, and so on. The **other attributes** such as `shape` can not be changed. To update the other attributes, configure A by [graph.updateItem](../../api/Graph) manually.
+For example, When you change the state `'hover'` or `'click'` to `true` for a node A, only the **style properties** of A can be updated, e.g. `fill`, `stroke`, and so on. The **other properties** such as `shape` can not be changed. To update the other properties, configure A by [graph.updateItem](/en/docs/api/Graph/#updateitemitem-model) manually.
 
 ### Data Structure
 The data structure of a node:
@@ -32,13 +32,13 @@ The data structure of a node:
   label: 'node0'        // The label
   labelCfg: {           // The configurations for the label
     positions: 'center',// The relative position of the label
-    style: {            // The style attributes of the label
+    style: {            // The style properties of the label
       fontSize: 12,     // The font size of the label
-      // ...            // Other style attributes of the label
+      // ...            // Other style properties of the label
     }
   }
-  // ...,               // Other attributes of the node
-  style: {              // The object of style attributes of the node
+  // ...,               // Other properties of the node
+  style: {              // The object of style properties of the node
     fill: '#000',       // The filling color
     stroke: '#888',     // The stroke color
     // ...              // Other styleattribtues of the node
@@ -46,7 +46,7 @@ The data structure of a node:
 }
 ```
 
-The data structure of an edge is similar to node, but two more attributes `source` and `target` in addition, representing the `id` of the source node and the `id` of the target node respectively.
+The data structure of an edge is similar to node, but two more properties `source` and `target` in addition, representing the `id` of the source node and the `id` of the target node respectively.
 
 <br />We can refine the visual requirements in figure 1 of **Tutorial Demo** into:
 
@@ -59,67 +59,67 @@ The data structure of an edge is similar to node, but two more attributes `sourc
   - R5: Configure the shape of nodes with `shape` according to the property `class` in node data;
   - R6: Configure the line widht of edges with `lineWidth` according to the property `weight` in edge data.
 
-## Configure the Attributes
-To satisfy different scenario, G6 provides 7 ways to configure the attributes for items. Here we will only introduce two of them:
+## Configure the Properties
+To satisfy different scenario, G6 provides 7 ways to configure the properties for items. Here we will only introduce two of them:
 
-1. Configure the global attributes when instantiating a Graph;
-2. Configure the attributes for different items in their data.
+1. Configure the global properties when instantiating a Graph;
+2. Configure the properties for different items in their data.
 
-### 1. Configure the Global Attributes When Instantiating a Graph
+### 1. Configure the Global Properties When Instantiating a Graph
 **Applicable Scene:** Unify the configurations for all the nodes or edges. <br />**Usage:** Configure it with two configurations of graph:
 
-- `defaultNode`: The **Style Attribute** and **Other Attributes** in the default state;
-- `defaultEdge`: The **Style Attribute** and **Other Attributes** in the default state.
+- `defaultNode`: The **Style Property** and **Other Properties** in the default state;
+- `defaultEdge`: The **Style Property** and **Other Properties** in the default state.
 
-⚠️**Attention:** It is a way of unified global configuration, which does not distinguish the nodes with different properties (e.g. `class` and `weight`) in their data. That is to say, only R1, R2, R3, and R4 can be satisfied now:
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> It is a way of unified global configuration, which does not distinguish the nodes with different properties (e.g. `class` and `weight`) in their data. That is to say, only R1, R2, R3, and R4 can be satisfied now:
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bufdS75wcmMAAAAAAAAAAABkARQnAQ' width=450 height=450 />
 
 > Figure 2  **Tutorial Demo** with items configured by global configurations.
 
 
-<br />Configuer the `defaultNode` and `defaultEdge` for graph to achieve the expected effect: 
+<br />Configure the `defaultNode` and `defaultEdge` for graph to achieve the expected effect: 
 ```javascript
 const graph = new G6.Graph({
   // ...                   // Other configurations of the graph
-  // The style attributes and other attributes for all the nodes in the default state
+  // The style properties and other properties for all the nodes in the default state
   defaultNode:{
     size: 30,              // The size of nodes
-    // ...                 // The other attributes
-    // The style attributes of nodes
+    // ...                 // The other properties
+    // The style properties of nodes
     style: {               
       fill: 'steelblue',   // The filling color of nodes
       stroke: '#666',      // The stroke color of nodes
       lineWidth: 1         // The line width of the stroke of nodes
     },
-    // The attributes for label of nodes
+    // The properties for label of nodes
     labelCfg: {       
-      // The style attributes for the label
+      // The style properties for the label
       style: {             
         fill: '#fff'       // The color of the text
       }
     }
   },
-  // The style attributes and other attributes for all the edges in the default state
+  // The style properties and other properties for all the edges in the default state
   defaultEdge: {
-    // ...                 // The other attributes
-    // The style attributes of edges
+    // ...                 // The other properties
+    // The style properties of edges
     style: {               
       opacity: 0.6,        // The opacity of edges
       stroke: 'grey'       // The color of the edges
     },
-    // The attributes for label of edges
+    // The properties for label of edges
     labelCfg: {            
-      autoRotate: true     // Whether rotate the label according to the edges
+      autoRotate: true     // Whether to rotate the label according to the edges
     }
   },
 });
 ```
 
-### 2. Configure the Attributes in Data
+### 2. Configure the Properties in Data
 **Applicable Scene:** By this way, you can configure different items according to their properties in data.
 <br />Thus, the R5 and R6 can be satisfied now.
-<br />**Usage:** Write the attributes into each item data, or traverse the data to assign the attributes. Here we show assigning the attrbiutes into data by traversing:
+<br />**Usage:** Write the properties into each item data, or traverse the data to assign the properties. Here we show assigning the attrbiutes into data by traversing:
 
 ```javascript
 const nodes = remoteData.nodes;
@@ -155,7 +155,7 @@ The result:
 > Figure 3
 
 
-From figure 3, we find some nodes are rendered as rects, some are ellipses. We also set the size to override the size in global configuration. The size is an array when the node is a rect or an ellipse. We did not set the size for circle node, so `size: 30` in global configuration will still take effect for circle node. That is to say, configuring items by writing into data has higher priority than global configurations.
+From figure 3, we find some nodes are rendered as rects, some are ellipses. We also set the `size` to override the `size` in global configuration. The `size` is an array when the node is a rect or an ellipse. We did not set the `size` for circle node, so `size: 30` in global configuration will still take effect for circle node. That is to say, configuring items by writing into data has higher priority than global configurations.
 
 We further set the line widths for edges according to their weight:
 ```javascript
@@ -183,8 +183,8 @@ const graph = new G6.Graph({
   // ...
   defaultEdge: {
     // Remove the style here
-    labelCfg: {        // The attributes for label of edges
-      autoRotate: true // Whether rotate the label according to the edges
+    labelCfg: {        // The properties for label of edges
+      autoRotate: true // Whether to rotate the label according to the edges
     }
   }
 });
@@ -290,4 +290,4 @@ graph.render()
 </html>
 ```
 
-**⚠️Attention**: <br />Replace the url `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` to change the data into yours.
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> <br />Replace the url `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` to change the data into yours.

@@ -79,18 +79,16 @@
               r: 3
             }
           });
-          circle.animate({
-            onFrame(ratio) {
-              const tmpPoint = shape.getPoint(ratio);
-              return {
-                x: tmpPoint.x,
-                y: tmpPoint.y
-              };
-
-            },
-            repeat: true
-          },
-          3000);
+          circle.animate(ratio => {
+            const tmpPoint = shape.getPoint(ratio);
+            return {
+              x: tmpPoint.x,
+              y: tmpPoint.y
+            };
+          }, {
+            repeat: true,
+            duration: 3000
+          });
         }
       },
       'cubic');
@@ -109,17 +107,16 @@
             totalArray = totalArray.concat(lineDash);
           }
           let index = 0;
-          shape.animate({
-            onFrame(ratio) {
-              const cfg = {
-                lineDash: dashArray[index].concat(totalArray)
-              };
-              index = (index + 1) % interval;
-              return cfg;
-            },
-            repeat: true
-          },
-          3000);
+          shape.animate(ratio => {
+            const cfg = {
+              lineDash: dashArray[index].concat(totalArray)
+            };
+            index = (index + 1) % interval;
+            return cfg;
+          }, {
+            repeat: true,
+            duration: 3000
+          });
         }
       },
       'cubic');
@@ -128,18 +125,17 @@
         afterDraw(cfg, group) {
           const shape = group.get('children')[0];
           const length = shape.getTotalLength(); // G 增加了 totalLength 的接口
-          shape.animate({
-            onFrame(ratio) {
-              const startLen = ratio * length;
-              const cfg = {
-                lineDash: [startLen, length - startLen]
-              };
+          shape.animate(ratio => {
+            const startLen = ratio * length;
+            const cfg = {
+              lineDash: [startLen, length - startLen]
+            };
 
-              return cfg;
-            },
-            repeat: true
-          },
-          2000);
+            return cfg;
+          }, {
+            repeat: true,
+            duration: 2000
+          });
         }
       },
       'cubic');

@@ -8,7 +8,7 @@ A built-in edge Polyline has the default style as below.<br />
 
 
 ## Usage
-As stated in [Built-in Edges](../defaultEdge) , there are two ways to configure the edge: Configure it when instantiating a Graph globally; Configure it in the data.
+As stated in [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge) , there are two ways to configure the edge: Configure it when instantiating a Graph globally; Configure it in the data.
 
 
 ### 1 Global Configure When Instantiating a Graph
@@ -27,7 +27,7 @@ const graph = new G6.Graph({
 
 
 ### 2 Configure in the Data
-To configure different edges with different attributes, you can write the attributes into the edge data.
+To configure different edges with different properties, you can write the properties into the edge data.
 ```javascript
 const data = {
   nodes: [
@@ -39,7 +39,7 @@ const data = {
     shape: 'polyline',
     //... // Other configurations for edges
     style: {
-      //...  // Style attributes for edges
+      //...  // Style properties for edges
     }
   },
     //... // Other edges
@@ -48,8 +48,8 @@ const data = {
 ```
 
 
-## Attribute
-Polyline edge has the attributes shown below. The attributes with object type will be described in detail after the table
+## Property
+Polyline edge has the [Common Edge Properties](/en/docs/manual/middle/elements/edges/defaultEdge/#the-common-property), and some commonly used properties are shown below. The properties with object type will be described in detail after the table
 
 ```javascript
 color: '#87e8de',
@@ -73,19 +73,20 @@ labelCfg: {
 | --- | --- | --- | --- |
 | color | The color of the edge | String | The priority id lower than `stroke` in `style` |
 | style | The default style of edge | Object | Correspond to the styles in Canvas |
-| **style.radius** | **The border radius of the bend** | **Number** | **It is a special attribute for polyline edge** |
-| **style.offset** | **The minimum distance between the bend and the source/target node** | **Number** | **`5` by default. It is a special attribute for polyline edge** |
+| **style.radius** | **The border radius of the bend** | **Number** | **It is a special property for polyline edge** |
+| **style.offset** | **The minimum distance between the bend and the source/target node** | **Number** | **`5` by default. It is a special property for polyline edge** |
 | label | The text of the label | String |  |
 | labelCfg | The configurations of the label | Object |  |
+| controlPoints | The array of the control points for the polyline | Array | If it is not assigned, G6 will calculate it by <a href='https://yuque.alibaba-inc.com/antv/blog/polyline-edges-with-border-radius' target='_blank'>A* algorithm</a> If it is assgned, the path of the polyline will be generated according to it. e.g. `[{ x: 10, y: 20 }, { x: 20, y: 25 }, ...]` |
 
 
 ### style
-`style` is an object. There are two special attributes in `style` for polyline edge:
+`style` is an object. The [Common Edge Style Properties](/en/docs/manual/middle/elements/edges/defaultEdge/#style) are available for polyline edge. There are two special properties in `style` for polyline edge:
 
 -  `radius`, he border radius of the bend;
 -  `offset`, The minimum distance between the bend and the source/target node, `5` by default.
 
-The other style attributes are the same as the common style attribute of edge. Refer to [Built-in Edges].
+The other style properties are the same as the common style property of edge. Refer to [Built-in Edges].
 The following code shows how to configure the `style` globally when instantiating a Graph.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SzMGQ70SLwEAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
@@ -128,7 +129,7 @@ graph.render();
 
 
 ### labelCfg
-`labelCfg` is an object which is the same as the common attribute of edge. Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge).
+`labelCfg` is an object which is the same as the [Common Edge Label Properties](/en/docs/manual/middle/elements/edges/defaultEdge/#label-and-labelcfg).
 Base on the code in [style](#style) section, we add `labelCfg` to `defaultEdge`.<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HT4OTobglpoAAAAAAAAAAABkARQnAQ' width=150/>
 ```javascript
@@ -138,7 +139,7 @@ const data = {
 const graph = new G6.Graph({
   // ... Other configurations for graph
   defaultEdge: {
-    // ... Other attributes for edges
+    // ... Other properties for edges
     labelCfg: {
     	refY: -10,
       refX: 60

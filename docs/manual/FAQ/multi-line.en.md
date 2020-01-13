@@ -1,9 +1,10 @@
 ---
-title: 使用 G6 让两个节点之间连多条边
+title: Multiple Edges between Two Nodes
 order: 4
 ---
 
-有如下的一份数据，如何使用 [G6](https://github.com/antvis/g6) 让两个节点之间连多条边？
+## Problem
+For such a data below, how to link two nodes with multiple edges?
 
 ```javascript
 const data = {
@@ -31,7 +32,7 @@ const data = {
 
 ```
 
-接到上面这个问题后，我们马上就开始动手，二话不说先撸出了下面这段代码。
+The following code handles the graph easily:
 
 ```javascript
 const graph = new G6.Graph({
@@ -61,14 +62,14 @@ graph.data(data);
 graph.render();
 ```
 
-So Easy!
+The result:
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9u0BTpCAn-4AAAAAAAAAAABkARQnAQ' width=345 />
 
 
-如果两个节点之间需要显示3条、4条甚至更多条边，该怎么做呢？
+But what if we want to show 3 or more edges?
 
-我们把数据改成下面这样试试：
+We use the data below for example:
 
 ```javascript
 const data = {
@@ -99,22 +100,22 @@ const data = {
 };
 ```
 
-结果发现并不对。
+We found that the code above can not handle this situation any more. The result:
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9u0BTpCAn-4AAAAAAAAAAABkARQnAQ' width=345 />
 
-这个时候，就需要借助 G6 的「自定义边」功能了。
+## Solution
 
-有了这个黑科技，什么样的需求，那还不是分分钟的事。
+To solve this problem, we utlize the [Custom Edge](/en/docs/manual/advanced/custom-edge) of G6.
 
-当然了，在使用「自定义边」的之前，有两件事还是需要明确下的：
+There are two tips should be taken into consideration before customize an edge:
 
-- **两个节点之间同方向超过一条边的，总需要有个标识来区分；**
-- **需要有一个值控制边的弯曲度，以防边重叠**。
+- **We need a flag to identify whether there are more than one edges with same direction between two nodes**;
+- **We need a value to control the curvature of each edge to prevent overlapping**.
 
-我们就在边数据中添加一个 edgeType 用于区分不同的边。有了这个约定以后，就可以开始动手撸码了。
+Therefore, we add a property `edgeType` for each edge in its data to identify different types of edges.
 
-完善的自定义边的代码如下所示。
+The complete the code for the demo is shown below:
 
 <iframe
      src="https://codesandbox.io/embed/restless-breeze-fhief?fontsize=14&hidenavigation=1&theme=dark"
@@ -124,4 +125,4 @@ const data = {
      sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
    ></iframe>
 
-到这里为止，我们也就实现了让两个节点之间展示多条边的功能。
+Now, the prolem is solved.

@@ -6,7 +6,7 @@ order: 5
 为辅助用户在图上探索，G6 提供了一些辅助工具，其中一部分是插件工具，另一部分是交互工具。
 
 
-本文将为 **Tutorial案例** 添加缩略图插件、网格插件、节点提示框、边提示框。
+本文将为 **Tutorial 案例** 添加缩略图插件、网格插件、节点提示框、边提示框。
 
 ## 插件
 使用插件时，有三个步骤：<br />  Step 1: 引入插件；<br />  Step 2: 实例化插件；<br />  Step 3: 在实例化图时将插件的实例配置到图上。
@@ -16,7 +16,7 @@ order: 5
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*kGesRLgy1CsAAAAAAAAAAABkARQnAQ' width=520  />
 
-现在，我们为 **Tutorial案例** 配置一个 Minimap：
+现在，我们为 **Tutorial 案例** 配置一个 Minimap：
 
 **预期效果**
 
@@ -181,6 +181,6 @@ const graph = new G6.Graph({
 与 tooltip 相同，edge-tooltip 是一个悬浮的 `<div>` 标签，可以使用与 tooltip 相同的方法设置其悬浮框的样式。
 
 ## 完整代码
-至此，**Tutorial案例** 完成，完整代码见：[Tutorial案例代码](https://codepen.io/Yanyan-Wang/pen/mdbYZvZ)。
+至此，**Tutorial 案例** 完成，完整代码见：<a href='https://codepen.io/Yanyan-Wang/pen/mdbYZvZ' target='_blank'>Tutorial 案例代码</a>。
 
-**⚠️注意** <br />若需更换数据，请替换 `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` 为新的数据文件地址。
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️注意:</strong></span><br />若需更换数据，请替换 `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` 为新的数据文件地址。

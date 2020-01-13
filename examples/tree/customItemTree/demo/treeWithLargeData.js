@@ -722,7 +722,6 @@ G6.registerBehavior('double-finger-drag-canvas', {
   onWheel: function onWheel(ev) {
     if (ev.ctrlKey) {
       const canvas = graph.get('canvas');
-      const pixelRatio = canvas.get('pixelRatio');
       const point = canvas.getPointByClient(ev.clientX, ev.clientY);
       let ratio = graph.getZoom();
       if (ev.wheelDelta > 0) {
@@ -731,8 +730,8 @@ G6.registerBehavior('double-finger-drag-canvas', {
         ratio = ratio - ratio * 0.05;
       }
       graph.zoomTo(ratio, {
-        x: point.x / pixelRatio,
-        y: point.y / pixelRatio
+        x: point.x,
+        y: point.y
       });
     } else {
       const x = ev.deltaX || ev.movementX;

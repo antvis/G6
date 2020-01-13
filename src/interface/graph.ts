@@ -9,6 +9,7 @@ export interface IModeOption {
   delegate?: boolean;
   delegateStyle?: object;
   updateEdge?: boolean;
+  trigger?: string;
   shouldUpdate?: (e: IG6GraphEvent) => boolean;
 }
 

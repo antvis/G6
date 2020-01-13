@@ -3,7 +3,7 @@ title: Event
 order: 6
 ---
 
-The parameters of callbacks for common events, Node events, and Edge events are described in [Behavior](./Behavior).
+The parameters of callbacks for common events, Node events, and Edge events are described in [Behavior API](/en/docs/api/Behavior).
 
 ## Common Event
 
@@ -18,7 +18,7 @@ The parameters of callbacks for common events, Node events, and Edge events are 
 | mouseleave | Activated when the mouse leaves an item. **This is not a bubbled event**, which means this event will not be activated when the mouse leaves the descendant items. |
 | mousedown | Activated when the left or right button is clicked down. It cannot be activated by keyboard. |
 | mouseup | Activated when the left or right button is released. It cannot be activated by keyboard. |
-| contextmenu | Open the context menu when user clicks the right button of mouse. |
+| contextmenu | Open the context menu when user clicks the right button of mouse. [Demo](/en/examples/tool/contextMenu). |
 | dragstart | Activated when user begins to drag. This event is applied on a dragged item. |
 | drag | Activated during the dragging process. This event is applied on a dragged item. |
 | dragend | Activated when user stops dragging. This event is applied on a dragged item. |
@@ -45,7 +45,7 @@ The parameters of callbacks for common events, Node events, and Edge events are 
 | node:mouseleave | Activated when the mouse leaves the node. |
 | node:mousedown | Activated when the left or right button is clicked down on the node. It cannot be activated by keyboard. |
 | node:mouseup | Activated when the left or right button is released on the node. It cannot be activated by keyboard. |
-| node:contextmenu | Open the context menu when user clicks the right button of mouse on the node. |
+| node:contextmenu | Open the context menu when user clicks the right button of mouse on the node. [Demo](/en/examples/tool/contextMenu). |
 | node:dragstart | Activated when user begins to drag the node. This event is applied on the dragged node. |
 | node:drag | Activated during the dragging process on the node. This event is applied on the dragged node. |
 | node:dragend | Activated when user stops dragging on the node. This event is applied on the dragged node. |
@@ -67,7 +67,7 @@ The parameters of callbacks for common events, Node events, and Edge events are 
 | edge:mouseleave | Activated when the mouse leaves the edge. |
 | edge:mousedown | Activated when the left or right button is clicked down on the edge. It cannot be activated by keyboard. |
 | edge:mouseup | Activated when the left or right button is released on the edge. It cannot be activated by keyboard. |
-| edge:contextmenu | Open the context menu when user clicks the right button of mouse on the edge. |
+| edge:contextmenu | Open the context menu when user clicks the right button of mouse on the edge. [Demo](/en/examples/tool/contextMenu). |
 
 
 ## Canvas Event
@@ -84,7 +84,7 @@ The parameters of callbacks for common events, Node events, and Edge events are 
 | canvas:mousedown | Activated when the left or right button is clicked down on the canvas. It cannot be activated by keyboard. |
 | canvas:mouseup | Activated when the left or right button is released on the canvas. It cannot be activated by keyboard. |
 | canvas:contextmenu | Open the context menu when user clicks the right button of mouse on the canvas. |
-| canvas:dragstart | Activated when user begins to drag the canvas. This event is applied on the dragged canvas. |
+| canvas:dragstart | Activated when user begins to drag the canvas. This event is applied on the dragged canvas. [Demo](/en/examples/tool/contextMenu). |
 | canvas:drag | Activated during the dragging process on the canvas. This event is applied on the dragged canvas. |
 | canvas:dragend | Activated when user stops dragging on the canvas. This event is applied on the dragged canvas. |
 | canvas:dragenter | Activated when user drags the canvas into a target item. This event is applied on the target item. |

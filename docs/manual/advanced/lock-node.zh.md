@@ -1,5 +1,5 @@
 ---
-title: 锁定节点
+title: Lock Node
 order: 10
 ---
 
@@ -183,10 +183,9 @@ G6.registerBehavior('zoom-canvas-exclude-lockedNode', {
     const graph = this.graph;
     const canvas = graph.get('canvas');
     const point = canvas.getPointByClient(e.clientX, e.clientY);
-    const pixelRatio = canvas.get('pixelRatio');
     const sensitivity = this.get('sensitivity');
     let ratio = graph.getZoom();
-    // 兼容IE、Firefox及Chrome
+    // 兼容 IE、Firefox 及 Chrome
     if (e.wheelDelta < 0) {
       ratio = 1 - DELTA * sensitivity;
     } else {
@@ -196,7 +195,7 @@ G6.registerBehavior('zoom-canvas-exclude-lockedNode', {
     if (zoom > this.get('maxZoom') || zoom < this.get('minZoom')) {
       return;
     }
-    graph.zoom(ratio, { x: point.x / pixelRatio, y: point.y / pixelRatio });
+    graph.zoom(ratio, { x: point.x, y: point.y });
     const lockedNodes = this.graph.findAll('node', node => !node.hasLocked());
     lockedNodes.forEach(node => {
       const matrix = Util.clone(node.get('group').getMatrix());

@@ -10,7 +10,6 @@ const graph = new G6.TreeGraph({
   container: 'container',
   width,
   height,
-  pixelRatio: 2,
   renderer: 'svg',
   modes: {
     default: [ 'collapse-expand', 'drag-canvas' ]

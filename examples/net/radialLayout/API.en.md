@@ -27,7 +27,7 @@ title: API
 **Type**: Number<br />**Default**: 200<br />**Required**: false<br />**Explanation**: The max number of iterations to stop the prevent node overlappings.
 
 ## strictRadial
-**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Explanation**: Whether layout the radial strictly, which means place the nodes with same level on a circle strictly. It will take effect while `preventOverlap` is `true`.
+**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Explanation**: Whether to layout the radial strictly, which means place the nodes with same level on a circle strictly. It will take effect while `preventOverlap` is `true`.
 
 - When `preventOverlap` is `true` and `strictRadial` is `false`, this algorithm will try to place the overlapped nodes alone a circle without overlappings as much as possible. But the overlappings might not be able to avoid while there are too many nodes in a small circle.
 - When `preventOverlap` is `true` and `strictRadial` is `true`, this algorithm allows offsets between nodes on the same level to prevent node overlappings.

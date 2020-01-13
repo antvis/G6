@@ -7,21 +7,21 @@ The built-in nodes in G6 include circle, rect, ellipse, diamond, triangle, star,
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FY3RTbDCz_8AAAAAAAAAAABkARQnAQ' width='750' height='100'>
 
 ## Types of Default Nodes
-The table below shows the built-in nodes and their special attributes:
+The table below shows the built-in nodes and their special properties:
 
 | Name | Description | Default |
 | --- | --- | --- |
-| circle | Circle node: <br />- `size` is a number representing the diameter<br />- The circle is centered at the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />- More attributes are described in [circle](/en/docs/manual/middle/elements/nodes/circle)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*H9TrTIiUEegAAAAAAAAAAABkARQnAQ' width=50/> |
-| rect | Rect node: <br />- `size` is an array, e.g. [100, 50]<br />- The rect in centered at the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />-  More attributes are described in [rect](/zh/docs/manual/middle/elements/nodes/rect)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SrlHQ5dcCoMAAAAAAAAAAABkARQnAQ' width=50/> |
-| ellipse | Ellipse node: <br />- `size` is an array, representing the lengths of major diameter and minor diameter<br />- The ellipse is centered at the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />-  More attributes are described in [ellipse](/zh/docs/manual/middle/elements/nodes/ellipse)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RjdlRbuocDIAAAAAAAAAAABkARQnAQ' width=50/> |
-| diamond | Diamond node: <br />- `size` is an array, representing the width and height of the diamond<br />- The diamond is centered on the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />-  More attributes are described in [diamond](/zh/docs/manual/middle/elements/nodes/diamond)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EjiPRJacFTEAAAAAAAAAAABkARQnAQ' width=50/> |
-| triangle | Triangle node: <br />- `size` is an array, representing the length of the base and the height of the triangle<br />- The triangle is centered on the node position<br />- `color` takes effect on the stroke<br />- he label lays on the bottom of the node by default<br />-  More attributes are described in [triangle](/zh/docs/manual/middle/elements/nodes/triangle)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_HqXTadbhzAAAAAAAAAAAABkARQnAQ' width=50/> |
-| star | Star node: <br />- `size` is a number, representing the size of the star<br />- The star is centered on the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />-  More attributes are described in [star](/zh/docs/manual/middle/elements/nodes/star)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_euwQpARvhMAAAAAAAAAAABkARQnAQ' width=50/> |
-| image | Image node: <br />- `size` is an array, representing the width and the height of the image<br />- The image is centered on the node position<br />- `img` The url of the image. It can be assigned in `style` as well<br />- `color` does not take effect<br />- The label lays on the bottom of the node by default<br />-  More attributes are described in [image](/zh/docs/manual/middle/elements/nodes/image)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*gtNxQY2RvMwAAAAAAAAAAABkARQnAQ' width=50/> |
-| modelRect | Card node: <br />- `size` is an array, representing the width and the height of the card<br />- The modelRect is centered on the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />- If `description` exists, it will lay below the label<br />-  More attributes are described in [modelRect](/zh/docs/manual/middle/elements/nodes/modelRect)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*MqR9QKfimxUAAAAAAAAAAABkARQnAQ' width=100/><br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9HKrSKtmNGQAAAAAAAAAAABkARQnAQ' width=100/> |
+| circle | Circle node: <br />- `size` is a number representing the diameter<br />- The circle is centered at the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />- More properties are described in [circle](/en/docs/manual/middle/elements/nodes/circle)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*H9TrTIiUEegAAAAAAAAAAABkARQnAQ' width=50/> |
+| rect | Rect node: <br />- `size` is an array, e.g. [100, 50]<br />- The rect in centered at the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />-  More properties are described in [rect](/zh/docs/manual/middle/elements/nodes/rect)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SrlHQ5dcCoMAAAAAAAAAAABkARQnAQ' width=50/> |
+| ellipse | Ellipse node: <br />- `size` is an array, representing the lengths of major diameter and minor diameter<br />- The ellipse is centered at the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />-  More properties are described in [ellipse](/zh/docs/manual/middle/elements/nodes/ellipse)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RjdlRbuocDIAAAAAAAAAAABkARQnAQ' width=50/> |
+| diamond | Diamond node: <br />- `size` is an array, representing the width and height of the diamond<br />- The diamond is centered on the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />-  More properties are described in [diamond](/zh/docs/manual/middle/elements/nodes/diamond)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EjiPRJacFTEAAAAAAAAAAABkARQnAQ' width=50/> |
+| triangle | Triangle node: <br />- `size` is an array, representing the length of the base and the height of the triangle<br />- The triangle is centered on the node position<br />- `color` takes effect on the stroke<br />- he label lays on the bottom of the node by default<br />-  More properties are described in [triangle](/zh/docs/manual/middle/elements/nodes/triangle)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_HqXTadbhzAAAAAAAAAAAABkARQnAQ' width=50/> |
+| star | Star node: <br />- `size` is a number, representing the size of the star<br />- The star is centered on the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />-  More properties are described in [star](/zh/docs/manual/middle/elements/nodes/star)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_euwQpARvhMAAAAAAAAAAABkARQnAQ' width=50/> |
+| image | Image node: <br />- `size` is an array, representing the width and the height of the image<br />- The image is centered on the node position<br />- `img` The url of the image. It can be assigned in `style` as well<br />- `color` does not take effect<br />- The label lays on the bottom of the node by default<br />-  More properties are described in [image](/zh/docs/manual/middle/elements/nodes/image)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*gtNxQY2RvMwAAAAAAAAAAABkARQnAQ' width=50/> |
+| modelRect | Card node: <br />- `size` is an array, representing the width and the height of the card<br />- The modelRect is centered on the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />- If `description` exists, it will lay below the label<br />-  More properties are described in [modelRect](/zh/docs/manual/middle/elements/nodes/modelRect)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*MqR9QKfimxUAAAAAAAAAAABkARQnAQ' width=100/><br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9HKrSKtmNGQAAAAAAAAAAABkARQnAQ' width=100/> |
 
 
-## Common Attribute
+## Common Property
 
 | Name | Required | Type | Remark |
 | --- | --- | --- | --- |
@@ -36,8 +36,8 @@ The table below shows the built-in nodes and their special attributes:
 | labelCfg | false | Object | The configurations of the label |
 
 
-#### style
-`style` is an object to configure the filling color, stroke color, shadow, and so on. Here is the commonly used attributes in `style`:
+### style
+`style` is an object to configure the filling color, stroke color, shadow, and so on. Here is the commonly used properties in `style`:
 
 | Name | Required | Type | Remark |
 | --- | --- | --- | --- |
@@ -48,7 +48,8 @@ The table below shows the built-in nodes and their special attributes:
 | shadowBlur | false | Number | The blur of the shadow |
 | shadowOffsetX | false | Number | The x offset of the shadow |
 | shadowOffsetX | false | Number | The y offset of the shadow |
-| ... |  |  |  |
+| opacity | false | Number | The alpha or transparency of the node |
+| fillOpacity | false | Number | The filling alpha or transparency of the node |
 
 
 Configure `style` globally when instantiating the Graph:
@@ -58,25 +59,25 @@ const graph = new G6.Graph({
   width: 800,
   height: 600,
   defaultNode: {
-    // ... Other attributes for nodes
+    // ... Other properties for nodes
     style: {
       fill: '#steelblue',
       stroke: '#eaff8f',
       lineWidth: 5,
-      // ... Other style attributes
+      // ... Other style properties
     }
   }
 })
 ```
 
-#### label and labelCfg
+### label and labelCfg
 `label` is a string which indicates the content of the label. <br />`labelCfg` is an object to configure the label. The commonly used configurations of `labelCfg`:
 
 | Name | Required | Type | Remark |
 | --- | --- | --- | --- |
 | position | false | String | The relative positions to the node. Options:  `'center'`, `'top'`, `'left'`, `'right'`, `'bottom'`. `'center'` by default |
 | offset | false | Number / Array | The offset of the label on the directions of `'top'`, `'left'`, `'right'`, `'bottom'` |
-| style | false | Object | The style attribute of the label |
+| style | false | Object | The style property of the label |
 
 
 The commonly used configurations for the `style` in the above table are:
@@ -89,7 +90,7 @@ The commonly used configurations for the `style` in the above table are:
 | opacity | false | Number | The opacity of the label |
 | font | false | String | The font of the label |
 | fontSize | false | Number | The font size of the label |
-| ... |  |  |  |
+| ... The label styles of node and edge are the same, summarized in [Text Shape API](/en/docs/api/shapeProperties/#text) |  |  |  |
 
 
 The following code shows how to configure `label` and `labelCfg` globally when instantiating a Graph:
@@ -99,7 +100,7 @@ const graph = new G6.Graph({
   width: 800,
   height: 600,
   defaultNode: {
-    // ... Other attributes for nodes
+    // ... Other properties for nodes
     label: 'node-label',
     labelCfg: {
     	position: 'bottom',
@@ -129,13 +130,13 @@ const graph = new G6.Graph({
   height: 600,
   defaultNode: {
     shape: 'circle',
-    // Other attributes for all the nodes
+    // Other properties for all the nodes
   }
 })
 ```
 
 ### Configure in Data
-To configure different nodes with different attributes, you can write the attributes into their data individually:
+To configure different nodes with different properties, you can write the properties into their data individually:
 
 ```javascript
 const data = {
@@ -143,17 +144,17 @@ const data = {
     id: 'node0',
     size: 100,
     shape: 'rect',
-    // ...    // Other attributes for this node
+    // ...    // Other properties for this node
     style: {
-      // ...  // Style attributes for this node
+      // ...  // Style properties for this node
     }
   },{
     id: 'node1',
     size: [50, 100],
     shape: 'ellipse',
-    // ...    // Other attributes for this node
+    // ...    // Other properties for this node
     style: {
-      // ...  // Style attributes for this node
+      // ...  // Style properties for this node
     }
   },
     // ... // Other nodes
@@ -165,12 +166,12 @@ const data = {
 ```
 
 ### Configure with graph.node(nodeFn)
-By this way, we can configure different nodes with different attributes.
+By this way, we can configure different nodes with different properties.
 
-<br />⚠️**Attention:** 
+<br /><span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span>
 
 - `graph.node(nodeFn)` must be called **before calling render()**. It does not take effect otherwise;
-- It has the highest priority that will rewrite the same attributes configured by other ways;
+- It has the highest priority that will rewrite the same properties configured by other ways;
 - Each node will be updated when adding or updating items. It will cost a lot when the amount of the data is large.
 
 ```javascript
@@ -262,9 +263,9 @@ The result:
 
 - The label of the triangle and image node are layed on the bottom, and the others are layed on the center by default.
 
-### Adjust the Attributes
+### Adjust the Properties
 
-By writing the attributes into the data, we adjust the label position, color, and styles of the node with `'node-ellipse'` as its id. Replace the following code to the code about `'node-ellipse'`'s data to obtain the result.
+By writing the properties into the data, we adjust the label position, color, and styles of the node with `'node-ellipse'` as its id. Replace the following code to the code about `'node-ellipse'`'s data to obtain the result.
 
 ```javascript
 {
@@ -304,4 +305,4 @@ Then, we add some description for the node with `'node-modelRect'` as its `id`:
 
 ## Related Reading
 
-- [State](../../states/state) —— Change the styles during the interaction process.
+- [State](/en/docs/manual/middle/states/state) —— Change the styles during the interaction process.

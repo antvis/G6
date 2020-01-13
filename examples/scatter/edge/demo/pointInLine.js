@@ -17,20 +17,18 @@ G6.registerEdge('circle-running', {
     });
 
     // 对红色圆点添加动画
-    circle.animate({
-      // 动画重复
-      repeat: true,
-      // 每一帧的操作，入参 ratio：这一帧的比例值（Number）。返回值：这一帧需要变化的参数集（Object）。
-      onFrame(ratio) {
-        // 根据比例值，获得在边 path 上对应比例的位置。
-        const tmpPoint = shape.getPoint(ratio);
-        // 返回需要变化的参数集，这里返回了位置 x 和 y
-        return {
-          x: tmpPoint.x,
-          y: tmpPoint.y
-        };
-      }
-    }, 3000); // 一次动画的时间长度
+    circle.animate(ratio => { // 每一帧的操作，入参 ratio：这一帧的比例值（Number）。返回值：这一帧需要变化的参数集（Object）。
+      // 根据比例值，获得在边 path 上对应比例的位置。
+      const tmpPoint = shape.getPoint(ratio);
+      // 返回需要变化的参数集，这里返回了位置 x 和 y
+      return {
+        x: tmpPoint.x,
+        y: tmpPoint.y
+      };
+    }, {
+      repeat: true, // 动画重复
+      duration: 3000// 一次动画的时间长度
+    });
   }
 }, 'cubic');  // 该自定义边继承内置三阶贝塞尔曲线 cubic
 

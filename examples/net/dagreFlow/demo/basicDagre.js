@@ -224,7 +224,6 @@ const graph = new G6.Graph({
     },
     ranksep: 70
   },
-  pixelRatio: 2,
   defaultNode: {
     shape: 'sql'
   },

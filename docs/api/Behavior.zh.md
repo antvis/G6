@@ -32,7 +32,7 @@ G6.registerBehavior('behaviorName', {
 ## getEvents()
 自定义 Behavior 时，定义事件及处理事件的方法。
 
-`getEvents()` 方法中可以使用的事件请参考[Event文档](./Event)。
+`getEvents()` 方法中可以使用的事件请参考[Event文档](/zh/docs/api/Event)。
 
 **用法**
 ```javascript
@@ -138,7 +138,6 @@ const graph = new G6.Graph({
   container: 'mountNode',
   width: 500,
   height: 500,
-  pixelRatio: 2,
   modes: {
     default: [ 'drag-canvas', {
       type: 'self-behavior',

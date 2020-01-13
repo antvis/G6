@@ -1,8 +1,7 @@
 import G6 from '@antv/g6';
 const Util = G6.Util;
 /**
- * 该示例演示自定义边和节点实现资金流转图效果
- * by 十吾
+ * by Shiwu
  */
 let showNodes = [];
 let showEdges = [];
@@ -135,7 +134,6 @@ G6.registerBehavior('double-finger-drag-canvas', {
   onWheel: ev => {
     if (ev.ctrlKey) {
       const canvas = graph.get('canvas');
-      const pixelRatio = canvas.get('pixelRatio');
       const point = canvas.getPointByClient(ev.clientX, ev.clientY);
       let ratio = graph.getZoom();
       if (ev.wheelDelta > 0) {
@@ -144,8 +142,8 @@ G6.registerBehavior('double-finger-drag-canvas', {
         ratio = ratio - ratio * 0.05;
       }
       graph.zoomTo(ratio, {
-        x: point.x / pixelRatio,
-        y: point.y / pixelRatio
+        x: point.x,
+        y: point.y
       });
     } else {
       const x = ev.deltaX || ev.movementX;
@@ -207,16 +205,13 @@ G6.registerNode(
         else if (rs[i] > 1.03 * r) rs[i] = 1.03 * r;
         rs.push(rr);
       }
-      keyShape.animate(
-        {
-          onFrame() {
-            const path = self.getBubblePath(r, spNum, directions, rs);
-            return { path };
-          },
-          repeat: true
-        },
-        10000
-      );
+      keyShape.animate(() => {
+        const path = self.getBubblePath(r, spNum, directions, rs);
+        return { path };
+      }, {
+        repeat: true,
+        duration: 10000
+      });
 
       const directions2 = [],
         rs2 = [];
@@ -227,16 +222,13 @@ G6.registerNode(
         else if (rs2[i] > 1.03 * r) rs2[i] = 1.03 * r;
         rs2.push(rr);
       }
-      mask.animate(
-        {
-          onFrame() {
-            const path = self.getBubblePath(r, spNum, directions2, rs2);
-            return { path };
-          },
-          repeat: true
-        },
-        10000
-      );
+      mask.animate(() => {
+        const path = self.getBubblePath(r, spNum, directions2, rs2);
+        return { path };
+      }, {
+        repeat: true,
+        duration: 10000
+      });
       return keyShape;
     },
     changeDirections(num, directions) {
@@ -349,41 +341,32 @@ G6.registerNode(
       const shape = item.get('keyShape');
       const label = shape.get('parent').get('children')[1];
       if (name === 'disappearing' && value) {
-        shape.animate(
-          {
-            onFrame(ratio) {
-              return {
-                opacity: 1 - ratio,
-                r: shape.attr('r') * (1 - ratio)
-              };
-            }
-          },
-          200,
-        );
-        label.animate(
-          {
-            onFrame(ratio) {
-              return {
-                opacity: 1 - ratio
-              };
-            }
-          },
-          500,
-        );
+        shape.animate(ratio => {
+          return {
+            opacity: 1 - ratio,
+            r: shape.attr('r') * (1 - ratio)
+          };
+        }, {
+          duration: 200
+        });
+        label.animate(ratio => {
+          return {
+            opacity: 1 - ratio
+          };
+        }, {
+          duration: 500
+        });
       } else if (name === 'appearing' && value) {
         const r = item.getModel().size / 2;
-        shape.animate(
-          {
-            onFrame(ratio) {
-              return {
-                opacity: ratio,
-                r: r * ratio,
-                fill: shape.attr('fill')
-              };
-            }
-          },
-          300,
-        );
+        shape.animate(ratio => {
+          return {
+            opacity: ratio,
+            r: r * ratio,
+            fill: shape.attr('fill')
+          };
+        }, {
+          duration: 300
+        });
         label.animate(
           {
             onFrame(ratio) {
@@ -441,19 +424,16 @@ G6.registerEdge(
       group,
     ) {
       const shape = group.get('children')[0];
-      shape.animate(
-        {
-          onFrame(ratio) {
-            const opacity = ratio * cfg.style.opacity;
-            const strokeOpacity = ratio * cfg.style.strokeOpacity;
-            return {
-              opacity: ratio || opacity,
-              strokeOpacity: ratio || strokeOpacity
-            };
-          }
-        },
-        300,
-      );
+      shape.animate(ratio => {
+        const opacity = ratio * cfg.style.opacity;
+        const strokeOpacity = ratio * cfg.style.strokeOpacity;
+        return {
+          opacity: ratio || opacity,
+          strokeOpacity: ratio || strokeOpacity
+        };
+      }, {
+        duration: 300
+      });
     },
     setState(
       name,
@@ -462,17 +442,14 @@ G6.registerEdge(
     ) {
       const shape = item.get('keyShape');
       if (name === 'disappearing' && value) {
-        shape.animate(
-          {
-            onFrame(ratio) {
-              return {
-                opacity: 1 - ratio,
-                strokeOpacity: 1 - ratio
-              };
-            }
-          },
-          200,
-        );
+        shape.animate(ratio => {
+          return {
+            opacity: 1 - ratio,
+            strokeOpacity: 1 - ratio
+          };
+        }, {
+          duration: 200
+        });
       } else if (name === 'dark') {
         if (value) shape.attr('opacity', 0.2);
         else shape.attr('opacity', 1);

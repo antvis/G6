@@ -4,7 +4,7 @@ order: 1
 ---
 ## Random
 
-Random is the default layout in G6. It will take effect when `layout` is not configured on the Graph instance and there is no position information in node data.
+Random is the default layout in G6. It will take effect when `layout` is not assigned to the Graph instance and there is no position information in node data.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*G5_uRodUTaYAAAAAAAAAAABkARQnAQ' width=430 />
 
@@ -17,6 +17,9 @@ Random is the default layout in G6. It will take effect when `layout` is not con
 
 #### height
 **Type**: Number<br />**Default**: The height of the graph<br />**Required**: false<br />**Description**: The height of the layout
+
+#### workerEnabled
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to enable the web-worker in case layout calculation takes too long to block page interaction
 
 ### Function
 The same as the superclass Layout, users do not need to concern about the function calling, which will be controlled by G6.
@@ -33,7 +36,7 @@ const graph = new G6.Graph({
     width: 300,
     height: 300
   }
-);
+});
 ```
 
 ## MDS
@@ -48,6 +51,9 @@ MDS (Multidimensional scaling) is used for project high dimensional data onto l
 #### linkDistance
 **Type**: Number<br />**Default**: 50<br />**Required**: false<br />**Description**: The edge length
 
+#### workerEnabled
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to enable the web-worker in case layout calculation takes too long to block page interaction
+
 ### Function
 The same as the superclass Layout, users do not need to concern about the function calling, which will be controlled by G6.
 
@@ -59,9 +65,10 @@ const graph = new G6.Graph({
   width: 1000,
   height: 600,
   layout: {
-    type: 'mds'
+    type: 'mds',
+    workerEnabled: true       // Whether to activate web-worker
   }
-);
+});
 ```
 
 ## Force
@@ -81,12 +88,15 @@ Force is the classical force-dicrected layout algorithm, which corresponds to fo
 
 
 #### nodeStrength
-**Type**: Number<br />**Default**: null<br />**Required**: false<br />**Description**: The strength of node force. Positive value means attractive force, negative value means repulsive force.
+**Type**: Number<br />**Default**: null<br />**Required**: false<br />**Description**: The strength of node force. Positive value means attractive force, negative value means repulsive force
 
 
 #### edgeStrength
 **Type**: Number<br />**Default**: null<br />**Required**: false<br />**Description**: The strength of edge force. Calculated according to the degree of nodes by default
 
+
+#### preventOverlap
+**Type**: Number<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned.
 
 #### collideStrength
 **Type**: Number<br />**Default**: 1<br />**Required**: false<br />**Description**: The strength of force for preventing node overlappings. The range is [0, 1]
@@ -95,13 +105,32 @@ Force is the classical force-dicrected layout algorithm, which corresponds to fo
 #### nodeSize
 **Type**: Number<br />**Default**: 10<br />**Required**: false<br />**Description**: The diameter of the node. It is used for preventing node overlappings. If `nodeSize` is not assigned, the size property in node data will take effect. If the size in node data does not exist either, `nodeSize` is assigned to 10 by default
 
+#### nodeSpacing
+**Type**: Number / Function
+<br />**Default**: 0
+<br />**Required**: false 
+<br />**Example**: Example 1:  10
+<br />Example 2:  
+
+```javascript
+d => {
+  // d is a node
+  if (d.id === 'node1') {
+    return 100;
+  }
+  return 10;
+}
+```
+
+<br />**Description**: 
+Takes effect when `preventOverlap` is `true`. It is the minimum distance between nodes to prevent node overlappings. It can be a function to define different distances for different nodes (example 2)
 
 #### alpha
 **Type**: Number<br />**Default**: 0.3<br />**Required**: false<br />**Description**: The current alpha of convergence
 
 
 #### alphaDecay
-**Type**: Number<br />**Default**: 0.028<br />**Required**: false<br />**Description**: The decay ratio of alpha for convergence. THe range is [0, 1]. 0.028 corresponds to 300 times iteration
+**Type**: Number<br />**Default**: 0.028<br />**Required**: false<br />**Description**: The decay ratio of alpha for convergence. The range is [0, 1]. 0.028 corresponds to 300 iterations
 
 
 #### alphaMin
@@ -118,6 +147,10 @@ Force is the classical force-dicrected layout algorithm, which corresponds to fo
 
 #### onLayoutEnd
 **Type**: Function<br />**Default**: {}<br />**Required**: false<br />**Description**: The callback function after layout
+
+
+#### workerEnabled
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to enable the web-worker in case layout calculation takes too long to block page interaction
 
 
 ### Function
@@ -150,12 +183,13 @@ const graph = new G6.Graph({
       console.log('force layout done');
     }
   }
-);
+});
 ```
 
 ## Fruchterman
 
-Fruchterman is a kind of force-directed layout. G6 implements it according to the paper[Graph Drawing by Force-directed Placement](http://www.mathe2.uni-bayreuth.de/axel/papers/reingold:graph_drawing_by_force_directed_placement.pdf). 
+Fruchterman is a kind of force-directed layout. G6 implements it according to the paper
+<a href='http://www.mathe2.uni-bayreuth.de/axel/papers/reingold:graph_drawing_by_force_directed_placement.pdf' target='_blank'>Graph Drawing by Force-directed Placement</a>.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*jK3ITYqVJnQAAAAAAAAAAABkARQnAQ' width=600 />
 
@@ -178,11 +212,15 @@ Fruchterman is a kind of force-directed layout. G6 implements it according to th
 
 
 #### clustering
-**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether layout by cluster
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to layout by cluster
 
 
 #### clusterGravity
 **Type**: Number<br />**Default**: 10<br />**Required**: false<br />**Description**: The gravity of each cluster, which will affect the compactness of each cluster. Takes effect only when `clustering` is `true`
+
+
+#### workerEnabled
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to enable the web-worker in case layout calculation takes too long to block page interaction
 
 
 ### Function
@@ -203,14 +241,18 @@ const graph = new G6.Graph({
     speed: 2,
     clustering: true,
     clusterGravity: 30,
-    maxIteration: 2000
+    maxIteration: 2000,
+    workerEnabled: true       // Whether to activate web-worker
   }
-);
+});
 ```
 
 ## Circular
 
-Circular layout arranges the node on a circle. By tuning the configurations, user can adjust the node ordering method, division number, radial layout, and so on. G6 implements it according to the paper: [A framework and algorithms for circular drawings of graphs](https://www.sciencedirect.com/science/article/pii/S1570866705000031). <br />
+Circular layout arranges the node on a circle. By tuning the configurations, user can adjust the node ordering method, division number, radial layout, and so on. G6 implements it according to the paper: 
+<a href='https://www.sciencedirect.com/science/article/pii/S1570866705000031' target='_blank'>A framework and algorithms for circular drawings of graphs</a>.
+
+ <br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-3idTK1xa6wAAAAAAAAAAABkARQnAQ' width=270 />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_nLORItzM5QAAAAAAAAAAABkARQnAQ' width=270 />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6J6BRIjmXKAAAAAAAAAAAABkARQnAQ' width=270 />
@@ -235,7 +277,7 @@ Circular layout arranges the node on a circle. By tuning the configurations, use
 
 
 #### clockwise
-**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Description**: Whether layout clockwisely
+**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Description**: Whether to layout clockwisely
 
 
 #### divisions
@@ -248,6 +290,11 @@ Circular layout arranges the node on a circle. By tuning the configurations, use
 
 #### angleRatio
 **Type**: Number<br />**Default**: 1<br />**Required**: false<br />**Description**: How many 2*PIs Between the first node and the last node
+
+
+#### workerEnabled
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to enable the web-worker in case layout calculation takes too long to block page interaction
+
 
 ### Function
 The same as the superclass Layout, users do not need to concern about the function calling, which will be controlled by G6.
@@ -271,27 +318,28 @@ const graph = new G6.Graph({
     ordering: 'degree',
     angleRatio: 1
   }
-);
+});
 ```
 
 ## Radial
 
-Radial layout arranges the nodes to concentrics centered at a focus node according to their shortest path length to the focus node. G6 implements it according to the paper: [More Flexible Radial Layout](http://emis.ams.org/journals/JGAA/accepted/2011/BrandesPich2011.15.1.pdf). 
+Radial layout arranges the nodes to concentrics centered at a focus node according to their shortest path length to the focus node. G6 implements it according to the paper: 
+<a href='http://emis.ams.org/journals/JGAA/accepted/2011/BrandesPich2011.15.1.pdf' target='_blank'>More Flexible Radial Layout</a>.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GAFjRJeAoAsAAAAAAAAAAABkARQnAQ' width=600 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GAFjRJeAoAsAAAAAAAAAAABkARQnAQ' width=450 />
 
 ### Configuration
 
 #### center
-**Type**: Array<br />**Example**: [ 0, 0 ]<br />**Default**: The center of the graph<br />**Required**: false<br />**Description**: The center of the layout
+**Type**: Array<br />**Example**: [ 0, 0 ]<br />**Default**: The center of the graph<br />**Required**: false<br />**Description**: The center of the layout.
 
 
 #### linkDistance
-**Type**: Number<br />**Default**: 50<br />**Required**: false<br />**Description**: The edge length
+**Type**: Number<br />**Default**: 50<br />**Required**: false<br />**Description**: The edge length.
 
 
 #### maxIteration
-**Type**: Number<br />**Default**: 1000<br />**Required**: false<br />**Description**: The max iteration number
+**Type**: Number<br />**Default**: 1000<br />**Required**: false<br />**Description**: The max iteration number.
 
 
 #### focusNode
@@ -303,11 +351,32 @@ Radial layout arranges the nodes to concentrics centered at a focus node accordi
 
 
 #### preventOverlap
-**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether prevent node overlappings. To activate preventing node overlappings, [`nodeSize`](#xWjHN) is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned.
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned.
 
 
 #### nodeSize
 **Type**: Number<br />**Default**: 10<br />**Required**: false<br />**Description**: The diameter of the node. It is used for preventing node overlappings
+
+
+#### nodeSpacing
+**Type**: Number / Function
+<br />**Default**: 0
+<br />**Required**: false 
+<br />**Example**: Example 1:  10
+<br />Example 2:  
+
+```javascript
+d => {
+  // d is a node
+  if (d.id === 'node1') {
+    return 100;
+  }
+  return 10;
+}
+```
+
+<br />**Description**: 
+Takes effect when `preventOverlap` is `true`. It is the minimum distance between nodes to prevent node overlappings. It can be a function to define different distances for different nodes (example 2)
 
 
 #### maxPreventOverlapIteration
@@ -315,7 +384,7 @@ Radial layout arranges the nodes to concentrics centered at a focus node accordi
 
 
 #### strictRadial
-**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Description**: Whether layout the graph as strict radial, which means the nodes will be arranged on each circle strictly. Takes effect only when `preventOverlap` is `true`
+**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Description**: Whether to layout the graph as strict radial, which means the nodes will be arranged on each circle strictly. Takes effect only when `preventOverlap` is `true`
 
 - When `preventOverlap` is `true`, and `strictRadial` is `false`, the overlapped nodes are arranged along their circles strictly. But for the situation that there are too many nodes on a circle to be arranged, the overlappings might not be eliminated completely
 - When `preventOverlap` is `true`, and `strictRadial` is `true` , the overlapped nodes can be arranged around their circle with small offsets.
@@ -326,6 +395,19 @@ Radial layout arranges the nodes to concentrics centered at a focus node accordi
 
 > （Left）preventOverlap = false.（Center）preventOverlap = false, strictRadial = true. (Right)preventOverlap = false, strictRadial = false.
 
+
+
+#### sortBy
+**Type**: String<br />**Default**: undefined<br />**Required**: false<br />**Description**: Sort the nodes of the same level. `undefined` by default, which means place the nodes with connections as close as possible; `'data'` means place the node according to the ordering in data, the closer the nodes in data ordering, the closer the nodes will be placed. `sortBy` also can be assigned to any name of property in nodes data, such as `'cluster'`, `'name'` and so on (make sure the property exists in the data)
+
+
+
+#### sortStrength
+**Type**: Number<br />**Default**: 10<br />**Required**: false<br />**Description**: The strength to sort the nodes in the same circle. Larger number means place the nodes with smaller distance of `sortBy` more closely. Takes effect only when `sortBy` is not `undefined`
+
+
+#### workerEnabled
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to enable the web-worker in case layout calculation takes too long to block page interaction
 
 
 ### Function
@@ -340,7 +422,7 @@ const graph = new G6.Graph({
   width: 1000,
   height: 600,
   layout: {
-    type: 'circular',
+    type: 'radial',
     center: [ 200, 200 ],     // The center of the graph by default
     linkDistance: 50,         // The edge length
     maxIteration: 1000,
@@ -348,9 +430,10 @@ const graph = new G6.Graph({
     unitRadius: 100,
     preventOverlap: true,     // nodeSize or size in data is required for preventOverlap: true
     nodeSize: 30,
-    strictRadial: false
+    strictRadial: false,
+    workerEnabled: true       // Whether to activate web-worker
   }
-);
+});
 ```
 
 ## Dagre
@@ -362,7 +445,7 @@ Dagre is an hierarchical layout.
 ### Configuration
 
 #### rankdir
-**Type**: String<br />**Options**: 'TB' | 'BT' | 'LR' | 'RL'<br />**Default**: 'TB'<br />**Required**: false<br />**Description**: 布局的方向. T:top; B:bottom; L:left; R:right.
+**Type**: String<br />**Options**: 'TB' | 'BT' | 'LR' | 'RL'<br />**Default**: 'TB'<br />**Required**: false<br />**Description**: The layout direction. T:top; B:bottom; L:left; R:right.
 
 - 'TB':Layout the graph from the top to the bottom;
 - 'BT':Layout the graph from the bottom to the top;
@@ -373,12 +456,12 @@ Dagre is an hierarchical layout.
 
 
 #### align
-**Type**: String<br />**Options**: 'UL' | 'UR' | 'DL' | 'DR'<br />**Default**: 'UL'<br />**Required**: false<br />**Description**: 节点对齐方式. U:upper; D:down; L:left; R:right
+**Type**: String<br />**Options**: 'UL' | 'UR' | 'DL' | 'DR'<br />**Default**: 'UL'<br />**Required**: false<br />**Description**: The alignment of the nodes. U: upper; D: down; L: left; R: right
 
-- 'UL':对齐到左上角; 
-- 'UR':对齐到右上角; 
-- 'DL':对齐到左下角; 
-- 'DR':对齐到右下角. 
+- 'UL': aligns the nodes to the upper left;
+- 'UR': aligns the nodes to the upper right;
+- 'DL': aligns the nodes to the down left;
+- 'DR': aligns the nodes to the upper right.
 
 
 #### nodesep
@@ -414,7 +497,11 @@ Dagre is an hierarchical layout.
 
 
 #### controlPoints
-**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Description**: Whether keep the control points of layout
+**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Description**: Whether to keep the control points of layout
+
+
+#### workerEnabled
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to enable the web-worker in case layout calculation takes too long to block page interaction
 
 
 ### Function
@@ -436,12 +523,12 @@ const graph = new G6.Graph({
     ranksep: 50,
     controlPoints: true
   }
-);
+});
 ```
 
 ## Concentric
 
-Concentric arranges the nodes on several concentrics. By tuning the parameters, users could order the nodes according to some property of node data, degree by default. Larger the value, more center the node will be placed.
+Concentric arranges the nodes on several concentric circles. By tuning the parameters, users could order the nodes according to some property of node data, degree by default. Larger the value, more center the node will be placed.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*QpyPTbBpO2AAAAAAAAAAAABkARQnAQ' width=600 />
 
@@ -453,7 +540,7 @@ Concentric arranges the nodes on several concentrics. By tuning the parameters, 
 
 
 #### preventOverlap
-**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether prevent node overalappings. To activate this ability, [`nodeSize`](https://www.yuque.com/antv/g6/ngp0vg#xWjHN) should be assigned, which will be used for collide detection
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. If the size in node data does not exist either, `nodeSize` is assigned to 30 by default
 
 
 #### nodeSize
@@ -481,11 +568,15 @@ Concentric arranges the nodes on several concentrics. By tuning the parameters, 
 
 
 #### maxLevelDiff
-**Type**: Number<br />**默认值:**undefined<br />**Required**: false<br />**Description**: The sum of concentric values in each level. If it is undefined, maxValue / 4 will take place, where maxValue is the max value of ordering properties. For example, if sortBy='degree', maxValue is the max degree value of all the nodes
+**Type**: Number<br />**默认值:**undefined<br />**Required**: false<br />**Description**: The sum of concentric values in each level. If it is undefined, maxValue / 4 will take place, where maxValue is the max value of ordering properties. For example, if `sortBy` is `'degree'`, maxValue is the max degree value of all the nodes
 
 
 #### sortBy
 **Type**: String<br />**Default**: undefined<br />**Required**: false<br />**Description**: Order the nodes according to this parameter. It is the property's name of node. The node with higher value will be placed to the center. If it is undefined, the algorithm will order the nodes by their degree
+
+
+#### workerEnabled
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to enable the web-worker in case layout calculation takes too long to block page interaction
 
 
 ### Function
@@ -510,16 +601,17 @@ const graph = new G6.Graph({
     startAngle: 0,
     clockwise: false,
     maxLevelDiff: 10,
-    sortBy: 'degree'
+    sortBy: 'degree',
+    workerEnabled: true       // Whether to activate web-worker
   }
-);
+});
 ```
 
 ## Grid
 
 Grid orders the nodes according to the configurations and arranged them onto grid.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Oh6mRLVEBBIAAAAAAAAAAABkARQnAQ' width=850 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Oh6mRLVEBBIAAAAAAAAAAABkARQnAQ' width=650 />
 
 ### Configuration
 
@@ -528,7 +620,7 @@ Grid orders the nodes according to the configurations and arranged them onto gri
 
 
 #### preventOverlap
-**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Prevent node overlappings. Only when the `nodeSize` is assigned, the collide detection will take effect
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. If the size in node data does not exist either, `nodeSize` is assigned to 30 by default
 
 
 #### nodeSize
@@ -555,6 +647,10 @@ Grid orders the nodes according to the configurations and arranged them onto gri
 **Type**: String<br />**Default**: undefined<br />**Required**: false<br />**Description**: The ordering method for nodes. Smaller the index in the ordered array, more center the node will be placed. If `sortBy` is undefined, the algorithm order the nodes according to their degrees
 
 
+#### workerEnabled
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to enable the web-worker in case layout calculation takes too long to block page interaction
+
+
 ### Function
 The same as the superclass Layout, users do not need to concern about the function calling, which will be controlled by G6.
 
@@ -567,7 +663,7 @@ const graph = new G6.Graph({
   width: 1000,
   height: 600,
   layout: {
-    type: 'concentric',
+    type: 'grid',
     begin: [ 0, 0 ],
     preventOverlap: true,     // nodeSize or size in data is required for preventOverlap: true
     preventOverlapPdding: 20,
@@ -577,5 +673,5 @@ const graph = new G6.Graph({
     cols: 5,
     sortBy: 'degree'
   }
-);
+});
 ```

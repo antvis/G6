@@ -1,50 +1,51 @@
 ---
-title: 自定义交互 Behavior
+title: Custom Behavior
 order: 5
 ---
 
-G6 除了提供丰富的 [内置交互行为 Behavior](/zh/docs/manual/middle/states/defaultBehavior) 外，还提供了自定义交互行为的机制，方便用户开发更加定制化的交互行为。
+G6 provides abundant [Built-in Behavior](/en/docs/manual/middle/states/defaultBehavior). Besides, you can custom your type of behaviors to satisfy the special requirements.
 
-在交互行为上， G6 主要考虑了三个场景：
+In G6, we mainly take three scenarios into consideration:
 
-- 展示关系数据；
-- 可视化建模；
-- 图分析。
+- Demonstrating the relational data;
+- Modeling the visualization;
+- Analyzing the graph.
 
-在这些场景中只要用户可能无法一眼看清楚所有需要的信息，都需要进行交互，例如：
+It is necessary to incorporate the interactions when the information is too complex to be understand in one glance:
 
-- 图太大，需要缩放；
-- 单个节点上展示的信息太少，需要通过 tooltip 显示详情；
-- 对节点进行增删改查。
+- Zooming a large graph;
+- Utilizing the ttoltip to show the detail information of a node;
+- Adding/removing/modifying/querying a graph item.
 
-我们无法将所有常用的交互全部内置到 G6 中。由于场景不一样，业务不一样，同样的目的需要的交互都不一样：
+Due to the complex and the diversity of the interactions in different scenarios and bussiness, we did not build all the interactions into G6:
 
-- 有些系统需要从工具栏上点击后添加节点，有些系统需要从面板栏上拖出出新的节点；
-- 有的业务添加边需要从锚点上拖拽出来，而有些直接点击节点后就可以拖拽出边；
-- 有些边可以连接到所有节点上，而有些边不能连接到具体某个节点的某个锚点上；
-- 所有的交互的触发、持续、结束都要允许能够进行个性化的判定。
+- Some systems require to add nodes by clicking a tool bar, some require toe add by dragging from a panel;
+- Some scenarios add edges by dragging from an anchor point, some add by clicking the end nodes;
+- Some edges are allowed to link to any node, some only can be linked to specific anchor points;
+- Some users require to custom the process of activating and endding.
+- ...
 
-我们可以看到在图上的交互是繁杂多变的。各种冲突、各种配置项会让用户和开发者疲于应对。出于这些考虑， G6 提供了一套非常简单而灵活的机制来实现交互。
-
-
-## Behavior 的生命周期
-为实现交互，首先需要了解交互的生命周期。交互起源于用户在系统上的所有事件，是否允许交互发生同事件密切相关。所以我们看到交互的生命周期，即操作事件的过程如下：
-
-- 绑定事件；
-- 触发事件；
-- 持续事件；
-- 结束事件；
-- 移除事件。
+We found the interactions are sundry and versatile. And the conflicts and configurations will make the users and developers collapse. Thus, G6 designs a set of simple and flexible implemention of interaction behavior.
 
 
-## 自定义交互 registerBehavior
-通过 `G6.registerBehavior` 自定义 Behavior。下面代码实现了名为 `'activate-node' `的交互行为，在终端用户点击节点时，置该节点的 `active` 状态为 `true`；再次点击或点击画布时，置该节点的 `active` 状态为 `false`。
+## The Life Cycle of Behavior
+To customize a Behavior, it is important to comprehend the life cycle of Behavior. Interaction Behaviors are related to the events from users, including the processes:
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;注意：</span>
+- Bind the event;
+- Activate the event;
+- Keep the event;
+- End the event;
+- Remove the event.
 
-- 下面代码仅设置了不同交互后节点的状态，没有指定这些状态下节点的样式。若需要根据节点状态变化它的样式，参见 [配置不同 State 样式](/zh/docs/manual/middle/states/state)。
-- 自定义 Behavior 时，可选的方法请参数 [Behavior API](/zh/docs/api/Behavior)；
-- `getEvent` 返回该 Behavior 所需监听事件的对象，G6 中支持的所有事件，请参考 [Event API](/zh/docs/api/Event)。
+
+## registerBehavior
+You can customize a Behavior by `G6.registerBehavior`. The following code implements a custom Behavior named `'activate-node'`, which changes the state `active` of the clicked node to be `true`, and restores the state `active` to be `false` when the user clicking the node again or clicking the canvas.
+
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;⚠️**Attension:** </span>
+
+- The following code set the states for different behaviors, but does not assign the state styles for manipulated nodes. To change the styles when the states changed, refer to [State Styles](/en/docs/manual/middle/states/state).
+- The configurations of customizing Behavior are introduced in [Behavior API](/en/docs/api/Behavior)；
+- `getEvent` returns the events which are listened by the Behavior. The events in G6 are introduced in [Event API](/en/docs/api/Event).
 
 ```javascript
 G6.registerBehavior('activate-node', {
@@ -66,21 +67,21 @@ G6.registerBehavior('activate-node', {
       graph.setItemState(item, 'active', false);
       return;
     }
-    // this 上即可取到配置，如果不允许多个active，先取消其他节点的active状态
+    // Get the configurations by this. If you do not allow multiple nodes to be 'active', cancel the 'active' state for other nodes
     if (!this.multiple) {
       this.removeNodesState();
     }
-    // 置点击的节点状态为active
+    // Set the 'active' state of the clicked node to be true
     graph.setItemState(item, 'active', true);
   },
   onCanvasClick(e) {
-    // shouldUpdate可以由用户复写，返回 true 时取消所有节点的active状态
+    // shouldUpdate can be rewrited by users. Returning true means turning the 'active' to be false for all the nodes
     if (this.shouldUpdate(e)) {
       removeNodesState();
     }
   },
   removeNodesState() {
-    graph.findAllByState('active').forEach(node => {
+    graph.findAllByState('node', 'active').forEach(node => {
         graph.setItemState(node, 'active', false);
       });
   }  
@@ -88,15 +89,15 @@ G6.registerBehavior('activate-node', {
 ```
 
 
-## 使用自定义的 Behavior
-有了上面代码定义的名为 `'activate-node'` 的 Behavior 以后，在实例化 Graph 时，在 `modes` 中将其配置到默认或其他[行为模式](/zh/docs/manual/middle/states/mode)中。下面代码将其配置到了默认行为模式中，在默认模式下，该行为将会生效。
+## Using Behavior
+Now, you have a type of Behavior named `'activate-node'`. To use it, configure it into a mode of `modes` when instantiating a Graph. [Mode](/en/docs/manual/middle/states/mode). The following code configure the `'activate-node'` into the default mode, which means the `'activate-node'` Behavior will take effect in the default mode.
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
   width: 500,
   height: 500,
   modes: {
-   // 定义的 behavior 指定到这里，就可以支持Behavior中定义的交互
+   // Configure the custom Behavior here to use it
    default: ['activate-node']
   }
 });

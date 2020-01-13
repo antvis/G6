@@ -18,6 +18,10 @@ Random 布局是 G6 中的默认布局方法。当实例化图时没有指定布
 #### height
 **类型**： Number<br />**默认值**：图的高度<br />**是否必须**：false<br />**说明**：布局的高度范围
 
+#### workerEnabled
+**类型**: Boolean<br />**默认值**: false<br />**是否必须**: false<br />**说明**: 是否启用 web-worker 以防布局计算时间过长阻塞页面交互
+
+
 ### 方法
 与父类 Layout 的方法相同。使用该布局时不需要关心内部方法的调用，由 G6 控制。
 
@@ -33,12 +37,12 @@ const graph = new G6.Graph({
     width: 300,
     height: 300
   }
-);
+});
 ```
 
 ## MDS
 
-MDS 布局是高维数据降维算法布局，该算法全称 Multidimensional scaling 。<br />
+MDS 布局是高维数据降维算法布局，该算法全称 Multidimensional Scaling 。<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aUS7TJR2NHcAAAAAAAAAAABkARQnAQ' width=600 />
 
 ### 属性
@@ -47,6 +51,10 @@ MDS 布局是高维数据降维算法布局，该算法全称 Multidimensional 
 
 #### linkDistance
 **类型**： Number<br />**默认值**：50<br />**是否必须**：false<br />**说明**：边长度
+
+#### workerEnabled
+**类型**: Boolean<br />**默认值**: false<br />**是否必须**: false<br />**说明**: 是否启用 web-worker 以防布局计算时间过长阻塞页面交互
+
 
 ### 方法
 与父类 Layout 的方法相同。使用该布局时不需要关心内部方法的调用，由 G6 控制。
@@ -59,14 +67,15 @@ const graph = new G6.Graph({
   width: 1000,
   height: 600,
   layout: {
-    type: 'mds'
+    type: 'mds',
+    workerEnabled: true       // 可选，开启 web-worker
   }
-);
+});
 ```
 
 ## Force
 
-Force 布局经典的力导向布局方法，与 d3 的力导向布局方法相对应。其属性也与 d3 的力道布局参数相对应。
+Force 布局经典的力导向布局方法，与 d3 的力导向布局方法相对应。其属性也与 d3.js 的力导布局参数相对应。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Nt45Q6nnK2wAAAAAAAAAAABkARQnAQ' width=600 />
 
@@ -88,20 +97,41 @@ Force 布局经典的力导向布局方法，与 d3 的力导向布局方法相�
 **类型**：Number<br />**默认值**：null<br />**是否必须**：false<br />**说明**：边的作用力，默认根据节点的出入度自适应
 
 
+#### preventOverlap
+**类型**：Number<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否防止重叠，必须配合下面属性 `nodeSize`，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测
+
+
 #### collideStrength
 **类型**：Number<br />**默认值**：1<br />**是否必须**：false<br />**说明**：防止重叠的力强度，范围 [0, 1]
 
 
 #### nodeSize
-**类型**： Number<br />**默认值**：10<br />**是否必须**：false<br />**说明**：节点大小（直径）。用于碰撞检测。若不指定，则根据传入的节点的 size 属性计算。若即不指定，即节点中也没有 `size`，则默认大小为 10
+**类型**： Number<br />**默认值**：10<br />**是否必须**：false<br />**说明**：节点大小（直径）。用于碰撞检测。若不指定，则根据传入的节点的 size 属性计算。若即不指定，即节点中也没有 `size`，则默认大小为 `10`
 
+#### nodeSpacing
+**类型**: Number / Function<br />**默认值**: 0<br />**是否必须**: false 
+<br />**示例**: Example 1:  10
+<br />Example 2:  
+
+```javascript
+d => {
+  // d is a node
+  if (d.id === 'node1') {
+    return 100;
+  }
+  return 10;
+}
+```
+
+<br />**描述**: 
+`preventOverlap` 为 `true` 时生效, 防止重叠时节点边缘间距的最小值。可以是回调函数, 为不同节点设置不同的最小间距, 如示例 2 所示
 
 #### alpha
 **类型**：Number<br />**默认值**：0.3<br />**是否必须**：false<br />**说明**：当前的迭代收敛阈值
 
 
 #### alphaDecay
-**类型**：Number<br />**默认值**：0.028<br />**是否必须**：false<br />**说明**：迭代阈值的衰减率。[0, 1]，0.028 对应迭代书为 300
+**类型**：Number<br />**默认值**：0.028<br />**是否必须**：false<br />**说明**：迭代阈值的衰减率。范围 [0, 1]。0.028 对应迭代数为 300
 
 
 #### alphaMin
@@ -109,7 +139,7 @@ Force 布局经典的力导向布局方法，与 d3 的力导向布局方法相�
 
 
 #### forceSimulation
-**类型**：Object<br />**默认值**：null<br />**是否必须**：false<br />**说明**：自定义 force 方法，若不指定，则使用 d3 的方法
+**类型**：Object<br />**默认值**：null<br />**是否必须**：false<br />**说明**：自定义 force 方法，若不指定，则使用 d3.js 的方法
 
 
 #### onTick
@@ -118,6 +148,9 @@ Force 布局经典的力导向布局方法，与 d3 的力导向布局方法相�
 
 #### onLayoutEnd
 **类型**：Function<br />**默认值**：{}<br />**是否必须**：false<br />**说明**：布局完成后的回调函数
+
+#### workerEnabled
+**类型**: Boolean<br />**默认值**: false<br />**是否必须**: false<br />**说明**: 是否启用 web-worker 以防布局计算时间过长阻塞页面交互
 
 
 ### 方法
@@ -155,7 +188,8 @@ const graph = new G6.Graph({
 
 ## Fruchterman
 
-Fruchterman 布局是一种力导布局。算法原文：[Graph Drawing by Force-directed Placement](http://www.mathe2.uni-bayreuth.de/axel/papers/reingold:graph_drawing_by_force_directed_placement.pdf)。
+Fruchterman 布局是一种力导布局。算法原文：
+<a href='http://www.mathe2.uni-bayreuth.de/axel/papers/reingold:graph_drawing_by_force_directed_placement.pdf' target='_blank'>Graph Drawing by Force-directed Placement</a>
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*jK3ITYqVJnQAAAAAAAAAAABkARQnAQ' width=600 />
 
@@ -184,6 +218,9 @@ Fruchterman 布局是一种力导布局。算法原文：[Graph Drawing by Force
 #### clusterGravity
 **类型**： Number<br />**默认值**：10<br />**是否必须**：false<br />**说明**：聚类内部的重力大小，影响聚类的紧凑程度，在 `clustering` 为 `true` 时生效
 
+#### workerEnabled
+**类型**: Boolean<br />**默认值**: false<br />**是否必须**: false<br />**说明**: 是否启用 web-worker 以防布局计算时间过长阻塞页面交互
+
 
 ### 方法
 与父类 Layout 的方法相同。使用该布局时不需要关心内部方法的调用，由 G6 控制。
@@ -203,14 +240,17 @@ const graph = new G6.Graph({
     speed: 2,                 // 可选
     clustering: true,         // 可选
     clusterGravity: 30,       // 可选
-    maxIteration: 2000
-  }
-);
+    maxIteration: 2000,       // 可选，迭代次数
+    workerEnabled: true       // 可选，开启 web-worker  }
+});
 ```
 
 ## Circular
 
-Circular 布局将所有节点布局在一个圆环上，可以选择节点在圆环上的排列顺序。可以通过参数的配置扩展出环的分组布局、螺旋形布局等。原文链接：[A framework and algorithms for circular drawings of graphs]()。<br />
+Circular 布局将所有节点布局在一个圆环上，可以选择节点在圆环上的排列顺序。可以通过参数的配置扩展出环的分组布局、螺旋形布局等。原文链接：
+<a href='https://www.sciencedirect.com/science/article/pii/S1570866705000031' target='_blank'>A framework and algorithms for circular drawings of graphs</a>。
+
+<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-3idTK1xa6wAAAAAAAAAAABkARQnAQ' width=270 />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_nLORItzM5QAAAAAAAAAAABkARQnAQ' width=270 />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6J6BRIjmXKAAAAAAAAAAAABkARQnAQ' width=270 />
@@ -250,6 +290,10 @@ Circular 布局将所有节点布局在一个圆环上，可以选择节点在�
 **类型**： Number<br />**默认值**：1<br />**是否必须**：false<br />**说明**：从第一个节点到最后节点之间相隔多少个 2*PI
 
 
+#### workerEnabled
+**类型**: Boolean<br />**默认值**: false<br />**是否必须**: false<br />**说明**: 是否启用 web-worker 以防布局计算时间过长阻塞页面交互
+
+
 ### 方法
 与父类 Layout 的方法相同。使用该布局时不需要关心内部方法的调用，由 G6 控制。
 
@@ -272,14 +316,15 @@ const graph = new G6.Graph({
     ordering: 'degree',    // 可选
     angleRatio: 1          // 可选
   }
-);
+});
 ```
 
 ## Radial
 
-Radial 布局是将图布局成辐射状的布局方法。以一个 focusNode 为中心，其余节点按照与 focusNode 的度数关系排列在不同距离的环上。距离 focusNode 一度的节点布局在与其最近的第一个环上，距离 focusNode 二度的节点布局在第二个环上，以此类推。算法原文链接：[More Flexible Radial Layout](http://emis.ams.org/journals/JGAA/accepted/2011/BrandesPich2011.15.1.pdf)。
+Radial 布局是将图布局成辐射状的布局方法。以一个 focusNode 为中心，其余节点按照与 focusNode 的度数关系排列在不同距离的环上。距离 focusNode 一度的节点布局在与其最近的第一个环上，距离 focusNode 二度的节点布局在第二个环上，以此类推。算法原文链接：
+<a href='http://emis.ams.org/journals/JGAA/accepted/2011/BrandesPich2011.15.1.pdf' target='_blank'>More Flexible Radial Layout</a>。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GAFjRJeAoAsAAAAAAAAAAABkARQnAQ' width=600 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GAFjRJeAoAsAAAAAAAAAAABkARQnAQ' width=450 />
 
 ### 属性
 
@@ -304,11 +349,30 @@ Radial 布局是将图布局成辐射状的布局方法。以一个 focusNode �
 
 
 #### preventOverlap
-**类型**：Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否防止重叠，必须配合下面属性 [`nodeSize`](#xWjHN) ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测
+**类型**：Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否防止重叠，必须配合下面属性 `nodeSize`，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测
 
 
 #### nodeSize
 **类型**： Number<br />**默认值**：10<br />**是否必须**：false<br />**说明**：节点大小（直径）。用于防止节点重叠时的碰撞检测
+
+
+#### nodeSpacing
+**类型**: Number / Function<br />**默认值**: 0<br />**是否必须**: false 
+<br />**示例**: Example 1:  10
+<br />Example 2:  
+
+```javascript
+d => {
+  // d is a node
+  if (d.id === 'node1') {
+    return 100;
+  }
+  return 10;
+}
+```
+
+<br />**描述**: 
+`preventOverlap` 为 `true` 时生效, 防止重叠时节点边缘间距的最小值。可以是回调函数, 为不同节点设置不同的最小间距, 如示例 2 所示
 
 
 #### maxPreventOverlapIteration
@@ -328,6 +392,19 @@ Radial 布局是将图布局成辐射状的布局方法。以一个 focusNode �
 > （左）preventOverlap = false。（中）preventOverlap = false，strictRadial = true。（右）preventOverlap = false，strictRadial = false。
 
 
+#### sortBy
+**类型**: String<br />**默认值**: undefined<br />**是否必须**: false<br />**说明**: 同层节点布局后相距远近的依据。默认 `undefined` ，表示根据数据的拓扑结构（节点间最短路径）排布，即关系越近/点对间最短路径越小的节点将会被尽可能排列在一起；`'data'` 表示按照节点在数据中的顺序排列，即在数据顺序上靠近的节点将会尽可能排列在一起；也可以指定为节点数据中的某个字段名，例如 `'cluster'`、`'name'` 等（必须在数据中存在）
+
+
+
+#### sortStrength
+**类型**: Number<br />**默认值**: 10<br />**是否必须**: false<br />**说明**: 同层节点根据 `sortBy` 排列的强度，数值越大，`sortBy` 指定的方式计算出距离越小的越靠近。`sortBy` 不为 `undefined` 时生效
+
+
+
+#### workerEnabled
+**类型**: Boolean<br />**默认值**: false<br />**是否必须**: false<br />**说明**: 是否启用 web-worker 以防布局计算时间过长阻塞页面交互
+
 
 ### 方法
 与父类 Layout 的方法相同。使用该布局时不需要关心内部方法的调用，由 G6 控制。
@@ -341,7 +418,7 @@ const graph = new G6.Graph({
   width: 1000,
   height: 600,
   layout: {
-    type: 'circular',
+    type: 'radial',
     center: [ 200, 200 ],     // 可选，默认为图的中心
     linkDistance: 50,         // 可选，边长
     maxIteration: 1000,       // 可选
@@ -350,8 +427,9 @@ const graph = new G6.Graph({
     preventOverlap: true,     // 可选，必须配合 nodeSize
     nodeSize: 30,             // 可选
     strictRadial: false       // 可选
+    workerEnabled: true       // 可选，开启 web-worker
   }
-);
+});
 ```
 
 ## Dagre
@@ -369,8 +447,6 @@ Dagre 是一种层次布局。
 - 'BT'：从下至上布局；
 - 'LR'：从左至右布局；
 - 'RL'：从右至左布局。
-
-<br />
 
 
 #### align
@@ -418,6 +494,10 @@ Dagre 是一种层次布局。
 **类型**： Boolean<br />**默认值**：true<br />**是否必须**：false<br />**说明**：是否保留布局连线的控制点
 
 
+#### workerEnabled
+**类型**: Boolean<br />**默认值**: false<br />**是否必须**: false<br />**说明**: 是否启用 web-worker 以防布局计算时间过长阻塞页面交互
+
+
 ### 方法
 与父类 Layout 的方法相同。使用该布局时不需要关心内部方法的调用，由 G6 控制。
 
@@ -437,7 +517,7 @@ const graph = new G6.Graph({
     ranksep: 50,             // 可选
     controlPoints: true      // 可选
   }
-);
+});
 ```
 
 ## Concentric
@@ -454,7 +534,7 @@ Concentric 布局为同心圆布局，用户可以指定节点某个属性为排
 
 
 #### preventOverlap
-**类型**：Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否防止重叠，必须配合下面属性 [`nodeSize`](https://www.yuque.com/antv/g6/ngp0vg#xWjHN) ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测
+**类型**：Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否防止重叠，必须配合下面属性 `nodeSize`，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测
 
 
 #### nodeSize
@@ -482,11 +562,15 @@ Concentric 布局为同心圆布局，用户可以指定节点某个属性为排
 
 
 #### maxLevelDiff
-**类型**： Number<br />**默认值：**undefined<br />**是否必须**：false<br />**说明**：每一层同心值的求和。若为 undefined，则将会被设置为 maxValue / 4 ，其中 maxValue 为最大的排序依据的属性值。例如，若 sortBy='degree'，则 maxValue 为所有节点中度数最大的节点的度数
+**类型**： Number<br />**默认值：**undefined<br />**是否必须**：false<br />**说明**：每一层同心值的求和。若为 undefined，则将会被设置为 maxValue / 4 ，其中 maxValue 为最大的排序依据的属性值。例如，若 `sortBy` 为 `'degree'`，则 maxValue 为所有节点中度数最大的节点的度数
 
 
 #### sortBy
 **类型**： String<br />**默认值**：undefined<br />**是否必须**：false<br />**说明**：指定排序的依据（节点属性名），数值越高则该节点被放置得越中心。若为 undefined，则会计算节点的度数，度数越高，节点将被放置得越中心
+
+
+#### workerEnabled
+**类型**: Boolean<br />**默认值**: false<br />**是否必须**: false<br />**说明**: 是否启用 web-worker 以防布局计算时间过长阻塞页面交互
 
 
 ### 方法
@@ -512,15 +596,16 @@ const graph = new G6.Graph({
     clockwise: false,         // 可选
     maxLevelDiff: 10,         // 可选
     sortBy: 'degree'          // 可选
+    workerEnabled: true       // 可选，开启 web-worker
   }
-);
+});
 ```
 
 ## Grid
 
 Grid 布局是将所有节点通过某种指定属性排序后，整齐地放置在网格上。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Oh6mRLVEBBIAAAAAAAAAAABkARQnAQ' width=850 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Oh6mRLVEBBIAAAAAAAAAAABkARQnAQ' width=650 />
 
 ### 属性
 
@@ -529,7 +614,7 @@ Grid 布局是将所有节点通过某种指定属性排序后，整齐地放置
 
 
 #### preventOverlap
-**类型**：Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否防止重叠，必须配合下面属性 [`nodeSize`](https://www.yuque.com/antv/g6/ngp0vg#xWjHN) ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测
+**类型**：Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否防止重叠，必须配合下面属性 `nodeSize`，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测
 
 
 #### nodeSize
@@ -555,6 +640,9 @@ Grid 布局是将所有节点通过某种指定属性排序后，整齐地放置
 #### sortBy
 **类型**： String<br />**默认值**：undefined<br />**是否必须**：false<br />**说明**：指定排序的依据（节点属性名），数值越高则该节点被放置得越中心。若为 undefined，则会计算节点的度数，度数越高，节点将被放置得越中心
 
+#### workerEnabled
+**类型**: Boolean<br />**默认值**: false<br />**是否必须**: false<br />**说明**: 是否启用 web-worker 以防布局计算时间过长阻塞页面交互
+
 
 ### 方法
 与父类 Layout 的方法相同。使用该布局时不需要关心内部方法的调用，由 G6 控制。
@@ -568,7 +656,7 @@ const graph = new G6.Graph({
   width: 1000,
   height: 600,
   layout: {
-    type: 'concentric',
+    type: 'grid',
     begin: [ 0, 0 ],          // 可选，
     preventOverlap: true,     // 可选，必须配合 nodeSize
     preventOverlapPdding: 20, // 可选
@@ -577,6 +665,7 @@ const graph = new G6.Graph({
     rows: 5,                  // 可选
     cols: 5,                  // 可选
     sortBy: 'degree'          // 可选
+    workerEnabled: true       // 可选，开启 web-worker
   }
-);
+});
 ```
