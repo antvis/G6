@@ -78,7 +78,7 @@ describe('minimap', () => {
     expect(viewport.style.width).toEqual('160px');
     expect(viewport.style.height).toEqual('160px');
   });
-  it('move viewport', () => {
+  xit('move viewport', () => {
     const minimap = new Minimap({ size: [ 200, 200 ] });
     const graph = new G6.Graph({
       container: div,
@@ -235,7 +235,6 @@ describe('minimap', () => {
     const canvas = minimap.getCanvas();
     const matrix = canvas.getMatrix();
     
-    console.log(matrix);
     expect(matrix[6] - 30 < 1).toBe(false);
     expect(matrix[7] - 30 < 1).toBe(false);
     graph.destroy();
