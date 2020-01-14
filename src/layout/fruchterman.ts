@@ -3,7 +3,7 @@
  * @author shiwu.wyy@antfin.com
  */
 
-import { EdgeConfig, IPointTuple, NodeConfig } from '@g6/types';
+import { EdgeConfig, IPointTuple, NodeConfig } from '../../types';
 import { BaseLayout } from './layout';
 
 type Node = NodeConfig & {

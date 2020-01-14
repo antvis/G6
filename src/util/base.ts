@@ -2,8 +2,8 @@ import isArray from '@antv/util/lib/is-array'
 import isNil from '@antv/util/lib/is-nil'
 import isNumber from "@antv/util/lib/is-number";
 import isString from '@antv/util/lib/is-string'
-import { G6GraphEvent } from '@g6/interface/behavior';
-import { IG6GraphEvent, Padding, Matrix } from '@g6/types';
+import { G6GraphEvent } from '../interface/behavior';
+import { IG6GraphEvent, Padding, Matrix } from '../../types';
 import { mat3 } from '@antv/matrix-util/lib';
 
 /**

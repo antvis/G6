@@ -1,7 +1,7 @@
 import EventEmitter from '@antv/event-emitter';
 import { AnimateCfg, Point } from '@antv/g-base/lib/types';
-import Graph from '@g6/graph/graph';
-import { EdgeConfig, GraphData, IG6GraphEvent, Item, ITEM_TYPE, ModelConfig, ModelStyle, NodeConfig, Padding, ShapeStyle, TreeGraphData } from '@g6/types'
+import Graph from '../graph/graph';
+import { EdgeConfig, GraphData, IG6GraphEvent, Item, ITEM_TYPE, ModelConfig, ModelStyle, NodeConfig, Padding, ShapeStyle, TreeGraphData } from '../../types';
 import { IEdge, INode } from './item';
 
 export interface IModeOption {
@@ -10,7 +10,9 @@ export interface IModeOption {
   delegateStyle?: object;
   updateEdge?: boolean;
   trigger?: string;
+  enableDelegate?: boolean;
   shouldUpdate?: (e: IG6GraphEvent) => boolean;
+  shouldBegin?: (e: IG6GraphEvent) => boolean;
 }
 
 export type IModeType = string | IModeOption
@@ -409,13 +411,13 @@ export interface IGraph extends EventEmitter {
    * });
    * @param {function} nodeFn 指定每个节点样式
    */
-  node(nodeFn: (config: NodeConfig) => NodeConfig): void;
+  node(nodeFn: (config: NodeConfig) => Partial<NodeConfig>): void;
 
   /**
    * 设置各个边样式
    * @param {function} edgeFn 指定每个边的样式,用法同 node
    */
-  edge(edgeFn: (config: EdgeConfig) => EdgeConfig): void;
+  edge(edgeFn: (config: EdgeConfig) => Partial<EdgeConfig>): void;
   /**
    * 平移画布到某点
    * @param {number} x 水平坐标

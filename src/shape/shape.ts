@@ -6,8 +6,8 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
 import { upperFirst } from '@antv/util'
-import { ShapeOptions } from '@g6/interface/shape'
-import { IPoint, Item, ModelConfig } from '@g6/types'
+import { ShapeOptions } from '../interface/shape'
+import { IPoint, Item, ModelConfig } from '../../types';
 
 const cache = {} // ucfirst 开销过大，进行缓存
 // 首字母大写

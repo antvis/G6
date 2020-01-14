@@ -1,11 +1,11 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
 import deepMix from '@antv/util/lib/deep-mix';
-import { Item, NodeConfig } from '@g6/types'
+import { Item, NodeConfig } from '../../../types';
 import Shape from '../shape'
+import Global from '../../global'
 
 Shape.registerNode('modelRect', {
-  // labelPosition: 'center',
   // 自定义节点时的配置
   options: {
     size: [ 185, 70 ],
@@ -13,7 +13,7 @@ Shape.registerNode('modelRect', {
       radius: 5,
       stroke: '#69c0ff',
       fill: '#ffffff',
-      lineWidth: 1,
+      lineWidth: Global.defaultNode.style.lineWidth,
       fillOpacity: 1
     },
     // 文本样式配置

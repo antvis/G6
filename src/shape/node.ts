@@ -6,8 +6,8 @@ import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
 import { isArray, isNil } from '@antv/util/lib'
 import deepMix from '@antv/util/lib/deep-mix';
-import { ILabelConfig, ShapeOptions } from '@g6/interface/shape'
-import { Item, LabelStyle, NodeConfig } from '@g6/types'
+import { ILabelConfig, ShapeOptions } from '../interface/shape'
+import { Item, LabelStyle, NodeConfig } from '../../types';
 import Global from '../global'
 import Shape from './shape'
 import { shapeBase } from './shapeBase'

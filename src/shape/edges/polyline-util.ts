@@ -1,6 +1,6 @@
 import { BBox } from '@antv/g-canvas/lib/types';
 import { each } from '@antv/util'
-import { IShapeBase } from '@g6/types'
+import { IShapeBase } from '../../../types';
 
 interface PolyPoint {
   x: number,

@@ -5,11 +5,11 @@ import createDOM from '@antv/dom-util/lib/create-dom'
 import modifyCSS from '@antv/dom-util/lib/modify-css'
 import isNil from '@antv/util/lib/is-nil'
 import each from '@antv/util/lib/each'
-import Graph from '@g6/graph/graph';
-import { Matrix, ShapeStyle } from '@g6/types';
+import Graph from '../../graph/graph';
+import { Matrix, ShapeStyle } from '../../../types';
 import { transform, mat3 } from '@antv/matrix-util'
 import { Point } from '@antv/g-math/lib/types';
-import { IGroup, IElement } from '@antv/g-base/lib/interfaces';
+import { IGroup } from '@antv/g-base/lib/interfaces';
 
 const max = Math.max;
 

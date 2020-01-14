@@ -36,8 +36,8 @@ describe('ellipse test', () => {
       const keyShape = node.getKeyShape();
       expect(keyShape.attr('rx')).toEqual(60);
       expect(keyShape.attr('ry')).toEqual(30);
-      expect(keyShape.attr('stroke')).toEqual('#91d5ff');
-      expect(keyShape.attr('fill')).toEqual('#91d5ff');
+      expect(keyShape.attr('stroke')).toEqual('#5B8FF9');
+      expect(keyShape.attr('fill')).toEqual('#C6E5FF');
     });
 
     it('ellipse with label', () => {
@@ -169,7 +169,7 @@ describe('ellipse test', () => {
 
       const keyShape = node.getKeyShape();
       expect(keyShape.attr('fill')).toEqual('blue');
-      expect(keyShape.attr('stroke')).toEqual('#91d5ff');
+      expect(keyShape.attr('stroke')).toEqual('#5B8FF9');
       expect(keyShape.attr('rx')).toEqual(17.5);
       expect(keyShape.attr('ry')).toEqual(5);
       expect(keyShape.attr('lineWidth')).toEqual(1);

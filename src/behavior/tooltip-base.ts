@@ -1,6 +1,6 @@
 import modifyCSS from '@antv/dom-util/lib/modify-css';
 import createDom from '@antv/dom-util/lib/create-dom';
-import { IG6GraphEvent } from "@g6/types";
+import { IG6GraphEvent } from '../../types';
 
 const OFFSET = 12;
 

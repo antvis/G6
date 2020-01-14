@@ -5,10 +5,9 @@ import ShapeBase from '@antv/g-canvas/lib/shape/base';
 import each from '@antv/util/lib/each'
 import isNil from '@antv/util/lib/is-nil';
 import wrapBehavior from '@antv/util/lib/wrap-behavior';
-import { IGraph } from '@g6/interface/graph';
-import { IG6GraphEvent, Matrix } from '@g6/types';
-import { cloneEvent, isViewportChanged } from '@g6/util/base';
-import Graph from '../graph';
+import { IGraph } from '../../interface/graph';
+import { IG6GraphEvent, Matrix } from '../../../types';
+import { cloneEvent, isViewportChanged } from '../../util/base';
 
 type Fun = () => void
 

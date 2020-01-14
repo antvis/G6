@@ -1,5 +1,5 @@
 import { clone, each, wrapBehavior } from '@antv/util/lib';
-import { BehaviorOpation } from '@g6/types';
+import { BehaviorOpation } from '../../types';
 import behaviorOption from './behaviorOption'
 
 export default class Behavior {

@@ -237,7 +237,7 @@ describe('graph', () => {
         style: {
           lineAppendWidth: 5,
           stroke: '#aaa',
-          lineWdith: 1
+          lineWidth: 1
         }
       }
     });
@@ -335,7 +335,7 @@ describe('graph', () => {
       height: 500,
       defaultEdge: {
         style: {
-          lineWdith: 1,
+          lineWidth: 1,
           lineAppendWidth: 5
         }
       }
@@ -349,7 +349,7 @@ describe('graph', () => {
       expect(item.hasState('state1')).toEqual(true);
       const keyShape = edge.getKeyShape();
       expect(keyShape.attr('lineWidth')).toEqual(3);
-      expect(keyShape.attr('stroke')).toEqual('#333');
+      expect(keyShape.attr('stroke')).toEqual('#e2e2e2');
     });
     graph.on('edge:mouseleave', e => {
       const item = e.item;
@@ -374,7 +374,7 @@ describe('graph', () => {
         expect(edge.hasState('state2')).toEqual(false);
         const keyShape = edge.getKeyShape();
         expect(keyShape.attr('lineWidth')).toEqual(1);
-        expect(keyShape.attr('stroke')).toEqual('#333');
+        expect(keyShape.attr('stroke')).toEqual('#e2e2e2');
       });
     });
     graph.emit('edge:mouseenter', { item: edge });
@@ -417,7 +417,7 @@ describe('graph', () => {
       height: 500,
       defaultEdge: {
         style: {
-          lineWdith: 1
+          lineWidth: 1
         }
       }
     });
@@ -525,7 +525,7 @@ describe('graph', () => {
           break;
         case 'edge2':
           expect(keyShape.attr('lineWidth')).toEqual(7);
-          expect(keyShape.attr('stroke')).toEqual('#333');
+          expect(keyShape.attr('stroke')).toEqual('#e2e2e2');
           break;
       }
     });

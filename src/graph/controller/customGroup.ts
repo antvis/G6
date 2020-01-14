@@ -10,7 +10,7 @@ import ShapeBase from '@antv/g-canvas/lib/shape/base';
 import { Point } from '@antv/g-canvas/lib/types';
 import deepMix from '@antv/util/lib/deep-mix'
 import isString from '@antv/util/lib/is-string'
-import { GraphData, IG6GraphEvent, Item, ITEM_TYPE } from "@g6/types";
+import { GraphData, IG6GraphEvent, Item } from '../../../types';
 import { IGraph } from '../../interface/graph'
 import { IEdge, INode } from '../../interface/item';
 
@@ -467,9 +467,6 @@ export default class CustomGroup {
 
     const nodesInGroup = graph.get('groupNodes')[id];
     const { width: w, height: h } = this.calculationGroupPosition(nodesInGroup);
-
-    console.log('nodesInGroup', nodesInGroup);
-    console.log('w and h', w, h, collapse);
 
     // 更新Group的大小
     const keyShape = nodeGroup.get('keyShape');

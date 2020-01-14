@@ -1,7 +1,7 @@
 import isNil from '@antv/util/lib/is-nil';
 import isPlainObject from '@antv/util/lib/is-plain-object'
-import { IEdge, INode } from "@g6/interface/item";
-import { EdgeConfig, IPoint, NodeConfig, SourceTarget } from '@g6/types';
+import { IEdge, INode } from "../interface/item";
+import { EdgeConfig, IPoint, NodeConfig, SourceTarget } from '../../types';
 import Item from './item';
 import Node from './node'
 

@@ -6,7 +6,7 @@
  * @Description: 收起和展开群组
  */
 
-import { G6Event, IG6GraphEvent } from "@g6/types";
+import { G6Event, IG6GraphEvent } from '../../types';
 
 const DEFAULT_TRIGGER = 'dblclick';
 const ALLOW_EVENTS = [ 'click', 'dblclick' ];
