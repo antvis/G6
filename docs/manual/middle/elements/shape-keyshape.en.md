@@ -1,6 +1,6 @@
 ---
 title: Graphics Shape and KeyShape
-order: 0
+order: 6
 ---
 
 ## Graphics Shape
