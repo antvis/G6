@@ -110,13 +110,22 @@ order: 6
 | afteritemrefresh | 调用 `refreshItem` 方法之后触发 |
 | beforeitemstatesclear | 调用 `clearItemStates` 方法之前触发 |
 | afteritemstatesclear | 调用 `clearItemStates` 方法之后触发 |
+| beforemodechange | 调用 `setMode` / `addBehaviors` / `removeBehaviors` 方法之前触发 |
+| aftermodechange | 调用 `setMode` / `addBehaviors` / `removeBehaviors` 方法之后触发 |
 | beforelayout | 布局前触发。调用 `render` 时会进行布局，因此 `render` 时会触发。或用户主动调用图的 `layout` 时触发。 |
 | afterlayout | 布局完成后触发。调用 `render` 时会进行布局，因此 `render` 时布局完成后会触发。或用户主动调用图的 `layout` 时布局完成后触发。 |
+| afteractivaterelations | 使用了 `'activate-relations'` Behavior 并触发了该行为后，该事件被触发 |
+| nodeselectchange | 使用了 `'brush-select'` 或 `'click-select'` Behavior 且选中元素发生变化时，该事件被触发 |
+| itemcollapsed | 在 TreeGraph 上使用了 `'collapse-expand'` Behavior 并触发了该行为后，该事件被触发 |
+| tooltipchange | 使用了 `'tooltip'` 或 `'edge-tooltip'` Behavior 且 tooltip 的显示/隐藏被改变后，该事件被触发 |
+| wheelzoom | 使用了 `'zoom-canvas'` Behavior 并用滚轮对图进行缩放后，该事件被触发 |
 
 
-不同自定义事件的回调参数不同，下面针对各个自定义事件的回调参数进行说明。
+### 回调参数
 
-### beforeadditem
+不同时机监听事件的回调参数不同，下面针对各个自定义事件的回调参数进行说明。
+
+#### beforeadditem
 
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |
@@ -124,7 +133,7 @@ order: 6
 | model | Object | item 数据模型 |
 
 
-### afteradditem
+#### afteradditem
 
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |
@@ -132,14 +141,14 @@ order: 6
 | model | Object | item 数据模型 |
 
 
-### beforeremoveitem / afterremoveitem
+#### beforeremoveitem / afterremoveitem
 
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |
 | item | Item | 要删除的 item 实例 |
 
 
-### beforeupdateitem / afterupdateitem
+#### beforeupdateitem / afterupdateitem
 
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |
@@ -147,7 +156,7 @@ order: 6
 | model | Object | item 数据模型 |
 
 
-### beforeitemvisibilitychange / afteritemvisibilitychange
+#### beforeitemvisibilitychange / afteritemvisibilitychange
 
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |
@@ -155,7 +164,7 @@ order: 6
 | visible | Boolean | 是否可见，`true` 为可见，`false` 为不可见 |
 
 
-### beforeitemstatechange / afteritemstatechange
+#### beforeitemstatechange / afteritemstatechange
 
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |
@@ -164,7 +173,7 @@ order: 6
 | enalbed | Boolean | 状态是否可用，`true` 可用，`false` 不可用 |
 
 
-### beforeitemstatesclear / afteritemstatesclear
+#### beforeitemstatesclear / afteritemstatesclear
 
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |
@@ -172,8 +181,61 @@ order: 6
 | states | Array / String | 需要批量清除的状态 |
 
 
-### beforeitemrefresh / afteritemrefresh
+#### beforemodechange / aftermodechange
+
+| 名称 | 类型 | 描述 |
+| --- | --- | --- |
+| mode | String | 当前的模式名称 |
+
+
+#### beforeitemrefresh / afteritemrefresh
 
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |
 | item | Item | 当前操作的 item 实例 |
+
+
+#### beforelayout / afterlayout
+
+无参数
+
+
+#### afteractivaterelations
+
+| 名称 | 类型 | 描述 |
+| --- | --- | --- |
+| item | Item | 当前操作的 item 实例 |
+| action | String | 当前操作名 |
+
+
+#### nodeselectchange
+
+| 名称 | 类型 | 描述 |
+| --- | --- | --- |
+| target | Item | 当前操作的 item 实例 |
+| selectedItems | Object | 当前被选中的所有 item 实例，形如 `{ nodes: [...], edges: [...]}` |
+
+
+#### itemcollapsed
+
+| 名称 | 类型 | 描述 |
+| --- | --- | --- |
+| item | Item | 当前操作的 item 实例 |
+| collapsed | Boolean | 当前操作后，操作对象的 collapsed 状态 |
+
+
+#### tooltipchange
+
+| 名称 | 类型 | 描述 |
+| --- | --- | --- |
+| item | Item | 当前操作的 item 实例 |
+| action | String | tooltip 当前是显示 `'show'` 还是隐藏 `'hide'` |
+
+
+#### wheelzoom
+
+| 名称 | 类型 | 描述 |
+| --- | --- | --- |
+| deltaX | Number | 滚动的 x 方向，取值 `1`，`0`，`-1`，`0` 代表没有该方向的滚动 |
+| deltaY | Number | 滚动的 y 方向，取值 `1`，`0`，`-1`，`0` 代表没有该方向的滚动 |
+| ... 其他滚轮事件的回调参数 |  |  |
