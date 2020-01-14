@@ -3,7 +3,7 @@
  * @author shiwu.wyy@antfin.com
  */
 
-import { EdgeConfig, GraphData, IPointTuple, NodeConfig } from '@g6/types';
+import { EdgeConfig, GraphData, IPointTuple, NodeConfig } from '../../types';
 import { ILayout } from '../interface/layout';
 
 // import augment from '@antv/util/lib/augment';

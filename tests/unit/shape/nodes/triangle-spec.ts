@@ -36,7 +36,7 @@ describe('triangle test', () => {
       // modelRect + label + description + logoIcon + stateIcon + preRect
       expect(group.getCount()).toEqual(2);
       const keyShape = node.getKeyShape();
-      expect(keyShape.attr('fill')).toEqual('#91d5ff');
+      expect(keyShape.attr('fill')).toEqual('#C6E5FF');
 
       const label = group.find(g => {
         return g.get('className') === 'node-label';

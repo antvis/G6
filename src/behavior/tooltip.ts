@@ -1,4 +1,4 @@
-import { G6Event } from "@g6/types";
+import { G6Event } from '../../types';
 import base from './tooltip-base';
 
 export default Object.assign({

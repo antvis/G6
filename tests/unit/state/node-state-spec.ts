@@ -190,27 +190,27 @@ describe('graph', () => {
         case 'circle': 
           expect(attrs.lineWidth).toEqual(3);
           expect(attrs.stroke).toEqual('#f00');
-          expect(attrs.fill).toEqual('#91d5ff');
+          expect(attrs.fill).toEqual('#C6E5FF');
           break;
         case 'rect': 
           expect(attrs.lineWidth).toEqual(3);
           expect(attrs.stroke).toEqual('#0f0');
-          expect(attrs.fill).toEqual('#91d5ff');
+          expect(attrs.fill).toEqual('#C6E5FF');
           break;
         case 'triangle': 
           expect(attrs.lineWidth).toEqual(1);
           expect(attrs.stroke).toEqual('#f00');
-          expect(attrs.fill).toEqual('#91d5ff');
+          expect(attrs.fill).toEqual('#C6E5FF');
           break;
         case 'ellipse': 
           expect(attrs.lineWidth).toEqual(3);
           expect(attrs.fillOpacity).toEqual(0.5);
-          expect(attrs.fill).toEqual('#91d5ff');
+          expect(attrs.fill).toEqual('#C6E5FF');
           break;
         case 'diamond': 
           expect(attrs.lineWidth).toEqual(1);
           expect(attrs.strokeOpacity).toEqual(0.3);
-          expect(attrs.fill).toEqual('#91d5ff');
+          expect(attrs.fill).toEqual('#C6E5FF');
           break;
         case 'star': 
           expect(attrs.lineWidth).toEqual(3);
@@ -218,7 +218,7 @@ describe('graph', () => {
           expect(attrs.shadowBlur).toEqual(10);
           expect(attrs.shadowOffsetX).toEqual(10);
           expect(attrs.shadowOffsetY).toEqual(-10);
-          expect(attrs.fill).toEqual('#91d5ff');
+          expect(attrs.fill).toEqual('#C6E5FF');
           break;
       }
     });
@@ -260,7 +260,7 @@ describe('graph', () => {
       defaultNode: {
         style: {
           stroke: '#f00',
-          lineWdith: 1
+          lineWidth: 1
         }
       }
     });
@@ -319,7 +319,7 @@ describe('graph', () => {
       defaultNode: {
         style: {
           stroke: '#f00',
-          lineWdith: 1
+          lineWidth: 1
         }
       }
     });

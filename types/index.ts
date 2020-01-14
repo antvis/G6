@@ -2,7 +2,7 @@ import GraphEvent from '@antv/g-base/lib/event/graph-event';
 import { BBox } from '@antv/g-base/lib/types';
 import Canvas from '@antv/g-canvas/lib/canvas';
 import ShapeBase from '@antv/g-canvas/lib/shape/base';
-import Node from '@g6/item/node';
+import Node from '../src/item/node';
 import { IGraph } from '../src/interface/graph';
 import { IEdge, INode } from '../src/interface/item';
 
@@ -46,6 +46,7 @@ export type ShapeStyle = Partial<{
   fill: string | null;
   fillOpacity: number;
   lineWidth: number;
+  lineAppendWidth: number;
   path: string | object[];
   points: object[];
   matrix: number[];
@@ -53,6 +54,10 @@ export type ShapeStyle = Partial<{
   size: number | number[];
   endArrow: boolean | ArrowConfig;
   startArrow: boolean | ArrowConfig;
+  shadowColor: string;
+  shadowBlur: number;
+  shadowOffsetX: number;
+  shadowOffsetY: number;
 }>;
 
 export interface IShapeBase extends ShapeBase {

@@ -1,10 +1,10 @@
 import { Point } from '@antv/g-base/lib/types';
 import Hierarchy from '@antv/hierarchy'
 import { each, isString } from '@antv/util/lib';
-import { GraphOptions, ITreeGraph } from '@g6/interface/graph';
-import { GraphData, Item, ITEM_TYPE, NodeConfig, ShapeStyle, TreeGraphData } from '@g6/types';
-import { radialLayout } from '@g6/util/graphic';
-import { traverseTree } from '@g6/util/graphic'
+import { GraphOptions, ITreeGraph } from '../interface/graph';
+import { GraphData, Item, NodeConfig, ShapeStyle, TreeGraphData } from '../../types';
+import { radialLayout } from '../util/graphic';
+import { traverseTree } from '../util/graphic'
 import { ViewController } from './controller';
 import Graph, { PrivateGraphOption } from './graph';
 

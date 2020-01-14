@@ -9,8 +9,8 @@ import deepMix from '@antv/util/lib/deep-mix';
 import each from '@antv/util/lib/each';
 import isPlainObject from '@antv/util/lib/is-plain-object';
 import isString from '@antv/util/lib/is-string';
-import { GraphAnimateConfig, GraphOptions, IGraph, IModeOption, IModeType, IStates } from '@g6/interface/graph';
-import { IEdge, INode } from '@g6/interface/item';
+import { GraphAnimateConfig, GraphOptions, IGraph, IModeOption, IModeType, IStates } from '../interface/graph';
+import { IEdge, INode } from '../interface/item';
 import {
   EdgeConfig,
   GraphData,
@@ -23,9 +23,9 @@ import {
   NodeMapConfig,
   Padding,
   TreeGraphData,
-} from '@g6/types';
-import { getAllNodeInGroups } from '@g6/util/group';
-import { move, translate } from '@g6/util/math';
+} from '../../types';
+import { getAllNodeInGroups } from '../util/group';
+import { move, translate } from '../util/math';
 import { groupBy } from 'lodash';
 import Global from '../global';
 import {
@@ -411,7 +411,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * });
    * @param {function} nodeFn 指定每个节点样式
    */
-  public node(nodeFn: (config: NodeConfig) => NodeConfig): void {
+  public node(nodeFn: (config: NodeConfig) => Partial<NodeConfig>): void {
     if (typeof nodeFn === 'function') {
       this.set('nodeMapper', nodeFn);
     }
@@ -421,7 +421,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * 设置各个边样式
    * @param {function} edgeFn 指定每个边的样式,用法同 node
    */
-  public edge(edgeFn: (config: EdgeConfig) => EdgeConfig): void {
+  public edge(edgeFn: (config: EdgeConfig) => Partial<EdgeConfig>): void {
     if (typeof edgeFn === 'function') {
       this.set('edgeMapper', edgeFn);
     }

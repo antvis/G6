@@ -1,4 +1,4 @@
-import { EdgeConfig, GraphData, IPointTuple, NodeConfig } from '@g6/types';
+import { EdgeConfig, GraphData, IPointTuple, NodeConfig } from '../../types';
 
 /**
  * 布局

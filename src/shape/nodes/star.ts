@@ -1,7 +1,7 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
 import deepMix from '@antv/util/lib/deep-mix';
-import { Item, NodeConfig, ShapeStyle } from '@g6/types'
+import { Item, NodeConfig, ShapeStyle } from '../../../types';
 import Global from '../../global'
 import Shape from '../shape'
 
@@ -13,7 +13,7 @@ Shape.registerNode('star', {
     style: {
       stroke: Global.defaultShapeStrokeColor,
       fill: Global.defaultShapeFillColor,
-      lineWidth: 1
+      lineWidth: Global.defaultNode.style.lineWidth
     },
     // 文本样式配置
     labelCfg: {

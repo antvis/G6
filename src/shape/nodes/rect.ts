@@ -1,7 +1,7 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
 import deepMix from '@antv/util/lib/deep-mix';
-import { Item, NodeConfig } from '@g6/types'
+import { Item, NodeConfig } from '../../../types';
 import Global from '../../global'
 import Shape from '../shape'
 
@@ -13,7 +13,7 @@ Shape.registerNode('rect', {
       radius: 0,
       stroke: Global.defaultShapeStrokeColor,
       fill: Global.defaultShapeFillColor,
-      lineWidth: 1,
+      lineWidth: Global.defaultNode.style.lineWidth,
       fillOpacity: 1
     },
     // 文本样式配置
