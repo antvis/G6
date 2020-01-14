@@ -95,13 +95,15 @@ export default class DagreLayout extends BaseLayout {
     });
     dagre.layout(g);
     let coord;
-    g.nodes().forEach((node, i) => {
+    g.nodes().forEach(node => {
       coord = g.node(node);
+      const i = nodes.findIndex(it => it.id === node);
       nodes[i].x = coord.x;
       nodes[i].y = coord.y;
     });
-    g.edges().forEach((edge, i) => {
+    g.edges().forEach(edge => {
       coord = g.edge(edge);
+      const i = edges.findIndex(it => it.source === edge.v && it.target === edge.w);
       edges[i].startPoint = coord.points[0];
       edges[i].endPoint = coord.points[coord.points.length - 1];
       if (self.controlPoints) {
