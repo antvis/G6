@@ -81,6 +81,14 @@ export interface IEllipse extends IPoint {
 
 export type SourceTarget = 'source' | 'target';
 
+// 自环边配置
+export type LoopConfig = Partial<{
+  dist: number;
+  position: string;
+  // 如果逆时针画，交换起点和终点
+  clockwise: boolean;
+}>
+
 // model types (node edge group)
 export type ModelStyle = Partial<{
   [key: string]: unknown;
@@ -108,12 +116,7 @@ export type ModelStyle = Partial<{
     offset?: number;
   };
   // loop edge config
-  loopCfg: {
-    dist?: number;
-    position?: string;
-    // 如果逆时针画，交换起点和终点
-    clockwise?: boolean;
-  };
+  loopCfg: LoopConfig;
   labelCfg?: object;
   anchorPoints: number[][];
   controlPoints: IPoint[];
