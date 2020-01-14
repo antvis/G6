@@ -11,6 +11,8 @@ export interface IModeOption {
   updateEdge?: boolean;
   trigger?: string;
   enableDelegate?: boolean;
+  maxZoom?: number;
+  minZoom?: number;
   shouldUpdate?: (e: IG6GraphEvent) => boolean;
   shouldBegin?: (e: IG6GraphEvent) => boolean;
 }

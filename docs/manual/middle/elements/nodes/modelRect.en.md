@@ -67,7 +67,7 @@ The [Node Common Properties](/en/docs/manual/middle/elements/nodes/defaultNode/#
 | **logoIcon** | **The left logo icon** | **Object** | **Special property for modelRect** |
 | **stateIcon** | **The right state icon** | **Object** | **Special property for modelRect** |
 | **description** | **The description text below the label** | **String** | **Special property for modelRect** |
-| ~~**descriptionCfg**~~<br/>*It will be supported after V3.3* | ~~**The configuration for description text**~~ | ~~**Object**~~ | ~~**Special property for modelRect**~~ |
+| **descriptionCfg**<br/>*It is supported after V3.3* | **The configuration for description text** | **Object** | **Special property for modelRect** |
 
 
 ```javascript
@@ -152,7 +152,7 @@ const graph = new G6.Graph({
 ```
 
 
-### ~~descriptionCfg~~
+### descriptionCfg
 ⚠️**Attension:** *It will be supported after V3.3.*
 
 `descriptionCfg` is an object to configure the label of the node. The [Node Common Label Configurations](/en/docs/manual/middle/elements/nodes/defaultNode/#label-and-labelcfg) are available. Besides, descriptionCfg has special attribute:
