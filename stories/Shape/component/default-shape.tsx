@@ -20,22 +20,23 @@ G6.registerNode('circleNode', {
 }, 'circle');
 
 G6.registerEdge('loop-growth', {
-    afterDraw(cfg, group) {
-        const shape = group.get('children')[0];
-        const length = shape.getTotalLength();
-        shape.animate({
-        onFrame(ratio) {
-          debugger
-            const startLen = ratio * length;
-            // 计算线的lineDash
-            const cfg = {
-            lineDash: [startLen, length - startLen]
-            };
-            return cfg;
-        },
-        repeat: true
-      }, 2000);
-    }
+  afterDraw(cfg, group) {
+    const shape = group.get('children')[0];
+    const length = shape.getTotalLength();
+    shape.animate(
+      (ratio) => {
+        const startLen = ratio * length;
+        // 计算线的lineDash
+        const cfg = {
+          lineDash: [startLen, length - startLen]
+        };
+        return cfg;
+      },
+      {
+        repeat: true,
+        duration: 2000
+      });
+  }
 }, 'loop');
 
 const DefaultShape = () => {
