@@ -10,26 +10,6 @@ document.body.appendChild(div);
 const data = {
   nodes: [
     {
-      id: '1',
-      type: 'alps',
-      name: 'alps_file1',
-      label: '1',
-      conf: [
-        {
-          label: 'conf',
-          value: 'pai_graph.conf'
-        },
-        {
-          label: 'dot',
-          value: 'pai_graph.dot'
-        },
-        {
-          label: 'init',
-          value: 'init.rc'
-        }
-      ]
-    },
-    {
       id: '2',
       type: 'alps',
       name: 'alps_file2',
@@ -50,10 +30,10 @@ const data = {
       ]
     },
     {
-      id: '3',
+      id: '1',
       type: 'alps',
-      name: 'alps_file3',
-      label: '3',
+      name: 'alps_file1',
+      label: '1',
       conf: [
         {
           label: 'conf',
@@ -114,6 +94,26 @@ const data = {
       type: 'feature_etl',
       name: 'feature_etl_1',
       label: '6',
+      conf: [
+        {
+          label: 'conf',
+          value: 'pai_graph.conf'
+        },
+        {
+          label: 'dot',
+          value: 'pai_graph.dot'
+        },
+        {
+          label: 'init',
+          value: 'init.rc'
+        }
+      ]
+    },
+    {
+      id: '3',
+      type: 'alps',
+      name: 'alps_file3',
+      label: '3',
       conf: [
         {
           label: 'conf',
