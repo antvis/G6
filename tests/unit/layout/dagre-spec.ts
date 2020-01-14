@@ -8,26 +8,6 @@ document.body.appendChild(div);
 const data: any = {
   nodes: [
     {
-      id: '1',
-      type: 'alps',
-      name: 'alps_file1',
-      label: '1',
-      conf: [
-        {
-          label: 'conf',
-          value: 'pai_graph.conf',
-        },
-        {
-          label: 'dot',
-          value: 'pai_graph.dot',
-        },
-        {
-          label: 'init',
-          value: 'init.rc',
-        },
-      ],
-    },
-    {
       id: '2',
       type: 'alps',
       name: 'alps_file2',
@@ -35,37 +15,37 @@ const data: any = {
       conf: [
         {
           label: 'conf',
-          value: 'pai_graph.conf',
+          value: 'pai_graph.conf'
         },
         {
           label: 'dot',
-          value: 'pai_graph.dot',
+          value: 'pai_graph.dot'
         },
         {
           label: 'init',
-          value: 'init.rc',
-        },
-      ],
+          value: 'init.rc'
+        }
+      ]
     },
     {
-      id: '3',
+      id: '1',
       type: 'alps',
-      name: 'alps_file3',
-      label: '3',
+      name: 'alps_file1',
+      label: '1',
       conf: [
         {
           label: 'conf',
-          value: 'pai_graph.conf',
+          value: 'pai_graph.conf'
         },
         {
           label: 'dot',
-          value: 'pai_graph.dot',
+          value: 'pai_graph.dot'
         },
         {
           label: 'init',
-          value: 'init.rc',
-        },
-      ],
+          value: 'init.rc'
+        }
+      ]
     },
     {
       id: '4',
@@ -75,17 +55,17 @@ const data: any = {
       conf: [
         {
           label: 'conf',
-          value: 'pai_graph.conf',
+          value: 'pai_graph.conf'
         },
         {
           label: 'dot',
-          value: 'pai_graph.dot',
+          value: 'pai_graph.dot'
         },
         {
           label: 'init',
-          value: 'init.rc',
-        },
-      ],
+          value: 'init.rc'
+        }
+      ]
     },
     {
       id: '5',
@@ -95,17 +75,17 @@ const data: any = {
       conf: [
         {
           label: 'conf',
-          value: 'pai_graph.conf',
+          value: 'pai_graph.conf'
         },
         {
           label: 'dot',
-          value: 'pai_graph.dot',
+          value: 'pai_graph.dot'
         },
         {
           label: 'init',
-          value: 'init.rc',
-        },
-      ],
+          value: 'init.rc'
+        }
+      ]
     },
     {
       id: '6',
@@ -115,17 +95,37 @@ const data: any = {
       conf: [
         {
           label: 'conf',
-          value: 'pai_graph.conf',
+          value: 'pai_graph.conf'
         },
         {
           label: 'dot',
-          value: 'pai_graph.dot',
+          value: 'pai_graph.dot'
         },
         {
           label: 'init',
-          value: 'init.rc',
+          value: 'init.rc'
+        }
+      ]
+    },
+    {
+      id: '3',
+      type: 'alps',
+      name: 'alps_file3',
+      label: '3',
+      conf: [
+        {
+          label: 'conf',
+          value: 'pai_graph.conf'
         },
-      ],
+        {
+          label: 'dot',
+          value: 'pai_graph.dot'
+        },
+        {
+          label: 'init',
+          value: 'init.rc'
+        }
+      ]
     },
     {
       id: '7',
@@ -135,17 +135,17 @@ const data: any = {
       conf: [
         {
           label: 'conf',
-          value: 'pai_graph.conf',
+          value: 'pai_graph.conf'
         },
         {
           label: 'dot',
-          value: 'pai_graph.dot',
+          value: 'pai_graph.dot'
         },
         {
           label: 'init',
-          value: 'init.rc',
-        },
-      ],
+          value: 'init.rc'
+        }
+      ]
     },
     {
       id: '8',
@@ -155,64 +155,56 @@ const data: any = {
       conf: [
         {
           label: 'conf',
-          value: 'pai_graph.conf',
+          value: 'pai_graph.conf'
         },
         {
           label: 'dot',
-          value: 'pai_graph.dot',
+          value: 'pai_graph.dot'
         },
         {
           label: 'init',
-          value: 'init.rc',
-        },
-      ],
-    },
-    {
-      id: '9',
-      label: '9'
+          value: 'init.rc'
+        }
+      ]
     }
   ],
   edges: [
     {
       source: '1',
-      target: '2',
+      target: '2'
     },
     {
       source: '1',
-      target: '3',
+      target: '3'
     },
     {
       source: '2',
-      target: '4',
+      target: '4'
     },
     {
       source: '3',
-      target: '4',
+      target: '4'
     },
     {
       source: '4',
-      target: '5',
+      target: '5'
     },
     {
       source: '5',
-      target: '6',
+      target: '6'
     },
     {
       source: '6',
-      target: '7',
+      target: '7'
     },
     {
       source: '7',
-      target: '8',
-    },
-    {
-      source: '7',
-      target: '9',
-    },
-  ],
+      target: '8'
+    }
+  ]
 };
 
-describe('dagre layout', () => {
+describe.only('dagre layout', () => {
   it('layout with default configs', () => {
     const graph = new G6.Graph({
       container: div,
@@ -226,8 +218,9 @@ describe('dagre layout', () => {
     graph.render();
     const node = data.nodes[0];
     const edge = data.edges[0];
-    expect(mathEqual(node.x, 165)).toEqual(true);
-    expect(mathEqual(node.y, 70)).toEqual(true);
+
+    expect(mathEqual(node.x, 70)).toEqual(true);
+    expect(mathEqual(node.y, 260)).toEqual(true);
     expect(mathEqual(edge.startPoint.x, 143)).toEqual(true);
     expect(mathEqual(edge.startPoint.y, 91)).toEqual(true);
     expect(mathEqual(edge.endPoint.x, 70)).toEqual(true);
@@ -264,8 +257,8 @@ describe('dagre layout', () => {
     const node = data.nodes[0];
     const edge = data.edges[0];
 
-    expect(mathEqual(node.x, 45)).toEqual(true);
-    expect(mathEqual(node.y, 75)).toEqual(true);
+    expect(mathEqual(node.x, 185)).toEqual(true);
+    expect(mathEqual(node.y, 25)).toEqual(true);
     expect(mathEqual(edge.startPoint.x, 73)).toEqual(true);
     expect(mathEqual(edge.startPoint.y, 64)).toEqual(true);
     expect(mathEqual(edge.endPoint.x, 156)).toEqual(true);
@@ -307,8 +300,8 @@ describe('dagre layout', () => {
     const node = data.nodes[0];
     const edge = data.edges[0];
 
-    expect(mathEqual(node.x, 145)).toEqual(true);
-    expect(mathEqual(node.y, 55)).toEqual(true);
+    expect(mathEqual(node.x, 60)).toEqual(true);
+    expect(mathEqual(node.y, 215)).toEqual(true);
     expect(mathEqual(edge.startPoint.x, 94)).toEqual(true);
     expect(mathEqual(edge.startPoint.y, 55)).toEqual(true);
     expect(mathEqual(edge.endPoint.x, 110)).toEqual(true);
@@ -349,14 +342,15 @@ describe('dagre layout', () => {
 
     const node = data.nodes[0];
     const edge = data.edges[0];
-    expect(mathEqual(node.x, 60)).toEqual(true);
-    expect(mathEqual(node.y, 181)).toEqual(true);
-    expect(mathEqual(edge.startPoint.x, 70)).toEqual(true);
-    expect(mathEqual(edge.startPoint.y, 181)).toEqual(true);
-    expect(mathEqual(edge.endPoint.x, 172)).toEqual(true);
-    expect(mathEqual(edge.endPoint.y, 92)).toEqual(true);
-    expect(mathEqual(edge.controlPoints[0].x, 120)).toEqual(true);
-    expect(mathEqual(edge.controlPoints[0].y, 92.5)).toEqual(true);
+
+    expect(mathEqual(node.x, 197.5)).toEqual(true);
+    expect(mathEqual(node.y, 60)).toEqual(true);
+    expect(mathEqual(edge.startPoint.x, 75.5)).toEqual(true);
+    expect(mathEqual(edge.startPoint.y, 151)).toEqual(true);
+    expect(mathEqual(edge.endPoint.x, 187)).toEqual(true);
+    expect(mathEqual(edge.endPoint.y, 60)).toEqual(true);
+    expect(mathEqual(edge.controlPoints[0].x, 125)).toEqual(true);
+    expect(mathEqual(edge.controlPoints[0].y, 60)).toEqual(true);
     expect(edge.controlPoints).not.toEqual(undefined);
     graph.destroy();
   });
@@ -388,9 +382,9 @@ describe('dagre layout', () => {
     const node = data.nodes[0];
     const edge = data.edges[0];
 
-    expect(mathEqual(node.x, 100)).toEqual(true);
-    expect(mathEqual(node.y, 195)).toEqual(true);
-    expect(mathEqual(edge.startPoint.x, 150)).toEqual(true);
+    expect(mathEqual(node.x, 350)).toEqual(true);
+    expect(mathEqual(node.y, 85)).toEqual(true);
+    expect(mathEqual(edge.startPoint.x, 150.5)).toEqual(true);
     expect(mathEqual(edge.startPoint.y, 195)).toEqual(true);
     expect(mathEqual(edge.endPoint.x, 300)).toEqual(true);
     expect(mathEqual(edge.endPoint.y, 85)).toEqual(true);
