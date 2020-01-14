@@ -13,10 +13,6 @@ module.exports = {
     path: resolve(process.cwd(), 'dist/'),
   },
   resolve: {
-    alias: {
-      '@g6/types': resolve(process.cwd(), './types'),
-      '@g6': resolve(process.cwd(), './src')
-    },
     // Add `.ts` as a resolvable extension.
     extensions: ['.ts', '.js'],
   },

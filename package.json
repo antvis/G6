@@ -34,8 +34,7 @@
   "browser": "dist/g6.min.js",
   "types": "dist/types/index.d.ts",
   "scripts": {
-    "build": "npm run clean && father build && npm run build:declaration && npm run build:umd",
-    "build:declaration": "ttsc --emitDeclarationOnly --outDir ./dist",
+    "build": "npm run clean && father build && npm run build:umd",
     "build:umd": "webpack --config webpack.config.js --mode production",
     "ci": "npm run build && npm run coverage",
     "clean": "rimraf es esm lib dist",
@@ -117,7 +116,6 @@
     "typedoc": "^0.15.0",
     "typedoc-plugin-markdown": "^2.2.11",
     "typescript": "^3.5.3",
-    "typescript-transform-paths": "^1.1.14",
     "webpack-cli": "^3.3.10",
     "worker-loader": "^2.0.0",
     "webpack": "^4.41.4"
