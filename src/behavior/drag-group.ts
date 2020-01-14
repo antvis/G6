@@ -6,7 +6,7 @@
  * @Description: 拖动群组
  */
 import deepMix from '@antv/util/lib/deep-mix';
-import { G6Event, IG6GraphEvent } from "@g6/types";
+import { G6Event, IG6GraphEvent } from '../../types';
 import Global from '../global'
 
 export default {

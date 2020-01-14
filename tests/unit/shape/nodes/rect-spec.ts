@@ -35,8 +35,8 @@ describe('rect test', () => {
       const node = nodes[0];
       const keyShape = node.getKeyShape();
       expect(keyShape.attr('width')).toEqual(100);
-      expect(keyShape.attr('stroke')).toEqual('#91d5ff');
-      expect(keyShape.attr('fill')).toEqual('#91d5ff');
+      expect(keyShape.attr('stroke')).toEqual('#5B8FF9');
+      expect(keyShape.attr('fill')).toEqual('#C6E5FF');
     });
 
     it('rect with label', () => {
@@ -116,7 +116,7 @@ describe('rect test', () => {
 
       const keyShape = node.getKeyShape();
       expect(keyShape.attr('fill')).toEqual('blue');
-      expect(keyShape.attr('stroke')).toEqual('#91d5ff');
+      expect(keyShape.attr('stroke')).toEqual('#5B8FF9');
       expect(keyShape.attr('width')).toEqual(35);
       expect(keyShape.attr('lineWidth')).toEqual(1);
 

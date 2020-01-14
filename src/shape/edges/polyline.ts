@@ -1,22 +1,19 @@
 import { Point } from '@antv/g-base/lib/types';
 import Group from '@antv/g-canvas/lib/group'
 import { deepMix, each } from '@antv/util'
-import { IShapeBase, Item, ModelConfig, IPoint } from '@g6/types'
-import { pointsToPolygon } from '@g6/util/path'
+import { IShapeBase, Item, ModelConfig, IPoint } from '../../../types';
+import { pointsToPolygon } from '../../util/path'
 import Global from '../../global'
 import Shape from '../shape'
 import { getPathWithBorderRadiusByPolyline, getPolylinePoints, simplifyPolyline } from './polyline-util';
 
 const CLS_SHAPE_SUFFIX = '-shape';
-const CLS_LABEL_SUFFIX = '-label';
 
 // 折线
 Shape.registerEdge('polyline', {
   options: {
-    color: '#999',
+    color: Global.defaultEdge.color,
     style: {
-      stroke: '#333',
-      lineWidth: 1,
       radius: 0,
       offset: 5,
       x: 0,

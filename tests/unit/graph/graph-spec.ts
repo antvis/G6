@@ -526,7 +526,11 @@ describe('all node link center', () => {
   it('loop', () => {
     graph.set('linkCenter', false);
 
-    const node = graph.addItem('node', { id: 'circleNode', x: 150, y: 150, style: { fill: 'yellow' }, anchorPoints: [[ 0, 0 ], [ 0, 1 ]] });
+    const node = graph.addItem('node', {
+      id: 'circleNode', x: 150, y: 150,
+      style: { fill: 'yellow' },
+      anchorPoints: [[ 0, 0 ], [ 0, 1 ]]
+    });
     
     const edge1 = graph.addItem('edge', { id: 'edge', source: node, target: node, shape: 'loop',
       loopCfg: {
@@ -559,7 +563,7 @@ describe('all node link center', () => {
       }, style: { endArrow: true }
     });
 
-    const edgeWithAnchor = graph.addItem('edge', { id: 'edge5', source: node, target: node, shape: 'loop', sourceAnchor: 0, targetAnchor: 1,
+    const edgeWithAnchor = graph.addItem('edge', { id: 'edge5', label: 'edge5', source: node, target: node, shape: 'loop', sourceAnchor: 0, targetAnchor: 1,
       loopCfg: {
         position: 'bottom-right',
         dist: 60,
@@ -591,8 +595,6 @@ describe('all node link center', () => {
       }, style: { endArrow: true }
     });
 
-    // graph.paint()
-
     const edgeShape = edge1.getKeyShape().attr('path');
     const edge2Shape = edge2.getKeyShape().attr('path')
 
@@ -604,11 +606,11 @@ describe('all node link center', () => {
     expect(edge4.getKeyShape().attr('path')[0][2]).toEqual(edge3.getKeyShape().attr('path')[1][6]);
 
     const pathWithAnchor = edgeWithAnchor.getKeyShape().attr('path');
-    expect(pathWithAnchor[0][1]).toEqual(119.5);
-    expect(pathWithAnchor[0][2]).toEqual(119.5);
+    expect(pathWithAnchor[0][1]).toEqual(139.5);
+    expect(pathWithAnchor[0][2]).toEqual(139.5);
     expect(pathWithAnchor[1][0]).toEqual('C');
-    expect(pathWithAnchor[1][5]).toEqual(119.5);
-    expect(pathWithAnchor[1][6]).toEqual(180.5);
+    expect(pathWithAnchor[1][5]).toEqual(139.5);
+    expect(pathWithAnchor[1][6]).toEqual(160.5);
   });
 
   it('clear states', () => {
@@ -915,6 +917,7 @@ describe('mapper fn', () => {
   it('node & edge mapper with states', () => {
     graph.node(node => {
       return {
+        id: node.id,
         shape: 'rect',
         label: node.id,
         style: { 
@@ -955,17 +958,17 @@ describe('mapper fn', () => {
     const edge = graph.addItem('edge', { id: 'edge2', source: 'node', target: 'node2Mapped' });
 
     keyShape = edge.getKeyShape();
-    expect(keyShape.attr('stroke')).toEqual('#333');
+    expect(keyShape.attr('stroke')).toEqual('#e2e2e2');
     expect(keyShape.attr('lineWidth')).toEqual(1);
     expect(keyShape.attr('fillOpacity')).toEqual(1);
 
     graph.setItemState(edge, 'selected', true);
-    expect(keyShape.attr('stroke')).toEqual('#333');
+    expect(keyShape.attr('stroke')).toEqual('#e2e2e2');
     expect(keyShape.attr('lineWidth')).toEqual(2);
     expect(keyShape.attr('fillOpacity')).toEqual(1);
 
     graph.setItemState(edge, 'custom', true);
-    expect(keyShape.attr('stroke')).toEqual('#333');
+    expect(keyShape.attr('stroke')).toEqual('#e2e2e2');
     expect(keyShape.attr('lineWidth')).toEqual(2);
     expect(keyShape.attr('opacity')).toEqual(0.5);
   });

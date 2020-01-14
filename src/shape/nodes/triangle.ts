@@ -3,7 +3,7 @@ import deepMix from '@antv/util/lib/deep-mix';
 import Global from '../../global'
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
-import { ModelConfig, NodeConfig, Item } from '@g6/types'
+import { ModelConfig, NodeConfig, Item } from '../../../types';
 
 // 菱形shape
 Shape.registerNode('triangle', {
@@ -14,7 +14,7 @@ Shape.registerNode('triangle', {
     style: {
       stroke: Global.defaultShapeStrokeColor,
       fill: Global.defaultShapeFillColor,
-      lineWidth: 1
+      lineWidth: Global.defaultNode.style.lineWidth
     },
     // 文本样式配置
     labelCfg: {

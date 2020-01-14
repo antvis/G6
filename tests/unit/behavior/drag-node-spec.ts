@@ -3,6 +3,7 @@ import '../../../src/shape'
 
 import Simulate from 'event-simulate';
 import Graph from '../../../src/graph/graph'
+import { INode } from '../../../src/interface/item';
 
 const div = document.createElement('div');
 div.id = 'drag-spec';
@@ -66,7 +67,7 @@ describe('drag-node', () => {
     };
     graph.data(data);
     graph.render();
-    const node = graph.addItem('node', { color: '#666', x: 50, y: 50, r: 20, style: { lineWidth: 2, fill: '#666' } });
+    const node: INode = graph.addItem('node', { color: '#666', x: 50, y: 50, r: 20, style: { lineWidth: 2, fill: '#666' } }) as INode;
     graph.paint();
     node.lock();
     graph.emit('node:dragstart', { x: 100, y: 100, item: node });
@@ -313,8 +314,8 @@ describe('drag-node', () => {
     graph.emit('node:drag', { x: 120, y: 120, item: node });
     const delegateShape = node.get('delegateShape');
     const bbox = delegateShape.getBBox();
-    expect(bbox.width).toEqual(63);
-    expect(bbox.height).toEqual(63);
+    expect(bbox.width).toEqual(23);
+    expect(bbox.height).toEqual(23);
     graph.emit('node:dragend', { x: 120, y: 120, item: node });
     expect(clicked).toBe(false);
     expect(node.get('delegateShape')).toBe(null);
@@ -344,18 +345,18 @@ describe('drag-node', () => {
     });
     expect(label).not.toBe(undefined);
     let matrix = label.getMatrix();
-    expect(matrix[0]).toEqual(0.613259321235976);
-    expect(matrix[1]).toEqual(0.7898816398152257);
-    expect(matrix[3]).toEqual(-0.7898816398152257);
-    expect(matrix[4]).toEqual(0.613259321235976);
+    expect(matrix[0]).toEqual(0.6196324480014811);
+    expect(matrix[1]).toEqual(0.7848921132128235);
+    expect(matrix[3]).toEqual(-0.7848921132128235);
+    expect(matrix[4]).toEqual(0.6196324480014811);
     graph.emit('node:dragstart', { x: 100, y: 100, item: target });
     graph.emit('node:drag', { x: 120, y: 120, item: target });
     graph.emit('node:dragend', { x: 80, y: 120, item: target });
     matrix = label.getMatrix();
-    expect(matrix[0]).toEqual(0.5419555222423545);
-    expect(matrix[1]).toEqual(0.8404071703115203);
-    expect(matrix[3]).toEqual(-0.8404071703115203);
-    expect(matrix[4]).toEqual(0.5419555222423545);
+    expect(matrix[0]).toEqual(0.5490462406023208);
+    expect(matrix[1]).toEqual(0.835791975123271);
+    expect(matrix[3]).toEqual(-0.835791975123271);
+    expect(matrix[4]).toEqual(0.5490462406023208);
     graph.destroy();
   });
 

@@ -1,6 +1,6 @@
 import each from '@antv/util/lib/each'
-import { IGraph } from '@g6/interface/graph'
-import { G6Event } from '@g6/types';
+import { IGraph } from '../interface/graph'
+import { G6Event } from '../../types';
 
 // 自定义 Behavior 时候共有的方法
 export default {

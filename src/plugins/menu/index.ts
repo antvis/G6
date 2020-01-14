@@ -1,6 +1,6 @@
 import modifyCSS from '@antv/dom-util/lib/modify-css'
-import Graph from '@g6/graph/graph';
-import { IG6GraphEvent } from '@g6/types'
+import Graph from '../../graph/graph';
+import { IG6GraphEvent } from '../../../types';
 import Base, { IPluginBaseConfig } from '../base'
 
 interface MenuConfig extends IPluginBaseConfig {

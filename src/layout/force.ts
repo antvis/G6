@@ -3,7 +3,7 @@
  * @author shiwu.wyy@antfin.com
  */
 
-import { GraphData, IPointTuple } from '@g6/types';
+import { GraphData, IPointTuple } from '../../types';
 
 import * as d3Force from 'd3-force';
 

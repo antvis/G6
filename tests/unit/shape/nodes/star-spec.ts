@@ -36,7 +36,7 @@ describe('star test', () => {
       // star + label
       expect(group.getCount()).toEqual(2);
       const keyShape = node.getKeyShape();
-      expect(keyShape.attr('fill')).toEqual('#91d5ff');
+      expect(keyShape.attr('fill')).toEqual('#C6E5FF');
 
       const label = group.find(g => {
         return g.get('className') === 'node-label';
@@ -82,7 +82,7 @@ describe('star test', () => {
       // star + label
       expect(group.getCount()).toEqual(5);
       const keyShape = node.getKeyShape();
-      expect(keyShape.attr('fill')).toEqual('#91d5ff');
+      expect(keyShape.attr('fill')).toEqual('#C6E5FF');
 
       const leftbottom = group.find(g => {
         return g.get('className') === 'link-point-left-bottom';

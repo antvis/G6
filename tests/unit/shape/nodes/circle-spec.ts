@@ -34,9 +34,9 @@ describe('circle test', () => {
       expect(nodes.length).toEqual(1);
       const node = nodes[0];
       const keyShape = node.getKeyShape();
-      expect(keyShape.attr('r')).toEqual(30);
-      expect(keyShape.attr('stroke')).toEqual('#91d5ff');
-      expect(keyShape.attr('fill')).toEqual('#91d5ff');
+      expect(keyShape.attr('r')).toEqual(10);
+      expect(keyShape.attr('stroke')).toEqual('#5B8FF9');
+      expect(keyShape.attr('fill')).toEqual('#C6E5FF');
     });
 
     it('circle with label', () => {
@@ -166,7 +166,7 @@ describe('circle test', () => {
 
       const keyShape = node.getKeyShape();
       expect(keyShape.attr('fill')).toEqual('blue');
-      expect(keyShape.attr('stroke')).toEqual('#91d5ff');
+      expect(keyShape.attr('stroke')).toEqual('#5B8FF9');
       expect(keyShape.attr('r')).toEqual(17.5);
       expect(keyShape.attr('lineWidth')).toEqual(1);
 

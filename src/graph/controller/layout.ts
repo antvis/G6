@@ -2,7 +2,7 @@ import Layout from '../../layout';
 import LayoutWorker from '../../layout/worker/layout.worker';
 import { LAYOUT_MESSAGE } from '../../layout/worker/layoutConst';
 
-import { IGraph } from '@g6/interface/graph';
+import { IGraph } from '../../interface/graph';
 
 const helper = {
   // pollyfill

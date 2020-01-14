@@ -2,7 +2,7 @@
 import deepMix from '@antv/util/lib/deep-mix'
 import each from '@antv/util/lib/each'
 import wrapBehavior from '@antv/util/lib/wrap-behavior'
-import Graph from '@g6/graph/graph';
+import Graph from '../graph/graph';
 
 export interface IPluginBaseConfig {
   container?: HTMLDivElement | null;

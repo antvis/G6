@@ -6,12 +6,12 @@ import isArray from '@antv/util/lib/is-array'
 import isObject from '@antv/util/lib/is-object'
 import isString from '@antv/util/lib/is-string'
 import upperFirst from '@antv/util/lib/upper-first'
-import Edge from '@g6/item/edge';
-import Node from '@g6/item/node';
-import { EdgeConfig, Item, ITEM_TYPE, ModelConfig, NodeConfig, NodeMapConfig } from '@g6/types';
+import Edge from '../../item/edge';
+import Node from '../../item/node';
+import { EdgeConfig, Item, ITEM_TYPE, ModelConfig, NodeConfig, NodeMapConfig } from '../../../types';
 import Graph from '../graph';
 
-import { IEdge, INode } from '@g6/interface/item';
+import { IEdge, INode } from '../../interface/item';
 
 const NODE = 'node';
 const EDGE = 'edge';

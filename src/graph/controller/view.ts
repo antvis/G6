@@ -3,10 +3,10 @@ import { Point } from '@antv/g-base/lib/types';
 import Group from '@antv/g-canvas/lib/group';
 import isNumber from "@antv/util/lib/is-number";
 import isString from '@antv/util/lib/is-string'
-import { IGraph } from "@g6/interface/graph";
-import { Item, Matrix, Padding } from '@g6/types';
-import { formatPadding } from '@g6/util/base'
-import { applyMatrix, invertMatrix } from '@g6/util/math';
+import { IGraph } from "../../interface/graph";
+import { Item, Matrix, Padding } from '../../../types';
+import { formatPadding } from '../../util/base'
+import { applyMatrix, invertMatrix } from '../../util/math';
 
 export default class ViewController {
   private graph: IGraph = null

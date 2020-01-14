@@ -1,9 +1,8 @@
 import Shape from '../shape'
-import { NodeConfig, Item } from '@g6/types'
+import { NodeConfig, Item } from '../../../types';
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
 import { Circle, Rect, Ellipse, Polygon, Path } from '@antv/g-canvas/lib/shape'
-import deepMix from '@antv/util/lib/deep-mix';
 
 
 /**

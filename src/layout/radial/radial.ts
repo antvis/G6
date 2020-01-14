@@ -3,7 +3,7 @@
  * @author shiwu.wyy@antfin.com
  */
 
-import { IPointTuple, NodeConfig } from '@g6/types';
+import { IPointTuple, NodeConfig } from '../../../types';
 
 import isArray from '@antv/util/lib/is-array';
 import isNumber from '@antv/util/lib/is-number';
