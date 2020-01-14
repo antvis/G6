@@ -175,7 +175,7 @@ describe('force layout', () => {
       const randomWidth = 10 + Math.random() * 20;
       const randomHeight = 5 + Math.random() * 5;
       node.size = [randomWidth, randomHeight];
-      node.shape = 'rect';
+      node.type = 'rect';
     })
     graph.data(data);
     graph.render();
@@ -221,7 +221,7 @@ describe('force layout', () => {
     });
     data.nodes.forEach(node => {
       node.dsize = [30, 15];
-      node.shape = 'rect';
+      node.type = 'rect';
     })
     graph.data(data);
     graph.render();

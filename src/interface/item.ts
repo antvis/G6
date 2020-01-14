@@ -111,7 +111,7 @@ export interface IItemBase {
 
   /**
    * 节点的关键形状，用于计算节点大小，连线截距等
-   * @return {G.Shape} 关键形状
+   * @return {IShapeBase} 关键形状
    */
   getKeyShape(): IShapeBase;
 

@@ -111,7 +111,7 @@ describe('tree graph without animate', () => {
   it('add child', () => {
     const parent = graph.findById('SubTreeNode3');
 
-    const child = { id: 'SubTreeNode3.1', x: 100, y: 100, shape: 'rect', children: [{ x: 150, y: 150, id: 'SubTreeNode3.1.1' }] };
+    const child = { id: 'SubTreeNode3.1', x: 100, y: 100, type: 'rect', children: [{ x: 150, y: 150, id: 'SubTreeNode3.1.1' }] };
 
     graph.addChild(child, parent);
 
@@ -266,7 +266,7 @@ describe('update child', () => {
   graph.render()
 
   it('updateChild & parent is not undefined', () => {
-    const child = { id: 'SubTreeNode3.1', x: 150, y: 150, shape: 'rect', children: [{ x: 250, y: 150, id: 'SubTreeNode3.1.1' }] };
+    const child = { id: 'SubTreeNode3.1', x: 150, y: 150, type: 'rect', children: [{ x: 250, y: 150, id: 'SubTreeNode3.1.1' }] };
 
     // 第一种情况，parent存在，添加的数据不存在
     graph.updateChild(child, 'SubTreeNode3')
@@ -280,7 +280,7 @@ describe('update child', () => {
     const mode = subNode3.getModel()
     expect(mode.x).toBe(182)
     expect(mode.y).toBe(-24)
-    expect(mode.shape).toEqual('rect')
+    expect(mode.type).toEqual('rect')
     expect(subNode3.get('currentShape')).toEqual('rect')
     expect(subNode3.get('children')).not.toBe(undefined)
     expect(subNode3.get('children').length).toBe(1)
@@ -290,7 +290,7 @@ describe('update child', () => {
       id: 'SubTreeNode3.1',
       x: 120,
       y: 156,
-      shape: 'circle'
+      type: 'circle'
     }
     graph.updateChild(data, 'SubTreeNode3')
 
@@ -298,12 +298,12 @@ describe('update child', () => {
     const model1 = node.getModel()
     expect(model1.x).toBe(182)
     expect(model1.y).toBe(-24)
-    expect(model1.shape).toEqual('circle')
+    expect(model1.type).toEqual('circle')
     expect(node.get('children').length).toBe(0)
   })
 
   it('updateChild & parent is undefined', () => {
-    const child = { id: 'SubTreeNode3.1', x: 150, y: 150, shape: 'rect', children: [{ x: 250, y: 150, id: 'SubTreeNode3.1.1' }] };
+    const child = { id: 'SubTreeNode3.1', x: 150, y: 150, type: 'rect', children: [{ x: 250, y: 150, id: 'SubTreeNode3.1.1' }] };
     
     // 更新子元素，parent不存在
     graph.updateChild(child)

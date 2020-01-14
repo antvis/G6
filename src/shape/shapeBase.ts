@@ -30,7 +30,7 @@ export const shapeBase: ShapeOptions = {
 	 * @override
 	 * @param  {Object} cfg 节点的配置项
 	 * @param  {G.Group} group 节点的容器
-	 * @return {G.Shape} 绘制的图形
+	 * @return {IShape} 绘制的图形
 	 */
   draw(cfg: ModelConfig, group: GGroup): IShape {
     const shape: IShape = this.drawShape(cfg, group)

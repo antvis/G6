@@ -172,7 +172,10 @@ export type Easeing =
   | string;
 
 export interface ModelConfig extends ModelStyle {
+  // ⚠️ 节点或边的类型，后续会废弃
   shape?: string;
+  // 节点或边的类型
+  type?: string;
   label?: string;
   labelCfg?: {
     style?: object;

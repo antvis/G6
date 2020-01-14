@@ -194,7 +194,7 @@ const singleEdge: ShapeOptions = {
    * @override
    * @param  {Object} cfg   边的配置项
    * @param  {G.Group} group 边的容器
-   * @return {G.Shape} 图形
+   * @return {IShape} 图形
    */
   drawShape(cfg: EdgeConfig, group: GGroup): IShape {
     const shapeStyle = this.getShapeStyle(cfg);

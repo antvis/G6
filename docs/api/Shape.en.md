@@ -1,5 +1,5 @@
 ---
-title: Shape
+title: Register
 order: 7
 ---
 

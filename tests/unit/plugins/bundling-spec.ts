@@ -28,7 +28,7 @@ describe('edge bundling', () => {
     const graphData = graph.save()
     bundle.bundling(graphData);
 
-    expect(graphData.edges[0].shape).toEqual('polyline');
+    expect(graphData.edges[0].type).toEqual('polyline');
     expect(graphData.edges[0].controlPoints.length > 2).toEqual(true);
     bundle.destroy()
   });
@@ -43,7 +43,7 @@ describe('edge bundling', () => {
     const graphData = graph.save()
     bundle.bundling(graphData);
 
-    expect(graphData.edges[0].shape).toEqual('polyline');
+    expect(graphData.edges[0].type).toEqual('polyline');
     expect(graphData.edges[0].controlPoints.length > 2).toEqual(true);
     bundle.destroy()
   });
@@ -79,7 +79,7 @@ describe('edge bundling', () => {
       data: data2
     });
 
-    expect(data2.edges[0].shape).toEqual('polyline');
+    expect(data2.edges[0].type).toEqual('polyline');
     expect(data2.edges[0].controlPoints.length > 2).toEqual(true);
     bundle.destroy()
   });

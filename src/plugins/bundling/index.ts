@@ -148,6 +148,7 @@ export default class Bundling extends Base {
     edges.forEach((e, i) => {
       if (e.source === e.target) return;
       e.shape = 'polyline';
+      e.type = 'polyline';
       e.controlPoints = edgePoints[i].slice(1, edgePoints[i].length - 1);
     });
 
