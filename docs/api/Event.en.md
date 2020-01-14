@@ -110,13 +110,21 @@ Before and after being called some functions, G6 exports the timing events.
 | afteritemrefresh | Activated after `refreshItem` being called. |
 | beforeitemstatesclear | Activated before `clearItemStates` being called. |
 | afteritemstatesclear | Activated after `clearItemStates` being called. |
+| beforemodechange | Activated before `setMode` / `addBehaviors` / `removeBehaviors` being called. |
+| aftermodechange | Activated after `setMode` / `addBehaviors` / `removeBehaviors` being called. |
 | beforelayout | Activated before graph layout. `render` will layout the graph, so `render` will activate this event as well. |
 | afterlayout | Activated after graph layout being done. `render` will layout the graph, so `render` will activate this event as well.  |
+| afteractivaterelations | Activated while activating a node by `'activate-relations'` Behavior which is assigned to the the instance of Graph. |
+| nodeselectchange | Activated while the selected items are changed by `'brush-select'` or `'click-select'` Behavior which is assigned to the instance of Graph. |
+| itemcollapsed | Activated while a node is clicked to collapse or expand by `'collapse-expand'` Behavior which is assigned to the instance of TreeGraph. |
+| tooltipchange | Activated after the show/hide state is changed by `'tooltip'` or `'edge-tooltip'` Behavior which is assigned to the instance of Graph. |
+| wheelzoom | Activated after the canvas being zoomed by `'zoom-canvas'` Behavior which is assigned to the instance of Graph. |
 
+### Callback Parameters
 
 The callback paramters are different from custom events.
 
-### beforeadditem
+#### beforeadditem
 
 | Name | Type | Description |
 | --- | --- | --- |
@@ -124,7 +132,7 @@ The callback paramters are different from custom events.
 | model | Object | The data model of the item to be added. |
 
 
-### afteradditem
+#### afteradditem
 
 | Name | Type | Description |
 | --- | --- | --- |
@@ -132,14 +140,14 @@ The callback paramters are different from custom events.
 | model | Object | The data model of the added item. |
 
 
-### beforeremoveitem / afterremoveitem
+#### beforeremoveitem / afterremoveitem
 
 | Name | Type | Description |
 | --- | --- | --- |
 | item | Item | The removed item. |
 
 
-### beforeupdateitem / afterupdateitem
+#### beforeupdateitem / afterupdateitem
 
 | Name | Type | Description |
 | --- | --- | --- |
@@ -147,7 +155,7 @@ The callback paramters are different from custom events.
 | model | Object | The data model of the item to be updated. |
 
 
-### beforeitemvisibilitychange / afteritemvisibilitychange
+#### beforeitemvisibilitychange / afteritemvisibilitychange
 
 | Name | Type | Description |
 | --- | --- | --- |
@@ -155,7 +163,7 @@ The callback paramters are different from custom events.
 | visible | Boolean | Whether the item is visible. `true` for visible, `false` for invisible. |
 
 
-### beforeitemstatechange / afteritemstatechange
+#### beforeitemstatechange / afteritemstatechange
 
 | Name | Type | Description |
 | --- | --- | --- |
@@ -164,7 +172,7 @@ The callback paramters are different from custom events.
 | enabled | Boolean | Wheter the state is enabled. `true` for enabled, `false` for unabled. |
 
 
-### beforeitemstatesclear / afteritemstatesclear
+#### beforeitemstatesclear / afteritemstatesclear
 
 | Name | Type | Description |
 | --- | --- | --- |
@@ -172,8 +180,61 @@ The callback paramters are different from custom events.
 | states | Array / String | The states to be cleared. |
 
 
-### beforeitemrefresh / afteritemrefresh
+#### beforemodechange / aftermodechange
+
+| Name | Type | Description |
+| --- | --- | --- |
+| mode | String | The name of current mode. |
+
+
+#### beforeitemrefresh / afteritemrefresh
 
 | Name | Type | Description |
 | --- | --- | --- |
 | item | Item | The manipulated item. |
+
+
+#### beforelayout / afterlayout
+
+No parameters.
+
+
+#### afteractivaterelations
+
+| Name | Type | Description |
+| --- | --- | --- |
+| item | Item | The manipulated item. |
+| action | String | The name of the manipulation. |
+
+
+#### nodeselectchange
+
+| Name | Type | Description |
+| --- | --- | --- |
+| target | Item | The manipulated item. |
+| selectedItems | Object | All selected items, formed as `{ nodes: [...], edges: [...]}`. |
+
+
+#### itemcollapsed
+
+| Name | Type | Description |
+| --- | --- | --- |
+| item | Item | The manipulated item. |
+| collapsed | Boolean | The collapsed state of the manipulated item after this operation. |
+
+
+#### tooltipchange
+
+| Name | Type | Description |
+| --- | --- | --- |
+| item | Item | The manipulated item. |
+| action | String | The `'show'` or `'hide'` state of this tooltip. |
+
+
+#### wheelzoom
+
+| Name | Type | Description |
+| --- | --- | --- |
+| deltaX | Number | The x-axis direction of the wheel scroll, value is `1`, `0`, or `-1`, where `0` means no scrolling on this direction. |
+| deltaY | Number | The y-axis direction of the wheel scroll, value is `1`, `0`, or `-1`, where `0` means no scrolling on this direction. |
+| ... Other parameters of wheel event. |  |  |

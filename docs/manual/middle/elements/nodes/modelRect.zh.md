@@ -66,7 +66,7 @@ modelRect 节点支持 [节点通用配置](/zh/docs/manual/middle/elements/node
 | **logoIcon** | **左侧的 logo 图标** | **Object** | **modelRect 节点特有** |
 | **stateIcon** | **右侧的状态图标** | **Object** | **modelRect 节点特有** |
 | **description** | **节点主要文本下方的描述文本** | **String** | **modelRect 节点特有** |
-| ~~**descriptionCfg**~~<br/>*将在 V3.3 版本后支持* | ~~**描述文本的配置项**~~ | ~~**Object**~~ | ~~**modelRect 节点特有**~~ |
+| **descriptionCfg**<br/>*在 V3.3 版本后支持* | **描述文本的配置项** | **Object** | **modelRect 节点特有** |
 
 
 ```javascript
@@ -151,7 +151,7 @@ const graph = new G6.Graph({
 ```
 
 
-### ~~描述文本配置 descriptionCfg~~
+### 描述文本配置 descriptionCfg
 ⚠️**注意：** *将在 V3.3 版本后支持。*
 
 Object 类型。通过 `descriptionCfg` 配置标签文本。支持 [节点通用标签配置](/zh/docs/manual/middle/elements/nodes/defaultNode/#标签文本-label-及其配置-labelcfg)。此外，还有一个特殊属性：
