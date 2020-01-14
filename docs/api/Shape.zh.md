@@ -1,9 +1,9 @@
 ---
-title: Shape
+title: 自定义
 order: 7
 ---
 
-本文介绍的 Shape 相关方法是在自定义节点（registerNode）或自定义边（registerEdge）的过程中需要部分实现或复写的方法。
+本文介绍的相关方法是在自定义节点（registerNode）或自定义边（registerEdge）的过程中需要部分实现或复写的方法。
 
 **友情提示：**以下属性和 API 方法，全部用于自定义节点和边时候使用，即作为 `G6.registerNode` / `G6.registerEdge` 的第二个参数中的方法。
 

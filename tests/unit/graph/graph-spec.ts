@@ -261,7 +261,7 @@ describe('graph', () => {
     const data = {
       nodes: [{
         id: 'a',
-        shape: 'circle',
+        type: 'circle',
         color: '#333',
         x: 30,
         y: 30,
@@ -269,7 +269,7 @@ describe('graph', () => {
         label: 'a'
       }, {
         id: 'b',
-        shape: 'ellipse',
+        type: 'ellipse',
         color: '#666',
         x: 50,
         y: 60,
@@ -277,7 +277,7 @@ describe('graph', () => {
         label: 'b'
       }, {
         id: 'c',
-        shape: 'rect',
+        type: 'rect',
         color: '#999',
         x: 100,
         y: 70,
@@ -313,7 +313,7 @@ describe('graph', () => {
     data.edges[0].source = 'b';
     data.nodes.push({
       id: 'f',
-      shape: 'circle',
+      type: 'circle',
       color: '#333',
       x: 100,
       y: 80,
@@ -532,7 +532,7 @@ describe('all node link center', () => {
       anchorPoints: [[ 0, 0 ], [ 0, 1 ]]
     });
     
-    const edge1 = graph.addItem('edge', { id: 'edge', source: node, target: node, shape: 'loop',
+    const edge1 = graph.addItem('edge', { id: 'edge', source: node, target: node, type: 'loop',
       loopCfg: {
         position: 'top',
         dist: 60,
@@ -540,7 +540,7 @@ describe('all node link center', () => {
       }, style: { endArrow: true }
     });
 
-    const edge2 = graph.addItem('edge', { id: 'edge1', source: node, target: node, shape: 'loop',
+    const edge2 = graph.addItem('edge', { id: 'edge1', source: node, target: node, type: 'loop',
       loopCfg: {
         position: 'top-left',
         dist: 60,
@@ -548,14 +548,14 @@ describe('all node link center', () => {
       }, style: { endArrow: true }
     });
 
-    const edge3 = graph.addItem('edge', { id: 'edge2', source: node, target: node, shape: 'loop',
+    const edge3 = graph.addItem('edge', { id: 'edge2', source: node, target: node, type: 'loop',
       loopCfg: {
         position: 'top-right',
         dist: 60
       }, style: { endArrow: true }
     });
 
-    const edge4 = graph.addItem('edge', { id: 'edge4', source: node, target: node, shape: 'loop',
+    const edge4 = graph.addItem('edge', { id: 'edge4', source: node, target: node, type: 'loop',
       loopCfg: {
         position: 'right',
         dist: 60,
@@ -563,7 +563,7 @@ describe('all node link center', () => {
       }, style: { endArrow: true }
     });
 
-    const edgeWithAnchor = graph.addItem('edge', { id: 'edge5', label: 'edge5', source: node, target: node, shape: 'loop', sourceAnchor: 0, targetAnchor: 1,
+    const edgeWithAnchor = graph.addItem('edge', { id: 'edge5', source: node, target: node, type: 'loop', sourceAnchor: 0, targetAnchor: 1,
       loopCfg: {
         position: 'bottom-right',
         dist: 60,
@@ -571,7 +571,7 @@ describe('all node link center', () => {
       }, style: { endArrow: true }
     });
 
-    graph.addItem('edge', { id: 'edge6', source: node, target: node, shape: 'loop',
+    graph.addItem('edge', { id: 'edge6', source: node, target: node, type: 'loop',
       loopCfg: {
         position: 'bottom',
         dist: 60,
@@ -579,7 +579,7 @@ describe('all node link center', () => {
       }, style: { endArrow: true }
     });
 
-    graph.addItem('edge', { id: 'edge7', source: node, target: node, shape: 'loop',
+    graph.addItem('edge', { id: 'edge7', source: node, target: node, type: 'loop',
       loopCfg: {
         position: 'bottom-left',
         dist: 60,
@@ -587,7 +587,7 @@ describe('all node link center', () => {
       }, style: { endArrow: true }
     });
 
-    graph.addItem('edge', { id: 'edge8', source: node, target: node, shape: 'loop',
+    graph.addItem('edge', { id: 'edge8', source: node, target: node, type: 'loop',
       loopCfg: {
         position: 'left',
         dist: 60,
@@ -685,7 +685,7 @@ describe('all node link center', () => {
       id: 'node1',
       x: 100,
       y: 100,
-      shape: 'rect',
+      type: 'rect',
       label: 'test label',
       style: {
         stroke: '#666'
@@ -773,7 +773,7 @@ describe('all node link center', () => {
       width: 500,
       height: 500,
       defaultNode: {
-        shape: 'rect',
+        type: 'rect',
         size: [ 60, 40 ],
         color: '#ccc',
         labelCfg: {
@@ -786,7 +786,7 @@ describe('all node link center', () => {
         }
       },
       defaultEdge: {
-        shape: 'cubic',
+        type: 'cubic',
         color: '#666'
       }
     });
@@ -796,17 +796,17 @@ describe('all node link center', () => {
     expect(model.id).toEqual('node1');
     expect(model.x).toEqual(100);
     expect(model.y).toEqual(150);
-    expect(model.shape).toEqual('rect');
+    expect(model.type).toEqual('rect');
     expect(model.size[0]).toEqual(60);
     expect(model.size[1]).toEqual(40);
     expect(model.color).toEqual('#ccc');
     expect(model.labelCfg.position).toEqual('right');
     expect(model.labelCfg.style.fill).toEqual('blue');
 
-    const node2 = defaultGraph.addItem('node', { id: 'node2', x: 150, y: 100, label: '222', color: '#666', shape: 'circle' });
+    const node2 = defaultGraph.addItem('node', { id: 'node2', x: 150, y: 100, label: '222', color: '#666', type: 'circle' });
 
     model = node2.get('model');
-    expect(model.shape).toEqual('circle');
+    expect(model.type).toEqual('circle');
     expect(model.size[0]).toEqual(60);
     expect(model.size[1]).toEqual(40);
     expect(model.color).toEqual('#666');
@@ -824,12 +824,12 @@ describe('all node link center', () => {
     expect(node.get('model').labelCfg.position).toEqual('right');
     expect(node.get('model').labelCfg.style.fill).toEqual('blue');
 
-    const edge = defaultGraph.addItem('edge', { id: 'edge', source: 'node1', target: 'node2', shape: 'line' });
+    const edge = defaultGraph.addItem('edge', { id: 'edge', source: 'node1', target: 'node2', type: 'line' });
     model = edge.get('model');
 
     expect(model.id).toEqual('edge');
     expect(model.source).toEqual('node1');
-    expect(model.shape).toEqual('line');
+    expect(model.type).toEqual('line');
     expect(model.color).toEqual('#666');
 
     defaultGraph.destroy();
@@ -844,7 +844,7 @@ describe('mapper fn', () => {
     width: 500,
     height: 500,
     defaultNode: {
-      shape: 'circle',
+      type: 'circle',
       style: {
         fill: 'red',
         opacity: 1
@@ -858,7 +858,7 @@ describe('mapper fn', () => {
         id: node.id + 'Mapped',
         size: [ 30, 30 ],
         label: node.id,
-        shape: 'rect',
+        type: 'rect',
         style: { fill: node.value === 100 ? '#666' : '#ccc' },
         labelCfg: {
           style: { fill: '#666' }
@@ -917,8 +917,7 @@ describe('mapper fn', () => {
   it('node & edge mapper with states', () => {
     graph.node(node => {
       return {
-        id: node.id,
-        shape: 'rect',
+        type: 'rect',
         label: node.id,
         style: { 
           fill: '#666',

@@ -131,7 +131,11 @@ export default class ItemBase implements IItemBase {
     }
     self.updatePosition(model);
     const cfg = self.getShapeCfg(model); // 可能会附加额外信息
-    const shapeType: string = cfg.shape;
+    const shapeType: string = cfg.shape || cfg.type;
+
+    if(cfg.shape) {
+      console.warn('shape字段即将被废弃，请使用type代替')
+    }
 
     const keyShape: IShapeBase = shapeFactory.draw(shapeType, cfg, group);
     if (keyShape) {
@@ -299,7 +303,8 @@ export default class ItemBase implements IItemBase {
 
     if (shapeFactory) {
       const model: ModelConfig = this.get('model');
-      shapeFactory.setState(model.shape, state, enable, this);
+      const type = model.shape || model.type
+      shapeFactory.setState(type, state, enable, this);
     }
   }
 
@@ -308,7 +313,8 @@ export default class ItemBase implements IItemBase {
     const self = this;
     const originStates = self.getStates();
     const shapeFactory = self.get('shapeFactory');
-    const shape: string = self.get('model').shape;
+    const model: ModelConfig = self.get('model')
+    const shape: string = model.shape || model.type;
     if (!states) {
       self.set('states', []);
       shapeFactory.setState(shape, originStates[0], false, self);
@@ -337,7 +343,7 @@ export default class ItemBase implements IItemBase {
 
   /**
    * 节点的关键形状，用于计算节点大小，连线截距等
-   * @return {G.Shape} 关键形状
+   * @return {IShapeBase} 关键形状
    */
   public getKeyShape(): IShapeBase {
     return this.get('keyShape');
@@ -441,7 +447,7 @@ export default class ItemBase implements IItemBase {
   public updateShape() {
     const shapeFactory = this.get('shapeFactory');
     const model = this.get('model');
-    const shape = model.shape;
+    const shape = model.shape || model.type;
     // 判定是否允许更新
     // 1. 注册的节点允许更新
     // 2. 更新后的 shape 等于原先的 shape

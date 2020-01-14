@@ -48,7 +48,7 @@ const ShapeFactoryBase = {
    * @param  {String} type  类型
    * @param  {Object} cfg 配置项
    * @param  {G.Group} group 图形的分组
-   * @return {G.Shape} 图形对象
+   * @return {IShape} 图形对象
    */
   draw(type: string, cfg: ModelConfig, group: GGroup): IShape {
     const shape = this.getShape(type)

@@ -19,8 +19,8 @@ G6 中的元素（节点/边）是**由一个或多个**[**图形 Shape**](/zh/d
 
 | 属性名 | 含义 | 备注 |
 | --- | --- | --- |
-| fill | 设置用于填充绘画的颜色、渐变或模式 | 对应 Canvas 属性 `fillStyle` |
-| stroke | 设置用于笔触的颜色、渐变或模式 | 对应 Canvas 属性 `strokeStyle` |
+| fill | 设置用于填充的颜色、[渐变](/zh/docs/manual/FAQ/gradient)或[纹理](/zh/docs/manual/FAQ/texture)模式 | 对应 Canvas 属性 `fillStyle` |
+| stroke | 设置用于笔触的颜色或[渐变](/zh/docs/manual/FAQ/gradient)模式 | 对应 Canvas 属性 `strokeStyle` |
 | shadowColor | 设置用于阴影的颜色 |  |
 | shadowBlur | 设置用于阴影的模糊级别 | 数值越大，越模糊 |
 | shadowOffsetX | 设置阴影距形状的水平距离 |  |
@@ -39,6 +39,31 @@ group.addShape('rect', {
     opacity: 0.8
   }
 })
+```
+
+## 各图形 Shape 的通用方法
+### attr()
+设置或获取实例的绘图属性。
+
+
+### attr(name)
+获取实例的属性值。
+
+```
+const width = shape.attr('width');
+```
+
+### attr(name, value)
+更新实例的单个绘图属性。
+
+### attr({...})
+批量更新实例绘图属性。
+
+```
+rect.attr({
+    fill: '#999',
+    stroke: '#666'
+});
 ```
 
 ## 圆图形 Circle
