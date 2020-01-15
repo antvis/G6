@@ -19,8 +19,7 @@ Shape.registerNode('star', {
     labelCfg: {
       style: {
         fill: '#595959'
-      },
-      offset: 0
+      }
     },
     // 节点上左右上下四个方向上的链接circle配置
     linkPoints: {

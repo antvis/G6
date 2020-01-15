@@ -313,7 +313,7 @@ describe.only('dagre layout', () => {
     graph.destroy();
   });
 
-  it.only('dagre with number size in node data, controlpoints', () => {
+  it('dagre with number size in node data, controlpoints', () => {
     data.edges.forEach((edgeItem) => {
       delete edgeItem.startPoint;
       delete edgeItem.endPoint;
@@ -333,7 +333,7 @@ describe.only('dagre layout', () => {
       defaultEdge: {
         shape: 'polyline',
         style: {
-          offset: 20
+          radius: 20
         }
       },
       defaultNode: {

@@ -25,6 +25,11 @@ const singleNode: ShapeOptions = {
    */
   labelPosition: 'center',
   /**
+   * 文本相对偏移，当 labelPosition 不为 center 时有效
+   * @type {Number}
+   */
+  offset: Global.nodeLabel.offset,
+  /**
    * 获取节点宽高
    * @internal 返回节点的大小，以 [width, height] 的方式维护
    * @param  {Object} cfg 节点的配置项
@@ -41,6 +46,7 @@ const singleNode: ShapeOptions = {
   getLabelStyleByPosition(cfg?: NodeConfig, labelCfg?: ILabelConfig): LabelStyle
   {
     const labelPosition = labelCfg.position || this.labelPosition
+    this.labelPosition = labelPosition;
 
     // 默认的位置（最可能的情形），所以放在最上面
     if (labelPosition === 'center') {
@@ -48,9 +54,12 @@ const singleNode: ShapeOptions = {
     }
 
     let offset = labelCfg.offset
+    console.log('offsetoffset', labelCfg);
     if (isNil(offset)) { // 考虑 offset = 0 的场景，不用用 labelCfg.offset || Global.nodeLabel.offset
-      offset = Global.nodeLabel.offset // 不居中时的偏移量
+      offset = this.offset // 不居中时的偏移量
     }
+    this.offset = offset;
+
     const size = this.getSize(cfg)
     const width = size[0]
     const height = size[1]

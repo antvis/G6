@@ -263,7 +263,12 @@ describe('polyline e test', () => {
           {
             id: 'node1',
             x: 200,
-            y: 200
+            y: 200,
+            label: 'node',
+            labelCfg: {
+              position: 'right',
+              offset: 20
+            }
           },
           {
             id: 'node2',
@@ -276,7 +281,12 @@ describe('polyline e test', () => {
             source: 'node1',
             target: 'node2',
             shape: 'polyline',
-            label: 'polyline'
+            label: 'polyline',
+            labelCfg: {
+              position: 'end',
+              refX: 10,
+              refY: 20
+            }
           }
         ]
       };
@@ -291,11 +301,10 @@ describe('polyline e test', () => {
       });
       expect(label.attr('text')).toEqual('polyline');
 
-      // the position should be used after G, graphics.ts
       edge.update({
         label: 'new label',
         labelCfg: {
-          // position: 'end',
+          position: 'start',
           style: {
             fill: '#0ff'
           }
