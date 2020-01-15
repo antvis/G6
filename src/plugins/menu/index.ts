@@ -60,7 +60,7 @@ export default class Menu extends Base {
 
   protected onMenuShow(e: IG6GraphEvent) {
     const self = this;
-    e.preventDefault()
+    // e.preventDefault()
     e.stopPropagation()
     const menu: HTMLDivElement = this.get('menu');
     const getContent: (evt?: IG6GraphEvent) => string = this.get('getContent');
