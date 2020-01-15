@@ -40,6 +40,16 @@ const singleEdge: ShapeOptions = {
    */
   labelPosition: 'center', // start, end, center
   /**
+   * 文本的 x 偏移
+   * @type {Number}
+   */
+  refX: 0,
+  /**
+   * 文本的 y 偏移
+   * @type {Number}
+   */
+  refY: 0,
+  /**
    * 文本是否跟着线自动旋转，默认 false
    * @type {Boolean}
    */
@@ -105,7 +115,7 @@ const singleEdge: ShapeOptions = {
     cfg = this.getPathPoints(cfg);
     const startPoint = cfg.startPoint;
     const endPoint = cfg.endPoint;
-    const controlPoints = this.getControlPoints(cfg);
+    const controlPoints = this.getControlPoints(cfg) || cfg.controlPoints;
     let points = [ startPoint ]; // 添加起始点
     // 添加控制点
     if (controlPoints) {
@@ -113,6 +123,7 @@ const singleEdge: ShapeOptions = {
     }
     // 添加结束点
     points.push(endPoint);
+    debugger
     const path = this.getPath(points);
     const style = deepMix({}, strokeStyle, shape.attr(), {
       lineWidth: size,
@@ -125,6 +136,7 @@ const singleEdge: ShapeOptions = {
   },
   getLabelStyleByPosition(cfg?: EdgeConfig, labelCfg?: ILabelConfig, group?: GGroup): LabelStyle {
     const labelPosition = labelCfg.position || this.labelPosition; // 文本的位置用户可以传入
+    this.labelPosition = labelPosition;
     const style: LabelStyle = {};
 
     const pathShape = group.find(element => { return element.get('className') === CLS_SHAPE}) as Path;
@@ -138,18 +150,20 @@ const singleEdge: ShapeOptions = {
     } else {
       pointPercent = 0.5;
     }
-    const { refX, refY } = labelCfg; // 默认的偏移量
+    // 偏移量
+    const offsetX = labelCfg.refX || this.refX;
+    const offsetY = labelCfg.refY || this.refY;
+    this.refX = offsetX;
+    this.refY = offsetY;
     // 如果两个节点重叠，线就变成了一个点，这时候label的位置，就是这个点 + 绝对偏移
     if (cfg.startPoint.x === cfg.endPoint.x && cfg.startPoint.y === cfg.endPoint.y) {
-      const offsetX = refX ? refX : 0;
-      const offsetY = refY ? refY : 0;
       style.x = cfg.startPoint.x + offsetX;
       style.y = cfg.startPoint.y + offsetY;
       style.text = cfg.label
       return style;
     }
     const autoRotate = isNil(labelCfg.autoRotate) ? this.labelAutoRotate : labelCfg.autoRotate;
-    const offsetStyle = getLabelPosition(pathShape, pointPercent, refX, refY, autoRotate);
+    const offsetStyle = getLabelPosition(pathShape, pointPercent, offsetX, offsetY, autoRotate);
     style.x = offsetStyle.x;
     style.y = offsetStyle.y;
     style.rotate = offsetStyle.rotate;
