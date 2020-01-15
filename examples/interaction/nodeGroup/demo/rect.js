@@ -73,10 +73,6 @@ const data = {
     {
       source: 'node1',
       target: 'node3'
-    },
-    {
-      source: 'node6',
-      target: 'node1'
     }
   ],
   groups: [

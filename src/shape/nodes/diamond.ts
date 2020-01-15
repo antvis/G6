@@ -55,6 +55,7 @@ Shape.registerNode('diamond', {
     const keyShape = group.addShape('path', {
       attrs: style,
       className: 'diamond-keyShape',
+      name: 'diamond-keyShape',
       draggable: true
     });
 
@@ -66,7 +67,8 @@ Shape.registerNode('diamond', {
           y: -h / 2,
           ...icon
         },
-        className: 'diamond-icon'
+        className: 'diamond-icon',
+        name: 'diamond-icon',
       });
 
       image.set('capture', false);
@@ -100,6 +102,7 @@ Shape.registerNode('diamond', {
           r: markSize
         },
         className: 'link-point-left',
+        name: 'link-point-left',
         isAnchorPoint: true
       });
     }
@@ -114,6 +117,7 @@ Shape.registerNode('diamond', {
           r: markSize
         },
         className: 'link-point-right',
+        name: 'link-point-right',
         isAnchorPoint: true
       });
     }
@@ -128,6 +132,7 @@ Shape.registerNode('diamond', {
           r: markSize
         },
         className: 'link-point-top',
+        name: 'link-point-top',
         isAnchorPoint: true
       });
     }
@@ -142,6 +147,7 @@ Shape.registerNode('diamond', {
           r: markSize
         },
         className: 'link-point-bottom',
+        name: 'link-point-bottom',
         isAnchorPoint: true
       });
     }

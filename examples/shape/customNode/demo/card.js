@@ -68,14 +68,14 @@ const graph = new G6.Graph({
 });
 
 const nodeBasicMethod = {
-  createNodeBox: (group, config, width, height, isRoot) => {
+  createNodeBox: (group, config, w, h, isRoot) => {
   /* 最外面的大矩形 */
     const container = group.addShape('rect', {
       attrs: {
         x: 0,
         y: 0,
-        width,
-        height
+        widthL: w,
+        height: h
       }
     });
     if (!isRoot) {
@@ -83,7 +83,7 @@ const nodeBasicMethod = {
       group.addShape('circle', {
         attrs: {
           x: 3,
-          y: height / 2,
+          y: h / 2,
           r: 6,
           fill: config.basicColor
         }
@@ -94,8 +94,8 @@ const nodeBasicMethod = {
       attrs: {
         x: 3,
         y: 0,
-        width: width - 19,
-        height,
+        width: w - 19,
+        height: h,
         fill: config.bgColor,
         stroke: config.borderColor,
         radius: 2,
@@ -109,7 +109,7 @@ const nodeBasicMethod = {
         x: 3,
         y: 0,
         width: 3,
-        height,
+        height: h,
         fill: config.basicColor,
         radius: 1.5
       }
@@ -145,9 +145,9 @@ const nodeBasicMethod = {
   },
   afterDraw: (cfg, group) => {
   /* 操作 marker 的背景色显示隐藏 */
-    const icon = group.findByClassName('collapse-icon');
+    const icon = group.find(element => element.get('className') === 'collapse-icon');
     if (icon) {
-      const bg = group.findByClassName('collapse-icon-bg');
+      const bg = group.find(element => element.get('className') === 'collapse-icon-bg');
       icon.on('mouseenter', () => {
         bg.attr('opacity', 1);
         graph.get('canvas').draw();
@@ -158,13 +158,13 @@ const nodeBasicMethod = {
       });
     }
   /* ip 显示 */
-    const ipBox = group.findByClassName('ip-box');
+    const ipBox = group.find(element => element.get('className') === 'ip-box');
     if (ipBox) {
     /* ip 复制的几个元素 */
-      const ipLine = group.findByClassName('ip-cp-line');
-      const ipBG = group.findByClassName('ip-cp-bg');
-      const ipIcon = group.findByClassName('ip-cp-icon');
-      const ipCPBox = group.findByClassName('ip-cp-box');
+      const ipLine = group.find(element => element.get('className') === 'ip-cp-line');
+      const ipBG =  group.find(element => element.get('className') === 'ip-cp-bg');
+      const ipIcon =  group.find(element => element.get('className') === 'ip-cp-icon');
+      const ipCPBox =  group.find(element => element.get('className') === 'ip-cp-box');
 
       const onMouseEnter = () => {
         ipLine.attr('opacity', 1);
@@ -235,12 +235,12 @@ G6.registerNode(
       const nodeError = cfg.nodeError;
     /* 最外面的大矩形 */
       const container = nodeBasicMethod.createNodeBox(
-      group,
-      config,
-      243,
-      64,
-      isRoot
-    );
+        group,
+        config,
+        243,
+        64,
+        isRoot
+      );
 
       if (cfg.type !== 'root') {
       /* 上边的 type */

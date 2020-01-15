@@ -38,33 +38,11 @@ describe('graph state controller', () => {
     });
 
     graph.setItemState('node1', 'selected', true);
-    
+    graph.setItemState('node2', 'selected', true);
+    expect(itemCount).toBe(2);
     timerOut(() => {
-      expect(itemCount).toBe(1);
-      expect(graphCount).toBe(0);
-
-      expect(graph.get('states').selected).not.toBe(undefined);
-      expect(graph.get('states').selected.length).toBe(1);
-      expect(graph.get('states').selected[0]).toEqual(graph.findById('node1'));
-
-      timerOut(() => {
-        graph.setItemState('node1', 'selected', false);
-        graph.setItemState('node1', 'selected', true);
-        graph.setItemState('node2', 'selected', true);
-        graph.setItemState('node3', 'selected', true);
-        expect(itemCount).toBe(1);
-        expect(graphCount).toBe(0);
-        expect(graph.get('states').selected.length).toBe(1);
-  
-        graph.setItemState('node1', 'selected', false);
-        graph.setItemState('node2', 'selected', false);
-        graph.setItemState('node3', 'selected', false);
-  
-        timerOut(() => {
-          expect(graph.get('states').selected.length).toBe(0);
-        }, 90)
-      }, 70)
-    }, 50)
+      expect(graphCount).toBe(1);
+    }, 16);
   });
 
   it('state with activate-relations', () => {

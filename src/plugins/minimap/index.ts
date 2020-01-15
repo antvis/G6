@@ -309,7 +309,8 @@ export default class MiniMap extends Base {
             width: bbox.width,
             height: bbox.height,
             ...delegateStyle
-          }
+          },
+          name: 'minimap-node-shape'
         });
       }
     });

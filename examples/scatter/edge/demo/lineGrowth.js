@@ -13,7 +13,7 @@ G6.registerEdge('line-growth', {
       return cfg;
     }, {
       repeat: true, // 动画重复
-      duration: 2000// 一次动画的时长为 2000
+      duration: 2000 // 一次动画的时长为 2000
     });
   }
 }, 'cubic');   // 该自定义边继承了内置三阶贝塞尔曲线边 cubic

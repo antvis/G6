@@ -64,15 +64,16 @@ const data = {
 G6.registerNode('circle-animate', {
   afterDraw(cfg, group) {
     const shape = group.get('children')[0];
-    shape.animate({
+    shape.animate((ratio) => {
+      const diff = ratio <= 0.5 ? ratio * 10 : (1 - ratio) * 10;
+      return {
+        r: cfg.size / 2 + diff
+      };
+    }, {
       repeat: true,
-      onFrame(ratio) {
-        const diff = ratio <= 0.5 ? ratio * 10 : (1 - ratio) * 10;
-        return {
-          r: cfg.size / 2 + diff
-        };
-      }
-    }, 3000, 'easeCubic');
+      duration: 3000,
+      easing: 'easeCubic'
+    });
   }
 }, 'circle');
 
@@ -144,8 +145,8 @@ G6.registerNode('inner-animate', {
         img: cfg.img
       }
     });
-    image.animate({
-      onFrame(ratio) {
+    image.animate(
+      (ratio) => {
         const matrix = Util.mat3.create();
         const toMatrix = Util.transform(matrix, [
           [ 'r', ratio * Math.PI * 2 ]
@@ -153,9 +154,12 @@ G6.registerNode('inner-animate', {
         return {
           matrix: toMatrix
         };
-      },
-      repeat: true
-    }, 3000, 'easeCubic');
+      }, {
+        repeat: true,
+        duration: 3000,
+        easing: 'easeCubic'
+      }
+    );
   }
 }, 'rect');
 

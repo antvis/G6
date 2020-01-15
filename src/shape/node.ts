@@ -94,7 +94,8 @@ const singleNode: ShapeOptions = {
     const style = this.getShapeStyle(cfg)
     const shape = group.addShape(shapeType, {
       attrs: style,
-      draggable: true
+      draggable: true,
+      name: 'node-shape'
     })
     return shape
   },
@@ -162,6 +163,7 @@ const singleNode: ShapeOptions = {
           y: 0
         },
         className: 'link-point-left',
+        name: 'link-point-left',
         isAnchorPoint: true
       });
     }
@@ -183,6 +185,7 @@ const singleNode: ShapeOptions = {
           y: 0
         },
         className: 'link-point-right',
+        name: 'link-point-right',
         isAnchorPoint: true
       });
     }
@@ -204,6 +207,7 @@ const singleNode: ShapeOptions = {
           y: -height / 2
         },
         className: 'link-point-top',
+        name: 'link-point-top',
         isAnchorPoint: true
       });
     }
@@ -226,6 +230,7 @@ const singleNode: ShapeOptions = {
           y: height / 2
         },
         className: 'link-point-bottom',
+        name: 'link-point-bottom',
         isAnchorPoint: true
       });
     }
@@ -266,7 +271,8 @@ const singleNode: ShapeOptions = {
           x: -w / 2,
           y: -h / 2,
         },
-        className: `${this.type}-icon`
+        className: `${this.type}-icon`,
+        name: `${this.type}-icon`
       });
       // to ensure the label is on the top of all the shapes
       const labelShape = group.find(element => element.get('className') === `node-label`)
