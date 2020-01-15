@@ -63,15 +63,16 @@ function handleNodeClick(event) {
     x: matrix[6],
     y: matrix[7]
   };
-  const width = graph.get('width');
-  const height = graph.get('height');
+  const w = graph.get('width');
+  const h = graph.get('height');
   // 找到视口中心
   const viewCenter = {
-    x: width / 2,
-    y: height / 2
+    x: w / 2,
+    y: h / 2
   };
   const modelCenter = graph.getPointByCanvas(viewCenter.x, viewCenter.y);
-  const viewportMatrix = graph.get('group').getMatrix();
+  let viewportMatrix = graph.get('group').getMatrix();
+  if (!viewportMatrix) viewportMatrix = G6.Util.mat3.create();
   // 画布平移的目标位置，最终目标是graph.translate(dx, dy);
   const dx = (modelCenter.x - point.x) * viewportMatrix[0];
   const dy = (modelCenter.y - point.y) * viewportMatrix[4];

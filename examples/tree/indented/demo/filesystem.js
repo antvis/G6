@@ -53,10 +53,14 @@ G6.registerEdge('step-line', {
   getControlPoints: function getControlPoints(cfg) {
     const startPoint = cfg.startPoint;
     const endPoint = cfg.endPoint;
-    return [{
-      x: startPoint.x,
-      y: endPoint.y
-    }];
+    return [
+      startPoint,
+      {
+        x: startPoint.x,
+        y: endPoint.y
+      },
+      endPoint
+    ];
   }
 }, 'polyline');
 
@@ -136,7 +140,6 @@ graph.node(node => {
     label: node.name
   };
 });
-
 graph.edge(() => {
   return {
     shape: 'step-line'

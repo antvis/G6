@@ -67,7 +67,8 @@ Shape.registerNode('circle', {
           y: -height / 2,
           ...icon
         },
-        className: 'circle-icon'
+        className: 'circle-icon',
+        name: 'circle-icon'
       });
 
       image.set('capture', false);
@@ -100,6 +101,7 @@ Shape.registerNode('circle', {
           r: markSize
         },
         className: 'link-point-left',
+        name: 'link-point-left',
         isAnchorPoint: true
       });
     }
@@ -114,6 +116,7 @@ Shape.registerNode('circle', {
           r: markSize
         },
         className: 'link-point-right',
+        name: 'link-point-right',
         isAnchorPoint: true
       });
     }
@@ -128,6 +131,7 @@ Shape.registerNode('circle', {
           r: markSize
         },
         className: 'link-point-top',
+        name: 'link-point-top',
         isAnchorPoint: true
       });
     }
@@ -142,6 +146,7 @@ Shape.registerNode('circle', {
           r: markSize
         },
         className: 'link-point-bottom',
+        name: 'link-point-bottom',
         isAnchorPoint: true
       });
     }

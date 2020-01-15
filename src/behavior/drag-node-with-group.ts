@@ -314,7 +314,8 @@ export default {
             x: x - bbox.width / 2,
             y: y - bbox.height / 2,
             ...attrs
-          }
+          },
+          name: 'delegate-shape'
         });
         this.target.set('delegateShape', this.shape);
       }

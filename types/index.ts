@@ -58,6 +58,7 @@ export type ShapeStyle = Partial<{
   shadowBlur: number;
   shadowOffsetX: number;
   shadowOffsetY: number;
+  cursor: string;
 }>;
 
 export interface IShapeBase extends ShapeBase {

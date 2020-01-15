@@ -12,7 +12,7 @@ G6.registerNode('customNode', {
   // 绘制节点
   drawShape: function drawShape(cfg, group) {
     const shapeType = this.shapeType;
-    const style = G6.Util.mix({}, this.getShapeStyle(cfg), {
+    const style = Object.assign({}, this.getShapeStyle(cfg), {
       x: 0,
       y: 0,
       r: 50

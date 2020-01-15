@@ -2,7 +2,7 @@ import G6 from '@antv/g6';
 
  /**
    * 该案例演示，当点击叶子节点时，如何向树图中动态添加数据。
-   * 主要演示addChild和refreshLayout的用法。
+   * 主要演示 addChild 和 layout 的用法。
    */
 const width = document.getElementById('container').scrollWidth;
 const height = document.getElementById('container').scrollHeight || 500;
@@ -124,6 +124,6 @@ graph.on('node:click', function(evt) {
     };
     graph.addChild(childData, nodeId);
     count++;
-    graph.refreshLayout();
+    graph.layout();
   }
 });

@@ -56,6 +56,7 @@ Shape.registerNode('star', {
     const keyShape = group.addShape('path', {
       attrs: style,
       className: 'star-keyShape',
+      name: 'star-keyShape',
       draggable: true
     });
 
@@ -67,7 +68,8 @@ Shape.registerNode('star', {
           y: -h / 2,
           ...icon
         },
-        className: 'star-icon'
+        className: 'star-icon',
+        name: 'star-icon',
       });
 
       image.set('capture', false);
@@ -104,7 +106,8 @@ Shape.registerNode('star', {
           y: -y1,
           r: markSize
         },
-        className: 'link-point-right'
+        className: 'link-point-right',
+        name: 'link-point-right',
       });
     }
 
@@ -121,7 +124,8 @@ Shape.registerNode('star', {
           y: -y1,
           r: markSize
         },
-        className: 'link-point-top'
+        className: 'link-point-top',
+        name: 'link-point-top',
       });
     }
 
@@ -138,7 +142,8 @@ Shape.registerNode('star', {
           y: -y1,
           r: markSize
         },
-        className: 'link-point-left'
+        className: 'link-point-left',
+        name: 'link-point-left',
       });
     }
 
@@ -155,7 +160,8 @@ Shape.registerNode('star', {
           y: -y1,
           r: markSize
         },
-        className: 'link-point-left-bottom'
+        className: 'link-point-left-bottom',
+        name: 'link-point-left-bottom',
       });
     }
 
@@ -172,7 +178,8 @@ Shape.registerNode('star', {
           y: -y1,
           r: markSize
         },
-        className: 'link-point-right-bottom'
+        className: 'link-point-right-bottom',
+        name: 'link-point-right-bottom',
       });
     }
   },
@@ -298,6 +305,7 @@ Shape.registerNode('star', {
           y: -y
         },
         className: 'link-point-right',
+        name: 'link-point-right',
         isAnchorPoint: true
       });
     }
@@ -322,6 +330,7 @@ Shape.registerNode('star', {
           y: -y
         },
         className: 'link-point-top',
+        name: 'link-point-top',
         isAnchorPoint: true
       });
     }
@@ -346,6 +355,7 @@ Shape.registerNode('star', {
           y: -y
         },
         className: 'link-point-left',
+        name: 'link-point-left',
         isAnchorPoint: true
       });
     }
@@ -370,6 +380,7 @@ Shape.registerNode('star', {
           y: -y
         },
         className: 'link-point-left-bottom',
+        name: 'link-point-left-bottom',
         isAnchorPoint: true
       });
     }
@@ -394,6 +405,7 @@ Shape.registerNode('star', {
           y: -y
         },
         className: 'link-point-right-bottom',
+        name: 'link-point-right-bottom',
         isAnchorPoint: true
       });
     }

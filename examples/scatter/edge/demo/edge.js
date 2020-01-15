@@ -38,7 +38,7 @@ G6.registerEdge('line-dash', {
       return cfg;
     }, {
       repeat: true, // 动画重复
-      easing: 3000 // 一次动画的时长为 3000
+      duration: 3000 // 一次动画的时长为 3000
     });
   }
 }, 'cubic');   // 该自定义边继承了内置三阶贝塞尔曲线边 cubic

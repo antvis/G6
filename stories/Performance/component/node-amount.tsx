@@ -13,20 +13,21 @@ const NodeAmount = () => {
         width: 1000,
         height: 1000,
         defaultNode: {
-          size: 30,
+          size: 40,
           style: {
-            fill: '#C6E5FF',
-            stroke: '#5B8FF9',
+            fill: '#D8DEEB',
+            stroke: '#B2BDD6',
             lineWidth: 2
           }
         },
         nodeStateStyles: {
-          hover: {
-            fill: '#d3adf7',
-          },
+          // hover: {
+          //   fill: '#83AFFD',
+          //   stroke: '#5B8FF9',
+          // },
           select: {
-              stroke: '#f00',
-              lineWidth: 5
+            fill: '#83AFFD',
+            stroke: '#5B8FF9'
           }
         },
         modes: {
@@ -39,7 +40,7 @@ const NodeAmount = () => {
     for(let i = 0; i < 10000; i++) {
       nodes.push({
         id: `node-${i}`,
-        label: 'A',
+        label: `${i}`,
         x: Math.random() * 450 + 50,
         y: Math.random() * 450 + 50
       })
@@ -51,15 +52,25 @@ const NodeAmount = () => {
     graph.data(data)
     graph.render()
 
-    graph.on('node:mouseenter', evt => {
+    graph.on('node:click', evt => {
       const { item } = evt
-      graph.setItemState(item, 'hover', true)
+      graph.setItemState(item, 'select', true)
+    })
+    graph.on('canvas:click', () => {
+      graph.getNodes().forEach(node => {
+        graph.setItemState(node, 'select', false)
+      });
     })
 
-    graph.on('node:mouseleave', evt => {
-      const { item } = evt
-      graph.setItemState(item, 'hover', false)
-    })
+    // graph.on('node:mouseenter', evt => {
+    //   const { item } = evt
+    //   graph.setItemState(item, 'hover', true)
+    // })
+
+    // graph.on('node:mouseleave', evt => {
+    //   const { item } = evt
+    //   graph.setItemState(item, 'hover', false)
+    // })
   });
   return (
     <div ref={container}></div>

@@ -205,7 +205,8 @@ export default class CustomGroup {
         draggable: true,
         capture: true,
         zIndex,
-        groupId
+        groupId,
+        name: 'circle-group-shape'
       });
 
       titleX = cx;
@@ -227,7 +228,8 @@ export default class CustomGroup {
         draggable: true,
         capture: true,
         zIndex,
-        groupId
+        groupId,
+        name: 'rect-group-shape'
       });
 
       titleX = x - rectPadding + 15;
@@ -254,7 +256,8 @@ export default class CustomGroup {
           y: titleY + offsetY,
           ...titleStyle
         },
-        className: 'group-title'
+        className: 'group-title',
+        name: 'group-title-shape'
       });
       textShape.set('capture', false);
     }

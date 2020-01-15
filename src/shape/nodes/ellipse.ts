@@ -58,6 +58,7 @@ Shape.registerNode('ellipse', {
     const keyShape = group.addShape('ellipse', {
       attrs: style,
       className: 'ellipse-keyShape',
+      name: 'ellipse-keyShape',
       draggable: true
     });
 
@@ -69,7 +70,8 @@ Shape.registerNode('ellipse', {
           y: -height / 2,
           ...icon
         },
-        className: 'ellipse-icon'
+        className: 'ellipse-icon',
+        name: 'ellipse-icon',
       });
 
       image.set('capture', false);
@@ -104,6 +106,7 @@ Shape.registerNode('ellipse', {
           r: markSize
         },
         className: 'link-point-left',
+        name: 'link-point-left',
         isAnchorPoint: true
       });
     }
@@ -118,6 +121,7 @@ Shape.registerNode('ellipse', {
           r: markSize
         },
         className: 'link-point-right',
+        name: 'link-point-right',
         isAnchorPoint: true
       });
     }
@@ -132,6 +136,7 @@ Shape.registerNode('ellipse', {
           r: markSize
         },
         className: 'link-point-top',
+        name: 'link-point-top',
         isAnchorPoint: true
       });
     }
@@ -146,6 +151,7 @@ Shape.registerNode('ellipse', {
           r: markSize
         },
         className: 'link-point-bottom',
+        name: 'link-point-bottom',
         isAnchorPoint: true
       });
     }

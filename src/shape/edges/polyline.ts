@@ -33,6 +33,7 @@ Shape.registerEdge('polyline', {
     const shapeStyle = this.getShapeStyle(cfg);
     const keyShape = group.addShape('path', {
       className: 'edge-shape',
+      name: 'edge-shape',
       attrs: shapeStyle
     });
     return keyShape;
@@ -49,7 +50,11 @@ Shape.registerEdge('polyline', {
 
     this.radius = style.radius;
     this.offset = style.offset;
+
+    this.routeCfg = { radius: this.radius };
+
     const points = this.getControlPoints(cfg);
+
     
     const path = this.getPath(points, this.routeCfg);
     const attrs = deepMix({}, Global.defaultEdge.style, style, {
@@ -71,11 +76,10 @@ Shape.registerEdge('polyline', {
 
     const source = cfg.sourceNode;
     const target = cfg.targetNode;
-    let routeCfg: object = { radius: this.radius };
-    if (!controlPoints) {
-      routeCfg = { source, target, offset: this.offset, radius: this.radius };
+    if (!cfg.controlPoints) {
+      this.routeCfg = { source, target, offset: this.offset, radius: this.radius };
     }
-    this.routeCfg = routeCfg;
+
     return points;
   },
   getPath(points: Point[], routeCfg: { source: IShapeBase, target: IShapeBase, offset: number, radius: number }): Array<Array<string | number>> | string {

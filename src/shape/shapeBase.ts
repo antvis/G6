@@ -60,7 +60,9 @@ export const shapeBase: ShapeOptions = {
     const labelStyle = this.getLabelStyle(cfg, labelCfg, group)
     const label = group.addShape('text', {
       attrs: labelStyle,
-      capture: false
+      capture: false,
+      className: 'text-shape',
+      name: 'text-shape',
     })
     return label
   },
