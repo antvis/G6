@@ -16,8 +16,6 @@ type Node = NodeConfig & {
 };
 type Edge = EdgeConfig;
 
-type NodeIndexMap = Map<string, string>;
-
 function getDegree(n: number, nodeIdxMap: object, edges: Edge[]) {
   const degrees = [];
   for (let i = 0; i < n; i++) {

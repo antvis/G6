@@ -85,29 +85,20 @@ const data = {
 };
 
 G6.registerLayout('bigraph-layout', {
-  getDefaultCfg: function getDefaultCfg() {
-    return {
-      center: [ 0, 0 ],
-      biSep: 100,
-      nodeSep: 20,
-      direction: 'horizontal',
-      nodeSize: 20
-    };
-  },
-  execute: function execute() {
+  execute() {
     const self = this;
-    const center = self.center;
-    const biSep = self.biSep;
-    const nodeSep = self.nodeSep;
-    const nodeSize = self.nodeSize;
-    let part1Pos = 0,
-      part2Pos = 0;
-    if (self.direction === 'horizontal') {
+    const center = self.center || [ 0, 0 ];
+    const biSep = self.biSep || 100;
+    const nodeSep = self.nodeSep || 20;
+    const nodeSize = self.nodeSize || 20;
+    const direction = self.direction || 'horizontal'
+    let part1Pos = 0;
+    let part2Pos = 0;
+    if (direction === 'horizontal') {
       part1Pos = center[0] - biSep / 2;
       part2Pos = center[0] + biSep / 2;
     }
-    const nodes = self.nodes;
-    const edges = self.edges;
+    const { nodes, edges } = self;
     const part1Nodes = [];
     const part2Nodes = [];
     const part1NodeMap = new Map();
@@ -132,10 +123,10 @@ G6.registerLayout('bigraph-layout', {
         const targetId = edge.target;
         if (sourceId === p1n.id) {
           index += part2NodeMap.get(targetId);
-          adjCount++;
+          adjCount += 1;
         } else if (targetId === p1n.id) {
           index += part2NodeMap.get(sourceId);
-          adjCount++;
+          adjCount += 1;
         }
       });
       index /= adjCount;
@@ -152,10 +143,10 @@ G6.registerLayout('bigraph-layout', {
         const targetId = edge.target;
         if (sourceId === p2n.id) {
           index += part1NodeMap.get(targetId);
-          adjCount++;
+          adjCount += 1;
         } else if (targetId === p2n.id) {
           index += part1NodeMap.get(sourceId);
-          adjCount++;
+          adjCount += 1;
         }
       });
       index /= adjCount;
@@ -169,11 +160,11 @@ G6.registerLayout('bigraph-layout', {
     const hLength = part1Nodes.length > part2Nodes.length ? part1Nodes.length : part2Nodes.length;
     const height = hLength * (nodeSep + nodeSize);
     let begin = center[1] - height / 2;
-    if (self.direction === 'vertical') {
+    if (direction === 'vertical') {
       begin = center[0] - height / 2;
     }
     part1Nodes.forEach(function(p1n, i) {
-      if (self.direction === 'horizontal') {
+      if (direction === 'horizontal') {
         p1n.x = part1Pos;
         p1n.y = begin + i * (nodeSep + nodeSize);
       } else {
@@ -182,7 +173,7 @@ G6.registerLayout('bigraph-layout', {
       }
     });
     part2Nodes.forEach(function(p2n, i) {
-      if (self.direction === 'horizontal') {
+      if (direction === 'horizontal') {
         p2n.x = part2Pos;
         p2n.y = begin + i * (nodeSep + nodeSize);
       } else {
@@ -191,7 +182,7 @@ G6.registerLayout('bigraph-layout', {
       }
     });
   }
-}, 'mds');
+});
 
 const width = document.getElementById('container').scrollWidth;
 const height = document.getElementById('container').scrollHeight || 500;

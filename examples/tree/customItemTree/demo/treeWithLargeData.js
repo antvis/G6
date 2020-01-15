@@ -1,6 +1,19 @@
 import G6 from '@antv/g6';
+import insertCss from 'insert-css';
 
-const _this = this;
+insertCss(`
+  .g6-tooltip {
+    border: 1px solid #e2e2e2;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #545454;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 10px 8px;
+    box-shadow: rgb(174, 174, 174) 0px 0px 10px;
+  }
+`);
+
+let ipHideTimer;
 
 const ERROR_COLOR = '#F5222D';
 
@@ -12,9 +25,6 @@ const SOFAROUTER_RECT_CLASS = 'sofarouter-rect-class';
 
 const CANVAS_WIDTH = document.getElementById('container').scrollWidth;
 const CANVAS_HEIGHT = document.getElementById('container').scrollHeight;
-
-const LIMIT_OVERFLOW_WIDTH = CANVAS_WIDTH - 100;
-const LIMIT_OVERFLOW_HEIGHT = CANVAS_HEIGHT - 100;
 
 const getNodeConfig = function getNodeConfig(node) {
   if (node.nodeError) {
@@ -101,6 +111,7 @@ const graph = new G6.TreeGraph({
     default: [{
       type: 'collapse-expand',
       shouldUpdate: function shouldUpdate(e) {
+        console.log(e.target);
         /* 点击 node 禁止展开收缩 */
         if (e.target.get('className') !== 'collapse-icon') {
           return false;
@@ -109,7 +120,8 @@ const graph = new G6.TreeGraph({
       },
       onChange: function onChange(item, collapsed) {
         selectedItem = item;
-        const icon = item.get('group').findByClassName('collapse-icon');
+        const icon = item.get('group').find(element => element.get('className') === 'collapse-icon');
+
         if (collapsed) {
           icon.attr('symbol', EXPAND_ICON);
         } else {
@@ -121,20 +133,14 @@ const graph = new G6.TreeGraph({
           graph.focusItem(selectedItem);
         }
       }
-    }, 'double-finger-drag-canvas', 'three-finger-drag-canvas', {
+    },
+    {
       type: 'tooltip',
       formatText: function formatText(data) {
-        return '<div>' + data.name + '</div>';
+        return `<div>${  data.name  }</div>`;
       }
-    }, {
-      type: 'drag-canvas',
-      shouldUpdate: function shouldUpdate() {
-        return false;
-      },
-      shouldEnd: function shouldUpdate() {
-        return false;
-      }
-    }]
+    },
+    'drag-canvas', 'zoom-canvas' ]
   },
   defaultNode: {
     shape: TREE_NODE,
@@ -149,20 +155,14 @@ const graph = new G6.TreeGraph({
   layout: {
     type: 'compactBox',
     direction: 'LR',
-    getId: d => {
-      return d.id;
-    },
-    getWidth: () => {
-      return 243;
-    },
-    getVGap: () => {
-      return 24;
-    },
-    getHGap: () => {
-      return 50;
-    }
+    getId: d => d.id,
+    getWidth: () => 243,
+    getVGap: () => 24,
+    getHGap: () => 50
   }
 });
+
+graph.get('canvas').set('localRefresh', false);
 
 /* 精简节点和复杂节点共用的一些方法 */
 const nodeBasicMethod = {
@@ -196,8 +196,7 @@ const nodeBasicMethod = {
         height,
         fill: config.bgColor,
         stroke: config.borderColor,
-        radius: 2,
-        cursor: 'pointer'
+        radius: 2
       }
     });
 
@@ -231,7 +230,7 @@ const nodeBasicMethod = {
       attrs: {
         x,
         y,
-        radius: 7,
+        r: 7,
         symbol: collapsed ? EXPAND_ICON : COLLAPSE_ICON,
         stroke: 'rgba(0,0,0,0.25)',
         fill: 'rgba(0,0,0,0)',
@@ -243,9 +242,9 @@ const nodeBasicMethod = {
   },
   afterDraw: function afterDraw(cfg, group) {
     /* 操作 marker 的背景色显示隐藏 */
-    const icon = group.findByClassName('collapse-icon');
+    const icon = group.find(element => element.get('className') ==='collapse-icon');
     if (icon) {
-      const bg = group.findByClassName('collapse-icon-bg');
+      const bg = group.find(element => element.get('className') ==='collapse-icon-bg');
       icon.on('mouseenter', function() {
         bg.attr('opacity', 1);
         graph.get('canvas').draw();
@@ -256,42 +255,44 @@ const nodeBasicMethod = {
       });
     }
     /* ip 显示 */
-    const ipBox = group.findByClassName('ip-box');
+    const ipBox = group.find(element => element.get('className') ==='ip-box');
     if (ipBox) {
       /* ip 复制的几个元素 */
-      const ipLine = group.findByClassName('ip-cp-line');
-      const ipBG = group.findByClassName('ip-cp-bg');
-      const ipIcon = group.findByClassName('ip-cp-icon');
-      const ipCPBox = group.findByClassName('ip-cp-box');
+      const ipLine = group.find(element => element.get('className') ==='ip-cp-line');
+      const ipBG = group.find(element => element.get('className') ==='ip-cp-bg');
+      const ipIcon = group.find(element => element.get('className') ==='ip-cp-icon');
+      const ipCPBox = group.find(element => element.get('className') ==='ip-cp-box');
 
       const onMouseEnter = function onMouseEnter() {
-        _this.ipHideTimer && clearTimeout(_this.ipHideTimer);
+        if (ipHideTimer) {
+          clearTimeout(ipHideTimer);
+        }
         ipLine.attr('opacity', 1);
         ipBG.attr('opacity', 1);
         ipIcon.attr('opacity', 1);
         graph.get('canvas').draw();
       };
       const onMouseLeave = function onMouseLeave() {
-        _this.ipHideTimer = setTimeout(function() {
+        ipHideTimer = setTimeout(() => {
           ipLine.attr('opacity', 0);
           ipBG.attr('opacity', 0);
           ipIcon.attr('opacity', 0);
           graph.get('canvas').draw();
         }, 100);
       };
-      ipBox.on('mouseenter', function() {
+      ipBox.on('mouseenter', () => {
         onMouseEnter();
       });
-      ipBox.on('mouseleave', function() {
+      ipBox.on('mouseleave', () => {
         onMouseLeave();
       });
-      ipCPBox.on('mouseenter', function() {
+      ipCPBox.on('mouseenter', () => {
         onMouseEnter();
       });
-      ipCPBox.on('mouseleave', function() {
+      ipCPBox.on('mouseleave', () => {
         onMouseLeave();
       });
-      ipCPBox.on('click', function() {});
+      ipCPBox.on('click', () => {});
     }
   },
   setState: function setState(name, value, item) {
@@ -301,14 +302,14 @@ const nodeBasicMethod = {
     graph.setAutoPaint(false);
     if (name === 'emptiness') {
       if (value) {
-        childrens.forEach(function(shape) {
+        childrens.forEach((shape) => {
           if (hasOpacityClass.indexOf(shape.get('className')) > -1) {
             return;
           }
           shape.attr('opacity', 0.4);
         });
       } else {
-        childrens.forEach(function(shape) {
+        childrens.forEach((shape) => {
           if (hasOpacityClass.indexOf(shape.get('className')) > -1) {
             return;
           }
@@ -325,7 +326,7 @@ G6.registerNode(SIMPLE_TREE_NODE, {
   drawShape: function drawShape(cfg, group) {
     const config = getNodeConfig(cfg);
     const isRoot = cfg.type === 'root';
-    const nodeError = cfg.nodeError;
+    const { nodeError } = cfg;
 
     const container = nodeBasicMethod.createNodeBox(group, config, 171, 38, isRoot);
 
@@ -372,7 +373,7 @@ G6.registerNode(TREE_NODE, {
     const config = getNodeConfig(cfg);
     const isRoot = cfg.type === 'root';
     const data = cfg;
-    const nodeError = data.nodeError;
+    const { nodeError } = data;
     /* 最外面的大矩形 */
     const container = nodeBasicMethod.createNodeBox(group, config, 243, 64, isRoot);
 
@@ -564,8 +565,7 @@ G6.registerEdge('tree-edge', {
     const targetNode = cfg.targetNode.getModel();
     const edgeError = !!targetNode.edgeError;
 
-    const startPoint = cfg.startPoint;
-    const endPoint = cfg.endPoint;
+    const { startPoint, endPoint } = cfg;
     const controlPoints = this.getControlPoints(cfg);
     let points = [ startPoint ]; // 添加起始点
     // 添加控制点
@@ -606,10 +606,9 @@ G6.registerEdge('tree-edge', {
       attrs: {
         fill: '#FFF1F0',
         radius: 2,
-        cursor: 'pointer',
         opacity: 1
       },
-      /* sofarouter 需要 class，以便控制 显示隐藏*/
+      /* sofarouter 需要 class，以便控制 显示隐藏 */
       className: SOFAROUTER_RECT_CLASS
     });
     const text = group.addShape('text', {
@@ -623,7 +622,7 @@ G6.registerEdge('tree-edge', {
         fill: '#F5222D',
         opacity: 1
       },
-      /* sofarouter 需要 class，以便控制 显示隐藏*/
+      /* sofarouter 需要 class，以便控制 显示隐藏 */
       className: SOFAROUTER_TEXT_CLASS
     });
     const textBBox = text.getBBox();
@@ -690,63 +689,12 @@ G6.registerEdge('tree-edge', {
   },
   update: null
 }, 'cubic-horizontal');
-G6.registerBehavior('three-finger-drag-canvas', {
-  getEvents: function getEvents() {
-    return {
-      'canvas:dragstart': 'onDragStart',
-      'canvas:drag': 'onDrag',
-      'canvas:dragend': 'onDragEnd'
-    };
-  },
-
-  onDragStart: function onDragStart(ev) {
-    ev.preventDefault();
-    _this.dragDx = ev.x;
-    _this.dragDy = ev.y;
-  },
-  onDrag: function onDrag(ev) {
-    ev.preventDefault();
-    translate(_this.dragDx - ev.x, _this.dragDy - ev.y);
-  },
-  onDragEnd: function onDragEnd(ev) {
-    ev.preventDefault();
-  }
-});
-G6.registerBehavior('double-finger-drag-canvas', {
-  getEvents: function getEvents() {
-    return {
-      wheel: 'onWheel'
-    };
-  },
-
-  onWheel: function onWheel(ev) {
-    if (ev.ctrlKey) {
-      const canvas = graph.get('canvas');
-      const point = canvas.getPointByClient(ev.clientX, ev.clientY);
-      let ratio = graph.getZoom();
-      if (ev.wheelDelta > 0) {
-        ratio = ratio + ratio * 0.05;
-      } else {
-        ratio = ratio - ratio * 0.05;
-      }
-      graph.zoomTo(ratio, {
-        x: point.x,
-        y: point.y
-      });
-    } else {
-      const x = ev.deltaX || ev.movementX;
-      const y = ev.deltaY || ev.movementY;
-      translate(x, y);
-    }
-    ev.preventDefault();
-  }
-});
 
 function strLen(str) {
   let len = 0;
-  for (let i = 0; i < str.length; i++) {
+  for (let i = 0; i < str.length; i += 1) {
     if (str.charCodeAt(i) > 0 && str.charCodeAt(i) < 128) {
-      len++;
+      len += 1;
     } else {
       len += 2;
     }
@@ -756,7 +704,7 @@ function strLen(str) {
 
 function fittingString(str, maxWidth, fontSize) {
   const fontWidth = fontSize * 1.3; // 字号+边距
-  maxWidth = maxWidth * 2; // 需要根据自己项目调整
+  maxWidth *= 2; // 需要根据自己项目调整
   const width = strLen(str) * fontWidth;
   const ellipsis = '…';
   if (width > maxWidth) {
@@ -767,46 +715,15 @@ function fittingString(str, maxWidth, fontSize) {
   return str;
 }
 
-function translate(x, y) {
-  // graph.translate(-x, -y);
-  let moveX = x;
-  let moveY = y;
-
-  const containerWidth = graph.get('width');
-  const containerHeight = graph.get('height');
-
-  /* 获得当前偏移量*/
-  const group = graph.get('group');
-  const bbox = group.getBBox();
-  const leftTopPoint = graph.getCanvasByPoint(bbox.minX, bbox.minY);
-  const rightBottomPoint = graph.getCanvasByPoint(bbox.maxX, bbox.maxY);
-  /* 如果 x 轴在区域内，不允许左右超过100 */
-  if (x < 0 && leftTopPoint.x - x > LIMIT_OVERFLOW_WIDTH) {
-    moveX = 0;
-  }
-  if (x > 0 && rightBottomPoint.x - x < containerWidth - LIMIT_OVERFLOW_WIDTH) {
-    moveX = 0;
-  }
-
-  if (y < 0 && leftTopPoint.y - y > LIMIT_OVERFLOW_HEIGHT) {
-    moveY = 0;
-  }
-  if (y > 0 && rightBottomPoint.y - y < containerHeight - LIMIT_OVERFLOW_HEIGHT) {
-    moveY = 0;
-  }
-  graph.translate(-moveX, -moveY);
-}
-
 function formatData(data) {
-  const recursiveTraverse = function recursiveTraverse(node) {
-    const level = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  const recursiveTraverse = (node, level = 0) => {
 
     const appName = 'testappName';
     const keyInfo = 'testkeyinfo';
     const ip = '111.22.33.44';
 
     const targetNode = {
-      id: node.key + '',
+      id: `${node.key}`,
       rpcId: node.rpcId,
       level,
       type: node.appName === 'USER' ? 'root' : node.type,
@@ -822,7 +739,7 @@ function formatData(data) {
     };
     if (node.children) {
       targetNode.children = [];
-      node.children.forEach(function(item) {
+      node.children.forEach(item => {
         targetNode.children.push(recursiveTraverse(item, level + 1));
       });
     }
@@ -831,10 +748,10 @@ function formatData(data) {
   const result = recursiveTraverse(data);
   return result;
 }
-graph.on('beforepaint', function() {
+graph.on('beforepaint', () => {
   const topLeft = graph.getPointByCanvas(0, 0);
   const bottomRight = graph.getPointByCanvas(1000, 600);
-  graph.getNodes().forEach(function(node) {
+  graph.getNodes().forEach(node => {
     const model = node.getModel();
     if (model.x < topLeft.x - 200 || model.x > bottomRight.x || model.y < topLeft.y || model.y > bottomRight.y) {
       node.getContainer().hide();
@@ -843,7 +760,7 @@ graph.on('beforepaint', function() {
     }
   });
   const edges = graph.getEdges();
-  edges.forEach(function(edge) {
+  edges.forEach(edge => {
     const sourceNode = edge.get('sourceNode');
     const targetNode = edge.get('targetNode');
     if (!sourceNode.get('visible') && !targetNode.get('visible')) {

@@ -56,7 +56,7 @@ export class BaseLayout<Cfg = any> implements ILayout<Cfg> {
 
 const Layout: {
   [layoutType: string]: any;
-  registerLayout<Cfg>(type: string, layout: LayoutOption<Cfg>, layoutCons: LayoutConstructor<Cfg>): void;
+  registerLayout<Cfg>(type: string, layout: LayoutOption<Cfg>, layoutCons?: LayoutConstructor<Cfg>): void;
 } = {
   /**
    * 注册布局的方法
@@ -67,21 +67,17 @@ const Layout: {
     if (!layout) {
       throw new Error('please specify handler for this layout:' + type);
     }
-    // const gLayout = function(cfg: Cfg) {
-    //   const self = this;
-    //   mix(self, self.getDefaultCfg(), cfg);
-    // };
-    // augment(gLayout, layout);
 
     // tslint:disable-next-line: max-classes-per-file
     class GLayout extends layoutCons {
       constructor(cfg: Cfg) {
         super();
+        const self = this;
         const props = {};
-        const defaultCfg = this.getDefaultCfg();
+        const defaultCfg = self.getDefaultCfg();
         mix(props, defaultCfg, layout, cfg);
         each(props, (value, key) => {
-          this[key] = value;
+          self[key] = value;
         });
       }
     }

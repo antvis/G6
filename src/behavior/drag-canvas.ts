@@ -2,7 +2,6 @@ import { G6Event, IG6GraphEvent } from '../../types';
 import { cloneEvent } from '../util/base'
 const abs = Math.abs
 const DRAG_OFFSET = 10
-// const ALLOW_EVENTS = [ 16, 17, 18 ]
 const ALLOW_EVENTS = [ 'shift', 'ctrl', 'alt', 'control' ];
 
 export default {
@@ -13,11 +12,11 @@ export default {
   },
   getEvents(): { [key in G6Event]?: string } {
     return {
-      'canvas:mousedown': 'onMouseDown',
-      'canvas:mousemove': 'onMouseMove',
-      'canvas:mouseup': 'onMouseUp',
-      'canvas:click': 'onMouseUp',
-      'canvas:mouseleave': 'onOutOfRange',
+      'dragstart': 'onMouseDown',
+      'drag': 'onMouseMove',
+      'dragend': 'onMouseUp',
+      'click': 'onMouseUp',
+      'mouseleave': 'onOutOfRange',
       keyup: 'onKeyUp',
       keydown: 'onKeyDown'
     };
@@ -45,17 +44,20 @@ export default {
     this.graph.paint();
   },
   onMouseDown(e: IG6GraphEvent) {
+    console.log('on mouse down')
     if (this.keydown) {
       return;
     }
 
     this.origin = { x: e.clientX, y: e.clientY };
     this.dragging = false;
+    this.dragbegin = true;
   },
   onMouseMove(e: IG6GraphEvent) {
-    if (this.keydown) {
+    if (this.keydown || !this.dragbegin) {
       return;
     }
+    console.log(e.target);
 
     e = cloneEvent(e);
     const graph = this.graph;
@@ -82,7 +84,7 @@ export default {
     }
   },
   onMouseUp(e: IG6GraphEvent) {
-    if (this.keydown) {
+    if (this.keydown || !this.dragbegin) {
       return;
     }
 
@@ -105,22 +107,26 @@ export default {
     const self = this;
     self.origin = null;
     self.dragging = false;
+    self.dragbegin = false;
   },
   // 若在拖拽时，鼠标移出画布区域，此时放开鼠标无法终止 drag 行为。在画布外监听 mouseup 事件，放开则终止
   onOutOfRange(e: IG6GraphEvent) {
     if (!this.dragging) {
       return;
     }
+    console.log('out of range');
     const self = this;
-    const canvasElement = self.graph.get('canvas').get('el');
-    function listener(ev) {
-      if (ev.target !== canvasElement) {
-        self.onMouseUp(e);
-        // 终止时需要判断此时是否在监听画布外的 mouseup 事件，若有则解绑
-        document.body.removeEventListener('mouseup', listener, true);
-      }
-    };
-    document.body.addEventListener('mouseup', listener, true);
+    self.onMouseUp(e);
+    // const canvasElement = self.graph.get('canvas').get('el');
+    // function listener(ev) {
+    //   console.log(ev.target, canvasElement, ev.target !== canvasElement);
+    //   if (ev.target !== canvasElement) {
+    //     self.onMouseUp(e);
+    //     // 终止时需要判断此时是否在监听画布外的 mouseup 事件，若有则解绑
+    //     document.removeEventListener('mouseup', listener, false);
+    //   }
+    // };
+    // document.addEventListener('mouseup', listener, false);
   },
   onKeyDown(e: KeyboardEvent) {
     const code = e.key;

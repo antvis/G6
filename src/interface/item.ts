@@ -265,7 +265,7 @@ export interface INode extends IItemBase {
    * 获取锚点的定义
    * @return {array} anchorPoints， {x,y,...cfg}
    */
-  getAnchorPoints(): IPoint[];
+  getAnchorPoints(): IPoint[] | number[][];
 
   hasLocked(): boolean;
 

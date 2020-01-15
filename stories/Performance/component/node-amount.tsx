@@ -13,7 +13,7 @@ const NodeAmount = () => {
         width: 1000,
         height: 1000,
         defaultNode: {
-          size: 40,
+          size: 20,
           style: {
             fill: '#D8DEEB',
             stroke: '#B2BDD6',
@@ -37,7 +37,7 @@ const NodeAmount = () => {
     }
 
     let nodes = []
-    for(let i = 0; i < 10000; i++) {
+    for(let i = 0; i < 1000; i++) {
       nodes.push({
         id: `node-${i}`,
         label: `${i}`,

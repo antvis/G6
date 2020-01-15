@@ -62,7 +62,7 @@ export type ShapeOptions = Partial<{
    * @param  {Object} cfg 节点、边的配置项
    * @return {Array|null} 控制点的数组,如果为 null，则没有控制点
    */
-  getAnchorPoints(cfg: ModelConfig): IPoint[]
+  getAnchorPoints(cfg?: ModelConfig): IPoint[]
 
   // 如果没定义 update 方法，每次都调用 draw 方法
   update(cfg: ModelConfig, item: Item)
