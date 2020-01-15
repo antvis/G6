@@ -314,6 +314,9 @@ export enum G6Event {
   CANVAS_MOUSEUP = 'canvas:mouseup',
   CANVAS_CLICK = 'canvas:click',
   CANVAS_MOSUELEAVE = 'canvas:mouseleave',
+  CANVAS_DRAGSTART = 'canvas:dragstart',
+  CANVAS_DRAG = 'canvas:drag',
+  CANVAS_DRAGEND = 'canvas:dragend',
 }
 
 type GetEvents = 'getEvents';

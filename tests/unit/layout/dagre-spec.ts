@@ -212,6 +212,9 @@ describe.only('dagre layout', () => {
       height: 500,
       layout: {
         type: 'dagre'
+      },
+      defaultEdge: {
+        shape: 'polyline'
       }
     });
     graph.data(data);
@@ -225,7 +228,7 @@ describe.only('dagre layout', () => {
     expect(mathEqual(edge.startPoint.y, 77)).toEqual(true);
     expect(mathEqual(edge.endPoint.x, 70)).toEqual(true);
     expect(mathEqual(edge.endPoint.y, 249)).toEqual(true);
-    graph.destroy();
+    // graph.destroy();
   });
   it('dagre with number nodeSize and sepFunc', () => {
     data.edges.forEach((edgeItem) => {
@@ -310,7 +313,7 @@ describe.only('dagre layout', () => {
     graph.destroy();
   });
 
-  it('dagre with number size in node data, controlpoints', () => {
+  it.only('dagre with number size in node data, controlpoints', () => {
     data.edges.forEach((edgeItem) => {
       delete edgeItem.startPoint;
       delete edgeItem.endPoint;
@@ -328,7 +331,10 @@ describe.only('dagre layout', () => {
         ranksep: null
       },
       defaultEdge: {
-        shape: 'polyline'
+        shape: 'polyline',
+        style: {
+          offset: 20
+        }
       },
       defaultNode: {
         shape: 'rect'
@@ -352,7 +358,7 @@ describe.only('dagre layout', () => {
     expect(mathEqual(edge.controlPoints[0].x, 125)).toEqual(true);
     expect(mathEqual(edge.controlPoints[0].y, 60)).toEqual(true);
     expect(edge.controlPoints).not.toEqual(undefined);
-    graph.destroy();
+    // graph.destroy();
   });
   it('dagre with array size in node data', () => {
     data.edges.forEach((edgeItem) => {

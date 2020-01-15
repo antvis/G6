@@ -108,6 +108,7 @@ export default class DagreLayout extends BaseLayout {
       edges[i].endPoint = coord.points[coord.points.length - 1];
       if (self.controlPoints) {
         edges[i].controlPoints = coord.points.slice(1, coord.points.length - 1);
+        console.log('in daagre', i, edges[i], edges[i].controlPoints);
       }
     });
   }

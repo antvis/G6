@@ -410,7 +410,7 @@ G6.registerEdge(
     ) {
       const self = this;
       let shapeStyle = self.getShapeStyle(cfg);
-      shapeStyle = Util.mix(shapeStyle, {
+      shapeStyle = Object.assign({}, {
         opacity: 0,
         strokeOpacity: 0
       });
@@ -484,6 +484,7 @@ graph = new G6.Graph({
     shape: 'animate-line'
   }
 });
+graph.get('canvas').set('localRefresh', false);
 
 
 function translate(x, y) {

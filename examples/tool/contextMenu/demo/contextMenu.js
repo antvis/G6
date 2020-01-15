@@ -28,7 +28,7 @@ insertCss(`
 
 const descriptionDiv = document.createElement('div');
 descriptionDiv.id = 'discription';
-descriptionDiv.innerHTML = 'Left click a node to activate a contextMenu.';
+descriptionDiv.innerHTML = 'Right click a node to activate a contextMenu.';
 document.getElementById('container').appendChild(descriptionDiv);
 
 
