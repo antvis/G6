@@ -184,7 +184,8 @@ export default {
     const self = this;
     const brush = self.graph.get('canvas').addShape('rect', {
       attrs: self.brushStyle,
-      capture: false
+      capture: false,
+      name: 'brush-shape'
     });
     this.brush = brush;
     return brush;

@@ -57,7 +57,9 @@ const data = {
     { id: 'node11', size: 15, isLeaf: true },
     { id: 'node12', size: 15, isLeaf: true },
     { id: 'node13', size: 15, isLeaf: true },
-    { id: 'node14', size: 15, isLeaf: true }
+    { id: 'node14', size: 15, isLeaf: true },
+    { id: 'node15', size: 15, isLeaf: true },
+    { id: 'node16', size: 15, isLeaf: true }
   ],
   edges: [
     { source: 'node0', target: 'node1' },

@@ -47,6 +47,7 @@ Shape.registerNode('rect', {
     const keyShape = group.addShape('rect', {
       attrs: style,
       className: 'rect-keyShape',
+      name: 'rect-keyShape',
       draggable: true
     });
 
@@ -78,6 +79,7 @@ Shape.registerNode('rect', {
           r: markSize
         },
         className: 'link-point-left',
+        name: 'link-point-left',
         isAnchorPoint: true
       });
     }
@@ -92,6 +94,7 @@ Shape.registerNode('rect', {
           r: markSize
         },
         className: 'link-point-right',
+        name: 'link-point-right',
         isAnchorPoint: true
       });
     }
@@ -106,6 +109,7 @@ Shape.registerNode('rect', {
           r: markSize
         },
         className: 'link-point-top',
+        name: 'link-point-top',
         isAnchorPoint: true
       });
     }
@@ -120,6 +124,7 @@ Shape.registerNode('rect', {
           r: markSize
         },
         className: 'link-point-bottom',
+        name: 'link-point-bottom',
         isAnchorPoint: true
       });
     }

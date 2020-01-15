@@ -66,6 +66,7 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
+  linkCenter: true,
   defaultNode: {
     size: [ 80, 40 ],
     shape: 'rect',

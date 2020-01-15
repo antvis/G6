@@ -277,7 +277,7 @@ export const getLabelPosition = (
 };
 
 const traverse = <T extends { children?: T[] }>(data: T, fn: (param: T) => boolean) => {
-  if (!fn(data)) {
+  if (fn(data) === false) {
     return;
   }
 

@@ -74,35 +74,35 @@ const layoutCfg = {
   }
 };
 
-G6.registerBehavior('double-finger-drag-canvas', {
-  getEvents: function getEvents() {
-    return {
-      wheel: 'onWheel'
-    };
-  },
+// G6.registerBehavior('double-finger-drag-canvas', {
+//   getEvents: function getEvents() {
+//     return {
+//       wheel: 'onWheel'
+//     };
+//   },
 
-  onWheel: ev => {
-    if (ev.ctrlKey) {
-      const canvas = graph.get('canvas');
-      const point = canvas.getPointByClient(ev.clientX, ev.clientY);
-      let ratio = graph.getZoom();
-      if (ev.wheelDelta > 0) {
-        ratio = ratio + ratio * 0.05;
-      } else {
-        ratio = ratio - ratio * 0.05;
-      }
-      graph.zoomTo(ratio, {
-        x: point.x,
-        y: point.y
-      });
-    } else {
-      const x = ev.deltaX || ev.movementX;
-      const y = ev.deltaY || ev.movementY;
-      translate(x, y);
-    }
-    ev.preventDefault();
-  }
-});
+//   onWheel: ev => {
+//     if (ev.ctrlKey) {
+//       const canvas = graph.get('canvas');
+//       const point = canvas.getPointByClient(ev.clientX, ev.clientY);
+//       let ratio = graph.getZoom();
+//       if (ev.wheelDelta > 0) {
+//         ratio = ratio + ratio * 0.05;
+//       } else {
+//         ratio = ratio - ratio * 0.05;
+//       }
+//       graph.zoomTo(ratio, {
+//         x: point.x,
+//         y: point.y
+//       });
+//     } else {
+//       const x = ev.deltaX || ev.movementX;
+//       const y = ev.deltaY || ev.movementY;
+//       translate(x, y);
+//     }
+//     ev.preventDefault();
+//   }
+// });
 
 G6.registerNode(
   'bubble',

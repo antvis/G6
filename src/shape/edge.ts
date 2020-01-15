@@ -200,6 +200,7 @@ const singleEdge: ShapeOptions = {
     const shapeStyle = this.getShapeStyle(cfg);
     const shape = group.addShape('path', {
       className: CLS_SHAPE,
+      name: CLS_SHAPE,
       attrs: shapeStyle,
     });
     return shape;
@@ -217,10 +218,12 @@ const singleEdge: ShapeOptions = {
       ])
       return group.addShape('text', {
         attrs: { matrix: rotateMatrix, ...labelStyle },
+        name: 'text-shape'
       });
     } else {
       return group.addShape('text', {
         attrs: labelStyle,
+        name: 'text-shape'
       });
     }
   },

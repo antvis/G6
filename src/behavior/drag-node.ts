@@ -222,7 +222,8 @@ export default {
             x: cx,
             y: cy,
             ...attrs
-          }
+          },
+          name: 'rect-delegate-shape'
         });
       } else if (this.target) {
         this.delegateRect = parent.addShape('rect', {
@@ -232,7 +233,8 @@ export default {
             x: x + bbox.x,
             y: y + bbox.y,
             ...attrs
-          }
+          },
+          name: 'rect-delegate-shape'
         });
       }
       this.delegateRect.set('capture', false);

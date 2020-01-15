@@ -134,7 +134,8 @@ export default {
             y: cy,
             r,
             ...attrs
-          }
+          },
+          name: 'circle-delegate-shape'
         });
         self.shapeOrigin = { x: cx, y: cy };
       } else {
@@ -143,7 +144,8 @@ export default {
             x: bboxX,
             y: bboxY,
             ...attrs
-          }
+          },
+          name: 'rect-delegate-shape'
         });
         self.shapeOrigin = { x: bboxX, y: bboxY };
       }

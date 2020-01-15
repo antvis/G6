@@ -29,6 +29,10 @@ export default {
     const item = e.item;
     // 如果节点进行过更新，model 会进行 merge，直接改 model 就不能改布局，所以需要去改源数据
     const sourceData = this.graph.findDataById(item.get('id'));
+    if (!sourceData) {
+      return;
+    }
+    
     const children = sourceData.children;
     // 叶子节点的收缩和展开没有意义
     if (!children || children.length === 0) {

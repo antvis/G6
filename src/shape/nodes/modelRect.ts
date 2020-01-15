@@ -90,6 +90,7 @@ Shape.registerNode('modelRect', {
     const keyShape = group.addShape('rect', {
       attrs: style,
       className: 'modelRect-keyShape',
+      name: 'modelRect-keyShape',
       draggable: true
     });
 
@@ -103,7 +104,8 @@ Shape.registerNode('modelRect', {
           height,
           ...preRectStyle
         },
-        className: 'pre-rect'
+        className: 'pre-rect',
+        name: 'pre-rect',
       });
     }
 
@@ -135,7 +137,8 @@ Shape.registerNode('modelRect', {
           width: w,
           height: h
         },
-        className: 'rect-logo-icon'
+        className: 'rect-logo-icon',
+        name: 'rect-logo-icon',
       });
 
       image.set('capture', false);
@@ -162,7 +165,8 @@ Shape.registerNode('modelRect', {
           width: w,
           height: h
         },
-        className: 'rect-state-icon'
+        className: 'rect-state-icon',
+        name: 'rect-state-icon',
       });
 
       image.set('capture', false);
@@ -193,6 +197,7 @@ Shape.registerNode('modelRect', {
           r: markSize
         },
         className: 'link-point-left',
+        name: 'link-point-left',
         isAnchorPoint: true
       });
     }
@@ -207,6 +212,7 @@ Shape.registerNode('modelRect', {
           r: markSize
         },
         className: 'link-point-right',
+        name: 'link-point-right',
         isAnchorPoint: true
       });
     }
@@ -221,6 +227,7 @@ Shape.registerNode('modelRect', {
           r: markSize
         },
         className: 'link-point-top',
+        name: 'link-point-top',
         isAnchorPoint: true
       });
     }
@@ -235,6 +242,7 @@ Shape.registerNode('modelRect', {
           r: markSize
         },
         className: 'link-point-bottom',
+        name: 'link-point-bottom',
         isAnchorPoint: true
       });
     }
@@ -269,7 +277,9 @@ Shape.registerNode('modelRect', {
           x: offsetX,
           y: -5,
           text: cfg.label
-        }
+        },
+        className: 'text-shape',
+        name: 'text-shape',
       });
 
       group.addShape('text', {
@@ -279,7 +289,8 @@ Shape.registerNode('modelRect', {
           y: 17 + descriptionPaddingTop,
           text: cfg.description
         },
-        className: 'rect-description'
+        className: 'rect-description',
+        name: 'rect-description'
       });
     } else {
       label = group.addShape('text', {
@@ -365,7 +376,8 @@ Shape.registerNode('modelRect', {
             y: cfg.description ? -5 : 7,
             text: cfg.label
           },
-          className: 'node-label'
+          className: 'node-label',
+          name: 'node-label',
         });
       } else {
         const cfgStyle = cfg.labelCfg ? cfg.labelCfg.style : {};
@@ -394,7 +406,8 @@ Shape.registerNode('modelRect', {
             y: 17 + paddingTop,
             text: cfg.description
           },
-          className: 'rect-description'
+          className: 'rect-description',
+          name: 'rect-description',
         });
       } else {
         const cfgStyle = cfg.descriptionCfg ? cfg.descriptionCfg.style : {};

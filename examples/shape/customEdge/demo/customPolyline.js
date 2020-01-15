@@ -84,7 +84,7 @@ G6.registerEdge('line-arrow', {
     // 添加结束点
     points.push(endPoint);
     const path = this.getPath(points);
-    const style = G6.Util.mix({}, G6.Global.defaultEdge.style, {
+    const style = Object.assign({}, G6.Global.defaultEdge.style, {
       stroke: '#BBB',
       lineWidth: 1,
       path,

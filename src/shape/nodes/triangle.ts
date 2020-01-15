@@ -59,6 +59,7 @@ Shape.registerNode('triangle', {
     const keyShape = group.addShape('path', {
       attrs: style,
       className: 'triangle-keyShape',
+      name: 'triangle-keyShape',
       draggable: true
     });
 
@@ -78,7 +79,8 @@ Shape.registerNode('triangle', {
           y: iconH,
           ...icon
         },
-        className: 'triangle-icon'
+        className: 'triangle-icon',
+        name: 'triangle-icon',
       });
 
       image.set('capture', false);
@@ -126,7 +128,8 @@ Shape.registerNode('triangle', {
             y: leftPos[1],
             r: markSize
           },
-          className: 'link-point-left'
+          className: 'link-point-left',
+          name: 'link-point-left',
         });
       }
     }
@@ -153,7 +156,8 @@ Shape.registerNode('triangle', {
             y: rightPos[1],
             r: markSize
           },
-          className: 'link-point-right'
+          className: 'link-point-right',
+          name: 'link-point-right'
         });
       }
     }
@@ -180,7 +184,8 @@ Shape.registerNode('triangle', {
             y: topPos[1],
             r: markSize
           },
-          className: 'link-point-top'
+          className: 'link-point-top',
+          name: 'link-point-top'
         });
       }
     }
@@ -207,7 +212,8 @@ Shape.registerNode('triangle', {
             y: bottomPos[1],
             r: markSize
           },
-          className: 'link-point-bottom'
+          className: 'link-point-bottom',
+          name: 'link-point-bottom'
         });
       }
     }
@@ -352,6 +358,7 @@ Shape.registerNode('triangle', {
             y: leftPos[1]
           },
           className: 'link-point-left',
+          name: 'link-point-left',
           isAnchorPoint: true
         });
       }
@@ -384,6 +391,7 @@ Shape.registerNode('triangle', {
             y: rightPos[1]
           },
           className: 'link-point-right',
+          name: 'link-point-right',
           isAnchorPoint: true
         });
       }  
@@ -417,6 +425,7 @@ Shape.registerNode('triangle', {
             y: topPos[1]
           },
           className: 'link-point-top',
+          name: 'link-point-top',
           isAnchorPoint: true
         });
       }
@@ -449,6 +458,7 @@ Shape.registerNode('triangle', {
             y: bottomPos[1]
           },
           className: 'link-point-bottom',
+          name: 'link-point-bottom',
           isAnchorPoint: true
         });
       }
