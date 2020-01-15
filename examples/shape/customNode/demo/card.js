@@ -75,7 +75,7 @@ const nodeBasicMethod = {
         x: 0,
         y: 0,
         width: w,
-        height: h
+        heigh: h
       }
     });
     if (!isRoot) {
@@ -457,6 +457,9 @@ const data = {
   ],
   edges: []
 };
+
+const canvas = graph.get('canvas')
+canvas.set('localRefresh', false)
 
 graph.data(data);
 graph.render();
