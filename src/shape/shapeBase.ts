@@ -58,12 +58,49 @@ export const shapeBase: ShapeOptions = {
 
     const labelCfg = merge({}, defaultLabelCfg, cfg.labelCfg)
     const labelStyle = this.getLabelStyle(cfg, labelCfg, group)
+    console.log(labelStyle);
     const label = group.addShape('text', {
       attrs: labelStyle,
       capture: false,
       className: 'text-shape',
       name: 'text-shape',
     })
+    if (labelStyle.rotate) {
+      const labelBBox = label.getBBox();
+      let labelMatrix = label.getMatrix();
+      if (labelStyle.rotateCenter) {
+        switch (labelStyle.rotateCenter) {
+          case 'center': 
+            labelMatrix = transform(labelMatrix, [
+              [ 't',  -labelBBox.width / 2, -labelBBox.height / 2 ],
+              [ 'r',  labelStyle.rotate ],
+              [ 't',  labelBBox.width / 2, labelBBox.height / 2 ]
+            ]);
+            break;
+          case 'lefttop':
+            labelMatrix = transform(labelMatrix, [
+              [ 't',  -labelStyle.x, -labelStyle.y ],
+              [ 'r',  labelStyle.rotate ],
+              [ 't',  labelStyle.x, labelStyle.y ]
+            ]);
+          break;
+          case 'leftcenter':
+            labelMatrix = transform(labelMatrix, [
+              [ 't',  -labelStyle.x, -labelStyle.y - labelBBox.height / 2 ],
+              [ 'r',  labelStyle.rotate ],
+              [ 't',  labelStyle.x, labelStyle.y + labelBBox.height / 2 ]
+            ]);
+            break;
+        }
+      } else {
+        labelMatrix = transform(labelMatrix, [
+          [ 't',  -labelStyle.x, -labelStyle.y - labelBBox.height / 2 ],
+          [ 'r',  labelStyle.rotate ],
+          [ 't',  labelStyle.x, labelStyle.y + labelBBox.height / 2 ]
+        ]);
+      }
+      label.setMatrix(labelMatrix)
+    }
     return label
   },
   getLabelStyleByPosition(cfg?: ModelConfig, labelCfg?: ILabelConfig, group?: GGroup): LabelStyle {
