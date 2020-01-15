@@ -4,7 +4,7 @@
  */
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
-import { isArray, isNil } from '@antv/util/lib'
+import { isArray, isNil, isEqual } from '@antv/util/lib'
 import deepMix from '@antv/util/lib/deep-mix';
 import { ILabelConfig, ShapeOptions } from '../interface/shape'
 import { Item, LabelStyle, NodeConfig } from '../../types';
@@ -37,14 +37,20 @@ const singleNode: ShapeOptions = {
    */
   getSize(cfg: NodeConfig): number | number[] {
     let size: number | number[] = cfg.size || this.options.size || Global.defaultNode.size
+
+    // size 是数组，但长度为1，则补长度为2
+    if(isArray(size) && size.length === 1) {
+      size = [size[0], size[0]]
+    }
+
+    // size 为数字，则转换为数组
     if (!isArray(size)) {
       size = [ size, size ]
     }
     return size
   },
   // 私有方法，不希望扩展的节点复写这个方法
-  getLabelStyleByPosition(cfg?: NodeConfig, labelCfg?: ILabelConfig): LabelStyle
-  {
+  getLabelStyleByPosition(cfg?: NodeConfig, labelCfg?: ILabelConfig): LabelStyle {
     const labelPosition = labelCfg.position || this.labelPosition
 
     // 默认的位置（最可能的情形），所以放在最上面
@@ -58,6 +64,7 @@ const singleNode: ShapeOptions = {
     }
 
     const size = this.getSize(cfg)
+    
     const width = size[0]
     const height = size[1]
 
