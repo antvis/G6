@@ -406,5 +406,129 @@ describe('circle test', () => {
       graph.destroy();
       expect(graph.destroyed).toBe(true);
     });
+    it('update label, linkPoints, icon from none', () => {
+      const graph = new Graph({
+        container: div,
+        width: 500,
+        height: 500,
+        defaultNode: {
+          size: 50
+        }
+      });
+      const data = {
+        nodes: [
+          {
+            id: 'node',
+            x: 200,
+            y: 100
+          }
+        ]
+      };
+      graph.data(data);
+      graph.render();
+
+      graph.on('node:mouseenter', e => {
+        const item = e.item;
+        item.update({
+          label: 'Circle',
+          labelCfg: {
+            position: 'bottom',
+            offset: 10,
+            style: {
+              fill: '#333'
+            }
+          },
+          linkPoints: {
+            top: true,
+            bottom: true,
+            left: true,
+            right: true,
+            fill: '#fff',
+            size: 5
+          },
+          icon: {
+            show: true
+          }
+        })
+      });
+
+      graph.on('node:mouseleave', e => {
+        const item = e.item;
+        item.update({
+          label: ' ',
+          labelCfg: {
+            style: {
+              fill: '#333'
+            }
+          },
+          linkPoints: {
+            top: false,
+            bottom: false,
+            left: false,
+            right: false,
+            fill: '#fff',
+            size: 5
+          },
+          icon: {
+            show: false
+          }
+        })
+      });
+
+    });
+
+    it('update label, linkPoints, icon from none', () => {
+      const graph = new Graph({
+        container: div,
+        width: 500,
+        height: 500,
+        // defaultNode: {
+        //   size: 50
+        // }
+      });
+      const data = {
+        nodes: [
+          {
+            id: 'node',
+            shape: 'modelRect',
+            label: 'modelRect',
+            description: 'description',
+            x: 200,
+            y: 100
+          }
+        ]
+      };
+      graph.data(data);
+      graph.render();
+
+      graph.on('node:mouseenter', e => {
+        const item = e.item;
+        item.update({
+          descriptionCfg: {
+            style: {
+              fill: 'steelblue'
+            }
+          },
+          stateIcon: {
+            show: true
+          }
+        })
+      });
+
+      graph.on('node:mouseleave', e => {
+        const item = e.item;
+        item.update({
+          descriptionCfg: {
+            style: {
+              fill: '#bfbfbf'
+            }
+          },
+          stateIcon: {
+            show: false
+          }
+        })
+      });
+
+    });
   });
 });

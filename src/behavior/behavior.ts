@@ -38,15 +38,14 @@ export default class Behavior {
     }
 
     base.prototype = _proptype
-    
-    this.types[type] = base
+    Behavior.types[type] = base
   }
 
   public static hasBehavior(type: string) {
-    return !!this.types[type]
+    return !!Behavior.types[type]
   }
 
   public static getBehavior(type: string) {
-    return this.types[type]
+    return Behavior.types[type]
   }
 }

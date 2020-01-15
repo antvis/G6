@@ -15,6 +15,11 @@ export interface IModeOption {
   minZoom?: number;
   shouldUpdate?: (e: IG6GraphEvent) => boolean;
   shouldBegin?: (e: IG6GraphEvent) => boolean;
+  shouldEnd?: (e: IG6GraphEvent) => boolean;
+  onChange?: (item?: Item, judge?: boolean) => unknown;
+  formatText?: (data: {
+    [key: string]: unknown
+  }) => string;
 }
 
 export type IModeType = string | IModeOption
@@ -155,7 +160,7 @@ export interface IGraph extends EventEmitter {
   set<T = any>(key: string | object, value?: T): Graph;
   findById(id: string): Item;
   translate(dx: number, dy: number): void;
-  zoom(ratio: number, center: Point): void;
+  zoom(ratio: number, center?: Point): void;
 
   /**
    * 将屏幕坐标转换为视口坐标
