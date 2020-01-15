@@ -60,7 +60,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       let rotate = 0;
       if (!node.children) {
         position = 'bottom';
-        rotate = 90;
+        rotate = Math.PI / 2;
       }
       return {
         label: node.id,
