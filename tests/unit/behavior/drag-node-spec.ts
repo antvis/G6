@@ -450,8 +450,8 @@ describe('drag-node', () => {
       clientY: 100,
       clientX: 100
     });
-    expect(node.getContainer().getMatrix()[6]).toEqual(550);
-    expect(node.getContainer().getMatrix()[7]).toEqual(550);
+    expect(node.getContainer().getMatrix()[6]).toEqual(50);
+    expect(node.getContainer().getMatrix()[7]).toEqual(50);
     graph.updateItem(node, { x: 50, y: 50 });
     expect(node.getContainer().getMatrix()[6]).toEqual(50);
     expect(node.getContainer().getMatrix()[7]).toEqual(50);
