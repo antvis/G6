@@ -4,7 +4,7 @@ import Group from '@antv/g-canvas/lib/group';
 import isNumber from "@antv/util/lib/is-number";
 import isString from '@antv/util/lib/is-string'
 import { IGraph } from "../../interface/graph";
-import { Item, Matrix, Padding } from '../../../types';
+import { Item, Matrix, Padding } from '../../types';
 import { formatPadding } from '../../util/base'
 import { applyMatrix, invertMatrix } from '../../util/math';
 

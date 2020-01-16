@@ -2,9 +2,9 @@ import GraphEvent from '@antv/g-base/lib/event/graph-event';
 import { BBox } from '@antv/g-base/lib/types';
 import Canvas from '@antv/g-canvas/lib/canvas';
 import ShapeBase from '@antv/g-canvas/lib/shape/base';
-import Node from '../src/item/node';
-import { IGraph } from '../src/interface/graph';
-import { IEdge, INode } from '../src/interface/item';
+import Node from '../item/node';
+import { IGraph } from '../interface/graph';
+import { IEdge, INode } from '../interface/item';
 
 // Math types
 export interface IPoint {

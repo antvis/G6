@@ -1,7 +1,7 @@
 import { Point } from '@antv/g-base/lib/types';
 import Group from '@antv/g-canvas/lib/group'
 import { deepMix, each } from '@antv/util'
-import { IShapeBase, Item, ModelConfig, IPoint } from '../../../types';
+import { IShapeBase, Item, ModelConfig, IPoint } from '../../types';
 import { pointsToPolygon } from '../../util/path'
 import Global from '../../global'
 import Shape from '../shape'

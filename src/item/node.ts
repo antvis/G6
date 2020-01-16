@@ -2,7 +2,7 @@ import each from '@antv/util/lib/each'
 import isNil from '@antv/util/lib/is-nil';
 import mix from '@antv/util/lib/mix'
 import { IEdge, INode } from '../interface/item';
-import { IPoint, IShapeBase, NodeConfig } from '../../types';
+import { IPoint, IShapeBase, NodeConfig } from '../types';
 import { distance, getCircleIntersectByPoint, getEllispeIntersectByPoint, getRectIntersectByPoint } from '../util/math';
 import Edge from './edge';
 import Item from './item'

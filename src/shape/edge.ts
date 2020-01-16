@@ -9,7 +9,7 @@ import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
 import { deepMix, each, isNil } from '@antv/util';
 import { ILabelConfig, ShapeOptions } from '../interface/shape';
-import { EdgeConfig, EdgeData, IPoint, LabelStyle, ShapeStyle, Item } from '../../types';
+import { EdgeConfig, EdgeData, IPoint, LabelStyle, ShapeStyle, Item } from '../types';
 import { getLabelPosition, getLoopCfgs } from '../util/graphic';
 import { distance, getCircleCenterByPoints } from '../util/math';
 import { getControlPoint, getSpline } from '../util/path';

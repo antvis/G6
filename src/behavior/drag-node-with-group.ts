@@ -1,4 +1,4 @@
-import { IG6GraphEvent, Item, G6Event } from '../../types';
+import { IG6GraphEvent, Item, G6Event } from '../types';
 
 /*
  * @Author: moyee

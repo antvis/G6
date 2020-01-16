@@ -1,4 +1,4 @@
-import { G6Event, IG6GraphEvent } from '../../types';
+import { G6Event, IG6GraphEvent } from '../types';
 
 const DEFAULT_TRIGGER = 'click';
 const ALLOW_EVENTS = [ 'click', 'dblclick' ];

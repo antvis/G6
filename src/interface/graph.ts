@@ -1,7 +1,7 @@
 import EventEmitter from '@antv/event-emitter';
 import { AnimateCfg, Point } from '@antv/g-base/lib/types';
 import Graph from '../graph/graph';
-import { EdgeConfig, GraphData, IG6GraphEvent, Item, ITEM_TYPE, ModelConfig, ModelStyle, NodeConfig, Padding, ShapeStyle, TreeGraphData } from '../../types';
+import { EdgeConfig, GraphData, IG6GraphEvent, Item, ITEM_TYPE, ModelConfig, ModelStyle, NodeConfig, Padding, ShapeStyle, TreeGraphData } from '../types';
 import { IEdge, INode } from './item';
 
 export interface IModeOption {
@@ -13,6 +13,7 @@ export interface IModeOption {
   enableDelegate?: boolean;
   maxZoom?: number;
   minZoom?: number;
+  multiple?: boolean;
   shouldUpdate?: (e: IG6GraphEvent) => boolean;
   shouldBegin?: (e: IG6GraphEvent) => boolean;
   shouldEnd?: (e: IG6GraphEvent) => boolean;

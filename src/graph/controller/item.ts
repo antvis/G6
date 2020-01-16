@@ -8,7 +8,7 @@ import isString from '@antv/util/lib/is-string'
 import upperFirst from '@antv/util/lib/upper-first'
 import Edge from '../../item/edge';
 import Node from '../../item/node';
-import { EdgeConfig, Item, ITEM_TYPE, ModelConfig, NodeConfig, NodeMapConfig } from '../../../types';
+import { EdgeConfig, Item, ITEM_TYPE, ModelConfig, NodeConfig, NodeMapConfig } from '../../types';
 import Graph from '../graph';
 
 import { IEdge, INode } from '../../interface/item';
