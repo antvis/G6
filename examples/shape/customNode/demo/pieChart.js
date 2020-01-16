@@ -10,7 +10,7 @@ const lightOrange = '#5ad8a6';
 
    // 注册自定义名为 pie-node 的节点类型
 G6.registerNode('pie-node', {
-  drawShape: (cfg, group) => {
+  draw: (cfg, group) => {
     const radius = cfg.size / 2; // 节点半径
     const inPercentage = cfg.inDegree / cfg.degree; // 入度占总度数的比例
     const inAngle = inPercentage * Math.PI * 2; // 入度在饼图中的夹角大小
@@ -28,7 +28,7 @@ G6.registerNode('pie-node', {
              [ 'M', radius, 0 ],
              [ 'A', radius, radius, 0, isInBigArc, 0, inArcEnd[0], inArcEnd[1] ],
              [ 'L', 0, 0 ],
-             [ 'B' ]
+             [ 'Z' ]
         ],
         lineWidth: 0,
         fill: lightOrange
@@ -42,7 +42,7 @@ G6.registerNode('pie-node', {
              [ 'M', inArcEnd[0], inArcEnd[1] ],
              [ 'A', radius, radius, 0, isOutBigArc, 0, radius, 0 ],
              [ 'L', 0, 0 ],
-             [ 'B' ]
+             [ 'Z' ]
         ],
         lineWidth: 0,
         fill: lightBlue
@@ -52,7 +52,7 @@ G6.registerNode('pie-node', {
        // 返回 keyshape
     return fanIn;
   }
-}, 'single-node');
+});
 
 const data = {
   nodes: [

@@ -6,6 +6,31 @@ import G6 from '@antv/g6';
  *
 */
 
+const getPath = (cx, cy, rs, re, startAngle, endAngle, clockwise) => {
+  const flag1 = clockwise ? 1 : 0;
+  const flag2 = clockwise ? 0 : 1;
+  return [
+    [
+      'M', Math.cos(startAngle) * rs + cx, Math.sin(startAngle) * rs + cy
+    ],
+    [
+      'L', Math.cos(startAngle) * re + cx,  Math.sin(startAngle) * re + cy
+    ],
+    [
+      'A', re, re, 0, 0, flag1, Math.cos(endAngle) * re + cx,  Math.sin(endAngle) * re + cy
+    ],
+    [
+      'L', Math.cos(endAngle) * rs + cx, Math.sin(endAngle) * rs + cy
+    ],
+    [
+      'A', rs, rs, 0, 0, flag2, Math.cos(startAngle) * rs + cx, Math.sin(startAngle) * rs + cy
+    ],
+    [
+      'Z'
+    ]
+  ];
+}
+
 // 自定义标注点节点
 G6.registerNode('stacked-bar-node', {
   draw(cfg, group) {
@@ -31,30 +56,20 @@ G6.registerNode('stacked-bar-node', {
         const last = item % 10;
         const endAngle = nowAngle + everyIncAngle;
         for (let i = 0; i < baseNbr; i++) {
-          group.addShape('fan', {
+          const path0 = getPath(0, 0, nowStartR, nowStartR + baseIncR, nowAngle, endAngle, false);
+          group.addShape('path', {
             attrs: {
-              x: 0,
-              y: 0,
-              rs: nowStartR,
-              re: nowStartR + baseIncR,
-              startAngle: nowAngle,
-              endAngle,
-              clockwise: false,
+              path: path0,
               stroke: 'darkgray',
               fill: cat.color
             }
           });
           nowStartR = nowStartR + baseIncR + 2;
           if (i === baseNbr - 1 && last !== 0) {
-            group.addShape('fan', {
+            const path1 = getPath(0, 0, nowStartR, nowStartR + baseIncR * last / 10, nowAngle, endAngle, false);
+            group.addShape('path', {
               attrs: {
-                x: 0,
-                y: 0,
-                rs: nowStartR,
-                re: nowStartR + baseIncR * last / 10,
-                startAngle: nowAngle,
-                endAngle,
-                clockwise: false,
+                path: path1,
                 stroke: 'darkgray',
                 fill: cat.color
               }

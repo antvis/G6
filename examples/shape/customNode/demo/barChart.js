@@ -8,6 +8,32 @@ import G6 from '@antv/g6';
     /**
      * 注册一个类似南丁格尔玫瑰一样的节点
      */
+
+
+const getPath = (cx, cy, rs, re, startAngle, endAngle, clockwise) => {
+  const flag1 = clockwise ? 1 : 0;
+  const flag2 = clockwise ? 0 : 1;
+  return [
+    [
+      'M', Math.cos(startAngle) * rs + cx, Math.sin(startAngle) * rs + cy
+    ],
+    [
+      'L', Math.cos(startAngle) * re + cx,  Math.sin(startAngle) * re + cy
+    ],
+    [
+      'A', re, re, 0, 0, flag1, Math.cos(endAngle) * re + cx,  Math.sin(endAngle) * re + cy
+    ],
+    [
+      'L', Math.cos(endAngle) * rs + cx, Math.sin(endAngle) * rs + cy
+    ],
+    [
+      'A', rs, rs, 0, 0, flag2, Math.cos(startAngle) * rs + cx, Math.sin(startAngle) * rs + cy
+    ],
+    [
+      'Z'
+    ]
+  ];
+}
 G6.registerNode('circleBar', {
   draw(cfg, group) {
     /*
@@ -27,21 +53,16 @@ G6.registerNode('circleBar', {
     cfg.details.forEach(cat => {
       cat.values.forEach(item => {
         const re = item + baseR;
-        const fan = group.addShape('fan', {
+        const path0 = getPath(0, 0, baseR, item + baseR, nowAngle, nowAngle += everyIncAngle, false);
+        const fan = group.addShape('path', {
           attrs: {
-            x: 0,
-            y: 0,
-            rs: baseR,
-            re: item + baseR,
-            startAngle: nowAngle,
-            endAngle: nowAngle += everyIncAngle,
-            clockwise: false,
+            path: path0,
             stroke: 'darkgray',
             fill: cat.color
           }
         });
             // 加上交互动画
-        fan.on('mouseenter', function() {
+        fan.on('mouseenter', () => {
           fan.animate({
             re: re + 8
           }, {
@@ -49,7 +70,7 @@ G6.registerNode('circleBar', {
             duration: 300
           });
         });
-        fan.on('mouseleave', function() {
+        fan.on('mouseleave', () =>{
           fan.animate({
             re
           }, {
@@ -57,7 +78,6 @@ G6.registerNode('circleBar', {
             duration: 300
           });
         });
-
             // 设置class
         fan.set('className', 'littleCircle');
 
