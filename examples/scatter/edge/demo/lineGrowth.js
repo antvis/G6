@@ -59,7 +59,7 @@ const graph = new G6.Graph({
     }
   },
   defaultEdge: {
-    shape: 'line-growth',
+    type: 'line-growth',
     style: {
       lineWidth: 2,
       stroke: '#bae7ff'

@@ -33,14 +33,14 @@ const node1 = graph.addItem('node', {
   id: 'node1',
   x: 100,
   y: 100,
-  shape: 'circle',
+  type: 'circle',
   style: { fill: '#5B8FF9', lineWidth: 0 }
 });
 const node2 = graph.addItem('node', {
   id: 'node2',
   x: 200,
   y: 100,
-  shape: 'circle',
+  type: 'circle',
   style: { fill: '#5AD8A6', lineWidth: 0 }
 });
 

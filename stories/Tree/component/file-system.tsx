@@ -142,14 +142,14 @@ const MoveViewPort = () => {
       
       graph.node(node => {
         return {
-          shape: 'file-node',
+          type: 'file-node',
           label: node.name as string
         };
       });
       
       graph.edge(() => {
         return {
-          shape: 'step-line'
+          type: 'step-line'
         };
       });
       

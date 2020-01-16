@@ -12,14 +12,14 @@ As stated in [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge)
 
 
 ### 1 Global Configure When Instantiating a Graph
-Assign `shape` to `'quadratic'` in the `defaultEdge` object when instantiating a Graph:
+Assign `type` to `'quadratic'` in the `defaultEdge` object when instantiating a Graph:
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
   defaultEdge: {
-    shape: 'quadratic', // The type of the edge
+    type: 'quadratic', // The type of the edge
     // ...  Other configuraltions
   }
 })
@@ -36,7 +36,7 @@ const data = {
   edges: [{
     source: 'node0',
     target: 'node1'
-    shape: 'quadratic',
+    type: 'quadratic',
     //... // Other configurations for edges
     style: {
       .//...  // Style properties for edges
@@ -81,7 +81,7 @@ const data = {
  edges: [{
    source: 'node0',
    target: 'node1',
-   shape: 'quadratic',
+   type: 'quadratic',
    label: 'quadratic'
  }]
 };
@@ -90,7 +90,7 @@ const graph = new G6.Graph({
   width: 800,
   height: 600,
   defaultEdge: {
-    // shape: 'quadratic',  // The shape has been assigned in the data, we do not have to define it any more
+    // type: 'quadratic',  // The type has been assigned in the data, we do not have to define it any more
     style: {
       stroke: '#088',
       endArrow: true,

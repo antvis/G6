@@ -56,7 +56,7 @@ const graph = new G6.Graph({
   linkCenter: true,
   defaultNode: {
     size: [ 80, 40 ],
-    shape: 'rect',
+    type: 'rect',
     style: {
       fill: '#DEE9FF',
       stroke: '#5B8FF9'
@@ -87,19 +87,19 @@ const data = {
     label: 'node1',
     x: 200,
     y: 100,
-    shape: 'rect'
+    type: 'rect'
   }, {
     id: 'node2',
     label: 'node2',
     x: 250,
     y: 250,
-    shape: 'rect'
+    type: 'rect'
   }, {
     id: 'node3',
     label: 'node3',
     x: 350,
     y: 100,
-    shape: 'rect'
+    type: 'rect'
   }],
   edges: [{
     source: 'node1',

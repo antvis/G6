@@ -36,7 +36,7 @@ const graph = new G6.Graph({
     }
   },
   defaultEdge: {
-    shape: 'polyline',
+    type: 'polyline',
     style: {
       stroke: '#F6BD16'
     }

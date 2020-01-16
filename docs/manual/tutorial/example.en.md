@@ -159,8 +159,8 @@ The configurations below will be used in the following Tutorial:
 | fitViewPadding | Number / Array | 20 / [ 20, 40, 50, 20 ] | 0 | The padding between the content of the graph and the borders of the canvas. |
 | animate | Boolean | true / false | false | Whether to activate the global animation. |
 | modes | Object | {<br />  default: [ 'drag-node', 'drag-canvas' ]<br />} | null | The set of graph interaction modes. This is a complicated concept, refer to [Mode](/en/docs/manual/middle/states/mode) for more detial. |
-| defaultNode | Object | {<br />  shape: 'circle',<br />  color: '#000',<br />  style: {<br />    ......<br />  }<br />} | null | The default global properties for nodes, includes styles properties and other properties. |
-| defaultEdge | Object | {<br />  shape: 'polyline',<br />  color: '#000',<br />  style: {<br />    ......<br />  }<br />} | null | The default global properties for edges, includes styles properties and other properties. |
+| defaultNode | Object | {<br />  type: 'circle',<br />  color: '#000',<br />  style: {<br />    ......<br />  }<br />} | null | The default global properties for nodes, includes styles properties and other properties. |
+| defaultEdge | Object | {<br />  type: 'polyline',<br />  color: '#000',<br />  style: {<br />    ......<br />  }<br />} | null | The default global properties for edges, includes styles properties and other properties. |
 | nodeStateStyles | Object | {<br />  hover: {<br />    ......<br />  },<br />  select: {<br />    ......<br />  }<br />} | null | The style properties of nodes in different states except for default state. Such as hover, select. |
 | edgeStateStyles | Object | {<br />  hover: {<br />    ......<br />  },<br />  select: {<br />    ......<br />  }<br />} | null | The style properties of edges in different states except for default state. Such as hover, select. |
 

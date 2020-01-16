@@ -13,7 +13,7 @@ describe('circle test', () => {
       width: 500,
       height: 500,
       defaultNode: {
-        shape: 'circle'
+        type: 'circle'
       }
     };
     const graph = new Graph(cfg);
@@ -78,7 +78,7 @@ describe('circle test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          shape: 'circle',
+          type: 'circle',
           size: 50,
           style: {
             fill: 'red',
@@ -130,7 +130,7 @@ describe('circle test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          shape: 'circle',
+          type: 'circle',
           size: 35,
           style: {
             fill: 'blue'
@@ -205,7 +205,7 @@ describe('circle test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          shape: 'circle',
+          type: 'circle',
           size: 50,
           style: {
             fill: 'red',
@@ -490,7 +490,7 @@ describe('circle test', () => {
         nodes: [
           {
             id: 'node',
-            shape: 'modelRect',
+            type: 'modelRect',
             label: 'modelRect',
             description: 'description',
             x: 200,

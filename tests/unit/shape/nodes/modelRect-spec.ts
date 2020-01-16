@@ -14,7 +14,7 @@ describe('model rect test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          shape: 'modelRect'
+          type: 'modelRect'
         }
       });
       const data = {
@@ -81,7 +81,7 @@ describe('model rect test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          shape: 'modelRect',
+          type: 'modelRect',
           style: {
             fill: 'red'
           },
@@ -127,7 +127,7 @@ describe('model rect test', () => {
       width: 500,
       height: 500,
       defaultNode: {
-        shape: 'modelRect'
+        type: 'modelRect'
       }
     });
     const data = {
@@ -218,7 +218,7 @@ describe('model rect test', () => {
       width: 500,
       height: 500,
       defaultNode: {
-        shape: 'modelRect'
+        type: 'modelRect'
       }
     });
     const data = {
@@ -312,7 +312,7 @@ describe('model rect test', () => {
       width: 500,
       height: 500,
       defaultNode: {
-        shape: 'modelRect'
+        type: 'modelRect'
       }
     });
     const data = {
@@ -395,7 +395,7 @@ describe('model rect test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          shape: 'modelRect',
+          type: 'modelRect',
           logoIcon: {
             show: false
           },
@@ -466,7 +466,7 @@ describe('model rect test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          shape: 'modelRect',
+          type: 'modelRect',
           linkPoints: {
             left: true,
             right: true
@@ -528,7 +528,7 @@ describe('model rect test', () => {
               top: true,
               bottom: true
             },
-            shape: 'modelRect',
+            type: 'modelRect',
             x: 100,
             y: 200
           }
@@ -635,7 +635,7 @@ describe('model rect test', () => {
             logoIcon: {
               show: false
             },
-            shape: 'modelRect',
+            type: 'modelRect',
             x: 100,
             y: 200
           }

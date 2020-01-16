@@ -149,7 +149,7 @@ const data = {
       x: 150,
       y: 150,
       label: 'Area1',
-      shape: 'area',
+      type: 'area',
       anchorPoints: [
       [ 0, 0.5 ], [ 1, 0.5 ]
       ],
@@ -167,7 +167,7 @@ const data = {
       x: 500,
       y: 150,
       label: 'Area2',
-      shape: 'area',
+      type: 'area',
       anchorPoints: [
       [ 0, 0.5 ], [ 1, 0.5 ]
       ],

@@ -150,11 +150,11 @@ const LargeDataTree = () => {
           ]
         },
         defaultNode: {
-          shape: TREE_NODE,
+          type: TREE_NODE,
           anchorPoints: [[ 0, 0.5 ], [ 1, 0.5 ]]
         },
         defaultEdge: {
-          shape: 'tree-edge',
+          type: 'tree-edge',
           style: {
             stroke: '#A3B1BF'
           }

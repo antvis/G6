@@ -8,7 +8,7 @@ const centerNode = {
   id: 'center',
   x: 500,
   y: 300,
-  shape: 'center-node',
+  type: 'center-node',
   size: 20
 };
 nodes.push(centerNode);
@@ -19,9 +19,9 @@ for (let i = 0; i < 4; i++) {
     id,
     x: 250,
     y: (i + 1) * 100 + 50,
-    shape: 'leaf-node'
+    type: 'leaf-node'
   });
-  edges.push({ source: id, target: 'center', shape: 'can-running' });
+  edges.push({ source: id, target: 'center', type: 'can-running' });
 }
 // 右侧添加 6 个节点
 for (let i = 0; i < 6; i++) {
@@ -30,9 +30,9 @@ for (let i = 0; i < 6; i++) {
     id,
     x: 750,
     y: i * 100 + 50,
-    shape: 'leaf-node'
+    type: 'leaf-node'
   });
-  edges.push({ source: 'center', target: id, shape: 'can-running' });
+  edges.push({ source: 'center', target: id, type: 'can-running' });
 }
 
 G6.registerNode('leaf-node', {

@@ -266,7 +266,7 @@ describe('drag-node', () => {
       },
     });
     const source = graph.addItem('node', { id: 'source', color: '#666', x: 50, y: 50, size: 20, style: { lineWidth: 2, fill: '#666', opacity: 0.1 } });
-    const target = graph.addItem('node', { id: 'target', color: '#666', x: 300, y: 300, size: 20, shape: 'rect', style: { lineWidth: 2, fill: '#666', opacity: 0.1 } });
+    const target = graph.addItem('node', { id: 'target', color: '#666', x: 300, y: 300, size: 20, type: 'rect', style: { lineWidth: 2, fill: '#666', opacity: 0.1 } });
     const edge = graph.addItem('edge', { source, target });
     graph.paint();
     let path = edge.get('group').get('children')[0].attr('path');
@@ -338,7 +338,7 @@ describe('drag-node', () => {
       },
     });
     const source = graph.addItem('node', { id: 'source', color: '#666', x: 50, y: 50, style: { lineWidth: 2, fill: '#666' } });
-    const target = graph.addItem('node', { id: 'target', color: '#666', x: 300, y: 300, shape: 'rect', style: { lineWidth: 2, fill: '#666' } });
+    const target = graph.addItem('node', { id: 'target', color: '#666', x: 300, y: 300, type: 'rect', style: { lineWidth: 2, fill: '#666' } });
     const edge = graph.addItem('edge', { source, target, label: 'test label', labelCfg: { autoRotate: true } });
     const label = edge.get('group').find(g => {
       return g.get('className') === 'edge-label';
@@ -420,7 +420,7 @@ describe('drag-node', () => {
       },
     });
     const src = graph.addItem('node', { id: 'source', color: '#666', x: 50, y: 50, style: { lineWidth: 2, fill: '#666' } });
-    const target = graph.addItem('node', { id: 'target', color: '#666', x: 300, y: 300, shape: 'rect', style: { lineWidth: 2, fill: '#666' } });
+    const target = graph.addItem('node', { id: 'target', color: '#666', x: 300, y: 300, type: 'rect', style: { lineWidth: 2, fill: '#666' } });
     const edge = graph.addItem('edge', { source: src, target, label: 'test label', labelCfg: { autoRotate: true } });
     const keyShape = edge.get('keyShape');
     const path = keyShape.attr('path');

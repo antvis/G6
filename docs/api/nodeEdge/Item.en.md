@@ -25,7 +25,7 @@ Tips: `model` contains:
 | --- | --- | --- | --- |
 | id | String | true | The unique id of the item. |
 | style | Object | false | The style of the item. |
-| shape | String | false | The shape of the item. The default shape for edge is 'line', the default shape for node is 'circle'. The default shapes will take effect when `shape` is null. |
+| type | String | false | The type of the item. The default type for edge is 'line', the default type for node is 'circle'. The default shapes will take effect when `type` is null. |
 | label | String | false | The label of the item. A label will be rendered if it exists. |
 
 
@@ -33,7 +33,7 @@ Tips: `model` contains:
 ```javascript
 const model = {
 	id: 'node',
-  shape: 'rect',
+  type: 'rect',
   label: 'node',
   style: {
   	fill: 'red'

@@ -57,7 +57,7 @@ const graph = new G6.Graph({
     }
   },
   defaultEdge: {
-    shape: 'arc',
+    type: 'arc',
     style: {
       stroke: '#F6BD16'
     },

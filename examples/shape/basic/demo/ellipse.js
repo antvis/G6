@@ -18,7 +18,7 @@ const graph = new G6.Graph({
   width,
   height,
   defaultNode: {
-    shape: 'ellipse',
+    type: 'ellipse',
     size: [ 180, 100 ],
     style: {
       fill: '#9EC9FF',

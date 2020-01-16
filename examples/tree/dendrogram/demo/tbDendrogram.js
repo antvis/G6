@@ -29,7 +29,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
         }
       },
       defaultEdge: {
-        shape: 'cubic-vertical',
+        type: 'cubic-vertical',
         style: {
           stroke: '#A3B1BF'
         }

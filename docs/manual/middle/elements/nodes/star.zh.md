@@ -11,14 +11,14 @@ G6 内置了星形 star 节点，其默认样式如下。标签文本位于星�
 
 
 ### 1 实例化图时全局配置
-用户在实例化 Graph 时候可以通过 `defaultNode` 指定 `shape` 为 `'star'`，即可使用 `star` 节点。
+用户在实例化 Graph 时候可以通过 `defaultNode` 指定 `type` 为 `'star'`，即可使用 `star` 节点。
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
   defaultNode: {
-    shape: 'star',
+    type: 'star',
     // 其他配置
   }
 })
@@ -31,7 +31,7 @@ const graph = new G6.Graph({
 const data = {
   nodes: [{
 	  id: 'node0',
-    shape: 'star',
+    type: 'star',
     ... // 其他配置
     },
     ... // 其他节点
@@ -66,7 +66,7 @@ const data = {
   nodes: [{
     x: 100,
     y: 100,
-    shape: 'star',
+    type: 'star',
     label: 'star'
  }]
 };
@@ -75,7 +75,7 @@ const graph = new G6.Graph({
   width: 800,
   height: 600,
   defaultNode: {
-    // shape: 'star',   // 在数据中已经指定 shape，这里无需再次指定
+    // type: 'star',   // 在数据中已经指定 type，这里无需再次指定
     size: 80,
     style: {
       fill: '#bae637',

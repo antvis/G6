@@ -106,7 +106,7 @@ const data = {
       x: 150,
       y: 150,
       label: 'Bar1',
-      shape: 'circleBar',
+      type: 'circleBar',
       anchorPoints: [
             [ 0, 0.5 ], [ 1, 0.5 ]
       ],
@@ -123,7 +123,7 @@ const data = {
       x: 500,
       y: 150,
       label: 'Bar2',
-      shape: 'circleBar',
+      type: 'circleBar',
       anchorPoints: [
             [ 0, 0.5 ], [ 1, 0.5 ]
       ],

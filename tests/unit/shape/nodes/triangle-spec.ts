@@ -14,7 +14,7 @@ describe('triangle test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          shape: 'triangle'
+          type: 'triangle'
         }
       });
       const data = {
@@ -54,7 +54,7 @@ describe('triangle test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          shape: 'triangle',
+          type: 'triangle',
           style: {
             fill: 'red'
           }
@@ -114,7 +114,7 @@ describe('triangle test', () => {
               left: true,
               right: true
             },
-            shape: 'triangle',
+            type: 'triangle',
             x: 100,
             y: 200
           }
@@ -147,7 +147,7 @@ describe('triangle test', () => {
               left: true,
               right: true
             },
-            shape: 'triangle',
+            type: 'triangle',
             x: 100,
             y: 200
           }
@@ -180,7 +180,7 @@ describe('triangle test', () => {
               left: true,
               top: true
             },
-            shape: 'triangle',
+            type: 'triangle',
             x: 100,
             y: 200
           }
@@ -213,7 +213,7 @@ describe('triangle test', () => {
               right: true,
               top: true
             },
-            shape: 'triangle',
+            type: 'triangle',
             x: 100,
             y: 200
           }
@@ -245,7 +245,7 @@ describe('triangle test', () => {
               top: true,
               left: true
             },
-            shape: 'triangle',
+            type: 'triangle',
             x: 100,
             y: 200
           }
@@ -341,7 +341,7 @@ describe('triangle test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          shape: 'triangle',
+          type: 'triangle',
           size: 50,
           style: {
             fill: 'red',
@@ -397,7 +397,7 @@ describe('triangle test', () => {
       const data = {
         nodes: [
           {
-            shape: 'triangle',
+            type: 'triangle',
             id: 'node',
             label: 'old triangle label',
             x: 200,
@@ -453,7 +453,7 @@ describe('triangle test', () => {
       const data = {
         nodes: [
           {
-            shape: 'triangle',
+            type: 'triangle',
             id: 'node',
             x: 200,
             y: 100
@@ -489,7 +489,7 @@ describe('triangle test', () => {
         nodes: [
           {
             id: 'node',
-            shape: 'triangle',
+            type: 'triangle',
             label: 'triangle',
             x: 200,
             y: 100

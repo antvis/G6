@@ -185,7 +185,7 @@ const graph = new G6.Graph({
   animate: true,
   defaultNode: {
     size: [ 30, 20 ],
-    shape: 'rect',
+    type: 'rect',
     style: {
       lineWidth: 2,
       stroke: '#5B8FF9',

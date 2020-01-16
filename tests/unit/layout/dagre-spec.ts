@@ -214,7 +214,7 @@ describe.only('dagre layout', () => {
         type: 'dagre'
       },
       defaultEdge: {
-        shape: 'polyline'
+        type: 'polyline'
       }
     });
     graph.data(data);
@@ -291,7 +291,7 @@ describe.only('dagre layout', () => {
       },
       defaultNode: {
         size: nodeSize,
-        shape: 'rect'
+        type: 'rect'
       },
       width: 500,
       height: 500,
@@ -305,10 +305,10 @@ describe.only('dagre layout', () => {
 
     expect(mathEqual(node.x, 60)).toEqual(true);
     expect(mathEqual(node.y, 215)).toEqual(true);
-    expect(mathEqual(edge.startPoint.x, 94)).toEqual(true);
-    expect(mathEqual(edge.startPoint.y, 55)).toEqual(true);
-    expect(mathEqual(edge.endPoint.x, 110)).toEqual(true);
-    expect(mathEqual(edge.endPoint.y, 215)).toEqual(true);
+    expect(mathEqual(edge.startPoint.x, 121)).toEqual(true);
+    expect(mathEqual(edge.startPoint.y, 99)).toEqual(true);
+    expect(mathEqual(edge.endPoint.x, 83)).toEqual(true);
+    expect(mathEqual(edge.endPoint.y, 170)).toEqual(true);
     expect(edge.controlPoints).toEqual(undefined);
     graph.destroy();
   });
@@ -331,13 +331,13 @@ describe.only('dagre layout', () => {
         ranksep: null
       },
       defaultEdge: {
-        shape: 'polyline',
+        type: 'polyline',
         style: {
           radius: 20
         }
       },
       defaultNode: {
-        shape: 'rect'
+        type: 'rect'
       },
       width: 500,
       height: 500,
@@ -351,14 +351,14 @@ describe.only('dagre layout', () => {
 
     expect(mathEqual(node.x, 197.5)).toEqual(true);
     expect(mathEqual(node.y, 60)).toEqual(true);
-    expect(mathEqual(edge.startPoint.x, 75.5)).toEqual(true);
-    expect(mathEqual(edge.startPoint.y, 151)).toEqual(true);
+    expect(mathEqual(edge.startPoint.x, 69)).toEqual(true);
+    expect(mathEqual(edge.startPoint.y, 140)).toEqual(true);
     expect(mathEqual(edge.endPoint.x, 187)).toEqual(true);
     expect(mathEqual(edge.endPoint.y, 60)).toEqual(true);
     expect(mathEqual(edge.controlPoints[0].x, 125)).toEqual(true);
     expect(mathEqual(edge.controlPoints[0].y, 60)).toEqual(true);
     expect(edge.controlPoints).not.toEqual(undefined);
-    // graph.destroy();
+    graph.destroy();
   });
   it('dagre with array size in node data', () => {
     data.edges.forEach((edgeItem) => {
@@ -376,7 +376,7 @@ describe.only('dagre layout', () => {
         rankdir: 'LR'
       },
       defaultNode: {
-        shape: 'rect'
+        type: 'rect'
       },
       width: 500,
       height: 500,
@@ -390,8 +390,8 @@ describe.only('dagre layout', () => {
 
     expect(mathEqual(node.x, 350)).toEqual(true);
     expect(mathEqual(node.y, 85)).toEqual(true);
-    expect(mathEqual(edge.startPoint.x, 150.5)).toEqual(true);
-    expect(mathEqual(edge.startPoint.y, 195)).toEqual(true);
+    expect(mathEqual(edge.startPoint.x, 138)).toEqual(true);
+    expect(mathEqual(edge.startPoint.y, 161)).toEqual(true);
     expect(mathEqual(edge.endPoint.x, 300)).toEqual(true);
     expect(mathEqual(edge.endPoint.y, 85)).toEqual(true);
     graph.destroy();

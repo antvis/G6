@@ -43,14 +43,14 @@ const data = {
     y: 150,
     label: 'node1',
     size: 100,
-    shape: 'customNode'
+    type: 'customNode'
   }, {
     id: 'node2',
     x: 300,
     y: 150,
     label: 'node2',
     size: 100,
-    shape: 'customNode'
+    type: 'customNode'
   }],
   edges: [{
     source: 'node1',

@@ -18,7 +18,7 @@ const graph = new G6.Graph({
   width,
   height,
   defaultNode: {
-    shape: 'diamond',
+    type: 'diamond',
     size: [ 150, 100 ],
     style: {
       fill: '#9EC9FF',

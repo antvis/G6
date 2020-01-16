@@ -267,16 +267,16 @@ export default class Graph extends EventEmitter implements IGraph {
       /**
        * 默认的节点配置，data 上定义的配置会覆盖这些配置。例如：
        * defaultNode: {
-       *  shape: 'rect',
+       *  type: 'rect',
        *  size: [60, 40],
        *  style: {
        *    //... 样式配置项
        *  }
        * }
        * 若数据项为 { id: 'node', x: 100, y: 100 }
-       * 实际创建的节点模型是 { id: 'node', x: 100, y: 100， shape: 'rect', size: [60, 40] }
-       * 若数据项为 { id: 'node', x: 100, y: 100, shape: 'circle' }
-       * 实际创建的节点模型是 { id: 'node', x: 100, y: 100， shape: 'circle', size: [60, 40] }
+       * 实际创建的节点模型是 { id: 'node', x: 100, y: 100， type: 'rect', size: [60, 40] }
+       * 若数据项为 { id: 'node', x: 100, y: 100, type: 'circle' }
+       * 实际创建的节点模型是 { id: 'node', x: 100, y: 100， type: 'circle', size: [60, 40] }
        */
       defaultNode: {},
       /**
@@ -400,7 +400,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * 若是自定义节点切在各种状态下
    * graph.node(node => {
    *  return {
-   *    shape: 'rect',
+   *    type: 'rect',
    *    label: node.id,
    *    style: { fill: '#666' },
    *    stateStyles: {

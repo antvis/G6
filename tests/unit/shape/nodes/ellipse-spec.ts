@@ -13,7 +13,7 @@ describe('ellipse test', () => {
       width: 500,
       height: 500,
       defaultNode: {
-        shape: 'ellipse'
+        type: 'ellipse'
       }
     };
     const graph = new Graph(cfg);
@@ -79,7 +79,7 @@ describe('ellipse test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          shape: 'ellipse',
+          type: 'ellipse',
           size: [ 50, 30 ],
           style: {
             fill: 'red',
@@ -132,7 +132,7 @@ describe('ellipse test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          shape: 'ellipse',
+          type: 'ellipse',
           size: [ 35, 10 ],
           style: {
             fill: 'blue'
@@ -209,7 +209,7 @@ describe('ellipse test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          shape: 'ellipse',
+          type: 'ellipse',
           size: 50,
           style: {
             fill: 'red',
@@ -266,7 +266,7 @@ describe('ellipse test', () => {
           {
             id: 'node',
             label: 'ellipse',
-            shape: 'ellipse',
+            type: 'ellipse',
             x: 200,
             y: 100
           }

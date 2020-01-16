@@ -74,7 +74,7 @@ const nodeBasicMethod = {
       attrs: {
         x: 0,
         y: 0,
-        widthL: w,
+        width: w,
         height: h
       }
     });
@@ -133,7 +133,7 @@ const nodeBasicMethod = {
       attrs: {
         x,
         y,
-        radius: 7,
+        r: 7,
         symbol: collapsed ? EXPAND_ICON : COLLAPSE_ICON,
         stroke: 'rgba(0,0,0,0.25)',
         fill: 'rgba(0,0,0,0)',
@@ -229,9 +229,9 @@ const nodeBasicMethod = {
 G6.registerNode(
 'card-node',
   {
-    drawShape: (cfg, group) => {
+    draw: (cfg, group) => {
       const config = getNodeConfig(cfg);
-      const isRoot = cfg.type === 'root';
+      const isRoot = cfg.dataType === 'root';
       const nodeError = cfg.nodeError;
     /* 最外面的大矩形 */
       const container = nodeBasicMethod.createNodeBox(
@@ -242,11 +242,11 @@ G6.registerNode(
         isRoot
       );
 
-      if (cfg.type !== 'root') {
+      if (cfg.dataType !== 'root') {
       /* 上边的 type */
         group.addShape('text', {
           attrs: {
-            text: cfg.type,
+            text: cfg.dataType,
             x: 3,
             y: -10,
             fontSize: 12,
@@ -383,7 +383,7 @@ G6.registerNode(
       // tooltip: cfg.name,
       });
 
-    /* 下面的文字 */
+    // /* 下面的文字 */
       group.addShape('text', {
         attrs: {
           text: cfg.keyInfo,
@@ -417,8 +417,7 @@ G6.registerNode(
     },
     afterDraw: nodeBasicMethod.afterDraw,
     setState: nodeBasicMethod.setState
-  },
-'single-shape'
+  }
 );
 
 const data = {
@@ -427,7 +426,7 @@ const data = {
       name: 'cardNodeApp',
       ip: '127.0.0.1',
       nodeError: true,
-      type: 'root',
+      dataType: 'root',
       keyInfo: 'this is a card node info',
       x: 100,
       y: 50
@@ -436,7 +435,7 @@ const data = {
       name: 'cardNodeApp',
       ip: '127.0.0.1',
       nodeError: false,
-      type: 'subRoot',
+      dataType: 'subRoot',
       keyInfo: 'this is sub root',
       x: 100,
       y: 150
@@ -445,7 +444,7 @@ const data = {
       name: 'cardNodeApp',
       ip: '127.0.0.1',
       nodeError: false,
-      type: 'subRoot',
+      dataType: 'subRoot',
       keyInfo: 'this is sub root',
       x: 100,
       y: 250,

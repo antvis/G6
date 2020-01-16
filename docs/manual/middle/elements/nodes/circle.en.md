@@ -11,14 +11,14 @@ As stated in [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode)
 
 
 ### 1 Global Configure When Instantiating a Graph
-Assign `shape` to `'circle'` in the `defaultNode` object when instantiating a Graph:
+Assign `type` to `'circle'` in the `defaultNode` object when instantiating a Graph:
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
   defaultNode: {
-    shape: 'circle', // The type of the node
+    type: 'circle', // The type of the node
     // ... Other configuraltions
   }
 })
@@ -32,7 +32,7 @@ const data = {
   nodes: [
   {
 	  id: 'node0',
-    shape: 'circle', // The tyep of the node
+    type: 'circle', // The tyep of the node
     //... // Other configurations
   },
     //... // Other nodes
@@ -67,7 +67,7 @@ const data = {
   nodes: [{
     x: 100,
     y: 100,
-    shape: 'circle',
+    type: 'circle',
     label: 'circle'
  }]
 };
@@ -76,7 +76,7 @@ const graph = new G6.Graph({
   width: 800,
   height: 600,
   defaultNode: {
-    // shape: 'circle',  // The shape has been assigned in the data, we do not have to define it any more
+    // type: 'circle',  // The type has been assigned in the data, we do not have to define it any more
     style: {
     	fill: '#bae637',
       stroke: '#eaff8f',

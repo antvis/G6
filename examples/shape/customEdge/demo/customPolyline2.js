@@ -72,7 +72,7 @@ const graph = new G6.Graph({
     default: [ 'drag-node', 'drag-canvas' ]
   },
   defaultNode: {
-    shape: 'circle',
+    type: 'circle',
     style: {
       fill: '#DEE9FF',
       stroke: '#5B8FF9'
@@ -86,7 +86,7 @@ const graph = new G6.Graph({
     }
   },
   defaultEdge: {
-    shape: 'line-arrow',
+    type: 'line-arrow',
     style: {
       stroke: '#F6BD16'
     }

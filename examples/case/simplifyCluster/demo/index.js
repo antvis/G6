@@ -82,11 +82,11 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
       fitView: true,
       linkCenter: true,
       defaultNode: {
-        shape: 'circle',
+        type: 'circle',
         size: 5
       },
       defaultEdge: {
-        shape: 'quadratic'
+        type: 'quadratic'
       },
       modes: {
         default: [ 'drag-node', 'drag-canvas', {

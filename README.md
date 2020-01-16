@@ -49,7 +49,7 @@ const graph = new G6.Graph({
   width: 500,
   height: 500,
   defaultNode: {
-    shape: 'circle',
+    type: 'circle',
     style: {
       fill: '#40a9ff',
       stroke: '#096dd9'

@@ -16,7 +16,7 @@ const graph = new G6.Graph({
   width: 500,
   height: 500,
   defaultNode: {
-    shape: 'star',
+    type: 'star',
     size: [ 120, 60 ],
     style: {
       fill: '#9EC9FF',

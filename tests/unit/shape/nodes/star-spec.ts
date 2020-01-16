@@ -14,7 +14,7 @@ describe('star test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          shape: 'star'
+          type: 'star'
         }
       });
       const data = {
@@ -55,7 +55,7 @@ describe('star test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          shape: 'star'
+          type: 'star'
         }
       });
       const data = {
@@ -108,7 +108,7 @@ describe('star test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          shape: 'star',
+          type: 'star',
           style: {
             fill: 'red'
           }
@@ -167,7 +167,7 @@ describe('star test', () => {
               top: true,
               left: true
             },
-            shape: 'star',
+            type: 'star',
             x: 100,
             y: 200
           }
@@ -269,7 +269,7 @@ describe('star test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          shape: 'star',
+          type: 'star',
           size: 50,
           style: {
             fill: 'red',
@@ -325,7 +325,7 @@ describe('star test', () => {
       const data = {
         nodes: [
           {
-            shape: 'star',
+            type: 'star',
             id: 'node',
             label: 'old star label',
             x: 200,
@@ -382,7 +382,7 @@ describe('star test', () => {
       const data = {
         nodes: [
           {
-            shape: 'star',
+            type: 'star',
             id: 'node',
             x: 200,
             y: 100
@@ -423,7 +423,7 @@ describe('star test', () => {
       const data = {
         nodes: [
           {
-            shape: 'star',
+            type: 'star',
             id: 'node',
             x: 200,
             y: 100

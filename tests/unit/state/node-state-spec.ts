@@ -88,7 +88,7 @@ describe('graph', () => {
     // canvas.set('localRefresh', false);
     graph.data(data);
     graph.render();
-    const node3 = graph.addItem('node', { id: 'node3', x: 100, y: 150, shape: 'rect' });
+    const node3 = graph.addItem('node', { id: 'node3', x: 100, y: 150, type: 'rect' });
     graph.paint();
     graph.on('node:mouseenter', e => {
       const item = e.item;
@@ -116,7 +116,7 @@ describe('graph', () => {
         id: 'rect',
         x: 200,
         y: 100,
-        shape: 'rect',
+        type: 'rect',
         stateStyles: {
           hover: {
             lineWidth: 3,
@@ -127,12 +127,12 @@ describe('graph', () => {
         id: 'triangle',
         x: 300,
         y: 100,
-        shape: 'triangle'
+        type: 'triangle'
       }, {
         id: 'ellipse',
         x: 400,
         y: 100,
-        shape: 'ellipse',
+        type: 'ellipse',
         stateStyles: {
           hover: {
             lineWidth: 3,
@@ -143,7 +143,7 @@ describe('graph', () => {
         id: 'diamond',
         x: 100,
         y: 200,
-        shape: 'diamond',
+        type: 'diamond',
         stateStyles: {
           hover: {
             strokeOpacity: 0.3
@@ -154,7 +154,7 @@ describe('graph', () => {
         id: 'star',
         x: 200,
         y: 200,
-        shape: 'star',
+        type: 'star',
         stateStyles: {
           hover: {
             lineWidth: 3,
@@ -327,7 +327,7 @@ describe('graph', () => {
     graph.render();
     const node = graph.getNodes()[0];
     graph.updateItem(node, {
-      shape: 'rect',
+      type: 'rect',
       size: [50, 30],
       style: {
         fill: '#0f0'

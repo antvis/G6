@@ -12,14 +12,14 @@ As stated in [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge)
 
 
 ### 1 Global Configure When Instantiating a Graph
-Assign `shape` to `'cubic'` in the `defaultEdge` object when instantiating a Graph:
+Assign `type` to `'cubic'` in the `defaultEdge` object when instantiating a Graph:
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
   defaultEdge: {
-    shape: 'polyline', // The type of the edge
+    type: 'polyline', // The type of the edge
     // ...  Other configuraltions
   }
 })
@@ -36,7 +36,7 @@ const data = {
   edges: [{
     source: 'node0',
     target: 'node1'
-    shape: 'polyline',
+    type: 'polyline',
     //... // Other configurations for edges
     style: {
       //...  // Style properties for edges
@@ -105,7 +105,7 @@ const data = {
  edges: [{
    source: 'node0',
    target: 'node1',
-   shape: 'polyline',
+   type: 'polyline',
    label: 'polyline'
  }]
 };
@@ -114,7 +114,7 @@ const graph = new G6.Graph({
   width: 800,
   height: 600,
   defaultEdge: {
-    // shape: 'polyline',  // The shape has been assigned in the data, we do not have to define it any more
+    // type: 'polyline',  // The type has been assigned in the data, we do not have to define it any more
     style: {
       radius: 10,
       offset: 10,

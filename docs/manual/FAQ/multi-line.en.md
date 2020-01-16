@@ -51,7 +51,7 @@ const graph = new G6.Graph({
     }
   },
   defaultEdge: {
-    shape: 'quadratic',
+    type: 'quadratic',
     style: {
       stroke: '#e2e2e2'
     }

@@ -13,14 +13,14 @@ As stated in [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode)
 
 
 ### 1 Global Configure When Instantiating a Graph
-Assign `shape` to `'diamond'` in the `defaultNode` object when instantiating a Graph:
+Assign `type` to `'diamond'` in the `defaultNode` object when instantiating a Graph:
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
   defaultNode: {
-    shape: 'diamond', // The type of the node
+    type: 'diamond', // The type of the node
     // ... Other configuraltions
   }
 })
@@ -33,7 +33,7 @@ const data = {
   nodes: [
   {
 	  id: 'node0',
-    shape: 'diamond', // The tyep of the node
+    type: 'diamond', // The tyep of the node
     //... // Other configurations
   },
     ... // Other nodes
@@ -67,7 +67,7 @@ const data = {
   nodes: [{
     x: 100,
     y: 100,
-    shape: 'diamond',
+    type: 'diamond',
     label: 'diamond'
  }]
 };
@@ -76,7 +76,7 @@ const graph = new G6.Graph({
   width: 800,
   height: 600,
   defaultNode: {
-    // shape: 'diamond', // The shape has been assigned in the data, we do not have to define it any more
+    // type'diamond', // The type has been assigned in the data, we do not have to define it any more
     size: [200, 80],
     style: {
       fill: '#bae637',

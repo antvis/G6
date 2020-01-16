@@ -133,10 +133,6 @@ export default class ItemBase implements IItemBase {
     const cfg = self.getShapeCfg(model); // 可能会附加额外信息
     const shapeType: string = cfg.shape || cfg.type;
 
-    if(cfg.shape) {
-      console.warn('shape字段即将被废弃，请使用type代替')
-    }
-
     const keyShape: IShapeBase = shapeFactory.draw(shapeType, cfg, group);
     if (keyShape) {
       keyShape.isKeyShape = true;

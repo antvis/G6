@@ -18,7 +18,7 @@ const graph = new G6.Graph({
   width,
   height,
   defaultNode: {
-    shape: 'image',
+    type: 'image',
     size: [ 260, 80 ],
     clipCfg: {
       show: false,

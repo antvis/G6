@@ -130,7 +130,7 @@ const data = {
       x: 150,
       y: 150,
       label: 'Point2',
-      shape: 'justPoints',
+      type: 'justPoints',
       anchorPoints: [
           [ 0, 0.5 ], [ 1, 0.5 ]
       ],
@@ -147,7 +147,7 @@ const data = {
       x: 500,
       y: 150,
       label: 'Point2',
-      shape: 'justPoints',
+      type: 'justPoints',
       anchorPoints: [
           [ 0, 0.5 ], [ 1, 0.5 ]
       ],
