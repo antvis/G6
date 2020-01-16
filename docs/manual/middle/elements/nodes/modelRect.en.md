@@ -19,7 +19,7 @@ As stated in [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode)
 
 
 ### 1 Global Configure When Instantiating a Graph
-Assign `shape` to `'modelRect'` in the `defaultNode` object when instantiating a Graph:
+Assign `type` to `'modelRect'` in the `defaultNode` object when instantiating a Graph:
 
 ```javascript
 const graph = new G6.Graph({
@@ -27,7 +27,7 @@ const graph = new G6.Graph({
   width: 800,
   height: 600,
   defaultNode: {
-    shape: 'modelRect',
+    type: 'modelRect',
     // Other configuraltions
   }
 })
@@ -40,7 +40,7 @@ To configure different nodes with different properties, you can write the proper
 const data = {
   nodes: [{
 	  id: 'node0',
-    shape: 'modelRect',
+    type: 'modelRect',
     ... // Other configurations
     },
     ... // Other nodes
@@ -107,7 +107,7 @@ const data = {
   nodes: [{
     x: 100,
     y: 100,
-    shape: 'modelRect',
+    type: 'modelRect',
     label: 'modelRect'
  }]
 };
@@ -116,7 +116,7 @@ const graph = new G6.Graph({
   width: 800,
   height: 600,
   defaultNode: {
-    // shape: 'modelRect',  // The shape has been assigned in the data, we do not have to define it any more
+    // type: 'modelRect',  // The type has been assigned in the data, we do not have to define it any more
     size: [200, 80],
     style: {
       fill: '#f0f5ff',

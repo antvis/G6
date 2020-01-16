@@ -3,7 +3,7 @@ title: Shape Properties
 order: 4
 ---
 
-Shape is the basic element on an item (node/edge). The `style` of a node or an edge corresponds to the shape properties of its keyShap (key shape). The `style` in `labelCfg` of a label on a node or an edge corresponds to the properties of text shape.
+Shape is the basic element on an item (node/edge). The `style` of a node or an edge corresponds to the shape properties of its keyShape (key shape). The `style` in `labelCfg` of a label on a node or an edge corresponds to the properties of text shape.
 
 G6 has these shapes:
 - [circle](#circle);

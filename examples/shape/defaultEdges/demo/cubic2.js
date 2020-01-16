@@ -27,11 +27,11 @@ const data = {
   edges: [{
     source: 'node5',
     target: 'node6',
-    shape: 'cubic-horizontal'
+    type: 'cubic-horizontal'
   }, {
     source: 'node5',
     target: 'node7',
-    shape: 'cubic-horizontal'
+    type: 'cubic-horizontal'
   }]
 };
 
@@ -51,7 +51,7 @@ const graph = new G6.Graph({
     }
   },
   defaultEdge: {
-    shape: 'cubic-horizontal',
+    type: 'cubic-horizontal',
     style: {
       stroke: '#F6BD16'
     }

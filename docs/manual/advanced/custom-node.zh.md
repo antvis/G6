@@ -142,10 +142,10 @@ G6.registerNode('diamond', {
 ```javascript
 const data = {
  nodes: [
-   {x: 50, y: 100, shape: 'diamond'}, // 最简单的
-   {x: 150, y: 100, shape: 'diamond', size: [50, 100]}, // 添加宽高
-   {x: 250, y: 100, color: 'red', shape: 'diamond'}, // 添加颜色
-   {x: 350, y: 100, label: '菱形', shape: 'diamond'} // 附加文本
+   {x: 50, y: 100, type: 'diamond'}, // 最简单的
+   {x: 150, y: 100, type: 'diamond', size: [50, 100]}, // 添加宽高
+   {x: 250, y: 100, color: 'red', type: 'diamond'}, // 添加颜色
+   {x: 350, y: 100, label: '菱形', type: 'diamond'} // 附加文本
  ]
 };
 const graph = new G6.Graph({

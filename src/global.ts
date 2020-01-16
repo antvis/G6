@@ -17,7 +17,7 @@ export default {
     offset: 5 // 节点的默认文本不居中时的偏移量
   },
   defaultNode: {
-    shape: 'circle',
+    type: 'circle',
     style: {
       fill: '#C6E5FF',
       lineWidth: 1,
@@ -34,7 +34,7 @@ export default {
     }
   },
   defaultEdge: {
-    shape: 'line',
+    type: 'line',
     style: {
       stroke: '#e2e2e2'
     },

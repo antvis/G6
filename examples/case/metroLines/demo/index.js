@@ -130,7 +130,7 @@ const graph = new G6.Graph({
     }]
   },
   defaultNode: {
-    shape: 'breath-node',
+    type: 'breath-node',
     size: 3,
     style: {
       lineWidth: 0,
@@ -138,7 +138,7 @@ const graph = new G6.Graph({
     }
   },
   defaultEdge: {
-    shape: 'running-polyline',
+    type: 'running-polyline',
     size: 1,
     color: 'rgb(14,142,63)',
     style: {

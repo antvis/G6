@@ -279,7 +279,7 @@ const CustomFlow = () => {
           default: [ 'drag-canvas' ]
         },
         defaultNode: {
-          shape: 'round-rect', //'round-rect', // 'rect',//
+          type: 'round-rect', //'round-rect', // 'rect',//
           labelCfg: {
             style: {
               fill: '#000000A6',
@@ -292,7 +292,7 @@ const CustomFlow = () => {
           }
         },
         defaultEdge: {
-          shape: 'polyline'
+          type: 'polyline'
         }
       });
       

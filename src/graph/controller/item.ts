@@ -72,6 +72,10 @@ export default class ItemController {
       });
     }
 
+    if(model.shape) {
+      console.warn('shape 字段即将被废弃，请使用 type 代替')
+    }
+
     graph.emit('beforeadditem', { type, model });
 
     if(type === EDGE) {
@@ -86,7 +90,8 @@ export default class ItemController {
       }
 
       if (!source || !target) {
-        throw new Error('The source or target node of edge ' + model.id + ' does not exist!')
+        console.warn('The source or target node of edge ' + model.id + ' does not exist!')
+        return;
       }
 
       item = new Edge({

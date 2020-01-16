@@ -21,7 +21,7 @@ const data = {
         y: 200,
         // 该节点可选的连接点集合，该点有两个可选的连接点
         anchorPoints: [[0, 1], [0.5, 1]],
-        shape: 'rect'
+        type: 'rect'
       },
       {
         id: 'node2',
@@ -30,7 +30,7 @@ const data = {
         y: 400,
         // 该节点可选的连接点集合，该点有两个可选的连接点
         anchorPoints: [[0.5, 0], [1, 0.5]],
-        shape: 'rect'
+        type: 'rect'
       }
     ],
     edges: [

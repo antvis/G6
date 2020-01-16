@@ -9,6 +9,7 @@
 - feat: support stateStyles in node and edge data;
 - feat: calculate pixelRatio by G automatically, user do not need to assign it to graph instance;
 - chore: G 4.0
+- refactor: refreshLayout of TreeGraph is renamed as layout
   
 #### 3.1.5 
 * feat: supports g6 types file

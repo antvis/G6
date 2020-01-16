@@ -136,7 +136,7 @@ const data = {
     id: 'shape2',
     x: 0,
     y: 0,
-    shape: 'expandNode',
+    type: 'expandNode',
     name: '网站引流',
     values: [{
       key: '曝光率',

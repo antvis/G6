@@ -19,7 +19,7 @@ const data = {
         y: 200,
         // There are two anchorPoints for this node
         anchorPoints: [[0, 1], [0.5, 1]],
-        shape: 'rect'
+        type: 'rect'
       },
       {
         id: 'node2',
@@ -28,7 +28,7 @@ const data = {
         y: 400,
         // There are two anchorPoints for this node
         anchorPoints: [[0.5, 0], [1, 0.5]],
-        shape: 'rect'
+        type: 'rect'
       }
     ],
     edges: [

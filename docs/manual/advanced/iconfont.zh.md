@@ -93,7 +93,7 @@ const graph = new G6.TreeGraph({
       fill: COLOR,
       stroke: 'LightSkyBlue',
     },
-    shape: 'iconfont',
+    type: 'iconfont',
     size: 12,
     style: {
       fill: '#fff',
@@ -130,7 +130,7 @@ const graph = new G6.TreeGraph({
 graph.edge(({ target }) => {
   const fill = target.get('model').backgroundConfig && target.get('model').backgroundConfig.fill;
   return {
-    shape: 'cubic-horizontal',
+    type: 'cubic-horizontal',
     color: fill || COLOR,
     label: target.get('model').relation || '',
     labelCfg: {

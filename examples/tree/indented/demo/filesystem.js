@@ -136,13 +136,13 @@ const data = {
 
 graph.node(node => {
   return {
-    shape: 'file-node',
+    type: 'file-node',
     label: node.name
   };
 });
 graph.edge(() => {
   return {
-    shape: 'step-line'
+    type: 'step-line'
   };
 });
 

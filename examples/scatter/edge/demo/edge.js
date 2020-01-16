@@ -84,7 +84,7 @@ const graph = new G6.Graph({
     }
   },
   defaultEdge: {
-    shape: 'line-dash',
+    type: 'line-dash',
     style: {
       lineWidth: 2,
       stroke: '#bae7ff'

@@ -41,7 +41,7 @@ const getNodeConfig = function getNodeConfig(node) {
     borderColor: '#722ED1',
     bgColor: '#F6EDFC'
   };
-  switch (node.type) {
+  switch (node.dataType) {
     case 'root': {
       config = {
         basicColor: '#E3E6E8',
@@ -143,11 +143,11 @@ const graph = new G6.TreeGraph({
     'drag-canvas', 'zoom-canvas' ]
   },
   defaultNode: {
-    shape: TREE_NODE,
+    type: TREE_NODE,
     anchorPoints: [[ 0, 0.5 ], [ 1, 0.5 ]]
   },
   defaultEdge: {
-    shape: 'tree-edge',
+    type: 'tree-edge',
     style: {
       stroke: '#A3B1BF'
     }
@@ -325,7 +325,7 @@ const nodeBasicMethod = {
 G6.registerNode(SIMPLE_TREE_NODE, {
   drawShape: function drawShape(cfg, group) {
     const config = getNodeConfig(cfg);
-    const isRoot = cfg.type === 'root';
+    const isRoot = cfg.dataType === 'root';
     const { nodeError } = cfg;
 
     const container = nodeBasicMethod.createNodeBox(group, config, 171, 38, isRoot);
@@ -377,11 +377,11 @@ G6.registerNode(TREE_NODE, {
     /* 最外面的大矩形 */
     const container = nodeBasicMethod.createNodeBox(group, config, 243, 64, isRoot);
 
-    if (data.type !== 'root') {
+    if (data.dataType !== 'root') {
       /* 上边的 type */
       group.addShape('text', {
         attrs: {
-          text: data.type,
+          text: data.dataType,
           x: 3,
           y: -10,
           fontSize: 12,
@@ -721,12 +721,14 @@ function formatData(data) {
     const appName = 'testappName';
     const keyInfo = 'testkeyinfo';
     const ip = '111.22.33.44';
+    node.dataType = node.type;
+    node.type = undefined;
 
     const targetNode = {
       id: `${node.key}`,
       rpcId: node.rpcId,
       level,
-      type: node.appName === 'USER' ? 'root' : node.type,
+      dataType: node.appName === 'USER' ? 'root' : node.dataType,
       name: appName,
       keyInfo: keyInfo || '-',
       ip,

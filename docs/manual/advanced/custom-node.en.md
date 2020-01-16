@@ -147,10 +147,10 @@ We have registered a dimond node. The following code use the diamond node:
 ```javascript
 const data = {
  nodes: [
-   {x: 50, y: 100, shape: 'diamond'}, // The simplest form
-   {x: 150, y: 100, shape: 'diamond', size: [50, 100]}, // Add the size
-   {x: 250, y: 100, color: 'red', shape: 'diamond'}, // Add the color
-   {x: 350, y: 100, label: '菱形', shape: 'diamond'} // Add the label
+   {x: 50, y: 100, type: 'diamond'}, // The simplest form
+   {x: 150, y: 100, type: 'diamond', size: [50, 100]}, // Add the size
+   {x: 250, y: 100, color: 'red', type: 'diamond'}, // Add the color
+   {x: 350, y: 100, label: '菱形', type: 'diamond'} // Add the label
  ]
 };
 const graph = new G6.Graph({

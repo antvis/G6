@@ -27,8 +27,8 @@ The life cycle of an instance of Graph is: Initialize -> Load data -> Render -> 
 | modes | Object |  | The interaction modes of this graph. Please refer to [Interaction Mode](/en/docs/manual/middle/states/mode) for detail。 |
 | nodeStateStyles | Object | {} | The node styles on different states, e.g. hover, selected. It is a new feature of G6 3.1. |
 | edgeStateStyles | Object | {} | The edge styles on different states, e.g. hover, selected. It is a new feature of G6 3.1. |
-| defaultNode | Object | {} | Default node configurations in global, including shape, size, color and so on. Its priority is lower than the configurations in data. |
-| defaultEdge | Object | {} | Default edge configurations in global, including shape, size, color and so on. Its priority is lower than the configurations in data. |
+| defaultNode | Object | {} | Default node configurations in global, including type, size, color and so on. Its priority is lower than the configurations in data. |
+| defaultEdge | Object | {} | Default edge configurations in global, including type, size, color and so on. Its priority is lower than the configurations in data. |
 | plugins | Array | [] | Plugins for graph. Please refer to [Plugin](/en/docs/manual/tutorial/plugins##plugin) for detail.|
 | animate | Boolean | false | Wheter activate the global animation. Which will take effect while changing layouts, changing data, and other global operations. |
 | animateCfg | Object |  | The configurations for global animation. Takes effect only when `animate: true`. |
@@ -659,7 +659,7 @@ Set the style and other configurations for each node.
 graph.node((node) => {
   return {
     id: node.id,
-    shape: 'rect',
+    type: 'rect',
     style: {
       fill: 'blue'
     }
@@ -687,7 +687,7 @@ Set the style and other configurations for each edge.
 graph.edge((edge) => {
   return {
     id: edge.id,
-    shape: 'cubic-horizontal',
+    type: 'cubic-horizontal',
     style: {
       stroke: 'green'
     }

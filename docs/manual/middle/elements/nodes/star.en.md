@@ -11,14 +11,14 @@ As stated in [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode)
 
 
 ### 1 Global Configure When Instantiating a Graph
-Assign `shape` to `'star'` in the `defaultNode` object when instantiating a Graph:
+Assign `type` to `'star'` in the `defaultNode` object when instantiating a Graph:
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
   defaultNode: {
-    shape: 'star',
+    type: 'star',
     // ... Other configuraltions
   }
 })
@@ -31,7 +31,7 @@ To configure different nodes with different properties, you can write the proper
 const data = {
   nodes: [{
 	  id: 'node0',
-    shape: 'star',
+    type: 'star',
     //... // Other configurations
     },
     //... // Other nodes
@@ -66,7 +66,7 @@ const data = {
   nodes: [{
     x: 100,
     y: 100,
-    shape: 'star',
+    type: 'star',
     label: 'star'
  }]
 };
@@ -75,7 +75,7 @@ const graph = new G6.Graph({
   width: 800,
   height: 600,
   defaultNode: {
-    // shape: 'star',   // The shape has been assigned in the data, we do not have to define it any more
+    // type: 'star',   // The type has been assigned in the data, we do not have to define it any more
     size: 80,
     style: {
       fill: '#bae637',

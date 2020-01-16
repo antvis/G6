@@ -139,7 +139,7 @@ const DecisionTree = () => {
           default: [ 'drag-canvas' ]
         },
         defaultNode: {
-          shape: 'bubble',
+          type: 'bubble',
           size: 95,
           labelCfg: {
             position: 'center',
@@ -151,7 +151,7 @@ const DecisionTree = () => {
         },
         defaultEdge: {
           color: '#888',
-          shape: 'animate-line'
+          type: 'animate-line'
         }
       });
 
@@ -460,7 +460,7 @@ const DecisionTree = () => {
                 node.style.lineWidth = 0;
                 node.style.opacity = 1;
                 if (node.isLeaf) {
-                  node.shape = 'animate-circle';
+                  node.type = 'animate-circle';
                   let color = 'l(0)';
                   const parentsNum = parents.length;
                   parents.forEach((parent, i) => {
@@ -484,7 +484,7 @@ const DecisionTree = () => {
                     position: 'center'
                   };
                 } else if (node.level !== 0) {
-                  node.shape = 'bubble';
+                  node.type = 'bubble';
                   node.size = 95;
                   if (!node.style) node.style = {};
                   node.color = model.color;

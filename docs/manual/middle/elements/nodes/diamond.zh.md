@@ -13,14 +13,14 @@ G6 内置了菱形 Diamond 节点，其默认样式如下。标签文本位于
 
 
 ### 1 实例化图时全局配置
-用户在实例化 Graph 时候可以通过 `defaultNode` 指定 `shape` 为 `'diamond'`，即可使用 `diamond` 节点。
+用户在实例化 Graph 时候可以通过 `defaultNode` 指定 `type` 为 `'diamond'`，即可使用 `diamond` 节点。
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
   defaultNode: {
-    shape: 'diamond',
+    type: 'diamond',
     // 其他配置
   }
 })
@@ -33,7 +33,7 @@ const graph = new G6.Graph({
 const data = {
   nodes: [{
 	  id: 'node0',
-    shape: 'diamond',
+    type: 'diamond',
     ... // 其他配置
     },
     ... // 其他节点
@@ -67,7 +67,7 @@ const data = {
   nodes: [{
     x: 100,
     y: 100,
-    shape: 'diamond',
+    type: 'diamond',
     label: 'diamond'
  }]
 };
@@ -76,7 +76,7 @@ const graph = new G6.Graph({
   width: 800,
   height: 600,
   defaultNode: {
-    // shape: 'diamond', // 数据中已指定 shape，这里无需再次指定
+    // type: 'diamond', // 数据中已指定 type，这里无需再次指定
     size: [200, 80],
     style: {
       fill: '#bae637',

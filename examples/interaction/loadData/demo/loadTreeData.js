@@ -53,7 +53,7 @@ graph.node(function(node) {
 
 graph.edge(function() {
   return {
-    shape: 'cubic-horizontal',
+    type: 'cubic-horizontal',
     color: '#A3B1BF'
   };
 });
@@ -115,7 +115,7 @@ graph.on('node:click', function(evt) {
   if (!children || children.length === 0) {
     const childData = {
       id: 'child-data-' + count,
-      shape: 'rect',
+      type: 'rect',
       children: [{
         id: 'x-' + count
       }, {

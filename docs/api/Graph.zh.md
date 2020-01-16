@@ -26,8 +26,8 @@ Graph 的生命周期为：初始化—>加载数据—>渲染—>更新—>销�
 | modes | Object |  | 设置画布的模式。详情可见 [交互模式 Mode](/zh/docs/manual/middle/states/mode) 文档。 |
 | nodeStateStyles | Object | {} | 各个状态下节点的样式，例如 `hover`、`selected`，3.1版本新增。 |
 | edgeStateStyles | Object | {} | 各个状态下边的样式，例如 `hover`、`selected`，3.1版本新增。 |
-| defaultNode | Object | {} | 默认状态下节点的配置，比如 `shape`, `size`, `color`。会被写入的 data 覆盖。 |
-| defaultEdge | Object | {} | 默认状态下边的配置，比如 `shape`, `size`, `color`。会被写入的 data 覆盖。 |
+| defaultNode | Object | {} | 默认状态下节点的配置，比如 `type`, `size`, `color`。会被写入的 data 覆盖。 |
+| defaultEdge | Object | {} | 默认状态下边的配置，比如 `type`, `size`, `color`。会被写入的 data 覆盖。 |
 | plugins | Array | [] | 向 graph 注册插件。插件机制请见：[插件](/zh/docs/manual/tutorial/plugins#插件) |
 | animate | Boolean | false | 是否启用全局动画。 |
 | animateCfg | Object |  | 动画配置项，仅在 `animate` 为 `true` 时有效。 |
@@ -665,7 +665,7 @@ graph.clearItemStates(node);
 graph.node((node) => {
   return {
     id: node.id,
-    shape: 'rect',
+    type: 'rect',
     style: {
       fill: 'blue'
     }
@@ -693,7 +693,7 @@ graph.render()
 graph.edge((edge) => {
   return {
     id: edge.id,
-    shape: 'cubic-horizontal',
+    type: 'cubic-horizontal',
     style: {
       stroke: 'green'
     }

@@ -232,10 +232,10 @@ const DagreLayout = () => {
           ranksep: 70
         },
         defaultNode: {
-          shape: 'sql'
+          type: 'sql'
         },
         defaultEdge: {
-          shape: 'polyline',
+          type: 'polyline',
           style: {
             radius: 20,
             offset: 45,

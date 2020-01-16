@@ -341,7 +341,7 @@ describe('shape edge test', () => {
         edges: [{
           source: 'node0',
           target: 'node0',
-          shape: 'loop'
+          type: 'loop'
         }]
       };
       graph.data(data);

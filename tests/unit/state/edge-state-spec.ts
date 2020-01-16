@@ -24,15 +24,15 @@ describe('graph', () => {
       }, {
         source: 'node1',
         target: 'node2',
-        shape: 'polyline'
+        type: 'polyline'
       }, {
         source: 'node1',
         target: 'node2',
-        shape: 'quadratic'
+        type: 'quadratic'
       }, {
         source: 'node1',
         target: 'node2',
-        shape: 'cubic'
+        type: 'cubic'
       }]
     };
     const graph = new G6.Graph({
@@ -105,15 +105,15 @@ describe('graph', () => {
       }, {
         source: 'node1',
         target: 'node2',
-        shape: 'polyline'
+        type: 'polyline'
       }, {
         source: 'node1',
         target: 'node2',
-        shape: 'quadratic'
+        type: 'quadratic'
       }, {
         source: 'node1',
         target: 'node2',
-        shape: 'cubic'
+        type: 'cubic'
       }]
     };
     const graph = new G6.Graph({
@@ -197,7 +197,7 @@ describe('graph', () => {
         id: 'polyline',
         source: 'node1',
         target: 'node2',
-        shape: 'polyline',
+        type: 'polyline',
         stateStyles: {
           hover: {
             stroke: '#0f0'
@@ -207,7 +207,7 @@ describe('graph', () => {
         id: 'quadratic',
         source: 'node1',
         target: 'node2',
-        shape: 'quadratic',
+        type: 'quadratic',
         stateStyles: {
           hover: {
             opacity: 0.3
@@ -218,7 +218,7 @@ describe('graph', () => {
         id: 'cubic',
         source: 'node1',
         target: 'node2',
-        shape: 'cubic',
+        type: 'cubic',
         stateStyles: {
           hover: {
             shadowColor: '#00f',
@@ -425,7 +425,7 @@ describe('graph', () => {
     graph.render();
     const edge = graph.getEdges()[0];
     graph.updateItem(edge, {
-      shape: 'cubic',
+      type: 'cubic',
       style: {
         stroke: '#0f0'
       }

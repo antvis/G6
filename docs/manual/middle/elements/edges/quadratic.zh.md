@@ -12,14 +12,14 @@ G6 内置了 quadratic 边，其默认样式如下。<br />
 
 
 ### 1 实例化图时全局配置
-用户在实例化 Graph 时候可以通过 `defaultEdge` 指定 `shape` 为 `'quadratic'`，即可使用 quadratic 边。
+用户在实例化 Graph 时候可以通过 `defaultEdge` 指定 `type` 为 `'quadratic'`，即可使用 quadratic 边。
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
   defaultEdge: {
-    shape: 'quadratic',
+    type: 'quadratic',
     // 其他配置
   }
 })
@@ -36,7 +36,7 @@ const data = {
   edges: [{
     source: 'node0',
     target: 'node1'
-    shape: 'quadratic',
+    type: 'quadratic',
     ... // 其他配置
     style: {
       ...  // 样式属性，每种边的详细样式属性参见各边文档
@@ -80,7 +80,7 @@ const data = {
  edges: [{
    source: 'node0',
    target: 'node1',
-   shape: 'quadratic',
+   type: 'quadratic',
    label: 'quadratic'
  }]
 };
@@ -89,7 +89,7 @@ const graph = new G6.Graph({
   width: 800,
   height: 600,
   defaultEdge: {
-    // shape: 'quadratic',  // 在数据中已经指定 shape，这里无需再次指定
+    // type: 'quadratic',  // 在数据中已经指定 type，这里无需再次指定
     style: {
       stroke: '#088',
       endArrow: true,

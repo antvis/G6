@@ -487,7 +487,7 @@ export default class CustomGroup {
       style: {
         r
       },
-      shape: 'circle'
+      type: 'circle'
     };
 
     const titleShape = nodeGroup.find(element => element.get('className') === 'group-title')
@@ -521,7 +521,7 @@ export default class CustomGroup {
         x: keyShape.attr('x') + width / 2,
         y: keyShape.attr('y') + height / 2,
         size: [ width, height ],
-        shape: 'rect'
+        type: 'rect'
       };
     }
 

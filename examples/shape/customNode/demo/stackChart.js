@@ -108,7 +108,7 @@ const data = {
       x: 150,
       y: 150,
       label: 'StackedBar1',
-      shape: 'stacked-bar-node',
+      type: 'stacked-bar-node',
       anchorPoints: [
           [ 0, 0.5 ], [ 1, 0.5 ]
       ],
@@ -125,7 +125,7 @@ const data = {
       x: 500,
       y: 150,
       label: 'StackedBar2',
-      shape: 'stacked-bar-node',
+      type: 'stacked-bar-node',
       anchorPoints: [
           [ 0, 0.5 ], [ 1, 0.5 ]
       ],

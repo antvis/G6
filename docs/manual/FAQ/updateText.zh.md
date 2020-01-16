@@ -14,7 +14,7 @@ const graph = new G6.Graph({
     width: 1000,
     height: 800,
     defaultNode: {
-      shape: "node",
+      type: "node",
       labelCfg: {
         style: {
           fill: "#fff",
@@ -23,7 +23,7 @@ const graph = new G6.Graph({
       }
     },
     defaultEdge: {
-      shape: "line-with-arrow",
+      type: "line-with-arrow",
       labelCfg: {
         style: {
           fill: "#fff",
