@@ -35,7 +35,7 @@ describe('image test', () => {
       const node = nodes[0];
       const keyShape = node.getKeyShape();
       expect(keyShape.attr('width')).toEqual(200);
-      expect(keyShape.attr('img')).toEqual('https://img2.bosszhipin.com/boss/avatar/avatar_13.png');
+      expect(keyShape.attr('img')).toEqual('https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*eD7nT6tmYgAAAAAAAAAAAABkARQnAQ');
     });
 
     it('image with label', () => {
