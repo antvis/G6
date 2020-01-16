@@ -57,7 +57,6 @@ export default {
     if (this.keydown || !this.dragbegin) {
       return;
     }
-    console.log(e.target);
 
     e = cloneEvent(e);
     const graph = this.graph;
@@ -114,7 +113,6 @@ export default {
     if (!this.dragging) {
       return;
     }
-    console.log('out of range');
     const self = this;
     self.onMouseUp(e);
     // const canvasElement = self.graph.get('canvas').get('el');

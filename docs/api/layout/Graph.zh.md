@@ -463,7 +463,7 @@ Dagre 是一种层次布局。
 
 
 #### ranksep
-**类型**： Function<br />**默认值**：undefined<br />**是否必须**：false<br />**说明**：层间距（px）。在`rankdir` 为 `'TB'` 或 `'BT'` 时是竖直方向相邻层间距；在`rankdir` 为 `'LR'` 或 `'RL'` 时代表水平方向相邻层间距
+**类型**： Number<br />**默认值**：50<br />**是否必须**：false<br />**说明**：层间距（px）。在`rankdir` 为 `'TB'` 或 `'BT'` 时是竖直方向相邻层间距；在`rankdir` 为 `'LR'` 或 `'RL'` 时代表水平方向相邻层间距
 
 
 #### nodesepFunc
@@ -479,7 +479,7 @@ Dagre 是一种层次布局。
 
 
 #### ranksepFunc
-**类型**： Number<br />**默认值**：50<br />**示例**：
+**类型**： Function<br />**默认值**：undefined<br />**示例**：
 ```javascript
 (d) => {
   // d 是一个节点

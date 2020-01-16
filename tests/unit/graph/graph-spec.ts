@@ -629,7 +629,6 @@ describe('all node link center', () => {
     graph.setItemState(node, 'a', true);
     graph.setItemState(node, 'b', true);
     
-    debugger
     graph.clearItemStates('a', ['a']);
     expect(graph.findAllByState('node', 'a').length).toBe(0);
     expect(graph.findAllByState('node', 'b').length).toBe(1);
