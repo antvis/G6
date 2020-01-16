@@ -10,7 +10,7 @@ import { Circle, Rect, Ellipse, Polygon, Path } from '@antv/g-canvas/lib/shape'
  */
 Shape.registerNode('image', {
   options: {
-    img: 'https://img2.bosszhipin.com/boss/avatar/avatar_13.png',
+    img: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*eD7nT6tmYgAAAAAAAAAAAABkARQnAQ',
     size: 200,
     clipCfg: {
       show: false,

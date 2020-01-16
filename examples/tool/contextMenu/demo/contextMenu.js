@@ -116,6 +116,8 @@ graph.data(data);
 graph.render();
 
 graph.on('node:contextmenu', function(evt) {
+  evt.preventDefault()
+  evt.stopPropagation()
   conextMenuContainer.style.left = evt.x + 'px';
   conextMenuContainer.style.top = evt.y + 'px';
 });

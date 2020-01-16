@@ -31,7 +31,7 @@ interface IGroupPoistion {
   y: number;
   width: number;
   height: number;
-  maxX: number
+  maxX?: number
 }
 
 interface IDelegate {
@@ -301,10 +301,22 @@ export default class CustomGroup {
    * 根据GroupID计算群组位置，包括左上角左边及宽度和高度
    *
    * @param {object} nodes 符合条件的node集合：选中的node或具有同一个groupID的node
+   * @param {object} position delegate的坐标位置
    * @return {object} 根据节点计算出来的包围盒坐标
    * @memberof ItemGroup
    */
-  public calculationGroupPosition(nodes: string[]): IGroupPoistion {
+  public calculationGroupPosition(nodes: string[], position: Point = { x: 100, y: 100 }): IGroupPoistion {
+    // hxy 可新增无节点group，适用于图编辑场景
+    if (nodes.length === 0) {
+      // 防止空group 无法计算大小
+      return {
+        x: position.x,
+        y: position.y,
+        width: 100,
+        height: 100
+      };
+    }
+
     const graph = this.graph;
 
     let minx = Infinity;
@@ -333,6 +345,7 @@ export default class CustomGroup {
         maxy = maxY;
       }
     }
+
     const x = Math.floor(minx);
     const y = Math.floor(miny);
     const width = Math.ceil(maxx) - x;
@@ -1029,7 +1042,7 @@ export default class CustomGroup {
       const groupKeyShape = othergroup.get('keyShape');
 
       const noCustomNodes = groupNodes[id].filter(node => node.indexOf('custom-node') === -1);
-      const { x, y, width, height } = this.calculationGroupPosition(noCustomNodes);
+      const { x, y, width, height } = this.calculationGroupPosition(noCustomNodes, position);
       let titleX = 0;
       let titleY = 0;
       if (groupType === 'circle') {

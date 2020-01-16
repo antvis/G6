@@ -55,5 +55,9 @@ const graph = new G6.Graph({
   }
 });
 
+// 需要等 G 4.0 局部渲染完善后，就不用临时关闭了
+const canvas = graph.get('canvas')
+canvas.set('localRefresh', false)
+
 graph.data(data);
 graph.render();
