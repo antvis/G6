@@ -172,11 +172,8 @@ const CustomFlow = () => {
       G6.registerEdge('polyline', {
         itemType: 'edge',
         drawShape: (cfg: any, group) => {
-          debugger
-          console.log('custom polyline', cfg);
           const startPoint = cfg.startPoint;
           const endPoint = cfg.endPoint;
-          console.log(startPoint, endPoint);
       
           const Ydiff = endPoint.y - startPoint.y;
       
@@ -205,8 +202,7 @@ const CustomFlow = () => {
           if (Ydiff === 0) {
             path = [[ 'M', startPoint.x, startPoint.y ], [ 'L', endPoint.x, endPoint.y ]];
           }
-          console.log(path);
-      
+
           const line = group.addShape('path', {
             attrs: {
               path,

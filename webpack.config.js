@@ -20,7 +20,7 @@ module.exports = {
     rules: [
       {
         test: /\.worker\.ts$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: /(node_modules)/,
         use: [
           {
             loader: 'worker-loader',
@@ -33,7 +33,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.js$/,
+        test: /\.ts$/,
         use: {
           loader: 'babel-loader',
           options: {

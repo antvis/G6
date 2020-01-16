@@ -5,9 +5,6 @@ import isString from '@antv/util/lib/is-string'
 import { G6GraphEvent } from '../interface/behavior';
 import { IG6GraphEvent, Padding, Matrix } from '../../types';
 import { mat3 } from '@antv/matrix-util/lib';
-import mix from '@antv/util/lib/mix';
-import deepMix from '@antv/util/lib/deep-mix';
-import { transform } from '@antv/matrix-util';
 
 /**
  * turn padding into [top, right, bottom, right]
@@ -70,11 +67,4 @@ export const isViewportChanged = (matrix: Matrix) => {
     }
   }
   return false;
-}
-
-export default {
-  mat3,
-  mix,
-  deepMix,
-  transform
 }

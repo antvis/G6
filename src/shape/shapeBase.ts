@@ -113,6 +113,7 @@ export const shapeBase: ShapeOptions = {
    * @param group 父容器，label 的定位可能与图形相关
    */
   getLabelStyle(cfg: ModelConfig, labelCfg, group: GGroup): LabelStyle {
+    console.log('getLabelStyle', labelCfg)
     const calculateStyle = this.getLabelStyleByPosition(cfg, labelCfg, group)
     const attrName = this.itemType + 'Label' // 取 nodeLabel，edgeLabel 的配置项
     const defaultStyle = Global[attrName] ? Global[attrName].style : null
@@ -159,7 +160,11 @@ export const shapeBase: ShapeOptions = {
         newLabel.set('className', labelClassName)
       } else { // 若原先存在 label，则更新样式。与 getLabelStyle 不同在于这里需要融合当前 label 的样式
         // 用于融合 style 以外的属性：position, offset, ...
-        const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
+        let currentLabelCfg = {};
+        if (item.getModel) {
+         currentLabelCfg = item.getModel().labelCfg;
+        }
+        const labelCfg = deepMix({}, defaultLabelCfg, currentLabelCfg, cfg.labelCfg);
 
         // 获取位置信息
         const calculateStyle = this.getLabelStyleByPosition(cfg, labelCfg, group)

@@ -469,7 +469,7 @@ Dagre is an hierarchical layout.
 
 
 #### ranksep
-**Type**: Function<br />**Default**: undefined<br />**Required**: false<br />**Description**: The separations between adjacent levels with unit px. When `rankdir` is `'TB'` or `'BT'`, `ranksep` represents the vertical separations between adjacent levels; when `rankdir` is `'LR'` or `'RL'`, `rankdir` represents the horizontal separations between adjacent levels
+**Type**: Number<br />**Default**: 50<br />**Required**: false<br />**Description**: The separations between adjacent levels with unit px. When `rankdir` is `'TB'` or `'BT'`, `ranksep` represents the vertical separations between adjacent levels; when `rankdir` is `'LR'` or `'RL'`, `rankdir` represents the horizontal separations between adjacent levels
 
 
 #### nodesepFunc
@@ -485,7 +485,7 @@ Dagre is an hierarchical layout.
 
 
 #### ranksepFunc
-**Type**: Number<br />**Default**: 50<br />**Example**: 
+**Type**: Function<br />**Default**: undefined<br />**Example**: 
 ```javascript
 (d) => {
   // d is a node
