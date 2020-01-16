@@ -3,35 +3,80 @@ title: API
 ---
 
 ## center
-**Type**: Array<br />**Example**: [ 0, 0 ]<br />**Default**: The center of graph<br />**Required**: false<br />**Explanation**: The center of the layout
+**Type**: Array<br />**Example**: [ 0, 0 ]<br />**Default**: The center of the graph<br />**Required**: false<br />**Description**: The center of the layout.
+
 
 ## linkDistance
-**Type**: Number<br />**Default**: 50<br />**Required**: false<br />**Explanation**: Edge length
+**Type**: Number<br />**Default**: 50<br />**Required**: false<br />**Description**: The edge length.
+
 
 ## maxIteration
-**Type**: Number<br />**Default**: 1000<br />**Required**: false<br />**Explanation**: The max number of iteration to stop
+**Type**: Number<br />**Default**: 1000<br />**Required**: false<br />**Description**: The max iteration number.
+
 
 ## focusNode
-**Type**: String | Object<br />**Default**: null<br />**Required**: false<br />**Explanation**: The focus node of the radial layout. If it is not assigned, the first node in the data will take effect. This parameter can be the node's id as String, or the node object.
+**Type**: String | Object<br />**Default**: null<br />**Required**: false<br />**Description**: The focus node of the radial layout. The first node of the data is the default value. It can be the id of a node or the node item.
+
 
 ## unitRadius
-**Type**: Number<br />**Default**: 100<br />**Required**: false<br />**Explanation**: The distance between circles. If it is not assigned, this algorithm will calculate a value to fill the whole canvas.
+**Type**: Number<br />**Default**: 100<br />**Required**: false<br />**Description**: The separation between adjacent circles. If `unitRadius` is not assigned, the layout will fill the canvas automatically.
+
 
 ## preventOverlap
-**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Explanation**: Switch to prevent the node overlappings. It should be used with `nodeSize`. Only if the `nodeSize` is assigned, the collide detection will take effect.
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned.
+
 
 ## nodeSize
-**Type**: Number<br />**Default**: 10<br />**Required**: false<br />**Explanation**: The size of the node(diameter). It will be used in collide dectection for preventing node overlappings.
+**Type**: Number<br />**Default**: 10<br />**Required**: false<br />**Description**: The diameter of the node. It is used for preventing node overlappings
+
+
+## nodeSpacing
+**Type**: Number / Function
+<br />**Default**: 0
+<br />**Required**: false 
+<br />**Example**: Example 1:  10
+<br />Example 2:  
+
+```javascript
+d => {
+  // d is a node
+  if (d.id === 'node1') {
+    return 100;
+  }
+  return 10;
+}
+```
+
+<br />**Description**: 
+Takes effect when `preventOverlap` is `true`. It is the minimum distance between nodes to prevent node overlappings. It can be a function to define different distances for different nodes (example 2)
+
 
 ## maxPreventOverlapIteration
-**Type**: Number<br />**Default**: 200<br />**Required**: false<br />**Explanation**: The max number of iterations to stop the prevent node overlappings.
+**Type**: Number<br />**Default**: 200<br />**Required**: false<br />**Description**: The maximum iteration number of preventing node overlappings
+
 
 ## strictRadial
-**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Explanation**: Whether to layout the radial strictly, which means place the nodes with same level on a circle strictly. It will take effect while `preventOverlap` is `true`.
+**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Description**: Whether to layout the graph as strict radial, which means the nodes will be arranged on each circle strictly. Takes effect only when `preventOverlap` is `true`
 
-- When `preventOverlap` is `true` and `strictRadial` is `false`, this algorithm will try to place the overlapped nodes alone a circle without overlappings as much as possible. But the overlappings might not be able to avoid while there are too many nodes in a small circle.
-- When `preventOverlap` is `true` and `strictRadial` is `true`, this algorithm allows offsets between nodes on the same level to prevent node overlappings.
+- When `preventOverlap` is `true`, and `strictRadial` is `false`, the overlapped nodes are arranged along their circles strictly. But for the situation that there are too many nodes on a circle to be arranged, the overlappings might not be eliminated completely
+- When `preventOverlap` is `true`, and `strictRadial` is `true` , the overlapped nodes can be arranged around their circle with small offsets.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*j-7IRp5qhxcAAAAAAAAAAABkARQnAQ' width=217/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5pVjQ6uRSyEAAAAAAAAAAABkARQnAQ' width=194/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IpMeTr6Lqv0AAAAAAAAAAABkARQnAQ' width=210/>
-> （Left）preventOverlap = false。（Center）preventOverlap = false，strictRadial = true。（Right）preventOverlap = false，strictRadial = false。
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cJqbRqm0h2UAAAAAAAAAAABkARQnAQ' width=270 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*PFRIRosyX7kAAAAAAAAAAABkARQnAQ' width=270 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*DPQFSqCXaIAAAAAAAAAAAABkARQnAQ' width=270 />
 
+> （Left）preventOverlap = false.（Center）preventOverlap = false, strictRadial = true. (Right)preventOverlap = false, strictRadial = false.
+
+
+
+## sortBy
+**Type**: String<br />**Default**: undefined<br />**Required**: false<br />**Description**: Sort the nodes of the same level. `undefined` by default, which means place the nodes with connections as close as possible; `'data'` means place the node according to the ordering in data, the closer the nodes in data ordering, the closer the nodes will be placed. `sortBy` also can be assigned to any name of property in nodes data, such as `'cluster'`, `'name'` and so on (make sure the property exists in the data)
+
+
+
+## sortStrength
+**Type**: Number<br />**Default**: 10<br />**Required**: false<br />**Description**: The strength to sort the nodes in the same circle. Larger number means place the nodes with smaller distance of `sortBy` more closely. Takes effect only when `sortBy` is not `undefined`
+
+
+## workerEnabled
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to enable the web-worker in case layout calculation takes too long to block page interaction

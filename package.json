@@ -49,7 +49,7 @@
     "site:develop": "GATSBY=true gatsby develop --open",
     "start": "npm run site:develop",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/layout/dagre-spec.ts",
+    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/shape/edge-spec.ts",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
     "watch": "father build -w"
   },
@@ -70,7 +70,7 @@
     "@antv/dom-util": "^2.0.1",
     "@antv/event-emitter": "~0.1.0",
     "@antv/g-base": "^0.3.5",
-    "@antv/g-canvas": "^0.3.9",
+    "@antv/g-canvas": "^0.3.11",
     "@antv/hierarchy": "^0.6.1",
     "@antv/matrix-util": "^2.0.4",
     "@antv/path-util": "^2.0.3",
@@ -110,14 +110,15 @@
     "react-dom": "^16.12.0",
     "react-i18next": "^11.1.0",
     "rimraf": "^3.0.0",
+    "rollup-plugin-web-worker-loader": "^0.8.1",
     "ts-jest": "^24.1.0",
     "ts-loader": "^6.2.1",
     "ttypescript": "^1.5.8",
     "typedoc": "^0.15.0",
     "typedoc-plugin-markdown": "^2.2.11",
     "typescript": "^3.5.3",
+    "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10",
-    "worker-loader": "^2.0.0",
-    "webpack": "^4.41.4"
+    "worker-loader": "^2.0.0"
   }
 }

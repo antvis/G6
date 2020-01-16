@@ -2,26 +2,38 @@
 title: API
 ---
 
+
 ## center
-**Type**: Array<br />**Example**: [ 0, 0 ]<br />**Default**: The center of the graph<br />**Required**: false<br />**Explanation**: The center of the layout
+**Type**: Array<br />**Example**: [ 0, 0 ]<br />**Default**: The center of the graph<br />**Required**: false<br />**Description**: The center of the layout
+
 
 ## radius
-**Type**: Number<br />**Default**: null<br />**Required**: false<br />**Explanation**: The radius of the circle. If the radius is assigned a value, the startRadius and endRadius will not take effect
+**Type**: Number<br />**Default**: null<br />**Required**: false<br />**Description**: The radius of the circle. If the `raidus` exists, `startRadius` and `endRadius` do not take effect.
+
 
 ## startRadius
-**Type**: Number<br />**Default**: null<br />**Required**: false<br />**Explanation**: The start radius of spiral style layout
+**Type**: Number<br />**Default**: null<br />**Required**: false<br />**Description**: The start radius of spiral layout
+
 
 ## endRadius
-**Type**: Number<br />**Default**: null<br />**Required**: false<br />**Explanation**: The end radius of spiral style layout
+**Type**: Number<br />**Default**: null<br />**Required**: false<br />**Description**: The end radius of spiral layout
+
 
 ## clockwise
-**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Explanation**: If layout the nodes by clockwise
+**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Description**: Whether to layout clockwisely
+
 
 ## divisions
-**Type**: Number<br />**Default**: 1<br />**Required**: false<br />**Explanation**: The number of divisions on the circle. It will takes effect while endRadius - startRadius != 0
+**Type**: Number<br />**Default**: 1<br />**Required**: false<br />**Description**: The division number of the nodes on the circle. Takes effect when `endRadius - startRadius !== 0`
+
 
 ## ordering
-**Type**: String<br />**Default**: false<br />**可选值**: null | 'topology' | 'degree'<br />**Required**: false<br />**Explanation**: The nodes will be ordered according to this parameter. null means order the nodes in data order/ 'topology' means order the node by topology. 'degree' means order the nods by their degrees.
+**Type**: String<br />**Default**: false<br />**Options**: null | 'topology' | 'degree'<br />**Required**: false<br />**Description**: The ordering method for nodes. `null` by default, which means the nodes are arranged in data order. 'topology' means in topology order; 'degree' means in degree order.
+
 
 ## angleRatio
-**Type**: Number<br />**Default**: 1<br />**Required**: false<br />**Explanation**: How many 2*PI between the first node to the last node.
+**Type**: Number<br />**Default**: 1<br />**Required**: false<br />**Description**: How many 2*PIs Between the first node and the last node
+
+
+## workerEnabled
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to enable the web-worker in case layout calculation takes too long to block page interaction

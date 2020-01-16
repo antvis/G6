@@ -32,7 +32,8 @@ G6.registerNode('pie-node', {
         ],
         lineWidth: 0,
         fill: lightOrange
-      }
+      },
+      name: 'in-fan-shape'
     });
        // 定义代表出度的扇形形状
     group.addShape('path', {
@@ -45,12 +46,13 @@ G6.registerNode('pie-node', {
         ],
         lineWidth: 0,
         fill: lightBlue
-      }
+      },
+      name: 'out-fan-shape'
     });
        // 返回 keyshape
     return fanIn;
   }
-}, 'single-shape');
+}, 'single-node');
 
 const data = {
   nodes: [

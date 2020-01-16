@@ -109,7 +109,7 @@ const singleEdge: ShapeOptions = {
     const strokeStyle = {
       stroke: cfg.color
     };
-    const shape = group.find(element => { return element.get('className') === 'edge-shape'})
+    const shape = group.find(element => { return element.get('className') === 'edge-shape'}) || item.getKeyShape()
 
     const size = cfg.size;
     cfg = this.getPathPoints(cfg);
@@ -123,7 +123,6 @@ const singleEdge: ShapeOptions = {
     }
     // 添加结束点
     points.push(endPoint);
-    debugger
     const path = this.getPath(points);
     const style = deepMix({}, strokeStyle, shape.attr(), {
       lineWidth: size,
@@ -136,7 +135,6 @@ const singleEdge: ShapeOptions = {
   },
   getLabelStyleByPosition(cfg?: EdgeConfig, labelCfg?: ILabelConfig, group?: GGroup): LabelStyle {
     const labelPosition = labelCfg.position || this.labelPosition; // 文本的位置用户可以传入
-    this.labelPosition = labelPosition;
     const style: LabelStyle = {};
 
     const pathShape = group.find(element => { return element.get('className') === CLS_SHAPE}) as Path;
@@ -153,8 +151,6 @@ const singleEdge: ShapeOptions = {
     // 偏移量
     const offsetX = labelCfg.refX || this.refX;
     const offsetY = labelCfg.refY || this.refY;
-    this.refX = offsetX;
-    this.refY = offsetY;
     // 如果两个节点重叠，线就变成了一个点，这时候label的位置，就是这个点 + 绝对偏移
     if (cfg.startPoint.x === cfg.endPoint.x && cfg.startPoint.y === cfg.endPoint.y) {
       style.x = cfg.startPoint.x + offsetX;
@@ -252,7 +248,7 @@ Shape.registerEdge('line', {
   getControlPoints() {
     return undefined;
   }
-});
+}, 'single-edge');
 
 // 直线
 Shape.registerEdge('spline', {
@@ -260,7 +256,7 @@ Shape.registerEdge('spline', {
     const path = getSpline(points);
     return path;
   },
-});
+}, 'single-edge');
 
 Shape.registerEdge('arc', {
   curveOffset: 20,
@@ -333,7 +329,7 @@ Shape.registerEdge('arc', {
     }
     return path;
   },
-});
+}, 'single-edge');
 
 Shape.registerEdge('quadratic', {
   curvePosition: 0.5, // 弯曲的默认位置
@@ -353,7 +349,7 @@ Shape.registerEdge('quadratic', {
     path.push(['Q', points[1].x, points[1].y, points[2].x, points[2].y]);
     return path;
   },
-});
+}, 'single-edge');
 
 Shape.registerEdge('cubic', {
   curvePosition: [1 / 2, 1 / 2],
@@ -374,7 +370,7 @@ Shape.registerEdge('cubic', {
     path.push(['C', points[1].x, points[1].y, points[2].x, points[2].y, points[3].x, points[3].y]);
     return path;
   },
-});
+}, 'single-edge');
 
 // 垂直方向的三阶贝塞尔曲线，不再考虑用户外部传入的控制点
 Shape.registerEdge(

@@ -106,6 +106,68 @@ const ShapeFactoryBase = {
 }
 
 
+/**
+ * 元素的框架
+ */
+const ShapeFramework = {
+  // 默认样式及配置
+  options: {},
+  /**
+	 * 用户自定义节点或边的样式，初始渲染时使用
+	 * @override
+	 * @param  {Object} model 节点的配置项
+	 */
+  getCustomConfig(/* model */) {},
+  /**
+   * 绘制
+   */
+  draw(/* cfg, group */) {
+
+  },
+  /**
+   * 绘制完成后的操作，便于用户继承现有的节点、边
+   */
+  afterDraw(/* cfg, group */) {
+
+  },
+  // update(cfg, item) // 默认不定义
+  afterUpdate(/* cfg, item */) {
+
+  },
+  /**
+   * 设置节点、边状态
+   */
+  setState(/* name, value, item */) {
+
+  },
+  /**
+   * 获取控制点
+   * @param  {Object} cfg 节点、边的配置项
+   * @return {Array|null} 控制点的数组,如果为 null，则没有控制点
+   */
+  getControlPoints(cfg) {
+    return cfg.controlPoints;
+  },
+  /**
+   * 获取控制点
+   * @param  {Object} cfg 节点、边的配置项
+   * @return {Array|null} 控制点的数组,如果为 null，则没有控制点
+   */
+  getAnchorPoints(cfg) {
+    const customOptions = this.getCustomConfig(cfg) || {};
+    const { anchorPoints: defaultAnchorPoints } = this.options;
+    const { anchorPoints: customAnchorPoints } = customOptions;
+    const anchorPoints = cfg.anchorPoints || customAnchorPoints || defaultAnchorPoints;
+    return anchorPoints;
+  }
+  /* 如果没定义 update 方法，每次都调用 draw 方法
+  update(cfg, item) {
+
+  }
+  */
+};
+
+
 export default class Shape {
   public static Node;
   public static Edge;
@@ -125,8 +187,7 @@ export default class Shape {
   }
   public static registerNode(shapeType: string, nodeDefinition: ShapeOptions, extendShapeType?: string) {
     const shapeFactory = Shape.Node;
-    extendShapeType = extendShapeType ? extendShapeType : 'single-node'
-    const extendShape = shapeFactory.getShape(extendShapeType);
+    const extendShape = extendShapeType ? shapeFactory.getShape(extendShapeType) : ShapeFramework;
 
     const shapeObj = Object.assign({}, extendShape, nodeDefinition)
     shapeObj.type = shapeType
@@ -136,8 +197,7 @@ export default class Shape {
   }
   public static registerEdge(shapeType: string, edgeDefinition: ShapeOptions, extendShapeType?: string) {
     const shapeFactory = Shape.Edge;
-    extendShapeType = extendShapeType ? extendShapeType : 'single-edge'
-    const extendShape = shapeFactory.getShape(extendShapeType);
+    const extendShape = extendShapeType ? shapeFactory.getShape(extendShapeType) : ShapeFramework;
     const shapeObj = Object.assign({}, extendShape, edgeDefinition)
     shapeObj.type = shapeType
     shapeObj.itemType = 'edge'

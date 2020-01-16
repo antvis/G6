@@ -46,7 +46,6 @@ const singleNode: ShapeOptions = {
   getLabelStyleByPosition(cfg?: NodeConfig, labelCfg?: ILabelConfig): LabelStyle
   {
     const labelPosition = labelCfg.position || this.labelPosition
-    this.labelPosition = labelPosition;
 
     // 默认的位置（最可能的情形），所以放在最上面
     if (labelPosition === 'center') {
@@ -54,11 +53,9 @@ const singleNode: ShapeOptions = {
     }
 
     let offset = labelCfg.offset
-    console.log('offsetoffset', labelCfg);
     if (isNil(offset)) { // 考虑 offset = 0 的场景，不用用 labelCfg.offset || Global.nodeLabel.offset
       offset = this.offset // 不居中时的偏移量
     }
-    this.offset = offset;
 
     const size = this.getSize(cfg)
     const width = size[0]

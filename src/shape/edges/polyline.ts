@@ -107,4 +107,4 @@ Shape.registerEdge('polyline', {
       points[points.length - 1], source, target, offset);
     return pointsToPolygon(polylinePoints);
   }
-}, 'single-line');
+}, 'single-edge');
