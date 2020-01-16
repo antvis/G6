@@ -8,7 +8,7 @@
 import { Point } from '@antv/g-base/lib/types';
 import deepMix from '@antv/util/lib/deep-mix';
 import { INode } from '../interface/item';
-import { G6Event, IG6GraphEvent, Item, NodeConfig } from '../../types';
+import { G6Event, IG6GraphEvent, Item, NodeConfig } from '../types';
 import Global from '../global'
 
 export default {

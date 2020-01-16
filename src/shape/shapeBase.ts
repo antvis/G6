@@ -7,7 +7,7 @@ import { IShape } from '@antv/g-canvas/lib/interfaces'
 import deepMix from '@antv/util/lib/deep-mix';
 import each from '@antv/util/lib/each'
 import { ShapeOptions, ILabelConfig } from '../interface/shape'
-import { IPoint, Item, LabelStyle, ModelConfig, ShapeStyle } from '../../types';
+import { IPoint, Item, LabelStyle, ModelConfig, ShapeStyle } from '../types';
 import { cloneDeep, get, merge } from 'lodash'
 import Global from '../global'
 import { mat3, transform } from '@antv/matrix-util';

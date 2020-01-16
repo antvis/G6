@@ -1,7 +1,7 @@
 import each from '@antv/util/lib/each'
 import isString from '@antv/util/lib/is-string'
 import { IGraph, IStates } from '../../interface/graph';
-import { Item } from '../../../types';
+import { Item } from '../../types';
 
 interface ICachedStates {
   enabled: IStates;

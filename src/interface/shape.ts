@@ -1,7 +1,7 @@
 import { Point } from '@antv/g-base/lib/types';
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
-import { IPoint, Item, LabelStyle, ModelConfig, ModelStyle, ShapeStyle } from '../../types';
+import { IPoint, Item, LabelStyle, ModelConfig, ModelStyle, ShapeStyle } from '../types';
 
 
 export type ILabelConfig = Partial<{

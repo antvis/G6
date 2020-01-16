@@ -6,7 +6,7 @@ import Path from '@antv/g-canvas/lib/shape/path';
 import { vec2 } from '@antv/matrix-util';
 import each from '@antv/util/lib/each';
 import Global from '../global';
-import { EdgeData, IBBox, IPoint, IShapeBase, LabelStyle, TreeGraphData } from '../../types';
+import { EdgeData, IBBox, IPoint, IShapeBase, LabelStyle, TreeGraphData } from '../types';
 import { applyMatrix } from './math';
 
 const PI: number = Math.PI;

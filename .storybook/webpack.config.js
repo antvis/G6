@@ -35,10 +35,5 @@ module.exports = ({ config }) => {
 
   config.resolve.extensions.push('.ts', '.tsx', '.js');
 
-  config.resolve.alias = {
-    '@g6/types': resolve(process.cwd(), './types'),
-    '@g6': resolve(process.cwd(), './src')
-  }
-
   return config;
 };

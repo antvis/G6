@@ -1,5 +1,5 @@
 import base from './tooltip-base';
-import { G6Event } from '../../types';
+import { G6Event } from '../types';
 
 export default Object.assign({
   getDefaultCfg(): object {

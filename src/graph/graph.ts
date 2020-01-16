@@ -23,7 +23,7 @@ import {
   NodeMapConfig,
   Padding,
   TreeGraphData,
-} from '../../types';
+} from '../types';
 import { getAllNodeInGroups } from '../util/group';
 import { move, translate } from '../util/math';
 import { groupBy } from 'lodash';

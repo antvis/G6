@@ -2,7 +2,6 @@ import '../../../src/behavior'
 import '../../../src/shape'
 import Graph from '../../../src/graph/graph'
 import { Event } from '@antv/g-canvas';
-import { IG6GraphEvent } from "../../../types";
 
 
 const div = document.createElement('div');

@@ -4,7 +4,7 @@
  * this algorithm refers to <cytoscape.js> - https://github.com/cytoscape/cytoscape.js/
  */
 
-import { EdgeConfig, IPointTuple, NodeConfig } from '../../types';
+import { EdgeConfig, IPointTuple, NodeConfig } from '../types';
 
 import isString from '@antv/util/lib/is-string';
 import { BaseLayout } from './layout';

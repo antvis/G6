@@ -2,7 +2,7 @@ import { Point } from '@antv/g-base/lib/types';
 import { IGroup } from '@antv/g-canvas/lib/interfaces';
 import { mat3, transform, vec3 } from '@antv/matrix-util';
 import isArray from '@antv/util/lib/is-array'
-import { GraphData, ICircle, IEllipse, IRect, Matrix } from '../../types';
+import { GraphData, ICircle, IEllipse, IRect, Matrix } from '../types';
 
 /**
  * 是否在区间内

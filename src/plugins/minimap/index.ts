@@ -6,7 +6,7 @@ import modifyCSS from '@antv/dom-util/lib/modify-css'
 import isNil from '@antv/util/lib/is-nil'
 import each from '@antv/util/lib/each'
 import Graph from '../../graph/graph';
-import { Matrix, ShapeStyle } from '../../../types';
+import { Matrix, ShapeStyle } from '../../types';
 import { transform, mat3 } from '@antv/matrix-util'
 import { Point } from '@antv/g-math/lib/types';
 import { IGroup } from '@antv/g-base/lib/interfaces';
