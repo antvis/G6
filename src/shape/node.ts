@@ -7,7 +7,7 @@ import { IShape } from '@antv/g-canvas/lib/interfaces'
 import { isArray, isNil, isEqual } from '@antv/util/lib'
 import deepMix from '@antv/util/lib/deep-mix';
 import { ILabelConfig, ShapeOptions } from '../interface/shape'
-import { Item, LabelStyle, NodeConfig } from '../../types';
+import { Item, LabelStyle, NodeConfig } from '../types';
 import Global from '../global'
 import Shape from './shape'
 import { shapeBase } from './shapeBase'

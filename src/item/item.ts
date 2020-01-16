@@ -6,7 +6,7 @@ import isString from '@antv/util/lib/is-string'
 import uniqueId from '@antv/util/lib/unique-id'
 import { IItemBase, IItemBaseConfig } from "../interface/item";
 import Shape from '../shape/shape';
-import { IBBox, IPoint, IShapeBase, ModelConfig, ShapeStyle } from '../../types';
+import { IBBox, IPoint, IShapeBase, ModelConfig, ShapeStyle } from '../types';
 import { getBBox } from '../util/graphic';
 import { translate } from '../util/math';
 

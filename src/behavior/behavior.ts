@@ -1,5 +1,5 @@
 import { clone, each, wrapBehavior } from '@antv/util/lib';
-import { BehaviorOpation } from '../../types';
+import { BehaviorOpation } from '../types';
 import behaviorOption from './behaviorOption'
 
 export default class Behavior {

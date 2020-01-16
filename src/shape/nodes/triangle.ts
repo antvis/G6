@@ -3,7 +3,7 @@ import deepMix from '@antv/util/lib/deep-mix';
 import Global from '../../global'
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
-import { ModelConfig, NodeConfig, Item } from '../../../types';
+import { ModelConfig, NodeConfig, Item } from '../../types';
 
 // 菱形shape
 Shape.registerNode('triangle', {

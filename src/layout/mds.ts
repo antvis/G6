@@ -3,7 +3,7 @@
  * @author shiwu.wyy@antfin.com
  */
 
-import { IPointTuple } from '../../types';
+import { IPointTuple } from '../types';
 
 import Numeric from 'numericjs';
 import { floydWarshall, getAdjMatrix, scaleMatrix } from '../util/math';

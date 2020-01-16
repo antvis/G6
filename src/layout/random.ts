@@ -3,7 +3,7 @@
  * @author shiwu.wyy@antfin.com
  */
 
-import { IPointTuple } from '../../types';
+import { IPointTuple } from '../types';
 import { BaseLayout } from './layout';
 
 /**
