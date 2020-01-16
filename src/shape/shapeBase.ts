@@ -113,7 +113,6 @@ export const shapeBase: ShapeOptions = {
    * @param group 父容器，label 的定位可能与图形相关
    */
   getLabelStyle(cfg: ModelConfig, labelCfg, group: GGroup): LabelStyle {
-    console.log('getLabelStyle', labelCfg)
     const calculateStyle = this.getLabelStyleByPosition(cfg, labelCfg, group)
     const attrName = this.itemType + 'Label' // 取 nodeLabel，edgeLabel 的配置项
     const defaultStyle = Global[attrName] ? Global[attrName].style : null
