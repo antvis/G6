@@ -178,19 +178,26 @@ export default {
     const groupNodes = graph.get('groupNodes');
     if (this.inGroupId && groupId) {
       const currentGroup = customGroup[groupId].nodeGroup;
+      if(!currentGroup) {
+        return
+      }
+
       const keyShape = currentGroup.get('keyShape');
 
       const itemBBox = item.getBBox();
       const currentGroupBBox = keyShape.getBBox();
 
-      const { x, y } = itemBBox;
+      const { centerX, centerY } = itemBBox;
       const { minX, minY, maxX, maxY } = currentGroupBBox;
 
       // 在自己的group中拖动，判断是否拖出了自己的group
       // this.inGroupId !== groupId，则说明拖出了原来的group，拖到了其他group上面，
       // 则删除item中的groupId字段，同时删除group中的nodeID
       if (
-          !(x < maxX * this.maxMultiple && x > minX * this.minMultiple && y < maxY * this.maxMultiple && y > minY * this.minMultiple)
+          !(centerX < maxX * this.maxMultiple && 
+            centerX > minX * this.minMultiple && 
+            centerY < maxY * this.maxMultiple && 
+            centerY > minY * this.minMultiple)
           || this.inGroupId !== groupId) {
         // 拖出了group，则删除item中的groupId字段，同时删除group中的nodeID
         const currentGroupNodes = groupNodes[groupId];
@@ -206,6 +213,10 @@ export default {
 
         // 拖动新的group后，更新groupNodes及model中的groupId
         const nodeInGroup = customGroup[this.inGroupId].nodeGroup;
+        if(!nodeInGroup) {
+          return
+        }
+
         const targetKeyShape = nodeInGroup.get('keyShape');
         // 将该节点添加到inGroupId中
         if (groupNodes[this.inGroupId].indexOf(id) === -1) {
@@ -221,6 +232,10 @@ export default {
     } else if (this.inGroupId && !groupId) {
       // 将节点拖动到群组中
       const nodeInGroup = customGroup[this.inGroupId].nodeGroup;
+      if(!nodeInGroup) {
+        return
+      }
+
       const keyShape = nodeInGroup.get('keyShape');
       // 将该节点添加到inGroupId中
       if (groupNodes[this.inGroupId].indexOf(id) === -1) {
@@ -237,6 +252,10 @@ export default {
         groupNodes[gnode] = currentGroupNodes.filter(node => node !== id);
       }
       const currentGroup = customGroup[groupId].nodeGroup;
+      if(!currentGroup) {
+        return
+      }
+
       const keyShape = currentGroup.get('keyShape');
       customGroupControll.dynamicChangeGroupSize(evt, currentGroup, keyShape);
       delete model.groupId;

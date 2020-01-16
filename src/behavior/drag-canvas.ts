@@ -44,8 +44,7 @@ export default {
     this.graph.paint();
   },
   onMouseDown(e: IG6GraphEvent) {
-    console.log('on mouse down')
-    if (this.keydown) {
+    if (this.keydown || e.shape) {
       return;
     }
 
@@ -54,7 +53,7 @@ export default {
     this.dragbegin = true;
   },
   onMouseMove(e: IG6GraphEvent) {
-    if (this.keydown || !this.dragbegin) {
+    if (this.keydown || !this.dragbegin || e.shape) {
       return;
     }
 
@@ -83,7 +82,7 @@ export default {
     }
   },
   onMouseUp(e: IG6GraphEvent) {
-    if (this.keydown || !this.dragbegin) {
+    if (this.keydown || !this.dragbegin || e.shape) {
       return;
     }
 
@@ -113,18 +112,18 @@ export default {
     if (!this.dragging) {
       return;
     }
+    
     const self = this;
-    self.onMouseUp(e);
-    // const canvasElement = self.graph.get('canvas').get('el');
-    // function listener(ev) {
-    //   console.log(ev.target, canvasElement, ev.target !== canvasElement);
-    //   if (ev.target !== canvasElement) {
-    //     self.onMouseUp(e);
-    //     // 终止时需要判断此时是否在监听画布外的 mouseup 事件，若有则解绑
-    //     document.removeEventListener('mouseup', listener, false);
-    //   }
-    // };
-    // document.addEventListener('mouseup', listener, false);
+    const canvasElement = self.graph.get('canvas').get('el');
+    function listener(ev) {
+      console.log(ev.target, canvasElement, ev.target !== canvasElement);
+      if (ev.target !== canvasElement) {
+        self.onMouseUp(e);
+        // 终止时需要判断此时是否在监听画布外的 mouseup 事件，若有则解绑
+        document.removeEventListener('mouseup', listener, false);
+      }
+    };
+    document.addEventListener('mouseup', listener, false);
   },
   onKeyDown(e: KeyboardEvent) {
     const code = e.key;
