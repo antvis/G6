@@ -24,8 +24,7 @@ export default {
     return {
       'node:dragstart': 'onDragStart',
       'node:drag': 'onDrag',
-      'node:dragend': 'onDragEnd',
-      'canvas:mouseleave': 'onOutOfRange'
+      'node:dragend': 'onDragEnd'
     };
   },
   onDragStart(e: IG6GraphEvent) {
@@ -153,22 +152,6 @@ export default {
 
     graph.paint();
     graph.setAutoPaint(autoPaint);
-  },
-  // 若在拖拽时，鼠标移出画布区域，此时放开鼠标无法终止 drag 行为。在画布外监听 mouseup 事件，放开则终止
-  onOutOfRange(e: IG6GraphEvent) {
-    const self = this;
-
-    const canvasElement = self.graph.get('canvas').get('el');
-    function listener(ev) {
-      if (ev.target !== canvasElement) {
-        self.onDragEnd(e);
-        // 终止时需要判断此时是否在监听画布外的 mouseup 事件，若有则解绑
-        document.body.removeEventListener('mouseup', listener, true);
-      }
-    };
-    if (this.origin) {
-      document.body.addEventListener('mouseup', listener, true);
-    }
   },
   update(item: Item, e: IG6GraphEvent, force: boolean) {
     const origin = this.origin;
