@@ -492,6 +492,11 @@ focusNode.style = {
   fill: '#729FFC',
   lineWidth: 2
 };
+data.nodes[3].style = {
+  stroke: '#00419F',
+  fill: '#729FFC',
+  lineWidth: 2
+};
 
 const graph = new G6.Graph({
   container: 'container',
@@ -526,8 +531,8 @@ const graph = new G6.Graph({
 
 graph.data({
   nodes: data.nodes,
-  edges: data.edges.map(function(edge, i) {
-    edge.id = 'edge' + i;
+  edges: data.edges.map((edge, i) => {
+    edge.id = `edge${i}`;
     return Object.assign({}, edge);
   })
 });

@@ -48,7 +48,7 @@ G6.registerNode('tree-node', {
     });
     return rect;
   }
-}, 'single-shape');
+}, 'single-node');
 
 
 const width = document.getElementById('container').scrollWidth;

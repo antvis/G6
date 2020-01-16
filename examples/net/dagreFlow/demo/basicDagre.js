@@ -3,7 +3,7 @@ import G6 from '@antv/g6';
 const data = {
   nodes: [{
     id: '1',
-    type: 'alps',
+    dataType: 'alps',
     name: 'alps_file1',
     conf: [{
       label: 'conf',
@@ -20,7 +20,7 @@ const data = {
   },
   {
     id: '2',
-    type: 'alps',
+    dataType: 'alps',
     name: 'alps_file2',
     conf: [{
       label: 'conf',
@@ -37,7 +37,7 @@ const data = {
   },
   {
     id: '3',
-    type: 'alps',
+    dataType: 'alps',
     name: 'alps_file3',
     conf: [{
       label: 'conf',
@@ -54,7 +54,7 @@ const data = {
   },
   {
     id: '4',
-    type: 'sql',
+    dataType: 'sql',
     name: 'sql_file1',
     conf: [{
       label: 'conf',
@@ -71,7 +71,7 @@ const data = {
   },
   {
     id: '5',
-    type: 'sql',
+    dataType: 'sql',
     name: 'sql_file2',
     conf: [{
       label: 'conf',
@@ -88,7 +88,7 @@ const data = {
   },
   {
     id: '6',
-    type: 'feature_etl',
+    dataType: 'feature_etl',
     name: 'feature_etl_1',
     conf: [{
       label: 'conf',
@@ -105,7 +105,7 @@ const data = {
   },
   {
     id: '7',
-    type: 'feature_etl',
+    dataType: 'feature_etl',
     name: 'feature_etl_1',
     conf: [{
       label: 'conf',
@@ -122,7 +122,7 @@ const data = {
   },
   {
     id: '8',
-    type: 'feature_extractor',
+    dataType: 'feature_extractor',
     name: 'feature_extractor',
     conf: [{
       label: 'conf',
@@ -202,7 +202,7 @@ G6.registerNode('sql', {
     return rect;
   }
 },
-'single-shape');
+'single-node');
 G6.Global.nodeStateStyle.selected = {
   stroke: '#d9d9d9',
   fill: '#5394ef'

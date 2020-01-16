@@ -190,7 +190,7 @@ G6.registerNode('pie-node', {
     return fanIn;
   }
 },
-"single-shape"
+"single-node"
 );
 ```
 这样，我们就在 G6 中注册了一个名为 pie-node 的节点类型。
