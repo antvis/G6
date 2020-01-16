@@ -22,22 +22,22 @@ const data = {
     x: 200,
     y: 50,
     label: '1222',
-    shape: 'my-rect'
+    type: 'my-rect'
   }, {
     id: 'node2',
     x: 150,
     y: 150,
-    shape: 'my-rect'
+    type: 'my-rect'
   }, {
     id: 'node3',
     x: 250,
     y: 150,
-    shape: 'my-rect'
+    type: 'my-rect'
   }, {
     id: 'node4',
     x: 200,
     y: 250,
-    shape: 'my-rect'
+    type: 'my-rect'
   }],
   edges: [{
     source: 'node0',
@@ -73,7 +73,7 @@ const graph = new G6.Graph({
     }
   },
   defaultEdge: {
-    shape: 'cubic-vertical',
+    type: 'cubic-vertical',
     style: {
       stroke: '#F6BD16'
     }

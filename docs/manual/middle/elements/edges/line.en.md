@@ -12,14 +12,14 @@ As stated in [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge)
 
 
 ### 1 Global Configure When Instantiating a Graph
-Assign `shape` to `'line'` in the `defaultEdge` object when instantiating a Graph:
+Assign `type` to `'line'` in the `defaultEdge` object when instantiating a Graph:
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
   defaultEdge: {
-    shape: 'line', // The type of the edge
+    type: 'line', // The type of the edge
     // ...  Other configuraltions
   }
 })
@@ -36,7 +36,7 @@ const data = {
   edges: [{
     source: 'node0',
     target: 'node1'
-    shape: 'line',
+    type: 'line',
     //... // Other configurations for edges
     style: {
       //...  // Style properties for edges
@@ -80,7 +80,7 @@ const data = {
  edges: [{
    source: 'node0',
    target: 'node1',
-   shape: 'line',
+   type: 'line',
    label: 'line'
  }]
 };
@@ -89,7 +89,7 @@ const graph = new G6.Graph({
   width: 800,
   height: 600,
   defaultEdge: {
-    // shape: 'line',  // The shape has been assigned in the data, we do not have to define it any more
+    // type: 'line',  // The type has been assigned in the data, we do not have to define it any more
     style: {
       stroke: 'steelblue',
       lineWidth: 5

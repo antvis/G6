@@ -18,16 +18,16 @@ order: 2
 不论是节点还是边，它们的属性分为两种：
 
 - **样式属性 `style`**：对应 Canvas 中的各种样式，在元素[状态 State](/zh/docs/manual/middle/states/state) 发生变化时，可以被改变；
-- **其他属性**：例如图形（ `shape`）、id（`id` ）一类在元素[状态 State](/zh/docs/manual/middle/states/state) 发生变化时不能被改变的属性。
+- **其他属性**：例如图形类型（ `type`）、id（`id` ）一类在元素[状态 State](/zh/docs/manual/middle/states/state) 发生变化时不能被改变的属性。
 
-例如，G6 设定 hover 或 click 节点，造成节点状态的改变，只能自动改变节点的**样式属性**（如 `fill`、`stroke` 等**）**，**其他属性**（如 `shape` 等）不能被改变。如果需要改变其他属性，要通过 [graph.updateItem](/zh/docs/api/Graph/#updateitemitem-model) 手动配置。**样式属性**是一个名为 `style` 的对象， `style` 字段与其他属性并行。
+例如，G6 设定 hover 或 click 节点，造成节点状态的改变，只能自动改变节点的**样式属性**（如 `fill`、`stroke` 等**）**，**其他属性**（如 `type` 等）不能被改变。如果需要改变其他属性，要通过 [graph.updateItem](/zh/docs/api/Graph/#updateitemitem-model) 手动配置。**样式属性**是一个名为 `style` 的对象， `style` 字段与其他属性并行。
 
 ### 数据结构
 以节点元素为例，其属性的数据结构如下：
 ```javascript
 {
 	id: 'node0',          // 元素的 id
-  shape: 'circle',      // 元素的图形
+  type: 'circle',      // 元素的图形
   size: 40,             // 元素的大小
   label: 'node0'        // 标签文字
   labelCfg: {           // 标签配置属性
@@ -54,7 +54,7 @@ order: 2
   - R3: 边的透明度和颜色，对应边样式属性：`opacity`，`stroke`；
   - R4: 边上标签文本的方向和颜色，对应边其他属性：`labelCfg`；
 - 数据与视觉映射：
-  - R5: 根据数据中节点的 `class` 属性映射节点的形状，对应节点其他属性：`shape`；
+  - R5: 根据数据中节点的 `class` 属性映射节点的形状，对应节点其他属性：`type`；
   - R6: 根据数据中边的 `weight` 属性映射边的粗细，对应边样式属性：`lineWidth`。
 
 ## 配置属性
@@ -124,16 +124,16 @@ nodes.forEach(node => {
   }
   switch (node.class) {         // 根据节点数据中的 class 属性配置图形
     case 'c0': {
-      node.shape = 'circle';    // class = 'c0' 时节点图形为 circle
+      node.type = 'circle';    // class = 'c0' 时节点图形为 circle
       break;
     }
     case 'c1': {
-      node.shape = 'rect';       // class = 'c1' 时节点图形为 rect
+      node.type = 'rect';       // class = 'c1' 时节点图形为 rect
       node.size = [ 35, 20 ];    // class = 'c1' 时节点大小
       break;
     }
     case 'c2': {
-      node.shape = 'ellipse';    // class = 'c2' 时节点图形为 ellipse
+      node.type = 'ellipse';    // class = 'c2' 时节点图形为 ellipse
       node.size = [ 35, 20 ];    // class = 'c2' 时节点大小
       break;
     }
@@ -150,7 +150,7 @@ graph.data(remoteData);
 > 图 3
 
 
-可以看到，图中有一些节点被渲染成了矩形，还有一些被渲染成了椭圆形。除了设置 `shape` 属性之外，我们还覆盖了上文全局配置的节点的 `size` 属性，在矩形和椭圆的情况下，size 是一个数组；而在默认圆形的情况下，G6 仍然会去读全局配置的 `size` 属性为数字 `30`。也就是说，动态配置属性让我们既可以根据数据的不同配置不同的属性值，也可以有能力覆盖全局静态的属性值。
+可以看到，图中有一些节点被渲染成了矩形，还有一些被渲染成了椭圆形。除了设置 `type` 属性之外，我们还覆盖了上文全局配置的节点的 `size` 属性，在矩形和椭圆的情况下，size 是一个数组；而在默认圆形的情况下，G6 仍然会去读全局配置的 `size` 属性为数字 `30`。也就是说，动态配置属性让我们既可以根据数据的不同配置不同的属性值，也可以有能力覆盖全局静态的属性值。
 
 进一步地，我们尝试根据数据的比重不同，配置不一样边的粗细：
 ```javascript
@@ -253,16 +253,16 @@ graph.render()
         node.style.fill = 'steelblue';
         switch (node.class) {
           case 'c0': {
-            node.shape = 'circle';
+            node.type = 'circle';
             break;
           }
           case 'c1': {
-            node.shape = 'rect';
+            node.type = 'rect';
             node.size = [ 35, 20 ];
             break;
           }
           case 'c2': {
-            node.shape = 'ellipse';
+            node.type = 'ellipse';
             node.size = [ 35, 20 ];
             break;
           }

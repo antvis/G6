@@ -88,7 +88,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/70cde3be-22e8-4291-98f1-4d5
       };
     });
     edges.forEach(edge => {
-      edge.shape = 'quadratic';
+      edge.type = 'quadratic';
       const source = nodeMap.get(edge.source);
       const target = nodeMap.get(edge.target);
       edge.controlPoints = [{

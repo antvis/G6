@@ -39,7 +39,7 @@ describe('signle layer group', () => {
         default: [ 'drag-group' ]
       },
       defaultNode: {
-        shape: 'circleNode'
+        type: 'circleNode'
       },
       defaultEdge: {
         color: '#bae7ff'
@@ -80,7 +80,7 @@ describe('signle layer group', () => {
         label: 'rect',
         x: 100,
         y: 300,
-        shape: 'rect'
+        type: 'rect'
       },
       {
         id: 'node9',
@@ -137,7 +137,7 @@ describe('signle layer group', () => {
         default: [ 'drag-group' ]
       },
       defaultNode: {
-        shape: 'circleNode'
+        type: 'circleNode'
       },
       defaultEdge: {
         color: '#bae7ff'
@@ -179,7 +179,7 @@ describe('signle layer group', () => {
           label: 'rect',
           x: 100,
           y: 300,
-          shape: 'rect'
+          type: 'rect'
         },
         {
           id: 'node9',
@@ -232,7 +232,7 @@ describe('signle layer group', () => {
         default: [ 'drag-group' ]
       },
       defaultNode: {
-        shape: 'circleNode'
+        type: 'circleNode'
       },
       defaultEdge: {
         color: '#bae7ff'
@@ -273,7 +273,7 @@ describe('signle layer group', () => {
         label: 'rect',
         x: 100,
         y: 300,
-        shape: 'rect'
+        type: 'rect'
       },
       {
         id: 'node9',
@@ -330,7 +330,7 @@ describe('signle layer group', () => {
         default: [ 'drag-group' ]
       },
       defaultNode: {
-        shape: 'circleNode'
+        type: 'circleNode'
       },
       defaultEdge: {
         color: '#bae7ff'
@@ -372,7 +372,7 @@ describe('signle layer group', () => {
           label: 'rect',
           x: 100,
           y: 300,
-          shape: 'rect'
+          type: 'rect'
         },
         {
           id: 'node9',
@@ -409,7 +409,7 @@ describe('signle layer group', () => {
         default: [ 'drag-group' ]
       },
       defaultNode: {
-        shape: 'circleNode'
+        type: 'circleNode'
       },
       defaultEdge: {
         color: '#bae7ff'
@@ -451,7 +451,7 @@ describe('signle layer group', () => {
           label: 'rect',
           x: 100,
           y: 300,
-          shape: 'rect'
+          type: 'rect'
         },
         {
           id: 'node9',
@@ -535,7 +535,7 @@ describe('signle layer group', () => {
         default: [ 'drag-group' ]
       },
       defaultNode: {
-        shape: 'circleNode'
+        type: 'circleNode'
       },
       defaultEdge: {
         color: '#bae7ff'
@@ -576,7 +576,7 @@ describe('signle layer group', () => {
         label: 'rect',
         x: 100,
         y: 300,
-        shape: 'rect'
+        type: 'rect'
       },
       {
         id: 'node9',
@@ -724,7 +724,7 @@ describe('nesting layer group', () => {
         default: [ 'drag-group' ]
       },
       defaultNode: {
-        shape: 'circleNode'
+        type: 'circleNode'
       },
       defaultEdge: {
         color: '#bae7ff'
@@ -870,7 +870,7 @@ describe('nesting layer group', () => {
         default: [ 'drag-group' ]
       },
       defaultNode: {
-        shape: 'circleNode'
+        type: 'circleNode'
       },
       defaultEdge: {
         color: '#bae7ff'
@@ -974,7 +974,7 @@ describe('create node group', () => {
         default: [ 'drag-group' ]
       },
       defaultNode: {
-        shape: 'circleNode'
+        type: 'circleNode'
       },
       defaultEdge: {
         color: '#bae7ff'

@@ -73,7 +73,7 @@ const graph = new G6.Graph({
     }
   },
   defaultEdge: {
-    shape: 'circle-running',
+    type: 'circle-running',
     style: {
       lineWidth: 2,
       stroke: '#bae7ff'

@@ -36,7 +36,7 @@ const graph = new G6.Graph({
     }
   },
   defaultEdge: {
-    shape: 'loop',
+    type: 'loop',
     style: {
       stroke: '#F6BD16',
       endArrow: {

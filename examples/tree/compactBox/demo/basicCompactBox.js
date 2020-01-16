@@ -28,7 +28,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
         }
       },
       defaultEdge: {
-        shape: 'cubic-horizontal',
+        type: 'cubic-horizontal',
         style: {
           stroke: '#A3B1BF'
         }

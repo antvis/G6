@@ -14,14 +14,14 @@ As stated in [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode)
 
 
 ### 1 Global Configure When Instantiating a Graph
-Assign `shape` to `'ellipse'` in the `defaultNode` object when instantiating a Graph:
+Assign `type` to `'ellipse'` in the `defaultNode` object when instantiating a Graph:
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
   defaultNode: {
-    shape: 'ellipse', // The type of the node
+    type: 'ellipse', // The type of the node
     // ... Other configuraltions
   }
 })
@@ -34,7 +34,7 @@ To configure different nodes with different properties, you can write the proper
 const data = {
   nodes: [{
 	  id: 'node0',
-    shape: 'ellipse', // The tyep of the node
+    type: 'ellipse', // The tyep of the node
     //... // Other configurations
   },
     //... // Other nodes
@@ -68,7 +68,7 @@ const data = {
   nodes: [{
     x: 100,
     y: 100,
-    shape: 'ellipse',
+    type: 'ellipse',
     label: 'ellipse'
  }]
 };
@@ -77,7 +77,7 @@ const graph = new G6.Graph({
   width: 800,
   height: 600,
   defaultNode: {
-    // shape: 'ellipse',  // The shape has been assigned in the data, we do not have to define it any more
+    // type: 'ellipse',  // The type has been assigned in the data, we do not have to define it any more
     size: [130, 80],
     style: {
       fill: '#bae637',

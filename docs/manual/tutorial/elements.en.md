@@ -12,22 +12,22 @@ There are `Node` and `Edge` two types of items in a graph. In the last chapter, 
 
 ## Basic Concept
 ### Graph Item
-There are `Node` and `Edge` two types of items in a graph. Several [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) and [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge) are provided by G6. The main difference between different types of items is their [Graphics Shape](/en/docs/manual/middle/keyconcept/shape-keyshape). For example, a node's graphics shape can be a circle, a rect, an image, or others.
+There are `Node` and `Edge` two types of items in a graph. Several [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) and [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge) are provided by G6. The main difference between different types of items is their [Graphics Shape](/en/docs/manual/middle/keyconcept/shape-keyshape). For example, a node's graphics type can be a circle, a rect, an image, or others.
 
 ## Properties of Item
 The properties of an item can be be divided into two categories:
 
 - **Style Property `style`**: Corresponds to the style in Canvas. When the [State](/en/docs/manual/middle/states/state) of an item is changed, the style can be updated. It is an object named `style`;
-- **Other Property**: Such as graphics `shape`, `id`, they are a kind of properties that will not be changed when the [State](/en/docs/manual/middle/states/state) of the item is changed.
+- **Other Property**: Such as graphics `type`, `id`, they are a kind of properties that will not be changed when the [State](/en/docs/manual/middle/states/state) of the item is changed.
 
-For example, When you change the state `'hover'` or `'click'` to `true` for a node A, only the **style properties** of A can be updated, e.g. `fill`, `stroke`, and so on. The **other properties** such as `shape` can not be changed. To update the other properties, configure A by [graph.updateItem](/en/docs/api/Graph/#updateitemitem-model) manually.
+For example, When you change the state `'hover'` or `'click'` to `true` for a node A, only the **style properties** of A can be updated, e.g. `fill`, `stroke`, and so on. The **other properties** such as `type` can not be changed. To update the other properties, configure A by [graph.updateItem](/en/docs/api/Graph/#updateitemitem-model) manually.
 
 ### Data Structure
 The data structure of a node:
 ```javascript
 {
 	id: 'node0',          // Unique id of the node
-  shape: 'circle',      // The graphics shape of the node
+  type: 'circle',      // The type of graphics shape of the node
   size: 40,             // The size
   label: 'node0'        // The label
   labelCfg: {           // The configurations for the label
@@ -56,7 +56,7 @@ The data structure of an edge is similar to node, but two more properties `sourc
   - R3: Set the opacity and color for edges with `opacity`，`stroke`;
   - R4: Set the direction of the label with `labelCfg`;
 - Map the data to visual channels:
-  - R5: Configure the shape of nodes with `shape` according to the property `class` in node data;
+  - R5: Configure the type of nodes with `type` according to the property `class` in node data;
   - R6: Configure the line widht of edges with `lineWidth` according to the property `weight` in edge data.
 
 ## Configure the Properties
@@ -127,18 +127,18 @@ nodes.forEach(node => {
   if (!node.style) {
     node.style = {};
   }
-  switch (node.class) {         // Configure the graphics shape of nodes according to their class
+  switch (node.class) {         // Configure the graphics type of nodes according to their class
     case 'c0': {
-      node.shape = 'circle';    // The graphics shape is circle when class = 'c0'
+      node.type = 'circle';    // The graphics type is circle when class = 'c0'
       break;
     }
     case 'c1': {
-      node.shape = 'rect';       // The graphics shape is rect when class = 'c1'
+      node.type = 'rect';       // The graphics type is rect when class = 'c1'
       node.size = [ 35, 20 ];    // The node size when class = 'c1'
       break;
     }
     case 'c2': {
-      node.shape = 'ellipse';    // The graphics shape is ellipse when class = 'c2'
+      node.type = 'ellipse';    // The graphics type is ellipse when class = 'c2'
       node.size = [ 35, 20 ];    // The node size when class = 'c2'
       break;
     }
@@ -257,16 +257,16 @@ graph.render()
         node.style.fill = 'steelblue';
         switch (node.class) {
           case 'c0': {
-            node.shape = 'circle';
+            node.type = 'circle';
             break;
           }
           case 'c1': {
-            node.shape = 'rect';
+            node.type = 'rect';
             node.size = [ 35, 20 ];
             break;
           }
           case 'c2': {
-            node.shape = 'ellipse';
+            node.type = 'ellipse';
             node.size = [ 35, 20 ];
             break;
           }

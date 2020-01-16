@@ -469,7 +469,7 @@ graph = new G6.Graph({
     default: [ 'drag-canvas' ]
   },
   defaultNode: {
-    shape: 'bubble',
+    type: 'bubble',
     size: 95,
     labelCfg: {
       position: 'center',
@@ -481,7 +481,7 @@ graph = new G6.Graph({
   },
   defaultEdge: {
     color: '#888',
-    shape: 'animate-line'
+    type: 'animate-line'
   }
 });
 graph.get('canvas').set('localRefresh', false);

@@ -108,7 +108,7 @@ describe('shape node test', () => {
       const shape = factory.draw('image', {
         size: [ 40, 20 ],
         label: 'my custom image',
-        shape: 'image',
+        type: 'image',
         img: 'https://img.alicdn.com/tfs/TB1_uT8a5ERMeJjSspiXXbZLFXa-143-59.png'
       }, group);
       canvas.draw();
@@ -130,7 +130,7 @@ describe('shape node test', () => {
         model: {
           size: [ 40, 20 ],
           color: 'yellow',
-          shape: 'rect',
+          type: 'rect',
           labelCfg: {
             style: {
               fill: 'white'
@@ -181,7 +181,7 @@ describe('shape node test', () => {
         model: {
           id: 'rectnode',
           size: [ 40, 20 ],
-          shape: 'rect',
+          type: 'rect',
           stateStyles: {
             active: {
               fillOpacity: 0.8
@@ -316,7 +316,7 @@ describe('shape node test', () => {
               top: true,
               bottom: true
             },
-            shape: 'rect',
+            type: 'rect',
             x: 100,
             y: 200
           }
@@ -422,7 +422,7 @@ describe('shape node test', () => {
               top: true,
               bottom: true
             },
-            shape: 'ellipse',
+            type: 'ellipse',
             x: 100,
             y: 200
           }
@@ -528,7 +528,7 @@ describe('shape node test', () => {
               top: true,
               bottom: true
             },
-            shape: 'diamond',
+            type: 'diamond',
             x: 100,
             y: 200
           }
@@ -633,7 +633,7 @@ describe('shape node test', () => {
               top: true,
               bottom: true
             },
-            shape: 'circle',
+            type: 'circle',
             x: 100,
             y: 200
           }

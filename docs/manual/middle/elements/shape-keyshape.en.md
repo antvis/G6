@@ -35,7 +35,7 @@ const data = {
     x: 100,
     y: 100,
     label: 'rect',
-    shape: 'rect',
+    type: 'rect',
     style: { // The style for the keyShape
     	fill: 'lightblue',
       stroke: '#888',

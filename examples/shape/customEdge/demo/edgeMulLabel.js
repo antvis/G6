@@ -94,7 +94,7 @@ const graph = new G6.Graph({
     }]
   },
   defaultNode: {
-    shape: 'circle',
+    type: 'circle',
     size: [ 50 ],
     style: {
       fill: '#DEE9FF',
@@ -109,7 +109,7 @@ const graph = new G6.Graph({
     }
   },
   defaultEdge: {
-    shape: 'multipleLabelsEdge',
+    type: 'multipleLabelsEdge',
     style: {
       stroke: '#F6BD16'
     }

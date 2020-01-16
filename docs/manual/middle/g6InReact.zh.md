@@ -48,7 +48,7 @@ export default function() {
           direction: 'LR'
         },
         defaultNode: {
-          shape: 'node',
+          type: 'node',
           labelCfg: {
             style: {
               fill: '#000000A6',
@@ -61,7 +61,7 @@ export default function() {
           }
         },
         defaultEdge: {
-          shape: 'polyline'
+          type: 'polyline'
         }
       })
     }

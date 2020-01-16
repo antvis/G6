@@ -23,7 +23,7 @@ describe('view', () => {
         x: 100,
         y: 100,
         size: [ 150, 100 ],
-        shape: 'rect',
+        type: 'rect',
         color: '#333',
         style: {
           fill: '#666'
@@ -63,7 +63,7 @@ describe('view', () => {
         x: 100,
         y: 100,
         size: [ 1000, 1500 ],
-        shape: 'rect',
+        type: 'rect',
         color: '#333',
         style: {
           fill: '#666'
@@ -82,7 +82,7 @@ describe('view', () => {
   it('focus item', () => {
     graph.clear();
     graph.zoom(2, { x: 250, y: 250 });
-    const node = graph.addItem('node', { id: 'focus-node', shape: 'circle', x: 50, y: 50, size: 60, color: '#666' });
+    const node = graph.addItem('node', { id: 'focus-node', type: 'circle', x: 50, y: 50, size: 60, color: '#666' });
     graph.focusItem(node);
 
     let centerPoint = graph.getPointByCanvas(250, 250);

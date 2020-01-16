@@ -12,14 +12,14 @@ As stated in [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode)
 
 
 ### 1 Global Configure When Instantiating a Graph
-Assign `shape` to `'triangle'` in the `defaultNode` object when instantiating a Graph:
+Assign `type` to `'triangle'` in the `defaultNode` object when instantiating a Graph:
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
   defaultNode: {
-    shape: 'triangle', // The type of the node
+    type: 'triangle', // The type of the node
     // ... Other configuraltions
   }
 })
@@ -32,7 +32,7 @@ To configure different nodes with different properties, you can write the proper
 const data = {
   nodes: [{
 	  id: 'node0',
-    shape: 'triangle',// The tyep of the node
+    type: 'triangle',// The tyep of the node
     //... // Other configurations
     },
     //... // Other nodes
@@ -67,7 +67,7 @@ const graph = new G6.Graph({
   width: 800,
   height: 600,
   defaultNode: {
-    shape: 'triangle',
+    type: 'triangle',
     direction: 'down'
   }
 })
@@ -88,7 +88,7 @@ const data = {
   nodes: [{
     x: 100,
     y: 100,
-    shape: 'triangle',
+    type: 'triangle',
     label: 'triangle'
  }]
 };
@@ -97,7 +97,7 @@ const graph = new G6.Graph({
   width: 800,
   height: 600,
   defaultNode: {
-    // shape: 'triangle', // The shape has been assigned in the data, we do not have to define it any more
+    // type: 'triangle', // The type has been assigned in the data, we do not have to define it any more
     direction: 'up',
     size: 100,
     style: {

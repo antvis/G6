@@ -16,7 +16,7 @@ describe('polyline e test', () => {
       width: 500,
       height: 500,
       defaultNode: {
-        shape: 'polyline'
+        type: 'polyline'
       }
     });
     it('default polyline config', () => {
@@ -37,7 +37,7 @@ describe('polyline e test', () => {
           {
             source: 'node1',
             target: 'node2',
-            shape: 'polyline'
+            type: 'polyline'
           }
         ]
       };
@@ -70,7 +70,7 @@ describe('polyline e test', () => {
           {
             source: 'node1',
             target: 'node2',
-            shape: 'polyline',
+            type: 'polyline',
             style: {
               radius: 10,
             }
@@ -105,7 +105,7 @@ describe('polyline e test', () => {
           {
             source: 'node1',
             target: 'node2',
-            shape: 'polyline',
+            type: 'polyline',
             style: {
               radius: 10,
               offset: null
@@ -139,7 +139,7 @@ describe('polyline e test', () => {
         ], edges: [{
           source: 'node1',
           target: 'node2',
-          shape: 'polyline',
+          type: 'polyline',
           label: 'polyline1-2'
         }]
       };
@@ -177,7 +177,7 @@ describe('polyline e test', () => {
         ], edges: [{
           source: 'node1',
           target: 'node2',
-          shape: 'polyline',
+          type: 'polyline',
           controlPoints: [{ x: 170, y: 160 }]
         }]
       };
@@ -220,7 +220,7 @@ describe('polyline e test', () => {
           {
             source: 'node1',
             target: 'node2',
-            shape: 'polyline',
+            type: 'polyline',
             style: {
               stroke: 'red'
             }
@@ -280,7 +280,7 @@ describe('polyline e test', () => {
           {
             source: 'node1',
             target: 'node2',
-            shape: 'polyline',
+            type: 'polyline',
             label: 'polyline',
             labelCfg: {
               position: 'end',
@@ -344,7 +344,7 @@ describe('polyline e test', () => {
           {
             source: 'node1',
             target: 'node2',
-            shape: 'polyline',
+            type: 'polyline',
           }
         ]
       };
@@ -400,7 +400,7 @@ describe('polyline e test', () => {
           {
             source: 'node1',
             target: 'node2',
-            shape: 'polyline',
+            type: 'polyline',
           }
         ]
       };

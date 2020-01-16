@@ -17,7 +17,7 @@ describe('item controller', () => {
   })
 
   it('add & remove node', () => {
-    const node = graph.addItem('node', { shape: 'circle', color: '#ccc', style: { x: 50, y: 50, r: 20, lineWidth: 2 } });
+    const node = graph.addItem('node', { type: 'circle', color: '#ccc', style: { x: 50, y: 50, r: 20, lineWidth: 2 } });
     expect(node).not.toBe(undefined)
 
     const nodes = graph.get('nodes');
@@ -25,7 +25,7 @@ describe('item controller', () => {
 
     expect(nodes[0]).toEqual(node);
 
-    const node2 = graph.addItem('node', { shape: 'rect', id: 'node', color: '#666', style: { x: 100, y: 100, width: 100, height: 70 } });
+    const node2 = graph.addItem('node', { type: 'rect', id: 'node', color: '#666', style: { x: 100, y: 100, width: 100, height: 70 } });
     expect(node2).not.toBe(undefined);
 
     expect(nodes.length).toBe(2);
@@ -42,10 +42,10 @@ describe('item controller', () => {
   });
   it('remove node with multiple edges', () => {
     const node1 = graph.addItem('node', { id: 'node1', color: '#ccc', style: { x: 50, y: 50, r: 20, lineWidth: 2 } });
-    const node2 = graph.addItem('node', { id: 'node2', shape: 'circle', color: '#ccc', style: { x: 50, y: 150, r: 20, lineWidth: 2 } });
-    graph.addItem('node', { id: 'node3', shape: 'circle', color: '#ccc', style: { x: 50, y: 200, r: 20, lineWidth: 2 } });
+    const node2 = graph.addItem('node', { id: 'node2', type: 'circle', color: '#ccc', style: { x: 50, y: 150, r: 20, lineWidth: 2 } });
+    graph.addItem('node', { id: 'node3', type: 'circle', color: '#ccc', style: { x: 50, y: 200, r: 20, lineWidth: 2 } });
     
-    graph.addItem('edge', { id: 'edge1', source: 'node1', target: 'node2', shape: 'line' });
+    graph.addItem('edge', { id: 'edge1', source: 'node1', target: 'node2', type: 'line' });
     graph.addItem('edge', { id: 'edge2', source: 'node1', target: 'node3' });
     
     expect(node1.getEdges().length).toBe(2);
@@ -62,8 +62,8 @@ describe('item controller', () => {
   });
   it('add & remove edge', () => {
     graph.set('itemMap', {})
-    const node1 = graph.addItem('node', { shape: 'circle', color: '#ccc', x: 50, y: 50, size: 20, style: { lineWidth: 2 } });
-    const node2 = graph.addItem('node', { shape: 'rect', id: 'node', x: 100, y: 100, color: '#666', size: [ 100, 70 ] });
+    const node1 = graph.addItem('node', { type: 'circle', color: '#ccc', x: 50, y: 50, size: 20, style: { lineWidth: 2 } });
+    const node2 = graph.addItem('node', { type: 'rect', id: 'node', x: 100, y: 100, color: '#666', size: [ 100, 70 ] });
     const edge = graph.addItem('edge', { id: 'edge', source: node1, target: node2 });
     
     expect(graph.get('edges').length).toEqual(1);
@@ -81,7 +81,7 @@ describe('item controller', () => {
   //   expect(graph.addItem('edge', { id: 'edge', source: 'notExist', target: 'notExist' })).not.toEqual(new Error());
   // });
   it('update', () => {
-    const node = graph.addItem('node', { id: 'node', x: 100, y: 100, size: 50, color: '#ccc', shape: 'circle' });
+    const node = graph.addItem('node', { id: 'node', x: 100, y: 100, size: 50, color: '#ccc', type: 'circle' });
     const group = node.get('group')
     let matrix = group.getMatrix()
     expect(matrix[6]).toBe(100)

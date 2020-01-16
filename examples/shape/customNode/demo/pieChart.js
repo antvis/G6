@@ -88,7 +88,7 @@ const graph = new G6.Graph({
   height,
   linkCenter: true,
   defaultNode: {
-    shape: 'pie-node'
+    type: 'pie-node'
   }
 });
 

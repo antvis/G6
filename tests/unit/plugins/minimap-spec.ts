@@ -18,7 +18,7 @@ describe('minimap', () => {
       width: 500,
       height: 500,
       defaultEdge: {
-        shape: 'line',
+        type: 'line',
         style: {
           endArrow: {
             path: 'M 10,0 L -10,-10 L -10,10 Z',

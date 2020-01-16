@@ -13,7 +13,7 @@ describe('image test', () => {
       width: 500,
       height: 500,
       defaultNode: {
-        shape: 'image'
+        type: 'image'
       }
     };
     const graph = new Graph(cfg);
@@ -77,7 +77,7 @@ describe('image test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          shape: 'image',
+          type: 'image',
           size: 150,
           style: {
             shadowColor: '#ccc',
@@ -115,7 +115,7 @@ describe('image test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          shape: 'image',
+          type: 'image',
           size: 150
         }
       });
@@ -158,7 +158,7 @@ describe('image test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          shape: 'image',
+          type: 'image',
           size: 150
         }
       });
@@ -203,7 +203,7 @@ describe('image test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          shape: 'image',
+          type: 'image',
           size: 150
         }
       });
@@ -248,7 +248,7 @@ describe('image test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          shape: 'image',
+          type: 'image',
           size: 150
         }
       });
@@ -289,7 +289,7 @@ describe('image test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          shape: 'image',
+          type: 'image',
           size: 150
         }
       });
@@ -333,7 +333,7 @@ describe('image test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          shape: 'image',
+          type: 'image',
           size: 150,
           style: {
             shadowColor: '#ccc',
@@ -383,7 +383,7 @@ describe('image test', () => {
           {
             id: 'node',
             label: 'old image label',
-            shape: 'image',
+            type: 'image',
             x: 200,
             y: 100
           }
@@ -438,7 +438,7 @@ describe('image test', () => {
         nodes: [
           {
             id: 'node',
-            shape: 'image',
+            type: 'image',
             x: 200,
             y: 100
           }

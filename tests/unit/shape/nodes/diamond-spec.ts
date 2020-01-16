@@ -13,7 +13,7 @@ describe('diamond test', () => {
       width: 500,
       height: 500,
       defaultNode: {
-        shape: 'diamond'
+        type: 'diamond'
       }
     };
     const graph = new Graph(cfg);
@@ -22,7 +22,7 @@ describe('diamond test', () => {
         nodes: [
           {
             id: 'node',
-            shape: 'diamond',
+            type: 'diamond',
             x: 100,
             y: 100
           }
@@ -45,7 +45,7 @@ describe('diamond test', () => {
           {
             id: 'node',
             label: 'diamond',
-            shape: 'diamond',
+            type: 'diamond',
             x: 200,
             y: 100
           }
@@ -79,7 +79,7 @@ describe('diamond test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          shape: 'diamond',
+          type: 'diamond',
           size: [ 50, 30 ],
           style: {
             fill: 'red',
@@ -130,7 +130,7 @@ describe('diamond test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          shape: 'diamond',
+          type: 'diamond',
           size: [ 35, 10 ],
           style: {
             fill: 'blue'
@@ -205,7 +205,7 @@ describe('diamond test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          shape: 'diamond',
+          type: 'diamond',
           size: 50,
           style: {
             fill: 'red',
@@ -260,7 +260,7 @@ describe('diamond test', () => {
           {
             id: 'node',
             label: 'diamond',
-            shape: 'diamond',
+            type: 'diamond',
             x: 200,
             y: 100
           }
@@ -321,7 +321,7 @@ describe('diamond test', () => {
           {
             id: 'node',
             label: 'old diamond label',
-            shape: 'diamond',
+            type: 'diamond',
             x: 200,
             y: 100
           }
@@ -377,7 +377,7 @@ describe('diamond test', () => {
         nodes: [
           {
             id: 'node',
-            shape: 'diamond',
+            type: 'diamond',
             x: 200,
             y: 100
           }

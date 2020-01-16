@@ -15,14 +15,14 @@ const graph = new G6.Graph({
     width: 1000,
     height: 800,
     defaultNode: {
-      shape: "circle",
+      type: "circle",
       style: {
         fill: "#fff",
         fontSize: 14
       }
     },
     defaultEdge: {
-      shape: "line-with-arrow",
+      type: "line-with-arrow",
       style: {
         fill: "#fff",
         fontSize: 14

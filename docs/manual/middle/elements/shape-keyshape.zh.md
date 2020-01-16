@@ -33,7 +33,7 @@ const data = {
     x: 100,
     y: 100,
     label: 'rect',
-    shape: 'rect',
+    type: 'rect',
     style: { // 仅在 keyShape 上生效
     	fill: 'lightblue',
       stroke: '#888',

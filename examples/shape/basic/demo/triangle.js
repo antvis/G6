@@ -16,7 +16,7 @@ const graph = new G6.Graph({
   width: 500,
   height: 500,
   defaultNode: {
-    shape: 'triangle',
+    type: 'triangle',
     size: [ 100 ],
     // 可取值：down、up
     direction: 'up',

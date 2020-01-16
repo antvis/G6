@@ -261,7 +261,7 @@ const graph = new G6.Graph({
     default: [ 'drag-canvas' ]
   },
   defaultNode: {
-    shape: 'round-rect',
+    type: 'round-rect',
     labelCfg: {
       style: {
         fill: '#000000A6',
@@ -274,7 +274,7 @@ const graph = new G6.Graph({
     }
   },
   defaultEdge: {
-    shape: 'polyline'
+    type: 'polyline'
   }
 });
 

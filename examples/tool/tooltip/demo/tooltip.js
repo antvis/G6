@@ -69,7 +69,7 @@ const graph = new G6.Graph({
   linkCenter: true,
   defaultNode: {
     size: [ 80, 40 ],
-    shape: 'rect',
+    type: 'rect',
     style: {
       fill: '#DEE9FF',
       stroke: '#5B8FF9'

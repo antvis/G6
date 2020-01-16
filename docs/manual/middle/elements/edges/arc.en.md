@@ -11,14 +11,14 @@ As stated in [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge)
 
 
 ### 1 Global Configure When Instantiating a Graph
-Assign `shape` to `'arc'` in the `defaultEdge` object when instantiating a Graph:
+Assign `type` to `'arc'` in the `defaultEdge` object when instantiating a Graph:
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
   defaultEdge: {
-    shape: 'arc', // The type of the edge
+    type: 'arc', // The type of the edge
     // ...  Other configuraltions
   }
 })
@@ -35,7 +35,7 @@ const data = {
   edges: [{
     source: 'node0',
     target: 'node1'
-    shape: 'arc',
+    type: 'arc',
     //... // Other configurations for edges
     style: {
       //...  // Style properties for edges
@@ -96,7 +96,7 @@ const data = {
  edges: [{
    source: 'node0',
    target: 'node1',
-   shape: 'arc',
+   type: 'arc',
    label: 'arc'
  }]
 };
@@ -106,7 +106,7 @@ const graph = new G6.Graph({
   height: 600,
   linkCenter: true,
   defaultEdge: {
-    // shape: 'arc', // The shape has been assigned in the data, we do not have to define it any more
+    // type: 'arc', // The type has been assigned in the data, we do not have to define it any more
     curveOffset: -80
   }
 })

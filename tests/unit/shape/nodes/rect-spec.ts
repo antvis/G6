@@ -13,7 +13,7 @@ describe('rect test', () => {
       width: 500,
       height: 500,
       defaultNode: {
-        shape: 'rect'
+        type: 'rect'
       }
     };
     const graph = new Graph(cfg);
@@ -79,7 +79,7 @@ describe('rect test', () => {
         width: 500,
         height: 500,
           defaultNode: {
-          shape: 'rect',
+          type: 'rect',
           size: 35,
           style: {
             fill: 'blue'
@@ -155,7 +155,7 @@ describe('rect test', () => {
         width: 500,
         height: 500,
           defaultNode: {
-          shape: 'rect',
+          type: 'rect',
           size: 50,
           style: {
             fill: 'red',
@@ -208,7 +208,7 @@ describe('rect test', () => {
           {
             id: 'node',
             label: 'old rect label',
-            shape: 'rect',
+            type: 'rect',
             x: 200,
             y: 100
           }
@@ -264,7 +264,7 @@ describe('rect test', () => {
         nodes: [
           {
             id: 'node',
-            shape: 'rect',
+            type: 'rect',
             x: 200,
             y: 100
           }

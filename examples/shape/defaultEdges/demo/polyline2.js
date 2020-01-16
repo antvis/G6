@@ -36,7 +36,7 @@ const graph = new G6.Graph({
     }
   },
   defaultEdge: {
-    shape: 'polyline',
+    type: 'polyline',
     style: {
       radius: 10,
       offset: 30,

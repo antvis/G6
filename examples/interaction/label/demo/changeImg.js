@@ -17,7 +17,7 @@ const data = {
   nodes: [{
     x: 150,
     y: 100,
-    shape: 'circleNode',
+    type: 'circleNode',
     label: 'circle',
     id: 'node1',
     labelCfg: {
@@ -26,7 +26,7 @@ const data = {
   }, {
     x: 350,
     y: 100,
-    shape: 'image',
+    type: 'image',
     id: 'node2',
     img: img.src,
     size: [ 120, 60 ],

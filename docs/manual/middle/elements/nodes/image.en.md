@@ -12,14 +12,14 @@ As stated in [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode)
 
 
 ### 1 实例化图时全局配置
-Assign `shape` to `'image'` in the `defaultNode` object when instantiating a Graph:
+Assign `type` to `'image'` in the `defaultNode` object when instantiating a Graph:
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
   defaultNode: {
-    shape: 'image',
+    type: 'image',
     label: 'AntV Team'
     // Other configuraltions
   }
@@ -34,7 +34,7 @@ const data = {
   nodes: [{
     id: 'node0',
   	img: 'https://yyb.gtimg.com/aiplat/page/product/visionimgidy/img/demo6-16a47e5d31.jpg?max_age=31536000',
-    shape: 'image',
+    type: 'image',
     size: 200,
     label: 'AntV Team',
     labelCfg: {
@@ -114,7 +114,7 @@ const data = {
   nodes: [{
     x: 100,
     y: 100,
-    shape: 'image',
+    type: 'image',
     label: 'image'
  }]
 };
@@ -123,7 +123,7 @@ const graph = new G6.Graph({
   width: 800,
   height: 600,
   defaultNode: {
-    // shape: 'image',  // The shape has been assigned in the data, we do not have to define it any more
+    // type: 'image',  // The type has been assigned in the data, we do not have to define it any more
     clipCfg: {
       show: true,
       type: 'circle'

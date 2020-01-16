@@ -74,11 +74,11 @@ const graph = new G6.TreeGraph({
     }, 'drag-canvas', 'zoom-canvas' ]
   },
   defaultNode: {
-    shape: 'tree-node',
+    type: 'tree-node',
     anchorPoints: [[ 0, 0.5 ], [ 1, 0.5 ]]
   },
   defaultEdge: {
-    shape: 'cubic-horizontal',
+    type: 'cubic-horizontal',
     style: {
       stroke: '#A3B1BF'
     }

@@ -72,12 +72,12 @@ const data = {
     id: 'edge1',
     target: 'node2',
     source: 'node1',
-    shape: 'hvh'
+    type: 'hvh'
  },{
     id: 'edge2',
     target: 'node3',
     source: 'node1',
-   	shape: 'hvh'
+   	type: 'hvh'
  }]
 };
 ```
