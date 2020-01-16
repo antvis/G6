@@ -15,8 +15,6 @@ export default {
       'dragstart': 'onMouseDown',
       'drag': 'onMouseMove',
       'dragend': 'onMouseUp',
-      'click': 'onMouseUp',
-      'mouseleave': 'onOutOfRange',
       keyup: 'onKeyUp',
       keydown: 'onKeyDown'
     };
@@ -50,10 +48,9 @@ export default {
 
     this.origin = { x: e.clientX, y: e.clientY };
     this.dragging = false;
-    this.dragbegin = true;
   },
   onMouseMove(e: IG6GraphEvent) {
-    if (this.keydown || !this.dragbegin || e.shape) {
+    if (this.keydown || e.shape) {
       return;
     }
 
@@ -82,7 +79,7 @@ export default {
     }
   },
   onMouseUp(e: IG6GraphEvent) {
-    if (this.keydown || !this.dragbegin || e.shape) {
+    if (this.keydown || e.shape) {
       return;
     }
 
@@ -106,24 +103,6 @@ export default {
     self.origin = null;
     self.dragging = false;
     self.dragbegin = false;
-  },
-  // 若在拖拽时，鼠标移出画布区域，此时放开鼠标无法终止 drag 行为。在画布外监听 mouseup 事件，放开则终止
-  onOutOfRange(e: IG6GraphEvent) {
-    if (!this.dragging) {
-      return;
-    }
-    
-    const self = this;
-    const canvasElement = self.graph.get('canvas').get('el');
-    function listener(ev) {
-      console.log(ev.target, canvasElement, ev.target !== canvasElement);
-      if (ev.target !== canvasElement) {
-        self.onMouseUp(e);
-        // 终止时需要判断此时是否在监听画布外的 mouseup 事件，若有则解绑
-        document.removeEventListener('mouseup', listener, false);
-      }
-    };
-    document.addEventListener('mouseup', listener, false);
   },
   onKeyDown(e: KeyboardEvent) {
     const code = e.key;
