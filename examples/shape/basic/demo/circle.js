@@ -27,7 +27,7 @@ const graph = new G6.Graph({
     },
     labelCfg: {
       style: {
-        fill: 'red',
+        fill: '#1890ff',
         fontSize: 24
       },
       position: 'bottom'

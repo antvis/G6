@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "3.3.0",
+  "version": "3.3.0-beta.1",
   "description": "A Graph Visualization Framework in JavaScript",
   "keywords": [
     "antv",
@@ -40,7 +40,6 @@
     "clean": "rimraf es esm lib dist",
     "coverage": "jest --coverage",
     "demos": "start-storybook -p 8080 -c .storybook",
-    "dist": "webpack --config webpack.config.js --mode production",
     "doc": "rimraf apis && typedoc",
     "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx --format=pretty  \"./\"",
     "prettier": "prettier -c --write \"**/*\"",
