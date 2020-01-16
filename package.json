@@ -50,7 +50,8 @@
     "test": "jest",
     "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/layout/dagre-spec.ts",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
-    "watch": "father build -w"
+    "watch": "father build -w",
+    "cdn": "antv-bin upload -n @antv/g6"
   },
   "husky": {
     "hooks": {
