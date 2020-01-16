@@ -214,6 +214,20 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
       self.layout(this.get('fitView'));
     }
   }
+  /**
+   * 更改并应用树布局算法
+   * @param {object} layout 布局算法
+   */
+  public updateLayout(layout) {
+    const self = this;
+    if (!layout) {
+      console.warn('layout cannot be null');
+      return;
+    }
+    self.set('layout', layout);
+    self.set('layoutMethod', self.getLayout());
+    self.layout();
+  }
 
   /**
    * 根据目前的 data 刷新布局，更新到画布上。用于变更数据之后刷新视图。
