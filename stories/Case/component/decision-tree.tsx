@@ -154,6 +154,7 @@ const DecisionTree = () => {
           type: 'animate-line'
         }
       });
+      graph.get('canvas').set('localRefresh', false);
 
 
       const translate = (x, y) => {
@@ -828,7 +829,7 @@ const DecisionTree = () => {
             }
           }
         },
-        'single-shape'
+        'single-node'
       );
       
       G6.registerNode(

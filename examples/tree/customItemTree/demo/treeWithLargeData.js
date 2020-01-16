@@ -162,8 +162,6 @@ const graph = new G6.TreeGraph({
   }
 });
 
-graph.get('canvas').set('localRefresh', false);
-
 /* 精简节点和复杂节点共用的一些方法 */
 const nodeBasicMethod = {
   createNodeBox: function createNodeBox(group, config, width, height, isRoot) {
@@ -365,7 +363,7 @@ G6.registerNode(SIMPLE_TREE_NODE, {
   },
   afterDraw: nodeBasicMethod.afterDraw,
   setState: nodeBasicMethod.setState
-}, 'single-shape');
+}, 'single-node');
 
 /* 复杂节点 */
 G6.registerNode(TREE_NODE, {
@@ -558,7 +556,7 @@ G6.registerNode(TREE_NODE, {
   },
   afterDraw: nodeBasicMethod.afterDraw,
   setState: nodeBasicMethod.setState
-}, 'single-shape');
+}, 'single-node');
 /* 是否显示 sofarouter，通过透明度来控制 */
 G6.registerEdge('tree-edge', {
   draw: function draw(cfg, group) {

@@ -14,3 +14,4 @@ As the demo below, you can deploy it in `layout` while instantiating Graph. it c
 - Example 3 : Relaxed radial layout allows offsets between nodes on the same level to prevent node overlappings.
 - Example 4 : By using the subgraph layout mechanism, we extend nodes by interaction. Try to click node 2.
 - Example 5 : Translate the parameters of Radial Layout.
+- Example 6 : Cluster the nodes in the same level according to some attribute.
