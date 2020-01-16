@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import G6 from '../../../src'
 import { IGraph } from '../../../src/interface/graph'
-import { Item } from '../../../types';
+import { Item } from '../../../src/types';
 
 let graph: IGraph = null
 let dragDx;
