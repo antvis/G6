@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "3.3.0-beta.1",
+  "version": "3.3.0-beta.2",
   "description": "A Graph Visualization Framework in JavaScript",
   "keywords": [
     "antv",
@@ -23,16 +23,16 @@
   "author": "https://github.com/orgs/antvis/people",
   "files": [
     "package.json",
-    "esm",
+    "es",
     "lib",
     "dist",
     "LICENSE",
     "README.md"
   ],
-  "main": "dist/g6.js",
-  "module": "dist/g6.esm.js",
+  "main": "lib/index.js",
+  "module": "es/index.js",
   "browser": "dist/g6.min.js",
-  "types": "dist/types/index.d.ts",
+  "types": "lib/index.d.ts",
   "scripts": {
     "build": "npm run clean && father build && npm run build:umd",
     "build:umd": "webpack --config webpack.config.js --mode production",
