@@ -221,7 +221,8 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/d676014a-0a11-4ea9-9af4-403
           {
             type: 'tooltip',
             formatText(model) {
-              const name = `${model.xlabel}</br>人口总数: ${model.population}`;
+              const populationDes = LANG === 'en' ? 'Population' : '人口总数';
+              const name = `${model.xlabel}</br>${populationDes}: ${model.population}`;
               return name;
             }
           }
