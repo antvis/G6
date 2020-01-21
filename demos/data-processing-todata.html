@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>Data Processing</title>
+  </head>
+  
+  <body>
+    <div id="mountNode"></div>
+    <script src="./assets/d3-4.13.0.min.js"></script>
+    <script>
+      const nodes = [];
+      const edges = [];
+      const states = {};
+    d3.json("./assets/data/modis-result-all.json", //viirs-7d modis
+      data => {
+        // graph data
+        nodes.push({
+          id:  `country-australia`,
+          label: 'Australia'
+        });
+        data.forEach(d => {
+          if (d.state && !states[d.state]) {
+            states[d.state] = {
+              id: `state-${d.state}`,
+              label: d.state
+            };
+            nodes.push({
+              id: `state-${d.state}`,
+              label: d.state
+            })
+            edges.push({
+              source: `country-australia`,
+              target: `state-${d.state}`
+            });
+          }
+          nodes.push({
+            id: `city-${d.city}`,
+            label: d.city,
+            state: d.state,
+            isLeaf: true,
+            data: d,
+            population: d.population
+          });
+          edges.push({
+            source: `state-${d.state}`,
+            target: `city-${d.city}`
+          });
+        });
+
+        // calculate the population of states: 
+        let totalPop = 0;
+        nodes.forEach(node => {
+          if (node.id.split('-')[0] === 'state') {
+            if (!node.population) node.population = 0;
+            nodes.forEach(n => {
+              if (n.state === node.id.split('-')[1]) {
+                node.population += n.population;
+              }
+            });
+            totalPop += node.population;
+            console.log('aaa');
+            states[node.id.split('-')[1]].population = node.population;
+          }
+        });
+        // the countries' population
+        nodes[0].population = totalPop;
+
+
+        const result = {nodes, edges};
+        // console.log(result);
+        // console.log(JSON.stringify(result));
+
+        // tree graph data
+        const tree = {
+          id: 'country-australia',
+          label: 'Australia',
+          population: nodes[0].population,
+          children: []
+        };
+        // console.log(states);
+        for(key in states) {
+          // console.log(states[key]);
+          tree.children.push({
+            id: states[key].id,
+            label: states[key].label,
+            population: states[key].population,
+            children: []
+          });
+        }
+        nodes.forEach(node => {
+          if (!node.isLeaf) return;
+          const state = node.data.state;
+          tree.children.forEach(child => {
+            if (child.id === `state-${state}`) {
+              child.children.push(node);
+            }
+          });
+        });
+        console.log(tree);
+        // console.log(JSON.stringify(tree));
+    });
+
+    </script>
+  </body>
+
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>Data Processing</title>
+  </head>
+  
+  <body>
+    <div id="mountNode"></div>
+    <script src="./assets/d3-4.13.0.min.js"></script>
+    <script>
+        var cities =
+	[
+		 "Sydney, New South Wales Australia, 4741874"
+		,"Melbourne, Victoria Australia, 4677157"
+		,"Brisbane, Queensland Australia, 2326656"
+		,"Perth, Western Australia Australia, 2004696"
+		,"Adelaide, South Australia Australia, 1315346"
+		,"Gold Coast-Tweed, Queensland Australia, 663321"
+		,"Newcastle, New South Wales Australia, 481183"
+		,"Canberra-Queanbeyan, Australian Capital Territory Australia, 36348"
+		,"Canberra, Australian Capital Territory Australia, 447457"
+		,"Wollongong, New South Wales Australia, 299203"
+		,"Sunshine Coast, Queensland Australia, 325399"
+		,"Greater Hobart, Tasmania Australia, 208324"
+		,"Geelong, Victoria Australia, 260138"
+		,"Townsville, Queensland Australia, 180346"
+		,"Cairns, Queensland Australia, 151925"
+		,"Toowoomba, Queensland Australia, 135631"
+		,"Darwin, Northern Territory Australia, 132708"
+		,"Launceston, Tasmania Australia, 86788"
+		,"Albury-Wodonga, New South Wales Australia, 91923"
+		,"Ballarat, Victoria Australia, 103481"
+		,"Bendigo, Victoria Australia, 97096"
+		,"Mandurah, Western Australia Australia, 80813"
+		,"Mackay, Queensland Australia, 80427"
+		,"Burnie-Devonport, Tasmania Australia, 30153"
+		,"Latrobe Valley, Victoria Australia, 125000"
+		,"Rockhampton, Queensland Australia, 78871"
+		,"Bundaberg, Queensland Australia, 70578"
+		,"Bunbury, Western Australia Australia, 74487"
+		,"Hervey Bay, Queensland Australia, 53492"
+		,"Wagga Wagga, New South Wales Australia, 58181"
+		,"Coffs Harbour, New South Wales Australia, 70857"
+		,"Gladstone, Queensland Australia, 44984"
+		,"Mildura, Victoria Australia, 51473"
+		,"Shepparton, Victoria Australia, 51142"
+		,"Tamworth, New South Wales Australia, 42347"
+		,"Port Macquarie, New South Wales Australia, 46948"
+		,"Orange, New South Wales Australia, 40079"
+		,"Dubbo, New South Wales Australia, 37666"
+		,"Geraldton, Western Australia Australia, 37931"
+		,"Nowra-Bomaderry, New South Wales Australia, 37027"
+		,"Bathurst, New South Wales Australia, 36448"
+		,"Warrnambool, Victoria Australia, 34912"
+		,"Lismore, New South Wales Australia, 28764"
+    ,"Kalgoorlie-Boulder, Western Australia Australia, 30541"
+	];
+
+  var citiesMap = [
+  {"city": "Sydney NSW, Australia", "ll": "-33.873651,151.2068896"}
+  ,{"city": "Melbourne VIC, Australia", "ll": "-37.8131869,144.9629796"}
+  ,{"city": "Brisbane QLD, Australia", "ll": "-27.4709331,153.0235024"}
+  ,{"city": "Perth WA, Australia", "ll": "-31.9528536,115.8573389"}
+  ,{"city": "Adelaide SA 5000, Australia", "ll": "-34.9287264,138.5999453"}
+  ,{"city": "Gold Coast Airport (OOL), Eastern Ave, Bilinga QLD 4225, Australia", "ll": "-28.1663826,153.5126917"}
+  ,{"city": "Newcastle NSW, Australia", "ll": "-32.926696,151.7788922"}
+  ,{"city": "Canberra Ave, Australia", "ll": "-35.3499749,149.2093688"}
+  ,{"city": "Wollongong NSW, Australia", "ll": "-34.42498399999999,150.8931239"}
+  ,{"city": "Sunshine Coast, QLD, Australia", "ll": "-26.5727351,152.9205918"}
+  ,{"city": "Greater Hobart, TAS, Australia", "ll": "-42.8308532,147.3746212"}
+  ,{"city": "Geelong VIC 3220, Australia", "ll": "-38.1485437,144.3613479"}
+  ,{"city": "Townsville QLD 4810, Australia", "ll": "-19.2576223,146.8178787"}
+  ,{"city": "Cairns QLD 4870, Australia", "ll": "-16.9233991,145.773851"}
+  ,{"city": "Toowoomba QLD 4350, Australia", "ll": "-27.5643334,151.9539909"}
+  ,{"city": "Darwin NT 0800, Australia", "ll": "-12.4628198,130.8417694"}
+  ,{"city": "Launceston TAS 7250, Australia", "ll": "-41.4370868,147.1393767"}
+  ,{"city": "Victoria St, Albury NSW 2640, Australia", "ll": "-36.0768039,146.9137128"}
+  ,{"city": "Ballarat VIC 3350, Australia", "ll": "-37.5621071,143.8561493"}
+  ,{"city": "Bendigo VIC 3550, Australia", "ll": "-36.75871120000001,144.2837459"}
+  ,{"city": "Mandurah WA, Australia", "ll": "-32.5366794,115.7426282"}
+  ,{"city": "Mackay QLD 4740, Australia", "ll": "-21.1412101,149.1856253"}
+  ,{"city": "Burnie-Devonport TAS, Australia", "ll": "-41.1783532,146.3609534"}
+  ,{"city": "Latrobe Valley Aero Club, Traralgon VIC 3844, Australia", "ll": "-38.1971087,146.534618"}
+  ,{"city": "Rockhampton QLD 4700, Australia", "ll": "-23.3776546,150.5099759"}
+  ,{"city": "Bundaberg QLD 4670, Australia", "ll": "-24.8649629,152.348653"}
+  ,{"city": "Bunbury WA 6230, Australia", "ll": "-33.3270685,115.6391736"}
+  ,{"city": "Hervey Bay QLD 4655, Australia", "ll": "-25.2896192,152.8309158"}
+  ,{"city": "Wagga Wagga NSW 2650, Australia", "ll": "-35.1155492,147.3694772"}
+  ,{"city": "Coffs Harbour NSW 2450, Australia", "ll": "-30.2963121,153.1156722"}
+  ,{"city": "Gladstone QLD 4680, Australia", "ll": "-23.849,151.263"}
+  ,{"city": "Mildura VIC 3500, Australia", "ll": "-34.2063006,142.1358321"}
+  ,{"city": "Shepparton VIC, Australia", "ll": "-36.3833333,145.4"}
+  ,{"city": "Tamworth NSW 2340, Australia", "ll": "-31.091085,150.9303741"}
+  ,{"city": "Port Macquarie NSW 2444, Australia", "ll": "-31.4312703,152.9081313"}
+  ,{"city": "Orange NSW 2800, Australia", "ll": "-33.2835775,149.1012702"}
+  ,{"city": "Dubbo NSW 2830, Australia", "ll": "-32.2438146,148.6094976"}
+  ,{"city": "Geraldton WA 6530, Australia", "ll": "-28.7732192,114.6096326"}
+  ,{"city": "Nowra-Bomaderry NSW, Australia", "ll": "-34.8746265,150.6029082"}
+  ,{"city": "Bathurst NSW 2795, Australia", "ll": "-33.4176529,149.5810314"}
+  ,{"city": "Warrnambool VIC 3280, Australia", "ll": "-38.3827659,142.4844995"}
+  ,{"city": "Lismore NSW 2480, Australia", "ll": "-28.8065079,153.2769412"}
+  ,{"city": "Kalgoorlie-Boulder WA 6432, Australia", "ll": "-30.7819844,121.4883572"}
+  ]
+  var citiesMapShort = 
+  [
+    {"city": "Sydney", "ll": "-33.873651,151.2068896", "pop": 4741874 }
+    ,{"city": "Melbourne", "ll": "-37.8131869,144.9629796", "pop": 4677157 }
+    ,{"city": "Brisbane", "ll": "-27.4709331,153.0235024", "pop": 2326656}
+    ,{"city": "Perth", "ll": "-31.9528536,115.8573389", "pop": 2004696}
+    ,{"city": "Adelaide", "ll": "-34.9287264,138.5999453", "pop": 1315346}
+    ,{"city": "Gold Coast-Tweed", "ll": "-28.1663826,153.5126917", "pop": 663321}
+    ,{"city": "Newcastle", "ll": "-32.926696,151.7788922", "pop": 481183}
+    ,{"city": "Canberra", "ll": "-35.3499749,149.2093688", "pop": 447457}
+    ,{"city": "Wollongong", "ll": "-34.42498399999999,150.8931239", "pop": 299203}
+    ,{"city": "Sunshine Coast", "ll": "-26.5727351,152.9205918", "pop": 325399}
+    ,{"city": "Greater Hobart", "ll": "-42.8308532,147.3746212", "pop": 208324}
+    ,{"city": "Geelong", "ll": "-38.1485437,144.3613479", "pop": 260138}
+    ,{"city": "Townsville", "ll": "-19.2576223,146.8178787", "pop": 180346}
+    ,{"city": "Cairns", "ll": "-16.9233991,145.773851", "pop": 151925}
+    ,{"city": "Toowoomba", "ll": "-27.5643334,151.9539909", "pop": 135631}
+    ,{"city": "Darwin", "ll": "-12.4628198,130.8417694", "pop": 132708}
+    ,{"city": "Launceston", "ll": "-41.4370868,147.1393767", "pop": 86788}
+    ,{"city": "Albury-Wodonga", "ll": "-36.0768039,146.9137128", "pop": 91923}
+    ,{"city": "Ballarat", "ll": "-37.5621071,143.8561493", "pop": 103481}
+    ,{"city": "Bendigo", "ll": "-36.75871120000001,144.2837459", "pop": 97096}
+    ,{"city": "Mandurah", "ll": "-32.5366794,115.7426282", "pop": 80813}
+    ,{"city": "Mackay", "ll": "-21.1412101,149.1856253", "pop": 80427}
+    ,{"city": "Burnie-Devonport", "ll": "-41.1783532,146.3609534", "pop": 30153}
+    ,{"city": "Latrobe Valley", "ll": "-38.1971087,146.534618", "pop": 125000}
+    ,{"city": "Rockhampton", "ll": "-23.3776546,150.5099759", "pop": 78871}
+    ,{"city": "Bundaberg", "ll": "-24.8649629,152.348653", "pop": 70578}
+    ,{"city": "Bunbury", "ll": "-33.3270685,115.6391736", "pop": 74487}
+    ,{"city": "Hervey Bay", "ll": "-25.2896192,152.8309158", "pop": 53492}
+    ,{"city": "Wagga Wagga", "ll": "-35.1155492,147.3694772", "pop": 58181}
+    ,{"city": "Coffs Harbour", "ll": "-30.2963121,153.1156722", "pop": 70857}
+    ,{"city": "Gladstone", "ll": "-23.849,151.263", "pop": 44984}
+    ,{"city": "Mildura", "ll": "-34.2063006,142.1358321", "pop": 51473}
+    ,{"city": "Shepparton", "ll": "-36.3833333,145.4", "pop": 51142}
+    ,{"city": "Tamworth", "ll": "-31.091085,150.9303741", "pop": 42347}
+    ,{"city": "Port Macquarie", "ll": "-31.4312703,152.9081313", "pop": 46948}
+    ,{"city": "Orange", "ll": "-33.2835775,149.1012702", "pop": 40079}
+    ,{"city": "Dubbo", "ll": "-32.2438146,148.6094976", "pop": 37666}
+    ,{"city": "Geraldton", "ll": "-28.7732192,114.6096326", "pop": 37931}
+    ,{"city": "Nowra-Bomaderry", "ll": "-34.8746265,150.6029082", "pop": 37027}
+    ,{"city": "Bathurst", "ll": "-33.4176529,149.5810314", "pop": 36448}
+    ,{"city": "Warrnambool", "ll": "-38.3827659,142.4844995", "pop": 34912}
+    ,{"city": "Lismore", "ll": "-28.8065079,153.2769412", "pop": 28764}
+    ,{"city": "Kalgoorlie-Boulder", "ll": "-30.7819844,121.4883572", "pop": 30541}
+  ]
+       
+    const resultMap = {};
+    cities.forEach(city => {
+      const cityName = city.split(', ')[0];
+      const state = city.split(', ')[1].replace(' Australia', '');
+      const population = parseInt(city.split(', ')[2]);
+      resultMap[cityName] = {
+        city: cityName,
+        state,
+        population,
+        firePoints: [],
+        firePointNums: [],
+        fireBrightnesses: []
+      };
+    });
+    d3.json("./assets/data/viirs-7d.json", //viirs-7d modis
+      data => {
+      for (let i = 0; i < data.length; i++){
+          const point = data[i];
+          let nearestDis = Infinity;
+          let nearestCityName = '';
+          for (let j = 0; j < citiesMapShort.length; j++) {
+              const city = citiesMapShort[j];
+              const lat = parseFloat(city.ll.split(',')[0]);
+              const lon = parseFloat(city.ll.split(',')[1]);
+              const dist = getDistance(lon, lat, point.longitude, point.latitude);
+              if (dist < nearestDis) {
+                  nearestDis = dist;
+                  nearestCityName = city.city;
+              }
+          }
+          resultMap[nearestCityName].firePoints.push(point);
+
+          const idx = parseInt(point.acq_date.split('-')[2]) - 11;
+          if (!resultMap[nearestCityName].firePointNums[idx]) resultMap[nearestCityName].firePointNums[idx] = 0;
+          resultMap[nearestCityName].firePointNums[idx] ++;
+
+          if (!resultMap[nearestCityName].fireBrightnesses[idx]) resultMap[nearestCityName].fireBrightnesses[idx] = 0;
+          if (point.bright_ti4) resultMap[nearestCityName].fireBrightnesses[idx] += point.bright_ti4;
+          // if (point.acq_date === '2020-01-18') {
+          //   resultMap[nearestCityName].firePoints.push(point);
+          // }
+      }
+      const result = [];
+      for (key in resultMap) {
+        // const obj = resultMap[key];
+        // let brightness = 0;
+        // obj.firePoints.forEach(point => {
+        //   brightness += point.bright_ti4;
+        // });
+        // brightness /= obj.firePoints.length;
+        // obj.fireNum = obj.firePoints.length;
+        // obj.fireBrightness = brightness;
+        resultMap[key].fireBrightnesses.forEach((fbn, i) => {
+          resultMap[key].fireBrightnesses[i] /= resultMap[key].firePointNums[i];
+        });
+        result.push(resultMap[key])
+      }
+      // console.log(result);
+      console.log(JSON.stringify(result));
+    });
+
+
+    getRad = (d) => {
+      var PI = Math.PI;
+      return d*PI/180.0;
+    }
+
+    getDistance = (lng1, lat1, lng2, lat2) => {
+      var f = getRad((lat1 + lat2)/2);
+      var g = getRad((lat1 - lat2)/2);
+      var l = getRad((lng1 - lng2)/2);
+      var sg = Math.sin(g);
+      var sl = Math.sin(l);
+      var sf = Math.sin(f);
+      var s,c,w,r,d,h1,h2;
+      var a = 6378137.0;//The Radius of eath in meter.
+      var fl = 1/298.257;
+      sg = sg*sg;
+      sl = sl*sl;
+      sf = sf*sf;
+      s = sg*(1-sl) + (1-sf)*sl;
+      c = (1-sg)*(1-sl) + sf*sl;
+      w = Math.atan(Math.sqrt(s/c));
+      r = Math.sqrt(s*c)/w;
+      d = 2*w*a;
+      h1 = (3*r -1)/2/c;
+      h2 = (3*r +1)/2/s;
+      s = d*(1 + fl*(h1*sf*(1-sg) - h2*(1-sf)*sg));
+      // if(s >= 1000 && s <= 99000){
+      //     var kilometer = s/1000;
+      //     s = kilometer.toFixed(1) + 'km';
+      // }else if(s > 99000){
+      //     s = '>99km';
+      // }else{
+      //     s = Math.round(s) + 'm';
+      // }
+      s = s/1000; // kilometer
+      s = s.toFixed(2);//指定小数点后的位数。
+      return s;
+    }
+      
+    </script>
+  </body>
+
+</html>

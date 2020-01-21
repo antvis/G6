@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>内置箭头2</title>
+</head>
+<body>
+<div id="mountNode"></div>
+<script src="../build/g6.js"></script>
+<script>
+  const data = {
+  nodes: [{
+    id: '2',
+    x: 150,
+    y: 150
+  }, {
+    id: '3',
+    x: 250,
+    y: 150
+  }],
+  edges: [
+  // 配置内置折线的弯折弧度、端点最小距离
+    {
+      source: '2',
+      target: '3'
+    }]
+};
+
+const graph = new G6.Graph({
+  container: 'mountNode',
+  width: 800,
+  height: 600,
+  defaultNode: {
+    style: {
+      fill: '#DEE9FF',
+      stroke: '#5B8FF9'
+    }
+  },
+  defaultEdge: {
+    shape: 'line',
+    style: {
+      radius: 10,
+      offset: 30,
+      endArrow: true,
+      stroke: '#F6BD16'
+    }
+  },
+  modes: {
+      // 支持的 behavior
+    default: [ 'drag-node' ]
+  }
+});
+
+graph.data(data);
+graph.render();
+
+  setTimeout(() => {
+    const node = graph.getNodes()[1];
+    graph.emit('node:dragstart', { x: 250, y: 100, item: node });
+    graph.emit('node:drag', { x: 50, y: 100, item: node });
+    graph.emit('node:dragend', { x: 50, y: 100, item: node });
+  }, 1000);
+  
+</script>
+</body>
+</html>

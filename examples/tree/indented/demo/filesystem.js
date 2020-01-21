@@ -4,28 +4,31 @@ G6.registerNode('file-node', {
   draw: function draw(cfg, group) {
     const keyShape = group.addShape('rect', {
       attrs: {
-        x: cfg.x - 4,
-        y: cfg.y - 12,
+        x: -4,
+        y: -16,
         fill: '#fff',
         stroke: null
       }
     });
+    let hasMarker = false;
     if (cfg.collapsed) {
+      hasMarker = true;
       group.addShape('marker', {
         attrs: {
           symbol: 'triangle',
-          x: cfg.x + 4,
-          y: cfg.y - 2,
+          x: 4,
+          y: -2,
           r: 4,
           fill: '#666'
         }
       });
     } else if (cfg.children && cfg.children.length > 0) {
+      hasMarker = true;
       group.addShape('marker', {
         attrs: {
           symbol: 'triangle-down',
-          x: cfg.x + 4,
-          y: cfg.y - 2,
+          x: 4,
+          y: -2,
           r: 4,
           fill: '#666'
         }
@@ -33,8 +36,8 @@ G6.registerNode('file-node', {
     }
     const shape = group.addShape('text', {
       attrs: {
-        x: cfg.x + 15,
-        y: cfg.y + 4,
+        x: 15,
+        y: 2,
         text: cfg.name,
         fill: '#666',
         fontSize: 16,
@@ -42,10 +45,18 @@ G6.registerNode('file-node', {
       }
     });
     const bbox = shape.getBBox();
-    keyShape.attr({
-      width: bbox.width + 20,
-      height: bbox.height + 4
-    });
+    if (hasMarker) {
+      keyShape.attr({
+        width: bbox.width + 20,
+        height: bbox.height + 4
+      });
+    } else {
+      keyShape.attr({
+        x: 10,
+        width: bbox.width + 10,
+        height: bbox.height + 4
+      });
+    }
     return keyShape;
   }
 });
@@ -100,35 +111,70 @@ const graph = new G6.TreeGraph({
 const data = {
   id: '1',
   name: 'src',
-  children: [{
-    id: '1-1',
-    name: 'behavior',
-    children: []
-  }, {
-    id: '1-3',
-    name: 'graph',
-    children: [{
-      id: '1-3-1',
-      name: 'controller',
+  children: [
+    {
+      id: '1-1',
+      name: 'behavior',
       children: []
-    }]
-  }, {
-    id: '1-5',
-    name: 'item',
-    children: []
-  }, {
-    id: '1-6',
-    name: 'shape',
-    children: [{
-      id: '1-6-2',
-      name: 'extend',
+    },
+    {
+      id: '1-3',
+      name: 'graph',
+      children: [
+        {
+          id: '1-3-1',
+          name: 'controller',
+          children: []
+        },
+        {
+          id: '1-3-2',
+          name: 'graph',
+          children: []
+        },
+        {
+          id: '1-3-3',
+          name: 'tree-graph',
+          children: []
+        }
+      ]
+    },
+    {
+      id: '1-5',
+      name: 'item',
       children: []
-    }]
-  }, {
-    id: '1-7',
-    name: 'util',
-    children: []
-  }]
+    },
+    {
+      id: '1-6',
+      name: 'shape',
+      children: [
+        {
+          id: '1-6-2',
+          name: 'nodes',
+          children: []
+        },
+        {
+          id: '1-6-3',
+          name: 'edges',
+          children: []
+        },
+        {
+          id: '1-6-4',
+          name: 'single-shape',
+          children: []
+        },
+        {
+          id: '1-6-5',
+          name: 'extend',
+          children: []
+        }
+      ]
+    },
+    {
+      id: '1-7',
+      name: 'util',
+      children: []
+    }
+  ]
 };
 
 graph.node(node => {
