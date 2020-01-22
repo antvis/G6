@@ -1,5 +1,5 @@
 /**
- * @fileOverview random layout
+ * @fileOverview fruchterman layout
  * @author shiwu.wyy@antfin.com
  */
 
@@ -91,16 +91,14 @@ export default class FruchtermanLayout extends BaseLayout {
       self.height = window.innerHeight;
     }
     const center = self.center;
-    const nodeMap = self.nodeMap;
-    const nodeIndexMap = self.nodeIndexMap;
     const maxDisplace = self.width / 10;
     const k = Math.sqrt((self.width * self.height) / (nodes.length + 1));
     const gravity = self.gravity;
     const speed = self.speed;
     const clustering = self.clustering;
-    const clusterMap = {}
+    const clusterMap = {};
     if (clustering) {
-      nodes.forEach((n) => {
+      nodes.forEach(n => {
         if (clusterMap[n.cluster] === undefined) {
           const cluster = {
             name: n.cluster,
@@ -121,11 +119,11 @@ export default class FruchtermanLayout extends BaseLayout {
       }
     }
     for (let i = 0; i < maxIteration; i++) {
-      const disp = [];
+      const positions = [];
       nodes.forEach((_, j) => {
-        disp[j] = { x: 0, y: 0 };
+        positions[j] = { x: 0, y: 0 };
       });
-      self.getDisp(nodes, edges, nodeMap, nodeIndexMap, disp, k);
+      self.applyForce(nodes, edges, positions, k);
 
       // gravity for clusters
       if (clustering) {
@@ -134,18 +132,17 @@ export default class FruchtermanLayout extends BaseLayout {
           const c = clusterMap[n.cluster];
           const distLength = Math.sqrt((n.x - c.cx) * (n.x - c.cx) + (n.y - c.cy) * (n.y - c.cy));
           const gravityForce = k * clusterGravity;
-          disp[j].x -= (gravityForce * (n.x - c.cx)) / distLength;
-          disp[j].y -= (gravityForce * (n.y - c.cy)) / distLength;
+          positions[j].x -= (gravityForce * (n.x - c.cx)) / distLength;
+          positions[j].y -= (gravityForce * (n.y - c.cy)) / distLength;
         });
-
 
         for (let key in clusterMap) {
           clusterMap[key].cx = 0;
           clusterMap[key].cy = 0;
           clusterMap[key].count = 0;
         }
-        
-        nodes.forEach((n) => {
+
+        nodes.forEach(n => {
           const c = clusterMap[n.cluster];
           c.cx += n.x;
           c.cy += n.y;
@@ -160,75 +157,74 @@ export default class FruchtermanLayout extends BaseLayout {
       // gravity
       nodes.forEach((n, j) => {
         const gravityForce = 0.01 * k * gravity;
-        disp[j].x -= gravityForce * (n.x - center[0]);
-        disp[j].y -= gravityForce * (n.y - center[1]);
+        positions[j].x -= gravityForce * (n.x - center[0]);
+        positions[j].y -= gravityForce * (n.y - center[1]);
       });
+
       // speed
       nodes.forEach((_, j) => {
-        disp[j].dx *= speed / SPEED_DIVISOR;
-        disp[j].dy *= speed / SPEED_DIVISOR;
+        positions[j].dx *= speed / SPEED_DIVISOR;
+        positions[j].dy *= speed / SPEED_DIVISOR;
       });
 
       // move
       nodes.forEach((n, j) => {
-        const distLength = Math.sqrt(disp[j].x * disp[j].x + disp[j].y * disp[j].y);
+        const distLength = Math.sqrt(positions[j].x * positions[j].x + positions[j].y * positions[j].y);
         if (distLength > 0) {
           // && !n.isFixed()
           const limitedDist = Math.min(maxDisplace * (speed / SPEED_DIVISOR), distLength);
-          n.x += (disp[j].x / distLength) * limitedDist;
-          n.y += (disp[j].y / distLength) * limitedDist;
+          n.x += (positions[j].x / distLength) * limitedDist;
+          n.y += (positions[j].y / distLength) * limitedDist;
         }
       });
     }
   }
 
-  // TODO: nodeMap、nodeIndexMap 等根本不需要依靠参数传递
-  private getDisp(nodes: Node[], edges: Edge[], nodeMap: object, nodeIndexMap: object, disp, k) {
-    const self = this;
-    self.calRepulsive(nodes, disp, k);
-    self.calAttractive(edges, nodeMap, nodeIndexMap, disp, k);
+  private applyForce(nodes: Node[], edges: Edge[], positions, k) {
+    this.calRepulsive(nodes, positions, k);
+    this.calAttractive(edges, positions, k);
   }
 
-  private calRepulsive(nodes: Node[], disp, k) {
+  private calRepulsive(nodes: Node[], positions, k) {
     nodes.forEach((v, i) => {
-      disp[i] = { x: 0, y: 0 };
+      positions[i] = { x: 0, y: 0 };
       nodes.forEach((u, j) => {
         if (i === j) {
           return;
         }
-        let vecx = v.x - u.x;
-        let vecy = v.y - u.y;
-        let vecLengthSqr = vecx * vecx + vecy * vecy;
+        let vecX = v.x - u.x;
+        let vecY = v.y - u.y;
+        let vecLengthSqr = vecX * vecX + vecY * vecY;
         if (vecLengthSqr === 0) {
           vecLengthSqr = 1;
           const sign = i > j ? 1 : -1;
-          vecx = 0.01 * sign;
-          vecy = 0.01 * sign;
+          vecX = 0.01 * sign;
+          vecY = 0.01 * sign;
         }
         const common = (k * k) / vecLengthSqr;
-        disp[i].x += vecx * common;
-        disp[i].y += vecy * common;
+        positions[i].x += vecX * common;
+        positions[i].y += vecY * common;
       });
     });
   }
 
-  private calAttractive(edges: Edge[], nodeMap: object, nodeIndexMap: object, disp, k) {
-    edges.forEach((e) => {
-      const uIndex = nodeIndexMap[e.source];
-      const vIndex = nodeIndexMap[e.target];
+  private calAttractive(edges: Edge[], positions, k) {
+    edges.forEach(e => {
+      const uIndex = this.nodeIndexMap[e.source];
+      const vIndex = this.nodeIndexMap[e.target];
       if (uIndex === vIndex) {
         return;
       }
-      const u = nodeMap[e.source];
-      const v = nodeMap[e.target];
-      const vecx = v.x - u.x;
-      const vecy = v.y - u.y;
-      const vecLength = Math.sqrt(vecx * vecx + vecy * vecy);
+      const u = this.nodeMap[e.source];
+      const v = this.nodeMap[e.target];
+      const vecX = v.x - u.x;
+      const vecY = v.y - u.y;
+      const vecLength = Math.sqrt(vecX * vecX + vecY * vecY);
       const common = (vecLength * vecLength) / k;
-      disp[vIndex].x -= (vecx / vecLength) * common;
-      disp[vIndex].y -= (vecy / vecLength) * common;
-      disp[uIndex].x += (vecx / vecLength) * common;
-      disp[uIndex].y += (vecy / vecLength) * common;
+      positions[vIndex].x -= (vecX / vecLength) * common;
+      positions[vIndex].y -= (vecY / vecLength) * common;
+      positions[uIndex].x += (vecX / vecLength) * common;
+      positions[uIndex].y += (vecY / vecLength) * common;
     });
   }
 }
