@@ -123,7 +123,7 @@ export default class FruchtermanLayout extends BaseLayout {
       nodes.forEach((_, j) => {
         positions[j] = { x: 0, y: 0 };
       });
-      self.applyForce(nodes, edges, positions, k);
+      self.applyCalculate(nodes, edges, positions, k);
 
       // gravity for clusters
       if (clustering) {
@@ -180,7 +180,7 @@ export default class FruchtermanLayout extends BaseLayout {
     }
   }
 
-  private applyForce(nodes: Node[], edges: Edge[], positions, k) {
+  private applyCalculate(nodes: Node[], edges: Edge[], positions, k) {
     this.calRepulsive(nodes, positions, k);
     this.calAttractive(edges, positions, k);
   }
