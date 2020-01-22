@@ -41,6 +41,7 @@
     "coverage": "jest --coverage",
     "demos": "start-storybook -p 8080 -c .storybook",
     "doc": "rimraf apis && typedoc",
+    "eslint": "eslint --cache --ext .ts --format=pretty  \"./src\"",
     "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx --format=pretty  \"./\"",
     "prettier": "prettier -c --write \"**/*\"",
     "site:build": "npm run site:clean && GATSBY=true gatsby build --prefix-paths",

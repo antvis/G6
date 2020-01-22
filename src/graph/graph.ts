@@ -1335,7 +1335,7 @@ export default class Graph extends EventEmitter implements IGraph {
       // no type or same type, update layout
       const layoutCfg: any = {};
       Object.assign(layoutCfg, oriLayoutCfg, cfg);
-      layoutCfg.type = oriLayoutType ? oriLayoutType : 'random';
+      layoutCfg.type = oriLayoutType || 'random';
 
       this.set('layout', layoutCfg);
 
