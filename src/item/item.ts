@@ -541,6 +541,7 @@ export default class ItemBase implements IItemBase {
 
   /**
    * 元素是否可见
+   * @return {Boolean} 返回该元素是否可见
    */
   public isVisible(): boolean {
     return this.get('visible');
