@@ -553,7 +553,7 @@ export default class ItemBase implements IItemBase {
   public enableCapture(enable: boolean) {
     const group: Group = this.get('group');
     if(group) {
-      group.attr('capture', enable)
+      group.set('capture', enable)
     }
   }
 
