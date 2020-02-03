@@ -26,8 +26,8 @@ export interface IModeOption {
 export type IModeType = string | IModeOption
 
 export interface IMode {
-  default?: IModeType[]
-  [key: string]: IModeType[]
+  default?: IModeType[];
+  [key: string]: IModeType[] | undefined;
 }
 
 export interface ILayoutOptions {
