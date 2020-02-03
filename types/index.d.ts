@@ -355,8 +355,7 @@ declare namespace G6 {
      * 设置画布的模式。详情可见G6中的Mode文档。
      */
     modes?: {
-      default?: Array<string | IMode>;
-      [key: string]: Array<string | IMode>;
+      [key in 'default' | string]: Array<string | IMode>;
     };
 
     /**
