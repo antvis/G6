@@ -6,7 +6,7 @@ import isString from '@antv/util/lib/is-string'
 import uniqueId from '@antv/util/lib/unique-id'
 import { IItemBase, IItemBaseConfig } from "../interface/item";
 import Shape from '../shape/shape';
-import { IBBox, IPoint, IShapeBase, ModelConfig, ShapeStyle } from '../types';
+import { IBBox, IPoint, IShapeBase, ModelConfig, ShapeStyle, Indexable } from '../types';
 import { getBBox } from '../util/graphic';
 import { translate } from '../util/math';
 
@@ -16,13 +16,13 @@ const RESERVED_STYLES = [ 'fillStyle', 'strokeStyle',
   'path', 'points', 'img', 'symbol' ];
   
 export default class ItemBase implements IItemBase {
-  public _cfg: IItemBaseConfig = {}
+  public _cfg: IItemBaseConfig | null = {}
   private defaultCfg: IItemBaseConfig = {
     /**
      * id
      * @type {string}
      */
-    id: null,
+    id: undefined,
 
     /**
      * 类型
@@ -40,7 +40,7 @@ export default class ItemBase implements IItemBase {
      * g group
      * @type {G.Group}
      */
-    group: null,
+    group: undefined,
 
     /**
      * is open animate
@@ -68,7 +68,7 @@ export default class ItemBase implements IItemBase {
      * key shape to calculate item's bbox
      * @type object
      */
-    keyShape: null,
+    keyShape: undefined,
     /**
      * item's states, such as selected or active
      * @type Array
@@ -81,7 +81,7 @@ export default class ItemBase implements IItemBase {
   constructor(cfg: IItemBaseConfig) {
     this._cfg = Object.assign(this.defaultCfg, this.getDefaultCfg(), cfg)
     const group = cfg.group
-    group.set('item', this)
+    group!.set('item', this)
 
     let id = this.get('model').id
 
@@ -90,7 +90,7 @@ export default class ItemBase implements IItemBase {
     }
 
     this.set('id', id)
-    group.set('id', id)
+    group!.set('id', id)
 
     const stateStyles = this.get('model').stateStyles;
     this.set('stateStyles', stateStyles);
@@ -131,7 +131,7 @@ export default class ItemBase implements IItemBase {
     }
     self.updatePosition(model);
     const cfg = self.getShapeCfg(model); // 可能会附加额外信息
-    const shapeType: string = cfg.shape || cfg.type;
+    const shapeType = cfg.shape || cfg.type;
 
     const keyShape: IShapeBase = shapeFactory.draw(shapeType, cfg, group);
     if (keyShape) {
@@ -141,7 +141,7 @@ export default class ItemBase implements IItemBase {
     }
     // 防止由于用户外部修改 model 中的 shape 导致 shape 不更新
     this.set('currentShape', shapeType);
-    this.resetStates(shapeFactory, shapeType);
+    this.resetStates(shapeFactory, shapeType!);
   }
 
   /**
@@ -149,7 +149,7 @@ export default class ItemBase implements IItemBase {
    * @param shapeFactory 
    * @param shapeType 
    */
-  private resetStates(shapeFactory, shapeType: string) {
+  private resetStates(shapeFactory: any, shapeType: string) {
     const self = this;
     const states: string[] = self.get('states');
     each(states, state => {
@@ -169,7 +169,7 @@ export default class ItemBase implements IItemBase {
    * @return {object | string | number} 属性值
    */
   public get(key: string) {
-    return this._cfg[key]
+    return this._cfg![key]
   }
 
   /**
@@ -178,11 +178,11 @@ export default class ItemBase implements IItemBase {
    * @param {String|Object} key 属性名，也可以是对象
    * @param {object | string | number} val 属性值
    */
-  public set(key: string, val): void {
+  public set(key: string, val: any): void {
     if(isPlainObject(key)) {
       this._cfg = Object.assign({}, this._cfg, key)
     } else {
-      this._cfg[key] = val
+      this._cfg![key] = val
     }
   }
 
@@ -231,7 +231,7 @@ export default class ItemBase implements IItemBase {
   public getKeyShapeStyle(): ShapeStyle {
     const keyShape = this.getKeyShape();
     if (keyShape) {
-      const styles: ShapeStyle = {};
+      const styles: ShapeStyle & Indexable = {};
       each(keyShape.attr(), (val, key) => {
         if (RESERVED_STYLES.indexOf(key) < 0) {
           styles[key] = val;
@@ -239,6 +239,7 @@ export default class ItemBase implements IItemBase {
       });
       return styles;
     }
+    return {}
   }
 
   public getShapeCfg(model: ModelConfig): ModelConfig {
@@ -310,7 +311,7 @@ export default class ItemBase implements IItemBase {
     const originStates = self.getStates();
     const shapeFactory = self.get('shapeFactory');
     const model: ModelConfig = self.get('model')
-    const shape: string = model.shape || model.type;
+    const shape = model.shape || model.type;
     if (!states) {
       self.set('states', []);
       shapeFactory.setState(shape, originStates[0], false, self);
@@ -416,7 +417,7 @@ export default class ItemBase implements IItemBase {
    */
   public update(cfg: ModelConfig) {
     const model: ModelConfig = this.get('model');
-    const originPosition: IPoint = { x: model.x, y: model.y };
+    const originPosition: IPoint = { x: model.x!, y: model.y! };
 
     // 直接将更新合到原数据模型上，可以保证用户在外部修改源数据然后刷新时的样式符合期待。
     Object.assign(model, cfg);
@@ -477,7 +478,7 @@ export default class ItemBase implements IItemBase {
     }
     group.resetMatrix();
     // G 4.0 element 中移除了矩阵相关方法，详见https://www.yuque.com/antv/blog/kxzk9g#4rMMV
-    translate(group, { x, y });
+    translate(group, { x: x!, y: y! });
     model.x = x;
     model.y = y;
     this.clearCache();     // 位置更新后需要清除缓存

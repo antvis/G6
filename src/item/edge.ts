@@ -5,7 +5,7 @@ import { EdgeConfig, IPoint, NodeConfig, SourceTarget } from '../types';
 import Item from './item';
 import Node from './node'
 
-const END_MAP = { source: 'start', target: 'end' };
+const END_MAP: { [key:string]: string } = { source: 'start', target: 'end' };
 const ITEM_NAME_SUFFIX = 'Node'; // 端点的后缀，如 sourceNode, targetNode
 const POINT_NAME_SUFFIX = 'Point'; // 起点或者结束点的后缀，如 startPoint, endPoint
 const ANCHOR_NAME_SUFFIX = 'Anchor';
@@ -101,7 +101,7 @@ export default class Edge extends Item implements IEdge {
    * 通过端点的中心获取控制点
    * @param model 
    */
-  private getControlPointsByCenter(model) {
+  private getControlPointsByCenter(model: EdgeConfig) {
     const sourcePoint = this.getEndPoint('source');
     const targetPoint = this.getEndPoint('target');
     const shapeFactory = this.get('shapeFactory');
