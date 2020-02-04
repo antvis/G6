@@ -65,7 +65,7 @@ export default class Node extends Item implements INode {
    * 根据锚点的索引获取连接点
    * @param  {Number} index 索引
    */
-  public getLinkPointByAnchor(index): IPoint {
+  public getLinkPointByAnchor(index: number): IPoint {
     const anchorPoints = this.getAnchorPoints();
     return anchorPoints[index];
   }
@@ -80,19 +80,19 @@ export default class Node extends Item implements INode {
     const bbox = this.getBBox();
     const { centerX, centerY } = bbox;
     const anchorPoints = this.getAnchorPoints();
-    let intersectPoint: IPoint;
+    let intersectPoint: IPoint | null;
     switch (type) {
       case 'circle':
         intersectPoint = getCircleIntersectByPoint({
-          x: centerX,
-          y: centerY,
+          x: centerX!,
+          y: centerY!,
           r: bbox.width / 2
         }, point);
         break;
       case 'ellipse':
         intersectPoint = getEllispeIntersectByPoint({
-          x: centerX,
-          y: centerY,
+          x: centerX!,
+          y: centerY!,
           rx: bbox.width / 2,
           ry: bbox.height / 2
         }, point);
@@ -109,7 +109,7 @@ export default class Node extends Item implements INode {
       linkPoint = this.getNearestPoint(anchorPoints, linkPoint);
     }
     if (!linkPoint) { // 如果最终依然没法找到锚点和连接点，直接返回中心点
-      linkPoint = { x: centerX, y: centerY };
+      linkPoint = { x: centerX, y: centerY } as IPoint;
     }
     return linkPoint;
   }

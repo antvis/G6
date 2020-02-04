@@ -366,3 +366,5 @@ export interface ViewPortEventParam {
   action: string;
   matrix: Matrix;
 }
+
+export interface Indexable { [key:string]: any}
