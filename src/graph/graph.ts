@@ -886,10 +886,7 @@ export default class Graph extends EventEmitter implements IGraph {
   }
   
   // 比较item
-  private diffItems(type: ITEM_TYPE, items: {
-    nodes: INode[],
-    edges: IEdge[]
-  }, models: NodeConfig[] | EdgeConfig[]) {
+  private diffItems(type: ITEM_TYPE, items: { nodes: INode[], edges: IEdge[]}, models: NodeConfig[] | EdgeConfig[]) {
     const self = this;
     let item: INode;
     const itemMap: { [key: string]: INode} = this.get('itemMap');
