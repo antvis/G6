@@ -1,8 +1,7 @@
 import { G6Event, IG6GraphEvent } from '../types';
 
-const min = Math.min;
-const max = Math.max;
-const abs = Math.abs;
+const { min, max, abs }  = Math;
+
 const DEFAULT_TRIGGER = 'shift';
 const ALLOW_EVENTS = [ 'drag', 'shift', 'ctrl', 'alt', 'control' ];
 
@@ -50,6 +49,7 @@ export default {
   onMouseDown(e: IG6GraphEvent) {
     // 按在node上面拖动时候不应该是框选
     const { item } = e;
+    let { brush } = this;
     if (item) {
       return;
     }
@@ -62,7 +62,6 @@ export default {
       this.clearStates();
     }
 
-    let brush = this.brush;
     if (!brush) {
       brush = this.createBrush();
     }
@@ -84,7 +83,7 @@ export default {
     this.graph.paint();
   },
   onMouseUp(e: IG6GraphEvent) {
-
+    const { graph }  = this;
     // TODO: 触发了 canvas:click 导致 clearStates
     if (!this.brush && !this.dragging) {
       return;
@@ -94,7 +93,6 @@ export default {
       return;
     }
 
-    const graph = this.graph;
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
     this.brush.remove(true); // remove and destroy
@@ -105,10 +103,9 @@ export default {
     graph.setAutoPaint(autoPaint);
   },
   clearStates() {
-    const graph = this.graph;
+    const { graph, selectedState, onDeselect }  = this;
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
-    const selectedState = this.selectedState;
 
     const nodes = graph.findAllByState('node', selectedState);
     const edges = graph.findAllByState('edge', selectedState);
@@ -118,7 +115,7 @@ export default {
     this.selectedNodes = [];
 
     this.selectedEdges = [];
-    this.onDeselect && this.onDeselect(this.selectedNodes, this.selectedEdges);
+    if (onDeselect) onDeselect(this.selectedNodes, this.selectedEdges);
     graph.emit('nodeselectchange', { selectedItems: {
       nodes: [],
       edges: []
@@ -127,9 +124,8 @@ export default {
     graph.setAutoPaint(autoPaint);
   },
   getSelectedNodes(e: IG6GraphEvent) {
-    const graph = this.graph;
+    const { graph, originPoint, shouldUpdate, onSelect }  = this;
     const state = this.selectedState;
-    const originPoint = this.originPoint;
     const p1 = { x: e.x, y: e.y };
     const p2 = graph.getPointByCanvas(originPoint.x, originPoint.y);
     const left = min(p1.x, p2.x);
@@ -137,7 +133,6 @@ export default {
     const top = min(p1.y, p2.y);
     const bottom = max(p1.y, p2.y);
     const selectedNodes = [];
-    const shouldUpdate = this.shouldUpdate;
     const selectedIds = [];
     graph.getNodes().forEach(node => {
       const bbox = node.getBBox();
@@ -174,7 +169,7 @@ export default {
 
     this.selectedEdges = selectedEdges;
     this.selectedNodes = selectedNodes;
-    this.onSelect && this.onSelect(selectedNodes, selectedEdges);
+    if (onSelect) this.onSelect(selectedNodes, selectedEdges);
     graph.emit('nodeselectchange', { selectedItems: {
       nodes: selectedNodes,
       edges: selectedEdges
@@ -191,7 +186,7 @@ export default {
     return brush;
   },
   updateBrush(e: IG6GraphEvent) {
-    const originPoint = this.originPoint;
+    const { originPoint }  = this;
     this.brush.attr({
       width: abs(e.canvasX - originPoint.x),
       height: abs(e.canvasY - originPoint.y),

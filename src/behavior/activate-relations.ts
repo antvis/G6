@@ -23,8 +23,8 @@ export default {
     };
   },
   setAllItemStates(e: IG6GraphEvent) {
+    const { item } = e;
     const graph = this.get('graph');
-    const item = e.item;
     this.set('item', item);
     if (!this.shouldUpdate(e.item, { event: e, action: 'activate' })) {
       return;
@@ -34,7 +34,7 @@ export default {
     const inactiveState = this.get('inactiveState');
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
-    graph.getNodes().forEach(function(node) {
+    graph.getNodes().forEach(node => {
       const hasSelected = node.hasState('selected');
       if (self.resetSelected) {
         if (hasSelected) {
@@ -46,7 +46,7 @@ export default {
         graph.setItemState(node, inactiveState, true);
       }
     });
-    graph.getEdges().forEach(function(edge) {
+    graph.getEdges().forEach(edge => {
       graph.setItemState(edge, activeState, false);
       if (inactiveState) {
         graph.setItemState(edge, inactiveState, true);
@@ -56,7 +56,7 @@ export default {
       graph.setItemState(item, inactiveState, false);
     }
     graph.setItemState(item, activeState, true);
-    graph.getEdges().forEach(function(edge) {
+    graph.getEdges().forEach(edge => {
       if (edge.getSource() === item) {
         const target = edge.getTarget();
         if (inactiveState) {
@@ -89,14 +89,14 @@ export default {
     const self = this;
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
-    graph.getNodes().forEach(function(node) {
+    graph.getNodes().forEach(node => {
       const hasSelected = node.hasState('selected');
       graph.clearItemStates(node);
       if (hasSelected) {
         graph.setItemState(node, 'selected', !self.resetSelected);
       }
     });
-    graph.getEdges().forEach(function(edge) {
+    graph.getEdges().forEach(edge => {
       graph.clearItemStates(edge);
     });
     graph.paint();

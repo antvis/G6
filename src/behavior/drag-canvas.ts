@@ -1,6 +1,7 @@
 import { G6Event, IG6GraphEvent } from '../types';
 import { cloneEvent } from '../util/base'
-const abs = Math.abs
+
+const { abs } = Math;
 const DRAG_OFFSET = 10
 const ALLOW_EVENTS = [ 'shift', 'ctrl', 'alt', 'control' ];
 
@@ -20,11 +21,11 @@ export default {
     };
   },
   updateViewport(e: IG6GraphEvent) {
-    const origin = this.origin;
+    const { origin } = this;
     const clientX = +e.clientX;
     const clientY = +e.clientY;
 
-    if (isNaN(clientX) || isNaN(clientY)) {
+    if (Number.isNaN(clientX) || Number.isNaN(clientY)) {
       return;
     }
     let dx = clientX - origin.x;
@@ -50,12 +51,12 @@ export default {
     this.dragging = false;
   },
   onMouseMove(e: IG6GraphEvent) {
+    const { graph } = this;
     if (this.keydown || e.shape) {
       return;
     }
 
     e = cloneEvent(e);
-    const graph = this.graph;
     if (!this.origin) { 
       return; 
     }
@@ -79,6 +80,7 @@ export default {
     }
   },
   onMouseUp(e: IG6GraphEvent) {
+    const { graph } = this;
     if (this.keydown || e.shape) {
       return;
     }
@@ -90,7 +92,6 @@ export default {
 
     e = cloneEvent(e);
     
-    const graph = this.graph;
     if (this.shouldEnd.call(this, e)) {
       this.updateViewport(e);
     }
@@ -99,10 +100,9 @@ export default {
     this.endDrag();
   },
   endDrag() {
-    const self = this;
-    self.origin = null;
-    self.dragging = false;
-    self.dragbegin = false;
+    this.origin = null;
+    this.dragging = false;
+    this.dragbegin = false;
   },
   onKeyDown(e: KeyboardEvent) {
     const code = e.key;
