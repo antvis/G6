@@ -144,9 +144,11 @@ export default class ModeController {
    */
   public manipulateBehaviors(behaviors: IModeType[] | IModeType, modes: string[] | string, isAdd: boolean): ModeController {
     const self = this
-    let behaves: IModeType[] = []
+    let behaves: IModeType[]
     if(!isArray(behaviors)) {
       behaves = [ behaviors ]
+    }else {
+      behaves = behaviors
     }
 
     if(isArray(modes)) {
