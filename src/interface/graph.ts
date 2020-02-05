@@ -445,7 +445,7 @@ export interface IGraph extends EventEmitter {
    * @param {(item: T, index: number) => T} fn 指定规则
    * @return {T} 元素实例
    */
-  find<T extends Item>(type: ITEM_TYPE, fn: (item: T, index: number) => boolean): T;
+  find<T extends Item>(type: ITEM_TYPE, fn: (item: T, index?: number) => boolean): T;
 
   /**
    * 查找所有满足规则的元素
@@ -453,7 +453,7 @@ export interface IGraph extends EventEmitter {
    * @param {string} fn 指定规则
    * @return {array} 元素实例
    */
-  findAll<T extends Item>(type: ITEM_TYPE, fn: (item: T, index: number) => boolean): T[];
+  findAll<T extends Item>(type: ITEM_TYPE, fn: (item: T, index?: number) => boolean): T[];
 
   /**
    * 查找所有处于指定状态的元素
