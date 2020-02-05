@@ -14,10 +14,14 @@ export interface IModeOption {
   maxZoom?: number;
   minZoom?: number;
   multiple?: boolean;
+  selectedState?: string;
+  includeEdges?: boolean;
   shouldUpdate?: (e: IG6GraphEvent) => boolean;
   shouldBegin?: (e: IG6GraphEvent) => boolean;
   shouldEnd?: (e: IG6GraphEvent) => boolean;
   onChange?: (item?: Item, judge?: boolean) => unknown;
+  onSelect?: (selectedNodes?: Item[], selectedEdges?: Item[]) => unknown;
+  onDeselect?: (selectedNodes?: Item[], selectedEdges?: Item[]) => unknown;
   formatText?: (data: {
     [key: string]: unknown
   }) => string;
