@@ -347,7 +347,7 @@ export type BehaviorOpation<U> = {
 export type IEvent = Record<G6Event, string>;
 
 export interface IG6GraphEvent extends GraphEvent {
-  item: Item;
+  item: Item | null;
   canvasX: number;
   canvasY: number;
   wheelDelta: number;
