@@ -119,11 +119,11 @@ export default class FruchtermanLayout extends BaseLayout {
       }
     }
     for (let i = 0; i < maxIteration; i++) {
-      const positions = [];
+      const displacements = [];
       nodes.forEach((_, j) => {
-        positions[j] = { x: 0, y: 0 };
+        displacements[j] = { x: 0, y: 0 };
       });
-      self.applyCalculate(nodes, edges, positions, k);
+      self.applyCalculate(nodes, edges, displacements, k);
 
       // gravity for clusters
       if (clustering) {
@@ -132,8 +132,8 @@ export default class FruchtermanLayout extends BaseLayout {
           const c = clusterMap[n.cluster];
           const distLength = Math.sqrt((n.x - c.cx) * (n.x - c.cx) + (n.y - c.cy) * (n.y - c.cy));
           const gravityForce = k * clusterGravity;
-          positions[j].x -= (gravityForce * (n.x - c.cx)) / distLength;
-          positions[j].y -= (gravityForce * (n.y - c.cy)) / distLength;
+          displacements[j].x -= (gravityForce * (n.x - c.cx)) / distLength;
+          displacements[j].y -= (gravityForce * (n.y - c.cy)) / distLength;
         });
 
         for (let key in clusterMap) {
@@ -157,37 +157,37 @@ export default class FruchtermanLayout extends BaseLayout {
       // gravity
       nodes.forEach((n, j) => {
         const gravityForce = 0.01 * k * gravity;
-        positions[j].x -= gravityForce * (n.x - center[0]);
-        positions[j].y -= gravityForce * (n.y - center[1]);
+        displacements[j].x -= gravityForce * (n.x - center[0]);
+        displacements[j].y -= gravityForce * (n.y - center[1]);
       });
 
       // speed
       nodes.forEach((_, j) => {
-        positions[j].dx *= speed / SPEED_DIVISOR;
-        positions[j].dy *= speed / SPEED_DIVISOR;
+        displacements[j].dx *= speed / SPEED_DIVISOR;
+        displacements[j].dy *= speed / SPEED_DIVISOR;
       });
 
       // move
       nodes.forEach((n, j) => {
-        const distLength = Math.sqrt(positions[j].x * positions[j].x + positions[j].y * positions[j].y);
+        const distLength = Math.sqrt(displacements[j].x * displacements[j].x + displacements[j].y * displacements[j].y);
         if (distLength > 0) {
           // && !n.isFixed()
           const limitedDist = Math.min(maxDisplace * (speed / SPEED_DIVISOR), distLength);
-          n.x += (positions[j].x / distLength) * limitedDist;
-          n.y += (positions[j].y / distLength) * limitedDist;
+          n.x += (displacements[j].x / distLength) * limitedDist;
+          n.y += (displacements[j].y / distLength) * limitedDist;
         }
       });
     }
   }
 
-  private applyCalculate(nodes: Node[], edges: Edge[], positions, k) {
-    this.calRepulsive(nodes, positions, k);
-    this.calAttractive(edges, positions, k);
+  private applyCalculate(nodes: Node[], edges: Edge[], displacements, k) {
+    this.calRepulsive(nodes, displacements, k);
+    this.calAttractive(edges, displacements, k);
   }
 
-  private calRepulsive(nodes: Node[], positions, k) {
+  private calRepulsive(nodes: Node[], displacements, k) {
     nodes.forEach((v, i) => {
-      positions[i] = { x: 0, y: 0 };
+      displacements[i] = { x: 0, y: 0 };
       nodes.forEach((u, j) => {
         if (i === j) {
           return;
@@ -202,13 +202,13 @@ export default class FruchtermanLayout extends BaseLayout {
           vecY = 0.01 * sign;
         }
         const common = (k * k) / vecLengthSqr;
-        positions[i].x += vecX * common;
-        positions[i].y += vecY * common;
+        displacements[i].x += vecX * common;
+        displacements[i].y += vecY * common;
       });
     });
   }
 
-  private calAttractive(edges: Edge[], positions, k) {
+  private calAttractive(edges: Edge[], displacements, k) {
     edges.forEach(e => {
       const uIndex = this.nodeIndexMap[e.source];
       const vIndex = this.nodeIndexMap[e.target];
@@ -221,10 +221,10 @@ export default class FruchtermanLayout extends BaseLayout {
       const vecY = v.y - u.y;
       const vecLength = Math.sqrt(vecX * vecX + vecY * vecY);
       const common = (vecLength * vecLength) / k;
-      positions[vIndex].x -= (vecX / vecLength) * common;
-      positions[vIndex].y -= (vecY / vecLength) * common;
-      positions[uIndex].x += (vecX / vecLength) * common;
-      positions[uIndex].y += (vecY / vecLength) * common;
+      displacements[vIndex].x -= (vecX / vecLength) * common;
+      displacements[vIndex].y -= (vecY / vecLength) * common;
+      displacements[uIndex].x += (vecX / vecLength) * common;
+      displacements[uIndex].y += (vecY / vecLength) * common;
     });
   }
 }
