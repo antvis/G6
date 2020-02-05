@@ -5,7 +5,7 @@ export default Object.assign({
   getDefaultCfg(): object {
     return {
       item: 'edge',
-      formatText(model) { return 'source:' + model.source + ' target:' + model.target; }
+      formatText(model) { return `source:${model.source} target:${model.target}`; }
     };
   },
   getEvents(): { [key in G6Event]?: string } {
