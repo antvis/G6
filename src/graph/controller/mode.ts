@@ -78,7 +78,7 @@ export default class ModeController {
     this.currentBehaves = behaves;
   }
 
-  private mergeBehaviors(modeBehaviors: IModeType[], behaviors: any): IModeType[] {
+  private mergeBehaviors(modeBehaviors: IModeType[], behaviors: IModeType[]): IModeType[] {
     each(behaviors, behavior => {
       if (modeBehaviors.indexOf(behavior) < 0) {
         if (isString(behavior)) {
@@ -90,7 +90,7 @@ export default class ModeController {
     return modeBehaviors;
   }
 
-  private filterBehaviors(modeBehaviors: IModeType[], behaviors: any): IModeType[] {
+  private filterBehaviors(modeBehaviors: IModeType[], behaviors: IModeType[]): IModeType[] {
     const result: IModeType[] = [];
     modeBehaviors.forEach(behavior => {
       let type: string = ''
@@ -144,7 +144,7 @@ export default class ModeController {
    */
   public manipulateBehaviors(behaviors: IModeType[] | IModeType, modes: string[] | string, isAdd: boolean): ModeController {
     const self = this
-    let behaves = behaviors
+    let behaves: IModeType[] = []
     if(!isArray(behaviors)) {
       behaves = [ behaviors ]
     }
@@ -153,7 +153,7 @@ export default class ModeController {
       each(modes, mode => {
         if (!self.modes[mode]) {
           if (isAdd) {
-            self.modes[mode] = behaves as IModeType[]
+            self.modes[mode] = behaves
           }
         } else {
           if (isAdd) {
@@ -174,7 +174,7 @@ export default class ModeController {
     
     if(!this.modes[currentMode]) {
       if (isAdd) {
-        self.modes[currentMode] = behaves as IModeType[]
+        self.modes[currentMode] = behaves
       }
     }
     
