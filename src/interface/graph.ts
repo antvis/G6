@@ -158,7 +158,7 @@ export interface IStates {
   [key: string]: INode[]
 }
 export interface IGraph extends EventEmitter {
-  getDefaultCfg(): GraphOptions;
+  getDefaultCfg(): Partial<GraphOptions>;
   get<T = any>(key: string): T;
   set<T = any>(key: string | object, value?: T): Graph;
   findById(id: string): Item;
@@ -441,7 +441,7 @@ export interface IGraph extends EventEmitter {
    * @param {(item: T, index: number) => T} fn 指定规则
    * @return {T} 元素实例
    */
-  find<T extends Item>(type: ITEM_TYPE, fn: (item: T, index: number) => boolean): T;
+  find<T extends Item>(type: ITEM_TYPE, fn: (item: T, index?: number) => boolean): T | undefined;
 
   /**
    * 查找所有满足规则的元素
@@ -449,7 +449,7 @@ export interface IGraph extends EventEmitter {
    * @param {string} fn 指定规则
    * @return {array} 元素实例
    */
-  findAll<T extends Item>(type: ITEM_TYPE, fn: (item: T, index: number) => boolean): T[];
+  findAll<T extends Item>(type: ITEM_TYPE, fn: (item: T, index?: number) => boolean): T[];
 
   /**
    * 查找所有处于指定状态的元素
@@ -541,7 +541,7 @@ export interface ITreeGraph extends IGraph {
    * @param {TreeGraphData | undefined} parent 从哪个节点开始寻找，为空时从根节点开始查找
    * @return {TreeGraphData} 对应源数据
    */
-  findDataById(id: string, parent?: TreeGraphData | undefined): TreeGraphData;
+  findDataById(id: string, parent?: TreeGraphData | undefined): TreeGraphData | null;
 
   /**
    * 布局动画接口，用于数据更新时做节点位置更新的动画
