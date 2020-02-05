@@ -1,11 +1,11 @@
 import isNil from '@antv/util/lib/is-nil';
 import isPlainObject from '@antv/util/lib/is-plain-object'
 import { IEdge, INode } from "../interface/item";
-import { EdgeConfig, IPoint, NodeConfig, SourceTarget } from '../types';
+import { EdgeConfig, IPoint, NodeConfig, SourceTarget, Indexable } from '../types';
 import Item from './item';
 import Node from './node'
 
-const END_MAP: { [key:string]: string } = { source: 'start', target: 'end' };
+const END_MAP: Indexable<string> = { source: 'start', target: 'end' };
 const ITEM_NAME_SUFFIX = 'Node'; // 端点的后缀，如 sourceNode, targetNode
 const POINT_NAME_SUFFIX = 'Point'; // 起点或者结束点的后缀，如 startPoint, endPoint
 const ANCHOR_NAME_SUFFIX = 'Anchor';
