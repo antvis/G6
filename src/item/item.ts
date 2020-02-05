@@ -16,7 +16,7 @@ const RESERVED_STYLES = [ 'fillStyle', 'strokeStyle',
   'path', 'points', 'img', 'symbol' ];
   
 export default class ItemBase implements IItemBase {
-  public _cfg: IItemBaseConfig | null = {}
+  public _cfg: IItemBaseConfig
   private defaultCfg: IItemBaseConfig = {
     /**
      * id
@@ -81,7 +81,7 @@ export default class ItemBase implements IItemBase {
   constructor(cfg: IItemBaseConfig) {
     this._cfg = Object.assign(this.defaultCfg, this.getDefaultCfg(), cfg)
     const group = cfg.group
-    group!.set('item', this)
+    if (group) group.set('item', this)
 
     let id = this.get('model').id
 
@@ -90,7 +90,7 @@ export default class ItemBase implements IItemBase {
     }
 
     this.set('id', id)
-    group!.set('id', id)
+    if (group) group.set('id', id)
 
     const stateStyles = this.get('model').stateStyles;
     this.set('stateStyles', stateStyles);
@@ -169,7 +169,7 @@ export default class ItemBase implements IItemBase {
    * @return {object | string | number} 属性值
    */
   public get(key: string) {
-    return this._cfg![key]
+    return this._cfg[key]
   }
 
   /**
@@ -182,7 +182,7 @@ export default class ItemBase implements IItemBase {
     if(isPlainObject(key)) {
       this._cfg = Object.assign({}, this._cfg, key)
     } else {
-      this._cfg![key] = val
+      this._cfg[key] = val
     }
   }
 
@@ -567,7 +567,7 @@ export default class ItemBase implements IItemBase {
         group.stopAnimate();
       }
       group.remove();
-      this._cfg = null;
+      (this._cfg as IItemBaseConfig | null) = null;
       this.destroyed = true;
     }
   }
