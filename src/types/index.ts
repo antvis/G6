@@ -367,4 +367,4 @@ export interface ViewPortEventParam {
   matrix: Matrix;
 }
 
-export interface Indexable { [key:string]: any}
+export interface Indexable<T> { [key:string]: T}
