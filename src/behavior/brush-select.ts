@@ -32,16 +32,16 @@ export default {
     }
     if (this.trigger === 'drag') {
       return {
-        mousedown: 'onMouseDown',
-        mousemove: 'onMouseMove',
-        mouseup: 'onMouseUp',
+        dragstart: 'onMouseDown',
+        drag: 'onMouseMove',
+        dragend: 'onMouseUp',
         'canvas:click': 'clearStates'
       };
     }
     return {
-      mousedown: 'onMouseDown',
-      mousemove: 'onMouseMove',
-      mouseup: 'onMouseUp',
+      dragstart: 'onMouseDown',
+      drag: 'onMouseMove',
+      dragend: 'onMouseUp',
       'canvas:click': 'clearStates',
       keyup: 'onKeyUp',
       keydown: 'onKeyDown'

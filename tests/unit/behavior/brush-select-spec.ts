@@ -20,10 +20,10 @@ describe('brush-select', () => {
   it('default configs', () => {
     graph.addBehaviors([ 'brush-select' ], 'default');
     graph.emit('keydown', { canvasX: 20, canvasY: 20, key: 'shift' });
-    graph.emit('mousedown', { canvasX: 20, canvasY: 20 });
-    graph.emit('mousemove', { canvasX: 120, canvasY: 120 });
+    graph.emit('dragstart', { canvasX: 20, canvasY: 20 });
+    graph.emit('drag', { canvasX: 120, canvasY: 120 });
     // 只选中一个节点，没有边被选中
-    graph.emit('mouseup', { canvasX: 120, canvasY: 120, x: 120, y: 120 });
+    graph.emit('dragend', { canvasX: 120, canvasY: 120, x: 120, y: 120 });
     let selectedNodes = graph.findAllByState('node', 'selected');
     expect(selectedNodes.length).toEqual(1);
     expect(selectedNodes[0] === node1).toBe(true);
@@ -33,8 +33,8 @@ describe('brush-select', () => {
 
     // 选中两个节点，一条边
     graph.emit('keydown', { canvasX: 20, canvasY: 20 });
-    graph.emit('mousedown', { canvasX: 20, canvasY: 20 });
-    graph.emit('mouseup', { canvasX: 120, canvasY: 160, x: 120, y: 160 });
+    graph.emit('dragstart', { canvasX: 20, canvasY: 20 });
+    graph.emit('dragend', { canvasX: 120, canvasY: 160, x: 120, y: 160 });
 
     selectedNodes = graph.findAllByState('node', 'selected');
     expect(selectedNodes.length).toEqual(2);
@@ -53,17 +53,17 @@ describe('brush-select', () => {
 
     graph.translate(200, 200);
     graph.emit('keydown', { canvasX: 20, canvasY: 20, key: 'abc' }); // invalid key
-    graph.emit('mousedown', { canvasX: 20, canvasY: 20 });
-    graph.emit('mousemove', { canvasX: 120, canvasY: 120 });
+    graph.emit('dragstart', { canvasX: 20, canvasY: 20 });
+    graph.emit('drag', { canvasX: 120, canvasY: 120 });
     graph.emit('keyup', { key: 'shift' });
-    graph.emit('mouseup', { canvasX: 120, canvasY: 120, x: -80, y: -80 });
+    graph.emit('dragend', { canvasX: 120, canvasY: 120, x: -80, y: -80 });
     selectedNodes = graph.findAllByState('node', 'selected');
     expect(selectedNodes.length).toEqual(0);
 
 
     graph.emit('keydown', { canvasX: 20, canvasY: 20, key: 'shift' });
-    graph.emit('mousedown', { canvasX: 20, canvasY: 20 });
-    graph.emit('mousemove', { canvasX: 120, canvasY: 120 });
+    graph.emit('dragstart', { canvasX: 20, canvasY: 20 });
+    graph.emit('drag', { canvasX: 120, canvasY: 120 });
     graph.emit('keyup', { key: 'shift' });
     selectedNodes = graph.findAllByState('node', 'selected');
     expect(selectedNodes.length).toEqual(0);
@@ -84,9 +84,9 @@ describe('brush-select', () => {
         triggered = true;
       }
     }], 'default');
-    graph.emit('mousedown', { canvasX: -110, canvasY: -120 });
-    graph.emit('mousemove', { canvasX: 300, canvasY: 300 });
-    graph.emit('mouseup', { canvasX: 300, canvasY: 300, x: 300, y: 300 });
+    graph.emit('dragstart', { canvasX: -110, canvasY: -120 });
+    graph.emit('drag', { canvasX: 300, canvasY: 300 });
+    graph.emit('dragend', { canvasX: 300, canvasY: 300, x: 300, y: 300 });
     let selectedNodes = graph.findAllByState('node', 'customState');
     expect(selectedNodes.length).toEqual(2);
     expect(selectedNodes[0] === node1).toBe(true);
@@ -136,18 +136,16 @@ describe('brush-select', () => {
         }
       }
     });
-    graph2.addItem('node', { color: '#666', x: 50, y: 50, size: 20, style: { lineWidth: 2, fill: '#666' } });
+    const node = graph2.addItem('node', { color: '#666', x: 50, y: 50, size: 20, style: { lineWidth: 2, fill: '#666' } });
     graph2.paint();
 
-    // TODO: Wait for G bug: mouseup triggers canvas:click to clearStates
-
-    // graph2.emit('keydown', { canvasX: 50, canvasY: 50, key: 'shift' });
-    // graph2.emit('mousedown', { canvasX: 50, canvasY: 50 });
-    // graph2.emit('mousemove', { canvasX: 100, canvasY: 100 });
-    // graph2.emit('mouseup', { canvasX: 100, canvasY: 100, x: 100, y: 100 });
-    // const selectedNodes = graph2.findAllByState('node', 'selected');
-    // expect(selectedNodes.length).toEqual(0);
+    graph2.emit('keydown', { canvasX: 50, canvasY: 50, key: 'shift' });
+    graph2.emit('dragstart', { canvasX: 50, canvasY: 50, item: node });
+    graph2.emit('drag', { canvasX: 100, canvasY: 100 });
+    graph2.emit('dragend', { canvasX: 100, canvasY: 100, x: 100, y: 100 });
+    const selectedNodes = graph2.findAllByState('node', 'selected');
+    expect(selectedNodes.length).toEqual(0);
     
-    // graph2.destroy();
+    graph2.destroy();
   });
 });
