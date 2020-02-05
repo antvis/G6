@@ -40,6 +40,6 @@ module.exports = {
     'import/order': 0,
     'import/no-duplicates': 0,
     'arrow-parens': 0,
-    'no-param-reassign': 0,
+    'no-param-reassign': 0
   },
 };

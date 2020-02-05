@@ -541,6 +541,7 @@ export default class ItemBase implements IItemBase {
 
   /**
    * 元素是否可见
+   * @return {Boolean} 返回该元素是否可见
    */
   public isVisible(): boolean {
     return this.get('visible');
@@ -553,7 +554,7 @@ export default class ItemBase implements IItemBase {
   public enableCapture(enable: boolean) {
     const group: Group = this.get('group');
     if(group) {
-      group.attr('capture', enable)
+      group.set('capture', enable)
     }
   }
 

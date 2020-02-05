@@ -189,7 +189,7 @@ G6.registerNode('pie-node', {
     return fanIn;
   }
 },
-"single-shape"
+"single-node"
 );
 ```
 The code above registers a 'pie-node' type node.

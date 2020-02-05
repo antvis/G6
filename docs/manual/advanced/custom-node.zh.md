@@ -194,12 +194,12 @@ G6.registerNode('diamond', {
 
 ## 2. 扩展现有节点
 ### 扩展 Shape
-G6 中已经[内置了一些节点](/zh/docs/manual/middle/elements/nodes/defaultNode)，如果用户仅仅想对现有节点进行调整，复用原有的代码，则可以基于现有的节点进行扩展。同样实现 diamond ，可以基于 circle、ellipse、rect 等内置节点的进行扩展。<a href='https://github.com/antvis/g6/blob/master/src/shape/single-shape-mixin.js' target='_blank'>single-shape</a> 是这些内置节点图形的基类，也可以基于它进行扩展。
+G6 中已经[内置了一些节点](/zh/docs/manual/middle/elements/nodes/defaultNode)，如果用户仅仅想对现有节点进行调整，复用原有的代码，则可以基于现有的节点进行扩展。同样实现 diamond ，可以基于 circle、ellipse、rect 等内置节点的进行扩展。single-node 是这些内置节点类型的基类，也可以基于它进行扩展。（single-edge 是所有内置边类型的基类。）
 
-下面以基于 single-shape 为例进行扩展。`draw`，`update`，`setState` 方法在 <a href='https://github.com/antvis/g6/blob/master/src/shape/single-shape-mixin.js' target='_blank'>single-shape</a> 中都有实现，这里仅需要复写 `getShapeStyle` 方法即可。返回的对象中包含自定义图形的路径和其他样式。
+下面以基于 single-node 为例进行扩展。`draw`，`update`，`setState` 方法在 single-node 中都有实现，这里仅需要复写 `getShapeStyle` 方法即可。返回的对象中包含自定义图形的路径和其他样式。
 ```javascript
 G6.registerNode('diamond', {
-  shapeType: 'path', // 继承自 'single-shape' 时必须指定，否则不需要填写
+  shapeType: 'path', // 继承自 'single-edge' 时必须指定，否则不需要填写
   getShapeStyle(cfg) {
     const size = this.getSize(cfg); // 转换成 [width, height] 的模式
     const color = cfg.color;
@@ -222,8 +222,8 @@ G6.registerNode('diamond', {
     return style;
   }
 },
-// 注意这里继承了 'single-shape'
-'single-shape');
+// 注意这里继承了 'single-edge'
+'single-edge');
 ```
 
 ### 添加动画

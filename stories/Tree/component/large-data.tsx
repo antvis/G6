@@ -379,7 +379,7 @@ const LargeDataTree = () => {
         },
         afterDraw: nodeBasicMethod.afterDraw,
         setState: nodeBasicMethod.setState
-      }, 'single-shape');
+      }, 'single-node');
       
       /* 复杂节点 */
       G6.registerNode(TREE_NODE, {
@@ -572,7 +572,7 @@ const LargeDataTree = () => {
         },
         afterDraw: nodeBasicMethod.afterDraw,
         setState: nodeBasicMethod.setState
-      }, 'single-shape');
+      }, 'single-node');
       /* 是否显示 sofarouter，通过透明度来控制 */
       G6.registerEdge('tree-edge', {
         draw: (cfg, group) => {
