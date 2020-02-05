@@ -63,7 +63,7 @@ export type IItemBaseConfig = Partial<{
   target: string | Item;
 
   linkCenter: boolean;
-}> & Indexable
+}> & Indexable<any>
 
 export interface IItemBase {
   _cfg: IItemBaseConfig | null;
