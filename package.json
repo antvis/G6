@@ -42,6 +42,7 @@
     "demos": "start-storybook -p 8080 -c .storybook",
     "doc": "rimraf apis && typedoc",
     "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx --format=pretty  \"./\"",
+    "lint:src": "eslint --cache --ext .ts --format=pretty  \"./src\"",
     "prettier": "prettier -c --write \"**/*\"",
     "site:build": "npm run site:clean && GATSBY=true gatsby build --prefix-paths",
     "site:clean": "gatsby clean",
