@@ -231,7 +231,7 @@ export default class ItemBase implements IItemBase {
   public getKeyShapeStyle(): ShapeStyle {
     const keyShape = this.getKeyShape();
     if (keyShape) {
-      const styles: ShapeStyle & Indexable = {};
+      const styles: ShapeStyle & Indexable<any> = {};
       each(keyShape.attr(), (val, key) => {
         if (RESERVED_STYLES.indexOf(key) < 0) {
           styles[key] = val;
