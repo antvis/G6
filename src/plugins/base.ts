@@ -8,12 +8,15 @@ export interface IPluginBaseConfig {
   container?: HTMLDivElement | null;
   className?: string;
   graph?: Graph;
+  [key: string]: any;
+}
+
+interface EventMapType {
+  [key: string]: any
 }
 
 export default abstract class PluginBase {
-  private _events: {
-    [key: string]: any
-  }
+  private _events: EventMapType
   public _cfgs: IPluginBaseConfig
   public destroyed: boolean
 
@@ -23,6 +26,8 @@ export default abstract class PluginBase {
    */
   constructor(cfgs?: IPluginBaseConfig) {
     this._cfgs = deepMix(this.getDefaultCfgs(), cfgs);
+    this._events = {}
+    this.destroyed = false
   }
 
   /**
@@ -42,7 +47,7 @@ export default abstract class PluginBase {
 
     const events = self.getEvents();
 
-    const bindEvents = {};
+    const bindEvents: EventMapType = {};
 
     each(events, (v, k) => {
       const event = wrapBehavior(self, v);
@@ -98,8 +103,8 @@ export default abstract class PluginBase {
     each(events, (v, k) => {
       graph.off(k, v);
     });
-    this._events = null;
-    this._cfgs = null;
+    (this._events as EventMapType | null) = null;
+    (this._cfgs as IPluginBaseConfig | null) = null;
     this.destroyed = true;
   }
 }
