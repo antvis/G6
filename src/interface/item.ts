@@ -72,7 +72,7 @@ export interface IItemBase {
 
   isItem(): boolean;
 
-  getKeyShapeStyle(): ShapeStyle;
+  getKeyShapeStyle(): ShapeStyle | void;
 
   /**
    * 获取当前元素的所有状态
@@ -247,7 +247,7 @@ export interface INode extends IItemBase {
    * @param {Object} point 节点外面的一个点，用于计算交点、最近的锚点
    * @return {Object} 连接点 {x,y}
    */
-  getLinkPoint(point: IPoint): IPoint;
+  getLinkPoint(point: IPoint): IPoint | null;
 
   /**
    * 添加边
