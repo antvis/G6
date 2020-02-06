@@ -236,8 +236,8 @@ export type EdgeData = EdgeConfig & {
   endPoint: IPoint;
 };
 
-export interface NodeMapConfig {
-  [key: string]: NodeConfig;
+export interface NodeMap {
+  [key: string]: INode;
 }
 
 export interface GroupConfig {

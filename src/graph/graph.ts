@@ -20,7 +20,7 @@ import {
   Matrix,
   ModelConfig,
   NodeConfig,
-  NodeMapConfig,
+  NodeMap,
   Padding,
   TreeGraphData,
 } from '../types';
@@ -58,13 +58,13 @@ export interface PrivateGraphOption extends GraphOptions {
 
   groups: GroupConfig[];
 
-  itemMap: NodeMapConfig;
+  itemMap: NodeMap;
 
   callback: () => void;
 
   groupBBoxs: IGroupBBox;
 
-  groupNodes: NodeMapConfig;
+  groupNodes: NodeMap;
 
   /**
    * 格式：
@@ -814,17 +814,19 @@ export default class Graph extends EventEmitter implements IGraph {
       throw new Error('data must be defined first');
     }
 
+    const { nodes = [], edges = [] } = data;
+
     this.clear();
 
     this.emit('beforerender');
     const autoPaint = this.get('autoPaint');
     this.setAutoPaint(false);
 
-    each(data.nodes || [], (node: NodeConfig) => {
+    each(nodes, (node: NodeConfig) => {
       self.add('node', node);
     });
 
-    each(data.edges || [], (edge: EdgeConfig) => {
+    each(edges, (edge: EdgeConfig) => {
       self.add('edge', edge);
     });
 
@@ -889,7 +891,7 @@ export default class Graph extends EventEmitter implements IGraph {
   private diffItems(type: ITEM_TYPE, items: { nodes: INode[], edges: IEdge[]}, models: NodeConfig[] | EdgeConfig[]) {
     const self = this;
     let item: INode;
-    const itemMap: { [key: string]: INode} = this.get('itemMap');
+    const itemMap: NodeMap = this.get('itemMap');
 
     each(models, (model) => {
       item = itemMap[model.id];
@@ -929,7 +931,7 @@ export default class Graph extends EventEmitter implements IGraph {
     }
 
     const autoPaint: boolean = this.get('autoPaint');
-    const itemMap: NodeMapConfig = this.get('itemMap');
+    const itemMap: NodeMap = this.get('itemMap');
 
     const items: {
       nodes: INode[],

@@ -8,7 +8,7 @@ import isString from '@antv/util/lib/is-string'
 import upperFirst from '@antv/util/lib/upper-first'
 import Edge from '../../item/edge';
 import Node from '../../item/node';
-import { EdgeConfig, Item, ITEM_TYPE, ModelConfig, NodeConfig, NodeMapConfig } from '../../types';
+import { EdgeConfig, Item, ITEM_TYPE, ModelConfig, NodeConfig, NodeMap } from '../../types';
 import Graph from '../graph';
 
 import { IEdge, INode } from '../../interface/item';
@@ -232,7 +232,7 @@ export default class ItemController {
     items.splice(index, 1);
 
     const itemId: string = item.get('id')
-    const itemMap: NodeMapConfig = graph.get('itemMap')
+    const itemMap: NodeMap = graph.get('itemMap')
     delete itemMap[itemId];
 
     if (type === NODE) {
