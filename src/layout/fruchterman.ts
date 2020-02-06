@@ -3,16 +3,15 @@
  * @author shiwu.wyy@antfin.com
  */
 
-import { EdgeConfig, IPointTuple, NodeConfig } from '../types';
+import { EdgeConfig, IPointTuple, NodeConfig, NodeIdxMap, NodeMap } from '../types';
 import { BaseLayout } from './layout';
+import { isNumber } from '@antv/util';
+import { Point } from '_@antv_g-canvas@0.3.14@@antv/g-canvas/node_modules/@antv/g-base';
 
 type Node = NodeConfig & {
-  cluster: string;
+  cluster: string | number;
 };
 type Edge = EdgeConfig;
-
-type NodeMap = Map<string, Node>;
-type NodeIndexMap = Map<string, string>;
 
 const SPEED_DIVISOR = 800;
 
@@ -21,26 +20,26 @@ const SPEED_DIVISOR = 800;
  */
 export default class FruchtermanLayout extends BaseLayout {
   /** 布局中心 */
-  public center: IPointTuple;
+  public center: IPointTuple = [0, 0];
   /** 停止迭代的最大迭代数 */
-  public maxIteration: number;
+  public maxIteration: number = 1000;
   /** 重力大小，影响图的紧凑程度 */
-  public gravity: number;
+  public gravity: number = 10;
   /** 速度 */
-  public speed: number;
+  public speed: number = 1;
   /** 是否产生聚类力 */
-  public clustering: boolean;
+  public clustering: boolean = false;
   /** 聚类力大小 */
-  public clusterGravity: number;
+  public clusterGravity: number = 10;
 
-  public width: number;
-  public height: number;
+  public nodes: Node[] = [];
+  public edges: Edge[] = [];
 
-  public nodes: Node[];
-  public edges: Edge[];
+  public width: number = 300;
+  public height: number = 300;
 
-  public nodeMap: object;
-  public nodeIndexMap: object;
+  public nodeMap: NodeMap = {};
+  public nodeIdxMap: NodeIdxMap = {};
 
   public getDefaultCfg() {
     return {
@@ -60,21 +59,21 @@ export default class FruchtermanLayout extends BaseLayout {
     const nodes = self.nodes;
     const center = self.center;
 
-    if (nodes.length === 0) {
+    if (!nodes || nodes.length === 0) {
       return;
     } else if (nodes.length === 1) {
       nodes[0].x = center[0];
       nodes[0].y = center[1];
       return;
     }
-    const nodeMap = {};
-    const nodeIndexMap = {};
+    const nodeMap: NodeMap = {};
+    const nodeIdxMap: NodeIdxMap = {};
     nodes.forEach((node, i) => {
       nodeMap[node.id] = node;
-      nodeIndexMap[node.id] = i;
+      nodeIdxMap[node.id] = i;
     });
     self.nodeMap = nodeMap;
-    self.nodeIndexMap = nodeIndexMap;
+    self.nodeIdxMap = nodeIdxMap;
     // layout
     self.run();
   }
@@ -82,6 +81,7 @@ export default class FruchtermanLayout extends BaseLayout {
   public run() {
     const self = this;
     const nodes = self.nodes;
+    if (!nodes) return;
     const edges = self.edges;
     const maxIteration = self.maxIteration;
     if (!self.width && typeof window !== 'undefined') {
@@ -92,15 +92,20 @@ export default class FruchtermanLayout extends BaseLayout {
     }
     const center = self.center;
     const nodeMap = self.nodeMap;
-    const nodeIndexMap = self.nodeIndexMap;
+    const nodeIdxMap = self.nodeIdxMap;
     const maxDisplace = self.width / 10;
     const k = Math.sqrt((self.width * self.height) / (nodes.length + 1));
     const gravity = self.gravity;
     const speed = self.speed;
     const clustering = self.clustering;
-    const clusterMap = {}
+    const clusterMap: {[key: string]: {
+      name: string | number,
+      cx: number,
+      cy: number,
+      count: number
+    }} = {}
     if (clustering) {
-      nodes.forEach((n) => {
+      nodes.forEach(n => {
         if (clusterMap[n.cluster] === undefined) {
           const cluster = {
             name: n.cluster,
@@ -111,8 +116,12 @@ export default class FruchtermanLayout extends BaseLayout {
           clusterMap[n.cluster] = cluster;
         }
         const c = clusterMap[n.cluster];
-        c.cx += n.x;
-        c.cy += n.y;
+        if (isNumber(n.x)) {
+          c.cx += n.x;
+        }
+        if (isNumber(n.y)) {
+          c.cy += n.y;
+        }
         c.count++;
       });
       for (let key in clusterMap) {
@@ -121,16 +130,17 @@ export default class FruchtermanLayout extends BaseLayout {
       }
     }
     for (let i = 0; i < maxIteration; i++) {
-      const disp = [];
+      const disp: Point[] = [];
       nodes.forEach((_, j) => {
         disp[j] = { x: 0, y: 0 };
       });
-      self.getDisp(nodes, edges, nodeMap, nodeIndexMap, disp, k);
+      self.getDisp(nodes, edges, nodeMap, nodeIdxMap, disp, k);
 
       // gravity for clusters
       if (clustering) {
         const clusterGravity = self.clusterGravity || gravity;
         nodes.forEach((n, j) => {
+          if (!isNumber(n.x) || !isNumber(n.y)) return;
           const c = clusterMap[n.cluster];
           const distLength = Math.sqrt((n.x - c.cx) * (n.x - c.cx) + (n.y - c.cy) * (n.y - c.cy));
           const gravityForce = k * clusterGravity;
@@ -147,8 +157,12 @@ export default class FruchtermanLayout extends BaseLayout {
         
         nodes.forEach((n) => {
           const c = clusterMap[n.cluster];
-          c.cx += n.x;
-          c.cy += n.y;
+          if (isNumber(n.x)) {
+            c.cx += n.x;
+          }
+          if (isNumber(n.y)) {
+            c.cy += n.y;
+          }
           c.count++;
         });
         for (let key in clusterMap) {
@@ -159,18 +173,15 @@ export default class FruchtermanLayout extends BaseLayout {
 
       // gravity
       nodes.forEach((n, j) => {
+        if (!isNumber(n.x) || !isNumber(n.y)) return;
         const gravityForce = 0.01 * k * gravity;
         disp[j].x -= gravityForce * (n.x - center[0]);
         disp[j].y -= gravityForce * (n.y - center[1]);
       });
-      // speed
-      nodes.forEach((_, j) => {
-        disp[j].dx *= speed / SPEED_DIVISOR;
-        disp[j].dy *= speed / SPEED_DIVISOR;
-      });
 
       // move
       nodes.forEach((n, j) => {
+        if (!isNumber(n.x) || !isNumber(n.y)) return;
         const distLength = Math.sqrt(disp[j].x * disp[j].x + disp[j].y * disp[j].y);
         if (distLength > 0) {
           // && !n.isFixed()
@@ -183,19 +194,20 @@ export default class FruchtermanLayout extends BaseLayout {
   }
 
   // TODO: nodeMap、nodeIndexMap 等根本不需要依靠参数传递
-  private getDisp(nodes: Node[], edges: Edge[], nodeMap: object, nodeIndexMap: object, disp, k) {
+  private getDisp(nodes: Node[], edges: Edge[], nodeMap: NodeMap, nodeIdxMap: NodeIdxMap, disp: Point[], k: number) {
     const self = this;
     self.calRepulsive(nodes, disp, k);
-    self.calAttractive(edges, nodeMap, nodeIndexMap, disp, k);
+    self.calAttractive(edges, nodeMap, nodeIdxMap, disp, k);
   }
 
-  private calRepulsive(nodes: Node[], disp, k) {
+  private calRepulsive(nodes: Node[], disp: Point[], k: number) {
     nodes.forEach((v, i) => {
       disp[i] = { x: 0, y: 0 };
       nodes.forEach((u, j) => {
         if (i === j) {
           return;
         }
+        if (!isNumber(v.x) || !isNumber(u.x) || !isNumber(v.y) || !isNumber(u.y)) return;
         let vecx = v.x - u.x;
         let vecy = v.y - u.y;
         let vecLengthSqr = vecx * vecx + vecy * vecy;
@@ -212,15 +224,17 @@ export default class FruchtermanLayout extends BaseLayout {
     });
   }
 
-  private calAttractive(edges: Edge[], nodeMap: object, nodeIndexMap: object, disp, k) {
+  private calAttractive(edges: Edge[], nodeMap: NodeMap, nodeIdxMap: NodeIdxMap, disp: Point[], k: number) {
     edges.forEach((e) => {
-      const uIndex = nodeIndexMap[e.source];
-      const vIndex = nodeIndexMap[e.target];
+      if (!e.source || !e.target) return;
+      const uIndex = nodeIdxMap[e.source];
+      const vIndex = nodeIdxMap[e.target];
       if (uIndex === vIndex) {
         return;
       }
       const u = nodeMap[e.source];
       const v = nodeMap[e.target];
+      if (!isNumber(v.x) || !isNumber(u.x) || !isNumber(v.y) || !isNumber(u.y)) return;
       const vecx = v.x - u.x;
       const vecy = v.y - u.y;
       const vecLength = Math.sqrt(vecx * vecx + vecy * vecy);

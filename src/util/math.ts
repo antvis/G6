@@ -2,7 +2,7 @@ import { Point } from '@antv/g-base/lib/types';
 import { IGroup } from '@antv/g-canvas/lib/interfaces';
 import { mat3, transform, vec3 } from '@antv/matrix-util';
 import isArray from '@antv/util/lib/is-array'
-import { GraphData, ICircle, IEllipse, IRect, Matrix } from '../types';
+import { GraphData, ICircle, IEllipse, IRect, Matrix, EdgeConfig, NodeIdxMap } from '../types';
 
 /**
  * 是否在区间内
@@ -382,4 +382,20 @@ export const rotate = (group: IGroup, angle: number) => {
   ])
 
   group.setMatrix(matrix)
+}
+
+export const getDegree = (n: number, nodeIdxMap: NodeIdxMap, edges: EdgeConfig[]): number[] => {
+  const degrees: number[] = [];
+  for (let i = 0; i < n; i++) {
+    degrees[i] = 0;
+  }
+  edges.forEach((e) => {
+    if (e.source) {
+      degrees[nodeIdxMap[e.source]] += 1;
+    }
+    if (e.target) {
+      degrees[nodeIdxMap[e.target]] += 1;
+    }
+  });
+  return degrees;
 }

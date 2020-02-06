@@ -1,14 +1,33 @@
+import { Matrix, IPointTuple } from '../../types';
+import { Point } from '@antv/g-base';
+
 const SPEED_DIVISOR = 800;
+
+export type RadialNonoverlapForceParam  = {
+  positions: IPointTuple[];
+  adjMatrix: Matrix[];
+  focusID: number;
+  radii: number[];
+  iterations?: number;
+  height?: number;
+  width?: number;
+  speed?: number;
+  gravity?: number;
+  nodeSizeFunc: (node: any) => number;
+  k: number;
+  strictRadial: boolean;
+  nodes: any[];
+};
 
 export default class RadialNonoverlapForce {
   /** node positions */
-  public positions: any[];
+  public positions: IPointTuple[];
   /** adjacency matrix */
-  public adjMatrix: any[];
+  public adjMatrix: Matrix[];
   /** focus node */
   public focusID: number;
   /** radii */
-  public radii: number;
+  public radii: number[];
   /** the number of iterations */
   public iterations: number;
   /** the height of the canvas */
@@ -24,19 +43,14 @@ export default class RadialNonoverlapForce {
   /** the strength of forces */
   public k: number;
   /** if each circle can be separated into subcircles to avoid overlappings */
-  public strictRadial: number;
+  public strictRadial: boolean;
   /** the nodes data */
   public nodes: any[];
 
-  private maxDisplace: number;
-  private disp: Array<{
-    x: number;
-    y: number;
-    dx?: number;
-    dy?: number;
-  }>;
+  private maxDisplace: number | undefined;
+  private disp: Point[] = [];
 
-  constructor(params) {
+  constructor(params: RadialNonoverlapForceParam) {
     this.positions = params.positions;
     this.adjMatrix = params.adjMatrix;
     this.focusID = params.focusID;
@@ -52,10 +66,10 @@ export default class RadialNonoverlapForce {
     this.nodes = params.nodes;
   }
 
-  public layout() {
+  public layout(): IPointTuple[] {
     const self = this;
     const positions = self.positions;
-    const disp = [];
+    const disp: Point[] = [];
     const iterations = self.iterations;
     const maxDisplace = self.width / 10;
     self.maxDisplace = maxDisplace;
@@ -77,11 +91,11 @@ export default class RadialNonoverlapForce {
     const nodes = self.nodes;
     const disp = self.disp;
     const k = self.k;
-    const radii = self.radii;
+    const radii = self.radii || [];
 
-    positions.forEach((v, i) => {
+    positions.forEach((v: IPointTuple, i: number) => {
       disp[i] = { x: 0, y: 0 };
-      positions.forEach((u, j) => {
+      positions.forEach((u: IPointTuple, j: number) => {
         if (i === j) {
           return;
         }
@@ -115,6 +129,7 @@ export default class RadialNonoverlapForce {
     const speed = self.speed;
     const strictRadial = self.strictRadial;
     const f = self.focusID;
+    const maxDisplace = self.maxDisplace || self.width / 10;
 
     if (strictRadial) {
       disp.forEach((di, i) => {
@@ -136,12 +151,6 @@ export default class RadialNonoverlapForce {
       });
     }
 
-    // speed
-    positions.forEach((_, i) => {
-      disp[i].dx *= speed / SPEED_DIVISOR;
-      disp[i].dy *= speed / SPEED_DIVISOR;
-    });
-
     // move
     const radii = self.radii;
     positions.forEach((n, i) => {
@@ -150,7 +159,7 @@ export default class RadialNonoverlapForce {
       }
       const distLength = Math.sqrt(disp[i].x * disp[i].x + disp[i].y * disp[i].y);
       if (distLength > 0 && i !== f) {
-        const limitedDist = Math.min(self.maxDisplace * (speed / SPEED_DIVISOR), distLength);
+        const limitedDist = Math.min(maxDisplace * (speed / SPEED_DIVISOR), distLength);
         n[0] += (disp[i].x / distLength) * limitedDist;
         n[1] += (disp[i].y / distLength) * limitedDist;
         if (strictRadial) {
