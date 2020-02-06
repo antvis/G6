@@ -236,7 +236,11 @@ export type EdgeData = EdgeConfig & {
   endPoint: IPoint;
 };
 
-export interface NodeMapConfig {
+export interface NodeMap {
+  [key: string]: INode;
+}
+
+export interface NodeConfigMap {
   [key: string]: NodeConfig;
 }
 
@@ -347,7 +351,7 @@ export type BehaviorOpation<U> = {
 export type IEvent = Record<G6Event, string>;
 
 export interface IG6GraphEvent extends GraphEvent {
-  item: Item;
+  item: Item | null;
   canvasX: number;
   canvasY: number;
   wheelDelta: number;

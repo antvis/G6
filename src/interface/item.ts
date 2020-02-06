@@ -101,7 +101,7 @@ export interface IItemBase {
    */
   setState(state: string, enable: boolean): void;
 
-  clearStates(states: string | string[]): void;
+  clearStates(states?: string | string[]): void;
 
   /**
    * 节点的图形容器
