@@ -106,7 +106,7 @@ class ItemController {
       // merge update传进来的对象参数，model中没有的数据不做处理，对象和字符串值也不做处理，直接替换原来的
       Util.each(cfg, (val, key) => {
         if (model[key]) {
-          if (isObject(val) && !Util.isArray(val)) {
+          if (isObject(val) && !Util.isArray(val) && !(val instanceof window.Node)) {
             cfg[key] = Util.mix({}, model[key], cfg[key]);
           }
         }
