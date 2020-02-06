@@ -1,9 +1,10 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
 import deepMix from '@antv/util/lib/deep-mix';
-import { Item, NodeConfig, ShapeStyle } from '../../types';
+import { Item, NodeConfig, ShapeStyle, ModelStyle } from '../../types';
 import Global from '../../global'
 import Shape from '../shape'
+import { ShapeOptions } from '../../interface/shape';
 
 
 // 带有图标的圆，可用于拓扑图中
@@ -49,8 +50,8 @@ Shape.registerNode('circle', {
   // 文本位置
   labelPosition: 'center',
   drawShape(cfg: NodeConfig, group: GGroup): IShape {
-    const { icon: defaultIcon } = this.options;
-    const style = this.getShapeStyle(cfg);
+    const { icon: defaultIcon } = this.options as ModelStyle;
+    const style = this.getShapeStyle!(cfg);
     const icon = deepMix({}, defaultIcon, cfg.icon);
     const keyShape: IShape = group.addShape('circle', {
       attrs: style,
@@ -73,7 +74,7 @@ Shape.registerNode('circle', {
       image.set('capture', false);
     }
 
-    this.drawLinkPoints(cfg, group);
+    (this as any).drawLinkPoints(cfg, group);
 
     return keyShape;
   },
@@ -83,12 +84,12 @@ Shape.registerNode('circle', {
    * @param {Group} group Group实例
    */
   drawLinkPoints(cfg: NodeConfig, group: GGroup) {
-    const { linkPoints: defaultLinkPoints } = this.options;
+    const { linkPoints: defaultLinkPoints } = this.options as ModelStyle;
     const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
 
     const { top, left, right, bottom, size: markSize,
       ...markStyle } = linkPoints;
-    const size = this.getSize(cfg);
+    const size = this.getSize!(cfg);
     const r = size[0] / 2;
     if (left) {
       // left circle
@@ -156,13 +157,13 @@ Shape.registerNode('circle', {
    * @return {Object} 节点的样式
    */
   getShapeStyle(cfg: NodeConfig): ShapeStyle {
-    const { style: defaultStyle } = this.options;
+    const { style: defaultStyle } = this.options as ModelStyle;
     const strokeStyle = {
       stroke: cfg.color
     };
     // 如果设置了color，则覆盖默认的stroke属性
     const style = deepMix({}, defaultStyle, strokeStyle, cfg.style);
-    const size = this.getSize(cfg);
+    const size = (this as ShapeOptions).getSize!(cfg);
     const r = size[0] / 2;
     const styles = Object.assign({}, {
       x: 0,
@@ -173,7 +174,7 @@ Shape.registerNode('circle', {
   },
   update(cfg: NodeConfig, item: Item) {
     const group = item.getContainer();
-    const size = this.getSize(cfg);
+    const size = (this as ShapeOptions).getSize!(cfg);
     // 下面这些属性需要覆盖默认样式与目前样式，但若在 cfg 中有指定则应该被 cfg 的相应配置覆盖。
     const strokeStyle = {
       stroke: cfg.color,
@@ -183,7 +184,7 @@ Shape.registerNode('circle', {
     const keyShape = item.get('keyShape');
     const style = deepMix({}, keyShape.attr(), strokeStyle, cfg.style);
     
-    this.updateShape(cfg, item, style, true);
-    this.updateLinkPoints(cfg, group);
+    (this as any).updateShape(cfg, item, style, true);
+    (this as any).updateLinkPoints(cfg, group);
   }
 }, 'single-node');

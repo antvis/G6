@@ -1,9 +1,10 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
 import deepMix from '@antv/util/lib/deep-mix';
-import { Item, NodeConfig } from '../../types';
+import { Item, NodeConfig, ModelStyle } from '../../types';
 import Global from '../../global'
 import Shape from '../shape'
+import { ShapeOptions } from '../../interface/shape';
 
 Shape.registerNode('rect', {
   // 自定义节点时的配置
@@ -42,7 +43,7 @@ Shape.registerNode('rect', {
   shapeType: 'rect',
   labelPosition: 'center',
   drawShape(cfg: NodeConfig, group: GGroup): IShape {
-    const style = this.getShapeStyle(cfg);
+    const style = (this as ShapeOptions).getShapeStyle!(cfg);
 
     const keyShape = group.addShape('rect', {
       attrs: style,
@@ -51,7 +52,7 @@ Shape.registerNode('rect', {
       draggable: true
     });
 
-    this.drawLinkPoints(cfg, group);
+    (this as any).drawLinkPoints(cfg, group);
     return keyShape;
   },
   /**
@@ -60,12 +61,12 @@ Shape.registerNode('rect', {
    * @param {Group} group Group实例
    */
   drawLinkPoints(cfg: NodeConfig, group: GGroup) {
-    const { linkPoints: defaultLinkPoints } = this.options;
+    const { linkPoints: defaultLinkPoints } = this.options as ModelStyle;
     const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
 
     const { top, left, right, bottom, size: markSize,
       ...markStyle } = linkPoints;
-    const size = this.getSize(cfg);
+      const size = (this as ShapeOptions).getSize!(cfg);
     const width = size[0];
     const height = size[1];
 
@@ -135,13 +136,13 @@ Shape.registerNode('rect', {
    * @return {Object} 节点的样式
    */
   getShapeStyle(cfg: NodeConfig) {
-    const { style: defaultStyle } = this.options;
+    const { style: defaultStyle } = this.options as ModelStyle;
     const strokeStyle = {
       stroke: cfg.color
     };
     // 如果设置了color，则覆盖默认的stroke属性
     const style = deepMix({}, defaultStyle, strokeStyle, cfg.style);
-    const size = this.getSize(cfg);
+    const size = (this as ShapeOptions).getSize!(cfg);
     const width = style.width || size[0];
     const height = style.height || size[1];
     const styles = Object.assign({}, {
@@ -154,8 +155,8 @@ Shape.registerNode('rect', {
   },
   update(cfg: NodeConfig, item: Item) {
     const group = item.getContainer();
-    const { style: defaultStyle } = this.options;
-    const size = this.getSize(cfg);
+    const { style: defaultStyle } = this.options as ModelStyle;
+    const size = (this as ShapeOptions).getSize!(cfg);
     // 下面这些属性需要覆盖默认样式与目前样式，但若在 cfg 中有指定则应该被 cfg 的相应配置覆盖。
     const strokeStyle = {
       stroke: cfg.color,
@@ -168,8 +169,8 @@ Shape.registerNode('rect', {
     const keyShape = item.get('keyShape');
     const style = deepMix({}, defaultStyle, keyShape.attr(), strokeStyle, cfg.style);
 
-    this.updateShape(cfg, item, style, false);
-    this.updateLinkPoints(cfg, group);
+    (this as any).updateShape(cfg, item, style, false);
+    (this as any).updateLinkPoints(cfg, group);
   }
 }, 'single-node');
 

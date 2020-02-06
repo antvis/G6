@@ -3,7 +3,8 @@ import deepMix from '@antv/util/lib/deep-mix';
 import Global from '../../global'
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
-import { ModelConfig, NodeConfig, Item } from '../../types';
+import { ModelConfig, NodeConfig, Item, ModelStyle } from '../../types';
+import { ShapeOptions } from '../../interface/shape';
 
 // 菱形shape
 Shape.registerNode('triangle', {
@@ -50,8 +51,8 @@ Shape.registerNode('triangle', {
   // 文本位置
   labelPosition: 'bottom',
   drawShape(cfg: NodeConfig, group: GGroup): IShape {
-    const { icon: defaultIcon, direction: defaultDirection } = this.options;
-    const style = this.getShapeStyle(cfg);
+    const { icon: defaultIcon, direction: defaultDirection } = this.options as ModelStyle;
+    const style = (this as ShapeOptions).getShapeStyle!(cfg);
     const icon = deepMix({}, defaultIcon, cfg.icon);
 
     const direction = cfg.direction || defaultDirection;
@@ -86,7 +87,7 @@ Shape.registerNode('triangle', {
       image.set('capture', false);
     }
 
-    this.drawLinkPoints(cfg, group);
+    (this as any).drawLinkPoints(cfg, group);
 
     return keyShape;
   },
@@ -96,14 +97,15 @@ Shape.registerNode('triangle', {
    * @param {Group} group Group实例
    */
   drawLinkPoints(cfg: NodeConfig, group: GGroup) {
-    const { linkPoints: defaultLinkPoints, direction: defaultDirection } = this.options;
+    const { linkPoints: defaultLinkPoints, direction: defaultDirection } = this.options as ModelStyle;
     const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
 
     const direction = cfg.direction || defaultDirection;
 
     const { top, left, right, bottom, size: markSize,
       ...markStyle } = linkPoints;
-    const size = this.getSize(cfg);
+      
+    const size = (this as ShapeOptions).getSize!(cfg);
     const len = size[0];
 
     if (left) {
@@ -219,10 +221,10 @@ Shape.registerNode('triangle', {
     }
   },
   getPath(cfg: ModelConfig) {
-    const { direction: defaultDirection } = this.options;
+    const { direction: defaultDirection } = this.options as ModelStyle;
 
     const direction = cfg.direction || defaultDirection;
-    const size = this.getSize(cfg);
+    const size = (this as ShapeOptions).getSize!(cfg);
     const len = size[0];
 
     const diffY = len * Math.sin((1 / 3) * Math.PI);
@@ -264,20 +266,20 @@ Shape.registerNode('triangle', {
    * @return {Object} 节点的样式
    */
   getShapeStyle(cfg: NodeConfig) {
-    const { style: defaultStyle } = this.options;
+    const { style: defaultStyle } = this.options as ModelStyle;
     const strokeStyle = {
       stroke: cfg.color
     };
     // 如果设置了color，则覆盖默认的stroke属性
     const style = deepMix({}, defaultStyle, strokeStyle, cfg.style);
-    const path = this.getPath(cfg);
+    const path = (this as any).getPath(cfg);
     const styles = { path, ...style };
     return styles;
   },
   update(cfg: NodeConfig, item: Item)  {
     const group = item.getContainer();
-    const { style: defaultStyle } = this.options;
-    const path = this.getPath(cfg);
+    const { style: defaultStyle } = this.options as ModelStyle;
+    const path = (this as any).getPath(cfg);
     // 下面这些属性需要覆盖默认样式与目前样式，但若在 cfg 中有指定则应该被 cfg 的相应配置覆盖。
     const strokeStyle = {
       stroke: cfg.color,
@@ -288,8 +290,8 @@ Shape.registerNode('triangle', {
     const style = deepMix({}, defaultStyle, keyShape.attr(), strokeStyle, cfg.style);
     
 
-    this.updateShape(cfg, item, style, true);
-    this.updateLinkPoints(cfg, group);
+    (this as any).updateShape(cfg, item, style, true);
+    (this as any).updateLinkPoints(cfg, group);
   },
   /**
    * 更新linkPoints
@@ -297,7 +299,7 @@ Shape.registerNode('triangle', {
    * @param {Group} group Item所在的group
    */
   updateLinkPoints(cfg: NodeConfig, group: GGroup) {
-    const { linkPoints: defaultLinkPoints, direction: defaultDirection } = this.options;
+    const { linkPoints: defaultLinkPoints, direction: defaultDirection } = this.options as ModelStyle;
 
     const direction = cfg.direction || defaultDirection;
 
@@ -319,7 +321,7 @@ Shape.registerNode('triangle', {
     if (!markSize) markSize = linkPoints.r;
     const { left, right, top, bottom} = cfg.linkPoints ? cfg.linkPoints : { left: undefined, right: undefined, top: undefined, bottom: undefined };
 
-    const size = this.getSize(cfg);
+    const size = (this as ShapeOptions).getSize!(cfg);
     const len = size[0];
     const styles = {
       r: markSize,
