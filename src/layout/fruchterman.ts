@@ -11,6 +11,7 @@ import { Point } from '@antv/g-base';
 type Node = NodeConfig & {
   cluster: string | number;
 };
+
 type Edge = EdgeConfig;
 
 type NodeMap = {
