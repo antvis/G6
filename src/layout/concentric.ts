@@ -4,7 +4,7 @@
  * this algorithm refers to <cytoscape.js> - https://github.com/cytoscape/cytoscape.js/
  */
 
-import { EdgeConfig, IPointTuple, NodeConfig, NodeIdxMap, NodeMap } from '../types';
+import { EdgeConfig, IPointTuple, NodeConfig, NodeIdxMap } from '../types';
 
 import isArray from '@antv/util/lib/is-array';
 import isString from '@antv/util/lib/is-string';
@@ -16,6 +16,10 @@ type Node = NodeConfig & {
   [key: string]: number;
 };
 type Edge = EdgeConfig;
+
+type NodeMap = {
+  [key: string]: Node;
+}
 
 /**
  * 同心圆布局

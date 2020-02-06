@@ -366,10 +366,6 @@ export type NodeIdxMap = {
   [key: string]: number
 }
 
-export type NodeMap = {
-  [key: string]: NodeConfig
-}
-
 // 触发 viewportchange 事件的参数
 export interface ViewPortEventParam {
   action: string;
