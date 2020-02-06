@@ -1,4 +1,5 @@
 {
+
   "compilerOptions": {
     "rootDir": "./",
     "module": "esnext",
@@ -13,7 +14,8 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
-    "types": ["jest"]
+    "types": ["jest"],
+    "strict": true
   },
   "include": ["src"],	
   "typedocOptions": {

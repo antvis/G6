@@ -11,11 +11,11 @@ import { BaseLayout } from './layout';
  */
 export default class RandomLayout extends BaseLayout {
   /** 布局中心 */
-  public center: IPointTuple;
+  public center: IPointTuple = [0, 0];
   /** 宽度 */
-  public width: number;
+  public width: number = 300;
   /** 高度 */
-  public height: number;
+  public height: number = 300;
 
   public getDefaultCfg() {
     return {
@@ -38,7 +38,7 @@ export default class RandomLayout extends BaseLayout {
     if (!self.height && typeof window !== 'undefined') {
       self.height = window.innerHeight;
     }
-    nodes.forEach((node) => {
+    nodes && nodes.forEach((node) => {
       node.x = (Math.random() - 0.5) * layoutScale * self.width + center[0];
       node.y = (Math.random() - 0.5) * layoutScale * self.height + center[1];
     });

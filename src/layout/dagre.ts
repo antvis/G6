@@ -14,21 +14,21 @@ import { isNumber } from '@antv/util';
  */
 export default class DagreLayout extends BaseLayout {
   /** layout 方向, 可选 TB, BT, LR, RL */
-  public rankdir: 'TB' | 'BT' | 'LR' | 'RL';
+  public rankdir: 'TB' | 'BT' | 'LR' | 'RL' = 'TB';
   /** 节点对齐方式，可选 UL, UR, DL, DR */
   public align: undefined | 'UL' | 'UR' | 'DL' | 'DR';
   /** 节点大小 */
-  public nodeSize: number | number[];
+  public nodeSize: number | number[] | undefined;
   /** 节点水平间距(px) */
-  public nodesepFunc: () => number;
+  public nodesepFunc: ((d?: any) => number) | undefined;
   /** 每一层节点之间间距 */
-  public ranksepFunc: () => number;
+  public ranksepFunc: ((d?: any) => number) | undefined;
   /** 节点水平间距(px) */
-  public nodesep: number;
+  public nodesep: number = 50;
   /** 每一层节点之间间距 */
-  public ranksep: number;
+  public ranksep: number = 50;
   /** 是否保留布局连线的控制点 */
-  public controlPoints: boolean;
+  public controlPoints: boolean = true;
 
   public getDefaultCfg() {
     return {
@@ -49,12 +49,13 @@ export default class DagreLayout extends BaseLayout {
   public execute() {
     const self = this;
     const nodes = self.nodes;
-    const edges = self.edges;
+    if (!nodes) return;
+    const edges = self.edges || [];
     const g = new dagre.graphlib.Graph();
     const nodeSize = self.nodeSize;
-    let nodeSizeFunc;
+    let nodeSizeFunc: ((d?: any) => number[]);
     if (!nodeSize) {
-      nodeSizeFunc = (d) => {
+      nodeSizeFunc = (d: any) => {
         if (d.size) {
           if (isArray(d.size)) {
             return d.size;
@@ -95,13 +96,13 @@ export default class DagreLayout extends BaseLayout {
     });
     dagre.layout(g);
     let coord;
-    g.nodes().forEach(node => {
+    g.nodes().forEach((node: any) => {
       coord = g.node(node);
       const i = nodes.findIndex(it => it.id === node);
       nodes[i].x = coord.x;
       nodes[i].y = coord.y;
     });
-    g.edges().forEach(edge => {
+    g.edges().forEach((edge: any) => {
       coord = g.edge(edge);
       const i = edges.findIndex(it => it.source === edge.v && it.target === edge.w);
       edges[i].startPoint = coord.points[0];
@@ -113,7 +114,7 @@ export default class DagreLayout extends BaseLayout {
   }
 }
 
-function getFunc(func: Function, value: number, defaultValue: number ): Function {
+function getFunc(func: ((d?: any) => number) | undefined, value: number, defaultValue: number ): Function {
   let resultFunc;
   if (func) {
     resultFunc = func;
