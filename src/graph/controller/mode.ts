@@ -63,7 +63,7 @@ export default class ModeController {
     const behaviors = this.modes[mode];
     const behaves: IBehavior[] = [];
     let behave: IBehavior;
-    each(behaviors, behavior => {
+    each(behaviors || [], behavior => {
       const BehaviorInstance = Behavior.getBehavior(behavior.type)
       if (!BehaviorInstance) {
         return;
@@ -159,9 +159,9 @@ export default class ModeController {
           }
         } else {
           if (isAdd) {
-            self.modes[mode] = this.mergeBehaviors(self.modes[mode], behaves);
+            self.modes[mode] = this.mergeBehaviors(self.modes[mode] || [], behaves);
           } else {
-            self.modes[mode] = this.filterBehaviors(self.modes[mode], behaves);
+            self.modes[mode] = this.filterBehaviors(self.modes[mode] || [], behaves);
           }
         }
       })
@@ -181,9 +181,9 @@ export default class ModeController {
     }
     
     if (isAdd) {
-      self.modes[currentMode] = this.mergeBehaviors(self.modes[currentMode], behaves);
+      self.modes[currentMode] = this.mergeBehaviors(self.modes[currentMode] || [], behaves);
     } else {
-      self.modes[currentMode] = this.filterBehaviors(self.modes[currentMode], behaves);
+      self.modes[currentMode] = this.filterBehaviors(self.modes[currentMode] || [], behaves);
     }
 
     self.setMode(this.mode)

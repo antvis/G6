@@ -1,7 +1,7 @@
 import Base, { IPluginBaseConfig } from '../base'
 import Edge from '../../item/edge';
 import Graph from '../../graph/graph';
-import { GraphData, NodeConfig, NodeMap, EdgeConfig } from '../../types';
+import { GraphData, NodeConfig, NodeConfigMap, EdgeConfig } from '../../types';
 import { Point } from '@antv/g-base/lib/types';
 
 interface BundlingConfig extends IPluginBaseConfig {
@@ -90,7 +90,7 @@ export default class Bundling extends Base {
 
     const edges = data.edges;
     const nodes = data.nodes;
-    const nodeIdMap: NodeMap = {};
+    const nodeIdMap: NodeConfigMap = {};
     let error = false;
 
     nodes.forEach(node => {
@@ -186,7 +186,7 @@ export default class Bundling extends Base {
   public divideEdges(divisions: number): Point[][] {
     const self = this;
     const edges: EdgeConfig[] = self.get('data').edges;
-    const nodeIdMap: NodeMap = self.get('nodeIdMap');
+    const nodeIdMap: NodeConfigMap = self.get('nodeIdMap');
     let edgePoints = self.get('edgePoints');
 
     if (!edgePoints || edgePoints === undefined) edgePoints = [];
@@ -264,7 +264,7 @@ export default class Bundling extends Base {
     const edges = data.edges;
 
     const bundleThreshold: number = self.get('bundleThreshold');
-    const nodeIdMap: NodeMap = self.get('nodeIdMap');
+    const nodeIdMap: NodeConfigMap = self.get('nodeIdMap');
     let edgeBundles = self.get('edgeBundles');
 
     if (!edgeBundles) edgeBundles = [];
