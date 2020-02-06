@@ -115,11 +115,11 @@ const data = {
 graph.data(data);
 graph.render();
 
-graph.on('node:contextmenu', function(evt) {
+graph.on('node:contextmenu', evt => {
   evt.preventDefault()
   evt.stopPropagation()
-  conextMenuContainer.style.left = evt.x + 'px';
-  conextMenuContainer.style.top = evt.y + 'px';
+  conextMenuContainer.style.left = `${(evt.x + 20)}px`;
+  conextMenuContainer.style.top = `${evt.y}px`;
 });
 
 graph.on('node:mouseleave', () => {

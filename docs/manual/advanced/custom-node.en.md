@@ -197,12 +197,12 @@ G6.registerNode('diamond', {
 
 ## 2. Extend a Built-in Node
 ### Extend the Shape
-There are several [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) in G6. You can extend them to make some modification on them. It is similar to register the diamond node. <a href='https://github.com/antvis/g6/blob/master/src/shape/single-shape-mixin.js' target='_blank'>single-shape</a> is the base class of all the graphics shape, you can also extend it.
+There are several [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) in G6. You can extend them to make some modification on them. It is similar to register the diamond node. single-node is the base class of all the node types, you can also extend it. (single-edge is the base class of all the edge types.)
 
-For example, we are going to extend the single-shape. `draw`, `update`, and `setState` have been implemented in the <a href='https://github.com/antvis/g6/blob/master/src/shape/single-shape-mixin.js' target='_blank'>single-shape</a>. Thus, we only rewrite the `getShapeStyle`, which returns the path and the styles of graphics shapes.
+For example, we are going to extend the single-node. `draw`, `update`, and `setState` have been implemented in the single-node. Thus, we only rewrite the `getShapeStyle`, which returns the path and the styles of graphics shapes.
 ```javascript
 G6.registerNode('diamond', {
-  shapeType: 'path', // It is required when the shape inherits from 'single-shape', not required otherwise
+  shapeType: 'path', // It is required when the shape inherits from 'single-node', not required otherwise
   getShapeStyle(cfg) {
     const size = this.getSize(cfg); // translate to [width, height]
     const color = cfg.color;
@@ -225,8 +225,8 @@ G6.registerNode('diamond', {
     return style;
   }
 },
-// Extend the 'single-shape'
-'single-shape');
+// Extend the 'single-node'
+'single-node');
 ```
 
 ### Add Animation

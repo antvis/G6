@@ -157,7 +157,7 @@ G6.registerNode('round-rect', {
       circleRight.attr('fill', stroke);
     }
   }
-}, 'single-shape');
+}, 'single-node');
 
 G6.registerEdge('polyline', {
   itemType: 'edge',
