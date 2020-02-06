@@ -74,7 +74,7 @@ export default class Node extends Item implements INode {
    * 获取连接点
    * @param point 
    */
-  public getLinkPoint(point: IPoint): IPoint {
+  public getLinkPoint(point: IPoint): IPoint | null {
     const keyShape: IShapeBase = this.get('keyShape');
     const type: string = keyShape.get('type');
     const bbox = this.getBBox();
