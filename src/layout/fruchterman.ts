@@ -3,7 +3,7 @@
  * @author shiwu.wyy@antfin.com
  */
 
-import { EdgeConfig, IPointTuple, NodeConfig, NodeIdxMap, NodeMap } from '../types';
+import { EdgeConfig, IPointTuple, NodeConfig, NodeIdxMap } from '../types';
 import { BaseLayout } from './layout';
 import { isNumber } from '@antv/util';
 import { Point } from '_@antv_g-canvas@0.3.14@@antv/g-canvas/node_modules/@antv/g-base';
@@ -12,6 +12,10 @@ type Node = NodeConfig & {
   cluster: string | number;
 };
 type Edge = EdgeConfig;
+
+type NodeMap = {
+  [key: string]: Node;
+}
 
 const SPEED_DIVISOR = 800;
 
