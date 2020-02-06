@@ -287,7 +287,9 @@ export const getAdjMatrix = (data: GraphData, directed: boolean): Matrix[] => {
   const edges = data.edges;
   const matrix: Matrix[] = [];
   // map node with index in data.nodes
-  const nodeMap = {};
+  const nodeMap: {
+    [key: string]: number;
+  } = {};
 
   if(!nodes) {
     throw new Error('invalid nodes data!')
@@ -304,8 +306,8 @@ export const getAdjMatrix = (data: GraphData, directed: boolean): Matrix[] => {
     edges.forEach((e) => {
       const source = e.source;
       const target = e.target;
-      const sIndex = nodeMap[source];
-      const tIndex = nodeMap[target];
+      const sIndex = nodeMap[source as string];
+      const tIndex = nodeMap[target as string];
       matrix[sIndex][tIndex] = 1;
       if (!directed) {
         matrix[tIndex][sIndex] = 1;
@@ -364,7 +366,7 @@ export const scale = (group: IGroup, ratio: number | number[]) => {
   }
 
   matrix = transform(matrix, [
-    ['s', scaleXY[0], scaleXY[1]]
+    ['s', (scaleXY as number[])[0], (scaleXY as number[])[1]]
   ])
 
   group.setMatrix(matrix)

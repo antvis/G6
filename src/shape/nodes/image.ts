@@ -3,6 +3,7 @@ import { NodeConfig, Item } from '../../types';
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
 import { Circle, Rect, Ellipse, Polygon, Path } from '@antv/g-canvas/lib/shape'
+import { ShapeOptions } from '../../interface/shape';
 
 
 /**
@@ -52,18 +53,18 @@ Shape.registerNode('image', {
   labelPosition: 'bottom',
   drawShape(cfg: NodeConfig, group: GGroup): IShape {
     const shapeType = this.shapeType; // || this.type，都已经加了 shapeType
-    const style = this.getShapeStyle(cfg);
+    const style = (this as ShapeOptions).getShapeStyle!(cfg);
     const shape = group.addShape(shapeType, {
       attrs: style,
       className: 'image-keyShape',
       name: 'image-keyShape',
       draggable: true
     });
-    this.drawClip(cfg, shape);
+    (this as any).drawClip(cfg, shape);
     return shape;
   },
   drawClip(cfg: NodeConfig, shape: IShape) {
-    const clip = Object.assign({}, this.options.clipCfg, cfg.clipCfg);
+    const clip = Object.assign({}, this.options!.clipCfg, cfg.clipCfg);
 
     if (!clip.show) {
       return;
@@ -125,8 +126,8 @@ Shape.registerNode('image', {
     }
   },
   getShapeStyle(cfg: NodeConfig) {
-    const size = this.getSize(cfg);
-    const img = cfg.img || this.options.img;
+    const size = (this as ShapeOptions).getSize!(cfg);
+    const img = cfg.img || this.options!.img;
     let width = size[0];
     let height = size[1];
     if (cfg.style) {
@@ -146,7 +147,7 @@ Shape.registerNode('image', {
     const group = item.getContainer()
     const shapeClassName = this.itemType + '-shape'
     const shape = group.find(element => element.get('className') === shapeClassName)
-    const shapeStyle = this.getShapeStyle(cfg);
+    const shapeStyle = (this as ShapeOptions).getShapeStyle!(cfg);
     if (shape) {
       shape.attr(shapeStyle)
     }

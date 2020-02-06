@@ -160,6 +160,7 @@ export type LabelStyle = Partial<{
   opacity: number;
   fontSize: number;
   fill: string | null;
+  rotateCenter: string;
 }>;
 
 export type Easeing =

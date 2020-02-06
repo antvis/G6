@@ -1,9 +1,10 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
 import deepMix from '@antv/util/lib/deep-mix';
-import { Item, NodeConfig } from '../../types';
+import { Item, NodeConfig, ModelStyle } from '../../types';
 import Shape from '../shape'
 import Global from '../../global'
+import { ShapeOptions } from '../../interface/shape';
 
 Shape.registerNode('modelRect', {
   // 自定义节点时的配置
@@ -81,9 +82,9 @@ Shape.registerNode('modelRect', {
   },
   shapeType: 'modelRect',
   drawShape(cfg: NodeConfig, group: GGroup): IShape {
-    const { preRect: defaultPreRect } = this.options;
-    const style = this.getShapeStyle(cfg);
-    const size = this.getSize(cfg);
+    const { preRect: defaultPreRect } = this.options as ModelStyle;
+    const style = (this as ShapeOptions).getShapeStyle!(cfg);
+    const size = (this as ShapeOptions).getSize!(cfg);
     const width = size[0];
     const height = size[1];
 
@@ -109,11 +110,11 @@ Shape.registerNode('modelRect', {
       });
     }
 
-    this.drawLogoIcon(cfg, group);
+    (this as any).drawLogoIcon(cfg, group);
 
-    this.drawStateIcon(cfg, group);
+    (this as any).drawStateIcon(cfg, group);
 
-    this.drawLinkPoints(cfg, group);
+    (this as any).drawLinkPoints(cfg, group);
     return keyShape;
   },
   /**
@@ -122,9 +123,9 @@ Shape.registerNode('modelRect', {
    * @param {Group} group Group实例
    */
   drawLogoIcon(cfg: NodeConfig, group: GGroup) {
-    const { logoIcon: defaultLogoIcon } = this.options;
+    const { logoIcon: defaultLogoIcon } = this.options as ModelStyle;
     const logoIcon = deepMix({}, defaultLogoIcon, cfg.logoIcon);
-    const size = this.getSize(cfg);
+    const size = (this as ShapeOptions).getSize!(cfg);
     const width = size[0];
 
     if (logoIcon.show) {
@@ -150,9 +151,9 @@ Shape.registerNode('modelRect', {
    * @param {Group} group Group实例
    */
   drawStateIcon(cfg: NodeConfig, group: GGroup) {
-    const { stateIcon: defaultStateIcon } = this.options;
+    const { stateIcon: defaultStateIcon } = this.options as ModelStyle;
     const stateIcon = deepMix({}, defaultStateIcon, cfg.stateIcon);
-    const size = this.getSize(cfg);
+    const size = (this as ShapeOptions).getSize!(cfg);
     const width = size[0];
 
     if (stateIcon.show) {
@@ -178,12 +179,12 @@ Shape.registerNode('modelRect', {
    * @param {Group} group Group实例
    */
   drawLinkPoints(cfg: NodeConfig, group: GGroup) {
-    const { linkPoints: defaultLinkPoints } = this.options;
+    const { linkPoints: defaultLinkPoints } = this.options as ModelStyle;
     const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
 
     const { top, left, right, bottom, size: markSize,
       ...markStyle } = linkPoints;
-    const size = this.getSize(cfg);
+    const size = (this as ShapeOptions).getSize!(cfg);
     const width = size[0];
     const height = size[1];
 
@@ -248,7 +249,7 @@ Shape.registerNode('modelRect', {
     }
   },
   drawLabel(cfg: NodeConfig, group: GGroup): IShape {
-    const { labelCfg: defaultLabelCfg, logoIcon: defaultLogoIcon, descriptionCfg: defaultDescritionCfg } = this.options;
+    const { labelCfg: defaultLabelCfg, logoIcon: defaultLogoIcon, descriptionCfg: defaultDescritionCfg } = this.options as ModelStyle;
 
     const logoIcon = deepMix({}, defaultLogoIcon, cfg.logoIcon);
 
@@ -256,7 +257,7 @@ Shape.registerNode('modelRect', {
 
     const descriptionCfg = deepMix({}, defaultDescritionCfg, cfg.descriptionCfg);
 
-    const size = this.getSize(cfg);
+    const size = (this as ShapeOptions).getSize!(cfg);
     const width = size[0];
 
     let label = null;
@@ -310,13 +311,13 @@ Shape.registerNode('modelRect', {
    * @return {Object} 节点的样式
    */
   getShapeStyle(cfg: NodeConfig) {
-    const { style: defaultStyle } = this.options;
+    const { style: defaultStyle } = this.options as ModelStyle;
     const strokeStyle = {
       stroke: cfg.color
     };
     // 如果设置了color，则覆盖默认的stroke属性
     const style = deepMix({}, defaultStyle, strokeStyle, cfg.style);
-    const size = this.getSize(cfg);
+    const size = (this as ShapeOptions).getSize!(cfg);
     const width = style.width || size[0];
     const height = style.height || size[1];
     const styles = Object.assign({}, {
@@ -328,10 +329,9 @@ Shape.registerNode('modelRect', {
     return styles;
   },
   update(cfg: NodeConfig, item: Item) {
-
-    const { style: defaultStyle, labelCfg: defaultLabelCfg, descriptionCfg: defaultDescritionCfg } = this.options;
+    const { style: defaultStyle, labelCfg: defaultLabelCfg, descriptionCfg: defaultDescritionCfg } = this.options as ModelStyle;
     const style = deepMix({}, defaultStyle, cfg.style);
-    const size = this.getSize(cfg);
+    const size = (this as ShapeOptions).getSize!(cfg);
     const width = size[0];
     const height = size[1];
     const keyShape = item.get('keyShape');
@@ -354,7 +354,7 @@ Shape.registerNode('modelRect', {
 
     let { width: w } = logoIcon;
     if (w === undefined) {
-      w = this.options.logoIcon.width;
+      w = (this as any).options.logoIcon.width;
     }
     const show = cfg.logoIcon ? cfg.logoIcon.show : undefined;
 
@@ -447,7 +447,7 @@ Shape.registerNode('modelRect', {
         });
       }
     } else if (show) {
-      this.drawLogoIcon(cfg, group);
+      (this as any).drawLogoIcon(cfg, group);
     }
 
     const stateIconShape = group.find(element => { return element.get('className') === 'rect-state-icon'})
@@ -466,10 +466,10 @@ Shape.registerNode('modelRect', {
         height: h
       });
     } else if (stateIcon.show) {
-      this.drawStateIcon(cfg, group);
+      (this as any).drawStateIcon(cfg, group);
     }
 
-    this.updateLinkPoints(cfg, group);
+    (this as any).updateLinkPoints(cfg, group);
   }
 }, 'single-node');
 
