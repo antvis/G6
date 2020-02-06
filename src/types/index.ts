@@ -240,6 +240,10 @@ export interface NodeMap {
   [key: string]: INode;
 }
 
+export interface NodeConfigMap {
+  [key: string]: NodeConfig;
+}
+
 export interface GroupConfig {
   id: string;
   parentId?: string;
