@@ -1,8 +1,9 @@
 import EventEmitter from '@antv/event-emitter';
 import { AnimateCfg, Point } from '@antv/g-base/lib/types';
 import Graph from '../graph/graph';
-import { EdgeConfig, GraphData, IG6GraphEvent, Item, ITEM_TYPE, ModelConfig, ModelStyle, NodeConfig, Padding, ShapeStyle, TreeGraphData } from '../types';
+import { EdgeConfig, GraphData, IG6GraphEvent, Item, ITEM_TYPE, ModelConfig, ModelStyle, NodeConfig, Padding, ShapeStyle, TreeGraphData, LayoutConfig } from '../types';
 import { IEdge, INode } from './item';
+import PluginBase from '../plugins/base';
 
 export interface IModeOption {
   type: string;
@@ -481,7 +482,7 @@ export interface IGraph extends EventEmitter {
    * 若 cfg 含有 type 字段或为 String 类型，且与现有布局方法不同，则更换布局
    * 若 cfg 不包括 type ，则保持原有布局方法，仅更新布局配置项
    */
-  updateLayout(cfg): void;
+  updateLayout(cfg: LayoutConfig): void;
 
   /**
    * 重新以当前示例中配置的属性进行一次布局
@@ -492,13 +493,13 @@ export interface IGraph extends EventEmitter {
    * 添加插件
    * @param {object} plugin 插件实例
    */
-  addPlugin(plugin): void;
+  addPlugin(plugin: PluginBase): void;
 
   /**
    * 添加插件
    * @param {object} plugin 插件实例
    */
-  removePlugin(plugin): void;
+  removePlugin(plugin: PluginBase): void;
 
   /**
    * 收起分组

@@ -3,7 +3,7 @@
  * @author shiwu.wyy@antfin.com
  */
 
-import { IPointTuple, NodeConfig } from '../../types';
+import { IPointTuple, NodeConfig, Matrix } from '../../types';
 
 import isArray from '@antv/util/lib/is-array';
 import isNumber from '@antv/util/lib/is-number';
@@ -14,11 +14,11 @@ import { floydWarshall, getAdjMatrix } from '../../util/math';
 import { BaseLayout } from '../layout';
 
 import MDS from './mds';
-import RadialNonoverlapForce from './radialNonoverlapForce';
+import RadialNonoverlapForce, { RadialNonoverlapForceParam } from './radialNonoverlapForce';
 
 type Node = NodeConfig;
 
-function getWeightMatrix(M: number[][]) {
+function getWeightMatrix(M: Matrix[]) {
   const rows = M.length;
   const cols = M[0].length;
   const result = [];
@@ -56,37 +56,37 @@ function getEDistance(p1: IPointTuple, p2: IPointTuple) {
  */
 export default class RadialLayout extends BaseLayout {
   /** 布局中心 */
-  public center: IPointTuple;
+  public center: IPointTuple = [0, 0];
   /** 停止迭代的最大迭代数 */
-  public maxIteration: number;
+  public maxIteration: number = 1000;
   /** 中心点，默认为数据中第一个点 */
-  public focusNode: String | Node;
+  public focusNode: String | Node | null = null;
   /** 每一圈半径 */
-  public unitRadius: number;
+  public unitRadius: number | null = null;
   /** 默认边长度 */
-  public linkDistance: number;
+  public linkDistance: number = 50;
   /** 是否防止重叠 */
-  public preventOverlap: boolean;
+  public preventOverlap: boolean = false;
   /** 节点直径 */
-  public nodeSize: number;
+  public nodeSize: number | undefined;
   /** 节点间距，防止节点重叠时节点之间的最小距离（两节点边缘最短距离） */
-  public nodeSpacing: number;
+  public nodeSpacing: number | Function | undefined;
   /** 是否必须是严格的 radial 布局，即每一层的节点严格布局在一个环上。preventOverlap 为 true 时生效 */
-  public strictRadial: boolean;
+  public strictRadial: boolean = true;
   /** 防止重叠步骤的最大迭代次数 */
-  public maxPreventOverlapIteration: number;
+  public maxPreventOverlapIteration: number = 200;
 
-  public sortBy: string;
-  public sortStrength: number;
+  public sortBy: string | undefined;
+  public sortStrength: number = 10;
 
-  public width: number;
-  public height: number;
+  public width: number | undefined;
+  public height: number | undefined;
 
-  private focusIndex;
-  private distances;
-  private eIdealDistances;
-  private weights;
-  private radii;
+  private focusIndex: number | undefined;
+  private distances: Matrix[] | undefined;
+  private eIdealDistances: Matrix[] | undefined;
+  private weights: Matrix[] | undefined;
+  private radii: number[] | undefined;
 
   public getDefaultCfg() {
     return {
@@ -110,9 +110,9 @@ export default class RadialLayout extends BaseLayout {
   public execute() {
     const self = this;
     const nodes = self.nodes;
-    const edges = self.edges;
+    const edges = self.edges || [];
     const center = self.center;
-    if (nodes.length === 0) {
+    if (!nodes || nodes.length === 0) {
       return;
     } else if (nodes.length === 1) {
       nodes[0].x = center[0];
@@ -121,7 +121,7 @@ export default class RadialLayout extends BaseLayout {
     }
     const linkDistance = self.linkDistance;
     // layout
-    let focusNode: Node;
+    let focusNode: Node | null = null;
     if (isString(self.focusNode)) {
       let found = false;
       for (let i = 0; i < nodes.length; i++) {
@@ -163,8 +163,8 @@ export default class RadialLayout extends BaseLayout {
     if (!self.height && typeof window !== 'undefined') {
       self.height = window.innerHeight;
     }
-    const width = self.width;
-    const height = self.height;
+    const width = self.width || 500;
+    const height = self.height || 500;
     let semiWidth = width - center[0] > center[0] ? center[0] : width - center[0];
     let semiHeight = height - center[1] > center[1] ? center[1] : height - center[1];
     if (semiWidth === 0) {
@@ -177,7 +177,7 @@ export default class RadialLayout extends BaseLayout {
     const maxRadius = semiHeight > semiWidth ? semiWidth : semiHeight;
     const maxD = Math.max(...focusNodeD);
     // the radius for each nodes away from focusNode
-    const radii = [];
+    const radii: number[] = [];
     focusNodeD.forEach((value, i) => {
       if (!self.unitRadius) {
         self.unitRadius = maxRadius / maxD;
@@ -196,7 +196,7 @@ export default class RadialLayout extends BaseLayout {
     // the initial positions from mds
     const mds = new MDS({ distances: eIdealD, linkDistance });
     let positions = mds.layout();
-    positions.forEach((p) => {
+    positions.forEach((p: IPointTuple) => {
       if (isNaN(p[0])) {
         p[0] = Math.random() * linkDistance;
       }
@@ -205,12 +205,12 @@ export default class RadialLayout extends BaseLayout {
       }
     });
     self.positions = positions;
-    positions.forEach((p, i) => {
+    positions.forEach((p: IPointTuple, i: number) => {
       nodes[i].x = p[0] + center[0];
       nodes[i].y = p[1] + center[1];
     });
     // move the graph to origin, centered at focusNode
-    positions.forEach((p) => {
+    positions.forEach((p: IPointTuple) => {
       p[0] -= positions[focusIndex][0];
       p[1] -= positions[focusIndex][1];
     });
@@ -222,7 +222,7 @@ export default class RadialLayout extends BaseLayout {
     // stagger the overlapped nodes
     if (preventOverlap) {
       const nodeSpacing = self.nodeSpacing;
-      let nodeSpacingFunc;
+      let nodeSpacingFunc: Function;
       if (isNumber(nodeSpacing)) {
         nodeSpacingFunc = () => {
           return nodeSpacing;
@@ -235,7 +235,7 @@ export default class RadialLayout extends BaseLayout {
         };
       }
       if (!nodeSize) {
-        nodeSizeFunc = (d) => {
+        nodeSizeFunc = (d: NodeConfig) => {
           if (d.size) {
             if (isArray(d.size)) {
               const res = d.size[0] > d.size[1] ? d.size[0] : d.size[1];
@@ -247,17 +247,17 @@ export default class RadialLayout extends BaseLayout {
         };
       } else {
         if (isArray(nodeSize)) {
-          nodeSizeFunc = (d) => {
+          nodeSizeFunc = (d: NodeConfig) => {
             const res = nodeSize[0] > nodeSize[1] ? nodeSize[0] : nodeSize[1];
             return res + nodeSpacingFunc(d);
           };
         } else {
-          nodeSizeFunc = (d) => {
+          nodeSizeFunc = (d: NodeConfig) => {
             return nodeSize + nodeSpacingFunc(d);
           };
         }
       }
-      const nonoverlapForce = new RadialNonoverlapForce({
+      const nonoverlapForceParams: RadialNonoverlapForceParam = {
         nodeSizeFunc,
         adjMatrix,
         positions,
@@ -269,11 +269,12 @@ export default class RadialLayout extends BaseLayout {
         iterations: self.maxPreventOverlapIteration || 200,
         k: positions.length / 4.5,
         nodes,
-      });
+      };
+      const nonoverlapForce = new RadialNonoverlapForce(nonoverlapForceParams);
       positions = nonoverlapForce.layout();
     }
     // move the graph to center
-    positions.forEach((p, i) => {
+    positions.forEach((p: IPointTuple, i: number) => {
       nodes[i].x = p[0] + center[0];
       nodes[i].y = p[1] + center[1];
     });
@@ -281,21 +282,21 @@ export default class RadialLayout extends BaseLayout {
   public run() {
     const self = this;
     const maxIteration = self.maxIteration;
-    const positions = self.positions;
-    const W = self.weights;
-    const eIdealDis = self.eIdealDistances;
-    const radii = self.radii;
+    const positions = self.positions || [];
+    const W = self.weights|| [];
+    const eIdealDis = self.eIdealDistances || [];
+    const radii = self.radii || [];
     for (let i = 0; i <= maxIteration; i++) {
       const param = i / maxIteration;
       self.oneIteration(param, positions, radii, eIdealDis, W);
     }
   }
 
-  private oneIteration(param, positions, radii, D, W) {
+  private oneIteration(param: number, positions: IPointTuple[], radii: number[], D: Matrix[], W: Matrix[]) {
     const self = this;
     const vparam = 1 - param;
     const focusIndex = self.focusIndex;
-    positions.forEach((v, i) => {
+    positions.forEach((v: IPointTuple, i: number) => {
       // v
       const originDis = getEDistance(v, [0, 0]);
       const reciODis = originDis === 0 ? 0 : 1 / originDis;
@@ -335,16 +336,17 @@ export default class RadialLayout extends BaseLayout {
     });
   }
 
-  private eIdealDisMatrix() {
+  private eIdealDisMatrix(): Matrix[] {
     const self = this;
+    const nodes = self.nodes;
+    if (!nodes) return [];
     const D = self.distances;
     const linkDis = self.linkDistance;
-    const radii = self.radii;
-    const unitRadius = self.unitRadius;
-    const result = [];
-    const nodes = self.nodes;
-    D.forEach((row, i) => {
-      const newRow: number[] = [];
+    const radii = self.radii || [];
+    const unitRadius = self.unitRadius || 50;
+    const result: Matrix[] = [];
+    D && D.forEach((row, i) => {
+      const newRow: Matrix = [];
       row.forEach((v, j) => {
         if (i === j) {
           newRow.push(0);
@@ -375,7 +377,7 @@ export default class RadialLayout extends BaseLayout {
     return result;
   }
 
-  private handleInfinity(matrix, focusIndex, step) {
+  private handleInfinity(matrix: Matrix[], focusIndex: number, step: number) {
     const length = matrix.length;
     // 遍历 matrix 中遍历 focus 对应行
     for (let i = 0; i < length; i++) {
@@ -407,7 +409,7 @@ export default class RadialLayout extends BaseLayout {
     }
   }
 
-  private maxToFocus(matrix, focusIndex) {
+  private maxToFocus(matrix: Matrix[], focusIndex: number): number {
     let max = 0;
     for (let i = 0; i < matrix[focusIndex].length; i++) {
       if (matrix[focusIndex][i] === Infinity) {

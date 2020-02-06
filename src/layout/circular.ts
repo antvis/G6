@@ -3,8 +3,9 @@
  * @author shiwu.wyy@antfin.com
  */
 
-import { EdgeConfig, IPointTuple, NodeConfig } from '../types';
+import { EdgeConfig, IPointTuple, NodeConfig, NodeIdxMap } from '../types';
 import { BaseLayout } from './layout';
+import { getDegree } from '../util/math';
 
 type Node = NodeConfig & {
   degree: number;
@@ -13,34 +14,34 @@ type Node = NodeConfig & {
 };
 type Edge = EdgeConfig;
 
-function getDegree(n: number, nodeMap: object, edges: Edge[]) {
-  const degrees = [];
-  for (let i = 0; i < n; i++) {
-    degrees[i] = 0;
-  }
-  edges.forEach((e) => {
-    degrees[nodeMap[e.source]] += 1;
-    degrees[nodeMap[e.target]] += 1;
-  });
-  return degrees;
-}
-
-function initHierarchy(nodes: Node[], edges: Edge[], nodeMap: object, directed: boolean) {
+function initHierarchy(nodes: Node[], edges: Edge[], nodeMap: NodeIdxMap, directed: boolean) {
   nodes.forEach((_, i: number) => {
     nodes[i].children = [];
     nodes[i].parent = [];
   });
   if (directed) {
     edges.forEach((e) => {
-      const sourceIdx = nodeMap[e.source];
-      const targetIdx = nodeMap[e.target];
+      let sourceIdx = 0;
+      if (e.source) {
+        sourceIdx = nodeMap[e.source];
+      }
+      let targetIdx = 0;
+      if (e.target) {
+        targetIdx = nodeMap[e.target];
+      }
       nodes[sourceIdx].children.push(nodes[targetIdx]);
       nodes[targetIdx].parent.push(nodes[sourceIdx]);
     });
   } else {
     edges.forEach((e) => {
-      const sourceIdx = nodeMap[e.source];
-      const targetIdx = nodeMap[e.target];
+      let sourceIdx = 0;
+      if (e.source) {
+        sourceIdx = nodeMap[e.source];
+      }
+      let targetIdx = 0;
+      if (e.target) {
+        targetIdx = nodeMap[e.target];
+      }
       nodes[sourceIdx].children.push(nodes[targetIdx]);
       nodes[targetIdx].children.push(nodes[sourceIdx]);
     });
@@ -75,35 +76,35 @@ function compareDegree(a: Node, b: Node) {
  */
 export default class CircularLayout extends BaseLayout {
   /** 布局中心 */
-  public center: IPointTuple;
+  public center: IPointTuple = [0, 0];
   /** 固定半径，若设置了 radius，则 startRadius 与 endRadius 不起效 */
-  public radius: number;
+  public radius: number | null = null;
   /** 起始半径 */
-  public startRadius: number;
+  public startRadius: number | null = null;
   /** 终止半径 */
-  public endRadius: number;
+  public endRadius: number | null = null;
   /** 起始角度 */
-  public startAngle: number;
+  public startAngle: number = 0;
   /** 终止角度 */
-  public endAngle: number;
+  public endAngle: number = 2 * Math.PI;
   /** 是否顺时针 */
-  public clockwise: boolean;
+  public clockwise: boolean = true;
   /** 节点在环上分成段数（几个段将均匀分布），在 endRadius - startRadius != 0 时生效 */
-  public divisions: number;
+  public divisions: number = 1;
   /** 节点在环上排序的依据，可选: 'topology', 'degree', 'null' */
-  public ordering: 'topology' | 'topology-directed' | 'degree' | 'null';
+  public ordering: 'topology' | 'topology-directed' | 'degree' | null = null;
   /** how many 2*pi from first to last nodes */
-  public angleRatio: 1;
+  public angleRatio = 1;
 
-  public nodes: Node[];
-  public edges: Edge[];
+  public nodes: Node[] = [];
+  public edges: Edge[] = [];
 
-  private nodeMap: object;
-  private degrees;
-  private astep;
+  private nodeMap: NodeIdxMap = {};
+  private degrees: number[] = [];
+  private astep: number | undefined;
 
-  public width: number;
-  public height: number;
+  public width: number = 300;
+  public height: number = 300;
 
   public getDefaultCfg() {
     return {
@@ -144,7 +145,7 @@ export default class CircularLayout extends BaseLayout {
     const endAngle = self.endAngle;
     const angleStep = (endAngle - startAngle) / n;
     // layout
-    const nodeMap = {};
+    const nodeMap: NodeIdxMap = {};
     nodes.forEach((node, i) => {
       nodeMap[node.id] = i;
     });
@@ -190,8 +191,11 @@ export default class CircularLayout extends BaseLayout {
     const divN = Math.ceil(n / divisions); // node number in each division
     for (let i = 0; i < n; ++i) {
       let r = radius;
-      if (!r) {
+      if (!r && startRadius !== null && endRadius !== null) {
         r = startRadius + (i * (endRadius - startRadius)) / (n - 1);
+      }
+      if (!r) {
+        r = 10 + (i * 100) / (n - 1);
       }
       let angle = startAngle + (i % divN) * astep + ((2 * Math.PI) / divisions) * Math.floor(i / divN);
       if (!clockwise) {
@@ -213,7 +217,7 @@ export default class CircularLayout extends BaseLayout {
     const nodes = self.nodes;
     const nodeMap = self.nodeMap;
     const orderedNodes = [nodes[0]];
-    const pickFlags = [];
+    const pickFlags: boolean[] = [];
     const n = nodes.length;
     pickFlags[0] = true;
     initHierarchy(nodes, edges, nodeMap, directed);
@@ -260,10 +264,10 @@ export default class CircularLayout extends BaseLayout {
    * 根据节点度数大小排序
    * @return {array} orderedNodes 排序后的结果
    */
-  public degreeOrdering() {
+  public degreeOrdering(): Node[] {
     const self = this;
     const nodes = self.nodes;
-    const orderedNodes = [];
+    const orderedNodes: Node[] = [];
     const degrees = self.degrees;
     nodes.forEach((node, i) => {
       node.degree = degrees[i];

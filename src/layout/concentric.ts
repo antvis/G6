@@ -4,62 +4,51 @@
  * this algorithm refers to <cytoscape.js> - https://github.com/cytoscape/cytoscape.js/
  */
 
-import { EdgeConfig, IPointTuple, NodeConfig } from '../types';
+import { EdgeConfig, IPointTuple, NodeConfig, NodeIdxMap, NodeMap } from '../types';
 
 import isArray from '@antv/util/lib/is-array';
 import isString from '@antv/util/lib/is-string';
 import { BaseLayout } from './layout';
+import { getDegree } from '../util/math';
+import { isNumber } from '@antv/util';
 
 type Node = NodeConfig & {
-  degree: number;
-  size: number | number[];
+  [key: string]: number;
 };
 type Edge = EdgeConfig;
-
-function getDegree(n: number, nodeIdxMap: object, edges: Edge[]) {
-  const degrees = [];
-  for (let i = 0; i < n; i++) {
-    degrees[i] = 0;
-  }
-  edges.forEach((e) => {
-    degrees[nodeIdxMap[e.source]] += 1;
-    degrees[nodeIdxMap[e.target]] += 1;
-  });
-  return degrees;
-}
 
 /**
  * 同心圆布局
  */
 export default class ConcentricLayout extends BaseLayout {
   /** 布局中心 */
-  public center: IPointTuple;
-  public nodeSize: number;
+  public center: IPointTuple = [0, 0];
+  public nodeSize: number | IPointTuple = 30;
   /** min spacing between outside of nodes (used for radius adjustment) */
-  public minNodeSpacing: number;
+  public minNodeSpacing: number = 10;
   /** prevents node overlap, may overflow boundingBox if not enough space */
-  public preventOverlap: boolean;
+  public preventOverlap: boolean = false;
   /** how many radians should be between the first and last node (defaults to full circle) */
-  public sweep: undefined;
+  public sweep: number | undefined;
   /** whether levels have an equal radial distance betwen them, may cause bounding box overflow */
-  public equidistant: boolean;
+  public equidistant: boolean = false;
   /** where nodes start in radians */
-  public startAngle: number;
+  public startAngle: number = (3 / 2) * Math.PI;
   /** whether the layout should go clockwise (true) or counterclockwise/anticlockwise (false) */
-  public clockwise: boolean;
+  public clockwise: boolean = true;
   /** the letiation of concentric values in each level */
   public maxLevelDiff: undefined | number;
   /** 根据 sortBy 指定的属性进行排布，数值高的放在中心，如果是 sortBy 则会计算节点度数，度数最高的放在中心 */
-  public sortBy: string;
+  public sortBy: string = 'degree';
 
-  public nodes: Node[];
-  public edges: Edge[];
+  public nodes: Node[] = [];
+  public edges: Edge[] = [];
 
-  public width: number;
-  public height: number;
+  public width: number = 300;
+  public height: number = 300;
 
-  private maxValueNode: number;
-  private counterclockwise: boolean;
+  private maxValueNode: Node | undefined;
+  private counterclockwise: boolean | undefined;
 
   public getDefaultCfg() {
     return {
@@ -92,19 +81,19 @@ export default class ConcentricLayout extends BaseLayout {
       return;
     }
 
-    const layoutNodes = [];
+    const layoutNodes: Node[] = [];
     let maxNodeSize: number;
-    if (isNaN(self.nodeSize)) {
+    if (isArray(self.nodeSize)) {
       maxNodeSize = Math.max(self.nodeSize[0], self.nodeSize[1]);
     } else {
       maxNodeSize = self.nodeSize;
     }
     nodes.forEach((node) => {
       layoutNodes.push(node);
-      let nodeSize: number;
+      let nodeSize: number = maxNodeSize;
       if (isArray(node.size)) {
         nodeSize = Math.max(node.size[0], node.size[1]);
-      } else {
+      } else if (isNumber(node.size)){
         nodeSize = node.size;
       }
       maxNodeSize = Math.max(maxNodeSize, nodeSize);
@@ -119,8 +108,8 @@ export default class ConcentricLayout extends BaseLayout {
     self.clockwise = self.counterclockwise !== undefined ? !self.counterclockwise : self.clockwise;
 
     // layout
-    const nodeMap = {};
-    const nodeIdxMap = {};
+    const nodeMap: NodeMap = {};
+    const nodeIdxMap: NodeIdxMap = {};
     layoutNodes.forEach((node, i) => {
       nodeMap[node.id] = node;
       nodeIdxMap[node.id] = i;
@@ -129,7 +118,7 @@ export default class ConcentricLayout extends BaseLayout {
     // get the node degrees
     if (self.sortBy === 'degree' || !isString(self.sortBy) || layoutNodes[0][self.sortBy] === undefined) {
       self.sortBy = 'degree';
-      if (isNaN(nodes[0].degree)) {
+      if (!isNumber(nodes[0].degree)) {
         const values = getDegree(nodes.length, nodeIdxMap, edges);
         layoutNodes.forEach((node, i) => {
           node.degree = values[i];
@@ -137,13 +126,13 @@ export default class ConcentricLayout extends BaseLayout {
       }
     }
     // sort nodes by value
-    layoutNodes.sort((n1, n2) => {
+    layoutNodes.sort((n1: Node, n2: Node) => {
       return n2[self.sortBy] - n1[self.sortBy];
     });
 
     self.maxValueNode = layoutNodes[0];
 
-    self.maxLevelDiff = self.maxLevelDiff || self.maxValueNode[self.sortBy] / 4; // 0.5;
+    self.maxLevelDiff = self.maxLevelDiff || self.maxValueNode[self.sortBy] / 4;
 
     // put the values into levels
     const levels: any[] = [[]];
@@ -151,7 +140,7 @@ export default class ConcentricLayout extends BaseLayout {
     layoutNodes.forEach((node) => {
       if (currentLevel.length > 0) {
         const diff = Math.abs(currentLevel[0][self.sortBy] - node[self.sortBy]);
-        if (diff >= self.maxLevelDiff) {
+        if (self.maxLevelDiff && diff >= self.maxLevelDiff) {
           currentLevel = [];
           levels.push(currentLevel);
         }
@@ -173,7 +162,10 @@ export default class ConcentricLayout extends BaseLayout {
     // find the metrics for each level
     let r = 0;
     levels.forEach((level) => {
-      const sweep = self.sweep === undefined ? 2 * Math.PI - (2 * Math.PI) / level.length : self.sweep;
+      let sweep = self.sweep;
+      if (sweep === undefined) {
+        sweep = 2 * Math.PI - (2 * Math.PI) / level.length;
+      }
       const dTheta = (level.dTheta = sweep / Math.max(1, level.length - 1));
 
       // calculate the radius
