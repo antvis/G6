@@ -2,8 +2,8 @@ import groupBy, { ObjectType } from '@antv/util/lib/group-by';
 import { GraphData, GroupConfig, GroupNodeIds } from '../types';
 
 export const getAllNodeInGroups = (data: GraphData): GroupNodeIds => {
-  const groupById: ObjectType<GroupConfig> = groupBy(data.groups, 'id');
-  const groupByParentId: ObjectType<GroupConfig> = groupBy(data.groups, 'parentId');
+  const groupById: ObjectType<GroupConfig> = groupBy(data.groups!, 'id');
+  const groupByParentId: ObjectType<GroupConfig> = groupBy(data.groups!, 'parentId');
 
   const result: { [key: string]: GroupConfig[] } = {};
   for (const parentId in groupByParentId) {

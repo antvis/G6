@@ -1,6 +1,7 @@
 import { BBox } from '@antv/g-canvas/lib/types';
 import { each } from '@antv/util'
 import { IShapeBase } from '../../types';
+import { Point } from '_@antv_g-base@0.3.9@@antv/g-base/lib/types';
 
 interface PolyPoint {
   x: number,
@@ -25,8 +26,8 @@ export const getBBoxFromPoint = (point: PolyPoint): BBox => {
   };
 };
 export const getBBoxFromPoints = (points: PolyPoint[] = []): BBox => {
-  const xs = [];
-  const ys = [];
+  const xs: number[] = [];
+  const ys: number[] = [];
   points.forEach(p => {
     xs.push(p.x);
     ys.push(p.y);
@@ -51,8 +52,8 @@ export const isBBoxesOverlapping = (b1: BBox, b2: BBox) => {
 };
 export const filterConnectPoints = (points: PolyPoint[]): PolyPoint[] => {
   // pre-process: remove duplicated points
-  const result = [];
-  const pointsMap = {};
+  const result: any[] = [];
+  const pointsMap: any = {};
   points.forEach(p => {
     const id = `${p.x}-${p.y}`;
     p.id = id;
@@ -74,7 +75,7 @@ export const getSimplePolyline = (sPoint: PolyPoint, tPoint: PolyPoint): PolyPoi
     tPoint
   ];
 };
-export const getExpandedBBox = (bbox, offset: number): BBox => {
+export const getExpandedBBox = (bbox: any, offset: number): BBox => {
   if (bbox.width === 0 && bbox.height === 0) { // when it is a point
     return bbox;
   }
@@ -94,7 +95,7 @@ export const isHorizontalPort = (port: PolyPoint, bbox: BBox): boolean => {
   const dy = Math.abs(port.y - bbox.y);
   return (dx / bbox.width) > (dy / bbox.height);
 };
-export const getExpandedBBoxPoint = (bbox, point: PolyPoint): PolyPoint => {
+export const getExpandedBBoxPoint = (bbox: any, point: PolyPoint): PolyPoint => {
   const isHorizontal = isHorizontalPort(point, bbox);
   if (isHorizontal) {
     return {
@@ -204,9 +205,9 @@ export const _costByPoints = (p: PolyPoint, points: PolyPoint[]): number => {
   return result;
 };
 export const heuristicCostEstimate = (p: PolyPoint, ps: PolyPoint, pt: PolyPoint, source?: PolyPoint, target?: PolyPoint): number => {
-  return (distance(p, ps) + distance(p, pt)) + _costByPoints(p, [ ps, pt, source, target ]);
+  return (distance(p, ps) + distance(p, pt)) + _costByPoints(p, [ ps, pt, source!, target! ]);
 };
-export const reconstructPath = (pathPoints: PolyPoint[], pointById, cameFrom, currentId, iterator: number = 0) => {
+export const reconstructPath = (pathPoints: PolyPoint[], pointById: any, cameFrom: any, currentId: string, iterator: number = 0) => {
   pathPoints.unshift(pointById[ currentId ]);
   if (cameFrom[ currentId ] && cameFrom[ currentId ] !== currentId && iterator <= 100) {
     reconstructPath(pathPoints, pointById, cameFrom, cameFrom[ currentId ], iterator + 1);
@@ -236,8 +237,8 @@ export const isSegmentCrossingBBox = (p1: PolyPoint, p2: PolyPoint, bbox: BBox):
   const [ pa, pb, pc, pd ] = getPointsFromBBox(bbox);
   return isSegmentsIntersected(p1, p2, pa, pb) || isSegmentsIntersected(p1, p2, pa, pd) || isSegmentsIntersected(p1, p2, pb, pc) || isSegmentsIntersected(p1, p2, pc, pd);
 };
-export const getNeighborPoints = (points: PolyPoint[], point: PolyPoint, bbox1, bbox2): PolyPoint[] => {
-  const neighbors = [];
+export const getNeighborPoints = (points: PolyPoint[], point: PolyPoint, bbox1: BBox, bbox2: BBox): PolyPoint[] => {
+  const neighbors: Point[] = [];
   points.forEach(p => {
     if (p !== point) {
       if (p.x === point.x || p.y === point.y) {
@@ -249,24 +250,36 @@ export const getNeighborPoints = (points: PolyPoint[], point: PolyPoint, bbox1, 
   });
   return filterConnectPoints(neighbors);
 };
-export const pathFinder = (points: PolyPoint[], start: PolyPoint, goal, sBBox, tBBox, os, ot): PolyPoint[] => { // A-Star Algorithm
-  const closedSet = [];
+export const pathFinder = (points: PolyPoint[], start: PolyPoint, goal: any, sBBox: BBox, tBBox: BBox, os: any, ot: any): PolyPoint[] => { // A-Star Algorithm
+  const closedSet: any = [];
   const openSet = [ start ];
-  const cameFrom = {};
-  const gScore = {}; // all default values are Infinity
-  const fScore = {}; // all default values are Infinity
+  const cameFrom: {
+    [key: string]: any;
+  } = {};
+
+  const gScore: {
+    [key: string]: number;
+  } = {}; // all default values are Infinity
+
+  const fScore: {
+    [key: string]: number;
+  } = {}; // all default values are Infinity
+
   gScore[ `${start.x}-${start.y}` ] = 0;
   fScore[ `${start.x}-${start.y}` ] = heuristicCostEstimate(start, goal, start);
 
-  const pointById = {};
+  const pointById: {
+    [key: string]: PolyPoint
+  } = {};
+
   points.forEach(p => {
     pointById[ `${p.x}-${p.y}` ] = p;
   });
 
   while (openSet.length) {
-    let current;
+    let current: any;
     let lowestFScore = Infinity;
-    openSet.forEach(p => {
+    openSet.forEach((p: any) => {
       if (fScore[ p.id ] < lowestFScore) {
         lowestFScore = fScore[ p.id ];
         current = p;
@@ -274,7 +287,7 @@ export const pathFinder = (points: PolyPoint[], start: PolyPoint, goal, sBBox, t
     });
 
     if (current === goal) { // ending condition
-      const pathPoints = [];
+      const pathPoints: any = [];
       reconstructPath(pathPoints, pointById, cameFrom, goal.id);
       return pathPoints;
     }
@@ -324,7 +337,7 @@ export const getBorderRadiusPoints = (p0: PolyPoint, p1: PolyPoint, p2: PolyPoin
 };
 export const getPathWithBorderRadiusByPolyline = (points: PolyPoint[], borderRadius: number): string => {
   // TODO
-  const pathSegments = [];
+  const pathSegments: string[] = [];
   const startPoint = points[0];
   pathSegments.push(`M${startPoint.x} ${startPoint.y}`);
   points.forEach((p, i) => {
@@ -362,7 +375,7 @@ export const getPolylinePoints = (start: PolyPoint, end: PolyPoint, sNode: IShap
   const outerBBox = mergeBBox(sxBBox, txBBox);
   const sMixBBox = mergeBBox(sxBBox, lineBBox);
   const tMixBBox = mergeBBox(txBBox, lineBBox);
-  let connectPoints = [];
+  let connectPoints: any = [];
   connectPoints = connectPoints.concat(getPointsFromBBox(sMixBBox) // .filter(p => !isPointIntersectBBox(p, txBBox))
   );
   connectPoints = connectPoints.concat(getPointsFromBBox(tMixBBox) // .filter(p => !isPointIntersectBBox(p, sxBBox))
