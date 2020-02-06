@@ -1,5 +1,4 @@
 {
-
   "compilerOptions": {
     "rootDir": "./",
     "module": "esnext",
