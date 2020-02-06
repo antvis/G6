@@ -38,7 +38,7 @@ export default {
     }
 
     // 如果拖动的target 是linkPoints / anchorPoints 则不允许拖动
-    const target = e.target;
+    const { target } = e;
     if (target) {
       const isAnchorPoint = target.get('isAnchorPoint');
       if (isAnchorPoint) {
@@ -46,7 +46,7 @@ export default {
       }
     }
 
-    const graph = this.graph;
+    const { graph } = this;
 
     this.targets = [];
 
@@ -78,6 +78,7 @@ export default {
       }
     }
 
+
     this.origin = {
       x: e.x,
       y: e.y
@@ -94,7 +95,7 @@ export default {
     if (!this.shouldUpdate(this, e)) {
       return;
     }
-    const graph = this.graph;
+    const { graph } = this;
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
 
@@ -120,7 +121,7 @@ export default {
       return;
     }
 
-    const graph = this.graph;
+    const { graph } = this;
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
 
@@ -154,7 +155,7 @@ export default {
     graph.setAutoPaint(autoPaint);
   },
   update(item: Item, e: IG6GraphEvent, force: boolean) {
-    const origin = this.origin;
+    const { origin } = this;
     const model: NodeConfig = item.get('model');
     const nodeId: string = item.get('id');
     if (!this.point[nodeId]) {
@@ -236,6 +237,8 @@ export default {
         });
       }
     }
+
+    
     if (this.target) {
       this.target.set('delegateShape', this.delegateRect);
     }
@@ -248,7 +251,7 @@ export default {
    * @return {object} 计算出来的delegate坐标信息及宽高
    */
   calculationGroupPosition() {
-    const graph = this.graph;
+    const { graph } = this;
 
     const nodes = graph.findAllByState('node', 'selected');
 

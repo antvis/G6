@@ -10,7 +10,7 @@ import { IG6GraphEvent, Item, G6Event } from '../types';
 import deepMix from '@antv/util/lib/deep-mix';
 import Global from '../global'
 
-const body = document.body;
+const { body } = document;
 
 export default {
   getDefaultCfg(): object {
@@ -34,10 +34,10 @@ export default {
     };
   },
   onDragOver(evt: IG6GraphEvent) {
+    const { graph } = this;
     const { target } = evt;
     const groupId = target.get('groupId');
     if (groupId && this.origin) {
-      const graph = this.graph;
       const customGroupControll = graph.get('customGroupControll');
       const customGroup = customGroupControll.getDeletageGroupById(groupId);
       if (customGroup) {
@@ -54,10 +54,10 @@ export default {
    * @param {Event} evt 事件句柄
    */
   onDragLeave(evt: IG6GraphEvent) {
+    const { graph } = this;
     const { target } = evt;
     const groupId = target.get('groupId');
     if (groupId && this.origin) {
-      const graph = this.graph;
       const customGroupControll = graph.get('customGroupControll');
 
       const customGroup = customGroupControll.getDeletageGroupById(groupId);
@@ -73,12 +73,12 @@ export default {
     }
   },
   onDragStart(e: IG6GraphEvent) {
+    const { graph } = this;
     if (!this.shouldBegin.call(this, e)) {
       return;
     }
 
     const { item } = e;
-    const graph = this.graph;
 
     this.target = item;
     // 拖动节点时，如果在Group中，则Group高亮
@@ -113,9 +113,9 @@ export default {
       return;
     }
   
-    this._update(this.target, e, true);
+    this.update(this.target, e, true);
     const { item } = e;
-    const graph = this.graph;
+    const { graph } = this;
     const model = item.getModel();
     const { groupId } = model;
     if (groupId) {
@@ -153,7 +153,7 @@ export default {
     }
 
     if (this.target) {
-      this._update(this.target, e);
+      this.update(this.target, e);
     }
 
     this.point = {};
@@ -164,8 +164,8 @@ export default {
     this.setCurrentGroupStyle(e);
   },
   setCurrentGroupStyle(evt: IG6GraphEvent) {
+    const { graph } = this;
     const { item } = evt;
-    const graph = this.graph;
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
 
@@ -174,7 +174,7 @@ export default {
     const { groupId, id } = model;
 
     const customGroupControll = graph.get('customGroupControll');
-    const customGroup = customGroupControll.customGroup;
+    const { customGroup } = customGroupControll;
     const groupNodes = graph.get('groupNodes');
     if (this.inGroupId && groupId) {
       const currentGroup = customGroup[groupId].nodeGroup;
@@ -282,8 +282,8 @@ export default {
       body.addEventListener('mouseup', listener, true);
     }
   },
-  _update(item: Item, e: IG6GraphEvent, force: boolean) {
-    const origin = this.origin;
+  update(item: Item, e: IG6GraphEvent, force: boolean) {
+    const { origin } = this;
     const model = item.get('model');
     const nodeId = item.get('id');
     if (!this.point[nodeId]) {
@@ -298,7 +298,7 @@ export default {
 
     // 拖动单个未选中元素
     if (force) {
-      this._updateDelegate(e, x, y);
+      this.updateDelegate(e, x, y);
       return;
     }
 
@@ -317,9 +317,9 @@ export default {
    * @param {number} x 拖动单个元素时候的x坐标
    * @param {number} y 拖动单个元素时候的y坐标
    */
-  _updateDelegate(e: IG6GraphEvent, x: number, y: number) {
+  updateDelegate(e: IG6GraphEvent, x: number, y: number) {
+    const { graph } = this;
     const { item } = e;
-    const graph = this.graph;
     const groupType = graph.get('groupType');
     const bbox = item.get('keyShape').getBBox();
     if (!this.shape) {
