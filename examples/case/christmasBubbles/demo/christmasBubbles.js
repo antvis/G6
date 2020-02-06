@@ -253,7 +253,7 @@ G6.registerNode(
       return path;
     }
   },
-  'single-shape'
+  'single-node'
 );
 
 G6.registerNode(

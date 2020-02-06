@@ -1,5 +1,4 @@
 import G6 from '@antv/g6';
-const Util = G6.Util;
 /**
  * by Shiwu
  */
@@ -327,7 +326,7 @@ G6.registerNode(
       }
     }
   },
-  'single-shape'
+  'single-node'
 );
 
 G6.registerNode(
@@ -410,7 +409,7 @@ G6.registerEdge(
     ) {
       const self = this;
       let shapeStyle = self.getShapeStyle(cfg);
-      shapeStyle = Object.assign({}, {
+      shapeStyle = Object.assign(shapeStyle, {
         opacity: 0,
         strokeOpacity: 0
       });
@@ -469,7 +468,7 @@ graph = new G6.Graph({
     default: [ 'drag-canvas' ]
   },
   defaultNode: {
-    type: 'bubble',
+    type: 'circle', // 'bubble'
     size: 95,
     labelCfg: {
       position: 'center',
@@ -481,11 +480,12 @@ graph = new G6.Graph({
   },
   defaultEdge: {
     color: '#888',
-    type: 'animate-line'
+    type: 'animate-line' //'animate-line'
   }
 });
 graph.get('canvas').set('localRefresh', false);
 
+console.log('dafasf');
 
 function translate(x, y) {
   let moveX = x;
@@ -815,7 +815,7 @@ graph.on('node:click', e => {
               position: 'center'
             };
           } else if (node.level !== 0) {
-            node.shape = 'bubble';
+            node.shape = 'circle';// 'bubble';
             node.size = 95;
             if (!node.style) node.style = {};
             node.color = model.color;

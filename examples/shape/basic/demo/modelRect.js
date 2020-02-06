@@ -20,7 +20,7 @@ const graph = new G6.Graph({
   height,
   defaultNode: {
     type: 'modelRect',
-    size: [ 200, 80 ],
+    size: [ 270, 80 ],
     style: {
       radius: 5,
       stroke: '#69c0ff',
