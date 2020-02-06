@@ -21,7 +21,7 @@ export default class Menu extends Base {
       createDOM: true,                  // 是否渲染 dom
       container: null,                  // menu 容器。若不指定就用 graph 的 container
       className: 'g6-analyzer-menu',    // 指定 container css
-      getContent: null,                 // 指定菜单内容，function(e) {...}
+      getContent: undefined,                 // 指定菜单内容，function(e) {...}
       // 菜单展示事件
       onShow(evt?: IG6GraphEvent) {
         return true
@@ -54,7 +54,7 @@ export default class Menu extends Base {
       container = this.get('graph').get('container');
     }
 
-    container.appendChild(menu);
+    container!.appendChild(menu);
     this.set('menu', menu);
   }
 

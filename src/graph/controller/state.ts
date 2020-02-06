@@ -11,8 +11,7 @@ interface ICachedStates {
 }
 
 
-let timer: number | null = null
-const TIME_OUT = 16;
+let timer: any = null
 
 
 export default class StateController {
@@ -108,7 +107,7 @@ export default class StateController {
     timer = setTimeout(() => {
       timer = null;
       self.updateGraphStates();
-    }, TIME_OUT);
+    }, 16);
   }
 
   /**
