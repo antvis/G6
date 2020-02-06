@@ -6,7 +6,7 @@
 import { EdgeConfig, IPointTuple, NodeConfig, NodeIdxMap } from '../types';
 import { BaseLayout } from './layout';
 import { isNumber } from '@antv/util';
-import { Point } from '_@antv_g-canvas@0.3.14@@antv/g-canvas/node_modules/@antv/g-base';
+import { Point } from '@antv/g-base';
 
 type Node = NodeConfig & {
   cluster: string | number;
