@@ -16,7 +16,9 @@ const RESERVED_STYLES = [ 'fillStyle', 'strokeStyle',
   'path', 'points', 'img', 'symbol' ];
   
 export default class ItemBase implements IItemBase {
-  public _cfg: IItemBaseConfig
+  public _cfg: IItemBaseConfig & {
+    [key: string]: unknown
+  }  = {} 
   private defaultCfg: IItemBaseConfig = {
     /**
      * id
@@ -131,7 +133,7 @@ export default class ItemBase implements IItemBase {
     }
     self.updatePosition(model);
     const cfg = self.getShapeCfg(model); // 可能会附加额外信息
-    const shapeType = cfg.shape || cfg.type;
+    const shapeType = (cfg.shape as string )|| (cfg.type as string);
 
     const keyShape: IShapeBase = shapeFactory.draw(shapeType, cfg, group);
     if (keyShape) {
@@ -168,8 +170,8 @@ export default class ItemBase implements IItemBase {
    * @param  {String} key 属性名
    * @return {object | string | number} 属性值
    */
-  public get(key: string) {
-    return this._cfg[key]
+  public get<T = any>(key: string): T {
+    return this._cfg[key] as T
   }
 
   /**
@@ -178,7 +180,7 @@ export default class ItemBase implements IItemBase {
    * @param {String|Object} key 属性名，也可以是对象
    * @param {object | string | number} val 属性值
    */
-  public set(key: string, val: any): void {
+  public set(key: string | object, val?: unknown): void {
     if(isPlainObject(key)) {
       this._cfg = Object.assign({}, this._cfg, key)
     } else {
@@ -228,7 +230,7 @@ export default class ItemBase implements IItemBase {
     this.afterDraw()
   }
 
-  public getKeyShapeStyle(): ShapeStyle {
+  public getKeyShapeStyle(): ShapeStyle | void {
     const keyShape = this.getKeyShape();
     if (keyShape) {
       const styles: ShapeStyle & Indexable<any> = {};

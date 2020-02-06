@@ -1,7 +1,7 @@
 import isNil from '@antv/util/lib/is-nil';
 import isPlainObject from '@antv/util/lib/is-plain-object'
 import { IEdge, INode } from "../interface/item";
-import { EdgeConfig, IPoint, NodeConfig, SourceTarget, Indexable } from '../types';
+import { EdgeConfig, IPoint, NodeConfig, SourceTarget, Indexable, ModelConfig } from '../types';
 import Item from './item';
 import Node from './node'
 
@@ -22,7 +22,7 @@ export default class Edge extends Item implements IEdge {
     }
   }
 
-  private setEnd(name: string, value: INode) {
+  private setEnd(name: 'source' | 'target', value: INode) {
     const pointName = END_MAP[name] + POINT_NAME_SUFFIX;
     const itemName = name + ITEM_NAME_SUFFIX;
     const preItem = this.get(itemName);
@@ -86,7 +86,7 @@ export default class Edge extends Item implements IEdge {
    * 获取端点的位置
    * @param name 
    */
-  private  getEndPoint(name: string): NodeConfig | IPoint {
+  private  getEndPoint(name: 'source' | 'target'): NodeConfig | IPoint {
     const itemName = name + ITEM_NAME_SUFFIX;
     const pointName = END_MAP[name] + POINT_NAME_SUFFIX;
     const item = this.get(itemName);
@@ -112,7 +112,7 @@ export default class Edge extends Item implements IEdge {
     });
   }
 
-  private getEndCenter(name: string): IPoint {
+  private getEndCenter(name: 'source' | 'target'): IPoint {
     const itemName = name + ITEM_NAME_SUFFIX;
     const pointName = END_MAP[name] + POINT_NAME_SUFFIX;
     const item = this.get(itemName);
@@ -137,7 +137,7 @@ export default class Edge extends Item implements IEdge {
   public getShapeCfg(model: EdgeConfig): EdgeConfig {
     const self = this;
     const linkCenter: boolean = self.get('linkCenter'); // 如果连接到中心，忽视锚点、忽视控制点
-    const cfg: any = super.getShapeCfg(model);
+    const cfg: ModelConfig = super.getShapeCfg(model);
     
     if (linkCenter) {
       cfg.startPoint = self.getEndCenter('source');
