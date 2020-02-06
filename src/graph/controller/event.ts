@@ -5,8 +5,8 @@ import ShapeBase from '@antv/g-canvas/lib/shape/base';
 import each from '@antv/util/lib/each'
 import isNil from '@antv/util/lib/is-nil';
 import wrapBehavior from '@antv/util/lib/wrap-behavior';
-import { IGraph } from '../../interface/graph';
-import { IG6GraphEvent, Matrix } from '../../types';
+import  Graph  from "../graph"
+import { IG6GraphEvent, Matrix, Item } from '../../types';
 import { cloneEvent, isViewportChanged } from '../../util/base';
 
 type Fun = () => void
@@ -35,14 +35,14 @@ const EVENTS = [
   'touchend',
 ];
 export default class EventController {
-  private graph: IGraph
+  private graph: Graph
   private extendEvents: any[]
-  private canvasHandler: Fun;
+  private canvasHandler!: Fun;
   private dragging: boolean
-  private preItem
+  private preItem: Item | null = null
   public destroyed: boolean
 
-  constructor(graph: IGraph) {
+  constructor(graph: Graph) {
     this.graph = graph
     this.extendEvents = []
     this.dragging = false
@@ -53,7 +53,7 @@ export default class EventController {
   // 初始化 G6 中的事件
   private initEvents() {
     const self = this
-    const graph: IGraph = this.graph;
+    const graph: Graph = this.graph;
     const canvas: Canvas = graph.get('canvas');
     const el = canvas.get('el');
     const extendEvents = this.extendEvents;
@@ -245,8 +245,8 @@ export default class EventController {
 
     this.dragging = false
     this.preItem = null
-    this.extendEvents.length = 0
-    this.canvasHandler = null
+    this.extendEvents.length = 0;
+    (this.canvasHandler as Fun | null) = null
     this.destroyed = true
   }
 }

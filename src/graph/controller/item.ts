@@ -8,7 +8,7 @@ import isString from '@antv/util/lib/is-string'
 import upperFirst from '@antv/util/lib/upper-first'
 import Edge from '../../item/edge';
 import Node from '../../item/node';
-import { EdgeConfig, Item, ITEM_TYPE, ModelConfig, NodeConfig, NodeMapConfig } from '../../types';
+import { EdgeConfig, Item, ITEM_TYPE, ModelConfig, NodeConfig, NodeMap } from '../../types';
 import Graph from '../graph';
 
 import { IEdge, INode } from '../../interface/item';
@@ -36,12 +36,12 @@ export default class ItemController {
    * @returns {(Item)}
    * @memberof ItemController
    */
-  public addItem<T extends Item>(type: ITEM_TYPE, model: ModelConfig): T {
+  public addItem<T extends Item>(type: ITEM_TYPE, model: ModelConfig) {
     const graph = this.graph;
     const parent: Group = graph.get(type + 'Group') || graph.get('group');
     const upperType = upperFirst(type);
 
-    let item;
+    let item: Item | null = null;
     let styles = graph.get(type + upperFirst(STATE_SUFFIX)) || {};
     const defaultModel = graph.get(CFG_PREFIX + upperType);
 
@@ -79,8 +79,8 @@ export default class ItemController {
     graph.emit('beforeadditem', { type, model });
 
     if(type === EDGE) {
-      let source: string | Item = (model as EdgeConfig).source
-      let target: string | Item = (model as EdgeConfig).target
+      let source: string | Item | undefined = (model as EdgeConfig).source
+      let target: string | Item | undefined = (model as EdgeConfig).target
 
       if (source && isString(source)) {
         source = graph.findById(source);
@@ -110,11 +110,13 @@ export default class ItemController {
       })
     }
 
-    graph.get(type + 's').push(item);
-    graph.get('itemMap')[item.get('id')] = item;
-    graph.autoPaint();
-    graph.emit('afteradditem', { item, model });
-    return item;
+    if (item) {
+      graph.get(type + 's').push(item);
+      graph.get('itemMap')[item.get('id')] = item;
+      graph.autoPaint();
+      graph.emit('afteradditem', { item, model });
+      return item as T;
+    } 
   }
 
   /**
@@ -230,7 +232,7 @@ export default class ItemController {
     items.splice(index, 1);
 
     const itemId: string = item.get('id')
-    const itemMap: NodeMapConfig = graph.get('itemMap')
+    const itemMap: NodeMap = graph.get('itemMap')
     delete itemMap[itemId];
 
     if (type === NODE) {
@@ -276,7 +278,7 @@ export default class ItemController {
    * @param {string[]} states 状态名称集合
    * @memberof ItemController
    */
-  public clearItemStates(item: Item | string, states: string | string[]): void {
+  public clearItemStates(item: Item | string, states?: string | string[]): void {
     const graph = this.graph;
 
     if (isString(item)) {
@@ -354,7 +356,7 @@ export default class ItemController {
   }
 
   public destroy() {
-    this.graph = null;
+    (this.graph as Graph | null) = null;
     this.destroyed = true;
   }
 }

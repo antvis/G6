@@ -38,13 +38,13 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
       layout.direction = 'TB';
     }
     if (layout.radial) {
-      return function(data) {
+      return (data: any) => {
         const layoutData = Hierarchy[layout.type](data, layout);
         radialLayout(layoutData);
         return layoutData;
       };
     }
-    return function(data) {
+    return (data: any) => {
       return Hierarchy[layout.type](data, layout);
     };
   }
@@ -65,7 +65,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
     return index;
   }
 
-  public getDefaultCfg(): PrivateGraphOption {
+  public getDefaultCfg(): Partial<PrivateGraphOption> {
     const cfg = super.getDefaultCfg();
     // 树图默认打开动画
     cfg.animate = true;
@@ -78,14 +78,18 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
    * @param parent 父节点实例
    * @param animate 是否开启动画
    */
-  private innerAddChild(treeData: TreeGraphData, parent: Item, animate: boolean): Item {
+  private innerAddChild(treeData: TreeGraphData, parent: Item | undefined, animate: boolean): Item {
     const self = this;
     const model = treeData.data;
-    // model 中应存储真实的数据，特别是真实的 children
-    model.x = treeData.x;
-    model.y = treeData.y;
-    model.depth = treeData.depth;
-    const node = self.addItem('node', model);
+
+    if (model) {
+      // model 中应存储真实的数据，特别是真实的 children
+      model.x = treeData.x;
+      model.y = treeData.y;
+      model.depth = treeData.depth;
+    }
+
+    const node = self.addItem('node', model!);
     if (parent) {
       node.set('parent', parent);
       if (animate) {
@@ -113,7 +117,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
       });
     }
     // 渲染到视图上应参考布局的children, 避免多绘制了收起的节点
-    each(treeData.children, child => {
+    each(treeData.children || [], child => {
       self.innerAddChild(child, node, animate);
     });
     return node;
@@ -125,7 +129,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
    * @param parent 
    * @param animate 
    */
-  private innerUpdateChild(data: TreeGraphData, parent: Item, animate: boolean) {
+  private innerUpdateChild(data: TreeGraphData, parent: Item | undefined, animate: boolean) {
     const self = this;
     const current = self.findById(data.id);
 
@@ -136,7 +140,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
     }
 
     // 更新新节点下所有子节点
-    each(data.children, (child: TreeGraphData) => {
+    each(data.children || [], (child: TreeGraphData) => {
       self.innerUpdateChild(child, current, animate);
     });
     
@@ -148,10 +152,10 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
         for (let i = children.length - 1; i >= 0; i--) {
           const child = children[i].getModel();
 
-          if (self.indexOfChild(data.children, child.id) === -1) {
+          if (self.indexOfChild(data.children || [], child.id) === -1) {
             self.innerRemoveChild(child.id, {
-              x: data.x,
-              y: data.y
+              x: data.x!,
+              y: data.y!
             }, animate);
 
             // 更新父节点下缓存的子节点 item 实例列表
@@ -169,7 +173,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
       });
     }
     current.set('model', data.data);
-    current.updatePosition({ x: data.x, y: data.y });
+    current.updatePosition({ x: data.x!, y: data.y! });
   }
 
   /**
@@ -218,7 +222,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
    * 更改并应用树布局算法
    * @param {object} layout 布局算法
    */
-  public updateLayout(layout) {
+  public updateLayout(layout: any) {
     const self = this;
     if (!layout) {
       console.warn('layout cannot be null');
@@ -246,7 +250,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
 
     self.setAutoPaint(false);
 
-    self.innerUpdateChild(layoutData, null, animate);
+    self.innerUpdateChild(layoutData, undefined, animate);
 
     if (fitView) {
       const viewController: ViewController = self.get('viewController')
@@ -258,7 +262,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
       self.refresh();
       self.paint();
     } else {
-      self.layoutAnimate(layoutData, null);
+      self.layoutAnimate(layoutData);
     }
     self.setAutoPaint(autoPaint);
     self.emit('afterrefreshlayout', { data, layoutData });
@@ -276,13 +280,15 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
       parent = parent.get('id') as string;
     }
 
-    const parentData = self.findDataById(parent);
-
-    if (!parentData.children) {
-      parentData.children = [];
+    const parentData = self.findDataById(parent)
+    
+    if (parentData) {
+      if (!parentData.children) {
+        parentData.children = [];
+      }
+      parentData.children.push(data);
+      self.changeData();
     }
-    parentData.children.push(data);
-    self.changeData();
   }
 
   /**
@@ -302,12 +308,14 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
     const parentModel = self.findById(parent).getModel();
 
     const current = self.findById(data.id);
+
+    if (!parentModel.children) {
+      // 当 current 不存在时，children 为空数组
+      parentModel.children = [];
+    }
+
     // 如果不存在该节点，则添加
     if (!current) {
-      if (!parentModel.children) {
-        // 当 current 不存在时，children 为空数组
-        parentModel.children = [];
-      }
       parentModel.children.push(data);
     } else {
       const index = self.indexOfChild(parentModel.children, data.id);
@@ -330,7 +338,8 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
 
     const parent = node.get('parent');
     if (parent && !parent.destroyed) {
-      const siblings = self.findDataById(parent.get('id')).children;
+      const parentNode = self.findDataById(parent.get('id'));
+      const siblings = (parentNode && parentNode.children) || [];
       const model: NodeConfig = node.getModel() as NodeConfig
 
       const index = self.indexOfChild(siblings, model.id);
@@ -345,19 +354,19 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
    * @param {TreeGraphData | undefined} parent 从哪个节点开始寻找，为空时从根节点开始查找
    * @return {TreeGraphData} 对应源数据
    */
-  public findDataById(id: string, parent?: TreeGraphData | undefined): TreeGraphData {
+  public findDataById(id: string, parent?: TreeGraphData | undefined): TreeGraphData | null {
     const self = this;
     
     if (!parent) {
-      parent = self.get('data');
+      parent = self.get('data') as TreeGraphData;
     }
 
     if (id === parent.id) {
       return parent;
     }
 
-    let result = null;
-    each(parent.children, child => {
+    let result: TreeGraphData | null = null;
+    each(parent.children || [], child => {
       if (child.id === id) {
         result = child;
         return false;
@@ -389,7 +398,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
       }
     });
 
-    this.get('canvas').animate(ratio => {
+    this.get('canvas').animate((ratio: number) => {
       traverseTree<TreeGraphData>(data, child => {
         const node = self.findById(child.id);
 
@@ -410,8 +419,8 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
             const attrs = onFrame(node, ratio, origin, data);
             node.set('model', Object.assign(model, attrs));
           } else {
-            model.x = origin.x + (child.x - origin.x) * ratio;
-            model.y = origin.y + (child.y - origin.y) * ratio;
+            model.x = origin.x + (child.x! - origin.x) * ratio;
+            model.y = origin.y + (child.y! - origin.y) * ratio;
           }
         }
         return true
