@@ -14,8 +14,7 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
-    "types": ["jest"],
-    "strict": true
+    "types": ["jest"]
   },
   "include": ["src"],	
   "typedocOptions": {
