@@ -113,14 +113,14 @@ const graph = new G6.TreeGraph({
       shouldUpdate: function shouldUpdate(e) {
         console.log(e.target);
         /* 点击 node 禁止展开收缩 */
-        if (e.target.get('className') !== 'collapse-icon') {
+        if (e.target.get('name') !== 'collapse-icon') {
           return false;
         }
         return true;
       },
       onChange: function onChange(item, collapsed) {
         selectedItem = item;
-        const icon = item.get('group').find(element => element.get('className') === 'collapse-icon');
+        const icon = item.get('group').find(element => element.get('name') === 'collapse-icon');
 
         if (collapsed) {
           icon.attr('symbol', EXPAND_ICON);
@@ -172,7 +172,8 @@ const nodeBasicMethod = {
         y: 0,
         width,
         height
-      }
+      },
+      name: 'container-rect-shape'
     });
     if (!isRoot) {
       /* 左边的小圆点 */
@@ -182,7 +183,8 @@ const nodeBasicMethod = {
           y: height / 2,
           r: 6,
           fill: config.basicColor
-        }
+        },
+        name: 'left-dot-shape'
       });
     }
     /* 矩形 */
@@ -195,7 +197,8 @@ const nodeBasicMethod = {
         fill: config.bgColor,
         stroke: config.borderColor,
         radius: 2
-      }
+      },
+      name: 'rect-shape'
     });
 
     /* 左边的粗线 */
@@ -207,7 +210,8 @@ const nodeBasicMethod = {
         height,
         fill: config.basicColor,
         radius: 1.5
-      }
+      },
+      name: 'left-border-shape'
     });
     return container;
   },
@@ -222,7 +226,7 @@ const nodeBasicMethod = {
         opacity: 0,
         zIndex: -2
       },
-      className: 'collapse-icon-bg'
+      name: 'collapse-icon-bg'
     });
     group.addShape('marker', {
       attrs: {
@@ -235,14 +239,14 @@ const nodeBasicMethod = {
         lineWidth: 1,
         cursor: 'pointer'
       },
-      className: 'collapse-icon'
+      name: 'collapse-icon'
     });
   },
   afterDraw: function afterDraw(cfg, group) {
     /* 操作 marker 的背景色显示隐藏 */
-    const icon = group.find(element => element.get('className') ==='collapse-icon');
+    const icon = group.find(element => element.get('name') ==='collapse-icon');
     if (icon) {
-      const bg = group.find(element => element.get('className') ==='collapse-icon-bg');
+      const bg = group.find(element => element.get('name') ==='collapse-icon-bg');
       icon.on('mouseenter', function() {
         bg.attr('opacity', 1);
         graph.get('canvas').draw();
@@ -253,13 +257,13 @@ const nodeBasicMethod = {
       });
     }
     /* ip 显示 */
-    const ipBox = group.find(element => element.get('className') ==='ip-box');
+    const ipBox = group.find(element => element.get('name') ==='ip-box');
     if (ipBox) {
       /* ip 复制的几个元素 */
-      const ipLine = group.find(element => element.get('className') ==='ip-cp-line');
-      const ipBG = group.find(element => element.get('className') ==='ip-cp-bg');
-      const ipIcon = group.find(element => element.get('className') ==='ip-cp-icon');
-      const ipCPBox = group.find(element => element.get('className') ==='ip-cp-box');
+      const ipLine = group.find(element => element.get('name') ==='ip-cp-line');
+      const ipBG = group.find(element => element.get('name') ==='ip-cp-bg');
+      const ipIcon = group.find(element => element.get('name') ==='ip-cp-icon');
+      const ipCPBox = group.find(element => element.get('name') ==='ip-cp-box');
 
       const onMouseEnter = function onMouseEnter() {
         if (ipHideTimer) {
@@ -301,14 +305,14 @@ const nodeBasicMethod = {
     if (name === 'emptiness') {
       if (value) {
         childrens.forEach((shape) => {
-          if (hasOpacityClass.indexOf(shape.get('className')) > -1) {
+          if (hasOpacityClass.indexOf(shape.get('name')) > -1) {
             return;
           }
           shape.attr('opacity', 0.4);
         });
       } else {
         childrens.forEach((shape) => {
-          if (hasOpacityClass.indexOf(shape.get('className')) > -1) {
+          if (hasOpacityClass.indexOf(shape.get('name')) > -1) {
             return;
           }
           shape.attr('opacity', 1);
@@ -340,7 +344,8 @@ G6.registerNode(SIMPLE_TREE_NODE, {
         textBaseline: 'middle',
         fill: config.fontColor,
         cursor: 'pointer'
-      }
+      },
+      name: 'name-text-shape'
     });
 
     if (nodeError) {
@@ -351,7 +356,8 @@ G6.registerNode(SIMPLE_TREE_NODE, {
           height: 35,
           width: 35,
           img: '/static/images/warning-circle.svg'
-        }
+        },
+        name: 'image-shape'
       });
     }
 
@@ -386,7 +392,8 @@ G6.registerNode(TREE_NODE, {
           textAlign: 'left',
           textBaseline: 'middle',
           fill: 'rgba(0,0,0,0.65)'
-        }
+        },
+        name: 'type-text-shape'
       });
     }
 
@@ -400,7 +407,8 @@ G6.registerNode(TREE_NODE, {
           stroke: nodeError ? 'rgba(255,255,255,0.65)' : null,
           radius: 2,
           cursor: 'pointer'
-        }
+        },
+        name: 'ip-container-shape'
       });
 
       /* ip */
@@ -414,7 +422,8 @@ G6.registerNode(TREE_NODE, {
           textBaseline: 'middle',
           fill: nodeError ? 'rgba(255,255,255,0.85)' : 'rgba(0,0,0,0.65)',
           cursor: 'pointer'
-        }
+        },
+        name: 'ip-text-shape'
       });
 
       const ipBBox = ipText.getBBox();
@@ -442,7 +451,7 @@ G6.registerNode(TREE_NODE, {
           fill: '#fff',
           opacity: 0
         },
-        className: 'ip-box'
+        name: 'ip-box'
       });
 
       /* copyIpLine */
@@ -455,7 +464,7 @@ G6.registerNode(TREE_NODE, {
           fill: '#E3E6E8',
           opacity: 0
         },
-        className: 'ip-cp-line'
+        name: 'ip-cp-line'
       });
       /* copyIpBG */
       group.addShape('rect', {
@@ -468,7 +477,7 @@ G6.registerNode(TREE_NODE, {
           cursor: 'pointer',
           opacity: 0
         },
-        className: 'ip-cp-bg'
+        name: 'ip-cp-bg'
       });
       /* copyIpIcon */
       group.addShape('image', {
@@ -481,7 +490,7 @@ G6.registerNode(TREE_NODE, {
           cursor: 'pointer',
           opacity: 0
         },
-        className: 'ip-cp-icon'
+        name: 'ip-cp-icon'
       });
       /* 放一个透明的矩形在 icon 区域上，方便监听点击 */
       group.addShape('rect', {
@@ -494,7 +503,7 @@ G6.registerNode(TREE_NODE, {
           cursor: 'pointer',
           opacity: 0
         },
-        className: 'ip-cp-box',
+        name: 'ip-cp-box',
         tooltip: '复制IP'
       });
 
@@ -516,8 +525,8 @@ G6.registerNode(TREE_NODE, {
         textBaseline: 'middle',
         fill: config.fontColor,
         cursor: 'pointer'
-        // tooltip: cfg.name,
-      }
+      },
+      name: 'name-text-shape'
     });
 
     /* 下面的文字 */
@@ -531,9 +540,8 @@ G6.registerNode(TREE_NODE, {
         textBaseline: 'middle',
         fill: config.fontColor,
         cursor: 'pointer'
-        // className: 'keyInfo',
-        // tooltip: cfg.keyInfo,
-      }
+      },
+      name: 'bottom-text-shape'
     });
 
     if (nodeError) {
@@ -544,7 +552,8 @@ G6.registerNode(TREE_NODE, {
           height: 35,
           width: 35,
           img: '/static/images/warning-circle.svg'
-        }
+        },
+        name: 'image-shape'
       });
     }
 
@@ -582,7 +591,7 @@ G6.registerEdge('tree-edge', {
         opacity: 0,
         zIndex: 0
       },
-      className: 'line-bg'
+      name: 'line-bg'
     });
     const keyShape = group.addShape('path', {
       attrs: {
@@ -592,7 +601,8 @@ G6.registerEdge('tree-edge', {
         zIndex: 1,
         lineAppendWidth: 12
       },
-      edgeError: !!edgeError
+      edgeError: !!edgeError,
+      name: 'path-shape'
     });
 
     /* 连接线的中间点 */
@@ -607,7 +617,7 @@ G6.registerEdge('tree-edge', {
         opacity: 1
       },
       /* sofarouter 需要 class，以便控制 显示隐藏 */
-      className: SOFAROUTER_RECT_CLASS
+      name: SOFAROUTER_RECT_CLASS
     });
     const text = group.addShape('text', {
       attrs: {
@@ -621,7 +631,7 @@ G6.registerEdge('tree-edge', {
         opacity: 1
       },
       /* sofarouter 需要 class，以便控制 显示隐藏 */
-      className: SOFAROUTER_TEXT_CLASS
+      name: SOFAROUTER_TEXT_CLASS
     });
     const textBBox = text.getBBox();
     /* text 的位置 */
@@ -669,14 +679,14 @@ G6.registerEdge('tree-edge', {
     if (name === 'emptiness') {
       if (value) {
         childrens.forEach(function(shape) {
-          if (shape.get('className') === 'line-bg') {
+          if (shape.get('name') === 'line-bg') {
             return;
           }
           shape.attr('opacity', 0.4);
         });
       } else {
         childrens.forEach(function(shape) {
-          if (shape.get('className') === 'line-bg') {
+          if (shape.get('name') === 'line-bg') {
             return;
           }
           shape.attr('opacity', 1);

@@ -98,7 +98,9 @@ G6.registerNode('diamond', {
     	attrs: {
         path: this.getPath(cfg), // 根据配置获取路径
         stroke: cfg.color // 颜色应用到描边上，如果应用到填充，则使用 fill: cfg.color
-      }
+      },
+      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      name: 'path-shape'
     });
     if(cfg.label) { // 如果有文本
       // 如果需要复杂的文本配置项，可以通过 labeCfg 传入
@@ -113,7 +115,9 @@ G6.registerNode('diamond', {
           textBaseline: 'middle',
           text: cfg.label,
           fill: '#666'
-        }
+        },
+        // must be assigned in G6 3.3 and later versions. it can be any value you want
+        name: 'text-shape'
       });
     }
     return shape;
@@ -250,7 +254,9 @@ G6.registerNode('inner-animate', {
         width: width,
         height: height,
         img: cfg.img
-      }
+      },
+      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      name: 'image-shape'
     });
     // 执行旋转动画
     image.animate((ratio) => {

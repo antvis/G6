@@ -80,7 +80,7 @@ order: 1
 ```
 
 ### 绘制结果
-调用 `graph.render()` 方法之后，G6 引擎会根据加载的数据进行图的绘制。如果没有额外指定图实例的 `renderer` 属性配置，则默认采用 Canvas 进行绘制，结果如下：
+调用 `graph.render()` 方法之后，G6 引擎会根据加载的数据进行图的绘制。结果如下：
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YTfpQYVGhuEAAAAAAAAAAABkARQnAQ' width=400 />
 
@@ -151,7 +151,6 @@ const graph = new G6.Graph({
 
 | 配置项 | 类型 | 选项 / 示例 | 默认 | 说明 |
 | --- | --- | --- | --- | --- |
-| renderer | String | 'canvas' / 'svg' | 'canvas' | 绘制图的方式是 Canvas 还是 SVG。 |
 | fitView | Boolean | true / false | false | 是否将图适配到画布大小，可以防止超出画布或留白太多。 |
 | fitViewPadding | Number / Array | 20 / [ 20, 40, 50, 20 ] | 0 | 画布上的四周留白宽度。 |
 | animate | Boolean | true / false | false | 是否启用图的动画。 |
@@ -179,7 +178,6 @@ const graph = new G6.Graph({
       container: 'mountNode',
       width: 1000,
       height: 600,
-      renderer: 'svg',
       fitView: true,
       fitViewPadding: [ 20, 40, 50, 20 ]
     });

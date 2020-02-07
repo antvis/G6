@@ -206,10 +206,6 @@ export default class Graph extends EventEmitter implements IGraph {
        */
       height: undefined,
       /**
-       * renderer canvas or svg
-       */
-      renderer: 'canvas',
-      /**
        * control graph behaviors
        */
       modes: {},

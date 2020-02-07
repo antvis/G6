@@ -19,7 +19,8 @@ G6.registerNode('expandNode', {
         width: 100 + 60 * cfg.values.length,
         height: 50,
         fill: '#C6E5FF'
-      }
+      },
+      name: 'key-rect-shape'
     });
 
       // name text
@@ -30,7 +31,8 @@ G6.registerNode('expandNode', {
         width: 130,
         x: 10,
         y: 32
-      }
+      },
+      name: 'name-text-shape'
     });
 
     const subGroup = group.addGroup({
@@ -43,7 +45,8 @@ G6.registerNode('expandNode', {
           y: 0,
           width: 50,
           height: 50
-        }
+        },
+        name: 'rect-shape'
       });
 
       subGroup.addShape('text', {
@@ -55,7 +58,8 @@ G6.registerNode('expandNode', {
           fontSize: 10,
           textBaseline: 'middle',
           className: 'sub-group-text'
-        }
+        },
+        name: 'sub-text-shape1'
       });
 
       subGroup.addShape('text', {
@@ -68,7 +72,8 @@ G6.registerNode('expandNode', {
           textBaseline: 'middle',
           textAlign: 'left',
           className: 'sub-group-text'
-        }
+        },
+        name: 'name-text-shape2'
       });
     });
 
@@ -83,7 +88,8 @@ G6.registerNode('expandNode', {
         fill: '#fff',
         x: 70,
         y: 30
-      }
+      },
+      name: 'list-rect-shape1'
     });
 
     const rectWidth = 100 + 60 * cfg.values.length - 80;
@@ -95,7 +101,8 @@ G6.registerNode('expandNode', {
           fill: '#9EC9FF',
           x: 80,
           y: 40 * index + 40
-        }
+        },
+        name: 'list-rect-shape2'
       });
       let count = 0;
       for (const p in property) {
@@ -109,7 +116,8 @@ G6.registerNode('expandNode', {
             fontSize: 10,
             textBaseline: 'middle',
             textAlign: 'left'
-          }
+          },
+          name: 'text-shape'
         });
         count++;
       }

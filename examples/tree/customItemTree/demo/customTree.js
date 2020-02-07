@@ -12,7 +12,8 @@ G6.registerNode('tree-node', {
       attrs: {
         fill: '#fff',
         stroke: '#666'
-      }
+      },
+      name: 'rect-shape'
     });
     const content = cfg.name.replace(/(.{19})/g, '$1\n');
     const text = group.addShape('text', {
@@ -23,7 +24,8 @@ G6.registerNode('tree-node', {
         textAlign: 'left',
         textBaseline: 'middle',
         fill: '#666'
-      }
+      },
+      name: 'rect-shape'
     });
     const bbox = text.getBBox();
     const hasChildren = cfg.children && cfg.children.length > 0;
@@ -37,7 +39,7 @@ G6.registerNode('tree-node', {
           stroke: '#666',
           lineWidth: 2
         },
-        className: 'collapse-icon'
+        name: 'collapse-icon'
       });
     }
     rect.attr({
@@ -62,7 +64,7 @@ const graph = new G6.TreeGraph({
       type: 'collapse-expand',
       onChange: function onChange(item, collapsed) {
         const data = item.get('model');
-        const icon = item.get('group').findByClassName('collapse-icon');
+        const icon = item.get('group').find(element => element.get('name') === 'collapse-icon');
         if (collapsed) {
           icon.attr('symbol', EXPAND_ICON);
         } else {

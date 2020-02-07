@@ -4,8 +4,8 @@ G6.registerNode('file-node', {
   draw: function draw(cfg, group) {
     const keyShape = group.addShape('rect', {
       attrs: {
-        x: cfg.x - 4,
-        y: cfg.y - 12,
+        x: -4,
+        y: -12,
         fill: '#fff',
         stroke: null
       }
@@ -14,32 +14,35 @@ G6.registerNode('file-node', {
       group.addShape('marker', {
         attrs: {
           symbol: 'triangle',
-          x: cfg.x + 4,
-          y: cfg.y - 2,
+          x: 4,
+          y: -2,
           r: 4,
           fill: '#666'
-        }
+        },
+        name: 'marker-shape'
       });
     } else if (cfg.children && cfg.children.length > 0) {
       group.addShape('marker', {
         attrs: {
           symbol: 'triangle-down',
-          x: cfg.x + 4,
-          y: cfg.y - 2,
+          x: 4,
+          y: -2,
           r: 4,
           fill: '#666'
-        }
+        },
+        name: 'marker-shape'
       });
     }
     const shape = group.addShape('text', {
       attrs: {
-        x: cfg.x + 15,
-        y: cfg.y + 4,
+        x: 15,
+        y: 4,
         text: cfg.name,
         fill: '#666',
         fontSize: 16,
         textAlign: 'left'
-      }
+      },
+      name: 'text-shape'
     });
     const bbox = shape.getBBox();
     keyShape.attr({
