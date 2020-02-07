@@ -23,7 +23,7 @@ G6 使用不同的 shape 及组合，设计了多种内置的节点和边。G6 �
 想要改变这一规则，可以 [自定义节点](/zh/docs/manual/advanced/custom-node) / [自定义边](/zh/docs/manual/advanced/custom-edge)。
 
 #### 示例
-该示例使用了内置 rect 节点，的节点的 keyShape 是中间的 rect，其他 Shape 包括上下左右四个 circle 以及一个 text。代码设置了节点的样式 `style`，仅在 rect 上生效，其他 Shape 都以默认样式渲染。该节点上的其他图形需要使用其他配置项进行配置。例如，上下左右四个 circle 的样式需要在 `linkPoints` 中配置，文本样式需要在 `labelCfg` 中配置。代码中还监听了鼠标的进入节点和离开节点事件，触发了 hover 状态后 `nodeStateStyles` 里 hover 的对应样式仅在 keyShape 上生效。
+该示例使用了内置 rect 节点，节点的 keyShape 是中间的 rect，其他 Shape 包括上下左右四个 circle 以及一个 text。代码设置了节点的样式 `style`，仅在 rect 上生效，其他 Shape 都以默认样式渲染。该节点上的其他图形需要使用其他配置项进行配置。例如，上下左右四个 circle 的样式需要在 `linkPoints` 中配置，文本样式需要在 `labelCfg` 中配置。代码中还监听了鼠标的进入节点和离开节点事件，触发了 hover 状态后 `nodeStateStyles` 里 hover 的对应样式仅在 keyShape 上生效。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wWckTbi910IAAAAAAAAAAABkARQnAQ' alt='keyshape-demo' with='50'/>
 
