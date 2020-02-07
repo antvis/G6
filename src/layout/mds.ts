@@ -3,7 +3,7 @@
  * @author shiwu.wyy@antfin.com
  */
 
-import { IPointTuple } from '../types';
+import { IPointTuple, Matrix } from '../types';
 
 import Numeric from 'numericjs';
 import { floydWarshall, getAdjMatrix, scaleMatrix } from '../util/math';
@@ -14,11 +14,11 @@ import { BaseLayout } from './layout';
  */
 export default class MDSLayout extends BaseLayout {
   /** 布局中心 */
-  public center: IPointTuple;
+  public center: IPointTuple = [0, 0];
   /** 边长度 */
-  public linkDistance: number;
+  public linkDistance: number = 50;
 
-  private scaledDistances;
+  private scaledDistances: Matrix[] | null = null;
 
   public getDefaultCfg() {
     return {
@@ -32,9 +32,9 @@ export default class MDSLayout extends BaseLayout {
   public execute() {
     const self = this;
     const nodes = self.nodes;
-    const edges = self.edges;
+    const edges = self.edges || [];
     const center = self.center;
-    if (nodes.length === 0) {
+    if (!nodes || nodes.length === 0) {
       return;
     } else if (nodes.length === 1) {
       nodes[0].x = center[0];
@@ -54,7 +54,7 @@ export default class MDSLayout extends BaseLayout {
     // get positions by MDS
     const positions = self.runMDS();
     self.positions = positions;
-    positions.forEach((p, i) => {
+    positions.forEach((p: number[], i: number) => {
       nodes[i].x = p[0] + center[0];
       nodes[i].y = p[1] + center[1];
     });
@@ -70,7 +70,7 @@ export default class MDSLayout extends BaseLayout {
     // square distances
     const M = Numeric.mul(-0.5, Numeric.pow(distances, 2));
     // double centre the rows/columns
-    function mean(A) {
+    function mean(A: any) {
       return Numeric.div(Numeric.add.apply(null, A), A.length);
     }
     const rowMeans = mean(M);
@@ -85,12 +85,12 @@ export default class MDSLayout extends BaseLayout {
     // points from it
     const ret = Numeric.svd(M);
     const eigenValues = Numeric.sqrt(ret.S);
-    return ret.U.map(function(row) {
+    return ret.U.map(function(row: any) {
       return Numeric.mul(row, eigenValues).splice(0, dimension);
     });
   }
 
-  public handleInfinity(distances: number[][]) {
+  public handleInfinity(distances: Matrix[]) {
     let maxDistance = -999999;
     distances.forEach((row) => {
       row.forEach((value) => {

@@ -22,8 +22,8 @@ export class G6GraphEvent extends GraphEvent implements IG6GraphEvent {
   public canvasY: number
   public wheelDelta: number
   public detail: number
-  public target: Item & Canvas;
-  constructor(type, event) {
+  public target!: Item & Canvas;
+  constructor(type: string, event: IG6GraphEvent) {
     super(type, event)
     this.item = event.item
     this.canvasX = event.canvasX

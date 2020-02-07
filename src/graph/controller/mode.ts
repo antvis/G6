@@ -4,9 +4,10 @@ import isString from '@antv/util/lib/is-string'
 import Behavior from '../../behavior/behavior'
 import { IBehavior } from '../../interface/behavior';
 import { IGraph, IMode, IModeType } from '../../interface/graph';
+import Graph from '../graph';
 
 export default class ModeController {
-  private graph: IGraph
+  private graph: Graph
   public destroyed: boolean
   /**
    * modes = {
@@ -32,7 +33,7 @@ export default class ModeController {
    */
   public mode: string
   private currentBehaves: IBehavior[]
-  constructor(graph: IGraph) {
+  constructor(graph: Graph) {
     this.graph = graph
     this.destroyed = false
     this.modes = graph.get('modes') || {
@@ -62,7 +63,7 @@ export default class ModeController {
     const behaviors = this.modes[mode];
     const behaves: IBehavior[] = [];
     let behave: IBehavior;
-    each(behaviors, behavior => {
+    each(behaviors || [], behavior => {
       const BehaviorInstance = Behavior.getBehavior(behavior.type)
       if (!BehaviorInstance) {
         return;
@@ -70,14 +71,14 @@ export default class ModeController {
       
       behave = new BehaviorInstance(behavior);
       if(behave) {
-        behave.bind(graph)
+        behave.bind(graph as IGraph)
         behaves.push(behave);
       }
     });
     this.currentBehaves = behaves;
   }
 
-  private mergeBehaviors(modeBehaviors: IModeType[], behaviors): IModeType[] {
+  private mergeBehaviors(modeBehaviors: IModeType[], behaviors: IModeType[]): IModeType[] {
     each(behaviors, behavior => {
       if (modeBehaviors.indexOf(behavior) < 0) {
         if (isString(behavior)) {
@@ -89,7 +90,7 @@ export default class ModeController {
     return modeBehaviors;
   }
 
-  private filterBehaviors(modeBehaviors: IModeType[], behaviors): IModeType[] {
+  private filterBehaviors(modeBehaviors: IModeType[], behaviors: IModeType[]): IModeType[] {
     const result: IModeType[] = [];
     modeBehaviors.forEach(behavior => {
       let type: string = ''
@@ -105,7 +106,7 @@ export default class ModeController {
     return result;
   }
 
-  public setMode(mode: string): ModeController {
+  public setMode(mode: string) {
     const modes = this.modes;
     const graph = this.graph;
     const current = mode
@@ -143,22 +144,24 @@ export default class ModeController {
    */
   public manipulateBehaviors(behaviors: IModeType[] | IModeType, modes: string[] | string, isAdd: boolean): ModeController {
     const self = this
-    let behaves = behaviors
+    let behaves: IModeType[]
     if(!isArray(behaviors)) {
       behaves = [ behaviors ]
+    }else {
+      behaves = behaviors
     }
 
     if(isArray(modes)) {
       each(modes, mode => {
         if (!self.modes[mode]) {
           if (isAdd) {
-            self.modes[mode] = [].concat(behaves);
+            self.modes[mode] = behaves
           }
         } else {
           if (isAdd) {
-            self.modes[mode] = this.mergeBehaviors(self.modes[mode], behaves);
+            self.modes[mode] = this.mergeBehaviors(self.modes[mode] || [], behaves);
           } else {
-            self.modes[mode] = this.filterBehaviors(self.modes[mode], behaves);
+            self.modes[mode] = this.filterBehaviors(self.modes[mode] || [], behaves);
           }
         }
       })
@@ -173,14 +176,14 @@ export default class ModeController {
     
     if(!this.modes[currentMode]) {
       if (isAdd) {
-        self.modes[currentMode] = [].concat(behaves);
+        self.modes[currentMode] = behaves
       }
     }
     
     if (isAdd) {
-      self.modes[currentMode] = this.mergeBehaviors(self.modes[currentMode], behaves);
+      self.modes[currentMode] = this.mergeBehaviors(self.modes[currentMode] || [], behaves);
     } else {
-      self.modes[currentMode] = this.filterBehaviors(self.modes[currentMode], behaves);
+      self.modes[currentMode] = this.filterBehaviors(self.modes[currentMode] || [], behaves);
     }
 
     self.setMode(this.mode)
@@ -189,9 +192,9 @@ export default class ModeController {
   }
 
   public destroy() {
-    this.graph = null;
-    this.modes = null;
-    this.currentBehaves = null;
+    (this.graph as Graph | null) = null;
+    (this.modes as IMode | null) = null;
+    (this.currentBehaves as IBehavior[] | null) = null;
     this.destroyed = true;
   }
 }

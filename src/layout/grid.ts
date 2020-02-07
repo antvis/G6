@@ -4,76 +4,64 @@
  * this algorithm refers to <cytoscape.js> - https://github.com/cytoscape/cytoscape.js/
  */
 
-import { EdgeConfig, IPointTuple, NodeConfig } from '../types';
+import { EdgeConfig, IPointTuple, NodeConfig, NodeIdxMap } from '../types';
 
 import isString from '@antv/util/lib/is-string';
 import { BaseLayout } from './layout';
 import { isArray, isNumber } from '@antv/util';
+import { getDegree } from '../util/math';
 
 type Node = NodeConfig & {
   degree: number;
-  size: number;
 };
 type Edge = EdgeConfig;
-
-function getDegree(n: number, nodeIdxMap: object, edges: Edge[]) {
-  const degrees = [];
-  for (let i = 0; i < n; i++) {
-    degrees[i] = 0;
-  }
-  edges.forEach((e) => {
-    degrees[nodeIdxMap[e.source]] += 1;
-    degrees[nodeIdxMap[e.target]] += 1;
-  });
-  return degrees;
-}
 
 /**
  * 网格布局
  */
 export default class GridLayout extends BaseLayout {
   /** 布局起始点 */
-  public begin: IPointTuple;
+  public begin: IPointTuple = [0, 0];
   /** prevents node overlap, may overflow boundingBox if not enough space */
-  public preventOverlap: boolean;
+  public preventOverlap: boolean = true;
   /** extra spacing around nodes when preventOverlap: true */
-  public preventOverlapPadding: 10;
+  public preventOverlapPadding: number = 10;
   /** uses all available space on false, uses minimal space on true */
-  public condense: boolean;
+  public condense: boolean = false;
   /** force num of rows in the grid */
-  public rows: number;
+  public rows: number | undefined;
   /** force num of columns in the grid */
-  public cols: number;
+  public cols: number | undefined;
   /** returns { row, col } for element */
-  public position: (node: Node) => { row: number; col: number };
+  public position: ((node: Node) => { row: number; col: number }) | undefined;
   /** a sorting function to order the nodes; e.g. function(a, b){ return a.datapublic ('weight') - b.data('weight') } */
-  public sortBy: string;
-  public nodeSize: number | number[];
+  public sortBy: string = 'degree';
+  public nodeSize: number | number[] = 30;
 
-  public nodes: Node[];
-  public edges: Edge[];
+  public nodes: Node[] = [];
+  public edges: Edge[] = [];
 
   /** 布局中心 */
-  public center: IPointTuple;
-  public width: number;
-  public height: number;
+  public center: IPointTuple = [0, 0];
+  public width: number = 300;
+  public height: number = 300;
 
-  private cells: number;
-  private row: number;
-  private col: number;
-  private splits: number;
-  private columns: number;
-  private cellWidth: number;
-  private cellHeight: number;
+  private cells: number | undefined;
+  private row: number = 0;
+  private col: number = 0;
+  private splits: number | undefined;
+  private columns: number | undefined;
+  private cellWidth: number = 0;
+  private cellHeight: number = 0;
   private cellUsed: {
     [key: string]: boolean;
-  };
+  } = {};
   private id2manPos: {
     [key: string]: {
       row: number;
       col: number;
     };
-  };
+  } = {};
 
   public getDefaultCfg() {
     return {
@@ -83,7 +71,7 @@ export default class GridLayout extends BaseLayout {
       condense: false,
       rows: undefined,
       cols: undefined,
-      position() {},
+      position: undefined,
       sortBy: 'degree',
       nodeSize: 30
     };
@@ -109,7 +97,7 @@ export default class GridLayout extends BaseLayout {
     nodes.forEach((node) => {
       layoutNodes.push(node);
     });
-    const nodeIdxMap = {};
+    const nodeIdxMap: NodeIdxMap = {};
     layoutNodes.forEach((node, i) => {
       nodeIdxMap[node.id] = i;
     });
@@ -156,8 +144,8 @@ export default class GridLayout extends BaseLayout {
     if (self.cols * self.rows > self.cells) {
       // otherwise use the automatic values and adjust accordingly
       // if rounding was up, see if we can reduce rows or columns
-      const sm = self.small();
-      const lg = self.large();
+      const sm = self.small() as number;
+      const lg = self.large() as number;
 
       // reducing the small side takes away the most cells, so try it first
       if ((sm - 1) * lg >= self.cells) {
@@ -168,8 +156,8 @@ export default class GridLayout extends BaseLayout {
     } else {
       // if rounding was too low, add rows or columns
       while (self.cols * self.rows < self.cells) {
-        const sm = self.small();
-        const lg = self.large();
+        const sm = self.small() as number;
+        const lg = self.large() as number;
 
         // try to add to larger side first (adds less in multiplication)
         if ((lg + 1) * sm >= self.cells) {
@@ -196,16 +184,16 @@ export default class GridLayout extends BaseLayout {
           node.y = 0;
         }
 
-        let nodew: number;
-        let nodeh: number;
+        let nodew: number | undefined;
+        let nodeh: number | undefined;
         if (isArray(node.size)) {
           nodew = node.size[0];
           nodeh = node.size[1];
-        } else {
+        } else if(isNumber(node.size)){
           nodew = node.size;
           nodeh = node.size;
         }
-        if (isNaN(nodew) || isNaN(nodeh)) {
+        if (nodew === undefined || nodeh === undefined) {
           if (isArray(self.nodeSize)) {
             nodew = self.nodeSize[0];
             nodeh = self.nodeSize[1];
@@ -238,7 +226,10 @@ export default class GridLayout extends BaseLayout {
     self.id2manPos = {};
     for (let i = 0; i < layoutNodes.length; i++) {
       const node = layoutNodes[i];
-      const rcPos = self.position(node);
+      let rcPos;
+      if (self.position) {
+        rcPos = self.position(node);
+      }
 
       if (rcPos && (rcPos.row !== undefined || rcPos.col !== undefined)) {
         // must have at least row or col def'd
@@ -269,13 +260,15 @@ export default class GridLayout extends BaseLayout {
       self.getPos(node);
     }
   }
-  private small(val?: number) {
+  private small(val?: number): number | undefined {
     const self = this;
-    let res: number;
+    let res: number | undefined;
+    const rows = self.rows || 5;
+    const cols = self.cols || 5;
     if (val == null) {
-      res = Math.min(self.rows, self.cols);
+      res = Math.min(rows, cols);
     } else {
-      const min = Math.min(self.rows, self.cols);
+      const min = Math.min(rows, cols);
       if (min === self.rows) {
         self.rows = val;
       } else {
@@ -285,13 +278,15 @@ export default class GridLayout extends BaseLayout {
     return res;
   }
 
-  private large(val?: number) {
+  private large(val?: number): number | undefined {
     const self = this;
-    let res: number;
+    let res: number | undefined;
+    const rows = self.rows || 5;
+    const cols = self.cols || 5;
     if (val == null) {
-      res = Math.max(self.rows, self.cols);
+      res = Math.max(rows, cols);
     } else {
-      const max = Math.max(self.rows, self.cols);
+      const max = Math.max(rows, cols);
       if (max === self.rows) {
         self.rows = val;
       } else {
@@ -313,8 +308,9 @@ export default class GridLayout extends BaseLayout {
 
   private moveToNextCell() {
     const self = this;
+    const cols = self.cols || 5;
     self.col++;
-    if (self.col >= self.cols) {
+    if (self.col >= cols) {
       self.col = 0;
       self.row++;
     }
