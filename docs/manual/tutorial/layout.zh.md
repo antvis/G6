@@ -79,7 +79,7 @@ const graph = new G6.Graph({
 > 不同布局之间、相同布局不同参数允许动态切换和过渡，具体参见：[布局切换](/zh/docs/manual/middle/layout/#布局的切换机制)。
 
 
- 提示 <br />布局将在调用 `graph.render()` 时执行计算。
+提示：布局将在调用 `graph.render()` 时执行计算。
 
 ## 完整代码
 至此，完整代码如下：

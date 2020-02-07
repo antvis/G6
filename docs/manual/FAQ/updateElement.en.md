@@ -1,6 +1,6 @@
 ---
 title: Update Item's Style
-order: 1
+order: 0
 ---
 
 There are three ways to modify the styles for items in G6.
@@ -32,6 +32,9 @@ const graph = new G6.Graph({
 ```
 
 #### Configure style in Data
+
+By this way, you can configure the different nodes and edges in different styles.
+
 ```javascript
 const data = {
 	nodes: [
@@ -48,6 +51,8 @@ const data = {
 ```
 
 #### update / updateItem
+
+This is a way for updating the [keyShape](/en/docs/manual/middle/elements/shape-keyshape) of a node or an edge.
 
 ```javascript
 graph.updateItem(node, {

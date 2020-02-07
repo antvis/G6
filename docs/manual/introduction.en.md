@@ -36,6 +36,7 @@ Developers are able to build graph visualization **analysis** applications or gr
 > Powerful Animation and Interactions
 
 ## Features
+- Excellent Perforamnce: Supports large graph visualization and interactive exploration;
 - Abundant Built-in Items: Nodes and edges with free configurations;
 - Steerable Interactions: More than 10 basic interaction behaviors ;
 - Powerful Layouts: More than 10 layout algorithms;
