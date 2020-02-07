@@ -1,6 +1,7 @@
 import Layout from '../../layout';
 import LayoutWorker from '../../layout/worker/layout.worker';
 import { LAYOUT_MESSAGE } from '../../layout/worker/layoutConst';
+import { isNaN } from "../../util/base"
 
 import { IGraph } from '../../interface/graph';
 
@@ -396,7 +397,7 @@ export default class LayoutController {
 
     const data = graph.get('data');
     const { nodes } = data;
-    if (nodes[0].x === undefined || nodes[0].x === null || Number.isNaN(nodes[0].x)) {
+    if (nodes[0].x === undefined || nodes[0].x === null || isNaN(nodes[0].x)) {
       return;
     }
     const meanCenter = [0, 0];
@@ -420,11 +421,11 @@ export default class LayoutController {
     }	
     let allHavePos = true;	
     nodes.forEach(node => {	
-      if (Number.isNaN(node.x)) {	
+      if (isNaN(node.x)) {	
         allHavePos = false;	
         node.x = (Math.random() - 0.5) * 0.9 * graph.get('width') + center[0];	
       }	
-      if (Number.isNaN(node.y)) {	
+      if (isNaN(node.y)) {	
         allHavePos = false;	
         node.y = (Math.random() - 0.5) * 0.9 * graph.get('height') + center[1];	
       }	

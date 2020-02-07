@@ -10,6 +10,7 @@ import isString from '@antv/util/lib/is-string';
 import { BaseLayout } from './layout';
 import { isArray, isNumber } from '@antv/util';
 import { getDegree } from '../util/math';
+import { isNaN } from "../util/base"
 
 type Node = NodeConfig & {
   degree: number;
