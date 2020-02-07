@@ -1,4 +1,4 @@
-# G6: A Graph Visualization Framework in JavaScript.
+# G6: A Graph Visualization Framework in TypeScript.
 ![](https://user-images.githubusercontent.com/6113694/45008751-ea465300-b036-11e8-8e2a-166cbb338ce2.png)
 
 [![](https://img.shields.io/travis/antvis/g6.svg)](https://travis-ci.org/antvis/g6)
