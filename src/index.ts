@@ -21,6 +21,6 @@ export default {
   Global,
   Minimap: Plugins.Minimap,
   Grid: Plugins.Grid,
-  EdgeBundling: Plugins.Bundling,
+  Bundling: Plugins.Bundling,
   Menu: Plugins.Menu
 }
