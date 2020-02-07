@@ -164,8 +164,7 @@ export default class ForceLayout<Cfg = any> extends BaseLayout {
           for (let currentTick = 1; currentTick <= totalTicks; currentTick++) {
             simulation.tick();
             // currentTick starts from 1.
-            // TODO: the second parameter is string type. but when i pass '' to it, the worker does not work anympre
-            postMessage({ type: LAYOUT_MESSAGE.TICK, currentTick, totalTicks, nodes }, undefined);
+            postMessage({ type: LAYOUT_MESSAGE.TICK, currentTick, totalTicks, nodes }, undefined as string);
           }
           self.ticking = false;
         }

@@ -1,10 +1,11 @@
 import G6 from '../../../src';
+import { NodeConfig, EdgeConfig } from '../../../src/types';
 
 const div = document.createElement('div');
 div.id = 'graph-spec';
 document.body.appendChild(div);
 
-const data: {nodes: object, edges: object} = {
+const data: {nodes: NodeConfig[], edges: EdgeConfig[]} = {
   nodes: [
     {
       id: '0',
