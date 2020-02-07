@@ -303,10 +303,10 @@ Shape.registerNode('triangle', {
 
     const direction = cfg.direction || defaultDirection;
 
-    const markLeft = group.find(element => { return element.get('className') === 'link-point-left'})
-    const markRight = group.find(element => { return element.get('className') === 'link-point-right'})
-    const markTop = group.find(element => { return element.get('className') === 'link-point-top'})
-    const markBottom = group.find(element => { return element.get('className') === 'link-point-bottom'})
+    const markLeft = group.find(element => element.get('className') === 'link-point-left')
+    const markRight = group.find(element => element.get('className') === 'link-point-right')
+    const markTop = group.find(element => element.get('className') === 'link-point-top')
+    const markBottom = group.find(element => element.get('className') === 'link-point-bottom')
 
     let currentLinkPoints = defaultLinkPoints;
     const existLinkPoint = markLeft || markRight || markTop || markBottom;

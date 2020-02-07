@@ -39,7 +39,7 @@ function getWeightMatrix(M: Matrix[]) {
 
 function getIndexById(array: any[], id: string) {
   let index = -1;
-  array.forEach((a, i) => {
+  array.forEach(function(a, i) {
     if (a.id === id) {
       index = i;
       return;
@@ -115,7 +115,8 @@ export default class RadialLayout extends BaseLayout {
     const center = self.center;
     if (!nodes || nodes.length === 0) {
       return;
-    } else if (nodes.length === 1) {
+    }
+    if (nodes.length === 1) {
       nodes[0].x = center[0];
       nodes[0].y = center[1];
       return;
@@ -225,15 +226,11 @@ export default class RadialLayout extends BaseLayout {
       const nodeSpacing = self.nodeSpacing;
       let nodeSpacingFunc: Function;
       if (isNumber(nodeSpacing)) {
-        nodeSpacingFunc = () => {
-          return nodeSpacing;
-        };
+        nodeSpacingFunc = () => nodeSpacing;
       } else if (isFunction(nodeSpacing)) {
         nodeSpacingFunc = nodeSpacing;
       } else {
-        nodeSpacingFunc = () => {
-          return 0;
-        };
+        nodeSpacingFunc = () => 0;
       }
       if (!nodeSize) {
         nodeSizeFunc = (d: NodeConfig) => {
@@ -253,9 +250,7 @@ export default class RadialLayout extends BaseLayout {
             return res + nodeSpacingFunc(d);
           };
         } else {
-          nodeSizeFunc = (d: NodeConfig) => {
-            return nodeSize + nodeSpacingFunc(d);
-          };
+          nodeSizeFunc = (d: NodeConfig) => nodeSize + nodeSpacingFunc(d);
         }
       }
       const nonoverlapForceParams: RadialNonoverlapForceParam = {
@@ -346,35 +341,37 @@ export default class RadialLayout extends BaseLayout {
     const radii = self.radii || [];
     const unitRadius = self.unitRadius || 50;
     const result: Matrix[] = [];
-    D && D.forEach((row, i) => {
-      const newRow: Matrix = [];
-      row.forEach((v, j) => {
-        if (i === j) {
-          newRow.push(0);
-        } else if (radii[i] === radii[j]) { // i and j are on the same circle	
-          if (self.sortBy === 'data') { // sort the nodes on the same circle according to the ordering of the data	
-            newRow.push(v * (Math.abs(i - j) * self.sortStrength) / (radii[i] / unitRadius));	
-          } else if (self.sortBy) { // sort the nodes on the same circle according to the attributes	
-            let iValue: number | string = nodes[i][self.sortBy] as number | string || 0;
-            let jValue: number | string = nodes[j][self.sortBy] as number | string || 0;
-            if (isString(iValue)) {	
-              iValue = iValue.charCodeAt(0);	
-            }
-            if (isString(jValue)) {	
-              jValue = jValue.charCodeAt(0);	
+    if(D) {
+      D.forEach((row, i) => {
+        const newRow: Matrix = [];
+        row.forEach((v, j) => {
+          if (i === j) {
+            newRow.push(0);
+          } else if (radii[i] === radii[j]) { // i and j are on the same circle	
+            if (self.sortBy === 'data') { // sort the nodes on the same circle according to the ordering of the data	
+              newRow.push(v * (Math.abs(i - j) * self.sortStrength) / (radii[i] / unitRadius));	
+            } else if (self.sortBy) { // sort the nodes on the same circle according to the attributes	
+              let iValue: number | string = nodes[i][self.sortBy] as number | string || 0;
+              let jValue: number | string = nodes[j][self.sortBy] as number | string || 0;
+              if (isString(iValue)) {	
+                iValue = iValue.charCodeAt(0);	
+              }
+              if (isString(jValue)) {	
+                jValue = jValue.charCodeAt(0);	
+              }	
+              newRow.push(v * (Math.abs(iValue - jValue) * self.sortStrength) / (radii[i] / unitRadius));	
+            } else {	
+              newRow.push(v * linkDis / (radii[i] / unitRadius));	
             }	
-            newRow.push(v * (Math.abs(iValue - jValue) * self.sortStrength) / (radii[i] / unitRadius));	
-          } else {	
-            newRow.push(v * linkDis / (radii[i] / unitRadius));	
-          }	
-        } else { // i and j are on different circle
-          // i and j are on different circle
-          const link = (linkDis + unitRadius) / 2;
-          newRow.push(v * link);
-        }
+          } else { // i and j are on different circle
+            // i and j are on different circle
+            const link = (linkDis + unitRadius) / 2;
+            newRow.push(v * link);
+          }
+        });
+        result.push(newRow);
       });
-      result.push(newRow);
-    });
+    }
     return result;
   }
 

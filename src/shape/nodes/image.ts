@@ -145,7 +145,7 @@ Shape.registerNode('image', {
   },
   updateShapeStyle(cfg: NodeConfig, item: Item) {
     const group = item.getContainer()
-    const shapeClassName = this.itemType + '-shape'
+    const shapeClassName = `${this.itemType}-shape`
     const shape = group.find(element => element.get('className') === shapeClassName)
     const shapeStyle = (this as ShapeOptions).getShapeStyle!(cfg);
     if (shape) {

@@ -253,7 +253,10 @@ const singleNode: ShapeOptions = {
 
     (this as any).updateLabel(cfg, item);
     // special for some types of nodes
-    hasIcon && (this as any).updateIcon(cfg, item);
+
+    if(hasIcon) {
+      (this as any).updateIcon(cfg, item);
+    }
   },
   updateIcon(cfg: ModelConfig, item: Item) {
     const group = item.getContainer();

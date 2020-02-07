@@ -89,6 +89,13 @@ export const shapeBase: ShapeOptions = {
               [ 't',  labelStyle.x, labelStyle.y! + labelBBox.height / 2 ]
             ]);
             break;
+          default:
+            labelMatrix = transform(labelMatrix, [
+              [ 't',  -labelBBox.width / 2, -labelBBox.height / 2 ],
+              [ 'r',  labelStyle.rotate ],
+              [ 't',  labelBBox.width / 2, labelBBox.height / 2 ]
+            ]);
+            break;
         }
       } else {
         labelMatrix = transform(labelMatrix, [

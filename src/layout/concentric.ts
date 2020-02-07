@@ -79,7 +79,8 @@ export default class ConcentricLayout extends BaseLayout {
     const center = self.center;
     if (n === 0) {
       return;
-    } else if (n === 1) {
+    }
+    if (n === 1) {
       nodes[0].x = center[0];
       nodes[0].y = center[1];
       return;
@@ -130,9 +131,7 @@ export default class ConcentricLayout extends BaseLayout {
       }
     }
     // sort nodes by value
-    layoutNodes.sort((n1: Node, n2: Node) => {
-      return n2[self.sortBy] - n1[self.sortBy];
-    });
+    layoutNodes.sort((n1: Node, n2: Node) => n2[self.sortBy] - n1[self.sortBy]);
 
     self.maxValueNode = layoutNodes[0];
 
