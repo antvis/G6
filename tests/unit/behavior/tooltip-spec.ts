@@ -164,7 +164,7 @@ describe('edge-tooltip', () => {
     const edge = graph.getEdges()[0];
     graph.emit('edge:mouseenter', { canvasX: 52, canvasY: 52, item: edge });
     const tooltip = div.childNodes[1] as HTMLElement;
-    expect(tooltip.innerText).toEqual('source:node0 target:node1');
+    expect(tooltip.innerText).toEqual('source: node0 target: node1');
     graph.emit('edge:mouseleave', { canvasX: 52, canvasY: 52, item: edge });
     expect(tooltip.style.visibility).toEqual('hidden');
     graph.removeBehaviors('tooltip', 'default');

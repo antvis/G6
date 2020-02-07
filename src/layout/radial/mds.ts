@@ -58,9 +58,7 @@ export default class MDS {
     }
     if (res.length === 0) {
       const eigenValues = Numeric.sqrt(ret.S);
-      res = ret.U.map(function(row: any) {
-        return Numeric.mul(row, eigenValues).splice(0, dimension);
-      });
+      res = ret.U.map((row: any) => Numeric.mul(row, eigenValues).splice(0, dimension));
     }
     return res;
   }

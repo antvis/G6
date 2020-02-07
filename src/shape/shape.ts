@@ -8,7 +8,6 @@ import { IShape } from '@antv/g-canvas/lib/interfaces'
 import { upperFirst } from '@antv/util'
 import { ShapeOptions } from '../interface/shape'
 import { IPoint, Item, ModelConfig, NodeConfig, EdgeConfig } from '../types';
-import { INode, IEdge } from '../interface/item';
 
 const cache: {
   [key: string]: string;

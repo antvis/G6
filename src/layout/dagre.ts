@@ -65,13 +65,9 @@ export default class DagreLayout extends BaseLayout {
         return [40, 40];
       };
     } else if (isArray(nodeSize)) {
-      nodeSizeFunc = () => {
-        return nodeSize;
-      };
+      nodeSizeFunc = () => nodeSize;
     } else {
-      nodeSizeFunc = () => {
-        return [nodeSize, nodeSize];
-      };
+      nodeSizeFunc = () => [nodeSize, nodeSize];
     }
     let horisep: Function = getFunc(self.nodesepFunc, self.nodesep, 50);
     let vertisep: Function = getFunc(self.ranksepFunc, self.ranksep, 50);
@@ -119,13 +115,9 @@ function getFunc(func: ((d?: any) => number) | undefined, value: number, default
   if (func) {
     resultFunc = func;
   } else if (isNumber(value)) {
-    resultFunc = () => {
-      return value;
-    }
+    resultFunc = () => value
   } else {
-    resultFunc = () => {
-      return defaultValue;
-    }
+    resultFunc = () => defaultValue
   }
   return resultFunc;
 }

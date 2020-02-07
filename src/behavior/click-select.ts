@@ -12,12 +12,13 @@ export default {
     };
   },
   getEvents(): { [key in G6Event]?: string } {
+    const self = this as any
     // 检测输入是否合法
-    if (!(ALLOW_EVENTS.indexOf(this.trigger.toLowerCase()) > -1)) {
-      this.trigger = DEFAULT_TRIGGER;
+    if (!(ALLOW_EVENTS.indexOf(self.trigger.toLowerCase()) > -1)) {
+      self.trigger = DEFAULT_TRIGGER;
       console.warn('Behavior brush-select 的 trigger 参数不合法，请输入 \'drag\'、\'shift\'、\'ctrl\' 或 \'alt\'');
     }
-    if (!this.multiple) {
+    if (!self.multiple) {
       return {
         'node:click': 'onClick',
         'canvas:click': 'onCanvasClick'
@@ -75,18 +76,19 @@ export default {
     graph.setAutoPaint(autoPaint);
   },
   onKeyDown(e: IG6GraphEvent) {
+    const self = this as any
     let code = e.key;
     if (!code) {
       return;
     }
     code = code.toLowerCase();
-    if (code === this.trigger) {
-      this.keydown = true;
+    if (code === self.trigger) {
+      self.keydown = true;
     } else {
-      this.keydown = false;
+      self.keydown = false;
     }
   },
   onKeyUp() {
-    this.keydown = false;
+    (this as any).keydown = false;
   }
 };

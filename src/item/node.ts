@@ -46,9 +46,7 @@ export default class Node extends Item implements INode {
    */
   public getInEdges(): Edge[] {
     const self = this;
-    return this.get('edges').filter((edge: Edge) => {
-      return edge.get('target') === self;
-    });
+    return this.get('edges').filter((edge: Edge) => edge.get('target') === self);
   }
 
   /**
@@ -56,9 +54,7 @@ export default class Node extends Item implements INode {
    */
   public getOutEdges(): Edge[] {
     const self = this;
-    return this.get('edges').filter((edge: Edge) => {
-      return edge.get('source') === self;
-    });
+    return this.get('edges').filter((edge: Edge) => edge.get('source') === self);
   }
 
   /**

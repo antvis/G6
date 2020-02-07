@@ -109,7 +109,7 @@ const singleEdge: ShapeOptions = {
     const strokeStyle: ShapeStyle = {
       stroke: cfg.color
     };
-    const shape = group.find(element => { return element.get('className') === 'edge-shape'}) || item.getKeyShape()
+    const shape = group.find(element => element.get('className') === 'edge-shape') || item.getKeyShape()
 
     const size = cfg.size;
     cfg = this.getPathPoints!(cfg);
@@ -137,7 +137,7 @@ const singleEdge: ShapeOptions = {
     const labelPosition = labelCfg.position || this.labelPosition; // 文本的位置用户可以传入
     const style: LabelStyle = {};
 
-    const pathShape = group && group.find(element => { return element.get('className') === CLS_SHAPE}) as Path;
+    const pathShape = group && group.find(element => element.get('className') === CLS_SHAPE) as Path;
 
     // 不对 pathShape 进行判空，如果线不存在，说明有问题了
     let pointPercent;
@@ -232,12 +232,12 @@ const singleEdge: ShapeOptions = {
         attrs: { matrix: rotateMatrix, ...labelStyle },
         name: 'text-shape'
       });
-    } else {
-      return group.addShape('text', {
-        attrs: labelStyle,
-        name: 'text-shape'
-      });
     }
+    
+    return group.addShape('text', {
+      attrs: labelStyle,
+      name: 'text-shape'
+    });
   },
 };
 

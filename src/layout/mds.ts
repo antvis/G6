@@ -36,7 +36,8 @@ export default class MDSLayout extends BaseLayout {
     const center = self.center;
     if (!nodes || nodes.length === 0) {
       return;
-    } else if (nodes.length === 1) {
+    }
+    if (nodes.length === 1) {
       nodes[0].x = center[0];
       nodes[0].y = center[1];
       return;

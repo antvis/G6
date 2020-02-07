@@ -11,7 +11,7 @@ export default {
     };
   },
   getEvents(): { [key in G6Event]?: string } {
-    if (this.get('trigger') === 'mouseenter') {
+    if ((this as any).get('trigger') === 'mouseenter') {
       return {
         'node:mouseenter': 'setAllItemStates',
         'node:mouseleave': 'clearAllItemStates'
@@ -81,12 +81,13 @@ export default {
     graph.setAutoPaint(autoPaint);
     graph.emit('afteractivaterelations', { item: e.item, action: 'activate' });
   },
-  clearAllItemStates(e) {
-    const graph = this.get('graph');
-    if (!this.shouldUpdate(e.item, { event: e, action: 'deactivate' })) {
+  clearAllItemStates(e: any) {
+    const self = this
+    const graph = self.get('graph');
+    if (!self.shouldUpdate(e.item, { event: e, action: 'deactivate' })) {
       return;
     }
-    const self = this;
+
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
     graph.getNodes().forEach(node => {
@@ -101,6 +102,6 @@ export default {
     });
     graph.paint();
     graph.setAutoPaint(autoPaint);
-    graph.emit('afteractivaterelations', { item: e.item || this.get('item'), action: 'deactivate' });
+    graph.emit('afteractivaterelations', { item: e.item || self.get('item'), action: 'deactivate' });
   }
 };

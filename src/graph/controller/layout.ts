@@ -417,7 +417,7 @@ export default class LayoutController {
   public initPositions(center, nodes): boolean {
     const { graph } = this;
     if (!nodes) {	
-      return;	
+      return false;	
     }	
     let allHavePos = true;	
     nodes.forEach(node => {	
