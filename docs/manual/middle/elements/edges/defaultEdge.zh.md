@@ -17,6 +17,8 @@ G6 提供了 9 种内置边：
 这些内置边的默认样式分别如下图所示。<br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*H6Y5SrPstw4AAAAAAAAAAABkARQnAQ' width='750' height='120' />
 
+本文将概述 G6 中的各个内置边类型、内置边的通用属性、配置方法。各类型边详细配置项及配置方法见本目录下相应文档。
+
 ## 内置边类型说明
 下面表格中显示了内置的各类边，同时对一些特殊的字段进行了说明：
 
