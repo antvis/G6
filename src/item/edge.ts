@@ -22,7 +22,7 @@ export default class Edge extends Item implements IEdge {
     }
   }
 
-  private setEnd(name: 'source' | 'target', value: INode) {
+  private setEnd(name: SourceTarget, value: INode) {
     const pointName = END_MAP[name] + POINT_NAME_SUFFIX;
     const itemName = name + ITEM_NAME_SUFFIX;
     const preItem = this.get(itemName);
@@ -86,7 +86,7 @@ export default class Edge extends Item implements IEdge {
    * 获取端点的位置
    * @param name 
    */
-  private  getEndPoint(name: 'source' | 'target'): NodeConfig | IPoint {
+  private  getEndPoint(name: SourceTarget): NodeConfig | IPoint {
     const itemName = name + ITEM_NAME_SUFFIX;
     const pointName = END_MAP[name] + POINT_NAME_SUFFIX;
     const item = this.get(itemName);
@@ -112,7 +112,7 @@ export default class Edge extends Item implements IEdge {
     });
   }
 
-  private getEndCenter(name: 'source' | 'target'): IPoint {
+  private getEndCenter(name: SourceTarget): IPoint {
     const itemName = name + ITEM_NAME_SUFFIX;
     const pointName = END_MAP[name] + POINT_NAME_SUFFIX;
     const item = this.get(itemName);

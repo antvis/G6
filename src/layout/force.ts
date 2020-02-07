@@ -164,7 +164,7 @@ export default class ForceLayout<Cfg = any> extends BaseLayout {
           for (let currentTick = 1; currentTick <= totalTicks; currentTick++) {
             simulation.tick();
             // currentTick starts from 1.
-            postMessage({ type: LAYOUT_MESSAGE.TICK, currentTick, totalTicks, nodes }, undefined as string);
+            postMessage({ type: LAYOUT_MESSAGE.TICK, currentTick, totalTicks, nodes }, undefined as any);
           }
           self.ticking = false;
         }
