@@ -1,5 +1,5 @@
 import { G6Event, IG6GraphEvent } from '../types';
-import { cloneEvent } from '../util/base'
+import { cloneEvent, isNaN } from '../util/base'
 
 const { abs } = Math;
 const DRAG_OFFSET = 10
@@ -25,7 +25,7 @@ export default {
     const clientX = +e.clientX;
     const clientY = +e.clientY;
 
-    if (Number.isNaN(clientX) || Number.isNaN(clientY)) {
+    if (isNaN(clientX) || isNaN(Number(clientY))) {
       return;
     }
     let dx = clientX - origin.x;

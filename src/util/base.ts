@@ -68,3 +68,5 @@ export const isViewportChanged = (matrix: Matrix) => {
   }
   return false;
 }
+
+export const isNaN = (input: any) => Number.isNaN(Number(input))
