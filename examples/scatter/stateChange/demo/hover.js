@@ -43,7 +43,8 @@ G6.registerNode('leaf-node', {
         y: 0,
         r: 5,
         fill: cfg.color || '#5B8FF9'
-      }
+      },
+      name: 'circle-shape'
     });
   },
   getAnchorPoints() {
@@ -65,7 +66,8 @@ G6.registerNode('center-node', {
         r: r + 10,
         fill: 'gray',
         opacity: 0.4
-      }
+      },
+      name: 'circle-shape1'
     });
     group.addShape('circle', {
       zIndex: -2,
@@ -75,7 +77,8 @@ G6.registerNode('center-node', {
         r: r + 20,
         fill: 'gray',
         opacity: 0.2
-      }
+      },
+      name: 'circle-shape2'
     });
     group.sort();
   },

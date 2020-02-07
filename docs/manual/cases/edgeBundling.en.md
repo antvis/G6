@@ -170,7 +170,9 @@ G6.registerNode('pie-node', {
         ],
         lineWidth: 0,
         fill: lightOrange
-      }
+      },
+      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      name: 'in-fan-shape'
     });
     // The outDegree fan
     const fanOut = group.addShape('path', {
@@ -183,7 +185,9 @@ G6.registerNode('pie-node', {
         ],
         lineWidth: 0,
         fill: lightBlue
-      }
+      },
+      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      name: 'out-fan-shape'
     });
     // return the keyshape
     return fanIn;

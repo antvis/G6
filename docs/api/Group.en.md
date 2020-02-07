@@ -50,6 +50,15 @@ Add a new shape into the group<br /><span style="background-color: rgb(251, 233,
 | cfg | Object | The configurations of the shape. |
 
 
+The `cfg` above contains:
+
+| Name | Type | Description |
+| --- | --- | --- |
+| attrs | Object | The style configurations for the shape. e.g. `{x: 0, y: 10, fill: '#0f0'}` |
+| name | String | The name of the shape which can be not unique. It is required for each shape in G6 3.3. Besides, `name` can be used for searching this shape, e.g. `const shape = group.find(element => element.name === 'shape-name')`. The usage of find can be found at [find(fn)](#findfn) |
+| zIndex | Number | The visual index of the shape, similar to z-index of DOM. It is not required. `group.sort()` will sort the visual index of the shapes inside the group according to their zIndex |
+
+
 **Usage**
 
 ```javascript
@@ -61,7 +70,10 @@ group.addShape('rect', {
     shadowColor: 'blue',
     shadowBlur: 10,
     opacity: 0.8
-  }
+  },
+  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  name: 'rect-shape',
+  zIndex: 1
 })
 ```
 

@@ -492,7 +492,7 @@ focusNode.style = {
   fill: '#729FFC',
   lineWidth: 2
 };
-data.nodes[3].style = {
+data.nodes[2].style = {
   stroke: '#00419F',
   fill: '#729FFC',
   lineWidth: 2

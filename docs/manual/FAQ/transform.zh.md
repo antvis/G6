@@ -10,7 +10,8 @@ G6 3.2 及以下版本中，实现变换可通过以下方式。
 实例变换方法。参数以数组形式提供，按顺序执行。
 
 例如画布上有以下的一个矩形实例。
-```
+
+```javascript
 const rect = group.addShape('rect', {
     attrs: {
         width: 100,
@@ -20,7 +21,9 @@ const rect = group.addShape('rect', {
         fill: '#9EC9FF',
         stroke: '#5B8FF9',
         lineWidth: 3
-    }
+    },
+    // must be assigned in G6 3.3 and later versions. it can be any value you want
+    name: 'rect-shape'
 });
 ```
 
@@ -28,7 +31,7 @@ const rect = group.addShape('rect', {
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lkUoTp5xXmoAAAAAAAAAAABkARQnAQ' width='200' />
 
 对其进行如下操作：
-```
+```javascript
 rect.transform([
     ['t', 10, 10],        // x 方向平移 10, y 方向平移 10
     ['s', 1.2],           // 缩放 1.2 倍
@@ -71,7 +74,7 @@ rect.transform([
 
 
 为了方面使用，我们提供了矩阵变换的工具方法:
-```
+```javascript
 import { transform } from '@antv/matrix-util';
 // 3*3 矩阵变换，用于二维渲染
 trasform(m, [

@@ -76,7 +76,8 @@ const nodeBasicMethod = {
         y: 0,
         width: w,
         heigh: h
-      }
+      },
+      name: 'big-rect-shape'
     });
     if (!isRoot) {
     /* 左边的小圆点 */
@@ -86,7 +87,8 @@ const nodeBasicMethod = {
           y: h / 2,
           r: 6,
           fill: config.basicColor
-        }
+        },
+        name: 'left-dot-shape'
       });
     }
   /* 矩形 */
@@ -100,7 +102,8 @@ const nodeBasicMethod = {
         stroke: config.borderColor,
         radius: 2,
         cursor: 'pointer'
-      }
+      },
+      name: 'rect-shape'
     });
 
   /* 左边的粗线 */
@@ -112,7 +115,8 @@ const nodeBasicMethod = {
         height: h,
         fill: config.basicColor,
         radius: 1.5
-      }
+      },
+      name: 'left-border-shape'
     });
     return container;
   },
@@ -127,7 +131,7 @@ const nodeBasicMethod = {
         opacity: 0,
         zIndex: -2
       },
-      className: 'collapse-icon-bg'
+      name: 'collapse-icon-bg'
     });
     group.addShape('marker', {
       attrs: {
@@ -140,14 +144,14 @@ const nodeBasicMethod = {
         lineWidth: 1,
         cursor: 'pointer'
       },
-      className: 'collapse-icon'
+      name: 'collapse-icon'
     });
   },
   afterDraw: (cfg, group) => {
   /* 操作 marker 的背景色显示隐藏 */
-    const icon = group.find(element => element.get('className') === 'collapse-icon');
+    const icon = group.find(element => element.get('name') === 'collapse-icon');
     if (icon) {
-      const bg = group.find(element => element.get('className') === 'collapse-icon-bg');
+      const bg = group.find(element => element.get('name') === 'collapse-icon-bg');
       icon.on('mouseenter', () => {
         bg.attr('opacity', 1);
         graph.get('canvas').draw();
@@ -158,13 +162,13 @@ const nodeBasicMethod = {
       });
     }
   /* ip 显示 */
-    const ipBox = group.find(element => element.get('className') === 'ip-box');
+    const ipBox = group.find(element => element.get('name') === 'ip-box');
     if (ipBox) {
     /* ip 复制的几个元素 */
-      const ipLine = group.find(element => element.get('className') === 'ip-cp-line');
-      const ipBG =  group.find(element => element.get('className') === 'ip-cp-bg');
-      const ipIcon =  group.find(element => element.get('className') === 'ip-cp-icon');
-      const ipCPBox =  group.find(element => element.get('className') === 'ip-cp-box');
+      const ipLine = group.find(element => element.get('name') === 'ip-cp-line');
+      const ipBG =  group.find(element => element.get('name') === 'ip-cp-bg');
+      const ipIcon =  group.find(element => element.get('name') === 'ip-cp-icon');
+      const ipCPBox =  group.find(element => element.get('name') === 'ip-cp-box');
 
       const onMouseEnter = () => {
         ipLine.attr('opacity', 1);
@@ -208,14 +212,14 @@ const nodeBasicMethod = {
     if (name === 'emptiness') {
       if (value) {
         childrens.forEach(shape => {
-          if (hasOpacityClass.indexOf(shape.get('className')) > -1) {
+          if (hasOpacityClass.indexOf(shape.get('name')) > -1) {
             return;
           }
           shape.attr('opacity', 0.4);
         });
       } else {
         childrens.forEach(shape => {
-          if (hasOpacityClass.indexOf(shape.get('className')) > -1) {
+          if (hasOpacityClass.indexOf(shape.get('name')) > -1) {
             return;
           }
           shape.attr('opacity', 1);
@@ -253,7 +257,8 @@ G6.registerNode(
             textAlign: 'left',
             textBaseline: 'middle',
             fill: 'rgba(0,0,0,0.65)'
-          }
+          },
+          name: 'type-text-shape'
         });
       }
 
@@ -266,7 +271,8 @@ G6.registerNode(
             stroke: nodeError ? 'rgba(255,255,255,0.65)' : null,
             radius: 2,
             cursor: 'pointer'
-          }
+          },
+          name: 'ip-container-shape'
         });
 
       /* ip */
@@ -280,7 +286,8 @@ G6.registerNode(
             textBaseline: 'middle',
             fill: nodeError ? 'rgba(255,255,255,0.85)' : 'rgba(0,0,0,0.65)',
             cursor: 'pointer'
-          }
+          },
+          name: 'ip-text-shape'
         });
 
         const ipBBox = ipText.getBBox();
@@ -308,7 +315,7 @@ G6.registerNode(
             fill: '#fff',
             opacity: 0
           },
-          className: 'ip-box'
+          name: 'ip-box'
         });
 
       /* copyIpLine */
@@ -321,7 +328,7 @@ G6.registerNode(
             fill: '#E3E6E8',
             opacity: 0
           },
-          className: 'ip-cp-line'
+          name: 'ip-cp-line'
         });
       /* copyIpBG */
         group.addShape('rect', {
@@ -334,7 +341,7 @@ G6.registerNode(
             cursor: 'pointer',
             opacity: 0
           },
-          className: 'ip-cp-bg'
+          name: 'ip-cp-bg'
         });
       /* copyIpIcon */
         group.addShape('image', {
@@ -347,7 +354,7 @@ G6.registerNode(
             cursor: 'pointer',
             opacity: 0
           },
-          className: 'ip-cp-icon'
+          name: 'ip-cp-icon'
         });
       /* 放一个透明的矩形在 icon 区域上，方便监听点击 */
         group.addShape('rect', {
@@ -360,7 +367,7 @@ G6.registerNode(
             cursor: 'pointer',
             opacity: 0
           },
-          className: 'ip-cp-box',
+          name: 'ip-cp-box',
           tooltip: '复制IP'
         });
 
@@ -379,8 +386,8 @@ G6.registerNode(
           textBaseline: 'middle',
           fill: config.fontColor,
           cursor: 'pointer'
-        }
-      // tooltip: cfg.name,
+        },
+        name: 'name-text-shape'
       });
 
     // /* 下面的文字 */
@@ -394,7 +401,8 @@ G6.registerNode(
           textBaseline: 'middle',
           fill: config.fontColor,
           cursor: 'pointer'
-        }
+        },
+        name: 'bottom-text-shape'
       });
 
       if (nodeError) {
@@ -405,7 +413,8 @@ G6.registerNode(
             text: '⚠️',
             fill: '#000',
             fontSize: 18
-          }
+          },
+          name: 'error-text-shape'
         });
       }
 

@@ -18,7 +18,8 @@ G6.registerNode('customNode', {
       r: 50
     });
     const shape = group.addShape(shapeType, {
-      attrs: style
+      attrs: style,
+      name: 'key-shape'
     });
     // 绘制节点里面的小圆。点击这个小圆会显示tooltip
     const innerCircle = group.addShape('circle', {
@@ -28,7 +29,8 @@ G6.registerNode('customNode', {
         r: 10,
         fill: '#096dd9',
         cursor: 'pointer'
-      }
+      },
+      name: 'circle-shape'
     });
     // 设置className属性
     innerCircle.set('className', INNER_CIRCLE_CLASS);

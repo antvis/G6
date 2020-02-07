@@ -107,7 +107,9 @@ G6.registerNode('background-animate', {
         r,
         fill: cfg.color,
         opacity: 0.6
-      }
+      },
+      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      name: 'circle-shape1'
     });
     // The second background circle
     const back2 = group.addShape('circle',{
@@ -118,7 +120,9 @@ G6.registerNode('background-animate', {
         r,
         fill: 'blue',
         opacity: 0.6
-      }
+      },
+      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      name: 'circle-shape2'
     });
     // The third background circle
     const back3 = group.addShape('circle',{
@@ -129,7 +133,9 @@ G6.registerNode('background-animate', {
         r,
         fill: 'green',
         opacity: 0.6
-      }
+      },
+      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      name: 'circle-shape3'
     });
     group.sort(); // Sort the graphic shapes of the nodes by zIndex
     
@@ -188,7 +194,9 @@ G6.registerNode('inner-animate', {
         width: width,
         height: height,
         img: cfg.img
-      }
+      },
+      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      name: 'image-shape'
     });
     // Add animation for the image
     image.animate((ratio) => {// Returns the properties for each frame. The input parameter ratio is a number that range from 0 to 1. The return value is an object that defines the properties for this frame.
@@ -246,7 +254,9 @@ G6.registerEdge('circle-running', {
         y: startPoint.y,
         fill: 'red',
         r: 3
-      }
+      },
+      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      name: 'circle-shape'
     });
     
     // Add the animation to the red circle

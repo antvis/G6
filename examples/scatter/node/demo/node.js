@@ -89,7 +89,8 @@ G6.registerNode('background-animate', {
         r,
         fill: cfg.color,
         opacity: 0.6
-      }
+      },
+      name: 'back1-shape'
     });
     const back2 = group.addShape('circle', {
       zIndex: -2,
@@ -99,7 +100,8 @@ G6.registerNode('background-animate', {
         r,
         fill: cfg.color,
         opacity: 0.6
-      }
+      },
+      name: 'back2-shape'
     });
     const back3 = group.addShape('circle', {
       zIndex: -1,
@@ -109,7 +111,8 @@ G6.registerNode('background-animate', {
         r,
         fill: cfg.color,
         opacity: 0.6
-      }
+      },
+      name: 'back3-shape'
     });
     group.sort(); // 排序，根据 zIndex 排序
     back1.animate({ // 逐渐放大，并消失
@@ -143,7 +146,8 @@ G6.registerNode('inner-animate', {
         width,
         height,
         img: cfg.img
-      }
+      },
+      name: 'image-shape'
     });
     image.animate(
       (ratio) => {

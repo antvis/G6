@@ -103,7 +103,9 @@ G6.registerNode('diamond', {
     	attrs: {
         path: this.getPath(cfg), // Get the path by cfg
         stroke: cfg.color // Apply the color to the stroke. For filling, use fill: cfg.color instead
-      }
+      },
+      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      name: 'path-shape'
     });
     if(cfg.label) { // If the label exists
       // The complex label configurations can be defined by labeCfg
@@ -118,7 +120,9 @@ G6.registerNode('diamond', {
           textBaseline: 'middle',
           text: cfg.label,
           fill: '#666'
-        }
+        },
+        // must be assigned in G6 3.3 and later versions. it can be any value you want
+        name: 'text-shape'
       });
     }
     return shape;
@@ -251,7 +255,9 @@ G6.registerNode('inner-animate', {
         width: width,
         height: height,
         img: cfg.img
-      }
+      },
+      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      name: 'image-shape'
     });
     // Execute the animation
     image.animate((ratio) => {

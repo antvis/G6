@@ -26,8 +26,6 @@ const group = new Group(cfgs);
 | param | Function / Object / undefined |
 | cfg | Object |
 
-
-
 **用法**
 
 ```javascript
@@ -49,6 +47,14 @@ group.addGroup({
 | type | String | 图元素类型，值可以为：`'rect'`、`'circle'`、`'fan'`、`'ellipse'`、`'marker'`、`'image'` 等，具体参考 [Shape 的类型及属性](/zh/docs/manual/advanced/keyconcept/shape-and-properties) 教程 |
 | cfg | Object | 图元素的属性 |
 
+其中，`cfg` 包括以下字段：
+
+| 名称 | 类型 | 说明 |
+| --- | --- | --- |
+| attrs | Object | 图形样式，例如：`{x: 0, y: 10, fill: '#0f0'}` |
+| name | String | 图形的标识，可以不唯一。在 G6 3.3 及以后版本中必须指定。另外，`name` 可以用于组内搜索到该元素：`const shape = group.find(element => element.name === 'shape-name')`，find 函数用法见 [find(fn)](#findfn) |
+| zIndex | Number | 该图形的视觉层次 z-index。非必须指定。指定后，调用 `group.sort()` 可以对组内所有图形根据各自 zIndex 进行视觉层次的排序 |
+
 
 **用法**
 
@@ -61,7 +67,10 @@ group.addShape('rect', {
     shadowColor: 'blue',
     shadowBlur: 10,
     opacity: 0.8
-  }
+  },
+  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  name: 'rect-shape',
+  zIndex: 1
 })
 ```
 
