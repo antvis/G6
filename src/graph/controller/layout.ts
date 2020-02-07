@@ -103,9 +103,9 @@ export default class LayoutController {
    * @return {boolean} 是否使用web worker布局
    */
   public layout(success?: () => void): boolean {
-    const { graph, setDataFromGraph } = this;
+    const { graph } = this;
 
-    this.data = setDataFromGraph();
+    this.data = this.setDataFromGraph();
     const { nodes } = this.data;
 
     if (!nodes) {
@@ -350,11 +350,10 @@ export default class LayoutController {
 
   // 从 this.graph 获取数据
   public setDataFromGraph() {
-    const self = this;
     const nodes = [];
     const edges = [];
-    const nodeItems = self.graph.getNodes();
-    const edgeItems = self.graph.getEdges();
+    const nodeItems = this.graph.getNodes();
+    const edgeItems = this.graph.getEdges();
     nodeItems.forEach((nodeItem) => {
       const model = nodeItem.getModel();
       nodes.push(model);
