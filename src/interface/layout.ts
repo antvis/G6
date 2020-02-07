@@ -5,11 +5,11 @@ import { EdgeConfig, GraphData, IPointTuple, NodeConfig } from '../types';
  */
 export interface ILayout<Cfg = any> {
   /** 节点 */
-  nodes: NodeConfig[];
+  nodes: NodeConfig[] | null;
   /** 边 */
-  edges: EdgeConfig[];
+  edges: EdgeConfig[] | null;
   /** 布局获得的位置 */
-  positions: IPointTuple[];
+  positions: IPointTuple[] | null;
   /** 是否已销毁 */
   destroyed: boolean;
 

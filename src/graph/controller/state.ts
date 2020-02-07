@@ -2,21 +2,25 @@ import each from '@antv/util/lib/each'
 import isString from '@antv/util/lib/is-string'
 import { IGraph, IStates } from '../../interface/graph';
 import { Item } from '../../types';
+import Graph from '../graph';
+import { INode } from '../../interface/item';
 
 interface ICachedStates {
   enabled: IStates;
   disabled: IStates;
 }
 
-let timer = null
+
+let timer: number | null = null
 const TIME_OUT = 16;
 
+
 export default class StateController {
-  private graph: IGraph
+  private graph: Graph
   private cachedStates: ICachedStates
   public destroyed: boolean
 
-  constructor(graph: IGraph) {
+  constructor(graph: Graph) {
     this.graph = graph
     /**
      * this.cachedStates = {
@@ -43,7 +47,7 @@ export default class StateController {
    * @returns
    * @memberof State
    */
-  private checkCache(item: Item, state: string, cache: object) {
+  private checkCache(item: Item, state: string, cache: { [key: string]: any }) {
     if (!cache[state]) {
       return;
     }
@@ -62,11 +66,11 @@ export default class StateController {
    * @param {object} states
    * @memberof State
    */
-  private cacheState(item: Item, state: string, states: object) {
+  private cacheState(item: Item, state: string, states: IStates) {
     if (!states[state]) {
       states[state] = [];
     }
-    states[state].push(item);
+    states[state].push(item as INode);
   }
 
   /**
@@ -132,7 +136,7 @@ export default class StateController {
    * @memberof State
    */
   public updateGraphStates() {
-    const states = this.graph.get('states')
+    const states = this.graph.get('states') as IStates
     const cachedStates = this.cachedStates;
     
     each(cachedStates.disabled, (val, key) => {
@@ -143,22 +147,22 @@ export default class StateController {
       }
     });
 
-    each(cachedStates.enabled, (val, key) => {
+    each(cachedStates.enabled, (val: INode[], key) => {
       if (!states[key]) {
         states[key] = val;
       } else {
-        const map = {};
+        const map: { [key: string]: boolean } = {};
         states[key].forEach(item => {
           if (!item.destroyed) {
             map[item.get('id')] = true;
           }
         });
-        val.forEach(item => {
+        val.forEach((item:Item) => {
           if (!item.destroyed) {
             const id = item.get('id');
             if (!map[id]) {
               map[id] = true;
-              states[key].push(item);
+              states[key].push(item as INode);
             }
           }
         });
@@ -173,8 +177,8 @@ export default class StateController {
   }
 
   public destroy() {
-    this.graph = null;
-    this.cachedStates = null;
+    (this.graph as Graph | null) = null;
+    (this.cachedStates as ICachedStates | null) = null;
     if (timer) {
       clearTimeout(timer);
     }

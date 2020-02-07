@@ -5,6 +5,7 @@ import ShapeBase from '@antv/g-canvas/lib/shape/base';
 import Node from '../item/node';
 import { IGraph } from '../interface/graph';
 import { IEdge, INode } from '../interface/item';
+import { ILabelConfig } from '../interface/shape';
 
 // Math types
 export interface IPoint {
@@ -117,7 +118,7 @@ export type ModelStyle = Partial<{
   };
   // loop edge config
   loopCfg: LoopConfig;
-  labelCfg?: object;
+  labelCfg?: ILabelConfig;
   anchorPoints: number[][];
   controlPoints: IPoint[];
   size: number | number[];
@@ -171,17 +172,14 @@ export type Easeing =
   | 'easeQuadOut'
   | 'easeQuadInOut'
   | string;
-
+  
 export interface ModelConfig extends ModelStyle {
   // ⚠️ 节点或边的类型，后续会废弃
   shape?: string;
   // 节点或边的类型
   type?: string;
   label?: string;
-  labelCfg?: {
-    style?: object;
-    [key: string]: unknown;
-  };
+  labelCfg?: ILabelConfig;
   descriptionCfg?: {
     style?: object;
     [key: string]: unknown;
@@ -205,8 +203,10 @@ export interface ModelConfig extends ModelStyle {
   endPoint?: IPoint;
   children?: TreeGraphData[];
 }
+
 export interface NodeConfig extends ModelConfig {
   id: string;
+  size?: number | number[];
   groupId?: string;
   description?: string;
 }
@@ -216,10 +216,7 @@ export interface EdgeConfig extends ModelConfig {
   source?: string;
   target?: string;
   label?: string;
-  labelCfg?: {
-    style?: object;
-    [key: string]: unknown;
-  };
+  labelCfg?: ILabelConfig;
   sourceNode?: Node;
   targetNode?: Node;
   startPoint?: IPoint;
@@ -236,7 +233,11 @@ export type EdgeData = EdgeConfig & {
   endPoint: IPoint;
 };
 
-export interface NodeMapConfig {
+export interface NodeMap {
+  [key: string]: INode;
+}
+
+export interface NodeConfigMap {
   [key: string]: NodeConfig;
 }
 
@@ -347,7 +348,7 @@ export type BehaviorOpation<U> = {
 export type IEvent = Record<G6Event, string>;
 
 export interface IG6GraphEvent extends GraphEvent {
-  item: Item;
+  item: Item | null;
   canvasX: number;
   canvasY: number;
   wheelDelta: number;
@@ -361,8 +362,19 @@ export type Item = INode | IEdge;
 
 export type ITEM_TYPE = 'node' | 'edge' | 'group'
 
+export type NodeIdxMap = {
+  [key: string]: number
+}
+
 // 触发 viewportchange 事件的参数
 export interface ViewPortEventParam {
   action: string;
   matrix: Matrix;
+}
+
+export interface Indexable<T> { [key:string]: T}
+
+export interface LayoutConfig {
+  type?: string;
+  [key: string]: unknown;
 }

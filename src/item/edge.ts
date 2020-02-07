@@ -1,11 +1,11 @@
 import isNil from '@antv/util/lib/is-nil';
 import isPlainObject from '@antv/util/lib/is-plain-object'
 import { IEdge, INode } from "../interface/item";
-import { EdgeConfig, IPoint, NodeConfig, SourceTarget } from '../types';
+import { EdgeConfig, IPoint, NodeConfig, SourceTarget, Indexable, ModelConfig } from '../types';
 import Item from './item';
 import Node from './node'
 
-const END_MAP = { source: 'start', target: 'end' };
+const END_MAP: Indexable<string> = { source: 'start', target: 'end' };
 const ITEM_NAME_SUFFIX = 'Node'; // 端点的后缀，如 sourceNode, targetNode
 const POINT_NAME_SUFFIX = 'Point'; // 起点或者结束点的后缀，如 startPoint, endPoint
 const ANCHOR_NAME_SUFFIX = 'Anchor';
@@ -22,7 +22,7 @@ export default class Edge extends Item implements IEdge {
     }
   }
 
-  private setEnd(name: string, value: INode) {
+  private setEnd(name: SourceTarget, value: INode) {
     const pointName = END_MAP[name] + POINT_NAME_SUFFIX;
     const itemName = name + ITEM_NAME_SUFFIX;
     const preItem = this.get(itemName);
@@ -86,7 +86,7 @@ export default class Edge extends Item implements IEdge {
    * 获取端点的位置
    * @param name 
    */
-  private  getEndPoint(name: string): NodeConfig | IPoint {
+  private  getEndPoint(name: SourceTarget): NodeConfig | IPoint {
     const itemName = name + ITEM_NAME_SUFFIX;
     const pointName = END_MAP[name] + POINT_NAME_SUFFIX;
     const item = this.get(itemName);
@@ -101,7 +101,7 @@ export default class Edge extends Item implements IEdge {
    * 通过端点的中心获取控制点
    * @param model 
    */
-  private getControlPointsByCenter(model) {
+  private getControlPointsByCenter(model: EdgeConfig) {
     const sourcePoint = this.getEndPoint('source');
     const targetPoint = this.getEndPoint('target');
     const shapeFactory = this.get('shapeFactory');
@@ -112,7 +112,7 @@ export default class Edge extends Item implements IEdge {
     });
   }
 
-  private getEndCenter(name: string): IPoint {
+  private getEndCenter(name: SourceTarget): IPoint {
     const itemName = name + ITEM_NAME_SUFFIX;
     const pointName = END_MAP[name] + POINT_NAME_SUFFIX;
     const item = this.get(itemName);
@@ -137,7 +137,7 @@ export default class Edge extends Item implements IEdge {
   public getShapeCfg(model: EdgeConfig): EdgeConfig {
     const self = this;
     const linkCenter: boolean = self.get('linkCenter'); // 如果连接到中心，忽视锚点、忽视控制点
-    const cfg: any = super.getShapeCfg(model);
+    const cfg: ModelConfig = super.getShapeCfg(model);
     
     if (linkCenter) {
       cfg.startPoint = self.getEndCenter('source');

@@ -32,6 +32,9 @@ describe('layout using web worker', function() {
       callback();
     });
     graph.render();
+    setTimeout(() => {
+      callback();
+    }, 1000);
 
     function callback() {
       let count = 0;
@@ -41,7 +44,6 @@ describe('layout using web worker', function() {
       graph.once('afterlayout', () => {
         expect(node.x).not.toEqual(undefined);
         expect(node.y).not.toEqual(undefined);
-        // FIXME:
         expect(count >= 1).toEqual(true);
         expect(ended).toEqual(true);
         graph.destroy();

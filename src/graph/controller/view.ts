@@ -7,11 +7,12 @@ import { IGraph } from "../../interface/graph";
 import { Item, Matrix, Padding } from '../../types';
 import { formatPadding } from '../../util/base'
 import { applyMatrix, invertMatrix } from '../../util/math';
+import Graph from '../graph';
 
 export default class ViewController {
-  private graph: IGraph = null
+  private graph: Graph
   public destroyed: boolean = false
-  constructor(graph: IGraph) {
+  constructor(graph: Graph) {
     this.graph = graph
     this.destroyed = false
   }
@@ -53,7 +54,7 @@ export default class ViewController {
   }
 
   public getFormatPadding(): number[] {
-    const padding = this.graph.get<Padding>('fitViewPadding')
+    const padding = this.graph.get('fitViewPadding') as Padding
     return formatPadding(padding)
   }
 
@@ -91,7 +92,7 @@ export default class ViewController {
    * @param x 视口 x 坐标
    * @param y 视口 y 坐标
    */
-  public getClientByPoint(x, y): Point {
+  public getClientByPoint(x: number, y: number): Point {
     const canvas: Canvas = this.graph.get('canvas');
     const canvasPoint = this.getCanvasByPoint(x, y);
     const point = canvas.getClientByPoint(canvasPoint.x, canvasPoint.y);
@@ -104,7 +105,7 @@ export default class ViewController {
    * @param x 视口 x 坐标
    * @param y 视口 y 坐标
    */
-  public getCanvasByPoint(x, y): Point {
+  public getCanvasByPoint(x: number, y: number): Point {
     const viewportMatrix: Matrix = this.graph.get('group').getMatrix();
     return applyMatrix({ x, y }, viewportMatrix);
   }
@@ -146,7 +147,7 @@ export default class ViewController {
   }
 
   public destroy() {
-    this.graph = null
+    (this.graph as Graph | null) = null
     this.destroyed = false
   }
 }

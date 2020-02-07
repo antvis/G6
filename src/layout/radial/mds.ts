@@ -1,20 +1,25 @@
 import Numeric from 'numericjs';
+import { IPointTuple, Matrix } from '../../types';
 
 export default class MDS {
   /** distance matrix */
-  public distances: number[][];
+  public distances: Matrix[];
   /** dimensions */
   public dimension: number;
   /** link distance */
   public linkDistance: number;
 
-  constructor(params) {
+  constructor(params: {
+    distances: Matrix[],
+    dimension?: number,
+    linkDistance: number
+  }) {
     this.distances = params.distances;
     this.dimension = params.dimension || 2;
     this.linkDistance = params.linkDistance;
   }
 
-  public layout() {
+  public layout(): IPointTuple[] {
     const self = this;
     const dimension = self.dimension;
     const distances = self.distances;
@@ -24,7 +29,7 @@ export default class MDS {
     const M = Numeric.mul(-0.5, Numeric.pow(distances, 2));
 
     // double centre the rows/columns
-    function mean(A) {
+    function mean(A: any) {
       return Numeric.div(Numeric.add.apply(null, A), A.length);
     }
     const rowMeans = mean(M);
@@ -40,7 +45,7 @@ export default class MDS {
     // take the SVD of the double centred matrix, and return the
     // points from it
     let ret;
-    let res = [];
+  let res: IPointTuple[] = [];
     try {
       ret = Numeric.svd(M);
     } catch (e) {
@@ -53,7 +58,7 @@ export default class MDS {
     }
     if (res.length === 0) {
       const eigenValues = Numeric.sqrt(ret.S);
-      res = ret.U.map(function(row) {
+      res = ret.U.map(function(row: any) {
         return Numeric.mul(row, eigenValues).splice(0, dimension);
       });
     }

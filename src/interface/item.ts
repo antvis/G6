@@ -1,7 +1,7 @@
 import { IGroup } from '@antv/g-base/lib/interfaces';
 import { Point } from '@antv/g-base/lib/types';
 import Group from "@antv/g-canvas/lib/group";
-import { IBBox, IPoint, IShapeBase, Item, ModelConfig, ModelStyle, ShapeStyle } from '../types';
+import { IBBox, IPoint, IShapeBase, Item, ModelConfig, ModelStyle, ShapeStyle, Indexable } from '../types';
 
 
 // item 的配置项
@@ -63,16 +63,16 @@ export type IItemBaseConfig = Partial<{
   target: string | Item;
 
   linkCenter: boolean;
-}>
+}> & Indexable<any>
 
 export interface IItemBase {
-  _cfg: IItemBaseConfig;
+  _cfg: IItemBaseConfig | null;
 
   destroyed: boolean;
 
   isItem(): boolean;
 
-  getKeyShapeStyle(): ShapeStyle;
+  getKeyShapeStyle(): ShapeStyle | void;
 
   /**
    * 获取当前元素的所有状态
@@ -101,7 +101,7 @@ export interface IItemBase {
    */
   setState(state: string, enable: boolean): void;
 
-  clearStates(states: string | string[]): void;
+  clearStates(states?: string | string[]): void;
 
   /**
    * 节点的图形容器
@@ -247,7 +247,7 @@ export interface INode extends IItemBase {
    * @param {Object} point 节点外面的一个点，用于计算交点、最近的锚点
    * @return {Object} 连接点 {x,y}
    */
-  getLinkPoint(point: IPoint): IPoint;
+  getLinkPoint(point: IPoint): IPoint | null;
 
   /**
    * 添加边
