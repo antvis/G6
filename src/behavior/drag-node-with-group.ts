@@ -247,10 +247,13 @@ export default {
       customGroupControll.dynamicChangeGroupSize(evt, nodeInGroup, keyShape);
     } else if (!this.inGroupId && groupId) {
       // 拖出到群组之外了，则删除数据中的groupId
-      for (const gnode in groupNodes) {
+      const keys = Object.keys(groupNodes)
+      for (let i = 0; i < keys.length; i++) {
+        const gnode = groupNodes[keys[i]]
         const currentGroupNodes = groupNodes[gnode];
         groupNodes[gnode] = currentGroupNodes.filter(node => node !== id);
       }
+
       const currentGroup = customGroup[groupId].nodeGroup;
       if(!currentGroup) {
         return

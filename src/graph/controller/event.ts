@@ -36,10 +36,15 @@ const EVENTS = [
 ];
 export default class EventController {
   private graph: Graph
+
   private extendEvents: any[]
+
   private canvasHandler!: Fun;
+
   private dragging: boolean
+
   private preItem: Item | null = null
+
   public destroyed: boolean
 
   constructor(graph: Graph) {
@@ -52,15 +57,14 @@ export default class EventController {
 
   // 初始化 G6 中的事件
   private initEvents() {
-    const self = this
-    const graph: Graph = this.graph;
+    const { graph, extendEvents } = this;
+
     const canvas: Canvas = graph.get('canvas');
     const el = canvas.get('el');
-    const extendEvents = this.extendEvents;
 
-    const canvasHandler: Fun = wrapBehavior(self, 'onCanvasEvents') as Fun;
-    const originHandler = wrapBehavior(self, 'onExtendEvents');
-    const wheelHandler = wrapBehavior(self, 'onWheelEvent');
+    const canvasHandler: Fun = wrapBehavior(this, 'onCanvasEvents') as Fun;
+    const originHandler = wrapBehavior(this, 'onExtendEvents');
+    const wheelHandler = wrapBehavior(this, 'onWheelEvent');
 
     each(EVENTS, event => {
       canvas.on(event, canvasHandler);
@@ -77,7 +81,7 @@ export default class EventController {
   }
 
   // 获取 shape 的 item 对象
-  private getItemRoot<T extends ShapeBase>(shape: any): T {
+  private static getItemRoot<T extends ShapeBase>(shape: any): T {
     while (shape && !shape.get('item')) {
       shape = shape.get('parent');
     }
@@ -89,10 +93,9 @@ export default class EventController {
    * @param evt 事件句柄
    */
   protected onCanvasEvents(evt: IG6GraphEvent) {
-    const self = this;
-    const graph = self.graph;
+    const { graph } = this;
     const canvas = graph.get('canvas');
-    const target = evt.target;
+    const { target } = evt;
     const eventType = evt.type;
     /**
      * (clientX, clientY): 相对于页面的坐标；
@@ -117,17 +120,17 @@ export default class EventController {
 
     if(target === canvas) {
       if (eventType === 'mousemove') {
-        self.handleMouseMove(evt, 'canvas');
+        this.handleMouseMove(evt, 'canvas');
       }
       evt.target = canvas;
       evt.item = null;
       
       graph.emit(eventType, evt);
-      graph.emit('canvas:' + eventType, evt);
+      graph.emit(`canvas:${eventType}`, evt);
       return;
     }
 
-    const itemShape: ShapeBase = this.getItemRoot(target);
+    const itemShape: ShapeBase = EventController.getItemRoot(target);
     if (!itemShape) {
       graph.emit(eventType, evt);
       return;
@@ -150,16 +153,16 @@ export default class EventController {
       return;
     }
 
-    graph.emit(type + ':' + eventType, evt);
+    graph.emit(`${type}:${eventType}`, evt);
 
     if (eventType === 'dragstart') {
-      self.dragging = true;
+      this.dragging = true;
     }
     if (eventType === 'dragend') {
-      self.dragging = false;
+      this.dragging = false;
     }
     if (eventType === 'mousemove') {
-      self.handleMouseMove(evt, type);
+      this.handleMouseMove(evt, type);
     }
 
   }
@@ -189,29 +192,27 @@ export default class EventController {
    * @param type item 类型
    */
   private handleMouseMove(evt: IG6GraphEvent, type: string) {
-    const self = this;
-    const graph = this.graph
+    const { graph, preItem } = this;
     const canvas: Canvas = graph.get('canvas');
     const item = evt.target === canvas ? null : evt.item;
-    const preItem = this.preItem;
 
     evt = cloneEvent(evt) as IG6GraphEvent
 
     // 从前一个item直接移动到当前item，触发前一个item的leave事件
     if (preItem && preItem !== item && !preItem.destroyed) {
       evt.item = preItem;
-      self.emitCustomEvent(preItem.getType(), 'mouseleave', evt);
-      if (self.dragging) {
-        self.emitCustomEvent(preItem.getType(), 'dragleave', evt);
+      this.emitCustomEvent(preItem.getType(), 'mouseleave', evt);
+      if (this.dragging) {
+        this.emitCustomEvent(preItem.getType(), 'dragleave', evt);
       }
     }
 
     // 从一个item或canvas移动到当前item，触发当前item的enter事件
     if (item && preItem !== item) {
       evt.item = item;
-      self.emitCustomEvent(type, 'mouseenter', evt);
-      if (self.dragging) {
-        self.emitCustomEvent(type, 'dragenter', evt);
+      this.emitCustomEvent(type, 'mouseenter', evt);
+      if (this.dragging) {
+        this.emitCustomEvent(type, 'dragenter', evt);
       }
     }
 
@@ -226,13 +227,11 @@ export default class EventController {
    */
   private emitCustomEvent(itemType: string, eventType: string, evt: IG6GraphEvent) {
     evt.type = eventType;
-    this.graph.emit(itemType + ':' + eventType, evt);
+    this.graph.emit(`${itemType}:${eventType}`, evt);
   }
 
   public destroy() {
-    const graph = this.graph;
-    const canvasHandler = this.canvasHandler;
-    const extendEvents = this.extendEvents
+    const { graph, canvasHandler, extendEvents } = this;
     const canvas: Canvas = graph.get('canvas');
 
     each(EVENTS, event => {

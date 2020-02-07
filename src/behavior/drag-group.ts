@@ -49,12 +49,13 @@ export default {
     // 获取groupId的父Group的ID
     const { groups } = graph.save();
     let parentGroupId = null;
-    for (const group of groups) {
-      if (groupId !== group.id) {
-        continue;
+    
+    for (let i = 0; i < groups.length; i++) {
+      const group = groups[i];
+      if (groupId === group.id) {
+        parentGroupId = group.parentId;
+        break;
       }
-      parentGroupId = group.parentId;
-      break;
     }
 
     if (parentGroupId) {
