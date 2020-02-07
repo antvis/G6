@@ -118,7 +118,8 @@ G6.registerNode('round-rect', {
         stroke,
         lineWidth: 1.2,
         fillOpacity: 1
-      }
+      },
+      name: 'rect-shape'
     });
     group.addShape('circle', {
       attrs: {
@@ -126,7 +127,8 @@ G6.registerNode('round-rect', {
         y: 0,
         r: 3,
         fill: stroke
-      }
+      },
+      name: 'circle-shape'
     });
     group.addShape('circle', {
       attrs: {
@@ -134,7 +136,8 @@ G6.registerNode('round-rect', {
         y: 0,
         r: 3,
         fill: stroke
-      }
+      },
+      name: 'circle-shape2'
     });
     return rect;
   },
@@ -199,7 +202,8 @@ G6.registerEdge('polyline', {
         stroke: colorMap[cfg.data && cfg.data.type],
         lineWidth: 1.2,
         endArrow: false
-      }
+      },
+      name: 'path-shape'
     });
 
     const labelLeftOffset = 0;
@@ -214,7 +218,8 @@ G6.registerEdge('polyline', {
         textAlign: 'left',
         textBaseline: 'middle',
         fill: '#000000D9'
-      }
+      },
+      name: 'text-shape-amount'
     });
     // type
     group.addShape('text', {
@@ -226,7 +231,8 @@ G6.registerEdge('polyline', {
         textAlign: 'left',
         textBaseline: 'middle',
         fill: '#000000D9'
-      }
+      },
+      name: 'text-shape-type'
     });
     // date
     group.addShape('text', {
@@ -239,7 +245,8 @@ G6.registerEdge('polyline', {
         textAlign: 'left',
         textBaseline: 'middle',
         fill: '#000000D9'
-      }
+      },
+      name: 'text-shape-date'
     });
     return line;
   }

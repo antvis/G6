@@ -10,7 +10,8 @@ In G6 3.2 and previous versions, you can transform a shape as below:
 Transform a shape with multiple operations. `ts` is the array of the operations, which will be executed in order.
 
 For example, there is a rect shape:
-```
+
+```javascript
 const rect = group.addShape('rect', {
     attrs: {
         width: 100,
@@ -20,14 +21,17 @@ const rect = group.addShape('rect', {
         fill: '#9EC9FF',
         stroke: '#5B8FF9',
         lineWidth: 3
-    }
+    },
+    // must be assigned in G6 3.3 and later versions. it can be any value you want
+    name: 'rect-shape'
 });
 ```
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lkUoTp5xXmoAAAAAAAAAAABkARQnAQ' width='200' />
 
 Now, we call the transform:
-```
+
+```javascript
 rect.transform([
     ['t', 10, 10],        // translate 10 pixels alone x-axis, and 10 pixels alone y-axis
     ['s', 0.1, 1.2],      // scale 1.2 times
@@ -70,7 +74,7 @@ rect.transform([
 
 
 为了方面使用，我们提供了矩阵变换的工具方法:
-```
+```javascript
 import { transform } from '@antv/matrix-util';
 // 3*3 矩阵变换，用于二维渲染
 trasform(m, [

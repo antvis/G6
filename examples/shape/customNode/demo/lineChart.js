@@ -18,7 +18,6 @@ G6.registerNode('circleLine', {
     const refInc = 10;
     for (let i = 0; i < 5; i++) {
       group.addShape('circle', {
-        // attrs: style
         attrs: {
           x: 0, // 居中
           y: 0,
@@ -26,8 +25,8 @@ G6.registerNode('circleLine', {
           stroke: '#bae7ff',
           // stroke: 'rgba(255,255,255,0.4)',
           lineDash: [ 4, 4 ]
-
-        }
+        },
+        name: 'circle-shape'
       });
     }
 
@@ -58,7 +57,8 @@ G6.registerNode('circleLine', {
             [ 'Z' ] // 封闭
           ],
           stroke: cat.color // 颜色应用到边上，如果应用到填充，则使用 fill: cfg.color
-        }
+        },
+        name: 'path-shape'
       });
       // 添加标注点
       postions.forEach((pos, index) => {
@@ -72,7 +72,8 @@ G6.registerNode('circleLine', {
               fill: 'black',
               stroke: cat.color,
               cursor: 'pointer'
-            }
+            },
+            name: 'circle-shape'
           });
           // 加上交互动画
           littleCircle.on('mouseenter', function() {
@@ -101,18 +102,17 @@ G6.registerNode('circleLine', {
 
       // 添加一个和背景色相同的圆形
     group.addShape('circle', {
-      // attrs: style
       attrs: {
         x: 0, // 居中
         y: 0,
         r: baseR,
         fill: cfg.centerColor,
         stroke: 'darkgray'
-      }
+      },
+      name: 'circle-shape'
     });
     if (cfg.label) {
       group.addShape('text', {
-        // attrs: style
         attrs: {
           x: 0, // 居中
           y: 0,
@@ -121,7 +121,8 @@ G6.registerNode('circleLine', {
           text: cfg.label,
           fill: 'white',
           fontStyle: 'bold'
-        }
+        },
+        name: 'text-shape'
       });
     }
     return group;

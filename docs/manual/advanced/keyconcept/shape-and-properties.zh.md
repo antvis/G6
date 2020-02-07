@@ -37,7 +37,9 @@ group.addShape('rect', {
     shadowColor: 'blue',
     shadowBlur: 10,
     opacity: 0.8
-  }
+  },
+  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  name: 'rect-shape'
 })
 ```
 
@@ -83,7 +85,9 @@ group.addShape('circle', {
     y: 100,
     r: 50,
     fill: 'blue'
-  }
+  },
+  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  name: 'circle-shape'
 })
 ```
 
@@ -109,7 +113,9 @@ group.addShape('rect', {
     height: 150,
     stroke: 'black',
     radius: [2, 4]
-  }
+  },
+  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  name: 'rect-shape'
 });
 ```
 
@@ -133,7 +139,9 @@ group.addShape('ellipse', {
     rx: 50,
     ry: 50,
     fill: 'blue'
-  }
+  },
+  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  name: 'ellipse-shape'
 })
 ```
 
@@ -150,37 +158,10 @@ group.addShape('polygon', {
   attrs: {
     points:[[ 30, 30 ], [ 40, 20 ], [ 30, 50 ], [ 60, 100 ]],
     fill: 'red'
-  }
+  },
+  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  name: 'polygon-shape'
 });
-```
-
-## 扇形图形 Fan
-### 属性
-| 属性名 | 含义 | 备注 |
-| --- | --- | --- |
-| x | 扇形圆心的 x 坐标 |  |
-| y | 扇形圆心的 y 坐标 |  |
-| rs | 水平半径 |  |
-| re | 垂直半径 |  |
-| startAngle | 起点弧度 | 弧度制，即使用 Math.PI 表示 |
-| endAngle |  终点弧度 | 弧度制，即使用 Math.PI 表示 |
-| clockwise | 为 `true` 时顺时针渲染，为 `false` 时逆时针渲染 |  |
-
-
-### 用法
-```javascript
-group.addShape('fan', {
-  attrs: {
-    x: 50,
-    y: 50,
-    re: 40,
-    rs: 30,
-    startAngle: 1/2 * Math.PI,
-    endAngle: Math.PI,
-    clockwise: false,
-    fill: '#b7eb8f'
-  }
-})
 ```
 
 ## 图片图形 Image
@@ -201,7 +182,9 @@ group.addShape('image', {
     x: 0,
     y: 0,
     img:'https://g.alicdn.com/cm-design/arms-trace/1.0.155/styles/armsTrace/images/TAIR.png'
-  }
+  },
+  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  name: 'image-shape'
 })
 ```
 
@@ -230,7 +213,9 @@ group.addShape('marker', {
         [ 'Z' ]
       ]
     }
-  }
+  },
+  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  name: 'marker-shape'
 });
 ```
 
@@ -270,7 +255,9 @@ group.addShape('path', {
     stroke: '#000',
     lineWidth: 8,
     lineAppendWidth: 5
-  }
+  },
+  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  name: 'path-shape'
 });
 ```
 
@@ -307,7 +294,9 @@ group.addShape('text', {
     textAlign: 'left',
     textBaseline: 'middle',
     fill: '#0000D9'
-  }
+  },
+  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  name: 'text-shape'
 });
 ```
 

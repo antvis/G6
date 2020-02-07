@@ -28,7 +28,8 @@ G6.registerNode('area', {
           // stroke: 'rgba(255,255,255,0.4)',
           lineDash: [ 4, 4 ]
 
-        }
+        },
+        name: 'circle-shape'
       });
     }
     const everyIncAngle = 2 * Math.PI * (360 / 5) / 360;
@@ -85,7 +86,8 @@ G6.registerNode('area', {
           ],
           stroke: strokeColors[index],
           fill: fillColors[index]
-        }
+        },
+        name: 'path-shape1'
       });
 
     });
@@ -104,9 +106,9 @@ G6.registerNode('area', {
 
           ],
           lineDash: [ 4, 4 ],
-
           stroke: 'darkgray' // 颜色应用到边上，如果应用到填充，则使用 fill: cfg.color
-        }
+        },
+        name: 'path-shape2'
       });
       nowAngle2 += everyIncAngleCat;
     }
@@ -120,7 +122,8 @@ G6.registerNode('area', {
         r: baseR,
         fill: cfg.centerColor,
         stroke: 'darkgray'
-      }
+      },
+      name: 'circle-shape'
     });
 
     if (cfg.label) {
@@ -134,7 +137,8 @@ G6.registerNode('area', {
           text: cfg.label,
           fill: 'white',
           fontStyle: 'bold'
-        }
+        },
+        name: 'text-shape'
       });
     }
     return group;

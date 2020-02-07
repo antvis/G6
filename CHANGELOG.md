@@ -10,6 +10,9 @@
 - feat: calculate pixelRatio by G automatically, user do not need to assign it to graph instance;
 - chore: G 4.0
 - refactor: refreshLayout of TreeGraph is renamed as layout
+- fix: no fan shape in G any more
+- feat: recommand to assign name for each shape when addShape
+- fix: do not support SVG renderer anymore. no renderer for graph configuration anymore
   
 #### 3.1.5 
 * feat: supports g6 types file

@@ -254,7 +254,6 @@ describe('drag-node', () => {
       container: div,
       width: 500,
       height: 500,
-      renderer: 'svg',
       modes: {
         default: [{
           type: 'drag-node',
@@ -297,7 +296,6 @@ describe('drag-node', () => {
       container: div,
       width: 500,
       height: 500,
-      renderer: 'svg',
       modes: {
         default: [{
           type: 'drag-node',
@@ -327,7 +325,6 @@ describe('drag-node', () => {
       container: div,
       width: 500,
       height: 500,
-      renderer: 'svg',
       modes: {
         default: [{
           type: 'drag-node',

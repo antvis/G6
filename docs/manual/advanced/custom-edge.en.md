@@ -36,7 +36,9 @@ G6.registerEdge('hvh', {
           ['L', endPoint.x / 3 + 2 / 3 * startPoint.x , endPoint.y],   // 2/3
           ['L', endPoint.x, endPoint.y]
         ]
-      }
+      },
+      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      name: 'path-shape'
     });
     return shape;
   }
@@ -199,7 +201,9 @@ G6.registerEdge('line-arrow', {
           path: 'M 10,0 L -10,-10 L -10,10 Z',
           d: 10
         }
-      }
+      },
+      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      name: 'path-shape'
     });
     return keyShape
   }

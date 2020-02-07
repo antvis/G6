@@ -60,10 +60,6 @@ export interface GraphOptions {
    * 指定画布高度，单位为 'px'
    */
   height: number;
-  /**
-   * 渲染引擎，支持canvas和svg。
-   */
-  renderer?: 'canvas' | 'svg';
 
   fitView?: boolean;
 

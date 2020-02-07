@@ -38,7 +38,9 @@ group.addShape('rect', {
     shadowColor: 'blue',
     shadowBlur: 10,
     opacity: 0.8
-  }
+  },
+  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  name: 'rect-shape'
 })
 ```
 
@@ -59,7 +61,9 @@ group.addShape('circle', {
     y: 100,
     r: 50,
     fill: 'blue'
-  }
+  },
+  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  name: 'circle-shape'
 })
 ```
 
@@ -85,7 +89,9 @@ group.addShape('rect', {
     height: 150,
     stroke: 'black',
     radius: [2, 4]
-  }
+  },
+  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  name: 'rect-shape'
 });
 ```
 
@@ -108,7 +114,9 @@ group.addShape('ellipse', {
     rx: 50,
     ry: 50,
     fill: 'blue'
-  }
+  },
+  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  name: 'ellipse-shape'
 })
 ```
 
@@ -125,38 +133,12 @@ group.addShape('polygon', {
   attrs: {
     points:[[ 30, 30 ], [ 40, 20 ], [ 30, 50 ], [ 60, 100 ]],
     fill: 'red'
-  }
+  },
+  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  name: 'polygon-shape'
 });
 ```
 
-## Fan
-### Property
-| Name | Description | Remark |
-| --- | --- | --- |
-| x | The x coordinate of the center |  |
-| y | The y coordinate of the center |  |
-| rs | The horizontal radius of the fan |  |
-| re | The vertical radius of the fan |  |
-| startAngle | The start angle | Radian system represented by Math.PI |
-| endAngle |  The end angle | Radian system represented by Math.PI |
-| clockwise | It will be rendered clockwisely if it is `true`, counterclockwisely if it is `false` |  |
-
-
-### Usage
-```javascript
-group.addShape('fan', {
-  attrs: {
-    x: 50,
-    y: 50,
-    re: 40,
-    rs: 30,
-    startAngle: 1/2 * Math.PI,
-    endAngle: Math.PI,
-    clockwise: false,
-    fill: '#b7eb8f'
-  }
-})
-```
 
 ## Image
 ### Property
@@ -176,7 +158,9 @@ group.addShape('image', {
     x: 0,
     y: 0,
     img:'https://g.alicdn.com/cm-design/arms-trace/1.0.155/styles/armsTrace/images/TAIR.png'
-  }
+  },
+  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  name: 'image-shape'
 })
 ```
 
@@ -205,7 +189,9 @@ group.addShape('marker', {
         [ 'Z' ]
       ]
     }
-  }
+  },
+  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  name: 'marker-shape'
 });
 ```
 
@@ -246,7 +232,9 @@ group.addShape('path', {
     stroke: '#000',
     lineWidth: 8,
     lineAppendWidth: 5
-  }
+  },
+  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  name: 'path-shape'
 });
 ```
 
@@ -285,7 +273,9 @@ group.addShape('text', {
     shadowOffsetY: 10,
     shadowColor: 'blue',
     shadowBlur: 10
-  }
+  },
+  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  name: 'text-shape'
 });
 ```
 

@@ -59,7 +59,8 @@ G6.registerNode('circleBar', {
             path: path0,
             stroke: 'darkgray',
             fill: cat.color
-          }
+          },
+          name: 'path-shape'
         });
             // 加上交互动画
         fan.on('mouseenter', () => {
@@ -84,18 +85,17 @@ G6.registerNode('circleBar', {
       });
     });
     group.addShape('circle', {
-          // attrs: style
       attrs: {
         x: 0, // 居中
         y: 0,
         r: baseR,
         fill: cfg.centerColor,
         stroke: 'darkgray'
-      }
+      },
+      name: 'circle-shape'
     });
     if (cfg.label) {
       group.addShape('text', {
-            // attrs: style
         attrs: {
           x: 0, // 居中
           y: 0,
@@ -104,7 +104,8 @@ G6.registerNode('circleBar', {
           text: cfg.label,
           fill: 'white',
           fontStyle: 'bold'
-        }
+        },
+        name: 'text-shape'
       });
     }
     return group;

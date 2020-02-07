@@ -93,10 +93,6 @@ order: 1
 
 #### 整体渲染相关
 
-- `renderer`
-
-      类型：String；选项：`'svg'` | `'canvas' `；默认：`'canvas'`。选择 SVG 或 Canvas 方式渲染。
-
 - `fitView`
 
       类型：Boolean；默认：'false'。图是否自适应画布。

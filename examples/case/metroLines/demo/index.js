@@ -16,7 +16,8 @@ G6.registerNode('breath-node', {
         r,
         fill: cfg.color || cfg.style && cfg.style.fill,
         opacity: 0.6
-      }
+      },
+      name: 'back1-shape'
     });
     const back2 = group.addShape('circle', {
       zIndex: -2,
@@ -27,7 +28,8 @@ G6.registerNode('breath-node', {
         fill: cfg.color,
           // 为了显示清晰，随意设置了颜色
         opacity: 0.6
-      }
+      },
+      name: 'back2-shape'
     });
     const back3 = group.addShape('circle', {
       zIndex: -1,
@@ -37,7 +39,8 @@ G6.registerNode('breath-node', {
         r,
         fill: cfg.color,
         opacity: 0.6
-      }
+      },
+      name: 'back3-shape'
     });
     group.sort(); // 排序，根据zIndex 排序
     const delayBase = Math.random() * 2000;
@@ -90,7 +93,8 @@ G6.registerEdge('running-polyline', {
           fill: '#A0F3AF',
           shadowColor: '#fff',
           shadowBlur: 30
-        }
+        },
+        name: 'circle-shape'
       });
       circle.animate(ratio => {
         ratio += i / circleCount;
