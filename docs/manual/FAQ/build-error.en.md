@@ -1,6 +1,6 @@
 ---
 title: Building Error
-order: 5
+order: 9
 ---
 
 ## Problem

@@ -1,11 +1,11 @@
 ---
 title: 如何让 IE 支持 G6
-order: 3
+order: 8
 ---
 
 ## 问题
 
-最近 [G6 图可视化交流群](/zh/docs/manual/introduction/#g6-图可视化交流群) 里有同学反馈 G6 不支持 IE。
+最近 [G6 图可视化交流群](/zh/docs/manual/introduction/#g6-图可视化交流群) 里有同学反馈 G6 不支持 IE。本文将介绍如何在 IE 中使用 G6。
 
 ## 解决方案
 
@@ -21,10 +21,10 @@ order: 3
 }
 ```
 
-> include 表示哪些目录中的 .js 文件需要进行 babel-loader；exclude 表示哪些目录中的 .js 文件不要进行 babel-loader。
+> `include` 表示哪些目录中的 .js 文件需要进行 babel-loader；exclude 表示哪些目录中的 .js 文件不要进行 babel-loader。
 
 
-include 中的内容请根据具体项目情况设置。
+`include` 中的内容请根据具体项目情况设置。
 
 更详细的请参考：<a href='https://blog.csdn.net/y491887095/article/details/81541502' target='_blank'>https://blog.csdn.net/y491887095/article/details/81541502</a>。
 

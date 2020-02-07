@@ -1,10 +1,10 @@
 ---
 title: 两节点间存在多条边
-order: 4
+order: 7
 ---
 
 ## 问题
-有如下的一份数据，如何使用 <a href='https://github.com/antvis/g6' target=''>G6</a> 让两个节点之间连多条边？
+有如下的一份数据，如何使用 <a href='https://github.com/antvis/g6' target=''>G6</a> 让两个节点之间显示多条边？
 
 ```javascript
 const data = {
@@ -32,7 +32,7 @@ const data = {
 
 ```
 
-接到上面这个问题后，我们马上就开始动手，二话不说先撸出了下面这段代码。
+由于默认的边形状是直线，使用直线绘制同样两个端点之间的多条边时，会出现重叠的情况。因此我们使用以下代码将边绘制为二阶贝塞尔曲线 `'quadratic'`。
 
 ```javascript
 const graph = new G6.Graph({
@@ -51,7 +51,7 @@ const graph = new G6.Graph({
     }
   },
   defaultEdge: {
-    type: 'quadratic',
+    type: 'quadratic', // 指定边的形状为二阶贝塞尔曲线
     style: {
       stroke: '#e2e2e2'
     }
@@ -62,7 +62,7 @@ graph.data(data);
 graph.render();
 ```
 
-So Easy!
+结果如下：
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9u0BTpCAn-4AAAAAAAAAAABkARQnAQ' width=345 />
 
