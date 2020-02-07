@@ -130,8 +130,6 @@ export default class ModeController {
 
     graph.emit('aftermodechange', { mode });
     this.mode = mode;
-
-    return this;
   }
 
   public getMode(): string {

@@ -66,7 +66,8 @@ export default class FruchtermanLayout extends BaseLayout {
 
     if (!nodes || nodes.length === 0) {
       return;
-    } else if (nodes.length === 1) {
+    }
+    if (nodes.length === 1) {
       nodes[0].x = center[0];
       nodes[0].y = center[1];
       return;
@@ -129,7 +130,7 @@ export default class FruchtermanLayout extends BaseLayout {
         }
         c.count++;
       });
-      for (let key in clusterMap) {
+      for (const key in clusterMap) {
         clusterMap[key].cx /= clusterMap[key].count;
         clusterMap[key].cy /= clusterMap[key].count;
       }
@@ -154,7 +155,7 @@ export default class FruchtermanLayout extends BaseLayout {
         });
 
 
-        for (let key in clusterMap) {
+        for (const key in clusterMap) {
           clusterMap[key].cx = 0;
           clusterMap[key].cy = 0;
           clusterMap[key].count = 0;
@@ -170,7 +171,7 @@ export default class FruchtermanLayout extends BaseLayout {
           }
           c.count++;
         });
-        for (let key in clusterMap) {
+        for (const key in clusterMap) {
           clusterMap[key].cx /= clusterMap[key].count;
           clusterMap[key].cy /= clusterMap[key].count;
         }

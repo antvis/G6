@@ -80,17 +80,17 @@ Shape.registerEdge('polyline', {
     if (!offset || points.length > 2) {
       if (radius) {
         return getPathWithBorderRadiusByPolyline(points, radius);
-      } else {
-        const pathArray: Array<Array<string | number>> = [];
-        each(points, (point, index) => {
-          if (index === 0) {
-            pathArray.push([ 'M', point.x, point.y ]);
-          } else {
-            pathArray.push([ 'L', point.x, point.y ]);
-          }
-        });
-        return pathArray;
       }
+      
+      const pathArray: Array<Array<string | number>> = [];
+      each(points, (point, index) => {
+        if (index === 0) {
+          pathArray.push([ 'M', point.x, point.y ]);
+        } else {
+          pathArray.push([ 'L', point.x, point.y ]);
+        }
+      });
+      return pathArray;
     }
     let polylinePoints: any
     if (radius) {

@@ -131,7 +131,8 @@ export default class CircularLayout extends BaseLayout {
     const center = self.center;
     if (n === 0) {
       return;
-    } else if (n === 1) {
+    }
+    if (n === 1) {
       nodes[0].x = center[0];
       nodes[0].y = center[1];
       return;

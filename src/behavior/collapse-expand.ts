@@ -1,4 +1,4 @@
-import { G6Event, IG6GraphEvent } from '../types';
+import { G6Event, IG6GraphEvent, Item } from '../types';
 
 const DEFAULT_TRIGGER = 'click';
 const ALLOW_EVENTS = [ 'click', 'dblclick' ];
@@ -13,7 +13,7 @@ export default {
     };
   },
   getEvents(): { [key in G6Event]?: string } {
-    let trigger;
+    let trigger: string;
     // 检测输入是否合法
     if (ALLOW_EVENTS.includes(this.trigger)) {
       ({ trigger } = this.trigger);

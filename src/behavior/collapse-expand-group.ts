@@ -17,7 +17,8 @@ export default {
     };
   },
   getEvents(): { [key in G6Event]?: string } {
-    let trigger;
+    const self = this as any
+    let trigger: string;
     // 检测输入是否合法
     if (ALLOW_EVENTS.includes(this.trigger)) {
       ({ trigger } = this.trigger);
@@ -35,7 +36,7 @@ export default {
 
     const groupId = target.get('groupId');
     if (!groupId) {
-      return false;
+      return;
     }
 
     const customGroupControll = graph.get('customGroupControll');

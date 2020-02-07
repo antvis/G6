@@ -43,12 +43,14 @@ export default {
     this.graph.paint();
   },
   onMouseDown(e: IG6GraphEvent) {
-    if (this.keydown || e.shape) {
+    const self = this as any
+
+    if (self.keydown || e.shape) {
       return;
     }
 
-    this.origin = { x: e.clientX, y: e.clientY };
-    this.dragging = false;
+    self.origin = { x: e.clientX, y: e.clientY };
+    self.dragging = false;
   },
   onMouseMove(e: IG6GraphEvent) {
     const { graph } = this;
@@ -105,17 +107,18 @@ export default {
     this.dragbegin = false;
   },
   onKeyDown(e: KeyboardEvent) {
+    const self = this as any;
     const code = e.key;
     if (!code) {
       return;
     }
     if (ALLOW_EVENTS.indexOf(code.toLowerCase()) > -1) {
-      this.keydown = true;
+      self.keydown = true;
     } else {
-      this.keydown = false;
+      self.keydown = false;
     }
   },
   onKeyUp() {
-    this.keydown = false;
+    (this as any).keydown = false;
   }
 }

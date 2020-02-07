@@ -23,11 +23,11 @@ export default class Menu extends Base {
       className: 'g6-analyzer-menu',    // 指定 container css
       getContent: undefined,                 // 指定菜单内容，function(e) {...}
       // 菜单展示事件
-      onShow(evt?: IG6GraphEvent) {
+      onShow() {
         return true
       },        
       // 菜单隐藏事件              
-      onHide(evt?: IG6GraphEvent) {
+      onHide() {
         return true
       }                       
     };

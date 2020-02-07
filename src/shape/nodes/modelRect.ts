@@ -366,8 +366,8 @@ Shape.registerNode('modelRect', {
       offsetX = -width / 2 + offset;
     }
     
-    const label = group.find(element => { return element.get('className') === 'node-label'})
-    const description = group.find(element => { return element.get('className') === 'rect-description'})
+    const label = group.find(element => element.get('className') === 'node-label')
+    const description = group.find(element => element.get('className') === 'rect-description')
     if (cfg.label) {
       if (!label) {
         group.addShape('text', {
@@ -423,7 +423,7 @@ Shape.registerNode('modelRect', {
       }
     }
 
-    const preRectShape = group.find(element => { return element.get('className') === 'pre-rect'})
+    const preRectShape = group.find(element => element.get('className') === 'pre-rect')
     if (preRectShape) {
       const preRect = mix({}, preRectShape.attr(), cfg.preRect);
       preRectShape.attr({
@@ -451,7 +451,7 @@ Shape.registerNode('modelRect', {
       (this as any).drawLogoIcon(cfg, group);
     }
 
-    const stateIconShape = group.find(element => { return element.get('className') === 'rect-state-icon'})
+    const stateIconShape = group.find(element => element.get('className') === 'rect-state-icon')
     const currentStateIconAttr = stateIconShape ? stateIconShape.attr() : {};
     const stateIcon = mix({}, currentStateIconAttr, cfg.stateIcon);
     if (stateIconShape) {

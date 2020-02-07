@@ -87,7 +87,9 @@ export default class Bundling extends Base {
     const graph: Graph = this.get('graph');
     const onTick = this.get('onTick');
     const tick = () => {
-      onTick && onTick();
+      if(onTick) {
+        onTick()
+      }
       graph.refreshPositions();
 
     };

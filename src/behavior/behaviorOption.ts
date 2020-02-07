@@ -52,12 +52,12 @@ export default {
     })
   },
 
-  get(val) {
-    return this[val]
+  get(val: string) {
+    return (this as any)[val]
   },
 
-  set(key, val) {
-    this[key] = val
+  set(key: string, val: any) {
+    (this as any)[key] = val
     return this
   }
 }

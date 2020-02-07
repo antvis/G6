@@ -32,7 +32,7 @@ export default {
     // 获取拖动的group的ID，如果拖动的不是group，则直接return
     const groupId: string = target.get('groupId');
     if (!groupId) {
-      return false;
+      return;
     }
 
     const customGroupControll = graph.get('customGroupControll');
@@ -65,7 +65,7 @@ export default {
   },
   onDrag(evt: IG6GraphEvent) {
     if (!this.mouseOrigin) {
-      return false;
+      return;
     }
     this.updateDelegate(evt);
   },
@@ -81,7 +81,7 @@ export default {
     }
 
     if (!this.delegateShapeBBox) {
-      return false;
+      return;
     }
 
     const autoPaint = graph.get('autoPaint');
