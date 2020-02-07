@@ -1,5 +1,4 @@
 import Simulate from 'event-simulate';
-import Menu from '../../../src/plugins/menu';
 import G6 from '../../../src';
 
 const div = document.createElement('div');
@@ -14,7 +13,7 @@ describe('menu', () => {
   it('init & destroy', () => {
     let count = 0;
     let hide = true;
-    const menu = new Menu({
+    const menu = new G6.Menu({
       onShow(e) {
         expect(isNaN(e.canvasX)).toBe(false);
         expect(isNaN(e.canvasY)).toBe(false);
@@ -78,7 +77,7 @@ describe('menu', () => {
     outDiv.style.visibility = 'hidde';
     document.body.appendChild(outDiv);
 
-    const menu = new Menu({
+    const menu = new G6.Menu({
       createDOM: false,
       menu: outDiv,
       getContent(e) {
