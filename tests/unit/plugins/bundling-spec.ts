@@ -1,7 +1,7 @@
 import G6 from '../../../src'
 import Bundling from '../../../src/plugins/bundling'
 import { data } from './data'
-import { GraphData } from '../../../types'
+import { GraphData } from '../../../src/types'
 
 const div = document.createElement('div');
 div.id = 'force-layout';
