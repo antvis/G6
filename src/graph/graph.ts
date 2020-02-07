@@ -10,7 +10,7 @@ import each from '@antv/util/lib/each';
 import isPlainObject from '@antv/util/lib/is-plain-object';
 import isString from '@antv/util/lib/is-string';
 import { GraphAnimateConfig, GraphOptions, IGraph, IModeOption, IModeType, IStates } from '../interface/graph';
-import { IEdge, INode, IItemBase } from '../interface/item';
+import { IEdge, INode } from '../interface/item';
 import {
   EdgeConfig,
   GraphData,
@@ -40,7 +40,6 @@ import {
 import PluginBase from "../plugins/base"
 
 const NODE = 'node';
-const EDGE = 'edge';
 
 interface IGroupBBox {
   [key: string]: BBox;
@@ -78,12 +77,14 @@ export interface PrivateGraphOption extends GraphOptions {
 
 export default class Graph extends EventEmitter implements IGraph {
   private animating: boolean;
-  private _cfg: GraphOptions & { [key: string]: any };
+
+  private cfg: GraphOptions & { [key: string]: any };
+  
   public destroyed: boolean;
 
   constructor(cfg: GraphOptions) {
     super();
-    this._cfg = deepMix(this.getDefaultCfg(), cfg);
+    this.cfg = deepMix(this.getDefaultCfg(), cfg);
     this.init();
     this.animating = false;
     this.destroyed = false;
@@ -151,7 +152,8 @@ export default class Graph extends EventEmitter implements IGraph {
   // 初始化所有 Group
   private initGroups(): void {
     const canvas: GCanvas = this.get('canvas');
-    const id: string = this.get('canvas').get('el').id;
+    const el: HTMLElement = this.get('canvas').get('el');
+    const { id } = el;
 
     const group: IGroup = canvas.addGroup({
       id: `${id}-root`,
@@ -187,6 +189,7 @@ export default class Graph extends EventEmitter implements IGraph {
     this.set('group', group);
   }
 
+  // eslint-disable-next-line class-methods-use-this
   public getDefaultCfg(): Partial<PrivateGraphOption> {
     return {
       /**
@@ -353,25 +356,25 @@ export default class Graph extends EventEmitter implements IGraph {
   }
 
   /**
-   * 将值设置到 this._cfg 变量上面
+   * 将值设置到 this.cfg 变量上面
    * @param key 键 或 对象值
    * @param val 值
    */
   public set<T = any>(key: string | object, val?: T): Graph {
     if (isPlainObject(key)) {
-      this._cfg = Object.assign({}, this._cfg, key);
+      this.cfg = Object.assign({}, this.cfg, key);
     } else {
-      this._cfg[key] = val;
+      this.cfg[key] = val;
     }
     return this;
   }
 
   /**
-   * 获取 this._cfg 中的值
+   * 获取 this.cfg 中的值
    * @param key 键
    */
   public get(key: string) {
-    return this._cfg[key];
+    return this.cfg[key];
   }
 
   /**
@@ -444,8 +447,9 @@ export default class Graph extends EventEmitter implements IGraph {
    */
   public find<T extends Item>(type: ITEM_TYPE, fn: (item: T, index?: number) => boolean): T | undefined {
     let result: T | undefined;
-    const items = this.get(type + 's');
+    const items = this.get(`${type}s`);
 
+    // eslint-disable-next-line consistent-return
     each(items, (item, i) => {
       if (fn(item, i)) {
         result = item;
@@ -465,7 +469,7 @@ export default class Graph extends EventEmitter implements IGraph {
   public findAll<T extends Item>(type: ITEM_TYPE, fn: (item: T, index?: number) => boolean): T[] {
     const result: T[] = [];
 
-    each(this.get(type + 's'), (item, i) => {
+    each(this.get(`${type}s`), (item, i) => {
       if (fn(item, i)) {
         result.push(item);
       }
@@ -481,9 +485,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @return {object} 元素实例
    */
   public findAllByState<T extends Item>(type: ITEM_TYPE, state: string): T[] {
-    return this.findAll(type, (item) => {
-      return item.hasState(state);
-    });
+    return this.findAll(type, (item) => item.hasState(state));
   }
 
   /**
@@ -833,17 +835,17 @@ export default class Graph extends EventEmitter implements IGraph {
     if (!this.get('groupByTypes')) {
       // 为提升性能，选择数量少的进行操作
       if (data.nodes && data.edges && data.nodes.length < data.edges.length) {
-        const nodes = this.getNodes();
+        const nodesArr = this.getNodes();
 
         // 遍历节点实例，将所有节点提前。
-        nodes.forEach((node) => {
+        nodesArr.forEach((node) => {
           node.toFront();
         });
       } else {
-        const edges = this.getEdges();
+        const edgesArr = this.getEdges();
 
         // 遍历节点实例，将所有节点提前。
-        edges.forEach((edge) => {
+        edgesArr.forEach((edge) => {
           edge.toBack();
         });
       }
@@ -909,7 +911,7 @@ export default class Graph extends EventEmitter implements IGraph {
       } else {
         item = self.addItem(type, model);
       }
-      (items as { [key:string]: any[]})[type + 's'].push(item);
+      (items as { [key:string]: any[]})[`${type}s`].push(item);
     });
   }
 
@@ -987,7 +989,7 @@ export default class Graph extends EventEmitter implements IGraph {
       // 根据groupID分组
       const groupIds = groupBy(nodeInGroup, 'groupId');
       // tslint:disable-next-line:forin
-      for (const groupId in groupIds) {
+      Object.keys(groupIds).forEach((groupId) => {
         const nodeIds = groupIds[groupId].map((node) => node.id);
         this.get('customGroupControll').create(groupId, nodeIds, groupType, groupIndex);
         groupIndex--;
@@ -997,7 +999,7 @@ export default class Graph extends EventEmitter implements IGraph {
             id: groupId,
           });
         }
-      }
+      })
 
       this.set({
         groups: groupsArr,
@@ -1009,11 +1011,11 @@ export default class Graph extends EventEmitter implements IGraph {
       // 第二种情况，存在嵌套的群组，数据中有groups字段
       const groupNodes = getAllNodeInGroups(data);
       // tslint:disable-next-line:forin
-      for (const groupId in groupNodes) {
+      Object.keys(groupNodes).forEach((groupId) => {
         const tmpNodes = groupNodes[groupId];
         this.get('customGroupControll').create(groupId, tmpNodes, groupType, groupIndex);
         groupIndex--;
-      }
+      })
 
       // 对所有Group排序
       const customGroup = this.get('customGroup');
@@ -1109,7 +1111,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
     const animateCfg: GraphAnimateConfig = self.get('animateCfg');
 
-    const onFrame = animateCfg.onFrame;
+    const { onFrame } = animateCfg;
 
     const nodes = self.getNodes();
 
@@ -1279,7 +1281,7 @@ export default class Graph extends EventEmitter implements IGraph {
       self.stopAnimate();
     }
 
-    const fileName: string = (name || 'graph') + '.png';
+    const fileName: string = `${name || 'graph'}.png`;
     const link: HTMLAnchorElement = document.createElement('a');
     setTimeout(() => {
       const dataURL = self.toDataURL();
@@ -1289,6 +1291,7 @@ export default class Graph extends EventEmitter implements IGraph {
           let mime = ""
           if (arr && arr.length > 0 ) {
             const match = arr[0].match(/:(.*?);/);
+            // eslint-disable-next-line prefer-destructuring
             if (match && match.length >= 2) mime = match[1]
           }
 
@@ -1305,7 +1308,7 @@ export default class Graph extends EventEmitter implements IGraph {
           if (window.navigator.msSaveBlob) {
             window.navigator.msSaveBlob(blobObj, fileName);
           } else {
-            link.addEventListener('click', function() {
+            link.addEventListener('click', () => {
               link.download = fileName;
               link.href = window.URL.createObjectURL(blobObj);
             });
@@ -1346,7 +1349,7 @@ export default class Graph extends EventEmitter implements IGraph {
       // no type or same type, update layout
       const layoutCfg: any = {};
       Object.assign(layoutCfg, oriLayoutCfg, cfg);
-      layoutCfg.type = oriLayoutType ? oriLayoutType : 'random';
+      layoutCfg.type = oriLayoutType || 'random';
 
       this.set('layout', layoutCfg);
 
@@ -1439,7 +1442,7 @@ export default class Graph extends EventEmitter implements IGraph {
     this.get('layoutController').destroy();
     this.get('customGroupControll').destroy();
     this.get('canvas').destroy();
-    (this._cfg as any) = null;
+    (this.cfg as any) = null;
     this.destroyed = true;
   }
 }

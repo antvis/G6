@@ -64,18 +64,15 @@ export default {
     // 只拖动当前节点
     if (dragNodes.length === 0) {
       this.target = item;
+    } else if (nodes.length > 1) { // 拖动多个节点
+      nodes.forEach(node => {
+        const locked = node.hasLocked();
+        if (!locked) {
+          this.targets.push(node);
+        }
+      });
     } else {
-      // 拖动多个节点
-      if (nodes.length > 1) {
-        nodes.forEach(node => {
-          const locked = node.hasLocked();
-          if (!locked) {
-            this.targets.push(node);
-          }
-        });
-      } else {
-        this.targets.push(item);
-      }
+      this.targets.push(item);
     }
 
 
@@ -222,22 +219,20 @@ export default {
         });
       }
       this.delegateRect.set('capture', false);
-    } else {
-      if (this.targets.length > 0) {
-        const clientX = e.x - this.origin.x + this.originPoint.minX;
-        const clientY = e.y - this.origin.y + this.originPoint.minY;
-        this.delegateRect.attr({
-          x: clientX,
-          y: clientY
-        });
-      } else if (this.target) {
-        this.delegateRect.attr({
-          x: x + bbox.x,
-          y: y + bbox.y
-        });
-      }
+    } else if (this.targets.length > 0) {
+      const clientX = e.x - this.origin.x + this.originPoint.minX;
+      const clientY = e.y - this.origin.y + this.originPoint.minY;
+      this.delegateRect.attr({
+        x: clientX,
+        y: clientY
+      });
+    } else if (this.target) {
+      this.delegateRect.attr({
+        x: x + bbox.x,
+        y: y + bbox.y
+      });
     }
-
+    
     
     if (this.target) {
       this.target.set('delegateShape', this.delegateRect);
@@ -261,8 +256,8 @@ export default {
     let maxy = -Infinity;
 
     // 获取已节点的所有最大最小x y值
-    for (const element of nodes) {
-      // const element = isString(id) ? graph.findById(id) : id;
+    for (let i = 0; i < nodes.length; i++) {
+      const element = nodes[i];
       const bbox = element.getBBox();
       const { minX, minY, maxX, maxY } = bbox;
       if (minX < minx) {
@@ -281,6 +276,7 @@ export default {
         maxy = maxY;
       }
     }
+
     const x = Math.floor(minx);
     const y = Math.floor(miny);
     const width = Math.ceil(maxx) - Math.floor(minx);
