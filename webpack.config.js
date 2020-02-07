@@ -10,6 +10,7 @@ module.exports = {
     filename: '[name].min.js',
     library: 'G6',
     libraryTarget: 'umd',
+    libraryExport: 'default',
     path: resolve(process.cwd(), 'dist/'),
   },
   resolve: {
