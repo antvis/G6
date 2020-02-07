@@ -1,12 +1,12 @@
 ---
 title: 如何更新文本样式
-order: 0
+order: 1
 ---
 
 在 G6 中，可以通过以下三种方式更新文本样式。
 
 #### 实例化 Graph
-实例化 Graph 时，可以通过在 `defaultNode` 或 `defaultEdge` 中指定 `labelCfg` 属性修改文本的样式。
+实例化 Graph 时，可以通过在 `defaultNode` 或 `defaultEdge` 中指定 `labelCfg` 属性修改文本的样式。这种方式指定了全局的文本样式。
 
 ```javascript
 const graph = new G6.Graph({
@@ -35,6 +35,7 @@ const graph = new G6.Graph({
 ```
 
 #### 数据中指定 labelCfg
+在数据中为每个节点和边指定 `labelCfg` 可以达到为不同节点或边定制不同文本样式的目的。
 
 ```javascript
 const data = {
@@ -55,7 +56,7 @@ const data = {
 
 #### 使用 update/updateItem
 
-使用 `update/updateItem` 更新节点或边时，也可以更新节点或边上的文本。
+使用 `update/updateItem` 更新节点或边时，也可以更新节点或边上的文本。该方法用于动态更新文本样式。
 
 ```javascript
 graph.updateItem(node, {

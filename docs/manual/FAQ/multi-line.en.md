@@ -1,10 +1,10 @@
 ---
 title: Multiple Edges between Two Nodes
-order: 4
+order: 7
 ---
 
 ## Problem
-For such a data below, how to link two nodes with multiple edges?
+For such a data below, how to display multiple edges between two nodes by G6?
 
 ```javascript
 const data = {
@@ -32,7 +32,7 @@ const data = {
 
 ```
 
-The following code handles the graph easily:
+The following code handles the graph easily, where we use quadratic bezier curve instead of line to draw the edges:
 
 ```javascript
 const graph = new G6.Graph({
@@ -51,7 +51,7 @@ const graph = new G6.Graph({
     }
   },
   defaultEdge: {
-    type: 'quadratic',
+    type: 'quadratic', // assign the edges to be quadratic bezier curves
     style: {
       stroke: '#e2e2e2'
     }

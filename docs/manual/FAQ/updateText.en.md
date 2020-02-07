@@ -1,12 +1,12 @@
 ---
 title: Update Label
-order: 0
+order: 1
 ---
 
 There are three ways to modify the styles for labels in G6.
 
 #### Configure When Instantiating Graph
-When instantiating a Graph, assign `labelCfg` in `defaultNode` or `defaultEdge` to configure the styles for labels of global nodes and global edges respectively.
+When instantiating a Graph, assign `labelCfg` in `defaultNode` or `defaultEdge` to configure the styles for labels of global nodes and global edges respectively. This is a way to define the configurations of labels in global.
 
 
 ```javascript
@@ -37,6 +37,8 @@ const graph = new G6.Graph({
 
 #### Configure Style in Data
 
+By this way, you can configure the `labelCfg` for different nodes and edges.
+
 ```javascript
 const data = {
 	nodes: [
@@ -56,7 +58,7 @@ const data = {
 
 #### update/updateItem
 
-When using `update/updateItem` to update a node or edge, the label can be updated as well.
+When using `update/updateItem` to update a node or edge, the label can be updated as well. This is used for updating the configurations of the label.
 
 ```javascript
 graph.updateItem(node, {

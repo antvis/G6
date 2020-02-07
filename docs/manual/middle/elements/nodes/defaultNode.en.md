@@ -6,6 +6,8 @@ order: 0
 The built-in nodes in G6 include circle, rect, ellipse, diamond, triangle, star, image, and modelRect. <br />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FY3RTbDCz_8AAAAAAAAAAABkARQnAQ' width='750' height='100'>
 
+In this document, we will briefly introduce the built-in nodes in G6, the common property, and the way to configure the node type. To knwon more about each type of built-in nodes in G6, please refer to the corresponding documents in this directory.
+
 ## Types of Default Nodes
 The table below shows the built-in nodes and their special properties:
 
