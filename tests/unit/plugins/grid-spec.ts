@@ -1,4 +1,3 @@
-import Grid from '../../../src/plugins/grid';
 import G6 from '../../../src';
 
 const div = document.createElement('div');
@@ -6,7 +5,7 @@ div.id = 'grid-spec';
 document.body.appendChild(div);
 
 describe('grid', () => {
-  const grid = new Grid();
+  const grid = new G6.Grid();
   const graph = new G6.Graph({
     container: div,
     width: 800,
