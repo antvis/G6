@@ -97,56 +97,9 @@ export type ModelStyle = Partial<{
   stateStyles: {
     [key: string]: ShapeStyle;
   };
-  linkPoints: {
-    top?: boolean;
-    right?: boolean;
-    bottom?: boolean;
-    left?: boolean;
-    size?: number;
-    lineWidth?: number;
-    fill?: string;
-    stroke?: string;
-    [key: string]: unknown;
-  };
-  icon: {
-    show?: boolean;
-    // icon的地址，字符串类型
-    img?: string;
-    width?: number;
-    height?: number;
-    offset?: number;
-  };
   // loop edge config
   loopCfg: LoopConfig;
   labelCfg?: ILabelConfig;
-  anchorPoints: number[][];
-  controlPoints: IPoint[];
-  size: number | number[];
-  img: string;
-
-  clipCfg: {
-    show?: boolean;
-    type?: string;
-    // circle
-    r?: number;
-    // ellipse
-    rx?: number;
-    ry?: number;
-    // rect
-    width?: number;
-    height?: number;
-    // polygon
-    points?: number[][];
-    // path
-    path?: Array<Array<string | number>>;
-    // 坐标
-    x?: number;
-    y?: number;
-    // clip 的属性样式
-    style?: {
-      lineWidth?: number;
-    };
-  };
 }>;
 
 export type LabelStyle = Partial<{
@@ -159,8 +112,10 @@ export type LabelStyle = Partial<{
   stroke: string | null;
   opacity: number;
   fontSize: number;
+  fontStyle: string;
   fill: string | null;
   rotateCenter: string;
+  lineWidth?: number;
 }>;
 
 export type Easeing =
@@ -190,14 +145,65 @@ export interface ModelConfig extends ModelStyle {
   x?: number;
   y?: number;
   size?: number | number[];
-  controlPoints?: IPoint[];
+  img?: string;
   color?: string;
-  preRect?: object;
+  preRect?: {
+    show?: boolean;
+    [key: string]: unknown;
+  };
   logoIcon?: {
     show?: boolean;
     [key: string]: unknown;
   };
-  stateIcon?: object;
+  stateIcon?: {
+    show?: boolean;
+    [key: string]: unknown;
+  };
+  anchorPoints?: number[][];
+  controlPoints?: IPoint[];
+  linkPoints?: {
+    top?: boolean;
+    right?: boolean;
+    bottom?: boolean;
+    left?: boolean;
+    size?: number;
+    lineWidth?: number;
+    fill?: string;
+    stroke?: string;
+    r?: number;
+    [key: string]: unknown;
+  };
+  icon?: {
+    show?: boolean;
+    // icon的地址，字符串类型
+    img?: string;
+    width?: number;
+    height?: number;
+    offset?: number;
+  };
+  clipCfg?: {
+    show?: boolean;
+    type?: string;
+    // circle
+    r?: number;
+    // ellipse
+    rx?: number;
+    ry?: number;
+    // rect
+    width?: number;
+    height?: number;
+    // polygon
+    points?: number[][];
+    // path
+    path?: Array<Array<string | number>>;
+    // 坐标
+    x?: number;
+    y?: number;
+    // clip 的属性样式
+    style?: {
+      lineWidth?: number;
+    };
+  };
   innerR?: number;
   direction?: string;
   startPoint?: IPoint;

@@ -4,10 +4,9 @@
  */
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
-import { isArray, isNil } from '@antv/util/lib'
-import deepMix from '@antv/util/lib/deep-mix';
+import { isArray, isNil, mix } from '@antv/util';
 import { ILabelConfig, ShapeOptions } from '../interface/shape'
-import { Item, LabelStyle, NodeConfig, ModelConfig, ModelStyle } from '../types';
+import { Item, LabelStyle, NodeConfig, ModelConfig } from '../types';
 import Global from '../global'
 import Shape from './shape'
 import { shapeBase } from './shapeBase'
@@ -117,7 +116,7 @@ const singleNode: ShapeOptions = {
    * @param {Group} group Item所在的group
    */
   updateLinkPoints(cfg: NodeConfig, group: GGroup) {
-    const { linkPoints: defaultLinkPoints } = this.options as ModelStyle;
+    const { linkPoints: defaultLinkPoints } = this.options as ModelConfig;
 
     const markLeft = group.find(element => element.get('className') === 'link-point-left')
     const markRight= group.find(element => element.get('className') === 'link-point-right')
@@ -139,7 +138,7 @@ const singleNode: ShapeOptions = {
     }
     if (!currentLinkPoints) currentLinkPoints = defaultLinkPoints;
 
-    const linkPoints = deepMix({}, currentLinkPoints, cfg.linkPoints);
+    const linkPoints = mix({}, currentLinkPoints, cfg.linkPoints);
 
     const { fill: markFill, stroke: markStroke, lineWidth: borderWidth } = linkPoints;
     let markSize = linkPoints.size / 2;
@@ -258,13 +257,13 @@ const singleNode: ShapeOptions = {
   },
   updateIcon(cfg: ModelConfig, item: Item) {
     const group = item.getContainer();
-    const { icon: defaultIcon } = this.options as ModelStyle;
-    const icon = deepMix({}, defaultIcon, cfg.icon);
+    const { icon: defaultIcon } = this.options as ModelConfig;
+    const icon = mix({}, defaultIcon, cfg.icon);
     const { show } = cfg.icon ? cfg.icon : { show: undefined };
     const iconShape = group.find(element => element.get('className') === `${this.type}-icon`)
     if (iconShape) { // 若原先存在 icon
       if (show || show === undefined) { // 若传入 show: true, 或没有设置，则更新原有的 icon 样式
-        const iconConfig = deepMix({}, defaultIcon, iconShape.attr(), cfg.icon);
+        const iconConfig = mix({}, defaultIcon, iconShape.attr(), cfg.icon);
         const { width: w, height: h } = iconConfig;
         iconShape.attr({
           ...iconConfig,
@@ -279,8 +278,8 @@ const singleNode: ShapeOptions = {
       group.addShape('image', {
         attrs: {
           ...icon,
-          x: -w / 2,
-          y: -h / 2,
+          x: -w! / 2,
+          y: -h! / 2,
         },
         className: `${this.type}-icon`,
         name: `${this.type}-icon`

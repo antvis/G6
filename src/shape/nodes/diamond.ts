@@ -1,7 +1,7 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
-import deepMix from '@antv/util/lib/deep-mix';
-import { Item, NodeConfig, ShapeStyle, ModelStyle } from '../../types';
+import { mix } from '@antv/util'
+import { Item, NodeConfig, ShapeStyle, ModelConfig } from '../../types';
 import Global from '../../global'
 import Shape from '../shape'
 import { ShapeOptions } from '../../interface/shape';
@@ -49,9 +49,9 @@ Shape.registerNode('diamond', {
   // 文本位置
   labelPosition: 'center',
   drawShape(cfg: NodeConfig, group: GGroup): IShape {
-    const { icon: defaultIcon } = this.options as ModelStyle;
+    const { icon: defaultIcon } = this.options as ModelConfig;
     const style = (this as ShapeOptions).getShapeStyle!(cfg);
-    const icon = deepMix({}, defaultIcon, cfg.icon);
+    const icon = mix({}, defaultIcon, cfg.icon);
 
     const keyShape = group.addShape('path', {
       attrs: style,
@@ -64,8 +64,8 @@ Shape.registerNode('diamond', {
     if (show) {
       const image = group.addShape('image', {
         attrs: {
-          x: -w / 2,
-          y: -h / 2,
+          x: -w! / 2,
+          y: -h! / 2,
           ...icon
         },
         className: 'diamond-icon',
@@ -85,8 +85,8 @@ Shape.registerNode('diamond', {
    * @param {Group} group Group实例
    */
   drawLinkPoints(cfg: NodeConfig, group: GGroup) {
-    const { linkPoints: defaultLinkPoints } = this.options as ModelStyle;
-    const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
+    const { linkPoints: defaultLinkPoints } = this.options as ModelConfig;
+    const linkPoints = mix({}, defaultLinkPoints, cfg.linkPoints);
 
     const { top, left, right, bottom, size: markSize,
       ...markStyle } = linkPoints;
@@ -172,19 +172,19 @@ Shape.registerNode('diamond', {
    * @return {Object} 节点的样式
    */
   getShapeStyle(cfg: NodeConfig): ShapeStyle {
-    const { style: defaultStyle } = this.options as ModelStyle;
-    const strokeStyle = {
+    const { style: defaultStyle } = this.options as ModelConfig;
+    const strokeStyle: ShapeStyle = {
       stroke: cfg.color
     };
     // 如果设置了color，则覆盖默认的stroke属性
-    const style = deepMix({}, defaultStyle, strokeStyle, cfg.style);
+    const style = mix({}, defaultStyle, strokeStyle, cfg.style);
     const path = (this as any).getPath(cfg);
     const styles = { path, ...style };
     return styles;
   },
   update(cfg: NodeConfig, item: Item) {
     const group = item.getContainer();
-    const { style: defaultStyle } = this.options as ModelStyle;
+    const { style: defaultStyle } = this.options as ModelConfig;
     const path = (this as any).getPath(cfg);
     // 下面这些属性需要覆盖默认样式与目前样式，但若在 cfg 中有指定则应该被 cfg 的相应配置覆盖。
     const strokeStyle = {
@@ -193,7 +193,8 @@ Shape.registerNode('diamond', {
     };
     // 与 getShapeStyle 不同在于，update 时需要获取到当前的 style 进行融合。即新传入的配置项中没有涉及的属性，保留当前的配置。
     const keyShape = item.get('keyShape');
-    const style = deepMix({}, defaultStyle, keyShape.attr(), strokeStyle, cfg.style);
+    let style = mix({}, defaultStyle, keyShape.attr(), strokeStyle);
+    style = mix(style, cfg.style);
 
     (this as any).updateShape(cfg, item, style, true);
     (this as any).updateLinkPoints(cfg, group);

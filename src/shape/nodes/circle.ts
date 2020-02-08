@@ -1,7 +1,7 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
 import deepMix from '@antv/util/lib/deep-mix';
-import { Item, NodeConfig, ShapeStyle, ModelStyle } from '../../types';
+import { Item, NodeConfig, ShapeStyle, ModelConfig } from '../../types';
 import Global from '../../global'
 import Shape from '../shape'
 import { ShapeOptions } from '../../interface/shape';
@@ -50,7 +50,7 @@ Shape.registerNode('circle', {
   // 文本位置
   labelPosition: 'center',
   drawShape(cfg: NodeConfig, group: GGroup): IShape {
-    const { icon: defaultIcon } = this.options as ModelStyle;
+    const { icon: defaultIcon } = this.options as ModelConfig;
     const style = this.getShapeStyle!(cfg);
     const icon = deepMix({}, defaultIcon, cfg.icon);
     const keyShape: IShape = group.addShape('circle', {
@@ -84,7 +84,7 @@ Shape.registerNode('circle', {
    * @param {Group} group Group实例
    */
   drawLinkPoints(cfg: NodeConfig, group: GGroup) {
-    const { linkPoints: defaultLinkPoints } = this.options as ModelStyle;
+    const { linkPoints: defaultLinkPoints } = this.options as ModelConfig;
     const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
 
     const { top, left, right, bottom, size: markSize,
@@ -157,7 +157,7 @@ Shape.registerNode('circle', {
    * @return {Object} 节点的样式
    */
   getShapeStyle(cfg: NodeConfig): ShapeStyle {
-    const { style: defaultStyle } = this.options as ModelStyle;
+    const { style: defaultStyle } = this.options as ModelConfig;
     const strokeStyle = {
       stroke: cfg.color
     };

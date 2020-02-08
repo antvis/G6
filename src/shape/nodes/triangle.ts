@@ -1,9 +1,9 @@
 import Shape from '../shape'
-import deepMix from '@antv/util/lib/deep-mix';
+import { mix } from '@antv/util'
 import Global from '../../global'
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
-import { ModelConfig, NodeConfig, Item, ModelStyle } from '../../types';
+import { ModelConfig, NodeConfig, Item, ShapeStyle } from '../../types';
 import { ShapeOptions } from '../../interface/shape';
 
 // 菱形shape
@@ -51,9 +51,9 @@ Shape.registerNode('triangle', {
   // 文本位置
   labelPosition: 'bottom',
   drawShape(cfg: NodeConfig, group: GGroup): IShape {
-    const { icon: defaultIcon, direction: defaultDirection } = this.options as ModelStyle;
+    const { icon: defaultIcon, direction: defaultDirection } = this.options as ModelConfig;
     const style = (this as ShapeOptions).getShapeStyle!(cfg);
-    const icon = deepMix({}, defaultIcon, cfg.icon);
+    const icon = mix({}, defaultIcon, cfg.icon);
 
     const direction = cfg.direction || defaultDirection;
 
@@ -66,8 +66,8 @@ Shape.registerNode('triangle', {
 
     const { width: w, height: h, show, offset } = icon;
     if (show) {
-      let iconW = -w / 2;
-      let iconH = -h / 2;
+      let iconW = -w! / 2;
+      let iconH = -h! / 2;
       if (direction === 'up' || direction === 'down') {
         iconH += offset;
       }
@@ -97,8 +97,8 @@ Shape.registerNode('triangle', {
    * @param {Group} group Group实例
    */
   drawLinkPoints(cfg: NodeConfig, group: GGroup) {
-    const { linkPoints: defaultLinkPoints, direction: defaultDirection } = this.options as ModelStyle;
-    const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
+    const { linkPoints: defaultLinkPoints, direction: defaultDirection } = this.options as ModelConfig;
+    const linkPoints = mix({}, defaultLinkPoints, cfg.linkPoints);
 
     const direction = cfg.direction || defaultDirection;
 
@@ -221,7 +221,7 @@ Shape.registerNode('triangle', {
     }
   },
   getPath(cfg: ModelConfig) {
-    const { direction: defaultDirection } = this.options as ModelStyle;
+    const { direction: defaultDirection } = this.options as ModelConfig;
 
     const direction = cfg.direction || defaultDirection;
     const size = (this as ShapeOptions).getSize!(cfg);
@@ -266,19 +266,19 @@ Shape.registerNode('triangle', {
    * @return {Object} 节点的样式
    */
   getShapeStyle(cfg: NodeConfig) {
-    const { style: defaultStyle } = this.options as ModelStyle;
-    const strokeStyle = {
+    const { style: defaultStyle } = this.options as ModelConfig;
+    const strokeStyle: ShapeStyle = {
       stroke: cfg.color
     };
     // 如果设置了color，则覆盖默认的stroke属性
-    const style = deepMix({}, defaultStyle, strokeStyle, cfg.style);
+    const style = mix({}, defaultStyle, strokeStyle, cfg.style);
     const path = (this as any).getPath(cfg);
     const styles = { path, ...style };
     return styles;
   },
   update(cfg: NodeConfig, item: Item)  {
     const group = item.getContainer();
-    const { style: defaultStyle } = this.options as ModelStyle;
+    const { style: defaultStyle } = this.options as ModelConfig;
     const path = (this as any).getPath(cfg);
     // 下面这些属性需要覆盖默认样式与目前样式，但若在 cfg 中有指定则应该被 cfg 的相应配置覆盖。
     const strokeStyle = {
@@ -287,8 +287,8 @@ Shape.registerNode('triangle', {
     };
     // 与 getShapeStyle 不同在于，update 时需要获取到当前的 style 进行融合。即新传入的配置项中没有涉及的属性，保留当前的配置。
     const keyShape = item.get('keyShape');
-    const style = deepMix({}, defaultStyle, keyShape.attr(), strokeStyle, cfg.style);
-    
+    let style = mix({}, defaultStyle, keyShape.attr(), strokeStyle);
+    style = mix(style, cfg.style);
 
     (this as any).updateShape(cfg, item, style, true);
     (this as any).updateLinkPoints(cfg, group);
@@ -299,7 +299,7 @@ Shape.registerNode('triangle', {
    * @param {Group} group Item所在的group
    */
   updateLinkPoints(cfg: NodeConfig, group: GGroup) {
-    const { linkPoints: defaultLinkPoints, direction: defaultDirection } = this.options as ModelStyle;
+    const { linkPoints: defaultLinkPoints, direction: defaultDirection } = this.options as ModelConfig;
 
     const direction = cfg.direction || defaultDirection;
 
@@ -314,7 +314,7 @@ Shape.registerNode('triangle', {
       currentLinkPoints = existLinkPoint.attr();
     }
 
-    const linkPoints = deepMix({}, currentLinkPoints, cfg.linkPoints);
+    const linkPoints = mix({}, currentLinkPoints, cfg.linkPoints);
 
     const { fill: markFill, stroke: markStroke, lineWidth: borderWidth } = linkPoints;
     let markSize = linkPoints.size;

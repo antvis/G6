@@ -1,7 +1,7 @@
 import { Point } from '@antv/g-base/lib/types';
 import Group from '@antv/g-canvas/lib/group'
-import { deepMix, each } from '@antv/util'
-import { ModelConfig, ModelStyle } from '../../types';
+import { mix, each } from '@antv/util'
+import { ModelConfig, ShapeStyle } from '../../types';
 import { pointsToPolygon } from '../../util/path'
 import Global from '../../global'
 import Shape from '../shape'
@@ -36,14 +36,14 @@ Shape.registerEdge('polyline', {
     });
     return keyShape;
   },
-  getShapeStyle(cfg: ModelConfig) {
-    const { style: defaultStyle } = this.options as ModelStyle;
+  getShapeStyle(cfg: ModelConfig): ShapeStyle {
+    const { style: defaultStyle } = this.options as ModelConfig;
 
-    const strokeStyle = {
+    const strokeStyle: ShapeStyle = {
       stroke: cfg.color
     };
 
-    const style = deepMix({}, defaultStyle, strokeStyle, cfg.style);
+    const style: ShapeStyle = mix({}, defaultStyle, strokeStyle, cfg.style);
     cfg = (this as any).getPathPoints(cfg);
 
     this.radius = style.radius;
@@ -69,9 +69,10 @@ Shape.registerEdge('polyline', {
 
     
     const path = (this as any).getPath(points);
-    const attrs = deepMix({}, Global.defaultEdge.style, style, {
-      lineWidth: cfg.size
-    }, { path });
+    const attrs: ShapeStyle = mix({}, Global.defaultEdge.style as ShapeStyle, style, {
+      lineWidth: cfg.size,
+      path
+    } as ShapeStyle);
     return attrs;
   },
   getPath(points: Point[]): Array<Array<string | number>> | string {
