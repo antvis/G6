@@ -1,7 +1,7 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
-import deepMix from '@antv/util/lib/deep-mix';
-import { Item, NodeConfig, ModelStyle } from '../../types';
+import { mix } from '@antv/util'
+import { Item, NodeConfig, ModelConfig, ShapeStyle } from '../../types';
 import Global from '../../global'
 import Shape from '../shape'
 import { ShapeOptions } from '../../interface/shape';
@@ -52,9 +52,9 @@ Shape.registerNode('ellipse', {
   // 文本位置
   labelPosition: 'center',
   drawShape(cfg: NodeConfig, group: GGroup): IShape {
-    const { icon: defaultIcon } = this.options as ModelStyle;
+    const { icon: defaultIcon } = this.options as ModelConfig;
     const style = (this as ShapeOptions).getShapeStyle!(cfg);
-    const icon = deepMix({}, defaultIcon, cfg.icon);
+    const icon = mix({}, defaultIcon, cfg.icon);
 
     const keyShape = group.addShape('ellipse', {
       attrs: style,
@@ -67,8 +67,8 @@ Shape.registerNode('ellipse', {
     if (show) {
       const image = group.addShape('image', {
         attrs: {
-          x: -width / 2,
-          y: -height / 2,
+          x: -width! / 2,
+          y: -height! / 2,
           ...icon
         },
         className: 'ellipse-icon',
@@ -88,8 +88,8 @@ Shape.registerNode('ellipse', {
    * @param {Group} group Group实例
    */
   drawLinkPoints(cfg: NodeConfig, group: GGroup) {
-    const { linkPoints: defaultLinkPoints } = this.options as ModelStyle;
-    const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
+    const { linkPoints: defaultLinkPoints } = this.options as ModelConfig;
+    const linkPoints = mix({}, defaultLinkPoints, cfg.linkPoints);
 
     const { top, left, right, bottom, size: markSize,
       ...markStyle } = linkPoints;
@@ -162,13 +162,13 @@ Shape.registerNode('ellipse', {
    * @param {Object} cfg 节点数据模型
    * @return {Object} 节点的样式
    */
-  getShapeStyle(cfg: NodeConfig) {
-    const { style: defaultStyle } = this.options as ModelStyle;
-    const strokeStyle = {
+  getShapeStyle(cfg: NodeConfig): ShapeStyle {
+    const { style: defaultStyle } = this.options as ModelConfig;
+    const strokeStyle: ShapeStyle = {
       stroke: cfg.color
     };
     // 如果设置了color，则覆盖默认的stroke属性
-    const style = deepMix({}, defaultStyle, strokeStyle, cfg.style);
+    const style = mix({}, defaultStyle, strokeStyle, cfg.style);
     const size = (this as ShapeOptions).getSize!(cfg);
     const rx = size[0] / 2;
     const ry = size[1] / 2;
@@ -182,7 +182,7 @@ Shape.registerNode('ellipse', {
   },
   update(cfg: NodeConfig, item: Item) {
     const group = item.getContainer();
-    const { style: defaultStyle } = this.options as ModelStyle;
+    const { style: defaultStyle } = this.options as ModelConfig;
     const size = (this as ShapeOptions).getSize!(cfg);
 
     const strokeStyle = {
@@ -192,7 +192,8 @@ Shape.registerNode('ellipse', {
     };
     // 与 getShapeStyle 不同在于，update 时需要获取到当前的 style 进行融合。即新传入的配置项中没有涉及的属性，保留当前的配置。
     const keyShape = item.get('keyShape');
-    const style = deepMix({}, defaultStyle, keyShape.attr(), strokeStyle, cfg.style);
+    let style = mix({}, defaultStyle, keyShape.attr(), strokeStyle);
+    style = mix(style, cfg.style);
 
     (this as any).updateShape(cfg, item, style, true);
     (this as any).updateLinkPoints(cfg, group);

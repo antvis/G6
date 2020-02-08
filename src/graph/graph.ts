@@ -1192,13 +1192,23 @@ export default class Graph extends EventEmitter implements IGraph {
 
     let model: NodeConfig;
 
+    const updatedNodes: { [key: string]: boolean } = {};
     each(nodes, (node: INode) => {
       model = node.getModel() as NodeConfig;
+      const originAttrs = node.get('originAttrs');
+      if (originAttrs && model.x === originAttrs.x && model.y === originAttrs.y) {
+        return;
+      }
       node.updatePosition({ x: model.x!, y: model.y! });
+      updatedNodes[model.id] = true;
     });
 
     each(edges, (edge: IEdge) => {
-      edge.refresh();
+      const sourceModel = edge.getSource().getModel();
+      const targetModel = edge.getTarget().getModel();
+      if (updatedNodes[sourceModel.id as string] || updatedNodes[targetModel.id as string]) {
+        edge.refresh();
+      }
     });
 
     self.emit('aftergraphrefreshposition');

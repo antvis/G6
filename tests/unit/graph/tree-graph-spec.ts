@@ -270,7 +270,7 @@ describe('update child', () => {
 
     // 第一种情况，parent存在，添加的数据不存在
     graph.updateChild(child, 'SubTreeNode3')
-    // 更新以后，SubTreeNode3.1.1 节点后会有子元素
+    // 更新以后，SubTreeNode3 节点后会有子元素
     const subNode = graph.findById('SubTreeNode3')
     const children = subNode.get('children')
     expect(children).not.toBe(undefined)

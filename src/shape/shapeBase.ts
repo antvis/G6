@@ -4,13 +4,12 @@
  */
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
-import deepMix from '@antv/util/lib/deep-mix';
-import each from '@antv/util/lib/each'
 import { ShapeOptions, ILabelConfig } from '../interface/shape'
-import { IPoint, Item, LabelStyle, ModelConfig, ShapeStyle, ModelStyle } from '../types';
+import { IPoint, Item, LabelStyle, ShapeStyle, ModelConfig } from '../types';
 import { cloneDeep, get, merge } from 'lodash'
 import Global from '../global'
 import { mat3, transform } from '@antv/matrix-util';
+import { deepMix, each, mix } from '@antv/util';
 
 const CLS_SHAPE_SUFFIX = '-shape'
 const CLS_LABEL_SUFFIX = '-label'
@@ -54,7 +53,7 @@ export const shapeBase: ShapeOptions = {
     return null as any;
   },
   drawLabel(cfg: ModelConfig, group: GGroup): IShape {
-    const { labelCfg: defaultLabelCfg } = this.options as ModelStyle
+    const { labelCfg: defaultLabelCfg } = this.options as ModelConfig
 
     const labelCfg = merge({}, defaultLabelCfg, cfg.labelCfg) as ILabelConfig
     const labelStyle = this.getLabelStyle!(cfg, labelCfg, group)
@@ -141,7 +140,7 @@ export const shapeBase: ShapeOptions = {
     const group = item.getContainer()
     const shapeClassName = this.itemType + CLS_SHAPE_SUFFIX
     const shape = group.find(element => element.get('className') === shapeClassName)
-    const shapeStyle = deepMix({}, shape.attr(), cfg.style);
+    const shapeStyle = mix({}, shape.attr(), cfg.style);
     if (shape) {
       shape.attr(shapeStyle)
     }
@@ -149,7 +148,7 @@ export const shapeBase: ShapeOptions = {
 
   updateLabel(cfg: ModelConfig, item: Item) {
     const group = item.getContainer();
-    const { labelCfg: defaultLabelCfg } = this.options as ModelStyle;
+    const { labelCfg: defaultLabelCfg } = this.options as ModelConfig;
     const labelClassName = this.itemType + CLS_LABEL_SUFFIX
     const label = group.find(element => element.get('className') === labelClassName)
 
@@ -238,7 +237,7 @@ export const shapeBase: ShapeOptions = {
   getStateStyle(name: string, value: string | boolean, item: Item): ShapeStyle {
     const model = item.getModel()
 
-    const { style: defaultStyle } = this.options as ModelStyle
+    const { style: defaultStyle } = this.options as ModelConfig
     
     if (value) {
       const modelStateStyle = model.stateStyles ? model.stateStyles[name] : undefined;
@@ -266,7 +265,7 @@ export const shapeBase: ShapeOptions = {
    * @return {Array|null} 锚点的数组,如果为 null，则没有锚点
    */
   getAnchorPoints(cfg: ModelConfig): number[][] | undefined  {
-    const { anchorPoints: defaultAnchorPoints } = this.options as ModelStyle
+    const { anchorPoints: defaultAnchorPoints } = this.options as ModelConfig
     const anchorPoints = cfg.anchorPoints || defaultAnchorPoints
     return anchorPoints
   }
