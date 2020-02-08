@@ -1,7 +1,7 @@
 import EventEmitter from '@antv/event-emitter';
 import { AnimateCfg, Point } from '@antv/g-base/lib/types';
 import Graph from '../graph/graph';
-import { EdgeConfig, GraphData, IG6GraphEvent, Item, ITEM_TYPE, ModelConfig, ModelStyle, NodeConfig, Padding, ShapeStyle, TreeGraphData, LayoutConfig } from '../types';
+import { EdgeConfig, GraphData, IG6GraphEvent, Item, ITEM_TYPE, ModelConfig, NodeConfig, Padding, ShapeStyle, TreeGraphData, LayoutConfig, ModelStyle } from '../types';
 import { IEdge, INode } from './item';
 import PluginBase from '../plugins/base';
 
@@ -118,9 +118,9 @@ export interface GraphOptions {
     color?: string;
   } & ModelStyle;
 
-  nodeStateStyles?: ModelStyle;
+  nodeStateStyles?: {[key: string]: ShapeStyle};
 
-  edgeStateStyles?: ModelStyle;
+  edgeStateStyles?: {[key: string]: ShapeStyle};
 
   /**
    * 向 graph 注册插件。插件机制请见：plugin

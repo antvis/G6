@@ -411,8 +411,8 @@ describe('star test', () => {
       expect(label.attr('text')).toEqual('new star label');
       expect(label.attr('fill')).toEqual('#ff0');
 
-      graph.destroy();
-      expect(graph.destroyed).toBe(true);
+      // graph.destroy();
+      // expect(graph.destroyed).toBe(true);
     });
     it('update icon', () => {
       const graph = new Graph({

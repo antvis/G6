@@ -7,9 +7,9 @@
 import { Point } from '@antv/g-base/lib/types';
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
-import { deepMix, each, isNil } from '@antv/util';
+import { deepMix, mix, each, isNil } from '@antv/util';
 import { ILabelConfig, ShapeOptions } from '../interface/shape';
-import { EdgeConfig, EdgeData, IPoint, LabelStyle, ShapeStyle, Item, ModelStyle, ModelConfig } from '../types';
+import { EdgeConfig, EdgeData, IPoint, LabelStyle, ShapeStyle, Item, ModelConfig } from '../types';
 import { getLabelPosition, getLoopCfgs } from '../util/graphic';
 import { distance, getCircleCenterByPoints } from '../util/math';
 import { getControlPoint, getSpline } from '../util/path';
@@ -72,12 +72,12 @@ const singleEdge: ShapeOptions = {
     return path;
   },
   getShapeStyle(cfg: EdgeConfig): ShapeStyle {
-    const { style: defaultStyle } = this.options as ModelStyle;
-    const strokeStyle = {
+    const { style: defaultStyle } = this.options as ModelConfig;
+    const strokeStyle: ShapeStyle = {
       stroke: cfg.color,
     };
     // 如果设置了color，则覆盖默认的stroke属性
-    const style = deepMix({}, defaultStyle, strokeStyle, cfg.style);
+    const style: ShapeStyle = mix({} , defaultStyle, strokeStyle, cfg.style);
 
     const size = cfg.size || Global.defaultEdge.size;
     cfg = this.getPathPoints!(cfg);
@@ -92,21 +92,21 @@ const singleEdge: ShapeOptions = {
     // 添加结束点
     points.push(endPoint);
     const path = (this as any).getPath(points);
-    const styles = Object.assign(
+    const styles = mix(
       {},
-      Global.defaultEdge.style,
+      Global.defaultEdge.style as ShapeStyle,
       {
         stroke: Global.defaultEdge.color,
         lineWidth: size,
         path,
-      },
+      } as ShapeStyle,
       style
     );
     return styles;
   },
   updateShapeStyle(cfg: EdgeConfig, item: Item) {
     const group = item.getContainer();
-    const strokeStyle = {
+    const strokeStyle: ShapeStyle = {
       stroke: cfg.color
     };
     const shape = group.find(element => { return element.get('className') === 'edge-shape'}) || item.getKeyShape()
@@ -124,7 +124,7 @@ const singleEdge: ShapeOptions = {
     // 添加结束点
     points.push(endPoint);
     const path = (this as any).getPath(points);
-    const style = deepMix({}, strokeStyle, shape.attr(), {
+    const style = mix(strokeStyle, shape.attr(), {
       lineWidth: size,
       path
     }, cfg.style);
@@ -217,7 +217,7 @@ const singleEdge: ShapeOptions = {
     return shape;
   },
   drawLabel(cfg: EdgeConfig, group: GGroup): IShape {
-    const { labelCfg: defaultLabelCfg } = this.options as ModelStyle
+    const { labelCfg: defaultLabelCfg } = this.options as ModelConfig
     const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
     const labelStyle = this.getLabelStyle!(cfg, labelCfg, group);
     if (labelStyle.rotate) {
