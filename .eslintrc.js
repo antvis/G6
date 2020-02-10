@@ -19,6 +19,8 @@ module.exports = {
       'no-underscore-dangle': 0,
       'no-useless-constructor': 0,
       'prefer-destructuring': 0,
+      'guard-for-in': 0,
+      'no-restricted-globals': 0,
       // 后面需要去掉
       'no-restricted-syntax': 0,
       'prefer-spread': 0,
