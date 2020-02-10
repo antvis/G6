@@ -27,6 +27,7 @@ export default {
     };
   },
   onDragStart(evt: IG6GraphEvent) {
+    const { graph } = this;
     const { target } = evt;
     // 获取拖动的group的ID，如果拖动的不是group，则直接return
     const groupId: string = target.get('groupId');
@@ -34,10 +35,8 @@ export default {
       return false;
     }
 
-    const graph = this.graph;
-
     const customGroupControll = graph.get('customGroupControll');
-    const customGroup = customGroupControll.customGroup;
+    const { customGroup } = customGroupControll;
 
     const currentGroup = customGroup[groupId].nodeGroup;
 
@@ -50,12 +49,13 @@ export default {
     // 获取groupId的父Group的ID
     const { groups } = graph.save();
     let parentGroupId = null;
-    for (const group of groups) {
-      if (groupId !== group.id) {
-        continue;
+    
+    for (let i = 0; i < groups.length; i++) {
+      const group = groups[i];
+      if (groupId === group.id) {
+        parentGroupId = group.parentId;
+        break;
       }
-      parentGroupId = group.parentId;
-      break;
     }
 
     if (parentGroupId) {
@@ -67,10 +67,11 @@ export default {
     if (!this.mouseOrigin) {
       return false;
     }
-    this._updateDelegate(evt);
+    this.updateDelegate(evt);
   },
 
   onDragEnd(evt: IG6GraphEvent) {
+    const { graph } = this;
     // 删除delegate shape
     const groupId: string = evt.target.get('groupId');
     if (this.delegateShapes[groupId]) {
@@ -83,7 +84,6 @@ export default {
       return false;
     }
 
-    const graph = this.graph;
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
 
@@ -100,22 +100,20 @@ export default {
     customGroupControll.resetNodePoint();
     this.delegateShapeBBox = null;
   },
-  _updateDelegate(evt: IG6GraphEvent) {
-    const self = this;
+  updateDelegate(evt: IG6GraphEvent) {
+    const { graph } = this;
     const groupId: string = evt.target.get('groupId');
     const item = this.targetGroup.get('keyShape');
-    const graph = this.graph;
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
 
-    let delegateShape = self.delegateShapes[groupId];
+    let delegateShape = this.delegateShapes[groupId];
     const groupBbox = item.getBBox();
     const delegateType = item.get('type');
     if (!delegateShape) {
       const delegateGroup = graph.get('delegateGroup');
       const { x: bboxX, y: bboxY, width, height } = groupBbox;
-      const x = evt.canvasX - width / 2;
-      const y = evt.canvasY - height / 2;
+
       const attrs = {
         width,
         height,
@@ -137,7 +135,7 @@ export default {
           },
           name: 'circle-delegate-shape'
         });
-        self.shapeOrigin = { x: cx, y: cy };
+        this.shapeOrigin = { x: cx, y: cy };
       } else {
         delegateShape = delegateGroup.addShape('rect', {
           attrs: {
@@ -147,13 +145,13 @@ export default {
           },
           name: 'rect-delegate-shape'
         });
-        self.shapeOrigin = { x: bboxX, y: bboxY };
+        this.shapeOrigin = { x: bboxX, y: bboxY };
       }
       // delegateShape.set('capture', false);
-      self.delegateShapes[groupId] = delegateShape;
-      self.delegateShapeBBoxs[groupId] = delegateShape.getBBox();
+      this.delegateShapes[groupId] = delegateShape;
+      this.delegateShapeBBoxs[groupId] = delegateShape.getBBox();
     } else {
-      const { mouseOrigin, shapeOrigin } = self;
+      const { mouseOrigin, shapeOrigin } = this;
       const deltaX = evt.canvasX - mouseOrigin.x;
       const deltaY = evt.canvasY - mouseOrigin.y;
       const x = deltaX + shapeOrigin.x;
@@ -162,24 +160,23 @@ export default {
       // 将Canvas坐标转成视口坐标
       const point = graph.getPointByCanvas(x, y);
       delegateShape.attr({ x: point.x, y: point.y });
-      self.delegateShapeBBoxs[groupId] = delegateShape.getBBox();
+      this.delegateShapeBBoxs[groupId] = delegateShape.getBBox();
     }
 
     graph.paint();
     graph.setAutoPaint(autoPaint);
   },
   onOutOfRange(e: IG6GraphEvent) {
-    const self = this;
-    const canvasElement = self.graph.get('canvas').get('el');
-    function listener(ev) {
+    const canvasElement = this.graph.get('canvas').get('el');
+    const listener = (ev) => {
       if (ev.target !== canvasElement) {
-        self.onDragEnd(e);
+        this.onDragEnd(e);
         // 终止时需要判断此时是否在监听画布外的 mouseup 事件，若有则解绑
         document.body.removeEventListener('mouseup', listener, true);
       }
     };
 
-    if (self.mouseOrigin) {
+    if (this.mouseOrigin) {
       document.body.addEventListener('mouseup', listener, true);
     }
   }

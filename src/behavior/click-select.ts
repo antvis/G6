@@ -1,6 +1,5 @@
 import each from '@antv/util/lib/each'
 import { G6Event, IG6GraphEvent } from '../types';
-import { isString } from '@antv/util';
 
 const DEFAULT_TRIGGER = 'shift';
 const ALLOW_EVENTS = [ 'shift', 16, 'ctrl', 17, 'alt', 18 ];
@@ -32,13 +31,13 @@ export default {
     };
   },
   onClick(e: IG6GraphEvent) {
-    const self = this;
-    const item = e.item;
-    const graph = self.graph;
+    const { item }  = e;
+    const { graph, keydown, multiple, shouldUpdate } = this;
+
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
     // allow to select multiple nodes but did not press a key || do not allow the select multiple nodes
-    if (!self.keydown || !self.multiple) {
+    if (!keydown || !multiple) {
       const selected = graph.findAllByState('node', 'selected');
       each(selected, node => {
         if (node !== item) {
@@ -47,13 +46,13 @@ export default {
       });
     }
     if (item.hasState('selected')) {
-      if (self.shouldUpdate.call(self, e)) {
+      if (shouldUpdate.call(this, e)) {
         graph.setItemState(item, 'selected', false);
       }
       const selectedNodes = graph.findAllByState('node', 'selected');
       graph.emit('nodeselectchange', { target: item, selectedItems: { nodes: selectedNodes }, select: false });
     } else {
-      if (self.shouldUpdate.call(self, e)) {
+      if (shouldUpdate.call(this, e)) {
         graph.setItemState(item, 'selected', true);
       }
       const selectedNodes = graph.findAllByState('node', 'selected');
@@ -63,7 +62,7 @@ export default {
     graph.paint();
   },
   onCanvasClick() {
-    const graph = this.graph;
+    const { graph } = this;
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
     const selected = graph.findAllByState('node', 'selected');

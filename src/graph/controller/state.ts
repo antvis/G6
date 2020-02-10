@@ -1,6 +1,6 @@
 import each from '@antv/util/lib/each'
 import isString from '@antv/util/lib/is-string'
-import { IGraph, IStates } from '../../interface/graph';
+import { IStates } from '../../interface/graph';
 import { Item } from '../../types';
 import Graph from '../graph';
 import { INode } from '../../interface/item';
@@ -16,7 +16,9 @@ let timer: any = null
 
 export default class StateController {
   private graph: Graph
+
   private cachedStates: ICachedStates
+
   public destroyed: boolean
 
   constructor(graph: Graph) {
@@ -46,7 +48,7 @@ export default class StateController {
    * @returns
    * @memberof State
    */
-  private checkCache(item: Item, state: string, cache: { [key: string]: any }) {
+  private static checkCache(item: Item, state: string, cache: { [key: string]: any }) {
     if (!cache[state]) {
       return;
     }
@@ -65,7 +67,7 @@ export default class StateController {
    * @param {object} states
    * @memberof State
    */
-  private cacheState(item: Item, state: string, states: IStates) {
+  private static cacheState(item: Item, state: string, states: IStates) {
     if (!states[state]) {
       states[state] = [];
     }
@@ -81,23 +83,22 @@ export default class StateController {
    * @memberof State
    */
   public updateState(item: Item, state: string, enabled: boolean) {
+    const { checkCache, cacheState } = StateController;
     if (item.destroyed) {
       return;
     }
 
-    const self = this;
-
-    const cachedStates = self.cachedStates;
+    const { cachedStates } = this;
 
     const enabledStates = cachedStates.enabled;
     const disabledStates = cachedStates.disabled;
 
     if (enabled) {
-      self.checkCache(item, state, disabledStates);
-      self.cacheState(item, state, enabledStates);
+      checkCache(item, state, disabledStates);
+      cacheState(item, state, enabledStates);
     } else {
-      self.checkCache(item, state, enabledStates);
-      self.cacheState(item, state, disabledStates);
+      checkCache(item, state, enabledStates);
+      cacheState(item, state, disabledStates);
     }
 
     if (timer) {
@@ -106,7 +107,7 @@ export default class StateController {
 
     timer = setTimeout(() => {
       timer = null;
-      self.updateGraphStates();
+      this.updateGraphStates();
     }, 16);
   }
 
@@ -119,12 +120,11 @@ export default class StateController {
    * @memberof State
    */
   public updateStates(item: Item, states: string | string[], enabled: boolean) {
-    const self = this;
     if (isString(states)) {
-      self.updateState(item, states, enabled);
+      this.updateState(item, states, enabled);
     } else {
       states.forEach(state => {
-        self.updateState(item, state, enabled);
+        this.updateState(item, state, enabled);
       });
     }
   }
@@ -136,13 +136,11 @@ export default class StateController {
    */
   public updateGraphStates() {
     const states = this.graph.get('states') as IStates
-    const cachedStates = this.cachedStates;
+    const { cachedStates } = this
     
     each(cachedStates.disabled, (val, key) => {
       if (states[key]) {
-        states[key] = states[key].filter(item => {
-          return val.indexOf(item) < 0 && !val.destroyed;
-        });
+        states[key] = states[key].filter(item => val.indexOf(item) < 0 && !val.destroyed);
       }
     });
 

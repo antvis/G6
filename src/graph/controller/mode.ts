@@ -8,7 +8,9 @@ import Graph from '../graph';
 
 export default class ModeController {
   private graph: Graph
+
   public destroyed: boolean
+
   /**
    * modes = {
    *  default: [ 'drag-node', 'zoom-canvas' ],
@@ -32,7 +34,9 @@ export default class ModeController {
    * @memberof Mode
    */
   public mode: string
+
   private currentBehaves: IBehavior[]
+
   constructor(graph: Graph) {
     this.graph = graph
     this.destroyed = false
@@ -48,7 +52,7 @@ export default class ModeController {
   }
 
   private formatModes() {
-    const modes = this.modes;
+    const { modes } = this;
     each(modes, mode => {
       each(mode, (behavior, i) => {
         if (isString(behavior)) {
@@ -59,7 +63,7 @@ export default class ModeController {
   }
 
   private setBehaviors(mode: string) {
-    const graph = this.graph;
+    const { graph } = this;
     const behaviors = this.modes[mode];
     const behaves: IBehavior[] = [];
     let behave: IBehavior;
@@ -78,7 +82,7 @@ export default class ModeController {
     this.currentBehaves = behaves;
   }
 
-  private mergeBehaviors(modeBehaviors: IModeType[], behaviors: IModeType[]): IModeType[] {
+  private static mergeBehaviors(modeBehaviors: IModeType[], behaviors: IModeType[]): IModeType[] {
     each(behaviors, behavior => {
       if (modeBehaviors.indexOf(behavior) < 0) {
         if (isString(behavior)) {
@@ -90,13 +94,14 @@ export default class ModeController {
     return modeBehaviors;
   }
 
-  private filterBehaviors(modeBehaviors: IModeType[], behaviors: IModeType[]): IModeType[] {
+  private static filterBehaviors(modeBehaviors: IModeType[], behaviors: IModeType[]): IModeType[] {
     const result: IModeType[] = [];
     modeBehaviors.forEach(behavior => {
       let type: string = ''
       if(isString(behavior)) {
         type = behavior
       } else {
+        // eslint-disable-next-line prefer-destructuring
         type = behavior.type
       }
       if (behaviors.indexOf(type) < 0) {
@@ -107,8 +112,8 @@ export default class ModeController {
   }
 
   public setMode(mode: string) {
-    const modes = this.modes;
-    const graph = this.graph;
+    const { modes, graph } = this;
+
     const current = mode
     
     const behaviors = modes[current];
@@ -143,7 +148,6 @@ export default class ModeController {
    * @memberof Mode
    */
   public manipulateBehaviors(behaviors: IModeType[] | IModeType, modes: string[] | string, isAdd: boolean): ModeController {
-    const self = this
     let behaves: IModeType[]
     if(!isArray(behaviors)) {
       behaves = [ behaviors ]
@@ -153,16 +157,14 @@ export default class ModeController {
 
     if(isArray(modes)) {
       each(modes, mode => {
-        if (!self.modes[mode]) {
+        if (!this.modes[mode]) {
           if (isAdd) {
-            self.modes[mode] = behaves
+            this.modes[mode] = behaves
           }
+        } else if (isAdd) {
+          this.modes[mode] = ModeController.mergeBehaviors(this.modes[mode] || [], behaves);
         } else {
-          if (isAdd) {
-            self.modes[mode] = this.mergeBehaviors(self.modes[mode] || [], behaves);
-          } else {
-            self.modes[mode] = this.filterBehaviors(self.modes[mode] || [], behaves);
-          }
+          this.modes[mode] = ModeController.filterBehaviors(this.modes[mode] || [], behaves);
         }
       })
 
@@ -176,17 +178,17 @@ export default class ModeController {
     
     if(!this.modes[currentMode]) {
       if (isAdd) {
-        self.modes[currentMode] = behaves
+        this.modes[currentMode] = behaves
       }
     }
     
     if (isAdd) {
-      self.modes[currentMode] = this.mergeBehaviors(self.modes[currentMode] || [], behaves);
+      this.modes[currentMode] = ModeController.mergeBehaviors(this.modes[currentMode] || [], behaves);
     } else {
-      self.modes[currentMode] = this.filterBehaviors(self.modes[currentMode] || [], behaves);
+      this.modes[currentMode] = ModeController.filterBehaviors(this.modes[currentMode] || [], behaves);
     }
 
-    self.setMode(this.mode)
+    this.setMode(this.mode)
 
     return this
   }

@@ -18,11 +18,15 @@ const EDGE = 'edge';
 const CFG_PREFIX = 'default';
 const MAPPER_SUFFIX = 'Mapper';
 const STATE_SUFFIX = 'stateStyles';
-const hasOwnProperty = Object.hasOwnProperty;
+const { hasOwnProperty } = Object;
+
+type Id = string | Item | undefined
 
 export default class ItemController {
   private graph: Graph
+
   public destroyed: boolean
+
   constructor(graph: Graph) {
     this.graph = graph
     this.destroyed = false
@@ -37,8 +41,8 @@ export default class ItemController {
    * @memberof ItemController
    */
   public addItem<T extends Item>(type: ITEM_TYPE, model: ModelConfig) {
-    const graph = this.graph;
-    const parent: Group = graph.get(type + 'Group') || graph.get('group');
+    const { graph } = this;
+    const parent: Group = graph.get(`${type}Group`) || graph.get('group');
     const upperType = upperFirst(type);
 
     let item: Item | null = null;
@@ -79,8 +83,10 @@ export default class ItemController {
     graph.emit('beforeadditem', { type, model });
 
     if(type === EDGE) {
-      let source: string | Item | undefined = (model as EdgeConfig).source
-      let target: string | Item | undefined = (model as EdgeConfig).target
+      let source: Id
+      let target: Id
+      source = (model as EdgeConfig).source // eslint-disable-line prefer-destructuring
+      target = (model as EdgeConfig).target // eslint-disable-line prefer-destructuring
 
       if (source && isString(source)) {
         source = graph.findById(source);
@@ -90,7 +96,7 @@ export default class ItemController {
       }
 
       if (!source || !target) {
-        console.warn('The source or target node of edge ' + model.id + ' does not exist!')
+        console.warn(`The source or target node of edge ${model.id} does not exist!`)
         return;
       }
 
@@ -111,10 +117,11 @@ export default class ItemController {
     }
 
     if (item) {
-      graph.get(type + 's').push(item);
+      graph.get(`${type}s`).push(item);
       graph.get('itemMap')[item.get('id')] = item;
       graph.autoPaint();
       graph.emit('afteradditem', { item, model });
+      // eslint-disable-next-line consistent-return
       return item as T;
     } 
   }
@@ -128,7 +135,7 @@ export default class ItemController {
    * @memberof ItemController
    */
   public updateItem(item: Item | string, cfg: EdgeConfig | NodeConfig) {
-    const graph = this.graph;
+    const { graph }= this;
     
     if (isString(item)) {
       item = graph.findById(item) as Item;
@@ -215,7 +222,7 @@ export default class ItemController {
    * @memberof ItemController
    */
   public removeItem(item: Item | string): void {
-    const graph = this.graph;
+    const { graph } = this;
     if (isString(item)) {
       item = graph.findById(item);
     }
@@ -227,7 +234,7 @@ export default class ItemController {
     graph.emit('beforeremoveitem', { item });
 
     const type = item.getType();
-    const items = graph.get(item.getType() + 's');
+    const items = graph.get(`${item.getType()}s`);
     const index = items.indexOf(item);
     items.splice(index, 1);
 
@@ -258,7 +265,7 @@ export default class ItemController {
    * @memberof ItemController
    */
   public setItemState(item: Item, state: string, enabled: boolean): void {
-    const graph = this.graph;
+    const { graph } = this;
     if (item.hasState(state) === enabled) {
       return;
     }
@@ -279,7 +286,7 @@ export default class ItemController {
    * @memberof ItemController
    */
   public clearItemStates(item: Item | string, states?: string | string[]): void {
-    const graph = this.graph;
+    const { graph } = this;
 
     if (isString(item)) {
       item = graph.findById(item);
@@ -300,7 +307,7 @@ export default class ItemController {
    * @memberof ItemController
    */
   public refreshItem(item: Item | string): void {
-    const graph = this.graph;
+    const { graph } = this;
 
     if (isString(item)) {
       item = graph.findById(item);
@@ -323,8 +330,7 @@ export default class ItemController {
    * @memberof ItemController
    */
   public changeItemVisibility(item: Item | string, visible: boolean): void {
-    const self = this;
-    const graph = self.graph;
+    const { graph } = this;
 
     if (isString(item)) {
       item = graph.findById(item);
@@ -345,7 +351,7 @@ export default class ItemController {
           return;
         }
 
-        self.changeItemVisibility(edge, visible);
+        this.changeItemVisibility(edge, visible);
       });
 
       graph.setAutoPaint(autoPaint);

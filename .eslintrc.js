@@ -8,5 +8,7 @@ module.exports = {
       'no-bitwise': 0,
       'import/order': 0,
       'no-plusplus': 0,
+      'operator-assignment': 0,
+      'consistent-return': 0
     },
   };

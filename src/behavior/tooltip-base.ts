@@ -6,14 +6,13 @@ const OFFSET = 12;
 
 export default {
   onMouseEnter(e: IG6GraphEvent) {
-    const self = this;
-    if (!self.shouldBegin(e)) {
+    const { item } = e;
+    if (!this.shouldBegin(e)) {
       return;
     }
-    const item = e.item;
-    self.currentTarget = item;
-    self.showTooltip(e);
-    self.graph.emit('tooltipchange', { item: e.item, action: 'show' });
+    this.currentTarget = item;
+    this.showTooltip(e);
+    this.graph.emit('tooltipchange', { item: e.item, action: 'show' });
   },
   onMouseMove(e: IG6GraphEvent) {
     if (!this.shouldUpdate(e)) {
@@ -34,16 +33,16 @@ export default {
     this.currentTarget = null;
   },
   showTooltip(e: IG6GraphEvent) {
-    const self = this;
+    let { container } = this;
     if (!e.item) {
       return;
     }
-    let container = self.container;
+
     if (!container) {
-      container = self._createTooltip(self.graph.get('canvas'));
-      self.container = container;
+      container = this.createTooltip(this.graph.get('canvas'));
+      this.container = container;
     }
-    const text = self.formatText(e.item.get('model'), e);
+    const text = this.formatText(e.item.get('model'), e);
     container.innerHTML = text;
     this.updatePosition(e);
     modifyCSS(this.container, { visibility: 'visible' });
@@ -54,9 +53,7 @@ export default {
     });
   },
   updatePosition(e: IG6GraphEvent) {
-    const width = this.width;
-    const height = this.height;
-    const container = this.container;
+    const { width, height, container } = this;
     let x = e.canvasX;
     let y = e.canvasY;
     const bbox = container.getBoundingClientRect();
@@ -70,14 +67,14 @@ export default {
     } else {
       y += OFFSET;
     }
-    const left = x + 'px';
-    const top = y + 'px';
+    const left = `${x}px`;
+    const top = `${y}px`;
     modifyCSS(this.container, { left, top, visibility: 'visible' });
   },
-  _createTooltip(canvas): HTMLElement {
+  createTooltip(canvas): HTMLElement {
     const el = canvas.get('el');
     el.style.position = 'relative';
-    const container = createDom('<div class="g6-tooltip g6-' + this.item + '-tooltip"></div>');
+    const container = createDom(`<div class="g6-tooltip g6-${this.item}-tooltip"></div>`);
     el.parentNode.appendChild(container);
     modifyCSS(container, {
       position: 'absolute',

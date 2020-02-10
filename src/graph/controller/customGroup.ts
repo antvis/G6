@@ -45,7 +45,7 @@ interface IDelegate {
 }
 
 export default class CustomGroup {
-  private getDefaultCfg() {
+  private static getDefaultCfg() {
     return {
       default: {
         lineWidth: 1,
@@ -96,18 +96,23 @@ export default class CustomGroup {
   }
 
   private graph: IGraph;
+
   private styles: any;
+
   private customGroup: {
     [key: string]: ICustomGroup
   };
+
   private delegateInGroup: IDelegate;
+
   private nodePoint: Point[];
+
   public destroyed: boolean;
 
   constructor(graph: IGraph) {
     this.graph = graph;
     const groupStyle = graph.get('groupStyle');
-    this.styles = deepMix({}, this.getDefaultCfg(), groupStyle);
+    this.styles = deepMix({}, CustomGroup.getDefaultCfg(), groupStyle);
     
     // 创建的群组集合
     this.customGroup = {};
@@ -128,12 +133,13 @@ export default class CustomGroup {
    * @return {object} null
    */
   public create(groupId: string, nodes: string[], type = 'circle', zIndex = 0, updateDataModel = false, title = {}) {
-    const graph = this.graph;
+    const { graph } = this;
     const customGroup: IGroup = graph.get('customGroup');
     const hasGroupIds: string[] = customGroup.get('children').map(data => data.get('id'));
     
     if (hasGroupIds.indexOf(groupId) > -1) {
-      return console.warn(`已经存在ID为 ${groupId} 的分组，请重新设置分组ID！`);
+      console.warn(`已经存在ID为 ${groupId} 的分组，请重新设置分组ID！`);
+      return
     }
 
     const nodeGroup = customGroup.addGroup({
@@ -291,10 +297,9 @@ export default class CustomGroup {
     } else {
       styles = deepMix({}, defaultStyle, style);
     }
-    // tslint:disable-next-line:forin
-    for (const s in styles) {
+    Object.keys(styles).forEach((s) => {
       keyShape.attr(s, styles[s]);
-    }
+    })
   }
 
   /**
@@ -317,7 +322,7 @@ export default class CustomGroup {
       };
     }
 
-    const graph = this.graph;
+    const { graph } = this;
 
     let minx = Infinity;
     let maxx = -Infinity;
@@ -325,7 +330,7 @@ export default class CustomGroup {
     let maxy = -Infinity;
 
     // 获取已节点的所有最大最小x y值
-    for (const id of nodes) {
+    nodes.forEach((id) => {
       const element = isString(id) ? graph.findById(id) : id;
       const bbox = element.getBBox();
       const { minX, minY, maxX, maxY } = bbox;
@@ -344,7 +349,7 @@ export default class CustomGroup {
       if (maxY > maxy) {
         maxy = maxY;
       }
-    }
+    })
 
     const x = Math.floor(minx);
     const y = Math.floor(miny);
@@ -366,7 +371,7 @@ export default class CustomGroup {
    * @return {number} 在x和y方向上的偏移值
    */
   public getGroupPadding(groupId: string): number {
-    const graph = this.graph;
+    const { graph } = this;
     const { default: defaultStyle } = this.styles;
     // 检测操作的群组中是否包括子群组
     const groups = graph.get('groups');
@@ -439,13 +444,14 @@ export default class CustomGroup {
       this.collapseGroup(groupId);
     }
   }
+  
   /**
    * 将临时节点递归地设置到groupId及父节点上
    * @param {string} groupId 群组ID
    * @param {string} tmpNodeId 临时节点ID
    */
   public setGroupTmpNode(groupId: string, tmpNodeId: string) {
-    const graph = this.graph;
+    const { graph } = this;
     const graphNodes = graph.get('groupNodes');
     const groups = graph.get('groups');
     if (graphNodes[groupId].indexOf(tmpNodeId) < 0) {
@@ -455,6 +461,7 @@ export default class CustomGroup {
     const parentGroup = groups.filter(g => g.id === groupId);
     let parentId = null;
     if (parentGroup.length > 0) {
+      // eslint-disable-next-line prefer-destructuring
       parentId = parentGroup[0].parentId;
     }
 
@@ -463,6 +470,7 @@ export default class CustomGroup {
       this.setGroupTmpNode(parentId, tmpNodeId);
     }
   }
+
   /**
    * 收起群组，隐藏群组中的节点及边，群组外部相邻的边都连接到群组上
    *
@@ -475,22 +483,21 @@ export default class CustomGroup {
 
     // 收起群组后的默认样式
     const { collapse } = this.styles;
-    const graph = this.graph;
+    const { graph } = this;
     const groupType = graph.get('groupType');
 
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
 
     const nodesInGroup = graph.get('groupNodes')[id];
-    const { width: w, height: h } = this.calculationGroupPosition(nodesInGroup);
 
     // 更新Group的大小
     const keyShape = nodeGroup.get('keyShape');
     const { r, width, height, offsetX, offsetY, ...otherStyle } = collapse;
-    // tslint:disable-next-line:forin
-    for (const style in otherStyle) {
+
+    Object.keys(otherStyle).forEach((style) => {
       keyShape.attr(style, otherStyle[style]);
-    }
+    })
 
     let options: any = {
       groupId: id,
@@ -609,7 +616,7 @@ export default class CustomGroup {
    * @memberof ItemGroup
    */
   public updateEdgeInGroupLinks(groupId: string, sourceOutTargetInEdges: IEdge[], sourceInTargetOutEdges: IEdge[]) {
-    const graph = this.graph;
+    const { graph } = this;
     // 更新source在外的节点
     const edgesOuts = {};
     sourceOutTargetInEdges.map(edge => {
@@ -652,7 +659,7 @@ export default class CustomGroup {
    * @memberof ItemGroup
    */
   public expandGroup(id: string) {
-    const graph = this.graph;
+    const { graph } = this;
 
     const groupType = graph.get<string>('groupType');
     const autoPaint = graph.get<boolean>('autoPaint');
@@ -668,10 +675,9 @@ export default class CustomGroup {
 
     const { default: defaultStyle, collapse } = this.styles;
 
-    // tslint:disable-next-line:forin
-    for (const style in defaultStyle) {
+    Object.keys(defaultStyle).forEach((style) => {
       keyShape.attr(style, defaultStyle[style]);
-    }
+    })
 
     const titleShape = nodeGroup.find(element => element.get('className') === 'group-title')
 
@@ -798,7 +804,7 @@ export default class CustomGroup {
   }
 
   public deleteTmpNode(groupId: string, tmpNodeId: string) {
-    const graph = this.graph;
+    const { graph } = this;
     const groups = graph.get('groups');
     const nodesInGroup = graph.get('groupNodes')[groupId];
 
@@ -809,6 +815,7 @@ export default class CustomGroup {
     const parentGroup = groups.filter(g => g.id === groupId);
     let parentId = null;
     if (parentGroup.length > 0) {
+      // eslint-disable-next-line prefer-destructuring
       parentId = parentGroup[0].parentId;
     }
 
@@ -824,7 +831,7 @@ export default class CustomGroup {
    * @memberof ItemGroup
    */
   public remove(groupId: string) {
-    const graph = this.graph;
+    const { graph } = this;
     const customGroup = this.getDeletageGroupById(groupId);
 
     if (!customGroup) {
@@ -863,14 +870,16 @@ export default class CustomGroup {
 
     let parentGroupId = null;
     let parentGroupData = null;
-    for (const group of groups) {
-      if (groupId !== group.id) {
-        continue;
-      }
-      parentGroupId = group.parentId;
-      parentGroupData = group;
-      break;
+
+    for (let i = 0; i < groups.length; i++) {
+      const group = groups[i]
+      if (groupId === group.id) {
+        parentGroupId = group.parentId;
+        parentGroupData = group;
+        break;
+      } 
     }
+
 
     if (parentGroupData) {
       delete parentGroupData.parentId;
@@ -891,7 +900,7 @@ export default class CustomGroup {
    * @param {object} position delegate的坐标位置
    */
   public updateGroup(groupId: string, position: Point, originPosition: Point) {
-    const graph = this.graph;
+    const { graph } = this;
     const groupType = graph.get('groupType');
 
     // 更新群组里面节点和线的位置
@@ -902,13 +911,14 @@ export default class CustomGroup {
     const { groups } = graph.save() as GraphData;
     let parentGroupId = null;
     let parentGroupData = null;
-    for (const group of groups) {
-      if (groupId !== group.id) {
-        continue;
-      }
-      parentGroupId = group.parentId;
-      parentGroupData = group;
-      break;
+
+    for (let i = 0; i < groups.length; i++) {
+      const group = groups[i]
+      if (groupId === group.id) {
+        parentGroupId = group.parentId;
+        parentGroupData = group;
+        break;
+      } 
     }
 
     if (parentGroupId) {
@@ -974,8 +984,8 @@ export default class CustomGroup {
           let offsetX = 0;
           let offsetY = 0;
           if (titleConfig) {
-            offsetX = titleConfig.offsetX;
-            offsetY = titleConfig.offsetY;
+            offsetX  = titleConfig.offsetX; // eslint-disable-line prefer-destructuring
+            offsetY  = titleConfig.offsetY; // eslint-disable-line prefer-destructuring
           }
           groupTitleShape.attr({
             x: titleX + offsetX,
@@ -991,8 +1001,9 @@ export default class CustomGroup {
    * @param {string} groupId 节点分组ID
    * @param {object} position delegate的坐标位置
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public updateItemInGroup(groupId: string, position: Point, originPosition: Point) {
-    const graph = this.graph;
+    const { graph } = this;
     const groupType = graph.get('groupType');
 
     const groupNodes = graph.get('groupNodes');
@@ -1097,7 +1108,7 @@ export default class CustomGroup {
    * @param {number} y y坐标
    */
   public updateGroupTitle(group: IGroup, groupId: string, x: number, y: number) {
-    const graph = this.graph;
+    const { graph } = this;
     
     const groupTitleShape = group.find(element => element.get('className') === 'group-title')
 
@@ -1135,7 +1146,7 @@ export default class CustomGroup {
     // 节点所在的GroupId
     const { groupId } = model;
 
-    const graph = this.graph;
+    const { graph } = this;
     const groupType = graph.get('groupType');
     const groupNodes = graph.get('groupNodes');
     const nodes = groupNodes[groupId];

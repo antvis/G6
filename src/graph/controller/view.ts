@@ -3,7 +3,6 @@ import { Point } from '@antv/g-base/lib/types';
 import Group from '@antv/g-canvas/lib/group';
 import isNumber from "@antv/util/lib/is-number";
 import isString from '@antv/util/lib/is-string'
-import { IGraph } from "../../interface/graph";
 import { Item, Matrix, Padding } from '../../types';
 import { formatPadding } from '../../util/base'
 import { applyMatrix, invertMatrix } from '../../util/math';
@@ -11,7 +10,9 @@ import Graph from '../graph';
 
 export default class ViewController {
   private graph: Graph
+
   public destroyed: boolean = false
+
   constructor(graph: Graph) {
     this.graph = graph
     this.destroyed = false
@@ -20,7 +21,7 @@ export default class ViewController {
   // get view center coordinate
   private getViewCenter(): Point {
     const padding = this.getFormatPadding();
-    const graph = this.graph;
+    const { graph } = this;
     const width: number = this.graph.get('width');
     const height: number = graph.get('height');
     return {
@@ -31,8 +32,8 @@ export default class ViewController {
 
   // fit view graph
   public fitView() {
+    const { graph } = this;
     const padding = this.getFormatPadding();
-    const graph = this.graph;
     const group: Group = graph.get('group');
     const width: number = graph.get('width');
     const height: number = graph.get('height');
@@ -136,11 +137,11 @@ export default class ViewController {
    * @param height canvas 高度
    */
   public changeSize(width: number, height: number) {
+    const { graph } = this;
     if(!isNumber(width) || !isNumber(height)) {
       throw Error('invalid canvas width & height, pleace make sure width & height type is number');
     }
 
-    const graph = this.graph
     graph.set({ width, height })
     const canvas: Canvas = graph.get('canvas')
     canvas.changeSize(width, height)

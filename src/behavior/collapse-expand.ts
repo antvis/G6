@@ -16,7 +16,7 @@ export default {
     let trigger;
     // 检测输入是否合法
     if (ALLOW_EVENTS.includes(this.trigger)) {
-      trigger = this.trigger;
+      ({ trigger } = this.trigger);
     } else {
       trigger = DEFAULT_TRIGGER;
       console.warn('Behavior collapse-expand 的 trigger 参数不合法，请输入 \'click\' 或 \'dblclick\'');
@@ -26,14 +26,15 @@ export default {
     };
   },
   onNodeClick(e: IG6GraphEvent) {
-    const item = e.item;
+    const { item } = e;
+
     // 如果节点进行过更新，model 会进行 merge，直接改 model 就不能改布局，所以需要去改源数据
     const sourceData = this.graph.findDataById(item.get('id'));
     if (!sourceData) {
       return;
     }
     
-    const children = sourceData.children;
+    const { children } = sourceData;
     // 叶子节点的收缩和展开没有意义
     if (!children || children.length === 0) {
       return;
@@ -50,8 +51,8 @@ export default {
     }
     try {
       this.onChange(item, collapsed);
-    } catch (e) {
-      console.warn('G6 自 3.0.4 版本支持直接从 item.getModel() 获取源数据(临时通知，将在3.2.0版本中清除)', e);
+    } catch (err) {
+      console.warn('G6 自 3.0.4 版本支持直接从 item.getModel() 获取源数据(临时通知，将在3.2.0版本中清除)', err);
     }
     this.graph.layout();
   }
