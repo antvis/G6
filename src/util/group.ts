@@ -6,6 +6,7 @@ export const getAllNodeInGroups = (data: GraphData): GroupNodeIds => {
   const groupByParentId: ObjectType<GroupConfig> = groupBy(data.groups!, 'parentId');
 
   const result: { [key: string]: GroupConfig[] } = {};
+
   for (const parentId in groupByParentId) {
     if (!parentId) {
       continue;

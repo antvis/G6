@@ -120,7 +120,7 @@ export const shapeBase: ShapeOptions = {
    */
   getLabelStyle(cfg: ModelConfig, labelCfg: ILabelConfig, group: GGroup): LabelStyle {
     const calculateStyle = this.getLabelStyleByPosition!(cfg, labelCfg, group)
-    const attrName = this.itemType + 'Label' // 取 nodeLabel，edgeLabel 的配置项
+    const attrName = `${this.itemType}Label` // 取 nodeLabel，edgeLabel 的配置项
     const defaultStyle = (Global as any)[attrName] ? (Global as any)[attrName].style : null
     const labelStyle = Object.assign({}, defaultStyle, calculateStyle, labelCfg.style)
     return labelStyle

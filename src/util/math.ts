@@ -302,8 +302,7 @@ export const getAdjMatrix = (data: GraphData, directed: boolean): Matrix[] => {
 
   if (edges) {
     edges.forEach((e) => {
-      const source = e.source;
-      const target = e.target;
+      const { source, target } = e;
       const sIndex = nodeMap[source as string];
       const tIndex = nodeMap[target as string];
       matrix[sIndex][tIndex] = 1;

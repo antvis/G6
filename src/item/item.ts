@@ -82,10 +82,10 @@ export default class ItemBase implements IItemBase {
 
   constructor(cfg: IItemBaseConfig) {
     this._cfg = Object.assign(this.defaultCfg, this.getDefaultCfg(), cfg)
-    const group = cfg.group
+    const { group } = cfg
     if (group) group.set('item', this)
 
-    let id = this.get('model').id
+    let { id } = this.get('model')
 
     if(!id) {
       id = uniqueId(this.get('type'))
@@ -94,7 +94,7 @@ export default class ItemBase implements IItemBase {
     this.set('id', id)
     if (group) group.set('id', id)
 
-    const stateStyles = this.get('model').stateStyles;
+    const { stateStyles } = this.get('model');
     this.set('stateStyles', stateStyles);
 
     this.init()
