@@ -23,7 +23,7 @@ redirect_from:
 
 基于 G6，用户可以快速搭建自己的 **图分析** 或 **图编辑** 应用。
 
-如果你还没有使用过 G6， 建议通过 [快速上手](/zh/docs/manual/getting-started) 抢先体验 G6 的魅力。
+如果您还没有使用过 G6， 建议通过 [快速上手](/zh/docs/manual/getting-started) 抢先体验 G6 的魅力。
 
 <img src="https://user-images.githubusercontent.com/6113694/44995293-02858600-afd5-11e8-840c-349e4730d63d.gif" height=150><img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*I9OdTbXJIi0AAAAAAAAAAABkARQnAQ" height=150><img src="https://user-images.githubusercontent.com/6113694/44995332-2ba61680-afd5-11e8-8cab-db0e9d08ceb7.gif" height=150>
 
@@ -38,6 +38,7 @@ redirect_from:
 
 ## G6 的特性
 G6 作为一款专业的图可视化引擎，具有以下特性：
+- 优秀的性能：支持大规模图数据的交互与探索；
 - 丰富的元素：内置丰富的节点与边元素，自由配置，支持自定义；
 - 可控的交互：内置 10+ 交互行为，支持自定义交互；
 - 强大的布局：内置了 10+ 常用的图布局，支持自定义布局；

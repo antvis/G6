@@ -108,7 +108,9 @@ G6.registerNode('background-animate', {
         r,
         fill: cfg.color,
         opacity: 0.6
-      }
+      },
+      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      name: 'circle-shape1'
     });
     // 第二个背景圆
     const back2 = group.addShape('circle',{
@@ -119,7 +121,9 @@ G6.registerNode('background-animate', {
         r,
         fill: 'blue', // 为了显示清晰，随意设置了颜色
         opacity: 0.6
-      }
+      },
+      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      name: 'circle-shape2'
     });
     // 第三个背景圆
     const back3 = group.addShape('circle',{
@@ -130,7 +134,9 @@ G6.registerNode('background-animate', {
         r,
         fill: 'green',
         opacity: 0.6
-      }
+      },
+      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      name: 'circle-shape3'
     });
     group.sort(); // 排序，根据 zIndex 排序
     
@@ -189,7 +195,9 @@ G6.registerNode('inner-animate', {
         width: width,
         height: height,
         img: cfg.img
-      }
+      },
+      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      name: 'image-shape'
     });
     // 该图片 shape 的动画
     image.animate((ratio) => { // 每一帧的操作，入参 ratio：这一帧的比例值（Number）。返回值：这一帧需要变化的参数集（Object）。
@@ -247,7 +255,9 @@ G6.registerEdge('circle-running', {
         y: startPoint.y,
         fill: 'red',
         r: 3
-      }
+      },
+      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      name: 'circle-shape'
     });
     
     // 对红色圆点添加动画

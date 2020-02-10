@@ -1,7 +1,8 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
 import deepMix from '@antv/util/lib/deep-mix';
-import { Item, NodeConfig, ModelStyle } from '../../types';
+import { mix } from '@antv/util'
+import { Item, NodeConfig, ModelConfig, ShapeStyle } from '../../types';
 import Shape from '../shape'
 import Global from '../../global'
 import { ShapeOptions } from '../../interface/shape';
@@ -82,7 +83,7 @@ Shape.registerNode('modelRect', {
   },
   shapeType: 'modelRect',
   drawShape(cfg: NodeConfig, group: GGroup): IShape {
-    const { preRect: defaultPreRect } = this.options as ModelStyle;
+    const { preRect: defaultPreRect } = this.options as ModelConfig;
     const style = (this as ShapeOptions).getShapeStyle!(cfg);
     const size = (this as ShapeOptions).getSize!(cfg);
     const width = size[0];
@@ -95,7 +96,7 @@ Shape.registerNode('modelRect', {
       draggable: true
     });
 
-    const preRect = deepMix({}, defaultPreRect, cfg.preRect);
+    const preRect = mix({}, defaultPreRect, cfg.preRect);
     const { show: preRectShow, ...preRectStyle } = preRect;
     if (preRectShow) {
       group.addShape('rect', {
@@ -123,8 +124,8 @@ Shape.registerNode('modelRect', {
    * @param {Group} group Group实例
    */
   drawLogoIcon(cfg: NodeConfig, group: GGroup) {
-    const { logoIcon: defaultLogoIcon } = this.options as ModelStyle;
-    const logoIcon = deepMix({}, defaultLogoIcon, cfg.logoIcon);
+    const { logoIcon: defaultLogoIcon } = this.options as ModelConfig;
+    const logoIcon = mix({}, defaultLogoIcon, cfg.logoIcon);
     const size = (this as ShapeOptions).getSize!(cfg);
     const width = size[0];
 
@@ -133,8 +134,8 @@ Shape.registerNode('modelRect', {
       const image = group.addShape('image', {
         attrs: {
           ...logoIconStyle,
-          x: x || -width / 2 + w + offset,
-          y: y || -h / 2,
+          x: x || -width / 2 + (w as number) + (offset as number),
+          y: y || -h! / 2,
           width: w,
           height: h
         },
@@ -151,8 +152,8 @@ Shape.registerNode('modelRect', {
    * @param {Group} group Group实例
    */
   drawStateIcon(cfg: NodeConfig, group: GGroup) {
-    const { stateIcon: defaultStateIcon } = this.options as ModelStyle;
-    const stateIcon = deepMix({}, defaultStateIcon, cfg.stateIcon);
+    const { stateIcon: defaultStateIcon } = this.options as ModelConfig;
+    const stateIcon = mix({}, defaultStateIcon, cfg.stateIcon);
     const size = (this as ShapeOptions).getSize!(cfg);
     const width = size[0];
 
@@ -161,8 +162,8 @@ Shape.registerNode('modelRect', {
       const image = group.addShape('image', {
         attrs: {
           ...iconStyle,
-          x: x || width / 2 - w + offset,
-          y: y || -h / 2,
+          x: x || width / 2 - (w as number) + (offset as number),
+          y: y || -h! / 2,
           width: w,
           height: h
         },
@@ -179,8 +180,8 @@ Shape.registerNode('modelRect', {
    * @param {Group} group Group实例
    */
   drawLinkPoints(cfg: NodeConfig, group: GGroup) {
-    const { linkPoints: defaultLinkPoints } = this.options as ModelStyle;
-    const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
+    const { linkPoints: defaultLinkPoints } = this.options as ModelConfig;
+    const linkPoints = mix({}, defaultLinkPoints, cfg.linkPoints);
 
     const { top, left, right, bottom, size: markSize,
       ...markStyle } = linkPoints;
@@ -249,9 +250,9 @@ Shape.registerNode('modelRect', {
     }
   },
   drawLabel(cfg: NodeConfig, group: GGroup): IShape {
-    const { labelCfg: defaultLabelCfg, logoIcon: defaultLogoIcon, descriptionCfg: defaultDescritionCfg } = this.options as ModelStyle;
+    const { labelCfg: defaultLabelCfg, logoIcon: defaultLogoIcon, descriptionCfg: defaultDescritionCfg } = this.options as ModelConfig;
 
-    const logoIcon = deepMix({}, defaultLogoIcon, cfg.logoIcon);
+    const logoIcon = mix({}, defaultLogoIcon, cfg.logoIcon);
 
     const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
 
@@ -266,7 +267,7 @@ Shape.registerNode('modelRect', {
     let offsetX = -width / 2 + labelCfg.offset;
 
     if (show) {
-      offsetX = -width / 2 + w + labelCfg.offset;
+      offsetX = -width / 2 + (w as number) + labelCfg.offset;
     }
 
     const { style: fontStyle } = labelCfg;
@@ -311,12 +312,12 @@ Shape.registerNode('modelRect', {
    * @return {Object} 节点的样式
    */
   getShapeStyle(cfg: NodeConfig) {
-    const { style: defaultStyle } = this.options as ModelStyle;
-    const strokeStyle = {
+    const { style: defaultStyle } = this.options as ModelConfig;
+    const strokeStyle: ShapeStyle = {
       stroke: cfg.color
     };
     // 如果设置了color，则覆盖默认的stroke属性
-    const style = deepMix({}, defaultStyle, strokeStyle, cfg.style);
+    const style: ShapeStyle = mix({}, defaultStyle, strokeStyle, cfg.style);
     const size = (this as ShapeOptions).getSize!(cfg);
     const width = style.width || size[0];
     const height = style.height || size[1];
@@ -329,8 +330,8 @@ Shape.registerNode('modelRect', {
     return styles;
   },
   update(cfg: NodeConfig, item: Item) {
-    const { style: defaultStyle, labelCfg: defaultLabelCfg, descriptionCfg: defaultDescritionCfg } = this.options as ModelStyle;
-    const style = deepMix({}, defaultStyle, cfg.style);
+    const { style: defaultStyle, labelCfg: defaultLabelCfg, descriptionCfg: defaultDescritionCfg } = this.options as ModelConfig;
+    const style = mix({}, defaultStyle, cfg.style);
     const size = (this as ShapeOptions).getSize!(cfg);
     const width = size[0];
     const height = size[1];
@@ -350,7 +351,7 @@ Shape.registerNode('modelRect', {
     const logoIconShape = group.find(element => element.get('className') === 'rect-logo-icon')
     const currentLogoIconAttr = logoIconShape ? logoIconShape.attr() : {};
 
-    const logoIcon = deepMix({}, currentLogoIconAttr, cfg.logoIcon);
+    const logoIcon = mix({}, currentLogoIconAttr, cfg.logoIcon);
 
     let { width: w } = logoIcon;
     if (w === undefined) {
@@ -381,7 +382,7 @@ Shape.registerNode('modelRect', {
         });
       } else {
         const cfgStyle = cfg.labelCfg ? cfg.labelCfg.style : {};
-        const labelStyle = deepMix({}, label.attr(), cfgStyle);
+        const labelStyle = mix({}, label.attr(), cfgStyle);
         if (cfg.label) labelStyle.text = cfg.label;
         labelStyle.x = offsetX;
         if (cfg.description) labelStyle.y = -5;
@@ -411,7 +412,7 @@ Shape.registerNode('modelRect', {
         });
       } else {
         const cfgStyle = cfg.descriptionCfg ? cfg.descriptionCfg.style : {};
-        const descriptionStyle = deepMix({}, description.attr(), cfgStyle);
+        const descriptionStyle = mix({}, description.attr(), cfgStyle);
         if (cfg.description) descriptionStyle.text = cfg.description;
         descriptionStyle.x = offsetX;
         description.resetMatrix()
@@ -424,7 +425,7 @@ Shape.registerNode('modelRect', {
 
     const preRectShape = group.find(element => { return element.get('className') === 'pre-rect'})
     if (preRectShape) {
-      const preRect = deepMix({}, preRectShape.attr(), cfg.preRect);
+      const preRect = mix({}, preRectShape.attr(), cfg.preRect);
       preRectShape.attr({
         ...preRect,
         x: -width / 2,
@@ -452,7 +453,7 @@ Shape.registerNode('modelRect', {
 
     const stateIconShape = group.find(element => { return element.get('className') === 'rect-state-icon'})
     const currentStateIconAttr = stateIconShape ? stateIconShape.attr() : {};
-    const stateIcon = deepMix({}, currentStateIconAttr, cfg.stateIcon);
+    const stateIcon = mix({}, currentStateIconAttr, cfg.stateIcon);
     if (stateIconShape) {
       if (!stateIcon.show && stateIcon.show !== undefined) {
         stateIconShape.remove();

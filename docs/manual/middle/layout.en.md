@@ -4,7 +4,7 @@ order: 7
 ---
 
 ## Introduction
-Graph layouts are the algorithms arranging the node positions to obtain a understandable visualizaiton. According to the differences of data strucutre, the layouts can be categorized into: general graph layout and tree graph layout. There are several layout algorithms for them respectively. By utilizing the built-in layouts, [Translating the layouts and their configurations, translating the data](#layout-transformation-mechanism) can be achieved. Besides, G6 provides the web-worker for general graph layout in case layout calculation takes too long to block page interaction.
+Graph layouts are the algorithms arranging the node positions to obtain a understandable visualizaiton. According to the differences of data strucutre, the layouts can be categorized into: general graph layout and tree graph layout. There are several layout algorithms for them respectively. By utilizing the built-in layouts, [Translating the layouts and their configurations, translating the data](#layout-transformation-mechanism) can be achieved. Besides, G6 provides the [Web-Worker](#web-worker) for general graph layout in case layout calculation takes too long to block page interaction.
 
 Besides, G6 supports [Custom Layout](/en/docs/manual/advanced/custom-layout) mechanism for users to design their own layout algorithm.
 
@@ -437,4 +437,18 @@ subgraphLayout.execute();
 
 // Update the node positions after subgraph layout
 graph.positionsAnimate();
+```
+
+## Web-Worker
+The layout algorithm costs a lot in large scale graph visualization. If you config the layout for a graph, the layout algorithm must be done before rendering. In some web applications, this process will block the page and the end users will not able to interact with other components of the page. To address this issue, G6 provids the Web-Worker for **General Graph**. You only need to assign `workerEnabled` to `true` when configuring the layout. For example:
+
+```javascript
+const graph = new G6.Graph({
+  ...                      // Other configurations for graph
+  layout: {                // Object, layout methods and its configurations
+  	type: 'fruchterman',
+    workerEnabled: true,   // enable Web-Worker
+    // ...                 // other configurations for the layout
+  }
+});
 ```

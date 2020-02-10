@@ -8,7 +8,8 @@
    *     attrs: {
    *       text: fittingString(cfg.label, 50, 12),
    *       ...
-   *     }
+   *     },
+   *     name: 'text-shape'
    *  })
    *
    */

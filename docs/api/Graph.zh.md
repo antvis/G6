@@ -18,7 +18,6 @@ Graph 的生命周期为：初始化—>加载数据—>渲染—>更新—>销�
 | container | String|HTMLElement  | 图的 DOM 容器，可以传入该 DOM 的 id 或者直接传入容器的 HTML 节点对象。 |
 | width | Number | undefined | 指定画布宽度，单位为 'px'。 |
 | height | Number | undefined | 指定画布高度，单位为 'px'。 |
-| renderer | String | canvas | 渲染引擎，支持 canvas 和 SVG。 |
 | fitView | Boolean | false | 是否开启画布自适应。开启后图自动适配画布大小。 |
 | fitViewPadding | Array | Number  | `fitView` 为 `true` 时生效。图适应画布时，指定四周的留白。<br />- 可以是一个值, 例如：`fitViewPadding: 20`<br />- 也可以是一个数组，例如：`fitViewPadding: [ 20, 40, 50, 20 ]`<br />当指定一个值时，四边的边距都相等，当指定数组时，数组内数值依次对应 上，右，下，左四边的边距。 |
 | groupByTypes | Boolean | true | 各种元素是否在一个分组内，决定节点和边的层级问题，默认情况下所有的节点在一个分组中，所有的边在一个分组中，当这个参数为 false 时，节点和边的层级根据生成的顺序确定。 |

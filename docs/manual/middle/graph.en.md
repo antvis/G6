@@ -96,10 +96,6 @@ There are some commonly used configurations. For complete configurations, please
 
 #### Rendering
 
-- `renderer`
-
-      Type: String; Options: `'svg'` | `'canvas' `; Default: `'canvas'`. Render by SVG or Canvas.
-
 - `fitView`
 
       Type: Boolean; Default: 'false'. Whether to fit the canvas to the view port automatically.

@@ -183,7 +183,8 @@ G6.registerNode('sql', {
         stroke: '#5B8FF9',
         fill: '#C6E5FF',
         lineWidth: 3
-      }
+      },
+      name: 'rect-shape'
     });
     if (cfg.name) {
       group.addShape('text', {
@@ -196,7 +197,8 @@ G6.registerNode('sql', {
           textAlign: 'center',
           textBaseline: 'middle',
           fontWeight: 'bold'
-        }
+        },
+        name: 'text-shape'
       });
     }
     return rect;

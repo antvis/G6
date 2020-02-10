@@ -1,11 +1,11 @@
 ---
-title: Use G6 with IE
-order: 3
+title: Using G6 with IE
+order: 8
 ---
 
 ## Problem
 
-Recently, we received some feedbacks about usage of G6 in IE. Some users found there are some display problems when using G6 in IE. 
+Recently, we received some feedbacks about usage of G6 in IE. Some users found there are some display problems when using G6 in IE. In this section, we will introduce the usage of G6 in IE.
 
 
 ## Solution
@@ -22,10 +22,10 @@ Import `babel-polyfill` into your project:
 }
 ```
 
-> include indicates the directories of the .js files should to be babel-loader; exclude represents the directories of .js files should not to be babel-loader。
+> `include` indicates the directories of the .js files should to be babel-loader; exclude represents the directories of .js files should not to be babel-loader。
 
 
-The content of include should be assigned according to your project.
+The content of `include` should be assigned according to your project.
 
 Refer to <a href='https://blog.csdn.net/y491887095/article/details/81541502' target='_blank'>The Link</a> for more detail.
 

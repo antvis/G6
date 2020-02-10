@@ -62,7 +62,8 @@ G6.registerNode('stacked-bar-node', {
               path: path0,
               stroke: 'darkgray',
               fill: cat.color
-            }
+            },
+            name: 'path-shape1'
           });
           nowStartR = nowStartR + baseIncR + 2;
           if (i === baseNbr - 1 && last !== 0) {
@@ -72,7 +73,8 @@ G6.registerNode('stacked-bar-node', {
                 path: path1,
                 stroke: 'darkgray',
                 fill: cat.color
-              }
+              },
+              name: 'path-shape2'
             });
           }
         }
@@ -81,18 +83,17 @@ G6.registerNode('stacked-bar-node', {
     });
 
     group.addShape('circle', {
-          // attrs: style
       attrs: {
         x: 0, // 居中
         y: 0,
         r: baseR,
         fill: cfg.centerColor,
         stroke: 'darkgray'
-      }
+      },
+      name: 'circle-shape'
     });
     if (cfg.label) {
       group.addShape('text', {
-            // attrs: style
         attrs: {
           x: 0, // 居中
           y: 0,
@@ -101,7 +102,8 @@ G6.registerNode('stacked-bar-node', {
           text: cfg.label,
           fill: 'white',
           fontStyle: 'bold'
-        }
+        },
+        name: 'text-shape'
       });
     }
     return group;

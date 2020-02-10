@@ -1,16 +1,17 @@
 ---
-title: 如何在 G6 中实现变换
-order: 9
+title: Transform a Shape in G6
+order: 5
 ---
 
 ### G6 3.2
-G6 3.2 及以下版本中，实现变换可通过以下方式。
+In G6 3.2 and previous versions, you can transform a shape as below:
 
 #### transform(ts)
-实例变换方法。参数以数组形式提供，按顺序执行。
+Transform a shape with multiple operations. `ts` is the array of the operations, which will be executed in order.
 
-例如画布上有以下的一个矩形实例。
-```
+For example, there is a rect shape:
+
+```javascript
 const rect = group.addShape('rect', {
     attrs: {
         width: 100,
@@ -20,19 +21,21 @@ const rect = group.addShape('rect', {
         fill: '#9EC9FF',
         stroke: '#5B8FF9',
         lineWidth: 3
-    }
+    },
+    // must be assigned in G6 3.3 and later versions. it can be any value you want
+    name: 'rect-shape'
 });
 ```
 
-得到的结果如下图所示：
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lkUoTp5xXmoAAAAAAAAAAABkARQnAQ' width='200' />
 
-对其进行如下操作：
-```
+Now, we call the transform:
+
+```javascript
 rect.transform([
-    ['t', 10, 10],        // x方向平移10,y方向平移10
-    ['s', 0.1, 1.2],        // x方向缩小0.1倍， y方向扩大1.2倍
-    ['r', Math.PI / 4]      // 旋转45度
+    ['t', 10, 10],        // translate 10 pixels alone x-axis, and 10 pixels alone y-axis
+    ['s', 0.1, 1.2],      // scale 1.2 times
+    ['r', Math.PI / 4]    // rotate 45 degree
 ])
 ```
 
@@ -71,7 +74,7 @@ rect.transform([
 
 
 为了方面使用，我们提供了矩阵变换的工具方法:
-```
+```javascript
 import { transform } from '@antv/matrix-util';
 // 3*3 矩阵变换，用于二维渲染
 trasform(m, [

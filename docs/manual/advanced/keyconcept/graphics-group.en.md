@@ -60,7 +60,9 @@ Add a shape to the group.
 const keyShape = group.addShape('rect', {
   attrs: {
   	stroke: 'red'
-  }
+  },
+  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  name: 'rect-shape'
 })
 ```
 
