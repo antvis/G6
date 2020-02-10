@@ -1,5 +1,5 @@
 # ChangeLog
-#### 3.3
+#### 3.3.0
 - Graph API
   - refactor: delete removeEvent function, use off;
 - refactor: parameters of Shape animate changed, shape.animate(toAttrs, animateCfg) or shape.animate(onFrame, animateCfg);
