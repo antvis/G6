@@ -65,7 +65,7 @@ const Layout: {
    */
   registerLayout<Cfg>(type: string, layout: LayoutOption<Cfg>, layoutCons = BaseLayout) {
     if (!layout) {
-      throw new Error('please specify handler for this layout:' + type);
+      throw new Error(`please specify handler for this layout: ${type}`);
     }
 
     // tslint:disable-next-line: max-classes-per-file

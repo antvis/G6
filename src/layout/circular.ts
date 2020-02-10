@@ -224,37 +224,37 @@ export default class CircularLayout extends BaseLayout {
     initHierarchy(nodes, edges, nodeMap, directed);
     let k = 0;
     nodes.forEach((node, i) => {
-      if (i === 0) {
-        return;
-      } else if (
-        (i === n - 1 || degrees[i] !== degrees[i + 1] || connect(orderedNodes[k], node, edges)) &&
-        pickFlags[i] !== true
-      ) {
-        orderedNodes.push(node);
-        pickFlags[i] = true;
-        k++;
-      } else {
-        const children = orderedNodes[k].children;
-        let foundChild = false;
-        for (let j = 0; j < children.length; j++) {
-          const childIdx = nodeMap[children[j].id];
-          if (degrees[childIdx] === degrees[i] && pickFlags[childIdx] !== true) {
-            orderedNodes.push(nodes[childIdx]);
-            pickFlags[childIdx] = true;
-            foundChild = true;
-            break;
+      if (i !== 0) {
+        if (
+          (i === n - 1 || degrees[i] !== degrees[i + 1] || connect(orderedNodes[k], node, edges)) &&
+          pickFlags[i] !== true
+        ) {
+          orderedNodes.push(node);
+          pickFlags[i] = true;
+          k++;
+        } else {
+          const children = orderedNodes[k].children;
+          let foundChild = false;
+          for (let j = 0; j < children.length; j++) {
+            const childIdx = nodeMap[children[j].id];
+            if (degrees[childIdx] === degrees[i] && pickFlags[childIdx] !== true) {
+              orderedNodes.push(nodes[childIdx]);
+              pickFlags[childIdx] = true;
+              foundChild = true;
+              break;
+            }
           }
-        }
-        let ii = 0;
-        while (!foundChild) {
-          if (!pickFlags[ii]) {
-            orderedNodes.push(nodes[ii]);
-            pickFlags[ii] = true;
-            foundChild = true;
-          }
-          ii++;
-          if (ii === n) {
-            break;
+          let ii = 0;
+          while (!foundChild) {
+            if (!pickFlags[ii]) {
+              orderedNodes.push(nodes[ii]);
+              pickFlags[ii] = true;
+              foundChild = true;
+            }
+            ii++;
+            if (ii === n) {
+              break;
+            }
           }
         }
       }
