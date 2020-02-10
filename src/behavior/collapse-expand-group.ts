@@ -20,7 +20,7 @@ export default {
     let trigger;
     // 检测输入是否合法
     if (ALLOW_EVENTS.includes(this.trigger)) {
-      trigger = this.trigger; // eslint-disable-line
+      ({ trigger } = this.trigger);
     } else {
       trigger = DEFAULT_TRIGGER;
       console.warn('Behavior collapse-expand-group 的 trigger 参数不合法，请输入 \'click\' 或 \'dblclick \'');
@@ -40,6 +40,5 @@ export default {
 
     const customGroupControll = graph.get('customGroupControll');
     customGroupControll.collapseExpandGroup(groupId);
-    return true;
   }
 };

@@ -62,14 +62,12 @@ export default {
       const parentGroup = customGroup[parentGroupId].nodeGroup;
       customGroupControll.setGroupStyle(parentGroup.get('keyShape'), 'hover');
     }
-    return true;
   },
   onDrag(evt: IG6GraphEvent) {
     if (!this.mouseOrigin) {
       return false;
     }
     this.updateDelegate(evt);
-    return true;
   },
 
   onDragEnd(evt: IG6GraphEvent) {
@@ -101,7 +99,6 @@ export default {
     this.shapeOrigin = null;
     customGroupControll.resetNodePoint();
     this.delegateShapeBBox = null;
-    return true;
   },
   updateDelegate(evt: IG6GraphEvent) {
     const { graph } = this;

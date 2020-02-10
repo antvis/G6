@@ -25,7 +25,7 @@ export default {
     const clientX = +e.clientX;
     const clientY = +e.clientY;
 
-    if (isNaN(clientX) || isNaN(Number(clientY))) {
+    if (isNaN(clientX) || isNaN(clientY)) {
       return;
     }
     let dx = clientX - origin.x;
