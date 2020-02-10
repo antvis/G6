@@ -12,12 +12,10 @@ interface MenuConfig extends IPluginBaseConfig {
 }
 
 export default class Menu extends Base {
-  // no-useless-constructor
   constructor(cfg: MenuConfig) {
     super(cfg)
   }
-
-  // class-methods-use-this
+  
   public getDefaultCfgs(): MenuConfig {
     return {
       createDOM: true,                  // 是否渲染 dom

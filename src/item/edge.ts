@@ -205,8 +205,8 @@ export default class Edge extends Item implements IEdge {
   }
 
   public destroy() {
-    const sourceItem: Node = this.get('source' + ITEM_NAME_SUFFIX);
-    const targetItem: Node = this.get('target' + ITEM_NAME_SUFFIX);
+    const sourceItem: Node = this.get(`source${ITEM_NAME_SUFFIX}`);
+    const targetItem: Node = this.get(`target${ITEM_NAME_SUFFIX}`);
     if(sourceItem && !sourceItem.destroyed) {
       sourceItem.removeEdge(this)
     }

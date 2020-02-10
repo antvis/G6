@@ -79,14 +79,15 @@ export const getControlPoint = (
  * @return {Array} Path
  */
 export const pointsToPolygon = (points: IPoint[], z?: boolean): string => {
-  if (!points.length) {
+  const { length } = points
+  if (!length) {
     return '';
   }
 
   let path = '';
   let str = '';
 
-  for (let i = 0, length = points.length; i < length; i++) {
+  for (let i = 0; i < length; i++) {
     const item = points[i];
     if (i === 0) {
       str = 'M{x} {y}';
