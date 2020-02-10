@@ -124,13 +124,11 @@ export default class ForceLayout<Cfg = any> extends BaseLayout {
         // 如果有边，定义边的力
         if (edges) {
           // d3 的 forceLayout 会重新生成边的数据模型，为了避免污染源数据
-          const d3Edges = edges.map((edge) => {
-            return {
-              id: edge.id,
-              source: edge.source,
-              target: edge.target,
-            };
-          });
+          const d3Edges = edges.map(edge => ({
+            id: edge.id,
+            source: edge.source,
+            target: edge.target,
+          }));
           const edgeForce = d3Force
             .forceLink()
             .id((d: any) => d.id)
@@ -155,7 +153,9 @@ export default class ForceLayout<Cfg = any> extends BaseLayout {
             })
             .on('end', () => {
               self.ticking = false;
-              self.onLayoutEnd && self.onLayoutEnd();
+              if (self.onLayoutEnd) {
+                self.onLayoutEnd();
+              }
             });
           self.ticking = true;
         } else { // worker is enabled
@@ -197,15 +197,11 @@ export default class ForceLayout<Cfg = any> extends BaseLayout {
     const collideStrength = self.collideStrength;
 
     if (isNumber(nodeSpacing)) {
-      nodeSpacingFunc = () => {
-        return nodeSpacing;
-      };
+      nodeSpacingFunc = () => nodeSpacing;
     } else if (isFunction(nodeSpacing)) {
       nodeSpacingFunc = nodeSpacing;
     } else {
-      nodeSpacingFunc = () => {
-        return 0;
-      };
+      nodeSpacingFunc = () => 0;
     }
 
     if (!nodeSize) {
@@ -227,18 +223,12 @@ export default class ForceLayout<Cfg = any> extends BaseLayout {
     } else if (isArray(nodeSize)) {
       const larger = nodeSize[0] > nodeSize[1] ? nodeSize[0] : nodeSize[1];
       const radius = larger / 2;
-      nodeSizeFunc = (d) => {
-        return radius + nodeSpacingFunc(d);
-      };
+      nodeSizeFunc = d => radius + nodeSpacingFunc(d);
     } else if (isNumber(nodeSize)) {
       const radius = nodeSize / 2;
-      nodeSizeFunc = (d) => {
-        return radius + nodeSpacingFunc(d);
-      };
+      nodeSizeFunc = d => radius + nodeSpacingFunc(d);
     } else {
-      nodeSizeFunc = () => {
-        return 10;
-      };
+      nodeSizeFunc = () => 10;
     }
 
     // forceCollide's parameter is a radius

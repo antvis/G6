@@ -27,7 +27,7 @@ function getWeightMatrix(M: Matrix[]) {
     const row = [];
     for (let j = 0; j < cols; j++) {
       if (M[i][j] !== 0) {
-        row.push(1 / Math.pow(M[i][j], 2));
+        row.push(1 / (M[i][j] * M[i][j]));
       } else {
         row.push(0);
       }
@@ -42,7 +42,6 @@ function getIndexById(array: any[], id: string) {
   array.forEach(function(a, i) {
     if (a.id === id) {
       index = i;
-      return;
     }
   });
   return index;
@@ -243,15 +242,13 @@ export default class RadialLayout extends BaseLayout {
           }
           return 10 + nodeSpacingFunc(d);
         };
+      } else if (isArray(nodeSize)) {
+        nodeSizeFunc = (d: NodeConfig) => {
+          const res = nodeSize[0] > nodeSize[1] ? nodeSize[0] : nodeSize[1];
+          return res + nodeSpacingFunc(d);
+        };
       } else {
-        if (isArray(nodeSize)) {
-          nodeSizeFunc = (d: NodeConfig) => {
-            const res = nodeSize[0] > nodeSize[1] ? nodeSize[0] : nodeSize[1];
-            return res + nodeSpacingFunc(d);
-          };
-        } else {
-          nodeSizeFunc = (d: NodeConfig) => nodeSize + nodeSpacingFunc(d);
-        }
+        nodeSizeFunc = (d: NodeConfig) => nodeSize + nodeSpacingFunc(d);
       }
       const nonoverlapForceParams: RadialNonoverlapForceParam = {
         nodeSizeFunc,
@@ -320,7 +317,7 @@ export default class RadialLayout extends BaseLayout {
       });
       const reciR = radii[i] === 0 ? 0 : 1 / radii[i];
       denominator *= vparam;
-      denominator += param * Math.pow(reciR, 2);
+      denominator += param * reciR * reciR;
       // x
       xMolecule *= vparam;
       xMolecule += param * reciR * v[0] * reciODis;

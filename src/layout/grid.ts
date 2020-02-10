@@ -300,12 +300,12 @@ export default class GridLayout extends BaseLayout {
 
   private used(row: number, col: number) {
     const self = this;
-    return self.cellUsed['c-' + row + '-' + col] || false;
+    return self.cellUsed[`c-${row}-${col}`] || false;
   }
 
   private use(row: number, col: number) {
     const self = this;
-    self.cellUsed['c-' + row + '-' + col] = true;
+    self.cellUsed[`c-${row}-${col}`] = true;
   }
 
   private moveToNextCell() {
