@@ -62,7 +62,7 @@ export default class Edge extends Item implements IEdge {
       // 如果锚点没有对应的点或者没有锚点，则直接计算连接点
       point = point || item.getLinkPoint(prePoint);
       if (!isNil(point.index)) {
-        this.set(name + 'AnchorIndex', point.index);
+        this.set(`${name}AnchorIndex`, point.index);
       }
     }
     return point;
@@ -157,17 +157,17 @@ export default class Edge extends Item implements IEdge {
    */
   public getModel(): EdgeConfig {
     const out: EdgeConfig = this.get('model');
-    const sourceItem = this.get('source' + ITEM_NAME_SUFFIX);
-    const targetItem = this.get('target' + ITEM_NAME_SUFFIX);
+    const sourceItem = this.get(`source${ITEM_NAME_SUFFIX}`);
+    const targetItem = this.get(`target${ITEM_NAME_SUFFIX}`);
     if (sourceItem) {
-      delete out['source' + ITEM_NAME_SUFFIX];
+      delete out[`source${ITEM_NAME_SUFFIX}`];
     } else {
-      out.source = this.get('start' + POINT_NAME_SUFFIX);
+      out.source = this.get(`start${POINT_NAME_SUFFIX}`);
     }
     if (targetItem) {
-      delete out['target' + ITEM_NAME_SUFFIX];
+      delete out[`target${ITEM_NAME_SUFFIX}`];
     } else {
-      out.target = this.get('end' + POINT_NAME_SUFFIX);
+      out.target = this.get(`end${POINT_NAME_SUFFIX}`);
     }
     return out;
   }

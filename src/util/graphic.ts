@@ -9,9 +9,7 @@ import Global from '../global';
 import { EdgeData, IBBox, IPoint, IShapeBase, LabelStyle, TreeGraphData } from '../types';
 import { applyMatrix } from './math';
 
-const PI: number = Math.PI;
-const sin: (x: number) => number = Math.sin;
-const cos: (x: number) => number = Math.cos;
+const { PI, sin, cos } = Math;
 
 // 一共支持8个方向的自环，每个环占的角度是45度，在计算时再二分，为22.5度
 const SELF_LINK_SIN: number = sin(PI / 8);

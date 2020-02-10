@@ -162,8 +162,8 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
         }
       }
     }
-    let oriX = undefined;
-    let oriY = undefined;
+    let oriX: number;
+    let oriY: number;
     if (current.get('originAttrs')) {
       oriX = current.get('originAttrs').x;
       oriY = current.get('originAttrs').y;

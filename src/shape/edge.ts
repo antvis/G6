@@ -81,8 +81,8 @@ const singleEdge: ShapeOptions = {
 
     const size = cfg.size || Global.defaultEdge.size;
     cfg = this.getPathPoints!(cfg);
-    const startPoint = cfg.startPoint;
-    const endPoint = cfg.endPoint;
+    const { startPoint, endPoint } = cfg;
+
     const controlPoints = this.getControlPoints!(cfg);
     let points = [startPoint]; // 添加起始点
     // 添加控制点
@@ -111,10 +111,11 @@ const singleEdge: ShapeOptions = {
     };
     const shape = group.find(element => element.get('className') === 'edge-shape') || item.getKeyShape()
 
-    const size = cfg.size;
+    const { size } = cfg;
     cfg = this.getPathPoints!(cfg);
-    const startPoint = cfg.startPoint;
-    const endPoint = cfg.endPoint;
+
+    const { startPoint, endPoint } = cfg;
+
     const controlPoints = this.getControlPoints!(cfg) || cfg.controlPoints;
     let points = [ startPoint ]; // 添加起始点
     // 添加控制点
@@ -264,8 +265,8 @@ Shape.registerEdge('arc', {
   curveOffset: 20,
   clockwise: 1,
   getControlPoints(cfg: EdgeConfig): IPoint[] {
-    const startPoint = cfg.startPoint as Point;
-    const endPoint = cfg.endPoint as Point;
+    const { startPoint, endPoint } = cfg;
+
     const midPoint = {
       x: (startPoint.x + endPoint.x) / 2,
       y: (startPoint.y + endPoint.y) / 2,
@@ -337,7 +338,7 @@ Shape.registerEdge('quadratic', {
   curvePosition: 0.5, // 弯曲的默认位置
   curveOffset: -20, // 弯曲度，沿着startPoint, endPoint 的垂直向量（顺时针）方向，距离线的距离，距离越大越弯曲
   getControlPoints(cfg: EdgeConfig): IPoint[] {
-    let controlPoints = cfg.controlPoints; // 指定controlPoints
+    let { controlPoints } = cfg; // 指定controlPoints
     if (!controlPoints || !controlPoints.length) {
       const { startPoint, endPoint } = cfg;
       const innerPoint = getControlPoint(startPoint as Point, endPoint as Point, this.curvePosition as number, this.curveOffset as number);
@@ -357,7 +358,7 @@ Shape.registerEdge('cubic', {
   curvePosition: [1 / 2, 1 / 2],
   curveOffset: [-20, 20],
   getControlPoints(cfg: EdgeConfig): IPoint[] {
-    let controlPoints = cfg.controlPoints; // 指定controlPoints
+    let { controlPoints } = cfg; // 指定controlPoints
     if (!controlPoints || !controlPoints.length) {
       const { startPoint, endPoint } = cfg;
       const innerPoint1 = getControlPoint(startPoint  as Point, endPoint as Point, (this as any).curvePosition[0], (this as any).curveOffset[0]);

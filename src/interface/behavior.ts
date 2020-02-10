@@ -18,11 +18,17 @@ export interface IBehavior {
 
 export class G6GraphEvent extends GraphEvent implements IG6GraphEvent {
   public item: Item;
+
   public canvasX: number
+
   public canvasY: number
+
   public wheelDelta: number
+
   public detail: number
+
   public target!: Item & Canvas;
+  
   constructor(type: string, event: IG6GraphEvent) {
     super(type, event)
     this.item = event.item

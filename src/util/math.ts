@@ -106,10 +106,9 @@ export const getRectIntersectByPoint = (rect: IRect, point: Point): Point | null
  * @return {Point} applied point
  */
 export const getCircleIntersectByPoint = (circle: ICircle, point: Point): Point | null => {
-  const cx = circle.x;
-  const cy = circle.y;
-  const r = circle.r;
+  const { x: cx, y: cy, r } = circle;
   const { x, y } = point;
+
   const d = Math.sqrt(Math.pow(x - cx, 2) + Math.pow(y - cy, 2));
   if (d < r) {
     return null;
@@ -283,8 +282,7 @@ export const floydWarshall = (adjMatrix: Matrix[]): Matrix[] => {
  * @param directed whether it's a directed graph
  */
 export const getAdjMatrix = (data: GraphData, directed: boolean): Matrix[] => {
-  const nodes = data.nodes;
-  const edges = data.edges;
+  const { nodes, edges } = data;
   const matrix: Matrix[] = [];
   // map node with index in data.nodes
   const nodeMap: {
