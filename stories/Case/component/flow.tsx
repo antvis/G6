@@ -110,7 +110,7 @@ const CustomFlow = () => {
   useEffect(() => {
     if(!graph) {
       G6.registerNode('round-rect', {
-        draw: (cfg, group) => {
+        drawShape: (cfg, group) => {
           const width = cfg.style.width;
           const stroke = cfg.style.stroke;
           const rect = group.addShape('rect', {
@@ -167,11 +167,11 @@ const CustomFlow = () => {
             circleRight.attr('fill', stroke);
           }
         }
-      });
+      }, 'single-node');
       
-      G6.registerEdge('polyline', {
-        itemType: 'edge',
-        drawShape: (cfg: any, group) => {
+      G6.registerEdge('polyline2', {
+        //itemType: 'edge',
+        draw: (cfg: any, group) => {
           const startPoint = cfg.startPoint;
           const endPoint = cfg.endPoint;
       
@@ -292,7 +292,7 @@ const CustomFlow = () => {
           }
         },
         defaultEdge: {
-          type: 'polyline'
+          type: 'polyline2'
         }
       });
       

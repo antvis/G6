@@ -13,6 +13,7 @@
 - fix: no fan shape in G any more
 - feat: recommand to assign name for each shape when addShape
 - fix: do not support SVG renderer anymore. no renderer for graph configuration anymore
+- refactor: plugins usage is changed into new G6.PluginName()
   
 #### 3.1.5 
 * feat: supports g6 types file

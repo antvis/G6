@@ -49,7 +49,7 @@
     "site:develop": "GATSBY=true gatsby develop --open",
     "start": "npm run site:develop",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/behavior/drag-canvas-spec.ts",
+    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/plugins/minimap-spec.ts",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
     "watch": "father build -w",
     "cdn": "antv-bin upload -n @antv/g6"
