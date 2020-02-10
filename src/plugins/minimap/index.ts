@@ -12,7 +12,7 @@ import { Point } from '@antv/g-math/lib/types';
 import { IGroup } from '@antv/g-base/lib/interfaces';
 import GraphEvent from '@antv/g-base/lib/event/graph-event';
 
-const max = Math.max;
+const { max } = Math;
 
 const DEFAULT_MODE = 'default';
 const KEYSHAPE_MODE = 'keyShape';
@@ -72,8 +72,7 @@ export default class MiniMap extends Base {
 
   private initViewport() {
     const cfgs:MiniMapConfig  = this._cfgs as MiniMapConfig;
-    const size = cfgs.size;
-    const graph = cfgs.graph;
+    const { size, graph } = cfgs;
     const canvas = this.get('canvas');
     
     const containerDOM = canvas.get('container');
@@ -108,7 +107,7 @@ export default class MiniMap extends Base {
       }
 
       // 如果视口已经最大了，不需要拖拽
-      const style = viewport.style;
+      const { style } = viewport;
       left = parseInt(style.left, 10);
       top = parseInt(style.top, 10);
       width = parseInt(style.width, 10);
@@ -238,8 +237,8 @@ export default class MiniMap extends Base {
     modifyCSS(viewport, {
       left: correctLeft,
       top: correctTop,
-      width: width + 'px',
-      height: height + 'px'
+      width: `${width}px`,
+      height: `${height}px`
     });
   }
 
@@ -248,7 +247,7 @@ export default class MiniMap extends Base {
    */
   private updateGraphShapes() {
     // const graph: Graph = this.get('graph');
-    const graph = this._cfgs.graph;
+    const { graph } = this._cfgs;
     const canvas: GCanvas = this.get('canvas');
     const graphGroup = graph!.get('group');
     const clonedGroup = graphGroup.clone();
@@ -263,7 +262,7 @@ export default class MiniMap extends Base {
    // 仅在minimap上绘制keyShape
   // FIXME 如果用户自定义绘制了其他内容，minimap上就无法画出
   private updateKeyShapes() {
-    const graph = this._cfgs.graph;
+    const { graph } = this._cfgs;
     const canvas: GCanvas = this.get('canvas');
     let group: IGroup = canvas.get('children')[0];
 
@@ -291,7 +290,7 @@ export default class MiniMap extends Base {
    * Minimap 中展示自定义的rect，支持用户自定义样式和节点大小
    */
   private updateDelegateShapes() {
-    const graph = this._cfgs.graph;
+    const { graph } = this._cfgs;
     const canvas: GCanvas = this.get('canvas');
     const group = canvas.get('children')[0] || canvas.addGroup();
     const delegateStyle = this.get('delegateStyle');

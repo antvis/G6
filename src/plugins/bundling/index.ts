@@ -175,7 +175,7 @@ export default class Bundling extends Base {
 
   public updateBundling(cfg: BundlingConfig) {
     const self = this;
-    const data = cfg.data;
+    const { data } = cfg;
     if (data) {
       self.set('data', data);
     }
