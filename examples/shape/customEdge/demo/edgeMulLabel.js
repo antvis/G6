@@ -25,7 +25,8 @@ G6.registerEdge('multipleLabelsEdge', {
         path: [
           [ 'M', startPoint.x, startPoint.y ],
           [ 'L', endPoint.x, endPoint.y ]]
-      }
+      },
+      name: 'path-shape'
     });
     if (cfg.label && cfg.label.length) {
       // 绘制左边的label
@@ -37,7 +38,8 @@ G6.registerEdge('multipleLabelsEdge', {
           textBaseline: 'middle',
           x: startPoint.x,
           y: startPoint.y - 10
-        }
+        },
+        name: 'left-text-shape'
       });
       if (cfg.label.length > 1) {
         // 绘制右边的label
@@ -49,7 +51,8 @@ G6.registerEdge('multipleLabelsEdge', {
             textBaseline: 'middle',
             x: endPoint.x,
             y: endPoint.y - 10
-          }
+          },
+          name: 'right-text-shape'
         });
       }
     }

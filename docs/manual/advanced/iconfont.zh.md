@@ -49,6 +49,8 @@ G6.registerNode('iconfont', {
           r: cfg.size,
           ...backgroundStyle,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any value you want
+        name: 'circle-shape'
       });
     }
 
@@ -63,6 +65,8 @@ G6.registerNode('iconfont', {
         fontSize: cfg.size,
         ...style,
       },
+      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      name: 'text-shape1'
     });
     const labelY = backgroundStyle ? cfg.size * 2 : cfg.size;
 
@@ -74,6 +78,8 @@ G6.registerNode('iconfont', {
         text: cfg.label,
         ...labelStyle.style,
       },
+      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      name: 'text-shape1'
     });
     return keyShape;
   },

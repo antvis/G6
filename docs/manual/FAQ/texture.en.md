@@ -1,18 +1,24 @@
 ---
-title: How to supports texture in G6
-order: 8
+title: Fill with Texture in G6
+order: 4
 ---
 
-G6 支持用特定的纹理填充图形。G6支持的纹理内容可以直接是**图片**或者 **Data URLs**。
+G6 support filling a shape with texture with **Image** or **Data URL**.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cPgYSJ2ZfwYAAAAAAAAAAABkARQnAQ' width='750' />
 
-> tips：p means use texture，绿色的字体为可变量，由用户自己填写。
+> `p` is the flag for using texture; the text in green can be modified to satisfy your requirements; `a` is a way of repeating of the texture, which can be changed into:
 
-• a: repeat in vertical and horizontal direction；
-• x: repeat in horizontal direction；
-• y: repeat in vertical direction；
-• n: not repeat，show only once。
+> • `a`: Repeat in horizontal and vertical;
+
+> • `x`: Repeat only in horizontal;
+
+> • `y`: Repeat only in vertical;
+
+> • `n`: No repeat.
+
+
+Assign the `fill` as below while [Configurating the Node or Edge](/en/docs/manual/tutorial/elements):
 
 ```
 shape.attr('fill', 'p(a)https://gw.alipay.com/cube.png');

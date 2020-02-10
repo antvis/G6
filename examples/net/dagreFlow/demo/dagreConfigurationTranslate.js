@@ -172,7 +172,7 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
-  fitView: true,
+  controlPoints: false,
   modes: {
     default: [ 'drag-canvas', 'drag-node' ]
   },

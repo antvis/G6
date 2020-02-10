@@ -177,7 +177,8 @@ G6.registerNode(
           y: 0,
           path,
           fill: cfg.color || 'steelblue'
-        }
+        },
+        name: 'path-shape'
       });
 
       const mask = group.addShape('path', {
@@ -191,7 +192,8 @@ G6.registerNode(
           shadowBlur: 40,
           shadowOffsetX: 0,
           shadowOffsetY: 30
-        }
+        },
+        name: 'mask-shape'
       });
 
       const spNum = 10; // split points number
@@ -414,7 +416,8 @@ G6.registerEdge(
         strokeOpacity: 0
       });
       const keyShape = group.addShape('path', {
-        attrs: shapeStyle
+        attrs: shapeStyle,
+        name: 'path-shape'
       });
       return keyShape;
     },

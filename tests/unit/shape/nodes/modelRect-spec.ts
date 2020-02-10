@@ -457,8 +457,8 @@ describe('model rect test', () => {
       });
       expect(markBottom).not.toBe(null);
       expect(markBottom.attr('y')).toEqual(35);
-      graph.destroy();
-      expect(graph.destroyed).toBe(true);
+      // graph.destroy();
+      // expect(graph.destroyed).toBe(true);
     });
     it('icon and linkPoints(left right)', () => {
       const graph = new Graph({
@@ -617,7 +617,7 @@ describe('model rect test', () => {
       graph.destroy();
       expect(graph.destroyed).toBe(true);
     });
-    it('icons update', () => {
+    it.only('icons update', () => {
       const graph = new Graph({
         container: div,
         width: 500,

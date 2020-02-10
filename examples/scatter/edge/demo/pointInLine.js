@@ -13,7 +13,8 @@ G6.registerEdge('circle-running', {
         y: startPoint.y,
         fill: '#1890ff',
         r: 3
-      }
+      },
+      name: 'circle-shape'
     });
 
     // 对红色圆点添加动画

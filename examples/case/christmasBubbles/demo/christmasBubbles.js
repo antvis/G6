@@ -128,7 +128,9 @@ G6.registerNode(
           y: 0,
           path,
           fill: cfg.color || 'steelblue'
-        }
+        },
+        // must be assigned in G6 3.3 and later versions. it can be any value you want
+        name: 'path-shape'
       });
 
       const mask = group.addShape('path', {
@@ -142,7 +144,9 @@ G6.registerNode(
           shadowBlur: 40,
           shadowOffsetX: 0,
           shadowOffsetY: 30
-        }
+        },
+        // must be assigned in G6 3.3 and later versions. it can be any value you want
+        name: 'mask-shape'
       });
 
       const spNum = 10; // split points number
@@ -320,7 +324,9 @@ G6.registerEdge(
         strokeOpacity: 0
       });
       const keyShape = group.addShape('path', {
-        attrs: shapeStyle
+        attrs: shapeStyle,
+        // must be assigned in G6 3.3 and later versions. it can be any value you want
+        name: 'path-shape'
       });
       return keyShape;
     },

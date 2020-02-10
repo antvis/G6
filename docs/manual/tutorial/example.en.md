@@ -83,7 +83,7 @@ Load data and render are two separated steps.
 ```
 
 ### The Result
-After calling `graph.render()` , G6 will render the graph according to the data with Canvas by default. To switch to SVG rendered, configure the `renderer` when instantiating the graph.
+After calling `graph.render()` , G6 will render the graph according to the data.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YTfpQYVGhuEAAAAAAAAAAABkARQnAQ' width=400 />
 
@@ -154,7 +154,6 @@ The configurations below will be used in the following Tutorial:
 
 | Name | Type | Options / Example | Default | Description |
 | --- | --- | --- | --- | --- |
-| renderer | String | 'canvas' / 'svg' | 'canvas' | Render engine of the graph. |
 | fitView | Boolean | true / false | false | Whether to fit the graph to the canvas. |
 | fitViewPadding | Number / Array | 20 / [ 20, 40, 50, 20 ] | 0 | The padding between the content of the graph and the borders of the canvas. |
 | animate | Boolean | true / false | false | Whether to activate the global animation. |
@@ -182,7 +181,6 @@ The configurations below will be used in the following Tutorial:
       container: 'mountNode',
       width: 1000,
       height: 600,
-      renderer: 'svg',
       fitView: true,
       fitViewPadding: [ 20, 40, 50, 20 ]
     });

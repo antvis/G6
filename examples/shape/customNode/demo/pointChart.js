@@ -17,15 +17,14 @@ G6.registerNode('justPoints', {
     const refInc = 10;
     for (let i = 0; i < 5; i++) {
       group.addShape('circle', {
-        // attrs: style
         attrs: {
           x: 0, // 居中
           y: 0,
           r: refR += refInc,
           stroke: '#5ad8a6',
           lineDash: [ 4, 4 ]
-
-        }
+        },
+        name: 'circle-shape'
       });
     }
     const everyIncAngle = 2 * Math.PI * (360 / 5 / 5) / 360;
@@ -51,15 +50,14 @@ G6.registerNode('justPoints', {
       postions.forEach((pos, index) => {
         if (index !== 5) {
           group.addShape('circle', {
-                // attrs: style
             attrs: {
               x: pos[0], // 居中
               y: pos[1],
               r: 3,
-              // fill: 'black',
               lineWidth: 2,
               stroke: cat.color
-            }
+            },
+            name: 'circle-marker-shape'
           });
         }
       });
@@ -75,13 +73,13 @@ G6.registerNode('justPoints', {
       group.addShape('path', {
         attrs: {
           path: [
-                [ 'M', 0, 0 ],
-                [ 'L', xPos, yPos ]
+            [ 'M', 0, 0 ],
+            [ 'L', xPos, yPos ]
           ],
           lineDash: [ 4, 4 ],
-
           stroke: '#5ad8a6' // 颜色应用到边上，如果应用到填充，则使用 fill: cfg.color
-        }
+        },
+        name: 'path-shape'
       });
       nowAngle2 += everyIncAngleCat;
     }
@@ -94,12 +92,12 @@ G6.registerNode('justPoints', {
         r: baseR,
         fill: cfg.centerColor,
         stroke: 'darkgray'
-      }
+      },
+      name: 'circle-shape'
     });
 
     if (cfg.label) {
       group.addShape('text', {
-            // attrs: style
         attrs: {
           x: 0, // 居中
           y: 0,
@@ -108,7 +106,8 @@ G6.registerNode('justPoints', {
           text: cfg.label,
           fill: '#fff',
           fontStyle: 'bold'
-        }
+        },
+        name: 'text-shape'
       });
     }
     return group;

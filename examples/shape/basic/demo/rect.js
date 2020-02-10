@@ -46,7 +46,7 @@ const graph = new G6.Graph({
   nodeStateStyles: {
     // 鼠标hover状态下的配置
     hover: {
-      // fillOpacity: 0.8
+      fillOpacity: 0.8
     },
     // 选中节点状态下的配置
     selected: {

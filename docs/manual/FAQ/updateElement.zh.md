@@ -1,6 +1,6 @@
 ---
 title: 如何更新节点或边的样式
-order: 1
+order: 0
 ---
 
 G6 提供了三种修改节点样式的方法。
@@ -32,6 +32,9 @@ const graph = new G6.Graph({
 ```
 
 #### 数据中指定 style
+
+这种方式可以在数据中为不同的节点和边指定不同的样式。
+
 ```javascript
 const data = {
 	nodes: [
@@ -49,7 +52,7 @@ const data = {
 
 #### 使用 update / updateItem
 
-使用 `update` / `updateItem` 更新节点或边。
+使用 `update` / `updateItem` 更新节点或边。此方法用于动态更新节点或边的 [keyShape](/zh/docs/manual/middle/elements/shape-keyshape)。
 
 ```javascript
 graph.updateItem(node, {
