@@ -252,20 +252,14 @@ describe('minimap', () => {
     const canvas = minimap.getCanvas();
     const shapeGroup = canvas.get('children')[0].get('children');
     
-    // TODO wait for G
     expect(shapeGroup.length).toEqual(3);
-    // expect(shapeGroup[0].type).toEqual('path');
     expect(shapeGroup[0].attr('path')).not.toBe(undefined);
-    // expect(shapeGroup[1].type).toEqual('group');
     expect(shapeGroup[1].getMatrix()[6]).toEqual(50);
     expect(shapeGroup[1].getMatrix()[7]).toEqual(50);
     expect(shapeGroup[1].get('children').length).toEqual(1);
-    // expect(shapeGroup[1].get('children')[0].type).toEqual('circle');
-    // expect(shapeGroup[2].type).toEqual('group');
     expect(shapeGroup[2].getMatrix()[6]).toEqual(120);
     expect(shapeGroup[2].getMatrix()[7]).toEqual(150);
     expect(shapeGroup[2].get('children').length).toEqual(1);
-    // expect(shapeGroup[2].get('children')[0].type).toEqual('circle');
     graph.destroy();
   });
 });

@@ -365,8 +365,7 @@ export default class MiniMap extends Base {
     const canvas = new GCanvas({
       container: containerDOM,
       width: size[0],
-      height: size[1],
-      pixelRatio: graph.get('pixelRatio')
+      height: size[1]
     });
 
     self.set('canvas', canvas);
