@@ -1,6 +1,7 @@
 import Layout from '../../layout';
 import LayoutWorker from '../../layout/worker/layout.worker';
 import { LAYOUT_MESSAGE } from '../../layout/worker/layoutConst';
+import { isNaN } from "../../util/base"
 
 import { IGraph } from '../../interface/graph';
 
@@ -28,25 +29,31 @@ const helper = {
 
 export default class LayoutController {
   public graph: IGraph;
+
   public destroyed: boolean;
 
   private layoutCfg;
+
   private layoutType: string;
+
   private layoutMethod;
+
   private worker;
+
   private workerData;
 
   private data;
 
   constructor(graph: IGraph) {
     this.graph = graph;
-    const layoutCfg = (this.layoutCfg = graph.get('layout') || {});
-    this.layoutType = layoutCfg.type;
+    this.layoutCfg = graph.get('layout') || {};
+    this.layoutType = this.layoutCfg.type;
     this.worker = null;
     this.workerData = {};
     this.initLayout();
   }
 
+  // eslint-disable-next-line class-methods-use-this
   private initLayout() {
     // no data before rendering
   }
@@ -97,11 +104,10 @@ export default class LayoutController {
    * @return {boolean} 是否使用web worker布局
    */
   public layout(success?: () => void): boolean {
-    const self = this;
-    const graph = self.graph;
+    const { graph } = this;
 
-    self.data = self.setDataFromGraph();
-    const nodes = self.data.nodes;
+    this.data = this.setDataFromGraph();
+    const { nodes } = this.data;
 
     if (!nodes) {
       return false;
@@ -116,31 +122,31 @@ export default class LayoutController {
         height,
         center: [width / 2, height / 2],
       },
-      self.layoutCfg
+      this.layoutCfg
     );
-    self.layoutCfg = layoutCfg;
+    this.layoutCfg = layoutCfg;
 
-    const hasLayoutType = !!self.layoutType;
+    const hasLayoutType = !!this.layoutType;
 
-    let layoutMethod = self.layoutMethod;
+    let { layoutMethod } = this;
     if (layoutMethod) {
       layoutMethod.destroy();
     }
 
     graph.emit('beforelayout');	
-    const allHavePos = self.initPositions(layoutCfg.center, nodes);	
-    if (!self.layoutType && !allHavePos) {
-      self.layoutType = 'random';
+    const allHavePos = this.initPositions(layoutCfg.center, nodes);	
+    if (!this.layoutType && !allHavePos) {
+      this.layoutType = 'random';
     }
 
     this.stopWorker();
-    if (layoutCfg.workerEnabled && this.layoutWithWorker(self.data, success)) {
+    if (layoutCfg.workerEnabled && this.layoutWithWorker(this.data, success)) {
       // 如果启用布局web worker并且浏览器支持web worker，用web worker布局。否则回退到不用web worker布局。
       return true;
     }
 
-    if (self.layoutType === 'force') {
-      const onTick = layoutCfg.onTick;
+    if (this.layoutType === 'force') {
+      const { onTick } = layoutCfg;
       const tick = () => {
         if (onTick) {
           onTick();
@@ -148,7 +154,7 @@ export default class LayoutController {
         graph.refreshPositions();
       };
       layoutCfg.tick = tick;
-      const onLayoutEnd = layoutCfg.onLayoutEnd;
+      const { onLayoutEnd } = layoutCfg;
       layoutCfg.onLayoutEnd = () => {
         if (onLayoutEnd) {
           onLayoutEnd();
@@ -157,23 +163,23 @@ export default class LayoutController {
       };
     }
     
-    if (self.layoutType !== undefined) {
+    if (this.layoutType !== undefined) {
       try {
-        layoutMethod = new Layout[self.layoutType](layoutCfg);
+        layoutMethod = new Layout[this.layoutType](layoutCfg);
       } catch (e) {
-        console.warn('The layout method: ' + self.layoutType + ' does not exist! Please specify it first.');
+        console.warn(`The layout method: ${this.layoutType} does not exist! Please specify it first.`);
         return false;
       }
-      layoutMethod.init(self.data);
+      layoutMethod.init(this.data);
       // 若存在节点没有位置信息，且没有设置 layout，在 initPositions 中 random 给出了所有节点的位置，不需要再次执行 random 布局	
       // 所有节点都有位置信息，且指定了 layout，则执行布局（代表不是第一次进行布局）
       if (hasLayoutType) { // allHavePos && 
         layoutMethod.execute();	
       }
-      self.layoutMethod = layoutMethod;
-      if (self.layoutType !== 'force') {
+      this.layoutMethod = layoutMethod;
+      if (this.layoutType !== 'force') {
         graph.emit('afterlayout');
-        self.refreshLayout();
+        this.refreshLayout();
       }
     }
     return false;
@@ -284,8 +290,7 @@ export default class LayoutController {
 
   // 绘制
   public refreshLayout() {
-    const self = this;
-    const graph = self.graph;
+    const { graph } = this;
     if (graph.get('animate')) {
       graph.positionsAnimate();
     } else {
@@ -295,62 +300,61 @@ export default class LayoutController {
 
   // 更新布局参数
   public updateLayoutCfg(cfg) {
-    const self = this;
-    const graph = self.graph;
-    self.layoutType = cfg.type;
-    const layoutMethod = self.layoutMethod;
+    const { graph, layoutMethod } = this;
+
+    this.layoutType = cfg.type;
     if (!layoutMethod) {
       console.warn('You did not assign any layout type and the graph has no previous layout method!');
       return;
     };
-    self.data = self.setDataFromGraph();
+    this.data = this.setDataFromGraph();
 
     this.stopWorker();
-    if (cfg.workerEnabled && this.layoutWithWorker(self.data, null)) {
+    if (cfg.workerEnabled && this.layoutWithWorker(this.data, null)) {
       // 如果启用布局web worker并且浏览器支持web worker，用web worker布局。否则回退到不用web worker布局。
       return;
     }
 
-    layoutMethod.init(self.data);
+    layoutMethod.init(this.data);
     layoutMethod.updateCfg(cfg);
     graph.emit('beforelayout');
     layoutMethod.execute();
-    if (self.layoutType !== 'force') {
+    if (this.layoutType !== 'force') {
       graph.emit('afterlayout');
     }
-    self.refreshLayout();
+    this.refreshLayout();
   }
 
   // 更换布局
   public changeLayout(layoutType: string) {
-    const self = this;
-    self.layoutType = layoutType;
-    self.layoutCfg = self.graph.get('layout') || {};
-    self.layoutCfg.type = layoutType;
-    const layoutMethod = self.layoutMethod;
+    const { graph, layoutMethod } = this;
+
+    this.layoutType = layoutType;
+    this.layoutCfg = graph.get('layout') || {};
+    this.layoutCfg.type = layoutType;
+
     if (layoutMethod) {
       layoutMethod.destroy();
     }
-    self.layout();
+    this.layout();
   }
 
   // 更换数据
   public changeData() {
-    const self = this;
-    const layoutMethod = self.layoutMethod;
+    const { layoutMethod } = this;
+
     if (layoutMethod) {
       layoutMethod.destroy();
     }
-    self.layout();
+    this.layout();
   }
 
   // 从 this.graph 获取数据
   public setDataFromGraph() {
-    const self = this;
     const nodes = [];
     const edges = [];
-    const nodeItems = self.graph.getNodes();
-    const edgeItems = self.graph.getEdges();
+    const nodeItems = this.graph.getNodes();
+    const edgeItems = this.graph.getEdges();
     nodeItems.forEach((nodeItem) => {
       const model = nodeItem.getModel();
       nodes.push(model);
@@ -365,22 +369,22 @@ export default class LayoutController {
 
   // 重新布局
   public relayout() {
-    const self = this;
-    const graph = self.graph;
-    const layoutMethod = self.layoutMethod;
-    if (self.layoutType === 'force') {
+    const { graph, layoutMethod } = this;
+
+    if (this.layoutType === 'force') {
       layoutMethod.ticking = false;
       layoutMethod.forceSimulation.stop();
     }
     graph.emit('beforelayout');
     layoutMethod.execute();
-    if (self.layoutType !== 'force') {
+    if (this.layoutType !== 'force') {
       graph.emit('afterlayout');
     }
-    self.refreshLayout();
+    this.refreshLayout();
   }
 
   // 控制布局动画
+  // eslint-disable-next-line class-methods-use-this
   public layoutAnimate() {}
 
   // // 根据 type 创建 Layout 实例
@@ -389,10 +393,10 @@ export default class LayoutController {
 
   // 将当前节点的平均中心移动到原点
   public moveToZero() {
-    const self = this;
-    const graph = self.graph;
+    const { graph } = this;
+
     const data = graph.get('data');
-    const nodes = data.nodes;
+    const { nodes } = data;
     if (nodes[0].x === undefined || nodes[0].x === null || isNaN(nodes[0].x)) {
       return;
     }
@@ -411,8 +415,7 @@ export default class LayoutController {
 
   // 初始化节点到 center 附近
   public initPositions(center, nodes): boolean {
-    const self = this;	
-    const graph = self.graph;	
+    const { graph } = this;
     if (!nodes) {	
       return;	
     }	
@@ -431,9 +434,10 @@ export default class LayoutController {
   }
 
   public destroy() {
-    const self = this;
-    self.graph = null;
-    const layoutMethod = self.layoutMethod;
+    const { layoutMethod } = this;
+
+    this.graph = null;
+
     if (layoutMethod) {
       layoutMethod.destroy();
     }
@@ -442,7 +446,7 @@ export default class LayoutController {
       worker.terminate();
       this.worker = null;
     }
-    self.destroyed = true;
+    this.destroyed = true;
   }
 }
 
@@ -458,11 +462,12 @@ function updateLayoutPosition(data, layoutData) {
 function filterObject(collection, callback) {
   const result = {};
   if (collection && typeof collection === 'object') {
-    for (const key in collection) {
+    Object.keys(collection).forEach((key) => {
       if (collection.hasOwnProperty(key) && callback(collection[key])) {
         result[key] = collection[key];
       }
-    }
+    })
+
     return result;
   }
   return collection;

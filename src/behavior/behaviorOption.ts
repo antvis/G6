@@ -38,7 +38,7 @@ export default {
    * @param graph Graph instance
    */
   bind(graph: IGraph) {
-    const events = this._events
+    const { events }  = this;
     this.graph = graph
     each(events, (handler: () => void, event: G6Event) => {
       graph.on(event, handler)
@@ -46,7 +46,7 @@ export default {
   },
 
   unbind(graph: IGraph) {
-    const events = this._events
+    const { events } = this;
     each(events, (handler: () => void, event: G6Event) => {
       graph.off(event, handler)
     })

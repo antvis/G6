@@ -3,8 +3,7 @@ import Hierarchy from '@antv/hierarchy'
 import { each, isString } from '@antv/util/lib';
 import { GraphOptions, ITreeGraph } from '../interface/graph';
 import { GraphData, Item, NodeConfig, ShapeStyle, TreeGraphData } from '../types';
-import { radialLayout } from '../util/graphic';
-import { traverseTree } from '../util/graphic'
+import { radialLayout, traverseTree } from '../util/graphic';
 import { ViewController } from './controller';
 import Graph, { PrivateGraphOption } from './graph';
 
@@ -44,9 +43,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
         return layoutData;
       };
     }
-    return (data: any) => {
-      return Hierarchy[layout.type](data, layout);
-    };
+    return (data: any) => Hierarchy[layout.type](data, layout);
   }
 
   /**
@@ -54,8 +51,9 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
    * @param children 树图数据
    * @param child 树图中某一个 Item 的数据
    */
-  private indexOfChild(children: TreeGraphData[], id: string): number {
+  private static indexOfChild(children: TreeGraphData[], id: string): number {
     let index = -1;
+    // eslint-disable-next-line consistent-return
     each(children, (former, i) => {
       if (id === former.id) {
         index = i;
@@ -113,7 +111,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
       self.addItem('edge', { 
         source: parent, 
         target: node, 
-        id: parent.get('id') + ':' + node.get('id') 
+        id: `${parent.get('id')}:${node.get('id')}`
       });
     }
     // 渲染到视图上应参考布局的children, 避免多绘制了收起的节点
@@ -152,7 +150,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
         for (let i = children.length - 1; i >= 0; i--) {
           const child = children[i].getModel();
 
-          if (self.indexOfChild(data.children || [], child.id) === -1) {
+          if (TreeGraph.indexOfChild(data.children || [], child.id) === -1) {
             self.innerRemoveChild(child.id, {
               x: data.x!,
               y: data.y!
@@ -226,6 +224,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
       self.layout(this.get('fitView'));
     }
   }
+
   /**
    * 更改并应用树布局算法
    * @param {object} layout 布局算法
@@ -326,7 +325,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
     if (!current) {
       parentModel.children.push(data);
     } else {
-      const index = self.indexOfChild(parentModel.children, data.id);
+      const index = TreeGraph.indexOfChild(parentModel.children, data.id);
       parentModel.children[index] = data;
     }
     self.changeData();
@@ -350,7 +349,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
       const siblings = (parentNode && parentNode.children) || [];
       const model: NodeConfig = node.getModel() as NodeConfig
 
-      const index = self.indexOfChild(siblings, model.id);
+      const index = TreeGraph.indexOfChild(siblings, model.id);
       siblings.splice(index, 1);
     }
     self.changeData();
@@ -374,6 +373,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
     }
 
     let result: TreeGraphData | null = null;
+    // eslint-disable-next-line consistent-return
     each(parent.children || [], child => {
       if (child.id === id) {
         result = child;

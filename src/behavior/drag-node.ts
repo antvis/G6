@@ -38,7 +38,7 @@ export default {
     }
 
     // 如果拖动的target 是linkPoints / anchorPoints 则不允许拖动
-    const target = e.target;
+    const { target } = e;
     if (target) {
       const isAnchorPoint = target.get('isAnchorPoint');
       if (isAnchorPoint) {
@@ -46,7 +46,7 @@ export default {
       }
     }
 
-    const graph = this.graph;
+    const { graph } = this;
 
     this.targets = [];
 
@@ -64,19 +64,17 @@ export default {
     // 只拖动当前节点
     if (dragNodes.length === 0) {
       this.target = item;
+    } else if (nodes.length > 1) { // 拖动多个节点
+      nodes.forEach(node => {
+        const locked = node.hasLocked();
+        if (!locked) {
+          this.targets.push(node);
+        }
+      });
     } else {
-      // 拖动多个节点
-      if (nodes.length > 1) {
-        nodes.forEach(node => {
-          const locked = node.hasLocked();
-          if (!locked) {
-            this.targets.push(node);
-          }
-        });
-      } else {
-        this.targets.push(item);
-      }
+      this.targets.push(item);
     }
+
 
     this.origin = {
       x: e.x,
@@ -94,7 +92,7 @@ export default {
     if (!this.shouldUpdate(this, e)) {
       return;
     }
-    const graph = this.graph;
+    const { graph } = this;
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
 
@@ -120,7 +118,7 @@ export default {
       return;
     }
 
-    const graph = this.graph;
+    const { graph } = this;
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
 
@@ -154,7 +152,7 @@ export default {
     graph.setAutoPaint(autoPaint);
   },
   update(item: Item, e: IG6GraphEvent, force: boolean) {
-    const origin = this.origin;
+    const { origin } = this;
     const model: NodeConfig = item.get('model');
     const nodeId: string = item.get('id');
     if (!this.point[nodeId]) {
@@ -221,21 +219,21 @@ export default {
         });
       }
       this.delegateRect.set('capture', false);
-    } else {
-      if (this.targets.length > 0) {
-        const clientX = e.x - this.origin.x + this.originPoint.minX;
-        const clientY = e.y - this.origin.y + this.originPoint.minY;
-        this.delegateRect.attr({
-          x: clientX,
-          y: clientY
-        });
-      } else if (this.target) {
-        this.delegateRect.attr({
-          x: x + bbox.x,
-          y: y + bbox.y
-        });
-      }
+    } else if (this.targets.length > 0) {
+      const clientX = e.x - this.origin.x + this.originPoint.minX;
+      const clientY = e.y - this.origin.y + this.originPoint.minY;
+      this.delegateRect.attr({
+        x: clientX,
+        y: clientY
+      });
+    } else if (this.target) {
+      this.delegateRect.attr({
+        x: x + bbox.x,
+        y: y + bbox.y
+      });
     }
+    
+    
     if (this.target) {
       this.target.set('delegateShape', this.delegateRect);
     }
@@ -248,7 +246,7 @@ export default {
    * @return {object} 计算出来的delegate坐标信息及宽高
    */
   calculationGroupPosition() {
-    const graph = this.graph;
+    const { graph } = this;
 
     const nodes = graph.findAllByState('node', 'selected');
 
@@ -258,8 +256,8 @@ export default {
     let maxy = -Infinity;
 
     // 获取已节点的所有最大最小x y值
-    for (const element of nodes) {
-      // const element = isString(id) ? graph.findById(id) : id;
+    for (let i = 0; i < nodes.length; i++) {
+      const element = nodes[i];
       const bbox = element.getBBox();
       const { minX, minY, maxX, maxY } = bbox;
       if (minX < minx) {
@@ -278,6 +276,7 @@ export default {
         maxy = maxY;
       }
     }
+
     const x = Math.floor(minx);
     const y = Math.floor(miny);
     const width = Math.ceil(maxx) - Math.floor(minx);
