@@ -1,5 +1,6 @@
 import Base, { IPluginBaseConfig } from '../base'
 import Edge from '../../item/edge';
+import Node from '../../item/node'
 import Graph from '../../graph/graph';
 import { GraphData, NodeConfig, NodeConfigMap, EdgeConfig } from '../../types';
 import { Point } from '@antv/g-base/lib/types';
@@ -26,6 +27,20 @@ interface IVxyLen extends EdgeConfig {
   vy: number;
 }
 
+interface VectorPosition {
+  source: {
+    x: number;
+    y: number
+  };
+  target: {
+    x: number;
+    y: number
+  };
+  vx: number;
+  vy: number;
+  length: number;
+}
+
 function getEucliDis(pointA: Point, pointB: Point, eps?: number): number {
   const vx = pointA.x - pointB.x;
   const vy = pointA.y - pointB.y;
@@ -39,7 +54,7 @@ function getDotProduct(ei: Point, ej: Point): number {
   return ei.x * ej.x + ei.y * ej.y;
 }
 
-function projectPointToEdge(p: Point, e): Point {
+function projectPointToEdge(p: Point, e: VectorPosition): Point {
   const k = (e.source.y - e.target.y) / (e.source.x - e.target.x);
   const x = (k * k * e.source.x + k * (p.y - e.source.y) + p.x) / (k * k + 1);
   const y = k * (x - e.source.x) + e.source.y;
@@ -88,8 +103,8 @@ export default class Bundling extends Base {
       return;
     }
 
-    const edges = data.edges;
-    const nodes = data.nodes;
+    const edges = data.edges || [];
+    const nodes = data.nodes || [];
     const nodeIdMap: NodeConfigMap = {};
     let error = false;
 
@@ -121,11 +136,11 @@ export default class Bundling extends Base {
 
     for (let i = 0; i < C; i++) {
       for (let j = 0; j < iterations; j++) {
-        const forces = [];
+        const forces: Point[][] = [];
         edges.forEach((e, k) => {
           if (e.source === e.target) return;
-          const source = nodeIdMap[e.source];
-          const target = nodeIdMap[e.target];
+          const source = nodeIdMap[e.source as string];
+          const target = nodeIdMap[e.target as string];
 
           forces[k] = self.getEdgeForces({ source, target }, k, divisions, lambda);
 
@@ -156,7 +171,7 @@ export default class Bundling extends Base {
     graph.refresh();
   }
 
-  public updateBundling(cfg) {
+  public updateBundling(cfg: BundlingConfig) {
     const self = this;
     const data = cfg.data;
     if (data) {
@@ -175,7 +190,7 @@ export default class Bundling extends Base {
       const graph = this.get('graph');
 
       self.set('tick', () => {
-        cfg.onTick();
+        cfg.onTick!();
         graph.refresh();
       });
     }
@@ -196,20 +211,20 @@ export default class Bundling extends Base {
         edgePoints[i] = []
       };
 
-      const source = nodeIdMap[edge.source];
-      const target = nodeIdMap[edge.target];
+      const source = nodeIdMap[edge.source as string];
+      const target = nodeIdMap[edge.target as string];
 
       if (divisions === 1) {
         edgePoints[i].push({ x: source.x, y: source.y }); // source
         edgePoints[i].push({
-          x: 0.5 * (source.x + target.x),
-          y: 0.5 * (source.y + target.y) }); // mid
+          x: 0.5 * (source.x! + target.x!),
+          y: 0.5 * (source.y! + target.y!) }); // mid
         edgePoints[i].push({ x: target.x, y: target.y }); // target
       } else {
         let edgeLength = 0;
 
         if (!edgePoints[i] || edgePoints[i] === []) { // it is a straight line
-          edgeLength = getEucliDis({ x: source.x, y: source.y }, { x: target.x, y: target.y });
+          edgeLength = getEucliDis({ x: source.x!, y: source.y! }, { x: target.x!, y: target.y! });
         } else {
           edgeLength = self.getEdgeLength(edgePoints[i]);
         }
@@ -219,7 +234,7 @@ export default class Bundling extends Base {
 
         const newEdgePoints = [{ x: source.x, y: source.y }]; // source
 
-        edgePoints[i].forEach((ep, j) => {
+        edgePoints[i].forEach((ep: Point, j: number) => {
           if (j === 0) return;
 
           let oriDivisionLength = getEucliDis(ep, edgePoints[i][j - 1]);
@@ -261,7 +276,7 @@ export default class Bundling extends Base {
   public getEdgeBundles(): number[] {
     const self = this;
     const data: GraphData = self.get('data');
-    const edges = data.edges;
+    const edges = data.edges || [];
 
     const bundleThreshold: number = self.get('bundleThreshold');
     const nodeIdMap: NodeConfigMap = self.get('nodeIdMap');
@@ -276,14 +291,14 @@ export default class Bundling extends Base {
     });
 
     edges.forEach((ei, i) => {
-      const iSource = nodeIdMap[ei.source];
-      const iTarget = nodeIdMap[ei.target];
+      const iSource = nodeIdMap[ei.source as string];
+      const iTarget = nodeIdMap[ei.target as string];
 
       edges.forEach((ej, j) => {
         if (j <= i) return;
 
-        const jSource = nodeIdMap[ej.source];
-        const jTarget = nodeIdMap[ej.target];
+        const jSource = nodeIdMap[ej.source as string];
+        const jTarget = nodeIdMap[ej.target as string];
 
         const score = self.getBundleScore(
           { source: iSource, target: iTarget },
@@ -299,7 +314,7 @@ export default class Bundling extends Base {
     return edgeBundles;
   }
 
-  public getBundleScore(ei, ej): number {
+  public getBundleScore(ei: any, ej: any): number {
     const self = this;
     ei.vx = ei.target.x - ei.source.x;
     ei.vy = ei.target.y - ei.source.y;
@@ -337,18 +352,18 @@ export default class Bundling extends Base {
     return aScore * sScore * pScore * vScore;
   }
 
-  protected getAngleScore(ei, ej): number {
+  protected getAngleScore(ei: VectorPosition, ej: VectorPosition): number {
     const dotProduct = getDotProduct({ x: ei.vx, y: ei.vy }, { x: ej.vx, y: ej.vy });
     return dotProduct / (ei.length * ej.length);
   }
 
-  protected getScaleScore(ei, ej): number {
+  protected getScaleScore(ei: VectorPosition, ej: VectorPosition): number {
     const aLength = (ei.length + ej.length) / 2;
     const score = 2 / (aLength / Math.min(ei.length, ej.length) + Math.max(ei.length, ej.length) / aLength);
     return score;
   }
 
-  protected getPosisionScore(ei, ej): number {
+  protected getPosisionScore(ei: VectorPosition, ej: VectorPosition): number {
     const aLength = (ei.length + ej.length) / 2;
 
     const iMid = {
@@ -364,13 +379,13 @@ export default class Bundling extends Base {
     const distance = getEucliDis(iMid, jMid);
     return aLength / (aLength + distance);
   }
-  protected getVisibilityScore(ei, ej): number {
+  protected getVisibilityScore(ei: VectorPosition, ej: VectorPosition): number {
     const vij = this.getEdgeVisibility(ei, ej);
     const vji = this.getEdgeVisibility(ej, ei);
     return vij < vji ? vij : vji;
   }
 
-  protected getEdgeVisibility(ei, ej): number {
+  protected getEdgeVisibility(ei: VectorPosition, ej: VectorPosition): number {
     const ps = projectPointToEdge(ej.source, ei);
     const pt = projectPointToEdge(ej.target, ei);
     const pMid = { 
@@ -386,7 +401,7 @@ export default class Bundling extends Base {
     return Math.max(0, 1 - 2 * getEucliDis(pMid, iMid) / getEucliDis(ps, pt));
   }
 
-  protected getEdgeForces(e, eidx, divisions, lambda): Point[] {
+  protected getEdgeForces(e: any, eidx: number, divisions: number, lambda: number): Point[] {
     const self = this;
     const edgePoints = self.get('edgePoints');
     const K = self.get('K');
@@ -414,7 +429,7 @@ export default class Bundling extends Base {
     return edgePointForces;
   }
 
-  protected getSpringForce(divisions, kp): Point {
+  protected getSpringForce(divisions: any, kp: number): Point {
     let x = divisions.pre.x + divisions.next.x - 2 * divisions.cur.x;
     let y = divisions.pre.y + divisions.next.y - 2 * divisions.cur.y;
     x *= kp;
@@ -423,7 +438,7 @@ export default class Bundling extends Base {
     return { x, y };
   }
 
-  protected getElectrostaticForce(pidx, eidx): Point {
+  protected getElectrostaticForce(pidx: number, eidx: number): Point {
     const self = this;
     const eps = self.get('eps');
     const edgeBundles = self.get('edgeBundles');
@@ -431,7 +446,7 @@ export default class Bundling extends Base {
     const edgeBundle = edgeBundles[eidx];
     const resForce = { x: 0, y: 0 };
 
-    edgeBundle.forEach(eb => {
+    edgeBundle.forEach((eb: number) => {
       const force = {
         x: edgePoints[eb][pidx].x - edgePoints[eidx][pidx].x,
         y: edgePoints[eb][pidx].y - edgePoints[eidx][pidx].y

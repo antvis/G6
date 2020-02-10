@@ -1,7 +1,6 @@
 import G6 from '../../../src'
-import Bundling from '../../../src/plugins/bundling'
 import { data } from './data'
-import { GraphData } from '../../../types'
+import { GraphData } from '../../../src/types'
 
 const div = document.createElement('div');
 div.id = 'force-layout';
@@ -22,7 +21,7 @@ describe('edge bundling', () => {
   graph.render();
 
   it('edge bundling on circular layout with default configs', () => {
-    const bundle = new Bundling();
+    const bundle = new G6.Bundling();
     bundle.initPlugin(graph);
 
     const graphData = graph.save()
@@ -34,7 +33,7 @@ describe('edge bundling', () => {
   });
 
   it('bundling on circular with fixed bundleThreshold and iterations', () => {
-    const bundle = new Bundling({
+    const bundle = new G6.Bundling({
       iterations: 120,
       bundleThreshold: 0.1,
     });
@@ -59,7 +58,7 @@ describe('edge bundling', () => {
     };
     graph.changeData(data2);
 
-    const bundle = new Bundling();
+    const bundle = new G6.Bundling();
     bundle.initPlugin(graph);
     bundle.bundling(data2);
 
@@ -85,7 +84,7 @@ describe('edge bundling', () => {
   });
 
   it('bundling no position info, throw error', () => {
-    const bundle = new Bundling();
+    const bundle = new G6.Bundling();
     bundle.initPlugin(graph);
 
     const data2: GraphData = {

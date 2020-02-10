@@ -2,7 +2,7 @@
 import G6 from '../../../src'
 import '../../../src/behavior'
 import { scale, translate } from '../../../src/util/math'
-import { GraphData, Item } from '../../../types';
+import { GraphData, Item } from '../../../src/types';
 import Plugin from '../../../src/plugins'
 import { timerOut } from '../util/timeOut'
 

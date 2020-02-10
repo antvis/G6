@@ -1,9 +1,10 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
 import deepMix from '@antv/util/lib/deep-mix';
-import { Item, NodeConfig, ShapeStyle } from '../../types';
+import { Item, NodeConfig, ShapeStyle, ModelStyle } from '../../types';
 import Global from '../../global'
 import Shape from '../shape'
+import { ShapeOptions } from '../../interface/shape';
 
 // 五角星shape
 Shape.registerNode('star', {
@@ -48,8 +49,8 @@ Shape.registerNode('star', {
   // 文本位置
   labelPosition: 'center',
   drawShape(cfg: NodeConfig, group: GGroup): IShape {
-    const { icon: defaultIcon } = this.options;
-    const style = this.getShapeStyle(cfg);
+    const { icon: defaultIcon } = this.options as ModelStyle;
+    const style = (this as ShapeOptions).getShapeStyle!(cfg);
     const icon = deepMix({}, defaultIcon, cfg.icon);
 
     const keyShape = group.addShape('path', {
@@ -74,7 +75,7 @@ Shape.registerNode('star', {
       image.set('capture', false);
     }
 
-    this.drawLinkPoints(cfg, group);
+    (this as any).drawLinkPoints(cfg, group);
 
     return keyShape;
   },
@@ -84,12 +85,12 @@ Shape.registerNode('star', {
    * @param {Group} group Group实例
    */
   drawLinkPoints(cfg: NodeConfig, group: GGroup) {
-    const { linkPoints: defaultLinkPoints } = this.options;
+    const { linkPoints: defaultLinkPoints } = this.options as ModelStyle;
     const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
 
     const { top, left, right, leftBottom, rightBottom, size: markSize,
       ...markStyle } = linkPoints;
-    const size = this.getSize(cfg);
+      const size = (this as ShapeOptions).getSize!(cfg);
     const outerR = size[0];
 
     if (right) {
@@ -183,7 +184,7 @@ Shape.registerNode('star', {
     }
   },
   getPath(cfg: NodeConfig) {
-    const size = this.getSize(cfg);
+    const size = (this as ShapeOptions).getSize!(cfg);
     const outerR = size[0];
     const defaultInnerR = outerR * 3 / 8;
     const innerR = cfg.innerR || defaultInnerR;
@@ -220,20 +221,20 @@ Shape.registerNode('star', {
    * @return {Object} 节点的样式
    */
   getShapeStyle(cfg: NodeConfig): ShapeStyle {
-    const { style: defaultStyle } = this.options;
+    const { style: defaultStyle } = this.options as ModelStyle;
     const strokeStyle = {
       stroke: cfg.color
     };
     // 如果设置了color，则覆盖原来默认的 stroke 属性。但 cfg 中但 stroke 属性优先级更高
     const style = deepMix({}, defaultStyle, strokeStyle, cfg.style);
-    const path = this.getPath(cfg);
+    const path = (this as any).getPath(cfg);
     const styles = { path, ...style };
     return styles;
   },
   update(cfg: NodeConfig, item: Item) {
     const group = item.getContainer();
-    const { style: defaultStyle } = this.options;
-    const path = this.getPath(cfg);
+    const { style: defaultStyle } = this.options as ModelStyle;
+    const path = (this as any).getPath(cfg);
     // 下面这些属性需要覆盖默认样式与目前样式，但若在 cfg 中有指定则应该被 cfg 的相应配置覆盖。
     const strokeStyle = {
       stroke: cfg.color,
@@ -243,8 +244,8 @@ Shape.registerNode('star', {
     const keyShape = item.get('keyShape');
     const style = deepMix({}, defaultStyle, keyShape.attr(), strokeStyle, cfg.style);
 
-    this.updateShape(cfg, item, style, true);
-    this.updateLinkPoints(cfg, group);
+    (this as any).updateShape(cfg, item, style, true);
+    (this as any).updateLinkPoints(cfg, group);
   },
 
   /**
@@ -253,7 +254,7 @@ Shape.registerNode('star', {
    * @param {Group} group Item所在的group
    */
   updateLinkPoints(cfg: NodeConfig, group: GGroup) {
-    const { linkPoints: defaultLinkPoints } = this.options;
+    const { linkPoints: defaultLinkPoints } = this.options as ModelStyle;
     
     const markLeft = group.find(element => { return element.get('className') === 'link-point-left'})
     const markRight= group.find(element => { return element.get('className') === 'link-point-right'})
@@ -274,8 +275,7 @@ Shape.registerNode('star', {
     if (!markSize) markSize = linkPoints.r;
     const { left, right, top, leftBottom, rightBottom } = cfg.linkPoints ? cfg.linkPoints : { left: undefined, right: undefined, top: undefined, leftBottom: undefined, rightBottom: undefined };
 
-
-    const size = this.getSize(cfg);
+    const size = (this as ShapeOptions).getSize!(cfg);
     const outerR = size[0];
     const styles = {
       r: markSize,

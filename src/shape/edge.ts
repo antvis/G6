@@ -9,7 +9,7 @@ import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
 import { deepMix, each, isNil } from '@antv/util';
 import { ILabelConfig, ShapeOptions } from '../interface/shape';
-import { EdgeConfig, EdgeData, IPoint, LabelStyle, ShapeStyle, Item } from '../types';
+import { EdgeConfig, EdgeData, IPoint, LabelStyle, ShapeStyle, Item, ModelStyle, ModelConfig } from '../types';
 import { getLabelPosition, getLoopCfgs } from '../util/graphic';
 import { distance, getCircleCenterByPoints } from '../util/math';
 import { getControlPoint, getSpline } from '../util/path';
@@ -61,7 +61,7 @@ const singleEdge: ShapeOptions = {
    * @return {Array} 构成 path 的数组
    */
   getPath(points: Point[]): Array<Array<string | number>> {
-    const path = [];
+    const path: Array<Array<string | number>> = [];
     each(points, (point: Point, index: number) => {
       if (index === 0) {
         path.push(['M', point.x, point.y]);
@@ -72,7 +72,7 @@ const singleEdge: ShapeOptions = {
     return path;
   },
   getShapeStyle(cfg: EdgeConfig): ShapeStyle {
-    const { style: defaultStyle } = this.options;
+    const { style: defaultStyle } = this.options as ModelStyle;
     const strokeStyle = {
       stroke: cfg.color,
     };
@@ -80,10 +80,10 @@ const singleEdge: ShapeOptions = {
     const style = deepMix({}, defaultStyle, strokeStyle, cfg.style);
 
     const size = cfg.size || Global.defaultEdge.size;
-    cfg = this.getPathPoints(cfg);
+    cfg = this.getPathPoints!(cfg);
     const startPoint = cfg.startPoint;
     const endPoint = cfg.endPoint;
-    const controlPoints = this.getControlPoints(cfg);
+    const controlPoints = this.getControlPoints!(cfg);
     let points = [startPoint]; // 添加起始点
     // 添加控制点
     if (controlPoints) {
@@ -91,7 +91,7 @@ const singleEdge: ShapeOptions = {
     }
     // 添加结束点
     points.push(endPoint);
-    const path = this.getPath(points);
+    const path = (this as any).getPath(points);
     const styles = Object.assign(
       {},
       Global.defaultEdge.style,
@@ -112,10 +112,10 @@ const singleEdge: ShapeOptions = {
     const shape = group.find(element => { return element.get('className') === 'edge-shape'}) || item.getKeyShape()
 
     const size = cfg.size;
-    cfg = this.getPathPoints(cfg);
+    cfg = this.getPathPoints!(cfg);
     const startPoint = cfg.startPoint;
     const endPoint = cfg.endPoint;
-    const controlPoints = this.getControlPoints(cfg) || cfg.controlPoints;
+    const controlPoints = this.getControlPoints!(cfg) || cfg.controlPoints;
     let points = [ startPoint ]; // 添加起始点
     // 添加控制点
     if (controlPoints) {
@@ -123,7 +123,7 @@ const singleEdge: ShapeOptions = {
     }
     // 添加结束点
     points.push(endPoint);
-    const path = this.getPath(points);
+    const path = (this as any).getPath(points);
     const style = deepMix({}, strokeStyle, shape.attr(), {
       lineWidth: size,
       path
@@ -133,11 +133,11 @@ const singleEdge: ShapeOptions = {
       shape.attr(style)
     }
   },
-  getLabelStyleByPosition(cfg?: EdgeConfig, labelCfg?: ILabelConfig, group?: GGroup): LabelStyle {
+  getLabelStyleByPosition(cfg: EdgeConfig, labelCfg: ILabelConfig, group?: GGroup): LabelStyle {
     const labelPosition = labelCfg.position || this.labelPosition; // 文本的位置用户可以传入
     const style: LabelStyle = {};
 
-    const pathShape = group.find(element => { return element.get('className') === CLS_SHAPE}) as Path;
+    const pathShape = group && group.find(element => { return element.get('className') === CLS_SHAPE}) as Path;
 
     // 不对 pathShape 进行判空，如果线不存在，说明有问题了
     let pointPercent;
@@ -149,21 +149,22 @@ const singleEdge: ShapeOptions = {
       pointPercent = 0.5;
     }
     // 偏移量
-    const offsetX = labelCfg.refX || this.refX;
-    const offsetY = labelCfg.refY || this.refY;
+    const offsetX = labelCfg.refX || this.refX as number;
+    const offsetY = labelCfg.refY || this.refY as number;
     // 如果两个节点重叠，线就变成了一个点，这时候label的位置，就是这个点 + 绝对偏移
-    if (cfg.startPoint.x === cfg.endPoint.x && cfg.startPoint.y === cfg.endPoint.y) {
-      style.x = cfg.startPoint.x + offsetX;
-      style.y = cfg.startPoint.y + offsetY;
+    if (cfg.startPoint!.x === cfg.endPoint!.x && cfg.startPoint!.y === cfg.endPoint!.y) {
+      style.x = cfg.startPoint!.x + offsetX;
+      style.y = cfg.startPoint!.y + offsetY;
       style.text = cfg.label
       return style;
     }
+
     const autoRotate = isNil(labelCfg.autoRotate) ? this.labelAutoRotate : labelCfg.autoRotate;
-    const offsetStyle = getLabelPosition(pathShape, pointPercent, offsetX, offsetY, autoRotate);
+    const offsetStyle = getLabelPosition(pathShape as Path, pointPercent, offsetX, offsetY, autoRotate as boolean);
     style.x = offsetStyle.x;
     style.y = offsetStyle.y;
     style.rotate = offsetStyle.rotate;
-    style.textAlign = this._getTextAlign(labelPosition, offsetStyle.angle);
+    style.textAlign = this._getTextAlign!(labelPosition as string, offsetStyle.angle as number);
     style.text = cfg.label;
     return style;
   },
@@ -188,7 +189,7 @@ const singleEdge: ShapeOptions = {
    * @param  {Object} cfg 边的配置项
    * @return {Array} 控制点的数组
    */
-  getControlPoints(cfg: EdgeConfig): IPoint[] {
+  getControlPoints(cfg: EdgeConfig): IPoint[] | undefined {
     return cfg.controlPoints;
   },
   /**
@@ -207,7 +208,7 @@ const singleEdge: ShapeOptions = {
    * @return {IShape} 图形
    */
   drawShape(cfg: EdgeConfig, group: GGroup): IShape {
-    const shapeStyle = this.getShapeStyle(cfg);
+    const shapeStyle = this.getShapeStyle!(cfg);
     const shape = group.addShape('path', {
       className: CLS_SHAPE,
       name: CLS_SHAPE,
@@ -216,13 +217,14 @@ const singleEdge: ShapeOptions = {
     return shape;
   },
   drawLabel(cfg: EdgeConfig, group: GGroup): IShape {
-    const labelCfg = deepMix({}, this.options.labelCfg, cfg.labelCfg);
-    const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
+    const { labelCfg: defaultLabelCfg } = this.options as ModelStyle
+    const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
+    const labelStyle = this.getLabelStyle!(cfg, labelCfg, group);
     if (labelStyle.rotate) {
       // if G 4.x define the rotateAtStart, use it directly instead of using the following codes
       let rotateMatrix = mat3.create(); 
       rotateMatrix = transform(rotateMatrix, [
-        [ 't', -labelStyle.x, -labelStyle.y ],
+        [ 't', -labelStyle.x!, -labelStyle.y! ],
         [ 'r', labelStyle.rotate ],
         [ 't', labelStyle.x, labelStyle.y ]
       ])
@@ -262,8 +264,8 @@ Shape.registerEdge('arc', {
   curveOffset: 20,
   clockwise: 1,
   getControlPoints(cfg: EdgeConfig): IPoint[] {
-    const startPoint = cfg.startPoint;
-    const endPoint = cfg.endPoint;
+    const startPoint = cfg.startPoint as Point;
+    const endPoint = cfg.endPoint as Point;
     const midPoint = {
       x: (startPoint.x + endPoint.x) / 2,
       y: (startPoint.y + endPoint.y) / 2,
@@ -297,7 +299,7 @@ Shape.registerEdge('arc', {
       if (cfg.curveOffset !== undefined) {
         this.curveOffset = cfg.curveOffset;
       }
-      if (this.curveOffset < 0) {
+      if ((this as any).curveOffset < 0) {
         this.clockwise = 0;
       } else {
         this.clockwise = 1;
@@ -308,8 +310,8 @@ Shape.registerEdge('arc', {
       };
       const edgeAngle = Math.atan2(vec.y, vec.x);
       arcPoint = {
-        x: this.curveOffset * Math.cos(-Math.PI / 2 + edgeAngle) + midPoint.x,
-        y: this.curveOffset * Math.sin(-Math.PI / 2 + edgeAngle) + midPoint.y,
+        x: (this as any).curveOffset * Math.cos(-Math.PI / 2 + edgeAngle) + midPoint.x,
+        y: (this as any).curveOffset * Math.sin(-Math.PI / 2 + edgeAngle) + midPoint.y,
       };
       center = getCircleCenterByPoints(startPoint, arcPoint, endPoint);
     }
@@ -319,13 +321,13 @@ Shape.registerEdge('arc', {
     return controlPoints;
   },
   getPath(points: Point[]): Array<Array<string | number>> {
-    const path = [];
+    const path: Array<Array<string | number>> = [];
     path.push(['M', points[0].x, points[0].y]);
     // 控制点与端点共线
     if (points.length === 2) {
       path.push(['L', points[1].x, points[1].y]);
     } else {
-      path.push(['A', points[1].x, points[1].y, 0, 0, this.clockwise, points[2].x, points[2].y]);
+      path.push(['A', points[1].x, points[1].y, 0, 0, this.clockwise as number, points[2].x, points[2].y]);
     }
     return path;
   },
@@ -338,7 +340,7 @@ Shape.registerEdge('quadratic', {
     let controlPoints = cfg.controlPoints; // 指定controlPoints
     if (!controlPoints || !controlPoints.length) {
       const { startPoint, endPoint } = cfg;
-      const innerPoint = getControlPoint(startPoint, endPoint, this.curvePosition, this.curveOffset);
+      const innerPoint = getControlPoint(startPoint as Point, endPoint as Point, this.curvePosition as number, this.curveOffset as number);
       controlPoints = [innerPoint];
     }
     return controlPoints;
@@ -358,8 +360,8 @@ Shape.registerEdge('cubic', {
     let controlPoints = cfg.controlPoints; // 指定controlPoints
     if (!controlPoints || !controlPoints.length) {
       const { startPoint, endPoint } = cfg;
-      const innerPoint1 = getControlPoint(startPoint, endPoint, this.curvePosition[0], this.curveOffset[0]);
-      const innerPoint2 = getControlPoint(startPoint, endPoint, this.curvePosition[1], this.curveOffset[1]);
+      const innerPoint1 = getControlPoint(startPoint  as Point, endPoint as Point, (this as any).curvePosition[0], (this as any).curveOffset[0]);
+      const innerPoint2 = getControlPoint(startPoint as Point, endPoint as Point, (this as any).curvePosition[1], (this as any).curveOffset[1]);
       controlPoints = [innerPoint1, innerPoint2];
     }
     return controlPoints;
@@ -380,12 +382,12 @@ Shape.registerEdge(
     getControlPoints(cfg: EdgeConfig): IPoint[] {
       const { startPoint, endPoint } = cfg;
       const innerPoint1 = {
-        x: startPoint.x,
-        y: (endPoint.y - startPoint.y) * this.curvePosition[0] + startPoint.y,
+        x: startPoint!.x,
+        y: (endPoint!.y - startPoint!.y) * (this as any).curvePosition[0] + startPoint!.y,
       };
       const innerPoint2 = {
-        x: endPoint.x,
-        y: (endPoint.y - startPoint.y) * this.curvePosition[1] + startPoint.y,
+        x: endPoint!.x,
+        y: (endPoint!.y - startPoint!.y) * (this as any).curvePosition[1] + startPoint!.y,
       };
       const controlPoints = [innerPoint1, innerPoint2];
       return controlPoints;
@@ -402,12 +404,12 @@ Shape.registerEdge(
     getControlPoints(cfg: EdgeConfig): IPoint[] {
       const { startPoint, endPoint } = cfg;
       const innerPoint1 = {
-        x: (endPoint.x - startPoint.x) * this.curvePosition[0] + startPoint.x,
-        y: startPoint.y,
+        x: (endPoint!.x - startPoint!.x) * (this as any).curvePosition[0] + startPoint!.x,
+        y: startPoint!.y,
       };
       const innerPoint2 = {
-        x: (endPoint.x - startPoint.x) * this.curvePosition[1] + startPoint.x,
-        y: endPoint.y,
+        x: (endPoint!.x - startPoint!.x) * (this as any).curvePosition[1] + startPoint!.x,
+        y: endPoint!.y,
       };
       const controlPoints = [innerPoint1, innerPoint2];
       return controlPoints;
@@ -419,17 +421,17 @@ Shape.registerEdge(
 Shape.registerEdge(
   'loop',
   {
-    getPathPoints(cfg: EdgeData): EdgeData {
-      return getLoopCfgs(cfg);
+    getPathPoints(cfg: ModelConfig): EdgeData {
+      return getLoopCfgs(cfg as EdgeData);
     },
-    getControlPoints(cfg: EdgeConfig): IPoint[] {
+    getControlPoints(cfg: EdgeConfig): IPoint[] | undefined {
       return cfg.controlPoints;
     },
     afterDraw(cfg: EdgeConfig) {
-      cfg.controlPoints = null;
+      cfg.controlPoints = undefined;
     },
     afterUpdate(cfg: EdgeConfig) {
-      cfg.controlPoints = null;
+      cfg.controlPoints = undefined;
     },
   },
   'cubic'

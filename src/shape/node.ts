@@ -4,15 +4,13 @@
  */
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
-import { isArray, isNil, isEqual } from '@antv/util/lib'
+import { isArray, isNil } from '@antv/util/lib'
 import deepMix from '@antv/util/lib/deep-mix';
 import { ILabelConfig, ShapeOptions } from '../interface/shape'
-import { Item, LabelStyle, NodeConfig } from '../types';
+import { Item, LabelStyle, NodeConfig, ModelConfig, ModelStyle } from '../types';
 import Global from '../global'
 import Shape from './shape'
 import { shapeBase } from './shapeBase'
-
-
 
 const singleNode: ShapeOptions = {
   itemType: 'node',
@@ -35,8 +33,8 @@ const singleNode: ShapeOptions = {
    * @param  {Object} cfg 节点的配置项
    * @return {Array} 宽高
    */
-  getSize(cfg: NodeConfig): number | number[] {
-    let size: number | number[] = cfg.size || this.options.size || Global.defaultNode.size
+  getSize(cfg: ModelConfig): number[] {
+    let size: number | number[] = cfg.size || this.options!.size || Global.defaultNode.size
 
     // size 是数组，但长度为1，则补长度为2
     if(isArray(size) && size.length === 1) {
@@ -50,50 +48,50 @@ const singleNode: ShapeOptions = {
     return size
   },
   // 私有方法，不希望扩展的节点复写这个方法
-  getLabelStyleByPosition(cfg?: NodeConfig, labelCfg?: ILabelConfig): LabelStyle {
+  getLabelStyleByPosition(cfg: NodeConfig, labelCfg: ILabelConfig): LabelStyle {
     const labelPosition = labelCfg.position || this.labelPosition
 
     // 默认的位置（最可能的情形），所以放在最上面
     if (labelPosition === 'center') {
-      return { x: 0, y: 0, text: cfg.label }
+      return { x: 0, y: 0, text: cfg!.label }
     }
 
     let offset = labelCfg.offset
     if (isNil(offset)) { // 考虑 offset = 0 的场景，不用用 labelCfg.offset || Global.nodeLabel.offset
-      offset = this.offset // 不居中时的偏移量
+      offset = this.offset as number // 不居中时的偏移量
     }
 
-    const size = this.getSize(cfg)
+    const size = this.getSize!(cfg as ModelConfig)
     
     const width = size[0]
     const height = size[1]
 
-    let style
+    let style: any
     switch (labelPosition) {
       case 'top':
         style = {
           x: 0,
-          y: 0 - height / 2 - offset,
+          y: 0 - height / 2 - (offset as number),
           textBaseline: 'bottom' // 文本在图形的上面
         }
         break
       case 'bottom':
         style = {
           x: 0,
-          y: height / 2 + offset,
+          y: height / 2 + (offset as number),
           textBaseline: 'top'
         }
         break
       case 'left':
         style = {
-          x: 0 - width / 2 - offset,
+          x: 0 - width / 2 - (offset as number),
           y: 0,
           textAlign: 'right'
         }
         break
       default:
         style = {
-          x: width / 2 + offset,
+          x: width / 2 + (offset as number),
           y: 0,
           textAlign: 'left'
         }
@@ -104,7 +102,7 @@ const singleNode: ShapeOptions = {
   },
   drawShape(cfg: NodeConfig, group: GGroup): IShape {
     const shapeType = this.shapeType // || this.type，都已经加了 shapeType
-    const style = this.getShapeStyle(cfg)
+    const style = this.getShapeStyle!(cfg)
     const shape = group.addShape(shapeType, {
       attrs: style,
       draggable: true,
@@ -119,7 +117,7 @@ const singleNode: ShapeOptions = {
    * @param {Group} group Item所在的group
    */
   updateLinkPoints(cfg: NodeConfig, group: GGroup) {
-    const { linkPoints: defaultLinkPoints } = this.options;
+    const { linkPoints: defaultLinkPoints } = this.options as ModelStyle;
 
     const markLeft = group.find(element => element.get('className') === 'link-point-left')
     const markRight= group.find(element => element.get('className') === 'link-point-right')
@@ -148,7 +146,7 @@ const singleNode: ShapeOptions = {
     if (!markSize) markSize = linkPoints.r;
     const { left, right, top, bottom } = cfg.linkPoints ? cfg.linkPoints : { left: undefined, right: undefined, top: undefined, bottom: undefined};
 
-    const size = this.getSize(cfg);
+    const size = this.getSize!(cfg);
     const width = size[0];
     const height = size[1];
     const styles = {
@@ -254,13 +252,13 @@ const singleNode: ShapeOptions = {
       ...keyShapeStyle
     });
 
-    this.updateLabel(cfg, item);
+    (this as any).updateLabel(cfg, item);
     // special for some types of nodes
-    hasIcon && this.updateIcon(cfg, item);
+    hasIcon && (this as any).updateIcon(cfg, item);
   },
-  updateIcon(cfg, item) {
+  updateIcon(cfg: ModelConfig, item: Item) {
     const group = item.getContainer();
-    const { icon: defaultIcon } = this.options;
+    const { icon: defaultIcon } = this.options as ModelStyle;
     const icon = deepMix({}, defaultIcon, cfg.icon);
     const { show } = cfg.icon ? cfg.icon : { show: undefined };
     const iconShape = group.find(element => element.get('className') === `${this.type}-icon`)

@@ -3,7 +3,7 @@ import isNil from '@antv/util/lib/is-nil'
 import isNumber from "@antv/util/lib/is-number";
 import isString from '@antv/util/lib/is-string'
 import { G6GraphEvent } from '../interface/behavior';
-import { IG6GraphEvent, Padding, Matrix } from '../types';
+import { IG6GraphEvent, Padding, Matrix, Item } from '../types';
 import { mat3 } from '@antv/matrix-util/lib';
 
 /**
@@ -44,7 +44,7 @@ export const cloneEvent = (e: IG6GraphEvent) => {
   event.target = e.target;
   event.currentTarget = e.currentTarget;
   event.bubbles = true;
-  event.item = e.item;
+  (event.item as Item | null) = e.item;
   return event;
 }
 
