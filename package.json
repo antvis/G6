@@ -49,7 +49,7 @@
     "site:develop": "GATSBY=true gatsby develop --open",
     "start": "npm run site:develop",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/shape/nodes/modelRect-spec.ts",
+    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/behavior/drag-canvas-spec.ts",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
     "watch": "father build -w",
     "cdn": "antv-bin upload -n @antv/g6"
@@ -71,8 +71,8 @@
     "@antv/dom-util": "^2.0.1",
     "@antv/event-emitter": "~0.1.0",
     "@antv/g-base": "^0.3.5",
-    "@antv/g-canvas": "^0.3.12",
     "@antv/g-math": "^0.1.1",
+    "@antv/g-canvas": "^0.3.16",
     "@antv/hierarchy": "^0.6.1",
     "@antv/matrix-util": "^2.0.4",
     "@antv/path-util": "^2.0.3",
