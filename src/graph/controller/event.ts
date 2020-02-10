@@ -60,6 +60,7 @@ export default class EventController {
     const { graph, extendEvents } = this;
 
     const canvas: Canvas = graph.get('canvas');
+    // canvas.set('draggable', true);
     const el = canvas.get('el');
 
     const canvasHandler: Fun = wrapBehavior(this, 'onCanvasEvents') as Fun;

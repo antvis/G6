@@ -17,6 +17,7 @@ export interface IModeOption {
   multiple?: boolean;
   selectedState?: string;
   includeEdges?: boolean;
+  direction?: 'x' | 'y';
   shouldUpdate?: (e: IG6GraphEvent) => boolean;
   shouldBegin?: (e: IG6GraphEvent) => boolean;
   shouldEnd?: (e: IG6GraphEvent) => boolean;

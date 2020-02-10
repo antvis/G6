@@ -40,6 +40,9 @@ export default {
   bind(graph: IGraph) {
     const { events }  = this;
     this.graph = graph
+    if (this.type === 'drag-canvas') {
+      graph.get('canvas').set('draggable', true);
+    }
     each(events, (handler: () => void, event: G6Event) => {
       graph.on(event, handler)
     })
@@ -47,6 +50,9 @@ export default {
 
   unbind(graph: IGraph) {
     const { events } = this;
+    if (this.type === 'drag-canvas') {
+      graph.get('canvas').set('draggable', false);
+    }
     each(events, (handler: () => void, event: G6Event) => {
       graph.off(event, handler)
     })
