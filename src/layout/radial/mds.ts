@@ -21,9 +21,7 @@ export default class MDS {
 
   public layout(): IPointTuple[] {
     const self = this;
-    const dimension = self.dimension;
-    const distances = self.distances;
-    const linkDistance = self.linkDistance;
+    const { dimension, distances, linkDistance } = self
 
     // square distances
     const M = Numeric.mul(-0.5, Numeric.pow(distances, 2));

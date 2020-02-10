@@ -55,7 +55,7 @@ const singleNode: ShapeOptions = {
       return { x: 0, y: 0, text: cfg!.label }
     }
 
-    let offset = labelCfg.offset
+    let { offset } = labelCfg
     if (isNil(offset)) { // 考虑 offset = 0 的场景，不用用 labelCfg.offset || Global.nodeLabel.offset
       offset = this.offset as number // 不居中时的偏移量
     }
@@ -100,7 +100,7 @@ const singleNode: ShapeOptions = {
     return style
   },
   drawShape(cfg: NodeConfig, group: GGroup): IShape {
-    const shapeType = this.shapeType // || this.type，都已经加了 shapeType
+    const { shapeType } = this // || this.type，都已经加了 shapeType
     const style = this.getShapeStyle!(cfg)
     const shape = group.addShape(shapeType, {
       attrs: style,

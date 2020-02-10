@@ -48,11 +48,11 @@ export default class DagreLayout extends BaseLayout {
    */
   public execute() {
     const self = this;
-    const nodes = self.nodes;
+    const { nodes, nodeSize, rankdir } = self;
     if (!nodes) return;
     const edges = self.edges || [];
     const g = new dagre.graphlib.Graph();
-    const nodeSize = self.nodeSize;
+
     let nodeSizeFunc: ((d?: any) => number[]);
     if (!nodeSize) {
       nodeSizeFunc = (d: any) => {
@@ -72,7 +72,6 @@ export default class DagreLayout extends BaseLayout {
     let horisep: Function = getFunc(self.nodesepFunc, self.nodesep, 50);
     let vertisep: Function = getFunc(self.ranksepFunc, self.ranksep, 50);
 
-    const rankdir = self.rankdir;
     if (rankdir === 'LR' || rankdir === 'RL') {
       horisep = getFunc(self.ranksepFunc, self.ranksep, 50);
       vertisep = getFunc(self.nodesepFunc, self.nodesep, 50);

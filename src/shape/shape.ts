@@ -171,7 +171,9 @@ const ShapeFramework = {
 
 export default class Shape {
   public static Node: any;
+
   public static Edge: any;
+
   public static registerFactory(factoryType: string, cfg: object): object {
     const className = ucfirst(factoryType)
     const factoryBase = ShapeFactoryBase
@@ -181,11 +183,13 @@ export default class Shape {
     // addRegister(shapeFactory)
     return shapeFactory
   }
+
   public static getFactory(factoryType: string) {
     // const self = this
     const className = ucfirst(factoryType)
     return (Shape as any)[className]
   }
+
   public static registerNode(shapeType: string, nodeDefinition: ShapeOptions, extendShapeType?: string) {
     const shapeFactory = Shape.Node;
     const extendShape = extendShapeType ? shapeFactory.getShape(extendShapeType) : ShapeFramework;
@@ -196,6 +200,7 @@ export default class Shape {
     shapeFactory[shapeType] = shapeObj
     return shapeObj
   }
+  
   public static registerEdge(shapeType: string, edgeDefinition: ShapeOptions, extendShapeType?: string) {
     const shapeFactory = Shape.Edge;
     const extendShape = extendShapeType ? shapeFactory.getShape(extendShapeType) : ShapeFramework;

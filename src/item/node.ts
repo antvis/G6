@@ -27,6 +27,7 @@ export default class Node extends Item implements INode {
     nearestPoint.anchorIndex = index;
     return nearestPoint;
   }
+
   public getDefaultCfg() {
     return {
       type: 'node',

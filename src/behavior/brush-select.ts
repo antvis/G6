@@ -103,7 +103,7 @@ export default {
     graph.setAutoPaint(autoPaint);
   },
   clearStates() {
-    const { graph, selectedState, onDeselect }  = this;
+    const { graph, selectedState }  = this;
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
 
@@ -127,7 +127,7 @@ export default {
     graph.setAutoPaint(autoPaint);
   },
   getSelectedNodes(e: IG6GraphEvent) {
-    const { graph, originPoint, shouldUpdate, onSelect }  = this;
+    const { graph, originPoint, shouldUpdate }  = this;
     const state = this.selectedState;
     const p1 = { x: e.x, y: e.y };
     const p2 = graph.getPointByCanvas(originPoint.x, originPoint.y);

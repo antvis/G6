@@ -5,7 +5,6 @@ import { Item, NodeConfig, ModelConfig, ShapeStyle } from '../../types';
 import Global from '../../global'
 import Shape from '../shape'
 import { ShapeOptions } from '../../interface/shape';
-import ShapeBase from '@antv/g-canvas/lib/shape/base';
 
 Shape.registerNode('rect', {
   // 自定义节点时的配置

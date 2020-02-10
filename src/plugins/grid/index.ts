@@ -43,6 +43,7 @@ export default class Grid extends Base {
     this.set('gridContainer', gridContainer);
   }
 
+  // class-methods-use-this
   public getEvents() {
     return { 
       viewportchange: 'updateGrid' 
@@ -55,7 +56,7 @@ export default class Grid extends Base {
    */
   protected updateGrid(param: ViewPortEventParam) {
     const gridContainer:HTMLDivElement = this.get('gridContainer');
-    const matrix = param.matrix;
+    const { matrix } = param;
 
     const transform = `matrix(${matrix[0]}, ${matrix[1]}, ${matrix[3]}, ${matrix[4]}, 0, 0)`
     
