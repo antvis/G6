@@ -9,6 +9,13 @@ module.exports = {
       'import/order': 0,
       'no-plusplus': 0,
       'operator-assignment': 0,
-      'consistent-return': 0
+      'consistent-return': 0,
+      'lines-between-class-members': 0,
+      'class-methods-use-this': 0,
+      'lines-between-class-members': 0,
+      'no-multi-assign': 0,
+      'no-continue': 0,
+      '@typescript-eslint/no-unused-vars': 0,
+      'no-underscore-dangle': 0
     },
   };

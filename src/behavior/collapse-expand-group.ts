@@ -17,7 +17,6 @@ export default {
     };
   },
   getEvents(): { [key in G6Event]?: string } {
-    const self = this as any
     let trigger: string;
     // 检测输入是否合法
     if (ALLOW_EVENTS.includes(this.trigger)) {

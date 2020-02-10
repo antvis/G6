@@ -49,8 +49,7 @@ Shape.registerEdge('polyline', {
     this.radius = style.radius;
     this.offset = style.offset;
     
-    const startPoint = cfg.startPoint;
-    const endPoint = cfg.endPoint;
+    const { startPoint, endPoint} = cfg;
     const controlPoints = (this as any).getControlPoints(cfg) || cfg.controlPoints;
     let points = [ startPoint ]; // 添加起始点
     // 添加控制点

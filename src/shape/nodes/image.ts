@@ -52,7 +52,7 @@ Shape.registerNode('image', {
   shapeType: 'image',
   labelPosition: 'bottom',
   drawShape(cfg: NodeConfig, group: GGroup): IShape {
-    const shapeType = this.shapeType; // || this.type，都已经加了 shapeType
+    const { shapeType } = this; // || this.type，都已经加了 shapeType
     const style = (this as ShapeOptions).getShapeStyle!(cfg);
     const shape = group.addShape(shapeType, {
       attrs: style,

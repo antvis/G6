@@ -438,12 +438,12 @@ Shape.registerNode('modelRect', {
       if (!show && show !== undefined) {
         logoIconShape.remove();
       } else {
-        const { width: w, height: h, x, y, offset, ...logoIconStyle } = logoIcon;
+        const { width: logoW, height: h, x, y, offset: logoOffset, ...logoIconStyle } = logoIcon;
         logoIconShape.attr({
           ...logoIconStyle,
-          x: x || -width / 2 + w + offset,
+          x: x || -width / 2 + logoW + logoOffset,
           y: y || -h / 2,
-          width: w,
+          width: logoW,
           height: h
         });
       }
@@ -458,12 +458,12 @@ Shape.registerNode('modelRect', {
       if (!stateIcon.show && stateIcon.show !== undefined) {
         stateIconShape.remove();
       }
-      const { width: w, height: h, x, y, offset, ...stateIconStyle } = stateIcon;
+      const { width: stateW, height: h, x, y, offset: stateOffset, ...stateIconStyle } = stateIcon;
       stateIconShape.attr({
         ...stateIconStyle,
-        x: x || width / 2 - w + offset,
+        x: x || width / 2 - stateW + stateOffset,
         y: y || -h / 2,
-        width: w,
+        width: stateW,
         height: h
       });
     } else if (stateIcon.show) {
