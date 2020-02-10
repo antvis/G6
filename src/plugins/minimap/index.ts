@@ -10,6 +10,7 @@ import { Matrix, ShapeStyle } from '../../types';
 import { transform, mat3 } from '@antv/matrix-util'
 import { Point } from '@antv/g-math/lib/types';
 import { IGroup } from '@antv/g-base/lib/interfaces';
+import GraphEvent from '@antv/g-base/lib/event/graph-event';
 
 const max = Math.max;
 
@@ -100,7 +101,7 @@ export default class MiniMap extends Base {
     let ratio = 0;
     let zoom = 0;
 
-    containerDOM.addEventListener('mousedown', e => {
+    containerDOM.addEventListener('mousedown', (e: GraphEvent) => {
       cfgs.refresh = false;
       if (e.target !== viewport) {
         return;
@@ -117,7 +118,7 @@ export default class MiniMap extends Base {
         return;
       }
 
-      zoom = graph.getZoom();
+      zoom = graph!.getZoom();
       ratio = this.get('ratio');
 
       dragging = true;
@@ -125,7 +126,7 @@ export default class MiniMap extends Base {
       y = e.clientY;
     }, false);
 
-    containerDOM.addEventListener('mousemove', e => {
+    containerDOM.addEventListener('mousemove', (e: GraphEvent) => {
       if (!dragging || isNil(e.clientX) || isNil(e.clientY)) {
         return;
       }
@@ -157,7 +158,7 @@ export default class MiniMap extends Base {
       });
 
       // graph 移动需要偏移量 dx/dy * 缩放比例才会得到正确的移动距离
-      graph.translate(dx * zoom / ratio, dy * zoom / ratio);
+      graph!.translate(dx * zoom / ratio, dy * zoom / ratio);
 
       x = e.clientX;
       y = e.clientY;
@@ -249,7 +250,7 @@ export default class MiniMap extends Base {
     // const graph: Graph = this.get('graph');
     const graph = this._cfgs.graph;
     const canvas: GCanvas = this.get('canvas');
-    const graphGroup = graph.get('group');
+    const graphGroup = graph!.get('group');
     const clonedGroup = graphGroup.clone();
     
     clonedGroup.resetMatrix();
@@ -268,10 +269,10 @@ export default class MiniMap extends Base {
 
     if (!group) {
       group = canvas.addGroup();
-      group.setMatrix(graph.get('group').getMatrix());
+      group.setMatrix(graph!.get('group').getMatrix());
     }
 
-    const nodes = graph.getNodes();
+    const nodes = graph!.getNodes();
     group.clear();
 
     this.showGraphEdgeKeyShape(group);
@@ -299,7 +300,7 @@ export default class MiniMap extends Base {
 
     this.showGraphEdgeKeyShape(group);
 
-    each(graph.getNodes(), node => {
+    each(graph!.getNodes(), node => {
       if (node.isVisible()) {
         const bbox = node.getBBox();
         group.addShape('rect', {
@@ -320,7 +321,7 @@ export default class MiniMap extends Base {
    * 设置只显示 edge 的keyShape
    * @param group IGroup 实例
    */
-  private showGraphEdgeKeyShape(group) {
+  private showGraphEdgeKeyShape(group: IGroup) {
     const graph = this.get('graph');
     each(graph.getEdges(), edge => {
       if (edge.isVisible()) {
@@ -348,7 +349,7 @@ export default class MiniMap extends Base {
     )
 
     if (isString(parentNode)) {
-      parentNode = document.getElementById(parentNode);
+      parentNode = document.getElementById(parentNode) as HTMLElement;
     }
 
     if (parentNode) {

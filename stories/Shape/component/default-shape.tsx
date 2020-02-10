@@ -4,89 +4,170 @@ import { IGraph } from '../../../src/interface/graph'
 
 let graph: IGraph = null
 
-G6.registerNode('circleNode', {
-  drawShape(cfg, group) {
-    const keyShape = group.addShape('circle', {
+G6.registerNode('file-node', {
+
+  draw(cfg, group) {
+    const keyShape = group.addShape('rect', {
       attrs: {
-        x: 0,
-        y: 0,
-        r: 30,
-        fill: '#87e8de'
+        x: cfg.x - 4,
+        y: cfg.y - 14,
+        fill: '#fff',
+        stroke: '#666'
+      },
+      className: 'node-rect'
+    });
+
+    if (cfg.children && cfg.children.length > 0) {
+      group.addShape('marker', {
+        attrs: {
+          symbol: 'triangle-down',
+          x: cfg.x + 4,
+          y: cfg.y - 2,
+          r: 4,
+          fill: '#666'
+        }
+      });
+    }
+
+    const shape = group.addShape('text', {
+      attrs: {
+        x: cfg.x + 15,
+        y: cfg.y + 4,
+        text: cfg.label,
+        fill: '#666',
+        fontSize: 16,
+        textAlign: 'left'
       }
+    });
+
+    const bbox = shape.getBBox();
+
+    group.addShape('text', {
+      attrs: {
+        x: cfg.x + bbox.width + 20,
+        y: cfg.y + 40,
+        text: '详情',
+        fill: '#651466',
+        fontSize: 16,
+        textAlign: 'right'
+      },
+      className: "detail-text"
+    });
+
+    keyShape.attr({
+      width: bbox.width + 40,
+      height: bbox.height + 45
     });
 
     return keyShape;
   }
-}, 'circle');
+}, 'single-node');
 
-G6.registerEdge('loop-growth', {
-  afterDraw(cfg, group) {
-    const shape = group.get('children')[0];
-    const length = shape.getTotalLength();
-    shape.animate(
-      (ratio) => {
-        const startLen = ratio * length;
-        // 计算线的lineDash
-        const cfg = {
-          lineDash: [startLen, length - startLen]
-        };
-        return cfg;
-      },
-      {
-        repeat: true,
-        duration: 2000
-      });
+G6.registerEdge('step-line', {
+  getControlPoints: function getControlPoints(cfg) {
+    const startPoint = cfg.startPoint;
+    const endPoint = cfg.endPoint;
+    return [{
+      x: startPoint.x,
+      y: endPoint.y
+    }];
   }
-}, 'loop');
+}, 'polyline');
 
 const DefaultShape = () => {
   const container = React.useRef()
 
   useEffect(() => {
     if(!graph) {
-      graph = new G6.Graph({
+      graph = new G6.TreeGraph({
         container: container.current as string | HTMLElement,
         width: 500,
         height: 500,
-        defaultEdge: {
-          color: '#bae7ff'
-        },
+        linkCenter: true,
         modes: {
-          default: ['drag-node', 'drag-canvas']
+          default: [
+            'collapse-expand', 'zoom-canvas', 'drag-canvas'
+          ]
+        },
+        defaultNode: {
+          shape: 'file-node'
+        },
+        defaultEdge: {
+          shape: 'step-line'
+        },
+        nodeStateStyles: {
+          hover: {
+            fill: '#83AFFD',
+            stroke: '#5B8FF9',
+          },
+          select: {
+            fill: '#4ab334',
+            lineWidth: 2,
+            stroke: '#5B8FF9'
+          }
+        },
+        layout: {
+          type: 'indented',
+          isHorizontal: true,
+          direction: 'LR',
+          indent: 70,
+          getHeight: function getHeight() {
+            return 20;
+          },
+      
+          getWidth: function getWidth() {
+            return 20;
+          }
         }
-      })
+      });
     }
 
     const data = {
-      nodes: [{
-        x: 300,
-        y: 300,
-        label: 'rect',
-        id:'node1',
-        labelCfg: {
-            position: 'bottom'
-        },
-        anchorPoints: [
-          [0.5, 0], 
-          [1, 0.5]
-        ]
-      }
-      ],
-      edges: [
-        {
-          source: 'node1',
-          target: 'node1',
-          label: 'loop',
-          shape:'loop-growth',
-          labelCfg: {
-            refY: 10
+      id: '1',
+      label: '域服务-创建计划',
+      children: [{
+        id: '1-3',
+        label: '计划信息初始化',
+        children: []
+      }, {
+        id: '1-2',
+        label: '计划信息校验',
+        children: []
+      }, {
+        id: '1-1',
+        label: '计划信息保存',
+        children: [
+          {
+            id: '1-1-1',
+            label: '基本信息初始化',
+          },
+          {
+            id: '1-1-2',
+            label: '投放时间信息初始化',
           }
-        }
-      ]
+        ]
+      }]
     };
 
     graph.data(data)
     graph.render()
+
+    graph.on('node:click', ev => {
+      //const clickNodes = graph.findAllByState('node', 'click');
+    
+      //clickNodes.forEach(cn => {
+        //graph.setItemState(cn, 'click', false);
+     // });
+    
+      const nodeItem = ev.item;
+    debugger
+      graph.setItemState(nodeItem, 'select', true);
+    });
+
+    graph.on('node:mouseenter', evt => {
+      const { item } = evt
+      graph.setItemState(item, 'hover', true)
+    })
   })
 
   return (

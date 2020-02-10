@@ -6,6 +6,7 @@ import Shape from './shape';
 import Layout from './layout';
 import Global from './global';
 import Util from './util';
+import Plugins from './plugins';
 
 export default {
   version,
@@ -17,5 +18,9 @@ export default {
   registerBehavior: Behaviors.registerBehavior,
   registerLayout: Layout.registerLayout,
   Layout,
-  Global
+  Global,
+  Minimap: Plugins.Minimap,
+  Grid: Plugins.Grid,
+  Bundling: Plugins.Bundling,
+  Menu: Plugins.Menu
 }

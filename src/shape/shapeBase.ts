@@ -7,7 +7,7 @@ import { IShape } from '@antv/g-canvas/lib/interfaces'
 import deepMix from '@antv/util/lib/deep-mix';
 import each from '@antv/util/lib/each'
 import { ShapeOptions, ILabelConfig } from '../interface/shape'
-import { IPoint, Item, LabelStyle, ModelConfig, ShapeStyle } from '../types';
+import { IPoint, Item, LabelStyle, ModelConfig, ShapeStyle, ModelStyle } from '../types';
 import { cloneDeep, get, merge } from 'lodash'
 import Global from '../global'
 import { mat3, transform } from '@antv/matrix-util';
@@ -33,10 +33,10 @@ export const shapeBase: ShapeOptions = {
 	 * @return {IShape} 绘制的图形
 	 */
   draw(cfg: ModelConfig, group: GGroup): IShape {
-    const shape: IShape = this.drawShape(cfg, group)
+    const shape: IShape = this.drawShape!(cfg, group)
     shape.set('className', this.itemType + CLS_SHAPE_SUFFIX)
     if (cfg.label) {
-      const label = this.drawLabel(cfg, group)
+      const label = this.drawLabel!(cfg, group)
       label.set('className', this.itemType + CLS_LABEL_SUFFIX)
     }
     return shape
@@ -51,13 +51,13 @@ export const shapeBase: ShapeOptions = {
 
   },
   drawShape(cfg?: ModelConfig, group?: GGroup): IShape {
-    return null;
+    return null as any;
   },
   drawLabel(cfg: ModelConfig, group: GGroup): IShape {
-    const { labelCfg: defaultLabelCfg } = this.options
+    const { labelCfg: defaultLabelCfg } = this.options as ModelStyle
 
-    const labelCfg = merge({}, defaultLabelCfg, cfg.labelCfg)
-    const labelStyle = this.getLabelStyle(cfg, labelCfg, group)
+    const labelCfg = merge({}, defaultLabelCfg, cfg.labelCfg) as ILabelConfig
+    const labelStyle = this.getLabelStyle!(cfg, labelCfg, group)
     const label = group.addShape('text', {
       attrs: labelStyle,
       capture: false,
@@ -78,31 +78,31 @@ export const shapeBase: ShapeOptions = {
             break;
           case 'lefttop':
             labelMatrix = transform(labelMatrix, [
-              [ 't',  -labelStyle.x, -labelStyle.y ],
+              [ 't',  -labelStyle.x!, -labelStyle.y! ],
               [ 'r',  labelStyle.rotate ],
               [ 't',  labelStyle.x, labelStyle.y ]
             ]);
           break;
           case 'leftcenter':
             labelMatrix = transform(labelMatrix, [
-              [ 't',  -labelStyle.x, -labelStyle.y - labelBBox.height / 2 ],
+              [ 't',  -labelStyle.x!, -labelStyle.y! - labelBBox.height / 2 ],
               [ 'r',  labelStyle.rotate ],
-              [ 't',  labelStyle.x, labelStyle.y + labelBBox.height / 2 ]
+              [ 't',  labelStyle.x, labelStyle.y! + labelBBox.height / 2 ]
             ]);
             break;
         }
       } else {
         labelMatrix = transform(labelMatrix, [
-          [ 't',  -labelStyle.x, -labelStyle.y - labelBBox.height / 2 ],
+          [ 't',  -labelStyle.x!, -labelStyle.y! - labelBBox.height / 2 ],
           [ 'r',  labelStyle.rotate ],
-          [ 't',  labelStyle.x, labelStyle.y + labelBBox.height / 2 ]
+          [ 't',  labelStyle.x, labelStyle.y! + labelBBox.height / 2 ]
         ]);
       }
       label.setMatrix(labelMatrix)
     }
     return label
   },
-  getLabelStyleByPosition(cfg?: ModelConfig, labelCfg?: ILabelConfig, group?: GGroup): LabelStyle {
+  getLabelStyleByPosition(cfg: ModelConfig, labelCfg?: ILabelConfig, group?: GGroup): LabelStyle {
     return { text: cfg.label };
   },
 
@@ -112,10 +112,10 @@ export const shapeBase: ShapeOptions = {
    * @param labelCfg 文本的配置项
    * @param group 父容器，label 的定位可能与图形相关
    */
-  getLabelStyle(cfg: ModelConfig, labelCfg, group: GGroup): LabelStyle {
-    const calculateStyle = this.getLabelStyleByPosition(cfg, labelCfg, group)
+  getLabelStyle(cfg: ModelConfig, labelCfg: ILabelConfig, group: GGroup): LabelStyle {
+    const calculateStyle = this.getLabelStyleByPosition!(cfg, labelCfg, group)
     const attrName = this.itemType + 'Label' // 取 nodeLabel，edgeLabel 的配置项
-    const defaultStyle = Global[attrName] ? Global[attrName].style : null
+    const defaultStyle = (Global as any)[attrName] ? (Global as any)[attrName].style : null
     const labelStyle = Object.assign({}, defaultStyle, calculateStyle, labelCfg.style)
     return labelStyle
   },
@@ -125,7 +125,7 @@ export const shapeBase: ShapeOptions = {
    * @param cfg 
    */
   getShapeStyle(cfg: ModelConfig): ShapeStyle {
-    return cfg.style
+    return cfg.style!
   },
 	/**
 	 * 更新节点，包含文本
@@ -134,8 +134,8 @@ export const shapeBase: ShapeOptions = {
 	 * @param  {G6.Item} item 节点/边
 	 */
   update(cfg: ModelConfig, item: Item) {
-    this.updateShapeStyle(cfg, item);
-    this.updateLabel(cfg, item);
+    (this as any).updateShapeStyle(cfg, item);
+    (this as any).updateLabel(cfg, item);
   },
   updateShapeStyle(cfg: ModelConfig, item: Item) {
     const group = item.getContainer()
@@ -149,24 +149,24 @@ export const shapeBase: ShapeOptions = {
 
   updateLabel(cfg: ModelConfig, item: Item) {
     const group = item.getContainer();
-    const { labelCfg: defaultLabelCfg } = this.options;
+    const { labelCfg: defaultLabelCfg } = this.options as ModelStyle;
     const labelClassName = this.itemType + CLS_LABEL_SUFFIX
     const label = group.find(element => element.get('className') === labelClassName)
 
     if (cfg.label) { // 若传入的新配置中有 label，（用户没传入但原先有 label，label 也会有值）
       if (!label) { // 若原先不存在 label，则绘制一个新的 label
-        const newLabel = this.drawLabel(cfg, group)
+        const newLabel = this.drawLabel!(cfg, group)
         newLabel.set('className', labelClassName)
       } else { // 若原先存在 label，则更新样式。与 getLabelStyle 不同在于这里需要融合当前 label 的样式
         // 用于融合 style 以外的属性：position, offset, ...
-        let currentLabelCfg = {};
+        let currentLabelCfg = {} as any;
         if (item.getModel) {
          currentLabelCfg = item.getModel().labelCfg;
         }
         const labelCfg = deepMix({}, defaultLabelCfg, currentLabelCfg, cfg.labelCfg);
 
         // 获取位置信息
-        const calculateStyle = this.getLabelStyleByPosition(cfg, labelCfg, group)
+        const calculateStyle = (this as any).getLabelStyleByPosition(cfg, labelCfg, group)
 
         // 取 nodeLabel，edgeLabel 的配置项
         const cfgStyle = cfg.labelCfg ? cfg.labelCfg.style : undefined;
@@ -212,7 +212,7 @@ export const shapeBase: ShapeOptions = {
       return
     }
     const itemStateStyle = item.getStateStyle(name)
-    const stateStyle = this.getStateStyle(name, value, item)
+    const stateStyle = (this as any).getStateStyle(name, value, item)
     const styles = merge({}, stateStyle, itemStateStyle)
     if (value) { // 如果设置状态,在原本状态上叠加绘图属性
       shape.attr(styles)
@@ -220,8 +220,8 @@ export const shapeBase: ShapeOptions = {
       const style = item.getCurrentStatesStyle()
       // 如果默认状态下没有设置attr，在某状态下设置了，需要重置到没有设置的状态
       each(styles, (val, attr) => {
-        if (!style[attr]) {
-          style[attr] = null
+        if (!(style as any)[attr]) {
+          (style as any)[attr] = null
         }
       })
       shape.attr(style)
@@ -238,7 +238,7 @@ export const shapeBase: ShapeOptions = {
   getStateStyle(name: string, value: string | boolean, item: Item): ShapeStyle {
     const model = item.getModel()
 
-    const { style: defaultStyle } = this.options
+    const { style: defaultStyle } = this.options as ModelStyle
     
     if (value) {
       const modelStateStyle = model.stateStyles ? model.stateStyles[name] : undefined;
@@ -250,14 +250,14 @@ export const shapeBase: ShapeOptions = {
     states.forEach(state => {
       merge(style, get(defaultStyle, state, {}), state, model.style)
     })
-    return style
+    return style as ShapeStyle
   },
   /**
    * 获取控制点
    * @param  {Object} cfg 节点、边的配置项
    * @return {Array|null} 控制点的数组,如果为 null，则没有控制点
    */
-  getControlPoints(cfg: ModelConfig): IPoint[] {
+  getControlPoints(cfg: ModelConfig): IPoint[] | undefined {
     return cfg.controlPoints
   },
   /**
@@ -265,8 +265,8 @@ export const shapeBase: ShapeOptions = {
    * @param  {Object} cfg 节点、边的配置项
    * @return {Array|null} 锚点的数组,如果为 null，则没有锚点
    */
-  getAnchorPoints(cfg: ModelConfig): IPoint[] {
-    const { anchorPoints: defaultAnchorPoints } = this.options
+  getAnchorPoints(cfg: ModelConfig): number[][] | undefined  {
+    const { anchorPoints: defaultAnchorPoints } = this.options as ModelStyle
     const anchorPoints = cfg.anchorPoints || defaultAnchorPoints
     return anchorPoints
   }

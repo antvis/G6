@@ -7,11 +7,15 @@ import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces'
 import { upperFirst } from '@antv/util'
 import { ShapeOptions } from '../interface/shape'
-import { IPoint, Item, ModelConfig } from '../types';
+import { IPoint, Item, ModelConfig, NodeConfig, EdgeConfig } from '../types';
+import { INode, IEdge } from '../interface/item';
 
-const cache = {} // ucfirst 开销过大，进行缓存
+const cache: {
+  [key: string]: string;
+} = {} // ucfirst 开销过大，进行缓存
+
 // 首字母大写
-function ucfirst(str) {
+function ucfirst(str: string) {
   if (!cache[str]) {
     cache[str] = upperFirst(str)
   }
@@ -39,8 +43,8 @@ const ShapeFactoryBase = {
    * @return {Shape} 工具类
    */
   getShape(type?: string): ShapeOptions {
-    const self = this
-    const shape = self[type] || self[self.defaultShapeType]
+    const self = this as any
+    const shape = self[type!] || self[self.defaultShapeType]
     return shape
   },
   /**
@@ -52,8 +56,11 @@ const ShapeFactoryBase = {
    */
   draw(type: string, cfg: ModelConfig, group: GGroup): IShape {
     const shape = this.getShape(type)
-    const rst = shape.draw(cfg, group)
-    shape.afterDraw(cfg, group, rst)
+    const rst = shape.draw!(cfg, group)
+
+    if(shape.afterDraw) {
+      shape.afterDraw(cfg, group, rst)
+    }
     return rst
   },
   /**
@@ -66,6 +73,9 @@ const ShapeFactoryBase = {
     const shape = this.getShape(type)
     if (shape.update) { // 防止没定义 update 函数
       shape.update(cfg, item)
+    }
+
+    if(shape.afterUpdate) {
       shape.afterUpdate(cfg, item)
     }
   },
@@ -78,7 +88,7 @@ const ShapeFactoryBase = {
    */
   setState(type: string, name: string, value: string | boolean, item: Item) {
     const shape = this.getShape(type)
-    shape.setState(name, value, item)
+    shape.setState!(name, value, item)
   },
   /**
    * 是否允许更新，不重新绘制图形
@@ -89,9 +99,9 @@ const ShapeFactoryBase = {
     const shape = this.getShape(type)
     return !!shape.update
   },
-  getControlPoints(type: string, cfg: ModelConfig): IPoint[] {
+  getControlPoints(type: string, cfg: ModelConfig): IPoint[] | undefined {
     const shape = this.getShape(type)
-    return shape.getControlPoints(cfg)
+    return shape.getControlPoints!(cfg)
   },
   /**
    * 获取控制点
@@ -99,9 +109,9 @@ const ShapeFactoryBase = {
    * @param  {Object} cfg 节点、边的配置项
    * @return {Array|null} 控制点的数组,如果为 null，则没有控制点
    */
-  getAnchorPoints(type: string, cfg: ModelConfig): IPoint[] {
+  getAnchorPoints(type: string, cfg: ModelConfig): number[][] | undefined {
     const shape = this.getShape(type)
-    return shape.getAnchorPoints(cfg)
+    return shape.getAnchorPoints!(cfg)
   }
 }
 
@@ -112,12 +122,6 @@ const ShapeFactoryBase = {
 const ShapeFramework = {
   // 默认样式及配置
   options: {},
-  /**
-	 * 用户自定义节点或边的样式，初始渲染时使用
-	 * @override
-	 * @param  {Object} model 节点的配置项
-	 */
-  getCustomConfig(/* model */) {},
   /**
    * 绘制
    */
@@ -145,7 +149,7 @@ const ShapeFramework = {
    * @param  {Object} cfg 节点、边的配置项
    * @return {Array|null} 控制点的数组,如果为 null，则没有控制点
    */
-  getControlPoints(cfg) {
+  getControlPoints(cfg: NodeConfig | EdgeConfig) {
     return cfg.controlPoints;
   },
   /**
@@ -153,11 +157,9 @@ const ShapeFramework = {
    * @param  {Object} cfg 节点、边的配置项
    * @return {Array|null} 控制点的数组,如果为 null，则没有控制点
    */
-  getAnchorPoints(cfg) {
-    const customOptions = this.getCustomConfig(cfg) || {};
-    const { anchorPoints: defaultAnchorPoints } = this.options;
-    const { anchorPoints: customAnchorPoints } = customOptions;
-    const anchorPoints = cfg.anchorPoints || customAnchorPoints || defaultAnchorPoints;
+  getAnchorPoints(cfg: NodeConfig | EdgeConfig) {
+    const { anchorPoints: defaultAnchorPoints } = this.options as any;
+    const anchorPoints = cfg.anchorPoints || defaultAnchorPoints;
     return anchorPoints;
   }
   /* 如果没定义 update 方法，每次都调用 draw 方法
@@ -169,13 +171,13 @@ const ShapeFramework = {
 
 
 export default class Shape {
-  public static Node;
-  public static Edge;
+  public static Node: any;
+  public static Edge: any;
   public static registerFactory(factoryType: string, cfg: object): object {
     const className = ucfirst(factoryType)
     const factoryBase = ShapeFactoryBase
-    const shapeFactory = Object.assign({}, factoryBase, cfg)
-    Shape[className] = shapeFactory
+    const shapeFactory = Object.assign({}, factoryBase, cfg) as any
+    (Shape as any)[className] = shapeFactory
     shapeFactory.className = className
     // addRegister(shapeFactory)
     return shapeFactory
@@ -183,7 +185,7 @@ export default class Shape {
   public static getFactory(factoryType: string) {
     // const self = this
     const className = ucfirst(factoryType)
-    return Shape[className]
+    return (Shape as any)[className]
   }
   public static registerNode(shapeType: string, nodeDefinition: ShapeOptions, extendShapeType?: string) {
     const shapeFactory = Shape.Node;

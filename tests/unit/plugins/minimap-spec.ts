@@ -1,7 +1,5 @@
 import G6 from '../../../src'
-import Minimap from '../../../src/plugins/minimap'
 import Simulate from 'event-simulate'
-import { timerOut } from '../util/timeOut'
 
 const div = document.createElement('div');
 div.id = 'minimap';
@@ -12,7 +10,7 @@ div.appendChild(container);
 describe('minimap', () => {
 
   it('minimap with default settings & destroy', () => {
-    const minimap = new Minimap({ size: [ 200, 200 ] });
+    const minimap = new G6.Minimap({ size: [ 200, 200 ] });
     const graph = new G6.Graph({
       container: div,
       width: 500,
@@ -79,7 +77,7 @@ describe('minimap', () => {
     expect(viewport.style.height).toEqual('160px');
   });
   xit('move viewport', () => {
-    const minimap = new Minimap({ size: [ 200, 200 ] });
+    const minimap = new G6.Minimap({ size: [ 200, 200 ] });
     const graph = new G6.Graph({
       container: div,
       width: 500,
@@ -155,7 +153,7 @@ describe('minimap', () => {
     // }, 50);
   });
   it('delegate type of minimap', () => {
-    const minimap = new Minimap({ 
+    const minimap = new G6.Minimap({ 
       size: [ 200, 200 ], 
       type: 'delegate', 
       delegateStyle: { 
@@ -184,7 +182,7 @@ describe('minimap', () => {
     graph.destroy();
   });
   it('minimap container', () => {
-    const minimap = new Minimap({ 
+    const minimap = new G6.Minimap({ 
       container, 
       size: [ 200, 200 ], 
       className: 'test-className' 
@@ -218,7 +216,7 @@ describe('minimap', () => {
     expect(container.innerHTML).toEqual('');
   });
   it('canvas minX minY < 0', () => {
-    const minimap = new Minimap({ size: [ 200, 200 ] });
+    const minimap = new G6.Minimap({ size: [ 200, 200 ] });
     const graph = new G6.Graph({
       container: div,
       width: 500,
@@ -240,7 +238,7 @@ describe('minimap', () => {
     graph.destroy();
   });
   it('keyShapeOnly minimap', () => {
-    const minimap = new Minimap({ size: [ 200, 200 ], type: 'keyShape' });
+    const minimap = new G6.Minimap({ size: [ 200, 200 ], type: 'keyShape' });
     const graph = new G6.Graph({
       container: div,
       width: 500,
