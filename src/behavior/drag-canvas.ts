@@ -16,6 +16,7 @@ export default {
       'dragstart': 'onMouseDown',
       'drag': 'onMouseMove',
       'dragend': 'onMouseUp',
+      'canvas:click': 'onMouseUp',
       keyup: 'onKeyUp',
       keydown: 'onKeyDown'
     };
