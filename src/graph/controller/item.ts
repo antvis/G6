@@ -85,7 +85,8 @@ export default class ItemController {
     if(type === EDGE) {
       let source: Id
       let target: Id
-      ({ source, target } = (model as EdgeConfig))
+      source = (model as EdgeConfig).source // eslint-disable-line prefer-destructuring
+      target = (model as EdgeConfig).target // eslint-disable-line prefer-destructuring
 
       if (source && isString(source)) {
         source = graph.findById(source);

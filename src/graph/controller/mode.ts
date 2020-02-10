@@ -101,7 +101,8 @@ export default class ModeController {
       if(isString(behavior)) {
         type = behavior
       } else {
-        ({ type } = behavior)
+        // eslint-disable-next-line prefer-destructuring
+        type = behavior.type
       }
       if (behaviors.indexOf(type) < 0) {
         result.push(behavior);
