@@ -984,8 +984,8 @@ export default class CustomGroup {
           let offsetX = 0;
           let offsetY = 0;
           if (titleConfig) {
-            ({ offsetX } = titleConfig);
-            ({ offsetY } = titleConfig);
+            offsetX  = titleConfig.offsetX; // eslint-disable-line prefer-destructuring
+            offsetY  = titleConfig.offsetY; // eslint-disable-line prefer-destructuring
           }
           groupTitleShape.attr({
             x: titleX + offsetX,
