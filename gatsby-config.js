@@ -1,4 +1,4 @@
-const { repository } = require('./package.json');
+const { version, homepage, repository } = require('./package.json');
 
 module.exports = {
   plugins: [
@@ -13,8 +13,12 @@ module.exports = {
   siteMetadata: {
     title: 'G6',
     description: 'A collection of charts made with the Grammar of Graphics',
-    siteUrl: 'https://g6.antv.vision',
+    siteUrl: homepage,
     githubUrl: repository.url,
+    versions: {
+      [version]: 'https://g6.antv.vision',
+      '3.2.x': 'https://g6-v3-2.antv.vision',
+    },
     navs: [
       {
         slug: 'docs/manual/introduction',

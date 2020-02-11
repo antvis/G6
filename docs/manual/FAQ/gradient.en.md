@@ -1,6 +1,6 @@
 ---
 title: Gradient Color for Objects in G6
-order: 3
+order: 4
 ---
 
 In G6, you can set **Linear Gradient** for stroke and **Circular Gradient** for filling color.

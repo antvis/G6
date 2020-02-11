@@ -1,6 +1,6 @@
 ---
 title: 如何设置 Edge 前置
-order: 6
+order: 7
 ---
 
 ## 问题

@@ -1,6 +1,6 @@
 ---
 title: Fill with Texture in G6
-order: 4
+order: 5
 ---
 
 G6 support filling a shape with texture with **Image** or **Data URL**.

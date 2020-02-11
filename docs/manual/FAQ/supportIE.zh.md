@@ -1,6 +1,6 @@
 ---
 title: 如何让 IE 支持 G6
-order: 8
+order: 9
 ---
 
 ## 问题

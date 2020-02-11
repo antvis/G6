@@ -1,6 +1,6 @@
 ---
 title: Update Label
-order: 1
+order: 2
 ---
 
 There are three ways to modify the styles for labels in G6.

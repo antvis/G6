@@ -1,6 +1,6 @@
 ---
 title: Render the Edge on the Top
-order: 6
+order: 7
 ---
 
 ## Problem
