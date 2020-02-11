@@ -36,7 +36,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@antv/gatsby-theme-antv": "^0.10.42",
+    "@antv/gatsby-theme-antv": "^0.10.37",
     "@antv/torch": "^1.0.5",
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
@@ -63,7 +63,7 @@
     "eslint-plugin-jsx-a11y": "~5.1.1",
     "eslint-plugin-react": "~7.1.0",
     "event-simulate": "~1.0.0",
-    "gatsby": "^2.16.0",
+    "gatsby": "2.19.5",
     "get-port": "^5.0.0",
     "gh-pages": "^2.1.1",
     "hard-source-webpack-plugin": "~0.13.1",
