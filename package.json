@@ -4,7 +4,7 @@
   "description": "graph visualization frame work",
   "main": "build/g6.js",
   "types": "types/index.d.ts",
-  "homepage": "https://github.com/antvis/g6",
+  "homepage": "https://g6-v3-2.antv.vision",
   "author": "https://github.com/orgs/antvis/people",
   "repository": {
     "type": "git",
