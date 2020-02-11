@@ -21,6 +21,28 @@ esm 及 commonjs 构建产物不支持 webworker 布局。
 ## 插件 Plugins
 使用 G6 内置插件时不再需要引入其他包，引入 G6 后直接通过 `G6.PluginName` 的方式获得。例如：
 ```javascript
+// <= G6 3.2
+// CDN 引入 G6 以及需要使用的插件
+<script src="https://gw.alipayobjects.com/os/antv/assets/lib/jquery-3.2.1.min.js"></script>
+<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.0/build/minimap.js"></script>
+<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.0/build/grid.js"></script>
+// 或 NPM 引入，需要引入 G6 及需要使用的插件
+import G6, { Minimap, Grid } from '@antv/G6'
+
+const minimap = new Minimap({
+	//... configurations
+})
+const grid = new Grid({
+	//... configurations
+})
+
+
+// G6 3.3
+// CDN 引入，只需要引入 G6
+<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.3.0/dist/g6.min.js"></script>
+// 或 NPM 引入，只需要引入 G6
+import G6 from '@antv/G6'
+
 const minimap = new G6.Minimap({
 	//... configurations
 })
