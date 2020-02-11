@@ -20,7 +20,30 @@ The built outcomes of esm and commonjs do not support layouts with Web-Worker.
 
 ## The Usage of Plugins
 You don't need to import other packages when you are using the built-in plugins of G6. Only use them by `G6.PluginName` after import G6. e.g.
+
 ```javascript
+// <= G6 3.2
+// Import by CDN. you need import G6 and the plugins you need.
+<script src="https://gw.alipayobjects.com/os/antv/assets/lib/jquery-3.2.1.min.js"></script>
+<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.0/build/minimap.js"></script>
+<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.0/build/grid.js"></script>
+// Or import by NPM.  you need import G6 and the plugins you need.
+import G6, { Minimap, Grid } from '@antv/G6'
+
+const minimap = new Minimap({
+	//... configurations
+})
+const grid = new Grid({
+	//... configurations
+})
+
+
+// G6 3.3
+// Import by CDN. Yuo only need to import G6.
+<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.3.0/dist/g6.min.js"></script>
+// Or import by NPM. Yuo only need to import G6.
+import G6 from '@antv/G6'
+
 const minimap = new G6.Minimap({
 	//... configurations
 })
