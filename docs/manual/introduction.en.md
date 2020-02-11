@@ -5,7 +5,7 @@ redirect_from:
   - /en/docs/manual
 ---
 
-<img src='https://user-images.githubusercontent.com/6113694/45008751-ea465300-b036-11e8-8e2a-166cbb338ce2.png' width='750' height='250' />
+<img src="https://user-images.githubusercontent.com/6113694/45008751-ea465300-b036-11e8-8e2a-166cbb338ce2.png" height="250" alt="g6 banner" />
 
 [![](https://img.shields.io/travis/antvis/g6.svg)](https://travis-ci.org/antvis/g6)
 [![Coverage Status](https://coveralls.io/repos/github/antvis/G6/badge.svg)](https://coveralls.io/github/antvis/G6)
