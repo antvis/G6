@@ -233,6 +233,45 @@ G6.registerEdge('customNode', {
 });
 ```
 
+#### marker 图形
+G6 3.2 及之前版本中，marker 图形的半径是通过 `r` 或 `radius` 指定。
+
+G6 3.3 中，marker 的图形半径只能通过 `r` 指定。
+
+例如：
+```javascript
+// <= G6 3.2.x
+G6.registerEdge('customNode', {
+  draw(cfg, group) {
+    const marker = group.addShape('marker', {
+    	attrs: {
+        // ... 其他图形属性
+        radius: cfg.size[0]
+      },
+      draggable: true,
+      name: 'marker-shape'
+    });
+    return keyShape;
+  }
+});
+
+
+// <= G6 3.3
+G6.registerEdge('customNode', {
+  draw(cfg, group) {
+    const marker = group.addShape('marker', {
+    	attrs: {
+        // ... 其他图形属性
+        r: cfg.size[0]
+      },
+      draggable: true,
+      name: 'marker-shape'
+    });
+    return keyShape;
+  }
+});
+```
+
 
 ## pixelRatio
 在 G6 3.2 及之前的版本中，需要用户根据当前分辨率在实例化图时指定 `pixelRatio`。
@@ -262,3 +301,7 @@ G6 3.3 统一了这两个 behavior 的 `nodeselectchange` 事件。使用 `sele
 - `selectedItems`：当前被选中的所有节点与边。`{nodes: [...], edges: [...]}`
 - `select`：当前操作是选中还是取消。`true` | `false`
 
+## SVG 渲染
+在 G6 3.2 及之前的版本中，可以在实例化图时为图指定渲染器，`renderer` 可选为 `'canvas'` 或 `'svg'`。
+
+在 G6 3.3 中，我们致力于更好的 Canvas 版本，暂时不支持 SVG 方式渲染。`renderer` 参数不再起效。SVG 渲染在以后的版本中提供支持。

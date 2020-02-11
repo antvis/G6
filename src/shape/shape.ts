@@ -9,6 +9,14 @@ import { upperFirst } from '@antv/util'
 import { ShapeOptions } from '../interface/shape'
 import { IPoint, Item, ModelConfig, NodeConfig, EdgeConfig } from '../types';
 
+import augment from '@antv/util/lib/augment'
+
+augment(GGroup, {
+  findByClassName(className) {
+    return this.find((shape: IShape) => shape.get('className') === className)
+  }
+})
+
 const cache: {
   [key: string]: string;
 } = {} // ucfirst 开销过大，进行缓存
@@ -124,7 +132,13 @@ const ShapeFramework = {
   /**
    * 绘制
    */
-  draw(/* cfg, group */) {
+  draw(cfg, group) {
+    return this.drawShape(cfg, group);
+  },
+  /**
+   * 绘制
+   */
+  drawShape(/* cfg, group */) {
 
   },
   /**
@@ -192,7 +206,9 @@ export default class Shape {
 
   public static registerNode(shapeType: string, nodeDefinition: ShapeOptions, extendShapeType?: string) {
     const shapeFactory = Shape.Node;
+    // extendShapeType = extendShapeType ? extendShapeType : 'single-node';
     const extendShape = extendShapeType ? shapeFactory.getShape(extendShapeType) : ShapeFramework;
+    // const extendShape = shapeFactory.getShape(extendShapeType);
 
     const shapeObj = Object.assign({}, extendShape, nodeDefinition)
     shapeObj.type = shapeType
