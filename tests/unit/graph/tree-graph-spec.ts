@@ -1,5 +1,6 @@
 import G6 from '../../../src';
 import { timerOut } from '../util/timeOut'
+import TreeGraph from '../../../src/graph/tree-graph';
 
 const div = document.createElement('div');
 div.id = 'tree-spec';

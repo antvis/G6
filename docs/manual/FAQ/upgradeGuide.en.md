@@ -241,6 +241,49 @@ G6.registerEdge('customNode', {
 ```
 
 
+
+
+
+#### marker
+In G6 3.2 and previous versions, the radius of the marker was assigned by `r` or `radius`.
+
+In G6 3.3, the radius of marker can be assigned by `r` only.
+
+e.g.
+```javascript
+// <= G6 3.2.x
+G6.registerEdge('customNode', {
+  draw(cfg, group) {
+    const marker = group.addShape('marker', {
+    	attrs: {
+        // ... Other attributes
+        radius: cfg.size[0]
+      },
+      draggable: true,
+      name: 'marker-shape'
+    });
+    return keyShape;
+  }
+});
+
+
+// <= G6 3.3
+G6.registerEdge('customNode', {
+  draw(cfg, group) {
+    const marker = group.addShape('marker', {
+    	attrs: {
+        // ... Other attributes
+        r: cfg.size[0]
+      },
+      draggable: true,
+      name: 'marker-shape'
+    });
+    return keyShape;
+  }
+});
+```
+
+
 ## pixelRatio
 In G6 3.2 and previous versions, you need to assign the `pixelRatio` when instantiating the Graph.
 
@@ -270,3 +313,9 @@ There three properties in the callback function of `nodeselectchange` for `click
 - `target`: The manipulated node currently. It might be selected or deselected
 - `selectedItems`: The selected nodes and edges currently as `{nodes: [...], edges: [...]}`
 - `select`: Whether the option is select or deselect currently. `true` | `false`
+
+## SVG Renderer
+In G6 3.2 and previous versions, you can assign the renderer with options options `'canvas'` and `'svg'` for graph when instantiating the Graph.
+
+In G6 3.3, to make a better version with canvas, we do not support SVG
+ renderer temporary. But we will support it in the future.

@@ -16,7 +16,7 @@ export default {
     let trigger: string;
     // 检测输入是否合法
     if (ALLOW_EVENTS.includes(this.trigger)) {
-      ({ trigger } = this.trigger);
+      ({ trigger } = this);
     } else {
       trigger = DEFAULT_TRIGGER;
       console.warn('Behavior collapse-expand 的 trigger 参数不合法，请输入 \'click\' 或 \'dblclick\'');
