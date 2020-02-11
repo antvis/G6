@@ -13,6 +13,7 @@ import augment from '@antv/util/lib/augment'
 
 augment(GGroup, {
   findByClassName(className) {
+    console.warn('findByClassName will be discarded soon. Please use group.find(element => element.get(\'className\')===\'some-classname\') instead.');
     return this.find((shape: IShape) => shape.get('className') === className)
   }
 })
