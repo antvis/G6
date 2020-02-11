@@ -1,6 +1,6 @@
 ---
 title: Update Item's Style
-order: 0
+order: 1
 ---
 
 There are three ways to modify the styles for items in G6.

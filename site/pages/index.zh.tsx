@@ -10,7 +10,7 @@ import './index.less'
 const IndexPage = () => {
   const { t, i18n } = useTranslation();
 
-  const coverImage = <img style={{ width: '115%', marginLeft: '15%', marginTop: '7%' }}
+  const coverImage = <img style={{ width: '115%', marginLeft: '-8%', marginTop: '7%' }}
     src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*j5AqSpmNPdYAAAAAAAAAAABkARQnAQ' />//BannerSVG();
 
   const features = [

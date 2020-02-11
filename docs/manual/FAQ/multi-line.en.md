@@ -1,6 +1,6 @@
 ---
 title: Multiple Edges between Two Nodes
-order: 7
+order: 8
 ---
 
 ## Problem

@@ -1,6 +1,6 @@
 ---
 title: Transform a Shape in G6
-order: 5
+order: 6
 ---
 
 ### G6 3.2
