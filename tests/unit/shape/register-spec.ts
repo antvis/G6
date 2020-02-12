@@ -42,7 +42,7 @@ describe('register node', () => {
 
         return keyShape;
       }
-    }, 'single-node');
+    });
     const graph = new G6.Graph({
       container: div,
       width: 500,
