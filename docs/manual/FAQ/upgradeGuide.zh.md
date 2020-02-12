@@ -264,8 +264,8 @@ G6.registerEdge('customNode', {
 
 
 
-#### fan
-支持 fan 图形（使用方法如下），G6 3.3 不再支持。
+#### fan 图形
+G6 3.2.x 及之前的版本支持 fan 图形（使用方法如下），G6 3.3 不再支持。
 
 ```javascript
 // 如下图形 G6 3.3 不再支持
