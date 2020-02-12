@@ -157,7 +157,7 @@ describe('graph', () => {
     group = globalGraph.get('group')
     const matrix = globalGraph.get('group').getMatrix();
 
-    expect(matrix).toBe(null)
+    expect(matrix).not.toBe(null)
     expect(group.get('x')).toBe(100);
     expect(group.get('y')).toBe(100);
 
