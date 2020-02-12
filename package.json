@@ -50,7 +50,7 @@
     "site:deploy": "npm run site:build && gh-pages -d public",
     "start": "npm run site:develop",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/graph/graph-spec.ts",
+    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/shape/findByClassName-spec.ts",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
     "watch": "father build -w",
     "cdn": "antv-bin upload -n @antv/g6"
@@ -72,7 +72,7 @@
     "@antv/dom-util": "^2.0.1",
     "@antv/event-emitter": "~0.1.0",
     "@antv/g-base": "^0.3.5",
-    "@antv/g-canvas": "^0.3.16",
+    "@antv/g-canvas": "^0.3.17",
     "@antv/g-math": "^0.1.1",
     "@antv/hierarchy": "^0.6.1",
     "@antv/matrix-util": "^2.0.4",
