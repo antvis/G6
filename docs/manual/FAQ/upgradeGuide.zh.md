@@ -159,6 +159,11 @@ G6 3.3 将会使用 **`type` 字段替代 `shape` 字段**（同时兼容 `shape
 
 
 
+
+
+## fontSize
+G6 3.3 与 G6 3.2.x 的节点/边的 label 在相同的 fontSize 时，视觉上会有差别，但若二者都使用了默认字号（12），则二者视觉上相同。这是由于在 G6 3.2.x 及之前的版本中，底层渲染引擎在文字上做了额外的矩阵变换，这是不合理的。新版本修复了这一问题，目前的字号对应视觉样式是更合理、准确的。
+
 ## 自定义节点/边
 
 #### 继承内置节点/边
@@ -255,6 +260,27 @@ G6.registerEdge('customNode', {
     return keyShape;
   }
 });
+```
+
+
+
+#### fan
+支持 fan 图形（使用方法如下），G6 3.3 不再支持。
+
+```javascript
+// 如下图形 G6 3.3 不再支持
+group.addShape('fan', {
+  attrs: {
+    x: 50,
+    y: 50,
+    re: 40,
+    rs: 30,
+    startAngle: 1/2*Math.PI,
+    endAngle: Math.PI,
+    clockwise: false,
+    fill: '#b7eb8f'
+  }
+})
 ```
 
 

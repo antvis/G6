@@ -169,19 +169,8 @@ In G6 3.3, please use **`type` instead of `shape`** (For now, the `shape` is com
 
 ## Cumstom Node/Edge
 
-#### Extending the Built-in Node/Edge
-In G6 3.3, if you want to register a type of node or edge without extending the built-in node/edge, do not assign the third parameter for function `registerNode` or `registerEdge`, and **must** do rewrite `draw`.
-```javascript
-G6.registerEdge('customNode', {
-  draw(cfg, group) {
-    // ...
-    return keyShape;
-  }
-});
-```
-
-If you want to exending a built-in type of node/edge, the base class of the node is `'single-node'`, and the base class of the edge is `'single-edge'` in G6 3.3. Of course you can extend other classes besides the base class. In G6 3.2 and previous versions, the base classes for node and edge are the same: `'single-shape'`.
-
+## fontSize
+The fontSize of label in G6 3.3 and G6 3.2.x will result in different visual sizes. But if you are using the default fontSize(12), there will be no difference. This is due to the unreasonable matrix tranformation for label in previous version of G6's rendering engine, which is resolved in G6 3.3. Now, the visual size is more reasonable and accurate.
 
 #### Adding a Shape
 In G6 3.2 and previous versions, you can add a shape to a custom node or edge as following without assign `name` and `draggable`:
@@ -269,6 +258,27 @@ G6.registerEdge('customNode', {
 });
 ```
 
+
+
+
+#### fan
+In G6 3.2.x and previous version, we support fan shape (usage is shown below). G6 3.3 does not support this shape any more.G6 3.2.x 支持 fan 图形（使用方法如下），G6 3.3 不再支持。
+
+```javascript
+// This is not supported in G6 3.3
+group.addShape('fan', {
+  attrs: {
+    x: 50,
+    y: 50,
+    re: 40,
+    rs: 30,
+    startAngle: 1/2*Math.PI,
+    endAngle: Math.PI,
+    clockwise: false,
+    fill: '#b7eb8f'
+  }
+})
+```
 
 ## pixelRatio
 In G6 3.2 and previous versions, you need to assign the `pixelRatio` when instantiating the Graph.
