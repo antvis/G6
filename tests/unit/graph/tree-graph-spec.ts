@@ -1,6 +1,5 @@
 import G6 from '../../../src';
 import { timerOut } from '../util/timeOut'
-import TreeGraph from '../../../src/graph/tree-graph';
 
 const div = document.createElement('div');
 div.id = 'tree-spec';
@@ -316,11 +315,12 @@ describe('update child', () => {
     expect(node).not.toBe(undefined)
     expect(node.get('children')).not.toBe(undefined)
     expect(node.get('children').length).toBe(1)
+    graph.destroy();
   })
 })
 
 describe('tree graph with animate', () => {
-  const graph = new G6.TreeGraph({
+  const graph3 = new G6.TreeGraph({
     container: div,
     width: 500,
     height: 500,
@@ -336,12 +336,13 @@ describe('tree graph with animate', () => {
     }
   });
   it('layout init', () => {
-    const data = {
+    const data2 = {
       isRoot: true,
       id: 'Root',
       children: [
         {
           id: 'SubTreeNode1',
+          label: 'SubTreeNode1',
           children: [
             {
               id: 'SubTreeNode1.1'
@@ -356,32 +357,33 @@ describe('tree graph with animate', () => {
         }
       ]
     };
-    graph.data(data);
-    graph.render();
-    graph.fitView();
+    graph3.data(data2);
+    graph3.render();
+    graph3.fitView();
 
-    const layoutMethod = graph.get('layoutMethod');
+    const layoutMethod = graph3.get('layoutMethod');
 
     expect(layoutMethod).not.toBe(undefined);
     expect(typeof layoutMethod).toEqual('function');
 
-    expect(Object.keys(graph.get('itemMap')).length).toEqual(9);
+    expect(Object.keys(graph3.get('itemMap')).length).toEqual(9);
 
-    const edge = graph.findById('Root:SubTreeNode1');
+    const edge = graph3.findById('Root:SubTreeNode1');
     expect(edge).not.toBe(undefined);
 
-    expect(edge.get('source')).toEqual(graph.findById('Root'));
-    expect(edge.get('target')).toEqual(graph.findById('SubTreeNode1'));
-    expect(graph.save()).toEqual(data);
+    expect(edge.get('source')).toEqual(graph3.findById('Root'));
+    expect(edge.get('target')).toEqual(graph3.findById('SubTreeNode1'));
+    expect(graph3.save()).toEqual(data2);
   });
   it('changeData', () => {
-    graph.off();
-    const data = {
+    graph3.off();
+    const data3 = {
       isRoot: true,
       id: 'Root',
       children: [
         {
           id: 'SubTreeNode1',
+          label: 'SubTreeNode1',
           children: [
             {
               id: 'SubTreeNode1.1'
@@ -399,65 +401,65 @@ describe('tree graph with animate', () => {
         }
       ]
     };
-    graph.changeData(data);
+    graph3.changeData(data3);
 
-    expect(graph.save()).toEqual(data);
+    expect(graph3.save()).toEqual(data3);
 
-    graph.on('afteranimate', () => {
-      expect(Object.keys(graph.get('itemMap')).length).toEqual(13);
+    graph3.on('afteranimate', () => {
+      expect(Object.keys(graph3.get('itemMap')).length).toEqual(13);
 
-      expect(graph.findById('SubTreeNode2')).toBe(undefined);
-      expect(graph.findById('SubTreeNode3')).not.toBe(undefined);
-      expect(graph.findById('SubTreeNode4')).not.toBe(undefined);
+      expect(graph3.findById('SubTreeNode2')).toBe(undefined);
+      expect(graph3.findById('SubTreeNode3')).not.toBe(undefined);
+      expect(graph3.findById('SubTreeNode4')).not.toBe(undefined);
 
-      const edge = graph.findById('SubTreeNode4:SubTreeNode4.1');
+      const edge = graph3.findById('SubTreeNode4:SubTreeNode4.1');
 
       expect(edge).not.toBe(undefined);
-      expect(edge.get('source')).toEqual(graph.findById('SubTreeNode4'));
-      expect(edge.get('target')).toEqual(graph.findById('SubTreeNode4.1'));
+      expect(edge.get('source')).toEqual(graph3.findById('SubTreeNode4'));
+      expect(edge.get('target')).toEqual(graph3.findById('SubTreeNode4.1'));
     });
   });
   it('collapse & expand', () => {
-    graph.off();
+    graph3.off();
 
-    const parent = graph.findById('SubTreeNode1');
-    let child = graph.findById('SubTreeNode1.1');
+    const parent = graph3.findById('SubTreeNode1');
+    let child = graph3.findById('SubTreeNode1.1');
 
     let collapsed = true;
-    graph.on('afteranimate', () => {
+    graph3.on('afteranimate', () => {
       if (collapsed) {
         expect(parent.getModel().collapsed).toBe(true);
         expect(child.destroyed).toBe(true);
       } else {
-        child = graph.findById('SubTreeNode1.1');
-
+        child = graph3.findById('SubTreeNode1.1');
         expect(parent.getModel().collapsed).toBe(false);
         expect(child.get('model').x).not.toEqual(parent.get('model').x);
         expect(!!child.getModel().collapsed).toBe(false);
         expect(child.get('model').y).not.toEqual(parent.get('model').y);
       }
     });
-    graph.addBehaviors('collapse-expand', 'default');
-    graph.emit('node:click', { item: parent });
+    graph3.addBehaviors('collapse-expand', 'default');
+    graph3.emit('node:click', { item: parent });
 
     timerOut(() => {
       collapsed = false;
-      graph.emit('node:click', { item: parent });
+      graph3.emit('node:click', { item: parent });
     }, 600);
   });
   it('collapse & expand with parameter trigger=dblclick', () => {
-    graph.off();
+    graph3.off();
+    graph3.moveTo(100, 150);
 
-    const parent = graph.findById('SubTreeNode1');
-    let child = graph.findById('SubTreeNode1.1');
+    const parent = graph3.findById('SubTreeNode1');
+    let child = graph3.findById('SubTreeNode1.1');
 
     let collapsed = true;
-    graph.on('afteranimate', () => {
+    graph3.on('afteranimate', () => {
       if (collapsed) {
         expect(parent.getModel().collapsed).toBe(true);
         expect(child.destroyed).toBe(true);
       } else {
-        child = graph.findById('SubTreeNode1.1');
+        child = graph3.findById('SubTreeNode1.1');
         expect(parent.getModel().collapsed).toBe(false);
         expect(child.get('model').x).not.toEqual(parent.get('model').x);
         expect(!!child.getModel().collapsed).toBe(false);
@@ -465,16 +467,63 @@ describe('tree graph with animate', () => {
         // done();
       }
     });
-    graph.addBehaviors([{
+    graph3.addBehaviors([{
       type: 'collapse-expand',
       trigger: 'dblclick'
     }], 'default');
 
-    graph.emit('node:dblclick', { item: parent });
+    graph3.emit('node:dblclick', { item: parent });
 
     timerOut(() => {
       collapsed = false;
-      graph.emit('node:dblclick', { item: parent });
+      graph3.emit('node:dblclick', { item: parent });
     }, 600);
   });
+
+  // it('test', () => {
+  //   const data = {
+  //     isRoot: true,
+  //     id: 'Root',
+  //     children: [
+  //       {
+  //         id: 'SubTreeNode1',
+  //         children: [
+  //           {
+  //             id: 'SubTreeNode1.1'
+  //           },
+  //           {
+  //             id: 'SubTreeNode1.2'
+  //           }
+  //         ]
+  //       },
+  //       {
+  //         id: 'SubTreeNode2'
+  //       }
+  //     ]
+  //   };
+  //   const graph2 = new G6.TreeGraph({
+  //     container: div,
+  //     width: 500,
+  //     height: 500,
+  //     animate: false,
+  //     modes: {
+  //       default: [ 'drag-canvas', 'drag-node' ]
+  //     },
+  //     layout: {
+  //       type: 'dendrogram',
+  //       direction: 'LR', // H / V / LR / RL / TB / BT
+  //       nodeSep: 50,
+  //       rankSep: 100
+  //     }
+  //   });
+  //   graph2.data(data);
+  //   graph2.render();
+
+  //   const pos = [0, 0];
+  //   graph2.on('node:click', () => {
+  //     pos[0] += 10;
+  //     pos[1] += 10;
+  //     graph2.moveTo(pos[0], pos[1]);
+  //   });
+  // });
 });

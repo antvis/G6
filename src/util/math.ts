@@ -337,12 +337,12 @@ export const move = (group: IGroup, point: Point) => {
   const matrix: Matrix = group.getMatrix()
   const orix = group.get('x') || 0;
   const oriy = group.get('y') || 0;
-  transform(matrix, [
+  const movedMatrix = transform(matrix, [
     ['t', point.x - orix, point.y - oriy ]
   ])
-  group.set('x', point.x) // ??
-  group.set('y', point.y) // ??
-  group.setMatrix(matrix)
+  group.set('x', point.x)
+  group.set('y', point.y)
+  group.setMatrix(movedMatrix)
 }
 
 /**
