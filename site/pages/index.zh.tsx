@@ -121,13 +121,13 @@ const IndexPage = () => {
 
   const bannerButtons = [
     {
-      text: t('继续了解'),
-      link: `/${i18n.language}/docs/manual/introduction`,
+      text: t('图表示例'),
+      link: `/${i18n.language}/examples/tree/compactBox`,
       type: 'primary',
     },
     {
-      text: t('下载使用'),
-      link: 'https://github.com/antvis/g6'
+      text: t('开始使用'),
+      link: `/${i18n.language}/docs/manual/introduction`
     },
   ];
 
