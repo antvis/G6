@@ -1,4 +1,6 @@
 # ChangeLog
+#### 3.3.1
+- fix: resolve 3.3.0 compatibility problem.
 #### 3.3.0
 - Graph API
   - refactor: delete removeEvent function, use off;
