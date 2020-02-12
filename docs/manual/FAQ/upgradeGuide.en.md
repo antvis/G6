@@ -262,7 +262,7 @@ G6.registerEdge('customNode', {
 
 
 #### fan
-In G6 3.2.x and previous version, we support fan shape (usage is shown below). G6 3.3 does not support this shape any more.G6 3.2.x 支持 fan 图形（使用方法如下），G6 3.3 不再支持。
+In G6 3.2.x and previous version, we support fan shape (usage is shown below). G6 3.3 does not support this shape any more.
 
 ```javascript
 // This is not supported in G6 3.3
