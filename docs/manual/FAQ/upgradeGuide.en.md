@@ -66,18 +66,6 @@ In G6 3.3, The methods about layout in TreeGraph are unified as Graph:
 1. `refreshLayout` is changed into `layout`.
 
 
-## Group
-G6 3.3 does not support `findByClassName` for Shape Group anymore,方法. Call the method below instead:
-```javascript
-// G6 3.2
-const group = node.get('group')
-const label = group.findByClassName('node-label')
-
-// G6 3.3
-const group = node.get('group')
-const label = group.find(element => element.get('className') === `node-label`);
-```
-
 ## Animation
 In G6 3.2.x and its previous version, the usage of the shape animation is:
 ```javascript
@@ -102,8 +90,8 @@ G6.registerEdge('loop-growth', {
 
 In G6 3.3:
 
-- The method `onFrame` in `shape.animate` is removed;
-- Call `animate` by two ways:
+- We suggest not to use the calling way in 3.2 with the rewriten `onFrame` function, which will be discarded soon;
+- Call `animate` by two ways instead:
   - Way 1: `animate(toAttrs, animateCfg)`, where `toAttrs` is the target attributes of this animation, and `animateCfg` is the configuration of the animation. e.g.
 ```javascript
 G6.registerEdge('widen-line', {
@@ -144,31 +132,6 @@ G6.registerEdge('loop-growth', {
   }
 }, 'loop');
 ```
-
-
-## The Matrix Trasform Function
-
-- The functions for 3x3 matrix only of Shape Group or Shape (we call them Element below for convenience) are removed, including:
-  - 🗑  traslating function `translate`
-  - 🗑  moving function `move`
-  - 🗑  scaling function `scale`
-  - 🗑  rotating function `rotate`
-  - 🗑  rotating function that rotate the group at the center (0, 0) `rotateAtStart`
-- To achieve the transform effect, you need to set the value for the matrix manually in G6 3.3:
-  - Set the matrix for the element `element.setMatrix(matrix)`
-  - Another way to set the matrix for the element `element.attr('matrix', matrix)`
-  - Reset the matrix for the element `element.resetMatrix`
-- For convenience, we provide a tool function `transform` in util, you can call it as:
-```javascript
-import { transform } from '@antv/matrix-util';
-// Transform the 3*3 matrix m
-trasform(m, [
-  ['t', x, y], // translate
-  ['r', Math.PI], // rotate
-  ['s', 2, 2], // scale
-]);
-```
-
 
 ## The Type of the Node/Edge
 In G6 3.2.x and its previous versions, you can assign the type for edges and nodes in data, or assign them globally when instantiating the Graph, e.g.
