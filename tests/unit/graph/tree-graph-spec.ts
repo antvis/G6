@@ -382,6 +382,12 @@ describe('updateLayout, layout', () => {
     })
     const afterChangePos2 = [model.x, model.y];
     expect(afterChangePos[1]).not.toBe(afterChangePos2[1]);
+
+    // updateLayout without layout
+    graph.updateLayout(null);
+    const afterChangePos3 = [model.x, model.y];
+    expect(afterChangePos2[0]).toBe(afterChangePos3[0]);
+    expect(afterChangePos2[1]).toBe(afterChangePos3[1]);
   })
 
   it('refreshLayout', () => {
