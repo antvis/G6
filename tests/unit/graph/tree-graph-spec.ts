@@ -319,6 +319,83 @@ describe('update child', () => {
   })
 })
 
+
+describe('updateLayout, layout', () => {
+  const graph = new G6.TreeGraph({
+    container: div,
+    width: 500,
+    height: 500,
+    animate: false,
+    modes: {
+      default: [ 'drag-canvas', 'drag-node' ]
+    },
+    layout: {
+      type: 'dendrogram',
+      direction: 'LR', // H / V / LR / RL / TB / BT
+      nodeSep: 50,
+      rankSep: 100
+    }
+  })
+
+  const data = {
+    isRoot: true,
+    id: 'Root',
+    children: [
+      {
+        id: 'SubTreeNode1',
+        children: [{
+          id: '1.1'
+        }, {
+          id: '1.2'
+        }]
+      },
+      {
+        id: 'SubTreeNode3',
+        children: [{
+          id: '3.1'
+        }, {
+          id: '3.2'
+        }]
+      }
+    ]
+  };
+  graph.data(data);
+  graph.render()
+
+  it('updateLayout', () => {
+    graph.moveTo(100, 200);
+    const item = graph.getNodes()[1];
+    const model = item.getModel();
+    const beforeChangePos = [model.x, model.y];
+    graph.updateLayout({
+      type: 'compactBox',
+      direction: 'LR'
+    })
+    const afterChangePos = [model.x, model.y];
+    expect(beforeChangePos[0]).not.toBe(afterChangePos[0]);
+    expect(beforeChangePos[1]).not.toBe(afterChangePos[1]);
+
+    // changeLayout will be discarded soon.
+    graph.changeLayout({
+      type: 'mindmap',
+      direction: 'H'
+    })
+    const afterChangePos2 = [model.x, model.y];
+    expect(afterChangePos[1]).not.toBe(afterChangePos2[1]);
+  })
+
+  it('refreshLayout', () => {
+    data.children.push({
+      id: 'newSubTree',
+      children: []
+    });
+    graph.refreshLayout();
+    expect(graph.getNodes().length).toBe(8);
+    graph.refreshLayout(true);
+    expect(graph.getNodes().length).toBe(8);
+  });
+})
+
 describe('tree graph with animate', () => {
   const graph3 = new G6.TreeGraph({
     container: div,
