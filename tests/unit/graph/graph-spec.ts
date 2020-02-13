@@ -386,7 +386,7 @@ describe('graph', () => {
     expect(nodeNumBeferChange).toBe(nodeNumAfterChange);
   });
 
-  it.only('change data with animate', () => {
+  it('change data with animate', () => {
     const data = {
       nodes: [{
         id: 'a',
