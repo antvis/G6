@@ -39,7 +39,7 @@ const grid = new Grid({
 
 // G6 3.3
 // CDN 引入，只需要引入 G6
-<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.3.0/dist/g6.min.js"></script>
+<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.3.1/dist/g6.min.js"></script>
 // 或 NPM 引入，只需要引入 G6
 import G6 from '@antv/G6'
 

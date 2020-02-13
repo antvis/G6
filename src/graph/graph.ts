@@ -895,8 +895,8 @@ export default class Graph extends EventEmitter implements IGraph {
       item = itemMap[model.id];
       if (item) {
         if (self.get('animate') && type === NODE) {
-          const containerMatrix = item.getContainer().getMatrix();
-
+          let containerMatrix = item.getContainer().getMatrix();
+          if (!containerMatrix) containerMatrix = mat3.create();
           item.set('originAttrs', {
             x: containerMatrix[6],
             y: containerMatrix[7],

@@ -9,23 +9,14 @@ There are several plugins in G6 which can be used inside and ouside G6 freely.
 - [Edge Bundling](#edge-bundling)
 
 ## Configure to Graph
-In G6, Minimap is a plugin, which is packed as independent package. Here, we import Grid and Minimap for example:
-```html
-<body>
-  <!-- Import Grid by CDN -->
-  <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.1/build/grid.js"></script>
-  <!-- Import Minimap by CDN -->
-  <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.1/build/minimap.js"></script>
-</body>
-```
 
 You only need to instantiate it and configure the minimap onto the instance of Graph:
 
 ```javascript
 // Instantialize the Grid plugin
-const grid = new Grid();
+const grid = new G6.Grid();
 // Instantialize the Minimap plugin
-const minimap = new Minimap();
+const minimap = new G6.Minimap();
 const graph = new G6.Graph({
   //... Other configurations
   plugins: [ grid, minimap ] // Configure Grid and Minimap to the graph
