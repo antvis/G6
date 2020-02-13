@@ -340,6 +340,100 @@ describe('graph', () => {
     expect(edge.target).toBe('c');
   });
 
+  it('change data with null', () => {
+    const data = {
+      nodes: [{
+        id: 'a',
+        type: 'circle',
+        color: '#333',
+        x: 30,
+        y: 30,
+        size: 20,
+        label: 'a'
+      }, {
+        id: 'b',
+        type: 'ellipse',
+        color: '#666',
+        x: 50,
+        y: 60,
+        size: [ 30, 40 ],
+        label: 'b'
+      }, {
+        id: 'c',
+        type: 'rect',
+        color: '#999',
+        x: 100,
+        y: 70,
+        size: 20,
+        label: 'c'
+      }],
+      edges: [{
+        source: 'a',
+        target: 'b',
+        id: 'd'
+      }, {
+        source: 'a',
+        target: 'c',
+        id: 'e'
+      }]
+    };
+    globalGraph.data(data);
+    globalGraph.render();
+    const newData = null;
+    const nodeNumBeferChange = globalGraph.getNodes().length;
+    globalGraph.changeData(newData);
+    const nodeNumAfterChange = globalGraph.getNodes().length;
+    expect(nodeNumBeferChange).toBe(nodeNumAfterChange);
+  });
+
+  it.only('change data with animate', () => {
+    const data = {
+      nodes: [{
+        id: 'a',
+        type: 'circle',
+        color: '#333',
+        x: 30,
+        y: 30,
+        size: 20,
+        label: 'a'
+      }, {
+        id: 'b',
+        type: 'ellipse',
+        color: '#666',
+        x: 50,
+        y: 60,
+        size: [ 30, 40 ],
+        label: 'b'
+      }, {
+        id: 'c',
+        type: 'rect',
+        color: '#999',
+        x: 100,
+        y: 70,
+        size: 20,
+        label: 'c'
+      }],
+      edges: [{
+        source: 'a',
+        target: 'b',
+        id: 'd'
+      }, {
+        source: 'a',
+        target: 'c',
+        id: 'e'
+      }]
+    };
+    globalGraph.data(data);
+    globalGraph.render();
+    globalGraph.set('animate', true);
+    data.nodes[0].x = 100;
+    data.nodes[0].y = 100;
+    globalGraph.changeData(data);
+    const nodeModel = globalGraph.getNodes()[0].getModel();
+    expect(nodeModel.x).toBe(100);
+    expect(nodeModel.y).toBe(100);
+  });
+
   it('find', () => {
     globalGraph.clear();
     globalGraph.addItem('node', { id: 'node', x: 50, y: 100, size: 50, className: 'test test2' });
