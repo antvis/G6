@@ -31,7 +31,7 @@ describe('Mode Controller', () => {
       height: 100,
       modes: {
         default: ['drag'],
-        edit: ['canvans', 'zoom']
+        edit: ['canvas', 'zoom']
       }
     }
     const graph: Graph = new Graph(cfg)
@@ -50,7 +50,7 @@ describe('Mode Controller', () => {
       height: 100,
       modes: {
         default: ['drag'],
-        edit: ['canvans', 'zoom']
+        edit: ['canvas', 'zoom']
       }
     }
     const graph: Graph = new Graph(cfg)
