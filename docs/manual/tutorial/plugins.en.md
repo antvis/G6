@@ -24,25 +24,11 @@ Now, we are goint to configure a minimap to **Tutorial Demo**.
 
 **Usage**
 
-In G6, Minimap is a plugin, which is packed as independent package. It should be imported as:
-```html
-<body>
-  <!-- Import G6 -->
-  <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.1/build/g6.js"></script>
-  
-  <!-- Import Minimap -->
-  <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.1/build/minimap.js"></script>
-  
-  <script>
-    // ...
-  </script>
-</body>
-```
-
+In G6, Minimap is a plugin.
 You only need to instantiate it and configure the minimap onto the instance of Graph:
 ```javascript
 // Instantiate the Minimap
-const minimap = new Minimap({
+const minimap = new G6.Minimap({
   size: [ 100, 100 ],
   className: "minimap",
   type: 'delegate'
@@ -63,32 +49,12 @@ Grid helps to align the node while user drags it.
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*y8u6Rrc78uIAAAAAAAAAAABkARQnAQ' width=300 />
 
 **Usage**
-
-Import the plugin:
-
-```html
-<body>
-  <!-- Import G6 -->
-  <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.1/build/g6.js"></script>
-  
-  <!-- Import Minimap -->
-  <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.1/build/minimap.js"></script>
-  
-  <!-- Import Grid -->
-  <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.0/build/grid.js"></script>
-  
-  <script>
-    // ...
-  </script>
-</body>
-```
-
 Configure it onto the graph:
 ```javascript
 // const minimap = ...
 
 // Instantiate grid
-const grid = new Grid();
+const grid = new G6.Grid();
 
 // Instantiate the Graph
 const graph = new G6.Graph({

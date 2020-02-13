@@ -33,7 +33,7 @@ G6 是一个图可视化引擎。它提供了图的绘制、布局、分析、�
 本教程展示如何使用 G6 创建一个完整的图可视化应用。在学习之前，我们假设读者对 HTML 和 JavaScript 有所了解，但并不要求对 G6 有任何的基础。如果读者对 G6 的基本内容已经熟知，可以适当跳过部分内容，有针对性地阅读重要的知识点。
 
 ## 环境准备
-建议使用新版的 Chrome 浏览器作为运行环境，用任意的代码编辑器进行代码的编写即可。本教程默认采用 CDN 的方式直接引入 G6 类库，引入的版本是 3.1.1，此版本很多特性会大大简化我们的代码。如果希望在其他环境尝试本教程的学习，读者可以参考 [快速上手](/zh/docs/manual/getting-started) 中的安装配置部分。
+建议使用新版的 Chrome 浏览器作为运行环境，用任意的代码编辑器进行代码的编写即可。本教程默认采用 CDN 的方式直接引入 G6 类库，引入的版本是 3.3.1，此版本很多特性会大大简化我们的代码。如果希望在其他环境尝试本教程的学习，读者可以参考 [快速上手](/zh/docs/manual/getting-started) 中的安装配置部分。
 
 新建 index.html 文件，并添加如下代码：
 ```html
@@ -45,7 +45,7 @@ G6 是一个图可视化引擎。它提供了图的绘制、布局、分析、�
   </head>
   <body>
     <!-- 引入 G6 -->
-    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.1/build/g6.js"></script>
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.3.1/dist/g6.min.js"></script>
 
     <script>
       console.log(G6.Global.version);
@@ -56,5 +56,3 @@ G6 是一个图可视化引擎。它提供了图的绘制、布局、分析、�
 ```
 
 使用浏览器打开 index.html 文件，打开控制台，可以看到 G6 的版本号，说明 G6 已成功引入。
-
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5Ex2RJekVbcAAAAAAAAAAABkARQnAQ' width=200 />

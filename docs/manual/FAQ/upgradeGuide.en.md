@@ -40,7 +40,7 @@ const grid = new Grid({
 
 // G6 3.3
 // Import by CDN. Yuo only need to import G6.
-<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.3.0/dist/g6.min.js"></script>
+<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.3.1/dist/g6.min.js"></script>
 // Or import by NPM. Yuo only need to import G6.
 import G6 from '@antv/G6'
 
