@@ -3,8 +3,18 @@ title: G6 3.3 升级指南
 order: 0
 ---
 
-## esm 及 commonjs 构建产物
-esm 及 commonjs 构建产物不支持 webworker 布局。
+## 构建产物
+G6 3.3.0 支持三种构建产物：
+- lib：commonjs；
+- es：esm；
+- dist：umd。
+
+`import G6 from '@antv/g6'` 默认引用的是 lib 文件夹下的产物。
+
+**其中 esm 及 commonjs 构建产物不支持 webworker 布局。**
+
+如果要支持 webworker 布局，请引用 [CDN](https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.3.1/dist/g6.min.js) 上的文件。
+
 
 ## Util
 
