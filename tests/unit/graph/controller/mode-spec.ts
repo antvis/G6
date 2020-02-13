@@ -7,7 +7,7 @@ div.id = 'graph-spec';
 document.body.appendChild(div);
 
 describe('Mode Controller', () => {
-  it('signle mode', () => {
+  it('single mode', () => {
     const cfg: GraphOptions = {
       container: 'graph-spec',
       width: 200,
