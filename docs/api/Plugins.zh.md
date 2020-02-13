@@ -3,28 +3,19 @@ title: 插件 Plugins
 order: 9
 ---
 
-G6 中支持插件提供了一些可插拔的组件，可自用使用在 G6 或其他应用当中。这些插件包括：
+G6 中支持插件提供了一些可插拔的组件，包括：
 - [Grid](#grid)
 - [Minimap](#minimap)
 - [Edge Bundling](#edge-bundling)
 
 ## 配置方法
-G6 的插件是独立的包，需要单独引入，以 Grid 和 Minimap 插件为例：
-```html
-<body>
-  <!-- 通过 CDN 引入 Grid -->
-  <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.1/build/grid.js"></script>
-  <!-- 通过 CDN 引入 Minimap -->
-  <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.1/build/minimap.js"></script>
-</body>
-```
 
-引入后，首先实例化需要使用的某插件对象。然后，在实例化图时将其配置到 `plugins` 中：
+引入 G6 后，首先实例化需要使用的某插件对象。然后，在实例化图时将其配置到 `plugins` 中：
 
 ```javascript
 // 实例化 Grid 插件
-const grid = new Grid();
-const minimap = new Minimap();
+const grid = new G6.Grid();
+const minimap = new G6.Minimap();
 const graph = new G6.Graph({
   //... 其他配置项
   plugins: [ grid, minimap ] // 配置 Grid 插件和 Minimap 插件

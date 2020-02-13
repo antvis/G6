@@ -24,25 +24,10 @@ order: 5
 
 **使用方法**
 
-Minimap 是 G6 的插件之一，G6 的插件是一个个独立的包，需要单独引入：
-```html
-<body>
-  <!-- 引入 G6 -->
-  <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.1/build/g6.js"></script>
-  
-  <!-- 引入 Minimap -->
-  <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.1/build/minimap.js"></script>
-  
-  <script>
-    // ...
-  </script>
-</body>
-```
-
-使用起来非常简单，实例化 Minimap 对象，并将其配置到图实例的插件列表里即可：
+Minimap 是 G6 的插件之一，引入 G6 后可以直接使用。实例化 Minimap 对象，并将其配置到图实例的插件列表里即可：
 ```javascript
 // 实例化 minimap 插件
-const minimap = new Minimap({
+const minimap = new G6.Minimap({
   size: [ 100, 100 ],
   className: "minimap",
   type: 'delegate'
@@ -63,30 +48,12 @@ const graph = new G6.Graph({
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*y8u6Rrc78uIAAAAAAAAAAABkARQnAQ' width=300 />
 
 **使用方法**
-首先引入插件:
-```html
-<body>
-  <!-- 引入 G6 -->
-  <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.1/build/g6.js"></script>
-  
-  <!-- 引入 Minimap -->
-  <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.1/build/minimap.js"></script>
-  
-  <!-- 引入 Grid -->
-  <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.0/build/grid.js"></script>
-  
-  <script>
-    // ...
-  </script>
-</body>
-```
-
 实例化插件和配置插件到图上：
 ```javascript
 // const minimap = ...
 
 // 实例化 grid 插件
-const grid = new Grid();
+const grid = new G6.Grid();
 
 // 实例化图
 const graph = new G6.Graph({
