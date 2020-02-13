@@ -6,6 +6,19 @@ order: 0
 ## The Built Outcomes of esm and commonjs
 The built outcomes of esm and commonjs do not support layouts with Web-Worker.
 
+## The Built Outcomes
+G6 3.3.0 supports three build outcomes:
+- lib: commonjs;
+- es: esm;
+- dist: umd.
+
+`import G6 from '@antv/g6'` default use lib outcomes。
+
+The built outcomes of esm and commonjs do not support layouts with Web-Worker.
+
+if you want to support layouts with Web-Worker, please use the file of [CDN](https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.3.1/dist/g6.min.js).
+
+
 ## Util
 
 - You don't need export @antv/util again after importing @antv/util in G6. The methods in @antv/util can be used directly;
