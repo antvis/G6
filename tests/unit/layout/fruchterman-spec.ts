@@ -58,6 +58,18 @@ describe('fruchterman', () => {
     graph.render();
     graph.destroy();
   });
+  it('fruchterman layout with undefined nodes in data', () => {
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+    });
+    const Layout = new G6.Layout['fruchterman']();
+    Layout.init({});
+    Layout.execute();
+    graph.render();
+    graph.destroy();
+  });
   it('fruchterman layout with one node', () => {
     const graph = new G6.Graph({
       container: div,

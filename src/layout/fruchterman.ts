@@ -87,7 +87,6 @@ export default class FruchtermanLayout extends BaseLayout {
   public run() {
     const self = this;
     const nodes = self.nodes;
-    if (!nodes) return;
     const edges = self.edges;
     const maxIteration = self.maxIteration;
     if (!self.width && typeof window !== 'undefined') {
