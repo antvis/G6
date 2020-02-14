@@ -4,6 +4,7 @@ import { scale, translate } from '../../../src/util/math';
 import { GraphData, Item } from '../../../src/types';
 import Plugin from '../../../src/plugins';
 import { timerOut } from '../util/timeOut';
+import { exportAllDeclaration } from '@babel/types';
 
 const div = document.createElement('div');
 div.id = 'global-spec';
@@ -1277,5 +1278,100 @@ describe('plugins & layout', () => {
       gnode = graph.findById('node');
       expect(gnode.get('visible')).toBe(true);
     }, 500);
+  });
+});
+
+describe('auto rotate label on edge', () => {
+  const graph = new G6.Graph({
+    container: div,
+    width: 500,
+    height: 500,
+    modes: {
+      default: [ 'drag-node', 'zoom-canvas', 'drag-canvas' ]
+    }
+  });
+  const data = {
+    nodes: [{
+      id: 'node1',
+      x: 50,
+      y: 50
+    }, {
+      id: 'node2',
+      x: 80,
+      y: 150
+    }, {
+      id: 'node3',
+      x: 180,
+      y: 120
+    }],
+    edges: [{
+      source: 'node1',
+      target: 'node2',
+      label: 'node1-node2',
+      style: {
+        startArrow: true,
+        endArrow: true,
+      },
+      labelCfg: {
+        autoRotate: true,
+      }
+    }, {
+      source: 'node2',
+      target: 'node3',
+      label: 'node2-node3',
+      style: {
+        startArrow: true,
+        endArrow: true,
+      }
+    }]
+  }
+
+  it('render', () => {
+    graph.data(data);
+    graph.render();
+    const edge1 = graph.getEdges()[0];
+    const label1 = edge1.get('group').get('children')[1];
+    const label1Matrix = label1.attr('matrix');
+    expect(label1Matrix[0]).toBe(0.2873478855664496);
+    expect(label1Matrix[1]).toBe(0.9578262852211201);
+    expect(label1Matrix[3]).toBe(-0.9578262852211201);
+    expect(label1Matrix[4]).toBe(0.2873478855664496);
+    expect(label1Matrix[6]).toBe(142.10501596029277);
+    expect(label1Matrix[7]).toBe(9.006502903982238);
+    const edge2 = graph.getEdges()[1];
+    const label2 = edge2.get('group').get('children')[1];
+    const label2Matrix = label2.attr('matrix');
+    expect(label2Matrix).toBe(null);
+  });
+
+  it('drag node', () => {
+    const node = graph.getNodes()[1];
+    graph.emit('node:dragstart', { x: 80, y: 150, item: node });
+    graph.emit('node:drag', { x: 200, y: 200, item: node });
+    graph.emit('node:dragend', { x: 200, y: 200, item: node });
+    const edge1 = graph.getEdges()[0];
+    const label1 = edge1.get('group').get('children')[1];
+    const label1Matrix = label1.attr('matrix');
+    expect(label1Matrix[0]).toBe(0.7071067811865476);
+    expect(label1Matrix[1]).toBe(0.7071067811865475);
+    expect(label1Matrix[3]).toBe(-0.7071067811865475);
+    expect(label1Matrix[4]).toBe(0.7071067811865476);
+    expect(label1Matrix[6]).toBe(124.99999999999999);
+    expect(label1Matrix[7]).toBe(-51.77669529663689);
+    const edge2 = graph.getEdges()[1];
+    const label2 = edge2.get('group').get('children')[1];
+    const label2Matrix = label2.attr('matrix');
+    expect(label2Matrix).toBe(null);
+  });
+
+  it('zoom and pan', () => {
+    graph.zoom(0.5);
+    graph.moveTo(100, 120);
+    const group = graph.get('group');
+    const groupMatrix = group.attr('matrix');
+    expect(groupMatrix[0]).toBe(0.5);
+    expect(groupMatrix[4]).toBe(0.5);
+    expect(groupMatrix[6]).toBe(100);
+    expect(groupMatrix[7]).toBe(120);
   });
 });

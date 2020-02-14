@@ -245,6 +245,7 @@ const singleEdge: ShapeOptions = {
         ['r', labelStyle.rotate],
         ['t', labelStyle.x, labelStyle.y],
       ]);
+      delete labelStyle.rotate;
       return group.addShape('text', {
         attrs: { matrix: rotateMatrix, ...labelStyle },
         name: 'text-shape',
