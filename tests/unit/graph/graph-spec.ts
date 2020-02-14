@@ -4,7 +4,6 @@ import { scale, translate } from '../../../src/util/math';
 import { GraphData, Item } from '../../../src/types';
 import Plugin from '../../../src/plugins';
 import { timerOut } from '../util/timeOut';
-import { exportAllDeclaration } from '@babel/types';
 
 const div = document.createElement('div');
 div.id = 'global-spec';
