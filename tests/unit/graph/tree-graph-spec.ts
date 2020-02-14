@@ -1,4 +1,4 @@
-import G6 from '../../../src';
+import { TreeGraph } from '../../../src';
 import { timerOut } from '../util/timeOut';
 
 const div = document.createElement('div');
@@ -6,7 +6,7 @@ div.id = 'tree-spec';
 document.body.appendChild(div);
 
 describe('tree graph without animate', () => {
-  let graph = new G6.TreeGraph({
+  let graph = new TreeGraph({
     container: div,
     width: 500,
     height: 500,
@@ -177,7 +177,7 @@ describe('tree graph without animate', () => {
   });
 
   it('collapse & expand with layout with parameter trigger=dblclick', () => {
-    graph = new G6.TreeGraph({
+    graph = new TreeGraph({
       container: div,
       width: 500,
       height: 500,
@@ -248,7 +248,7 @@ describe('tree graph without animate', () => {
 });
 
 describe('update child', () => {
-  const graph = new G6.TreeGraph({
+  const graph = new TreeGraph({
     container: div,
     width: 500,
     height: 500,
@@ -306,13 +306,13 @@ describe('update child', () => {
     expect(subNode3.get('children').length).toBe(1);
 
     // 第二种情况，parent存在，添加的数据存在
-    const data = {
+    const treeGraphData = {
       id: 'SubTreeNode3.1',
       x: 120,
       y: 156,
       type: 'circle',
     };
-    graph.updateChild(data, 'SubTreeNode3');
+    graph.updateChild(treeGraphData, 'SubTreeNode3');
 
     const node = graph.findById('SubTreeNode3.1');
     const model1 = node.getModel();
@@ -346,7 +346,7 @@ describe('update child', () => {
 });
 
 describe('updateLayout, layout', () => {
-  const graph = new G6.TreeGraph({
+  const graph = new TreeGraph({
     container: div,
     width: 500,
     height: 500,
@@ -434,7 +434,7 @@ describe('updateLayout, layout', () => {
 });
 
 describe('tree graph with animate', () => {
-  const graph3 = new G6.TreeGraph({
+  const graph3 = new TreeGraph({
     container: div,
     width: 500,
     height: 500,
@@ -621,7 +621,7 @@ describe('tree graph with animate', () => {
   //       }
   //     ]
   //   };
-  //   const graph2 = new G6.TreeGraph({
+  //   const graph2 = new TreeGraph({
   //     container: div,
   //     width: 500,
   //     height: 500,

@@ -19,6 +19,7 @@ export default {
       ({ trigger } = this);
     } else {
       trigger = DEFAULT_TRIGGER;
+      // eslint-disable-next-line no-console
       console.warn("Behavior collapse-expand 的 trigger 参数不合法，请输入 'click' 或 'dblclick'");
     }
     return {
@@ -52,6 +53,7 @@ export default {
     try {
       this.onChange(item, collapsed);
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.warn(
         'G6 自 3.0.4 版本支持直接从 item.getModel() 获取源数据(临时通知，将在3.2.0版本中清除)',
         err,

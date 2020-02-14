@@ -1,4 +1,4 @@
-import G6 from '../../../src';
+import { Graph } from '../../../src';
 import '../../../src/behavior';
 import { scale, translate } from '../../../src/util/math';
 import { GraphData, Item } from '../../../src/types';
@@ -10,7 +10,7 @@ div.id = 'global-spec';
 document.body.appendChild(div);
 
 describe('graph', () => {
-  const globalGraph = new G6.Graph({
+  const globalGraph = new Graph({
     container: div,
     width: 500,
     height: 500,
@@ -21,12 +21,13 @@ describe('graph', () => {
 
   it('invalid container', () => {
     expect(() => {
-      new G6.Graph({});
+      // eslint-disable-next-line no-new
+      new Graph({} as any); // TODO: 不符合参数约定
     }).toThrowError('invalid container');
   });
 
   it('new & destroy graph', () => {
-    const inst = new G6.Graph({
+    const inst = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -37,7 +38,7 @@ describe('graph', () => {
     const length = div.childNodes.length;
 
     expect(inst).not.toBe(undefined);
-    expect(inst instanceof G6.Graph).toBe(true);
+    expect(inst instanceof Graph).toBe(true);
     expect(length > 1).toBe(true);
 
     expect(inst.get('canvas')).not.toBe(undefined);
@@ -73,7 +74,7 @@ describe('graph', () => {
   });
 
   it('render without data', () => {
-    const inst = new G6.Graph({
+    const inst = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -87,7 +88,7 @@ describe('graph', () => {
   });
 
   it('groupByTypes is false & toDataURL', () => {
-    const inst = new G6.Graph({
+    const inst = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -188,7 +189,7 @@ describe('graph', () => {
   });
 
   it('minZoom & maxZoom', () => {
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       minZoom: 2,
       maxZoom: 5,
@@ -241,7 +242,7 @@ describe('graph', () => {
   });
 
   it('change size', () => {
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -256,12 +257,13 @@ describe('graph', () => {
     expect(graph.get('width')).toBe(300);
     expect(graph.get('height')).toBe(300);
 
-    // 专门用于测试使用非 number 类型 会报错的情况
-    expect(() => {
-      graph.changeSize('x', 10);
-    }).toThrowError(
-      'invalid canvas width & height, pleace make sure width & height type is number',
-    );
+    // 专门用于测试使用非 number 类型 会报错的情况 // TODO: 可以移走这个测试, TS 本身就限制了类型参数
+    // expect(() => {
+    //   graph.changeSize('x', 10);
+    // }).toThrowError(
+    //   'invalid canvas width & height, please make sure width & height type is number',
+    // );
+
     graph.destroy();
   });
 
@@ -407,10 +409,10 @@ describe('graph', () => {
     globalGraph.data(data);
     globalGraph.render();
     const newData = null;
-    const nodeNumBeferChange = globalGraph.getNodes().length;
+    const nodeNumBeforeChange = globalGraph.getNodes().length;
     globalGraph.changeData(newData);
     const nodeNumAfterChange = globalGraph.getNodes().length;
-    expect(nodeNumBeferChange).toBe(nodeNumAfterChange);
+    expect(nodeNumBeforeChange).toBe(nodeNumAfterChange);
   });
 
   it('change data with animate', () => {
@@ -479,9 +481,7 @@ describe('graph', () => {
       className: 'test',
     });
 
-    const findNode = globalGraph.find('node', (node: any) => {
-      return node.get('model').x === 100;
-    });
+    const findNode = globalGraph.find('node', (node: any) => node.get('model').x === 100);
 
     expect(findNode).not.toBe(undefined);
     expect(findNode).toEqual(item);
@@ -642,7 +642,7 @@ describe('graph', () => {
 });
 
 describe('all node link center', () => {
-  const graph = new G6.Graph({
+  const graph = new Graph({
     container: div,
     width: 500,
     height: 500,
@@ -838,7 +838,7 @@ describe('all node link center', () => {
   });
 
   it('default node & edge style', () => {
-    const defaultGraph = new G6.Graph({
+    const defaultGraph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -967,7 +967,7 @@ describe('all node link center', () => {
   });
 
   it('graph with default cfg', () => {
-    const defaultGraph = new G6.Graph({
+    const defaultGraph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -1050,7 +1050,7 @@ describe('all node link center', () => {
 });
 
 describe('mapper fn', () => {
-  const graph = new G6.Graph({
+  const graph = new Graph({
     container: div,
     width: 500,
     height: 500,
@@ -1064,32 +1064,28 @@ describe('mapper fn', () => {
   });
 
   it('node & edge mapper', () => {
-    graph.node(node => {
-      return {
-        id: node.id + 'Mapped',
-        size: [30, 30],
-        label: node.id,
-        type: 'rect',
-        style: { fill: node.value === 100 ? '#666' : '#ccc' },
-        labelCfg: {
-          style: { fill: '#666' },
-        },
-      };
-    });
+    graph.node(node => ({
+      id: `${node.id}Mapped`,
+      size: [30, 30],
+      label: node.id,
+      type: 'rect',
+      style: { fill: node.value === 100 ? '#666' : '#ccc' },
+      labelCfg: {
+        style: { fill: '#666' },
+      },
+    }));
 
-    graph.edge(edge => {
-      return {
-        id: 'edge' + edge.id,
-        label: edge.id,
-        labelCfg: {
-          position: 'start',
-        },
-        style: {
-          fill: '#ccc',
-          opacity: 0.5,
-        },
-      };
-    });
+    graph.edge(edge => ({
+      id: `edge${edge.id}`,
+      label: edge.id,
+      labelCfg: {
+        position: 'start',
+      },
+      style: {
+        fill: '#ccc',
+        opacity: 0.5,
+      },
+    }));
 
     const node: Item = graph.addItem('node', { id: 'node', x: 100, y: 100, value: 100 });
 
@@ -1126,29 +1122,25 @@ describe('mapper fn', () => {
   });
 
   it('node & edge mapper with states', () => {
-    graph.node(node => {
-      return {
-        type: 'rect',
-        label: node.id,
-        style: {
-          fill: '#666',
-          opacity: 1,
-        },
-        stateStyles: {
-          selected: { fill: 'blue' },
-          custom: { fill: 'green', opacity: 0.5 },
-        },
-      };
-    });
+    graph.node(node => ({
+      type: 'rect',
+      label: node.id,
+      style: {
+        fill: '#666',
+        opacity: 1,
+      },
+      stateStyles: {
+        selected: { fill: 'blue' },
+        custom: { fill: 'green', opacity: 0.5 },
+      },
+    }));
 
-    graph.edge(() => {
-      return {
-        stateStyles: {
-          selected: { lineWidth: 2 },
-          custom: { opacity: 0.5 },
-        },
-      };
-    });
+    graph.edge(() => ({
+      stateStyles: {
+        selected: { lineWidth: 2 },
+        custom: { opacity: 0.5 },
+      },
+    }));
 
     const node = graph.addItem('node', { id: 'node', x: 50, y: 50 });
 
@@ -1188,7 +1180,7 @@ describe('mapper fn', () => {
 
 describe('plugins & layout', () => {
   it('add & remove plugins', () => {
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       height: 500,
       width: 500,
@@ -1226,7 +1218,7 @@ describe('plugins & layout', () => {
   });
 
   it('graph animate', () => {
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       height: 500,
       width: 500,
@@ -1281,49 +1273,56 @@ describe('plugins & layout', () => {
 });
 
 describe('auto rotate label on edge', () => {
-  const graph = new G6.Graph({
+  const graph = new Graph({
     container: div,
     width: 500,
     height: 500,
     modes: {
-      default: [ 'drag-node', 'zoom-canvas', 'drag-canvas' ]
-    }
+      default: ['drag-node', 'zoom-canvas', 'drag-canvas'],
+    },
   });
   const data = {
-    nodes: [{
-      id: 'node1',
-      x: 50,
-      y: 50
-    }, {
-      id: 'node2',
-      x: 80,
-      y: 150
-    }, {
-      id: 'node3',
-      x: 180,
-      y: 120
-    }],
-    edges: [{
-      source: 'node1',
-      target: 'node2',
-      label: 'node1-node2',
-      style: {
-        startArrow: true,
-        endArrow: true,
+    nodes: [
+      {
+        id: 'node1',
+        x: 50,
+        y: 50,
       },
-      labelCfg: {
-        autoRotate: true,
-      }
-    }, {
-      source: 'node2',
-      target: 'node3',
-      label: 'node2-node3',
-      style: {
-        startArrow: true,
-        endArrow: true,
-      }
-    }]
-  }
+      {
+        id: 'node2',
+        x: 80,
+        y: 150,
+      },
+      {
+        id: 'node3',
+        x: 180,
+        y: 120,
+      },
+    ],
+    edges: [
+      {
+        source: 'node1',
+        target: 'node2',
+        label: 'node1-node2',
+        style: {
+          startArrow: true,
+          endArrow: true,
+        },
+        labelCfg: {
+          autoRotate: true,
+        },
+      },
+      {
+        source: 'node2',
+        target: 'node3',
+        label: 'node2-node3',
+        style: {
+          startArrow: true,
+          endArrow: true,
+        },
+      },
+    ],
+  };
 
   it('render', () => {
     graph.data(data);

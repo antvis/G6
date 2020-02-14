@@ -26,7 +26,7 @@ interface ICustomGroup {
   };
 }
 
-interface IGroupPoistion {
+interface IGroupPosition {
   x: number;
   y: number;
   width: number;
@@ -145,6 +145,7 @@ export default class CustomGroup {
     const hasGroupIds: string[] = customGroup.get('children').map(data => data.get('id'));
 
     if (hasGroupIds.indexOf(groupId) > -1) {
+      // eslint-disable-next-line no-console
       console.warn(`已经存在ID为 ${groupId} 的分组，请重新设置分组ID！`);
       return;
     }
@@ -319,7 +320,7 @@ export default class CustomGroup {
   public calculationGroupPosition(
     nodes: string[],
     position: Point = { x: 100, y: 100 },
-  ): IGroupPoistion {
+  ): IGroupPosition {
     // hxy 可新增无节点group，适用于图编辑场景
     if (nodes.length === 0) {
       // 防止空group 无法计算大小
@@ -871,6 +872,7 @@ export default class CustomGroup {
     const customGroup = this.getDeletageGroupById(groupId);
 
     if (!customGroup) {
+      // eslint-disable-next-line no-console
       console.warn(`请确认输入的groupId ${groupId} 是否有误！`);
       return;
     }

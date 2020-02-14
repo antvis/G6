@@ -142,7 +142,7 @@ export default class ViewController {
   public changeSize(width: number, height: number) {
     const { graph } = this;
     if (!isNumber(width) || !isNumber(height)) {
-      throw Error('invalid canvas width & height, pleace make sure width & height type is number');
+      throw Error('invalid canvas width & height, please make sure width & height type is number');
     }
 
     graph.set({ width, height });

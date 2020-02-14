@@ -36,7 +36,7 @@ export default class MiniMap extends Base {
       container: null,
       className: 'g6-minimap',
       viewportClassName: 'g6-minimap-viewport',
-      // Minimap 中默认展示和主图一样的内容，KeyShape 只展示节点和边的keyshape部分，delegate表示展示自定义的rect，用户可自定义样式
+      // Minimap 中默认展示和主图一样的内容，KeyShape 只展示节点和边的 key shape 部分，delegate表示展示自定义的rect，用户可自定义样式
       type: 'default',
       size: [200, 120],
       delegateStyle: {
