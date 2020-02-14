@@ -130,7 +130,7 @@ export const getCircleIntersectByPoint = (circle: ICircle, point: Point): Point 
  * @param {Object} point 点 x,y
  * @return {object} applied point
  */
-export const getEllispeIntersectByPoint = (ellipse: IEllipse, point: Point): Point => {
+export const getEllipseIntersectByPoint = (ellipse: IEllipse, point: Point): Point => {
   const a = ellipse.rx;
   const b = ellipse.ry;
   const cx = ellipse.x;

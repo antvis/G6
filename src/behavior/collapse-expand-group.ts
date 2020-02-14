@@ -23,6 +23,7 @@ export default {
       ({ trigger } = this.trigger);
     } else {
       trigger = DEFAULT_TRIGGER;
+      // eslint-disable-next-line no-console
       console.warn(
         "Behavior collapse-expand-group 的 trigger 参数不合法，请输入 'click' 或 'dblclick '",
       );

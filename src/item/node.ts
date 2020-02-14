@@ -6,7 +6,7 @@ import { IPoint, IShapeBase, NodeConfig } from '../types';
 import {
   distance,
   getCircleIntersectByPoint,
-  getEllispeIntersectByPoint,
+  getEllipseIntersectByPoint,  
   getRectIntersectByPoint,
 } from '../util/math';
 import Edge from './edge';
@@ -95,7 +95,7 @@ export default class Node extends Item implements INode {
         );
         break;
       case 'ellipse':
-        intersectPoint = getEllispeIntersectByPoint(
+        intersectPoint = getEllipseIntersectByPoint(
           {
             x: centerX!,
             y: centerY!,

@@ -353,7 +353,7 @@ export default class Bundling extends Base {
     const sScore = self.getScaleScore(ei, ej);
 
     // position score
-    const pScore = self.getPosisionScore(ei, ej);
+    const pScore = self.getPositionScore(ei, ej);
 
     // visibility socre
     const vScore = self.getVisibilityScore(ei, ej);
@@ -373,7 +373,7 @@ export default class Bundling extends Base {
     return score;
   }
 
-  protected getPosisionScore(ei: VectorPosition, ej: VectorPosition): number {
+  protected getPositionScore(ei: VectorPosition, ej: VectorPosition): number {
     const aLength = (ei.length + ej.length) / 2;
 
     const iMid = {

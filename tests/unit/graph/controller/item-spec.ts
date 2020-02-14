@@ -1,11 +1,11 @@
-import G6 from '../../../../src';
+import { Graph } from '../../../../src';
 
 const div = document.createElement('div');
 div.id = 'item-controller';
 document.body.appendChild(div);
 
 describe('item controller', () => {
-  const graph = new G6.Graph({
+  const graph = new Graph({
     container: div,
     width: 500,
     height: 500,

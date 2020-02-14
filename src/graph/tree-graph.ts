@@ -235,6 +235,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
    * @param {object} layout 布局算法
    */
   public changeLayout(layout: any) {
+    // eslint-disable-next-line no-console
     console.warn(
       'Please call updateLayout instead of changeLayout. changeLayout will be discarded soon',
     );
@@ -249,6 +250,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
   public updateLayout(layout: any) {
     const self = this;
     if (!layout) {
+      // eslint-disable-next-line no-console
       console.warn('layout cannot be null');
       return;
     }
@@ -263,6 +265,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
    * @param {boolean} fitView 更新布局时是否需要适应窗口
    */
   public refreshLayout(fitView?: boolean) {
+    // eslint-disable-next-line no-console
     console.warn(
       'Please call layout instead of refreshLayout. refreshLayout will be discarded soon',
     );
