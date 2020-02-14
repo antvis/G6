@@ -1,8 +1,16 @@
 import { IGroup } from '@antv/g-base/lib/interfaces';
 import { Point } from '@antv/g-base/lib/types';
-import Group from "@antv/g-canvas/lib/group";
-import { IBBox, IPoint, IShapeBase, Item, ModelConfig, ModelStyle, ShapeStyle, Indexable } from '../types';
-
+import Group from '@antv/g-canvas/lib/group';
+import {
+  IBBox,
+  IPoint,
+  IShapeBase,
+  Item,
+  ModelConfig,
+  ModelStyle,
+  ShapeStyle,
+  Indexable,
+} from '../types';
 
 // item 的配置项
 export type IItemBaseConfig = Partial<{
@@ -14,7 +22,7 @@ export type IItemBaseConfig = Partial<{
   /**
    * 类型
    */
-  type: 'item' | 'node' |  'edge';
+  type: 'item' | 'node' | 'edge';
 
   /**
    * data model
@@ -34,7 +42,7 @@ export type IItemBaseConfig = Partial<{
   /**
    * visible - not group visible
    */
-  visible: boolean,
+  visible: boolean;
 
   /**
    * locked - lock node
@@ -43,11 +51,11 @@ export type IItemBaseConfig = Partial<{
   /**
    * capture event
    */
-  event: boolean,
+  event: boolean;
   /**
    * key shape to calculate item's bbox
    */
-  keyShape: IShapeBase,
+  keyShape: IShapeBase;
   /**
    * item's states, such as selected or active
    * @type Array
@@ -63,7 +71,8 @@ export type IItemBaseConfig = Partial<{
   target: string | Item;
 
   linkCenter: boolean;
-}> & Indexable<any>
+}> &
+  Indexable<any>;
 
 export interface IItemBase {
   _cfg: IItemBaseConfig | null;
@@ -213,7 +222,6 @@ export interface IEdge extends IItemBase {
   setTarget(target: INode): void;
   getSource(): INode;
   getTarget(): INode;
-
 }
 
 export interface INode extends IItemBase {

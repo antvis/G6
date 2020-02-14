@@ -1,968 +1,975 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Title</title>
-</head>
-<body>
-<div id="mountNode"></div>
-<script src="../build/g6.js"></script>
-<script>
-  const data = {
-    name: 'Nat网关',
-    children: [
-      {
-        name: '产品功能',
+  </head>
+  <body>
+    <div id="mountNode"></div>
+    <script src="../build/g6.js"></script>
+    <script>
+      const data = {
+        name: 'Nat网关',
         children: [
           {
-            name: '高可用能力',
+            name: '产品功能',
             children: [
               {
-                name: '同AZ主备容灾',
+                name: '高可用能力',
                 children: [
                   {
-                    name: '是否支持',
+                    name: '同AZ主备容灾',
                     children: [
                       {
-                        name: 'bool',
+                        name: '是否支持',
+                        children: [
+                          {
+                            name: 'bool',
+                          },
+                        ],
+                        nodeIndex: 'Nat4',
                       },
                     ],
-                    nodeIndex: 'Nat4',
+                    nodeIndex: 'Nat3',
                   },
-                ],
-                nodeIndex: 'Nat3',
-              },
-              {
-                name: '跨AZ容灾',
-                children: [
                   {
-                    name: '是否支持',
+                    name: '跨AZ容灾',
                     children: [
                       {
-                        name: 'bool',
+                        name: '是否支持',
+                        children: [
+                          {
+                            name: 'bool',
+                          },
+                        ],
+                        nodeIndex: 'Nat7',
                       },
                     ],
-                    nodeIndex: 'Nat7',
+                    nodeIndex: 'Nat6',
                   },
                 ],
-                nodeIndex: 'Nat6',
-              },
-            ],
-            nodeIndex: 'Nat2',
-          },
-          {
-            name: '监控能力',
-            children: [
-              {
-                name: '流量监控',
-                children: [
-                  {
-                    name: '从VPC流出的字节数量（单位 字节）',
-                    children: [],
-                    nodeIndex: 'Nat11',
-                  },
-                  {
-                    name: '从Internet流入VPC的字节数量（单位 字节）',
-                    children: [],
-                    nodeIndex: 'Nat12',
-                  },
-                  {
-                    name: '从VPC流出的数据包的数量（单位 个）',
-                    children: [],
-                    nodeIndex: 'Nat13',
-                  },
-                  {
-                    name: '从Internet流入VPC的数据包的数量（单位 个）',
-                    children: [],
-                    nodeIndex: 'Nat14',
-                  },
-                  {
-                    name: '丢弃流出的字节数量（单位 字节）',
-                    children: [],
-                    nodeIndex: 'Nat15',
-                  },
-                  {
-                    name: '丢弃流入的字节数量（单位 字节）',
-                    children: [],
-                    nodeIndex: 'Nat16',
-                  },
-                  {
-                    name: '丢弃流出的数据包数量（单位 个）',
-                    children: [],
-                    nodeIndex: 'Nat17',
-                  },
-                  {
-                    name: '丢弃流入的数据包数量（单位 个）',
-                    children: [],
-                    nodeIndex: 'Nat18',
-                  },
-                ],
-                nodeIndex: 'Nat10',
+                nodeIndex: 'Nat2',
               },
               {
-                name: '连接监控',
+                name: '监控能力',
                 children: [
                   {
-                    name: '最大连接丢弃监控(单位 个/s)',
-                    children: [],
-                    nodeIndex: 'Nat20',
-                  },
-                  {
-                    name: '最大连接监控(单位个)',
-                    children: [],
-                    nodeIndex: 'Nat21',
-                  },
-                  {
-                    name: '新建连接丢弃监控(单位 个/s)',
-                    children: [],
-                    nodeIndex: 'Nat22',
-                  },
-                  {
-                    name: '新建连接监控(单位 个/s)',
-                    children: [],
-                    nodeIndex: 'Nat23',
-                  },
-                ],
-                nodeIndex: 'Nat19',
-              },
-              {
-                name: '阈值报警管理',
-                children: [
-                  {
-                    name: '设置关联资源',
+                    name: '流量监控',
                     children: [
                       {
-                        name: '产品',
+                        name: '从VPC流出的字节数量（单位 字节）',
+                        children: [],
+                        nodeIndex: 'Nat11',
                       },
                       {
-                        name: '资源范围',
+                        name: '从Internet流入VPC的字节数量（单位 字节）',
+                        children: [],
+                        nodeIndex: 'Nat12',
                       },
+                      {
+                        name: '从VPC流出的数据包的数量（单位 个）',
+                        children: [],
+                        nodeIndex: 'Nat13',
+                      },
+                      {
+                        name: '从Internet流入VPC的数据包的数量（单位 个）',
+                        children: [],
+                        nodeIndex: 'Nat14',
+                      },
+                      {
+                        name: '丢弃流出的字节数量（单位 字节）',
+                        children: [],
+                        nodeIndex: 'Nat15',
+                      },
+                      {
+                        name: '丢弃流入的字节数量（单位 字节）',
+                        children: [],
+                        nodeIndex: 'Nat16',
+                      },
+                      {
+                        name: '丢弃流出的数据包数量（单位 个）',
+                        children: [],
+                        nodeIndex: 'Nat17',
+                      },
+                      {
+                        name: '丢弃流入的数据包数量（单位 个）',
+                        children: [],
+                        nodeIndex: 'Nat18',
+                      },
+                    ],
+                    nodeIndex: 'Nat10',
+                  },
+                  {
+                    name: '连接监控',
+                    children: [
+                      {
+                        name: '最大连接丢弃监控(单位 个/s)',
+                        children: [],
+                        nodeIndex: 'Nat20',
+                      },
+                      {
+                        name: '最大连接监控(单位个)',
+                        children: [],
+                        nodeIndex: 'Nat21',
+                      },
+                      {
+                        name: '新建连接丢弃监控(单位 个/s)',
+                        children: [],
+                        nodeIndex: 'Nat22',
+                      },
+                      {
+                        name: '新建连接监控(单位 个/s)',
+                        children: [],
+                        nodeIndex: 'Nat23',
+                      },
+                    ],
+                    nodeIndex: 'Nat19',
+                  },
+                  {
+                    name: '阈值报警管理',
+                    children: [
+                      {
+                        name: '设置关联资源',
+                        children: [
+                          {
+                            name: '产品',
+                          },
+                          {
+                            name: '资源范围',
+                          },
+                          {
+                            name: '地域',
+                          },
+                          {
+                            name: '实例',
+                          },
+                        ],
+                        nodeIndex: 'Nat25',
+                      },
+                      {
+                        name: '设置报警规则',
+                        children: [
+                          {
+                            name: '规则名称',
+                          },
+                          {
+                            name: '规则描述',
+                          },
+                          {
+                            name: '生效时间',
+                          },
+                          {
+                            name: '通道沉默周期',
+                          },
+                          {
+                            name: '规则数量',
+                          },
+                        ],
+                        nodeIndex: 'Nat34',
+                      },
+                      {
+                        name: '通知方式',
+                        children: [
+                          {
+                            name: '联系人通知组',
+                          },
+                          {
+                            name: '告警级别',
+                          },
+                          {
+                            name: '弹性伸缩设置',
+                          },
+                          {
+                            name: '通知邮件',
+                          },
+                        ],
+                        nodeIndex: 'Nat45',
+                      },
+                    ],
+                    nodeIndex: 'Nat24',
+                  },
+                  {
+                    name: '监控日志查询',
+                    children: [
+                      {
+                        name: '查看实例网关、连接的监控信息',
+                        children: [],
+                        nodeIndex: 'Nat54',
+                      },
+                      {
+                        name: '查看网关日志',
+                        children: [],
+                        nodeIndex: 'Nat55',
+                      },
+                      {
+                        name: '后台运维变更',
+                        children: [],
+                        nodeIndex: 'Nat56',
+                      },
+                    ],
+                    nodeIndex: 'Nat53',
+                  },
+                  {
+                    name: '数据分析及处理',
+                    children: [
+                      {
+                        name: '连接数 Top ECS分析',
+                        children: [],
+                        nodeIndex: 'Nat58',
+                      },
+                      {
+                        name: '流量数 Top ECS分析',
+                        children: [],
+                        nodeIndex: 'Nat59',
+                      },
+                      {
+                        name: 'Top ECS 流控限速配置',
+                        children: [],
+                        nodeIndex: 'Nat60',
+                      },
+                    ],
+                    nodeIndex: 'Nat57',
+                  },
+                  {
+                    name: '操作日志',
+                    children: [
+                      {
+                        name: '网关操作日志',
+                        children: [],
+                        nodeIndex: 'Nat62',
+                      },
+                      {
+                        name: 'SNAT规则操作日志',
+                        children: [],
+                        nodeIndex: 'Nat63',
+                      },
+                      {
+                        name: 'DNAT规则操作日志',
+                        children: [],
+                        nodeIndex: 'Nat64',
+                      },
+                    ],
+                    nodeIndex: 'Nat61',
+                  },
+                ],
+                nodeIndex: 'Nat9',
+              },
+              {
+                name: '生命周期管理能力',
+                children: [
+                  {
+                    name: '创建实例',
+                    children: [
                       {
                         name: '地域',
+                        children: [
+                          {
+                            name: '枚举',
+                          },
+                        ],
+                        nodeIndex: 'Nat67',
                       },
                       {
-                        name: '实例',
+                        name: '规格',
+                        children: [
+                          {
+                            name: '枚举',
+                          },
+                        ],
+                        nodeIndex: 'Nat69',
+                      },
+                      {
+                        name: '关联的VPC',
+                        children: [
+                          {
+                            name: 'string',
+                          },
+                        ],
+                        nodeIndex: 'Nat71',
+                      },
+                      {
+                        name: '关联的子网vswitch',
+                        children: [
+                          {
+                            name: 'string',
+                          },
+                        ],
+                        nodeIndex: 'Nat73',
                       },
                     ],
-                    nodeIndex: 'Nat25',
+                    nodeIndex: 'Nat66',
                   },
                   {
-                    name: '设置报警规则',
+                    name: '配置实例名称',
                     children: [
                       {
-                        name: '规则名称',
-                      },
-                      {
-                        name: '规则描述',
-                      },
-                      {
-                        name: '生效时间',
-                      },
-                      {
-                        name: '通道沉默周期',
-                      },
-                      {
-                        name: '规则数量',
+                        name: '名称',
+                        children: [
+                          {
+                            name: 'String',
+                          },
+                        ],
+                        nodeIndex: 'Nat76',
                       },
                     ],
-                    nodeIndex: 'Nat34',
+                    nodeIndex: 'Nat75',
                   },
                   {
-                    name: '通知方式',
+                    name: '配置实例描述',
                     children: [
                       {
-                        name: '联系人通知组',
-                      },
-                      {
-                        name: '告警级别',
-                      },
-                      {
-                        name: '弹性伸缩设置',
-                      },
-                      {
-                        name: '通知邮件',
+                        name: '描述',
+                        children: [
+                          {
+                            name: 'String',
+                          },
+                        ],
+                        nodeIndex: 'Nat79',
                       },
                     ],
-                    nodeIndex: 'Nat45',
+                    nodeIndex: 'Nat78',
+                  },
+                  {
+                    name: '绑定公网IP',
+                    children: [
+                      {
+                        name: 'EIP',
+                        children: [
+                          {
+                            name: 'string',
+                          },
+                        ],
+                        nodeIndex: 'Nat82',
+                      },
+                    ],
+                    nodeIndex: 'Nat81',
+                  },
+                  {
+                    name: '绑定共享流量包',
+                    children: [
+                      {
+                        name: '属性',
+                        children: [
+                          {
+                            name: 'string',
+                          },
+                        ],
+                        nodeIndex: 'Nat85',
+                      },
+                    ],
+                    nodeIndex: 'Nat84',
+                  },
+                  {
+                    name: '删除实例',
+                    children: [],
+                    nodeIndex: 'Nat87',
+                  },
+                  {
+                    name: '升降配',
+                    children: [
+                      {
+                        name: '规格',
+                        children: [
+                          {
+                            name: '枚举',
+                          },
+                        ],
+                        nodeIndex: 'Nat89',
+                      },
+                    ],
+                    nodeIndex: 'Nat88',
+                  },
+                  {
+                    name: '快速搜索实例',
+                    children: [],
+                    nodeIndex: 'Nat91',
+                  },
+                  {
+                    name: '查看全量配置信息',
+                    children: [],
+                    nodeIndex: 'Nat92',
+                  },
+                  {
+                    name: '查看实例账单信息',
+                    children: [],
+                    nodeIndex: 'Nat93',
+                  },
+                  {
+                    name: '导出对账单（按CU按量计费）',
+                    children: [],
+                    nodeIndex: 'Nat94',
+                  },
+                  {
+                    name: '老实例迁移到新实例规格',
+                    children: [],
+                    nodeIndex: 'Nat95',
                   },
                 ],
-                nodeIndex: 'Nat24',
+                nodeIndex: 'Nat65',
               },
               {
-                name: '监控日志查询',
+                name: 'Feature',
                 children: [
                   {
-                    name: '查看实例网关、连接的监控信息',
-                    children: [],
-                    nodeIndex: 'Nat54',
+                    name: 'SNAT功能',
+                    children: [
+                      {
+                        name: '配置转发条目',
+                        children: [
+                          {
+                            name: '公网IP地址',
+                          },
+                          {
+                            name: '私网IP地址',
+                          },
+                          {
+                            name: '公网端口',
+                          },
+                          {
+                            name: '私网端口',
+                          },
+                          {
+                            name: '协议类型',
+                          },
+                          {
+                            name: '条目名称',
+                          },
+                          {
+                            name: '配置数量',
+                          },
+                        ],
+                        nodeIndex: 'Nat98',
+                      },
+                      {
+                        name: '连接能力',
+                        children: [
+                          {
+                            name: '最大连接数',
+                          },
+                        ],
+                        nodeIndex: 'Nat113',
+                      },
+                      {
+                        name: '新建连接能力',
+                        children: [
+                          {
+                            name: '每秒新建连接数',
+                          },
+                        ],
+                        nodeIndex: 'Nat116',
+                      },
+                      {
+                        name: '导出转发条目',
+                        children: [
+                          {
+                            name: '导出类型',
+                          },
+                        ],
+                        nodeIndex: 'Nat119',
+                      },
+                    ],
+                    nodeIndex: 'Nat97',
                   },
                   {
-                    name: '查看网关日志',
-                    children: [],
-                    nodeIndex: 'Nat55',
+                    name: 'DNAT功能',
+                    children: [
+                      {
+                        name: '配置转发条目',
+                        children: [
+                          {
+                            name: '配置类型',
+                          },
+                          {
+                            name: '配置数量',
+                          },
+                          {
+                            name: '交换机名称',
+                          },
+                          {
+                            name: '公网IP地址',
+                          },
+                          {
+                            name: '条目名称',
+                          },
+                          {
+                            name: 'ECS名称',
+                          },
+                        ],
+                        nodeIndex: 'Nat123',
+                      },
+                      {
+                        name: '导出转发条目',
+                        children: [
+                          {
+                            name: '导出类型',
+                          },
+                        ],
+                        nodeIndex: 'Nat134',
+                      },
+                    ],
+                    nodeIndex: 'Nat122',
                   },
                   {
-                    name: '后台运维变更',
-                    children: [],
-                    nodeIndex: 'Nat56',
+                    name: '安全访问策略',
+                    children: [
+                      {
+                        name: '配置acl',
+                        children: [],
+                        nodeIndex: 'Nat138',
+                      },
+                    ],
+                    nodeIndex: 'Nat137',
+                  },
+                  {
+                    name: '流日志功能',
+                    children: [
+                      {
+                        name: '配置flowlog',
+                        children: [],
+                        nodeIndex: 'Nat140',
+                      },
+                    ],
+                    nodeIndex: 'Nat139',
+                  },
+                  {
+                    name: '单VPC多实例',
+                    children: [
+                      {
+                        name: '是否支持',
+                        children: [],
+                        nodeIndex: 'Nat142',
+                      },
+                    ],
+                    nodeIndex: 'Nat141',
+                  },
+                  {
+                    name: '单EIP同时支持snat和dnat',
+                    children: [
+                      {
+                        name: '是否支持',
+                        children: [],
+                        nodeIndex: 'Nat144',
+                      },
+                    ],
+                    nodeIndex: 'Nat143',
+                  },
+                  {
+                    name: '跨域流量通过natgw出公网（包括线下IDC）',
+                    children: [
+                      {
+                        name: '是否支持',
+                        children: [],
+                        nodeIndex: 'Nat146',
+                      },
+                    ],
+                    nodeIndex: 'Nat145',
+                  },
+                  {
+                    name: '跨VPC迁移实例',
+                    children: [
+                      {
+                        name: '是否支持',
+                        children: [],
+                        nodeIndex: 'Nat148',
+                      },
+                    ],
+                    nodeIndex: 'Nat147',
                   },
                 ],
-                nodeIndex: 'Nat53',
-              },
-              {
-                name: '数据分析及处理',
-                children: [
-                  {
-                    name: '连接数 Top ECS分析',
-                    children: [],
-                    nodeIndex: 'Nat58',
-                  },
-                  {
-                    name: '流量数 Top ECS分析',
-                    children: [],
-                    nodeIndex: 'Nat59',
-                  },
-                  {
-                    name: 'Top ECS 流控限速配置',
-                    children: [],
-                    nodeIndex: 'Nat60',
-                  },
-                ],
-                nodeIndex: 'Nat57',
-              },
-              {
-                name: '操作日志',
-                children: [
-                  {
-                    name: '网关操作日志',
-                    children: [],
-                    nodeIndex: 'Nat62',
-                  },
-                  {
-                    name: 'SNAT规则操作日志',
-                    children: [],
-                    nodeIndex: 'Nat63',
-                  },
-                  {
-                    name: 'DNAT规则操作日志',
-                    children: [],
-                    nodeIndex: 'Nat64',
-                  },
-                ],
-                nodeIndex: 'Nat61',
+                nodeIndex: 'Nat96',
               },
             ],
-            nodeIndex: 'Nat9',
+            nodeIndex: 'Nat1',
           },
           {
-            name: '生命周期管理能力',
+            name: '产品限制',
             children: [
               {
-                name: '创建实例',
+                name: '性能',
                 children: [
                   {
-                    name: '地域',
-                    children: [
-                      {
-                        name: '枚举',
-                      },
-                    ],
-                    nodeIndex: 'Nat67',
+                    name: 'CPS新建速率',
+                    children: [],
+                    nodeIndex: 'Nat151',
                   },
                   {
-                    name: '规格',
+                    name: '最大带宽处理能力',
                     children: [
                       {
-                        name: '枚举',
+                        name: '默认5G，可申请弹性扩容',
+                        children: [
+                          {
+                            name: '支持',
+                          },
+                        ],
+                        nodeIndex: 'Nat153',
                       },
                     ],
-                    nodeIndex: 'Nat69',
+                    nodeIndex: 'Nat152',
                   },
                   {
-                    name: '关联的VPC',
+                    name: 'concurrent并发能力-支持的最大连接数',
                     children: [
                       {
-                        name: 'string',
+                        name: '无限制',
+                        children: [
+                          {
+                            name: '支持',
+                          },
+                        ],
+                        nodeIndex: 'Nat156',
                       },
                     ],
-                    nodeIndex: 'Nat71',
-                  },
-                  {
-                    name: '关联的子网vswitch',
-                    children: [
-                      {
-                        name: 'string',
-                      },
-                    ],
-                    nodeIndex: 'Nat73',
+                    nodeIndex: 'Nat155',
                   },
                 ],
-                nodeIndex: 'Nat66',
+                nodeIndex: 'Nat150',
               },
               {
-                name: '配置实例名称',
-                children: [
-                  {
-                    name: '名称',
-                    children: [
-                      {
-                        name: 'String',
-                      },
-                    ],
-                    nodeIndex: 'Nat76',
-                  },
-                ],
-                nodeIndex: 'Nat75',
-              },
-              {
-                name: '配置实例描述',
-                children: [
-                  {
-                    name: '描述',
-                    children: [
-                      {
-                        name: 'String',
-                      },
-                    ],
-                    nodeIndex: 'Nat79',
-                  },
-                ],
-                nodeIndex: 'Nat78',
-              },
-              {
-                name: '绑定公网IP',
-                children: [
-                  {
-                    name: 'EIP',
-                    children: [
-                      {
-                        name: 'string',
-                      },
-                    ],
-                    nodeIndex: 'Nat82',
-                  },
-                ],
-                nodeIndex: 'Nat81',
-              },
-              {
-                name: '绑定共享流量包',
-                children: [
-                  {
-                    name: '属性',
-                    children: [
-                      {
-                        name: 'string',
-                      },
-                    ],
-                    nodeIndex: 'Nat85',
-                  },
-                ],
-                nodeIndex: 'Nat84',
-              },
-              {
-                name: '删除实例',
+                name: '配额',
                 children: [],
-                nodeIndex: 'Nat87',
-              },
-              {
-                name: '升降配',
-                children: [
-                  {
-                    name: '规格',
-                    children: [
-                      {
-                        name: '枚举',
-                      },
-                    ],
-                    nodeIndex: 'Nat89',
-                  },
-                ],
-                nodeIndex: 'Nat88',
-              },
-              {
-                name: '快速搜索实例',
-                children: [],
-                nodeIndex: 'Nat91',
-              },
-              {
-                name: '查看全量配置信息',
-                children: [],
-                nodeIndex: 'Nat92',
-              },
-              {
-                name: '查看实例账单信息',
-                children: [],
-                nodeIndex: 'Nat93',
-              },
-              {
-                name: '导出对账单（按CU按量计费）',
-                children: [],
-                nodeIndex: 'Nat94',
-              },
-              {
-                name: '老实例迁移到新实例规格',
-                children: [],
-                nodeIndex: 'Nat95',
+                nodeIndex: 'Nat158',
               },
             ],
-            nodeIndex: 'Nat65',
+            nodeIndex: 'Nat149',
           },
           {
-            name: 'Feature',
+            name: '计费',
             children: [
               {
-                name: 'SNAT功能',
+                name: '后付费',
                 children: [
                   {
-                    name: '配置转发条目',
+                    name: '支持按CU计费',
                     children: [
                       {
-                        name: '公网IP地址',
-                      },
-                      {
-                        name: '私网IP地址',
-                      },
-                      {
-                        name: '公网端口',
-                      },
-                      {
-                        name: '私网端口',
-                      },
-                      {
-                        name: '协议类型',
-                      },
-                      {
-                        name: '条目名称',
-                      },
-                      {
-                        name: '配置数量',
+                        name: '是否支持',
+                        children: [
+                          {
+                            name: 'bool',
+                          },
+                        ],
+                        nodeIndex: 'Nat162',
                       },
                     ],
-                    nodeIndex: 'Nat98',
+                    nodeIndex: 'Nat161',
                   },
                   {
-                    name: '连接能力',
-                    children: [
-                      {
-                        name: '最大连接数',
-                      },
-                    ],
-                    nodeIndex: 'Nat113',
-                  },
-                  {
-                    name: '新建连接能力',
-                    children: [
-                      {
-                        name: '每秒新建连接数',
-                      },
-                    ],
-                    nodeIndex: 'Nat116',
-                  },
-                  {
-                    name: '导出转发条目',
-                    children: [
-                      {
-                        name: '导出类型',
-                      },
-                    ],
-                    nodeIndex: 'Nat119',
-                  },
-                ],
-                nodeIndex: 'Nat97',
-              },
-              {
-                name: 'DNAT功能',
-                children: [
-                  {
-                    name: '配置转发条目',
-                    children: [
-                      {
-                        name: '配置类型',
-                      },
-                      {
-                        name: '配置数量',
-                      },
-                      {
-                        name: '交换机名称',
-                      },
-                      {
-                        name: '公网IP地址',
-                      },
-                      {
-                        name: '条目名称',
-                      },
-                      {
-                        name: 'ECS名称',
-                      },
-                    ],
-                    nodeIndex: 'Nat123',
-                  },
-                  {
-                    name: '导出转发条目',
-                    children: [
-                      {
-                        name: '导出类型',
-                      },
-                    ],
-                    nodeIndex: 'Nat134',
-                  },
-                ],
-                nodeIndex: 'Nat122',
-              },
-              {
-                name: '安全访问策略',
-                children: [
-                  {
-                    name: '配置acl',
+                    name: '实例闲置费',
                     children: [],
-                    nodeIndex: 'Nat138',
+                    nodeIndex: 'Nat164',
                   },
                 ],
-                nodeIndex: 'Nat137',
+                nodeIndex: 'Nat160',
               },
               {
-                name: '流日志功能',
+                name: '预付费',
                 children: [
                   {
-                    name: '配置flowlog',
+                    name: '支持CU资源包+后付费',
                     children: [],
-                    nodeIndex: 'Nat140',
+                    nodeIndex: 'Nat166',
                   },
                 ],
-                nodeIndex: 'Nat139',
-              },
-              {
-                name: '单VPC多实例',
-                children: [
-                  {
-                    name: '是否支持',
-                    children: [],
-                    nodeIndex: 'Nat142',
-                  },
-                ],
-                nodeIndex: 'Nat141',
-              },
-              {
-                name: '单EIP同时支持snat和dnat',
-                children: [
-                  {
-                    name: '是否支持',
-                    children: [],
-                    nodeIndex: 'Nat144',
-                  },
-                ],
-                nodeIndex: 'Nat143',
-              },
-              {
-                name: '跨域流量通过natgw出公网（包括线下IDC）',
-                children: [
-                  {
-                    name: '是否支持',
-                    children: [],
-                    nodeIndex: 'Nat146',
-                  },
-                ],
-                nodeIndex: 'Nat145',
-              },
-              {
-                name: '跨VPC迁移实例',
-                children: [
-                  {
-                    name: '是否支持',
-                    children: [],
-                    nodeIndex: 'Nat148',
-                  },
-                ],
-                nodeIndex: 'Nat147',
+                nodeIndex: 'Nat165',
               },
             ],
-            nodeIndex: 'Nat96',
-          },
-        ],
-        nodeIndex: 'Nat1',
-      },
-      {
-        name: '产品限制',
-        children: [
-          {
-            name: '性能',
-            children: [
-              {
-                name: 'CPS新建速率',
-                children: [],
-                nodeIndex: 'Nat151',
-              },
-              {
-                name: '最大带宽处理能力',
-                children: [
-                  {
-                    name: '默认5G，可申请弹性扩容',
-                    children: [
-                      {
-                        name: '支持',
-                      },
-                    ],
-                    nodeIndex: 'Nat153',
-                  },
-                ],
-                nodeIndex: 'Nat152',
-              },
-              {
-                name: 'concurrent并发能力-支持的最大连接数',
-                children: [
-                  {
-                    name: '无限制',
-                    children: [
-                      {
-                        name: '支持',
-                      },
-                    ],
-                    nodeIndex: 'Nat156',
-                  },
-                ],
-                nodeIndex: 'Nat155',
-              },
-            ],
-            nodeIndex: 'Nat150',
+            nodeIndex: 'Nat159',
           },
           {
-            name: '配额',
+            name: 'SLA',
             children: [],
-            nodeIndex: 'Nat158',
+            nodeIndex: 'Nat167',
           },
-        ],
-        nodeIndex: 'Nat149',
-      },
-      {
-        name: '计费',
-        children: [
           {
-            name: '后付费',
+            name: '安全合规能力',
             children: [
               {
-                name: '支持按CU计费',
+                name: 'SPLC',
+                children: [],
+                nodeIndex: 'Nat169',
+              },
+              {
+                name: '法务',
+                children: [],
+                nodeIndex: 'Nat170',
+              },
+            ],
+            nodeIndex: 'Nat168',
+          },
+          {
+            name: '售后运维管理',
+            children: [
+              {
+                name: '一键诊断',
                 children: [
                   {
-                    name: '是否支持',
-                    children: [
-                      {
-                        name: 'bool',
-                      },
-                    ],
-                    nodeIndex: 'Nat162',
+                    name: '一键诊断后台运维变更',
+                    children: [],
+                    nodeIndex: 'Nat173',
+                  },
+                  {
+                    name: '一键诊断配置检查',
+                    children: [],
+                    nodeIndex: 'Nat174',
+                  },
+                  {
+                    name: '一键诊断异常日志检查',
+                    children: [],
+                    nodeIndex: 'Nat175',
+                  },
+                  {
+                    name: '一键诊断操作日志检查',
+                    children: [],
+                    nodeIndex: 'Nat176',
+                  },
+                  {
+                    name: '一键诊断运维变更',
+                    children: [],
+                    nodeIndex: 'Nat177',
                   },
                 ],
-                nodeIndex: 'Nat161',
+                nodeIndex: 'Nat172',
               },
               {
-                name: '实例闲置费',
+                name: '库存管理能力',
                 children: [],
-                nodeIndex: 'Nat164',
+                nodeIndex: 'Nat178',
               },
             ],
-            nodeIndex: 'Nat160',
-          },
-          {
-            name: '预付费',
-            children: [
-              {
-                name: '支持CU资源包+后付费',
-                children: [],
-                nodeIndex: 'Nat166',
-              },
-            ],
-            nodeIndex: 'Nat165',
+            nodeIndex: 'Nat171',
           },
         ],
-        nodeIndex: 'Nat159',
-      },
-      {
-        name: 'SLA',
-        children: [],
-        nodeIndex: 'Nat167',
-      },
-      {
-        name: '安全合规能力',
-        children: [
-          {
-            name: 'SPLC',
-            children: [],
-            nodeIndex: 'Nat169',
-          },
-          {
-            name: '法务',
-            children: [],
-            nodeIndex: 'Nat170',
-          },
-        ],
-        nodeIndex: 'Nat168',
-      },
-      {
-        name: '售后运维管理',
-        children: [
-          {
-            name: '一键诊断',
-            children: [
-              {
-                name: '一键诊断后台运维变更',
-                children: [],
-                nodeIndex: 'Nat173',
-              },
-              {
-                name: '一键诊断配置检查',
-                children: [],
-                nodeIndex: 'Nat174',
-              },
-              {
-                name: '一键诊断异常日志检查',
-                children: [],
-                nodeIndex: 'Nat175',
-              },
-              {
-                name: '一键诊断操作日志检查',
-                children: [],
-                nodeIndex: 'Nat176',
-              },
-              {
-                name: '一键诊断运维变更',
-                children: [],
-                nodeIndex: 'Nat177',
-              },
-            ],
-            nodeIndex: 'Nat172',
-          },
-          {
-            name: '库存管理能力',
-            children: [],
-            nodeIndex: 'Nat178',
-          },
-        ],
-        nodeIndex: 'Nat171',
-      },
-    ],
-  };
-
-  function formatData(data) {
-    let index = 0
-    const recursiveTraverse = (node, level = 0) => {
-
-      const targetNode = {
-        id: (index++) + "",
-        name: node.name
       };
-      if (node.children) {
-        targetNode.children = [];
-        node.children.forEach(item => {
-          targetNode.children.push(recursiveTraverse(item, level + 1));
-        });
+
+      function formatData(data) {
+        let index = 0;
+        const recursiveTraverse = (node, level = 0) => {
+          const targetNode = {
+            id: index++ + '',
+            name: node.name,
+          };
+          if (node.children) {
+            targetNode.children = [];
+            node.children.forEach(item => {
+              targetNode.children.push(recursiveTraverse(item, level + 1));
+            });
+          }
+          return targetNode;
+        };
+        const result = recursiveTraverse(data);
+        return result;
       }
-      return targetNode;
-    };
-    const result = recursiveTraverse(data);
-    return result;
-  }
 
-  const COLLAPSE_ICON = function COLLAPSE_ICON(x, y, r) {
-    return [
-      ['M', x, y],
-      ['a', r, r, 0, 1, 0, r * 2, 0],
-      ['a', r, r, 0, 1, 0, -r * 2, 0],
-      ['M', x + 3, y],
-      ['L', x + 2 * r - 3, y],
-    ];
-  };
-  const EXPAND_ICON = function EXPAND_ICON(x, y, r) {
-    return [
-      ['M', x, y],
-      ['a', r, r, 0, 1, 0, r * 2, 0],
-      ['a', r, r, 0, 1, 0, -r * 2, 0],
-      ['M', x + 3, y],
-      ['L', x + 2 * r - 3, y],
-      ['M', x + r, y - r + 3],
-      ['L', x + r, y + r - 3],
-    ];
-  };
+      const COLLAPSE_ICON = function COLLAPSE_ICON(x, y, r) {
+        return [
+          ['M', x, y],
+          ['a', r, r, 0, 1, 0, r * 2, 0],
+          ['a', r, r, 0, 1, 0, -r * 2, 0],
+          ['M', x + 3, y],
+          ['L', x + 2 * r - 3, y],
+        ];
+      };
+      const EXPAND_ICON = function EXPAND_ICON(x, y, r) {
+        return [
+          ['M', x, y],
+          ['a', r, r, 0, 1, 0, r * 2, 0],
+          ['a', r, r, 0, 1, 0, -r * 2, 0],
+          ['M', x + 3, y],
+          ['L', x + 2 * r - 3, y],
+          ['M', x + r, y - r + 3],
+          ['L', x + r, y + r - 3],
+        ];
+      };
 
-  let CANVAS_WIDTH = 500;
-  let CANVAS_HEIGHT = 500;
-  let graph;
+      let CANVAS_WIDTH = 500;
+      let CANVAS_HEIGHT = 500;
+      let graph;
 
-  const _this = window;
+      const _this = window;
 
-  G6.registerNode(
-    'tree-node',
-    {
-      drawShape: function drawShape(cfg, group) {
-        const rect = group.addShape('rect', {
-          attrs: {
-            fill: '#fff',
-            stroke: '#fff',
-          },
-        });
-        const content = (cfg.name || '').replace(/(.{19})/g, '$1\n');
-        const text = group.addShape('text', {
-          attrs: {
-            text: content,
-            x: 0,
-            y: 0,
-            textAlign: 'left',
-            textBaseline: 'middle',
-            fill: '#0A1F39',
-          },
-        });
-        const bbox = text.getBBox();
-        const hasChildren = cfg.children && cfg.children.length > 0;
-        if (hasChildren) {
-          group.addShape('marker', {
-            attrs: {
-              x: bbox.maxX + 16 + 2,
-              y: bbox.minX + bbox.height / 2 - 6,
-              r: 6,
-              symbol: COLLAPSE_ICON,
-              stroke: '#C4D9E9',
-              lineWidth: 1,
-            },
-            className: 'collapse-icon',
-          });
-        }
-        const hasBorder = cfg.depth <= 2;
-        if (hasBorder) {
-          // 前面的产品名/一级类目/二级类目
-          group.addShape('rect', {
-            attrs: {
-              fill: 'rgba(0,0,0,0)',
-              stroke: '#0093ee',
-              x: bbox.minX - 14,
-              y: bbox.minY - 6,
-              width: bbox.width + 30,
-              height: bbox.height + 12,
-              radius: [4],
-            },
-          });
-          rect.attr({
-            x: bbox.minX - 16,
-            y: bbox.minY - 6,
-            width: bbox.width + (hasChildren ? 49 : 32),
-            // width: bbox.width + 34,
-            height: bbox.height + 12,
-          });
-        } else {
-          // 后面两级的节点
-          text.attr({ y: -(bbox.height / 2 + 3) });
-          const lineX = bbox.minX - 18;
-          const lineY = bbox.minY + bbox.height / 2;
-          group.addShape('path', {
-            attrs: {
-              path: [['M', lineX, lineY], ['L', lineX + bbox.width + 32, lineY]],
-              stroke: '#C4D9E9',
-              lineWidth: 2,
-            },
-          });
-          rect.attr({
-            fill: 'rgba(0,0,0,0)',
-            stroke: 'rgba(0,0,0,0)',
-            x: bbox.minX - 16,
-            y: bbox.minY - 6,
-            width: bbox.width + (hasChildren ? 49 : 32),
-            // width: bbox.width + 34,
-            height: bbox.height + 12,
-          });
-        }
-        return rect;
-      },
-    },
-    'node'
-  );
-
-  const defaultOptions = {
-    minZoom: 0.3,
-    maxZoom: 1.5,
-    modes: {
-      default: [
+      G6.registerNode(
+        'tree-node',
         {
-          type: 'collapse-expand',
-          onChange: function onChange(item, collapsed) {
-            // const data = item.getModel();
-            // const { id } = data;
-            // graph.focusItem(item);
-            // graph.clear(); // 只能使用clear来hack，否则展开会使得数据重复
-
-            // const group = item.get('group');
-            // const icon = group.findByClassName('collapse-icon');
-            // if (collapsed) {
-            //   icon.attr('symbol', EXPAND_ICON);
-            // } else {
-            //   icon.attr('symbol', COLLAPSE_ICON);
-            // }
-            data.collapsed = collapsed;
-            // return null;
-
-            var icon = item.get("group").findByClassName("collapse-icon");
-            if (collapsed) {
-              icon.attr("symbol", EXPAND_ICON);
-            } else {
-              icon.attr("symbol", COLLAPSE_ICON);
+          drawShape: function drawShape(cfg, group) {
+            const rect = group.addShape('rect', {
+              attrs: {
+                fill: '#fff',
+                stroke: '#fff',
+              },
+            });
+            const content = (cfg.name || '').replace(/(.{19})/g, '$1\n');
+            const text = group.addShape('text', {
+              attrs: {
+                text: content,
+                x: 0,
+                y: 0,
+                textAlign: 'left',
+                textBaseline: 'middle',
+                fill: '#0A1F39',
+              },
+            });
+            const bbox = text.getBBox();
+            const hasChildren = cfg.children && cfg.children.length > 0;
+            if (hasChildren) {
+              group.addShape('marker', {
+                attrs: {
+                  x: bbox.maxX + 16 + 2,
+                  y: bbox.minX + bbox.height / 2 - 6,
+                  r: 6,
+                  symbol: COLLAPSE_ICON,
+                  stroke: '#C4D9E9',
+                  lineWidth: 1,
+                },
+                className: 'collapse-icon',
+              });
             }
+            const hasBorder = cfg.depth <= 2;
+            if (hasBorder) {
+              // 前面的产品名/一级类目/二级类目
+              group.addShape('rect', {
+                attrs: {
+                  fill: 'rgba(0,0,0,0)',
+                  stroke: '#0093ee',
+                  x: bbox.minX - 14,
+                  y: bbox.minY - 6,
+                  width: bbox.width + 30,
+                  height: bbox.height + 12,
+                  radius: [4],
+                },
+              });
+              rect.attr({
+                x: bbox.minX - 16,
+                y: bbox.minY - 6,
+                width: bbox.width + (hasChildren ? 49 : 32),
+                // width: bbox.width + 34,
+                height: bbox.height + 12,
+              });
+            } else {
+              // 后面两级的节点
+              text.attr({ y: -(bbox.height / 2 + 3) });
+              const lineX = bbox.minX - 18;
+              const lineY = bbox.minY + bbox.height / 2;
+              group.addShape('path', {
+                attrs: {
+                  path: [
+                    ['M', lineX, lineY],
+                    ['L', lineX + bbox.width + 32, lineY],
+                  ],
+                  stroke: '#C4D9E9',
+                  lineWidth: 2,
+                },
+              });
+              rect.attr({
+                fill: 'rgba(0,0,0,0)',
+                stroke: 'rgba(0,0,0,0)',
+                x: bbox.minX - 16,
+                y: bbox.minY - 6,
+                width: bbox.width + (hasChildren ? 49 : 32),
+                // width: bbox.width + 34,
+                height: bbox.height + 12,
+              });
+            }
+            return rect;
           },
         },
-        {
-          type: 'drag-canvas',
-          shouldUpdate: function shouldUpdate() {
-            return false;
-          },
-          shouldEnd: function shouldUpdate() {
-            return false;
-          },
-        },
-      ],
-    },
-    defaultNode: {
-      shape: 'tree-node',
-      anchorPoints: [[0, 0.5], [1, 0.5]],
-    },
-    defaultEdge: {
-      shape: 'cubic-horizontal',
-      style: {
-        stroke: '#C4D9E9',
-        lineWidth: 2,
-      }
-    },
-    layout: {
-      type: 'compactBox', // dendrogram compactBox
-      direction: 'LR',
-      getId: function getId(d) {
-        debugger
-        return d.id;
-      },
-      getHeight: function getHeight() {
-        return 26;
-      },
-      getWidth: function getWidth() {
-        return 26;
-      },
-      getVGap: function getVGap() {
-        return 10;
-      },
-      getHGap: function getHGap() {
-        return 110;
-      },
-    },
-    fixedRoot: true,
-  };
+        'node',
+      );
 
-  CANVAS_HEIGHT = 800;
-  CANVAS_WIDTH = 1200;
-  const params = Object.assign(
-    {
-      container: 'mountNode',
-      width: CANVAS_WIDTH,
-      height: CANVAS_HEIGHT,
-      // animate: false, // 开启这个[关闭动画]选项，自定义节点就会错位
-    },
-    defaultOptions
-  );
-  graph = new G6.TreeGraph(params);
-  graph.data(formatData(data));
-  graph.render();
-  graph.fitView(20);
-</script>
+      const defaultOptions = {
+        minZoom: 0.3,
+        maxZoom: 1.5,
+        modes: {
+          default: [
+            {
+              type: 'collapse-expand',
+              onChange: function onChange(item, collapsed) {
+                // const data = item.getModel();
+                // const { id } = data;
+                // graph.focusItem(item);
+                // graph.clear(); // 只能使用clear来hack，否则展开会使得数据重复
+
+                // const group = item.get('group');
+                // const icon = group.findByClassName('collapse-icon');
+                // if (collapsed) {
+                //   icon.attr('symbol', EXPAND_ICON);
+                // } else {
+                //   icon.attr('symbol', COLLAPSE_ICON);
+                // }
+                data.collapsed = collapsed;
+                // return null;
+
+                var icon = item.get('group').findByClassName('collapse-icon');
+                if (collapsed) {
+                  icon.attr('symbol', EXPAND_ICON);
+                } else {
+                  icon.attr('symbol', COLLAPSE_ICON);
+                }
+              },
+            },
+            {
+              type: 'drag-canvas',
+              shouldUpdate: function shouldUpdate() {
+                return false;
+              },
+              shouldEnd: function shouldUpdate() {
+                return false;
+              },
+            },
+          ],
+        },
+        defaultNode: {
+          shape: 'tree-node',
+          anchorPoints: [
+            [0, 0.5],
+            [1, 0.5],
+          ],
+        },
+        defaultEdge: {
+          shape: 'cubic-horizontal',
+          style: {
+            stroke: '#C4D9E9',
+            lineWidth: 2,
+          },
+        },
+        layout: {
+          type: 'compactBox', // dendrogram compactBox
+          direction: 'LR',
+          getId: function getId(d) {
+            debugger;
+            return d.id;
+          },
+          getHeight: function getHeight() {
+            return 26;
+          },
+          getWidth: function getWidth() {
+            return 26;
+          },
+          getVGap: function getVGap() {
+            return 10;
+          },
+          getHGap: function getHGap() {
+            return 110;
+          },
+        },
+        fixedRoot: true,
+      };
+
+      CANVAS_HEIGHT = 800;
+      CANVAS_WIDTH = 1200;
+      const params = Object.assign(
+        {
+          container: 'mountNode',
+          width: CANVAS_WIDTH,
+          height: CANVAS_HEIGHT,
+          // animate: false, // 开启这个[关闭动画]选项，自定义节点就会错位
+        },
+        defaultOptions,
+      );
+      graph = new G6.TreeGraph(params);
+      graph.data(formatData(data));
+      graph.render();
+      graph.fitView(20);
+    </script>
+  </body>
+</html>

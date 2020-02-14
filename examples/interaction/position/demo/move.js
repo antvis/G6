@@ -4,32 +4,40 @@ import G6 from '@antv/g6';
  * by 长哲
  */
 const data = {
-  nodes: [{
-    id: 'node1',
-    x: 150,
-    y: 50,
-    label: 'node1'
-  }, {
-    id: 'node2',
-    x: 200,
-    y: 150,
-    label: 'node2'
-  }, {
-    id: 'node3',
-    x: 100,
-    y: 150,
-    label: 'node3'
-  }],
-  edges: [{
-    source: 'node1',
-    target: 'node2'
-  }, {
-    source: 'node2',
-    target: 'node3'
-  }, {
-    source: 'node3',
-    target: 'node1'
-  }]
+  nodes: [
+    {
+      id: 'node1',
+      x: 150,
+      y: 50,
+      label: 'node1',
+    },
+    {
+      id: 'node2',
+      x: 200,
+      y: 150,
+      label: 'node2',
+    },
+    {
+      id: 'node3',
+      x: 100,
+      y: 150,
+      label: 'node3',
+    },
+  ],
+  edges: [
+    {
+      source: 'node1',
+      target: 'node2',
+    },
+    {
+      source: 'node2',
+      target: 'node3',
+    },
+    {
+      source: 'node3',
+      target: 'node1',
+    },
+  ],
 };
 
 const width = document.getElementById('container').scrollWidth;
@@ -42,14 +50,14 @@ const graph = new G6.Graph({
   defaultNode: {
     style: {
       fill: '#DEE9FF',
-      stroke: '#5B8FF9'
-    }
+      stroke: '#5B8FF9',
+    },
   },
   defaultEdge: {
     style: {
-      stroke: '#b5b5b5'
-    }
-  }
+      stroke: '#b5b5b5',
+    },
+  },
 });
 graph.data(data);
 graph.render();
@@ -61,14 +69,14 @@ function handleNodeClick(event) {
   const matrix = item.get('group').getMatrix();
   const point = {
     x: matrix[6],
-    y: matrix[7]
+    y: matrix[7],
   };
   const w = graph.get('width');
   const h = graph.get('height');
   // 找到视口中心
   const viewCenter = {
     x: w / 2,
-    y: h / 2
+    y: h / 2,
   };
   const modelCenter = graph.getPointByCanvas(viewCenter.x, viewCenter.y);
   let viewportMatrix = graph.get('group').getMatrix();
@@ -81,16 +89,19 @@ function handleNodeClick(event) {
   let newX = void 0;
   let newY = void 0;
   // 动画每次平移一点，直到目标位置
-  graph.get('canvas').animate(ratio => {
-    newX = dx * ratio;
-    newY = dy * ratio;
-    graph.translate(newX - lastX, newY - lastY);
-    lastX = newX;
-    lastY = newY;
-  }, {
-    duration: 300,
-    easing: 'easeCubic'
-  });
+  graph.get('canvas').animate(
+    ratio => {
+      newX = dx * ratio;
+      newY = dy * ratio;
+      graph.translate(newX - lastX, newY - lastY);
+      lastX = newX;
+      lastY = newY;
+    },
+    {
+      duration: 300,
+      easing: 'easeCubic',
+    },
+  );
 }
 
 // 监听节点上的click事件

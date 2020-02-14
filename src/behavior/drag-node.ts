@@ -9,7 +9,7 @@ import { Point } from '@antv/g-base/lib/types';
 import deepMix from '@antv/util/lib/deep-mix';
 import { INode } from '../interface/item';
 import { G6Event, IG6GraphEvent, Item, NodeConfig } from '../types';
-import Global from '../global'
+import Global from '../global';
 
 export default {
   getDefaultCfg(): object {
@@ -17,14 +17,14 @@ export default {
       updateEdge: true,
       delegateStyle: {},
       // 是否开启delegate
-      enableDelegate: false
+      enableDelegate: false,
     };
   },
   getEvents(): { [key in G6Event]?: string } {
     return {
       'node:dragstart': 'onDragStart',
       'node:drag': 'onDrag',
-      'node:dragend': 'onDragEnd'
+      'node:dragend': 'onDragEnd',
     };
   },
   onDragStart(e: IG6GraphEvent) {
@@ -64,7 +64,8 @@ export default {
     // 只拖动当前节点
     if (dragNodes.length === 0) {
       this.target = item;
-    } else if (nodes.length > 1) { // 拖动多个节点
+    } else if (nodes.length > 1) {
+      // 拖动多个节点
       nodes.forEach(node => {
         const locked = node.hasLocked();
         if (!locked) {
@@ -75,15 +76,13 @@ export default {
       this.targets.push(item);
     }
 
-
     this.origin = {
       x: e.x,
-      y: e.y
+      y: e.y,
     };
 
     this.point = {};
     this.originPoint = {};
-
   },
   onDrag(e: IG6GraphEvent) {
     if (!this.origin) {
@@ -158,7 +157,7 @@ export default {
     if (!this.point[nodeId]) {
       this.point[nodeId] = {
         x: model.x,
-        y: model.y
+        y: model.y,
       };
     }
 
@@ -202,9 +201,9 @@ export default {
             height,
             x: cx,
             y: cy,
-            ...attrs
+            ...attrs,
           },
-          name: 'rect-delegate-shape'
+          name: 'rect-delegate-shape',
         });
       } else if (this.target) {
         this.delegateRect = parent.addShape('rect', {
@@ -213,9 +212,9 @@ export default {
             height: bbox.height,
             x: x + bbox.x,
             y: y + bbox.y,
-            ...attrs
+            ...attrs,
           },
-          name: 'rect-delegate-shape'
+          name: 'rect-delegate-shape',
         });
       }
       this.delegateRect.set('capture', false);
@@ -224,16 +223,15 @@ export default {
       const clientY = e.y - this.origin.y + this.originPoint.minY;
       this.delegateRect.attr({
         x: clientX,
-        y: clientY
+        y: clientY,
       });
     } else if (this.target) {
       this.delegateRect.attr({
         x: x + bbox.x,
-        y: y + bbox.y
+        y: y + bbox.y,
       });
     }
-    
-    
+
     if (this.target) {
       this.target.set('delegateShape', this.delegateRect);
     }
@@ -288,7 +286,7 @@ export default {
       width,
       height,
       minX: minx,
-      minY: miny
+      minY: miny,
     };
-  }
+  },
 };

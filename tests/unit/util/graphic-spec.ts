@@ -26,7 +26,7 @@ describe('graphic unit test', () => {
       ],
     };
     const trees = [];
-    traverseTree(data, (node) => {
+    traverseTree(data, node => {
       trees.push(node);
       return true;
     });

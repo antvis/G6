@@ -2,17 +2,19 @@
 title: Image
 order: 7
 ---
+
 ## Image
 
 A built-in node Circle has the default style as below, the label is drawed on the bottom of it.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aHqIQIXL0RMAAAAAAAAAAABkARQnAQ' width=150/>
 
-
 ## Usage
+
 As stated in [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) , there are two ways to configure the node: Configure it when instantiating a Graph globally; Configure it in the data.
 
-
 ### 1 实例化图时全局配置
+
 Assign `type` to `'image'` in the `defaultNode` object when instantiating a Graph:
+
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -20,15 +22,16 @@ const graph = new G6.Graph({
   height: 600,
   defaultNode: {
     type: 'image',
-    label: 'AntV Team'
+    label: 'AntV Team',
     // Other configuraltions
-  }
-})
+  },
+});
 ```
 
-
 ### 2 Configure in the Data
+
 To configure different nodes with different properties, you can write the properties into the node data.
+
 ```javascript
 const data = {
   nodes: [{
@@ -55,8 +58,8 @@ const data = {
 }
 ```
 
-
 ## Property
+
 The [Node Common Properties](/en/docs/manual/middle/elements/nodes/defaultNode/#common-property) are available for Image node, some special properties are shown below. The property with Object type will be described after the table:
 
 ```javascript
@@ -91,8 +94,6 @@ size: 200,
 | labelCfg | The configurations for the label | Object | The [Node Common Label Configurations](/en/docs/manual/middle/elements/nodes/defaultNode/#label-and-labelcfg) are available. |
 | **clipCfg** | **The configurations for clipping** | **Object** | **Do not clip by default. It is a special property for image node** |
 
-
-
 ### clipCfg
 
 | Name | Description | Type | Remark |
@@ -107,16 +108,18 @@ size: 200,
 | rx | The major radius of the ellipse clipping | Number | Takes effect when the `type` is `'ellipse'` |
 | ry | The minor radius of the ellipse clipping | Number | Takes effect when the `type` is `'ellipse'` |
 
-
 There are default values for all the types of clipping. The following code shows how to configure the `clipCfg` when instantiating a Graph:
+
 ```javascript
 const data = {
-  nodes: [{
-    x: 100,
-    y: 100,
-    type: 'image',
-    label: 'image'
- }]
+  nodes: [
+    {
+      x: 100,
+      y: 100,
+      type: 'image',
+      label: 'image',
+    },
+  ],
 };
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -126,20 +129,20 @@ const graph = new G6.Graph({
     // type: 'image',  // The type has been assigned in the data, we do not have to define it any more
     clipCfg: {
       show: true,
-      type: 'circle'
-    }
-  }
-})
+      type: 'circle',
+    },
+  },
+});
 graph.data(data);
 graph.render();
 ```
 
-
 #### Clippling Type
 
 ##### Cicle Clipping
-`circle`
-When the `type` in `clipCfg` is `'circle'`:
+
+`circle` When the `type` in `clipCfg` is `'circle'`:
+
 ```javascript
 clipCfg: {
   show: true,
@@ -150,27 +153,31 @@ clipCfg: {
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*w5uESbSe430AAAAAAAAAAABkARQnAQ' width=150/>
 
+##### Rect Clipping
 
-##### Rect Clipping 
 `rect`
 
 When the `type` in `clipCfg` is `'rect'`:
+
 ```javascript
 clipCfg: {
   show: true,
   type: 'rect',
   x: -50,
   y: -50,
-  width: 100, 
+  width: 100,
   height: 100
 }
 ```
+
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mpPvTKdP7cIAAAAAAAAAAABkARQnAQ' width=150/>
 
 ##### Ellipse Clipping
+
 `ellipse`
 
 When the `type` in `clipCfg` is `'ellipse'`:
+
 ```javascript
 clipCfg: {
   show: true,
@@ -179,4 +186,5 @@ clipCfg: {
   ry: 60
 }
 ```
+
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1kn1S4vaUrwAAAAAAAAAAABkARQnAQ' width=150/>

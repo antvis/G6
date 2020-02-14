@@ -4,6 +4,7 @@ order: 9
 ---
 
 G6 中支持插件提供了一些可插拔的组件，包括：
+
 - [Grid](#grid)
 - [Minimap](#minimap)
 - [Edge Bundling](#edge-bundling)
@@ -18,20 +19,20 @@ const grid = new G6.Grid();
 const minimap = new G6.Minimap();
 const graph = new G6.Graph({
   //... 其他配置项
-  plugins: [ grid, minimap ] // 配置 Grid 插件和 Minimap 插件
+  plugins: [grid, minimap], // 配置 Grid 插件和 Minimap 插件
 });
 ```
 
-
 ## Grid
+
 Grid 插件在画布上绘制了网格。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*y8u6Rrc78uIAAAAAAAAAAABkARQnAQ' width=300 />
 
 Grid 没有配置项。使用 [配置方法](#配置方法) 中代码实例化即可。
 
-
 ## Minimap
+
 Minimap 是用于快速预览和探索图的工具。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v1svQLkEPrUAAAAAAAAAAABkARQnAQ' width=300 />
@@ -41,7 +42,7 @@ Minimap 是用于快速预览和探索图的工具。
 ### 配置项
 
 | 名称 | 类型 | 描述 |
-| --- | --- | --- | --- |
+| --- | --- | --- |
 | container | Object | 放置 Minimap 的 DOM 容器。若不指定则自动生成 |
 | className | String | 生成的 DOM 元素的 className |
 | viewportClassName | String | Minimap 上视窗 DOM 元素的 className |
@@ -49,25 +50,23 @@ Minimap 是用于快速预览和探索图的工具。
 | size | Array | Minimap 的大小 |
 | delegateStyle | Object | 在 `type` 为 `'delegate'` 时生效，代表元素大致图形的样式 |
 
-
 其中，delegateStyle 可以设置如下属性：
 
-| 名称 | 类型 | 描述 |
-| --- | --- | --- | --- |
-| fill | String | 填充颜色 |
-| stroke | String | 描边颜色 |
-| lineWidth | Number | 描边宽度 |
-| opacity | Number | 透明度 |
+| 名称        | 类型   | 描述       |
+| ----------- | ------ | ---------- |
+| fill        | String | 填充颜色   |
+| stroke      | String | 描边颜色   |
+| lineWidth   | Number | 描边宽度   |
+| opacity     | Number | 透明度     |
 | fillOpacity | Number | 填充透明度 |
 
-
 ## Edge Bundling
+
 在关系复杂、繁多的大规模图上，通过边绑定可以降低视觉复杂度。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z9iXQq_kcrYAAAAAAAAAAABkARQnAQ' width=600 />
 
 > 美国航线图边绑定。<a href='http://antv-2018.alipay.com/zh-cn/g6/3.x/demo/case/american-migration-bundling.html' target='_blank'>Demo 链接</a>。该 <a href='https://g6.antv.vision/zh/docs/manual/cases/edgeBundling' target='_blank'>Demo 教程</a>。
-
 
 实例化时可以通过配置项调整边绑定的功能。
 

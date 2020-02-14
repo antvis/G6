@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-  
   <head>
-    <meta charset="UTF-8">
-    <title>节点背景使用图片</title></head>
-  
+    <meta charset="UTF-8" />
+    <title>节点背景使用图片</title>
+  </head>
+
   <body>
     <div id="mountNode"></div>
     <script src="../build/g6.js"></script>
@@ -13,30 +13,33 @@
        * 本示例演示以下功能：
        * 1、如何使用图片作为节点背景；
        * 2、点击切换节点背景图片。
-       * 
-      */
+       *
+       */
       const img = new Image();
-      img.src = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566553535233&di=b0b17eeea7bd7356a6f42ebfd48e9441&imgtype=0&src=http%3A%2F%2Fa2.att.hudong.com%2F64%2F29%2F01300543361379145388299988437_s.jpg';
+      img.src =
+        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566553535233&di=b0b17eeea7bd7356a6f42ebfd48e9441&imgtype=0&src=http%3A%2F%2Fa2.att.hudong.com%2F64%2F29%2F01300543361379145388299988437_s.jpg';
 
       // 点击图片节点，切换背景图片
       const img2 = new Image();
       img2.src = 'http://seopic.699pic.com/photo/50055/5642.jpg_wh1200.jpg';
       const data = {
-        nodes: [{
-          x: 400,
-          y: 100,
-          shape: 'image',
-          id: 'node2',
-          img: img.src,
-          label: '头像',
-          style: {
-            cursor: 'pointer'
+        nodes: [
+          {
+            x: 400,
+            y: 100,
+            shape: 'image',
+            id: 'node2',
+            img: img.src,
+            label: '头像',
+            style: {
+              cursor: 'pointer',
+            },
+            labelCfg: {
+              position: 'bottom',
+            },
           },
-          labelCfg: {
-            position: 'bottom'
-          }
-        }],
-        edges: []
+        ],
+        edges: [],
       };
       // 避免拖动过程中闪烁：使用加载已经LOAD好的图片
       img.onload = function() {
@@ -45,11 +48,11 @@
           width: 1000,
           height: 600,
           defaultEdge: {
-            color: '#bae7ff'
+            color: '#bae7ff',
           },
           modes: {
-            default: [ 'drag-node' ],
-          }
+            default: ['drag-node'],
+          },
         });
         graph.data(data);
         graph.render();
@@ -66,10 +69,13 @@
               target.set('hasChangeBg', true);
             } else {
               target.attr('img', img);
-              target.attr('imgSrc', 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566553535233&di=b0b17eeea7bd7356a6f42ebfd48e9441&imgtype=0&src=http%3A%2F%2Fa2.att.hudong.com%2F64%2F29%2F01300543361379145388299988437_s.jpg');
+              target.attr(
+                'imgSrc',
+                'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566553535233&di=b0b17eeea7bd7356a6f42ebfd48e9441&imgtype=0&src=http%3A%2F%2Fa2.att.hudong.com%2F64%2F29%2F01300543361379145388299988437_s.jpg',
+              );
               target.set('hasChangeBg', false);
             }
-            graph.paint()
+            graph.paint();
           }
         });
       };

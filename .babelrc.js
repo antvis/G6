@@ -3,10 +3,7 @@ module.exports = api => {
 
   if (process.env.GATSBY === 'true') {
     return {
-      presets: [
-        '@babel/preset-env',
-        'babel-preset-gatsby'
-      ]
+      presets: ['@babel/preset-env', 'babel-preset-gatsby'],
     };
   }
   return {
@@ -15,10 +12,10 @@ module.exports = api => {
         '@babel/preset-env',
         {
           loose: true,
-          modules: false
-        }
+          modules: false,
+        },
       ],
-      '@babel/preset-react'
-    ]
+      '@babel/preset-react',
+    ],
   };
 };

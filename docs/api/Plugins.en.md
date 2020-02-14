@@ -4,6 +4,7 @@ order: 9
 ---
 
 There are several plugins in G6 which can be used inside and ouside G6 freely.
+
 - [Grid](#grid)
 - [Minimap](#minimap)
 - [Edge Bundling](#edge-bundling)
@@ -19,20 +20,20 @@ const grid = new G6.Grid();
 const minimap = new G6.Minimap();
 const graph = new G6.Graph({
   //... Other configurations
-  plugins: [ grid, minimap ] // Configure Grid and Minimap to the graph
+  plugins: [grid, minimap], // Configure Grid and Minimap to the graph
 });
 ```
 
-
 ## Grid
+
 Grid draw grids on the canvas.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*y8u6Rrc78uIAAAAAAAAAAABkARQnAQ' width=300 />
 
 Grid has no configurations. Just use the code in [Configure to Graph](#configure-to-graph) to use it.
 
-
 ## Minimap
+
 Minimap is a tool for quick preview and exploration on large graph.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v1svQLkEPrUAAAAAAAAAAABkARQnAQ' width=300 />
@@ -50,19 +51,18 @@ It can be configured to adjust the styles and functions.
 | size | Array | The size of the Minimap |
 | delegateStyle | Object | Takes effect when `type` is `'delegate'`. The style of the delegate of the items on the graph |
 
-
 The `delegateStyle` has the properties:
 
-| Name | Type | Description |
-| --- | --- | --- | --- |
-| fill | String | Filling color |
-| stroke | String | Stroke color |
-| lineWidth | Number | The width of the stroke |
-| opacity | Number | Opacity |
-| fillOpacity | Number | Filling opacity |
-
+| Name        | Type   | Description             |
+| ----------- | ------ | ----------------------- |
+| fill        | String | Filling color           |
+| stroke      | String | Stroke color            |
+| lineWidth   | Number | The width of the stroke |
+| opacity     | Number | Opacity                 |
+| fillOpacity | Number | Filling opacity         |
 
 ## Edge Bundling
+
 In complex graph with large number of edges, edge bundling can help you to improve the visual clutter.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z9iXQq_kcrYAAAAAAAAAAABkARQnAQ' width=600 />

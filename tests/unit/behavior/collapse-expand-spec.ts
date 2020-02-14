@@ -1,6 +1,6 @@
-import '../../../src/behavior'
-import '../../../src/shape'
-import TreeGraph from '../../../src/graph/tree-graph'
+import '../../../src/behavior';
+import '../../../src/shape';
+import TreeGraph from '../../../src/graph/tree-graph';
 
 const div = document.createElement('div');
 div.id = 'collapse-expand-spec';
@@ -11,92 +11,101 @@ function approximateEqual(a, b) {
 }
 
 describe('collapse expand tree graph', () => {
-
   const data = {
     isRoot: true,
     id: 'Root',
     style: {
-      fill: 'red'
+      fill: 'red',
     },
-    children: [{
-      id: 'SubTreeNode1',
-      raw: {},
-      children: [{
-        id: 'SubTreeNode1.1'
+    children: [
+      {
+        id: 'SubTreeNode1',
+        raw: {},
+        children: [
+          {
+            id: 'SubTreeNode1.1',
+          },
+          {
+            id: 'SubTreeNode1.2',
+            label: 'SubTreeNode1.2',
+            children: [
+              {
+                id: 'SubTreeNode1.2.1',
+              },
+              {
+                id: 'SubTreeNode1.2.2',
+              },
+              {
+                id: 'SubTreeNode1.2.3',
+              },
+            ],
+          },
+        ],
       },
       {
-        id: 'SubTreeNode1.2',
-        label: 'SubTreeNode1.2',
-        children: [{
-          id: 'SubTreeNode1.2.1'
-        },
-        {
-          id: 'SubTreeNode1.2.2'
-        },
-        {
-          id: 'SubTreeNode1.2.3'
-        }]
-      }]
-    },
-    {
-      id: 'SubTreeNode2',
-      children: [{
-        id: 'SubTreeNode2.1'
-      }]
-    },
-    {
-      id: 'SubTreeNode3',
-      label: 'SubTreeNode3',
-      children: [{
-        id: 'SubTreeNode3.1'
+        id: 'SubTreeNode2',
+        children: [
+          {
+            id: 'SubTreeNode2.1',
+          },
+        ],
       },
       {
-        id: 'SubTreeNode3.2'
+        id: 'SubTreeNode3',
+        label: 'SubTreeNode3',
+        children: [
+          {
+            id: 'SubTreeNode3.1',
+          },
+          {
+            id: 'SubTreeNode3.2',
+          },
+          {
+            id: 'SubTreeNode3.3',
+          },
+        ],
       },
       {
-        id: 'SubTreeNode3.3'
-      }]
-    },
-    {
-      id: 'SubTreeNode4'
-    },
-    {
-      id: 'SubTreeNode5'
-    },
-    {
-      id: 'SubTreeNode6'
-    },
-    {
-      id: 'SubTreeNode7',
-      label: 'SubTreeNode7'
-    },
-    {
-      id: 'SubTreeNode8'
-    },
-    {
-      id: 'SubTreeNode9'
-    },
-    {
-      id: 'SubTreeNode10'
-    },
-    {
-      id: 'SubTreeNode11'
-    }]
+        id: 'SubTreeNode4',
+      },
+      {
+        id: 'SubTreeNode5',
+      },
+      {
+        id: 'SubTreeNode6',
+      },
+      {
+        id: 'SubTreeNode7',
+        label: 'SubTreeNode7',
+      },
+      {
+        id: 'SubTreeNode8',
+      },
+      {
+        id: 'SubTreeNode9',
+      },
+      {
+        id: 'SubTreeNode10',
+      },
+      {
+        id: 'SubTreeNode11',
+      },
+    ],
   };
   const graph = new TreeGraph({
     container: div,
     width: 500,
     height: 500,
     layout: {
-      type: 'compactBox'
+      type: 'compactBox',
     },
     fitView: true,
     modes: {
-      default: [ 'collapse-expand' ]
+      default: ['collapse-expand'],
     },
     defaultNode: {
-      size: 10
-    }
+      size: 10,
+    },
   });
   graph.data(data);
   graph.render();
@@ -129,18 +138,20 @@ describe('collapse expand tree graph', () => {
       width: 500,
       height: 500,
       layout: {
-        type: 'compactBox'
+        type: 'compactBox',
       },
       fitView: true,
       modes: {
-        default: [{
-          type: 'collapse-expand',
-          trigger: 'testInvalid'
-        }]
+        default: [
+          {
+            type: 'collapse-expand',
+            trigger: 'testInvalid',
+          },
+        ],
       },
       defaultNode: {
-        size: 10
-      }
+        size: 10,
+      },
     });
     graph2.data(data);
     graph2.render();
@@ -158,20 +169,22 @@ describe('collapse expand tree graph', () => {
       width: 500,
       height: 500,
       layout: {
-        type: 'compactBox'
+        type: 'compactBox',
       },
       fitView: true,
       modes: {
-        default: [{
-          type: 'collapse-expand',
-          shouldBegin: () => {
-            return false;
-          }
-        }]
+        default: [
+          {
+            type: 'collapse-expand',
+            shouldBegin: () => {
+              return false;
+            },
+          },
+        ],
       },
       defaultNode: {
-        size: 10
-      }
+        size: 10,
+      },
     });
     graph2.data(data);
     graph2.render();
@@ -188,20 +201,22 @@ describe('collapse expand tree graph', () => {
       width: 500,
       height: 500,
       layout: {
-        type: 'compactBox'
+        type: 'compactBox',
       },
       fitView: true,
       modes: {
-        default: [{
-          type: 'collapse-expand',
-          shouldUpdate: () => {
-            return false;
-          }
-        }]
+        default: [
+          {
+            type: 'collapse-expand',
+            shouldUpdate: () => {
+              return false;
+            },
+          },
+        ],
       },
       defaultNode: {
-        size: 10
-      }
+        size: 10,
+      },
     });
     graph2.data(data);
     graph2.render();

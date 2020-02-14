@@ -1,7 +1,7 @@
 import { Point } from '@antv/g-base/lib/types';
 import { IGroup } from '@antv/g-canvas/lib/interfaces';
 import { mat3, transform, vec3 } from '@antv/matrix-util';
-import isArray from '@antv/util/lib/is-array'
+import isArray from '@antv/util/lib/is-array';
 import { GraphData, ICircle, IEllipse, IRect, Matrix, EdgeConfig, NodeIdxMap } from '../types';
 
 /**
@@ -159,12 +159,12 @@ export const getEllispeIntersectByPoint = (ellipse: IEllipse, point: Point): Poi
  * @return {Point} transformed point
  */
 export const applyMatrix = (point: Point, matrix: Matrix, tag: 0 | 1 = 1): Point => {
-  const vector = [ point.x, point.y, tag ]
-  if(!matrix) {
-    matrix = mat3.create()
+  const vector = [point.x, point.y, tag];
+  if (!matrix) {
+    matrix = mat3.create();
   }
-  
-  vec3.transformMat3(vector, vector, matrix)
+
+  vec3.transformMat3(vector, vector, matrix);
 
   return {
     x: vector[0],
@@ -180,13 +180,13 @@ export const applyMatrix = (point: Point, matrix: Matrix, tag: 0 | 1 = 1): Point
  * @return {object} transformed point
  */
 export const invertMatrix = (point: Point, matrix: Matrix, tag: 0 | 1 = 1): Point => {
-  if (!matrix) { 
-    matrix = mat3.create(); 
+  if (!matrix) {
+    matrix = mat3.create();
   }
 
-  const inversedMatrix = mat3.invert([], matrix)
-  const vector = [ point.x, point.y, tag ]
-  vec3.transformMat3(vector, vector, inversedMatrix)
+  const inversedMatrix = mat3.invert([], matrix);
+  const vector = [point.x, point.y, tag];
+  vec3.transformMat3(vector, vector, inversedMatrix);
 
   return {
     x: vector[0],
@@ -232,9 +232,9 @@ export const distance = (p1: Point, p2: Point): number => {
  */
 export const scaleMatrix = (matrix: Matrix[], ratio: number) => {
   const result: Matrix[] = [];
-  matrix.forEach((row) => {
+  matrix.forEach(row => {
     const newRow: number[] = [];
-    row.forEach((v) => {
+    row.forEach(v => {
       newRow.push(v * ratio);
     });
     result.push(newRow);
@@ -289,8 +289,8 @@ export const getAdjMatrix = (data: GraphData, directed: boolean): Matrix[] => {
     [key: string]: number;
   } = {};
 
-  if(!nodes) {
-    throw new Error('invalid nodes data!')
+  if (!nodes) {
+    throw new Error('invalid nodes data!');
   }
   if (nodes) {
     nodes.forEach((node, i) => {
@@ -301,7 +301,7 @@ export const getAdjMatrix = (data: GraphData, directed: boolean): Matrix[] => {
   }
 
   if (edges) {
-    edges.forEach((e) => {
+    edges.forEach(e => {
       const { source, target } = e;
       const sIndex = nodeMap[source as string];
       const tIndex = nodeMap[target as string];
@@ -321,12 +321,10 @@ export const getAdjMatrix = (data: GraphData, directed: boolean): Matrix[] => {
  * @param vec 移动向量
  */
 export const translate = (group: IGroup, vec: Point) => {
-  let matrix: Matrix = group.getMatrix()
-  matrix = transform(matrix, [
-    [ 't',  vec.x, vec.y ]
-  ])
-  group.setMatrix(matrix)
-}
+  let matrix: Matrix = group.getMatrix();
+  matrix = transform(matrix, [['t', vec.x, vec.y]]);
+  group.setMatrix(matrix);
+};
 
 /**
  * 移动到指定坐标点
@@ -334,16 +332,14 @@ export const translate = (group: IGroup, vec: Point) => {
  * @param point 移动到的坐标点
  */
 export const move = (group: IGroup, point: Point) => {
-  const matrix: Matrix = group.getMatrix()
+  const matrix: Matrix = group.getMatrix();
   const orix = group.get('x') || 0;
   const oriy = group.get('y') || 0;
-  const movedMatrix = transform(matrix, [
-    ['t', point.x - orix, point.y - oriy ]
-  ])
-  group.set('x', point.x)
-  group.set('y', point.y)
-  group.setMatrix(movedMatrix)
-}
+  const movedMatrix = transform(matrix, [['t', point.x - orix, point.y - oriy]]);
+  group.set('x', point.x);
+  group.set('y', point.y);
+  group.setMatrix(movedMatrix);
+};
 
 /**
  * 缩放 group
@@ -351,44 +347,40 @@ export const move = (group: IGroup, point: Point) => {
  * @param point 在x 和 y 方向上的缩放比例
  */
 export const scale = (group: IGroup, ratio: number | number[]) => {
-  let matrix: Matrix = group.getMatrix()
+  let matrix: Matrix = group.getMatrix();
 
-  let scaleXY = ratio
-  if(!isArray(ratio)) {
-    scaleXY = [ratio, ratio]
+  let scaleXY = ratio;
+  if (!isArray(ratio)) {
+    scaleXY = [ratio, ratio];
   }
 
-  if(isArray(ratio) && ratio.length === 0) {
-    scaleXY = [ratio[0], ratio[0]]
+  if (isArray(ratio) && ratio.length === 0) {
+    scaleXY = [ratio[0], ratio[0]];
   }
 
-  matrix = transform(matrix, [
-    ['s', (scaleXY as number[])[0], (scaleXY as number[])[1]]
-  ])
+  matrix = transform(matrix, [['s', (scaleXY as number[])[0], (scaleXY as number[])[1]]]);
 
-  group.setMatrix(matrix)
-}
+  group.setMatrix(matrix);
+};
 
 /**
- * 
+ *
  * @param group Group 实例
  * @param ratio 选择角度
  */
 export const rotate = (group: IGroup, angle: number) => {
-  let matrix: Matrix = group.getMatrix()
-  matrix = transform(matrix, [
-    ['r', angle]
-  ])
+  let matrix: Matrix = group.getMatrix();
+  matrix = transform(matrix, [['r', angle]]);
 
-  group.setMatrix(matrix)
-}
+  group.setMatrix(matrix);
+};
 
 export const getDegree = (n: number, nodeIdxMap: NodeIdxMap, edges: EdgeConfig[]): number[] => {
   const degrees: number[] = [];
   for (let i = 0; i < n; i++) {
     degrees[i] = 0;
   }
-  edges.forEach((e) => {
+  edges.forEach(e => {
     if (e.source) {
       degrees[nodeIdxMap[e.source]] += 1;
     }
@@ -397,4 +389,4 @@ export const getDegree = (n: number, nodeIdxMap: NodeIdxMap, edges: EdgeConfig[]
     }
   });
   return degrees;
-}
+};

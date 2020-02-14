@@ -4,18 +4,19 @@ order: 6
 ---
 
 ## Graphics Shape
+
 Graphics Shape (hereinafter referred to as Shape) in G6 is the shape of items (nodes/edges), it can be a circle, a rect, path, and so on. **A node or an edge is made up of one or several Shapes. The configurations on a node, an edge, or a label will be writed onto corresponding graphics Shape.**
 
-In the figure(Left) below, there is a node with a circle Shape; (Center) a node with a circle Shape and a text Shape; (right) a node with a text Shape and 5 circle Shapes including the main circle and four anchor points. Each node or edge has only one keyShape. The keyShape of each nodes in the figure below is the green circle. [keyShape](#keyshape) is the Shape that responses interactions and [State](/en/docs/manual/middle/states/state) changing. 
-<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OcaaTIIu_4cAAAAAAAAAAABkARQnAQ' width=50/>     <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*r5M0Sowd1R8AAAAAAAAAAABkARQnAQ' width=50/>      <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*pHoETad75CIAAAAAAAAAAABkARQnAQ' width=50/>
-> (Left) A node with one circle Shape, the keyShape is the circle. (Center) A node with a text Shape and the circle Shape, the keyShape is the circle. (Right) A node with a text Shape and five circle Shapes including the main circle and four anchors, the keyShape is the green circle.
+In the figure(Left) below, there is a node with a circle Shape; (Center) a node with a circle Shape and a text Shape; (right) a node with a text Shape and 5 circle Shapes including the main circle and four anchor points. Each node or edge has only one keyShape. The keyShape of each nodes in the figure below is the green circle. [keyShape](#keyshape) is the Shape that responses interactions and [State](/en/docs/manual/middle/states/state) changing. <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OcaaTIIu_4cAAAAAAAAAAABkARQnAQ' width=50/>     <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*r5M0Sowd1R8AAAAAAAAAAABkARQnAQ' width=50/>      <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*pHoETad75CIAAAAAAAAAAABkARQnAQ' width=50/>
 
+> (Left) A node with one circle Shape, the keyShape is the circle. (Center) A node with a text Shape and the circle Shape, the keyShape is the circle. (Right) A node with a text Shape and five circle Shapes including the main circle and four anchors, the keyShape is the green circle.
 
 G6 designs abundant built-in nodes and edges by combing different Shapes. Built-in nodes includes 'circle', 'rect', 'ellipse', ...(Refer to [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode)); Built-in edges includes 'line', 'polyline', 'cubic', ... (Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge)).
 
 Besides, G6 allows users to define their own types of item by register a custom node or an custom edge. Refer to [Custom Node](/en/docs/manual/advanced/custom-node) and [Custom Edge](/en/docs/manual/advanced/custom-edge).
 
 ## KeyShape
+
 As stated above, there is only one keyShape for each type of item. keyShape is returned by `draw()` of each type of item. It has two main effcts:
 
 ### Response the Style
@@ -25,57 +26,62 @@ The property `style` in built-in nodes/edges of G6 is only reponsed by keyShape.
 To break the rules above, you can register a type of [Custom Node](/en/docs/manual/advanced/custom-node) or [Custom Edge](/en/docs/manual/advanced/custom-edge).
 
 #### Example
+
 We use the built-in rect node in this example. The keyShape of the node is the rect Shape. There are other shapes including four small circle Shapes around and a text Shape for the label. The code below assigns the `style` for the node. `style` only takes effect on the keyShape. The styles for other Shapes need to be configured by other properties such as `linkPoints` and `labelCfg`. We also listen to the mouse enter and mouse leave events to activate/inactivate the hover state, the responsing styles defined in `nodeStateStyles` only takes effect on keyShape as well.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wWckTbi910IAAAAAAAAAAABkARQnAQ' alt='keyshape-demo' with='50'/>
 
 ```javascript
 const data = {
-  nodes: [{
-    x: 100,
-    y: 100,
-    label: 'rect',
-    type: 'rect',
-    style: { // The style for the keyShape
-    	fill: 'lightblue',
-      stroke: '#888',
-      lineWidth: 1,
-      radius: 7
+  nodes: [
+    {
+      x: 100,
+      y: 100,
+      label: 'rect',
+      type: 'rect',
+      style: {
+        // The style for the keyShape
+        fill: 'lightblue',
+        stroke: '#888',
+        lineWidth: 1,
+        radius: 7,
+      },
+      linkPoints: {
+        top: true,
+        bottom: true,
+        left: true,
+        right: true,
+        // ... Styles for linkPoints can be assigned here
+      },
+      // labelCfg: {...} // The style for the label con be assigned here
     },
-    linkPoints: {
-      top: true,
-      bottom: true,
-      left: true,
-      right: true,
-      // ... Styles for linkPoints can be assigned here
-    },
-    // labelCfg: {...} // The style for the label con be assigned here
- }]
+  ],
 };
 const graph = new G6.Graph({
-	container: 'mountNode',
+  container: 'mountNode',
   width: 500,
   height: 300,
-  nodeStateStyles: { // The state styles taking effect on keyShape only
+  nodeStateStyles: {
+    // The state styles taking effect on keyShape only
     hover: {
       fillOpacity: 0.1,
       lineWidth: 10,
-    }
-  }
+    },
+  },
 });
 graph.data(data);
 graph.render();
 // Listen to the mouse enter event on node
 graph.on('node:mouseenter', evt => {
-   const node = evt.item;
-   // activate the hover state of the node
-   graph.setItemState(node, 'hover', true);
+  const node = evt.item;
+  // activate the hover state of the node
+  graph.setItemState(node, 'hover', true);
 });
 // Listen to the mouse leave event on node
 graph.on('node:mouseleave', evt => {
-   const node = evt.item;
-   // inactivate the hover state of the node
-   graph.setItemState(node, 'hover', false);
+  const node = evt.item;
+  // inactivate the hover state of the node
+  graph.setItemState(node, 'hover', false);
 });
 ```
 
@@ -84,6 +90,7 @@ graph.on('node:mouseleave', evt => {
 KeyShape is used for **defining the Bounding Box —— bbox（x, y, width, height)** of the node to do some transformations and calculate the link points. Different keyShape will lead to different result link points.
 
 ### Example 
+
 There is a node with a rect Shape and a circle Shape in transparent filling and grey stroke.
 
 - When the keyShape of the node is the circle:
@@ -94,8 +101,8 @@ There is a node with a rect Shape and a circle Shape in transparent filling and 
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*upWTQLTvxGEAAAAAAAAAAABkARQnAQ' width=250/>
 
-
 ## The Life Cycle of Shape
+
 > You can skip this part if you are going to use the built-in items. For the users who have the requirements to [Custom Node](/en/docs/manual/advanced/custom-node) and [Custom Edge](/en/docs/manual/advanced/custom-edge), you'd better know the life cycle of Shape.
 
 The life cycle of Shape:

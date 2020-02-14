@@ -72,8 +72,8 @@ export default class ForceLayout<Cfg = any> extends BaseLayout {
       tick() {},
       onLayoutEnd() {}, // 布局完成回调
       onTick() {}, // 每一迭代布局回调
-      // 是否启用web worker。前提是在web worker里执行布局，否则无效	
-      workerEnabled: false
+      // 是否启用web worker。前提是在web worker里执行布局，否则无效
+      workerEnabled: false,
     };
   }
 
@@ -158,13 +158,17 @@ export default class ForceLayout<Cfg = any> extends BaseLayout {
               }
             });
           self.ticking = true;
-        } else { // worker is enabled
+        } else {
+          // worker is enabled
           simulation.stop();
           const totalTicks = getSimulationTicks(simulation);
           for (let currentTick = 1; currentTick <= totalTicks; currentTick++) {
             simulation.tick();
             // currentTick starts from 1.
-            postMessage({ type: LAYOUT_MESSAGE.TICK, currentTick, totalTicks, nodes }, undefined as any);
+            postMessage(
+              { type: LAYOUT_MESSAGE.TICK, currentTick, totalTicks, nodes },
+              undefined as any,
+            );
           }
           self.ticking = false;
         }
@@ -232,7 +236,10 @@ export default class ForceLayout<Cfg = any> extends BaseLayout {
     }
 
     // forceCollide's parameter is a radius
-    simulation.force('collisionForce', d3Force.forceCollide(nodeSizeFunc).strength(collideStrength));
+    simulation.force(
+      'collisionForce',
+      d3Force.forceCollide(nodeSizeFunc).strength(collideStrength),
+    );
   }
 
   /**
@@ -261,19 +268,21 @@ export default class ForceLayout<Cfg = any> extends BaseLayout {
   }
 }
 
-// Return total ticks of d3-force simulation	
-function getSimulationTicks(simulation: any): number {	
-  const alphaMin = simulation.alphaMin();	
-  const alphaTarget = simulation.alphaTarget();	
-  const alpha = simulation.alpha();	
-  const totalTicksFloat = Math.log((alphaMin - alphaTarget) / (alpha - alphaTarget)) / Math.log(1 - simulation.alphaDecay());	
-  const totalTicks = Math.ceil(totalTicksFloat);	
-  return totalTicks;	
+// Return total ticks of d3-force simulation
+function getSimulationTicks(simulation: any): number {
+  const alphaMin = simulation.alphaMin();
+  const alphaTarget = simulation.alphaTarget();
+  const alpha = simulation.alpha();
+  const totalTicksFloat =
+    Math.log((alphaMin - alphaTarget) / (alpha - alphaTarget)) /
+    Math.log(1 - simulation.alphaDecay());
+  const totalTicks = Math.ceil(totalTicksFloat);
+  return totalTicks;
 }
 declare const WorkerGlobalScope: any;
 
-// 判断是否运行在web worker里	
+// 判断是否运行在web worker里
 function isInWorker(): boolean {
-  // eslint-disable-next-line no-undef	
-  return typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope;	
+  // eslint-disable-next-line no-undef
+  return typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope;
 }

@@ -5,14 +5,10 @@ order: 3
 
 G6 provides abundant [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge). Besides, the custom machanism allows the users to design their own type of edges. An edge with complex graphics shapes, complex interactions, fantastic animations can be implemented easily.
 
-In this document, we will introduce the custom edge by four examples:
-<br />1. Register a bran-new edge;
-<br />2. Register an edge by extending a built-in edge;
-<br />3. Register an edge with interactions and styles;
-<br />4. Register an edge with custom arrow.
-
+In this document, we will introduce the custom edge by four examples: <br />1. Register a bran-new edge; <br />2. Register an edge by extending a built-in edge; <br />3. Register an edge with interactions and styles; <br />4. Register an edge with custom arrow.
 
 ## 1. Register a Bran-new Edge
+
 Now, we are goint to register a perpendicular polyline:<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HxY-TJ2vJFMAAAAAAAAAAABkARQnAQ' alt='img' width='150'/>
@@ -22,6 +18,7 @@ Now, we are goint to register a perpendicular polyline:<br />
 > (Left) Straight line edge. (Center) A custom polyline edge. (Right) The result after modifying the link points of the end nodes.
 
 ### Register a Custom Edge
+
 ```javascript
 G6.registerEdge('hvh', {
   draw(cfg, group) {
@@ -32,16 +29,16 @@ G6.registerEdge('hvh', {
         stroke: '#333',
         path: [
           ['M', startPoint.x, startPoint.y],
-          ['L', endPoint.x / 3 + 2 / 3 * startPoint.x , startPoint.y], // 1/3
-          ['L', endPoint.x / 3 + 2 / 3 * startPoint.x , endPoint.y],   // 2/3
-          ['L', endPoint.x, endPoint.y]
-        ]
+          ['L', endPoint.x / 3 + (2 / 3) * startPoint.x, startPoint.y], // 1/3
+          ['L', endPoint.x / 3 + (2 / 3) * startPoint.x, endPoint.y], // 2/3
+          ['L', endPoint.x, endPoint.y],
+        ],
       },
       // must be assigned in G6 3.3 and later versions. it can be any value you want
-      name: 'path-shape'
+      name: 'path-shape',
     });
     return shape;
-  }
+  },
 });
 ```
 
@@ -50,72 +47,93 @@ Now, we have registered a custom edge named `'hvh'` whose result is shown in the
 To achieve the result shown in the right of the figure, we modify the anchorPoints (link points) of the end nodes to change the positions of `startPoint` and `endPoint`.
 
 ### Modify the anchorPoints in Data
+
 Now, we modify `anchorPoints` in the node data, and then assign `shape` to `'hvh'` in edge data as shown below.
+
 ```javascript
 const data = {
-  nodes: [{
-    id: 'node1',
-    x: 100,
-    y: 200,
-    anchorPoints:[
-      [0, 0.5],  [1, 0.5]
-    ]
- },{
-    id: 'node2',
-    x: 200,
-    y: 100,
-    anchorPoints:[
-      [0, 0.5],  [1, 0.5]
-    ]
- },{
-    id: 'node3',
-    x: 200,
-    y: 300,
-    anchorPoints:[
-      [0, 0.5],  [1, 0.5]
-    ]
- }],
-  edges: [{
-    id: 'edge1',
-    target: 'node2',
-    source: 'node1',
-    type: 'hvh'
- },{
-    id: 'edge2',
-    target: 'node3',
-    source: 'node1',
-   	type: 'hvh'
- }]
+  nodes: [
+    {
+      id: 'node1',
+      x: 100,
+      y: 200,
+      anchorPoints: [
+        [0, 0.5],
+        [1, 0.5],
+      ],
+    },
+    {
+      id: 'node2',
+      x: 200,
+      y: 100,
+      anchorPoints: [
+        [0, 0.5],
+        [1, 0.5],
+      ],
+    },
+    {
+      id: 'node3',
+      x: 200,
+      y: 300,
+      anchorPoints: [
+        [0, 0.5],
+        [1, 0.5],
+      ],
+    },
+  ],
+  edges: [
+    {
+      id: 'edge1',
+      target: 'node2',
+      source: 'node1',
+      type: 'hvh',
+    },
+    {
+      id: 'edge2',
+      target: 'node3',
+      source: 'node1',
+      type: 'hvh',
+    },
+  ],
 };
 ```
 
 ## 2. Extend the Built-in Edge
+
 In this section, we add animation to a built-in edge by `afterDraw`.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-l9lQ7Ck1QcAAAAAAAAAAABkARQnAQ' alt='img' width='250'/>
 
 ```javascript
-G6.registerEdge('line-growth', {
-  afterDraw(cfg, group) {
-    const shape = group.get('children')[0];
-    const length = shape.getTotalLength();
-    shape.animate((ratio) => {
-      const startLen = ratio * length;
-      const cfg = {
-        lineDash: [startLen, length - startLen]
-      };
-      return cfg;
-    }, {
-      repeat: true,
-      duration: 2000
-    });
-  }
-}, 'cubic');
+G6.registerEdge(
+  'line-growth',
+  {
+    afterDraw(cfg, group) {
+      const shape = group.get('children')[0];
+      const length = shape.getTotalLength();
+      shape.animate(
+        ratio => {
+          const startLen = ratio * length;
+          const cfg = {
+            lineDash: [startLen, length - startLen],
+          };
+          return cfg;
+        },
+        {
+          repeat: true,
+          duration: 2000,
+        },
+      );
+    },
+  },
+  'cubic',
+);
 ```
 
 <br />
 
 ## 3. Custom Edge with Interaction Styles
+
 In this section, we implement a type of edge with the interaction styles below:
 
 - Widen the edge by clicking. Restore it by clicking again;
@@ -131,82 +149,84 @@ The result:<br />
 
 ```javascript
 // Extend a new type of edge by extending line edge
-G6.registerEdge('custom-edge', {
-  // Response the states change
-  setState(name, value, item) {
-    const group = item.getContainer();
-    const shape = group.get('children')[0]; // The order is determined by the ordering of been draw
-    if(name === 'active') {
-      if(value) {
-        shape.attr('stroke', 'red');
-      } else {
-        shape.attr('stroke', '#333');
+G6.registerEdge(
+  'custom-edge',
+  {
+    // Response the states change
+    setState(name, value, item) {
+      const group = item.getContainer();
+      const shape = group.get('children')[0]; // The order is determined by the ordering of been draw
+      if (name === 'active') {
+        if (value) {
+          shape.attr('stroke', 'red');
+        } else {
+          shape.attr('stroke', '#333');
+        }
       }
-    }
-    if (name === 'selected') {
-      if(value) {
-        shape.attr('lineWidth', 3);
-      } else {
-        shape.attr('lineWidth', 2);
+      if (name === 'selected') {
+        if (value) {
+          shape.attr('lineWidth', 3);
+        } else {
+          shape.attr('lineWidth', 2);
+        }
       }
-    }
-  }
-}, 'line');
+    },
+  },
+  'line',
+);
 
 // Select by clicking, cancel by clicking again
-graph.on('edge:click', ev=> {
+graph.on('edge:click', ev => {
   const edge = ev.item;
   graph.setItemState(edge, 'selected', !edge.hasState('selected')); // Switch the 'selected' state
 });
 
-graph.on('edge:mouseenter' ,ev=> {
-	const edge = ev.item;
+graph.on('edge:mouseenter', ev => {
+  const edge = ev.item;
   graph.setItemState(edge, 'active', true);
 });
 
-graph.on('edge:mouseleave' , ev=> {
-	const edge = ev.item;
+graph.on('edge:mouseleave', ev => {
+  const edge = ev.item;
   graph.setItemState(edge, 'active', false);
 });
-
 ```
 
 <br />
 
 ## 4. Register Edge with Custom Arrow
+
 The default end arrows might not meet the requirements sometimes. You can register an edge with a custom arrow by the custom mechanism of G6.<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*f1G9RJ5dE2oAAAAAAAAAAABkARQnAQ' alt='img' width='250'/>
 
 > (Left) Built-in arrow of G6. (Right) A custom edge with custom arrow.
 
-
 ```javascript
 G6.registerEdge('line-arrow', {
   draw(cfg, group) {
-    const { startPoint, endPoint } = cfg
+    const { startPoint, endPoint } = cfg;
     const keyShape = group.addShape('path', {
       attrs: {
         path: [
-          [ 'M', startPoint.x, startPoint.y ],
-          [ 'L', endPoint.x, endPoint.y ]
+          ['M', startPoint.x, startPoint.y],
+          ['L', endPoint.x, endPoint.y],
         ],
         stroke: 'steelblue',
         lineWidth: 3,
         startArrow: {
           path: 'M 10,0 L -10,-10 L -10,10 Z',
-          d: 10
+          d: 10,
         },
         endArrow: {
           path: 'M 10,0 L -10,-10 L -10,10 Z',
-          d: 10
-        }
+          d: 10,
+        },
       },
       // must be assigned in G6 3.3 and later versions. it can be any value you want
-      name: 'path-shape'
+      name: 'path-shape',
     });
-    return keyShape
-  }
+    return keyShape;
+  },
 });
 ```
-

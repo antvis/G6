@@ -9,11 +9,7 @@ export default class MDS {
   /** link distance */
   public linkDistance: number;
 
-  constructor(params: {
-    distances: Matrix[],
-    dimension?: number,
-    linkDistance: number
-  }) {
+  constructor(params: { distances: Matrix[]; dimension?: number; linkDistance: number }) {
     this.distances = params.distances;
     this.dimension = params.dimension || 2;
     this.linkDistance = params.linkDistance;
@@ -21,7 +17,7 @@ export default class MDS {
 
   public layout(): IPointTuple[] {
     const self = this;
-    const { dimension, distances, linkDistance } = self
+    const { dimension, distances, linkDistance } = self;
 
     // square distances
     const M = Numeric.mul(-0.5, Numeric.pow(distances, 2));
@@ -43,7 +39,7 @@ export default class MDS {
     // take the SVD of the double centred matrix, and return the
     // points from it
     let ret;
-  let res: IPointTuple[] = [];
+    let res: IPointTuple[] = [];
     try {
       ret = Numeric.svd(M);
     } catch (e) {

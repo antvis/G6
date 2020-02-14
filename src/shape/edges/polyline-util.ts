@@ -1,19 +1,16 @@
 import { BBox } from '@antv/g-canvas/lib/types';
-import { each } from '@antv/util'
+import { each } from '@antv/util';
 import { IShapeBase } from '../../types';
 import { Point } from '@antv/g-base/lib/types';
 
 interface PolyPoint {
-  x: number,
+  x: number;
   y: number;
-  id?: string
+  id?: string;
 }
 
 export const getBBoxFromPoint = (point: PolyPoint): BBox => {
-  const {
-    x,
-    y
-  } = point;
+  const { x, y } = point;
   return {
     x,
     y,
@@ -22,7 +19,7 @@ export const getBBoxFromPoint = (point: PolyPoint): BBox => {
     maxX: x,
     maxY: y,
     height: 0,
-    width: 0
+    width: 0,
   };
 };
 export const getBBoxFromPoints = (points: PolyPoint[] = []): BBox => {
@@ -43,12 +40,13 @@ export const getBBoxFromPoints = (points: PolyPoint[] = []): BBox => {
     maxY,
     minX,
     minY,
-    height: (maxY - minY),
-    width: (maxX - minX)
+    height: maxY - minY,
+    width: maxX - minX,
   };
 };
 export const isBBoxesOverlapping = (b1: BBox, b2: BBox) =>
-  Math.abs(b1.x - b2.x) * 2 < (b1.width + b2.width) && Math.abs(b1.y - b2.y) * 2 < (b1.height + b2.height);
+  Math.abs(b1.x - b2.x) * 2 < b1.width + b2.width &&
+  Math.abs(b1.y - b2.y) * 2 < b1.height + b2.height;
 
 export const filterConnectPoints = (points: PolyPoint[]): PolyPoint[] => {
   // pre-process: remove duplicated points
@@ -57,7 +55,7 @@ export const filterConnectPoints = (points: PolyPoint[]): PolyPoint[] => {
   points.forEach(p => {
     const id = `${p.x}-${p.y}`;
     p.id = id;
-    pointsMap[ id ] = p;
+    pointsMap[id] = p;
   });
   each(pointsMap, p => {
     result.push(p);
@@ -68,15 +66,15 @@ export const simplifyPolyline = (points: PolyPoint[]): PolyPoint[] => {
   points = filterConnectPoints(points);
   return points;
 };
-export const getSimplePolyline = (sPoint: PolyPoint, tPoint: PolyPoint): PolyPoint[] =>
-  [
-    sPoint,
-    { x: sPoint.x, y: tPoint.y },
-    tPoint
-  ];
+export const getSimplePolyline = (sPoint: PolyPoint, tPoint: PolyPoint): PolyPoint[] => [
+  sPoint,
+  { x: sPoint.x, y: tPoint.y },
+  tPoint,
+];
 
 export const getExpandedBBox = (bbox: any, offset: number): BBox => {
-  if (bbox.width === 0 && bbox.height === 0) { // when it is a point
+  if (bbox.width === 0 && bbox.height === 0) {
+    // when it is a point
     return bbox;
   }
   return {
@@ -87,31 +85,31 @@ export const getExpandedBBox = (bbox: any, offset: number): BBox => {
     maxX: bbox.maxX + offset,
     maxY: bbox.maxY + offset,
     height: bbox.height + 2 * offset,
-    width: bbox.width + 2 * offset
+    width: bbox.width + 2 * offset,
   };
 };
 export const isHorizontalPort = (port: PolyPoint, bbox: BBox): boolean => {
   const dx = Math.abs(port.x - bbox.x);
   const dy = Math.abs(port.y - bbox.y);
-  return (dx / bbox.width) > (dy / bbox.height);
+  return dx / bbox.width > dy / bbox.height;
 };
 export const getExpandedBBoxPoint = (bbox: any, point: PolyPoint): PolyPoint => {
   const isHorizontal = isHorizontalPort(point, bbox);
   if (isHorizontal) {
     return {
       x: point.x > bbox.centerX ? bbox.maxX : bbox.minX,
-      y: point.y
+      y: point.y,
     };
   }
   return {
     x: point.x,
-    y: point.y > bbox.centerY ? bbox.maxY : bbox.minY
+    y: point.y > bbox.centerY ? bbox.maxY : bbox.minY,
   };
 };
 /**
- * 
- * @param b1 
- * @param b2 
+ *
+ * @param b1
+ * @param b2
  */
 export const mergeBBox = (b1: BBox, b2: BBox): BBox => {
   const minX = Math.min(b1.minX, b2.minX);
@@ -126,90 +124,104 @@ export const mergeBBox = (b1: BBox, b2: BBox): BBox => {
     maxX,
     maxY,
     height: maxY - minY,
-    width: maxX - minX
+    width: maxX - minX,
   };
 };
 export const getPointsFromBBox = (bbox: BBox): PolyPoint[] => {
   // anticlockwise
-  const {
-    minX,
-    minY,
-    maxX,
-    maxY
-  } = bbox;
-  return [{
-    x: minX,
-    y: minY
-  },
-  {
-    x: maxX,
-    y: minY
-  },
-  {
-    x: maxX,
-    y: maxY
-  },
-  {
-    x: minX,
-    y: maxY
-  }];
+  const { minX, minY, maxX, maxY } = bbox;
+  return [
+    {
+      x: minX,
+      y: minY,
+    },
+    {
+      x: maxX,
+      y: minY,
+    },
+    {
+      x: maxX,
+      y: maxY,
+    },
+    {
+      x: minX,
+      y: maxY,
+    },
+  ];
 };
 export const isPointOutsideBBox = (point: PolyPoint, bbox: BBox): boolean => {
-  const {
-    x,
-    y
-  } = point;
+  const { x, y } = point;
   return x < bbox.minX || x > bbox.maxX || y < bbox.minY || y > bbox.maxY;
 };
 export const getBBoxXCrossPoints = (bbox: BBox, x: number): PolyPoint[] => {
   if (x < bbox.minX || x > bbox.maxX) {
     return [];
   }
-  return [{
-    x,
-    y: bbox.minY
-  },
-  {
-    x,
-    y: bbox.maxY
-  }];
+  return [
+    {
+      x,
+      y: bbox.minY,
+    },
+    {
+      x,
+      y: bbox.maxY,
+    },
+  ];
 };
 export const getBBoxYCrossPoints = (bbox: BBox, y: number): PolyPoint[] => {
   if (y < bbox.minY || y > bbox.maxY) {
     return [];
   }
-  return [{
-    x: bbox.minX,
-    y
-  },
-  {
-    x: bbox.maxX,
-    y
-  }];
+  return [
+    {
+      x: bbox.minX,
+      y,
+    },
+    {
+      x: bbox.maxX,
+      y,
+    },
+  ];
 };
-export const getBBoxCrossPointsByPoint = (bbox: BBox, point: PolyPoint): PolyPoint[] => 
+export const getBBoxCrossPointsByPoint = (bbox: BBox, point: PolyPoint): PolyPoint[] =>
   getBBoxXCrossPoints(bbox, point.x).concat(getBBoxYCrossPoints(bbox, point.y));
 
-export const distance = (p1: PolyPoint, p2: PolyPoint): number => Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y);
+export const distance = (p1: PolyPoint, p2: PolyPoint): number =>
+  Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y);
 
 export const _costByPoints = (p: PolyPoint, points: PolyPoint[]): number => {
   const offset = -2;
   let result = 0;
   points.forEach(point => {
     if (point) {
-      if (p.x === point.x) { result += offset; }
-      if (p.y === point.y) { result += offset; }
+      if (p.x === point.x) {
+        result += offset;
+      }
+      if (p.y === point.y) {
+        result += offset;
+      }
     }
   });
   return result;
 };
-export const heuristicCostEstimate = (p: PolyPoint, ps: PolyPoint, pt: PolyPoint, source?: PolyPoint, target?: PolyPoint): number =>
-  (distance(p, ps) + distance(p, pt)) + _costByPoints(p, [ ps, pt, source!, target! ]);
+export const heuristicCostEstimate = (
+  p: PolyPoint,
+  ps: PolyPoint,
+  pt: PolyPoint,
+  source?: PolyPoint,
+  target?: PolyPoint,
+): number => distance(p, ps) + distance(p, pt) + _costByPoints(p, [ps, pt, source!, target!]);
 
-export const reconstructPath = (pathPoints: PolyPoint[], pointById: any, cameFrom: any, currentId: string, iterator: number = 0) => {
-  pathPoints.unshift(pointById[ currentId ]);
-  if (cameFrom[ currentId ] && cameFrom[ currentId ] !== currentId && iterator <= 100) {
-    reconstructPath(pathPoints, pointById, cameFrom, cameFrom[ currentId ], iterator + 1);
+export const reconstructPath = (
+  pathPoints: PolyPoint[],
+  pointById: any,
+  cameFrom: any,
+  currentId: string,
+  iterator: number = 0,
+) => {
+  pathPoints.unshift(pointById[currentId]);
+  if (cameFrom[currentId] && cameFrom[currentId] !== currentId && iterator <= 100) {
+    reconstructPath(pathPoints, pointById, cameFrom, cameFrom[currentId], iterator + 1);
   }
 };
 export const removeFrom = (arr: PolyPoint[], item: PolyPoint) => {
@@ -218,7 +230,12 @@ export const removeFrom = (arr: PolyPoint[], item: PolyPoint) => {
     arr.splice(index, 1);
   }
 };
-export const isSegmentsIntersected = (p0: PolyPoint, p1: PolyPoint, p2: PolyPoint, p3: PolyPoint): boolean => {
+export const isSegmentsIntersected = (
+  p0: PolyPoint,
+  p1: PolyPoint,
+  p2: PolyPoint,
+  p3: PolyPoint,
+): boolean => {
   const s1_x = p1.x - p0.x;
   const s1_y = p1.y - p0.y;
   const s2_x = p3.x - p2.x;
@@ -227,16 +244,26 @@ export const isSegmentsIntersected = (p0: PolyPoint, p1: PolyPoint, p2: PolyPoin
   const s = (-s1_y * (p0.x - p2.x) + s1_x * (p0.y - p2.y)) / (-s2_x * s1_y + s1_x * s2_y);
   const t = (s2_x * (p0.y - p2.y) - s2_y * (p0.x - p2.x)) / (-s2_x * s1_y + s1_x * s2_y);
 
-  return (s >= 0 && s <= 1 && t >= 0 && t <= 1);
+  return s >= 0 && s <= 1 && t >= 0 && t <= 1;
 };
 export const isSegmentCrossingBBox = (p1: PolyPoint, p2: PolyPoint, bbox: BBox): boolean => {
   if (bbox.width === 0 && bbox.height === 0) {
     return false;
   }
-  const [ pa, pb, pc, pd ] = getPointsFromBBox(bbox);
-  return isSegmentsIntersected(p1, p2, pa, pb) || isSegmentsIntersected(p1, p2, pa, pd) || isSegmentsIntersected(p1, p2, pb, pc) || isSegmentsIntersected(p1, p2, pc, pd);
+  const [pa, pb, pc, pd] = getPointsFromBBox(bbox);
+  return (
+    isSegmentsIntersected(p1, p2, pa, pb) ||
+    isSegmentsIntersected(p1, p2, pa, pd) ||
+    isSegmentsIntersected(p1, p2, pb, pc) ||
+    isSegmentsIntersected(p1, p2, pc, pd)
+  );
 };
-export const getNeighborPoints = (points: PolyPoint[], point: PolyPoint, bbox1: BBox, bbox2: BBox): PolyPoint[] => {
+export const getNeighborPoints = (
+  points: PolyPoint[],
+  point: PolyPoint,
+  bbox1: BBox,
+  bbox2: BBox,
+): PolyPoint[] => {
   const neighbors: Point[] = [];
   points.forEach(p => {
     if (p !== point) {
@@ -249,9 +276,18 @@ export const getNeighborPoints = (points: PolyPoint[], point: PolyPoint, bbox1: 
   });
   return filterConnectPoints(neighbors);
 };
-export const pathFinder = (points: PolyPoint[], start: PolyPoint, goal: any, sBBox: BBox, tBBox: BBox, os: any, ot: any): PolyPoint[] => { // A-Star Algorithm
+export const pathFinder = (
+  points: PolyPoint[],
+  start: PolyPoint,
+  goal: any,
+  sBBox: BBox,
+  tBBox: BBox,
+  os: any,
+  ot: any,
+): PolyPoint[] => {
+  // A-Star Algorithm
   const closedSet: any = [];
-  const openSet = [ start ];
+  const openSet = [start];
   const cameFrom: {
     [key: string]: any;
   } = {};
@@ -264,28 +300,29 @@ export const pathFinder = (points: PolyPoint[], start: PolyPoint, goal: any, sBB
     [key: string]: number;
   } = {}; // all default values are Infinity
 
-  gScore[ `${start.x}-${start.y}` ] = 0;
-  fScore[ `${start.x}-${start.y}` ] = heuristicCostEstimate(start, goal, start);
+  gScore[`${start.x}-${start.y}`] = 0;
+  fScore[`${start.x}-${start.y}`] = heuristicCostEstimate(start, goal, start);
 
   const pointById: {
-    [key: string]: PolyPoint
+    [key: string]: PolyPoint;
   } = {};
 
   points.forEach(p => {
-    pointById[ `${p.x}-${p.y}` ] = p;
+    pointById[`${p.x}-${p.y}`] = p;
   });
 
   while (openSet.length) {
     let current: any;
     let lowestFScore = Infinity;
     openSet.forEach((p: any) => {
-      if (fScore[ p.id ] < lowestFScore) {
-        lowestFScore = fScore[ p.id ];
+      if (fScore[p.id] < lowestFScore) {
+        lowestFScore = fScore[p.id];
         current = p;
       }
     });
 
-    if (current === goal) { // ending condition
+    if (current === goal) {
+      // ending condition
       const pathPoints: any = [];
       reconstructPath(pathPoints, pointById, cameFrom, goal.id);
       return pathPoints;
@@ -295,27 +332,41 @@ export const pathFinder = (points: PolyPoint[], start: PolyPoint, goal: any, sBB
     closedSet.push(current);
 
     getNeighborPoints(points, current, sBBox, tBBox).forEach(neighbor => {
-      if (closedSet.indexOf(neighbor) !== -1) { return; }
+      if (closedSet.indexOf(neighbor) !== -1) {
+        return;
+      }
 
       if (openSet.indexOf(neighbor) === -1) {
         openSet.push(neighbor);
       }
 
-      const tentativeGScore = fScore[ current.id ] + distance(current, neighbor); // + distance(neighbor, goal);
-      if (gScore[ `${neighbor.x}-${neighbor.y}` ] && (tentativeGScore >= gScore[ `${neighbor.x}-${neighbor.y}` ])) { return; }
+      const tentativeGScore = fScore[current.id] + distance(current, neighbor); // + distance(neighbor, goal);
+      if (
+        gScore[`${neighbor.x}-${neighbor.y}`] &&
+        tentativeGScore >= gScore[`${neighbor.x}-${neighbor.y}`]
+      ) {
+        return;
+      }
 
-      cameFrom[ `${neighbor.x}-${neighbor.y}` ] = current.id;
-      gScore[ `${neighbor.x}-${neighbor.y}` ] = tentativeGScore;
-      fScore[ `${neighbor.x}-${neighbor.y}` ] = gScore[ `${neighbor.x}-${neighbor.y}` ] + heuristicCostEstimate(neighbor, goal, start, os, ot);
+      cameFrom[`${neighbor.x}-${neighbor.y}`] = current.id;
+      gScore[`${neighbor.x}-${neighbor.y}`] = tentativeGScore;
+      fScore[`${neighbor.x}-${neighbor.y}`] =
+        gScore[`${neighbor.x}-${neighbor.y}`] +
+        heuristicCostEstimate(neighbor, goal, start, os, ot);
     });
   }
   // throw new Error('Cannot find path');
-  return [ start, goal ];
+  return [start, goal];
 };
 export const isBending = (p0: PolyPoint, p1: PolyPoint, p2: PolyPoint): boolean =>
   !((p0.x === p1.x && p1.x === p2.x) || (p0.y === p1.y && p1.y === p2.y));
 
-export const getBorderRadiusPoints = (p0: PolyPoint, p1: PolyPoint, p2: PolyPoint, r: number): PolyPoint[] => {
+export const getBorderRadiusPoints = (
+  p0: PolyPoint,
+  p1: PolyPoint,
+  p2: PolyPoint,
+  r: number,
+): PolyPoint[] => {
   const d0 = distance(p0, p1);
   const d1 = distance(p2, p1);
   if (d0 < r) {
@@ -325,26 +376,29 @@ export const getBorderRadiusPoints = (p0: PolyPoint, p1: PolyPoint, p2: PolyPoin
     r = d1;
   }
   const ps = {
-    x: p1.x - r / d0 * (p1.x - p0.x),
-    y: p1.y - r / d0 * (p1.y - p0.y)
+    x: p1.x - (r / d0) * (p1.x - p0.x),
+    y: p1.y - (r / d0) * (p1.y - p0.y),
   };
   const pt = {
-    x: p1.x - r / d1 * (p1.x - p2.x),
-    y: p1.y - r / d1 * (p1.y - p2.y)
+    x: p1.x - (r / d1) * (p1.x - p2.x),
+    y: p1.y - (r / d1) * (p1.y - p2.y),
   };
-  return [ ps, pt ];
+  return [ps, pt];
 };
-export const getPathWithBorderRadiusByPolyline = (points: PolyPoint[], borderRadius: number): string => {
+export const getPathWithBorderRadiusByPolyline = (
+  points: PolyPoint[],
+  borderRadius: number,
+): string => {
   // TODO
   const pathSegments: string[] = [];
   const startPoint = points[0];
   pathSegments.push(`M${startPoint.x} ${startPoint.y}`);
   points.forEach((p, i) => {
-    const p1 = points[ i + 1 ];
-    const p2 = points[ i + 2 ];
+    const p1 = points[i + 1];
+    const p2 = points[i + 2];
     if (p1 && p2) {
       if (isBending(p, p1, p2)) {
-        const [ ps, pt ] = getBorderRadiusPoints(p, p1, p2, borderRadius);
+        const [ps, pt] = getBorderRadiusPoints(p, p1, p2, borderRadius);
         pathSegments.push(`L${ps.x} ${ps.y}`);
         pathSegments.push(`Q${p1.x} ${p1.y} ${pt.x} ${pt.y}`);
         pathSegments.push(`L${pt.x} ${pt.y}`);
@@ -357,43 +411,63 @@ export const getPathWithBorderRadiusByPolyline = (points: PolyPoint[], borderRad
   });
   return pathSegments.join('');
 };
-export const getPolylinePoints = (start: PolyPoint, end: PolyPoint, sNode: IShapeBase, tNode: IShapeBase, offset: number): PolyPoint[] => {
+export const getPolylinePoints = (
+  start: PolyPoint,
+  end: PolyPoint,
+  sNode: IShapeBase,
+  tNode: IShapeBase,
+  offset: number,
+): PolyPoint[] => {
   const sBBox = sNode && sNode.getBBox() ? sNode.getBBox() : getBBoxFromPoint(start);
   const tBBox = tNode && tNode.getBBox() ? tNode.getBBox() : getBBoxFromPoint(end);
-  if (isBBoxesOverlapping(sBBox, tBBox)) { // source and target nodes are overlapping
+  if (isBBoxesOverlapping(sBBox, tBBox)) {
+    // source and target nodes are overlapping
     return simplifyPolyline(getSimplePolyline(start, end));
   }
   const sxBBox = getExpandedBBox(sBBox, offset);
   const txBBox = getExpandedBBox(tBBox, offset);
-  if (isBBoxesOverlapping(sxBBox, txBBox)) { // the expanded bounding boxes of source and target nodes are overlapping
+  if (isBBoxesOverlapping(sxBBox, txBBox)) {
+    // the expanded bounding boxes of source and target nodes are overlapping
     return simplifyPolyline(getSimplePolyline(start, end));
   }
   const sPoint = getExpandedBBoxPoint(sxBBox, start);
   const tPoint = getExpandedBBoxPoint(txBBox, end);
-  const lineBBox = getBBoxFromPoints([ sPoint, tPoint ]);
+  const lineBBox = getBBoxFromPoints([sPoint, tPoint]);
   const outerBBox = mergeBBox(sxBBox, txBBox);
   const sMixBBox = mergeBBox(sxBBox, lineBBox);
   const tMixBBox = mergeBBox(txBBox, lineBBox);
   let connectPoints: any = [];
-  connectPoints = connectPoints.concat(getPointsFromBBox(sMixBBox) // .filter(p => !isPointIntersectBBox(p, txBBox))
+  connectPoints = connectPoints.concat(
+    getPointsFromBBox(sMixBBox), // .filter(p => !isPointIntersectBBox(p, txBBox))
   );
-  connectPoints = connectPoints.concat(getPointsFromBBox(tMixBBox) // .filter(p => !isPointIntersectBBox(p, sxBBox))
+  connectPoints = connectPoints.concat(
+    getPointsFromBBox(tMixBBox), // .filter(p => !isPointIntersectBBox(p, sxBBox))
   );
   const centerPoint = {
     x: (start.x + end.x) / 2,
-    y: (start.y + end.y) / 2
-  }; [ lineBBox, sMixBBox, tMixBBox ].forEach((bbox: BBox) => {
-    connectPoints = connectPoints.concat(getBBoxCrossPointsByPoint(bbox, centerPoint).filter(p => isPointOutsideBBox(p, sxBBox) && isPointOutsideBBox(p, txBBox)));
-  }); [{
-    x: sPoint.x,
-    y: tPoint.y
-  },
-  {
-    x: tPoint.x,
-    y: sPoint.y
-  }].forEach(p => {
-    if (isPointOutsideBBox(p, sxBBox) && isPointOutsideBBox(p, txBBox) // &&
-    // isPointInsideBBox(p, sMixBBox) && isPointInsideBBox(p, tMixBBox)
+    y: (start.y + end.y) / 2,
+  };
+  [lineBBox, sMixBBox, tMixBBox].forEach((bbox: BBox) => {
+    connectPoints = connectPoints.concat(
+      getBBoxCrossPointsByPoint(bbox, centerPoint).filter(
+        p => isPointOutsideBBox(p, sxBBox) && isPointOutsideBBox(p, txBBox),
+      ),
+    );
+  });
+  [
+    {
+      x: sPoint.x,
+      y: tPoint.y,
+    },
+    {
+      x: tPoint.x,
+      y: sPoint.y,
+    },
+  ].forEach(p => {
+    if (
+      isPointOutsideBBox(p, sxBBox) &&
+      isPointOutsideBBox(p, txBBox) // &&
+      // isPointInsideBBox(p, sMixBBox) && isPointInsideBBox(p, tMixBBox)
     ) {
       connectPoints.push(p);
     }

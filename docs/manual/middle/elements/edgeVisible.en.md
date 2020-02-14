@@ -2,9 +2,11 @@
 title: The Visibility
 order: 5
 ---
+
 ## Show/Hide a Node or an Edge
 
 Show and hide the node or the edge by the following four functions:
+
 ```javascript
 // Show the instance of the node nodeItem. The property `visible` of the node will be true after calling the following code
 nodeItem.show();
@@ -20,7 +22,8 @@ edgeItem.hide();
 ```
 
 ## Example
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*N96mRKpyYZIAAAAAAAAAAABkARQnAQ' width=150/> 
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*N96mRKpyYZIAAAAAAAAAAABkARQnAQ' width=150/>
 
 In this example, we bind the listeners to node clicking, edge clicking, and canvas clicking. And show/hide items in the inside the listeners:
 

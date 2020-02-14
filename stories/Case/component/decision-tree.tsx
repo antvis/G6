@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
-import G6 from '../../../src'
-import { IGraph } from '../../../src/interface/graph'
+import React, { useEffect } from 'react';
+import G6 from '../../../src';
+import { IGraph } from '../../../src/interface/graph';
 
-let graph: IGraph = null
+let graph: IGraph = null;
 let showNodes = [];
 let showEdges = [];
 let curShowNodes = [];
@@ -15,19 +15,13 @@ let curShowNodesMap = new Map();
 let highlighting = false;
 let currentFocus;
 
-
 const width = 1000;
 const height = 1000;
 
 const LIMIT_OVERFLOW_WIDTH = width;
 const LIMIT_OVERFLOW_HEIGHT = height;
 
-
-const mapNodeSize = (
-  nodes,
-  propertyName,
-  visualRange,
-) => {
+const mapNodeSize = (nodes, propertyName, visualRange) => {
   let minp = 9999999999;
   let maxp = -9999999999;
   nodes.forEach(node => {
@@ -37,12 +31,9 @@ const mapNodeSize = (
   const rangepLength = maxp - minp;
   const rangevLength = visualRange[1] - visualRange[0];
   nodes.forEach(node => {
-    node.size =
-      ((node[propertyName] - minp) / rangepLength) * rangevLength +
-      visualRange[0];
+    node.size = ((node[propertyName] - minp) / rangepLength) * rangevLength + visualRange[0];
   });
 };
-
 
 const lightColors = [
   '#8FE9FF',
@@ -53,7 +44,7 @@ const lightColors = [
   '#FFE269',
   '#BFCFEE',
   '#FFA0C5',
-  '#D5FF86'
+  '#D5FF86',
 ];
 const darkColors = [
   '#7DA8FF',
@@ -64,7 +55,7 @@ const darkColors = [
   '#FF5A34',
   '#5D7092',
   '#FF6565',
-  '#6BFFDE'
+  '#6BFFDE',
 ];
 const uLightColors = [
   '#CFF6FF',
@@ -75,7 +66,7 @@ const uLightColors = [
   '#FFF8DA',
   '#DCE2EE',
   '#FFE7F0',
-  '#EEFFCE'
+  '#EEFFCE',
 ];
 const uDarkColors = [
   '#CADBFF',
@@ -86,24 +77,20 @@ const uDarkColors = [
   '#FFD3C9',
   '#EBF2FF',
   '#FFCBCB',
-  '#CAFFF3'
+  '#CAFFF3',
 ];
 
 const gColors = [];
 const unlightColorMap = new Map();
 lightColors.forEach((lcolor, i) => {
   gColors.push('l(0) 0:' + lcolor + ' 1:' + darkColors[i]);
-  unlightColorMap.set(
-    gColors[i],
-    'l(0) 0:' + uLightColors[i] + ' 1:' + uDarkColors[i],
-  );
+  unlightColorMap.set(gColors[i], 'l(0) 0:' + uLightColors[i] + ' 1:' + uDarkColors[i]);
 });
 
 const DecisionTree = () => {
-  const container = React.useRef()
+  const container = React.useRef();
   useEffect(() => {
-    if(!graph) {
-
+    if (!graph) {
       const layoutCfg = {
         type: 'force',
         nodeSize: d => {
@@ -122,13 +109,13 @@ const DecisionTree = () => {
             const model = item.getModel();
             if (model.x > width - padding) model.x = width - padding;
             else if (model.x < padding) model.x = padding;
-      
+
             if (model.y > height - padding) model.y = height - padding;
             else if (model.y < padding) model.y = padding;
           });
-        }
+        },
       };
-      
+
       graph = new G6.Graph({
         container: container.current as string | HTMLElement,
         width,
@@ -136,7 +123,7 @@ const DecisionTree = () => {
         linkCenter: true,
         layout: layoutCfg,
         modes: {
-          default: [ 'drag-canvas' ]
+          default: ['drag-canvas'],
         },
         defaultNode: {
           type: 'bubble',
@@ -145,17 +132,16 @@ const DecisionTree = () => {
             position: 'center',
             style: {
               fill: 'white',
-              fontStyle: 'bold'
-            }
-          }
+              fontStyle: 'bold',
+            },
+          },
         },
         defaultEdge: {
           color: '#888',
-          type: 'animate-line'
-        }
+          type: 'animate-line',
+        },
       });
       graph.get('canvas').set('localRefresh', false);
-
 
       const translate = (x, y) => {
         let moveX = x;
@@ -170,31 +156,24 @@ const DecisionTree = () => {
         if (x < 0 && leftTopPoint.x - x > LIMIT_OVERFLOW_WIDTH) {
           moveX = 0;
         }
-        if (
-          x > 0 &&
-          rightBottomPoint.x - x < width - LIMIT_OVERFLOW_WIDTH
-        ) {
+        if (x > 0 && rightBottomPoint.x - x < width - LIMIT_OVERFLOW_WIDTH) {
           moveX = 0;
         }
 
         if (y < 0 && leftTopPoint.y - y > LIMIT_OVERFLOW_HEIGHT) {
           moveY = 0;
         }
-        if (
-          y > 0 &&
-          rightBottomPoint.y - y < height - LIMIT_OVERFLOW_HEIGHT
-        ) {
+        if (y > 0 && rightBottomPoint.y - y < height - LIMIT_OVERFLOW_HEIGHT) {
           moveY = 0;
         }
         graph.translate(-moveX, -moveY);
-      }
+      };
 
-
-      const refreshDragedNodePosition = (e) => {
+      const refreshDragedNodePosition = e => {
         const model = e.item.get('model');
         model.fx = e.x;
         model.fy = e.y;
-      }
+      };
       graph.on('node:dragstart', e => {
         graph.layout();
         refreshDragedNodePosition(e);
@@ -225,14 +204,14 @@ const DecisionTree = () => {
             node.color = gColors[showNodes.length % gColors.length];
             node.style = {
               fill: gColors[showNodes.length % gColors.length],
-              lineWidth: 0
+              lineWidth: 0,
             };
             node.labelCfg = {
               style: {
                 fontSize: 25,
                 fill: '#fff',
-                fontWeight: 300
-              }
+                fontWeight: 300,
+              },
             };
             node.x = Math.random() * 800;
             node.y = Math.random() * 800;
@@ -247,7 +226,7 @@ const DecisionTree = () => {
           nodeMap.set(node.id, node);
         });
 
-        mapNodeSize(showNodes, 'childrenNum', [ 120, 180 ]);
+        mapNodeSize(showNodes, 'childrenNum', [120, 180]);
 
         // map the color to F nodes, same to its parent
         nodes.forEach(node => {
@@ -255,7 +234,7 @@ const DecisionTree = () => {
             const parent = nodeMap.get(node.tags[0]);
             node.color = parent.color;
             node.style = {
-              fill: parent.color
+              fill: parent.color,
             };
           }
         });
@@ -265,13 +244,13 @@ const DecisionTree = () => {
           edge.style = {
             lineWidth: 0.5,
             opacity: 1,
-            strokeOpacity: 1
+            strokeOpacity: 1,
           };
           edgesMap.set(edge.id, edge);
         });
         graph.data({
           nodes: showNodes,
-          edges: showEdges
+          edges: showEdges,
         });
         graph.render();
       };
@@ -359,7 +338,9 @@ const DecisionTree = () => {
         }
       });
 
-      fetch('https://gw.alipayobjects.com/os/basement_prod/8bb5334a-5dd1-4147-a90e-8dccec62685e.json')
+      fetch(
+        'https://gw.alipayobjects.com/os/basement_prod/8bb5334a-5dd1-4147-a90e-8dccec62685e.json',
+      )
         .then(res => res.json())
         .then(data => {
           loadData(data);
@@ -451,10 +432,8 @@ const DecisionTree = () => {
               }
               if (isChild) {
                 const randomAngle = Math.random() * 2 * Math.PI;
-                node.x =
-                  model.x + (Math.cos(randomAngle) * model.size) / 2 + 10;
-                node.y =
-                  model.y + (Math.sin(randomAngle) * model.size) / 2 + 10;
+                node.x = model.x + (Math.cos(randomAngle) * model.size) / 2 + 10;
+                node.y = model.y + (Math.sin(randomAngle) * model.size) / 2 + 10;
                 // const dist = (model.x - node.x) * (model.x - node.x) + (model.y - node.y) * (model.y - node.y);
 
                 if (!node.style) node.style = {};
@@ -480,9 +459,9 @@ const DecisionTree = () => {
                     style: {
                       fontSize: 11,
                       lineHeight: 19,
-                      fill: '#697B8C'
+                      fill: '#697B8C',
                     },
-                    position: 'center'
+                    position: 'center',
                   };
                 } else if (node.level !== 0) {
                   node.type = 'bubble';
@@ -493,9 +472,9 @@ const DecisionTree = () => {
                   node.labelCfg = {
                     style: {
                       fill: '#fff',
-                      fontSize: 14
+                      fontSize: 14,
                     },
-                    position: 'center'
+                    position: 'center',
                   };
                 }
                 curShowNodes.push(node);
@@ -524,10 +503,7 @@ const DecisionTree = () => {
             nodes.forEach(node => {
               const findTagsLength = findTags.length;
               for (let i = 0; i < findTagsLength; i++) {
-                if (
-                  node.tag === findTags[i] &&
-                  curShowNodesMap.get(node.id) === undefined
-                ) {
+                if (node.tag === findTags[i] && curShowNodesMap.get(node.id) === undefined) {
                   curShowNodes.push(node);
                   curShowNodesMap.set(node.id, node);
                   return;
@@ -570,7 +546,7 @@ const DecisionTree = () => {
           setTimeout(() => {
             graph.changeData({
               nodes: showNodes.concat(curShowNodes),
-              edges: showEdges.concat(curShowEdges)
+              edges: showEdges.concat(curShowEdges),
             });
             const nodeItems = graph.getNodes();
             const edgeItems = graph.getEdges();
@@ -620,7 +596,7 @@ const DecisionTree = () => {
 
             graph.changeData({
               nodes: showNodes,
-              edges: showEdges
+              edges: showEdges,
             });
           }, 400);
         }
@@ -629,10 +605,10 @@ const DecisionTree = () => {
       G6.registerBehavior('double-finger-drag-canvas', {
         getEvents: () => {
           return {
-            wheel: 'onWheel'
+            wheel: 'onWheel',
           };
         },
-      
+
         onWheel: (ev: any) => {
           if (ev.ctrlKey) {
             const canvas = graph.get('canvas');
@@ -645,7 +621,7 @@ const DecisionTree = () => {
             }
             graph.zoomTo(ratio, {
               x: point.x,
-              y: point.y
+              y: point.y,
             });
           } else {
             const x = ev.deltaX || ev.movementX;
@@ -653,36 +629,33 @@ const DecisionTree = () => {
             translate(x, y);
           }
           ev.preventDefault();
-        }
+        },
       });
-      
+
       G6.registerNode(
         'bubble',
         {
-          drawShape(
-            cfg,
-            group,
-          ) {
+          drawShape(cfg, group) {
             const self = this;
             const r: number = (cfg.size as number) / 2;
             // a circle by path
             const path = [
-              [ 'M', -r, 0 ],
-              [ 'C', -r, r / 2, -r / 2, r, 0, r ],
-              [ 'C', r / 2, r, r, r / 2, r, 0 ],
-              [ 'C', r, -r / 2, r / 2, -r, 0, -r ],
-              [ 'C', -r / 2, -r, -r, -r / 2, -r, 0 ],
-              [ 'Z' ]
+              ['M', -r, 0],
+              ['C', -r, r / 2, -r / 2, r, 0, r],
+              ['C', r / 2, r, r, r / 2, r, 0],
+              ['C', r, -r / 2, r / 2, -r, 0, -r],
+              ['C', -r / 2, -r, -r, -r / 2, -r, 0],
+              ['Z'],
             ];
             const keyShape = group.addShape('path', {
               attrs: {
                 x: 0,
                 y: 0,
                 path,
-                fill: cfg.color || 'steelblue'
-              }
+                fill: cfg.color || 'steelblue',
+              },
             });
-      
+
             const mask = group.addShape('path', {
               attrs: {
                 x: 0,
@@ -693,10 +666,10 @@ const DecisionTree = () => {
                 shadowColor: cfg.color.split(' ')[2].substr(2),
                 shadowBlur: 40,
                 shadowOffsetX: 0,
-                shadowOffsetY: 30
-              }
+                shadowOffsetY: 30,
+              },
             });
-      
+
             const spNum = 10; // split points number
             const directions = [],
               rs = [];
@@ -707,14 +680,17 @@ const DecisionTree = () => {
               else if (rs[i] > 1.03 * r) rs[i] = 1.03 * r;
               rs.push(rr);
             }
-            keyShape.animate(() => {
-              const path = self.getBubblePath(r, spNum, directions, rs);
-              return { path };
-            }, {
-              repeat: true,
-              duration: 10000
-            });
-      
+            keyShape.animate(
+              () => {
+                const path = self.getBubblePath(r, spNum, directions, rs);
+                return { path };
+              },
+              {
+                repeat: true,
+                duration: 10000,
+              },
+            );
+
             const directions2 = [],
               rs2 = [];
             self.changeDirections(spNum, directions2);
@@ -724,13 +700,16 @@ const DecisionTree = () => {
               else if (rs2[i] > 1.03 * r) rs2[i] = 1.03 * r;
               rs2.push(rr);
             }
-            mask.animate(() => {
-              const path = self.getBubblePath(r, spNum, directions2, rs2);
-              return { path };
-            }, {
-              repeat: true,
-              duration: 10000
-            });
+            mask.animate(
+              () => {
+                const path = self.getBubblePath(r, spNum, directions2, rs2);
+                return { path };
+              },
+              {
+                repeat: true,
+                duration: 10000,
+              },
+            );
             return keyShape;
           },
           changeDirections(num, directions) {
@@ -745,12 +724,7 @@ const DecisionTree = () => {
             }
             return directions;
           },
-          getBubblePath(
-            r,
-            spNum,
-            directions,
-            rs,
-          ) {
+          getBubblePath(r, spNum, directions, rs) {
             const path = [];
             const cpNum = spNum * 2; // control points number
             const unitAngle = (Math.PI * 2) / spNum; // base angle for split points
@@ -780,7 +754,7 @@ const DecisionTree = () => {
               }
               angleSum += unitAngle;
             }
-            path.push([ 'M', sps[0].x, sps[0].y ]);
+            path.push(['M', sps[0].x, sps[0].y]);
             for (let i = 1; i < spNum; i++) {
               path.push([
                 'C',
@@ -789,7 +763,7 @@ const DecisionTree = () => {
                 cps[2 * i].x,
                 cps[2 * i].y,
                 sps[i].x,
-                sps[i].y
+                sps[i].y,
               ]);
             }
             path.push([
@@ -799,16 +773,12 @@ const DecisionTree = () => {
               cps[0].x,
               cps[0].y,
               sps[0].x,
-              sps[0].y
+              sps[0].y,
             ]);
-            path.push([ 'Z' ]);
+            path.push(['Z']);
             return path;
           },
-          setState(
-            name,
-            value,
-            item,
-          ) {
+          setState(name, value, item) {
             const shape = item.get('keyShape');
             if (name === 'dark') {
               if (value) {
@@ -827,55 +797,60 @@ const DecisionTree = () => {
                 }
               }
             }
-          }
+          },
         },
-        'single-node'
+        'single-node',
       );
-      
+
       G6.registerNode(
         'animate-circle',
         {
-          setState(
-            name,
-            value,
-            item,
-          ) {
+          setState(name, value, item) {
             const shape = item.get('keyShape');
             const label = shape.get('parent').get('children')[1];
             if (name === 'disappearing' && value) {
-              shape.animate(ratio => {
-                return {
-                  opacity: 1 - ratio,
-                  r: shape.attr('r') * (1 - ratio)
-                };
-              }, {
-                duration: 200
-              });
-              label.animate(ratio => {
-                return {
-                  opacity: 1 - ratio
-                };
-              }, {
-                duration: 500
-              });
+              shape.animate(
+                ratio => {
+                  return {
+                    opacity: 1 - ratio,
+                    r: shape.attr('r') * (1 - ratio),
+                  };
+                },
+                {
+                  duration: 200,
+                },
+              );
+              label.animate(
+                ratio => {
+                  return {
+                    opacity: 1 - ratio,
+                  };
+                },
+                {
+                  duration: 500,
+                },
+              );
             } else if (name === 'appearing' && value) {
               const r = (item.getModel().size as number) / 2;
-              shape.animate(ratio => {
-                return {
-                  opacity: ratio,
-                  r: r * ratio,
-                  fill: shape.attr('fill')
-                };
-              }, {
-                duration: 300
-              });
+              shape.animate(
+                ratio => {
+                  return {
+                    opacity: ratio,
+                    r: r * ratio,
+                    fill: shape.attr('fill'),
+                  };
+                },
+                {
+                  duration: 300,
+                },
+              );
               label.animate(
                 {
                   onFrame(ratio) {
                     return {
-                      opacity: ratio
+                      opacity: ratio,
                     };
-                  }
+                  },
                 },
                 500,
               );
@@ -898,75 +873,68 @@ const DecisionTree = () => {
                 }
               }
             }
-          }
+          },
         },
         'circle',
       );
-      
+
       G6.registerEdge(
         'animate-line',
         {
-          drawShape(
-            cfg,
-            group,
-          ) {
+          drawShape(cfg, group) {
             const self = this;
             let shapeStyle = self.getShapeStyle(cfg);
             shapeStyle = G6.Util.mix(shapeStyle, {
               opacity: 0,
-              strokeOpacity: 0
+              strokeOpacity: 0,
             });
             const keyShape = group.addShape('path', {
-              attrs: shapeStyle
+              attrs: shapeStyle,
             });
             return keyShape;
           },
-          afterDraw(
-            cfg,
-            group,
-          ) {
+          afterDraw(cfg, group) {
             const shape = group.get('children')[0];
-            shape.animate(ratio => {
-              const opacity = ratio * cfg.style.opacity;
-              const strokeOpacity = ratio * cfg.style.strokeOpacity;
-              return {
-                opacity: ratio || opacity,
-                strokeOpacity: ratio || strokeOpacity
-              };
-            }, {
-              duration: 300
-            });
+            shape.animate(
+              ratio => {
+                const opacity = ratio * cfg.style.opacity;
+                const strokeOpacity = ratio * cfg.style.strokeOpacity;
+                return {
+                  opacity: ratio || opacity,
+                  strokeOpacity: ratio || strokeOpacity,
+                };
+              },
+              {
+                duration: 300,
+              },
+            );
           },
-          setState(
-            name,
-            value,
-            item,
-          ) {
+          setState(name, value, item) {
             const shape = item.get('keyShape');
             if (name === 'disappearing' && value) {
-              shape.animate(ratio => {
-                return {
-                  opacity: 1 - ratio,
-                  strokeOpacity: 1 - ratio
-                };
-              }, {
-                duration: 200
-              });
+              shape.animate(
+                ratio => {
+                  return {
+                    opacity: 1 - ratio,
+                    strokeOpacity: 1 - ratio,
+                  };
+                },
+                {
+                  duration: 200,
+                },
+              );
             } else if (name === 'dark') {
               if (value) shape.attr('opacity', 0.2);
               else shape.attr('opacity', 1);
             }
-          }
+          },
         },
         'line',
       );
     }
   });
 
+  return <div ref={container}></div>;
+};
 
-  return (
-    <div ref={container}></div>
-  )
-}
-
-export default DecisionTree
+export default DecisionTree;

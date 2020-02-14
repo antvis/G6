@@ -1,88 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>label上面文本太长，需要换行：加入\n；</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="mountNode"></div>
     <script src="../build/g6.js"></script>
     <script>
       /**
        * 该案例演示当label太长时候，如何换行显示。
        * by 镜曦。
-       * 
-      */
+       *
+       */
       const data = {
-          nodes: [{
-              x: 100,
-              y: 100,
-              shape: 'rect',
-              label: '这个文案\n有点长',
-              id:'node1',
-              labelCfg: {
-                  position: 'bottom'
-              },
-              anchorPoints: [
-                  [0, 0.5, {type: 'circle', style: {stroke: 'red', fill: 'red'}}], 
-                  [1, 0.5, {type: 'circle', style: {stroke: 'blue', fill: 'red'}}]
-              ]
-          },{
-              x: 300,
-              y: 100,
-              shape: 'rect',
-              label: '这个文案\n也有点长',
-              id:'node2',
-              labelCfg: {
-                  position: 'bottom'
-              },
-              anchorPoints: [
-                  [0, 0.5, {type: 'circle', style: {stroke: 'red', fill: 'red'}}], 
-                  [1, 0.5, {type: 'circle', style: {stroke: 'blue', fill: 'red'}}]
-              ]
-          }
-          ],
-          edges: [
-              {
-                  source: 'node1',
-                  target: 'node2',
-                  label: 'label上面这个文本太长了\n我需要换行',
-                  labelCfg: {
-                      refY: 20
-                  },
-                  style: {
-                      endArrow: true
-                  }
-              }
-          ]
+        nodes: [
+          {
+            x: 100,
+            y: 100,
+            shape: 'rect',
+            label: '这个文案\n有点长',
+            id: 'node1',
+            labelCfg: {
+              position: 'bottom',
+            },
+            anchorPoints: [
+              [0, 0.5, { type: 'circle', style: { stroke: 'red', fill: 'red' } }],
+              [1, 0.5, { type: 'circle', style: { stroke: 'blue', fill: 'red' } }],
+            ],
+          },
+          {
+            x: 300,
+            y: 100,
+            shape: 'rect',
+            label: '这个文案\n也有点长',
+            id: 'node2',
+            labelCfg: {
+              position: 'bottom',
+            },
+            anchorPoints: [
+              [0, 0.5, { type: 'circle', style: { stroke: 'red', fill: 'red' } }],
+              [1, 0.5, { type: 'circle', style: { stroke: 'blue', fill: 'red' } }],
+            ],
+          },
+        ],
+        edges: [
+          {
+            source: 'node1',
+            target: 'node2',
+            label: 'label上面这个文本太长了\n我需要换行',
+            labelCfg: {
+              refY: 20,
+            },
+            style: {
+              endArrow: true,
+            },
+          },
+        ],
       };
-    
+
       const graph = new G6.Graph({
-      container: 'mountNode',
-      width: 1000,
-      height: 600,
-      defaultNode: {
-        style: {
-          fill: '#87e8de',
+        container: 'mountNode',
+        width: 1000,
+        height: 600,
+        defaultNode: {
+          style: {
+            fill: '#87e8de',
+          },
+          color: '#87e8de',
         },
-        color: '#87e8de'
-      },
-      defaultEdge: {
-        color: '#bae7ff'
-      },
-      modes: {
-              default: ['drag-node', {
-                  type: 'drag-node',
-              }],
-          }
+        defaultEdge: {
+          color: '#bae7ff',
+        },
+        modes: {
+          default: [
+            'drag-node',
+            {
+              type: 'drag-node',
+            },
+          ],
+        },
       });
       graph.data(data);
-      graph.render(); 
-      
-        
+      graph.render();
     </script>
-</body>
-
+  </body>
 </html>

@@ -3,7 +3,7 @@ import { Point } from '@antv/g-base';
 
 const SPEED_DIVISOR = 800;
 
-export type RadialNonoverlapForceParam  = {
+export type RadialNonoverlapForceParam = {
   positions: IPointTuple[];
   adjMatrix: Matrix[];
   focusID: number;

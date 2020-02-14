@@ -53,7 +53,7 @@ export default class DagreLayout extends BaseLayout {
     const edges = self.edges || [];
     const g = new dagre.graphlib.Graph();
 
-    let nodeSizeFunc: ((d?: any) => number[]);
+    let nodeSizeFunc: (d?: any) => number[];
     if (!nodeSize) {
       nodeSizeFunc = (d: any) => {
         if (d.size) {
@@ -78,7 +78,7 @@ export default class DagreLayout extends BaseLayout {
     }
     g.setDefaultEdgeLabel(() => ({}));
     g.setGraph(self);
-    nodes.forEach((node) => {
+    nodes.forEach(node => {
       const size = nodeSizeFunc(node);
       const verti = vertisep(node);
       const hori = horisep(node);
@@ -86,7 +86,7 @@ export default class DagreLayout extends BaseLayout {
       const height = size[1] + 2 * verti;
       g.setNode(node.id, { width, height });
     });
-    edges.forEach((edge) => {
+    edges.forEach(edge => {
       g.setEdge(edge.source, edge.target);
     });
     dagre.layout(g);
@@ -109,14 +109,18 @@ export default class DagreLayout extends BaseLayout {
   }
 }
 
-function getFunc(func: ((d?: any) => number) | undefined, value: number, defaultValue: number ): Function {
+function getFunc(
+  func: ((d?: any) => number) | undefined,
+  value: number,
+  defaultValue: number,
+): Function {
   let resultFunc;
   if (func) {
     resultFunc = func;
   } else if (isNumber(value)) {
-    resultFunc = () => value
+    resultFunc = () => value;
   } else {
-    resultFunc = () => defaultValue
+    resultFunc = () => defaultValue;
   }
   return resultFunc;
 }

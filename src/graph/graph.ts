@@ -9,7 +9,14 @@ import deepMix from '@antv/util/lib/deep-mix';
 import each from '@antv/util/lib/each';
 import isPlainObject from '@antv/util/lib/is-plain-object';
 import isString from '@antv/util/lib/is-string';
-import { GraphAnimateConfig, GraphOptions, IGraph, IModeOption, IModeType, IStates } from '../interface/graph';
+import {
+  GraphAnimateConfig,
+  GraphOptions,
+  IGraph,
+  IModeOption,
+  IModeType,
+  IStates,
+} from '../interface/graph';
 import { IEdge, INode } from '../interface/item';
 import {
   EdgeConfig,
@@ -37,7 +44,7 @@ import {
   StateController,
   ViewController,
 } from './controller';
-import PluginBase from "../plugins/base"
+import PluginBase from '../plugins/base';
 
 const NODE = 'node';
 
@@ -79,7 +86,7 @@ export default class Graph extends EventEmitter implements IGraph {
   private animating: boolean;
 
   private cfg: GraphOptions & { [key: string]: any };
-  
+
   public destroyed: boolean;
 
   constructor(cfg: GraphOptions) {
@@ -112,7 +119,7 @@ export default class Graph extends EventEmitter implements IGraph {
       customGroupControll,
     });
 
-    this.initPlugin()
+    this.initPlugin();
   }
 
   private initCanvas() {
@@ -126,14 +133,14 @@ export default class Graph extends EventEmitter implements IGraph {
       throw new Error('invalid container');
     }
 
-    const width: number = this.get('width')
-    const height: number = this.get('height')
+    const width: number = this.get('width');
+    const height: number = this.get('height');
 
     const canvas = new GCanvas({
       container,
       width,
-      height
-    })
+      height,
+    });
 
     this.set('canvas', canvas);
 
@@ -141,7 +148,7 @@ export default class Graph extends EventEmitter implements IGraph {
   }
 
   private initPlugin(): void {
-    const self = this
+    const self = this;
     each(self.get('plugins'), plugin => {
       if (!plugin.destroyed && plugin.initPlugin) {
         plugin.initPlugin(self);
@@ -379,8 +386,8 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {string[]} states 状态
    */
   public clearItemStates(item: Item | string, states?: string[] | string): void {
-    if(isString(item))  {
-      item = this.findById(item)
+    if (isString(item)) {
+      item = this.findById(item);
     }
 
     const itemController: ItemController = this.get('itemController');
@@ -441,7 +448,10 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {(item: T, index: number) => T} fn 指定规则
    * @return {T} 元素实例
    */
-  public find<T extends Item>(type: ITEM_TYPE, fn: (item: T, index?: number) => boolean): T | undefined {
+  public find<T extends Item>(
+    type: ITEM_TYPE,
+    fn: (item: T, index?: number) => boolean,
+  ): T | undefined {
     let result: T | undefined;
     const items = this.get(`${type}s`);
 
@@ -449,11 +459,11 @@ export default class Graph extends EventEmitter implements IGraph {
     each(items, (item, i) => {
       if (fn(item, i)) {
         result = item;
-        return result
+        return result;
       }
     });
 
-    return result
+    return result;
   }
 
   /**
@@ -481,7 +491,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @return {object} 元素实例
    */
   public findAllByState<T extends Item>(type: ITEM_TYPE, state: string): T[] {
-    return this.findAll(type, (item) => item.hasState(state));
+    return this.findAll(type, item => item.hasState(state));
   }
 
   /**
@@ -532,7 +542,10 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {string | string[]} modes 添加到对应的模式
    * @return {Graph} Graph
    */
-  public addBehaviors(behaviors: string | IModeOption | IModeType[], modes: string | string[]): Graph {
+  public addBehaviors(
+    behaviors: string | IModeOption | IModeType[],
+    modes: string | string[],
+  ): Graph {
     const modeController: ModeController = this.get('modeController');
     modeController.manipulateBehaviors(behaviors, modes, true);
     return this;
@@ -544,7 +557,10 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {string | string[]} modes 从指定的模式中移除
    * @return {Graph} Graph
    */
-  public removeBehaviors(behaviors: string | IModeOption | IModeType[], modes: string | string[]): Graph {
+  public removeBehaviors(
+    behaviors: string | IModeOption | IModeType[],
+    modes: string | string[],
+  ): Graph {
     const modeController: ModeController = this.get('modeController');
     modeController.manipulateBehaviors(behaviors, modes, false);
     return this;
@@ -600,8 +616,8 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {Item} item 指定元素
    */
   public focusItem(item: Item | string): void {
-    const viewController: ViewController = this.get('viewController')
-    viewController.focus(item)
+    const viewController: ViewController = this.get('viewController');
+    viewController.focus(item);
 
     this.autoPaint();
   }
@@ -674,8 +690,8 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {Item} item 指定元素
    */
   public showItem(item: Item | string): void {
-    const itemController: ItemController = this.get('itemController')
-    itemController.changeItemVisibility(item, true) 
+    const itemController: ItemController = this.get('itemController');
+    itemController.changeItemVisibility(item, true);
   }
 
   /**
@@ -683,8 +699,8 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {Item} item 指定元素
    */
   public hideItem(item: Item | string): void {
-    const itemController: ItemController = this.get('itemController')
-    itemController.changeItemVisibility(item, false) 
+    const itemController: ItemController = this.get('itemController');
+    itemController.changeItemVisibility(item, false);
   }
 
   /**
@@ -692,7 +708,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {string|object} item 元素id或元素实例
    */
   public refreshItem(item: Item | string) {
-    const itemController: ItemController = this.get('itemController')
+    const itemController: ItemController = this.get('itemController');
     itemController.refreshItem(item);
   }
 
@@ -724,10 +740,10 @@ export default class Graph extends EventEmitter implements IGraph {
     }
 
     if (!nodeItem && isString(item)) {
-      const customGroupControll: CustomGroup = this.get('customGroupControll')
+      const customGroupControll: CustomGroup = this.get('customGroupControll');
       customGroupControll.remove(item);
     } else {
-      const itemController: ItemController = this.get('itemController')
+      const itemController: ItemController = this.get('itemController');
       itemController.removeItem(item);
     }
   }
@@ -749,7 +765,14 @@ export default class Graph extends EventEmitter implements IGraph {
         };
       }
 
-      return this.get('customGroupControll').create(groupId, nodes, groupType, zIndex, true, groupTitle);
+      return this.get('customGroupControll').create(
+        groupId,
+        nodes,
+        groupType,
+        zIndex,
+        true,
+        groupTitle,
+      );
     }
     const itemController: ItemController = this.get('itemController');
     return itemController.addItem(type, model);
@@ -765,7 +788,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {EdgeConfig | NodeConfig} cfg 需要更新的数据
    */
   public updateItem(item: Item | string, cfg: EdgeConfig | NodeConfig): void {
-    const itemController: ItemController = this.get('itemController')
+    const itemController: ItemController = this.get('itemController');
     itemController.updateItem(item, cfg);
   }
 
@@ -775,7 +798,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {EdgeConfig | NodeConfig} cfg 需要更新的数据
    */
   public update(item: Item | string, cfg: EdgeConfig | NodeConfig): void {
-    this.updateItem(item, cfg)
+    this.updateItem(item, cfg);
   }
 
   /**
@@ -834,14 +857,14 @@ export default class Graph extends EventEmitter implements IGraph {
         const nodesArr = this.getNodes();
 
         // 遍历节点实例，将所有节点提前。
-        nodesArr.forEach((node) => {
+        nodesArr.forEach(node => {
           node.toFront();
         });
       } else {
         const edgesArr = this.getEdges();
 
         // 遍历节点实例，将所有节点提前。
-        edgesArr.forEach((edge) => {
+        edgesArr.forEach(edge => {
           edge.toBack();
         });
       }
@@ -865,7 +888,7 @@ export default class Graph extends EventEmitter implements IGraph {
     // 防止传入的数据不存在nodes
     if (data.nodes) {
       // 获取所有有groupID的node
-      const nodeInGroup = data.nodes.filter((node) => node.groupId);
+      const nodeInGroup = data.nodes.filter(node => node.groupId);
 
       // 所有node中存在groupID，则说明需要群组
       if (nodeInGroup.length > 0) {
@@ -884,14 +907,18 @@ export default class Graph extends EventEmitter implements IGraph {
     this.data(data);
     this.render();
   }
-  
+
   // 比较item
-  private diffItems(type: ITEM_TYPE, items: { nodes: INode[], edges: IEdge[]}, models: NodeConfig[] | EdgeConfig[]) {
+  private diffItems(
+    type: ITEM_TYPE,
+    items: { nodes: INode[]; edges: IEdge[] },
+    models: NodeConfig[] | EdgeConfig[],
+  ) {
     const self = this;
     let item: INode;
     const itemMap: NodeMap = this.get('itemMap');
 
-    each(models, (model) => {
+    each(models, model => {
       item = itemMap[model.id];
       if (item) {
         if (self.get('animate') && type === NODE) {
@@ -907,7 +934,7 @@ export default class Graph extends EventEmitter implements IGraph {
       } else {
         item = self.addItem(type, model);
       }
-      (items as { [key:string]: any[]})[`${type}s`].push(item);
+      (items as { [key: string]: any[] })[`${type}s`].push(item);
     });
   }
 
@@ -932,8 +959,8 @@ export default class Graph extends EventEmitter implements IGraph {
     const itemMap: NodeMap = this.get('itemMap');
 
     const items: {
-      nodes: INode[],
-      edges: IEdge[]
+      nodes: INode[];
+      edges: IEdge[];
     } = {
       nodes: [],
       edges: [],
@@ -943,7 +970,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
     this.diffItems('node', items, (data as GraphData).nodes!);
     this.diffItems('edge', items, (data as GraphData).edges!);
-    
+
     each(itemMap, (item: INode & IEdge, id: number) => {
       if (items.nodes.indexOf(item) < 0 && items.edges.indexOf(item) < 0) {
         delete itemMap[id];
@@ -980,22 +1007,22 @@ export default class Graph extends EventEmitter implements IGraph {
     if (!groups) {
       // 存在单个群组
       // 获取所有有groupID的node
-      const nodeInGroup = nodes.filter((node) => node.groupId);
+      const nodeInGroup = nodes.filter(node => node.groupId);
       const groupsArr: GroupConfig[] = [];
       // 根据groupID分组
       const groupIds = groupBy(nodeInGroup, 'groupId');
       // tslint:disable-next-line:forin
-      Object.keys(groupIds).forEach((groupId) => {
-        const nodeIds = groupIds[groupId].map((node) => node.id);
+      Object.keys(groupIds).forEach(groupId => {
+        const nodeIds = groupIds[groupId].map(node => node.id);
         this.get('customGroupControll').create(groupId, nodeIds, groupType, groupIndex);
         groupIndex--;
         // 获取所有不重复的 groupId
-        if (!groupsArr.find((d) => d.id === groupId)) {
+        if (!groupsArr.find(d => d.id === groupId)) {
           groupsArr.push({
             id: groupId,
           });
         }
-      })
+      });
 
       this.set({
         groups: groupsArr,
@@ -1007,11 +1034,11 @@ export default class Graph extends EventEmitter implements IGraph {
       // 第二种情况，存在嵌套的群组，数据中有groups字段
       const groupNodes = getAllNodeInGroups(data);
       // tslint:disable-next-line:forin
-      Object.keys(groupNodes).forEach((groupId) => {
+      Object.keys(groupNodes).forEach(groupId => {
         const tmpNodes = groupNodes[groupId];
         this.get('customGroupControll').create(groupId, tmpNodes, groupType, groupIndex);
         groupIndex--;
-      })
+      });
 
       // 对所有Group排序
       const customGroup = this.get('customGroup');
@@ -1044,7 +1071,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @return {object} this
    */
   public changeSize(width: number, height: number): Graph {
-    const viewController: ViewController = this.get('viewController')
+    const viewController: ViewController = this.get('viewController');
     viewController.changeSize(width, height);
     this.autoPaint();
     return this;
@@ -1111,7 +1138,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
     const nodes = self.getNodes();
 
-    const toNodes = nodes.map((node) => {
+    const toNodes = nodes.map(node => {
       const model = node.getModel();
       return {
         id: model.id,
@@ -1128,7 +1155,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
     canvas.animate(
       (ratio: number) => {
-        each(toNodes, (data) => {
+        each(toNodes, data => {
           const node: Item = self.findById(data.id);
 
           if (!node || node.destroyed) {
@@ -1159,22 +1186,23 @@ export default class Graph extends EventEmitter implements IGraph {
         });
 
         self.refreshPositions();
-      }, {
+      },
+      {
         duration: animateCfg.duration,
         easing: animateCfg.easing,
         callback: () => {
           each(nodes, (node: INode) => {
             node.set('originAttrs', null);
           });
-  
+
           if (animateCfg.callback) {
             animateCfg.callback();
           }
-  
+
           self.emit('afteranimate');
           self.animating = false;
-        }
-      }
+        },
+      },
     );
   }
 
@@ -1184,7 +1212,7 @@ export default class Graph extends EventEmitter implements IGraph {
   public refreshPositions() {
     const self = this;
     self.emit('beforegraphrefreshposition');
-    
+
     const nodes: INode[] = self.get('nodes');
     const edges: IEdge[] = self.get('edges');
 
@@ -1235,7 +1263,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @return {string} 当前行为模式
    */
   public getCurrentMode(): string {
-    const modeController: ModeController = this.get('modeController')
+    const modeController: ModeController = this.get('modeController');
     return modeController.getMode();
   }
 
@@ -1245,7 +1273,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @return {object} this
    */
   public setMode(mode: string): Graph {
-    const modeController: ModeController = this.get('modeController')
+    const modeController: ModeController = this.get('modeController');
     modeController.setMode(mode);
     return this;
   }
@@ -1294,11 +1322,11 @@ export default class Graph extends EventEmitter implements IGraph {
       if (typeof window !== 'undefined') {
         if (window.Blob && window.URL) {
           const arr = dataURL.split(',');
-          let mime = ""
-          if (arr && arr.length > 0 ) {
+          let mime = '';
+          if (arr && arr.length > 0) {
             const match = arr[0].match(/:(.*?);/);
             // eslint-disable-next-line prefer-destructuring
-            if (match && match.length >= 2) mime = match[1]
+            if (match && match.length >= 2) mime = match[1];
           }
 
           const bstr = atob(arr[1]);
@@ -1436,7 +1464,7 @@ export default class Graph extends EventEmitter implements IGraph {
   public destroy() {
     this.clear();
 
-    each(this.get('plugins'), (plugin) => {
+    each(this.get('plugins'), plugin => {
       plugin.destroyPlugin();
     });
 

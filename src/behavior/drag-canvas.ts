@@ -1,24 +1,24 @@
 import { G6Event, IG6GraphEvent } from '../types';
-import { cloneEvent, isNaN } from '../util/base'
+import { cloneEvent, isNaN } from '../util/base';
 
 const { abs } = Math;
-const DRAG_OFFSET = 10
-const ALLOW_EVENTS = [ 'shift', 'ctrl', 'alt', 'control' ];
+const DRAG_OFFSET = 10;
+const ALLOW_EVENTS = ['shift', 'ctrl', 'alt', 'control'];
 
 export default {
   getDefaultCfg(): object {
     return {
-      direction: 'both'
-    }
+      direction: 'both',
+    };
   },
   getEvents(): { [key in G6Event]?: string } {
     return {
-      'dragstart': 'onMouseDown',
-      'drag': 'onMouseMove',
-      'dragend': 'onMouseUp',
+      dragstart: 'onMouseDown',
+      drag: 'onMouseMove',
+      dragend: 'onMouseUp',
       'canvas:click': 'onMouseUp',
       keyup: 'onKeyUp',
-      keydown: 'onKeyDown'
+      keydown: 'onKeyDown',
     };
   },
   updateViewport(e: IG6GraphEvent) {
@@ -38,13 +38,13 @@ export default {
     }
     this.origin = {
       x: clientX,
-      y: clientY
+      y: clientY,
     };
     this.graph.translate(dx, dy);
     this.graph.paint();
   },
   onMouseDown(e: IG6GraphEvent) {
-    const self = this as any
+    const self = this as any;
 
     if (self.keydown || e.shape) {
       return;
@@ -60,8 +60,8 @@ export default {
     }
 
     e = cloneEvent(e);
-    if (!this.origin) { 
-      return; 
+    if (!this.origin) {
+      return;
     }
 
     if (!this.dragging) {
@@ -94,7 +94,7 @@ export default {
     }
 
     e = cloneEvent(e);
-    
+
     if (this.shouldEnd.call(this, e)) {
       this.updateViewport(e);
     }
@@ -121,5 +121,5 @@ export default {
   },
   onKeyUp() {
     (this as any).keydown = false;
-  }
-}
+  },
+};

@@ -26,19 +26,19 @@ const graph = new G6.Graph({
         return 0.7;
       }
       return 0.1;
-    }
+    },
   },
   defaultNode: {
     color: '#5B8FF9',
     style: {
       lineWidth: 2,
-      fill: '#C6E5FF'
-    }
+      fill: '#C6E5FF',
+    },
   },
   defaultEdge: {
     size: 1,
-    color: '#e2e2e2'
-  }
+    color: '#e2e2e2',
+  },
 });
 
 const data = {
@@ -59,7 +59,7 @@ const data = {
     { id: 'node13', size: 15, isLeaf: true },
     { id: 'node14', size: 15, isLeaf: true },
     { id: 'node15', size: 15, isLeaf: true },
-    { id: 'node16', size: 15, isLeaf: true }
+    { id: 'node16', size: 15, isLeaf: true },
   ],
   edges: [
     { source: 'node0', target: 'node1' },
@@ -77,8 +77,8 @@ const data = {
     { source: 'node2', target: 'node13' },
     { source: 'node3', target: 'node14' },
     { source: 'node3', target: 'node15' },
-    { source: 'node3', target: 'node16' }
-  ]
+    { source: 'node3', target: 'node16' },
+  ],
 };
 const nodes = data.nodes;
 graph.data({
@@ -86,7 +86,7 @@ graph.data({
   edges: data.edges.map(function(edge, i) {
     edge.id = 'edge' + i;
     return Object.assign({}, edge);
-  })
+  }),
 });
 graph.render();
 

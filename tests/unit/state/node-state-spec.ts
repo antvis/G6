@@ -1,6 +1,5 @@
-
-import G6 from '../../../src'
-import '../../../src/behavior'
+import G6 from '../../../src';
+import '../../../src/behavior';
 
 const div = document.createElement('div');
 div.id = 'global-spec';
@@ -8,16 +7,19 @@ document.body.appendChild(div);
 
 describe('graph', () => {
   const data = {
-    nodes: [{
-      id: 'node1',
-      x: 100,
-      y: 100
-    }, {
-      id: 'node2',
-      x: 200,
-      y: 100
-    }]
-  }
+    nodes: [
+      {
+        id: 'node1',
+        x: 100,
+        y: 100,
+      },
+      {
+        id: 'node2',
+        x: 200,
+        y: 100,
+      },
+    ],
+  };
 
   it('global nodeStateStyles and defaultNode, state change with opacity changed', () => {
     const graph = new G6.Graph({
@@ -26,15 +28,15 @@ describe('graph', () => {
       height: 500,
       nodeStateStyles: {
         hover: {
-          opacity: 0.8
-        }
+          opacity: 0.8,
+        },
       },
       defaultNode: {
         size: 25,
         style: {
-          fill: 'steelblue'
-        }
-      }
+          fill: 'steelblue',
+        },
+      },
     });
     graph.data(data);
     graph.render();
@@ -70,9 +72,8 @@ describe('graph', () => {
           // lineWidth: 3,
           // r: 50,
           // width: 50,
-
           // height: 20
-        }
+        },
       },
       defaultNode: {
         // size: 25,
@@ -80,9 +81,9 @@ describe('graph', () => {
           // lineWdith: 1,
 
           width: 30,
-          height: 30
-        }
-      }
+          height: 30,
+        },
+      },
     });
     // const canvas = graph.get('canvas');
     // canvas.set('localRefresh', false);
@@ -100,72 +101,79 @@ describe('graph', () => {
     });
     graph.destroy();
   });
-  
+
   it('global defaultNode and stateStyle in data, state change with fill/r/width/height/stroke changed', () => {
     const data2 = {
-      nodes: [{
-        id: 'circle',
-        x: 100,
-        y: 100,
-        stateStyles: {
-          hover: {
-            lineWidth: 3
-          }
-        }
-      }, {
-        id: 'rect',
-        x: 200,
-        y: 100,
-        type: 'rect',
-        stateStyles: {
-          hover: {
-            lineWidth: 3,
-            stroke: '#0f0'
-          }
-        }
-      }, {
-        id: 'triangle',
-        x: 300,
-        y: 100,
-        type: 'triangle'
-      }, {
-        id: 'ellipse',
-        x: 400,
-        y: 100,
-        type: 'ellipse',
-        stateStyles: {
-          hover: {
-            lineWidth: 3,
-            fillOpacity: 0.5
-          }
-        }
-      }, {
-        id: 'diamond',
-        x: 100,
-        y: 200,
-        type: 'diamond',
-        stateStyles: {
-          hover: {
-            strokeOpacity: 0.3
-          }
-        }
-      }, {
-        // when there is stroke, shadow layer error - G
-        id: 'star',
-        x: 200,
-        y: 200,
-        type: 'star',
-        stateStyles: {
-          hover: {
-            lineWidth: 3,
-            shadowColor: '#00f',
-            shadowBlur: 10,
-            shadowOffsetX: 10,
-            shadowOffsetY: -10
-          }
-        }
-      }]
-    }
+      nodes: [
+        {
+          id: 'circle',
+          x: 100,
+          y: 100,
+          stateStyles: {
+            hover: {
+              lineWidth: 3,
+            },
+          },
+        },
+        {
+          id: 'rect',
+          x: 200,
+          y: 100,
+          type: 'rect',
+          stateStyles: {
+            hover: {
+              lineWidth: 3,
+              stroke: '#0f0',
+            },
+          },
+        },
+        {
+          id: 'triangle',
+          x: 300,
+          y: 100,
+          type: 'triangle',
+        },
+        {
+          id: 'ellipse',
+          x: 400,
+          y: 100,
+          type: 'ellipse',
+          stateStyles: {
+            hover: {
+              lineWidth: 3,
+              fillOpacity: 0.5,
+            },
+          },
+        },
+        {
+          id: 'diamond',
+          x: 100,
+          y: 200,
+          type: 'diamond',
+          stateStyles: {
+            hover: {
+              strokeOpacity: 0.3,
+            },
+          },
+        },
+        {
+          // when there is stroke, shadow layer error - G
+          id: 'star',
+          x: 200,
+          y: 200,
+          type: 'star',
+          stateStyles: {
+            hover: {
+              lineWidth: 3,
+              shadowColor: '#00f',
+              shadowBlur: 10,
+              shadowOffsetX: 10,
+              shadowOffsetY: -10,
+            },
+          },
+        },
+      ],
+    };
     const graph = new G6.Graph({
       container: div,
       width: 500,
@@ -173,9 +181,9 @@ describe('graph', () => {
       defaultNode: {
         style: {
           stroke: '#f00',
-          lineWidth: 1
-        }
-      }
+          lineWidth: 1,
+        },
+      },
     });
     graph.data(data2);
     graph.render();
@@ -186,33 +194,33 @@ describe('graph', () => {
       const id = item.getModel().id;
       const keyShape = item.getKeyShape();
       const attrs = keyShape.attr();
-      switch(id) {
-        case 'circle': 
+      switch (id) {
+        case 'circle':
           expect(attrs.lineWidth).toEqual(3);
           expect(attrs.stroke).toEqual('#f00');
           expect(attrs.fill).toEqual('#C6E5FF');
           break;
-        case 'rect': 
+        case 'rect':
           expect(attrs.lineWidth).toEqual(3);
           expect(attrs.stroke).toEqual('#0f0');
           expect(attrs.fill).toEqual('#C6E5FF');
           break;
-        case 'triangle': 
+        case 'triangle':
           expect(attrs.lineWidth).toEqual(1);
           expect(attrs.stroke).toEqual('#f00');
           expect(attrs.fill).toEqual('#C6E5FF');
           break;
-        case 'ellipse': 
+        case 'ellipse':
           expect(attrs.lineWidth).toEqual(3);
           expect(attrs.fillOpacity).toEqual(0.5);
           expect(attrs.fill).toEqual('#C6E5FF');
           break;
-        case 'diamond': 
+        case 'diamond':
           expect(attrs.lineWidth).toEqual(1);
           expect(attrs.strokeOpacity).toEqual(0.3);
           expect(attrs.fill).toEqual('#C6E5FF');
           break;
-        case 'star': 
+        case 'star':
           expect(attrs.lineWidth).toEqual(3);
           expect(attrs.shadowColor).toEqual('#00f');
           expect(attrs.shadowBlur).toEqual(10);
@@ -229,30 +237,32 @@ describe('graph', () => {
     graph.getNodes().forEach(node => {
       graph.emit('node:mouseenter', { item: node });
       graph.emit('node:mouseleave', { item: node });
-    })
+    });
     graph.destroy();
   });
-  
+
   it('global defaultNode and multiple stateStyle in data', () => {
     const data2 = {
-      nodes: [{
-        id: 'node1',
-        x: 100,
-        y: 100,
-        stateStyles: {
-          hover: {
-            lineWidth: 3
+      nodes: [
+        {
+          id: 'node1',
+          x: 100,
+          y: 100,
+          stateStyles: {
+            hover: {
+              lineWidth: 3,
+            },
+            state1: {
+              lineWidth: 5,
+              fill: '#f00',
+            },
+            state2: {
+              stroke: '#0f0',
+            },
           },
-          state1: {
-            lineWidth: 5,
-            fill: '#f00'
-          },
-          state2: {
-            stroke: '#0f0'
-          }
-        }
-      }]
-    }
+        },
+      ],
+    };
     const graph = new G6.Graph({
       container: div,
       width: 500,
@@ -260,9 +270,9 @@ describe('graph', () => {
       defaultNode: {
         style: {
           stroke: '#f00',
-          lineWidth: 1
-        }
-      }
+          lineWidth: 1,
+        },
+      },
     });
     graph.data(data2);
     graph.render();
@@ -295,23 +305,25 @@ describe('graph', () => {
     graph.emit('canvas:click', {});
     graph.destroy();
   });
-  
+
   it('updateItem and state', () => {
     const data2 = {
-      nodes: [{
-        id: 'node1',
-        x: 100,
-        y: 100,
-        stateStyles: {
-          state1: {
-            lineWidth: 5,
-            fill: '#00f',
-            stroke: '#0ff',
-            width: 30
-          }
-        }
-      }]
-    }
+      nodes: [
+        {
+          id: 'node1',
+          x: 100,
+          y: 100,
+          stateStyles: {
+            state1: {
+              lineWidth: 5,
+              fill: '#00f',
+              stroke: '#0ff',
+              width: 30,
+            },
+          },
+        },
+      ],
+    };
     const graph = new G6.Graph({
       container: div,
       width: 500,
@@ -319,9 +331,9 @@ describe('graph', () => {
       defaultNode: {
         style: {
           stroke: '#f00',
-          lineWidth: 1
-        }
-      }
+          lineWidth: 1,
+        },
+      },
     });
     graph.data(data2);
     graph.render();
@@ -330,8 +342,8 @@ describe('graph', () => {
       type: 'rect',
       size: [50, 30],
       style: {
-        fill: '#0f0'
-      }
+        fill: '#0f0',
+      },
     });
     expect(node.getKeyShape().attr('fill')).toEqual('#0f0');
     expect(node.getKeyShape().attr('lineWidth')).toEqual(1);
@@ -353,23 +365,26 @@ describe('graph', () => {
 
   it('combine nodeStateStyles on Graph and stateStyles in data', () => {
     const data = {
-      nodes: [{
-        id: 'node1',
-        x: 100,
-        y: 100,
-        stateStyles: {
-          state1: {
-            fill: '#f00',
-            shadowColor: '#0f0',
-            shadowBlur: 10
-          }
-        }
-      }, {
-        id: 'node2',
-        x: 200,
-        y: 100
-      }]
-    }
+      nodes: [
+        {
+          id: 'node1',
+          x: 100,
+          y: 100,
+          stateStyles: {
+            state1: {
+              fill: '#f00',
+              shadowColor: '#0f0',
+              shadowBlur: 10,
+            },
+          },
+        },
+        {
+          id: 'node2',
+          x: 200,
+          y: 100,
+        },
+      ],
+    };
     const graph = new G6.Graph({
       container: div,
       width: 500,
@@ -377,8 +392,8 @@ describe('graph', () => {
       nodeStateStyles: {
         state1: {
           fill: '#0f0',
-        }
-      }
+        },
+      },
     });
     graph.data(data);
     graph.render();
@@ -388,7 +403,7 @@ describe('graph', () => {
       expect(item.hasState('state1')).toEqual(true);
       const keyShape = item.getKeyShape();
       const id = item.getModel().id;
-      switch(id) {
+      switch (id) {
         case 'node1':
           expect(keyShape.attr('lineWidth')).toEqual(1);
           expect(keyShape.attr('fill')).toEqual('#f00');
@@ -411,8 +426,7 @@ describe('graph', () => {
     graph.getNodes().forEach(node => {
       graph.emit('node:mouseenter', { item: node });
       graph.emit('node:mouseleave', { item: node });
-      
-    })
+    });
     graph.destroy();
   });
-})
+});

@@ -1,7 +1,6 @@
-
-import deepMix from '@antv/util/lib/deep-mix'
-import each from '@antv/util/lib/each'
-import wrapBehavior from '@antv/util/lib/wrap-behavior'
+import deepMix from '@antv/util/lib/deep-mix';
+import each from '@antv/util/lib/each';
+import wrapBehavior from '@antv/util/lib/wrap-behavior';
 import Graph from '../graph/graph';
 
 export interface IPluginBaseConfig {
@@ -12,13 +11,13 @@ export interface IPluginBaseConfig {
 }
 
 interface EventMapType {
-  [key: string]: any
+  [key: string]: any;
 }
 
 export default abstract class PluginBase {
-  private _events: EventMapType
-  public _cfgs: IPluginBaseConfig
-  public destroyed: boolean
+  private _events: EventMapType;
+  public _cfgs: IPluginBaseConfig;
+  public destroyed: boolean;
 
   /**
    * 插件基类的构造函数
@@ -26,8 +25,8 @@ export default abstract class PluginBase {
    */
   constructor(cfgs?: IPluginBaseConfig) {
     this._cfgs = deepMix(this.getDefaultCfgs(), cfgs);
-    this._events = {}
-    this.destroyed = false
+    this._events = {};
+    this.destroyed = false;
   }
 
   /**

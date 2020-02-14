@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>自定义节点选中样式</title>
   </head>
   <body>
@@ -11,66 +11,74 @@
       /**
        * 本案例演示如何通过交互设置元素状态：当鼠标hover到圆形节点上时，圆形节点执行动画效果
        * by 镜曦。
-      */
-      G6.registerNode('animate-circle', {
-        setState: function setState(name, value, item) {
-          const shape = item.get('keyShape');
-          const cfg = item.get('model');
-          if (name === 'running') {
-            if (value) {
-              shape.animate(ratio => {
-                const diff = ratio <= 0.5 ? ratio * 10 : (1 - ratio) * 10;
-                return {
-                  r: cfg.size / 2 + diff
-                };
-              }, {
-                repeat: true,
-                duration: 1000,
-                easing: 'easeCubic'
-              });
-            } else {
-              shape.stopAnimate();
-              shape.attr('lineDash', null);
-            }
-          }
-        }
-      },
-      'circle');
-      const data = {
-        nodes: [{
-          x: 100,
-          y: 100,
-          shape: 'animate-circle',
-          label: 'animate-circle',
-          id: 'node1',
-          size: 30,
-          labelCfg: {
-            position: 'bottom'
-          },
-
-        },
+       */
+      G6.registerNode(
+        'animate-circle',
         {
-          x: 400,
-          y: 100,
-          shape: 'rect',
-          label: 'rect2',
-          id: 'node2',
-          labelCfg: {
-            position: 'bottom'
+          setState: function setState(name, value, item) {
+            const shape = item.get('keyShape');
+            const cfg = item.get('model');
+            if (name === 'running') {
+              if (value) {
+                shape.animate(
+                  ratio => {
+                    const diff = ratio <= 0.5 ? ratio * 10 : (1 - ratio) * 10;
+                    return {
+                      r: cfg.size / 2 + diff,
+                    };
+                  },
+                  {
+                    repeat: true,
+                    duration: 1000,
+                    easing: 'easeCubic',
+                  },
+                );
+              } else {
+                shape.stopAnimate();
+                shape.attr('lineDash', null);
+              }
+            }
           },
-
-        }],
-        edges: [{
-          source: 'node1',
-          target: 'node2',
-          label: 'line',
-          labelCfg: {
-            refY: 10
+        },
+        'circle',
+      );
+      const data = {
+        nodes: [
+          {
+            x: 100,
+            y: 100,
+            shape: 'animate-circle',
+            label: 'animate-circle',
+            id: 'node1',
+            size: 30,
+            labelCfg: {
+              position: 'bottom',
+            },
           },
-          style: {
-            endArrow: true
-          }
-        }]
+          {
+            x: 400,
+            y: 100,
+            shape: 'rect',
+            label: 'rect2',
+            id: 'node2',
+            labelCfg: {
+              position: 'bottom',
+            },
+          },
+        ],
+        edges: [
+          {
+            source: 'node1',
+            target: 'node2',
+            label: 'line',
+            labelCfg: {
+              refY: 10,
+            },
+            style: {
+              endArrow: true,
+            },
+          },
+        ],
       };
 
       const graph = new G6.Graph({
@@ -80,16 +88,15 @@
         defaultNode: {
           color: '#87e8de',
           style: {
-            fill: '#87e8de'
-          }
+            fill: '#87e8de',
+          },
         },
         defaultEdge: {
-          color: '#bae7ff'
+          color: '#bae7ff',
         },
         modes: {
-        default:
-          [ 'drag-node' ],
-        }
+          default: ['drag-node'],
+        },
       });
       graph.data(data);
       graph.render();

@@ -1,5 +1,5 @@
 import Simulate from 'event-simulate';
-import G6 from '../../../../src'
+import G6 from '../../../../src';
 
 const div = document.createElement('div');
 div.id = 'event-spec';
@@ -14,7 +14,7 @@ describe('event', () => {
   it('init event', () => {
     const canvas = graph.get('canvas');
     expect(graph.get('eventController')).not.toBe(undefined);
-    
+
     let a = 0;
     graph.on('canvas:click', e => {
       a = e.a;
@@ -44,12 +44,16 @@ describe('event', () => {
     let target = null;
     const canvas = graph.get('canvas');
 
-    const node = graph.addItem('node', { type: 'circle', color: '#ccc', style: { x: 50, y: 50, r: 20, lineWidth: 2 } });
+    const node = graph.addItem('node', {
+      type: 'circle',
+      color: '#ccc',
+      style: { x: 50, y: 50, r: 20, lineWidth: 2 },
+    });
 
     const shape = node.get('group').get('children')[0];
 
-    graph.on('node:mousedown', e => { 
-      target = e.item; 
+    graph.on('node:mousedown', e => {
+      target = e.item;
       expect(target === node).toBe(true);
     });
 
@@ -79,7 +83,7 @@ describe('event', () => {
 
     Simulate.simulate(canvas, 'keydown', {
       clientY: bbox.right - 50,
-      clientX: bbox.left + 10
+      clientX: bbox.left + 10,
     });
 
     graph.off('keydown', fn);
@@ -88,7 +92,7 @@ describe('event', () => {
 
     Simulate.simulate(canvas, 'keydown', {
       clientY: bbox.right - 50,
-      clientX: bbox.left + 10
+      clientX: bbox.left + 10,
     });
 
     expect(evt).toBe(null);
@@ -107,7 +111,7 @@ describe('event', () => {
 
     graph.on('mousemove', e => {
       enter++;
-    })
+    });
 
     graph.on('node:mouseleave', e => {
       leave++;
@@ -126,10 +130,10 @@ describe('event', () => {
     expect(enter).toBe(2);
 
     graph.emit('node:mouseenter', { type: 'mousemove', target: canvas });
-    
+
     graph.emit('node:mouseenter', { type: 'mousemove', target: shape });
     expect(enter).toBe(4);
-    
+
     graph.emit('mousemove', { type: 'mousemove', target: canvas });
     expect(enter).toBe(5);
 
@@ -172,7 +176,7 @@ describe('event', () => {
 
     Simulate.simulate(canvas, 'mousedown', {
       clientY: bbox.right - 50,
-      clientX: bbox.left + 10
+      clientX: bbox.left + 10,
     });
 
     graph.translate(100, 100);
@@ -180,14 +184,14 @@ describe('event', () => {
 
     Simulate.simulate(canvas, 'mousedown', {
       clientY: bbox.right - 50,
-      clientX: bbox.left + 10
+      clientX: bbox.left + 10,
     });
 
     graph.zoom(0.5);
 
     Simulate.simulate(canvas, 'mouseup', {
       clientY: bbox.top + 10,
-      clientX: bbox.left + 10
+      clientX: bbox.left + 10,
     });
   });
   it('item capture', () => {
@@ -205,16 +209,15 @@ describe('event', () => {
 
     Simulate.simulate(canvas, 'mousedown', {
       clientY: bbox.right - 100,
-      clientX: bbox.left + 100
+      clientX: bbox.left + 100,
     });
-
 
     targetItem = null;
     node.enableCapture(false);
 
     Simulate.simulate(canvas, 'mouseup', {
       clientY: bbox.top + 100,
-      clientX: bbox.left + 100
+      clientX: bbox.left + 100,
     });
     expect(targetItem === node).toBe(false);
   });
@@ -247,9 +250,9 @@ describe('event', () => {
   });
 
   it('destory', () => {
-    expect(graph).not.toBe(undefined)
-    expect(graph.destroyed).toBe(false)
-    graph.destroy()
-    expect(graph.destroyed).toBe(true)
-  })
+    expect(graph).not.toBe(undefined);
+    expect(graph.destroyed).toBe(false);
+    graph.destroy();
+    expect(graph.destroyed).toBe(true);
+  });
 });

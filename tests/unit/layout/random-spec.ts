@@ -5,7 +5,7 @@ const div = document.createElement('div');
 div.id = 'graph-spec';
 document.body.appendChild(div);
 
-const data: {nodes: NodeConfig[], edges: EdgeConfig[]} = {
+const data: { nodes: NodeConfig[]; edges: EdgeConfig[] } = {
   nodes: [
     {
       id: '0',
@@ -50,7 +50,7 @@ describe('random', () => {
   it('instantialize a random layout', () => {
     const randomLayout = new G6.Layout['random']({
       width: null,
-      height: null
+      height: null,
     });
     randomLayout.init(data);
     randomLayout.execute();

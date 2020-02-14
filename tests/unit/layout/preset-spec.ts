@@ -8,7 +8,7 @@ const data = {
   nodes: [
     {
       id: '0',
-      label: '0'
+      label: '0',
     },
     {
       id: '1',
@@ -91,7 +91,7 @@ describe('preset layout', () => {
     const graph = new G6.Graph({
       container: div,
       width: 500,
-      height: 500
+      height: 500,
     });
     graph.data(data);
     graph.render();
@@ -105,7 +105,7 @@ describe('preset layout', () => {
     const graph = new G6.Graph({
       container: div,
       width: 500,
-      height: 500
+      height: 500,
     });
     data.nodes[0].x = 100;
     data.nodes[0].y = 30;
@@ -121,7 +121,7 @@ describe('preset layout', () => {
     const graph = new G6.Graph({
       container: div,
       width: 500,
-      height: 500
+      height: 500,
     });
     data.nodes[0].x = 100;
     data.nodes[0].y = 30;
@@ -151,8 +151,8 @@ describe('preset layout', () => {
       width: 500,
       height: 500,
       layout: {
-        type: 'random'
-      }
+        type: 'random',
+      },
     });
     graph.data(data);
     graph.render();
@@ -166,14 +166,14 @@ describe('preset layout', () => {
     const graph = new G6.Graph({
       container: div,
       width: 500,
-      height: 500
+      height: 500,
     });
     graph.data(data2);
     graph.render();
     expect(graph.getNodes()[1].getModel().x).toEqual(250);
     expect(graph.getNodes()[1].getModel().y).toEqual(180);
     graph.updateLayout({
-      type: 'force'
+      type: 'force',
     });
     expect(graph.getNodes()[1].getModel().x).not.toEqual(NaN);
     expect(graph.getNodes()[1].getModel().y).not.toEqual(NaN);
@@ -185,14 +185,14 @@ describe('preset layout', () => {
     const graph = new G6.Graph({
       container: div,
       width: 500,
-      height: 500
+      height: 500,
     });
     graph.data(data2);
     graph.render();
     expect(graph.getNodes()[1].getModel().x).toEqual(250);
     expect(graph.getNodes()[1].getModel().y).toEqual(180);
     graph.updateLayout({
-      center: [100, 100]
+      center: [100, 100],
     });
     expect(graph.getNodes()[1].getModel().x).not.toEqual(NaN);
     expect(graph.getNodes()[1].getModel().y).not.toEqual(NaN);
@@ -205,8 +205,8 @@ describe('preset layout', () => {
       width: 500,
       height: 500,
       layout: {
-        type: 'force'
-      }
+        type: 'force',
+      },
     });
     graph.data(data2);
     graph.render();
@@ -215,7 +215,7 @@ describe('preset layout', () => {
     graph.once('afterlayout', () => {
       graph.updateLayout({
         type: 'circular',
-        radius: 100
+        radius: 100,
       });
       expect(graph.getNodes()[1].getModel().x).not.toEqual(NaN);
       expect(graph.getNodes()[1].getModel().y).not.toEqual(NaN);

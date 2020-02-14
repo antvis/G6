@@ -5,21 +5,22 @@ order: 10
 
 The functions for locking a node `lock()`, `unlock()`, and `hasLocked()` are supported by the versions from G6 V3.1.4. The locked node will not response the drag event any more. But it still can be moved while dragging and zooming the canvas. You can register a [Custom Behavior](/en/docs/manual/advanced/custom-behavior) to fix the node when dragging and zooming.
 
-
 ## Fix the Locked Node While Dragging
+
 The built-in `drag-canvas` in G6 does not take the locked node into consideration. In most situations, it is a reasonable Behavior. For some special requirements that require to fix hte locked node when dragging, you can register a custom Behavior as shown bolow to achieve them.
+
 ```javascript
 import G6 from '@antv/g6';
 const Util = G6.Util;
 const abs = Math.abs;
 const DRAG_OFFSET = 10;
 const body = document.body;
-const ALLOW_EVENTS = [ 16, 17, 18 ];
+const ALLOW_EVENTS = [16, 17, 18];
 
 G6.registerBehavior('drag-canvas-exclude-lockedNode', {
   getDefaultCfg() {
     return {
-      direction: 'both'
+      direction: 'both',
     };
   },
   getEvents() {
@@ -30,7 +31,7 @@ G6.registerBehavior('drag-canvas-exclude-lockedNode', {
       'canvas:click': 'onMouseUp',
       'canvas:mouseleave': 'onOutOfRange',
       keyup: 'onKeyUp',
-      keydown: 'onKeyDown'
+      keydown: 'onKeyDown',
     };
   },
   updateViewport(e) {
@@ -49,7 +50,7 @@ G6.registerBehavior('drag-canvas-exclude-lockedNode', {
     }
     this.origin = {
       x: clientX,
-      y: clientY
+      y: clientY,
     };
     // The difference to built-in drag-canvas:
     const lockedNodes = this.graph.findAll('node', node => !node.hasLocked());
@@ -73,7 +74,9 @@ G6.registerBehavior('drag-canvas-exclude-lockedNode', {
 
     e = Util.cloneEvent(e);
     const graph = this.graph;
-    if (!this.origin) { return; }
+    if (!this.origin) {
+      return;
+    }
     if (this.origin && !this.dragging) {
       if (abs(this.origin.x - e.clientX) + abs(this.origin.y - e.clientY) < DRAG_OFFSET) {
         return;
@@ -149,13 +152,12 @@ G6.registerBehavior('drag-canvas-exclude-lockedNode', {
   },
   onKeyUp() {
     this.keydown = false;
-  }
+  },
 });
-
 ```
 
-
 ## Fix the Locked Node While Zooming
+
 Built-in Behavior `zoom-canvas` zooms all the nodes including locked nodes. Register a custom Behavior to fix the locked nodes.
 
 ```javascript
@@ -166,12 +168,12 @@ G6.registerBehavior('zoom-canvas-exclude-lockedNode', {
     return {
       sensitivity: 2,
       minZoom: 0.1,
-      maxZoom: 10
+      maxZoom: 10,
     };
   },
   getEvents() {
     return {
-      wheel: 'onWheel'
+      wheel: 'onWheel',
     };
   },
   onWheel(e) {
@@ -199,15 +201,13 @@ G6.registerBehavior('zoom-canvas-exclude-lockedNode', {
     lockedNodes.forEach(node => {
       const matrix = Util.clone(node.get('group').getMatrix());
       const center = node.getModel();
-      Util.mat3.translate(matrix, matrix, [ -center.x, -center.y ]);
-      Util.mat3.scale(matrix, matrix, [ ratio, ratio ]);
-      Util.mat3.translate(matrix, matrix, [ center.x, center.y ]);
+      Util.mat3.translate(matrix, matrix, [-center.x, -center.y]);
+      Util.mat3.scale(matrix, matrix, [ratio, ratio]);
+      Util.mat3.translate(matrix, matrix, [center.x, center.y]);
       node.get('group').setMatrix(matrix);
     });
     graph.paint();
     graph.emit('wheelzoom', e);
-  }
+  },
 });
-
 ```
-

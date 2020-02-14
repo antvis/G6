@@ -1,10 +1,9 @@
-
-import G6 from '../../../src'
-import '../../../src/behavior'
-import { scale, translate } from '../../../src/util/math'
+import G6 from '../../../src';
+import '../../../src/behavior';
+import { scale, translate } from '../../../src/util/math';
 import { GraphData, Item } from '../../../src/types';
-import Plugin from '../../../src/plugins'
-import { timerOut } from '../util/timeOut'
+import Plugin from '../../../src/plugins';
+import { timerOut } from '../util/timeOut';
 
 const div = document.createElement('div');
 div.id = 'global-spec';
@@ -16,34 +15,41 @@ describe('graph', () => {
     width: 500,
     height: 500,
     modes: {
-      default: ['drag-node']
-    }
+      default: ['drag-node'],
+    },
   });
 
-  it('invalid container', ()  => {
-    expect(() => { new G6.Graph({}) }).toThrowError('invalid container')
-  })
-  
+  it('invalid container', () => {
+    expect(() => {
+      new G6.Graph({});
+    }).toThrowError('invalid container');
+  });
+
   it('new & destroy graph', () => {
     const inst = new G6.Graph({
       container: div,
       width: 500,
       height: 500,
       modes: {
-        default: ['drag-node']
-      }
+        default: ['drag-node'],
+      },
     });
     const length = div.childNodes.length;
 
-    expect(inst).not.toBe(undefined)
+    expect(inst).not.toBe(undefined);
     expect(inst instanceof G6.Graph).toBe(true);
     expect(length > 1).toBe(true);
 
-    expect(inst.get('canvas')).not.toBe(undefined)
-    expect(inst.get('group')).not.toBe(undefined)
+    expect(inst.get('canvas')).not.toBe(undefined);
+    expect(inst.get('group')).not.toBe(undefined);
 
     expect(inst.get('group').get('className')).toEqual('root-container');
-    expect(inst.get('group').get('id').endsWith('-root')).toBe(true);
+    expect(
+      inst
+        .get('group')
+        .get('id')
+        .endsWith('-root'),
+    ).toBe(true);
 
     const children = inst.get('group').get('children');
     expect(children.length).toBe(4);
@@ -51,17 +57,17 @@ describe('graph', () => {
     expect(children[0].get('className')).toEqual('custom-group-container');
 
     const nodes = inst.getNodes();
-    expect(nodes).not.toBe(undefined)
+    expect(nodes).not.toBe(undefined);
     expect(nodes.length).toBe(0);
 
     const edges = inst.getEdges();
-    expect(edges).not.toBe(undefined)
+    expect(edges).not.toBe(undefined);
     expect(edges.length).toBe(0);
 
     const canvas = inst.get('canvas');
     inst.destroy();
 
-    expect(inst.destroyed).toBe(true)
+    expect(inst.destroyed).toBe(true);
     expect(canvas.destroyed).toBe(true);
     expect(length - div.childNodes.length).toBe(1);
   });
@@ -70,70 +76,73 @@ describe('graph', () => {
     const inst = new G6.Graph({
       container: div,
       width: 500,
-      height: 500
-    }) 
+      height: 500,
+    });
 
-    inst.data(null)
+    inst.data(null);
 
-    expect(() => { inst.render() }).toThrowError('data must be defined first')
-  })
+    expect(() => {
+      inst.render();
+    }).toThrowError('data must be defined first');
+  });
 
   it('groupByTypes is false & toDataURL', () => {
     const inst = new G6.Graph({
       container: div,
       width: 500,
       height: 500,
-      groupByTypes: false
-    })
+      groupByTypes: false,
+    });
 
     const data = {
       nodes: [
         {
           id: 'node1',
-          label: 'node1'
-        },{
-          id: 'node2'
-        }
+          label: 'node1',
+        },
+        {
+          id: 'node2',
+        },
       ],
       edges: [
         {
           id: 'edge1',
           source: 'node1',
-          target: 'node2'
+          target: 'node2',
         },
         {
           id: 'edge2',
           source: 'node1',
-          target: 'node1'
+          target: 'node1',
         },
         {
           id: 'edge3',
           source: 'node2',
-          target: 'node2'
-        }
-      ]
-    }
+          target: 'node2',
+        },
+      ],
+    };
 
-    inst.data(data)
-    inst.render()
+    inst.data(data);
+    inst.render();
 
-    const nodeGroup = inst.get('nodeGroup')
-    const edgeGroup = inst.get('edgeGroup')
+    const nodeGroup = inst.get('nodeGroup');
+    const edgeGroup = inst.get('edgeGroup');
 
-    expect(nodeGroup).toBe(undefined)
-    expect(edgeGroup).toBe(undefined)
+    expect(nodeGroup).toBe(undefined);
+    expect(edgeGroup).toBe(undefined);
 
-    const node = inst.findById('node1')
-    const edge = inst.findById('edge1')
+    const node = inst.findById('node1');
+    const edge = inst.findById('edge1');
 
-    const group1 = node.get('group').getParent()
-    const group2 = edge.get('group').getParent()
+    const group1 = node.get('group').getParent();
+    const group2 = edge.get('group').getParent();
 
-    expect(group1).toEqual(group2)
+    expect(group1).toEqual(group2);
 
-    const url = inst.toDataURL()
-    expect(url).not.toBe(null)
-  })
+    const url = inst.toDataURL();
+    expect(url).not.toBe(null);
+  });
 
   it('translate', () => {
     const canvasMatrix = globalGraph.get('canvas').getMatrix();
@@ -141,7 +150,7 @@ describe('graph', () => {
 
     const matrix = globalGraph.get('group').getMatrix();
 
-    expect(canvasMatrix).toBe(null)
+    expect(canvasMatrix).toBe(null);
     expect(matrix[6]).toBe(100);
     expect(matrix[7]).toBe(100);
 
@@ -149,25 +158,25 @@ describe('graph', () => {
   });
 
   it('moveTo', () => {
-    let group = globalGraph.get('group')
-    expect(group.get('x')).toBe(undefined)
-    expect(group.get('y')).toBe(undefined)
+    let group = globalGraph.get('group');
+    expect(group.get('x')).toBe(undefined);
+    expect(group.get('y')).toBe(undefined);
     globalGraph.moveTo(100, 100);
 
-    group = globalGraph.get('group')
+    group = globalGraph.get('group');
     const matrix = globalGraph.get('group').getMatrix();
 
-    expect(matrix).not.toBe(null)
+    expect(matrix).not.toBe(null);
     expect(group.get('x')).toBe(100);
     expect(group.get('y')).toBe(100);
 
     globalGraph.get('group').resetMatrix();
-  })
+  });
 
   it('zoom', () => {
     globalGraph.zoom(3, { x: 100, y: 100 });
 
-    const matrix = globalGraph.get('group').getMatrix()
+    const matrix = globalGraph.get('group').getMatrix();
 
     expect(matrix[0]).toBe(3);
     expect(matrix[4]).toBe(3);
@@ -184,31 +193,31 @@ describe('graph', () => {
       minZoom: 2,
       maxZoom: 5,
       width: 500,
-      height: 500
-    })
+      height: 500,
+    });
 
     const data = {
       nodes: [
         {
-          id: 'node'
-        }
-      ]
-    }
+          id: 'node',
+        },
+      ],
+    };
 
-    graph.data(data)
-    graph.render()
+    graph.data(data);
+    graph.render();
 
-    let matrix = graph.get('group').getMatrix()
-    expect(matrix).toBe(null)
-    
-    graph.zoom(0.5, { x: 100, y: 100 })
-    matrix = graph.get('group').getMatrix()
-    expect(matrix).toBe(null)
+    let matrix = graph.get('group').getMatrix();
+    expect(matrix).toBe(null);
 
-    graph.zoom(5.5)
-    matrix = graph.get('group').getMatrix()
-    expect(matrix).toBe(null)
-  })
+    graph.zoom(0.5, { x: 100, y: 100 });
+    matrix = graph.get('group').getMatrix();
+    expect(matrix).toBe(null);
+
+    graph.zoom(5.5);
+    matrix = graph.get('group').getMatrix();
+    expect(matrix).toBe(null);
+  });
 
   it('zoomTo', () => {
     let matrix = globalGraph.get('group').getMatrix();
@@ -235,64 +244,75 @@ describe('graph', () => {
     const graph = new G6.Graph({
       container: div,
       width: 500,
-      height: 500
+      height: 500,
     });
 
-    expect(graph.get('width')).toBe(500)
-    expect(graph.get('height')).toBe(500)
+    expect(graph.get('width')).toBe(500);
+    expect(graph.get('height')).toBe(500);
 
     expect(typeof graph.changeSize).toEqual('function');
     graph.changeSize(300, 300);
 
     expect(graph.get('width')).toBe(300);
     expect(graph.get('height')).toBe(300);
-    
+
     // 专门用于测试使用非 number 类型 会报错的情况
-    expect(() => { graph.changeSize('x', 10)}).toThrowError('invalid canvas width & height, pleace make sure width & height type is number')
+    expect(() => {
+      graph.changeSize('x', 10);
+    }).toThrowError(
+      'invalid canvas width & height, pleace make sure width & height type is number',
+    );
     graph.destroy();
   });
 
   it('getCurrentMode', () => {
-    const mode = globalGraph.getCurrentMode()
-    expect(mode).toBe('default')
-  })
+    const mode = globalGraph.getCurrentMode();
+    expect(mode).toBe('default');
+  });
 
   it('data & changeData & save', () => {
     const data = {
-      nodes: [{
-        id: 'a',
-        type: 'circle',
-        color: '#333',
-        x: 30,
-        y: 30,
-        size: 20,
-        label: 'a'
-      }, {
-        id: 'b',
-        type: 'ellipse',
-        color: '#666',
-        x: 50,
-        y: 60,
-        size: [ 30, 40 ],
-        label: 'b'
-      }, {
-        id: 'c',
-        type: 'rect',
-        color: '#999',
-        x: 100,
-        y: 70,
-        size: 20,
-        label: 'c'
-      }],
-      edges: [{
-        source: 'a',
-        target: 'b',
-        id: 'd'
-      }, {
-        source: 'a',
-        target: 'c',
-        id: 'e'
-      }]
+      nodes: [
+        {
+          id: 'a',
+          type: 'circle',
+          color: '#333',
+          x: 30,
+          y: 30,
+          size: 20,
+          label: 'a',
+        },
+        {
+          id: 'b',
+          type: 'ellipse',
+          color: '#666',
+          x: 50,
+          y: 60,
+          size: [30, 40],
+          label: 'b',
+        },
+        {
+          id: 'c',
+          type: 'rect',
+          color: '#999',
+          x: 100,
+          y: 70,
+          size: 20,
+          label: 'c',
+        },
+      ],
+      edges: [
+        {
+          source: 'a',
+          target: 'b',
+          id: 'd',
+        },
+        {
+          source: 'a',
+          target: 'c',
+          id: 'e',
+        },
+      ],
     };
     globalGraph.data(data);
     globalGraph.render();
@@ -318,7 +338,7 @@ describe('graph', () => {
       x: 100,
       y: 80,
       size: 30,
-      label: 'f'
+      label: 'f',
     });
     globalGraph.changeData(data);
     map = globalGraph.get('itemMap');
@@ -342,40 +362,47 @@ describe('graph', () => {
 
   it('change data with null', () => {
     const data = {
-      nodes: [{
-        id: 'a',
-        type: 'circle',
-        color: '#333',
-        x: 30,
-        y: 30,
-        size: 20,
-        label: 'a'
-      }, {
-        id: 'b',
-        type: 'ellipse',
-        color: '#666',
-        x: 50,
-        y: 60,
-        size: [ 30, 40 ],
-        label: 'b'
-      }, {
-        id: 'c',
-        type: 'rect',
-        color: '#999',
-        x: 100,
-        y: 70,
-        size: 20,
-        label: 'c'
-      }],
-      edges: [{
-        source: 'a',
-        target: 'b',
-        id: 'd'
-      }, {
-        source: 'a',
-        target: 'c',
-        id: 'e'
-      }]
+      nodes: [
+        {
+          id: 'a',
+          type: 'circle',
+          color: '#333',
+          x: 30,
+          y: 30,
+          size: 20,
+          label: 'a',
+        },
+        {
+          id: 'b',
+          type: 'ellipse',
+          color: '#666',
+          x: 50,
+          y: 60,
+          size: [30, 40],
+          label: 'b',
+        },
+        {
+          id: 'c',
+          type: 'rect',
+          color: '#999',
+          x: 100,
+          y: 70,
+          size: 20,
+          label: 'c',
+        },
+      ],
+      edges: [
+        {
+          source: 'a',
+          target: 'b',
+          id: 'd',
+        },
+        {
+          source: 'a',
+          target: 'c',
+          id: 'e',
+        },
+      ],
     };
     globalGraph.data(data);
     globalGraph.render();
@@ -388,40 +415,47 @@ describe('graph', () => {
 
   it('change data with animate', () => {
     const data = {
-      nodes: [{
-        id: 'a',
-        type: 'circle',
-        color: '#333',
-        x: 30,
-        y: 30,
-        size: 20,
-        label: 'a'
-      }, {
-        id: 'b',
-        type: 'ellipse',
-        color: '#666',
-        x: 50,
-        y: 60,
-        size: [ 30, 40 ],
-        label: 'b'
-      }, {
-        id: 'c',
-        type: 'rect',
-        color: '#999',
-        x: 100,
-        y: 70,
-        size: 20,
-        label: 'c'
-      }],
-      edges: [{
-        source: 'a',
-        target: 'b',
-        id: 'd'
-      }, {
-        source: 'a',
-        target: 'c',
-        id: 'e'
-      }]
+      nodes: [
+        {
+          id: 'a',
+          type: 'circle',
+          color: '#333',
+          x: 30,
+          y: 30,
+          size: 20,
+          label: 'a',
+        },
+        {
+          id: 'b',
+          type: 'ellipse',
+          color: '#666',
+          x: 50,
+          y: 60,
+          size: [30, 40],
+          label: 'b',
+        },
+        {
+          id: 'c',
+          type: 'rect',
+          color: '#999',
+          x: 100,
+          y: 70,
+          size: 20,
+          label: 'c',
+        },
+      ],
+      edges: [
+        {
+          source: 'a',
+          target: 'b',
+          id: 'd',
+        },
+        {
+          source: 'a',
+          target: 'c',
+          id: 'e',
+        },
+      ],
     };
     globalGraph.data(data);
     globalGraph.render();
@@ -437,8 +471,14 @@ describe('graph', () => {
   it('find', () => {
     globalGraph.clear();
     globalGraph.addItem('node', { id: 'node', x: 50, y: 100, size: 50, className: 'test test2' });
-    const item = globalGraph.addItem('node', { id: 'node2', x: 100, y: 100, size: 50, className: 'test' });
-    
+    const item = globalGraph.addItem('node', {
+      id: 'node2',
+      x: 100,
+      y: 100,
+      size: 50,
+      className: 'test',
+    });
+
     const findNode = globalGraph.find('node', (node: any) => {
       return node.get('model').x === 100;
     });
@@ -449,10 +489,22 @@ describe('graph', () => {
 
   it('findAll', () => {
     globalGraph.clear();
-    const node1 = globalGraph.addItem('node', { id: 'node', x: 100, y: 100, size: 50, className: 'test test2' });
-    const node2 = globalGraph.addItem('node', { id: 'node2', x: 100, y: 100, size: 50, className: 'test' });
+    const node1 = globalGraph.addItem('node', {
+      id: 'node',
+      x: 100,
+      y: 100,
+      size: 50,
+      className: 'test test2',
+    });
+    const node2 = globalGraph.addItem('node', {
+      id: 'node2',
+      x: 100,
+      y: 100,
+      size: 50,
+      className: 'test',
+    });
     const node3 = globalGraph.addItem('node', { id: 'node2', x: 100, y: 100, size: 50 });
-    
+
     node1.setState('active', true);
     node2.setState('selected', true);
     node3.setState('active', true);
@@ -473,7 +525,7 @@ describe('graph', () => {
     const data = { id: 'node', x: 100, y: 50, size: 50, className: 'test test2' };
     const node = globalGraph.addItem('node', data);
     const group = node.get('group');
-    
+
     expect(group.getMatrix()[6]).toBe(100);
     expect(group.getMatrix()[7]).toBe(50);
 
@@ -486,18 +538,18 @@ describe('graph', () => {
   });
 
   it('removeItem', () => {
-    let removeNode = globalGraph.findById('remove-item')
-    expect(removeNode).toBe(undefined)
+    let removeNode = globalGraph.findById('remove-item');
+    expect(removeNode).toBe(undefined);
 
     const data = { id: 'remove-item', x: 10, y: 50, size: 50, className: 'test test2' };
     const node = globalGraph.addItem('node', data);
 
-    expect(node).not.toBe(undefined)
+    expect(node).not.toBe(undefined);
 
-    globalGraph.removeItem('remove-item')
-    removeNode = globalGraph.findById('remove-item')
-    expect(removeNode).toBe(undefined)
-  })
+    globalGraph.removeItem('remove-item');
+    removeNode = globalGraph.findById('remove-item');
+    expect(removeNode).toBe(undefined);
+  });
 
   it('canvas point & model point convert', () => {
     const group = globalGraph.get('group');
@@ -507,7 +559,7 @@ describe('graph', () => {
 
     translate(group, {
       x: 100,
-      y: 100
+      y: 100,
     });
 
     point = globalGraph.getPointByCanvas(100, 100);
@@ -528,19 +580,22 @@ describe('graph', () => {
 
     translate(group, {
       x: 100,
-      y: 100
+      y: 100,
     });
 
     point = globalGraph.getCanvasByPoint(0, 0);
     expect(point.x).toBe(100);
     expect(point.y).toBe(100);
-    
+
     group.resetMatrix();
   });
 
   it('client point & model point convert', () => {
     const group = globalGraph.get('group');
-    const bbox = globalGraph.get('canvas').get('el').getBoundingClientRect();
+    const bbox = globalGraph
+      .get('canvas')
+      .get('el')
+      .getBoundingClientRect();
 
     let point = globalGraph.getPointByClient(bbox.left + 100, bbox.top + 100);
 
@@ -549,7 +604,7 @@ describe('graph', () => {
 
     translate(group, {
       x: 100,
-      y: 100
+      y: 100,
     });
 
     point = globalGraph.getPointByClient(bbox.left + 100, bbox.top + 100);
@@ -565,17 +620,17 @@ describe('graph', () => {
     group.resetMatrix();
 
     point = globalGraph.getClientByPoint(100, 100);
-    
+
     expect(point.x).toBe(bbox.left + 100);
     expect(point.y).toBe(bbox.top + 100);
 
     translate(group, {
       x: 100,
-      y: 100
+      y: 100,
     });
 
     point = globalGraph.getClientByPoint(100, 100);
-    
+
     expect(point.x).toBe(bbox.left + 200);
     expect(point.y).toBe(bbox.top + 200);
   });
@@ -584,113 +639,164 @@ describe('graph', () => {
     globalGraph.destroy();
     expect(globalGraph.destroyed).toBe(true);
   });
-})
+});
 
 describe('all node link center', () => {
   const graph = new G6.Graph({
     container: div,
     width: 500,
     height: 500,
-    linkCenter: true
+    linkCenter: true,
   });
 
   it('init', () => {
     expect(graph.get('linkCenter')).toBe(true);
 
     graph.data({
-      nodes: [{
-        id: '1',
-        x: 10,
-        y: 10
-      }, {
-        id: '2',
-        x: 100,
-        y: 100
-      }],
-      edges: [
-        { id: 'e1', source: '1', target: '2' }
-      ]
+      nodes: [
+        {
+          id: '1',
+          x: 10,
+          y: 10,
+        },
+        {
+          id: '2',
+          x: 100,
+          y: 100,
+        },
+      ],
+      edges: [{ id: 'e1', source: '1', target: '2' }],
     });
     graph.render();
 
     const edge = graph.findById('e1');
-    expect(edge.get('keyShape').attr('path')).toEqual([[ 'M', 10, 10 ], [ 'L', 100, 100 ]]);
+    expect(edge.get('keyShape').attr('path')).toEqual([
+      ['M', 10, 10],
+      ['L', 100, 100],
+    ]);
   });
 
   it('loop', () => {
     graph.set('linkCenter', false);
 
     const node = graph.addItem('node', {
-      id: 'circleNode', x: 150, y: 150,
+      id: 'circleNode',
+      x: 150,
+      y: 150,
       style: { fill: 'yellow' },
-      anchorPoints: [[ 0, 0 ], [ 0, 1 ]]
+      anchorPoints: [
+        [0, 0],
+        [0, 1],
+      ],
     });
-    
-    const edge1 = graph.addItem('edge', { id: 'edge', source: node, target: node, type: 'loop',
+
+    const edge1 = graph.addItem('edge', {
+      id: 'edge',
+      source: node,
+      target: node,
+      type: 'loop',
       loopCfg: {
         position: 'top',
         dist: 60,
-        clockwise: true
-      }, style: { endArrow: true }
+        clockwise: true,
+      },
+      style: { endArrow: true },
     });
 
-    const edge2 = graph.addItem('edge', { id: 'edge1', source: node, target: node, type: 'loop',
+    const edge2 = graph.addItem('edge', {
+      id: 'edge1',
+      source: node,
+      target: node,
+      type: 'loop',
       loopCfg: {
         position: 'top-left',
         dist: 60,
-        clockwise: false
-      }, style: { endArrow: true }
+        clockwise: false,
+      },
+      style: { endArrow: true },
     });
 
-    const edge3 = graph.addItem('edge', { id: 'edge2', source: node, target: node, type: 'loop',
+    const edge3 = graph.addItem('edge', {
+      id: 'edge2',
+      source: node,
+      target: node,
+      type: 'loop',
       loopCfg: {
         position: 'top-right',
-        dist: 60
-      }, style: { endArrow: true }
+        dist: 60,
+      },
+      style: { endArrow: true },
     });
 
-    const edge4 = graph.addItem('edge', { id: 'edge4', source: node, target: node, type: 'loop',
+    const edge4 = graph.addItem('edge', {
+      id: 'edge4',
+      source: node,
+      target: node,
+      type: 'loop',
       loopCfg: {
         position: 'right',
         dist: 60,
-        clockwise: true
-      }, style: { endArrow: true }
+        clockwise: true,
+      },
+      style: { endArrow: true },
     });
 
-    const edgeWithAnchor = graph.addItem('edge', { id: 'edge5', source: node, target: node, type: 'loop', sourceAnchor: 0, targetAnchor: 1,
+    const edgeWithAnchor = graph.addItem('edge', {
+      id: 'edge5',
+      source: node,
+      target: node,
+      type: 'loop',
+      sourceAnchor: 0,
+      targetAnchor: 1,
       loopCfg: {
         position: 'bottom-right',
         dist: 60,
-        clockwise: true
-      }, style: { endArrow: true }
+        clockwise: true,
+      },
+      style: { endArrow: true },
     });
 
-    graph.addItem('edge', { id: 'edge6', source: node, target: node, type: 'loop',
+    graph.addItem('edge', {
+      id: 'edge6',
+      source: node,
+      target: node,
+      type: 'loop',
       loopCfg: {
         position: 'bottom',
         dist: 60,
-        clockwise: true
-      }, style: { endArrow: true }
+        clockwise: true,
+      },
+      style: { endArrow: true },
     });
 
-    graph.addItem('edge', { id: 'edge7', source: node, target: node, type: 'loop',
+    graph.addItem('edge', {
+      id: 'edge7',
+      source: node,
+      target: node,
+      type: 'loop',
       loopCfg: {
         position: 'bottom-left',
         dist: 60,
-        clockwise: true
-      }, style: { endArrow: true }
+        clockwise: true,
+      },
+      style: { endArrow: true },
     });
 
-    graph.addItem('edge', { id: 'edge8', source: node, target: node, type: 'loop',
+    graph.addItem('edge', {
+      id: 'edge8',
+      source: node,
+      target: node,
+      type: 'loop',
       loopCfg: {
         position: 'left',
         dist: 60,
-        clockwise: true
-      }, style: { endArrow: true }
+        clockwise: true,
+      },
+      style: { endArrow: true },
     });
 
     const edgeShape = edge1.getKeyShape().attr('path');
-    const edge2Shape = edge2.getKeyShape().attr('path')
+    const edge2Shape = edge2.getKeyShape().attr('path');
 
     expect(edge2Shape[0][1]).toEqual(edgeShape[0][1]);
     expect(edge2Shape[0][2]).toEqual(edgeShape[0][2]);
@@ -716,19 +822,19 @@ describe('all node link center', () => {
 
     expect(graph.findAllByState('node', 'a').length).toBe(1);
     graph.clearItemStates(node);
-    
+
     expect(graph.findAllByState('node', 'a').length).toBe(0);
     expect(graph.findAllByState('node', 'b').length).toBe(0);
-    
+
     graph.setItemState(node, 'a', true);
     graph.setItemState(node, 'b', true);
-    
+
     graph.clearItemStates('a', ['a']);
     expect(graph.findAllByState('node', 'a').length).toBe(0);
     expect(graph.findAllByState('node', 'b').length).toBe(1);
 
-    graph.clearItemStates(node, 'b')
-    expect(graph.findAllByState('node', 'b').length).toBe(0)
+    graph.clearItemStates(node, 'b');
+    expect(graph.findAllByState('node', 'b').length).toBe(0);
   });
 
   it('default node & edge style', () => {
@@ -739,39 +845,39 @@ describe('all node link center', () => {
       defaultNode: {
         style: {
           fill: 'red',
-          stroke: 'blue'
-        }
+          stroke: 'blue',
+        },
       },
       nodeStateStyles: {
         default: {
           fill: 'red',
-          stroke: 'blue'
+          stroke: 'blue',
         },
         selected: {
           fill: 'green',
-          stroke: 'red'
-        }
+          stroke: 'red',
+        },
       },
       defaultEdge: {
         style: {
           stroke: 'blue',
-          strokeOpacity: 0.5
-        }
+          strokeOpacity: 0.5,
+        },
       },
       edgeStateStyles: {
         default: {
           stroke: 'blue',
-          strokeOpacity: 0.5
+          strokeOpacity: 0.5,
         },
         selected: {
           stroke: 'red',
-          strokeOpacity: 1
+          strokeOpacity: 1,
         },
         active: {
           stroke: 'green',
-          shadowColor: '#ccc'
-        }
-      }
+          shadowColor: '#ccc',
+        },
+      },
     });
 
     const node = defaultGraph.addItem('node', {
@@ -781,8 +887,8 @@ describe('all node link center', () => {
       type: 'rect',
       label: 'test label',
       style: {
-        stroke: '#666'
-      }
+        stroke: '#666',
+      },
     });
 
     defaultGraph.on('node:click', e => {
@@ -793,7 +899,7 @@ describe('all node link center', () => {
     defaultGraph.paint();
 
     const keyShape = node.get('keyShape');
-    
+
     expect(keyShape.get('type')).toEqual('rect');
     expect(keyShape.attr('fill')).toEqual('red');
     expect(keyShape.attr('stroke')).toEqual('#666');
@@ -867,21 +973,21 @@ describe('all node link center', () => {
       height: 500,
       defaultNode: {
         type: 'rect',
-        size: [ 60, 40 ],
+        size: [60, 40],
         color: '#ccc',
         labelCfg: {
           position: 'right',
           offset: 5,
           style: {
             fontSize: 14,
-            fill: 'blue'
-          }
-        }
+            fill: 'blue',
+          },
+        },
       },
       defaultEdge: {
         type: 'cubic',
-        color: '#666'
-      }
+        color: '#666',
+      },
     });
     const node = defaultGraph.addItem('node', { id: 'node1', x: 100, y: 150, label: '111' });
     let model = node.get('model');
@@ -896,7 +1002,14 @@ describe('all node link center', () => {
     expect(model.labelCfg.position).toEqual('right');
     expect(model.labelCfg.style.fill).toEqual('blue');
 
-    const node2 = defaultGraph.addItem('node', { id: 'node2', x: 150, y: 100, label: '222', color: '#666', type: 'circle' });
+    const node2 = defaultGraph.addItem('node', {
+      id: 'node2',
+      x: 150,
+      y: 100,
+      label: '222',
+      color: '#666',
+      type: 'circle',
+    });
 
     model = node2.get('model');
     expect(model.type).toEqual('circle');
@@ -917,7 +1030,12 @@ describe('all node link center', () => {
     expect(node.get('model').labelCfg.position).toEqual('right');
     expect(node.get('model').labelCfg.style.fill).toEqual('blue');
 
-    const edge = defaultGraph.addItem('edge', { id: 'edge', source: 'node1', target: 'node2', type: 'line' });
+    const edge = defaultGraph.addItem('edge', {
+      id: 'edge',
+      source: 'node1',
+      target: 'node2',
+      type: 'line',
+    });
     model = edge.get('model');
 
     expect(model.id).toEqual('edge');
@@ -927,9 +1045,9 @@ describe('all node link center', () => {
 
     defaultGraph.destroy();
 
-    expect(defaultGraph.destroyed).toBe(true)
+    expect(defaultGraph.destroyed).toBe(true);
   });
-})
+});
 
 describe('mapper fn', () => {
   const graph = new G6.Graph({
@@ -940,22 +1058,22 @@ describe('mapper fn', () => {
       type: 'circle',
       style: {
         fill: 'red',
-        opacity: 1
-      }
-    }
+        opacity: 1,
+      },
+    },
   });
 
   it('node & edge mapper', () => {
     graph.node(node => {
       return {
         id: node.id + 'Mapped',
-        size: [ 30, 30 ],
+        size: [30, 30],
         label: node.id,
         type: 'rect',
         style: { fill: node.value === 100 ? '#666' : '#ccc' },
         labelCfg: {
-          style: { fill: '#666' }
-        }
+          style: { fill: '#666' },
+        },
       };
     });
 
@@ -964,12 +1082,12 @@ describe('mapper fn', () => {
         id: 'edge' + edge.id,
         label: edge.id,
         labelCfg: {
-          position: 'start'
+          position: 'start',
         },
         style: {
           fill: '#ccc',
-          opacity: 0.5
-        }
+          opacity: 0.5,
+        },
       };
     });
 
@@ -982,7 +1100,7 @@ describe('mapper fn', () => {
     expect(keyShape.attr('height')).toEqual(30);
     expect(keyShape.attr('fill')).toEqual('#666');
 
-    const container = node.getContainer()
+    const container = node.getContainer();
     let label = container.find(element => element.get('className') === 'node-label');
     expect(label).not.toBe(undefined);
     expect(label.attr('text')).toEqual('node');
@@ -1012,14 +1130,14 @@ describe('mapper fn', () => {
       return {
         type: 'rect',
         label: node.id,
-        style: { 
+        style: {
           fill: '#666',
-          opacity: 1
+          opacity: 1,
         },
         stateStyles: {
           selected: { fill: 'blue' },
-          custom: { fill: 'green', opacity: 0.5 }
-        }
+          custom: { fill: 'green', opacity: 0.5 },
+        },
       };
     });
 
@@ -1027,8 +1145,8 @@ describe('mapper fn', () => {
       return {
         stateStyles: {
           selected: { lineWidth: 2 },
-          custom: { opacity: 0.5 }
-        }
+          custom: { opacity: 0.5 },
+        },
       };
     });
 
@@ -1036,7 +1154,9 @@ describe('mapper fn', () => {
 
     let keyShape = node.getKeyShape();
     expect(keyShape.attr('fill')).toEqual('#666');
-    expect(node.getContainer().find(element => element.get('className') === 'node-label')).not.toBe(undefined);
+    expect(node.getContainer().find(element => element.get('className') === 'node-label')).not.toBe(
+      undefined,
+    );
 
     graph.setItemState(node, 'selected', true);
     expect(keyShape.attr('blue'));
@@ -1071,90 +1191,91 @@ describe('plugins & layout', () => {
     const graph = new G6.Graph({
       container: div,
       height: 500,
-      width: 500
-    })
-  
-    const data = {
-      nodes: [
-        {
-          id: 'node',
-          label: 'node'
-        }
-      ]
-    }
-  
-    graph.data(data)
-    graph.render()
-  
-    let plugins = graph.get('plugins')
-    expect(plugins.length).toBe(0)
-  
-    const minimap = new Plugin.Minimap({
-      size: [200, 200]
-    })
-  
-    graph.addPlugin(minimap)
-    plugins = graph.get('plugins')
-    expect(plugins.length).toBe(1)
-  
-    graph.removePlugin(minimap)
-    plugins = graph.get('plugins')
-    expect(plugins.length).toBe(0)
-  
-    graph.destroy()
-    expect(graph.destroyed).toBe(true)
-  })
-
-  it('graph animate', () => {
-    const graph = new G6.Graph({
-      container: div,
-      height: 500,
-      width: 500
-    })
+      width: 500,
+    });
 
     const data = {
       nodes: [
         {
           id: 'node',
           label: 'node',
-          groupId: 'g1'
-        },{
+        },
+      ],
+    };
+
+    graph.data(data);
+    graph.render();
+
+    let plugins = graph.get('plugins');
+    expect(plugins.length).toBe(0);
+
+    const minimap = new Plugin.Minimap({
+      size: [200, 200],
+    });
+
+    graph.addPlugin(minimap);
+    plugins = graph.get('plugins');
+    expect(plugins.length).toBe(1);
+
+    graph.removePlugin(minimap);
+    plugins = graph.get('plugins');
+    expect(plugins.length).toBe(0);
+
+    graph.destroy();
+    expect(graph.destroyed).toBe(true);
+  });
+
+  it('graph animate', () => {
+    const graph = new G6.Graph({
+      container: div,
+      height: 500,
+      width: 500,
+    });
+
+    const data = {
+      nodes: [
+        {
+          id: 'node',
+          label: 'node',
+          groupId: 'g1',
+        },
+        {
           id: 'node1',
-          groupId: 'g2'
-        }
+          groupId: 'g2',
+        },
       ],
       groups: [
         {
           id: 'g1',
-          title: 'cokkdl'
+          title: 'cokkdl',
         },
         {
-          id: 'g2'
-        }
-      ]
-    }
-  
-    graph.data(data)
-    graph.render()
+          id: 'g2',
+        },
+      ],
+    };
 
-    graph.stopAnimate()
-    const isAnimating = graph.isAnimating()
-    expect(isAnimating).toBe(false)
+    graph.data(data);
+    graph.render();
 
-    graph.collapseGroup('g1')
+    graph.stopAnimate();
+    const isAnimating = graph.isAnimating();
+    expect(isAnimating).toBe(false);
 
-    let gnode = graph.findById('node')
-    
-    expect(gnode.get('visible')).toBe(false)
+    graph.collapseGroup('g1');
 
-    const g2Node = graph.findById('node1')
-    expect(g2Node.get('visible')).toBe(true)
+    let gnode = graph.findById('node');
 
-    graph.expandGroup('g1')
+    expect(gnode.get('visible')).toBe(false);
+
+    const g2Node = graph.findById('node1');
+    expect(g2Node.get('visible')).toBe(true);
+
+    graph.expandGroup('g1');
 
     timerOut(() => {
-      gnode = graph.findById('node')
-      expect(gnode.get('visible')).toBe(true)
-    }, 500)
-  })
-})
+      gnode = graph.findById('node');
+      expect(gnode.get('visible')).toBe(true);
+    }, 500);
+  });
+});

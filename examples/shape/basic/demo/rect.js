@@ -6,9 +6,9 @@ const data = {
       id: 'rect',
       label: 'rect',
       x: 250,
-      y: 150
-    }
-  ]
+      y: 150,
+    },
+  ],
 };
 
 const graph = new G6.Graph({
@@ -17,17 +17,17 @@ const graph = new G6.Graph({
   height: 500,
   defaultNode: {
     type: 'rect',
-    size: [ 160, 80 ],
+    size: [160, 80],
     style: {
       fill: '#9EC9FF',
       stroke: '#5B8FF9',
-      lineWidth: 3
+      lineWidth: 3,
     },
     labelCfg: {
       style: {
         fill: '#fff',
-        fontSize: 18
-      }
+        fontSize: 18,
+      },
     },
     linkPoints: {
       top: true,
@@ -37,22 +37,22 @@ const graph = new G6.Graph({
       size: 5,
       fill: '#fff',
       lineWidth: 1,
-      stroke: '#1890FF'
-    }
+      stroke: '#1890FF',
+    },
   },
   modes: {
-    default: [ 'drag-canvas', 'drag-node' ]
+    default: ['drag-canvas', 'drag-node'],
   },
   nodeStateStyles: {
     // 鼠标hover状态下的配置
     hover: {
-      fillOpacity: 0.8
+      fillOpacity: 0.8,
     },
     // 选中节点状态下的配置
     selected: {
-      lineWidth: 5
-    }
-  }
+      lineWidth: 5,
+    },
+  },
 });
 
 graph.data(data);

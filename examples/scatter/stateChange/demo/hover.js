@@ -9,7 +9,7 @@ const centerNode = {
   x: 500,
   y: 300,
   type: 'center-node',
-  size: 20
+  size: 20,
 };
 nodes.push(centerNode);
 // 左侧添加 4 个节点
@@ -19,7 +19,7 @@ for (let i = 0; i < 4; i++) {
     id,
     x: 250,
     y: (i + 1) * 100 + 50,
-    type: 'leaf-node'
+    type: 'leaf-node',
   });
   edges.push({ source: id, target: 'center', type: 'can-running' });
 }
@@ -30,109 +30,124 @@ for (let i = 0; i < 6; i++) {
     id,
     x: 750,
     y: i * 100 + 50,
-    type: 'leaf-node'
+    type: 'leaf-node',
   });
   edges.push({ source: 'center', target: id, type: 'can-running' });
 }
 
-G6.registerNode('leaf-node', {
-  afterDraw(cfg, group) {
-    group.addShape('circle', {
-      attrs: {
-        x: 0,
-        y: 0,
-        r: 5,
-        fill: cfg.color || '#5B8FF9'
-      },
-      name: 'circle-shape'
-    });
+G6.registerNode(
+  'leaf-node',
+  {
+    afterDraw(cfg, group) {
+      group.addShape('circle', {
+        attrs: {
+          x: 0,
+          y: 0,
+          r: 5,
+          fill: cfg.color || '#5B8FF9',
+        },
+        name: 'circle-shape',
+      });
+    },
+    getAnchorPoints() {
+      return [
+        [0, 0.5],
+        [1, 0.5],
+      ];
+    },
   },
-  getAnchorPoints() {
-    return [
-      [ 0, 0.5 ],
-      [ 1, 0.5 ]
-    ];
-  }
-}, 'circle');
+  'circle',
+);
 
-G6.registerNode('center-node', {
-  afterDraw(cfg, group) {
-    const r = cfg.size / 2;
-    group.addShape('circle', {
-      zIndex: -3,
-      attrs: {
-        x: 0,
-        y: 0,
-        r: r + 10,
-        fill: 'gray',
-        opacity: 0.4
-      },
-      name: 'circle-shape1'
-    });
-    group.addShape('circle', {
-      zIndex: -2,
-      attrs: {
-        x: 0,
-        y: 0,
-        r: r + 20,
-        fill: 'gray',
-        opacity: 0.2
-      },
-      name: 'circle-shape2'
-    });
-    group.sort();
+G6.registerNode(
+  'center-node',
+  {
+    afterDraw(cfg, group) {
+      const r = cfg.size / 2;
+      group.addShape('circle', {
+        zIndex: -3,
+        attrs: {
+          x: 0,
+          y: 0,
+          r: r + 10,
+          fill: 'gray',
+          opacity: 0.4,
+        },
+        name: 'circle-shape1',
+      });
+      group.addShape('circle', {
+        zIndex: -2,
+        attrs: {
+          x: 0,
+          y: 0,
+          r: r + 20,
+          fill: 'gray',
+          opacity: 0.2,
+        },
+        name: 'circle-shape2',
+      });
+      group.sort();
+    },
+    getAnchorPoints() {
+      return [
+        [0, 0.5],
+        [1, 0.5],
+      ];
+    },
   },
-  getAnchorPoints() {
-    return [
-      [ 0, 0.5 ],
-      [ 1, 0.5 ]
-    ];
-  }
-}, 'circle');
+  'circle',
+);
 
 // lineDash 的差值，可以在后面提供 util 方法自动计算
 const dashArray = [
-  [ 0, 1 ],
-  [ 0, 2 ],
-  [ 1, 2 ],
-  [ 0, 1, 1, 2 ],
-  [ 0, 2, 1, 2 ],
-  [ 1, 2, 1, 2 ],
-  [ 2, 2, 1, 2 ],
-  [ 3, 2, 1, 2 ],
-  [ 4, 2, 1, 2 ]
+  [0, 1],
+  [0, 2],
+  [1, 2],
+  [0, 1, 1, 2],
+  [0, 2, 1, 2],
+  [1, 2, 1, 2],
+  [2, 2, 1, 2],
+  [3, 2, 1, 2],
+  [4, 2, 1, 2],
 ];
-const lineDash = [ 4, 2, 1, 2 ];
+const lineDash = [4, 2, 1, 2];
 const interval = 9;
 
-G6.registerEdge('can-running', {
-  setState(name, value, item) {
-    const shape = item.get('keyShape');
-    if (name === 'running') {
-      if (value) {
-        const length = shape.getTotalLength(); // 后续 G 增加 totalLength 的接口
-        let totalArray = [];
-        for (let i = 0; i < length; i += interval) {
-          totalArray = totalArray.concat(lineDash);
+G6.registerEdge(
+  'can-running',
+  {
+    setState(name, value, item) {
+      const shape = item.get('keyShape');
+      if (name === 'running') {
+        if (value) {
+          const length = shape.getTotalLength(); // 后续 G 增加 totalLength 的接口
+          let totalArray = [];
+          for (let i = 0; i < length; i += interval) {
+            totalArray = totalArray.concat(lineDash);
+          }
+          let index = 0;
+          shape.animate(
+            () => {
+              const cfg = {
+                lineDash: dashArray[index].concat(totalArray),
+              };
+              index = (index + 1) % interval;
+              return cfg;
+            },
+            {
+              repeat: true,
+              duration: 3000,
+            },
+          );
+        } else {
+          shape.stopAnimate();
+          shape.attr('lineDash', null);
         }
-        let index = 0;
-        shape.animate(() => {
-          const cfg = {
-            lineDash: dashArray[index].concat(totalArray)
-          };
-          index = (index + 1) % interval;
-          return cfg;
-        }, {
-          repeat: true,
-          duration: 3000
-        });
-      } else {
-        shape.stopAnimate();
-        shape.attr('lineDash', null);
       }
-    }
-  }
-}, 'cubic-horizontal');
+    },
+  },
+  'cubic-horizontal',
+);
 
 const width = document.getElementById('container').scrollWidth;
 const height = document.getElementById('container').scrollHeight || 500;
@@ -143,14 +158,14 @@ const graph = new G6.Graph({
   defaultNode: {
     style: {
       fill: '#DEE9FF',
-      stroke: '#5B8FF9'
-    }
+      stroke: '#5B8FF9',
+    },
   },
   defaultEdge: {
     style: {
-      stroke: '#b5b5b5'
-    }
-  }
+      stroke: '#b5b5b5',
+    },
+  },
 });
 graph.data({ nodes, edges });
 graph.render();

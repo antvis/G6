@@ -53,7 +53,7 @@ export const getControlPoint = (
   startPoint: IPoint,
   endPoint: IPoint,
   percent: number = 0,
-  offset: number = 0
+  offset: number = 0,
 ): IPoint => {
   const point: IPoint = {
     x: (1 - percent) * startPoint.x + percent * endPoint.x,
@@ -79,7 +79,7 @@ export const getControlPoint = (
  * @return {Array} Path
  */
 export const pointsToPolygon = (points: IPoint[], z?: boolean): string => {
-  const { length } = points
+  const { length } = points;
   if (!length) {
     return '';
   }

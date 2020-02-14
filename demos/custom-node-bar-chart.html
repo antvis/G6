@@ -1,34 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>环形柱状图节点</title>
-  <style>
-    #mountNode {
-      background:#001528;
-    }
-  </style>
-</head>
-<body>
-  <div id="mountNode"></div>
-  <script src="../build/g6.js"></script>
-  <script>
-    /**
-     * 该案例演示如何自定义一个类似南丁格尔玫瑰一样的节点
-     * by 镜曦
-    */
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>环形柱状图节点</title>
+    <style>
+      #mountNode {
+        background: #001528;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="mountNode"></div>
+    <script src="../build/g6.js"></script>
+    <script>
+      /**
+       * 该案例演示如何自定义一个类似南丁格尔玫瑰一样的节点
+       * by 镜曦
+       */
 
-    /**
-     * 注册一个类似南丁格尔玫瑰一样的节点
-     */
-    G6.registerNode('circleBar', {
-      draw(cfg, group) {
-        const size = cfg.size || [40, 40]; // 如果没有 size 时的默认大小
-        const width = size[0];
-        const height = size[1];
-        /*
+      /**
+       * 注册一个类似南丁格尔玫瑰一样的节点
+       */
+      G6.registerNode('circleBar', {
+        draw(cfg, group) {
+          const size = cfg.size || [40, 40]; // 如果没有 size 时的默认大小
+          const width = size[0];
+          const height = size[1];
+          /*
           G：
           Fan
           x: 扇形圆心的 x 坐标
@@ -39,107 +39,113 @@
           endAngle: 终点弧度
           clockwise: 为true时顺时针渲染，为false时逆时针渲染
         */
-        const baseR = 30;
-        let nowAngle = 0;
-        const everyIncAngle = 2 * Math.PI * (360 / 5 / 5) / 360;
-        cfg.details.forEach(cat =>{
-          cat.values.forEach(item =>{
-            const re = item+baseR;
-            const fan = group.addShape('fan', {
-              attrs:{
-                x:0,
-                y:0,
-                rs:baseR,
-                re:item+baseR,
-                startAngle:nowAngle,
-                endAngle: nowAngle += everyIncAngle,
-                clockwise:false,
-                stroke: 'darkgray',
-                fill:cat.color,
-              }    
-            });
-            // 加上交互动画
-            fan.on('mouseenter', function(evt) {
-              fan.animate({
-                  re: re  + 8
-              }, {
-                repeat: false,
-                duration: 300
+          const baseR = 30;
+          let nowAngle = 0;
+          const everyIncAngle = (2 * Math.PI * (360 / 5 / 5)) / 360;
+          cfg.details.forEach(cat => {
+            cat.values.forEach(item => {
+              const re = item + baseR;
+              const fan = group.addShape('fan', {
+                attrs: {
+                  x: 0,
+                  y: 0,
+                  rs: baseR,
+                  re: item + baseR,
+                  startAngle: nowAngle,
+                  endAngle: (nowAngle += everyIncAngle),
+                  clockwise: false,
+                  stroke: 'darkgray',
+                  fill: cat.color,
+                },
               });
-            });
-            fan.on('mouseleave', function(evt) {
-              fan.animate({
-                  re:re
-              }, {
-                repeat: false,
-                duration: 300
+              // 加上交互动画
+              fan.on('mouseenter', function(evt) {
+                fan.animate(
+                  {
+                    re: re + 8,
+                  },
+                  {
+                    repeat: false,
+                    duration: 300,
+                  },
+                );
               });
+              fan.on('mouseleave', function(evt) {
+                fan.animate(
+                  {
+                    re: re,
+                  },
+                  {
+                    repeat: false,
+                    duration: 300,
+                  },
+                );
+              });
+
+              // 设置class
+              fan.set('className', 'littleCircle');
             });
-            
-            // 设置class
-            fan.set("className", 'littleCircle');
-            
           });
-        });
-        group.addShape('circle', {
-          // attrs: style
-          attrs: {
-            x: 0, // 居中
-            y: 0,
-            r: baseR,
-            fill: cfg.centerColor,
-            stroke:'darkgray',
-          }
-        });
-        if(cfg.label) {
-          group.addShape('text', {
+          group.addShape('circle', {
             // attrs: style
             attrs: {
               x: 0, // 居中
               y: 0,
-              textAlign: 'center',
-              textBaseline: 'middle',
-              text: cfg.label,
-              fill: 'white',
-              fontStyle:'bold',
-            }
+              r: baseR,
+              fill: cfg.centerColor,
+              stroke: 'darkgray',
+            },
           });
-        }
-        return group;
-      }
-    });
-    
-    const graph = new G6.Graph({
-      container: 'mountNode',
-      width: 500,
-      height: 500
-    })
+          if (cfg.label) {
+            group.addShape('text', {
+              // attrs: style
+              attrs: {
+                x: 0, // 居中
+                y: 0,
+                textAlign: 'center',
+                textBaseline: 'middle',
+                text: cfg.label,
+                fill: 'white',
+                fontStyle: 'bold',
+              },
+            });
+          }
+          return group;
+        },
+      });
 
-    const data = {
-      nodes: [
-        {
-          id: 'nodeA',
-          x: 150,
-          y: 150,
-          label: 'Bar',
-          shape:'circleBar',
-          anchorPoints: [
-            [0, 0.5], [1, 0.5]
-          ],
-          details:[
-            {cat:'pv', values:[20,30,40,30,30], color:"#25cbfd"},
-            {cat:'dal', values:[40,30,20,30,50], color:"#feff7b"},
-            {cat:'uv', values:[40,30,30,40,40], color:"#feab3a"},
-            {cat:'sal', values:[20,30,50,20,20], color:"#fe5766"},
-            {cat:'cal', values:[10,10,20,20,20], color:"#16c176"},
-          ],
-          centerColor:'#0066FF',
-        }
-      ]
-    }
+      const graph = new G6.Graph({
+        container: 'mountNode',
+        width: 500,
+        height: 500,
+      });
 
-    graph.data(data)
-    graph.render()
-  </script>
-</body>
+      const data = {
+        nodes: [
+          {
+            id: 'nodeA',
+            x: 150,
+            y: 150,
+            label: 'Bar',
+            shape: 'circleBar',
+            anchorPoints: [
+              [0, 0.5],
+              [1, 0.5],
+            ],
+            details: [
+              { cat: 'pv', values: [20, 30, 40, 30, 30], color: '#25cbfd' },
+              { cat: 'dal', values: [40, 30, 20, 30, 50], color: '#feff7b' },
+              { cat: 'uv', values: [40, 30, 30, 40, 40], color: '#feab3a' },
+              { cat: 'sal', values: [20, 30, 50, 20, 20], color: '#fe5766' },
+              { cat: 'cal', values: [10, 10, 20, 20, 20], color: '#16c176' },
+            ],
+            centerColor: '#0066FF',
+          },
+        ],
+      };
+
+      graph.data(data);
+      graph.render();
+    </script>
+  </body>
 </html>

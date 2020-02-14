@@ -17,7 +17,6 @@ G6 support filling a shape with texture with **Image** or **Data URL**.
 
 > • `n`: No repeat.
 
-
 Assign the `fill` as below while [Configurating the Node or Edge](/en/docs/manual/tutorial/elements):
 
 ```

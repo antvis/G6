@@ -31,8 +31,7 @@ order: 6
 | touchmove | 当手指在屏幕上滑动的时候连续地触发。在这个事件发生期间，调用 `preventDefault()` 事件可以阻止滚动。 |
 | touchend | 当手指从屏幕上离开的时候触发 |
 
-
-## Node事件
+## Node 事件
 
 | 事件名称 | 描述 |
 | --- | --- |
@@ -53,8 +52,7 @@ order: 6
 | node:dragleave | 当拖曳节点离开目标元素的时候触发的事件，此事件作用在目标元素上 |
 | node:drop | 被拖拽的节点在目标元素上同时鼠标放开触发的事件，此事件作用在目标元素上 |
 
-
-## Edge事件
+## Edge 事件
 
 | 事件名称 | 描述 |
 | --- | --- |
@@ -69,8 +67,7 @@ order: 6
 | edge:mouseup | 边上按下的鼠标按钮被释放弹起时触发，不能通过键盘触发 |
 | edge:contextmenu | 用户在边上右击鼠标时触发并打开右键菜单，见 [Demo](/zh/examples/tool/contextMenu) |
 
-
-## Canvas事件
+## Canvas 事件
 
 | 事件名称 | 描述 |
 | --- | --- |
@@ -90,8 +87,8 @@ order: 6
 | canvas:dragenter | 当拖曳画布进入目标元素的时候触发的事件，此事件作用在目标元素上 |
 | canvas:dragleave | 当拖曳画布离开目标元素的时候触发的事件，此事件作用在目标元素上 |
 
-
 ## 时机监听
+
 用于监听图的某方法调用前后的时机。
 
 | 事件名称 | 描述 |
@@ -120,117 +117,102 @@ order: 6
 | tooltipchange | 使用了 `'tooltip'` 或 `'edge-tooltip'` Behavior 且 tooltip 的显示/隐藏被改变后，该事件被触发 |
 | wheelzoom | 使用了 `'zoom-canvas'` Behavior 并用滚轮对图进行缩放后，该事件被触发 |
 
-
 ### 回调参数
 
 不同时机监听事件的回调参数不同，下面针对各个自定义事件的回调参数进行说明。
 
 #### beforeadditem
 
-| 名称 | 类型 | 描述 |
-| --- | --- | --- |
-| type | String | 当前添加的类型 |
-| model | Object | item 数据模型 |
-
+| 名称  | 类型   | 描述           |
+| ----- | ------ | -------------- |
+| type  | String | 当前添加的类型 |
+| model | Object | item 数据模型  |
 
 #### afteradditem
 
-| 名称 | 类型 | 描述 |
-| --- | --- | --- |
-| item | Item | 已经添加的 item 实例 |
-| model | Object | item 数据模型 |
-
+| 名称  | 类型   | 描述                 |
+| ----- | ------ | -------------------- |
+| item  | Item   | 已经添加的 item 实例 |
+| model | Object | item 数据模型        |
 
 #### beforeremoveitem / afterremoveitem
 
-| 名称 | 类型 | 描述 |
-| --- | --- | --- |
+| 名称 | 类型 | 描述               |
+| ---- | ---- | ------------------ |
 | item | Item | 要删除的 item 实例 |
-
 
 #### beforeupdateitem / afterupdateitem
 
-| 名称 | 类型 | 描述 |
-| --- | --- | --- |
-| item | Item | 要更新的 item 实例 |
-| model | Object | item 数据模型 |
-
+| 名称  | 类型   | 描述               |
+| ----- | ------ | ------------------ |
+| item  | Item   | 要更新的 item 实例 |
+| model | Object | item 数据模型      |
 
 #### beforeitemvisibilitychange / afteritemvisibilitychange
 
-| 名称 | 类型 | 描述 |
-| --- | --- | --- |
-| item | Item | 当前操作的 item 实例 |
+| 名称    | 类型    | 描述                                      |
+| ------- | ------- | ----------------------------------------- |
+| item    | Item    | 当前操作的 item 实例                      |
 | visible | Boolean | 是否可见，`true` 为可见，`false` 为不可见 |
-
 
 #### beforeitemstatechange / afteritemstatechange
 
-| 名称 | 类型 | 描述 |
-| --- | --- | --- |
-| item | Item | 当前操作的 item 实例 |
-| state | String | 状态 |
+| 名称    | 类型    | 描述                                      |
+| ------- | ------- | ----------------------------------------- |
+| item    | Item    | 当前操作的 item 实例                      |
+| state   | String  | 状态                                      |
 | enalbed | Boolean | 状态是否可用，`true` 可用，`false` 不可用 |
-
 
 #### beforeitemstatesclear / afteritemstatesclear
 
-| 名称 | 类型 | 描述 |
-| --- | --- | --- |
-| item | Item | 当前操作的 item 实例 |
-| states | Array / String | 需要批量清除的状态 |
-
+| 名称   | 类型           | 描述                 |
+| ------ | -------------- | -------------------- |
+| item   | Item           | 当前操作的 item 实例 |
+| states | Array / String | 需要批量清除的状态   |
 
 #### beforemodechange / aftermodechange
 
-| 名称 | 类型 | 描述 |
-| --- | --- | --- |
+| 名称 | 类型   | 描述           |
+| ---- | ------ | -------------- |
 | mode | String | 当前的模式名称 |
-
 
 #### beforeitemrefresh / afteritemrefresh
 
-| 名称 | 类型 | 描述 |
-| --- | --- | --- |
+| 名称 | 类型 | 描述                 |
+| ---- | ---- | -------------------- |
 | item | Item | 当前操作的 item 实例 |
-
 
 #### beforelayout / afterlayout
 
 无参数
 
-
 #### afteractivaterelations
 
-| 名称 | 类型 | 描述 |
-| --- | --- | --- |
-| item | Item | 当前操作的 item 实例 |
-| action | String | 当前操作名 |
-
+| 名称   | 类型   | 描述                 |
+| ------ | ------ | -------------------- |
+| item   | Item   | 当前操作的 item 实例 |
+| action | String | 当前操作名           |
 
 #### nodeselectchange
 
-| 名称 | 类型 | 描述 |
-| --- | --- | --- |
-| target | Item | 当前操作的 item 实例 |
+| 名称          | 类型   | 描述                                                             |
+| ------------- | ------ | ---------------------------------------------------------------- |
+| target        | Item   | 当前操作的 item 实例                                             |
 | selectedItems | Object | 当前被选中的所有 item 实例，形如 `{ nodes: [...], edges: [...]}` |
-
 
 #### itemcollapsed
 
-| 名称 | 类型 | 描述 |
-| --- | --- | --- |
-| item | Item | 当前操作的 item 实例 |
+| 名称      | 类型    | 描述                                  |
+| --------- | ------- | ------------------------------------- |
+| item      | Item    | 当前操作的 item 实例                  |
 | collapsed | Boolean | 当前操作后，操作对象的 collapsed 状态 |
-
 
 #### tooltipchange
 
-| 名称 | 类型 | 描述 |
-| --- | --- | --- |
-| item | Item | 当前操作的 item 实例 |
+| 名称   | 类型   | 描述                                          |
+| ------ | ------ | --------------------------------------------- |
+| item   | Item   | 当前操作的 item 实例                          |
 | action | String | tooltip 当前是显示 `'show'` 还是隐藏 `'hide'` |
-
 
 #### wheelzoom
 

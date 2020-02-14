@@ -15,55 +15,61 @@ describe('register node', () => {
       {
         id: 'node1',
         x: 50,
-        y: 50
+        y: 50,
       },
       {
-        id: 'node2' ,
+        id: 'node2',
         x: 250,
-        y: 50
+        y: 50,
       },
     ],
-    edges: [{
-      source: 'node1',
-      target: 'node2'
-    }]
-  }
-  it('shape test wihout extended shape and draw function', () => {
-    G6.registerNode('custom-node', {
-      drawShape(cfg, group) {
-        const keyShape = group.addShape('circle', {
-        attrs: {
-            x: 0,
-            y: 0,
-            r: 30,
-            fill: '#87e8de'
-        }
-        });
-        const circle = group.addShape('circle', {
-        attrs: {
-            x: 0,
-            y: 0,
-            r: 10,
-            fill: '#ff0000'
-        },
-        className: 'test-circle'
-        });
-
-        return keyShape;
+    edges: [
+      {
+        source: 'node1',
+        target: 'node2',
       },
-      afterDraw(cfg, group) {
-        const foundShape = group.findByClassName('test-circle');
-        expect(foundShape.attr('r')).toBe(10);
-        expect(foundShape.attr('fill')).toBe('#ff0000');
-      }
-    }, 'single-node');
+    ],
+  };
+  it('shape test wihout extended shape and draw function', () => {
+    G6.registerNode(
+      'custom-node',
+      {
+        drawShape(cfg, group) {
+          const keyShape = group.addShape('circle', {
+            attrs: {
+              x: 0,
+              y: 0,
+              r: 30,
+              fill: '#87e8de',
+            },
+          });
+          const circle = group.addShape('circle', {
+            attrs: {
+              x: 0,
+              y: 0,
+              r: 10,
+              fill: '#ff0000',
+            },
+            className: 'test-circle',
+          });
+
+          return keyShape;
+        },
+        afterDraw(cfg, group) {
+          const foundShape = group.findByClassName('test-circle');
+          expect(foundShape.attr('r')).toBe(10);
+          expect(foundShape.attr('fill')).toBe('#ff0000');
+        },
+      },
+      'single-node',
+    );
     const graph = new G6.Graph({
       container: div,
       width: 500,
       height: 500,
       defaultNode: {
-        type: 'custom-node'
-      }
+        type: 'custom-node',
+      },
     });
     graph.data(data);
     graph.render();

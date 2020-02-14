@@ -3,14 +3,14 @@
  * @author dxq613@gmai.com
  */
 
-import Shape from '../../../src/shape/shape'
+import Shape from '../../../src/shape/shape';
 import Global from '../../../src/global';
 import Canvas from '@antv/g-canvas/lib/canvas';
 import Node from '../../../src/item/node';
-import { translate } from '../../../src/util/math'
-import Graph from '../../../src/graph/graph'
-import '../../../src/shape/node'
-import '../../../src/shape/nodes'
+import { translate } from '../../../src/util/math';
+import Graph from '../../../src/graph/graph';
+import '../../../src/shape/node';
+import '../../../src/shape/nodes';
 import { IGroup } from '@antv/g-canvas/lib/interfaces';
 
 const div = document.createElement('div');
@@ -20,7 +20,7 @@ document.body.appendChild(div);
 const canvas = new Canvas({
   container: 'node-shape',
   width: 500,
-  height: 500
+  height: 500,
 });
 
 describe('shape node test', () => {
@@ -40,11 +40,15 @@ describe('shape node test', () => {
     const factory = Shape.getFactory('node');
     it('circle no label', () => {
       const group = canvas.addGroup();
-      translate(group, { x: 50, y: 50 })
-      const shape = factory.draw('circle', {
-        size: 40,
-        color: 'red'
-      }, group);
+      translate(group, { x: 50, y: 50 });
+      const shape = factory.draw(
+        'circle',
+        {
+          size: 40,
+          color: 'red',
+        },
+        group,
+      );
       canvas.draw();
       expect(shape.attr('r')).toBe(20);
       expect(group.getCount()).toBe(1);
@@ -52,24 +56,32 @@ describe('shape node test', () => {
 
     it('circle with label', () => {
       const group = canvas.addGroup();
-      translate(group, { x: 50, y: 100 })
-      factory.draw('circle', {
-        size: 20,
-        color: 'blue',
-        label: '你好，我好，大家好'
-      }, group);
+      translate(group, { x: 50, y: 100 });
+      factory.draw(
+        'circle',
+        {
+          size: 20,
+          color: 'blue',
+          label: '你好，我好，大家好',
+        },
+        group,
+      );
       canvas.draw();
       expect(group.getCount()).toBe(2);
     });
 
     it('ellipse', () => {
       const group = canvas.addGroup();
-      translate(group, { x: 100, y: 50 })
-      const shape = factory.draw('ellipse', {
-        size: [ 40, 20 ],
-        color: 'yellow',
-        label: 'ellipse'
-      }, group);
+      translate(group, { x: 100, y: 50 });
+      const shape = factory.draw(
+        'ellipse',
+        {
+          size: [40, 20],
+          color: 'yellow',
+          label: 'ellipse',
+        },
+        group,
+      );
       canvas.draw();
       expect(shape.attr('rx')).toBe(20);
       expect(shape.attr('ry')).toBe(10);
@@ -78,22 +90,26 @@ describe('shape node test', () => {
 
     it('rect', () => {
       const group = canvas.addGroup({
-        id: 'rect'
+        id: 'rect',
       });
-      translate(group, { x: 100, y: 100 })
-      const shape = factory.draw('rect', {
-        size: [ 40, 20 ],
-        color: 'yellow',
-        label: 'rect',
-        labelCfg: {
+      translate(group, { x: 100, y: 100 });
+      const shape = factory.draw(
+        'rect',
+        {
+          size: [40, 20],
+          color: 'yellow',
+          label: 'rect',
+          labelCfg: {
+            style: {
+              fill: 'white',
+            },
+          },
           style: {
-            fill: 'white'
-          }
+            fill: 'red',
+          },
         },
-        style: {
-          fill: 'red'
-        }
-      }, group);
+        group,
+      );
       canvas.draw();
       expect(shape.attr('x')).toBe(-20);
       expect(shape.attr('y')).toBe(-10);
@@ -104,13 +120,17 @@ describe('shape node test', () => {
 
     it('image', () => {
       const group = canvas.addGroup();
-      translate(group, { x: 150, y: 100 })
-      const shape = factory.draw('image', {
-        size: [ 40, 20 ],
-        label: 'my custom image',
-        type: 'image',
-        img: 'https://img.alicdn.com/tfs/TB1_uT8a5ERMeJjSspiXXbZLFXa-143-59.png'
-      }, group);
+      translate(group, { x: 150, y: 100 });
+      const shape = factory.draw(
+        'image',
+        {
+          size: [40, 20],
+          label: 'my custom image',
+          type: 'image',
+          img: 'https://img.alicdn.com/tfs/TB1_uT8a5ERMeJjSspiXXbZLFXa-143-59.png',
+        },
+        group,
+      );
       canvas.draw();
       expect(shape.attr('x')).toBe(-20);
       expect(shape.attr('y')).toBe(-10);
@@ -123,73 +143,85 @@ describe('shape node test', () => {
 
     it('update', () => {
       const group = canvas.addGroup({
-        id: 'rect'
+        id: 'rect',
       });
       // 伪造 item, 仅测试接口和图形的变化，不测试一致性
       const item = new Node({
         model: {
-          size: [ 40, 20 ],
+          size: [40, 20],
           color: 'yellow',
           type: 'rect',
           labelCfg: {
             style: {
-              fill: 'white'
-            }
+              fill: 'white',
+            },
           },
           style: {
-            fill: 'red'
-          }
+            fill: 'red',
+          },
         },
-        group
-      })
-      factory.update('rect', {
-        size: [ 100, 50 ],
-        style: {
-          fill: 'red'
-        }
-      }, item);
+        group,
+      });
+      factory.update(
+        'rect',
+        {
+          size: [100, 50],
+          style: {
+            fill: 'red',
+          },
+        },
+        item,
+      );
       const shape = group.get('children')[0];
       expect(shape.attr('x')).toBe(-50);
       expect(shape.attr('y')).toBe(-25);
       expect(shape.attr('width')).toBe(100);
       expect(group.getCount()).toBe(1);
-      factory.update('rect', {
-        size: [ 50, 30 ],
-        style: {
-          fill: 'red'
+      factory.update(
+        'rect',
+        {
+          size: [50, 30],
+          style: {
+            fill: 'red',
+          },
+          label: 'new rect',
         },
-        label: 'new rect'
-      }, item);
+        item,
+      );
       expect(group.getCount()).toBe(2);
       const label = group.get('children')[1];
       expect(label.attr('text')).toBe('new rect');
-      factory.update('rect', {
-        size: [ 50, 30 ],
-        style: {
-          fill: 'red'
+      factory.update(
+        'rect',
+        {
+          size: [50, 30],
+          style: {
+            fill: 'red',
+          },
+          label: 'old rect',
         },
-        label: 'old rect'
-      }, item);
+        item,
+      );
       expect(label.attr('text')).toBe('old rect');
       canvas.draw();
     });
-    
+
     it('active', () => {
       const rectGroup = canvas.findById('rect') as IGroup;
       // 伪造 item, 仅测试接口和图形的变化，不测试一致性
       const item = new Node({
         model: {
           id: 'rectnode',
-          size: [ 40, 20 ],
+          size: [40, 20],
           type: 'rect',
           stateStyles: {
             active: {
-              fillOpacity: 0.8
-            }
-          }
+              fillOpacity: 0.8,
+            },
+          },
         },
-        group: rectGroup
-      })
+        group: rectGroup,
+      });
       const shape = rectGroup.get('children')[0];
 
       expect(shape.attr('fillOpacity')).toBe(1);
@@ -201,7 +233,7 @@ describe('shape node test', () => {
 
     it('selected', () => {
       const group = canvas.addGroup({
-        id: 'rect'
+        id: 'rect',
       });
       // 伪造 item, 仅测试接口和图形的变化，不测试一致性
       const item = new Node({
@@ -209,90 +241,105 @@ describe('shape node test', () => {
           id: 'node',
           stateStyles: {
             selected: {
-              lineWidth: 2
-            }
-          }
+              lineWidth: 2,
+            },
+          },
         },
-        group
-      })
+        group,
+      });
       const shape = group.get('children')[0];
-      
+
       expect(shape.attr('lineWidth')).toBe(1);
       factory.setState('node', 'selected', true, item);
       expect(shape.attr('lineWidth')).toBe(2);
 
       factory.setState('node', 'selected', false, item);
       expect(shape.attr('lineWidth')).toBe(1);
-
     });
 
     it('label position', () => {
       const group = canvas.addGroup();
       translate(group, { x: 200, y: 200 });
       const model = {
-        size: [ 60, 20 ],
+        size: [60, 20],
         color: 'green',
         label: 'ellipse position',
         labelCfg: {
           position: 'top',
-          offset: 5
-        }
+          offset: 5,
+        },
       };
       factory.draw('ellipse', model, group);
 
       // 伪造 item
       const item = new Node({
         model,
-        group
-      })
+        group,
+      });
 
       const label = group.get('children')[1];
       expect(label.attr('x')).toBe(0);
       expect(label.attr('y')).toBe(-10 - Global.nodeLabel.offset);
 
-      factory.update('ellipse', {
-        size: [ 60, 20 ],
-        color: 'green',
-        label: 'ellipse position',
-        labelCfg: {
-          position: 'left'
-        }
-      }, item);
+      factory.update(
+        'ellipse',
+        {
+          size: [60, 20],
+          color: 'green',
+          label: 'ellipse position',
+          labelCfg: {
+            position: 'left',
+          },
+        },
+        item,
+      );
       expect(label.attr('y')).toBe(0);
       expect(label.attr('x')).toBe(-30 - Global.nodeLabel.offset);
 
-      factory.update('ellipse', {
-        size: [ 60, 20 ],
-        color: 'green',
-        label: 'ellipse position',
-        labelCfg: {
-          position: 'right'
-        }
-      }, item);
+      factory.update(
+        'ellipse',
+        {
+          size: [60, 20],
+          color: 'green',
+          label: 'ellipse position',
+          labelCfg: {
+            position: 'right',
+          },
+        },
+        item,
+      );
       expect(label.attr('y')).toBe(0);
       expect(label.attr('x')).toBe(30 + Global.nodeLabel.offset);
 
-      factory.update('ellipse', {
-        size: [ 60, 20 ],
-        color: 'green',
-        label: 'ellipse position',
-        labelCfg: {
-          position: 'right',
-          offset: 20
-        }
-      }, item);
+      factory.update(
+        'ellipse',
+        {
+          size: [60, 20],
+          color: 'green',
+          label: 'ellipse position',
+          labelCfg: {
+            position: 'right',
+            offset: 20,
+          },
+        },
+        item,
+      );
       expect(label.attr('y')).toBe(0);
       expect(label.attr('x')).toBe(30 + 20);
 
-      factory.update('ellipse', {
-        size: [ 60, 20 ],
-        color: 'green',
-        label: 'ellipse position',
-        labelCfg: {
-          position: 'right',
-          offset: 0
-        }
-      }, item);
+      factory.update(
+        'ellipse',
+        {
+          size: [60, 20],
+          color: 'green',
+          label: 'ellipse position',
+          labelCfg: {
+            position: 'right',
+            offset: 0,
+          },
+        },
+        item,
+      );
       expect(label.attr('y')).toBe(0);
       expect(label.attr('x')).toBe(30);
       canvas.draw();
@@ -314,13 +361,13 @@ describe('shape node test', () => {
             label: 'rect',
             linkPoints: {
               top: true,
-              bottom: true
+              bottom: true,
             },
             type: 'rect',
             x: 100,
-            y: 200
-          }
-        ]
+            y: 200,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -329,11 +376,11 @@ describe('shape node test', () => {
       const group = node.get('group');
       // rect + label + linkPoints * 2
       expect(group.getCount()).toEqual(4);
-      
+
       node.update({
         linkPoints: {
-          top: false
-        }
+          top: false,
+        },
       });
       const topPoint = group.find(g => {
         return g.get('className') === 'link-point-top';
@@ -351,8 +398,8 @@ describe('shape node test', () => {
           size: 10,
           fill: '#f00',
           stroke: '#0f0',
-          lineWidth: 2
-        }
+          lineWidth: 2,
+        },
       });
       const leftPoint = group.find(g => {
         return g.get('className') === 'link-point-left';
@@ -374,8 +421,8 @@ describe('shape node test', () => {
           size: 10,
           fill: '#f00',
           stroke: '#0f0',
-          lineWidth: 2
-        }
+          lineWidth: 2,
+        },
       });
       const leftPoint2 = group.find(g => {
         return g.get('className') === 'link-point-left';
@@ -393,7 +440,7 @@ describe('shape node test', () => {
       node.update({
         linkPoints: {
           stroke: '#000',
-        }
+        },
       });
       const bottomPoint2 = group.find(g => {
         return g.get('className') === 'link-point-bottom';
@@ -405,7 +452,6 @@ describe('shape node test', () => {
       graph.destroy();
       expect(graph.destroyed).toBe(true);
     });
-
 
     it('ellipse linkPoints update from show to hide', () => {
       const graph = new Graph({
@@ -420,13 +466,13 @@ describe('shape node test', () => {
             label: 'ellipse',
             linkPoints: {
               top: true,
-              bottom: true
+              bottom: true,
             },
             type: 'ellipse',
             x: 100,
-            y: 200
-          }
-        ]
+            y: 200,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -435,11 +481,11 @@ describe('shape node test', () => {
       const group = node.get('group');
       // rect + label + linkPoints * 2
       expect(group.getCount()).toEqual(4);
-      
+
       node.update({
         linkPoints: {
-          top: false
-        }
+          top: false,
+        },
       });
       const topPoint = group.find(g => {
         return g.get('className') === 'link-point-top';
@@ -457,8 +503,8 @@ describe('shape node test', () => {
           size: 10,
           fill: '#f00',
           stroke: '#0f0',
-          lineWidth: 2
-        }
+          lineWidth: 2,
+        },
       });
       const leftPoint = group.find(g => {
         return g.get('className') === 'link-point-left';
@@ -480,8 +526,8 @@ describe('shape node test', () => {
           size: 10,
           fill: '#f00',
           stroke: '#0f0',
-          lineWidth: 2
-        }
+          lineWidth: 2,
+        },
       });
       const leftPoint2 = group.find(g => {
         return g.get('className') === 'link-point-left';
@@ -499,7 +545,7 @@ describe('shape node test', () => {
       node.update({
         linkPoints: {
           stroke: '#000',
-        }
+        },
       });
       const bottomPoint2 = group.find(g => {
         return g.get('className') === 'link-point-bottom';
@@ -511,7 +557,6 @@ describe('shape node test', () => {
       graph.destroy();
       expect(graph.destroyed).toBe(true);
     });
-
 
     it('diamond linkPoints update from show to hide', () => {
       const graph = new Graph({
@@ -526,13 +571,13 @@ describe('shape node test', () => {
             label: 'diamond',
             linkPoints: {
               top: true,
-              bottom: true
+              bottom: true,
             },
             type: 'diamond',
             x: 100,
-            y: 200
-          }
-        ]
+            y: 200,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -541,11 +586,11 @@ describe('shape node test', () => {
       const group = node.get('group');
       // rect + label + linkPoints * 2
       expect(group.getCount()).toEqual(4);
-      
+
       node.update({
         linkPoints: {
-          top: false
-        }
+          top: false,
+        },
       });
       const topPoint = group.find(g => {
         return g.get('className') === 'link-point-top';
@@ -563,8 +608,8 @@ describe('shape node test', () => {
           size: 10,
           fill: '#f00',
           stroke: '#0f0',
-          lineWidth: 2
-        }
+          lineWidth: 2,
+        },
       });
       const leftPoint = group.find(g => {
         return g.get('className') === 'link-point-left';
@@ -586,8 +631,8 @@ describe('shape node test', () => {
           size: 10,
           fill: '#f00',
           stroke: '#0f0',
-          lineWidth: 2
-        }
+          lineWidth: 2,
+        },
       });
       const leftPoint2 = group.find(g => {
         return g.get('className') === 'link-point-left';
@@ -605,7 +650,7 @@ describe('shape node test', () => {
       node.update({
         linkPoints: {
           stroke: '#000',
-        }
+        },
       });
       const bottomPoint2 = group.find(g => {
         return g.get('className') === 'link-point-bottom';
@@ -631,13 +676,13 @@ describe('shape node test', () => {
             label: 'circle',
             linkPoints: {
               top: true,
-              bottom: true
+              bottom: true,
             },
             type: 'circle',
             x: 100,
-            y: 200
-          }
-        ]
+            y: 200,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -646,11 +691,11 @@ describe('shape node test', () => {
       const group = node.get('group');
       // rect + label + linkPoints * 2
       expect(group.getCount()).toEqual(4);
-      
+
       node.update({
         linkPoints: {
-          top: false
-        }
+          top: false,
+        },
       });
       const topPoint = group.find(g => {
         return g.get('className') === 'link-point-top';
@@ -668,8 +713,8 @@ describe('shape node test', () => {
           size: 10,
           fill: '#f00',
           stroke: '#0f0',
-          lineWidth: 2
-        }
+          lineWidth: 2,
+        },
       });
       const leftPoint = group.find(g => {
         return g.get('className') === 'link-point-left';
@@ -691,8 +736,8 @@ describe('shape node test', () => {
           size: 10,
           fill: '#f00',
           stroke: '#0f0',
-          lineWidth: 2
-        }
+          lineWidth: 2,
+        },
       });
       const leftPoint2 = group.find(g => {
         return g.get('className') === 'link-point-left';
@@ -710,7 +755,7 @@ describe('shape node test', () => {
       node.update({
         linkPoints: {
           stroke: '#000',
-        }
+        },
       });
       const bottomPoint2 = group.find(g => {
         return g.get('className') === 'link-point-bottom';

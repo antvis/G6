@@ -1,6 +1,6 @@
 import G6 from '../../../src';
 import { numberEqual } from './util';
-import MDS from '../../../src/layout/radial/mds'
+import MDS from '../../../src/layout/radial/mds';
 
 const div = document.createElement('div');
 div.id = 'graph-spec';
@@ -112,7 +112,7 @@ describe('radial', () => {
       height: 500,
     });
     graph.data({
-      nodes: []
+      nodes: [],
     });
     graph.render();
     graph.destroy();
@@ -128,9 +128,11 @@ describe('radial', () => {
       height: 500,
     });
     graph.data({
-      nodes: [{
-        id: 'node'
-      }]
+      nodes: [
+        {
+          id: 'node',
+        },
+      ],
     });
     graph.render();
     const nodeModel = graph.getNodes()[0].getModel();
@@ -141,7 +143,7 @@ describe('radial', () => {
 
   it('focus on descrete node, prevent overlapping', () => {
     const unitRadius = 100;
-    const focusNode = data.nodes[5];//data.nodes[5];//'5';
+    const focusNode = data.nodes[5]; //data.nodes[5];//'5';
     const nodeSize = 40;
     const graph = new G6.Graph({
       container: div,
@@ -150,10 +152,10 @@ describe('radial', () => {
         focusNode: '5',
         unitRadius,
         preventOverlap: true,
-        maxPreventOverlapIteration: 800
+        maxPreventOverlapIteration: 800,
       },
       defaultNode: {
-        size: nodeSize
+        size: nodeSize,
       },
       width: 500,
       height: 500,
@@ -191,7 +193,6 @@ describe('radial', () => {
     graph.destroy();
   });
 
-
   it('focus on descrete node, prevent overlapping with number nodeSpacing', () => {
     const unitRadius = 100;
     const focusNode = data.nodes[5];
@@ -205,10 +206,10 @@ describe('radial', () => {
         preventOverlap: true,
         nodeSpacing: 10,
         nodeSize,
-        maxPreventOverlapIteration: 800
+        maxPreventOverlapIteration: 800,
       },
       defaultNode: {
-        size: nodeSize
+        size: nodeSize,
       },
       width: 500,
       height: 500,
@@ -263,7 +264,7 @@ describe('radial', () => {
         nodeSize: [nodeSize, nodeSize],
       },
       defaultNode: {
-        size: nodeSize
+        size: nodeSize,
       },
       width: 500,
       height: 500,
@@ -306,7 +307,7 @@ describe('radial', () => {
     const focusNode = data.nodes[5];
     const nodeSize = [40, 20];
     data.nodes.forEach(node => {
-      node.size = nodeSize
+      node.size = nodeSize;
     });
     const graph = new G6.Graph({
       container: div,
@@ -314,7 +315,7 @@ describe('radial', () => {
         type: 'radial',
         focusNode,
         unitRadius,
-        preventOverlap: true
+        preventOverlap: true,
       },
       width: 500,
       height: 500,
@@ -364,7 +365,7 @@ describe('radial', () => {
         type: 'radial',
         focusNode,
         unitRadius,
-        preventOverlap: true
+        preventOverlap: true,
       },
       width: 500,
       height: 500,
@@ -414,10 +415,10 @@ describe('radial', () => {
         unitRadius,
         sortBy: 'data',
         preventOverlap: true,
-        maxPreventOverlapIteration: 1200
+        maxPreventOverlapIteration: 1200,
       },
       defaultNode: {
-        size: nodeSize
+        size: nodeSize,
       },
       width: 500,
       height: 500,
@@ -429,11 +430,9 @@ describe('radial', () => {
     const node2 = data.nodes[2];
     const node4 = data.nodes[4];
     const overlapDist1 =
-      (node1.x - node2.x) * (node1.x - node2.x) +
-      (node1.y - node2.y) * (node1.y - node2.y);
+      (node1.x - node2.x) * (node1.x - node2.x) + (node1.y - node2.y) * (node1.y - node2.y);
     const overlapDist2 =
-      (node1.x - node4.x) * (node1.x - node4.x) +
-      (node1.y - node4.y) * (node1.y - node4.y);
+      (node1.x - node4.x) * (node1.x - node4.x) + (node1.y - node4.y) * (node1.y - node4.y);
     expect(overlapDist1 < overlapDist2).toEqual(true);
     graph.destroy();
   });
@@ -450,10 +449,10 @@ describe('radial', () => {
         unitRadius,
         sortBy: 'sortProperty',
         preventOverlap: true,
-        maxPreventOverlapIteration: 1200
+        maxPreventOverlapIteration: 1200,
       },
       defaultNode: {
-        size: nodeSize
+        size: nodeSize,
       },
       width: 500,
       height: 500,
@@ -468,11 +467,9 @@ describe('radial', () => {
     const node2 = data.nodes[2];
     const node4 = data.nodes[4];
     const overlapDist1 =
-      (node1.x - node2.x) * (node1.x - node2.x) +
-      (node1.y - node2.y) * (node1.y - node2.y);
+      (node1.x - node2.x) * (node1.x - node2.x) + (node1.y - node2.y) * (node1.y - node2.y);
     const overlapDist2 =
-      (node2.x - node4.x) * (node2.x - node4.x) +
-      (node2.y - node4.y) * (node2.y - node4.y);
+      (node2.x - node4.x) * (node2.x - node4.x) + (node2.y - node4.y) * (node2.y - node4.y);
     expect(overlapDist1 > overlapDist2).toEqual(true);
     graph.destroy();
   });
@@ -490,10 +487,10 @@ describe('radial layout', () => {
         unitRadius,
       },
       modes: {
-        default: [ 'drag-canvas', 'drag-node' ]
+        default: ['drag-canvas', 'drag-node'],
       },
       defaultNode: {
-        size: 30
+        size: 30,
       },
       width: 500,
       height: 500,
@@ -537,7 +534,7 @@ describe('radial layout', () => {
         unitRadius,
       },
       defaultNode: {
-        size: 30
+        size: 30,
       },
       width: 500,
       height: 500,
@@ -560,7 +557,7 @@ describe('radial layout', () => {
         unitRadius,
       },
       defaultNode: {
-        size: 30
+        size: 30,
       },
       width: 500,
       height: 500,
@@ -580,7 +577,7 @@ describe('radial layout', () => {
       preventOverlap: true,
       maxPreventOverlapIteration: null,
       sortBy: 'sortProperty',
-      center: [250, 250]
+      center: [250, 250],
     });
     data.nodes.forEach((node, i) => {
       node['sortProperty'] = '' + (i % 3);
@@ -592,7 +589,7 @@ describe('radial layout', () => {
     const graph = new G6.Graph({
       width: 500,
       height: 500,
-      container: div
+      container: div,
     });
     graph.data(data);
     graph.render();
@@ -621,7 +618,7 @@ describe('radial layout', () => {
   });
   it('instantiate layout with center on the left', () => {
     const radialLayout = new G6.Layout['radial']({
-      center: [0, 250]
+      center: [0, 250],
     });
     radialLayout.init(data);
     radialLayout.execute();
@@ -629,7 +626,7 @@ describe('radial layout', () => {
     const graph = new G6.Graph({
       width: 500,
       height: 500,
-      container: div
+      container: div,
     });
     graph.data(data);
     graph.render();
@@ -641,7 +638,7 @@ describe('radial layout', () => {
   it('instantiate layout with center on the top', () => {
     const radialLayout = new G6.Layout['radial']({
       center: [250, 0],
-      preventOverlap: true
+      preventOverlap: true,
     });
     radialLayout.init(data);
     radialLayout.execute();
@@ -649,11 +646,11 @@ describe('radial layout', () => {
     const graph = new G6.Graph({
       width: 500,
       height: 500,
-      container: div
+      container: div,
     });
     data.nodes.forEach(node => {
       delete node.size;
-    })
+    });
     graph.data(data);
     graph.render();
     expect(data.nodes[0].x).not.toEqual(NaN);
@@ -668,457 +665,457 @@ describe('radial layout', () => {
     expect(positions[0][1]).not.toEqual(NaN);
   });
 
-
   it('radial with data sort', () => {
-
     const data2: any = {
-      nodes: [{
-        id: "0",
-        label: "0",
-        sortAttr: 0,
-        sortAttr2: 'a'
-      },
-      {
-        id: "1",
-        label: "1",
-        sortAttr: 0,
-        sortAttr2: 'a'
-      },
-      {
-        id: "2",
-        label: "2",
-        sortAttr: 0,
-        sortAttr2: 'a'
-      },
-      {
-        id: "3",
-        label: "3",
-        sortAttr: 0,
-        sortAttr2: 'a'
-      },
-      {
-        id: "4",
-        label: "4",
-        sortAttr: 2,
-        sortAttr2: 'c'
-      },
-      {
-        id: "5",
-        label: "5",
-        sortAttr: 0,
-        sortAttr2: 'a'
-      },
-      {
-        id: "6",
-        label: "6",
-        sortAttr: 1,
-        sortAttr2: 'b'
-      },
-      {
-        id: "7",
-        label: "7",
-        sortAttr: 1,
-        sortAttr2: 'b'
-      },
-      {
-        id: "8",
-        label: "8",
-        sortAttr: 2,
-        sortAttr2: 'c'
-      },
-      {
-        id: "9",
-        label: "9",
-        sortAttr: 3,
-        sortAttr2: 'd'
-      },
-      {
-        id: "10",
-        label: "10",
-        sortAttr: 3,
-        sortAttr2: 'd'
-      },
-      {
-        id: "11",
-        label: "11",
-        sortAttr: 1,
-        sortAttr2: 'b'
-      },
-      {
-        id: "12",
-        label: "12",
-        sortAttr: 2,
-        sortAttr2: 'c'
-      },
-      {
-        id: "13",
-        label: "13",
-        sortAttr: 1,
-        sortAttr2: 'b'
-      },
-      {
-        id: "14",
-        label: "14",
-        sortAttr: 3,
-        sortAttr2: 'd'
-      },
-      {
-        id: "15",
-        label: "15",
-        sortAttr: 3,
-        sortAttr2: 'd'
-      },
-      {
-        id: "16",
-        label: "16",
-        sortAttr: 1,
-        sortAttr2: 'b'
-      },
-      {
-        id: "17",
-        label: "17",
-        sortAttr: 2,
-        sortAttr2: 'c'
-      },
-      {
-        id: "18",
-        label: "18",
-        sortAttr: 2,
-        sortAttr2: 'c'
-      },
-      {
-        id: "19",
-        label: "19",
-        sortAttr: 1,
-        sortAttr2: 'b'
-      },
-      {
-        id: "20",
-        label: "20",
-        sortAttr: 1,
-        sortAttr2: 'b'
-      },
-      {
-        id: "21",
-        label: "21",
-        sortAttr: 3,
-        sortAttr2: 'd'
-      },
-      {
-        id: "22",
-        label: "22",
-        sortAttr: 3,
-        sortAttr2: 'd'
-      },
-      {
-        id: "23",
-        label: "23",
-        sortAttr: 3,
-        sortAttr2: 'd'
-      },
-      {
-        id: "24",
-        label: "24",
-        sortAttr: 0,
-        sortAttr2: 'a'
-      },
-      {
-        id: "25",
-        label: "25",
-        sortAttr: 0,
-        sortAttr2: 'a'
-      },
-      {
-        id: "26",
-        label: "26",
-        sortAttr: 1,
-        sortAttr2: 'b'
-      },
-      {
-        id: "27",
-        label: "27",
-        sortAttr: 1,
-        sortAttr2: 'b'
-      },
-      {
-        id: "28",
-        label: "28",
-        sortAttr: 3,
-        sortAttr2: 'd'
-      },
-      {
-        id: "29",
-        label: "29",
-        sortAttr: 2,
-        sortAttr2: 'c'
-      },
-      {
-        id: "30",
-        label: "30",
-        sortAttr: 2,
-        sortAttr2: 'c'
-      },
-      {
-        id: "31",
-        label: "31",
-        sortAttr: 1,
-        sortAttr2: 'b'
-      },
-      {
-        id: "32",
-        label: "32",
-        sortAttr: 1,
-        sortAttr2: 'b'
-      },
-      {
-        id: "33",
-        label: "33",
-        sortAttr: 0,
-        sortAttr2: 'a'
-      }],
+      nodes: [
+        {
+          id: '0',
+          label: '0',
+          sortAttr: 0,
+          sortAttr2: 'a',
+        },
+        {
+          id: '1',
+          label: '1',
+          sortAttr: 0,
+          sortAttr2: 'a',
+        },
+        {
+          id: '2',
+          label: '2',
+          sortAttr: 0,
+          sortAttr2: 'a',
+        },
+        {
+          id: '3',
+          label: '3',
+          sortAttr: 0,
+          sortAttr2: 'a',
+        },
+        {
+          id: '4',
+          label: '4',
+          sortAttr: 2,
+          sortAttr2: 'c',
+        },
+        {
+          id: '5',
+          label: '5',
+          sortAttr: 0,
+          sortAttr2: 'a',
+        },
+        {
+          id: '6',
+          label: '6',
+          sortAttr: 1,
+          sortAttr2: 'b',
+        },
+        {
+          id: '7',
+          label: '7',
+          sortAttr: 1,
+          sortAttr2: 'b',
+        },
+        {
+          id: '8',
+          label: '8',
+          sortAttr: 2,
+          sortAttr2: 'c',
+        },
+        {
+          id: '9',
+          label: '9',
+          sortAttr: 3,
+          sortAttr2: 'd',
+        },
+        {
+          id: '10',
+          label: '10',
+          sortAttr: 3,
+          sortAttr2: 'd',
+        },
+        {
+          id: '11',
+          label: '11',
+          sortAttr: 1,
+          sortAttr2: 'b',
+        },
+        {
+          id: '12',
+          label: '12',
+          sortAttr: 2,
+          sortAttr2: 'c',
+        },
+        {
+          id: '13',
+          label: '13',
+          sortAttr: 1,
+          sortAttr2: 'b',
+        },
+        {
+          id: '14',
+          label: '14',
+          sortAttr: 3,
+          sortAttr2: 'd',
+        },
+        {
+          id: '15',
+          label: '15',
+          sortAttr: 3,
+          sortAttr2: 'd',
+        },
+        {
+          id: '16',
+          label: '16',
+          sortAttr: 1,
+          sortAttr2: 'b',
+        },
+        {
+          id: '17',
+          label: '17',
+          sortAttr: 2,
+          sortAttr2: 'c',
+        },
+        {
+          id: '18',
+          label: '18',
+          sortAttr: 2,
+          sortAttr2: 'c',
+        },
+        {
+          id: '19',
+          label: '19',
+          sortAttr: 1,
+          sortAttr2: 'b',
+        },
+        {
+          id: '20',
+          label: '20',
+          sortAttr: 1,
+          sortAttr2: 'b',
+        },
+        {
+          id: '21',
+          label: '21',
+          sortAttr: 3,
+          sortAttr2: 'd',
+        },
+        {
+          id: '22',
+          label: '22',
+          sortAttr: 3,
+          sortAttr2: 'd',
+        },
+        {
+          id: '23',
+          label: '23',
+          sortAttr: 3,
+          sortAttr2: 'd',
+        },
+        {
+          id: '24',
+          label: '24',
+          sortAttr: 0,
+          sortAttr2: 'a',
+        },
+        {
+          id: '25',
+          label: '25',
+          sortAttr: 0,
+          sortAttr2: 'a',
+        },
+        {
+          id: '26',
+          label: '26',
+          sortAttr: 1,
+          sortAttr2: 'b',
+        },
+        {
+          id: '27',
+          label: '27',
+          sortAttr: 1,
+          sortAttr2: 'b',
+        },
+        {
+          id: '28',
+          label: '28',
+          sortAttr: 3,
+          sortAttr2: 'd',
+        },
+        {
+          id: '29',
+          label: '29',
+          sortAttr: 2,
+          sortAttr2: 'c',
+        },
+        {
+          id: '30',
+          label: '30',
+          sortAttr: 2,
+          sortAttr2: 'c',
+        },
+        {
+          id: '31',
+          label: '31',
+          sortAttr: 1,
+          sortAttr2: 'b',
+        },
+        {
+          id: '32',
+          label: '32',
+          sortAttr: 1,
+          sortAttr2: 'b',
+        },
+        {
+          id: '33',
+          label: '33',
+          sortAttr: 0,
+          sortAttr2: 'a',
+        },
+      ],
       edges: [
-      {
-        source: "0",
-        target: "1"
-      },
-      {
-        source: "0",
-        target: "2"
-      },
-      {
-        source: "0",
-        target: "3"
-      },
-      {
-        source: "0",
-        target: "4"
-      },
-      {
-        source: "0",
-        target: "5"
-      },
-      {
-        source: "0",
-        target: "7"
-      },
-      {
-        source: "0",
-        target: "8"
-      },
-      {
-        source: "0",
-        target: "9"
-      },
-      {
-        source: "0",
-        target: "10"
-      },
-      {
-        source: "0",
-        target: "11"
-      },
-      {
-        source: "0",
-        target: "13"
-      },
-      {
-        source: "0",
-        target: "14"
-      },
-      {
-        source: "0",
-        target: "15"
-      },
-      {
-        source: "0",
-        target: "16"
-      },
-      {
-        source: "2",
-        target: "3"
-      },
-      {
-        source: "4",
-        target: "5"
-      },
-      {
-        source: "4",
-        target: "6"
-      },
-      {
-        source: "5",
-        target: "6"
-      },
-      {
-        source: "7",
-        target: "13"
-      },
-      {
-        source: "8",
-        target: "14"
-      },
-      {
-        source: "9",
-        target: "10"
-      },
-      {
-        source: "10",
-        target: "22"
-      },
-      {
-        source: "10",
-        target: "14"
-      },
-      {
-        source: "10",
-        target: "12"
-      },
-      {
-        source: "10",
-        target: "24"
-      },
-      {
-        source: "10",
-        target: "21"
-      },
-      {
-        source: "10",
-        target: "20"
-      },
-      {
-        source: "11",
-        target: "24"
-      },
-      {
-        source: "11",
-        target: "22"
-      },
-      {
-        source: "11",
-        target: "14"
-      },
-      {
-        source: "12",
-        target: "13"
-      },
-      {
-        source: "16",
-        target: "17"
-      },
-      {
-        source: "16",
-        target: "18"
-      },
-      {
-        source: "16",
-        target: "21"
-      },
-      {
-        source: "16",
-        target: "22"
-      },
-      {
-        source: "17",
-        target: "18"
-      },
-      {
-        source: "17",
-        target: "20"
-      },
-      {
-        source: "18",
-        target: "19"
-      },
-      {
-        source: "19",
-        target: "20"
-      },
-      {
-        source: "19",
-        target: "33"
-      },
-      {
-        source: "19",
-        target: "22"
-      },
-      {
-        source: "19",
-        target: "23"
-      },
-      {
-        source: "20",
-        target: "21"
-      },
-      {
-        source: "21",
-        target: "22"
-      },
-      {
-        source: "22",
-        target: "24"
-      },
-      {
-        source: "22",
-        target: "25"
-      },
-      {
-        source: "22",
-        target: "26"
-      },
-      {
-        source: "22",
-        target: "23"
-      },
-      {
-        source: "22",
-        target: "28"
-      },
-      {
-        source: "22",
-        target: "30"
-      },
-      {
-        source: "22",
-        target: "31"
-      },
-      {
-        source: "22",
-        target: "32"
-      },
-      {
-        source: "22",
-        target: "33"
-      },
-      {
-        source: "23",
-        target: "28"
-      },
-      {
-        source: "23",
-        target: "27"
-      },
-      {
-        source: "23",
-        target: "29"
-      },
-      {
-        source: "23",
-        target: "30"
-      },
-      {
-        source: "23",
-        target: "31"
-      },
-      {
-        source: "23",
-        target: "33"
-      },
-      {
-        source: "32",
-        target: "33"
-      }]
+        {
+          source: '0',
+          target: '1',
+        },
+        {
+          source: '0',
+          target: '2',
+        },
+        {
+          source: '0',
+          target: '3',
+        },
+        {
+          source: '0',
+          target: '4',
+        },
+        {
+          source: '0',
+          target: '5',
+        },
+        {
+          source: '0',
+          target: '7',
+        },
+        {
+          source: '0',
+          target: '8',
+        },
+        {
+          source: '0',
+          target: '9',
+        },
+        {
+          source: '0',
+          target: '10',
+        },
+        {
+          source: '0',
+          target: '11',
+        },
+        {
+          source: '0',
+          target: '13',
+        },
+        {
+          source: '0',
+          target: '14',
+        },
+        {
+          source: '0',
+          target: '15',
+        },
+        {
+          source: '0',
+          target: '16',
+        },
+        {
+          source: '2',
+          target: '3',
+        },
+        {
+          source: '4',
+          target: '5',
+        },
+        {
+          source: '4',
+          target: '6',
+        },
+        {
+          source: '5',
+          target: '6',
+        },
+        {
+          source: '7',
+          target: '13',
+        },
+        {
+          source: '8',
+          target: '14',
+        },
+        {
+          source: '9',
+          target: '10',
+        },
+        {
+          source: '10',
+          target: '22',
+        },
+        {
+          source: '10',
+          target: '14',
+        },
+        {
+          source: '10',
+          target: '12',
+        },
+        {
+          source: '10',
+          target: '24',
+        },
+        {
+          source: '10',
+          target: '21',
+        },
+        {
+          source: '10',
+          target: '20',
+        },
+        {
+          source: '11',
+          target: '24',
+        },
+        {
+          source: '11',
+          target: '22',
+        },
+        {
+          source: '11',
+          target: '14',
+        },
+        {
+          source: '12',
+          target: '13',
+        },
+        {
+          source: '16',
+          target: '17',
+        },
+        {
+          source: '16',
+          target: '18',
+        },
+        {
+          source: '16',
+          target: '21',
+        },
+        {
+          source: '16',
+          target: '22',
+        },
+        {
+          source: '17',
+          target: '18',
+        },
+        {
+          source: '17',
+          target: '20',
+        },
+        {
+          source: '18',
+          target: '19',
+        },
+        {
+          source: '19',
+          target: '20',
+        },
+        {
+          source: '19',
+          target: '33',
+        },
+        {
+          source: '19',
+          target: '22',
+        },
+        {
+          source: '19',
+          target: '23',
+        },
+        {
+          source: '20',
+          target: '21',
+        },
+        {
+          source: '21',
+          target: '22',
+        },
+        {
+          source: '22',
+          target: '24',
+        },
+        {
+          source: '22',
+          target: '25',
+        },
+        {
+          source: '22',
+          target: '26',
+        },
+        {
+          source: '22',
+          target: '23',
+        },
+        {
+          source: '22',
+          target: '28',
+        },
+        {
+          source: '22',
+          target: '30',
+        },
+        {
+          source: '22',
+          target: '31',
+        },
+        {
+          source: '22',
+          target: '32',
+        },
+        {
+          source: '22',
+          target: '33',
+        },
+        {
+          source: '23',
+          target: '28',
+        },
+        {
+          source: '23',
+          target: '27',
+        },
+        {
+          source: '23',
+          target: '29',
+        },
+        {
+          source: '23',
+          target: '30',
+        },
+        {
+          source: '23',
+          target: '31',
+        },
+        {
+          source: '23',
+          target: '33',
+        },
+        {
+          source: '32',
+          target: '33',
+        },
+      ],
     };
-
 
     const graph = new G6.Graph({
       width: 500,
@@ -1129,11 +1126,11 @@ describe('radial layout', () => {
         center: [250, 250],
         preventOverlap: true,
         sortBy: 'sortAttr2',
-        sortStrength: 100
+        sortStrength: 100,
       },
       modes: {
-        default: ['drag-node']
-      }
+        default: ['drag-node'],
+      },
     });
     const colors = ['#e5e5e5', 'green', '#5AD8A6', '#5B8FF9'];
     const colorsObj = { a: '#e5e5e5', b: 'green', c: '#5AD8A6', d: '#5B8FF9' };
@@ -1143,8 +1140,8 @@ describe('radial layout', () => {
       node.style = {
         lineWidth: 3,
         fill: '#fff',
-        stroke: colors[node.sortAttr2] || colorsObj[node.sortAttr2]
-      }
+        stroke: colors[node.sortAttr2] || colorsObj[node.sortAttr2],
+      };
     });
     graph.data(data2);
     graph.render();

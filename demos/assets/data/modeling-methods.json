@@ -30,18 +30,11 @@
         },
         {
           "id": "Methods",
-          "children": [
-            { "id": "Classifier selection" },
-            { "id": "Classifier fusion" }
-          ]
+          "children": [{ "id": "Classifier selection" }, { "id": "Classifier fusion" }]
         },
         {
           "id": "Common",
-          "children": [
-            { "id": "Bagging" },
-            { "id": "Boosting" },
-            { "id": "AdaBoost" }
-          ]
+          "children": [{ "id": "Bagging" }, { "id": "Boosting" }, { "id": "AdaBoost" }]
         }
       ]
     },

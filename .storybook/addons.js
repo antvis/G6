@@ -1,2 +1,2 @@
-import '@storybook/addons'
-import '@storybook/addon-knobs/register'
+import '@storybook/addons';
+import '@storybook/addon-knobs/register';

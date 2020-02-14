@@ -1,585 +1,587 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-</head>
-<body>
-  <div id="mountNode"></div>
-  <script src="../build/g6.js"></script>
-  <script>
-    /**
-     * 该案例演示如何交互复杂的列表组件
-     * 内网可以参考：https://riddle.alibaba-inc.com/riddles/3acae792
-     * 
-    */
-    const COLLAPSE_ICON = (x, y, r) => {
-      return [
-        ['M', x, y],
-        ['a', r, r, 0, 1, 0, r * 2, 0],
-        ['a', r, r, 0, 1, 0, -r * 2, 0],
-        ['M', x + 2, y],
-        ['L', x + 2 * r - 2, y],
-      ];
-    };
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="mountNode"></div>
+    <script src="../build/g6.js"></script>
+    <script>
+      /**
+       * 该案例演示如何交互复杂的列表组件
+       * 内网可以参考：https://riddle.alibaba-inc.com/riddles/3acae792
+       *
+       */
+      const COLLAPSE_ICON = (x, y, r) => {
+        return [
+          ['M', x, y],
+          ['a', r, r, 0, 1, 0, r * 2, 0],
+          ['a', r, r, 0, 1, 0, -r * 2, 0],
+          ['M', x + 2, y],
+          ['L', x + 2 * r - 2, y],
+        ];
+      };
 
-    const EXPAND_ICON = (x, y, r) => {
-      return [
-        ['M', x, y],
-        ['a', r, r, 0, 1, 0, r * 2, 0],
-        ['a', r, r, 0, 1, 0, -r * 2, 0],
-        ['M', x + 2, y],
-        ['L', x + 2 * r - 2, y],
-        ['M', x + r, y - r + 2],
-        ['L', x + r, y + r - 2],
-      ];
-    };
+      const EXPAND_ICON = (x, y, r) => {
+        return [
+          ['M', x, y],
+          ['a', r, r, 0, 1, 0, r * 2, 0],
+          ['a', r, r, 0, 1, 0, -r * 2, 0],
+          ['M', x + 2, y],
+          ['L', x + 2 * r - 2, y],
+          ['M', x + r, y - r + 2],
+          ['L', x + r, y + r - 2],
+        ];
+      };
 
-    //注册边
-    G6.registerEdge('hvh', {
-      draw(cfg, group) {
-        const startPoint = cfg.startPoint;
-        const endPoint = cfg.endPoint;
-        const shape = group.addShape('path', {
-          attrs: {
-            endArrow: true,
-            endArrow: {
-              path: 'M 10,0 L -10,-10 L -10,10 Z', 
-              d: 10,
-            },
-            stroke: '#A3B1BF',
-            path: [
-              ['M', startPoint.x, startPoint.y],
-              ['L', endPoint.x / 3 + (2 / 3) * startPoint.x, startPoint.y],
-              ['L', endPoint.x / 3 + (2 / 3) * startPoint.x, endPoint.y],
-              ['L', endPoint.x, endPoint.y],
-            ],
-          },
-        });
-        return shape;
-      },
-    });
-
-    //root节点
-    G6.registerNode(
-      'tree-node',
-      {
-        drawShape: (cfg, group) => {
-          const rect = group.addShape('rect', {
+      //注册边
+      G6.registerEdge('hvh', {
+        draw(cfg, group) {
+          const startPoint = cfg.startPoint;
+          const endPoint = cfg.endPoint;
+          const shape = group.addShape('path', {
             attrs: {
-              fill: '#0096e0',
+              endArrow: true,
+              endArrow: {
+                path: 'M 10,0 L -10,-10 L -10,10 Z',
+                d: 10,
+              },
+              stroke: '#A3B1BF',
+              path: [
+                ['M', startPoint.x, startPoint.y],
+                ['L', endPoint.x / 3 + (2 / 3) * startPoint.x, startPoint.y],
+                ['L', endPoint.x / 3 + (2 / 3) * startPoint.x, endPoint.y],
+                ['L', endPoint.x, endPoint.y],
+              ],
             },
           });
-          const content = cfg.name;
-          const text = group.addShape('text', {
+          return shape;
+        },
+      });
+
+      //root节点
+      G6.registerNode(
+        'tree-node',
+        {
+          drawShape: (cfg, group) => {
+            const rect = group.addShape('rect', {
+              attrs: {
+                fill: '#0096e0',
+              },
+            });
+            const content = cfg.name;
+            const text = group.addShape('text', {
+              attrs: {
+                text: content,
+                x: 0,
+                y: 0,
+                textAlign: 'left',
+                textBaseline: 'middle',
+                fill: '#fff',
+              },
+            });
+            const bbox = text.getBBox();
+            const hasChildren = cfg.children && cfg.children.length > 0;
+            if (hasChildren) {
+              group.addShape('marker', {
+                attrs: {
+                  x: bbox.maxX + 6,
+                  y: bbox.minX + bbox.height / 2 - 6,
+                  r: 6,
+                  symbol: COLLAPSE_ICON,
+                  stroke: '#fff',
+                  lineWidth: 2,
+                },
+                className: 'collapse-icon',
+              });
+            }
+
+            //节点高度(getVGap值保持一致)
+            let height = 50;
+            //根节点高度：子节点高度+节点间距
+            let rootHeight = height * count + height * (count - 1);
+            //节点Y坐标
+            let nodeY = bbox.minY - 6;
+            //根节点Y坐标：节点Y坐标上移节点高度*count
+            let rootY = nodeY - height * (count - 1) + 12.5;
+
+            //console.log('rootHeight');
+            //console.log(rootHeight);
+            //console.log('rootY');
+            //console.log(rootY);
+
+            rect.attr({
+              x: bbox.minX - 4,
+              y: hasChildren ? rootY : nodeY,
+              width: bbox.width + (hasChildren ? 26 : 8),
+              height: hasChildren ? rootHeight : height,
+            });
+            return rect;
+          },
+        },
+        'single-shape',
+      );
+
+      //子节点
+      G6.registerNode('expandNode', {
+        draw: function draw(cfg, group) {
+          var mainGroup = group.addGroup({
+            id: 'main-group',
+          });
+          var keyShape = mainGroup.addShape('rect', {
             attrs: {
-              text: content,
               x: 0,
               y: 0,
-              textAlign: 'left',
-              textBaseline: 'middle',
-              fill: '#fff',
-            },
-          });
-          const bbox = text.getBBox();
-          const hasChildren = cfg.children && cfg.children.length > 0;
-          if (hasChildren) {
-            group.addShape('marker', {
-              attrs: {
-                x: bbox.maxX + 6,
-                y: bbox.minX + bbox.height / 2 - 6,
-                r: 6,
-                symbol: COLLAPSE_ICON,
-                stroke: '#fff',
-                lineWidth: 2,
-              },
-              className: 'collapse-icon',
-            });
-          }
-
-          //节点高度(getVGap值保持一致)
-          let height = 50;
-          //根节点高度：子节点高度+节点间距
-          let rootHeight = height * count + height * (count - 1);
-          //节点Y坐标
-          let nodeY = bbox.minY - 6;
-          //根节点Y坐标：节点Y坐标上移节点高度*count
-          let rootY = nodeY - height * (count - 1) + 12.5;
-
-          //console.log('rootHeight');
-          //console.log(rootHeight);
-          //console.log('rootY');
-          //console.log(rootY);
-
-          rect.attr({
-            x: bbox.minX - 4,
-            y: hasChildren ? rootY : nodeY,
-            width: bbox.width + (hasChildren ? 26 : 8),
-            height: hasChildren ? rootHeight : height,
-          });
-          return rect;
-        },
-      },
-      'single-shape',
-    );
-
-    //子节点
-    G6.registerNode('expandNode', {
-      draw: function draw(cfg, group) {
-        var mainGroup = group.addGroup({
-          id: 'main-group',
-        });
-        var keyShape = mainGroup.addShape('rect', {
-          attrs: {
-            x: 0,
-            y: 0,
-            width: 100 + 60 * cfg.values.length,
-            height: 50,
-            fill: '#f5f5f5',
-          },
-        });
-
-        // name text
-        mainGroup.addShape('text', {
-          attrs: {
-            text: cfg.name,
-            fill: '#000',
-            width: 130,
-            x: 10,
-            y: 32,
-          },
-        });
-
-        var subGroup = group.addGroup({
-          id: 'sub-group',
-        });
-        cfg.values.forEach(function(data, index) {
-          subGroup.addShape('rect', {
-            attrs: {
-              x: 110 + index * 60,
-              y: 0,
-              width: 50,
+              width: 100 + 60 * cfg.values.length,
               height: 50,
+              fill: '#f5f5f5',
             },
           });
 
-          subGroup.addShape('text', {
+          // name text
+          mainGroup.addShape('text', {
             attrs: {
-              text: data.key,
+              text: cfg.name,
               fill: '#000',
-              x: 130 + index * 60,
-              y: 20,
-              fontSize: 10,
-              textBaseline: 'middle',
-              className: 'sub-group-text',
+              width: 130,
+              x: 10,
+              y: 32,
             },
           });
 
-          subGroup.addShape('text', {
-            attrs: {
-              text: data.value,
-              fill: '#000',
-              x: 130 + index * 60,
-              y: 30,
-              fontSize: 10,
-              textBaseline: 'middle',
-              textAlign: 'left',
-              className: 'sub-group-text',
-            },
+          var subGroup = group.addGroup({
+            id: 'sub-group',
           });
-        });
-
-        var listGroup = group.addGroup({
-          id: 'detail-list-group',
-        });
-
-        listGroup.addShape('rect', {
-          attrs: {
-            width: 100 + 60 * cfg.values.length - 70,
-            height: 30 * cfg.properties.length + 20,
-            fill: '#fff',
-            x: 70,
-            y: 30,
-          },
-        });
-
-        var rectWidth = 100 + 60 * cfg.values.length - 80;
-        cfg.properties.forEach(function(property, index) {
-          listGroup.addShape('rect', {
-            attrs: {
-              width: rectWidth,
-              height: 30,
-              fill: '#e8e8e8',
-              x: 80,
-              y: 40 * index + 40,
-            },
-          });
-          var count = 0;
-          for (var p in property) {
-            // 每个rect中添加5个文本
-            listGroup.addShape('text', {
+          cfg.values.forEach(function(data, index) {
+            subGroup.addShape('rect', {
               attrs: {
-                text: property[p],
+                x: 110 + index * 60,
+                y: 0,
+                width: 50,
+                height: 50,
+              },
+            });
+
+            subGroup.addShape('text', {
+              attrs: {
+                text: data.key,
                 fill: '#000',
-                x: 85 + count * (rectWidth / cfg.values.length) - count * 10,
-                y: 40 * index + 40 + 15,
+                x: 130 + index * 60,
+                y: 20,
+                fontSize: 10,
+                textBaseline: 'middle',
+                className: 'sub-group-text',
+              },
+            });
+
+            subGroup.addShape('text', {
+              attrs: {
+                text: data.value,
+                fill: '#000',
+                x: 130 + index * 60,
+                y: 30,
                 fontSize: 10,
                 textBaseline: 'middle',
                 textAlign: 'left',
+                className: 'sub-group-text',
               },
             });
-            count++;
-          }
-        });
-        listGroup.hide();
-        return keyShape;
-      },
-    });
+          });
 
-    //graph
-    const graph = new G6.TreeGraph({
-      container: 'mountNode',
-      width: window.innerWidth - 100,
-      height: window.innerHeight - 100,
-      modes: {
-        default: [
-          {
-            type: 'collapse-expand',
-            onChange: (item, collapsed) => {
-              const data = item.get('model').data;
-              const icon = item.get('group').findByClassName('collapse-icon');
-              if (collapsed) {
-                icon.attr('symbol', EXPAND_ICON);
-              } else {
-                icon.attr('symbol', COLLAPSE_ICON);
-              }
-              data.collapsed = collapsed;
-              return true;
-            },
-          },
-          'drag-canvas',
-          'zoom-canvas',
-        ],
-      },
-      defaultNode: {
-        shape: 'tree-node',
-        anchorPoints: [[0, 0.5], [1, 0.5]],
-      },
-      defaultEdge: {
-        shape: 'hvh',
-        style: {
-          stroke: '#A3B1BF',
-        }
-      },
-      layout: {
-        type: 'compactBox',
-        direction: 'LR',
-          getId: d => {
-            return d.id;
-          },
-          getHeight: () => {
-            return 0;
-          },
-          getWidth: () => {
-            return 16;
-          },
-          getVGap: d => {
-            return 50
-          }, 
-          getHGap: () => {
-            return 80;
-          }
-      }
-    });
+          var listGroup = group.addGroup({
+            id: 'detail-list-group',
+          });
 
-    const data = {
-      id: 'root',
-      name: 'root',
-      children: [
-        {
-          id: 'shape2',
-          //x: 0,
-          //y: 50,
-          shape: 'expandNode',
-          name: '网站引流1',
-          values: [
-            {
-              key: '曝光率',
-              value: '1938.33w',
+          listGroup.addShape('rect', {
+            attrs: {
+              width: 100 + 60 * cfg.values.length - 70,
+              height: 30 * cfg.properties.length + 20,
+              fill: '#fff',
+              x: 70,
+              y: 30,
             },
-            {
-              key: '流入UV',
-              value: '1938.33w',
-            },
-            {
-              key: '点击率',
-              value: '99.9%',
-            },
-            {
-              key: '占比',
-              value: '99.9%',
-            },
-          ],
-          properties: [
-            {
-              name: '宫格',
-              value1: '1938.33w',
-              value2: '1938.33w',
-              value3: '99.9%',
-              value4: '99.9%',
-            },
-            {
-              name: '更多应用',
-              value1: '1938.33w',
-              value2: '1938.33w',
-              value3: '99.9%',
-              value4: '99.9%',
-            },
-            {
-              name: '搜索',
-              value1: '1938.33w',
-              value2: '1938.33w',
-              value3: '99.9%',
-              value4: '99.9%',
-            },
-            {
-              name: '扫一扫',
-              value1: '1938.33w',
-              value2: '1938.33w',
-              value3: '99.9%',
-              value4: '99.9%',
-            },
-            {
-              name: '我的Tab',
-              value1: '1938.33w',
-              value2: '1938.33w',
-              value3: '99.9%',
-              value4: '99.9%',
-            },
-          ],
-        },
+          });
 
-        {
-          id: 'shape30',
-          //x: 0,
-          //y: 50,
-          shape: 'expandNode',
-          name: '网站引流',
-          values: [
-            {
-              key: '曝光率',
-              value: '19.09',
-            },
-            {
-              key: '流入UV',
-              value: '910',
-            },
-            {
-              key: '点击率',
-              value: '90',
-            },
-            {
-              key: '占比',
-              value: '90',
-            },
-          ],
-          properties: [
-            {
-              name: '宫格',
-              value1: '1938.33w',
-              value2: '1938.33w',
-              value3: '99.9%',
-              value4: '99.9%',
-            },
-            {
-              name: '更多应用',
-              value1: '1938.33w',
-              value2: '1938.33w',
-              value3: '99.9%',
-              value4: '99.9%',
-            },
-            {
-              name: '搜索',
-              value1: '1938.33w',
-              value2: '1938.33w',
-              value3: '99.9%',
-              value4: '99.9%',
-            },
-            {
-              name: '扫一扫',
-              value1: '1938.33w',
-              value2: '1938.33w',
-              value3: '99.9%',
-              value4: '99.9%',
-            },
-            {
-              name: '我的Tab',
-              value1: '1938.33w',
-              value2: '1938.33w',
-              value3: '99.9%',
-              value4: '99.9%',
-            },
-          ],
-        },
-
-        {
-          id: 'shape3',
-          //x: 0,
-          //y: 50,
-          shape: 'expandNode',
-          name: '网站引流',
-          values: [
-            {
-              key: '曝光率',
-              value: '19.09',
-            },
-            {
-              key: '流入UV',
-              value: '910',
-            },
-            {
-              key: '点击率',
-              value: '90',
-            },
-            {
-              key: '占比',
-              value: '90',
-            },
-          ],
-          properties: [
-            {
-              name: '宫格',
-              value1: '1938.33w',
-              value2: '1938.33w',
-              value3: '99.9%',
-              value4: '99.9%',
-            },
-            {
-              name: '更多应用',
-              value1: '1938.33w',
-              value2: '1938.33w',
-              value3: '99.9%',
-              value4: '99.9%',
-            },
-            {
-              name: '搜索',
-              value1: '1938.33w',
-              value2: '1938.33w',
-              value3: '99.9%',
-              value4: '99.9%',
-            },
-            {
-              name: '扫一扫',
-              value1: '1938.33w',
-              value2: '1938.33w',
-              value3: '99.9%',
-              value4: '99.9%',
-            },
-            {
-              name: '我的Tab',
-              value1: '1938.33w',
-              value2: '1938.33w',
-              value3: '99.9%',
-              value4: '99.9%',
-            },
-          ],
-        },
-      ],
-    };
-
-    //统计子节点个数
-    let count = -1;
-
-    G6.Util.traverseTree(data, e => {
-      count++; 
-    });
-
-    graph.data(data);
-    graph.render();
-    graph.fitView();
-
-    // 点击node，展开详情
-    graph.on('node:click', function(evt) {
-      console.log(graph);
-    
-      var target = evt.target;
-      var parentGroup = target.get('parent').get('parent');
-      var detailGroup = parentGroup.findById('detail-list-group');
-      // 将sub-group中的内容网上移动一段距离
-      var subGroup = parentGroup.findById('sub-group');
-      var keyTexts = subGroup.findAll(function(item) {
-        return item.attr('className') === 'sub-group-text';
-      });
-      var isVisible = detailGroup.get('visible');
-      if (isVisible) {
-        detailGroup.hide();
-        keyTexts.forEach(function(text) {
-          var top = text.attr('y');
-          text.attr('y', top + 10);
-        });
-        
-        const layout =  {
-          type: 'compactBox',
-          direction: 'LR',
-          getId: d => {
-            return d.id;
-          },
-          getHeight: () => {
-            return 0;
-          },
-          getWidth: () => {
-            return 16;
-          },
-          getVGap: d => {
-            return 50
-          }, 
-          getHGap: () => {
-            return 80;
-          },
-        }
-        
-        graph.changeLayout(layout)
-      } else {
-        keyTexts.forEach(function(text) {
-          var top = text.attr('y');
-          text.attr('y', top - 10);
-        });
-        
-        detailGroup.show();
-        
-        const layout =  {
-          type: 'compactBox',
-          direction: 'LR',
-          getId: d => {
-            return d.id;
-          },
-          getHeight: () => {
-            return 0;
-          },
-          getWidth: () => {
-            return 16;
-          },
-          getVGap: d => {
-            console.log('ok', d, evt);
-            const id = evt.item.get('id');
-            if (d.id === id) {
-              return 120;
-            } else {
-              return 50;
+          var rectWidth = 100 + 60 * cfg.values.length - 80;
+          cfg.properties.forEach(function(property, index) {
+            listGroup.addShape('rect', {
+              attrs: {
+                width: rectWidth,
+                height: 30,
+                fill: '#e8e8e8',
+                x: 80,
+                y: 40 * index + 40,
+              },
+            });
+            var count = 0;
+            for (var p in property) {
+              // 每个rect中添加5个文本
+              listGroup.addShape('text', {
+                attrs: {
+                  text: property[p],
+                  fill: '#000',
+                  x: 85 + count * (rectWidth / cfg.values.length) - count * 10,
+                  y: 40 * index + 40 + 15,
+                  fontSize: 10,
+                  textBaseline: 'middle',
+                  textAlign: 'left',
+                },
+              });
+              count++;
             }
-          }, 
+          });
+          listGroup.hide();
+          return keyShape;
+        },
+      });
+
+      //graph
+      const graph = new G6.TreeGraph({
+        container: 'mountNode',
+        width: window.innerWidth - 100,
+        height: window.innerHeight - 100,
+        modes: {
+          default: [
+            {
+              type: 'collapse-expand',
+              onChange: (item, collapsed) => {
+                const data = item.get('model').data;
+                const icon = item.get('group').findByClassName('collapse-icon');
+                if (collapsed) {
+                  icon.attr('symbol', EXPAND_ICON);
+                } else {
+                  icon.attr('symbol', COLLAPSE_ICON);
+                }
+                data.collapsed = collapsed;
+                return true;
+              },
+            },
+            'drag-canvas',
+            'zoom-canvas',
+          ],
+        },
+        defaultNode: {
+          shape: 'tree-node',
+          anchorPoints: [
+            [0, 0.5],
+            [1, 0.5],
+          ],
+        },
+        defaultEdge: {
+          shape: 'hvh',
+          style: {
+            stroke: '#A3B1BF',
+          },
+        },
+        layout: {
+          type: 'compactBox',
+          direction: 'LR',
+          getId: d => {
+            return d.id;
+          },
+          getHeight: () => {
+            return 0;
+          },
+          getWidth: () => {
+            return 16;
+          },
+          getVGap: d => {
+            return 50;
+          },
           getHGap: () => {
             return 80;
           },
+        },
+      });
+
+      const data = {
+        id: 'root',
+        name: 'root',
+        children: [
+          {
+            id: 'shape2',
+            //x: 0,
+            //y: 50,
+            shape: 'expandNode',
+            name: '网站引流1',
+            values: [
+              {
+                key: '曝光率',
+                value: '1938.33w',
+              },
+              {
+                key: '流入UV',
+                value: '1938.33w',
+              },
+              {
+                key: '点击率',
+                value: '99.9%',
+              },
+              {
+                key: '占比',
+                value: '99.9%',
+              },
+            ],
+            properties: [
+              {
+                name: '宫格',
+                value1: '1938.33w',
+                value2: '1938.33w',
+                value3: '99.9%',
+                value4: '99.9%',
+              },
+              {
+                name: '更多应用',
+                value1: '1938.33w',
+                value2: '1938.33w',
+                value3: '99.9%',
+                value4: '99.9%',
+              },
+              {
+                name: '搜索',
+                value1: '1938.33w',
+                value2: '1938.33w',
+                value3: '99.9%',
+                value4: '99.9%',
+              },
+              {
+                name: '扫一扫',
+                value1: '1938.33w',
+                value2: '1938.33w',
+                value3: '99.9%',
+                value4: '99.9%',
+              },
+              {
+                name: '我的Tab',
+                value1: '1938.33w',
+                value2: '1938.33w',
+                value3: '99.9%',
+                value4: '99.9%',
+              },
+            ],
+          },
+
+          {
+            id: 'shape30',
+            //x: 0,
+            //y: 50,
+            shape: 'expandNode',
+            name: '网站引流',
+            values: [
+              {
+                key: '曝光率',
+                value: '19.09',
+              },
+              {
+                key: '流入UV',
+                value: '910',
+              },
+              {
+                key: '点击率',
+                value: '90',
+              },
+              {
+                key: '占比',
+                value: '90',
+              },
+            ],
+            properties: [
+              {
+                name: '宫格',
+                value1: '1938.33w',
+                value2: '1938.33w',
+                value3: '99.9%',
+                value4: '99.9%',
+              },
+              {
+                name: '更多应用',
+                value1: '1938.33w',
+                value2: '1938.33w',
+                value3: '99.9%',
+                value4: '99.9%',
+              },
+              {
+                name: '搜索',
+                value1: '1938.33w',
+                value2: '1938.33w',
+                value3: '99.9%',
+                value4: '99.9%',
+              },
+              {
+                name: '扫一扫',
+                value1: '1938.33w',
+                value2: '1938.33w',
+                value3: '99.9%',
+                value4: '99.9%',
+              },
+              {
+                name: '我的Tab',
+                value1: '1938.33w',
+                value2: '1938.33w',
+                value3: '99.9%',
+                value4: '99.9%',
+              },
+            ],
+          },
+
+          {
+            id: 'shape3',
+            //x: 0,
+            //y: 50,
+            shape: 'expandNode',
+            name: '网站引流',
+            values: [
+              {
+                key: '曝光率',
+                value: '19.09',
+              },
+              {
+                key: '流入UV',
+                value: '910',
+              },
+              {
+                key: '点击率',
+                value: '90',
+              },
+              {
+                key: '占比',
+                value: '90',
+              },
+            ],
+            properties: [
+              {
+                name: '宫格',
+                value1: '1938.33w',
+                value2: '1938.33w',
+                value3: '99.9%',
+                value4: '99.9%',
+              },
+              {
+                name: '更多应用',
+                value1: '1938.33w',
+                value2: '1938.33w',
+                value3: '99.9%',
+                value4: '99.9%',
+              },
+              {
+                name: '搜索',
+                value1: '1938.33w',
+                value2: '1938.33w',
+                value3: '99.9%',
+                value4: '99.9%',
+              },
+              {
+                name: '扫一扫',
+                value1: '1938.33w',
+                value2: '1938.33w',
+                value3: '99.9%',
+                value4: '99.9%',
+              },
+              {
+                name: '我的Tab',
+                value1: '1938.33w',
+                value2: '1938.33w',
+                value3: '99.9%',
+                value4: '99.9%',
+              },
+            ],
+          },
+        ],
+      };
+
+      //统计子节点个数
+      let count = -1;
+
+      G6.Util.traverseTree(data, e => {
+        count++;
+      });
+
+      graph.data(data);
+      graph.render();
+      graph.fitView();
+
+      // 点击node，展开详情
+      graph.on('node:click', function(evt) {
+        console.log(graph);
+
+        var target = evt.target;
+        var parentGroup = target.get('parent').get('parent');
+        var detailGroup = parentGroup.findById('detail-list-group');
+        // 将sub-group中的内容网上移动一段距离
+        var subGroup = parentGroup.findById('sub-group');
+        var keyTexts = subGroup.findAll(function(item) {
+          return item.attr('className') === 'sub-group-text';
+        });
+        var isVisible = detailGroup.get('visible');
+        if (isVisible) {
+          detailGroup.hide();
+          keyTexts.forEach(function(text) {
+            var top = text.attr('y');
+            text.attr('y', top + 10);
+          });
+
+          const layout = {
+            type: 'compactBox',
+            direction: 'LR',
+            getId: d => {
+              return d.id;
+            },
+            getHeight: () => {
+              return 0;
+            },
+            getWidth: () => {
+              return 16;
+            },
+            getVGap: d => {
+              return 50;
+            },
+            getHGap: () => {
+              return 80;
+            },
+          };
+
+          graph.changeLayout(layout);
+        } else {
+          keyTexts.forEach(function(text) {
+            var top = text.attr('y');
+            text.attr('y', top - 10);
+          });
+
+          detailGroup.show();
+
+          const layout = {
+            type: 'compactBox',
+            direction: 'LR',
+            getId: d => {
+              return d.id;
+            },
+            getHeight: () => {
+              return 0;
+            },
+            getWidth: () => {
+              return 16;
+            },
+            getVGap: d => {
+              console.log('ok', d, evt);
+              const id = evt.item.get('id');
+              if (d.id === id) {
+                return 120;
+              } else {
+                return 50;
+              }
+            },
+            getHGap: () => {
+              return 80;
+            },
+          };
+
+          graph.changeLayout(layout);
         }
-        
-        graph.changeLayout(layout)
-        
-      }
-      //graph.paint();
-    });
-  </script>
-</body>
+        //graph.paint();
+      });
+    </script>
+  </body>
 </html>

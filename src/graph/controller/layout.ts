@@ -1,7 +1,7 @@
 import Layout from '../../layout';
 import LayoutWorker from '../../layout/worker/layout.worker';
 import { LAYOUT_MESSAGE } from '../../layout/worker/layoutConst';
-import { isNaN } from "../../util/base"
+import { isNaN } from '../../util/base';
 
 import { IGraph } from '../../interface/graph';
 
@@ -122,7 +122,7 @@ export default class LayoutController {
         height,
         center: [width / 2, height / 2],
       },
-      this.layoutCfg
+      this.layoutCfg,
     );
     this.layoutCfg = layoutCfg;
 
@@ -133,8 +133,8 @@ export default class LayoutController {
       layoutMethod.destroy();
     }
 
-    graph.emit('beforelayout');	
-    const allHavePos = this.initPositions(layoutCfg.center, nodes);	
+    graph.emit('beforelayout');
+    const allHavePos = this.initPositions(layoutCfg.center, nodes);
     if (!this.layoutType && !allHavePos) {
       this.layoutType = 'random';
     }
@@ -162,19 +162,22 @@ export default class LayoutController {
         graph.emit('afterlayout');
       };
     }
-    
+
     if (this.layoutType !== undefined) {
       try {
         layoutMethod = new Layout[this.layoutType](layoutCfg);
       } catch (e) {
-        console.warn(`The layout method: ${this.layoutType} does not exist! Please specify it first.`);
+        console.warn(
+          `The layout method: ${this.layoutType} does not exist! Please specify it first.`,
+        );
         return false;
       }
       layoutMethod.init(this.data);
-      // 若存在节点没有位置信息，且没有设置 layout，在 initPositions 中 random 给出了所有节点的位置，不需要再次执行 random 布局	
+      // 若存在节点没有位置信息，且没有设置 layout，在 initPositions 中 random 给出了所有节点的位置，不需要再次执行 random 布局
       // 所有节点都有位置信息，且指定了 layout，则执行布局（代表不是第一次进行布局）
-      if (hasLayoutType) { // allHavePos && 
-        layoutMethod.execute();	
+      if (hasLayoutType) {
+        // allHavePos &&
+        layoutMethod.execute();
       }
       this.layoutMethod = layoutMethod;
       if (this.layoutType !== 'force') {
@@ -212,9 +215,9 @@ export default class LayoutController {
     // 例如：'function could not be cloned'。
     // 详情参考：https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm
     // 所以这里需要把过滤layoutCfg里的函数字段过滤掉。
-    const filteredLayoutCfg = filterObject(layoutCfg, (value) => typeof value !== 'function');
+    const filteredLayoutCfg = filterObject(layoutCfg, value => typeof value !== 'function');
     worker.postMessage({ type: LAYOUT_MESSAGE.RUN, nodes, edges, layoutCfg: filteredLayoutCfg });
-    worker.onmessage = (event) => {
+    worker.onmessage = event => {
       this.handleWorkerMessage(event, data, success);
     };
     return true;
@@ -304,9 +307,11 @@ export default class LayoutController {
 
     this.layoutType = cfg.type;
     if (!layoutMethod) {
-      console.warn('You did not assign any layout type and the graph has no previous layout method!');
+      console.warn(
+        'You did not assign any layout type and the graph has no previous layout method!',
+      );
       return;
-    };
+    }
     this.data = this.setDataFromGraph();
 
     this.stopWorker();
@@ -355,11 +360,11 @@ export default class LayoutController {
     const edges = [];
     const nodeItems = this.graph.getNodes();
     const edgeItems = this.graph.getEdges();
-    nodeItems.forEach((nodeItem) => {
+    nodeItems.forEach(nodeItem => {
       const model = nodeItem.getModel();
       nodes.push(model);
     });
-    edgeItems.forEach((edgeItem) => {
+    edgeItems.forEach(edgeItem => {
       const model = edgeItem.getModel();
       edges.push(model);
     });
@@ -401,13 +406,13 @@ export default class LayoutController {
       return;
     }
     const meanCenter = [0, 0];
-    nodes.forEach((node) => {
+    nodes.forEach(node => {
       meanCenter[0] += node.x;
       meanCenter[1] += node.y;
     });
     meanCenter[0] /= nodes.length;
     meanCenter[1] /= nodes.length;
-    nodes.forEach((node) => {
+    nodes.forEach(node => {
       node.x -= meanCenter[0];
       node.y -= meanCenter[1];
     });
@@ -416,20 +421,20 @@ export default class LayoutController {
   // 初始化节点到 center 附近
   public initPositions(center, nodes): boolean {
     const { graph } = this;
-    if (!nodes) {	
-      return false;	
-    }	
-    let allHavePos = true;	
-    nodes.forEach(node => {	
-      if (isNaN(node.x)) {	
-        allHavePos = false;	
-        node.x = (Math.random() - 0.5) * 0.9 * graph.get('width') + center[0];	
-      }	
-      if (isNaN(node.y)) {	
-        allHavePos = false;	
-        node.y = (Math.random() - 0.5) * 0.9 * graph.get('height') + center[1];	
-      }	
-    });	
+    if (!nodes) {
+      return false;
+    }
+    let allHavePos = true;
+    nodes.forEach(node => {
+      if (isNaN(node.x)) {
+        allHavePos = false;
+        node.x = (Math.random() - 0.5) * 0.9 * graph.get('width') + center[0];
+      }
+      if (isNaN(node.y)) {
+        allHavePos = false;
+        node.y = (Math.random() - 0.5) * 0.9 * graph.get('height') + center[1];
+      }
+    });
     return allHavePos;
   }
 
@@ -462,11 +467,11 @@ function updateLayoutPosition(data, layoutData) {
 function filterObject(collection, callback) {
   const result = {};
   if (collection && typeof collection === 'object') {
-    Object.keys(collection).forEach((key) => {
+    Object.keys(collection).forEach(key => {
       if (collection.hasOwnProperty(key) && callback(collection[key])) {
         result[key] = collection[key];
       }
-    })
+    });
 
     return result;
   }

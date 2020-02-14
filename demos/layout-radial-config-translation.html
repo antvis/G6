@@ -1,458 +1,465 @@
 <!DOCTYPE html>
 <html lang="en">
-  
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Radial Layout with Changing Configurations</title>
   </head>
-  
+
   <body>
     <div id="description">Radial 布局，中心点 = 0，单元半径 = 50，未防止重叠</div>
     <div id="mountNode"></div>
     <script src="../build/g6.js"></script>
     <script>
       const data = {
-        "nodes": [{
-          "id": "0",
-          "label": "0"
-        },
-        {
-          "id": "1",
-          "label": "1"
-        },
-        {
-          "id": "2",
-          "label": "2"
-        },
-        {
-          "id": "3",
-          "label": "3"
-        },
-        {
-          "id": "4",
-          "label": "4"
-        },
-        {
-          "id": "5",
-          "label": "5"
-        },
-        {
-          "id": "6",
-          "label": "6"
-        },
-        {
-          "id": "7",
-          "label": "7"
-        },
-        {
-          "id": "8",
-          "label": "8"
-        },
-        {
-          "id": "9",
-          "label": "9"
-        },
-        {
-          "id": "10",
-          "label": "10"
-        },
-        {
-          "id": "11",
-          "label": "11"
-        },
-        {
-          "id": "12",
-          "label": "12"
-        },
-        {
-          "id": "13",
-          "label": "13"
-        },
-        {
-          "id": "14",
-          "label": "14"
-        },
-        {
-          "id": "15",
-          "label": "15"
-        },
-        {
-          "id": "16",
-          "label": "16"
-        },
-        {
-          "id": "17",
-          "label": "17"
-        },
-        {
-          "id": "18",
-          "label": "18"
-        },
-        {
-          "id": "19",
-          "label": "19"
-        },
-        {
-          "id": "20",
-          "label": "20"
-        },
-        {
-          "id": "21",
-          "label": "21"
-        },
-        {
-          "id": "22",
-          "label": "22"
-        },
-        {
-          "id": "23",
-          "label": "23"
-        },
-        {
-          "id": "24",
-          "label": "24"
-        },
-        {
-          "id": "25",
-          "label": "25"
-        },
-        {
-          "id": "26",
-          "label": "26"
-        },
-        {
-          "id": "27",
-          "label": "27"
-        },
-        {
-          "id": "28",
-          "label": "28"
-        },
-        {
-          "id": "29",
-          "label": "29"
-        },
-        {
-          "id": "30",
-          "label": "30"
-        },
-        {
-          "id": "31",
-          "label": "31"
-        },
-        {
-          "id": "32",
-          "label": "32"
-        },
-        {
-          "id": "33",
-          "label": "33"
-        }],
-        "edges": [{
-          "source": "0",
-          "target": "1"
-        },
-        {
-          "source": "0",
-          "target": "2"
-        },
-        {
-          "source": "0",
-          "target": "3"
-        },
-        {
-          "source": "0",
-          "target": "4"
-        },
-        {
-          "source": "0",
-          "target": "5"
-        },
-        {
-          "source": "0",
-          "target": "7"
-        },
-        {
-          "source": "0",
-          "target": "8"
-        },
-        {
-          "source": "0",
-          "target": "9"
-        },
-        {
-          "source": "0",
-          "target": "10"
-        },
-        {
-          "source": "0",
-          "target": "11"
-        },
-        {
-          "source": "0",
-          "target": "13"
-        },
-        {
-          "source": "0",
-          "target": "14"
-        },
-        {
-          "source": "0",
-          "target": "15"
-        },
-        {
-          "source": "0",
-          "target": "16"
-        },
-        {
-          "source": "2",
-          "target": "3"
-        },
-        {
-          "source": "4",
-          "target": "5"
-        },
-        {
-          "source": "4",
-          "target": "6"
-        },
-        {
-          "source": "5",
-          "target": "6"
-        },
-        {
-          "source": "7",
-          "target": "13"
-        },
-        {
-          "source": "8",
-          "target": "14"
-        },
-        {
-          "source": "9",
-          "target": "10"
-        },
-        {
-          "source": "10",
-          "target": "22"
-        },
-        {
-          "source": "10",
-          "target": "14"
-        },
-        {
-          "source": "10",
-          "target": "12"
-        },
-        {
-          "source": "10",
-          "target": "24"
-        },
-        {
-          "source": "10",
-          "target": "21"
-        },
-        {
-          "source": "10",
-          "target": "20"
-        },
-        {
-          "source": "11",
-          "target": "24"
-        },
-        {
-          "source": "11",
-          "target": "22"
-        },
-        {
-          "source": "11",
-          "target": "14"
-        },
-        {
-          "source": "12",
-          "target": "13"
-        },
-        {
-          "source": "16",
-          "target": "17"
-        },
-        {
-          "source": "16",
-          "target": "18"
-        },
-        {
-          "source": "16",
-          "target": "21"
-        },
-        {
-          "source": "16",
-          "target": "22"
-        },
-        {
-          "source": "17",
-          "target": "18"
-        },
-        {
-          "source": "17",
-          "target": "20"
-        },
-        {
-          "source": "18",
-          "target": "19"
-        },
-        {
-          "source": "19",
-          "target": "20"
-        },
-        {
-          "source": "19",
-          "target": "33"
-        },
-        {
-          "source": "19",
-          "target": "22"
-        },
-        {
-          "source": "19",
-          "target": "23"
-        },
-        {
-          "source": "20",
-          "target": "21"
-        },
-        {
-          "source": "21",
-          "target": "22"
-        },
-        {
-          "source": "22",
-          "target": "24"
-        },
-        {
-          "source": "22",
-          "target": "25"
-        },
-        {
-          "source": "22",
-          "target": "26"
-        },
-        {
-          "source": "22",
-          "target": "23"
-        },
-        {
-          "source": "22",
-          "target": "28"
-        },
-        {
-          "source": "22",
-          "target": "30"
-        },
-        {
-          "source": "22",
-          "target": "31"
-        },
-        {
-          "source": "22",
-          "target": "32"
-        },
-        {
-          "source": "22",
-          "target": "33"
-        },
-        {
-          "source": "23",
-          "target": "28"
-        },
-        {
-          "source": "23",
-          "target": "27"
-        },
-        {
-          "source": "23",
-          "target": "29"
-        },
-        {
-          "source": "23",
-          "target": "30"
-        },
-        {
-          "source": "23",
-          "target": "31"
-        },
-        {
-          "source": "23",
-          "target": "33"
-        },
-        {
-          "source": "32",
-          "target": "33"
-        }]
+        nodes: [
+          {
+            id: '0',
+            label: '0',
+          },
+          {
+            id: '1',
+            label: '1',
+          },
+          {
+            id: '2',
+            label: '2',
+          },
+          {
+            id: '3',
+            label: '3',
+          },
+          {
+            id: '4',
+            label: '4',
+          },
+          {
+            id: '5',
+            label: '5',
+          },
+          {
+            id: '6',
+            label: '6',
+          },
+          {
+            id: '7',
+            label: '7',
+          },
+          {
+            id: '8',
+            label: '8',
+          },
+          {
+            id: '9',
+            label: '9',
+          },
+          {
+            id: '10',
+            label: '10',
+          },
+          {
+            id: '11',
+            label: '11',
+          },
+          {
+            id: '12',
+            label: '12',
+          },
+          {
+            id: '13',
+            label: '13',
+          },
+          {
+            id: '14',
+            label: '14',
+          },
+          {
+            id: '15',
+            label: '15',
+          },
+          {
+            id: '16',
+            label: '16',
+          },
+          {
+            id: '17',
+            label: '17',
+          },
+          {
+            id: '18',
+            label: '18',
+          },
+          {
+            id: '19',
+            label: '19',
+          },
+          {
+            id: '20',
+            label: '20',
+          },
+          {
+            id: '21',
+            label: '21',
+          },
+          {
+            id: '22',
+            label: '22',
+          },
+          {
+            id: '23',
+            label: '23',
+          },
+          {
+            id: '24',
+            label: '24',
+          },
+          {
+            id: '25',
+            label: '25',
+          },
+          {
+            id: '26',
+            label: '26',
+          },
+          {
+            id: '27',
+            label: '27',
+          },
+          {
+            id: '28',
+            label: '28',
+          },
+          {
+            id: '29',
+            label: '29',
+          },
+          {
+            id: '30',
+            label: '30',
+          },
+          {
+            id: '31',
+            label: '31',
+          },
+          {
+            id: '32',
+            label: '32',
+          },
+          {
+            id: '33',
+            label: '33',
+          },
+        ],
+        edges: [
+          {
+            source: '0',
+            target: '1',
+          },
+          {
+            source: '0',
+            target: '2',
+          },
+          {
+            source: '0',
+            target: '3',
+          },
+          {
+            source: '0',
+            target: '4',
+          },
+          {
+            source: '0',
+            target: '5',
+          },
+          {
+            source: '0',
+            target: '7',
+          },
+          {
+            source: '0',
+            target: '8',
+          },
+          {
+            source: '0',
+            target: '9',
+          },
+          {
+            source: '0',
+            target: '10',
+          },
+          {
+            source: '0',
+            target: '11',
+          },
+          {
+            source: '0',
+            target: '13',
+          },
+          {
+            source: '0',
+            target: '14',
+          },
+          {
+            source: '0',
+            target: '15',
+          },
+          {
+            source: '0',
+            target: '16',
+          },
+          {
+            source: '2',
+            target: '3',
+          },
+          {
+            source: '4',
+            target: '5',
+          },
+          {
+            source: '4',
+            target: '6',
+          },
+          {
+            source: '5',
+            target: '6',
+          },
+          {
+            source: '7',
+            target: '13',
+          },
+          {
+            source: '8',
+            target: '14',
+          },
+          {
+            source: '9',
+            target: '10',
+          },
+          {
+            source: '10',
+            target: '22',
+          },
+          {
+            source: '10',
+            target: '14',
+          },
+          {
+            source: '10',
+            target: '12',
+          },
+          {
+            source: '10',
+            target: '24',
+          },
+          {
+            source: '10',
+            target: '21',
+          },
+          {
+            source: '10',
+            target: '20',
+          },
+          {
+            source: '11',
+            target: '24',
+          },
+          {
+            source: '11',
+            target: '22',
+          },
+          {
+            source: '11',
+            target: '14',
+          },
+          {
+            source: '12',
+            target: '13',
+          },
+          {
+            source: '16',
+            target: '17',
+          },
+          {
+            source: '16',
+            target: '18',
+          },
+          {
+            source: '16',
+            target: '21',
+          },
+          {
+            source: '16',
+            target: '22',
+          },
+          {
+            source: '17',
+            target: '18',
+          },
+          {
+            source: '17',
+            target: '20',
+          },
+          {
+            source: '18',
+            target: '19',
+          },
+          {
+            source: '19',
+            target: '20',
+          },
+          {
+            source: '19',
+            target: '33',
+          },
+          {
+            source: '19',
+            target: '22',
+          },
+          {
+            source: '19',
+            target: '23',
+          },
+          {
+            source: '20',
+            target: '21',
+          },
+          {
+            source: '21',
+            target: '22',
+          },
+          {
+            source: '22',
+            target: '24',
+          },
+          {
+            source: '22',
+            target: '25',
+          },
+          {
+            source: '22',
+            target: '26',
+          },
+          {
+            source: '22',
+            target: '23',
+          },
+          {
+            source: '22',
+            target: '28',
+          },
+          {
+            source: '22',
+            target: '30',
+          },
+          {
+            source: '22',
+            target: '31',
+          },
+          {
+            source: '22',
+            target: '32',
+          },
+          {
+            source: '22',
+            target: '33',
+          },
+          {
+            source: '23',
+            target: '28',
+          },
+          {
+            source: '23',
+            target: '27',
+          },
+          {
+            source: '23',
+            target: '29',
+          },
+          {
+            source: '23',
+            target: '30',
+          },
+          {
+            source: '23',
+            target: '31',
+          },
+          {
+            source: '23',
+            target: '33',
+          },
+          {
+            source: '32',
+            target: '33',
+          },
+        ],
       };
 
       const data2 = {
-        "nodes": [{
-          "id": "0",
-          "label": "0",
-          "x": 100,
-          "y": 20
-        },
-        {
-          "id": "1",
-          "label": "1",
-          "x": 10,
-          "y": 210
-        },
-        {
-          "id": "2",
-          "label": "2",
-          "x": 150,
-          "y": 100
-        },
-        {
-          "id": "3",
-          "label": "3",
-          "x": 120,
-          "y": 100
-        },
-        {
-          "id": "4",
-          "label": "4",
-          "x": 50,
-          "y": 250
-        },
-        {
-          "id": "5",
-          "label": "5",
-          "x": 130,
-          "y": 50
-        }],
-        "edges": [{
-          "id": "e1",
-          "source": "0",
-          "target": "1"
-        },
-        {
-          "id": "e2",
-          "source": "0",
-          "target": "2"
-        },
-        {
-          "id": "e3",
-          "source": "0",
-          "target": "3"
-        },
-        {
-          "id": "e4",
-          "source": "0",
-          "target": "4"
-        },
-        {
-          "id": "e5",
-          "source": "0",
-          "target": "5"
-        }]
-      }
+        nodes: [
+          {
+            id: '0',
+            label: '0',
+            x: 100,
+            y: 20,
+          },
+          {
+            id: '1',
+            label: '1',
+            x: 10,
+            y: 210,
+          },
+          {
+            id: '2',
+            label: '2',
+            x: 150,
+            y: 100,
+          },
+          {
+            id: '3',
+            label: '3',
+            x: 120,
+            y: 100,
+          },
+          {
+            id: '4',
+            label: '4',
+            x: 50,
+            y: 250,
+          },
+          {
+            id: '5',
+            label: '5',
+            x: 130,
+            y: 50,
+          },
+        ],
+        edges: [
+          {
+            id: 'e1',
+            source: '0',
+            target: '1',
+          },
+          {
+            id: 'e2',
+            source: '0',
+            target: '2',
+          },
+          {
+            id: 'e3',
+            source: '0',
+            target: '3',
+          },
+          {
+            id: 'e4',
+            source: '0',
+            target: '4',
+          },
+          {
+            id: 'e5',
+            source: '0',
+            target: '5',
+          },
+        ],
+      };
 
       const graph = new G6.Graph({
         container: 'mountNode',
@@ -464,7 +471,7 @@
         layout: {
           type: 'radial',
           unitRadius: 50,
-          center: [500, 300]
+          center: [500, 300],
         },
         animate: true,
         defaultNode: {
@@ -472,8 +479,8 @@
           color: 'steelblue',
           style: {
             lineWidth: 2,
-            fill: '#fff'
-          }
+            fill: '#fff',
+          },
         },
         defaultEdge: {
           size: 1,
@@ -481,10 +488,10 @@
           style: {
             endArrow: {
               path: 'M 4,0 L -4,-4 L -4,4 Z',
-              d: 4
-            }
-          }
-        }
+              d: 4,
+            },
+          },
+        },
       });
       graph.data(data);
       graph.render();
@@ -493,44 +500,39 @@
 
       layoutConfigTranslation();
 
-      setInterval(() =>{
+      setInterval(() => {
         layoutConfigTranslation();
-      },
-      7000);
+      }, 7000);
 
       function layoutConfigTranslation() {
         setTimeout(() => {
           descriptionDiv.innerHTML = 'Radial 布局，中心点 = 0，单元半径 = 50，防止重叠';
           graph.updateLayout({
             preventOverlap: true,
-            nodeSize: 20
+            nodeSize: 20,
           });
-        },
-        1000);
+        }, 1000);
 
         setTimeout(() => {
           descriptionDiv.innerHTML = 'Radial 布局，中心点 = 0，单元半径 = 80，防止重叠';
           graph.updateLayout({
             unitRadius: 80,
           });
-        },
-        2500);
+        }, 2500);
 
         setTimeout(() => {
           descriptionDiv.innerHTML = 'Radial 布局，中心点 = 10，单元半径 = 80，防止重叠';
           graph.updateLayout({
             focusNode: '10',
           });
-        },
-        4000);
+        }, 4000);
 
         setTimeout(() => {
           descriptionDiv.innerHTML = 'Radial 布局，中心点 = 20，单元半径 = 80，防止重叠';
           graph.updateLayout({
             focusNode: '20',
           });
-        },
-        5500);
+        }, 5500);
 
         setTimeout(() => {
           descriptionDiv.innerHTML = 'Radial 布局，中心点 = 0，单元半径 = 50，未防止重叠';
@@ -539,8 +541,7 @@
             preventOverlap: false,
             unitRadius: 50,
           });
-        },
-        5500);
+        }, 5500);
       }
     </script>
   </body>

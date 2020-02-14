@@ -7,4 +7,4 @@ export const timerOut = (callback, time = 50) => {
   setTimeout(() => {
     callback();
   }, time);
-}
+};

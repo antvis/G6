@@ -1,6 +1,6 @@
-import G6 from '../../../src'
-import { data } from './data'
-import { GraphData } from '../../../src/types'
+import G6 from '../../../src';
+import { data } from './data';
+import { GraphData } from '../../../src/types';
 
 const div = document.createElement('div');
 div.id = 'force-layout';
@@ -12,9 +12,9 @@ describe('edge bundling', () => {
     width: 500,
     height: 500,
     layout: {
-      type: 'circular'
+      type: 'circular',
     },
-    defaultNode: { size: 10 }
+    defaultNode: { size: 10 },
   });
 
   graph.data(data);
@@ -24,12 +24,12 @@ describe('edge bundling', () => {
     const bundle = new G6.Bundling();
     bundle.initPlugin(graph);
 
-    const graphData = graph.save()
+    const graphData = graph.save();
     bundle.bundling(graphData);
 
     expect(graphData.edges[0].type).toEqual('polyline');
     expect(graphData.edges[0].controlPoints.length > 2).toEqual(true);
-    bundle.destroy()
+    bundle.destroy();
   });
 
   it('bundling on circular with fixed bundleThreshold and iterations', () => {
@@ -39,22 +39,18 @@ describe('edge bundling', () => {
     });
     bundle.initPlugin(graph);
 
-    const graphData = graph.save()
+    const graphData = graph.save();
     bundle.bundling(graphData);
 
     expect(graphData.edges[0].type).toEqual('polyline');
     expect(graphData.edges[0].controlPoints.length > 2).toEqual(true);
-    bundle.destroy()
+    bundle.destroy();
   });
 
   it('bundling update', () => {
     const data2: GraphData = {
-      nodes: [
-        { id: 'n0' }, { id: 'n1' }
-      ],
-      edges: [
-        { source: 'n0', target: 'n1' }
-      ]
+      nodes: [{ id: 'n0' }, { id: 'n1' }],
+      edges: [{ source: 'n0', target: 'n1' }],
     };
     graph.changeData(data2);
 
@@ -63,24 +59,26 @@ describe('edge bundling', () => {
     bundle.bundling(data2);
 
     data2.nodes = [
-      { id: 'n0', x: 10, y: 100 }, { id: 'n1', x: 100, y: 100 }, { id: 'n2', x: 10, y: 10 }
+      { id: 'n0', x: 10, y: 100 },
+      { id: 'n1', x: 100, y: 100 },
+      { id: 'n2', x: 10, y: 10 },
     ];
 
     data2.edges = [
       { source: 'n0', target: 'n1' },
       { source: 'n1', target: 'n2' },
-      { source: 'n0', target: 'n2' }
+      { source: 'n0', target: 'n2' },
     ];
 
     bundle.updateBundling({
       bundleThreshold: 0.1,
       iterations: 120,
-      data: data2
+      data: data2,
     });
 
     expect(data2.edges[0].type).toEqual('polyline');
     expect(data2.edges[0].controlPoints.length > 2).toEqual(true);
-    bundle.destroy()
+    bundle.destroy();
   });
 
   it('bundling no position info, throw error', () => {
@@ -88,19 +86,15 @@ describe('edge bundling', () => {
     bundle.initPlugin(graph);
 
     const data2: GraphData = {
-      nodes: [
-        { id: 'n0' }, { id: 'n1' }
-      ],
-      edges: [
-        { source: 'n0', target: 'n1' }
-      ]
+      nodes: [{ id: 'n0' }, { id: 'n1' }],
+      edges: [{ source: 'n0', target: 'n1' }],
     };
 
     function fn() {
       bundle.bundling(data2);
     }
     expect(fn).toThrowError('please layout the graph or assign x and y for nodes first');
-    bundle.destroy()
+    bundle.destroy();
     graph.destroy();
   });
 });

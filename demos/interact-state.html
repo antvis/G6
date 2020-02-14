@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-  
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Set States</title>
     <style>
       .g6-tooltip {
@@ -16,7 +15,7 @@
       }
     </style>
   </head>
-  
+
   <body>
     <div id="mountNode"></div>
     <script src="../build/g6.js"></script>
@@ -25,33 +24,41 @@
     <script src="./assets/jquery-3.2.1.min.js"></script>
     <script>
       const minimap = new Minimap({
-        size: [ 200, 160 ]
+        size: [200, 160],
       });
       const graph = new G6.Graph({
         container: 'mountNode',
         width: 1000,
         height: 800,
         autoPaint: false,
-        plugins: [ minimap ],
+        plugins: [minimap],
         modes: {
-          default: ['drag-canvas', {
-            type: 'tooltip',
-            formatText: model => {
-              return model.name
-            }
-          },
-          {
-            type: 'edge-tooltip',
-            formatText: (model, e) => {
-              const edge = e.item;
-              return '来源：' + edge.getSource().getModel().name + '<br/>去向：' + edge.getTarget().getModel().name;
-            }
-          },
-          {
-            type: 'activate-relations',
-            activeState: 'highlight',
-            inactiveState: 'dark'
-          }]
+          default: [
+            'drag-canvas',
+            {
+              type: 'tooltip',
+              formatText: model => {
+                return model.name;
+              },
+            },
+            {
+              type: 'edge-tooltip',
+              formatText: (model, e) => {
+                const edge = e.item;
+                return (
+                  '来源：' +
+                  edge.getSource().getModel().name +
+                  '<br/>去向：' +
+                  edge.getTarget().getModel().name
+                );
+              },
+            },
+            {
+              type: 'activate-relations',
+              activeState: 'highlight',
+              inactiveState: 'dark',
+            },
+          ],
         },
         defaultNode: {
           size: [10, 10],
@@ -59,44 +66,53 @@
           style: {
             lineWidth: 2,
             fill: '#fff',
-            opacity: 0.8
-          }
+            opacity: 0.8,
+          },
         },
         defaultEdge: {
           size: 1,
           style: {
             stroke: '#e2e2e2',
-            lineAppendWidth: 2
-          }
+            lineAppendWidth: 2,
+          },
         },
         nodeStateStyle: {
           highlight: {
-            opacity: 1
+            opacity: 1,
           },
           dark: {
-            opacity: 0.2
-          }
+            opacity: 0.2,
+          },
         },
         edgeStateStyles: {
           highlight: {
-            stroke: '#999'
-          }
-        }
+            stroke: '#999',
+          },
+        },
       });
       $.getJSON('./assets/data/xiaomi.json', data => {
         graph.data({
           nodes: data.nodes,
           edges: data.edges.map((edge, i) => {
             edge.id = 'edge' + i;
-            return Object.assign({},
-            edge);
-          })
+            return Object.assign({}, edge);
+          }),
         });
-        const simulation = d3.forceSimulation().force("link", d3.forceLink().id(function(d) {
-          return d.id;
-        }).strength(0.5)).force("charge", d3.forceManyBody()).force("center", d3.forceCenter(500, 300));
-        simulation.nodes(data.nodes).on("tick", ticked);
-        simulation.force("link").links(data.edges);
+        const simulation = d3
+          .forceSimulation()
+          .force(
+            'link',
+            d3
+              .forceLink()
+              .id(function(d) {
+                return d.id;
+              })
+              .strength(0.5),
+          )
+          .force('charge', d3.forceManyBody())
+          .force('center', d3.forceCenter(500, 300));
+        simulation.nodes(data.nodes).on('tick', ticked);
+        simulation.force('link').links(data.edges);
 
         graph.render();
 
@@ -107,5 +123,4 @@
       });
     </script>
   </body>
-
 </html>

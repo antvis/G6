@@ -1,6 +1,6 @@
-import Graph from '../../../../src/graph/graph'
-import '../../../../src/shape/node'
-import '../../../../src/shape/nodes'
+import Graph from '../../../../src/graph/graph';
+import '../../../../src/shape/node';
+import '../../../../src/shape/nodes';
 
 const div = document.createElement('div');
 div.id = 'graph-spec';
@@ -13,8 +13,8 @@ describe('circle test', () => {
       width: 500,
       height: 500,
       defaultNode: {
-        type: 'circle'
-      }
+        type: 'circle',
+      },
     };
     const graph = new Graph(cfg);
     it('default circle config', () => {
@@ -23,9 +23,9 @@ describe('circle test', () => {
           {
             id: 'node',
             x: 100,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -46,9 +46,9 @@ describe('circle test', () => {
             id: 'node',
             label: 'circle',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -82,12 +82,12 @@ describe('circle test', () => {
           size: 50,
           style: {
             fill: 'red',
-            stroke: '#ccc'
+            stroke: '#ccc',
           },
           icon: {
-            show: true
-          }
-        }
+            show: true,
+          },
+        },
       });
       const data = {
         nodes: [
@@ -95,9 +95,9 @@ describe('circle test', () => {
             id: 'node',
             label: 'circle',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -116,7 +116,9 @@ describe('circle test', () => {
         return g.get('className') === 'circle-icon';
       });
       expect(icon).not.toBe(undefined);
-      expect(icon.attr('img')).toEqual('https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg');
+      expect(icon.attr('img')).toEqual(
+        'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+      );
       expect(icon.attr('width')).toEqual(16);
       expect(icon.attr('height')).toEqual(16);
 
@@ -133,16 +135,16 @@ describe('circle test', () => {
           type: 'circle',
           size: 35,
           style: {
-            fill: 'blue'
+            fill: 'blue',
           },
           linkPoints: {
             top: true,
             bottom: true,
             left: true,
             fill: '#fff',
-            size: 5
-          }
-        }
+            size: 5,
+          },
+        },
       };
       const graph = new Graph(cfg);
       const data = {
@@ -151,9 +153,9 @@ describe('circle test', () => {
             id: 'node',
             label: 'circle',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -210,12 +212,12 @@ describe('circle test', () => {
           style: {
             fill: 'red',
             stroke: '#ccc',
-            lineWidth: 5
+            lineWidth: 5,
           },
           icon: {
-            show: true
-          }
-        }
+            show: true,
+          },
+        },
       });
       const data = {
         nodes: [
@@ -223,9 +225,9 @@ describe('circle test', () => {
             id: 'node',
             label: 'circle',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -236,9 +238,9 @@ describe('circle test', () => {
         size: 30,
         color: 'black',
         style: {
-          fill: 'steelblue'
-        }
-      })
+          fill: 'steelblue',
+        },
+      });
       const group = node.get('group');
       expect(group.getCount()).toEqual(3);
       const keyShape = node.getKeyShape();
@@ -250,7 +252,6 @@ describe('circle test', () => {
       expect(graph.destroyed).toBe(true);
     });
     it('update icon', () => {
-
       const graph = new Graph({
         container: div,
         width: 500,
@@ -262,24 +263,25 @@ describe('circle test', () => {
             id: 'node',
             label: 'circle',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
 
       const nodes = graph.getNodes();
       const node = nodes[0];
-      const newImg = 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mt47RKxGy8kAAAAAAAAAAABkARQnAQ';
+      const newImg =
+        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mt47RKxGy8kAAAAAAAAAAABkARQnAQ';
       node.update({
         icon: {
           show: true,
           img: newImg,
           width: 50,
-          height: 50
-        }
-      })
+          height: 50,
+        },
+      });
       let group = node.get('group');
       expect(group.getCount()).toEqual(3);
       const icon = group.find(g => {
@@ -289,22 +291,22 @@ describe('circle test', () => {
       expect(icon.attr('x')).toEqual(-25);
       expect(icon.attr('y')).toEqual(-25);
       expect(icon.attr('img')).toEqual(newImg);
-      
+
       node.update({
         icon: {
           width: 80,
-        }
-      })
+        },
+      });
       group = node.get('group');
       expect(group.getCount()).toEqual(3);
       expect(icon.attr('width')).toEqual(80);
       expect(icon.attr('x')).toEqual(-40);
-      
+
       node.update({
         icon: {
-          show: false
-        }
-      })
+          show: false,
+        },
+      });
       group = node.get('group');
       expect(group.getCount()).toEqual(2);
       graph.destroy();
@@ -314,7 +316,7 @@ describe('circle test', () => {
       const graph = new Graph({
         container: div,
         width: 500,
-        height: 500
+        height: 500,
       });
       const data = {
         nodes: [
@@ -322,9 +324,9 @@ describe('circle test', () => {
             id: 'node',
             label: 'old circle label',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -336,10 +338,10 @@ describe('circle test', () => {
         label: 'new circle label',
         labelCfg: {
           style: {
-            fill: '#ff0'
-          }
-        }
-      })
+            fill: '#ff0',
+          },
+        },
+      });
 
       const label = group.find(g => {
         return g.get('className') === 'node-label';
@@ -354,9 +356,9 @@ describe('circle test', () => {
           position: 'center',
           style: {
             stroke: 'black',
-            lineWidth: 3
-          }
-        }
+            lineWidth: 3,
+          },
+        },
       });
       expect(label.attr('text')).toEqual('new circle label');
       expect(label.attr('fill')).toEqual('#ff0');
@@ -370,16 +372,16 @@ describe('circle test', () => {
       const graph = new Graph({
         container: div,
         width: 500,
-        height: 500
+        height: 500,
       });
       const data = {
         nodes: [
           {
             id: 'node',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -391,10 +393,10 @@ describe('circle test', () => {
         label: 'new circle label',
         labelCfg: {
           style: {
-            fill: '#ff0'
-          }
-        }
-      })
+            fill: '#ff0',
+          },
+        },
+      });
 
       const label = group.find(g => {
         return g.get('className') === 'node-label';
@@ -412,17 +414,17 @@ describe('circle test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          size: 50
-        }
+          size: 50,
+        },
       });
       const data = {
         nodes: [
           {
             id: 'node',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -435,8 +437,8 @@ describe('circle test', () => {
             position: 'bottom',
             offset: 10,
             style: {
-              fill: '#333'
-            }
+              fill: '#333',
+            },
           },
           linkPoints: {
             top: true,
@@ -444,12 +446,12 @@ describe('circle test', () => {
             left: true,
             right: true,
             fill: '#fff',
-            size: 5
+            size: 5,
           },
           icon: {
-            show: true
-          }
-        })
+            show: true,
+          },
+        });
       });
 
       graph.on('node:mouseleave', e => {
@@ -458,8 +460,8 @@ describe('circle test', () => {
           label: ' ',
           labelCfg: {
             style: {
-              fill: '#333'
-            }
+              fill: '#333',
+            },
           },
           linkPoints: {
             top: false,
@@ -467,14 +469,13 @@ describe('circle test', () => {
             left: false,
             right: false,
             fill: '#fff',
-            size: 5
+            size: 5,
           },
           icon: {
-            show: false
-          }
-        })
+            show: false,
+          },
+        });
       });
-
     });
 
     it('update label, linkPoints, icon from none', () => {
@@ -494,9 +495,9 @@ describe('circle test', () => {
             label: 'modelRect',
             description: 'description',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -506,13 +507,13 @@ describe('circle test', () => {
         item.update({
           descriptionCfg: {
             style: {
-              fill: 'steelblue'
-            }
+              fill: 'steelblue',
+            },
           },
           stateIcon: {
-            show: true
-          }
-        })
+            show: true,
+          },
+        });
       });
 
       graph.on('node:mouseleave', e => {
@@ -520,15 +521,14 @@ describe('circle test', () => {
         item.update({
           descriptionCfg: {
             style: {
-              fill: '#bfbfbf'
-            }
+              fill: '#bfbfbf',
+            },
           },
           stateIcon: {
-            show: false
-          }
-        })
+            show: false,
+          },
+        });
       });
-
     });
   });
 });

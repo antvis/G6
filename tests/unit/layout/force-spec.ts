@@ -7,13 +7,12 @@ div.id = 'force-layout';
 document.body.appendChild(div);
 
 describe('force layout', () => {
-
-  it('force layout with default configs, test emit afterlayout', (done) => {
+  it('force layout with default configs, test emit afterlayout', done => {
     const node = data.nodes[0];
     const graph = new G6.Graph({
       container: div,
       layout: {
-        type: 'force'
+        type: 'force',
       },
       width: 500,
       height: 500,
@@ -29,13 +28,13 @@ describe('force layout', () => {
     });
   });
 
-  it('force layout with tick and onLayoutEnd', (done) => {
+  it('force layout with tick and onLayoutEnd', done => {
     const node = data.nodes[0];
     const edge = data.edges[0];
     let x: number;
     let y: number;
     let count = 0;
-    let isEnd =false;
+    let isEnd = false;
     const graph = new G6.Graph({
       container: div,
       layout: {
@@ -71,7 +70,7 @@ describe('force layout', () => {
     });
   });
 
-  it('force with fixed edgeStrength, nodeStrength, preventOverlap', (done) => {
+  it('force with fixed edgeStrength, nodeStrength, preventOverlap', done => {
     const node = data.nodes[0];
     const edge = data.edges[0];
     let x: number;
@@ -119,7 +118,7 @@ describe('force layout', () => {
     });
   });
 
-  it('preventOverlap with number nodeSpacing', (done) => {
+  it('preventOverlap with number nodeSpacing', done => {
     let isEnd = false;
     const nodeSpacing = 10;
     const nodeSize = 10;
@@ -145,14 +144,16 @@ describe('force layout', () => {
       expect(isEnd === true).toEqual(true);
       const node0 = data.nodes[0];
       const node1 = data.nodes[1];
-      const dist = Math.sqrt((node0.x - node1.x) * (node0.x - node1.x) + (node0.y - node1.y) * (node0.y - node1.y));
-      expect(dist >= (nodeSize / 2 + nodeSpacing)).toEqual(true)
+      const dist = Math.sqrt(
+        (node0.x - node1.x) * (node0.x - node1.x) + (node0.y - node1.y) * (node0.y - node1.y),
+      );
+      expect(dist >= nodeSize / 2 + nodeSpacing).toEqual(true);
       graph.destroy();
       done();
     });
   });
 
-  it('preventOverlap with function nodeSpacing and array node size', (done) => {
+  it('preventOverlap with function nodeSpacing and array node size', done => {
     let isEnd = false;
     const nodeSpacing = d => {
       return d.size[0] / 2;
@@ -169,14 +170,14 @@ describe('force layout', () => {
         },
       },
       width: 500,
-      height: 500
+      height: 500,
     });
     data.nodes.forEach(node => {
       const randomWidth = 10 + Math.random() * 20;
       const randomHeight = 5 + Math.random() * 5;
       node.size = [randomWidth, randomHeight];
       node.type = 'rect';
-    })
+    });
     graph.data(data);
     graph.render();
 
@@ -184,15 +185,19 @@ describe('force layout', () => {
       expect(isEnd === true).toEqual(true);
       const node0 = data.nodes[0];
       const node1 = data.nodes[1];
-      const dist = Math.sqrt((node0.x - node1.x) * (node0.x - node1.x) + (node0.y - node1.y) * (node0.y - node1.y));
-      const mindist = node0.size[0] / 2 + node1.size[1] / 2 + nodeSpacing(node0) + nodeSpacing(node1);
-      expect(dist >= mindist).toEqual(true)
+      const dist = Math.sqrt(
+        (node0.x - node1.x) * (node0.x - node1.x) + (node0.y - node1.y) * (node0.y - node1.y),
+      );
+      const mindist =
+        node0.size[0] / 2 + node1.size[1] / 2 + nodeSpacing(node0) + nodeSpacing(node1);
+      expect(dist >= mindist).toEqual(true);
       graph.destroy();
       done();
     });
   });
 
-  it('preventOverlap with function nodeSpacing and function nodeSize', (done) => {//
+  it('preventOverlap with function nodeSpacing and function nodeSize', done => {
+    //
     let isEnd = false;
     const nodeSpacing = d => {
       return d.dsize[0] / 3;
@@ -211,18 +216,18 @@ describe('force layout', () => {
         alphaDecay: 0.3,
         onLayoutEnd() {
           isEnd = true;
-        }
+        },
       },
       defaultNode: {
-        size: [30, 15]
+        size: [30, 15],
       },
       width: 500,
-      height: 500
+      height: 500,
     });
     data.nodes.forEach(node => {
       node.dsize = [30, 15];
       node.type = 'rect';
-    })
+    });
     graph.data(data);
     graph.render();
 
@@ -230,15 +235,18 @@ describe('force layout', () => {
       expect(isEnd === true).toEqual(true);
       const node0 = data.nodes[0];
       const node1 = data.nodes[1];
-      const dist = Math.sqrt((node0.x - node1.x) * (node0.x - node1.x) + (node0.y - node1.y) * (node0.y - node1.y));
-      const mindist = node0.dsize[0] / 2 + node1.dsize[1] / 2 + nodeSpacing(node0) + nodeSpacing(node1);
-      expect(dist >= mindist).toEqual(true)
+      const dist = Math.sqrt(
+        (node0.x - node1.x) * (node0.x - node1.x) + (node0.y - node1.y) * (node0.y - node1.y),
+      );
+      const mindist =
+        node0.dsize[0] / 2 + node1.dsize[1] / 2 + nodeSpacing(node0) + nodeSpacing(node1);
+      expect(dist >= mindist).toEqual(true);
       graph.destroy();
       done();
     });
   });
 
-  it('preventOverlap with function nodeSpacing and array nodeSize', (done) => {
+  it('preventOverlap with function nodeSpacing and array nodeSize', done => {
     let isEnd = false;
     const nodeSize = [30, 18];
 
@@ -251,13 +259,13 @@ describe('force layout', () => {
         alphaDecay: 0.3,
         onLayoutEnd() {
           isEnd = true;
-        }
+        },
       },
       defaultNode: {
-        size: nodeSize
+        size: nodeSize,
       },
       width: 500,
-      height: 500
+      height: 500,
     });
     graph.data(data);
     graph.render();
@@ -266,15 +274,17 @@ describe('force layout', () => {
       expect(isEnd === true).toEqual(true);
       const node0 = data.nodes[0];
       const node1 = data.nodes[1];
-      const dist = Math.sqrt((node0.x - node1.x) * (node0.x - node1.x) + (node0.y - node1.y) * (node0.y - node1.y));
+      const dist = Math.sqrt(
+        (node0.x - node1.x) * (node0.x - node1.x) + (node0.y - node1.y) * (node0.y - node1.y),
+      );
       const mindist = nodeSize[0];
-      expect(dist >= mindist).toEqual(true)
+      expect(dist >= mindist).toEqual(true);
       graph.destroy();
       done();
     });
   });
 
-  it('preventOverlap with function nodeSpacing and number nodeSize', (done) => {
+  it('preventOverlap with function nodeSpacing and number nodeSize', done => {
     let isEnd = false;
     const nodeSize = 30;
 
@@ -286,13 +296,13 @@ describe('force layout', () => {
         nodeSize,
         onLayoutEnd() {
           isEnd = true;
-        }
+        },
       },
       defaultNode: {
-        size: nodeSize
+        size: nodeSize,
       },
       width: 500,
-      height: 500
+      height: 500,
     });
     graph.data(data);
     graph.render();
@@ -301,22 +311,24 @@ describe('force layout', () => {
       expect(isEnd === true).toEqual(true);
       const node0 = data.nodes[0];
       const node1 = data.nodes[1];
-      const dist = Math.sqrt((node0.x - node1.x) * (node0.x - node1.x) + (node0.y - node1.y) * (node0.y - node1.y));
+      const dist = Math.sqrt(
+        (node0.x - node1.x) * (node0.x - node1.x) + (node0.y - node1.y) * (node0.y - node1.y),
+      );
       const mindist = nodeSize;
-      expect(dist >= mindist).toEqual(true)
+      expect(dist >= mindist).toEqual(true);
       graph.destroy();
       done();
     });
   });
 
-  it('force re-execute, isTicking', (done) => {
+  it('force re-execute, isTicking', done => {
     const graph = new G6.Graph({
       container: div,
       layout: {
-        type: 'force'
+        type: 'force',
       },
       width: 500,
-      height: 500
+      height: 500,
     });
     graph.data(data);
     graph.render();
@@ -335,14 +347,14 @@ describe('force layout', () => {
 });
 
 describe('update and simulation', () => {
-  it('force update layout', (done) => {
+  it('force update layout', done => {
     const graph = new G6.Graph({
       container: div,
       layout: {
-        type: 'force'
+        type: 'force',
       },
       width: 500,
-      height: 500
+      height: 500,
     });
     graph.data(data);
     graph.render();
@@ -354,7 +366,7 @@ describe('update and simulation', () => {
       graph.updateLayout({
         linkDistance: 100,
         preventOverlap: true,
-        alphaDecay: 0.8
+        alphaDecay: 0.8,
       });
       expect(forceLayout.linkDistance).toEqual(100);
       expect(forceLayout.preventOverlap).toEqual(true);
@@ -363,7 +375,7 @@ describe('update and simulation', () => {
       done();
     }, 300);
   });
-  it('assign simualtion', (done) => {
+  it('assign simualtion', done => {
     const center = [300, 300];
     const nodeForce = d3Force.forceManyBody();
     const forceSimulation = d3Force
@@ -375,23 +387,23 @@ describe('update and simulation', () => {
       .alphaDecay(0.028)
       .alphaMin(0.1);
     const graph = new G6.Graph({
-        container: div,
-        layout: {
-          type: 'force',
-          forceSimulation,
-          preventOverlap: true
-        },
-        width: 500,
-        height: 500
-      });
-      graph.data(data);
-      graph.render();
-      setTimeout(() => {
-        const node0 = data.nodes[0];
-        expect(node0.x).not.toEqual(NaN);
-        expect(node0.y).not.toEqual(NaN);
-        graph.destroy();
-        done();
-      }, 300);
+      container: div,
+      layout: {
+        type: 'force',
+        forceSimulation,
+        preventOverlap: true,
+      },
+      width: 500,
+      height: 500,
+    });
+    graph.data(data);
+    graph.render();
+    setTimeout(() => {
+      const node0 = data.nodes[0];
+      expect(node0.x).not.toEqual(NaN);
+      expect(node0.y).not.toEqual(NaN);
+      graph.destroy();
+      done();
+    }, 300);
   });
 });

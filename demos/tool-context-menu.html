@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>右键菜单</title>
     <style>
       #contextMenu {
@@ -10,142 +10,144 @@
         padding: 10px 5px;
         left: -100px;
         background: #ccc;
-        
       }
 
       #contextMenu li {
         cursor: pointer;
       }
     </style>
-</head>
-<body>
-  <div id="tip">试一试右击节点</div>
-  <div id="mountNode"></div>
-<script src="../build/g6.js"></script>
-<script src="../build/grid.js"></script>
-<script>
-  const grid = new Grid()
-  const graph = new G6.Graph({
-    container: 'mountNode',
-    width: 800,
-    height: 600,
-    // plugins: [grid],
-    defaultNode: {
-      size: [40, 40]
-    },
-    modes: {
-      default: [ 'brush-select', 'drag-canvas', 'zoom-canvas' ]
-    }
-  });
-
-  G6.registerEdge('self-line', {
-    autoRotate: true,
-    drawLabel(cfg, group) {
-      const labelCfg = cfg.labelCfg || {}
-      const labelStyle = this.getLabelStyle(cfg, labelCfg, group)
-
-      const text = group.addShape('text', {
-        attrs: {
-          ...labelStyle,
-          text: cfg.label,
-          fontSize: 12,
-          fill: '#404040',
-          stroke: 'white',
-            lineWidth: 5
+  </head>
+  <body>
+    <div id="tip">试一试右击节点</div>
+    <div id="mountNode"></div>
+    <script src="../build/g6.js"></script>
+    <script src="../build/grid.js"></script>
+    <script>
+      const grid = new Grid();
+      const graph = new G6.Graph({
+        container: 'mountNode',
+        width: 800,
+        height: 600,
+        // plugins: [grid],
+        defaultNode: {
+          size: [40, 40],
         },
-        className: 'edge-label',
-      })
+        modes: {
+          default: ['brush-select', 'drag-canvas', 'zoom-canvas'],
+        },
+      });
 
-      return text
-    }
-  }, 'line')
-
-  const data = {
-    nodes: [
-      {
-        id: 'node1',
-        label: 'node1',
-        x: 500,
-        y: 200,
-        shape: 'rect'
-      },
-      {
-        id: 'node2',
-        label: 'node2',
-        x: 300,
-        y: 400,
-        shape: 'rect'
-      },
-      {
-        id: 'node3',
-        label: 'node3',
-        x: 200,
-        y: 300,
-        shape: 'rect'
-      }
-    ],
-    edges: [
-      {
-        source: 'node1',
-        target: 'node2',
-        shape: 'self-line',
-        label: '测试文本'
-      },
-      {
-        source: 'node1',
-        target: 'node3',
-        shape: 'self-line',
-        label: '测试文本2',
-        labelCfg: {
+      G6.registerEdge(
+        'self-line',
+        {
           autoRotate: true,
+          drawLabel(cfg, group) {
+            const labelCfg = cfg.labelCfg || {};
+            const labelStyle = this.getLabelStyle(cfg, labelCfg, group);
+
+            const text = group.addShape('text', {
+              attrs: {
+                ...labelStyle,
+                text: cfg.label,
+                fontSize: 12,
+                fill: '#404040',
+                stroke: 'white',
+                lineWidth: 5,
+              },
+              className: 'edge-label',
+            });
+
+            return text;
+          },
+        },
+        'line',
+      );
+
+      const data = {
+        nodes: [
+          {
+            id: 'node1',
+            label: 'node1',
+            x: 500,
+            y: 200,
+            shape: 'rect',
+          },
+          {
+            id: 'node2',
+            label: 'node2',
+            x: 300,
+            y: 400,
+            shape: 'rect',
+          },
+          {
+            id: 'node3',
+            label: 'node3',
+            x: 200,
+            y: 300,
+            shape: 'rect',
+          },
+        ],
+        edges: [
+          {
+            source: 'node1',
+            target: 'node2',
+            shape: 'self-line',
+            label: '测试文本',
+          },
+          {
+            source: 'node1',
+            target: 'node3',
+            shape: 'self-line',
+            label: '测试文本2',
+            labelCfg: {
+              autoRotate: true,
+              style: {
+                stroke: 'white',
+                lineWidth: 5,
+              },
+            },
+          },
+        ],
+      };
+
+      graph.data(data);
+      graph.render();
+
+      graph.on('edge:click', evt => {
+        console.log(evt);
+        const { item } = evt;
+        graph.updateItem(item, {
           style: {
-            stroke: 'white',
-            lineWidth: 5
-          }
-        }
-      }
-    ]
-  }
+            lineWidth: 3,
+            stroke: 'red',
+          },
+        });
+      });
 
-  graph.data(data)
-  graph.render()
+      // 创建ul
+      const conextMenuContainer = document.createElement('ul');
+      conextMenuContainer.id = 'contextMenu';
 
-  graph.on('edge:click', evt => {
-    console.log(evt)
-    const { item } = evt
-    graph.updateItem(item, {
-      style: {
-        lineWidth: 3,
-        stroke: 'red'
-      }
-    })
-  })
+      // 创建li
+      const firstLi = document.createElement('li');
+      firstLi.innerText = '菜单项1';
+      conextMenuContainer.appendChild(firstLi);
 
-  // 创建ul
-  const conextMenuContainer = document.createElement('ul')
-  conextMenuContainer.id = 'contextMenu';
+      const lastLi = document.createElement('li');
+      lastLi.innerText = '菜单项2';
+      conextMenuContainer.appendChild(lastLi);
+      document.body.appendChild(conextMenuContainer);
 
-  // 创建li
-  const firstLi = document.createElement('li')
-  firstLi.innerText = '菜单项1'
-  conextMenuContainer.appendChild(firstLi)
+      const menu = document.getElementById('contextMenu');
+      graph.on('node:contextmenu', evt => {
+        console.log(evt);
+        menu.style.left = evt.clientX + 'px';
+        menu.style.top = evt.clientY + 'px';
+      });
 
-  const lastLi = document.createElement('li')
-  lastLi.innerText = '菜单项2'
-  conextMenuContainer.appendChild(lastLi)
-  document.body.appendChild(conextMenuContainer);
-
-  const menu = document.getElementById('contextMenu')
-  graph.on('node:contextmenu', evt => {
-    console.log(evt);
-    menu.style.left = evt.clientX + 'px'
-    menu.style.top = evt.clientY + 'px'
-  })
-
-  graph.on('node:mouseleave', evt => {
-    menu.style.left = '-100px'
-  }) 
-  
-</script>
-</body>
+      graph.on('node:mouseleave', evt => {
+        menu.style.left = '-100px';
+      });
+    </script>
+  </body>
 </html>

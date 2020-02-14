@@ -3,23 +3,25 @@ import { G6Event, IG6GraphEvent } from '../types';
 export default {
   getDefaultCfg(): object {
     return {
-      trigger: 'mouseenter',         // 可选 mouseenter || click
+      trigger: 'mouseenter', // 可选 mouseenter || click
       activeState: 'active',
       inactiveState: 'inactive',
       resetSelected: false,
-      shouldUpdate() { return true; }
+      shouldUpdate() {
+        return true;
+      },
     };
   },
   getEvents(): { [key in G6Event]?: string } {
     if ((this as any).get('trigger') === 'mouseenter') {
       return {
         'node:mouseenter': 'setAllItemStates',
-        'node:mouseleave': 'clearAllItemStates'
+        'node:mouseleave': 'clearAllItemStates',
       };
     }
     return {
       'node:click': 'setAllItemStates',
-      'canvas:click': 'clearAllItemStates'
+      'canvas:click': 'clearAllItemStates',
     };
   },
   setAllItemStates(e: IG6GraphEvent) {
@@ -82,7 +84,7 @@ export default {
     graph.emit('afteractivaterelations', { item: e.item, action: 'activate' });
   },
   clearAllItemStates(e: any) {
-    const self = this
+    const self = this;
     const graph = self.get('graph');
     if (!self.shouldUpdate(e.item, { event: e, action: 'deactivate' })) {
       return;
@@ -102,6 +104,9 @@ export default {
     });
     graph.paint();
     graph.setAutoPaint(autoPaint);
-    graph.emit('afteractivaterelations', { item: e.item || self.get('item'), action: 'deactivate' });
-  }
+    graph.emit('afteractivaterelations', {
+      item: e.item || self.get('item'),
+      action: 'deactivate',
+    });
+  },
 };
