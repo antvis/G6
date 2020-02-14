@@ -1,99 +1,106 @@
-import React, { useEffect } from 'react'
-import G6 from '../../../src'
-import { IGraph } from '../../../src/interface/graph'
+import React, { useEffect } from 'react';
+import G6 from '../../../src';
+import { IGraph } from '../../../src/interface/graph';
 
-let graph: IGraph = null
+let graph: IGraph = null;
 
-G6.registerNode('file-node', {
-
-  draw(cfg, group) {
-    const keyShape = group.addShape('rect', {
-      attrs: {
-        x: cfg.x - 4,
-        y: cfg.y - 14,
-        fill: '#fff',
-        stroke: '#666'
-      },
-      className: 'node-rect'
-    });
-
-    if (cfg.children && cfg.children.length > 0) {
-      group.addShape('marker', {
+G6.registerNode(
+  'file-node',
+  {
+    draw(cfg, group) {
+      const keyShape = group.addShape('rect', {
         attrs: {
-          symbol: 'triangle-down',
-          x: cfg.x + 4,
-          y: cfg.y - 2,
-          r: 4,
-          fill: '#666'
-        }
+          x: cfg.x - 4,
+          y: cfg.y - 14,
+          fill: '#fff',
+          stroke: '#666',
+        },
+        className: 'node-rect',
       });
-    }
 
-    const shape = group.addShape('text', {
-      attrs: {
-        x: cfg.x + 15,
-        y: cfg.y + 4,
-        text: cfg.label,
-        fill: '#666',
-        fontSize: 16,
-        textAlign: 'left'
+      if (cfg.children && cfg.children.length > 0) {
+        group.addShape('marker', {
+          attrs: {
+            symbol: 'triangle-down',
+            x: cfg.x + 4,
+            y: cfg.y - 2,
+            r: 4,
+            fill: '#666',
+          },
+        });
       }
-    });
 
-    const bbox = shape.getBBox();
+      const shape = group.addShape('text', {
+        attrs: {
+          x: cfg.x + 15,
+          y: cfg.y + 4,
+          text: cfg.label,
+          fill: '#666',
+          fontSize: 16,
+          textAlign: 'left',
+        },
+      });
 
-    group.addShape('text', {
-      attrs: {
-        x: cfg.x + bbox.width + 20,
-        y: cfg.y + 40,
-        text: '详情',
-        fill: '#651466',
-        fontSize: 16,
-        textAlign: 'right'
-      },
-      className: "detail-text"
-    });
+      const bbox = shape.getBBox();
 
-    keyShape.attr({
-      width: bbox.width + 40,
-      height: bbox.height + 45
-    });
+      group.addShape('text', {
+        attrs: {
+          x: cfg.x + bbox.width + 20,
+          y: cfg.y + 40,
+          text: '详情',
+          fill: '#651466',
+          fontSize: 16,
+          textAlign: 'right',
+        },
+        className: 'detail-text',
+      });
 
-    return keyShape;
-  }
-}, 'single-node');
+      keyShape.attr({
+        width: bbox.width + 40,
+        height: bbox.height + 45,
+      });
 
-G6.registerEdge('step-line', {
-  getControlPoints: function getControlPoints(cfg) {
-    const startPoint = cfg.startPoint;
-    const endPoint = cfg.endPoint;
-    return [{
-      x: startPoint.x,
-      y: endPoint.y
-    }];
-  }
-}, 'polyline');
+      return keyShape;
+    },
+  },
+  'single-node',
+);
+
+G6.registerEdge(
+  'step-line',
+  {
+    getControlPoints: function getControlPoints(cfg) {
+      const startPoint = cfg.startPoint;
+      const endPoint = cfg.endPoint;
+      return [
+        {
+          x: startPoint.x,
+          y: endPoint.y,
+        },
+      ];
+    },
+  },
+  'polyline',
+);
 
 const DefaultShape = () => {
-  const container = React.useRef()
+  const container = React.useRef();
 
   useEffect(() => {
-    if(!graph) {
+    if (!graph) {
       graph = new G6.TreeGraph({
         container: container.current as string | HTMLElement,
         width: 500,
         height: 500,
         linkCenter: true,
         modes: {
-          default: [
-            'collapse-expand', 'zoom-canvas', 'drag-canvas'
-          ]
+          default: ['collapse-expand', 'zoom-canvas', 'drag-canvas'],
         },
         defaultNode: {
-          shape: 'file-node'
+          shape: 'file-node',
         },
         defaultEdge: {
-          shape: 'step-line'
+          shape: 'step-line',
         },
         nodeStateStyles: {
           hover: {
@@ -103,8 +110,8 @@ const DefaultShape = () => {
           select: {
             fill: '#4ab334',
             lineWidth: 2,
-            stroke: '#5B8FF9'
-          }
+            stroke: '#5B8FF9',
+          },
         },
         layout: {
           type: 'indented',
@@ -114,65 +121,67 @@ const DefaultShape = () => {
           getHeight: function getHeight() {
             return 20;
           },
-      
+
           getWidth: function getWidth() {
             return 20;
-          }
-        }
+          },
+        },
       });
     }
 
     const data = {
       id: '1',
       label: '域服务-创建计划',
-      children: [{
-        id: '1-3',
-        label: '计划信息初始化',
-        children: []
-      }, {
-        id: '1-2',
-        label: '计划信息校验',
-        children: []
-      }, {
-        id: '1-1',
-        label: '计划信息保存',
-        children: [
-          {
-            id: '1-1-1',
-            label: '基本信息初始化',
-          },
-          {
-            id: '1-1-2',
-            label: '投放时间信息初始化',
-          }
-        ]
-      }]
+      children: [
+        {
+          id: '1-3',
+          label: '计划信息初始化',
+          children: [],
+        },
+        {
+          id: '1-2',
+          label: '计划信息校验',
+          children: [],
+        },
+        {
+          id: '1-1',
+          label: '计划信息保存',
+          children: [
+            {
+              id: '1-1-1',
+              label: '基本信息初始化',
+            },
+            {
+              id: '1-1-2',
+              label: '投放时间信息初始化',
+            },
+          ],
+        },
+      ],
     };
 
-    graph.data(data)
-    graph.render()
+    graph.data(data);
+    graph.render();
 
     graph.on('node:click', ev => {
       //const clickNodes = graph.findAllByState('node', 'click');
-    
+
       //clickNodes.forEach(cn => {
-        //graph.setItemState(cn, 'click', false);
-     // });
-    
+      //graph.setItemState(cn, 'click', false);
+      // });
+
       const nodeItem = ev.item;
-    debugger
+      debugger;
       graph.setItemState(nodeItem, 'select', true);
     });
 
     graph.on('node:mouseenter', evt => {
-      const { item } = evt
-      graph.setItemState(item, 'hover', true)
-    })
-  })
+      const { item } = evt;
+      graph.setItemState(item, 'hover', true);
+    });
+  });
 
-  return (
-    <div ref={container}></div>
-  )
-}
+  return <div ref={container}></div>;
+};
 
-export default DefaultShape
+export default DefaultShape;

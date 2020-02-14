@@ -6,9 +6,9 @@ const data = {
       id: 'image',
       img: 'https://gw.alipayobjects.com/os/s/prod/antv/assets/image/logo-with-text-73b8a.svg',
       x: 250,
-      y: 150
-    }
-  ]
+      y: 150,
+    },
+  ],
 };
 
 const width = document.getElementById('container').scrollWidth;
@@ -19,7 +19,7 @@ const graph = new G6.Graph({
   height,
   defaultNode: {
     type: 'image',
-    size: [ 260, 80 ],
+    size: [260, 80],
     clipCfg: {
       show: false,
       // 裁剪类型可以为：circle、ellipse、rect、path等
@@ -28,15 +28,14 @@ const graph = new G6.Graph({
       r: 30,
       // clip 的属性样式
       style: {
-        lineWidth: 1
-      }
-    }
+        lineWidth: 1,
+      },
+    },
   },
   modes: {
-    default: [ 'drag-canvas', 'drag-node' ]
-  }
+    default: ['drag-canvas', 'drag-node'],
+  },
 });
 
 graph.data(data);
 graph.render();
-

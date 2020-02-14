@@ -19,7 +19,7 @@ type Edge = EdgeConfig;
 
 type NodeMap = {
   [key: string]: Node;
-}
+};
 
 /**
  * 同心圆布局
@@ -93,12 +93,12 @@ export default class ConcentricLayout extends BaseLayout {
     } else {
       maxNodeSize = self.nodeSize;
     }
-    nodes.forEach((node) => {
+    nodes.forEach(node => {
       layoutNodes.push(node);
       let nodeSize: number = maxNodeSize;
       if (isArray(node.size)) {
         nodeSize = Math.max(node.size[0], node.size[1]);
-      } else if (isNumber(node.size)){
+      } else if (isNumber(node.size)) {
         nodeSize = node.size;
       }
       maxNodeSize = Math.max(maxNodeSize, nodeSize);
@@ -121,7 +121,11 @@ export default class ConcentricLayout extends BaseLayout {
     });
 
     // get the node degrees
-    if (self.sortBy === 'degree' || !isString(self.sortBy) || layoutNodes[0][self.sortBy] === undefined) {
+    if (
+      self.sortBy === 'degree' ||
+      !isString(self.sortBy) ||
+      layoutNodes[0][self.sortBy] === undefined
+    ) {
       self.sortBy = 'degree';
       if (!isNumber(nodes[0].degree)) {
         const values = getDegree(nodes.length, nodeIdxMap, edges);
@@ -140,7 +144,7 @@ export default class ConcentricLayout extends BaseLayout {
     // put the values into levels
     const levels: any[] = [[]];
     let currentLevel = levels[0];
-    layoutNodes.forEach((node) => {
+    layoutNodes.forEach(node => {
       if (currentLevel.length > 0) {
         const diff = Math.abs(currentLevel[0][self.sortBy] - node[self.sortBy]);
         if (self.maxLevelDiff && diff >= self.maxLevelDiff) {
@@ -164,7 +168,7 @@ export default class ConcentricLayout extends BaseLayout {
 
     // find the metrics for each level
     let r = 0;
-    levels.forEach((level) => {
+    levels.forEach(level => {
       let sweep = self.sweep;
       if (sweep === undefined) {
         sweep = 2 * Math.PI - (2 * Math.PI) / level.length;
@@ -203,7 +207,7 @@ export default class ConcentricLayout extends BaseLayout {
     }
 
     // calculate the node positions
-    levels.forEach((level) => {
+    levels.forEach(level => {
       const dTheta = level.dTheta;
       const rr = level.r;
       level.forEach((node: Node, j: number) => {

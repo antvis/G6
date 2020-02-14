@@ -13,7 +13,7 @@ test:
   stage: test
   script:
     - env -u CI tnpm i --silent --internal-oss-cache --install-node=10
-#   - tnpm run ci      ci 环境问题导致 electron 安装失败暂时跑不了
+    #   - tnpm run ci      ci 环境问题导致 electron 安装失败暂时跑不了
     - tnpm run lint
   tags:
     - swarm

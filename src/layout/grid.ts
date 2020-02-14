@@ -10,7 +10,7 @@ import isString from '@antv/util/lib/is-string';
 import { BaseLayout } from './layout';
 import { isArray, isNumber } from '@antv/util';
 import { getDegree } from '../util/math';
-import { isNaN } from "../util/base"
+import { isNaN } from '../util/base';
 
 type Node = NodeConfig & {
   degree: number;
@@ -74,7 +74,7 @@ export default class GridLayout extends BaseLayout {
       cols: undefined,
       position: undefined,
       sortBy: 'degree',
-      nodeSize: 30
+      nodeSize: 30,
     };
   }
   /**
@@ -96,14 +96,18 @@ export default class GridLayout extends BaseLayout {
 
     const edges = self.edges;
     const layoutNodes: Node[] = [];
-    nodes.forEach((node) => {
+    nodes.forEach(node => {
       layoutNodes.push(node);
     });
     const nodeIdxMap: NodeIdxMap = {};
     layoutNodes.forEach((node, i) => {
       nodeIdxMap[node.id] = i;
     });
-    if (self.sortBy === 'degree' || !isString(self.sortBy) || layoutNodes[0][self.sortBy] === undefined) {
+    if (
+      self.sortBy === 'degree' ||
+      !isString(self.sortBy) ||
+      layoutNodes[0][self.sortBy] === undefined
+    ) {
       self.sortBy = 'degree';
       if (isNaN(nodes[0].degree)) {
         const values = getDegree(layoutNodes.length, nodeIdxMap, edges);
@@ -179,7 +183,7 @@ export default class GridLayout extends BaseLayout {
     }
 
     if (self.preventOverlap) {
-      layoutNodes.forEach((node) => {
+      layoutNodes.forEach(node => {
         if (!node.x || !node.y) {
           // for bb
           node.x = 0;
@@ -191,7 +195,7 @@ export default class GridLayout extends BaseLayout {
         if (isArray(node.size)) {
           nodew = node.size[0];
           nodeh = node.size[1];
-        } else if(isNumber(node.size)){
+        } else if (isNumber(node.size)) {
           nodew = node.size;
           nodeh = node.size;
         }

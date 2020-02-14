@@ -1,6 +1,6 @@
-import Graph from '../../../../src/graph/graph'
-import '../../../../src/shape/node'
-import '../../../../src/shape/nodes'
+import Graph from '../../../../src/graph/graph';
+import '../../../../src/shape/node';
+import '../../../../src/shape/nodes';
 
 const div = document.createElement('div');
 div.id = 'graph-spec';
@@ -14,8 +14,8 @@ describe('model rect test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          type: 'modelRect'
-        }
+          type: 'modelRect',
+        },
       });
       const data = {
         nodes: [
@@ -24,9 +24,9 @@ describe('model rect test', () => {
             label: '主题是modelRect',
             description: '这里是一段很长很长很长的描述文本',
             x: 100,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -56,14 +56,18 @@ describe('model rect test', () => {
       });
       expect(logoIcon).not.toBe(null);
       expect(logoIcon.attr('width')).toEqual(16);
-      expect(logoIcon.attr('img')).toEqual('https://gw.alipayobjects.com/zos/basement_prod/4f81893c-1806-4de4-aff3-9a6b266bc8a2.svg');
+      expect(logoIcon.attr('img')).toEqual(
+        'https://gw.alipayobjects.com/zos/basement_prod/4f81893c-1806-4de4-aff3-9a6b266bc8a2.svg',
+      );
 
       const stateIcon = group.find(g => {
         return g.get('className') === 'rect-state-icon';
       });
       expect(stateIcon).not.toBe(null);
       expect(stateIcon.attr('width')).toEqual(16);
-      expect(stateIcon.attr('img')).toEqual('https://gw.alipayobjects.com/zos/basement_prod/300a2523-67e0-4cbf-9d4a-67c077b40395.svg');
+      expect(stateIcon.attr('img')).toEqual(
+        'https://gw.alipayobjects.com/zos/basement_prod/300a2523-67e0-4cbf-9d4a-67c077b40395.svg',
+      );
 
       const label = group.find(g => {
         return g.get('className') === 'node-label';
@@ -83,12 +87,12 @@ describe('model rect test', () => {
         defaultNode: {
           type: 'modelRect',
           style: {
-            fill: 'red'
+            fill: 'red',
           },
           preRect: {
-            width: 6
-          }
-        }
+            width: 6,
+          },
+        },
       });
       const data = {
         nodes: [
@@ -96,9 +100,9 @@ describe('model rect test', () => {
             id: 'node',
             label: '主题是modelRect',
             x: 100,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -127,8 +131,8 @@ describe('model rect test', () => {
       width: 500,
       height: 500,
       defaultNode: {
-        type: 'modelRect'
-      }
+        type: 'modelRect',
+      },
     });
     const data = {
       nodes: [
@@ -136,8 +140,8 @@ describe('model rect test', () => {
           id: 'node',
           x: 100,
           y: 100,
-        }
-      ]
+        },
+      ],
     };
     graph.data(data);
     graph.render();
@@ -160,17 +164,17 @@ describe('model rect test', () => {
       label: '主题是modelRect',
       labelCfg: {
         style: {
-          fill: '#0f0'
-        }
+          fill: '#0f0',
+        },
       },
       description: '这里是一段很长很长很长的描述文本',
       descriptionCfg: {
         style: {
           fill: '#f00',
-          fontSize: 20
+          fontSize: 20,
         },
-        paddingTop: descriptionPaddingTop
-      }
+        paddingTop: descriptionPaddingTop,
+      },
     });
 
     // // modelRect + label + description + logoIcon + stateIcon + preRect
@@ -199,14 +203,18 @@ describe('model rect test', () => {
     });
     expect(logoIcon).not.toBe(null);
     expect(logoIcon.attr('width')).toEqual(16);
-    expect(logoIcon.attr('img')).toEqual('https://gw.alipayobjects.com/zos/basement_prod/4f81893c-1806-4de4-aff3-9a6b266bc8a2.svg');
+    expect(logoIcon.attr('img')).toEqual(
+      'https://gw.alipayobjects.com/zos/basement_prod/4f81893c-1806-4de4-aff3-9a6b266bc8a2.svg',
+    );
 
     const stateIcon = group.find(g => {
       return g.get('className') === 'rect-state-icon';
     });
     expect(stateIcon).not.toBe(null);
     expect(stateIcon.attr('width')).toEqual(16);
-    expect(stateIcon.attr('img')).toEqual('https://gw.alipayobjects.com/zos/basement_prod/300a2523-67e0-4cbf-9d4a-67c077b40395.svg');
+    expect(stateIcon.attr('img')).toEqual(
+      'https://gw.alipayobjects.com/zos/basement_prod/300a2523-67e0-4cbf-9d4a-67c077b40395.svg',
+    );
 
     graph.destroy();
     expect(graph.destroyed).toBe(true);
@@ -218,8 +226,8 @@ describe('model rect test', () => {
       width: 500,
       height: 500,
       defaultNode: {
-        type: 'modelRect'
-      }
+        type: 'modelRect',
+      },
     });
     const data = {
       nodes: [
@@ -228,9 +236,9 @@ describe('model rect test', () => {
           label: 'old label',
           description: 'old description',
           x: 100,
-          y: 100
-        }
-      ]
+          y: 100,
+        },
+      ],
     };
     graph.data(data);
     graph.render();
@@ -254,18 +262,18 @@ describe('model rect test', () => {
       label: 'new label',
       labelCfg: {
         style: {
-          fill: '#0f0'
-        }
+          fill: '#0f0',
+        },
       },
       description: 'new description',
       descriptionCfg: {
         style: {
-          fill: '#f00'
-        }
+          fill: '#f00',
+        },
       },
       logoIcon: {
-        show: false
-      }
+        show: false,
+      },
     });
 
     // modelRect + label + description + logoIcon + stateIcon + preRect
@@ -300,7 +308,9 @@ describe('model rect test', () => {
     });
     expect(stateIcon).not.toBe(null);
     expect(stateIcon.attr('width')).toEqual(16);
-    expect(stateIcon.attr('img')).toEqual('https://gw.alipayobjects.com/zos/basement_prod/300a2523-67e0-4cbf-9d4a-67c077b40395.svg');
+    expect(stateIcon.attr('img')).toEqual(
+      'https://gw.alipayobjects.com/zos/basement_prod/300a2523-67e0-4cbf-9d4a-67c077b40395.svg',
+    );
 
     graph.destroy();
     expect(graph.destroyed).toBe(true);
@@ -312,8 +322,8 @@ describe('model rect test', () => {
       width: 500,
       height: 500,
       defaultNode: {
-        type: 'modelRect'
-      }
+        type: 'modelRect',
+      },
     });
     const data = {
       nodes: [
@@ -322,9 +332,9 @@ describe('model rect test', () => {
           label: 'old label',
           description: 'old description',
           x: 100,
-          y: 100
-        }
-      ]
+          y: 100,
+        },
+      ],
     };
     graph.data(data);
     graph.render();
@@ -336,17 +346,17 @@ describe('model rect test', () => {
       label: 'new label',
       labelCfg: {
         style: {
-          fill: '#ff0'
-        }
+          fill: '#ff0',
+        },
       },
       descriptionCfg: {
         style: {
           fill: '#000',
           shadowColor: '#000',
-          shadowBlur: 5
-        }
-      }
-    })
+          shadowBlur: 5,
+        },
+      },
+    });
 
     const label = group.find(g => {
       return g.get('className') === 'node-label';
@@ -366,15 +376,15 @@ describe('model rect test', () => {
         position: 'center',
         style: {
           stroke: 'black',
-          lineWidth: 3
-        }
+          lineWidth: 3,
+        },
       },
       descriptionCfg: {
         style: {
           shadowOffsetX: 10,
-          shadowOffsetY: 10
-        }
-      }
+          shadowOffsetY: 10,
+        },
+      },
     });
     expect(label.attr('text')).toEqual('new label');
     expect(label.attr('fill')).toEqual('#ff0');
@@ -383,10 +393,10 @@ describe('model rect test', () => {
     expect(description.attr('fill')).toEqual('#000');
     expect(description.attr('shadowBlur')).toEqual(5);
     expect(description.attr('shadowOffsetX')).toEqual(10);
-    
+
     graph.destroy();
     expect(graph.destroyed).toBe(true);
-  })
+  });
 
   describe('icon and linkPoint test', () => {
     it('icon and linkPoints(top bottom)', () => {
@@ -397,17 +407,17 @@ describe('model rect test', () => {
         defaultNode: {
           type: 'modelRect',
           logoIcon: {
-            show: false
+            show: false,
           },
           stateIcon: {
             width: 25,
-            height: 25
+            height: 25,
           },
           linkPoints: {
             top: true,
-            bottom: true
-          }
-        }
+            bottom: true,
+          },
+        },
       });
       const data = {
         nodes: [
@@ -416,9 +426,9 @@ describe('model rect test', () => {
             label: '主题是modelRect',
             description: '这里是很长很长很长的一段长文本',
             x: 300,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -469,9 +479,9 @@ describe('model rect test', () => {
           type: 'modelRect',
           linkPoints: {
             left: true,
-            right: true
-          }
-        }
+            right: true,
+          },
+        },
       });
       const data = {
         nodes: [
@@ -480,9 +490,9 @@ describe('model rect test', () => {
             label: '主题是modelRect',
             description: '这里是很长很长很长的一段长文本',
             x: 300,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -508,7 +518,7 @@ describe('model rect test', () => {
         return g.get('className') === 'link-point-bottom';
       });
       expect(markBottom).toBe(null);
-      
+
       graph.destroy();
       expect(graph.destroyed).toBe(true);
     });
@@ -516,7 +526,7 @@ describe('model rect test', () => {
       const graph = new Graph({
         container: div,
         width: 500,
-        height: 500
+        height: 500,
       });
       const data = {
         nodes: [
@@ -526,13 +536,13 @@ describe('model rect test', () => {
             description: '这里是很长很长很长的一段长文本',
             linkPoints: {
               top: true,
-              bottom: true
+              bottom: true,
             },
             type: 'modelRect',
             x: 100,
-            y: 200
-          }
-        ]
+            y: 200,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -541,11 +551,11 @@ describe('model rect test', () => {
       const group = node.get('group');
       // modelRect + label + description + stateIcon + logoIcon + preRect + linkPoints * 2
       expect(group.getCount()).toEqual(8);
-      
+
       node.update({
         linkPoints: {
-          top: false
-        }
+          top: false,
+        },
       });
       const topPoint = group.find(g => {
         return g.get('className') === 'link-point-top';
@@ -563,8 +573,8 @@ describe('model rect test', () => {
           size: 10,
           fill: '#f00',
           stroke: '#0f0',
-          lineWidth: 2
-        }
+          lineWidth: 2,
+        },
       });
       const leftPoint = group.find(g => {
         return g.get('className') === 'link-point-left';
@@ -586,8 +596,8 @@ describe('model rect test', () => {
           size: 10,
           fill: '#f00',
           stroke: '#0f0',
-          lineWidth: 2
-        }
+          lineWidth: 2,
+        },
       });
       const leftPoint2 = group.find(g => {
         return g.get('className') === 'link-point-left';
@@ -605,7 +615,7 @@ describe('model rect test', () => {
       node.update({
         linkPoints: {
           stroke: '#000',
-        }
+        },
       });
       const bottomPoint2 = group.find(g => {
         return g.get('className') === 'link-point-bottom';
@@ -621,7 +631,7 @@ describe('model rect test', () => {
       const graph = new Graph({
         container: div,
         width: 500,
-        height: 500
+        height: 500,
       });
       const data = {
         nodes: [
@@ -630,16 +640,16 @@ describe('model rect test', () => {
             label: '主题是modelRect',
             description: '这里是很长很长很长的一段长文本',
             stateIcon: {
-              show: true
+              show: true,
             },
             logoIcon: {
-              show: false
+              show: false,
             },
             type: 'modelRect',
             x: 100,
-            y: 200
-          }
-        ]
+            y: 200,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -648,13 +658,13 @@ describe('model rect test', () => {
       const group = node.get('group');
       // modelRect + label + description + stateIcon  + preRect
       expect(group.getCount()).toEqual(5);
-      
+
       node.update({
         stateIcon: {
-          show: false
+          show: false,
         },
         logoIcon: {
-          show: true
+          show: true,
         },
       });
       const stateIcon = group.find(g => {
@@ -668,11 +678,10 @@ describe('model rect test', () => {
       expect(logoIcon).not.toBe(null);
       expect(logoIcon.attr('x')).toBe(-76.5);
 
-
       node.update({
         stateIcon: {
-          show: true
-        }
+          show: true,
+        },
       });
       const stateIcon2 = group.find(g => {
         return g.get('className') === 'rect-state-icon';
@@ -686,17 +695,17 @@ describe('model rect test', () => {
           offset: -10,
           // to use the offset
           x: null,
-          y: null
+          y: null,
         },
         logoIcon: {
           offset: 30,
           // to use the offset
           x: null,
-          y: null
+          y: null,
         },
         labelCfg: {
-          offset: 60
-        }
+          offset: 60,
+        },
       });
       const stateIcon3 = group.find(g => {
         return g.get('className') === 'rect-state-icon';

@@ -6,35 +6,38 @@
  * @Description: Group Behavior单测文件
  */
 
-import '../../../src/behavior'
-import '../../../src/shape'
-import Graph from '../../../src/graph/graph'
+import '../../../src/behavior';
+import '../../../src/shape';
+import Graph from '../../../src/graph/graph';
 import G6 from '../../../src';
-import { getAllNodeInGroups } from '../../../src/util/group'
+import { getAllNodeInGroups } from '../../../src/util/group';
 
 const div = document.createElement('div');
 div.id = 'drag-group-spec';
 document.body.appendChild(div);
 
 // TODO: wait for group
-G6.registerNode('circleNode', {
-  drawShape(cfg, group) {
-    const keyShape = group.addShape('circle', {
-      attrs: {
-        x: 0,
-        y: 0,
-        r: 30,
-        fill: '#87e8de'
-      },
-      draggable: true
-    });
+G6.registerNode(
+  'circleNode',
+  {
+    drawShape(cfg, group) {
+      const keyShape = group.addShape('circle', {
+        attrs: {
+          x: 0,
+          y: 0,
+          r: 30,
+          fill: '#87e8de',
+        },
+        draggable: true,
+      });
 
-    return keyShape;
-  }
-}, 'circle');
+      return keyShape;
+    },
+  },
+  'circle',
+);
 
 describe('drag signle layer group', () => {
-
   it('drag signle layer group', () => {
     const data = {
       nodes: [
@@ -43,27 +46,27 @@ describe('drag signle layer group', () => {
           label: 'node1',
           groupId: 'group1',
           x: 100,
-          y: 100
+          y: 100,
         },
         {
           id: 'node2',
           label: 'node2',
           groupId: 'group1',
           x: 150,
-          y: 100
+          y: 100,
         },
         {
           id: 'node3',
           label: 'node3',
           groupId: 'group2',
           x: 300,
-          y: 100
+          y: 100,
         },
         {
           id: 'node7',
           groupId: 'p1',
           x: 200,
-          y: 200
+          y: 200,
         },
         {
           id: 'node6',
@@ -71,29 +74,29 @@ describe('drag signle layer group', () => {
           label: 'rect',
           x: 100,
           y: 300,
-          type: 'rect'
+          type: 'rect',
         },
         {
           id: 'node9',
           label: 'noGroup',
           x: 300,
-          y: 210
-        }
-      ]
+          y: 210,
+        },
+      ],
     };
     const graph = new Graph({
       container: div,
       width: 1500,
       height: 1000,
       modes: {
-        default: [ 'drag-group' ]
+        default: ['drag-group'],
       },
       defaultNode: {
-        type: 'circleNode'
+        type: 'circleNode',
       },
       defaultEdge: {
-        color: '#bae7ff'
-      }
+        color: '#bae7ff',
+      },
     });
 
     graph.data(data);
@@ -122,22 +125,22 @@ describe('drag signle layer group', () => {
     graph.emit('dragstart', {
       canvasX: 0,
       canvasY: 0,
-      target: keyShape
+      target: keyShape,
     });
     graph.emit('drag', {
       canvasX: 0,
       canvasY: 0,
-      target: keyShape
+      target: keyShape,
     });
 
     graph.emit('drag', {
       canvasX: 150,
       canvasY: 150,
-      target: keyShape
+      target: keyShape,
     });
 
     graph.emit('dragend', {
-      target: keyShape
+      target: keyShape,
     });
 
     const nodeIds = data.nodes.filter(node => node.groupId === 'group1').map(node => node.id);
@@ -179,27 +182,27 @@ describe('drag signle layer group', () => {
           label: 'node1',
           groupId: 'group1',
           x: 100,
-          y: 100
+          y: 100,
         },
         {
           id: 'node2',
           label: 'node2',
           groupId: 'group1',
           x: 150,
-          y: 100
+          y: 100,
         },
         {
           id: 'node3',
           label: 'node3',
           groupId: 'group2',
           x: 300,
-          y: 100
+          y: 100,
         },
         {
           id: 'node7',
           groupId: 'p1',
           x: 200,
-          y: 200
+          y: 200,
         },
         {
           id: 'node6',
@@ -207,32 +210,34 @@ describe('drag signle layer group', () => {
           label: 'rect',
           x: 100,
           y: 300,
-          type: 'rect'
+          type: 'rect',
         },
         {
           id: 'node9',
           label: 'noGroup',
           x: 300,
-          y: 210
-        }
-      ]
+          y: 210,
+        },
+      ],
     };
     const graph = new Graph({
       container: div,
       width: 1500,
       height: 1000,
       modes: {
-        default: [{ 
-          type: 'drag-group'
-        }]
+        default: [
+          {
+            type: 'drag-group',
+          },
+        ],
       },
       defaultNode: {
-        type: 'circleNode'
+        type: 'circleNode',
       },
       defaultEdge: {
-        color: '#bae7ff'
+        color: '#bae7ff',
       },
-      groupType: 'rect'
+      groupType: 'rect',
     });
 
     graph.data(data);
@@ -258,22 +263,22 @@ describe('drag signle layer group', () => {
     graph.emit('dragstart', {
       canvasX: 0,
       canvasY: 0,
-      target: keyShape
+      target: keyShape,
     });
     graph.emit('drag', {
       canvasX: 0,
       canvasY: 0,
-      target: keyShape
+      target: keyShape,
     });
 
     graph.emit('drag', {
       canvasX: 150,
       canvasY: 150,
-      target: keyShape
+      target: keyShape,
     });
 
     graph.emit('dragend', {
-      target: keyShape
+      target: keyShape,
     });
 
     graph.destroy();
@@ -288,27 +293,27 @@ describe('drag signle layer group', () => {
           label: 'node1',
           groupId: 'group1',
           x: 100,
-          y: 100
+          y: 100,
         },
         {
           id: 'node2',
           label: 'node2',
           groupId: 'group1',
           x: 150,
-          y: 100
+          y: 100,
         },
         {
           id: 'node3',
           label: 'node3',
           groupId: 'group2',
           x: 300,
-          y: 100
+          y: 100,
         },
         {
           id: 'node7',
           groupId: 'p1',
           x: 200,
-          y: 200
+          y: 200,
         },
         {
           id: 'node6',
@@ -316,32 +321,34 @@ describe('drag signle layer group', () => {
           label: 'rect',
           x: 100,
           y: 300,
-          type: 'rect'
+          type: 'rect',
         },
         {
           id: 'node9',
           label: 'noGroup',
           x: 300,
-          y: 210
-        }
-      ]
+          y: 210,
+        },
+      ],
     };
     const graph = new Graph({
       container: div,
       width: 1500,
       height: 1000,
       modes: {
-        default: [{ 
-          type: 'drag-group'
-        }]
+        default: [
+          {
+            type: 'drag-group',
+          },
+        ],
       },
       defaultNode: {
-        type: 'circleNode'
+        type: 'circleNode',
       },
       defaultEdge: {
-        color: '#bae7ff'
+        color: '#bae7ff',
       },
-      groupType: 'rect'
+      groupType: 'rect',
     });
 
     graph.data(data);
@@ -353,22 +360,22 @@ describe('drag signle layer group', () => {
     graph.emit('dragstart', {
       canvasX: 0,
       canvasY: 0,
-      target: node
+      target: node,
     });
     graph.emit('drag', {
       canvasX: 0,
       canvasY: 0,
-      target: node
+      target: node,
     });
 
     graph.emit('drag', {
       canvasX: 150,
       canvasY: 150,
-      target: node
+      target: node,
     });
 
     graph.emit('dragend', {
-      target: node
+      target: node,
     });
 
     graph.destroy();
@@ -384,86 +391,86 @@ describe('nesting layer group', () => {
         groupId: 'group3',
         label: 'rect',
         x: 100,
-        y: 300
+        y: 300,
       },
       {
         id: 'node1',
         label: 'fck',
         groupId: 'group1',
         x: 100,
-        y: 100
+        y: 100,
       },
       {
         id: 'node9',
         label: 'noGroup1',
         groupId: 'p1',
         x: 300,
-        y: 210
+        y: 210,
       },
       {
         id: 'node2',
         label: 'node2',
         groupId: 'group1',
         x: 150,
-        y: 200
+        y: 200,
       },
       {
         id: 'node3',
         label: 'node3',
         groupId: 'group2',
         x: 300,
-        y: 100
+        y: 100,
       },
       {
         id: 'node7',
         groupId: 'p1',
         label: 'node7-p1',
         x: 200,
-        y: 200
+        y: 200,
       },
       {
         id: 'node10',
         label: 'noGroup',
         groupId: 'p2',
         x: 300,
-        y: 210
-      }
+        y: 210,
+      },
     ],
     edges: [
       {
         source: 'node1',
-        target: 'node2'
+        target: 'node2',
       },
       {
         source: 'node2',
-        target: 'node3'
-      }
+        target: 'node3',
+      },
     ],
     groups: [
       {
         id: 'group1',
         title: '1',
-        parentId: 'p1'
+        parentId: 'p1',
       },
       {
         id: 'group2',
         title: '2',
-        parentId: 'p1'
+        parentId: 'p1',
       },
       {
         id: 'group3',
         title: '2',
-        parentId: 'p2'
+        parentId: 'p2',
       },
       {
         id: 'p1',
-        title: '3'
+        title: '3',
       },
       {
         id: 'p2',
-        title: '3'
-      }
-    ]
+        title: '3',
+      },
+    ],
   };
   it('render nesting layer group', () => {
     const graph = new Graph({
@@ -471,14 +478,14 @@ describe('nesting layer group', () => {
       width: 1500,
       height: 1000,
       modes: {
-        default: [ 'drag-group', 'drag-node-with-group' ]
+        default: ['drag-group', 'drag-node-with-group'],
       },
       defaultNode: {
-        type: 'circleNode'
+        type: 'circleNode',
       },
       defaultEdge: {
-        color: '#bae7ff'
-      }
+        color: '#bae7ff',
+      },
     });
 
     graph.data(data);
@@ -508,7 +515,7 @@ describe('nesting layer group', () => {
       const { groupStyle } = groupShape;
       expect(groupStyle.x).toEqual(cx);
       expect(groupStyle.y).toEqual(cy);
-      expect((groupStyle.r === r + 40) || (groupStyle.r === r + 100)).toEqual(true); // r + padding
+      expect(groupStyle.r === r + 40 || groupStyle.r === r + 100).toEqual(true); // r + padding
     }
 
     graph.destroy();
@@ -521,14 +528,14 @@ describe('nesting layer group', () => {
       width: 1500,
       height: 1000,
       modes: {
-        default: [ 'drag-group', 'drag-node-with-group' ]
+        default: ['drag-group', 'drag-node-with-group'],
       },
       defaultNode: {
-        type: 'circleNode'
+        type: 'circleNode',
       },
       defaultEdge: {
-        color: '#bae7ff'
-      }
+        color: '#bae7ff',
+      },
     });
 
     graph.data(data);
@@ -552,13 +559,13 @@ describe('nesting layer group', () => {
       graph.emit('dragstart', {
         target: keyShape,
         canvasX: 0,
-        canvasY: 0
+        canvasY: 0,
       });
 
       graph.emit('drag', {
         target: keyShape,
         canvasX: 500,
-        canvasY: 200
+        canvasY: 200,
       });
 
       // 还没有拖出群组，group p1中还包括group1
@@ -567,7 +574,7 @@ describe('nesting layer group', () => {
       graph.emit('dragend', {
         target: keyShape,
         canvasX: 500,
-        canvasY: 200
+        canvasY: 200,
       });
 
       const currentP1Nodes = groupNodes.p1;
@@ -581,21 +588,22 @@ describe('nesting layer group', () => {
       expect(graph.destroyed).toBe(true);
     }, 1000);
   });
-  
-  it('collapse the group', () => { // done
+
+  it('collapse the group', () => {
+    // done
     const graph = new Graph({
       container: div,
       width: 1500,
       height: 1000,
       modes: {
-        default: [ 'collapse-expand-group' ]
+        default: ['collapse-expand-group'],
       },
       defaultNode: {
-        type: 'circleNode'
+        type: 'circleNode',
       },
       defaultEdge: {
-        color: '#bae7ff'
-      }
+        color: '#bae7ff',
+      },
     });
     graph.data(data);
     graph.render();
@@ -606,7 +614,7 @@ describe('nesting layer group', () => {
 
     // collapse
     graph.emit('dblclick', {
-      target: keyShape
+      target: keyShape,
     });
     // setTimeout(() => {
     //   expect((keyShape.attr('r'))).toEqual(30);
@@ -615,28 +623,31 @@ describe('nesting layer group', () => {
 
     // expand
     graph.emit('dblclick', {
-      target: keyShape
+      target: keyShape,
     });
-    expect((keyShape.attr('r'))).toEqual(120);
+    expect(keyShape.attr('r')).toEqual(120);
   });
 
-  it('collapse the group with invalid trigger', () => { // done
+  it('collapse the group with invalid trigger', () => {
+    // done
     const graph = new Graph({
       container: div,
       width: 1500,
       height: 1000,
       modes: {
-        default: [{ 
-          type: 'collapse-expand-group',
-          trigger: 'invalidTrigger'
-        }]
+        default: [
+          {
+            type: 'collapse-expand-group',
+            trigger: 'invalidTrigger',
+          },
+        ],
       },
       defaultNode: {
-        type: 'circleNode'
+        type: 'circleNode',
       },
       defaultEdge: {
-        color: '#bae7ff'
-      }
+        color: '#bae7ff',
+      },
     });
     graph.data(data);
     graph.render();
@@ -647,7 +658,7 @@ describe('nesting layer group', () => {
 
     // collapse
     graph.emit('dblclick', {
-      target: keyShape
+      target: keyShape,
     });
     // setTimeout(() => {
     //   expect((keyShape.attr('r'))).toEqual(30);
@@ -656,27 +667,30 @@ describe('nesting layer group', () => {
 
     // expand
     graph.emit('dblclick', {
-      target: keyShape
+      target: keyShape,
     });
-    expect((keyShape.attr('r'))).toEqual(120);
+    expect(keyShape.attr('r')).toEqual(120);
   });
 
-  it('not click on a group', () => { // done
+  it('not click on a group', () => {
+    // done
     const graph = new Graph({
       container: div,
       width: 1500,
       height: 1000,
       modes: {
-        default: [{ 
-          type: 'collapse-expand-group'
-        }]
+        default: [
+          {
+            type: 'collapse-expand-group',
+          },
+        ],
       },
       defaultNode: {
-        type: 'circleNode'
+        type: 'circleNode',
       },
       defaultEdge: {
-        color: '#bae7ff'
-      }
+        color: '#bae7ff',
+      },
     });
     graph.data(data);
     graph.render();
@@ -685,7 +699,7 @@ describe('nesting layer group', () => {
 
     // collapse on a node, does not take effect
     graph.emit('dblclick', {
-      target: node
+      target: node,
     });
   });
 });
@@ -698,86 +712,86 @@ describe('drag node with group', () => {
         groupId: 'group3',
         label: 'rect',
         x: 100,
-        y: 300
+        y: 300,
       },
       {
         id: 'node1',
         label: 'fck',
         groupId: 'group1',
         x: 100,
-        y: 100
+        y: 100,
       },
       {
         id: 'node9',
         label: 'noGroup1',
         groupId: 'p1',
         x: 300,
-        y: 210
+        y: 210,
       },
       {
         id: 'node2',
         label: 'node2',
         groupId: 'group1',
         x: 150,
-        y: 200
+        y: 200,
       },
       {
         id: 'node3',
         label: 'node3',
         groupId: 'group2',
         x: 300,
-        y: 100
+        y: 100,
       },
       {
         id: 'node7',
         groupId: 'p1',
         label: 'node7-p1',
         x: 200,
-        y: 200
+        y: 200,
       },
       {
         id: 'node10',
         label: 'noGroup',
         groupId: 'p2',
         x: 300,
-        y: 210
-      }
+        y: 210,
+      },
     ],
     edges: [
       {
         source: 'node1',
-        target: 'node2'
+        target: 'node2',
       },
       {
         source: 'node2',
-        target: 'node3'
-      }
+        target: 'node3',
+      },
     ],
     groups: [
       {
         id: 'group1',
         title: '1',
-        parentId: 'p1'
+        parentId: 'p1',
       },
       {
         id: 'group2',
         title: '2',
-        parentId: 'p1'
+        parentId: 'p1',
       },
       {
         id: 'group3',
         title: '2',
-        parentId: 'p2'
+        parentId: 'p2',
       },
       {
         id: 'p1',
-        title: '3'
+        title: '3',
       },
       {
         id: 'p2',
-        title: '3'
-      }
-    ]
+        title: '3',
+      },
+    ],
   };
   it('drag node to out from nesting group', () => {
     const graph = new Graph({
@@ -785,14 +799,14 @@ describe('drag node with group', () => {
       width: 1500,
       height: 1000,
       modes: {
-        default: [ 'drag-node-with-group', 'drag-group' ]
+        default: ['drag-node-with-group', 'drag-group'],
       },
       defaultNode: {
-        type: 'circleNode'
+        type: 'circleNode',
       },
       defaultEdge: {
-        color: '#bae7ff'
-      }
+        color: '#bae7ff',
+      },
     });
 
     graph.data(data);
@@ -818,18 +832,18 @@ describe('drag node with group', () => {
         target: node,
         item: node,
         x: 0,
-        y: 0
+        y: 0,
       });
 
       graph.emit('dragover', {
-        target: nodeGroup
+        target: nodeGroup,
       });
 
       graph.emit('node:drag', {
         target: node,
         item: node,
         x: 250,
-        y: 250
+        y: 250,
       });
 
       // 拖动过程中，group中还会保留原来的node
@@ -848,7 +862,7 @@ describe('drag node with group', () => {
         item: node,
         target: node,
         x: 500,
-        y: 250
+        y: 250,
       });
 
       graph.paint();
@@ -883,27 +897,27 @@ describe('drag node with group', () => {
           label: 'node1',
           groupId: 'group1',
           x: 100,
-          y: 100
+          y: 100,
         },
         {
           id: 'node2',
           label: 'node2',
           groupId: 'group1',
           x: 150,
-          y: 100
+          y: 100,
         },
         {
           id: 'node3',
           label: 'node3',
           groupId: 'group2',
           x: 300,
-          y: 100
+          y: 100,
         },
         {
           id: 'node7',
           groupId: 'p1',
           x: 200,
-          y: 200
+          y: 200,
         },
         {
           id: 'node6',
@@ -911,29 +925,29 @@ describe('drag node with group', () => {
           label: 'rect',
           x: 100,
           y: 300,
-          type: 'rect'
+          type: 'rect',
         },
         {
           id: 'node9',
           label: 'noGroup',
           x: 300,
-          y: 210
-        }
-      ]
+          y: 210,
+        },
+      ],
     };
     const graph = new Graph({
       container: div,
       width: 1500,
       height: 1000,
       modes: {
-        default: [ 'drag-node-with-group', 'drag-group' ]
+        default: ['drag-node-with-group', 'drag-group'],
       },
       defaultNode: {
-        type: 'circleNode'
+        type: 'circleNode',
       },
       defaultEdge: {
-        color: '#bae7ff'
-      }
+        color: '#bae7ff',
+      },
     });
 
     graph.data(data2);
@@ -957,24 +971,24 @@ describe('drag node with group', () => {
       target: node,
       item: node,
       x: 0,
-      y: 0
+      y: 0,
     });
 
     graph.emit('dragover', {
-      target: keyShape
+      target: keyShape,
     });
     graph.emit('node:drag', {
       target: node,
       item: node,
       x: 0,
-      y: 0
+      y: 0,
     });
 
     graph.emit('node:drag', {
       target: node,
       item: node,
       x: 200,
-      y: 250
+      y: 250,
     });
 
     // 拖动过程中，group中还会保留原来的node
@@ -988,7 +1002,7 @@ describe('drag node with group', () => {
       item: node,
       target: node,
       x: 200,
-      y: 250
+      y: 250,
     });
 
     graph.paint();
@@ -1015,27 +1029,27 @@ describe('drag node with group', () => {
           label: 'node1',
           groupId: 'group1',
           x: 100,
-          y: 100
+          y: 100,
         },
         {
           id: 'node2',
           label: 'node2',
           groupId: 'group1',
           x: 150,
-          y: 100
+          y: 100,
         },
         {
           id: 'node3',
           label: 'node3',
           groupId: 'group2',
           x: 300,
-          y: 100
+          y: 100,
         },
         {
           id: 'node7',
           groupId: 'p1',
           x: 200,
-          y: 200
+          y: 200,
         },
         {
           id: 'node6',
@@ -1043,29 +1057,29 @@ describe('drag node with group', () => {
           label: 'rect',
           x: 100,
           y: 300,
-          type: 'rect'
+          type: 'rect',
         },
         {
           id: 'node9',
           label: 'noGroup',
           x: 300,
-          y: 210
-        }
-      ]
+          y: 210,
+        },
+      ],
     };
     const graph = new Graph({
       container: div,
       width: 1500,
       height: 1000,
       modes: {
-        default: [ 'drag-node-with-group' ]
+        default: ['drag-node-with-group'],
       },
       defaultNode: {
-        type: 'circleNode'
+        type: 'circleNode',
       },
       defaultEdge: {
-        color: '#bae7ff'
-      }
+        color: '#bae7ff',
+      },
     });
 
     graph.data(data2);
@@ -1092,18 +1106,18 @@ describe('drag node with group', () => {
       target: node,
       item: node,
       x: 0,
-      y: 0
+      y: 0,
     });
 
     graph.emit('dragover', {
-      target: keyShape
+      target: keyShape,
     });
 
     graph.emit('node:drag', {
       target: node,
       item: node,
       x: -200,
-      y: -60
+      y: -60,
     });
 
     // 拖动过程中，group中还会保留原来的node
@@ -1117,7 +1131,7 @@ describe('drag node with group', () => {
       item: node,
       target: node,
       x: -200,
-      y: -60
+      y: -60,
     });
 
     graph.paint();
@@ -1131,13 +1145,15 @@ describe('drag node with group', () => {
     });
     // 将指定节点拖如到group1中，group中有3个节点
     expect(gnodes.length).toEqual(3);
-    const node3GroupId = gnodes.filter(node => {
-      const model = node.getModel();
-      return model.id === 'node3';
-    }).map(node => {
-      const model = node.getModel();
-      return model.groupId;
-    });
+    const node3GroupId = gnodes
+      .filter(node => {
+        const model = node.getModel();
+        return model.id === 'node3';
+      })
+      .map(node => {
+        const model = node.getModel();
+        return model.groupId;
+      });
 
     expect(node3GroupId[0]).toEqual('group1');
     graph.destroy();
@@ -1150,11 +1166,13 @@ describe('drag node with group', () => {
       width: 500,
       height: 500,
       modes: {
-        default: [{
-          type: 'drag-node-with-group',
-          updateEdge: false
-        }]
-      }
+        default: [
+          {
+            type: 'drag-node-with-group',
+            updateEdge: false,
+          },
+        ],
+      },
     });
     graph.data(data);
     graph.render();
@@ -1167,26 +1185,32 @@ describe('drag node with group', () => {
     graph.emit('node:dragstart', {
       item: node,
       x: 0,
-      y: 0
+      y: 0,
     });
     graph.emit('node:drag', {
       item: node,
       x: 100,
-      y: 100
+      y: 100,
     });
     graph.emit('canvas:mouseleave', { target: node });
     // mouseup out of the canvas
-    const event = document.createEvent("MouseEvents");
-		event.initMouseEvent(
-			"mouseup", 
-			true, 
-			true, 
-			document.defaultView, 
-			0, 
-			0, 0, 550, 550, // clientX = 550, clientY = 550
-			false, false, false, false, 
-			0, 
-			null
+    const event = document.createEvent('MouseEvents');
+    event.initMouseEvent(
+      'mouseup',
+      true,
+      true,
+      document.defaultView,
+      0,
+      0,
+      0,
+      550,
+      550, // clientX = 550, clientY = 550
+      false,
+      false,
+      false,
+      false,
+      0,
+      null,
     );
     document.body.dispatchEvent(event);
 
@@ -1195,12 +1219,17 @@ describe('drag node with group', () => {
       target: node,
       item: node,
       x: 0,
-      y: 0
+      y: 0,
     });
     graph.emit('dragleave', { target: keyShape });
 
     // a node without group
-    const nodeWithoutGroup = graph.addItem('node', { id: 'noGroupNode', label: 'noGroupNode', x: 300, y: 350 });
+    const nodeWithoutGroup = graph.addItem('node', {
+      id: 'noGroupNode',
+      label: 'noGroupNode',
+      x: 300,
+      y: 350,
+    });
     graph.emit('dragover', { target: nodeWithoutGroup });
     graph.emit('dragleave', { target: nodeWithoutGroup });
     graph.destroy();
@@ -1212,17 +1241,24 @@ describe('drag node with group', () => {
       width: 500,
       height: 500,
       modes: {
-        default: [{
-          type: 'drag-node-with-group'
-        }]
-      }
+        default: [
+          {
+            type: 'drag-node-with-group',
+          },
+        ],
+      },
     });
     graph.data(data);
     graph.render();
 
     // a node without group
-    const nodeWithoutGroup = graph.addItem('node', { id: 'noGroupNode', label: 'noGroupNode', x: 450, y: 350 });
-    
+    const nodeWithoutGroup = graph.addItem('node', {
+      id: 'noGroupNode',
+      label: 'noGroupNode',
+      x: 450,
+      y: 350,
+    });
+
     graph.destroy();
   });
 
@@ -1234,38 +1270,40 @@ describe('drag node with group', () => {
           groupId: 'group1',
           label: 'rect',
           x: 100,
-          y: 300
+          y: 300,
         },
         {
           id: 'node1',
           label: 'fck',
           x: 100,
-          y: 100
-        }
+          y: 100,
+        },
       ],
       groups: [
         {
           id: 'group1',
-          title: '1'
-        }
-      ]
+          title: '1',
+        },
+      ],
     };
     const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
       modes: {
-        default: [{
-          type: 'drag-node-with-group'
-        }]
-      }
+        default: [
+          {
+            type: 'drag-node-with-group',
+          },
+        ],
+      },
     });
     graph.data(data2);
     graph.render();
 
     // a node without group
     // const nodeWithoutGroup = graph.addItem('node', { id: 'noGroupNode', label: 'noGroupNode', x: 450, y: 350 });
-    
+
     // graph.destroy();
   });
 
@@ -1275,11 +1313,13 @@ describe('drag node with group', () => {
       width: 500,
       height: 500,
       modes: {
-        default: [{
-          type: 'drag-node-with-group',
-          updateEdge: false
-        }]
-      }
+        default: [
+          {
+            type: 'drag-node-with-group',
+            updateEdge: false,
+          },
+        ],
+      },
     });
     graph.data(data);
     graph.render();
@@ -1287,7 +1327,7 @@ describe('drag node with group', () => {
     graph.emit('node:drag', {
       item: node,
       x: 100,
-      y: 100
+      y: 100,
     });
     graph.destroy();
   });
@@ -1298,13 +1338,15 @@ describe('drag node with group', () => {
       width: 500,
       height: 500,
       modes: {
-        default: [{
-          type: 'drag-node-with-group',
-          shouldBegin: () => {
-            return false;
-          }
-        }]
-      }
+        default: [
+          {
+            type: 'drag-node-with-group',
+            shouldBegin: () => {
+              return false;
+            },
+          },
+        ],
+      },
     });
     graph.data(data);
     graph.render();
@@ -1312,7 +1354,7 @@ describe('drag node with group', () => {
     graph.emit('node:dragstart', {
       item: node,
       x: 0,
-      y: 0
+      y: 0,
     });
     graph.destroy();
   });
@@ -1323,16 +1365,18 @@ describe('drag node with group', () => {
       width: 500,
       height: 500,
       modes: {
-        default: [{
-          type: 'drag-node-with-group',
-          shouldEnd: () => {
-            return false;
+        default: [
+          {
+            type: 'drag-node-with-group',
+            shouldEnd: () => {
+              return false;
+            },
+            shouldUpdate: () => {
+              return false;
+            },
           },
-          shouldUpdate: () => {
-            return false;
-          }
-        }]
-      }
+        ],
+      },
     });
     graph.data(data);
     graph.render();
@@ -1340,23 +1384,23 @@ describe('drag node with group', () => {
     graph.emit('node:dragstart', {
       item: node,
       x: 0,
-      y: 0
+      y: 0,
     });
     graph.emit('node:drag', {
       item: node,
       x: 0,
-      y: 0
+      y: 0,
     });
     graph.emit('node:dragend', {
       item: node,
       x: 0,
-      y: 0
+      y: 0,
     });
     graph.destroy();
   });
-})
+});
 
-describe('drag group out of range', () =>  {
+describe('drag group out of range', () => {
   const data = {
     nodes: [
       {
@@ -1364,86 +1408,86 @@ describe('drag group out of range', () =>  {
         groupId: 'group3',
         label: 'rect',
         x: 100,
-        y: 300
+        y: 300,
       },
       {
         id: 'node1',
         label: 'fck',
         groupId: 'group1',
         x: 100,
-        y: 100
+        y: 100,
       },
       {
         id: 'node9',
         label: 'noGroup1',
         groupId: 'p1',
         x: 300,
-        y: 210
+        y: 210,
       },
       {
         id: 'node2',
         label: 'node2',
         groupId: 'group1',
         x: 150,
-        y: 200
+        y: 200,
       },
       {
         id: 'node3',
         label: 'node3',
         groupId: 'group2',
         x: 300,
-        y: 100
+        y: 100,
       },
       {
         id: 'node7',
         groupId: 'p1',
         label: 'node7-p1',
         x: 200,
-        y: 200
+        y: 200,
       },
       {
         id: 'node10',
         label: 'noGroup',
         groupId: 'p2',
         x: 300,
-        y: 210
-      }
+        y: 210,
+      },
     ],
     edges: [
       {
         source: 'node1',
-        target: 'node2'
+        target: 'node2',
       },
       {
         source: 'node2',
-        target: 'node3'
-      }
+        target: 'node3',
+      },
     ],
     groups: [
       {
         id: 'group1',
         title: '1',
-        parentId: 'p1'
+        parentId: 'p1',
       },
       {
         id: 'group2',
         title: '2',
-        parentId: 'p1'
+        parentId: 'p1',
       },
       {
         id: 'group3',
         title: '2',
-        parentId: 'p2'
+        parentId: 'p2',
       },
       {
         id: 'p1',
-        title: '3'
+        title: '3',
       },
       {
         id: 'p2',
-        title: '3'
-      }
-    ]
+        title: '3',
+      },
+    ],
   };
   // FIXME: drag out of canvas did not stop
   it('drag out of canvas', () => {
@@ -1452,10 +1496,12 @@ describe('drag group out of range', () =>  {
       width: 500,
       height: 500,
       modes: {
-        default: [{
-          type: 'drag-group'
-        }]
-      }
+        default: [
+          {
+            type: 'drag-group',
+          },
+        ],
+      },
     });
     graph.data(data);
     graph.render();
@@ -1467,27 +1513,33 @@ describe('drag group out of range', () =>  {
     graph.emit('dragstart', {
       target: keyShape,
       canvasX: 0,
-      canvasY: 0
+      canvasY: 0,
     });
     graph.emit('drag', {
       target: keyShape,
       canvasX: 500,
-      canvasY: 200
+      canvasY: 200,
     });
     graph.emit('canvas:mouseleave', { target: keyShape });
     // mouseup out of the canvas
-    const event = document.createEvent("MouseEvents");
-		event.initMouseEvent(
-			"mouseup", 
-			true, 
-			true, 
-			document.defaultView, 
-			0, 
-			0, 0, 550, 550, // clientX = 550, clientY = 550
-			false, false, false, false, 
-			0, 
-			null
-		);
+    const event = document.createEvent('MouseEvents');
+    event.initMouseEvent(
+      'mouseup',
+      true,
+      true,
+      document.defaultView,
+      0,
+      0,
+      0,
+      550,
+      550, // clientX = 550, clientY = 550
+      false,
+      false,
+      false,
+      false,
+      0,
+      null,
+    );
     document.body.dispatchEvent(event);
   });
 });

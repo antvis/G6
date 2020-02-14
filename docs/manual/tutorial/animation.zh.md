@@ -11,6 +11,7 @@ G6 的动画分为两个层次：
 - 元素动画：节点和边的动画效果。
 
 ## 全局动画
+
 G6 的全局动画指通过图实例进行操作时，产生的动画效果。例如：
 
 - `graph.updateLayout(cfg)`
@@ -22,13 +23,13 @@ G6 的全局动画指通过图实例进行操作时，产生的动画效果。�
 ```javascript
 const graph = new G6.Graph({
   // ...                      // 其他配置项
-  animate: true            // Boolean，可选，全局变化时否使用动画过度
+  animate: true, // Boolean，可选，全局变化时否使用动画过度
 });
 ```
 
 ## 元素动画
-G6 允许用户通过自定义节点/边的方式，给元素增加动画效果，如下：<br />
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hYJSQaneVmgAAAAAAAAAAABkARQnAQ' width=330 />
+
+G6 允许用户通过自定义节点/边的方式，给元素增加动画效果，如下：<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hYJSQaneVmgAAAAAAAAAAABkARQnAQ' width=330 />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-90pSrm4hkUAAAAAAAAAAABkARQnAQ' width=330 />
 

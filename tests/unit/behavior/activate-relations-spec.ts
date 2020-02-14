@@ -1,6 +1,6 @@
-import '../../../src/behavior'
-import '../../../src/shape'
-import Graph from '../../../src/graph/graph'
+import '../../../src/behavior';
+import '../../../src/shape';
+import Graph from '../../../src/graph/graph';
 
 describe('activate-relations', () => {
   const div = document.createElement('div');
@@ -13,26 +13,26 @@ describe('activate-relations', () => {
     modes: { default: [] },
     defaultNode: {
       style: {
-        stroke: '#f00'
-      }
+        stroke: '#f00',
+      },
     },
     nodeStateStyles: {
       active: {
         fillOpacity: 0.8,
-        lineWidth: 3
+        lineWidth: 3,
       },
       selected: {
-        lineWidth: 5
-      }
+        lineWidth: 5,
+      },
     },
     edgeStateStyles: {
       active: {
         strokeOpacity: 0.8,
-        lineWidth: 3
-      }
-    }
+        lineWidth: 3,
+      },
+    },
   });
-  
+
   const node1 = graph.addItem('node', { id: 'node1', x: 100, y: 100, label: 'node1' });
   const node2 = graph.addItem('node', { id: 'node2', x: 200, y: 200, label: 'node2' });
   graph.addItem('node', { id: 'node3', x: 80, y: 250, label: 'node3' });
@@ -80,12 +80,12 @@ describe('activate-relations', () => {
       }
       done();
     });
-    graph.addBehaviors([ 'activate-relations' ], 'default');
+    graph.addBehaviors(['activate-relations'], 'default');
     graph.emit('node:mouseenter', { item: node1 });
     graph.emit('node:mouseleave', { item: node1 });
     graph.emit('node:mouseenter', { item: node2 });
     graph.emit('node:mouseleave', { item: node2 });
-    graph.removeBehaviors([ 'activate-relations' ], 'default');
+    graph.removeBehaviors(['activate-relations'], 'default');
     // graph.removeEvent();
   });
   it('click to activate', done => {
@@ -130,22 +130,27 @@ describe('activate-relations', () => {
         }
       }
     });
-    graph.addBehaviors([{
-      type: 'activate-relations',
-      trigger: 'click'
-    }], 'default');
+    graph.addBehaviors(
+      [
+        {
+          type: 'activate-relations',
+          trigger: 'click',
+        },
+      ],
+      'default',
+    );
     graph.emit('node:click', { item: node1 });
     graph.emit('canvas:click', {});
     graph.emit('node:click', { item: node2 });
     graph.emit('canvas:click', {});
-    graph.removeBehaviors([ 'activate-relations' ], 'default');
+    graph.removeBehaviors(['activate-relations'], 'default');
   });
   it('custom state', done => {
     const graph2 = new Graph({
       container: div,
       width: 500,
       height: 500,
-      modes: { default: [] }
+      modes: { default: [] },
     });
     const g2node1 = graph2.addItem('node', { id: 'node1', x: 100, y: 100, label: 'node1' });
     const g2node2 = graph2.addItem('node', { id: 'node2', x: 200, y: 200, label: 'node2' });
@@ -185,11 +190,16 @@ describe('activate-relations', () => {
         }
       }
     });
-    graph2.addBehaviors([{
-      type: 'activate-relations',
-      activeState: 'highlight',
-      inactiveState: null
-    }], 'default');
+    graph2.addBehaviors(
+      [
+        {
+          type: 'activate-relations',
+          activeState: 'highlight',
+          inactiveState: null,
+        },
+      ],
+      'default',
+    );
     graph2.emit('node:mouseenter', { item: g2node1 });
     graph2.emit('node:mouseleave', { item: g2node1 });
     graph2.emit('node:mouseenter', { item: g2node2 });
@@ -197,11 +207,18 @@ describe('activate-relations', () => {
     graph2.destroy();
   });
   it('should not update', () => {
-    graph.addBehaviors([{
-      type: 'activate-relations',
-      trigger: 'click',
-      shouldUpdate() { return false; }
-    }], 'default');
+    graph.addBehaviors(
+      [
+        {
+          type: 'activate-relations',
+          trigger: 'click',
+          shouldUpdate() {
+            return false;
+          },
+        },
+      ],
+      'default',
+    );
     graph.emit('node:click', { item: node1 });
     let nodes = graph.findAllByState('node', 'active');
     let edges = graph.findAllByState('edge', 'active');
@@ -214,17 +231,27 @@ describe('activate-relations', () => {
     expect(nodes.length).toEqual(0);
     expect(edges.length).toEqual(0);
     graph.emit('canvas:click', {});
-    graph.removeBehaviors([ 'activate-relations' ], 'default');
+    graph.removeBehaviors(['activate-relations'], 'default');
   });
   it('combine selected state', () => {
-    graph.addBehaviors([{
-      type: 'activate-relations',
-      trigger: 'mouseenter',
-      resetSelected: true
-    }], 'default');
-    graph.addBehaviors([{
-      type: 'click-select'
-    }], 'default');
+    graph.addBehaviors(
+      [
+        {
+          type: 'activate-relations',
+          trigger: 'mouseenter',
+          resetSelected: true,
+        },
+      ],
+      'default',
+    );
+    graph.addBehaviors(
+      [
+        {
+          type: 'click-select',
+        },
+      ],
+      'default',
+    );
 
     graph.emit('node:click', { item: node1 });
     let nodes = graph.findAllByState('node', 'selected');
@@ -240,7 +267,7 @@ describe('activate-relations', () => {
     nodes = graph.findAllByState('node', 'selected');
     expect(nodes.length).toEqual(1);
     graph.emit('node:mouseleave', {});
-    graph.removeBehaviors([ 'activate-relations' ], 'default');
+    graph.removeBehaviors(['activate-relations'], 'default');
     graph.destroy();
   });
 });

@@ -17,94 +17,107 @@ There are 3 steps to implement the expected effect:
 - Step 2: Place the nodes to the top of edges;
 - Step 3: Change the visual levels in the listener function of mouse entering.
 
-
 ## Prerequisite Code
+
 The following code imports G6, defines the data, instantiates the Graph, renders the graph. We will modify this code to implement the expected effect.
+
 ```javascript
-  // The source data
-  const data = {
-    nodes: [{
+// The source data
+const data = {
+  nodes: [
+    {
       id: 'node0',
       x: 100,
       y: 100,
-      size: 20
-    },{
+      size: 20,
+    },
+    {
       id: 'node1',
       x: 200,
       y: 200,
-      size: 20
-    },{
+      size: 20,
+    },
+    {
       id: 'node2',
       x: 150,
       y: 150,
-      size: 20
-    },{
+      size: 20,
+    },
+    {
       id: 'node3',
       x: 150,
       y: 250,
-      size: 20
-    },{
+      size: 20,
+    },
+    {
       id: 'node4',
       x: 150,
       y: 200,
-      size: 20
-    }],
-    edges: [{
+      size: 20,
+    },
+  ],
+  edges: [
+    {
       id: 'edge0',
       source: 'node0',
-      target: 'node1'
-    },{
+      target: 'node1',
+    },
+    {
       id: 'edge1',
       source: 'node2',
-      target: 'node3'
-    }]
-  };
+      target: 'node3',
+    },
+  ],
+};
 
-  // Instantiate the graph
-  const graph = new G6.Graph({
-    container: 'mountNode',
-    width: 800,
-    height: 600,
-    // Make the edge thicker for demonstration
-    defaultEdge: {
-      style: {
-        lineWidth: 2
-      }
-    }
-  });
-  
-  // Load the data
-  graph.data(data);
-  // Render the graph
-  graph.render();
+// Instantiate the graph
+const graph = new G6.Graph({
+  container: 'mountNode',
+  width: 800,
+  height: 600,
+  // Make the edge thicker for demonstration
+  defaultEdge: {
+    style: {
+      lineWidth: 2,
+    },
+  },
+});
+
+// Load the data
+graph.data(data);
+// Render the graph
+graph.render();
 ```
 
-
 ## Step 1 Configure the Graph
+
 `groupByTypes` is a configuration of Graph with `true` as default value. That means that all the nodes are grouped in a Group named `nodeGroup`, all the edges are groupd in `edgeGroup`, and `nodeGroup` is on the top of `edgeGroup`. Assign `false` to `groupByTypes` to cancel the `nodeGroup` and `edgeGroup`. And all the nodes and edges will be grouped in one Group. The visual level (zIndex) in determined by their generation order.
 
-
 ### Configuration
-| Name | Type | Default | Description |
-| --- | --- | --- | --- |
-| groupByTypes | Boolean | true | Whether nodes and edges are grouped in different Group. |
 
+| Name         | Type    | Default | Description                                             |
+| ------------ | ------- | ------- | ------------------------------------------------------- |
+| groupByTypes | Boolean | true    | Whether nodes and edges are grouped in different Group. |
 
 ### Usage
+
 Modify the code about instantiating the Graph in Prerequisite Code. Add `groupByTypes` with `false`:
+
 ```javascript
 const graph = new G6.Graph({
   // ...  // Other configurations
-  groupByTypes: false
+  groupByTypes: false,
 });
 ```
 
 We obtain this result now:<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cbiwTZ5dwP0AAAAAAAAAAABkARQnAQ' width=150/>
 
 ## Step 2 Place the Nodes on the Top
+
 Due to the `groupByTypes` with `false` and edges are generated after nodes, the edges are on the top of the nodes in the figure above, which is a little strange. To draw the nodes on the top, we call `toFront()` for each node after `graph.render()`.
 
 ### Description for Functions
+
 ```javascript
 // Shift the node instance nodeItem to the front
 nodeItem.toFront();
@@ -117,8 +130,9 @@ edgeItem.toBack();
 ```
 
 ### Usage
+
 ```javascript
-// const graph = ... 
+// const graph = ...
 graph.data(data);
 graph.render();
 // Get all the node instances of the graph
@@ -130,13 +144,17 @@ nodes.forEach(node => {
 // Repaint the graph after shifting
 graph.paint();
 ```
- <br />Now, all the nodes are drawed on the top of edges:<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*8TnuS7pkUfwAAAAAAAAAAABkARQnAQ' width=150/>
+
+<br />Now, all the nodes are drawed on the top of edges:<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*8TnuS7pkUfwAAAAAAAAAAABkARQnAQ' width=150/>
 
 ## Step 3 Change the Visual Levels in the Listener Function of Mouse Entering
+
 When the mouse enters a node, the related nodes and edges will be shifted to the front. And they will be restored after mouse leaving.
 
 ### Description for Functions
-Listen the mouse entering and leaving by the following four functions: 
+
+Listen the mouse entering and leaving by the following four functions:
+
 ```javascript
 // Mouse enters a node
 graph.on('node:mouseenter', ev => {
@@ -160,6 +178,7 @@ graph.on('edge:mouseleave', ev => {
 ```
 
 ### Usage
+
 ```javascript
 // Mouse enters an edge
 graph.on('edge:mouseenter', ev => {

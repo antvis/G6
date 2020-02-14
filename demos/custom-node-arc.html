@@ -1,60 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>自定义弧形节点</title>
     <script src="../build/g6.js"></script>
-</head>
-<body>
-  <div id="mountNode"></div>
-<script>
-  G6.registerNode('fannode', {
-    draw(cfg, group) {
-      const keyShape = group.addShape('fan', {
-        attrs: {
-          x: 50,
-          y: 50,
-          re: 40,
-          rs: 30,
-          startAngle: 1/2*Math.PI,
-          endAngle: Math.PI,
-          clockwise: false,
-          fill: '#b7eb8f'
-        }
-      })
-      return keyShape
-    }
-  })
-  
-  const data = {
-    nodes: [{
-      id: 'node1',
-      x: 100,
-      y: 200
-  },{
-      id: 'node2',
-      x: 300,
-      y: 200
-  }],
-    edges: [{
-      id: 'edge1',
-      target: 'node2',
-      source: 'node1'
-  }]
-  };
-  const graph = new G6.Graph({
-    container: 'mountNode',
-    width: 500,
-    height: 500,
-    defaultNode: {
-      shape: 'fannode'
-    },
-    defaultEdge: {
-      color: '#91d5ff'
-    }
-  });
-  graph.data(data);
-  graph.render();
-</script>
-</body>
+  </head>
+  <body>
+    <div id="mountNode"></div>
+    <script>
+      G6.registerNode('fannode', {
+        draw(cfg, group) {
+          const keyShape = group.addShape('fan', {
+            attrs: {
+              x: 50,
+              y: 50,
+              re: 40,
+              rs: 30,
+              startAngle: (1 / 2) * Math.PI,
+              endAngle: Math.PI,
+              clockwise: false,
+              fill: '#b7eb8f',
+            },
+          });
+          return keyShape;
+        },
+      });
+
+      const data = {
+        nodes: [
+          {
+            id: 'node1',
+            x: 100,
+            y: 200,
+          },
+          {
+            id: 'node2',
+            x: 300,
+            y: 200,
+          },
+        ],
+        edges: [
+          {
+            id: 'edge1',
+            target: 'node2',
+            source: 'node1',
+          },
+        ],
+      };
+      const graph = new G6.Graph({
+        container: 'mountNode',
+        width: 500,
+        height: 500,
+        defaultNode: {
+          shape: 'fannode',
+        },
+        defaultEdge: {
+          color: '#91d5ff',
+        },
+      });
+      graph.data(data);
+      graph.render();
+    </script>
+  </body>
 </html>

@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>label上面文本太长显示省略号</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="mountNode"></div>
     <script src="../build/g6.js"></script>
     <script>
@@ -21,14 +20,14 @@
        *       ...
        *     }
        *  })
-       * 
-      */
+       *
+       */
 
-     /**
+      /**
        * 计算字符串的长度
        * @param {string} str 指定的字符串
        */
-      const calcStrLen = (str) => {
+      const calcStrLen = str => {
         let len = 0;
         for (let i = 0; i < str.length; i++) {
           if (str.charCodeAt(i) > 0 && str.charCodeAt(i) < 128) {
@@ -38,7 +37,7 @@
           }
         }
         return len;
-      }
+      };
 
       /**
        * 计算显示的字符串
@@ -47,89 +46,93 @@
        * @param {number} fontSize 字体大小
        */
       const fittingString = (str, maxWidth, fontSize) => {
-        const fontWidth = fontSize * 1.3 //字号+边距
-        maxWidth = maxWidth * 2 // 需要根据自己项目调整
-        const width = calcStrLen(str) * fontWidth
-        const ellipsis = '…'
+        const fontWidth = fontSize * 1.3; //字号+边距
+        maxWidth = maxWidth * 2; // 需要根据自己项目调整
+        const width = calcStrLen(str) * fontWidth;
+        const ellipsis = '…';
         if (width > maxWidth) {
           const actualLen = Math.floor((maxWidth - 10) / fontWidth);
-          const result = str.substring(0, actualLen) + ellipsis
-          return result
+          const result = str.substring(0, actualLen) + ellipsis;
+          return result;
         }
-        return str
-      }
+        return str;
+      };
 
       const data = {
-          nodes: [{
-              x: 100,
-              y: 100,
-              shape: 'rect',
-              label: '这个文案有点长',
-              id:'node1',
-              labelCfg: {
-                  position: 'bottom'
-              },
-              anchorPoints: [
-                  [0, 0.5], 
-                  [1, 0.5]
-              ]
-          },{
-              x: 300,
-              y: 100,
-              shape: 'rect',
-              label: '这个文案也有点长',
-              id:'node2',
-              labelCfg: {
-                  position: 'bottom'
-              },
-              anchorPoints: [
-                  [0, 0.5], 
-                  [1, 0.5]
-              ]
-          }
-          ],
-          edges: [
-              {
-                  source: 'node1',
-                  target: 'node2',
-                  label: 'label上面这个文本太长了我需要换行',
-                  labelCfg: {
-                      refY: 20
-                  },
-                  style: {
-                      endArrow: true
-                  }
-              }
-          ]
+        nodes: [
+          {
+            x: 100,
+            y: 100,
+            shape: 'rect',
+            label: '这个文案有点长',
+            id: 'node1',
+            labelCfg: {
+              position: 'bottom',
+            },
+            anchorPoints: [
+              [0, 0.5],
+              [1, 0.5],
+            ],
+          },
+          {
+            x: 300,
+            y: 100,
+            shape: 'rect',
+            label: '这个文案也有点长',
+            id: 'node2',
+            labelCfg: {
+              position: 'bottom',
+            },
+            anchorPoints: [
+              [0, 0.5],
+              [1, 0.5],
+            ],
+          },
+        ],
+        edges: [
+          {
+            source: 'node1',
+            target: 'node2',
+            label: 'label上面这个文本太长了我需要换行',
+            labelCfg: {
+              refY: 20,
+            },
+            style: {
+              endArrow: true,
+            },
+          },
+        ],
       };
-    
+
       const graph = new G6.Graph({
-      container: 'mountNode',
-      width: 1000,
-      height: 600,
-      defaultNode: {
-        style: {
-          fill: '#87e8de',
+        container: 'mountNode',
+        width: 1000,
+        height: 600,
+        defaultNode: {
+          style: {
+            fill: '#87e8de',
+          },
+          color: '#87e8de',
         },
-        color: '#87e8de'
-      },
-      defaultEdge: {
-        color: '#bae7ff'
-      },
-      modes: {
-          default: ['drag-node', {
+        defaultEdge: {
+          color: '#bae7ff',
+        },
+        modes: {
+          default: [
+            'drag-node',
+            {
               type: 'drag-node',
-          }],
-        }
+            },
+          ],
+        },
       });
 
       // 直接修改原生数据中的label字段
-      data.nodes.forEach(node => node.label = fittingString(node.label, 25, 12))
-      data.edges.forEach(edge => edge.label = fittingString(edge.label, 100, 12))
+      data.nodes.forEach(node => (node.label = fittingString(node.label, 25, 12)));
+      data.edges.forEach(edge => (edge.label = fittingString(edge.label, 100, 12)));
 
       graph.data(data);
-      graph.render(); 
+      graph.render();
     </script>
-</body>
-
+  </body>
 </html>

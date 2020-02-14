@@ -1,149 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>默认的图片节点</title>
-</head>
-<body>
-  <div id="mountNode"></div>
-  <script src="../build/g6.js"></script>
-  <script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>默认的图片节点</title>
+  </head>
+  <body>
+    <div id="mountNode"></div>
+    <script src="../build/g6.js"></script>
+    <script>
+      G6.registerEdge(
+        'selfLine',
+        {
+          options: {
+            style: {
+              stroke: 'red',
+              lineWidth: 5,
+            },
+          },
+          drawShape(cfg, group) {
+            const shapeStyle = this.getShapeStyle(cfg);
+            const keyShape = group.addShape('path', {
+              className: 'edge-shape',
+              attrs: shapeStyle,
+            });
+            return keyShape;
+          },
+        },
+        'single-line',
+      );
 
-  G6.registerEdge('selfLine', {
-    options: {
-      style: {
-        stroke: 'red',
-        lineWidth: 5
-      }
-    },
-    drawShape(cfg, group) {
-      const shapeStyle = this.getShapeStyle(cfg);
-      const keyShape = group.addShape('path', {
-        className: 'edge-shape',
-        attrs: shapeStyle
+      const data = {
+        nodes: [
+          {
+            id: 'triangle1',
+            type: 'a',
+            label: '主题 ModelRect Title',
+            description: '这里是一顿描述信息，不知道长短',
+            x: 150,
+            y: 100,
+            anchorPoints: [
+              [0.5, 1],
+              [1, 0.5],
+            ],
+            // shape: 'triangle',
+            style: {
+              fill: 'blue',
+            },
+          },
+          {
+            id: 'triangle',
+            type: 'b',
+            label: '主题 ModelRect Title',
+            description: '这里是一顿描述信息，不知道长短',
+            x: 250,
+            y: 100,
+            anchorPoints: [
+              [0.5, 1],
+              [1, 0.5],
+            ],
+            style: {
+              stroke: 'green',
+            },
+          },
+        ],
+        edges: [
+          {
+            source: 'triangle1',
+            target: 'triangle',
+            shape: 'selfLine',
+          },
+        ],
+      };
+
+      const graph = new G6.Graph({
+        container: 'mountNode',
+        width: 800,
+        height: 600,
+        defaultNode: {
+          shape: 'star',
+          size: [60, 80],
+          style: {
+            fill: '#bae637',
+            stroke: '#000',
+            lineWidth: 5,
+          },
+          labelCfg: {
+            position: 'bottom',
+            offset: 20,
+            style: {
+              fill: '#9254de',
+              fontSize: 18,
+            },
+          },
+          linkPoints: {
+            top: true,
+            left: true,
+            right: true,
+            leftBottom: true,
+            rightBottom: true,
+            size: 5,
+            fill: '#fff',
+          },
+          icon: {
+            show: true,
+          },
+        },
+        nodeStateStyles: {
+          hover: {
+            fill: '#d3adf7',
+          },
+        },
+        modes: {
+          default: ['drag-canvas'],
+        },
       });
-      return keyShape;
-    }
-  }, 'single-line')
 
-    const data = {
-      nodes: [
-        {
-          id: 'triangle1',
-          type: 'a',
-          label: '主题 ModelRect Title',
-          description: '这里是一顿描述信息，不知道长短',
-          x: 150,
-          y: 100,
-          anchorPoints: [[0.5, 1], [1, 0.5]],
-          // shape: 'triangle',
-          style: {
-            fill: 'blue'
-          }
-        },
-        {
-          id: 'triangle',
+      graph.data(data);
+      graph.render();
+
+      graph.on('node:click', evt => {
+        const { item } = evt;
+        graph.setItemState(item, 'select', true);
+
+        graph.updateItem(item, {
+          size: [180, 90],
+          shape: 'modelRect',
           type: 'b',
-          label: '主题 ModelRect Title',
-          description: '这里是一顿描述信息，不知道长短',
-          x: 250,
-          y: 100,
-          anchorPoints: [[0.5, 1], [1, 0.5]],
           style: {
-            stroke: 'green'
-          }
-        }
-      ],
-      edges: [
-        {
-          source: 'triangle1',
-          target: 'triangle',
-          shape: 'selfLine'
-        }
-      ]
-    }
+            fill: '#fff',
+          },
+          preRect: {
+            fill: '#ff4d4f',
+          },
+          linkPoints: {
+            fill: '#fff',
+            size: 5,
+          },
+          stateIcon: {
+            img:
+              'https://gw.alipayobjects.com/zos/basement_prod/c781088a-c635-452a-940c-0173663456d4.svg',
+          },
+        });
+      });
 
-    const graph = new G6.Graph({
-      container: 'mountNode',
-      width: 800,
-      height: 600,
-      defaultNode: {
-        shape: 'star',
-        size: [60, 80],
-        style: {
-          fill: '#bae637',
-          stroke: '#000',
-          lineWidth: 5
-        },
-        labelCfg: {
-          position: 'bottom',
-          offset: 20,
-          style: {
-            fill: '#9254de',
-            fontSize: 18
-          }
-        },
-        linkPoints: {
-          top: true,
-          left: true,
-          right: true,
-          leftBottom: true,
-          rightBottom: true,
-          size: 5,
-          fill: '#fff'
-        },
-        icon: {
-          show: true
-        }
-      },
-      nodeStateStyles: {
-        hover: {
-          fill: '#d3adf7'
-        }
-      },
-      modes: {
-        default: ['drag-canvas']
-      }
-    })
+      graph.on('node:mouseenter', evt => {
+        const { item } = evt;
+        graph.setItemState(item, 'hover', true);
+      });
 
-    graph.data(data)
-    graph.render()
-
-    graph.on('node:click', evt => {
-      const { item } = evt
-      graph.setItemState(item, 'select', true)
-      
-      graph.updateItem(item, {
-        size: [ 180, 90],
-        shape: 'modelRect',
-        type: 'b',
-        style: {
-          fill: '#fff'
-        },
-        preRect: {
-          fill: '#ff4d4f'
-        },
-        linkPoints: {
-          fill: '#fff',
-          size: 5
-        },
-        stateIcon: {
-          img: 'https://gw.alipayobjects.com/zos/basement_prod/c781088a-c635-452a-940c-0173663456d4.svg'
-        }
-      })
-    })
-
-    graph.on('node:mouseenter', evt => {
-      const { item } = evt
-      graph.setItemState(item, 'hover', true)
-    })
-
-    graph.on('node:mouseleave', evt => {
-      const { item } = evt
-      graph.setItemState(item, 'hover', false)
-    })
-  </script>
-</body>
+      graph.on('node:mouseleave', evt => {
+        const { item } = evt;
+        graph.setItemState(item, 'hover', false);
+      });
+    </script>
+  </body>
 </html>

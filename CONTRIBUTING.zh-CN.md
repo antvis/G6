@@ -1,7 +1,6 @@
 # 代码贡献规范
 
-有任何疑问，欢迎提交 [issue](https://github.com/antvis/g6/issues)，
-或者直接修改提交 [PR](https://github.com/antvis/g6/pulls)!
+有任何疑问，欢迎提交 [issue](https://github.com/antvis/g6/issues)，或者直接修改提交 [PR](https://github.com/antvis/g6/pulls)!
 
 ## 提交 issue
 
@@ -46,8 +45,7 @@ $ git push origin branch-name
 
 ### Commit 提交规范
 
-根据 [angular 规范](https://github.com/angular/angular.js/blob/master/CONTRIBUTING.md#commit-message-format)提交 commit，
-这样 history 看起来更加清晰，还可以自动生成 changelog。
+根据 [angular 规范](https://github.com/angular/angular.js/blob/master/CONTRIBUTING.md#commit-message-format)提交 commit，这样 history 看起来更加清晰，还可以自动生成 changelog。
 
 ```xml
 <type>(<scope>): <subject>
@@ -129,20 +127,19 @@ g6 基于 [semver] 语义化版本号进行发布。
 
 - 确认当前 Milestone 所有的 issue 都已关闭或可延期，完成性能测试。
 - 发起一个新的 [Release Proposal MR]，按照 [node CHANGELOG] 进行 `History` 的编写，修正文档中与版本相关的内容，commits 可以自动生成。
-    ```bash
-    $ npm run commits
-    ```
+  ```bash
+  $ npm run commits
+  ```
 - 指定下一个大版本的 PM。
 
 #### 发布时：
 
-- 将老的稳定版本（master）备份到以当前大版本为名字的分支上（例如 `1.x`），并设置 tag 为 {v}.x`（ v 为当前版本，例如 `1.x`）。
+- 将老的稳定版本（master）备份到以当前大版本为名字的分支上（例如 `1.x`），并设置 tag 为 {v}.x`（ v 为当前版本，例如`1.x`）。
 - 发布新的稳定版本到 [npm]，并通知上层框架进行更新。
 - `npm publish` 之前，请先阅读[『我是如何发布一个 npm 包的』]。
 
-
 [semver]: http://semver.org/lang/zh-CN/
-[Release proposal MR]: https://github.com/nodejs/node/pull/4181
-[node CHANGELOG]: https://github.com/nodejs/node/blob/master/CHANGELOG.md
+[release proposal mr]: https://github.com/nodejs/node/pull/4181
+[node changelog]: https://github.com/nodejs/node/blob/master/CHANGELOG.md
 [npm]: http://npmjs.com/
 [『我是如何发布一个 npm 包的』]: https://fengmk2.com/blog/2016/how-i-publish-a-npm-package

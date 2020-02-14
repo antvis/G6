@@ -1,5 +1,5 @@
-import { ModeController } from '../../../../src/graph/controller'
-import Graph from '../../../../src/graph/graph'
+import { ModeController } from '../../../../src/graph/controller';
+import Graph from '../../../../src/graph/graph';
 import { GraphOptions, IGraph, IModeOption } from '../../../../src/interface/graph';
 
 const div = document.createElement('div');
@@ -13,17 +13,17 @@ describe('Mode Controller', () => {
       width: 200,
       height: 100,
       modes: {
-        default: ['drag']
-      }
-    }
-    const graph: Graph = new Graph(cfg)
-    const modeController = new ModeController(graph)
+        default: ['drag'],
+      },
+    };
+    const graph: Graph = new Graph(cfg);
+    const modeController = new ModeController(graph);
     expect(Object.keys(modeController.modes).length).toBe(1);
     expect(modeController.modes.default[0]).toEqual({ type: 'drag' });
     expect(modeController.modes.default.length).toBe(1);
     expect(modeController.mode).toBe('default');
-  })
-  
+  });
+
   it('setMode', () => {
     const cfg: GraphOptions = {
       container: 'graph-spec',
@@ -31,17 +31,17 @@ describe('Mode Controller', () => {
       height: 100,
       modes: {
         default: ['drag'],
-        edit: ['canvas', 'zoom']
-      }
-    }
-    const graph: Graph = new Graph(cfg)
-    const modeController = new ModeController(graph)
+        edit: ['canvas', 'zoom'],
+      },
+    };
+    const graph: Graph = new Graph(cfg);
+    const modeController = new ModeController(graph);
 
-    modeController.setMode('edit')
-    expect(modeController.modes.edit).not.toBe(undefined)
-    expect(modeController.modes.edit.length).toBe(2)
-    expect(modeController.mode).toBe('edit')
-  })
+    modeController.setMode('edit');
+    expect(modeController.modes.edit).not.toBe(undefined);
+    expect(modeController.modes.edit.length).toBe(2);
+    expect(modeController.mode).toBe('edit');
+  });
 
   it('manipulateBehaviors', () => {
     const cfg: GraphOptions = {
@@ -50,28 +50,28 @@ describe('Mode Controller', () => {
       height: 100,
       modes: {
         default: ['drag'],
-        edit: ['canvas', 'zoom']
-      }
-    }
-    const graph: Graph = new Graph(cfg)
-    const modeController = new ModeController(graph)
+        edit: ['canvas', 'zoom'],
+      },
+    };
+    const graph: Graph = new Graph(cfg);
+    const modeController = new ModeController(graph);
 
-    modeController.manipulateBehaviors(['delete'], 'xxx', true)
-    expect(Object.keys(modeController.modes).length).toBe(3)
-    expect(modeController.modes.xxx).not.toBe(undefined)
-    
-    modeController.manipulateBehaviors('drag', 'dragx', true)
-    expect(modeController.modes.dragx.length).toBe(1)
-    expect(modeController.modes.dragx[0]).toEqual('drag')
-    
-    modeController.manipulateBehaviors(['drag', 'zoom'], ['out', 'xxx'], true)
-    expect(Object.keys(modeController.modes).length).toBe(5)
-    expect(modeController.modes.drag)
+    modeController.manipulateBehaviors(['delete'], 'xxx', true);
+    expect(Object.keys(modeController.modes).length).toBe(3);
+    expect(modeController.modes.xxx).not.toBe(undefined);
+
+    modeController.manipulateBehaviors('drag', 'dragx', true);
+    expect(modeController.modes.dragx.length).toBe(1);
+    expect(modeController.modes.dragx[0]).toEqual('drag');
+
+    modeController.manipulateBehaviors(['drag', 'zoom'], ['out', 'xxx'], true);
+    expect(Object.keys(modeController.modes).length).toBe(5);
+    expect(modeController.modes.drag);
 
     // 删除 Behavior
-    modeController.manipulateBehaviors('drag', 'dragx', false)
-    expect(modeController.modes.dragx.length).toBe(0)
-  })
+    modeController.manipulateBehaviors('drag', 'dragx', false);
+    expect(modeController.modes.dragx.length).toBe(0);
+  });
 
   it('add & remove behavior to several modes', () => {
     const cfg: GraphOptions = {
@@ -81,30 +81,30 @@ describe('Mode Controller', () => {
       modes: {
         default: [],
         custom1: [],
-        custom2: []
-      }
-    }
-    
-    const graph = new Graph(cfg)
-    const modeController = new ModeController(graph)
+        custom2: [],
+      },
+    };
+
+    const graph = new Graph(cfg);
+    const modeController = new ModeController(graph);
     expect(Object.keys(modeController.modes).length).toBe(3);
-    modeController.manipulateBehaviors([ 'aa', 'bb' ], [ 'custom1', 'custom2' ], true);
+    modeController.manipulateBehaviors(['aa', 'bb'], ['custom1', 'custom2'], true);
     expect(modeController.modes.custom1.length).toBe(2);
     expect(modeController.modes.custom2.length).toBe(2);
-    
-    const custom1: IModeOption = modeController.modes.custom1[0] as IModeOption
-    const custom2: IModeOption = modeController.modes.custom1[1] as IModeOption
+
+    const custom1: IModeOption = modeController.modes.custom1[0] as IModeOption;
+    const custom2: IModeOption = modeController.modes.custom1[1] as IModeOption;
     expect(custom1.type).toBe('aa');
     expect(custom2.type).toBe('bb');
 
-    modeController.manipulateBehaviors([ 'aa' ], [ 'custom1', 'custom2' ], false);
+    modeController.manipulateBehaviors(['aa'], ['custom1', 'custom2'], false);
 
-    const customd1: IModeOption = modeController.modes.custom1[0] as IModeOption
-    const customd2: IModeOption = modeController.modes.custom2[0] as IModeOption
-    
+    const customd1: IModeOption = modeController.modes.custom1[0] as IModeOption;
+    const customd2: IModeOption = modeController.modes.custom2[0] as IModeOption;
+
     expect(modeController.modes.custom1.length).toBe(1);
     expect(modeController.modes.custom2.length).toBe(1);
     expect(customd1.type).toBe('bb');
     expect(customd2.type).toBe('bb');
-  })
-})
+  });
+});

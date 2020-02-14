@@ -1,7 +1,6 @@
 import GGroup from '@antv/g-canvas/lib/group';
-import { IShape } from '@antv/g-canvas/lib/interfaces'
+import { IShape } from '@antv/g-canvas/lib/interfaces';
 import { IPoint, Item, LabelStyle, ModelConfig, ShapeStyle } from '../types';
-
 
 export type ILabelConfig = Partial<{
   position: string;
@@ -9,33 +8,33 @@ export type ILabelConfig = Partial<{
   refX: number;
   refY: number;
   autoRotate: boolean;
-  style: LabelStyle
-}>
+  style: LabelStyle;
+}>;
 
 export type ShapeOptions = Partial<{
-  options: ModelConfig
+  options: ModelConfig;
   /**
    * 形状的类型，例如 circle，ellipse，polyline...
    */
-  type: string
+  type: string;
 
-  itemType: string
-  shapeType: string
-  labelPosition: string
-  labelAutoRotate: boolean
-  [key: string]: unknown
+  itemType: string;
+  shapeType: string;
+  labelPosition: string;
+  labelAutoRotate: boolean;
+  [key: string]: unknown;
 
   /**
    * 绘制
    */
-  draw(cfg?: ModelConfig, group?: GGroup): IShape
+  draw(cfg?: ModelConfig, group?: GGroup): IShape;
 
   drawShape(cfg?: ModelConfig, group?: GGroup): IShape;
-  drawLabel(cfg: ModelConfig, group: GGroup): IShape
-  getLabelStyleByPosition(cfg: ModelConfig, labelCfg: ILabelConfig, group?: GGroup): LabelStyle
-  getLabelStyle(cfg: ModelConfig, labelCfg: ILabelConfig, group: GGroup): LabelStyle
-  getShapeStyle(cfg: ModelConfig): ShapeStyle
-  getStateStyle(name: string, value: string | boolean, item: Item): ShapeStyle
+  drawLabel(cfg: ModelConfig, group: GGroup): IShape;
+  getLabelStyleByPosition(cfg: ModelConfig, labelCfg: ILabelConfig, group?: GGroup): LabelStyle;
+  getLabelStyle(cfg: ModelConfig, labelCfg: ILabelConfig, group: GGroup): LabelStyle;
+  getShapeStyle(cfg: ModelConfig): ShapeStyle;
+  getStateStyle(name: string, value: string | boolean, item: Item): ShapeStyle;
 
   /**
    * 绘制完成后的操作，便于用户继承现有的节点、边
@@ -49,14 +48,13 @@ export type ShapeOptions = Partial<{
    */
   setState(name?: string, value?: string | boolean, item?: Item): void;
 
-
   /**
    * 获取控制点
    * @param  {Object} cfg 节点、边的配置项
    * @return {Array|null} 控制点的数组,如果为 null，则没有控制点
    */
-  getControlPoints(cfg: ModelConfig): IPoint[] | undefined
-  
+  getControlPoints(cfg: ModelConfig): IPoint[] | undefined;
+
   /**
    * 获取控制点
    * @param  {Object} cfg 节点、边的配置项
@@ -68,7 +66,7 @@ export type ShapeOptions = Partial<{
   update(cfg: ModelConfig, item: Item): void;
 
   // 获取节点的大小，只对节点起效
-  getSize: (cfg: ModelConfig) => number[]
+  getSize: (cfg: ModelConfig) => number[];
 
   // 获取路径
   // getPath: (cfg?: ModelConfig) => Array<Array<string | number>>
@@ -84,7 +82,7 @@ export type ShapeOptions = Partial<{
    * @param {Object} cfg 边的配置项
    * @return {Object} 边的配置项
    */
-  getPathPoints: (cfg: ModelConfig) => ModelConfig
+  getPathPoints: (cfg: ModelConfig) => ModelConfig;
 
   // [key: string]: (...args: string[] | number[] | object[] | ModelConfig[]) => unknown
-}>
+}>;

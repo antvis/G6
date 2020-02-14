@@ -53,7 +53,7 @@ describe('grid layout', () => {
       height: 500,
     });
     graph.data({
-      nodes: []
+      nodes: [],
     });
     graph.render();
     graph.destroy();
@@ -69,9 +69,11 @@ describe('grid layout', () => {
       height: 500,
     });
     graph.data({
-      nodes: [{
-        id: 'node'
-      }]
+      nodes: [
+        {
+          id: 'node',
+        },
+      ],
     });
     graph.render();
     const nodeModel = graph.getNodes()[0].getModel();
@@ -97,8 +99,12 @@ describe('grid layout', () => {
     });
     graph.data(data);
     graph.render();
-    expect(graph.getNodes()[0].getModel().x != null && graph.getNodes()[0].getModel().y != null).toEqual(true);
-    expect(graph.getNodes()[2].getModel().x != null && graph.getNodes()[2].getModel().y != null).toEqual(true);
+    expect(
+      graph.getNodes()[0].getModel().x != null && graph.getNodes()[0].getModel().y != null,
+    ).toEqual(true);
+    expect(
+      graph.getNodes()[2].getModel().x != null && graph.getNodes()[2].getModel().y != null,
+    ).toEqual(true);
     expect(graph.getNodes()[0].getModel().x === graph.getNodes()[2].getModel().x).toEqual(true);
     expect(graph.getNodes()[0].getModel().y > graph.getNodes()[2].getModel().y).toEqual(true);
     graph.destroy();
@@ -121,8 +127,12 @@ describe('grid layout', () => {
     });
     graph.data(data);
     graph.render();
-    expect(graph.getNodes()[3].getModel().x != null && graph.getNodes()[3].getModel().y != null).toEqual(true);
-    expect(graph.getNodes()[7].getModel().x != null && graph.getNodes()[7].getModel().y != null).toEqual(true);
+    expect(
+      graph.getNodes()[3].getModel().x != null && graph.getNodes()[3].getModel().y != null,
+    ).toEqual(true);
+    expect(
+      graph.getNodes()[7].getModel().x != null && graph.getNodes()[7].getModel().y != null,
+    ).toEqual(true);
     expect(graph.getNodes()[3].getModel().x === graph.getNodes()[7].getModel().x).toEqual(true);
     expect(graph.getNodes()[3].getModel().y > graph.getNodes()[7].getModel().y).toEqual(true);
     graph.destroy();
@@ -228,7 +238,7 @@ describe('grid layout', () => {
       // 2 rows , 4 columns
       layout: {
         type: 'grid',
-        condense: true
+        condense: true,
       },
       defaultNode: {
         size: [10, 10],
@@ -244,7 +254,7 @@ describe('grid layout', () => {
   });
 
   it('grid layout with preventOverlap', () => {
-    const dataWithoutPos: { nodes: object, edges: object} = {
+    const dataWithoutPos: { nodes: object; edges: object } = {
       nodes: [
         { id: '0', name: '0' },
         { id: '1', name: '1' },
@@ -265,7 +275,7 @@ describe('grid layout', () => {
       ],
     };
     const gridLayout = new G6.Layout['grid']({
-      preventOverlap: true
+      preventOverlap: true,
     });
     gridLayout.init(dataWithoutPos);
     gridLayout.execute();
@@ -282,7 +292,7 @@ describe('grid layout', () => {
       // 2 rows , 4 columns
       layout: {
         type: 'grid',
-        nodeSize: [20, 10]
+        nodeSize: [20, 10],
       },
       width: 500,
       height: 500,
@@ -300,7 +310,7 @@ describe('grid layout', () => {
       // 2 rows , 4 columns
       layout: {
         type: 'grid',
-        nodeSize: null
+        nodeSize: null,
       },
       width: 500,
       height: 500,
@@ -317,7 +327,7 @@ describe('grid layout', () => {
     data.nodes.forEach((node, i) => {
       node['col'] = i % 3;
       node['row'] = rows;
-      if (node['col'] === 2) rows ++;
+      if (node['col'] === 2) rows++;
     });
     const graph = new G6.Graph({
       container: div,
@@ -326,9 +336,9 @@ describe('grid layout', () => {
         position: d => {
           return {
             row: d['row'],
-            col: d['col']
-          }
-        }
+            col: d['col'],
+          };
+        },
       },
       width: 500,
       height: 500,
@@ -348,9 +358,9 @@ describe('grid layout', () => {
         type: 'grid',
         position: d => {
           return {
-            row: d['row']
-          }
-        }
+            row: d['row'],
+          };
+        },
       },
       width: 500,
       height: 500,
@@ -370,9 +380,9 @@ describe('grid layout', () => {
         type: 'grid',
         position: d => {
           return {
-            col: d['col']
-          }
-        }
+            col: d['col'],
+          };
+        },
       },
       width: 500,
       height: 500,

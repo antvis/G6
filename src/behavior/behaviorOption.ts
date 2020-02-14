@@ -1,13 +1,11 @@
-import each from '@antv/util/lib/each'
-import { IGraph } from '../interface/graph'
+import each from '@antv/util/lib/each';
+import { IGraph } from '../interface/graph';
 import { G6Event } from '../types';
 
 // 自定义 Behavior 时候共有的方法
 export default {
   getDefaultCfg() {
-    return {
-
-    }
+    return {};
   },
 
   /**
@@ -18,19 +16,19 @@ export default {
    * }
    */
   getEvents() {
-    return {}
+    return {};
   },
 
   shouldBegin() {
-    return true
+    return true;
   },
 
   shouldUpdate() {
-    return true
+    return true;
   },
 
   shouldEnd() {
-    return true
+    return true;
   },
 
   /**
@@ -38,14 +36,14 @@ export default {
    * @param graph Graph instance
    */
   bind(graph: IGraph) {
-    const { events }  = this;
-    this.graph = graph
+    const { events } = this;
+    this.graph = graph;
     if (this.type === 'drag-canvas') {
       graph.get('canvas').set('draggable', true);
     }
     each(events, (handler: () => void, event: G6Event) => {
-      graph.on(event, handler)
-    })
+      graph.on(event, handler);
+    });
   },
 
   unbind(graph: IGraph) {
@@ -54,16 +52,16 @@ export default {
       graph.get('canvas').set('draggable', false);
     }
     each(events, (handler: () => void, event: G6Event) => {
-      graph.off(event, handler)
-    })
+      graph.off(event, handler);
+    });
   },
 
   get(val: string) {
-    return (this as any)[val]
+    return (this as any)[val];
   },
 
   set(key: string, val: any) {
-    (this as any)[key] = val
-    return this
-  }
-}
+    (this as any)[key] = val;
+    return this;
+  },
+};

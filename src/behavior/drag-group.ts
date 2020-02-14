@@ -7,7 +7,7 @@
  */
 import deepMix from '@antv/util/lib/deep-mix';
 import { G6Event, IG6GraphEvent } from '../types';
-import Global from '../global'
+import Global from '../global';
 
 export default {
   getDefaultCfg(): object {
@@ -15,7 +15,7 @@ export default {
       delegate: true,
       delegateStyle: {},
       delegateShapes: {},
-      delegateShapeBBoxs: {}
+      delegateShapeBBoxs: {},
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -23,7 +23,7 @@ export default {
       dragstart: 'onDragStart',
       drag: 'onDrag',
       dragend: 'onDragEnd',
-      'canvas:mouseleave': 'onOutOfRange'
+      'canvas:mouseleave': 'onOutOfRange',
     };
   },
   onDragStart(evt: IG6GraphEvent) {
@@ -43,13 +43,13 @@ export default {
     this.targetGroup = currentGroup;
     this.mouseOrigin = {
       x: evt.canvasX,
-      y: evt.canvasY
+      y: evt.canvasY,
     };
 
     // 获取groupId的父Group的ID
     const { groups } = graph.save();
     let parentGroupId = null;
-    
+
     for (let i = 0; i < groups.length; i++) {
       const group = groups[i];
       if (groupId === group.id) {
@@ -117,7 +117,7 @@ export default {
       const attrs = {
         width,
         height,
-        ...deepMix({}, Global.delegateStyle, this.delegateStyle)
+        ...deepMix({}, Global.delegateStyle, this.delegateStyle),
       };
 
       // 如果delegate是circle
@@ -131,9 +131,9 @@ export default {
             x: cx,
             y: cy,
             r,
-            ...attrs
+            ...attrs,
           },
-          name: 'circle-delegate-shape'
+          name: 'circle-delegate-shape',
         });
         this.shapeOrigin = { x: cx, y: cy };
       } else {
@@ -141,9 +141,9 @@ export default {
           attrs: {
             x: bboxX,
             y: bboxY,
-            ...attrs
+            ...attrs,
           },
-          name: 'rect-delegate-shape'
+          name: 'rect-delegate-shape',
         });
         this.shapeOrigin = { x: bboxX, y: bboxY };
       }
@@ -168,7 +168,7 @@ export default {
   },
   onOutOfRange(e: IG6GraphEvent) {
     const canvasElement = this.graph.get('canvas').get('el');
-    const listener = (ev) => {
+    const listener = ev => {
       if (ev.target !== canvasElement) {
         this.onDragEnd(e);
         // 终止时需要判断此时是否在监听画布外的 mouseup 事件，若有则解绑
@@ -179,5 +179,5 @@ export default {
     if (this.mouseOrigin) {
       document.body.addEventListener('mouseup', listener, true);
     }
-  }
+  },
 };

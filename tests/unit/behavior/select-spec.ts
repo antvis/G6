@@ -1,6 +1,6 @@
-import '../../../src/behavior'
-import '../../../src/shape'
-import Graph from '../../../src/graph/graph'
+import '../../../src/behavior';
+import '../../../src/shape';
+import Graph from '../../../src/graph/graph';
 
 const div = document.createElement('div');
 div.id = 'select-spec';
@@ -13,10 +13,16 @@ describe('select-node', () => {
       width: 500,
       height: 500,
       modes: {
-        default: [ 'click-select' ]
+        default: ['click-select'],
       },
     });
-    const node = graph.addItem('node', { color: '#666', x: 50, y: 50, size: 20, style: { lineWidth: 2, fill: '#666' } });
+    const node = graph.addItem('node', {
+      color: '#666',
+      x: 50,
+      y: 50,
+      size: 20,
+      style: { lineWidth: 2, fill: '#666' },
+    });
     graph.paint();
 
     graph.once('nodeselectchange', e => {
@@ -36,11 +42,23 @@ describe('select-node', () => {
       width: 500,
       height: 500,
       modes: {
-        default: [ 'click-select' ]
+        default: ['click-select'],
       },
     });
-    const node1 = graph.addItem('node', { color: '#666', x: 50, y: 50, size: 20, style: { lineWidth: 2, fill: '#666' } });
-    const node2 = graph.addItem('node', { color: '#666', x: 150, y: 150, size: 20, style: { lineWidth: 2, fill: '#666' } });
+    const node1 = graph.addItem('node', {
+      color: '#666',
+      x: 50,
+      y: 50,
+      size: 20,
+      style: { lineWidth: 2, fill: '#666' },
+    });
+    const node2 = graph.addItem('node', {
+      color: '#666',
+      x: 150,
+      y: 150,
+      size: 20,
+      style: { lineWidth: 2, fill: '#666' },
+    });
     graph.paint();
     graph.emit('node:click', { item: node1 });
     expect(node1.getStates().length).toEqual(1);
@@ -66,13 +84,23 @@ describe('select-node', () => {
       width: 500,
       height: 500,
       modes: {
-        default: [{
-          type: 'click-select',
-          shouldUpdate: () => { return false; }
-        }]
+        default: [
+          {
+            type: 'click-select',
+            shouldUpdate: () => {
+              return false;
+            },
+          },
+        ],
       },
     });
-    const node = graph.addItem('node', { color: '#666', x: 50, y: 50, size: 20, style: { lineWidth: 2, fill: '#666' } });
+    const node = graph.addItem('node', {
+      color: '#666',
+      x: 50,
+      y: 50,
+      size: 20,
+      style: { lineWidth: 2, fill: '#666' },
+    });
     graph.paint();
     graph.emit('node:click', { item: node });
     expect(node.hasState('selected')).toBe(false);
@@ -84,12 +112,20 @@ describe('select-node', () => {
       width: 500,
       height: 500,
       modes: {
-        default: [{
-          type: 'click-select'
-        }]
+        default: [
+          {
+            type: 'click-select',
+          },
+        ],
       },
     });
-    const node = graph.addItem('node', { color: '#666', x: 50, y: 50, size: 20, style: { lineWidth: 2, fill: '#666' } });
+    const node = graph.addItem('node', {
+      color: '#666',
+      x: 50,
+      y: 50,
+      size: 20,
+      style: { lineWidth: 2, fill: '#666' },
+    });
     graph.paint();
     graph.emit('node:click', { item: node });
     expect(node.hasState('selected')).toBe(true);
@@ -103,14 +139,22 @@ describe('select-node', () => {
       width: 500,
       height: 500,
       modes: {
-        default: [{
-          type: 'click-select',
-          trigger: 'abc',
-          multiple: false
-        }]
-      }
+        default: [
+          {
+            type: 'click-select',
+            trigger: 'abc',
+            multiple: false,
+          },
+        ],
+      },
     });
-    graph.addItem('node', { color: '#666', x: 50, y: 50, size: 20, style: { lineWidth: 2, fill: '#666' } });
+    graph.addItem('node', {
+      color: '#666',
+      x: 50,
+      y: 50,
+      size: 20,
+      style: { lineWidth: 2, fill: '#666' },
+    });
     graph.paint();
     expect(graph.get('modeController').currentBehaves[0].trigger).toEqual('shift');
     graph.destroy();
@@ -121,13 +165,27 @@ describe('select-node', () => {
       width: 500,
       height: 500,
       modes: {
-        default: [{
-          type: 'click-select'
-        }]
-      }
+        default: [
+          {
+            type: 'click-select',
+          },
+        ],
+      },
     });
-    const node1= graph.addItem('node', { color: '#666', x: 50, y: 50, size: 20, style: { lineWidth: 2, fill: '#666' } });
-    const node2 = graph.addItem('node', { color: '#666', x: 150, y: 150, size: 20, style: { lineWidth: 2, fill: '#666' } });
+    const node1 = graph.addItem('node', {
+      color: '#666',
+      x: 50,
+      y: 50,
+      size: 20,
+      style: { lineWidth: 2, fill: '#666' },
+    });
+    const node2 = graph.addItem('node', {
+      color: '#666',
+      x: 150,
+      y: 150,
+      size: 20,
+      style: { lineWidth: 2, fill: '#666' },
+    });
     graph.paint();
     graph.emit('node:click', { item: node1 });
     expect(node1.getStates().length).toEqual(1);

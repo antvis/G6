@@ -7,12 +7,12 @@ export default {
     return {
       sensitivity: 2,
       minZoom: 0.1,
-      maxZoom: 10
+      maxZoom: 10,
     };
   },
   getEvents(): { [key in G6Event]?: string } {
     return {
-      wheel: 'onWheel'
+      wheel: 'onWheel',
     };
   },
   onWheel(e: IG6GraphEvent) {
@@ -38,5 +38,5 @@ export default {
     graph.zoom(ratio, { x: point.x, y: point.y });
     graph.paint();
     graph.emit('wheelzoom', e);
-  }
+  },
 };

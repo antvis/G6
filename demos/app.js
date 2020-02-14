@@ -28,9 +28,11 @@ function isFile(source) {
 }
 
 function getFiles(source) {
-  return readdirSync(source).map(function(name) {
-    return join(source, name);
-  }).filter(isFile);
+  return readdirSync(source)
+    .map(function(name) {
+      return join(source, name);
+    })
+    .filter(isFile);
 }
 
 const screenshotsPath = join(process.cwd(), './demos/assets/screenshots');
@@ -62,14 +64,16 @@ function startService(port) {
               screenshot: `/demos/assets/screenshots/${bn}.png`,
               basename: bn,
               content: readFileSync(filename),
-              filename
+              filename,
             };
             return file;
           });
         const template = readFileSync(join(__dirname, './index.njk'), 'utf8');
-        res.end(renderString(template, {
-          demoFiles
-        }));
+        res.end(
+          renderString(template, {
+            demoFiles,
+          }),
+        );
       } else {
         next();
       }
@@ -92,17 +96,22 @@ function startService(port) {
     const BrowserWindow = require('electron').BrowserWindow;
     const watch = require('torchjs/lib/watch');
     const windowBoundsConfig = require('torchjs/lib/windowBoundsConfig')(
-      resolve(app.getPath('userData'), './g6-demos-config.json')
+      resolve(app.getPath('userData'), './g6-demos-config.json'),
     );
 
     let win;
     app.once('ready', () => {
-      win = new BrowserWindow(assign({
-        // transparent: true
-        webPreferences: {
-          nodeIntegration: false
-        }
-      }, windowBoundsConfig.get('demos')));
+      win = new BrowserWindow(
+        assign(
+          {
+            // transparent: true
+            webPreferences: {
+              nodeIntegration: false,
+            },
+          },
+          windowBoundsConfig.get('demos'),
+        ),
+      );
       win.loadURL(url);
       win.openDevTools();
 
@@ -112,10 +121,7 @@ function startService(port) {
       win.on('closed', () => {
         win = null;
       });
-      watch([
-        'demos/**/*.*',
-        'src/**/*.*'
-      ], () => {
+      watch(['demos/**/*.*', 'src/**/*.*'], () => {
         win.webContents.reloadIgnoringCache();
       });
     });

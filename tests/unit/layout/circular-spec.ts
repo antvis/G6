@@ -34,7 +34,7 @@ describe('circular layout', () => {
         center: [250, 250],
         radius: 200,
         startAngle: Math.PI / 4,
-        endAngle: Math.PI
+        endAngle: Math.PI,
       },
       width: 500,
       height: 500,
@@ -52,13 +52,13 @@ describe('circular layout', () => {
     const graph = new G6.Graph({
       container: div,
       layout: {
-        type: 'circular'
+        type: 'circular',
       },
       width: 500,
       height: 500,
     });
     graph.data({
-      nodes: []
+      nodes: [],
     });
     graph.render();
     graph.destroy();
@@ -70,17 +70,19 @@ describe('circular layout', () => {
       container: div,
       layout: {
         type: 'circular',
-        center: center
+        center: center,
       },
       width: 500,
       height: 500,
     });
     graph.data({
-      nodes: [{
-        id: 'node',
-        x: 100,
-        y: 100
-      }]
+      nodes: [
+        {
+          id: 'node',
+          x: 100,
+          y: 100,
+        },
+      ],
     });
     graph.render();
     const nodeModel = graph.getNodes()[0].getModel();
@@ -99,7 +101,7 @@ describe('circular layout', () => {
         type: 'circular',
         center,
         startRadius,
-        endRadius
+        endRadius,
       },
       width: 500,
       height: 500,
@@ -124,7 +126,7 @@ describe('circular layout', () => {
       layout: {
         type: 'circular',
         center,
-        endRadius
+        endRadius,
       },
       width: 500,
       height: 500,
@@ -145,7 +147,7 @@ describe('circular layout', () => {
       layout: {
         type: 'circular',
         center,
-        startRadius
+        startRadius,
       },
       width: 500,
       height: 500,
@@ -164,7 +166,7 @@ describe('circular layout', () => {
       layout: {
         type: 'circular',
         ordering: 'topology',
-        radius: 200
+        radius: 200,
       },
       width: 500,
       height: 500,
@@ -176,14 +178,17 @@ describe('circular layout', () => {
     graph.render();
     const node0 = graph.findById('Uruguay').getModel();
     const node1 = graph.findById('Saudi Arabia').getModel();
-    const dist1 = (node0.x - node1.x) * (node0.x - node1.x) + (node0.y - node1.y) * (node0.y - node1.y);
+    const dist1 =
+      (node0.x - node1.x) * (node0.x - node1.x) + (node0.y - node1.y) * (node0.y - node1.y);
 
     const node2 = graph.findById('Switzerland').getModel();
-    const dist2 = (node2.x - node1.x) * (node2.x - node1.x) + (node2.y - node1.y) * (node2.y - node1.y);
+    const dist2 =
+      (node2.x - node1.x) * (node2.x - node1.x) + (node2.y - node1.y) * (node2.y - node1.y);
     expect(mathEqual(dist1, dist2)).toEqual(true);
 
     const node3 = graph.findById('Sweden').getModel();
-    const dist3 = (node2.x - node3.x) * (node2.x - node3.x) + (node2.y - node3.y) * (node2.y - node3.y);
+    const dist3 =
+      (node2.x - node3.x) * (node2.x - node3.x) + (node2.y - node3.y) * (node2.y - node3.y);
     expect(mathEqual(dist3, dist2)).toEqual(true);
     graph.destroy();
   });
@@ -194,7 +199,7 @@ describe('circular layout', () => {
       layout: {
         type: 'circular',
         ordering: 'topology-directed',
-        radius: 200
+        radius: 200,
       },
       width: 500,
       height: 500,
@@ -207,14 +212,17 @@ describe('circular layout', () => {
     graph.render();
     const node0 = graph.findById('Uruguay').getModel();
     const node1 = graph.findById('Tunisia').getModel();
-    const dist1 = (node0.x - node1.x) * (node0.x - node1.x) + (node0.y - node1.y) * (node0.y - node1.y);
+    const dist1 =
+      (node0.x - node1.x) * (node0.x - node1.x) + (node0.y - node1.y) * (node0.y - node1.y);
 
     const node2 = graph.findById('Switzerland').getModel();
-    const dist2 = (node2.x - node1.x) * (node2.x - node1.x) + (node2.y - node1.y) * (node2.y - node1.y);
+    const dist2 =
+      (node2.x - node1.x) * (node2.x - node1.x) + (node2.y - node1.y) * (node2.y - node1.y);
     expect(mathEqual(dist1, dist2)).toEqual(true);
 
     const node3 = graph.findById('Sweden').getModel();
-    const dist3 = (node2.x - node3.x) * (node2.x - node3.x) + (node2.y - node3.y) * (node2.y - node3.y);
+    const dist3 =
+      (node2.x - node3.x) * (node2.x - node3.x) + (node2.y - node3.y) * (node2.y - node3.y);
     expect(mathEqual(dist3, dist2)).toEqual(true);
     graph.destroy();
   });
@@ -226,7 +234,7 @@ describe('circular layout', () => {
         type: 'circular',
         ordering: 'degree',
         radius: 200,
-        clockwise: false
+        clockwise: false,
       },
       width: 500,
       height: 500,
@@ -238,21 +246,24 @@ describe('circular layout', () => {
     graph.render();
     const node0 = graph.findById('England').getModel();
     const node1 = graph.findById('Croatia').getModel();
-    const dist1 = (node0.x - node1.x) * (node0.x - node1.x) + (node0.y - node1.y) * (node0.y - node1.y);
+    const dist1 =
+      (node0.x - node1.x) * (node0.x - node1.x) + (node0.y - node1.y) * (node0.y - node1.y);
 
     const node2 = graph.findById('Belgium').getModel();
-    const dist2 = (node2.x - node1.x) * (node2.x - node1.x) + (node2.y - node1.y) * (node2.y - node1.y);
+    const dist2 =
+      (node2.x - node1.x) * (node2.x - node1.x) + (node2.y - node1.y) * (node2.y - node1.y);
     expect(mathEqual(dist1, dist2)).toEqual(true);
 
     const node3 = graph.findById('Uruguay').getModel();
-    const dist3 = (node2.x - node3.x) * (node2.x - node3.x) + (node2.y - node3.y) * (node2.y - node3.y);
+    const dist3 =
+      (node2.x - node3.x) * (node2.x - node3.x) + (node2.y - node3.y) * (node2.y - node3.y);
     expect(mathEqual(dist3, dist2)).toEqual(true);
     graph.destroy();
   });
 
   it('circular layout', () => {
     const circularLayout = new G6.Layout['circular']({
-      center: [250, 250]
+      center: [250, 250],
     });
     circularLayout.init(data);
     circularLayout.execute();
@@ -260,7 +271,7 @@ describe('circular layout', () => {
     const graph = new G6.Graph({
       width: 500,
       height: 500,
-      container: div
+      container: div,
     });
     graph.data(data);
     graph.render();

@@ -15,12 +15,13 @@ G6 manages events by combining the [Behavior](/en/docs/manual/middle/states/defa
 For more information about the events in G6, please refer to [Event API](/en/docs/api/Event).
 
 All the events are mounted on the graph:
+
 ```javascript
 graph.on('click', ev => {
   const shape = ev.target;
   const item = ev.item;
   if (item) {
-  	const type = item.getType();
+    const type = item.getType();
   }
 });
 

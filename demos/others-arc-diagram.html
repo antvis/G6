@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-  
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Arc Diagram</title>
     <style>
       .g6-tooltip {
@@ -16,32 +15,42 @@
       }
     </style>
   </head>
-  
+
   <body>
     <div id="mountNode"></div>
     <script src="../build/g6.js"></script>
     <script src="./assets/jquery-3.2.1.min.js"></script>
     <script>
-      const colors = [ 'rgb(64, 174, 247)', 'rgb(108, 207, 169)', 'rgb(157, 223, 125)',
-      'rgb(240, 198, 74)', 'rgb(221, 158, 97)', 'rgb(141, 163, 112)', 'rgb(115, 136, 220)',
-      'rgb(133, 88, 219)', 'rgb(203, 135, 226)', 'rgb(227, 137, 163)' ];
+      const colors = [
+        'rgb(64, 174, 247)',
+        'rgb(108, 207, 169)',
+        'rgb(157, 223, 125)',
+        'rgb(240, 198, 74)',
+        'rgb(221, 158, 97)',
+        'rgb(141, 163, 112)',
+        'rgb(115, 136, 220)',
+        'rgb(133, 88, 219)',
+        'rgb(203, 135, 226)',
+        'rgb(227, 137, 163)',
+      ];
       const graph = new G6.Graph({
         container: 'mountNode',
         width: 1000,
         height: 800,
         linkCenter: true,
         modes: {
-          default: [{
-            type: 'edge-tooltip',
-            formatText(model) {
-              const text = 'source: ' + model.sourceName
-                + '<br/> target: ' + model.targetName;
-              return text;
+          default: [
+            {
+              type: 'edge-tooltip',
+              formatText(model) {
+                const text = 'source: ' + model.sourceName + '<br/> target: ' + model.targetName;
+                return text;
+              },
+              shouldUpdate: e => {
+                return true;
+              },
             },
-            shouldUpdate: e => {
-              return true;
-            }
-          }]
+          ],
         },
         defaultNode: {
           size: [10, 10],
@@ -49,23 +58,23 @@
           style: {
             opacity: 0.8,
             lineWidth: 1,
-            stroke: '#999'
-          }
+            stroke: '#999',
+          },
         },
         defaultEdge: {
           size: 1,
           color: '#e2e2e2',
           style: {
             opacity: 0.6,
-            lineAppendWidth: 3
-          }
+            lineAppendWidth: 3,
+          },
         },
         edgeStateStyles: {
           hover: {
             opacity: 1,
-            lineWidth: 2
-          }
-        }
+            lineWidth: 2,
+          },
+        },
       });
       graph.on('edge:mouseenter', e => {
         const edge = e.item;
@@ -96,15 +105,15 @@
           // cluster
           if (node.cluster && clusterMap.get(node.cluster) === undefined) {
             clusterMap.set(node.cluster, clusterId);
-            clusterId ++;
+            clusterId++;
           }
           const id = clusterMap.get(node.cluster);
           if (node.style) {
             node.style.fill = colors[id % colors.length];
           } else {
             node.style = {
-              fill: colors[id % colors.length]
-            }
+              fill: colors[id % colors.length],
+            };
           }
           // label
           node.label = node.name;
@@ -112,9 +121,9 @@
             position: 'center',
             style: {
               rotate: 90,
-              textAlign: 'start'
-            }
-          }
+              textAlign: 'start',
+            },
+          };
         });
         edges.forEach((edge, i) => {
           edge.shape = 'arc';
@@ -131,7 +140,7 @@
 
         // map the value to node size
         let maxValue = -9999,
-        minValue = 9999;
+          minValue = 9999;
         nodes.forEach(n => {
           if (maxValue < n.value) maxValue = n.value;
           if (minValue > n.value) minValue = n.value;
@@ -148,10 +157,9 @@
         const outLength = outRange[1] - outRange[0];
         const dataLength = dataRange[1] - dataRange[0];
         nodes.forEach(n => {
-          n[propName] = (n[refPropName] - dataRange[0]) * outLength / dataLength + outRange[0];
+          n[propName] = ((n[refPropName] - dataRange[0]) * outLength) / dataLength + outRange[0];
         });
       }
     </script>
   </body>
-
 </html>

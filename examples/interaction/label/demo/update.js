@@ -1,31 +1,36 @@
 import G6 from '@antv/g6';
 /**
-   * 本示例演示以下功能：
-   * 鼠标 hover 节点更新节点样式及其标签文本
-   * 鼠标 hover 边更新边样式及其标签文本
-   * by 十吾
-   */
+ * 本示例演示以下功能：
+ * 鼠标 hover 节点更新节点样式及其标签文本
+ * 鼠标 hover 边更新边样式及其标签文本
+ * by 十吾
+ */
 
 const data = {
-  nodes: [{
-    id: 'node1',
-    x: 100,
-    y: 100,
-    label: 'hover 前的\n节点文本 node1'
-  }, {
-    id: 'node2',
-    x: 400,
-    y: 100,
-    label: 'hover 前的\n节点文本 node2'
-  }],
-  edges: [{
-    source: 'node1',
-    target: 'node2',
-    label: 'hover 前的边文本',
-    labelCfg: {
-      refY: 10
-    }
-  }]
+  nodes: [
+    {
+      id: 'node1',
+      x: 100,
+      y: 100,
+      label: 'hover 前的\n节点文本 node1',
+    },
+    {
+      id: 'node2',
+      x: 400,
+      y: 100,
+      label: 'hover 前的\n节点文本 node2',
+    },
+  ],
+  edges: [
+    {
+      source: 'node1',
+      target: 'node2',
+      label: 'hover 前的边文本',
+      labelCfg: {
+        refY: 10,
+      },
+    },
+  ],
 };
 
 const width = document.getElementById('container').scrollWidth;
@@ -36,25 +41,25 @@ const graph = new G6.Graph({
   height,
   defaultEdge: {
     color: '#e2e2e2',
-    lineAppendWidth: 3
+    lineAppendWidth: 3,
   },
   defaultNode: {
     style: {
       fill: '#DEE9FF',
-      stroke: '#5B8FF9'
-    }
+      stroke: '#5B8FF9',
+    },
   },
   nodeStateStyles: {
     hover: {
       lineWidth: 5,
-      fillOpacity: 1
-    }
+      fillOpacity: 1,
+    },
   },
   edgeStateStyles: {
     hover: {
-      lineWidth: 3
-    }
-  }
+      lineWidth: 3,
+    },
+  },
 });
 graph.data(data);
 graph.render();
@@ -68,9 +73,9 @@ graph.on('node:mouseenter', function(evt) {
     label: 'hover 后 ' + model.id,
     labelCfg: {
       style: {
-        fill: '#003a8c'
-      }
-    }
+        fill: '#003a8c',
+      },
+    },
   });
 });
 
@@ -82,9 +87,9 @@ graph.on('node:mouseleave', function(evt) {
     label: model.oriLabel,
     labelCfg: {
       style: {
-        fill: '#555'
-      }
-    }
+        fill: '#555',
+      },
+    },
   });
 });
 
@@ -97,9 +102,9 @@ graph.on('edge:mouseenter', function(evt) {
     label: 'hover 后',
     labelCfg: {
       style: {
-        fill: '#003a8c'
-      }
-    }
+        fill: '#003a8c',
+      },
+    },
   });
 });
 
@@ -110,8 +115,8 @@ graph.on('edge:mouseleave', function(evt) {
     label: 'hover 前的边文本',
     labelCfg: {
       style: {
-        fill: '#555'
-      }
-    }
+        fill: '#555',
+      },
+    },
   });
 });

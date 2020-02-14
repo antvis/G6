@@ -2,9 +2,11 @@
 title: 显示与隐藏
 order: 5
 ---
+
 ## 节点与边的显示/隐藏
 
 使用下面四个函数可以实现节点与边的显示/隐藏：
+
 ```javascript
 // 显示节点实例 nodeItem，该节点的 visible 属性值在该方法调用后被置为 true
 nodeItem.show();
@@ -20,9 +22,11 @@ edgeItem.hide();
 ```
 
 ## 示例
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*N96mRKpyYZIAAAAAAAAAAABkARQnAQ' width=150/> 
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*N96mRKpyYZIAAAAAAAAAAABkARQnAQ' width=150/>
 
 该示例摘取了元素显示/隐藏的相关操作部分，通过鼠标监听对节点、边、画布的点击事件，显示和隐藏元素：
+
 ```javascript
 // 鼠标点击节点，隐藏该节点
 graph.on('node:click', ev => {

@@ -8,6 +8,7 @@ order: 3
 ## 使用指南
 
 下面的前两个代码演示了自定义折线 polyline 边。自定义边可以通过两种方式实现：
+
 1. 继承 line，复写 `getPath` 和 `getShapeStyle` 方法；
 2. 复写 `draw` 方法。
 

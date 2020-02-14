@@ -1,121 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>边上Tooltip</title>
-</head>
-<style>
-  .edgeTooltip {
-    background: 'red';
-    border: 1px solid 'blue';
-  }
-</style>
-<body>
-<div id="mountNode"></div>
-<script src="../build/g6.js"></script>
-<script>
-  G6.registerNode('circleNode', {
-    drawShape(cfg, group) {
-      const keyShape = group.addShape('circle', {
-        attrs: {
-          x: 0,
-          y: 0,
-          r: 30,
-          fill: '#87e8de'
-        }
-      });
-      return keyShape;
+  </head>
+  <style>
+    .edgeTooltip {
+      background: 'red';
+      border: 1px solid 'blue';
     }
-  }, 'circle');
-
-  const data = {
-    nodes: [{
-      id: 'node1',
-      x: 200,
-      y: 200,
-      label: '节点1',
-      anchorPoints: [ [0, 0.5], [1, 0.5] ]
-    }, {
-      id: 'node2',
-      x: 500,
-      y: 450,
-      label: '节点2',
-      anchorPoints: [ [0, 0.5], [1, 0.5] ]
-    }
-    ],
-    edges: [{
-      source: 'node1',
-      target: 'node2',
-      labelText: '两点之间的连线', // 设置成label会添加默认的label
-      shape: 'myEdge'
-    }]
-  };
-
-
-  // 注册边
-  G6.registerEdge('myEdge', {
-      // 设置状态
-    setState(name, value, item) {
-      const group = item.getContainer();
-      const shape = group.get('children')[0]; // 顺序根据 draw 时确定
-      if (name === 'active') {
-        if (value) {
-          shape.attr('stroke', '#333');
-        } else {
-          shape.attr('stroke', '#bae7ff');
-        }
-      }
-      if (name === 'selected') {
-        if (value) {
-          shape.attr('lineWidth', 3);
-        } else {
-          shape.attr('lineWidth', 2);
-        }
-      }
-    }
-  }, 'cubic-horizontal');
-
-  const graph = new G6.Graph({
-    container: 'mountNode',
-    width: 1000,
-    height: 600,
-    defaultNode: {
-      shape: 'circleNode'
-    },
-    defaultEdge: {
-      color: '#bae7ff',
-      size: 2
-    },
-    modes: {
-      default: ['click-select', 'drag-canvas',
+  </style>
+  <body>
+    <div id="mountNode"></div>
+    <script src="../build/g6.js"></script>
+    <script>
+      G6.registerNode(
+        'circleNode',
         {
-          type: 'edge-tooltip',
-          formatText(model) {
-          return `
-            <div class='edgeTooltip'>边tooltip:${model.labelText}</div>`
-        }
-      }],
-    }
-  });
+          drawShape(cfg, group) {
+            const keyShape = group.addShape('circle', {
+              attrs: {
+                x: 0,
+                y: 0,
+                r: 30,
+                fill: '#87e8de',
+              },
+            });
+            return keyShape;
+          },
+        },
+        'circle',
+      );
 
-  graph.data(data);
-  graph.render();
+      const data = {
+        nodes: [
+          {
+            id: 'node1',
+            x: 200,
+            y: 200,
+            label: '节点1',
+            anchorPoints: [
+              [0, 0.5],
+              [1, 0.5],
+            ],
+          },
+          {
+            id: 'node2',
+            x: 500,
+            y: 450,
+            label: '节点2',
+            anchorPoints: [
+              [0, 0.5],
+              [1, 0.5],
+            ],
+          },
+        ],
+        edges: [
+          {
+            source: 'node1',
+            target: 'node2',
+            labelText: '两点之间的连线', // 设置成label会添加默认的label
+            shape: 'myEdge',
+          },
+        ],
+      };
 
-  // 点击时选中，再点击时取消
-  graph.on('edge:click', ev => {
-    const edge = ev.item;
-    graph.setItemState(edge, 'selected', !edge.hasState('selected')); // 切换选中
-  });
+      // 注册边
+      G6.registerEdge(
+        'myEdge',
+        {
+          // 设置状态
+          setState(name, value, item) {
+            const group = item.getContainer();
+            const shape = group.get('children')[0]; // 顺序根据 draw 时确定
+            if (name === 'active') {
+              if (value) {
+                shape.attr('stroke', '#333');
+              } else {
+                shape.attr('stroke', '#bae7ff');
+              }
+            }
+            if (name === 'selected') {
+              if (value) {
+                shape.attr('lineWidth', 3);
+              } else {
+                shape.attr('lineWidth', 2);
+              }
+            }
+          },
+        },
+        'cubic-horizontal',
+      );
 
-  graph.on('edge:mouseenter', ev => {
-    const edge = ev.item;
-    graph.setItemState(edge, 'active', true);
-  });
+      const graph = new G6.Graph({
+        container: 'mountNode',
+        width: 1000,
+        height: 600,
+        defaultNode: {
+          shape: 'circleNode',
+        },
+        defaultEdge: {
+          color: '#bae7ff',
+          size: 2,
+        },
+        modes: {
+          default: [
+            'click-select',
+            'drag-canvas',
+            {
+              type: 'edge-tooltip',
+              formatText(model) {
+                return `
+            <div class='edgeTooltip'>边tooltip:${model.labelText}</div>`;
+              },
+            },
+          ],
+        },
+      });
 
-  graph.on('edge:mouseleave', ev => {
-    const edge = ev.item;
-    graph.setItemState(edge, 'active', false);
-  });
-</script>
-</body>
+      graph.data(data);
+      graph.render();
+
+      // 点击时选中，再点击时取消
+      graph.on('edge:click', ev => {
+        const edge = ev.item;
+        graph.setItemState(edge, 'selected', !edge.hasState('selected')); // 切换选中
+      });
+
+      graph.on('edge:mouseenter', ev => {
+        const edge = ev.item;
+        graph.setItemState(edge, 'active', true);
+      });
+
+      graph.on('edge:mouseleave', ev => {
+        const edge = ev.item;
+        graph.setItemState(edge, 'active', false);
+      });
+    </script>
+  </body>
 </html>

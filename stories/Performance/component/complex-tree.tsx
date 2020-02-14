@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
-import G6 from '../../../src'
-import { IGraph } from '../../../src/interface/graph'
+import React, { useEffect } from 'react';
+import G6 from '../../../src';
+import { IGraph } from '../../../src/interface/graph';
 
 let ipHideTimer;
 const ERROR_COLOR = '#F5222D';
@@ -44,7 +44,6 @@ function fittingString(str, maxWidth, fontSize) {
 
 function formatData(data) {
   const recursiveTraverse = (node, level = 0) => {
-
     const appName = 'testappName';
     const keyInfo = 'testkeyinfo';
     const ip = '111.22.33.44';
@@ -65,7 +64,7 @@ function formatData(data) {
       sofarouterError: true,
       asyn: false,
       origin: node,
-      children: undefined
+      children: undefined,
     };
     if (node.children) {
       targetNode.children = [];
@@ -79,11 +78,10 @@ function formatData(data) {
   return result;
 }
 
-let graph: IGraph = null
+let graph: IGraph = null;
 
 const ComplexTree = () => {
-
-  const container = React.useRef()
+  const container = React.useRef();
 
   const getNodeConfig = function getNodeConfig(node) {
     if (node.nodeError) {
@@ -91,14 +89,14 @@ const ComplexTree = () => {
         basicColor: ERROR_COLOR,
         fontColor: '#FFF',
         borderColor: ERROR_COLOR,
-        bgColor: '#E66A6C'
+        bgColor: '#E66A6C',
       };
     }
     let config = {
       basicColor: '#722ED1',
       fontColor: '#722ED1',
       borderColor: '#722ED1',
-      bgColor: '#F6EDFC'
+      bgColor: '#F6EDFC',
     };
     switch (node.dataType) {
       case 'root': {
@@ -106,7 +104,7 @@ const ComplexTree = () => {
           basicColor: '#E3E6E8',
           fontColor: 'rgba(0,0,0,0.85)',
           borderColor: '#E3E6E8',
-          bgColor: '#F7F9FA'
+          bgColor: '#F7F9FA',
         };
         break;
       }
@@ -119,7 +117,7 @@ const ComplexTree = () => {
           basicColor: '#2F54EB',
           fontColor: '#2F54EB',
           borderColor: '#2F54EB',
-          bgColor: '#F3F6FD'
+          bgColor: '#F3F6FD',
         };
         break;
       case 'db':
@@ -127,7 +125,7 @@ const ComplexTree = () => {
           basicColor: '#52C41A',
           fontColor: '#52C41A',
           borderColor: '#52C41A',
-          bgColor: '#F4FCEB'
+          bgColor: '#F4FCEB',
         };
         break;
       case 'msgPub':
@@ -140,7 +138,7 @@ const ComplexTree = () => {
           basicColor: '#FA8C16',
           fontColor: '#FA8C16',
           borderColor: '#FA8C16',
-          bgColor: '#FCF4E3'
+          bgColor: '#FCF4E3',
         };
         break;
       case 'zdalTair':
@@ -153,15 +151,28 @@ const ComplexTree = () => {
   };
 
   const COLLAPSE_ICON = function COLLAPSE_ICON(x, y, r) {
-    return [[ 'M', x - r, y ], [ 'a', r, r, 0, 1, 0, r * 2, 0 ], [ 'a', r, r, 0, 1, 0, -r * 2, 0 ], [ 'M', x - r + 4, y ], [ 'L', x - r + 2 * r - 4, y ]];
+    return [
+      ['M', x - r, y],
+      ['a', r, r, 0, 1, 0, r * 2, 0],
+      ['a', r, r, 0, 1, 0, -r * 2, 0],
+      ['M', x - r + 4, y],
+      ['L', x - r + 2 * r - 4, y],
+    ];
   };
   const EXPAND_ICON = function EXPAND_ICON(x, y, r) {
-    return [[ 'M', x - r, y ], [ 'a', r, r, 0, 1, 0, r * 2, 0 ], [ 'a', r, r, 0, 1, 0, -r * 2, 0 ], [ 'M', x - r + 4, y ], [ 'L', x - r + 2 * r - 4, y ], [ 'M', x - r + r, y - r + 4 ], [ 'L', x, y + r - 4 ]];
+    return [
+      ['M', x - r, y],
+      ['a', r, r, 0, 1, 0, r * 2, 0],
+      ['a', r, r, 0, 1, 0, -r * 2, 0],
+      ['M', x - r + 4, y],
+      ['L', x - r + 2 * r - 4, y],
+      ['M', x - r + r, y - r + 4],
+      ['L', x, y + r - 4],
+    ];
   };
 
-
   useEffect(() => {
-    if(!graph) {
+    if (!graph) {
       let selectedItem;
       graph = new G6.TreeGraph({
         container: container.current as string | HTMLElement,
@@ -169,53 +180,61 @@ const ComplexTree = () => {
         height: CANVAS_HEIGHT,
         // zoom: 0.2,
         modes: {
-          default: [{
-            type: 'collapse-expand',
-            shouldUpdate: function shouldUpdate(e) {
-              /* 点击 node 禁止展开收缩 */
-              if (e.target.get('className') !== 'collapse-icon') {
-                return false;
-              }
-              return true;
-            },
-            onChange: function onChange(item, collapsed) {
-              selectedItem = item;
-              const icon = item.get('group').find(element => element.get('className') === 'collapse-icon');
+          default: [
+            {
+              type: 'collapse-expand',
+              shouldUpdate: function shouldUpdate(e) {
+                /* 点击 node 禁止展开收缩 */
+                if (e.target.get('className') !== 'collapse-icon') {
+                  return false;
+                }
+                return true;
+              },
+              onChange: function onChange(item, collapsed) {
+                selectedItem = item;
+                const icon = item
+                  .get('group')
+                  .find(element => element.get('className') === 'collapse-icon');
 
-              if (collapsed) {
-                icon.attr('symbol', EXPAND_ICON);
-              } else {
-                icon.attr('symbol', COLLAPSE_ICON);
-              }
+                if (collapsed) {
+                  icon.attr('symbol', EXPAND_ICON);
+                } else {
+                  icon.attr('symbol', COLLAPSE_ICON);
+                }
+              },
+              // animate: {
+              //   callback: function callback() {
+              //     graph.focusItem(selectedItem);
+              //   }
+              // }
             },
-            // animate: {
-            //   callback: function callback() {
-            //     graph.focusItem(selectedItem);
+            // {
+            //   type: 'tooltip',
+            //   formatText: function formatText(data) {
+            //     return `<div>${  data.name  }</div>`;
             //   }
-            // }
-          },
-          // {
-          //   type: 'tooltip',
-          //   formatText: function formatText(data) {
-          //     return `<div>${  data.name  }</div>`;
-          //   }
-          // },
-          'drag-canvas', 'zoom-canvas' ]
+            // },
+            'drag-canvas',
+            'zoom-canvas',
+          ],
         },
         defaultNode: {
           type: TREE_NODE,
-          anchorPoints: [[ 0, 0.5 ], [ 1, 0.5 ]]
+          anchorPoints: [
+            [0, 0.5],
+            [1, 0.5],
+          ],
         },
         defaultEdge: {
           type: 'tree-edge',
           style: {
-            stroke: '#A3B1BF'
-          }
+            stroke: '#A3B1BF',
+          },
         },
         nodeStateStyles: {
           hover: {
-            opacity: 0.5
-          }
+            opacity: 0.5,
+          },
         },
         layout: {
           type: 'compactBox',
@@ -223,8 +242,8 @@ const ComplexTree = () => {
           getId: d => d.id,
           getWidth: () => 243,
           getVGap: () => 24,
-          getHGap: () => 50
-        }
+          getHGap: () => 50,
+        },
       });
       /* 精简节点和复杂节点共用的一些方法 */
       const nodeBasicMethod = {
@@ -235,9 +254,9 @@ const ComplexTree = () => {
               x: 0,
               y: 0,
               width,
-              height
+              height,
             },
-            className: 'container'
+            className: 'container',
           });
           if (!isRoot) {
             /* 左边的小圆点 */
@@ -246,8 +265,8 @@ const ComplexTree = () => {
                 x: 3,
                 y: height / 2,
                 r: 6,
-                fill: config.basicColor
-              }
+                fill: config.basicColor,
+              },
             });
           }
           /* 矩形 */
@@ -259,9 +278,9 @@ const ComplexTree = () => {
               height,
               fill: config.bgColor,
               stroke: config.borderColor,
-              radius: 2
+              radius: 2,
             },
-            className: 'bg-rect'
+            className: 'bg-rect',
           });
 
           /* 左边的粗线 */
@@ -272,8 +291,8 @@ const ComplexTree = () => {
               width: 3,
               height,
               fill: config.basicColor,
-              radius: 1.5
-            }
+              radius: 1.5,
+            },
           });
           return container;
         },
@@ -286,9 +305,9 @@ const ComplexTree = () => {
               r: 13,
               fill: 'rgba(47, 84, 235, 0.05)',
               opacity: 0,
-              zIndex: -2
+              zIndex: -2,
             },
-            className: 'collapse-icon-bg'
+            className: 'collapse-icon-bg',
           });
           group.addShape('marker', {
             attrs: {
@@ -299,16 +318,16 @@ const ComplexTree = () => {
               stroke: 'rgba(0,0,0,0.25)',
               fill: 'rgba(0,0,0,0)',
               lineWidth: 1,
-              cursor: 'pointer'
+              cursor: 'pointer',
             },
-            className: 'collapse-icon'
+            className: 'collapse-icon',
           });
         },
         afterDraw: function afterDraw(cfg, group) {
           /* 操作 marker 的背景色显示隐藏 */
-          const icon = group.find(element => element.get('className') ==='collapse-icon');
+          const icon = group.find(element => element.get('className') === 'collapse-icon');
           if (icon) {
-            const bg = group.find(element => element.get('className') ==='collapse-icon-bg');
+            const bg = group.find(element => element.get('className') === 'collapse-icon-bg');
             icon.on('mouseenter', function() {
               bg.attr('opacity', 1);
               graph.get('canvas').draw();
@@ -319,13 +338,13 @@ const ComplexTree = () => {
             });
           }
           /* ip 显示 */
-          const ipBox = group.find(element => element.get('className') ==='ip-box');
+          const ipBox = group.find(element => element.get('className') === 'ip-box');
           if (ipBox) {
             /* ip 复制的几个元素 */
-            const ipLine = group.find(element => element.get('className') ==='ip-cp-line');
-            const ipBG = group.find(element => element.get('className') ==='ip-cp-bg');
-            const ipIcon = group.find(element => element.get('className') ==='ip-cp-icon');
-            const ipCPBox = group.find(element => element.get('className') ==='ip-cp-box');
+            const ipLine = group.find(element => element.get('className') === 'ip-cp-line');
+            const ipBG = group.find(element => element.get('className') === 'ip-cp-bg');
+            const ipIcon = group.find(element => element.get('className') === 'ip-cp-icon');
+            const ipCPBox = group.find(element => element.get('className') === 'ip-cp-box');
 
             const onMouseEnter = function onMouseEnter() {
               if (ipHideTimer) {
@@ -360,20 +379,27 @@ const ComplexTree = () => {
           }
         },
         setState: function setState(name, value, item) {
-          const hasOpacityClass = [ 'ip-cp-line', 'ip-cp-bg', 'ip-cp-icon', 'ip-cp-box', 'ip-box', 'collapse-icon-bg' ];
+          const hasOpacityClass = [
+            'ip-cp-line',
+            'ip-cp-bg',
+            'ip-cp-icon',
+            'ip-cp-box',
+            'ip-box',
+            'collapse-icon-bg',
+          ];
           const group = item.getContainer();
           const childrens = group.get('children');
           graph.setAutoPaint(false);
           if (name === 'emptiness') {
             if (value) {
-              childrens.forEach((shape) => {
+              childrens.forEach(shape => {
                 if (hasOpacityClass.indexOf(shape.get('className')) > -1) {
                   return;
                 }
                 shape.attr('opacity', 0.4);
               });
             } else {
-              childrens.forEach((shape) => {
+              childrens.forEach(shape => {
                 if (hasOpacityClass.indexOf(shape.get('className')) > -1) {
                   return;
                 }
@@ -381,386 +407,397 @@ const ComplexTree = () => {
               });
             }
           } else if (name === 'hover') {
-            const bgRect = group.find(element => element.get('className') ==='bg-rect')
+            const bgRect = group.find(element => element.get('className') === 'bg-rect');
             if (value) {
               bgRect.attr('fillOpacity', 0.1);
             } else {
               bgRect.attr('fillOpacity', 1);
-
             }
           }
           graph.setAutoPaint(true);
-        }
+        },
       };
 
       /* 精简节点 */
-      G6.registerNode(SIMPLE_TREE_NODE, {
-        drawShape: function drawShape(cfg, group) {
-          const config = getNodeConfig(cfg);
-          const isRoot = cfg.type === 'root';
-          const nodeError = cfg.nodeError;
+      G6.registerNode(
+        SIMPLE_TREE_NODE,
+        {
+          drawShape: function drawShape(cfg, group) {
+            const config = getNodeConfig(cfg);
+            const isRoot = cfg.type === 'root';
+            const nodeError = cfg.nodeError;
 
-          const container = nodeBasicMethod.createNodeBox(group, config, 171, 38, isRoot);
+            const container = nodeBasicMethod.createNodeBox(group, config, 171, 38, isRoot);
 
-          /* name */
-          group.addShape('text', {
-            attrs: {
-              text: fittingString(cfg.name, 133, 12),
-              x: 19,
-              y: 19,
-              fontSize: 14,
-              fontWeight: 700,
-              textAlign: 'left',
-              textBaseline: 'middle',
-              fill: config.fontColor,
-              cursor: 'pointer'
-            }
-          });
-
-          if (nodeError) {
-            group.addShape('image', {
-              attrs: {
-                x: 119,
-                y: 5,
-                height: 35,
-                width: 35,
-                img: '/static/images/warning-circle.svg'
-              }
-            });
-          }
-
-          const hasChildren = cfg.children && cfg.children.length > 0;
-          if (hasChildren) {
-            nodeBasicMethod.createNodeMarker(group, cfg.collapsed, 164, 19);
-          }
-          return container;
-        },
-        afterDraw: nodeBasicMethod.afterDraw,
-        setState: nodeBasicMethod.setState
-      }, 'single-shape');
-
-      /* 复杂节点 */
-      G6.registerNode(TREE_NODE, {
-        drawShape: function drawShape(cfg, group) {
-          const config = getNodeConfig(cfg);
-          const isRoot = cfg.type === 'root';
-          const data = cfg;
-          const { nodeError } = data;
-          /* 最外面的大矩形 */
-          const container = nodeBasicMethod.createNodeBox(group, config, 243, 64, isRoot);
-
-          if (data.dataType !== 'root') {
-            /* 上边的 type */
+            /* name */
             group.addShape('text', {
               attrs: {
-                text: data.dataType,
-                x: 3,
-                y: -10,
-                fontSize: 12,
-                textAlign: 'left',
-                textBaseline: 'middle',
-                fill: 'rgba(0,0,0,0.65)'
-              }
-            });
-          }
-
-          let ipWidth = 0;
-          if (data.ip) {
-            /* ip start */
-            /* ipBox */
-            const ipRect = group.addShape('rect', {
-              attrs: {
-                fill: nodeError ? null : '#FFF',
-                stroke: nodeError ? 'rgba(255,255,255,0.65)' : null,
-                radius: 2,
-                cursor: 'pointer'
-              }
-            });
-
-            /* ip */
-            const ipText = group.addShape('text', {
-              attrs: {
-                text: data.ip,
-                x: 0,
+                text: fittingString(cfg.name, 133, 12),
+                x: 19,
                 y: 19,
-                fontSize: 12,
+                fontSize: 14,
+                fontWeight: 700,
                 textAlign: 'left',
                 textBaseline: 'middle',
-                fill: nodeError ? 'rgba(255,255,255,0.85)' : 'rgba(0,0,0,0.65)',
-                cursor: 'pointer'
-              }
-            });
-
-            const ipBBox = ipText.getBBox();
-            /* ip 的文字总是距离右边 12px */
-            ipText.attr({
-              x: 224 - 12 - ipBBox.width
-            });
-            /* ipBox */
-            ipRect.attr({
-              x: 224 - 12 - ipBBox.width - 4,
-              y: ipBBox.minY - 5,
-              width: ipBBox.width + 8,
-              height: ipBBox.height + 10
-            });
-
-            /* 在 IP 元素上面覆盖一层透明层，方便监听 hover 事件 */
-            group.addShape('rect', {
-              attrs: {
-                stroke: '',
+                fill: config.fontColor,
                 cursor: 'pointer',
+              },
+            });
+
+            if (nodeError) {
+              group.addShape('image', {
+                attrs: {
+                  x: 119,
+                  y: 5,
+                  height: 35,
+                  width: 35,
+                  img: '/static/images/warning-circle.svg',
+                },
+              });
+            }
+
+            const hasChildren = cfg.children && cfg.children.length > 0;
+            if (hasChildren) {
+              nodeBasicMethod.createNodeMarker(group, cfg.collapsed, 164, 19);
+            }
+            return container;
+          },
+          afterDraw: nodeBasicMethod.afterDraw,
+          setState: nodeBasicMethod.setState,
+        },
+        'single-shape',
+      );
+
+      /* 复杂节点 */
+      G6.registerNode(
+        TREE_NODE,
+        {
+          drawShape: function drawShape(cfg, group) {
+            const config = getNodeConfig(cfg);
+            const isRoot = cfg.type === 'root';
+            const data = cfg;
+            const { nodeError } = data;
+            /* 最外面的大矩形 */
+            const container = nodeBasicMethod.createNodeBox(group, config, 243, 64, isRoot);
+
+            if (data.dataType !== 'root') {
+              /* 上边的 type */
+              group.addShape('text', {
+                attrs: {
+                  text: data.dataType,
+                  x: 3,
+                  y: -10,
+                  fontSize: 12,
+                  textAlign: 'left',
+                  textBaseline: 'middle',
+                  fill: 'rgba(0,0,0,0.65)',
+                },
+              });
+            }
+
+            let ipWidth = 0;
+            if (data.ip) {
+              /* ip start */
+              /* ipBox */
+              const ipRect = group.addShape('rect', {
+                attrs: {
+                  fill: nodeError ? null : '#FFF',
+                  stroke: nodeError ? 'rgba(255,255,255,0.65)' : null,
+                  radius: 2,
+                  cursor: 'pointer',
+                },
+              });
+
+              /* ip */
+              const ipText = group.addShape('text', {
+                attrs: {
+                  text: data.ip,
+                  x: 0,
+                  y: 19,
+                  fontSize: 12,
+                  textAlign: 'left',
+                  textBaseline: 'middle',
+                  fill: nodeError ? 'rgba(255,255,255,0.85)' : 'rgba(0,0,0,0.65)',
+                  cursor: 'pointer',
+                },
+              });
+
+              const ipBBox = ipText.getBBox();
+              /* ip 的文字总是距离右边 12px */
+              ipText.attr({
+                x: 224 - 12 - ipBBox.width,
+              });
+              /* ipBox */
+              ipRect.attr({
                 x: 224 - 12 - ipBBox.width - 4,
                 y: ipBBox.minY - 5,
                 width: ipBBox.width + 8,
                 height: ipBBox.height + 10,
-                fill: '#fff',
-                opacity: 0
-              },
-              className: 'ip-box'
-            });
+              });
 
-            /* copyIpLine */
-            group.addShape('rect', {
-              attrs: {
-                x: 194,
-                y: 7,
-                width: 1,
-                height: 24,
-                fill: '#E3E6E8',
-                opacity: 0
-              },
-              className: 'ip-cp-line'
-            });
-            /* copyIpBG */
-            group.addShape('rect', {
-              attrs: {
-                x: 195,
-                y: 8,
-                width: 22,
-                height: 22,
-                fill: '#FFF',
-                cursor: 'pointer',
-                opacity: 0
-              },
-              className: 'ip-cp-bg'
-            });
-            /* copyIpIcon */
-            group.addShape('image', {
-              attrs: {
-                x: 200,
-                y: 13,
-                height: 12,
-                width: 10,
-                img: 'https://os.alipayobjects.com/rmsportal/DFhnQEhHyPjSGYW.png',
-                cursor: 'pointer',
-                opacity: 0
-              },
-              className: 'ip-cp-icon'
-            });
-            /* 放一个透明的矩形在 icon 区域上，方便监听点击 */
-            group.addShape('rect', {
-              attrs: {
-                x: 195,
-                y: 8,
-                width: 22,
-                height: 22,
-                fill: '#FFF',
-                cursor: 'pointer',
-                opacity: 0
-              },
-              className: 'ip-cp-box',
-              tooltip: '复制IP'
-            });
+              /* 在 IP 元素上面覆盖一层透明层，方便监听 hover 事件 */
+              group.addShape('rect', {
+                attrs: {
+                  stroke: '',
+                  cursor: 'pointer',
+                  x: 224 - 12 - ipBBox.width - 4,
+                  y: ipBBox.minY - 5,
+                  width: ipBBox.width + 8,
+                  height: ipBBox.height + 10,
+                  fill: '#fff',
+                  opacity: 0,
+                },
+                className: 'ip-box',
+              });
 
-            const ipRectBBox = ipRect.getBBox();
-            ipWidth = ipRectBBox.width;
-            /* ip end */
-          }
+              /* copyIpLine */
+              group.addShape('rect', {
+                attrs: {
+                  x: 194,
+                  y: 7,
+                  width: 1,
+                  height: 24,
+                  fill: '#E3E6E8',
+                  opacity: 0,
+                },
+                className: 'ip-cp-line',
+              });
+              /* copyIpBG */
+              group.addShape('rect', {
+                attrs: {
+                  x: 195,
+                  y: 8,
+                  width: 22,
+                  height: 22,
+                  fill: '#FFF',
+                  cursor: 'pointer',
+                  opacity: 0,
+                },
+                className: 'ip-cp-bg',
+              });
+              /* copyIpIcon */
+              group.addShape('image', {
+                attrs: {
+                  x: 200,
+                  y: 13,
+                  height: 12,
+                  width: 10,
+                  img: 'https://os.alipayobjects.com/rmsportal/DFhnQEhHyPjSGYW.png',
+                  cursor: 'pointer',
+                  opacity: 0,
+                },
+                className: 'ip-cp-icon',
+              });
+              /* 放一个透明的矩形在 icon 区域上，方便监听点击 */
+              group.addShape('rect', {
+                attrs: {
+                  x: 195,
+                  y: 8,
+                  width: 22,
+                  height: 22,
+                  fill: '#FFF',
+                  cursor: 'pointer',
+                  opacity: 0,
+                },
+                className: 'ip-cp-box',
+                tooltip: '复制IP',
+              });
 
-          /* name */
-          group.addShape('text', {
-            attrs: {
-              /* 根据 IP 的长度计算出 剩下的 留给 name 的长度！ */
-              text: fittingString(data.name, 224 - ipWidth - 20, 12), // data.name,
-              x: 19,
-              y: 19,
-              fontSize: 14,
-              fontWeight: 700,
-              textAlign: 'left',
-              textBaseline: 'middle',
-              fill: config.fontColor,
-              cursor: 'pointer'
-              // tooltip: cfg.name,
+              const ipRectBBox = ipRect.getBBox();
+              ipWidth = ipRectBBox.width;
+              /* ip end */
             }
-          });
 
-          /* 下面的文字 */
-          group.addShape('text', {
-            attrs: {
-              text: fittingString(data.keyInfo, 204, 12),
-              x: 19,
-              y: 45,
-              fontSize: 14,
-              textAlign: 'left',
-              textBaseline: 'middle',
-              fill: config.fontColor,
-              cursor: 'pointer'
-              // className: 'keyInfo',
-              // tooltip: cfg.keyInfo,
-            }
-          });
-
-          if (nodeError) {
-            group.addShape('image', {
+            /* name */
+            group.addShape('text', {
               attrs: {
-                x: 191,
-                y: 32,
-                height: 35,
-                width: 35,
-                img: '/static/images/warning-circle.svg'
-              }
+                /* 根据 IP 的长度计算出 剩下的 留给 name 的长度！ */
+                text: fittingString(data.name, 224 - ipWidth - 20, 12), // data.name,
+                x: 19,
+                y: 19,
+                fontSize: 14,
+                fontWeight: 700,
+                textAlign: 'left',
+                textBaseline: 'middle',
+                fill: config.fontColor,
+                cursor: 'pointer',
+                // tooltip: cfg.name,
+              },
             });
-          }
 
-          const hasChildren = cfg.children && cfg.children.length > 0;
-          if (hasChildren) {
-            nodeBasicMethod.createNodeMarker(group, cfg.collapsed, 236, 32);
-          }
-          return container;
+            /* 下面的文字 */
+            group.addShape('text', {
+              attrs: {
+                text: fittingString(data.keyInfo, 204, 12),
+                x: 19,
+                y: 45,
+                fontSize: 14,
+                textAlign: 'left',
+                textBaseline: 'middle',
+                fill: config.fontColor,
+                cursor: 'pointer',
+                // className: 'keyInfo',
+                // tooltip: cfg.keyInfo,
+              },
+            });
+
+            if (nodeError) {
+              group.addShape('image', {
+                attrs: {
+                  x: 191,
+                  y: 32,
+                  height: 35,
+                  width: 35,
+                  img: '/static/images/warning-circle.svg',
+                },
+              });
+            }
+
+            const hasChildren = cfg.children && cfg.children.length > 0;
+            if (hasChildren) {
+              nodeBasicMethod.createNodeMarker(group, cfg.collapsed, 236, 32);
+            }
+            return container;
+          },
+          afterDraw: nodeBasicMethod.afterDraw,
+          setState: nodeBasicMethod.setState,
         },
-        afterDraw: nodeBasicMethod.afterDraw,
-        setState: nodeBasicMethod.setState
-      }, 'single-shape');
+        'single-shape',
+      );
       /* 是否显示 sofarouter，通过透明度来控制 */
-      G6.registerEdge('tree-edge', {
-        draw: function draw(cfg: any, group) {
-          const targetNode = cfg.targetNode.getModel();
-          const edgeError = !!targetNode.edgeError;
+      G6.registerEdge(
+        'tree-edge',
+        {
+          draw: function draw(cfg: any, group) {
+            const targetNode = cfg.targetNode.getModel();
+            const edgeError = !!targetNode.edgeError;
 
-          const { startPoint, endPoint } = cfg;
-          const controlPoints = this.getControlPoints(cfg);
-          let points = [ startPoint ]; // 添加起始点
-          // 添加控制点
-          if (controlPoints) {
-            points = points.concat(controlPoints);
-          }
-          // 添加结束点
-          points.push(endPoint);
-          const path = this.getPath(points);
-
-          group.addShape('path', {
-            attrs: {
-              path,
-              lineWidth: 12,
-              stroke: edgeError ? 'rgba(245,34,45,0.05)' : 'rgba(47,84,235,0.05)',
-              opacity: 0,
-              zIndex: 0
-            },
-            className: 'line-bg'
-          });
-          const keyShape = group.addShape('path', {
-            attrs: {
-              path,
-              lineWidth: 1,
-              stroke: edgeError ? '#FF7875' : 'rgba(0,0,0,0.25)',
-              zIndex: 1,
-              lineAppendWidth: 12
-            },
-            edgeError: !!edgeError
-          });
-
-          /* 连接线的中间点 */
-          const centerPoint = {
-            x: startPoint.x + (endPoint.x - startPoint.x) / 2,
-            y: startPoint.y + (endPoint.y - startPoint.y) / 2
-          };
-          const textRect = group.addShape('rect', {
-            attrs: {
-              fill: '#FFF1F0',
-              radius: 2,
-              opacity: 1
-            },
-            /* sofarouter 需要 class，以便控制 显示隐藏 */
-            className: SOFAROUTER_RECT_CLASS
-          });
-          const text = group.addShape('text', {
-            attrs: {
-              text: 'edge-label',
-              x: 0,
-              y: 0,
-              fontSize: 12,
-              textAlign: 'left',
-              textBaseline: 'middle',
-              fill: '#F5222D',
-              opacity: 1
-            },
-            /* sofarouter 需要 class，以便控制 显示隐藏 */
-            className: SOFAROUTER_TEXT_CLASS
-          });
-          const textBBox = text.getBBox();
-          /* text 的位置 */
-          text.attr({
-            x: centerPoint.x - textBBox.width / 2,
-            y: centerPoint.y
-          });
-          /* text 的框框 */
-          textRect.attr({
-            x: centerPoint.x - textBBox.width / 2 - 4,
-            y: centerPoint.y - textBBox.height / 2 - 5,
-            width: textBBox.width + 8,
-            height: textBBox.height + 10
-          });
-
-          return keyShape;
-        },
-
-        /* 操作 线 的背景色显示隐藏 */
-        afterDraw: function afterDraw(cfg, group) {
-          /* 背景色 */
-          const lineBG = group.get('children')[0]; // 顺序根据 draw 时确定
-          /* 线条 */
-          const line = group.get('children')[1];
-          line.on('mouseenter', function() {
-            lineBG.attr('opacity', '1');
-            /* 线条如果在没有错误的情况下，在 hover 时候，是需要变成蓝色的 */
-            if (!line.get('edgeError')) {
-              line.attr('stroke', '#2F54EB');
+            const { startPoint, endPoint } = cfg;
+            const controlPoints = this.getControlPoints(cfg);
+            let points = [startPoint]; // 添加起始点
+            // 添加控制点
+            if (controlPoints) {
+              points = points.concat(controlPoints);
             }
-            graph.get('canvas').draw();
-          });
-          line.on('mouseleave', function() {
-            lineBG.attr('opacity', '0');
-            if (!line.get('edgeError')) {
-              line.attr('stroke', 'rgba(0,0,0,0.25)');
+            // 添加结束点
+            points.push(endPoint);
+            const path = this.getPath(points);
+
+            group.addShape('path', {
+              attrs: {
+                path,
+                lineWidth: 12,
+                stroke: edgeError ? 'rgba(245,34,45,0.05)' : 'rgba(47,84,235,0.05)',
+                opacity: 0,
+                zIndex: 0,
+              },
+              className: 'line-bg',
+            });
+            const keyShape = group.addShape('path', {
+              attrs: {
+                path,
+                lineWidth: 1,
+                stroke: edgeError ? '#FF7875' : 'rgba(0,0,0,0.25)',
+                zIndex: 1,
+                lineAppendWidth: 12,
+              },
+              edgeError: !!edgeError,
+            });
+
+            /* 连接线的中间点 */
+            const centerPoint = {
+              x: startPoint.x + (endPoint.x - startPoint.x) / 2,
+              y: startPoint.y + (endPoint.y - startPoint.y) / 2,
+            };
+            const textRect = group.addShape('rect', {
+              attrs: {
+                fill: '#FFF1F0',
+                radius: 2,
+                opacity: 1,
+              },
+              /* sofarouter 需要 class，以便控制 显示隐藏 */
+              className: SOFAROUTER_RECT_CLASS,
+            });
+            const text = group.addShape('text', {
+              attrs: {
+                text: 'edge-label',
+                x: 0,
+                y: 0,
+                fontSize: 12,
+                textAlign: 'left',
+                textBaseline: 'middle',
+                fill: '#F5222D',
+                opacity: 1,
+              },
+              /* sofarouter 需要 class，以便控制 显示隐藏 */
+              className: SOFAROUTER_TEXT_CLASS,
+            });
+            const textBBox = text.getBBox();
+            /* text 的位置 */
+            text.attr({
+              x: centerPoint.x - textBBox.width / 2,
+              y: centerPoint.y,
+            });
+            /* text 的框框 */
+            textRect.attr({
+              x: centerPoint.x - textBBox.width / 2 - 4,
+              y: centerPoint.y - textBBox.height / 2 - 5,
+              width: textBBox.width + 8,
+              height: textBBox.height + 10,
+            });
+
+            return keyShape;
+          },
+
+          /* 操作 线 的背景色显示隐藏 */
+          afterDraw: function afterDraw(cfg, group) {
+            /* 背景色 */
+            const lineBG = group.get('children')[0]; // 顺序根据 draw 时确定
+            /* 线条 */
+            const line = group.get('children')[1];
+            line.on('mouseenter', function() {
+              lineBG.attr('opacity', '1');
+              /* 线条如果在没有错误的情况下，在 hover 时候，是需要变成蓝色的 */
+              if (!line.get('edgeError')) {
+                line.attr('stroke', '#2F54EB');
+              }
+              graph.get('canvas').draw();
+            });
+            line.on('mouseleave', function() {
+              lineBG.attr('opacity', '0');
+              if (!line.get('edgeError')) {
+                line.attr('stroke', 'rgba(0,0,0,0.25)');
+              }
+              graph.get('canvas').draw();
+            });
+          },
+          setState: function setState(name, value, item) {
+            const group = item.getContainer();
+            const childrens = group.get('children');
+            graph.setAutoPaint(true);
+            if (name === 'emptiness') {
+              if (value) {
+                childrens.forEach(function(shape) {
+                  if (shape.get('className') === 'line-bg') {
+                    return;
+                  }
+                  shape.attr('opacity', 0.4);
+                });
+              } else {
+                childrens.forEach(function(shape) {
+                  if (shape.get('className') === 'line-bg') {
+                    return;
+                  }
+                  shape.attr('opacity', 1);
+                });
+              }
             }
-            graph.get('canvas').draw();
-          });
+            graph.setAutoPaint(true);
+          },
+          update: null,
         },
-        setState: function setState(name, value, item) {
-          const group = item.getContainer();
-          const childrens = group.get('children');
-          graph.setAutoPaint(true);
-          if (name === 'emptiness') {
-            if (value) {
-              childrens.forEach(function(shape) {
-                if (shape.get('className') === 'line-bg') {
-                  return;
-                }
-                shape.attr('opacity', 0.4);
-              });
-            } else {
-              childrens.forEach(function(shape) {
-                if (shape.get('className') === 'line-bg') {
-                  return;
-                }
-                shape.attr('opacity', 1);
-              });
-            }
-          }
-          graph.setAutoPaint(true);
-        },
-        update: null
-      }, 'cubic-horizontal');
+        'cubic-horizontal',
+      );
       // graph.on('beforepaint', function() {
       //   const topLeft = graph.getPointByCanvas(0, 0);
       //   const bottomRight = graph.getPointByCanvas(1000, 1000);
@@ -784,8 +821,9 @@ const ComplexTree = () => {
       //   });
       // });
 
-
-      fetch('https://gw.alipayobjects.com/os/basement_prod/dd089904-664c-4699-9593-e0df409558c0.json')
+      fetch(
+        'https://gw.alipayobjects.com/os/basement_prod/dd089904-664c-4699-9593-e0df409558c0.json',
+      )
         .then(res => res.json())
         .then(data => {
           data = formatData(data);
@@ -797,18 +835,16 @@ const ComplexTree = () => {
     }
 
     graph.on('node:mouseenter', evt => {
-      const { item } = evt
-      graph.setItemState(item, 'hover', true)
-    })
+      const { item } = evt;
+      graph.setItemState(item, 'hover', true);
+    });
 
     graph.on('node:mouseleave', evt => {
-      const { item } = evt
-      graph.setItemState(item, 'hover', false)
-    })
+      const { item } = evt;
+      graph.setItemState(item, 'hover', false);
+    });
   });
-  return (
-    <div ref={container}></div>
-  )
-}
+  return <div ref={container}></div>;
+};
 
-export default ComplexTree 
+export default ComplexTree;

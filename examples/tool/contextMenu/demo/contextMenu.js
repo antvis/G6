@@ -25,12 +25,10 @@ insertCss(`
   }
 `);
 
-
 const descriptionDiv = document.createElement('div');
 descriptionDiv.id = 'discription';
 descriptionDiv.innerHTML = 'Right click a node to activate a contextMenu.';
 document.getElementById('container').appendChild(descriptionDiv);
-
 
 // JSX and HTML templates are available for the menu
 // create ul
@@ -55,70 +53,77 @@ const graph = new G6.Graph({
   height,
   linkCenter: true,
   defaultNode: {
-    size: [ 80, 40 ],
+    size: [80, 40],
     type: 'rect',
     style: {
       fill: '#DEE9FF',
-      stroke: '#5B8FF9'
-    }
+      stroke: '#5B8FF9',
+    },
   },
   defaultEdge: {
     style: {
       stroke: '#b5b5b5',
-      lineAppendWidth: 3 // Enlarge the range the edge to be hitted
+      lineAppendWidth: 3, // Enlarge the range the edge to be hitted
     },
     labelCfg: {
       autoRotate: true,
       style: {
         // A white stroke with width 5 helps show the label more clearly avoiding the interference of the overlapped edge
         stroke: 'white',
-        lineWidth: 5
-      }
-    }
+        lineWidth: 5,
+      },
+    },
   },
   modes: {
-    default: [ 'drag-node' ]
-  }
+    default: ['drag-node'],
+  },
 });
 
 const data = {
-  nodes: [{
-    id: 'node1',
-    label: 'node1',
-    x: 200,
-    y: 100,
-    type: 'rect'
-  }, {
-    id: 'node2',
-    label: 'node2',
-    x: 250,
-    y: 250,
-    type: 'rect'
-  }, {
-    id: 'node3',
-    label: 'node3',
-    x: 350,
-    y: 100,
-    type: 'rect'
-  }],
-  edges: [{
-    source: 'node1',
-    target: 'node2',
-    label: 'Test Label'
-  }, {
-    source: 'node1',
-    target: 'node3',
-    label: 'Test Label 2'
-  }]
+  nodes: [
+    {
+      id: 'node1',
+      label: 'node1',
+      x: 200,
+      y: 100,
+      type: 'rect',
+    },
+    {
+      id: 'node2',
+      label: 'node2',
+      x: 250,
+      y: 250,
+      type: 'rect',
+    },
+    {
+      id: 'node3',
+      label: 'node3',
+      x: 350,
+      y: 100,
+      type: 'rect',
+    },
+  ],
+  edges: [
+    {
+      source: 'node1',
+      target: 'node2',
+      label: 'Test Label',
+    },
+    {
+      source: 'node1',
+      target: 'node3',
+      label: 'Test Label 2',
+    },
+  ],
 };
 
 graph.data(data);
 graph.render();
 
 graph.on('node:contextmenu', evt => {
-  evt.preventDefault()
-  evt.stopPropagation()
-  conextMenuContainer.style.left = `${(evt.x + 20)}px`;
+  evt.preventDefault();
+  evt.stopPropagation();
+  conextMenuContainer.style.left = `${evt.x + 20}px`;
   conextMenuContainer.style.top = `${evt.y}px`;
 });
 

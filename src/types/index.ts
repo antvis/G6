@@ -88,7 +88,7 @@ export type LoopConfig = Partial<{
   position: string;
   // 如果逆时针画，交换起点和终点
   clockwise: boolean;
-}>
+}>;
 
 // model types (node edge group)
 export type ModelStyle = Partial<{
@@ -128,7 +128,7 @@ export type Easeing =
   | 'easeQuadOut'
   | 'easeQuadInOut'
   | string;
-  
+
 export interface ModelConfig extends ModelStyle {
   // ⚠️ 节点或边的类型，后续会废弃
   shape?: string;
@@ -367,11 +367,11 @@ export interface IG6GraphEvent extends GraphEvent {
 // Node Edge 实例或ID
 export type Item = INode | IEdge;
 
-export type ITEM_TYPE = 'node' | 'edge' | 'group'
+export type ITEM_TYPE = 'node' | 'edge' | 'group';
 
 export type NodeIdxMap = {
-  [key: string]: number
-}
+  [key: string]: number;
+};
 
 // 触发 viewportchange 事件的参数
 export interface ViewPortEventParam {
@@ -379,7 +379,9 @@ export interface ViewPortEventParam {
   matrix: Matrix;
 }
 
-export interface Indexable<T> { [key:string]: T}
+export interface Indexable<T> {
+  [key: string]: T;
+}
 
 export interface LayoutConfig {
   type?: string;

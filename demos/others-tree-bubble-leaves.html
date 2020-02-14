@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-  
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Dagre Layout</title>
   </head>
   <style>
@@ -22,166 +21,170 @@
     <script src="../build/g6.js"></script>
     <script>
       const data = {
-        nodes: [{
-          id: '1',
-          label: '1'
-        },
-        {
-          id: '2',
-          label: '2'
-        },
-        {
-          id: '3',
-          label: '3'
-        },
-        {
-          id: '4',
-          label: '4'
-        },
-        {
-          id: '5',
-          label: '5'
-        },
-        {
-          id: '6',
-          label: '6'
-        },
-        {
-          id: '7',
-          label: '7'
-        },
-        {
-          id: '8',
-          label: '8',
-          isLeaf: true
-        },
-        {
-          id: '9',
-          label: '9',
-          isLeaf: true
-        },
-        {
-          id: '10',
-          label: '10',
-          isLeaf: true
-        },
-        {
-          id: '11',
-          label: '11',
-          isLeaf: true
-        },
-        {
-          id: '12',
-          label: '12',
-          isLeaf: true
-        },
-        {
-          id: '13',
-          label: '13',
-          isLeaf: true
-        },
-        {
-          id: '14',
-          label: '14',
-          isLeaf: true
-        },
-        {
-          id: '15',
-          label: '15',
-          isLeaf: true
-        },
-        {
-          id: '16',
-          label: '16',
-          isLeaf: true
-        },
-        {
-          id: '17',
-          label: '17',
-          isLeaf: true
-        },
-        {
-          id: '18',
-          label: '18',
-          isLeaf: true
-        },
-        {
-          id: '19',
-          label: '19',
-          isLeaf: true
-        }],
-        edges: [{
-          source: '1',
-          target: '2'
-        },
-        {
-          source: '1',
-          target: '3'
-        },
-        {
-          source: '3',
-          target: '4'
-        },
-        {
-          source: '2',
-          target: '5'
-        },
-        {
-          source: '5',
-          target: '6'
-        },
-        {
-          source: '5',
-          target: '7'
-        },
-        {
-          source: '7',
-          target: '8'
-        },
-        {
-          source: '6',
-          target: '9'
-        },
-        {
-          source: '6',
-          target: '10'
-        },
-        {
-          source: '6',
-          target: '11'
-        },
-        {
-          source: '6',
-          target: '12'
-        },
-        {
-          source: '6',
-          target: '13'
-        },
-        {
-          source: '6',
-          target: '14'
-        },
-        {
-          source: '4',
-          target: '15'
-        },
-        {
-          source: '4',
-          target: '16'
-        },
-        {
-          source: '4',
-          target: '17'
-        },
-        {
-          source: '4',
-          target: '18'
-        },
-        {
-          source: '4',
-          target: '19'
-        }]
+        nodes: [
+          {
+            id: '1',
+            label: '1',
+          },
+          {
+            id: '2',
+            label: '2',
+          },
+          {
+            id: '3',
+            label: '3',
+          },
+          {
+            id: '4',
+            label: '4',
+          },
+          {
+            id: '5',
+            label: '5',
+          },
+          {
+            id: '6',
+            label: '6',
+          },
+          {
+            id: '7',
+            label: '7',
+          },
+          {
+            id: '8',
+            label: '8',
+            isLeaf: true,
+          },
+          {
+            id: '9',
+            label: '9',
+            isLeaf: true,
+          },
+          {
+            id: '10',
+            label: '10',
+            isLeaf: true,
+          },
+          {
+            id: '11',
+            label: '11',
+            isLeaf: true,
+          },
+          {
+            id: '12',
+            label: '12',
+            isLeaf: true,
+          },
+          {
+            id: '13',
+            label: '13',
+            isLeaf: true,
+          },
+          {
+            id: '14',
+            label: '14',
+            isLeaf: true,
+          },
+          {
+            id: '15',
+            label: '15',
+            isLeaf: true,
+          },
+          {
+            id: '16',
+            label: '16',
+            isLeaf: true,
+          },
+          {
+            id: '17',
+            label: '17',
+            isLeaf: true,
+          },
+          {
+            id: '18',
+            label: '18',
+            isLeaf: true,
+          },
+          {
+            id: '19',
+            label: '19',
+            isLeaf: true,
+          },
+        ],
+        edges: [
+          {
+            source: '1',
+            target: '2',
+          },
+          {
+            source: '1',
+            target: '3',
+          },
+          {
+            source: '3',
+            target: '4',
+          },
+          {
+            source: '2',
+            target: '5',
+          },
+          {
+            source: '5',
+            target: '6',
+          },
+          {
+            source: '5',
+            target: '7',
+          },
+          {
+            source: '7',
+            target: '8',
+          },
+          {
+            source: '6',
+            target: '9',
+          },
+          {
+            source: '6',
+            target: '10',
+          },
+          {
+            source: '6',
+            target: '11',
+          },
+          {
+            source: '6',
+            target: '12',
+          },
+          {
+            source: '6',
+            target: '13',
+          },
+          {
+            source: '6',
+            target: '14',
+          },
+          {
+            source: '4',
+            target: '15',
+          },
+          {
+            source: '4',
+            target: '16',
+          },
+          {
+            source: '4',
+            target: '17',
+          },
+          {
+            source: '4',
+            target: '18',
+          },
+          {
+            source: '4',
+            target: '19',
+          },
+        ],
       };
 
       const graph = new G6.Graph({
@@ -189,17 +192,17 @@
         width: 1000,
         height: 700,
         modes: {
-          default: ['drag-node', 'drag-canvas']
+          default: ['drag-node', 'drag-canvas'],
         },
         defaultNode: {
-          shape: 'rect',// hexagon
-          color: 'steelblue'
+          shape: 'rect', // hexagon
+          color: 'steelblue',
         },
         defaultEdge: {
           style: {
-            stroke: '#aaa'
-          }
-        }
+            stroke: '#aaa',
+          },
+        },
       });
       const nodes = data.nodes;
       const edges = data.edges;
@@ -230,25 +233,27 @@
         }
       });
       edges.forEach(edge => {
-        if (branchNodesMap.get(edge.source) !== undefined
-          && branchNodesMap.get(edge.target) !== undefined) {
-            branchEdges.push(edge);
+        if (
+          branchNodesMap.get(edge.source) !== undefined &&
+          branchNodesMap.get(edge.target) !== undefined
+        ) {
+          branchEdges.push(edge);
         }
       });
       // layout the nodes with isLeaf === false by dagre
       const dagreLayout = new G6.Layout['dagre']({
         nodesep: 50,
-        ranksep: 10
+        ranksep: 10,
       });
       dagreLayout.init({ nodes: branchNodes, edges: branchEdges });
       dagreLayout.execute();
 
       //layout the leaves with isLeaf === true by force
       const forceLayoutsMap = new Map();
-      Object.keys(leafGroups).forEach(function(parentId){
+      Object.keys(leafGroups).forEach(function(parentId) {
         const lg = leafGroups[parentId];
         const parent = branchNodesMap.get(parentId);
-        const center = [ parent.x, parent.y + leafGroupOffset ];
+        const center = [parent.x, parent.y + leafGroupOffset];
         const forceLayout = new G6.Layout['force']({
           center,
           linkDistance: 0,
@@ -258,7 +263,7 @@
           preventOverlap: true,
           tick: () => {
             graph.refreshPositions();
-          }
+          },
         });
         forceLayout.init({ nodes: lg, edges: [] });
         forceLayout.execute();

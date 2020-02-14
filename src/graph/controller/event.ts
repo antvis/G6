@@ -1,15 +1,15 @@
-import addEventListener from '@antv/dom-util/lib/add-event-listener'
+import addEventListener from '@antv/dom-util/lib/add-event-listener';
 import Canvas from '@antv/g-base/lib/abstract/canvas';
 import Group from '@antv/g-canvas/lib/group';
 import ShapeBase from '@antv/g-canvas/lib/shape/base';
-import each from '@antv/util/lib/each'
+import each from '@antv/util/lib/each';
 import isNil from '@antv/util/lib/is-nil';
 import wrapBehavior from '@antv/util/lib/wrap-behavior';
-import  Graph  from "../graph"
+import Graph from '../graph';
 import { IG6GraphEvent, Matrix, Item } from '../../types';
 import { cloneEvent, isViewportChanged } from '../../util/base';
 
-type Fun = () => void
+type Fun = () => void;
 
 const EVENTS = [
   'click',
@@ -35,24 +35,24 @@ const EVENTS = [
   'touchend',
 ];
 export default class EventController {
-  private graph: Graph
+  private graph: Graph;
 
-  private extendEvents: any[]
+  private extendEvents: any[];
 
   private canvasHandler!: Fun;
 
-  private dragging: boolean
+  private dragging: boolean;
 
-  private preItem: Item | null = null
+  private preItem: Item | null = null;
 
-  public destroyed: boolean
+  public destroyed: boolean;
 
   constructor(graph: Graph) {
-    this.graph = graph
-    this.extendEvents = []
-    this.dragging = false
-    this.destroyed = false
-    this.initEvents()
+    this.graph = graph;
+    this.extendEvents = [];
+    this.dragging = false;
+    this.destroyed = false;
+    this.initEvents();
   }
 
   // 初始化 G6 中的事件
@@ -107,25 +107,25 @@ export default class EventController {
     evt.canvasY = evt.y;
     let point = { x: evt.canvasX, y: evt.canvasY };
 
-    const group: Group = graph.get('group')
-    const matrix: Matrix = group.getMatrix()
-    
-    if(isViewportChanged(matrix)) {
-      point = graph.getPointByCanvas(evt.canvasX, evt.canvasY)
+    const group: Group = graph.get('group');
+    const matrix: Matrix = group.getMatrix();
+
+    if (isViewportChanged(matrix)) {
+      point = graph.getPointByCanvas(evt.canvasX, evt.canvasY);
     }
 
-    evt.x = point.x
-    evt.y = point.y
+    evt.x = point.x;
+    evt.y = point.y;
 
-    evt.currentTarget = graph
+    evt.currentTarget = graph;
 
-    if(target === canvas) {
+    if (target === canvas) {
       if (eventType === 'mousemove') {
         this.handleMouseMove(evt, 'canvas');
       }
       evt.target = canvas;
       evt.item = null;
-      
+
       graph.emit(eventType, evt);
       graph.emit(`canvas:${eventType}`, evt);
       return;
@@ -150,7 +150,12 @@ export default class EventController {
     graph.emit(eventType, evt);
 
     // g的事件会冒泡，如果target不是canvas，可能会引起同个节点触发多次，需要另外判断
-    if (eventType === 'mouseenter' || eventType === 'mouseleave' || eventType === 'dragenter' || eventType === 'dragleave') {
+    if (
+      eventType === 'mouseenter' ||
+      eventType === 'mouseleave' ||
+      eventType === 'dragenter' ||
+      eventType === 'dragleave'
+    ) {
       return;
     }
 
@@ -165,7 +170,6 @@ export default class EventController {
     if (eventType === 'mousemove') {
       this.handleMouseMove(evt, type);
     }
-
   }
 
   /**
@@ -197,7 +201,7 @@ export default class EventController {
     const canvas: Canvas = graph.get('canvas');
     const item = evt.target === canvas ? null : evt.item;
 
-    evt = cloneEvent(evt) as IG6GraphEvent
+    evt = cloneEvent(evt) as IG6GraphEvent;
 
     // 从前一个item直接移动到当前item，触发前一个item的leave事件
     if (preItem && preItem !== item && !preItem.destroyed) {
@@ -243,11 +247,10 @@ export default class EventController {
       event.remove();
     });
 
-    this.dragging = false
-    this.preItem = null
+    this.dragging = false;
+    this.preItem = null;
     this.extendEvents.length = 0;
-    (this.canvasHandler as Fun | null) = null
-    this.destroyed = true
+    (this.canvasHandler as Fun | null) = null;
+    this.destroyed = true;
   }
 }
-

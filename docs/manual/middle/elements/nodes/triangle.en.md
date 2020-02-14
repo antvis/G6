@@ -2,17 +2,19 @@
 title: Triangle
 order: 5
 ---
+
 ## Triangle
 
 A built-in node Triangle has the default style as below, the label is drawed on the center of it.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FY1XQZHEc6YAAAAAAAAAAABkARQnAQ' width=100/>
 
-
 ## Usage
+
 As stated in [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) , there are two ways to configure the node: Configure it when instantiating a Graph globally; Configure it in the data.
 
-
 ### 1 Global Configure When Instantiating a Graph
+
 Assign `type` to `'triangle'` in the `defaultNode` object when instantiating a Graph:
+
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -21,30 +23,32 @@ const graph = new G6.Graph({
   defaultNode: {
     type: 'triangle', // The type of the node
     // ... Other configuraltions
-  }
-})
+  },
+});
 ```
 
-
 ### 2 Configure in the Data
+
 To configure different nodes with different properties, you can write the properties into the node data.
+
 ```javascript
 const data = {
-  nodes: [{
-	  id: 'node0',
-    type: 'triangle',// The tyep of the node
-    //... // Other configurations
+  nodes: [
+    {
+      id: 'node0',
+      type: 'triangle', // The tyep of the node
+      //... // Other configurations
     },
     //... // Other nodes
   ],
   edges: [
     //... // edges
-  ]
-}
+  ],
+};
 ```
 
-
 ## Property
+
 The [Node Common Properties](/en/docs/manual/middle/elements/nodes/defaultNode/#common-property) are available for Triangle node, some special properties are shown below. The spetial property type will be described after the table:
 
 | Name | Description | Type | Remark |
@@ -58,9 +62,10 @@ The [Node Common Properties](/en/docs/manual/middle/elements/nodes/defaultNode/#
 | linkPoints | The link points **in visual** | Object | They are invisible by default. It is usually used with the [anchorPoints](http://localhost:8000/en/docs/manual/middle/elements/nodes/defaultNode/#common-property). The differences are described in [linkPoints](#linkpoints) |
 | icon | The configurations of the icon on the triangle node | Object | It is invisible by default |
 
-
 ### direction
-It is a string with options: `'``up'`, `'down'`, `'left'`, and `'right'`. `'up'` by default. The following code shows how to configure the `direction` globally when instantiating a Graph.
+
+It is a string with options: ` '``up' `, `'down'`, `'left'`, and `'right'`. `'up'` by default. The following code shows how to configure the `direction` globally when instantiating a Graph.
+
 ```javascript
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -68,10 +73,11 @@ const graph = new G6.Graph({
   height: 600,
   defaultNode: {
     type: 'triangle',
-    direction: 'down'
-  }
-})
+    direction: 'down',
+  },
+});
 ```
+
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HuGHTrWfGYsAAAAAAAAAAABkARQnAQ' width=100/>
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hsOBSo1sFFAAAAAAAAAAAABkARQnAQ' width=100/>
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*irgPRrU3JdEAAAAAAAAAAABkARQnAQ' width=100/>
@@ -79,18 +85,20 @@ const graph = new G6.Graph({
 
 > The results with `'up'`, `'down'`, `'left'`, `'right'` as `direction`.
 
-
-
 ### style
+
 The [Node Common Styles](/en/docs/manual/middle/elements/nodes/defaultNode/#style) are available for Circle node.`style` is an object to configure the filling color, stroke, and other styles. The following code shows how to configure the `style` globally when instantiating a Graph.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6-qaTJkpsKYAAAAAAAAAAABkARQnAQ' width=100/>
+
 ```javascript
 const data = {
-  nodes: [{
-    x: 100,
-    y: 100,
-    type: 'triangle',
-    label: 'triangle'
- }]
+  nodes: [
+    {
+      x: 100,
+      y: 100,
+      type: 'triangle',
+      label: 'triangle',
+    },
+  ],
 };
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -103,17 +111,18 @@ const graph = new G6.Graph({
     style: {
       fill: '#bae637',
       stroke: '#eaff8f',
-      lineWidth: 5
-    }
-  }
+      lineWidth: 5,
+    },
+  },
 });
 graph.data(data);
 graph.render();
 ```
 
-
 ### labelCfg
+
 `labelCfg` is an object to configure the label of the node. The [Node Common Label Configurations](/en/docs/manual/middle/elements/nodes/defaultNode/#label-and-labelcfg) are available. Base on the code in [style](#style) section, we add `labelCfg` to `defaultNode`.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5KkKRaDXqXgAAAAAAAAAAABkARQnAQ' width=100/>
+
 ```javascript
 const data = {
   // ... data
@@ -126,37 +135,35 @@ const graph = new G6.Graph({
       position: 'center',
       style: {
         fill: '#9254de',
-        fontSize: 18
-      }
-    }
-  }
+        fontSize: 18,
+      },
+    },
+  },
 });
 // ...
 ```
 
-
 ### linkPoints
+
 `linkPoints` is an object to configure the small circles on the 「top, left, and right」.
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> It is different from `anchorPoints`:
-`anchorPoints` is an 「**array**」 that indicates the actual relative positions used to specify the join position of the relevant edge of the node (refer to [anchorPoints](/en/docs/manual/middle/keyconcept/anchorpoint));
-`linkPoints` is an object that indicates whether 「**render**」the four small circles, which do not connect the relevant edges. These two properties are often used together.
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> It is different from `anchorPoints`: `anchorPoints` is an 「**array**」 that indicates the actual relative positions used to specify the join position of the relevant edge of the node (refer to [anchorPoints](/en/docs/manual/middle/keyconcept/anchorpoint)); `linkPoints` is an object that indicates whether 「**render**」the four small circles, which do not connect the relevant edges. These two properties are often used together.
 
-| Name | Description | Type | Remark |
-| --- | --- | --- | --- |
-| top | Whether to show the top small circle | Boolean | `false` by default |
-| left | Whether to show the left small circle | Boolean | `false` by default |
-| right | Whether to show the right small circle | Boolean | `false` by default |
-| size | The size of the small circles | Number | `3` by default |
-| fill | The filling color of the small circles | String | `'#72CC4A'` by default |
-| stroke | The stroke color of the small circles | String | `'#72CC4A'` by default |
-| lineWidth | The line width of the small circles | Number | `1` by default |
-
+| Name      | Description                            | Type    | Remark                 |
+| --------- | -------------------------------------- | ------- | ---------------------- |
+| top       | Whether to show the top small circle   | Boolean | `false` by default     |
+| left      | Whether to show the left small circle  | Boolean | `false` by default     |
+| right     | Whether to show the right small circle | Boolean | `false` by default     |
+| size      | The size of the small circles          | Number  | `3` by default         |
+| fill      | The filling color of the small circles | String  | `'#72CC4A'` by default |
+| stroke    | The stroke color of the small circles  | String  | `'#72CC4A'` by default |
+| lineWidth | The line width of the small circles    | Number  | `1` by default         |
 
 Base on the code in [style](#style) section, we add `linkPoints` to `defaultNode`.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aB-PT4nzU_oAAAAAAAAAAABkARQnAQ' width=100/>
+
 ```javascript
 const data = {
-	// ... data
+  // ... data
 };
 const graph = new G6.Graph({
   // ... Other configurations for graph
@@ -168,31 +175,30 @@ const graph = new G6.Graph({
       left: true,
       right: true,
       fill: '#fff',
-      size: 5
-    }
-  }
+      size: 5,
+    },
+  },
 });
 // ...
 ```
 
-
 ### icon
-`icon` is an object to configure the icon on the node.
 
+`icon` is an object to configure the icon on the node.
 
 | Name | Description | Type | Remark |
 | --- | --- | --- | --- |
 | show | Whether to show the icon | Boolean | `false` by default |
 | width | The width of the icon | Number | `16` by default |
 | height | The height of the icon | Number | `16` by default |
-| img | The image url of the icon | String | |
+| img | The image url of the icon | String |  |
 | **offset** | **The offset of the icon** | **Number** | **`0` by default. It is a special property for triangle node** |
 
-
 Base on the code in [style](#style) section, we add `icon` to `defaultNode`.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2w62R5ZYtVAAAAAAAAAAAABkARQnAQ' width=100/>
+
 ```javascript
 const data = {
-	// ... data
+  // ... data
 };
 const graph = new G6.Graph({
   // ... Other configurations for the graph
@@ -202,10 +208,10 @@ const graph = new G6.Graph({
       show: true,
       width: 30,
       height: 30,
-      offset: 20
-      //img: '...', The image url of the icon 
-    }
-  }
+      offset: 20,
+      //img: '...', The image url of the icon
+    },
+  },
 });
 // ...
 ```

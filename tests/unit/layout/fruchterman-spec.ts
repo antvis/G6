@@ -1,11 +1,9 @@
 import G6 from '../../../src';
 import data from './data';
 
-
 const div = document.createElement('div');
 div.id = 'graph-spec';
 document.body.appendChild(div);
-
 
 describe('fruchterman', () => {
   it('new graph with fruchterman layout, without configurations', () => {
@@ -15,8 +13,8 @@ describe('fruchterman', () => {
       width: 500,
       height: 500,
       defaultNode: {
-        size: 10
-      }
+        size: 10,
+      },
     });
     graph.data(data);
     graph.render();
@@ -49,13 +47,13 @@ describe('fruchterman', () => {
     const graph = new G6.Graph({
       container: div,
       layout: {
-        type: 'fruchterman'
+        type: 'fruchterman',
       },
       width: 500,
       height: 500,
     });
     graph.data({
-      nodes: []
+      nodes: [],
     });
     graph.render();
     graph.destroy();
@@ -64,15 +62,17 @@ describe('fruchterman', () => {
     const graph = new G6.Graph({
       container: div,
       layout: {
-        type: 'fruchterman'
+        type: 'fruchterman',
       },
       width: 500,
       height: 500,
     });
     graph.data({
-      nodes: [{
-        id: 'node'
-      }]
+      nodes: [
+        {
+          id: 'node',
+        },
+      ],
     });
     graph.render();
     const nodeModel = graph.getNodes()[0].getModel();
@@ -81,12 +81,12 @@ describe('fruchterman', () => {
     graph.destroy();
   });
   it('fruchterman layout with clustering and no clusterGravity', () => {
-    const colors = ['#f00', '#0f0','#00f', '#ff0'];
+    const colors = ['#f00', '#0f0', '#00f', '#ff0'];
     data.nodes.forEach(node => {
       node.size = 10;
-      node.cluster = Math.ceil(Math.random() / 3 * 10);
+      node.cluster = Math.ceil((Math.random() / 3) * 10);
       node.style = {
-        fill: colors[node.cluster]
+        fill: colors[node.cluster],
       };
     });
     const graph = new G6.Graph({
@@ -95,7 +95,7 @@ describe('fruchterman', () => {
         type: 'fruchterman',
         clustering: true,
         maxIteration: 3000,
-        clusterGravity: null
+        clusterGravity: null,
       },
       width: 500,
       height: 500,
@@ -114,29 +114,35 @@ describe('fruchterman', () => {
         type: 'fruchterman',
         clustering: true,
         maxIteration: 3000,
-        clusterGravity: null
+        clusterGravity: null,
       },
       width: 500,
       height: 500,
     });
     const tmpData = {
-      nodes: [{
-        id: 'node0',
-        x: 100,
-        y: 100
-      }, {
-        id: 'node1',
-        x: 100,
-        y: 100
-      }, {
-        id: 'node3',
-        x: 150,
-        y: 120
-      }],
-      edges: [{
-        source: 'node3',
-        target: 'node3'
-      }]
+      nodes: [
+        {
+          id: 'node0',
+          x: 100,
+          y: 100,
+        },
+        {
+          id: 'node1',
+          x: 100,
+          y: 100,
+        },
+        {
+          id: 'node3',
+          x: 150,
+          y: 120,
+        },
+      ],
+      edges: [
+        {
+          source: 'node3',
+          target: 'node3',
+        },
+      ],
     };
     graph.data(tmpData);
     graph.render();
@@ -170,7 +176,7 @@ describe('fruchterman', () => {
 
   it('instantiate layout', () => {
     const fruchtermanLayout = new G6.Layout['fruchterman']({
-      center: [250, 250]
+      center: [250, 250],
     });
     fruchtermanLayout.init(data);
     fruchtermanLayout.execute();
@@ -178,7 +184,7 @@ describe('fruchterman', () => {
     const graph = new G6.Graph({
       width: 500,
       height: 500,
-      container: div
+      container: div,
     });
     graph.data(data);
     graph.render();

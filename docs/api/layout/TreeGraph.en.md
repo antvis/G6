@@ -2,6 +2,7 @@
 title: TreeGraph Layout
 order: 2
 ---
+
 ## CompactBox
 
 CompactBox is the default layout for TreeGraph. It will consider the bounding box of each node when layout. It comes from classical <a href='http://emr.cs.iit.edu/~reingold/tidier-drawings.pdf' target='_blank'>Reingold–Tilford tidy layout algorithm</a>.
@@ -11,7 +12,8 @@ CompactBox is the default layout for TreeGraph. It will consider the bounding bo
 ### Configuration
 
 #### direction
-**Type**: String<br />**Options**: 'LR' | 'RL' | 'TB' | 'BT' | 'H' | 'V'<br />**Default**: 'LR'<br />**Required**: false<br />**Description**: The direction of layout. 
+
+**Type**: String<br />**Options**: 'LR' | 'RL' | 'TB' | 'BT' | 'H' | 'V'<br />**Default**: 'LR'<br />**Required**: false<br />**Description**: The direction of layout.
 
 - TB —— Root is on the top, layout from the top to the bottom
 
@@ -37,66 +39,77 @@ CompactBox is the default layout for TreeGraph. It will consider the bounding bo
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZFCiTLwCoAYAAAAAAAAAAABkARQnAQ' width=102/>
 
-
 #### getId
-**Type**: Function<br />**Example**: 
+
+**Type**: Function<br />**Example**:
+
 ```javascript
-(d) => {
+d => {
   // d is a node
   return d.id + '_node';
-}
+};
 ```
+
 **Required**: false<br />**Description**: Sets the id for each node
 
 #### getWidth
-**Type**: Number | Function<br />**Example**: 
+
+**Type**: Number | Function<br />**Example**:
+
 ```javascript
-(d) => {
+d => {
   // d is a node
-  if (d.id === 'testId') return 50
+  if (d.id === 'testId') return 50;
   return 100;
-}
+};
 ```
+
 **Required**: false<br />**Description**: The width of each node
 
-
 #### getHeight
-**Type**: Number | Function<br />**Example**: 
+
+**Type**: Number | Function<br />**Example**:
+
 ```javascript
-(d) => {
+d => {
   // d is a node
-  if (d.id === 'testId') return 50
+  if (d.id === 'testId') return 50;
   return 100;
-}
+};
 ```
+
 **Required**: false<br />**Description**: The height of each node
 
-
 #### getHGap
-**Type**: Number | Function<br />**Example**: 
+
+**Type**: Number | Function<br />**Example**:
+
 ```javascript
-(d) => {
+d => {
   // d is a node
-  if (d.id === 'testId') return 50
+  if (d.id === 'testId') return 50;
   return 100;
-}
+};
 ```
+
 **Default**: 18<br />**Required**: false<br />**Description**: The horizontal separation of nodes
 
-
 #### getVGap
-**Type**: Number | Function<br />**Example**: 
+
+**Type**: Number | Function<br />**Example**:
+
 ```javascript
-(d) => {
+d => {
   // d is a node
-  if (d.id === 'testId') return 50
+  if (d.id === 'testId') return 50;
   return 100;
-}
+};
 ```
+
 **Default**: 18<br />**Required**: false<br />**Description**: The vertical separation of nodes
 
-
 #### radial
+
 **Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: If layout the graph in radial style. If `radial` is `true`, we recommend to set `direction` to `'LR'` or `'RL'`:<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*E0c8TIYRPYoAAAAAAAAAAABkARQnAQ' width=200 />
@@ -110,7 +123,8 @@ CompactBox is the default layout for TreeGraph. It will consider the bounding bo
 ### Configuration
 
 #### direction
-**Type**: String<br />**Options**: 'LR' | 'RL' | 'TB' | 'BT' | 'H' | 'V'<br />**Default**: 'LR'<br />**Required**: false<br />**Description**: The direction of layout. 
+
+**Type**: String<br />**Options**: 'LR' | 'RL' | 'TB' | 'BT' | 'H' | 'V'<br />**Default**: 'LR'<br />**Required**: false<br />**Description**: The direction of layout.
 
 - TB —— Root is on the top, layout from the top to the bottom
 
@@ -136,16 +150,16 @@ CompactBox is the default layout for TreeGraph. It will consider the bounding bo
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZFCiTLwCoAYAAAAAAAAAAABkARQnAQ' width=116/>
 
-
 #### nodeSep
+
 **Type**: Number<br />**Default**: 0<br />**Required**: false<br />**Description**: Node separation
 
-
 #### rankSep
+
 **Type**: Number<br />**Default**: 0<br />**Required**: false<br />**Description**: Level separation
 
-
 #### radial
+
 **Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Wheter layout the graph in radial style. If `radial` is `true`, we recommend to set `direction` to `'LR'` or `'RL'`:<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*MqFcTLAhXIsAAAAAAAAAAABkARQnAQ' width=171/>
 
 ## Indented
@@ -157,6 +171,7 @@ Indented layout represents the hierarchy by indent between them. Each node will 
 ### Configuration
 
 #### direction
+
 **Type**: String<br />**Options**: 'LR' | 'RL' | 'H'<br />**Default**: 'LR'<br />**Required**: false<br />**Description**: The direction of layout:
 
 - LR —— Root is on the left, layout from the left to the right(left image below)<br />
@@ -170,39 +185,49 @@ Indented layout represents the hierarchy by indent between them. Each node will 
 > (Left)LR. (Center)RL. (Right)H.
 
 #### indent
+
 **Type**: Number<br />**Default**: 20<br />**Required**: false<br />**Description**: Colunm separation
 
 #### getWidth
-**Type**: Number | Function<br />**Example**: 
+
+**Type**: Number | Function<br />**Example**:
+
 ```javascript
-(d) => {
+d => {
   // d is a node
-  if (d.id === 'testId') return 50
+  if (d.id === 'testId') return 50;
   return 100;
-}
+};
 ```
+
 **Required**: false<br />**Description**: The width of each node
 
 #### getHeight
-**Type**: Number | Function<br />**Example**: 
+
+**Type**: Number | Function<br />**Example**:
+
 ```javascript
-(d) => {
+d => {
   // d is a node
-  if (d.id === 'testId') return 50
+  if (d.id === 'testId') return 50;
   return 100;
-}
+};
 ```
+
 **Required**: false<br />**Description**: The height of each node
 
 #### getSide
-**Type**: Function<br />**Example**: 
+
+**Type**: Function<br />**Example**:
+
 ```javascript
-(d) => {
+d => {
   // d is a node
-  if (d.id === 'testId') return 'left'
+  if (d.id === 'testId') return 'left';
   return 'right';
-}
+};
 ```
+
 **Required**: false<br />**Description**: The callback function of node position(left or right of root node). Only affects the nodes which are connected to the root node directly. And the descendant nodes will be placed according to it.
 
 ## Mindmap
@@ -214,7 +239,8 @@ Mindmap arranged the nodes with same depth on the same level. Different from com
 ### Configuration
 
 #### direction
-**Type**: String<br />**Options**: 'H' | 'V'<br />**Default**: 'H'<br />**Required**: false<br />**Description**: The direction of layout. 
+
+**Type**: String<br />**Options**: 'H' | 'V'<br />**Default**: 'H'<br />**Required**: false<br />**Description**: The direction of layout.
 
 - H —— Root is on the middle, layout in horizontal symmetry.
 
@@ -225,59 +251,71 @@ Mindmap arranged the nodes with same depth on the same level. Different from com
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*x-bVTLOD-BcAAAAAAAAAAABkARQnAQ' width=145/>
 
 #### getWidth
-**Type**: Number | Function<br />**Example**: 
+
+**Type**: Number | Function<br />**Example**:
+
 ```javascript
-(d) => {
+d => {
   // d is a node
-  if (d.id === 'testId') return 50
+  if (d.id === 'testId') return 50;
   return 100;
-}
+};
 ```
+
 **Required**: false<br />**Description**: The width of each node
 
 #### getHeight
-**Type**: Number | Function<br />**Example**: 
+
+**Type**: Number | Function<br />**Example**:
+
 ```javascript
-(d) => {
+d => {
   // d is a node
-  if (d.id === 'testId') return 50
+  if (d.id === 'testId') return 50;
   return 100;
-}
+};
 ```
+
 **Required**: false<br />**Description**: The height of each node
 
-
 #### getHGap
-**Type**: Number | Function<br />**Example**: 
+
+**Type**: Number | Function<br />**Example**:
+
 ```javascript
-(d) => {
+d => {
   // d is a node
-  if (d.id === 'testId') return 50
+  if (d.id === 'testId') return 50;
   return 100;
-}
+};
 ```
+
 **Default**: 18<br />**Required**: false<br />**Description**: The horizontal separation of nodes
 
-
 #### getVGap
-**Type**: Number | Function<br />**Example**: 
+
+**Type**: Number | Function<br />**Example**:
+
 ```javascript
-(d) => {
+d => {
   // d is a node
-  if (d.id === 'testId') return 50
+  if (d.id === 'testId') return 50;
   return 100;
-}
+};
 ```
+
 **Default**: 18<br />**Required**: false<br />**Description**: The vertical separation of nodes
 
-
 #### getSide
-**Type**: Function<br />**Example**: 
+
+**Type**: Function<br />**Example**:
+
 ```javascript
-(d) => {
+d => {
   // d is a node
-  if (d.id === 'test-child-id') return 'right'
+  if (d.id === 'test-child-id') return 'right';
   return 'left';
-}
+};
 ```
+
 **Default**: 'right'<br />**Required**: false<br />**Description**: The callback function of node position(left or right of root node). Only affects the nodes which are connected to the root node directly. And the descendant nodes will be placed according to it

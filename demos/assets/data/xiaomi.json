@@ -2,9 +2,7 @@
   "nodes": [
     {
       "id": "27800994",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "7e023446a248dd2e873ede3a08eeadc5",
         "registCapi": "5000.0",
@@ -18,9 +16,7 @@
     },
     {
       "id": "13956312",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "3fc8e6b450a351dffaf97ebba7bd5675",
         "registCapi": "21000.0",
@@ -34,9 +30,7 @@
     },
     {
       "id": "71848026",
-      "labels": [
-        "Person"
-      ],
+      "labels": ["Person"],
       "properties": {
         "keyNo": "p26b3775f4ea1307e28aef63a6cf2cb8",
         "role": "自然人股东",
@@ -48,9 +42,7 @@
     },
     {
       "id": "44830398",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "cac4c7d67320964eddebc475fa66d3f9",
         "registCapi": "1000.0",
@@ -64,9 +56,7 @@
     },
     {
       "id": "47387343",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "d64da78333777354bf3634e371d736a6",
         "registCapi": "0.0",
@@ -80,9 +70,7 @@
     },
     {
       "id": "26295729",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "77472fbe731c1b8f4bfc2723f3b65415",
         "registCapi": "21550.0",
@@ -96,9 +84,7 @@
     },
     {
       "id": "24305985",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "6e62fda57887baa0909cb79bef96b07c",
         "registCapi": "5000.0",
@@ -112,9 +98,7 @@
     },
     {
       "id": "9036981",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "29328112375d07205ab125dcb575d59b",
         "registCapi": "1000.0",
@@ -128,9 +112,7 @@
     },
     {
       "id": "29647236",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "864fa2bf79d4c90a2f81928edd07c643",
         "registCapi": "10000.0",
@@ -144,9 +126,7 @@
     },
     {
       "id": "101438025",
-      "labels": [
-        "Person"
-      ],
+      "labels": ["Person"],
       "properties": {
         "keyNo": "p7fad99cad9ca21f528b59e0905eaeb5",
         "role": "监事",
@@ -158,9 +138,7 @@
     },
     {
       "id": "34635357",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "9cce0780ab7644008b73bc2120479d31",
         "registCapi": "185000.0",
@@ -174,9 +152,7 @@
     },
     {
       "id": "51919691",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "eac35f7cb2922037a2f7e0525d8cf0cb",
         "registCapi": "658402.2574",
@@ -190,9 +166,7 @@
     },
     {
       "id": "46725791",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "d351b2fa9881469bd1cabc0b55ddd3cf",
         "registCapi": "83000.0",
@@ -206,9 +180,7 @@
     },
     {
       "id": "53463922",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "f1ba2f7dfcecba582edbf89b03009980",
         "registCapi": "43757.56",
@@ -222,9 +194,7 @@
     },
     {
       "id": "6733881",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "1ea557c511d6c06423d0519a364ae0a5",
         "registCapi": "0.0",
@@ -238,9 +208,7 @@
     },
     {
       "id": "53490513",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "f1d8b7172af4e0d38d790a7c71daed8e",
         "registCapi": "50.0",
@@ -254,9 +222,7 @@
     },
     {
       "id": "38097442",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "ac66f9d18c12d884e23b7c83bbad1c6b",
         "registCapi": "3000.0",
@@ -270,9 +236,7 @@
     },
     {
       "id": "75919592",
-      "labels": [
-        "Person"
-      ],
+      "labels": ["Person"],
       "properties": {
         "keyNo": "p32ebd387e482098cf180863f7361007",
         "role": "自然人股东",
@@ -284,9 +248,7 @@
     },
     {
       "id": "25203196",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "72654c80c53f506443a8d741ad354a2b",
         "registCapi": "1000.0",
@@ -300,9 +262,7 @@
     },
     {
       "id": "2791598",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "0cc68eb8e8f9d0445d1916a9872d207c",
         "registCapi": "6926.0",
@@ -316,9 +276,7 @@
     },
     {
       "id": "91901431",
-      "labels": [
-        "Person"
-      ],
+      "labels": ["Person"],
       "properties": {
         "keyNo": "p62f65fb92140c5dac3878bb2e5ef0d9",
         "role": "监事",
@@ -330,9 +288,7 @@
     },
     {
       "id": "29855061",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "873fe8132ef18bb9bbd1f4cad6c4837c",
         "registCapi": "250000.0",
@@ -346,9 +302,7 @@
     },
     {
       "id": "20782511",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "5e965bd7f9fc0560d474efed6710bcff",
         "registCapi": "1000.0",
@@ -362,9 +316,7 @@
     },
     {
       "id": "16538725",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "4b652402737f0d7d60271115cff33a58",
         "registCapi": "2326.9958",
@@ -378,9 +330,7 @@
     },
     {
       "id": "14791807",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "438f6b1882f44c8aa2adb2887229456f",
         "registCapi": "10000.0",
@@ -394,9 +344,7 @@
     },
     {
       "id": "52763524",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "ee92647afee609db9b431e4234557374",
         "registCapi": "200.0",
@@ -410,9 +358,7 @@
     },
     {
       "id": "46600811",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "d2c1f7ff860dd66ced5a2416c762be7d",
         "registCapi": "0.0",
@@ -426,9 +372,7 @@
     },
     {
       "id": "16855468",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "4cd1d517db1980efb0e0186c382c6ee9",
         "registCapi": "199.0",
@@ -442,9 +386,7 @@
     },
     {
       "id": "16046148",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "492ed301d569a5e1c5e37560b8887cb5",
         "registCapi": "0.0",
@@ -458,9 +400,7 @@
     },
     {
       "id": "38263543",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "ad2694b03a4f32e4703568147a438c49",
         "registCapi": "0.0",
@@ -474,9 +414,7 @@
     },
     {
       "id": "23152047",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "69369eb97345e2e5185b7368de945ab4",
         "registCapi": "19804.8",
@@ -490,9 +428,7 @@
     },
     {
       "id": "50182662",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "e2f02283910a7f2c6759440681edf7eb",
         "registCapi": "534.4822",
@@ -506,9 +442,7 @@
     },
     {
       "id": "23283100",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "69cd1128903fa57b05e0b4d9b005d601",
         "registCapi": "36000.0",
@@ -522,9 +456,7 @@
     },
     {
       "id": "101447427",
-      "labels": [
-        "Person"
-      ],
+      "labels": ["Person"],
       "properties": {
         "keyNo": "p7fb4c0e31a086dcdb3127571632ef31",
         "role": "董事",
@@ -536,9 +468,7 @@
     },
     {
       "id": "37115711",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "a7fa0ea25aac674b1501088a1bb12773",
         "registCapi": "5000.0",
@@ -552,9 +482,7 @@
     },
     {
       "id": "51815941",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "ea4c0091715e60a24ba890282d026c6d",
         "registCapi": "5000.0",
@@ -568,9 +496,7 @@
     },
     {
       "id": "27724978",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "7dab3f7324688b072949d6371a9026b0",
         "registCapi": "705.88",
@@ -584,9 +510,7 @@
     },
     {
       "id": "40184690",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "b5cede7322c0f76d5adfe81632de5d21",
         "registCapi": "44000.0",
@@ -600,9 +524,7 @@
     },
     {
       "id": "46326745",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "d185a7746d6f0309a9621eac297bacb5",
         "registCapi": "30000.0",
@@ -616,9 +538,7 @@
     },
     {
       "id": "38282082",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "ad3beb3625f1d896c13569e655cfae99",
         "registCapi": "100.0",
@@ -632,9 +552,7 @@
     },
     {
       "id": "111915921",
-      "labels": [
-        "Person"
-      ],
+      "labels": ["Person"],
       "properties": {
         "keyNo": "p9f4717323a4b8cb7fd8488942d4ab96",
         "role": "",
@@ -646,9 +564,7 @@
     },
     {
       "id": "31908059",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "9081334ab227c34556e8fd88491c7f0f",
         "registCapi": "20000.0",
@@ -662,9 +578,7 @@
     },
     {
       "id": "44405748",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "c8dafdec7b4b5251309eaa03f2b7a214",
         "registCapi": "1263.1579",
@@ -678,9 +592,7 @@
     },
     {
       "id": "9323996",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "2a821429194d8afebf174c226dee21bb",
         "registCapi": "560.0",
@@ -694,9 +606,7 @@
     },
     {
       "id": "41455407",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "bb88746a494260f97d30c5c4c8343298",
         "registCapi": "10.0",
@@ -710,9 +620,7 @@
     },
     {
       "id": "21304349",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "60ee32febb98e1fa4628d59f8af8bea3",
         "registCapi": "10.0",
@@ -726,9 +634,7 @@
     },
     {
       "id": "22644739",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "66f17bf9eebdb4ab018709ecc76c3577",
         "registCapi": "200.0",
@@ -742,9 +648,7 @@
     },
     {
       "id": "29315299",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "84d05f991ede38ae5b2a74cc1e21ba51",
         "registCapi": "10000.0",
@@ -758,9 +662,7 @@
     },
     {
       "id": "5735688",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "1a15b53dcd65b1375bcc2378b43dafee",
         "registCapi": "6000.0",
@@ -774,9 +676,7 @@
     },
     {
       "id": "1471865",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "06c739fdd7af2d3a52139a939196165f",
         "registCapi": "50.0",
@@ -790,9 +690,7 @@
     },
     {
       "id": "5975335",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "1b2cd9e9cae92579e2467c1973877730",
         "registCapi": "207100.1956",
@@ -806,9 +704,7 @@
     },
     {
       "id": "10267921",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "2ed06d06417125305330740513a5fb63",
         "registCapi": "0.0",
@@ -822,9 +718,7 @@
     },
     {
       "id": "30895194",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "8bf10fde18745810db9ab3e5856746af",
         "registCapi": "1000.0",
@@ -838,9 +732,7 @@
     },
     {
       "id": "67996035",
-      "labels": [
-        "Person"
-      ],
+      "labels": ["Person"],
       "properties": {
         "keyNo": "p1b266fa3d43a9cb5f8f3cc8f7a6fa5a",
         "role": "董事",
@@ -852,9 +744,7 @@
     },
     {
       "id": "34245508",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "9b0c52e7af1ee199857b94bc3ea6be3d",
         "registCapi": "275799.2863",
@@ -868,9 +758,7 @@
     },
     {
       "id": "16406890",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "4acdaf5e031fc214abdb6287e9a9276f",
         "registCapi": "45000.0",
@@ -884,9 +772,7 @@
     },
     {
       "id": "111874871",
-      "labels": [
-        "Person"
-      ],
+      "labels": ["Person"],
       "properties": {
         "keyNo": "p9f2743c5058af08e2e451e3d099c542",
         "role": "董事",
@@ -898,9 +784,7 @@
     },
     {
       "id": "49476460",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "dfc12f08a1e33388a7444803a2038595",
         "registCapi": "0.0",
@@ -914,9 +798,7 @@
     },
     {
       "id": "12192027",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "37a2e1032399ec9068c5e5d003c62951",
         "registCapi": "5527.0",
@@ -930,9 +812,7 @@
     },
     {
       "id": "55651061",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "fb9c28e66da9cf101cd174bf27c97b3a",
         "registCapi": "10000.0",
@@ -946,9 +826,7 @@
     },
     {
       "id": "24977585",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "7162d59044e687ea8f6bbf1670c6253b",
         "registCapi": "153.8462",
@@ -962,9 +840,7 @@
     },
     {
       "id": "46583563",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "d2adf1c22178335067fa214da6cffab5",
         "registCapi": "5000.0",
@@ -978,9 +854,7 @@
     },
     {
       "id": "16970965",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "4d55c4c5d375cfc2adf70601ae7004b6",
         "registCapi": "1000.0",
@@ -994,9 +868,7 @@
     },
     {
       "id": "19487944",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "58a599fc62e3d36f3b111e35d79d5cb6",
         "registCapi": "2320.0",
@@ -1010,9 +882,7 @@
     },
     {
       "id": "11373896",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "33e17607404769ee18cd72338f4c5bd3",
         "registCapi": "200.0",
@@ -1026,9 +896,7 @@
     },
     {
       "id": "9995634",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "2d916ad7d280f663fdb24c9d58938418",
         "registCapi": "774.0097",
@@ -1042,9 +910,7 @@
     },
     {
       "id": "27247732",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "7b88b2641796b82c215433a1693354b1",
         "registCapi": "1000.0",
@@ -1058,9 +924,7 @@
     },
     {
       "id": "61422172",
-      "labels": [
-        "Person"
-      ],
+      "labels": ["Person"],
       "properties": {
         "keyNo": "p077472cd738bf6c70d757a42c6acaf4",
         "role": "",
@@ -1072,9 +936,7 @@
     },
     {
       "id": "67584510",
-      "labels": [
-        "Person"
-      ],
+      "labels": ["Person"],
       "properties": {
         "keyNo": "p19eba9bad4c00591015be72b57aa953",
         "role": "董事",
@@ -1086,9 +948,7 @@
     },
     {
       "id": "14028076",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "401bd1aba720df2dc5f08c7dc8a594f7",
         "registCapi": "1000.0",
@@ -1102,9 +962,7 @@
     },
     {
       "id": "105738161",
-      "labels": [
-        "Person"
-      ],
+      "labels": ["Person"],
       "properties": {
         "keyNo": "p8ca4283fb80cf988920545e99aef3a4",
         "role": "",
@@ -1116,9 +974,7 @@
     },
     {
       "id": "7222672",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "20e0d9fcf7b3c7bc49098b1465dfbb01",
         "registCapi": "10000.0",
@@ -1132,9 +988,7 @@
     },
     {
       "id": "17108742",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "4df48f20fd5c568ec641748320400fcf",
         "registCapi": "200.0",
@@ -1148,9 +1002,7 @@
     },
     {
       "id": "40800362",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "b894dee03e3d201af50ab60638820740",
         "registCapi": "2592.0",
@@ -1164,9 +1016,7 @@
     },
     {
       "id": "6521447",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "1dac5c8be14a5cf94a4c6ca3ae4876d3",
         "registCapi": "1000.0",
@@ -1180,9 +1030,7 @@
     },
     {
       "id": "35153938",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "9f2417970d571bb69c43d39de19d24ba",
         "registCapi": "375.0",
@@ -1196,9 +1044,7 @@
     },
     {
       "id": "4102707",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "12b7198ae8e5d2a908f2d00573e1d9ca",
         "registCapi": "20000.0",
@@ -1212,9 +1058,7 @@
     },
     {
       "id": "102935605",
-      "labels": [
-        "Person"
-      ],
+      "labels": ["Person"],
       "properties": {
         "keyNo": "p843138812fbff4fef920653cdfd970b",
         "role": "自然人股东",
@@ -1226,9 +1070,7 @@
     },
     {
       "id": "3348004",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "0f4c469148a7b87a57e30425f0f40f31",
         "registCapi": "2000.0",
@@ -1242,9 +1084,7 @@
     },
     {
       "id": "50714910",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "e558d7a7bf37fc3b8ccfcd7e7a85b7cc",
         "registCapi": "42000.0",
@@ -1258,9 +1098,7 @@
     },
     {
       "id": "15061755",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "44c465ca815cf33b556d86577d364c92",
         "registCapi": "10000.0",
@@ -1274,9 +1112,7 @@
     },
     {
       "id": "87147287",
-      "labels": [
-        "Person"
-      ],
+      "labels": ["Person"],
       "properties": {
         "keyNo": "p54a68df4d8a0ecf9ba5819df7851299",
         "role": "自然人股东",
@@ -1288,9 +1124,7 @@
     },
     {
       "id": "9687715",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "2c2a4a5d83f570b42fc9a5b92a0dbe75",
         "registCapi": "8000.0",
@@ -1304,9 +1138,7 @@
     },
     {
       "id": "18981652",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "565ed1dbf641ccd23989d3111d46286c",
         "registCapi": "0.0",
@@ -1320,9 +1152,7 @@
     },
     {
       "id": "33447877",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "9772fb898ce0113770c59edb21b9ef80",
         "registCapi": "6000.0",
@@ -1336,9 +1166,7 @@
     },
     {
       "id": "53320045",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "f1141d6decb76ff22e70e5f8b656b68c",
         "registCapi": "2700.0",
@@ -1352,9 +1180,7 @@
     },
     {
       "id": "24156979",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "6db875a2f16bf13ca0b96c5d44fd1065",
         "registCapi": "100.0",
@@ -1368,9 +1194,7 @@
     },
     {
       "id": "26106824",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "766f04948eaedb5aeedbe2775266ed82",
         "registCapi": "30000.0",
@@ -1384,9 +1208,7 @@
     },
     {
       "id": "138878490",
-      "labels": [
-        "Person"
-      ],
+      "labels": ["Person"],
       "properties": {
         "keyNo": "pf0cfb34822211ad0069e4008c849268",
         "role": "自然人股东",
@@ -1398,9 +1220,7 @@
     },
     {
       "id": "17036134",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "4da107bbc5fe0e8939c0f8dbf63ec1b1",
         "registCapi": "38000.0",
@@ -1414,9 +1234,7 @@
     },
     {
       "id": "48322698",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "da88ade11ea1a161cf31cb82ec7730f1",
         "registCapi": "300.0",
@@ -1430,9 +1248,7 @@
     },
     {
       "id": "93817",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "006f4aa686287cb359b449ce6ce347d1",
         "registCapi": "200000.0",
@@ -1446,9 +1262,7 @@
     },
     {
       "id": "56072494",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "fd8c28225e351828515b5eed6ed4384d",
         "registCapi": "222.2222",
@@ -1462,9 +1276,7 @@
     },
     {
       "id": "27204378",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "7b56d0143ada62ce06989e7c31e98497",
         "registCapi": "38.5154",
@@ -1478,9 +1290,7 @@
     },
     {
       "id": "3777214",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "113e5fdbe39a5a90f3c5d5a0902418da",
         "registCapi": "200.0",
@@ -1494,9 +1304,7 @@
     },
     {
       "id": "8013552",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "247fabd4df39c3d4d822f3c00aa0b676",
         "registCapi": "1500.0",
@@ -1510,9 +1318,7 @@
     },
     {
       "id": "136799912",
-      "labels": [
-        "Person"
-      ],
+      "labels": ["Person"],
       "properties": {
         "keyNo": "pea83003052147075d5de0318be9e70f",
         "role": "自然人股东",
@@ -1524,9 +1330,7 @@
     },
     {
       "id": "26623797",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "78bd7f41ad3bd438e8b63e2a2b5ae644",
         "registCapi": "1135.9266",
@@ -1540,9 +1344,7 @@
     },
     {
       "id": "34634936",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "9ccd82113ca975c74dc6539c238d1256",
         "registCapi": "392.16",
@@ -1556,9 +1358,7 @@
     },
     {
       "id": "53341575",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "f12d1a87544d51aa88cd6bb8d1f1ffa8",
         "registCapi": "1200.0",
@@ -1572,9 +1372,7 @@
     },
     {
       "id": "38416637",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "add69f81b86b006897fa3d6d90e97fed",
         "registCapi": "1000.0",
@@ -1588,9 +1386,7 @@
     },
     {
       "id": "13397627",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "3d38cf313265f72e936e857ea628caab",
         "registCapi": "50.0",
@@ -1604,9 +1400,7 @@
     },
     {
       "id": "42135608",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "be99a4abfa65352286af89d0e9bce7ef",
         "registCapi": "5000.0",
@@ -1620,9 +1414,7 @@
     },
     {
       "id": "5154548",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "17773b52b0164d5d0c39a14cbc1d12c8",
         "registCapi": "28800.0",
@@ -1636,9 +1428,7 @@
     },
     {
       "id": "61639012",
-      "labels": [
-        "Person"
-      ],
+      "labels": ["Person"],
       "properties": {
         "keyNo": "p081b609f81220f87cd46edbd7b9f022",
         "role": "董事",
@@ -1650,9 +1440,7 @@
     },
     {
       "id": "50184243",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "e2f1fa5a804f586366cab468d2895de7",
         "registCapi": "2000.0",
@@ -1666,9 +1454,7 @@
     },
     {
       "id": "28398434",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "80af5085726bb6b9c7770f1e4d0580f4",
         "registCapi": "13000.0",
@@ -1682,9 +1468,7 @@
     },
     {
       "id": "125892953",
-      "labels": [
-        "Person"
-      ],
+      "labels": ["Person"],
       "properties": {
         "keyNo": "pc97f07e63872b0e1974c9c0aaec7aa7",
         "role": "董事",
@@ -1696,9 +1480,7 @@
     },
     {
       "id": "20593632",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "5dbc2f59bf389bca62103ae7a9b2ff5c",
         "registCapi": "30000.0",
@@ -1712,9 +1494,7 @@
     },
     {
       "id": "42426456",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "bfeb8fa5f2ef0a07606c0a7aa4253621",
         "registCapi": "8000.0",
@@ -1728,9 +1508,7 @@
     },
     {
       "id": "121865635",
-      "labels": [
-        "Person"
-      ],
+      "labels": ["Person"],
       "properties": {
         "keyNo": "pbd53dfed80ff7ab8f71898c13c960cf",
         "role": "",
@@ -1742,9 +1520,7 @@
     },
     {
       "id": "31199026",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "8d4f288caa104f94ba4df5ce4d72ec15",
         "registCapi": "800.0",
@@ -1758,9 +1534,7 @@
     },
     {
       "id": "30613281",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "8aab7f9b6a41da4aba1fed32acd85cee",
         "registCapi": "1000.0",
@@ -1774,9 +1548,7 @@
     },
     {
       "id": "84318195",
-      "labels": [
-        "Person"
-      ],
+      "labels": ["Person"],
       "properties": {
         "keyNo": "p4c25ab66114eb92232de453dfcc05c1",
         "role": "自然人股东",
@@ -1788,9 +1560,7 @@
     },
     {
       "id": "25785999",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "75000249dc619c03cac6599928003df1",
         "registCapi": "0.0",
@@ -1804,9 +1574,7 @@
     },
     {
       "id": "67299081",
-      "labels": [
-        "Person"
-      ],
+      "labels": ["Person"],
       "properties": {
         "keyNo": "p1910534b4ae98fea35ddbeb1d61cd44",
         "role": "执行董事",
@@ -1818,9 +1586,7 @@
     },
     {
       "id": "70806315",
-      "labels": [
-        "Person"
-      ],
+      "labels": ["Person"],
       "properties": {
         "keyNo": "p2393bb965909d80fbdc6db7bcbf428a",
         "role": "自然人股东",
@@ -1832,9 +1598,7 @@
     },
     {
       "id": "30837440",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "8bae20d34ab99d9f07d046caa4d422d3",
         "registCapi": "120000.0",
@@ -1848,9 +1612,7 @@
     },
     {
       "id": "51529782",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "e9037d8318f7d6893f82f580e9e9fc1b",
         "registCapi": "34596.0",
@@ -1864,9 +1626,7 @@
     },
     {
       "id": "17444396",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "4f767dcd1ae6ac59ded93351164a841a",
         "registCapi": "25.0",
@@ -1880,9 +1640,7 @@
     },
     {
       "id": "923433",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "043f45f8604ef6d9de115c400648fb58",
         "registCapi": "1000.0",
@@ -1896,9 +1654,7 @@
     },
     {
       "id": "74635102",
-      "labels": [
-        "Person"
-      ],
+      "labels": ["Person"],
       "properties": {
         "keyNo": "p2f10e89de841bdc628df613420b0040",
         "role": "",
@@ -1910,9 +1666,7 @@
     },
     {
       "id": "28158619",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "7f9b5c51888236c91a1fade703554b38",
         "registCapi": "3000.0",
@@ -1926,9 +1680,7 @@
     },
     {
       "id": "131421411",
-      "labels": [
-        "Person"
-      ],
+      "labels": ["Person"],
       "properties": {
         "keyNo": "pda37a1557f8fe342fb47f7015b31b23",
         "role": "",
@@ -1940,9 +1692,7 @@
     },
     {
       "id": "41158945",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "ba32be3a579bd641ca7c48b019462b8b",
         "registCapi": "2750.5817",
@@ -1956,9 +1706,7 @@
     },
     {
       "id": "33273517",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "96a96880169f224489579622628155dc",
         "registCapi": "5000.0",
@@ -1972,9 +1720,7 @@
     },
     {
       "id": "15763366",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "47ea1501769cfab0a28bfc0971d60db0",
         "registCapi": "200000.0",
@@ -1988,9 +1734,7 @@
     },
     {
       "id": "653142",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "02ff6e6bed57a655db1bc67dfa829984",
         "registCapi": "100000.0",
@@ -2004,9 +1748,7 @@
     },
     {
       "id": "40381699",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "b6b1f03e058671c2738b4a569bfd2f21",
         "registCapi": "63248.7764",
@@ -2020,9 +1762,7 @@
     },
     {
       "id": "133629071",
-      "labels": [
-        "Person"
-      ],
+      "labels": ["Person"],
       "properties": {
         "keyNo": "pe0e73ab3e840432797a2fdbaf7c544b",
         "role": "自然人股东",
@@ -2034,9 +1774,7 @@
     },
     {
       "id": "36732337",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "a63fcd4a4ae1ff0610a1991a821621ec",
         "registCapi": "100.0",
@@ -2050,9 +1788,7 @@
     },
     {
       "id": "23762665",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "6bf3741229b0bb3f9f16d6a1623ebf8a",
         "registCapi": "692.8",
@@ -2066,9 +1802,7 @@
     },
     {
       "id": "776066",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "03908d14e1694b39654862a1ad894e37",
         "registCapi": "5000.0",
@@ -2082,9 +1816,7 @@
     },
     {
       "id": "20996814",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "5f8cd46f48690897a21e1db8f4fa3634",
         "registCapi": "100.0",
@@ -2098,9 +1830,7 @@
     },
     {
       "id": "26297887",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "77499fe96cd875f3ed66235fba82d61c",
         "registCapi": "1367.6846",
@@ -2114,9 +1844,7 @@
     },
     {
       "id": "54745292",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "f7807236936a27b6719e2ca626b6b55a",
         "registCapi": "1650.0",
@@ -2130,9 +1858,7 @@
     },
     {
       "id": "19945122",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "5abe7edd9f06420784119ad621f80efc",
         "registCapi": "10.0",
@@ -2146,9 +1872,7 @@
     },
     {
       "id": "13479788",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "3d9a2d02379f9ae6d16db49c3472f286",
         "registCapi": "231363.0",
@@ -2162,9 +1886,7 @@
     },
     {
       "id": "48612687",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "dbd7dbf53b862df3e288a1a42d473519",
         "registCapi": "100000.0",
@@ -2178,9 +1900,7 @@
     },
     {
       "id": "49009990",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "dda33f83062154c9c8a5570629b6f099",
         "registCapi": "85400.0",
@@ -2194,9 +1914,7 @@
     },
     {
       "id": "47701368",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "d7b8f0acc4c5d99cf900da00b2cd64de",
         "registCapi": "66000.0",
@@ -2210,9 +1928,7 @@
     },
     {
       "id": "9296707",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "2a620cfbe8a8678ce9bb3312da633871",
         "registCapi": "931250.6158",
@@ -2226,9 +1942,7 @@
     },
     {
       "id": "95397448",
-      "labels": [
-        "Person"
-      ],
+      "labels": ["Person"],
       "properties": {
         "keyNo": "p6d7e0b8f1d5f085cef08c25afc20309",
         "role": "副董事长",
@@ -2240,9 +1954,7 @@
     },
     {
       "id": "101641703",
-      "labels": [
-        "Person"
-      ],
+      "labels": ["Person"],
       "properties": {
         "keyNo": "p804a400c7a446c6eb28cfa455ffc91f",
         "role": "自然人股东",
@@ -2254,9 +1966,7 @@
     },
     {
       "id": "21768893",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "630537e4747092679451cea00432584b",
         "registCapi": "67650.0",
@@ -2270,9 +1980,7 @@
     },
     {
       "id": "26627684",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "78c200dd24178853e4a985d918c6bc2e",
         "registCapi": "500000.0",
@@ -2286,9 +1994,7 @@
     },
     {
       "id": "38315442",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "ad622acd512e8f07fb287627b6901a7d",
         "registCapi": "100.0",
@@ -2302,9 +2008,7 @@
     },
     {
       "id": "30954022",
-      "labels": [
-        "Company"
-      ],
+      "labels": ["Company"],
       "properties": {
         "keyNo": "8c3516cd93679b88af8eb26e8ec8e86b",
         "registCapi": "1000.0",

@@ -4,38 +4,41 @@ order: 9
 ---
 
 ## Introduction
+
 Due to the good compatibility, type diversity, color diversity, The iconfont is popupar for front-end developments now. Refer to the <a href='https://www.iconfont.cn' target='_blank'>Iconfont Library of Alibaba</a>.
 
 ## Effect
+
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rJ3lQa0HR-wAAAAAAAAAAABkARQnAQ' alt='result' width='450'/>
 
 ## Download the iconfont
-Browse the <a href='https://www.iconfont.cn' target='_blank'>Iconfont Library of Alibaba</a> and download the iconfont you like by searching a iconfont -> adding it to your library -> going to your library by clicking the shopping cart logo on the right top -> adding it to your project (new one if you do not have any project) -> downloading the iconfont in 'my project' -> decompressing. You will get the files as shown below if everything is right:<br />
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EnNmQ5m7xHUAAAAAAAAAAABkARQnAQ' alt='download' width='550'/>
+
+Browse the <a href='https://www.iconfont.cn' target='_blank'>Iconfont Library of Alibaba</a> and download the iconfont you like by searching a iconfont -> adding it to your library -> going to your library by clicking the shopping cart logo on the right top -> adding it to your project (new one if you do not have any project) -> downloading the iconfont in 'my project' -> decompressing. You will get the files as shown below if everything is right:<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EnNmQ5m7xHUAAAAAAAAAAABkARQnAQ' alt='download' width='550'/>
 
 Copy the files in the red area (there are lots of unecessary files, we can still copy them all since the unused files will not be packed)to your project. In general, the iconfont files are on the directory of 'static/icons' or 'assets/icons'. New the directory if there is no such directory. It is also fine to put them into any directory. But note to import the right path when you use it. Now, the importing process is done.
 
 PS: The directory for this example is '/static/icons'.
 
-
 ## Import G6
-There are several ways to import G6 introduced in [Getting Started](/en/docs/manual/getting-started).
-<br />PS: We import G6 by CDN in this example.
+
+There are several ways to import G6 introduced in [Getting Started](/en/docs/manual/getting-started). <br />PS: We import G6 by CDN in this example.
 
 ```html
 <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.2.0/build/g6.js"></script>
 ```
 
 ## Import the Iconfont
+
 We import the iconfont in HTML here:
 
 ```html
 <style>
-   @import "/static/icons/iconfont.css";
+  @import '/static/icons/iconfont.css';
 </style>
 ```
 
 ## Using Iconfont
+
 ```javascript
 G6.registerNode('iconfont', {
   draw(cfg, group) {
@@ -50,7 +53,7 @@ G6.registerNode('iconfont', {
           ...backgroundStyle,
         },
         // must be assigned in G6 3.3 and later versions. it can be any value you want
-        name: 'circle-shape'
+        name: 'circle-shape',
       });
     }
 
@@ -66,7 +69,7 @@ G6.registerNode('iconfont', {
         ...style,
       },
       // must be assigned in G6 3.3 and later versions. it can be any value you want
-      name: 'text-shape1'
+      name: 'text-shape1',
     });
     const labelY = backgroundStyle ? cfg.size * 2 : cfg.size;
 
@@ -79,7 +82,7 @@ G6.registerNode('iconfont', {
         ...labelStyle.style,
       },
       // must be assigned in G6 3.3 and later versions. it can be any value you want
-      name: 'text-shape2'
+      name: 'text-shape2',
     });
     return keyShape;
   },
@@ -278,38 +281,35 @@ graph.render();
 ```
 
 ## Attention
-In fact, iconfont is a text shape.
-<br />**1、The `fontFamily` of the text and the `font-family` in iconfont.css shoulde be kept consistent:**<br />
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v0CoQoNIyJ8AAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
+
+In fact, iconfont is a text shape. <br />**1、The `fontFamily` of the text and the `font-family` in iconfont.css shoulde be kept consistent:**<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v0CoQoNIyJ8AAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wndRQo6U-oUAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
-
 
 **2、The `text` in data is the `content` in iconfont.css. And add an `u` after `\`.**<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*KO-IRbIXRGAAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
-
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*teUAQIkCffUAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
-
 ## Tool Function getIcon
+
 You can write a function as below to transform unicode. Attention, unicode cannot be connected manually (`\\u${icon.unicode}`). Here we use the `code_decimal` in iconfont.json. For more detail, please refer to [MDN String.fromCodePoint](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCodePoint).
 
 ```javascript
 import fonts from '../fonts/iconfont.json';
 
 const icons = fonts.glyphs.map(icon => {
-    return {
-        name: icon.name,
-        unicode: String.fromCodePoint(icon.unicode_decimal), // `\\u${icon.unicode}`,
-    };
+  return {
+    name: icon.name,
+    unicode: String.fromCodePoint(icon.unicode_decimal), // `\\u${icon.unicode}`,
+  };
 });
-const getIcon =  (type: string) => {
-    const matchIcon = icons.find(icon => {
-        return icon.name === type;
-    }) || { unicode: '', name: 'default' };
-    return matchIcon.unicode;
+const getIcon = (type: string) => {
+  const matchIcon = icons.find(icon => {
+    return icon.name === type;
+  }) || { unicode: '', name: 'default' };
+  return matchIcon.unicode;
 };
 ```
 

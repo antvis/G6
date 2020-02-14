@@ -4,7 +4,7 @@ const resolve = require('path').resolve;
 
 module.exports = {
   entry: {
-    g6: './src/index.ts'
+    g6: './src/index.ts',
   },
   output: {
     filename: '[name].min.js',

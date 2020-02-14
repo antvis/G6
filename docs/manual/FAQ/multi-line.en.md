@@ -4,32 +4,36 @@ order: 8
 ---
 
 ## Problem
+
 For such a data below, how to display multiple edges between two nodes by G6?
 
 ```javascript
 const data = {
-  nodes: [{
-    id: 'node1',
-    x: 100,
-    y: 150,
-    label: 'node1',
-  }, {
-    id: 'node2',
-    x: 300,
-    y: 150,
-    label: 'node2'
-  }],
-  edges: [{
-    	source: 'node1',
-    	target: 'node2'
-  	},
-   {
-   	 source: 'node2',
-     target: 'node1'
-  	}
-  ]
+  nodes: [
+    {
+      id: 'node1',
+      x: 100,
+      y: 150,
+      label: 'node1',
+    },
+    {
+      id: 'node2',
+      x: 300,
+      y: 150,
+      label: 'node2',
+    },
+  ],
+  edges: [
+    {
+      source: 'node1',
+      target: 'node2',
+    },
+    {
+      source: 'node2',
+      target: 'node1',
+    },
+  ],
 };
-
 ```
 
 The following code handles the graph easily, where we use quadratic bezier curve instead of line to draw the edges:
@@ -42,20 +46,20 @@ const graph = new G6.Graph({
   defaultNode: {
     style: {
       fill: '#DEE9FF',
-      stroke: '#5B8FF9'
+      stroke: '#5B8FF9',
     },
     labelCfg: {
       style: {
-        fontSize: 12
-      }
-    }
+        fontSize: 12,
+      },
+    },
   },
   defaultEdge: {
     type: 'quadratic', // assign the edges to be quadratic bezier curves
     style: {
-      stroke: '#e2e2e2'
-    }
-  }
+      stroke: '#e2e2e2',
+    },
+  },
 });
 
 graph.data(data);
@@ -66,37 +70,40 @@ The result:
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9u0BTpCAn-4AAAAAAAAAAABkARQnAQ' width=345 />
 
-
 But what if we want to show 3 or more edges?
 
 We use the data below for example:
 
 ```javascript
 const data = {
-  nodes: [{
-    id: 'node1',
-    x: 100,
-    y: 150,
-    label: 'node1',
-  }, {
-    id: 'node2',
-    x: 300,
-    y: 150,
-    label: 'node2'
-  }],
-  edges: [{
-    	source: 'node1',
-    	target: 'node2'
-  	},
-   {
-   	 source: 'node2',
-    	target: 'node1'
-  	},
+  nodes: [
     {
-   	 source: 'node2',
-    	target: 'node1'
-  	}
-  ]
+      id: 'node1',
+      x: 100,
+      y: 150,
+      label: 'node1',
+    },
+    {
+      id: 'node2',
+      x: 300,
+      y: 150,
+      label: 'node2',
+    },
+  ],
+  edges: [
+    {
+      source: 'node1',
+      target: 'node2',
+    },
+    {
+      source: 'node2',
+      target: 'node1',
+    },
+    {
+      source: 'node2',
+      target: 'node1',
+    },
+  ],
 };
 ```
 

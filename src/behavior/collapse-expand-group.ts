@@ -9,11 +9,11 @@
 import { G6Event, IG6GraphEvent } from '../types';
 
 const DEFAULT_TRIGGER = 'dblclick';
-const ALLOW_EVENTS = [ 'click', 'dblclick' ];
+const ALLOW_EVENTS = ['click', 'dblclick'];
 export default {
   getDefaultCfg(): object {
     return {
-      trigger: DEFAULT_TRIGGER
+      trigger: DEFAULT_TRIGGER,
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -23,10 +23,12 @@ export default {
       ({ trigger } = this.trigger);
     } else {
       trigger = DEFAULT_TRIGGER;
-      console.warn('Behavior collapse-expand-group 的 trigger 参数不合法，请输入 \'click\' 或 \'dblclick \'');
+      console.warn(
+        "Behavior collapse-expand-group 的 trigger 参数不合法，请输入 'click' 或 'dblclick '",
+      );
     }
     return {
-      [`${trigger}`]: 'onGroupClick'
+      [`${trigger}`]: 'onGroupClick',
     };
   },
   onGroupClick(evt: IG6GraphEvent) {
@@ -40,5 +42,5 @@ export default {
 
     const customGroupControll = graph.get('customGroupControll');
     customGroupControll.collapseExpandGroup(groupId);
-  }
+  },
 };

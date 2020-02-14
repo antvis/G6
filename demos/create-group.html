@@ -1,177 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Rect节点分组</title>
-</head>
-<body>
-<div id="mountNode"></div>
-<button id='createGroup'>手动创建 Group</button>
-<script src="../build/g6.js"></script>
-<script>
-  /** 
-   * 该案例演示以下功能：
-   *  1、渲染群组所需要的数据结构；
-   *  2、如何拖动一个群组；
-   *  3、将节点从群组中拖出；
-   *  4、将节点拖入到某个群组中；
-   *  5、拖出拖入节点后动态改变群组大小。
-  */
-  G6.registerNode('rectNode', {
-    draw(cfg, group) {
-      const keyShape = group.addShape('rect', {
-        attrs: {
-          x: 0,
-          y: 0,
-          width: 80,
-          height: 50,
-          fill: '#87e8de'
-        }
+  </head>
+  <body>
+    <div id="mountNode"></div>
+    <button id="createGroup">手动创建 Group</button>
+    <script src="../build/g6.js"></script>
+    <script>
+      /**
+       * 该案例演示以下功能：
+       *  1、渲染群组所需要的数据结构；
+       *  2、如何拖动一个群组；
+       *  3、将节点从群组中拖出；
+       *  4、将节点拖入到某个群组中；
+       *  5、拖出拖入节点后动态改变群组大小。
+       */
+      G6.registerNode('rectNode', {
+        draw(cfg, group) {
+          const keyShape = group.addShape('rect', {
+            attrs: {
+              x: 0,
+              y: 0,
+              width: 80,
+              height: 50,
+              fill: '#87e8de',
+            },
+          });
+
+          const text = group.addShape('text', {
+            attrs: {
+              x: 35,
+              y: 25,
+              textAlign: 'center',
+              fill: 'blue',
+              text: cfg.label,
+            },
+          });
+
+          return keyShape;
+        },
       });
 
-      const text = group.addShape('text', {
-        attrs: {
-          x: 35,
-          y: 25,
-          textAlign: 'center',
-          fill: 'blue',
-          text: cfg.label
-        }
-      })
-
-      return keyShape;
-    }
-  });
-  
-  const graph = new G6.Graph({
-    container: 'mountNode',
-    width: 800,
-    height: 600,
-    defaultNode: {
-       shape: 'rectNode',
-       labelCfg: {
-         position: 'center'
-       }
-     },
-     defaultEdge: {
-       color: '#bae7ff',
-       style: {
-         endArrow: true
-       }
-     },
-    modes: {
-      default: [ 'drag-group', 'drag-node-with-group', 'collapse-expand-group' ]
-    },
-    groupType: 'rect'
-  });
-
-  const data = {
-      nodes: [
-        {
-          id: 'node6',
-          groupId: 'group3',
-          label: 'node6-group3',
-          x: 100,
-          y: 300,
-        },
-        {
-          id: 'node1',
-          label: 'node1-group1',
-          groupId: 'group1',
-          x: 100,
-          y: 100
-        },
-        {
-          id: 'node2',
-          label: 'node2-group2',
-          groupId: 'p2',
-          x: 150,
-          y: 200
-        },
-        {
-          id: 'node3',
-          label: 'node3-group2',
-          x: 300,
-          y: 100
-        },
-        {
-          id: 'node4',
-          label: 'node6-group5',
-          groupId: 'group5',
-          x: 450,
-          y: 200
-        },
-        {
-          id: 'node8',
-          label: 'node8-group5',
-          x: 400,
-          y: 100
-        },
-      ],
-      edges: [
-        {
-          source: 'node1',
-          target: 'node2'
-        },
-        {
-          source: 'node2',
-          target: 'node3'
-        },
-        {
-          source: 'node1',
-          target: 'node3'
-        },
-        {
-          source: 'node6',
-          target: 'node1'
-        }
-      ],
-      groups: [
-        {
-          id: 'group3',
-          parentId: 'p2',
-          title: {
-            text: '我的第一个群组',
-            // stroke: '#444',
-            offsetX: 0,
-            offsetY: 0
+      const graph = new G6.Graph({
+        container: 'mountNode',
+        width: 800,
+        height: 600,
+        defaultNode: {
+          shape: 'rectNode',
+          labelCfg: {
+            position: 'center',
           },
         },
-        {
-          id: 'p2',
-          title: {
-            text: '我的第一个群组',
-            stroke: 'red',
-            offsetX: 0,
-            offsetY: 0
+        defaultEdge: {
+          color: '#bae7ff',
+          style: {
+            endArrow: true,
           },
         },
-        {
-          id: 'group5'
+        modes: {
+          default: ['drag-group', 'drag-node-with-group', 'collapse-expand-group'],
         },
-        {
-          id: 'group1'
-        }
-      ]
-    };
+        groupType: 'rect',
+      });
 
-  graph.data(data)
-  graph.render()
+      const data = {
+        nodes: [
+          {
+            id: 'node6',
+            groupId: 'group3',
+            label: 'node6-group3',
+            x: 100,
+            y: 300,
+          },
+          {
+            id: 'node1',
+            label: 'node1-group1',
+            groupId: 'group1',
+            x: 100,
+            y: 100,
+          },
+          {
+            id: 'node2',
+            label: 'node2-group2',
+            groupId: 'p2',
+            x: 150,
+            y: 200,
+          },
+          {
+            id: 'node3',
+            label: 'node3-group2',
+            x: 300,
+            y: 100,
+          },
+          {
+            id: 'node4',
+            label: 'node6-group5',
+            groupId: 'group5',
+            x: 450,
+            y: 200,
+          },
+          {
+            id: 'node8',
+            label: 'node8-group5',
+            x: 400,
+            y: 100,
+          },
+        ],
+        edges: [
+          {
+            source: 'node1',
+            target: 'node2',
+          },
+          {
+            source: 'node2',
+            target: 'node3',
+          },
+          {
+            source: 'node1',
+            target: 'node3',
+          },
+          {
+            source: 'node6',
+            target: 'node1',
+          },
+        ],
+        groups: [
+          {
+            id: 'group3',
+            parentId: 'p2',
+            title: {
+              text: '我的第一个群组',
+              // stroke: '#444',
+              offsetX: 0,
+              offsetY: 0,
+            },
+          },
+          {
+            id: 'p2',
+            title: {
+              text: '我的第一个群组',
+              stroke: 'red',
+              offsetX: 0,
+              offsetY: 0,
+            },
+          },
+          {
+            id: 'group5',
+          },
+          {
+            id: 'group1',
+          },
+        ],
+      };
 
-  console.log(graph.save())
+      graph.data(data);
+      graph.render();
 
-  document.getElementById('createGroup').addEventListener('click', evt => {
+      console.log(graph.save());
 
-    graph.addItem('group', {
-      groupId: 'p212',
-      nodes: ['node3', 'node8'],
-      type: 'rect',
-      title: '自定义分组'
-    } )
+      document.getElementById('createGroup').addEventListener('click', evt => {
+        graph.addItem('group', {
+          groupId: 'p212',
+          nodes: ['node3', 'node8'],
+          type: 'rect',
+          title: '自定义分组',
+        });
 
-    console.log(graph.save())
-  })
-
-</script>
-</body>
+        console.log(graph.save());
+      });
+    </script>
+  </body>
 </html>

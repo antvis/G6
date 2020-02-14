@@ -20,7 +20,7 @@ function initHierarchy(nodes: Node[], edges: Edge[], nodeMap: NodeIdxMap, direct
     nodes[i].parent = [];
   });
   if (directed) {
-    edges.forEach((e) => {
+    edges.forEach(e => {
       let sourceIdx = 0;
       if (e.source) {
         sourceIdx = nodeMap[e.source];
@@ -33,7 +33,7 @@ function initHierarchy(nodes: Node[], edges: Edge[], nodeMap: NodeIdxMap, direct
       nodes[targetIdx].parent.push(nodes[sourceIdx]);
     });
   } else {
-    edges.forEach((e) => {
+    edges.forEach(e => {
       let sourceIdx = 0;
       if (e.source) {
         sourceIdx = nodeMap[e.source];
@@ -154,7 +154,6 @@ export default class CircularLayout extends BaseLayout {
     const degrees = getDegree(nodes.length, nodeMap, edges);
     self.degrees = degrees;
 
-    
     if (!self.width && typeof window !== 'undefined') {
       self.width = window.innerWidth;
     }
@@ -198,7 +197,8 @@ export default class CircularLayout extends BaseLayout {
       if (!r) {
         r = 10 + (i * 100) / (n - 1);
       }
-      let angle = startAngle + (i % divN) * astep + ((2 * Math.PI) / divisions) * Math.floor(i / divN);
+      let angle =
+        startAngle + (i % divN) * astep + ((2 * Math.PI) / divisions) * Math.floor(i / divN);
       if (!clockwise) {
         angle = endAngle - (i % divN) * astep - ((2 * Math.PI) / divisions) * Math.floor(i / divN);
       }

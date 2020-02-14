@@ -1,684 +1,691 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>缓慢移动到画布中心</title>
-</head>
-<body>
-<div id="mountNode"></div>
-<script src="../build/g6.js"></script>
-<script src="../build/dagre.js"></script>
-<script>
-  const data = {
-    "edges": [{
-      "callPerf": {
-        "avgElapse": 0.0,
-        "calls": 0,
-        "status": "success"
-      },
-      "id": "edge-20233",
-      "source": "msgconsole",
-      "target": "osp"
-    },
-    {
-      "callPerf": {
-        "avgElapse": 3.2,
-        "calls": 6,
-        "status": "success"
-      },
-      "id": "edge-20234",
-      "source": "dst-web",
-      "target": "DB_rm-nh4417a78t2y34vm2.mysql.rds.aliyuncs.com:3306"
-    },
-    {
-      "callPerf": {
-        "avgElapse": 0.0,
-        "calls": 0,
-        "status": "success"
-      },
-      "id": "edge-20235",
-      "source": "USER",
-      "target": "dsrconsole"
-    },
-    {
-      "callPerf": {
-        "avgElapse": 0.0,
-        "calls": 0,
-        "status": "success"
-      },
-      "id": "edge-20236",
-      "source": "USER",
-      "target": "osp"
-    },
-    {
-      "callPerf": {
-        "avgElapse": 0.0,
-        "calls": 0,
-        "status": "success"
-      },
-      "id": "edge-20237",
-      "source": "USER",
-      "target": "dbpconsole"
-    },
-    {
-      "callPerf": {
-        "avgElapse": 0.0,
-        "calls": 0,
-        "status": "success"
-      },
-      "id": "edge-20238",
-      "source": "USER",
-      "target": "msgconsole"
-    },
-    {
-      "callPerf": {
-        "avgElapse": 0.0,
-        "calls": 0,
-        "status": "success"
-      },
-      "id": "edge-20239",
-      "source": "USER",
-      "target": "drmdata"
-    },
-    {
-      "callPerf": {
-        "avgElapse": 0.0,
-        "calls": 0,
-        "status": "success"
-      },
-      "id": "edge-20240",
-      "source": "drmdata",
-      "target": "dsrconsole"
-    },
-    {
-      "callPerf": {
-        "avgElapse": 0.0,
-        "calls": 0,
-        "status": "success"
-      },
-      "id": "edge-20241",
-      "source": "drmdata",
-      "target": "10.252.216.177:12200"
-    },
-    {
-      "callPerf": {
-        "avgElapse": 0.0,
-        "calls": 0,
-        "status": "success"
-      },
-      "id": "edge-20242",
-      "source": "drmdata",
-      "target": "10.80.59.63:12200"
-    },
-    {
-      "callPerf": {
-        "avgElapse": 0.0,
-        "calls": 0,
-        "status": "success"
-      },
-      "id": "edge-20243",
-      "source": "drmdata",
-      "target": "10.80.59.68:12200"
-    },
-    {
-      "callPerf": {
-        "avgElapse": 3.1,
-        "calls": 28461,
-        "status": "success"
-      },
-      "id": "edge-20244",
-      "source": "scheduler",
-      "target": "ZDAL_scheduler_ds"
-    },
-    {
-      "callPerf": {
-        "avgElapse": 2.1,
-        "calls": 300,
-        "status": "success"
-      },
-      "id": "edge-20245",
-      "source": "scheduler",
-      "target": "MQ"
-    },
-    {
-      "callPerf": {
-        "avgElapse": 3.5,
-        "calls": 4853,
-        "status": "success"
-      },
-      "id": "edge-20246",
-      "source": "dbpconsole",
-      "target": "ZDAL_sharedataMysqlDataSource"
-    },
-    {
-      "callPerf": {
-        "avgElapse": 0.0,
-        "calls": 0,
-        "status": "success"
-      },
-      "id": "edge-20247",
-      "source": "dbpconsole",
-      "target": "osp"
-    },
-    {
-      "callPerf": {
-        "avgElapse": 0.0,
-        "calls": 0,
-        "status": "success"
-      },
-      "id": "edge-20248",
-      "source": "dsrconsole",
-      "target": "osp"
-    },
-    {
-      "callPerf": {
-        "avgElapse": 0.0,
-        "calls": 0,
-        "status": "success"
-      },
-      "id": "edge-20249",
-      "source": "dsrconsole",
-      "target": "drmdata"
-    },
-    {
-      "callPerf": {
-        "avgElapse": 0.0,
-        "calls": 0,
-        "status": "success"
-      },
-      "id": "edge-20250",
-      "source": "dsrconsole",
-      "target": "antscheduler"
-    }],
-    "nodes": [{
-      "apdex": 0.0,
-      "apdexLevel": "BAD",
-      "application": {
-        "groupId": "default",
-        "name": "msgconsole"
-      },
-      "avgTime": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "errorRate": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "favorite": false,
-      "favoriteId": 0,
-      "id": "msgconsole",
-      "status": "success",
-      "totalCount": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "type": "app"
-    },
-    {
-      "apdex": 0.0,
-      "apdexLevel": "BAD",
-      "application": {
-        "groupId": "default",
-        "name": "osp"
-      },
-      "avgTime": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "errorRate": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "favorite": false,
-      "favoriteId": 0,
-      "id": "osp",
-      "status": "success",
-      "totalCount": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "type": "app"
-    },
-    {
-      "apdex": 0.0,
-      "apdexLevel": "BAD",
-      "application": {
-        "groupId": "default",
-        "name": "dst-web"
-      },
-      "avgTime": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "errorRate": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "favorite": false,
-      "favoriteId": 0,
-      "id": "dst-web",
-      "status": "success",
-      "totalCount": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "type": "app"
-    },
-    {
-      "application": {
-        "groupId": "default",
-        "name": "DB_rm-nh4417a78t2y34vm2.mysql.rds.aliyuncs.com:3306"
-      },
-      "id": "DB_rm-nh4417a78t2y34vm2.mysql.rds.aliyuncs.com:3306",
-      "status": "success",
-      "type": "db"
-    },
-    {
-      "application": {
-        "groupId": "default",
-        "name": "USER"
-      },
-      "id": "USER",
-      "status": "success",
-      "type": "user"
-    },
-    {
-      "apdex": 0.0,
-      "apdexLevel": "BAD",
-      "application": {
-        "groupId": "default",
-        "name": "dsrconsole"
-      },
-      "avgTime": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "errorRate": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "favorite": false,
-      "favoriteId": 0,
-      "id": "dsrconsole",
-      "status": "success",
-      "totalCount": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "type": "app"
-    },
-    {
-      "apdex": 0.0,
-      "apdexLevel": "BAD",
-      "application": {
-        "groupId": "default",
-        "name": "dbpconsole"
-      },
-      "avgTime": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "errorRate": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "favorite": false,
-      "favoriteId": 0,
-      "id": "dbpconsole",
-      "status": "success",
-      "totalCount": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "type": "app"
-    },
-    {
-      "apdex": 0.0,
-      "apdexLevel": "BAD",
-      "application": {
-        "groupId": "default",
-        "name": "drmdata"
-      },
-      "avgTime": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "errorRate": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "favorite": false,
-      "favoriteId": 0,
-      "id": "drmdata",
-      "status": "success",
-      "totalCount": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "type": "app"
-    },
-    {
-      "apdex": 0.0,
-      "apdexLevel": "BAD",
-      "application": {
-        "groupId": "default",
-        "name": "10.252.216.177:12200"
-      },
-      "avgTime": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "errorRate": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "favorite": false,
-      "favoriteId": 0,
-      "id": "10.252.216.177:12200",
-      "status": "success",
-      "totalCount": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "type": "app"
-    },
-    {
-      "apdex": 0.0,
-      "apdexLevel": "BAD",
-      "application": {
-        "groupId": "default",
-        "name": "10.80.59.63:12200"
-      },
-      "avgTime": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "errorRate": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "favorite": false,
-      "favoriteId": 0,
-      "id": "10.80.59.63:12200",
-      "status": "success",
-      "totalCount": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "type": "app"
-    },
-    {
-      "apdex": 0.0,
-      "apdexLevel": "BAD",
-      "application": {
-        "groupId": "default",
-        "name": "10.80.59.68:12200"
-      },
-      "avgTime": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "errorRate": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "favorite": false,
-      "favoriteId": 0,
-      "id": "10.80.59.68:12200",
-      "status": "success",
-      "totalCount": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "type": "app"
-    },
-    {
-      "apdex": 0.0,
-      "apdexLevel": "BAD",
-      "application": {
-        "groupId": "default",
-        "name": "scheduler"
-      },
-      "avgTime": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "errorRate": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "favorite": false,
-      "favoriteId": 0,
-      "id": "scheduler",
-      "status": "success",
-      "totalCount": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "type": "app"
-    },
-    {
-      "application": {
-        "groupId": "default",
-        "name": "ZDAL_scheduler_ds"
-      },
-      "id": "ZDAL_scheduler_ds",
-      "status": "success",
-      "type": "db"
-    },
-    {
-      "application": {
-        "groupId": "default",
-        "name": "MQ"
-      },
-      "id": "MQ",
-      "status": "success",
-      "type": "mq"
-    },
-    {
-      "application": {
-        "groupId": "default",
-        "name": "ZDAL_sharedataMysqlDataSource"
-      },
-      "id": "ZDAL_sharedataMysqlDataSource",
-      "status": "success",
-      "type": "db"
-    },
-    {
-      "apdex": 0.0,
-      "apdexLevel": "BAD",
-      "application": {
-        "groupId": "default",
-        "name": "antscheduler"
-      },
-      "avgTime": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "errorRate": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "favorite": false,
-      "favoriteId": 0,
-      "id": "antscheduler",
-      "status": "success",
-      "totalCount": {
-        "empty": true,
-        "name": "avgTime",
-        "total": 0.0,
-        "values": []
-      },
-      "type": "app"
-    }]
-  }
-// 自定义边
-  G6.registerEdge('my-edge', {
-    // 复写控制点的逻辑
-    curvePosition: 0.5, // 弯曲的默认位置
-    curveOffset: -20, 
-    getControlPoints(cfg) {
-      const controlPoints = []; // 指定controlPoints
-      const level = -5; // 从 -10， 10
-      const offset = level * -25; // 根据不同的level 计算不同的偏移
-      const { startPoint, endPoint } = cfg;
-      const innerPoint = G6.Util.getControlPoint(startPoint, endPoint, 0.5, offset);
-      controlPoints.push(innerPoint);
-      return controlPoints;
-    },
-  }, 'quadratic');
+  </head>
+  <body>
+    <div id="mountNode"></div>
+    <script src="../build/g6.js"></script>
+    <script src="../build/dagre.js"></script>
+    <script>
+      const data = {
+        edges: [
+          {
+            callPerf: {
+              avgElapse: 0.0,
+              calls: 0,
+              status: 'success',
+            },
+            id: 'edge-20233',
+            source: 'msgconsole',
+            target: 'osp',
+          },
+          {
+            callPerf: {
+              avgElapse: 3.2,
+              calls: 6,
+              status: 'success',
+            },
+            id: 'edge-20234',
+            source: 'dst-web',
+            target: 'DB_rm-nh4417a78t2y34vm2.mysql.rds.aliyuncs.com:3306',
+          },
+          {
+            callPerf: {
+              avgElapse: 0.0,
+              calls: 0,
+              status: 'success',
+            },
+            id: 'edge-20235',
+            source: 'USER',
+            target: 'dsrconsole',
+          },
+          {
+            callPerf: {
+              avgElapse: 0.0,
+              calls: 0,
+              status: 'success',
+            },
+            id: 'edge-20236',
+            source: 'USER',
+            target: 'osp',
+          },
+          {
+            callPerf: {
+              avgElapse: 0.0,
+              calls: 0,
+              status: 'success',
+            },
+            id: 'edge-20237',
+            source: 'USER',
+            target: 'dbpconsole',
+          },
+          {
+            callPerf: {
+              avgElapse: 0.0,
+              calls: 0,
+              status: 'success',
+            },
+            id: 'edge-20238',
+            source: 'USER',
+            target: 'msgconsole',
+          },
+          {
+            callPerf: {
+              avgElapse: 0.0,
+              calls: 0,
+              status: 'success',
+            },
+            id: 'edge-20239',
+            source: 'USER',
+            target: 'drmdata',
+          },
+          {
+            callPerf: {
+              avgElapse: 0.0,
+              calls: 0,
+              status: 'success',
+            },
+            id: 'edge-20240',
+            source: 'drmdata',
+            target: 'dsrconsole',
+          },
+          {
+            callPerf: {
+              avgElapse: 0.0,
+              calls: 0,
+              status: 'success',
+            },
+            id: 'edge-20241',
+            source: 'drmdata',
+            target: '10.252.216.177:12200',
+          },
+          {
+            callPerf: {
+              avgElapse: 0.0,
+              calls: 0,
+              status: 'success',
+            },
+            id: 'edge-20242',
+            source: 'drmdata',
+            target: '10.80.59.63:12200',
+          },
+          {
+            callPerf: {
+              avgElapse: 0.0,
+              calls: 0,
+              status: 'success',
+            },
+            id: 'edge-20243',
+            source: 'drmdata',
+            target: '10.80.59.68:12200',
+          },
+          {
+            callPerf: {
+              avgElapse: 3.1,
+              calls: 28461,
+              status: 'success',
+            },
+            id: 'edge-20244',
+            source: 'scheduler',
+            target: 'ZDAL_scheduler_ds',
+          },
+          {
+            callPerf: {
+              avgElapse: 2.1,
+              calls: 300,
+              status: 'success',
+            },
+            id: 'edge-20245',
+            source: 'scheduler',
+            target: 'MQ',
+          },
+          {
+            callPerf: {
+              avgElapse: 3.5,
+              calls: 4853,
+              status: 'success',
+            },
+            id: 'edge-20246',
+            source: 'dbpconsole',
+            target: 'ZDAL_sharedataMysqlDataSource',
+          },
+          {
+            callPerf: {
+              avgElapse: 0.0,
+              calls: 0,
+              status: 'success',
+            },
+            id: 'edge-20247',
+            source: 'dbpconsole',
+            target: 'osp',
+          },
+          {
+            callPerf: {
+              avgElapse: 0.0,
+              calls: 0,
+              status: 'success',
+            },
+            id: 'edge-20248',
+            source: 'dsrconsole',
+            target: 'osp',
+          },
+          {
+            callPerf: {
+              avgElapse: 0.0,
+              calls: 0,
+              status: 'success',
+            },
+            id: 'edge-20249',
+            source: 'dsrconsole',
+            target: 'drmdata',
+          },
+          {
+            callPerf: {
+              avgElapse: 0.0,
+              calls: 0,
+              status: 'success',
+            },
+            id: 'edge-20250',
+            source: 'dsrconsole',
+            target: 'antscheduler',
+          },
+        ],
+        nodes: [
+          {
+            apdex: 0.0,
+            apdexLevel: 'BAD',
+            application: {
+              groupId: 'default',
+              name: 'msgconsole',
+            },
+            avgTime: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            errorRate: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            favorite: false,
+            favoriteId: 0,
+            id: 'msgconsole',
+            status: 'success',
+            totalCount: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            type: 'app',
+          },
+          {
+            apdex: 0.0,
+            apdexLevel: 'BAD',
+            application: {
+              groupId: 'default',
+              name: 'osp',
+            },
+            avgTime: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            errorRate: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            favorite: false,
+            favoriteId: 0,
+            id: 'osp',
+            status: 'success',
+            totalCount: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            type: 'app',
+          },
+          {
+            apdex: 0.0,
+            apdexLevel: 'BAD',
+            application: {
+              groupId: 'default',
+              name: 'dst-web',
+            },
+            avgTime: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            errorRate: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            favorite: false,
+            favoriteId: 0,
+            id: 'dst-web',
+            status: 'success',
+            totalCount: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            type: 'app',
+          },
+          {
+            application: {
+              groupId: 'default',
+              name: 'DB_rm-nh4417a78t2y34vm2.mysql.rds.aliyuncs.com:3306',
+            },
+            id: 'DB_rm-nh4417a78t2y34vm2.mysql.rds.aliyuncs.com:3306',
+            status: 'success',
+            type: 'db',
+          },
+          {
+            application: {
+              groupId: 'default',
+              name: 'USER',
+            },
+            id: 'USER',
+            status: 'success',
+            type: 'user',
+          },
+          {
+            apdex: 0.0,
+            apdexLevel: 'BAD',
+            application: {
+              groupId: 'default',
+              name: 'dsrconsole',
+            },
+            avgTime: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            errorRate: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            favorite: false,
+            favoriteId: 0,
+            id: 'dsrconsole',
+            status: 'success',
+            totalCount: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            type: 'app',
+          },
+          {
+            apdex: 0.0,
+            apdexLevel: 'BAD',
+            application: {
+              groupId: 'default',
+              name: 'dbpconsole',
+            },
+            avgTime: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            errorRate: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            favorite: false,
+            favoriteId: 0,
+            id: 'dbpconsole',
+            status: 'success',
+            totalCount: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            type: 'app',
+          },
+          {
+            apdex: 0.0,
+            apdexLevel: 'BAD',
+            application: {
+              groupId: 'default',
+              name: 'drmdata',
+            },
+            avgTime: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            errorRate: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            favorite: false,
+            favoriteId: 0,
+            id: 'drmdata',
+            status: 'success',
+            totalCount: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            type: 'app',
+          },
+          {
+            apdex: 0.0,
+            apdexLevel: 'BAD',
+            application: {
+              groupId: 'default',
+              name: '10.252.216.177:12200',
+            },
+            avgTime: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            errorRate: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            favorite: false,
+            favoriteId: 0,
+            id: '10.252.216.177:12200',
+            status: 'success',
+            totalCount: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            type: 'app',
+          },
+          {
+            apdex: 0.0,
+            apdexLevel: 'BAD',
+            application: {
+              groupId: 'default',
+              name: '10.80.59.63:12200',
+            },
+            avgTime: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            errorRate: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            favorite: false,
+            favoriteId: 0,
+            id: '10.80.59.63:12200',
+            status: 'success',
+            totalCount: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            type: 'app',
+          },
+          {
+            apdex: 0.0,
+            apdexLevel: 'BAD',
+            application: {
+              groupId: 'default',
+              name: '10.80.59.68:12200',
+            },
+            avgTime: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            errorRate: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            favorite: false,
+            favoriteId: 0,
+            id: '10.80.59.68:12200',
+            status: 'success',
+            totalCount: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            type: 'app',
+          },
+          {
+            apdex: 0.0,
+            apdexLevel: 'BAD',
+            application: {
+              groupId: 'default',
+              name: 'scheduler',
+            },
+            avgTime: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            errorRate: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            favorite: false,
+            favoriteId: 0,
+            id: 'scheduler',
+            status: 'success',
+            totalCount: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            type: 'app',
+          },
+          {
+            application: {
+              groupId: 'default',
+              name: 'ZDAL_scheduler_ds',
+            },
+            id: 'ZDAL_scheduler_ds',
+            status: 'success',
+            type: 'db',
+          },
+          {
+            application: {
+              groupId: 'default',
+              name: 'MQ',
+            },
+            id: 'MQ',
+            status: 'success',
+            type: 'mq',
+          },
+          {
+            application: {
+              groupId: 'default',
+              name: 'ZDAL_sharedataMysqlDataSource',
+            },
+            id: 'ZDAL_sharedataMysqlDataSource',
+            status: 'success',
+            type: 'db',
+          },
+          {
+            apdex: 0.0,
+            apdexLevel: 'BAD',
+            application: {
+              groupId: 'default',
+              name: 'antscheduler',
+            },
+            avgTime: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            errorRate: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            favorite: false,
+            favoriteId: 0,
+            id: 'antscheduler',
+            status: 'success',
+            totalCount: {
+              empty: true,
+              name: 'avgTime',
+              total: 0.0,
+              values: [],
+            },
+            type: 'app',
+          },
+        ],
+      };
+      // 自定义边
+      G6.registerEdge(
+        'my-edge',
+        {
+          // 复写控制点的逻辑
+          curvePosition: 0.5, // 弯曲的默认位置
+          curveOffset: -20,
+          getControlPoints(cfg) {
+            const controlPoints = []; // 指定controlPoints
+            const level = -5; // 从 -10， 10
+            const offset = level * -25; // 根据不同的level 计算不同的偏移
+            const { startPoint, endPoint } = cfg;
+            const innerPoint = G6.Util.getControlPoint(startPoint, endPoint, 0.5, offset);
+            controlPoints.push(innerPoint);
+            return controlPoints;
+          },
+        },
+        'quadratic',
+      );
 
-  // 自定义节点，设置锚点
-  G6.registerNode('customNode', {
-    getAnchorPoints: () => {
-      return [
-        [0.5, 1],
-        [0.5, 0]
-      ];     // 底边中点
-    },
-    draw: (model, group) => {
-      const widths = 150;
-      const heights = 50;
-      const aa = group.addShape('text', {
-        attrs: {
-          x: -widths / 4,
-          y: -heights / 25,
-          textBaseline: 'middle',
-          fill: '#333',
-          fontSize: 24,
-          text: model.id.substr(0, 5),
+      // 自定义节点，设置锚点
+      G6.registerNode('customNode', {
+        getAnchorPoints: () => {
+          return [
+            [0.5, 1],
+            [0.5, 0],
+          ]; // 底边中点
+        },
+        draw: (model, group) => {
+          const widths = 150;
+          const heights = 50;
+          const aa = group.addShape('text', {
+            attrs: {
+              x: -widths / 4,
+              y: -heights / 25,
+              textBaseline: 'middle',
+              fill: '#333',
+              fontSize: 24,
+              text: model.id.substr(0, 5),
+            },
+          });
+          const texta = group.addShape('rect', {
+            attrs: {
+              x: -widths / 2,
+              y: -heights / 2,
+              width: widths,
+              height: heights,
+              stroke: model.isselect ? '#d9d9d9' : 'red',
+              fill: model.isselect && 'red',
+              radius: 25,
+            },
+          });
+          return texta;
         },
       });
-      const texta = group.addShape('rect', {
-        attrs: {
-          x: -widths / 2,
-          y: -heights / 2,
-          width: widths,
-          height: heights,
-          stroke: model.isselect ? '#d9d9d9' : 'red',
-          fill: model.isselect && 'red',
-          radius: 25,
+
+      const graph = new G6.Graph({
+        container: 'mountNode',
+        width: 1000,
+        height: 800,
+        animate: true,
+        layout: {
+          type: 'dagre',
+        },
+        modes: {
+          default: ['drag-node', 'drag-canvas', 'zoom-canvas'],
+        },
+        defaultNode: {
+          size: [20, 20],
+          shape: 'customNode',
+          style: {
+            fill: '#40a9ff',
+            stroke: '#096dd9',
+          },
+        },
+        defaultEdge: {
+          shape: 'my-edge',
+          style: {
+            stroke: '#A3B1BF',
+            style: {
+              endArrow: true,
+            },
+          },
         },
       });
-      return texta;
-    },
-  });
 
-  const graph = new G6.Graph({
-    container: 'mountNode',
-    width: 1000,
-    height: 800,
-    animate: true,
-    layout: {
-      type: 'dagre'
-    },
-    modes: {
-      default: [ 'drag-node', 'drag-canvas', 'zoom-canvas' ]
-    },
-    defaultNode: {
-      size: [20, 20],
-      shape: 'customNode',
-      style: {
-        fill: '#40a9ff',
-        stroke: '#096dd9'
-      }
-    },
-  	defaultEdge: {
-      shape: 'my-edge',
-      style: {
-        stroke: '#A3B1BF',
-        style: {
-          endArrow: true
-        }
-      }
-    }
-  });
+      graph.data(data);
+      graph.render();
 
-  graph.data(data)
-  graph.render()
+      graph.fitView();
 
-  graph.fitView()
+      graph.on('node:click', evt => {
+        const { item } = evt;
+        const model = item.getModel();
+        const point = graph.getPointByCanvas(500, 400);
+        const dx = point.x - model.x;
+        const dy = point.y - model.y;
+        graph.getNodes().forEach(node => {
+          const model = node.getModel();
+          model.x += dx;
+          model.y += dy;
+        });
 
-  graph.on('node:click', evt => {
-    const { item } = evt
-    const model = item.getModel()
-    const point = graph.getPointByCanvas(500, 400)
-    const dx = point.x - model.x
-    const dy = point.y - model.y
-    graph.getNodes().forEach(node => {
-      const model = node.getModel()
-      model.x += dx
-      model.y += dy
-    })
-
-    graph.refresh()
-  })
-  
-</script>
-</body>
+        graph.refresh();
+      });
+    </script>
+  </body>
 </html>

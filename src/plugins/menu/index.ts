@@ -1,7 +1,7 @@
-import modifyCSS from '@antv/dom-util/lib/modify-css'
+import modifyCSS from '@antv/dom-util/lib/modify-css';
 import Graph from '../../graph/graph';
 import { IG6GraphEvent } from '../../types';
-import Base, { IPluginBaseConfig } from '../base'
+import Base, { IPluginBaseConfig } from '../base';
 
 interface MenuConfig extends IPluginBaseConfig {
   createDOM?: boolean;
@@ -13,30 +13,30 @@ interface MenuConfig extends IPluginBaseConfig {
 
 export default class Menu extends Base {
   constructor(cfg: MenuConfig) {
-    super(cfg)
+    super(cfg);
   }
-  
+
   public getDefaultCfgs(): MenuConfig {
     return {
-      createDOM: true,                  // 是否渲染 dom
-      container: null,                  // menu 容器。若不指定就用 graph 的 container
-      className: 'g6-analyzer-menu',    // 指定 container css
-      getContent: undefined,                 // 指定菜单内容，function(e) {...}
+      createDOM: true, // 是否渲染 dom
+      container: null, // menu 容器。若不指定就用 graph 的 container
+      className: 'g6-analyzer-menu', // 指定 container css
+      getContent: undefined, // 指定菜单内容，function(e) {...}
       // 菜单展示事件
       onShow() {
-        return true
-      },        
-      // 菜单隐藏事件              
+        return true;
+      },
+      // 菜单隐藏事件
       onHide() {
-        return true
-      }                       
+        return true;
+      },
     };
   }
 
   // class-methods-use-this
   public getEvents() {
     return {
-      contextmenu: 'onMenuShow'
+      contextmenu: 'onMenuShow',
     };
   }
 
@@ -78,7 +78,7 @@ export default class Menu extends Base {
 
       const bbox = menu.getBoundingClientRect();
 
-      let x = e.canvasX
+      let x = e.canvasX;
       let y = e.canvasY;
 
       // 若菜单超出画布范围，反向
@@ -110,10 +110,10 @@ export default class Menu extends Base {
 
   private onMenuHide() {
     const menu: HTMLDivElement = this.get('menu');
-    const hide: (evt?: IG6GraphEvent) => boolean = this.get('onHide')
-    const hasHide = hide()
+    const hide: (evt?: IG6GraphEvent) => boolean = this.get('onHide');
+    const hasHide = hide();
     if (hasHide) {
-      if(menu) {
+      if (menu) {
         modifyCSS(menu, { visibility: 'hidden' });
       }
 

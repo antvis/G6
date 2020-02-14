@@ -24,8 +24,8 @@ const graph = new G6.Graph({
         y -= r * Math.sin(current);
       }
       return { x, y };
-    }
-  }
+    },
+  },
 });
 
 // 加入两个节点
@@ -34,14 +34,14 @@ const node1 = graph.addItem('node', {
   x: 100,
   y: 100,
   type: 'circle',
-  style: { fill: '#5B8FF9', lineWidth: 0 }
+  style: { fill: '#5B8FF9', lineWidth: 0 },
 });
 const node2 = graph.addItem('node', {
   id: 'node2',
   x: 200,
   y: 100,
   type: 'circle',
-  style: { fill: '#5AD8A6', lineWidth: 0 }
+  style: { fill: '#5AD8A6', lineWidth: 0 },
 });
 
 // 循环动画

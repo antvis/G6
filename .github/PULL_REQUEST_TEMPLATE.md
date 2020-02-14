@@ -9,6 +9,7 @@ Contributors guide: https://github.com/antvis/g6/blob/master/CONTRIBUTING.md
 -->
 
 ##### Checklist
+
 <!-- Remove items that do not apply. For completed items, change [ ] to [x]. -->
 
 - [ ] `npm test` passes
@@ -16,4 +17,5 @@ Contributors guide: https://github.com/antvis/g6/blob/master/CONTRIBUTING.md
 - [ ] commit message follows commit guidelines
 
 ##### Description of change
+
 <!-- Provide a description of the change below this comment. -->

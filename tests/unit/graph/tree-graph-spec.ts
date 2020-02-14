@@ -1,5 +1,5 @@
 import G6 from '../../../src';
-import { timerOut } from '../util/timeOut'
+import { timerOut } from '../util/timeOut';
 
 const div = document.createElement('div');
 div.id = 'tree-spec';
@@ -12,14 +12,14 @@ describe('tree graph without animate', () => {
     height: 500,
     animate: false,
     modes: {
-      default: [ 'drag-canvas', 'drag-node' ]
+      default: ['drag-canvas', 'drag-node'],
     },
     layout: {
       type: 'dendrogram',
       direction: 'LR', // H / V / LR / RL / TB / BT
       nodeSep: 50,
-      rankSep: 100
-    }
+      rankSep: 100,
+    },
   });
 
   it('layout init & findDataById', () => {
@@ -31,17 +31,17 @@ describe('tree graph without animate', () => {
           id: 'SubTreeNode1',
           children: [
             {
-              id: 'SubTreeNode1.1'
+              id: 'SubTreeNode1.1',
             },
             {
-              id: 'SubTreeNode1.2'
-            }
-          ]
+              id: 'SubTreeNode1.2',
+            },
+          ],
         },
         {
-          id: 'SubTreeNode2'
-        }
-      ]
+          id: 'SubTreeNode2',
+        },
+      ],
     };
     graph.data(data);
     graph.render();
@@ -58,17 +58,19 @@ describe('tree graph without animate', () => {
     expect(graph.save()).toEqual(data);
 
     // findDataById
-    const nodeData = graph.findDataById('Root', data)
-    expect(nodeData).toEqual(data)
+    const nodeData = graph.findDataById('Root', data);
+    expect(nodeData).toEqual(data);
   });
 
   it('layout without data & isLayoutAnimating', () => {
-    graph.data(null)
-    expect(() => { graph.render() }).toThrowError('data must be defined first')
+    graph.data(null);
+    expect(() => {
+      graph.render();
+    }).toThrowError('data must be defined first');
 
-    graph.stopLayoutAnimate()
-    expect(graph.isLayoutAnimating()).toBe(false)
-  })
+    graph.stopLayoutAnimate();
+    expect(graph.isLayoutAnimating()).toBe(false);
+  });
 
   it('changeData', () => {
     const data = {
@@ -79,20 +81,21 @@ describe('tree graph without animate', () => {
           id: 'SubTreeNode1',
           children: [
             {
-              id: 'SubTreeNode1.1'
+              id: 'SubTreeNode1.1',
             },
             {
-              id: 'SubTreeNode1.2'
-            }
-          ]
+              id: 'SubTreeNode1.2',
+            },
+          ],
         },
         {
-          id: 'SubTreeNode3'
-        }, {
+          id: 'SubTreeNode3',
+        },
+        {
           id: 'SubTreeNode4',
-          children: [{ id: 'SubTreeNode4.1' }]
-        }
-      ]
+          children: [{ id: 'SubTreeNode4.1' }],
+        },
+      ],
     };
     graph.changeData(data);
     expect(graph.save()).toEqual(data);
@@ -101,7 +104,7 @@ describe('tree graph without animate', () => {
     expect(graph.findById('SubTreeNode2')).toBe(undefined);
     expect(graph.findById('SubTreeNode3')).not.toBe(undefined);
     expect(graph.findById('SubTreeNode4')).not.toBe(undefined);
-    
+
     const edge = graph.findById('SubTreeNode4:SubTreeNode4.1');
     expect(edge).not.toBe(undefined);
     expect(edge.get('source')).toEqual(graph.findById('SubTreeNode4'));
@@ -111,7 +114,13 @@ describe('tree graph without animate', () => {
   it('add child', () => {
     const parent = graph.findById('SubTreeNode3');
 
-    const child = { id: 'SubTreeNode3.1', x: 100, y: 100, type: 'rect', children: [{ x: 150, y: 150, id: 'SubTreeNode3.1.1' }] };
+    const child = {
+      id: 'SubTreeNode3.1',
+      x: 100,
+      y: 100,
+      type: 'rect',
+      children: [{ x: 150, y: 150, id: 'SubTreeNode3.1.1' }],
+    };
 
     graph.addChild(child, parent);
 
@@ -138,8 +147,8 @@ describe('tree graph without animate', () => {
     expect(graph.findById('SubTreeNode3.1.1')).toBe(undefined);
     expect(graph.findById('SubTreeNode3.1:SubTreeNode3.1.1')).toBe(undefined);
 
-    const none = graph.removeChild('none-child')
-    expect(none).toBe(undefined)
+    const none = graph.removeChild('none-child');
+    expect(none).toBe(undefined);
   });
 
   it('collapse & expand with layout', () => {
@@ -174,14 +183,14 @@ describe('tree graph without animate', () => {
       height: 500,
       animate: false,
       modes: {
-        default: [ 'drag-canvas', 'drag-node' ]
+        default: ['drag-canvas', 'drag-node'],
       },
       layout: {
         type: 'dendrogram',
         direction: 'LR', // H / V / LR / RL / TB / BT
         nodeSep: 50,
-        rankSep: 100
-      }
+        rankSep: 100,
+      },
     });
     const data = {
       isRoot: true,
@@ -191,28 +200,33 @@ describe('tree graph without animate', () => {
           id: 'SubTreeNode1',
           children: [
             {
-              id: 'SubTreeNode1.1'
+              id: 'SubTreeNode1.1',
             },
             {
-              id: 'SubTreeNode1.2'
-            }
-          ]
+              id: 'SubTreeNode1.2',
+            },
+          ],
         },
         {
-          id: 'SubTreeNode2'
-        }
-      ]
+          id: 'SubTreeNode2',
+        },
+      ],
     };
     graph.data(data);
     graph.render();
     const parent = graph.findById('SubTreeNode1');
-    parent.getModel().label = 'parent'
+    parent.getModel().label = 'parent';
     let child = graph.findById('SubTreeNode1.1');
     let collapsed = true;
-    graph.addBehaviors([{
-      type: 'collapse-expand',
-      trigger: 'dblclick'
-    }], 'default');
+    graph.addBehaviors(
+      [
+        {
+          type: 'collapse-expand',
+          trigger: 'dblclick',
+        },
+      ],
+      'default',
+    );
     graph.on('afterrefreshlayout', () => {
       if (collapsed) {
         expect(parent.getModel().collapsed).toBe(true);
@@ -240,85 +254,96 @@ describe('update child', () => {
     height: 500,
     animate: false,
     modes: {
-      default: [ 'drag-canvas', 'drag-node' ]
+      default: ['drag-canvas', 'drag-node'],
     },
     layout: {
       type: 'dendrogram',
       direction: 'LR', // H / V / LR / RL / TB / BT
       nodeSep: 50,
-      rankSep: 100
-    }
-  })
+      rankSep: 100,
+    },
+  });
 
   const data = {
     isRoot: true,
     id: 'Root',
     children: [
       {
-        id: 'SubTreeNode1'
+        id: 'SubTreeNode1',
       },
       {
-        id: 'SubTreeNode3'
-      }
-    ]
+        id: 'SubTreeNode3',
+      },
+    ],
   };
   graph.data(data);
-  graph.render()
+  graph.render();
 
   it('updateChild & parent is not undefined', () => {
-    const child = { id: 'SubTreeNode3.1', x: 150, y: 150, type: 'rect', children: [{ x: 250, y: 150, id: 'SubTreeNode3.1.1' }] };
+    const child = {
+      id: 'SubTreeNode3.1',
+      x: 150,
+      y: 150,
+      type: 'rect',
+      children: [{ x: 250, y: 150, id: 'SubTreeNode3.1.1' }],
+    };
 
     // 第一种情况，parent存在，添加的数据不存在
-    graph.updateChild(child, 'SubTreeNode3')
+    graph.updateChild(child, 'SubTreeNode3');
     // 更新以后，SubTreeNode3 节点后会有子元素
-    const subNode = graph.findById('SubTreeNode3')
-    const children = subNode.get('children')
-    expect(children).not.toBe(undefined)
-    expect(children.length).toBe(1)
+    const subNode = graph.findById('SubTreeNode3');
+    const children = subNode.get('children');
+    expect(children).not.toBe(undefined);
+    expect(children.length).toBe(1);
 
-    const subNode3 = graph.findById('SubTreeNode3.1')
-    const mode = subNode3.getModel()
-    expect(mode.x).toBe(182)
-    expect(mode.y).toBe(-24)
-    expect(mode.type).toEqual('rect')
-    expect(subNode3.get('currentShape')).toEqual('rect')
-    expect(subNode3.get('children')).not.toBe(undefined)
-    expect(subNode3.get('children').length).toBe(1)
+    const subNode3 = graph.findById('SubTreeNode3.1');
+    const mode = subNode3.getModel();
+    expect(mode.x).toBe(182);
+    expect(mode.y).toBe(-24);
+    expect(mode.type).toEqual('rect');
+    expect(subNode3.get('currentShape')).toEqual('rect');
+    expect(subNode3.get('children')).not.toBe(undefined);
+    expect(subNode3.get('children').length).toBe(1);
 
     // 第二种情况，parent存在，添加的数据存在
     const data = {
       id: 'SubTreeNode3.1',
       x: 120,
       y: 156,
-      type: 'circle'
-    }
-    graph.updateChild(data, 'SubTreeNode3')
+      type: 'circle',
+    };
+    graph.updateChild(data, 'SubTreeNode3');
 
-    const node = graph.findById('SubTreeNode3.1')
-    const model1 = node.getModel()
-    expect(model1.x).toBe(182)
-    expect(model1.y).toBe(-24)
-    expect(model1.type).toEqual('circle')
-    expect(node.get('children').length).toBe(0)
-  })
+    const node = graph.findById('SubTreeNode3.1');
+    const model1 = node.getModel();
+    expect(model1.x).toBe(182);
+    expect(model1.y).toBe(-24);
+    expect(model1.type).toEqual('circle');
+    expect(node.get('children').length).toBe(0);
+  });
 
   it('updateChild & parent is undefined', () => {
-    const child = { id: 'SubTreeNode3.1', x: 150, y: 150, type: 'rect', children: [{ x: 250, y: 150, id: 'SubTreeNode3.1.1' }] };
-    
+    const child = {
+      id: 'SubTreeNode3.1',
+      x: 150,
+      y: 150,
+      type: 'rect',
+      children: [{ x: 250, y: 150, id: 'SubTreeNode3.1.1' }],
+    };
+
     // 更新子元素，parent不存在
-    graph.updateChild(child)
+    graph.updateChild(child);
 
     // 之前的数据全都被重置
-    expect(graph.findById('Root')).toBe(undefined)
-    expect(graph.findById('SubTreeNode3')).toBe(undefined)
-    const node = graph.findById('SubTreeNode3.1')
-    expect(node).not.toBe(undefined)
-    expect(node.get('children')).not.toBe(undefined)
-    expect(node.get('children').length).toBe(1)
+    expect(graph.findById('Root')).toBe(undefined);
+    expect(graph.findById('SubTreeNode3')).toBe(undefined);
+    const node = graph.findById('SubTreeNode3.1');
+    expect(node).not.toBe(undefined);
+    expect(node.get('children')).not.toBe(undefined);
+    expect(node.get('children').length).toBe(1);
     graph.destroy();
-  })
-})
-
+  });
+});
 
 describe('updateLayout, layout', () => {
   const graph = new G6.TreeGraph({
@@ -327,15 +352,15 @@ describe('updateLayout, layout', () => {
     height: 500,
     animate: false,
     modes: {
-      default: [ 'drag-canvas', 'drag-node' ]
+      default: ['drag-canvas', 'drag-node'],
     },
     layout: {
       type: 'dendrogram',
       direction: 'LR', // H / V / LR / RL / TB / BT
       nodeSep: 50,
-      rankSep: 100
-    }
-  })
+      rankSep: 100,
+    },
+  });
 
   const data = {
     isRoot: true,
@@ -343,24 +368,30 @@ describe('updateLayout, layout', () => {
     children: [
       {
         id: 'SubTreeNode1',
-        children: [{
-          id: '1.1'
-        }, {
-          id: '1.2'
-        }]
+        children: [
+          {
+            id: '1.1',
+          },
+          {
+            id: '1.2',
+          },
+        ],
       },
       {
         id: 'SubTreeNode3',
-        children: [{
-          id: '3.1'
-        }, {
-          id: '3.2'
-        }]
-      }
-    ]
+        children: [
+          {
+            id: '3.1',
+          },
+          {
+            id: '3.2',
+          },
+        ],
+      },
+    ],
   };
   graph.data(data);
-  graph.render()
+  graph.render();
 
   it('updateLayout', () => {
     graph.moveTo(100, 200);
@@ -369,8 +400,8 @@ describe('updateLayout, layout', () => {
     const beforeChangePos = [model.x, model.y];
     graph.updateLayout({
       type: 'compactBox',
-      direction: 'LR'
-    })
+      direction: 'LR',
+    });
     const afterChangePos = [model.x, model.y];
     expect(beforeChangePos[0]).not.toBe(afterChangePos[0]);
     expect(beforeChangePos[1]).not.toBe(afterChangePos[1]);
@@ -378,8 +409,8 @@ describe('updateLayout, layout', () => {
     // changeLayout will be discarded soon.
     graph.changeLayout({
       type: 'mindmap',
-      direction: 'H'
-    })
+      direction: 'H',
+    });
     const afterChangePos2 = [model.x, model.y];
     expect(afterChangePos[1]).not.toBe(afterChangePos2[1]);
 
@@ -388,19 +419,19 @@ describe('updateLayout, layout', () => {
     const afterChangePos3 = [model.x, model.y];
     expect(afterChangePos2[0]).toBe(afterChangePos3[0]);
     expect(afterChangePos2[1]).toBe(afterChangePos3[1]);
-  })
+  });
 
   it('refreshLayout', () => {
     data.children.push({
       id: 'newSubTree',
-      children: []
+      children: [],
     });
     graph.refreshLayout();
     expect(graph.getNodes().length).toBe(8);
     graph.refreshLayout(true);
     expect(graph.getNodes().length).toBe(8);
   });
-})
+});
 
 describe('tree graph with animate', () => {
   const graph3 = new G6.TreeGraph({
@@ -409,14 +440,14 @@ describe('tree graph with animate', () => {
     height: 500,
     animate: true,
     modes: {
-      default: [ 'drag-canvas' ]
+      default: ['drag-canvas'],
     },
     layout: {
       type: 'dendrogram',
       direction: 'LR',
       nodeSep: 50,
-      rankSep: 100
-    }
+      rankSep: 100,
+    },
   });
   it('layout init', () => {
     const data2 = {
@@ -428,17 +459,17 @@ describe('tree graph with animate', () => {
           label: 'SubTreeNode1',
           children: [
             {
-              id: 'SubTreeNode1.1'
+              id: 'SubTreeNode1.1',
             },
             {
-              id: 'SubTreeNode1.2'
-            }
-          ]
+              id: 'SubTreeNode1.2',
+            },
+          ],
         },
         {
-          id: 'SubTreeNode2'
-        }
-      ]
+          id: 'SubTreeNode2',
+        },
+      ],
     };
     graph3.data(data2);
     graph3.render();
@@ -469,20 +500,21 @@ describe('tree graph with animate', () => {
           label: 'SubTreeNode1',
           children: [
             {
-              id: 'SubTreeNode1.1'
+              id: 'SubTreeNode1.1',
             },
             {
-              id: 'SubTreeNode1.2'
-            }
-          ]
+              id: 'SubTreeNode1.2',
+            },
+          ],
         },
         {
-          id: 'SubTreeNode3'
-        }, {
+          id: 'SubTreeNode3',
+        },
+        {
           id: 'SubTreeNode4',
-          children: [{ id: 'SubTreeNode4.1' }]
-        }
-      ]
+          children: [{ id: 'SubTreeNode4.1' }],
+        },
+      ],
     };
     graph3.changeData(data3);
 
@@ -550,10 +582,15 @@ describe('tree graph with animate', () => {
         // done();
       }
     });
-    graph3.addBehaviors([{
-      type: 'collapse-expand',
-      trigger: 'dblclick'
-    }], 'default');
+    graph3.addBehaviors(
+      [
+        {
+          type: 'collapse-expand',
+          trigger: 'dblclick',
+        },
+      ],
+      'default',
+    );
 
     graph3.emit('node:dblclick', { item: parent });
 

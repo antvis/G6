@@ -15,7 +15,7 @@
     "lib": ["esnext", "dom"],
     "types": ["jest"]
   },
-  "include": ["src"],	
+  "include": ["src"],
   "typedocOptions": {
     "mode": "modules",
     "out": "docs/api-ts",

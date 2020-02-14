@@ -4,6 +4,7 @@ order: 7
 ---
 
 ## Introduction
+
 Graph layouts are the algorithms arranging the node positions to obtain a understandable visualizaiton. According to the differences of data strucutre, the layouts can be categorized into: general graph layout and tree graph layout. There are several layout algorithms for them respectively. By utilizing the built-in layouts, [Translating the layouts and their configurations, translating the data](#layout-transformation-mechanism) can be achieved. Besides, G6 provides the [Web-Worker](#web-worker) for general graph layout in case layout calculation takes too long to block page interaction.
 
 Besides, G6 supports [Custom Layout](/en/docs/manual/advanced/custom-layout) mechanism for users to design their own layout algorithm.
@@ -36,17 +37,19 @@ In this ducoment, we will introduce the layout algorithms in detail.
 ## Graph
 
 ### Configure the Graph
+
 Configure `layout` to the Graph instance to assign the layout methods and their configurations. The following code assigns the layout with `type: 'force'`, which means the classical force-directed layout algorithm. The configurations `preventOverlap: true` and `nodeSize: 30` are assigned to prevent node overlappings, where the `nodeSize` is used for collide detection. More layout configurations can be found in the following sections.
 
 ```javascript
 const graph = new G6.Graph({
   // ...                      // Other configurations for the graph
-  layout: {                   // Object, the layout configuration. Random layout by default
-  	type: 'force',
+  layout: {
+    // Object, the layout configuration. Random layout by default
+    type: 'force',
     preventOverlap: true,
     nodeSize: 30,
     // ...                    // Other configurations for the layout
-  }
+  },
 });
 ```
 
@@ -58,14 +61,14 @@ When the `layout` is not assigned:
 - If the position information does not exist in the node data, Random Layout will take effect by default.
 
 ### Layouts for Graph
+
 General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 
 #### Random
+
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M5FySIdhX4oAAAAAAAAAAABkARQnAQ' width='400'/>
 
-<br />**Description**: Randomizes the node positions.
-<br />**API**: [Random API](/en/docs/api/layout/Graph#random)
-<br />**Configuration**: 
+<br />**Description**: Randomizes the node positions. <br />**API**: [Random API](/en/docs/api/layout/Graph#random) <br />**Configuration**:
 
 | Name | Type | Example | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -78,9 +81,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*oDbHRJc5td8AAAAAAAAAAABkARQnAQ' width='500' />
 
-<br /> **Description**: Classical force-directed layout algorithm.
-<br /> **API**: [Force API](/en/docs/api/layout/Graph#force)
-<br /> **Configuration**: Corresponds to the configurations in force-directed algorithm in d3.js
+<br /> **Description**: Classical force-directed layout algorithm. <br /> **API**: [Force API](/en/docs/api/layout/Graph#force) <br /> **Configuration**: Corresponds to the configurations in force-directed algorithm in d3.js
 
 | Name | Type | Example | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -90,8 +91,8 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 | edgeStrength | Number | Example 1: 1 <br />Example 2:<br />d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 10;<br />  }<br />  return 1;<br />} | null | The strength of edge force. Calculated according to the degree of nodes by default (Example 2) |
 | preventOverlap | Boolean | false | false | Whether to prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. If the `nodeSize` and size in data are both undefiend, `nodeSize` will be assigned to 10 by default |
 | nodeSize | Array / Number | 20 | undefined | The diameter of the node. It is used for preventing node overlappings. If `nodeSize` is not assigned, the size property in node data will take effect. If the size in node data does not exist either, `nodeSize` is assigned to 10 by default |
-| nodeSpacing<br /><br /> | Number / Function | Example 1:  10<br />Example 2:  <br />d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150/><br />Takes effect when `preventOverlap` is `true`. It is the minimum distance between nodes to prevent node overlappings. It can be a function to define different distances for different nodes (example 2)<br /> |
-| alphaDecay | Number | 0.03 | 0.028 | The decay ratio of alpha for convergence. THe range is [0, 1]. 0.028 corresponds to 300 times iteration|
+| nodeSpacing<br /><br /> | Number / Function | Example 1: 10<br />Example 2:  <br />d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150/><br />Takes effect when `preventOverlap` is `true`. It is the minimum distance between nodes to prevent node overlappings. It can be a function to define different distances for different nodes (example 2)<br /> |
+| alphaDecay | Number | 0.03 | 0.028 | The decay ratio of alpha for convergence. THe range is [0, 1]. 0.028 corresponds to 300 times iteration |
 | alphaMin | Number | 0.03 | 0.001 | The threshold to stop the iteration |
 | alpha | Number | 0.1 | 0.3 | The current alpha of convergence |
 | collideStrength | Number | 0.8 | 1 | The strength of force for preventing node overlappings. The range is [0, 1] |
@@ -104,9 +105,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*DibyQYaI2qYAAAAAAAAAAABkARQnAQ' width='400' />
 
-<br />**Description**: Fruchterman is a kind of force-directed layout.
-<br />**API**: [Fruchterman API](/en/docs/api/layout/Graph#fruchterman)
-<br />**Configuration**: 
+<br />**Description**: Fruchterman is a kind of force-directed layout. <br />**API**: [Fruchterman API](/en/docs/api/layout/Graph#fruchterman) <br />**Configuration**:
 
 | Name | Type | Example | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -118,16 +117,13 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 | clusterGravity | Number | 30 | 10 | The gravity of each clusterm which affects the compactness of each cluster |
 | workerEnabled | Boolean | true / false | false | Whether to enable the web-worker in case layout calculation takes too long to block page interaction |
 
-
 #### Circular
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*s_29Rbja9lkAAAAAAAAAAABkARQnAQ' width='200' />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qw1ES7nYvr8AAAAAAAAAAABkARQnAQ' width='200' />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mCXwQYRV8IkAAAAAAAAAAABkARQnAQ' width='200' />
 
-<br />**Description**: Arranges the nodes on a circle.
-<br />**API**: [Circular API](/en/docs/api/layout/Graph#circular)
-<br />**Configuration**: 
+<br />**Description**: Arranges the nodes on a circle. <br />**API**: [Circular API](/en/docs/api/layout/Graph#circular) <br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -138,17 +134,14 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 | clockwise | Boolean | true | true | Whether to layout clockwisely |
 | divisions | Number | 3 | 1 | The division number of the nodes on the circle. Takes effect when `endRadius - startRadius !== 0` |
 | ordering | String | null | 'topology' | 'degree' | null | The ordering method for nodes. `null` by default, which means the nodes are arranged in data order. 'topology' means in topology order; 'degree' means in degree order. |
-| angleRatio | Number | 1 | 1 | How many 2*PIs Between the first node and the last node |
+| angleRatio | Number | 1 | 1 | How many 2\*PIs Between the first node and the last node |
 | workerEnabled | Boolean | true / false | false | Whether to enable the web-worker in case layout calculation takes too long to block page interaction |
-
 
 #### Radial
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FZIpRKpJo_MAAAAAAAAAAABkARQnAQ' width='200' />
 
-<br />**Description**: Arranges the nodes to concentrics centered at a focus node according to their shortest path length to the focus node.
-<br />**API**: [Radial API](/en/docs/api/layout/Graph#radial)
-<br />**Configuration**: 
+<br />**Description**: Arranges the nodes to concentrics centered at a focus node according to their shortest path length to the focus node. <br />**API**: [Radial API](/en/docs/api/layout/Graph#radial) <br />**Configuration**:
 
 | Name | Type | Example | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -160,15 +153,15 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 | preventOverlap | Boolean | false | false | Whether to prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. |
 | maxPreventOverlapIteration | Number | 500 | 200 | The maximum iteration number of preventing node overlappings |
 | nodeSize | Number | 10 | 10 | The diameter of the node. It is used for preventing node overlappings. <br />: <br />The size in the node data will take effect if `nodeSize` is not assigned. If the size in node data does not exist either, `nodeSize` is assigned to 10 by default |
-| nodeSpacing<br /> | Number / Function | Example 1:  10<br />Example 2:  <br />d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cFq4QbXVx7sAAAAAAAAAAABkARQnAQ' width=150/><br />Takes effect when `preventOverlap` is `true`. It is the minimum distance between nodes to prevent node overlappings. It can be a function to define different distances for different nodes (example 2)<br /> |
+| nodeSpacing<br /> | Number / Function | Example 1: 10<br />Example 2:  <br />d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cFq4QbXVx7sAAAAAAAAAAABkARQnAQ' width=150/><br />Takes effect when `preventOverlap` is `true`. It is the minimum distance between nodes to prevent node overlappings. It can be a function to define different distances for different nodes (example 2)<br /> |
 | strictRadial | Boolean | true | false | Whether to layout the graph as strict radial, which means the nodes will be arranged on each circle strictly. Takes effect only when `preventOverlap` is `true`. Refer to [Radial-strictRadial API](/en/docs/api/layout/Graph/#strictradial)<br />- When `preventOverlap` is `true`, and `strictRadial` is `false`, the overlapped nodes are arranged along their circles strictly. But for the situation that there are too many nodes on a circle to be arranged, the overlappings might not be eliminated completely <br />- When `preventOverlap` is `true`, and `strictRadial` is `true` , the overlapped nodes can be arranged around their circle with small offsets.<br /> |
 | sortBy | String | 'data' / 'cluster' | undefined | Sort the nodes of the same level. `undefined` by default, which means place the nodes with connections as close as possible; `'data'` means place the node according to the ordering in data, the closer the nodes in data ordering, the closer the nodes will be placed. `sortBy` also can be assigned to any name of property in nodes data, such as `'cluster'`, `'name'` and so on (make sure the property exists in the data) |
 | sortStrength | Number | 10 | 10 | The strength to sort the nodes in the same circle. Larger number means place the nodes with smaller distance of `sortBy` more closely. Takes effect only when `sortBy` is not `undefined` |
 | workerEnabled | Boolean | true / false | false | Whether to enable the web-worker in case layout calculation takes too long to block page interaction |
 
-
 #### MDS
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6OPTT7bz5sUAAAAAAAAAAABkARQnAQ' width=400/><br />**Description**: MDS (Multidimensional scaling) is used for project high dimensional data onto low dimensional space.<br />**API**: [MDS API](/en/docs/api/layout/Graph/#mds)<br />**Configuration**: 
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6OPTT7bz5sUAAAAAAAAAAABkARQnAQ' width=400/><br />**Description**: MDS (Multidimensional scaling) is used for project high dimensional data onto low dimensional space.<br />**API**: [MDS API](/en/docs/api/layout/Graph/#mds)<br />**Configuration**:
 
 | Name | Type | Example | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -176,9 +169,9 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 | linkDistance | Number | 50 | 50 | The edge length |
 | workerEnabled | Boolean | true / false | false | Whether to enable the web-worker in case layout calculation takes too long to block page interaction |
 
-
 #### Dagre
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RQEORY5A_LoAAAAAAAAAAABkARQnAQ' width=250/><br />**Description**: An hierarchical layout.<br />**API**: [Dagre API](/en/docs/api/layout/Graph#dagre)<br />**Configuration**: 
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RQEORY5A_LoAAAAAAAAAAABkARQnAQ' width=250/><br />**Description**: An hierarchical layout.<br />**API**: [Dagre API](/en/docs/api/layout/Graph#dagre)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -191,9 +184,9 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 | controlPoints | Boolean | true | true | Whether to keep the control points of layout |
 | workerEnabled | Boolean | true / false | false | Whether to enable the web-worker in case layout calculation takes too long to block page interaction |
 
-
 #### Concentric
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ux0-SYBy6Y8AAAAAAAAAAABkARQnAQ' width=300/><br />Tips: Concentric layout in G6 refers to <a href='https://github.com/cytoscape/cytoscape.js' target='_blank'>cytoscape.js</a>, we obey the MIT license <br />**Description**: Arranges the nodes on several concentric circles.<br />**API**: [Concentric API](/en/docs/api/layout/Graph#concentric)<br />**Configuration**: 
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ux0-SYBy6Y8AAAAAAAAAAABkARQnAQ' width=300/><br />Tips: Concentric layout in G6 refers to <a href='https://github.com/cytoscape/cytoscape.js' target='_blank'>cytoscape.js</a>, we obey the MIT license <br />**Description**: Arranges the nodes on several concentric circles.<br />**API**: [Concentric API](/en/docs/api/layout/Graph#concentric)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -201,17 +194,17 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 | nodeSize | Number | 30 | 30 | The diameter of the node. It is used for preventing node overlappings |
 | minNodeSpacing | Number | 10 | 10 | The minimum separation between adjacent circles |
 | preventOverlap | Boolean | false | false | Whether to prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. If the size in node data does not exist either, `nodeSize` is assigned to 30 by default |
-| sweep | Number | Math.PI | undefined | How many radians should be between the first and last node (defaults to full circle). If it is undefined, 2 * Math.PI * (1 - 1 / |level.nodes|) will be used, where level.nodes is nodes set of each level, |level.nodes| is the number of nodes of the level |
+| sweep | Number | Math.PI | undefined | How many radians should be between the first and last node (defaults to full circle). If it is undefined, 2 _ Math.PI _ (1 - 1 / | level.nodes | ) will be used, where level.nodes is nodes set of each level, | level.nodes | is the number of nodes of the level |
 | equidistant | Boolean | false | false | Whether levels have an equal radial distance between them, may cause bounding box overflow |
-| startAngle | Number | 3.14 | 3 / 2 * Math.PI | Where nodes start in radians |
+| startAngle | Number | 3.14 | 3 / 2 \* Math.PI | Where nodes start in radians |
 | clockwise | Boolean | false | false | Place the nodes in clockwise or not |
 | maxLevelDiff | Number | 0.5 | undefined | The sum of concentric values in each level. If it is undefined, maxValue / 4 will take place, where maxValue is the max value of ordering properties. For example, if `sortBy='degree'`, maxValue is the max degree value of all the nodes |
 | sortBy | String | 'property1' / 'weight' / ... | undefined | Order the nodes according to this parameter. It is the property's name of node. The node with higher value will be placed to the center. If it is undefined, the algorithm will order the nodes by their degree<br /> |
 | workerEnabled | Boolean | true / false | false | Whether to enable the web-worker in case layout calculation takes too long to block page interaction |
 
-
 #### Grid
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5U3_TZVolpEAAAAAAAAAAABkARQnAQ' width=300/><br />Tips: Concentric layout in G6 refers to <a href='https://github.com/cytoscape/cytoscape.js' target='_blank'>cytoscape.js</a>, we obey the MIT license.<br />**Description**: Orders the nodes according to the configurations and arranged them onto grid.<br />**API**: [Grid API](/en/docs/api/layout/Graph#grid)<br />**Configuration**: 
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5U3_TZVolpEAAAAAAAAAAABkARQnAQ' width=300/><br />Tips: Concentric layout in G6 refers to <a href='https://github.com/cytoscape/cytoscape.js' target='_blank'>cytoscape.js</a>, we obey the MIT license.<br />**Description**: Orders the nodes according to the configurations and arranged them onto grid.<br />**API**: [Grid API](/en/docs/api/layout/Graph#grid)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -225,34 +218,41 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 | sortBy | String | 'property1' / 'weight' / ... | 'degree' | The ordering method for nodes. Smaller the index in the ordered array, more center the node will be placed. If `sortBy` is undefined, the algorithm order the nodes according to their degrees |
 | workerEnabled | Boolean | true / false | false | Whether to enable the web-worker in case layout calculation takes too long to block page interaction |
 
-
 ## TreeGraph
+
 In order to handle the tree data structure, G6 extends Graph to TreeGraph. Refer to: [TreeGraph API](/en/docs/api/layout/TreeGraph). TreeGraph is appropriate for visualizing hierarchy data.
 
 ### Configure the TreeGraph
+
 Similar to Graph, assign `layout` to Graph instance to set the layout for a TreeGraph. The [Expand/Collapse](/en/docs/manual/middle/states/defaultBehavior/#collapse-expand) behavior can be assigned to the TreeGraph by `modes`.
+
 ```javascript
 const graph = new G6.TreeGraph({
-    container: 'mountNode',
-    modes: {
-      default: [{
+  container: 'mountNode',
+  modes: {
+    default: [
+      {
         // Assign the collapse/expand behavior
-        type: 'collapse-expand'
-      }, 'drag-canvas']
-    },
-    // Assign the layout
-    layout: {
-      type: 'dendrogram',	// Layout type
-      direction: 'LR',    // Layout direction is from the left to the right. Options: 'H' / 'V' / 'LR' / 'RL' / 'TB' / 'BT'
-        nodeSep: 50,			// The distance between nodes
-        rankSep: 100			// The distance between adjacent levels
-    }
-  });
+        type: 'collapse-expand',
+      },
+      'drag-canvas',
+    ],
+  },
+  // Assign the layout
+  layout: {
+    type: 'dendrogram', // Layout type
+    direction: 'LR', // Layout direction is from the left to the right. Options: 'H' / 'V' / 'LR' / 'RL' / 'TB' / 'BT'
+    nodeSep: 50, // The distance between nodes
+    rankSep: 100, // The distance between adjacent levels
+  },
+});
 ```
 
 ### Layouts for TreeGraph
+
 #### compactBox
-**Description**: CompactBox is the default layout for TreeGraph. It will consider the bounding box of each node when layout.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FltbQZAa-nMAAAAAAAAAAABkARQnAQ' width=400/><br />**API**: [CompactBox API](/en/docs/api/layout/TreeGraph/#compactbox)<br />**Configuration**: 
+
+**Description**: CompactBox is the default layout for TreeGraph. It will consider the bounding box of each node when layout.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FltbQZAa-nMAAAAAAAAAAABkARQnAQ' width=400/><br />**API**: [CompactBox API](/en/docs/api/layout/TreeGraph/#compactbox)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -264,9 +264,9 @@ const graph = new G6.TreeGraph({
 | getHGap | Function | (d) => {<br />// d is a node<br />  return 50;<br />} | undefined | The horizontal separation of nodes |
 | radial | Boolean | true | false | If layout the graph in radial style. If `radial` is `true`, we recommend to set `direction` to `'LR'` or `'RL'`: <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0plfTrg12FkAAAAAAAAAAABkARQnAQ' width=150/> |
 
-
 #### dendrogram
-**Description**: Arranges all the leaves on the same level. It is appropriate for hierarchical clustering. It does not consider the node size, which will be regarded as 1 px.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XehWSKAWdrwAAAAAAAAAAABkARQnAQ' width=300/><br />**API**: [Dendrogram API](/en/docs/api/layout/TreeGraph/#dendrogram)<br />**Configuration**: 
+
+**Description**: Arranges all the leaves on the same level. It is appropriate for hierarchical clustering. It does not consider the node size, which will be regarded as 1 px.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XehWSKAWdrwAAAAAAAAAAABkARQnAQ' width=300/><br />**API**: [Dendrogram API](/en/docs/api/layout/TreeGraph/#dendrogram)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -275,23 +275,23 @@ const graph = new G6.TreeGraph({
 | rankSep | Number | 100 | 0 | Level separation |
 | radial | Boolean | true | false | Wheter layout the graph in radial style. If `radial` is `true`, we recommend to set `direction` to `'LR'` or `'RL'`: <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2WUNTb6kp3MAAAAAAAAAAABkARQnAQ' width=150/> |
 
-
 #### indented
+
 **Description**: Indented layout represents the hierarchy by indent between them. Each node will take a row/column. It is appropriate for file directory.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zuBlR4oBIE0AAAAAAAAAAABkARQnAQ' width=150/>
 
-**API**: [Indented API](/en/docs/api/layout/TreeGraph/#indented)<br />**Configuration**: 
+**API**: [Indented API](/en/docs/api/layout/TreeGraph/#indented)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
-| direction | String | 'LR' / 'RL' / 'H' | 'LR' | layout direction<br />'LR' ——  Root is on the left, layout from the left to the right(left image below)<br />'RL' —— Root is on the right, layout from the right to the left(center image below)<br />'H' —— Root is on the middle, layout in horizontal symmetry(right image below)<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Hn9wT6j1tEMAAAAAAAAAAABkARQnAQ' alt='indented1' width='80' /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dXx3QrjSsgsAAAAAAAAAAABkARQnAQ' alt='indented2' width='60' /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ULkFQqi04moAAAAAAAAAAABkARQnAQ' alt='indented3' width='120' /> |
+| direction | String | 'LR' / 'RL' / 'H' | 'LR' | layout direction<br />'LR' —— Root is on the left, layout from the left to the right(left image below)<br />'RL' —— Root is on the right, layout from the right to the left(center image below)<br />'H' —— Root is on the middle, layout in horizontal symmetry(right image below)<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Hn9wT6j1tEMAAAAAAAAAAABkARQnAQ' alt='indented1' width='80' /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dXx3QrjSsgsAAAAAAAAAAABkARQnAQ' alt='indented2' width='60' /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ULkFQqi04moAAAAAAAAAAABkARQnAQ' alt='indented3' width='120' /> |
 | indent | Number | 80 | 20 | Colunm separation |
 | getHeight | Function | (d) => {<br />  // d is a node<br />  return 10;<br />} | undefined | The height of each node |
 | getWidth | Function | (d) => {<br />  // d is a node<br />  return 20;<br />} | undefined | The width of each node |
 | getSide | Function | (d) => {<br />  // d is a node<br />  return 'left';<br />} | undefined | The callback function of node position(left or right of root node). Only affects the nodes which are connected to the root node directly. And the descendant nodes will be placed according to it |
 
-
 #### mindmap
-**Description**: Mindmap arranged the nodes with same depth on the same level. Different from compactBox, it does not consider the size of nodes while doing layout.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sRi6Q6Qrm-oAAAAAAAAAAABkARQnAQ' width=400/><br />**API**: [Mindmap API](/en/docs/api/layout/TreeGraph/#mindmap)<br />**Configuration**: 
+
+**Description**: Mindmap arranged the nodes with same depth on the same level. Different from compactBox, it does not consider the size of nodes while doing layout.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sRi6Q6Qrm-oAAAAAAAAAAABkARQnAQ' width=400/><br />**API**: [Mindmap API](/en/docs/api/layout/TreeGraph/#mindmap)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -302,15 +302,17 @@ const graph = new G6.TreeGraph({
 | getHGap | Function | (d) => {<br />  // d is a node<br />  return 50;<br />} | 18 | The horizontal separation of nodes |
 | getSide | String | Function | (d) => {<br />  // d is a node<br />  return 'left';<br />} / 'right' | The callback function of node position(left or right of root node). Only affects the nodes which are connected to the root node directly. And the descendant nodes will be placed according to it |
 
-
 ## Layout Transformation Mechanism
-G6 provides two layout transformations: 
+
+G6 provides two layout transformations:
 
 - `updateLayout(params)`: Layout methods and configurations transformation;
 - `changeData()`: Data transformation.
 
 ### Layout Methods and Configuration Transformation
+
 **Interface Definition:**
+
 ```javascript
 /**
  * Change the layout or its configurations
@@ -326,7 +328,9 @@ updateLayout(cfg);
 **Change the Configurations Only:** <br />If the `cfg` is an object without property `type`, or the `type` is the same as the current layout method, only the configurations for the current layout will be changed.
 
 ### Data Transformation
+
 **Interface Definition:**
+
 ```javascript
 /**
  * Change the source data, render the graph with new data
@@ -337,20 +341,24 @@ changeData(data);
 ```
 
 ### Transformation Example
+
 #### Expected Effect
+
 In the first stage, the graph is arranged by random layout. Transform to force layout with node overlappings after 2000ms, force layout without node overlappings after 4000ms, change data to `data2` after 6000ms.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6k-iQ405hEEAAAAAAAAAAABkARQnAQ' width=600/>
+
 #### Complete Code
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Tutorial Layout Demo</title>
-</head>
-<body>
+  </head>
+  <body>
     <div id="mountNode"></div>
-<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.0/build/g6.js"></script>
-<script src="https://gw.alipayobjects.com/os/antv/assets/lib/jquery-3.2.1.min.js"></script>
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.0/build/g6.js"></script>
+    <script src="https://gw.alipayobjects.com/os/antv/assets/lib/jquery-3.2.1.min.js"></script>
     <script>
       const data = {
         nodes: [
@@ -358,33 +366,35 @@ In the first stage, the graph is arranged by random layout. Transform to force l
           { id: '1', label: '1' },
           { id: '2', label: '2' },
           { id: '3', label: '3' },
-          { id: '4', label: '4' }
-        ], edges: [
+          { id: '4', label: '4' },
+        ],
+        edges: [
           { source: '0', target: '1' },
           { source: '0', target: '2' },
           { source: '0', target: '3' },
           { source: '0', target: '4' },
           { source: '1', target: '2' },
-          { source: '1', target: '3' }
-        ]
+          { source: '1', target: '3' },
+        ],
       };
 
       const data2 = {
         nodes: [
           { id: '0', label: '0' },
           { id: '1', label: '1' },
-          { id: '2', label: '2' }
-        ], edges: [
+          { id: '2', label: '2' },
+        ],
+        edges: [
           { source: '0', target: '1' },
-          { source: '0', target: '2' }
-        ]
+          { source: '0', target: '2' },
+        ],
       };
 
       const graph = new G6.Graph({
-        container: 'mountNode',  // String | HTMLElement, Required, the id of the container or the container object
-        width: 300,              // Number, Required, The width of the graph
-        height: 300,             // Number, Required, The height of the graph
-        animate: true            // Boolean, whether to activate the animation while changing the layout
+        container: 'mountNode', // String | HTMLElement, Required, the id of the container or the container object
+        width: 300, // Number, Required, The width of the graph
+        height: 300, // Number, Required, The height of the graph
+        animate: true, // Boolean, whether to activate the animation while changing the layout
       });
 
       // Load data and render
@@ -399,10 +409,10 @@ In the first stage, the graph is arranged by random layout. Transform to force l
       // Transform to force layout without node overlappings in 4000 ms
       setTimeout(() => {
         graph.updateLayout({
-          type: 'force',               // Layout name
-          preventOverlap: true,        // Whether to prevent the node overlappings
-          nodeSize: 40,                // The node size for collide detection
-          linkDistance: 100            // The edge length
+          type: 'force', // Layout name
+          preventOverlap: true, // Whether to prevent the node overlappings
+          nodeSize: 40, // The node size for collide detection
+          linkDistance: 100, // The edge length
         });
       }, 10000);
 
@@ -410,8 +420,8 @@ In the first stage, the graph is arranged by random layout. Transform to force l
       setTimeout(() => {
         graph.changeData(data2);
       }, 12000);
-		</script>
-	</body>
+    </script>
+  </body>
 </html>
 ```
 
@@ -420,16 +430,17 @@ In the first stage, the graph is arranged by random layout. Transform to force l
 At present, the subgraph layout mechanism is independent to the graph layout. You can instantiate the layout method and load the data of subgraph onto the layout instance. This mechanism allows users to utilize G6's layout algorithms to calculate the node positions, and render the graph with another rendering engine.
 
 ### Usage
+
 ```javascript
 // Instantiate the Layout
 const subgraphLayout = new G6.Layout['force']({
-  center: [ 500, 450 ]
+  center: [500, 450],
 });
 
 // Initialize the layout with sugbraph data
 subgraphLayout.init({
-  'nodes': subGraphNodes,
-  'edges': subGraphEdges
+  nodes: subGraphNodes,
+  edges: subGraphEdges,
 });
 
 // Execute the layout
@@ -440,6 +451,7 @@ graph.positionsAnimate();
 ```
 
 ## Web-Worker
+
 The layout algorithm costs a lot in large scale graph visualization. If you config the layout for a graph, the layout algorithm must be done before rendering. In some web applications, this process will block the page and the end users will not able to interact with other components of the page. To address this issue, G6 provids the Web-Worker for **General Graph**. You only need to assign `workerEnabled` to `true` when configuring the layout. For example:
 
 ```javascript

@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-  
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Bubbles</title>
     <style>
       .g6-tooltip {
@@ -16,95 +15,100 @@
       }
     </style>
   </head>
-  
+
   <body>
-    <div id="tip">
-    </div>
+    <div id="tip"></div>
     <div id="mountNode"></div>
     <script src="../build/g6.js"></script>
     <script src="./assets/jquery-3.2.1.min.js"></script>
     <script>
-      const colors = [ 'rgb(64, 174, 247)', 'rgb(108, 207, 169)', 'rgb(157, 223, 125)',
-      'rgb(240, 198, 74)' ];
+      const colors = [
+        'rgb(64, 174, 247)',
+        'rgb(108, 207, 169)',
+        'rgb(157, 223, 125)',
+        'rgb(240, 198, 74)',
+      ];
 
       const data = {
-        "nodes": [{
-          "id": "0",
-          "label": "0",
-          "value": 10,
-          "cluster": "a",
-          "description": "this is node 0, \nand the value of it is 10"
-        },
-        {
-          "id": "1",
-          "label": "1",
-          "value": 20,
-          "cluster": "b",
-          "description": "this is node 1, \nand the value of it is 20"
-        },
-        {
-          "id": "2",
-          "label": "2",
-          "value": 5,
-          "cluster": "a",
-          "description": "this is node 2, \nand the value of it is 5"
-        },
-        {
-          "id": "3",
-          "label": "3",
-          "value": 10,
-          "cluster": "a",
-          "description": "this is node 3, \nand the value of it is 10"
-        },
-        {
-          "id": "4",
-          "label": "4",
-          "value": 12,
-          "cluster": "c",
-          "subCluster": "sb",
-          "description": "this is node 4, \nand the value of it is 12"
-        },
-        {
-          "id": "5",
-          "label": "5",
-          "value": 18,
-          "cluster": "c",
-          "subCluster": "sa",
-          "description": "this is node 5, \nand the value of it is 18"
-        },
-        {
-          "id": "6",
-          "label": "6",
-          "value": 3,
-          "cluster": "c",
-          "subCluster": "sa",
-          "description": "this is node 6, \nand the value of it is 3"
-        },
-        {
-          "id": "7",
-          "label": "7",
-          "value": 7,
-          "cluster": "b",
-          "subCluster": "sa",
-          "description": "this is node 7, \nand the value of it is 7"
-        },
-        {
-          "id": "8",
-          "label": "8",
-          "value": 21,
-          "cluster": "d",
-          "subCluster": "sb",
-          "description": "this is node 8, \nand the value of it is 21"
-        },
-        {
-          "id": "9",
-          "label": "9",
-          "value": 9,
-          "cluster": "d",
-          "subCluster": "sb",
-          "description": "this is node 9, \nand the value of it is 9"
-        }],
-        "edges": []
+        nodes: [
+          {
+            id: '0',
+            label: '0',
+            value: 10,
+            cluster: 'a',
+            description: 'this is node 0, \nand the value of it is 10',
+          },
+          {
+            id: '1',
+            label: '1',
+            value: 20,
+            cluster: 'b',
+            description: 'this is node 1, \nand the value of it is 20',
+          },
+          {
+            id: '2',
+            label: '2',
+            value: 5,
+            cluster: 'a',
+            description: 'this is node 2, \nand the value of it is 5',
+          },
+          {
+            id: '3',
+            label: '3',
+            value: 10,
+            cluster: 'a',
+            description: 'this is node 3, \nand the value of it is 10',
+          },
+          {
+            id: '4',
+            label: '4',
+            value: 12,
+            cluster: 'c',
+            subCluster: 'sb',
+            description: 'this is node 4, \nand the value of it is 12',
+          },
+          {
+            id: '5',
+            label: '5',
+            value: 18,
+            cluster: 'c',
+            subCluster: 'sa',
+            description: 'this is node 5, \nand the value of it is 18',
+          },
+          {
+            id: '6',
+            label: '6',
+            value: 3,
+            cluster: 'c',
+            subCluster: 'sa',
+            description: 'this is node 6, \nand the value of it is 3',
+          },
+          {
+            id: '7',
+            label: '7',
+            value: 7,
+            cluster: 'b',
+            subCluster: 'sa',
+            description: 'this is node 7, \nand the value of it is 7',
+          },
+          {
+            id: '8',
+            label: '8',
+            value: 21,
+            cluster: 'd',
+            subCluster: 'sb',
+            description: 'this is node 8, \nand the value of it is 21',
+          },
+          {
+            id: '9',
+            label: '9',
+            value: 9,
+            cluster: 'd',
+            subCluster: 'sb',
+            description: 'this is node 9, \nand the value of it is 9',
+          },
+        ],
+        edges: [],
       };
 
       const graph = new G6.Graph({
@@ -119,26 +123,26 @@
           preventOverlap: true,
         },
         modes: {
-          default: [ 'drag-node' ]
+          default: ['drag-node'],
         },
         defaultNode: {
-          size: [ 10, 10 ],
+          size: [10, 10],
           color: 'steelblue',
           style: {
             opacity: 0.8,
             lineWidth: 1,
-            stroke: '#999'
+            stroke: '#999',
           },
         },
         defaultEdge: {
           size: 1,
-          color: '#e2e2e2'
+          color: '#e2e2e2',
         },
         nodeStateStyles: {
           click: {
             opacity: 1,
-          }
-        }
+          },
+        },
       });
 
       function refreshDragedNodePosition(e) {
@@ -174,7 +178,7 @@
         graph.setItemState(node, 'click', !clicked);
         graph.updateItem(node, {
           size,
-          label: labelText
+          label: labelText,
         });
         graph.layout();
       });
@@ -190,21 +194,21 @@
         // cluster
         if (node.cluster && clusterMap.get(node.cluster) === undefined) {
           clusterMap.set(node.cluster, clusterId);
-          clusterId ++;
+          clusterId++;
         }
         const cid = clusterMap.get(node.cluster);
         if (node.style) {
           node.style.fill = colors[cid % colors.length];
         } else {
           node.style = {
-            fill: colors[cid % colors.length]
-          }
+            fill: colors[cid % colors.length],
+          };
         }
       });
 
       // map the value to node size
       let maxNodeValue = -9999,
-      minNodeValue = 9999;
+        minNodeValue = 9999;
       nodes.forEach(n => {
         if (maxNodeValue < n.value) maxNodeValue = n.value;
         if (minNodeValue > n.value) minNodeValue = n.value;
@@ -212,7 +216,7 @@
       const nodeSizeRange = [10, 30];
       const nodeSizeDataRange = [minNodeValue, maxNodeValue];
       scaleNodeProp(nodes, 'size', 'value', nodeSizeDataRange, nodeSizeRange);
-      
+
       nodes.forEach(node => {
         node.oriSize = node.size;
         node.oriLabel = node.label;
@@ -226,18 +230,19 @@
         elements.forEach(n => {
           if (propName.split('.')[0] === 'style') {
             if (n.style) {
-              n.style[propName.split('.')[1]] = (n[refPropName] - dataRange[0]) * outLength / dataLength + outRange[0];
+              n.style[propName.split('.')[1]] =
+                ((n[refPropName] - dataRange[0]) * outLength) / dataLength + outRange[0];
             } else {
               n.style = {
-                [propName.split('.')[1]]: (n[refPropName] - dataRange[0]) * outLength / dataLength + outRange[0]
-              }
+                [propName.split('.')[1]]:
+                  ((n[refPropName] - dataRange[0]) * outLength) / dataLength + outRange[0],
+              };
             }
           } else {
-            n[propName] = (n[refPropName] - dataRange[0]) * outLength / dataLength + outRange[0];
+            n[propName] = ((n[refPropName] - dataRange[0]) * outLength) / dataLength + outRange[0];
           }
         });
       }
     </script>
   </body>
-
 </html>

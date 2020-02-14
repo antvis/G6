@@ -1,17 +1,17 @@
-import each from '@antv/util/lib/each'
-import Behavior from './behavior'
-import DragCanvas from './drag-canvas'
-import DragNode from './drag-node'
-import ActivateRelations from './activate-relations'
-import BrushSelect from './brush-select'
-import ClickSelect from './click-select'
-import ZoomCanvas from './zoom-canvas'
-import Tooltip from './tooltip'
-import EdgeTooltip from './edge-tooltip'
-import DragGroup from './drag-group'
-import DragNodeWidthGroup from './drag-node-with-group'
-import CollapseExpandGroup from './collapse-expand-group'
-import CollapseExpand from './collapse-expand'
+import each from '@antv/util/lib/each';
+import Behavior from './behavior';
+import DragCanvas from './drag-canvas';
+import DragNode from './drag-node';
+import ActivateRelations from './activate-relations';
+import BrushSelect from './brush-select';
+import ClickSelect from './click-select';
+import ZoomCanvas from './zoom-canvas';
+import Tooltip from './tooltip';
+import EdgeTooltip from './edge-tooltip';
+import DragGroup from './drag-group';
+import DragNodeWidthGroup from './drag-node-with-group';
+import CollapseExpandGroup from './collapse-expand-group';
+import CollapseExpand from './collapse-expand';
 
 const behaviors = {
   'drag-canvas': DragCanvas,
@@ -20,16 +20,16 @@ const behaviors = {
   'activate-relations': ActivateRelations,
   'brush-select': BrushSelect,
   'click-select': ClickSelect,
-  'tooltip': Tooltip,
+  tooltip: Tooltip,
   'edge-tooltip': EdgeTooltip,
   'drag-group': DragGroup,
   'drag-node-with-group': DragNodeWidthGroup,
   'collapse-expand-group': CollapseExpandGroup,
-  'collapse-expand': CollapseExpand
-}
+  'collapse-expand': CollapseExpand,
+};
 
-each(behaviors, (behavior, type: string)  => {
-  Behavior.registerBehavior(type, behavior)
-})
+each(behaviors, (behavior, type: string) => {
+  Behavior.registerBehavior(type, behavior);
+});
 
 export default Behavior;

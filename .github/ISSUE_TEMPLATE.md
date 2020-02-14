@@ -16,9 +16,9 @@ Thank you for reporting an issue.
 6. 扩展阅读：[如何向开源项目提交无法解答的问题](https://zhuanlan.zhihu.com/p/25795393)
 -->
 
-* **G6 Version**:
-* **Platform**:
-* **Mini Showcase(like screenshots)**:
-* **CodePen Link**:
+- **G6 Version**:
+- **Platform**:
+- **Mini Showcase(like screenshots)**:
+- **CodePen Link**:
 
 <!-- Enter your issue details below this comment. -->

@@ -6,8 +6,8 @@ module.exports = Object.assign(
     watch: true,
     watchOptions: {
       aggregateTimeout: 300,
-      poll: 1000
-    }
+      poll: 1000,
+    },
   },
-  webpackConfig
+  webpackConfig,
 );

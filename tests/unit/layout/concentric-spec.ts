@@ -16,8 +16,8 @@ describe('concentric layout', () => {
       height: 500,
       defaultNode: { size: 10 },
       modes: {
-        default: ['zoom-canvas']
-      }
+        default: ['zoom-canvas'],
+      },
     });
     data.nodes[2].label = data.nodes[2].id;
     graph.data(data);
@@ -34,13 +34,13 @@ describe('concentric layout', () => {
     const graph = new G6.Graph({
       container: div,
       layout: {
-        type: 'concentric'
+        type: 'concentric',
       },
       width: 500,
       height: 500,
     });
     graph.data({
-      nodes: []
+      nodes: [],
     });
     graph.render();
     graph.destroy();
@@ -52,17 +52,19 @@ describe('concentric layout', () => {
       container: div,
       layout: {
         type: 'concentric',
-        center: center
+        center: center,
       },
       width: 500,
       height: 500,
     });
     graph.data({
-      nodes: [{
-        id: 'node',
-        x: 100,
-        y: 100
-      }]
+      nodes: [
+        {
+          id: 'node',
+          x: 100,
+          y: 100,
+        },
+      ],
     });
     graph.render();
     const nodeModel = graph.getNodes()[0].getModel();
@@ -76,7 +78,7 @@ describe('concentric layout', () => {
       container: div,
       layout: {
         type: 'concentric',
-        nodeSize: [10, 20]
+        nodeSize: [10, 20],
       },
       width: 500,
       height: 500,
@@ -96,13 +98,13 @@ describe('concentric layout', () => {
       container: div,
       layout: {
         type: 'concentric',
-        sortBy: 'ttt'
+        sortBy: 'ttt',
       },
       width: 500,
       height: 500,
     });
     data.nodes.forEach(node => {
-      node.size = [10, 20]
+      node.size = [10, 20];
     });
     graph.data(data);
     graph.render();
@@ -121,7 +123,7 @@ describe('concentric layout', () => {
         type: 'concentric',
         sortBy: 1,
         counterclockwise: true,
-        sweep: 1
+        sweep: 1,
       },
       width: 500,
       height: 500,
@@ -138,7 +140,7 @@ describe('concentric layout', () => {
       container: div,
       layout: {
         type: 'concentric',
-        preventOverlap: true
+        preventOverlap: true,
       },
       width: 500,
       height: 500,
@@ -158,7 +160,7 @@ describe('concentric layout', () => {
       container: div,
       layout: {
         type: 'concentric',
-        equidistant: true
+        equidistant: true,
       },
       width: 500,
       height: 500,
@@ -175,7 +177,7 @@ describe('concentric layout', () => {
 
   it('instantiate layout', () => {
     const concentricLayout = new G6.Layout['concentric']({
-      center: [250, 250]
+      center: [250, 250],
     });
     concentricLayout.init(data);
     concentricLayout.execute();
@@ -183,7 +185,7 @@ describe('concentric layout', () => {
     const graph = new G6.Graph({
       width: 500,
       height: 500,
-      container: div
+      container: div,
     });
     graph.data(data);
     graph.render();

@@ -7,7 +7,8 @@ Force-directed layout is a set of algorithms which are imporved and extended by 
 
 ## Usage
 
-The classical force-directed layout in G6 comes from d3.js. As the demo below, you can deploy it in `layout` while instantiating Graph. it can also be used for [Subgraph Layout](/zh/docs/manual/middle/layout/#%E5%AD%90%E5%9B%BE%E5%B8%83%E5%B1%80). 
+The classical force-directed layout in G6 comes from d3.js. As the demo below, you can deploy it in `layout` while instantiating Graph. it can also be used for [Subgraph Layout](/zh/docs/manual/middle/layout/#%E5%AD%90%E5%9B%BE%E5%B8%83%E5%B1%80).
+
 - Example 1 : Basic force-directed layout and dragging interactions.
 - Example 2 : Prevent node overlappings.
 - Example 3 : Adjust the link distances and forces for different nodes.

@@ -7,43 +7,46 @@
  */
 import { groupBy } from 'lodash';
 import G6 from '../../../../src';
-import { getAllNodeInGroups } from '../../../../src/util/group'
+import { getAllNodeInGroups } from '../../../../src/util/group';
 
 const div = document.createElement('div');
 div.id = 'graph-group-spec';
 document.body.appendChild(div);
 
-G6.registerNode('circleNode', {
-  drawShape(cfg, group) {
-    const keyShape = group.addShape('circle', {
-      attrs: {
-        x: 0,
-        y: 0,
-        r: 30,
-        fill: '#87e8de'
-      }
-    });
+G6.registerNode(
+  'circleNode',
+  {
+    drawShape(cfg, group) {
+      const keyShape = group.addShape('circle', {
+        attrs: {
+          x: 0,
+          y: 0,
+          r: 30,
+          fill: '#87e8de',
+        },
+      });
 
-    return keyShape;
-  }
-}, 'circle');
+      return keyShape;
+    },
+  },
+  'circle',
+);
 
 describe('signle layer group', () => {
-
   it('render signle group test', () => {
     const graph = new G6.Graph({
       container: div,
       width: 1500,
       height: 1000,
       modes: {
-        default: [ 'drag-group' ]
+        default: ['drag-group'],
       },
       defaultNode: {
-        type: 'circleNode'
+        type: 'circleNode',
       },
       defaultEdge: {
-        color: '#bae7ff'
-      }
+        color: '#bae7ff',
+      },
     });
 
     const nodes = [
@@ -52,27 +55,27 @@ describe('signle layer group', () => {
         label: 'node1',
         groupId: 'group1',
         x: 100,
-        y: 100
+        y: 100,
       },
       {
         id: 'node2',
         label: 'node2',
         groupId: 'group1',
         x: 150,
-        y: 100
+        y: 100,
       },
       {
         id: 'node3',
         label: 'node3',
         groupId: 'group2',
         x: 300,
-        y: 100
+        y: 100,
       },
       {
         id: 'node7',
         groupId: 'p1',
         x: 200,
-        y: 200
+        y: 200,
       },
       {
         id: 'node6',
@@ -80,17 +83,17 @@ describe('signle layer group', () => {
         label: 'rect',
         x: 100,
         y: 300,
-        type: 'rect'
+        type: 'rect',
       },
       {
         id: 'node9',
         label: 'noGroup',
         x: 300,
-        y: 210
-      }
+        y: 210,
+      },
     ];
     const data = {
-      nodes
+      nodes,
     };
 
     graph.data(data);
@@ -134,14 +137,14 @@ describe('signle layer group', () => {
       width: 1500,
       height: 1000,
       modes: {
-        default: [ 'drag-group' ]
+        default: ['drag-group'],
       },
       defaultNode: {
-        type: 'circleNode'
+        type: 'circleNode',
       },
       defaultEdge: {
-        color: '#bae7ff'
-      }
+        color: '#bae7ff',
+      },
     });
 
     const data = {
@@ -151,27 +154,27 @@ describe('signle layer group', () => {
           label: 'node1',
           groupId: 'group1',
           x: 100,
-          y: 100
+          y: 100,
         },
         {
           id: 'node2',
           label: 'node2',
           groupId: 'group1',
           x: 150,
-          y: 100
+          y: 100,
         },
         {
           id: 'node3',
           label: 'node3',
           groupId: 'group2',
           x: 300,
-          y: 100
+          y: 100,
         },
         {
           id: 'node7',
           groupId: 'p1',
           x: 200,
-          y: 200
+          y: 200,
         },
         {
           id: 'node6',
@@ -179,15 +182,15 @@ describe('signle layer group', () => {
           label: 'rect',
           x: 100,
           y: 300,
-          type: 'rect'
+          type: 'rect',
         },
         {
           id: 'node9',
           label: 'noGroup',
           x: 300,
-          y: 210
-        }
-      ]
+          y: 210,
+        },
+      ],
     };
 
     graph.data(data);
@@ -205,7 +208,7 @@ describe('signle layer group', () => {
       fill: '#ffe58f',
       fillOpacity: 0.3,
       opacity: 0.3,
-      lineWidth: 3
+      lineWidth: 3,
     };
 
     expect(keyShape.attr('stroke')).toEqual(hover.stroke);
@@ -229,14 +232,14 @@ describe('signle layer group', () => {
       width: 1500,
       height: 1000,
       modes: {
-        default: [ 'drag-group' ]
+        default: ['drag-group'],
       },
       defaultNode: {
-        type: 'circleNode'
+        type: 'circleNode',
       },
       defaultEdge: {
-        color: '#bae7ff'
-      }
+        color: '#bae7ff',
+      },
     });
 
     const nodes = [
@@ -245,27 +248,27 @@ describe('signle layer group', () => {
         label: 'node1',
         groupId: 'group1',
         x: 100,
-        y: 100
+        y: 100,
       },
       {
         id: 'node2',
         label: 'node2',
         groupId: 'group1',
         x: 150,
-        y: 100
+        y: 100,
       },
       {
         id: 'node3',
         label: 'node3',
         groupId: 'group2',
         x: 300,
-        y: 100
+        y: 100,
       },
       {
         id: 'node7',
         groupId: 'p1',
         x: 200,
-        y: 200
+        y: 200,
       },
       {
         id: 'node6',
@@ -273,17 +276,17 @@ describe('signle layer group', () => {
         label: 'rect',
         x: 100,
         y: 300,
-        type: 'rect'
+        type: 'rect',
       },
       {
         id: 'node9',
         label: 'noGroup',
         x: 300,
-        y: 210
-      }
+        y: 210,
+      },
     ];
     const data = {
-      nodes
+      nodes,
     };
 
     graph.data(data);
@@ -327,14 +330,14 @@ describe('signle layer group', () => {
       width: 1500,
       height: 1000,
       modes: {
-        default: [ 'drag-group' ]
+        default: ['drag-group'],
       },
       defaultNode: {
-        type: 'circleNode'
+        type: 'circleNode',
       },
       defaultEdge: {
-        color: '#bae7ff'
-      }
+        color: '#bae7ff',
+      },
     });
 
     const data = {
@@ -344,27 +347,27 @@ describe('signle layer group', () => {
           label: 'node1',
           groupId: 'group1',
           x: 100,
-          y: 100
+          y: 100,
         },
         {
           id: 'node2',
           label: 'node2',
           groupId: 'group1',
           x: 150,
-          y: 100
+          y: 100,
         },
         {
           id: 'node3',
           label: 'node3',
           groupId: 'group2',
           x: 300,
-          y: 100
+          y: 100,
         },
         {
           id: 'node7',
           groupId: 'p1',
           x: 200,
-          y: 200
+          y: 200,
         },
         {
           id: 'node6',
@@ -372,15 +375,15 @@ describe('signle layer group', () => {
           label: 'rect',
           x: 100,
           y: 300,
-          type: 'rect'
+          type: 'rect',
         },
         {
           id: 'node9',
           label: 'noGroup',
           x: 300,
-          y: 210
-        }
-      ]
+          y: 210,
+        },
+      ],
     };
 
     graph.data(data);
@@ -406,14 +409,14 @@ describe('signle layer group', () => {
       width: 1500,
       height: 1000,
       modes: {
-        default: [ 'drag-group' ]
+        default: ['drag-group'],
       },
       defaultNode: {
-        type: 'circleNode'
+        type: 'circleNode',
       },
       defaultEdge: {
-        color: '#bae7ff'
-      }
+        color: '#bae7ff',
+      },
     });
 
     const data = {
@@ -423,27 +426,27 @@ describe('signle layer group', () => {
           label: 'node1',
           groupId: 'group1',
           x: 100,
-          y: 100
+          y: 100,
         },
         {
           id: 'node2',
           label: 'node2',
           groupId: 'group1',
           x: 150,
-          y: 100
+          y: 100,
         },
         {
           id: 'node3',
           label: 'node3',
           groupId: 'group2',
           x: 300,
-          y: 100
+          y: 100,
         },
         {
           id: 'node7',
           groupId: 'p1',
           x: 200,
-          y: 200
+          y: 200,
         },
         {
           id: 'node6',
@@ -451,15 +454,15 @@ describe('signle layer group', () => {
           label: 'rect',
           x: 100,
           y: 300,
-          type: 'rect'
+          type: 'rect',
         },
         {
           id: 'node9',
           label: 'noGroup',
           x: 300,
-          y: 210
-        }
-      ]
+          y: 210,
+        },
+      ],
     };
 
     graph.data(data);
@@ -511,7 +514,6 @@ describe('signle layer group', () => {
       expect(keyShape.attr('x')).toBe(groupStyle.x);
       expect(keyShape.attr('y')).toBe(groupStyle.y);
 
-
       const nodeIds = groupNodes.map(node => {
         const model = node.getModel();
         return model.id;
@@ -532,14 +534,14 @@ describe('signle layer group', () => {
       width: 1500,
       height: 1000,
       modes: {
-        default: [ 'drag-group' ]
+        default: ['drag-group'],
       },
       defaultNode: {
-        type: 'circleNode'
+        type: 'circleNode',
       },
       defaultEdge: {
-        color: '#bae7ff'
-      }
+        color: '#bae7ff',
+      },
     });
 
     const nodes = [
@@ -548,27 +550,27 @@ describe('signle layer group', () => {
         label: 'node1',
         groupId: 'group1',
         x: 100,
-        y: 100
+        y: 100,
       },
       {
         id: 'node2',
         label: 'node2',
         groupId: 'group1',
         x: 150,
-        y: 100
+        y: 100,
       },
       {
         id: 'node3',
         label: 'node3',
         groupId: 'group2',
         x: 300,
-        y: 100
+        y: 100,
       },
       {
         id: 'node7',
         groupId: 'p1',
         x: 200,
-        y: 200
+        y: 200,
       },
       {
         id: 'node6',
@@ -576,17 +578,17 @@ describe('signle layer group', () => {
         label: 'rect',
         x: 100,
         y: 300,
-        type: 'rect'
+        type: 'rect',
       },
       {
         id: 'node9',
         label: 'noGroup',
         x: 300,
-        y: 210
-      }
+        y: 210,
+      },
     ];
     const data = {
-      nodes
+      nodes,
     };
 
     graph.data(data);
@@ -622,7 +624,6 @@ describe('signle layer group', () => {
       expect(node.id).not.toEqual('node2');
     });
   });
-
 });
 
 describe('nesting layer group', () => {
@@ -634,86 +635,86 @@ describe('nesting layer group', () => {
           groupId: 'group3',
           label: 'rect',
           x: 100,
-          y: 300
+          y: 300,
         },
         {
           id: 'node1',
           label: 'fck',
           groupId: 'group1',
           x: 100,
-          y: 100
+          y: 100,
         },
         {
           id: 'node9',
           label: 'noGroup1',
           groupId: 'p1',
           x: 300,
-          y: 210
+          y: 210,
         },
         {
           id: 'node2',
           label: 'node2',
           groupId: 'group1',
           x: 150,
-          y: 200
+          y: 200,
         },
         {
           id: 'node3',
           label: 'node3',
           groupId: 'group2',
           x: 300,
-          y: 100
+          y: 100,
         },
         {
           id: 'node7',
           groupId: 'p1',
           label: 'node7-p1',
           x: 200,
-          y: 200
+          y: 200,
         },
         {
           id: 'node10',
           label: 'noGroup',
           groupId: 'p2',
           x: 300,
-          y: 210
-        }
+          y: 210,
+        },
       ],
       edges: [
         {
           source: 'node1',
-          target: 'node2'
+          target: 'node2',
         },
         {
           source: 'node2',
-          target: 'node3'
-        }
+          target: 'node3',
+        },
       ],
       groups: [
         {
           id: 'group1',
           title: '1',
-          parentId: 'p1'
+          parentId: 'p1',
         },
         {
           id: 'group2',
           title: '2',
-          parentId: 'p1'
+          parentId: 'p1',
         },
         {
           id: 'group3',
           title: '2',
-          parentId: 'p2'
+          parentId: 'p2',
         },
         {
           id: 'p1',
-          title: '3'
+          title: '3',
         },
         {
           id: 'p2',
-          title: '3'
-        }
-      ]
+          title: '3',
+        },
+      ],
     };
 
     const graph = new G6.Graph({
@@ -721,14 +722,14 @@ describe('nesting layer group', () => {
       width: 1500,
       height: 1000,
       modes: {
-        default: [ 'drag-group' ]
+        default: ['drag-group'],
       },
       defaultNode: {
-        type: 'circleNode'
+        type: 'circleNode',
       },
       defaultEdge: {
-        color: '#bae7ff'
-      }
+        color: '#bae7ff',
+      },
     });
 
     graph.data(data);
@@ -780,86 +781,86 @@ describe('nesting layer group', () => {
           groupId: 'group3',
           label: 'rect',
           x: 100,
-          y: 300
+          y: 300,
         },
         {
           id: 'node1',
           label: 'fck',
           groupId: 'group1',
           x: 100,
-          y: 100
+          y: 100,
         },
         {
           id: 'node9',
           label: 'noGroup1',
           groupId: 'p1',
           x: 300,
-          y: 210
+          y: 210,
         },
         {
           id: 'node2',
           label: 'node2',
           groupId: 'group1',
           x: 150,
-          y: 200
+          y: 200,
         },
         {
           id: 'node3',
           label: 'node3',
           groupId: 'group2',
           x: 300,
-          y: 100
+          y: 100,
         },
         {
           id: 'node7',
           groupId: 'p1',
           label: 'node7-p1',
           x: 200,
-          y: 200
+          y: 200,
         },
         {
           id: 'node10',
           label: 'noGroup',
           groupId: 'p2',
           x: 300,
-          y: 210
-        }
+          y: 210,
+        },
       ],
       edges: [
         {
           source: 'node1',
-          target: 'node2'
+          target: 'node2',
         },
         {
           source: 'node2',
-          target: 'node3'
-        }
+          target: 'node3',
+        },
       ],
       groups: [
         {
           id: 'group1',
           title: '1',
-          parentId: 'p1'
+          parentId: 'p1',
         },
         {
           id: 'group2',
           title: '2',
-          parentId: 'p1'
+          parentId: 'p1',
         },
         {
           id: 'group3',
           title: '2',
-          parentId: 'p2'
+          parentId: 'p2',
         },
         {
           id: 'p1',
-          title: '3'
+          title: '3',
         },
         {
           id: 'p2',
-          title: '3'
-        }
-      ]
+          title: '3',
+        },
+      ],
     };
 
     const graph = new G6.Graph({
@@ -867,14 +868,14 @@ describe('nesting layer group', () => {
       width: 1500,
       height: 1000,
       modes: {
-        default: [ 'drag-group' ]
+        default: ['drag-group'],
       },
       defaultNode: {
-        type: 'circleNode'
+        type: 'circleNode',
       },
       defaultEdge: {
-        color: '#bae7ff'
-      }
+        color: '#bae7ff',
+      },
     });
 
     graph.data(data);
@@ -933,37 +934,37 @@ describe('create node group', () => {
           label: 'fck',
           groupId: 'group1',
           x: 100,
-          y: 100
+          y: 100,
         },
         {
           id: 'node2',
           label: 'node2',
           x: 150,
-          y: 200
+          y: 200,
         },
         {
           id: 'node3',
           label: 'node3',
           x: 300,
-          y: 100
-        }
+          y: 100,
+        },
       ],
       edges: [
         {
           source: 'node1',
-          target: 'node2'
+          target: 'node2',
         },
         {
           source: 'node2',
-          target: 'node3'
-        }
+          target: 'node3',
+        },
       ],
       groups: [
         {
           id: 'group1',
-          title: '1'
-        }
-      ]
+          title: '1',
+        },
+      ],
     };
 
     const graph = new G6.Graph({
@@ -971,14 +972,14 @@ describe('create node group', () => {
       width: 1500,
       height: 1000,
       modes: {
-        default: [ 'drag-group' ]
+        default: ['drag-group'],
       },
       defaultNode: {
-        type: 'circleNode'
+        type: 'circleNode',
       },
       defaultEdge: {
-        color: '#bae7ff'
-      }
+        color: '#bae7ff',
+      },
     });
 
     graph.data(data);
@@ -992,9 +993,9 @@ describe('create node group', () => {
 
     graph.addItem('group', {
       groupId: 'xxx',
-      nodes: [ 'node2', 'node3' ],
+      nodes: ['node2', 'node3'],
       type: 'rect',
-      title: '自定义'
+      title: '自定义',
     });
 
     groups = graph.save().groups;
