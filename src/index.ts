@@ -1,12 +1,37 @@
-import { version } from '../package.json'
+import { version } from '../package.json';
 import Behaviors from './behavior';
-import Graph from './graph/graph'
-import TreeGraph from './graph/tree-graph'
+import Graph from './graph/graph';
+import TreeGraph from './graph/tree-graph';
 import Shape from './shape';
 import Layout from './layout';
 import Global from './global';
 import Util from './util';
 import Plugins from './plugins';
+
+const registerNode = Shape.registerNode;
+const registerEdge = Shape.registerEdge;
+const registerBehavior = Behaviors.registerBehavior;
+const registerLayout = Layout.registerLayout;
+const Minimap = Plugins.Minimap;
+const Grid = Plugins.Grid;
+const Bundling = Plugins.Bundling;
+const Menu = Plugins.Menu;
+
+export {
+  registerNode,
+  Graph,
+  TreeGraph,
+  Util,
+  registerEdge,
+  Layout,
+  Global,
+  registerLayout,
+  Minimap,
+  Grid,
+  Bundling,
+  Menu,
+  registerBehavior,
+};
 
 export default {
   version,
@@ -22,5 +47,5 @@ export default {
   Minimap: Plugins.Minimap,
   Grid: Plugins.Grid,
   Bundling: Plugins.Bundling,
-  Menu: Plugins.Menu
-}
+  Menu: Plugins.Menu,
+};
