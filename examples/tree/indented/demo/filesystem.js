@@ -4,12 +4,13 @@ G6.registerNode('file-node', {
   draw: function draw(cfg, group) {
     const keyShape = group.addShape('rect', {
       attrs: {
-        x: -4,
+        x: 10,
         y: -12,
         fill: '#fff',
         stroke: null,
       },
     });
+    let isLeaf = false;
     if (cfg.collapsed) {
       group.addShape('marker', {
         attrs: {
@@ -32,6 +33,8 @@ G6.registerNode('file-node', {
         },
         name: 'marker-shape',
       });
+    } else {
+      isLeaf = true
     }
     const shape = group.addShape('text', {
       attrs: {
@@ -45,9 +48,16 @@ G6.registerNode('file-node', {
       name: 'text-shape',
     });
     const bbox = shape.getBBox();
+    let backRectW = bbox.width;
+    let backRectX = keyShape.attr('x');
+    if (!isLeaf) {
+      backRectW += 8;
+      backRectX -= 15;
+    }
     keyShape.attr({
-      width: bbox.width + 20,
+      width: backRectW,
       height: bbox.height + 4,
+      x: backRectX
     });
     return keyShape;
   },

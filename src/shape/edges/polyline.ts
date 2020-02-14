@@ -56,7 +56,7 @@ Shape.registerEdge(
       this.offset = style.offset;
 
       const { startPoint, endPoint } = cfg;
-      const controlPoints = (this as any).getControlPoints(cfg) || cfg.controlPoints;
+      const controlPoints = (this as any).getControlPoints(cfg);
       let points = [startPoint]; // 添加起始点
       // 添加控制点
       if (controlPoints) {

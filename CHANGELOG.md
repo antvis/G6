@@ -1,5 +1,13 @@
 # ChangeLog
 
+#### 3.3.2
+
+- fix: ts type export problem;
+- fix: edge with endArrow and autoRotate label bug;
+- fix: code prettier;
+- fix: line with control points bug;
+- fix: matrix null bug.
+
 #### 3.3.1
 
 - fix: resolve 3.3.0 compatibility problem.
