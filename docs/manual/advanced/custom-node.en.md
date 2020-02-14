@@ -102,21 +102,22 @@ Now, we are going to register a diamond node:
 G6.registerNode('diamond', {
   draw(cfg, group) {
     // If there is style object in cfg, it should be mixed here
-    const shape = group.addShape('path', {
+    const keyShape = group.addShape('path', {
       attrs: {
         path: this.getPath(cfg), // Get the path by cfg
         stroke: cfg.color, // Apply the color to the stroke. For filling, use fill: cfg.color instead
       },
       // must be assigned in G6 3.3 and later versions. it can be any value you want
       name: 'path-shape',
+      // allow the shape to response the drag events
+      draggable: true
     });
     if (cfg.label) {
       // If the label exists
       // The complex label configurations can be defined by labeCfg
       // const style = (cfg.labelCfg && cfg.labelCfg.style) || {};
       // style.text = cfg.label;
-      group.addShape('text', {
-        // attrs: style
+      const label group.addShape('text', {
         attrs: {
           x: 0, // center
           y: 0,
@@ -127,9 +128,11 @@ G6.registerNode('diamond', {
         },
         // must be assigned in G6 3.3 and later versions. it can be any value you want
         name: 'text-shape',
+        // allow the shape to response the drag events
+        draggable: true
       });
     }
-    return shape;
+    return keyShape;
   },
   // Return the path of a diamond
   getPath(cfg) {
@@ -151,7 +154,10 @@ G6.registerNode('diamond', {
 });
 ```
 
-We have registered a dimond node. The following code use the diamond node:
+We have registered a dimond node. Attention: you need to assign `name` and `draggable` for the shapes added in the custom node, where the `name` can be not unique with any value you want. `draggable: true` means that the shape is allowed to response the drag events. Only when `draggable: true`, the interact behavior `'drag-node'` can be responsed on this shape. In the codes above, if you only assign `draggable: true` to the `keyShape` but not the `label`, the drag events will only be responsed on the `keyShape`.
+
+
+The following code use the diamond node:
 
 ```javascript
 const data = {

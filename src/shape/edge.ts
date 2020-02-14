@@ -117,7 +117,7 @@ const singleEdge: ShapeOptions = {
 
     const { startPoint, endPoint } = cfg;
 
-    const controlPoints = this.getControlPoints!(cfg) || cfg.controlPoints;
+    const controlPoints = this.getControlPoints!(cfg);// || cfg.controlPoints;
     let points = [startPoint]; // 添加起始点
     // 添加控制点
     if (controlPoints) {
@@ -262,7 +262,7 @@ const singleEdge: ShapeOptions = {
 const singleEdgeDef = Object.assign({}, shapeBase, singleEdge);
 Shape.registerEdge('single-edge', singleEdgeDef);
 
-// // 直线, 不支持控制点
+// 直线, 不支持控制点
 Shape.registerEdge(
   'line',
   {

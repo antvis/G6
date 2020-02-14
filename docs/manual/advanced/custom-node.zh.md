@@ -93,20 +93,22 @@ G6.registerNode(
 G6.registerNode('diamond', {
   draw(cfg, group) {
     // 如果 cfg 中定义了 style 需要同这里的属性进行融合
-    const shape = group.addShape('path', {
+    const keyShape = group.addShape('path', {
       attrs: {
         path: this.getPath(cfg), // 根据配置获取路径
         stroke: cfg.color, // 颜色应用到描边上，如果应用到填充，则使用 fill: cfg.color
       },
       // must be assigned in G6 3.3 and later versions. it can be any value you want
       name: 'path-shape',
+      // 设置 draggable 以允许响应鼠标的图拽事件
+      draggable: true
     });
     if (cfg.label) {
       // 如果有文本
       // 如果需要复杂的文本配置项，可以通过 labeCfg 传入
       // const style = (cfg.labelCfg && cfg.labelCfg.style) || {};
       // style.text = cfg.label;
-      group.addShape('text', {
+      const label = group.addShape('text', {
         // attrs: style
         attrs: {
           x: 0, // 居中
@@ -118,9 +120,11 @@ G6.registerNode('diamond', {
         },
         // must be assigned in G6 3.3 and later versions. it can be any value you want
         name: 'text-shape',
+        // 设置 draggable 以允许响应鼠标的图拽事件
+        draggable: true
       });
     }
-    return shape;
+    return keyShape;
   },
   // 返回菱形的路径
   getPath(cfg) {
@@ -142,7 +146,9 @@ G6.registerNode('diamond', {
 });
 ```
 
-上面的代码自定义了一个菱形节点，然后我们使用下面的数据输入就会绘制出 diamond 这个节点。
+上面的代码自定义了一个菱形节点。值得注意的是，G6 3.3 需要用户为自定义节点中的图形设置 `name` 和 `draggable`。其中，`name` 可以是不唯一的任意值。`draggable` 为 true 是表示允许该图形响应鼠标的拖拽事件，只有 `draggable: true` 时，图上的交互行为 `'drag-node'` 才能在该图形上生效。若上面代码仅在 keyShape 上设置了 `draggable: true`，而 label 图形上没有设置，则鼠标拖拽只能在 keyShape 上响应。
+
+现在，我们使用下面的数据输入就会绘制出 diamond 这个节点。
 
 ```javascript
 const data = {
@@ -211,7 +217,6 @@ G6 中已经[内置了一些节点](/zh/docs/manual/middle/elements/nodes/defaul
 G6.registerNode(
   'diamond',
   {
-    shapeType: 'path', // 继承自 'single-edge' 时必须指定，否则不需要填写
     getShapeStyle(cfg) {
       const size = this.getSize(cfg); // 转换成 [width, height] 的模式
       const color = cfg.color;
