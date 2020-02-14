@@ -544,6 +544,47 @@ describe('shape edge test', () => {
         y: center.y + radius * Math.sin(angle),
       };
     }
+    it('auto rotate with arrow', () => {
+      const center = { x: 100, y: 100 };
+      const canvasGroup = canvas.addGroup();
+      for (let i = 0; i < 360; i += 45) {
+        const angle = (i / 180) * Math.PI;
+        const startPoint = getPoint(center, 20, angle);
+        const endPoint = getPoint(center, 60, angle);
+        const group = canvasGroup.addGroup();
+        factory.draw(
+          'line',
+          {
+            startPoint,
+            endPoint,
+            color: 'red',
+            label: i.toString(),
+            style: {
+              endArrow: true,
+            },
+            labelCfg: {
+              autoRotate: true,
+              style: {
+                stroke: 'white',
+                lineWidth: 5,
+              },
+            },
+          },
+          group,
+        );
+        group.setMatrix([ 0.5, 0, 0, 0, 0.5, 0, 0, 0, 1]);
+        group.setMatrix([ 0.5, 0, 0, 0, 0.5, 0, 100, 100, 1]);
+      }
+      canvasGroup.setMatrix([ 0.8, 0, 0, 0, 0.8, 0, 0, 0, 1]);
+      canvasGroup.setMatrix([ 0.8, 0, 0, 0, 0.8, 0, 200, 200, 1]);
+      canvas.draw();
+      const label = canvasGroup.get('children')[1].get('children')[1];
+      expect(label.attr('rotate')).toBe(undefined);
+      expect(label.attr('matrix')[0]).toBe(0.7071067811865476);
+      expect(label.attr('matrix')[3]).toBe(-0.7071067811865475);
+      expect(label.attr('matrix')[6]).toBe(128.2842712474619);
+      expect(label.attr('matrix')[7]).toBe(-53.13708498984761);
+    });
     it('not auto rotate, middle', () => {
       const center = { x: 100, y: 100 };
       for (let i = 0; i < 360; i += 45) {

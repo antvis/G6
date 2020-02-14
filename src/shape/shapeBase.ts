@@ -55,13 +55,15 @@ export const shapeBase: ShapeOptions = {
 
     const labelCfg = merge({}, defaultLabelCfg, cfg.labelCfg) as ILabelConfig;
     const labelStyle = this.getLabelStyle!(cfg, labelCfg, group);
+    const rotate = labelStyle.rotate;
+    delete labelStyle.rotate;
     const label = group.addShape('text', {
       attrs: labelStyle,
       capture: false,
       className: 'text-shape',
       name: 'text-shape',
     });
-    if (labelStyle.rotate) {
+    if (rotate) {
       const labelBBox = label.getBBox();
       let labelMatrix = label.getMatrix();
       if (labelStyle.rotateCenter) {
@@ -191,6 +193,7 @@ export const shapeBase: ShapeOptions = {
             ['t', labelStyle.x, labelStyle.y],
           ]);
           label.resetMatrix();
+          delete labelStyle.rotate;
           label.attr({ ...labelStyle, matrix: rotateMatrix });
         } else {
           label.resetMatrix();
