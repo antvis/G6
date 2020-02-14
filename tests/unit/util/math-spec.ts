@@ -5,7 +5,7 @@ import {
   getAdjMatrix,
   getCircleCenterByPoints,
   getCircleIntersectByPoint,
-  getEllispeIntersectByPoint,
+  getEllipseIntersectByPoint,
   getRectIntersectByPoint,
   invertMatrix,
   scaleMatrix,
@@ -21,20 +21,20 @@ describe('math util test', () => {
       rx: 1,
       ry: 1,
     };
-    const p1 = getEllispeIntersectByPoint(ellipse, { x: 2, y: 0 });
+    const p1 = getEllipseIntersectByPoint(ellipse, { x: 2, y: 0 });
     expect(equal(p1.x, 1)).toEqual(true);
     expect(equal(p1.y, 0)).toEqual(true);
-    const p2 = getEllispeIntersectByPoint(ellipse, { x: -2, y: 0 });
+    const p2 = getEllipseIntersectByPoint(ellipse, { x: -2, y: 0 });
     expect(equal(p2.x, -1)).toEqual(true);
     expect(equal(p2.y, 0)).toEqual(true);
-    const p3 = getEllispeIntersectByPoint(ellipse, { x: 0, y: 2 });
+    const p3 = getEllipseIntersectByPoint(ellipse, { x: 0, y: 2 });
     expect(equal(p3.x, 0)).toEqual(true);
     expect(equal(p3.y, 1)).toEqual(true);
-    const p4 = getEllispeIntersectByPoint(ellipse, { x: 0, y: -2 });
+    const p4 = getEllipseIntersectByPoint(ellipse, { x: 0, y: -2 });
     expect(equal(p4.x, 0)).toEqual(true);
     expect(equal(p4.y, -1)).toEqual(true);
 
-    const p5 = getEllispeIntersectByPoint(ellipse, { x: 2, y: 2 });
+    const p5 = getEllipseIntersectByPoint(ellipse, { x: 2, y: 2 });
     expect(equal(p5.x, Math.sqrt(2) / 2)).toEqual(true);
     expect(equal(p5.y, Math.sqrt(2) / 2)).toEqual(true);
   });
@@ -52,7 +52,7 @@ describe('math util test', () => {
     let ellipse = { x: 0, y: 0, rx: 5, ry: 4 };
     // rx > ry
     arr.forEach(point => {
-      const p = getEllispeIntersectByPoint(ellipse, point);
+      const p = getEllipseIntersectByPoint(ellipse, point);
       // x*x/a*a + y*y/b*b = 1
       const v = (p.x * p.x) / 25 + (p.y * p.y) / 16;
       expect(equal(v, 1)).toEqual(true);
@@ -61,14 +61,14 @@ describe('math util test', () => {
     ellipse = { x: 0, y: 0, rx: 4, ry: 5 };
     // rx < ry
     arr.forEach(point => {
-      const p = getEllispeIntersectByPoint(ellipse, point);
+      const p = getEllipseIntersectByPoint(ellipse, point);
       // x*x/a*a + y*y/b*b = 1
       const v = (p.x * p.x) / 16 + (p.y * p.y) / 25;
       expect(equal(v, 1)).toEqual(true);
     });
     ellipse = { x: 2, y: 2, rx: 4, ry: 5 };
     arr.forEach(point => {
-      const p = getEllispeIntersectByPoint(ellipse, point);
+      const p = getEllipseIntersectByPoint(ellipse, point);
       // x*x/a*a + y*y/b*b = 1
       const v = ((p.x - 2) * (p.x - 2)) / 16 + ((p.y - 2) * (p.y - 2)) / 25;
       expect(equal(v, 1)).toEqual(true);

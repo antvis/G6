@@ -1,5 +1,5 @@
 import { clone, each, wrapBehavior } from '@antv/util/lib';
-import { BehaviorOpation } from '../types';
+import { BehaviorOption } from '../types';
 import behaviorOption from './behaviorOption';
 
 export default class Behavior {
@@ -11,15 +11,16 @@ export default class Behavior {
    * @param type Behavior 名称
    * @param behavior Behavior 定义的方法集合
    */
-  public static registerBehavior<T, U>(type: string, behavior: BehaviorOpation<U>) {
+  public static registerBehavior<T, U>(type: string, behavior: BehaviorOption<U>) {
     if (!behavior) {
       throw new Error(`please specify handler for this behavior: ${type}`);
     }
 
-    const proptype = clone(behaviorOption);
+    const prototype = clone(behaviorOption);
 
-    Object.assign(proptype, behavior);
+    Object.assign(prototype, behavior);
 
+    // eslint-disable-next-line func-names
     const base = function(cfg: object) {
       Object.assign(this, this.getDefaultCfg(), cfg);
 
@@ -36,7 +37,7 @@ export default class Behavior {
       }
     };
 
-    base.prototype = proptype;
+    base.prototype = prototype;
     Behavior.types[type] = base;
   }
 

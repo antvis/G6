@@ -16,6 +16,7 @@ export default {
     // 检测输入是否合法
     if (!(ALLOW_EVENTS.indexOf(self.trigger.toLowerCase()) > -1)) {
       self.trigger = DEFAULT_TRIGGER;
+      // eslint-disable-next-line no-console
       console.warn(
         "Behavior brush-select 的 trigger 参数不合法，请输入 'drag'、'shift'、'ctrl' 或 'alt'",
       );

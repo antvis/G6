@@ -51,7 +51,7 @@ export default class Grid extends Base {
   }
 
   /**
-   * viewportchange 事件的响应函数
+   * viewport change 事件的响应函数
    * @param param
    */
   protected updateGrid(param: ViewPortEventParam) {

@@ -336,7 +336,7 @@ type Unbind = 'unbind';
 
 export type DefaultBehaviorType = IG6GraphEvent | string | number | object;
 
-export type BehaviorOpation<U> = {
+export type BehaviorOption<U> = {
   [T in keyof U]: T extends GetEvents
     ? () => { [key in G6Event]?: string }
     : T extends ShouldBegin

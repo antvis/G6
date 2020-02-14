@@ -179,7 +179,7 @@ export default class Graph extends EventEmitter implements IGraph {
       });
 
       const delegateGroup: IGroup = group.addGroup({
-        id: `${id}-delagate`,
+        id: `${id}-delegate`,
         className: Global.delegateContainerClassName,
       });
 

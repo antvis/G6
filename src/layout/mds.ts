@@ -1,5 +1,5 @@
 /**
- * @fileOverview random layout
+ * @fileOverview MDS layout
  * @author shiwu.wyy@antfin.com
  */
 
