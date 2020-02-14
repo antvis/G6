@@ -1,9 +1,9 @@
-import Graph from '../../../../src/graph/graph'
-import '../../../../src/shape/node'
-import '../../../../src/shape/nodes'
-import '../../../../src/shape/edge'
-import '../../../../src/shape/edges'
-import '../../../../src/behavior'
+import Graph from '../../../../src/graph/graph';
+import '../../../../src/shape/node';
+import '../../../../src/shape/nodes';
+import '../../../../src/shape/edge';
+import '../../../../src/shape/edges';
+import '../../../../src/behavior';
 
 const div = document.createElement('div');
 div.id = 'graph-spec';
@@ -16,8 +16,8 @@ describe('polyline e test', () => {
       width: 500,
       height: 500,
       defaultNode: {
-        type: 'polyline'
-      }
+        type: 'polyline',
+      },
     });
     it('default polyline config', () => {
       const data = {
@@ -25,21 +25,21 @@ describe('polyline e test', () => {
           {
             id: 'node1',
             x: 200,
-            y: 200
+            y: 200,
           },
           {
             id: 'node2',
             x: 150,
-            y: 100
-          }
+            y: 100,
+          },
         ],
         edges: [
           {
             source: 'node1',
             target: 'node2',
-            type: 'polyline'
-          }
-        ]
+            type: 'polyline',
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -58,13 +58,13 @@ describe('polyline e test', () => {
           {
             id: 'node1',
             x: 200,
-            y: 200
+            y: 200,
           },
           {
             id: 'node2',
             x: 150,
-            y: 100
-          }
+            y: 100,
+          },
         ],
         edges: [
           {
@@ -73,9 +73,9 @@ describe('polyline e test', () => {
             type: 'polyline',
             style: {
               radius: 10,
-            }
-          }
-        ]
+            },
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -93,13 +93,13 @@ describe('polyline e test', () => {
           {
             id: 'node1',
             x: 200,
-            y: 200
+            y: 200,
           },
           {
             id: 'node2',
             x: 150,
-            y: 100
-          }
+            y: 100,
+          },
         ],
         edges: [
           {
@@ -108,10 +108,10 @@ describe('polyline e test', () => {
             type: 'polyline',
             style: {
               radius: 10,
-              offset: null
-            }
-          }
-        ]
+              offset: null,
+            },
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -129,19 +129,22 @@ describe('polyline e test', () => {
           {
             id: 'node1',
             x: 200,
-            y: 200
+            y: 200,
           },
           {
             id: 'node2',
             x: 150,
-            y: 100
-          }
-        ], edges: [{
-          source: 'node1',
-          target: 'node2',
-          type: 'polyline',
-          label: 'polyline1-2'
-        }]
+            y: 100,
+          },
+        ],
+        edges: [
+          {
+            source: 'node1',
+            target: 'node2',
+            type: 'polyline',
+            label: 'polyline1-2',
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -167,19 +170,22 @@ describe('polyline e test', () => {
           {
             id: 'node1',
             x: 200,
-            y: 200
+            y: 200,
           },
           {
             id: 'node2',
             x: 150,
-            y: 100
-          }
-        ], edges: [{
-          source: 'node1',
-          target: 'node2',
-          type: 'polyline',
-          controlPoints: [{ x: 170, y: 160 }]
-        }]
+            y: 100,
+          },
+        ],
+        edges: [
+          {
+            source: 'node1',
+            target: 'node2',
+            type: 'polyline',
+            controlPoints: [{ x: 170, y: 160 }],
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -190,7 +196,7 @@ describe('polyline e test', () => {
       const keyShape = edge.getKeyShape();
       const path = keyShape.attr('path');
       expect(path.length).toEqual(3);
-      expect(path[1]).toEqual([ 'L', 170, 160 ]);
+      expect(path[1]).toEqual(['L', 170, 160]);
       graph.destroy();
       expect(graph.destroyed).toBe(true);
     });
@@ -200,7 +206,7 @@ describe('polyline e test', () => {
     const graph = new Graph({
       container: div,
       width: 500,
-      height: 500
+      height: 500,
     });
     it('styles', () => {
       const data = {
@@ -208,13 +214,13 @@ describe('polyline e test', () => {
           {
             id: 'node1',
             x: 200,
-            y: 200
+            y: 200,
           },
           {
             id: 'node2',
             x: 150,
-            y: 100
-          }
+            y: 100,
+          },
         ],
         edges: [
           {
@@ -222,10 +228,10 @@ describe('polyline e test', () => {
             target: 'node2',
             type: 'polyline',
             style: {
-              stroke: 'red'
-            }
-          }
-        ]
+              stroke: 'red',
+            },
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -240,9 +246,9 @@ describe('polyline e test', () => {
       edge.update({
         style: {
           stroke: 'blue',
-          lineWidth: 3
-        }
-      })
+          lineWidth: 3,
+        },
+      });
       expect(keyShape.attr('lineWidth')).toEqual(3);
       expect(keyShape.attr('stroke')).toEqual('blue');
 
@@ -250,8 +256,8 @@ describe('polyline e test', () => {
         style: {
           shadowColor: 'black',
           shadowBlur: 5,
-        }
-      })
+        },
+      });
       expect(keyShape.attr('lineWidth')).toEqual(3);
       expect(keyShape.attr('stroke')).toEqual('blue');
       expect(keyShape.attr('shadowColor')).toEqual('black');
@@ -267,14 +273,14 @@ describe('polyline e test', () => {
             label: 'node',
             labelCfg: {
               position: 'right',
-              offset: 20
-            }
+              offset: 20,
+            },
           },
           {
             id: 'node2',
             x: 150,
-            y: 100
-          }
+            y: 100,
+          },
         ],
         edges: [
           {
@@ -285,10 +291,10 @@ describe('polyline e test', () => {
             labelCfg: {
               position: 'end',
               refX: 10,
-              refY: 20
-            }
-          }
-        ]
+              refY: 20,
+            },
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -306,10 +312,10 @@ describe('polyline e test', () => {
         labelCfg: {
           position: 'start',
           style: {
-            fill: '#0ff'
-          }
-        }
-      })
+            fill: '#0ff',
+          },
+        },
+      });
       expect(label.attr('fill')).toEqual('#0ff');
       expect(label.attr('text')).toEqual('new label');
 
@@ -318,9 +324,9 @@ describe('polyline e test', () => {
           style: {
             shadowColor: 'black',
             shadowBlur: 5,
-          }
-        }
-      })
+          },
+        },
+      });
       expect(label.attr('fill')).toEqual('#0ff');
       expect(label.attr('text')).toEqual('new label');
       expect(label.attr('shadowColor')).toEqual('black');
@@ -332,21 +338,21 @@ describe('polyline e test', () => {
           {
             id: 'node1',
             x: 200,
-            y: 200
+            y: 200,
           },
           {
             id: 'node2',
             x: 150,
-            y: 100
-          }
+            y: 100,
+          },
         ],
         edges: [
           {
             source: 'node1',
             target: 'node2',
             type: 'polyline',
-          }
-        ]
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -359,10 +365,10 @@ describe('polyline e test', () => {
         label: 'new label',
         labelCfg: {
           style: {
-            fill: '#0ff'
-          }
-        }
-      })
+            fill: '#0ff',
+          },
+        },
+      });
       const label = group.find(g => {
         return g.get('className') === 'edge-label';
       });
@@ -374,9 +380,9 @@ describe('polyline e test', () => {
           style: {
             shadowColor: 'black',
             shadowBlur: 5,
-          }
-        }
-      })
+          },
+        },
+      });
       expect(label.attr('fill')).toEqual('#0ff');
       expect(label.attr('text')).toEqual('new label');
       expect(label.attr('shadowColor')).toEqual('black');
@@ -388,21 +394,21 @@ describe('polyline e test', () => {
           {
             id: 'node1',
             x: 200,
-            y: 200
+            y: 200,
           },
           {
             id: 'node2',
             x: 150,
-            y: 100
-          }
+            y: 100,
+          },
         ],
         edges: [
           {
             source: 'node1',
             target: 'node2',
             type: 'polyline',
-          }
-        ]
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -416,10 +422,10 @@ describe('polyline e test', () => {
         labelCfg: {
           position: 'end',
           style: {
-            fill: '#0ff'
-          }
-        }
-      })
+            fill: '#0ff',
+          },
+        },
+      });
       const label = group.find(g => {
         return g.get('className') === 'edge-label';
       });

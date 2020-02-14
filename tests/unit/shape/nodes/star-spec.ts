@@ -1,6 +1,6 @@
-import Graph from '../../../../src/graph/graph'
-import '../../../../src/shape/node'
-import '../../../../src/shape/nodes'
+import Graph from '../../../../src/graph/graph';
+import '../../../../src/shape/node';
+import '../../../../src/shape/nodes';
 
 const div = document.createElement('div');
 div.id = 'graph-spec';
@@ -14,8 +14,8 @@ describe('star test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          type: 'star'
-        }
+          type: 'star',
+        },
       });
       const data = {
         nodes: [
@@ -23,9 +23,9 @@ describe('star test', () => {
             id: 'node',
             label: 'star',
             x: 100,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -55,8 +55,8 @@ describe('star test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          type: 'star'
-        }
+          type: 'star',
+        },
       });
       const data = {
         nodes: [
@@ -68,10 +68,10 @@ describe('star test', () => {
             linkPoints: {
               right: true,
               leftBottom: true,
-              rightBottom: true
-            }
-          }
-        ]
+              rightBottom: true,
+            },
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -110,9 +110,9 @@ describe('star test', () => {
         defaultNode: {
           type: 'star',
           style: {
-            fill: 'red'
-          }
-        }
+            fill: 'red',
+          },
+        },
       });
       const data = {
         nodes: [
@@ -120,9 +120,9 @@ describe('star test', () => {
             id: 'node',
             label: 'old label',
             x: 100,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -139,8 +139,8 @@ describe('star test', () => {
         label: 'new label',
         style: {
           fill: 'blue',
-          lineWidth: 2
-        }
+          lineWidth: 2,
+        },
       });
       const label = node.get('group').get('children')[1];
       expect(label.attr('text')).toEqual('new label');
@@ -156,7 +156,7 @@ describe('star test', () => {
       const graph = new Graph({
         container: div,
         width: 500,
-        height: 500
+        height: 500,
       });
       const data = {
         nodes: [
@@ -165,13 +165,13 @@ describe('star test', () => {
             label: 'star',
             linkPoints: {
               top: true,
-              left: true
+              left: true,
             },
             type: 'star',
             x: 100,
-            y: 200
-          }
-        ]
+            y: 200,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -180,12 +180,12 @@ describe('star test', () => {
       const group = node.get('group');
       // star + label + linkPoints * 2
       expect(group.getCount()).toEqual(4);
-      
+
       node.update({
         linkPoints: {
           top: false,
-          leftBottom: true
-        }
+          leftBottom: true,
+        },
       });
       const topPoint = group.find(g => {
         return g.get('className') === 'link-point-top';
@@ -203,8 +203,8 @@ describe('star test', () => {
           size: 10,
           fill: '#f00',
           stroke: '#0f0',
-          lineWidth: 2
-        }
+          lineWidth: 2,
+        },
       });
       const leftPoint = group.find(g => {
         return g.get('className') === 'link-point-left';
@@ -230,8 +230,8 @@ describe('star test', () => {
           size: 10,
           fill: '#f00',
           stroke: '#0f0',
-          lineWidth: 2
-        }
+          lineWidth: 2,
+        },
       });
       const leftPoint2 = group.find(g => {
         return g.get('className') === 'link-point-left';
@@ -249,7 +249,7 @@ describe('star test', () => {
       node.update({
         linkPoints: {
           stroke: '#000',
-        }
+        },
       });
       const bottomPoint3 = group.find(g => {
         return g.get('className') === 'link-point-left-bottom';
@@ -273,12 +273,12 @@ describe('star test', () => {
           size: 50,
           style: {
             fill: 'red',
-            stroke: '#ccc'
+            stroke: '#ccc',
           },
           icon: {
-            show: true
-          }
-        }
+            show: true,
+          },
+        },
       });
       const data = {
         nodes: [
@@ -289,10 +289,10 @@ describe('star test', () => {
             y: 100,
             color: '#00f',
             style: {
-              lineWidth: 3
-            }
-          }
-        ]
+              lineWidth: 3,
+            },
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -302,9 +302,9 @@ describe('star test', () => {
       node.update({
         color: '#0ff',
         style: {
-          fill: 'black'
-        }
-      })
+          fill: 'black',
+        },
+      });
       const group = node.get('group');
       expect(group.getCount()).toEqual(3);
       const keyShape = node.getKeyShape();
@@ -320,7 +320,7 @@ describe('star test', () => {
       const graph = new Graph({
         container: div,
         width: 500,
-        height: 500
+        height: 500,
       });
       const data = {
         nodes: [
@@ -329,9 +329,9 @@ describe('star test', () => {
             id: 'node',
             label: 'old star label',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -343,10 +343,10 @@ describe('star test', () => {
         label: 'new star label',
         labelCfg: {
           style: {
-            fill: '#ff0'
-          }
-        }
-      })
+            fill: '#ff0',
+          },
+        },
+      });
 
       const label = group.find(g => {
         return g.get('className') === 'node-label';
@@ -361,9 +361,9 @@ describe('star test', () => {
           position: 'center',
           style: {
             stroke: 'black',
-            lineWidth: 3
-          }
-        }
+            lineWidth: 3,
+          },
+        },
       });
       expect(label.attr('text')).toEqual('new star label');
       expect(label.attr('fill')).toEqual('#ff0');
@@ -377,7 +377,7 @@ describe('star test', () => {
       const graph = new Graph({
         container: div,
         width: 500,
-        height: 500
+        height: 500,
       });
       const data = {
         nodes: [
@@ -385,9 +385,9 @@ describe('star test', () => {
             type: 'star',
             id: 'node',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -399,10 +399,10 @@ describe('star test', () => {
         label: 'new star label',
         labelCfg: {
           style: {
-            fill: '#ff0'
-          }
-        }
-      })
+            fill: '#ff0',
+          },
+        },
+      });
 
       const label = group.find(g => {
         return g.get('className') === 'node-label';
@@ -418,7 +418,7 @@ describe('star test', () => {
       const graph = new Graph({
         container: div,
         width: 500,
-        height: 500
+        height: 500,
       });
       const data = {
         nodes: [
@@ -426,9 +426,9 @@ describe('star test', () => {
             type: 'star',
             id: 'node',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -436,15 +436,16 @@ describe('star test', () => {
       const nodes = graph.getNodes();
       const node = nodes[0];
       const group = node.get('group');
-      const newImg = 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mt47RKxGy8kAAAAAAAAAAABkARQnAQ';
+      const newImg =
+        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mt47RKxGy8kAAAAAAAAAAABkARQnAQ';
       node.update({
         icon: {
           show: true,
           img: newImg,
           width: 50,
-          height: 50
-        }
-      })
+          height: 50,
+        },
+      });
       expect(group.getCount()).toEqual(2);
       const icon = group.find(g => {
         return g.get('className') === 'star-icon';
@@ -454,22 +455,22 @@ describe('star test', () => {
       expect(icon.attr('img')).toEqual(newImg);
       expect(icon.attr('x')).toEqual(-25);
       expect(icon.attr('y')).toEqual(-25);
-      
+
       node.update({
         icon: {
           width: 80,
-          height: 80
-        }
-      })
+          height: 80,
+        },
+      });
       expect(icon.attr('width')).toEqual(80);
       expect(icon.attr('x')).toEqual(-40);
       expect(icon.attr('y')).toEqual(-40);
 
       node.update({
         icon: {
-          show: false
-        }
-      })
+          show: false,
+        },
+      });
       expect(group.getCount()).toEqual(1);
 
       graph.destroy();

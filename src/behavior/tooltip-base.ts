@@ -49,7 +49,7 @@ export default {
   },
   hideTooltip() {
     modifyCSS(this.container, {
-      visibility: 'hidden'
+      visibility: 'hidden',
     });
   },
   updatePosition(e: IG6GraphEvent) {
@@ -58,12 +58,12 @@ export default {
     let y = e.canvasY;
     const bbox = container.getBoundingClientRect();
     if (x > width / 2) {
-      x -= (bbox.width);
+      x -= bbox.width;
     } else {
       x += OFFSET;
     }
     if (y > height / 2) {
-      y -= (bbox.height);
+      y -= bbox.height;
     } else {
       y += OFFSET;
     }
@@ -78,11 +78,11 @@ export default {
     el.parentNode.appendChild(container);
     modifyCSS(container, {
       position: 'absolute',
-      visibility: 'visible'
+      visibility: 'visible',
     });
     this.width = canvas.get('width');
     this.height = canvas.get('height');
     this.container = container;
     return container;
-  }
+  },
 };

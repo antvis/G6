@@ -15,41 +15,43 @@ describe('register node', () => {
       {
         id: 'node1',
         x: 50,
-        y: 50
+        y: 50,
       },
       {
-        id: 'node2' ,
+        id: 'node2',
         x: 250,
-        y: 50
+        y: 50,
       },
     ],
-    edges: [{
-      source: 'node1',
-      target: 'node2'
-    }]
-  }
+    edges: [
+      {
+        source: 'node1',
+        target: 'node2',
+      },
+    ],
+  };
   it('shape test wihout extended shape and draw function', () => {
     G6.registerNode('custom-node', {
       drawShape(cfg, group) {
         const keyShape = group.addShape('circle', {
-        attrs: {
+          attrs: {
             x: 0,
             y: 0,
             r: 30,
-            fill: '#87e8de'
-        }
+            fill: '#87e8de',
+          },
         });
 
         return keyShape;
-      }
+      },
     });
     const graph = new G6.Graph({
       container: div,
       width: 500,
       height: 500,
       defaultNode: {
-        type: 'custom-node'
-      }
+        type: 'custom-node',
+      },
     });
     graph.data(data);
     graph.render();
@@ -58,26 +60,30 @@ describe('register node', () => {
     graph.destroy();
   });
   it('register node wihout draw and drawShape, extend circle', () => {
-    G6.registerNode('custom-node', {
+    G6.registerNode(
+      'custom-node',
+      {
         setState(name, value, item) {
-            const group = item.getContainer();
-            const shape = group.get('children')[0]; // 顺序根据 draw 时确定
-            if(name === 'active') {
-              if(value) {
-                shape.attr('stroke', 'red');
-              } else {
-                shape.attr('stroke', '#333');
-              }
+          const group = item.getContainer();
+          const shape = group.get('children')[0]; // 顺序根据 draw 时确定
+          if (name === 'active') {
+            if (value) {
+              shape.attr('stroke', 'red');
+            } else {
+              shape.attr('stroke', '#333');
             }
           }
-    }, 'circle');
+        },
+      },
+      'circle',
+    );
     const graph = new G6.Graph({
       container: div,
       width: 500,
       height: 500,
       defaultNode: {
-        type: 'custom-node'
-      }
+        type: 'custom-node',
+      },
     });
     graph.data(data);
     graph.render();
@@ -88,14 +94,16 @@ describe('register node', () => {
     graph.on('canvas:click', evt => {
       graph.getNodes().forEach(node => {
         graph.setItemState(node, 'active', false);
-      })
+      });
     });
     expect(graph.getNodes()[0].getModel().x).not.toBe(undefined);
     expect(graph.getNodes()[0].getModel().y).not.toBe(undefined);
     graph.destroy();
   });
   it('register edge wihout draw and drawShape function, extend quadratic', () => {
-    G6.registerEdge('custom-edge', {
+    G6.registerEdge(
+      'custom-edge',
+      {
         getControlPoints(cfg) {
           const controlPoints = []; // 指定controlPoints
           const level = -5; // 从 -10， 10
@@ -105,14 +113,16 @@ describe('register node', () => {
           controlPoints.push(innerPoint);
           return controlPoints;
         },
-    }, 'quadratic');
+      },
+      'quadratic',
+    );
     const graph = new G6.Graph({
       container: div,
       width: 500,
       height: 500,
       defaultEdge: {
-        type: 'custom-edge'
-      }
+        type: 'custom-edge',
+      },
     });
     graph.data(data);
     graph.render();

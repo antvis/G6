@@ -1,14 +1,19 @@
-import each from '@antv/util/lib/each'
+import each from '@antv/util/lib/each';
 import isNil from '@antv/util/lib/is-nil';
-import mix from '@antv/util/lib/mix'
+import mix from '@antv/util/lib/mix';
 import { IEdge, INode } from '../interface/item';
 import { IPoint, IShapeBase, NodeConfig } from '../types';
-import { distance, getCircleIntersectByPoint, getEllispeIntersectByPoint, getRectIntersectByPoint } from '../util/math';
+import {
+  distance,
+  getCircleIntersectByPoint,
+  getEllispeIntersectByPoint,
+  getRectIntersectByPoint,
+} from '../util/math';
 import Edge from './edge';
-import Item from './item'
+import Item from './item';
 
-const CACHE_ANCHOR_POINTS = 'anchorPointsCache'
-const CACHE_BBOX = 'bboxCache'
+const CACHE_ANCHOR_POINTS = 'anchorPointsCache';
+const CACHE_BBOX = 'bboxCache';
 
 export default class Node extends Item implements INode {
   private getNearestPoint(points: IPoint[], curPoint: IPoint): IPoint {
@@ -31,15 +36,15 @@ export default class Node extends Item implements INode {
   public getDefaultCfg() {
     return {
       type: 'node',
-      edges: []
-    }
+      edges: [],
+    };
   }
 
   /**
    * 获取从节点关联的所有边
    */
   public getEdges(): IEdge[] {
-    return this.get('edges')
+    return this.get('edges');
   }
 
   /**
@@ -69,7 +74,7 @@ export default class Node extends Item implements INode {
 
   /**
    * 获取连接点
-   * @param point 
+   * @param point
    */
   public getLinkPoint(point: IPoint): IPoint | null {
     const keyShape: IShapeBase = this.get('keyShape');
@@ -80,19 +85,25 @@ export default class Node extends Item implements INode {
     let intersectPoint: IPoint | null;
     switch (type) {
       case 'circle':
-        intersectPoint = getCircleIntersectByPoint({
-          x: centerX!,
-          y: centerY!,
-          r: bbox.width / 2
-        }, point);
+        intersectPoint = getCircleIntersectByPoint(
+          {
+            x: centerX!,
+            y: centerY!,
+            r: bbox.width / 2,
+          },
+          point,
+        );
         break;
       case 'ellipse':
-        intersectPoint = getEllispeIntersectByPoint({
-          x: centerX!,
-          y: centerY!,
-          rx: bbox.width / 2,
-          ry: bbox.height / 2
-        }, point);
+        intersectPoint = getEllispeIntersectByPoint(
+          {
+            x: centerX!,
+            y: centerY!,
+            rx: bbox.width / 2,
+            ry: bbox.height / 2,
+          },
+          point,
+        );
         break;
       default:
         intersectPoint = getRectIntersectByPoint(bbox, point);
@@ -100,12 +111,14 @@ export default class Node extends Item implements INode {
     let linkPoint = intersectPoint;
     // 如果存在锚点，则使用交点计算最近的锚点
     if (anchorPoints.length) {
-      if (!linkPoint) { // 如果计算不出交点
+      if (!linkPoint) {
+        // 如果计算不出交点
         linkPoint = point;
       }
       linkPoint = this.getNearestPoint(anchorPoints, linkPoint);
     }
-    if (!linkPoint) { // 如果最终依然没法找到锚点和连接点，直接返回中心点
+    if (!linkPoint) {
+      // 如果最终依然没法找到锚点和连接点，直接返回中心点
       linkPoint = { x: centerX, y: centerY } as IPoint;
     }
     return linkPoint;
@@ -123,16 +136,20 @@ export default class Node extends Item implements INode {
       const bbox = this.getBBox();
       const model: NodeConfig = this.get('model');
       const shapeCfg = this.getShapeCfg(model);
-      const type = model.shape || model.type
+      const type = model.shape || model.type;
       const points = shapeFactory.getAnchorPoints(type, shapeCfg) || [];
-      
+
       each(points, (pointArr, index) => {
-        const point = mix({
-          x: bbox.minX + pointArr[0] * bbox.width,
-          y: bbox.minY + pointArr[1] * bbox.height
-        }, pointArr[2], {
-          index
-        });
+        const point = mix(
+          {
+            x: bbox.minX + pointArr[0] * bbox.width,
+            y: bbox.minY + pointArr[1] * bbox.height,
+          },
+          pointArr[2],
+          {
+            index,
+          },
+        );
         anchorPoints.push(point);
       });
       this.set(CACHE_ANCHOR_POINTS, anchorPoints);
@@ -145,7 +162,7 @@ export default class Node extends Item implements INode {
    * @param edge Edge instance
    */
   public addEdge(edge: IEdge) {
-    this.get('edges').push(edge)
+    this.get('edges').push(edge);
   }
 
   /**
@@ -188,18 +205,17 @@ export default class Node extends Item implements INode {
    * @param cfg 节点数据模型
    */
   public isOnlyMove(cfg: NodeConfig): boolean {
-    if(!cfg) {
-      return false
+    if (!cfg) {
+      return false;
     }
 
-    const existX = !isNil(cfg.x)
-    const existY = !isNil(cfg.y)
+    const existX = !isNil(cfg.x);
+    const existY = !isNil(cfg.y);
 
-    const keys = Object.keys(cfg)
+    const keys = Object.keys(cfg);
 
     // 仅有一个字段，包含 x 或者 包含 y
     // 两个字段，同时有 x，同时有 y
-    return (keys.length === 1 && (existX || existY))
-      || (keys.length === 2 && existX && existY)
+    return (keys.length === 1 && (existX || existY)) || (keys.length === 2 && existX && existY);
   }
 }

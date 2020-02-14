@@ -1,6 +1,6 @@
-import Graph from '../../../../src/graph/graph'
-import '../../../../src/shape/node'
-import '../../../../src/shape/nodes'
+import Graph from '../../../../src/graph/graph';
+import '../../../../src/shape/node';
+import '../../../../src/shape/nodes';
 
 const div = document.createElement('div');
 div.id = 'graph-spec';
@@ -13,8 +13,8 @@ describe('ellipse test', () => {
       width: 500,
       height: 500,
       defaultNode: {
-        type: 'ellipse'
-      }
+        type: 'ellipse',
+      },
     };
     const graph = new Graph(cfg);
     it('default ellipse config', () => {
@@ -23,9 +23,9 @@ describe('ellipse test', () => {
           {
             id: 'node',
             x: 100,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -47,9 +47,9 @@ describe('ellipse test', () => {
             id: 'node',
             label: 'ellipse',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -80,15 +80,15 @@ describe('ellipse test', () => {
         height: 500,
         defaultNode: {
           type: 'ellipse',
-          size: [ 50, 30 ],
+          size: [50, 30],
           style: {
             fill: 'red',
-            stroke: '#ccc'
+            stroke: '#ccc',
           },
           icon: {
-            show: true
-          }
-        }
+            show: true,
+          },
+        },
       });
       const data = {
         nodes: [
@@ -96,9 +96,9 @@ describe('ellipse test', () => {
             id: 'node',
             label: 'ellipse',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -118,7 +118,9 @@ describe('ellipse test', () => {
         return g.get('className') === 'ellipse-icon';
       });
       expect(icon).not.toBe(undefined);
-      expect(icon.attr('img')).toEqual('https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg');
+      expect(icon.attr('img')).toEqual(
+        'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+      );
       expect(icon.attr('width')).toEqual(36);
       expect(icon.attr('height')).toEqual(36);
 
@@ -133,9 +135,9 @@ describe('ellipse test', () => {
         height: 500,
         defaultNode: {
           type: 'ellipse',
-          size: [ 35, 10 ],
+          size: [35, 10],
           style: {
-            fill: 'blue'
+            fill: 'blue',
           },
           linkPoints: {
             top: true,
@@ -143,9 +145,9 @@ describe('ellipse test', () => {
             left: true,
             right: true,
             fill: '#fff',
-            size: 5
-          }
-        }
+            size: 5,
+          },
+        },
       };
       const graph = new Graph(cfg);
       const data = {
@@ -154,9 +156,9 @@ describe('ellipse test', () => {
             id: 'node',
             label: 'ellipse',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -214,12 +216,12 @@ describe('ellipse test', () => {
           style: {
             fill: 'red',
             stroke: '#ccc',
-            lineWidth: 5
+            lineWidth: 5,
           },
           icon: {
-            show: true
-          }
-        }
+            show: true,
+          },
+        },
       });
       const data = {
         nodes: [
@@ -227,9 +229,9 @@ describe('ellipse test', () => {
             id: 'node',
             label: 'ellipse',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -240,9 +242,9 @@ describe('ellipse test', () => {
         size: 30,
         color: 'black',
         style: {
-          fill: 'steelblue'
-        }
-      })
+          fill: 'steelblue',
+        },
+      });
       const group = node.get('group');
       expect(group.getCount()).toEqual(3);
       const keyShape = node.getKeyShape();
@@ -255,7 +257,6 @@ describe('ellipse test', () => {
       expect(graph.destroyed).toBe(true);
     });
     it('update icon', () => {
-
       const graph = new Graph({
         container: div,
         width: 500,
@@ -268,24 +269,25 @@ describe('ellipse test', () => {
             label: 'ellipse',
             type: 'ellipse',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
 
       const nodes = graph.getNodes();
       const node = nodes[0];
-      const newImg = 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mt47RKxGy8kAAAAAAAAAAABkARQnAQ';
+      const newImg =
+        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mt47RKxGy8kAAAAAAAAAAABkARQnAQ';
       node.update({
         icon: {
           show: true,
           img: newImg,
           width: 50,
-          height: 50
-        }
-      })
+          height: 50,
+        },
+      });
       let group = node.get('group');
       expect(group.getCount()).toEqual(3);
       const icon = group.find(g => {
@@ -295,22 +297,22 @@ describe('ellipse test', () => {
       expect(icon.attr('x')).toEqual(-25);
       expect(icon.attr('y')).toEqual(-25);
       expect(icon.attr('img')).toEqual(newImg);
-      
+
       node.update({
         icon: {
           width: 80,
-        }
-      })
+        },
+      });
       group = node.get('group');
       expect(group.getCount()).toEqual(3);
       expect(icon.attr('width')).toEqual(80);
       expect(icon.attr('x')).toEqual(-40);
-      
+
       node.update({
         icon: {
-          show: false
-        }
-      })
+          show: false,
+        },
+      });
       group = node.get('group');
       expect(group.getCount()).toEqual(2);
       graph.destroy();
@@ -320,7 +322,7 @@ describe('ellipse test', () => {
       const graph = new Graph({
         container: div,
         width: 500,
-        height: 500
+        height: 500,
       });
       const data = {
         nodes: [
@@ -328,9 +330,9 @@ describe('ellipse test', () => {
             id: 'node',
             label: 'old ellipse label',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -342,10 +344,10 @@ describe('ellipse test', () => {
         label: 'new ellipse label',
         labelCfg: {
           style: {
-            fill: '#ff0'
-          }
-        }
-      })
+            fill: '#ff0',
+          },
+        },
+      });
 
       const label = group.find(g => {
         return g.get('className') === 'node-label';
@@ -360,9 +362,9 @@ describe('ellipse test', () => {
           position: 'center',
           style: {
             stroke: 'black',
-            lineWidth: 3
-          }
-        }
+            lineWidth: 3,
+          },
+        },
       });
       expect(label.attr('text')).toEqual('new ellipse label');
       expect(label.attr('fill')).toEqual('#ff0');
@@ -376,16 +378,16 @@ describe('ellipse test', () => {
       const graph = new Graph({
         container: div,
         width: 500,
-        height: 500
+        height: 500,
       });
       const data = {
         nodes: [
           {
             id: 'node',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -397,10 +399,10 @@ describe('ellipse test', () => {
         label: 'new ellipse label',
         labelCfg: {
           style: {
-            fill: '#ff0'
-          }
-        }
-      })
+            fill: '#ff0',
+          },
+        },
+      });
 
       const label = group.find(g => {
         return g.get('className') === 'node-label';

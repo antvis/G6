@@ -1,11 +1,10 @@
 import G6 from '@antv/g6';
 
-
 const graphDiv = document.getElementById('container');
 const descriptionDiv = document.createElement('div');
-descriptionDiv.innerHTML = 'Constrians the nodes to be layed in the gray area with force-directed layout';
+descriptionDiv.innerHTML =
+  'Constrians the nodes to be layed in the gray area with force-directed layout';
 graphDiv.appendChild(descriptionDiv);
-
 
 const width = graphDiv.scrollWidth;
 const height = graphDiv.scrollHeight || 500;
@@ -13,7 +12,6 @@ const height = graphDiv.scrollHeight || 500;
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
   .then(res => res.json())
   .then(data => {
-
     const nodes = data.nodes;
 
     // 灰色区域
@@ -66,29 +64,28 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
       height,
       layout: {
         type: 'force',
-        onTick
+        onTick,
       },
       defaultNode: {
         size: 15,
         color: '#5B8FF9',
         style: {
           lineWidth: 2,
-          fill: '#C6E5FF'
-        }
+          fill: '#C6E5FF',
+        },
       },
       defaultEdge: {
         size: 1,
-        color: '#e2e2e2'
-      }
+        color: '#e2e2e2',
+      },
     });
-
 
     graph.data({
       nodes: data.nodes,
       edges: data.edges.map(function(edge, i) {
         edge.id = 'edge' + i;
         return Object.assign({}, edge);
-      })
+      }),
     });
     graph.render();
   });

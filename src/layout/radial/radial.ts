@@ -10,7 +10,7 @@ import isNumber from '@antv/util/lib/is-number';
 import isString from '@antv/util/lib/is-string';
 import isFunction from '@antv/util/lib/is-function';
 import { floydWarshall, getAdjMatrix } from '../../util/math';
-import { isNaN } from "../../util/base"
+import { isNaN } from '../../util/base';
 
 import { BaseLayout } from '../layout';
 
@@ -100,8 +100,8 @@ export default class RadialLayout extends BaseLayout {
       nodeSpacing: undefined,
       strictRadial: true,
       maxPreventOverlapIteration: 200,
-      sortBy: undefined,	
-      sortStrength: 10
+      sortBy: undefined,
+      sortStrength: 10,
     };
   }
   /**
@@ -276,7 +276,7 @@ export default class RadialLayout extends BaseLayout {
     const self = this;
     const maxIteration = self.maxIteration;
     const positions = self.positions || [];
-    const W = self.weights|| [];
+    const W = self.weights || [];
     const eIdealDis = self.eIdealDistances || [];
     const radii = self.radii || [];
     for (let i = 0; i <= maxIteration; i++) {
@@ -285,7 +285,13 @@ export default class RadialLayout extends BaseLayout {
     }
   }
 
-  private oneIteration(param: number, positions: IPointTuple[], radii: number[], D: Matrix[], W: Matrix[]) {
+  private oneIteration(
+    param: number,
+    positions: IPointTuple[],
+    radii: number[],
+    D: Matrix[],
+    W: Matrix[],
+  ) {
     const self = this;
     const vparam = 1 - param;
     const focusIndex = self.focusIndex;
@@ -338,29 +344,35 @@ export default class RadialLayout extends BaseLayout {
     const radii = self.radii || [];
     const unitRadius = self.unitRadius || 50;
     const result: Matrix[] = [];
-    if(D) {
+    if (D) {
       D.forEach((row, i) => {
         const newRow: Matrix = [];
         row.forEach((v, j) => {
           if (i === j) {
             newRow.push(0);
-          } else if (radii[i] === radii[j]) { // i and j are on the same circle	
-            if (self.sortBy === 'data') { // sort the nodes on the same circle according to the ordering of the data	
-              newRow.push(v * (Math.abs(i - j) * self.sortStrength) / (radii[i] / unitRadius));	
-            } else if (self.sortBy) { // sort the nodes on the same circle according to the attributes	
-              let iValue: number | string = nodes[i][self.sortBy] as number | string || 0;
-              let jValue: number | string = nodes[j][self.sortBy] as number | string || 0;
-              if (isString(iValue)) {	
-                iValue = iValue.charCodeAt(0);	
+          } else if (radii[i] === radii[j]) {
+            // i and j are on the same circle
+            if (self.sortBy === 'data') {
+              // sort the nodes on the same circle according to the ordering of the data
+              newRow.push((v * (Math.abs(i - j) * self.sortStrength)) / (radii[i] / unitRadius));
+            } else if (self.sortBy) {
+              // sort the nodes on the same circle according to the attributes
+              let iValue: number | string = (nodes[i][self.sortBy] as number | string) || 0;
+              let jValue: number | string = (nodes[j][self.sortBy] as number | string) || 0;
+              if (isString(iValue)) {
+                iValue = iValue.charCodeAt(0);
               }
-              if (isString(jValue)) {	
-                jValue = jValue.charCodeAt(0);	
-              }	
-              newRow.push(v * (Math.abs(iValue - jValue) * self.sortStrength) / (radii[i] / unitRadius));	
-            } else {	
-              newRow.push(v * linkDis / (radii[i] / unitRadius));	
-            }	
-          } else { // i and j are on different circle
+              if (isString(jValue)) {
+                jValue = jValue.charCodeAt(0);
+              }
+              newRow.push(
+                (v * (Math.abs(iValue - jValue) * self.sortStrength)) / (radii[i] / unitRadius),
+              );
+            } else {
+              newRow.push((v * linkDis) / (radii[i] / unitRadius));
+            }
+          } else {
+            // i and j are on different circle
             // i and j are on different circle
             const link = (linkDis + unitRadius) / 2;
             newRow.push(v * link);

@@ -1,10 +1,10 @@
 import { clone, each, wrapBehavior } from '@antv/util/lib';
 import { BehaviorOpation } from '../types';
-import behaviorOption from './behaviorOption'
+import behaviorOption from './behaviorOption';
 
 export default class Behavior {
   // 所有自定义的 Behavior 的实例
-  private static types = {}
+  private static types = {};
 
   /**
    * 自定义 Behavior
@@ -12,40 +12,39 @@ export default class Behavior {
    * @param behavior Behavior 定义的方法集合
    */
   public static registerBehavior<T, U>(type: string, behavior: BehaviorOpation<U>) {
-    if(!behavior) {
-      throw new Error(`please specify handler for this behavior: ${type}`)
+    if (!behavior) {
+      throw new Error(`please specify handler for this behavior: ${type}`);
     }
 
-    const proptype = clone(behaviorOption)
-   
-    Object.assign(proptype, behavior)
+    const proptype = clone(behaviorOption);
+
+    Object.assign(proptype, behavior);
 
     const base = function(cfg: object) {
+      Object.assign(this, this.getDefaultCfg(), cfg);
 
-      Object.assign(this, this.getDefaultCfg(), cfg)
+      const events = this.getEvents();
+      this.events = null;
 
-      const events = this.getEvents()
-      this.events = null
+      const eventsToBind = {};
 
-      const eventsToBind = {}
-
-      if(events) {
+      if (events) {
         each(events, (handle, event) => {
-          eventsToBind[event] = wrapBehavior(this, handle)
-        })
-        this.events = eventsToBind
+          eventsToBind[event] = wrapBehavior(this, handle);
+        });
+        this.events = eventsToBind;
       }
-    }
+    };
 
-    base.prototype = proptype
-    Behavior.types[type] = base
+    base.prototype = proptype;
+    Behavior.types[type] = base;
   }
 
   public static hasBehavior(type: string) {
-    return !!Behavior.types[type]
+    return !!Behavior.types[type];
   }
 
   public static getBehavior(type: string) {
-    return Behavior.types[type]
+    return Behavior.types[type];
   }
 }

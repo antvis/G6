@@ -15,17 +15,17 @@ const data: any = {
       conf: [
         {
           label: 'conf',
-          value: 'pai_graph.conf'
+          value: 'pai_graph.conf',
         },
         {
           label: 'dot',
-          value: 'pai_graph.dot'
+          value: 'pai_graph.dot',
         },
         {
           label: 'init',
-          value: 'init.rc'
-        }
-      ]
+          value: 'init.rc',
+        },
+      ],
     },
     {
       id: '1',
@@ -35,17 +35,17 @@ const data: any = {
       conf: [
         {
           label: 'conf',
-          value: 'pai_graph.conf'
+          value: 'pai_graph.conf',
         },
         {
           label: 'dot',
-          value: 'pai_graph.dot'
+          value: 'pai_graph.dot',
         },
         {
           label: 'init',
-          value: 'init.rc'
-        }
-      ]
+          value: 'init.rc',
+        },
+      ],
     },
     {
       id: '4',
@@ -55,17 +55,17 @@ const data: any = {
       conf: [
         {
           label: 'conf',
-          value: 'pai_graph.conf'
+          value: 'pai_graph.conf',
         },
         {
           label: 'dot',
-          value: 'pai_graph.dot'
+          value: 'pai_graph.dot',
         },
         {
           label: 'init',
-          value: 'init.rc'
-        }
-      ]
+          value: 'init.rc',
+        },
+      ],
     },
     {
       id: '5',
@@ -75,17 +75,17 @@ const data: any = {
       conf: [
         {
           label: 'conf',
-          value: 'pai_graph.conf'
+          value: 'pai_graph.conf',
         },
         {
           label: 'dot',
-          value: 'pai_graph.dot'
+          value: 'pai_graph.dot',
         },
         {
           label: 'init',
-          value: 'init.rc'
-        }
-      ]
+          value: 'init.rc',
+        },
+      ],
     },
     {
       id: '6',
@@ -95,17 +95,17 @@ const data: any = {
       conf: [
         {
           label: 'conf',
-          value: 'pai_graph.conf'
+          value: 'pai_graph.conf',
         },
         {
           label: 'dot',
-          value: 'pai_graph.dot'
+          value: 'pai_graph.dot',
         },
         {
           label: 'init',
-          value: 'init.rc'
-        }
-      ]
+          value: 'init.rc',
+        },
+      ],
     },
     {
       id: '3',
@@ -115,17 +115,17 @@ const data: any = {
       conf: [
         {
           label: 'conf',
-          value: 'pai_graph.conf'
+          value: 'pai_graph.conf',
         },
         {
           label: 'dot',
-          value: 'pai_graph.dot'
+          value: 'pai_graph.dot',
         },
         {
           label: 'init',
-          value: 'init.rc'
-        }
-      ]
+          value: 'init.rc',
+        },
+      ],
     },
     {
       id: '7',
@@ -135,17 +135,17 @@ const data: any = {
       conf: [
         {
           label: 'conf',
-          value: 'pai_graph.conf'
+          value: 'pai_graph.conf',
         },
         {
           label: 'dot',
-          value: 'pai_graph.dot'
+          value: 'pai_graph.dot',
         },
         {
           label: 'init',
-          value: 'init.rc'
-        }
-      ]
+          value: 'init.rc',
+        },
+      ],
     },
     {
       id: '8',
@@ -155,53 +155,53 @@ const data: any = {
       conf: [
         {
           label: 'conf',
-          value: 'pai_graph.conf'
+          value: 'pai_graph.conf',
         },
         {
           label: 'dot',
-          value: 'pai_graph.dot'
+          value: 'pai_graph.dot',
         },
         {
           label: 'init',
-          value: 'init.rc'
-        }
-      ]
-    }
+          value: 'init.rc',
+        },
+      ],
+    },
   ],
   edges: [
     {
       source: '1',
-      target: '2'
+      target: '2',
     },
     {
       source: '1',
-      target: '3'
+      target: '3',
     },
     {
       source: '2',
-      target: '4'
+      target: '4',
     },
     {
       source: '3',
-      target: '4'
+      target: '4',
     },
     {
       source: '4',
-      target: '5'
+      target: '5',
     },
     {
       source: '5',
-      target: '6'
+      target: '6',
     },
     {
       source: '6',
-      target: '7'
+      target: '7',
     },
     {
       source: '7',
-      target: '8'
-    }
-  ]
+      target: '8',
+    },
+  ],
 };
 
 describe.only('dagre layout', () => {
@@ -211,11 +211,11 @@ describe.only('dagre layout', () => {
       width: 500,
       height: 500,
       layout: {
-        type: 'dagre'
+        type: 'dagre',
       },
       defaultEdge: {
-        type: 'polyline'
-      }
+        type: 'polyline',
+      },
     });
     graph.data(data);
     graph.render();
@@ -231,7 +231,7 @@ describe.only('dagre layout', () => {
     // graph.destroy();
   });
   it('dagre with number nodeSize and sepFunc', () => {
-    data.edges.forEach((edgeItem) => {
+    data.edges.forEach(edgeItem => {
       delete edgeItem.startPoint;
       delete edgeItem.endPoint;
       delete edgeItem.controlPoints;
@@ -248,7 +248,7 @@ describe.only('dagre layout', () => {
         },
         ranksepFunc: () => {
           return 30;
-        }
+        },
       },
       width: 500,
       height: 500,
@@ -270,7 +270,7 @@ describe.only('dagre layout', () => {
     graph.destroy();
   });
   it('dagre with array nodeSize', () => {
-    data.edges.forEach((edgeItem) => {
+    data.edges.forEach(edgeItem => {
       delete edgeItem.startPoint;
       delete edgeItem.endPoint;
       delete edgeItem.controlPoints;
@@ -287,11 +287,11 @@ describe.only('dagre layout', () => {
         },
         ranksepFunc: () => {
           return 30;
-        }
+        },
       },
       defaultNode: {
         size: nodeSize,
-        type: 'rect'
+        type: 'rect',
       },
       width: 500,
       height: 500,
@@ -314,7 +314,7 @@ describe.only('dagre layout', () => {
   });
 
   it('dagre with number size in node data, controlpoints', () => {
-    data.edges.forEach((edgeItem) => {
+    data.edges.forEach(edgeItem => {
       delete edgeItem.startPoint;
       delete edgeItem.endPoint;
       delete edgeItem.controlPoints;
@@ -328,16 +328,16 @@ describe.only('dagre layout', () => {
         type: 'dagre',
         rankdir: 'LR',
         controlPoints: true,
-        ranksep: null
+        ranksep: null,
       },
       defaultEdge: {
         type: 'polyline',
         style: {
-          radius: 20
-        }
+          radius: 20,
+        },
       },
       defaultNode: {
-        type: 'rect'
+        type: 'rect',
       },
       width: 500,
       height: 500,
@@ -361,7 +361,7 @@ describe.only('dagre layout', () => {
     graph.destroy();
   });
   it('dagre with array size in node data', () => {
-    data.edges.forEach((edgeItem) => {
+    data.edges.forEach(edgeItem => {
       delete edgeItem.startPoint;
       delete edgeItem.endPoint;
       delete edgeItem.controlPoints;
@@ -373,10 +373,10 @@ describe.only('dagre layout', () => {
       container: div,
       layout: {
         type: 'dagre',
-        rankdir: 'LR'
+        rankdir: 'LR',
       },
       defaultNode: {
-        type: 'rect'
+        type: 'rect',
       },
       width: 500,
       height: 500,

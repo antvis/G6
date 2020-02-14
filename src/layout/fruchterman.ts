@@ -16,7 +16,7 @@ type Edge = EdgeConfig;
 
 type NodeMap = {
   [key: string]: Node;
-}
+};
 
 const SPEED_DIVISOR = 800;
 
@@ -102,12 +102,14 @@ export default class FruchtermanLayout extends BaseLayout {
     const gravity = self.gravity;
     const speed = self.speed;
     const clustering = self.clustering;
-    const clusterMap: {[key: string]: {
-      name: string | number,
-      cx: number,
-      cy: number,
-      count: number
-    }} = {}
+    const clusterMap: {
+      [key: string]: {
+        name: string | number;
+        cx: number;
+        cy: number;
+        count: number;
+      };
+    } = {};
     if (clustering) {
       nodes.forEach(n => {
         if (clusterMap[n.cluster] === undefined) {
@@ -152,13 +154,12 @@ export default class FruchtermanLayout extends BaseLayout {
           displacements[j].y -= (gravityForce * (n.y - c.cy)) / distLength;
         });
 
-
         for (const key in clusterMap) {
           clusterMap[key].cx = 0;
           clusterMap[key].cy = 0;
           clusterMap[key].count = 0;
         }
-        
+
         nodes.forEach(n => {
           const c = clusterMap[n.cluster];
           if (isNumber(n.x)) {
@@ -186,7 +187,9 @@ export default class FruchtermanLayout extends BaseLayout {
       // move
       nodes.forEach((n, j) => {
         if (!isNumber(n.x) || !isNumber(n.y)) return;
-        const distLength = Math.sqrt(displacements[j].x * displacements[j].x + displacements[j].y * displacements[j].y);
+        const distLength = Math.sqrt(
+          displacements[j].x * displacements[j].x + displacements[j].y * displacements[j].y,
+        );
         if (distLength > 0) {
           // && !n.isFixed()
           const limitedDist = Math.min(maxDisplace * (speed / SPEED_DIVISOR), distLength);

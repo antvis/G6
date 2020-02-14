@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-  
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Radial Tree</title>
   </head>
-  
+
   <body>
     <select id="layout">
       <option value="dendrogram">系统树</option>
-      <option value="compactBox">紧凑树</option></select>
+      <option value="compactBox">紧凑树</option></select
+    >
     <div id="mountNode"></div>
     <script src="assets/hierarchy.js"></script>
     <script src="../build/g6.js"></script>
@@ -23,7 +23,7 @@
             direction: 'LR',
             // H / V / LR / RL / TB / BT
             nodeSep: 50,
-            rankSep: 100
+            rankSep: 100,
           });
           G6.Util.radialLayout(result);
           return result;
@@ -35,25 +35,25 @@
               return d.id;
             },
             getHeight() {
-              return 16
+              return 16;
             },
             getWidth() {
-              return 16
+              return 16;
             },
             getVGap() {
-              return 50
+              return 50;
             },
             getHGap() {
-              return 50
-            }
+              return 50;
+            },
           });
           G6.Util.radialLayout(result);
           return result;
-        }
+        },
       };
       const minimap = new Minimap({
         size: [300, 300],
-        type: 'delegate'
+        type: 'delegate',
       });
       const graph = new G6.TreeGraph({
         container: 'mountNode',
@@ -61,33 +61,35 @@
         height: 500,
         plugins: [minimap],
         modes: {
-          default: [{
-            type: 'collapse-expand',
-            onChange(item, collapsed) {
-              const data = item.get('model').data;
-              data.collapsed = collapsed;
-              return true;
-            }
-          },
-          'drag-canvas', 'zoom-canvas']
+          default: [
+            {
+              type: 'collapse-expand',
+              onChange(item, collapsed) {
+                const data = item.get('model').data;
+                data.collapsed = collapsed;
+                return true;
+              },
+            },
+            'drag-canvas',
+            'zoom-canvas',
+          ],
         },
         defaultNode: {
           style: {
             fill: '#40a9ff',
-            stroke: '#096dd9'
-          }
+            stroke: '#096dd9',
+          },
         },
         defaultEdge: {
           style: {
-            stroke: '#A3B1BF'
-          }
+            stroke: '#A3B1BF',
+          },
         },
         linkCenter: true,
-        layout: layouts[currentLayout]
+        layout: layouts[currentLayout],
       });
       G6.Global.defaultNode.size = 16;
-      $.getJSON('./assets/data/flare.json',
-      function(data) {
+      $.getJSON('./assets/data/flare.json', function(data) {
         G6.Util.traverseTree(data, node => {
           node.id = node.name;
         });

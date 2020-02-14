@@ -1,13 +1,8 @@
 # G6: TypeScript 图可视化框架
+
 ![](https://user-images.githubusercontent.com/6113694/45008751-ea465300-b036-11e8-8e2a-166cbb338ce2.png)
 
-[![](https://img.shields.io/travis/antvis/g6.svg)](https://travis-ci.org/antvis/g6)
-[![Coverage Status](https://coveralls.io/repos/github/antvis/G6/badge.svg)](https://coveralls.io/github/antvis/G6)
-![](https://img.shields.io/badge/language-javascript-red.svg)
-![](https://img.shields.io/badge/license-MIT-000000.svg)
-[![npm package](https://img.shields.io/npm/v/@antv/g6.svg)](https://www.npmjs.com/package/@antv/g6)
-[![NPM downloads](http://img.shields.io/npm/dm/@antv/g6.svg)](https://npmjs.org/package/@antv/g6)
-[![Percentage of issues still open](http://isitmaintained.com/badge/open/antvis/g6.svg)](http://isitmaintained.com/project/antvis/g6 "Percentage of issues still open")
+[![](https://img.shields.io/travis/antvis/g6.svg)](https://travis-ci.org/antvis/g6) [![Coverage Status](https://coveralls.io/repos/github/antvis/G6/badge.svg)](https://coveralls.io/github/antvis/G6) ![](https://img.shields.io/badge/language-javascript-red.svg) ![](https://img.shields.io/badge/license-MIT-000000.svg) [![npm package](https://img.shields.io/npm/v/@antv/g6.svg)](https://www.npmjs.com/package/@antv/g6) [![NPM downloads](http://img.shields.io/npm/dm/@antv/g6.svg)](https://npmjs.org/package/@antv/g6) [![Percentage of issues still open](http://isitmaintained.com/badge/open/antvis/g6.svg)](http://isitmaintained.com/project/antvis/g6 'Percentage of issues still open')
 
 [English README](README.md)
 
@@ -31,19 +26,24 @@ $ npm install @antv/g6
 import G6 from '@antv/g6';
 
 const data = {
-  nodes: [{
-    id: 'node1',
-    x: 100,
-    y: 200
-  },{
-    id: 'node2',
-    x: 300,
-    y: 200
-  }],
-  edges: [{
-    target: 'node2',
-    source: 'node1'
-  }]
+  nodes: [
+    {
+      id: 'node1',
+      x: 100,
+      y: 200,
+    },
+    {
+      id: 'node2',
+      x: 300,
+      y: 200,
+    },
+  ],
+  edges: [
+    {
+      target: 'node2',
+      source: 'node1',
+    },
+  ],
 };
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -53,17 +53,17 @@ const graph = new G6.Graph({
     type: 'circle',
     style: {
       fill: '#40a9ff',
-      stroke: '#096dd9'
-    }
+      stroke: '#096dd9',
+    },
   },
   nodeStateStyles: {
     hover: {
-      lineWidth: 3
+      lineWidth: 3,
     },
     select: {
-      lineWidth: 5
-    }
-  }
+      lineWidth: 5,
+    },
+  },
 });
 graph.data(data);
 graph.render();

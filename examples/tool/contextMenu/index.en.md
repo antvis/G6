@@ -6,6 +6,7 @@ order: 1
 Using contextMenu in G6.
 
 ## Usage
+
 The demo below show how to use contextMenu on a graph. Menu's style can be defined by the CSS:
 
 ```

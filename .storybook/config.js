@@ -1,6 +1,6 @@
 import { configure, addDecorator } from '@storybook/react';
-import {withInfo} from '@storybook/addon-info'
+import { withInfo } from '@storybook/addon-info';
 
-addDecorator(withInfo)
+addDecorator(withInfo);
 
-configure(require.context('../stories', true, /\.stories\.tsx$/), module)
+configure(require.context('../stories', true, /\.stories\.tsx$/), module);

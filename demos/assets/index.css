@@ -70,17 +70,17 @@ iframe {
 }
 
 .code-banner {
-  padding: .5rem 0;
+  padding: 0.5rem 0;
 }
 
-.code-panel, .code-editor .CodeMirror {
+.code-panel,
+.code-editor .CodeMirror {
   height: 100%;
 }
 
 .code-editor {
   height: calc(100% - 3.375rem);
 }
-
 
 #chart-panel {
   flex: 1;
@@ -93,7 +93,7 @@ iframe {
 }
 #resize-handler {
   //background: #DEDEEB;
-  border-right: 2px solid #DEDEEB;
+  border-right: 2px solid #dedeeb;
   cursor: col-resize;
 }
 .chart-frame {

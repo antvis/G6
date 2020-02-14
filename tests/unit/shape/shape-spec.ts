@@ -3,13 +3,13 @@
  * @author dxq613@gmai.com
  */
 
-import '../../../src/shape'
-import Shape from '../../../src/shape/shape'
+import '../../../src/shape';
+import Shape from '../../../src/shape/shape';
 
 describe('shape test', () => {
   it('register factory', () => {
     Shape.registerFactory('test', {
-      defaultShapeType: 't1'
+      defaultShapeType: 't1',
     });
 
     expect(Shape['Test']).not.toBe(undefined);

@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   overflow: hidden;
 }
 ::-webkit-scrollbar {

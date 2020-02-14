@@ -1,5 +1,5 @@
 import { Point } from '@antv/g-base/lib/types';
-import Hierarchy from '@antv/hierarchy'
+import Hierarchy from '@antv/hierarchy';
 import { each, isString } from '@antv/util/lib';
 import { GraphOptions, ITreeGraph } from '../interface/graph';
 import { GraphData, Item, NodeConfig, ShapeStyle, TreeGraphData } from '../types';
@@ -7,12 +7,12 @@ import { radialLayout, traverseTree } from '../util/graphic';
 import { ViewController } from './controller';
 import Graph, { PrivateGraphOption } from './graph';
 
-export default class TreeGraph  extends Graph implements ITreeGraph {
+export default class TreeGraph extends Graph implements ITreeGraph {
   private layoutAnimating: boolean;
 
   constructor(cfg: GraphOptions) {
-    super(cfg)
-    this.layoutAnimating = false
+    super(cfg);
+    this.layoutAnimating = false;
 
     // 用于缓存动画结束后需要删除的节点
     this.set('removeList', []);
@@ -98,20 +98,20 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
           const parentModel = parent.getModel();
           node.set('originAttrs', {
             x: parentModel.x,
-            y: parentModel.y
+            y: parentModel.y,
           });
         }
       }
       const childrenList = parent.get('children');
       if (!childrenList) {
-        parent.set('children', [ node ]);
+        parent.set('children', [node]);
       } else {
         childrenList.push(node);
       }
-      self.addItem('edge', { 
-        source: parent, 
-        target: node, 
-        id: `${parent.get('id')}:${node.get('id')}`
+      self.addItem('edge', {
+        source: parent,
+        target: node,
+        id: `${parent.get('id')}:${node.get('id')}`,
       });
     }
     // 渲染到视图上应参考布局的children, 避免多绘制了收起的节点
@@ -123,9 +123,9 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
 
   /**
    * 将数据上的变更转换到视图上
-   * @param data 
-   * @param parent 
-   * @param animate 
+   * @param data
+   * @param parent
+   * @param animate
    */
   private innerUpdateChild(data: TreeGraphData, parent: Item | undefined, animate: boolean) {
     const self = this;
@@ -141,7 +141,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
     each(data.children || [], (child: TreeGraphData) => {
       self.innerUpdateChild(child, current, animate);
     });
-    
+
     // 用现在节点的children实例来删除移除的子节点
     const children = current.get('children');
     if (children) {
@@ -151,10 +151,14 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
           const child = children[i].getModel();
 
           if (TreeGraph.indexOfChild(data.children || [], child.id) === -1) {
-            self.innerRemoveChild(child.id, {
-              x: data.x!,
-              y: data.y!
-            }, animate);
+            self.innerRemoveChild(
+              child.id,
+              {
+                x: data.x!,
+                y: data.y!,
+              },
+              animate,
+            );
 
             // 更新父节点下缓存的子节点 item 实例列表
             children.splice(i, 1);
@@ -173,7 +177,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
       // 如果有动画，先缓存节点运动再更新节点
       current.set('originAttrs', {
         x: model.x,
-        y: model.y
+        y: model.y,
       });
     }
     current.set('model', data.data);
@@ -184,9 +188,9 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
 
   /**
    * 删除子节点Item对象
-   * @param id 
-   * @param to 
-   * @param animate 
+   * @param id
+   * @param to
+   * @param animate
    */
   private innerRemoveChild(id: string, to: Point, animate: boolean) {
     const self = this;
@@ -231,7 +235,9 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
    * @param {object} layout 布局算法
    */
   public changeLayout(layout: any) {
-    console.warn('Please call updateLayout instead of changeLayout. changeLayout will be discarded soon');
+    console.warn(
+      'Please call updateLayout instead of changeLayout. changeLayout will be discarded soon',
+    );
     const self = this;
     self.updateLayout(layout);
   }
@@ -257,7 +263,9 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
    * @param {boolean} fitView 更新布局时是否需要适应窗口
    */
   public refreshLayout(fitView?: boolean) {
-    console.warn('Please call layout instead of refreshLayout. refreshLayout will be discarded soon');
+    console.warn(
+      'Please call layout instead of refreshLayout. refreshLayout will be discarded soon',
+    );
     const self = this;
     self.layout(fitView);
   }
@@ -269,7 +277,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
   public layout(fitView?: boolean) {
     const self = this;
     const data: TreeGraphData = self.get('data');
-    const layoutMethod = self.get('layoutMethod')
+    const layoutMethod = self.get('layoutMethod');
     const layoutData = layoutMethod(data, self.get('layout'));
 
     const animate: boolean = self.get('animate');
@@ -282,7 +290,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
     self.innerUpdateChild(layoutData, undefined, animate);
 
     if (fitView) {
-      const viewController: ViewController = self.get('viewController')
+      const viewController: ViewController = self.get('viewController');
       viewController.fitView();
     }
 
@@ -309,8 +317,8 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
       parent = parent.get('id') as string;
     }
 
-    const parentData = self.findDataById(parent)
-    
+    const parentData = self.findDataById(parent);
+
     if (parentData) {
       if (!parentData.children) {
         parentData.children = [];
@@ -369,7 +377,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
     if (parent && !parent.destroyed) {
       const parentNode = self.findDataById(parent.get('id'));
       const siblings = (parentNode && parentNode.children) || [];
-      const model: NodeConfig = node.getModel() as NodeConfig
+      const model: NodeConfig = node.getModel() as NodeConfig;
 
       const index = TreeGraph.indexOfChild(siblings, model.id);
       siblings.splice(index, 1);
@@ -385,7 +393,7 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
    */
   public findDataById(id: string, parent?: TreeGraphData | undefined): TreeGraphData | null {
     const self = this;
-    
+
     if (!parent) {
       parent = self.get('data') as TreeGraphData;
     }
@@ -415,7 +423,15 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
    * @param {TreeGraphData} data 更新的数据
    * @param {function} onFrame 定义节点位置更新时如何移动
    */
-  public layoutAnimate(data: TreeGraphData, onFrame?: (item: Item, ratio: number, originAttrs?: ShapeStyle, data?: TreeGraphData) => unknown): void {
+  public layoutAnimate(
+    data: TreeGraphData,
+    onFrame?: (
+      item: Item,
+      ratio: number,
+      originAttrs?: ShapeStyle,
+      data?: TreeGraphData,
+    ) => unknown,
+  ): void {
     const self = this;
     this.setAutoPaint(false);
     const animateCfg = this.get('animateCfg');
@@ -428,68 +444,71 @@ export default class TreeGraph  extends Graph implements ITreeGraph {
       }
     });
 
-    this.get('canvas').animate((ratio: number) => {
-      traverseTree<TreeGraphData>(data, child => {
-        const node = self.findById(child.id);
+    this.get('canvas').animate(
+      (ratio: number) => {
+        traverseTree<TreeGraphData>(data, child => {
+          const node = self.findById(child.id);
 
-        // 只有当存在node的时候才执行
-        if (node) {
-          let origin = node.get('originAttrs');
-          const model = node.get('model');
+          // 只有当存在node的时候才执行
+          if (node) {
+            let origin = node.get('originAttrs');
+            const model = node.get('model');
 
-          if (!origin) {
-            origin = {
-              x: model.x,
-              y: model.y
-            };
-            node.set('originAttrs', origin);
+            if (!origin) {
+              origin = {
+                x: model.x,
+                y: model.y,
+              };
+              node.set('originAttrs', origin);
+            }
+
+            if (onFrame) {
+              const attrs = onFrame(node, ratio, origin, data);
+              node.set('model', Object.assign(model, attrs));
+            } else {
+              model.x = origin.x + (child.x! - origin.x) * ratio;
+              model.y = origin.y + (child.y! - origin.y) * ratio;
+            }
           }
-
-          if (onFrame) {
-            const attrs = onFrame(node, ratio, origin, data);
-            node.set('model', Object.assign(model, attrs));
-          } else {
-            model.x = origin.x + (child.x! - origin.x) * ratio;
-            model.y = origin.y + (child.y! - origin.y) * ratio;
-          }
-        }
-        return true
-      });
-
-      each(self.get('removeList'), node => {
-        const model = node.getModel();
-        const from = node.get('originAttrs');
-        const to = node.get('to');
-        model.x = from.x + (to.x - from.x) * ratio;
-        model.y = from.y + (to.y - from.y) * ratio;
-      });
-
-      self.refreshPositions();
-    }, {
-      duration: animateCfg.duration,
-      easing: animateCfg.ease,
-      callback: () => {
-        each(self.getNodes(), node => {
-          node.set('originAttrs', null);
+          return true;
         });
-  
+
         each(self.get('removeList'), node => {
-          self.removeItem(node);
+          const model = node.getModel();
+          const from = node.get('originAttrs');
+          const to = node.get('to');
+          model.x = from.x + (to.x - from.x) * ratio;
+          model.y = from.y + (to.y - from.y) * ratio;
         });
-  
-        self.set('removeList', []);
-  
-        if (animateCfg.callback) {
-          animateCfg.callback();
-        }
-  
-        self.paint();
-        this.setAutoPaint(true);
-  
-        self.emit('afteranimate', { data });
+
+        self.refreshPositions();
       },
-      delay: animateCfg.delay
-    });
+      {
+        duration: animateCfg.duration,
+        easing: animateCfg.ease,
+        callback: () => {
+          each(self.getNodes(), node => {
+            node.set('originAttrs', null);
+          });
+
+          each(self.get('removeList'), node => {
+            self.removeItem(node);
+          });
+
+          self.set('removeList', []);
+
+          if (animateCfg.callback) {
+            animateCfg.callback();
+          }
+
+          self.paint();
+          this.setAutoPaint(true);
+
+          self.emit('afteranimate', { data });
+        },
+        delay: animateCfg.delay,
+      },
+    );
   }
 
   /**

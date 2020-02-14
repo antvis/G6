@@ -1,15 +1,14 @@
-import '../../../src/behavior'
-import '../../../src/shape'
-import Graph from '../../../src/graph/graph'
+import '../../../src/behavior';
+import '../../../src/shape';
+import Graph from '../../../src/graph/graph';
 import { Event } from '@antv/g-canvas';
-
 
 const div = document.createElement('div');
 div.id = 'zoom-spec';
 document.body.appendChild(div);
 
 class G6Event extends Event {
-  wheelDelta: number
+  wheelDelta: number;
 }
 function createWheelEvent(canvas, delta, x, y) {
   const bbox = canvas.getBoundingClientRect();
@@ -31,7 +30,7 @@ describe('zoom-canvas', () => {
       width: 500,
       height: 500,
       modes: {
-        default: [ 'zoom-canvas' ]
+        default: ['zoom-canvas'],
       },
     });
     const e = createWheelEvent(graph.get('canvas').get('el'), 100, 100, 100);
@@ -55,11 +54,16 @@ describe('zoom-canvas', () => {
       width: 500,
       height: 500,
       modes: {
-        default: [{
-          type: 'zoom-canvas',
-          shouldUpdate: e => { expect(e).not.toBe(undefined); return false; }
-        }]
-      }
+        default: [
+          {
+            type: 'zoom-canvas',
+            shouldUpdate: e => {
+              expect(e).not.toBe(undefined);
+              return false;
+            },
+          },
+        ],
+      },
     });
     const e = createWheelEvent(graph.get('canvas').get('el'), 100, 100, 100);
     graph.emit('wheel', e);
@@ -73,11 +77,13 @@ describe('zoom-canvas', () => {
       width: 500,
       height: 500,
       modes: {
-        default: [{
-          type: 'zoom-canvas',
-          maxZoom: 5,
-          minZoom: 0.5
-        }]
+        default: [
+          {
+            type: 'zoom-canvas',
+            maxZoom: 5,
+            minZoom: 0.5,
+          },
+        ],
       },
     });
     graph.zoom(5);
@@ -99,8 +105,8 @@ describe('zoom-canvas', () => {
       width: 500,
       height: 500,
       modes: {
-        default: [ 'zoom-canvas' ],
-        custom: []
+        default: ['zoom-canvas'],
+        custom: [],
       },
     });
     const e = createWheelEvent(graph.get('canvas').get('el'), -100, 100, 100);

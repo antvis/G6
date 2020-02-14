@@ -1,7 +1,20 @@
 import EventEmitter from '@antv/event-emitter';
 import { AnimateCfg, Point } from '@antv/g-base/lib/types';
 import Graph from '../graph/graph';
-import { EdgeConfig, GraphData, IG6GraphEvent, Item, ITEM_TYPE, ModelConfig, NodeConfig, Padding, ShapeStyle, TreeGraphData, LayoutConfig, ModelStyle } from '../types';
+import {
+  EdgeConfig,
+  GraphData,
+  IG6GraphEvent,
+  Item,
+  ITEM_TYPE,
+  ModelConfig,
+  NodeConfig,
+  Padding,
+  ShapeStyle,
+  TreeGraphData,
+  LayoutConfig,
+  ModelStyle,
+} from '../types';
 import { IEdge, INode } from './item';
 import PluginBase from '../plugins/base';
 
@@ -24,12 +37,10 @@ export interface IModeOption {
   onChange?: (item?: Item, judge?: boolean) => unknown;
   onSelect?: (selectedNodes?: Item[], selectedEdges?: Item[]) => unknown;
   onDeselect?: (selectedNodes?: Item[], selectedEdges?: Item[]) => unknown;
-  formatText?: (data: {
-    [key: string]: unknown
-  }) => string;
+  formatText?: (data: { [key: string]: unknown }) => string;
 }
 
-export type IModeType = string | IModeOption
+export type IModeType = string | IModeOption;
 
 export interface IMode {
   default?: IModeType[];
@@ -84,7 +95,7 @@ export interface GraphOptions {
 
   groupStyle?: {
     style?: {
-      [key: string]: ShapeStyle
+      [key: string]: ShapeStyle;
     };
   };
 
@@ -119,9 +130,9 @@ export interface GraphOptions {
     color?: string;
   } & ModelStyle;
 
-  nodeStateStyles?: {[key: string]: ShapeStyle};
+  nodeStateStyles?: { [key: string]: ShapeStyle };
 
-  edgeStateStyles?: {[key: string]: ShapeStyle};
+  edgeStateStyles?: { [key: string]: ShapeStyle };
 
   /**
    * 向 graph 注册插件。插件机制请见：plugin
@@ -146,7 +157,7 @@ export interface GraphOptions {
    * 默认值 10
    */
   maxZoom?: number;
-  
+
   groupType?: string;
 
   /**
@@ -157,7 +168,7 @@ export interface GraphOptions {
 
 // Graph 配置项中 state 的类型
 export interface IStates {
-  [key: string]: INode[]
+  [key: string]: INode[];
 }
 export interface IGraph extends EventEmitter {
   getDefaultCfg(): Partial<GraphOptions>;
@@ -550,7 +561,15 @@ export interface ITreeGraph extends IGraph {
    * @param {TreeGraphData} data 更新的数据
    * @param {function} onFrame 定义节点位置更新时如何移动
    */
-  layoutAnimate(data: TreeGraphData, onFrame?: (item: Item, ratio: number, originAttrs?: ShapeStyle, data?: TreeGraphData) => unknown): void;
+  layoutAnimate(
+    data: TreeGraphData,
+    onFrame?: (
+      item: Item,
+      ratio: number,
+      originAttrs?: ShapeStyle,
+      data?: TreeGraphData,
+    ) => unknown,
+  ): void;
 
   /**
    * 立即停止布局动画

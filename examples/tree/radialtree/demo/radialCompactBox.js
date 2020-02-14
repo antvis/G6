@@ -11,26 +11,30 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       height,
       linkCenter: true,
       modes: {
-        default: [{
-          type: 'collapse-expand',
-          onChange: function onChange(item, collapsed) {
-            const data = item.get('model').data;
-            data.collapsed = collapsed;
-            return true;
-          }
-        }, 'drag-canvas', 'zoom-canvas' ]
+        default: [
+          {
+            type: 'collapse-expand',
+            onChange: function onChange(item, collapsed) {
+              const data = item.get('model').data;
+              data.collapsed = collapsed;
+              return true;
+            },
+          },
+          'drag-canvas',
+          'zoom-canvas',
+        ],
       },
       defaultNode: {
         size: 26,
         style: {
           fill: '#C6E5FF',
-          stroke: '#5B8FF9'
-        }
+          stroke: '#5B8FF9',
+        },
       },
       defaultEdge: {
         style: {
-          stroke: '#A3B1BF'
-        }
+          stroke: '#A3B1BF',
+        },
       },
       layout: {
         type: 'compactBox',
@@ -50,13 +54,13 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
         getHGap: () => {
           return 30;
         },
-        radial: true
-      }
+        radial: true,
+      },
     });
 
     graph.node(function(node) {
       return {
-        label: node.id
+        label: node.id,
       };
     });
 

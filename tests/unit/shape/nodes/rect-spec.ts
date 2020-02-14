@@ -1,6 +1,6 @@
-import Graph from '../../../../src/graph/graph'
-import '../../../../src/shape/node'
-import '../../../../src/shape/nodes'
+import Graph from '../../../../src/graph/graph';
+import '../../../../src/shape/node';
+import '../../../../src/shape/nodes';
 
 const div = document.createElement('div');
 div.id = 'graph-spec';
@@ -13,8 +13,8 @@ describe('rect test', () => {
       width: 500,
       height: 500,
       defaultNode: {
-        type: 'rect'
-      }
+        type: 'rect',
+      },
     };
     const graph = new Graph(cfg);
     it('default rect config', () => {
@@ -23,9 +23,9 @@ describe('rect test', () => {
           {
             id: 'node',
             x: 100,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -46,9 +46,9 @@ describe('rect test', () => {
             id: 'node',
             label: 'rect',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -72,17 +72,16 @@ describe('rect test', () => {
   });
 
   describe('rect with linkPoints', () => {
-
     it('rect with linkPoints', () => {
       const cfg = {
         container: div,
         width: 500,
         height: 500,
-          defaultNode: {
+        defaultNode: {
           type: 'rect',
           size: 35,
           style: {
-            fill: 'blue'
+            fill: 'blue',
           },
           linkPoints: {
             top: true,
@@ -90,9 +89,9 @@ describe('rect test', () => {
             left: true,
             right: true,
             fill: '#fff',
-            size: 5
-          }
-        }
+            size: 5,
+          },
+        },
       };
       const graph = new Graph(cfg);
       const data = {
@@ -101,9 +100,9 @@ describe('rect test', () => {
             id: 'node',
             label: 'rect',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -154,15 +153,15 @@ describe('rect test', () => {
         container: div,
         width: 500,
         height: 500,
-          defaultNode: {
+        defaultNode: {
           type: 'rect',
           size: 50,
           style: {
             fill: 'red',
             stroke: '#ccc',
-            lineWidth: 5
-          }
-        }
+            lineWidth: 5,
+          },
+        },
       });
       const data = {
         nodes: [
@@ -170,9 +169,9 @@ describe('rect test', () => {
             id: 'node',
             label: 'rect',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -183,9 +182,9 @@ describe('rect test', () => {
         size: 30,
         color: 'black',
         style: {
-          fill: 'steelblue'
-        }
-      })
+          fill: 'steelblue',
+        },
+      });
       const group = node.get('group');
       expect(group.getCount()).toEqual(2);
       const keyShape = node.getKeyShape();
@@ -201,7 +200,7 @@ describe('rect test', () => {
       const graph = new Graph({
         container: div,
         width: 500,
-        height: 500
+        height: 500,
       });
       const data = {
         nodes: [
@@ -210,9 +209,9 @@ describe('rect test', () => {
             label: 'old rect label',
             type: 'rect',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -224,10 +223,10 @@ describe('rect test', () => {
         label: 'new rect label',
         labelCfg: {
           style: {
-            fill: '#ff0'
-          }
-        }
-      })
+            fill: '#ff0',
+          },
+        },
+      });
 
       const label = group.find(g => {
         return g.get('className') === 'node-label';
@@ -242,9 +241,9 @@ describe('rect test', () => {
           position: 'center',
           style: {
             stroke: 'black',
-            lineWidth: 3
-          }
-        }
+            lineWidth: 3,
+          },
+        },
       });
       expect(label.attr('text')).toEqual('new rect label');
       expect(label.attr('fill')).toEqual('#ff0');
@@ -258,7 +257,7 @@ describe('rect test', () => {
       const graph = new Graph({
         container: div,
         width: 500,
-        height: 500
+        height: 500,
       });
       const data = {
         nodes: [
@@ -266,9 +265,9 @@ describe('rect test', () => {
             id: 'node',
             type: 'rect',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -280,10 +279,10 @@ describe('rect test', () => {
         label: 'new rect label',
         labelCfg: {
           style: {
-            fill: '#ff0'
-          }
-        }
-      })
+            fill: '#ff0',
+          },
+        },
+      });
 
       const label = group.find(g => {
         return g.get('className') === 'node-label';

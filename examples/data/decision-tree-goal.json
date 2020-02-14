@@ -384,12 +384,8 @@
       "isLeaf": true,
       "tags": ["relation-hierarchy"],
       "imgSrc": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*WGHWQYjLmXoAAAAAAAAAAABkARQnAQ",
-      "links": [
-        "/g6/zh/examples/tree/compactBox#tbCompactBox"
-      ],
-      "links_en": [
-        "/g6/en/examples/tree/compactBox#tbCompactBox"
-      ],
+      "links": ["/g6/zh/examples/tree/compactBox#tbCompactBox"],
+      "links_en": ["/g6/en/examples/tree/compactBox#tbCompactBox"],
       "linkNames": ["G6"]
     },
     {
@@ -399,12 +395,8 @@
       "isLeaf": true,
       "tags": ["relation-hierarchy"],
       "imgSrc": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*r51nTJ-Ha5MAAAAAAAAAAABkARQnAQ",
-      "links": [
-        "/g6/zh/examples/tree/dendrogram#tbDendrogram"
-      ],
-      "links_en": [
-        "/g6/en/examples/tree/dendrogram#tbDendrogram"
-      ],
+      "links": ["/g6/zh/examples/tree/dendrogram#tbDendrogram"],
+      "links_en": ["/g6/en/examples/tree/dendrogram#tbDendrogram"],
       "linkNames": ["G6"]
     },
     {
@@ -458,12 +450,8 @@
       "isLeaf": true,
       "tags": ["relation-clustering"],
       "imgSrc": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*8qAMTomesZcAAAAAAAAAAABkARQnAQ",
-      "links": [
-        "/g6/zh/examples/net/furchtermanLayout#fruchtermanClustering"
-      ],
-      "links_en": [
-        "/g6/en/examples/net/furchtermanLayout#fruchtermanClustering"
-      ],
+      "links": ["/g6/zh/examples/net/furchtermanLayout#fruchtermanClustering"],
+      "links_en": ["/g6/en/examples/net/furchtermanLayout#fruchtermanClustering"],
       "linkNames": ["G6"]
     },
     {
@@ -473,12 +461,8 @@
       "isLeaf": true,
       "tags": ["relation"],
       "imgSrc": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XD22Q7uxddEAAAAAAAAAAABkARQnAQ",
-      "links": [
-        "/g6/zh/examples/net/furchtermanLayout"
-      ],
-      "links_en": [
-        "/g6/en/examples/net/furchtermanLayout"
-      ],
+      "links": ["/g6/zh/examples/net/furchtermanLayout"],
+      "links_en": ["/g6/en/examples/net/furchtermanLayout"],
       "linkNames": ["G6"]
     },
     {
@@ -510,12 +494,8 @@
       "isLeaf": true,
       "tags": ["relation"],
       "imgSrc": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5NkUTJyXfIcAAAAAAAAAAABkARQnAQ",
-      "links": [
-        "/g6/zh/examples/net/circular#spiralCircular"
-      ],
-      "links_en": [
-        "/g6/en/examples/net/circular#spiralCircular"
-      ],
+      "links": ["/g6/zh/examples/net/circular#spiralCircular"],
+      "links_en": ["/g6/en/examples/net/circular#spiralCircular"],
       "linkNames": ["G6"]
     },
     {
@@ -537,9 +517,7 @@
       "tags": ["relation"],
       "imgSrc": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zxlhRobv7VEAAAAAAAAAAABkARQnAQ",
       "links": ["/g6/zh/examples/net/concentricLayout"],
-      "links_en": [
-        "/g6/en/examples/net/concentricLayout"
-      ],
+      "links_en": ["/g6/en/examples/net/concentricLayout"],
       "linkNames": ["G6"]
     },
     {
@@ -560,12 +538,8 @@
       "isLeaf": true,
       "tags": ["relation", "compare"],
       "imgSrc": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EaIlRqda-VcAAAAAAAAAAABkARQnAQ",
-      "links": [
-        "/g6/zh/examples/net/forceDirected#forceBubbles"
-      ],
-      "links_en": [
-        "/g6/en/examples/net/forceDirected#forceBubbles"
-      ],
+      "links": ["/g6/zh/examples/net/forceDirected#forceBubbles"],
+      "links_en": ["/g6/en/examples/net/forceDirected#forceBubbles"],
       "linkNames": ["G6"]
     },
     {

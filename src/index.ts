@@ -1,7 +1,7 @@
-import { version } from '../package.json'
+import { version } from '../package.json';
 import Behaviors from './behavior';
-import Graph from './graph/graph'
-import TreeGraph from './graph/tree-graph'
+import Graph from './graph/graph';
+import TreeGraph from './graph/tree-graph';
 import Shape from './shape';
 import Layout from './layout';
 import Global from './global';
@@ -22,5 +22,5 @@ export default {
   Minimap: Plugins.Minimap,
   Grid: Plugins.Grid,
   Bundling: Plugins.Bundling,
-  Menu: Plugins.Menu
-}
+  Menu: Plugins.Menu,
+};

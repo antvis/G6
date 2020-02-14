@@ -7,20 +7,20 @@ const graph = new G6.Graph({
   width,
   height,
   layout: {
-    type: 'force'
+    type: 'force',
   },
   defaultNode: {
     size: 15,
     color: '#5B8FF9',
     style: {
       lineWidth: 2,
-      fill: '#C6E5FF'
-    }
+      fill: '#C6E5FF',
+    },
   },
   defaultEdge: {
     size: 1,
-    color: '#e2e2e2'
-  }
+    color: '#e2e2e2',
+  },
 });
 
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
@@ -31,7 +31,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
       edges: data.edges.map(function(edge, i) {
         edge.id = 'edge' + i;
         return Object.assign({}, edge);
-      })
+      }),
     });
     graph.render();
 

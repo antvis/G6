@@ -1,97 +1,122 @@
 import G6 from '@antv/g6';
 
 const data = {
-  nodes: [{
-    id: '0',
-    label: 'A',
-    cluster: 'part1'
-  }, {
-    id: '1',
-    label: 'B',
-    cluster: 'part1'
-  }, {
-    id: '2',
-    label: 'C',
-    cluster: 'part1'
-  }, {
-    id: '3',
-    label: 'D',
-    cluster: 'part1'
-  }, {
-    id: '4',
-    label: 'E',
-    cluster: 'part1'
-  }, {
-    id: '5',
-    label: 'F',
-    cluster: 'part1'
-  }, {
-    id: '6',
-    label: 'a',
-    cluster: 'part2'
-  }, {
-    id: '7',
-    label: 'b',
-    cluster: 'part2'
-  }, {
-    id: '8',
-    label: 'c',
-    cluster: 'part2'
-  }, {
-    id: '9',
-    label: 'd',
-    cluster: 'part2'
-  }],
-  edges: [{
-    source: '0',
-    target: '6'
-  }, {
-    source: '0',
-    target: '7'
-  }, {
-    source: '0',
-    target: '9'
-  }, {
-    source: '1',
-    target: '6'
-  }, {
-    source: '1',
-    target: '9'
-  }, {
-    source: '1',
-    target: '7'
-  }, {
-    source: '2',
-    target: '8'
-  }, {
-    source: '2',
-    target: '9'
-  }, {
-    source: '2',
-    target: '6'
-  }, {
-    source: '3',
-    target: '8'
-  }, {
-    source: '4',
-    target: '6'
-  }, {
-    source: '4',
-    target: '7'
-  }, {
-    source: '5',
-    target: '9'
-  }]
+  nodes: [
+    {
+      id: '0',
+      label: 'A',
+      cluster: 'part1',
+    },
+    {
+      id: '1',
+      label: 'B',
+      cluster: 'part1',
+    },
+    {
+      id: '2',
+      label: 'C',
+      cluster: 'part1',
+    },
+    {
+      id: '3',
+      label: 'D',
+      cluster: 'part1',
+    },
+    {
+      id: '4',
+      label: 'E',
+      cluster: 'part1',
+    },
+    {
+      id: '5',
+      label: 'F',
+      cluster: 'part1',
+    },
+    {
+      id: '6',
+      label: 'a',
+      cluster: 'part2',
+    },
+    {
+      id: '7',
+      label: 'b',
+      cluster: 'part2',
+    },
+    {
+      id: '8',
+      label: 'c',
+      cluster: 'part2',
+    },
+    {
+      id: '9',
+      label: 'd',
+      cluster: 'part2',
+    },
+  ],
+  edges: [
+    {
+      source: '0',
+      target: '6',
+    },
+    {
+      source: '0',
+      target: '7',
+    },
+    {
+      source: '0',
+      target: '9',
+    },
+    {
+      source: '1',
+      target: '6',
+    },
+    {
+      source: '1',
+      target: '9',
+    },
+    {
+      source: '1',
+      target: '7',
+    },
+    {
+      source: '2',
+      target: '8',
+    },
+    {
+      source: '2',
+      target: '9',
+    },
+    {
+      source: '2',
+      target: '6',
+    },
+    {
+      source: '3',
+      target: '8',
+    },
+    {
+      source: '4',
+      target: '6',
+    },
+    {
+      source: '4',
+      target: '7',
+    },
+    {
+      source: '5',
+      target: '9',
+    },
+  ],
 };
 
 G6.registerLayout('bigraph-layout', {
   execute() {
     const self = this;
-    const center = self.center || [ 0, 0 ];
+    const center = self.center || [0, 0];
     const biSep = self.biSep || 100;
     const nodeSep = self.nodeSep || 20;
     const nodeSize = self.nodeSize || 20;
-    const direction = self.direction || 'horizontal'
+    const direction = self.direction || 'horizontal';
     let part1Pos = 0;
     let part2Pos = 0;
     if (direction === 'horizontal') {
@@ -181,7 +206,7 @@ G6.registerLayout('bigraph-layout', {
         p2n.y = part2Pos;
       }
     });
-  }
+  },
 });
 
 const width = document.getElementById('container').scrollWidth;
@@ -194,20 +219,20 @@ const graph = new G6.Graph({
     type: 'bigraph-layout',
     biSep: 300,
     nodeSep: 20,
-    nodeSize: 20
+    nodeSize: 20,
   },
   animate: true,
   defaultNode: {
     size: 20,
     style: {
       fill: '#C6E5FF',
-      stroke: '#5B8FF9'
-    }
+      stroke: '#5B8FF9',
+    },
   },
   defaultEdge: {
     size: 1,
-    color: '#e2e2e2'
-  }
+    color: '#e2e2e2',
+  },
 });
 graph.data(data);
 graph.render();

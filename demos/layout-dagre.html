@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-  
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Dagre Layout</title>
   </head>
   <style>
@@ -22,210 +21,233 @@
     <script src="../build/g6.js"></script>
     <script>
       const data = {
-        nodes: [{
-          id: '1',
-          type: 'alps',
-          name: 'alps_file1',
-          conf: [{
-            label: 'conf',
-            value: 'pai_graph.conf'
+        nodes: [
+          {
+            id: '1',
+            type: 'alps',
+            name: 'alps_file1',
+            conf: [
+              {
+                label: 'conf',
+                value: 'pai_graph.conf',
+              },
+              {
+                label: 'dot',
+                value: 'pai_graph.dot',
+              },
+              {
+                label: 'init',
+                value: 'init.rc',
+              },
+            ],
           },
           {
-            label: 'dot',
-            value: 'pai_graph.dot'
+            id: '2',
+            type: 'alps',
+            name: 'alps_file2',
+            conf: [
+              {
+                label: 'conf',
+                value: 'pai_graph.conf',
+              },
+              {
+                label: 'dot',
+                value: 'pai_graph.dot',
+              },
+              {
+                label: 'init',
+                value: 'init.rc',
+              },
+            ],
           },
           {
-            label: 'init',
-            value: 'init.rc'
-          }]
-        },
-        {
-          id: '2',
-          type: 'alps',
-          name: 'alps_file2',
-          conf: [{
-            label: 'conf',
-            value: 'pai_graph.conf'
+            id: '3',
+            type: 'alps',
+            name: 'alps_file3',
+            conf: [
+              {
+                label: 'conf',
+                value: 'pai_graph.conf',
+              },
+              {
+                label: 'dot',
+                value: 'pai_graph.dot',
+              },
+              {
+                label: 'init',
+                value: 'init.rc',
+              },
+            ],
           },
           {
-            label: 'dot',
-            value: 'pai_graph.dot'
+            id: '4',
+            type: 'sql',
+            name: 'sql_file1',
+            conf: [
+              {
+                label: 'conf',
+                value: 'pai_graph.conf',
+              },
+              {
+                label: 'dot',
+                value: 'pai_graph.dot',
+              },
+              {
+                label: 'init',
+                value: 'init.rc',
+              },
+            ],
           },
           {
-            label: 'init',
-            value: 'init.rc'
-          }]
-        },
-        {
-          id: '3',
-          type: 'alps',
-          name: 'alps_file3',
-          conf: [{
-            label: 'conf',
-            value: 'pai_graph.conf'
+            id: '5',
+            type: 'sql',
+            name: 'sql_file2',
+            conf: [
+              {
+                label: 'conf',
+                value: 'pai_graph.conf',
+              },
+              {
+                label: 'dot',
+                value: 'pai_graph.dot',
+              },
+              {
+                label: 'init',
+                value: 'init.rc',
+              },
+            ],
           },
           {
-            label: 'dot',
-            value: 'pai_graph.dot'
+            id: '6',
+            type: 'feature_etl',
+            name: 'feature_etl_1',
+            conf: [
+              {
+                label: 'conf',
+                value: 'pai_graph.conf',
+              },
+              {
+                label: 'dot',
+                value: 'pai_graph.dot',
+              },
+              {
+                label: 'init',
+                value: 'init.rc',
+              },
+            ],
           },
           {
-            label: 'init',
-            value: 'init.rc'
-          }]
-        },
-        {
-          id: '4',
-          type: 'sql',
-          name: 'sql_file1',
-          conf: [{
-            label: 'conf',
-            value: 'pai_graph.conf'
+            id: '7',
+            type: 'feature_etl',
+            name: 'feature_etl_1',
+            conf: [
+              {
+                label: 'conf',
+                value: 'pai_graph.conf',
+              },
+              {
+                label: 'dot',
+                value: 'pai_graph.dot',
+              },
+              {
+                label: 'init',
+                value: 'init.rc',
+              },
+            ],
           },
           {
-            label: 'dot',
-            value: 'pai_graph.dot'
+            id: '8',
+            type: 'feature_extractor',
+            name: 'feature_extractor',
+            conf: [
+              {
+                label: 'conf',
+                value: 'pai_graph.conf',
+              },
+              {
+                label: 'dot',
+                value: 'pai_graph.dot',
+              },
+              {
+                label: 'init',
+                value: 'init.rc',
+              },
+            ],
+          },
+        ],
+        edges: [
+          {
+            source: '1',
+            target: '2',
           },
           {
-            label: 'init',
-            value: 'init.rc'
-          }]
-        },
-        {
-          id: '5',
-          type: 'sql',
-          name: 'sql_file2',
-          conf: [{
-            label: 'conf',
-            value: 'pai_graph.conf'
+            source: '1',
+            target: '3',
           },
           {
-            label: 'dot',
-            value: 'pai_graph.dot'
+            source: '2',
+            target: '4',
           },
           {
-            label: 'init',
-            value: 'init.rc'
-          }]
-        },
-        {
-          id: '6',
-          type: 'feature_etl',
-          name: 'feature_etl_1',
-          conf: [{
-            label: 'conf',
-            value: 'pai_graph.conf'
+            source: '3',
+            target: '4',
           },
           {
-            label: 'dot',
-            value: 'pai_graph.dot'
+            source: '4',
+            target: '5',
           },
           {
-            label: 'init',
-            value: 'init.rc'
-          }]
-        },
-        {
-          id: '7',
-          type: 'feature_etl',
-          name: 'feature_etl_1',
-          conf: [{
-            label: 'conf',
-            value: 'pai_graph.conf'
+            source: '5',
+            target: '6',
           },
           {
-            label: 'dot',
-            value: 'pai_graph.dot'
+            source: '6',
+            target: '7',
           },
           {
-            label: 'init',
-            value: 'init.rc'
-          }]
-        },
-        {
-          id: '8',
-          type: 'feature_extractor',
-          name: 'feature_extractor',
-          conf: [{
-            label: 'conf',
-            value: 'pai_graph.conf'
+            source: '6',
+            target: '8',
           },
-          {
-            label: 'dot',
-            value: 'pai_graph.dot'
-          },
-          {
-            label: 'init',
-            value: 'init.rc'
-          }]
-        }],
-        edges: [{
-          source: '1',
-          target: '2'
-        },
-        {
-          source: '1',
-          target: '3'
-        },
-        {
-          source: '2',
-          target: '4'
-        },
-        {
-          source: '3',
-          target: '4'
-        },
-        {
-          source: '4',
-          target: '5'
-        },
-        {
-          source: '5',
-          target: '6'
-        },
-        {
-          source: '6',
-          target: '7'
-        },
-        {
-          source: '6',
-          target: '8'
-        }]
+        ],
       };
 
-      G6.registerNode('sql', {
-        drawShape(cfg, group) {
-          const rect = group.addShape('rect', {
-            attrs: {
-              x: -75,
-              y: -25,
-              width: 150,
-              height: 50,
-              radius: 10,
-              stroke: 'rgb(36,60,96)',
-              fill: 'rgb(76,122,187)'
-            }
-          });
-          if (cfg.name) {
-            const label = group.addShape('text', {
+      G6.registerNode(
+        'sql',
+        {
+          drawShape(cfg, group) {
+            const rect = group.addShape('rect', {
               attrs: {
-                text: cfg.name,
-                x: 0,
-                y: 0,
-                fill: '#fff',
-                fontSize: 14,
-                textAlign: 'center',
-                textBaseline: 'middle',
-                fontWeight: 'bold'
-              }
+                x: -75,
+                y: -25,
+                width: 150,
+                height: 50,
+                radius: 10,
+                stroke: 'rgb(36,60,96)',
+                fill: 'rgb(76,122,187)',
+              },
             });
-          }
-          return rect;
-        }
-      },
-      'single-shape');
+            if (cfg.name) {
+              const label = group.addShape('text', {
+                attrs: {
+                  text: cfg.name,
+                  x: 0,
+                  y: 0,
+                  fill: '#fff',
+                  fontSize: 14,
+                  textAlign: 'center',
+                  textBaseline: 'middle',
+                  fontWeight: 'bold',
+                },
+              });
+            }
+            return rect;
+          },
+        },
+        'single-shape',
+      );
       G6.Global.nodeStateStyle.selected = {
         stroke: '#d9d9d9',
-        fill: '#5394ef'
+        fill: '#5394ef',
       };
 
       const graph = new G6.Graph({
@@ -234,7 +256,7 @@
         height: 500,
         layout: {
           type: 'dagre',
-          nodesepFunc: (d) => {
+          nodesepFunc: d => {
             if (d.id === '3') {
               return 500;
             }
@@ -244,7 +266,7 @@
           // ranksep: 200
         },
         defaultNode: {
-          shape: 'sql'
+          shape: 'sql',
         },
         defaultEdge: {
           shape: 'polyline',
@@ -253,34 +275,38 @@
             offset: 45,
             endArrow: true,
             lineWidth: 5,
-            stroke: 'rgb(76,122,187)'
-          }
+            stroke: 'rgb(76,122,187)',
+          },
         },
         modes: {
-          default: ['drag-canvas', 'zoom-canvas', 'click-select', {
-            type: 'tooltip',
-            formatText(model) {
-              const cfg = model.conf;
-              const text = [];
-              cfg.forEach(row => {
-                text.push(row.label + ':' + row.value + '<br>');
-              });
-              return text.join('\n');
+          default: [
+            'drag-canvas',
+            'zoom-canvas',
+            'click-select',
+            {
+              type: 'tooltip',
+              formatText(model) {
+                const cfg = model.conf;
+                const text = [];
+                cfg.forEach(row => {
+                  text.push(row.label + ':' + row.value + '<br>');
+                });
+                return text.join('\n');
+              },
+              shouldUpdate: e => {
+                // 如果移动到节点文本上显示，不是文本上不显示
+                if (e.target.type !== 'text') {
+                  return false;
+                }
+                return true;
+              },
             },
-            shouldUpdate: e => {
-              // 如果移动到节点文本上显示，不是文本上不显示
-              if (e.target.type !== 'text') {
-                return false;
-              }
-              return true;
-            }
-          }]
+          ],
         },
-        fitView: true
+        fitView: true,
       });
       graph.data(data);
       graph.render();
     </script>
   </body>
-
 </html>

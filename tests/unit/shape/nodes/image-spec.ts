@@ -1,6 +1,6 @@
-import Graph from '../../../../src/graph/graph'
-import '../../../../src/shape/node'
-import '../../../../src/shape/nodes'
+import Graph from '../../../../src/graph/graph';
+import '../../../../src/shape/node';
+import '../../../../src/shape/nodes';
 
 const div = document.createElement('div');
 div.id = 'graph-spec';
@@ -13,8 +13,8 @@ describe('image test', () => {
       width: 500,
       height: 500,
       defaultNode: {
-        type: 'image'
-      }
+        type: 'image',
+      },
     };
     const graph = new Graph(cfg);
     it('default image config', () => {
@@ -23,9 +23,9 @@ describe('image test', () => {
           {
             id: 'node',
             x: 100,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -35,7 +35,9 @@ describe('image test', () => {
       const node = nodes[0];
       const keyShape = node.getKeyShape();
       expect(keyShape.attr('width')).toEqual(200);
-      expect(keyShape.attr('img')).toEqual('https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*eD7nT6tmYgAAAAAAAAAAAABkARQnAQ');
+      expect(keyShape.attr('img')).toEqual(
+        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*eD7nT6tmYgAAAAAAAAAAAABkARQnAQ',
+      );
     });
 
     it('image with label', () => {
@@ -45,9 +47,9 @@ describe('image test', () => {
             id: 'node',
             label: 'image',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -81,9 +83,9 @@ describe('image test', () => {
           size: 150,
           style: {
             shadowColor: '#ccc',
-            shadowBlur: 10
-          }
-        }
+            shadowBlur: 10,
+          },
+        },
       });
       const data = {
         nodes: [
@@ -93,10 +95,10 @@ describe('image test', () => {
             x: 200,
             y: 100,
             clipCfg: {
-              show: true
-            }
-          }
-        ]
+              show: true,
+            },
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -116,8 +118,8 @@ describe('image test', () => {
         height: 500,
         defaultNode: {
           type: 'image',
-          size: 150
-        }
+          size: 150,
+        },
       });
       const data = {
         nodes: [
@@ -129,10 +131,10 @@ describe('image test', () => {
             clipCfg: {
               show: true,
               type: 'circle',
-              r: 10
-            }
-          }
-        ]
+              r: 10,
+            },
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -159,8 +161,8 @@ describe('image test', () => {
         height: 500,
         defaultNode: {
           type: 'image',
-          size: 150
-        }
+          size: 150,
+        },
       });
       const data = {
         nodes: [
@@ -174,10 +176,10 @@ describe('image test', () => {
               type: 'rect',
               width: 100,
               height: 50,
-              x: -50
-            }
-          }
-        ]
+              x: -50,
+            },
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -204,8 +206,8 @@ describe('image test', () => {
         height: 500,
         defaultNode: {
           type: 'image',
-          size: 150
-        }
+          size: 150,
+        },
       });
       const data = {
         nodes: [
@@ -219,10 +221,10 @@ describe('image test', () => {
               type: 'ellipse',
               rx: 100,
               ry: 50,
-              x: -50
-            }
-          }
-        ]
+              x: -50,
+            },
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -249,8 +251,8 @@ describe('image test', () => {
         height: 500,
         defaultNode: {
           type: 'image',
-          size: 150
-        }
+          size: 150,
+        },
       });
       const data = {
         nodes: [
@@ -262,10 +264,16 @@ describe('image test', () => {
             clipCfg: {
               show: true,
               type: 'polygon',
-              points: [[10, 20], [15, 15], [30, 12], [40, 50], [10, 20]],
-            }
-          }
-        ]
+              points: [
+                [10, 20],
+                [15, 15],
+                [30, 12],
+                [40, 50],
+                [10, 20],
+              ],
+            },
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -273,7 +281,13 @@ describe('image test', () => {
       const nodes = graph.getNodes();
       const node = nodes[0];
       const nodeShape = node.get('group').get('children')[0];
-      expect(nodeShape.get('clipShape').attr('points')).toEqual([[10, 20], [15, 15], [30, 12], [40, 50], [10, 20]]);
+      expect(nodeShape.get('clipShape').attr('points')).toEqual([
+        [10, 20],
+        [15, 15],
+        [30, 12],
+        [40, 50],
+        [10, 20],
+      ]);
 
       // node.update({
       //   clipCfg: {
@@ -290,8 +304,8 @@ describe('image test', () => {
         height: 500,
         defaultNode: {
           type: 'image',
-          size: 150
-        }
+          size: 150,
+        },
       });
       const clipPath = [['M', 0, 0], ['L', -75, 200], ['L', 75, 200], ['Z']];
       const data = {
@@ -304,10 +318,10 @@ describe('image test', () => {
             clipCfg: {
               show: true,
               type: 'path',
-              path: clipPath
-            }
-          }
-        ]
+              path: clipPath,
+            },
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -337,9 +351,9 @@ describe('image test', () => {
           size: 150,
           style: {
             shadowColor: '#ccc',
-            shadowBlur: 10
-          }
-        }
+            shadowBlur: 10,
+          },
+        },
       });
       const data = {
         nodes: [
@@ -347,9 +361,9 @@ describe('image test', () => {
             id: 'node',
             label: 'image',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -359,9 +373,9 @@ describe('image test', () => {
       node.update({
         size: 30,
         style: {
-          shadowColor: '#f00'
-        }
-      })
+          shadowColor: '#f00',
+        },
+      });
       const group = node.get('group');
       expect(group.getCount()).toEqual(2);
       const keyShape = node.getKeyShape();
@@ -376,7 +390,7 @@ describe('image test', () => {
       const graph = new Graph({
         container: div,
         width: 500,
-        height: 500
+        height: 500,
       });
       const data = {
         nodes: [
@@ -385,9 +399,9 @@ describe('image test', () => {
             label: 'old image label',
             type: 'image',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -399,10 +413,10 @@ describe('image test', () => {
         label: 'new image label',
         labelCfg: {
           style: {
-            fill: '#ff0'
-          }
-        }
-      })
+            fill: '#ff0',
+          },
+        },
+      });
 
       const label = group.find(g => {
         return g.get('className') === 'node-label';
@@ -417,9 +431,9 @@ describe('image test', () => {
           position: 'center',
           style: {
             stroke: 'black',
-            lineWidth: 3
-          }
-        }
+            lineWidth: 3,
+          },
+        },
       });
       expect(label.attr('text')).toEqual('new image label');
       expect(label.attr('lineWidth')).toEqual(3);
@@ -432,7 +446,7 @@ describe('image test', () => {
       const graph = new Graph({
         container: div,
         width: 500,
-        height: 500
+        height: 500,
       });
       const data = {
         nodes: [
@@ -440,9 +454,9 @@ describe('image test', () => {
             id: 'node',
             type: 'image',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -454,10 +468,10 @@ describe('image test', () => {
         label: 'new image label',
         labelCfg: {
           style: {
-            fill: '#ff0'
-          }
-        }
-      })
+            fill: '#ff0',
+          },
+        },
+      });
 
       const label = group.find(g => {
         return g.get('className') === 'node-label';

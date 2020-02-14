@@ -56,7 +56,11 @@ export class BaseLayout<Cfg = any> implements ILayout<Cfg> {
 
 const Layout: {
   [layoutType: string]: any;
-  registerLayout<Cfg>(type: string, layout: LayoutOption<Cfg>, layoutCons?: LayoutConstructor<Cfg>): void;
+  registerLayout<Cfg>(
+    type: string,
+    layout: LayoutOption<Cfg>,
+    layoutCons?: LayoutConstructor<Cfg>,
+  ): void;
 } = {
   /**
    * 注册布局的方法

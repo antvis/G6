@@ -11,17 +11,20 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       height,
       defaultNode: {
         size: 26,
-        anchorPoints: [[ 0, 0.5 ], [ 1, 0.5 ]],
+        anchorPoints: [
+          [0, 0.5],
+          [1, 0.5],
+        ],
         style: {
           fill: '#C6E5FF',
-          stroke: '#5B8FF9'
-        }
+          stroke: '#5B8FF9',
+        },
       },
       defaultEdge: {
         type: 'cubic-horizontal',
         style: {
-          stroke: '#A3B1BF'
-        }
+          stroke: '#A3B1BF',
+        },
       },
       layout: {
         type: 'indented',
@@ -36,8 +39,8 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
         getSide: d => {
           if (d.id === 'Regression' || d.id === 'Classification') return 'left';
           return 'right';
-        }
-      }
+        },
+      },
     });
 
     let centerX = 0;
@@ -48,9 +51,14 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       return {
         label: node.id,
         labelCfg: {
-          position: node.children && node.children.length > 0 ? 'left' : node.x > centerX ? 'right' : 'left',
-          offset: 5
-        }
+          position:
+            node.children && node.children.length > 0
+              ? 'left'
+              : node.x > centerX
+              ? 'right'
+              : 'left',
+          offset: 5,
+        },
       };
     });
 

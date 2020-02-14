@@ -31,7 +31,7 @@ export default class MDSLayout extends BaseLayout {
    */
   public execute() {
     const self = this;
-    const { nodes, edges = []} = self;
+    const { nodes, edges = [] } = self;
     const center = self.center;
     if (!nodes || nodes.length === 0) {
       return;
@@ -92,8 +92,8 @@ export default class MDSLayout extends BaseLayout {
 
   public handleInfinity(distances: Matrix[]) {
     let maxDistance = -999999;
-    distances.forEach((row) => {
-      row.forEach((value) => {
+    distances.forEach(row => {
+      row.forEach(value => {
         if (value === Infinity) {
           return;
         }

@@ -4,21 +4,21 @@
  */
 
 import GGroup from '@antv/g-canvas/lib/group';
-import { IShape } from '@antv/g-canvas/lib/interfaces'
-import { upperFirst } from '@antv/util'
-import { ShapeOptions } from '../interface/shape'
+import { IShape } from '@antv/g-canvas/lib/interfaces';
+import { upperFirst } from '@antv/util';
+import { ShapeOptions } from '../interface/shape';
 import { IPoint, Item, ModelConfig, NodeConfig, EdgeConfig } from '../types';
 
 const cache: {
   [key: string]: string;
-} = {} // ucfirst 开销过大，进行缓存
+} = {}; // ucfirst 开销过大，进行缓存
 
 // 首字母大写
 function ucfirst(str: string) {
   if (!cache[str]) {
-    cache[str] = upperFirst(str)
+    cache[str] = upperFirst(str);
   }
-  return cache[str]
+  return cache[str];
 }
 
 /**
@@ -42,9 +42,9 @@ const ShapeFactoryBase = {
    * @return {Shape} 工具类
    */
   getShape(type?: string): ShapeOptions {
-    const self = this as any
-    const shape = self[type!] || self[self.defaultShapeType]
-    return shape
+    const self = this as any;
+    const shape = self[type!] || self[self.defaultShapeType];
+    return shape;
   },
   /**
    * 绘制图形
@@ -54,13 +54,13 @@ const ShapeFactoryBase = {
    * @return {IShape} 图形对象
    */
   draw(type: string, cfg: ModelConfig, group: GGroup): IShape {
-    const shape = this.getShape(type)
-    const rst = shape.draw!(cfg, group)
+    const shape = this.getShape(type);
+    const rst = shape.draw!(cfg, group);
 
-    if(shape.afterDraw) {
-      shape.afterDraw(cfg, group, rst)
+    if (shape.afterDraw) {
+      shape.afterDraw(cfg, group, rst);
     }
-    return rst
+    return rst;
   },
   /**
    * 更新
@@ -69,13 +69,14 @@ const ShapeFactoryBase = {
    * @param  {G6.Item} item 节点、边、分组等
    */
   update(type: string, cfg: ModelConfig, item: Item) {
-    const shape = this.getShape(type)
-    if (shape.update) { // 防止没定义 update 函数
-      shape.update(cfg, item)
+    const shape = this.getShape(type);
+    if (shape.update) {
+      // 防止没定义 update 函数
+      shape.update(cfg, item);
     }
 
-    if(shape.afterUpdate) {
-      shape.afterUpdate(cfg, item)
+    if (shape.afterUpdate) {
+      shape.afterUpdate(cfg, item);
     }
   },
   /**
@@ -86,8 +87,8 @@ const ShapeFactoryBase = {
    * @param {G6.Item} item  节点、边、分组等
    */
   setState(type: string, name: string, value: string | boolean, item: Item) {
-    const shape = this.getShape(type)
-    shape.setState!(name, value, item)
+    const shape = this.getShape(type);
+    shape.setState!(name, value, item);
   },
   /**
    * 是否允许更新，不重新绘制图形
@@ -95,12 +96,12 @@ const ShapeFactoryBase = {
    * @return {Boolean} 是否允许使用更新
    */
   shouldUpdate(type: string): boolean {
-    const shape = this.getShape(type)
-    return !!shape.update
+    const shape = this.getShape(type);
+    return !!shape.update;
   },
   getControlPoints(type: string, cfg: ModelConfig): IPoint[] | undefined {
-    const shape = this.getShape(type)
-    return shape.getControlPoints!(cfg)
+    const shape = this.getShape(type);
+    return shape.getControlPoints!(cfg);
   },
   /**
    * 获取控制点
@@ -109,11 +110,10 @@ const ShapeFactoryBase = {
    * @return {Array|null} 控制点的数组,如果为 null，则没有控制点
    */
   getAnchorPoints(type: string, cfg: ModelConfig): number[][] | undefined {
-    const shape = this.getShape(type)
-    return shape.getAnchorPoints!(cfg)
-  }
-}
-
+    const shape = this.getShape(type);
+    return shape.getAnchorPoints!(cfg);
+  },
+};
 
 /**
  * 元素的框架
@@ -130,25 +130,17 @@ const ShapeFramework = {
   /**
    * 绘制
    */
-  drawShape(/* cfg, group */) {
-
-  },
+  drawShape(/* cfg, group */) {},
   /**
    * 绘制完成后的操作，便于用户继承现有的节点、边
    */
-  afterDraw(/* cfg, group */) {
-
-  },
+  afterDraw(/* cfg, group */) {},
   // update(cfg, item) // 默认不定义
-  afterUpdate(/* cfg, item */) {
-
-  },
+  afterUpdate(/* cfg, item */) {},
   /**
    * 设置节点、边状态
    */
-  setState(/* name, value, item */) {
-
-  },
+  setState(/* name, value, item */) {},
   /**
    * 获取控制点
    * @param  {Object} cfg 节点、边的配置项
@@ -166,7 +158,7 @@ const ShapeFramework = {
     const { anchorPoints: defaultAnchorPoints } = this.options as any;
     const anchorPoints = cfg.anchorPoints || defaultAnchorPoints;
     return anchorPoints;
-  }
+  },
   /* 如果没定义 update 方法，每次都调用 draw 方法
   update(cfg, item) {
 
@@ -174,59 +166,65 @@ const ShapeFramework = {
   */
 };
 
-
 export default class Shape {
   public static Node: any;
 
   public static Edge: any;
 
   public static registerFactory(factoryType: string, cfg: object): object {
-    const className = ucfirst(factoryType)
-    const factoryBase = ShapeFactoryBase
-    const shapeFactory = Object.assign({}, factoryBase, cfg) as any
-    (Shape as any)[className] = shapeFactory
-    shapeFactory.className = className
+    const className = ucfirst(factoryType);
+    const factoryBase = ShapeFactoryBase;
+    const shapeFactory = Object.assign({}, factoryBase, cfg) as any;
+    (Shape as any)[className] = shapeFactory;
+    shapeFactory.className = className;
     // addRegister(shapeFactory)
-    return shapeFactory
+    return shapeFactory;
   }
 
   public static getFactory(factoryType: string) {
     // const self = this
-    const className = ucfirst(factoryType)
-    return (Shape as any)[className]
+    const className = ucfirst(factoryType);
+    return (Shape as any)[className];
   }
 
-  public static registerNode(shapeType: string, nodeDefinition: ShapeOptions, extendShapeType?: string) {
+  public static registerNode(
+    shapeType: string,
+    nodeDefinition: ShapeOptions,
+    extendShapeType?: string,
+  ) {
     const shapeFactory = Shape.Node;
     // extendShapeType = extendShapeType ? extendShapeType : 'single-node';
     const extendShape = extendShapeType ? shapeFactory.getShape(extendShapeType) : ShapeFramework;
     // const extendShape = shapeFactory.getShape(extendShapeType);
 
-    const shapeObj = Object.assign({}, extendShape, nodeDefinition)
-    shapeObj.type = shapeType
-    shapeObj.itemType = 'node'
-    shapeFactory[shapeType] = shapeObj
-    return shapeObj
+    const shapeObj = Object.assign({}, extendShape, nodeDefinition);
+    shapeObj.type = shapeType;
+    shapeObj.itemType = 'node';
+    shapeFactory[shapeType] = shapeObj;
+    return shapeObj;
   }
-  
-  public static registerEdge(shapeType: string, edgeDefinition: ShapeOptions, extendShapeType?: string) {
+
+  public static registerEdge(
+    shapeType: string,
+    edgeDefinition: ShapeOptions,
+    extendShapeType?: string,
+  ) {
     const shapeFactory = Shape.Edge;
     const extendShape = extendShapeType ? shapeFactory.getShape(extendShapeType) : ShapeFramework;
-    const shapeObj = Object.assign({}, extendShape, edgeDefinition)
-    shapeObj.type = shapeType
-    shapeObj.itemType = 'edge'
-    shapeFactory[shapeType] = shapeObj
-    return shapeObj
+    const shapeObj = Object.assign({}, extendShape, edgeDefinition);
+    shapeObj.type = shapeType;
+    shapeObj.itemType = 'edge';
+    shapeFactory[shapeType] = shapeObj;
+    return shapeObj;
   }
 }
 
-
 // 注册 Node 的工厂方法
 Shape.registerFactory('node', {
-  defaultShapeType: 'circle'
+  defaultShapeType: 'circle',
 });
 
 // 注册 Edge 的工厂方法
 Shape.registerFactory('edge', {
-  defaultShapeType: 'line'
+  defaultShapeType: 'line',
 });

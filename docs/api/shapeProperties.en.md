@@ -6,6 +6,7 @@ order: 4
 Shape is the basic element on an item (node/edge). The `style` of a node or an edge corresponds to the shape properties of its keyShape (key shape). The `style` in `labelCfg` of a label on a node or an edge corresponds to the properties of text shape.
 
 G6 has these shapes:
+
 - [circle](#circle);
 - [rect](#rect);
 - [ellipse](#ellipse);
@@ -26,77 +27,76 @@ G6 has these shapes:
 | shadowBlur | The blur level for shadow. | Larger the value, more blur. |
 | shadowOffsetX | The horizontal offset of the shadow. |  |
 | shadowOffsetY | The vertical offset of the shadow. |  |
-| opacity | The opacity (alpha value) of the shape. | The corresponding property in canvas is  `globalAlpha`. |
+| opacity | The opacity (alpha value) of the shape. | The corresponding property in canvas is `globalAlpha`. |
 
 ## Usage
+
 ```javascript
 group.addShape('rect', {
-	attrs: {
-  	fill: 'red',
+  attrs: {
+    fill: 'red',
     shadowOffsetX: 10,
     shadowOffsetY: 10,
     shadowColor: 'blue',
     shadowBlur: 10,
-    opacity: 0.8
+    opacity: 0.8,
   },
   // must be assigned in G6 3.3 and later versions. it can be any value you want
-  name: 'rect-shape'
-})
+  name: 'rect-shape',
+});
 ```
 
 ### Circle
 
 ### Special Property
 
-| Name | Description |
-| --- | --- |
-| x | The x of the center of the circle. |
-| y | The y of the center of the circle. |
-| r | The radius of the circle. |
-
+| Name | Description                        |
+| ---- | ---------------------------------- |
+| x    | The x of the center of the circle. |
+| y    | The y of the center of the circle. |
+| r    | The radius of the circle.          |
 
 ### Usage
+
 ```javascript
 group.addShape('circle', {
-	attrs: {
-  	x: 100,
+  attrs: {
+    x: 100,
     y: 100,
     r: 50,
-    fill: 'blue'
+    fill: 'blue',
   },
   // must be assigned in G6 3.3 and later versions. it can be any value you want
-  name: 'circle-shape'
-})
+  name: 'circle-shape',
+});
 ```
 
 ### Ellipse
 
 ### Special Property
 
-| Name | Description |
-| --- | --- |
-| x | The x of the center of the ellipse. |
-| y | The y of the center of the ellipse. |
-| rx | The horizontal raidus of the ellipse. |
-| ry | The vertical raidus of the ellipse. |
-
- 
+| Name | Description                           |
+| ---- | ------------------------------------- |
+| x    | The x of the center of the ellipse.   |
+| y    | The y of the center of the ellipse.   |
+| rx   | The horizontal raidus of the ellipse. |
+| ry   | The vertical raidus of the ellipse.   |
 
 ### Usage
+
 ```javascript
 group.addShape('ellipse', {
-	attrs: {
-  	x: 100,
+  attrs: {
+    x: 100,
     y: 100,
     rx: 50,
     ry: 50,
-    fill: 'blue'
+    fill: 'blue',
   },
   // must be assigned in G6 3.3 and later versions. it can be any value you want
-  name: 'ellipse-shape'
-})
+  name: 'ellipse-shape',
+});
 ```
-
 
 ### Image
 
@@ -110,21 +110,19 @@ group.addShape('ellipse', {
 | height | The height of the image. |  |
 | img | The source of the image. | G6 supports multiple image formats: <br />- url<br />- ImageData<br />- Image<br />- canvas<br /> |
 
-
-
 ### Usage
+
 ```javascript
 group.addShape('image', {
   attrs: {
     x: 0,
     y: 0,
-    img:'https://g.alicdn.com/cm-design/arms-trace/1.0.155/styles/armsTrace/images/TAIR.png'
+    img: 'https://g.alicdn.com/cm-design/arms-trace/1.0.155/styles/armsTrace/images/TAIR.png',
   },
   // must be assigned in G6 3.3 and later versions. it can be any value you want
-  name: 'image-shape'
-})
+  name: 'image-shape',
+});
 ```
-
 
 ### Marker
 
@@ -137,9 +135,8 @@ group.addShape('image', {
 | r | The radius of the marker. |  |
 | symbol | The shape name. | There are several built-in shapes: `circle`, `square`, `diamond`, `triangle`, `triangle-down`. And user could customize a shape as marker. |
 
-
-
 ### Usage
+
 ```javascript
 group.addShape('marker', {
   attrs: {
@@ -160,29 +157,31 @@ group.addShape('marker', {
 });
 ```
 
-
 ### Polygon
 
 ### Special Property
 
-| Name | Description | Remark |
-| --- | --- | --- |
+| Name   | Description                                   | Remark          |
+| ------ | --------------------------------------------- | --------------- |
 | points | The coordinates of the points on the polygon. | It is an array. |
 
-
-
 ### Usage
+
 ```javascript
 group.addShape('polygon', {
   attrs: {
-    points:[[ 30, 30 ], [ 40, 20 ], [ 30, 50 ], [ 60, 100 ]],
-    fill: 'red'
+    points: [
+      [30, 30],
+      [40, 20],
+      [30, 50],
+      [60, 100],
+    ],
+    fill: 'red',
   },
   // must be assigned in G6 3.3 and later versions. it can be any value you want
-  name: 'polygon-shape'
+  name: 'polygon-shape',
 });
 ```
-
 
 ### Rect
 
@@ -196,9 +195,8 @@ group.addShape('polygon', {
 | height | The height of the rect. |  |
 | radius | The border radius. | It can be an integer or an array, representing the border radii of lefttop, righttop, rightbottom, leftbotton respectively. <br />- `radius = 1` or `radius = [ 1 ]` is equal to `radius = [ 1, 1, 1, 1 ]`<br />- `radius = [ 1, 2 ]` is equal to `radius = [ 1, 2, 1, 2 ]`<br />- `radius: [ 1, 2, 3 ]` is equal to `radius: [ 1, 2, 3, 2 ]`<br /> |
 
- 
-
 ### Usage
+
 ```javascript
 group.addShape('rect', {
   attrs: {
@@ -207,14 +205,15 @@ group.addShape('rect', {
     width: 150,
     height: 150,
     stroke: 'black',
-    radius: [2, 4]
+    radius: [2, 4],
   },
   // must be assigned in G6 3.3 and later versions. it can be any value you want
-  name: 'rect-shape'
+  name: 'rect-shape',
 });
 ```
 
 ## Path
+
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> When the edge is too thin to be hitted by mouse, set **lineAppendWidth** to enlarge the hitting area.
 
 ### Special Property
@@ -231,36 +230,36 @@ group.addShape('rect', {
 | miterLimit | The maximum miter length. |  |
 | lineDash | The style of the dash line. | It is an array that describes the length of gaps and line segments. If the number of the elements in the array is odd, the elements will be dulplicated. Such as [5, 15, 25] will be regarded as [5, 15, 25, 5, 15, 25]. |
 
-
 ### Usage
+
 ```javascript
 group.addShape('path', {
   attrs: {
     startArrow: {
       // The custom arrow is a path centered at (0, 0), and points to the positive direction of x-axis
       path: 'M 10,0 L -10,-10 L -10,10 Z',
-      d: 10
+      d: 10,
     },
     endArrow: {
       // The custom arrow is a path centered at (0, 0), and points to the positive direction of x-axis
       path: 'M 10,0 L -10,-10 L -10,10 Z',
-      d: 10
+      d: 10,
     },
     path: [
-      [ 'M', 100, 100 ],
-      [ 'L', 200, 200 ]
+      ['M', 100, 100],
+      ['L', 200, 200],
     ],
     stroke: '#000',
     lineWidth: 8,
-    lineAppendWidth: 5
+    lineAppendWidth: 5,
   },
   // must be assigned in G6 3.3 and later versions. it can be any value you want
-  name: 'path-shape'
+  name: 'path-shape',
 });
 ```
 
-
 ## Text
+
 ### Properties
 
 | Name | Description | Remark |
@@ -282,7 +281,6 @@ group.addShape('path', {
 | fontFamily | The font family of the text. | The corresponding property in CSS is `font-family` |
 | autoRotate | Wheter rotate the text according to the edge automatically if it is a label of an edge. |  |
 
-
 ### Usage
 
 ```javascript
@@ -294,9 +292,9 @@ group.addShape('text', {
     shadowOffsetX: 10,
     shadowOffsetY: 10,
     shadowColor: 'blue',
-    shadowBlur: 10
+    shadowBlur: 10,
   },
   // must be assigned in G6 3.3 and later versions. it can be any value you want
-  name: 'text-shape'
+  name: 'text-shape',
 });
 ```

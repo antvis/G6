@@ -1,7 +1,6 @@
 # Contribution Guide
 
-If you have any comment or advice, please report your [issue](https://github.com/antvis/g6/issues),
-or make any change as you wish and submit an [PR](https://github.com/antvis/g6/pulls).
+If you have any comment or advice, please report your [issue](https://github.com/antvis/g6/issues), or make any change as you wish and submit an [PR](https://github.com/antvis/g6/pulls).
 
 ## Reporting New Issues
 
@@ -112,11 +111,10 @@ g6 uses semantic versioning in release process based on [semver].
 
 ### Branch Strategy
 
-`master` branch is the latest stable version. 
+`master` branch is the latest stable version.
 
 - just checkout develop branch from `master`
 - All new features will be added into `master` or `next` branch as well as all bug-fix except security issues. In such way, we can motivate developers to update to the latest stable version.
-
 
 ### Release Strategy
 
@@ -130,13 +128,12 @@ In the release of every stable version, there will be a PM who has the following
 
 - Confirm that performance test is passed and all issues in current Milestone are either closed or can be delayed to later versions.
 - Open a new [Release Proposal MR], and write `History` as [node CHANGELOG]. Don't forget to correct content in documentation which is related to the releasing version. Commits can be generated automatically.
-    ```
-    $ npm run commits
-    ```
+  ```
+  $ npm run commits
+  ```
 - Nominate PM for next stable version.
 
-
 [semver]: http://semver.org/lang/zh-CN/
-[Release proposal MR]: https://github.com/nodejs/node/pull/4181
-[node CHANGELOG]: https://github.com/nodejs/node/blob/master/CHANGELOG.md
+[release proposal mr]: https://github.com/nodejs/node/pull/4181
+[node changelog]: https://github.com/nodejs/node/blob/master/CHANGELOG.md
 [『我是如何发布一个 npm 包的』]: https://fengmk2.com/blog/2016/how-i-publish-a-npm-package

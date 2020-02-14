@@ -8,7 +8,7 @@ describe('menu', () => {
   const graph = new G6.Graph({
     container: div,
     width: 500,
-    height: 500
+    height: 500,
   });
   it('init & destroy', () => {
     let count = 0;
@@ -17,7 +17,7 @@ describe('menu', () => {
       onShow(e) {
         expect(isNaN(e.canvasX)).toBe(false);
         expect(isNaN(e.canvasY)).toBe(false);
-        return true
+        return true;
       },
       onHide() {
         count++;
@@ -26,7 +26,7 @@ describe('menu', () => {
       getContent(e) {
         expect(e).not.toBe(undefined);
         return 'test menu';
-      }
+      },
     });
 
     menu.initPlugin(graph);
@@ -45,7 +45,7 @@ describe('menu', () => {
 
     Simulate.simulate(document.body, 'click', {
       clientY: 10,
-      clientX: 10
+      clientX: 10,
     });
 
     expect(container.style.visibility).toEqual('hidden');
@@ -56,7 +56,7 @@ describe('menu', () => {
     hide = false;
     Simulate.simulate(document.body, 'click', {
       clientY: 10,
-      clientX: 10
+      clientX: 10,
     });
 
     expect(container.style.visibility).toEqual('visible');
@@ -64,7 +64,7 @@ describe('menu', () => {
     menu.destroyPlugin();
     Simulate.simulate(document.body, 'click', {
       clientY: 10,
-      clientX: 10
+      clientX: 10,
     });
 
     expect(count).toEqual(2);
@@ -88,12 +88,12 @@ describe('menu', () => {
         outDiv.style.left = e.canvasX + 'px';
         outDiv.style.top = e.canvasY + 'px';
         outDiv.style.visibility = 'visible';
-        return true
+        return true;
       },
       onHide() {
         outDiv.style.visibility = 'hidden';
-        return false
-      }
+        return false;
+      },
     });
 
     menu.initPlugin(graph);
@@ -105,7 +105,7 @@ describe('menu', () => {
 
     Simulate.simulate(document.body, 'click', {
       clientY: 0,
-      clientX: 0
+      clientX: 0,
     });
 
     expect(outDiv.style.visibility).toEqual('hidden');
@@ -115,7 +115,7 @@ describe('menu', () => {
     expect(outDiv.style.left).toEqual('300px');
     expect(outDiv.style.top).toEqual('300px');
     expect(outDiv.style.visibility).toEqual('visible');
-    
+
     menu.destroyPlugin();
   });
 });

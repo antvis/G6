@@ -4,14 +4,13 @@ import G6 from '@antv/g6';
  *  该案例演示如何使用G6自定义面积图节点
  *  by 镜曦
  *
-*/
+ */
 
 /**
  * 注册一个 面积图节点
  */
 G6.registerNode('area', {
   draw(cfg, group) {
-
     const baseR = 30;
 
     // Ref line
@@ -23,20 +22,18 @@ G6.registerNode('area', {
         attrs: {
           x: 0, // 居中
           y: 0,
-          r: refR += refInc,
+          r: (refR += refInc),
           stroke: '#bae7ff',
           // stroke: 'rgba(255,255,255,0.4)',
-          lineDash: [ 4, 4 ]
-
+          lineDash: [4, 4],
         },
-        name: 'circle-shape'
+        name: 'circle-shape',
       });
     }
-    const everyIncAngle = 2 * Math.PI * (360 / 5) / 360;
-    const tempIncValues = [ baseR, baseR, baseR, baseR, baseR ];
+    const everyIncAngle = (2 * Math.PI * (360 / 5)) / 360;
+    const tempIncValues = [baseR, baseR, baseR, baseR, baseR];
     const allRs = [];
     cfg.details.forEach(cat => {
-
       const oneRs = [];
       cat.values.forEach((v, i) => {
         const R = tempIncValues[i] + v * 0.4;
@@ -44,23 +41,21 @@ G6.registerNode('area', {
         tempIncValues[i] = R;
       });
       allRs.push(oneRs);
-
     });
     const strokeColors = [
       'rgba(91, 143, 249,1)',
       'rgba(90, 216, 166,1)',
       'rgba(246, 189, 22,1)',
       'rgba(232, 104, 74,1)',
-      'rgba(255, 157, 77,1)'
+      'rgba(255, 157, 77,1)',
     ];
     const fillColors = [
       'rgba(91, 143, 249,0.5)',
       'rgba(90, 216, 166,0.5)',
       'rgba(246, 189, 22,0.5)',
       'rgba(232, 104, 74,0.5)',
-      'rgba(255, 157, 77,0.5)'
+      'rgba(255, 157, 77,0.5)',
     ];
-
 
     allRs.reverse().forEach((Rs, index) => {
       let curAngle = 0;
@@ -69,30 +64,29 @@ G6.registerNode('area', {
         const xPos = r * Math.cos(curAngle);
         const yPos = r * Math.sin(curAngle);
         curAngle += everyIncAngle;
-        poss.push([ xPos, yPos ]);
+        poss.push([xPos, yPos]);
       });
       const Ls = poss.map((p, i) => {
         if (i === 0) {
-          return [ 'M', ...p ];
+          return ['M', ...p];
         }
-        return [ 'L', ...p ];
+        return ['L', ...p];
       });
 
       group.addShape('path', {
         attrs: {
           path: [
             ...Ls,
-            [ 'Z' ] // 封闭
+            ['Z'], // 封闭
           ],
           stroke: strokeColors[index],
-          fill: fillColors[index]
+          fill: fillColors[index],
         },
-        name: 'path-shape1'
+        name: 'path-shape1',
       });
-
     });
     let nowAngle2 = 0;
-    const everyIncAngleCat = 2 * Math.PI * (360 / 5) / 360;
+    const everyIncAngleCat = (2 * Math.PI * (360 / 5)) / 360;
     for (let i = 0; i < 5; i++) {
       const r = 30 + 60;
       const xPos = r * Math.cos(nowAngle2);
@@ -101,14 +95,13 @@ G6.registerNode('area', {
       group.addShape('path', {
         attrs: {
           path: [
-            [ 'M', 0, 0 ],
-            [ 'L', xPos, yPos ]
-
+            ['M', 0, 0],
+            ['L', xPos, yPos],
           ],
-          lineDash: [ 4, 4 ],
-          stroke: 'darkgray' // 颜色应用到边上，如果应用到填充，则使用 fill: cfg.color
+          lineDash: [4, 4],
+          stroke: 'darkgray', // 颜色应用到边上，如果应用到填充，则使用 fill: cfg.color
         },
-        name: 'path-shape2'
+        name: 'path-shape2',
       });
       nowAngle2 += everyIncAngleCat;
     }
@@ -121,9 +114,9 @@ G6.registerNode('area', {
         y: 0,
         r: baseR,
         fill: cfg.centerColor,
-        stroke: 'darkgray'
+        stroke: 'darkgray',
       },
-      name: 'circle-shape'
+      name: 'circle-shape',
     });
 
     if (cfg.label) {
@@ -136,13 +129,13 @@ G6.registerNode('area', {
           textBaseline: 'middle',
           text: cfg.label,
           fill: 'white',
-          fontStyle: 'bold'
+          fontStyle: 'bold',
         },
-        name: 'text-shape'
+        name: 'text-shape',
       });
     }
     return group;
-  }
+  },
 });
 
 /** 数据 */
@@ -155,16 +148,17 @@ const data = {
       label: 'Area1',
       type: 'area',
       anchorPoints: [
-      [ 0, 0.5 ], [ 1, 0.5 ]
+        [0, 0.5],
+        [1, 0.5],
       ],
       details: [
-        { cat: 'pv', values: [ 20, 30, 40, 30, 30 ], color: '#5ad8a6' },
-          { cat: 'dal', values: [ 40, 30, 20, 30, 50 ], color: '#ff99c3' },
-          { cat: 'uv', values: [ 40, 30, 30, 40, 40 ], color: '#6dc8ec' },
-          { cat: 'sal', values: [ 20, 30, 50, 20, 20 ], color: '#269a99' },
-          { cat: 'cal', values: [ 10, 10, 20, 20, 20 ], color: '#9270CA' }
+        { cat: 'pv', values: [20, 30, 40, 30, 30], color: '#5ad8a6' },
+        { cat: 'dal', values: [40, 30, 20, 30, 50], color: '#ff99c3' },
+        { cat: 'uv', values: [40, 30, 30, 40, 40], color: '#6dc8ec' },
+        { cat: 'sal', values: [20, 30, 50, 20, 20], color: '#269a99' },
+        { cat: 'cal', values: [10, 10, 20, 20, 20], color: '#9270CA' },
       ],
-      centerColor: '#5b8ff9'
+      centerColor: '#5b8ff9',
     },
     {
       id: 'nodeD2',
@@ -173,24 +167,25 @@ const data = {
       label: 'Area2',
       type: 'area',
       anchorPoints: [
-      [ 0, 0.5 ], [ 1, 0.5 ]
+        [0, 0.5],
+        [1, 0.5],
       ],
       details: [
-        { cat: 'pv', values: [ 10, 10, 80, 20, 10 ], color: '#5ad8a6' },
-        { cat: 'dal', values: [ 20, 30, 10, 50, 40 ], color: '#ff99c3' },
-        { cat: 'uv', values: [ 10, 50, 30, 20, 30 ], color: '#6dc8ec' },
-        { cat: 'sal', values: [ 70, 30, 20, 20, 20 ], color: '#269a99' },
-        { cat: 'cal', values: [ 50, 10, 20, 70, 30 ], color: '#9270CA' }
+        { cat: 'pv', values: [10, 10, 80, 20, 10], color: '#5ad8a6' },
+        { cat: 'dal', values: [20, 30, 10, 50, 40], color: '#ff99c3' },
+        { cat: 'uv', values: [10, 50, 30, 20, 30], color: '#6dc8ec' },
+        { cat: 'sal', values: [70, 30, 20, 20, 20], color: '#269a99' },
+        { cat: 'cal', values: [50, 10, 20, 70, 30], color: '#9270CA' },
       ],
-      centerColor: '#5b8ff9'
-    }
+      centerColor: '#5b8ff9',
+    },
   ],
   edges: [
     {
       source: 'nodeD',
-      target: 'nodeD2'
-    }
-  ]
+      target: 'nodeD2',
+    },
+  ],
 };
 
 const width = document.getElementById('container').scrollWidth;
@@ -198,9 +193,8 @@ const height = document.getElementById('container').scrollHeight || 500;
 const graph = new G6.Graph({
   container: 'container',
   width,
-  height
+  height,
 });
 
 graph.data(data);
 graph.render();
-

@@ -1,7 +1,7 @@
 import { G6Event, IG6GraphEvent } from '../types';
 
 const DEFAULT_TRIGGER = 'click';
-const ALLOW_EVENTS = [ 'click', 'dblclick' ];
+const ALLOW_EVENTS = ['click', 'dblclick'];
 export default {
   getDefaultCfg(): object {
     return {
@@ -9,7 +9,7 @@ export default {
        * 发生收缩/扩展变化时的回调
        */
       trigger: DEFAULT_TRIGGER,
-      onChange() {}
+      onChange() {},
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -19,10 +19,10 @@ export default {
       ({ trigger } = this);
     } else {
       trigger = DEFAULT_TRIGGER;
-      console.warn('Behavior collapse-expand 的 trigger 参数不合法，请输入 \'click\' 或 \'dblclick\'');
+      console.warn("Behavior collapse-expand 的 trigger 参数不合法，请输入 'click' 或 'dblclick'");
     }
     return {
-      [`node:${trigger}`]: 'onNodeClick'
+      [`node:${trigger}`]: 'onNodeClick',
     };
   },
   onNodeClick(e: IG6GraphEvent) {
@@ -33,7 +33,7 @@ export default {
     if (!sourceData) {
       return;
     }
-    
+
     const { children } = sourceData;
     // 叶子节点的收缩和展开没有意义
     if (!children || children.length === 0) {
@@ -52,8 +52,11 @@ export default {
     try {
       this.onChange(item, collapsed);
     } catch (err) {
-      console.warn('G6 自 3.0.4 版本支持直接从 item.getModel() 获取源数据(临时通知，将在3.2.0版本中清除)', err);
+      console.warn(
+        'G6 自 3.0.4 版本支持直接从 item.getModel() 获取源数据(临时通知，将在3.2.0版本中清除)',
+        err,
+      );
     }
     this.graph.layout();
-  }
+  },
 };

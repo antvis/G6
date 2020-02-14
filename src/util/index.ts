@@ -7,11 +7,11 @@ import mix from '@antv/util/lib/mix';
 import deepMix from '@antv/util/lib/deep-mix';
 
 const Base = {
-    mat3,
-    mix,
-    deepMix,
-    transform
-  }
+  mat3,
+  mix,
+  deepMix,
+  transform,
+};
 
 const Util = Object.assign({}, Base, BaseUtil, GraphicUtil, PathUtil, MathUtil);
 export default Util;

@@ -1,6 +1,5 @@
-
-import G6 from '../../../src'
-import '../../../src/behavior'
+import G6 from '../../../src';
+import '../../../src/behavior';
 
 const div = document.createElement('div');
 div.id = 'global-spec';
@@ -9,31 +8,39 @@ document.body.appendChild(div);
 describe('graph', () => {
   it('global edgeStateStyles and defaultEdge, state change with opacity changed', () => {
     const data = {
-      nodes: [{
-        id: 'node1',
-        x: 100,
-        y: 100
-      }, {
-        id: 'node2',
-        x: 300,
-        y: 300
-      }],
-      edges: [{
-        source: 'node1',
-        target: 'node2'
-      }, {
-        source: 'node1',
-        target: 'node2',
-        type: 'polyline'
-      }, {
-        source: 'node1',
-        target: 'node2',
-        type: 'quadratic'
-      }, {
-        source: 'node1',
-        target: 'node2',
-        type: 'cubic'
-      }]
+      nodes: [
+        {
+          id: 'node1',
+          x: 100,
+          y: 100,
+        },
+        {
+          id: 'node2',
+          x: 300,
+          y: 300,
+        },
+      ],
+      edges: [
+        {
+          source: 'node1',
+          target: 'node2',
+        },
+        {
+          source: 'node1',
+          target: 'node2',
+          type: 'polyline',
+        },
+        {
+          source: 'node1',
+          target: 'node2',
+          type: 'quadratic',
+        },
+        {
+          source: 'node1',
+          target: 'node2',
+          type: 'cubic',
+        },
+      ],
     };
     const graph = new G6.Graph({
       container: div,
@@ -43,14 +50,14 @@ describe('graph', () => {
         hover: {
           opacity: 0.3,
           lineWidth: 5,
-        }
+        },
       },
       defaultEdge: {
         style: {
           stroke: 'steelblue',
-          lineWidth: 3
-        }
-      }
+          lineWidth: 3,
+        },
+      },
     });
     graph.data(data);
     graph.render();
@@ -90,31 +97,39 @@ describe('graph', () => {
 
   it('global edgeStateStyles and defaultEdge, state change with fill/r/width/height/stroke changed', () => {
     const data = {
-      nodes: [{
-        id: 'node1',
-        x: 100,
-        y: 100
-      }, {
-        id: 'node2',
-        x: 300,
-        y: 300
-      }],
-      edges: [{
-        source: 'node1',
-        target: 'node2'
-      }, {
-        source: 'node1',
-        target: 'node2',
-        type: 'polyline'
-      }, {
-        source: 'node1',
-        target: 'node2',
-        type: 'quadratic'
-      }, {
-        source: 'node1',
-        target: 'node2',
-        type: 'cubic'
-      }]
+      nodes: [
+        {
+          id: 'node1',
+          x: 100,
+          y: 100,
+        },
+        {
+          id: 'node2',
+          x: 300,
+          y: 300,
+        },
+      ],
+      edges: [
+        {
+          source: 'node1',
+          target: 'node2',
+        },
+        {
+          source: 'node1',
+          target: 'node2',
+          type: 'polyline',
+        },
+        {
+          source: 'node1',
+          target: 'node2',
+          type: 'quadratic',
+        },
+        {
+          source: 'node1',
+          target: 'node2',
+          type: 'cubic',
+        },
+      ],
     };
     const graph = new G6.Graph({
       container: div,
@@ -125,12 +140,12 @@ describe('graph', () => {
           shadowColor: '#f00',
           shadowBlur: 10,
           shadowOffsetX: 10,
-          shadowOffsetY: 20
-        }
+          shadowOffsetY: 20,
+        },
       },
       defaultEdge: {
-        size: 10
-      }
+        size: 10,
+      },
     });
     graph.data(data);
     graph.render();
@@ -171,63 +186,69 @@ describe('graph', () => {
     graph.emit('edge:mouseleave', { item: cubicEdge });
     graph.destroy();
   });
-  
+
   it('global defaultEdgeand stateStyle in data, state change with fill/r/width/height/stroke changed', () => {
     const data = {
-      nodes: [{
-        id: 'node1',
-        x: 100,
-        y: 100
-      }, {
-        id: 'node2',
-        x: 300,
-        y: 300
-      }],
+      nodes: [
+        {
+          id: 'node1',
+          x: 100,
+          y: 100,
+        },
+        {
+          id: 'node2',
+          x: 300,
+          y: 300,
+        },
+      ],
       edges: [
-      {
-        id: 'line',
-        source: 'node1',
-        target: 'node2',
-        stateStyles: {
-          hover: {
-            lineWidth: 5
-          }
-        }
-      }, {
-        id: 'polyline',
-        source: 'node1',
-        target: 'node2',
-        type: 'polyline',
-        stateStyles: {
-          hover: {
-            stroke: '#0f0'
-          }
-        }
-      }, {
-        id: 'quadratic',
-        source: 'node1',
-        target: 'node2',
-        type: 'quadratic',
-        stateStyles: {
-          hover: {
-            opacity: 0.3
-          }
-        }
-      }, 
-      {
-        id: 'cubic',
-        source: 'node1',
-        target: 'node2',
-        type: 'cubic',
-        stateStyles: {
-          hover: {
-            shadowColor: '#00f',
-            shadowBlur: 15,
-            shadowOffsetX: 5,
-            shadowOffsetY: 25,
-          }
-        }
-      }]
+        {
+          id: 'line',
+          source: 'node1',
+          target: 'node2',
+          stateStyles: {
+            hover: {
+              lineWidth: 5,
+            },
+          },
+        },
+        {
+          id: 'polyline',
+          source: 'node1',
+          target: 'node2',
+          type: 'polyline',
+          stateStyles: {
+            hover: {
+              stroke: '#0f0',
+            },
+          },
+        },
+        {
+          id: 'quadratic',
+          source: 'node1',
+          target: 'node2',
+          type: 'quadratic',
+          stateStyles: {
+            hover: {
+              opacity: 0.3,
+            },
+          },
+        },
+        {
+          id: 'cubic',
+          source: 'node1',
+          target: 'node2',
+          type: 'cubic',
+          stateStyles: {
+            hover: {
+              shadowColor: '#00f',
+              shadowBlur: 15,
+              shadowOffsetX: 5,
+              shadowOffsetY: 25,
+            },
+          },
+        },
+      ],
     };
     const graph = new G6.Graph({
       container: div,
@@ -237,9 +258,9 @@ describe('graph', () => {
         style: {
           lineAppendWidth: 5,
           stroke: '#aaa',
-          lineWidth: 1
-        }
-      }
+          lineWidth: 1,
+        },
+      },
     });
     graph.data(data);
     graph.render();
@@ -302,33 +323,38 @@ describe('graph', () => {
     graph.emit('edge:mouseleave', { item: cubicEdge });
     graph.destroy();
   });
-  
+
   it('global defaultNode and multiple stateStyle in data', () => {
     const data = {
-      nodes: [{
-        id: 'node1',
-        x: 100,
-        y: 100
-      }, {
-        id: 'node2',
-        x: 300,
-        y: 300
-      }],
-      edges: [{
-        id: 'edge1',
-        source: 'node1',
-        target: 'node2',
-        stateStyles: {
-          state1: {
-            lineWidth: 3
+      nodes: [
+        {
+          id: 'node1',
+          x: 100,
+          y: 100,
+        },
+        {
+          id: 'node2',
+          x: 300,
+          y: 300,
+        },
+      ],
+      edges: [
+        {
+          id: 'edge1',
+          source: 'node1',
+          target: 'node2',
+          stateStyles: {
+            state1: {
+              lineWidth: 3,
+            },
+            state2: {
+              lineWidth: 5,
+              stroke: '#f00',
+            },
           },
-          state2: {
-            lineWidth: 5,
-            stroke: '#f00'
-          }
-        }
-      }]
-    }
+        },
+      ],
+    };
     const graph = new G6.Graph({
       container: div,
       width: 500,
@@ -336,9 +362,9 @@ describe('graph', () => {
       defaultEdge: {
         style: {
           lineWidth: 1,
-          lineAppendWidth: 5
-        }
-      }
+          lineAppendWidth: 5,
+        },
+      },
     });
     graph.data(data);
     graph.render();
@@ -383,43 +409,48 @@ describe('graph', () => {
     graph.emit('canvas:click', {});
     graph.destroy();
   });
-  
+
   it('updateItem and state', () => {
     const data = {
-      nodes: [{
-        id: 'node1',
-        x: 100,
-        y: 100
-      }, {
-        id: 'node2',
-        x: 300,
-        y: 300
-      }],
-      edges: [{
-        id: 'edge1',
-        source: 'node1',
-        target: 'node2',
-        stateStyles: {
-          state1: {
-            lineWidth: 3,
-            stroke: '#f00'
+      nodes: [
+        {
+          id: 'node1',
+          x: 100,
+          y: 100,
+        },
+        {
+          id: 'node2',
+          x: 300,
+          y: 300,
+        },
+      ],
+      edges: [
+        {
+          id: 'edge1',
+          source: 'node1',
+          target: 'node2',
+          stateStyles: {
+            state1: {
+              lineWidth: 3,
+              stroke: '#f00',
+            },
+            state2: {
+              lineWidth: 5,
+              stroke: '#00f',
+            },
           },
-          state2: {
-            lineWidth: 5,
-            stroke: '#00f'
-          }
-        }
-      }]
-    }
+        },
+      ],
+    };
     const graph = new G6.Graph({
       container: div,
       width: 500,
       height: 500,
       defaultEdge: {
         style: {
-          lineWidth: 1
-        }
-      }
+          lineWidth: 1,
+        },
+      },
     });
     graph.data(data);
     graph.render();
@@ -427,8 +458,8 @@ describe('graph', () => {
     graph.updateItem(edge, {
       type: 'cubic',
       style: {
-        stroke: '#0f0'
-      }
+        stroke: '#0f0',
+      },
     });
     expect(edge.getKeyShape().attr('stroke')).toEqual('#0f0');
     expect(edge.getKeyShape().attr('lineWidth')).toEqual(1);
@@ -455,7 +486,7 @@ describe('graph', () => {
         graph.setItemState(edge, 'state2', false);
         expect(edge.hasState('state1')).toEqual(false);
         expect(edge.hasState('state2')).toEqual(false);
-      })
+      });
     });
     graph.emit('node:mouseenter', { item: edge });
     graph.emit('node:click', { item: edge });
@@ -466,46 +497,53 @@ describe('graph', () => {
 
   it('combine edgeStateStyles on Graph and stateStyles in data', () => {
     const data = {
-      nodes: [{
-        id: 'node1',
-        x: 100,
-        y: 100
-      }, {
-        id: 'node2',
-        x: 300,
-        y: 300
-      }, {
-        id: 'node3',
-        x: 400,
-        y: 100
-      }],
-      edges: [{
-        id: 'edge1',
-        source: 'node1',
-        target: 'node2',
-        stateStyles: {
-          state1: {
-            lineWidth: 3,
-            stroke: '#f00',
-            shadowColor: '#0f0',
-            shadowBlur: 10
-          }
-        }
-      }, {
-        id: 'edge2',
-        source: 'node2',
-        target: 'node3'
-      }]
-    }
+      nodes: [
+        {
+          id: 'node1',
+          x: 100,
+          y: 100,
+        },
+        {
+          id: 'node2',
+          x: 300,
+          y: 300,
+        },
+        {
+          id: 'node3',
+          x: 400,
+          y: 100,
+        },
+      ],
+      edges: [
+        {
+          id: 'edge1',
+          source: 'node1',
+          target: 'node2',
+          stateStyles: {
+            state1: {
+              lineWidth: 3,
+              stroke: '#f00',
+              shadowColor: '#0f0',
+              shadowBlur: 10,
+            },
+          },
+        },
+        {
+          id: 'edge2',
+          source: 'node2',
+          target: 'node3',
+        },
+      ],
+    };
     const graph = new G6.Graph({
       container: div,
       width: 500,
       height: 500,
       edgeStateStyles: {
         state1: {
-          lineWidth: 7
-        }
-      }
+          lineWidth: 7,
+        },
+      },
     });
     graph.data(data);
     graph.render();
@@ -516,7 +554,7 @@ describe('graph', () => {
       expect(item.hasState('state1')).toEqual(true);
       const keyShape = item.getKeyShape();
       const id = item.getModel().id;
-      switch(id) {
+      switch (id) {
         case 'edge1':
           expect(keyShape.attr('lineWidth')).toEqual(3);
           expect(keyShape.attr('stroke')).toEqual('#f00');
@@ -538,4 +576,4 @@ describe('graph', () => {
     graph.emit('edge:mouseleave', { item: edge });
     graph.destroy();
   });
-})
+});

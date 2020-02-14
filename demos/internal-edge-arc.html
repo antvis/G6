@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-  
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Arc Edge</title>
     <style>
-      .g6-tooltip{
+      .g6-tooltip {
         border: 1px solid #e2e2e2;
         border-radius: 4px;
         font-size: 12px;
@@ -24,54 +23,60 @@
     <script src="./assets/jquery-3.2.1.min.js"></script>
     <script>
       const data = {
-        nodes: [{
-          id: 'node5',
-          x: 100,
-          y: 180,
-          label: '5',
-          size: 80
-        },
-        {
-          id: 'node6',
-          x: 400,
-          y: 150,
-          label: '6',
-          size: 50
-        },
-        {
-          id: 'node7',
-          x: 600,
-          y: 450,
-          label: '7',
-          size: 200
-        }],
-        edges: [{
-          source: 'node6',
-          target: 'node5',
-          shape: 'arc',
-          curveOffset: -150
-        },
-        {
-          source: 'node6',
-          target: 'node5',
-          shape: 'arc',
-          curveOffset: 50
-        },
-        {
-          source: 'node5',
-          target: 'node6',
-          shape: 'arc',
-          curveOffset: 50
-        },
-        {
-          source: 'node5',
-          target: 'node7',
-          shape: 'arc',
-          controlPoints: [{
-            x: 200,
-            y: 315
-          }]
-        }]
+        nodes: [
+          {
+            id: 'node5',
+            x: 100,
+            y: 180,
+            label: '5',
+            size: 80,
+          },
+          {
+            id: 'node6',
+            x: 400,
+            y: 150,
+            label: '6',
+            size: 50,
+          },
+          {
+            id: 'node7',
+            x: 600,
+            y: 450,
+            label: '7',
+            size: 200,
+          },
+        ],
+        edges: [
+          {
+            source: 'node6',
+            target: 'node5',
+            shape: 'arc',
+            curveOffset: -150,
+          },
+          {
+            source: 'node6',
+            target: 'node5',
+            shape: 'arc',
+            curveOffset: 50,
+          },
+          {
+            source: 'node5',
+            target: 'node6',
+            shape: 'arc',
+            curveOffset: 50,
+          },
+          {
+            source: 'node5',
+            target: 'node7',
+            shape: 'arc',
+            controlPoints: [
+              {
+                x: 200,
+                y: 315,
+              },
+            ],
+          },
+        ],
       };
       const graph = new G6.Graph({
         container: 'mountNode',
@@ -79,17 +84,18 @@
         height: 600,
         linkCenter: true,
         modes: {
-          default: ['drag-canvas']
+          default: ['drag-canvas'],
         },
         defaultEdge: {
           shape: 'arc',
           style: {
             lineWidth: 1,
-            stroke: '#aaa'
-          }
-        }
+            stroke: '#aaa',
+          },
+        },
       });
       graph.data(data);
-      graph.render();</script>
+      graph.render();
+    </script>
   </body>
 </html>

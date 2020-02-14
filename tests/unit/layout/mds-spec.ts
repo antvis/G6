@@ -15,8 +15,8 @@ describe('mds', () => {
       width: 500,
       height: 500,
       defaultNode: {
-        size: 10
-      }
+        size: 10,
+      },
     });
     graph.data(data);
     graph.render();
@@ -41,7 +41,6 @@ describe('mds', () => {
     graph.destroy();
   });
 
-
   it('mds layout with no node', () => {
     const graph = new G6.Graph({
       container: div,
@@ -52,7 +51,7 @@ describe('mds', () => {
       height: 500,
     });
     graph.data({
-      nodes: []
+      nodes: [],
     });
     graph.render();
     graph.destroy();
@@ -68,9 +67,11 @@ describe('mds', () => {
       height: 500,
     });
     graph.data({
-      nodes: [{
-        id: 'node'
-      }]
+      nodes: [
+        {
+          id: 'node',
+        },
+      ],
     });
     graph.render();
     const nodeModel = graph.getNodes()[0].getModel();
@@ -87,21 +88,27 @@ describe('mds', () => {
       width: 500,
       height: 500,
       defaultNode: {
-        size: 10
-      }
+        size: 10,
+      },
     });
     graph.data({
-      nodes: [{
-        id: 'node0'
-      }, {
-        id: 'node1'
-      }, {
-        id: 'node2'
-      }],
-      edges: [{
-        source: 'node0',
-        target: 'node1'
-      }]
+      nodes: [
+        {
+          id: 'node0',
+        },
+        {
+          id: 'node1',
+        },
+        {
+          id: 'node2',
+        },
+      ],
+      edges: [
+        {
+          source: 'node0',
+          target: 'node1',
+        },
+      ],
     });
     graph.render();
     // const nodeModel = graph.getNodes()[0].getModel();

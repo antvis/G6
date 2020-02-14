@@ -1,6 +1,6 @@
-import Graph from '../../../../src/graph/graph'
-import '../../../../src/shape/node'
-import '../../../../src/shape/nodes'
+import Graph from '../../../../src/graph/graph';
+import '../../../../src/shape/node';
+import '../../../../src/shape/nodes';
 
 const div = document.createElement('div');
 div.id = 'graph-spec';
@@ -14,8 +14,8 @@ describe('triangle test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          type: 'triangle'
-        }
+          type: 'triangle',
+        },
       });
       const data = {
         nodes: [
@@ -23,9 +23,9 @@ describe('triangle test', () => {
             id: 'node',
             label: 'triangle',
             x: 100,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -56,9 +56,9 @@ describe('triangle test', () => {
         defaultNode: {
           type: 'triangle',
           style: {
-            fill: 'red'
-          }
-        }
+            fill: 'red',
+          },
+        },
       });
       const data = {
         nodes: [
@@ -66,9 +66,9 @@ describe('triangle test', () => {
             id: 'node',
             label: 'old label',
             x: 100,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -85,8 +85,8 @@ describe('triangle test', () => {
         label: 'new label',
         style: {
           fill: 'blue',
-          lineWidth: 2
-        }
+          lineWidth: 2,
+        },
       });
       const label = node.get('group').get('children')[1];
       expect(label.attr('text')).toEqual('new label');
@@ -102,7 +102,7 @@ describe('triangle test', () => {
       const graph = new Graph({
         container: div,
         width: 500,
-        height: 500
+        height: 500,
       });
       const data = {
         nodes: [
@@ -112,13 +112,13 @@ describe('triangle test', () => {
             linkPoints: {
               top: true,
               left: true,
-              right: true
+              right: true,
             },
             type: 'triangle',
             x: 100,
-            y: 200
-          }
-        ]
+            y: 200,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -134,7 +134,7 @@ describe('triangle test', () => {
       const graph = new Graph({
         container: div,
         width: 500,
-        height: 500
+        height: 500,
       });
       const data = {
         nodes: [
@@ -145,13 +145,13 @@ describe('triangle test', () => {
             linkPoints: {
               bottom: true,
               left: true,
-              right: true
+              right: true,
             },
             type: 'triangle',
             x: 100,
-            y: 200
-          }
-        ]
+            y: 200,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -167,7 +167,7 @@ describe('triangle test', () => {
       const graph = new Graph({
         container: div,
         width: 500,
-        height: 500
+        height: 500,
       });
       const data = {
         nodes: [
@@ -178,13 +178,13 @@ describe('triangle test', () => {
             linkPoints: {
               bottom: true,
               left: true,
-              top: true
+              top: true,
             },
             type: 'triangle',
             x: 100,
-            y: 200
-          }
-        ]
+            y: 200,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -200,7 +200,7 @@ describe('triangle test', () => {
       const graph = new Graph({
         container: div,
         width: 500,
-        height: 500
+        height: 500,
       });
       const data = {
         nodes: [
@@ -211,13 +211,13 @@ describe('triangle test', () => {
             linkPoints: {
               bottom: true,
               right: true,
-              top: true
+              top: true,
             },
             type: 'triangle',
             x: 100,
-            y: 200
-          }
-        ]
+            y: 200,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -234,7 +234,7 @@ describe('triangle test', () => {
       const graph = new Graph({
         container: div,
         width: 500,
-        height: 500
+        height: 500,
       });
       const data = {
         nodes: [
@@ -243,13 +243,13 @@ describe('triangle test', () => {
             label: 'triangle',
             linkPoints: {
               top: true,
-              left: true
+              left: true,
             },
             type: 'triangle',
             x: 100,
-            y: 200
-          }
-        ]
+            y: 200,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -258,11 +258,11 @@ describe('triangle test', () => {
       const group = node.get('group');
       // triangle + label + linkPoints * 2
       expect(group.getCount()).toEqual(4);
-      
+
       node.update({
         linkPoints: {
-          top: false
-        }
+          top: false,
+        },
       });
       const topPoint = group.find(g => {
         return g.get('className') === 'link-point-top';
@@ -278,8 +278,8 @@ describe('triangle test', () => {
           size: 10,
           fill: '#f00',
           stroke: '#0f0',
-          lineWidth: 2
-        }
+          lineWidth: 2,
+        },
       });
       const leftPoint = group.find(g => {
         return g.get('className') === 'link-point-left';
@@ -306,8 +306,8 @@ describe('triangle test', () => {
           size: 10,
           fill: '#f00',
           stroke: '#0f0',
-          lineWidth: 2
-        }
+          lineWidth: 2,
+        },
       });
       const leftPoint2 = group.find(g => {
         return g.get('className') === 'link-point-left';
@@ -326,7 +326,7 @@ describe('triangle test', () => {
         direction: 'right',
         linkPoints: {
           stroke: '#000',
-        }
+        },
       });
 
       graph.destroy();
@@ -345,12 +345,12 @@ describe('triangle test', () => {
           size: 50,
           style: {
             fill: 'red',
-            stroke: '#ccc'
+            stroke: '#ccc',
           },
           icon: {
-            show: true
-          }
-        }
+            show: true,
+          },
+        },
       });
       const data = {
         nodes: [
@@ -361,10 +361,10 @@ describe('triangle test', () => {
             y: 100,
             color: '#00f',
             style: {
-              lineWidth: 3
-            }
-          }
-        ]
+              lineWidth: 3,
+            },
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -374,9 +374,9 @@ describe('triangle test', () => {
       node.update({
         color: '#0ff',
         style: {
-          fill: 'black'
-        }
-      })
+          fill: 'black',
+        },
+      });
       const group = node.get('group');
       expect(group.getCount()).toEqual(3);
       const keyShape = node.getKeyShape();
@@ -392,7 +392,7 @@ describe('triangle test', () => {
       const graph = new Graph({
         container: div,
         width: 500,
-        height: 500
+        height: 500,
       });
       const data = {
         nodes: [
@@ -401,9 +401,9 @@ describe('triangle test', () => {
             id: 'node',
             label: 'old triangle label',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -415,10 +415,10 @@ describe('triangle test', () => {
         label: 'new triangle label',
         labelCfg: {
           style: {
-            fill: '#ff0'
-          }
-        }
-      })
+            fill: '#ff0',
+          },
+        },
+      });
 
       const label = group.find(g => {
         return g.get('className') === 'node-label';
@@ -432,9 +432,9 @@ describe('triangle test', () => {
           position: 'center',
           style: {
             stroke: 'black',
-            lineWidth: 3
-          }
-        }
+            lineWidth: 3,
+          },
+        },
       });
       expect(label.attr('text')).toEqual('new triangle label');
       expect(label.attr('fill')).toEqual('#ff0');
@@ -448,7 +448,7 @@ describe('triangle test', () => {
       const graph = new Graph({
         container: div,
         width: 500,
-        height: 500
+        height: 500,
       });
       const data = {
         nodes: [
@@ -456,9 +456,9 @@ describe('triangle test', () => {
             type: 'triangle',
             id: 'node',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
@@ -467,8 +467,8 @@ describe('triangle test', () => {
       const node = nodes[0];
       const group = node.get('group');
       node.update({
-        label: 'triangle label'
-      })
+        label: 'triangle label',
+      });
 
       const label = group.find(g => {
         return g.get('className') === 'node-label';
@@ -492,24 +492,25 @@ describe('triangle test', () => {
             type: 'triangle',
             label: 'triangle',
             x: 200,
-            y: 100
-          }
-        ]
+            y: 100,
+          },
+        ],
       };
       graph.data(data);
       graph.render();
 
       const nodes = graph.getNodes();
       const node = nodes[0];
-      const newImg = 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mt47RKxGy8kAAAAAAAAAAABkARQnAQ';
+      const newImg =
+        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mt47RKxGy8kAAAAAAAAAAABkARQnAQ';
       node.update({
         icon: {
           show: true,
           img: newImg,
           width: 50,
-          height: 50
-        }
-      })
+          height: 50,
+        },
+      });
       let group = node.get('group');
       expect(group.getCount()).toEqual(3);
       const icon = group.find(g => {
@@ -519,22 +520,22 @@ describe('triangle test', () => {
       expect(icon.attr('x')).toEqual(-25);
       expect(icon.attr('y')).toEqual(-25);
       expect(icon.attr('img')).toEqual(newImg);
-      
+
       node.update({
         icon: {
           width: 80,
-        }
-      })
+        },
+      });
       group = node.get('group');
       expect(group.getCount()).toEqual(3);
       expect(icon.attr('width')).toEqual(80);
       expect(icon.attr('x')).toEqual(-40);
-      
+
       node.update({
         icon: {
-          show: false
-        }
-      })
+          show: false,
+        },
+      });
       group = node.get('group');
       expect(group.getCount()).toEqual(2);
       graph.destroy();

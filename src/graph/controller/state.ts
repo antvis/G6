@@ -1,5 +1,5 @@
-import each from '@antv/util/lib/each'
-import isString from '@antv/util/lib/is-string'
+import each from '@antv/util/lib/each';
+import isString from '@antv/util/lib/is-string';
 import { IStates } from '../../interface/graph';
 import { Item } from '../../types';
 import Graph from '../graph';
@@ -10,19 +10,17 @@ interface ICachedStates {
   disabled: IStates;
 }
 
-
-let timer: any = null
-
+let timer: any = null;
 
 export default class StateController {
-  private graph: Graph
+  private graph: Graph;
 
-  private cachedStates: ICachedStates
+  private cachedStates: ICachedStates;
 
-  public destroyed: boolean
+  public destroyed: boolean;
 
   constructor(graph: Graph) {
-    this.graph = graph
+    this.graph = graph;
     /**
      * this.cachedStates = {
      *    enabled: {
@@ -33,9 +31,9 @@ export default class StateController {
      */
     this.cachedStates = {
       enabled: {},
-      disabled: {}
-    }
-    this.destroyed = false
+      disabled: {},
+    };
+    this.destroyed = false;
   }
 
   /**
@@ -135,9 +133,9 @@ export default class StateController {
    * @memberof State
    */
   public updateGraphStates() {
-    const states = this.graph.get('states') as IStates
-    const { cachedStates } = this
-    
+    const states = this.graph.get('states') as IStates;
+    const { cachedStates } = this;
+
     each(cachedStates.disabled, (val, key) => {
       if (states[key]) {
         states[key] = states[key].filter(item => val.indexOf(item) < 0 && !val.destroyed);
@@ -154,7 +152,7 @@ export default class StateController {
             map[item.get('id')] = true;
           }
         });
-        val.forEach((item:Item) => {
+        val.forEach((item: Item) => {
           if (!item.destroyed) {
             const id = item.get('id');
             if (!map[id]) {
@@ -169,8 +167,8 @@ export default class StateController {
     this.graph.emit('graphstatechange', { states });
     this.cachedStates = {
       enabled: {},
-      disabled: {}
-    }
+      disabled: {},
+    };
   }
 
   public destroy() {
@@ -182,5 +180,4 @@ export default class StateController {
     timer = null;
     this.destroyed = true;
   }
-
 }

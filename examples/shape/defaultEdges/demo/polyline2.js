@@ -1,26 +1,30 @@
 import G6 from '@antv/g6';
 
 /**
-   * 该案例演示如何使用内置折线 polyline。
-   * by 十吾
-   */
+ * 该案例演示如何使用内置折线 polyline。
+ * by 十吾
+ */
 
 const data = {
-  nodes: [{
-    id: '2',
-    x: 150,
-    y: 150
-  }, {
-    id: '3',
-    x: 350,
-    y: 250
-  }],
+  nodes: [
+    {
+      id: '2',
+      x: 150,
+      y: 150,
+    },
+    {
+      id: '3',
+      x: 350,
+      y: 250,
+    },
+  ],
   edges: [
-  // 配置内置折线的弯折弧度、端点最小距离
+    // 配置内置折线的弯折弧度、端点最小距离
     {
       source: '2',
-      target: '3'
-    }]
+      target: '3',
+    },
+  ],
 };
 
 const width = document.getElementById('container').scrollWidth;
@@ -32,8 +36,8 @@ const graph = new G6.Graph({
   defaultNode: {
     style: {
       fill: '#DEE9FF',
-      stroke: '#5B8FF9'
-    }
+      stroke: '#5B8FF9',
+    },
   },
   defaultEdge: {
     type: 'polyline',
@@ -41,13 +45,13 @@ const graph = new G6.Graph({
       radius: 10,
       offset: 30,
       endArrow: true,
-      stroke: '#F6BD16'
-    }
+      stroke: '#F6BD16',
+    },
   },
   modes: {
-      // 支持的 behavior
-    default: [ 'drag-node' ]
-  }
+    // 支持的 behavior
+    default: ['drag-node'],
+  },
 });
 
 graph.data(data);

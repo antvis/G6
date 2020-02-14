@@ -6,12 +6,15 @@ order: 4
 In G6, you can set **Linear Gradient** for stroke and **Circular Gradient** for filling color.
 
 ### Linear Gradient for Stroke
+
 #### Demonstration
+
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lX-fSbaOrn0AAAAAAAAAAABkARQnAQ' width='750' />
 
 > `l` is the flag for linear gradient, the text in green can be modified to satisfy your requirements.
 
 #### Usage
+
 Assign the `stroke` as below while [Configurating the Node or Edge](/en/docs/manual/tutorial/elements):
 
 ```
@@ -20,12 +23,15 @@ stroke: 'l(0) 0:#ffffff 0.5:#7ec2f3 1:#1890ff'
 ```
 
 ### Circular Gradient for Fill
+
 #### Demonstration
+
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*U68WTpjAqscAAAAAAAAAAABkARQnAQ' width='750' />
 
 > `r` is the flag for circular gradient, the text in green can be modified to satisfy your requirements. The `x` `y` and `r` are the relative values and range from 0 to 1.
 
 #### Usage
+
 Assign the `fill` as below while [Configurating the Node or Edge](/en/docs/manual/tutorial/elements):
 
 ```

@@ -14,9 +14,9 @@ insertCss(`
 `);
 
 /**
-   * 该示例演示 Fruchterman 布局算法的聚类效果，以及点击交互进行聚类的聚合和扩散效果
-   * by 十吾
-   */
+ * 该示例演示 Fruchterman 布局算法的聚类效果，以及点击交互进行聚类的聚合和扩散效果
+ * by 十吾
+ */
 const descriptionDiv = document.createElement('div');
 descriptionDiv.innerHTML = 'Reading data & Doing layout......';
 const graphDiv = document.getElementById('container');
@@ -24,7 +24,7 @@ graphDiv.appendChild(descriptionDiv);
 const width = graphDiv.scrollWidth;
 const height = graphDiv.scrollHeight - 30;
 
-const colors = [ '#f5222d', '#faad14', '#a0d911', '#13c2c2', '#1890ff', '#b37feb', '#eb2f96' ];
+const colors = ['#f5222d', '#faad14', '#a0d911', '#13c2c2', '#1890ff', '#b37feb', '#eb2f96'];
 const beginColor = '#5b8c00'; // green
 const endColor = '#ff4d4f'; // red
 
@@ -53,7 +53,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
         color,
         fill: color,
         stroke: '#666',
-        lineWidth: 0.6
+        lineWidth: 0.6,
       };
       n.cluster = clusterId;
       n.importValue = 0;
@@ -66,7 +66,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
       nodeMap.get(e.source).exportValue += v;
       nodeMap.get(e.target).importValue += v;
     });
-    mapValueToProp(nodes, 'exportValue', 'size', [ 2, 12 ]);
+    mapValueToProp(nodes, 'exportValue', 'size', [2, 12]);
     const graph = new G6.Graph({
       container: 'container',
       width,
@@ -77,34 +77,38 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
         gravity: 10,
         clustering: true,
         clusterGravity: 30,
-        workerEnabled: true
+        workerEnabled: true,
       },
       fitView: true,
       linkCenter: true,
       defaultNode: {
         type: 'circle',
-        size: 5
+        size: 5,
       },
       defaultEdge: {
-        type: 'quadratic'
+        type: 'quadratic',
       },
       modes: {
-        default: [ 'drag-node', 'drag-canvas', {
-          type: 'tooltip',
-          formatText: function formatText(model) {
-            let name = '';
-            let countries = '';
-            if (model.name) name = model.name + '<br/>';
-            if (model.countries) countries = '<br/>Number of Countries: ' + model.countries;
-            const text = `${name} Export Value: ${model.exportValue}(1000USD)<br/>Region: ${model.region}<br/>Cluster: ${model.cluster} ${countries}`;
-            return text;
-          },
+        default: [
+          'drag-node',
+          'drag-canvas',
+          {
+            type: 'tooltip',
+            formatText: function formatText(model) {
+              let name = '';
+              let countries = '';
+              if (model.name) name = model.name + '<br/>';
+              if (model.countries) countries = '<br/>Number of Countries: ' + model.countries;
+              const text = `${name} Export Value: ${model.exportValue}(1000USD)<br/>Region: ${model.region}<br/>Cluster: ${model.cluster} ${countries}`;
+              return text;
+            },
 
-          shouldUpdate: function shouldUpdate() {
-            return true;
-          }
-        }]
-      }
+            shouldUpdate: function shouldUpdate() {
+              return true;
+            },
+          },
+        ],
+      },
     });
 
     graph.on('afterlayout', function() {
@@ -128,8 +132,8 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
         style: {
           lineWidth,
           strokeOpacity,
-          stroke
-        }
+          stroke,
+        },
       });
     });
     graph.paint();
@@ -155,7 +159,10 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
           const sourceModel = ge.get('sourceNode').getModel();
           const targetModel = ge.get('targetNode').getModel();
           // show the common edges
-          if (sourceModel.cluster === model.cluster && sourceModel.id.substr(0, 7) !== 'cluster' || targetModel.cluster === model.cluster && targetModel.id.substr(0, 7) !== 'cluster') {
+          if (
+            (sourceModel.cluster === model.cluster && sourceModel.id.substr(0, 7) !== 'cluster') ||
+            (targetModel.cluster === model.cluster && targetModel.id.substr(0, 7) !== 'cluster')
+          ) {
             ge.show();
             // add the edges to other cluster nodes
             if (!ge.get('sourceNode').get('visible') && sourceModel.cluster !== model.cluster) {
@@ -172,10 +179,13 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
                 style: {
                   stroke: 'l(0) 0:' + c1 + ' 1:' + c2,
                   lineWidth: 0.4,
-                  strokeOpacity: 0.2
-                }
+                  strokeOpacity: 0.2,
+                },
               });
-            } else if (ge.get('targetNode').get('visible') && targetModel.cluster !== model.cluster) {
+            } else if (
+              ge.get('targetNode').get('visible') &&
+              targetModel.cluster !== model.cluster
+            ) {
               let _c = beginColor,
                 _c2 = endColor;
               if (sourceModel.x > model.x) {
@@ -189,8 +199,8 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
                 style: {
                   stroke: 'l(0) 0:' + _c + ' 1:' + _c2,
                   lineWidth: 0.4,
-                  strokeOpacity: 0.2
-                }
+                  strokeOpacity: 0.2,
+                },
               });
             }
             // hide the edges to the common nodes in other clusters
@@ -210,7 +220,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
           x: 0,
           y: 0,
           count: 0,
-          exportValue: 0
+          exportValue: 0,
         };
         nodes.forEach(function(n) {
           if (n.cluster === model.cluster) {
@@ -243,16 +253,16 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
             color,
             fill: color,
             stroke: '#666',
-            lineWidth: 0.6
+            lineWidth: 0.6,
           },
           size,
           label: region,
           labelCfg: {
             style: {
-              fontSize: 8.5
+              fontSize: 8.5,
             },
-            position: labelPosition
-          }
+            position: labelPosition,
+          },
         });
 
         // add edges about the cluster
@@ -274,10 +284,13 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
               style: {
                 stroke: 'l(0) 0:' + c1 + ' 1:' + c2,
                 lineWidth: 0.4,
-                strokeOpacity: 0.2
-              }
+                strokeOpacity: 0.2,
+              },
             });
-          } else if (targetModel.cluster === model.cluster && sourceModel.cluster !== model.cluster) {
+          } else if (
+            targetModel.cluster === model.cluster &&
+            sourceModel.cluster !== model.cluster
+          ) {
             let _c3 = beginColor,
               _c4 = endColor;
             if (sourceModel.x > center.x) {
@@ -291,26 +304,31 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
               style: {
                 stroke: 'l(0) 0:' + _c3 + ' 1:' + _c4,
                 lineWidth: 0.4,
-                strokeOpacity: 0.2
-              }
+                strokeOpacity: 0.2,
+              },
             });
           }
         });
 
         // hide the common nodes in the cluster
         graphNodes.forEach(function(gn) {
-          if (gn.getModel().cluster === model.cluster && gn.getModel().id.substr(0, 7) !== 'cluster') gn.hide();
+          if (
+            gn.getModel().cluster === model.cluster &&
+            gn.getModel().id.substr(0, 7) !== 'cluster'
+          )
+            gn.hide();
         });
         // hide the common edges about cluster
         graphEdges.forEach(function(ge) {
-          if (!ge.get('sourceNode').get('visible') || !ge.get('targetNode').get('visible')) ge.hide();
+          if (!ge.get('sourceNode').get('visible') || !ge.get('targetNode').get('visible'))
+            ge.hide();
         });
       }
     });
   });
 
 function mapValueToProp(items, valueName, propName, range) {
-  const valueRange = [ 9999999999, -9999999999 ];
+  const valueRange = [9999999999, -9999999999];
   items.forEach(function(n) {
     if (n[valueName] > valueRange[1]) valueRange[1] = n[valueName];
     if (n[valueName] < valueRange[0]) valueRange[0] = n[valueName];
@@ -321,11 +339,12 @@ function mapValueToProp(items, valueName, propName, range) {
   if (propNameStrs[0] === 'style' && propNameStrs.length > 1) {
     items.forEach(function(n) {
       if (n.style === undefined) n.style = {};
-      n.style[propNameStrs[1]] = rLength * (n[valueName] - valueRange[0]) / valueLength + range[0];
+      n.style[propNameStrs[1]] =
+        (rLength * (n[valueName] - valueRange[0])) / valueLength + range[0];
     });
   } else {
     items.forEach(function(n) {
-      n[propNameStrs[0]] = rLength * (n[valueName] - valueRange[0]) / valueLength + range[0];
+      n[propNameStrs[0]] = (rLength * (n[valueName] - valueRange[0])) / valueLength + range[0];
     });
   }
 }

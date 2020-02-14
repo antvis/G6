@@ -1,7 +1,7 @@
-import isArray from '@antv/util/lib/is-array'
-import isNil from '@antv/util/lib/is-nil'
-import isNumber from "@antv/util/lib/is-number";
-import isString from '@antv/util/lib/is-string'
+import isArray from '@antv/util/lib/is-array';
+import isNil from '@antv/util/lib/is-nil';
+import isNumber from '@antv/util/lib/is-number';
+import isString from '@antv/util/lib/is-string';
 import { G6GraphEvent } from '../interface/behavior';
 import { IG6GraphEvent, Padding, Matrix, Item } from '../types';
 import { mat3 } from '@antv/matrix-util/lib';
@@ -19,8 +19,8 @@ export const formatPadding = (padding: Padding): number[] => {
 
   if (isNumber(padding)) {
     top = left = right = bottom = padding;
-  } else if(isString(padding)) {
-    const intPadding = parseInt(padding, 10)
+  } else if (isString(padding)) {
+    const intPadding = parseInt(padding, 10);
     top = left = right = bottom = intPadding;
   } else if (isArray(padding)) {
     top = padding[0];
@@ -28,12 +28,12 @@ export const formatPadding = (padding: Padding): number[] => {
     bottom = !isNil(padding[2]) ? padding[2] : padding[0];
     left = !isNil(padding[3]) ? padding[3] : right;
   }
-  return [ top, right, bottom, left ];
-}
+  return [top, right, bottom, left];
+};
 
 /**
  * clone event
- * @param e 
+ * @param e
  */
 export const cloneEvent = (e: IG6GraphEvent) => {
   const event = new G6GraphEvent(e.type, e);
@@ -46,7 +46,7 @@ export const cloneEvent = (e: IG6GraphEvent) => {
   event.bubbles = true;
   (event.item as Item | null) = e.item;
   return event;
-}
+};
 
 /**
  * 判断 viewport 是否改变，通过和单位矩阵对比
@@ -54,12 +54,12 @@ export const cloneEvent = (e: IG6GraphEvent) => {
  */
 export const isViewportChanged = (matrix: Matrix) => {
   // matrix 为 null， 则说明没有变化
-  if(!matrix) {
-    return false
+  if (!matrix) {
+    return false;
   }
 
-  const MATRIX_LEN = 9
-  const ORIGIN_MATRIX = mat3.create()
+  const MATRIX_LEN = 9;
+  const ORIGIN_MATRIX = mat3.create();
 
   for (let i = 0; i < MATRIX_LEN; i++) {
     if (matrix[i] !== ORIGIN_MATRIX[i]) {
@@ -67,6 +67,6 @@ export const isViewportChanged = (matrix: Matrix) => {
     }
   }
   return false;
-}
+};
 
-export const isNaN = (input: any) => Number.isNaN(Number(input))
+export const isNaN = (input: any) => Number.isNaN(Number(input));

@@ -8,10 +8,10 @@
 import { IGroup } from '@antv/g-base/lib/interfaces';
 import ShapeBase from '@antv/g-canvas/lib/shape/base';
 import { Point } from '@antv/g-canvas/lib/types';
-import deepMix from '@antv/util/lib/deep-mix'
-import isString from '@antv/util/lib/is-string'
+import deepMix from '@antv/util/lib/deep-mix';
+import isString from '@antv/util/lib/is-string';
 import { GraphData, IG6GraphEvent, Item } from '../../types';
-import { IGraph } from '../../interface/graph'
+import { IGraph } from '../../interface/graph';
 import { IEdge, INode } from '../../interface/item';
 
 interface ICustomGroup {
@@ -22,8 +22,8 @@ interface ICustomGroup {
     x: number;
     y: number;
     r: number;
-    btnOffset: number
-  }
+    btnOffset: number;
+  };
 }
 
 interface IGroupPoistion {
@@ -31,7 +31,7 @@ interface IGroupPoistion {
   y: number;
   width: number;
   height: number;
-  maxX?: number
+  maxX?: number;
 }
 
 interface IDelegate {
@@ -57,14 +57,14 @@ export default class CustomGroup {
         opacity: 0.8,
         disCoefficient: 0.6,
         minDis: 40,
-        maxDis: 100
+        maxDis: 100,
       },
       hover: {
         stroke: '#faad14',
         fill: '#ffe58f',
         fillOpacity: 0.3,
         opacity: 0.3,
-        lineWidth: 3
+        lineWidth: 3,
       },
       // 收起状态样式
       collapse: {
@@ -76,22 +76,22 @@ export default class CustomGroup {
         lineWidth: 3,
         fill: '#F3F9FF',
         offsetX: -15,
-        offsetY: 5
+        offsetY: 5,
       },
       icon: 'https://gw.alipayobjects.com/zos/rmsportal/MXXetJAxlqrbisIuZxDO.svg',
       operatorBtn: {
         collapse: {
           img: 'https://gw.alipayobjects.com/zos/rmsportal/uZVdwjJGqDooqKLKtvGA.svg',
           width: 16,
-          height: 16
+          height: 16,
         },
         expand: {
           width: 16,
           height: 16,
-          img: 'https://gw.alipayobjects.com/zos/rmsportal/MXXetJAxlqrbisIuZxDO.svg'
-        }
+          img: 'https://gw.alipayobjects.com/zos/rmsportal/MXXetJAxlqrbisIuZxDO.svg',
+        },
       },
-      visible: false
+      visible: false,
     };
   }
 
@@ -100,7 +100,7 @@ export default class CustomGroup {
   private styles: any;
 
   private customGroup: {
-    [key: string]: ICustomGroup
+    [key: string]: ICustomGroup;
   };
 
   private delegateInGroup: IDelegate;
@@ -113,12 +113,12 @@ export default class CustomGroup {
     this.graph = graph;
     const groupStyle = graph.get('groupStyle');
     this.styles = deepMix({}, CustomGroup.getDefaultCfg(), groupStyle);
-    
+
     // 创建的群组集合
     this.customGroup = {};
     this.delegateInGroup = {};
     this.nodePoint = [];
-    this.destroyed = false
+    this.destroyed = false;
   }
 
   /**
@@ -132,19 +132,26 @@ export default class CustomGroup {
    * @memberof ItemGroup
    * @return {object} null
    */
-  public create(groupId: string, nodes: string[], type = 'circle', zIndex = 0, updateDataModel = false, title = {}) {
+  public create(
+    groupId: string,
+    nodes: string[],
+    type = 'circle',
+    zIndex = 0,
+    updateDataModel = false,
+    title = {},
+  ) {
     const { graph } = this;
     const customGroup: IGroup = graph.get('customGroup');
     const hasGroupIds: string[] = customGroup.get('children').map(data => data.get('id'));
-    
+
     if (hasGroupIds.indexOf(groupId) > -1) {
       console.warn(`已经存在ID为 ${groupId} 的分组，请重新设置分组ID！`);
-      return
+      return;
     }
 
     const nodeGroup = customGroup.addGroup({
       id: groupId,
-      zIndex
+      zIndex,
     });
 
     const autoPaint = graph.get<boolean>('autoPaint');
@@ -177,10 +184,10 @@ export default class CustomGroup {
       if (!groups.find(data => data.id === groupId)) {
         groups.push({
           id: groupId,
-          title
+          title,
         });
         graph.set({
-          groups
+          groups,
         });
       }
     }
@@ -206,21 +213,20 @@ export default class CustomGroup {
           ...defaultStyle,
           x: cx,
           y: cy,
-          r: lastR
+          r: lastR,
         },
         draggable: true,
         capture: true,
         zIndex,
         groupId,
-        name: 'circle-group-shape'
+        name: 'circle-group-shape',
       });
 
       titleX = cx;
       titleY = cy - lastR;
 
       // 更新群组及属性样式
-      this.setDeletageGroupByStyle(groupId, nodeGroup,
-        { width, height, x: cx, y: cy, r: lastR });
+      this.setDeletageGroupByStyle(groupId, nodeGroup, { width, height, x: cx, y: cy, r: lastR });
     } else {
       const rectPadding = paddingValue * defaultStyle.disCoefficient;
       keyShape = nodeGroup.addShape('rect', {
@@ -229,13 +235,13 @@ export default class CustomGroup {
           x: x - rectPadding,
           y: y - rectPadding,
           width: width + rectPadding * 2,
-          height: height + rectPadding * 2
+          height: height + rectPadding * 2,
         },
         draggable: true,
         capture: true,
         zIndex,
         groupId,
-        name: 'rect-group-shape'
+        name: 'rect-group-shape',
       });
 
       titleX = x - rectPadding + 15;
@@ -247,7 +253,7 @@ export default class CustomGroup {
         y: y - rectPadding,
         width: width + rectPadding,
         height: height + rectPadding,
-        btnOffset: maxX - 3
+        btnOffset: maxX - 3,
       });
     }
 
@@ -260,10 +266,10 @@ export default class CustomGroup {
           stroke: '#444',
           x: titleX + offsetX,
           y: titleY + offsetY,
-          ...titleStyle
+          ...titleStyle,
         },
         className: 'group-title',
-        name: 'group-title-shape'
+        name: 'group-title-shape',
       });
       textShape.set('capture', false);
     }
@@ -297,9 +303,9 @@ export default class CustomGroup {
     } else {
       styles = deepMix({}, defaultStyle, style);
     }
-    Object.keys(styles).forEach((s) => {
+    Object.keys(styles).forEach(s => {
       keyShape.attr(s, styles[s]);
-    })
+    });
   }
 
   /**
@@ -310,7 +316,10 @@ export default class CustomGroup {
    * @return {object} 根据节点计算出来的包围盒坐标
    * @memberof ItemGroup
    */
-  public calculationGroupPosition(nodes: string[], position: Point = { x: 100, y: 100 }): IGroupPoistion {
+  public calculationGroupPosition(
+    nodes: string[],
+    position: Point = { x: 100, y: 100 },
+  ): IGroupPoistion {
     // hxy 可新增无节点group，适用于图编辑场景
     if (nodes.length === 0) {
       // 防止空group 无法计算大小
@@ -318,7 +327,7 @@ export default class CustomGroup {
         x: position.x,
         y: position.y,
         width: 100,
-        height: 100
+        height: 100,
       };
     }
 
@@ -330,7 +339,7 @@ export default class CustomGroup {
     let maxy = -Infinity;
 
     // 获取已节点的所有最大最小x y值
-    nodes.forEach((id) => {
+    nodes.forEach(id => {
       const element = isString(id) ? graph.findById(id) : id;
       const bbox = element.getBBox();
       const { minX, minY, maxX, maxY } = bbox;
@@ -349,7 +358,7 @@ export default class CustomGroup {
       if (maxY > maxy) {
         maxy = maxY;
       }
-    })
+    });
 
     const x = Math.floor(minx);
     const y = Math.floor(miny);
@@ -361,7 +370,7 @@ export default class CustomGroup {
       y,
       width,
       height,
-      maxX: Math.ceil(maxx)
+      maxX: Math.ceil(maxx),
     };
   }
 
@@ -401,8 +410,8 @@ export default class CustomGroup {
           x,
           y,
           r,
-          btnOffset
-        }
+          btnOffset,
+        },
       };
     } else {
       // 更新时候merge配置项
@@ -410,7 +419,7 @@ export default class CustomGroup {
       const styles = deepMix({}, groupStyle, property);
       this.customGroup[groupId] = {
         nodeGroup: deletage,
-        groupStyle: styles
+        groupStyle: styles,
       };
     }
   }
@@ -444,7 +453,7 @@ export default class CustomGroup {
       this.collapseGroup(groupId);
     }
   }
-  
+
   /**
    * 将临时节点递归地设置到groupId及父节点上
    * @param {string} groupId 群组ID
@@ -495,9 +504,9 @@ export default class CustomGroup {
     const keyShape = nodeGroup.get('keyShape');
     const { r, width, height, offsetX, offsetY, ...otherStyle } = collapse;
 
-    Object.keys(otherStyle).forEach((style) => {
+    Object.keys(otherStyle).forEach(style => {
       keyShape.attr(style, otherStyle[style]);
-    })
+    });
 
     let options: any = {
       groupId: id,
@@ -505,34 +514,40 @@ export default class CustomGroup {
       x: keyShape.attr('x'),
       y: keyShape.attr('y'),
       style: {
-        r
+        r,
       },
-      type: 'circle'
+      type: 'circle',
     };
 
-    const titleShape = nodeGroup.find(element => element.get('className') === 'group-title')
+    const titleShape = nodeGroup.find(element => element.get('className') === 'group-title');
 
     // 收起群组时候动画
     if (groupType === 'circle') {
-      keyShape.animate({ r }, {
-        duration: 500,
-        easing: 'easeCubic'
-      });
+      keyShape.animate(
+        { r },
+        {
+          duration: 500,
+          easing: 'easeCubic',
+        },
+      );
       if (titleShape) {
         titleShape.attr({
           x: keyShape.attr('x') + offsetX,
-          y: keyShape.attr('y') + offsetY
+          y: keyShape.attr('y') + offsetY,
         });
       }
     } else if (groupType === 'rect') {
-      keyShape.animate({ width, height }, {
-        duration: 500,
-        easing: 'easeCubic'
-      });
+      keyShape.animate(
+        { width, height },
+        {
+          duration: 500,
+          easing: 'easeCubic',
+        },
+      );
       if (titleShape) {
         titleShape.attr({
           x: keyShape.attr('x') + 10,
-          y: keyShape.attr('y') + height / 2 + 5
+          y: keyShape.attr('y') + height / 2 + 5,
         });
       }
       options = {
@@ -540,8 +555,8 @@ export default class CustomGroup {
         id: `${id}-custom-node`,
         x: keyShape.attr('x') + width / 2,
         y: keyShape.attr('y') + height / 2,
-        size: [ width, height ],
-        type: 'rect'
+        size: [width, height],
+        type: 'rect',
       };
     }
 
@@ -594,7 +609,7 @@ export default class CustomGroup {
       delegateNode.set('capture', false);
       delegateNode.hide();
       this.delegateInGroup[id] = {
-        delegateNode
+        delegateNode,
       };
 
       // 将临时添加的节点加入到群组中，以便拖动节点时候线跟着拖动
@@ -615,7 +630,11 @@ export default class CustomGroup {
    * @param {array} sourceInTargetOutEdges 入度的边
    * @memberof ItemGroup
    */
-  public updateEdgeInGroupLinks(groupId: string, sourceOutTargetInEdges: IEdge[], sourceInTargetOutEdges: IEdge[]) {
+  public updateEdgeInGroupLinks(
+    groupId: string,
+    sourceOutTargetInEdges: IEdge[],
+    sourceInTargetOutEdges: IEdge[],
+  ) {
     const { graph } = this;
     // 更新source在外的节点
     const edgesOuts = {};
@@ -625,7 +644,7 @@ export default class CustomGroup {
       const { target } = model;
       edgesOuts[id] = target;
       graph.updateItem(edge, {
-        target: `${groupId}-custom-node`
+        target: `${groupId}-custom-node`,
       });
       return true;
     });
@@ -638,18 +657,21 @@ export default class CustomGroup {
       const { source } = model;
       edgesIn[id] = source;
       graph.updateItem(edge, {
-        source: `${groupId}-custom-node`
+        source: `${groupId}-custom-node`,
       });
       return true;
     });
 
     // 缓存群组groupId下的edge和临时生成的node节点
-    this.delegateInGroup[groupId] = deepMix({
-      sourceOutTargetInEdges,
-      sourceInTargetOutEdges,
-      edgesOuts,
-      edgesIn
-    }, this.delegateInGroup[groupId]);
+    this.delegateInGroup[groupId] = deepMix(
+      {
+        sourceOutTargetInEdges,
+        sourceInTargetOutEdges,
+        edgesOuts,
+        edgesIn,
+      },
+      this.delegateInGroup[groupId],
+    );
   }
 
   /**
@@ -675,29 +697,35 @@ export default class CustomGroup {
 
     const { default: defaultStyle, collapse } = this.styles;
 
-    Object.keys(defaultStyle).forEach((style) => {
+    Object.keys(defaultStyle).forEach(style => {
       keyShape.attr(style, defaultStyle[style]);
-    })
+    });
 
-    const titleShape = nodeGroup.find(element => element.get('className') === 'group-title')
+    const titleShape = nodeGroup.find(element => element.get('className') === 'group-title');
 
     // 检测操作的群组中是否包括子群组
     const paddingValue = this.getGroupPadding(id);
     if (groupType === 'circle') {
       const r = width > height ? width / 2 : height / 2;
-      keyShape.animate({ r: r + paddingValue }, {
-        duration: 500,
-        easing: 'easeCubic'
-      });
+      keyShape.animate(
+        { r: r + paddingValue },
+        {
+          duration: 500,
+          easing: 'easeCubic',
+        },
+      );
     } else if (groupType === 'rect') {
       const { width: w, height: h } = collapse;
-      keyShape.animate({
-        width: w + width + paddingValue * defaultStyle.disCoefficient * 2,
-        height: h + height + paddingValue * defaultStyle.disCoefficient * 2
-      }, {
-        duration: 500,
-        easing: 'easeCubic'
-      });
+      keyShape.animate(
+        {
+          width: w + width + paddingValue * defaultStyle.disCoefficient * 2,
+          height: h + height + paddingValue * defaultStyle.disCoefficient * 2,
+        },
+        {
+          duration: 500,
+          easing: 'easeCubic',
+        },
+      );
     }
 
     if (titleShape) {
@@ -710,21 +738,27 @@ export default class CustomGroup {
       }
       const { offsetX = 0, offsetY = 0 } = groupTitle;
       if (groupType === 'circle') {
-        titleShape.animate({
-          x: keyShape.attr('x') + offsetX,
-          y: keyShape.attr('y') - keyShape.attr('r') + offsetY
-        }, {
-          duration: 600,
-          easing: 'easeCubic'
-        });
+        titleShape.animate(
+          {
+            x: keyShape.attr('x') + offsetX,
+            y: keyShape.attr('y') - keyShape.attr('r') + offsetY,
+          },
+          {
+            duration: 600,
+            easing: 'easeCubic',
+          },
+        );
       } else if (groupType === 'rect') {
-        titleShape.animate({
-          x: keyShape.attr('x') + (15 + offsetX),
-          y: keyShape.attr('y') + (15 + offsetY)
-        }, {
-          duration: 600,
-          easing: 'easeCubic'
-        });
+        titleShape.animate(
+          {
+            x: keyShape.attr('x') + (15 + offsetX),
+            y: keyShape.attr('y') + (15 + offsetY),
+          },
+          {
+            duration: 600,
+            easing: 'easeCubic',
+          },
+        );
       }
     }
 
@@ -766,18 +800,20 @@ export default class CustomGroup {
 
     const delegates = this.delegateInGroup[id];
     if (delegates) {
-      const { sourceOutTargetInEdges,
+      const {
+        sourceOutTargetInEdges,
         sourceInTargetOutEdges,
         edgesOuts,
         edgesIn,
-        delegateNode } = delegates;
+        delegateNode,
+      } = delegates;
 
       // 恢复source在外的节点
       sourceOutTargetInEdges.map(edge => {
         const edgeId = edge.get('id');
         const sourceOuts = edgesOuts[edgeId];
         graph.updateItem(edge, {
-          target: sourceOuts
+          target: sourceOuts,
         });
         return true;
       });
@@ -787,7 +823,7 @@ export default class CustomGroup {
         const edgeId = edge.get('id');
         const sourceIn = edgesIn[edgeId];
         graph.updateItem(edge, {
-          source: sourceIn
+          source: sourceIn,
         });
         return true;
       });
@@ -795,7 +831,7 @@ export default class CustomGroup {
       // 删除群组中的临时节点ID
       const tmpNodeModel = delegateNode.getModel();
 
-      this.deleteTmpNode(id, (tmpNodeModel.id as string));
+      this.deleteTmpNode(id, tmpNodeModel.id as string);
       graph.remove(delegateNode);
       delete this.delegateInGroup[id];
     }
@@ -872,14 +908,13 @@ export default class CustomGroup {
     let parentGroupData = null;
 
     for (let i = 0; i < groups.length; i++) {
-      const group = groups[i]
+      const group = groups[i];
       if (groupId === group.id) {
         parentGroupId = group.parentId;
         parentGroupData = group;
         break;
-      } 
+      }
     }
-
 
     if (parentGroupData) {
       delete parentGroupData.parentId;
@@ -913,12 +948,12 @@ export default class CustomGroup {
     let parentGroupData = null;
 
     for (let i = 0; i < groups.length; i++) {
-      const group = groups[i]
+      const group = groups[i];
       if (groupId === group.id) {
         parentGroupId = group.parentId;
         parentGroupData = group;
         break;
-      } 
+      }
     }
 
     if (parentGroupId) {
@@ -945,13 +980,19 @@ export default class CustomGroup {
         const currentGroupNodes = groupNodes[groupId];
         const parentGroupNodes = groupNodes[parentGroupId];
 
-        groupNodes[parentGroupId] = parentGroupNodes.filter(node => currentGroupNodes.indexOf(node) === -1);
+        groupNodes[parentGroupId] = parentGroupNodes.filter(
+          node => currentGroupNodes.indexOf(node) === -1,
+        );
 
-        const { x: x1, y: y1, width, height } = this.calculationGroupPosition(groupNodes[parentGroupId]); // x: x1, y: y1,
+        const { x: x1, y: y1, width, height } = this.calculationGroupPosition(
+          groupNodes[parentGroupId],
+        ); // x: x1, y: y1,
         // const { x: x1, y: y1 } = originPosition;
         const paddingValue = this.getGroupPadding(parentGroupId);
 
-        const groupTitleShape = parentGroup.find(element => element.get('className') === 'group-title')
+        const groupTitleShape = parentGroup.find(
+          element => element.get('className') === 'group-title',
+        );
 
         let titleX = 0;
         let titleY = 0;
@@ -962,7 +1003,7 @@ export default class CustomGroup {
           parentKeyShape.attr({
             r: r + paddingValue,
             x: cx,
-            y: cy
+            y: cy,
           });
 
           titleX = cx;
@@ -972,7 +1013,7 @@ export default class CustomGroup {
           const rectPadding = paddingValue * defaultStyle.disCoefficient;
           parentKeyShape.attr({
             x: x1 - rectPadding,
-            y: y1 - rectPadding
+            y: y1 - rectPadding,
           });
 
           titleX = x1 - rectPadding + 15;
@@ -984,12 +1025,12 @@ export default class CustomGroup {
           let offsetX = 0;
           let offsetY = 0;
           if (titleConfig) {
-            offsetX  = titleConfig.offsetX; // eslint-disable-line prefer-destructuring
-            offsetY  = titleConfig.offsetY; // eslint-disable-line prefer-destructuring
+            offsetX = titleConfig.offsetX; // eslint-disable-line prefer-destructuring
+            offsetY = titleConfig.offsetY; // eslint-disable-line prefer-destructuring
           }
           groupTitleShape.attr({
             x: titleX + offsetX,
-            y: titleY + offsetY
+            y: titleY + offsetY,
           });
         }
       }
@@ -1025,7 +1066,7 @@ export default class CustomGroup {
       if (!this.nodePoint[index]) {
         this.nodePoint[index] = {
           x: model.x,
-          y: model.y
+          y: model.y,
         };
       }
 
@@ -1034,7 +1075,8 @@ export default class CustomGroup {
       const y = position.y - originBBox.y + this.nodePoint[index].y;
 
       this.nodePoint[index] = {
-        x, y
+        x,
+        y,
       };
 
       graph.updateItem(node, { x, y });
@@ -1061,7 +1103,7 @@ export default class CustomGroup {
         const cy = (height + 2 * y) / 2;
         groupKeyShape.attr({
           x: cx,
-          y: cy
+          y: cy,
         });
 
         titleX = cx;
@@ -1082,7 +1124,7 @@ export default class CustomGroup {
           // 无标题，或节点分组是展开的情况
           keyshapePosition = {
             x: x - rectPadding,
-            y: y - rectPadding
+            y: y - rectPadding,
           };
           titleY = titleY + 10;
         } else {
@@ -1090,7 +1132,7 @@ export default class CustomGroup {
             x: x - rectPadding,
             y: y - rectPadding,
             width: width + rectPadding * 2,
-            height: height + rectPadding * 2
+            height: height + rectPadding * 2,
           };
         }
         groupKeyShape.attr(keyshapePosition);
@@ -1109,8 +1151,8 @@ export default class CustomGroup {
    */
   public updateGroupTitle(group: IGroup, groupId: string, x: number, y: number) {
     const { graph } = this;
-    
-    const groupTitleShape = group.find(element => element.get('className') === 'group-title')
+
+    const groupTitleShape = group.find(element => element.get('className') === 'group-title');
 
     if (groupTitleShape) {
       let titleConfig = null;
@@ -1127,7 +1169,7 @@ export default class CustomGroup {
       }
       groupTitleShape.attr({
         x: x + offsetX,
-        y: y + offsetY
+        y: y + offsetY,
       });
     }
   }
@@ -1159,7 +1201,10 @@ export default class CustomGroup {
 
       // step 2: 从groups数据中删除
       const groupsData = graph.get('groups');
-      graph.set('groups', groupsData.filter(gdata => gdata.id !== groupId));
+      graph.set(
+        'groups',
+        groupsData.filter(gdata => gdata.id !== groupId),
+      );
 
       // step 3: 删除原来的群组
       currentGroup.remove();
@@ -1177,7 +1222,7 @@ export default class CustomGroup {
         keyShape.attr({
           r: r + paddingValue,
           x: cx,
-          y: cy
+          y: cy,
         });
         titleX = cx;
         titleY = cy - keyShape.attr('r');
@@ -1188,7 +1233,7 @@ export default class CustomGroup {
           x: x - rectPadding,
           y: y - rectPadding,
           width: width + rectPadding * 2,
-          height: height + rectPadding * 2
+          height: height + rectPadding * 2,
         });
         titleX = x - rectPadding + 15;
         titleY = y - rectPadding + 15;
@@ -1210,6 +1255,6 @@ export default class CustomGroup {
     this.customGroup = {};
     this.delegateInGroup = {};
     this.resetNodePoint();
-    this.destroyed = true
+    this.destroyed = true;
   }
 }

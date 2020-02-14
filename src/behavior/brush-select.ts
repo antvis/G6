@@ -1,9 +1,9 @@
 import { G6Event, IG6GraphEvent } from '../types';
 
-const { min, max, abs }  = Math;
+const { min, max, abs } = Math;
 
 const DEFAULT_TRIGGER = 'shift';
-const ALLOW_EVENTS = [ 'drag', 'shift', 'ctrl', 'alt', 'control' ];
+const ALLOW_EVENTS = ['drag', 'shift', 'ctrl', 'alt', 'control'];
 
 export default {
   getDefaultCfg(): object {
@@ -12,7 +12,7 @@ export default {
         fill: '#EEF6FF',
         fillOpacity: 0.4,
         stroke: '#DDEEFE',
-        lineWidth: 1
+        lineWidth: 1,
       },
       onSelect() {},
       onDeselect() {},
@@ -20,21 +20,23 @@ export default {
       trigger: DEFAULT_TRIGGER,
       includeEdges: true,
       selectedEdges: [],
-      selectedNodes: []
+      selectedNodes: [],
     };
   },
   getEvents(): { [key in G6Event]?: string } {
     // 检测输入是否合法
     if (!(ALLOW_EVENTS.indexOf(this.trigger.toLowerCase()) > -1)) {
       this.trigger = DEFAULT_TRIGGER;
-      console.warn('Behavior brush-select 的 trigger 参数不合法，请输入 \'drag\'、\'shift\'、\'ctrl\' 或 \'alt\'');
+      console.warn(
+        "Behavior brush-select 的 trigger 参数不合法，请输入 'drag'、'shift'、'ctrl' 或 'alt'",
+      );
     }
     if (this.trigger === 'drag') {
       return {
         dragstart: 'onMouseDown',
         drag: 'onMouseMove',
         dragend: 'onMouseUp',
-        'canvas:click': 'clearStates'
+        'canvas:click': 'clearStates',
       };
     }
     return {
@@ -43,7 +45,7 @@ export default {
       dragend: 'onMouseUp',
       'canvas:click': 'clearStates',
       keyup: 'onKeyUp',
-      keydown: 'onKeyDown'
+      keydown: 'onKeyDown',
     };
   },
   onMouseDown(e: IG6GraphEvent) {
@@ -83,7 +85,7 @@ export default {
     this.graph.paint();
   },
   onMouseUp(e: IG6GraphEvent) {
-    const { graph }  = this;
+    const { graph } = this;
     // TODO: 触发了 canvas:click 导致 clearStates
     if (!this.brush && !this.dragging) {
       return;
@@ -103,7 +105,7 @@ export default {
     graph.setAutoPaint(autoPaint);
   },
   clearStates() {
-    const { graph, selectedState }  = this;
+    const { graph, selectedState } = this;
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
 
@@ -115,19 +117,22 @@ export default {
     this.selectedNodes = [];
 
     this.selectedEdges = [];
-    if(this.onDeselect) {
+    if (this.onDeselect) {
       this.onDeselect(this.selectedNodes, this.selectedEdges);
     }
 
-    graph.emit('nodeselectchange', { selectedItems: {
-      nodes: [],
-      edges: []
-    }, select: false });
+    graph.emit('nodeselectchange', {
+      selectedItems: {
+        nodes: [],
+        edges: [],
+      },
+      select: false,
+    });
     graph.paint();
     graph.setAutoPaint(autoPaint);
   },
   getSelectedNodes(e: IG6GraphEvent) {
-    const { graph, originPoint, shouldUpdate }  = this;
+    const { graph, originPoint, shouldUpdate } = this;
     const state = this.selectedState;
     const p1 = { x: e.x, y: e.y };
     const p2 = graph.getPointByCanvas(originPoint.x, originPoint.y);
@@ -139,10 +144,11 @@ export default {
     const selectedIds = [];
     graph.getNodes().forEach(node => {
       const bbox = node.getBBox();
-      if (bbox.centerX >= left
-        && bbox.centerX <= right
-        && bbox.centerY >= top
-        && bbox.centerY <= bottom
+      if (
+        bbox.centerX >= left &&
+        bbox.centerX <= right &&
+        bbox.centerY >= top &&
+        bbox.centerY <= bottom
       ) {
         if (shouldUpdate(node, 'select')) {
           selectedNodes.push(node);
@@ -160,9 +166,11 @@ export default {
         edges.forEach(edge => {
           const model = edge.getModel();
           const { source, target } = model;
-          if (selectedIds.includes(source)
-            && selectedIds.includes(target)
-            && shouldUpdate(edge, 'select')) {
+          if (
+            selectedIds.includes(source) &&
+            selectedIds.includes(target) &&
+            shouldUpdate(edge, 'select')
+          ) {
             selectedEdges.push(edge);
             graph.setItemState(edge, this.selectedState, true);
           }
@@ -172,26 +180,29 @@ export default {
 
     this.selectedEdges = selectedEdges;
     this.selectedNodes = selectedNodes;
-    if(this.onSelect) {
+    if (this.onSelect) {
       this.onSelect(selectedNodes, selectedEdges);
     }
-    graph.emit('nodeselectchange', { selectedItems: {
-      nodes: selectedNodes,
-      edges: selectedEdges
-    }, select: true });
+    graph.emit('nodeselectchange', {
+      selectedItems: {
+        nodes: selectedNodes,
+        edges: selectedEdges,
+      },
+      select: true,
+    });
   },
   createBrush() {
     const self = this;
     const brush = self.graph.get('canvas').addShape('rect', {
       attrs: self.brushStyle,
       capture: false,
-      name: 'brush-shape'
+      name: 'brush-shape',
     });
     this.brush = brush;
     return brush;
   },
   updateBrush(e: IG6GraphEvent) {
-    const { originPoint }  = this;
+    const { originPoint } = this;
     this.brush.attr({
       width: abs(e.canvasX - originPoint.x),
       height: abs(e.canvasY - originPoint.y),
@@ -205,8 +216,7 @@ export default {
       return;
     }
     // 按住control键时，允许用户设置trigger为ctrl
-    if (code.toLowerCase() === this.trigger.toLowerCase()
-      || code.toLowerCase() === 'control') {
+    if (code.toLowerCase() === this.trigger.toLowerCase() || code.toLowerCase() === 'control') {
       this.keydown = true;
     } else {
       this.keydown = false;
@@ -220,5 +230,5 @@ export default {
       this.dragging = false;
     }
     this.keydown = false;
-  }
+  },
 };
