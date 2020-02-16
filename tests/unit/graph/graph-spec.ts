@@ -257,7 +257,7 @@ describe('graph', () => {
     expect(graph.get('width')).toBe(300);
     expect(graph.get('height')).toBe(300);
 
-    // 专门用于测试使用非 number 类型 会报错的情况 // TODO: 可以移走这个测试, TS 本身就限制了类型参数
+    // 专门用于测试使用非 number 类型 会报错的情况 // TODO 可以移走这个测试, TS 本身就限制了类型参数
     // expect(() => {
     //   graph.changeSize('x', 10);
     // }).toThrowError(
