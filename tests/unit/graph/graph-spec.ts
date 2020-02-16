@@ -22,7 +22,7 @@ describe('graph', () => {
   it('invalid container', () => {
     expect(() => {
       // eslint-disable-next-line no-new
-      new Graph({} as any); // TODO: 不符合参数约定
+      new Graph({} as any); 
     }).toThrowError('invalid container');
   });
 
