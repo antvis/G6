@@ -102,7 +102,20 @@ const Tutorial = () => {
           'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json',
         );
         const data = await response.json();
-        console.log(data);
+        // const data = {
+        //     nodes: [{
+        //         id: '1',
+        //         style: undefined
+        //     }, {
+        //         id: '2'
+        //     }],
+        //     edges: [{
+        //         source: '1',
+        //         target: '2',
+        //         style: undefined,
+        //         weight: 1
+        //     }]
+        // };
         const nodes = data.nodes;
         const edges = data.edges;
         nodes.forEach(node => {
@@ -112,23 +125,6 @@ const Tutorial = () => {
           node.style.lineWidth = 1;
           node.style.stroke = '#666';
           node.style.fill = 'steelblue';
-          // switch (node.class) {
-          //     case 'c0': {
-          //     node.shape = 'circle';
-          //     node.size = 30;
-          //     break;
-          //     }
-          //     case 'c1': {
-          //     node.shape = 'rect';
-          //     node.size = [ 35, 20 ];
-          //     break;
-          //     }
-          //     case 'c2': {
-          //     node.shape = 'ellipse';
-          //     node.size = [ 35, 20 ];
-          //     break;
-          //     }
-          // }
         });
         edges.forEach(edge => {
           if (!edge.style) {

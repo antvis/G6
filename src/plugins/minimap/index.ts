@@ -81,7 +81,7 @@ export default class MiniMap extends Base {
         left:0;
         top:0;
         box-sizing:border-box;
-        border: 2px solid #1980ff'></div>`);
+        '></div>`);//border: 2px solid #1980ff
 
     // 计算拖拽水平方向距离
     let x = 0;
@@ -266,13 +266,22 @@ export default class MiniMap extends Base {
     const { graph } = this._cfgs;
     const canvas: GCanvas = this.get('canvas');
     const graphGroup = graph!.get('group');
+    console.log(graphGroup);
+    if (graphGroup.destroyed) return;
     const clonedGroup = graphGroup.clone();
 
-    clonedGroup.resetMatrix();
-    // clonedGroup.setMatrix(graph.get('group').getMatrix());
+    //clonedGroup.resetMatrix();
+    //clonedGroup.setMatrix(graph.get('group').getMatrix());
     // canvas.set('localRefresh', false)
     canvas.clear();
     canvas.add(clonedGroup);
+    console.log(canvas);
+    debugger
+    // console.log('ori g', graphGroup);
+    // console.log(graphGroup.destroyed, graphGroup.get('destroyed'), graphGroup.cfg.destroyed);
+    // console.log('new g',clonedGroup);
+    // console.log(clonedGroup.destroyed, clonedGroup.get('destroyed'), clonedGroup.cfg.destroyed);
+    //debugger;
   }
 
   // 仅在minimap上绘制keyShape
@@ -315,7 +324,7 @@ export default class MiniMap extends Base {
 
     this.showGraphEdgeKeyShape(group);
 
-    each(graph!.getNodes(), node => {
+    each(graph!.getNodes(), (node) => {
       if (node.isVisible()) {
         const bbox = node.getBBox();
         group.addShape('rect', {
@@ -387,7 +396,7 @@ export default class MiniMap extends Base {
     });
 
     self.set('canvas', canvas);
-    self.updateCanvas();
+    //self.updateCanvas();
   }
 
   public updateCanvas() {
@@ -408,6 +417,7 @@ export default class MiniMap extends Base {
     const canvas: GCanvas = this.get('canvas');
     const type: string = this.get('type');
 
+    console.log('canvas.destroyed', canvas.destroyed);
     if (canvas.destroyed) {
       return;
     }
@@ -442,7 +452,10 @@ export default class MiniMap extends Base {
 
     const ratio = Math.min(size[0] / width, size[1] / height);
 
-    canvas.resetMatrix();
+    console.log(canvas.get('children')[0]);
+    const group = canvas.get('children')[0];
+    // canvas.resetMatrix();
+    group.resetMatrix();
     let matrix: Matrix = mat3.create();
 
     let minX = 0;
@@ -466,7 +479,9 @@ export default class MiniMap extends Base {
       ['t', dx, dy],
     ]);
 
-    canvas.setMatrix(matrix);
+    // canvas.setMatrix(matrix);
+    group.setMatrix(matrix);
+    console.log('canvascanvas', canvas);
 
     // 更新minimap视口
     this.set('ratio', ratio);
