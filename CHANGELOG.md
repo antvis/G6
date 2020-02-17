@@ -1,5 +1,9 @@
 # ChangeLog
 
+#### 3.3.3
+- fix: delegate or keyShape type minimap does not display bug;
+- fix: null matrix in focus() and getLoopCfgs() bug.
+
 #### 3.3.2
 
 - fix: ts type export problem;
