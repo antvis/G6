@@ -7,6 +7,7 @@ import { Item, Matrix, Padding } from '../../types';
 import { formatPadding } from '../../util/base';
 import { applyMatrix, invertMatrix } from '../../util/math';
 import Graph from '../graph';
+import { mat3 } from '@antv/matrix-util';
 
 export default class ViewController {
   private graph: Graph;
@@ -62,7 +63,8 @@ export default class ViewController {
   public focusPoint(point: Point) {
     const viewCenter = this.getViewCenter();
     const modelCenter = this.getPointByCanvas(viewCenter.x, viewCenter.y);
-    const viewportMatrix: Matrix = this.graph.get('group').getMatrix();
+    let viewportMatrix: Matrix = this.graph.get('group').getMatrix();
+    if (!viewportMatrix) viewportMatrix = mat3.create();
     this.graph.translate(
       (modelCenter.x - point.x) * viewportMatrix[0],
       (modelCenter.y - point.y) * viewportMatrix[4],
@@ -125,7 +127,8 @@ export default class ViewController {
 
     if (item) {
       const group: Group = item.get('group');
-      const matrix: Matrix = group.getMatrix();
+      let matrix: Matrix = group.getMatrix();
+      if (!matrix) matrix = mat3.create();
       // 用实际位置而不是model中的x,y,防止由于拖拽等的交互导致model的x,y并不是当前的x,y
       this.focusPoint({
         x: matrix[6],

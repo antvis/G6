@@ -12,7 +12,7 @@ const Tutorial = () => {
       const minimap = new G6.Minimap({
         size: [100, 100],
         className: 'minimap',
-        type: 'default',
+        type: 'keyShape',
       });
 
       // 实例化 Grid 插件

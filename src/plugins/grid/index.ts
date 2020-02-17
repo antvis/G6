@@ -4,6 +4,7 @@ import Canvas from '@antv/g-base/lib/abstract/canvas';
 import { IGraph } from '../../interface/graph';
 import { ViewPortEventParam } from '../../types';
 import Base from '../base';
+import { mat3 } from '@antv/matrix-util';
 
 // 网格背景图片
 const GRID_PNG =
@@ -56,7 +57,8 @@ export default class Grid extends Base {
    */
   protected updateGrid(param: ViewPortEventParam) {
     const gridContainer: HTMLDivElement = this.get('gridContainer');
-    const { matrix } = param;
+    let { matrix } = param;
+    if (!matrix) matrix = mat3.create();
 
     const transform = `matrix(${matrix[0]}, ${matrix[1]}, ${matrix[3]}, ${matrix[4]}, 0, 0)`;
 
