@@ -3,7 +3,7 @@ import Group from '@antv/g-canvas/lib/group';
 // import Path from "@antv/g/lib/shapes/path";
 import Path from '@antv/g-canvas/lib/shape/path';
 // import { IShape } from '@antv/g-canvas/lib/interfaces';
-import { vec2 } from '@antv/matrix-util';
+import { vec2, mat3 } from '@antv/matrix-util';
 import each from '@antv/util/lib/each';
 import Global from '../global';
 import { EdgeData, IBBox, IPoint, IShapeBase, LabelStyle, TreeGraphData } from '../types';
@@ -54,7 +54,8 @@ export const getBBox = (element: IShapeBase, group: Group): IBBox => {
 export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
   const item = cfg.sourceNode || cfg.targetNode;
   const container: Group = item.get('group');
-  const containerMatrix = container.getMatrix();
+  let containerMatrix = container.getMatrix();
+  if (!containerMatrix) containerMatrix = mat3.create();
 
   const keyShape: IShapeBase = item.getKeyShape();
   const bbox: IBBox = keyShape.getBBox();
