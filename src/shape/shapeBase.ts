@@ -66,33 +66,36 @@ export const shapeBase: ShapeOptions = {
     if (rotate) {
       const labelBBox = label.getBBox();
       let labelMatrix = label.getMatrix();
+      if (!labelMatrix) {
+        labelMatrix = mat3.create();
+      }
       if (labelStyle.rotateCenter) {
         switch (labelStyle.rotateCenter) {
           case 'center':
             labelMatrix = transform(labelMatrix, [
               ['t', -labelBBox.width / 2, -labelBBox.height / 2],
-              ['r', labelStyle.rotate],
+              ['r', rotate],
               ['t', labelBBox.width / 2, labelBBox.height / 2],
             ]);
             break;
           case 'lefttop':
             labelMatrix = transform(labelMatrix, [
               ['t', -labelStyle.x!, -labelStyle.y!],
-              ['r', labelStyle.rotate],
+              ['r', rotate],
               ['t', labelStyle.x, labelStyle.y],
             ]);
             break;
           case 'leftcenter':
             labelMatrix = transform(labelMatrix, [
               ['t', -labelStyle.x!, -labelStyle.y! - labelBBox.height / 2],
-              ['r', labelStyle.rotate],
+              ['r', rotate],
               ['t', labelStyle.x, labelStyle.y! + labelBBox.height / 2],
             ]);
             break;
           default:
             labelMatrix = transform(labelMatrix, [
               ['t', -labelBBox.width / 2, -labelBBox.height / 2],
-              ['r', labelStyle.rotate],
+              ['r', rotate],
               ['t', labelBBox.width / 2, labelBBox.height / 2],
             ]);
             break;
@@ -100,7 +103,7 @@ export const shapeBase: ShapeOptions = {
       } else {
         labelMatrix = transform(labelMatrix, [
           ['t', -labelStyle.x!, -labelStyle.y! - labelBBox.height / 2],
-          ['r', labelStyle.rotate],
+          ['r', rotate],
           ['t', labelStyle.x, labelStyle.y! + labelBBox.height / 2],
         ]);
       }
@@ -182,18 +185,19 @@ export const shapeBase: ShapeOptions = {
 
         // 需要融合当前 label 的样式 label.attr()。不再需要全局/默认样式，因为已经应用在当前的 label 上
         const labelStyle = Object.assign({}, label.attr(), calculateStyle, cfgStyle);
+        const rotate = labelStyle.rotate;
+        delete labelStyle.rotate;
 
         // 计算 label 的旋转矩阵
-        if (labelStyle.rotate) {
+        if (rotate) {
           // if G 4.x define the rotateAtStart, use it directly instead of using the following codes
           let rotateMatrix = mat3.create();
           rotateMatrix = transform(rotateMatrix, [
             ['t', -labelStyle.x, -labelStyle.y],
-            ['r', labelStyle.rotate],
+            ['r', rotate],
             ['t', labelStyle.x, labelStyle.y],
           ]);
           label.resetMatrix();
-          delete labelStyle.rotate;
           label.attr({ ...labelStyle, matrix: rotateMatrix });
         } else {
           label.resetMatrix();

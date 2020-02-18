@@ -211,7 +211,6 @@ export default class MiniMap extends Base {
       this.initViewport();
     }
 
-    console.log(ratio, dx, dy);
     // viewport宽高,左上角点的计算
     let width = (bottomRight.x - topLeft.x) * ratio;
     let height = (bottomRight.y - topLeft.y) * ratio;
@@ -250,8 +249,6 @@ export default class MiniMap extends Base {
       correctTop = `${size[1] - height}px`;
     }
 
-    console.log(left, top, correctLeft, correctTop, size, [width, height]);
-
     modifyCSS(viewport, {
       left: correctLeft,
       top: correctTop,
@@ -284,7 +281,11 @@ export default class MiniMap extends Base {
 
     if (!group) {
       group = canvas.addGroup();
-      group.setMatrix(graph!.get('group').getMatrix());
+      let matrix = graph!.get('group').getMatrix();
+      if (!matrix) {
+        matrix = mat3.create();
+      }
+      group.setMatrix(matrix);
     }
 
     const nodes = graph!.getNodes();
@@ -296,7 +297,11 @@ export default class MiniMap extends Base {
     each(nodes, node => {
       if (node.isVisible()) {
         const parent = group.addGroup();
-        parent.setMatrix(node.get('group').attr('matrix'));
+        let nodeMatrix = node.get('group').attr('matrix');
+        if (!nodeMatrix) {
+          nodeMatrix = mat3.create();
+        }
+        parent.setMatrix(nodeMatrix);
         parent.add(node.get('keyShape').clone());
       }
     });
@@ -428,13 +433,10 @@ export default class MiniMap extends Base {
     const group = canvas.get('children')[0];
     if(!group) return;
 
-    const bbox = canvas.getBBox();
+    const bbox = group.getBBox();
 
-    const miniMapWidth = canvas.get('width');
-    const miniMapHeight = canvas.get('height');
-
-    let width = max(miniMapWidth, graph.get('width'));
-    let height = max(miniMapHeight, graph.get('height'));
+    let width = graph.get('width');
+    let height = graph.get('height'); 
 
     if (Number.isFinite(bbox.width)) {
       // 刷新后bbox可能会变，需要重置画布矩阵以缩放到合适的大小
@@ -467,7 +469,6 @@ export default class MiniMap extends Base {
       ['s', ratio, ratio],
       ['t', dx, dy],
     ]);
-    console.log(minX, minY, ratio, dx, dy);
 
     group.setMatrix(matrix);
 
