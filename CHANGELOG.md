@@ -1,5 +1,12 @@
 # ChangeLog
 
+#### 3.3.4
+- fix: 3.3.3 is not published success;
+- fix: delegate or keyShape type minimap does not display bug;
+- fix: dragging bug on minimap with a graph whose bbox is nagtive;
+- fix: null matrix bug, create a unit matrix for null.
+
+
 #### 3.3.3
 - fix: delegate or keyShape type minimap does not display bug;
 - fix: null matrix in focus() and getLoopCfgs() bug.

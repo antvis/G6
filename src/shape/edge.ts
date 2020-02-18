@@ -237,15 +237,16 @@ const singleEdge: ShapeOptions = {
     const { labelCfg: defaultLabelCfg } = this.options as ModelConfig;
     const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
     const labelStyle = this.getLabelStyle!(cfg, labelCfg, group);
-    if (labelStyle.rotate) {
+    const rotate = labelStyle.rotate;
+    delete labelStyle.rotate;
+    if (rotate) {
       // if G 4.x define the rotateAtStart, use it directly instead of using the following codes
       let rotateMatrix = mat3.create();
       rotateMatrix = transform(rotateMatrix, [
         ['t', -labelStyle.x!, -labelStyle.y!],
-        ['r', labelStyle.rotate],
+        ['r', rotate],
         ['t', labelStyle.x, labelStyle.y],
       ]);
-      delete labelStyle.rotate;
       return group.addShape('text', {
         attrs: { matrix: rotateMatrix, ...labelStyle },
         name: 'text-shape',
