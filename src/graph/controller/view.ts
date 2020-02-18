@@ -77,7 +77,10 @@ export default class ViewController {
    * @param canvasY canvas y 坐标
    */
   public getPointByCanvas(canvasX: number, canvasY: number): Point {
-    const viewportMatrix: Matrix = this.graph.get('group').getMatrix();
+    let viewportMatrix: Matrix = this.graph.get('group').getMatrix();
+    if (!viewportMatrix) {
+      viewportMatrix = mat3.create();
+    }
     const point = invertMatrix({ x: canvasX, y: canvasY }, viewportMatrix);
     return point;
   }
@@ -112,7 +115,10 @@ export default class ViewController {
    * @param y 视口 y 坐标
    */
   public getCanvasByPoint(x: number, y: number): Point {
-    const viewportMatrix: Matrix = this.graph.get('group').getMatrix();
+    let viewportMatrix: Matrix = this.graph.get('group').getMatrix();
+    if (!viewportMatrix) {
+      viewportMatrix = mat3.create();
+    }
     return applyMatrix({ x, y }, viewportMatrix);
   }
 

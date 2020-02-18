@@ -8,6 +8,8 @@ import wrapBehavior from '@antv/util/lib/wrap-behavior';
 import Graph from '../graph';
 import { IG6GraphEvent, Matrix, Item } from '../../types';
 import { cloneEvent, isViewportChanged } from '../../util/base';
+import { mat3 } from '@antv/matrix-util';
+
 
 type Fun = () => void;
 
@@ -108,7 +110,10 @@ export default class EventController {
     let point = { x: evt.canvasX, y: evt.canvasY };
 
     const group: Group = graph.get('group');
-    const matrix: Matrix = group.getMatrix();
+    let matrix: Matrix = group.getMatrix();
+    if (!matrix) {
+      matrix = mat3.create();
+    }
 
     if (isViewportChanged(matrix)) {
       point = graph.getPointByCanvas(evt.canvasX, evt.canvasY);

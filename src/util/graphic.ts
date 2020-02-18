@@ -1,8 +1,5 @@
 import Group from '@antv/g-canvas/lib/group';
-// import ShapeBase from '@antv/g-canvas/lib/shape/base';
-// import Path from "@antv/g/lib/shapes/path";
 import Path from '@antv/g-canvas/lib/shape/path';
-// import { IShape } from '@antv/g-canvas/lib/interfaces';
 import { vec2, mat3 } from '@antv/matrix-util';
 import each from '@antv/util/lib/each';
 import Global from '../global';
@@ -27,7 +24,10 @@ export const getBBox = (element: IShapeBase, group: Group): IBBox => {
   };
   // 根据父元素变换矩阵
   if (group) {
-    const matrix = group.getMatrix();
+    let matrix = group.getMatrix();
+    if (!matrix) {
+      matrix = mat3.create();
+    }
     leftTop = applyMatrix(leftTop, matrix);
     rightBottom = applyMatrix(rightBottom, matrix);
   }
