@@ -1,7 +1,9 @@
 # ChangeLog
+#### 3.3.5
+- fix: 3.3.4 is not published successfully;
 
 #### 3.3.4
-- fix: 3.3.3 is not published success;
+- fix: 3.3.3 is not published successfully;
 - fix: delegate or keyShape type minimap does not display bug;
 - fix: dragging bug on minimap with a graph whose bbox is nagtive;
 - fix: null matrix bug, create a unit matrix for null.
