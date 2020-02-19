@@ -9,7 +9,12 @@ import {
   getRectIntersectByPoint,
   invertMatrix,
   scaleMatrix,
+  scale,
+  rotate,
 } from '../../../src/util/math';
+import { Graph } from '../../../src';
+import Canvas from '@antv/g-canvas/lib/canvas';
+
 
 const equal = (a: number, b: number): boolean => Math.abs(a - b) < 0.0001;
 
@@ -145,6 +150,16 @@ describe('math util test', () => {
     expect(dis).toEqual(7.0710678118654755);
   });
 
+  it('applyMatrix with null matrix', () => {
+    const point = {
+      x: 10,
+      y: 15,
+    };
+
+    const p = applyMatrix(point, null, 0);
+    expect(p).toEqual({ x: 10, y: 15 });
+  });
+
   it('applyMatrix tag = 0', () => {
     const point = {
       x: 10,
@@ -165,6 +180,16 @@ describe('math util test', () => {
 
     const p = applyMatrix(point, matrix, 1);
     expect(p).toEqual({ x: 32, y: 14 });
+  });
+
+  it('invertMatrix with null matrix', () => {
+    const point = {
+      x: 30,
+      y: 10,
+    };
+
+    const p = invertMatrix(point, null, 0);
+    expect(p).toEqual({ x: 30, y: 10 });
   });
 
   it('invertMatrix tag = 0', () => {
@@ -283,5 +308,27 @@ describe('math util test', () => {
     expect(result[0]).toEqual([0, 1, 2]);
     expect(result[1]).toEqual([1, 0, 1]);
     expect(result[2]).toEqual([1, 2, 0]);
+  });
+  it('scale and rotate', () => {
+    const div = document.createElement('div');
+    div.id = 'edge-shape';
+    document.body.appendChild(div);
+    const canvas = new Canvas({
+      container: 'edge-shape',
+      width: 600,
+      height: 600,
+    });
+    const group = canvas.addGroup();
+    scale(group, 0.5);
+    const matrix = group.getMatrix();
+    expect(matrix[0]).toBe(0.5);
+    scale(group, 0.5);
+    const matrix2 = group.getMatrix();
+    expect(matrix2[0]).toBe(0.25);
+    rotate(group, 1.3);
+    const matrix3 = group.getMatrix();
+    expect(matrix3[0]).toBe(0.06687470715614684);
+    expect(matrix3[1]).toBe(0.24088954635429824);
+    expect(matrix3[3]).toBe(-0.24088954635429824);
   });
 });
