@@ -5,6 +5,7 @@ const div = document.createElement('div');
 div.id = 'minimap';
 document.body.appendChild(div);
 const container = document.createElement('div');
+container.id = 'minimap-container';
 div.appendChild(container);
 
 describe('minimap', () => {
@@ -170,7 +171,58 @@ describe('minimap', () => {
     expect(matrix2[4]).toEqual(2);
     expect(matrix2[6]).toEqual(0);
     expect(matrix2[7]).toEqual(0);
-    // graph.destroy();
+
+    Simulate.simulate(container, 'mouseleave', {
+      clientX: -100,
+      clientY: -100
+    });
+    graph.destroy();
+  });
+  it('invalid dom event', () => {
+    const minimap = new G6.Minimap({ size: [200, 200] });
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      plugins: [minimap],
+      modes: {
+        default: ['zoom-canvas']
+      }
+    });
+    const data = {
+      nodes: [{
+        id: '1',
+        x: 50,
+        y: 80
+      }, {
+        id: '2',
+        x: 140,
+        y: 100
+      }],
+      edges: [{
+        source: '1',
+        target: '2'
+      }]
+    }
+    graph.data(data);
+    graph.render();
+
+    const viewport = minimap.getContainer();
+    const canvas = minimap.getCanvas();
+
+    const container = canvas.get('container');
+
+    Simulate.simulate(container, 'mousemove', {
+      clientX: 100,
+      clientY: 100,
+    });
+
+    viewport.style.width = '300px';
+    Simulate.simulate(viewport, 'mousedown', {
+      clientX: 100,
+      clientY: 100,
+      target: null,
+    });
   });
   it('delegate type of minimap', () => {
     const minimap = new G6.Minimap({
@@ -288,6 +340,35 @@ describe('minimap', () => {
     expect(shapeGroup[2].getMatrix()[6]).toEqual(120);
     expect(shapeGroup[2].getMatrix()[7]).toEqual(150);
     expect(shapeGroup[2].get('children').length).toEqual(1);
+    graph.destroy();
+  });
+  it('get minimap container', () => {
+    const minimap = new G6.Minimap({ size: [200, 200], type: 'keyShape' });
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      plugins: [minimap],
+    });
+
+    const container = minimap.getContainer();
+    expect(container).not.toBe(undefined);
+    expect(container.className).toBe('g6-minimap');
+    graph.destroy();
+  });
+  it('minimap beforeanimate afteranimate', () => {
+    const minimap = new G6.Minimap({ size: [200, 200] });
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      plugins: [minimap],
+    });
+
+    graph.emit('beforeanimate');
+    expect(minimap.get('refresh')).toBe(false);
+    graph.emit('afteranimate');
+    expect(minimap.get('refresh')).toBe(true);
     graph.destroy();
   });
 });
