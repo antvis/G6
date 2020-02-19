@@ -426,8 +426,6 @@ export default class MiniMap extends Base {
       case DELEGATE_MODE:
         this.updateDelegateShapes();
         break;
-      default:
-        this.updateGraphShapes();
     }
 
     const group = canvas.get('children')[0];
