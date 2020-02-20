@@ -7,7 +7,7 @@ order: 0
 
 ```javascript
 const graph = new G6.Graph({
-  ...                      // 其他配置项
+  // ...                      // 其他配置项
   layout: {                // Object，可选，布局的方法及其配置项，默认为 random 布局。
     type: 'force',
     preventOverlap: true,
