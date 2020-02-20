@@ -36,7 +36,6 @@ export default {
       return;
     }
     graph.zoom(ratio, { x: point.x, y: point.y });
-    graph.paint();
     graph.emit('wheelzoom', e);
   },
 };
