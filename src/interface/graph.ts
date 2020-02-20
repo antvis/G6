@@ -72,6 +72,10 @@ export interface GraphOptions {
    * 指定画布高度，单位为 'px'
    */
   height: number;
+  /**
+   * renderer canvas or svg
+   */
+  renderer?: string,
 
   fitView?: boolean;
 
@@ -232,6 +236,11 @@ export interface IGraph extends EventEmitter {
    * 仅画布重新绘制
    */
   paint(): void;
+  
+  /**
+   * 自动重绘
+   */
+  autoPaint(): void;
 
   /**
    * 刷新元素

@@ -2,6 +2,7 @@ import EventEmitter from '@antv/event-emitter';
 import { IGroup } from '@antv/g-base/lib/interfaces';
 import { BBox, Point } from '@antv/g-base/lib/types';
 import GCanvas from '@antv/g-canvas/lib/canvas';
+import GSVGCanvas from '@antv/g-svg/lib/canvas';
 import Group from '@antv/g-canvas/lib/group';
 import { mat3 } from '@antv/matrix-util/lib';
 import clone from '@antv/util/lib/clone';
@@ -47,6 +48,8 @@ import {
 import PluginBase from '../plugins/base';
 
 const NODE = 'node';
+const SVG = 'svg';
+const CANVAS = 'canvas';
 
 interface IGroupBBox {
   [key: string]: BBox;
@@ -135,12 +138,23 @@ export default class Graph extends EventEmitter implements IGraph {
 
     const width: number = this.get('width');
     const height: number = this.get('height');
+    const renderer: string = this.get('renderer');
 
-    const canvas = new GCanvas({
-      container,
-      width,
-      height,
-    });
+    let canvas;
+    
+    if(renderer === SVG) {
+      canvas = new GSVGCanvas({
+        container,
+        width,
+        height
+      });
+    } else {
+      canvas = new GCanvas({
+        container,
+        width,
+        height
+      });
+    }
 
     this.set('canvas', canvas);
 
@@ -215,6 +229,11 @@ export default class Graph extends EventEmitter implements IGraph {
        * unit pixel if undefined force fit height
        */
       height: undefined,
+      /**
+       * renderer canvas or svg
+       * @type {string}
+       */
+      renderer: 'canvas',
       /**
        * control graph behaviors
        */
@@ -503,7 +522,6 @@ export default class Graph extends EventEmitter implements IGraph {
     const group: Group = this.get('group');
     translate(group, { x: dx, y: dy });
     this.emit('viewportchange', { action: 'translate', matrix: group.getMatrix() });
-    this.autoPaint();
   }
 
   /**
@@ -517,8 +535,6 @@ export default class Graph extends EventEmitter implements IGraph {
     move(group, { x, y });
 
     this.emit('viewportchange', { action: 'move', matrix: group.getMatrix() });
-
-    this.autoPaint();
   }
 
   /**
@@ -529,11 +545,14 @@ export default class Graph extends EventEmitter implements IGraph {
     if (padding) {
       this.set('fitViewPadding', padding);
     }
+    const autoPaint = this.get('autoPaint');
+    this.setAutoPaint(false);
 
     const viewController: ViewController = this.get('viewController');
     viewController.fitView();
 
-    this.paint();
+    this.setAutoPaint(autoPaint);
+    this.autoPaint();
   }
 
   /**
@@ -577,6 +596,8 @@ export default class Graph extends EventEmitter implements IGraph {
     const minZoom: number = this.get('minZoom');
     const maxZoom: number = this.get('maxZoom');
 
+    const autoPaint = this.get('autoPaint');
+    this.setAutoPaint(false);
     if (!matrix) {
       matrix = mat3.create();
     }
@@ -598,6 +619,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
     group.setMatrix(matrix);
     this.emit('viewportchange', { action: 'zoom', matrix });
+    this.setAutoPaint(autoPaint);
     this.autoPaint();
   }
 
@@ -717,8 +739,10 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {boolean} auto 自动重绘
    */
   public setAutoPaint(auto: boolean): void {
-    this.set('autoPaint', auto);
-    this.get('canvas').set('autoDraw', auto);
+    const self = this;
+    self.set('autoPaint', auto);
+    const canvas: GCanvas = self.get('canvas');
+    canvas.set('autoDraw', auto);
   }
 
   /**
@@ -879,10 +903,10 @@ export default class Graph extends EventEmitter implements IGraph {
 
     function success() {
       if (self.get('fitView')) {
-        self.get('viewController').fitView();
+        self.fitView();
       }
-      self.paint();
       self.setAutoPaint(autoPaint);
+      self.autoPaint();
       self.emit('afterrender');
     }
 
@@ -993,6 +1017,7 @@ export default class Graph extends EventEmitter implements IGraph {
     if (self.get('animate') && !layoutController.getLayoutType()) {
       // 如果没有指定布局
       self.positionsAnimate();
+      self.setAutoPaint(autoPaint);
     } else {
       self.autoPaint();
     }
@@ -1081,7 +1106,6 @@ export default class Graph extends EventEmitter implements IGraph {
   public changeSize(width: number, height: number): Graph {
     const viewController: ViewController = this.get('viewController');
     viewController.changeSize(width, height);
-    this.autoPaint();
     return this;
   }
 
@@ -1227,6 +1251,8 @@ export default class Graph extends EventEmitter implements IGraph {
     let model: NodeConfig;
 
     const updatedNodes: { [key: string]: boolean } = {};
+    const autoPaint = this.get('autoPaint');
+    this.setAutoPaint(false);
     each(nodes, (node: INode) => {
       model = node.getModel() as NodeConfig;
       const originAttrs = node.get('originAttrs');
@@ -1246,6 +1272,7 @@ export default class Graph extends EventEmitter implements IGraph {
     });
 
     self.emit('aftergraphrefreshposition');
+    this.setAutoPaint(autoPaint);
     self.autoPaint();
   }
 
@@ -1307,8 +1334,22 @@ export default class Graph extends EventEmitter implements IGraph {
    */
   public toDataURL(): string {
     const canvas: GCanvas = this.get('canvas');
+    const renderer = canvas.getRenderer();
     const canvasDom = canvas.get('el');
-    const dataURL = canvasDom.toDataURL('image/png');
+
+    let dataURL = '';
+    if (renderer === 'svg') {
+      const clone = canvasDom.cloneNode(true);
+      const svgDocType = document.implementation.createDocumentType(
+        'svg', '-//W3C//DTD SVG 1.1//EN', 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'
+      );
+      const svgDoc = document.implementation.createDocument('http://www.w3.org/2000/svg', 'svg', svgDocType);
+      svgDoc.replaceChild(clone, svgDoc.documentElement);
+      const svgData = (new XMLSerializer()).serializeToString(svgDoc);
+      dataURL = 'data:image/svg+xml;charset=utf8,' + encodeURIComponent(svgData);
+    } else {
+      dataURL = canvasDom.toDataURL('image/png');
+    }
     return dataURL;
   }
 
@@ -1323,12 +1364,14 @@ export default class Graph extends EventEmitter implements IGraph {
       self.stopAnimate();
     }
 
-    const fileName: string = `${name || 'graph'}.png`;
+    const canvas = self.get('canvas');
+    const renderer = canvas.getRenderer();
+    const fileName: string = (name || 'graph') + (renderer === 'svg' ? '.svg' : '.png');
     const link: HTMLAnchorElement = document.createElement('a');
     setTimeout(() => {
       const dataURL = self.toDataURL();
       if (typeof window !== 'undefined') {
-        if (window.Blob && window.URL) {
+        if (window.Blob && window.URL && renderer !== 'svg') {
           const arr = dataURL.split(',');
           let mime = '';
           if (arr && arr.length > 0) {
@@ -1355,12 +1398,16 @@ export default class Graph extends EventEmitter implements IGraph {
               link.href = window.URL.createObjectURL(blobObj);
             });
           }
+        } else {
+          link.addEventListener('click', function() {
+            link.download = fileName;
+            link.href = dataURL;
+          });
         }
       }
 
       const e = document.createEvent('MouseEvents');
       e.initEvent('click', false, false);
-
       link.dispatchEvent(e);
     }, 16);
   }

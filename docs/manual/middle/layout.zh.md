@@ -42,7 +42,7 @@ order: 7
 
 ```javascript
 const graph = new G6.Graph({
-  ...                      // 其他配置项
+  // ...                      // 其他配置项
   layout: {                // Object，可选，布局的方法及其配置项，默认为 random 布局。
   	type: 'force',
     preventOverlap: true,
@@ -455,7 +455,7 @@ graph.positionsAnimate();
 
 ```javascript
 const graph = new G6.Graph({
-  ...                      // 其他配置项
+  // ...                      // 其他配置项
   layout: {                // Object，可选，布局的方法及其配置项，默认为 random 布局。
   	type: 'fruchterman',
     workerEnabled: true,   // 开启 Web-Worker

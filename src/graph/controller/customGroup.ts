@@ -281,7 +281,7 @@ export default class CustomGroup {
     graph.get('groupNodes')[groupId] = nodes;
 
     graph.setAutoPaint(autoPaint);
-    graph.paint();
+    graph.autoPaint();
   }
 
   /**
@@ -619,8 +619,8 @@ export default class CustomGroup {
       this.updateEdgeInGroupLinks(id, sourceOutTargetInEdges, sourceInTargetOutEdges);
     }
 
-    graph.paint();
     graph.setAutoPaint(autoPaint);
+    graph.autoPaint();
   }
 
   /**
@@ -837,7 +837,7 @@ export default class CustomGroup {
       delete this.delegateInGroup[id];
     }
     graph.setAutoPaint(autoPaint);
-    graph.paint();
+    graph.autoPaint();
   }
 
   public deleteTmpNode(groupId: string, tmpNodeId: string) {
@@ -928,7 +928,7 @@ export default class CustomGroup {
     }
 
     graph.setAutoPaint(autoPaint);
-    graph.paint();
+    graph.autoPaint();
   }
 
   /**
