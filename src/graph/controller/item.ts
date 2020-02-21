@@ -12,6 +12,7 @@ import { EdgeConfig, Item, ITEM_TYPE, ModelConfig, NodeConfig, NodeMap } from '.
 import Graph from '../graph';
 
 import { IEdge, INode } from '../../interface/item';
+import { mix } from '@antv/util';
 
 const NODE = 'node';
 const EDGE = 'edge';
@@ -109,6 +110,7 @@ export default class ItemController {
         group: parent.addGroup(),
       });
     } else if (type === NODE) {
+      console.log('node sytle x and y', styles.x, styles.y);
       item = new Node({
         model,
         styles,

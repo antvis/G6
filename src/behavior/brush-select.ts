@@ -49,6 +49,7 @@ export default {
     };
   },
   onMouseDown(e: IG6GraphEvent) {
+    console.log('mouse dwo');
     // 按在node上面拖动时候不应该是框选
     const { item } = e;
     let { brush } = this;
@@ -82,7 +83,6 @@ export default {
     }
 
     this.updateBrush(e);
-    this.graph.paint();
   },
   onMouseUp(e: IG6GraphEvent) {
     const { graph } = this;
@@ -99,10 +99,11 @@ export default {
     graph.setAutoPaint(false);
     this.brush.remove(true); // remove and destroy
     this.brush = null;
+    console.log('mouse up')
     this.getSelectedNodes(e);
     this.dragging = false;
-    graph.paint();
     graph.setAutoPaint(autoPaint);
+    graph.autoPaint();
   },
   clearStates() {
     const { graph, selectedState } = this;
@@ -128,8 +129,8 @@ export default {
       },
       select: false,
     });
-    graph.paint();
     graph.setAutoPaint(autoPaint);
+    graph.autoPaint();
   },
   getSelectedNodes(e: IG6GraphEvent) {
     const { graph, originPoint, shouldUpdate } = this;
@@ -144,16 +145,20 @@ export default {
     const selectedIds = [];
     graph.getNodes().forEach(node => {
       const bbox = node.getBBox();
+      console.log('aaa');
       if (
         bbox.centerX >= left &&
         bbox.centerX <= right &&
         bbox.centerY >= top &&
         bbox.centerY <= bottom
       ) {
+        console.log('bbb');
         if (shouldUpdate(node, 'select')) {
+          console.log('ccc');
           selectedNodes.push(node);
           const model = node.getModel();
           selectedIds.push(model.id);
+          console.log(model.id);
           graph.setItemState(node, state, true);
         }
       }
@@ -192,6 +197,7 @@ export default {
     });
   },
   createBrush() {
+    console.log('create brush');
     const self = this;
     const brush = self.graph.get('canvas').addShape('rect', {
       attrs: self.brushStyle,
@@ -212,6 +218,7 @@ export default {
   },
   onKeyDown(e: IG6GraphEvent) {
     const code = e.key;
+    console.log('keydown', code);
     if (!code) {
       return;
     }
@@ -223,6 +230,7 @@ export default {
     }
   },
   onKeyUp() {
+    console.log('key up')
     if (this.brush) {
       // 清除所有选中状态后，设置拖得动状态为false，并清除框选的brush
       this.brush.remove(true);

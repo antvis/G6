@@ -74,7 +74,7 @@
     "@antv/g-base": "^0.3.29",
     "@antv/g-canvas": "^0.3.29",
     "@antv/g-math": "^0.1.1",
-    "@antv/g-svg": "^0.3.20",
+    "@antv/g-svg": "^0.3.21",
     "@antv/hierarchy": "^0.6.1",
     "@antv/matrix-util": "^2.0.4",
     "@antv/path-util": "^2.0.3",

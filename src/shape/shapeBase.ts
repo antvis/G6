@@ -235,7 +235,8 @@ export const shapeBase: ShapeOptions = {
       // 如果默认状态下没有设置attr，在某状态下设置了，需要重置到没有设置的状态
       each(styles, (val, attr) => {
         if (!(style as any)[attr]) {
-          (style as any)[attr] = null;
+          delete (style as any)[attr];
+          // (style as any)[attr] = null;
         }
       });
       shape.attr(style);
