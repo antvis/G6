@@ -1,4 +1,11 @@
 # ChangeLog
+#### 3.3.6
+- feat: support edge weight for dagre layout;
+- fix: local refresh influence on changeData;
+- fix: brush-select bug;
+- fix: set autoDraw to canvas when graph's setAutoPaint is called;
+- refactor: upgrade g-canvas to 0.3.21 to solve lacking of removeChild function.
+
 #### 3.3.5
 - fix: 3.3.4 is not published successfully;
 

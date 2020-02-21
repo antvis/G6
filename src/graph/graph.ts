@@ -718,6 +718,7 @@ export default class Graph extends EventEmitter implements IGraph {
    */
   public setAutoPaint(auto: boolean): void {
     this.set('autoPaint', auto);
+    this.get('canvas').set('autoDraw', auto);
   }
 
   /**
@@ -950,6 +951,8 @@ export default class Graph extends EventEmitter implements IGraph {
       return this;
     }
 
+    self.get('canvas').set('localRefresh', false);
+
     if (!self.get('data')) {
       self.data(data);
       self.render();
@@ -983,14 +986,15 @@ export default class Graph extends EventEmitter implements IGraph {
     const layoutController = this.get('layoutController');
     layoutController.changeData();
 
+    self.setAutoPaint(autoPaint);
     if (self.get('animate') && !layoutController.getLayoutType()) {
       // 如果没有指定布局
       self.positionsAnimate();
     } else {
-      self.paint();
+      self.autoPaint();
     }
+    self.get('canvas').set('localRefresh', true);
 
-    self.setAutoPaint(autoPaint);
     return this;
   }
 
@@ -1287,7 +1291,7 @@ export default class Graph extends EventEmitter implements IGraph {
     canvas.clear();
 
     this.initGroups();
-
+  
     // 清空画布时同时清除数据
     this.set({ itemMap: {}, nodes: [], edges: [], groups: [] });
     return this;
