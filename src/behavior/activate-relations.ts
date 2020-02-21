@@ -79,8 +79,8 @@ export default {
         edge.toFront();
       }
     });
-    graph.paint();
     graph.setAutoPaint(autoPaint);
+    graph.autoPaint();
     graph.emit('afteractivaterelations', { item: e.item, action: 'activate' });
   },
   clearAllItemStates(e: any) {

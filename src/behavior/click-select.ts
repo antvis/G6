@@ -37,6 +37,7 @@ export default {
   onClick(e: IG6GraphEvent) {
     const { item } = e;
     const { graph, keydown, multiple, shouldUpdate } = this;
+    console.log('multiple', multiple);
 
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
@@ -71,7 +72,7 @@ export default {
       });
     }
     graph.setAutoPaint(autoPaint);
-    graph.paint();
+    graph.autoPaint();
   },
   onCanvasClick() {
     const { graph } = this;
