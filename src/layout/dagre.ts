@@ -87,7 +87,10 @@ export default class DagreLayout extends BaseLayout {
       g.setNode(node.id, { width, height });
     });
     edges.forEach(edge => {
-      g.setEdge(edge.source, edge.target);
+      // dagrejs Wiki https://github.com/dagrejs/dagre/wiki#configuring-the-layout
+      g.setEdge(edge.source, edge.target, { 
+        weight: edge.weight || 1 
+      });
     });
     dagre.layout(g);
     let coord;
