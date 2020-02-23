@@ -16,7 +16,7 @@ describe('view', () => {
     height: 500,
     fitView: true,
   });
-  it.only('default fit view', () => {
+  it('default fit view', () => {
     const data = {
       nodes: [
         {
@@ -39,7 +39,6 @@ describe('view', () => {
 
     let bbox = canvas.getBBox();
 
-    console.log(bbox);
     expect(numberEqual(bbox.x, 10, 1)).toBe(true);
     expect(numberEqual(bbox.maxX, 490, 1)).toBe(true);
     expect(numberEqual(bbox.y, 90, 1)).toBe(true);
