@@ -40,11 +40,13 @@ export default class ViewController {
     const height: number = graph.get('height');
     group.resetMatrix();
     const bbox = group.getBBox();
+    console.log(group);
     const viewCenter = this.getViewCenter();
     const groupCenter: Point = {
       x: bbox.x + bbox.width / 2,
       y: bbox.y + bbox.height / 2,
     };
+    console.log(bbox, groupCenter, viewCenter);
     graph.translate(viewCenter.x - groupCenter.x, viewCenter.y - groupCenter.y);
     const w = (width - padding[1] - padding[3]) / bbox.width;
     const h = (height - padding[0] - padding[2]) / bbox.height;
@@ -52,6 +54,7 @@ export default class ViewController {
     if (w > h) {
       ratio = h;
     }
+    console.log(ratio)
     graph.zoom(ratio, viewCenter);
   }
 
