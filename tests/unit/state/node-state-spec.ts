@@ -21,21 +21,33 @@ describe('graph', () => {
     ],
   };
 
-  it('global nodeStateStyles and defaultNode, state change with opacity changed', () => {
+  it.only('global nodeStateStyles and defaultNode, state change with opacity changed', () => {
     const graph = new G6.Graph({
       container: div,
       width: 500,
       height: 500,
       nodeStateStyles: {
+        'comCircle:selected': {
+          keyShape: {
+            fill: 'red'
+          },
+          'circle-icon': {
+            stroke: 'green'
+          }
+        },
         hover: {
-          opacity: 0.8,
+          opacity: 0.3
         },
       },
       defaultNode: {
         size: 25,
         style: {
           fill: 'steelblue',
+          opacity: 1
         },
+        icon: {
+          show: true
+        }
       },
     });
     graph.data(data);
@@ -44,18 +56,20 @@ describe('graph', () => {
     graph.on('node:mouseenter', e => {
       const item = e.item;
       graph.setItemState(item, 'hover', true);
+      // graph.setItemState(item, 'comCircle', 'selected')
       const keyShape = item.getKeyShape();
       expect(keyShape.attr('opacity')).toEqual(0.8);
       expect(keyShape.attr('fill')).toEqual('steelblue');
     });
-    graph.on('node:mouseout', e => {
+    graph.on('node:click', e => {
       const item = e.item;
-      graph.setItemState(item, 'hover', false);
+      // graph.setItemState(item, 'hover', false);
+      graph.clearItemStates(item, 'hover')
       const keyShape = item.getKeyShape();
       expect(keyShape.attr('opacity')).toEqual(1);
       expect(keyShape.attr('fill')).toEqual('steelblue');
     });
-    graph.destroy();
+    // graph.destroy();
   });
 
   // setState to change the height, when the state is restored, the height can not be restored though the attrs are correct.
