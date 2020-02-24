@@ -296,12 +296,14 @@ export default class ItemBase implements IItemBase {
     if (shapeFactory) {
       const model: ModelConfig = this.get('model');
       const type = model.shape || model.type;
+      debugger
       shapeFactory.setState(type, state, enable, this);
     }
   }
 
   // TODO
   public clearStates(states: string[]) {
+    debugger
     const self = this;
     const originStates = self.getStates();
     const shapeFactory = self.get('shapeFactory');
