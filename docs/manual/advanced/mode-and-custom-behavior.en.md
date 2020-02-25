@@ -8,7 +8,7 @@ In this chapter, we will introduce the interactions in G6 by adding nodes and ed
 - [Custom Behavior](/en/docs/manual/advanced/custom-behavior);
 - [Mode](/en/docs/manual/middle/states/mode).
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*y1qkTKqhQXkAAAAAAAAAAABkARQnAQ' width=400 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*y1qkTKqhQXkAAAAAAAAAAABkARQnAQ' alt='setmode' width=400 />
 
 <br />The final result in shown above. The complete code: <a href='https://codepen.io/Yanyan-Wang/pen/qBBNaye' target='_blank'>Adding Items</a><br />There are three mode options in the drop-down menu on the upper left.
 
