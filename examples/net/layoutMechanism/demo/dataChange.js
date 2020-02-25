@@ -476,6 +476,5 @@ graph.data(data);
 graph.render();
 
 setTimeout(() => {
-  graph.get('canvas').set('localRefresh', false);
   graph.changeData(data2);
 }, 2500);
