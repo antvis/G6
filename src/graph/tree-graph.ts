@@ -287,6 +287,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
     const autoPaint: boolean = self.get('autoPaint');
 
     self.emit('beforerefreshlayout', { data, layoutData });
+    self.emit('beforelayout');
 
     self.setAutoPaint(false);
 
@@ -306,6 +307,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
     }
     self.setAutoPaint(autoPaint);
     self.emit('afterrefreshlayout', { data, layoutData });
+    self.emit('afterlayout');
   }
 
   /**
