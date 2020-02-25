@@ -8,7 +8,7 @@ order: 7
 - [自定义交互行为 Behavior](/zh/docs/manual/advanced/custom-behavior)；
 - [交互模式 Mode](/zh/docs/manual/middle/states/mode)。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*y1qkTKqhQXkAAAAAAAAAAABkARQnAQ' width=400 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*y1qkTKqhQXkAAAAAAAAAAABkARQnAQ' alt='setmode' width=400 />
 
 <br />上图是本文要实现的最终效果。完整 demo 代码参见：<a href='https://codepen.io/Yanyan-Wang/pen/qBBNaye' target='_blank'>动态添加元素</a>。<br />左上方的下拉菜单中有三个选项，用于切换交互模式 mode：
 
