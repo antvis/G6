@@ -138,6 +138,7 @@ export default class ItemBase implements IItemBase {
     if (keyShape) {
       keyShape.isKeyShape = true;
       self.set('keyShape', keyShape);
+      keyShape.set('draggable', true);
       self.set('originStyle', this.getKeyShapeStyle());
     }
     // 防止由于用户外部修改 model 中的 shape 导致 shape 不更新

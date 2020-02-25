@@ -1,4 +1,14 @@
 import G6 from '@antv/g6';
+import insertCss from 'insert-css';
+
+insertCss(`
+  .g6-minimap-container {
+    border: 1px solid #e2e2e2;
+  }
+  .g6-minimap-viewport {
+    border: 2px solid rgb(25, 128, 255);
+  }
+`);
 const data = {
   nodes: [
     {
@@ -166,15 +176,16 @@ const data = {
   ],
 };
 const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
+let height = document.getElementById('container').scrollHeight || 500;
+height -= 110;
+const minimap = new G6.Minimap({
+  size: [150, 100]
+});
 const graph = new G6.Graph({
   container: 'container',
   width,
   height,
-  fitView: true,
-  modes: {
-    default: ['drag-canvas', 'drag-node'],
-  },
+  linkCenter: true,
   layout: {
     type: 'dagre',
     rankdir: 'LR',
@@ -183,24 +194,23 @@ const graph = new G6.Graph({
     ranksepFunc: () => 1,
   },
   defaultNode: {
-    size: [30, 20],
+    size: [80, 40],
     type: 'rect',
     style: {
-      lineWidth: 2,
+      fill: '#DEE9FF',
       stroke: '#5B8FF9',
-      fill: '#C6E5FF',
     },
   },
   defaultEdge: {
-    size: 1,
-    color: '#e2e2e2',
     style: {
-      endArrow: {
-        path: 'M 4,0 L -4,-4 L -4,4 Z',
-        d: 4,
-      },
+      stroke: '#b5b5b5',
+      lineAppendWidth: 3,
     },
   },
+  modes: {
+    default: [ 'drag-canvas', 'zoom-canvas' ],
+  },
+  plugins: [ minimap ]
 });
 graph.data(data);
 graph.render();

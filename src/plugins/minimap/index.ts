@@ -431,7 +431,7 @@ export default class MiniMap extends Base {
     const group = canvas.get('children')[0];
     if(!group) return;
 
-    const bbox = group.getBBox();
+    const bbox = group.getCanvasBBox();
 
     let width = graph.get('width');
     let height = graph.get('height'); 

@@ -151,7 +151,7 @@ Shape.registerNode(
     updateShapeStyle(cfg: NodeConfig, item: Item) {
       const group = item.getContainer();
       const shapeClassName = `${this.itemType}-shape`;
-      const shape = group.find(element => element.get('className') === shapeClassName);
+      const shape = group.find(element => element.get('className') === shapeClassName) || item.getKeyShape();
       const shapeStyle = (this as ShapeOptions).getShapeStyle!(cfg);
       if (shape) {
         shape.attr(shapeStyle);
