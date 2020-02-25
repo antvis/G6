@@ -951,6 +951,10 @@ export default class Graph extends EventEmitter implements IGraph {
       return this;
     }
 
+    const canvas = this.get('canvas');
+    const localRefresh: boolean = canvas.get('localRefresh');
+    canvas.set('localRefresh', false);
+
     if (!self.get('data')) {
       self.data(data);
       self.render();
@@ -984,6 +988,7 @@ export default class Graph extends EventEmitter implements IGraph {
     const layoutController = this.get('layoutController');
     layoutController.changeData();
 
+
     self.setAutoPaint(autoPaint);
     if (self.get('animate') && !layoutController.getLayoutType()) {
       // 如果没有指定布局
@@ -991,7 +996,9 @@ export default class Graph extends EventEmitter implements IGraph {
     } else {
       self.autoPaint();
     }
-
+    setTimeout(() => {
+      canvas.set('localRefresh', localRefresh);
+    }, 16);
     return this;
   }
 
