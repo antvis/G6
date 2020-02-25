@@ -233,10 +233,10 @@ export const shapeBase: ShapeOptions = {
       // 取消状态时重置所有状态，依次叠加仍有的状态
       const style = item.getCurrentStatesStyle();
       // 如果默认状态下没有设置attr，在某状态下设置了，需要重置到没有设置的状态
+      const keptAttrs = [ 'x', 'y', 'cx', 'cy' ];
       each(styles, (val, attr) => {
-        if (!(style as any)[attr]) {
-          delete (style as any)[attr];
-          // (style as any)[attr] = null;
+        if (!(style as any)[attr] && !(keptAttrs.indexOf(attr) > -1)) {
+          (style as any)[attr] = null;
         }
       });
       shape.attr(style);
