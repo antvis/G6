@@ -1977,10 +1977,10 @@ describe.only('plugins', () => {
       container: div,
       width: 500,
       height: 500,
-      // renderer: 'svg',
+      renderer: 'svg',
       plugins: [minimap],
       modes: {
-        defualt: ['drag-node', 'drag-canvas', 'zoom-canvas']
+        default: ['drag-node', 'drag-canvas', 'zoom-canvas']
       }
     });
     graph.data(data);
