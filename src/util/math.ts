@@ -366,7 +366,7 @@ export const scale = (group: IGroup, ratio: number | number[]) => {
     scaleXY = [ratio, ratio];
   }
 
-  if (isArray(ratio) && ratio.length === 0) {
+  if (isArray(ratio) && ratio.length === 1) {
     scaleXY = [ratio[0], ratio[0]];
   }
 
