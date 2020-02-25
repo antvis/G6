@@ -41,6 +41,7 @@ export default {
       y: clientY,
     };
     this.graph.translate(dx, dy);
+    this.graph.paint();
   },
   onMouseDown(e: IG6GraphEvent) {
     const self = this as any;
