@@ -951,8 +951,6 @@ export default class Graph extends EventEmitter implements IGraph {
       return this;
     }
 
-    self.get('canvas').set('localRefresh', false);
-
     if (!self.get('data')) {
       self.data(data);
       self.render();
@@ -993,7 +991,6 @@ export default class Graph extends EventEmitter implements IGraph {
     } else {
       self.autoPaint();
     }
-    self.get('canvas').set('localRefresh', true);
 
     return this;
   }
