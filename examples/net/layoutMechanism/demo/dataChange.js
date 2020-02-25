@@ -475,6 +475,7 @@ const graph = new G6.Graph({
 graph.data(data);
 graph.render();
 
-setTimeout(function() {
+setTimeout(() => {
+  graph.get('canvas').set('localRefresh', false);
   graph.changeData(data2);
 }, 2500);
