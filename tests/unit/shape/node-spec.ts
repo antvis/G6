@@ -203,6 +203,13 @@ describe('shape node test', () => {
         item,
       );
       expect(label.attr('text')).toBe('old rect');
+
+      item.update({
+        style: {
+          fill: 'steelblue'
+        }
+      });
+      expect(shape.attr('fill')).toBe('steelblue');
       canvas.draw();
     });
 

@@ -322,7 +322,7 @@ describe('math util test', () => {
     scale(group, 0.5);
     const matrix = group.getMatrix();
     expect(matrix[0]).toBe(0.5);
-    scale(group, 0.5);
+    scale(group, [0.5]);
     const matrix2 = group.getMatrix();
     expect(matrix2[0]).toBe(0.25);
     rotate(group, 1.3);
@@ -330,5 +330,16 @@ describe('math util test', () => {
     expect(matrix3[0]).toBe(0.06687470715614684);
     expect(matrix3[1]).toBe(0.24088954635429824);
     expect(matrix3[3]).toBe(-0.24088954635429824);
+
+    // rotate a group with null matrix
+    const group2 = canvas.addGroup();
+    const oriGroup2Matrix = group2.getMatrix();
+    expect(oriGroup2Matrix).toBe(null);
+    rotate(group2, 3);
+    const group2Matrix = group2.getMatrix();
+    expect(group2Matrix[0]).toBe(-0.9899924966004454);
+    expect(group2Matrix[1]).toBe(0.1411200080598672);
+    expect(group2Matrix[3]).toBe(-0.1411200080598672);
+    expect(group2Matrix[4]).toBe(-0.9899924966004454);
   });
 });

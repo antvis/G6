@@ -30,20 +30,24 @@ describe('register node', () => {
       },
     ],
   };
-  it('shape test wihout extended shape and draw function', () => {
+  it('shape test wihout extended shape and draw function, update the node', () => {
     G6.registerNode('custom-node', {
       drawShape(cfg, group) {
+        let fill = '#87e8de';
+        if (cfg.style && cfg.style.fill) {
+          fill = cfg.style.fill;
+        }
         const keyShape = group.addShape('circle', {
           attrs: {
             x: 0,
             y: 0,
             r: 30,
-            fill: '#87e8de',
+            fill,
           },
         });
 
         return keyShape;
-      },
+      }
     });
     const graph = new G6.Graph({
       container: div,
@@ -55,8 +59,15 @@ describe('register node', () => {
     });
     graph.data(data);
     graph.render();
-    expect(graph.getNodes()[0].getModel().x).not.toBe(undefined);
-    expect(graph.getNodes()[0].getModel().y).not.toBe(undefined);
+    const node = graph.getNodes()[0];
+    expect(node.getModel().x).not.toBe(undefined);
+    expect(node.getModel().y).not.toBe(undefined);
+    node.update({
+      style: {
+        fill: 'steelblue',
+      },
+    });
+    expect(node.get('group').get('children')[0].attr('fill')).toBe('steelblue');
     graph.destroy();
   });
   it('register node wihout draw and drawShape, extend circle', () => {
