@@ -124,7 +124,7 @@ const graph = new G6.TreeGraph({
     default: [
       {
         type: 'collapse-expand',
-        shouldUpdate: function shouldUpdate(e) {
+        shouldBegin: function shouldBegin(e) {
           /* 点击 node 禁止展开收缩 */
           if (e.target.get('name') !== 'collapse-icon') {
             return false;
