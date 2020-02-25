@@ -412,7 +412,6 @@ export default class MiniMap extends Base {
     if (!isRefresh) {
       return;
     }
-    console.log('update canvas')
 
     // 如果是视口变换，也不刷新视图，但是需要重置视口大小和位置
     if (this.get('viewportChange')) {

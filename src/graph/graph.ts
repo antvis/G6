@@ -609,11 +609,9 @@ export default class Graph extends EventEmitter implements IGraph {
     } else {
       mat3.scale(matrix, matrix, [ratio, ratio]);
     }
-
-    if (minZoom && matrix[0] < minZoom) {
-      return;
-    }
-    if (maxZoom && matrix[0] > maxZoom) {
+    
+    if ((minZoom && matrix[0] < minZoom) || (maxZoom && matrix[0] > maxZoom)) {
+      this.setAutoPaint(autoPaint);
       return;
     }
 
