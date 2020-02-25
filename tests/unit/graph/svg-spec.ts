@@ -1971,7 +1971,7 @@ describe.only('plugins', () => {
     ],
   };
 
-  it('minimap', () => {
+  it.only('minimap', () => {
     const minimap = new G6.Minimap();
     const graph = new Graph({
       container: div,
@@ -1985,6 +1985,67 @@ describe.only('plugins', () => {
     });
     graph.data(data);
     graph.render();
+    graph.destroy();
+  });
+  it.only('minimap delegate', () => {
+    const minimap = new G6.Minimap({
+      width: 100,
+      height: 80,
+      type: 'delegate'
+    });
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      renderer: 'svg',
+      plugins: [minimap],
+      modes: {
+        default: ['drag-node', 'drag-canvas', 'zoom-canvas']
+      }
+    });
+    graph.data(data);
+    graph.render();
+    graph.destroy();
+  });
+  it.only('minimap keyShape', () => {
+    const minimap = new G6.Minimap({
+      width: 100,
+      height: 80,
+      type: 'keyShape'
+    });
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      renderer: 'svg',
+      plugins: [minimap],
+      modes: {
+        default: ['drag-node', 'drag-canvas', 'zoom-canvas']
+      }
+    });
+    data.nodes.forEach((node: any, i) => {
+      node.label = `node-${i}`;
+    });
+    graph.data(data);
+    graph.render();
+    graph.destroy();
+  });
+  it.only('edge bundling', () => {
+    const bundling = new G6.Bundling();
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      renderer: 'svg',
+      plugins: [bundling]
+    });
+    graph.data(data);
+    graph.render();
+    setTimeout(() => {
+      bundling.bundling(data);
+    }, 5000);
+    
+    // graph.destroy();
   });
 });
 
