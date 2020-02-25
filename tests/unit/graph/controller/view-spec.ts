@@ -37,7 +37,7 @@ describe('view', () => {
 
     const canvas: Canvas = graph.get('canvas');
 
-    let bbox = canvas.getBBox();
+    let bbox = canvas.getCanvasBBox();
 
     expect(numberEqual(bbox.x, 10, 1)).toBe(true);
     expect(numberEqual(bbox.maxX, 490, 1)).toBe(true);
@@ -49,7 +49,7 @@ describe('view', () => {
     graph.changeData(data);
     graph.render();
 
-    bbox = graph.get('canvas').getBBox();
+    bbox = graph.get('canvas').getCanvasBBox();
 
     expect(numberEqual(bbox.x, 90, 1)).toBe(true);
     expect(numberEqual(bbox.maxX, 410, 1)).toBe(true);
@@ -76,7 +76,7 @@ describe('view', () => {
     graph.data(data);
     graph.render();
     graph.fitView([50, 50]);
-    const bbox = graph.get('canvas').getBBox();
+    const bbox = graph.get('canvas').getCanvasBBox();
     expect(numberEqual(bbox.x, 116, 1)).toBe(true);
     expect(numberEqual(bbox.width, 266, 1)).toBe(true);
     expect(numberEqual(bbox.y, 50)).toBe(true);

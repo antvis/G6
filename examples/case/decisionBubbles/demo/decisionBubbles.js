@@ -463,8 +463,6 @@ graph = new G6.Graph({
 });
 graph.get('canvas').set('localRefresh', false);
 
-console.log('dafasf');
-
 function translate(x, y) {
   let moveX = x;
   let moveY = y;

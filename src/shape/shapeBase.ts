@@ -149,7 +149,7 @@ export const shapeBase: ShapeOptions = {
   updateShapeStyle(cfg: ModelConfig, item: Item) {
     const group = item.getContainer();
     const shapeClassName = this.itemType + CLS_SHAPE_SUFFIX;
-    const shape = group.find(element => element.get('className') === shapeClassName);
+    const shape = group.find(element => element.get('className') === shapeClassName) || item.getKeyShape();
     const shapeStyle = mix({}, shape.attr(), cfg.style);
     if (shape) {
       shape.attr(shapeStyle);
