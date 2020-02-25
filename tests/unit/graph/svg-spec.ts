@@ -1,4 +1,5 @@
 import { Graph, Layout, TreeGraph } from '../../../src';
+import G6 from '../../../src';
 import '../../../src/behavior';
 import { scale, translate } from '../../../src/util/math';
 import Plugin from '../../../src/plugins';
@@ -1922,6 +1923,68 @@ describe('tree graph', () => {
       graph.emit('node:click', { item })
       expect(item.getModel().collapsed).toBe(false);
     }, 500);
+  });
+});
+
+
+describe.only('plugins', () => {
+
+  const data = {
+    nodes: [
+      {
+        id: 'node1'
+      },
+      {
+        id: 'node2'
+      },
+      {
+        id: 'node3'
+      },
+      {
+        id: 'node4'
+      },
+      {
+        id: 'node5'
+      },
+    ],
+    edges: [
+      {
+        source: 'node1',
+        target: 'node2'
+      },
+      {
+        source: 'node2',
+        target: 'node3'
+      },
+      {
+        source: 'node1',
+        target: 'node3'
+      },
+      {
+        source: 'node1',
+        target: 'node4'
+      },
+      {
+        source: 'node4',
+        target: 'node5'
+      },
+    ],
+  };
+
+  it('minimap', () => {
+    const minimap = new G6.Minimap();
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      // renderer: 'svg',
+      plugins: [minimap],
+      modes: {
+        defualt: ['drag-node', 'drag-canvas', 'zoom-canvas']
+      }
+    });
+    graph.data(data);
+    graph.render();
   });
 });
 
