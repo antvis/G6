@@ -110,7 +110,6 @@ export default class ItemController {
         group: parent.addGroup(),
       });
     } else if (type === NODE) {
-      console.log('node sytle x and y', styles.x, styles.y);
       item = new Node({
         model,
         styles,
@@ -203,16 +202,19 @@ export default class ItemController {
 
     if (type === NODE) {
       const autoPaint = graph.get('autoPaint');
-      graph.setAutoPaint(false);
+      if (graph.get('renderer') !== 'svg') {
+        graph.setAutoPaint(false);
+      }
       const edges: IEdge[] = (item as INode).getEdges();
       each(edges, (edge: IEdge) => {
         graph.refreshItem(edge);
       });
-
-      graph.setAutoPaint(autoPaint);
+      if (graph.get('renderer') !== 'svg') {
+        graph.setAutoPaint(autoPaint);
+      }
     }
 
-    graph.autoPaint();
+    // graph.autoPaint();
     graph.emit('afterupdateitem', { item, cfg });
   }
 
