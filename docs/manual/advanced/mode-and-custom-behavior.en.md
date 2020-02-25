@@ -8,7 +8,7 @@ In this chapter, we will introduce the interactions in G6 by adding nodes and ed
 - [Custom Behavior](/en/docs/manual/advanced/custom-behavior);
 - [Mode](/en/docs/manual/middle/states/mode).
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zwgcTYCrr6sAAAAAAAAAAABkARQnAQ' width=400 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*y1qkTKqhQXkAAAAAAAAAAABkARQnAQ' width=400 />
 
 <br />The final result in shown above. The complete code: <a href='https://codepen.io/Yanyan-Wang/pen/qBBNaye' target='_blank'>Adding Items</a><br />There are three mode options in the drop-down menu on the upper left.
 
@@ -42,7 +42,7 @@ Here goes the basic HTML code for this chapter. We will add new codes incrementa
       <option value="addEdge">Add Edge</option>
     </select>
     <div id="mountNode"></div>
-    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.0/build/g6.js"></script>
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.3.5/dist/g6.min.js"></script>
     <script>
       // Source data
       const data = {
@@ -95,6 +95,14 @@ const graph = new G6.Graph({
     // The Mode of adding edges
     addEdge: ['click-add-edge', 'click-select'],
   },
+  // The node styles in different states
+  nodeStateStyles: {
+    // The node styles in selected state, corresponds to the built-in click-select behavior
+    selected: {
+      stroke: '#666',
+      lineWidth: 2,
+      fill: 'steelblue'
+    }
 });
 
 graph.data(data);
@@ -113,6 +121,8 @@ document.getElementById('selector').addEventListener('change', e => {
 When user select the 'Add Node' button in the menu, the Mode will be switched to the addNode, which includes two Behaviors: `'click-add-node'` and `'click-select'`. The `'click-add-node'` is registered by `G6.registerBehavior`. P.S. the name of `'click-add-node'` can be assigned to any one you like.
 
 ```javascript
+// The count of the added nodes, it will be used to generate unique id for added node
+let addedNodeCount = 0;
 // Register the custom Behavior of adding a node by clicking
 G6.registerBehavior('click-add-node', {
   // Bind the events and response functions for this custom Behavior
@@ -125,11 +135,12 @@ G6.registerBehavior('click-add-node', {
   onClick(ev) {
     const graph = this.graph;
     // Add a new node on the canvas
-    const node = graph.addItem('node', {
-      x: ev.x,
-      y: ev.y,
-      id: G6.Util.uniqueId(), // Generate a unique id
+    const node = this.graph.addItem('node', {
+      x: ev.canvasX,
+      y: ev.canvasY,
+      id: `node-${addedNodeCount}`, // Generate a unique id
     });
+    addedNodeCount++;
   },
 });
 ```

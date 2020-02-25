@@ -8,7 +8,7 @@ order: 7
 - [自定义交互行为 Behavior](/zh/docs/manual/advanced/custom-behavior)；
 - [交互模式 Mode](/zh/docs/manual/middle/states/mode)。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zwgcTYCrr6sAAAAAAAAAAABkARQnAQ' width=400 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*y1qkTKqhQXkAAAAAAAAAAABkARQnAQ' width=400 />
 
 <br />上图是本文要实现的最终效果。完整 demo 代码参见：<a href='https://codepen.io/Yanyan-Wang/pen/qBBNaye' target='_blank'>动态添加元素</a>。<br />左上方的下拉菜单中有三个选项，用于切换交互模式 mode：
 
@@ -42,7 +42,7 @@ order: 7
       <option value="addEdge">添加边</option>
     </select>
     <div id="mountNode"></div>
-    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.0/build/g6.js"></script>
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.3.5/dist/g6.min.js"></script>
     <script>
       // 初始数据
       const data = {
@@ -95,6 +95,14 @@ const graph = new G6.Graph({
     // 增加边交互模式
     addEdge: ['click-add-edge', 'click-select'],
   },
+  // 节点在不同状态下的样式集合
+  nodeStateStyles: {
+    // 节点在 selected 状态下的样式，对应内置的 click-select 行为
+    selected: {
+      stroke: '#666',
+      lineWidth: 2,
+      fill: 'steelblue'
+    }
 });
 
 graph.data(data);
@@ -113,6 +121,9 @@ document.getElementById('selector').addEventListener('change', e => {
 在上面的例子中，当选中添加节点按钮时，会切换到 `addNode` 的 Mode 上。`addNode` Mode 包含了 `'click-add-node'`, `'click-select'` 两个 Behavior。`'click-add-node'` 实现了在点击空白画布时，在点击位置添加节点。这是通过使用 `G6.registerBehavior` 自定义一个名为 `'click-add-node'`（名字可以自由设定） 的 Behavior 实现的。
 
 ```javascript
+// 添加的节点数量，用于生成唯一 id
+let addedNodeCount = 0;
+
 // 封装点击添加节点的交互
 G6.registerBehavior('click-add-node', {
   // 设定该自定义行为需要监听的事件及其响应函数
@@ -126,11 +137,12 @@ G6.registerBehavior('click-add-node', {
   onClick(ev) {
     const graph = this.graph;
     // 在图上新增一个节点
-    const node = graph.addItem('node', {
-      x: ev.x,
-      y: ev.y,
-      id: G6.Util.uniqueId(), // 生成唯一的 id
+    const node = this.graph.addItem('node', {
+      x: ev.canvasX,
+      y: ev.canvasY,
+      id: `node-${addedNodeCount}`, // 生成唯一的 id
     });
+    addedNodeCount++;
   },
 });
 ```
@@ -145,9 +157,9 @@ G6.registerBehavior('click-add-edge', {
   // 设定该自定义行为需要监听的事件及其响应函数
   getEvents() {
     return {
-      'node:click': 'onClick', // 监听事件 node:click，响应函数时 onClick
-      mousemove: 'onMousemove', // 监听事件 mousemove，响应函数时 onMousemove
-      'edge:click': 'onEdgeClick', // 监听事件 edge:click，响应函数时 onEdgeClick
+      'node:click': 'onClick', // 监听事件 node:click，响应函数是 onClick
+      mousemove: 'onMousemove', // 监听事件 mousemove，响应函数是 onMousemove
+      'edge:click': 'onEdgeClick', // 监听事件 edge:click，响应函数是 onEdgeClick
     };
   },
   // getEvents 中定义的 'node:click' 的响应函数

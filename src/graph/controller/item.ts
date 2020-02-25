@@ -76,7 +76,7 @@ export default class ItemController {
       });
     }
 
-    if (model.shape) {
+    if (model.shape && !model.type) {
       console.warn('shape 字段即将被废弃，请使用 type 代替');
     }
 
