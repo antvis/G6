@@ -4,6 +4,7 @@ import '../../../src/behavior';
 import { scale, translate } from '../../../src/util/math';
 import Plugin from '../../../src/plugins';
 import { timerOut } from '../util/timeOut';
+import ItemBase from '../../../src/item/item';
 
 const div = document.createElement('div');
 div.id = 'global-spec';
@@ -2030,22 +2031,467 @@ describe.only('plugins', () => {
     graph.render();
     graph.destroy();
   });
+  // TODO: the edges before bundling are not removed
   it.only('edge bundling', () => {
-    const bundling = new G6.Bundling();
+    const bundling = new G6.Bundling({
+      bundleThreshold: 0.1
+    });
     const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
       renderer: 'svg',
-      plugins: [bundling]
+      plugins: [bundling],
+      layout: {
+        type: 'circular'
+      }
+    });
+    const bundlingData = {
+      "nodes": [{
+        "id": "0",
+        "label": "0"
+      },
+      {
+        "id": "1",
+        "label": "1"
+      },
+      {
+        "id": "2",
+        "label": "2"
+      },
+      {
+        "id": "3",
+        "label": "3"
+      },
+      {
+        "id": "4",
+        "label": "4"
+      },
+      {
+        "id": "5",
+        "label": "5"
+      },
+      {
+        "id": "6",
+        "label": "6"
+      },
+      {
+        "id": "7",
+        "label": "7"
+      },
+      {
+        "id": "8",
+        "label": "8"
+      },
+      {
+        "id": "9",
+        "label": "9"
+      },
+      {
+        "id": "10",
+        "label": "10"
+      },
+      {
+        "id": "11",
+        "label": "11"
+      },
+      {
+        "id": "12",
+        "label": "12"
+      },
+      {
+        "id": "13",
+        "label": "13"
+      },
+      {
+        "id": "14",
+        "label": "14"
+      },
+      {
+        "id": "15",
+        "label": "15"
+      },
+      {
+        "id": "16",
+        "label": "16"
+      },
+      {
+        "id": "17",
+        "label": "17"
+      },
+      {
+        "id": "18",
+        "label": "18"
+      },
+      {
+        "id": "19",
+        "label": "19"
+      },
+      {
+        "id": "20",
+        "label": "20"
+      },
+      {
+        "id": "21",
+        "label": "21"
+      },
+      {
+        "id": "22",
+        "label": "22"
+      },
+      {
+        "id": "23",
+        "label": "23"
+      },
+      {
+        "id": "24",
+        "label": "24"
+      },
+      {
+        "id": "25",
+        "label": "25"
+      },
+      {
+        "id": "26",
+        "label": "26"
+      },
+      {
+        "id": "27",
+        "label": "27"
+      },
+      {
+        "id": "28",
+        "label": "28"
+      },
+      {
+        "id": "29",
+        "label": "29"
+      },
+      {
+        "id": "30",
+        "label": "30"
+      },
+      {
+        "id": "31",
+        "label": "31"
+      },
+      {
+        "id": "32",
+        "label": "32"
+      },
+      {
+        "id": "33",
+        "label": "33"
+      }],
+      "edges": [{
+        "source": "0",
+        "target": "1"
+      },
+      {
+        "source": "0",
+        "target": "2"
+      },
+      {
+        "source": "0",
+        "target": "3"
+      },
+      {
+        "source": "0",
+        "target": "4"
+      },
+      {
+        "source": "0",
+        "target": "5"
+      },
+      {
+        "source": "0",
+        "target": "7"
+      },
+      {
+        "source": "0",
+        "target": "8"
+      },
+      {
+        "source": "0",
+        "target": "9"
+      },
+      {
+        "source": "0",
+        "target": "10"
+      },
+      {
+        "source": "0",
+        "target": "11"
+      },
+      {
+        "source": "0",
+        "target": "13"
+      },
+      {
+        "source": "0",
+        "target": "14"
+      },
+      {
+        "source": "0",
+        "target": "15"
+      },
+      {
+        "source": "0",
+        "target": "16"
+      },
+      {
+        "source": "2",
+        "target": "3"
+      },
+      {
+        "source": "4",
+        "target": "5"
+      },
+      {
+        "source": "4",
+        "target": "6"
+      },
+      {
+        "source": "5",
+        "target": "6"
+      },
+      {
+        "source": "7",
+        "target": "13"
+      },
+      {
+        "source": "8",
+        "target": "14"
+      },
+      {
+        "source": "9",
+        "target": "10"
+      },
+      {
+        "source": "10",
+        "target": "22"
+      },
+      {
+        "source": "10",
+        "target": "14"
+      },
+      {
+        "source": "10",
+        "target": "12"
+      },
+      {
+        "source": "10",
+        "target": "24"
+      },
+      {
+        "source": "10",
+        "target": "21"
+      },
+      {
+        "source": "10",
+        "target": "20"
+      },
+      {
+        "source": "11",
+        "target": "24"
+      },
+      {
+        "source": "11",
+        "target": "22"
+      },
+      {
+        "source": "11",
+        "target": "14"
+      },
+      {
+        "source": "12",
+        "target": "13"
+      },
+      {
+        "source": "16",
+        "target": "17"
+      },
+      {
+        "source": "16",
+        "target": "18"
+      },
+      {
+        "source": "16",
+        "target": "21"
+      },
+      {
+        "source": "16",
+        "target": "22"
+      },
+      {
+        "source": "17",
+        "target": "18"
+      },
+      {
+        "source": "17",
+        "target": "20"
+      },
+      {
+        "source": "18",
+        "target": "19"
+      },
+      {
+        "source": "19",
+        "target": "20"
+      },
+      {
+        "source": "19",
+        "target": "33"
+      },
+      {
+        "source": "19",
+        "target": "22"
+      },
+      {
+        "source": "19",
+        "target": "23"
+      },
+      {
+        "source": "20",
+        "target": "21"
+      },
+      {
+        "source": "21",
+        "target": "22"
+      },
+      {
+        "source": "22",
+        "target": "24"
+      },
+      {
+        "source": "22",
+        "target": "25"
+      },
+      {
+        "source": "22",
+        "target": "26"
+      },
+      {
+        "source": "22",
+        "target": "23"
+      },
+      {
+        "source": "22",
+        "target": "28"
+      },
+      {
+        "source": "22",
+        "target": "30"
+      },
+      {
+        "source": "22",
+        "target": "31"
+      },
+      {
+        "source": "22",
+        "target": "32"
+      },
+      {
+        "source": "22",
+        "target": "33"
+      },
+      {
+        "source": "23",
+        "target": "28"
+      },
+      {
+        "source": "23",
+        "target": "27"
+      },
+      {
+        "source": "23",
+        "target": "29"
+      },
+      {
+        "source": "23",
+        "target": "30"
+      },
+      {
+        "source": "23",
+        "target": "31"
+      },
+      {
+        "source": "23",
+        "target": "33"
+      },
+      {
+        "source": "32",
+        "target": "33"
+      }]
+    };
+
+    graph.data(bundlingData);
+    graph.render();
+    bundling.bundling(bundlingData);
+    
+    graph.destroy();
+  });
+
+  // TODO: wait for the mouse events on node in G
+  it.only('edge bundling', () => {
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      renderer: 'svg'
+    });
+
+    graph.data(data);
+    graph.render();
+
+    // create ul
+    const conextMenuContainer = document.createElement('ul');
+    conextMenuContainer.id = 'contextMenu';
+    conextMenuContainer.style.position = 'absolute';
+
+    // create li
+    const firstLi = document.createElement('li');
+    firstLi.innerText = 'Option 1';
+    conextMenuContainer.appendChild(firstLi);
+
+    const lastLi = document.createElement('li');
+    lastLi.innerText = 'Option 2';
+    conextMenuContainer.appendChild(lastLi);
+    div.appendChild(conextMenuContainer);
+
+    graph.on('node:contextmenu', evt => {
+      // evt.preventDefault();
+      // evt.stopPropagation();
+      conextMenuContainer.style.left = `${evt.x + 20}px`;
+      conextMenuContainer.style.top = `${evt.y}px`;
+    });
+    
+    graph.on('node:mouseleave', () => {
+      conextMenuContainer.style.left = '-150px';
+    });
+    
+    const item = graph.getNodes()[1];
+    graph.emit('node:contextmenu', { 
+      x: item.getModel().x,
+      y: item.getModel().y
+    });
+    graph.destroy();
+  });
+  it.only('grid', () => {
+    const grid = new G6.Grid();
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      renderer: 'svg',
+      plugins: [grid],
+      modes: {
+        default: ['drag-canvas', 'zoom-canvas']
+      }
     });
     graph.data(data);
     graph.render();
-    setTimeout(() => {
-      bundling.bundling(data);
-    }, 5000);
-    
-    // graph.destroy();
+    graph.destroy();
   });
 });
 
