@@ -823,16 +823,24 @@ export default class Graph extends EventEmitter implements IGraph {
   /**
    * 设置元素状态
    * @param {Item} item 元素id或元素实例
-   * @param {string} state 状态
-   * @param {boolean} enabled 是否启用状态
+   * @param {string} state 状态名称
+   * @param {string | boolean} value 是否启用状态 或 状态值
    */
-  public setItemState(item: Item | string, state: string, enabled: boolean): void {
+  public setItemState(item: Item | string, state: string, value: string | boolean): void {
     if (isString(item)) {
       item = this.findById(item);
     }
 
-    this.get('itemController').setItemState(item, state, enabled);
-    this.get('stateController').updateState(item, state, enabled);
+    const itemController: ItemController = this.get('itemController')
+    itemController.setItemState(item, state, value);
+
+    const stateController: StateController = this.get('stateController')
+    
+    if(isString(value)) {
+      stateController.updateState(item, `${state}:${value}`, true);
+    } else {
+      stateController.updateState(item, state, value);
+    }
   }
 
   /**

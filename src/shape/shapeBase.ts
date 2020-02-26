@@ -6,10 +6,10 @@ import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
 import { ShapeOptions, ILabelConfig } from '../interface/shape';
 import { IPoint, Item, LabelStyle, ShapeStyle, ModelConfig } from '../types';
-import { cloneDeep, get, merge } from 'lodash';
+import { get } from 'lodash';
 import Global from '../global';
 import { mat3, transform } from '@antv/matrix-util';
-import { deepMix, each, mix, isString } from '@antv/util';
+import { deepMix, each, mix, isBoolean, isPlainObject, clone } from '@antv/util';
 
 const CLS_SHAPE_SUFFIX = '-shape';
 const CLS_LABEL_SUFFIX = '-label';
@@ -53,7 +53,7 @@ export const shapeBase: ShapeOptions = {
   drawLabel(cfg: ModelConfig, group: GGroup): IShape {
     const { labelCfg: defaultLabelCfg } = this.options as ModelConfig;
 
-    const labelCfg = merge({}, defaultLabelCfg, cfg.labelCfg) as ILabelConfig;
+    const labelCfg = mix({}, defaultLabelCfg, cfg.labelCfg) as ILabelConfig;
     const labelStyle = this.getLabelStyle!(cfg, labelCfg, group);
     const rotate = labelStyle.rotate;
     delete labelStyle.rotate;
@@ -218,7 +218,7 @@ export const shapeBase: ShapeOptions = {
    * @param  {String | Boolean} value 状态值
    * @param  {G6.Item} item 节点
    */
-  setState(name: string, value: boolean, item: Item) {
+  setState(name: string, value: string | boolean, item: Item) {
     const shape: IShape = item.get('keyShape');
     if (!shape) {
       return;
@@ -227,42 +227,80 @@ export const shapeBase: ShapeOptions = {
     const stateName = isBoolean(value) ? name : `${name}:${value}`
     const itemStateStyle = item.getStateStyle(stateName);
     const stateStyle = (this as any).getStateStyle(name, value, item);
-    const styles = merge({}, stateStyle, itemStateStyle);
+    console.log('shape state style', stateStyle)
+    const styles = mix({}, itemStateStyle);
     const group = item.getContainer()
     debugger
-    
-    // for(const key in styles) {
-    //   const style = styles[key]
-    //   if(isPlainObject(style)) {
-    //     const subShape = group.find(element => element.get('name') === key)
-    //     if(subShape) {
-    //       subShape.attr(style)
-    //     }
-    //   } else {
-    //     // 非纯对象，则认为是设置到 keyShape 上面的
-    //     shape.attr({
-    //       [key]: style
-    //     })
-    //   }
-    // }
-    if(isBoolean(value)) {
-
-    }
 
     if (value) {
       // 如果设置状态,在原本状态上叠加绘图属性
-      shape.attr(styles);
-    } else {
-      // 取消状态时重置所有状态，依次叠加仍有的状态
-      const style = item.getCurrentStatesStyle();
-      // 如果默认状态下没有设置attr，在某状态下设置了，需要重置到没有设置的状态
-      const keptAttrs = [ 'x', 'y', 'cx', 'cy' ];
-      each(styles, (val, attr) => {
-        if (!(style as any)[attr] && !(keptAttrs.indexOf(attr) > -1)) {
-          (style as any)[attr] = null;
+      for(const key in styles) {
+        const style = styles[key]
+        if(isPlainObject(style)) {
+          const subShape = group.find(element => element.get('name') === key)
+          if(subShape) {
+            subShape.attr(style)
+          }
+        } else {
+          // 非纯对象，则认为是设置到 keyShape 上面的
+          shape.attr({
+            [key]: style
+          })
         }
-      });
-      shape.attr(style);
+      }
+
+      // shape.attr(styles);
+    } else {
+      // 默认样式及所有 state 的样式
+      
+      const currentStyle = clone(item.getCurrentStatesStyle());
+      console.log('setstate current style', currentStyle)
+      // 如果默认状态下没有设置attr，在某状态下设置了，需要重置到没有设置的状态
+      // each(styles, (val, attr) => {
+      //   if (!(currentStyle as any)[attr]) {
+      //     (currentStyle as any)[attr] = null;
+      //   }
+      // });
+      // shape.attr(currentStyle);
+      const originStyle = Object.assign({}, item.getOriginStyle());
+
+      // 过滤掉 styles 中的样式
+      each(styles, (values, key) => {
+        if(isPlainObject(values)) {
+          const resetShape = group.find(element => element.get('name') === key)
+          each(values, (val, attr) => {
+            if(currentStyle[key] && currentStyle[key][attr]) {
+              // currentStyle[key][attr] = null
+              delete currentStyle[key][attr]
+            }
+          })
+          // resetShape.attr(currentStyle[key])
+        } else {
+          if(!currentStyle[key]) {
+            currentStyle[key] = null
+            delete currentStyle[key]
+          }
+          // shape.attr(currentStyle)
+        }
+      })
+
+      const originstyles = {}
+      deepMix(originstyles, originStyle, currentStyle)
+
+      for(const key in originstyles) {
+        const style = originstyles[key]
+        if(isPlainObject(style)) {
+          const subShape = group.find(element => element.get('name') === key)
+          if(subShape) {
+            subShape.attr(style)
+          }
+        } else {
+          // 非纯对象，则认为是设置到 keyShape 上面的
+          shape.attr({
+            [key]: style
+          })
+        }
+      }
     }
   },
   /**
@@ -280,13 +318,13 @@ export const shapeBase: ShapeOptions = {
 
     if (value) {
       const modelStateStyle = model.stateStyles ? model.stateStyles[name] : undefined;
-      return merge({}, model.style, modelStateStyle);
+      return mix({}, model.style, modelStateStyle);
     }
 
     const states = item.getStates();
-    const style = cloneDeep(defaultStyle);
+    const style = clone(defaultStyle);
     states.forEach(state => {
-      merge(style, get(defaultStyle, state, {}), state, model.style);
+      mix(style, get(defaultStyle, state, {}), model.style);
     });
     return style as ShapeStyle;
   },
