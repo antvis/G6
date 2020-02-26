@@ -196,7 +196,7 @@ export default class ItemController {
         (item as IEdge).setTarget(target);
       }
     }
-
+debugger
     item.update(cfg);
 
     if (type === NODE) {
@@ -253,21 +253,28 @@ export default class ItemController {
    *
    * @param {Item} item Item 实例
    * @param {string} state 状态名称
-   * @param {boolean} enabled 是否启用状态
+   * @param {boolean} value 是否启用状态或状态值
    * @returns {void}
    * @memberof ItemController
    */
-  public setItemState(item: Item, state: string, enabled: boolean): void {
+  public setItemState(item: Item, state: string, value: string | boolean): void {
     const { graph } = this;
-    if (item.hasState(state) === enabled) {
+
+    let stateName = state
+    if(isString(value)) {
+      stateName = `${state}:${value}`
+    }
+
+    if (item.hasState(stateName) === value || (isString(value) && item.hasState(stateName))) {
       return;
     }
 
-    graph.emit('beforeitemstatechange', { item, state, enabled });
+    graph.emit('beforeitemstatechange', { item, state: stateName, enabled: value });
 
-    item.setState(state, enabled);
+    item.setState(state, value);
 
-    graph.emit('afteritemstatechange', { item, state, enabled });
+    graph.autoPaint();
+    graph.emit('afteritemstatechange', { item, state: stateName, enabled: value });
   }
 
   /**
