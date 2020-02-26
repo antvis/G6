@@ -258,7 +258,6 @@ export default class ItemBase implements IItemBase {
   public getShapeStyleByName(name?: string): ShapeStyle | void {
     const group: Group = this.get('group');
     let currentShape: IShapeBase = this.getKeyShape();
-
     if(name) {
       currentShape = group.find(element => element.get('name') === name) as IShapeBase
     }
