@@ -322,7 +322,6 @@ export default class MiniMap extends Base {
     group.clear();
 
     this.showGraphEdgeKeyShape(group);
-
     each(graph!.getNodes(), (node) => {
       if (node.isVisible()) {
         const bbox = node.getBBox();
