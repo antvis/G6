@@ -166,8 +166,6 @@ export default {
   setCurrentGroupStyle(evt: IG6GraphEvent) {
     const { graph } = this;
     const { item } = evt;
-    const autoPaint = graph.get('autoPaint');
-    graph.setAutoPaint(false);
 
     const model = item.getModel();
     // 节点所在的GroupId
@@ -265,9 +263,6 @@ export default {
     }
 
     this.inGroupId = null;
-
-    graph.paint();
-    graph.setAutoPaint(autoPaint);
   },
   // 若在拖拽时，鼠标移出画布区域，此时放开鼠标无法终止 drag 行为。在画布外监听 mouseup 事件，放开则终止
   onOutOfRange(e: IG6GraphEvent) {
@@ -326,7 +321,7 @@ export default {
     const groupType = graph.get('groupType');
     const bbox = item.get('keyShape').getBBox();
     if (!this.shape) {
-      const parent = graph.get('group');
+      const parent = graph.get('delegateGroup');
       const attrs = deepMix({}, Global.delegateStyle, this.delegateStyle);
       if (this.target) {
         this.shape = parent.addShape('rect', {
@@ -357,6 +352,5 @@ export default {
         });
       }
     }
-    this.graph.paint();
   },
 };

@@ -863,8 +863,6 @@ export default class Graph extends EventEmitter implements IGraph {
     this.clear();
 
     this.emit('beforerender');
-    // const autoPaint = this.get('autoPaint');
-    // this.setAutoPaint(false);
 
     each(nodes, (node: NodeConfig) => {
       self.add('node', node);
@@ -903,8 +901,7 @@ export default class Graph extends EventEmitter implements IGraph {
       if (self.get('fitView')) {
         self.fitView();
       }
-      // self.setAutoPaint(autoPaint);
-      // self.autoPaint();
+      self.autoPaint();
       self.emit('afterrender');
     }
 

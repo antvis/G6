@@ -155,9 +155,6 @@ export default class CustomGroup {
       zIndex,
     });
 
-    const autoPaint = graph.get<boolean>('autoPaint');
-    graph.setAutoPaint(false);
-
     const { default: defaultStyle } = this.styles;
 
     // 计算群组左上角左边、宽度、高度及x轴方向上的最大值
@@ -279,9 +276,6 @@ export default class CustomGroup {
 
     // 设置graph中groupNodes的值
     graph.get('groupNodes')[groupId] = nodes;
-
-    graph.setAutoPaint(autoPaint);
-    graph.autoPaint();
   }
 
   /**
@@ -496,9 +490,6 @@ export default class CustomGroup {
     const { graph } = this;
     const groupType = graph.get('groupType');
 
-    const autoPaint = graph.get('autoPaint');
-    graph.setAutoPaint(false);
-
     const nodesInGroup = graph.get('groupNodes')[id];
 
     // 更新Group的大小
@@ -618,9 +609,6 @@ export default class CustomGroup {
 
       this.updateEdgeInGroupLinks(id, sourceOutTargetInEdges, sourceInTargetOutEdges);
     }
-
-    graph.setAutoPaint(autoPaint);
-    graph.autoPaint();
   }
 
   /**
@@ -685,9 +673,6 @@ export default class CustomGroup {
     const { graph } = this;
 
     const groupType = graph.get<string>('groupType');
-    const autoPaint = graph.get<boolean>('autoPaint');
-
-    graph.setAutoPaint(false);
 
     // 显示之前隐藏的节点和群组
     const nodesInGroup = graph.get('groupNodes')[id];
@@ -836,8 +821,6 @@ export default class CustomGroup {
       graph.remove(delegateNode);
       delete this.delegateInGroup[id];
     }
-    graph.setAutoPaint(autoPaint);
-    graph.autoPaint();
   }
 
   public deleteTmpNode(groupId: string, tmpNodeId: string) {
@@ -877,8 +860,6 @@ export default class CustomGroup {
       return;
     }
     const { nodeGroup } = customGroup;
-    const autoPaint = graph.get('autoPaint');
-    graph.setAutoPaint(false);
 
     const groupNodes = graph.get('groupNodes');
     const nodes = groupNodes[groupId];
@@ -926,9 +907,6 @@ export default class CustomGroup {
     if (parentGroupId) {
       groupNodes[parentGroupId] = groupNodes[parentGroupId].filter(node => !nodes.includes(node));
     }
-
-    graph.setAutoPaint(autoPaint);
-    graph.autoPaint();
   }
 
   /**

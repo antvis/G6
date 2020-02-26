@@ -33,7 +33,6 @@ export default {
     };
   },
   onGroupClick(evt: IG6GraphEvent) {
-    console.log('on group click')
     const { target } = evt;
     const { graph } = this;
 

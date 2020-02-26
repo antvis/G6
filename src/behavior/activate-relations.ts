@@ -34,8 +34,6 @@ export default {
     const self = this;
     const activeState = this.get('activeState');
     const inactiveState = this.get('inactiveState');
-    const autoPaint = graph.get('autoPaint');
-    graph.setAutoPaint(false);
     graph.getNodes().forEach(node => {
       const hasSelected = node.hasState('selected');
       if (self.resetSelected) {
@@ -79,8 +77,6 @@ export default {
         edge.toFront();
       }
     });
-    graph.setAutoPaint(autoPaint);
-    graph.autoPaint();
     graph.emit('afteractivaterelations', { item: e.item, action: 'activate' });
   },
   clearAllItemStates(e: any) {
@@ -90,8 +86,6 @@ export default {
       return;
     }
 
-    const autoPaint = graph.get('autoPaint');
-    graph.setAutoPaint(false);
     graph.getNodes().forEach(node => {
       const hasSelected = node.hasState('selected');
       graph.clearItemStates(node);
@@ -102,8 +96,6 @@ export default {
     graph.getEdges().forEach(edge => {
       graph.clearItemStates(edge);
     });
-    graph.paint();
-    graph.setAutoPaint(autoPaint);
     graph.emit('afteractivaterelations', {
       item: e.item || self.get('item'),
       action: 'deactivate',

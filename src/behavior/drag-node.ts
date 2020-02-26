@@ -92,8 +92,6 @@ export default {
       return;
     }
     const { graph } = this;
-    const autoPaint = graph.get('autoPaint');
-    graph.setAutoPaint(false);
 
     // 当targets中元素时，则说明拖动的是多个选中的元素
     if (this.targets.length > 0) {
@@ -108,9 +106,6 @@ export default {
       // 只拖动单个元素
       this.update(this.target, e, this.get('enableDelegate'));
     }
-
-    graph.paint();
-    graph.setAutoPaint(autoPaint);
   },
   onDragEnd(e: IG6GraphEvent) {
     if (!this.origin || !this.shouldEnd.call(this, e)) {
@@ -118,8 +113,6 @@ export default {
     }
 
     const { graph } = this;
-    const autoPaint = graph.get('autoPaint');
-    graph.setAutoPaint(false);
 
     if (this.delegateRect) {
       this.delegateRect.remove();
@@ -146,9 +139,6 @@ export default {
     this.originPoint = {};
     this.targets.length = 0;
     this.target = null;
-
-    graph.paint();
-    graph.setAutoPaint(autoPaint);
   },
   update(item: Item, e: IG6GraphEvent, force: boolean) {
     const { origin } = this;

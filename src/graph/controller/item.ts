@@ -120,7 +120,6 @@ export default class ItemController {
     if (item) {
       graph.get(`${type}s`).push(item);
       graph.get('itemMap')[item.get('id')] = item;
-      graph.autoPaint();
       graph.emit('afteradditem', { item, model });
       // eslint-disable-next-line consistent-return
       return item as T;
@@ -201,20 +200,11 @@ export default class ItemController {
     item.update(cfg);
 
     if (type === NODE) {
-      const autoPaint = graph.get('autoPaint');
-      if (graph.get('renderer') !== 'svg') {
-        graph.setAutoPaint(false);
-      }
       const edges: IEdge[] = (item as INode).getEdges();
       each(edges, (edge: IEdge) => {
         graph.refreshItem(edge);
       });
-      if (graph.get('renderer') !== 'svg') {
-        graph.setAutoPaint(autoPaint);
-      }
     }
-
-    // graph.autoPaint();
     graph.emit('afterupdateitem', { item, cfg });
   }
 
@@ -255,7 +245,6 @@ export default class ItemController {
     }
 
     item.destroy();
-    graph.autoPaint();
     graph.emit('afterremoveitem', { item });
   }
 
@@ -278,7 +267,6 @@ export default class ItemController {
 
     item.setState(state, enabled);
 
-    graph.autoPaint();
     graph.emit('afteritemstatechange', { item, state, enabled });
   }
 
@@ -300,7 +288,6 @@ export default class ItemController {
 
     item.clearStates(states);
 
-    graph.autoPaint();
     graph.emit('afteritemstatesclear', { item, states });
   }
 
@@ -322,7 +309,6 @@ export default class ItemController {
     // 调用 Item 的 refresh 方法，实现刷新功能
     item.refresh();
 
-    graph.autoPaint();
     graph.emit('afteritemrefresh', { item });
   }
 
@@ -345,8 +331,6 @@ export default class ItemController {
     item.changeVisibility(visible);
 
     if (item.getType() === NODE) {
-      const autoPaint = graph.get('autoPaint');
-      graph.setAutoPaint(false);
       const edges = (item as INode).getEdges();
       each(edges, (edge: IEdge) => {
         // 若隐藏节点，则将与之关联的边也隐藏
@@ -357,11 +341,7 @@ export default class ItemController {
 
         this.changeItemVisibility(edge, visible);
       });
-
-      graph.setAutoPaint(autoPaint);
     }
-
-    graph.autoPaint();
     graph.emit('afteritemvisibilitychange', { item, visible });
   }
 

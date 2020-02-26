@@ -38,8 +38,6 @@ export default {
     const { item } = e;
     const { graph, keydown, multiple, shouldUpdate } = this;
 
-    const autoPaint = graph.get('autoPaint');
-    graph.setAutoPaint(false);
     // allow to select multiple nodes but did not press a key || do not allow the select multiple nodes
     if (!keydown || !multiple) {
       const selected = graph.findAllByState('node', 'selected');
@@ -70,21 +68,14 @@ export default {
         select: true,
       });
     }
-    graph.setAutoPaint(autoPaint);
-    graph.autoPaint();
   },
   onCanvasClick() {
     const { graph } = this;
-    const autoPaint = graph.get('autoPaint');
-    graph.setAutoPaint(false);
     const selected = graph.findAllByState('node', 'selected');
     each(selected, node => {
       graph.setItemState(node, 'selected', false);
     });
     graph.emit('nodeselectchange', { selectedItems: { nodes: [], edges: [] }, select: false });
-
-    graph.paint();
-    graph.setAutoPaint(autoPaint);
   },
   onKeyDown(e: IG6GraphEvent) {
     const self = this as any;

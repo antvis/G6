@@ -94,19 +94,13 @@ export default {
       return;
     }
 
-    const autoPaint = graph.get('autoPaint');
-    graph.setAutoPaint(false);
     this.brush.remove(true); // remove and destroy
     this.brush = null;
     this.getSelectedNodes(e);
     this.dragging = false;
-    graph.setAutoPaint(autoPaint);
-    graph.autoPaint();
   },
   clearStates() {
     const { graph, selectedState } = this;
-    const autoPaint = graph.get('autoPaint');
-    graph.setAutoPaint(false);
 
     const nodes = graph.findAllByState('node', selectedState);
     const edges = graph.findAllByState('edge', selectedState);
@@ -127,8 +121,6 @@ export default {
       },
       select: false,
     });
-    graph.setAutoPaint(autoPaint);
-    graph.autoPaint();
   },
   getSelectedNodes(e: IG6GraphEvent) {
     const { graph, originPoint, shouldUpdate } = this;
