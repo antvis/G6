@@ -134,9 +134,17 @@ export interface GraphOptions {
     color?: string;
   } & ModelStyle;
 
-  nodeStateStyles?: { [key: string]: ShapeStyle };
+  nodeStateStyles?: { 
+    [key: string]: ShapeStyle | {
+      [key: string]: ShapeStyle
+    }
+  };
 
-  edgeStateStyles?: { [key: string]: ShapeStyle };
+  edgeStateStyles?: { 
+    [key: string]: ShapeStyle | {
+      [key: string]: ShapeStyle
+    }
+  };
 
   /**
    * 向 graph 注册插件。插件机制请见：plugin
@@ -301,10 +309,10 @@ export interface IGraph extends EventEmitter {
   /**
    * 设置元素状态
    * @param {Item} item 元素id或元素实例
-   * @param {string} state 状态
-   * @param {boolean} enabled 是否启用状态
+   * @param {string} state 状态名称
+   * @param {boolean} value 是否启用状态或状态值
    */
-  setItemState(item: Item | string, state: string, enabled: boolean): void;
+  setItemState(item: Item | string, state: string, value: string | boolean): void;
 
   /**
    * 设置视图初始化数据

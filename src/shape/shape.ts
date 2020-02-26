@@ -56,7 +56,6 @@ const ShapeFactoryBase = {
   draw(type: string, cfg: ModelConfig, group: GGroup): IShape {
     const shape = this.getShape(type);
     const rst = shape.draw!(cfg, group);
-
     if (shape.afterDraw) {
       shape.afterDraw(cfg, group, rst);
     }
@@ -88,6 +87,8 @@ const ShapeFactoryBase = {
    */
   setState(type: string, name: string, value: string | boolean, item: Item) {
     const shape = this.getShape(type);
+
+    // 调用 shape/shapeBase.ts 中的 setState 方法
     shape.setState!(name, value, item);
   },
   /**
