@@ -285,12 +285,9 @@ export default class TreeGraph extends Graph implements ITreeGraph {
     const layoutData = layoutMethod(data, self.get('layout'));
 
     const animate: boolean = self.get('animate');
-    const autoPaint: boolean = self.get('autoPaint');
 
     self.emit('beforerefreshlayout', { data, layoutData });
     self.emit('beforelayout');
-
-    self.setAutoPaint(false);
 
     self.innerUpdateChild(layoutData, undefined, animate);
 
@@ -306,7 +303,6 @@ export default class TreeGraph extends Graph implements ITreeGraph {
     } else {
       self.layoutAnimate(layoutData);
     }
-    self.setAutoPaint(autoPaint);
     self.emit('afterrefreshlayout', { data, layoutData });
     self.emit('afterlayout');
   }
@@ -440,7 +436,6 @@ export default class TreeGraph extends Graph implements ITreeGraph {
     ) => unknown,
   ): void {
     const self = this;
-    this.setAutoPaint(false);
     const animateCfg = this.get('animateCfg');
     self.emit('beforeanimate', { data });
     // 如果边中没有指定锚点，但是本身有锚点控制，在动画过程中保持锚点不变
@@ -507,9 +502,6 @@ export default class TreeGraph extends Graph implements ITreeGraph {
           if (animateCfg.callback) {
             animateCfg.callback();
           }
-
-          self.paint();
-          this.setAutoPaint(true);
 
           self.emit('afteranimate', { data });
         },

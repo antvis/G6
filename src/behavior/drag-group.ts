@@ -84,16 +84,10 @@ export default {
       return;
     }
 
-    const autoPaint = graph.get('autoPaint');
-    graph.setAutoPaint(false);
-
     // 修改群组位置
     const customGroupControll = graph.get('customGroupControll');
     const delegateShapeBBoxs = this.delegateShapeBBoxs[groupId];
     customGroupControll.updateGroup(groupId, delegateShapeBBoxs, this.mouseOrigin);
-
-    graph.setAutoPaint(autoPaint);
-    graph.paint();
 
     this.mouseOrigin = null;
     this.shapeOrigin = null;
@@ -104,8 +98,6 @@ export default {
     const { graph } = this;
     const groupId: string = evt.target.get('groupId');
     const item = this.targetGroup.get('keyShape');
-    const autoPaint = graph.get('autoPaint');
-    graph.setAutoPaint(false);
 
     let delegateShape = this.delegateShapes[groupId];
     const groupBbox = item.getBBox();
@@ -162,9 +154,6 @@ export default {
       delegateShape.attr({ x: point.x, y: point.y });
       this.delegateShapeBBoxs[groupId] = delegateShape.getBBox();
     }
-
-    graph.paint();
-    graph.setAutoPaint(autoPaint);
   },
   onOutOfRange(e: IG6GraphEvent) {
     const canvasElement = this.graph.get('canvas').get('el');

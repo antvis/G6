@@ -4,7 +4,7 @@ import '../../../src/behavior';
 import { scale, translate } from '../../../src/util/math';
 import Plugin from '../../../src/plugins';
 import { timerOut } from '../util/timeOut';
-import ItemBase from '../../../src/item/item';
+
 
 const div = document.createElement('div');
 div.id = 'global-spec';
@@ -82,9 +82,6 @@ describe('graph', () => {
       width: 500,
       height: 500,
       renderer: 'svg',
-      // TODO: 加上布局就会没清空就重新绘制，两个 SVG 版本 G 的 bug 造成：
-      // 1. canvas.draw() 没清空之前的内容。
-      // 2. canvas.set('autoDraw', false) 没起效。
       layout: {
         type: 'dagre'
       }
@@ -136,7 +133,7 @@ describe('graph', () => {
 
     // close to avoid alert
     // inst.downloadImage('graph-image');
-    inst.destroy();
+    // inst.destroy();
   });
 
   it('groupByTypes false', () => {
@@ -1128,7 +1125,6 @@ describe('auto rotate label on edge', () => {
     expect(label2Matrix).toBe(null);
   });
 
-  // TODO: 现在 zoom 还有幻影，因为 G 的 set('autoDraw') 不管用
   it('zoom and pan', () => {
     graph.zoom(0.5);
     graph.moveTo(100, 120);
@@ -1138,6 +1134,7 @@ describe('auto rotate label on edge', () => {
     expect(groupMatrix[4]).toBe(0.5);
     expect(groupMatrix[6]).toBe(100);
     expect(groupMatrix[7]).toBe(120);
+    graph.destroy();
   });
 });
 
@@ -1587,22 +1584,21 @@ describe('layouts', () => {
     expect(item.getModel().y).not.toBe(undefined);
     graph.destroy();
   });
-  // TODO: 没有清空 polyline
   it('change layout', () => {
     const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
-      // renderer: 'svg',
+      renderer: 'svg',
       layout: {
         type: 'circular'
       }
     });
-    graph.data(data);
-    graph.render();
     data.edges.forEach((edge: any) => {
       edge.type = 'line';
     });
+    graph.data(data);
+    graph.render();
     
     graph.updateLayout({
       type: 'force'
@@ -1615,6 +1611,7 @@ describe('layouts', () => {
       container: div,
       width: 500,
       height: 500,
+      renderer: 'svg',
       layout: {
         type: 'grid'
       }
@@ -1928,7 +1925,7 @@ describe('tree graph', () => {
 });
 
 
-describe.only('plugins', () => {
+describe('plugins', () => {
 
   const data = {
     nodes: [
@@ -1972,7 +1969,7 @@ describe.only('plugins', () => {
     ],
   };
 
-  it.only('minimap', () => {
+  it('minimap default', () => {
     const minimap = new G6.Minimap();
     const graph = new Graph({
       container: div,
@@ -1986,29 +1983,49 @@ describe.only('plugins', () => {
     });
     graph.data(data);
     graph.render();
+    const minimapGroup = minimap.get('canvas').get('children')[0];
+    expect(minimapGroup.get('children').length).toBe(4);
+    expect(minimapGroup.get('children')[1].get('children').length).toBe(5);
+    expect(minimapGroup.get('children')[2].get('children').length).toBe(5);
+
+    graph.zoom(2, { x: 250, y: 250 });
+    const viewport = minimap.get('viewport');
+    expect(viewport.style.width).toBe('60px');
+    expect(viewport.style.height).toBe('60px');
+    expect(viewport.style.left).toBe('72.52px');
+    expect(viewport.style.top).toBe('32.52px');
     graph.destroy();
   });
-  it.only('minimap delegate', () => {
-    const minimap = new G6.Minimap({
+  it('minimap delegate', () => {
+    const minimap2 = new G6.Minimap({
       width: 100,
       height: 80,
       type: 'delegate'
     });
-    const graph = new Graph({
+    const graph2 = new Graph({
       container: div,
       width: 500,
       height: 500,
       renderer: 'svg',
-      plugins: [minimap],
+      plugins: [minimap2],
       modes: {
         default: ['drag-node', 'drag-canvas', 'zoom-canvas']
       }
     });
-    graph.data(data);
-    graph.render();
-    graph.destroy();
+    graph2.data(data);
+    graph2.render();
+    const minimapGroup = minimap2.get('canvas').get('children')[0];
+    expect(minimapGroup.get('children').length).toBe(10);
+
+    graph2.zoom(2, { x: 250, y: 250 });
+    const viewport = minimap2.get('viewport');
+    expect(viewport.style.width).toBe('60px');
+    expect(viewport.style.height).toBe('60px');
+    expect(viewport.style.left).toBe('70px');
+    expect(viewport.style.top).toBe('30px');
+    // graph.destroy();
   });
-  it.only('minimap keyShape', () => {
+  it('minimap keyShape', () => {
     const minimap = new G6.Minimap({
       width: 100,
       height: 80,
@@ -2029,10 +2046,19 @@ describe.only('plugins', () => {
     });
     graph.data(data);
     graph.render();
+    const minimapGroup = minimap.get('canvas').get('children')[0];
+    expect(minimapGroup.get('children').length).toBe(10);
+
+    graph.zoom(2, { x: 250, y: 250 });
+    const viewport = minimap.get('viewport');
+    expect(viewport.style.width).toBe('60px');
+    expect(viewport.style.height).toBe('60px');
+    expect(viewport.style.left).toBe('72.52px');
+    expect(viewport.style.top).toBe('32.52px');
     graph.destroy();
   });
   // TODO: the edges before bundling are not removed
-  it.only('edge bundling', () => {
+  it('edge bundling', () => {
     const bundling = new G6.Bundling({
       bundleThreshold: 0.1
     });
@@ -2433,7 +2459,7 @@ describe.only('plugins', () => {
   });
 
   // TODO: wait for the mouse events on node in G
-  it.only('edge bundling', () => {
+  it('context menu', () => {
     const graph = new Graph({
       container: div,
       width: 500,
@@ -2475,9 +2501,10 @@ describe.only('plugins', () => {
       x: item.getModel().x,
       y: item.getModel().y
     });
+    
     graph.destroy();
   });
-  it.only('grid', () => {
+  it('grid', () => {
     const grid = new G6.Grid();
     const graph = new Graph({
       container: div,
@@ -2491,79 +2518,180 @@ describe.only('plugins', () => {
     });
     graph.data(data);
     graph.render();
+    
+    const gridDom = document.getElementsByClassName('g6-grid')[0] as HTMLElement;
+    expect(gridDom).not.toBe(undefined);
+    expect(gridDom.style.width).toBe('500px');
+    expect(gridDom.style.height).toBe('500px');
     graph.destroy();
+    const parentDom = gridDom.parentNode.parentNode;
+    expect(parentDom).toBe(null);
   });
 });
 
 
-// describe.only('custom group', () => {
-//   const data = {
-//     nodes: [
-//       {
-//         id: 'node1',
-//         label: 'node1',
-//         groupId: 'group1',
-//         x: 100,
-//         y: 100,
-//       },
-//       {
-//         id: 'node2',
-//         label: 'node2',
-//         groupId: 'group1',
-//         x: 150,
-//         y: 100,
-//       },
-//       {
-//         id: 'node3',
-//         label: 'node3',
-//         groupId: 'group2',
-//         x: 300,
-//         y: 100,
-//       },
-//       {
-//         id: 'node7',
-//         groupId: 'p1',
-//         x: 200,
-//         y: 200,
-//       },
-//       {
-//         id: 'node6',
-//         groupId: 'bym',
-//         label: 'rect',
-//         x: 100,
-//         y: 300,
-//         type: 'rect',
-//       },
-//       {
-//         id: 'node9',
-//         label: 'noGroup',
-//         x: 300,
-//         y: 210,
-//       },
-//     ],
-//   };
-//   const graph = new Graph({
-//     container: div,
-//     width: 500,
-//     height: 500,
-//     // renderer: 'svg',
-//     modes: {
-//       default: [ 'collapse-expand-group', 'drag-node-with-group', 'drag-group' ],
-//     },
-//   });
+describe('custom group', () => {
+  const data = {
+    nodes: [
+      {
+        id: 'node1',
+        label: 'node1',
+        groupId: 'group1',
+        x: 100,
+        y: 100,
+      },
+      {
+        id: 'node2',
+        label: 'node2',
+        groupId: 'group1',
+        x: 150,
+        y: 100,
+      },
+      {
+        id: 'node3',
+        label: 'node3',
+        groupId: 'group2',
+        x: 300,
+        y: 100,
+      },
+      {
+        id: 'node7',
+        groupId: 'p1',
+        x: 200,
+        y: 200,
+      },
+      {
+        id: 'node6',
+        groupId: 'bym',
+        label: 'rect',
+        x: 100,
+        y: 300,
+        type: 'rect',
+      },
+      {
+        id: 'node9',
+        label: 'noGroup',
+        x: 300,
+        y: 210,
+      },
+    ],
+  };
+  const graph = new Graph({
+    container: div,
+    width: 500,
+    height: 500,
+    renderer: 'svg',
+    modes: {
+      default: [ {
+        type: 'collapse-expand-group',
+        trigger: 'click'
+      }, 'drag-node-with-group', 'drag-group' ],
+    },
+  });
 
-//   it('render', () => {
-//     graph.data(data);
-//     graph.render();
-//   });
+  it('render', () => {
+    graph.data(data);
+    graph.render();
+  });
 
-//   // it('collapse-expand-group', () => {
-//   //   const item = graph.findById('SubTreeNode1');
-//   //   graph.emit('node:click', { item })
-//   //   expect(item.getModel().collapsed).toBe(true);
-//   //   setTimeout(() => {
-//   //     graph.emit('node:click', { item })
-//   //     expect(item.getModel().collapsed).toBe(false);
-//   //   }, 500);
-//   // });
-// });
+  it('collapse-expand-group', () => {
+    const nodeGroup1 = graph.get('group').get('children')[0].get('children')[0].get('children')[0];
+    const hideNode1 = graph.getNodes()[0];
+    const hideNode2 = graph.getNodes()[1];
+    graph.emit('click', {
+      target: nodeGroup1
+    })
+    graph.once('click', () => {
+      expect(hideNode1.isVisible()).toBe(false);
+      expect(hideNode2.isVisible()).toBe(false);
+    });
+
+    setTimeout(() => {
+      graph.emit('click', {
+        target: nodeGroup1
+      })
+    }, 500);
+  });
+
+  it('drag-group', () => {
+    const nodeGroup1 = graph.get('group').get('children')[0].get('children')[0].get('children')[0];
+    const node1 = graph.getNodes()[0];
+    const node2 = graph.getNodes()[1];
+    const node1OriX = node1.getModel().x;
+    const node1OriY = node1.getModel().y;
+    const node2OriX = node2.getModel().x;
+    const node2OriY = node2.getModel().y;
+    graph.emit('dragstart', {
+      target: nodeGroup1,
+      canvasX: 50,
+      canvasY: 50
+    });
+    graph.emit('drag', {
+      target: nodeGroup1,
+      canvasX: 250,
+      canvasY: 150
+    });
+    graph.emit('drag', {
+      target: nodeGroup1,
+      canvasX: 250,
+      canvasY: 150
+    });
+    const delegateGroup = graph.get('delegateGroup');
+    expect(delegateGroup.get('children').length).toBe(1);
+    expect(delegateGroup.get('children')[0].attr('x')).toBe(325);
+    expect(delegateGroup.get('children')[0].attr('y')).toBe(200);
+    expect(node1.getModel().x).toBe(node1OriX);
+    expect(node1.getModel().y).toBe(node1OriY);
+    expect(node2.getModel().x).toBe(node2OriX);
+    expect(node2.getModel().y).toBe(node2OriY);
+    graph.emit('dragend', {
+      target: nodeGroup1,
+      canvasX: 150,
+      canvasY: 150
+    });
+    expect(delegateGroup.get('children').length).toBe(0);
+    expect(node1.getModel().x).not.toBe(node1OriX);
+    expect(node1.getModel().y).not.toBe(node1OriY);
+    expect(node2.getModel().x).not.toBe(node2OriX);
+    expect(node2.getModel().y).not.toBe(node2OriY);
+  });
+
+  it('drag-node-with-group', () => {
+    const node3 = graph.getNodes()[2];
+    const node3OriX = node3.getModel().x;
+    const node3OriY = node3.getModel().y;
+
+    graph.emit('node:dragstart', {
+      target: node3,
+      item: node3,
+      x: 50,
+      y: 50
+    });
+    graph.emit('node:drag', {
+      target: node3,
+      item: node3,
+      x: 350,
+      y: 150
+    });
+    graph.emit('node:drag', {
+      target: node3,
+      item: node3,
+      x: 350,
+      y: 150
+    });
+    const delegateGroup = graph.get('delegateGroup');
+    expect(delegateGroup.get('children').length).toBe(1);
+    expect(node3.getModel().x).toBe(node3OriX);
+    expect(node3.getModel().y).toBe(node3OriY);
+    
+    graph.emit('node:dragend', {
+      target: node3,
+      item: node3,
+      x: 350,
+      y: 150
+    });
+    expect(delegateGroup.get('children').length).toBe(0);
+    expect(node3.getModel().x).not.toBe(node3OriX);
+    expect(node3.getModel().y).not.toBe(node3OriY);
+  });
+});

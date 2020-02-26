@@ -177,12 +177,10 @@ export default class Shape {
     const shapeFactory = Object.assign({}, factoryBase, cfg) as any;
     (Shape as any)[className] = shapeFactory;
     shapeFactory.className = className;
-    // addRegister(shapeFactory)
     return shapeFactory;
   }
 
   public static getFactory(factoryType: string) {
-    // const self = this
     const className = ucfirst(factoryType);
     return (Shape as any)[className];
   }
@@ -193,9 +191,7 @@ export default class Shape {
     extendShapeType?: string,
   ) {
     const shapeFactory = Shape.Node;
-    // extendShapeType = extendShapeType ? extendShapeType : 'single-node';
     const extendShape = extendShapeType ? shapeFactory.getShape(extendShapeType) : ShapeFramework;
-    // const extendShape = shapeFactory.getShape(extendShapeType);
 
     const shapeObj = Object.assign({}, extendShape, nodeDefinition);
     shapeObj.type = shapeType;

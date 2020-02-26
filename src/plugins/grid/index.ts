@@ -30,10 +30,14 @@ export default class Grid extends Base {
     );
 
     container.appendChild(gridContainer);
+    modifyCSS(container, {
+      width: `${width}px`,
+      height: `${height}px`,
+    });
 
     modifyCSS(gridContainer, {
-      width: `${width / minZoom}px`,
-      height: `${height / minZoom}px`,
+      width: `${width}px`,
+      height: `${height}px`,
       left: 0,
       top: 0,
     });
