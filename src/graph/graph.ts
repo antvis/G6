@@ -522,6 +522,7 @@ export default class Graph extends EventEmitter implements IGraph {
     const group: Group = this.get('group');
     translate(group, { x: dx, y: dy });
     this.emit('viewportchange', { action: 'translate', matrix: group.getMatrix() });
+    this.autoPaint();
   }
 
   /**
@@ -545,13 +546,10 @@ export default class Graph extends EventEmitter implements IGraph {
     if (padding) {
       this.set('fitViewPadding', padding);
     }
-    const autoPaint = this.get('autoPaint');
-    this.setAutoPaint(false);
 
     const viewController: ViewController = this.get('viewController');
     viewController.fitView();
 
-    this.setAutoPaint(autoPaint);
     this.autoPaint();
   }
 
@@ -596,8 +594,6 @@ export default class Graph extends EventEmitter implements IGraph {
     const minZoom: number = this.get('minZoom');
     const maxZoom: number = this.get('maxZoom');
 
-    const autoPaint = this.get('autoPaint');
-    this.setAutoPaint(false);
     if (!matrix) {
       matrix = mat3.create();
     }
@@ -611,13 +607,11 @@ export default class Graph extends EventEmitter implements IGraph {
     }
     
     if ((minZoom && matrix[0] < minZoom) || (maxZoom && matrix[0] > maxZoom)) {
-      this.setAutoPaint(autoPaint);
       return;
     }
 
     group.setMatrix(matrix);
     this.emit('viewportchange', { action: 'zoom', matrix });
-    this.setAutoPaint(autoPaint);
     this.autoPaint();
   }
 
@@ -798,7 +792,9 @@ export default class Graph extends EventEmitter implements IGraph {
       );
     }
     const itemController: ItemController = this.get('itemController');
-    return itemController.addItem(type, model);
+    const item = itemController.addItem(type, model);
+    this.autoPaint();
+    return item;
   }
 
   public add(type: ITEM_TYPE, model: ModelConfig): Item {
@@ -979,7 +975,6 @@ export default class Graph extends EventEmitter implements IGraph {
       self.render();
     }
 
-    const autoPaint: boolean = this.get('autoPaint');
     const itemMap: NodeMap = this.get('itemMap');
 
     const items: {
@@ -989,8 +984,6 @@ export default class Graph extends EventEmitter implements IGraph {
       nodes: [],
       edges: [],
     };
-
-    this.setAutoPaint(false);
 
     this.diffItems('node', items, (data as GraphData).nodes!);
     this.diffItems('edge', items, (data as GraphData).edges!);
@@ -1008,11 +1001,9 @@ export default class Graph extends EventEmitter implements IGraph {
     layoutController.changeData();
 
 
-    self.setAutoPaint(autoPaint);
     if (self.get('animate') && !layoutController.getLayoutType()) {
       // 如果没有指定布局
       self.positionsAnimate();
-      self.setAutoPaint(autoPaint);
     } else {
       self.autoPaint();
     }
@@ -1109,8 +1100,6 @@ export default class Graph extends EventEmitter implements IGraph {
    */
   public refresh(): void {
     const self = this;
-    const autoPaint: boolean = self.get('autoPaint');
-    self.setAutoPaint(false);
 
     self.emit('beforegraphrefresh');
 
@@ -1129,7 +1118,6 @@ export default class Graph extends EventEmitter implements IGraph {
       });
     }
 
-    self.setAutoPaint(autoPaint);
 
     self.emit('aftergraphrefresh');
     self.autoPaint();
@@ -1246,8 +1234,6 @@ export default class Graph extends EventEmitter implements IGraph {
     let model: NodeConfig;
 
     const updatedNodes: { [key: string]: boolean } = {};
-    const autoPaint = this.get('autoPaint');
-    this.setAutoPaint(false);
     each(nodes, (node: INode) => {
       model = node.getModel() as NodeConfig;
       const originAttrs = node.get('originAttrs');
@@ -1267,7 +1253,6 @@ export default class Graph extends EventEmitter implements IGraph {
     });
 
     self.emit('aftergraphrefreshposition');
-    this.setAutoPaint(autoPaint);
     self.autoPaint();
   }
 
