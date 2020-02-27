@@ -1992,8 +1992,8 @@ describe('plugins', () => {
     const viewport = minimap.get('viewport');
     expect(viewport.style.width).toBe('60px');
     expect(viewport.style.height).toBe('60px');
-    expect(viewport.style.left).toBe('72.52px');
-    expect(viewport.style.top).toBe('32.52px');
+    expect(viewport.style.left).toBe('70px');
+    expect(viewport.style.top).toBe('30px');
     graph.destroy();
   });
   it('minimap delegate', () => {
@@ -2023,7 +2023,7 @@ describe('plugins', () => {
     expect(viewport.style.height).toBe('60px');
     expect(viewport.style.left).toBe('70px');
     expect(viewport.style.top).toBe('30px');
-    // graph.destroy();
+    graph2.destroy();
   });
   it('minimap keyShape', () => {
     const minimap = new G6.Minimap({
@@ -2053,8 +2053,8 @@ describe('plugins', () => {
     const viewport = minimap.get('viewport');
     expect(viewport.style.width).toBe('60px');
     expect(viewport.style.height).toBe('60px');
-    expect(viewport.style.left).toBe('72.52px');
-    expect(viewport.style.top).toBe('32.52px');
+    expect(viewport.style.left).toBe('70px');
+    expect(viewport.style.top).toBe('30px');
     graph.destroy();
   });
   // TODO: the edges before bundling are not removed
