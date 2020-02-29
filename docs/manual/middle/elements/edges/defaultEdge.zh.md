@@ -64,7 +64,7 @@ Object 类型。通过 `style` 配置来修改边的颜色、线宽等属性。�
 | shadowColor | false | String | 阴影颜色 |
 | shadowBlur | false | Number | 阴影模糊程度 |
 | shadowOffsetX | false | Number | 阴影 x 方向偏移量 |
-| shadowOffsetX | false | Number | 阴影 y 方向偏移量 |
+| shadowOffsetY | false | Number | 阴影 y 方向偏移量 |
 | lineDash | false | Array | 设置线的虚线样式，可以指定一个数组。一组描述交替绘制线段和间距（坐标空间单位）长度的数字。 如果数组元素的数量是奇数， 数组的元素会被复制并重复。例如， [5, 15, 25] 会变成 [5, 15, 25, 5, 15, 25]。 |
 
 下面代码演示在实例化图时全局配置方法中配置 `style`：

@@ -48,7 +48,7 @@ The table below shows the built-in nodes and their special properties:
 | shadowColor   | false    | String | The shadow color                              |
 | shadowBlur    | false    | Number | The blur of the shadow                        |
 | shadowOffsetX | false    | Number | The x offset of the shadow                    |
-| shadowOffsetX | false    | Number | The y offset of the shadow                    |
+| shadowOffsetY | false    | Number | The y offset of the shadow                    |
 | opacity       | false    | Number | The alpha or transparency of the node         |
 | fillOpacity   | false    | Number | The filling alpha or transparency of the node |
 

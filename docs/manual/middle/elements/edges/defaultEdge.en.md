@@ -61,7 +61,7 @@ The table below shows the built-in edges and their special properties:
 | shadowColor | false | String | The color of the shadow |
 | shadowBlur | false | Number | The blur degree of the shadow |
 | shadowOffsetX | false | Number | The x offset of the shadow |
-| shadowOffsetX | false | Number | The y offset of the shadow |
+| shadowOffsetY | false | Number | The y offset of the shadow |
 | lineDash | false | Array | The style of the dash line. It is an array that describes the length of gaps and line segments. If the number of the elements in the array is odd, the elements will be dulplicated. Such as [5, 15, 25] will be regarded as [5, 15, 25, 5, 15, 25] |
 
 Configure `style` globally when instantiating the Graph:
