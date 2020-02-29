@@ -71,7 +71,7 @@ const graph = new G6.Graph({
 
 ### tooltip 节点提示框
 
-边提示框可以用在边的详细信息的展示。当鼠标滑过边时，显示一个浮层告知节点的详细信息。
+节点提示框可以用在边的详细信息的展示。当鼠标滑过节点时，显示一个浮层告知节点的详细信息。
 
 **预期效果**
 
@@ -123,7 +123,7 @@ const graph = new G6.Graph({
 
 ### edge-tooltip 边提示框
 
-节点提示框可以用在节点的详细信息的展示。当鼠标滑过边时，显示一个浮层告知边的详细信息。 **预期效果**
+边提示框可以用在边的详细信息的展示。当鼠标滑过边时，显示一个浮层告知边的详细信息。 **预期效果**
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Uk10SYFNNi8AAAAAAAAAAABkARQnAQ' width=300 />
 
