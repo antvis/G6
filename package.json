@@ -85,7 +85,7 @@
     "numericjs": "^1.2.6"
   },
   "devDependencies": {
-    "@antv/gatsby-theme-antv": "^0.10.37",
+    "@antv/gatsby-theme-antv": "^0.10.45",
     "@babel/core": "^7.7.7",
     "@babel/preset-react": "^7.7.4",
     "@storybook/addon-actions": "^5.2.8",
