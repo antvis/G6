@@ -1,10 +1,6 @@
 import Group from '@antv/g-canvas/lib/group';
-import each from '@antv/util/lib/each';
-import isNil from '@antv/util/lib/is-nil';
-import isPlainObject from '@antv/util/lib/is-plain-object';
-import isString from '@antv/util/lib/is-string';
-import deepMix from '@antv/util/lib/deep-mix'
-import uniqueId from '@antv/util/lib/unique-id';
+import { each, isNil, isPlainObject,
+  isString, isBoolean, uniqueId, mix, deepMix } from '@antv/util'
 import { IItemBase, IItemBaseConfig } from '../interface/item';
 import Shape from '../shape/shape';
 import { IBBox, IPoint, IShapeBase, ModelConfig, ShapeStyle, Indexable } from '../types';
@@ -82,20 +78,20 @@ export default class ItemBase implements IItemBase {
 
   constructor(cfg: IItemBaseConfig) {
     this._cfg = Object.assign(this.defaultCfg, this.getDefaultCfg(), cfg);
-    const { group } = cfg;
-    if (group) group.set('item', this);
-
+    
     let { id } = this.get('model');
-
+    
     if (!id) {
       id = uniqueId(this.get('type'));
     }
-
+    
     this.set('id', id);
-    if (group) group.set('id', id);
 
-    const { stateStyles } = this.get('model');
-    this.set('stateStyles', stateStyles);
+    const { group } = cfg;
+    if (group) {
+      group.set('item', this);
+      group.set('id', id);
+    }
 
     this.init();
     this.draw();
@@ -135,46 +131,59 @@ export default class ItemBase implements IItemBase {
     const cfg = self.getShapeCfg(model); // 可能会附加额外信息
     const shapeType = (cfg.shape as string) || (cfg.type as string);
 
-    const originStyles = {}
-
+    
     const keyShape: IShapeBase = shapeFactory.draw(shapeType, cfg, group);
-
+    
     if (keyShape) {
-      keyShape.set('isKeyShape', true);
       self.set('keyShape', keyShape);
+      keyShape.set('isKeyShape', true);
       keyShape.set('draggable', true);
-      // self.set('originStyle', this.getKeyShapeStyle());
     }
 
+    this.setOriginStyle();
 
+    // 防止由于用户外部修改 model 中的 shape 导致 shape 不更新
+    this.set('currentShape', shapeType);
+    this.restoreStates(shapeFactory, shapeType!);
+  }
 
-debugger
+  /**
+   * 设置图元素原始样式
+   * @param keyShape 图元素 keyShape
+   * @param group Group 容器
+   */
+  private setOriginStyle() {
+    const originStyles = {}
+    const group: Group = this.get('group');
     const children = group.get('children')
+    let keyShape: IShapeBase = this.getKeyShape();
+
+    const self = this
 
     each(children, child => {
       const name = child.get('name')
       if(name) {
         originStyles[name] = self.getShapeStyleByName(name)
       } else {
-        const keyShapeName = keyShape.get('name') || 'keyShape'
-        originStyles[keyShapeName] = self.getShapeStyleByName()
+        const keyShapeName = keyShape.get('name')
+        const keyShapeStyle = self.getShapeStyleByName()
+        if(!keyShapeName) {
+          Object.assign(originStyles, keyShapeStyle)
+        } else {
+          originStyles[keyShapeName] = keyShapeStyle
+        }
       }
     })
 
-    console.log('drawinner shape origin style', originStyles)
     self.set('originStyle', originStyles);
-
-    // 防止由于用户外部修改 model 中的 shape 导致 shape 不更新
-    this.set('currentShape', shapeType);
-    this.resetStates(shapeFactory, shapeType!);
   }
 
   /**
-   * reset shape states
+   * restore shape states
    * @param shapeFactory
    * @param shapeType
    */
-  private resetStates(shapeFactory: any, shapeType: string) {
+  private restoreStates(shapeFactory: any, shapeType: string) {
     const self = this;
     const states: string[] = self.get('states');
     each(states, state => {
@@ -249,6 +258,7 @@ debugger
   public getShapeStyleByName(name?: string): ShapeStyle | void {
     const group: Group = this.get('group');
     let currentShape: IShapeBase = this.getKeyShape();
+
     if(name) {
       currentShape = group.find(element => element.get('name') === name) as IShapeBase
     }
@@ -295,14 +305,10 @@ debugger
 
   public getCurrentStatesStyle(): ShapeStyle {
     const self = this;
-    // const originStyle = Object.assign({}, self.getOriginStyle());
-    debugger
-    // console.log('origin style', originStyle)
     let styles = {}
     each(self.getStates(), state => {
       Object.assign(styles, self.getStateStyle(state));
     });
-    // console.log('getCurrentStatesStyle', originStyle)
     return styles;
   }
 
@@ -315,22 +321,36 @@ debugger
   public setState(state: string, value: string | boolean) {
     const states: string[] = this.get('states');
     const shapeFactory = this.get('shapeFactory');
-
     let stateName = state
     let filterStateName = state
     if(isString(value)) {
       stateName = `${state}:${value}`
       filterStateName = `${state}:`
     }
+    
+    let newStates = states
 
-    const index = states.indexOf(filterStateName);
-    if (value) {
-      if (index > -1) {
-        return;
+    if(isBoolean(value)) {
+      const index = states.indexOf(filterStateName);
+      if (value) {
+        if (index > -1) {
+          return;
+        }
+        states.push(stateName);
+      } else if (index > -1) {
+        states.splice(index, 1);
       }
-      states.push(stateName);
-    } else if (index > -1) {
-      states.splice(index, 1);
+    } else if(isString(value)) {
+      // 过滤掉 states 中 filterStateName 相关的状态
+      const filterStates = states.filter(name => name.includes(filterStateName))
+      
+      if(filterStates.length > 0) {
+        this.clearStates(filterStates)
+      }
+      newStates = newStates.filter(name => !name.includes(filterStateName))
+
+      newStates.push(stateName)
+      this.set('states', newStates)
     }
 
     if (shapeFactory) {
@@ -342,39 +362,30 @@ debugger
     }
   }
 
-  // TODO
-  public clearStates(states: string[]) {
-    debugger
+  /**
+   * 清除指定的状态，如果参数为空，则不做任务处理
+   * @param states 状态名称
+   */
+  public clearStates(states?: string | string[]) {
     const self = this;
     const originStates = self.getStates();
     const shapeFactory = self.get('shapeFactory');
     const model: ModelConfig = self.get('model');
     const shape = model.shape || model.type;
     if (!states) {
-      // self.set('states', []);
       console.warn(`clearItemStates 参数为空，则不清除任何状态`)
-      // shapeFactory.setState(shape, originStates[0], false, self);
       return;
     }
     if (isString(states)) {
       states = [states];
     }
 
-    // const newStates = originStates.filter(state => {
-    //   shapeFactory.setState(shape, state, false, self);
-    //   if (states.indexOf(state) >= 0) {
-    //     return false;
-    //   }
-    //   return true;
-    // });
     const newStates = originStates.filter(state => states.indexOf(state) === -1);
+    self.set('states', newStates);
 
     states.forEach(state => {
       shapeFactory.setState(shape, state, false, self);
     })
-
-    console.log('new states', newStates, states)
-    self.set('states', newStates);
   }
 
   /**
@@ -466,6 +477,14 @@ debugger
     const model: ModelConfig = this.get('model');
     const originPosition: IPoint = { x: model.x!, y: model.y! };
 
+    const styles = this.get('styles')
+    if (cfg.stateStyles) {
+      // 更新 item 时更新 this.get('styles') 中的值
+      const { stateStyles } = cfg
+      mix(styles, stateStyles)
+      delete cfg.stateStyles
+    }
+
     // 直接将更新合到原数据模型上，可以保证用户在外部修改源数据然后刷新时的样式符合期待。
     Object.assign(model, cfg);
 
@@ -503,10 +522,12 @@ debugger
       // 如果不满足上面两种状态，重新绘制
       this.draw();
     }
-    // TODO 更新时候重置原始样式
-    // this.set('originStyle', this.getKeyShapeStyle());
+
+    // 更新完以后重新设置原始样式
+    this.setOriginStyle()
+
     // 更新后重置节点状态
-    this.resetStates(shapeFactory, shape);
+    this.restoreStates(shapeFactory, shape);
   }
 
   /**

@@ -313,7 +313,7 @@ export default class Graph extends EventEmitter implements IGraph {
        * 节点默认样式，也可以添加状态样式
        * 例如：
        * const graph = new G6.Graph({
-       *  nodeStateStyle: {
+       *  nodeStateStyles: {
        *    selected: { fill: '#ccc', stroke: '#666' },
        *    active: { lineWidth: 2 }
        *  },

@@ -33,8 +33,6 @@ export type ShapeOptions = Partial<{
   drawLabel(cfg: ModelConfig, group: GGroup): IShape;
   getLabelStyleByPosition(cfg: ModelConfig, labelCfg: ILabelConfig, group?: GGroup): LabelStyle;
   getLabelStyle(cfg: ModelConfig, labelCfg: ILabelConfig, group: GGroup): LabelStyle;
-  getShapeStyle(cfg: ModelConfig): ShapeStyle;
-  getStateStyle(name: string, value: string | boolean, item: Item): ShapeStyle;
 
   /**
    * 绘制完成后的操作，便于用户继承现有的节点、边

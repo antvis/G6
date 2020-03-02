@@ -5,7 +5,7 @@ const div = document.createElement('div');
 div.id = 'global-spec';
 document.body.appendChild(div);
 
-describe('graph', () => {
+describe('graph edge states', () => {
   it('global edgeStateStyles and defaultEdge, state change with opacity changed', () => {
     const data = {
       nodes: [
@@ -163,10 +163,10 @@ describe('graph', () => {
       const item = e.item;
       graph.setItemState(item, 'hover', false);
       const keyShape = item.getKeyShape();
-      expect(keyShape.attr('shadowColor')).toEqual(null);
-      expect(keyShape.attr('shadowBlur')).toEqual(null);
-      expect(keyShape.attr('shadowOffsetX')).toEqual(null);
-      expect(keyShape.attr('shadowOffsetY')).toEqual(null);
+      expect(keyShape.attr('shadowColor')).toEqual(undefined);
+      expect(keyShape.attr('shadowBlur')).toEqual(undefined);
+      expect(keyShape.attr('shadowOffsetX')).toEqual(undefined);
+      expect(keyShape.attr('shadowOffsetY')).toEqual(undefined);
       expect(keyShape.attr('lineWidth')).toEqual(10);
     });
 

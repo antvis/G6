@@ -47,10 +47,12 @@ export default class ItemController {
     const upperType = upperFirst(type);
 
     let item: Item | null = null;
+    // 获取 this.get('styles') 中的值
     let styles = graph.get(type + upperFirst(STATE_SUFFIX)) || {};
     const defaultModel = graph.get(CFG_PREFIX + upperType);
 
     if (model[STATE_SUFFIX]) {
+      // 设置 this.get('styles') 中的值
       styles = model[STATE_SUFFIX];
     }
 
@@ -58,6 +60,7 @@ export default class ItemController {
     if (mapper) {
       const mappedModel = mapper(model);
       if (mappedModel[STATE_SUFFIX]) {
+        // 设置 this.get('styles') 中的值
         styles = mappedModel[STATE_SUFFIX];
         delete mappedModel[STATE_SUFFIX];
       }
@@ -136,7 +139,7 @@ export default class ItemController {
    */
   public updateItem(item: Item | string, cfg: EdgeConfig | NodeConfig) {
     const { graph } = this;
-
+    
     if (isString(item)) {
       item = graph.findById(item) as Item;
     }
@@ -196,7 +199,7 @@ export default class ItemController {
         (item as IEdge).setTarget(target);
       }
     }
-debugger
+
     item.update(cfg);
 
     if (type === NODE) {

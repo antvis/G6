@@ -821,7 +821,7 @@ describe('all node link center', () => {
     graph.setItemState(node, 'b', true);
 
     expect(graph.findAllByState('node', 'a').length).toBe(1);
-    graph.clearItemStates(node);
+    graph.clearItemStates(node, ['a', 'b']);
 
     expect(graph.findAllByState('node', 'a').length).toBe(0);
     expect(graph.findAllByState('node', 'b').length).toBe(0);
@@ -837,7 +837,7 @@ describe('all node link center', () => {
     expect(graph.findAllByState('node', 'b').length).toBe(0);
   });
 
-  it('default node & edge style', () => {
+  it.only('default node & edge style', () => {
     const defaultGraph = new Graph({
       container: div,
       width: 500,
@@ -892,7 +892,7 @@ describe('all node link center', () => {
     });
 
     defaultGraph.on('node:click', e => {
-      e.item.setState('selected', true);
+      e.item.setState(e.item, 'selected', true);
       e.item.refresh();
     });
 
@@ -901,7 +901,8 @@ describe('all node link center', () => {
     const keyShape = node.get('keyShape');
 
     expect(keyShape.get('type')).toEqual('rect');
-    expect(keyShape.attr('fill')).toEqual('red');
+    // addItem 时候 model 中的 style 会覆盖 defaultNode 中定义的
+    expect(keyShape.attr('fill')).toEqual('#C6E5FF');
     expect(keyShape.attr('stroke')).toEqual('#666');
 
     defaultGraph.setItemState(node, 'selected', true);
@@ -913,7 +914,8 @@ describe('all node link center', () => {
 
     defaultGraph.setItemState(node, 'selected', false);
 
-    expect(keyShape.attr('fill')).toEqual('red');
+    // fill 使用默认的，addItem 时如果有 style 会覆盖 defaultNode 中定义的
+    expect(keyShape.attr('fill')).toEqual('#C6E5FF');
     expect(keyShape.attr('fillStyle')).toBe(undefined);
     expect(keyShape.attr('stroke')).toEqual('#666');
     expect(keyShape.attr('strokeStyle')).toBe(undefined);
@@ -962,7 +964,7 @@ describe('all node link center', () => {
     defaultGraph.setItemState(edge, 'active', false);
 
     expect(edgeKeyShape.attr('stroke')).toEqual('blue');
-    expect(edgeKeyShape.attr('shadowColor')).toBe(null);
+    expect(edgeKeyShape.attr('shadowColor')).toBe(undefined);
     defaultGraph.destroy();
   });
 
@@ -1157,7 +1159,8 @@ describe('mapper fn', () => {
     expect(keyShape.attr('green'));
 
     graph.clearItemStates(node);
-    expect(keyShape.attr('fill')).toEqual('#666');
+    // green
+    expect(keyShape.attr('fill')).toEqual('green');
 
     const edge = graph.addItem('edge', { id: 'edge2', source: 'node', target: 'node2Mapped' });
 
