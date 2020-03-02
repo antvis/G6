@@ -1,12 +1,5 @@
 import G6 from '@antv/g6';
 
-export interface IProps {
-  data?: ListItem[];
-  config?: any;
-  onInit?: (instance: any) => void;
-  nodeClick?: (nodeItem: ListItem) => void;
-}
-
 type STATUS = 'I' | 'C' | 'S';
 
 interface ListItem {
@@ -17,6 +10,12 @@ interface ListItem {
   finishRate: number; // 完成度
   status: STATUS; // 状态
   childList?: ListItem[];
+}
+export interface IProps {
+  data?: ListItem[];
+  config?: any;
+  onInit?: (instance: any) => void;
+  nodeClick?: (nodeItem: ListItem) => void;
 }
 
 interface GraphData {
