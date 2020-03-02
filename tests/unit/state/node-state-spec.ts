@@ -21,7 +21,7 @@ describe('graph node states', () => {
     ],
   };
 
-  it.only('global nodeStateStyles and defaultNode, state change with opacity changed', () => {
+  it('global nodeStateStyles and defaultNode, state change with opacity changed', () => {
     const graph = new G6.Graph({
       container: div,
       width: 500,

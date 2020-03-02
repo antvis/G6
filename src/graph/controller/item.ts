@@ -199,7 +199,7 @@ export default class ItemController {
         (item as IEdge).setTarget(target);
       }
     }
-debugger
+
     item.update(cfg);
 
     if (type === NODE) {
