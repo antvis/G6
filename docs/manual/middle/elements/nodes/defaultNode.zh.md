@@ -50,7 +50,7 @@ Object 类型。通过 `style` 配置来修改节点的填充色、边框颜色�
 | shadowColor   | false    | String | 阴影颜色                      |
 | shadowBlur    | false    | Number | 阴影范围                      |
 | shadowOffsetX | false    | Number | 阴影 x 方向偏移量             |
-| shadowOffsetX | false    | Number | 阴影 y 方向偏移量             |
+| shadowOffsetY | false    | Number | 阴影 y 方向偏移量             |
 | opacity       | false    | Number | 设置绘图的当前 alpha 或透明值 |
 | fillOpacity   | false    | Number | 设置填充的 alpha 或透明值     |
 
