@@ -5,7 +5,7 @@ const div = document.createElement('div');
 div.id = 'global-spec';
 document.body.appendChild(div);
 
-describe('graph', () => {
+describe('graph node states', () => {
   const data = {
     nodes: [
       {
@@ -21,7 +21,7 @@ describe('graph', () => {
     ],
   };
 
-  it.only('global nodeStateStyles and defaultNode, state change with opacity changed', () => {
+  it('global nodeStateStyles and defaultNode, state change with opacity changed', () => {
     const graph = new G6.Graph({
       container: div,
       width: 500,

@@ -255,7 +255,6 @@ describe('shape node test', () => {
         group,
       });
       const shape = group.get('children')[0];
-
       expect(shape.attr('lineWidth')).toBe(1);
       factory.setState('node', 'selected', true, item);
       expect(shape.attr('lineWidth')).toBe(2);
