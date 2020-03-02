@@ -87,8 +87,7 @@ describe('activate-relations', () => {
     graph.emit('node:mouseleave', { item: node2 });
     graph.removeBehaviors(['activate-relations'], 'default');
     // graph.removeEvent();
-    graph.off('node:click')
-    graph.off('canvas:click')
+    graph.off('afteractivaterelations')
   });
   it('click to activate', done => {
     graph.on('afteractivaterelations', e => {
@@ -141,13 +140,13 @@ describe('activate-relations', () => {
       ],
       'default',
     );
+    
     graph.emit('node:click', { item: node1 });
     graph.emit('canvas:click', {});
     graph.emit('node:click', { item: node2 });
     graph.emit('canvas:click', {});
     graph.removeBehaviors(['activate-relations'], 'default');
-    graph.off('node:click')
-    graph.off('canvas:click')
+    graph.off('afteractivaterelations')
   });
   it('custom state', done => {
     const graph2 = new Graph({
