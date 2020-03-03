@@ -11,6 +11,7 @@ interface ListItem {
   status: STATUS; // 状态
   childList?: ListItem[];
 }
+
 export interface IProps {
   data?: ListItem[];
   config?: any;
@@ -605,6 +606,7 @@ const createTooltip = (postion: { x: number; y: number }, name: string, id: stri
     existTooltip.style.left = x;
     existTooltip.style.top = y;
   } else {
+    // content
     const tooltip = document.createElement('div');
     const span = document.createElement('span');
     span.textContent = name;
@@ -613,7 +615,7 @@ const createTooltip = (postion: { x: number; y: number }, name: string, id: stri
     tooltip.style.color = '#fff';
     tooltip.style.borderRadius = '4px';
     tooltip.appendChild(span);
-
+    // box
     const div = document.createElement('div');
     div.style.position = 'absolute';
     div.style.zIndex = '99';
@@ -641,7 +643,6 @@ const removeTooltip = (id: string) => {
  * @param {flag} string[] | string
  * @param {postion} object
  */
-
 const getPosition = (data: ListItem[] | undefined, init?: boolean) => {
   maxMatrixY = 0;
   const graphData = {
@@ -668,7 +669,6 @@ const getPosition = (data: ListItem[] | undefined, init?: boolean) => {
  * @param {flag} string[] | string
  * @param {postion} object
  */
-
 const getExpandPosition = (data: ListItem[] | undefined) => {
   maxMatrixY = 0;
   const graphData = {
