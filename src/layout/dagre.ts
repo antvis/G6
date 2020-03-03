@@ -28,7 +28,7 @@ export default class DagreLayout extends BaseLayout {
   /** 每一层节点之间间距 */
   public ranksep: number = 50;
   /** 是否保留布局连线的控制点 */
-  public controlPoints: boolean = true;
+  public controlPoints: boolean = false;
 
   public getDefaultCfg() {
     return {
@@ -103,8 +103,6 @@ export default class DagreLayout extends BaseLayout {
     g.edges().forEach((edge: any) => {
       coord = g.edge(edge);
       const i = edges.findIndex(it => it.source === edge.v && it.target === edge.w);
-      edges[i].startPoint = coord.points[0];
-      edges[i].endPoint = coord.points[coord.points.length - 1];
       if (self.controlPoints) {
         edges[i].controlPoints = coord.points.slice(1, coord.points.length - 1);
       }
