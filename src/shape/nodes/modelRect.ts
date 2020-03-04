@@ -115,6 +115,7 @@ Shape.registerNode(
           },
           className: 'pre-rect',
           name: 'pre-rect',
+          draggable: true
         });
       }
 
@@ -138,7 +139,7 @@ Shape.registerNode(
 
       if (logoIcon.show) {
         const { width: w, height: h, x, y, offset, ...logoIconStyle } = logoIcon;
-        const image = group.addShape('image', {
+        group.addShape('image', {
           attrs: {
             ...logoIconStyle,
             x: x || -width / 2 + (w as number) + (offset as number),
@@ -148,9 +149,8 @@ Shape.registerNode(
           },
           className: 'rect-logo-icon',
           name: 'rect-logo-icon',
+          draggable: true
         });
-
-        image.set('capture', false);
       }
     },
     /**
@@ -176,9 +176,8 @@ Shape.registerNode(
           },
           className: 'rect-state-icon',
           name: 'rect-state-icon',
+          draggable: true
         });
-
-        image.set('capture', false);
       }
     },
     /**
@@ -292,6 +291,7 @@ Shape.registerNode(
           },
           className: 'text-shape',
           name: 'text-shape',
+          draggable: true
         });
 
         group.addShape('text', {
@@ -303,6 +303,7 @@ Shape.registerNode(
           },
           className: 'rect-description',
           name: 'rect-description',
+          draggable: true
         });
       } else {
         label = group.addShape('text', {
@@ -311,6 +312,7 @@ Shape.registerNode(
             x: offsetX,
             y: 7,
             text: cfg.label,
+            draggable: true
           },
         });
       }
@@ -397,6 +399,7 @@ Shape.registerNode(
             },
             className: 'node-label',
             name: 'node-label',
+            draggable: true
           });
         } else {
           const cfgStyle = cfg.labelCfg ? cfg.labelCfg.style : {};
@@ -427,6 +430,7 @@ Shape.registerNode(
             },
             className: 'rect-description',
             name: 'rect-description',
+            draggable: true
           });
         } else {
           const cfgStyle = cfg.descriptionCfg ? cfg.descriptionCfg.style : {};

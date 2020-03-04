@@ -85,9 +85,8 @@ Shape.registerNode(
           },
           className: 'triangle-icon',
           name: 'triangle-icon',
+          draggable: true
         });
-
-        image.set('capture', false);
       }
 
       (this as any).drawLinkPoints(cfg, group);

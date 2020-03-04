@@ -116,6 +116,10 @@ export type LabelStyle = Partial<{
   fill: string | null;
   rotateCenter: string;
   lineWidth?: number;
+  shadowColor?: string;
+  shadowBlur?: number;
+  shadowOffsetX?: number;
+  shadowOffsetY?: number;
 }>;
 
 export type Easeing =

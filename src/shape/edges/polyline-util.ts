@@ -97,13 +97,13 @@ export const getExpandedBBoxPoint = (bbox: any, point: PolyPoint): PolyPoint => 
   const isHorizontal = isHorizontalPort(point, bbox);
   if (isHorizontal) {
     return {
-      x: point.x > bbox.centerX ? bbox.maxX : bbox.minX,
+      x: point.x > bbox.x ? bbox.maxX : bbox.minX,
       y: point.y,
     };
   }
   return {
     x: point.x,
-    y: point.y > bbox.centerY ? bbox.maxY : bbox.minY,
+    y: point.y > bbox.y ? bbox.maxY : bbox.minY,
   };
 };
 /**
