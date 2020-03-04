@@ -71,9 +71,8 @@ Shape.registerNode(
           },
           className: 'circle-icon',
           name: 'circle-icon',
+          draggable: true
         });
-
-        image.set('capture', false);
       }
 
       (this as any).drawLinkPoints(cfg, group);

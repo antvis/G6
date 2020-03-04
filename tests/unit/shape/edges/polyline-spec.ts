@@ -15,11 +15,18 @@ describe('polyline e test', () => {
       container: div,
       width: 500,
       height: 500,
-      defaultNode: {
+      defaultEdge: {
         type: 'polyline',
       },
+      defaultNode: {
+        type: 'rect',
+        size: [100, 50],
+        style: {
+          opacity: 0.1
+        }
+      }
     });
-    it('default polyline config', () => {
+    it.only('default polyline config', () => {
       const data = {
         nodes: [
           {
@@ -263,7 +270,7 @@ describe('polyline e test', () => {
       expect(keyShape.attr('shadowColor')).toEqual('black');
       expect(keyShape.attr('shadowBlur')).toEqual(5);
     });
-    it('label', () => {
+    it.only('label', () => {
       const data = {
         nodes: [
           {

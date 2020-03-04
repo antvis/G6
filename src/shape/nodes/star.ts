@@ -73,9 +73,8 @@ Shape.registerNode(
           },
           className: 'star-icon',
           name: 'star-icon',
+          draggable: true
         });
-
-        image.set('capture', false);
       }
 
       (this as any).drawLinkPoints(cfg, group);

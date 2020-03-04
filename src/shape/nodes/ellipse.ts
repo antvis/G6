@@ -76,9 +76,8 @@ Shape.registerNode(
           },
           className: 'ellipse-icon',
           name: 'ellipse-icon',
+          draggable: true
         });
-
-        image.set('capture', false);
       }
 
       (this as any).drawLinkPoints(cfg, group);
