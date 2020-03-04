@@ -72,9 +72,8 @@ Shape.registerNode(
           },
           className: 'diamond-icon',
           name: 'diamond-icon',
+          draggable: true
         });
-
-        image.set('capture', false);
       }
 
       (this as any).drawLinkPoints(cfg, group);

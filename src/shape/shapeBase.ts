@@ -59,7 +59,7 @@ export const shapeBase: ShapeOptions = {
     delete labelStyle.rotate;
     const label = group.addShape('text', {
       attrs: labelStyle,
-      capture: false,
+      draggable: true,
       className: 'text-shape',
       name: 'text-shape',
     });
