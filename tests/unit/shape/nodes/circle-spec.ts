@@ -312,7 +312,7 @@ describe('circle test', () => {
       graph.destroy();
       expect(graph.destroyed).toBe(true);
     });
-    it.only('update label', () => {
+    it('update label', () => {
       const graph = new Graph({
         container: div,
         width: 500,
