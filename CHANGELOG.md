@@ -1,4 +1,14 @@
 # ChangeLog
+#### 3.3.7
+- feat: beforeaddchild and afteraddchild emit for TreeGraph;
+- feat: built-in nodes' labels can be captured;
+- fix: drag shadow caused by localRefresh, update the g-canvas version;
+- fix: abnormal polyline bendding;
+- fix: collapse-expand trigger problem;
+- fix: update nodes with empty string label;
+- fix: abnormal rendering when a graph has image nodes and other type nodes;.
+
+
 #### 3.3.6
 - feat: support edge weight for dagre layout;
 - feat: automatically add draggable to keyShape, users do not need to assign it when custom a node or an edge;
