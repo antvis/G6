@@ -69,7 +69,7 @@ const ContextMenu = () => {
         container: container.current as string | HTMLElement,
         width: 500,
         height: 500,
-        renderer: 'svg',
+        // renderer: 'svg',
         modes: {
           default: ['drag-canvas', 'zoom-canvas']
         }
@@ -78,8 +78,8 @@ const ContextMenu = () => {
       graph.render();
 
       graph.on('node:contextmenu', evt => {
-        // evt.preventDefault();
-        // evt.stopPropagation();
+        evt.preventDefault();
+        evt.stopPropagation();
         conextMenuContainer.style.display = 'block';
         conextMenuContainer.style.left = `${evt.x + 20}px`;
         conextMenuContainer.style.top = `${evt.y}px`;
@@ -87,11 +87,6 @@ const ContextMenu = () => {
 
       graph.on('node:mouseleave', () => {
         conextMenuContainer.style.left = '-150px';
-      });
-      const itemModel = graph.getNodes()[1].getModel();
-      graph.emit('node:contextmenu', {
-        x: itemModel.x,
-        y: itemModel.y
       });
 
     }
