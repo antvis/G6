@@ -9,7 +9,7 @@ import { IPoint, Item, LabelStyle, ShapeStyle, ModelConfig } from '../types';
 import { cloneDeep, get, merge } from 'lodash';
 import Global from '../global';
 import { mat3, transform } from '@antv/matrix-util';
-import { deepMix, each, mix } from '@antv/util';
+import { deepMix, each, mix, isString } from '@antv/util';
 
 const CLS_SHAPE_SUFFIX = '-shape';
 const CLS_LABEL_SUFFIX = '-label';
@@ -33,13 +33,11 @@ export const shapeBase: ShapeOptions = {
    */
   draw(cfg: ModelConfig, group: GGroup): IShape {
     const shape: IShape = this.drawShape!(cfg, group);
-    debugger
     shape.set('className', this.itemType + CLS_SHAPE_SUFFIX);
     if (cfg.label) {
       const label = this.drawLabel!(cfg, group);
       label.set('className', this.itemType + CLS_LABEL_SUFFIX);
     }
-    debugger
     return shape;
   },
   /**
@@ -164,7 +162,8 @@ export const shapeBase: ShapeOptions = {
     const labelClassName = this.itemType + CLS_LABEL_SUFFIX;
     const label = group.find(element => element.get('className') === labelClassName);
 
-    if (cfg.label) {
+    // 防止 cfg.label = "" 的情况
+    if (isString(cfg.label)) {
       // 若传入的新配置中有 label，（用户没传入但原先有 label，label 也会有值）
       if (!label) {
         // 若原先不存在 label，则绘制一个新的 label
