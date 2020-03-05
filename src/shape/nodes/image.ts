@@ -55,6 +55,7 @@ Shape.registerNode(
     drawShape(cfg: NodeConfig, group: GGroup): IShape {
       const { shapeType } = this; // || this.type，都已经加了 shapeType
       const style = (this as ShapeOptions).getShapeStyle!(cfg);
+      delete style.fill;
       const shape = group.addShape(shapeType, {
         attrs: style,
         className: 'image-keyShape',
