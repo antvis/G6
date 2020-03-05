@@ -26,7 +26,7 @@ describe('polyline e test', () => {
         }
       }
     });
-    it.only('default polyline config', () => {
+    it('default polyline config', () => {
       const data = {
         nodes: [
           {
@@ -270,7 +270,7 @@ describe('polyline e test', () => {
       expect(keyShape.attr('shadowColor')).toEqual('black');
       expect(keyShape.attr('shadowBlur')).toEqual(5);
     });
-    it.only('label', () => {
+    it('label', () => {
       const data = {
         nodes: [
           {

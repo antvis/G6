@@ -33,11 +33,13 @@ export const shapeBase: ShapeOptions = {
    */
   draw(cfg: ModelConfig, group: GGroup): IShape {
     const shape: IShape = this.drawShape!(cfg, group);
+    debugger
     shape.set('className', this.itemType + CLS_SHAPE_SUFFIX);
     if (cfg.label) {
       const label = this.drawLabel!(cfg, group);
       label.set('className', this.itemType + CLS_LABEL_SUFFIX);
     }
+    debugger
     return shape;
   },
   /**
