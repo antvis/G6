@@ -1,6 +1,7 @@
 import Graph from '../../../../src/graph/graph';
 import '../../../../src/shape/node';
 import '../../../../src/shape/nodes';
+import '../../../../src/shape/edge';
 
 const div = document.createElement('div');
 div.id = 'graph-spec';
