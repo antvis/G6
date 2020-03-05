@@ -627,7 +627,7 @@ describe('model rect test', () => {
       graph.destroy();
       expect(graph.destroyed).toBe(true);
     });
-    it.only('icons update', () => {
+    it('icons update', () => {
       const graph = new Graph({
         container: div,
         width: 500,
