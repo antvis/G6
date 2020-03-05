@@ -1,7 +1,7 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
 import deepMix from '@antv/util/lib/deep-mix';
-import { mix } from '@antv/util';
+import { mix, isString } from '@antv/util';
 import { Item, NodeConfig, ModelConfig, ShapeStyle } from '../../types';
 import Shape from '../shape';
 import Global from '../../global';
@@ -281,7 +281,7 @@ Shape.registerNode(
 
       const { style: fontStyle } = labelCfg;
       const { style: descriptionStyle, paddingTop: descriptionPaddingTop } = descriptionCfg;
-      if (cfg.description) {
+      if (isString(cfg.description)) {
         label = group.addShape('text', {
           attrs: {
             ...fontStyle,
@@ -406,7 +406,7 @@ Shape.registerNode(
           const labelStyle = mix({}, label.attr(), cfgStyle);
           if (cfg.label) labelStyle.text = cfg.label;
           labelStyle.x = offsetX;
-          if (cfg.description) labelStyle.y = -5;
+          if (isString(cfg.description)) labelStyle.y = -5;
           if (description) {
             description.resetMatrix();
             description.attr({
@@ -417,7 +417,7 @@ Shape.registerNode(
           label.attr(labelStyle);
         }
       }
-      if (cfg.description) {
+      if (isString(cfg.description)) {
         const descriptionCfg = deepMix({}, defaultDescritionCfg, cfg.descriptionCfg);
         const { paddingTop } = descriptionCfg;
         if (!description) {
@@ -435,7 +435,7 @@ Shape.registerNode(
         } else {
           const cfgStyle = cfg.descriptionCfg ? cfg.descriptionCfg.style : {};
           const descriptionStyle = mix({}, description.attr(), cfgStyle);
-          if (cfg.description) descriptionStyle.text = cfg.description;
+          if (isString(cfg.description)) descriptionStyle.text = cfg.description;
           descriptionStyle.x = offsetX;
           description.resetMatrix();
           description.attr({

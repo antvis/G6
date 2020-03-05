@@ -22,7 +22,7 @@ describe('tree graph without animate', () => {
     },
   });
 
-  it('layout init & findDataById', () => {
+  it.only('layout init & findDataById', () => {
     const data = {
       isRoot: true,
       id: 'Root',
@@ -62,7 +62,7 @@ describe('tree graph without animate', () => {
     expect(nodeData).toEqual(data);
   });
 
-  it('layout without data & isLayoutAnimating', () => {
+  it.only('layout without data & isLayoutAnimating', () => {
     graph.data(null);
     expect(() => {
       graph.render();
@@ -72,7 +72,7 @@ describe('tree graph without animate', () => {
     expect(graph.isLayoutAnimating()).toBe(false);
   });
 
-  it('changeData', () => {
+  it.only('changeData', () => {
     const data = {
       isRoot: true,
       id: 'Root',
@@ -111,7 +111,7 @@ describe('tree graph without animate', () => {
     expect(edge.get('target')).toEqual(graph.findById('SubTreeNode4.1'));
   });
 
-  it('add child', () => {
+  it.only('add child', () => {
     const parent = graph.findById('SubTreeNode3');
 
     const child = {
@@ -121,6 +121,11 @@ describe('tree graph without animate', () => {
       type: 'rect',
       children: [{ x: 150, y: 150, id: 'SubTreeNode3.1.1' }],
     };
+    graph.on('afteraddchild', function(e) {
+      expect(e.item.getModel().id === 'SubTreeNode3.1' || e.item.getModel().id === 'SubTreeNode3.1.1').toBe(true);
+      expect(e.item.get('parent').getModel().id === 'SubTreeNode3' || e.item.get('parent').getModel().id === 'SubTreeNode3.1').toBe(true);
+      expect(e.parent.getModel().id === 'SubTreeNode3' || e.parent.getModel().id === 'SubTreeNode3.1').toBe(true);
+    });
 
     graph.addChild(child, parent);
 
@@ -571,6 +576,7 @@ describe('tree graph with animate', () => {
     let collapsed = true;
     graph3.on('afteranimate', () => {
       if (collapsed) {
+        console.log(parent.getModel().collapsed, child.destroyed)
         expect(parent.getModel().collapsed).toBe(true);
         expect(child.destroyed).toBe(true);
       } else {

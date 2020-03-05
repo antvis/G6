@@ -118,6 +118,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
     each(treeData.children || [], child => {
       self.innerAddChild(child, node, animate);
     });
+    self.emit('afteraddchild', { item: node, parent });
     return node;
   }
 
@@ -317,6 +318,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
    */
   public addChild(data: TreeGraphData, parent: string | Item): void {
     const self = this;
+    self.emit('beforeaddchild', { model: data, parent });
     // 将数据添加到源数据中，走changeData方法
     if (!isString(parent)) {
       parent = parent.get('id') as string;

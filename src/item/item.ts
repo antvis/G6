@@ -98,7 +98,6 @@ export default class ItemBase implements IItemBase {
 
     this.init();
     this.draw();
-    debugger
   }
 
   /**
