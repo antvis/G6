@@ -22,7 +22,7 @@ describe('tree graph without animate', () => {
     },
   });
 
-  it.only('layout init & findDataById', () => {
+  it('layout init & findDataById', () => {
     const data = {
       isRoot: true,
       id: 'Root',
@@ -62,7 +62,7 @@ describe('tree graph without animate', () => {
     expect(nodeData).toEqual(data);
   });
 
-  it.only('layout without data & isLayoutAnimating', () => {
+  it('layout without data & isLayoutAnimating', () => {
     graph.data(null);
     expect(() => {
       graph.render();
@@ -72,7 +72,7 @@ describe('tree graph without animate', () => {
     expect(graph.isLayoutAnimating()).toBe(false);
   });
 
-  it.only('changeData', () => {
+  it('changeData', () => {
     const data = {
       isRoot: true,
       id: 'Root',
@@ -111,7 +111,7 @@ describe('tree graph without animate', () => {
     expect(edge.get('target')).toEqual(graph.findById('SubTreeNode4.1'));
   });
 
-  it.only('add child', () => {
+  it('add child', () => {
     const parent = graph.findById('SubTreeNode3');
 
     const child = {

@@ -204,7 +204,7 @@ const data: any = {
   ],
 };
 
-describe.only('dagre layout', () => {
+describe('dagre layout', () => {
   it('layout with default configs', () => {
     const graph = new G6.Graph({
       container: div,
