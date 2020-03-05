@@ -6,7 +6,7 @@
 - fix: abnormal polyline bendding;
 - fix: collapse-expand trigger problem;
 - fix: update nodes with empty string label;
-- fix: abnormal rendering when a graph has image nodes and other type nodes;.
+- fix: abnormal rendering when a graph has image nodes and other type nodes.
 
 
 #### 3.3.6
