@@ -7,6 +7,8 @@ import {
   IShapeBase,
   Item,
   ModelConfig,
+  NodeConfig,
+  EdgeConfig,
   ModelStyle,
   ShapeStyle,
   Indexable,
@@ -128,7 +130,7 @@ export interface IItemBase {
    * 节点数据模型
    * @return {Object} 数据模型
    */
-  getModel(): ModelConfig;
+  getModel(): NodeConfig | EdgeConfig;
 
   /**
    * 节点类型

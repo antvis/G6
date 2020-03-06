@@ -11,7 +11,7 @@ export default class Behavior {
    * @param type Behavior 名称
    * @param behavior Behavior 定义的方法集合
    */
-  public static registerBehavior<T, U>(type: string, behavior: BehaviorOption<U>) {
+  public static registerBehavior(type: string, behavior: BehaviorOption) {
     if (!behavior) {
       throw new Error(`please specify handler for this behavior: ${type}`);
     }

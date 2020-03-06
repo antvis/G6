@@ -276,8 +276,10 @@ export interface TreeGraphData {
   x?: number;
   y?: number;
   children?: TreeGraphData[];
-  depth?: number;
   data?: ModelConfig;
+  side?: 'left' | 'right',
+  depth?: number;
+  collapsed ?: boolean;
 }
 
 // Behavior type file
@@ -331,30 +333,19 @@ export enum G6Event {
   CANVAS_DRAGEND = 'canvas:dragend',
 }
 
-type GetEvents = 'getEvents';
-type ShouldBegin = 'shouldBegin';
-type ShouldUpdate = 'shouldUpdate';
-type ShouldEnd = 'shouldEnd';
-type Bind = 'bind';
-type Unbind = 'unbind';
-
 export type DefaultBehaviorType = IG6GraphEvent | string | number | object;
 
-export type BehaviorOption<U> = {
-  [T in keyof U]: T extends GetEvents
-    ? () => { [key in G6Event]?: string }
-    : T extends ShouldBegin
-    ? (cfg?: ModelConfig) => boolean
-    : T extends ShouldEnd
-    ? (cfg?: ModelConfig) => boolean
-    : T extends ShouldUpdate
-    ? (cfg?: ModelConfig) => boolean
-    : T extends Bind
-    ? (graph: IGraph) => void
-    : T extends Unbind
-    ? (graph: IGraph) => void
-    : (...args: DefaultBehaviorType[]) => unknown;
-};
+export interface BehaviorOption {
+  getEvents(): {
+    [key in G6Event]?: string;
+  };
+  getDefaultCfg?(): object;
+  shouldBegin?(e?: IG6GraphEvent): boolean;
+  shouldUpdate?(e?: IG6GraphEvent): boolean;
+  shouldEnd?(e?: IG6GraphEvent): boolean;
+  bind?(e: IGraph): void;
+  unbind?(e: IGraph): void;
+}
 
 export type IEvent = Record<G6Event, string>;
 
