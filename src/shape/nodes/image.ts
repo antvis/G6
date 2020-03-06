@@ -54,7 +54,7 @@ Shape.registerNode(
     labelPosition: 'bottom',
     drawShape(cfg: NodeConfig, group: GGroup): IShape {
       const { shapeType } = this; // || this.type，都已经加了 shapeType
-      const style = (this as ShapeOptions).getShapeStyle!(cfg);
+      const style = this.getShapeStyle!(cfg);
       delete style.fill;
       const shape = group.addShape(shapeType, {
         attrs: style,
@@ -128,7 +128,7 @@ Shape.registerNode(
       }
     },
     getShapeStyle(cfg: NodeConfig) {
-      const size = (this as ShapeOptions).getSize!(cfg);
+      const size = this.getSize!(cfg);
       const img = cfg.img || this.options!.img;
       let width = size[0];
       let height = size[1];
@@ -153,7 +153,7 @@ Shape.registerNode(
       const group = item.getContainer();
       const shapeClassName = `${this.itemType}-shape`;
       const shape = group.find(element => element.get('className') === shapeClassName) || item.getKeyShape();
-      const shapeStyle = (this as ShapeOptions).getShapeStyle!(cfg);
+      const shapeStyle = this.getShapeStyle!(cfg);
       if (shape) {
         shape.attr(shapeStyle);
       }

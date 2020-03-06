@@ -53,7 +53,7 @@ Shape.registerNode(
     labelPosition: 'center',
     drawShape(cfg: NodeConfig, group: GGroup): IShape {
       const { icon: defaultIcon } = this.options as ModelConfig;
-      const style = (this as ShapeOptions).getShapeStyle!(cfg);
+      const style = this.getShapeStyle!(cfg);
       const icon = mix({}, defaultIcon, cfg.icon);
 
       const keyShape = group.addShape('path', {
