@@ -285,9 +285,9 @@ export interface IGraph extends EventEmitter {
    * @param {Item} item 元素id或元素实例
    * @param {EdgeConfig | NodeConfig} cfg 需要更新的数据
    */
-  updateItem(item: Item | string, cfg: EdgeConfig | NodeConfig): void;
+  updateItem(item: Item | string, cfg: Partial<NodeConfig> | EdgeConfig): void;
 
-  update(item: Item | string, cfg: EdgeConfig | NodeConfig): void;
+  update(item: Item | string, cfg: Partial<NodeConfig> | EdgeConfig): void;
 
   /**
    * 设置元素状态
