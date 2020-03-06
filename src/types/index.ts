@@ -95,7 +95,9 @@ export type ModelStyle = Partial<{
   [key: string]: unknown;
   style: ShapeStyle;
   stateStyles: {
-    [key: string]: ShapeStyle;
+    [key: string]: ShapeStyle | {
+      [key: string]: ShapeStyle
+    }
   };
   // loop edge config
   loopCfg: LoopConfig;
