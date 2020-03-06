@@ -91,7 +91,7 @@ Shape.registerNode(
     shapeType: 'modelRect',
     drawShape(cfg: NodeConfig, group: GGroup): IShape {
       const { preRect: defaultPreRect } = this.options as ModelConfig;
-      const style = (this as ShapeOptions).getShapeStyle!(cfg);
+      const style = this.getShapeStyle!(cfg);
       const size = (this as ShapeOptions).getSize!(cfg);
       const width = size[0];
       const height = size[1];
@@ -143,7 +143,7 @@ Shape.registerNode(
           attrs: {
             ...logoIconStyle,
             x: x || -width / 2 + (w as number) + (offset as number),
-            y: y || -h! / 2,
+            y: y || -(h as number) / 2,
             width: w,
             height: h,
           },
@@ -170,7 +170,7 @@ Shape.registerNode(
           attrs: {
             ...iconStyle,
             x: x || width / 2 - (w as number) + (offset as number),
-            y: y || -h! / 2,
+            y: y || -(h as number) / 2,
             width: w,
             height: h,
           },

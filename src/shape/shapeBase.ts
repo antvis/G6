@@ -8,7 +8,7 @@ import { ShapeOptions, ILabelConfig } from '../interface/shape';
 import { IPoint, Item, LabelStyle, ShapeStyle, ModelConfig } from '../types';
 import Global from '../global';
 import { mat3, transform } from '@antv/matrix-util';
-import { deepMix, each, mix, isBoolean, isPlainObject, clone } from '@antv/util';
+import { deepMix, each, mix, isString, isBoolean, isPlainObject, clone } from '@antv/util';
 
 const CLS_SHAPE_SUFFIX = '-shape';
 const CLS_LABEL_SUFFIX = '-label';

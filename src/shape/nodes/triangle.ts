@@ -55,7 +55,7 @@ Shape.registerNode(
     labelPosition: 'bottom',
     drawShape(cfg: NodeConfig, group: GGroup): IShape {
       const { icon: defaultIcon, direction: defaultDirection } = this.options as ModelConfig;
-      const style = (this as ShapeOptions).getShapeStyle!(cfg);
+      const style = this.getShapeStyle!(cfg);
       const icon = mix({}, defaultIcon, cfg.icon);
 
       const direction = cfg.direction || defaultDirection;
