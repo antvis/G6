@@ -411,7 +411,10 @@ describe('update', () => {
           stroke: '#ccc'
         },
         xxx: {
-          opacity: 0.1
+          opacity: 0.1,
+          'node-text': {
+            stroke: 'blue'
+          }
         }
       }
     })
@@ -461,6 +464,7 @@ describe('update', () => {
 
     graph.setItemState(item, 'xxx', true)
     expect(keyShape.attr('opacity')).toEqual(0.1)
+    expect(text.attr('stroke')).toEqual('blue')
 
     graph.destroy()
     expect(graph.destroyed).toBe(true)
