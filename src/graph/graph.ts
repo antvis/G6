@@ -786,9 +786,9 @@ export default class Graph extends EventEmitter implements IGraph {
   /**
    * 更新元素
    * @param {Item} item 元素id或元素实例
-   * @param {EdgeConfig | NodeConfig} cfg 需要更新的数据
+   * @param {Partial<NodeConfig> | EdgeConfig} cfg 需要更新的数据
    */
-  public updateItem(item: Item | string, cfg: EdgeConfig | NodeConfig): void {
+  public updateItem(item: Item | string, cfg: Partial<NodeConfig> | EdgeConfig): void {
     const itemController: ItemController = this.get('itemController');
     itemController.updateItem(item, cfg);
   }
@@ -796,9 +796,9 @@ export default class Graph extends EventEmitter implements IGraph {
   /**
    * 更新元素
    * @param {Item} item 元素id或元素实例
-   * @param {EdgeConfig | NodeConfig} cfg 需要更新的数据
+   * @param {Partial<NodeConfig> | EdgeConfig} cfg 需要更新的数据
    */
-  public update(item: Item | string, cfg: EdgeConfig | NodeConfig): void {
+  public update(item: Item | string, cfg: Partial<NodeConfig> | EdgeConfig): void {
     this.updateItem(item, cfg);
   }
 

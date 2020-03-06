@@ -22,7 +22,7 @@ export type ShapeOptions = Partial<{
   shapeType: string;
   labelPosition: string;
   labelAutoRotate: boolean;
-  [key: string]: unknown;
+  [key: string]: any;
 
   /**
    * 绘制
