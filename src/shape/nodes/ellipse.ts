@@ -56,7 +56,7 @@ Shape.registerNode(
     labelPosition: 'center',
     drawShape(cfg: NodeConfig, group: GGroup): IShape {
       const { icon: defaultIcon } = this.options as ModelConfig;
-      const style = (this as ShapeOptions).getShapeStyle!(cfg);
+      const style = this.getShapeStyle!(cfg);
       const icon = mix({}, defaultIcon, cfg.icon);
 
       const keyShape = group.addShape('ellipse', {
@@ -94,7 +94,7 @@ Shape.registerNode(
       const linkPoints = mix({}, defaultLinkPoints, cfg.linkPoints);
 
       const { top, left, right, bottom, size: markSize, ...markStyle } = linkPoints;
-      const size = (this as ShapeOptions).getSize!(cfg);
+      const size = this.getSize!(cfg);
       const rx = size[0] / 2;
       const ry = size[1] / 2;
 
@@ -170,7 +170,7 @@ Shape.registerNode(
       };
       // 如果设置了color，则覆盖默认的stroke属性
       const style = mix({}, defaultStyle, strokeStyle, cfg.style);
-      const size = (this as ShapeOptions).getSize!(cfg);
+      const size = this.getSize!(cfg);
       const rx = size[0] / 2;
       const ry = size[1] / 2;
       const styles = Object.assign(
@@ -188,7 +188,7 @@ Shape.registerNode(
     update(cfg: NodeConfig, item: Item) {
       const group = item.getContainer();
       const { style: defaultStyle } = this.options as ModelConfig;
-      const size = (this as ShapeOptions).getSize!(cfg);
+      const size = this.getSize!(cfg);
 
       const strokeStyle = {
         stroke: cfg.color,

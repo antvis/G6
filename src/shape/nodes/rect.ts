@@ -48,7 +48,7 @@ Shape.registerNode(
     shapeType: 'rect',
     labelPosition: 'center',
     drawShape(cfg: NodeConfig, group: GGroup): IShape {
-      const style = (this as ShapeOptions).getShapeStyle!(cfg);
+      const style = this.getShapeStyle!(cfg);
 
       const keyShape = group.addShape('rect', {
         attrs: style,
