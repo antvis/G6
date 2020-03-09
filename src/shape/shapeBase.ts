@@ -163,7 +163,7 @@ export const shapeBase: ShapeOptions = {
     const label = group.find(element => element.get('className') === labelClassName);
 
     // 防止 cfg.label = "" 的情况
-    if (isString(cfg.label)) {
+    if (cfg.label || cfg.label === '') {
       // 若传入的新配置中有 label，（用户没传入但原先有 label，label 也会有值）
       if (!label) {
         // 若原先不存在 label，则绘制一个新的 label
