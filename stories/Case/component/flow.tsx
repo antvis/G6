@@ -268,7 +268,7 @@ const CustomFlow = () => {
               text: cfg.data && cfg.data.type,
               x: line2StartPoint.x + labelLeftOffset,
               y: endPoint.y - labelTopOffset - amount.getBBox().height - 2,
-              fontSize: 10,
+              fontSize: 12,
               textAlign: 'left',
               textBaseline: 'middle',
               fill: '#000000D9',
@@ -299,6 +299,8 @@ const CustomFlow = () => {
         container: container.current as string | HTMLElement,
         width: 1000,
         height: 1000,
+        renderer: 'svg',
+        fitView: true,
         layout: {
           type: 'dagre',
           rankdir: 'LR',
@@ -306,14 +308,14 @@ const CustomFlow = () => {
           ranksep: 100,
         },
         modes: {
-          default: ['drag-canvas'],
+          default: ['drag-canvas', 'zoom-canvas', 'drag-node'],
         },
         defaultNode: {
           type: 'round-rect', //'round-rect', // 'rect',//
           labelCfg: {
             style: {
               fill: '#000000A6',
-              fontSize: 10,
+              fontSize: 12,
             },
           },
           style: {
