@@ -114,8 +114,6 @@ export default {
     const activeState = this.get('activeState');
     const inactiveState = this.get('inactiveState');
 
-    const autoPaint = graph.get('autoPaint');
-    graph.setAutoPaint(false);
     graph.getNodes().forEach(node => {
       graph.clearItemStates(node, [activeState, inactiveState]);
     });
