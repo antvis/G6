@@ -34,7 +34,11 @@ import G6 from '@antv/g6';
 ### 2 在 HTML 中使用  CDN 引入
 
 ```html
+// version <= 3.2
 <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-{$version}/build/g6.js"></script>
+
+// version >= 3.3
+<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-{$version}/dist/g6.min.js"></script>
 ```
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span>
