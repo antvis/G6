@@ -1,6 +1,6 @@
 ---
 title: React 中使用 G6
-order: 9
+order: 10
 ---
 
 ### 概述

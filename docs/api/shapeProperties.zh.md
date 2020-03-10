@@ -298,3 +298,36 @@ group.addShape('text', {
   name: 'text-shape',
 });
 ```
+
+## DOM (svg)
+
+> 仅在 Graph 的 `renderer` 为 `'svg'` 时可以使用。
+
+### 特殊属性
+
+| 属性名 | 含义 | 备注 |
+| --- | --- | --- |
+| html | DOM 的 html 值 |  |
+
+### 用法
+
+```javascript
+group.addShape('dom', {
+  attrs: {
+    width: cfg.size[0],
+    height: cfg.size[1],
+    // DOM's html
+    html: `
+    <div style="background-color: #fff; border: 2px solid #5B8FF9; border-radius: 5px; width: ${cfg.size[0]-5}px; height: ${cfg.size[1]-5}px; display: flex;">
+      <div style="height: 100%; width: 33%; background-color: #CDDDFD">
+        <img style="line-height: 100%; padding-top: 6px; padding-left: 8px;" src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q_FQT6nwEC8AAAAAAAAAAABkARQnAQ" width="20" height="20" />  
+      </div>
+      <span style="margin:auto; padding:auto; color: #5B8FF9">${cfg.label}</span>
+    </div>
+      `
+  },
+  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  name: 'dom-shape',
+  draggable: true,
+});
+```
