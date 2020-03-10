@@ -8,7 +8,7 @@ import { ShapeOptions, ILabelConfig } from '../interface/shape';
 import { IPoint, Item, LabelStyle, ShapeStyle, ModelConfig } from '../types';
 import Global from '../global';
 import { mat3, transform } from '@antv/matrix-util';
-import { deepMix, each, mix, isString, isBoolean, isPlainObject, clone } from '@antv/util';
+import { deepMix, each, mix, isString, isBoolean, isPlainObject, clone, indexOf } from '@antv/util';
 
 const CLS_SHAPE_SUFFIX = '-shape';
 const CLS_LABEL_SUFFIX = '-label';
@@ -288,7 +288,8 @@ export const shapeBase: ShapeOptions = {
           }
         } else {
           // 从图元素现有的样式中删除本次要取消的 states 中存在的属性值
-          if(keyShapeStyles[p]) {
+          const keptAttrs = ['x', 'y', 'cx', 'cy'];
+          if(keyShapeStyles[p] && !(keptAttrs.indexOf(p) > -1)) {
             delete keyShapeStyles[p]
           }
         }
