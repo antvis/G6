@@ -279,7 +279,9 @@ export default class ItemBase implements IItemBase {
     const styles = this.get('styles');
     if (styles) {
       // merge graph的item样式与数据模型中的样式
-      const newModel = Object.assign({}, model);
+      // const newModel = Object.assign({}, model);
+      // newModel.style = Object.assign({}, styles, model.style);
+      const newModel = model;
       newModel.style = Object.assign({}, styles, model.style);
       return newModel;
     }

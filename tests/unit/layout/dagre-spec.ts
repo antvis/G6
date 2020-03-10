@@ -336,9 +336,8 @@ describe('dagre layout', () => {
         controlPoints: true,
         ranksep: null,
       },
-      renderer: 'svg',
       defaultEdge: {
-        type: 'line',
+        type: 'polyline',
         style: {
           radius: 20,
         },
@@ -361,9 +360,7 @@ describe('dagre layout', () => {
     expect(edge.controlPoints).not.toEqual(undefined);
     expect(mathEqual(edge.controlPoints[0].x, 125)).toEqual(true);
     expect(mathEqual(edge.controlPoints[0].y, 60)).toEqual(true);
-    console.log(graph.getEdges());
-    console.log('edge 0 model', graph.getEdges()[0].getModel());
-    // graph.destroy();
+    graph.destroy();
   });
   it('dagre with array size in node data', () => {
     data.edges.forEach(edgeItem => {
