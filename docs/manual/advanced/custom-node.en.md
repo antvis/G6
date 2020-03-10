@@ -5,7 +5,8 @@ order: 2
 
 G6 provides abundant [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode), including [circle](/en/docs/manual/middle/elements/nodes/circle), [rect](/en/docs/manual/middle/elements/nodes/rect, [ellipse](/en/docs/manual/middle/elements/nodes/ellipse), [diamond](/en/docs/manual/middle/elements/nodes/diamond), [triangle](/en/docs/manual/middle/elements/nodes/triangle), [star](/en/docs/manual/middle/elements/nodes/star), [image](/en/docs/manual/middle/elements/nodes/image), [modelRect](/en/docs/manual/middle/elements/nodes/modelRect). Besides, the custom machanism allows the users to design their own type of nodes by `G6.registerNode('nodeName', options)`. A node with complex graphics shapes, complex interactions, fantastic animations can be implemented easily.
 
-In this document, we will introduce the custom enodeby four examples: <br />1. Register a bran-new edge; <br />2. Register an edge by extending a built-in edge; <br />3. Register an edge with interactions and styles; <br />4. Register an edge with custom arrow.
+In this document, we will introduce the custom enodeby five examples: <br />1. Register a bran-new edge; <br />2. Register an edge by extending a built-in edge; <br />3. Register an edge with interactions and styles; <br />4. Register an edge with custom arrow;<br /> 5. Custom Node with DOM.</strong>
+
 
 <br />
 <strong>1. Register a bran-new node: </strong>Draw the graphics; Optimize the performance.
@@ -452,4 +453,66 @@ graph.on('node:mouseleave', ev => {
   const node = ev.item;
   graph.setItemState(node, 'running', false);
 });
+```
+
+
+## 5. Custom Node with DOM
+
+> SVG and DOM shape are not supported in V3.3.x.
+
+Here, we demonstrate customing a node named `'dom-node'` with DOM. We add a `'dom'` type shape with `group.addShape` in `draw` function, and set the `html` of it to be the `html` value we want.
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VgQlQK1MdbIAAAAAAAAAAABkARQnAQ' alt='img' width='120'/>
+
+```javascript
+G6.registerNode('dom-node', {
+  draw: (cfg: ModelConfig, group: Group) => {
+    return group.addShape('dom', {
+      attrs: {
+        width: cfg.size[0],
+        height: cfg.size[1],
+        // DOM's html
+        html: `
+        <div style="background-color: #fff; border: 2px solid #5B8FF9; border-radius: 5px; width: ${cfg.size[0]-5}px; height: ${cfg.size[1]-5}px; display: flex;">
+          <div style="height: 100%; width: 33%; background-color: #CDDDFD">
+            <img style="line-height: 100%; padding-top: 6px; padding-left: 8px;" src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q_FQT6nwEC8AAAAAAAAAAABkARQnAQ" width="20" height="20" />  
+          </div>
+          <span style="margin:auto; padding:auto; color: #5B8FF9">${cfg.label}</span>
+        </div>
+          `
+      },
+      draggable: true
+    });
+  },
+}, 'single-node');
+```
+
+Now, we have `'dom-node'` type of node with DOM. Be attention that you should assign `name` and `draggable` for the shapes you added after V3.3, where `name` is an ununique string. The shape is allowed to be dragged when `draggable` is `true`.
+
+We render the graph with `'dom-node'` as following:
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*coxYTo3zEecAAAAAAAAAAABkARQnAQ' alt='img' width='300'/>
+
+```javascript
+const data = {
+  nodes: [
+    { id: 'node1', x: 50, y: 100 },
+    { id: 'node2', x: 150, y: 100 },
+  ],
+  edges: [
+    source: 'node1',
+    target: 'node2'
+  ]
+};
+const graph = new G6.Graph({
+  container: 'mountNode',
+  width: 500,
+  height: 500,
+  defaultNode: {
+    type: 'dom-node',
+    size: [120, 40]
+  }
+});
+graph.data(data);
+graph.render();
 ```

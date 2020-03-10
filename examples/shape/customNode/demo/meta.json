@@ -5,6 +5,11 @@
   },
   "demos": [
     {
+      "filename": "svgDom.js",
+      "title": "DOM 节点",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VgQlQK1MdbIAAAAAAAAAAABkARQnAQ"
+    },
+    {
       "filename": "areaChart.js",
       "title": "面积图",
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YWuhR5ZjZfkAAAAAAAAAAABkARQnAQ"
