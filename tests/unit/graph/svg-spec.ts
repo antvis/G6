@@ -1225,104 +1225,104 @@ describe('behaviors', () => {
   graph.data(data);
   graph.render();
   const item = graph.getNodes()[0];
-//   it('active-relations', () => {
-//     graph.emit('node:mouseenter', { item })
-//     const itemKeyShape = item.get('group').get('children')[0];
-//     expect(itemKeyShape.attr('stroke')).toBe('#000');
-//     expect(itemKeyShape.attr('lineWidth')).toBe(2);
-//     const relativeNode = graph.getNodes()[1];
-//     const relativeNodeKeyShape = relativeNode.get('group').get('children')[0];
-//     expect(relativeNodeKeyShape.attr('stroke')).toBe('#000');
-//     expect(relativeNodeKeyShape.attr('lineWidth')).toBe(2);
-//     const relativeEdge = graph.getEdges()[0];
-//     const relativeEdgeKeyShape = relativeEdge.get('group').get('children')[0];
-//     expect(relativeEdgeKeyShape.attr('stroke')).toBe('#000');
+  it('active-relations', () => {
+    graph.emit('node:mouseenter', { item })
+    const itemKeyShape = item.get('group').get('children')[0];
+    expect(itemKeyShape.attr('stroke')).toBe('#000');
+    expect(itemKeyShape.attr('lineWidth')).toBe(2);
+    const relativeNode = graph.getNodes()[1];
+    const relativeNodeKeyShape = relativeNode.get('group').get('children')[0];
+    expect(relativeNodeKeyShape.attr('stroke')).toBe('#000');
+    expect(relativeNodeKeyShape.attr('lineWidth')).toBe(2);
+    const relativeEdge = graph.getEdges()[0];
+    const relativeEdgeKeyShape = relativeEdge.get('group').get('children')[0];
+    expect(relativeEdgeKeyShape.attr('stroke')).toBe('#000');
 
-//     const unrelativeNode = graph.getNodes()[2];
-//     const unrelativeNodeKeyShape = unrelativeNode.get('group').get('children')[0];
-//     expect(unrelativeNodeKeyShape.attr('lineWidth')).toBe(1);
-//     expect(unrelativeNodeKeyShape.attr('stroke')).toBe('#5B8FF9');
-//     expect(unrelativeNodeKeyShape.attr('opacity')).toBe(0.1);
-//     const unrelativeEdge = graph.getEdges()[1];
-//     const unrelativeEdgeKeyShape = unrelativeEdge.get('group').get('children')[0];
-//     expect(unrelativeEdgeKeyShape.attr('stroke')).toBe('#e2e2e2');
-//     expect(unrelativeEdgeKeyShape.attr('opacity')).toBe(0.1);
+    const unrelativeNode = graph.getNodes()[2];
+    const unrelativeNodeKeyShape = unrelativeNode.get('group').get('children')[0];
+    expect(unrelativeNodeKeyShape.attr('lineWidth')).toBe(1);
+    expect(unrelativeNodeKeyShape.attr('stroke')).toBe('#5B8FF9');
+    expect(unrelativeNodeKeyShape.attr('opacity')).toBe(0.1);
+    const unrelativeEdge = graph.getEdges()[1];
+    const unrelativeEdgeKeyShape = unrelativeEdge.get('group').get('children')[0];
+    expect(unrelativeEdgeKeyShape.attr('stroke')).toBe('#e2e2e2');
+    expect(unrelativeEdgeKeyShape.attr('opacity')).toBe(0.1);
 
-//     graph.emit('node:mouseleave', { item });
-//     expect(itemKeyShape.attr('stroke')).toBe('#5B8FF9');
-//     expect(itemKeyShape.attr('lineWidth')).toBe(1);
-//     expect(unrelativeNodeKeyShape.attr('lineWidth')).toBe(1);
-//     expect(unrelativeNodeKeyShape.attr('stroke')).toBe('#5B8FF9');
-//     expect(unrelativeNodeKeyShape.attr('opacity')).toBe(1);
+    graph.emit('node:mouseleave', { item });
+    expect(itemKeyShape.attr('stroke')).toBe('#5B8FF9');
+    expect(itemKeyShape.attr('lineWidth')).toBe(1);
+    expect(unrelativeNodeKeyShape.attr('lineWidth')).toBe(1);
+    expect(unrelativeNodeKeyShape.attr('stroke')).toBe('#5B8FF9');
+    expect(unrelativeNodeKeyShape.attr('opacity')).toBe(1);
 
-//   });
-//   it('click-select', () => {
-//     graph.setMode('select');
-//     graph.emit('node:click', { item })
-//     const itemKeyShape = item.get('group').get('children')[0];
-//     expect(itemKeyShape.attr('fill')).toBe('#f00');
+  });
+  it('click-select', () => {
+    graph.setMode('select');
+    graph.emit('node:click', { item })
+    const itemKeyShape = item.get('group').get('children')[0];
+    expect(itemKeyShape.attr('fill')).toBe('#f00');
 
-//     const item2 = graph.getNodes()[1];
-//     const item2KeyShape = item2.get('group').get('children')[0];
-//     expect(item2KeyShape.attr('fill')).toBe('#C6E5FF');
+    const item2 = graph.getNodes()[1];
+    const item2KeyShape = item2.get('group').get('children')[0];
+    expect(item2KeyShape.attr('fill')).toBe('#C6E5FF');
 
-//     graph.emit('node:click', { item: item2 })
-//     expect(item2KeyShape.attr('fill')).toBe('#f00');
-//     expect(itemKeyShape.attr('fill')).toBe('#C6E5FF');
+    graph.emit('node:click', { item: item2 })
+    expect(item2KeyShape.attr('fill')).toBe('#f00');
+    expect(itemKeyShape.attr('fill')).toBe('#C6E5FF');
 
-//     graph.emit('node:click', { item: item2 })
-//     expect(item2KeyShape.attr('fill')).toBe('#C6E5FF');
+    graph.emit('node:click', { item: item2 })
+    expect(item2KeyShape.attr('fill')).toBe('#C6E5FF');
 
-//     // multiple select
-//     graph.addBehaviors(['click-select'], 'multiSelect');
-//     graph.setMode('multiSelect');
-//     graph.emit('keydown', { key: 'shift' })
-//     graph.emit('node:click', { item });
-//     graph.emit('node:click', { item: item2 });
-//     expect(itemKeyShape.attr('fill')).toBe('#f00');
-//     expect(item2KeyShape.attr('fill')).toBe('#f00');
+    // multiple select
+    graph.addBehaviors(['click-select'], 'multiSelect');
+    graph.setMode('multiSelect');
+    graph.emit('keydown', { key: 'shift' })
+    graph.emit('node:click', { item });
+    graph.emit('node:click', { item: item2 });
+    expect(itemKeyShape.attr('fill')).toBe('#f00');
+    expect(item2KeyShape.attr('fill')).toBe('#f00');
     
-//     graph.emit('canvas:click');
-//     expect(itemKeyShape.attr('fill')).toBe('#C6E5FF');
-//     expect(item2KeyShape.attr('fill')).toBe('#C6E5FF');
+    graph.emit('canvas:click');
+    expect(itemKeyShape.attr('fill')).toBe('#C6E5FF');
+    expect(item2KeyShape.attr('fill')).toBe('#C6E5FF');
 
-//   });
-//   it('brush-select', () => {
-//     graph.setMode('default');
+  });
+  it('brush-select', () => {
+    graph.setMode('default');
 
-//     graph.once('nodeselectchange', (evt) => {
-//       expect(evt.selectedItems.edges.length).toBe(4);
-//       expect(evt.selectedItems.nodes.length).toBe(3);
-//     });
+    graph.once('nodeselectchange', (evt) => {
+      expect(evt.selectedItems.edges.length).toBe(4);
+      expect(evt.selectedItems.nodes.length).toBe(3);
+    });
 
-//     graph.emit('keydown', { key: 'shift' });
-//     // should not start when it start at an item
-//     graph.emit('dragstart', { item, canvasX: 0, canvasY: 0, x: 0, y: 0 });
-//     graph.emit('drag', { canvasX: 300, canvasY: 300, x: 300, y: 300 });
-//     graph.emit('dragend', { canvasX: 300, canvasY: 300, x: 300, y: 300 });
-//     graph.emit('keyup', { key: 'shift' });
-//     const itemKeyShape = item.get('group').get('children')[0];
-//     expect(itemKeyShape.attr('fill')).toBe('#C6E5FF');
+    graph.emit('keydown', { key: 'shift' });
+    // should not start when it start at an item
+    graph.emit('dragstart', { item, canvasX: 0, canvasY: 0, x: 0, y: 0 });
+    graph.emit('drag', { canvasX: 300, canvasY: 300, x: 300, y: 300 });
+    graph.emit('dragend', { canvasX: 300, canvasY: 300, x: 300, y: 300 });
+    graph.emit('keyup', { key: 'shift' });
+    const itemKeyShape = item.get('group').get('children')[0];
+    expect(itemKeyShape.attr('fill')).toBe('#C6E5FF');
 
-//     graph.emit('keydown', { key: 'shift' });
-//     graph.emit('dragstart', { canvasX: 0, canvasY: 0, x: 0, y: 0 });
-//     graph.emit('drag', { canvasX: 300, canvasY: 300, x: 300, y: 300 });
-//     graph.emit('dragend', { canvasX: 300, canvasY: 300, x: 300, y: 300 });
-//     graph.emit('keyup', { key: 'shift' });
-//     expect(itemKeyShape.attr('fill')).toBe('#f00');
-//     const item2KeyShape = graph.getNodes()[1].get('group').get('children')[0];
-//     expect(item2KeyShape.attr('fill')).toBe('#f00');
+    graph.emit('keydown', { key: 'shift' });
+    graph.emit('dragstart', { canvasX: 0, canvasY: 0, x: 0, y: 0 });
+    graph.emit('drag', { canvasX: 300, canvasY: 300, x: 300, y: 300 });
+    graph.emit('dragend', { canvasX: 300, canvasY: 300, x: 300, y: 300 });
+    graph.emit('keyup', { key: 'shift' });
+    expect(itemKeyShape.attr('fill')).toBe('#f00');
+    const item2KeyShape = graph.getNodes()[1].get('group').get('children')[0];
+    expect(item2KeyShape.attr('fill')).toBe('#f00');
 
-//     graph.once('nodeselectchange', evt => {
-//       expect(evt.select).toBe(false);
-//       expect(evt.selectedItems.edges.length).toBe(0);
-//       expect(evt.selectedItems.nodes.length).toBe(0);
-//     });
+    graph.once('nodeselectchange', evt => {
+      expect(evt.select).toBe(false);
+      expect(evt.selectedItems.edges.length).toBe(0);
+      expect(evt.selectedItems.nodes.length).toBe(0);
+    });
 
-//     graph.emit('canvas:click', { })
-//     expect(itemKeyShape.attr('fill')).toBe('#C6E5FF');
-//     expect(item2KeyShape.attr('fill')).toBe('#C6E5FF');
-//   });
+    graph.emit('canvas:click', { })
+    expect(itemKeyShape.attr('fill')).toBe('#C6E5FF');
+    expect(item2KeyShape.attr('fill')).toBe('#C6E5FF');
+  });
 
   it('drag-node', () => {
     graph.emit('node:dragstart', { item, target: item, x: 0, y: 0});
@@ -1332,9 +1332,8 @@ describe('behaviors', () => {
     expect(item.getModel().x).toBe(100);
     expect(item.getModel().y).toBe(300);
     const edge = graph.getEdges()[0];
-    console.log(edge.getModel());
-    // expect(edge.getModel().startPoint.x).toBe(98.61228093904431);
-    // expect(edge.getModel().startPoint.y).toBe(289.5921070428323);
+    expect(edge.getModel().startPoint.x).toBe(98.61228093904431);
+    expect(edge.getModel().startPoint.y).toBe(289.5921070428323);
 
     // multiple selected nodes to drag
     const item2 = graph.getNodes()[1];
