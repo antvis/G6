@@ -279,7 +279,8 @@ group.addShape('path', {
 | fontWeight | The font weight of the text. | The corresponding property in CSS is `font-weight` |
 | fontSize | The font size of the text. | The corresponding property in CSS is `font-size` |
 | fontFamily | The font family of the text. | The corresponding property in CSS is `font-family` |
-| autoRotate | Wheter rotate the text according to the edge automatically if it is a label of an edge. |  |
+| lineHeight | Line height of the text | The corresponding property in CSS is `line-height` |
+
 
 ### Usage
 

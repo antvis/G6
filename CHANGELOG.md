@@ -1,4 +1,8 @@
 # ChangeLog
+#### 3.4.o
+- feat: SVG renderer;
+- refactor: new state machinism with multiple values, sub graphics shape style settings.
+
 #### 3.3.7
 - feat: beforeaddchild and afteraddchild emit for TreeGraph;
 - feat: built-in nodes' labels can be captured;
