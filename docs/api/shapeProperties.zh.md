@@ -279,6 +279,7 @@ group.addShape('path', {
 | fontWeight | 字体粗细 | 对应 `font-weight` |
 | fontSize | 字体大小 | 对应 `font-size` |
 | fontFamily | 字体系列 | 对应 `font-family` |
+| lineHeight | 行高 | 对应 `line-height` |
 
 ### 用法
 
