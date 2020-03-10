@@ -1,6 +1,6 @@
 import { Point } from '@antv/g-base/lib/types';
 import Group from '@antv/g-canvas/lib/group';
-import { mix, each } from '@antv/util';
+import { mix, each, isNumber } from '@antv/util';
 import { ModelConfig, ShapeStyle } from '../../types';
 import { pointsToPolygon } from '../../util/path';
 import Global from '../../global';
@@ -40,6 +40,7 @@ Shape.registerEdge(
         name: 'edge-shape',
         attrs: shapeStyle,
       });
+      console.log('draw polyline', shapeStyle.path);
       return keyShape;
     },
     getShapeStyle(cfg: ModelConfig): ShapeStyle {
@@ -55,7 +56,7 @@ Shape.registerEdge(
       this.radius = style.radius;
       this.offset = style.offset;
 
-      const { startPoint, endPoint } = cfg;
+      let { startPoint, endPoint } = cfg;
       const controlPoints = (this as any).getControlPoints(cfg);
       let points = [startPoint]; // 添加起始点
       // 添加控制点
@@ -71,8 +72,15 @@ Shape.registerEdge(
         routeCfg = { source, target, offset: style.offset, radius: style.radius };
       }
       this.routeCfg = routeCfg;
-
+      console.log('startPoint.x === NaN', startPoint.x, isNaN(startPoint.x))
+      if (isNaN(startPoint.x) || isNaN(startPoint.y)) {
+        startPoint = {x: 0, y: 0};
+      } 
+      if (isNaN(endPoint.x) || isNaN(endPoint.y)) {
+        endPoint = {x: 0, y: 0};
+      }
       const path = (this as any).getPath(points);
+      console.log('points', points, startPoint, endPoint, path);
       const attrs: ShapeStyle = mix({}, Global.defaultEdge.style as ShapeStyle, style, {
         lineWidth: cfg.size,
         path,
