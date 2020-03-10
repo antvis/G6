@@ -1,6 +1,6 @@
 ---
 title: G6 状态管理的最佳实践
-order: 5
+order: 7
 ---
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 多值状态、互斥状态、设置子图形状态样式、修改状态样式配置在 V3.4 后支持。

@@ -1,5 +1,5 @@
 # ChangeLog
-#### 3.4.o
+#### 3.4.0
 - feat: SVG renderer;
 - refactor: new state machinism with multiple values, sub graphics shape style settings.
 
