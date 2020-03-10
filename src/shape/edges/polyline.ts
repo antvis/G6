@@ -40,7 +40,6 @@ Shape.registerEdge(
         name: 'edge-shape',
         attrs: shapeStyle,
       });
-      console.log('draw polyline', shapeStyle.path);
       return keyShape;
     },
     getShapeStyle(cfg: ModelConfig): ShapeStyle {
