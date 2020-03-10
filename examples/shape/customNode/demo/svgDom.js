@@ -9,181 +9,48 @@ import G6 from '@antv/g6';
 /**
  * 注册一个带有 DOM 的节点
  */
+
 G6.registerNode('dom-node', {
-  draw(cfg, group) {
-    const baseR = 30;
-
-    // Ref line
-    let refR = baseR;
-    const refInc = 10;
-    for (let i = 0; i < 6; i++) {
-      group.addShape('circle', {
-        // attrs: style
-        attrs: {
-          x: 0, // 居中
-          y: 0,
-          r: (refR += refInc),
-          stroke: '#bae7ff',
-          // stroke: 'rgba(255,255,255,0.4)',
-          lineDash: [4, 4],
-        },
-        name: 'circle-shape',
-      });
-    }
-    const everyIncAngle = (2 * Math.PI * (360 / 5)) / 360;
-    const tempIncValues = [baseR, baseR, baseR, baseR, baseR];
-    const allRs = [];
-    cfg.details.forEach(cat => {
-      const oneRs = [];
-      cat.values.forEach((v, i) => {
-        const R = tempIncValues[i] + v * 0.4;
-        oneRs.push(R);
-        tempIncValues[i] = R;
-      });
-      allRs.push(oneRs);
-    });
-    const strokeColors = [
-      'rgba(91, 143, 249,1)',
-      'rgba(90, 216, 166,1)',
-      'rgba(246, 189, 22,1)',
-      'rgba(232, 104, 74,1)',
-      'rgba(255, 157, 77,1)',
-    ];
-    const fillColors = [
-      'rgba(91, 143, 249,0.5)',
-      'rgba(90, 216, 166,0.5)',
-      'rgba(246, 189, 22,0.5)',
-      'rgba(232, 104, 74,0.5)',
-      'rgba(255, 157, 77,0.5)',
-    ];
-
-    allRs.reverse().forEach((Rs, index) => {
-      let curAngle = 0;
-      const poss = [];
-      Rs.forEach(r => {
-        const xPos = r * Math.cos(curAngle);
-        const yPos = r * Math.sin(curAngle);
-        curAngle += everyIncAngle;
-        poss.push([xPos, yPos]);
-      });
-      const Ls = poss.map((p, i) => {
-        if (i === 0) {
-          return ['M', ...p];
-        }
-        return ['L', ...p];
-      });
-
-      group.addShape('path', {
-        attrs: {
-          path: [
-            ...Ls,
-            ['Z'], // 封闭
-          ],
-          stroke: strokeColors[index],
-          fill: fillColors[index],
-        },
-        name: 'path-shape1',
-      });
-    });
-    let nowAngle2 = 0;
-    const everyIncAngleCat = (2 * Math.PI * (360 / 5)) / 360;
-    for (let i = 0; i < 5; i++) {
-      const r = 30 + 60;
-      const xPos = r * Math.cos(nowAngle2);
-      const yPos = r * Math.sin(nowAngle2);
-
-      group.addShape('path', {
-        attrs: {
-          path: [
-            ['M', 0, 0],
-            ['L', xPos, yPos],
-          ],
-          lineDash: [4, 4],
-          stroke: 'darkgray', // 颜色应用到边上，如果应用到填充，则使用 fill: cfg.color
-        },
-        name: 'path-shape2',
-      });
-      nowAngle2 += everyIncAngleCat;
-    }
-
-    // 添加一个和背景色相同的圆形
-    group.addShape('circle', {
-      // attrs: style
+  draw: (cfg, group) => {
+    const shape =  group.addShape('dom', {
       attrs: {
-        x: 0, // 居中
-        y: 0,
-        r: baseR,
-        fill: cfg.centerColor,
-        stroke: 'darkgray',
+        width: cfg.size[0],
+        height: cfg.size[1],
+        html: `
+        <div style="background-color: #fff; border: 2px solid #5B8FF9; border-radius: 5px; width: ${cfg.size[0]-5}px; height: ${cfg.size[1]-5}px; display: flex;">
+          <div style="height: 100%; width: 33%; background-color: #CDDDFD">
+            <img style="line-height: 100%; margin-left: 7px;" src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q_FQT6nwEC8AAAAAAAAAAABkARQnAQ" width="20" height="20" />  
+          </div>
+          <span style="margin:auto; padding:auto; color: #5B8FF9">${cfg.label}</span>
+        </div>
+          `
       },
-      name: 'circle-shape',
+      draggable: true
     });
-
-    if (cfg.label) {
-      group.addShape('text', {
-        // attrs: style
-        attrs: {
-          x: 0, // 居中
-          y: 0,
-          textAlign: 'center',
-          textBaseline: 'middle',
-          text: cfg.label,
-          fill: 'white',
-          fontStyle: 'bold',
-        },
-        name: 'text-shape',
-      });
-    }
-    return group;
-  },
-});
+    return shape;
+  }
+}, 'single-node');
 
 /** 数据 */
 const data = {
   nodes: [
     {
-      id: 'nodeD',
-      x: 150,
-      y: 150,
-      label: 'Area1',
-      type: 'area',
-      anchorPoints: [
-        [0, 0.5],
-        [1, 0.5],
-      ],
-      details: [
-        { cat: 'pv', values: [20, 30, 40, 30, 30], color: '#5ad8a6' },
-        { cat: 'dal', values: [40, 30, 20, 30, 50], color: '#ff99c3' },
-        { cat: 'uv', values: [40, 30, 30, 40, 40], color: '#6dc8ec' },
-        { cat: 'sal', values: [20, 30, 50, 20, 20], color: '#269a99' },
-        { cat: 'cal', values: [10, 10, 20, 20, 20], color: '#9270CA' },
-      ],
-      centerColor: '#5b8ff9',
+      id: 'node1',
+      x: 100,
+      y: 200,
+      label: '首页监控',
     },
     {
-      id: 'nodeD2',
-      x: 500,
-      y: 150,
-      label: 'Area2',
-      type: 'area',
-      anchorPoints: [
-        [0, 0.5],
-        [1, 0.5],
-      ],
-      details: [
-        { cat: 'pv', values: [10, 10, 80, 20, 10], color: '#5ad8a6' },
-        { cat: 'dal', values: [20, 30, 10, 50, 40], color: '#ff99c3' },
-        { cat: 'uv', values: [10, 50, 30, 20, 30], color: '#6dc8ec' },
-        { cat: 'sal', values: [70, 30, 20, 20, 20], color: '#269a99' },
-        { cat: 'cal', values: [50, 10, 20, 70, 30], color: '#9270CA' },
-      ],
-      centerColor: '#5b8ff9',
+      id: 'node2',
+      x: 300,
+      y: 200,
+      label: '子页面',
     },
   ],
   edges: [
     {
-      source: 'nodeD',
-      target: 'nodeD2',
+      source: 'node1',
+      target: 'node2',
     },
   ],
 };
@@ -194,6 +61,12 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
+  renderer: 'svg',
+  linkCenter: true,
+  defaultNode: {
+    type: 'dom-node',
+    size: [120, 40]
+  }
 });
 
 graph.data(data);

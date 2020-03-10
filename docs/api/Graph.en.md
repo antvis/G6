@@ -40,6 +40,7 @@ The life cycle of an instance of Graph is: Initialize -> Load data -> Render -> 
 | groupType | String | circle | Group type for nodes. Options: `'circle'` or `'rect'`. |
 | groupStyle | Object |  | Group style for nodes, please refer to [Node Group](/en/docs/manual/middle/nodeGroup) for detail. |
 | layout | Object |  | Configurations for layout. The `type` in it is the name of layout method with the options: `'random'`, `'radial'`, `'mds'`, `'circular'`, `'fruchterman'`, `'force'`, `'dagre'`, `'concentric'`, `'grid'`. For more configurations for different layout methods, please refer to [Layout API](/en/docs/api/layout/Layout). |
+| renderer | String | 'canvas' / 'svg' | Render the graph with Canvas or SVG. It is supported expecting V3.3.x |
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> In G6 3.1, we added two new configurations for graph: `nodeStateStyles` and `edgeStateStyles`. In the same time, we deleted `nodeStyle` and `edgeStyle` . To upgrate, replace `nodeStyle` with `nodeStateStyles`, and replace `edgeStyle` with `edgeStateStyles`, and keep the sub-configuration inside them.
 
