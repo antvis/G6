@@ -338,7 +338,7 @@ describe('dagre layout', () => {
       },
       renderer: 'svg',
       defaultEdge: {
-        type: 'polyline',
+        type: 'line',
         style: {
           radius: 20,
         },

@@ -83,6 +83,7 @@ export default class Node extends Item implements INode {
     const { centerX, centerY } = bbox;
     const anchorPoints = this.getAnchorPoints();
     let intersectPoint: IPoint | null;
+    console.log('getLinkPoint', point, type, centerX, centerY, bbox.width);
     switch (type) {
       case 'circle':
         intersectPoint = getCircleIntersectByPoint(
@@ -108,6 +109,7 @@ export default class Node extends Item implements INode {
       default:
         intersectPoint = getRectIntersectByPoint(bbox, point);
     }
+    console.log('intersectPoint', intersectPoint);
     let linkPoint = intersectPoint;
     // 如果存在锚点，则使用交点计算最近的锚点
     if (anchorPoints.length) {

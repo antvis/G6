@@ -52,11 +52,13 @@ export default class Edge extends Item implements IEdge {
     const pointName = END_MAP[name] + POINT_NAME_SUFFIX;
     const itemName = name + ITEM_NAME_SUFFIX;
     let point = this.get(pointName);
+    console.log('get link point', point);
     if (!point) {
       const item = this.get(itemName);
       const anchorName = name + ANCHOR_NAME_SUFFIX;
       const prePoint = this.getPrePoint(name, controlPoints);
       const anchorIndex = model[anchorName];
+      console.log('!isNil(anchorIndex)', !isNil(anchorIndex));
       if (!isNil(anchorIndex)) {
         // 如果有锚点，则使用锚点索引获取连接点
         point = item.getLinkPointByAnchor(anchorIndex);
@@ -67,6 +69,7 @@ export default class Edge extends Item implements IEdge {
         this.set(`${name}AnchorIndex`, point.index);
       }
     }
+    console.log('get link point final', point, model);
     return point;
   }
 
@@ -151,6 +154,7 @@ export default class Edge extends Item implements IEdge {
     }
     cfg.sourceNode = self.get('sourceNode');
     cfg.targetNode = self.get('targetNode');
+    console.log('returning cfg', cfg);
     return cfg;
   }
 
