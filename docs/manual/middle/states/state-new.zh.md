@@ -142,7 +142,7 @@ const graph = new Graph({
   // 节点在不同状态下的样式
   nodeStateStyles: {
     // 实现 bodyState 的【多值】【互斥】
-   'bodyState:health': {
+   'bodyState:healthy': {
       // keyShape 该状态下的样式, 可以使用三种方式指定：
       fill: 'green'
     },
@@ -155,17 +155,17 @@ const graph = new Graph({
   }
 });
 
-graph.setItemState(item, 'bodyState', 'health');
+graph.setItemState(item, 'bodyState', 'healthy');
 ```
 
 #### 互斥状态
-上面的多值状态，也很好地解决了状态互斥的问题，还以上面的 `bodyState` 状态为例，该状态共有 `health`、`dead`、`ill` 等值。
+上面的多值状态，也很好地解决了状态互斥的问题，还以上面的 `bodyState` 状态为例，该状态共有 `healthy`、`dead`、`ill` 等值。
 
 ```javascript
 //【互斥】
-graph.setItemState(item, 'bodyState', 'health');
+graph.setItemState(item, 'bodyState', 'healthy');
 // 执行下面这句话 bodyState 将会被改变成 dead，
-// item.hasState('bodyState:health') 为 false
+// item.hasState('bodyState:healthy') 为 false
 graph.setItemState(item, 'bodyState', 'dead');
 ```
 
@@ -178,14 +178,14 @@ graph.setItemState(item, 'active', true)
 
 执行上面的两句设置二值状态的语句后，item 具有 select 和 active 所有的属性值，不能满足互斥需求。
 
-### 更新状态
-G6 3.3 及 以下的版本中，不支持更新状态的样式，`updateItem` 方法只能更新 keyShape 的样式。从 G6 3.4 版本开始，`updateItem` 支持更新子元素、状态及子元素状态。
+### 修改状态样式配置
+G6 3.3 及 以下的版本中，不支持修改状态样式的配置。`updateItem` 方法只能更新 keyShape 的默认样式。从 G6 3.4 版本开始，`updateItem` 支持更新 item 中所有子图形的默认样式和状态样式。
 
-#### 子元素
-使用 `updateItem` 更新子元素样式时，只需要在 `style` 中以子元素的 `name` 属性作为为 key 即可。
+#### 更新默认样式
+`updateItem` 可用于更新 keyShape 以及其他子图形的默认样式。使用 `updateItem` 更新子图形样式时，只需要在 `style` 中以子图形的 `name` 属性作为为 key 即可。
 
 ```javascript
-// 更新 item，除过更新 keyShape 外，还更新 name 值为 node-text 的元素
+// 更新 item，除过更新 keyShape 外，还更新 name 值为 node-text 的图形
 graph.updateItem(item, {
   style: {
     fill: 'green',
@@ -198,8 +198,8 @@ graph.updateItem(item, {
 })
 ```
 
-#### 状态
-`updateItem` 也支持更新状态属性及子元素的状态属性，使用 `stateStyles` 属性。
+#### 更新状态样式
+`updateItem` 也支持更新 keyShape 与其他子图形的状态样式，使用 `stateStyles` 属性。
 
 ```javascript
 graph.updateItem(item, {
@@ -230,7 +230,7 @@ graph.setItemState(item, 'hover', true)
 在 G6 中，我们建议使用 `graph.clearItemStates` 来取消 `graph.setItemState` 设置的状态，`graph.clearItemStates` 支持一次取消单个或多个状态。
 
 ```javascript
-graph.setItemState(item, 'bodyState', 'health');
+graph.setItemState(item, 'bodyState', 'healthy');
 graph.setItemState(item, 'selected', true)
 graph.setItemState(item, 'active', true)
 
@@ -239,13 +239,13 @@ graph.clearItemStates(item, 'selected')
 graph.clearItemStates(item, ['selected'])
 
 // 取消多个状态
-graph.clearItemStates(item, ['bodyState:health', 'selected', 'active'])
+graph.clearItemStates(item, ['bodyState:healthy', 'selected', 'active'])
 ```
 
 以上就是 G6 中状态的定义、设置和取消的全过程，很清晰明了，但总感觉缺少了点什么，没错，想必聪明的你已经发现了，缺少了更新子元素及和 `updateItem` 配合使用的方案。不要着急，接着放下看。
 
 ### 状态优先级
-G6 中提供了 hasState 方法用于判断元素是否有某种状态，但具体哪个状态的优先级高，哪个状态值应该覆盖其他的类似问题我们就没有再做任何限制，完全由业务用户控制，实现这种控制也非常简单，如一般情况下，鼠标 hover 到某个节点后，该节点会高亮，但希望当该节点处于 active 状态时，鼠标 hover 上去后也不要覆盖 active 的状态，即 active 优先级高于 hover。
+G6 中提供了 `hasState` 方法用于判断元素是否有某种状态。但具体哪个状态的优先级高，哪个状态值应该覆盖其他的类似问题我们就没有再做任何限制，完全由业务用户控制，实现这种控制也非常简单，如一般情况下，鼠标 hover 到某个节点后，该节点会高亮，但希望当该节点处于 active 状态时，鼠标 hover 上去后也不要覆盖 active 的状态，即 active 优先级高于 hover。
 
 ```javascript
 // 设置节点处于 active 状态
