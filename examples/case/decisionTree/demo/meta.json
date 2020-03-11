@@ -5,9 +5,9 @@
   },
   "demos": [
     {
-      "filename": "index.tsx",
+      "filename": "index.ts",
       "title": "决策树",
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_7bc6d8/afts/img/A*NxGKS4lJZq8AAAAAAAAAAABkARQnAQ"
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Jo0lTrKSj6AAAAAAAAAAAABkARQnAQ"
     }
   ]
 }
