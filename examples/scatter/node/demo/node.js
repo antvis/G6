@@ -137,11 +137,11 @@ G6.registerNode(
           r: r + 10,
           opacity: 0.1,
           repeat: true, // 循环
-        },
-        3000,
-        'easeCubic',
-        null,
-        0,
+        }, {
+          duration: 3000,
+          easing: 'easeCubic',
+          delay: 0
+        }
       ); // 无延迟
       back2.animate(
         {
@@ -149,11 +149,11 @@ G6.registerNode(
           r: r + 10,
           opacity: 0.1,
           repeat: true, // 循环
-        },
-        3000,
-        'easeCubic',
-        null,
-        1000,
+        }, {
+          duration: 3000,
+          easing: 'easeCubic',
+          delay: 1000
+        }
       ); // 1 秒延迟
       back3.animate(
         {
@@ -161,11 +161,11 @@ G6.registerNode(
           r: r + 10,
           opacity: 0.1,
           repeat: true, // 循环
+        }, {
+          duration: 3000,
+          easing: 'easeCubic',
+          delay: 2000
         },
-        3000,
-        'easeCubic',
-        null,
-        2000,
       ); // 2 秒延迟
     },
   },
