@@ -166,9 +166,11 @@ G6.registerNode('circle-bar', {
           path: targetPath,
           stroke: fillColor,
           fill: fillColor,
-          shadowColor: fillColor,
-          repeat: false
-        }, 300
+          shadowColor: fillColor
+        }, {
+          repeat: false,
+          duration: 300
+        }
       );
 
 
@@ -176,9 +178,11 @@ G6.registerNode('circle-bar', {
       keyShape.animate(
         {
           fill: fillColor,
-          shadowColor: fillColor,
-          repeat: false
-        }, 300
+          shadowColor: fillColor
+        }, {
+          repeat: false,
+          duration: 300
+        }
       );
     }, 1300, 'easeCubic');
 
