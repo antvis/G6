@@ -354,8 +354,9 @@ G6.registerNode(
                 opacity: ratio,
               };
             },
-          },
-          500,
+          }, {
+            duration: 300
+          }
         );
       } else if (name === 'dark') {
         if (value) {
