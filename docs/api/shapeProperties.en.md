@@ -28,6 +28,7 @@ G6 has these shapes:
 | shadowOffsetX | The horizontal offset of the shadow. |  |
 | shadowOffsetY | The vertical offset of the shadow. |  |
 | opacity | The opacity (alpha value) of the shape. | The corresponding property in canvas is `globalAlpha`. |
+| cursor        | The type of the mouse when hovering the node. The options are the same as [cursor in CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) |  |
 
 ## Usage
 
