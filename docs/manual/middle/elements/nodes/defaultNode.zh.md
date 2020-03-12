@@ -53,6 +53,7 @@ Object 类型。通过 `style` 配置来修改节点的填充色、边框颜色�
 | shadowOffsetY | false    | Number | 阴影 y 方向偏移量             |
 | opacity       | false    | Number | 设置绘图的当前 alpha 或透明值 |
 | fillOpacity   | false    | Number | 设置填充的 alpha 或透明值     |
+| cursor        | false    | String | 鼠标在该节点上时的鼠标样式，[CSS 的 cursor](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) 选项都支持  |
 
 下面代码演示在实例化图时全局配置方法中配置 `style`：
 

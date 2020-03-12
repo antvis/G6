@@ -51,6 +51,7 @@ The table below shows the built-in nodes and their special properties:
 | shadowOffsetY | false    | Number | The y offset of the shadow                    |
 | opacity       | false    | Number | The alpha or transparency of the node         |
 | fillOpacity   | false    | Number | The filling alpha or transparency of the node |
+| cursor        | false    | String | The type of the mouse when hovering the node. The options are the same as [cursor in CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) |
 
 Configure `style` globally when instantiating the Graph:
 
