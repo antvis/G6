@@ -30,6 +30,7 @@ G6 支持以下图形：
 | shadowOffsetY | 设置阴影距形状的垂直距离           |                                |
 | opacity       | 设置绘图的当前 alpha 或透明值      | 对应 Canvas 属性 `globalAlpha` |
 | fillOpacity   | 设置填充的 alpha 或透明值          |                                |
+| cursor      | 鼠标在该节点上时的鼠标样式，[CSS 的 cursor](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) 选项都支持  |  |
 
 ## 用法
 
