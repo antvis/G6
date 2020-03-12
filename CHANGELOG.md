@@ -70,6 +70,27 @@
 - fix: do not support SVG renderer anymore. no renderer for graph configuration anymore
 - refactor: plugins usage is changed into new G6.PluginName()
 
+#### 3.2.7
+- feat: supports create the group without nodes in node-group;
+- fix: supports destoryed properties and fix issue 1094;
+
+#### 3.2.6
+- feat: supports sort the nodes on one circle according to the data ordering or some attribute in radial layout
+- fix: grid layout with cols and rows
+- feat: fix the nodes with position information in their original data and random the positions of others when the layout is not defined for graph
+
+#### 3.2.5
+- fix: click-select trigger error
+- fix: solved position problem for minimap
+
+#### 3.2.4
+- fix: typescript compile error
+- fix: delete sankey lib
+
+#### 3.2.3
+- fix: group position error
+- fix: supports not set layout type
+
 #### 3.1.5
 
 - feat: supports g6 types file
