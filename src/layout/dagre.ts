@@ -10,7 +10,7 @@ import { BaseLayout } from './layout';
 import { isNumber } from '@antv/util';
 
 /**
- * 随机布局
+ * 层次布局
  */
 export default class DagreLayout extends BaseLayout {
   /** layout 方向, 可选 TB, BT, LR, RL */
@@ -88,8 +88,8 @@ export default class DagreLayout extends BaseLayout {
     });
     edges.forEach(edge => {
       // dagrejs Wiki https://github.com/dagrejs/dagre/wiki#configuring-the-layout
-      g.setEdge(edge.source, edge.target, { 
-        weight: edge.weight || 1 
+      g.setEdge(edge.source, edge.target, {
+        weight: edge.weight || 1
       });
     });
     dagre.layout(g);
