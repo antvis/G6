@@ -52,7 +52,7 @@ function getEDistance(p1: IPointTuple, p2: IPointTuple) {
 }
 
 /**
- * 随机布局
+ * 辐射状布局
  */
 export default class RadialLayout extends BaseLayout {
   /** 布局中心 */
