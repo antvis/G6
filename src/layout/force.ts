@@ -14,6 +14,7 @@ import mix from '@antv/util/lib/mix';
 
 import { BaseLayout } from './layout';
 import { LAYOUT_MESSAGE } from './worker/layoutConst';
+import { clone } from '@antv/util';
 
 /**
  * 经典力导布局 force-directed
@@ -124,11 +125,7 @@ export default class ForceLayout<Cfg = any> extends BaseLayout {
         // 如果有边，定义边的力
         if (edges) {
           // d3 的 forceLayout 会重新生成边的数据模型，为了避免污染源数据
-          const d3Edges = edges.map(edge => ({
-            id: edge.id,
-            source: edge.source,
-            target: edge.target,
-          }));
+          const d3Edges = edges.map(edge => (clone(edge)));
           const edgeForce = d3Force
             .forceLink()
             .id((d: any) => d.id)
