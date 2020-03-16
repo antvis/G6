@@ -162,7 +162,6 @@ Shape.registerNode(
       return styles;
     },
     update(cfg: NodeConfig, item: Item) {
-      console.log(cfg);
       const group = item.getContainer();
       const { style: defaultStyle } = this.options as ModelConfig;
       let size = (this as ShapeOptions).getSize!(cfg);
