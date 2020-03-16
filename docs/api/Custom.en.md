@@ -1,6 +1,6 @@
 ---
 title: Custom Mechanism
-order: 10
+order: 7
 ---
 
 This document will introduce custom mechanism in G6, including custom node, custom edge, custom behavior, custom layout. All of them are mounted on global G6, called by `G6.registerXXX`.

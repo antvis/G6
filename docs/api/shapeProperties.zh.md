@@ -15,7 +15,8 @@ G6 支持以下图形：
 - [image](#图片图形-image)：图片；
 - [marker](#标记图形-marker)：标记；
 - [path](#路径-path)：路径；
-- [text](#文本-text)：文本。
+- [text](#文本-text)：文本；
+- [dom(svg)](#dom-svg)：DOM（图渲染方式 `renderer` 为 `'svg'` 时可用）。
 
 ## 通用属性
 
@@ -303,6 +304,8 @@ group.addShape('text', {
 ## DOM (svg)
 
 > 仅在 Graph 的 `renderer` 为 `'svg'` 时可以使用。
+
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 使用 dom 进行自定义的节点或边，不支持 G6 的交互事件，请使用原生 DOM 的交互事件。
 
 ### 特殊属性
 

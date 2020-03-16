@@ -1,6 +1,6 @@
 ---
 title: Edge
-order: 1
+order: 2
 ---
 
 Edge inherits from item. The functions of Item are also available for Edge.
