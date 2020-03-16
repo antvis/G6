@@ -2614,18 +2614,18 @@ describe('custom group', () => {
     const node2OriY = node2.getModel().y;
     graph.emit('dragstart', {
       target: nodeGroup1,
-      canvasX: 50,
-      canvasY: 50
+      x: 50,
+      y: 50
     });
     graph.emit('drag', {
       target: nodeGroup1,
-      canvasX: 250,
-      canvasY: 150
+      x: 250,
+      y: 150
     });
     graph.emit('drag', {
       target: nodeGroup1,
-      canvasX: 250,
-      canvasY: 150
+      x: 250,
+      y: 150
     });
     const delegateGroup = graph.get('delegateGroup');
     expect(delegateGroup.get('children').length).toBe(1);
@@ -2637,8 +2637,8 @@ describe('custom group', () => {
     expect(node2.getModel().y).toBe(node2OriY);
     graph.emit('dragend', {
       target: nodeGroup1,
-      canvasX: 150,
-      canvasY: 150
+      x: 150,
+      y: 150
     });
     expect(delegateGroup.get('children').length).toBe(0);
     expect(node1.getModel().x).not.toBe(node1OriX);
