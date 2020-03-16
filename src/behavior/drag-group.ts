@@ -42,8 +42,8 @@ export default {
 
     this.targetGroup = currentGroup;
     this.mouseOrigin = {
-      x: evt.canvasX,
-      y: evt.canvasY,
+      x: evt.x,
+      y: evt.y,
     };
 
     // 获取groupId的父Group的ID
@@ -144,14 +144,16 @@ export default {
       this.delegateShapeBBoxs[groupId] = delegateShape.getBBox();
     } else {
       const { mouseOrigin, shapeOrigin } = this;
-      const deltaX = evt.canvasX - mouseOrigin.x;
-      const deltaY = evt.canvasY - mouseOrigin.y;
+      console.log(evt)
+      const deltaX = evt.x - mouseOrigin.x;
+      const deltaY = evt.y - mouseOrigin.y;
       const x = deltaX + shapeOrigin.x;
       const y = deltaY + shapeOrigin.y;
 
       // 将Canvas坐标转成视口坐标
-      const point = graph.getPointByCanvas(x, y);
-      delegateShape.attr({ x: point.x, y: point.y });
+      // const point = graph.getPointByCanvas(x, y);
+      // delegateShape.attr({ x: point.x, y: point.y });
+      delegateShape.attr({ x, y });
       this.delegateShapeBBoxs[groupId] = delegateShape.getBBox();
     }
   },
