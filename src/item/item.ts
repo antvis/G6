@@ -518,7 +518,6 @@ export default class ItemBase implements IItemBase {
     // 2. 更新后的 shape 等于原先的 shape
     if (shapeFactory.shouldUpdate(shape) && shape === this.get('currentShape')) {
       const updateCfg = this.getShapeCfg(model);
-
       shapeFactory.update(shape, updateCfg, this);
     } else {
       // 如果不满足上面两种状态，重新绘制

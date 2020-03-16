@@ -64,3 +64,35 @@ describe('empty data array + fitview', () => {
     graph.render();
   });
 });
+
+
+
+// closes: #1301
+describe('change data with rect node', () => {
+  const data = {
+    nodes: [{
+      name: "source",
+      id: "source",
+      label: "source",
+      type: 'rect',
+      x: 100,
+      y: 100,
+      //size: [60, 60],
+      style: {
+        width: 60,
+        height: 20,
+      }
+    }],
+    edges: []
+  };
+  const graph = new Graph({
+    container: 'container',
+    width: 500,
+    height: 500
+  });
+  graph.data(data);
+  it('change data', () => {
+    graph.render();
+    graph.changeData(data);
+  });
+});

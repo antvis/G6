@@ -162,9 +162,15 @@ Shape.registerNode(
       return styles;
     },
     update(cfg: NodeConfig, item: Item) {
+      console.log(cfg);
       const group = item.getContainer();
       const { style: defaultStyle } = this.options as ModelConfig;
-      const size = (this as ShapeOptions).getSize!(cfg);
+      let size = (this as ShapeOptions).getSize!(cfg);
+      const keyShape = item.get('keyShape');
+      if (!cfg.size) {
+        size[0] = keyShape.attr('width') || defaultStyle.width;
+        size[1] = keyShape.attr('height') || defaultStyle.height;
+      }
       // 下面这些属性需要覆盖默认样式与目前样式，但若在 cfg 中有指定则应该被 cfg 的相应配置覆盖。
       const strokeStyle = {
         stroke: cfg.color,
@@ -174,7 +180,6 @@ Shape.registerNode(
         height: size[1],
       };
       // 与 getShapeStyle 不同在于，update 时需要获取到当前的 style 进行融合。即新传入的配置项中没有涉及的属性，保留当前的配置。
-      const keyShape = item.get('keyShape');
       let style = mix({}, defaultStyle, keyShape.attr(), strokeStyle);
       style = mix(style, cfg.style);
 
