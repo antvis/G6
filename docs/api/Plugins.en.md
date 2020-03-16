@@ -1,6 +1,6 @@
 ---
 title: Plugins
-order: 9
+order: 10
 ---
 
 There are several plugins in G6 which can be used inside and ouside G6 freely.

@@ -1,6 +1,6 @@
 ---
-title: Register
-order: 7
+title: Register Node and Edge
+order: 8
 ---
 
 This document shows the functions that should be implemented or rewrited when custom nodes by `G6.registerNode` or custom edges by `G6.registerEdge`.

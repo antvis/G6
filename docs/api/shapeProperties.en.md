@@ -15,7 +15,8 @@ G6 has these shapes:
 - [image](#image);
 - [marker](#marker);
 - [path](#path);
-- [text](#text).
+- [text](#text);
+- [dom(svg)](#dom-svg): DOM (available only when the `renderer` of Graph instance is `'svg'`).
 
 ### Common Property
 
@@ -305,6 +306,8 @@ group.addShape('text', {
 ## DOM (svg)
 
 > This shape is available only when the `renderer` is assgined to `'svg'` for graph instance.
+
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span> If you custom a Node type or an Edge type with dom shape, please use the original DOM events instead of events of G6.
 
 ### Properties
 
