@@ -39,7 +39,7 @@ export default class DagreLayout extends BaseLayout {
       ranksepFunc: undefined, // 每一层节点之间间距
       nodesep: 50, // 节点水平间距(px)
       ranksep: 50, // 每一层节点之间间距
-      controlPoints: true, // 是否保留布局连线的控制点
+      controlPoints: false, // 是否保留布局连线的控制点
     };
   }
 
