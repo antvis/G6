@@ -85,7 +85,17 @@ export default class ForceLayout<Cfg = any> extends BaseLayout {
   public init(data: GraphData) {
     const self = this;
     self.nodes = data.nodes || [];
-    self.edges = data.edges || [];
+    const edges = data.edges || [];
+    self.edges = edges.map(edge => {
+      const res = {};
+      const expectKeys = ['targetNode', 'sourceNode', 'startPoint', 'endPoint'];
+      Object.keys(edge).forEach(key => {
+        if (!(expectKeys.indexOf(key) > -1)) {
+          res[key] = edge[key];
+        }
+      });
+      return res;
+    });
     self.ticking = false;
   }
 
@@ -125,11 +135,10 @@ export default class ForceLayout<Cfg = any> extends BaseLayout {
         // 如果有边，定义边的力
         if (edges) {
           // d3 的 forceLayout 会重新生成边的数据模型，为了避免污染源数据
-          const d3Edges = edges.map(edge => (clone(edge)));
           const edgeForce = d3Force
             .forceLink()
             .id((d: any) => d.id)
-            .links(d3Edges);
+            .links(edges);
           if (self.edgeStrength) {
             edgeForce.strength(self.edgeStrength);
           }
