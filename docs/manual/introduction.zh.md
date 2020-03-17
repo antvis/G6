@@ -98,7 +98,7 @@ graph.data(data);
 graph.render();
 ```
 
-更详细的内容请参考 [快速上手](/zh/docs/manual/getting-startedd) 文档。
+更详细的内容请参考 [快速上手](/zh/docs/manual/getting-started) 文档。
 
 ## 友情链接
 

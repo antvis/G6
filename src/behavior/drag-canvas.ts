@@ -109,6 +109,7 @@ export default {
   },
   onKeyDown(e: KeyboardEvent) {
     const self = this as any;
+    console.log('keydown ', e);
     const code = e.key;
     if (!code) {
       return;
