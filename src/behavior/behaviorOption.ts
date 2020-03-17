@@ -44,6 +44,10 @@ export default {
     each(events, (handler: () => void, event: G6Event) => {
       graph.on(event, handler);
     });
+    // To avoid the tabs switching makes the keydown related behaviors disable
+    document.addEventListener('visibilitychange', () => {
+      this.keydown = false;
+    })
   },
 
   unbind(graph: IGraph) {

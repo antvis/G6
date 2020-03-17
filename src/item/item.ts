@@ -538,8 +538,8 @@ export default class ItemBase implements IItemBase {
   public updatePosition(cfg: ModelConfig) {
     const model: ModelConfig = this.get('model');
 
-    const x = isNil(cfg.x) ? model.x : cfg.x;
-    const y = isNil(cfg.y) ? model.y : cfg.y;
+    let x = isNil(cfg.x) ? model.x : cfg.x;
+    let y = isNil(cfg.y) ? model.y : cfg.y;
 
     const group: Group = this.get('group');
 
