@@ -1,4 +1,11 @@
 # ChangeLog
+#### 3.4.1
+- feat: force layout clone original data model to allow the customized properties;
+- fix: BehaviorOptions type error;
+- fix: fitView the graph with data whose nodes and edges are empty arrays;
+- fix: rect node positions are changed after calling graph.changeData;
+- fix: drag behavior is disabled when the keys are released invalidly.
+
 #### 3.4.0
 - feat: SVG renderer;
 - refactor: new state machinism with multiple values, sub graphics shape style settings.
