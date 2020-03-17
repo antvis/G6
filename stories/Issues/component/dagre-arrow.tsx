@@ -1,20 +1,8 @@
-import G6 from '@antv/g6';
-import insertCss from 'insert-css';
+import React, { useEffect } from 'react';
+import G6 from '../../../src';
+import { IGraph } from '../../../src/interface/graph';
 
-// 我们用 insert-css 演示引入自定义样式
-// 推荐将样式添加到自己的样式文件中
-// 若拷贝官方代码，别忘了 npm install insert-css
-insertCss(`
-  .g6-tooltip {
-    border-radius: 6px;
-    font-size: 12px;
-    color: #fff;
-    background-color: #000;
-    padding: 2px 8px;
-    text-align: center;
-  }
-`);
-
+let graph: IGraph = null;
 const data = {
   nodes: [
     {
@@ -206,97 +194,107 @@ const data = {
   ],
 };
 
-G6.registerNode(
-  'sql',
-  {
-    drawShape(cfg, group) {
-      const rect = group.addShape('rect', {
-        attrs: {
-          x: -75,
-          y: -25,
-          width: 150,
-          height: 50,
-          radius: 10,
-          stroke: '#5B8FF9',
-          fill: '#C6E5FF',
-          lineWidth: 3,
-        },
-        name: 'rect-shape',
-      });
-      if (cfg.name) {
-        group.addShape('text', {
+const DagreArrow = () => {
+  G6.registerNode(
+    'sql',
+    {
+      drawShape(cfg, group) {
+        const rect = group.addShape('rect', {
           attrs: {
-            text: cfg.name,
-            x: 0,
-            y: 0,
-            fill: '#00287E',
-            fontSize: 14,
-            textAlign: 'center',
-            textBaseline: 'middle',
-            fontWeight: 'bold',
+            x: -75,
+            y: -25,
+            width: 150,
+            height: 50,
+            radius: 10,
+            stroke: '#5B8FF9',
+            fill: '#C6E5FF',
+            lineWidth: 3,
           },
-          name: 'text-shape',
+          name: 'rect-shape',
         });
-      }
-      return rect;
+        if (cfg.name) {
+          group.addShape('text', {
+            attrs: {
+              text: cfg.name,
+              x: 0,
+              y: 0,
+              fill: '#00287E',
+              fontSize: 14,
+              textAlign: 'center',
+              textBaseline: 'middle',
+              fontWeight: 'bold',
+            },
+            name: 'text-shape',
+          });
+        }
+        return rect;
+      },
     },
-  },
-  'single-node',
-);
-G6.Global.nodeStateStyle.selected = {
-  stroke: '#d9d9d9',
-  fill: '#5394ef',
+    'single-node',
+  );
+
+  const container = React.useRef();
+  useEffect(() => {
+    if (!graph) {
+      graph = new G6.Graph({
+        container: container.current as string | HTMLElement,
+        width: 500,
+        height: 600,
+        layout: {
+          type: 'dagre',
+          nodesepFunc: d => {
+            if (d.id === '3') {
+              return 500;
+            }
+            return 50;
+          },
+          ranksep: 70,
+        },
+        defaultNode: {
+          type: 'sql',
+        },
+        defaultEdge: {
+          type: 'polyline',
+          style: {
+            radius: 20,
+            offset: 45,
+            endArrow: true,
+            lineWidth: 2,
+            stroke: '#C2C8D5',
+          },
+        },
+        modes: {
+          default: [
+            'drag-node',
+            'zoom-canvas',
+            'click-select',
+            {
+              type: 'tooltip',
+              formatText(model: any) {
+                const cfg = model.conf;
+                const text = [];
+                cfg.forEach(row => {
+                  text.push(row.label + ':' + row.value + '<br>');
+                });
+                return text.join('\n');
+              },
+              shouldUpdate: (e: any) => {
+                // 如果移动到节点文本上显示，不是文本上不显示
+                if (e.target.type !== 'text') {
+                  return false;
+                }
+                return true;
+              },
+            },
+          ],
+        },
+        fitView: true,
+      });
+      graph.data(data);
+      graph.render();
+    }
+  });
+  return <div ref={container}></div>;
 };
 
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
-const graph = new G6.Graph({
-  container: 'container',
-  width,
-  height,
-  layout: {
-    type: 'dagre',
-    nodesepFunc: d => {
-      if (d.id === '3') {
-        return 500;
-      }
-      return 50;
-    },
-    ranksep: 70,
-    controlPoints: true
-  },
-  defaultNode: {
-    type: 'sql',
-  },
-  defaultEdge: {
-    type: 'polyline',
-    style: {
-      radius: 20,
-      offset: 45,
-      endArrow: true,
-      lineWidth: 2,
-      stroke: '#C2C8D5',
-    },
-  },
-  modes: {
-    default: [
-      'drag-canvas',
-      'zoom-canvas',
-      'click-select',
-      {
-        type: 'tooltip',
-        formatText(model) {
-          const cfg = model.conf;
-          const text = [];
-          cfg.forEach(row => {
-            text.push(row.label + ':' + row.value + '<br>');
-          });
-          return text.join('\n');
-        }
-      },
-    ],
-  },
-  fitView: true,
-});
-graph.data(data);
-graph.render();
+export default DagreArrow;

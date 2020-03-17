@@ -14,10 +14,9 @@ const data = {
 const graph = new G6.Graph({
   container: 'container',
   width: 500,
-  height: 500,
-  defaultNode: {
+  height: 500, defaultNode: {
     type: 'triangle',
-    size: [100],
+    size: [60],
     // 可取值：down、up
     direction: 'up',
     style: {
@@ -31,6 +30,7 @@ const graph = new G6.Graph({
         fontSize: 18,
       },
       position: 'bottom',
+      offset: 30
     },
     // 节点上各个方向上的链接circle配置
     linkPoints: {
@@ -51,8 +51,8 @@ const graph = new G6.Graph({
       // icon的地址，字符串类型
       img:
         'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
-      width: 60,
-      height: 60,
+      width: 40,
+      height: 40,
     },
   },
   modes: {

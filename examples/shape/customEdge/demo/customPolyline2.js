@@ -29,12 +29,10 @@ G6.registerEdge('line-arrow', {
         stroke,
         lineWidth: 1,
         startArrow: {
-          path: 'M 6,0 L -6,-6 L -3,0 L -6,6 Z',
-          d: 6,
+          path: 'M 0,0 L 12,6 L 9,0 L 12,-6 Z',
         },
         endArrow: {
-          path: 'M 6,0 L -6,-6 L -3,0 L -6,6 Z',
-          d: 6,
+          path: 'M 0,0 L 12,6 L 9,0 L 12,-6 Z',
         },
       },
       className: 'edge-shape',
