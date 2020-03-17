@@ -229,12 +229,16 @@ group.addShape('marker', {
 group.addShape('path', {
   attrs: {
     startArrow: {
-      path: 'M 10,0 L -10,-10 L -10,10 Z', // The custom arrow is a path centered at (0, 0), and points to the positive direction of x-axis
-      d: 10,
+      // The custom arrow is a path points at (0, 0), and its tail points to the positive direction of x-axis
+      path: 'M 0,0 L 20,10 L 20,-10 Z',
+      // the offset of the arrow, nagtive value means the arrow is moved alone the positive direction of x-axis
+      // d: -10
     },
     endArrow: {
-      path: 'M 10,0 L -10,-10 L -10,10 Z', // The custom arrow is a path centered at (0, 0), and points to the positive direction of x-axis
-      d: 10,
+      // The custom arrow is a path points at (0, 0), and its tail points to the positive direction of x-axis
+      path: 'M 0,0 L 20,10 L 20,-10 Z',
+      // the offset of the arrow, nagtive value means the arrow is moved alone the positive direction of x-axis
+      // d: -10
     },
     path: [
       ['M', 100, 100],

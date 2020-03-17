@@ -215,12 +215,16 @@ G6.registerEdge('line-arrow', {
         stroke: 'steelblue',
         lineWidth: 3,
         startArrow: {
-          path: 'M 10,0 L -10,-10 L -10,10 Z',
-          d: 10,
+          // The custom arrow is a path points at (0, 0), and its tail points to the positive direction of x-axis
+          path: 'M 0,0 L 20,10 L 20,-10 Z',
+          // the offset of the arrow, nagtive value means the arrow is moved alone the positive direction of x-axis
+          // d: -10
         },
         endArrow: {
-          path: 'M 10,0 L -10,-10 L -10,10 Z',
-          d: 10,
+          // The custom arrow is a path points at (0, 0), and its tail points to the positive direction of x-axis
+          path: 'M 0,0 L 20,10 L 20,-10 Z',
+          // the offset of the arrow, nagtive value means the arrow is moved alone the positive direction of x-axis
+          // d: -10
         },
       },
       // must be assigned in G6 3.3 and later versions. it can be any value you want

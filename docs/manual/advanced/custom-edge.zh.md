@@ -214,12 +214,16 @@ G6.registerEdge('line-arrow', {
         stroke: 'steelblue',
         lineWidth: 3,
         startArrow: {
-          path: 'M 10,0 L -10,-10 L -10,10 Z',
-          d: 10,
+          // 自定义箭头指向(0, 0)，尾部朝向 x 轴正方向的 path
+          path: 'M 0,0 L 20,10 L 20,-10 Z',
+          // 箭头的偏移量，负值代表向 x 轴正方向移动
+          // d: -10,
         },
         endArrow: {
-          path: 'M 10,0 L -10,-10 L -10,10 Z',
-          d: 10,
+          // 自定义箭头指向(0, 0)，尾部朝向 x 轴正方向的 path
+          path: 'M 0,0 L 20,10 L 20,-10 Z',
+          // 箭头的偏移量，负值代表向 x 轴正方向移动
+          // d: -10,
         },
       },
       // must be assigned in G6 3.3 and later versions. it can be any value you want
