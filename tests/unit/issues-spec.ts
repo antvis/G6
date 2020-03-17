@@ -195,3 +195,151 @@ describe('cubic with layout', () => {
 });
 
 
+
+// describe.only('residual when dragging', () => {
+// G6.registerNode(
+//     'devnode',
+//     {
+//         intersectBox: 'rect',
+//         afterDraw(cfg, group) {
+//         const { size } = cfg;
+//         const width = size[0];
+//         const height = size[1];
+
+//         // 添加边框
+//         if (cfg.nodeType === '0') {
+//             group.addShape('path', {
+//             attrs: {
+//                 path: [
+//                 ['M', 0 - width / 2, 0 - height / 2], // 上部顶点
+//                 ['L', width / 2, 0 - height / 2], // 右侧顶点
+//                 ['L', width / 2, height / 2], // 下部顶点
+//                 ['L', -width / 2, height / 2], // 左侧顶点
+//                 ['Z'], // 封闭
+//                 ],
+//                 lineDash: [8, 8], // 虚线
+//                 stroke: '#eee', // 线的颜色
+//                 lineWidth: 0.2, // 线的宽度
+//                 // shadowColor: '#fff', // 阴影颜色
+//                 // shadowBlur: 1, // 阴影模糊
+//             },
+//             });
+//         }
+//         // 添加节点类型图标
+//         group.addShape('text', {
+//             attrs: {
+//             x: -width / 2 + 20,
+//             y: -height / 2 + 14,
+//             fontFamily: 'iconfont',
+//             textAlign: 'center',
+//             textBaseline: 'middle',
+//             text: '\ue62d',
+//             fontSize: 16,
+//             fill: '#fff',
+//             },
+//         });
+//         group.addShape('text', {
+//             name: 'point-close',
+//             attrs: {
+//             x: width / 2,
+//             y: 0,
+//             fontFamily: 'iconfont',
+//             textAlign: 'center',
+//             textBaseline: 'middle',
+//             text: '\ue633',
+//             fontSize: 16,
+//             fill: '#353E57',
+//             cursor: 'pointer',
+//             },
+//         });
+//         // 添加文字
+//         group.addShape('text', {
+//             attrs: {
+//             x: -width / 2 + 34, // 居中
+//             y: 0,
+//             fontSize: 14,
+//             textAlign: 'start',
+//             textBaseline: 'middle',
+//             text: cfg.value,
+//             fill: '#fff',
+//             },
+//             name: 'title',
+//             draggable: true,
+//         });
+//         const pointTop = group.addShape('circle', {
+//             name: 'point-top',
+//             attrs: {
+//             x: 0,
+//             y: 0 - cfg.size[1] / 2,
+//             r: 8,
+//             fill: '#fff',
+//             stroke: '#178BF6',
+//             lineWidth: 2,
+//             },
+//         });
+//         pointTop.hide();
+//         const pointBottom = group.addShape('circle', {
+//             name: 'point-bottom',
+//             attrs: {
+//             x: 0,
+//             y: cfg.size[1] / 2,
+//             r: 8,
+//             fill: '#fff',
+//             stroke: '#178BF6',
+//             lineWidth: 2,
+//             cursor: 'pointer',
+//             },
+//         });
+//         pointBottom.hide();
+//         },
+//     },
+//     'rect',
+//     );
+//     const data = {
+//       nodes: [{
+//         id: "source",
+//         label: "source",
+//         x: 100,
+//         y: 100,
+//       }, {
+//         id: "source2",
+//         label: "source2",
+//         x: 120,
+//         y: 150,
+//       }],
+//       edges: [{
+//           source: 'source',
+//           target: 'source2'
+//       }]
+//     };
+//     const graph = new Graph({
+//       container: 'container',
+//       width: 500,
+//       height: 500,
+//       defaultNode: {
+//         type: 'devnode',
+//         size: [180, 32],
+//         style: {
+//         //   width: 60,
+//         //   height: 20,
+//           stroke: '#3e475f',
+//           lineWidth: 0.8,
+//         //   shadowBlur: 10,
+//         //   shadowColor: '#333',
+//           fill: '#1f2944'
+//         }
+//       },
+//       defaultEdge: {
+//         style: {
+//           endArrow: true,
+//         }
+//       },
+//       modes: {
+//         default: [ 'drag-node', 'zoom-canvas', 'drag-canvas' ]
+//       }
+//     });
+//     it('dragging', () => {
+//       graph.data(data);
+//       graph.render();
+//     });
+//   });

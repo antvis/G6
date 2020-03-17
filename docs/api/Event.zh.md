@@ -3,6 +3,8 @@ title: Event
 order: 6
 ---
 
+本章介绍的事件可以通过 [graph.on](/zh/docs/api/Graph/#oneventname-handler) 与 [graph.off]/zh/docs/api/Graph/#offeventname-handler) 进行绑定/解绑监听函数。
+
 通用事件、Node 事件、Edge 事件及 Canvas 事件回调的参数请参考 [Behavior API](/zh/docs/api/Behavior)。
 
 ## 通用事件
