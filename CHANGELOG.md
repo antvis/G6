@@ -4,7 +4,8 @@
 - fix: BehaviorOptions type error;
 - fix: fitView the graph with data whose nodes and edges are empty arrays;
 - fix: rect node positions are changed after calling graph.changeData;
-- fix: drag behavior is disabled when the keys are released invalidly.
+- fix: drag behavior is disabled when the keys are released invalidly;
+- refactor: update G and the fill of custom arrow should be assigned by user.
 
 #### 3.4.0
 - feat: SVG renderer;
