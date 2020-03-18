@@ -27,6 +27,8 @@ export interface IModeOption {
   enableDelegate?: boolean;
   maxZoom?: number;
   minZoom?: number;
+  enableOptimize?: boolean;
+  optimizeZoom?: number;
   multiple?: boolean;
   selectedState?: string;
   includeEdges?: boolean;
