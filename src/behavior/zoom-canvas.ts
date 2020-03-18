@@ -6,8 +6,10 @@ export default {
   getDefaultCfg(): object {
     return {
       sensitivity: 2,
-      minZoom: 0.1,
+      minZoom: 0.2,
       maxZoom: 10,
+      enableOptimize: false,
+      optimizeZoom: 0.7
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -35,6 +37,58 @@ export default {
     if (zoom > this.get('maxZoom') || zoom < this.get('minZoom')) {
       return;
     }
+
+    const enableOptimize = this.get('enableOptimize')
+    if(enableOptimize) {
+      const optimizeZoom = this.get('optimizeZoom')
+
+      const currentZoom = graph.getZoom()
+      console.log(currentZoom)
+      if(currentZoom < optimizeZoom) {
+        const nodes = graph.getNodes()
+        const edges = graph.getEdges()
+        nodes.map(node => {
+          if(!node.destroyed) {
+            const children = node.getContainer().get('children')
+            children.map(shape => {
+              if(!shape.destoryed && !shape.get('isKeyShape')) {
+                shape.hide()
+              }
+            })
+          }
+        })
+  
+        edges.map(edge => {
+          const children = edge.getContainer().get('children')
+          children.map(shape => {
+            if(!shape.get('isKeyShape')) {
+              shape.hide()
+            }
+          })
+        })
+      } else {
+        const nodes = graph.getNodes()
+        const edges = graph.getEdges()
+        nodes.map(node => {
+          const children = node.getContainer().get('children')
+          children.map(shape => {
+            if(!shape.get('visible')) {
+              shape.show()
+            }
+          })
+        })
+  
+        edges.map(edge => {
+          const children = edge.getContainer().get('children')
+          children.map(shape => {
+            if(!shape.get('visible')) {
+              shape.show()
+            }
+          })
+        })
+      }
+    }
+    
     graph.zoom(ratio, { x: point.x, y: point.y });
     graph.emit('wheelzoom', e);
   },
