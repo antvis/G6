@@ -837,7 +837,7 @@ describe('all node link center', () => {
     expect(graph.findAllByState('node', 'b').length).toBe(0);
   });
 
-  it.only('default node & edge style', () => {
+  it('default node & edge style', () => {
     const defaultGraph = new Graph({
       container: div,
       width: 500,
