@@ -125,7 +125,7 @@ describe('zoom-canvas', () => {
     expect(matrix[7]).toEqual(10);
   });
 
-  it.only('zoom with optimize', () => {
+  it('zoom with optimize', () => {
     const graph = new Graph({
       container: div,
       width: 500,

@@ -83,6 +83,7 @@ export default class ItemBase implements IItemBase {
     
     if (!id) {
       id = uniqueId(this.get('type'));
+      this.get('model').id = id
     }
     
     this.set('id', id);
