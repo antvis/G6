@@ -17,6 +17,8 @@ G6.registerEdge('line-arrow', {
     const endPoint = cfg.endPoint;
 
     const stroke = (cfg.style && cfg.style.stroke) || this.options.style.stroke;
+    const startArrow = (cfg.style && cfg.style.startArrow) || undefined;
+    const endArrow = (cfg.style && cfg.style.endArrow) || undefined;
 
     const keyShape = group.addShape('path', {
       attrs: {
@@ -28,12 +30,8 @@ G6.registerEdge('line-arrow', {
         ],
         stroke,
         lineWidth: 1,
-        startArrow: {
-          path: 'M 0,0 L 12,6 L 9,0 L 12,-6 Z',
-        },
-        endArrow: {
-          path: 'M 0,0 L 12,6 L 9,0 L 12,-6 Z',
-        },
+        startArrow,
+        endArrow
       },
       className: 'edge-shape',
       name: 'edge-shape',
@@ -103,6 +101,14 @@ const graph = new G6.Graph({
     type: 'line-arrow',
     style: {
       stroke: '#F6BD16',
+      startArrow: {
+        path: 'M 0,0 L 12,6 L 9,0 L 12,-6 Z',
+        fill: '#F6BD16',
+      },
+      endArrow: {
+        path: 'M 0,0 L 12,6 L 9,0 L 12,-6 Z',
+        fill: '#F6BD16',
+      },
     },
   },
 });
