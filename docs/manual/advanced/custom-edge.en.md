@@ -206,7 +206,7 @@ The default end arrows might not meet the requirements sometimes. You can regist
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span> The coordinate system of custom arrow is changed by G6 3.4.1. In the figure below, the left one is the demonstration of the custom arrow before v3.4.1, and the right one illustates v3.4.1 and its later versions. The pointed direction is changed from negative direction to positive direction of x-axis. In the same time, the dirrection of the offset `d` is changed. In both versions, the origin of the self coordinate system of the custom arrow is on the end point of the corresponding edge or path, and the slope of the arrow is the same as the slope of edge or path at the end point.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*gN_NSqjLRo0AAAAAAAAAAABkARQnAQ' width=565 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*gN_NSqjLRo0AAAAAAAAAAABkARQnAQ' width=565 alt=""/>
 
 > (Left) Illustration for the coordinate system of custom arrow before v3.4.1. (Right) Illustration for v3.4.1 and its later versions.
 
