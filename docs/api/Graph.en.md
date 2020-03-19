@@ -645,7 +645,7 @@ Clear the states of the item. This function could clear multiple states in the s
 | Name   | Type            | Required | Description                         |
 | ------ | --------------- | -------- | ----------------------------------- |
 | item   | String / Object | true     | The id or the instance of the item. |
-| states | String / Array  | null     | false                               | It can be a single state value, an array, or null. When it is null, this operation will clear the **first** state of the item. |
+| states | String / Array  | null     | false                               | It can be a single state value, an array, or null. When it is null, this operation will clear all state of the item. |
 
 **Usage**
 
