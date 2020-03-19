@@ -50,7 +50,11 @@ const graph = new G6.Graph({
 
 - 含义：缩放画布；
 - `type: 'zoom-canvas'`；
-- `sensitivity`：缩放灵敏度，支持 1-10 的数值，默认灵敏度为 5。
+- `sensitivity`：缩放灵敏度，支持 1-10 的数值，默认灵敏度为 5；
+- `minZoom`：最小缩放比例；
+- `maxZoom`：最大缩放比例；
+- `enableOptimize`：是否开启性能优化，默认为 false，设置为 true 开启，开启后缩放比例小于 optimizeZoom 时自动隐藏非 keyShape；
+- `optimizeZoom`：当 enableOptimize 为 true 时起作用，默认值为 0.7，表示当缩放到哪个比例时开始隐藏非 keyShape。
 
 **提示：若要限定缩放尺寸，请在 graph 上设置  `minZoom`  和  `maxZoom`。**
 
