@@ -3,6 +3,7 @@ import React from 'react';
 import DragCanvas from './component/drag-canvas';
 import DagreArrow from './component/dagre-arrow';
 import ChageData from './changeData'
+import ChangeAttr from './attrs'
 
 export default { title: 'Issues' };
 
@@ -15,4 +16,7 @@ storiesOf('Issues', module)
 ))
 .add('change data', () => (
   <ChageData />
+))
+.add('change attr', () => (
+  <ChangeAttr />
 ))
