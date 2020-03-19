@@ -54,6 +54,64 @@ G6.registerNode('self-node', {
 
 describe('update', () => {
 
+  it('without second params, clear all states', () => {
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      nodeStateStyles: {
+        hover: {
+          opacity: 0.3
+        },
+        'body:health': {
+          fill: 'red'
+        }
+      },
+      defaultNode: {
+        size: 25,
+        style: {
+          fill: 'steelblue',
+          opacity: 1
+        }
+      },
+    });
+    const data = {
+      nodes: [
+        {
+          id: 'node1',
+          x: 100,
+          y: 100,
+        },
+        {
+          id: 'node2',
+          x: 200,
+          y: 100,
+        },
+      ],
+    };
+    graph.data(data);
+    graph.render();
+
+    const item = graph.findById('node1')
+    graph.setItemState(item, 'hover', true)
+    expect(item.hasState('hover')).toBe(true)
+
+    const keyShape = item.getKeyShape()
+    expect(keyShape.attr('fill')).toEqual('steelblue')
+
+    graph.setItemState(item, 'body', 'health')
+    
+    expect(item.getStates().length).toBe(2)
+    expect(item.hasState('body:health')).toBe(true)
+    expect(item.getKeyShape().attr('fill')).toEqual('red')
+
+    graph.clearItemStates(item)
+    expect(item.hasState('hover')).toBe(false)
+    expect(item.hasState('body:health')).toBe(false)
+    expect(item.getStates().length).toBe(0)
+
+    graph.destroy()
+  })
   it('setItemState, then updateItem', () => {
     const graph = new G6.Graph({
       container: div,

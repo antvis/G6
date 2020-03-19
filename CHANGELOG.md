@@ -1,4 +1,9 @@
 # ChangeLog
+#### 3.4.2
+- feat: zoom-canvas behavior support hiding non-keyshape elements when scaling canvas;
+- refactor: when sceond params is null, clearItemStates will clear all states of the item;
+- fix: (changeData bug)[https://github.com/antvis/G6/issues/1323];
+
 #### 3.4.1
 - feat: force layout clone original data model to allow the customized properties;
 - fix: BehaviorOptions type error;

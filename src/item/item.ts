@@ -376,9 +376,9 @@ export default class ItemBase implements IItemBase {
     const model: ModelConfig = self.get('model');
     const shape = model.shape || model.type;
     if (!states) {
-      console.warn(`clearItemStates 参数为空，则不清除任何状态`)
-      return;
+      states = originStates
     }
+
     if (isString(states)) {
       states = [states];
     }
