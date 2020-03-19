@@ -324,17 +324,17 @@ export const shapeBase: ShapeOptions = {
       const originstyles = {}
       deepMix(originstyles, originStyle, filtetDisableStatesStyle, enableStatesStyle)
 
-      for(const key in originstyles) {
-        const style = originstyles[key]
+      for(const originKey in originstyles) {
+        const style = originstyles[originKey]
         if(isPlainObject(style)) {
-          const subShape = group.find(element => element.get('name') === key)
+          const subShape = group.find(element => element.get('name') === originKey)
           if(subShape) {
             subShape.attr(style)
           }
         } else {
           // 非纯对象，则认为是设置到 keyShape 上面的
           shape.attr({
-            [key]: style
+            [originKey]: style
           })
         }
       }
