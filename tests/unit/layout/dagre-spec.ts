@@ -212,6 +212,7 @@ describe('dagre layout', () => {
       height: 500,
       layout: {
         type: 'dagre',
+        controlPoints: true
       },
       defaultEdge: {
         type: 'polyline',
@@ -319,7 +320,7 @@ describe('dagre layout', () => {
     graph.destroy();
   });
 
-  it.only('dagre with number size in node data, controlpoints', () => {
+  it('dagre with number size in node data, controlpoints', () => {
     data.edges.forEach(edgeItem => {
       delete edgeItem.startPoint;
       delete edgeItem.endPoint;
@@ -392,9 +393,7 @@ describe('dagre layout', () => {
 
     expect(mathEqual(node.x, 350)).toEqual(true);
     expect(mathEqual(node.y, 85)).toEqual(true);
-    expect(edge.controlPoints).not.toEqual(undefined);
-    expect(mathEqual(edge.controlPoints[0].x, 225)).toEqual(true);
-    expect(mathEqual(edge.controlPoints[0].y, 85)).toEqual(true);
+    expect(edge.controlPoints).toEqual(undefined);
     
     graph.destroy();
   });
