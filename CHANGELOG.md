@@ -1,8 +1,11 @@
 # ChangeLog
 #### 3.4.2
-- feat: zoom-canvas behavior support hiding non-keyshape elements when scaling canvas;
-- refactor: when sceond params is null, clearItemStates will clear all states of the item;
+- feat: zoom-canvas behavior supports hiding non-keyshape elements when scaling canvas;
+- refactor: when the second parameter is null, clearItemStates will clear all states of the item;
 - fix: (changeData bug)[https://github.com/antvis/G6/issues/1323];
+- fix: update antv/hierarchy to fix fixedRoot for TreeGraph;
+- fix: problem of a graph has multiple polyline edges;
+- fix: problem of dagre with controlPoints and loop edges.
 
 #### 3.4.1
 - feat: force layout clone original data model to allow the customized properties;
@@ -14,7 +17,7 @@
 
 #### 3.4.0
 - feat: SVG renderer;
-- refactor: new state machinism with multiple values, sub graphics shape style settings.
+- refactor: new state mechanism with multiple values, sub graphics shape style settings.
 
 #### 3.3.7
 - feat: beforeaddchild and afteraddchild emit for TreeGraph;
