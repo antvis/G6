@@ -72,10 +72,10 @@ Shape.registerEdge(
       }
       let path = (this as any).getPath(points, routeCfg);
       if (path === 'M ' || path === 'M0 0') {
-        path = 'M0 0, L100 100';
+        path = 'M0 0, L0 0';
       }
       if (isNaN(startPoint.x) || isNaN(startPoint.y) || isNaN(endPoint.x) || isNaN(endPoint.y)) {
-        path = 'M0 0, L100 100';
+        path = 'M0 0, L0 0';
       }
 
       const attrs: ShapeStyle = mix({}, Global.defaultEdge.style as ShapeStyle, style, {
