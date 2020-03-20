@@ -17,7 +17,7 @@ const CLS_LABEL_SUFFIX = '-label';
 export const shapeBase: ShapeOptions = {
   // 默认样式及配置
   options: {},
-  itemType: '', // node, edge, group, anchor 等
+  itemType: '', // node, edge, combo 等
   /**
    * 形状的类型，例如 circle，ellipse，polyline...
    */
@@ -56,6 +56,7 @@ export const shapeBase: ShapeOptions = {
     const labelStyle = this.getLabelStyle!(cfg, labelCfg, group);
     const rotate = labelStyle.rotate;
     delete labelStyle.rotate;
+    console.log('label style', labelStyle);
     const label = group.addShape('text', {
       attrs: labelStyle,
       draggable: true,
