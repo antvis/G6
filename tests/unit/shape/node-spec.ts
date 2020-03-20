@@ -36,7 +36,7 @@ describe('shape node test', () => {
     });
   });
 
-  describe('nodes test', () => {
+  describe.only('nodes test', () => {
     const factory = Shape.getFactory('node');
     it('circle no label', () => {
       const group = canvas.addGroup();
@@ -54,7 +54,7 @@ describe('shape node test', () => {
       expect(group.getCount()).toBe(1);
     });
 
-    it('circle with label', () => {
+    it.only('circle with label', () => {
       const group = canvas.addGroup();
       translate(group, { x: 50, y: 100 });
       factory.draw(
@@ -63,6 +63,9 @@ describe('shape node test', () => {
           size: 20,
           color: 'blue',
           label: '你好，我好，大家好',
+          labelCfg: {
+            position: 'top'
+          }
         },
         group,
       );
