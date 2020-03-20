@@ -50,6 +50,16 @@ export default {
     },
     offset: -5, // Combo 的默认文本不居中时的偏移量
   },
+  defaultCombo: {
+    type: 'circle',
+    style: {
+      fill: '#eee',
+      lineWidth: 1,
+      stroke: '#e2e2e2',
+    },
+    size: 20,
+    color: '#e2e2e2',
+  },
   // 节点应用状态后的样式，默认仅提供 active 和 selected 用户可以自己扩展
   nodeStateStyle: {},
   delegateStyle: {
