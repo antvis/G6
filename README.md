@@ -139,9 +139,9 @@ $ npm run dev
 
 Users are welcome to join the **G6 Communication Group** or **G6 Communication Group-2** (They are DingTalk groups). We also welcome the github issues.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hzfaSrAj0jkAAAAAAAAAAABkARQnAQ' width=400>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hzfaSrAj0jkAAAAAAAAAAABkARQnAQ' width=400 alt="">
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7uu-T7kp6uUAAAAAAAAAAABkARQnAQ' width=400>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7uu-T7kp6uUAAAAAAAAAAABkARQnAQ' width=400 alt="">
 
 
 ## How to Contribute
