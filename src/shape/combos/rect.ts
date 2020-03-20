@@ -1,10 +1,32 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
 import { mix } from '@antv/util';
-import { Item, NodeConfig, ModelConfig, ShapeStyle } from '../../types';
+import { LabelStyle, Item, NodeConfig, ModelConfig, ShapeStyle } from '../../types';
 import Global from '../../global';
 import Shape from '../shape';
-import { ShapeOptions } from '../../interface/shape';
+import { ILabelConfig, ShapeOptions } from '../../interface/shape';
+import { isNil } from '@antv/util';
+
+const collapseIcon = (x, y, r) => {
+  return [
+    ['M', x - r, y],
+    ['a', r, r, 0, 1, 0, r * 2, 0],
+    ['a', r, r, 0, 1, 0, -r * 2, 0],
+    ['M', x - r + 4, y],
+    ['L', x - r + 2 * r - 4, y],
+  ];
+};
+const expandIcon = (x, y, r) => {
+  return [
+    ['M', x - r, y],
+    ['a', r, r, 0, 1, 0, r * 2, 0],
+    ['a', r, r, 0, 1, 0, -r * 2, 0],
+    ['M', x - r + 4, y],
+    ['L', x - r + 2 * r - 4, y],
+    ['M', x - r + r, y - r + 4],
+    ['L', x, y + r - 4],
+  ];
+};
 
 Shape.registerCombo(
   'rect',
@@ -14,16 +36,16 @@ Shape.registerCombo(
       size: [100, 30],
       style: {
         radius: 0,
-        stroke: Global.defaultShapeStrokeColor,
-        fill: Global.defaultShapeFillColor,
-        lineWidth: Global.defaultNode.style.lineWidth,
+        stroke: Global.defaultCombo.style.stroke,
+        fill: Global.defaultCombo.style.fill,
+        lineWidth: Global.defaultCombo.style.lineWidth,
         fillOpacity: 1,
       },
       // 文本样式配置
       labelCfg: {
         style: {
           fill: '#595959',
-          fontSize: 12,
+          fontSize: 16,
         },
       },
       // 连接点，默认为左右
@@ -31,6 +53,16 @@ Shape.registerCombo(
         [0, 0.5],
         [1, 0.5],
       ],
+      collapseIcon: {
+        show: true,
+        collapseSymbol: collapseIcon,
+        expandSymbol: expandIcon,
+        r: 6,
+        lineWidth: 1,
+        stroke: '#595959',
+        offsetX: 10,
+        offsetY: 10
+      }
     },
     shapeType: 'rect',
     labelPosition: 'top',
@@ -42,7 +74,65 @@ Shape.registerCombo(
         name: 'rect-combo',
         draggable: true,
       });
+      (this as any).drawCollapseIcon(cfg, group, style);
       return keyShape;
+    },
+    // 私有方法，不希望扩展的 Combo 复写这个方法
+    getLabelStyleByPosition(cfg: NodeConfig, labelCfg: ILabelConfig): LabelStyle {
+      const labelPosition = labelCfg.position || this.labelPosition;
+  
+      let { offset } = labelCfg;
+      if (isNil(offset)) {
+        // 考虑 offset = 0 的场景，不用用 labelCfg.offset || Global.nodeLabel.offset
+        offset = this.offset as number; // 不居中时的偏移量
+      }
+  
+      const size = this.getSize!(cfg as ModelConfig);
+  
+      const width = size[0];
+      const height = size[1];
+  
+      let style: any;
+      switch (labelPosition) {
+        case 'top':
+          style = {
+            x: 0 - width / 2 - (offset as number),
+            y: 0 - height / 2 - (offset as number),
+            textBaseline: 'top', // 文本在图形的上方
+            textAlign: 'left',
+          };
+          break;
+        case 'bottom':
+          style = {
+            x: 0,
+            y: height / 2 + (offset as number),
+            textBaseline: 'bottom',
+            textAlign: 'center',
+          };
+          break;
+        case 'left':
+          style = {
+            x: 0 - width / 2 - (offset as number),
+            y: 0,
+            textAlign: 'left',
+          };
+          break;
+        case 'center':
+          style = {
+            x: 0, y: 0, text: cfg!.label,
+            textAlign: 'center',
+          };
+          break;
+        default:
+          style = {
+            x: width / 2 + (offset as number),
+            y: 0,
+            textAlign: 'right',
+          };
+          break;
+      }
+      style.text = cfg.label;
+      return style;
     },
     /**
      * 获取节点的样式，供基于该节点自定义时使用
@@ -70,6 +160,39 @@ Shape.registerCombo(
         style,
       );
       return styles;
+    },
+    /**
+     * 绘制节点上的LinkPoints
+     * @param {Object} cfg data数据配置项
+     * @param {Group} group Group实例
+     */
+    drawCollapseIcon(cfg: NodeConfig, group: GGroup, style: any) {
+      const { collapseIcon: defaultCollapseIcon } = this.options as any;
+      const collapseIcon = mix({}, defaultCollapseIcon, cfg.collapseIcon);
+
+      const { show, collapseSymbol, expandSymbol, offsetX, offsetY } = collapseIcon;
+      delete collapseIcon.collapseSymbol;
+      delete collapseIcon.expandSymbol;
+      const size = this.getSize!(cfg);
+      const r = collapseIcon.r || size[0] / 2;
+      delete collapseIcon.r;
+      if (show) {
+        // left circle
+        const attrs = {
+          r,
+          x: style.width / 2 - r - offsetX,
+          y: -style.height / 2 + r + offsetY,
+          ...collapseIcon,
+          symbol: collapseSymbol,
+        };
+        console.log('attrs', attrs);
+
+        group.addShape('marker', {
+          attrs,
+          className: 'collapse-icon',
+          name: 'collapse-icon'
+        });
+      }
     },
     update(cfg: NodeConfig, item: Item) {
       const { style: defaultStyle } = this.options as ModelConfig;

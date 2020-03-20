@@ -6,6 +6,7 @@ import Global from '../../global';
 import Shape from '../shape';
 import { ShapeOptions } from '../../interface/shape';
 
+
 // 圆形 Combo
 Shape.registerCombo(
   'circle',
@@ -16,9 +17,9 @@ Shape.registerCombo(
       style: {
         x: 0,
         y: 0,
-        stroke: Global.defaultShapeStrokeColor,
-        fill: Global.defaultShapeFillColor,
-        lineWidth: Global.defaultNode.style.lineWidth,
+        stroke: Global.defaultCombo.style.stroke,
+        fill: Global.defaultCombo.style.fill,
+        lineWidth: Global.defaultCombo.style.lineWidth,
       },
       labelCfg: {
         style: {
