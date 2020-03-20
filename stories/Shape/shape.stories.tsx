@@ -4,6 +4,7 @@ import React from 'react';
 import DefaultShape from './component/default-shape';
 import Image from './component/image';
 import CustomNode from './component/custom-node';
+import Polyline from './component/polyline';
 
 export default { title: 'Shape' };
 
@@ -18,4 +19,7 @@ storiesOf('Shape', module)
 ))
 .add('custom node', () => (
   <CustomNode />
+))
+.add('polyline', () => (
+  <Polyline />
 ))
