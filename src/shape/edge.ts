@@ -125,7 +125,15 @@ const singleEdge: ShapeOptions = {
     }
     // 添加结束点
     points.push(endPoint);
-    const path = (this as any).getPath(points);
+
+    const previousStyle = mix({}, strokeStyle, shape.attr(), cfg.style);
+    const source = cfg.sourceNode;
+    const target = cfg.targetNode;
+    let routeCfg: { [key: string]: unknown } = { radius: previousStyle.radius };
+    if (!controlPoints) {
+      routeCfg = { source, target, offset: previousStyle.offset, radius: previousStyle.radius };
+    }
+    const path = (this as any).getPath(points, routeCfg);
     const style = mix(
       strokeStyle,
       shape.attr(),
