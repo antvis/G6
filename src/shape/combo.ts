@@ -33,7 +33,7 @@ const singleCombo: ShapeOptions = {
    * @return {Array} 宽高
    */
   getSize(cfg: ModelConfig): number[] {
-    let size: number | number[] = cfg.size || this.options!.size || Global.defaultNode.size;
+    let size: number | number[] = cfg.size || this.options!.size || Global.defaultCombo.size;
 
     // size 是数组，若长度为 1，则补长度为 2
     if (isArray(size) && size.length === 1) {
@@ -67,7 +67,7 @@ const singleCombo: ShapeOptions = {
         style = {
           x: 0,
           y: 0 - height / 2 - (offset as number),
-          textBaseline: 'top', // 文本在图形的上面
+          textBaseline: 'top', // 文本在图形的上方
           textAlign: 'center',
         };
         break;
