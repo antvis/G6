@@ -54,6 +54,7 @@ G6 作为一款专业的图可视化引擎，具有以下特性：
 - [G6 核心概念](/zh/docs/manual/middle/graph)
 - [G6 高级指引](/zh/docs/manual/advanced/keyconcept/shape-and-properties)
 - [API](/zh/docs/api/Graph)
+- [G6 Blog](https://www.yuque.com/antv/g6-blog)
 
 ## 快速上手
 
@@ -106,13 +107,20 @@ graph.render();
 
 - <a href='https://github.com/guozhaolong/wfd' target='_blank'>基于 G6 和 React 的可视化流程编辑器 - Workflow Designer</a>；
 - <a href='https://github.com/caoyu48/vue-g6-editor' target='_blank'>基于 G6 和 Vue 的可视化编辑器</a>[]()；
-- <a href='https://github.com/OXOYO/X-Flowchart-Vue' target='_blank'>基于 G6 和 Vue 的可视化图形编辑器 - A visual graph editor based on G6 and Vue</a>。
+- <a href='https://github.com/OXOYO/X-Flowchart-Vue' target='_blank'>基于 G6 和 Vue 的可视化图形编辑器 - A visual graph editor based on G6 and Vue</a>；
+- <a href='https://github.com/lusess123/web-pdm' target='_blank'>基于 G6 和 React 实现的 ER 图编辑器</a>；
 
 ## G6 图可视化交流群
 
-欢迎各界 G6 使用者、图可视化爱好者加入 **G6 图可视化交流群**（钉钉群，使用钉钉扫一扫加入）讨论与交流。
+欢迎各界 G6 使用者、图可视化爱好者加入 **G6 图可视化交流群** 及 **G6 图可视化交流二群**（钉钉群，使用钉钉扫一扫加入）讨论与交流。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dsXsSpgynmUAAAAAAAAAAABkARQnAQ' width=400>
+> **G6 图可视化交流群** 已满员，该群会不定期移除不活跃的成员。
+
+> 由于值班同学的时间和精力有限，**G6 图可视化交流二群** 中的问题我们会不定期回复。欢迎对 G6 感兴趣的同学加入到答疑中来，非常感谢！
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hzfaSrAj0jkAAAAAAAAAAABkARQnAQ' width=400>
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7uu-T7kp6uUAAAAAAAAAAABkARQnAQ' width=400>
 
 ## 如何贡献
 
