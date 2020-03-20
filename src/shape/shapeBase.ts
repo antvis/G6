@@ -56,7 +56,6 @@ export const shapeBase: ShapeOptions = {
     const labelStyle = this.getLabelStyle!(cfg, labelCfg, group);
     const rotate = labelStyle.rotate;
     delete labelStyle.rotate;
-    console.log('label style', labelStyle);
     const label = group.addShape('text', {
       attrs: labelStyle,
       draggable: true,
