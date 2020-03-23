@@ -405,6 +405,21 @@ export interface ComboConfig extends ModelConfig {
   }>
 }
 
+export interface ComboConfig {
+  id: string;
+  parentId?: string;
+  // Combo 类型，默认 rect，值为定义的 combo 的名称
+  type: string;
+  // Combo 标题
+  title: string | LabelStyle;
+  style: ShapeStyle;
+  stateStyles: {
+    [key: string]: ShapeStyle | {
+      [key: string]: ShapeStyle
+    }
+  };
+}
+
 export interface EdgeConfig extends ModelConfig {
   id?: string;
   source?: string;
