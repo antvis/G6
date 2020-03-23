@@ -3,6 +3,7 @@ export default {
   rootContainerClassName: 'root-container',
   nodeContainerClassName: 'node-container',
   edgeContainerClassName: 'edge-container',
+  comboContainerClassName: 'combo-container',
   customGroupContainerClassName: 'custom-group-container',
   delegateContainerClassName: 'delegate-container',
   defaultShapeFillColor: '#C6E5FF',

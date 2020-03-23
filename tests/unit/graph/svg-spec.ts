@@ -62,7 +62,7 @@ describe('graph', () => {
   it('invalid container', () => {
     expect(() => {
       // eslint-disable-next-line no-new
-      new Graph({} as any); 
+      new Graph({} as any);
     }).toThrowError('invalid container');
   });
 
@@ -94,7 +94,7 @@ describe('graph', () => {
     ).toBe(true);
 
     const children = inst.get('group').get('children');
-    expect(children.length).toBe(4);
+    expect(children.length).toBe(5);
     expect(children[1].get('className')).toEqual('edge-container');
     expect(children[0].get('className')).toEqual('custom-group-container');
 
@@ -1319,7 +1319,7 @@ describe('behaviors', () => {
     graph.emit('node:click', { item: item2 });
     expect(itemKeyShape.attr('fill')).toBe('#f00');
     expect(item2KeyShape.attr('fill')).toBe('#f00');
-    
+
     graph.emit('canvas:click');
     expect(itemKeyShape.attr('fill')).toBe('#C6E5FF');
     expect(item2KeyShape.attr('fill')).toBe('#C6E5FF');
@@ -1357,16 +1357,16 @@ describe('behaviors', () => {
       expect(evt.selectedItems.nodes.length).toBe(0);
     });
 
-    graph.emit('canvas:click', { })
+    graph.emit('canvas:click', {})
     expect(itemKeyShape.attr('fill')).toBe('#C6E5FF');
     expect(item2KeyShape.attr('fill')).toBe('#C6E5FF');
   });
 
   it('drag-node', () => {
-    graph.emit('node:dragstart', { item, target: item, x: 0, y: 0});
-    graph.emit('node:drag', { item, target: item, x: 50, y: 150});
-    graph.emit('node:drag', { item, target: item, x: 50, y: 250});
-    graph.emit('node:dragend', { item, target: item, x: 50, y: 250});
+    graph.emit('node:dragstart', { item, target: item, x: 0, y: 0 });
+    graph.emit('node:drag', { item, target: item, x: 50, y: 150 });
+    graph.emit('node:drag', { item, target: item, x: 50, y: 250 });
+    graph.emit('node:dragend', { item, target: item, x: 50, y: 250 });
     expect(item.getModel().x).toBe(100);
     expect(item.getModel().y).toBe(300);
     const edge = graph.getEdges()[0];
@@ -1377,9 +1377,9 @@ describe('behaviors', () => {
     const item2 = graph.getNodes()[1];
     graph.setItemState(item, 'selected', true);
     graph.setItemState(item2, 'selected', true);
-    graph.emit('node:dragstart', { item, target: item, x: 0, y: 0});
-    graph.emit('node:drag', { item, target: item, x: 50, y: 50});
-    graph.emit('node:dragend', { item, target: item, x: 50, y: 50});
+    graph.emit('node:dragstart', { item, target: item, x: 0, y: 0 });
+    graph.emit('node:drag', { item, target: item, x: 50, y: 50 });
+    graph.emit('node:dragend', { item, target: item, x: 50, y: 50 });
     expect(item.getModel().x).toBe(150);
     expect(item.getModel().y).toBe(350);
     expect(item2.getModel().x).toBe(130);
@@ -1629,7 +1629,7 @@ describe('layouts', () => {
     });
     graph.data(data);
     graph.render();
-    
+
     graph.updateLayout({
       type: 'force'
     });
@@ -1653,11 +1653,11 @@ describe('layouts', () => {
       node.label = node.id;
     });
     const subdata = {
-      nodes: [ data.nodes[0], data.nodes[1], data.nodes[2] ],
-      edges: [ data.edges[0],  data.edges[1] ]
+      nodes: [data.nodes[0], data.nodes[1], data.nodes[2]],
+      edges: [data.edges[0], data.edges[1]]
     };
     const gridLayout = new Layout['circular']({
-      center: [ 250, 250 ]
+      center: [250, 250]
     });
     gridLayout.init(subdata);
     gridLayout.execute();
@@ -1762,7 +1762,7 @@ describe('built-in items', () => {
     ],
   };
   data.nodes.forEach((node: any, i) => {
-    node.label = `node-${i+1}`
+    node.label = `node-${i + 1}`
   });
 
   const graph = new Graph({
@@ -1864,13 +1864,13 @@ describe('built-in items', () => {
 
     const polyline = graph.getEdges()[7];
     graph.updateItem(polyline.getSource(), {
-      anchorPoints: [[ 0, 1 ]]
+      anchorPoints: [[0, 1]]
     });
     graph.updateItem(polyline.getTarget(), {
-      anchorPoints: [[ 1, 0.5 ]]
+      anchorPoints: [[1, 0.5]]
     });
     graph.updateItem(polyline, {
-      controlPoints: [ { x: 315, y: 300 } ],
+      controlPoints: [{ x: 315, y: 300 }],
       sourceAnchor: 0,
       targetAnchor: 0,
       style: {
@@ -2062,7 +2062,7 @@ describe('plugins', () => {
     setTimeout(() => {
       const minimapGroup = minimap2.get('canvas').get('children')[0];
       expect(minimapGroup.get('children').length).toBe(10);
-  
+
       const viewport = minimap2.get('viewport');
       expect(viewport.style.width).toBe('99.3377px');
       expect(viewport.style.height).toBe('99.3377px');
@@ -2097,7 +2097,7 @@ describe('plugins', () => {
     setTimeout(() => {
       const minimapGroup = minimap.get('canvas').get('children')[0];
       expect(minimapGroup.get('children').length).toBe(10);
-  
+
       const viewport = minimap.get('viewport');
 
       expect(viewport.style.width).toBe('99.6678px');
@@ -2506,7 +2506,7 @@ describe('plugins', () => {
     graph.data(bundlingData);
     graph.render();
     bundling.bundling(bundlingData);
-    
+
     graph.destroy();
   });
 
@@ -2542,17 +2542,17 @@ describe('plugins', () => {
       conextMenuContainer.style.left = `${evt.x + 20}px`;
       conextMenuContainer.style.top = `${evt.y}px`;
     });
-    
+
     graph.on('node:mouseleave', () => {
       conextMenuContainer.style.left = '-150px';
     });
-    
+
     const item = graph.getNodes()[1];
-    graph.emit('node:contextmenu', { 
+    graph.emit('node:contextmenu', {
       x: item.getModel().x,
       y: item.getModel().y
     });
-    
+
     graph.destroy();
   });
   it('grid', () => {
@@ -2569,7 +2569,7 @@ describe('plugins', () => {
     });
     graph.data(data2);
     graph.render();
-    
+
     const gridDom = document.getElementsByClassName('g6-grid')[0] as HTMLElement;
     expect(gridDom).not.toBe(undefined);
     const minZoom = graph.get('minZoom');
@@ -2636,10 +2636,10 @@ describe('custom group', () => {
     height: 500,
     renderer: 'svg',
     modes: {
-      default: [ {
+      default: [{
         type: 'collapse-expand-group',
         trigger: 'click'
-      }, 'drag-node-with-group', 'drag-group' ],
+      }, 'drag-node-with-group', 'drag-group'],
     },
   });
 
@@ -2737,7 +2737,7 @@ describe('custom group', () => {
     expect(delegateGroup.get('children').length).toBe(1);
     expect(node3.getModel().x).toBe(node3OriX);
     expect(node3.getModel().y).toBe(node3OriY);
-    
+
     graph.emit('node:dragend', {
       target: node3,
       item: node3,
