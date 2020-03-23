@@ -185,7 +185,6 @@ Shape.registerCombo(
           ...collapseIcon,
           symbol: collapseSymbol,
         };
-        console.log('attrs', attrs);
 
         group.addShape('marker', {
           attrs,
