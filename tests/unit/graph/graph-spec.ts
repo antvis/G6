@@ -53,7 +53,7 @@ describe('graph', () => {
     ).toBe(true);
 
     const children = inst.get('group').get('children');
-    expect(children.length).toBe(4);
+    expect(children.length).toBe(5);
     expect(children[1].get('className')).toEqual('edge-container');
     expect(children[0].get('className')).toEqual('custom-group-container');
 
