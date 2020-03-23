@@ -43,7 +43,6 @@ const ShapeFactoryBase = {
    */
   getShape(type?: string): ShapeOptions {
     const self = this as any;
-    console.log('getshape', self, type, self.defaultShapeType)
     const shape = self[type!] || self[self.defaultShapeType];
     return shape;
   },
@@ -223,7 +222,6 @@ export default class Shape {
     comboDefinition: ShapeOptions,
     extendShapeType?: string,
   ) {
-    console.log('register combo', shapeType);
     const shapeFactory = Shape.Combo;
     const extendShape = extendShapeType ? shapeFactory.getShape(extendShapeType) : ShapeFramework;
 
