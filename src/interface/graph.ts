@@ -1,10 +1,9 @@
 import EventEmitter from '@antv/event-emitter';
-import { AnimateCfg, Point } from '@antv/g-base/lib/types';
+import { Point, AnimateCfg } from '@antv/g-base/lib/types';
 import Graph from '../graph/graph';
 import {
   EdgeConfig,
   GraphData,
-  IG6GraphEvent,
   Item,
   ITEM_TYPE,
   ModelConfig,
@@ -13,9 +12,14 @@ import {
   ShapeStyle,
   TreeGraphData,
   LayoutConfig,
-  ModelStyle,
+  GraphOptions,
+  IModeOption,
+  IModeType,
+  ComboConfig,
+  IG6GraphEvent,
+  ModelStyle
 } from '../types';
-import { IEdge, INode } from './item';
+import { IEdge, INode, ICombo } from './item';
 import PluginBase from '../plugins/base';
 
 export interface IModeOption {
@@ -134,13 +138,13 @@ export interface GraphOptions {
     color?: string;
   } & ModelStyle;
 
-  nodeStateStyles?: { 
+  nodeStateStyles?: {
     [key: string]: ShapeStyle | {
       [key: string]: ShapeStyle
     }
   };
 
-  edgeStateStyles?: { 
+  edgeStateStyles?: {
     [key: string]: ShapeStyle | {
       [key: string]: ShapeStyle
     }
@@ -244,7 +248,7 @@ export interface IGraph extends EventEmitter {
    * 仅画布重新绘制
    */
   paint(): void;
-  
+
   /**
    * 自动重绘
    */
@@ -349,6 +353,17 @@ export interface IGraph extends EventEmitter {
    * 获取当前图中所有边的item实例
    */
   getEdges(): IEdge[];
+
+  /**
+   * 获取当前图中所有 combo 的实例
+   */
+  getCombos(): ICombo[];
+
+  /**
+   * 获取指定 combo 中所有的节点
+   * @param comboId Combo ID
+   */
+  getComboNodes(comboId: string): INode[];
 
   /**
    * 获取当前视口伸缩比例
@@ -458,6 +473,13 @@ export interface IGraph extends EventEmitter {
    * @param {function} edgeFn 指定每个边的样式,用法同 node
    */
   edge(edgeFn: (config: EdgeConfig) => Partial<EdgeConfig>): void;
+
+  /**
+   * 设置每个 combo 的配置
+   * @param comboFn 指定每个 combo 的配置
+   */
+  combo(comboFn: (config: ComboConfig) => Partial<ComboConfig>): void;
+
   /**
    * 平移画布到某点
    * @param {number} x 水平坐标
@@ -504,7 +526,7 @@ export interface IGraph extends EventEmitter {
    * 导出包含全图的图片
    * @param {String} name 图片的名称
    */
-  downloadFullImage(name?: string, imageConfig?: { backgroundColor?: string, padding?: number | number[]}): void;
+  downloadFullImage(name?: string, imageConfig?: { backgroundColor?: string, padding?: number | number[] }): void;
 
   // TODO 需要添加布局配置类型
   /**
@@ -531,6 +553,18 @@ export interface IGraph extends EventEmitter {
    * @param {object} plugin 插件实例
    */
   removePlugin(plugin: PluginBase): void;
+
+  /**
+   * 收起指定的 Combo
+   * @param comboId combo ID
+   */
+  collapse(comboId: string): void;
+
+  /**
+   * 展开指定的 Combo
+   * @param comboId combo ID
+   */
+  expand(comboId: string): void;
 
   /**
    * 收起分组

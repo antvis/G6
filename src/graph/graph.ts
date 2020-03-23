@@ -17,9 +17,9 @@ import {
   IGraph,
   IModeOption,
   IModeType,
-  IStates,
+  IStates
 } from '../interface/graph';
-import { IEdge, INode } from '../interface/item';
+import { IEdge, INode, ICombo } from '../interface/item';
 import {
   EdgeConfig,
   GraphData,
@@ -32,6 +32,7 @@ import {
   NodeMap,
   Padding,
   TreeGraphData,
+  ComboConfig
 } from '../types';
 import { getAllNodeInGroups } from '../util/group';
 import { move, translate } from '../util/math';
@@ -68,6 +69,8 @@ export interface PrivateGraphOption extends GraphOptions {
   edges: EdgeConfig[];
 
   groups: GroupConfig[];
+
+  combos: ComboConfig[];
 
   itemMap: NodeMap;
 
@@ -194,6 +197,11 @@ export default class Graph extends EventEmitter implements IGraph {
         className: Global.nodeContainerClassName,
       });
 
+      const comboGroup: IGroup = group.addGroup({
+        id: `${id}-combo`,
+        className: Global.comboContainerClassName
+      })
+
       const delegateGroup: IGroup = group.addGroup({
         id: `${id}-delegate`,
         className: Global.delegateContainerClassName,
@@ -207,7 +215,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
       customGroup.toBack();
 
-      this.set({ nodeGroup, edgeGroup, customGroup, delegateGroup });
+      this.set({ nodeGroup, edgeGroup, customGroup, delegateGroup, comboGroup });
     }
     this.set('group', group);
   }
@@ -372,6 +380,8 @@ export default class Graph extends EventEmitter implements IGraph {
        * group 数据
        */
       groups: [],
+
+      combos: [],
       /**
        * group样式
        */
@@ -452,6 +462,16 @@ export default class Graph extends EventEmitter implements IGraph {
   public edge(edgeFn: (config: EdgeConfig) => Partial<EdgeConfig>): void {
     if (typeof edgeFn === 'function') {
       this.set('edgeMapper', edgeFn);
+    }
+  }
+
+  /**
+   * 设置各个 combo 的配置
+   * @param comboFn 
+   */
+  public combo(comboFn: (config: ComboConfig) => Partial<ComboConfig>): void {
+    if (typeof comboFn === 'function') {
+      this.set('comboMapper', comboFn)
     }
   }
 
@@ -1163,6 +1183,22 @@ export default class Graph extends EventEmitter implements IGraph {
   }
 
   /**
+   * 获取图中所有的 combo 实例
+   */
+  public getCombos(): ICombo[] {
+    return this.get('combos')
+  }
+
+  // TODO 待实现getComboNodes方法
+  /**
+   * 获取指定 Combo 中所有的节点
+   * @param comboId combo ID
+   */
+  public getComboNodes(comboId: string): INode[] {
+    return []
+  }
+
+  /**
    * 根据 graph 上的 animateCfg 进行视图中节点位置动画接口
    */
   public positionsAnimate(): void {
@@ -1577,6 +1613,24 @@ export default class Graph extends EventEmitter implements IGraph {
     } else {
       layoutController.layout();
     }
+  }
+
+  // TODO 待实现 collapse 方法
+  /**
+   * 收起指定的 combo
+   * @param comboId combo ID
+   */
+  public collapse(comboId: string): void {
+
+  }
+
+  // TODO 待实现 expand 方法
+  /**
+   * 展开指定的 combo
+   * @param comboId Combo ID
+   */
+  public expand(comboId: string): void {
+
   }
 
   /**
