@@ -283,3 +283,48 @@ export interface INode extends IItemBase {
 
   unlock(): void;
 }
+
+export interface ICombo extends INode {
+  /**
+   * 获取 Combo 中所有的子元素，包括 Combo、Node 及 Edge
+   */
+  getChildrens: () => ICombo[] | IEdge[];
+
+  /**
+   * 获取 Combo 中所有节点
+   */
+  getComboNodes: () => INode[];
+
+  /**
+   * 获取 Combo 的 BBox
+   */
+  getBBox: () => IBBox;
+
+  /**
+   * 向 Combo 中增加 combo
+   * @param combo Combo ID 或 Combo实例
+   * @return boolean 添加成功返回 true，否则返回 false
+   */
+  addCombo: (combo: string | ICombo) => boolean;
+
+  /**
+   * 从 Combo 中移除指定的 combo
+   * @param combo Combo ID 或 Combo实例
+   * @return boolean 移除成功返回 true，否则返回 false
+   */
+  removeCombo: (combo: string | ICombo) => boolean;
+
+  /**
+   * 向 Combo 中添加节点
+   * @param node 节点ID或实例
+   * @return boolean 添加成功返回 true，否则返回 false
+   */
+  addNode: (node: string | INode) => boolean;
+
+   /**
+   * 向 Combo 中移除指定的节点
+   * @param node 节点ID或实例
+   * @return boolean 移除成功返回 true，否则返回 false
+   */
+  removeNode: (node: string | INode) => boolean;
+}

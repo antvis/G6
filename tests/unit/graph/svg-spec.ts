@@ -56,7 +56,7 @@ describe('graph', () => {
     ).toBe(true);
 
     const children = inst.get('group').get('children');
-    expect(children.length).toBe(4);
+    expect(children.length).toBe(5);
     expect(children[1].get('className')).toEqual('edge-container');
     expect(children[0].get('className')).toEqual('custom-group-container');
 
@@ -1976,7 +1976,7 @@ describe('plugins', () => {
     graph.data(data);
     graph.render();
     const minimapGroup = minimap.get('canvas').get('children')[0];
-    expect(minimapGroup.get('children').length).toBe(4);
+    expect(minimapGroup.get('children').length).toBe(5);
     expect(minimapGroup.get('children')[1].get('children').length).toBe(5);
     expect(minimapGroup.get('children')[2].get('children').length).toBe(5);
 
