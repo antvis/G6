@@ -30,6 +30,7 @@ import {
   IModeOption,
   IModeType,
   IStates,
+  ComboTree,
 } from '../types';
 import { getAllNodeInGroups } from '../util/group';
 import { move, translate } from '../util/math';
@@ -45,6 +46,7 @@ import {
   ViewController,
 } from './controller';
 import PluginBase from '../plugins/base';
+import { plainCombosToTrees, traverseTree } from '../util/graphic';
 
 const NODE = 'node';
 const SVG = 'svg';
@@ -210,6 +212,7 @@ export default class Graph extends EventEmitter implements IGraph {
       });
 
       customGroup.toBack();
+      comboGroup.toBack();
 
       this.set({ nodeGroup, edgeGroup, customGroup, delegateGroup, comboGroup });
     }
@@ -288,6 +291,10 @@ export default class Graph extends EventEmitter implements IGraph {
        * store all the edge instances
        */
       edges: [],
+      /**
+       * store all the combo instances
+       */
+      combos: [],
       /**
        * all the instances indexed by id
        */
@@ -376,8 +383,6 @@ export default class Graph extends EventEmitter implements IGraph {
        * group 数据
        */
       groups: [],
-
-      combos: [],
       /**
        * group样式
        */
@@ -808,6 +813,22 @@ export default class Graph extends EventEmitter implements IGraph {
         true,
         groupTitle,
       );
+    } else if (type === 'combo') {
+      const comboTrees = this.get('comboTrees');
+      comboTrees.forEach((ctree: ComboTree) => {
+        traverseTree<ComboTree>(ctree, child => {
+          if (model.parentId === child.id) {
+            const newCombo: ComboTree = {
+              id: model.id as string,
+              depth: child.depth + 1,
+              ...model
+            }
+            if (child.children) child.children.push(newCombo);
+            else child.children = [ newCombo ];
+          }
+          return true;
+        });
+      });
     }
     const itemController: ItemController = this.get('itemController');
     const item = itemController.addItem(type, model);
@@ -880,7 +901,7 @@ export default class Graph extends EventEmitter implements IGraph {
       throw new Error('data must be defined first');
     }
 
-    const { nodes = [], edges = [] } = data;
+    const { nodes = [], edges = [], combos = [] } = data;
 
     this.clear();
 
@@ -893,6 +914,12 @@ export default class Graph extends EventEmitter implements IGraph {
     each(edges, (edge: EdgeConfig) => {
       self.add('edge', edge);
     });
+
+    // process the data to tree structure
+    const comboTrees = plainCombosToTrees(combos, nodes);
+    this.set('comboTrees', comboTrees);
+    // add combos
+    self.addCombos(combos);
 
     if (!this.get('groupByTypes')) {
       // 为提升性能，选择数量少的进行操作
@@ -1039,6 +1066,12 @@ export default class Graph extends EventEmitter implements IGraph {
     return this;
   }
 
+  private addCombos(combos: ComboConfig[]) {
+    const self = this;
+    const comboTrees = self.get('comboTrees');
+    const itemController: ItemController = this.get('itemController');
+    const comboItems = itemController.addCombos(comboTrees, combos);
+  }
   /**
    * 根据数据渲染群组
    * @param {GraphData} data 渲染图的数据
@@ -1272,6 +1305,8 @@ export default class Graph extends EventEmitter implements IGraph {
 
     const nodes: INode[] = self.get('nodes');
     const edges: IEdge[] = self.get('edges');
+    const combos: ICombo[] = self.get('combos')
+    console.log(combos);
 
     let model: NodeConfig;
 

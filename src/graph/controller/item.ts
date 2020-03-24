@@ -8,14 +8,19 @@ import isString from '@antv/util/lib/is-string';
 import upperFirst from '@antv/util/lib/upper-first';
 import Edge from '../../item/edge';
 import Node from '../../item/node';
-import { EdgeConfig, Item, ITEM_TYPE, ModelConfig, NodeConfig, NodeMap } from '../../types';
+import Combo from '../../item/combo';
+import { EdgeConfig, Item, ITEM_TYPE, ModelConfig, NodeConfig, NodeMap, ComboTree, ComboConfig } from '../../types';
 import Graph from '../graph';
 
 import { IEdge, INode } from '../../interface/item';
 import { mix } from '@antv/util';
+import { traverseTree, traverseTreeUp } from '../../util/graphic';
+import { IGraph } from '../../interface/graph';
+import { IGroup } from '_@antv_g-svg@0.4.0@@antv/g-svg/node_modules/@antv/g-base';
 
 const NODE = 'node';
 const EDGE = 'edge';
+const COMBO = 'combo';
 const CFG_PREFIX = 'default';
 const MAPPER_SUFFIX = 'Mapper';
 const STATE_SUFFIX = 'stateStyles';
@@ -118,6 +123,44 @@ export default class ItemController {
         styles,
         group: parent.addGroup(),
       });
+      console.log('---added node item', item);
+    } else if (type === COMBO) {
+      console.log('additem combo', model);
+      const children = model.children;
+      const comboBBox = {
+        minX: Infinity,
+        minY: Infinity,
+        maxX: -Infinity,
+        maxY: -Infinity,
+        x: 0,
+        y: 0,
+        width: undefined,
+        height: undefined,
+      };
+      children && children.forEach(child => {
+        const childItem = graph.findById(child.id);
+        const childModel = childItem.getModel();
+        const childBBox = childItem.getCanvasBBox();
+        if (childModel.x && comboBBox.minX > childBBox.minX) comboBBox.minX = childBBox.minX;
+        if (childModel.y && comboBBox.minY > childBBox.minY) comboBBox.minY = childBBox.minY;
+        if (childModel.x && comboBBox.maxX < childBBox.maxX) comboBBox.maxX = childBBox.maxX;
+        if (childModel.y && comboBBox.maxY < childBBox.maxY) comboBBox.maxY = childBBox.maxY;
+      });
+      comboBBox.x = (comboBBox.minX + comboBBox.maxX) / 2;
+      comboBBox.y = (comboBBox.minY + comboBBox.maxY) / 2;
+      comboBBox.width = comboBBox.maxX - comboBBox.minX;
+      comboBBox.height = comboBBox.maxY - comboBBox.minY;
+
+      model.x = comboBBox.x || Math.random() * 100;
+      model.y = comboBBox.y || Math.random() * 100;
+
+      item = new Combo({
+        model,
+        styles,
+        bbox: comboBBox,
+        group: parent.addGroup(),
+      });
+      console.log('---added combo item', item);
     }
 
     if (item) {
@@ -320,6 +363,33 @@ export default class ItemController {
     item.refresh();
 
     graph.emit('afteritemrefresh', { item });
+  }
+  
+  /**
+   * 根据 graph 上用 combos 数据生成的 comboTree 来增加所有 combos
+   *
+   * @param {ComboTree[]} comboTrees graph 上用 combos 数据生成的 comboTree
+   * @param {ComboConfig[]} comboModels combos 数据
+   * @memberof ItemController
+   */
+  public addCombos(comboTrees: ComboTree[], comboModels: ComboConfig[]) {
+    console.log(comboTrees);
+    comboTrees.forEach((ctree: ComboTree) => {
+      traverseTreeUp<ComboTree>(ctree, child => {
+        let comboModel;
+        comboModels.forEach(model => {
+          if (model.id === child.id) {
+            model.children = child.children;
+            comboModel = model;
+          }
+        });
+        if (comboModel){
+          const comboItem = this.addItem('combo', comboModel);
+          console.log(comboItem);
+        }
+        return true;
+      });
+    });
   }
 
   /**
