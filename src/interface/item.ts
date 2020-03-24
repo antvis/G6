@@ -131,7 +131,7 @@ export interface IItemBase {
    * 节点 / 边 / Combo 的数据模型
    * @return {Object} 数据模型
    */
-  getModel(): ModelConfig;
+  getModel(): NodeConfig | EdgeConfig | ComboConfig;
 
   /**
    * 节点类型

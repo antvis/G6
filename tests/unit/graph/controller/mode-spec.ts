@@ -1,6 +1,6 @@
 import { ModeController } from '../../../../src/graph/controller';
 import Graph from '../../../../src/graph/graph';
-import { GraphOptions, IModeOption } from '../../../../src/types'
+import { GraphOptions, ModeOption } from '../../../../src/types'
 
 const div = document.createElement('div');
 div.id = 'graph-spec';
@@ -92,15 +92,15 @@ describe('Mode Controller', () => {
     expect(modeController.modes.custom1.length).toBe(2);
     expect(modeController.modes.custom2.length).toBe(2);
 
-    const custom1: IModeOption = modeController.modes.custom1[0] as IModeOption;
-    const custom2: IModeOption = modeController.modes.custom1[1] as IModeOption;
+    const custom1: ModeOption = modeController.modes.custom1[0] as ModeOption;
+    const custom2: ModeOption = modeController.modes.custom1[1] as ModeOption;
     expect(custom1.type).toBe('aa');
     expect(custom2.type).toBe('bb');
 
     modeController.manipulateBehaviors(['aa'], ['custom1', 'custom2'], false);
 
-    const customd1: IModeOption = modeController.modes.custom1[0] as IModeOption;
-    const customd2: IModeOption = modeController.modes.custom2[0] as IModeOption;
+    const customd1: ModeOption = modeController.modes.custom1[0] as ModeOption;
+    const customd2: ModeOption = modeController.modes.custom2[0] as ModeOption;
 
     expect(modeController.modes.custom1.length).toBe(1);
     expect(modeController.modes.custom2.length).toBe(1);

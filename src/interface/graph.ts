@@ -13,8 +13,8 @@ import {
   TreeGraphData,
   LayoutConfig,
   GraphOptions,
-  IModeOption,
-  IModeType,
+  ModeOption,
+  ModeType,
   ComboConfig
 } from '../types';
 import { IEdge, INode, ICombo } from './item';
@@ -222,19 +222,19 @@ export interface IGraph extends EventEmitter {
 
   /**
    * 新增行为
-   * @param {string | IModeOption | IModeType[]} behaviors 添加的行为
+   * @param {string | ModeOption | ModeType[]} behaviors 添加的行为
    * @param {string | string[]} modes 添加到对应的模式
    * @return {Graph} Graph
    */
-  addBehaviors(behaviors: string | IModeOption | IModeType[], modes: string | string[]): Graph;
+  addBehaviors(behaviors: string | ModeOption | ModeType[], modes: string | string[]): Graph;
 
   /**
    * 移除行为
-   * @param {string | IModeOption | IModeType[]} behaviors 移除的行为
+   * @param {string | ModeOption | ModeType[]} behaviors 移除的行为
    * @param {string | string[]} modes 从指定的模式中移除
    * @return {Graph} Graph
    */
-  removeBehaviors(behaviors: string | IModeOption | IModeType[], modes: string | string[]): Graph;
+  removeBehaviors(behaviors: string | ModeOption | ModeType[], modes: string | string[]): Graph;
 
   /**
    * 清除画布元素
