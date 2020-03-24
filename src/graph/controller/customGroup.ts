@@ -230,9 +230,9 @@ export default class CustomGroup {
       // 更新群组及属性样式
       this.setDeletageGroupByStyle(groupId, nodeGroup, { width, height, x: cx, y: cy, r: lastR });
     } else {
-      
+
       const rectPadding = paddingValue * defaultStyle.disCoefficient;
-      
+
       keyShape = nodeGroup.addShape('rect', {
         attrs: {
           ...defaultStyle,
@@ -382,27 +382,27 @@ export default class CustomGroup {
   * @param {string} parentId 父节点的键值
   * @return {array} 转成的树形结构数据
   */
- public flatToTree(data, value = 'id', parentId = 'parentId') {
-  const children = 'children';
-  const valueMap = [];
-  const tree = [];
+  public flatToTree(data, value = 'id', parentId = 'parentId') {
+    const children = 'children';
+    const valueMap = [];
+    const tree = [];
 
-  data.forEach(v => {
-    valueMap[v[value]] = v;
-  });
+    data.forEach(v => {
+      valueMap[v[value]] = v;
+    });
 
-  data.forEach(v => {
-    const parent = valueMap[v[parentId]];
-    if (parent) {
-      !parent[children] && (parent[children] = []);
-      parent[children].push(v);
-    } else {
-      tree.push(v);
-    }
-  });
+    data.forEach(v => {
+      const parent = valueMap[v[parentId]];
+      if (parent) {
+        !parent[children] && (parent[children] = []);
+        parent[children].push(v);
+      } else {
+        tree.push(v);
+      }
+    });
 
-  return tree;
-}
+    return tree;
+  }
 
   /**
    * 当group中含有group时，获取padding值
@@ -410,33 +410,33 @@ export default class CustomGroup {
    * @return {number} 在x和y方向上的偏移值
    */
   public getGroupPadding(groupId: string): number {
-    
+
     const { graph } = this;
     const { default: defaultStyle } = this.styles;
     // 检测操作的群组中是否包括子群组
     const groups = graph.get('groups');
-    
-    
+
+
     // 计算每个 groupId 包含的组的数量
     const currentGroups = groups.filter(g => g.parentId === groupId)
-    
+
     let count = 1
-    if(currentGroups.length > 0) {
-      if(!treeGroup) {
+    if (currentGroups.length > 0) {
+      if (!treeGroup) {
         treeGroup = this.flatToTree(groups)
       }
-      
+
       traverseTree(treeGroup[0], (param) => {
-        if(param.parentId === groupId && param.children) {
+        if (param.parentId === groupId && param.children) {
           count += param.children.length
           return true
         }
       })
     }
-    
+
 
     const big = groups.filter(g => g.id === groupId && !g.parentId)
-    if(big.length > 0) {
+    if (big.length > 0) {
       count += 1
     }
     const hasSubGroup = !!(groups.filter(g => g.parentId === groupId).length > 0);
@@ -638,7 +638,7 @@ export default class CustomGroup {
       const { groupId } = model;
       if (groupId && groupId !== id) {
         // 存在群组，则隐藏
-        const currentGroup = this.getDeletageGroupById(groupId);
+        const currentGroup = this.getDeletageGroupById(groupId as string);
         const { nodeGroup: currentNodeGroup } = currentGroup;
         currentNodeGroup.hide();
       }
@@ -816,7 +816,7 @@ export default class CustomGroup {
         const { groupId } = model;
         if (groupId && groupId !== id) {
           // 存在群组，则显示
-          const currentGroup = this.getDeletageGroupById(groupId);
+          const currentGroup = this.getDeletageGroupById(groupId as string);
           const { nodeGroup: currentNodeGroup } = currentGroup;
           currentNodeGroup.show();
           const hasHidden = currentNodeGroup.get('hasHidden');
@@ -1231,13 +1231,13 @@ export default class CustomGroup {
     const { graph } = this;
     const groupType = graph.get('groupType');
     const groupNodes = graph.get('groupNodes');
-    const nodes = groupNodes[groupId];
+    const nodes = groupNodes[groupId as string];
 
     // 拖出节点后，根据最新的节点数量，重新计算群组大小
     // 如果只有一个节点，拖出后，则删除该组
     if (nodes.length === 0) {
       // step 1: 从groupNodes中删除
-      delete groupNodes[groupId];
+      delete groupNodes[groupId as string];
 
       // step 2: 从groups数据中删除
       const groupsData = graph.get('groups');
@@ -1251,7 +1251,7 @@ export default class CustomGroup {
     } else {
       const { x, y, width, height } = this.calculationGroupPosition(nodes);
       // 检测操作的群组中是否包括子群组
-      const paddingValue = this.getGroupPadding(groupId);
+      const paddingValue = this.getGroupPadding(groupId as string);
 
       let titleX = 0;
       let titleY = 0;
@@ -1280,7 +1280,7 @@ export default class CustomGroup {
       }
 
       // 如果存在标题，则更新标题位置
-      this.updateGroupTitle(currentGroup, groupId, titleX, titleY);
+      this.updateGroupTitle(currentGroup, groupId as string, titleX, titleY);
     }
     this.setGroupStyle(keyShape, 'default');
   }

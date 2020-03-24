@@ -1,7 +1,7 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
 import deepMix from '@antv/util/lib/deep-mix';
-import { Item, NodeConfig, ShapeStyle, ModelConfig } from '../../types';
+import { Item, ComboConfig, ShapeStyle } from '../../types';
 import Global from '../../global';
 import Shape from '../shape';
 import { ShapeOptions } from '../../interface/shape';
@@ -33,7 +33,7 @@ Shape.registerCombo(
     shapeType: 'circle',
     // 文本位置
     labelPosition: 'top',
-    drawShape(cfg: NodeConfig, group: GGroup): IShape {
+    drawShape(cfg: ComboConfig, group: GGroup): IShape {
       const style = this.getShapeStyle!(cfg);
       delete style.height;
       delete style.width;
@@ -51,8 +51,8 @@ Shape.registerCombo(
      * @param {Object} cfg Combo 数据模型
      * @return {Object} Combo 的样式
      */
-    getShapeStyle(cfg: NodeConfig): ShapeStyle {
-      const { style: defaultStyle } = this.options as ModelConfig;
+    getShapeStyle(cfg: ComboConfig): ShapeStyle {
+      const { style: defaultStyle } = this.options as ComboConfig;
       let padding: number | number[] = cfg.padding || this.options.padding;
       if (isArray(padding)) padding = padding[0];
       const strokeStyle: ShapeStyle = {
@@ -80,7 +80,7 @@ Shape.registerCombo(
       }
       return styles;
     },
-    update(cfg: NodeConfig, item: Item) {
+    update(cfg: ComboConfig, item: Item) {
       const size = (this as ShapeOptions).getSize!(cfg);
       let padding: number | number[] = cfg.padding || this.options.padding;
       if (isArray(padding)) padding = padding[0];
