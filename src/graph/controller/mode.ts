@@ -3,7 +3,8 @@ import isArray from '@antv/util/lib/is-array';
 import isString from '@antv/util/lib/is-string';
 import Behavior from '../../behavior/behavior';
 import { IBehavior } from '../../interface/behavior';
-import { IGraph, IMode, IModeType } from '../../interface/graph';
+import { IGraph } from '../../interface/graph';
+import { IMode, IModeType } from '../../types'
 import Graph from '../graph';
 
 export default class ModeController {

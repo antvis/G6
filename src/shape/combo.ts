@@ -44,6 +44,7 @@ const singleCombo: ShapeOptions = {
     if (!isArray(size)) {
       size = [size, size];
     }
+    console.log('sizesizesize', size);
     return size;
   },
   // 私有方法，不希望扩展的 Combo 复写这个方法
