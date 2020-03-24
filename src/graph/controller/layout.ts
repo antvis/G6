@@ -176,7 +176,6 @@ export default class LayoutController {
       // 若存在节点没有位置信息，且没有设置 layout，在 initPositions 中 random 给出了所有节点的位置，不需要再次执行 random 布局
       // 所有节点都有位置信息，且指定了 layout，则执行布局（代表不是第一次进行布局）
       if (hasLayoutType) {
-        // allHavePos &&
         layoutMethod.execute();
       }
       this.layoutMethod = layoutMethod;

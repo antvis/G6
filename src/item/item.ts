@@ -1,6 +1,6 @@
 import Group from '@antv/g-canvas/lib/group';
 import { each, isNil, isPlainObject,
-  isString, isBoolean, uniqueId, mix, deepMix } from '@antv/util'
+  isString, isBoolean, uniqueId, mix } from '@antv/util'
 import { IItemBase, IItemBaseConfig } from '../interface/item';
 import Shape from '../shape/shape';
 import { IBBox, IPoint, IShapeBase, ModelConfig, ShapeStyle, Indexable } from '../types';
@@ -8,6 +8,7 @@ import { getBBox } from '../util/graphic';
 import { translate } from '../util/math';
 
 const CACHE_BBOX = 'bboxCache';
+const CACHE_CANVAS_BBOX = 'bboxCanvasCache';
 
 const RESERVED_STYLES = ['fillStyle', 'strokeStyle', 'path', 'points', 'img', 'symbol'];
 
@@ -115,6 +116,24 @@ export default class ItemBase implements IItemBase {
     return bbox;
   }
 
+
+  /**
+   * 根据 keyshape 计算包围盒
+   */
+  private calculateCanvasBBox(): IBBox {
+    const keyShape: IShapeBase = this.get('keyShape');
+    const group: Group = this.get('group');
+    // 因为 group 可能会移动，所以必须通过父元素计算才能计算出正确的包围盒
+    const bbox = getBBox(keyShape, group);
+    bbox.x = bbox.minX;
+    bbox.y = bbox.minY;
+    bbox.width = bbox.maxX - bbox.minX;
+    bbox.height = bbox.maxY - bbox.minY;
+    bbox.centerX = (bbox.minX + bbox.maxX) / 2;
+    bbox.centerY = (bbox.minY + bbox.maxY) / 2;
+    return bbox;
+  }
+
   /**
    * draw shape
    */
@@ -132,6 +151,7 @@ export default class ItemBase implements IItemBase {
     const cfg = self.getShapeCfg(model); // 可能会附加额外信息
     const shapeType = (cfg.shape as string) || (cfg.type as string);
 
+    console.log('cfgcfgcfgcfg', cfg);
     
     const keyShape: IShapeBase = shapeFactory.draw(shapeType, cfg, group);
     
@@ -230,6 +250,7 @@ export default class ItemBase implements IItemBase {
    */
   protected clearCache() {
     this.set(CACHE_BBOX, null);
+    this.set(CACHE_CANVAS_BBOX, null);
   }
 
   /**
@@ -280,8 +301,6 @@ export default class ItemBase implements IItemBase {
     const styles = this.get('styles');
     if (styles) {
       // merge graph的item样式与数据模型中的样式
-      // const newModel = Object.assign({}, model);
-      // newModel.style = Object.assign({}, styles, model.style);
       const newModel = model;
       newModel.style = Object.assign({}, styles, model.style);
       return newModel;
@@ -556,7 +575,7 @@ export default class ItemBase implements IItemBase {
   }
 
   /**
-   * 获取元素的包围盒
+   * 获取 item 的包围盒，这个包围盒是相对于 item 自己，不会将 matrix 计算在内
    * @return {Object} 包含 x,y,width,height, centerX, centerY
    */
   public getBBox(): IBBox {
@@ -565,6 +584,20 @@ export default class ItemBase implements IItemBase {
     if (!bbox) {
       bbox = this.calculateBBox();
       this.set(CACHE_BBOX, bbox);
+    }
+    return bbox;
+  }
+
+  /**
+   * 获取 item 相对于画布的包围盒，会将从顶层到当前元素的 matrix 都计算在内
+   * @return {Object} 包含 x,y,width,height, centerX, centerY
+   */
+  public getCanvasBBox(): IBBox {
+    // 计算 bbox 开销有些大，缓存
+    let bbox: IBBox = this.get(CACHE_CANVAS_BBOX);
+    if (!bbox) {
+      bbox = this.calculateCanvasBBox();
+      this.set(CACHE_CANVAS_BBOX, bbox);
     }
     return bbox;
   }

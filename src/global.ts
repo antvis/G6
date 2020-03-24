@@ -53,12 +53,16 @@ export default {
   defaultCombo: {
     type: 'circle',
     style: {
-      fill: '#eee',
+      fill: '#F3F9FF',
       lineWidth: 1,
-      stroke: '#e2e2e2',
+      stroke: '#A3B1BF',
+      opacity: 0.8,
+      r: 10,
+      width: 10,
+      height: 10
     },
     size: 20,
-    color: '#e2e2e2',
+    color: '#A3B1BF',
   },
   // 节点应用状态后的样式，默认仅提供 active 和 selected 用户可以自己扩展
   nodeStateStyle: {},

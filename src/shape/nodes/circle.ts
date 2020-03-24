@@ -55,6 +55,7 @@ Shape.registerNode(
       const { icon: defaultIcon } = this.options as ModelConfig;
       const style = this.getShapeStyle!(cfg);
       const icon = deepMix({}, defaultIcon, cfg.icon);
+      console.log('draw circle node shape', style);
       const keyShape: IShape = group.addShape('circle', {
         attrs: style,
         className: 'circle-keyShape',

@@ -173,9 +173,14 @@ export interface IItemBase {
   draw(): void;
 
   /**
-   * 获取元素的包围盒
+   * 获取 item 的包围盒，这个包围盒是相对于 item 自己，不会将 matrix 计算在内
    */
   getBBox(): IBBox;
+
+  /**
+   * 获取 item 相对于画布的包围盒，会将从顶层到当前元素的 matrix 都计算在内
+   */
+  getCanvasBBox(): IBBox;
 
   /**
    * 将元素放到最前面
