@@ -158,11 +158,11 @@ export default class ItemController {
    * 更新节点或边
    *
    * @param {Item} item ID 或 实例
-   * @param {(EdgeConfig | NodeConfig)} cfg 数据模型
+   * @param {(EdgeConfig | Partial<NodeConfig>)} cfg 数据模型
    * @returns
    * @memberof ItemController
    */
-  public updateItem(item: Item | string, cfg: EdgeConfig | NodeConfig) {
+  public updateItem(item: Item | string, cfg: EdgeConfig | Partial<NodeConfig>) {
     const { graph } = this;
 
     if (isString(item)) {

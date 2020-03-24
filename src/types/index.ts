@@ -97,7 +97,6 @@ export interface LayoutConfig {
   [key: string]: unknown;
 }
 
-
 export interface GraphAnimateConfig extends AnimateCfg {
   /**
    * 回调函数，用于自定义节点运动路径。
@@ -105,7 +104,7 @@ export interface GraphAnimateConfig extends AnimateCfg {
   onFrame?: (item: Item, ratio: number, data?: GraphData, originAttrs?: ShapeStyle) => unknown;
 }
 
-export interface IModeOption {
+export interface ModeOption {
   type: string;
   delegate?: boolean;
   delegateStyle?: object;
@@ -129,15 +128,15 @@ export interface IModeOption {
   formatText?: (data: { [key: string]: unknown }) => string;
 }
 
-export type IModeType = string | IModeOption;
+export type ModeType = string | ModeOption;
 
-export interface IMode {
-  default?: IModeType[];
-  [key: string]: IModeType[] | undefined;
+export interface Modes {
+  default?: ModeType[];
+  [key: string]: ModeType[] | undefined;
 }
 
 // Graph 配置项中 state 的类型
-export interface IStates {
+export interface States {
   [key: string]: INode[];
 }
 
@@ -194,27 +193,27 @@ export interface GraphOptions {
   /**
    * 设置画布的模式。详情可见G6中的Mode文档。
    */
-  modes?: IMode;
+  modes?: Modes;
 
   /**
    * 默认状态下节点的配置，比如 type, size, color。会被写入的 data 覆盖。
    */
-  defaultNode?: {
-    shape?: string;
-    type?: string;
-    size?: number | number[];
-    color?: string;
-  } & ModelStyle;
+  defaultNode?: Partial<{
+    shape: string;
+    type: string;
+    size: number | number[];
+    color: string;
+  }> & ModelStyle;
 
   /**
    * 默认状态下边的配置，比如 type, size, color。会被写入的 data 覆盖。
    */
-  defaultEdge?: {
-    shape?: string;
-    type?: string;
-    size?: number | number[];
-    color?: string;
-  } & ModelStyle;
+  defaultEdge?: Partial<{
+    shape: string;
+    type: string;
+    size: number | number[];
+    color: string;
+  }> & ModelStyle;
 
   /**
    * Combo 默认配置
@@ -225,24 +224,12 @@ export interface GraphOptions {
     color: string;
   }> & ModelStyle;
 
-  nodeStateStyles?: {
-    [key: string]: ShapeStyle | {
-      [key: string]: ShapeStyle
-    }
-  };
+  nodeStateStyles?: StateStyles;
 
-  edgeStateStyles?: {
-    [key: string]: ShapeStyle | {
-      [key: string]: ShapeStyle
-    }
-  };
+  edgeStateStyles?: StateStyles;
 
   // Combo 状态样式
-  comboStateStyles?: {
-    [key: string]: ShapeStyle | {
-      [key: string]: ShapeStyle
-    }
-  }
+  comboStateStyles?: StateStyles
 
   /**
    * 向 graph 注册插件。插件机制请见：plugin
@@ -276,24 +263,17 @@ export interface GraphOptions {
   linkCenter?: boolean;
 }
 
+interface StateStyles {
+  [key: string]: ShapeStyle | {
+    [key: string]: ShapeStyle
+  }
+}
+
 // model types (node edge group)
 export type ModelStyle = Partial<{
   [key: string]: unknown;
-  style:
-  | ShapeStyle
-  | {
-    [key: string]: ShapeStyle;
-  };
-  stateStyles: {
-    [key: string]:
-    | ShapeStyle
-    | {
-      [key: string]: ShapeStyle;
-    };
-  };
-  // loop edge config
-  loopCfg: LoopConfig;
-  labelCfg: ILabelConfig;
+  style: ShapeStyle;
+  stateStyles: StateStyles;
 }>;
 
 export type LabelStyle = Partial<{
@@ -342,19 +322,27 @@ export interface ModelConfig extends ModelStyle {
   shape?: string;
   // 节点或边的类型
   type?: string;
-  label?: string;
+  label?: string | LabelStyle;
   labelCfg?: ILabelConfig;
+  x?: number;
+  y?: number;
+  size?: number | number[];
+  color?: string;
+  anchorPoints?: number[][];
+}
+
+export interface NodeConfig extends ModelConfig {
+  id: string;
+  groupId?: string;
+  children?: TreeGraphData[];
+  description?: string;
   descriptionCfg?: {
     style?: object;
     [key: string]: unknown;
   };
-  groupId?: string;
-  description?: string;
-  x?: number;
-  y?: number;
-  size?: number | number[];
   img?: string;
-  color?: string;
+  innerR?: number;
+  direction?: string;
   preRect?: {
     show?: boolean;
     [key: string]: unknown;
@@ -367,8 +355,6 @@ export interface ModelConfig extends ModelStyle {
     show?: boolean;
     [key: string]: unknown;
   };
-  anchorPoints?: number[][];
-  controlPoints?: IPoint[];
   linkPoints?: {
     top?: boolean;
     right?: boolean;
@@ -410,52 +396,39 @@ export interface ModelConfig extends ModelStyle {
     // clip 的属性样式
     // style?: ShapeStyle
   };
-  innerR?: number;
-  direction?: string;
-  startPoint?: IPoint;
-  endPoint?: IPoint;
-  children?: TreeGraphData[];
-  stateStyles?: {
-    [key: string]:
-    | ShapeStyle
-    | {
-      [key: string]: ShapeStyle;
-    };
-  };
-}
-
-export interface NodeConfig extends ModelConfig {
-  id: string;
-  size?: number | number[];
-  groupId?: string;
-  comboId?: string;
-  description?: string;
 }
 
 export interface ComboConfig extends ModelConfig {
   id: string;
   parentId?: string;
-  // Combo 类型，默认 rect，值为定义的 combo 的名称
-  type?: string;
   children?: ComboTree[];
   depth?: number;
   padding?: number | number[]
+  collapseIcon?: Partial<{
+    show: boolean;
+    collapseSymbol: any;
+    expandSymbol: any;
+    r: number;
+    lineWidth: number;
+    stroke: string;
+    offsetX: number;
+    offsetY: number;
+  }>
 }
 
 export interface EdgeConfig extends ModelConfig {
   id?: string;
   source?: string;
   target?: string;
-  label?: string;
-  labelCfg?: ILabelConfig;
   sourceNode?: Node;
   targetNode?: Node;
   startPoint?: IPoint;
   endPoint?: IPoint;
   controlPoints?: IPoint[];
-  color?: string;
-  curveOffset?: number | number[];
-  curvePosition?: number | number[];
+  curveOffset?: number;
+  // loop edge config
+  loopCfg: LoopConfig;
+  labelCfg: ILabelConfig;
 }
 
 export type EdgeData = EdgeConfig & {
@@ -523,6 +496,7 @@ export interface ComboTree {
   depth?: number;
   parentId?: string;
   removed?: boolean;
+  [key: string]: unknown;
 }
 
 // Behavior type file

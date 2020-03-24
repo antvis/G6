@@ -33,7 +33,10 @@ import {
   Padding,
   TreeGraphData,
   ComboConfig,
-  ComboTree,
+  ModeOption,
+  ModeType,
+  States,
+  ComboTree
 } from '../types';
 import { getAllNodeInGroups } from '../util/group';
 import { move, translate } from '../util/math';
@@ -89,7 +92,7 @@ export interface PrivateGraphOption extends GraphOptions {
    *  selected: [Node]
    * }
    */
-  states: IStates;
+  states: States;
 }
 
 export default class Graph extends EventEmitter implements IGraph {
@@ -588,12 +591,12 @@ export default class Graph extends EventEmitter implements IGraph {
 
   /**
    * 新增行为
-   * @param {string | IModeOption | IModeType[]} behaviors 添加的行为
+   * @param {string | ModeOption | ModeType[]} behaviors 添加的行为
    * @param {string | string[]} modes 添加到对应的模式
    * @return {Graph} Graph
    */
   public addBehaviors(
-    behaviors: string | IModeOption | IModeType[],
+    behaviors: string | ModeOption | ModeType[],
     modes: string | string[],
   ): Graph {
     const modeController: ModeController = this.get('modeController');
@@ -603,12 +606,12 @@ export default class Graph extends EventEmitter implements IGraph {
 
   /**
    * 移除行为
-   * @param {string | IModeOption | IModeType[]} behaviors 移除的行为
+   * @param {string | ModeOption | ModeType[]} behaviors 移除的行为
    * @param {string | string[]} modes 从指定的模式中移除
    * @return {Graph} Graph
    */
   public removeBehaviors(
-    behaviors: string | IModeOption | IModeType[],
+    behaviors: string | ModeOption | ModeType[],
     modes: string | string[],
   ): Graph {
     const modeController: ModeController = this.get('modeController');
@@ -845,7 +848,7 @@ export default class Graph extends EventEmitter implements IGraph {
             const newCombo: ComboTree = {
               id: model.id as string,
               depth: child.depth + 1,
-              ...model
+              ...model as ComboTree
             }
             if (child.children) child.children.push(newCombo);
             else child.children = [newCombo];
@@ -1239,7 +1242,7 @@ export default class Graph extends EventEmitter implements IGraph {
     });
 
     each(this.get('edges'), (edge: IEdge) => {
-      edges.push(edge.getModel());
+      edges.push(edge.getModel() as EdgeConfig);
     });
 
     each(this.get('combos'), (combo: ICombo) => {
