@@ -3,9 +3,11 @@ import Path from '@antv/g-canvas/lib/shape/path';
 import { vec2, mat3 } from '@antv/matrix-util';
 import each from '@antv/util/lib/each';
 import Global from '../global';
-import { EdgeData, IBBox, IPoint, IShapeBase, LabelStyle, TreeGraphData } from '../types';
+import { EdgeData, IBBox, IPoint, IShapeBase, LabelStyle, TreeGraphData, NodeConfig, ComboTree, ComboConfig } from '../types';
 import { applyMatrix } from './math';
 import letterAspectRatio from './letterAspectRatio';
+import { isString, clone, deepMix } from '@antv/util';
+import { parsePathString } from '@antv/path-util';
 
 const { PI, sin, cos } = Math;
 
@@ -288,11 +290,29 @@ const traverse = <T extends { children?: T[] }>(data: T, fn: (param: T) => boole
   }
 };
 
+const traverseUp = <T extends { children?: T[] }>(data: T, fn: (param: T) => boolean) => {
+  if (data.children) {
+    each(data.children, child => {
+      traverseUp(child, fn);
+    });
+  }
+  if (fn(data) === false) {
+    return;
+  }
+};
+
 export const traverseTree = <T extends { children?: T[] }>(data: T, fn: (param: T) => boolean) => {
   if (typeof fn !== 'function') {
     return;
   }
   traverse(data, fn);
+};
+
+export const traverseTreeUp = <T extends { children?: T[] }>(data: T, fn: (param: T) => boolean) => {
+  if (typeof fn !== 'function') {
+    return;
+  }
+  traverseUp(data, fn);
 };
 
 export type TreeGraphDataWithPosition = TreeGraphData & {
@@ -362,8 +382,6 @@ export const radialLayout = (
   return data;
 };
 
-
-
 /**
  *
  * @param letter the letter
@@ -374,6 +392,12 @@ export const getLetterWidth = (letter, fontSize) => {
   return fontSize * (letterAspectRatio[letter] || 1);
 };
 
+/**
+ *
+ * @param text the text
+ * @param fontSize
+ * @return the text's size
+ */
 export const getTextSize = (text, fontSize) => {
   let width = 0;
   const pattern = new RegExp("[\u4E00-\u9FA5]+");
@@ -386,4 +410,98 @@ export const getTextSize = (text, fontSize) => {
     }
   });
   return [width, fontSize];
+}
+
+/**
+ * construct the trees from combos data
+ * @param array the combos array
+ * @param nodes the nodes array
+ * @return the tree
+ */
+export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) => {
+  const result: ComboTree[] = [];
+  const addedMap = {};
+  const modelMap = {};
+  array.forEach((d) => {
+    modelMap[d.id] = d;
+  });
+
+  array.forEach((d, i) => {
+    const cd = clone(d);
+    if (cd.parentId === cd.id) {
+      console.warn(`The parentId for combo ${cd.id} can not be the same as the combo's id`);
+      delete cd.parentId;
+    } else if (!modelMap[cd.parentId]) {
+      console.warn(`The parent combo for combo ${cd.id} does not exist!`);
+      delete cd.parentId;
+    }
+    let mappedObj = addedMap[cd.id];
+    if (mappedObj) {
+      cd.children = mappedObj.children;
+      addedMap[cd.id] = cd;
+      mappedObj = cd;
+      if (!mappedObj.parentId) {
+        result.push(mappedObj);
+        return;
+      }
+      const mappedParent = addedMap[mappedObj.parentId];
+      if (mappedParent) {
+        if (mappedParent.children) mappedParent.children.push(cd);
+        else mappedParent.children = [cd];
+        return;
+      }
+      else {
+        const parent = {
+          id: mappedObj.parentId,
+          children: [mappedObj]
+        }
+        addedMap[mappedObj.parentId] = parent;
+        addedMap[cd.id] = cd;
+      }
+      return;
+    }
+    if (isString(d.parentId)) {
+      const parent = addedMap[d.parentId];
+      if (parent) {
+        if (parent.children) parent.children.push(cd);
+        else parent.children = [cd];
+      } else {
+        const pa = {
+          id: d.parentId,
+          children: [cd]
+        }
+        addedMap[pa.id] = pa;
+        addedMap[cd.id] = cd;
+      }
+    } else {
+      result.push(cd);
+      addedMap[cd.id] = cd;
+    }
+  });
+  nodes && nodes.forEach(node => {
+    const combo = addedMap[node.comboId];
+    if (combo) {
+      if (combo.children) combo.children.push(node);
+      else combo.children = [node];
+      addedMap[node.id] = clone(node);
+      addedMap[node.id].itemType = 'node';
+    }
+  });
+  result.forEach((tree: ComboTree) => {
+    tree.depth = 0;
+    traverse<ComboTree>(tree, child => {
+      let parent = addedMap[child.parentId];
+      if (addedMap[child.id]['itemType'] === 'node') {
+        parent = addedMap[child['comboId'] as string];
+      }
+      if (parent) {
+        child.depth = parent.depth + 1;
+      } else {
+        child.depth = 0;
+      }
+      addedMap[child.id].depth = child.depth;
+      return true;
+    });
+  });
+  return result;
 }
