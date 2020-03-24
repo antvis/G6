@@ -2,7 +2,7 @@ import each from '@antv/util/lib/each';
 import { G6Event, IG6GraphEvent } from '../types';
 
 const DEFAULT_TRIGGER = 'shift';
-const ALLOW_EVENTS = ['shift', 'ctrl', 'alt', 'control'];
+const ALLOW_EVENTS = ['shift', 'ctrl', 'alt', 'control']; 
 
 export default {
   getDefaultCfg(): object {

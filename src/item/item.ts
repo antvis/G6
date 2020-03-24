@@ -3,7 +3,7 @@ import { each, isNil, isPlainObject,
   isString, isBoolean, uniqueId, mix } from '@antv/util'
 import { IItemBase, IItemBaseConfig } from '../interface/item';
 import Shape from '../shape/shape';
-import { IBBox, IPoint, IShapeBase, ModelConfig, ShapeStyle, Indexable } from '../types';
+import { IBBox, IPoint, IShapeBase, ModelConfig, ShapeStyle, Indexable, NodeConfig, EdgeConfig, ComboConfig } from '../types';
 import { getBBox } from '../util/graphic';
 import { translate } from '../util/math';
 
@@ -457,7 +457,7 @@ export default class ItemBase implements IItemBase {
    * 节点数据模型
    * @return {Object} 数据模型
    */
-  public getModel(): ModelConfig {
+  public getModel(): NodeConfig | EdgeConfig | ComboConfig {
     return this.get('model');
   }
 
