@@ -8,6 +8,7 @@ import { formatPadding } from '../../util/base';
 import { applyMatrix, invertMatrix } from '../../util/math';
 import Graph from '../graph';
 import { mat3 } from '@antv/matrix-util';
+import modifyCSS from '@antv/dom-util/lib/modify-css';
 
 export default class ViewController {
   private graph: Graph;
@@ -158,6 +159,23 @@ export default class ViewController {
     graph.set({ width, height });
     const canvas: Canvas = graph.get('canvas');
     canvas.changeSize(width, height);
+
+    // change the size of grid plugin if it exists on graph
+    const plugins = graph.get('plugins');
+    plugins.forEach(plugin => {
+      if (plugin.get('gridContainer')) {
+        modifyCSS(plugin.get('container'), {
+          width: `${width}px`,
+          height: `${height}px`,
+        });
+        modifyCSS(plugin.get('gridContainer'), {
+          width: `${width}px`,
+          height: `${height}px`,
+          left: 0,
+          top: 0,
+        });
+      }
+    });
   }
 
   public destroy() {
