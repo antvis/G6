@@ -4,7 +4,7 @@ import isString from '@antv/util/lib/is-string';
 import Behavior from '../../behavior/behavior';
 import { IBehavior } from '../../interface/behavior';
 import { IGraph } from '../../interface/graph';
-import { IMode, IModeType } from '../../types'
+import { ModeType, Modes } from '../../types'
 import Graph from '../graph';
 
 export default class ModeController {
@@ -22,10 +22,10 @@ export default class ModeController {
    * }
    *
    * @private
-   * @type {IMode}
+   * @type {Modes}
    * @memberof Mode
    */
-  public modes: IMode;
+  public modes: Modes;
 
   /**
    * mode = 'drag-node'
@@ -83,7 +83,7 @@ export default class ModeController {
     this.currentBehaves = behaves;
   }
 
-  private static mergeBehaviors(modeBehaviors: IModeType[], behaviors: IModeType[]): IModeType[] {
+  private static mergeBehaviors(modeBehaviors: ModeType[], behaviors: ModeType[]): ModeType[] {
     each(behaviors, behavior => {
       if (modeBehaviors.indexOf(behavior) < 0) {
         if (isString(behavior)) {
@@ -95,8 +95,8 @@ export default class ModeController {
     return modeBehaviors;
   }
 
-  private static filterBehaviors(modeBehaviors: IModeType[], behaviors: IModeType[]): IModeType[] {
-    const result: IModeType[] = [];
+  private static filterBehaviors(modeBehaviors: ModeType[], behaviors: ModeType[]): ModeType[] {
+    const result: ModeType[] = [];
     modeBehaviors.forEach(behavior => {
       let type: string = '';
       if (isString(behavior)) {
@@ -140,18 +140,18 @@ export default class ModeController {
   /**
    * 动态增加或删除 Behavior
    *
-   * @param {IModeType[]} behaviors
-   * @param {(IModeType[] | IModeType)} modes
+   * @param {ModeType[]} behaviors
+   * @param {(ModeType[] | ModeType)} modes
    * @param {boolean} isAdd
    * @returns {Mode}
    * @memberof Mode
    */
   public manipulateBehaviors(
-    behaviors: IModeType[] | IModeType,
+    behaviors: ModeType[] | ModeType,
     modes: string[] | string,
     isAdd: boolean,
   ): ModeController {
-    let behaves: IModeType[];
+    let behaves: ModeType[];
     if (!isArray(behaviors)) {
       behaves = [behaviors];
     } else {
@@ -204,7 +204,7 @@ export default class ModeController {
 
   public destroy() {
     (this.graph as Graph | null) = null;
-    (this.modes as IMode | null) = null;
+    (this.modes as Modes | null) = null;
     (this.currentBehaves as IBehavior[] | null) = null;
     this.destroyed = true;
   }

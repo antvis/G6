@@ -144,7 +144,7 @@ Shape.registerCombo(
      * @return {Object} 节点的样式
      */
     getShapeStyle(cfg: ComboConfig) {
-      const { style: defaultStyle } = this.options as ModelConfig;
+      const { style: defaultStyle } = this.options as ComboConfig;
       let padding: number | number[] = cfg.padding || this.options.padding;
       if (isNumber(padding)) padding = [padding, padding, padding, padding];
       const strokeStyle: ShapeStyle = {
@@ -196,7 +196,7 @@ Shape.registerCombo(
      * @param {Group} group Group实例
      */
     drawCollapseIcon(cfg: ComboConfig, group: GGroup, style: any) {
-      const { collapseIcon: defaultCollapseIcon } = this.options as any;
+      const { collapseIcon: defaultCollapseIcon } = this.options as ComboConfig;
       const collapseIcon = mix({}, defaultCollapseIcon, cfg.collapseIcon);
       let padding: number | number[] = cfg.padding || this.options.padding;
       if (isNumber(padding)) padding = [padding, padding, padding, padding];
@@ -233,7 +233,7 @@ Shape.registerCombo(
      * @param {Group} group Group实例
      */
     updateCollapseIcon(cfg: ComboConfig, item: Item, style: any) {
-      const { collapseIcon: defaultCollapseIcon } = this.options as any;
+      const { collapseIcon: defaultCollapseIcon } = this.options as ComboConfig;
       const collapseIcon = mix({}, defaultCollapseIcon, cfg.collapseIcon);
       let padding: number | number[] = cfg.padding || this.options.padding;
       if (isNumber(padding)) padding = [padding, padding, padding, padding]
