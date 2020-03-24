@@ -30,7 +30,14 @@ Grid draw grids on the canvas.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*y8u6Rrc78uIAAAAAAAAAAABkARQnAQ' width=300 />
 
-Grid has no configurations. Just use the code in [Configure to Graph](#configure-to-graph) to use it.
+Use the code in [Configure to Graph](#configure-to-graph) to instantiate grid plugin with the following configurations.
+
+### Configuration
+
+| Name | Type | Description |
+| --- | --- | --- |
+| img | Srting | base64 formatted string for the grid image |
+
 
 ## Minimap
 
