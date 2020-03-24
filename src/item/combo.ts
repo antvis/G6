@@ -1,6 +1,6 @@
 import { ICombo, INode, IEdge } from '../interface/item'
 import Node from './node'
-import { IBBox } from '../types';
+import { IBBox, ComboConfig } from '../types';
 
 export default class Combo extends Node implements ICombo {
   public getDefaultCfg() {
@@ -9,6 +9,18 @@ export default class Combo extends Node implements ICombo {
       nodes: [],
       edges: []
     }
+  }
+
+  public getShapeCfg(model: ComboConfig): ComboConfig {
+    const styles = this.get('styles');
+    const bbox = this.get('bbox');
+    if (styles) {
+      // merge graph的item样式与数据模型中的样式
+      const newModel = model;
+      newModel.style = Object.assign({}, styles, model.style, { width: bbox.width, height: bbox.height, r: Math.max(bbox.width, bbox.height) });
+      return newModel;
+    }
+    return model;
   }
 
   /**
