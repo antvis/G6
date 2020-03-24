@@ -1,12 +1,12 @@
 import each from '@antv/util/lib/each';
 import isString from '@antv/util/lib/is-string';
-import { Item, IStates } from '../../types';
+import { Item, States } from '../../types';
 import Graph from '../graph';
 import { INode } from '../../interface/item';
 
-interface ICachedStates {
-  enabled: IStates;
-  disabled: IStates;
+interface CachedStates {
+  enabled: States;
+  disabled: States;
 }
 
 let timer: any = null;
@@ -14,7 +14,7 @@ let timer: any = null;
 export default class StateController {
   private graph: Graph;
 
-  private cachedStates: ICachedStates;
+  private cachedStates: CachedStates;
 
   public destroyed: boolean;
 
@@ -64,7 +64,7 @@ export default class StateController {
    * @param {object} states
    * @memberof State
    */
-  private static cacheState(item: Item, state: string, states: IStates) {
+  private static cacheState(item: Item, state: string, states: States) {
     if (!states[state]) {
       states[state] = [];
     }
@@ -132,7 +132,7 @@ export default class StateController {
    * @memberof State
    */
   public updateGraphStates() {
-    const states = this.graph.get('states') as IStates;
+    const states = this.graph.get('states') as States;
     const { cachedStates } = this;
 
     each(cachedStates.disabled, (val, key) => {
@@ -172,7 +172,7 @@ export default class StateController {
 
   public destroy() {
     (this.graph as Graph | null) = null;
-    (this.cachedStates as ICachedStates | null) = null;
+    (this.cachedStates as CachedStates | null) = null;
     if (timer) {
       clearTimeout(timer);
     }
