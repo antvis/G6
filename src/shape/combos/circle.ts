@@ -5,6 +5,7 @@ import { Item, NodeConfig, ShapeStyle, ModelConfig } from '../../types';
 import Global from '../../global';
 import Shape from '../shape';
 import { ShapeOptions } from '../../interface/shape';
+import { isNumber } from '@antv/util';
 
 
 // 圆形 Combo
@@ -17,6 +18,7 @@ Shape.registerCombo(
       style: {
         x: 0,
         y: 0,
+        r: Global.defaultCombo.style.r,
         stroke: Global.defaultCombo.style.stroke,
         fill: Global.defaultCombo.style.fill,
         lineWidth: Global.defaultCombo.style.lineWidth,
@@ -31,7 +33,11 @@ Shape.registerCombo(
     // 文本位置
     labelPosition: 'top',
     drawShape(cfg: NodeConfig, group: GGroup): IShape {
+      console.log('drawShape in circle combo', cfg);
       const style = this.getShapeStyle!(cfg);
+      delete style.height;
+      delete style.width;
+      console.log('draw combo shape', style);
       const keyShape: IShape = group.addShape('circle', {
         attrs: style,
         className: 'circle-combo',
@@ -53,17 +59,19 @@ Shape.registerCombo(
       };
       // 如果设置了color，则覆盖默认的stroke属性
       const style = deepMix({}, defaultStyle, strokeStyle, cfg.style);
+      
       const size = (this as ShapeOptions).getSize!(cfg);
-      const r = size[0] / 2;
+      if (!isNumber(style.r) || style.r === Infinity || style.r === -Infinity)
+        style.r = size[0] / 2;
       const styles = Object.assign(
         {},
         {
           x: 0,
-          y: 0,
-          r,
+          y: 0
         },
         style,
       );
+      console.log('stylestyle', styles);
       return styles;
     },
     update(cfg: NodeConfig, item: Item) {
