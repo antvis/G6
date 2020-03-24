@@ -29,7 +29,13 @@ Grid 插件在画布上绘制了网格。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*y8u6Rrc78uIAAAAAAAAAAABkARQnAQ' width=300 />
 
-Grid 没有配置项。使用 [配置方法](#配置方法) 中代码实例化即可。
+使用 [配置方法](#配置方法) 中代码实例化时可以通过配置项调整 Grid 的图片。
+
+### 配置项
+
+| 名称 | 类型 | 描述 |
+| --- | --- | --- |
+| img | String | grid 图片，base64 格式字符串 |
 
 ## Minimap
 
