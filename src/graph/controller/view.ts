@@ -164,13 +164,14 @@ export default class ViewController {
     const plugins = graph.get('plugins');
     plugins.forEach(plugin => {
       if (plugin.get('gridContainer')) {
+        const minZoom = graph.get('minZoom');
         modifyCSS(plugin.get('container'), {
           width: `${width}px`,
           height: `${height}px`,
         });
         modifyCSS(plugin.get('gridContainer'), {
-          width: `${width}px`,
-          height: `${height}px`,
+          width: `${width / minZoom}px`,
+          height: `${height / minZoom}px`,
           left: 0,
           top: 0,
         });

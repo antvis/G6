@@ -23,6 +23,7 @@ export default class Grid extends Base {
 
   public init() {
     const graph: IGraph = this.get('graph');
+    const minZoom = graph.get<number>('minZoom');
     const graphContainer = graph.get<HTMLDivElement>('container');
     const canvas: HTMLDivElement = graph.get<Canvas>('canvas').get('el');
     const width = graph.get<number>('width');
@@ -36,7 +37,10 @@ export default class Grid extends Base {
     const gridContainer: HTMLDivElement = createDOM(
       `<div 
         class='g6-grid' 
-        style='position:absolute;transform-origin: 0% 0% 0px; background-image: ${img}'></div>`,
+        style='position:absolute;
+        transform-origin: 0% 0% 0px;
+        background-image: ${img}
+        '></div>`,
     );
 
     container.appendChild(gridContainer);
@@ -46,8 +50,8 @@ export default class Grid extends Base {
     });
 
     modifyCSS(gridContainer, {
-      width: `${width}px`,
-      height: `${height}px`,
+      width: `${width / minZoom}px`,
+      height: `${height / minZoom}px`,
       left: 0,
       top: 0,
     });
