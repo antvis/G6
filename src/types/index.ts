@@ -558,6 +558,7 @@ export interface BehaviorOption {
   shouldEnd?(e?: IG6GraphEvent): boolean;
   bind?(e: IGraph): void;
   unbind?(e: IGraph): void;
+  [key: string]: unknown;
 }
 
 export type IEvent = Record<G6Event, string>;
