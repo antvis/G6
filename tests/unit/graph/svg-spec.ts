@@ -2512,8 +2512,11 @@ describe('plugins', () => {
     
     const gridDom = document.getElementsByClassName('g6-grid')[0] as HTMLElement;
     expect(gridDom).not.toBe(undefined);
-    expect(gridDom.style.width).toBe('500px');
-    expect(gridDom.style.height).toBe('500px');
+    const minZoom = graph.get('minZoom');
+    const width = 500 / minZoom;
+    const height = 500 / minZoom;
+    expect(gridDom.style.width).toBe(`${width}px`);
+    expect(gridDom.style.height).toBe(`${height}px`);
     graph.destroy();
     const parentDom = gridDom.parentNode.parentNode;
     expect(parentDom).toBe(null);
