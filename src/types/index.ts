@@ -129,10 +129,12 @@ export type LabelStyle = Partial<{
   shadowBlur?: number;
   shadowOffsetX?: number;
   shadowOffsetY?: number;
+  position: string;
+  textBaseline: string;
+  offset: number;
   background?: {
     fill?: string;
     stroke?: string;
-    lineWidth?: number;
     radius?: number[] | number;
     padding?: number[] | number;
   };
