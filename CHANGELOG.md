@@ -1,4 +1,8 @@
 # ChangeLog
+#### 3.4.3
+- fix: support extends BehaviorOption；
+- fix: click-select Behavior support multiple selection using ctrl key.
+
 #### 3.4.2
 - feat: zoom-canvas behavior supports hiding non-keyshape elements when scaling canvas;
 - refactor: when the second parameter is null, clearItemStates will clear all states of the item;

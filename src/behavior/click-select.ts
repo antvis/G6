@@ -2,7 +2,7 @@ import each from '@antv/util/lib/each';
 import { G6Event, IG6GraphEvent } from '../types';
 
 const DEFAULT_TRIGGER = 'shift';
-const ALLOW_EVENTS = ['shift', 16, 'ctrl', 17, 'alt', 18];
+const ALLOW_EVENTS = ['shift', 'ctrl', 'alt', 'control'];
 
 export default {
   getDefaultCfg(): object {
@@ -78,16 +78,14 @@ export default {
     graph.emit('nodeselectchange', { selectedItems: { nodes: [], edges: [] }, select: false });
   },
   onKeyDown(e: IG6GraphEvent) {
-    const self = this as any;
     let code = e.key;
     if (!code) {
       return;
     }
-    code = code.toLowerCase();
-    if (code === self.trigger) {
-      self.keydown = true;
+    if (code.toLowerCase() === this.trigger.toLowerCase() || code.toLowerCase() === 'control') {
+      this.keydown = true;
     } else {
-      self.keydown = false;
+      this.keydown = false;
     }
   },
   onKeyUp() {
