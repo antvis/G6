@@ -3,7 +3,7 @@
  * @author dxq613@gmail.com
  */
 import GGroup from '@antv/g-canvas/lib/group';
-import { IShape } from '@antv/g-canvas/lib/interfaces';
+import { IShape, IElement } from '@antv/g-canvas/lib/interfaces';
 import { ShapeOptions, ILabelConfig } from '../interface/shape';
 import { IPoint, Item, LabelStyle, ShapeStyle, ModelConfig } from '../types';
 import Global from '../global';
@@ -12,6 +12,7 @@ import { deepMix, each, mix, isString, isBoolean, isPlainObject, clone, indexOf 
 
 const CLS_SHAPE_SUFFIX = '-shape';
 const CLS_LABEL_SUFFIX = '-label';
+export const CLS_LABEL_BG_SUFFIX = '-label-bg';
 
 // 单个 shape 带有一个 label，共用这段代码
 export const shapeBase: ShapeOptions = {
@@ -108,10 +109,31 @@ export const shapeBase: ShapeOptions = {
       }
       label.setMatrix(labelMatrix);
     }
+    if (labelStyle.background) {
+      const rect = this.drawLabelBg(cfg, group, label);
+      const labelBgClassname = this.itemType + CLS_LABEL_BG_SUFFIX;
+      rect.set('classname', labelBgClassname);
+      label.toFront();
+    }
     return label;
+  },
+  drawLabelBg(cfg: ModelConfig, group: GGroup, label: IElement) {
+    const { labelCfg: defaultLabelCfg } = this.options as ModelConfig;
+    const labelCfg = mix({}, defaultLabelCfg, cfg.labelCfg) as ILabelConfig;
+    const style = this.getLabelBgStyleByPosition(label, cfg, labelCfg, group);
+    const rect = group.addShape('rect', { name: 'text-bg-shape', attrs: style });
+    return rect;
   },
   getLabelStyleByPosition(cfg: ModelConfig, labelCfg?: ILabelConfig, group?: GGroup): LabelStyle {
     return { text: cfg.label };
+  },
+  getLabelBgStyleByPosition(
+    label: IElement,
+    cfg: ModelConfig,
+    labelCfg?: ILabelConfig,
+    group?: GGroup,
+  ): LabelStyle {
+    return {};
   },
 
   /**
@@ -149,18 +171,18 @@ export const shapeBase: ShapeOptions = {
     const group = item.getContainer();
     const shape = item.getKeyShape();
     const shapeStyle = mix({}, shape.attr(), cfg.style);
-    for(const key in shapeStyle) {
-      const style = shapeStyle[key]
-      if(isPlainObject(style)) {
+    for (const key in shapeStyle) {
+      const style = shapeStyle[key];
+      if (isPlainObject(style)) {
         // 更新图元素样式，支持更新子元素
-        const subShape = group.find(element => element.get('name') === key)
-        if(subShape) {
-          subShape.attr(style)
+        const subShape = group.find(element => element.get('name') === key);
+        if (subShape) {
+          subShape.attr(style);
         }
       } else {
         shape.attr({
-          [key]: style
-        })
+          [key]: style,
+        });
       }
     }
   },
@@ -170,6 +192,8 @@ export const shapeBase: ShapeOptions = {
     const { labelCfg: defaultLabelCfg } = this.options as ModelConfig;
     const labelClassName = this.itemType + CLS_LABEL_SUFFIX;
     const label = group.find(element => element.get('className') === labelClassName);
+    const labelBgClassname = this.itemType + CLS_LABEL_BG_SUFFIX;
+    let labelBg = group.find(element => element.get('classname') === labelBgClassname);
 
     // 防止 cfg.label = "" 的情况
     if (cfg.label || cfg.label === '') {
@@ -192,6 +216,7 @@ export const shapeBase: ShapeOptions = {
 
         // 取 nodeLabel，edgeLabel 的配置项
         const cfgStyle = cfg.labelCfg ? cfg.labelCfg.style : undefined;
+        const cfgBgStyle = labelCfg.style?.background;
 
         // 需要融合当前 label 的样式 label.attr()。不再需要全局/默认样式，因为已经应用在当前的 label 上
         const labelStyle = Object.assign({}, label.attr(), calculateStyle, cfgStyle);
@@ -213,6 +238,27 @@ export const shapeBase: ShapeOptions = {
           label.resetMatrix();
           label.attr(labelStyle);
         }
+
+        if (!labelBg) {
+          if (labelStyle.background) {
+            labelBg = this.drawLabelBg(cfg, group, label);
+            labelBg.set('classname', labelBgClassname);
+            label.toFront();
+          }
+        } else if (labelStyle.background) {
+          const calculateBgStyle = (this as any).getLabelBgStyleByPosition(
+            label,
+            cfg,
+            labelCfg,
+            group,
+          );
+          // const labelBgStyle = Object.assign({}, labelBg.attr(), calculateBgStyle, cfgBgStyle);
+          const labelBgStyle = Object.assign({}, calculateBgStyle, cfgBgStyle);
+          labelBg.resetMatrix();
+          labelBg.attr(labelBgStyle);
+        } else {
+          group.removeChild(labelBg);
+        }
       }
     }
   },
@@ -233,29 +279,29 @@ export const shapeBase: ShapeOptions = {
       return;
     }
 
-    const stateName = isBoolean(value) ? name : `${name}:${value}`
-    const shapeStateStyle = this.getStateStyle(stateName, true, item)
+    const stateName = isBoolean(value) ? name : `${name}:${value}`;
+    const shapeStateStyle = this.getStateStyle(stateName, true, item);
     const itemStateStyle = item.getStateStyle(stateName);
 
     // 要设置或取消的状态的样式
     // 当没有 state 状态时，默认使用 model.stateStyles 中的样式
     const styles = mix({}, itemStateStyle || shapeStateStyle);
-    const group = item.getContainer()
+    const group = item.getContainer();
 
     if (value) {
       // style 为要设置的状态的样式
-      for(const key in styles) {
-        const style = styles[key]
-        if(isPlainObject(style)) {
-          const subShape = group.find(element => element.get('name') === key)
-          if(subShape) {
-            subShape.attr(style)
+      for (const key in styles) {
+        const style = styles[key];
+        if (isPlainObject(style)) {
+          const subShape = group.find(element => element.get('name') === key);
+          if (subShape) {
+            subShape.attr(style);
           }
         } else {
           // 非纯对象，则认为是设置到 keyShape 上面的
           shape.attr({
-            [key]: style
-          })
+            [key]: style,
+          });
         }
       }
     } else {
@@ -265,32 +311,32 @@ export const shapeBase: ShapeOptions = {
       // 原始样式
       const originStyle = clone(item.getOriginStyle());
 
-      const keyShapeName = shape.get('name')
-      const keyShapeStyles = shape.attr()
+      const keyShapeName = shape.get('name');
+      const keyShapeStyles = shape.attr();
 
       // 已有样式 - 要取消的状态的样式
-      const filtetDisableStatesStyle = {}
+      const filtetDisableStatesStyle = {};
 
       // style 为要取消的状态的样式
-      for(const p in styles) {
-        const style = styles[p]
-        if(isPlainObject(style)) {
-          const subShape = group.find(element => element.get('name') === p)
-          if(subShape) {
-            const subShapeStyles = subShape.attr()
+      for (const p in styles) {
+        const style = styles[p];
+        if (isPlainObject(style)) {
+          const subShape = group.find(element => element.get('name') === p);
+          if (subShape) {
+            const subShapeStyles = subShape.attr();
             // const current = subShapeStyles[p]
             each(style, (value, key) => {
-              if(subShapeStyles[key]) {
-                delete subShapeStyles[key]
+              if (subShapeStyles[key]) {
+                delete subShapeStyles[key];
               }
-            })
-            filtetDisableStatesStyle[p] = subShapeStyles
+            });
+            filtetDisableStatesStyle[p] = subShapeStyles;
           }
         } else {
           // 从图元素现有的样式中删除本次要取消的 states 中存在的属性值
           const keptAttrs = ['x', 'y', 'cx', 'cy'];
-          if(keyShapeStyles[p] && !(keptAttrs.indexOf(p) > -1)) {
-            delete keyShapeStyles[p]
+          if (keyShapeStyles[p] && !(keptAttrs.indexOf(p) > -1)) {
+            delete keyShapeStyles[p];
           }
         }
       }
@@ -298,44 +344,44 @@ export const shapeBase: ShapeOptions = {
       // 从图元素现有的样式中删除本次要取消的 states 中存在的属性值后，
       // 如果 keyShape 有 name 属性，则 filtetDisableStatesStyle 的格式为 { keyShapeName: {} }
       // 否则为普通对象
-      if(!keyShapeName) {
-        mix(filtetDisableStatesStyle, keyShapeStyles)
+      if (!keyShapeName) {
+        mix(filtetDisableStatesStyle, keyShapeStyles);
       } else {
-        filtetDisableStatesStyle[keyShapeName] = keyShapeStyles
+        filtetDisableStatesStyle[keyShapeName] = keyShapeStyles;
       }
 
-      for(const key in enableStatesStyle) {
-        const enableStyle = enableStatesStyle[key]
-        if(!isPlainObject(enableStyle)) {
+      for (const key in enableStatesStyle) {
+        const enableStyle = enableStatesStyle[key];
+        if (!isPlainObject(enableStyle)) {
           // 把样式属性merge到keyShape中
-          if(!keyShapeName) {
+          if (!keyShapeName) {
             mix(originStyle, {
-              [key]: enableStyle
-            })
+              [key]: enableStyle,
+            });
           } else {
             mix(originStyle[keyShapeName], {
-              [key]: enableStyle
-            })
+              [key]: enableStyle,
+            });
           }
-          delete enableStatesStyle[key]
+          delete enableStatesStyle[key];
         }
       }
 
-      const originstyles = {}
-      deepMix(originstyles, originStyle, filtetDisableStatesStyle, enableStatesStyle)
+      const originstyles = {};
+      deepMix(originstyles, originStyle, filtetDisableStatesStyle, enableStatesStyle);
 
-      for(const key in originstyles) {
-        const style = originstyles[key]
-        if(isPlainObject(style)) {
-          const subShape = group.find(element => element.get('name') === key)
-          if(subShape) {
-            subShape.attr(style)
+      for (const key in originstyles) {
+        const style = originstyles[key];
+        if (isPlainObject(style)) {
+          const subShape = group.find(element => element.get('name') === key);
+          if (subShape) {
+            subShape.attr(style);
           }
         } else {
           // 非纯对象，则认为是设置到 keyShape 上面的
           shape.attr({
-            [key]: style
-          })
+            [key]: style,
+          });
         }
       }
     }
@@ -351,7 +397,7 @@ export const shapeBase: ShapeOptions = {
    */
   getStateStyle(name: string, value: string | boolean, item: Item): ShapeStyle {
     const model = item.getModel();
-    
+
     if (value) {
       const modelStateStyle = model.stateStyles ? model.stateStyles[name] : undefined;
       return mix({}, model.style, modelStateStyle);

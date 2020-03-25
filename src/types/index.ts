@@ -95,9 +95,11 @@ export type ModelStyle = Partial<{
   [key: string]: unknown;
   style: ShapeStyle;
   stateStyles: {
-    [key: string]: ShapeStyle | {
-      [key: string]: ShapeStyle
-    }
+    [key: string]:
+      | ShapeStyle
+      | {
+          [key: string]: ShapeStyle;
+        };
   };
   // loop edge config
   loopCfg: LoopConfig;
@@ -122,6 +124,12 @@ export type LabelStyle = Partial<{
   shadowBlur?: number;
   shadowOffsetX?: number;
   shadowOffsetY?: number;
+  background?: {
+    fill?: string;
+    stroke?: string;
+    radius?: number[] | number;
+    padding?: number[] | number;
+  };
 }>;
 
 export type Easeing =
@@ -216,10 +224,12 @@ export interface ModelConfig extends ModelStyle {
   endPoint?: IPoint;
   children?: TreeGraphData[];
   stateStyles?: {
-    [key: string]: ShapeStyle | {
-      [key: string]: ShapeStyle
-    }
-  }
+    [key: string]:
+      | ShapeStyle
+      | {
+          [key: string]: ShapeStyle;
+        };
+  };
 }
 
 export interface NodeConfig extends ModelConfig {
@@ -284,9 +294,9 @@ export interface TreeGraphData {
   y?: number;
   children?: TreeGraphData[];
   data?: ModelConfig;
-  side?: 'left' | 'right',
+  side?: 'left' | 'right';
   depth?: number;
-  collapsed ?: boolean;
+  collapsed?: boolean;
 }
 
 // Behavior type file
