@@ -139,9 +139,6 @@ export type LabelStyle = Partial<{
     radius?: number[] | number;
     padding?: number[] | number;
   };
-  position: string;
-  textBaseline: string;
-  offset: number;
 }>;
 
 export type Easeing =
