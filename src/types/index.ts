@@ -142,6 +142,12 @@ export type LabelStyle = Partial<{
   position: string;
   textBaseline: string;
   offset: number;
+  background?: {
+    fill?: string;
+    stroke?: string;
+    radius?: number[] | number;
+    padding?: number[] | number;
+  };
 }>;
 
 export type Easeing =
