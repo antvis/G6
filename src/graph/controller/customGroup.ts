@@ -1,3 +1,4 @@
+
 /*
  * @Author: moyee
  * @Date: 2019-07-30 12:10:26
@@ -13,6 +14,9 @@ import isString from '@antv/util/lib/is-string';
 import { GraphData, IG6GraphEvent, Item } from '../../types';
 import { IGraph } from '../../interface/graph';
 import { IEdge, INode } from '../../interface/item';
+import { traverseTree } from '../../util/graphic';
+
+let treeGroup = null
 
 interface ICustomGroup {
   nodeGroup: IGroup;
@@ -56,8 +60,8 @@ export default class CustomGroup {
         fillOpacity: 0.8,
         opacity: 0.8,
         disCoefficient: 0.6,
-        minDis: 40,
-        maxDis: 100,
+        minDis: 30,
+        maxDis: 30,
       },
       hover: {
         stroke: '#faad14',
@@ -226,7 +230,9 @@ export default class CustomGroup {
       // 更新群组及属性样式
       this.setDeletageGroupByStyle(groupId, nodeGroup, { width, height, x: cx, y: cy, r: lastR });
     } else {
+      
       const rectPadding = paddingValue * defaultStyle.disCoefficient;
+      
       keyShape = nodeGroup.addShape('rect', {
         attrs: {
           ...defaultStyle,
@@ -370,17 +376,71 @@ export default class CustomGroup {
   }
 
   /**
+  * 扁平的数据格式转成树形
+  * @param {array} data 扁平结构的数据
+  * @param {string} value 树状结构的唯一标识
+  * @param {string} parentId 父节点的键值
+  * @return {array} 转成的树形结构数据
+  */
+ public flatToTree(data, value = 'id', parentId = 'parentId') {
+  const children = 'children';
+  const valueMap = [];
+  const tree = [];
+
+  data.forEach(v => {
+    valueMap[v[value]] = v;
+  });
+
+  data.forEach(v => {
+    const parent = valueMap[v[parentId]];
+    if (parent) {
+      !parent[children] && (parent[children] = []);
+      parent[children].push(v);
+    } else {
+      tree.push(v);
+    }
+  });
+
+  return tree;
+}
+
+  /**
    * 当group中含有group时，获取padding值
    * @param {string} groupId 节点分组ID
    * @return {number} 在x和y方向上的偏移值
    */
   public getGroupPadding(groupId: string): number {
+    
     const { graph } = this;
     const { default: defaultStyle } = this.styles;
     // 检测操作的群组中是否包括子群组
     const groups = graph.get('groups');
+    
+    
+    // 计算每个 groupId 包含的组的数量
+    const currentGroups = groups.filter(g => g.parentId === groupId)
+    
+    let count = 1
+    if(currentGroups.length > 0) {
+      if(!treeGroup) {
+        treeGroup = this.flatToTree(groups)
+      }
+      
+      traverseTree(treeGroup[0], (param) => {
+        if(param.parentId === groupId && param.children) {
+          count += param.children.length
+          return true
+        }
+      })
+    }
+    
+
+    const big = groups.filter(g => g.id === groupId && !g.parentId)
+    if(big.length > 0) {
+      count += 1
+    }
     const hasSubGroup = !!(groups.filter(g => g.parentId === groupId).length > 0);
-    const paddingValue = hasSubGroup ? defaultStyle.maxDis : defaultStyle.minDis;
+    const paddingValue = hasSubGroup ? defaultStyle.maxDis + (count > 1 ? count / 2 : 1) * 30 : defaultStyle.minDis;
     return paddingValue;
   }
 
