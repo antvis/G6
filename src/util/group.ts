@@ -61,8 +61,8 @@ export const getAllNodeInGroups = (data: GraphData): GroupNodeIds => {
 
     const nodesInGroup = data.nodes
       ? data.nodes
-          .filter(node => parentSubGroupIds.indexOf(node.groupId!) > -1)
-          .map(node => node.id)
+        .filter(node => parentSubGroupIds.indexOf(node.groupId!) > -1 || parentSubGroupIds.indexOf(node.parentId as string) > -1)
+        .map(node => node.id)
       : [];
     groupNodes[groupId] = nodesInGroup;
   }
