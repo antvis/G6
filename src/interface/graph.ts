@@ -100,9 +100,7 @@ export interface GraphOptions {
   directed?: boolean;
 
   groupStyle?: {
-    style?: {
-      [key: string]: ShapeStyle;
-    };
+    [key: string]: ShapeStyle;
   };
 
   /**
