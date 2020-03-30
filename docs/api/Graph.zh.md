@@ -1474,7 +1474,7 @@ graph.set('customGroup', group);
 graph.set('nodeIdList', [1, 3, 5]);
 ```
 
-### downloadImage(name)
+### downloadImage(name, backgroundColor)
 
 将画布上的元素导出为图片。
 
@@ -1483,6 +1483,7 @@ graph.set('nodeIdList', [1, 3, 5]);
 | 名称 | 类型   | 是否必选 | 描述       |
 | ---- | ------ | -------- | ---------- |
 | name | String | true     | 图片的名称 |
+| backgroundColor | String | false     | 图片的背景色，可选，不传值时将导出透明背景的图片 |
 
 **用法**
 
@@ -1490,9 +1491,16 @@ graph.set('nodeIdList', [1, 3, 5]);
 graph.downloadImage();
 ```
 
-### toDataURL()
+### toDataURL(type, backgroundColor)
 
 将画布上元素生成为图片的 URL。
+
+**参数**
+
+| 名称 | 类型   | 是否必选 | 描述       |
+| ---- | ------ | -------- | ---------- |
+| type | String | false     | 图片类型，可选值：`'image/png'`，`'image/jpeg'` |
+| backgroundColor | String | false     | 图片的背景色，可选，不传值时将导出透明背景的图片 |
 
 **返回值**
 
