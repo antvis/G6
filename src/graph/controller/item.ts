@@ -295,17 +295,19 @@ export default class ItemController {
     const comboTrees = graph.get('comboTrees');
     const id = item.get('id');
     if (type === NODE) {
-      let brothers = comboTrees;
-      comboTrees.forEach(ctree => {
-        traverseTree<ComboTree>(ctree, combo => {
-          if (combo.id === id) {
-            const index = brothers.indexOf(combo);
-            brothers.splice(index, 1);
-          }
-          brothers = combo.children;
-          return true;
+      if (comboTrees) {
+        let brothers = comboTrees;
+        comboTrees.forEach(ctree => {
+          traverseTree<ComboTree>(ctree, combo => {
+            if (combo.id === id) {
+              const index = brothers.indexOf(combo);
+              brothers.splice(index, 1);
+            }
+            brothers = combo.children;
+            return true;
+          });
         });
-      });
+      }
       // 若移除的是节点，需要将与之相连的边一同删除
       const edges = (item as INode).getEdges();
       for (let i = edges.length; i >= 0; i--) {
@@ -427,7 +429,8 @@ export default class ItemController {
         return true;
       });
     });
-    this.graph.get('comboGroup').sort();
+    const comboGroup = this.graph.get('comboGroup');
+    if (comboGroup) comboGroup.sort();
   }
 
   /**

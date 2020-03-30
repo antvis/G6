@@ -95,8 +95,8 @@ describe('graph', () => {
 
     const children = inst.get('group').get('children');
     expect(children.length).toBe(5);
-    expect(children[1].get('className')).toEqual('edge-container');
-    expect(children[0].get('className')).toEqual('custom-group-container');
+    expect(children[2].get('className')).toEqual('edge-container');
+    expect(children[1].get('className')).toEqual('custom-group-container');
 
     const nodes = inst.getNodes();
     expect(nodes).not.toBe(undefined);
@@ -2649,7 +2649,7 @@ describe('custom group', () => {
   });
 
   it('collapse-expand-group', () => {
-    const nodeGroup1 = graph.get('group').get('children')[0].get('children')[0].get('children')[0];
+    const nodeGroup1 = graph.get('group').get('children')[1].get('children')[0].get('children')[0];
     const hideNode1 = graph.getNodes()[0];
     const hideNode2 = graph.getNodes()[1];
     graph.emit('click', {
@@ -2668,7 +2668,7 @@ describe('custom group', () => {
   });
 
   it('drag-group', () => {
-    const nodeGroup1 = graph.get('group').get('children')[0].get('children')[0].get('children')[0];
+    const nodeGroup1 = graph.get('group').get('children')[1].get('children')[0].get('children')[0];
     const node1 = graph.getNodes()[0];
     const node2 = graph.getNodes()[1];
     const node1OriX = node1.getModel().x;

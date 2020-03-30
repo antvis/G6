@@ -12,6 +12,7 @@ import Graph from '../../../src/graph/graph';
 import '../../../src/shape/combo';
 import '../../../src/shape/combos';
 import { IGroup } from '@antv/g-canvas/lib/interfaces';
+import Combo from '../../../src/item/combo';
 
 const div = document.createElement('div');
 div.id = 'combo-shape';
@@ -36,9 +37,9 @@ describe('combo node test', () => {
     });
   });
 
-  describe.only('nodes test', () => {
+  describe('nodes test', () => {
     const factory = Shape.getFactory('combo');
-    it.only('circle no label', () => {
+    it('circle no label', () => {
       const group = canvas.addGroup();
       translate(group, { x: 50, y: 50 });
       const shape = factory.draw(
@@ -70,7 +71,7 @@ describe('combo node test', () => {
       expect(group.getCount()).toBe(2);
     });
 
-    it.only('rect', () => {
+    it('rect', () => {
       const group = canvas.addGroup({
         id: 'rect',
       });
@@ -91,12 +92,12 @@ describe('combo node test', () => {
       // expect(group.getCount()).toBe(2);
     });
 
-    xit('update', () => {
+    it('update', () => {
       const group = canvas.addGroup({
         id: 'rect',
       });
       // 伪造 item, 仅测试接口和图形的变化，不测试一致性
-      const item = new Node({
+      const item = new Combo({
         model: {
           size: [40, 20],
           color: 'yellow',
@@ -112,10 +113,9 @@ describe('combo node test', () => {
         },
         group,
       });
-      factory.update(
+      factory.baseUpdate(
         'rect',
         {
-          size: [100, 50],
           style: {
             fill: 'red',
           },
@@ -123,28 +123,25 @@ describe('combo node test', () => {
         item,
       );
       const shape = group.get('children')[0];
-      expect(shape.attr('x')).toBe(-50);
-      expect(shape.attr('y')).toBe(-25);
-      expect(shape.attr('width')).toBe(100);
-      expect(group.getCount()).toBe(1);
-      factory.update(
+      expect(shape.attr('fill')).toBe('red');
+      expect(shape.attr('width')).toBe(130);
+      expect(group.getCount()).toBe(2);
+      factory.baseUpdate(
         'rect',
         {
-          size: [50, 30],
           style: {
-            fill: 'red',
+            fill: 'blue',
           },
           label: 'new rect',
         },
         item,
       );
-      expect(group.getCount()).toBe(2);
-      const label = group.get('children')[1];
+      expect(group.getCount()).toBe(3);
+      const label = group.get('children')[2];
       expect(label.attr('text')).toBe('new rect');
-      factory.update(
+      factory.baseUpdate(
         'rect',
         {
-          size: [50, 30],
           style: {
             fill: 'red',
           },
@@ -160,16 +157,16 @@ describe('combo node test', () => {
         }
       });
       expect(shape.attr('fill')).toBe('steelblue');
-      canvas.draw();
     });
 
-    xit('active', () => {
-      const rectGroup = canvas.findById('rect') as IGroup;
+    it('active', () => {
+      const rectGroup = canvas.addGroup({
+        id: 'rect-active',
+      });
       // 伪造 item, 仅测试接口和图形的变化，不测试一致性
-      const item = new Node({
+      const item = new Combo({
         model: {
           id: 'rectnode',
-          size: [40, 20],
           type: 'rect',
           stateStyles: {
             active: {
@@ -188,11 +185,10 @@ describe('combo node test', () => {
       expect(shape.attr('fillOpacity')).toBe(1);
     });
 
-    xit('label position', () => {
+    it('label position', () => {
       const group = canvas.addGroup();
       translate(group, { x: 200, y: 200 });
       const model = {
-        size: [60, 20],
         color: 'green',
         label: 'circle position',
         labelCfg: {
@@ -203,77 +199,13 @@ describe('combo node test', () => {
       factory.draw('circle', model, group);
 
       // 伪造 item
-      const item = new Node({
+      const item = new Combo({
         model,
         group,
       });
 
       const label = group.get('children')[1];
       expect(label.attr('x')).toBe(0);
-      expect(label.attr('y')).toBe(-10 - Global.nodeLabel.offset);
-
-      factory.update(
-        'ellipse',
-        {
-          size: [60, 20],
-          color: 'green',
-          label: 'ellipse position',
-          labelCfg: {
-            position: 'left',
-          },
-        },
-        item,
-      );
-      expect(label.attr('y')).toBe(0);
-      expect(label.attr('x')).toBe(-30 - Global.nodeLabel.offset);
-
-      factory.update(
-        'ellipse',
-        {
-          size: [60, 20],
-          color: 'green',
-          label: 'ellipse position',
-          labelCfg: {
-            position: 'right',
-          },
-        },
-        item,
-      );
-      expect(label.attr('y')).toBe(0);
-      expect(label.attr('x')).toBe(30 + Global.nodeLabel.offset);
-
-      factory.update(
-        'ellipse',
-        {
-          size: [60, 20],
-          color: 'green',
-          label: 'ellipse position',
-          labelCfg: {
-            position: 'right',
-            offset: 20,
-          },
-        },
-        item,
-      );
-      expect(label.attr('y')).toBe(0);
-      expect(label.attr('x')).toBe(30 + 20);
-
-      factory.update(
-        'ellipse',
-        {
-          size: [60, 20],
-          color: 'green',
-          label: 'ellipse position',
-          labelCfg: {
-            position: 'right',
-            offset: 0,
-          },
-        },
-        item,
-      );
-      expect(label.attr('y')).toBe(0);
-      expect(label.attr('x')).toBe(30);
-      canvas.draw();
     });
     it('clear', () => {
       canvas.destroy();

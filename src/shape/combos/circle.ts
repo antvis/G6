@@ -19,7 +19,6 @@ Shape.registerCombo(
       style: {
         x: 0,
         y: 0,
-        r: Global.defaultCombo.style.r,
         stroke: Global.defaultCombo.style.stroke,
         fill: Global.defaultCombo.style.fill,
         lineWidth: Global.defaultCombo.style.lineWidth,
@@ -65,7 +64,7 @@ Shape.registerCombo(
       const style = deepMix({}, defaultStyle, strokeStyle, cfg.style);
       
       const size = (this as ShapeOptions).getSize!(cfg);
-      if (!isNumber(style.r) || isNaN(style.r)) style.r = size[0] / 2;
+      if (!isNumber(style.r) || isNaN(style.r)) style.r = size[0] / 2 || Global.defaultCombo.style.r;
       else style.r = Math.max(style.r + padding, size[0]/2);
       const styles = Object.assign(
         {},
@@ -75,6 +74,12 @@ Shape.registerCombo(
         },
         style,
       );
+      if (cfg.style) cfg.style.r = style.r;
+      else {
+        cfg.style = {
+          r: style.r
+        }
+      }
       return styles;
     },
     update(cfg: NodeConfig, item: Item) {
