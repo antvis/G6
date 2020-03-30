@@ -51,7 +51,7 @@ describe('combo node test', () => {
         group,
       );
       canvas.draw();
-      expect(shape.attr('r')).toBe(20);
+      expect(shape.attr('r')).toBe(40);
       expect(group.getCount()).toBe(1);
     });
 
@@ -124,7 +124,7 @@ describe('combo node test', () => {
       );
       const shape = group.get('children')[0];
       expect(shape.attr('fill')).toBe('red');
-      expect(shape.attr('width')).toBe(130);
+      expect(shape.attr('width')).toBe(80);
       expect(group.getCount()).toBe(2);
       factory.baseUpdate(
         'rect',
