@@ -67,7 +67,7 @@ const ShapeFactoryBase = {
    * @param  {Object} cfg 配置项
    * @param  {G6.Item} item 节点、边、分组等
    */
-  update(type: string, cfg: ModelConfig, item: Item) {
+  baseUpdate(type: string, cfg: ModelConfig, item: Item) {
     const shape = this.getShape(type);
     if (shape.update) {
       // 防止没定义 update 函数

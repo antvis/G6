@@ -12,11 +12,8 @@ import Combo from '../../item/combo';
 import { EdgeConfig, Item, ITEM_TYPE, ModelConfig, NodeConfig, NodeMap, ComboTree, ComboConfig } from '../../types';
 import Graph from '../graph';
 
-import { IEdge, INode } from '../../interface/item';
-import { mix } from '@antv/util';
-import { traverseTree, traverseTreeUp } from '../../util/graphic';
-import { IGraph } from '../../interface/graph';
-import { IGroup } from '_@antv_g-svg@0.4.0@@antv/g-svg/node_modules/@antv/g-base';
+import { IEdge, INode, ICombo } from '../../interface/item';
+import { traverseTreeUp, traverseTree, getComboBBox } from '../../util/graphic';
 
 const NODE = 'node';
 const EDGE = 'edge';
@@ -123,44 +120,26 @@ export default class ItemController {
         styles,
         group: parent.addGroup(),
       });
-      console.log('---added node item', item);
     } else if (type === COMBO) {
-      console.log('additem combo', model);
-      const children = model.children;
-      const comboBBox = {
-        minX: Infinity,
-        minY: Infinity,
-        maxX: -Infinity,
-        maxY: -Infinity,
-        x: 0,
-        y: 0,
-        width: undefined,
-        height: undefined,
-      };
-      children && children.forEach(child => {
-        const childItem = graph.findById(child.id);
-        const childModel = childItem.getModel();
-        const childBBox = childItem.getCanvasBBox();
-        if (childModel.x && comboBBox.minX > childBBox.minX) comboBBox.minX = childBBox.minX;
-        if (childModel.y && comboBBox.minY > childBBox.minY) comboBBox.minY = childBBox.minY;
-        if (childModel.x && comboBBox.maxX < childBBox.maxX) comboBBox.maxX = childBBox.maxX;
-        if (childModel.y && comboBBox.maxY < childBBox.maxY) comboBBox.maxY = childBBox.maxY;
-      });
-      comboBBox.x = (comboBBox.minX + comboBBox.maxX) / 2;
-      comboBBox.y = (comboBBox.minY + comboBBox.maxY) / 2;
-      comboBBox.width = comboBBox.maxX - comboBBox.minX;
-      comboBBox.height = comboBBox.maxY - comboBBox.minY;
-
+      const children: ComboTree[] = (model as ComboConfig).children;
+      const comboBBox = getComboBBox(children, graph);
       model.x = comboBBox.x || Math.random() * 100;
       model.y = comboBBox.y || Math.random() * 100;
 
+      const comboGroup = parent.addGroup();
+      comboGroup.setZIndex((model as ComboConfig).depth as number);
       item = new Combo({
         model,
         styles,
         bbox: comboBBox,
-        group: parent.addGroup(),
+        group: comboGroup,
       });
-      console.log('---added combo item', item);
+      // comboGroup.toBack();
+
+      children && children.forEach(child => {
+        const childItem = graph.findById(child.id) as ICombo | INode;
+        (item as ICombo).addChild(childItem);
+      });
     }
 
     if (item) {
@@ -254,6 +233,34 @@ export default class ItemController {
     graph.emit('afterupdateitem', { item, cfg });
   }
 
+
+  /**
+   * 根据 combo 的子元素更新 combo 的位置及大小
+   *
+   * @param {ICombo} combo ID 或 实例
+   * @returns
+   * @memberof ItemController
+   */
+  public updateCombo(combo: ICombo | string, children: ComboTree[]) {
+    const { graph } = this;
+    
+    if (isString(combo)) {
+      combo = graph.findById(combo) as ICombo;
+    }
+
+    if (!combo || combo.destroyed) {
+      return;
+    }
+    
+    const comboBBox = getComboBBox(children, graph);
+    combo.set('bbox', comboBBox);
+    combo.update({
+      x: comboBBox.x,
+      y: comboBBox.y
+    });
+
+  }
+
   /**
    * 删除指定的节点或边
    *
@@ -282,11 +289,39 @@ export default class ItemController {
     const itemMap: NodeMap = graph.get('itemMap');
     delete itemMap[itemId];
 
+    const comboTrees = graph.get('comboTrees');
+    const id = item.get('id');
     if (type === NODE) {
+      let brothers = comboTrees;
+      comboTrees.forEach(ctree => {
+        traverseTree<ComboTree>(ctree, combo => {
+          if (combo.id === id)  {
+            const index = brothers.indexOf(combo);
+            brothers.splice(index, 1);
+          }
+          brothers = combo.children;
+          return true;
+        });
+      });
       // 若移除的是节点，需要将与之相连的边一同删除
       const edges = (item as INode).getEdges();
       for (let i = edges.length; i >= 0; i--) {
         graph.removeItem(edges[i]);
+      }
+    }
+    else if (type === COMBO) {
+      let comboInTree;
+      comboTrees.forEach(ctree => {
+        traverseTree<ComboTree>(ctree, combo => {
+          if (combo.id === id)  comboInTree = combo;
+          return true;
+        });
+      });
+      comboInTree.removed = true;
+      if (comboInTree && comboInTree.children) {
+        comboInTree.children.forEach(child => {
+          this.removeItem(child.id);
+        });
       }
     }
 
@@ -373,23 +408,23 @@ export default class ItemController {
    * @memberof ItemController
    */
   public addCombos(comboTrees: ComboTree[], comboModels: ComboConfig[]) {
-    console.log(comboTrees);
     comboTrees.forEach((ctree: ComboTree) => {
       traverseTreeUp<ComboTree>(ctree, child => {
         let comboModel;
         comboModels.forEach(model => {
           if (model.id === child.id) {
             model.children = child.children;
+            model.depth = child.depth;
             comboModel = model;
           }
         });
         if (comboModel){
-          const comboItem = this.addItem('combo', comboModel);
-          console.log(comboItem);
+          this.addItem('combo', comboModel);
         }
         return true;
       });
     });
+    this.graph.get('comboGroup').sort();
   }
 
   /**
@@ -420,6 +455,23 @@ export default class ItemController {
         }
 
         this.changeItemVisibility(edge, visible);
+      });
+    } else if (item.getType() === COMBO) {
+      const comboTrees = graph.get('comboTrees');
+      const id = item.get('id');
+      let children = [];
+      comboTrees.forEach(ctree => {
+        if (!ctree.children || ctree.children.length === 0) return;
+        traverseTree<ComboTree>(ctree, combo => {
+          if (combo.id === id) {
+            children = combo.children;
+          }
+          return true;
+        });
+      });
+      children.forEach(child => {
+        const childItem = graph.findById(child.id);
+        this.changeItemVisibility(childItem, visible);
       });
     }
     graph.emit('afteritemvisibilitychange', { item, visible });

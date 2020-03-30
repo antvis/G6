@@ -5,8 +5,9 @@ import each from '@antv/util/lib/each';
 import Global from '../global';
 import { EdgeData, IBBox, IPoint, IShapeBase, LabelStyle, TreeGraphData, NodeConfig, ComboTree, ComboConfig } from '../types';
 import { applyMatrix } from './math';
-import { isString, clone, deepMix } from '@antv/util';
-import { parsePathString } from '@antv/path-util';
+import { isString, clone } from '@antv/util';
+import { BBox } from '@antv/g-math/lib/types';
+import { IGraph } from '../interface/graph';
 
 const { PI, sin, cos } = Math;
 
@@ -282,7 +283,7 @@ const traverse = <T extends { children?: T[] }>(data: T, fn: (param: T) => boole
     return;
   }
 
-  if (data.children) {
+  if (data && data.children) {
     each(data.children, child => {
       traverse(child, fn);
     });
@@ -398,6 +399,7 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) =
       console.warn(`The parent combo for combo ${cd.id} does not exist!`);
       delete cd.parentId;
     }
+    // if (cd.id === 'B') debugger;
     let mappedObj = addedMap[cd.id];
     if (mappedObj) {
       cd.children = mappedObj.children;
@@ -428,6 +430,7 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) =
       if (parent) {
         if (parent.children) parent.children.push(cd);
         else parent.children = [ cd ];
+        addedMap[cd.id] = cd;
       } else {
         const pa = {
           id: d.parentId,
@@ -467,4 +470,53 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) =
     });
   });
   return result;
+}
+
+export const reconstructTree = (trees: ComboTree[]): ComboTree[] => {
+  let brothers = trees;
+  trees.forEach(tree => {
+    traverseTree<ComboTree>(tree, child => {
+      if (child && child.removed && brothers) {
+        const index = brothers.indexOf(child);
+        brothers.splice(index, 1);
+      }
+      brothers = child ? child.children : [];
+      return true;
+    });
+  });
+  return trees;
+}
+
+export const getComboBBox = (children: ComboTree[], graph: IGraph): BBox => {
+  const comboBBox = {
+    minX: Infinity,
+    minY: Infinity,
+    maxX: -Infinity,
+    maxY: -Infinity,
+    x: 0,
+    y: 0,
+    width: undefined,
+    height: undefined,
+  };
+  children && children.forEach(child => {
+    const childItem = graph.findById(child.id);
+    const childModel = childItem.getModel();
+    const childBBox = childItem.getCanvasBBox();
+    if (childModel.x && comboBBox.minX > childBBox.minX) comboBBox.minX = childBBox.minX;
+    if (childModel.y && comboBBox.minY > childBBox.minY) comboBBox.minY = childBBox.minY;
+    if (childModel.x && comboBBox.maxX < childBBox.maxX) comboBBox.maxX = childBBox.maxX;
+    if (childModel.y && comboBBox.maxY < childBBox.maxY) comboBBox.maxY = childBBox.maxY;
+  });
+  comboBBox.x = (comboBBox.minX + comboBBox.maxX) / 2;
+  comboBBox.y = (comboBBox.minY + comboBBox.maxY) / 2;
+  comboBBox.width = comboBBox.maxX - comboBBox.minX;
+  comboBBox.height = comboBBox.maxY - comboBBox.minY;
+  
+  Object.keys(comboBBox).forEach(key => {
+    if (comboBBox[key] === Infinity || comboBBox[key] === -Infinity) {
+      comboBBox[key] = undefined;
+    }
+  });
+
+  return comboBBox;
 }

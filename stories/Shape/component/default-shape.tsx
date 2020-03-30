@@ -171,7 +171,6 @@ const DefaultShape = () => {
       // });
 
       const nodeItem = ev.item;
-      debugger;
       graph.setItemState(nodeItem, 'select', true);
     });
 

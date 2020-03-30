@@ -12,7 +12,7 @@ G6.registerNode('self-node', {
         x: 0,
         y: 0,
         // ...keyShapeStyle,
-        r: 20,
+        r: cfg.sizee,
         fill: 'red',
       },
       name: 'main-node'
@@ -30,7 +30,7 @@ G6.registerNode('self-node', {
 
     return keyShape
   }
-}, 'single-node')
+}, 'single-node')//, 'circle'
 
 const CustomNode = () => {
   const container = React.useRef();
@@ -46,6 +46,7 @@ const CustomNode = () => {
             type: 'self-node',
             x: 250,
             y: 150,
+            sizee: 40
           },
         ],
       };

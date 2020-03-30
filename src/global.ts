@@ -48,7 +48,8 @@ export default {
       // textAlign: 'center',
       textBaseline: 'middle',
     },
-    offset: -5, // Combo 的默认文本不居中时的偏移量
+    refY: 10, // Combo 的默认文本不居中时的偏移量
+    refX: 10, // Combo 的默认文本不居中时的偏移量
   },
   defaultCombo: {
     type: 'circle',
@@ -57,11 +58,11 @@ export default {
       lineWidth: 1,
       stroke: '#A3B1BF',
       opacity: 0.8,
-      r: 10,
-      width: 10,
+      r: 5,
+      width: 20,
       height: 10
     },
-    size: 20,
+    size: [30, 5],
     color: '#A3B1BF',
   },
   // 节点应用状态后的样式，默认仅提供 active 和 selected 用户可以自己扩展
