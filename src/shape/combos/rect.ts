@@ -1,12 +1,11 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
-import { mix, clone } from '@antv/util';
-import { LabelStyle, Item, NodeConfig, ModelConfig, ShapeStyle } from '../../types';
+import { mix, isNumber, clone } from '@antv/util';
+import { LabelStyle, Item, ComboConfig, ModelConfig, ShapeStyle } from '../../types';
 import Global from '../../global';
 import Shape from '../shape';
 import { ILabelConfig, ShapeOptions } from '../../interface/shape';
 import { isNil } from '@antv/util';
-import global from '../../global';
 
 const collapseIcon = (x, y, r) => {
   return [
@@ -34,8 +33,8 @@ Shape.registerCombo(
   {
     // 自定义 Combo 时的配置
     options: {
-      size: [100, 30],
-      padding: 25,
+      size: [40, 5],
+      padding: [25, 20, 15, 20],
       style: {
         radius: 0,
         stroke: Global.defaultCombo.style.stroke,
@@ -67,7 +66,7 @@ Shape.registerCombo(
     },
     shapeType: 'rect',
     labelPosition: 'top',
-    drawShape(cfg: NodeConfig, group: GGroup): IShape {
+    drawShape(cfg: ComboConfig, group: GGroup): IShape {
       const style = this.getShapeStyle!(cfg);
       const keyShape = group.addShape('rect', {
         attrs: style,
@@ -79,10 +78,11 @@ Shape.registerCombo(
       return keyShape;
     },
     // 私有方法，不希望扩展的 Combo 复写这个方法
-    getLabelStyleByPosition(cfg: NodeConfig, labelCfg: ILabelConfig): LabelStyle {
+    getLabelStyleByPosition(cfg: ComboConfig, labelCfg: ILabelConfig): LabelStyle {
       const labelPosition = labelCfg.position || this.labelPosition;
       const { style: cfgStyle } = cfg;
-      const padding = this.options.padding;
+      let padding = cfg.padding || this.options.padding;
+      if (isNumber(padding)) padding = [ padding, padding, padding, padding ];
 
       let { refX, refY } = labelCfg;
       // 考虑 refX 和 refY = 0 的场景，不用用 labelCfg.refX || Global.nodeLabel.refY
@@ -93,15 +93,15 @@ Shape.registerCombo(
         refY = this.refY as number; // 不居中时的偏移量
       }
   
-      const width = cfgStyle.width + 2 * padding;
-      const height = cfgStyle.height + 2 * padding;
+      const leftDis = cfgStyle.width / 2 + padding[3];
+      const topDis = cfgStyle.height / 2 + padding[0];
   
       let style: any;
       switch (labelPosition) {
         case 'top':
           style = {
-            x: 0 - width / 2 + refX,
-            y: 0 - height / 2 + refY,
+            x: 0 - leftDis + refX,
+            y: 0 - topDis + refY,
             textBaseline: 'top', // 文本在图形的上方
             textAlign: 'left',
           };
@@ -109,14 +109,14 @@ Shape.registerCombo(
         case 'bottom':
           style = {
             x: 0,
-            y: height / 2 + refY,
+            y: topDis + refY,
             textBaseline: 'bottom',
             textAlign: 'center',
           };
           break;
         case 'left':
           style = {
-            x: 0 - width / 2 + refY,
+            x: 0 - leftDis + refY,
             y: 0,
             textAlign: 'left',
           };
@@ -129,7 +129,7 @@ Shape.registerCombo(
           break;
         default:
           style = {
-            x: width / 2 + refX,
+            x: leftDis + refX,
             y: 0,
             textAlign: 'right',
           };
@@ -143,39 +143,51 @@ Shape.registerCombo(
      * @param {Object} cfg 节点数据模型
      * @return {Object} 节点的样式
      */
-    getShapeStyle(cfg: NodeConfig) {
+    getShapeStyle(cfg: ComboConfig) {
       const { style: defaultStyle } = this.options as ModelConfig;
-      const padding: number = this.options.padding;
+      let padding: number | number[] = cfg.padding || this.options.padding;
+      if (isNumber(padding)) padding = [padding, padding, padding, padding];
       const strokeStyle: ShapeStyle = {
         stroke: cfg.color,
       };
 
       // 如果设置了color，则覆盖默认的stroke属性
       const style = mix({}, defaultStyle, strokeStyle, cfg.style);
-      const defaultSize = global.defaultCombo.size;
-      const width: number = Math.max(style.width, defaultSize[0]) + padding * 2 || defaultSize[0] + padding * 2;
-      const height: number = Math.max(style.height, defaultSize[1]) + padding * 2 || defaultSize[1] + padding * 2;
-      delete style.width;
-      delete style.height;
-      if (!cfg.style) {
-        cfg.style = {
-          width: width - padding * 2,
-          height: height - padding * 2
-        }
-      } else {
-        cfg.style.width = width - padding * 2;
-        cfg.style.height = height - padding * 2;
-      }
+      const size = (this as ShapeOptions).getSize!(cfg);
+      let width: number;
+      let height: number;
+      if (!isNumber(style.width) || isNaN(style.width))
+        width = (size[0] || Global.defaultCombo.style.width)
+      else
+        width = (Math.max(style.width, size[0]) || size[0]);
+      if (!isNumber(style.height) || isNaN(style.height))
+        height = (size[1] || Global.defaultCombo.style.height);
+      else
+        height = (Math.max(style.height, size[1]) || size[1]);
+
+      const x = -width / 2 - padding[3];
+      const y = -height / 2 - padding[0];
+
+      style.width = width + padding[1] + padding[3];
+      style.height = height + padding[0] + padding[2];
+
       const styles = Object.assign(
         {},
         {
-          x: -width / 2,
-          y: -height / 2,
-          width,
-          height,
+          x,
+          y,
         },
         style,
       );
+      if (!cfg.style) {
+        cfg.style = {
+          width,
+          height
+        }
+      } else {
+        cfg.style.width = width;
+        cfg.style.height = height;
+      }
       return styles;
     },
     /**
@@ -183,21 +195,27 @@ Shape.registerCombo(
      * @param {Object} cfg data数据配置项
      * @param {Group} group Group实例
      */
-    drawCollapseIcon(cfg: NodeConfig, group: GGroup, style: any) {
+    drawCollapseIcon(cfg: ComboConfig, group: GGroup, style: any) {
       const { collapseIcon: defaultCollapseIcon } = this.options as any;
       const collapseIcon = mix({}, defaultCollapseIcon, cfg.collapseIcon);
+      let padding: number | number[] = cfg.padding || this.options.padding;
+      if (isNumber(padding)) padding = [padding, padding, padding, padding];
 
       const { show, collapseSymbol, expandSymbol, offsetX, offsetY } = collapseIcon;
       delete collapseIcon.collapseSymbol;
       delete collapseIcon.expandSymbol;
       const r = collapseIcon.r;
       delete collapseIcon.r;
+  
+      const rightDis = cfg.style.width / 2 + padding[1];
+      const topDis = cfg.style.height / 2 + padding[0];
+
       if (show) {
         // left circle
         const attrs = {
           r,
-          x: style.width / 2 - r - offsetX,
-          y: -style.height / 2 + r + offsetY,
+          x: rightDis - r - offsetX,
+          y: -topDis + r + offsetY,
           ...collapseIcon,
           symbol: collapseSymbol,
         };
@@ -214,22 +232,27 @@ Shape.registerCombo(
      * @param {Object} cfg data数据配置项
      * @param {Group} group Group实例
      */
-    updateCollapseIcon(cfg: NodeConfig, item: Item, style: any) {
+    updateCollapseIcon(cfg: ComboConfig, item: Item, style: any) {
       const { collapseIcon: defaultCollapseIcon } = this.options as any;
       const collapseIcon = mix({}, defaultCollapseIcon, cfg.collapseIcon);
+      let padding: number | number[] = cfg.padding || this.options.padding;
+      if (isNumber(padding)) padding = [padding, padding, padding, padding]
 
       const { show, collapseSymbol, expandSymbol, offsetX, offsetY } = collapseIcon;
       delete collapseIcon.collapseSymbol;
       delete collapseIcon.expandSymbol;
       const r = collapseIcon.r;
       delete collapseIcon.r;
-      
+  
+      const rightDis = cfg.style.width / 2 + padding[1];
+      const topDis = cfg.style.height / 2 + padding[0];
+
       const group = item.getContainer();
       const icon = group.find(element => element.get('name') === 'collapse-icon');
       const attrs = {
         r,
-        x: style.width / 2 - r - offsetX,
-        y: -style.height / 2 + r + offsetY,
+        x: rightDis - r - offsetX,
+        y: -topDis + r + offsetY,
         ...collapseIcon,
         symbol: collapseSymbol,
       }
@@ -244,30 +267,35 @@ Shape.registerCombo(
         icon.attr({ ...attrs });
       }
     },
-    update(cfg: NodeConfig, item: Item) {
-      const { style: defaultStyle } = this.options as ModelConfig;
-      const defaultSize = global.defaultCombo.size;
-      const keyShape = item.get('keyShape');
+    update(cfg: ComboConfig, item: Item) {
+      const size = (this as ShapeOptions).getSize!(cfg);
+      let padding: number | number[] = cfg.padding || this.options.padding;
+      if (isNumber(padding)) padding = [padding, padding, padding, padding]
+      const cfgStyle = clone(cfg.style);
+      const width = (Math.max(cfgStyle.width, size[0]) || size[0]);
+      const height = (Math.max(cfgStyle.height, size[1]) || size[1]);
+      cfgStyle.width = width + padding[1] + padding[3];
+      cfgStyle.height = height + padding[0] + padding[2];
+      cfgStyle.x = -width / 2 - padding[3];
+      cfgStyle.y = -height / 2 - padding[0];
       // 下面这些属性需要覆盖默认样式与目前样式，但若在 cfg 中有指定则应该被 cfg 的相应配置覆盖。
       const strokeStyle = {
         stroke: cfg.color
       };
-      // 与 getShapeStyle 不同在于，update 时需要获取到当前的 style 进行融合。即新传入的配置项中没有涉及的属性，保留当前的配置。
-      let style = mix({}, defaultStyle, keyShape.attr(), strokeStyle);
-      style = mix(style, cfg.style);
+      // 与 getShapeStyle 不同在于，update 时需要获取到当前的 style 进行融合。即新传入的配置项中没有涉及的属性，保留当前的配置。 
+      const keyShape = item.get('keyShape');
+      let style = mix({}, keyShape.attr(), strokeStyle, cfgStyle);
 
-      const padding: number = this.options.padding;
-      style.width = Math.max(style.width, defaultSize[0]) + padding * 2 || defaultSize[0] + padding * 2;
-      style.height = Math.max(style.height, defaultSize[1]) + padding * 2 || defaultSize[1] + padding * 2;
-      style.x = -style.width / 2;
-      style.y = -style.height / 2;
-      cfg.style.width = style.width - padding * 2;
-      cfg.style.height = style.height - padding * 2;
-
+      if (cfg.style) {
+        cfg.style.width = width;
+        cfg.style.height = height
+      } else {
+        cfg.style = { width, height }
+      }
 
       (this as any).updateShape(cfg, item, style, false);
     },
-    updateShape(cfg: NodeConfig, item: Item, keyShapeStyle: object) {
+    updateShape(cfg: ComboConfig, item: Item, keyShapeStyle: object) {
       const keyShape = item.get('keyShape');
       keyShape.attr({
         ...keyShapeStyle,

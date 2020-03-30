@@ -4,7 +4,7 @@
  */
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
-import { isArray, isNil, clone } from '@antv/util';
+import { isArray, isNil, clone, isNumber } from '@antv/util';
 import { ILabelConfig, ShapeOptions } from '../interface/shape';
 import { Item, LabelStyle, NodeConfig, ModelConfig } from '../types';
 import Global from '../global';
@@ -51,7 +51,8 @@ const singleCombo: ShapeOptions = {
   getLabelStyleByPosition(cfg: NodeConfig, labelCfg: ILabelConfig): LabelStyle {
     const labelPosition = labelCfg.position || this.labelPosition;
     const { style: cfgStyle } = cfg;
-    const padding = cfg.children && cfg.children.length ? this.options.padding : 0;
+    let padding: number | number[] = cfg.padding || this.options.padding;
+    if (isArray(padding)) padding = padding[0];
 
     let { refX, refY } = labelCfg;
     // 考虑 refX 和 refY = 0 的场景，不用用 labelCfg.refX || Global.nodeLabel.refX
@@ -64,15 +65,16 @@ const singleCombo: ShapeOptions = {
 
     const size = this.getSize!(cfg as ModelConfig);
 
-    const width = Math.max(cfgStyle.r * 2, size[0]) || size[0];
-    const height = Math.max(cfgStyle.r * 2, size[1]) || size[1];
+    const r = Math.max(cfgStyle.r, size[0] / 2) || size[0] / 2;
+    
+    const dis = r + padding;
 
     let style: any;
     switch (labelPosition) {
       case 'top':
         style = {
           x: 0,
-          y: 0 - height / 2 - padding - (refY as number),
+          y: -dis - (refY as number),
           textBaseline: 'bottom', // 文本在图形的上方
           textAlign: 'center',
         };
@@ -80,14 +82,14 @@ const singleCombo: ShapeOptions = {
       case 'bottom':
         style = {
           x: 0,
-          y: height / 2 + (refY as number),
+          y: dis + (refY as number),
           textBaseline: 'bottom',
           textAlign: 'center',
         };
         break;
       case 'left':
         style = {
-          x: 0 - width / 2 - (refX as number),
+          x: - dis - (refX as number),
           y: 0,
           textAlign: 'left',
         };
@@ -100,7 +102,7 @@ const singleCombo: ShapeOptions = {
         break;
       default:
         style = {
-          x: width / 2 + (refX as number),
+          x: dis + (refX as number),
           y: 0,
           textAlign: 'right',
         };
