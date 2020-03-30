@@ -5,7 +5,7 @@ import { Item, NodeConfig, ShapeStyle, ModelConfig } from '../../types';
 import Global from '../../global';
 import Shape from '../shape';
 import { ShapeOptions } from '../../interface/shape';
-import { isNumber, clone } from '@antv/util';
+import { isNumber, clone, mix, isArray } from '@antv/util';
 
 
 // 圆形 Combo
@@ -17,8 +17,6 @@ Shape.registerCombo(
       size: [Global.defaultCombo.size[0], Global.defaultCombo.size[0]],
       padding: 20,
       style: {
-        x: 0,
-        y: 0,
         stroke: Global.defaultCombo.style.stroke,
         fill: Global.defaultCombo.style.fill,
         lineWidth: Global.defaultCombo.style.lineWidth,
@@ -55,17 +53,20 @@ Shape.registerCombo(
      */
     getShapeStyle(cfg: NodeConfig): ShapeStyle {
       const { style: defaultStyle } = this.options as ModelConfig;
-      const padding: number = this.options.padding;
-      const strokeStyle = {
+      let padding: number | number[] = cfg.padding || this.options.padding;
+      if (isArray(padding)) padding = padding[0];
+      const strokeStyle: ShapeStyle = {
         stroke: cfg.color,
       };
+      if (cfg.id === 'D') debugger
 
       // 如果设置了color，则覆盖默认的stroke属性
-      const style = deepMix({}, defaultStyle, strokeStyle, cfg.style);
-      
+      const style = mix({}, defaultStyle, strokeStyle, cfg.style);
       const size = (this as ShapeOptions).getSize!(cfg);
-      if (!isNumber(style.r) || isNaN(style.r)) style.r = size[0] / 2 || Global.defaultCombo.style.r;
-      else style.r = Math.max(style.r + padding, size[0]/2);
+      let r: number;
+      if (!isNumber(style.r) || isNaN(style.r)) r = size[0] / 2 || Global.defaultCombo.style.r;
+      else r = Math.max(style.r, size[0] / 2) || size[0] / 2;
+      style.r = r + padding;
       const styles = Object.assign(
         {},
         {
@@ -74,28 +75,32 @@ Shape.registerCombo(
         },
         style,
       );
-      if (cfg.style) cfg.style.r = style.r;
+      if (cfg.style) cfg.style.r = r;
       else {
-        cfg.style = {
-          r: style.r
-        }
+        cfg.style = { r };
       }
       return styles;
     },
     update(cfg: NodeConfig, item: Item) {
-      // if (cfg.id === 'B') debugger
+      if (cfg.id === 'D') debugger
       const size = (this as ShapeOptions).getSize!(cfg);
-      const padding: number = this.options.padding;
+      let padding: number | number[] = cfg.padding || this.options.padding;
+      if (isArray(padding)) padding = padding[0];
       const cfgStyle = clone(cfg.style);
-      cfgStyle.r = Math.max(cfgStyle.r + padding, size[0] / 2);
+      const r = Math.max(cfgStyle.r, size[0] / 2) || size[0] / 2;;
+      cfgStyle.r = r + padding;
       // 下面这些属性需要覆盖默认样式与目前样式，但若在 cfg 中有指定则应该被 cfg 的相应配置覆盖。
       const strokeStyle = {
-        stroke: cfg.color,
-        r: size[0] / 2
+        stroke: cfg.color
       };
       // 与 getShapeStyle 不同在于，update 时需要获取到当前的 style 进行融合。即新传入的配置项中没有涉及的属性，保留当前的配置。
       const keyShape = item.get('keyShape');
-      const style = deepMix({}, keyShape.attr(), strokeStyle, cfgStyle);
+      const style = mix({}, keyShape.attr(), strokeStyle, cfgStyle);
+
+      if (cfg.style) cfg.style.r = r;
+      else {
+        cfg.style = { r }
+      }
 
       (this as any).updateShape(cfg, item, style, true);
     }
