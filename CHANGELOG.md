@@ -1,6 +1,12 @@
 # ChangeLog
+#### 3.4.4
+- feat: background color for downloadImage and toDataURL;
+- feat: support configure image for grid plugin;
+- fix: initial position for fruchterman layout;
+- refactor: clip for image node.
+
 #### 3.4.3
-- fix: support extends BehaviorOption；
+- fix: support extends BehaviorOption;
 - fix: click-select Behavior support multiple selection using ctrl key.
 
 #### 3.4.2
