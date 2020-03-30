@@ -75,6 +75,8 @@ export default class FruchtermanLayout extends BaseLayout {
     const nodeMap: NodeMap = {};
     const nodeIdxMap: NodeIdxMap = {};
     nodes.forEach((node, i) => {
+      if (!isNumber(node.x)) node.x = Math.random() * this.width;
+      if (!isNumber(node.y)) node.y = Math.random() * this.height;
       nodeMap[node.id] = node;
       nodeIdxMap[node.id] = i;
     });

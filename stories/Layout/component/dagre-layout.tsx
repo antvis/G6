@@ -292,6 +292,11 @@ const DagreLayout = () => {
       });
       graph.data(data);
       graph.render();
+
+      graph.on('canvas:click', e => {
+        console.log(graph.toDataURL('image/jpeg', '#fff'));
+        graph.downloadImage('test', '#eee');
+      });
     }
   });
   return <div ref={container}></div>;
