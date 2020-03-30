@@ -916,7 +916,7 @@ export default class CustomGroup {
 
     if (!customGroup) {
       // eslint-disable-next-line no-console
-      console.warn(`请确认输入的groupId ${groupId} 是否有误！`);
+      //console.warn(`请确认输入的groupId ${groupId} 是否有误！`);
       return;
     }
     const { nodeGroup } = customGroup;

@@ -12,6 +12,7 @@ import {
   ModelStyle,
   ShapeStyle,
   Indexable,
+  ComboConfig,
 } from '../types';
 
 // item 的配置项
@@ -127,10 +128,10 @@ export interface IItemBase {
   getKeyShape(): IShapeBase;
 
   /**
-   * 节点数据模型
+   * 节点 / 边 / Combo 的数据模型
    * @return {Object} 数据模型
    */
-  getModel(): NodeConfig | EdgeConfig;
+  getModel(): ModelConfig;
 
   /**
    * 节点类型
@@ -290,45 +291,61 @@ export interface INode extends IItemBase {
 }
 
 export interface ICombo extends INode {
+
   /**
    * 获取 Combo 中所有的子元素，包括 Combo、Node 及 Edge
    */
-  getChildrens: () => ICombo[] | IEdge[];
+  getChildren: () => { nodes: INode[], combos: ICombo[] };
 
   /**
    * 获取 Combo 中所有节点
    */
-  getComboNodes: () => INode[];
+  getNodes: () => INode[];
 
   /**
-   * 获取 Combo 的 BBox
+   * 获取 Combo 中所有子 combo
    */
-  getBBox: () => IBBox;
+  getCombos: () => INode[];
 
   /**
    * 向 Combo 中增加 combo
-   * @param combo Combo ID 或 Combo实例
+   * @param item 节点或 combo 的 Item 实例
    * @return boolean 添加成功返回 true，否则返回 false
    */
-  addCombo: (combo: string | ICombo) => boolean;
+  addChild: (item: INode | ICombo) => boolean;
 
   /**
-   * 从 Combo 中移除指定的 combo
-   * @param combo Combo ID 或 Combo实例
-   * @return boolean 移除成功返回 true，否则返回 false
+   * 向 Combo 中增加 combo
+   * @param combo Combo 实例
+   * @return boolean 添加成功返回 true，否则返回 false
    */
-  removeCombo: (combo: string | ICombo) => boolean;
+  addCombo: (combo: ICombo) => boolean;
 
   /**
    * 向 Combo 中添加节点
-   * @param node 节点ID或实例
+   * @param node 节点实例
    * @return boolean 添加成功返回 true，否则返回 false
    */
   addNode: (node: string | INode) => boolean;
 
+
+  /**
+   * 从 Combo 中移除子元素
+   * @param item Combo 或 Node 实例
+   * @return boolean 添加成功返回 true，否则返回 false
+   */
+  removeChild: (item: ICombo | INode) => boolean;
+
+  /**
+   * 从 Combo 中移除指定的 combo
+   * @param combo Combo 实例
+   * @return boolean 移除成功返回 true，否则返回 false
+   */
+  removeCombo: (combo: ICombo) => boolean;
+
    /**
    * 向 Combo 中移除指定的节点
-   * @param node 节点ID或实例
+   * @param node 节点实例
    * @return boolean 移除成功返回 true，否则返回 false
    */
   removeNode: (node: string | INode) => boolean;
