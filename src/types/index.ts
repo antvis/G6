@@ -61,6 +61,7 @@ export type ShapeStyle = Partial<{
   shadowOffsetY: number;
   cursor: string;
   position: string;
+  fontSize: number;
 }>;
 
 export interface IShapeBase extends ShapeBase {
@@ -436,14 +437,8 @@ export interface ComboConfig extends ModelConfig {
   parentId?: string;
   // Combo 类型，默认 rect，值为定义的 combo 的名称
   type?: string;
-  // Combo 标题
-  // label?: string | LabelStyle;
-  // style?: ShapeStyle;
-  // stateStyles?: {
-  //   [key: string]: ShapeStyle | {
-  //     [key: string]: ShapeStyle
-  //   }
-  // };
+  children?: ComboTree[];
+  depth?: number;
 }
 
 export interface EdgeConfig extends ModelConfig {
@@ -525,7 +520,8 @@ export interface ComboTree {
   label?: string;
   children?: ComboTree[];
   depth?: number;
-  parentId?: string
+  parentId?: string;
+  removed?: boolean;
 }
 
 // Behavior type file
