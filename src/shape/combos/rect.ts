@@ -157,8 +157,15 @@ Shape.registerCombo(
       const height: number = Math.max(style.height, defaultSize[1]) + padding * 2 || defaultSize[1] + padding * 2;
       delete style.width;
       delete style.height;
-      cfg.style.width = width - padding * 2;
-      cfg.style.height = height - padding * 2;
+      if (!cfg.style) {
+        cfg.style = {
+          width: width - padding * 2,
+          height: height - padding * 2
+        }
+      } else {
+        cfg.style.width = width - padding * 2;
+        cfg.style.height = height - padding * 2;
+      }
       const styles = Object.assign(
         {},
         {
