@@ -46,11 +46,13 @@ const data = {
     id: 'A',
     parentId: 'B',
     label: 'gorup A',
+    padding: [50, 10, 10, 10]
     // type: 'rect'
   }, {
     id: 'B',
     // parentId: 'C',
     label: 'gorup B',
+    // padding: [50, 10, 10, 50]
     // type: 'rect'
   },
   // {
@@ -150,7 +152,8 @@ const DefaultCombo = () => {
           default: [ 'drag-canvas' ]
         },
         defaultCombo: {
-          type: 'rect',
+          // size: [100, 100],
+          type: 'circle',
           style: {
             fill: '#ccc'
           }
@@ -182,6 +185,9 @@ const DefaultCombo = () => {
       graph.data(data);
       graph.render();
       let selected = false;
+      graph.on('node:click', e => {
+        graph.hideItem(e.item);
+      })
       graph.on('combo:click', e => {
         // selected = !selected;
         // graph.setItemState(e.item, 'selected', selected);
@@ -195,7 +201,7 @@ const DefaultCombo = () => {
           style: {
             fill: '#f00'
           },
-          label: 'new Label',
+          // label: 'new Label',
           // labelCfg: {
           //   position: 'bottom'
           // }
@@ -220,15 +226,15 @@ const DefaultCombo = () => {
 
         // graph.changeData(data2);
 
-        // graph.addItem('combo', {
-        //   id: 'M',
-        //   parentId: 'B'
-        // });
+        graph.addItem('combo', {
+          id: 'M',
+          parentId: 'B'
+        });
         // graph.updateItem('A', {
         //   parentId: 'B'
         // });
 
-        console.log(graph.save());
+        // console.log(graph.save());
       });
     }
   });
