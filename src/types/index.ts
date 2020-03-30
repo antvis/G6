@@ -439,6 +439,7 @@ export interface ComboConfig extends ModelConfig {
   type?: string;
   children?: ComboTree[];
   depth?: number;
+  padding?: number | number[]
 }
 
 export interface EdgeConfig extends ModelConfig {
