@@ -492,13 +492,13 @@ export interface IGraph extends EventEmitter {
   /**
    * 返回图表的 dataUrl 用于生成图片
    */
-  toDataURL(): string;
+  toDataURL(type?: string, backgroundColor?: string): string;
 
   /**
    * 画布导出图片
    * @param {String} name 图片的名称
    */
-  downloadImage(name: string): void;
+  downloadImage(name?: string, backgroundColor?: string): void;
 
   // TODO 需要添加布局配置类型
   /**
