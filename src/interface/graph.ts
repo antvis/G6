@@ -195,9 +195,9 @@ export interface IGraph extends EventEmitter {
 
   /**
    * 获取指定 combo 中所有的节点
-   * @param comboId Combo ID
+   * @param comboId Combo ID 或 combo 实例
    */
-  getComboNodes(comboId: string): INode[];
+  getComboChildren(combo: string | ICombo): { nodes: INode[], combos: ICombo[] };
 
   /**
    * 获取当前视口伸缩比例

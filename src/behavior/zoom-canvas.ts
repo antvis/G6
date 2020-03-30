@@ -43,7 +43,6 @@ export default {
       const optimizeZoom = this.get('optimizeZoom')
 
       const currentZoom = graph.getZoom()
-      console.log(currentZoom)
       if(currentZoom < optimizeZoom) {
         const nodes = graph.getNodes()
         const edges = graph.getEdges()
