@@ -4,7 +4,7 @@
  */
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
-import { isArray, isNil } from '@antv/util';
+import { isArray, isNil, clone } from '@antv/util';
 import { ILabelConfig, ShapeOptions } from '../interface/shape';
 import { Item, LabelStyle, NodeConfig, ModelConfig } from '../types';
 import Global from '../global';
@@ -25,7 +25,8 @@ const singleCombo: ShapeOptions = {
    * 标题文本相对偏移，当 labelPosition 不为 center 时有效
    * @type {Number}
    */
-  offset: Global.comboLabel.offset,
+  refX: Global.comboLabel.refX,
+  refY: Global.comboLabel.refY,
   /**
    * 获取 Combo 宽高
    * @internal 返回 Combo 的大小，以 [width, height] 的方式维护
@@ -33,7 +34,7 @@ const singleCombo: ShapeOptions = {
    * @return {Array} 宽高
    */
   getSize(cfg: ModelConfig): number[] {
-    let size: number | number[] = cfg.size || this.options!.size || Global.defaultCombo.size;
+    let size: number | number[] = clone(cfg.size || this.options!.size || Global.defaultCombo.size);
 
     // size 是数组，若长度为 1，则补长度为 2
     if (isArray(size) && size.length === 1) {
@@ -44,45 +45,49 @@ const singleCombo: ShapeOptions = {
     if (!isArray(size)) {
       size = [size, size];
     }
-    console.log('sizesizesize', size);
     return size;
   },
   // 私有方法，不希望扩展的 Combo 复写这个方法
   getLabelStyleByPosition(cfg: NodeConfig, labelCfg: ILabelConfig): LabelStyle {
     const labelPosition = labelCfg.position || this.labelPosition;
+    const { style: cfgStyle } = cfg;
+    const padding = cfg.children && cfg.children.length ? this.options.padding : 0;
 
-    let { offset } = labelCfg;
-    if (isNil(offset)) {
-      // 考虑 offset = 0 的场景，不用用 labelCfg.offset || Global.nodeLabel.offset
-      offset = this.offset as number; // 不居中时的偏移量
+    let { refX, refY } = labelCfg;
+    // 考虑 refX 和 refY = 0 的场景，不用用 labelCfg.refX || Global.nodeLabel.refX
+    if (isNil(refX)) {
+      refX = this.refX as number; // 不居中时的偏移量
+    }
+    if (isNil(refY)) {
+      refY = this.refY as number; // 不居中时的偏移量
     }
 
     const size = this.getSize!(cfg as ModelConfig);
 
-    const width = size[0];
-    const height = size[1];
+    const width = Math.max(cfgStyle.r * 2, size[0]) || size[0];
+    const height = Math.max(cfgStyle.r * 2, size[1]) || size[1];
 
     let style: any;
     switch (labelPosition) {
       case 'top':
         style = {
           x: 0,
-          y: 0 - height / 2 - (offset as number),
-          textBaseline: 'top', // 文本在图形的上方
+          y: 0 - height / 2 - padding - (refY as number),
+          textBaseline: 'bottom', // 文本在图形的上方
           textAlign: 'center',
         };
         break;
       case 'bottom':
         style = {
           x: 0,
-          y: height / 2 + (offset as number),
+          y: height / 2 + (refY as number),
           textBaseline: 'bottom',
           textAlign: 'center',
         };
         break;
       case 'left':
         style = {
-          x: 0 - width / 2 - (offset as number),
+          x: 0 - width / 2 - (refX as number),
           y: 0,
           textAlign: 'left',
         };
@@ -95,7 +100,7 @@ const singleCombo: ShapeOptions = {
         break;
       default:
         style = {
-          x: width / 2 + (offset as number),
+          x: width / 2 + (refX as number),
           y: 0,
           textAlign: 'right',
         };

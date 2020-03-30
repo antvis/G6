@@ -150,8 +150,6 @@ export default class ItemBase implements IItemBase {
     self.updatePosition(model);
     const cfg = self.getShapeCfg(model); // 可能会附加额外信息
     const shapeType = (cfg.shape as string) || (cfg.type as string);
-
-    console.log('cfgcfgcfgcfg', cfg);
     
     const keyShape: IShapeBase = shapeFactory.draw(shapeType, cfg, group);
     
@@ -567,7 +565,7 @@ export default class ItemBase implements IItemBase {
     // 2. 更新后的 shape 等于原先的 shape
     if (shapeFactory.shouldUpdate(shape) && shape === this.get('currentShape')) {
       const updateCfg = this.getShapeCfg(model);
-      shapeFactory.update(shape, updateCfg, this);
+      shapeFactory.baseUpdate(shape, updateCfg, this);
     } else {
       // 如果不满足上面两种状态，重新绘制
       this.draw();
