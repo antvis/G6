@@ -1142,10 +1142,13 @@ export default class Graph extends EventEmitter implements IGraph {
     const comboId = (combo as ICombo).get('id');
     let childTree;
     let brothers = [];
+    const comboItems = this.get('combos');
     comboTrees.forEach(ctree => {
       traverseTreeUp<ComboTree>(ctree, subtree => {
         if (subtree.id === comboId) {
           childTree = subtree;
+          const index = comboItems.indexOf(combo);
+          comboItems.splice(index, 1);
           delete itemMap[comboId];
           (combo as ICombo).destroy();
         }
@@ -1154,7 +1157,7 @@ export default class Graph extends EventEmitter implements IGraph {
           const index = brothers.indexOf(childTree);
           brothers.splice(index, 1);
           brothers.concat(childTree.children);
-          childTree.children.forEach(child => {
+          childTree.children && childTree.children.forEach(child => {
             child.parentId = parentId;
             const childModel = this.findById(child.id).getModel();
             childModel.parentId = parentId;
@@ -1240,6 +1243,7 @@ export default class Graph extends EventEmitter implements IGraph {
     });
 
     each(this.get('combos'), (combo: ICombo) => {
+      console.log(combo);
       combos.push(combo.getModel() as ComboConfig);
     });
 
