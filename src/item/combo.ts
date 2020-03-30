@@ -1,13 +1,14 @@
-import { ICombo, INode, IEdge } from '../interface/item'
+import { ICombo, INode } from '../interface/item'
 import Node from './node'
-import { IBBox, ComboConfig } from '../types';
+import { ComboConfig } from '../types';
 
 export default class Combo extends Node implements ICombo {
   public getDefaultCfg() {
     return {
       type: 'combo',
       nodes: [],
-      edges: []
+      edges: [],
+      combos: []
     }
   }
 
@@ -17,7 +18,7 @@ export default class Combo extends Node implements ICombo {
     if (styles) {
       // merge graph的item样式与数据模型中的样式
       const newModel = model;
-      newModel.style = Object.assign({}, styles, model.style, { width: bbox.width, height: bbox.height, r: Math.max(bbox.width, bbox.height) });
+      newModel.style = Object.assign({}, styles, model.style, { width: bbox.width, height: bbox.height, r: Math.hypot(bbox.height, bbox.width) / 2 });
       return newModel;
     }
     return model;
@@ -26,57 +27,129 @@ export default class Combo extends Node implements ICombo {
   /**
    * 获取 Combo 中所有的子元素，包括 Combo、Node 及 Edge
    */
-  public getChildrens(): ICombo[] | IEdge[] {
-    return []
+  public getChildren(): { nodes: INode[], combos: ICombo[]} {
+    const self = this;
+    return {
+      nodes: self.getNodes(),
+      combos: self.getCombos()
+    }
   }
 
   /**
-   * 获取 Combo 中所有节点
+   * 获取 Combo 中所有子节点
    */
-  getComboNodes(): INode[] {
-    return []
+  getNodes(): INode[] {
+    const self = this;
+    return self.get('nodes');
   }
 
   /**
-   * 获取 Combo 的 BBox
+   * 获取 Combo 中所有子 combo
    */
-  getBBox(): IBBox {
-    return 
+  getCombos(): ICombo[] {
+    const self = this;
+    return self.get('combos');
   }
+
+  /**
+   * 向 Combo 中增加子 combo 或 node
+   * @param item Combo 或节点实例
+   * @return boolean 添加成功返回 true，否则返回 false
+   */
+  addChild(item: ICombo | INode): boolean {
+    const self = this;
+    const itemType = item.getType();
+    switch(itemType) {
+      case 'node':
+        self.addNode(item);
+        break;
+      case 'combo':
+        self.addCombo(item as ICombo);
+        break;
+      default: 
+        console.warn('Only node or combo items are allowed to be added into a combo');
+        return false;
+    }
+    return true;
+  }
+  
 
   /**
    * 向 Combo 中增加 combo
-   * @param combo Combo ID 或 Combo实例
+   * @param combo Combo 实例
    * @return boolean 添加成功返回 true，否则返回 false
    */
-  addCombo(combo: string | ICombo): boolean {
-    return true
-  }
-
-  /**
-   * 从 Combo 中移除指定的 combo
-   * @param combo Combo ID 或 Combo实例
-   * @return boolean 移除成功返回 true，否则返回 false
-   */
-  removeCombo(combo: string | ICombo): boolean {
-    return true
+  addCombo(combo: ICombo): boolean {
+    const self = this;
+    self.get('combos').push(combo);
+    return true;
   }
 
   /**
    * 向 Combo 中添加节点
-   * @param node 节点ID或实例
+   * @param node 节点实例
    * @return boolean 添加成功返回 true，否则返回 false
    */
   addNode(node: string | INode): boolean {
+    const self = this;
+    self.get('nodes').push(node);
+    return true;
+  }
+
+  /**
+   * 向 Combo 中增加子 combo 或 node
+   * @param item Combo 或节点实例
+   * @return boolean 添加成功返回 true，否则返回 false
+   */
+  removeChild(item: ICombo | INode): boolean {
+    const self = this;
+    const itemType = item.getType();
+    switch(itemType) {
+      case 'node':
+        self.removeNode(item);
+        break;
+      case 'combo':
+        self.removeCombo(item as ICombo);
+        break;
+      default: 
+        console.warn('Only node or combo items are allowed to be added into a combo');
+        return false;
+    }
     return true
+  }
+
+
+  /**
+   * 从 Combo 中移除指定的 combo
+   * @param combo Combo 实例
+   * @return boolean 移除成功返回 true，否则返回 false
+   */
+  removeCombo(combo: ICombo): boolean {
+    const combos = this.getNodes();
+    const index = combos.indexOf(combo);
+    if (index > -1) {
+      combos.splice(index, 1);
+      return true;
+    }
+    return false;
   }
 
    /**
    * 向 Combo 中移除指定的节点
-   * @param node 节点ID或实例
+   * @param node 节点实例
    * @return boolean 移除成功返回 true，否则返回 false
    */
-  removeNode(node: string | INode): boolean {
-    return true
+  removeNode(node: INode): boolean {
+    const nodes = this.getNodes();
+    const index = nodes.indexOf(node);
+    if (index > -1) {
+      nodes.splice(index, 1);
+      return true;
+    }
+    return false;
+  }
+
+  public isOnlyMove(cfg?: ComboConfig): boolean {
+    return false;
   }
 }
