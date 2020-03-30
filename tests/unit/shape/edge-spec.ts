@@ -79,7 +79,7 @@ describe('shape edge test', () => {
           return '';
         },
       };
-      factory.update(
+      factory.baseUpdate(
         'shape',
         {
           startPoint: { x: 150, y: 50 },
@@ -95,7 +95,7 @@ describe('shape edge test', () => {
       canvas.draw();
       expect(label.attr('x')).toEqual(150);
       expect(label.attr('y')).toEqual(50);
-      factory.update(
+      factory.baseUpdate(
         'shape',
         {
           startPoint: { x: 150, y: 50 },
@@ -157,7 +157,7 @@ describe('shape edge test', () => {
           return '';
         },
       };
-      factory.update(
+      factory.baseUpdate(
         'line',
         {
           startPoint: { x: 300, y: 300 },
@@ -227,7 +227,7 @@ describe('shape edge test', () => {
           return '';
         },
       };
-      factory.update(
+      factory.baseUpdate(
         'quadratic',
         {
           startPoint: { x: 300, y: 300 },
@@ -336,7 +336,7 @@ describe('shape edge test', () => {
           return '';
         },
       };
-      factory.update(
+      factory.baseUpdate(
         'arc',
         {
           startPoint: { x: 0, y: 0 },
@@ -357,7 +357,7 @@ describe('shape edge test', () => {
       ]);
 
       // update to add controlpoints
-      factory.update(
+      factory.baseUpdate(
         'arc',
         {
           startPoint: { x: 50, y: 50 },
@@ -378,7 +378,7 @@ describe('shape edge test', () => {
       ]);
 
       // update with controlpoints and different clockwise
-      factory.update(
+      factory.baseUpdate(
         'arc',
         {
           startPoint: { x: 50, y: 50 },
@@ -399,7 +399,7 @@ describe('shape edge test', () => {
       ]);
 
       // update with controlpoints and different clockwise
-      factory.update(
+      factory.baseUpdate(
         'arc',
         {
           startPoint: { x: 50, y: 200 },
@@ -420,7 +420,7 @@ describe('shape edge test', () => {
       ]);
 
       // update with controlpoints and different clockwise
-      factory.update(
+      factory.baseUpdate(
         'arc',
         {
           startPoint: { x: 200, y: 200 },
@@ -441,7 +441,7 @@ describe('shape edge test', () => {
       ]);
 
       // update with controlpoints and different clockwise
-      factory.update(
+      factory.baseUpdate(
         'arc',
         {
           startPoint: { x: 200, y: 50 },
@@ -462,7 +462,7 @@ describe('shape edge test', () => {
       ]);
 
       // update with controlpoints and different clockwise
-      factory.update(
+      factory.baseUpdate(
         'arc',
         {
           startPoint: { x: 200, y: 200 },
@@ -483,7 +483,7 @@ describe('shape edge test', () => {
       ]);
 
       // update with controlpoint to on the same line of start and end, cannot generate a circle, but a line
-      factory.update(
+      factory.baseUpdate(
         'arc',
         {
           startPoint: { x: 200, y: 200 },
