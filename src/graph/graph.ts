@@ -791,7 +791,7 @@ export default class Graph extends EventEmitter implements IGraph {
       console.warn('The item to be removed does not exist!');
       const customGroupControll: CustomGroup = this.get('customGroupControll');
       customGroupControll.remove(item);
-    } else {
+    } else if (nodeItem) {
       const type = (nodeItem as Item).getType();
       const itemController: ItemController = this.get('itemController');
       itemController.removeItem(item);
@@ -944,10 +944,12 @@ export default class Graph extends EventEmitter implements IGraph {
     });
 
     // process the data to tree structure
-    const comboTrees = plainCombosToTrees(combos, nodes);
-    this.set('comboTrees', comboTrees);
-    // add combos
-    self.addCombos(combos);
+    if (combos) {
+      const comboTrees = plainCombosToTrees(combos, nodes);
+      this.set('comboTrees', comboTrees);
+      // add combos
+      self.addCombos(combos);
+    }
 
     if (!this.get('groupByTypes')) {
       // 为提升性能，选择数量少的进行操作
@@ -1088,12 +1090,12 @@ export default class Graph extends EventEmitter implements IGraph {
 
     // process the data to tree structure
     const combosData = (data as GraphData).combos;
-    const comboTrees = plainCombosToTrees(combosData, (data as GraphData).nodes);
-    this.set('comboTrees', comboTrees);
-    // add combos
-    self.addCombos(combosData);
-
-
+    if (combosData) {
+      const comboTrees = plainCombosToTrees(combosData, (data as GraphData).nodes);
+      this.set('comboTrees', comboTrees);
+      // add combos
+      self.addCombos(combosData);
+    }
 
     this.set({ nodes: items.nodes, edges: items.edges });
 

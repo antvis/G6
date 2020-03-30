@@ -182,9 +182,6 @@ const DefaultCombo = () => {
       graph.data(data);
       graph.render();
       let selected = false;
-      // graph.on('node:click', e => {
-      //   graph.hideItem(e.item);
-      // });
       graph.on('combo:click', e => {
         // selected = !selected;
         // graph.setItemState(e.item, 'selected', selected);
@@ -193,17 +190,17 @@ const DefaultCombo = () => {
         //   node.hide();
         // });
         // graph.hideItem(e.item);
-        // graph.updateItem(e.item, {
-        //   // type: 'rect',
-        //   style: {
-        //     fill: '#f00'
-        //   },
-        //   label: 'new Label',
-        //   // labelCfg: {
-        //   //   position: 'bottom'
-        //   // }
-        // });
-        graph.uncombo(e.item);
+        graph.updateItem(e.item, {
+          // type: 'rect',
+          style: {
+            fill: '#f00'
+          },
+          label: 'new Label',
+          // labelCfg: {
+          //   position: 'bottom'
+          // }
+        });
+        // graph.uncombo(e.item);
       });
       graph.on('canvas:click', e => {
         // graph.setItemState(graph.findById('A'), 'selected', true);
