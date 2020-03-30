@@ -190,7 +190,7 @@ describe('image test', () => {
       const nodeShape = node.get('group').get('children')[0];
       expect(nodeShape.get('clipShape').attr('width')).toEqual(100);
       expect(nodeShape.get('clipShape').attr('height')).toEqual(50);
-      expect(nodeShape.get('clipShape').attr('x')).toEqual(-50);
+      expect(nodeShape.get('clipShape').attr('x')).toEqual(-100);
 
       // node.update({
       //   clipCfg: {
