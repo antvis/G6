@@ -837,7 +837,7 @@ describe('all node link center', () => {
     expect(graph.findAllByState('node', 'b').length).toBe(0);
   });
 
-  it.only('default node & edge style', () => {
+  it('default node & edge style', () => {
     const defaultGraph = new Graph({
       container: div,
       width: 500,
@@ -1158,9 +1158,9 @@ describe('mapper fn', () => {
     graph.setItemState(node, 'custom', true);
     expect(keyShape.attr('green'));
 
+    // clear all states of  the item
     graph.clearItemStates(node);
-    // green
-    expect(keyShape.attr('fill')).toEqual('green');
+    expect(keyShape.attr('fill')).toEqual('#666');
 
     const edge = graph.addItem('edge', { id: 'edge2', source: 'node', target: 'node2Mapped' });
 

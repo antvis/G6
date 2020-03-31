@@ -442,8 +442,8 @@ const graph = new G6.Graph({
     color: '#e2e2e2',
     style: {
       endArrow: {
-        path: 'M 4,0 L -4,-4 L -4,4 Z',
-        d: 4,
+        path: 'M 0,0 L 8,4 L 8,-4 Z',
+        fill: '#e2e2e2'
       },
     },
   },

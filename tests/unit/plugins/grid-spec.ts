@@ -31,8 +31,11 @@ describe('grid', () => {
 
     const gridContainer: HTMLDivElement = container.childNodes[0] as HTMLDivElement;
 
-    expect(gridContainer.style.width).toEqual('800px');
-    expect(gridContainer.style.height).toEqual('600px');
+    const minZoom = graph.get('minZoom');
+    const width = 800 / minZoom;
+    const height = 600 / minZoom;
+    expect(gridContainer.style.width).toBe(`${width}px`);
+    expect(gridContainer.style.height).toBe(`${height}px`);
     expect(gridContainer.style.left).toEqual('0px');
     expect(gridContainer.style.top).toEqual('0px');
     expect(gridContainer.style.backgroundImage).not.toEqual('');

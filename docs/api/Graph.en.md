@@ -645,7 +645,7 @@ Clear the states of the item. This function could clear multiple states in the s
 | Name   | Type            | Required | Description                         |
 | ------ | --------------- | -------- | ----------------------------------- |
 | item   | String / Object | true     | The id or the instance of the item. |
-| states | String / Array  | null     | false                               | It can be a single state value, an array, or null. When it is null, this operation will clear the **first** state of the item. |
+| states | String / Array  | null     | false                               | It can be a single state value, an array, or null. When it is null, this operation will clear all state of the item. |
 
 **Usage**
 
@@ -1471,7 +1471,7 @@ graph.set('customGroup', group);
 graph.set('nodeIdList', [1, 3, 5]);
 ```
 
-### downloadImage(name)
+### downloadImage(name, backgroundColor)
 
 Export the canvas as an image.
 
@@ -1479,7 +1479,8 @@ Export the canvas as an image.
 
 | Name | Type   | Required | Description            |
 | ---- | ------ | -------- | ---------------------- |
-| name | String | true     | The name of the image. |
+| name | String | false     | The name of the image. 'image' by default. |
+| backgroundColor | String | false     | The background color of the image. If it is not assigned, the background will be transparent. |
 
 **Usage**
 
@@ -1490,6 +1491,13 @@ graph.downloadImage();
 ### toDataURL()
 
 Generate url of a image of the canvas.
+
+**Parameters**
+
+| Name | Type   | Required | Description            |
+| ---- | ------ | -------- | ---------- |
+| type | String | false     | The type of the image, options: `'image/png'`, `'image/jpeg'` |
+| backgroundColor | String | false     | The background color of the image. If it is not assigned, the background will be transparent. |
 
 **Return**
 

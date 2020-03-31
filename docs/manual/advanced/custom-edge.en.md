@@ -194,13 +194,81 @@ graph.on('edge:mouseleave', ev => {
 
 <br />
 
-## 4. Register Edge with Custom Arrow
+## 4. Custom Arrow
 
 The default end arrows might not meet the requirements sometimes. You can register an edge with a custom arrow by the custom mechanism of G6.<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*f1G9RJ5dE2oAAAAAAAAAAABkARQnAQ' alt='img' width='250'/>
 
 > (Left) Built-in arrow of G6. (Right) A custom edge with custom arrow.
+
+
+
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span> The coordinate system of custom arrow is changed by G6 3.4.1. In the figure below, the left one is the demonstration of the custom arrow before v3.4.1, and the right one illustates v3.4.1 and its later versions. The pointed direction is changed from negative direction to positive direction of x-axis. In the same time, the dirrection of the offset `d` is changed. In both versions, the origin of the self coordinate system of the custom arrow is on the end point of the corresponding edge or path, and the slope of the arrow is the same as the slope of edge or path at the end point.
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*gN_NSqjLRo0AAAAAAAAAAABkARQnAQ' width=565 alt=""/>
+
+> (Left) Illustration for the coordinate system of custom arrow before v3.4.1. (Right) Illustration for v3.4.1 and its later versions.
+
+There are three ways to configure a custom arrow to an edge in G6:
+- Configuring on the graph to global edges;
+- Configuring in data for single edge;
+- Configuring in a custom edge type.
+
+### 1. Global Configuration
+
+```javascript
+const graph = new Graph({
+  // ... Other configurations for graph
+  defaultEdge: {
+    style: {
+      endArrow: {
+        // The custom arrow is a path points at (0, 0), and its tail points to the positive direction of x-axis
+        path: 'M 0,0 L 20,10 L 20,-10 Z',
+        // the offset of the arrow, nagtive value means the arrow is moved alone the positive direction of x-axis
+        // d: -10
+        // styles are supported after v3.4.1
+        fill: '#333',
+        stroke: '#666',
+        opacity: 0.8,
+        // ...
+      }
+    }
+  }
+});
+```
+
+### 2. Configuring in Data
+```javascript
+const data = {
+  nodes: [
+    { id: 'node1' },
+    { id: 'node2' },
+    // ... other nodes
+  ],
+  edges: [{
+    source: 'node1',
+    target: 'node2',
+    style: {
+      endArrow: {
+        // The custom arrow is a path points at (0, 0), and its tail points to the positive direction of x-axis
+        path: 'M 0,0 L 20,10 L 20,-10 Z',
+        // the offset of the arrow, nagtive value means the arrow is moved alone the positive direction of x-axis
+        // d: -10
+        // styles are supported after v3.4.1
+        fill: '#333',
+        stroke: '#666',
+        opacity: 0.8,
+        // ...
+      },
+    }
+  },
+  //... other edges
+  ]
+}
+```
+
+### 3. Configuring in a Custom Edge
 
 ```javascript
 G6.registerEdge('line-arrow', {
@@ -215,12 +283,16 @@ G6.registerEdge('line-arrow', {
         stroke: 'steelblue',
         lineWidth: 3,
         startArrow: {
-          path: 'M 10,0 L -10,-10 L -10,10 Z',
-          d: 10,
+          // The custom arrow is a path points at (0, 0), and its tail points to the positive direction of x-axis
+          path: 'M 0,0 L 20,10 L 20,-10 Z',
+          // the offset of the arrow, nagtive value means the arrow is moved alone the positive direction of x-axis
+          // d: -10
         },
         endArrow: {
-          path: 'M 10,0 L -10,-10 L -10,10 Z',
-          d: 10,
+          // The custom arrow is a path points at (0, 0), and its tail points to the positive direction of x-axis
+          path: 'M 0,0 L 20,10 L 20,-10 Z',
+          // the offset of the arrow, nagtive value means the arrow is moved alone the positive direction of x-axis
+          // d: -10
         },
       },
       // must be assigned in G6 3.3 and later versions. it can be any value you want

@@ -214,9 +214,7 @@ export interface ModelConfig extends ModelStyle {
     x?: number;
     y?: number;
     // clip 的属性样式
-    style?: {
-      lineWidth?: number;
-    };
+    // style?: ShapeStyle
   };
   innerR?: number;
   direction?: string;
@@ -362,6 +360,7 @@ export interface BehaviorOption {
   shouldEnd?(e?: IG6GraphEvent): boolean;
   bind?(e: IGraph): void;
   unbind?(e: IGraph): void;
+  [key: string]: unknown;
 }
 
 export type IEvent = Record<G6Event, string>;

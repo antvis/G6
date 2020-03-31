@@ -1,6 +1,6 @@
 import { Point } from '@antv/g-base/lib/types';
 import Group from '@antv/g-canvas/lib/group';
-import { mix, each, isNumber } from '@antv/util';
+import { mix, each, isNumber, isArray, isString } from '@antv/util';
 import { ModelConfig, ShapeStyle } from '../../types';
 import { pointsToPolygon } from '../../util/path';
 import Global from '../../global';
@@ -70,12 +70,13 @@ Shape.registerEdge(
       if (!controlPoints) {
         routeCfg = { source, target, offset: style.offset, radius: style.radius };
       }
-      this.routeCfg = routeCfg;
-      let path = (this as any).getPath(points);
-      
+      let path = (this as any).getPath(points, routeCfg);
+      if ((isArray(path) && path.length <=1) || (isString(path) && path.indexOf('L') === -1)) {
+        path = 'M0 0, L0 0';
+      }
       if (isNaN(startPoint.x) || isNaN(startPoint.y) || isNaN(endPoint.x) || isNaN(endPoint.y)) {
-        path = '';
-      } 
+        path = 'M0 0, L0 0';
+      }
 
       const attrs: ShapeStyle = mix({}, Global.defaultEdge.style as ShapeStyle, style, {
         lineWidth: cfg.size,
@@ -83,8 +84,8 @@ Shape.registerEdge(
       } as ShapeStyle);
       return attrs;
     },
-    getPath(points: Point[]): Array<Array<string | number>> | string {
-      const { source, target, offset, radius } = this.routeCfg as any;
+    getPath(points: Point[], routeCfg?: any): Array<Array<string | number>> | string {
+      const { source, target, offset, radius } = routeCfg as any;
       if (!offset || points.length > 2) {
         if (radius) {
           return getPathWithBorderRadiusByPolyline(points, radius);
@@ -114,7 +115,8 @@ Shape.registerEdge(
         target,
         offset,
       );
-      return pointsToPolygon(polylinePoints);
+      const res = pointsToPolygon(polylinePoints);
+      return res;
     },
   },
   'single-edge',

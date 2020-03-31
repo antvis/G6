@@ -124,4 +124,77 @@ describe('zoom-canvas', () => {
     expect(matrix[6]).toEqual(10);
     expect(matrix[7]).toEqual(10);
   });
+
+  it('zoom with optimize', () => {
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: [{
+          type: 'zoom-canvas',
+          enableOptimize: true
+        }]
+      },
+    });
+
+    let e = createWheelEvent(graph.get('canvas').get('el'), 100, 100, 100);
+    graph.emit('wheel', e);
+    let matrix = graph.get('group').getMatrix();
+    console.log(matrix)
+    expect(approximateEqual(matrix[0], 1.1)).toBe(true);
+    expect(approximateEqual(matrix[4], 1.1)).toBe(true);
+    expect(approximateEqual(matrix[6], -10)).toBe(true);
+    expect(approximateEqual(matrix[7], -10)).toBe(true);
+
+    const data = {
+      nodes: [
+        {
+          id: 'node1',
+          x: 100,
+          y: 100,
+          label: 'label'
+        },
+        {
+          id: 'node2',
+          x: 100,
+          y: 200,
+          label: 'label2'
+        }
+      ],
+      edges: [
+        {
+          source: 'node1',
+          target: 'node2',
+          label: 'edge'
+        }
+      ]
+    }
+
+    graph.data(data)
+    graph.render()
+
+    // 默认 zoom=1，会显示所有元素
+    let node1 = graph.findById('node1')
+    let container = node1.getContainer()
+    container.get('children').map(child => {
+      expect(child.get('visible')).toBe(true)
+    })
+
+    graph.zoom(0.5)
+    e = createWheelEvent(graph.get('canvas').get('el'), 100, 100, 100);
+    graph.emit('wheel', e);
+
+    // 只显示 keyShape
+    node1 = graph.findById('node1')
+    container = node1.getContainer()
+    expect(node1.getKeyShape().get('visible')).toBe(true)
+    container.get('children').map(child => {
+      if(!child.get('isKeyShape')) {
+        expect(child.get('visible')).toBe(false)
+      }
+    })
+
+    graph.destroy()
+  })
 });
