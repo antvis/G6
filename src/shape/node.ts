@@ -52,7 +52,7 @@ const singleNode: ShapeOptions = {
 
     // 默认的位置（最可能的情形），所以放在最上面
     if (labelPosition === 'center') {
-      return { x: 0, y: 0, text: cfg!.label };
+      return { x: 0, y: 0, text: cfg!.label as string };
     }
 
     let { offset } = labelCfg;
@@ -261,9 +261,9 @@ const singleNode: ShapeOptions = {
       (this as any).updateIcon(cfg, item);
     }
   },
-  updateIcon(cfg: ModelConfig, item: Item) {
+  updateIcon(cfg: NodeConfig, item: Item) {
     const group = item.getContainer();
-    const { icon: defaultIcon } = this.options as ModelConfig;
+    const { icon: defaultIcon } = this.options as NodeConfig;
     const icon = mix({}, defaultIcon, cfg.icon);
     const { show } = cfg.icon ? cfg.icon : { show: undefined };
     const iconShape = group.find(element => element.get('className') === `${this.type}-icon`);

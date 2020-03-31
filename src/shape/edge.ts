@@ -171,7 +171,7 @@ const singleEdge: ShapeOptions = {
     if (cfg.startPoint!.x === cfg.endPoint!.x && cfg.startPoint!.y === cfg.endPoint!.y) {
       style.x = cfg.startPoint!.x + offsetX;
       style.y = cfg.startPoint!.y + offsetY;
-      style.text = cfg.label;
+      style.text = cfg.label as string;
       return style;
     }
 
@@ -187,7 +187,7 @@ const singleEdge: ShapeOptions = {
     style.y = offsetStyle.y;
     style.rotate = offsetStyle.rotate;
     style.textAlign = this._getTextAlign!(labelPosition as string, offsetStyle.angle as number);
-    style.text = cfg.label;
+    style.text = cfg.label as string;
     return style;
   },
   // 获取文本对齐方式

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import G6 from '../../../src';
 import { IGraph } from '../../../src/interface/graph';
+import { NodeConfig } from '../../../src/types';
 
 let ipHideTimer;
 const ERROR_COLOR = '#F5222D';
@@ -422,7 +423,7 @@ const ComplexTree = () => {
       G6.registerNode(
         SIMPLE_TREE_NODE,
         {
-          drawShape: function drawShape(cfg, group) {
+          drawShape: function drawShape(cfg: NodeConfig, group) {
             const config = getNodeConfig(cfg);
             const isRoot = cfg.type === 'root';
             const nodeError = cfg.nodeError;
@@ -472,7 +473,7 @@ const ComplexTree = () => {
       G6.registerNode(
         TREE_NODE,
         {
-          drawShape: function drawShape(cfg, group) {
+          drawShape: function drawShape(cfg: NodeConfig, group) {
             const config = getNodeConfig(cfg);
             const isRoot = cfg.type === 'root';
             const data = cfg;

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import G6 from '../../../src';
 import { IGraph } from '../../../src/interface/graph';
+import { NodeConfig, EdgeConfig } from '../../../src/types';
 
 let graph: IGraph = null;
 
@@ -9,7 +10,7 @@ const MoveViewPort = () => {
   useEffect(() => {
     if (!graph) {
       G6.registerNode('file-node', {
-        draw: function draw(cfg, group) {
+        draw: function draw(cfg: NodeConfig, group) {
           const keyShape = group.addShape('rect', {
             attrs: {
               x: cfg.x - 4,
@@ -60,7 +61,7 @@ const MoveViewPort = () => {
       G6.registerEdge(
         'step-line',
         {
-          getControlPoints: function getControlPoints(cfg) {
+          getControlPoints: function getControlPoints(cfg: EdgeConfig) {
             const startPoint = cfg.startPoint;
             const endPoint = cfg.endPoint;
             return [

@@ -11,7 +11,7 @@ import ShapeBase from '@antv/g-canvas/lib/shape/base';
 import { Point } from '@antv/g-canvas/lib/types';
 import deepMix from '@antv/util/lib/deep-mix';
 import isString from '@antv/util/lib/is-string';
-import { GraphData, IG6GraphEvent, Item } from '../../types';
+import { GraphData, IG6GraphEvent, Item, NodeConfig } from '../../types';
 import { IGraph } from '../../interface/graph';
 import { IEdge, INode } from '../../interface/item';
 import { traverseTree } from '../../util/graphic';
@@ -634,7 +634,7 @@ export default class CustomGroup {
     // 隐藏群组中的所有节点
     nodesInGroup.forEach(nodeId => {
       const node = graph.findById(nodeId);
-      const model = node.getModel();
+      const model = node.getModel() as NodeConfig;
       const { groupId } = model;
       if (groupId && groupId !== id) {
         // 存在群组，则隐藏
@@ -812,7 +812,7 @@ export default class CustomGroup {
     setTimeout(() => {
       nodesInGroup.forEach(nodeId => {
         const node = graph.findById(nodeId);
-        const model = node.getModel();
+        const model = node.getModel() as NodeConfig;
         const { groupId } = model;
         if (groupId && groupId !== id) {
           // 存在群组，则显示
@@ -1224,7 +1224,7 @@ export default class CustomGroup {
   public dynamicChangeGroupSize(evt: IG6GraphEvent, currentGroup: IGroup, keyShape: ShapeBase) {
     const { item } = evt;
 
-    const model = item.getModel();
+    const model = item.getModel() as NodeConfig;
     // 节点所在的GroupId
     const { groupId } = model;
 
