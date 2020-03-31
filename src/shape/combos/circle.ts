@@ -58,8 +58,7 @@ Shape.registerCombo(
       const strokeStyle: ShapeStyle = {
         stroke: cfg.color,
       };
-      if (cfg.id === 'D') debugger
-
+      
       // 如果设置了color，则覆盖默认的stroke属性
       const style = mix({}, defaultStyle, strokeStyle, cfg.style);
       const size = (this as ShapeOptions).getSize!(cfg);
@@ -82,7 +81,6 @@ Shape.registerCombo(
       return styles;
     },
     update(cfg: NodeConfig, item: Item) {
-      if (cfg.id === 'D') debugger
       const size = (this as ShapeOptions).getSize!(cfg);
       let padding: number | number[] = cfg.padding || this.options.padding;
       if (isArray(padding)) padding = padding[0];
