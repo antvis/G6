@@ -12,9 +12,6 @@ import Combo from '../../item/combo';
 import { EdgeConfig, Item, ITEM_TYPE, ModelConfig, NodeConfig, NodeMap, ComboTree, ComboConfig } from '../../types';
 import Graph from '../graph';
 
-import { mix } from '@antv/util';
-import { IGraph } from '../../interface/graph';
-import { IGroup } from '@antv/g-base';
 import { IEdge, INode, ICombo } from '../../interface/item';
 import { traverseTreeUp, traverseTree, getComboBBox } from '../../util/graphic';
 
