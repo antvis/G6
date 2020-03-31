@@ -323,6 +323,7 @@ export interface ModelConfig extends ModelStyle {
 export interface NodeConfig extends ModelConfig {
   id: string;
   groupId?: string;
+  comboId?: string;
   children?: TreeGraphData[];
   description?: string;
   descriptionCfg?: {
@@ -407,21 +408,6 @@ export interface ComboConfig extends ModelConfig {
   }>
 }
 
-export interface ComboConfig {
-  id: string;
-  parentId?: string;
-  // Combo 类型，默认 rect，值为定义的 combo 的名称
-  type: string;
-  // Combo 标题
-  title: string | LabelStyle;
-  style: ShapeStyle;
-  stateStyles: {
-    [key: string]: ShapeStyle | {
-      [key: string]: ShapeStyle
-    }
-  };
-}
-
 export interface EdgeConfig extends ModelConfig {
   id?: string;
   source?: string;
@@ -433,8 +419,8 @@ export interface EdgeConfig extends ModelConfig {
   controlPoints?: IPoint[];
   curveOffset?: number;
   // loop edge config
-  loopCfg: LoopConfig;
-  labelCfg: ILabelConfig;
+  loopCfg?: LoopConfig;
+  labelCfg?: ILabelConfig;
 }
 
 export type EdgeData = EdgeConfig & {
@@ -485,7 +471,7 @@ export interface TreeGraphData {
 
 export interface ComboTree {
   id: string;
-  label?: string;
+  label?: string | LabelStyle;
   children?: ComboTree[];
   depth?: number;
   parentId?: string;

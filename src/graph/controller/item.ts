@@ -159,7 +159,7 @@ export default class ItemController {
    * @returns
    * @memberof ItemController
    */
-  public updateItem(item: Item | string, cfg: EdgeConfig | NodeConfig) {
+  public updateItem(item: Item | string, cfg: Partial<NodeConfig> | EdgeConfig) {
     const { graph } = this;
     
     if (isString(item)) {

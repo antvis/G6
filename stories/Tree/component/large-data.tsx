@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import G6 from '../../../src';
 import { IGraph } from '../../../src/interface/graph';
-import { Item } from '../../../src/types';
+import { Item, EdgeConfig, NodeConfig } from '../../../src/types';
 
 let graph: IGraph = null;
 let dragDx;
@@ -368,7 +368,7 @@ const LargeDataTree = () => {
       G6.registerNode(
         SIMPLE_TREE_NODE,
         {
-          drawShape: (cfg, group) => {
+          drawShape: (cfg: NodeConfig, group) => {
             const config = getNodeConfig(cfg);
             const isRoot = cfg.type === 'root';
             const nodeError = cfg.nodeError;
@@ -418,7 +418,7 @@ const LargeDataTree = () => {
       G6.registerNode(
         TREE_NODE,
         {
-          drawShape: (cfg, group) => {
+          drawShape: (cfg: NodeConfig, group) => {
             const config = getNodeConfig(cfg);
             const isRoot = cfg.type === 'root';
             const data = cfg;
@@ -614,7 +614,7 @@ const LargeDataTree = () => {
       G6.registerEdge(
         'tree-edge',
         {
-          draw: (cfg, group) => {
+          draw: (cfg: EdgeConfig, group) => {
             const self = this;
             const targetNode = (cfg.targetNode as Item).getModel();
             const edgeError = !!targetNode.edgeError;
