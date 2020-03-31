@@ -417,7 +417,7 @@ Shape.registerEdge(
     curveOffset: [-20, 20],
     getControlPoints(cfg: EdgeConfig): IPoint[] {
       let { controlPoints } = cfg; // 指定controlPoints
-      if (!controlPoints || !controlPoints.length) {
+      if (!controlPoints || !controlPoints.length || controlPoints.length < 2) {
         const { startPoint, endPoint } = cfg;
         const innerPoint1 = getControlPoint(
           startPoint as Point,
