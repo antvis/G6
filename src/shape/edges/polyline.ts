@@ -71,7 +71,7 @@ Shape.registerEdge(
         routeCfg = { source, target, offset: style.offset, radius: style.radius };
       }
       let path = (this as any).getPath(points, routeCfg);
-      if ((isArray(path) && path.length <=1) || (isString(path) && path.indexOf('L') <= -1)) {
+      if ((isArray(path) && path.length <=1) || (isString(path) && path.indexOf('L') === -1)) {
         path = 'M0 0, L0 0';
       }
       if (isNaN(startPoint.x) || isNaN(startPoint.y) || isNaN(endPoint.x) || isNaN(endPoint.y)) {
