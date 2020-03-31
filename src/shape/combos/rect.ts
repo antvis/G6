@@ -1,7 +1,7 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
 import { mix, isNumber, clone } from '@antv/util';
-import { LabelStyle, Item, ComboConfig, ModelConfig, ShapeStyle } from '../../types';
+import { LabelStyle, Item, ComboConfig, ShapeStyle } from '../../types';
 import Global from '../../global';
 import Shape from '../shape';
 import { ILabelConfig, ShapeOptions } from '../../interface/shape';
