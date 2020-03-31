@@ -1226,7 +1226,6 @@ export default class Graph extends EventEmitter implements IGraph {
     });
 
     each(this.get('combos'), (combo: ICombo) => {
-      console.log(combo);
       combos.push(combo.getModel() as ComboConfig);
     });
 

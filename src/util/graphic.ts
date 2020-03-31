@@ -399,7 +399,6 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) =
       console.warn(`The parent combo for combo ${cd.id} does not exist!`);
       delete cd.parentId;
     }
-    // if (cd.id === 'B') debugger;
     let mappedObj = addedMap[cd.id];
     if (mappedObj) {
       cd.children = mappedObj.children;
