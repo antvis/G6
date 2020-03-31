@@ -1,4 +1,4 @@
-import { IG6GraphEvent, Item, G6Event } from '../types';
+import { IG6GraphEvent, Item, G6Event, NodeConfig } from '../types';
 
 /*
  * @Author: moyee
@@ -167,7 +167,7 @@ export default {
     const { graph } = this;
     const { item } = evt;
 
-    const model = item.getModel();
+    const model = item.getModel() as NodeConfig;
     // 节点所在的GroupId
     const { groupId, id } = model;
 

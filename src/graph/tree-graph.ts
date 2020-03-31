@@ -345,7 +345,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
       return;
     }
 
-    const parentModel = self.findById(parent).getModel();
+    const parentModel = self.findById(parent).getModel() as NodeConfig;
 
     const current = self.findById(data.id);
 

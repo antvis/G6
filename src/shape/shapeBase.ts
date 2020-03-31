@@ -5,10 +5,10 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape, IElement } from '@antv/g-canvas/lib/interfaces';
 import { ShapeOptions, ILabelConfig } from '../interface/shape';
-import { IPoint, Item, LabelStyle, ShapeStyle, ModelConfig } from '../types';
+import { IPoint, Item, LabelStyle, ShapeStyle, ModelConfig, EdgeConfig } from '../types';
 import Global from '../global';
 import { mat3, transform } from '@antv/matrix-util';
-import { deepMix, each, mix, isString, isBoolean, isPlainObject, clone, indexOf } from '@antv/util';
+import { deepMix, each, mix, isBoolean, isPlainObject, clone } from '@antv/util';
 
 const CLS_SHAPE_SUFFIX = '-shape';
 const CLS_LABEL_SUFFIX = '-label';
@@ -125,7 +125,7 @@ export const shapeBase: ShapeOptions = {
     return rect;
   },
   getLabelStyleByPosition(cfg: ModelConfig, labelCfg?: ILabelConfig, group?: GGroup): LabelStyle {
-    return { text: cfg.label };
+    return { text: cfg.label as string };
   },
   getLabelBgStyleByPosition(
     label: IElement,
@@ -415,7 +415,7 @@ export const shapeBase: ShapeOptions = {
    * @param  {Object} cfg 节点、边的配置项
    * @return {Array|null} 控制点的数组,如果为 null，则没有控制点
    */
-  getControlPoints(cfg: ModelConfig): IPoint[] | undefined {
+  getControlPoints(cfg: EdgeConfig): IPoint[] | undefined {
     return cfg.controlPoints;
   },
   /**

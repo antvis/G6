@@ -1,7 +1,7 @@
 import { Point } from '@antv/g-base/lib/types';
 import Group from '@antv/g-canvas/lib/group';
-import { mix, each, isNumber, isArray, isString } from '@antv/util';
-import { ModelConfig, ShapeStyle } from '../../types';
+import { mix, each, isArray, isString } from '@antv/util';
+import { ShapeStyle, EdgeConfig } from '../../types';
 import { pointsToPolygon } from '../../util/path';
 import Global from '../../global';
 import Shape from '../shape';
@@ -33,7 +33,7 @@ Shape.registerEdge(
     shapeType: 'polyline',
     // 文本位置
     labelPosition: 'center',
-    drawShape(cfg: ModelConfig, group: Group) {
+    drawShape(cfg: EdgeConfig, group: Group) {
       const shapeStyle = (this as any).getShapeStyle(cfg);
       const keyShape = group.addShape('path', {
         className: 'edge-shape',
@@ -42,8 +42,8 @@ Shape.registerEdge(
       });
       return keyShape;
     },
-    getShapeStyle(cfg: ModelConfig): ShapeStyle {
-      const { style: defaultStyle } = this.options as ModelConfig;
+    getShapeStyle(cfg: EdgeConfig): ShapeStyle {
+      const { style: defaultStyle } = this.options as EdgeConfig;
 
       const strokeStyle: ShapeStyle = {
         stroke: cfg.color,
@@ -71,7 +71,7 @@ Shape.registerEdge(
         routeCfg = { source, target, offset: style.offset, radius: style.radius };
       }
       let path = (this as any).getPath(points, routeCfg);
-      if ((isArray(path) && path.length <=1) || (isString(path) && path.indexOf('L') === -1)) {
+      if ((isArray(path) && path.length <= 1) || (isString(path) && path.indexOf('L') === -1)) {
         path = 'M0 0, L0 0';
       }
       if (isNaN(startPoint.x) || isNaN(startPoint.y) || isNaN(endPoint.x) || isNaN(endPoint.y)) {
