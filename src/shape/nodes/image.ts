@@ -2,8 +2,6 @@ import Shape from '../shape';
 import { NodeConfig, Item } from '../../types';
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
-import { Circle, Rect, Ellipse, Polygon, Path } from '@antv/g-canvas/lib/shape';
-import { ShapeOptions } from '../../interface/shape';
 
 /**
  * 基本的图片，可以添加文本，默认文本在图片的下面
@@ -45,9 +43,9 @@ Shape.registerNode(
         x: 0,
         y: 0,
         // clip 的属性样式
-        style: {
-          lineWidth: 1,
-        },
+        // style: {
+        //   lineWidth: 1
+        // },
       },
     },
     shapeType: 'image',
@@ -71,60 +69,63 @@ Shape.registerNode(
       if (!clip.show) {
         return;
       }
-      // 支持circle、rect、ellipse、Polygon及自定义path clip
+      // 支持 circle、rect、ellipse、Polygon 及自定义 path clip
       const { type, x, y, style } = clip;
-      let clipShape = null;
       if (type === 'circle') {
         const { r } = clip;
-        clipShape = new Circle({
+        shape.setClip({
+          type: 'circle',
           attrs: {
             r,
             x,
             y,
             ...style,
-          },
+          }
         });
       } else if (type === 'rect') {
         const { width, height } = clip;
-        clipShape = new Rect({
+        const rectX = x - width / 2;
+        const rectY = y - height / 2;
+        shape.setClip({
+          type: 'rect',
           attrs: {
-            x,
-            y,
+            x: rectX,
+            y: rectY,
             width,
             height,
             ...style,
-          },
+          }
         });
       } else if (type === 'ellipse') {
         const { rx, ry } = clip;
-        clipShape = new Ellipse({
+        shape.setClip({
+          type: 'ellipse',
           attrs: {
             x,
             y,
             rx,
             ry,
             ...style,
-          },
+          }
         });
       } else if (type === 'polygon') {
         const { points } = clip;
-        clipShape = new Polygon({
+        shape.setClip({
+          type: 'polygon',
           attrs: {
             points,
             ...style,
-          },
+          }
         });
       } else if (type === 'path') {
         const { path } = clip;
-        clipShape = new Path({
+        shape.setClip({
+          type: 'path',
           attrs: {
             path,
             ...style,
-          },
+          }
         });
-      }
-      if (clipShape) {
-        shape.set('clipShape', clipShape);
       }
     },
     getShapeStyle(cfg: NodeConfig) {

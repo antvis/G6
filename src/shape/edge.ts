@@ -125,7 +125,15 @@ const singleEdge: ShapeOptions = {
     }
     // 添加结束点
     points.push(endPoint);
-    const path = (this as any).getPath(points);
+
+    const previousStyle = mix({}, strokeStyle, shape.attr(), cfg.style);
+    const source = cfg.sourceNode;
+    const target = cfg.targetNode;
+    let routeCfg: { [key: string]: unknown } = { radius: previousStyle.radius };
+    if (!controlPoints) {
+      routeCfg = { source, target, offset: previousStyle.offset, radius: previousStyle.radius };
+    }
+    const path = (this as any).getPath(points, routeCfg);
     const style = mix(
       strokeStyle,
       shape.attr(),
@@ -493,7 +501,7 @@ Shape.registerEdge(
     curveOffset: [-20, 20],
     getControlPoints(cfg: EdgeConfig): IPoint[] {
       let { controlPoints } = cfg; // 指定controlPoints
-      if (!controlPoints || !controlPoints.length) {
+      if (!controlPoints || !controlPoints.length || controlPoints.length < 2) {
         const { startPoint, endPoint } = cfg;
         const innerPoint1 = getControlPoint(
           startPoint as Point,

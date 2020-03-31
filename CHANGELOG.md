@@ -1,14 +1,35 @@
 # ChangeLog
+#### 3.4.4
+- feat: background color for downloadImage and toDataURL;
+- feat: support configure image for grid plugin;
+- fix: initial position for fruchterman layout;
+- refactor: clip for image node.
+- fix: cubic with only one controlPoint error;
+- fix: polyline without L attributes.
+
+#### 3.4.3
+- fix: support extends BehaviorOption;
+- fix: click-select Behavior support multiple selection using ctrl key.
+
+#### 3.4.2
+- feat: zoom-canvas behavior supports hiding non-keyshape elements when scaling canvas;
+- refactor: when the second parameter is null, clearItemStates will clear all states of the item;
+- fix: (changeData bug)[https://github.com/antvis/G6/issues/1323];
+- fix: update antv/hierarchy to fix fixedRoot for TreeGraph;
+- fix: problem of a graph has multiple polyline edges;
+- fix: problem of dagre with controlPoints and loop edges.
+
 #### 3.4.1
 - feat: force layout clone original data model to allow the customized properties;
 - fix: BehaviorOptions type error;
 - fix: fitView the graph with data whose nodes and edges are empty arrays;
 - fix: rect node positions are changed after calling graph.changeData;
-- fix: drag behavior is disabled when the keys are released invalidly.
+- fix: drag behavior is disabled when the keys are released invalidly;
+- refactor: update G and the fill of custom arrow should be assigned by user.
 
 #### 3.4.0
 - feat: SVG renderer;
-- refactor: new state machinism with multiple values, sub graphics shape style settings.
+- refactor: new state mechanism with multiple values, sub graphics shape style settings.
 
 #### 3.3.7
 - feat: beforeaddchild and afteraddchild emit for TreeGraph;

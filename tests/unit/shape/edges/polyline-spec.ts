@@ -190,7 +190,7 @@ describe('polyline e test', () => {
             source: 'node1',
             target: 'node2',
             type: 'polyline',
-            controlPoints: [{ x: 170, y: 160 }],
+            controlPoints: [{ x: 200, y: 160 }],
           },
         ],
       };
@@ -203,7 +203,7 @@ describe('polyline e test', () => {
       const keyShape = edge.getKeyShape();
       const path = keyShape.attr('path');
       expect(path.length).toEqual(3);
-      expect(path[1]).toEqual(['L', 170, 160]);
+      expect(path[1]).toEqual(['L', 200, 160]);
       graph.destroy();
       expect(graph.destroyed).toBe(true);
     });

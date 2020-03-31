@@ -1320,10 +1320,12 @@ export default class Graph extends EventEmitter implements IGraph {
    * 返回图表的 dataUrl 用于生成图片
    * @return {string} 图片 dataURL
    */
-  public toDataURL(): string {
+  public toDataURL(type?: string, backgroundColor?: string): string {
     const canvas: GCanvas = this.get('canvas');
     const renderer = canvas.getRenderer();
     const canvasDom = canvas.get('el');
+
+    if (!type) type = 'image/png';
 
     let dataURL = '';
     if (renderer === 'svg') {
@@ -1336,7 +1338,25 @@ export default class Graph extends EventEmitter implements IGraph {
       const svgData = (new XMLSerializer()).serializeToString(svgDoc);
       dataURL = 'data:image/svg+xml;charset=utf8,' + encodeURIComponent(svgData);
     } else {
-      dataURL = canvasDom.toDataURL('image/png');
+      let imageData;
+      const context = canvasDom.getContext('2d');
+      const width = this.get('width');
+      const height = this.get('height');
+      let compositeOperation;
+      if (backgroundColor) {
+        const pixelRatio = window.devicePixelRatio;
+        imageData = context.getImageData(0, 0, width * pixelRatio, height * pixelRatio);
+        compositeOperation = context.globalCompositeOperation;
+        context.globalCompositeOperation = "destination-over";
+        context.fillStyle = backgroundColor;
+        context.fillRect(0, 0, width, height);
+      }
+      dataURL = canvasDom.toDataURL(type);
+      if (backgroundColor) {
+        context.clearRect(0, 0, width, height);
+        context.putImageData(imageData, 0, 0);
+        context.globalCompositeOperation = compositeOperation;
+      }
     }
     return dataURL;
   }
@@ -1345,7 +1365,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * 画布导出图片
    * @param {String} name 图片的名称
    */
-  public downloadImage(name: string): void {
+  public downloadImage(name?: string, backgroundColor?: string): void {
     const self = this;
 
     if (self.isAnimating()) {
@@ -1357,7 +1377,7 @@ export default class Graph extends EventEmitter implements IGraph {
     const fileName: string = (name || 'graph') + (renderer === 'svg' ? '.svg' : '.png');
     const link: HTMLAnchorElement = document.createElement('a');
     setTimeout(() => {
-      const dataURL = self.toDataURL();
+      const dataURL = self.toDataURL('image/png', backgroundColor);
       if (typeof window !== 'undefined') {
         if (window.Blob && window.URL && renderer !== 'svg') {
           const arr = dataURL.split(',');

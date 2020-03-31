@@ -628,24 +628,27 @@ graph.hideItem(item);
 graph.hideItem('nodeId');
 ```
 
-### setItemState(item, state, enabled)
+### setItemState(item, state, value)
 
 设置元素状态。
+支持单个状态多值的情况，详情参考 [G6 状态管理最佳实践](https://g6.antv.vision/zh/docs/manual/middle/states/state-new)。
 
 该方法在执行过程中会触发 `beforitemstatechange`，`afteritemstatechange` 事件。
 
 **参数**
 
 | 名称    | 类型            | 是否必选 | 描述                                                 |
-| ------- | --------------- | -------- | ---------------------------------------------------- |
-| item    | String / Object | true     | 元素 ID 或元素实例                                   |
+| ------- | --------------- | -------- | ----------- |
+| item    | String / Item | true     | 元素 ID 或元素实例 |
 | state   | String          | true     | 状态值，支持自定义，如 selected、hover、actived 等。 |
-| enabled | Boolean         | true     | 是否启用状态                                         |
+| value | Boolean / String   | true     | 是否启用状态 |
 
 **用法**
 
 ```javascript
 graph.setItemState('node1', 'selected', true);
+
+graph.setItemState('node1', 'body', 'health');
 ```
 
 ### clearItemStates(item, states)
@@ -657,7 +660,7 @@ graph.setItemState('node1', 'selected', true);
 | 名称   | 类型            | 是否必选 | 描述               |
 | ------ | --------------- | -------- | ------------------ |
 | item   | String / Object | true     | 元素 ID 或元素实例 |
-| states | String / Array  | null     | false              | 取值可以是单个状态值，也可以是状态值数组或 `null`，当为 `null` 时，清除该元素的**第一个**状态。 |
+| states | String / Array  | null     | false              | 取值可以是单个状态值，也可以是状态值数组 |
 
 **用法**
 
@@ -668,7 +671,7 @@ graph.clearItemStates(node, 'a');
 // 清除多个状态
 graph.clearItemStates(node, ['a', 'b']);
 
-// 清除所有状态
+// 清除所有
 graph.clearItemStates(node);
 ```
 
@@ -1471,7 +1474,7 @@ graph.set('customGroup', group);
 graph.set('nodeIdList', [1, 3, 5]);
 ```
 
-### downloadImage(name)
+### downloadImage(name, backgroundColor)
 
 将画布上的元素导出为图片。
 
@@ -1480,6 +1483,7 @@ graph.set('nodeIdList', [1, 3, 5]);
 | 名称 | 类型   | 是否必选 | 描述       |
 | ---- | ------ | -------- | ---------- |
 | name | String | true     | 图片的名称 |
+| backgroundColor | String | false     | 图片的背景色，可选，不传值时将导出透明背景的图片 |
 
 **用法**
 
@@ -1487,9 +1491,16 @@ graph.set('nodeIdList', [1, 3, 5]);
 graph.downloadImage();
 ```
 
-### toDataURL()
+### toDataURL(type, backgroundColor)
 
 将画布上元素生成为图片的 URL。
+
+**参数**
+
+| 名称 | 类型   | 是否必选 | 描述       |
+| ---- | ------ | -------- | ---------- |
+| type | String | false     | 图片类型，可选值：`'image/png'`，`'image/jpeg'` |
+| backgroundColor | String | false     | 图片的背景色，可选，不传值时将导出透明背景的图片 |
 
 **返回值**
 

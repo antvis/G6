@@ -193,15 +193,81 @@ graph.on('edge:mouseleave', ev => {
 
 <br />
 
-## 4. 自定义带箭头的边
+## 4. 自定义箭头
 
-很多时候，G6 默认提供的箭头并不能满足业务上的需求，这个时候，就需要我们自定义箭头。当然了，G6 也支持箭头样式的自定义。<br />
+很多时候，G6 默认提供的箭头并不能满足业务上的需求，这个时候，就需要我们自定义箭头。<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*f1G9RJ5dE2oAAAAAAAAAAABkARQnAQ' alt='img' width='250'/>
 
 > （左）G6 内置箭头。（右）自定义边带有自定义箭头。
 
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> G6 3.4.1 后的自定义箭头坐标系有所变化。如下图所事，左图为 G6 3.4.1 之前版本的演示，右图为 G6 3.4.1 及之后版本的演示。箭头由指向 x 轴负方向更正为指向 x 轴正方向。同时，偏移量 `d` 的方向也发生响应变化。不变的是，自定义箭头本身坐标系的原点都与相应边 / path 的端点重合，且自定义箭头的斜率与相应边 / path 端点处的微分斜率相同。
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*gN_NSqjLRo0AAAAAAAAAAABkARQnAQ' width=565  alt=""/>
+
+> （左）v3.4.1 之前的自定义箭头坐标系演示。（右）v3.4.1 及之后版本的自定义箭头坐标系演示。
+
+
+G6 中有三种途径在边上配置自定义箭头：
+- 配置自定义箭头到边的全局配置中；
+- 在数据中为单条边配置；
+- 在自定义边中配置。
+
+### 方法 1: 全局配置
 ```javascript
+const graph = new Graph({
+  // ... 图的其他配置项
+  defaultEdge: {
+    style: {
+      endArrow: {
+        // 自定义箭头指向(0, 0)，尾部朝向 x 轴正方向的 path
+        path: 'M 0,0 L 20,10 L 20,-10 Z',
+        // 箭头的偏移量，负值代表向 x 轴正方向移动
+        // d: -10,
+        // v3.4.1 后支持各样式属性
+        fill: '#333',
+        stroke: '#666',
+        opacity: 0.8,
+        // ...
+      }
+    }
+  }
+});
+```
+
+### 方法 2: 在数据中配置
+```javascript
+const data = {
+  nodes: [
+    { id: 'node1' },
+    { id: 'node2' },
+    // ... 其他节点
+  ],
+  edges: [{
+    source: 'node1',
+    target: 'node2',
+    style: {
+      endArrow: {
+        // 自定义箭头指向(0, 0)，尾部朝向 x 轴正方向的 path
+        path: 'M 0,0 L 20,10 L 20,-10 Z',
+        // 箭头的偏移量，负值代表向 x 轴正方向移动
+        // d: -10,
+        // v3.4.1 后支持各样式属性
+        fill: '#333',
+        stroke: '#666',
+        opacity: 0.8,
+        // ...
+      },
+    }
+  },
+  //... 其他边
+  ]
+}
+```
+
+### 方法 3: 自定义边中配置
+```javascript
+// 使用方法二：自定义边，并带有自定义箭头
 G6.registerEdge('line-arrow', {
   draw(cfg, group) {
     const { startPoint, endPoint } = cfg;
@@ -214,12 +280,26 @@ G6.registerEdge('line-arrow', {
         stroke: 'steelblue',
         lineWidth: 3,
         startArrow: {
-          path: 'M 10,0 L -10,-10 L -10,10 Z',
-          d: 10,
+          // 自定义箭头指向(0, 0)，尾部朝向 x 轴正方向的 path
+          path: 'M 0,0 L 20,10 L 20,-10 Z',
+          // 箭头的偏移量，负值代表向 x 轴正方向移动
+          // d: -10,
+          // v3.4.1 后支持各样式属性
+          fill: '#333',
+          stroke: '#666',
+          opacity: 0.8,
+          // ...
         },
         endArrow: {
-          path: 'M 10,0 L -10,-10 L -10,10 Z',
-          d: 10,
+          // 自定义箭头指向(0, 0)，尾部朝向 x 轴正方向的 path
+          path: 'M 0,0 L 20,10 L 20,-10 Z',
+          // 箭头的偏移量，负值代表向 x 轴正方向移动
+          // d: -10,
+          // v3.4.1 后支持各样式属性
+          fill: '#333',
+          stroke: '#666',
+          opacity: 0.8,
+          // ...
         },
       },
       // must be assigned in G6 3.3 and later versions. it can be any value you want

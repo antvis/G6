@@ -79,7 +79,7 @@ const graph = new G6.Graph({
 | Name | Required | Type | Remark |
 | --- | --- | --- | --- |
 | position | false | String | The relative positions to the node. Options:  `'center'`, `'top'`, `'left'`, `'right'`, `'bottom'`. `'center'` by default |
-| offset | false | Number / Array | The offset of the label on the directions of `'top'`, `'left'`, `'right'`, `'bottom'` |
+| offset | false | Number | The offset value of the label. When the `position` is `'bottom'`, the value is the top offset of the node; When the `position` is `'left'`, the value is the right offset of the node; it is similar with other `position`. |
 | style | false | Object | The style property of the label |
 
 The commonly used configurations for the `style` in the above table are:
