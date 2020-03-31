@@ -1,14 +1,11 @@
 # ChangeLog
 #### 3.4.4
-<<<<<<< HEAD
 - feat: background color for downloadImage and toDataURL;
 - feat: support configure image for grid plugin;
 - fix: initial position for fruchterman layout;
 - refactor: clip for image node.
-=======
 - fix: cubic with only one controlPoint error;
 - fix: polyline without L attributes.
->>>>>>> fix: indexOf -1. docs: update CHANGELOG.
 
 #### 3.4.3
 - fix: support extends BehaviorOption;
