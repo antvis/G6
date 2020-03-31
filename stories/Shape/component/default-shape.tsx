@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
 import G6 from '../../../src';
 import { IGraph } from '../../../src/interface/graph';
+import { NodeConfig, EdgeConfig } from '../../../src/types';
 
 let graph: IGraph = null;
 
 G6.registerNode(
   'file-node',
   {
-    draw(cfg, group) {
+    draw(cfg: NodeConfig, group) {
       const keyShape = group.addShape('rect', {
         attrs: {
           x: cfg.x - 4,
@@ -69,7 +70,7 @@ G6.registerNode(
 G6.registerEdge(
   'step-line',
   {
-    getControlPoints: function getControlPoints(cfg) {
+    getControlPoints: function getControlPoints(cfg: EdgeConfig) {
       const startPoint = cfg.startPoint;
       const endPoint = cfg.endPoint;
       return [
