@@ -250,13 +250,8 @@ const DefaultCombo = () => {
         // graph.remove('B');
         // graph.remove('A');
 
-        // graph.changeData(data2);
-        // graph.changeData(graph.save());
-
-        // graph.render();
         graph.changeData(data2);
 
-        // graph.render();
         // graph.addItem('combo', {
         //   id: 'M',
         //   parentId: 'B'
@@ -264,7 +259,6 @@ const DefaultCombo = () => {
 
         // graph.addItem('node', {
         //   id: 'M',
-        //   comboId: 'A'
         //   comboId: 'B'
         // });
 

@@ -1148,6 +1148,7 @@ export default class Graph extends EventEmitter implements IGraph {
     } else {
       self.autoPaint();
     }
+
     setTimeout(() => {
       canvas.set('localRefresh', localRefresh);
     }, 16);
