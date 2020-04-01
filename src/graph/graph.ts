@@ -833,14 +833,14 @@ export default class Graph extends EventEmitter implements IGraph {
       );
     }
     let item;
+    const comboTrees = this.get('comboTrees');
     if (type === 'combo') {
       if (this.findById(model.id as string)) {
         console.warn('This item exists already. Be sure the id is unique.');
         return;
       }
       const itemMap = this.get('itemMap');
-      const comboTrees = this.get('comboTrees');
-      comboTrees.forEach((ctree: ComboTree) => {
+      comboTrees && comboTrees.forEach((ctree: ComboTree) => {
         let found = false;
         traverseTreeUp<ComboTree>(ctree, child => {
           if (model.parentId === child.id) {
@@ -859,8 +859,33 @@ export default class Graph extends EventEmitter implements IGraph {
           return true;
         });
       });
-      this.get('comboGroup').sort();
-    } else {
+      const comboGroup = this.get('comboGroup')
+      comboGroup && comboGroup.sort();
+    } else if (type === 'node' && isString(model.comboId) && comboTrees) {
+      if (this.findById(model.comboId as string).getType() !== 'combo') {
+        console.warn(`The combo ${model.comboId} for the node ${model.id} does not exist, please add the combo first.`);
+        return;
+      }
+      item = itemController.addItem(type, model);
+
+      const itemMap = this.get('itemMap');
+      comboTrees && comboTrees.forEach((ctree: ComboTree) => {
+        let found = false;
+        traverseTreeUp<ComboTree>(ctree, child => {
+          if (model.comboId === child.id) {
+            found = true;
+            if (child.children) child.children.push(model as any);
+            else child.children = [model as any];
+            model.depth = child.depth + 1;
+          }
+          if (found) {
+            itemController.updateCombo(itemMap[child.id], child.children);
+          }
+          return true;
+        });
+      });
+    }
+    else {
       item = itemController.addItem(type, model);
     }
     this.autoPaint();
@@ -955,21 +980,25 @@ export default class Graph extends EventEmitter implements IGraph {
     }
 
     if (!this.get('groupByTypes')) {
-      // 为提升性能，选择数量少的进行操作
-      if (data.nodes && data.edges && data.nodes.length < data.edges.length) {
-        const nodesArr = this.getNodes();
-
-        // 遍历节点实例，将所有节点提前。
-        nodesArr.forEach(node => {
-          node.toFront();
-        });
+      if (combos) {
+        this.sortCombos(data);
       } else {
-        const edgesArr = this.getEdges();
+        // 为提升性能，选择数量少的进行操作
+        if (data.nodes && data.edges && data.nodes.length < data.edges.length) {
+          const nodesArr = this.getNodes();
 
-        // 遍历节点实例，将所有节点提前。
-        edgesArr.forEach(edge => {
-          edge.toBack();
-        });
+          // 遍历节点实例，将所有节点提前。
+          nodesArr.forEach(node => {
+            node.toFront();
+          });
+        } else {
+          const edgesArr = this.getEdges();
+
+          // 遍历节点实例，将所有节点提前。
+          edgesArr.forEach(edge => {
+            edge.toBack();
+          });
+        }
       }
     }
 
@@ -1082,6 +1111,7 @@ export default class Graph extends EventEmitter implements IGraph {
     this.diffItems('edge', items, (data as GraphData).edges!);
 
     each(itemMap, (item: INode & IEdge, id: number) => {
+      itemMap[id].getModel().depth = 0;
       if (item.getType() === 'combo') {
         delete itemMap[id];
         item.destroy();
@@ -1098,6 +1128,8 @@ export default class Graph extends EventEmitter implements IGraph {
       this.set('comboTrees', comboTrees);
       // add combos
       self.addCombos(combosData);
+
+      if (!this.get('groupByTypes')) this.sortCombos(data as GraphData);
     }
 
     this.set({ nodes: items.nodes, edges: items.edges });
@@ -1112,6 +1144,7 @@ export default class Graph extends EventEmitter implements IGraph {
     } else {
       self.autoPaint();
     }
+
     setTimeout(() => {
       canvas.set('localRefresh', localRefresh);
     }, 16);
@@ -1809,6 +1842,36 @@ export default class Graph extends EventEmitter implements IGraph {
       plugin.destroyPlugin();
       plugins.splice(index, 1);
     }
+  }
+
+  private sortCombos(data: GraphData) {
+    const depthMap = [];
+    const dataDepthMap = {};
+    const comboTrees = this.get('comboTrees');
+    comboTrees.forEach(cTree => {
+      traverseTree(cTree, child => {
+        if (depthMap[child.depth]) depthMap[child.depth].push(child.id);
+        else depthMap[child.depth] = [child.id];
+        dataDepthMap[child.id] = child.depth;
+        return true;
+      });
+    });
+    data.edges.forEach(edge => {
+      const sourceDepth: number = dataDepthMap[edge.source] || 0;
+      const targetDepth: number = dataDepthMap[edge.target] || 0;
+      const depth = Math.max(sourceDepth, targetDepth);
+      console.log(depth, edge.id, edge.source, edge.target, sourceDepth, targetDepth);
+      if (depthMap[depth]) depthMap[depth].push(edge.id);
+      else depthMap[depth] = [edge.id];
+    });
+    console.log(depthMap);
+    depthMap.forEach(array => {
+      if (!array || !array.length) return;
+      for (let i = array.length - 1; i >= 0; i--) {
+        const item = this.findById(array[i]);
+        item.toFront();
+      }
+    });
   }
 
   /**
