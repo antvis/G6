@@ -253,6 +253,7 @@ export default class ItemController {
     }
 
     const comboBBox = getComboBBox(children, graph);
+    
     combo.set('bbox', comboBBox);
     combo.update({
       x: comboBBox.x,
