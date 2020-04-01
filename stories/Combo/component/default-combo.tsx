@@ -249,7 +249,6 @@ const DefaultCombo = () => {
         //graph.focusItem(graph.getCombos()[0]);
         // graph.remove('B');
         // graph.remove('A');
-
         // graph.changeData(data2);
         // graph.changeData(graph.save());
 
