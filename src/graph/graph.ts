@@ -1794,6 +1794,36 @@ debugger
     }
   }
 
+  private sortCombos(data: GraphData) {
+    const depthMap = [];
+    const dataDepthMap = {};
+    const comboTrees = this.get('comboTrees');
+    comboTrees.forEach(cTree => {
+      traverseTree(cTree, child => {
+        if (depthMap[child.depth]) depthMap[child.depth].push(child.id);
+        else depthMap[child.depth] = [ child.id ];
+        dataDepthMap[child.id] = child.depth;
+        return true;
+      });
+    });
+    data.edges.forEach(edge => {
+      const sourceDepth: number = dataDepthMap[edge.source] || 0;
+      const targetDepth: number = dataDepthMap[edge.target] || 0;
+      const depth = Math.max(sourceDepth, targetDepth);
+      console.log(depth, edge.id, edge.source, edge.target, sourceDepth, targetDepth);
+      if (depthMap[depth]) depthMap[depth].push(edge.id);
+      else depthMap[depth] = [ edge.id ];
+    });
+    console.log(depthMap);
+    depthMap.forEach(array => {
+      if (!array || !array.length) return;
+      for (let i = array.length - 1; i >= 0; i--) {
+        const item = this.findById(array[i]);
+        item.toFront();
+      }
+    });
+  }
+
   /**
    * 根据 comboTree 结构整理 Combo 相关的图形绘制层级，包括 Combo 本身、节点、边
    * @param {GraphData} data 数据
