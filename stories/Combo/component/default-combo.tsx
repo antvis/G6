@@ -103,14 +103,17 @@ const data2 = {
     {
       source: 'node1',
       target: 'node4',
+      id: 'edge1',
     },
     {
       source: 'node1',
       target: 'node2',
+      id: 'edge2',
     },
     {
       source: 'node2',
       target: 'node3',
+      id: 'edge3',
     },
   ],
   combos: [
@@ -148,6 +151,7 @@ const DefaultCombo = () => {
         container: container.current as string | HTMLElement,
         width: 1000,
         height: 800,
+        groupByTypes: false,
         modes: {
           default: [ 'drag-canvas' ]
         },
@@ -155,7 +159,8 @@ const DefaultCombo = () => {
           // size: [100, 100],
           type: 'circle',
           style: {
-            fill: '#ccc'
+            fill: '#ccc',
+            opacity: 0.9
           }
         },
         comboStateStyles: {
@@ -168,6 +173,12 @@ const DefaultCombo = () => {
           },
           state2: {
             stroke: '#0f0'
+          }
+        },
+        defaultEdge: {
+          style: {
+            stroke: '#f00',
+            lineWidth: 3
           }
         }
       });
@@ -224,12 +235,18 @@ const DefaultCombo = () => {
         // graph.remove('B');
         // graph.remove('A');
 
-        // graph.changeData(data2);
+        graph.changeData(data2);
 
-        graph.addItem('combo', {
-          id: 'M',
-          parentId: 'B'
-        });
+        // graph.addItem('combo', {
+        //   id: 'M',
+        //   parentId: 'B'
+        // });
+        
+        // graph.addItem('node', {
+        //   id: 'M',
+        //   comboId: 'B'
+        // });
+
         // graph.updateItem('A', {
         //   parentId: 'B'
         // });
