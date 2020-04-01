@@ -536,12 +536,12 @@ export const getComboBBox = (children: ComboTree[], graph: IGraph): BBox => {
   };
   children && children.forEach(child => {
     const childItem = graph.findById(child.id);
-    const childModel = childItem.getModel();
+    // const childModel = childItem.getModel();
     const childBBox = childItem.getCanvasBBox();
-    if (childModel.x && comboBBox.minX > childBBox.minX) comboBBox.minX = childBBox.minX;
-    if (childModel.y && comboBBox.minY > childBBox.minY) comboBBox.minY = childBBox.minY;
-    if (childModel.x && comboBBox.maxX < childBBox.maxX) comboBBox.maxX = childBBox.maxX;
-    if (childModel.y && comboBBox.maxY < childBBox.maxY) comboBBox.maxY = childBBox.maxY;
+    if (childBBox.x && comboBBox.minX > childBBox.minX) comboBBox.minX = childBBox.minX;
+    if (childBBox.y && comboBBox.minY > childBBox.minY) comboBBox.minY = childBBox.minY;
+    if (childBBox.x && comboBBox.maxX < childBBox.maxX) comboBBox.maxX = childBBox.maxX;
+    if (childBBox.y && comboBBox.maxY < childBBox.maxY) comboBBox.maxY = childBBox.maxY;
   });
   comboBBox.x = (comboBBox.minX + comboBBox.maxX) / 2;
   comboBBox.y = (comboBBox.minY + comboBBox.maxY) / 2;
