@@ -976,6 +976,29 @@ export default class Graph extends EventEmitter implements IGraph {
       self.addCombos(combos);
     }
 
+    if (!this.get('groupByTypes')) {
+      if (combos) {
+        this.sortCombos(data);
+      } else {
+        // 为提升性能，选择数量少的进行操作
+        if (data.nodes && data.edges && data.nodes.length < data.edges.length) {
+          const nodesArr = this.getNodes();
+  
+          // 遍历节点实例，将所有节点提前。
+          nodesArr.forEach(node => {
+            node.toFront();
+          });
+        } else {
+          const edgesArr = this.getEdges();
+  
+          // 遍历节点实例，将所有节点提前。
+          edgesArr.forEach(edge => {
+            edge.toBack();
+          });
+        }
+      }
+    }
+
     // layout
     const layoutController = self.get('layoutController');
     if (!layoutController.layout(success)) {
@@ -1762,6 +1785,7 @@ export default class Graph extends EventEmitter implements IGraph {
         return true;
       });
     });
+<<<<<<< HEAD
     const edges = data.edges;
     edges && edges.forEach(edge => {
       const sourceDepth: number = dataDepthMap[edge.source] || 0;
@@ -1770,6 +1794,17 @@ export default class Graph extends EventEmitter implements IGraph {
       if (depthMap[depth]) depthMap[depth].push(edge.id);
       else depthMap[depth] = [ edge.id ];
     });
+=======
+    data.edges.forEach(edge => {
+      const sourceDepth: number = dataDepthMap[edge.source] || 0;
+      const targetDepth: number = dataDepthMap[edge.target] || 0;
+      const depth = Math.max(sourceDepth, targetDepth);
+      console.log(depth, edge.id, edge.source, edge.target, sourceDepth, targetDepth);
+      if (depthMap[depth]) depthMap[depth].push(edge.id);
+      else depthMap[depth] = [ edge.id ];
+    });
+    console.log(depthMap);
+>>>>>>> feat: render zindex for combos when first render and changeData
     depthMap.forEach(array => {
       if (!array || !array.length) return;
       for (let i = array.length - 1; i >= 0; i--) {
