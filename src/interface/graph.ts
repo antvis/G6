@@ -138,6 +138,15 @@ export interface GraphOptions {
     color?: string;
   } & ModelStyle;
 
+  /**
+   * Combo 默认配置
+   */
+  defaultCombo?: Partial<{
+    type: string;
+    size: number | number[];
+    color: string;
+  }> & ModelStyle;
+
   nodeStateStyles?: {
     [key: string]: ShapeStyle | {
       [key: string]: ShapeStyle
@@ -145,6 +154,13 @@ export interface GraphOptions {
   };
 
   edgeStateStyles?: {
+    [key: string]: ShapeStyle | {
+      [key: string]: ShapeStyle
+    }
+  };
+
+  // Combo 状态样式
+  comboStateStyles?: {
     [key: string]: ShapeStyle | {
       [key: string]: ShapeStyle
     }
