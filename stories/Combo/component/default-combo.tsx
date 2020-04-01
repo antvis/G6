@@ -56,33 +56,33 @@ const data = {
     },
   ],
   combos: [
-  {
-    id: 'A',
-    parentId: 'B',
-    label: 'gorup A',
-    padding: [50, 10, 10, 10]
-    // type: 'rect'
-  }, {
-    id: 'B',
-    // parentId: 'C',
-    label: 'gorup B',
-    // padding: [50, 10, 10, 50]
-    // type: 'rect'
-  },
-  // {
-  //   id: 'C',
-  //   label: 'gorup C',
-  //   // type: 'rect'
-  // },
-  {
-    id: 'D',
-    label: 'gorup D',
-    parentId: 'E',
-    // type: 'rect'
-  }, {
-    id: 'E',
-    // type: 'rect'
-  }]
+    {
+      id: 'A',
+      parentId: 'B',
+      label: 'gorup A',
+      padding: [50, 10, 10, 10]
+      // type: 'rect'
+    }, {
+      id: 'B',
+      // parentId: 'C',
+      label: 'gorup B',
+      // padding: [50, 10, 10, 50]
+      // type: 'rect'
+    },
+    // {
+    //   id: 'C',
+    //   label: 'gorup C',
+    //   // type: 'rect'
+    // },
+    {
+      id: 'D',
+      label: 'gorup D',
+      parentId: 'E',
+      // type: 'rect'
+    }, {
+      id: 'E',
+      // type: 'rect'
+    }]
 };
 
 const data2 = {
@@ -132,30 +132,30 @@ const data2 = {
     },
   ],
   combos: [
-  {
-    id: 'A',
-    parentId: 'C',
-    label: 'gorup A',
-    type: 'circle'
-  }, {
-    id: 'B',
-    parentId: 'C',
-    label: 'gorup B',
-    type: 'circle'
-  }, {
-    id: 'C',
-    label: 'gorup C',
-    // type: 'rect'
-  }, {
-    id: 'F',
-    label: 'gorup F',
-    // type: 'rect'
-  }, {
-    id: 'G',
-    label: 'gorup G',
-    // parentId: 'F'
-    type: 'circle'
-  }]
+    {
+      id: 'A',
+      parentId: 'C',
+      label: 'gorup A',
+      type: 'circle'
+    }, {
+      id: 'B',
+      parentId: 'C',
+      label: 'gorup B',
+      type: 'circle'
+    }, {
+      id: 'C',
+      label: 'gorup C',
+      // type: 'rect'
+    }, {
+      id: 'F',
+      label: 'gorup F',
+      // type: 'rect'
+    }, {
+      id: 'G',
+      label: 'gorup G',
+      // parentId: 'F'
+      type: 'circle'
+    }]
 };
 
 const DefaultCombo = () => {
@@ -168,7 +168,7 @@ const DefaultCombo = () => {
         height: 800,
         groupByTypes: false,
         modes: {
-          default: [ 'drag-canvas' ]
+          default: ['drag-canvas']
         },
         defaultCombo: {
           // size: [100, 100],
@@ -254,14 +254,17 @@ const DefaultCombo = () => {
         // graph.changeData(graph.save());
 
         // graph.render();
+        graph.changeData(data2);
+
         // graph.addItem('combo', {
         //   id: 'M',
         //   parentId: 'B'
         // });
-        
+
         // graph.addItem('node', {
         //   id: 'M',
         //   comboId: 'A'
+        //   comboId: 'B'
         // });
 
         // graph.updateItem('A', {

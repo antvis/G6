@@ -286,7 +286,7 @@ const traverse = <T extends { children?: T[] }>(data: T, fn: (param: T) => boole
   }
 
   if (data && data.children) {
-    for(let i = data.children.length - 1; i >= 0; i--) {
+    for (let i = data.children.length - 1; i >= 0; i--) {
       traverse(data.children[i], fn);
     }
   }
@@ -298,7 +298,7 @@ const traverseUp = <T extends { children?: T[] }>(data: T, fn: (param: T) => boo
       traverseUp(child, fn);
     });
   }
-  
+
   if (fn(data) === false) {
     return;
   }
@@ -539,7 +539,7 @@ export const reconstructTree = (trees: ComboTree[], subtreeId?: string, newParen
       comboChilds[child.id] = {
         children: child.children
       }
-      
+
       brothers = comboChilds[child.parentId || 'root'].children
       if (child && (child.removed || subtreeId === child.id) && brothers) {
         subtree = child;
@@ -560,7 +560,7 @@ export const reconstructTree = (trees: ComboTree[], subtreeId?: string, newParen
           if (newParentId === child.id) {
             found = true;
             if (child.children) child.children.push(subtree);
-            else child.children = [ subtree ];
+            else child.children = [subtree];
           }
           child.depth = comboChilds[child.parentId || child.comboId] ? comboChilds[child.parentId || child.comboId].depth + 1 : 0
           comboChilds[child.id]['depth'] = child.depth
