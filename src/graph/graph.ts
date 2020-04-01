@@ -862,14 +862,33 @@ export default class Graph extends EventEmitter implements IGraph {
           return true;
         });
       });
-      // const comboGroup = this.get('comboGroup')
-      // comboGroup && comboGroup.sort();
+      const comboGroup = this.get('comboGroup')
+      comboGroup && comboGroup.sort();
     } else if (type === 'node' && isString(model.comboId) && comboTrees) {
-      const parentCombo = this.findById(model.comboId as string);
-      if (!parentCombo || parentCombo.getType() !== 'combo') {
+      if (this.findById(model.comboId as string).getType() !== 'combo') {
         console.warn(`The combo ${model.comboId} for the node ${model.id} does not exist, please add the combo first.`);
         return;
       }
+      item = itemController.addItem(type, model);
+
+      const itemMap = this.get('itemMap');
+      comboTrees && comboTrees.forEach((ctree: ComboTree) => {
+        let found = false;
+        traverseTreeUp<ComboTree>(ctree, child => {
+          if (model.comboId === child.id) {
+            found = true;
+            if (child.children) child.children.push(model as any);
+            else child.children = [model as any];
+            model.depth = child.depth + 1;
+          }
+          if (found) {
+            itemController.updateCombo(itemMap[child.id], child.children);
+          }
+          return true;
+        });
+      });
+    }
+    else {
       item = itemController.addItem(type, model);
 
       const itemMap = this.get('itemMap');
@@ -1136,7 +1155,11 @@ export default class Graph extends EventEmitter implements IGraph {
       this.set('comboTrees', comboTrees);
       // add combos
       self.addCombos(combosData);
+<<<<<<< HEAD
 
+=======
+
+>>>>>>> feat: render zindex for combos when first render and changeData
       if (!this.get('groupByTypes')) this.sortCombos(data as GraphData);
     }
 
@@ -1153,7 +1176,11 @@ export default class Graph extends EventEmitter implements IGraph {
     } else {
       self.autoPaint();
     }
+<<<<<<< HEAD
 
+=======
+
+>>>>>>> feat: render zindex for combos when first render and changeData
     setTimeout(() => {
       canvas.set('localRefresh', localRefresh);
     }, 16);
@@ -1281,7 +1308,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
     const newComboTrees = reconstructTree(this.get('comboTrees'), model.id, parentId);
     this.set('comboTrees', newComboTrees);
-  
+
     this.updateCombos();
   }
 
@@ -1916,6 +1943,36 @@ export default class Graph extends EventEmitter implements IGraph {
       plugin.destroyPlugin();
       plugins.splice(index, 1);
     }
+  }
+
+  private sortCombos(data: GraphData) {
+    const depthMap = [];
+    const dataDepthMap = {};
+    const comboTrees = this.get('comboTrees');
+    comboTrees.forEach(cTree => {
+      traverseTree(cTree, child => {
+        if (depthMap[child.depth]) depthMap[child.depth].push(child.id);
+        else depthMap[child.depth] = [child.id];
+        dataDepthMap[child.id] = child.depth;
+        return true;
+      });
+    });
+    data.edges.forEach(edge => {
+      const sourceDepth: number = dataDepthMap[edge.source] || 0;
+      const targetDepth: number = dataDepthMap[edge.target] || 0;
+      const depth = Math.max(sourceDepth, targetDepth);
+      console.log(depth, edge.id, edge.source, edge.target, sourceDepth, targetDepth);
+      if (depthMap[depth]) depthMap[depth].push(edge.id);
+      else depthMap[depth] = [edge.id];
+    });
+    console.log(depthMap);
+    depthMap.forEach(array => {
+      if (!array || !array.length) return;
+      for (let i = array.length - 1; i >= 0; i--) {
+        const item = this.findById(array[i]);
+        item.toFront();
+      }
+    });
   }
 
   /**

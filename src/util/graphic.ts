@@ -285,7 +285,7 @@ const traverse = <T extends { children?: T[] }>(data: T, fn: (param: T) => boole
   }
 
   if (data && data.children) {
-    for(let i = data.children.length - 1; i >= 0; i--) {
+    for (let i = data.children.length - 1; i >= 0; i--) {
       traverse(data.children[i], fn);
     }
   }
@@ -297,7 +297,7 @@ const traverseUp = <T extends { children?: T[] }>(data: T, fn: (param: T) => boo
       traverseUp(child, fn);
     });
   }
-  
+
   if (fn(data) === false) {
     return;
   }
@@ -391,7 +391,7 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: INode[]) => {
   array.forEach((d) => {
     modelMap[d.id] = d;
   });
-  
+
   array.forEach((d, i) => {
     const cd = clone(d);
     cd.itemType = 'combo';
@@ -415,13 +415,13 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: INode[]) => {
       const mappedParent = addedMap[mappedObj.parentId];
       if (mappedParent) {
         if (mappedParent.children) mappedParent.children.push(cd);
-        else mappedParent.children = [ cd ];
+        else mappedParent.children = [cd];
         return;
       }
       else {
         const parent = {
           id: mappedObj.parentId,
-          children: [ mappedObj ]
+          children: [mappedObj]
         }
         addedMap[mappedObj.parentId] = parent;
         addedMap[cd.id] = cd;
@@ -432,12 +432,12 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: INode[]) => {
       const parent = addedMap[d.parentId];
       if (parent) {
         if (parent.children) parent.children.push(cd);
-        else parent.children = [ cd ];
+        else parent.children = [cd];
         addedMap[cd.id] = cd;
       } else {
         const pa = {
           id: d.parentId,
-          children: [ cd ]
+          children: [cd]
         }
         addedMap[pa.id] = pa;
         addedMap[cd.id] = cd;
@@ -459,18 +459,18 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: INode[]) => {
         comboId: nodeModel.comboId
       };
       if (combo.children) combo.children.push(cnode);
-      else combo.children = [ cnode ];
+      else combo.children = [cnode];
       cnode.itemType = 'node';
       addedMap[nodeModel.id] = cnode;
     }
   });
-  
+
   result.forEach((tree: ComboTree) => {
     tree.depth = 0;
     traverse<ComboTree>(tree, child => {
       let parent;
       if (addedMap[child.id]['itemType'] === 'node') {
-        parent = addedMap[child['comboId']];
+        parent = addedMap[child['comboId'] as string];
       } else {
         parent = addedMap[child.parentId];
       }
@@ -502,7 +502,7 @@ export const reconstructTree = (trees: ComboTree[], subtreeId?: string, newParen
       comboChilds[child.id] = {
         children: child.children
       }
-      
+
       brothers = comboChilds[child.parentId || 'root'].children
       if (child && (child.removed || subtreeId === child.id) && brothers) {
         subtree = child;
@@ -523,7 +523,7 @@ export const reconstructTree = (trees: ComboTree[], subtreeId?: string, newParen
           if (newParentId === child.id) {
             found = true;
             if (child.children) child.children.push(subtree);
-            else child.children = [ subtree ];
+            else child.children = [subtree];
           }
           child.depth = comboChilds[child.parentId || child.comboId] ? comboChilds[child.parentId || child.comboId].depth + 1 : 0
           comboChilds[child.id]['depth'] = child.depth
@@ -567,7 +567,7 @@ export const getComboBBox = (children: ComboTree[], graph: IGraph): BBox => {
   comboBBox.y = (comboBBox.minY + comboBBox.maxY) / 2;
   comboBBox.width = comboBBox.maxX - comboBBox.minX;
   comboBBox.height = comboBBox.maxY - comboBBox.minY;
-  
+
   Object.keys(comboBBox).forEach(key => {
     if (comboBBox[key] === Infinity || comboBBox[key] === -Infinity) {
       comboBBox[key] = undefined;
