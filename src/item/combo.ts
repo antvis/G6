@@ -11,6 +11,10 @@ const CACHE_BBOX = 'bboxCache';
 const CACHE_CANVAS_BBOX = 'bboxCanvasCache';
 const CACHE_ANCHOR_POINTS = 'anchorPointsCache';
 
+const CACHE_BBOX = 'bboxCache';
+const CACHE_CANVAS_BBOX = 'bboxCanvasCache';
+const CACHE_ANCHOR_POINTS = 'anchorPointsCache';
+
 export default class Combo extends Node implements ICombo {
   public getDefaultCfg() {
     return {

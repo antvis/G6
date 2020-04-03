@@ -1928,11 +1928,9 @@ export default class Graph extends EventEmitter implements IGraph {
       const sourceDepth: number = dataDepthMap[edge.source] || 0;
       const targetDepth: number = dataDepthMap[edge.target] || 0;
       const depth = Math.max(sourceDepth, targetDepth);
-      console.log(depth, edge.id, edge.source, edge.target, sourceDepth, targetDepth);
       if (depthMap[depth]) depthMap[depth].push(edge.id);
       else depthMap[depth] = [ edge.id ];
     });
-    console.log(depthMap);
     depthMap.forEach(array => {
       if (!array || !array.length) return;
       for (let i = array.length - 1; i >= 0; i--) {
