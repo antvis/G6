@@ -353,7 +353,7 @@ export const shapeBase: ShapeOptions = {
     const model = item.getModel();
     
     if (value) {
-      const modelStateStyle = model.stateStyles ? model.stateStyles[name] : undefined;
+      const modelStateStyle = model.stateStyles ? model.stateStyles[name] : this.options.stateStyles && this.options.stateStyles[name];
       return mix({}, model.style, modelStateStyle);
     }
 
