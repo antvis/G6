@@ -1936,7 +1936,6 @@ export default class Graph extends EventEmitter implements IGraph {
       if (depthMap[depth]) depthMap[depth].push(edge.id);
       else depthMap[depth] = [edge.id];
     });
-
     depthMap.forEach(array => {
       if (!array || !array.length) return;
       for (let i = array.length - 1; i >= 0; i--) {
