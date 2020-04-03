@@ -251,7 +251,7 @@ export default class ItemController {
     if (!combo || combo.destroyed) {
       return;
     }
-    
+
     const comboBBox = getComboBBox(children, graph);
     
     combo.set('bbox', comboBBox);
@@ -259,7 +259,6 @@ export default class ItemController {
       x: comboBBox.x,
       y: comboBBox.y
     });
-
   }
 
   /**

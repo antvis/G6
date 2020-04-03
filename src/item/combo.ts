@@ -2,6 +2,10 @@ import { ICombo, INode } from '../interface/item'
 import Node from './node'
 import { ComboConfig } from '../types';
 
+const CACHE_BBOX = 'bboxCache';
+const CACHE_CANVAS_BBOX = 'bboxCanvasCache';
+const CACHE_ANCHOR_POINTS = 'anchorPointsCache';
+
 export default class Combo extends Node implements ICombo {
   public getDefaultCfg() {
     return {
@@ -151,5 +155,11 @@ export default class Combo extends Node implements ICombo {
 
   public isOnlyMove(cfg?: ComboConfig): boolean {
     return false;
+  }
+
+  public clearCache() {
+    this.set(CACHE_BBOX, null); // 清理缓存的 bbox
+    this.set(CACHE_ANCHOR_POINTS, null);
+    this.set(CACHE_CANVAS_BBOX, null);
   }
 }
