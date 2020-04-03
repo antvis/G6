@@ -509,6 +509,8 @@ export enum G6Event {
   NODE_MOUSEENTER = 'node:mouseenter',
   NODE_MOUSELEAVE = 'node:mouseleave',
   NODE_MOUSEMOVE = 'node:mousemove',
+  NODE_DROP = 'node:drop',
+  NODE_DRAGOVER = 'node:dragover',
 
   EDGE_CLICK = 'edge:click',
   EDGE_CONTEXTMENU = 'edge:contextmenu',
@@ -525,6 +527,19 @@ export enum G6Event {
   CANVAS_DRAGSTART = 'canvas:dragstart',
   CANVAS_DRAG = 'canvas:drag',
   CANVAS_DRAGEND = 'canvas:dragend',
+
+  // combo
+  COMBO_CLICK = 'combo:click',
+  COMBO_CONTEXTMENU = 'combo:contextmenu',
+  COMBO_DBLCLICK = 'combo:dblclick',
+  COMBO_DRAGSTART = 'combo:dragstart',
+  COMBO_DRAG = 'combo:drag',
+  COMBO_DRAGEND = 'combo:dragend',
+  COMBO_MOUSEENTER = 'combo:mouseenter',
+  COMBO_MOUSELEAVE = 'combo:mouseleave',
+  COMBO_MOUSEMOVE = 'combo:mousemove',
+  COMBO_DROP = 'combo:drop',
+  COMBO_DRAGOVER = 'combo:dragover'
 }
 
 export type DefaultBehaviorType = IG6GraphEvent | string | number | object;

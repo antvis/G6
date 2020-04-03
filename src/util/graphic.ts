@@ -386,16 +386,19 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) =
   const result: ComboTree[] = [];
   const addedMap = {};
   const modelMap = {};
+  
   array.forEach((d) => {
     modelMap[d.id] = d;
   });
   
   array.forEach((d, i) => {
     const cd = clone(d);
+    debugger
+    cd.children = undefined
     if (cd.parentId === cd.id) {
       console.warn(`The parentId for combo ${cd.id} can not be the same as the combo's id`);
       delete cd.parentId;
-    } else if (!modelMap[cd.parentId]) {
+    } else if (cd.parentId && !modelMap[cd.parentId]) {
       console.warn(`The parent combo for combo ${cd.id} does not exist!`);
       delete cd.parentId;
     }

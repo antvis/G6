@@ -833,9 +833,9 @@ export default class Graph extends EventEmitter implements IGraph {
           if (model.parentId === child.id) {
             found = true;
             const newCombo: ComboTree = {
+              ...model,
               id: model.id as string,
               depth: child.depth + 1,
-              ...model
             }
             if (child.children) child.children.push(newCombo);
             else child.children = [ newCombo ];
@@ -1075,6 +1075,7 @@ export default class Graph extends EventEmitter implements IGraph {
     const combosData = (data as GraphData).combos;
     if (combosData) {
       const comboTrees = plainCombosToTrees(combosData, (data as GraphData).nodes);
+      debugger
       this.set('comboTrees', comboTrees);
       // add combos
       self.addCombos(combosData);
@@ -1108,6 +1109,16 @@ export default class Graph extends EventEmitter implements IGraph {
     const comboTrees = self.get('comboTrees');
     const itemController: ItemController = this.get('itemController');
     itemController.addCombos(comboTrees, combos);
+  }
+
+  public updateCombo(combo: string | ICombo) {
+    if (isString(combo)) {
+      combo = this.findById(combo) as ICombo;
+    }
+
+    const model = combo.getModel()
+    const itemController: ItemController = this.get('itemController');
+    itemController.updateCombo(combo, model.children);
   }
 
   public uncombo(combo: string | ICombo) {
@@ -1477,7 +1488,7 @@ export default class Graph extends EventEmitter implements IGraph {
     this.initGroups();
   
     // 清空画布时同时清除数据
-    this.set({ itemMap: {}, nodes: [], edges: [], groups: [] });
+    this.set({ itemMap: {}, nodes: [], edges: [], groups: [], combos: [] });
     return this;
   }
 
