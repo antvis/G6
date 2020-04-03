@@ -26,6 +26,20 @@ const data = {
       y: 250,
       label: 'node3',
     },
+    {
+      id: 'node4',
+      x: 50,
+      y: 50,
+      label: 'node4',
+      comboId: 'D'
+    },
+    {
+      id: 'node5',
+      x: 100,
+      y: 100,
+      label: 'node5',
+      comboId: 'E'
+    },
   ],
   edges: [
     {
@@ -63,6 +77,7 @@ const data = {
   {
     id: 'D',
     label: 'gorup D',
+    parentId: 'E',
     // type: 'rect'
   }, {
     id: 'E',
@@ -207,36 +222,38 @@ const DefaultCombo = () => {
         //   node.hide();
         // });
         // graph.hideItem(e.item);
-        graph.updateItem(e.item, {
-          // type: 'rect',
-          style: {
-            fill: '#f00'
-          },
-          // label: 'new Label',
-          // labelCfg: {
-          //   position: 'bottom'
-          // }
-        });
+        // graph.updateItem(e.item, {
+        //   // type: 'rect',
+        //   style: {
+        //     fill: '#f00'
+        //   },
+        //   // label: 'new Label',
+        //   // labelCfg: {
+        //   //   position: 'bottom'
+        //   // }
+        // });
         // graph.uncombo(e.item);
       });
       graph.on('canvas:click', e => {
         // graph.setItemState(graph.findById('A'), 'selected', true);
         // console.log( graph.findAllByState('combo', 'selected'))
-        // const hidedCombos = graph.findAll('combo', combo => {
-        //   if (!combo.isVisible()) return true;
-        //   return false;
-        // });
-        // hidedCombos.forEach(combo => {
-        //   graph.showItem(combo);
-        // })
+        const hidedCombos = graph.findAll('combo', combo => {
+          if (!combo.isVisible()) return true;
+          return false;
+        });
+        hidedCombos.forEach(combo => {
+          graph.showItem(combo);
+        })
         // console.log(graph.getCombos()[0]);
         // console.log(graph.getComboChildren(graph.getCombos()[0]));
         //graph.focusItem(graph.getCombos()[0]);
         // graph.remove('B');
         // graph.remove('A');
 
-        graph.changeData(data2);
+        // graph.changeData(data2);
+        // graph.changeData(graph.save());
 
+        // graph.render();
         // graph.addItem('combo', {
         //   id: 'M',
         //   parentId: 'B'
@@ -244,7 +261,7 @@ const DefaultCombo = () => {
         
         // graph.addItem('node', {
         //   id: 'M',
-        //   comboId: 'B'
+        //   comboId: 'A'
         // });
 
         // graph.updateItem('A', {
