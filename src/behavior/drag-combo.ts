@@ -4,11 +4,10 @@
  * @Description: 拖动 Combo
  */
 import deepMix from '@antv/util/lib/deep-mix';
-import { G6Event, IG6GraphEvent, Item, ComboConfig, ModelConfig } from '../types';
+import { G6Event, IG6GraphEvent, Item, ComboConfig, ModelConfig, IBBox } from '../types';
 import { calculationItemsBBox } from '../util/base'
 import Global from '../global';
 import { IGraph } from '../interface/graph';
-import Combo from '../item/combo';
 import { each, mod } from '_@antv_util@2.0.7@@antv/util/lib';
 import { IGroup } from '_@antv_g-svg@0.4.0@@antv/g-svg/lib/interfaces';
 import { ICombo } from '../interface/item';
@@ -38,6 +37,7 @@ export default {
     const graph: IGraph = this.graph;
     const { item } = evt;
 
+    console.log(graph.getCombos())
     if (!item) {
       return
     }
@@ -65,8 +65,6 @@ export default {
     } else {
       this.targets = combos
     }
-
-    console.log('combos', this.targets)
 
     this.targets.map((combo: ICombo) => {
       const model = combo.getModel() as ComboConfig
@@ -106,10 +104,41 @@ export default {
   },
 
   onDragOver(evt: IG6GraphEvent) {
-    console.log('drag over',evt)
+    const { item } = evt
+    if (!item || !this.targets) {
+      return
+    }
+
+    const graph: IGraph = this.graph
+    graph.setItemState(item, 'active', true)
+
+    const model = item.getModel() as ComboConfig
+    if (model.parentId) {
+      graph.setItemState(model.parentId, 'active', false)
+    }
   },
+  
   onDrop(evt: IG6GraphEvent) {
-    console.log('drop',evt)
+    console.log('drop',evt, this.targets)
+    // 拖动的目标 combo
+    const { item } = evt 
+    console.log('target item', item)
+    if (!item  || !this.targets) {
+      return
+    }
+
+    const targetModel = item.getModel()
+    
+    this.targets.map((combo: ICombo) => {
+      const model = combo.getModel()
+      if (model.parentId !== targetModel.id) {
+        model.parentId = targetModel.id
+        this.needRender = true
+      }
+    })
+
+    // 如果已经拖放下了，则不需要再通过距离判断了
+    this.endComparison = true
   },
   onDragEnd(evt: IG6GraphEvent) {
     console.log('drag end', evt)
@@ -122,8 +151,99 @@ export default {
       })
     }
 
+    const { item } = evt
+    const model = item.getModel()
+
+    // 拖动结束时计算拖入还是拖出, 需要更新 combo
+    // 1. 是否将当前 combo 拖出了 父 combo；
+    // 2. 是否将当前 combo 拖入了新的 combo
+    const type = item.getType()
+    if (type === 'combo') {
+      const parentId = model.parentId
+
+      let currentBBox = null
+      const parentCombo = this.getParentCombo(parentId)
+    
+      // 当只有存在 parentCombo 时才处理拖出的情况
+      if (parentCombo) {
+        if (this.enableDelegate) {
+          currentBBox = this.delegateShape.getBBox()
+        } else {
+          currentBBox = item.getBBox()
+        }
+        const { x: cx, y: cy } = currentBBox;
+  
+        //判断是否拖出了 combo，需要满足： 
+        // 1、有 parent；
+        // 2、拿拖动的对象和它父parent比较
+  
+        const parentBBox = parentCombo.getBBox()
+        const { minX, minY, maxX, maxY } = parentBBox;
+  
+        // 拖出了父 combo
+        if (cx <= minX || cx >= maxX || cy <= minY || cy >= maxY) {
+          delete model.parentId
+          this.needRender = true
+          graph.setItemState(parentCombo, 'active', false)
+        }
+      }
+
+      if (!this.endComparison) {
+        // 判断是否拖入了 父 Combo，需要满足：
+        // 1、拖放最终位置是 combo，且不是父 Combo；
+        // 2、拖动 Combo 进入到非父 Combo 超过 50%；
+        const combos = graph.getCombos()
+        const sourceBBox = item.getBBox()
+        const { centerX, centerY, width } = sourceBBox
+        
+        // 参与计算的 Combo，需要排除掉：
+        // 1、拖动 combo 自己
+        // 2、拖动 combo 的 parent
+        // 3、拖动 Combo 的 children
+        const childCombos = item.get('combos').map(combo => combo.getModel().id) as string[]
+        console.log('childCombos', model.id, childCombos)
+  
+        const calcCombos = combos.filter(combo => {
+          const cmodel = combo.getModel() as ComboConfig
+          // 被拖动的是最外层的 Combo，无 parent，排除自身和子元素
+          if (!model.parentId) {
+            return cmodel.id !== model.id && !childCombos.includes(cmodel.id)
+          }
+          return cmodel.id !== model.id && !childCombos.includes(cmodel.id)
+        })
+  
+        console.log(calcCombos)
+  
+        calcCombos.map(combo => {
+          const current = combo.getModel()
+          // console.log('计算', current.id, model.id)
+          const { centerX: cx, centerY: cy, width: w } = combo.getBBox()
+  
+          // 拖动的 combo 和要进入的 combo 之间的距离
+          const disX = centerX - cx
+          const disY = centerY - cy
+          // 圆心距离
+          const distance = 2 * Math.sqrt(disX * disX + disY * disY)
+          
+          // 相交面积大于当前拖动 Combo 面积的 50%，则表示拖进去了
+  
+          if ((width + w) - distance >  0.8 * width) {
+            console.log('OK', model.id, current.id)
+            model.parentId = current.id
+            graph.setItemState(combo, 'active', true)
+            this.needRender = true
+          } else {
+            graph.setItemState(combo, 'active', false)
+          }
+        })
+      }
+
+    }
+
     if(this.needRender) {
       this.graph.render()
+      // 新增的那个
+      // addItem()
     }
 
     // 删除delegate shape
@@ -133,8 +253,6 @@ export default {
       this.delegateShape = null
     }
 
-    const { item } = evt
-    const model = item.getModel()
     const parentCombo = this.getParentCombo(model.parentId)
     if (parentCombo) {
       graph.setItemState(parentCombo, 'active', false)
@@ -147,7 +265,7 @@ export default {
     this.needRender = false
   },
 
-  updateCombo(item: Combo, evt: IG6GraphEvent) {
+  updateCombo(item: ICombo, evt: IG6GraphEvent) {
     const traverse = <T extends Item>(data: T, fn: (param: T) => boolean) => {
       if (fn(data) === false) {
         return;
@@ -173,10 +291,15 @@ export default {
     })
   },
 
+  /**
+   * 
+   * @param item 当前正在拖动的元素
+   * @param evt 
+   */
   updateSignleItem(item: Item, evt: IG6GraphEvent) {
     const { origin } = this;
     const graph: IGraph = this.graph
-    const model = item.getModel()
+    const model = item.getModel() as ComboConfig
     const itemId = item.get('id')
 
     if(!this.point[itemId]) {
@@ -190,51 +313,6 @@ export default {
     const y: number = evt.y - origin.y + this.point[itemId].y;
 
     graph.updateItem(item, { x, y });
-
-    // 还需要更新 combo
-    // 1. 是否将当前 combo 拖出了 父 combo；
-    // 2. 是否将当前 combo 拖入了新的 combo
-
-    const type = item.getType()
-    if (type === 'combo') {
-      const parentId = (model as ComboConfig).parentId
-
-      const parentCombo = this.getParentCombo(parentId)
-      if (!parentCombo) {
-        return
-      }
-
-      this.targets.map((combo: ICombo) => {
-        const comboModel = combo.getModel()
-        // 确定是正在拖动的中 combo
-        if (comboModel.id === model.id) {
-
-          let currentBBox = null
-          if (this.enableDelegate) {
-            currentBBox = this.delegateShape.getBBox()
-          } else {
-            currentBBox = combo.getBBox()
-          }
-          const { x: cx, y: cy } = currentBBox;
-
-          //判断是否拖出了 combo，需要满足： 
-          // 1、有 parent；
-          // 2、拿拖动的对象和它父parent比较
-    
-          const parentBBox = parentCombo.getBBox()
-          const { minX, minY, maxX, maxY } = parentBBox;
-    
-          // 拖出了父 combo
-          if (cx <= minX || cx >= maxX || cy <= minY || cy >= maxY) {
-            delete model.parentId
-            this.needRender = true
-            graph.setItemState(parentCombo, 'active', false)
-            // graph.updateCombo(parentCombo)
-          }
-        }
-      })
-    }
-
   },
 
   /**

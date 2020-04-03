@@ -1111,14 +1111,40 @@ export default class Graph extends EventEmitter implements IGraph {
     itemController.addCombos(comboTrees, combos);
   }
 
-  public updateCombo(combo: string | ICombo) {
+  /**
+   * 更新 Combo 结构
+   * @param combo 要更新的 Combo
+   * @param parentCombo 父 Combo，可为空，为空表示更新的 Combo 不需要父级
+   */
+  public updateCombo(combo: string | ICombo, parentCombo?: string | ICombo) {
     if (isString(combo)) {
       combo = this.findById(combo) as ICombo;
     }
 
-    const model = combo.getModel()
-    const itemController: ItemController = this.get('itemController');
-    itemController.updateCombo(combo, model.children);
+    // const model = combo.getModel()
+    // const itemController: ItemController = this.get('itemController');
+    // const itemMap = this.get('itemMap');
+    // const comboTrees = this.get('comboTrees');
+    // comboTrees.forEach((ctree: ComboTree) => {
+    //   let found = false;
+    //   traverseTreeUp<ComboTree>(ctree, child => {
+    //     if (model.parentId === child.id) {
+    //       found = true;
+    //       const newCombo: ComboTree = {
+    //         ...model,
+    //         id: model.id as string,
+    //         depth: child.depth + 1,
+    //       }
+    //       if (child.children) child.children.push(newCombo);
+    //       else child.children = [ newCombo ];
+    //       model.depth = newCombo.depth;
+    //       item = itemController.addItem(type, model) as ICombo;
+    //     }
+    //     if (found) itemController.updateCombo(itemMap[child.id], child.children);
+    //     return true;
+    //   });
+    // });
+    
   }
 
   public uncombo(combo: string | ICombo) {

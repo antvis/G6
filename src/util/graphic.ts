@@ -393,7 +393,6 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) =
   
   array.forEach((d, i) => {
     const cd = clone(d);
-    debugger
     cd.children = undefined
     if (cd.parentId === cd.id) {
       console.warn(`The parentId for combo ${cd.id} can not be the same as the combo's id`);

@@ -363,7 +363,8 @@ describe('register node states', () => {
         },
         stateStyles: {
           hover: {
-            opacity: 0.3
+            opacity: 0.3,
+            fill: 'red'
           }
         }
       },
@@ -453,15 +454,26 @@ describe('register node states', () => {
       defaultNode: {
         type: 'pie-node',
       },
+      nodeStateStyles: {
+        selected: {
+          stroke: 'green',
+          lineWidth: 3
+        }
+      }
     });
 
     graph.data(data1);
     graph.render();
 
     graph.on('node:mouseenter', e => {
-      debugger
       graph.setItemState(e.item, 'hover', true);
+      graph.setItemState(e.item, 'selected', true)
     });
 
+    graph.on('node:mouseleave', evt => {
+      const { item } = evt
+      graph.setItemState(item, 'hover', false);
+      graph.setItemState(item, 'selected', false)
+    })
   })
 })

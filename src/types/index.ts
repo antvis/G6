@@ -539,7 +539,8 @@ export enum G6Event {
   COMBO_MOUSELEAVE = 'combo:mouseleave',
   COMBO_MOUSEMOVE = 'combo:mousemove',
   COMBO_DROP = 'combo:drop',
-  COMBO_DRAGOVER = 'combo:dragover'
+  COMBO_DRAGOVER = 'combo:dragover',
+  COMBO_DRAGLEAVE = 'combo:dragleave'
 }
 
 export type DefaultBehaviorType = IG6GraphEvent | string | number | object;

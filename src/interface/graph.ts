@@ -144,6 +144,8 @@ export interface IGraph extends EventEmitter {
 
   update(item: Item | string, cfg: Partial<NodeConfig> | EdgeConfig): void;
 
+  updateCombo(combo: string | ICombo, parentCombo?: string | ICombo): void;
+
   /**
    * 设置元素状态
    * @param {Item} item 元素id或元素实例
