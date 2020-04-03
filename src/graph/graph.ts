@@ -842,14 +842,19 @@ export default class Graph extends EventEmitter implements IGraph {
             model.depth = newCombo.depth;
             item = itemController.addItem(type, model) as ICombo;
           }
-          if (found) itemController.updateCombo(itemMap[child.id], child.children);
+          const childItem = itemMap[child.id];
+          if (found && childItem && childItem.getType() === 'combo') {
+            itemController.updateCombo(childItem, child.children);
+          }
           return true;
         });
       });
-      const comboGroup = this.get('comboGroup')
-      comboGroup && comboGroup.sort();
-    } else if (type === 'node' && isString(model.comboId) && comboTrees) {
-      if (this.findById(model.comboId as string).getType() !== 'combo') {
+      // const comboGroup = this.get('comboGroup')
+      // comboGroup && comboGroup.sort();
+    }
+    else if (type === 'node' && isString(model.comboId) && comboTrees) {
+      const parentCombo = this.findById(model.comboId as string);
+      if (!parentCombo || parentCombo.getType() !== 'combo') {
         console.warn(`The combo ${model.comboId} for the node ${model.id} does not exist, please add the combo first.`);
         return;
       }
@@ -865,7 +870,7 @@ export default class Graph extends EventEmitter implements IGraph {
             else child.children = [ model as NodeConfig ];
             model.depth = child.depth + 1;
           }
-          if (found) {
+          if (found && itemMap[child.id].getType() === 'combo') {
             itemController.updateCombo(itemMap[child.id], child.children);
           }
           return true;
@@ -874,6 +879,11 @@ export default class Graph extends EventEmitter implements IGraph {
     }
     else {
       item = itemController.addItem(type, model);
+    }
+
+    const combos = this.get('combos');
+    if (combos && combos.length > 0) {
+      this.sortCombos(this.save() as GraphData);
     }
     this.autoPaint();
     return item;
@@ -1111,6 +1121,7 @@ export default class Graph extends EventEmitter implements IGraph {
       
       if (!this.get('groupByTypes')) this.sortCombos(data as GraphData);
     }
+
 
     this.set({ nodes: items.nodes, edges: items.edges });
 
@@ -1733,11 +1744,9 @@ export default class Graph extends EventEmitter implements IGraph {
       const sourceDepth: number = dataDepthMap[edge.source] || 0;
       const targetDepth: number = dataDepthMap[edge.target] || 0;
       const depth = Math.max(sourceDepth, targetDepth);
-      console.log(depth, edge.id, edge.source, edge.target, sourceDepth, targetDepth);
       if (depthMap[depth]) depthMap[depth].push(edge.id);
       else depthMap[depth] = [ edge.id ];
     });
-    console.log(depthMap);
     depthMap.forEach(array => {
       if (!array || !array.length) return;
       for (let i = array.length - 1; i >= 0; i--) {
