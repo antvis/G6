@@ -259,7 +259,6 @@ export default class ItemController {
       x: comboBBox.x,
       y: comboBBox.y
     });
-
   }
 
   /**
