@@ -35,7 +35,7 @@ module.exports = {
         },
       },
       {
-        slug: 'examples/tree/compactBox',
+        slug: 'examples',
         title: {
           zh: '图表演示',
           en: 'Examples',
