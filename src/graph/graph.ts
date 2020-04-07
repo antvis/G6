@@ -1252,6 +1252,27 @@ export default class Graph extends EventEmitter implements IGraph {
 
   }
 
+  
+  /**
+   * 根据节点的 bbox 更新 combos 的绘制，包括 combos 的位置和范围
+   */
+  private updateCombos() {
+    const self = this;
+    const comboTrees = this.get('comboTrees');
+    const itemController: ItemController = self.get('itemController');
+
+    const itemMap = self.get('itemMap');
+    comboTrees && comboTrees.forEach((ctree: ComboTree) => {
+      traverseTreeUp<ComboTree>(ctree, child => {
+        const childItem = itemMap[child.id];
+        if (childItem && childItem.getType() === 'combo') {
+          itemController.updateCombo(childItem, child.children);
+        }
+        return true;
+      });
+    });
+    self.sortCombos(self.get('data'));
+  }
 
   /**
    * 根据节点的 bbox 更新 combos 的绘制，包括 combos 的位置和范围
