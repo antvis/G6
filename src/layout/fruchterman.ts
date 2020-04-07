@@ -199,7 +199,6 @@ export default class FruchtermanLayout extends BaseLayout {
     }
   }
 
-  // TODO: nodeMap、nodeIndexMap 等根本不需要依靠参数传递
   private applyCalculate(nodes: Node[], edges: Edge[], displacements: Point[], k: number) {
     const self = this;
     self.calRepulsive(nodes, displacements, k);
