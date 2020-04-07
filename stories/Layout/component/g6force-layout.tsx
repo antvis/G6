@@ -446,10 +446,10 @@ const testData = {
     label: 'combo d',
     parentId: 'b'
   },
-  // {
-  //   id: 'e',
-  //   label: 'combo e'
-  // }
+    // {
+    //   id: 'e',
+    //   label: 'combo e'
+    // }
   ]
 };
 
@@ -519,7 +519,7 @@ const G6ForceLayout = () => {
           color: '#666',
         }
       });
-      
+
       graph.node(node => {
         const color = colors[node.comboId as string];
         return {

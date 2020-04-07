@@ -501,7 +501,6 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: INode[]) => {
       addedMap[nodeModel.id] = cnode;
     }
   });
-
   result.forEach((tree: ComboTree) => {
     tree.depth = 0;
     traverse<ComboTree>(tree, child => {
