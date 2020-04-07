@@ -1,6 +1,6 @@
 import { Point } from '@antv/g-base/lib/types';
 import Group from '@antv/g-canvas/lib/group';
-import { mix, each } from '@antv/util';
+import { mix, each, isArray, isString } from '@antv/util';
 import { ShapeStyle, EdgeConfig } from '../../types';
 import { pointsToPolygon } from '../../util/path';
 import Global from '../../global';

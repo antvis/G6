@@ -3,13 +3,12 @@
  * @LastEditors: moyee
  * @Description: 拖动 Combo
  */
-import deepMix from '@antv/util/lib/deep-mix';
-import { G6Event, IG6GraphEvent, Item, ComboConfig, ModelConfig, IBBox } from '../types';
+import { G6Event, IG6GraphEvent, Item, ComboConfig } from '../types';
 import { calculationItemsBBox } from '../util/base'
 import Global from '../global';
 import { IGraph } from '../interface/graph';
-import { each, mod } from '_@antv_util@2.0.7@@antv/util/lib';
-import { IGroup } from '_@antv_g-svg@0.4.0@@antv/g-svg/lib/interfaces';
+import { each } from '@antv/util/lib';
+import { IGroup } from '@antv/g-base/lib/interfaces';
 import { ICombo } from '../interface/item';
 
 export default {
