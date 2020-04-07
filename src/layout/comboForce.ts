@@ -482,7 +482,7 @@ export default class ComboForce extends BaseLayout {
     self.updateComboSizes(comboMap);
     self.calRepulsive(displacements, vecMap, comboMap);
     self.calAttractive(displacements, vecMap);
-
+    
     const preventComboOverlap = self.preventComboOverlap;
     if (preventComboOverlap) self.comboNonOverlapping(displacements, comboMap);
   }
