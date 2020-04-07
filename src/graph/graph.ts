@@ -1220,13 +1220,10 @@ export default class Graph extends EventEmitter implements IGraph {
     const self = this;
     const comboTrees = this.get('comboTrees');
     const itemController: ItemController = self.get('itemController');
+
     const itemMap = self.get('itemMap');
     comboTrees && comboTrees.forEach((ctree: ComboTree) => {
       traverseTreeUp<ComboTree>(ctree, child => {
-        if (!child) {
-          return false
-        }
-
         const childItem = itemMap[child.id];
         if (childItem && childItem.getType() === 'combo') {
           itemController.updateCombo(childItem, child.children);
