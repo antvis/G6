@@ -976,29 +976,6 @@ export default class Graph extends EventEmitter implements IGraph {
       self.addCombos(combos);
     }
 
-    if (!this.get('groupByTypes')) {
-      if (combos) {
-        this.sortCombos(data);
-      } else {
-        // 为提升性能，选择数量少的进行操作
-        if (data.nodes && data.edges && data.nodes.length < data.edges.length) {
-          const nodesArr = this.getNodes();
-  
-          // 遍历节点实例，将所有节点提前。
-          nodesArr.forEach(node => {
-            node.toFront();
-          });
-        } else {
-          const edgesArr = this.getEdges();
-  
-          // 遍历节点实例，将所有节点提前。
-          edgesArr.forEach(edge => {
-            edge.toBack();
-          });
-        }
-      }
-    }
-
     // layout
     const layoutController = self.get('layoutController');
     if (!layoutController.layout(success)) {
