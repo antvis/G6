@@ -519,7 +519,6 @@ const G6ForceLayout = () => {
           color: '#666',
         }
       });
-
       graph.node(node => {
         const color = colors[node.comboId as string];
         return {
