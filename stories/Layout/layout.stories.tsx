@@ -6,6 +6,7 @@ import DagreLayout from './component/dagre-layout';
 import FruchtermanWorker from './component/fruchterman-worker-layout';
 import AddNodeLayout from './component/addNodeLayout'
 import ChangeData from './component/changeData'
+import G6ForceLayout from './component/g6force-layout';
 
 export default { title: 'Layout' };
 
@@ -15,3 +16,5 @@ storiesOf('Layout', module)
   .add('Fruchterman worker layout', () => <FruchtermanWorker />)
   .add('add node and layout', () => <AddNodeLayout />)
   .add('change data', () => <ChangeData />)
+  .add('G6 force layout', () => <G6ForceLayout />)
+  .add('Fruchterman worker layout', () => <FruchtermanWorker />);
