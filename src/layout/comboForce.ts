@@ -385,7 +385,6 @@ export default class ComboForce extends BaseLayout {
         });
         c.cx /= c.count;
         c.cy /= c.count;
-
         return true;
       });
     });
@@ -430,7 +429,6 @@ export default class ComboForce extends BaseLayout {
           const childIdx = nodeIdxMap[node.id];
           displacements[childIdx].x -= vecX * comboGravity * alpha / l * gravityScale;
           displacements[childIdx].y -= vecY * comboGravity * alpha / l * gravityScale;
-
           if (isNumber(node.x)) {
             c.cx += node.x;
           }
@@ -440,7 +438,6 @@ export default class ComboForce extends BaseLayout {
         });
         c.cx /= c.count;
         c.cy /= c.count;
-
         return true;
       });
     });
@@ -611,7 +608,6 @@ export default class ComboForce extends BaseLayout {
         if (!isNumber(v.x) || !isNumber(u.x) || !isNumber(v.y) || !isNumber(u.y)) return;
         let { vl, vx, vy } = vecMap[`${v.id}-${u.id}`];
         if (vl > max) return;
-
         const depthDiff = Math.abs(u.depth - v.depth);
         let depthParam = depthDiff ? Math.pow(scale, depthDiff) : 1;
         if (u.comboId !== v.comboId && depthParam === 1) {
@@ -672,7 +668,6 @@ export default class ComboForce extends BaseLayout {
       const vecX = vx * l;
       const vecY = vy * l;
       const b = bias[i];
-
       const depthDiff = Math.abs(u.depth - v.depth);
       let depthParam = depthDiff ? Math.pow(scale, depthDiff) : 1;
       if (u.comboId !== v.comboId && depthParam === 1) {
