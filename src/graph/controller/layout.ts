@@ -145,7 +145,7 @@ export default class LayoutController {
       return true;
     }
 
-    if (this.layoutType === 'force') {
+    if (this.layoutType === 'force' || this.layoutType === 'g6force') {
       const { onTick } = layoutCfg;
       const tick = () => {
         if (onTick) {
@@ -161,6 +161,8 @@ export default class LayoutController {
         }
         graph.emit('afterlayout');
       };
+    } else if (this.layoutType === 'comboForce') {
+      layoutCfg.comboTrees = graph.get('comboTrees');
     }
 
     if (this.layoutType !== undefined) {
@@ -357,8 +359,10 @@ export default class LayoutController {
   public setDataFromGraph() {
     const nodes = [];
     const edges = [];
+    const combos = [];
     const nodeItems = this.graph.getNodes();
     const edgeItems = this.graph.getEdges();
+    const comboItems = this.graph.getCombos();
     nodeItems.forEach(nodeItem => {
       const model = nodeItem.getModel();
       nodes.push(model);
@@ -367,7 +371,11 @@ export default class LayoutController {
       const model = edgeItem.getModel();
       edges.push(model);
     });
-    const data: any = { nodes, edges };
+    comboItems.forEach(comboItem => {
+      const model = comboItem.getModel();
+      combos.push(model);
+    });
+    const data: any = { nodes, edges, combos };
     return data;
   }
 

@@ -3,7 +3,7 @@
  * @author shiwu.wyy@antfin.com
  */
 
-import { EdgeConfig, GraphData, IPointTuple, NodeConfig } from '../types';
+import { EdgeConfig, GraphData, IPointTuple, NodeConfig, ComboConfig } from '../types';
 import { ILayout } from '../interface/layout';
 
 // import augment from '@antv/util/lib/augment';
@@ -19,6 +19,7 @@ type LayoutConstructor<Cfg = any> = new () => BaseLayout<Cfg>;
 export class BaseLayout<Cfg = any> implements ILayout<Cfg> {
   public nodes: NodeConfig[] | null = [];
   public edges: EdgeConfig[] | null = [];
+  public combos: ComboConfig[] | null = [];
   public positions: IPointTuple[] | null = [];
   public destroyed: boolean = false;
 
@@ -26,6 +27,7 @@ export class BaseLayout<Cfg = any> implements ILayout<Cfg> {
     const self = this;
     self.nodes = data.nodes || [];
     self.edges = data.edges || [];
+    self.combos = data.combos || [];
   }
 
   public execute() {}

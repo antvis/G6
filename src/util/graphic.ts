@@ -8,6 +8,7 @@ import { applyMatrix } from './math';
 import { isString, clone } from '@antv/util';
 import { BBox } from '@antv/g-math/lib/types';
 import { IGraph } from '../interface/graph';
+import { INode } from '../interface/item';
 
 const { PI, sin, cos } = Math;
 
@@ -382,7 +383,7 @@ export const radialLayout = (
   return data;
 };
 
-export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) => {
+export const plainCombosToTrees = (array: ComboConfig[], nodes?: INode[]) => {
   const result: ComboTree[] = [];
   const addedMap = {};
   const modelMap = {};
@@ -392,6 +393,7 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) =
   
   array.forEach((d, i) => {
     const cd = clone(d);
+    cd.itemType = 'combo';
     cd.children = undefined;
     if (cd.parentId === cd.id) {
       console.warn(`The parentId for combo ${cd.id} can not be the same as the combo's id`);
@@ -444,28 +446,42 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) =
       addedMap[cd.id] = cd;
     }
   });
+
+  const nodeMap = {};
   nodes && nodes.forEach(node => {
-    const combo = addedMap[node.comboId];
+    const nodeModel = node.getModel() as NodeConfig;
+    nodeMap[nodeModel.id] = nodeModel;
+    const combo = addedMap[nodeModel.comboId];
     if (combo) {
-      if (combo.children) combo.children.push(node);
-      else combo.children = [ node ];
-      addedMap[node.id] = clone(node);
-      addedMap[node.id].itemType = 'node';
+      const cnode: NodeConfig = {
+        id: nodeModel.id,
+        comboId: nodeModel.comboId
+      };
+      if (combo.children) combo.children.push(cnode);
+      else combo.children = [ cnode ];
+      cnode.itemType = 'node';
+      addedMap[nodeModel.id] = cnode;
     }
   });
+  
   result.forEach((tree: ComboTree) => {
     tree.depth = 0;
     traverse<ComboTree>(tree, child => {
-      let parent = addedMap[child.parentId];
+      let parent;
       if (addedMap[child.id]['itemType'] === 'node') {
         parent = addedMap[child['comboId']];
+      } else {
+        parent = addedMap[child.parentId];
       }
       if (parent) {
         child.depth = parent.depth + 1;
       } else {
         child.depth = 0;
       }
-      addedMap[child.id].depth = child.depth;
+      const oriNodeModel = nodeMap[child.id];
+      if (oriNodeModel) {
+        oriNodeModel.depth = child.depth;
+      }
       return true;
     });
   });
@@ -500,7 +516,7 @@ export const getComboBBox = (children: ComboTree[], graph: IGraph): BBox => {
   };
   children && children.forEach(child => {
     const childItem = graph.findById(child.id);
-    // const childModel = childItem.getModel();
+    childItem.set('bboxCanvasCache', undefined);
     const childBBox = childItem.getCanvasBBox();
     if (childBBox.x && comboBBox.minX > childBBox.minX) comboBBox.minX = childBBox.minX;
     if (childBBox.y && comboBBox.minY > childBBox.minY) comboBBox.minY = childBBox.minY;
