@@ -65,7 +65,7 @@ export default class ComboForce extends BaseLayout {
   /** 优化计算斥力的速度，两节点间距超过 optimizeRangeFactor * width 则不再计算斥力和重叠斥力 */
   public optimizeRangeFactor: number = 1;
   /** 每次迭代的回调函数 */
-  public tick: () => void = () => {};
+  public tick: () => void = () => { };
   /** 根据边两端节点层级差距的调整函数 */
   public depthAttractiveForceScale: number = 0.3; // ((d?: unknown) => number);
   public depthRepulsiveForceScale: number = 2; // ((d?: unknown) => number);
@@ -180,7 +180,7 @@ export default class ComboForce extends BaseLayout {
     }
 
     // move to center
-    const meanCenter = [ 0, 0 ];
+    const meanCenter = [0, 0];
     nodes.forEach(n => {
       if (!isNumber(n.x) || !isNumber(n.y)) return;
       meanCenter[0] += n.x;
@@ -188,7 +188,7 @@ export default class ComboForce extends BaseLayout {
     });
     meanCenter[0] /= nodes.length;
     meanCenter[1] /= nodes.length;
-    const centerOffset = [ center[0] - meanCenter[0], center[1] - meanCenter[1] ];
+    const centerOffset = [center[0] - meanCenter[0], center[1] - meanCenter[1]];
     nodes.forEach((n, j) => {
       if (!isNumber(n.x) || !isNumber(n.y)) return;
       n.x += centerOffset[0];
@@ -203,9 +203,9 @@ export default class ComboForce extends BaseLayout {
 
     // get edge bias
     for (let i = 0; i < edges.length; ++i) {
-      if (count[edges[i].source]) count[edges[i].source] ++;
+      if (count[edges[i].source]) count[edges[i].source]++;
       else count[edges[i].source] = 1;
-      if (count[edges[i].target]) count[edges[i].target] ++;
+      if (count[edges[i].target]) count[edges[i].target]++;
       else count[edges[i].target] = 1;
     }
     const bias = [];
@@ -385,7 +385,7 @@ export default class ComboForce extends BaseLayout {
         });
         c.cx /= c.count;
         c.cy /= c.count;
-        
+
         return true;
       });
     });
@@ -424,21 +424,13 @@ export default class ComboForce extends BaseLayout {
         treeChildren.forEach(child => {
           if (child.itemType !== 'node') return;
           const node = nodeMap[child.id];
-          let vecX = node.x - comboX;
-          let vecY = node.y - comboY;
-          let l = Math.sqrt(vecX * vecX + vecY * vecY);
-          if (vecX === 0) {
-            vecX = Math.random() * 0.01;
-            l += vecX * vecX;
-          }
-          if (vecY === 0) {
-            vecY = Math.random() * 0.01;
-            l += vecY * vecY;
-          }
+          const vecX = node.x - comboX || 0.005;
+          const vecY = node.y - comboY || 0.005;
+          const l = Math.sqrt(vecX * vecX + vecY * vecY);
           const childIdx = nodeIdxMap[node.id];
           displacements[childIdx].x -= vecX * comboGravity * alpha / l * gravityScale;
           displacements[childIdx].y -= vecY * comboGravity * alpha / l * gravityScale;
-          
+
           if (isNumber(node.x)) {
             c.cx += node.x;
           }
@@ -448,7 +440,7 @@ export default class ComboForce extends BaseLayout {
         });
         c.cx /= c.count;
         c.cy /= c.count;
-        
+
         return true;
       });
     });
@@ -527,7 +519,7 @@ export default class ComboForce extends BaseLayout {
           if (c.maxY < nodeMaxY) c.maxY = nodeMaxY;
         });
         c.r = Math.max(c.maxX - c.minX, c.maxY - c.minY) / 2 + comboSpacing(c) / 2 + comboPadding(c);
-        
+
         return true;
       });
     });
@@ -609,7 +601,6 @@ export default class ComboForce extends BaseLayout {
     const nodeStrength = self.nodeStrength as ((d?: unknown) => number);;
     const alpha = self.alpha;
     const collideStrength = self.collideStrength;
-    const preventOverlap = self.preventOverlap;
     const preventNodeOverlap = self.preventNodeOverlap;
     const nodeSizeFunc = self.nodeSize as ((d?: unknown) => number) | undefined;
     const scale = self.depthRepulsiveForceScale;
@@ -621,7 +612,7 @@ export default class ComboForce extends BaseLayout {
         if (!isNumber(v.x) || !isNumber(u.x) || !isNumber(v.y) || !isNumber(u.y)) return;
         let { vl, vx, vy } = vecMap[`${v.id}-${u.id}`];
         if (vl > max) return;
-      
+
         const depthDiff = Math.abs(u.depth - v.depth);
         let depthParam = depthDiff ? Math.pow(scale, depthDiff) : 1;
         if (u.comboId !== v.comboId && depthParam === 1) {
@@ -682,7 +673,7 @@ export default class ComboForce extends BaseLayout {
       const vecX = vx * l;
       const vecY = vy * l;
       const b = bias[i];
-      
+
       const depthDiff = Math.abs(u.depth - v.depth);
       let depthParam = depthDiff ? Math.pow(scale, depthDiff) : 1;
       if (u.comboId !== v.comboId && depthParam === 1) {
