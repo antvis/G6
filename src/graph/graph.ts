@@ -1224,6 +1224,9 @@ export default class Graph extends EventEmitter implements IGraph {
     const itemMap = self.get('itemMap');
     comboTrees && comboTrees.forEach((ctree: ComboTree) => {
       traverseTreeUp<ComboTree>(ctree, child => {
+        if (!child) {
+          return false
+        }
         const childItem = itemMap[child.id];
         if (childItem && childItem.getType() === 'combo') {
           itemController.updateCombo(childItem, child.children);
@@ -1907,34 +1910,6 @@ export default class Graph extends EventEmitter implements IGraph {
       plugin.destroyPlugin();
       plugins.splice(index, 1);
     }
-  }
-
-  private sortCombos(data: GraphData) {
-    const depthMap = [];
-    const dataDepthMap = {};
-    const comboTrees = this.get('comboTrees');
-    comboTrees.forEach(cTree => {
-      traverseTree(cTree, child => {
-        if (depthMap[child.depth]) depthMap[child.depth].push(child.id);
-        else depthMap[child.depth] = [ child.id ];
-        dataDepthMap[child.id] = child.depth;
-        return true;
-      });
-    });
-    data.edges.forEach(edge => {
-      const sourceDepth: number = dataDepthMap[edge.source] || 0;
-      const targetDepth: number = dataDepthMap[edge.target] || 0;
-      const depth = Math.max(sourceDepth, targetDepth);
-      if (depthMap[depth]) depthMap[depth].push(edge.id);
-      else depthMap[depth] = [ edge.id ];
-    });
-    depthMap.forEach(array => {
-      if (!array || !array.length) return;
-      for (let i = array.length - 1; i >= 0; i--) {
-        const item = this.findById(array[i]);
-        item.toFront();
-      }
-    });
   }
 
   /**
