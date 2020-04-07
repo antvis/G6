@@ -24,7 +24,7 @@ const CANVAS = 'canvas';
 interface MiniMapConfig extends IPluginBaseConfig {
   viewportClassName?: string;
   type?: 'default' | 'keyShape' | 'delegate';
-  size: number[];
+  size?: number[];
   delegateStyle?: ShapeStyle;
   refresh?: boolean;
 }

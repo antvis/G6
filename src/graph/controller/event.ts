@@ -1,5 +1,5 @@
 import addEventListener from '@antv/dom-util/lib/add-event-listener';
-import Canvas from '@antv/g-base/lib/abstract/canvas';
+import { ICanvas } from '@antv/g-base/lib/interfaces';
 import Group from '@antv/g-canvas/lib/group';
 import ShapeBase from '@antv/g-canvas/lib/shape/base';
 import each from '@antv/util/lib/each';
@@ -16,6 +16,7 @@ type Fun = () => void;
 const EVENTS = [
   'click',
   'mousedown',
+  'mousewheel',
   'mouseup',
   'dblclick',
   'contextmenu',
@@ -61,7 +62,7 @@ export default class EventController {
   private initEvents() {
     const { graph, extendEvents } = this;
 
-    const canvas: Canvas = graph.get('canvas');
+    const canvas: ICanvas = graph.get('canvas');
     // canvas.set('draggable', true);
     const el = canvas.get('el');
 
@@ -203,7 +204,7 @@ export default class EventController {
    */
   private handleMouseMove(evt: IG6GraphEvent, type: string) {
     const { graph, preItem } = this;
-    const canvas: Canvas = graph.get('canvas');
+    const canvas: ICanvas = graph.get('canvas');
     const item = evt.target === canvas ? null : evt.item;
 
     evt = cloneEvent(evt) as IG6GraphEvent;
@@ -242,7 +243,7 @@ export default class EventController {
 
   public destroy() {
     const { graph, canvasHandler, extendEvents } = this;
-    const canvas: Canvas = graph.get('canvas');
+    const canvas: ICanvas = graph.get('canvas');
 
     each(EVENTS, event => {
       canvas.off(event, canvasHandler);

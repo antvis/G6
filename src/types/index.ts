@@ -1,12 +1,16 @@
 import GraphEvent from '@antv/g-base/lib/event/graph-event';
 import { BBox } from '@antv/g-base/lib/types';
-import Canvas from '@antv/g-canvas/lib/canvas';
-import ShapeBase from '@antv/g-canvas/lib/shape/base';
+import { ICanvas, IShape } from '@antv/g-base/lib/interfaces';
 import Node from '../item/node';
 import { IGraph } from '../interface/graph';
 import { IEdge, INode } from '../interface/item';
 import { ILabelConfig } from '../interface/shape';
-
+export interface Point {
+  x: number;
+  y: number;
+  canvasX?: number;
+  canvasY?: number;
+}
 // Math types
 export interface IPoint {
   x: number;
@@ -62,7 +66,7 @@ export type ShapeStyle = Partial<{
   cursor: string;
 }>;
 
-export interface IShapeBase extends ShapeBase {
+export interface IShapeBase extends IShape {
   isKeyShape: boolean;
 }
 
@@ -362,7 +366,7 @@ export interface IG6GraphEvent extends GraphEvent {
   wheelDelta: number;
   detail: number;
   key?: string;
-  target: Item & Canvas;
+  target: Item & ICanvas;
 }
 
 // Node Edge 实例或ID
