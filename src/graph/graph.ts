@@ -983,10 +983,26 @@ export default class Graph extends EventEmitter implements IGraph {
 
     // process the data to tree structure
     if (combos) {
-      const comboTrees = plainCombosToTrees(combos, nodes);
+      const comboTrees = plainCombosToTrees(combos, self.getNodes());
       this.set('comboTrees', comboTrees);
       // add combos
       self.addCombos(combos);
+    }
+
+    // layout
+    const layoutController = self.get('layoutController');
+    if (!layoutController.layout(success)) {
+      success();
+    }
+    function success() {
+      if (combos) {
+        self.updateCombos();
+      }
+      if (self.get('fitView')) {
+        self.fitView();
+      }
+      self.autoPaint();
+      self.emit('afterrender');
     }
 
     if (!this.get('groupByTypes')) {
@@ -1010,23 +1026,6 @@ export default class Graph extends EventEmitter implements IGraph {
           });
         }
       }
-    }
-
-    // layout
-    const animate = self.get('animate');
-    self.set('animate', false);
-    const layoutController = self.get('layoutController');
-    if (!layoutController.layout(success)) {
-      success();
-    }
-
-    function success() {
-      self.set('animate', animate);
-      if (self.get('fitView')) {
-        self.fitView();
-      }
-      self.autoPaint();
-      self.emit('afterrender');
     }
 
     // 防止传入的数据不存在nodes
@@ -1134,7 +1133,7 @@ export default class Graph extends EventEmitter implements IGraph {
     // process the data to tree structure
     const combosData = (data as GraphData).combos;
     if (combosData) {
-      const comboTrees = plainCombosToTrees(combosData, (data as GraphData).nodes);
+      const comboTrees = plainCombosToTrees(combosData, self.getNodes());
       this.set('comboTrees', comboTrees);
       // add combos
       self.addCombos(combosData);
@@ -1220,6 +1219,27 @@ export default class Graph extends EventEmitter implements IGraph {
 
   }
 
+
+  /**
+   * 根据节点的 bbox 更新 combos 的绘制，包括 combos 的位置和范围
+   */
+  private updateCombos() {
+    const self = this;
+    const comboTrees = this.get('comboTrees');
+    const itemController: ItemController = self.get('itemController');
+
+    const itemMap = self.get('itemMap');
+    comboTrees && comboTrees.forEach((ctree: ComboTree) => {
+      traverseTreeUp<ComboTree>(ctree, child => {
+        const childItem = itemMap[child.id];
+        if (childItem && childItem.getType() === 'combo') {
+          itemController.updateCombo(childItem, child.children);
+        }
+        return true;
+      });
+    });
+    self.sortCombos(self.get('data'));
+  }
 
   /**
    * 根据数据渲染群组
@@ -1359,7 +1379,6 @@ export default class Graph extends EventEmitter implements IGraph {
     return this.get('combos')
   }
 
-  // TODO 待实现getComboNodes方法
   /**
    * 获取指定 Combo 中所有的节点
    * @param comboId combo ID
