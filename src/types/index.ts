@@ -497,6 +497,7 @@ export interface ComboTree {
   depth?: number;
   parentId?: string;
   removed?: boolean;
+  itemType?: 'node' | 'combo';
   [key: string]: unknown;
 }
 
