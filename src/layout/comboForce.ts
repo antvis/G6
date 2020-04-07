@@ -156,7 +156,6 @@ export default class ComboForce extends BaseLayout {
     self.initVals();
 
     // init the positions to make the nodes with same combo gather
-    self.initPos(comboMap);
 
     // iterate
     for (let i = 0; i < maxIteration; i++) {
