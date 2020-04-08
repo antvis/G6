@@ -1762,7 +1762,8 @@ export default class Graph extends EventEmitter implements IGraph {
         return true;
       });
     });
-    data.edges.forEach(edge => {
+    const edges = data.edges;
+    edges && edges.forEach(edge => {
       const sourceDepth: number = dataDepthMap[edge.source] || 0;
       const targetDepth: number = dataDepthMap[edge.target] || 0;
       const depth = Math.max(sourceDepth, targetDepth);
