@@ -519,7 +519,6 @@ export default class ComboForce extends BaseLayout {
           if (c.maxY < nodeMaxY) c.maxY = nodeMaxY;
         });
         c.r = Math.max(c.maxX - c.minX, c.maxY - c.minY) / 2 + comboSpacing(c) / 2 + comboPadding(c);
-
         return true;
       });
     });
