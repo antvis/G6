@@ -6,7 +6,10 @@
   "demos": [
     {
       "filename": "default.js",
-      "title": "节点位置动画",
+      "title": {
+        "zh": "节点移动动画",
+        "en": "Node Move Animation"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M-EGS5v6RnUAAAAAAAAAAABkARQnAQ"
     }
   ]

@@ -6,17 +6,26 @@
   "demos": [
     {
       "filename": "basicDagre.js",
-      "title": "Dagre 流程图",
+      "title": {
+        "zh": "Dagre 流程图",
+        "en": "Basic Dagre Layout"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2uMmRo5wYPUAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "lrDagre.js",
-      "title": "自左向右的 Dagre",
+      "title": {
+        "zh": "自左向右的 Dagre",
+        "en": "Dagre from Left to Right"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*pdaxTpV1R0EAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "dagreConfigurationTranslate.js",
-      "title": "Dagre 布局参数动态变化",
+      "title": {
+        "zh": "Dagre 布局参数动态变化",
+        "en": "Update Configurations for Dagre Layout"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VkwOTL2UyN0AAAAAAAAAAABkARQnAQ"
     }
   ]

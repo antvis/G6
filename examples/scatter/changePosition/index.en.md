@@ -1,5 +1,5 @@
 ---
-title: Change Node Positions
+title: Node Move Animation
 order: 4
 ---
 

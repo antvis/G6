@@ -6,7 +6,10 @@
   "demos": [
     {
       "filename": "index.js",
-      "title": "美国迁徙图边绑定",
+      "title": {
+        "zh": "美国迁徙图边绑定",
+        "en": "Edge Bundling"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z9iXQq_kcrYAAAAAAAAAAABkARQnAQ"
     }
   ]
