@@ -156,6 +156,7 @@ export default class ComboForce extends BaseLayout {
     self.initVals();
 
     // init the positions to make the nodes with same combo gather
+    self.initPos(comboMap);
 
     // iterate
     for (let i = 0; i < maxIteration; i++) {
@@ -470,6 +471,7 @@ export default class ComboForce extends BaseLayout {
     self.updateComboSizes(comboMap);
     self.calRepulsive(displacements, vecMap, comboMap);
     self.calAttractive(displacements, vecMap);
+    
     const preventComboOverlap = self.preventComboOverlap;
     if (preventComboOverlap) self.comboNonOverlapping(displacements, comboMap);
   }
