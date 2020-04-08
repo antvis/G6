@@ -6,6 +6,7 @@ export default Object.assign(
     getDefaultCfg(): object {
       return {
         item: 'edge',
+        offset: 12,
         formatText(model: EdgeConfig) {
           return `source: ${model.source} target: ${model.target}`;
         },
