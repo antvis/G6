@@ -1225,6 +1225,19 @@ export default class Graph extends EventEmitter implements IGraph {
   }
 
   /**
+   * 更新树结构，例如移动子树等
+   * @param {String | Item} item 需要被更新的 Combo 或 节点 id
+   * @param {string | undefined} parentId 新的父 combo id，undefined 代表没有父 combo
+   */
+  public updateComboTree(item: String | INode | ICombo, parentId: String | undefined) {
+    const self = this;
+    if (isString(item)) {
+      item = self.findById(item) as INode | ICombo;
+    }
+    self.removeItem(item as INode | ICombo);
+  }
+
+  /**
    * 根据数据渲染群组
    * @param {GraphData} data 渲染图的数据
    * @param {string} groupType group类型
@@ -1750,6 +1763,10 @@ export default class Graph extends EventEmitter implements IGraph {
     }
   }
 
+  /**
+   * 根据 comboTree 结构整理 Combo 相关的图形绘制层级，包括 Combo 本身、节点、边
+   * @param {GraphData} data 数据
+   */
   private sortCombos(data: GraphData) {
     const depthMap = [];
     const dataDepthMap = {};
