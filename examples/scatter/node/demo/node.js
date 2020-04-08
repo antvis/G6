@@ -136,11 +136,11 @@ G6.registerNode(
           // 逐渐放大，并消失
           r: r + 10,
           opacity: 0.1,
-          repeat: true, // 循环
         }, {
           duration: 3000,
           easing: 'easeCubic',
-          delay: 0
+          delay: 0,
+          repeat: true, // 循环
         }
       ); // 无延迟
       back2.animate(
@@ -148,23 +148,23 @@ G6.registerNode(
           // 逐渐放大，并消失
           r: r + 10,
           opacity: 0.1,
-          repeat: true, // 循环
         }, {
           duration: 3000,
           easing: 'easeCubic',
-          delay: 1000
+          delay: 1000,
+          repeat: true, // 循环
         }
       ); // 1 秒延迟
       back3.animate(
         {
           // 逐渐放大，并消失
           r: r + 10,
-          opacity: 0.1,
-          repeat: true, // 循环
+          opacity: 0.1
         }, {
           duration: 3000,
           easing: 'easeCubic',
-          delay: 2000
+          delay: 2000,
+          repeat: true, // 循环
         },
       ); // 2 秒延迟
     },
