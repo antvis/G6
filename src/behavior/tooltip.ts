@@ -6,6 +6,7 @@ export default Object.assign(
     getDefaultCfg(): object {
       return {
         item: 'node',
+        offset: 12,
         formatText(model) {
           return model.label;
         },
