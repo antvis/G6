@@ -70,3 +70,50 @@ export const isViewportChanged = (matrix: Matrix) => {
 };
 
 export const isNaN = (input: any) => Number.isNaN(Number(input));
+
+/**
+ * 计算一组 Item 的 BBox
+ * @param items 选中的一组Item，可以是 node 或 combo
+ */
+export const calculationItemsBBox = (items: Item[]) => {
+  let minx = Infinity;
+  let maxx = -Infinity;
+  let miny = Infinity;
+  let maxy = -Infinity;
+
+  // 获取已节点的所有最大最小x y值
+  for (let i = 0; i < items.length; i++) {
+    const element = items[i];
+    const bbox = element.getBBox();
+    const { minX, minY, maxX, maxY } = bbox;
+    if (minX < minx) {
+      minx = minX;
+    }
+
+    if (minY < miny) {
+      miny = minY;
+    }
+
+    if (maxX > maxx) {
+      maxx = maxX;
+    }
+
+    if (maxY > maxy) {
+      maxy = maxY;
+    }
+  }
+
+  const x = Math.floor(minx);
+  const y = Math.floor(miny);
+  const width = Math.ceil(maxx) - Math.floor(minx);
+  const height = Math.ceil(maxy) - Math.floor(miny);
+
+  return {
+    x,
+    y,
+    width,
+    height,
+    minX: minx,
+    minY: miny,
+  };
+}
