@@ -2,8 +2,6 @@ import modifyCSS from '@antv/dom-util/lib/modify-css';
 import createDom from '@antv/dom-util/lib/create-dom';
 import { IG6GraphEvent } from '../types';
 
-const OFFSET = 12;
-
 export default {
   onMouseEnter(e: IG6GraphEvent) {
     const { item } = e;
@@ -60,12 +58,12 @@ export default {
     if (x > width / 2) {
       x -= bbox.width;
     } else {
-      x += OFFSET;
+      x += this.offset;
     }
     if (y > height / 2) {
       y -= bbox.height;
     } else {
-      y += OFFSET;
+      y += this.offset;
     }
     const left = `${x}px`;
     const top = `${y}px`;
