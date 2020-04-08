@@ -310,7 +310,7 @@ export const shapeBase: ShapeOptions = {
     } else {
       // 所有生效的 state 的样式
       const enableStatesStyle = clone(item.getCurrentStatesStyle());
-
+      
       // 原始样式
       const originStyle = clone(item.getOriginStyle());
 

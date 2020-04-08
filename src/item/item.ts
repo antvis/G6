@@ -153,7 +153,7 @@ export default class ItemBase implements IItemBase {
    * @param keyShape 图元素 keyShape
    * @param group Group 容器
    */
-  private setOriginStyle() {
+  private setOriginStyle(cfg?: ModelConfig) {
     const originStyles = {}
     const group: Group = this.get('group');
     const children = group.get('children')
@@ -176,7 +176,17 @@ export default class ItemBase implements IItemBase {
       }
     })
 
-    self.set('originStyle', originStyles);
+    const drawOriginStyle = this.getOriginStyle()
+    let styles = {}
+    if (cfg) {
+      styles = deepMix({}, drawOriginStyle, originStyles, cfg.style, {
+        labelCfg: cfg.labelCfg
+      })
+    } else {
+      styles = deepMix({}, drawOriginStyle, originStyles)
+    }
+
+    self.set('originStyle', styles);
   }
 
   /**
@@ -266,6 +276,25 @@ export default class ItemBase implements IItemBase {
 
     if (currentShape) {
       const styles: ShapeStyle & Indexable<any> = {};
+      // 这里要排除掉所有 states 中样式
+      const states = this.get('states')
+      states.map(state => {
+        const style = this.getStateStyle(state)
+        for (let key in style) {
+          if (!isPlainObject(style[key])) {
+            if (!RESERVED_STYLES.includes(key)) {
+              RESERVED_STYLES.push(key)
+            }
+          } else {
+            const subStyle = style[key]
+            for (let subKey in subStyle) {
+              if (!RESERVED_STYLES.includes(subKey)) {
+                RESERVED_STYLES.push(subKey)
+              }
+            }
+          }
+        }
+      })
       each(currentShape.attr(), (val, key) => {
         if (RESERVED_STYLES.indexOf(key) < 0) {
           styles[key] = val;
@@ -526,7 +555,7 @@ export default class ItemBase implements IItemBase {
     }
 
     // 更新完以后重新设置原始样式
-    this.setOriginStyle()
+    this.setOriginStyle(model)
 
     // 更新后重置节点状态
     this.restoreStates(shapeFactory, shape);

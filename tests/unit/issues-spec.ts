@@ -43,8 +43,8 @@ describe('dragenter dragleave', () => {
     graph.on('node:dragover', e => {
       console.log('dragover')
     });
-    graph.destroy();
   });
+  graph.destroy();
 });
 
 // closes: #1026
@@ -62,6 +62,7 @@ describe('empty data array + fitview', () => {
   graph.data(data);
   it('empty data array + fitview', () => {
     graph.render();
+    graph.destroy()
   });
 });
 
@@ -94,6 +95,7 @@ describe('change data with rect node', () => {
   it('change data', () => {
     graph.render();
     graph.changeData(data);
+    graph.destroy()
   });
 });
 
@@ -191,155 +193,568 @@ describe('cubic with layout', () => {
   it('change data', () => {
     graph.data(data);
     graph.render();
+    graph.destroy()
   });
 });
 
+describe('changdata states', () => {
+  it('changeData', () => {
+    const data = {
+      nodes: [
+        {
+          id: "0",
+          label: "0"
+        },
+        {
+          id: "1",
+          label: "1"
+        },
+        {
+          id: "2",
+          label: "2"
+        },
+        {
+          id: "3",
+          label: "3"
+        },
+        {
+          id: "4",
+          label: "4"
+        },
+        {
+          id: "5",
+          label: "5"
+        },
+        {
+          id: "6",
+          label: "6"
+        },
+        {
+          id: "7",
+          label: "7"
+        },
+        {
+          id: "8",
+          label: "8"
+        },
+        {
+          id: "9",
+          label: "9"
+        },
+        {
+          id: "10",
+          label: "10"
+        },
+        {
+          id: "11",
+          label: "11"
+        },
+        {
+          id: "12",
+          label: "12"
+        },
+        {
+          id: "13",
+          label: "13"
+        },
+        {
+          id: "14",
+          label: "14"
+        },
+        {
+          id: "15",
+          label: "15"
+        },
+        {
+          id: "16",
+          label: "16"
+        },
+        {
+          id: "17",
+          label: "17"
+        },
+        {
+          id: "18",
+          label: "18"
+        },
+        {
+          id: "19",
+          label: "19"
+        },
+        {
+          id: "20",
+          label: "20"
+        },
+        {
+          id: "21",
+          label: "21"
+        },
+        {
+          id: "22",
+          label: "22"
+        },
+        {
+          id: "23",
+          label: "23"
+        },
+        {
+          id: "24",
+          label: "24"
+        },
+        {
+          id: "25",
+          label: "25"
+        },
+        {
+          id: "26",
+          label: "26"
+        },
+        {
+          id: "27",
+          label: "27"
+        },
+        {
+          id: "28",
+          label: "28"
+        },
+        {
+          id: "29",
+          label: "29"
+        },
+        {
+          id: "30",
+          label: "30"
+        },
+        {
+          id: "31",
+          label: "31"
+        },
+        {
+          id: "32",
+          label: "32"
+        },
+        {
+          id: "33",
+          label: "33"
+        }
+      ],
+      edges: [
+        {
+          source: "0",
+          target: "1"
+        },
+        {
+          source: "0",
+          target: "2"
+        },
+        {
+          source: "0",
+          target: "3"
+        },
+        {
+          source: "0",
+          target: "4"
+        },
+        {
+          source: "0",
+          target: "5"
+        },
+        {
+          source: "0",
+          target: "7"
+        },
+        {
+          source: "0",
+          target: "8"
+        },
+        {
+          source: "0",
+          target: "9"
+        },
+        {
+          source: "0",
+          target: "10"
+        },
+        {
+          source: "0",
+          target: "11"
+        },
+        {
+          source: "0",
+          target: "13"
+        },
+        {
+          source: "0",
+          target: "14"
+        },
+        {
+          source: "0",
+          target: "15"
+        },
+        {
+          source: "0",
+          target: "16"
+        },
+        {
+          source: "2",
+          target: "3"
+        },
+        {
+          source: "4",
+          target: "5"
+        },
+        {
+          source: "4",
+          target: "6"
+        },
+        {
+          source: "5",
+          target: "6"
+        },
+        {
+          source: "7",
+          target: "13"
+        },
+        {
+          source: "8",
+          target: "14"
+        },
+        {
+          source: "9",
+          target: "10"
+        },
+        {
+          source: "10",
+          target: "22"
+        },
+        {
+          source: "10",
+          target: "14"
+        },
+        {
+          source: "10",
+          target: "12"
+        },
+        {
+          source: "10",
+          target: "24"
+        },
+        {
+          source: "10",
+          target: "21"
+        },
+        {
+          source: "10",
+          target: "20"
+        },
+        {
+          source: "11",
+          target: "24"
+        },
+        {
+          source: "11",
+          target: "22"
+        },
+        {
+          source: "11",
+          target: "14"
+        },
+        {
+          source: "12",
+          target: "13"
+        },
+        {
+          source: "16",
+          target: "17"
+        },
+        {
+          source: "16",
+          target: "18"
+        },
+        {
+          source: "16",
+          target: "21"
+        },
+        {
+          source: "16",
+          target: "22"
+        },
+        {
+          source: "17",
+          target: "18"
+        },
+        {
+          source: "17",
+          target: "20"
+        },
+        {
+          source: "18",
+          target: "19"
+        },
+        {
+          source: "19",
+          target: "20"
+        },
+        {
+          source: "19",
+          target: "33"
+        },
+        {
+          source: "19",
+          target: "22"
+        },
+        {
+          source: "19",
+          target: "23"
+        },
+        {
+          source: "20",
+          target: "21"
+        },
+        {
+          source: "21",
+          target: "22"
+        },
+        {
+          source: "22",
+          target: "24"
+        },
+        {
+          source: "22",
+          target: "25"
+        },
+        {
+          source: "22",
+          target: "26"
+        },
+        {
+          source: "22",
+          target: "23"
+        },
+        {
+          source: "22",
+          target: "28"
+        },
+        {
+          source: "22",
+          target: "30"
+        },
+        {
+          source: "22",
+          target: "31"
+        },
+        {
+          source: "22",
+          target: "32"
+        },
+        {
+          source: "22",
+          target: "33"
+        },
+        {
+          source: "23",
+          target: "28"
+        },
+        {
+          source: "23",
+          target: "27"
+        },
+        {
+          source: "23",
+          target: "29"
+        },
+        {
+          source: "23",
+          target: "30"
+        },
+        {
+          source: "23",
+          target: "31"
+        },
+        {
+          source: "23",
+          target: "33"
+        },
+        {
+          source: "32",
+          target: "33"
+        }
+      ]
+    };
+    
+    const width = 500;
+    const height = 500;
+    const graph = new G6.Graph({
+      container: "container",
+      width,
+      height,
+      modes: {
+        default: ["activate-relations", "drag-canvas", "drag-node"]
+      },
+      layout: {
+        type: "circular"
+      },
+      edgeStateStyles: {
+        active: {
+          stroke: '#000',
+          opacity: 1,
+        },
+        inactive: {
+          color: '#969696',
+          opacity: 0.5,
+        },
+      },
+      animate: true,
+      defaultNode: {
+        size: 20,
+        style: {
+          lineWidth: 2,
+          fill: "#C6E5FF",
+          stroke: "#5B8FF9"
+        }
+      },
+      defaultEdge: {
+        size: 1,
+        color: "#e2e2e2",
+        style: {
+          endArrow: {
+            path: "M 0,0 L 8,4 L 8,-4 Z",
+            fill: "#e2e2e2"
+          }
+        }
+      }
+    });
+    graph.data(data);
+    graph.render();
+    
+    const node1 = graph.findById('1')
+    graph.setItemState(node1, 'active', true)
+    const edge1 =  graph.getEdges()[0]
+    graph.setItemState(edge1, 'active', true)
 
+    expect(graph.findAllByState('node', 'active').length).toBe(1)
+    expect(graph.findAllByState('edge', 'active').length).toBe(1)
 
-// describe.only('residual when dragging', () => {
-// G6.registerNode(
-//     'devnode',
-//     {
-//         intersectBox: 'rect',
-//         afterDraw(cfg, group) {
-//         const { size } = cfg;
-//         const width = size[0];
-//         const height = size[1];
+    graph.changeData(data)
+    expect(graph.findAllByState('node', 'active').length).toBe(0)
+    expect(graph.findAllByState('edge', 'active').length).toBe(0)
 
-//         // 添加边框
-//         if (cfg.nodeType === '0') {
-//             group.addShape('path', {
-//             attrs: {
-//                 path: [
-//                 ['M', 0 - width / 2, 0 - height / 2], // 上部顶点
-//                 ['L', width / 2, 0 - height / 2], // 右侧顶点
-//                 ['L', width / 2, height / 2], // 下部顶点
-//                 ['L', -width / 2, height / 2], // 左侧顶点
-//                 ['Z'], // 封闭
-//                 ],
-//                 lineDash: [8, 8], // 虚线
-//                 stroke: '#eee', // 线的颜色
-//                 lineWidth: 0.2, // 线的宽度
-//                 // shadowColor: '#fff', // 阴影颜色
-//                 // shadowBlur: 1, // 阴影模糊
-//             },
-//             });
-//         }
-//         // 添加节点类型图标
-//         group.addShape('text', {
-//             attrs: {
-//             x: -width / 2 + 20,
-//             y: -height / 2 + 14,
-//             fontFamily: 'iconfont',
-//             textAlign: 'center',
-//             textBaseline: 'middle',
-//             text: '\ue62d',
-//             fontSize: 16,
-//             fill: '#fff',
-//             },
-//         });
-//         group.addShape('text', {
-//             name: 'point-close',
-//             attrs: {
-//             x: width / 2,
-//             y: 0,
-//             fontFamily: 'iconfont',
-//             textAlign: 'center',
-//             textBaseline: 'middle',
-//             text: '\ue633',
-//             fontSize: 16,
-//             fill: '#353E57',
-//             cursor: 'pointer',
-//             },
-//         });
-//         // 添加文字
-//         group.addShape('text', {
-//             attrs: {
-//             x: -width / 2 + 34, // 居中
-//             y: 0,
-//             fontSize: 14,
-//             textAlign: 'start',
-//             textBaseline: 'middle',
-//             text: cfg.value,
-//             fill: '#fff',
-//             },
-//             name: 'title',
-//             draggable: true,
-//         });
-//         const pointTop = group.addShape('circle', {
-//             name: 'point-top',
-//             attrs: {
-//             x: 0,
-//             y: 0 - cfg.size[1] / 2,
-//             r: 8,
-//             fill: '#fff',
-//             stroke: '#178BF6',
-//             lineWidth: 2,
-//             },
-//         });
-//         pointTop.hide();
-//         const pointBottom = group.addShape('circle', {
-//             name: 'point-bottom',
-//             attrs: {
-//             x: 0,
-//             y: cfg.size[1] / 2,
-//             r: 8,
-//             fill: '#fff',
-//             stroke: '#178BF6',
-//             lineWidth: 2,
-//             cursor: 'pointer',
-//             },
-//         });
-//         pointBottom.hide();
-//         },
-//     },
-//     'rect',
-//     );
-//     const data = {
-//       nodes: [{
-//         id: "source",
-//         label: "source",
-//         x: 100,
-//         y: 100,
-//       }, {
-//         id: "source2",
-//         label: "source2",
-//         x: 120,
-//         y: 150,
-//       }],
-//       edges: [{
-//           source: 'source',
-//           target: 'source2'
-//       }]
-//     };
-//     const graph = new Graph({
-//       container: 'container',
-//       width: 500,
-//       height: 500,
-//       defaultNode: {
-//         type: 'devnode',
-//         size: [180, 32],
-//         style: {
-//         //   width: 60,
-//         //   height: 20,
-//           stroke: '#3e475f',
-//           lineWidth: 0.8,
-//         //   shadowBlur: 10,
-//         //   shadowColor: '#333',
-//           fill: '#1f2944'
-//         }
-//       },
-//       defaultEdge: {
-//         style: {
-//           endArrow: true,
-//         }
-//       },
-//       modes: {
-//         default: [ 'drag-node', 'zoom-canvas', 'drag-canvas' ]
-//       }
-//     });
-//     it('dragging', () => {
-//       graph.data(data);
-//       graph.render();
-//     });
-//   });
+    graph.destroy()
+  })
+})
+
+describe('defaultStyle states', () => {
+  it('label', () => {
+    const data = {
+      nodes: [
+        {
+          id: 'node1',
+          label: 'node1',
+          x: 100,
+          y: 100
+        }
+      ]
+    }
+
+    const graph = new G6.Graph({
+      container: 'container',
+      width: 500,
+      height: 500,
+      defaultEdge: {
+        color: '#e2e2e2',
+        lineAppendWidth: 3,
+        
+      },
+      defaultNode: {
+        style: {
+          fill: '#DEE9FF',
+          stroke: '#5B8FF9'
+        },
+      },
+      nodeStateStyles: {
+        hover: {
+          lineWidth: 5,
+          fillOpacity: 1,
+          'text-shape': {
+            fontSize: 20,
+            fill: '#003a8c'
+          },
+        },
+      },
+      edgeStateStyles: {
+        hover: {
+          lineWidth: 3,
+        },
+      },
+    });
+    graph.data(data);
+    graph.render();
+    
+    graph.on('node:mouseenter', function(evt) {
+      const node = evt.item;
+      const model = node.getModel();
+      model.oriLabel = model.label;
+      graph.setItemState(node, 'hover', true);
+      graph.updateItem(node, {
+        label: 'hover 后 ' + model.id,
+        labelCfg: {
+          style: {
+            fill: 'blue'
+          },
+        },
+      });
+    });
+    
+    graph.on('node:mouseleave', function(evt) {
+      const node = evt.item;
+      const model = node.getModel();
+      
+      graph.setItemState(node, 'hover', false);
+      
+      graph.updateItem(node, {
+        label: model.oriLabel,
+        style: {
+          'text-shape': {
+            fill: 'red'
+          },
+        },
+        labelCfg: {
+          style: {
+            fill: 'red'
+          },
+        },
+      });
+
+    });
+    
+    graph.on('edge:mouseenter', function(evt) {
+      const edge = evt.item;
+      const model = edge.getModel();
+      model.oriLabel = model.label;
+      graph.setItemState(edge, 'hover', true);
+      graph.updateItem(edge, {
+        label: 'hover 后',
+        labelCfg: {
+          style: {
+            fill: '#003a8c',
+          },
+        },
+      });
+    });
+    
+    graph.on('edge:mouseleave', function(evt) {
+      const edge = evt.item;
+      graph.setItemState(edge, 'hover', false);
+      graph.updateItem(edge, {
+        label: 'hover 前的边文本',
+        labelCfg: {
+          style: {
+            fill: '#555',
+          },
+        },
+      });
+    });
+
+    // graph.destroy()
+  })
+})
