@@ -93,7 +93,9 @@ export type LoopConfig = Partial<{
 // model types (node edge group)
 export type ModelStyle = Partial<{
   [key: string]: unknown;
-  style: ShapeStyle;
+  style: ShapeStyle | {
+    [key: string]: ShapeStyle
+  };
   stateStyles: {
     [key: string]:
       | ShapeStyle

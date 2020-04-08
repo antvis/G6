@@ -171,6 +171,8 @@ describe('update', () => {
     expect(item.hasState('hover')).toBe(false)
     expect(item.getStates().length).toBe(0)
     expect(keyShape.attr('opacity')).toEqual(0.5)
+
+    graph.destroy()
   })
 
   it('updateItem, then setItemState', () => {
