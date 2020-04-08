@@ -6,7 +6,10 @@
   "demos": [
     {
       "filename": "setMode.js",
-      "title": "Set Mode",
+      "title": {
+        "zh": "设置交互模式",
+        "en": "Set Mode"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*y1qkTKqhQXkAAAAAAAAAAABkARQnAQ"
     }
   ]

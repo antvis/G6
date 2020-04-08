@@ -6,37 +6,58 @@
   "demos": [
     {
       "filename": "basicForceDirected.js",
-      "title": "基本力导向布局及节点拖拽",
+      "title": {
+        "zh": "基本力导向布局及节点拖拽",
+        "en": "Basic Force-directed Layout with dragging"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ce2WSIlo_fcAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "forceDirectedPreventOverlap.js",
-      "title": "力导向布局防止节点重叠",
+      "title": {
+        "zh": "力导向布局防止节点重叠",
+        "en": "Prevent Node Overlappings"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9VXcQLLyzHgAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "forceDirectedFunctionalParams.js",
-      "title": "定制不同节点的参数",
+      "title": {
+        "zh": "定制不同节点的参数",
+        "en": "Different Configurations for Nodes"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SnVUQbXv7JAAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "basicForceDirectedDragFix.js",
-      "title": "固定被拖拽节点",
+      "title": {
+        "zh": "固定被拖拽节点",
+        "en": "Fix the Dragged Node"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0qLJQaRFg90AAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "forceDirectedConfigurationTranslate.js",
-      "title": "力导向布局参数动态变化",
+      "title": {
+        "zh": "力导向布局参数动态变化",
+        "en": "Update Configurations for Force-directed Layout"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IyK7T5MkVqUAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "forceBubbles.js",
-      "title": "力导向气泡图",
+      "title": {
+        "zh": "力导向气泡图",
+        "en": "Force-directed Bubbles"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*prZhSI341hUAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "forceConstrainedInRect.js",
-      "title": "约束在范围内布局",
+      "title": {
+        "zh": "约束在范围内布局",
+        "en": "Constrain the Nodes in a region"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-4H8SaV8QKwAAAAAAAAAAABkARQnAQ"
     }
   ]

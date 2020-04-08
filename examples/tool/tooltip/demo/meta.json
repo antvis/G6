@@ -6,7 +6,10 @@
   "demos": [
     {
       "filename": "tooltip.js",
-      "title": "提示框",
+      "title": {
+        "zh": "提示框",
+        "en": "Tooltip"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*kjsSQ5pgVmoAAAAAAAAAAABkARQnAQ"
     }
   ]

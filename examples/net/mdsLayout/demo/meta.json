@@ -6,7 +6,10 @@
   "demos": [
     {
       "filename": "basicMDS.js",
-      "title": "基本 MDS 布局",
+      "title": {
+        "zh": "基本 MDS 布局",
+        "en": "Basic MDS Layout"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aUS7TJR2NHcAAAAAAAAAAABkARQnAQ"
     }
   ]

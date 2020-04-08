@@ -6,12 +6,18 @@
   "demos": [
     {
       "filename": "basicGrid.js",
-      "title": "基本 Grid 网格布局",
+      "title": {
+        "zh": "基本 Grid 网格布局",
+        "en": "Basic Grid Layout"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Oh6mRLVEBBIAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "clusterGrid.js",
-      "title": "指定排序方式的网格布局",
+      "title": {
+        "zh": "指定排序方式的网格布局",
+        "en": "Ordered Grid Layout"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_ABKTptHoKoAAAAAAAAAAABkARQnAQ"
     }
   ]

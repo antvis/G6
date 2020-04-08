@@ -6,12 +6,18 @@
   "demos": [
     {
       "filename": "basicCompactBox.js",
-      "title": "紧凑树",
+      "title": {
+        "zh": "紧凑树",
+        "en": "CompactBox Layout"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XlXOR5pmM3oAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "tbCompactBox.js",
-      "title": "至上而下的紧凑树",
+      "title": {
+        "zh": "至上而下的紧凑树",
+        "en": "Top to Bottom CompactBox"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*KrAqTrFbNjMAAAAAAAAAAABkARQnAQ"
     }
   ]

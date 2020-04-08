@@ -6,7 +6,10 @@
   "demos": [
     {
       "filename": "decisionBubbles.js",
-      "title": "图表决策",
+      "title": {
+        "zh": "图表决策",
+        "en": "Decision Bubbles"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wvofQ6DuC0YAAAAAAAAAAABkARQnAQ"
     }
   ]

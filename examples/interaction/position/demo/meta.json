@@ -6,7 +6,10 @@
   "demos": [
     {
       "filename": "move.js",
-      "title": "点击节点移动到画布中心",
+      "title": {
+        "zh": "点击节点移动到画布中心",
+        "en": "Click to Focus a Node"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*yPb-SKNZ5YYAAAAAAAAAAABkARQnAQ"
     }
   ]

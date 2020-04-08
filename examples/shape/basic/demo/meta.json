@@ -6,42 +6,66 @@
   "demos": [
     {
       "filename": "circle.js",
-      "title": "圆形",
+      "title": {
+        "zh": "圆形",
+        "en": "Circle"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*8QIsS5rud6oAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "ellipse.js",
-      "title": "椭圆",
+      "title": {
+        "zh": "椭圆",
+        "en": "Ellipse"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*tWyKToNjzWMAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "rect.js",
-      "title": "矩形",
+      "title": {
+        "zh": "矩形",
+        "en": "Rect"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*pnaTQYJ3kaQAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "modelRect.js",
-      "title": "模态矩形",
+      "title": {
+        "zh": "模态矩形",
+        "en": "ModelRect"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*w4kQSYQ9djQAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "diamond.js",
-      "title": "菱形",
+      "title": {
+        "zh": "模态菱形矩形",
+        "en": "Diamond"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6XXCTZxhib0AAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "star.js",
-      "title": "五角星",
+      "title": {
+        "zh": "五角星",
+        "en": "Star"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-unkSZtlDeAAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "triangle.js",
-      "title": "三角形",
+      "title": {
+        "zh": "三角形",
+        "en": "Triangle"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*i2tETYnJ0dIAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "image.js",
-      "title": "图片",
+      "title": {
+        "zh": "图片",
+        "en": "Image"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*o-MuTpQaj7EAAAAAAAAAAABkARQnAQ"
     }
   ]
