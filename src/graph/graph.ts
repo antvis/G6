@@ -972,6 +972,10 @@ export default class Graph extends EventEmitter implements IGraph {
       return this;
     }
 
+    // 更改数据源后，取消所有状态
+    this.getNodes().map(node => self.clearItemStates(node))
+    this.getEdges().map(edge => self.clearItemStates(edge))
+
     const canvas = this.get('canvas');
     const localRefresh: boolean = canvas.get('localRefresh');
     canvas.set('localRefresh', false);
