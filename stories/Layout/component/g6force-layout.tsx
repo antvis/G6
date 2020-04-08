@@ -493,12 +493,13 @@ const G6ForceLayout = () => {
         container: container.current as string | HTMLElement,
         width: 800,
         height: 500,
+        fitView: true,
         modes: {
-          default: ['drag-canvas', 'drag-node'],
+          default: ['drag-canvas', 'drag-node', 'zoom-canvas'],
         },
         layout: {
           type: 'comboForce',
-          linkDistance: 100,
+          linkDistance: 1000,
           // comboIding: true,
           // comboIdGravity: 5,
           // preventOverlap: true,
@@ -507,7 +508,11 @@ const G6ForceLayout = () => {
           nodeStrength: 30,
           linkStrength: 0.1,
           // preventOverlap: true,
-          preventComboOverlap: true
+          preventComboOverlap: true,
+          collideStrength: 0.5,
+          maxIteration: 10,
+          comboPadding: 5,
+          comboSpacing: 10
         },
         defaultEdge: {
           size: 3,
