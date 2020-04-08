@@ -6,12 +6,18 @@
   "demos": [
     {
       "filename": "activateRelations.js",
-      "title": "内置的高亮节点",
+      "title": {
+        "zh": "内置的高亮节点",
+        "en": "Activate Relations"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*A3iMQo8L_McAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "highlightDark.js",
-      "title": "自定义highlightDark",
+      "title": {
+        "zh": "自定义高亮",
+        "en": "Custom Highlight"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*A3iMQo8L_McAAAAAAAAAAABkARQnAQ"
     }
   ]

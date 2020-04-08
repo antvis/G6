@@ -6,7 +6,10 @@
   "demos": [
     {
       "filename": "minimap.js",
-      "title": "Minimap",
+      "title": {
+        "zh": "小地图",
+        "en": "Minimap"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*r3dAQo-R3BoAAAAAAAAAAABkARQnAQ"
     }
   ]

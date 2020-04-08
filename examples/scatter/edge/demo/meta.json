@@ -6,17 +6,26 @@
   "demos": [
     {
       "filename": "pointInLine.js",
-      "title": "圆点沿边运动",
+      "title": {
+        "zh": "圆点沿边运动",
+        "en": "Running Circle"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HqX_Q7lljpsAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "edge.js",
-      "title": "虚线运动",
+      "title": {
+        "zh": "虚线运动",
+        "en": "Running Dashed Edge"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*70lpSLPAxb8AAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "lineGrowth.js",
-      "title": "无到有的边",
+      "title": {
+        "zh": "无到有的边",
+        "en": "Growing Edge"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*W40_RKyCrDsAAAAAAAAAAABkARQnAQ"
     }
   ]

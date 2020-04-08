@@ -6,22 +6,34 @@
   "demos": [
     {
       "filename": "subgraphLayout.js",
-      "title": "子图布局",
+      "title": {
+        "zh": "子图布局",
+        "en": "Subgraph Layout"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dsOISrH6tREAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "dataChange.js",
-      "title": "数据动态切换",
+      "title": {
+        "zh": "数据动态切换",
+        "en": "Change Data"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VIXvQagCETkAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "customBigraph.js",
-      "title": "自定义二分图布局",
+      "title": {
+        "zh": "自定义二分图布局",
+        "en": "Custom Bigraph Layout"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Vod0Q6u5dSoAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "layoutTiming.js",
-      "title": "布局时机监听",
+      "title": {
+        "zh": "布局时机监听",
+        "en": "Layout Listener"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*tdRuSbgJAZ8AAAAAAAAAAABkARQnAQ"
     }
   ]

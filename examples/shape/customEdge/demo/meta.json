@@ -6,17 +6,26 @@
   "demos": [
     {
       "filename": "customPolyline.js",
-      "title": "自定义折线",
+      "title": {
+        "zh": "自定义折线",
+        "en": "Custom Polyline"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FuS3Qq_lDiIAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "customPolyline2.js",
-      "title": "自定义折线 2",
+      "title": {
+        "zh": "自定义折线 2",
+        "en": "Custom Polyline 2"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ACNnQLPy20EAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "edgeMulLabel.js",
-      "title": "多标签边",
+      "title": {
+        "zh": "多标签边",
+        "en": "Multiple Labels"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*01YORI5jRp8AAAAAAAAAAABkARQnAQ"
     }
   ]
