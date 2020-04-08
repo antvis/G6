@@ -1,5 +1,5 @@
 ---
-title: Transform a Shape in G6
+title: Transform a Shape or a Graphics Group
 order: 6
 ---
 
@@ -43,50 +43,90 @@ rect.transform([
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*jN3HQbHZ4dIAAAAAAAAAAABkARQnAQ' width='200' />
 
-### translate(x, y)
+#### translate(x, y)
 
-实例的相对位移方法。
+Translate the shape or group with vector (x, y).
 
-### move(x, y)
+#### move(x, y)
 
-实例的相对位移方法。
+Translate the shape or group with vector (x, y).
 
-### rotate(radian)
+#### rotate(radian)
 
-根据旋转弧度值对图形进行旋转。
+Rotate the shape or group with `radian`.
 
-### scale(sx, sy)
+#### scale(sx, sy)
 
-对图形进行缩放。
+Scale the shape or group to sx times on x-axis and sy times on y-axis.
 
-### resetMatrix()
+#### resetMatrix()
 
-清除图形实例的所有变换效果。
+Clear the matrix to reset all the transformantions on the shape or group.
 
-### getTotalMatrix()
+#### getTotalMatrix()
 
-获取应用到实例上的所有变换的矩阵。
+Get all the transformations of the shape or group.
 
 ### G6 3.3
 
-在 G6 3.3 及以上版本中，废弃了 Group / Canvas 上只适用于三阶矩阵的变换函数:
+After G6 3.3, the following transform methods are discarded:
 
-- 🗑 平移函数 translate；
-- 🗑 移动函数 move；
-- 🗑 缩放函数 scale；
-- 🗑 旋转函数 rotate；
-- 🗑 以 (0, 0) 点为中心的旋转函数 rotateAtStart。
+- 🗑 translate;
+- 🗑 move;
+- 🗑 scale;
+- 🗑 rotate;
+- 🗑 rotateAtStart: rotate the shape or group with center (0, 0)。
 
-在 G6 3.3 版本中要应用矩阵变换的效果，需要手动设置矩阵的值: • 设置矩阵 setMatrix(matrix)； • 重置矩阵 resetMatrix()； • 设置矩阵 attr('matrix', matrix)；
+To achive some transformation in G6 3.3, you should set the matrix value manually:
+- Get the current matrix of a shape or a group: getMatrix();
+- Set the matrix to a shape or a group: setMatrix(matrix) or attr('matrix', matrix);
+- Reset the matrix: resetMatrix().
 
-为了方面使用，我们提供了矩阵变换的工具方法:
+We provide the function for transformantion:
 
 ```javascript
 import { transform } from '@antv/matrix-util';
-// 3*3 矩阵变换，用于二维渲染
+// transform a 3*3 matrix
 trasform(m, [
-  ['t', x, y], // translate
+  ['t', x, y], // translate with vector (x, y)
   ['r', Math.PI], // rotate
-  ['s', 2, 2], // scale
+  ['s', 2, 2], // scale at x-axis and y-axis
 ]);
+```
+
+#### Example
+The following code registers a custom node with a transfromed rect with: translation with vector `(100, 50)`, rotating with angle `Math.PI / 4`, maginifying 2 times on x-axis and 0.5 times on y-axis:
+
+```javascript
+import { transform, mat3 } from '@antv/matrix-util';
+G6.registerNode('example', {
+  drawShape: (cfg, group) => {
+    const rect = group.addShape('rect', {
+      attrs: {
+        width: 100,
+        height: 100,
+        x: 100,
+        y: 100,
+        fill: '#9EC9FF',
+        stroke: '#5B8FF9',
+        lineWidth: 3,
+      },
+      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      name: 'rect-shape',
+    });
+    const matrix = rect.getMatrix();
+    
+    // the init matrix for a shape or a group is null, initiate it with unit matrix
+    if (!matrix) matrix = mat3.create();
+
+    // transform a 3*3 matrix
+    const newMatrix = trasform(matrix, [
+      [ 't', 100, 50 ], // translate
+      [ 'r', Math.PI / 4 ], // rotate
+      [ 's', 2, 0.5 ], // scale
+    ]);
+
+    rect.setMatrix(newMatrix);
+  }
+});
 ```
