@@ -131,7 +131,7 @@ const CustomFlow = () => {
         'round-rect',
         {
           drawShape: (cfg, group) => {
-            const width = cfg.style.width;
+            const width = cfg.style.width as number;
             const stroke = cfg.style.stroke;
             const rect = group.addShape('rect', {
               attrs: {

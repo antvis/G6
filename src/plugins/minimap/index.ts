@@ -19,7 +19,6 @@ const DEFAULT_MODE = 'default';
 const KEYSHAPE_MODE = 'keyShape';
 const DELEGATE_MODE = 'delegate';
 const SVG = 'svg';
-const CANVAS = 'canvas';
 
 interface MiniMapConfig extends IPluginBaseConfig {
   viewportClassName?: string;
