@@ -14,10 +14,7 @@ import isNumber from '@antv/util/lib/is-number';
 import {
   GraphAnimateConfig,
   GraphOptions,
-  IGraph,
-  IModeOption,
-  IModeType,
-  IStates
+  IGraph
 } from '../interface/graph';
 import { IEdge, INode, ICombo } from '../interface/item';
 import {
@@ -889,34 +886,8 @@ export default class Graph extends EventEmitter implements IGraph {
           return true;
         });
       });
-    }
-    else {
+    } else {
       item = itemController.addItem(type, model);
-
-      const itemMap = this.get('itemMap');
-      comboTrees && comboTrees.forEach((ctree: ComboTree) => {
-        let found = false;
-        traverseTreeUp<ComboTree>(ctree, child => {
-          if (model.comboId === child.id) {
-            found = true;
-            if (child.children) child.children.push(model as any);
-            else child.children = [model as any];
-            model.depth = child.depth + 1;
-          }
-          if (found && itemMap[child.id].getType() === 'combo') {
-            itemController.updateCombo(itemMap[child.id], child.children);
-          }
-          return true;
-        });
-      });
-    }
-    else {
-      item = itemController.addItem(type, model);
-    }
-
-    const combos = this.get('combos');
-    if (combos && combos.length > 0) {
-      this.sortCombos(this.save() as GraphData);
     }
 
     const combos = this.get('combos');
@@ -1162,11 +1133,6 @@ export default class Graph extends EventEmitter implements IGraph {
       this.set('comboTrees', comboTrees);
       // add combos
       self.addCombos(combosData);
-<<<<<<< HEAD
-
-=======
-
->>>>>>> feat: render zindex for combos when first render and changeData
       if (!this.get('groupByTypes')) this.sortCombos(data as GraphData);
     }
 
@@ -1183,11 +1149,6 @@ export default class Graph extends EventEmitter implements IGraph {
     } else {
       self.autoPaint();
     }
-<<<<<<< HEAD
-
-=======
-
->>>>>>> feat: render zindex for combos when first render and changeData
     setTimeout(() => {
       canvas.set('localRefresh', localRefresh);
     }, 16);
@@ -1250,28 +1211,6 @@ export default class Graph extends EventEmitter implements IGraph {
       });
     });
 
-  }
-
-  
-  /**
-   * 根据节点的 bbox 更新 combos 的绘制，包括 combos 的位置和范围
-   */
-  private updateCombos() {
-    const self = this;
-    const comboTrees = this.get('comboTrees');
-    const itemController: ItemController = self.get('itemController');
-
-    const itemMap = self.get('itemMap');
-    comboTrees && comboTrees.forEach((ctree: ComboTree) => {
-      traverseTreeUp<ComboTree>(ctree, child => {
-        const childItem = itemMap[child.id];
-        if (childItem && childItem.getType() === 'combo') {
-          itemController.updateCombo(childItem, child.children);
-        }
-        return true;
-      });
-    });
-    self.sortCombos(self.get('data'));
   }
 
   /**
@@ -1971,35 +1910,6 @@ export default class Graph extends EventEmitter implements IGraph {
       plugin.destroyPlugin();
       plugins.splice(index, 1);
     }
-  }
-
-  private sortCombos(data: GraphData) {
-    const depthMap = [];
-    const dataDepthMap = {};
-    const comboTrees = this.get('comboTrees');
-    comboTrees.forEach(cTree => {
-      traverseTree(cTree, child => {
-        if (depthMap[child.depth]) depthMap[child.depth].push(child.id);
-        else depthMap[child.depth] = [child.id];
-        dataDepthMap[child.id] = child.depth;
-        return true;
-      });
-    });
-    const edges = data.edges;
-    edges && edges.forEach(edge => {
-      const sourceDepth: number = dataDepthMap[edge.source] || 0;
-      const targetDepth: number = dataDepthMap[edge.target] || 0;
-      const depth = Math.max(sourceDepth, targetDepth);
-      if (depthMap[depth]) depthMap[depth].push(edge.id);
-      else depthMap[depth] = [edge.id];
-    });
-    depthMap.forEach(array => {
-      if (!array || !array.length) return;
-      for (let i = array.length - 1; i >= 0; i--) {
-        const item = this.findById(array[i]);
-        item.toFront();
-      }
-    });
   }
 
   /**
