@@ -60,6 +60,8 @@ export default class ComboForce extends BaseLayout {
   public comboSize: number | number[] | ((d?: unknown) => number) | undefined;
   /** Combo 最小间距，防止重叠时的间隙 */
   public comboSpacing: ((d?: unknown) => number) | undefined;
+  /** Combo 内部的 padding */
+  public comboPadding: ((d?: unknown) => number) | undefined;
   /** 优化计算斥力的速度，两节点间距超过 optimizeRangeFactor * width 则不再计算斥力和重叠斥力 */
   public optimizeRangeFactor: number = 1;
   /** 每次迭代的回调函数 */
@@ -73,6 +75,8 @@ export default class ComboForce extends BaseLayout {
   public edges: Edge[] = [];
   public combos: ComboConfig[] = [];
   private comboTrees: ComboTree[] = [];
+  // add a virtual root to comboTrees
+  private comboTree: ComboTree;
   private width: number = 300;
   private height: number = 300;
   private bias: number[] = [];
@@ -90,7 +94,9 @@ export default class ComboForce extends BaseLayout {
       comboGravity: 10,
       preventOverlap: false,
       nodeSpacing: undefined,
-      collideStrength: 10
+      collideStrength: 10,
+      comboSpacing: 5,
+      comboPadding: 10
     };
   }
   /**
@@ -101,6 +107,11 @@ export default class ComboForce extends BaseLayout {
     const nodes = self.nodes;
     const combos = self.combos;
     const center = self.center;
+    self.comboTree = {
+      id: 'comboTreeRoot',
+      depth: -1,
+      children: self.comboTrees
+    }
 
     if (!nodes || nodes.length === 0) {
       return;
@@ -144,8 +155,8 @@ export default class ComboForce extends BaseLayout {
     let comboMap = self.getComboMap();
     self.initVals();
 
-    // init positions to make the nodes with same combo gather
-    ...
+    // init the positions to make the nodes with same combo gather
+    self.initPos(comboMap);
 
     // iterate
     for (let i = 0; i < maxIteration; i++) {
@@ -259,6 +270,20 @@ export default class ComboForce extends BaseLayout {
     }
     this.comboSpacing = comboSpacingFunc;
 
+    // comboPadding to function
+    const comboPadding = self.comboPadding;
+    let comboPaddingFunc: (d: any) => number;
+    if (isNumber(comboPadding)) {
+      comboPaddingFunc = () => comboPadding;
+    } else if (isArray(comboPadding)) {
+      comboPaddingFunc = () => Math.max.apply(null, comboPadding);
+    } else if (isFunction(comboPadding)) {
+      comboPaddingFunc = comboPadding;
+    } else {
+      comboPaddingFunc = () => 0;
+    }
+    this.comboPadding = comboPaddingFunc;
+
     // linkDistance to function
     let linkDistance = this.linkDistance;
     let linkDistanceFunc;
@@ -297,6 +322,16 @@ export default class ComboForce extends BaseLayout {
       }
     }
     this.nodeStrength = nodeStrengthFunc;
+  }
+
+  private initPos(comboMap) {
+    const self = this;
+    const nodes = self.nodes;
+    nodes.forEach(node => {
+      const combo = comboMap[node.comboId];
+      node.x = combo.cx + Math.random() * 10;
+      node.y = combo.cy + Math.random() * 10;
+    });
   }
 
   private getComboMap() {
@@ -389,9 +424,17 @@ export default class ComboForce extends BaseLayout {
         treeChildren.forEach(child => {
           if (child.itemType !== 'node') return;
           const node = nodeMap[child.id];
-          const vecX = node.x - comboX;
-          const vecY = node.y - comboY;
-          const l = Math.sqrt(vecX * vecX + vecY * vecY);
+          let vecX = node.x - comboX;
+          let vecY = node.y - comboY;
+          let l = Math.sqrt(vecX * vecX + vecY * vecY);
+          if (vecX === 0) {
+            vecX = Math.random() * 0.01;
+            l += vecX * vecX;
+          }
+          if (vecY === 0) {
+            vecY = Math.random() * 0.01;
+            l += vecY * vecY;
+          }
           const childIdx = nodeIdxMap[node.id];
           displacements[childIdx].x -= vecX * comboGravity * alpha / l * gravityScale;
           displacements[childIdx].y -= vecY * comboGravity * alpha / l * gravityScale;
@@ -439,6 +482,9 @@ export default class ComboForce extends BaseLayout {
     self.updateComboSizes(comboMap);
     self.calRepulsive(displacements, vecMap, comboMap);
     self.calAttractive(displacements, vecMap);
+
+    const preventComboOverlap = self.preventComboOverlap;
+    if (preventComboOverlap) self.comboNonOverlapping(displacements, comboMap);
   }
 
   /**
@@ -449,7 +495,8 @@ export default class ComboForce extends BaseLayout {
     const comboTrees = self.comboTrees;
     const nodeMap = self.nodeMap;
     const nodeSize = self.nodeSize as ((d?: unknown) => number) | undefined;
-
+    const comboSpacing = self.comboSpacing;
+    const comboPadding = self.comboPadding;
     comboTrees.forEach(ctree => {
       let treeChildren = [];
       traverseTreeUp<ComboTree>(ctree, treeNode => {
@@ -476,13 +523,77 @@ export default class ComboForce extends BaseLayout {
           const nodeMaxY = node.y + r;
           if (c.minX > nodeMinX) c.minX = nodeMinX;
           if (c.minY > nodeMinY) c.minY = nodeMinY;
-          if (c.maxX > nodeMaxX) c.maxX = nodeMaxX;
-          if (c.maxY > nodeMaxY) c.maxY = nodeMaxY;
+          if (c.maxX < nodeMaxX) c.maxX = nodeMaxX;
+          if (c.maxY < nodeMaxY) c.maxY = nodeMaxY;
         });
-        c.r = Math.max(c.maxX - c.minX, c.maxY - c.minY) / 2;
+        c.r = Math.max(c.maxX - c.minX, c.maxY - c.minY) / 2 + comboSpacing(c) / 2 + comboPadding(c);
         
         return true;
       });
+    });
+  }
+
+  /**
+   * prevent the overlappings among combos
+   */
+  private comboNonOverlapping(displacements, comboMap) {
+    const self = this;
+    const comboTree = self.comboTree;
+    const collideStrength = self.collideStrength;
+    const nodeIdxMap = self.nodeIdxMap;
+
+    traverseTreeUp<ComboTree>(comboTree, treeNode => {
+      const children = treeNode.children;
+      if (children && children.length > 1) {
+        children.forEach((v, i) => {
+          if (v.itemType === 'node') return;
+          const cv = comboMap[v.id];
+          children.forEach((u, j) => {
+            if (u.itemType === 'node') return;
+            if (i <= j) return;
+            const cu = comboMap[u.id];
+            let vx = cv.cx - cu.cx || 0;
+            let vy = cv.cy - cu.cy || 0;
+            let l = vx * vx + vy * vy;
+            if (vx === 0) {
+              vx = Math.random() * 0.01;
+              l += vx * vx;
+            }
+            if (vy === 0) {
+              vy = Math.random() * 0.01;
+              l += vy * vy;
+            }
+            const rv = cv.r;
+            const ru = cu.r;
+            const r = rv + ru;
+            // overlapping
+            if (l < r * r) {
+              const vnodes = v.children;
+              const unodes = u.children;
+              vnodes.forEach(vn => {
+                if (vn.itemType !== 'node') return;
+                unodes.forEach(un => {
+                  if (un.itemType !== 'node') return;
+                  const sqrtl = Math.sqrt(l);
+                  const ll = (r - sqrtl) / sqrtl * collideStrength;
+                  const ru2 = ru * ru;
+                  let rratio = ru2 / (rv * rv + ru2);
+                  const xl = vx * ll;
+                  const yl = vy * ll;
+                  const vindex = nodeIdxMap[vn.id];
+                  const uindex = nodeIdxMap[un.id];
+                  displacements[vindex].x += xl * rratio;
+                  displacements[vindex].y += yl * rratio;
+                  rratio = 1 - rratio;
+                  displacements[uindex].x -= xl * rratio;
+                  displacements[uindex].y -= yl * rratio;
+                });
+              });
+            }
+          });
+        });
+      }
+      return true;
     });
   }
 
@@ -500,7 +611,6 @@ export default class ComboForce extends BaseLayout {
     const collideStrength = self.collideStrength;
     const preventOverlap = self.preventOverlap;
     const preventNodeOverlap = self.preventNodeOverlap;
-    const preventComboOverlap = self.preventComboOverlap;
     const nodeSizeFunc = self.nodeSize as ((d?: unknown) => number) | undefined;
     const scale = self.depthRepulsiveForceScale;
     nodes.forEach((v, i) => {
