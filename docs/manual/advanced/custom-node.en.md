@@ -83,13 +83,16 @@ G6.registerNode(
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️Attention:</strong> </span>
 
-- `draw` is required if the custom node does not extend any parent;
-- `update` is not required. If it is undefined, the `draw` will be called when updating the node, which means all the graphics will be cleared and repaint;
-- `afterDraw` and `afterUpdate` are used for extending the exited nodes in general. e.g. adding extra image on rect node, adding animation on a circle node, ...;
+- `draw`: it is required if the custom node does not extend any parent;
+- Coordinate system: The coordinate system of the shapes inside the custom node is a **sub coordinate system relating to itself**, which means the `(0, 0)` is the center of the node. And the coordinates of the node is related to the whole canvas, which is controled by the group contains it and users have no need to use it when customing a node type. See the detail in [Register a Bran-new Node](#1-register-a-bran-new-edge);
+- `update`:
+  - When the `update` function is not undefined: If user has defined the third parameter `extendNodeName` of `registerNode`, which means extending a built-in node type, the `update` function of the extended node type of the custom node will be executed once the node is updated; If the third parameter of `registerNode` is not assigned, the `draw` function of the custom node will be executed instead;
+  - When the `update` function is defined, whether the third parameter of `registerNode` is defined, the `update` function will be executed when the node is updated.
+- `afterDraw` and `afterUpdate`: they are used for extending the exited nodes in general. e.g. adding extra image on rect node, adding animation on a circle node, ...;
 - In general, `setState` is not required;
-- `getAnchorPoints` is only required when you want to contrain the link points for nodes and their related edges. The anchorPoints can be assigned in the node data as well.
+- `getAnchorPoints`: it is only required when you want to contrain the link points for nodes and their related edges. The anchorPoints can be assigned in the node data as well.
 
-## 1. Register a Bran-new Edge
+## 1. Register a Bran-new Node
 
 ### Render the Node
 
@@ -98,6 +101,8 @@ Now, we are going to register a diamond node:
 > Although there is a built-in diamond node in G6, we implement it here to rewrite it for demonstration.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LqFCRaKyr0gAAAAAAAAAAABkARQnAQ' alt='img' width='80'/>
+
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️ Attention:</strong></span> From the following code, you will understand that the coordinates of the sub shapes of the custom node is related to itself, which means the `(0, 0)` is the center of the node. E.g. the `x` and `y` of the `'text'` shape are both 0, which means the shape is on the center of the node; The `path` attribute of `'path'` is also defined with the origin `(0, 0)`. In the other words, users do not need to control the sub shapes' coordinates according to the nodes' coordinate which is controlled by the matrix of the parent group of the node.
 
 ```javascript
 G6.registerNode('diamond', {

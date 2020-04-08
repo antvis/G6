@@ -130,11 +130,7 @@ G6.registerBehavior('nodeClick', {
     fill: '#d3adf7',
     // name 为 shape-name1 的子图形在该状态值下的样式
     'node-label': {
-      labelCfg: {
-        style: {
-          fontSize: 15
-        }
-      }
+      fontSize: 15
     },
   },
   // 二值状态 running 为 true 时的样式

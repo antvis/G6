@@ -49,6 +49,7 @@ group.addGroup({
 | --- | --- | --- |
 | attrs | Object | 图形样式，例如：`{x: 0, y: 10, fill: '#0f0'}` |
 | name | String | 图形的标识，可以不唯一。在 G6 3.3 及以后版本中必须指定。另外，`name` 可以用于组内搜索到该元素：`const shape = group.find(element => element.name === 'shape-name')`，find 函数用法见 [find(fn)](#findfn) |
+| draggable | Boolean | 该图形是否允许被拖拽。例如，自定义节点通过 `addShape` 添加图形，当该图形的 `draggable` 值为 `true` 时，鼠标在该自定义节点的这个图形上才能够响应 `dragstart`，`drag`，与 `dragend` 事件；在实例化图时的 `modes` 中配置的 `'drag-node'` 交互才可以在该图形上进行拖拽时生效 |
 | zIndex | Number | 该图形的视觉层次 z-index。非必须指定。指定后，调用 `group.sort()` 可以对组内所有图形根据各自 zIndex 进行视觉层次的排序 |
 
 **用法**

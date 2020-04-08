@@ -72,14 +72,19 @@ G6.registerNode(
      */
     getAnchorPoints(cfg) {},
   },
-  extendNodeName,
+  // 继承内置节点类型的名字，例如基类 'single-node'，或 'circle', 'rect' 等
+  // 当不指定该参数则代表不继承任何内置节点类型
+  extendNodeName, 
 );
 ```
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️ 注意:</strong></span>
 
 - 如果不从任何现有的节点扩展新节点时，`draw` 方法是必须的；
-- `update` 方法可以不定义，数据更新时会走 `draw` 方法，所有图形清除重绘；
+- 节点内部所有图形**使用相对于节点自身的坐标系**，即 `(0, 0)` 是该节点的中心。而节点的坐标是相对于画布的，由该节点 group 上的矩阵控制，自定义节点中不需要用户感知。详见例子 [从无到有定义节点](#1-从无到有定义节点)；
+- `update` 方法可以不定义：
+  - 当 `update` 未定义：若指定了 `registerNode` 的第三个参数 `extendNodeName`（即代表继承指定的内置节点类型），则节点更新时将执行被继承的内置节点类型的 `update` 逻辑；若未指定 `registerNode` 的第三个参数，则节点更新时会执行 `draw` 方法，所有图形清除重绘；
+  - 当定义了 `update` 方法，则不论是否指定 `registerNode` 的第三个参数，在节点更新时都会执行复写的 `update` 函数逻辑。
 - `afterDraw`，`afterUpdate` 方法一般用于扩展已有的节点，例如：在矩形节点上附加图片，圆节点增加动画等；
 - `setState` 方法一般也不需要复写，有全局的样式可以替换；
 - `getAnchorPoints` 方法仅在需要限制与边的连接点时才需要复写，也可以在数据中直接指定。
@@ -93,6 +98,8 @@ G6.registerNode(
 > G6 有内置的菱形节点 diamond。为了演示，这里实现了一个自定义的菱形，相当于复写了内置的 diamond。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LqFCRaKyr0gAAAAAAAAAAABkARQnAQ' alt='img' width='80'/>
+
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️ 注意:</strong></span> 从下面代码可以看出，自定义节点中所有通过 `addShape` 增加的图形的坐标都是**相对于节点自身的子坐标系**，即 `(0, 0)` 是该节点的中心。如 `'text'` 图形的 `x` 和 `y` 均为 0，代表该图形相对于该节点居中；`'path'` 图形 `path` 属性中的坐标也是以 `(0, 0)` 为原点计算的。换句话说，在**自定义节点时不需要感知相对于画布的节点坐标**，节点坐标由该节点所在 group 的矩阵控制。
 
 ```javascript
 G6.registerNode('diamond', {
