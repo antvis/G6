@@ -896,8 +896,8 @@ const DecisionTree = () => {
             const shape = group.get('children')[0];
             shape.animate(
               ratio => {
-                const opacity = ratio * cfg.style.opacity;
-                const strokeOpacity = ratio * cfg.style.strokeOpacity;
+                const opacity = ratio * (cfg.style.opacity as number);
+                const strokeOpacity = ratio * (cfg.style.strokeOpacity as number);
                 return {
                   opacity: ratio || opacity,
                   strokeOpacity: ratio || strokeOpacity,
