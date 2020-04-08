@@ -1794,6 +1794,10 @@ debugger
     }
   }
 
+  /**
+   * 根据 comboTree 结构整理 Combo 相关的图形绘制层级，包括 Combo 本身、节点、边
+   * @param {GraphData} data 数据
+   */
   private sortCombos(data: GraphData) {
     const depthMap = [];
     const dataDepthMap = {};
