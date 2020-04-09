@@ -29,9 +29,10 @@ const nodeLabelCfg2 = {
   style: {
     background: {
       fill: '#ffffff',
-      stroke: '#000000',
-      padding: [2, 2, 2, 2],
+      stroke: 'green',
+      padding: [3, 2, 3, 2],
       radius: 2,
+      lineWidth: 3,
     },
   },
 };
@@ -141,28 +142,15 @@ const CustomNode = () => {
       });
       graph.data(data1);
       graph.render();
-      console.log('---0');
+
+      graph.on('node:mouseenter', () => {
+        graph.changeData(data2);
+      });
+
+      graph.on('node:mouseleave', () => {
+        graph.changeData(data1);
+      });
     }
-  });
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      graph.changeData(data2);
-      console.log('1000');
-    }, 1000);
-    return () => {
-      clearTimeout(timer);
-    };
-  });
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      graph.changeData(data1);
-      console.log('3000');
-    }, 3000);
-    return () => {
-      clearTimeout(timer);
-    };
   });
 
   return <div ref={container} />;
