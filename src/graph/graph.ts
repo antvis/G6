@@ -1934,7 +1934,6 @@ export default class Graph extends EventEmitter implements IGraph {
         return true;
       });
     });
-
     const edges = data.edges;
     edges && edges.forEach(edge => {
       const sourceDepth: number = dataDepthMap[edge.source] || 0;
@@ -1942,14 +1941,6 @@ export default class Graph extends EventEmitter implements IGraph {
       const depth = Math.max(sourceDepth, targetDepth);
       if (depthMap[depth]) depthMap[depth].push(edge.id);
       else depthMap[depth] = [edge.id];
-    });
-
-    data.edges.forEach(edge => {
-      const sourceDepth: number = dataDepthMap[edge.source] || 0;
-      const targetDepth: number = dataDepthMap[edge.target] || 0;
-      const depth = Math.max(sourceDepth, targetDepth);
-      if (depthMap[depth]) depthMap[depth].push(edge.id);
-      else depthMap[depth] = [ edge.id ];
     });
 
     depthMap.forEach(array => {
