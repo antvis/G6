@@ -6,7 +6,10 @@
   "demos": [
     {
       "filename": "position.js",
-      "title": "自定义动画",
+      "title": {
+        "zh": "自定义动画",
+        "en": "Custom Animation"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*tN3KQ59_XO8AAAAAAAAAAABkARQnAQ"
     }
   ]

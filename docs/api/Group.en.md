@@ -49,6 +49,7 @@ The `cfg` above contains:
 | --- | --- | --- |
 | attrs | Object | The style configurations for the shape. e.g. `{x: 0, y: 10, fill: '#0f0'}` |
 | name | String | The name of the shape which can be not unique. It is required for each shape in G6 3.3. Besides, `name` can be used for searching this shape, e.g. `const shape = group.find(element => element.name === 'shape-name')`. The usage of find can be found at [find(fn)](#findfn) |
+| draggable | Boolean | Whether the shape is allowed to response `dragstart`, `drag`, and `dragend` events. E.g. when user add a shape into a custom node with `draggable: true`, the shape will response the dragging events on the node, and the `'drag-node'` in the `modes` of the graph instance will take effect |
 | zIndex | Number | The visual index of the shape, similar to z-index of DOM. It is not required. `group.sort()` will sort the visual index of the shapes inside the group according to their zIndex |
 
 **Usage**

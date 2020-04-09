@@ -6,27 +6,42 @@
   "demos": [
     {
       "filename": "basicCircular.js",
-      "title": "基本 Circular 布局",
+      "title": {
+        "zh": "基本 Circular 布局",
+        "en": "Basic Circular Layout"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZSuXQ4PS2F8AAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "degreeCircular.js",
-      "title": "按照节点度数排序的 Circular 布局",
+      "title": {
+        "zh": "按照节点度数排序的 Circular 布局",
+        "en": "Degree Ordered Circular"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*MOEeS6ooB7AAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "spiralCircular.js",
-      "title": "螺旋线布局",
+      "title": {
+        "zh": "螺旋线布局",
+        "en": "Spiral Layout"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bY0iSqTc3z4AAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "divisionCircular.js",
-      "title": "分割环形布局",
+      "title": {
+        "zh": "分割环形布局",
+        "en": "Divided Circular Layout"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*u30nQahg6q0AAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "circularConfigurationTranslate.js",
-      "title": "Circular 布局参数动态变化",
+      "title": {
+        "zh": "Circular 布局参数动态变化",
+        "en": "Update Configurations for Circular Layout"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*D85cS7-yqNEAAAAAAAAAAABkARQnAQ"
     }
   ]

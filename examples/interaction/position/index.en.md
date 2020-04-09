@@ -1,5 +1,5 @@
 ---
-title: Move Nodes
+title: Click to Focus a Node
 order: 5
 ---
 

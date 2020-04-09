@@ -6,32 +6,50 @@
   "demos": [
     {
       "filename": "basicRadial.js",
-      "title": "基本 Radial 辐射布局",
+      "title": {
+        "zh": "基本 Radial 辐射布局",
+        "en": "Basic Radial Layout"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ec_WQ5hqVsgAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "preventOverlapRadial.js",
-      "title": "防止节点重叠的严格辐射布局",
+      "title": {
+        "zh": "防止节点重叠的严格辐射布局",
+        "en": "Prevent Node Overlappings and Restrict Radial"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GAFjRJeAoAsAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "preventOverlapUnstrictRadial.js",
-      "title": "防止节点重叠的非严格辐射布局",
+      "title": {
+        "zh": "防止节点重叠的非严格辐射布局",
+        "en": "Prevent Node Overlappings and Unrestrict Radial"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*X8rzTZyWwUcAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "interactRadial.js",
-      "title": "交互扩展节点的辐射布局",
+      "title": {
+        "zh": "交互扩展节点的辐射布局",
+        "en": "Interactively Expand a Node"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*F4OQQKc8l2IAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "radialConfigurationTranslate.js",
-      "title": "Radial 布局参数动态变化",
+      "title": {
+        "zh": "Radial 布局参数动态变化",
+        "en": "Update Configurations for Radial"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ikctQb9KECAAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "sortRadial.js",
-      "title": "同层节点按照指定字段聚类",
+      "title": {
+        "zh": "同层节点按照指定字段聚类",
+        "en": "Order the Level Nodes"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*gzfTQKBB62IAAAAAAAAAAABkARQnAQ"
     }
   ]

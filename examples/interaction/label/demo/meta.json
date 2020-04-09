@@ -6,12 +6,18 @@
   "demos": [
     {
       "filename": "update.js",
-      "title": "更新节点或边上的标签",
+      "title": {
+        "zh": "更新节点或边上的标签",
+        "en": "Update the Label"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NJm8S4sfgp4AAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "changeImg.js",
-      "title": "切换节点背景图片",
+      "title": {
+        "zh": "切换节点背景图片",
+        "en": "Change the Image"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*kwp1S6PJIVUAAAAAAAAAAABkARQnAQ"
     }
   ]

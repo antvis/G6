@@ -6,12 +6,18 @@
   "demos": [
     {
       "filename": "basicDendrogram.js",
-      "title": "生态树",
+      "title": {
+        "zh": "生态树",
+        "en": "Basic Dendrogram Layout"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ffD6S74MXw4AAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "tbDendrogram.js",
-      "title": "至上而下的生态树",
+      "title": {
+        "zh": "至上而下的生态树",
+        "en": "Top to Bottom Dendrogram"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*nTKmRKkyUVUAAAAAAAAAAABkARQnAQ"
     }
   ]

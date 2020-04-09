@@ -6,7 +6,10 @@
   "demos": [
     {
       "filename": "index.ts",
-      "title": "决策树",
+      "title": {
+        "zh": "决策树",
+        "en": "Decision Tree"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Jo0lTrKSj6AAAAAAAAAAAABkARQnAQ"
     }
   ]
