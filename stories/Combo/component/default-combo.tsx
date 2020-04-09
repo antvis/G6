@@ -269,6 +269,8 @@ const DefaultCombo = () => {
         // });
 
         // console.log(graph.save());
+
+        graph.updateComboTree('A', 'M');
       });
     }
   });
