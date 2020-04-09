@@ -13,6 +13,7 @@ import {
   ShapeStyle,
   Indexable,
   ComboConfig,
+  ITEM_TYPE,
 } from '../types';
 
 // item 的配置项
@@ -137,7 +138,7 @@ export interface IItemBase {
    * 节点类型
    * @return {string} 节点的类型
    */
-  getType(): string;
+  getType(): ITEM_TYPE;
 
   getShapeCfg(model: ModelConfig): ModelConfig;
 
