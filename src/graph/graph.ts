@@ -851,8 +851,7 @@ export default class Graph extends EventEmitter implements IGraph {
       });
       // const comboGroup = this.get('comboGroup')
       // comboGroup && comboGroup.sort();
-    }
-    else if (type === 'node' && isString(model.comboId) && comboTrees) {
+    } else if (type === 'node' && isString(model.comboId) && comboTrees) {
       const parentCombo = this.findById(model.comboId as string);
       if (!parentCombo || parentCombo.getType() !== 'combo') {
         console.warn(`The combo ${model.comboId} for the node ${model.id} does not exist, please add the combo first.`);
@@ -1222,6 +1221,25 @@ export default class Graph extends EventEmitter implements IGraph {
       });
     });
     self.sortCombos(self.get('data'));
+  }
+
+  /**
+   * 更新树结构，例如移动子树等
+   * @param {String | INode | ICombo} item 需要被更新的 Combo 或 节点 id
+   * @param {string | undefined} parentId 新的父 combo id，undefined 代表没有父 combo
+   */
+  public updateComboTree(item: String | INode | ICombo, parentId: String | undefined) {
+    const self = this;
+    let uItem: INode | ICombo;
+    if (isString(item)) {
+      uItem = self.findById(item) as INode | ICombo;
+    } else {
+      uItem = item as INode | ICombo;
+    }
+
+    const newComboTrees = reconstructTree(this.get('comboTrees'), uItem.getModel().id, parentId);
+    this.set('comboTrees', newComboTrees);
+    this.updateCombos();
   }
 
   /**
@@ -1750,6 +1768,10 @@ export default class Graph extends EventEmitter implements IGraph {
     }
   }
 
+  /**
+   * 根据 comboTree 结构整理 Combo 相关的图形绘制层级，包括 Combo 本身、节点、边
+   * @param {GraphData} data 数据
+   */
   private sortCombos(data: GraphData) {
     const depthMap = [];
     const dataDepthMap = {};
