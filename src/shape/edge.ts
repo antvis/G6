@@ -200,14 +200,14 @@ const singleEdge: ShapeOptions = {
       return {};
     }
     const bbox = label.getBBox();
-    const backgroundStyle = labelCfg?.style?.background;
+    const backgroundStyle = labelCfg.style && labelCfg.style.background;
     if (!backgroundStyle) {
       return {};
     }
     const { padding } = backgroundStyle;
     const backgroundWidth = bbox.width + padding[1] + padding[3];
     const backgroundHeight = bbox.height + padding[0] + padding[2];
-    const labelPosition = labelCfg.position ?? this.labelPosition;
+    const labelPosition = labelCfg.position || this.labelPosition;
     const style = {
       ...backgroundStyle,
       width: backgroundWidth,
