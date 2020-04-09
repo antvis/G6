@@ -237,13 +237,13 @@ const DefaultCombo = () => {
       graph.on('canvas:click', e => {
         // graph.setItemState(graph.findById('A'), 'selected', true);
         // console.log( graph.findAllByState('combo', 'selected'))
-        // const hidedCombos = graph.findAll('combo', combo => {
-        //   if (!combo.isVisible()) return true;
-        //   return false;
-        // });
-        // hidedCombos.forEach(combo => {
-        //   graph.showItem(combo);
-        // })
+        const hidedCombos = graph.findAll('combo', combo => {
+          if (!combo.isVisible()) return true;
+          return false;
+        });
+        hidedCombos.forEach(combo => {
+          graph.showItem(combo);
+        })
         // console.log(graph.getCombos()[0]);
         // console.log(graph.getComboChildren(graph.getCombos()[0]));
         //graph.focusItem(graph.getCombos()[0]);
