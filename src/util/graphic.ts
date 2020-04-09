@@ -570,7 +570,6 @@ export const reconstructTree = (trees: ComboTree[], subtreeId?: string, newParen
       trees.push(subtree);
     }
   }
-  console.log('xxx', trees)
   return trees;
 }
 
