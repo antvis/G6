@@ -525,11 +525,13 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: INode[]) => {
   return result;
 }
 
-export const reconstructTree = (trees: ComboTree[]): ComboTree[] => {
+export const reconstructTree = (trees: ComboTree[], subtreeId?: String, newParentId?: String | undefined): ComboTree[] => {
   let brothers = trees;
+  let subtree;
   trees.forEach(tree => {
     traverseTree<ComboTree>(tree, child => {
-      if (child && child.removed && brothers) {
+      if (child && (child.removed || subtreeId === child.id) && brothers) {
+        subtree = child;
         const index = brothers.indexOf(child);
         brothers.splice(index, 1);
       }
@@ -537,6 +539,25 @@ export const reconstructTree = (trees: ComboTree[]): ComboTree[] => {
       return true;
     });
   });
+  // append to new parent
+  if (subtreeId) {
+    let found = false;
+    // newParentId is undefined means the subtree will have no parent
+    if (newParentId) {
+      trees.forEach(tree => {
+        traverseTree<ComboTree>(tree, child => {
+          if (newParentId === child.id) {
+            found = true;
+            if (child.children) child.children.push(subtree);
+            else child.children = [ subtree ];
+          }
+          return true;
+        });
+      });
+    } else if (!newParentId || !found) {
+      trees.push(subtree);
+    }
+  }
   return trees;
 }
 
