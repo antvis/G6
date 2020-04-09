@@ -3,7 +3,7 @@
  * @author huangtonger@aliyun.com
  */
 import GGroup from '@antv/g-canvas/lib/group';
-import { IShape } from '@antv/g-canvas/lib/interfaces';
+import { IShape, IElement } from '@antv/g-canvas/lib/interfaces';
 import { isArray, isNil, mix } from '@antv/util';
 import { ILabelConfig, ShapeOptions } from '../interface/shape';
 import { Item, LabelStyle, NodeConfig, ModelConfig } from '../types';
@@ -98,6 +98,73 @@ const singleNode: ShapeOptions = {
         break;
     }
     style.text = cfg.label;
+    return style;
+  },
+  getLabelBgStyleByPosition(
+    label: IElement,
+    cfg: ModelConfig,
+    labelCfg?: ILabelConfig,
+    group?: GGroup,
+  ) {
+    if (!label) {
+      return {};
+    }
+    const bbox = label.getBBox();
+    const backgroundStyle = labelCfg?.style?.background;
+    if (!backgroundStyle) {
+      return {};
+    }
+    const { padding } = backgroundStyle;
+    const backgroundWidth = bbox.width + padding[1] + padding[3];
+    const backgroundHeight = bbox.height + padding[0] + padding[2];
+    const labelPosition = labelCfg.position ?? this.labelPosition;
+
+    let { offset } = labelCfg;
+    if (isNil(offset)) {
+      // 考虑 offset = 0 的场景，不用用 labelCfg.offset || Global.nodeLabel.offset
+      offset = this.offset as number; // 不居中时的偏移量
+    }
+
+    const size = this.getSize!(cfg as ModelConfig);
+
+    const width = size[0];
+    const height = size[1];
+
+    let style: any;
+    switch (labelPosition) {
+      case 'top':
+        style = {
+          x: 0 - bbox.width / 2,
+          y: 0 - height / 2 - (offset as number) - bbox.height,
+        };
+        break;
+      case 'bottom':
+        style = {
+          x: 0 - bbox.width / 2,
+          y: height / 2 + (offset as number),
+        };
+        break;
+      case 'left':
+        style = {
+          x: 0 - width / 2 - (offset as number) - bbox.width,
+          y: 0 - bbox.height / 2,
+        };
+        break;
+      default:
+        style = {
+          x: width / 2 + (offset as number),
+          y: 0 - bbox.height / 2,
+        };
+        break;
+    }
+
+    style = {
+      ...style,
+      ...backgroundStyle,
+      width: backgroundWidth,
+      height: backgroundHeight,
+    };
+
     return style;
   },
   drawShape(cfg: NodeConfig, group: GGroup): IShape {
