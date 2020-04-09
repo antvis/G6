@@ -135,6 +135,7 @@ export type LabelStyle = Partial<{
   background?: {
     fill?: string;
     stroke?: string;
+    lineWidth?: number;
     radius?: number[] | number;
     padding?: number[] | number;
   };
