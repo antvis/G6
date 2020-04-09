@@ -9,7 +9,6 @@ import {
   getEllipseIntersectByPoint,  
   getRectIntersectByPoint,
 } from '../util/math';
-import Edge from './edge';
 import Item from './item';
 
 const CACHE_ANCHOR_POINTS = 'anchorPointsCache';
@@ -50,17 +49,17 @@ export default class Node extends Item implements INode {
   /**
    * 获取所有的入边
    */
-  public getInEdges(): Edge[] {
+  public getInEdges(): IEdge[] {
     const self = this;
-    return this.get('edges').filter((edge: Edge) => edge.get('target') === self);
+    return this.get('edges').filter((edge: IEdge) => edge.get('target') === self);
   }
 
   /**
    * 获取所有的出边
    */
-  public getOutEdges(): Edge[] {
+  public getOutEdges(): IEdge[] {
     const self = this;
-    return this.get('edges').filter((edge: Edge) => edge.get('source') === self);
+    return this.get('edges').filter((edge: IEdge) => edge.get('source') === self);
   }
 
   /**
