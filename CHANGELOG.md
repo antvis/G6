@@ -1,5 +1,13 @@
 # ChangeLog
+
+#### 3.4.5
+
+- feat: support set the background of the label on node or edge;
+- fix: changeData clear states；
+- fix：state not work when don't set default labelCfg;
+
 #### 3.4.4
+
 - feat: background color for downloadImage and toDataURL;
 - feat: support configure image for grid plugin;
 - fix: initial position for fruchterman layout;
@@ -8,10 +16,12 @@
 - fix: polyline without L attributes.
 
 #### 3.4.3
+
 - fix: support extends BehaviorOption;
 - fix: click-select Behavior support multiple selection using ctrl key.
 
 #### 3.4.2
+
 - feat: zoom-canvas behavior supports hiding non-keyshape elements when scaling canvas;
 - refactor: when the second parameter is null, clearItemStates will clear all states of the item;
 - fix: (changeData bug)[https://github.com/antvis/G6/issues/1323];
@@ -20,6 +30,7 @@
 - fix: problem of dagre with controlPoints and loop edges.
 
 #### 3.4.1
+
 - feat: force layout clone original data model to allow the customized properties;
 - fix: BehaviorOptions type error;
 - fix: fitView the graph with data whose nodes and edges are empty arrays;
@@ -28,10 +39,12 @@
 - refactor: update G and the fill of custom arrow should be assigned by user.
 
 #### 3.4.0
+
 - feat: SVG renderer;
 - refactor: new state mechanism with multiple values, sub graphics shape style settings.
 
 #### 3.3.7
+
 - feat: beforeaddchild and afteraddchild emit for TreeGraph;
 - feat: built-in nodes' labels can be captured;
 - fix: drag shadow caused by localRefresh, update the g-canvas version;
@@ -40,8 +53,8 @@
 - fix: update nodes with empty string label;
 - fix: abnormal rendering when a graph has image nodes and other type nodes.
 
-
 #### 3.3.6
+
 - feat: support edge weight for dagre layout;
 - feat: automatically add draggable to keyShape, users do not need to assign it when custom a node or an edge;
 - fix: cannot read 0 or null problem in getPointByCanvas;
@@ -56,16 +69,18 @@
 - doc: fix shouldUpdate problem in treeWithLargeData demo on the site.
 
 #### 3.3.5
+
 - fix: 3.3.4 is not published successfully;
 
 #### 3.3.4
+
 - fix: 3.3.3 is not published successfully;
 - fix: delegate or keyShape type minimap does not display bug;
 - fix: dragging bug on minimap with a graph whose bbox is nagtive;
 - fix: null matrix bug, create a unit matrix for null.
 
-
 #### 3.3.3
+
 - fix: delegate or keyShape type minimap does not display bug;
 - fix: null matrix in focus() and getLoopCfgs() bug.
 
@@ -99,23 +114,28 @@
 - refactor: plugins usage is changed into new G6.PluginName()
 
 #### 3.2.7
+
 - feat: supports create the group without nodes in node-group;
 - fix: supports destoryed properties and fix issue 1094;
 
 #### 3.2.6
+
 - feat: supports sort the nodes on one circle according to the data ordering or some attribute in radial layout
 - fix: grid layout with cols and rows
 - feat: fix the nodes with position information in their original data and random the positions of others when the layout is not defined for graph
 
 #### 3.2.5
+
 - fix: click-select trigger error
 - fix: solved position problem for minimap
 
 #### 3.2.4
+
 - fix: typescript compile error
 - fix: delete sankey lib
 
 #### 3.2.3
+
 - fix: group position error
 - fix: supports not set layout type
 

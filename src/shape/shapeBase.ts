@@ -216,7 +216,7 @@ export const shapeBase: ShapeOptions = {
 
         // 取 nodeLabel，edgeLabel 的配置项
         const cfgStyle = cfg.labelCfg ? cfg.labelCfg.style : undefined;
-        const cfgBgStyle = labelCfg.style?.background;
+        const cfgBgStyle = labelCfg.style && labelCfg.style.background;
 
         // 需要融合当前 label 的样式 label.attr()。不再需要全局/默认样式，因为已经应用在当前的 label 上
         const labelStyle = Object.assign({}, label.attr(), calculateStyle, cfgStyle);
@@ -255,6 +255,9 @@ export const shapeBase: ShapeOptions = {
           // const labelBgStyle = Object.assign({}, labelBg.attr(), calculateBgStyle, cfgBgStyle);
           const labelBgStyle = Object.assign({}, calculateBgStyle, cfgBgStyle);
           labelBg.resetMatrix();
+          if (rotate) {
+            labelBg.rotateAtStart(rotate);
+          }
           labelBg.attr(labelBgStyle);
         } else {
           group.removeChild(labelBg);
@@ -399,7 +402,9 @@ export const shapeBase: ShapeOptions = {
     const model = item.getModel();
 
     if (value) {
-      const modelStateStyle = model.stateStyles ? model.stateStyles[name] : this.options.stateStyles && this.options.stateStyles[name];
+      const modelStateStyle = model.stateStyles
+        ? model.stateStyles[name]
+        : this.options.stateStyles && this.options.stateStyles[name];
       return mix({}, model.style, modelStateStyle);
     }
 

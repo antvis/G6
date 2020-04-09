@@ -7,6 +7,7 @@ import { IShape, IElement } from '@antv/g-canvas/lib/interfaces';
 import { isArray, isNil, mix } from '@antv/util';
 import { ILabelConfig, ShapeOptions } from '../interface/shape';
 import { Item, LabelStyle, NodeConfig, ModelConfig } from '../types';
+import { formatPadding } from '../util/base';
 import Global from '../global';
 import Shape from './shape';
 import { shapeBase } from './shapeBase';
@@ -110,14 +111,15 @@ const singleNode: ShapeOptions = {
       return {};
     }
     const bbox = label.getBBox();
-    const backgroundStyle = labelCfg?.style?.background;
+    const backgroundStyle = labelCfg.style && labelCfg.style.background;
     if (!backgroundStyle) {
       return {};
     }
-    const { padding } = backgroundStyle;
+
+    const padding = formatPadding(backgroundStyle.padding);
     const backgroundWidth = bbox.width + padding[1] + padding[3];
     const backgroundHeight = bbox.height + padding[0] + padding[2];
-    const labelPosition = labelCfg.position ?? this.labelPosition;
+    const labelPosition = labelCfg.position || this.labelPosition;
 
     let { offset } = labelCfg;
     if (isNil(offset)) {
@@ -134,26 +136,26 @@ const singleNode: ShapeOptions = {
     switch (labelPosition) {
       case 'top':
         style = {
-          x: 0 - bbox.width / 2,
-          y: 0 - height / 2 - (offset as number) - bbox.height,
+          x: 0 - bbox.width / 2 - padding[3],
+          y: 0 - height / 2 - (offset as number) - bbox.height - padding[0],
         };
         break;
       case 'bottom':
         style = {
-          x: 0 - bbox.width / 2,
-          y: height / 2 + (offset as number),
+          x: 0 - bbox.width / 2 - padding[3],
+          y: height / 2 + (offset as number) - padding[2],
         };
         break;
       case 'left':
         style = {
-          x: 0 - width / 2 - (offset as number) - bbox.width,
-          y: 0 - bbox.height / 2,
+          x: 0 - width / 2 - (offset as number) - bbox.width - padding[3],
+          y: padding[0] + padding[2] === 0 ? 0 : -bbox.height / 2 + (padding[0] + padding[2]) / 2,
         };
         break;
       default:
         style = {
-          x: width / 2 + (offset as number),
-          y: 0 - bbox.height / 2,
+          x: width / 2 + (offset as number) - padding[3],
+          y: padding[0] + padding[2] === 0 ? 0 : -bbox.height / 2 + (padding[0] + padding[2]) / 2,
         };
         break;
     }
