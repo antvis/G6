@@ -861,8 +861,7 @@ export default class Graph extends EventEmitter implements IGraph {
       });
       // const comboGroup = this.get('comboGroup')
       // comboGroup && comboGroup.sort();
-    }
-    else if (type === 'node' && isString(model.comboId) && comboTrees) {
+    } else if (type === 'node' && isString(model.comboId) && comboTrees) {
       const parentCombo = this.findById(model.comboId as string);
       if (!parentCombo || parentCombo.getType() !== 'combo') {
         console.warn(`The combo ${model.comboId} for the node ${model.id} does not exist, please add the combo first.`);
