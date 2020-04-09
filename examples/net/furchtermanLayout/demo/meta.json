@@ -6,22 +6,34 @@
   "demos": [
     {
       "filename": "basicFruchterman.js",
-      "title": "基本 Fruchterman 布局",
+      "title": {
+        "zh": "基本 Fruchterman 布局",
+        "en": "Basic Fruchterman Layout"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1KY7SLEXxqMAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "fruchtermanClustering.js",
-      "title": "Fruchterman 聚类布局",
+      "title": {
+        "zh": "Fruchterman 聚类布局",
+        "en": "Fruchterman with Clustering"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*WO1OTbNE_ugAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "fruchtermanConfigurationTranslate.js",
-      "title": "Fruchterman 布局参数动态变化",
+      "title": {
+        "zh": "Fruchterman 布局参数动态变化",
+        "en": "Update the Configurations for Fruchterman"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*W9MoQoKaQbYAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "fruchtermanWebWorker.js",
-      "title": "Fruchterman 使用 web-worker",
+      "title": {
+        "zh": "Fruchterman 使用 Web-worker",
+        "en": "Fruchterman with Web-worker"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0sl9RZ7Cp28AAAAAAAAAAABkARQnAQ"
     }
   ]

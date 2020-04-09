@@ -6,17 +6,26 @@
   "demos": [
     {
       "filename": "treeEdgeLabel.js",
-      "title": "树图边上的标签",
+      "title": {
+        "zh": "树图边上的标签",
+        "en": "Labels on Tree Edge"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LtTbS4D59H4AAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "customTree.js",
-      "title": "自定义复杂树图样式",
+      "title": {
+        "zh": "自定义复杂树图样式",
+        "en": "Custom Tree Node"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*D8kzQYHaUiIAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "treeWithLargeData.js",
-      "title": "大数据树图及复杂样式",
+      "title": {
+        "zh": "大数据树图及复杂样式",
+        "en": "Custom and Large Tree"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*BsrlQZzMBGsAAAAAAAAAAABkARQnAQ"
     }
   ]

@@ -6,12 +6,18 @@
   "demos": [
     {
       "filename": "filesystem.js",
-      "title": "缩近树-文件系统",
+      "title": {
+        "zh": "缩进树-文件系统",
+        "en": "FileSystem-Intended Layout"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*PJnfTKFRaCAAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "hIntended.js",
-      "title": "缩近树-子节点两侧分布",
+      "title": {
+        "zh": "缩进树-子节点两侧分布",
+        "en": "Two Side Intended Layout"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*42EXSYyBcTYAAAAAAAAAAABkARQnAQ"
     }
   ]

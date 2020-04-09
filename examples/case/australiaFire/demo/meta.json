@@ -6,7 +6,10 @@
   "demos": [
     {
       "filename": "index.js",
-      "title": "澳大利亚大火",
+      "title": {
+        "zh": "澳大利亚大火",
+        "en": "Australia Fire"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*WLzKQpZl5QEAAAAAAAAAAABkARQnAQ"
     }
   ]

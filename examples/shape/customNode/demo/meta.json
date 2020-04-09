@@ -6,47 +6,74 @@
   "demos": [
     {
       "filename": "svgDom.js",
-      "title": "DOM 节点",
+      "title": {
+        "zh": "DOM 节点",
+        "en": "Dom Node"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VgQlQK1MdbIAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "areaChart.js",
-      "title": "面积图",
+      "title": {
+        "zh": "面积图",
+        "en": "Area Chart Node"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YWuhR5ZjZfkAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "stackChart.js",
-      "title": "堆叠图",
+      "title": {
+        "zh": "堆叠图",
+        "en": "Stacked Chart Node"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*giZSRafSctgAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "lineChart.js",
-      "title": "折线图",
+      "title": {
+        "zh": "折线图",
+        "en": "Line Chart Node"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mKmaTIBtVAUAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "barChart.js",
-      "title": "南丁格尔图",
+      "title": {
+        "zh": "南丁格尔图",
+        "en": "Nightingale Node"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lX3gRZWvbp4AAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "pointChart.js",
-      "title": "点线图",
+      "title": {
+        "zh": "点线图",
+        "en": "Point Chart Node"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M0ycSarMV2sAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "pieChart.js",
-      "title": "饼图",
+      "title": {
+        "zh": "饼图",
+        "en": "Pie Chart Node"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*idENQpnwA1sAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "card.js",
-      "title": "卡片",
+      "title": {
+        "zh": "卡片",
+        "en": "Card"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*3cRGRb5nB_UAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "list.js",
-      "title": "列表",
+      "title": {
+        "zh": "列表",
+        "en": "List"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*pxKjQ5dZx80AAAAAAAAAAABkARQnAQ"
     }
   ]

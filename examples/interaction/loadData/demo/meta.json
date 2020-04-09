@@ -6,12 +6,18 @@
   "demos": [
     {
       "filename": "changeData.js",
-      "title": "使用 changeData",
+      "title": {
+        "zh": "使用 changeData",
+        "en": "Using changeData"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wc1-QaqOPsgAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "loadTreeData.js",
-      "title": "使用 refreshLayout",
+      "title": {
+        "zh": "使用 refreshLayout",
+        "en": "Using refreshLayout"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wc1-QaqOPsgAAAAAAAAAAABkARQnAQ"
     }
   ]

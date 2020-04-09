@@ -6,7 +6,10 @@
   "demos": [
     {
       "filename": "hover.js",
-      "title": "状态与动画",
+      "title": {
+        "zh": "状态与动画",
+        "en": "State and Animation"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*WJhtR4pSJssAAAAAAAAAAABkARQnAQ"
     }
   ]

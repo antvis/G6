@@ -6,12 +6,18 @@
   "demos": [
     {
       "filename": "basicArcDiagram.js",
-      "title": "基本弧线图",
+      "title": {
+        "zh": "基本弧线图",
+        "en": "Basic Arc Diagram"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_eivQrJXt8sAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "circularArcDiagram.js",
-      "title": "环形弧线图",
+      "title": {
+        "zh": "环形弧线图",
+        "en": "Circular Arc Diagram"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*o-tESYnAAJYAAAAAAAAAAABkARQnAQ"
     }
   ]

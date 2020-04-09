@@ -1,5 +1,5 @@
 ---
-title: 如何在 G6 中实现变换
+title: 图形或图形分组的变换
 order: 6
 ---
 
@@ -43,33 +43,33 @@ rect.transform([
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*jN3HQbHZ4dIAAAAAAAAAAABkARQnAQ' width='200' />
 
-### translate(x, y)
+#### translate(x, y)
 
 实例的相对位移方法。
 
-### move(x, y)
+#### move(x, y)
 
 实例的相对位移方法。
 
-### rotate(radian)
+#### rotate(radian)
 
 根据旋转弧度值对图形进行旋转。
 
-### scale(sx, sy)
+#### scale(sx, sy)
 
 对图形进行缩放。
 
-### resetMatrix()
+#### resetMatrix()
 
 清除图形实例的所有变换效果。
 
-### getTotalMatrix()
+#### getTotalMatrix()
 
 获取应用到实例上的所有变换的矩阵。
 
 ### G6 3.3
 
-在 G6 3.3 及以上版本中，废弃了 Group / Canvas 上只适用于三阶矩阵的变换函数:
+在 G6 3.3 及以上版本中，废弃了 Group / Canvas 上只适用于三阶矩阵的变换函数：
 
 - 🗑 平移函数 translate；
 - 🗑 移动函数 move；
@@ -77,16 +77,57 @@ rect.transform([
 - 🗑 旋转函数 rotate；
 - 🗑 以 (0, 0) 点为中心的旋转函数 rotateAtStart。
 
-在 G6 3.3 版本中要应用矩阵变换的效果，需要手动设置矩阵的值: • 设置矩阵 setMatrix(matrix)； • 重置矩阵 resetMatrix()； • 设置矩阵 attr('matrix', matrix)；
+在 G6 3.3 版本中要应用矩阵变换的效果，需要手动设置矩阵的值：
+- 获取当前矩阵：getMatrix()；
+- 设置矩阵：setMatrix(matrix) 或 attr('matrix', matrix)； 
+- 重置矩阵：resetMatrix()。
 
-为了方面使用，我们提供了矩阵变换的工具方法:
+为了方面使用，我们提供了矩阵变换的工具方法：
 
 ```javascript
 import { transform } from '@antv/matrix-util';
 // 3*3 矩阵变换，用于二维渲染
 trasform(m, [
-  ['t', x, y], // translate
-  ['r', Math.PI], // rotate
-  ['s', 2, 2], // scale
+  [ 't', 100, 50 ], // translate (100, 50)
+  [ 'r', Math.PI ], // rotate Math.PI
+  [ 's', 2, 2 ], // scale 2 times at x-axis and y-axis
 ]);
+```
+
+#### 示例
+以下方法实现了在自定义节点 example 中增加一个矩形，并将该矩形位移 `(100, 50)` 后，旋转 `Math.PI / 4`，最后在 x 方向放大 2 倍，并在 y 方向缩小 2 倍：
+
+```javascript
+import { transform, mat3 } from '@antv/matrix-util';
+G6.registerNode('example', {
+  drawShape: (cfg, group) => {
+    const rect = group.addShape('rect', {
+      attrs: {
+        width: 100,
+        height: 100,
+        x: 100,
+        y: 100,
+        fill: '#9EC9FF',
+        stroke: '#5B8FF9',
+        lineWidth: 3,
+      },
+      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      name: 'rect-shape',
+      draggable: true
+    });
+    const matrix = rect.getMatrix();
+    
+    // 图形或分组的初始矩阵时 null，为了避免变换一个 null 矩阵，需要通过 mat3.create() 将其初始化为单位矩阵
+    if (!matrix) matrix = mat3.create();
+
+    // 3*3 矩阵变换，用于二维渲染
+    const newMatrix = trasform(matrix, [
+      [ 't', 100, 50 ], // translate
+      [ 'r', Math.PI / 4 ], // rotate
+      [ 's', 2, 0.5 ], // scale
+    ]);
+
+    rect.setMatrix(newMatrix);
+  }
+});
 ```

@@ -6,7 +6,10 @@
   "demos": [
     {
       "filename": "partialNode.js",
-      "title": "响应节点中部分区域",
+      "title": {
+        "zh": "响应节点中部分区域",
+        "en": "Region Response"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rszjRrAopBkAAAAAAAAAAABkARQnAQ"
     }
   ]
