@@ -9,7 +9,7 @@ container.id = 'minimap-container';
 div.appendChild(container);
 
 describe('minimap', () => {
-  it('minimap with default settings & destroy', () => {
+  it('minimap with default settings & destroy', done => {
     const minimap = new G6.Minimap({ size: [200, 200] });
     const graph = new G6.Graph({
       container: div,
@@ -65,23 +65,29 @@ describe('minimap', () => {
 
     graph.zoom(2.5, { x: 250, y: 250 });
 
-    expect(viewport.style.left).toEqual('20px');
-    expect(viewport.style.top).toEqual('20px');
-    expect(viewport.style.width).toEqual('160px');
-    expect(viewport.style.height).toEqual('160px');
+    setTimeout(() => {
+      expect(viewport.style.left).toEqual('46.6685px');
+      expect(viewport.style.top).toEqual('37.6947px');
+      expect(viewport.style.width).toEqual('200px');
+      expect(viewport.style.height).toEqual('200px');
 
-    minimap.destroyPlugin();
+      minimap.destroyPlugin();
 
-    const container: HTMLElement = div.childNodes[1] as HTMLElement;
-    expect(container.innerHTML).toEqual('');
+      const container: HTMLElement = div.childNodes[1] as HTMLElement;
+      expect(container.innerHTML).toEqual('');
 
-    graph.zoom(2.5, { x: 250, y: 250 });
-    expect(viewport.style.left).toEqual('20px');
-    expect(viewport.style.top).toEqual('20px');
-    expect(viewport.style.width).toEqual('160px');
-    expect(viewport.style.height).toEqual('160px');
+      graph.zoom(2.5, { x: 250, y: 250 });
+      setTimeout(() => {
+        expect(viewport.style.left).toEqual('46.6685px');
+        expect(viewport.style.top).toEqual('37.6947px');
+        expect(viewport.style.width).toEqual('200px');
+        expect(viewport.style.height).toEqual('200px');
+        done();
+      });
+    }, 100);
+    
   });
-  it('move viewport', () => {
+  it('move viewport', done => {
     const minimap = new G6.Minimap({ size: [200, 200] });
     const graph = new G6.Graph({
       container: div,
@@ -116,67 +122,72 @@ describe('minimap', () => {
     graph.zoom(2, { x: 250, y: 250 });
     graph.translate(100, 100);
 
-    expect(viewport.style.left).toEqual('30px');
-    expect(viewport.style.top).toEqual('30px');
-    expect(viewport.style.width).toEqual('100px');
-    expect(viewport.style.height).toEqual('100px');
+    setTimeout(() => {
+      expect(viewport.style.left).toEqual('71.028px');
+      expect(viewport.style.top).toEqual('59.4093px');
+      expect(viewport.style.width).toEqual('200px');
+      expect(viewport.style.height).toEqual('200px');
 
-    const container = canvas.get('container');
+      const container = canvas.get('container');
 
-    Simulate.simulate(viewport, 'mousedown', {
-      clientX: 100,
-      clientY: 100,
-      target: viewport,
-    });
+      Simulate.simulate(viewport, 'mousedown', {
+        clientX: 100,
+        clientY: 100,
+        target: viewport,
+      });
 
-    Simulate.simulate(container, 'mousemove', {
-      clientX: 120,
-      clientY: 120,
-    });
+      Simulate.simulate(container, 'mousemove', {
+        clientX: 120,
+        clientY: 120,
+      });
 
-    Simulate.simulate(container, 'mouseup', {
-      clientX: 120,
-      clientY: 120,
-    });
-    expect(viewport.style.left).toEqual('50px');
-    expect(viewport.style.top).toEqual('50px');
-    expect(viewport.style.width).toEqual('100px');
-    expect(viewport.style.height).toEqual('100px');
+      Simulate.simulate(container, 'mouseup', {
+        clientX: 120,
+        clientY: 120,
+      });
 
-    const matrix = graph.get('group').getMatrix();
-    expect(matrix[0]).toEqual(2);
-    expect(matrix[4]).toEqual(2);
-    expect(matrix[6]).toEqual(-250);
-    expect(matrix[7]).toEqual(-250);
+      setTimeout(() => {
+        expect(viewport.style.left).toEqual('0px');
+        expect(viewport.style.top).toEqual('0px');
+        expect(viewport.style.width).toEqual('200px');
+        expect(viewport.style.height).toEqual('200px');
+        const matrix = graph.get('group').getMatrix();
+        expect(matrix[0]).toEqual(2);
+        expect(matrix[4]).toEqual(2);
+        
+        Simulate.simulate(viewport, 'mousedown', {
+          clientX: 200,
+          clientY: 200,
+          target: viewport
+        });
+        Simulate.simulate(container, 'mousemove', {
+          clientX: 0,
+          clientY: 0
+        });
+
+        setTimeout(() => {
+          expect(viewport.style.left).toEqual('0px');
+          expect(viewport.style.top).toEqual('0px');
+          expect(viewport.style.width).toEqual('200px');
+          expect(viewport.style.height).toEqual('200px');
+      
+          const matrix2 = graph.get('group').getMatrix();
+          expect(matrix2[0]).toEqual(2);
+          expect(matrix2[4]).toEqual(2);
+
+          Simulate.simulate(container, 'mouseleave', {
+            clientX: -100,
+            clientY: -100
+          });
+          graph.destroy();
+          done()
+        }, 100);
+      }, 100);
+
+    }, 100);
 
 
-    Simulate.simulate(viewport, 'mousedown', {
-      clientX: 200,
-      clientY: 200,
-      target: viewport
-    });
 
-    Simulate.simulate(container, 'mousemove', {
-      clientX: 0,
-      clientY: 0
-    });
-
-    expect(viewport.style.left).toEqual('0px');
-    expect(viewport.style.top).toEqual('0px');
-    expect(viewport.style.width).toEqual('100px');
-    expect(viewport.style.height).toEqual('100px');
-
-    const matrix2 = graph.get('group').getMatrix();
-    expect(matrix2[0]).toEqual(2);
-    expect(matrix2[4]).toEqual(2);
-    expect(matrix2[6]).toEqual(0);
-    expect(matrix2[7]).toEqual(0);
-
-    Simulate.simulate(container, 'mouseleave', {
-      clientX: -100,
-      clientY: -100
-    });
-    graph.destroy();
   });
   it('invalid dom event', () => {
     const minimap = new G6.Minimap({ size: [200, 200] });
@@ -224,7 +235,7 @@ describe('minimap', () => {
       target: null,
     });
   });
-  it('delegate type of minimap', () => {
+  it('delegate type of minimap', done => {
     const minimap = new G6.Minimap({
       size: [200, 200],
       type: 'delegate',
@@ -243,15 +254,18 @@ describe('minimap', () => {
     const nodeBBox = graph.addItem('node', { id: 'node', x: 100, y: 100, size: 16 }).getBBox();
 
     const canvas = minimap.getCanvas();
-    const delegateShape = canvas.get('children')[0].get('children')[0];
+    setTimeout(() => {
+      const delegateShape = canvas.get('children')[0].get('children')[0];
+      expect(delegateShape.attr('x')).toEqual(nodeBBox.minX);
+      expect(delegateShape.attr('y')).toEqual(nodeBBox.minY);
+      expect(delegateShape.attr('width')).toEqual(nodeBBox.width);
+      expect(delegateShape.attr('height')).toEqual(nodeBBox.height);
+      expect(delegateShape.attr('fill')).toEqual('#fff');
+      expect(delegateShape.attr('stroke')).toEqual('#096dd9');
+      graph.destroy();
+      done();
+    }, 100);
 
-    expect(delegateShape.attr('x')).toEqual(nodeBBox.minX);
-    expect(delegateShape.attr('y')).toEqual(nodeBBox.minY);
-    expect(delegateShape.attr('width')).toEqual(nodeBBox.width);
-    expect(delegateShape.attr('height')).toEqual(nodeBBox.height);
-    expect(delegateShape.attr('fill')).toEqual('#fff');
-    expect(delegateShape.attr('stroke')).toEqual('#096dd9');
-    graph.destroy();
   });
   it('minimap container', () => {
     const minimap = new G6.Minimap({
@@ -292,7 +306,7 @@ describe('minimap', () => {
     graph.destroy();
     expect(container.innerHTML).toEqual('');
   });
-  it('canvas minX minY < 0', () => {
+  it('canvas minX minY < 0', done => {
     const minimap = new G6.Minimap({
       size: [200, 200]
     });
@@ -309,15 +323,19 @@ describe('minimap', () => {
       },
     });
     graph.addItem('node', { id: 'node1', x: -50, y: -50 });
-    const canvas = minimap.getCanvas();
-    const group = canvas.get('children')[0];
-    const matrix = group.getMatrix();
 
-    expect(matrix[6] - 30 < 1).toBe(false);
-    expect(matrix[7] - 30 < 1).toBe(false);
-    graph.destroy();
+    setTimeout(() => {
+      const canvas = minimap.getCanvas();
+      const group = canvas.get('children')[0];
+      const matrix = group.getMatrix();
+  
+      expect(matrix[6] - 30 < 1).toBe(false);
+      expect(matrix[7] - 30 < 1).toBe(false);
+      graph.destroy();
+      done()
+    }, 100);
   });
-  it('keyShapeOnly minimap', () => {
+  it('keyShapeOnly minimap', done => {
     const minimap = new G6.Minimap({ size: [200, 200], type: 'keyShape' });
     const graph = new G6.Graph({
       container: div,
@@ -330,17 +348,17 @@ describe('minimap', () => {
     graph.addItem('edge', { id: 'edge1', source: 'node1', target: 'node2' });
 
     const canvas = minimap.getCanvas();
-    const shapeGroup = canvas.get('children')[0].get('children');
-
-    expect(shapeGroup.length).toEqual(3);
-    expect(shapeGroup[0].attr('path')).not.toBe(undefined);
-    expect(shapeGroup[1].getMatrix()[6]).toEqual(50);
-    expect(shapeGroup[1].getMatrix()[7]).toEqual(50);
-    expect(shapeGroup[1].get('children').length).toEqual(1);
-    expect(shapeGroup[2].getMatrix()[6]).toEqual(120);
-    expect(shapeGroup[2].getMatrix()[7]).toEqual(150);
-    expect(shapeGroup[2].get('children').length).toEqual(1);
-    graph.destroy();
+    setTimeout(() => {
+      const shapeGroup = canvas.get('children')[0].get('children');
+      expect(shapeGroup.length).toEqual(3);
+      expect(shapeGroup[0].attr('path')).not.toBe(undefined);
+      expect(shapeGroup[1].attr('x')).toEqual(50);
+      expect(shapeGroup[1].attr('y')).toEqual(50);
+      expect(shapeGroup[2].attr('x')).toEqual(120);
+      expect(shapeGroup[2].attr('y')).toEqual(150);
+      graph.destroy();
+      done()
+    }, 100);
   });
   it('get minimap container', () => {
     const minimap = new G6.Minimap({ size: [200, 200], type: 'keyShape' });

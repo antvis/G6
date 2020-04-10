@@ -40,6 +40,15 @@ export default {
       x: clientX,
       y: clientY,
     };
+    const width = this.graph.get('width');
+    const height = this.graph.get('height');
+    const graphCanvasBBox = this.graph.get('canvas').getCanvasBBox();
+    if (graphCanvasBBox.minX + dx > width || graphCanvasBBox.maxX + dx < 0) {
+      dx = 0;
+    }
+    if (graphCanvasBBox.minY + dy > height || graphCanvasBBox.maxY + dy < 0) {
+      dy = 0;
+    }
     this.graph.translate(dx, dy);
     this.graph.paint();
   },
