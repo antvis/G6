@@ -532,9 +532,7 @@ export default class Graph extends EventEmitter implements IGraph {
    */
   public moveTo(x: number, y: number): void {
     const group: Group = this.get('group');
-
     move(group, { x, y });
-
     this.emit('viewportchange', { action: 'move', matrix: group.getMatrix() });
   }
 
