@@ -1919,22 +1919,32 @@ describe('tree graph', () => {
 
 describe('plugins', () => {
 
-  const data = {
+  const data2 = {
     nodes: [
       {
-        id: 'node1'
+        id: 'node1',
+        x: -100,
+        y: -100
       },
       {
-        id: 'node2'
+        id: 'node2',
+        x: -50,
+        y: -100
       },
       {
-        id: 'node3'
+        id: 'node3',
+        x: -10,
+        y: 10
       },
       {
-        id: 'node4'
+        id: 'node4',
+        x: 30,
+        y: 80
       },
       {
-        id: 'node5'
+        id: 'node5',
+        x: 35,
+        y: 40
       },
     ],
     edges: [
@@ -1961,7 +1971,7 @@ describe('plugins', () => {
     ],
   };
 
-  it('minimap default', () => {
+  it('minimap default', done => {
     const minimap = new G6.Minimap();
     const graph = new Graph({
       container: div,
@@ -1973,22 +1983,26 @@ describe('plugins', () => {
         default: ['drag-node', 'drag-canvas', 'zoom-canvas']
       }
     });
-    graph.data(data);
+    graph.data(data2);
     graph.render();
-    const minimapGroup = minimap.get('canvas').get('children')[0];
-    expect(minimapGroup.get('children').length).toBe(4);
-    expect(minimapGroup.get('children')[1].get('children').length).toBe(5);
-    expect(minimapGroup.get('children')[2].get('children').length).toBe(5);
+    setTimeout(() => {
+      const minimapGroup = minimap.get('canvas').get('children')[0];
+      expect(minimapGroup.get('children').length).toBe(4);
+      graph.zoom(2, { x: 250, y: 250 });
+      expect(minimapGroup.get('children')[1].get('children').length).toBe(5);
+      expect(minimapGroup.get('children')[2].get('children').length).toBe(5);
+      const viewport = minimap.get('viewport');
+      expect(viewport.style.width).toBe('99.6678px');
+      expect(viewport.style.height).toBe('99.6678px');
+      expect(viewport.style.left).toBe('162.791px');
+      expect(viewport.style.top).toBe('113.821px');
+      graph.destroy();
 
-    graph.zoom(2, { x: 250, y: 250 });
-    const viewport = minimap.get('viewport');
-    expect(viewport.style.width).toBe('60px');
-    expect(viewport.style.height).toBe('60px');
-    expect(viewport.style.left).toBe('70px');
-    expect(viewport.style.top).toBe('30px');
-    graph.destroy();
+      done();
+    }, 100);
   });
   it('minimap delegate', () => {
+
     const minimap2 = new G6.Minimap({
       width: 100,
       height: 80,
@@ -2004,18 +2018,21 @@ describe('plugins', () => {
         default: ['drag-node', 'drag-canvas', 'zoom-canvas']
       }
     });
-    graph2.data(data);
+    graph2.data(data2);
     graph2.render();
-    const minimapGroup = minimap2.get('canvas').get('children')[0];
-    expect(minimapGroup.get('children').length).toBe(10);
-
     graph2.zoom(2, { x: 250, y: 250 });
-    const viewport = minimap2.get('viewport');
-    expect(viewport.style.width).toBe('60px');
-    expect(viewport.style.height).toBe('60px');
-    expect(viewport.style.left).toBe('70px');
-    expect(viewport.style.top).toBe('30px');
-    graph2.destroy();
+    setTimeout(() => {
+      const minimapGroup = minimap2.get('canvas').get('children')[0];
+      expect(minimapGroup.get('children').length).toBe(10);
+  
+      const viewport = minimap2.get('viewport');
+      expect(viewport.style.width).toBe('99.3377px');
+      expect(viewport.style.height).toBe('99.3377px');
+      expect(viewport.style.left).toBe('162.583px');
+      expect(viewport.style.top).toBe('113.642px');
+      graph2.destroy();
+
+    }, 100);
   });
   it('minimap keyShape', () => {
     const minimap = new G6.Minimap({
@@ -2033,21 +2050,26 @@ describe('plugins', () => {
         default: ['drag-node', 'drag-canvas', 'zoom-canvas']
       }
     });
-    data.nodes.forEach((node: any, i) => {
+    data2.nodes.forEach((node: any, i) => {
       node.label = `node-${i}`;
     });
-    graph.data(data);
+    graph.data(data2);
     graph.render();
-    const minimapGroup = minimap.get('canvas').get('children')[0];
-    expect(minimapGroup.get('children').length).toBe(10);
-
     graph.zoom(2, { x: 250, y: 250 });
-    const viewport = minimap.get('viewport');
-    expect(viewport.style.width).toBe('60px');
-    expect(viewport.style.height).toBe('60px');
-    expect(viewport.style.left).toBe('70px');
-    expect(viewport.style.top).toBe('30px');
-    graph.destroy();
+    setTimeout(() => {
+      const minimapGroup = minimap.get('canvas').get('children')[0];
+      expect(minimapGroup.get('children').length).toBe(10);
+  
+      const viewport = minimap.get('viewport');
+
+      expect(viewport.style.width).toBe('99.6678px');
+      expect(viewport.style.height).toBe('99.6678px');
+      expect(viewport.style.left).toBe('162.791px');
+      expect(viewport.style.top).toBe('113.821px');
+      graph.destroy();
+
+    }, 100);
+
   });
 
   it('edge bundling', () => {
@@ -2458,7 +2480,7 @@ describe('plugins', () => {
       renderer: 'svg'
     });
 
-    graph.data(data);
+    graph.data(data2);
     graph.render();
 
     // create ul
@@ -2507,7 +2529,7 @@ describe('plugins', () => {
         default: ['drag-canvas', 'zoom-canvas']
       }
     });
-    graph.data(data);
+    graph.data(data2);
     graph.render();
     
     const gridDom = document.getElementsByClassName('g6-grid')[0] as HTMLElement;
