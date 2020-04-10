@@ -68,7 +68,8 @@ describe('drag-combo', () => {
         id: 'C',
         label: 'gorup C',
         // type: 'rect'
-      }, {
+      }, 
+      {
         id: 'F',
         label: 'gorup F'
         // type: 'rect'
@@ -77,7 +78,8 @@ describe('drag-combo', () => {
         label: 'gorup G',
         // parentId: 'F'
         type: 'circle'
-      }]
+      }
+    ]
     };
 
     const graph = new G6.Graph({
@@ -113,6 +115,8 @@ describe('drag-combo', () => {
     
     graph.data(data);
     graph.render();
+
+    console.log(graph.getCombos())
 
     graph.on('node:click', e => {
       // graph.hideItem(e.item);
