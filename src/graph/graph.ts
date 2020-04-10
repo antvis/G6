@@ -1209,10 +1209,13 @@ export default class Graph extends EventEmitter implements IGraph {
     const self = this;
     const comboTrees = this.get('comboTrees');
     const itemController: ItemController = self.get('itemController');
-
     const itemMap = self.get('itemMap');
     comboTrees && comboTrees.forEach((ctree: ComboTree) => {
       traverseTreeUp<ComboTree>(ctree, child => {
+        if (!child) {
+          return false
+        }
+
         const childItem = itemMap[child.id];
         if (childItem && childItem.getType() === 'combo') {
           itemController.updateCombo(childItem, child.children);
@@ -1228,7 +1231,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {String | INode | ICombo} item 需要被更新的 Combo 或 节点 id
    * @param {string | undefined} parentId 新的父 combo id，undefined 代表没有父 combo
    */
-  public updateComboTree(item: String | INode | ICombo, parentId: String | undefined) {
+  public updateComboTree(item: String | INode | ICombo, parentId?: string | undefined) {
     const self = this;
     let uItem: INode | ICombo;
     if (isString(item)) {
@@ -1237,8 +1240,31 @@ export default class Graph extends EventEmitter implements IGraph {
       uItem = item as INode | ICombo;
     }
 
-    const newComboTrees = reconstructTree(this.get('comboTrees'), uItem.getModel().id, parentId);
+    let model = uItem.getModel()
+
+    // 当 combo 存在parentId 或 comboId 时，才将其移除
+    if (model.parentId || model.comboId) {
+      const combo = this.findById((model.parentId || model.comboId) as string) as ICombo
+      combo.removeChild(uItem)
+    }
+
+    const type = uItem.getType()
+
+    if (type === 'combo') {
+      model.parentId = parentId
+    } else if (type === 'node') {
+      model.comboId = parentId
+    }
+
+    // 只有当移入到指定 combo 时才添加
+    if (parentId) {
+      const parentCombo = this.findById(parentId) as ICombo
+      parentCombo.addChild(uItem as ICombo | INode)
+    }
+
+    const newComboTrees = reconstructTree(this.get('comboTrees'), model.id, parentId);
     this.set('comboTrees', newComboTrees);
+  
     this.updateCombos();
   }
 

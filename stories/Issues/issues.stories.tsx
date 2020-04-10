@@ -4,6 +4,7 @@ import DragCanvas from './component/drag-canvas';
 import DagreArrow from './component/dagre-arrow';
 import ChageData from './changeData'
 import ChangeAttr from './attrs'
+import ForceLayout from './forceLayout'
 
 export default { title: 'Issues' };
 
@@ -20,3 +21,4 @@ storiesOf('Issues', module)
 .add('change attr', () => (
   <ChangeAttr />
 ))
+.add('forcelayout', () => <ForceLayout />)
