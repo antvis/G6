@@ -145,6 +145,13 @@ export interface IGraph extends EventEmitter {
   update(item: Item | string, cfg: Partial<NodeConfig> | EdgeConfig): void;
 
   /**
+   * 更新树结构，例如移动子树等
+   * @param {String | INode | ICombo} item 需要被更新的 Combo 或 节点 id
+   * @param {string | undefined} parentId 新的父 combo id，undefined 代表没有父 combo
+   */
+  updateComboTree(item: String | INode | ICombo, parentId?: String | undefined): void;
+
+  /**
    * 设置元素状态
    * @param {Item} item 元素id或元素实例
    * @param {string} state 状态名称

@@ -123,13 +123,15 @@ export default {
       return
     }
 
+    const graph: IGraph = this.graph
+
     const targetModel = item.getModel()
 
     this.targets.map((combo: ICombo) => {
       const model = combo.getModel()
       if (model.parentId !== targetModel.id) {
-        model.parentId = targetModel.id
-        this.needRender = true
+        graph.setItemState(item, 'active', false)
+        graph.updateComboTree(combo, targetModel.id)
       }
     })
 
@@ -137,8 +139,7 @@ export default {
     this.endComparison = true
   },
   onDragEnd(evt: IG6GraphEvent) {
-    const { graph } = this;
-
+    const graph: IGraph = this.graph;
     // 当启用 delegate 时，拖动结束时需要更新 combo
     if (this.enableDelegate) {
       each(this.targets, item => {
@@ -178,9 +179,8 @@ export default {
         // 拖出了父 combo
         // 如果直接拖出到了 父 combo 周边，则不用计算距离圆心距离
         if (cx <= minX || cx >= maxX || cy <= minY || cy >= maxY) {
-          delete model.parentId
-          this.needRender = true
           graph.setItemState(parentCombo, 'active', false)
+          graph.updateComboTree(item as ICombo)
         } else {
           // 拖动的 combo 和要进入的 combo 之间的距离
           const disX = centerX - pcx
@@ -190,9 +190,8 @@ export default {
 
           // 拖出的还在父 combo 包围盒范围内，但实际上已经拖出去了
           if ((width + w) - distance < 0.8 * width) {
-            delete model.parentId
-            this.needRender = true
             graph.setItemState(parentCombo, 'active', false)
+            graph.updateComboTree(item as ICombo)
           }
         }
       }
@@ -231,21 +230,14 @@ export default {
           const distance = 2 * Math.sqrt(disX * disX + disY * disY)
 
           if ((width + w) - distance >  0.8 * width) {
-            model.parentId = current.id
             graph.setItemState(combo, 'active', true)
-            this.needRender = true
+            graph.updateComboTree(item as ICombo, current.id)
           } else {
             graph.setItemState(combo, 'active', false)
           }
         })
       }
 
-    }
-
-    if(this.needRender) {
-      this.graph.render()
-      // 新增的那个
-      // addItem()
     }
 
     // 删除delegate shape
@@ -264,29 +256,33 @@ export default {
     this.point = []
     this.origin = null
     this.originPoint = null
-    this.needRender = false
+  },
+
+  /**
+   * 遍历 comboTree，分别更新 node 和 combo
+   * @param data 
+   * @param fn 
+   */
+  traverse<T extends Item>(data: T, fn: (param: T) => boolean) {
+    if (fn(data) === false) {
+      return;
+    }
+
+    if (data) {
+      const combos = data.get('combos')
+      each(combos, child => {
+        this.traverse(child, fn);
+      });
+
+      const nodes = data.get('nodes')
+      each(nodes, child => {
+        this.traverse(child, fn)
+      })
+    }
   },
 
   updateCombo(item: ICombo, evt: IG6GraphEvent) {
-    const traverse = <T extends Item>(data: T, fn: (param: T) => boolean) => {
-      if (fn(data) === false) {
-        return;
-      }
-
-      if (data) {
-        const combos = data.get('combos')
-        each(combos, child => {
-          traverse(child, fn);
-        });
-
-        const nodes = data.get('nodes')
-        each(nodes, child => {
-          traverse(child, fn)
-        })
-      }
-    };
-
-    traverse(item, param => {
+    this.traverse(item, param => {
       this.updateSignleItem(param, evt)
       return true
     })

@@ -33,11 +33,10 @@ describe('graphic unit test', () => {
 
     expect(trees[0].id).toBe('root');
     expect(trees[0].children.length).toBe(2);
-    expect(trees[1].id).toBe('subroot1');
-    expect(trees[1].label).toBe('xxx');
-    expect(trees[2].id).toBe('subroot2');
-    expect(trees[2].children.length).toBe(1);
-    expect(trees[3].id).toBe('yyy');
+    expect(trees[1].id).toBe('subroot2');
+    expect(trees[1].label).toBe(undefined);
+    expect(trees[2].id).toBe('yyy');
+    expect(trees[3].id).toBe('subroot1');
   });
 
   it('radialLayout layout = V', () => {
