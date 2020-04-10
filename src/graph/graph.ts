@@ -1209,6 +1209,7 @@ export default class Graph extends EventEmitter implements IGraph {
     const self = this;
     const comboTrees = this.get('comboTrees');
     const itemController: ItemController = self.get('itemController');
+
     const itemMap = self.get('itemMap');
     comboTrees && comboTrees.forEach((ctree: ComboTree) => {
       traverseTreeUp<ComboTree>(ctree, child => {
@@ -1264,7 +1265,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
     const newComboTrees = reconstructTree(this.get('comboTrees'), model.id, parentId);
     this.set('comboTrees', newComboTrees);
-  
+
     this.updateCombos();
   }
 
