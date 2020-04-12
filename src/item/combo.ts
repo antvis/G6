@@ -129,7 +129,7 @@ export default class Combo extends Node implements ICombo {
    * @return boolean 移除成功返回 true，否则返回 false
    */
   removeCombo(combo: ICombo): boolean {
-    const combos = this.getNodes();
+    const combos = this.getCombos();
     const index = combos.indexOf(combo);
     if (index > -1) {
       combos.splice(index, 1);

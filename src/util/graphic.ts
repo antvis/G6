@@ -285,18 +285,19 @@ const traverse = <T extends { children?: T[] }>(data: T, fn: (param: T) => boole
   }
 
   if (data && data.children) {
-    each(data.children, child => {
-      traverse(child, fn);
-    });
+    for(let i = data.children.length - 1; i >= 0; i--) {
+      traverse(data.children[i], fn);
+    }
   }
 };
 
 const traverseUp = <T extends { children?: T[] }>(data: T, fn: (param: T) => boolean) => {
-  if (data.children) {
+  if (data && data.children) {
     each(data.children, child => {
       traverseUp(child, fn);
     });
   }
+  
   if (fn(data) === false) {
     return;
   }
@@ -488,17 +489,27 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: INode[]) => {
   return result;
 }
 
-export const reconstructTree = (trees: ComboTree[], subtreeId?: String, newParentId?: String | undefined): ComboTree[] => {
+export const reconstructTree = (trees: ComboTree[], subtreeId?: string, newParentId?: string | undefined): ComboTree[] => {
   let brothers = trees;
   let subtree;
+  const comboChilds = {
+    'root': {
+      children: trees
+    }
+  }
   trees.forEach(tree => {
     traverseTree<ComboTree>(tree, child => {
+      comboChilds[child.id] = {
+        children: child.children
+      }
+      
+      brothers = comboChilds[child.parentId || 'root'].children
       if (child && (child.removed || subtreeId === child.id) && brothers) {
         subtree = child;
+        subtree.parentId = newParentId
         const index = brothers.indexOf(child);
         brothers.splice(index, 1);
       }
-      brothers = child ? child.children : [];
       return true;
     });
   });
@@ -508,12 +519,14 @@ export const reconstructTree = (trees: ComboTree[], subtreeId?: String, newParen
     // newParentId is undefined means the subtree will have no parent
     if (newParentId) {
       trees.forEach(tree => {
-        traverseTree<ComboTree>(tree, child => {
+        traverseTree<ComboTree>(tree, (child: any) => {
           if (newParentId === child.id) {
             found = true;
             if (child.children) child.children.push(subtree);
             else child.children = [ subtree ];
           }
+          child.depth = comboChilds[child.parentId || child.comboId] ? comboChilds[child.parentId || child.comboId].depth + 1 : 0
+          comboChilds[child.id]['depth'] = child.depth
           return true;
         });
       });
@@ -535,7 +548,12 @@ export const getComboBBox = (children: ComboTree[], graph: IGraph): BBox => {
     width: undefined,
     height: undefined,
   };
-  children && children.forEach(child => {
+
+  if (!children || children.length === 0) {
+    return comboBBox
+  }
+
+  children.forEach(child => {
     const childItem = graph.findById(child.id);
     childItem.set('bboxCanvasCache', undefined);
     const childBBox = childItem.getCanvasBBox();
