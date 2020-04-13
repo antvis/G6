@@ -2,9 +2,10 @@
 
 #### 3.4.5
 
-- feat: support set the background of the label on node or edge;
+- feat: background of the label on node or edge;
 - feat: better performance of minimap;
 - fix: minimap viewport displace problem;
+- feat: offset of tooltip;
 - fix: the length of the node's name affects the tree layout;
 - fix: toFront does not work for svg renderer;
 - fix: error occurs when the fontSize is smaller than 12 with svg renderer;
