@@ -3,8 +3,13 @@
 #### 3.4.5
 
 - feat: support set the background of the label on node or edge;
-- fix: changeData clear states；
-- fix：state not work when don't set default labelCfg;
+- feat: better performance of minimap;
+- fix: minimap viewport displace problem;
+- fix: the length of the node's name affects the tree layout;
+- fix: toFront does not work for svg renderer;
+- fix: error occurs when the fontSize is smaller than 12 with svg renderer;
+- fix: changeData clears states;
+- fix: state does not work when default labelCfg is not assigned.
 
 #### 3.4.4
 
