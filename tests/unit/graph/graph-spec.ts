@@ -1376,3 +1376,47 @@ describe('auto rotate label on edge', () => {
     expect(groupMatrix[7]).toBe(120);
   });
 });
+
+
+describe('auto rotate label on edge', () => {
+  const graph = new Graph({
+    container: div,
+    width: 500,
+    height: 500,
+    modes: {
+      default: ['drag-node', 'zoom-canvas', 'drag-canvas'],
+    },
+  });
+  const data = {
+    nodes: [
+      {
+        id: 'node1',
+        x: 100,
+        y: 200,
+      },
+      {
+        id: 'node2',
+        x: 800,
+        y: 200,
+      },
+    ],
+    edges: [
+      {
+        id: 'edge1',
+        target: 'node2',
+        source: 'node1',
+      },
+    ],
+  };
+
+  it('downloadFullImage', () => {
+    graph.data(data);
+    graph.render();
+    graph.on('canvas:click', evt => {
+      graph.downloadFullImage('graph', {
+        backgroundColor: '#fff',
+        padding: [ 40, 10, 10, 10 ]
+      });
+    });
+  });
+});
