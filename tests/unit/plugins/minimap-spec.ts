@@ -1,6 +1,10 @@
 import G6 from '../../../src';
 import Simulate from 'event-simulate';
 
+export function mathEqual(a: number, b: number) {
+  return Math.abs(a - b) < 1;
+}
+
 const div = document.createElement('div');
 div.id = 'minimap';
 document.body.appendChild(div);
@@ -66,10 +70,14 @@ describe('minimap', () => {
     graph.zoom(2.5, { x: 250, y: 250 });
 
     setTimeout(() => {
-      expect(viewport.style.left).toEqual('46.6685px');
-      expect(viewport.style.top).toEqual('37.6947px');
-      expect(viewport.style.width).toEqual('200px');
-      expect(viewport.style.height).toEqual('200px');
+      const left = parseFloat(viewport.style.left.substr(0, viewport.style.left.length - 2));
+      const top = parseFloat(viewport.style.top.substr(0, viewport.style.top.length - 2));
+      const width = parseFloat(viewport.style.width.substr(0, viewport.style.width.length - 2));
+      const height = parseFloat(viewport.style.height.substr(0, viewport.style.height.length - 2));
+      expect(mathEqual(left, 47)).toBe(true);
+      expect(mathEqual(top, 38)).toBe(true);
+      expect(mathEqual(width, 200)).toBe(true);
+      expect(mathEqual(height, 200)).toBe(true);
 
       minimap.destroyPlugin();
 
@@ -78,14 +86,18 @@ describe('minimap', () => {
 
       graph.zoom(2.5, { x: 250, y: 250 });
       setTimeout(() => {
-        expect(viewport.style.left).toEqual('46.6685px');
-        expect(viewport.style.top).toEqual('37.6947px');
-        expect(viewport.style.width).toEqual('200px');
-        expect(viewport.style.height).toEqual('200px');
+        const left = parseFloat(viewport.style.left.substr(0, viewport.style.left.length - 2));
+        const top = parseFloat(viewport.style.top.substr(0, viewport.style.top.length - 2));
+        const width = parseFloat(viewport.style.width.substr(0, viewport.style.width.length - 2));
+        const height = parseFloat(viewport.style.height.substr(0, viewport.style.height.length - 2));
+        expect(mathEqual(left, 47)).toBe(true);
+        expect(mathEqual(top, 38)).toBe(true);
+        expect(mathEqual(width, 200)).toBe(true);
+        expect(mathEqual(height, 200)).toBe(true);
         done();
-      });
+      }, 100);
     }, 100);
-    
+
   });
   it('move viewport', done => {
     const minimap = new G6.Minimap({ size: [200, 200] });
@@ -154,7 +166,7 @@ describe('minimap', () => {
         const matrix = graph.get('group').getMatrix();
         expect(matrix[0]).toEqual(2);
         expect(matrix[4]).toEqual(2);
-        
+
         Simulate.simulate(viewport, 'mousedown', {
           clientX: 200,
           clientY: 200,
@@ -170,7 +182,7 @@ describe('minimap', () => {
           expect(viewport.style.top).toEqual('0px');
           expect(viewport.style.width).toEqual('200px');
           expect(viewport.style.height).toEqual('200px');
-      
+
           const matrix2 = graph.get('group').getMatrix();
           expect(matrix2[0]).toEqual(2);
           expect(matrix2[4]).toEqual(2);
@@ -328,7 +340,7 @@ describe('minimap', () => {
       const canvas = minimap.getCanvas();
       const group = canvas.get('children')[0];
       const matrix = group.getMatrix();
-  
+
       expect(matrix[6] - 30 < 1).toBe(false);
       expect(matrix[7] - 30 < 1).toBe(false);
       graph.destroy();

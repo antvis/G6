@@ -221,7 +221,7 @@ export default class MiniMap extends Base {
     }
 
     const zoom = graph.getZoom();
-    
+
     // viewport宽高,左上角点的计算
     let width = (bottomRight.x - topLeft.x) * ratio;
     let height = (bottomRight.y - topLeft.y) * ratio;
@@ -260,9 +260,9 @@ export default class MiniMap extends Base {
         } else if (left < 0) {
           correctLeft = 0;
         } else
-        if (left + width > size[0]) {
-          correctLeft = `${size[0] - width}px`;
-        }
+          if (left + width > size[0]) {
+            correctLeft = `${size[0] - width}px`;
+          }
       }
     }
     if (height >= size[1]) {
@@ -272,9 +272,9 @@ export default class MiniMap extends Base {
         } else if (top < 0) {
           correctTop = 0;
         } else
-        if (top + height > size[1]) {
-          correctTop = `${size[1] - height}px`;
-        }
+          if (top + height > size[1]) {
+            correctTop = `${size[1] - height}px`;
+          }
       }
     }
 
@@ -437,7 +437,6 @@ export default class MiniMap extends Base {
    */
   private handleUpdateCanvas = debounce((event) => {
     const self = this;
-    console.log(self,self.destroyed);
     if (self.destroyed) return;
     self.updateCanvas();
   }, 100, false);
@@ -480,10 +479,10 @@ export default class MiniMap extends Base {
       '<div class="g6-minimap-container" style="position: relative;"></div>',
     );
     container.appendChild(containerDOM);
-    
+
     let canvas;
     const renderer = graph.get('renderer');
-    if(renderer === SVG) {
+    if (renderer === SVG) {
       canvas = new GSVGCanvas({
         container: containerDOM,
         width: size[0],
@@ -540,7 +539,7 @@ export default class MiniMap extends Base {
     }
 
     const group = canvas.get('children')[0];
-    if(!group) return;
+    if (!group) return;
 
     group.resetMatrix();
     // 该 bbox 是准确的，不计算 matrix 的包围盒
@@ -548,9 +547,9 @@ export default class MiniMap extends Base {
 
 
     const graphBBox = graph.get('canvas').getBBox();
-    
+
     let width = graphBBox.width;
-    let height = graphBBox.height; 
+    let height = graphBBox.height;
 
     if (Number.isFinite(bbox.width)) {
       // 刷新后bbox可能会变，需要重置画布矩阵以缩放到合适的大小
@@ -562,7 +561,7 @@ export default class MiniMap extends Base {
     height += 2 * padding;
 
     const ratio = Math.min(size[0] / width, size[1] / height);
-    
+
     let matrix: Matrix = mat3.create();
 
     let minX = 0;
