@@ -28,7 +28,8 @@ export default {
       'combo:drag': 'onDrag',
       'combo:dragend': 'onDragEnd',
       'combo:drop': 'onDrop',
-      'combo:dragover': 'onDragOver',
+      'combo:dragenter': 'onDragEnter',
+      'combo:dragleave': 'onDragLeave',
       'canvas:mouseleave': 'onOutOfRange',
     };
   },
@@ -101,21 +102,6 @@ export default {
 
   },
 
-  onDragOver(evt: IG6GraphEvent) {
-    const { item } = evt
-    if (!item || !this.targets) {
-      return
-    }
-
-    const graph: IGraph = this.graph
-    graph.setItemState(item, 'active', true)
-
-    const model = item.getModel() as ComboConfig
-    if (model.parentId) {
-      graph.setItemState(model.parentId, 'active', false)
-    }
-  },
-
   onDrop(evt: IG6GraphEvent) {
     // 拖动的目标 combo
     const { item } = evt
@@ -137,6 +123,24 @@ export default {
 
     // 如果已经拖放下了，则不需要再通过距离判断了
     this.endComparison = true
+  },
+  onDragEnter(evt: IG6GraphEvent) {
+    const item = evt.item as ICombo
+    if (!item) {
+      return
+    }
+
+    const graph: IGraph = this.graph
+    graph.setItemState(item, 'active', true)
+  },
+  onDragLeave(evt) {
+    const item = evt.item as ICombo
+    if (!item) {
+      return
+    }
+
+    const graph: IGraph = this.graph
+    graph.setItemState(item, 'active', false)
   },
   onDragEnd(evt: IG6GraphEvent) {
     const graph: IGraph = this.graph;
