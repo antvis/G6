@@ -10,6 +10,7 @@ import Plugins from './plugins';
 
 const registerNode = Shape.registerNode;
 const registerEdge = Shape.registerEdge;
+const registerCombo = Shape.registerCombo;
 const registerBehavior = Behaviors.registerBehavior;
 const registerLayout = Layout.registerLayout;
 const Minimap = Plugins.Minimap;
@@ -19,6 +20,7 @@ const Menu = Plugins.Menu;
 
 export {
   registerNode,
+  registerCombo,
   Graph,
   TreeGraph,
   Util,
@@ -40,6 +42,7 @@ export default {
   Util,
   registerNode: Shape.registerNode,
   registerEdge: Shape.registerEdge,
+  registerCombo: Shape.registerCombo,
   registerBehavior: Behaviors.registerBehavior,
   registerLayout: Layout.registerLayout,
   Layout,
