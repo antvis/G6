@@ -1,6 +1,7 @@
 import { ICombo, INode } from '../interface/item'
 import Node from './node'
 import { ComboConfig } from '../types';
+import Global from '../global';
 
 const CACHE_BBOX = 'bboxCache';
 const CACHE_CANVAS_BBOX = 'bboxCanvasCache';
@@ -22,7 +23,13 @@ export default class Combo extends Node implements ICombo {
     if (styles) {
       // merge graph的item样式与数据模型中的样式
       const newModel = model;
-      newModel.style = Object.assign({}, styles, model.style, { width: bbox.width, height: bbox.height, r: Math.hypot(bbox.height, bbox.width) / 2 });
+      const itemType = this.getType();
+      const size = {
+        r: Math.hypot(bbox.height, bbox.width) / 2 || Global.defaultCombo.size[0] / 2,
+        width: bbox.width || Global.defaultCombo.size[0],
+        height: bbox.height || Global.defaultCombo.size[1]
+      };
+      newModel.style = Object.assign({}, styles, model.style, size);
       return newModel;
     }
     return model;
