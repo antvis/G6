@@ -157,9 +157,9 @@ export default class EventController {
     // g的事件会冒泡，如果target不是canvas，可能会引起同个节点触发多次，需要另外判断
     if (
       eventType === 'mouseenter' ||
-      eventType === 'mouseleave' ||
-      eventType === 'dragenter' ||
-      eventType === 'dragleave'
+      eventType === 'mouseleave'
+      // eventType === 'dragenter' ||
+      // eventType === 'dragleave'
     ) {
       return;
     }
