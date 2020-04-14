@@ -144,10 +144,7 @@ const RegisterCombo = () => {
   const container = React.useRef();
   G6.registerCombo('custom-combo', {
     draw: (cfg, group) => {
-      console.log(this);
-      const style = this.getShapeStyle(cfg);
-      delete style.height;
-      delete style.width;
+      const style = cfg.style || {};
       const keyShape = group.addShape('circle', {
         attrs: style,
         className: 'circle-combo',
@@ -156,16 +153,27 @@ const RegisterCombo = () => {
       });
       group.addShape('marker', {
         attrs: {
-          x: 0,
+          x: keyShape.attr('r') + 5,
           y: 0,
-          r: 10,
-          stroke: '#ccc',
-          symbo: 'triangle-down'
-        }
+          r: 5,
+          stroke: '#C00',
+          symbol: 'triangle-down'
+        },
+        name: 'marker-shape'
       })
       return keyShape;
+    },
+    update: (cfg, item) => {
+      const group = item.get('group');
+      if (cfg.markerStyle) {
+        const marker = group.find(ele => ele.get('name') === 'marker-shape');
+        marker.attr(cfg.markerStyle);
+      }
+      const keyShape = group.get('children')[0];
+      keyShape.attr(cfg.style);
     }
   }, 'circle-combo');
+
   useEffect(() => {
     if (!graph) {
       const graph = new G6.Graph({
@@ -177,23 +185,28 @@ const RegisterCombo = () => {
         },
         defaultCombo: {
           // size: [100, 100],
-          type: 'custom-combo',
+          type: 'custom-combo',//custom-combo
           style: {
-            fill: '#ccc'
+            fill: '#ccc',
+            stroke: '#000',
+            opacity: 0.8
           }
         },
-        comboStateStyles: {
-          selected: {
-            'text-shape': {
-              fill: '#f00',
-              fontSize: 20
-            },
-            fill: '#f00'
-          },
-          state2: {
-            stroke: '#0f0'
-          }
-        }
+        // defaultNode: {
+        //   type: 'custom-node'
+        // }
+      //   comboStateStyles: {
+      //     selected: {
+      //       'text-shape': {
+      //         fill: '#f00',
+      //         fontSize: 20
+      //       },
+      //       fill: '#f00'
+      //     },
+      //     state2: {
+      //       stroke: '#0f0'
+      //     }
+      //   }
       });
       // graph.combo(combo => {
       //   return {
@@ -225,6 +238,9 @@ const RegisterCombo = () => {
           style: {
             fill: '#f00'
           },
+          markerStyle: {
+            fill: '#0f0'
+          }
           // label: 'new Label',
           // labelCfg: {
           //   position: 'bottom'
