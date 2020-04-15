@@ -1499,7 +1499,7 @@ graph.set('nodeIdList', [1, 3, 5]);
 
 ```javascript
 graph.downloadFullImage('tree-graph', {
-  backgroundColor: '#ccc',
+  backgroundColor: '#ddd',
   padding: [30, 15, 15, 15]
 });
 ```
