@@ -29,15 +29,16 @@ export default {
       'combo:dragend': 'onDragEnd',
       'combo:drop': 'onDrop',
       'combo:dragenter': 'onDragEnter',
-      'combo:dragleave': 'onDragLeave',
-      'canvas:mouseleave': 'onOutOfRange',
+      'combo:dragleave': 'onDragLeave'
     };
   },
-  onDragStart(evt: IG6GraphEvent) {
-    const graph: IGraph = this.graph;
-    const { item } = evt;
-
+  validationCombo(evt: IG6GraphEvent) {
+    const { item } = evt
     if (!item) {
+      return
+    }
+
+    if (!this.shouldUpdate(this, evt)) {
       return
     }
 
@@ -46,6 +47,12 @@ export default {
     if (type !== 'combo') {
       return
     }
+  },
+  onDragStart(evt: IG6GraphEvent) {
+    const graph: IGraph = this.graph;
+    const { item } = evt;
+
+    this.validationCombo(item)
 
     this.targets = []
 
@@ -88,9 +95,7 @@ export default {
       return;
     }
 
-    if (!this.shouldUpdate(this, evt)) {
-      return
-    }
+    this.validationCombo(evt)
 
     if (this.enableDelegate) {
       this.updateDelegate(evt);
@@ -125,25 +130,32 @@ export default {
     this.endComparison = true
   },
   onDragEnter(evt: IG6GraphEvent) {
-    const item = evt.item as ICombo
-    if (!item) {
+    if (!this.origin) {
       return
     }
 
+    this.validationCombo(evt)
+
+    const { item } = evt
     const graph: IGraph = this.graph
     graph.setItemState(item, 'active', true)
   },
   onDragLeave(evt) {
-    const item = evt.item as ICombo
-    if (!item) {
+    if (!this.origin) {
       return
     }
 
+    this.validationCombo(evt)
+    
+    const item = evt.item as ICombo
     const graph: IGraph = this.graph
     graph.setItemState(item, 'active', false)
   },
   onDragEnd(evt: IG6GraphEvent) {
     const graph: IGraph = this.graph;
+    
+    this.validationCombo(evt)
+    
     // 当启用 delegate 时，拖动结束时需要更新 combo
     if (this.enableDelegate) {
       each(this.targets, item => {
@@ -372,20 +384,5 @@ export default {
         y: clientY,
       });
     }
-  },
-
-  onOutOfRange(e: IG6GraphEvent) {
-    const canvasElement = this.graph.get('canvas').get('el');
-    const listener = ev => {
-      if (ev.target !== canvasElement) {
-        this.onDragEnd(e);
-        // 终止时需要判断此时是否在监听画布外的 mouseup 事件，若有则解绑
-        document.body.removeEventListener('mouseup', listener, true);
-      }
-    };
-
-    if (this.mouseOrigin) {
-      document.body.addEventListener('mouseup', listener, true);
-    }
-  },
+  }
 };

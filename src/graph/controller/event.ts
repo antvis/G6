@@ -155,14 +155,14 @@ export default class EventController {
     graph.emit(eventType, evt);
 
     // g的事件会冒泡，如果target不是canvas，可能会引起同个节点触发多次，需要另外判断
-    if (
-      eventType === 'mouseenter' ||
-      eventType === 'mouseleave'
-      // eventType === 'dragenter' ||
-      // eventType === 'dragleave'
-    ) {
-      return;
-    }
+    // if (
+    //   eventType === 'mouseenter' ||
+    //   eventType === 'mouseleave' ||
+    //   eventType === 'dragenter' ||
+    //   eventType === 'dragleave'
+    // ) {
+    //   return;
+    // }
 
     graph.emit(`${type}:${eventType}`, evt);
 

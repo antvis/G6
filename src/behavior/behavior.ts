@@ -30,6 +30,7 @@ export default class Behavior {
       const eventsToBind = {};
 
       if (events) {
+        console.log(events)
         each(events, (handle, event) => {
           eventsToBind[event] = wrapBehavior(this, handle);
         });

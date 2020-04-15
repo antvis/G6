@@ -1262,7 +1262,7 @@ export default class Graph extends EventEmitter implements IGraph {
       const parentCombo = this.findById(parentId) as ICombo
       parentCombo.addChild(uItem as ICombo | INode)
     }
-
+debugger
     const newComboTrees = reconstructTree(this.get('comboTrees'), model.id, parentId);
     this.set('comboTrees', newComboTrees);
 

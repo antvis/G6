@@ -1,6 +1,5 @@
 import '../../../src/behavior';
 import '../../../src/shape';
-import Graph from '../../../src/graph/graph';
 import G6 from '../../../src';
 
 const div = document.createElement('div');
@@ -87,13 +86,18 @@ describe('drag-combo', () => {
       width: 1000,
       height: 800,
       modes: {
-        default: [ 'drag-canvas', 'drag-combo' ]
+        default: [ 'drag-canvas', 'drag-combo', 'drag-node', 'click-select' ]
       },
       defaultCombo: {
         // size: [100, 100],
         type: 'circle',
         style: {
           fill: '#b5f5ec'
+        }
+      },
+      nodeStateStyles: {
+        selected: {
+          fill: 'red'
         }
       },
       comboStateStyles: {
@@ -116,33 +120,13 @@ describe('drag-combo', () => {
     graph.data(data);
     graph.render();
 
-    console.log(graph.getCombos())
-
-    graph.on('node:click', e => {
+    graph.on('node:mouseleave', e => {
       // graph.hideItem(e.item);
       // graph.render()
+      console.log('mouse leave')
     })
     graph.on('combo:click', e => {
-      // selected = !selected;
       graph.setItemState(e.item, 'selected', true);
-      const combos = graph.findAllByState('combo', 'selected')
-      console.log(combos)
-      // graph.setItemState(e.item, 'state2', selected);
-      // graph.getNodes().forEach(node => {
-      //   node.hide();
-      // });
-      // graph.hideItem(e.item);
-      // graph.updateItem(e.item, {
-      //   // type: 'rect',
-      //   style: {
-      //     fill: '#f00'
-      //   },
-      //   label: 'new Label',
-      //   labelCfg: {
-      //     position: 'bottom'
-      //   }
-      // });
-      // graph.uncombo(e.item);
     });
 
     graph.on('canvas:click', evt => {
