@@ -135,9 +135,6 @@ export default class LayoutController {
 
     graph.emit('beforelayout');
     const allHavePos = this.initPositions(layoutCfg.center, nodes);
-    if (!this.layoutType && !allHavePos) {
-      this.layoutType = 'random';
-    }
 
     this.stopWorker();
     if (layoutCfg.workerEnabled && this.layoutWithWorker(this.data, success)) {
@@ -180,10 +177,10 @@ export default class LayoutController {
         layoutMethod.execute();
       }
       this.layoutMethod = layoutMethod;
-      if (this.layoutType !== 'force') {
-        graph.emit('afterlayout');
-        this.refreshLayout();
-      }
+    }
+    if (!allHavePos && this.layoutType !== 'force') {
+      graph.emit('afterlayout');
+      this.refreshLayout();
     }
     return false;
   }
