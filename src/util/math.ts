@@ -342,11 +342,11 @@ export const move = (group: IGroup, point: Point) => {
   if (!matrix) {
     matrix = mat3.create();
   }
-  const orix = group.get('x') || 0;
-  const oriy = group.get('y') || 0;
-  const movedMatrix = transform(matrix, [['t', point.x - orix, point.y - oriy]]);
-  group.set('x', point.x);
-  group.set('y', point.y);
+  const bbox = group.getCanvasBBox();
+  const vx = point.x - bbox.minX;
+  const vy = point.y - bbox.minY;
+
+  const movedMatrix = transform(matrix, [['t', vx, vy]]);
   group.setMatrix(movedMatrix);
 };
 
