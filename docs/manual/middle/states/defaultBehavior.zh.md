@@ -136,6 +136,7 @@ const graph = new G6.Graph({
 - 含义：节点文本提示；
 - `type: 'tooltip'`；
 - `formatText(model)`：格式化函数，可以返回文本或者 HTML；
+- `offset`：tooltip 距离鼠标的偏移量。
 
 ```javascript
 const graph = new G6.Graph({
@@ -149,6 +150,7 @@ const graph = new G6.Graph({
         formatText(model) {
           return model.xxx;
         },
+        offset: 10
       },
     ],
   },
@@ -173,7 +175,8 @@ const graph = new G6.Graph({
 
 - 含义：边文本提示；
 - `type: 'edge-tooltip'`；
-- `formatText(model)`：格式化函数，可以返回文本或者 HTML。
+- `formatText(model)`：格式化函数，可以返回文本或者 HTML；
+- `offset`：tooltip 距离鼠标的偏移量。
 
 ### activate-relations
 
