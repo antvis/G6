@@ -50,7 +50,7 @@ const data = {
 
 ## 配置项说明
 
-quadratic 边支持 [边通用配置项](zh/docs/manual/middle/elements/edges/defaultEdge/#边的通用属性)，以下表格对部分常用配置项进行说明。对于 Object 类型的配置项将在后面有详细讲解：
+cubic 边支持 [边通用配置项](zh/docs/manual/middle/elements/edges/defaultEdge/#边的通用属性)，以下表格对部分常用配置项进行说明。对于 Object 类型的配置项将在后面有详细讲解：
 
 | 名称 | 含义 | 类型 | 备注 |
 | --- | --- | --- | --- |
@@ -59,6 +59,8 @@ quadratic 边支持 [边通用配置项](zh/docs/manual/middle/elements/edges/de
 | label | 标签文本文字 | String |  |
 | labelCfg | 标签文本配置项 | Object |  |
 | controlPoints | 控制点数组 | Array | 不指定时将会使用默认的控制点：曲线 1/3 和 2/3 处。示例：`[{ x: 10, y: 20 }, { x: 15, y: 30 }]` |
+| curveOffset | 两个控制点距离两端点连线的距离，可理解为控制边的弯曲程度。为 Number 类型时两个控制点分别在连线两侧且与连线距离相等 | Number / Number[] | cubic、horizontal、cubic-vertical、cubic-horizontal 等贝塞尔曲线特有 |
+| curvePosition | 两个控制点在两端点连线上的相对位置，范围 0～1 | Number / Number[] | cubic、horizontal、cubic-vertical、cubic-horizontal 等贝塞尔曲线特有 |
 
 ### 样式属性  style
 

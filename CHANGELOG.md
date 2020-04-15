@@ -2,6 +2,8 @@
 
 #### 3.4.6
 - feat: downloadFullImage when the (part of) graph is out of the screen;
+- feat: With pre-graph has no layout configurations and no positions in data, calling changeData to change into a new data with positions, results in show the node with positions in data;
+- feat: allow user to assign curveOffset and curvePostion for Bezier curves;
 - fix: moveTo wrong logic problem;
 
 #### 3.4.5
