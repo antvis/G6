@@ -497,22 +497,41 @@ export const reconstructTree = (trees: ComboTree[], subtreeId?: string, newParen
       children: trees
     }
   }
+  let foundSubTree = false
   trees.forEach(tree => {
-    traverseTree<ComboTree>(tree, child => {
+    traverseTree<ComboTree>(tree, (child: any) => {
       comboChilds[child.id] = {
         children: child.children
       }
       
-      brothers = comboChilds[child.parentId || 'root'].children
+      brothers = comboChilds[child.parentId || child.comboId || 'root'].children
       if (child && (child.removed || subtreeId === child.id) && brothers) {
         subtree = child;
-        subtree.parentId = newParentId
+        if (child.itemType === 'combo') {
+          subtree.parentId = newParentId
+        } else {
+          subtree.comboId = newParentId
+        }
         const index = brothers.indexOf(child);
         brothers.splice(index, 1);
+        foundSubTree = true
       }
       return true;
     });
   });
+
+  // 如果遍历完整棵树还没有找到，说明之前就不在树中
+  if (!foundSubTree) {
+    subtree = {
+      id: subtreeId,
+      itemType: 'node',
+      comboId: newParentId
+    }
+
+    comboChilds[subtreeId] = {
+      children: undefined
+    }
+  }
   // append to new parent
   if (subtreeId) {
     let found = false;
