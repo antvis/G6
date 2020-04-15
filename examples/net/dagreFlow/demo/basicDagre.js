@@ -243,10 +243,6 @@ G6.registerNode(
   },
   'single-node',
 );
-G6.Global.nodeStateStyle.selected = {
-  stroke: '#d9d9d9',
-  fill: '#5394ef',
-};
 
 const width = document.getElementById('container').scrollWidth;
 const height = document.getElementById('container').scrollHeight || 500;
@@ -278,6 +274,12 @@ const graph = new G6.Graph({
       stroke: '#C2C8D5',
     },
   },
+  nodeStateStyles: {
+    selected: {
+      stroke: '#d9d9d9',
+      fill: '#5394ef',
+    }
+  },
   modes: {
     default: [
       'drag-canvas',
@@ -292,7 +294,8 @@ const graph = new G6.Graph({
             text.push(row.label + ':' + row.value + '<br>');
           });
           return text.join('\n');
-        }
+        },
+        offset: 30
       },
     ],
   },
