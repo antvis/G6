@@ -9,43 +9,24 @@ const data = {
     {
       id: "1",
       dataType: "alps",
-      name: "alps_file1"
+      name: "alps_file1",
+      x: 110,
+      y: 110
     },
     {
       id: "2",
       dataType: "alps",
-      name: "alps_file2"
+      name: "alps_file2",
+      x: 400,
+      y: 210
     },
     {
       id: "3",
       dataType: "alps",
-      name: "alps_file3"
+      name: "alps_file3",
+      x: 210,
+      y: 400
     },
-    {
-      id: "4",
-      dataType: "sql",
-      name: "sql_file1"
-    },
-    {
-      id: "5",
-      dataType: "sql",
-      name: "sql_file2"
-    },
-    {
-      id: "6",
-      dataType: "feature_etl",
-      name: "feature_etl_1"
-    },
-    {
-      id: "7",
-      dataType: "feature_etl",
-      name: "feature_etl_1"
-    },
-    {
-      id: "8",
-      dataType: "feature_extractor",
-      name: "feature_extractor"
-    }
   ],
   edges: [
     {
@@ -56,30 +37,6 @@ const data = {
       source: "1",
       target: "3"
     },
-    {
-      source: "2",
-      target: "4"
-    },
-    {
-      source: "3",
-      target: "4"
-    },
-    {
-      source: "4",
-      target: "5"
-    },
-    {
-      source: "5",
-      target: "6"
-    },
-    {
-      source: "6",
-      target: "7"
-    },
-    {
-      source: "6",
-      target: "8"
-    }
   ]
 };
 const Quadratic = () => {
@@ -92,19 +49,20 @@ const Quadratic = () => {
         container: container.current as string | HTMLElement,
         width: 1000,
         height: 800,
-        layout: {
-          type: "dagre",
-          rankdir: "TB",
-          align: "UL",
-          nodesep: 25,
-          ranksep: 50,
-          controlPoints: true
-        },
+        // layout: {
+        //   type: "dagre",
+        //   rankdir: "TB",
+        //   align: "UL",
+        //   nodesep: 25,
+        //   ranksep: 50,
+        //   controlPoints: true
+        // },
         defaultEdge: {
-          type: "cubic",
-          curveOffset: [-50, 50],
-          curvePosition: [9 / 10, 1 / 10]
-          // curveOffset: 10
+          type: 'cubic-horizontal',
+          // curveOffset: [-50, 50],
+          // curvePosition: [9 / 10, 1 / 10]
+          // curveOffset: 100,
+          curvePosition: 0.9
         },
         modes: {
           default: ['drag-node']

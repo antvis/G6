@@ -18,6 +18,8 @@ import Shape from './shape';
 import { shapeBase, CLS_LABEL_BG_SUFFIX } from './shapeBase';
 import { mat3, transform } from '@antv/matrix-util';
 import { Path } from '@antv/g-canvas/lib/shape';
+import isArray from '@antv/util/lib/is-array';
+import isNumber from '@antv/util/lib/is-number';
 
 const CLS_SHAPE = 'edge-shape';
 
@@ -474,13 +476,15 @@ Shape.registerEdge(
       let { controlPoints } = cfg; // 指定controlPoints
       if (!controlPoints || !controlPoints.length) {
         const { startPoint, endPoint } = cfg;
-        let curveOffset = cfg.curveOffset || this.curveOffset;
-        let curvePosition = cfg.curvePosition || this.curvePosition;
+        if (cfg.curveOffset !== undefined) this.curveOffset = cfg.curveOffset;
+        if (cfg.curvePosition !== undefined) this.curvePosition = cfg.curvePosition;
+        if (isArray(this.curveOffset)) this.curveOffset = this.curveOffset[0];
+        if (isArray(this.curvePosition)) this.curvePosition = this.curveOffset[0];
         const innerPoint = getControlPoint(
           startPoint as Point,
           endPoint as Point,
-          curvePosition as number,
-          curveOffset as number,
+          this.curvePosition as number,
+          this.curveOffset as number,
         );
         controlPoints = [innerPoint];
       }
@@ -505,6 +509,8 @@ Shape.registerEdge(
       let { controlPoints } = cfg; // 指定controlPoints
       if (cfg.curveOffset !== undefined) this.curveOffset = cfg.curveOffset;
       if (cfg.curvePosition !== undefined) this.curvePosition = cfg.curvePosition;
+      if (isNumber(this.curveOffset)) this.curveOffset = [ this.curveOffset, -this.curveOffset ];
+      if (isNumber(this.curvePosition)) this.curvePosition = [ this.curvePosition, 1 - this.curvePosition ];
       if (!controlPoints || !controlPoints.length || controlPoints.length < 2) {
         const { startPoint, endPoint } = cfg;
         const innerPoint1 = getControlPoint(
@@ -548,6 +554,8 @@ Shape.registerEdge(
     curvePosition: [1 / 2, 1 / 2],
     getControlPoints(cfg: EdgeConfig): IPoint[] {
       const { startPoint, endPoint } = cfg;
+      if (cfg.curvePosition !== undefined) this.curvePosition = cfg.curvePosition;
+      if (isNumber(this.curvePosition)) this.curvePosition = [ this.curvePosition, 1 - this.curvePosition ];
       const innerPoint1 = {
         x: startPoint!.x,
         y: (endPoint!.y - startPoint!.y) * (this as any).curvePosition[0] + startPoint!.y,
@@ -570,6 +578,8 @@ Shape.registerEdge(
     curvePosition: [1 / 2, 1 / 2],
     getControlPoints(cfg: EdgeConfig): IPoint[] {
       const { startPoint, endPoint } = cfg;
+      if (cfg.curvePosition !== undefined) this.curvePosition = cfg.curvePosition;
+      if (isNumber(this.curvePosition)) this.curvePosition = [ this.curvePosition, 1 - this.curvePosition ];
       const innerPoint1 = {
         x: (endPoint!.x - startPoint!.x) * (this as any).curvePosition[0] + startPoint!.x,
         y: startPoint!.y,
