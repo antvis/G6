@@ -6,6 +6,7 @@ import Image from './component/image';
 import CustomNode from './component/custom-node';
 import Polyline from './component/polyline';
 import Image2 from './component/image2';
+import Quadratic from './component/quadratic';
 
 export default { title: 'Shape' };
 
@@ -28,3 +29,6 @@ storiesOf('Shape', module)
 .add('polyline', () => (
   <Polyline />
 ))
+.add('quadratic', () => (
+  <Quadratic />
+));
