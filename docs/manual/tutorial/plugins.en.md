@@ -71,7 +71,7 @@ Interaction tools assist user interact a graph. Two steps are required: <br /> 
 
 ### Tooltip for Node
 
-Node tooltip shows the detail information when mouse enters a node.
+Node tooltip shows the detail information when mouse enters a node. More configurations are in [Built-in tooltip](/en/docs/manual/middle/states/defaultBehavior#tooltip).
 
 **Expected Effect**
 
@@ -123,7 +123,7 @@ Actually, tooltip is a floating `<div>` tag of HTML. Thus, you can define the CS
 
 ### Tooltip for Edge
 
-Edge tooltip shows the detail information when mouse enters a edge.
+Edge tooltip shows the detail information when mouse enters a edge. More configurations are in [Built-in edge-tooltip](/en/docs/manual/middle/states/defaultBehavior#edge-tooltip).
 
 **Expected Effect**
 

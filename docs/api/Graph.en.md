@@ -208,7 +208,7 @@ Change the data source, and render the graph according to the new data.
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| data | Object | true | Graph data, it should be an object containing an array of nodes and an array of edges. |
+| data | Object | false | Graph data, it should be an object containing an array of nodes and an array of edges. If it is not assigned, the graph will be re-rendered with the current data on the graph |
 
 **Usage**
 
@@ -234,6 +234,9 @@ const data = {
 
 // graph is an instance of Graph
 graph.changeData(data);
+
+// If there is no parameter, the graph will be re-rendered with the current data on the graph
+graph.changeData();
 ```
 
 ### collapseGroup(groupId)
@@ -1471,6 +1474,35 @@ graph.set('customGroup', group);
 graph.set('nodeIdList', [1, 3, 5]);
 ```
 
+
+
+### downloadFullImage(name, imageConfig)
+
+Export the whole graph as an image, whatever (a part of) the graph is out of the screen.
+
+**Parameters**
+
+| Name | Type   | Required | Description            |
+| ---- | ------ | -------- | ---------- |
+| name | String | false     | The name of the image. 'graph' by default. |
+| imageConfig | Object | false     | The configuration for the exported image, detials are shown below |
+
+where the `imageConfig` is the configuration for exported image:
+
+| Name | Type   | Required | Description            |
+| ---- | ------ | -------- | ---------- |
+| backgroundColor | String | false     | The background color of the image. If it is not assigned, the background will be transparent. |
+| padding | Number / Number[] | false     | The top, right, bottom, right paddings of the exported image. When its type is number, the paddings around the graph are the same |
+
+**Usage**
+
+```javascript
+graph.downloadFullImage('tree-graph', {
+  backgroundColor: '#ccc',
+  padding: [30, 15, 15, 15]
+});
+```
+
 ### downloadImage(name, backgroundColor)
 
 Export the canvas as an image.
@@ -1479,7 +1511,7 @@ Export the canvas as an image.
 
 | Name | Type   | Required | Description            |
 | ---- | ------ | -------- | ---------------------- |
-| name | String | false     | The name of the image. 'image' by default. |
+| name | String | false     | The name of the image. 'graph' by default. |
 | backgroundColor | String | false     | The background color of the image. If it is not assigned, the background will be transparent. |
 
 **Usage**
