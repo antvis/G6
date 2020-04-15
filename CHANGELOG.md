@@ -1,5 +1,9 @@
 # ChangeLog
 
+#### 3.4.6
+- feat: downloadFullImage when the (part of) graph is out of the screen;
+- fix: moveTo wrong logic problem;
+
 #### 3.4.5
 
 - feat: background of the label on node or edge;

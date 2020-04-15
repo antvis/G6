@@ -20,6 +20,44 @@ describe('graph', () => {
       default: ['drag-node'],
     },
   });
+  const data = {
+    nodes: [
+      {
+        id: 'node1',
+        x: 150,
+        y: 50,
+        label: 'node1',
+      },
+      {
+        id: 'node2',
+        x: 200,
+        y: 150,
+        label: 'node2',
+      },
+      {
+        id: 'node3',
+        x: 100,
+        y: 150,
+        label: 'node3',
+      },
+    ],
+    edges: [
+      {
+        source: 'node1',
+        target: 'node2',
+      },
+      {
+        source: 'node2',
+        target: 'node3',
+      },
+      {
+        source: 'node3',
+        target: 'node1',
+      },
+    ],
+  };
+  globalGraph.data(data);
+  globalGraph.render();
 
   it('invalid container', () => {
     expect(() => {
@@ -242,16 +280,15 @@ describe('graph', () => {
 
   it('moveTo', () => {
     let group = globalGraph.get('group');
-    expect(group.get('x')).toBe(undefined);
-    expect(group.get('y')).toBe(undefined);
+    let bbox = group.getCanvasBBox();
+
     globalGraph.moveTo(100, 200);
 
     group = globalGraph.get('group');
-    const matrix = globalGraph.get('group').getMatrix();
+    bbox = group.getCanvasBBox();
 
-    expect(matrix).not.toBe(null);
-    expect(group.get('x')).toBe(100);
-    expect(group.get('y')).toBe(200);
+    expect(bbox.minX).toBe(100);
+    expect(bbox.minY).toBe(200);
 
     globalGraph.get('group').resetMatrix();
   });
@@ -1128,11 +1165,12 @@ describe('auto rotate label on edge', () => {
     graph.zoom(0.5);
     graph.moveTo(100, 120);
     const group = graph.get('group');
+    const bbox = group.getCanvasBBox();
     const groupMatrix = group.attr('matrix');
     expect(groupMatrix[0]).toBe(0.5);
     expect(groupMatrix[4]).toBe(0.5);
-    expect(groupMatrix[6]).toBe(100);
-    expect(groupMatrix[7]).toBe(120);
+    expect(bbox.minX).toBe(100);
+    expect(bbox.minY).toBe(120);
     graph.destroy();
   });
 });
