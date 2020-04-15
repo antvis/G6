@@ -1498,7 +1498,7 @@ where the `imageConfig` is the configuration for exported image:
 
 ```javascript
 graph.downloadFullImage('tree-graph', {
-  backgroundColor: '#ccc',
+  backgroundColor: '#ddd',
   padding: [30, 15, 15, 15]
 });
 ```
