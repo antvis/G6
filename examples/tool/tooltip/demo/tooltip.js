@@ -99,6 +99,7 @@ const graph = new G6.Graph({
           const text = 'description: ' + model.description;
           return text;
         },
+        offset: 30
       },
       {
         type: 'edge-tooltip',
@@ -106,6 +107,7 @@ const graph = new G6.Graph({
           const text = 'description: ' + model.description;
           return text;
         },
+        offset: 30
       },
     ],
   },
