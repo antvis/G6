@@ -311,9 +311,9 @@ Shape.registerNode(
             ...fontStyle,
             x: offsetX,
             y: 7,
-            text: cfg.label,
-            draggable: true
+            text: cfg.label
           },
+          draggable: true
         });
       }
       return label;
