@@ -31,6 +31,7 @@ const graph = new G6.Graph({
         formatText: function formatText(model) {
           return model.name;
         },
+        offset: 30
       },
       {
         type: 'edge-tooltip',
@@ -43,6 +44,7 @@ const graph = new G6.Graph({
             edge.getTarget().getModel().name
           );
         },
+        offset: 30
       },
     ],
   },

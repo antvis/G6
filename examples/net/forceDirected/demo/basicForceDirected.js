@@ -37,6 +37,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
 
     const forceLayout = graph.get('layoutController').layoutMethod;
     graph.on('node:dragstart', function(e) {
+      graph.layout()
       refreshDragedNodePosition(e);
     });
     graph.on('node:drag', function(e) {

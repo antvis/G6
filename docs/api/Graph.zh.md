@@ -210,7 +210,7 @@ graph.read(data);
 
 | 名称 | 类型   | 是否必选 | 描述                                     |
 | ---- | ------ | -------- | ---------------------------------------- |
-| data | Object | true     | 图数据，是一个包括 nodes 和 edges 的对象 |
+| data | Object | false     | 图数据，是一个包括 nodes 和 edges 的对象。若不指定该参数，则使用当前数据重新渲染 |
 
 **用法**
 
@@ -236,6 +236,8 @@ const data = {
 
 // graph是Graph的实例
 graph.changeData(data);
+// 若不指定该参数，则使用当前图上的数据重新渲染
+graph.changeData();
 ```
 
 ### collapseGroup(groupId)
@@ -1474,6 +1476,35 @@ graph.set('customGroup', group);
 graph.set('nodeIdList', [1, 3, 5]);
 ```
 
+
+### downloadFullImage(name, imageConfig)
+
+将画布上的元素导出为图片。
+
+**参数**
+
+| 名称 | 类型   | 是否必选 | 描述       |
+| ---- | ------ | -------- | ---------- |
+| name | String | false     | 图片的名称，不指定则为 'graph' |
+| imageConfig | Object | false     | 图片的配置项，可选，具体字段见下方 |
+
+其中，imageConfig 为导出图片的配置参数：
+
+| 名称 | 类型   | 是否必选 | 描述       |
+| ---- | ------ | -------- | ---------- |
+| backgroundColor | String | false     | 图片的背景色，可选，不传值时将导出透明背景的图片 |
+| padding | Number / Number[] | false     | 导出图片的上左下右 padding 值。当 `padding` 为 number 类型时，四周 `padding` 相等 |
+
+**用法**
+
+```javascript
+graph.downloadFullImage('tree-graph', {
+  backgroundColor: '#ccc',
+  padding: [30, 15, 15, 15]
+});
+```
+
+
 ### downloadImage(name, backgroundColor)
 
 将画布上的元素导出为图片。
@@ -1482,7 +1513,7 @@ graph.set('nodeIdList', [1, 3, 5]);
 
 | 名称 | 类型   | 是否必选 | 描述       |
 | ---- | ------ | -------- | ---------- |
-| name | String | true     | 图片的名称 |
+| name | String | false     | 图片的名称，不指定则为 'graph' |
 | backgroundColor | String | false     | 图片的背景色，可选，不传值时将导出透明背景的图片 |
 
 **用法**
