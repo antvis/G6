@@ -258,7 +258,8 @@ export interface EdgeConfig extends ModelConfig {
   endPoint?: IPoint;
   controlPoints?: IPoint[];
   color?: string;
-  curveOffset?: number;
+  curveOffset?: number | number[];
+  curvePosition?: number | number[];
 }
 
 export type EdgeData = EdgeConfig & {
