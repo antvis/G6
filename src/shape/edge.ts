@@ -469,16 +469,18 @@ Shape.registerEdge(
   'quadratic',
   {
     curvePosition: 0.5, // 弯曲的默认位置
-    curveOffset: -20, // 弯曲度，沿着startPoint, endPoint 的垂直向量（顺时针）方向，距离线的距离，距离越大越弯曲
+    curveOffset: -20, // 弯曲度，沿着 startPoint, endPoint 的垂直向量（顺时针）方向，距离线的距离，距离越大越弯曲
     getControlPoints(cfg: EdgeConfig): IPoint[] {
       let { controlPoints } = cfg; // 指定controlPoints
       if (!controlPoints || !controlPoints.length) {
         const { startPoint, endPoint } = cfg;
+        let curveOffset = cfg.curveOffset || this.curveOffset;
+        let curvePosition = cfg.curvePosition || this.curvePosition;
         const innerPoint = getControlPoint(
           startPoint as Point,
           endPoint as Point,
-          this.curvePosition as number,
-          this.curveOffset as number,
+          curvePosition as number,
+          curveOffset as number,
         );
         controlPoints = [innerPoint];
       }
@@ -501,6 +503,8 @@ Shape.registerEdge(
     curveOffset: [-20, 20],
     getControlPoints(cfg: EdgeConfig): IPoint[] {
       let { controlPoints } = cfg; // 指定controlPoints
+      if (cfg.curveOffset !== undefined) this.curveOffset = cfg.curveOffset;
+      if (cfg.curvePosition !== undefined) this.curvePosition = cfg.curvePosition;
       if (!controlPoints || !controlPoints.length || controlPoints.length < 2) {
         const { startPoint, endPoint } = cfg;
         const innerPoint1 = getControlPoint(
