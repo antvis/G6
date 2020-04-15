@@ -375,6 +375,13 @@ export default class LayoutController {
   // 重新布局
   public relayout() {
     const { graph, layoutMethod } = this;
+    this.data = this.setDataFromGraph();
+    const { nodes } = this.data;
+    if (!nodes) {
+      return false;
+    }
+    this.initPositions(this.layoutCfg.center, nodes);
+    layoutMethod.init(this.data);
 
     if (this.layoutType === 'force') {
       layoutMethod.ticking = false;
