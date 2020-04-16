@@ -137,11 +137,24 @@ group.addShape('image', {
 | x | 中心的 x 坐标 |  |
 | y | 中心的 y 坐标 |  |
 | r | 形状半径 |  |
-| symbol | 指定形状 | 内置了一些常用形状，如圆形 `circle`，矩形  `square`，菱形  `diamond`，三角形  `triangle`，倒三角形 `triangle-down`，也可以是自定义的 path 路径。 |
+| symbol | 指定形状 | 内置了一些常用形状，如圆形 `'circle'`，矩形  `'square'`，菱形  `'diamond'`，三角形  `'triangle'`，倒三角形 `'triangle-down'`，这些内置形状只需要直接将响应 String 赋值给 symbol。也可以是自定义的 path 路径。 |
 
 ### 用法
 
 ```javascript
+// 使用内置 symbol
+group.addShape('marker', {
+  attrs: {
+    x: 10,
+    y: 10,
+    r: 10,
+    symbol: 'triangle-down'
+  },
+  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  name: 'marker-shape'
+});
+
+// 使用路径自定义 symbol
 group.addShape('marker', {
   attrs: {
     x: 10,
@@ -151,7 +164,7 @@ group.addShape('marker', {
       return [
         [ 'M', x, y ],
         [ 'L', x + r, y + r ],
-        [ 'L'，x + r * 2, y ],
+        [ 'L', x + r * 2, y ],
         [ 'Z' ]
       ]
     }
