@@ -312,6 +312,7 @@ export default class MiniMap extends Base {
     each(graph!.getNodes(), (node) => {
       this.updateOneNodeKeyShape(node);
     });
+    this.clearDestroyedShapes();
   }
 
   /**
@@ -345,6 +346,7 @@ export default class MiniMap extends Base {
     if (!item.isVisible()) {
       mappedItem.hide();
     }
+    mappedItem.exist = true;
     itemMap[item.get('id')] = mappedItem;
     this.set('itemMap', itemMap);
   }
@@ -362,6 +364,22 @@ export default class MiniMap extends Base {
     each(graph!.getNodes(), (node) => {
       this.updateOneNodeDelegateShape(node);
     });
+    this.clearDestroyedShapes();
+  }
+
+  private clearDestroyedShapes() {
+    let itemMap = this.get('itemMap') || {};
+    const keys = Object.keys(itemMap);
+    if (!keys || keys.length === 0) return;
+    for (let i = keys.length - 1; i >= 0; i--) {
+      const shape = itemMap[keys[i]];
+      const exist = shape.exist;
+      shape.exist = false;
+      if (!exist) {
+        shape.remove();
+        delete itemMap[keys[i]];
+      }
+    }
   }
 
   /**
@@ -385,6 +403,7 @@ export default class MiniMap extends Base {
     if (!item.isVisible()) {
       mappedItem.hide();
     }
+    mappedItem.exist = true;
     itemMap[item.get('id')] = mappedItem;
     this.set('itemMap', itemMap);
   }
@@ -426,6 +445,7 @@ export default class MiniMap extends Base {
     if (!item.isVisible()) {
       mappedItem.hide();
     }
+    mappedItem.exist = true;
     itemMap[item.get('id')] = mappedItem;
     this.set('itemMap', itemMap);
   }
@@ -446,6 +466,7 @@ export default class MiniMap extends Base {
     this.initContainer();
     this.get('graph').on('afterupdateitem', this.handleUpdateCanvas);
     this.get('graph').on('afteradditem', this.handleUpdateCanvas);
+    this.get('graph').on('afterremoveitem', this.handleUpdateCanvas);
     this.get('graph').on('afterrender', this.handleUpdateCanvas);
     this.get('graph').on('afterlayout', this.handleUpdateCanvas);
   }
