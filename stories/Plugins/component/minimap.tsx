@@ -55,7 +55,7 @@ const Minimap = () => {
     if (!graph) {
       const minimap = new G6.Minimap({
         size: [300, 200],
-        type: "delegate",
+        type: "keyShape",
         padding: 10
       });
       fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.json')
@@ -131,7 +131,8 @@ const Minimap = () => {
           //   x: 150,
           //   y: 400
           // });
-          graph.moveTo(0, 0);
+          // graph.moveTo(0, 0);
+          graph.removeItem(graph.getNodes()[0]);
         });
       });
     }
