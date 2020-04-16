@@ -135,11 +135,24 @@ group.addShape('image', {
 | x | The x of the center of the marker. |  |
 | y | The y of the center of the marker. |  |
 | r | The radius of the marker. |  |
-| symbol | The shape name. | There are several built-in shapes: `circle`, `square`, `diamond`, `triangle`, `triangle-down`. And user could customize a shape as marker. |
+| symbol | The shape name. | There are several built-in shapes: `'circle'`, `'square'`, `'diamond'`, `'triangle'`, `'triangle-down'`, you can use them with the String names. And user could customize a shape as marker. |
 
 ### Usage
 
 ```javascript
+// use the built-in symbol
+group.addShape('marker', {
+  attrs: {
+    x: 10,
+    y: 10,
+    r: 10,
+    symbol: 'triangle-down'
+  },
+  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  name: 'marker-shape'
+});
+
+// custom the symbol with path
 group.addShape('marker', {
   attrs: {
     x: 10,
@@ -149,7 +162,7 @@ group.addShape('marker', {
       return [
         [ 'M', x, y ],
         [ 'L', x + r, y + r ],
-        [ 'L'，x + r * 2, y ],
+        [ 'L', x + r * 2, y ],
         [ 'Z' ]
       ]
     }
