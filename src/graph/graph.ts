@@ -1858,7 +1858,7 @@ export default class Graph extends EventEmitter implements IGraph {
     if (isString(combo)) {
       combo = this.findById(combo) as ICombo;
     }
-
+    (combo as ICombo).collapse();
   }
 
   // TODO 待实现 expand 方法
@@ -1870,22 +1870,22 @@ export default class Graph extends EventEmitter implements IGraph {
     if (isString(combo)) {
       combo = this.findById(combo) as ICombo;
     }
-
+    (combo as ICombo).expand();
   }
 
   public collapseExpandCombo(combo: string | ICombo) {
     if (isString(combo)) {
       combo = this.findById(combo) as ICombo;
     }
-    const collapsed = combo.get('collapsed');
+    const comboModel = combo.getModel();
+    const collapsed = comboModel.collapsed;
     // 该群组已经处于收起状态，需要展开
     if (collapsed) {
-      combo.set('collapsed', false);
       this.expandCombo(combo);
     } else {
-      combo.set('collapsed', true);
       this.collapseCombo(combo);
     }
+    comboModel.collapsed = !collapsed;
   }
 
   /**
