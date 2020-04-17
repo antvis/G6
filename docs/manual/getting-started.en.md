@@ -43,8 +43,8 @@ import G6 from '@antv/g6';
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span>
 
-- Replace `{$version}` by the version number. e.g. `3.3.1`;
-- The last version of G6 is 3.3.1, which can be checked on <a href='https://www.npmjs.com/package/@antv/g6' target='_blank'>NPM</a>;
+- Replace `{$version}` by the version number. e.g. `3.4.7`;
+- The last version and its number can be found on <a href='https://www.npmjs.com/package/@antv/g6' target='_blank'>NPM</a>;
 - Please refer to the branch in Github: <a href='https://github.com/antvis/g6/tree/master' target='_blank'>https://github.com/antvis/g6/tree/master</a> for more detail.
 
 ## Getting Started
