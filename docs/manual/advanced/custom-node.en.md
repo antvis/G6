@@ -84,7 +84,7 @@ G6.registerNode(
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️Attention:</strong> </span>
 
 - `draw`: it is required if the custom node does not extend any parent;
-- Coordinate system: The coordinate system of the shapes inside the custom node is a **sub coordinate system relating to itself**, which means the `(0, 0)` is the center of the node. And the coordinates of the node is related to the whole canvas, which is controled by the group contains it and users have no need to use it when customing a node type. See the detail in [Register a Bran-new Node](#1-register-a-bran-new-edge);
+- Coordinate system: The coordinate system of the shapes inside the custom node is a **sub coordinate system relating to itself**, which means the `(0, 0)` is the center of the node. And the coordinates of the node is related to the whole canvas, which is controled by the group contains it and users have no need to use it when customing a node type. When adding a `rect` shape into a custom node, be caution that its x and y should be minused half of its width and height. See the detail in [Register a Bran-new Node](#1-register-a-bran-new-edge);
 - `update`:
   - When the `update` function is not undefined: If user has defined the third parameter `extendNodeName` of `registerNode`, which means extending a built-in node type, the `update` function of the extended node type of the custom node will be executed once the node is updated; If the third parameter of `registerNode` is not assigned, the `draw` function of the custom node will be executed instead;
   - When the `update` function is defined, whether the third parameter of `registerNode` is defined, the `update` function will be executed when the node is updated.

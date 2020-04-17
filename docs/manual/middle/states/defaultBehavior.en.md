@@ -299,7 +299,8 @@ It is a solution to put these two conflicting events into two mdoes. They will b
 
 ### collapse-expand
 
-- Description: Collapse or expand a subtree on a treeGraph
+- Description: Collapse or expand a subtree on a treeGraph;
+- Attension: If you want to collapse a subtree by default when render the Graph in the first time, you can assign `collapsed: true` to the root of the subtree in its data. If you want to control the subtree to collapse/expand by code, you can also assign the `collapsed` for the root of the subtree and call `treeGraph.layout()` to make it take effect;
 - `type: 'collapse-expand'`;
 - Configuration:
   - `trigger`: The operation for collapsing and expanding. Options: `click` and `dblclick`. `click` by default;
