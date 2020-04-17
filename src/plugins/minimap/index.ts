@@ -327,20 +327,22 @@ export default class MiniMap extends Base {
     // 差量更新 minimap 上的一个节点，对应主图的 item
     let mappedItem = itemMap[item.get('id')];
     const bbox = item.getBBox(); // 计算了节点父组矩阵的 bbox
-    if (!mappedItem) {
-      mappedItem = item.get('keyShape').clone();
-      group.add(mappedItem);
-    }
-    const shapeType = mappedItem.get('type');
+    const cKeyShape = item.get('keyShape').clone();
+    const keyShapeStyle = cKeyShape.attr();
     let attrs: any = {
       x: bbox.centerX,
-      y: bbox.centerY
+      y: bbox.centerY,
+    };
+    if (!mappedItem) {
+      mappedItem = cKeyShape;
+      group.add(mappedItem);
+    } else {
+      attrs = Object.assign(keyShapeStyle, attrs);
     }
+    const shapeType = mappedItem.get('type');
     if (shapeType === 'rect' || shapeType === 'image') {
-      attrs = {
-        x: bbox.minX,
-        y: bbox.minY
-      }
+      attrs.x = bbox.minX;
+      attrs.y = bbox.minY;
     }
     mappedItem.attr(attrs)
     if (!item.isVisible()) {
@@ -465,6 +467,7 @@ export default class MiniMap extends Base {
   public init() {
     this.initContainer();
     this.get('graph').on('afterupdateitem', this.handleUpdateCanvas);
+    this.get('graph').on('afteritemstatechange', this.handleUpdateCanvas);
     this.get('graph').on('afteradditem', this.handleUpdateCanvas);
     this.get('graph').on('afterremoveitem', this.handleUpdateCanvas);
     this.get('graph').on('afterrender', this.handleUpdateCanvas);
