@@ -47,6 +47,7 @@ Object 类型。通过 `style` 配置来修改节点的填充色、边框颜色�
 | fill          | false    | String | 节点填充色                    |
 | stroke        | false    | String | 节点的描边颜色                |
 | lineWidth     | false    | Number | 描边宽度                      |
+| lineDash     | false    | Number[] | 描边虚线，数组代表实、虚长度    |
 | shadowColor   | false    | String | 阴影颜色                      |
 | shadowBlur    | false    | Number | 阴影范围                      |
 | shadowOffsetX | false    | Number | 阴影 x 方向偏移量             |

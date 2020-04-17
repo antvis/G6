@@ -25,6 +25,7 @@ G6 支持以下图形：
 | fill          | 设置用于填充绘画的颜色、渐变或模式 | 对应 Canvas 属性 `fillStyle`   |
 | stroke        | 设置用于笔触的颜色、渐变或模式     | 对应 Canvas 属性 `strokeStyle` |
 | lineWidth     | 描边宽度                           |                                |
+| lineDash     | 描边虚线  | Number[] 类型代表实、虚长度    |
 | shadowColor   | 设置用于阴影的颜色                 |                                |
 | shadowBlur    | 设置用于阴影的模糊级别             | 数值越大，越模糊               |
 | shadowOffsetX | 设置阴影距形状的水平距离           |                                |

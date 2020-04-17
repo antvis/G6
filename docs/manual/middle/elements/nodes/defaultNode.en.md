@@ -45,6 +45,7 @@ The table below shows the built-in nodes and their special properties:
 | fill          | false    | String | The filling color                             |
 | stroke        | false    | String | The stroke color                              |
 | lineWidth     | false    | Number | The line width of the stroke                  |
+| lineDash      | false    | Number[] | The lineDash of the stroke                  |
 | shadowColor   | false    | String | The shadow color                              |
 | shadowBlur    | false    | Number | The blur of the shadow                        |
 | shadowOffsetX | false    | Number | The x offset of the shadow                    |
