@@ -391,15 +391,21 @@ export interface IGraph extends EventEmitter {
 
   /**
    * 收起指定的 Combo
-   * @param comboId combo ID
+   * @param comboId combo ID 或 combo 实例
    */
-  collapse(comboId: string): void;
+  collapseCombo(combo: string | ICombo): void;
 
   /**
    * 展开指定的 Combo
-   * @param comboId combo ID
+   * @param combo combo ID 或 combo 实例
    */
-  expand(comboId: string): void;
+  expandCombo(combo: string | ICombo): void;
+
+  /**
+   * 展开或收缩指定的 Combo
+   * @param comboId combo ID 或 combo 实例
+   */
+  collapseExpandCombo(combo: string | ICombo): void;
 
   /**
    * 收起分组
