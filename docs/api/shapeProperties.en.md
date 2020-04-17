@@ -24,6 +24,8 @@ G6 has these shapes:
 | --- | --- | --- |
 | fill | The color or gradient color for filling. | The corresponding property in canvas is `fillStyle`. |
 | stroke | The color, gradient color, or pattern for stroke. | The corresponding property in canvas is `strokeStyle`. |
+| lineWidth     | The width of the stroke  |                                |
+| lineDash     | The lineDash of the stroke  | Number[] are the lengths of the lineDash    |
 | shadowColor | The color for shadow. |  |
 | shadowBlur | The blur level for shadow. | Larger the value, more blur. |
 | shadowOffsetX | The horizontal offset of the shadow. |  |
