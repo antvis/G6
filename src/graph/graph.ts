@@ -1850,12 +1850,14 @@ export default class Graph extends EventEmitter implements IGraph {
     }
   }
 
-  // TODO 待实现 collapse 方法
   /**
    * 收起指定的 combo
    * @param comboId combo ID
    */
-  public collapse(comboId: string): void {
+  public collapseCombo(combo: string | ICombo): void {
+    if (isString(combo)) {
+      combo = this.findById(combo) as ICombo;
+    }
 
   }
 
@@ -1864,8 +1866,26 @@ export default class Graph extends EventEmitter implements IGraph {
    * 展开指定的 combo
    * @param comboId Combo ID
    */
-  public expand(comboId: string): void {
+  public expandCombo(combo: string | ICombo): void {
+    if (isString(combo)) {
+      combo = this.findById(combo) as ICombo;
+    }
 
+  }
+
+  public collapseExpandCombo(combo: string | ICombo) {
+    if (isString(combo)) {
+      combo = this.findById(combo) as ICombo;
+    }
+    const collapsed = combo.get('collapsed');
+    // 该群组已经处于收起状态，需要展开
+    if (collapsed) {
+      combo.set('collapsed', false);
+      this.expandCombo(combo);
+    } else {
+      combo.set('collapsed', true);
+      this.collapseCombo(combo);
+    }
   }
 
   /**
@@ -1910,34 +1930,6 @@ export default class Graph extends EventEmitter implements IGraph {
       plugin.destroyPlugin();
       plugins.splice(index, 1);
     }
-  }
-
-  private sortCombos(data: GraphData) {
-    const depthMap = [];
-    const dataDepthMap = {};
-    const comboTrees = this.get('comboTrees');
-    comboTrees.forEach(cTree => {
-      traverseTree(cTree, child => {
-        if (depthMap[child.depth]) depthMap[child.depth].push(child.id);
-        else depthMap[child.depth] = [ child.id ];
-        dataDepthMap[child.id] = child.depth;
-        return true;
-      });
-    });
-    data.edges.forEach(edge => {
-      const sourceDepth: number = dataDepthMap[edge.source] || 0;
-      const targetDepth: number = dataDepthMap[edge.target] || 0;
-      const depth = Math.max(sourceDepth, targetDepth);
-      if (depthMap[depth]) depthMap[depth].push(edge.id);
-      else depthMap[depth] = [ edge.id ];
-    });
-    depthMap.forEach(array => {
-      if (!array || !array.length) return;
-      for (let i = array.length - 1; i >= 0; i--) {
-        const item = this.findById(array[i]);
-        item.toFront();
-      }
-    });
   }
 
   /**
