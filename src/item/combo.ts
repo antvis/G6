@@ -159,6 +159,25 @@ export default class Combo extends Node implements ICombo {
     return false;
   }
 
+  collapse() {
+    const children = this.getChildren();
+    children.nodes.forEach(node => {
+      node.hide()
+    });
+    children.combos.forEach(combo => {
+      combo.hide();
+    });
+  }
+  expand() {
+    const children = this.getChildren();
+    children.nodes.forEach(node => {
+      node.show()
+    });
+    children.combos.forEach(combo => {
+      combo.show();
+    });
+  }
+
   public isOnlyMove(cfg?: ComboConfig): boolean {
     return false;
   }

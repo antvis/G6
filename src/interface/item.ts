@@ -350,4 +350,15 @@ export interface ICombo extends INode {
    * @return boolean 移除成功返回 true，否则返回 false
    */
   removeNode: (node: string | INode) => boolean;
+
+
+   /**
+   * 收缩该 combo
+   */
+  collapse();
+
+   /**
+   * 展开该 combo
+   */
+  expand();
 }
