@@ -67,7 +67,7 @@ const Minimap = () => {
           height: 400,
           plugins: [ minimap ],
           modes: {
-            default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'collapse-expand']
+            default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select']
           },
           defaultNode: {
             type: 'circle',
@@ -86,6 +86,11 @@ const Minimap = () => {
             style: {
               stroke: '#A3B1BF',
             },
+          },
+          nodeStateStyles: {
+            selected: {
+              fill: 'red'
+            }
           },
           layout: {
             type: 'compactBox',
