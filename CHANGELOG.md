@@ -1,11 +1,14 @@
 # ChangeLog
 
-#### 3.4.6
+#### 3.4.7
 - feat: downloadFullImage when the (part of) graph is out of the screen;
 - feat: With pre-graph has no layout configurations and no positions in data, calling changeData to change into a new data with positions, results in show the node with positions in data;
 - feat: allow user to assign curveOffset and curvePostion for Bezier curves;
 - fix: moveTo wrong logic problem;
 - fix: removeItem to update the minimap.
+
+#### 3.4.6
+- same as 3.4.5, published wrongly.
 
 #### 3.4.5
 
