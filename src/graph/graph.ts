@@ -1737,7 +1737,10 @@ debugger
    * 收起指定的 combo
    * @param comboId combo ID
    */
-  public collapse(comboId: string): void {
+  public collapseCombo(combo: string | ICombo): void {
+    if (isString(combo)) {
+      combo = this.findById(combo) as ICombo;
+    }
 
   }
 
@@ -1746,8 +1749,28 @@ debugger
    * 展开指定的 combo
    * @param comboId Combo ID
    */
-  public expand(comboId: string): void {
+  public expandCombo(combo: string | ICombo): void {
+    if (isString(combo)) {
+      combo = this.findById(combo) as ICombo;
+    }
 
+  }
+
+
+
+  public collapseExpandCombo(combo: string | ICombo) {
+    if (isString(combo)) {
+      combo = this.findById(combo) as ICombo;
+    }
+    const collapsed = combo.get('collapsed');
+    // 该群组已经处于收起状态，需要展开
+    if (collapsed) {
+      nodeGroup.set('collapsed', false);
+      this.expandCombo(combo);
+    } else {
+      nodeGroup.set('collapsed', true);
+      this.collapseCombo(combo);
+    }
   }
 
   /**
