@@ -303,7 +303,8 @@ const graph = new G6.Graph({
 
 ### collapse-expand
 
-- 含义：只适用于树图，展开或收起节点；
+- 含义：只适用于树图，展开或收起子树；
+- 注意：若希望在首次布局时有默认收起的子树，则可以在数据中设置子树根节点的属性 `collapsed` 为 `true`。若希望使用代码控制子树的展开/收起，同样可以在数据中设置子树根节点的 `collapsed` 属性，并调用 `treeGraph.layout()` 使之生效；
 - `type: 'collapse-expand'`；
 - 参数：
   - `trigger`：收起和展开树图的方式，支持 `'click'` 和 `'dblclick'` 两种方式。默认为 `'click'`，即单击；

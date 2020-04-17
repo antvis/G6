@@ -282,7 +282,9 @@ graph.render();
 
 ## Attention
 
-In fact, iconfont is a text shape. <br />**1、The `fontFamily` of the text and the `font-family` in iconfont.css shoulde be kept consistent:**<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v0CoQoNIyJ8AAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
+In fact, iconfont is a text shape. 
+
+<br />**1、The `fontFamily` of the text and the `font-family` in iconfont.css shoulde be kept consistent:**<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v0CoQoNIyJ8AAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wndRQo6U-oUAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
@@ -291,6 +293,16 @@ In fact, iconfont is a text shape. <br />**1、The `fontFamily` of the text and 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*KO-IRbIXRGAAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*teUAQIkCffUAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
+
+**3、If the iconfonts are rendered wrongly (maybe it is rendered as an empty rect), try the following code to solve it:** <br />
+
+```javascript
+// Call the following code after graph.render()
+setTimeout(() => {
+  graph.paint();
+}, 16)
+
+```
 
 ## Tool Function getIcon
 

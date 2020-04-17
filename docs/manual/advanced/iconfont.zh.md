@@ -282,7 +282,8 @@ graph.render();
 
 ## 注意事项
 
-看了代码大家应该很清楚了，实质就是用了 text 图形，但有几个需要注意的地方：<br />**1、text 的 `fontFamily` 必须和 iconfont.css 里面的 `font-family` 保持一致：**<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v0CoQoNIyJ8AAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
+看了代码大家应该很清楚了，实质就是用了 text 图形，但有几个需要注意的地方：<br />
+**1、text 的 `fontFamily` 必须和 iconfont.css 里面的 `font-family` 保持一致：**<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v0CoQoNIyJ8AAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wndRQo6U-oUAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
@@ -291,6 +292,17 @@ graph.render();
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*KO-IRbIXRGAAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*teUAQIkCffUAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
+
+**3、若出现了第一次渲染 iconfont 错误（可能显示成一个方框），可以尝试使用下面代码解决：**<br />
+
+```javascript
+// 在 graph.render() 之后调用以下语句：
+setTimeout(() => {
+  graph.paint();
+}, 16)
+
+```
+
 
 ## 工具函数 getIcon
 
