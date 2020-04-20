@@ -13,6 +13,7 @@ import DragNodeWidthGroup from './drag-node-with-group';
 import CollapseExpandGroup from './collapse-expand-group';
 import CollapseExpand from './collapse-expand';
 import DragCombo from './drag-combo'
+import CollapseExpandCombo from './collapse-expand-combo';
 
 const behaviors = {
   'drag-canvas': DragCanvas,
@@ -27,7 +28,8 @@ const behaviors = {
   'drag-node-with-group': DragNodeWidthGroup,
   'collapse-expand-group': CollapseExpandGroup,
   'collapse-expand': CollapseExpand,
-  'drag-combo': DragCombo
+  'drag-combo': DragCombo,
+  'collapse-expand-combo': CollapseExpandCombo
 };
 
 each(behaviors, (behavior, type: string) => {
