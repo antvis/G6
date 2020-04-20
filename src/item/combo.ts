@@ -160,6 +160,7 @@ export default class Combo extends Node implements ICombo {
   }
 
   collapse() {
+    console.log('collapse in combo item');
     const children = this.getChildren();
     children.nodes.forEach(node => {
       node.hide()
@@ -169,6 +170,7 @@ export default class Combo extends Node implements ICombo {
     });
   }
   expand() {
+    console.log('expand in combo item');
     const children = this.getChildren();
     children.nodes.forEach(node => {
       node.show()

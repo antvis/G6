@@ -81,7 +81,7 @@ const CollapseExpand = () => {
         width: 1000,
         height: 800,
         modes: {
-          default: [ 'drag-canvas' ]
+          default: [ 'drag-canvas', 'collapse-expand-combo' ]
         },
         defaultCombo: {
           // size: [100, 100],
@@ -107,74 +107,8 @@ const CollapseExpand = () => {
       //     }
       //   }
       });
-      // graph.combo(combo => {
-      //   return {
-      //     type: 'circle',
-      //     label: combo.id,
-      //     style: { fill: '#666' },
-      //     stateStyles: {
-      //       selected: { fill: 'blue' },
-      //       state2: { fill: 'green' }
-      //     }
-      //   }
-      // });
       graph.data(data);
       graph.render();
-      let selected = false;
-      graph.on('node:click', e => {
-        graph.hideItem(e.item);
-      })
-      graph.on('combo:click', e => {
-        // selected = !selected;
-        // graph.setItemState(e.item, 'selected', selected);
-        // graph.setItemState(e.item, 'state2', selected);
-        // graph.getNodes().forEach(node => {
-        //   node.hide();
-        // });
-        // graph.hideItem(e.item);
-        graph.updateItem(e.item, {
-          // type: 'rect',
-          style: {
-            fill: '#f00'
-          },
-          markerStyle: {
-            fill: '#0f0'
-          }
-          // label: 'new Label',
-          // labelCfg: {
-          //   position: 'bottom'
-          // }
-        });
-        // graph.uncombo(e.item);
-      });
-      graph.on('canvas:click', e => {
-        // graph.setItemState(graph.findById('A'), 'selected', true);
-        // console.log( graph.findAllByState('combo', 'selected'))
-        // const hidedCombos = graph.findAll('combo', combo => {
-        //   if (!combo.isVisible()) return true;
-        //   return false;
-        // });
-        // hidedCombos.forEach(combo => {
-        //   graph.showItem(combo);
-        // })
-        // console.log(graph.getCombos()[0]);
-        // console.log(graph.getComboChildren(graph.getCombos()[0]));
-        //graph.focusItem(graph.getCombos()[0]);
-        // graph.remove('B');
-        // graph.remove('A');
-
-        // graph.changeData(data2);
-
-        graph.addItem('combo', {
-          id: 'M',
-          parentId: 'B'
-        });
-        // graph.updateItem('A', {
-        //   parentId: 'B'
-        // });
-
-        // console.log(graph.save());
-      });
     }
   });
   return <div ref={container}></div>;
