@@ -262,6 +262,45 @@ export default class ItemController {
   }
 
   /**
+   * 收起 combo
+   */
+  public collapseCombo(combo: ICombo | string) {
+    const graph = this.graph;
+    if (isString(combo)) {
+      combo = graph.findById(combo) as ICombo;
+    }
+    const children = (combo as ICombo).getChildren();
+    children.nodes.forEach(node => {
+      graph.hideItem(node);
+    });
+    children.combos.forEach(combo => {
+      graph.hideItem(combo);
+    });
+  }
+
+  /**
+   * 展开 combo
+   */
+  public expandCombo(combo: ICombo | string) {
+    const graph = this.graph;
+    if (isString(combo)) {
+      combo = graph.findById(combo) as ICombo;
+    }
+    const children = (combo as ICombo).getChildren();
+    children.nodes.forEach(node => {
+      graph.showItem(node);
+    });
+    children.combos.forEach(combo => {
+      if (combo.getModel().collapsed) {
+        combo.show();
+      } else {
+        graph.showItem(combo);
+      }
+    });
+  }
+
+
+  /**
    * 删除指定的节点或边
    *
    * @param {Item} item item ID 或实例

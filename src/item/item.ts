@@ -496,6 +496,8 @@ export default class ItemBase implements IItemBase {
   public update(cfg: ModelConfig) {
     const model: ModelConfig = this.get('model');
     const originPosition: IPoint = { x: model.x!, y: model.y! };
+    cfg.x = isNaN(cfg.x) ? model.x : cfg.x;
+    cfg.y = isNaN(cfg.y) ? model.y : cfg.y;
 
     const styles = this.get('styles')
     if (cfg.stateStyles) {
@@ -512,11 +514,11 @@ export default class ItemBase implements IItemBase {
     const onlyMove = this.isOnlyMove(cfg);
     // 仅仅移动位置时，既不更新，也不重绘
     if (onlyMove) {
-      this.updatePosition(model);
+      this.updatePosition(cfg);
     } else {
       // 如果 x,y 有变化，先重置位置
-      if (originPosition.x !== model.x || originPosition.y !== model.y) {
-        this.updatePosition(model);
+      if (originPosition.x !== cfg.x || originPosition.y !== cfg.y) {
+        this.updatePosition(cfg);
       }
       this.updateShape();
     }
