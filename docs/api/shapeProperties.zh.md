@@ -34,7 +34,7 @@ G6 支持以下图形：
 | fillOpacity   | 设置填充的 alpha 或透明值          |                                |
 | cursor      | 鼠标在该节点上时的鼠标样式，[CSS 的 cursor](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) 选项都支持  |  |
 
-## 用法
+### 用法
 
 ```javascript
 group.addShape('rect', {
@@ -50,6 +50,36 @@ group.addShape('rect', {
   name: 'rect-shape',
 });
 ```
+
+## 各图形 Shape 的通用方法
+
+### attr()
+
+设置或获取实例的绘图属性。
+
+### attr(name)
+
+获取实例的属性值。
+
+```
+const width = shape.attr('width');
+```
+
+### attr(name, value)
+
+更新实例的单个绘图属性。
+
+### attr({...})
+
+批量更新实例绘图属性。
+
+```
+rect.attr({
+    fill: '#999',
+    stroke: '#666'
+});
+```
+
 
 ## 圆图形 Circle
 
