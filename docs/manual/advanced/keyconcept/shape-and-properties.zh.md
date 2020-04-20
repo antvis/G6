@@ -12,20 +12,25 @@ G6 中的元素（节点/边）是**由一个或多个**[**图形 Shape**](/zh/d
 - [fan](#扇形图形-fan)：扇形；
 - [image](#图片图形-image)：图片；
 - [marker](#标记图形-marker)：标记；
-- [path](#路径-path)：路径。
+- [path](#路径-path)：路径；
 - [text](#文本-text)：文本；
+- [dom(svg)](#dom-svg)：DOM（图渲染方式 `renderer` 为 `'svg'` 时可用）。
 
 ## 各图形 Shape 的通用属性
 
-| 属性名 | 含义 | 备注 |
-| --- | --- | --- |
-| fill | 设置用于填充的颜色、[渐变](/zh/docs/manual/FAQ/gradient)或[纹理](/zh/docs/manual/FAQ/texture)模式 | 对应 Canvas 属性 `fillStyle` |
-| stroke | 设置用于笔触的颜色或[渐变](/zh/docs/manual/FAQ/gradient)模式 | 对应 Canvas 属性 `strokeStyle` |
-| shadowColor | 设置用于阴影的颜色 |  |
-| shadowBlur | 设置用于阴影的模糊级别 | 数值越大，越模糊 |
-| shadowOffsetX | 设置阴影距形状的水平距离 |  |
-| shadowOffsetY | 设置阴影距形状的垂直距离 |  |
-| opacity | 设置绘图的当前 alpha 或透明值 | 对应 Canvas 属性 `globalAlpha` |
+| 属性名        | 含义                               | 备注                           |
+| ------------- | ---------------------------------- | ------------------------------ |
+| fill          | 设置用于填充绘画的颜色、渐变或模式 | 对应 Canvas 属性 `fillStyle`   |
+| stroke        | 设置用于笔触的颜色、渐变或模式     | 对应 Canvas 属性 `strokeStyle` |
+| lineWidth     | 描边宽度                           |                                |
+| lineDash     | 描边虚线  | Number[] 类型代表实、虚长度    |
+| shadowColor   | 设置用于阴影的颜色                 |                                |
+| shadowBlur    | 设置用于阴影的模糊级别             | 数值越大，越模糊               |
+| shadowOffsetX | 设置阴影距形状的水平距离           |                                |
+| shadowOffsetY | 设置阴影距形状的垂直距离           |                                |
+| opacity       | 设置绘图的当前 alpha 或透明值      | 对应 Canvas 属性 `globalAlpha` |
+| fillOpacity   | 设置填充的 alpha 或透明值          |                                |
+| cursor      | 鼠标在该节点上时的鼠标样式，[CSS 的 cursor](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) 选项都支持  |  |
 
 ### 用法
 
@@ -324,9 +329,12 @@ group.addShape('text', {
 ```
 
 
+
 ## DOM (svg)
 
 > 仅在 Graph 的 `renderer` 为 `'svg'` 时可以使用。
+
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 使用 dom 进行自定义的节点或边，不支持 G6 的交互事件，请使用原生 DOM 的交互事件。
 
 ### 特殊属性
 

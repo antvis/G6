@@ -107,6 +107,14 @@ module.exports = {
         order: 5,
       },
       {
+        slug: 'manual/advanced/keyconcept',
+        title: {
+          zh: '概念解释',
+          en: 'Concepts',
+        },
+        order: 0,
+      },
+      {
         slug: 'manual/cases',
         title: {
           zh: '综合应用',

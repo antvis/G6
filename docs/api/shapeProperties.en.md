@@ -33,7 +33,7 @@ G6 has these shapes:
 | opacity | The opacity (alpha value) of the shape. | The corresponding property in canvas is `globalAlpha`. |
 | cursor        | The type of the mouse when hovering the node. The options are the same as [cursor in CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) |  |
 
-## Usage
+### Usage
 
 ```javascript
 group.addShape('rect', {
@@ -50,7 +50,40 @@ group.addShape('rect', {
 });
 ```
 
-### Circle
+
+## The Common Functions of Shapes
+
+### attr()
+
+Get or set the shape's attributes.
+
+### attr(name)
+
+Get the shape's attribute named `name`.
+
+``` javascript
+const width = shape.attr('width');
+```
+
+### attr(name, value)
+
+Update the shape's attribute named `name` with `value`.
+
+
+### attr({...})
+
+Update the shape's multiple attributes.
+
+```javascript
+rect.attr({
+    fill: '#999',
+    stroke: '#666'
+});
+```
+
+
+
+## Circle
 
 ### Special Property
 
@@ -75,7 +108,7 @@ group.addShape('circle', {
 });
 ```
 
-### Ellipse
+## Ellipse
 
 ### Special Property
 
@@ -102,7 +135,7 @@ group.addShape('ellipse', {
 });
 ```
 
-### Image
+## Image
 
 ### Special Property
 
@@ -128,7 +161,7 @@ group.addShape('image', {
 });
 ```
 
-### Marker
+## Marker
 
 ### Special Property
 
@@ -174,7 +207,7 @@ group.addShape('marker', {
 });
 ```
 
-### Polygon
+## Polygon
 
 ### Special Property
 
@@ -200,7 +233,7 @@ group.addShape('polygon', {
 });
 ```
 
-### Rect
+## Rect
 
 ### Special Property
 

@@ -13,19 +13,23 @@ An item (node/edge) in G6 **Consists of One or More** [**Graphics Shape**](/en/d
 - [image](#image);
 - [marker](#marker);
 - [path](#path);
-- [text](#text).
+- [text](#text);
+- [dom(svg)](#dom-svg): DOM (available only when the `renderer` of Graph instance is `'svg'`).
 
 ## The Common Properties of Shapes
 
 | Name | Description | Remark |
 | --- | --- | --- |
-| fill | The color, gradient color, or the pattern for filling | Corresponds to the `fillStyle` of Canvas |
-| stroke | The color, gradient color, or pattern for the stroke | Corresponds to the `strokeStyle` of Canvas |
-| shadowColor | The color for shadow |  |
-| shadowBlur | The blur level for shadow | Larger the value, more blur |
-| shadowOffsetX | The horizontal offset of the shadow |  |
-| shadowOffsetY | The vertical offset of the shadow |  |
-| opacity | The opacity (alpha value) of the shape | Corresponds to the `globalAlpha` of Canvas |
+| fill | The color or gradient color for filling. | The corresponding property in canvas is `fillStyle`. |
+| stroke | The color, gradient color, or pattern for stroke. | The corresponding property in canvas is `strokeStyle`. |
+| lineWidth     | The width of the stroke  |                                |
+| lineDash     | The lineDash of the stroke  | Number[] are the lengths of the lineDash    |
+| shadowColor | The color for shadow. |  |
+| shadowBlur | The blur level for shadow. | Larger the value, more blur. |
+| shadowOffsetX | The horizontal offset of the shadow. |  |
+| shadowOffsetY | The vertical offset of the shadow. |  |
+| opacity | The opacity (alpha value) of the shape. | The corresponding property in canvas is `globalAlpha`. |
+| cursor        | The type of the mouse when hovering the node. The options are the same as [cursor in CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) |  |
 
 ### Usage
 
@@ -43,6 +47,38 @@ group.addShape('rect', {
   name: 'rect-shape',
 });
 ```
+
+
+## The Common Functions of Shapes
+
+### attr()
+
+Get or set the shape's attributes.
+
+### attr(name)
+
+Get the shape's attribute named `name`.
+
+``` javascript
+const width = shape.attr('width');
+```
+
+### attr(name, value)
+
+Update the shape's attribute named `name` with `value`.
+
+
+### attr({...})
+
+Update the shape's multiple attributes.
+
+```javascript
+rect.attr({
+    fill: '#999',
+    stroke: '#666'
+});
+```
+
 
 ## Circle
 
@@ -298,6 +334,8 @@ group.addShape('text', {
 ## DOM (svg)
 
 > This shape is available only when the `renderer` is assgined to `'svg'` for graph instance.
+
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span> If you custom a Node type or an Edge type with dom shape, please use the original DOM events instead of events of G6.
 
 ### Properties
 
