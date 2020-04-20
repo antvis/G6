@@ -46,7 +46,7 @@ const data = {
     id: 'A',
     parentId: 'B',
     label: 'gorup A',
-    padding: [50, 10, 10, 10]
+    padding: [10, 10, 10, 10]
     // type: 'rect'
   }, {
     id: 'B',
