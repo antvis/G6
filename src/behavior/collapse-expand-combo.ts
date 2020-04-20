@@ -26,14 +26,17 @@ export default {
       );
     }
     return {
-      [`${trigger}`]: 'onGroupClick',
+      [`${trigger}`]: 'onComboClick',
     };
   },
-  onGroupClick(evt: IG6GraphEvent) {
-    const { target } = evt;
+  onComboClick(evt: IG6GraphEvent) {
+    const { item } = evt;
     const { graph } = this;
 
-    const comboId = target.get('comboId');
+    if (item.getType() !== 'combo') return;
+    const comboId = item.getModel().id;
+    console.log(item.getModel());
+    console.log('click combo', comboId)
     if (!comboId) {
       return;
     }
