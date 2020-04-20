@@ -1732,7 +1732,6 @@ debugger
     }
   }
 
-  // TODO 待实现 collapse 方法
   /**
    * 收起指定的 combo
    * @param comboId combo ID
@@ -1741,10 +1740,14 @@ debugger
     if (isString(combo)) {
       combo = this.findById(combo) as ICombo;
     }
-    (combo as ICombo).collapse();
+    const comboModel = combo.getModel();
+    const itemController: ItemController = this.get('itemController');
+    itemController.collapseCombo(combo);
+    // update combo size
+    itemController.updateCombo(combo, []);
+    comboModel.collapsed = true;
   }
 
-  // TODO 待实现 expand 方法
   /**
    * 展开指定的 combo
    * @param comboId Combo ID
@@ -1753,7 +1756,25 @@ debugger
     if (isString(combo)) {
       combo = this.findById(combo) as ICombo;
     }
-    (combo as ICombo).expand();
+    const itemController: ItemController = this.get('itemController');
+    itemController.expandCombo(combo);
+
+    const comboModel = combo.getModel();
+    // find the children from comboTrees
+    const comboTrees = this.get('comboTrees');
+    let children = [];
+    comboTrees.forEach((ctree: ComboTree) => {
+      let found = false;
+      traverseTreeUp<ComboTree>(ctree, child => {
+        if (comboModel.id === child.id) {
+          children = child.children;
+        }
+        return true;
+      });
+    });
+    // update combo size
+    itemController.updateCombo(combo, children);
+    comboModel.collapsed = false;
   }
 
 
@@ -1770,7 +1791,6 @@ debugger
     } else {
       this.collapseCombo(combo);
     }
-    comboModel.collapsed = !collapsed;
   }
 
   /**
