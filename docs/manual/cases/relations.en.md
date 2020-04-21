@@ -48,7 +48,7 @@ There might be multiple 'colleague' type relationships betwenn node A and B, e.g
 
 **Applicable Scene:** Cluster relationships with same type into one edge to reduce the visual clutter.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*KCx-T7w60J4AAAAAAAAAAABkARQnAQ' width=850 />
+
 
 ## Circle Detection
 

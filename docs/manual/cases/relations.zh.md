@@ -48,7 +48,6 @@ A 和 B 之间可能会存在多个同事关系，如 A 和 B 在 company1 公�
 
 适用场景：为了降低视觉干扰，将多条同类型的关系合并成一条。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*KCx-T7w60J4AAAAAAAAAAABkARQnAQ' width=850 />
 
 ## 圈检测
 
