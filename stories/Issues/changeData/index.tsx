@@ -1,9 +1,9 @@
-import React, { useRef, useEffect } from "react";
-import ReactDOM from "react-dom";
-import { mergeWith } from "lodash";
+import React, { useRef, useEffect } from 'react';
+import ReactDOM from 'react-dom';
+import { mergeWith } from 'lodash';
 import G6 from '../../../src';
-import isArray from "@antv/util/lib/is-array";
-import { data } from "./data";
+import isArray from '@antv/util/lib/is-array';
+import { data } from './data';
 // import "./styles.css";
 
 /**
@@ -23,29 +23,32 @@ export default () => {
         width: 1580,
         height: 1080,
         defaultNode: {
-          type: "circle",
+          type: 'circle',
           size: 50,
-          anchorPoints: [[0, 0.5], [1, 0.5]]
+          anchorPoints: [
+            [0, 0.5],
+            [1, 0.5],
+          ],
         },
         defaultEdge: {
-          type: "cubic-horizontal"
+          type: 'cubic-horizontal',
         },
         layout: {
-          type: "dagre",
-          rankdir: "LR",
-          controlPoints: true
+          type: 'dagre',
+          rankdir: 'LR',
+          controlPoints: true,
         },
         modes: {
           default: [
-            "drag-canvas",
+            'drag-canvas',
             {
-              type: "zoom-canvas",
+              type: 'zoom-canvas',
               minZoom: 0.5,
-              maxZoom: 2
-            }
-          ]
+              maxZoom: 2,
+            },
+          ],
         },
-        animate: true
+        animate: true,
       });
     }
 
@@ -64,7 +67,7 @@ export default () => {
         return objValue.concat(srcValue);
       }
     });
-    
+
     graph.current && graph.current.changeData(newData);
   };
 
@@ -76,16 +79,16 @@ export default () => {
     const mockData = {
       nodes: [
         {
-          id: "vm1234",
-          label: "新增报告"
-        }
+          id: 'node6',
+          label: '新增报告',
+        },
       ],
       edges: [
         {
-          source: "AoJc4qPcWeOL7NJwOh6",
-          target: "vm1234"
-        }
-      ]
+          source: 'node5',
+          target: 'node6',
+        },
+      ],
     };
     handleChangeData(mockData);
   };
@@ -109,7 +112,7 @@ export default () => {
    * 模拟折叠GxZeEGkky88xKxq1r22[工厂输出表]节点
    */
   const handleHideNode = () => {
-    const node = graph.current.findById("GxZeEGkky88xKxq1r22");
+    const node = graph.current.findById('GxZeEGkky88xKxq1r22');
     collapsePrev(node);
   };
 
@@ -117,7 +120,7 @@ export default () => {
     <div>
       <button onClick={handleHideNode}>隐藏节点</button>
       <button onClick={handleLoadData}>改变数据</button>
-      <div ref={graphContainer} className={"graph-container"} />
+      <div ref={graphContainer} className={'graph-container'} />
     </div>
   );
 };
