@@ -91,10 +91,11 @@ export default class ComboForce extends BaseLayout {
   private height: number = 300;
   private bias: number[] = [];
   private nodeMap: ElementMap = {};
+  private previousNodeMap: ElementMap = {};
   private oriComboMap: ElementMap = {};
   private nodeIdxMap: NodeIdxMap = {};
-  private previousNodeMap: ElementMap = {};
   private comboMap: ComboMap = {};
+  private previousComboMap: ComboMap = {};
 
 
   public getDefaultCfg() {
@@ -145,15 +146,20 @@ export default class ComboForce extends BaseLayout {
    * @param comboId 被展开或收缩的 combo ID
    */
   public adjustLayout(comboId) {
-    const self = this;
-    const previousNodeMap = self.previousNodeMap;
-    if (!previousNodeMap) {
-      this.execute();
-      return;
-    }
-    self.initVals();
-    
-    // adjust the combo with comboId and its ancestors
+    // const self = this;
+    // const previousComboMap = self.previousComboMap;
+    // if (!previousComboMap) {
+    //   this.execute();
+    //   return;
+    // }
+    // self.initVals();
+    // const comboMap = self.comboMap;
+    // // find the 
+    // // adjust the combo with comboId and its ancestors
+    // const previousCombo = previousComboMap[comboId];
+    // const combo = comboMap[comboId];
+    // const dist = previousCombo.r - combo.r;
+
   }
 
   public run() {
@@ -210,6 +216,7 @@ export default class ComboForce extends BaseLayout {
       n.x += centerOffset[0];
       n.y += centerOffset[1];
     });
+    self.previousComboMap = clone(self.comboMap);
     self.previousNodeMap = clone(self.nodeMap);
   }
 
@@ -404,7 +411,7 @@ export default class ComboForce extends BaseLayout {
             cx: 0,
             cy: 0,
             count: 0,
-            depth: self.oriComboMap[treeNode.id].depth
+            depth: self.oriComboMap[treeNode.id].depth,
           };
           comboMap[treeNode.id] = combo;
         }
