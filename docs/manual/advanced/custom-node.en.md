@@ -17,7 +17,7 @@ In this document, we will introduce the custom enodeby five examples: <br />1. R
 <br />
 <strong>4. Register a node with state styles: </strong>Response the states change by styles and animations
 
-As stated in [Shape](/en/docs/manual/middle/keyconcept/shape-keyshape), there are two points should be satisfied when customize a node:
+As stated in [Shape](/en/docs/manual/middle/elements/shape-keyshape), there are two points should be satisfied when customize a node:
 
 - Controll the life cycle of the node;
 - Analyze the input data and show it by graphics.
@@ -193,7 +193,7 @@ Therefore, rewrite the `update` function when registering a node for partial rep
 
 To update a few graphics shapes of a node in `update`, you need find the graphics shapes to be updated frist:
 
-- Find the [keyShape](/en/docs/manual/middle/keyconcept/shape-keyshape#keyshape) by `group.get('children')[0]`, which is the return value of `draw`;
+- Find the [keyShape](/en/docs/manual/middle/elements/shape-keyshape#keyshape) by `group.get('children')[0]`, which is the return value of `draw`;
 - Find the graphics shape of label by `group.get('children')[1]`.
 
 The code shown below update the path and the color of the keyShape of the diamond:
@@ -318,7 +318,7 @@ For more information about animation, please refer to [Basic Ainmation](/en/docs
 
 ## 3. Adjust the anchorPoint
 
-The [anchorPoint](/en/docs/manual/middle/keyconcept/anchorpoint) of a node is **the intersection of the node and its related edges**.<br />
+The [anchorPoint](/en/docs/manual/middle/elements/anchorpoint) of a node is **the intersection of the node and its related edges**.<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mJ85Q5WRJLwAAAAAAAAAAABkARQnAQ' alt='img' width='200'/>
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*99aSR5zbd44AAAAAAAAAAABkARQnAQ' alt='img' width='200'/>

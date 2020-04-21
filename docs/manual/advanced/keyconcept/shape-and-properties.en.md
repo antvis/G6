@@ -3,7 +3,7 @@ title: Graphics Shape Properties
 order: 0
 ---
 
-An item (node/edge) in G6 **Consists of One or More** [**Graphics Shape**](/en/docs/manual/middle/keyconcept/shape-keyshape). You can add shapes to a custom item by `group.addShape` in the `draw` function of registering item. The shapes in G6:
+An item (node/edge) in G6 **Consists of One or More** [**Graphics Shape**](/en/docs/manual/middle/elements/shape-keyshape). You can add shapes to a custom item by `group.addShape` in the `draw` function of registering item. The shapes in G6:
 
 - [circle](#circle);
 - [rect](#rect);
