@@ -123,9 +123,17 @@ const singleCombo: ShapeOptions = {
   },
   updateShape(cfg: NodeConfig, item: Item, keyShapeStyle: object) {
     const keyShape = item.get('keyShape');
-    keyShape.attr({
-      ...keyShapeStyle,
-    });
+    const animate = this.options.animate;
+    if (animate && keyShape.animate) {
+      keyShape.animate(keyShapeStyle, {
+        duration: 300,
+        easing: 'easeLinear',
+      })
+    } else {
+      keyShape.attr({
+        ...keyShapeStyle,
+      });
+    }
 
     (this as any).updateLabel(cfg, item);
     // special for some types of nodes

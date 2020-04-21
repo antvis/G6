@@ -4,6 +4,7 @@ import React from 'react';
 import DefaultCombo from './component/default-combo';
 import RegisterCombo from './component/register-combo';
 import CollapseExpand from './component/collapse-expand-combo'
+import ComboLayoutCollapseExpand from './component/combo-layout-collapse-expand'
 
 export default { title: 'Combo' };
 
@@ -16,4 +17,7 @@ storiesOf('Combo', module)
   ))
   .add('collapse expand', () => (
     <CollapseExpand />
+  ))
+  .add('force + collapse expand', () => (
+    <ComboLayoutCollapseExpand />
   ));

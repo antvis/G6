@@ -608,6 +608,11 @@ export interface IGraph extends EventEmitter {
   expandGroup(groupId: string): void;
 
   /**
+   * 根据节点的 bbox 更新 combos 的绘制，包括 combos 的位置和范围
+   */
+  updateCombos(): void;
+
+  /**
    * 销毁画布
    */
   destroy(): void;

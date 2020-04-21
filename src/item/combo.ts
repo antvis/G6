@@ -1,5 +1,6 @@
-import { ICombo, INode } from '../interface/item'
-import Node from './node'
+import { ICombo, INode } from '../interface/item';
+import Group from '@antv/g-canvas/lib/group';
+import Node from './node';
 import { ComboConfig } from '../types';
 import Global from '../global';
 
@@ -162,6 +163,7 @@ export default class Combo extends Node implements ICombo {
   public isOnlyMove(cfg?: ComboConfig): boolean {
     return false;
   }
+ 
 
   public clearCache() {
     this.set(CACHE_BBOX, null); // 清理缓存的 bbox
