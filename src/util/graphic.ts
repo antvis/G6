@@ -529,47 +529,99 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: INode[]) => {
 export const reconstructTree = (trees: ComboTree[], subtreeId?: string, newParentId?: string | undefined): ComboTree[] => {
   let brothers = trees;
   let subtree;
-  const comboChilds = {
+  const comboChildsMap = {
     'root': {
       children: trees
     }
   }
+  let foundSubTree = false;
+  let oldParentId = 'root';
   trees.forEach(tree => {
-    traverseTree<ComboTree>(tree, child => {
-      comboChilds[child.id] = {
+    if (foundSubTree) return;
+    if (tree.id === subtreeId) {
+      subtree = tree;
+      if (tree.itemType === 'combo') {
+        subtree.parentId = newParentId
+      } else {
+        subtree.comboId = newParentId
+      }
+      foundSubTree = true;
+      return;
+    }
+    traverseTree<ComboTree>(tree, (child: any) => {
+      comboChildsMap[child.id] = {
         children: child.children
       }
-
-      brothers = comboChilds[child.parentId || 'root'].children
+      // store the old parent id to delete the subtree from the old parent's children in next recursion
+      brothers = comboChildsMap[child.parentId || child.comboId || 'root'].children
       if (child && (child.removed || subtreeId === child.id) && brothers) {
+        oldParentId = child.parentId || child.comboId || 'root';
         subtree = child;
-        subtree.parentId = newParentId
-        const index = brothers.indexOf(child);
-        brothers.splice(index, 1);
+        // re-assign the parentId or comboId for the moved subtree
+        if (child.itemType === 'combo') {
+          subtree.parentId = newParentId
+        } else {
+          subtree.comboId = newParentId
+        }
+        foundSubTree = true;
+        return false;
       }
       return true;
     });
   });
+
+  brothers = comboChildsMap[oldParentId].children;
+  const index = brothers.indexOf(subtree);
+  if (index > -1) brothers.splice(index, 1);
+
+  // 如果遍历完整棵树还没有找到，说明之前就不在树中
+  if (!foundSubTree) {
+    subtree = {
+      id: subtreeId,
+      itemType: 'node',
+      comboId: newParentId
+    }
+
+    comboChildsMap[subtreeId] = {
+      children: undefined
+    }
+  }
+
   // append to new parent
   if (subtreeId) {
     let found = false;
     // newParentId is undefined means the subtree will have no parent
     if (newParentId) {
+      let newParentDepth = 0;
       trees.forEach(tree => {
+        if (found) return; // terminate
         traverseTree<ComboTree>(tree, (child: any) => {
+          // append subtree to the new parent ans assign the depth to the subtree
           if (newParentId === child.id) {
             found = true;
             if (child.children) child.children.push(subtree);
             else child.children = [subtree];
+            newParentDepth = child.depth;
+            if (subtree.itemType === 'node') subtree.depth = newParentDepth + 2;
+            else subtree.depth = newParentDepth + 1;
+            return false; // terminate
           }
-          child.depth = comboChilds[child.parentId || child.comboId] ? comboChilds[child.parentId || child.comboId].depth + 1 : 0
-          comboChilds[child.id]['depth'] = child.depth
           return true;
         });
       });
-    } else if (!newParentId || !found) {
+    } else if ((!newParentId || !found) && subtree.itemType !== 'node') {
+      // if the newParentId is undefined or it is not found in the tree, add the subTree to the root
       trees.push(subtree);
     }
+
+    // update the depth of the subtree and its children from the subtree
+    let currentDepth = subtree.depth;
+    traverseTree<ComboTree>(subtree, (child: any) => {
+      if (child.itemType === 'node') currentDepth += 2;
+      else currentDepth += 1;
+      child.depth = currentDepth;
+      return true;
+    });
   }
   return trees;
 }
