@@ -13,7 +13,7 @@ There are `Node` and `Edge` two types of items in a graph. In the last chapter, 
 
 ### Graph Item
 
-There are `Node` and `Edge` two types of items in a graph. Several [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) and [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge) are provided by G6. The main difference between different types of items is their [Graphics Shape](/en/docs/manual/middle/keyconcept/shape-keyshape). For example, a node's graphics type can be a circle, a rect, an image, or others.
+There are `Node` and `Edge` two types of items in a graph. Several [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) and [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge) are provided by G6. The main difference between different types of items is their [Graphics Shape](/en/docs/manual/middle/elements/shape-keyshape). For example, a node's graphics type can be a circle, a rect, an image, or others.
 
 ## Properties of Item
 

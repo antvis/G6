@@ -12,7 +12,7 @@ G6 提供了一系列[内置节点](/zh/docs/manual/middle/elements/nodes/defaul
  <br /> <strong>4. 调整节点的鼠标选中/悬浮样式：</strong>样式变化响应；动画响应；
  <br /> <strong>5. 使用 DOM 自定义节点。</strong>
 
-通过 [图形 Shape](/zh/docs/manual/middle/keyconcept/shape-keyshape) 章节的学习，我们应该已经知道了自定义节点时需要满足以下两点：
+通过 [图形 Shape](/zh/docs/manual/middle/elements/shape-keyshape) 章节的学习，我们应该已经知道了自定义节点时需要满足以下两点：
 
 - 控制节点的生命周期；
 - 解析用户输入的数据，在图形上展示。
@@ -190,7 +190,7 @@ graph.render();
 
 在实现 diamond 的过程中，重写  `update` 方法，找到需要更新的 shape 进行更新，从而优化性能。寻找需要更新的图形可以通过：
 
-- `group.get('children')[0]` 找到 [关键图形  keyShape](/zh/docs/manual/middle/keyconcept/shape-keyshape#keyshape)，也就是 `draw` 方法返回的 shape；
+- `group.get('children')[0]` 找到 [关键图形  keyShape](/zh/docs/manual/middle/elements/shape-keyshape#keyshape)，也就是 `draw` 方法返回的 shape；
 - `group.get('children')[1]` 找到 label 图形。
 
 下面代码仅更新了 diamond 的关键图形的路径和颜色。
@@ -314,7 +314,7 @@ G6.registerNode('inner-animate', {
 
 ## 3. 调整锚点 anchorPoint
 
-节点上的[锚点 anchorPoint](/zh/docs/manual/middle/keyconcept/anchorpoint) 作用是**确定节点与边的相交的位置**，看下面的场景：<br />
+节点上的[锚点 anchorPoint](/zh/docs/manual/middle/elements/anchorpoint) 作用是**确定节点与边的相交的位置**，看下面的场景：<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mJ85Q5WRJLwAAAAAAAAAAABkARQnAQ' alt='img' width='200'/>
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*99aSR5zbd44AAAAAAAAAAABkARQnAQ' alt='img' width='200'/>
