@@ -263,7 +263,7 @@ export default class ItemController {
   }
 
   /**
-   * 收起 combo
+   * 收起 combo，隐藏相关元素
    */
   public collapseCombo(combo: ICombo | string) {
     const graph = this.graph;
@@ -280,7 +280,8 @@ export default class ItemController {
   }
 
   /**
-   * 展开 combo
+   * 展开 combo，相关元素出现
+   * 若子 combo 原先是收起状态，则保持它的收起状态
    */
   public expandCombo(combo: ICombo | string) {
     const graph = this.graph;

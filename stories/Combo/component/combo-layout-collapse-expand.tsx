@@ -928,8 +928,8 @@ const ComboLayoutCollapseExpand = () => {
     if (!graph) {
       graph = new G6.Graph({
         container: container.current as string | HTMLElement,
-        width: 800,
-        height: 500,
+        width: 1000,
+        height: 800,
         // fitView: true,
         modes: {
           default: ['drag-canvas', 'drag-node', 'zoom-canvas', 'collapse-expand-combo'], 
@@ -953,7 +953,7 @@ const ComboLayoutCollapseExpand = () => {
           color: '#666',
         },
         groupByTypes: false,
-        animate: true
+        // animate: true
       });
       
       graph.node(node => {
