@@ -109,10 +109,10 @@ export default () => {
   };
 
   /**
-   * 模拟折叠GxZeEGkky88xKxq1r22[工厂输出表]节点
+   * 模拟折叠node2节点
    */
   const handleHideNode = () => {
-    const node = graph.current.findById('GxZeEGkky88xKxq1r22');
+    const node = graph.current.findById('node2');
     collapsePrev(node);
   };
 
