@@ -1880,10 +1880,10 @@ export default class Graph extends EventEmitter implements IGraph {
     itemController.updateCombo(combo, []);
     comboModel.collapsed = true;
     // update combo layout
-    const layoutController = this.get('layoutController');
-    if (layoutController.layoutMethod) {
-      layoutController.adjustComboLayout(comboModel.id);
-    }
+    // const layoutController = this.get('layoutController');
+    // if (layoutController.layoutMethod) {
+    //   layoutController.adjustComboLayout(comboModel.id);
+    // }
   }
 
   /**
