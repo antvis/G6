@@ -5,9 +5,9 @@ type STATUS = 'I' | 'C' | 'S';
 interface ListItem {
   id: string;
   name: string;
-  totalIncomeGoalAmount: number; // 总降本增收目标
-  totalFinishIncomeAmtString: string;
-  finishRate: number; // 完成度
+  count: number;
+  label: string;
+  rate: number;
   status: STATUS; // 状态
   childList?: ListItem[];
 }
@@ -28,34 +28,34 @@ interface GraphData {
 const mockData: ListItem[] = [
   {
     id: 'g1',
-    name: '降本增收项目1', // 名称
-    totalIncomeGoalAmount: 123456, // 总降本增收目标
-    totalFinishIncomeAmtString: '22.47亿', // 当前财年已经实现的降本增收金额
-    finishRate: 0.97, // 完成度
-    status: 'S', // 状态 I:表示论证中 C:论证中 S:推进中
+    name: '名称1',
+    count: 123456,
+    label: 'xx元',
+    rate: 0.97,
+    status: 'S',
     childList: [
       {
         id: 'g12',
         name: '显示不全，鼠标移上来试试',
-        totalIncomeGoalAmount: 123456,
-        totalFinishIncomeAmtString: '22.47亿',
-        finishRate: 0.123,
+        count: 123456,
+        label: 'xx元',
+        rate: 0.123,
         status: 'S',
         childList: [
           {
             id: 'g121',
-            name: '降本增收项目3',
-            totalIncomeGoalAmount: 123456,
-            totalFinishIncomeAmtString: '22.47亿',
-            finishRate: 0.123,
+            name: '名称3',
+            count: 123456,
+            label: 'xx元',
+            rate: 0.123,
             status: 'S',
             childList: [
               {
                 id: 'g1211',
-                name: '降本增收项目4',
-                totalIncomeGoalAmount: 123456,
-                totalFinishIncomeAmtString: '22.47亿',
-                finishRate: 0.123,
+                name: '名称4',
+                count: 123456,
+                label: 'xx元',
+                rate: 0.123,
                 status: 'I',
                 childList: [],
               },
@@ -63,26 +63,26 @@ const mockData: ListItem[] = [
           },
           {
             id: 'g122',
-            name: '降本增收项目5',
-            totalIncomeGoalAmount: 123456,
-            totalFinishIncomeAmtString: '22.47亿',
-            finishRate: 0.96,
+            name: '名称5',
+            count: 123456,
+            label: 'xx元',
+            rate: 0.96,
             status: 'S',
             childList: [
               {
                 id: 'g1221',
-                name: '降本增收项目6',
-                totalIncomeGoalAmount: 123456,
-                totalFinishIncomeAmtString: '22.47亿',
-                finishRate: 0.123,
+                name: '名称6',
+                count: 123456,
+                label: 'xx元',
+                rate: 0.123,
                 status: 'S',
                 childList: [
                   {
                     id: 'g12211',
-                    name: '降本增收项目6-1',
-                    totalIncomeGoalAmount: 123456,
-                    totalFinishIncomeAmtString: '22.47亿',
-                    finishRate: 0.123,
+                    name: '名称6-1',
+                    count: 123456,
+                    label: 'xx元',
+                    rate: 0.123,
                     status: 'I',
                     childList: [],
                   },
@@ -90,10 +90,10 @@ const mockData: ListItem[] = [
               },
               {
                 id: 'g1222',
-                name: '降本增收项目7',
-                totalIncomeGoalAmount: 123456,
-                totalFinishIncomeAmtString: '22.47亿',
-                finishRate: 0.123,
+                name: '名称7',
+                count: 123456,
+                label: 'xx元',
+                rate: 0.123,
                 status: 'S',
                 childList: [],
               },
@@ -101,18 +101,18 @@ const mockData: ListItem[] = [
           },
           {
             id: 'g123',
-            name: '降本增收项目8',
-            totalIncomeGoalAmount: 123456,
-            totalFinishIncomeAmtString: '22.47亿',
-            finishRate: 0.23,
+            name: '名称8',
+            count: 123456,
+            label: 'xx元',
+            rate: 0.23,
             status: 'S',
             childList: [
               {
                 id: 'g1231',
-                name: '降本增收项目8-1',
-                totalIncomeGoalAmount: 123456,
-                totalFinishIncomeAmtString: '22.47亿',
-                finishRate: 0.123,
+                name: '名称8-1',
+                count: 123456,
+                label: 'xx元',
+                rate: 0.123,
                 status: 'I',
                 childList: [],
               },
@@ -122,27 +122,27 @@ const mockData: ListItem[] = [
       },
       {
         id: 'g13',
-        name: '降本增收项目9',
-        totalIncomeGoalAmount: 123456,
-        totalFinishIncomeAmtString: '22.47亿',
-        finishRate: 0.123,
+        name: '名称9',
+        count: 123456,
+        label: 'xx元',
+        rate: 0.123,
         status: 'S',
         childList: [
           {
             id: 'g131',
-            name: '降本增收项目10',
-            totalIncomeGoalAmount: 123456,
-            totalFinishIncomeAmtString: '22.47亿',
-            finishRate: 0.123,
+            name: '名称10',
+            count: 123456,
+            label: 'xx元',
+            rate: 0.123,
             status: 'I',
             childList: [],
           },
           {
             id: 'g132',
-            name: '降本增收项目11',
-            totalIncomeGoalAmount: 123456,
-            totalFinishIncomeAmtString: '22.47亿',
-            finishRate: 0.123,
+            name: '名称11',
+            count: 123456,
+            label: 'xx元',
+            rate: 0.123,
             status: 'I',
             childList: [],
           },
@@ -150,10 +150,10 @@ const mockData: ListItem[] = [
       },
       {
         id: 'g14',
-        name: '降本增收项目12',
-        totalIncomeGoalAmount: 123456,
-        totalFinishIncomeAmtString: '22.47亿',
-        finishRate: 0.123,
+        name: '名称12',
+        count: 123456,
+        label: 'xx元',
+        rate: 0.123,
         status: 'I',
         childList: [],
       },
@@ -227,14 +227,7 @@ const registerFn = () => {
     {
       shapeType: 'flow-rect',
       draw(cfg: any, group: any) {
-        const {
-          name = '',
-          lightColor,
-          hasChildren,
-          totalFinishIncomeAmtString,
-          finishRate,
-          collapsed,
-        } = cfg;
+        const { name = '', lightColor, hasChildren, label, rate, collapsed } = cfg;
         // 逻辑不应该在这里判断
         const rectConfig = {
           width: 184,
@@ -280,7 +273,7 @@ const registerFn = () => {
             ...textConfig,
             x: 12,
             y: 34,
-            text: totalFinishIncomeAmtString,
+            text: label,
             fontSize: 20,
             fill: '#000',
           },
@@ -292,7 +285,7 @@ const registerFn = () => {
             ...textConfig,
             x: 178,
             y: 37,
-            text: `${((finishRate || 0) * 100).toFixed(2)}%`,
+            text: `${((rate || 0) * 100).toFixed(2)}%`,
             fontSize: 14,
             textAlign: 'right',
             fill: lightColor,
@@ -743,7 +736,7 @@ const transformData = (data: any[], parentIndex?: string): void => {
     config: { defaultLevel = 10, padding = [20, 20] },
   } = props;
   data.forEach((item, index) => {
-    const { status, finishRate } = item;
+    const { status, rate } = item;
     const children = get(item, 'childList', []);
     const recordIndex = parentIndex !== undefined ? parentIndex + '-' + index : index + '';
     maxMatrixY = index === 0 ? maxMatrixY : maxMatrixY + 1;
@@ -756,7 +749,7 @@ const transformData = (data: any[], parentIndex?: string): void => {
     if (status === 'I') {
       lightColor = '#DCDFE5';
     } else {
-      lightColor = finishRate >= 0.95 ? '#1890FF' : '#EB2F96';
+      lightColor = rate >= 0.95 ? '#1890FF' : '#EB2F96';
     }
     item = {
       ...item,

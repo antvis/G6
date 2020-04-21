@@ -23,9 +23,9 @@
     <script src="https://gw.alipayobjects.com/os/lib/dagre/0.8.4/dist/dagre.min.js"></script>
     <script>
       const colorMap = {
-        凭证开立: '#72CC4A',
-        凭证转让: '#1A91FF',
-        凭证融资: '#FFAA15',
+        name1: '#72CC4A',
+        name2: '#1A91FF',
+        name3: '#FFAA15',
       };
       const data = {
         nodes: [
@@ -71,7 +71,7 @@
             source: '1',
             target: '2',
             data: {
-              type: '凭证开立',
+              type: 'name1',
               amount: '100,000,000,00 元',
               date: '2019-08-03',
             },
@@ -80,7 +80,7 @@
             source: '1',
             target: '3',
             data: {
-              type: '凭证转让',
+              type: 'name2',
               amount: '100,000,000,00 元',
               date: '2019-08-03',
             },
@@ -89,7 +89,7 @@
             source: '2',
             target: '5',
             data: {
-              type: '凭证开立',
+              type: 'name1',
               amount: '100,000,000,00 元',
               date: '2019-08-03',
             },
@@ -98,7 +98,7 @@
             source: '5',
             target: '6',
             data: {
-              type: '凭证转让',
+              type: 'name2',
               amount: '100,000,000,00 元',
               date: '2019-08-03',
             },
@@ -107,7 +107,7 @@
             source: '3',
             target: '4',
             data: {
-              type: '凭证融资',
+              type: 'name3',
               amount: '100,000,000,00 元',
               date: '2019-08-03',
             },
@@ -116,7 +116,7 @@
             source: '4',
             target: '7',
             data: {
-              type: '凭证转让',
+              type: 'name2',
               amount: '100,000,000,00 元',
               date: '2019-08-03',
             },
@@ -125,7 +125,7 @@
             source: '1',
             target: '8',
             data: {
-              type: '凭证转让',
+              type: 'name2',
               amount: '100,000,000,00 元',
               date: '2019-08-03',
             },
@@ -134,7 +134,7 @@
             source: '1',
             target: '9',
             data: {
-              type: '凭证融资',
+              type: 'name3',
               amount: '100,000,000,00 元',
               date: '2019-08-03',
             },
