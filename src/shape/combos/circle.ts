@@ -15,6 +15,7 @@ Shape.registerCombo(
     options: {
       size: [Global.defaultCombo.size[0], Global.defaultCombo.size[0]],
       padding: 20,
+      animate: true,
       style: {
         stroke: Global.defaultCombo.style.stroke,
         fill: Global.defaultCombo.style.fill,

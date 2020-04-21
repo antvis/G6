@@ -35,6 +35,7 @@ Shape.registerCombo(
     options: {
       size: [40, 5],
       padding: [25, 20, 15, 20],
+      animate: true,
       style: {
         radius: 0,
         stroke: Global.defaultCombo.style.stroke,

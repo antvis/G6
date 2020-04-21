@@ -361,14 +361,17 @@ export default class LayoutController {
     const edgeItems = this.graph.getEdges();
     const comboItems = this.graph.getCombos();
     nodeItems.forEach(nodeItem => {
+      if (!nodeItem.isVisible()) return;
       const model = nodeItem.getModel();
       nodes.push(model);
     });
     edgeItems.forEach(edgeItem => {
+      if (!edgeItem.isVisible()) return;
       const model = edgeItem.getModel();
       edges.push(model);
     });
     comboItems.forEach(comboItem => {
+      if (!comboItem.isVisible()) return;
       const model = comboItem.getModel();
       combos.push(model);
     });
@@ -377,15 +380,18 @@ export default class LayoutController {
   }
 
   // 重新布局
-  public relayout() {
-    const { graph, layoutMethod } = this;
-    this.data = this.setDataFromGraph();
-    const { nodes } = this.data;
-    if (!nodes) {
-      return false;
+  public relayout(reloadData?: boolean) {
+    const { graph, layoutMethod, layoutCfg } = this;
+
+    if (reloadData) {
+      this.data = this.setDataFromGraph();
+      const { nodes } = this.data;
+      if (!nodes) {
+        return false;
+      }
+      this.initPositions(layoutCfg.center, nodes)
+      layoutMethod.init(this.data);
     }
-    this.initPositions(this.layoutCfg.center, nodes);
-    layoutMethod.init(this.data);
 
     if (this.layoutType === 'force') {
       layoutMethod.ticking = false;
@@ -447,6 +453,29 @@ export default class LayoutController {
       }
     });
     return allHavePos;
+  }
+
+  /**
+   * 展开/折叠后的布局调整
+   * 若当前布局方法中没有 adjustLayout 方法，则重新布局
+   * @param comboId 被展开或收缩的 combo ID
+   */
+  public adjustComboLayout(comboId: string) {
+    const { graph, layoutMethod, layoutCfg } = this;
+
+    if (layoutMethod.adjustLayout) {
+      this.data = this.setDataFromGraph();
+      const { nodes } = this.data;
+      if (!nodes) {
+        return false;
+      }
+      this.initPositions(layoutCfg.center, nodes)
+      layoutMethod.init(this.data);
+
+      layoutMethod.adjustLayout(comboId);
+    } else layoutMethod.execute();
+    this.refreshLayout();
+
   }
 
   public destroy() {
