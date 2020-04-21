@@ -120,7 +120,8 @@ export default class ItemController {
         styles,
         group: parent.addGroup(),
       });
-    } else if (type === COMBO) {
+    }
+    else if (type === COMBO) {
       const children: ComboTree[] = (model as ComboConfig).children;
       const comboBBox = getComboBBox(children, graph);
       model.x = comboBBox.x || Math.random() * 100;
