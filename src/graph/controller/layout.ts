@@ -445,37 +445,14 @@ export default class LayoutController {
     nodes.forEach(node => {
       if (isNaN(node.x)) {
         allHavePos = false;
-        node.x = (Math.random() - 0.5) * 0.9 * graph.get('width') + center[0];
+        node.x = (Math.random() - 0.5) * 0.7 * graph.get('width') + center[0];
       }
       if (isNaN(node.y)) {
         allHavePos = false;
-        node.y = (Math.random() - 0.5) * 0.9 * graph.get('height') + center[1];
+        node.y = (Math.random() - 0.5) * 0.7 * graph.get('height') + center[1];
       }
     });
     return allHavePos;
-  }
-
-  /**
-   * 展开/折叠后的布局调整
-   * 若当前布局方法中没有 adjustLayout 方法，则重新布局
-   * @param comboId 被展开或收缩的 combo ID
-   */
-  public adjustComboLayout(comboId: string) {
-    const { graph, layoutMethod, layoutCfg } = this;
-
-    if (layoutMethod.adjustLayout) {
-      this.data = this.setDataFromGraph();
-      const { nodes } = this.data;
-      if (!nodes) {
-        return false;
-      }
-      this.initPositions(layoutCfg.center, nodes)
-      layoutMethod.init(this.data);
-
-      layoutMethod.adjustLayout(comboId);
-    } else layoutMethod.execute();
-    this.refreshLayout();
-
   }
 
   public destroy() {
