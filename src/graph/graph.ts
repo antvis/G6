@@ -968,7 +968,7 @@ export default class Graph extends EventEmitter implements IGraph {
     });
 
     // process the data to tree structure
-    if (combos) {
+    if (combos && combos.length !== 0) {
       const comboTrees = plainCombosToTrees(combos, self.getNodes());
       this.set('comboTrees', comboTrees);
       // add combos
@@ -981,9 +981,6 @@ export default class Graph extends EventEmitter implements IGraph {
       success();
     }
     function success() {
-      if (combos) {
-        self.updateCombos();
-      }
       if (self.get('fitView')) {
         self.fitView();
       }
@@ -992,7 +989,7 @@ export default class Graph extends EventEmitter implements IGraph {
     }
 
     if (!this.get('groupByTypes')) {
-      if (combos) {
+      if (combos && combos.length !== 0) {
         this.sortCombos(data);
       } else {
         // 为提升性能，选择数量少的进行操作
@@ -1205,7 +1202,7 @@ export default class Graph extends EventEmitter implements IGraph {
   /**
    * 根据节点的 bbox 更新 combos 的绘制，包括 combos 的位置和范围
    */
-  private updateCombos() {
+  public updateCombos() {
     const self = this;
     const comboTrees = this.get('comboTrees');
     const itemController: ItemController = self.get('itemController');
@@ -1261,7 +1258,7 @@ export default class Graph extends EventEmitter implements IGraph {
       const parentCombo = this.findById(parentId) as ICombo
       parentCombo.addChild(uItem as ICombo | INode)
     }
-debugger
+
     const newComboTrees = reconstructTree(this.get('comboTrees'), model.id, parentId);
     this.set('comboTrees', newComboTrees);
 
@@ -1434,6 +1431,13 @@ debugger
     const { onFrame } = animateCfg;
 
     const nodes = self.getNodes();
+    const combos = self.getCombos();
+
+    // const comboVisibilityMap = {};
+    // combos && combos.forEach(combo => {
+    //   comboVisibilityMap[combo.getModel().id] = combo.isVisible();
+    //   combo.hide();
+    // });
 
     const toNodes = nodes.map(node => {
       const model = node.getModel();
@@ -1496,6 +1500,13 @@ debugger
             animateCfg.callback();
           }
 
+          if (combos && combos.length !== 0) {
+            // combos.forEach(combo => {
+            //   if (comboVisibilityMap[combo.getModel().id]) combo.show();
+            // });
+            self.updateCombos();
+          }
+
           self.emit('afteranimate');
           self.animating = false;
         },
@@ -1534,6 +1545,10 @@ debugger
         edge.refresh();
       }
     });
+
+    if (combos && combos.length !== 0) {
+      self.updateCombos();
+    }
 
     self.emit('aftergraphrefreshposition');
     self.autoPaint();
@@ -1726,7 +1741,7 @@ debugger
       return;
     }
     if (layoutController.layoutMethod) {
-      layoutController.relayout();
+      layoutController.relayout(true);
     } else {
       layoutController.layout();
     }
@@ -1746,6 +1761,11 @@ debugger
     // update combo size
     itemController.updateCombo(combo, []);
     comboModel.collapsed = true;
+    // update combo layout
+    const layoutController = this.get('layoutController');
+    if (layoutController.layoutMethod) {
+      layoutController.adjustComboLayout(comboModel.id);
+    }
   }
 
   /**

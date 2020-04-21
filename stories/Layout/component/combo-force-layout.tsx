@@ -485,7 +485,7 @@ const testData2 = {
     target: 'node0'
   }]
 }
-const G6ForceLayout = () => {
+const ComboForceLayout = () => {
   const container = React.useRef();
   useEffect(() => {
     if (!graph) {
@@ -564,4 +564,4 @@ const G6ForceLayout = () => {
   return <div ref={container}></div>;
 };
 
-export default G6ForceLayout;
+export default ComboForceLayout;

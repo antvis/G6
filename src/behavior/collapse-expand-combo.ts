@@ -33,14 +33,13 @@ export default {
     const { item } = evt;
     const { graph } = this;
 
-    if (item.getType() !== 'combo') return;
-    const comboId = item.getModel().id;
-    console.log(item.getModel());
-    console.log('click combo', comboId)
+    if (!item || item.getType() !== 'combo') return;
+    const model = item.getModel();
+    const comboId = model.id;
     if (!comboId) {
       return;
     }
-
     graph.collapseExpandCombo(comboId);
+    graph.layout();
   },
 };

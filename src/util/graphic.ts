@@ -562,8 +562,8 @@ export const getComboBBox = (children: ComboTree[], graph: IGraph): BBox => {
     minY: Infinity,
     maxX: -Infinity,
     maxY: -Infinity,
-    x: 0,
-    y: 0,
+    x: undefined,
+    y: undefined,
     width: undefined,
     height: undefined,
   };
@@ -574,6 +574,7 @@ export const getComboBBox = (children: ComboTree[], graph: IGraph): BBox => {
 
   children.forEach(child => {
     const childItem = graph.findById(child.id);
+    if (!childItem.isVisible()) return; // ignore hidden children
     childItem.set('bboxCanvasCache', undefined);
     const childBBox = childItem.getCanvasBBox();
     if (childBBox.x && comboBBox.minX > childBBox.minX) comboBBox.minX = childBBox.minX;
