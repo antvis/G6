@@ -91,11 +91,10 @@ export default class ComboForce extends BaseLayout {
   private height: number = 300;
   private bias: number[] = [];
   private nodeMap: ElementMap = {};
-  private previousNodeMap: ElementMap = {};
   private oriComboMap: ElementMap = {};
   private nodeIdxMap: NodeIdxMap = {};
   private comboMap: ComboMap = {};
-  private previousComboMap: ComboMap = {};
+  private previousLayouted: boolean = false;
 
 
   public getDefaultCfg() {
@@ -141,27 +140,6 @@ export default class ComboForce extends BaseLayout {
     self.run();
   }
 
-  /**
-   * 展开/折叠后的布局调整，不需要力导
-   * @param comboId 被展开或收缩的 combo ID
-   */
-  public adjustLayout(comboId) {
-    // const self = this;
-    // const previousComboMap = self.previousComboMap;
-    // if (!previousComboMap) {
-    //   this.execute();
-    //   return;
-    // }
-    // self.initVals();
-    // const comboMap = self.comboMap;
-    // // find the 
-    // // adjust the combo with comboId and its ancestors
-    // const previousCombo = previousComboMap[comboId];
-    // const combo = comboMap[comboId];
-    // const dist = previousCombo.r - combo.r;
-
-  }
-
   public run() {
     const self = this;
     const nodes = self.nodes;
@@ -178,7 +156,7 @@ export default class ComboForce extends BaseLayout {
 
     // init the positions to make the nodes with same combo gather around the combo
     const comboMap = self.comboMap;
-    self.initPos(comboMap);
+    if (!self.previousLayouted) self.initPos(comboMap);
 
     // iterate
     for (let i = 0; i < maxIteration; i++) {
@@ -216,8 +194,7 @@ export default class ComboForce extends BaseLayout {
       n.x += centerOffset[0];
       n.y += centerOffset[1];
     });
-    self.previousComboMap = clone(self.comboMap);
-    self.previousNodeMap = clone(self.nodeMap);
+    self.previousLayouted = true;
   }
 
   private initVals() {
@@ -384,11 +361,11 @@ export default class ComboForce extends BaseLayout {
     nodes.forEach(node => {
       if (node.comboId) {
         const combo = comboMap[node.comboId];
-        node.x = combo.cx + Math.random() * 10;
-        node.y = combo.cy + Math.random() * 10;
+        node.x = combo.cx + Math.random() * 100;
+        node.y = combo.cy + Math.random() * 100;
       } else {
-        node.x = Math.random() * 10;
-        node.y = Math.random() * 10;
+        node.x = Math.random() * 100;
+        node.y = Math.random() * 100;
       }
     });
   }
@@ -754,7 +731,6 @@ export default class ComboForce extends BaseLayout {
       const v = self.nodeMap[e.target];
       if (!isNumber(v.x) || !isNumber(u.x) || !isNumber(v.y) || !isNumber(u.y)) return;
       let { vl, vx, vy } = vecMap[`${e.target}-${e.source}`];
-      console.log(linkDistance(e));
       const l = (vl - linkDistance(e)) / vl * alpha * linkStrength(e);
       const vecX = vx * l;
       const vecY = vy * l;
