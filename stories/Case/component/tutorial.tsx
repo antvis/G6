@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import G6 from '../../../src';
 import { IGraph } from '../../../src/interface/graph';
-import { testData } from './test-data';
 import { GraphData } from '../../../src/types';
 
 
@@ -596,14 +595,12 @@ const Tutorial = () => {
         }
       });
       // graph.get('canvas').set('localRefresh', false);
-      //$.getJSON('https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json', data => {
+      $.getJSON('https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json', data => {
       const main = async () => {
         const response = await fetch(
           'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json',
         );
-        // const data = await response.json();
-        const data = testData as GraphData;
-        console.log(testData);
+        const data = await response.json();
         const nodes = data.nodes;
         const edges = data.edges;
         nodes.forEach(node => {
@@ -666,7 +663,6 @@ const Tutorial = () => {
           if (!edge.style) {
             edge.style = {};
           }
-          // edge.style.lineWidth = edge.weight;
           edge.style.opacity = 0.6;
           edge.style.stroke = 'grey';
         });
@@ -674,32 +670,30 @@ const Tutorial = () => {
         graph.data(data);
         graph.render();
 
-        console.log(graph.getNodes());
-
-        // graph.on('node:mouseenter', e => {
-        //   const nodeItem = e.item;
-        //   graph.setItemState(nodeItem, 'hover', true);
-        // });
-        // graph.on('node:mouseleave', e => {
-        //   const nodeItem = e.item;
-        //   graph.setItemState(nodeItem, 'hover', false);
-        // });
-        // graph.on('node:click', e => {
-        //   const clickNodes = graph.findAllByState('node', 'click');
-        //   clickNodes.forEach(cn => {
-        //     graph.setItemState(cn, 'click', false);
-        //   });
-        //   const nodeItem = e.item;
-        //   graph.setItemState(nodeItem, 'click', true);
-        // });
-        // graph.on('edge:click', e => {
-        //   const clickEdges = graph.findAllByState('edge', 'click');
-        //   clickEdges.forEach(ce => {
-        //     graph.setItemState(ce, 'click', false);
-        //   });
-        //   const edgeItem = e.item;
-        //   graph.setItemState(edgeItem, 'click', true);
-        // });
+        graph.on('node:mouseenter', e => {
+          const nodeItem = e.item;
+          graph.setItemState(nodeItem, 'hover', true);
+        });
+        graph.on('node:mouseleave', e => {
+          const nodeItem = e.item;
+          graph.setItemState(nodeItem, 'hover', false);
+        });
+        graph.on('node:click', e => {
+          const clickNodes = graph.findAllByState('node', 'click');
+          clickNodes.forEach(cn => {
+            graph.setItemState(cn, 'click', false);
+          });
+          const nodeItem = e.item;
+          graph.setItemState(nodeItem, 'click', true);
+        });
+        graph.on('edge:click', e => {
+          const clickEdges = graph.findAllByState('edge', 'click');
+          clickEdges.forEach(ce => {
+            graph.setItemState(ce, 'click', false);
+          });
+          const edgeItem = e.item;
+          graph.setItemState(edgeItem, 'click', true);
+        });
 
 
 
