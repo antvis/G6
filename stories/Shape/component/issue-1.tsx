@@ -5,25 +5,18 @@ import { IGraph } from '../../../src/interface/graph';
 let graph: IGraph = null;
 
 G6.registerNode('iconfont', {
-
   draw(cfg, group) {
-
     const {
-
       backgroundConfig: backgroundStyle,
 
       style,
 
       labelCfg: labelStyle,
-
     } = cfg;
 
     if (backgroundStyle) {
-
       group.addShape('circle', {
-
         attrs: {
-
           x: 0,
 
           y: 0,
@@ -31,17 +24,12 @@ G6.registerNode('iconfont', {
           r: cfg.size,
 
           ...backgroundStyle,
-
         },
-
       });
-
     }
 
     const keyShape = group.addShape('text', {
-
       attrs: {
-
         x: 0,
 
         y: 0,
@@ -57,17 +45,13 @@ G6.registerNode('iconfont', {
         fontSize: cfg.size,
 
         ...style,
-
       },
-
     });
 
     const labelY = backgroundStyle ? cfg.size * 2 : cfg.size;
 
     group.addShape('text', {
-
       attrs: {
-
         x: 0,
 
         y: labelY,
@@ -77,21 +61,16 @@ G6.registerNode('iconfont', {
         text: cfg.label,
 
         ...labelStyle.style,
-
       },
-
     });
 
     return keyShape;
-
   },
-
 });
 
 const COLOR = '#40a9ff';
 
 const graph = new G6.Graph({
-
   container: 'mountNode',
 
   width: 800,
@@ -99,21 +78,16 @@ const graph = new G6.Graph({
   height: 600,
 
   modes: {
-
     default: ['collapse-expand', 'drag-canvas', 'drag-node'],
-
   },
 
   defaultNode: {
-
     backgroundConfig: {
-
       backgroundType: 'circle',
 
       fill: COLOR,
 
       stroke: 'LightSkyBlue',
-
     },
 
     shape: 'iconfont',
@@ -121,29 +95,21 @@ const graph = new G6.Graph({
     size: 12,
 
     style: {
-
       fill: '#fff',
-
     },
 
     labelCfg: {
-
       style: {
-
         fill: COLOR,
 
         fontSize: 12,
-
       },
-
     },
-
   },
 
   // 布局相关
 
   layout: {
-
     type: 'dagre',
 
     rankdir: 'LR',
@@ -152,10 +118,8 @@ const graph = new G6.Graph({
 
     nodesep: 30,
 
-    ranksep: 30
-
+    ranksep: 30,
   },
-
 });
 
 const DefaultShape = () => {
@@ -205,114 +169,80 @@ const DefaultShape = () => {
     }
 
     const data = {
-
       nodes: [
-    
         {
-    
           id: 'Root',
-    
-          label: '可疑人员王**',
-    
+
+          label: 'label',
+
           text: '\ue171', // 对应字体图标的Unicode码，
-    
+
           style: {
-    
             fill: 'red',
-    
           },
-    
+
           labelCfg: {
-    
             style: {
-    
               fill: 'red',
-    
             },
-    
           },
-    
+
           backgroundConfig: null, // 自定义项，用于判读是否需要圆背景
-    
+
           size: 30,
-    
         },
-    
+
         {
-    
           id: 'node1',
-    
+
           label: 'node1节点',
-    
+
           text: '\ue171', // 对应字体图标的Unicode码，
-    
+
           style: {
-    
             fill: '#fff',
-    
           },
-    
+
           labelCfg: {
-    
             style: {
-    
               fill: '#000',
-    
             },
-    
           },
-    
         },
-    
+
         {
-    
           id: 'node2',
-    
+
           label: 'node2节点',
-    
+
           text: '\ue171', // 对应字体图标的Unicode码，
-    
+
           style: {
-    
             fill: '#fff',
-    
           },
-    
+
           labelCfg: {
-    
             style: {
-    
               fill: '#000',
-    
             },
-    
           },
-    
-        }
-    
-      ],
-    
-      edges: [
-    
-        {
-    
-          source: 'Root',  // 起始点 id
-    
-          target: 'node1',  // 目标点 id
-    
         },
-    
+      ],
+
+      edges: [
         {
-    
-          source: 'Root',  // 起始点 id
-    
-          target: 'node2',  // 目标点 id
-    
-        }
-    
-      ]
-    
-    }
+          source: 'Root', // 起始点 id
+
+          target: 'node1', // 目标点 id
+        },
+
+        {
+          source: 'Root', // 起始点 id
+
+          target: 'node2', // 目标点 id
+        },
+      ],
+    };
 
     graph.data(data);
     graph.render();

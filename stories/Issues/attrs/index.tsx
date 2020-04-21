@@ -1,5 +1,4 @@
-
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect } from 'react';
 import G6 from '../../../src';
 // import "./styles.css";
 
@@ -9,83 +8,83 @@ import G6 from '../../../src';
 // };
 
 G6.registerNode(
-  "sql",
+  'sql',
   {
     drawShape(cfg, group) {
-      const rect = group.addShape("rect", {
+      const rect = group.addShape('rect', {
         attrs: {
           x: -75,
           y: -25,
           width: 168,
           height: 36,
-          stroke: "#b4afaf", //'#303747',
-          fill: "#b4afaf", //'#303747',
+          stroke: '#b4afaf', //'#303747',
+          fill: '#b4afaf', //'#303747',
           lineWidth: 3,
-          radius: [5, 0, 0, 5]
+          radius: [5, 0, 0, 5],
         },
-        name: "rect-shape"
+        name: 'rect-shape',
       });
       if (cfg.name) {
-        group.addShape("text", {
+        group.addShape('text', {
           attrs: {
             text: cfg.name,
             x: 0,
             y: 0,
-            fill: "white",
+            fill: 'white',
             fontSize: 14,
-            textAlign: "center",
+            textAlign: 'center',
             //textBaseline: 'middle',
-            fontWeight: "bold"
+            fontWeight: 'bold',
           },
-          name: "text-shape"
+          name: 'text-shape',
         });
       }
-      group.addShape("rect", {
+      group.addShape('rect', {
         attrs: {
           x: 90,
           y: -25,
           width: 36,
           height: 36,
-          stroke: "#0296EA", //'#303747',
-          fill: "#0296EA", //'#303747',
+          stroke: '#0296EA', //'#303747',
+          fill: '#0296EA', //'#303747',
           lineWidth: 3,
-          radius: [0, 5, 5, 0]
+          radius: [0, 5, 5, 0],
         },
-        name: "rect-shape-icon"
+        name: 'rect-shape-icon',
       });
-      group.addShape("rect", {
+      group.addShape('rect', {
         attrs: {
           x: 98,
           y: -18,
           height: 20,
           width: 20,
-          stroke: "white", //'#303747',
-          fill: "#0296EA", //'#303747',
-          radius: 2
+          stroke: 'white', //'#303747',
+          fill: '#0296EA', //'#303747',
+          radius: 2,
         },
-        name: "node-state-icon"
+        name: 'node-state-icon',
       });
-      group.addShape("text", {
+      group.addShape('text', {
         attrs: {
           text: cfg.stateIcon,
           x: 108,
           y: 0,
-          fill: "white",
+          fill: 'white',
           fontSize: 14,
-          textAlign: "center",
-          fontWeight: "bold"
+          textAlign: 'center',
+          fontWeight: 'bold',
         },
-        name: "icon-text-shape"
+        name: 'icon-text-shape',
       });
       return rect;
-    }
+    },
   },
-  "single-node"
+  'single-node',
 );
 
 export default () => {
   const graphContainer = useRef(null);
-  let graph = null
+  let graph = null;
 
   // 图初始化
   useEffect(() => {
@@ -94,102 +93,100 @@ export default () => {
         container: graphContainer.current,
         width: 500,
         height: 500,
-        renderer: "svg",
+        renderer: 'svg',
         layout: {
-          type: "dagre",
+          type: 'dagre',
           nodesepFunc: d => {
-            if (d.id === "3") {
+            if (d.id === '3') {
               return 70;
             }
             return 70;
           },
-          ranksep: 30
+          ranksep: 30,
         },
         defaultNode: {
-          type: "sql",
-          anchorPoints: [[0.5, 0], [0.5, 1]],
-          stateIcon: "+" // 节点中表示状态的icon配置
+          type: 'sql',
+          anchorPoints: [
+            [0.5, 0],
+            [0.5, 1],
+          ],
+          stateIcon: '+', // 节点中表示状态的icon配置
         },
-      
+
         defaultEdge: {
-          type: "cubic-vertical",
+          type: 'cubic-vertical',
           style: {
             radius: 20,
             offset: 45,
             endArrow: true,
             lineWidth: 2,
-            stroke: "#C2C8D5"
-          }
+            stroke: '#C2C8D5',
+          },
         },
         modes: {
-          default: ["drag-canvas", "zoom-canvas", "click-select"]
+          default: ['drag-canvas', 'zoom-canvas', 'click-select'],
         },
-        fitView: true
+        fitView: true,
       });
     }
-    
 
     const data = {
       nodes: [
         {
-          id: "2",
-          dataType: "alps",
-          name: "alps_file2",
+          id: '2',
+          dataType: 'xxx',
+          name: 'xxx',
           conf: [
             {
-              label: "conf",
-              value: "pai_graph.conf"
+              label: 'label',
+              value: 'value1',
             },
             {
-              label: "dot",
-              value: "pai_graph.dot"
+              label: 'label',
+              value: 'value2',
             },
             {
-              label: "init",
-              value: "init.rc"
-            }
-          ]
-        }
-      ]
+              label: 'label',
+              value: 'value3',
+            },
+          ],
+        },
+      ],
     };
 
     graph.data(data);
     graph.render();
-    
+
     graph.on('node:click', evt => {
       let node = evt.item;
       var child = node.get('group').find(function(item) {
-        return item.get("name") === "icon-text-shape"; //找到图标节点
+        return item.get('name') === 'icon-text-shape'; //找到图标节点
       });
-      if(child.attr('text') === '+') {
+      if (child.attr('text') === '+') {
         graph.updateItem(node, {
           style: {
             'icon-text-shape': {
-              text: '-'
-            }
-          }
-        })
+              text: '-',
+            },
+          },
+        });
       } else {
         graph.updateItem(node, {
           style: {
             'icon-text-shape': {
-              text: '+'
-            }
-          }
-        })
+              text: '+',
+            },
+          },
+        });
       }
 
-      
-
-
-      console.log('update text', child.attr('text'))
-    })
+      console.log('update text', child.attr('text'));
+    });
   }, []);
-
 
   return (
     <div>
-      <div ref={graphContainer} className={"graph-container"} />
+      <div ref={graphContainer} className={'graph-container'} />
     </div>
   );
 };
