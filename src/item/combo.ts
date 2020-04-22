@@ -1,11 +1,14 @@
 import { ICombo, INode } from '../interface/item';
 import Group from '@antv/g-canvas/lib/group';
 import Node from './node';
-import { ComboConfig } from '../types';
+import { ComboConfig, IBBox, IShapeBase } from '../types';
 import Global from '../global';
+import { getBBox } from '../util/graphic';
+
 
 const CACHE_BBOX = 'bboxCache';
 const CACHE_CANVAS_BBOX = 'bboxCanvasCache';
+const CACHE_SIZE = 'sizeCache';
 
 export default class Combo extends Node implements ICombo {
   public getDefaultCfg() {
@@ -29,10 +32,46 @@ export default class Combo extends Node implements ICombo {
         width: bbox.width || Global.defaultCombo.size[0],
         height: bbox.height || Global.defaultCombo.size[1]
       };
+      this.set(CACHE_SIZE, size);
       newModel.style = Object.assign({}, styles, model.style, size);
       return newModel;
     }
     return model;
+  }
+
+
+  /**
+   * 根据 keyshape 计算包围盒
+   */
+  public calculateCanvasBBox(): IBBox {
+    const keyShape: IShapeBase = this.get('keyShape');
+    const group: Group = this.get('group');
+    // 因为 group 可能会移动，所以必须通过父元素计算才能计算出正确的包围盒
+    const bbox = getBBox(keyShape, group);
+    bbox.x = bbox.minX;
+    bbox.y = bbox.minY;
+    bbox.centerX = (bbox.minX + bbox.maxX) / 2;
+    bbox.centerY = (bbox.minY + bbox.maxY) / 2;
+    const cacheSize = this.get(CACHE_SIZE);
+    if (cacheSize) {
+      const keyShape: IShapeBase = this.get('keyShape');
+      const type: string = keyShape.get('type');
+      if (type === 'circle') {
+        bbox.width = cacheSize.r * 2;
+        bbox.height = cacheSize.r * 2;
+      } else {
+        bbox.width = cacheSize.width;
+        bbox.height = cacheSize.height;
+      }
+      bbox.minX = bbox.centerX - bbox.width / 2;
+      bbox.minY = bbox.centerY - bbox.height / 2;
+      bbox.maxX = bbox.centerX + bbox.width / 2;
+      bbox.maxY = bbox.centerY + bbox.height / 2;
+    } else {
+      bbox.width = bbox.maxX - bbox.minX;
+      bbox.height = bbox.maxY - bbox.minY;
+    }
+    return bbox;
   }
 
   /**
