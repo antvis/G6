@@ -42,6 +42,51 @@ describe('test interaction', () => {
     ]
   });
 
+  registerInteraction('canvas-move', {
+    start: [
+      {
+        trigger: 'mousedown',
+        action: 'move:start',
+        isEnable(context) {
+          return !context.event.shape;
+        }
+      }
+    ],
+    processing: [
+      {
+        trigger: 'mousemove',
+        action: 'move:move'
+      }
+    ],
+    end: [
+      {
+        trigger: 'mouseup',
+        action: 'move:end'
+      }
+    ]
+  })
+
+  registerInteraction('dragNode', {
+    start: [
+      {
+        trigger: 'node:dragstart',
+        action: 'moveNode:start'
+      }
+    ],
+    processing: [
+      {
+        trigger: 'node:drag',
+        action: 'moveNode:move'
+      }
+    ],
+    end: [
+      {
+        trigger: 'node:dragend',
+        action: 'moveNode:end'
+      }
+    ]
+  })
+
   // registerInteraction('key-move', {
   //   start: [
   //     {trigger: 'mousedown',action: 'move:start'},
@@ -101,6 +146,12 @@ describe('test interaction', () => {
 
   const interaction1 = createInteraction('key-move');
   interaction1.bind(graph);
+
+  const interaction2 = createInteraction('canvas-move')
+  interaction2.bind(graph)
+
+  const interaction3 = createInteraction('dragNode')
+  interaction3.bind(graph)
 
   // div.focus();
   it('test interaction', () => {

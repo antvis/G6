@@ -50,7 +50,7 @@
     "site:deploy": "npm run site:build && gh-pages -d public",
     "start": "npm run site:develop",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/shape/edges/polyline-spec.ts",
+    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/interaction/index-spec.ts",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
     "watch": "father build -w",
     "cdn": "antv-bin upload -n @antv/g6"
@@ -76,6 +76,7 @@
     "@antv/g-math": "^0.1.1",
     "@antv/g-svg": "^0.4.0",
     "@antv/hierarchy": "^0.6.1",
+    "@antv/interaction": "^0.2.0-beta.2",
     "@antv/matrix-util": "^2.0.4",
     "@antv/path-util": "^2.0.3",
     "@antv/scale": "^0.2.0",
@@ -83,8 +84,7 @@
     "d3-force": "^2.0.1",
     "dagre": "^0.8.5",
     "lodash": "^4.17.15",
-    "numericjs": "^1.2.6",
-    "@antv/interaction": "~0.2.0-beta.2"
+    "numericjs": "^1.2.6"
   },
   "devDependencies": {
     "@antv/gatsby-theme-antv": "^0.10.45",
