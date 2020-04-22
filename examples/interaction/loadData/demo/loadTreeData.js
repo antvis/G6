@@ -149,6 +149,5 @@ graph.on('node:click', function(evt) {
     };
     graph.addChild(childData, nodeId);
     count++;
-    graph.layout();
   }
 });
