@@ -937,23 +937,28 @@ const ComboLayoutCollapseExpand = () => {
         layout: {
           type: 'comboForce',
           linkDistance: 10,
-          // comboIdGravity: 5,
-          nodeSpacing: 2,
+          comboGravity: 30,
+          nodeSpacing: 1,
           nodeStrength: 30,
           linkStrength: 0.1,
           preventNodeOverlap: true,
           preventComboOverlap: true,
-          collideStrength: 0.5,
-          maxIteration: 10,
-          comboPadding: 5,
-          comboSpacing: 10
+          // preventOverlap: true,
+          comboCollideStrength: 0.5,
+          nodeCollideStrength: 0.1,
+          maxIteration: 100,
+          comboPadding: 10,
+          comboSpacing: 30
         },
         defaultEdge: {
           size: 3,
           color: '#666',
         },
+        defaultCombo: {
+          type: 'rect'
+        },
         groupByTypes: false,
-        // animate: true
+        animate: true
       });
       
       graph.node(node => {
@@ -971,7 +976,7 @@ const ComboLayoutCollapseExpand = () => {
         const color = colors[combo.id as string];
         return {
           size: 20,
-          padding: 5,
+          // padding: 5,
           style: {
             lineWidth: 2,
             stroke: color,

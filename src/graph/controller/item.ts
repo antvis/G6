@@ -252,7 +252,6 @@ export default class ItemController {
     if (!combo || combo.destroyed) {
       return;
     }
-    if (combo.getModel().id === 'b') debugger
 
     const comboBBox = getComboBBox(children, graph);
     
