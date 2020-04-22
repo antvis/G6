@@ -126,7 +126,7 @@ const singleCombo: ShapeOptions = {
     const animate = this.options.animate;
     if (animate && keyShape.animate) {
       keyShape.animate(keyShapeStyle, {
-        duration: 300,
+        duration: 280,
         easing: 'easeLinear',
       })
     } else {
