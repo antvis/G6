@@ -120,7 +120,7 @@ export default class ItemBase implements IItemBase {
   /**
    * 根据 keyshape 计算包围盒
    */
-  private calculateCanvasBBox(): IBBox {
+  public calculateCanvasBBox(): IBBox {
     const keyShape: IShapeBase = this.get('keyShape');
     const group: Group = this.get('group');
     // 因为 group 可能会移动，所以必须通过父元素计算才能计算出正确的包围盒
