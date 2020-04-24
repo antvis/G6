@@ -369,12 +369,12 @@ export default class LayoutController {
       nodes.push(model);
     });
     edgeItems.forEach(edgeItem => {
-      if (!edgeItem.isVisible()) return;
+      if (edgeItem.destroyed || !edgeItem.isVisible()) return;
       const model = edgeItem.getModel();
-      edges.push(model);
+      if (!model.isComboEdge) edges.push(model);
     });
     comboItems.forEach(comboItem => {
-      if (!comboItem.isVisible()) return;
+      if (comboItem.destroyed || !comboItem.isVisible()) return;
       const model = comboItem.getModel();
       combos.push(model);
     });

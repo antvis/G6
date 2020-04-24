@@ -227,10 +227,10 @@ export interface IItemBase {
 }
 
 export interface IEdge extends IItemBase {
-  setSource(source: INode): void;
-  setTarget(target: INode): void;
-  getSource(): INode;
-  getTarget(): INode;
+  setSource(source: INode | ICombo): void;
+  setTarget(target: INode | ICombo): void;
+  getSource(): INode | ICombo;
+  getTarget(): INode | ICombo;
 }
 
 export interface INode extends IItemBase {
