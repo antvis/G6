@@ -275,8 +275,16 @@ Shape.registerCombo(
       const cfgStyle = clone(cfg.style);
       const width = (Math.max(cfgStyle.width, size[0]) || size[0]);
       const height = (Math.max(cfgStyle.height, size[1]) || size[1]);
+
       cfgStyle.width = width + padding[1] + padding[3];
       cfgStyle.height = height + padding[0] + padding[2];
+
+      const itemCacheSize = item.get('sizeCache');
+      if (itemCacheSize) {
+        itemCacheSize.width = cfgStyle.width;
+        itemCacheSize.height = cfgStyle.height;
+      }
+
       cfgStyle.x = -width / 2 - padding[3];
       cfgStyle.y = -height / 2 - padding[0];
       // 下面这些属性需要覆盖默认样式与目前样式，但若在 cfg 中有指定则应该被 cfg 的相应配置覆盖。
@@ -298,9 +306,17 @@ Shape.registerCombo(
     },
     updateShape(cfg: ComboConfig, item: Item, keyShapeStyle: object) {
       const keyShape = item.get('keyShape');
-      keyShape.attr({
-        ...keyShapeStyle,
-      });
+      const animate = this.options.animate;
+      if (animate && keyShape.animate) {
+        keyShape.animate(keyShapeStyle, {
+          duration: 200,
+          easing: 'easeLinear',
+        })
+      } else {
+        keyShape.attr({
+          ...keyShapeStyle,
+        });
+      }
   
       (this as any).updateLabel(cfg, item);
       (this as any).updateCollapseIcon(cfg, item, keyShapeStyle)

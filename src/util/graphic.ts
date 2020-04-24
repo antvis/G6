@@ -469,13 +469,15 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: INode[]) => {
     tree.depth = 0;
     traverse<ComboTree>(tree, child => {
       let parent;
-      if (addedMap[child.id]['itemType'] === 'node') {
+      const itemType = addedMap[child.id]['itemType'];
+      if (itemType === 'node') {
         parent = addedMap[child['comboId']];
       } else {
         parent = addedMap[child.parentId];
       }
       if (parent) {
-        child.depth = parent.depth + 1;
+        if (itemType === 'node') child.depth = parent.depth + 1;
+        else child.depth = parent.depth + 2;
       } else {
         child.depth = 0;
       }
@@ -544,7 +546,10 @@ export const reconstructTree = (trees: ComboTree[], subtreeId?: string, newParen
             if (child.children) child.children.push(subtree);
             else child.children = [ subtree ];
           }
-          child.depth = comboChilds[child.parentId || child.comboId] ? comboChilds[child.parentId || child.comboId].depth + 1 : 0
+          let depth = 0;
+          if (comboChilds[child.parentId]) comboChilds[child.parentId || child.comboId].depth + 2;
+          else if (comboChilds[child.comboId]) comboChilds[child.parentId || child.comboId].depth + 1;
+          child.depth = depth;
           comboChilds[child.id]['depth'] = child.depth
           return true;
         });

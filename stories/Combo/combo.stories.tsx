@@ -3,8 +3,10 @@ import { storiesOf } from '@storybook/react';
 import React from 'react';
 import DefaultCombo from './component/default-combo';
 import RegisterCombo from './component/register-combo';
-import CollapseExpand from './component/collapse-expand-combo'
-import ComboLayoutCollapseExpand from './component/combo-layout-collapse-expand'
+import CollapseExpand from './component/collapse-expand-combo';
+import ComboLayoutCollapseExpand from './component/combo-layout-collapse-expand';
+import CollapseExpandVEdge from './component/collapse-expand-vedge';
+import ComboCollapseExpandTree from './component/combo-collapse-expand-tree';
 
 export default { title: 'Combo' };
 
@@ -20,4 +22,10 @@ storiesOf('Combo', module)
   ))
   .add('force + collapse expand', () => (
     <ComboLayoutCollapseExpand />
+  ))
+  .add('collapse expand vedge', () => (
+    <CollapseExpandVEdge />
+  ))
+  .add('collapse expand tree', () => (
+    <ComboCollapseExpandTree />
   ));

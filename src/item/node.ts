@@ -15,7 +15,7 @@ const CACHE_ANCHOR_POINTS = 'anchorPointsCache';
 const CACHE_BBOX = 'bboxCache';
 
 export default class Node extends Item implements INode {
-  private getNearestPoint(points: IPoint[], curPoint: IPoint): IPoint {
+  public getNearestPoint(points: IPoint[], curPoint: IPoint): IPoint {
     let index = 0;
     let nearestPoint = points[0];
     let minDistance = distance(points[0], curPoint);
