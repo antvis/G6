@@ -6,10 +6,12 @@ import ChageData from './changeData'
 import ChangeAttr from './attrs'
 import DomClick from './component/dom-click'
 import ForceLayout from './forceLayout'
+import GGEditorNode from './ggeditorNode'
 
 export default { title: 'Issues' };
 
 storiesOf('Issues', module)
+<<<<<<< HEAD
   .add('drag canvas and shift tab', () => (
     <DragCanvas />
   ))
@@ -27,3 +29,19 @@ storiesOf('Issues', module)
   ))
 
   .add('forcelayout', () => <ForceLayout />)
+=======
+.add('drag canvas and shift tab', () => (
+  <DragCanvas />
+))
+.add('dagre polyline arrow', () => (
+  <DagreArrow />
+))
+.add('change data', () => (
+  <ChageData />
+))
+.add('change attr', () => (
+  <ChangeAttr />
+))
+.add('forcelayout', () => <ForceLayout />)
+.add('ggeditor node issue', () => <GGEditorNode />)
+>>>>>>> fix: add flow demo

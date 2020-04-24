@@ -31,6 +31,8 @@ export type Padding = number | string | number[];
 export interface ArrowConfig {
   d?: number;
   path?: string;
+  stroke?: string;
+  fill?: string;
 }
 
 // Shape types
