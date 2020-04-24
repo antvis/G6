@@ -51,7 +51,7 @@ describe('combo node test', () => {
         group,
       );
       canvas.draw();
-      expect(shape.attr('r')).toBe(40);
+      expect(shape.attr('r')).toBe(45);  // size / 2 + padding
       expect(group.getCount()).toBe(1);
     });
 
@@ -156,7 +156,11 @@ describe('combo node test', () => {
           fill: 'steelblue'
         }
       });
-      expect(shape.attr('fill')).toBe('steelblue');
+      // since the update is animated, check it after 300ms
+      setTimeout(() => {
+        expect(shape.attr('fill')).toBe('steelblue');
+      }, 300);
+      
     });
 
     it('active', () => {

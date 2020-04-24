@@ -699,6 +699,7 @@ export default class ItemBase implements IItemBase {
       if (animate) {
         group.stopAnimate();
       }
+      this.clearCache();
       group.remove();
       (this._cfg as IItemBaseConfig | null) = null;
       this.destroyed = true;

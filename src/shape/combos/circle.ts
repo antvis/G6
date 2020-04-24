@@ -14,7 +14,7 @@ Shape.registerCombo(
     // 自定义节点时的配置
     options: {
       size: [Global.defaultCombo.size[0], Global.defaultCombo.size[0]],
-      padding: 20,
+      padding: Global.defaultCombo.padding[0],
       animate: true,
       style: {
         stroke: Global.defaultCombo.style.stroke,
@@ -87,6 +87,12 @@ Shape.registerCombo(
       const cfgStyle = clone(cfg.style);
       const r = Math.max(cfgStyle.r, size[0] / 2) || size[0] / 2;;
       cfgStyle.r = r + padding;
+
+      const itemCacheSize = item.get('sizeCache');
+      if (itemCacheSize) {
+        itemCacheSize.r = cfgStyle.r;
+      }
+
       // 下面这些属性需要覆盖默认样式与目前样式，但若在 cfg 中有指定则应该被 cfg 的相应配置覆盖。
       const strokeStyle = {
         stroke: cfg.color

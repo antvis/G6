@@ -1,6 +1,6 @@
 import isNil from '@antv/util/lib/is-nil';
 import isPlainObject from '@antv/util/lib/is-plain-object';
-import { IEdge, INode } from '../interface/item';
+import { IEdge, INode, ICombo } from '../interface/item';
 import { EdgeConfig, IPoint, NodeConfig, SourceTarget, Indexable, ModelConfig } from '../types';
 import Item from './item';
 import Node from './node';
@@ -174,21 +174,21 @@ export default class Edge extends Item implements IEdge {
     return out;
   }
 
-  public setSource(source: INode) {
+  public setSource(source: INode | ICombo) {
     this.setEnd('source', source);
     this.set('source', source);
   }
 
-  public setTarget(target: INode) {
+  public setTarget(target: INode | ICombo) {
     this.setEnd('target', target);
     this.set('target', target);
   }
 
-  public getSource(): INode {
+  public getSource(): INode | ICombo {
     return this.get('source');
   }
 
-  public getTarget(): INode {
+  public getTarget(): INode | ICombo {
     return this.get('target');
   }
 

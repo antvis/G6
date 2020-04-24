@@ -4,11 +4,14 @@ import Node from './node';
 import { ComboConfig, IBBox, IShapeBase } from '../types';
 import Global from '../global';
 import { getBBox } from '../util/graphic';
-
+import isNumber from '@antv/util/lib/is-number';
+import { IItemBaseConfig } from '../interface/item';
 
 const CACHE_BBOX = 'bboxCache';
 const CACHE_CANVAS_BBOX = 'bboxCanvasCache';
 const CACHE_SIZE = 'sizeCache';
+const CACHE_ANCHOR_POINTS = 'anchorPointsCache';
+
 
 export default class Combo extends Node implements ICombo {
   public getDefaultCfg() {
@@ -26,14 +29,23 @@ export default class Combo extends Node implements ICombo {
     if (styles) {
       // merge graph的item样式与数据模型中的样式
       const newModel = model;
-      const itemType = this.getType();
       const size = {
         r: Math.hypot(bbox.height, bbox.width) / 2 || Global.defaultCombo.size[0] / 2,
         width: bbox.width || Global.defaultCombo.size[0],
         height: bbox.height || Global.defaultCombo.size[1]
       };
-      this.set(CACHE_SIZE, size);
       newModel.style = Object.assign({}, styles, model.style, size);
+      let padding = model.padding || Global.defaultCombo.padding
+      if (isNumber(padding)) {
+        size.r += padding;
+        size.width += padding * 2;
+        size.height += padding * 2;
+      } else {
+        size.r += padding[0];
+        size.width += (padding[1] + padding[3]) || padding[1] * 2;
+        size.height += (padding[0] + padding[2]) || padding[0] * 2;
+      }
+      this.set(CACHE_SIZE, size);
       return newModel;
     }
     return model;
@@ -202,10 +214,44 @@ export default class Combo extends Node implements ICombo {
   public isOnlyMove(cfg?: ComboConfig): boolean {
     return false;
   }
- 
+
+
+  /**
+   * 获取 item 的包围盒，这个包围盒是相对于 item 自己，不会将 matrix 计算在内
+   * @return {Object} 包含 x,y,width,height, centerX, centerY
+   */
+  public getBBox(): IBBox {
+    this.set(CACHE_CANVAS_BBOX, null);
+    let bbox: IBBox = this.calculateCanvasBBox();
+    // 计算 bbox 开销有些大，缓存
+    // let bbox: IBBox = this.get(CACHE_BBOX);
+    // if (!bbox) {
+    //   bbox = this.getCanvasBBox();
+    //   this.set(CACHE_BBOX, bbox);
+    // }
+    return bbox;
+  }
 
   public clearCache() {
     this.set(CACHE_BBOX, null); // 清理缓存的 bbox
     this.set(CACHE_CANVAS_BBOX, null);
+    this.set(CACHE_ANCHOR_POINTS, null);
   }
+
+  public destroy() {
+    if (!this.destroyed) {
+      const animate = this.get('animate');
+      const group: Group = this.get('group');
+      if (animate) {
+        group.stopAnimate();
+      }
+      this.clearCache();
+      this.set(CACHE_SIZE, null);
+      this.set('bbox', null);
+      group.remove();
+      (this._cfg as IItemBaseConfig | null) = null;
+      this.destroyed = true;
+    }
+  }
+
 }
