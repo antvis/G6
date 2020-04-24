@@ -57,10 +57,10 @@ const setNodeStateAttr = (state, s, cfg) => {
 const isEng = (str) => {
   for (let i = 0; i < str.length; i++) {
     const charCode = str.charCodeAt(i)
-    if (charCode < 0  || charCode > 128) {
+    if (charCode < 0 || charCode > 128) {
       return false
     }
-   }
+  }
   return true
 
 }
@@ -74,23 +74,23 @@ const getSplitStrings = (str: string) => {
 }
 
 const getEngGroup = (str: string) => {
-   const strs = str.replace(/(?<!^)([A-Z])/g, `-$1`)
-   return strs.split('-')
+  const strs = str.replace(/(?<!^)([A-Z])/g, `-$1`)
+  return strs.split('-')
 }
 
 const getTopAnch = (num) => {
-    let res = []
-    for (let i = 0 ; i < num ; i ++) {
-       res.push([(i + 1) / num, 0])
+  let res = []
+  for (let i = 0; i < num; i++) {
+    res.push([(i + 1) / num, 0])
 
-    }
-    return res
+  }
+  return res
 }
 
 const getBottomAnch = (num) => {
   let res = []
-  for (let i = 0 ; i <= num ; i ++) {
-     res.push([(i) / num, 1])
+  for (let i = 0; i <= num; i++) {
+    res.push([(i) / num, 1])
 
   }
   return res
@@ -98,20 +98,20 @@ const getBottomAnch = (num) => {
 
 const getLeftAnch = (num) => {
   let res = []
-  for (let i = 0 ; i < num ; i ++) {
-     res.push([0, (i + 1) / num])
+  for (let i = 0; i < num; i++) {
+    res.push([0, (i + 1) / num])
 
   }
   return res
 }
 
 const getRightAnch = (num) => {
-let res = []
-for (let i = 0 ; i <= num ; i ++) {
-   res.push([1, (i) / num])
+  let res = []
+  for (let i = 0; i <= num; i++) {
+    res.push([1, (i) / num])
 
-}
-return res
+  }
+  return res
 }
 
 G6.registerEdge('console-line', {
@@ -146,10 +146,10 @@ G6.registerNode('console-model-Node', {
       return [x, y]
     }),
     ...getTopAnch(50),
-   ...getBottomAnch(50),
-   ...getLeftAnch(100),
-   ...getRightAnch(100),
-  ]
+    ...getBottomAnch(50),
+    ...getLeftAnch(100),
+    ...getRightAnch(100),
+    ]
   },
   afterDraw(cfg, group) {
     if (cfg.hide) {
@@ -168,7 +168,7 @@ G6.registerNode('console-model-Node', {
       name: data.key,
       draggable: true,
       attrs: {
-        y: -(getLength(data.fields.length) * config.fieldHeight / 2) - config.headerHeight / 2 + 4 ,
+        y: -(getLength(data.fields.length) * config.fieldHeight / 2) - config.headerHeight / 2 + 4,
         x: -(config.width / 2) + 3,
         width: 50, //config.width - 6 ,
         height: 30, //config.fieldHeight,
@@ -209,7 +209,7 @@ G6.registerNode('console-model-Node', {
     // const nameList = (data.name || '').split('_').flatMap((nameStr) => nameStr.split('-')).flatMap((nameStr) => nameStr.split('/')).flatMap((a) => getSplitStrings(a)).filter((a) => a)
     const nameList = (data.name || '').split('_');
 
-    const height = config.headerHeight + (data.fields.length >= 12 ? data.fields.length  : 12) * config.fieldHeight
+    const height = config.headerHeight + (data.fields.length >= 12 ? data.fields.length : 12) * config.fieldHeight
     const nameLength = nameList.length
     nameList.forEach((nameText, index) => {
       group.addShape('text', {
@@ -217,17 +217,17 @@ G6.registerNode('console-model-Node', {
         name: nameText,
         draggable: true,
         attrs: {
-        x: 0,
-        y: - height / 2 + height / (nameLength + 1) * (index + 1),
-        fontSize: 12,//config.width / 5,
-        text: nameText,
+          x: 0,
+          y: - height / 2 + height / (nameLength + 1) * (index + 1),
+          fontSize: 12,//config.width / 5,
+          text: nameText,
           // opacity: index === nameLength - 1 ? 1 : 0.3,
-        id: 'headerlabel2',
-        className: 'headerlabel',
-        textBaseline: 'middle',
-        textAlign: 'center',
+          id: 'headerlabel2',
+          className: 'headerlabel',
+          textBaseline: 'middle',
+          textAlign: 'center',
           // radius: [2, 4],
-        fill: 'black',
+          fill: 'black',
         },
       })
     }) // group.addShape('text', {
@@ -375,9 +375,9 @@ G6.registerNode('console-model-Node', {
 
     const diffLength = getLength(data.fields.length) - data.fields.length
     if (diffLength) {
-      for (let i = 0 ; i < diffLength ; i ++) {
-         // ---
-         group.addShape('rect', {
+      for (let i = 0; i < diffLength; i++) {
+        // ---
+        group.addShape('rect', {
           name: i,
           draggable: true,
           visible: !cfg.isKeySharp,
@@ -400,10 +400,10 @@ G6.registerNode('console-model-Node', {
             // ...cfg.style || {},
           },
 
-         // ---
-      })
+          // ---
+        })
+      }
     }
-  }
 
     // const anchors = [
     //   [0, 0], // 左上方
@@ -447,7 +447,7 @@ G6.registerNode('console-model-Node', {
       name: 'a',
       draggable: true,
       attrs: {
-        y: 100 ,
+        y: 100,
         x: 100,
         width: 100,
         height: 80,
@@ -481,8 +481,8 @@ G6.registerNode('console-model-Node', {
   },
 }, 'single-node')
 
-const getLength  = (length) => {
- return length >= 8 ? length : 8
+const getLength = (length) => {
+  return length >= 8 ? length : 8
 }
 
 let graph: IGraph = null;
@@ -600,11 +600,7 @@ const Tutorial = () => {
         const response = await fetch(
           'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json',
         );
-        const data = await response.json();
-<<<<<<< HEAD
-=======
-        console.log(data);
->>>>>>> feat: collapse expand combo to add virtual edges to represent the edges between collapsed combos.
+        const data = response as GraphData;
         const nodes = data.nodes;
         const edges = data.edges;
         nodes.forEach(node => {
