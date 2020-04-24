@@ -598,7 +598,7 @@ export interface IG6GraphEvent extends GraphEvent {
 // Node Edge Combo 实例
 export type Item = INode | IEdge | ICombo;
 
-export type ITEM_TYPE = 'node' | 'edge' | 'combo' | 'group';
+export type ITEM_TYPE = 'node' | 'edge' | 'combo' | 'group' | 'vedge';
 
 export type NodeIdxMap = {
   [key: string]: number;

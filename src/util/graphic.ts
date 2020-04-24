@@ -506,13 +506,15 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: INode[]) => {
     tree.depth = 0;
     traverse<ComboTree>(tree, child => {
       let parent;
-      if (addedMap[child.id]['itemType'] === 'node') {
+      const itemType = addedMap[child.id]['itemType'];
+      if (itemType === 'node') {
         parent = addedMap[child['comboId'] as string];
       } else {
         parent = addedMap[child.parentId];
       }
       if (parent) {
-        child.depth = parent.depth + 1;
+        if (itemType === 'node') child.depth = parent.depth + 1;
+        else child.depth = parent.depth + 2;
       } else {
         child.depth = 0;
       }

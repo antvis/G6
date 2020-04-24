@@ -5,9 +5,10 @@
 
 import { EdgeConfig, IPointTuple, NodeConfig, NodeIdxMap, ComboTree, ComboConfig } from '../types';
 import { BaseLayout } from './layout';
-import { isNumber, isArray, isFunction, clone } from '@antv/util';
+import { isNumber, isArray, isFunction, clone, isNil } from '@antv/util';
 import { Point } from '@antv/g-base';
 import { traverseTreeUp } from '../util/graphic';
+import Global from '../global';
 
 type Node = NodeConfig & {
   depth: number;
@@ -44,7 +45,7 @@ export default class ComboForce extends BaseLayout {
   /** 群组中心力大小 */
   public comboGravity: number = 10;
   /** 默认边长度 */
-  public linkDistance: number | ((d?: unknown) => number) = 50;
+  public linkDistance: number | ((d?: unknown) => number) = 10;
   /** 每次迭代位移的衰减相关参数 */
   public alpha: number = 1;
   public alphaMin: number = 0.001;
@@ -63,7 +64,7 @@ export default class ComboForce extends BaseLayout {
   /** 是否开启 Combo 之间的防止重叠 */
   public preventComboOverlap: boolean = false;
   /** 防止重叠的碰撞力大小 */
-  public collideStrength: number = 0.2;
+  public collideStrength: number | undefined = undefined;
   /** 防止重叠的碰撞力大小 */
   public nodeCollideStrength: number | undefined = undefined;
   /** 防止重叠的碰撞力大小 */
@@ -82,9 +83,10 @@ export default class ComboForce extends BaseLayout {
   public optimizeRangeFactor: number = 1;
   /** 每次迭代的回调函数 */
   public tick: () => void = () => { };
-  /** 根据边两端节点层级差距的调整函数 */
-  public depthAttractiveForceScale: number = 0.3; // ((d?: unknown) => number);
-  public depthRepulsiveForceScale: number = 2; // ((d?: unknown) => number);
+  /** 根据边两端节点层级差距的调整引力的因子，[0, 1] 代表层级差距越大，引力越小 */
+  public depthAttractiveForceScale: number = 0.5;
+  /** 根据边两端节点层级差距的调整斥力的因子，[1, Infinity] 代表层级差距越大，斥力越大 */
+  public depthRepulsiveForceScale: number = 2;
 
   /** 内部计算参数 */
   public nodes: Node[] = [];
@@ -105,18 +107,24 @@ export default class ComboForce extends BaseLayout {
 
   public getDefaultCfg() {
     return {
-      maxIteration: 1000,
+      maxIteration: 100,
       center: [0, 0],
       gravity: 10,
       speed: 1,
-      comboGravity: 10,
+      comboGravity: 30,
       preventOverlap: false,
+      preventComboOverlap: true,
+      preventNodeOverlap: true,
       nodeSpacing: undefined,
-      collideStrength: 0.2,
-      nodeCollideStrength: undefined,
-      comboCollideStrength: undefined,
-      comboSpacing: 5,
-      comboPadding: 10
+      collideStrength: undefined,
+      nodeCollideStrength: 0.5,
+      comboCollideStrength: 0.5,
+      comboSpacing: 20,
+      comboPadding: 10,
+      linkStrength: 0.2,
+      nodeStrength: 30,
+      linkDistance: 10,
+
     };
   }
   /**
@@ -125,7 +133,6 @@ export default class ComboForce extends BaseLayout {
   public execute() {
     const self = this;
     const nodes = self.nodes;
-    const combos = self.combos;
     const center = self.center;
     self.comboTree = {
       id: 'comboTreeRoot',
@@ -238,14 +245,14 @@ export default class ComboForce extends BaseLayout {
     self.comboMap = self.getComboMap();
 
     const preventOverlap = self.preventOverlap;
-    if (preventOverlap) {
-      self.preventComboOverlap = true;
-      self.preventNodeOverlap = true;
-    }
+    self.preventComboOverlap = self.preventComboOverlap || preventOverlap;
+    self.preventNodeOverlap = self.preventNodeOverlap || preventOverlap;
 
     const collideStrength = self.collideStrength;
-    if (!self.comboCollideStrength) self.comboCollideStrength = collideStrength;
-    if (!self.nodeCollideStrength) self.nodeCollideStrength = collideStrength;
+    if (!isNil(collideStrength)) {
+      self.comboCollideStrength = collideStrength;
+      self.nodeCollideStrength = collideStrength;
+    }
 
     // get edge bias
     for (let i = 0; i < edges.length; ++i) {
@@ -334,7 +341,7 @@ export default class ComboForce extends BaseLayout {
     let linkDistance = this.linkDistance;
     let linkDistanceFunc;
     if (!linkDistance) {
-      linkDistance = 50;
+      linkDistance = 10;
     }
     if (isNumber(linkDistance)) {
       linkDistanceFunc = d => {
@@ -595,7 +602,11 @@ export default class ComboForce extends BaseLayout {
           if (c.maxX < nodeMaxX) c.maxX = nodeMaxX;
           if (c.maxY < nodeMaxY) c.maxY = nodeMaxY;
         });
-        c.r = Math.max(c.maxX - c.minX, c.maxY - c.minY) / 2 + comboSpacing(c) / 2 + comboPadding(c);
+        let minSize = self.oriComboMap[treeNode.id].size || Global.defaultCombo.size;
+        if (isArray(minSize)) minSize = minSize[0];
+        const maxLength = Math.max(c.maxX - c.minX, c.maxY - c.minY, minSize as number);
+        c.r = maxLength / 2 + comboSpacing(c) / 2 + comboPadding(c);
+
         return true;
       });
     });
@@ -614,6 +625,7 @@ export default class ComboForce extends BaseLayout {
     traverseTreeUp<ComboTree>(comboTree, treeNode => {
       if (!comboMap[treeNode.id] && !nodeMap[treeNode.id] && treeNode.id !== 'comboTreeRoot') return; // means it is hidden
       const children = treeNode.children;
+      // 同个子树下的子 combo 间两两对比
       if (children && children.length > 1) {
         children.forEach((v, i) => {
           if (v.itemType === 'node') return;
@@ -642,6 +654,7 @@ export default class ComboForce extends BaseLayout {
               const yl = vy * ll;
               let rratio = ru2 / (rv2 + ru2);
               let irratio = 1 - rratio;
+              // 两兄弟 combo 的子节点上施加斥力
               vnodes.forEach(vn => {
                 if (vn.itemType !== 'node') return;
                 if (!nodeMap[vn.id]) return; // means it is hidden
@@ -704,9 +717,9 @@ export default class ComboForce extends BaseLayout {
 
         let { vx, vy } = vecMap[`${v.id}-${u.id}`];
 
-        const depthDiff = (Math.abs(u.depth - v.depth) + 1) || 1;
+        let depthDiff = (Math.abs(u.depth - v.depth) + 1) || 1;
+        if (u.comboId !== v.comboId) depthDiff++;
         let depthParam = depthDiff ? Math.pow(scale, depthDiff) : 1;
-        // let depthParam = depthDiff ? scale * depthDiff : 1;
 
         const params = nodeStrength(u) * alpha / vl * depthParam;
         displacements[i].x += vx * params;
@@ -763,13 +776,16 @@ export default class ComboForce extends BaseLayout {
       const vecX = vx * l;
       const vecY = vy * l;
       const b = bias[i];
-      const depthDiff = Math.abs(u.depth - v.depth);
+
+      let depthDiff = Math.abs(u.depth - v.depth);
+      if (u.comboId === v.comboId) depthDiff / 2;
       let depthParam = depthDiff ? Math.pow(scale, depthDiff) : 1;
       if (u.comboId !== v.comboId && depthParam === 1) {
         depthParam = scale;
       } else if (u.comboId === v.comboId) {
         depthParam = 1;
       }
+      // depthParam = 1;
       displacements[vIndex].x -= vecX * b * depthParam;
       displacements[vIndex].y -= vecY * b * depthParam;
       displacements[uIndex].x += vecX * (1 - b) * depthParam;

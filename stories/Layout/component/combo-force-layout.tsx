@@ -499,13 +499,6 @@ const ComboForceLayout = () => {
         },
         layout: {
           type: 'comboForce',
-          linkDistance: 1000,
-        fitView: true,
-        modes: {
-          default: ['drag-canvas', 'drag-node', 'zoom-canvas'],
-        },
-        layout: {
-          type: 'comboForce',
           linkDistance: 100,
           // comboIding: true,
           // comboIdGravity: 5,
