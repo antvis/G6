@@ -1,6 +1,8 @@
 import G6 from '../../../src';
-import data from './data';
+import dataset from './data';
 import * as d3Force from 'd3-force';
+
+const data = dataset.data;
 
 const div = document.createElement('div');
 div.id = 'force-layout';
