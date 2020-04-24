@@ -899,10 +899,10 @@ const testData = {
     label: 'combo d',
     parentId: 'b'
   },
-  // {
-  //   id: 'e',
-  //   label: 'combo e'
-  // }
+  {
+    id: 'e',
+    label: 'combo e'
+  }
   ]
 };
 
@@ -1016,9 +1016,15 @@ const ComboLayoutCollapseExpand = () => {
       // });
       // console.log(JSON.stringify(outputData));
 
-      // graph.on('canvas:click', e => {
-      //   graph.changeData(testData_pos);
-      // });
+      graph.on('combo:click', e => {
+        graph.hideItem(e.item);
+      });
+      graph.on('canvas:click', e => {
+        graph.getCombos().forEach(combo => {
+          if (!combo.isVisible()) graph.showItem(combo);
+        });
+        
+      });
     }
   });
   return <div ref={container}></div>;
