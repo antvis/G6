@@ -1450,13 +1450,6 @@ export default class Graph extends EventEmitter implements IGraph {
     const { onFrame } = animateCfg;
 
     const nodes = self.getNodes();
-    const combos = self.getCombos();
-
-    // const comboVisibilityMap = {};
-    // combos && combos.forEach(combo => {
-    //   comboVisibilityMap[combo.getModel().id] = combo.isVisible();
-    //   combo.hide();
-    // });
 
     const toNodes = nodes.map(node => {
       const model = node.getModel();
@@ -1518,14 +1511,6 @@ export default class Graph extends EventEmitter implements IGraph {
           if (animateCfg.callback) {
             animateCfg.callback();
           }
-
-          // if (combos && combos.length !== 0) {
-          //   // combos.forEach(combo => {
-          //   //   if (comboVisibilityMap[combo.getModel().id]) combo.show();
-          //   // });
-          //   self.updateCombos();
-          // }
-
           self.emit('afteranimate');
           self.animating = false;
         },
@@ -1556,6 +1541,7 @@ export default class Graph extends EventEmitter implements IGraph {
       }
       node.updatePosition({ x: model.x!, y: model.y! });
       updatedNodes[model.id] = true;
+      if (model.comboId) updatedNodes[model.comboId] = true;
     });
 
     if (combos && combos.length !== 0) {

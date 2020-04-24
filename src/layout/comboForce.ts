@@ -249,7 +249,7 @@ export default class ComboForce extends BaseLayout {
     self.preventNodeOverlap = self.preventNodeOverlap || preventOverlap;
 
     const collideStrength = self.collideStrength;
-    if (!isNil(collideStrength)) {
+    if (collideStrength) {
       self.comboCollideStrength = collideStrength;
       self.nodeCollideStrength = collideStrength;
     }
@@ -302,11 +302,9 @@ export default class ComboForce extends BaseLayout {
       const larger = nodeSize[0] > nodeSize[1] ? nodeSize[0] : nodeSize[1];
       const radius = larger / 2;
       nodeSizeFunc = d => radius;
-    } else if (isNumber(nodeSize)) {
+    } else { // number type
       const radius = nodeSize / 2;
       nodeSizeFunc = d => radius;
-    } else {
-      nodeSizeFunc = () => 10;
     }
     this.nodeSize = nodeSizeFunc;
 
@@ -318,7 +316,7 @@ export default class ComboForce extends BaseLayout {
       comboSpacingFunc = () => comboSpacing;
     } else if (isFunction(comboSpacing)) {
       comboSpacingFunc = comboSpacing;
-    } else {
+    } else { // null type
       comboSpacingFunc = () => 0;
     }
     this.comboSpacing = comboSpacingFunc;
@@ -332,7 +330,7 @@ export default class ComboForce extends BaseLayout {
       comboPaddingFunc = () => Math.max.apply(null, comboPadding);
     } else if (isFunction(comboPadding)) {
       comboPaddingFunc = comboPadding;
-    } else {
+    } else { // null type
       comboPaddingFunc = () => 0;
     }
     this.comboPadding = comboPaddingFunc;
@@ -455,7 +453,13 @@ export default class ComboForce extends BaseLayout {
         }
 
         treeChildren.forEach(child => {
-          if (child.itemType !== 'node') return;
+          c.count++;
+          if (child.itemType !== 'node') {
+            const childCombo = comboMap[child.id];
+            if (isNumber(childCombo.cx)) c.cx += childCombo.cx;
+            if (isNumber(childCombo.cy)) c.cy += childCombo.cy;
+            return;
+          }
           const node = nodeMap[child.id];
           // means the node is hidden.
           if (!node) return;
@@ -466,7 +470,6 @@ export default class ComboForce extends BaseLayout {
           if (isNumber(node.y)) {
             c.cy += node.y;
           }
-          c.count++;
         });
         c.cx /= c.count;
         c.cy /= c.count;
@@ -492,15 +495,13 @@ export default class ComboForce extends BaseLayout {
     comboTrees.forEach(ctree => {
       traverseTreeUp<ComboTree>(ctree, treeNode => {
         if (treeNode.itemType === 'node') return;
-
         const combo = comboMap[treeNode.id];
         // means the combo is hidden.
         if (!combo) return;
         const c = comboMap[treeNode.id];
 
         // higher depth the combo, larger the gravity
-        // const gravityScale = 2 - 1 / (c.depth + 2) || 0.1;
-        const gravityScale = (c.depth + 1) * 0.5;
+        let gravityScale = (c.depth + 1) * 0.5;
         // apply combo center force for all the descend nodes in this combo
         // and update the center position and count for this combo
         const comboX = c.cx;
@@ -508,21 +509,23 @@ export default class ComboForce extends BaseLayout {
         c.cx = 0;
         c.cy = 0;
         c.children.forEach(child => {
-          if (child.itemType !== 'node') return;
+          if (child.itemType !== 'node') {
+            const childCombo = comboMap[child.id];
+            if (childCombo && isNumber(childCombo.cx)) c.cx += childCombo.cx;
+            if (childCombo && isNumber(childCombo.cy)) c.cy += childCombo.cy;
+            return;
+          }
           const node = nodeMap[child.id];
           let vecX = node.x - comboX || 0.005;
           let vecY = node.y - comboY || 0.005;
           let l = Math.sqrt(vecX * vecX + vecY * vecY);
           const childIdx = nodeIdxMap[node.id];
-          displacements[childIdx].x -= vecX * comboGravity * alpha / l * gravityScale;
-          displacements[childIdx].y -= vecY * comboGravity * alpha / l * gravityScale;
+          const params = comboGravity * alpha / l * gravityScale;
+          displacements[childIdx].x -= vecX * params;
+          displacements[childIdx].y -= vecY * params;
           
-          if (isNumber(node.x)) {
-            c.cx += node.x;
-          }
-          if (isNumber(node.y)) {
-            c.cy += node.y;
-          }
+          if (isNumber(node.x)) c.cx += node.x;
+          if (isNumber(node.y)) c.cy += node.y;
         });
         c.cx /= c.count;
         c.cy /= c.count;
@@ -544,15 +547,16 @@ export default class ComboForce extends BaseLayout {
         if (i < j) return;
         let vx = v.x - u.x || 0.005;
         let vy = v.y - u.y || 0.005;
-        let vl = vx * vx + vy * vy;
-        if (vl < 1) vl = Math.sqrt(vl);
-        vecMap[`${v.id}-${u.id}`] = { vx, vy, vl };
-        vecMap[`${u.id}-${v.id}`] = { vx: -vx, vy: -vy, vl };
+        let vl2 = vx * vx + vy * vy;
+        const vl = Math.sqrt(vl2);
+        if (vl2 < 1) vl2 = vl;
+        vecMap[`${v.id}-${u.id}`] = { vx, vy, vl2, vl };
+        vecMap[`${u.id}-${v.id}`] = { vx: -vx, vy: -vy, vl2, vl };
       });
     });
     // get the sizes of the combos
     self.updateComboSizes(comboMap);
-    self.calRepulsive(displacements, vecMap, comboMap);
+    self.calRepulsive(displacements, vecMap);
     self.calAttractive(displacements, vecMap);
     
     const preventComboOverlap = self.preventComboOverlap;
@@ -649,7 +653,9 @@ export default class ComboForce extends BaseLayout {
             // overlapping
             if (l < r * r) {
               const vnodes = v.children;
+              if (!vnodes || vnodes.length === 0) return;
               const unodes = u.children;
+              if (!unodes || unodes.length === 0) return;
               const sqrtl = Math.sqrt(l);
               const ll = (r - sqrtl) / sqrtl * comboCollideStrength;
               const xl = vx * ll;
@@ -684,10 +690,10 @@ export default class ComboForce extends BaseLayout {
    * @param displacements The array stores the displacements for nodes
    * @param vecMap The map stores vector between each node pair
    */
-  private calRepulsive(displacements: Point[], vecMap: any, comboMap) {
+  private calRepulsive(displacements: Point[], vecMap: any) {
     const self = this;
     const nodes = self.nodes;
-    const max = self.width * self.optimizeRangeFactor * self.width * self.optimizeRangeFactor;
+    const max = self.width * self.optimizeRangeFactor;
     const nodeStrength = self.nodeStrength as ((d?: unknown) => number);;
     const alpha = self.alpha;
     const nodeCollideStrength = self.nodeCollideStrength;
@@ -714,7 +720,7 @@ export default class ComboForce extends BaseLayout {
           return;
         }
         if (!u.x || !u.y) return;
-        let { vl } = vecMap[`${v.id}-${u.id}`];
+        let { vl2, vl } = vecMap[`${v.id}-${u.id}`];
         if (vl > max) return;
         
         let { vx, vy } = vecMap[`${v.id}-${u.id}`];
@@ -723,7 +729,7 @@ export default class ComboForce extends BaseLayout {
         if (u.comboId !== v.comboId) depthDiff++;
         let depthParam = depthDiff ? Math.pow(scale, depthDiff) : 1;
 
-        const params = nodeStrength(u) * alpha / vl * depthParam;
+        const params = nodeStrength(u) * alpha / vl2 * depthParam;
         displacements[i].x += vx * params;
         displacements[i].y += vy * params;
 
@@ -732,9 +738,8 @@ export default class ComboForce extends BaseLayout {
           const ri = nodeSizeFunc(v) + nodeSpacingFunc(v);
           const rj = nodeSizeFunc(u) + nodeSpacingFunc(u);
           const r = ri + rj;
-          if (vl < r * r) {
-            const sqrtl = Math.sqrt(vl);
-            const ll = (r - sqrtl) / sqrtl * nodeCollideStrength;
+          if (vl2 < r * r) {
+            const ll = (r - vl) / vl * nodeCollideStrength;
             const rj2 = rj * rj;
             let rratio = rj2 / (ri * ri + rj2);
             const xl = vx * ll;
@@ -764,34 +769,32 @@ export default class ComboForce extends BaseLayout {
     const bias = self.bias;
     const scale = self.depthAttractiveForceScale;
     edges.forEach((e, i) => {
-      if (!e.source || !e.target) return;
+      if (!e.source || !e.target || e.source === e.target) return;
       const uIndex = self.nodeIdxMap[e.source];
       const vIndex = self.nodeIdxMap[e.target];
-      if (uIndex === vIndex) {
-        return;
-      }
       const u = self.nodeMap[e.source];
       const v = self.nodeMap[e.target];
-      if (!isNumber(v.x) || !isNumber(u.x) || !isNumber(v.y) || !isNumber(u.y)) return;
-      let { vl, vx, vy } = vecMap[`${e.target}-${e.source}`];
-      const l = (vl - linkDistance(e)) / vl * alpha * linkStrength(e);
-      const vecX = vx * l;
-      const vecY = vy * l;
-      const b = bias[i];
-      
+
       let depthDiff = Math.abs(u.depth - v.depth);
       if (u.comboId === v.comboId) depthDiff / 2;
       let depthParam = depthDiff ? Math.pow(scale, depthDiff) : 1;
       if (u.comboId !== v.comboId && depthParam === 1) {
-        depthParam = scale;
+        depthParam = scale / 2;
       } else if (u.comboId === v.comboId) {
-        depthParam = 1;
+        depthParam = 2;
       }
-      // depthParam = 1;
-      displacements[vIndex].x -= vecX * b * depthParam;
-      displacements[vIndex].y -= vecY * b * depthParam;
-      displacements[uIndex].x += vecX * (1 - b) * depthParam;
-      displacements[uIndex].y += vecY * (1 - b) * depthParam;
+
+      if (!isNumber(v.x) || !isNumber(u.x) || !isNumber(v.y) || !isNumber(u.y)) return;
+      let { vl, vx, vy } = vecMap[`${e.target}-${e.source}`];
+      const l = (vl - linkDistance(e)) / vl * alpha * linkStrength(e) * depthParam;
+      const vecX = vx * l;
+      const vecY = vy * l;
+
+      const b = bias[i];
+      displacements[vIndex].x -= vecX * b;
+      displacements[vIndex].y -= vecY * b;
+      displacements[uIndex].x += vecX * (1 - b);
+      displacements[uIndex].y += vecY * (1 - b);
     });
   }
 }
