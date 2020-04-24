@@ -159,7 +159,7 @@ export default () => {
 
     graph.on('node:click', evt => {
       let node = evt.item;
-      var child = node.get('group').find(function(item) {
+      var child = node.get('group').find(function (item) {
         return item.get('name') === 'icon-text-shape'; //找到图标节点
       });
       if (child.attr('text') === '+') {
