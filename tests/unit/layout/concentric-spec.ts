@@ -1,7 +1,9 @@
 import G6 from '../../../src';
-import data from './data';
+import dataset from './data';
 import { mathEqual } from './util';
 import { isString } from 'util';
+
+const data = dataset.data;
 
 const div = document.createElement('div');
 div.id = 'concentric-layout';
