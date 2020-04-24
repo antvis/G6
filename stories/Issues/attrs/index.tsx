@@ -133,20 +133,19 @@ export default () => {
       nodes: [
         {
           id: "2",
-          dataType: "alps",
-          name: "alps_file2",
+          name: "name1",
           conf: [
             {
               label: "conf",
-              value: "pai_graph.conf"
+              value: "value1"
             },
             {
               label: "dot",
-              value: "pai_graph.dot"
+              value: "value2"
             },
             {
               label: "init",
-              value: "init.rc"
+              value: "init1"
             }
           ]
         }

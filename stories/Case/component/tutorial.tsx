@@ -600,8 +600,8 @@ const Tutorial = () => {
         const response = await fetch(
           'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json',
         );
-        const data = await response.json();
-        console.log(data);
+        // const data = await response.json();
+        const data = response as GraphData;
         const nodes = data.nodes;
         const edges = data.edges;
         nodes.forEach(node => {
