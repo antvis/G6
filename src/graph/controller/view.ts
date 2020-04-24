@@ -39,6 +39,7 @@ export default class ViewController {
     const group: Group = graph.get('group');
     const width: number = graph.get('width');
     const height: number = graph.get('height');
+    console.log(group);
     group.resetMatrix();
     const bbox = group.getCanvasBBox();
     if (bbox.width === 0 || bbox.height === 0) return;
