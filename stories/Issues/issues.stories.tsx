@@ -5,6 +5,7 @@ import DagreArrow from './component/dagre-arrow';
 import ChageData from './changeData'
 import ChangeAttr from './attrs'
 import ForceLayout from './forceLayout'
+import GGEditorNode from './ggeditorNode'
 
 export default { title: 'Issues' };
 
@@ -22,3 +23,4 @@ storiesOf('Issues', module)
   <ChangeAttr />
 ))
 .add('forcelayout', () => <ForceLayout />)
+.add('ggeditor node issue', () => <GGEditorNode />)
