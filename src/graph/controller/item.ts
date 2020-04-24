@@ -527,6 +527,16 @@ export default class ItemController {
         const childItem = graph.findById(child.id);
         this.changeItemVisibility(childItem, visible);
       });
+
+      const edges = (item as INode).getEdges();
+      each(edges, (edge: IEdge) => {
+        // 若隐藏 combo，则将与 combo 本身关联的边也隐藏
+        // 若显示 combo，则将与 combo 本身关联的边也显示，但是需要判断边两端的节点都是可见的
+        if (visible && !(edge.get('source').isVisible() && edge.get('target').isVisible())) {
+          return;
+        }
+        this.changeItemVisibility(edge, visible);
+      });
     }
     graph.emit('afteritemvisibilitychange', { item, visible });
   }
