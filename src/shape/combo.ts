@@ -6,7 +6,7 @@ import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
 import { isArray, isNil, clone, isNumber } from '@antv/util';
 import { ILabelConfig, ShapeOptions } from '../interface/shape';
-import { Item, LabelStyle, NodeConfig, ModelConfig } from '../types';
+import { Item, LabelStyle, NodeConfig, ModelConfig, ShapeStyle } from '../types';
 import Global from '../global';
 import Shape from './shape';
 import { shapeBase } from './shapeBase';
@@ -121,12 +121,12 @@ const singleCombo: ShapeOptions = {
     });
     return shape;
   },
-  updateShape(cfg: NodeConfig, item: Item, keyShapeStyle: object) {
+  updateShape(cfg: NodeConfig, item: Item, keyShapeStyle: ShapeStyle) {
     const keyShape = item.get('keyShape');
     const animate = this.options.animate;
     if (animate && keyShape.animate) {
       keyShape.animate(keyShapeStyle, {
-        duration: 280,
+        duration: 200,
         easing: 'easeLinear',
       })
     } else {

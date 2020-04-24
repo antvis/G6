@@ -17,6 +17,7 @@ import { traverseTreeUp, traverseTree, getComboBBox } from '../../util/graphic';
 
 const NODE = 'node';
 const EDGE = 'edge';
+const VEDGE = 'vedge';
 const COMBO = 'combo';
 const CFG_PREFIX = 'default';
 const MAPPER_SUFFIX = 'Mapper';
@@ -46,11 +47,12 @@ export default class ItemController {
   public addItem<T extends Item>(type: ITEM_TYPE, model: ModelConfig) {
     const { graph } = this;
     const parent: Group = graph.get(`${type}Group`) || graph.get('group');
-    const upperType = upperFirst(type);
+    const vType = type === VEDGE ? EDGE : type;
+    const upperType = upperFirst(vType);
 
     let item: Item | null = null;
     // 获取 this.get('styles') 中的值
-    let styles = graph.get(type + upperFirst(STATE_SUFFIX)) || {};
+    let styles = graph.get(vType + upperFirst(STATE_SUFFIX)) || {};
     const defaultModel = graph.get(CFG_PREFIX + upperType);
 
     if (model[STATE_SUFFIX]) {
@@ -58,7 +60,7 @@ export default class ItemController {
       styles = model[STATE_SUFFIX];
     }
 
-    const mapper = graph.get(type + MAPPER_SUFFIX);
+    const mapper = graph.get(vType + MAPPER_SUFFIX);
     if (mapper) {
       const mappedModel = mapper(model);
       if (mappedModel[STATE_SUFFIX]) {
@@ -88,7 +90,7 @@ export default class ItemController {
 
     graph.emit('beforeadditem', { type, model });
 
-    if (type === EDGE) {
+    if (type === EDGE || type === VEDGE) {
       let source: Id;
       let target: Id;
       source = (model as EdgeConfig).source; // eslint-disable-line prefer-destructuring
@@ -96,9 +98,11 @@ export default class ItemController {
 
       if (source && isString(source)) {
         source = graph.findById(source);
+        if (source.getType() === 'combo') model.isComboEdge = true;
       }
       if (target && isString(target)) {
         target = graph.findById(target);
+        if (target.getType() === 'combo') model.isComboEdge = true;
       }
 
       if (!source || !target) {
@@ -123,6 +127,7 @@ export default class ItemController {
     }
     else if (type === COMBO) {
       const children: ComboTree[] = (model as ComboConfig).children;
+
       const comboBBox = getComboBBox(children, graph);
       model.x = comboBBox.x || Math.random() * 100;
       model.y = comboBBox.y || Math.random() * 100;
@@ -252,7 +257,6 @@ export default class ItemController {
     if (!combo || combo.destroyed) {
       return;
     }
-
     const comboBBox = getComboBBox(children, graph);
     
     combo.set('bbox', comboBBox);
@@ -260,6 +264,7 @@ export default class ItemController {
       x: comboBBox.x,
       y: comboBBox.y
     });
+
   }
 
   /**
@@ -322,9 +327,14 @@ export default class ItemController {
     graph.emit('beforeremoveitem', { item });
 
     const type = item.getType();
-    const items = graph.get(`${item.getType()}s`);
+    const items = graph.get(`${type}s`);
     const index = items.indexOf(item);
-    items.splice(index, 1);
+    if (index > -1) items.splice(index, 1);
+    if (type === EDGE) {
+      const vitems = graph.get(`v${type}s`);
+      const vindex = vitems.indexOf(item);
+      if (vindex > -1) vitems.splice(vindex, 1);
+    }
 
     const itemId: string = item.get('id');
     const itemMap: NodeMap = graph.get('itemMap');

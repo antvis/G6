@@ -64,6 +64,7 @@ export default {
     },
     size: [20, 5],
     color: '#A3B1BF',
+    padding: [25, 20, 15, 20]
   },
   // 节点应用状态后的样式，默认仅提供 active 和 selected 用户可以自己扩展
   nodeStateStyle: {},

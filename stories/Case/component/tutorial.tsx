@@ -601,6 +601,10 @@ const Tutorial = () => {
           'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json',
         );
         const data = await response.json();
+<<<<<<< HEAD
+=======
+        console.log(data);
+>>>>>>> feat: collapse expand combo to add virtual edges to represent the edges between collapsed combos.
         const nodes = data.nodes;
         const edges = data.edges;
         nodes.forEach(node => {
