@@ -70,19 +70,28 @@ describe('test interaction', () => {
     start: [
       {
         trigger: 'node:dragstart',
-        action: 'moveNode:start'
+        action: 'move-node-delegate:start'
       }
     ],
     processing: [
       {
         trigger: 'node:drag',
-        action: 'moveNode:move'
+        action: 'move-node-delegate:move'
       }
     ],
     end: [
       {
         trigger: 'node:dragend',
-        action: 'moveNode:end'
+        action: 'move-node-delegate:end'
+      }
+    ]
+  })
+
+  registerInteraction('select', {
+    start: [
+      {
+        trigger: 'node:click',
+        action: 'select:click'
       }
     ]
   })
@@ -107,6 +116,11 @@ describe('test interaction', () => {
     container: div,
     width: 500,
     height: 500,
+    nodeStateStyles: {
+      selected: {
+        fill: 'red'
+      }
+    }
   });
 
   const data = {
@@ -152,6 +166,9 @@ describe('test interaction', () => {
 
   const interaction3 = createInteraction('dragNode')
   interaction3.bind(graph)
+
+  const interaction4 = createInteraction('select')
+  interaction4.bind(graph)
 
   // div.focus();
   it('test interaction', () => {

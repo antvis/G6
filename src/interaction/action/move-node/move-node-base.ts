@@ -1,17 +1,13 @@
-import ActionBase from './base'
-import { IGraph } from '../../interface/graph'
-import { INode } from '../../interface/item'
-import { NodeConfig, IPoint } from '../../types'
-import { G6GraphEvent } from '../../interface/behavior';
-import { IShape } from '@antv/g-base/lib/interfaces';
-import { IGroup } from '_@antv_g-svg@0.4.4@@antv/g-svg/lib/interfaces';
+import ActionBase from '../base'
+import { IGraph } from '../../../interface/graph'
+import { INode } from '../../../interface/item'
+import { NodeConfig, IPoint } from '../../../types'
 
-export default class MoveNodeWithDelegate extends ActionBase {
-  private origin = null
-  private starting = false
-  private point = {}
-  private targets: INode[] = []
-  private delegateShape: IShape = null
+export default class MoveNode extends ActionBase {
+  protected origin = null
+  protected starting = false
+  protected point = {}
+  protected targets: INode[] = []
 
   /**
    *  开始拖动指定节点
@@ -19,7 +15,7 @@ export default class MoveNodeWithDelegate extends ActionBase {
    * @memberof DragNode
    */
   start() {
-    const event = (this as any).context.event
+    const event = this.context.event
     const { target, item } = event
 
     // 如果拖动的target 是linkPoints / anchorPoints 则不允许拖动
@@ -83,21 +79,10 @@ export default class MoveNodeWithDelegate extends ActionBase {
    * @memberof DragNode
    */
   end() {
-    if (!this.starting) {
-      return
-    }
     
-    const evt = this.context.event
-    const item: INode = evt.item
-    const group = item.getContainer()
-    group.set('capture', true)
-
-    this.origin = null;
-    this.targets.length = 0;
-    this.point = {}
   }
 
-  private update(item: INode) {
+  protected update(item: INode) {
     const { origin } = this;
     const evt = this.context.event
     const graph: IGraph = this.getGraph()
@@ -118,16 +103,5 @@ export default class MoveNodeWithDelegate extends ActionBase {
     const pos: IPoint = { x, y };
 
     graph.updateItem(item, pos);
-  }
-
-  private updateDelegate(evt: G6GraphEvent, x, y) {
-    const { item } = evt
-    const bbox = item.get('keyShape').getBBox()
-
-    const graph: IGraph = this.getGraph()
-    if (!this.delegateShape) {
-      const group: IGroup = graph.get('group')
-      
-    }
   }
 }
