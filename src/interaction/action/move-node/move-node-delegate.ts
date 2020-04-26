@@ -3,7 +3,7 @@ import { IGraph } from '../../../interface/graph'
 import { INode } from '../../../interface/item'
 import { G6GraphEvent } from '../../../interface/behavior';
 import { IShape } from '@antv/g-base/lib/interfaces';
-import { IGroup } from '_@antv_g-svg@0.4.4@@antv/g-svg/lib/interfaces';
+import { IGroup } from '@antv/g-base/lib/interfaces';
 import Global from '../../../global';
 
 export default class MoveNodeWithDelegate extends ModeNodeBase {

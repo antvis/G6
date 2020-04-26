@@ -1,5 +1,5 @@
 import MoveNodeBase from './move-node-base'
-import { INode } from '../../interface/item'
+import { INode } from '../../../interface/item'
 
 export default class MoveNode extends MoveNodeBase {
   /**

@@ -5,7 +5,9 @@ import MoveAction from './action/move';
 import MoveDirection from './action/move-direction';
 import Zoom from './action/zoom';
 import { MoveNode, MoveNodeWithDelegate } from './action/move-node'
-import { Select, MultiSelect } from './action/select-item'
+import { Select, MultiSelect, BrushSelect } from './action/select-item'
+import { DelegateRect, DelegateCircle } from './action/delegate'
+import { MaskRect, MaskCircle, MaskPath } from './action/mask'
 
 registerAction('move', MoveAction);
 registerAction('move-direction', MoveDirection);
@@ -14,5 +16,11 @@ registerAction('move-node', MoveNode)
 registerAction('move-node-delegate', MoveNodeWithDelegate)
 registerAction('select', Select)
 registerAction('multi-select', MultiSelect)
+registerAction('brush-select', BrushSelect)
+registerAction('delegate-rect', DelegateRect)
+registerAction('delegate-circle', DelegateCircle)
+registerAction('mask-rect', MaskRect)
+registerAction('mask-circle', MaskCircle)
+registerAction('mask-path', MaskPath)
 
 export {registerAction, registerInteraction, Interaction, createInteraction};
