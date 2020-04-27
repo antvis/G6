@@ -51,7 +51,7 @@ export default {
       dy = 0;
     }
     this.graph.translate(dx, dy);
-    this.graph.paint();
+    //this.graph.paint();
   },
   onMouseDown(e: IG6GraphEvent) {
     const self = this as any;

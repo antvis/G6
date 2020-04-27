@@ -419,10 +419,13 @@ Shape.registerEdge(
       } else {
         // 根据直线连线中点的的偏移计算圆弧
         // 若用户给定偏移量则根据其计算，否则按照默认偏移值计算
-        if (cfg.curveOffset !== undefined) {
-          this.curveOffset = cfg.curveOffset;
+        if (cfg.curveOffset === undefined) {
+          cfg.curveOffset = this.curveOffset;
         }
-        if ((this as any).curveOffset < 0) {
+        if (isArray(cfg.curveOffset)) {
+          cfg.curveOffset = cfg.curveOffset[0];
+        }
+        if (cfg.curveOffset < 0) {
           this.clockwise = 0;
         } else {
           this.clockwise = 1;
@@ -433,8 +436,8 @@ Shape.registerEdge(
         };
         const edgeAngle = Math.atan2(vec.y, vec.x);
         arcPoint = {
-          x: (this as any).curveOffset * Math.cos(-Math.PI / 2 + edgeAngle) + midPoint.x,
-          y: (this as any).curveOffset * Math.sin(-Math.PI / 2 + edgeAngle) + midPoint.y,
+          x: cfg.curveOffset * Math.cos(-Math.PI / 2 + edgeAngle) + midPoint.x,
+          y: cfg.curveOffset * Math.sin(-Math.PI / 2 + edgeAngle) + midPoint.y,
         };
         center = getCircleCenterByPoints(startPoint, arcPoint, endPoint);
       }
@@ -476,15 +479,15 @@ Shape.registerEdge(
       let { controlPoints } = cfg; // 指定controlPoints
       if (!controlPoints || !controlPoints.length) {
         const { startPoint, endPoint } = cfg;
-        if (cfg.curveOffset !== undefined) this.curveOffset = cfg.curveOffset;
-        if (cfg.curvePosition !== undefined) this.curvePosition = cfg.curvePosition;
-        if (isArray(this.curveOffset)) this.curveOffset = this.curveOffset[0];
-        if (isArray(this.curvePosition)) this.curvePosition = this.curveOffset[0];
+        if (cfg.curveOffset === undefined) cfg.curveOffset = this.curveOffset;
+        if (cfg.curvePosition === undefined) cfg.curvePosition = this.curvePosition;
+        if (isArray(this.curveOffset)) cfg.curveOffset = cfg.curveOffset[0];
+        if (isArray(this.curvePosition)) cfg.curvePosition = cfg.curveOffset[0];
         const innerPoint = getControlPoint(
           startPoint as Point,
           endPoint as Point,
-          this.curvePosition as number,
-          this.curveOffset as number,
+          cfg.curvePosition as number,
+          cfg.curveOffset as number,
         );
         controlPoints = [innerPoint];
       }
@@ -507,23 +510,23 @@ Shape.registerEdge(
     curveOffset: [-20, 20],
     getControlPoints(cfg: EdgeConfig): IPoint[] {
       let { controlPoints } = cfg; // 指定controlPoints
-      if (cfg.curveOffset !== undefined) this.curveOffset = cfg.curveOffset;
-      if (cfg.curvePosition !== undefined) this.curvePosition = cfg.curvePosition;
-      if (isNumber(this.curveOffset)) this.curveOffset = [ this.curveOffset, -this.curveOffset ];
-      if (isNumber(this.curvePosition)) this.curvePosition = [ this.curvePosition, 1 - this.curvePosition ];
+      if (cfg.curveOffset === undefined) cfg.curveOffset = this.curveOffset;
+      if (cfg.curvePosition === undefined) cfg.curvePosition = this.curvePosition;
+      if (isNumber(cfg.curveOffset)) cfg.curveOffset = [cfg.curveOffset, -cfg.curveOffset];
+      if (isNumber(cfg.curvePosition)) cfg.curvePosition = [cfg.curvePosition, 1 - cfg.curvePosition];
       if (!controlPoints || !controlPoints.length || controlPoints.length < 2) {
         const { startPoint, endPoint } = cfg;
         const innerPoint1 = getControlPoint(
           startPoint as Point,
           endPoint as Point,
-          (this as any).curvePosition[0],
-          (this as any).curveOffset[0],
+          cfg.curvePosition[0],
+          cfg.curveOffset[0],
         );
         const innerPoint2 = getControlPoint(
           startPoint as Point,
           endPoint as Point,
-          (this as any).curvePosition[1],
-          (this as any).curveOffset[1],
+          cfg.curvePosition[1],
+          cfg.curveOffset[1],
         );
         controlPoints = [innerPoint1, innerPoint2];
       }
@@ -555,7 +558,7 @@ Shape.registerEdge(
     getControlPoints(cfg: EdgeConfig): IPoint[] {
       const { startPoint, endPoint } = cfg;
       if (cfg.curvePosition !== undefined) this.curvePosition = cfg.curvePosition;
-      if (isNumber(this.curvePosition)) this.curvePosition = [ this.curvePosition, 1 - this.curvePosition ];
+      if (isNumber(this.curvePosition)) this.curvePosition = [this.curvePosition, 1 - this.curvePosition];
       const innerPoint1 = {
         x: startPoint!.x,
         y: (endPoint!.y - startPoint!.y) * (this as any).curvePosition[0] + startPoint!.y,
@@ -579,7 +582,7 @@ Shape.registerEdge(
     getControlPoints(cfg: EdgeConfig): IPoint[] {
       const { startPoint, endPoint } = cfg;
       if (cfg.curvePosition !== undefined) this.curvePosition = cfg.curvePosition;
-      if (isNumber(this.curvePosition)) this.curvePosition = [ this.curvePosition, 1 - this.curvePosition ];
+      if (isNumber(this.curvePosition)) this.curvePosition = [this.curvePosition, 1 - this.curvePosition];
       const innerPoint1 = {
         x: (endPoint!.x - startPoint!.x) * (this as any).curvePosition[0] + startPoint!.x,
         y: startPoint!.y,
