@@ -5,7 +5,7 @@
 
 import { EdgeConfig, IPointTuple, NodeConfig, NodeIdxMap, ComboTree, ComboConfig } from '../types';
 import { BaseLayout } from './layout';
-import { isNumber, isArray, isFunction, clone, isNil } from '@antv/util';
+import { isNumber, isArray, isFunction } from '@antv/util';
 import { Point } from '@antv/g-base';
 import { traverseTreeUp } from '../util/graphic';
 import Global from '../global';
@@ -407,8 +407,8 @@ export default class ComboForce extends BaseLayout {
     comboTrees.forEach(ctree => {
       let treeChildren = [];
       traverseTreeUp<ComboTree>(ctree, treeNode => {
-        if (treeNode.itemType === 'node') return;
-        if (!oriComboMap[treeNode.id]) return; // means it is hidden
+        if (treeNode.itemType === 'node') return true; // skip it
+        if (!oriComboMap[treeNode.id]) return true; // means it is hidden, skip it
         if (comboMap[treeNode.id] === undefined) {
           const combo = {
             name: treeNode.id,
@@ -423,7 +423,7 @@ export default class ComboForce extends BaseLayout {
         const children = treeNode.children;
         if (children) {
           children.forEach(child => {
-            if (!comboMap[child.id] && !nodeMap[child.id]) return; // means it is hidden
+            if (!comboMap[child.id] && !nodeMap[child.id]) return true; // means it is hidden
             treeChildren.push(child);
           });
         }
@@ -461,7 +461,7 @@ export default class ComboForce extends BaseLayout {
             return;
           }
           const node = nodeMap[child.id];
-          // means the node is hidden.
+          // means the node is hidden, skip it
           if (!node) return;
 
           if (isNumber(node.x)) {
@@ -494,10 +494,10 @@ export default class ComboForce extends BaseLayout {
     const comboMap = self.comboMap;
     comboTrees.forEach(ctree => {
       traverseTreeUp<ComboTree>(ctree, treeNode => {
-        if (treeNode.itemType === 'node') return;
+        if (treeNode.itemType === 'node') return true; // skip it
         const combo = comboMap[treeNode.id];
-        // means the combo is hidden.
-        if (!combo) return;
+        // means the combo is hidden, skip it
+        if (!combo) return true;
         const c = comboMap[treeNode.id];
 
         // higher depth the combo, larger the gravity
@@ -577,9 +577,9 @@ export default class ComboForce extends BaseLayout {
     comboTrees.forEach(ctree => {
       let treeChildren = [];
       traverseTreeUp<ComboTree>(ctree, treeNode => {
-        if (treeNode.itemType === 'node') return;
-        // means the combo is hidden.
+        if (treeNode.itemType === 'node') return true; // skip it
         const c = comboMap[treeNode.id];
+        // means the combo is hidden, skip it
         if (!c) return;
         const children = treeNode.children;
         if (children) {
@@ -595,9 +595,9 @@ export default class ComboForce extends BaseLayout {
         c.maxX = -Infinity;
         c.maxY = -Infinity;
         treeChildren.forEach(child => {
-          if (child.itemType !== 'node') return;
+          if (child.itemType !== 'node') return true; // skip it
           const node = nodeMap[child.id];
-          if (!node) return; // means it is hidden
+          if (!node) return true; // means it is hidden
           const r = nodeSize(node);
           const nodeMinX = node.x - r;
           const nodeMinY = node.y - r;
@@ -634,14 +634,14 @@ export default class ComboForce extends BaseLayout {
       // 同个子树下的子 combo 间两两对比
       if (children && children.length > 1) {
         children.forEach((v, i) => {
-          if (v.itemType === 'node') return;
+          if (v.itemType === 'node') return; // skip it
           const cv = comboMap[v.id];
-          if (!cv) return; // means it is hidden
+          if (!cv) return; // means it is hidden, skip it
           children.forEach((u, j) => {
             if (i <= j) return;
-            if (u.itemType === 'node') return;
+            if (u.itemType === 'node') return; // skip it
             const cu = comboMap[u.id];
-            if (!cu) return;  // means it is hidden
+            if (!cu) return;  // means it is hidden, skip it
             let vx = cv.cx - cu.cx || 0.005;
             let vy = cv.cy - cu.cy || 0.005;
             let l = vx * vx + vy * vy;
@@ -653,9 +653,9 @@ export default class ComboForce extends BaseLayout {
             // overlapping
             if (l < r * r) {
               const vnodes = v.children;
-              if (!vnodes || vnodes.length === 0) return;
+              if (!vnodes || vnodes.length === 0) return; // skip it
               const unodes = u.children;
-              if (!unodes || unodes.length === 0) return;
+              if (!unodes || unodes.length === 0) return; // skip it
               const sqrtl = Math.sqrt(l);
               const ll = (r - sqrtl) / sqrtl * comboCollideStrength;
               const xl = vx * ll;
@@ -664,12 +664,12 @@ export default class ComboForce extends BaseLayout {
               let irratio = 1 - rratio;
               // 两兄弟 combo 的子节点上施加斥力
               vnodes.forEach(vn => {
-                if (vn.itemType !== 'node') return;
-                if (!nodeMap[vn.id]) return; // means it is hidden
+                if (vn.itemType !== 'node') return; // skip it
+                if (!nodeMap[vn.id]) return; // means it is hidden, skip it
                 const vindex = nodeIdxMap[vn.id];
                 unodes.forEach(un => {
                   if (un.itemType !== 'node') return;
-                  if (!nodeMap[un.id]) return; // means it is hidden
+                  if (!nodeMap[un.id]) return; // means it is hidden, skip it
                   const uindex = nodeIdxMap[un.id];
                   displacements[vindex].x += xl * rratio;
                   displacements[vindex].y += yl * rratio;

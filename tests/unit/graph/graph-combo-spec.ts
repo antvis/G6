@@ -2,6 +2,7 @@ import { Graph } from '../../../src';
 import '../../../src/behavior';
 import { ICombo } from '../../../src/interface/item';
 import { GraphData } from '../../../src/types';
+import { clone } from '@antv/util';
 
 const div = document.createElement('div');
 div.id = 'global-spec';
@@ -115,7 +116,7 @@ describe('graph with combo', () => {
       width: 500,
       height: 600,
     });
-    graph.read(data);
+    graph.read(clone(data));
     // uncombo with combo item
     graph.uncombo(graph.findById('a') as ICombo);
     expect(graph.getCombos().length).toBe(3);
@@ -134,6 +135,22 @@ describe('graph with combo', () => {
     expect(graph.get('comboTrees').length).toBe(2);
     graph.destroy();
   });
+  it('uncombo subcombo', () => {
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 600,
+    });
+    graph.read(clone(data));
+    // uncombo the parent first and then uncombo the subcombo
+    graph.uncombo(graph.findById('b') as ICombo);
+    expect(graph.getCombos().length).toBe(3);
+    expect(graph.findById('b')).toBe(undefined);
+    graph.uncombo('e');
+    expect(graph.getCombos().length).toBe(2);
+    expect(graph.findById('e')).toBe(undefined);
+    graph.destroy();
+  });
 
   it('get combo children', () => {
     const graph = new Graph({
@@ -141,7 +158,7 @@ describe('graph with combo', () => {
       width: 500,
       height: 600,
     });
-    graph.read(data);
+    graph.read(clone(data));
     const comboB: ICombo = graph.findById('b') as ICombo;
     const comboBChildren = comboB.getChildren();
     expect(comboBChildren.nodes.length).toBe(2);
@@ -156,7 +173,7 @@ describe('graph with combo', () => {
       width: 500,
       height: 600,
     });
-    graph.read(data);
+    graph.read(clone(data));
     // hide an item itself
     const comboA: ICombo = graph.findById('a') as ICombo;
     comboA.hide();
@@ -203,7 +220,7 @@ describe('graph with combo', () => {
       },
       animate: true
     });
-    graph.read(data);
+    graph.read(clone(data));
     // collapse / expand the combo with invalid id
     graph.collapseCombo('invalidid');
     graph.expandCombo('invalidid');
@@ -266,7 +283,7 @@ describe('graph with combo', () => {
         }
       }
     });
-    graph.read(data);
+    graph.read(clone(data));
     expect(graph.getCombos()[0].getKeyShape().attr('fill')).toBe('red');
     expect(graph.getCombos()[0].getKeyShape().attr('stroke')).toBe('blue');
     expect(graph.getCombos()[0].getKeyShape().attr('lineWidth')).toBe(3);
@@ -279,7 +296,7 @@ describe('graph with combo', () => {
       width: 500,
       height: 600,
     });
-    graph.read(data);
+    graph.read(clone(data));
 
     // getComboChildren with id
     const childrenById = graph.getComboChildren('b');
@@ -308,7 +325,7 @@ describe('graph with combo', () => {
       fitView: true,
       groupByTypes: false
     });
-    graph.read(data);
+    graph.read(clone(data));
     const newData = {
       nodes: [{
         id: 'new1',
@@ -376,7 +393,7 @@ describe('graph with combo', () => {
       },
       fitView: true
     });
-    graph.read(data);
+    graph.read(clone(data));
     graph.updateComboTree('4', 'b');
     graph.layout();
     expect(graph.get('comboTrees').length).toBe(3);
@@ -406,7 +423,7 @@ describe('graph with combo', () => {
       },
       fitView: true
     });
-    graph.read(data);
+    graph.read(clone(data));
     const newComboItem = graph.addItem('combo', {
       id: 'new combo',
       label: 'new combo'
@@ -414,7 +431,7 @@ describe('graph with combo', () => {
     expect(newComboItem.getChildren().nodes.length).toBe(0);
     expect(newComboItem.getChildren().combos.length).toBe(0);
     expect(graph.getCombos().length).toBe(5);
-    expect(graph.get('comboTrees').length).toBe(3);
+    expect(graph.get('comboTrees').length).toBe(4);
 
 
     const newComboItem2 = graph.addItem('combo', {
@@ -476,10 +493,11 @@ describe('graph with combo', () => {
       },
       animate: true
     });
-    graph.read(data);
+    graph.read(clone(data));
     const result = graph.save() as GraphData;
     expect(result.combos).not.toBe(undefined);
     expect(result.combos.length).toBe(4);
+    graph.destroy();
   });
 
 });
