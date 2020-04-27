@@ -280,6 +280,7 @@ export const getLabelPosition = (
   return result;
 };
 
+// depth first traverse
 const traverse = <T extends { children?: T[] }>(data: T, fn: (param: T) => boolean) => {
   if (fn(data) === false) {
     return;
@@ -436,7 +437,7 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: INode[]) => {
     if (cd.parentId === cd.id) {
       console.warn(`The parentId for combo ${cd.id} can not be the same as the combo's id`);
       delete cd.parentId;
-    } else if (!modelMap[cd.parentId]) {
+    } else if (cd.parentId && !modelMap[cd.parentId]) {
       console.warn(`The parent combo for combo ${cd.id} does not exist!`);
       delete cd.parentId;
     }
@@ -485,6 +486,7 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: INode[]) => {
     }
   });
 
+  // proccess the nodes
   const nodeMap = {};
   nodes && nodes.forEach(node => {
     const nodeModel = node.getModel();
@@ -502,6 +504,7 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: INode[]) => {
     }
   });
 
+  // assign the depth for each element
   result.forEach((tree: ComboTree) => {
     tree.depth = 0;
     traverse<ComboTree>(tree, child => {
