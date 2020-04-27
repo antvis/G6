@@ -20,20 +20,20 @@ const colors = {
 
 const testData = {
   nodes: [
-    {
-      id: '0',
-      label: '0',
-      comboId: 'a',
-      x: 100,
-      y: 100
-    },
-    {
-      id: '1',
-      label: '1',
-      comboId: 'a',
-      x: 150,
-      y: 140
-    },
+    // {
+    //   id: '0',
+    //   label: '0',
+    //   comboId: 'a',
+    //   x: 100,
+    //   y: 100
+    // },
+    // {
+    //   id: '1',
+    //   label: '1',
+    //   comboId: 'a',
+    //   x: 150,
+    //   y: 140
+    // },
     {
       id: '2',
       label: '2',
@@ -55,13 +55,13 @@ const testData = {
       x: 360,
       y: 510
     },
-    // {
-    //   id: '5',
-    //   label: '5',
-    //   comboId: 'd',
-    //   x: 420,
-    //   y: 510
-    // },
+    {
+      id: '5',
+      label: '5',
+      comboId: 'd',
+      x: 120,
+      y: 510
+    },
   ],
   edges: [
     // {
@@ -80,42 +80,57 @@ const testData = {
     //     stroke: 'blue'
     //   }
     // },
-    {
-      source: '0',
-      target: '1',
-    },
-    {
-      source: '0',
-      target: '2',
-    },
-    {
-      source: '0',
-      target: '3',
-    },
+    // {
+    //   source: '0',
+    //   target: '1',
+    // },
+    // {
+    //   source: '0',
+    //   target: '2',
+    // },
+    // {
+    //   source: '0',
+    //   target: '3',
+    // },
     // {
     //   source: '3',
     //   target: '5',
     // },
+    // {
+    //   source: '4',
+    //   target: '1',
+    // },
+    // {
+    //   source: '0',
+    //   target: '5',
+    // },
     {
       source: '4',
-      target: '1',
-    }
+      target: '5',
+    },
+    {
+      source: '5',
+      target: '3',
+    },
   ],
-  combos: [{
-    id: 'a',
-    label: 'combo a'
-  }, {
+  combos: [
+  //   {
+  //   id: 'a',
+  //   label: 'combo a'
+  // },
+  {
     id: 'b',
     label: 'combo b'
   }, {
     id: 'c',
-    label: 'combo c'
+    label: 'combo c',
+    parentId: 'b'
   },
-  // {
-  //   id: 'd',
-  //   label: 'combo d',
-  //   parentId: 'c'
-  // }
+  {
+    id: 'd',
+    label: 'combo d',
+    // parentId: 'c'
+  }
   ]
 };
 

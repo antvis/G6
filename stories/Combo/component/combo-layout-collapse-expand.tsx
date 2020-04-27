@@ -948,7 +948,7 @@ const ComboLayoutCollapseExpand = () => {
         container: container.current as string | HTMLElement,
         width: 1000,
         height: 500,
-        fitView: true,
+        // fitView: true,
         modes: {
           default: ['drag-canvas', 'drag-node', 'zoom-canvas', 'collapse-expand-combo'], 
         },
@@ -964,7 +964,7 @@ const ComboLayoutCollapseExpand = () => {
           padding: 10
         },
         groupByTypes: false,
-        // animate: true
+        animate: true
       });
       
       graph.node(node => {
@@ -1016,15 +1016,15 @@ const ComboLayoutCollapseExpand = () => {
       // });
       // console.log(JSON.stringify(outputData));
 
-      graph.on('combo:click', e => {
-        graph.hideItem(e.item);
-      });
-      graph.on('canvas:click', e => {
-        graph.getCombos().forEach(combo => {
-          if (!combo.isVisible()) graph.showItem(combo);
-        });
+      // graph.on('combo:click', e => {
+      //   graph.hideItem(e.item);
+      // });
+      // graph.on('canvas:click', e => {
+      //   graph.getCombos().forEach(combo => {
+      //     if (!combo.isVisible()) graph.showItem(combo);
+      //   });
         
-      });
+      // });
     }
   });
   return <div ref={container}></div>;

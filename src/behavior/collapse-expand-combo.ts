@@ -40,7 +40,8 @@ export default {
       return;
     }
     graph.collapseExpandCombo(comboId);
-    if (graph.get('layoutCfg')) graph.layout();
+    if (graph.get('layout')) graph.layout();
     else graph.refreshPositions();
+    // graph.refreshPositions();
   },
 };

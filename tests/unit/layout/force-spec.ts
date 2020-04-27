@@ -180,9 +180,6 @@ describe('force layout', () => {
       node.size = [randomWidth, randomHeight];
       node.type = 'rect';
     });
-    graph.data(data);
-    graph.render();
-
     graph.on('afterlayout', () => {
       expect(isEnd === true).toEqual(true);
       const node0 = data.nodes[0];
@@ -196,6 +193,8 @@ describe('force layout', () => {
       graph.destroy();
       done();
     });
+    graph.data(data);
+    graph.render();
   });
 
   it('preventOverlap with function nodeSpacing and function nodeSize', done => {
