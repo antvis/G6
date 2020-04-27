@@ -1,4 +1,4 @@
-import { radialLayout, traverseTree, TreeGraphDataWithPosition } from '../../../src/util/graphic';
+import { radialLayout, traverseTree, traverseTreeUp, TreeGraphDataWithPosition } from '../../../src/util/graphic';
 
 interface TreeNode {
   id: string;
@@ -37,6 +37,50 @@ describe('graphic unit test', () => {
     expect(trees[1].label).toBe(undefined);
     expect(trees[2].id).toBe('yyy');
     expect(trees[3].id).toBe('subroot1');
+  });
+
+
+  it('traverseTree end with returning false', () => {
+    const data: TreeNode = {
+      id: 'root',
+      children: [
+        {
+          id: 'A',
+          label: 'A',
+          children: [
+            {
+              id: 'A1',
+            },
+          ],
+        },
+        {
+          id: 'B',
+          children: [
+            {
+              id: 'B1',
+            },
+            {
+              id: 'B2',
+            },
+          ],
+        },
+      ],
+    };
+    let trees = [];
+    traverseTree(data, node => {
+      trees.push(node);
+      if (node.id === 'A') return false;
+      return true;
+    });
+    expect(trees.length).toBe(5);
+
+    trees = [];
+    traverseTreeUp(data, node => {
+      trees.push(node);
+      if (node.id === 'B') return false;
+      return true;
+    });
+    expect(trees.length).toBe(3);
   });
 
   it('radialLayout layout = V', () => {

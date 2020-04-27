@@ -318,7 +318,6 @@ describe('force layout', () => {
       graph.destroy();
       done();
     });
-
     graph.data(data);
     graph.render();
   });
