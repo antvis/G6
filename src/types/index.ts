@@ -95,16 +95,16 @@ export type LoopConfig = Partial<{
 export type ModelStyle = Partial<{
   [key: string]: unknown;
   style:
-    | ShapeStyle
-    | {
-        [key: string]: ShapeStyle;
-      };
+  | ShapeStyle
+  | {
+    [key: string]: ShapeStyle;
+  };
   stateStyles: {
     [key: string]:
-      | ShapeStyle
-      | {
-          [key: string]: ShapeStyle;
-        };
+    | ShapeStyle
+    | {
+      [key: string]: ShapeStyle;
+    };
   };
   // loop edge config
   loopCfg: LoopConfig;
@@ -232,10 +232,10 @@ export interface ModelConfig extends ModelStyle {
   children?: TreeGraphData[];
   stateStyles?: {
     [key: string]:
-      | ShapeStyle
-      | {
-          [key: string]: ShapeStyle;
-        };
+    | ShapeStyle
+    | {
+      [key: string]: ShapeStyle;
+    };
   };
 }
 
@@ -330,6 +330,7 @@ export enum G6Event {
   KEYUP = 'keyup',
   KEYDOWN = 'keydown',
   WHEEL = 'wheel',
+  FOCUS = 'focus',
 
   NODE_CLICK = 'node:click',
   NODE_CONTEXTMENU = 'node:contextmenu',

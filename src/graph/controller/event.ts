@@ -80,6 +80,7 @@ export default class EventController {
     if (typeof window !== 'undefined') {
       extendEvents.push(addEventListener(window as any, 'keydown', originHandler));
       extendEvents.push(addEventListener(window as any, 'keyup', originHandler));
+      extendEvents.push(addEventListener(window as any, 'focus', originHandler));
     }
   }
 
