@@ -950,7 +950,7 @@ const ComboLayoutCollapseExpand = () => {
         height: 500,
         // fitView: true,
         modes: {
-          default: ['drag-canvas', 'drag-node', 'zoom-canvas', 'collapse-expand-combo'], 
+          default: ['drag-canvas', 'drag-node', 'zoom-canvas'],  // , 'collapse-expand-combo'
         },
         layout: {
           type: 'comboForce'
@@ -1017,14 +1017,17 @@ const ComboLayoutCollapseExpand = () => {
       // console.log(JSON.stringify(outputData));
 
       // graph.on('combo:click', e => {
-      //   graph.hideItem(e.item);
+        // graph.uncombo(e.item);
+        // graph.removeItem(e.item);
       // });
-      // graph.on('canvas:click', e => {
+      graph.on('canvas:click', e => {
       //   graph.getCombos().forEach(combo => {
       //     if (!combo.isVisible()) graph.showItem(combo);
       //   });
-        
-      // });
+        graph.addItem('combo', {
+          id: 'new combo'
+        });
+      });
     }
   });
   return <div ref={container}></div>;
