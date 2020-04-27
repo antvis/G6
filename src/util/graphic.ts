@@ -279,6 +279,7 @@ export const getLabelPosition = (
   return result;
 };
 
+// depth first traverse
 const traverse = <T extends { children?: T[] }>(data: T, fn: (param: T) => boolean) => {
   if (fn(data) === false) {
     return;
@@ -384,7 +385,7 @@ export const radialLayout = (
   return data;
 };
 
-export const plainCombosToTrees = (array: ComboConfig[], nodes?: INode[]) => {
+export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) => {
   const result: ComboTree[] = [];
   const addedMap = {};
   const modelMap = {};
@@ -399,7 +400,7 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: INode[]) => {
     if (cd.parentId === cd.id) {
       console.warn(`The parentId for combo ${cd.id} can not be the same as the combo's id`);
       delete cd.parentId;
-    } else if (!modelMap[cd.parentId]) {
+    } else if (cd.parentId && !modelMap[cd.parentId]) {
       console.warn(`The parent combo for combo ${cd.id} does not exist!`);
       delete cd.parentId;
     }
@@ -448,23 +449,24 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: INode[]) => {
     }
   });
 
+  // proccess the nodes
   const nodeMap = {};
   nodes && nodes.forEach(node => {
-    const nodeModel = node.getModel() as NodeConfig;
-    nodeMap[nodeModel.id] = nodeModel;
-    const combo = addedMap[nodeModel.comboId];
+    nodeMap[node.id] = node;
+    const combo = addedMap[node.comboId];
     if (combo) {
       const cnode: NodeConfig = {
-        id: nodeModel.id,
-        comboId: nodeModel.comboId
+        id: node.id,
+        comboId: node.comboId
       };
       if (combo.children) combo.children.push(cnode);
       else combo.children = [ cnode ];
       cnode.itemType = 'node';
-      addedMap[nodeModel.id] = cnode;
+      addedMap[node.id] = cnode;
     }
   });
   
+  // assign the depth for each element
   result.forEach((tree: ComboTree) => {
     tree.depth = 0;
     traverse<ComboTree>(tree, child => {
@@ -494,28 +496,29 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: INode[]) => {
 export const reconstructTree = (trees: ComboTree[], subtreeId?: string, newParentId?: string | undefined): ComboTree[] => {
   let brothers = trees;
   let subtree;
-  const comboChilds = {
+  const comboChildsMap = {
     'root': {
       children: trees
     }
   }
-  let foundSubTree = false
+  let foundSubTree = false;
+  let oldParentId = 'root';
   trees.forEach(tree => {
     traverseTree<ComboTree>(tree, (child: any) => {
-      comboChilds[child.id] = {
+      comboChildsMap[child.id] = {
         children: child.children
       }
-      
-      brothers = comboChilds[child.parentId || child.comboId || 'root'].children
+      // store the old parent id to delete the subtree from the old parent's children in next recursion
+      brothers = comboChildsMap[child.parentId || child.comboId || 'root'].children
       if (child && (child.removed || subtreeId === child.id) && brothers) {
+        oldParentId = child.parentId || child.comboId || 'root';
         subtree = child;
+        // re-assign the parentId or comboId for the moved subtree
         if (child.itemType === 'combo') {
           subtree.parentId = newParentId
         } else {
           subtree.comboId = newParentId
         }
-        const index = brothers.indexOf(child);
-        brothers.splice(index, 1);
         foundSubTree = true
       }
       return true;
@@ -530,7 +533,7 @@ export const reconstructTree = (trees: ComboTree[], subtreeId?: string, newParen
       comboId: newParentId
     }
 
-    comboChilds[subtreeId] = {
+    comboChildsMap[subtreeId] = {
       children: undefined
     }
   }
@@ -541,20 +544,24 @@ export const reconstructTree = (trees: ComboTree[], subtreeId?: string, newParen
     if (newParentId) {
       trees.forEach(tree => {
         traverseTree<ComboTree>(tree, (child: any) => {
-          if (newParentId === child.id) {
+          if (oldParentId === child.id) {
+            const index = child.children.indexOf(subtree);
+            if (index > -1) child.children.splice(index, 1);
+          } else if (newParentId === child.id) {
             found = true;
             if (child.children) child.children.push(subtree);
             else child.children = [ subtree ];
           }
           let depth = 0;
-          if (comboChilds[child.parentId]) comboChilds[child.parentId || child.comboId].depth + 2;
-          else if (comboChilds[child.comboId]) comboChilds[child.parentId || child.comboId].depth + 1;
+          if (comboChildsMap[child.parentId]) depth = comboChildsMap[child.parentId].depth + 2;
+          else if (comboChildsMap[child.comboId]) depth = comboChildsMap[child.comboId].depth + 1;
           child.depth = depth;
-          comboChilds[child.id]['depth'] = child.depth
+          comboChildsMap[child.id]['depth'] = child.depth
           return true;
         });
       });
     } else if (!newParentId || !found) {
+      // if the newParentId is undefined or it is not found in the tree, add the subTree to the root
       trees.push(subtree);
     }
   }
