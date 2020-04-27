@@ -18,6 +18,7 @@ export default {
       dragend: 'onMouseUp',
       'canvas:click': 'onMouseUp',
       keyup: 'onKeyUp',
+      focus: 'onKeyUp',
       keydown: 'onKeyDown',
     };
   },
