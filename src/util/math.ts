@@ -324,12 +324,13 @@ export const getAdjMatrix = (data: GraphData, directed: boolean): Matrix[] => {
  * @param vec 移动向量
  */
 export const translate = (group: IGroup, vec: Point) => {
-  let matrix: Matrix = group.getMatrix();
-  if (!matrix) {
-    matrix = mat3.create();
-  }
-  matrix = transform(matrix, [['t', vec.x, vec.y]]);
-  group.setMatrix(matrix);
+  // let matrix: Matrix = group.getMatrix();
+  // if (!matrix) {
+  //   matrix = mat3.create();
+  // }
+  // matrix = transform(matrix, [['t', vec.x, vec.y]]);
+  // group.setMatrix(matrix);
+  group.translate(vec.x, vec.y);
 };
 
 /**
@@ -357,7 +358,7 @@ export const move = (group: IGroup, point: Point) => {
  */
 export const scale = (group: IGroup, ratio: number | number[]) => {
   let matrix: Matrix = group.getMatrix();
-  if(!matrix) {
+  if (!matrix) {
     matrix = mat3.create();
   }
 
@@ -382,7 +383,7 @@ export const scale = (group: IGroup, ratio: number | number[]) => {
  */
 export const rotate = (group: IGroup, angle: number) => {
   let matrix: Matrix = group.getMatrix();
-  if(!matrix) {
+  if (!matrix) {
     matrix = mat3.create();
   }
   matrix = transform(matrix, [['r', angle]]);

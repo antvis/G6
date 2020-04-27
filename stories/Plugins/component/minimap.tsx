@@ -59,87 +59,89 @@ const Minimap = () => {
         padding: 10
       });
       fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.json')
-      .then(res => res.json())
-      .then(data => {
-        graph = new TreeGraph({
-          container: container.current as string | HTMLElement,
-          width: 300,
-          height: 400,
-          plugins: [ minimap ],
-          modes: {
-            default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select']
-          },
-          defaultNode: {
-            type: 'circle',
-            size: 24,
-            anchorPoints: [
-              [0, 0.5],
-              [1, 0.5],
-            ],
-            style: {
-              fill: '#C6E5FF',
-              stroke: '#5B8FF9',
+        .then(res => res.json())
+        .then(data => {
+          graph = new TreeGraph({
+            container: container.current as string | HTMLElement,
+            width: 300,
+            height: 400,
+            // plugins: [minimap],
+            modes: {
+              default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select']
             },
-          },
-          defaultEdge: {
-            type: 'cubic-horizontal',
-            style: {
-              stroke: '#A3B1BF',
+            defaultNode: {
+              type: 'circle',
+              size: 24,
+              anchorPoints: [
+                [0, 0.5],
+                [1, 0.5],
+              ],
+              style: {
+                fill: '#C6E5FF',
+                stroke: '#5B8FF9',
+              },
             },
-          },
-          nodeStateStyles: {
-            selected: {
-              fill: 'red'
-            }
-          },
-          layout: {
-            type: 'compactBox',
-            direction: 'LR',
-            getId: function getId(d) {
-              return d.id;
+            defaultEdge: {
+              type: 'cubic-horizontal',
+              style: {
+                stroke: '#A3B1BF',
+              },
             },
-            getHeight: function getHeight() {
-              return 16;
+            nodeStateStyles: {
+              selected: {
+                fill: 'red'
+              }
             },
-            getWidth: function getWidth() {
-              return 16;
+            layout: {
+              type: 'compactBox',
+              direction: 'LR',
+              getId: function getId(d) {
+                return d.id;
+              },
+              getHeight: function getHeight() {
+                return 16;
+              },
+              getWidth: function getWidth() {
+                return 16;
+              },
+              getVGap: function getVGap() {
+                return 10;
+              },
+              getHGap: function getHGap() {
+                return 50;
+              },
             },
-            getVGap: function getVGap() {
-              return 10;
-            },
-            getHGap: function getHGap() {
-              return 50;
-            },
-          },
-          animate: false
-        });
-        graph.node(function(node) {
-          return {
-            label: node.id,
-            labelCfg: {
-              offset: 10,
-              position: node.children && node.children.length > 0 ? 'left' : 'right',
-            },
-          };
-        });
-        graph.data(data);
-        graph.render();
-        graph.on('canvas:click', () => {
-          // graph.addItem('node', {
-          //   id: 'newNode',
-          //   label: 'new node',
-          //   x: 200,
-          //   y: 400
+            animate: false
+          });
+          // graph.node(function(node) {
+          //   return {
+          //     label: node.id,
+          //     labelCfg: {
+          //       offset: 10,
+          //       position: node.children && node.children.length > 0 ? 'left' : 'right',
+          //     },
+          //   };
           // });
-          // graph.updateItem(graph.getNodes()[0], {
-          //   label: 'new node',
-          //   x: 150,
-          //   y: 400
-          // });
-          // graph.moveTo(0, 0);
-          graph.removeItem(graph.getNodes()[0]);
+          // graph.get('canvas').set('localRefresh', false);
+          graph.data(data);
+          graph.render();
+
+          graph.on('canvas:click', () => {
+            // graph.addItem('node', {
+            //   id: 'newNode',
+            //   label: 'new node',
+            //   x: 200,
+            //   y: 400
+            // });
+            // graph.updateItem(graph.getNodes()[0], {
+            //   label: 'new node',
+            //   x: 150,
+            //   y: 400
+            // });
+            // graph.moveTo(0, 0);
+            // graph.removeItem(graph.getNodes()[0]);
+          });
         });
-      });
     }
   });
   return <div ref={container}></div>;
