@@ -4,6 +4,7 @@ import '../../../src/behavior';
 import { scale, translate } from '../../../src/util/math';
 import Plugin from '../../../src/plugins';
 import { timerOut } from '../util/timeOut';
+import { EdgeConfig } from '../../../src/types';
 
 
 const div = document.createElement('div');
@@ -383,9 +384,9 @@ describe('graph', () => {
 
   it('find', () => {
     globalGraph.clear();
-    globalGraph.addItem('node', { id: 'node', x: 50, y: 100, size: 50, className: 'test test2' });
+    globalGraph.addItem('node', { id: 'node3', x: 50, y: 100, size: 50, className: 'test test2' });
     const item = globalGraph.addItem('node', {
-      id: 'node2',
+      id: 'node4',
       x: 100,
       y: 100,
       size: 50,
@@ -401,20 +402,20 @@ describe('graph', () => {
   it('findAll', () => {
     globalGraph.clear();
     const node1 = globalGraph.addItem('node', {
-      id: 'node',
+      id: 'node5',
       x: 100,
       y: 100,
       size: 50,
       className: 'test test2',
     });
     const node2 = globalGraph.addItem('node', {
-      id: 'node2',
+      id: 'node6',
       x: 100,
       y: 100,
       size: 50,
       className: 'test',
     });
-    const node3 = globalGraph.addItem('node', { id: 'node2', x: 100, y: 100, size: 50 });
+    const node3 = globalGraph.addItem('node', { id: 'node7', x: 100, y: 100, size: 50 });
 
     node1.setState('active', true);
     node2.setState('selected', true);
@@ -433,7 +434,7 @@ describe('graph', () => {
   });
 
   it('refresh positions', () => {
-    const data = { id: 'node', x: 100, y: 50, size: 50, className: 'test test2' };
+    const data = { id: 'node8', x: 100, y: 50, size: 50, className: 'test test2' };
     const node = globalGraph.addItem('node', data);
     const group = node.get('group');
 
@@ -795,7 +796,7 @@ describe('all node link center', () => {
 
     // TODO addItem有style会直接覆盖defaultNode中定义的
     const node = defaultGraph.addItem('node', {
-      id: 'node1',
+      id: 'node9',
       x: 100,
       y: 100,
       type: 'rect',
@@ -848,8 +849,8 @@ describe('all node link center', () => {
     expect(keyShape.attr('stroke')).toEqual('#444');
     expect(keyShape.attr('strokeStyle')).toBe(undefined);
 
-    defaultGraph.addItem('node', { id: 'node2' });
-    const edge = defaultGraph.addItem('edge', { id: 'edge', source: node, target: 'node2' });
+    defaultGraph.addItem('node', { id: 'node10' });
+    const edge = defaultGraph.addItem('edge', { id: 'edge', source: node, target: 'node9' });
 
     const edgeKeyShape = edge.get('keyShape');
     expect(edgeKeyShape.attr('stroke')).toEqual('blue');
@@ -1370,8 +1371,8 @@ describe('behaviors', () => {
     expect(item.getModel().x).toBe(100);
     expect(item.getModel().y).toBe(300);
     const edge = graph.getEdges()[0];
-    expect(edge.getModel().startPoint.x).toBe(98.61228093904431);
-    expect(edge.getModel().startPoint.y).toBe(289.5921070428323);
+    expect((edge.getModel() as EdgeConfig).startPoint.x).toBe(98.61228093904431);
+    expect((edge.getModel() as EdgeConfig).startPoint.y).toBe(289.5921070428323);
 
     // multiple selected nodes to drag
     const item2 = graph.getNodes()[1];
@@ -2042,8 +2043,7 @@ describe('plugins', () => {
   it('minimap delegate', () => {
 
     const minimap2 = new G6.Minimap({
-      width: 100,
-      height: 80,
+      size: [100, 80],
       type: 'delegate'
     });
     const graph2 = new Graph({
@@ -2074,8 +2074,7 @@ describe('plugins', () => {
   });
   it('minimap keyShape', () => {
     const minimap = new G6.Minimap({
-      width: 100,
-      height: 80,
+      size: [100, 80],
       type: 'keyShape'
     });
     const graph = new Graph({
@@ -2094,6 +2093,7 @@ describe('plugins', () => {
     graph.data(data2);
     graph.render();
     graph.zoom(2, { x: 250, y: 250 });
+<<<<<<< HEAD
     setTimeout(() => {
       const minimapGroup = minimap.get('canvas').get('children')[0];
       expect(minimapGroup.get('children').length).toBe(10);
@@ -2108,6 +2108,14 @@ describe('plugins', () => {
 
     }, 100);
 
+=======
+    const viewport = minimap.get('viewport');
+    expect(viewport.style.width).toBe('40px');
+    expect(viewport.style.height).toBe('40px');
+    expect(viewport.style.left).toBe('30px');
+    expect(viewport.style.top).toBe('20px');
+    graph.destroy();
+>>>>>>> test: add tests for collapse-expand combo behavior, uncombo, hide/show combo, addItem with combo, removeItem with combo.
   });
 
   it('edge bundling', () => {

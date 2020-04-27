@@ -140,12 +140,19 @@ export default class ItemController {
         bbox: comboBBox,
         group: comboGroup,
       });
-      // comboGroup.toBack();
 
       children && children.forEach(child => {
         const childItem = graph.findById(child.id) as ICombo | INode;
         (item as ICombo).addChild(childItem);
       });
+
+      // collapse the combo if the collapsed is true in the model
+      if (model.collapsed) {
+        setTimeout(() => {
+          graph.collapseCombo(item as ICombo);
+          this.updateCombo(item as ICombo, []);
+        }, 250);
+      }
     }
 
     if (item) {
@@ -258,7 +265,7 @@ export default class ItemController {
       return;
     }
     const comboBBox = getComboBBox(children, graph);
-    
+
     combo.set('bbox', comboBBox);
     combo.update({
       x: comboBBox.x,
@@ -347,7 +354,7 @@ export default class ItemController {
         let brothers = comboTrees;
         comboTrees.forEach(ctree => {
           traverseTree<ComboTree>(ctree, combo => {
-            if (combo.id === id) {
+            if (combo.id === id && brothers) {
               const index = brothers.indexOf(combo);
               brothers.splice(index, 1);
             }
@@ -493,6 +500,11 @@ export default class ItemController {
 
     if (isString(item)) {
       item = graph.findById(item);
+    }
+
+    if (!item) {
+      console.warn('The item to be shown or hidden does not exist!');
+      return;
     }
 
     graph.emit('beforeitemvisibilitychange', { item, visible });

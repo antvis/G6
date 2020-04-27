@@ -279,6 +279,7 @@ export const getLabelPosition = (
   return result;
 };
 
+// depth first traverse
 const traverse = <T extends { children?: T[] }>(data: T, fn: (param: T) => boolean) => {
   if (fn(data) === false) {
     return;
@@ -384,7 +385,7 @@ export const radialLayout = (
   return data;
 };
 
-export const plainCombosToTrees = (array: ComboConfig[], nodes?: INode[]) => {
+export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) => {
   const result: ComboTree[] = [];
   const addedMap = {};
   const modelMap = {};
@@ -399,7 +400,7 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: INode[]) => {
     if (cd.parentId === cd.id) {
       console.warn(`The parentId for combo ${cd.id} can not be the same as the combo's id`);
       delete cd.parentId;
-    } else if (!modelMap[cd.parentId]) {
+    } else if (cd.parentId && !modelMap[cd.parentId]) {
       console.warn(`The parent combo for combo ${cd.id} does not exist!`);
       delete cd.parentId;
     }
@@ -448,23 +449,24 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: INode[]) => {
     }
   });
 
+  // proccess the nodes
   const nodeMap = {};
   nodes && nodes.forEach(node => {
-    const nodeModel = node.getModel() as NodeConfig;
-    nodeMap[nodeModel.id] = nodeModel;
-    const combo = addedMap[nodeModel.comboId];
+    nodeMap[node.id] = node;
+    const combo = addedMap[node.comboId];
     if (combo) {
       const cnode: NodeConfig = {
-        id: nodeModel.id,
-        comboId: nodeModel.comboId
+        id: node.id,
+        comboId: node.comboId
       };
       if (combo.children) combo.children.push(cnode);
       else combo.children = [cnode];
       cnode.itemType = 'node';
-      addedMap[nodeModel.id] = cnode;
+      addedMap[node.id] = cnode;
     }
   });
 
+  // assign the depth for each element
   result.forEach((tree: ComboTree) => {
     tree.depth = 0;
     traverse<ComboTree>(tree, child => {
