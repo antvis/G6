@@ -352,11 +352,16 @@ export default class ItemController {
     if (type === NODE) {
       if (comboTrees) {
         let brothers = comboTrees;
+        let found = false; // the flag to terminate the forEach circulation
+        // remove the node from the children array of its parent fromt he tree
         comboTrees.forEach(ctree => {
+          if (found) return;
           traverseTree<ComboTree>(ctree, combo => {
             if (combo.id === id && brothers) {
               const index = brothers.indexOf(combo);
               brothers.splice(index, 1);
+              found = true;
+              return false; // terminate the traverse
             }
             brothers = combo.children;
             return true;
@@ -371,9 +376,16 @@ export default class ItemController {
     }
     else if (type === COMBO) {
       let comboInTree;
+      // find the subtree rooted at the item to be removed
+      let found = false; // the flag to terminate the forEach circulation
       comboTrees.forEach(ctree => {
+        if (found) return;
         traverseTree<ComboTree>(ctree, combo => {
-          if (combo.id === id) comboInTree = combo;
+          if (combo.id === id) {
+            comboInTree = combo;
+            found = true;
+            return false; // terminate the traverse
+          }
           return true;
         });
       });
@@ -382,6 +394,11 @@ export default class ItemController {
         comboInTree.children.forEach(child => {
           this.removeItem(child.id);
         });
+      }
+      // 若移除的是 combo，需要将与之相连的边一同删除
+      const edges = (item as ICombo).getEdges();
+      for (let i = edges.length; i >= 0; i--) {
+        graph.removeItem(edges[i]);
       }
     }
 
@@ -526,11 +543,15 @@ export default class ItemController {
       const comboTrees = graph.get('comboTrees');
       const id = item.get('id');
       let children = [];
+      let found = false; // flag the terminate the forEach
       comboTrees.forEach(ctree => {
+        if (found) return;
         if (!ctree.children || ctree.children.length === 0) return;
         traverseTree<ComboTree>(ctree, combo => {
           if (combo.id === id) {
             children = combo.children;
+            found = true;
+            return false; // terminate the traverse
           }
           return true;
         });

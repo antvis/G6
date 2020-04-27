@@ -334,6 +334,12 @@ export interface IGraph extends EventEmitter {
   updateComboTree(item: String | INode | ICombo, parentId?: String | undefined): void;
 
   /**
+   * 解散 combo
+   * @param {String | INode | ICombo} item 需要被解散的 Combo item 或 id
+   */
+  uncombo(item: String | ICombo): void;
+
+  /**
    * 设置元素状态
    * @param {Item} item 元素id或元素实例
    * @param {string} state 状态名称
@@ -608,7 +614,7 @@ export interface IGraph extends EventEmitter {
   expandGroup(groupId: string): void;
 
   /**
-   * 根据节点的 bbox 更新 combos 的绘制，包括 combos 的位置和范围
+   * 根据节点的 bbox 更新所有 combos 的绘制，包括 combos 的位置和范围
    */
   updateCombos(): void;
 
