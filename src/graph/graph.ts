@@ -143,8 +143,8 @@ export default class Graph extends EventEmitter implements IGraph {
     const renderer: string = this.get('renderer');
 
     let canvas;
-    
-    if(renderer === SVG) {
+
+    if (renderer === SVG) {
       canvas = new GSVGCanvas({
         container,
         width,
@@ -605,7 +605,7 @@ export default class Graph extends EventEmitter implements IGraph {
     } else {
       mat3.scale(matrix, matrix, [ratio, ratio]);
     }
-    
+
     if ((minZoom && matrix[0] < minZoom) || (maxZoom && matrix[0] > maxZoom)) {
       return;
     }
@@ -835,8 +835,8 @@ export default class Graph extends EventEmitter implements IGraph {
     itemController.setItemState(item, state, value);
 
     const stateController: StateController = this.get('stateController')
-    
-    if(isString(value)) {
+
+    if (isString(value)) {
       stateController.updateState(item, `${state}:${value}`, true);
     } else {
       stateController.updateState(item, state, value);
@@ -896,12 +896,15 @@ export default class Graph extends EventEmitter implements IGraph {
     }
 
     // layout
+    const animate = self.get('animate');
+    self.set('animate', false);
     const layoutController = self.get('layoutController');
     if (!layoutController.layout(success)) {
       success();
     }
 
     function success() {
+      self.set('animate', animate);
       if (self.get('fitView')) {
         self.fitView();
       }
@@ -1314,7 +1317,7 @@ export default class Graph extends EventEmitter implements IGraph {
     canvas.clear();
 
     this.initGroups();
-  
+
     // 清空画布时同时清除数据
     this.set({ itemMap: {}, nodes: [], edges: [], groups: [] });
     return this;
@@ -1369,7 +1372,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * 导出包含全图的图片
    * @param {String} name 图片的名称
    */
-  public downloadFullImage(name?: string, imageConfig?: { backgroundColor?: string, padding?: number | number[]}): void {
+  public downloadFullImage(name?: string, imageConfig?: { backgroundColor?: string, padding?: number | number[] }): void {
     const bbox = this.get('group').getCanvasBBox();
     const height = bbox.height;
     const width = bbox.width;
@@ -1378,7 +1381,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
     let backgroundColor = imageConfig ? imageConfig.backgroundColor : undefined;
     let padding = imageConfig ? imageConfig.padding : undefined;
-    if (!padding) padding = [ 0, 0, 0, 0 ];
+    if (!padding) padding = [0, 0, 0, 0];
     else if (isNumber(padding)) padding = [padding, padding, padding, padding];
 
     const vHeight = height + padding[0] + padding[2];
@@ -1440,7 +1443,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
       const link: HTMLAnchorElement = document.createElement('a');
       const fileName: string = (name || 'graph') + (renderer === 'svg' ? '.svg' : '.png');
-  
+
       this.dataURLToImage(dataURL, renderer, link, fileName);
 
       const e = document.createEvent('MouseEvents');
@@ -1504,7 +1507,7 @@ export default class Graph extends EventEmitter implements IGraph {
           });
         }
       } else {
-        link.addEventListener('click', function() {
+        link.addEventListener('click', function () {
           link.download = fileName;
           link.href = dataURL;
         });
