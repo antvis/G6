@@ -20,14 +20,14 @@ describe('force layout', () => {
       height: 500,
       defaultNode: { size: 10 },
     });
-    graph.data(data);
-    graph.render();
-    expect(node.x).not.toEqual(undefined);
-    expect(node.y).not.toEqual(undefined);
     graph.on('afterlayout', () => {
       graph.destroy();
       done();
     });
+    graph.data(data);
+    graph.render();
+    expect(node.x).not.toEqual(undefined);
+    expect(node.y).not.toEqual(undefined);
   });
 
   it('force layout with tick and onLayoutEnd', done => {
@@ -62,14 +62,14 @@ describe('force layout', () => {
       height: 500,
       defaultNode: { size: 10 },
     });
-    graph.data(data);
-    graph.render();
     graph.on('afterlayout', () => {
       expect(count > 30).toEqual(true);
       expect(isEnd === true).toEqual(true);
       graph.destroy();
       done();
     });
+    graph.data(data);
+    graph.render();
   });
 
   it('force with fixed edgeStrength, nodeStrength, preventOverlap', done => {
@@ -109,8 +109,6 @@ describe('force layout', () => {
       height: 500,
       defaultNode: { size: 10 },
     });
-    graph.data(data);
-    graph.render();
 
     graph.on('afterlayout', () => {
       expect(count > 30).toEqual(true);
@@ -118,6 +116,8 @@ describe('force layout', () => {
       graph.destroy();
       done();
     });
+    graph.data(data);
+    graph.render();
   });
 
   it('preventOverlap with number nodeSpacing', done => {
@@ -139,8 +139,6 @@ describe('force layout', () => {
       height: 500,
       defaultNode: { size: nodeSize },
     });
-    graph.data(data);
-    graph.render();
 
     graph.on('afterlayout', () => {
       expect(isEnd === true).toEqual(true);
@@ -153,6 +151,8 @@ describe('force layout', () => {
       graph.destroy();
       done();
     });
+    graph.data(data);
+    graph.render();
   });
 
   it('preventOverlap with function nodeSpacing and array node size', done => {
@@ -229,8 +229,6 @@ describe('force layout', () => {
       node.dsize = [30, 15];
       node.type = 'rect';
     });
-    graph.data(data);
-    graph.render();
 
     graph.on('afterlayout', () => {
       expect(isEnd === true).toEqual(true);
@@ -245,6 +243,8 @@ describe('force layout', () => {
       graph.destroy();
       done();
     });
+    graph.data(data);
+    graph.render();
   });
 
   it('preventOverlap with function nodeSpacing and array nodeSize', done => {
@@ -268,8 +268,6 @@ describe('force layout', () => {
       width: 500,
       height: 500,
     });
-    graph.data(data);
-    graph.render();
 
     graph.on('afterlayout', () => {
       expect(isEnd === true).toEqual(true);
@@ -283,6 +281,8 @@ describe('force layout', () => {
       graph.destroy();
       done();
     });
+    graph.data(data);
+    graph.render();
   });
 
   it('preventOverlap with function nodeSpacing and number nodeSize', done => {
