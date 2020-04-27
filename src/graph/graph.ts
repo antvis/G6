@@ -847,8 +847,9 @@ export default class Graph extends EventEmitter implements IGraph {
       const itemMap = this.get('itemMap');
       let foundParent = false;
       comboTrees && comboTrees.forEach((ctree: ComboTree) => {
-        foundParent = false;
+        if (foundParent) return; // terminate the forEach after the tree containing the item is done
         traverseTreeUp<ComboTree>(ctree, child => {
+          // find the parent
           if (model.parentId === child.id) {
             foundParent = true;
             const newCombo: ComboTree = {
@@ -862,13 +863,14 @@ export default class Graph extends EventEmitter implements IGraph {
             item = itemController.addItem(type, model) as ICombo;
           }
           const childItem = itemMap[child.id];
+          // after the parent is found, update all the ancestors
           if (foundParent && childItem && childItem.getType() === 'combo') {
             itemController.updateCombo(childItem, child.children);
           }
           return true;
         });
       });
-      // if the parent is not found, add it to the rppt
+      // if the parent is not found, add it to the root
       if (!foundParent) {
         const newCombo: ComboTree = {
           id: model.id as string,
@@ -888,14 +890,17 @@ export default class Graph extends EventEmitter implements IGraph {
       item = itemController.addItem(type, model);
 
       const itemMap = this.get('itemMap');
+      let foundParent = false, foundNode = false;
       comboTrees && comboTrees.forEach((ctree: ComboTree) => {
-        let foundParent = false, foundNode = false;
+        if (foundNode || foundParent) return; // terminate the forEach
         traverseTreeUp<ComboTree>(ctree, child => {
           if (child.id === model.id) {
+            // if the item exists in the tree already, terminate
             foundNode = true;
-            return true;
+            return false;
           }
           if (model.comboId === child.id && !foundNode) {
+            // found the parent, add the item to the children of its parent in the tree
             foundParent = true;
             const cloneCombo = clone(model);
             cloneCombo.itemType = 'node';
@@ -903,7 +908,7 @@ export default class Graph extends EventEmitter implements IGraph {
             else child.children = [cloneCombo as any];
             model.depth = child.depth + 1;
           }
-          // update the size of ancestor combos
+          // update the size of all the ancestors
           if (foundParent && itemMap[child.id].getType() === 'combo') {
             itemController.updateCombo(itemMap[child.id], child.children);
           }
@@ -1207,57 +1212,80 @@ export default class Graph extends EventEmitter implements IGraph {
     itemController.addCombos(comboTrees, combos);
   }
 
+  /**
+   * 解散 combo
+   * @param {String | INode | ICombo} item 需要被解散的 Combo item 或 id
+   */
   public uncombo(combo: string | ICombo) {
     const self = this;
+    let comboItem: ICombo;
     if (isString(combo)) {
-      combo = this.findById(combo) as ICombo;
+      comboItem = this.findById(combo) as ICombo;
+    } else {
+      comboItem = combo;
     }
-    if (!combo || combo.getType() !== 'combo') {
+    if (!comboItem || comboItem.getType() !== 'combo') {
       console.warn('The item is not a combo!');
       return;
     }
-    const parentId = combo.getModel().parentId as string;
+    const parentId = comboItem.getModel().parentId;
     const comboTrees = self.get('comboTrees');
     const itemMap = this.get('itemMap');
-    const comboId = (combo as ICombo).get('id');
-    let childTree;
+    const comboId = comboItem.get('id');
+    let treeToBeUncombo;
     let brothers = [];
     const comboItems = this.get('combos');
     comboTrees.forEach(ctree => {
+      if (treeToBeUncombo) return; // terminate the forEach
       traverseTreeUp<ComboTree>(ctree, subtree => {
+        // find the combo to be uncomboed, delete the combo from map and cache
         if (subtree.id === comboId) {
-          childTree = subtree;
+          treeToBeUncombo = subtree;
+          // delete the related edges
+          const edges = comboItem.getEdges();
+          edges.forEach(edge => {
+            this.removeItem(edge);
+          });
           const index = comboItems.indexOf(combo);
           comboItems.splice(index, 1);
           delete itemMap[comboId];
-          (combo as ICombo).destroy();
+          comboItem.destroy();
         }
-        if (parentId && childTree && subtree.id === parentId) {
-          brothers = subtree.children;
-          const index = brothers.indexOf(childTree);
+        // find the parent to remove the combo from the combo's brothers array and add the combo's children to the combo's brothers array in the tree
+        if (parentId && treeToBeUncombo && subtree.id === parentId) {
+          brothers = subtree.children; // the combo's brothers
+          // remove the combo from its brothers array
+          const index = brothers.indexOf(treeToBeUncombo);
           brothers.splice(index, 1);
-          brothers.concat(childTree.children);
-          childTree.children && childTree.children.forEach(child => {
+          brothers.concat(treeToBeUncombo.children);
+          // append the combo's children to the combo's brothers array
+          treeToBeUncombo.children && treeToBeUncombo.children.forEach(child => {
             child.parentId = parentId;
             const childModel = this.findById(child.id).getModel();
-            childModel.parentId = parentId;
+            childModel.parentId = parentId; // update the parentId of the model
             brothers.push(child);
           });
-          // update the parent's size
-          const itemController: ItemController = this.get('itemController');
-          itemController.updateCombo(parentId, brothers);
+          return false;
         }
         return true;
       });
     });
-    if (!parentId && childTree) {
-      const index = comboTrees.indexOf(childTree);
+    // if the parentId is not found, remove the combo from the roots
+    if (!parentId && treeToBeUncombo) {
+      const index = comboTrees.indexOf(treeToBeUncombo);
       comboTrees.splice(index, 1);
+      // modify the parentId of the children
+      treeToBeUncombo.children.forEach(child => {
+        child.parentId = undefined;
+        const childModel = this.findById(child.id).getModel();
+        childModel.parentId = undefined; // update the parentId of the model
+        if (child.itemType !== 'node') comboTrees.push(child);
+      });
     }
   }
 
   /**
-   * 根据节点的 bbox 更新 combos 的绘制，包括 combos 的位置和范围
+   * 根据节点的 bbox 更新所有 combos 的绘制，包括 combos 的位置和范围
    */
   public updateCombos() {
     const self = this;
@@ -1268,7 +1296,7 @@ export default class Graph extends EventEmitter implements IGraph {
     comboTrees && comboTrees.forEach((ctree: ComboTree) => {
       traverseTreeUp<ComboTree>(ctree, child => {
         if (!child) {
-          return false
+          return true;
         }
         const childItem = itemMap[child.id];
         if (childItem && childItem.getType() === 'combo') {
@@ -1935,27 +1963,28 @@ export default class Graph extends EventEmitter implements IGraph {
     let cnodes = [];
     let ccombos = [];
     const comboTrees = this.get('comboTrees');
-    let end = false, found = false;
+    let found = false;
     let brothers = {};
     comboTrees.forEach(ctree => {
       brothers[ctree.id] = ctree;
     });
     comboTrees.forEach(ctree => {
+      if (found) return; // if the combo is found, terminate the forEach
       traverseTree(ctree, subTree => {
-        if (found && brothers[subTree.id]) {
-          end = true;
-          return true;
-        }
-        if (end) return true;
+        // if the combo is found and the it is traversing the other brothers, terminate
+        if (found && brothers[subTree.id]) return false;
         if (comboModel.parentId === subTree.id) {
+          // if the parent is found, store the brothers
           brothers = {};
           subTree.children.forEach(child => {
             brothers[child.id] = child;
           });
         } else if (comboModel.id === subTree.id) {
+          // if the combo is found
           found = true;
         }
         if (found) {
+          // if the combo is found, concat the descendant nodes and combos
           const item = this.findById(subTree.id) as ICombo;
           if (item && item.getType() === 'combo') {
             cnodes = cnodes.concat(item.getNodes());
@@ -2068,18 +2097,17 @@ export default class Graph extends EventEmitter implements IGraph {
     let cnodes = [];
     let ccombos = [];
     const comboTrees = this.get('comboTrees');
-    let end = false, found = false;
+    let found = false;
     let brothers = {};
     comboTrees.forEach(ctree => {
       brothers[ctree.id] = ctree;
     });
     comboTrees.forEach(ctree => {
+      if (found) return; // if the combo is found, terminate
       traverseTree(ctree, subTree => {
         if (found && brothers[subTree.id]) {
-          end = true;
-          return true;
+          return false;
         }
-        if (end) return true;
         if (comboModel.parentId === subTree.id) {
           brothers = {};
           subTree.children.forEach(child => {
@@ -2150,8 +2178,8 @@ export default class Graph extends EventEmitter implements IGraph {
           }
         }
       } else if (((!cnodes.includes(source) && !ccombos.includes(source))
-      && (cnodes.includes(target) || ccombos.includes(target)))
-      || targetId === comboModel.id) {
+        && (cnodes.includes(target) || ccombos.includes(target)))
+        || targetId === comboModel.id) {
         // the target is in the combo, the source is not
 
         // ignore the virtual edges
@@ -2217,8 +2245,12 @@ export default class Graph extends EventEmitter implements IGraph {
       }
       parentItem = this.findById(parentModel.parentId as string);
     }
+<<<<<<< HEAD
 
 
+=======
+
+>>>>>>> feat: optimize the performance of combos by terminate the traverse with some conditions.
     const collapsed = comboModel.collapsed;
     // 该群组已经处于收起状态，需要展开
     if (collapsed) {
