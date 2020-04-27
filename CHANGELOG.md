@@ -1,5 +1,11 @@
 # ChangeLog
 
+#### 3.4.8
+- feat: update the keyShape type minimap when the node or edge's style is updated;
+- fix: problem about switching to another applications or browser menu and then switch back, the drag-canvas does not take effect;
+- fix: fix the problem about fail to render the graph when the animate and fitView are true by turn off the animate for rendering temporary;
+- fix: curveOffset for arc, quadratic, cubic edge.
+
 #### 3.4.7
 - feat: downloadFullImage when the (part of) graph is out of the screen;
 - feat: With pre-graph has no layout configurations and no positions in data, calling changeData to change into a new data with positions, results in show the node with positions in data;
