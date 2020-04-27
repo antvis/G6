@@ -503,7 +503,7 @@ describe('graph', () => {
       size: 50,
       className: 'test',
     });
-    const node3 = globalGraph.addItem('node', { id: 'node2', x: 100, y: 100, size: 50 });
+    const node3 = globalGraph.addItem('node', { id: 'node3', x: 100, y: 100, size: 50 });
 
     node1.setState('active', true);
     node2.setState('selected', true);
@@ -522,7 +522,7 @@ describe('graph', () => {
   });
 
   it('refresh positions', () => {
-    const data = { id: 'node', x: 100, y: 50, size: 50, className: 'test test2' };
+    const data = { id: 'node4', x: 100, y: 50, size: 50, className: 'test test2' };
     const node = globalGraph.addItem('node', data);
     const group = node.get('group');
 

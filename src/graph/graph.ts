@@ -825,19 +825,22 @@ export default class Graph extends EventEmitter implements IGraph {
         groupTitle,
       );
     }
+
+    if (model.id && this.findById(model.id as string)) {
+      console.warn('This item exists already. Be sure the id is unique.');
+      return;
+    }
+
     let item;
     const comboTrees = this.get('comboTrees');
     if (type === 'combo') {
-      if (this.findById(model.id as string)) {
-        console.warn('This item exists already. Be sure the id is unique.');
-        return;
-      }
       const itemMap = this.get('itemMap');
+      let foundParent = false;
       comboTrees && comboTrees.forEach((ctree: ComboTree) => {
-        let found = false;
+        foundParent = false;
         traverseTreeUp<ComboTree>(ctree, child => {
           if (model.parentId === child.id) {
-            found = true;
+            foundParent = true;
             const newCombo: ComboTree = {
               id: model.id as string,
               depth: child.depth + 2,
@@ -849,33 +852,49 @@ export default class Graph extends EventEmitter implements IGraph {
             item = itemController.addItem(type, model) as ICombo;
           }
           const childItem = itemMap[child.id];
-          if (found && childItem && childItem.getType() === 'combo') {
+          if (foundParent && childItem && childItem.getType() === 'combo') {
             itemController.updateCombo(childItem, child.children);
           }
           return true;
         });
       });
-      // const comboGroup = this.get('comboGroup')
-      // comboGroup && comboGroup.sort();
+      // if the parent is not found, add it to the rppt
+      if (!foundParent) {
+        const newCombo: ComboTree = {
+          id: model.id as string,
+          depth: 0,
+          ...model
+        };
+        model.depth = newCombo.depth;
+        comboTrees.push(newCombo);
+        item = itemController.addItem(type, model) as ICombo;
+      }
     } else if (type === 'node' && isString(model.comboId) && comboTrees) {
       const parentCombo = this.findById(model.comboId as string);
-      if (!parentCombo || parentCombo.getType() !== 'combo') {
-        console.warn(`The combo ${model.comboId} for the node ${model.id} does not exist, please add the combo first.`);
+      if (parentCombo && parentCombo.getType() !== 'combo') {
+        console.warn(`'${model.comboId}' is a not id of a combo in the graph, the node will be added without combo.`);
         return;
       }
       item = itemController.addItem(type, model);
 
       const itemMap = this.get('itemMap');
       comboTrees && comboTrees.forEach((ctree: ComboTree) => {
-        let found = false;
+        let foundParent = false, foundNode = false;
         traverseTreeUp<ComboTree>(ctree, child => {
-          if (model.comboId === child.id) {
-            found = true;
-            if (child.children) child.children.push(model as NodeConfig);
-            else child.children = [ model as NodeConfig ];
+          if (child.id === model.id) {
+            foundNode = true;
+            return true;
+          }
+          if (model.comboId === child.id && !foundNode) {
+            foundParent = true;
+            const cloneCombo = clone(model);
+            cloneCombo.itemType = 'node';
+            if (child.children) child.children.push(cloneCombo as NodeConfig);
+            else child.children = [ cloneCombo as NodeConfig ];
             model.depth = child.depth + 1;
           }
-          if (found && itemMap[child.id].getType() === 'combo') {
+          // update the size of ancestor combos
+          if (foundParent && itemMap[child.id].getType() === 'combo') {
             itemController.updateCombo(itemMap[child.id], child.children);
           }
           return true;
@@ -883,6 +902,12 @@ export default class Graph extends EventEmitter implements IGraph {
       });
     } else {
       item = itemController.addItem(type, model);
+    }
+
+    if ((type === 'node' && model.comboId) || (type === 'combo' && model.parentId)) {
+      // add the combo to the parent's children array
+      const parentCombo = this.findById((model.comboId as string) || (model.parentId as string)) as ICombo;
+      if (parentCombo) parentCombo.addChild(item);
     }
 
     const combos = this.get('combos');
@@ -971,7 +996,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
     // process the data to tree structure
     if (combos && combos.length !== 0) {
-      const comboTrees = plainCombosToTrees(combos, self.getNodes());
+      const comboTrees = plainCombosToTrees(combos, nodes);
       this.set('comboTrees', comboTrees);
       // add combos
       self.addCombos(combos);
@@ -1101,6 +1126,12 @@ export default class Graph extends EventEmitter implements IGraph {
       edges: [],
     };
 
+    const combosData = (data as GraphData).combos;
+    if (combosData) {
+      const comboTrees = plainCombosToTrees(combosData, (data as GraphData).nodes);
+      this.set('comboTrees', comboTrees);
+    }
+
     this.diffItems('node', items, (data as GraphData).nodes!);
     this.diffItems('edge', items, (data as GraphData).edges!);
 
@@ -1125,13 +1156,9 @@ export default class Graph extends EventEmitter implements IGraph {
     }
 
     // process the data to tree structure
-    const combosData = (data as GraphData).combos;
     if (combosData) {
-      const comboTrees = plainCombosToTrees(combosData, self.getNodes());
-      this.set('comboTrees', comboTrees);
       // add combos
       self.addCombos(combosData);
-      
       if (!this.get('groupByTypes')) this.sortCombos();
     }
 
@@ -1171,7 +1198,7 @@ export default class Graph extends EventEmitter implements IGraph {
     if (isString(combo)) {
       combo = this.findById(combo) as ICombo;
     }
-    if (combo.getType() !== 'combo') {
+    if (!combo || combo.getType() !== 'combo') {
       console.warn('The item is not a combo!');
       return;
     }
@@ -1191,7 +1218,7 @@ export default class Graph extends EventEmitter implements IGraph {
           delete itemMap[comboId];
           (combo as ICombo).destroy();
         }
-        if (childTree && subtree.id === parentId) {
+        if (parentId && childTree && subtree.id === parentId) {
           brothers = subtree.children;
           const index = brothers.indexOf(childTree);
           brothers.splice(index, 1);
@@ -1209,7 +1236,10 @@ export default class Graph extends EventEmitter implements IGraph {
         return true;
       });
     });
-
+    if (!parentId && childTree) {
+      const index = comboTrees.indexOf(childTree);
+      comboTrees.splice(index, 1);
+    }
   }
 
   
@@ -1251,7 +1281,8 @@ export default class Graph extends EventEmitter implements IGraph {
       uItem = item as INode | ICombo;
     }
 
-    let model = uItem.getModel()
+    let model = uItem.getModel();
+    const oldParentId = (model.comboId as string) || (model.parentId as string);
 
     // 当 combo 存在parentId 或 comboId 时，才将其移除
     if (model.parentId || model.comboId) {
@@ -1271,6 +1302,11 @@ export default class Graph extends EventEmitter implements IGraph {
     if (parentId) {
       const parentCombo = this.findById(parentId) as ICombo
       parentCombo.addChild(uItem as ICombo | INode)
+    }
+    // 如果原先有父亲 combo，则从原父 combo 的子元素数组中删除
+    if (oldParentId) {
+      const parentCombo = this.findById(oldParentId) as ICombo
+      parentCombo.removeChild(uItem as ICombo | INode)
     }
 
     const newComboTrees = reconstructTree(this.get('comboTrees'), model.id, parentId);
@@ -1766,18 +1802,55 @@ export default class Graph extends EventEmitter implements IGraph {
     if (isString(combo)) {
       combo = this.findById(combo) as ICombo;
     }
+    if (!combo) {
+      console.warn('The combo to be collapsed does not exist!');
+      return;
+    }
     const comboModel = combo.getModel();
 
     // add virtual edges
     const edges = this.getEdges().concat(this.get('vedges'));
-    const cnodes = combo.getNodes();
-    const ccombos = combo.getCombos();
+    
+    // find all the descendant nodes and combos
+    let cnodes = [];
+    let ccombos = [];
+    const comboTrees = this.get('comboTrees');
+    let end = false, found = false;
+    let brothers = {};
+    comboTrees.forEach(ctree => {
+      brothers[ctree.id] = ctree;
+    });
+    comboTrees.forEach(ctree => {
+      traverseTree(ctree, subTree => {
+        if (found && brothers[subTree.id]) {
+          end = true;
+          return true;
+        }
+        if (end) return true;
+        if (comboModel.parentId === subTree.id) {
+          brothers = {};
+          subTree.children.forEach(child => {
+            brothers[child.id] = child;
+          });
+        } else if (comboModel.id === subTree.id) {
+          found = true;
+        }
+        if (found) {
+          const item = this.findById(subTree.id) as ICombo;
+          if (item && item.getType() === 'combo') {
+            cnodes = cnodes.concat(item.getNodes());
+            ccombos = ccombos.concat(item.getCombos());
+          }
+        }
+        return true;
+      });
+    });
 
-    const processedNodes = {};
+    const edgeWeightMap = {};
     const addedVEdges = [];
     edges.forEach(edge => {
-      const source = edge.getSource();
-      const target = edge.getTarget();
+      let source = edge.getSource();
+      let target = edge.getTarget();
       if (((cnodes.includes(source) || ccombos.includes(source))
       && (!cnodes.includes(target) && !ccombos.includes(target)))
       || (source.getModel().id === comboModel.id)) {
@@ -1786,14 +1859,18 @@ export default class Graph extends EventEmitter implements IGraph {
           this.removeItem(edge);
           return;
         }
+
         let targetModel = target.getModel();
-        if (!target.isVisible()) {
-          targetModel = this.findById((targetModel.parentId as string) || (targetModel.comboId as string)).getModel();
+        while (!target.isVisible()) {
+          target = this.findById((targetModel.parentId as string) || (targetModel.comboId as string)) as ICombo;
+          if (!target || (!targetModel.parentId && !targetModel.comboId)) return; // all the ancestors are hidden, then ignore the edge
+          targetModel = target.getModel();
         }
+
         const targetId = targetModel.id;
 
-        if (processedNodes[targetId]) {
-          processedNodes[targetId] += (edgeModel.size || 1);
+        if (edgeWeightMap[`${comboModel.id}-${targetId}`]) {
+          edgeWeightMap[`${comboModel.id}-${targetId}`] += (edgeModel.size || 1);
           return;
         }
         // the source is in the combo, the target is not
@@ -1802,7 +1879,7 @@ export default class Graph extends EventEmitter implements IGraph {
             target: targetId,
             isVEdge: true,
           });
-          processedNodes[targetId] = edgeModel.size || 1;
+          edgeWeightMap[`${comboModel.id}-${targetId}`] = edgeModel.size || 1;
           addedVEdges.push(vedge);
       } else if (((!cnodes.includes(source) && !ccombos.includes(source))
       && (cnodes.includes(target) || ccombos.includes(target)))
@@ -1813,12 +1890,14 @@ export default class Graph extends EventEmitter implements IGraph {
           return;
         }
         let sourceModel = source.getModel();
-        if (!target.isVisible()) {
-          sourceModel = this.findById((sourceModel.parentId as string) || (sourceModel.comboId as string)).getModel();
+        while (!source.isVisible()) {
+          source = this.findById((sourceModel.parentId as string) || (sourceModel.comboId as string)) as ICombo;
+          if (!source || (!sourceModel.parentId && !sourceModel.comboId)) return; // all the ancestors are hidden, then ignore the edge
+          sourceModel = source.getModel();
         }
         const sourceId = sourceModel.id;
-        if (processedNodes[sourceId]) {
-          processedNodes[sourceId] += (edgeModel.size || 1);
+        if (edgeWeightMap[`${sourceId}-${comboModel.id}`]) {
+          edgeWeightMap[`${sourceId}-${comboModel.id}`] += (edgeModel.size || 1);
           return;
         }
         // the target is in the combo, the source is not
@@ -1827,21 +1906,18 @@ export default class Graph extends EventEmitter implements IGraph {
           source: sourceId,
           isVEdge: true
         });
-        processedNodes[sourceId] = edgeModel.size || 1;
+        edgeWeightMap[`${sourceId}-${comboModel.id}`] = edgeModel.size || 1;
         addedVEdges.push(vedge);
       }
     });
+
+    // update the width of the virtual edges, which is the sum of merged actual edges
+    // be attention that the actual edges with same endpoints but different directions will be represented by two different virtual edges
     addedVEdges.forEach(vedge => {
       const vedgeModel = vedge.getModel();
-      if (vedgeModel.source === comboModel.id) {
-        this.updateItem(vedge, {
-          size: processedNodes[vedge.getTarget().get('id')]
-        })
-      } else if (vedgeModel.target === comboModel.id) {
-        this.updateItem(vedge, {
-          size: processedNodes[vedge.getSource().get('id')]
-        })
-      }
+      this.updateItem(vedge, {
+        size: edgeWeightMap[`${vedgeModel.source}-${vedgeModel.target}`]
+      })
     });
 
     const itemController: ItemController = this.get('itemController');
@@ -1859,36 +1935,88 @@ export default class Graph extends EventEmitter implements IGraph {
     if (isString(combo)) {
       combo = this.findById(combo) as ICombo;
     }
+    if (!combo || combo.getType() !== 'combo') {
+      console.warn('The combo to be collapsed does not exist!');
+      return;
+    }
     const comboModel = combo.getModel();
 
     // add virtual edges
     const edges = this.getEdges().concat(this.get('vedges'));
-    const cnodes = combo.getNodes();
-    const ccombos = combo.getCombos();
     
-    const processedNodes = {};
+    // find all the descendant nodes and combos
+    let cnodes = [];
+    let ccombos = [];
+    const comboTrees = this.get('comboTrees');
+    let end = false, found = false;
+    let brothers = {};
+    comboTrees.forEach(ctree => {
+      brothers[ctree.id] = ctree;
+    });
+    comboTrees.forEach(ctree => {
+      traverseTree(ctree, subTree => {
+        if (found && brothers[subTree.id]) {
+          end = true;
+          return true;
+        }
+        if (end) return true;
+        if (comboModel.parentId === subTree.id) {
+          brothers = {};
+          subTree.children.forEach(child => {
+            brothers[child.id] = child;
+          });
+        } else if (comboModel.id === subTree.id) {
+          found = true;
+        }
+        if (found) {
+          const item = this.findById(subTree.id) as ICombo;
+          if (item && item.getType() === 'combo') {
+            cnodes = cnodes.concat(item.getNodes());
+            ccombos = ccombos.concat(item.getCombos());
+          }
+        }
+        return true;
+      });
+    });
+    
+    const edgeWeightMap = {};
     const addedVEdges = {};
     edges.forEach(edge => {
-      const source = edge.getSource();
-      const target = edge.getTarget();
+      let source = edge.getSource();
+      let target = edge.getTarget();
       const sourceId = source.get('id');
       const targetId = target.get('id');
       if (((cnodes.includes(source) || ccombos.includes(source))
       && (!cnodes.includes(target) && !ccombos.includes(target)))
       || sourceId === comboModel.id) {
+        // the source is in the combo, the target is not
+
+        // ignore the virtual edges
         if (edge.getModel().isVEdge) {
           this.removeItem(edge);
           return;
         }
-        // the source is in the combo, the target is not
+        
         if (!target.isVisible()) {
-          const oppsiteComboId: string = (target.getModel().comboId as string) || (target.getModel().parentId as string);
+          let oppsiteModel = target.getModel();
+          // find the nearest visible ancestor
+          while (!target.isVisible()) {
+            target = this.findById((oppsiteModel.comboId as string) || (oppsiteModel.parentId as string)) as ICombo;
+            if (!target || (!oppsiteModel.parentId && !oppsiteModel.comboId)) {
+              return; // if all the ancestors of the oppsite are all hidden, ignore the edge
+            }
+            oppsiteModel = target.getModel();
+          }
+          let oppsiteComboId: string = oppsiteModel.id;
+
           if (oppsiteComboId) {
             const vedgeId = `${sourceId}-${oppsiteComboId}`;
-            if (processedNodes[vedgeId]) {
-              processedNodes[vedgeId] += (edge.getModel().size || 1);
+            // update the width of the virtual edges, which is the sum of merged actual edges
+            // be attention that the actual edges with same endpoints but different directions will be represented by two different virtual edges
+            if (edgeWeightMap[vedgeId]) {
+              edgeWeightMap[vedgeId] += (edge.getModel().size || 1);
               this.updateItem(addedVEdges[vedgeId], {
-                size: processedNodes[vedgeId]
+                size: edgeWeightMap[vedgeId]
               })
               return;
             }
@@ -1897,26 +2025,39 @@ export default class Graph extends EventEmitter implements IGraph {
               target: oppsiteComboId,
               isVEdge: true
             });
-            processedNodes[vedgeId] = edge.getModel().size || 1;
+            edgeWeightMap[vedgeId] = edge.getModel().size || 1;
             addedVEdges[vedgeId] = vedge;
           }
         }
       } else if (((!cnodes.includes(source) && !ccombos.includes(source))
       && (cnodes.includes(target) || ccombos.includes(target)))
       || targetId === comboModel.id) {
+        // the target is in the combo, the source is not
+
+        // ignore the virtual edges
         if (edge.getModel().isVEdge) {
           this.removeItem(edge);
           return;
         }
-        // the target is in the combo, the source is not
+
         if (!source.isVisible()) {
-          const oppsiteComboId: string = (source.getModel().comboId as string) || (target.getModel().parentId as string);
+          let oppsiteModel = source.getModel();
+          // find the nearest visible ancestor
+          while (!source.isVisible()) {
+            source = this.findById((oppsiteModel.comboId as string) || (oppsiteModel.parentId as string)) as ICombo;
+            if (!source || (!oppsiteModel.parentId && !oppsiteModel.comboId)) return; // if all the ancestors of the oppsite are all hidden, ignore the edge
+            oppsiteModel = source.getModel();
+          }
+          let oppsiteComboId: string = oppsiteModel.id;
+
           if (oppsiteComboId) {
             const vedgeId = `${oppsiteComboId}-${targetId}`;
-            if (processedNodes[vedgeId]) {
-              processedNodes[vedgeId] += (edge.getModel().size || 1);
+            // update the width of the virtual edges, which is the sum of merged actual edges
+            // be attention that the actual edges with same endpoints but different directions will be represented by two different virtual edges
+            if (edgeWeightMap[vedgeId]) {
+              edgeWeightMap[vedgeId] += (edge.getModel().size || 1);
               this.updateItem(addedVEdges[vedgeId], {
-                size: processedNodes[vedgeId]
+                size: edgeWeightMap[vedgeId]
               })
               return;
             }
@@ -1925,7 +2066,7 @@ export default class Graph extends EventEmitter implements IGraph {
               source: oppsiteComboId,
               isVEdge: true
             });
-            processedNodes[vedgeId] = edge.getModel().size || 1;
+            edgeWeightMap[vedgeId] = edge.getModel().size || 1;
             addedVEdges[vedgeId] = vedge;
           }
         }
@@ -1943,7 +2084,23 @@ export default class Graph extends EventEmitter implements IGraph {
     if (isString(combo)) {
       combo = this.findById(combo) as ICombo;
     }
+    if (combo.getType() !== 'combo') return;
+
     const comboModel = combo.getModel();
+
+    // if one ancestor combo of the combo is collapsed, it should not be collapsed or expanded
+    let parentItem = this.findById(comboModel.parentId as string);
+    while (parentItem) {
+      const parentModel = parentItem.getModel();
+      if (parentModel.collapsed) {
+        console.warn(`Fail to expand the combo since it's ancestor combo is collapsed.`);
+        parentItem = undefined;
+        return;
+      }
+      parentItem = this.findById(parentModel.parentId as string);
+    }
+    
+
     const collapsed = comboModel.collapsed;
     // 该群组已经处于收起状态，需要展开
     if (collapsed) {
@@ -2026,7 +2183,7 @@ export default class Graph extends EventEmitter implements IGraph {
       if (!array || !array.length) return;
       for (let i = array.length - 1; i >= 0; i--) {
         const item = this.findById(array[i]);
-        item.toFront();
+        item && item.toFront();
       }
     });
   }
