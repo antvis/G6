@@ -133,35 +133,32 @@ describe('test interaction', () => {
       {
         trigger: 'mousedown',
         // isEnable(context) {
-        //   console.log(context)
-        //   return context.event.key === 'Shift';
+        //   console.log('shape', context.event.shape)
+        //   return true //context.event.key === 'Shift';
         // },
-        action: ['brush-select:start'],
+        action: ['mask-path:start', 'mask-path:show', 'highlight-mask:start'],
       },
     ],
     processing: [
-      {
-        trigger: 'mousedown',
-        // isEnable(context) {
-        //   console.log(context)
-        //   return context.event.key === 'Shift';
-        // },
-        action: ['mask-path:start'],
-      },
+      
       {
         trigger: 'mousemove',
-        action: ['mask-path:resize']
+        isEnable(context) {
+          const  hasPathAction = context.actions[0].starting
+          return hasPathAction
+        },
+        action: ['mask-path:addPoint', 'highlight-mask:highlight']
       },
     ],
     end: [
       {
         trigger: 'mouseup',
-        action: ['mask-path:addPoint']
+        action: ['mask-path:end', 'highlight-mask:clear']
       },
-      {
-        trigger: 'dblclick',
-        action: ['mask-path:end']
-      }
+      // {
+      //   trigger: 'canvas:dblclick',
+      //   action: ['mask-path:end']
+      // }
     ]
   })
 

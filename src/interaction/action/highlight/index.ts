@@ -1,0 +1,1 @@
+export { default as HighlightMask } from './highlight-mask'

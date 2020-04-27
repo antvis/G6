@@ -8,10 +8,10 @@ export default class MaskRect extends MaskBase {
    */
   protected getMaskAttrs(): {[key: string]: any} {
     const currentPoint = this.getCurrentPoint()
-    const x = Math.min(this.origin.x, currentPoint.x);
-    const y = Math.min(this.origin.y, currentPoint.y);
-    const width = Math.abs(currentPoint.x - this.origin.x);
-    const height = Math.abs(currentPoint.y - this.origin.y);
+    const x = Math.min(this.startPoint.x, currentPoint.x);
+    const y = Math.min(this.startPoint.y, currentPoint.y);
+    const width = Math.abs(currentPoint.x - this.startPoint.x);
+    const height = Math.abs(currentPoint.y - this.startPoint.y);
     return {
       x,
       y,

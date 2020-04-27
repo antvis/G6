@@ -2,11 +2,11 @@ import ActionBase from '../base'
 import { IGraph } from '../../../interface/graph';
 import { IGroup } from '@antv/g-base';
 import Global from '../../../global'
-import { each } from '_@antv_util@2.0.8@@antv/util/lib';
+import { each } from '@antv/util/lib';
 
 export default abstract class MaskBase extends ActionBase {
   protected maskShape = null
-  protected origin = null
+  protected startPoint = null
   protected points = []
   protected starting = false
   protected moving = false
@@ -34,9 +34,10 @@ export default abstract class MaskBase extends ActionBase {
    * 创建 mask
    */
   private create() {
+    this.starting = true
     const event = this.context.event
 
-    this.origin = {
+    this.startPoint = {
       x: event.x,
       y: event.y
     }
@@ -66,13 +67,10 @@ export default abstract class MaskBase extends ActionBase {
 
   protected update() {
     const attrs = this.getMaskAttrs()
-    console.log(attrs)
     this.maskShape.attr(attrs)
   }
 
   public start() {
-    this.starting = true
-
     if (!this.maskShape) {
       this.maskShape = this.create()
       this.maskShape.set('capture',false)
@@ -87,7 +85,7 @@ export default abstract class MaskBase extends ActionBase {
    */
   public moveStart() {
     this.moving = true
-    this.origin = this.getCurrentPoint()
+    this.startPoint = this.getCurrentPoint()
   }
 
   /**
@@ -100,8 +98,8 @@ export default abstract class MaskBase extends ActionBase {
 
     const currentPoint = this.getCurrentPoint()
 
-    const dx = currentPoint.x - this.origin.x
-    const dy = currentPoint.y - this.origin.y
+    const dx = currentPoint.x - this.startPoint.x
+    const dy = currentPoint.y - this.startPoint.y
     const points = this.points
 
     each(points, point => {
@@ -110,12 +108,12 @@ export default abstract class MaskBase extends ActionBase {
     })
     this.update()
     this.emitEvent('change')
-    this.origin = currentPoint
+    this.startPoint = currentPoint
   }
 
   public moveEnd() {
     this.moving = false
-    this.origin = null
+    this.startPoint = null
   }
 
   /**
@@ -146,7 +144,6 @@ export default abstract class MaskBase extends ActionBase {
   public resize() {
     if (this.starting && this.maskShape) {
       this.points.push(this.getCurrentPoint())
-      console.log('新做的', this.points)
       this.update()
       this.emitEvent('change')
     }
@@ -159,7 +156,7 @@ export default abstract class MaskBase extends ActionBase {
     }
 
     this.maskShape = null
-    this.origin = null
+    this.startPoint = null
     this.starting = false
   }
 }

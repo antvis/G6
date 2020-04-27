@@ -9,9 +9,9 @@ export default class MaskCircle extends MaskBase {
    */
   protected getMaskAttrs(): {[key: string]: any} {
     const currentPoint = this.getCurrentPoint()
-    const r = distance(this.origin, currentPoint) / 2;
-    const x = (currentPoint.x + this.origin.x) / 2;
-    const y = (currentPoint.y + this.origin.y) / 2;
+    const r = distance(this.startPoint, currentPoint) / 2;
+    const x = (currentPoint.x + this.startPoint.x) / 2;
+    const y = (currentPoint.y + this.startPoint.y) / 2;
     return {
       x,
       y,
