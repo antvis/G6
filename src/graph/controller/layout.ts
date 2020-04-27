@@ -11,7 +11,7 @@ const helper = {
     const fn =
       window.requestAnimationFrame ||
       window.webkitRequestAnimationFrame ||
-      function(cb: TimerHandler) {
+      function (cb: TimerHandler) {
         return setTimeout(cb, 16);
       };
     return fn(callback);
@@ -20,7 +20,7 @@ const helper = {
     const fn =
       window.cancelAnimationFrame ||
       window.webkitCancelAnimationFrame ||
-      function(reqId: number) {
+      function (reqId: number) {
         return clearTimeout(reqId);
       };
     return fn(requestId);
@@ -173,12 +173,11 @@ export default class LayoutController {
       // 若存在节点没有位置信息，且没有设置 layout，在 initPositions 中 random 给出了所有节点的位置，不需要再次执行 random 布局
       // 所有节点都有位置信息，且指定了 layout，则执行布局（代表不是第一次进行布局）
       if (hasLayoutType) {
-        // allHavePos &&
         layoutMethod.execute();
       }
       this.layoutMethod = layoutMethod;
     }
-    if (!allHavePos && this.layoutType !== 'force') {
+    if (hasLayoutType || (!allHavePos && this.layoutType !== 'force')) {
       graph.emit('afterlayout');
       this.refreshLayout();
     }
@@ -242,7 +241,7 @@ export default class LayoutController {
         workerData.currentTick = eventData.currentTick;
         workerData.currentTickData = eventData;
         if (!workerData.requestId) {
-          workerData.requestId = helper.requestAnimationFrame(function() {
+          workerData.requestId = helper.requestAnimationFrame(function () {
             updateLayoutPosition(data, eventData);
             graph.refreshPositions();
             onTick();
@@ -257,7 +256,7 @@ export default class LayoutController {
               // 注意这里workerData.currentTick可能已经不再是前面赋值时候的值了，
               // 因为在requestAnimationFrame等待时间里，可能产生新的tick。
               // 如果当前tick不是最后一次tick，并且所有的tick消息都已发出来了，那么需要用最后一次tick的数据再刷新一次。
-              workerData.requestId2 = helper.requestAnimationFrame(function() {
+              workerData.requestId2 = helper.requestAnimationFrame(function () {
                 updateLayoutPosition(data, workerData.currentTickData);
                 graph.refreshPositions();
                 workerData.requestId2 = null;
@@ -394,7 +393,7 @@ export default class LayoutController {
 
   // 控制布局动画
   // eslint-disable-next-line class-methods-use-this
-  public layoutAnimate() {}
+  public layoutAnimate() { }
 
   // // 根据 type 创建 Layout 实例
   // private _getLayout() {

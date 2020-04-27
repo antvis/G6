@@ -8,21 +8,21 @@ const data = {
   nodes: [
     {
       id: 'node1',
-      x: 150,
-      y: 50,
       label: 'node1',
+      x: 10,
+      y: 20
     },
     {
       id: 'node2',
-      x: 200,
-      y: 150,
       label: 'node2',
+      x: 10,
+      y: 30
     },
     {
       id: 'node3',
-      x: 100,
-      y: 150,
       label: 'node3',
+      x: 20,
+      y: 20
     },
   ],
   edges: [
@@ -52,11 +52,20 @@ const AnimateFitView = () => {
         modes: {
           default: ['drag-canvas', 'zoom-canvas']
         },
+        layout: {
+          type: 'dagre'
+        },
         animate: true,
         fitView: true
       });
       graph.data(data);
       graph.render();
+
+      graph.on('canvas:click', () => {
+        graph.updateLayout({
+          type: 'fruchterman'
+        });
+      });
     }
   });
   return <div ref={container}></div>;

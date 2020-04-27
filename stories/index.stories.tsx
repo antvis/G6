@@ -1,6 +1,4 @@
-import { array, boolean, number, text, withKnobs } from '@storybook/addon-knobs';
-import { storiesOf } from '@storybook/react';
-import { Button } from '@storybook/react/demo'; // 这里引入你想展示的组件
+import { boolean, number, text, withKnobs } from '@storybook/addon-knobs';
 import React from 'react';
 
 export default {
