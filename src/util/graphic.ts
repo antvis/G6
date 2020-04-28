@@ -633,7 +633,6 @@ export const reconstructTree = (trees: ComboTree[], subtreeId?: string, newParen
       // if the newParentId is undefined or it is not found in the tree, add the subTree to the root
       trees.push(subtree);
     }
-
     // update the depth of the subtree and its children from the subtree
     let currentDepth = subtree.depth;
     traverseTree<ComboTree>(subtree, (child: any) => {

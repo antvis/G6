@@ -105,12 +105,12 @@ const testData = {
     //   target: '5',
     // },
     {
-      source: '4',
-      target: '5',
+      source: '5',
+      target: '4',
     },
     {
-      source: '5',
-      target: '3',
+      source: '3',
+      target: '5',
     },
   ],
   combos: [
@@ -144,11 +144,14 @@ const CollapseExpandVEdge = () => {
         height: 800,
         fitView: true,
         modes: {
-          default: ['drag-canvas', 'drag-node', 'zoom-canvas', 'collapse-expand-combo'], 
+          default: ['drag-combo', 'drag-node', 'zoom-canvas', 'collapse-expand-combo'], 
         },
         defaultEdge: {
           size: 1,
           color: '#666',
+          style: {
+            endArrow: true
+          }
         },
         defaultCombo: {
           type: 'circle',
@@ -181,7 +184,7 @@ const CollapseExpandVEdge = () => {
         }
       });
 
-      
+      graph.get('canvas').set('localRefresh', false);
       graph.data(testData);//testData_pos
       graph.render();
     }
