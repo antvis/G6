@@ -957,7 +957,7 @@ const ComboLayoutCollapseExpand = () => {
         },
         defaultEdge: {
           size: 1,
-          color: '#666',
+          color: '#666'
         },
         defaultCombo: {
           type: 'circle',
