@@ -195,6 +195,10 @@ export default {
       }
     })
 
+    console.log(graph.findById('5'))
+
+    console.log(graph.get('comboTrees'));
+
     // 如果已经拖放下了，则不需要再通过距离判断了
     this.endComparison = true
   },
