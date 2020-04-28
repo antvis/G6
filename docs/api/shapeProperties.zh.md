@@ -20,19 +20,20 @@ G6 支持以下图形：
 
 ## 通用属性
 
-| 属性名        | 含义                               | 备注                           |
-| ------------- | ---------------------------------- | ------------------------------ |
-| fill          | 设置用于填充绘画的颜色、渐变或模式 | 对应 Canvas 属性 `fillStyle`   |
-| stroke        | 设置用于笔触的颜色、渐变或模式     | 对应 Canvas 属性 `strokeStyle` |
-| lineWidth     | 描边宽度                           |                                |
-| lineDash     | 描边虚线  | Number[] 类型代表实、虚长度    |
-| shadowColor   | 设置用于阴影的颜色                 |                                |
-| shadowBlur    | 设置用于阴影的模糊级别             | 数值越大，越模糊               |
-| shadowOffsetX | 设置阴影距形状的水平距离           |                                |
-| shadowOffsetY | 设置阴影距形状的垂直距离           |                                |
-| opacity       | 设置绘图的当前 alpha 或透明值      | 对应 Canvas 属性 `globalAlpha` |
-| fillOpacity   | 设置填充的 alpha 或透明值          |                                |
-| cursor      | 鼠标在该节点上时的鼠标样式，[CSS 的 cursor](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) 选项都支持  |  |
+| 属性名        | 类型 | 示例                              | 含义                           |
+| ------------- | -----------| ---------------------------------- | ------------------------------ |
+| fill          | String | - 'rgb(18, 150, 231)' <br/> - '#c193af' <br/>- 'l(0) 0:#ffffff 0.5:#7ec2f3 1:#1890ff' <br/>-  'r(0.5, 0.5, 0.1) 0:#ffffff 1:#1890ff' | 设置用于填充绘画的颜色(RGB 或 16 进制)、[渐变](/zh/docs/manual/FAQ/gradient#gatsby-focus-wrapper)或模式，对应 Canvas 属性 `fillStyle`   |
+| stroke        | String |  - 'rgb(18, 150, 231)' <br/> - '#c193af' <br/>- 'l(0) 0:#ffffff 0.5:#7ec2f3 1:#1890ff' <br/>-  'r(0.5, 0.5, 0.1) 0:#ffffff 1:#1890ff'     | 设置用于笔触的颜色(RGB 或 16 进制)、[渐变](/zh/docs/manual/FAQ/gradient#gatsby-focus-wrapper)或模式，对应 Canvas 属性 `strokeStyle` |
+| lineWidth     | Number | 2                           | 描边宽度                               |
+| lineDash      | Number/ Number[] | [5, 10]  | 描边虚线，Number[] 类型代表实、虚长度    |
+| shadowColor   | String | 'rgb(18, 150, 231)' / '#c193a1'                 | 设置用于阴影的颜色                              |
+| shadowBlur    | Number | 50            | 设置用于阴影的模糊级别，数值越大，越模糊               |
+| shadowOffsetX | Number | 10           | 设置阴影距形状的水平距离                               |
+| shadowOffsetY | Number | 10           | 设置阴影距形状的垂直距离                               |
+| opacity       | Number | 0.8      | 设置绘图的当前 alpha 或透明值，范围 [0, 1]，对应 Canvas 属性 `globalAlpha` |
+| fillOpacity   | Number | 0.8          | 设置填充的 alpha 或透明值，优先级高于 opacity，范围 [0, 1]                               |
+| strokeOpacity   | Number | 0.8          | 设置描边的 alpha 或透明值，优先级高于 opacity，范围 [0, 1]                               |
+| cursor       | String | 'pointer'  | 鼠标在该节点上时的鼠标样式，[CSS 的 cursor](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) 选项都支持 |
 
 ### 用法
 
@@ -85,11 +86,11 @@ rect.attr({
 
 ### 特殊属性
 
-| 属性名 | 含义          |
-| ------ | ------------- |
-| x      | 圆心的 x 坐标 |
-| y      | 圆心的 y 坐标 |
-| r      | 圆的半径      |
+| 属性名  | 类型    | 含义          |
+| ------ | ------ | ------------- |
+| x      | Number | 圆心的 x 坐标 |
+| y      | Number | 圆心的 y 坐标 |
+| r      | Number | 圆的半径      |
 
 ### 用法
 
@@ -110,12 +111,12 @@ group.addShape('circle', {
 
 ### 特殊属性
 
-| 属性名 | 含义          |
-| ------ | ------------- |
-| x      | 圆心的 x 坐标 |
-| y      | 圆心的 y 坐标 |
-| rx     | 水平半径      |
-| ry     | 垂直半径      |
+| 属性名 | 类型    | 含义          |
+| ------ | ---- | ------------- |
+| x      | Number | 圆心的 x 坐标 |
+| y      | Number | 圆心的 y 坐标 |
+| rx     | Number | 水平半径      |
+| ry     | Number | 垂直半径      |
 
 ### 用法
 
@@ -137,13 +138,13 @@ group.addShape('ellipse', {
 
 ### 特殊属性
 
-| 属性名 | 含义 | 备注 |
+| 属性名 | 类型 | 含义 |
 | --- | --- | --- |
-| x | 图片左上角的 x 坐标 |  |
-| y | 图片左上角的 y 坐标 |  |
-| width | 图片宽度 |  |
-| height | 图片高度 |  |
-| img | 图片源 | G6 支持多种格式的图片：<br />- url<br />- ImageData<br />- Image<br />- canvas<br /> |
+| x | Number | 图片左上角的 x 坐标 |
+| y | Number | 图片左上角的 y 坐标 |
+| width | Number | 图片宽度 |
+| height | Number | 图片高度 |
+| img | String | 图片源，G6 支持多种格式的图片：<br />- url<br />- ImageData<br />- Image<br />- canvas<br /> |
 
 ### 用法
 
@@ -163,12 +164,12 @@ group.addShape('image', {
 
 ### 特殊属性
 
-| 属性名 | 含义 | 备注 |
+| 属性名 | 类型 | 含义 |
 | --- | --- | --- |
-| x | 中心的 x 坐标 |  |
-| y | 中心的 y 坐标 |  |
-| r | 形状半径 |  |
-| symbol | 指定形状 | 内置了一些常用形状，如圆形 `'circle'`，矩形  `'square'`，菱形  `'diamond'`，三角形  `'triangle'`，倒三角形 `'triangle-down'`，这些内置形状只需要直接将响应 String 赋值给 symbol。也可以是自定义的 path 路径。 |
+| x | Number | 中心的 x 坐标 |
+| y | Number | 中心的 y 坐标 |
+| r | Number | 形状半径 |
+| symbol | String / Function | 指定形状。我们已经内置了一些常用形状，如圆形 `'circle'`，矩形  `'square'`，菱形  `'diamond'`，三角形  `'triangle'`，倒三角形 `'triangle-down'`，这些内置形状只需要直接将响应 String 赋值给 symbol。也可以是自定义的 path 路径的函数。 |
 
 ### 用法
 
@@ -209,9 +210,9 @@ group.addShape('marker', {
 
 ### 特殊属性
 
-| 属性名 | 含义                 | 备注     |
+| 属性名  | 类型 | 含义 |
 | ------ | -------------------- | -------- |
-| points | 多边形的所有端点坐标 | 数组形式 |
+| points | Array | 多边形的所有端点坐标 |
 
 ### 用法
 
@@ -235,13 +236,13 @@ group.addShape('polygon', {
 
 ### 特殊属性
 
-| 属性名 | 含义 | 备注 |
+| 属性名 | 类型 | 含义 |
 | --- | --- | --- |
-| x | 矩形左上角的 x 坐标 |  |
-| y | 矩形左上角的 y 坐标 |  |
-| width | 矩形的宽度 |  |
-| height | 矩形的高度 |  |
-| radius | 定义圆角 | 支持整数或数组形式，分别对应左上、右上、右下、左下角的半径：<br />- radius 缩写为 1 或 [ 1 ] 相当于 [ 1, 1, 1, 1 ]<br />- radius 缩写为 [ 1, 2 ] 相当于 [ 1, 2, 1, 2 ]<br />- radius 缩写为 [ 1, 2, 3 ] 相当于 [ 1, 2, 3, 2 ]<br /> |
+| x | Number | 矩形左上角的 x 坐标 |
+| y | Number |矩形左上角的 y 坐标 |
+| width | Number | 矩形的宽度 |
+| height | Number | 矩形的高度 |
+| radius | Number / Number[] | 定义圆角。支持整数或数组形式，分别对应左上、右上、右下、左下角的半径：<br />- radius 缩写为 1 或 [ 1 ] 相当于 [ 1, 1, 1, 1 ]<br />- radius 缩写为 [ 1, 2 ] 相当于 [ 1, 2, 1, 2 ]<br />- radius 缩写为 [ 1, 2, 3 ] 相当于 [ 1, 2, 3, 2 ]<br /> |
 
 ### 用法
 
@@ -266,17 +267,21 @@ group.addShape('rect', {
 
 ### 特殊属性
 
-| 属性名 | 含义 | 备注 |
+| 属性名 | 类型 | 含义 |
 | --- | --- | --- |
-| path | 线条路径 | 可以是 String 形式，也可以是线段的数组。 |
-| startArrow | 起始端的箭头 | 为 `true` 时为默认的箭头效果，也可以是一个自定义箭头 |
-| endArrow | 末尾端的箭头 | 为 `true` 时为默认的箭头效果，也可以是一个自定义箭头 |
-| lineAppendWidth | 边的击中范围 | 提升边的击中范围，扩展响应范围，数值越大，响应范围越广 |
-| lineCap | 设置线条的结束端点样式 |  |
-| lineJoin | 设置两条线相交时，所创建的拐角形状 |  |
-| lineWidth | 设置当前的线条宽度 |  |
-| miterLimit | 设置最大斜接长度 |  |
-| lineDash | 设置线的虚线样式，可以指定一个数组 | 一组描述交替绘制线段和间距（坐标空间单位）长度的数字。 如果数组元素的数量是奇数， 数组的元素会被复制并重复。例如， [5, 15, 25] 会变成 [5, 15, 25, 5, 15, 25]。 |
+| path | String / Array | 线条路径，可以是 String 形式，也可以是线段的数组。格式参考：[SVG path](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Tutorial/Paths) |
+| startArrow | Boolean / Object | 起始端的箭头，为 `true` 时为默认的箭头效果，也可以是一个自定义箭头 |
+| endArrow |  Boolean / Object | 末尾端的箭头，为 `true` 时为默认的箭头效果，也可以是一个自定义箭头 |
+| lineAppendWidth | Number | 边的击中范围。提升边的击中范围，扩展响应范围，数值越大，响应范围越广 |
+| lineCap | String | 设置线条的结束端点样式。可选：<br/> - `'bevel'`: 斜角
+<br/> - `'round'`: 圆角
+<br/> - `'miter'`: 尖角 (默认) |
+| lineJoin | String | 设置两条线相交时，所创建的拐角形状。可选：<br/> - `'bevel'`: 斜角
+<br/> - `'round'`: 圆角
+<br/> - `'miter'`: 尖角 (默认) |
+| lineWidth | Number | 设置当前的线条宽度 |
+| miterLimit | Number | 设置最大斜接长度 |
+| lineDash | Number[] | 设置线的虚线样式，可以指定一个数组。一组描述交替绘制线段和间距（坐标空间单位）长度的数字。 如果数组元素的数量是奇数， 数组的元素会被复制并重复。例如， [5, 15, 25] 会变成 [5, 15, 25, 5, 15, 25]。可参考[setLineDash](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setLineDash) |
 
 ### 用法
 
@@ -312,24 +317,24 @@ group.addShape('path', {
 
 ### 特殊属性
 
-| 属性名 | 含义 | 备注 |
+| 属性名 | 类型 | 含义 |
 | --- | --- | --- |
-| fill | 设置用于填充绘画的颜色、渐变或模式 | 对应 Canvas 属性 `fillStyle` |
-| stroke | 设置用于笔触的颜色、渐变或模式 | 对应 Canvas 属性 `strokeStyle` |
-| shadowColor | 设置用于阴影的颜色 |  |
-| shadowBlur | 设置用于阴影的模糊级别 | 数值越大，越模糊 |
-| shadowOffsetX | 设置阴影距形状的水平距离 |  |
-| shadowOffsetY | 设置阴影距形状的垂直距离 |  |
-| opacity | 设置绘图的当前 alpha 或透明值 | 对应 Canvas 属性 `globalAlpha` |
-| font | 设置文本内容的当前字体属性 |  |
-| textAlign | 设置文本内容的当前对齐方式 | 支持的属性：`center` / `end` / `left` / `right` / `start`，默认值为 `start` |
-| textBaseline | 设置在绘制文本时使用的当前文本基线 | 支持的属性:<br />`top` / `middle` / `bottom` / `alphabetic` / `hanging`。默认值为 `bottom` |
-| fontStyle | 字体样式 | 对应 `font-style` |
-| fontVariant | 设置为小型大写字母字体 | 对应 `font-variant` |
-| fontWeight | 字体粗细 | 对应 `font-weight` |
-| fontSize | 字体大小 | 对应 `font-size` |
-| fontFamily | 字体系列 | 对应 `font-family` |
-| lineHeight | 行高 | 对应 `line-height` |
+| fill | String | 设置用于填充绘画的颜色、渐变或模式。可以是 RGB 或 16 进制格式。对应 Canvas 属性 `fillStyle` |
+| stroke | String | 设置用于笔触的颜色、渐变或模式。可以是 RGB 或 16 进制格式。对应 Canvas 属性 `strokeStyle` |
+| shadowColor | String | 设置用于阴影的颜色 |
+| shadowBlur | Number | 设置用于阴影的模糊级别。数值越大，越模糊 |
+| shadowOffsetX | Number | 设置阴影距形状的水平距离 |
+| shadowOffsetY | Number | 设置阴影距形状的垂直距离 |
+| opacity | Number | 设置绘图的当前 alpha 或透明值，范围 [0, 1]。对应 Canvas 属性 `globalAlpha` |
+| font | String | 设置文本内容的当前字体属性 |
+| textAlign | String | 设置文本内容的当前对齐方式。支持的属性：`center` / `end` / `left` / `right` / `start`，默认值为 `start` |
+| textBaseline | String | 设置在绘制文本时使用的当前文本基线。支持的属性:<br />`top` / `middle` / `bottom` / `alphabetic` / `hanging`。默认值为 `bottom` |
+| fontStyle | String | 字体样式。对应 `font-style` |
+| fontVariant | String | 设置为小型大写字母字体。对应 `font-variant` |
+| fontWeight | Number | 字体粗细。对应 `font-weight` |
+| fontSize | Number | 字体大小。对应 `font-size` |
+| fontFamily | String | 字体系列。对应 `font-family` |
+| lineHeight | Number | 行高。对应 `line-height` |
 
 ### 用法
 
@@ -344,7 +349,7 @@ group.addShape('text', {
     shadowColor: 'blue',
     shadowBlur: 10,
   },
-  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  // must be assigned in G6 3.3 and later versions. it can be any value you wantPath
   name: 'text-shape',
 });
 ```
@@ -357,9 +362,9 @@ group.addShape('text', {
 
 ### 特殊属性
 
-| 属性名 | 含义 | 备注 |
+| 属性名 | 类型 | 含义 |
 | --- | --- | --- |
-| html | DOM 的 html 值 |  |
+| html | String | DOM 的 html 值 |
 
 ### 用法
 

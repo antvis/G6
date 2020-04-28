@@ -73,6 +73,8 @@ Draw the node or edge, including the label on the it. Return `keyShape` of it.
 
 This function will be called after the node or edge being drawed. It is appropriate for extending graphics or animations for built-in node or edge.
 
+This [demo](/en/examples/scatter/edge) shows how to add animations in afterDraw. The API about shape's animate can be refered to the [Animate API of G](https://g.antv.vision/en/docs/api/general/element/#%E5%8A%A8%E7%94%BB%E6%96%B9%E6%B3%95) which is the rendering engine of G6.
+
 ## Update Functions
 
 ### update(cfg, item)
@@ -89,6 +91,8 @@ Update the node or edge, including the label on it.
 ### afterUpdate(cfg, item)
 
 This function will be called after the node or edge being updated.
+
+This [demo](/en/examples/scatter/edge) shows how to add animations. The API about shape's animate can be refered to the [Animate API of G](https://g.antv.vision/en/docs/api/general/element/#%E5%8A%A8%E7%94%BB%E6%96%B9%E6%B3%95) which is the rendering engine of G6.
 
 ### shouldUpdate(type)
 

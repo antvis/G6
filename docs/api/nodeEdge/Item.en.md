@@ -234,7 +234,7 @@ item.clearCache();
 
 ### show()
 
-Show the item.
+Show the item. Show the item itself. Different from that, when the item is a node, [graph.showItem(item)](/en/docs/api/Graph#showitemitem) will show the node and its related edges in the same time.
 
 **Usage**
 
@@ -244,7 +244,7 @@ item.show();
 
 ### hide()
 
-Hide the item.
+Hide the item. Hide the item itself. Different from that, when the item is a node, [graph.hideItem(item)](/en/docs/api/Graph#hideitemitem) will hide the node and its related edges in the same time.
 
 **Usage**
 

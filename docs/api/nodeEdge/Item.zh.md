@@ -234,7 +234,7 @@ item.clearCache();
 
 ### show()
 
-显示元素。
+显示元素。只显示 item 自身，若需要在显示节点的同时显示相关边，应调用 [graph.showItem(item)](/zh/docs/api/Graph#showitemitem)。
 
 **用法**
 
@@ -244,7 +244,7 @@ item.show();
 
 ### hide()
 
-隐藏元素。
+隐藏元素。只隐藏 item 自身，若需要在隐藏节点的同时隐藏相关边，应调用 [graph.hideItem(item)](/zh/docs/api/Graph#hideitemitem)。
 
 **用法**
 
