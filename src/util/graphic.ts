@@ -1,7 +1,6 @@
 import Group from '@antv/g-canvas/lib/group';
 import Path from '@antv/g-canvas/lib/shape/path';
 import { vec2, mat3 } from '@antv/matrix-util';
-import each from '@antv/util/lib/each';
 import Global from '../global';
 import { EdgeData, IBBox, IPoint, IShapeBase, LabelStyle, TreeGraphData, NodeConfig, ComboTree, ComboConfig } from '../types';
 import { applyMatrix } from './math';
@@ -9,7 +8,6 @@ import letterAspectRatio from './letterAspectRatio';
 import { isString, clone } from '@antv/util';
 import { BBox } from '@antv/g-math/lib/types';
 import { IGraph } from '../interface/graph';
-import { INode } from '../interface/item';
 
 const { PI, sin, cos } = Math;
 

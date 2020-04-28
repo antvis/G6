@@ -950,7 +950,7 @@ const ComboLayoutCollapseExpand = () => {
         height: 500,
         // fitView: true,
         modes: {
-          default: ['drag-canvas', 'drag-node', 'zoom-canvas'],  // , 'collapse-expand-combo'
+          default: ['drag-canvas', 'drag-node', 'zoom-canvas', 'collapse-expand-combo', 'drag-combo'],  // , 'collapse-expand-combo'
         },
         layout: {
           type: 'comboForce'
