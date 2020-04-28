@@ -536,6 +536,8 @@ export const reconstructTree = (trees: ComboTree[], subtreeId?: string, newParen
         } else {
           subtree.comboId = newParentId
         }
+        const index = brothers.indexOf(child);
+        brothers.splice(index, 1);
         foundSubTree = true
       }
       return true;
@@ -573,7 +575,11 @@ export const reconstructTree = (trees: ComboTree[], subtreeId?: string, newParen
           if (comboChildsMap[child.parentId]) depth = comboChildsMap[child.parentId].depth + 2;
           else if (comboChildsMap[child.comboId]) depth = comboChildsMap[child.comboId].depth + 1;
           child.depth = depth;
-          comboChildsMap[child.id]['depth'] = child.depth
+          if (comboChildsMap[child.id]) {
+            if (comboChildsMap[child.id]) {
+              comboChildsMap[child.id]['depth'] = child.depth
+            }
+          }
           return true;
         });
       });
