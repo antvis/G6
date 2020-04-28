@@ -158,6 +158,13 @@ export interface IGraph extends EventEmitter {
   uncombo(item: String | ICombo): void;
 
   /**
+   * 根据已经存在的节点或 combo 创建新的 combo
+   * @param combo combo ID 或 Combo 配置
+   * @param elements 添加到 Combo 中的元素，包括节点和 combo
+   */
+  createCombo(combo: string | ComboConfig, elements: string[]): void;
+
+  /**
    * 设置元素状态
    * @param {Item} item 元素id或元素实例
    * @param {string} state 状态名称
