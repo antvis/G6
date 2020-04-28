@@ -7,6 +7,7 @@ import CollapseExpand from './component/collapse-expand-combo';
 import ComboLayoutCollapseExpand from './component/combo-layout-collapse-expand';
 import CollapseExpandVEdge from './component/collapse-expand-vedge';
 import ComboCollapseExpandTree from './component/combo-collapse-expand-tree';
+import ComboExample from './component/combo-example'
 
 export default { title: 'Combo' };
 
@@ -28,4 +29,5 @@ storiesOf('Combo', module)
   ))
   .add('collapse expand tree', () => (
     <ComboCollapseExpandTree />
-  ));
+  ))
+  .add('combo example', () => <ComboExample />)
