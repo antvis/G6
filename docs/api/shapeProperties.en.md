@@ -20,18 +20,21 @@ G6 has these shapes:
 
 ### Common Property
 
-| Name | Description | Remark |
-| --- | --- | --- |
-| fill | The color or gradient color for filling. | The corresponding property in canvas is `fillStyle`. |
-| stroke | The color, gradient color, or pattern for stroke. | The corresponding property in canvas is `strokeStyle`. |
-| lineWidth     | The width of the stroke  |                                |
-| lineDash     | The lineDash of the stroke  | Number[] are the lengths of the lineDash    |
-| shadowColor | The color for shadow. |  |
-| shadowBlur | The blur level for shadow. | Larger the value, more blur. |
-| shadowOffsetX | The horizontal offset of the shadow. |  |
-| shadowOffsetY | The vertical offset of the shadow. |  |
-| opacity | The opacity (alpha value) of the shape. | The corresponding property in canvas is `globalAlpha`. |
-| cursor        | The type of the mouse when hovering the node. The options are the same as [cursor in CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) |  |
+| Name        | Type | Example                              | Description                           |
+| ------------- | -----------| ---------------------------------- | ------------------------------ |
+| fill          | String | - 'rgb(18, 150, 231)' <br/> - '#c193af' <br/>- 'l(0) 0:#ffffff 0.5:#7ec2f3 1:#1890ff' <br/>-  'r(0.5, 0.5, 0.1) 0:#ffffff 1:#1890ff' | The color(RGB or Hex) or [gradient](/en/docs/manual/FAQ/gradient#gatsby-focus-wrapper) color for filling. The corresponding property in canvas is `fillStyle`.  |
+| stroke        | String |  - 'rgb(18, 150, 231)' <br/> - '#c193af' <br/>- 'l(0) 0:#ffffff 0.5:#7ec2f3 1:#1890ff' <br/>-  'r(0.5, 0.5, 0.1) 0:#ffffff 1:#1890ff'     | The color(RGB or Hex) or [gradient](/en/docs/manual/FAQ/gradient#gatsby-focus-wrapper) color for stroke. The corresponding property in canvas is `strokeStyle`. |
+| lineWidth     | Number | 2                           | The width of the stroke.                               |
+| lineDash      | Number/ Number[] | [5, 10]  | The lineDash of the stroke  | Number[] are the lengths of the lineDash.   |
+| shadowColor   | String | 'rgb(18, 150, 231)' / '#c193a1'                 | The color for shadow.                             |
+| shadowBlur    | Number | 50            | The blur level for shadow. Larger the value, more blur.               |
+| shadowOffsetX | Number | 10           | The horizontal offset of the shadow.                               |
+| shadowOffsetY | Number | 10           | The vertical offset of the shadow.                               |
+| opacity       | Number | 0.8      | The opacity (alpha value) of the shape. The corresponding property in canvas is `globalAlpha`. |
+| fillOpacity   | Number | 0.8          | The filling opacity (alpha value) of the shape. The priority is higher than `opacity`. Range [0, 1]. |
+| strokeOpacity   | Number | 0.8          | The stroke opacity (alpha value) of the shape. The priority is higher than `opacity`. Range [0, 1]. |
+| cursor       | String | 'pointer'  | The type of the mouse when hovering the node. The options are the same as [cursor in CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) |
+
 
 ### Usage
 
@@ -87,11 +90,11 @@ rect.attr({
 
 ### Special Property
 
-| Name | Description                        |
-| ---- | ---------------------------------- |
-| x    | The x of the center of the circle. |
-| y    | The y of the center of the circle. |
-| r    | The radius of the circle.          |
+| Name | Type | Description                        |
+| ---- | ---- | ---------------------------------- |
+| x    | Number | The x of the center of the circle. |
+| y    | Number | The y of the center of the circle. |
+| r    | Number | The radius of the circle.          |
 
 ### Usage
 
@@ -112,12 +115,12 @@ group.addShape('circle', {
 
 ### Special Property
 
-| Name | Description                           |
-| ---- | ------------------------------------- |
-| x    | The x of the center of the ellipse.   |
-| y    | The y of the center of the ellipse.   |
-| rx   | The horizontal raidus of the ellipse. |
-| ry   | The vertical raidus of the ellipse.   |
+| Name | Type | Description                           |
+| ---- | ------ | ------------------------------------- |
+| x     | Number | The x of the center of the ellipse.   |
+| y     | Number | The y of the center of the ellipse.   |
+| rx    | Number | The horizontal raidus of the ellipse. |
+| ry    | Number | The vertical raidus of the ellipse.   |
 
 ### Usage
 
@@ -139,13 +142,13 @@ group.addShape('ellipse', {
 
 ### Special Property
 
-| Name | Description | Remark |
+| Name | Type | Description |
 | --- | --- | --- |
-| x | The x of the left top of the image. |  |
-| y | The y of the left top of the image. |  |
-| width | The width of the image. |  |
-| height | The height of the image. |  |
-| img | The source of the image. | G6 supports multiple image formats: <br />- url<br />- ImageData<br />- Image<br />- canvas<br /> |
+| x | Number | The x of the left top of the image. |
+| y | Number | The y of the left top of the image. |
+| width | Number | The width of the image. |
+| height | Number | The height of the image. |
+| img | String | The source of the image.G6 supports multiple image formats: <br />- url<br />- ImageData<br />- Image<br />- canvas<br /> |
 
 ### Usage
 
@@ -165,12 +168,12 @@ group.addShape('image', {
 
 ### Special Property
 
-| Name | Description | Remark |
+| Name | Type | Description |
 | --- | --- | --- |
-| x | The x of the center of the marker. |  |
-| y | The y of the center of the marker. |  |
-| r | The radius of the marker. |  |
-| symbol | The shape name. | There are several built-in shapes: `'circle'`, `'square'`, `'diamond'`, `'triangle'`, `'triangle-down'`, you can use them with the String names. And user could customize a shape as marker. |
+| x | Number | The x of the center of the marker. |
+| y | Number | The y of the center of the marker. |
+| r | Number | The radius of the marker. |
+| symbol | String / Function | The shape name.There are several built-in shapes: `'circle'`, `'square'`, `'diamond'`, `'triangle'`, `'triangle-down'`, you can use them with the String names. And user could customize a shape as marker. |
 
 ### Usage
 
@@ -211,9 +214,9 @@ group.addShape('marker', {
 
 ### Special Property
 
-| Name   | Description                                   | Remark          |
+| Name   | Type                                   | Description          |
 | ------ | --------------------------------------------- | --------------- |
-| points | The coordinates of the points on the polygon. | It is an array. |
+| points | Array | The coordinates of the points on the polygon. |
 
 ### Usage
 
@@ -237,13 +240,13 @@ group.addShape('polygon', {
 
 ### Special Property
 
-| Name | Description | Remark |
+| Name | Type | Description |
 | --- | --- | --- |
-| x | The x of left top of the rect. |  |
-| y | The y of left top of the rect. |  |
-| width | The width of the rect. |  |
-| height | The height of the rect. |  |
-| radius | The border radius. | It can be an integer or an array, representing the border radii of lefttop, righttop, rightbottom, leftbotton respectively. <br />- `radius = 1` or `radius = [ 1 ]` is equal to `radius = [ 1, 1, 1, 1 ]`<br />- `radius = [ 1, 2 ]` is equal to `radius = [ 1, 2, 1, 2 ]`<br />- `radius: [ 1, 2, 3 ]` is equal to `radius: [ 1, 2, 3, 2 ]`<br /> |
+| x | Number | The x of left top of the rect. |
+| y | Number | The y of left top of the rect. |
+| width | Number | The width of the rect. |
+| height | Number | The height of the rect. |
+| radius | Number / Number[] | The border radius. It can be an integer or an array, representing the border radii of lefttop, righttop, rightbottom, leftbotton respectively. <br />- `radius = 1` or `radius = [ 1 ]` is equal to `radius = [ 1, 1, 1, 1 ]`<br />- `radius = [ 1, 2 ]` is equal to `radius = [ 1, 2, 1, 2 ]`<br />- `radius: [ 1, 2, 3 ]` is equal to `radius: [ 1, 2, 3, 2 ]`<br /> |
 
 ### Usage
 
@@ -268,17 +271,21 @@ group.addShape('rect', {
 
 ### Special Property
 
-| Name | Description | Remark |
+| Name | Type | Description |
 | --- | --- | --- |
-| path | The path. | It can be a String, or an Array of path. |
-| startArrow | The arrow on the start of the path. | When `startArrow` is `true`, show a default arrow on the start of the path. User can custom an arrow by path. |
-| endArrow | The arrow on the end of the path. | When `startArrow` is `true`, show a default arrow on the end of the path. User can custom an arrow by path. |
-| lineAppendWidth | The hitting area of the path. | Enlarge the hitting area by enlarging its value. |
-| lineCap | The style of two ends of the path. |  |
-| lineJoin | The style of the intersection of two path. |  |
-| lineWidth | The line width of the current path. |  |
-| miterLimit | The maximum miter length. |  |
-| lineDash | The style of the dash line. | It is an array that describes the length of gaps and line segments. If the number of the elements in the array is odd, the elements will be dulplicated. Such as [5, 15, 25] will be regarded as [5, 15, 25, 5, 15, 25]. |
+| path | String / Array | The path. Refer to [SVG path](https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths) |
+| startArrow | Boolean / Object | The arrow on the start of the path. When `startArrow` is `true`, show a default arrow on the start of the path. User can custom an arrow by path. |
+| endArrow | Boolean / Object | The arrow on the end of the path. When `startArrow` is `true`, show a default arrow on the end of the path. User can custom an arrow by path. |
+| lineAppendWidth | Number | The hitting area of the path. Enlarge the hitting area by enlarging its value. |
+| lineCap | String | The style of two ends of the path. Options: <br/> - `'bevel'`
+<br/> - `'round'`
+<br/> - `'miter'`(default) |
+| lineJoin | String | The style of the intersection of two path. Options: <br/> - `'bevel'`
+<br/> - `'round'`
+<br/> - `'miter'`(default) |
+| lineWidth | Number | The line width of the current path. |
+| miterLimit | Number | The maximum miter length. |
+| lineDash | Number / Number[] | The style of the dash line. It is an array that describes the length of gaps and line segments. If the number of the elements in the array is odd, the elements will be dulplicated. Such as [5, 15, 25] will be regarded as [5, 15, 25, 5, 15, 25]. |
 
 ### Usage
 
@@ -314,24 +321,24 @@ group.addShape('path', {
 
 ### Properties
 
-| Name | Description | Remark |
+| Name | Type | Description |
 | --- | --- | --- |
-| fill | The color or gradient color for filling. | The corresponding property in Canvas is `fillStyle`. |
-| stroke | The color, gradient color, or pattern for stroke. | The corresponding property in Canvas is `strokeStyle`. |
-| shadowColor | The color for shadow. |  |
-| shadowBlur | The blur level for shadow. | Larger the value, more blur. |
-| shadowOffsetX | The horizontal offset of the shadow. |  |
-| shadowOffsetY | The vertical offset of the shadow. |  |
-| opacity | The opacity (alpha value) of the shape. | The corresponding property in Canvas is `globalAlpha`. |
-| font | The font of the text. |  |
-| textAlign | The align way of the text. | Options: `'center'` / `'end'` / `'left'` / `'right'` / `'start'`. `'start'` by default. |
-| textBaseline | The base line of the text. | Options: <br />`'top'` / `'middle'` / `'bottom'` / `'alphabetic'` / `'hanging'`. `'bottom'` by default. |
-| fontStyle | The font style of the text. | The corresponding property in CSS is `font-style` |
-| fontVariant | The font variant of the text. | The corresponding property in CSS is `font-variant` |
-| fontWeight | The font weight of the text. | The corresponding property in CSS is `font-weight` |
-| fontSize | The font size of the text. | The corresponding property in CSS is `font-size` |
-| fontFamily | The font family of the text. | The corresponding property in CSS is `font-family` |
-| lineHeight | Line height of the text | The corresponding property in CSS is `line-height` |
+| fill | String | The color or gradient color for filling. The corresponding property in Canvas is `fillStyle`. |
+| stroke | String | The color, gradient color, or pattern for stroke. The corresponding property in Canvas is `strokeStyle`. |
+| shadowColor | String | The color for shadow. |
+| shadowBlur | Number | The blur level for shadow. Larger the value, more blur. |
+| shadowOffsetX | Number | The horizontal offset of the shadow. |
+| shadowOffsetY | Number | The vertical offset of the shadow. |
+| opacity | Number | The opacity (alpha value) of the shape. The corresponding property in Canvas is `globalAlpha`. |
+| font | String | The font of the text. |
+| textAlign | String | The align way of the text. Options: `'center'` / `'end'` / `'left'` / `'right'` / `'start'`. `'start'` by default. |
+| textBaseline | String | The base line of the text. Options: <br />`'top'` / `'middle'` / `'bottom'` / `'alphabetic'` / `'hanging'`. `'bottom'` by default. |
+| fontStyle | String | The font style of the text. The corresponding property in CSS is `font-style` |
+| fontVariant | String | The font variant of the text. The corresponding property in CSS is `font-variant` |
+| fontWeight | Number | The font weight of the text. The corresponding property in CSS is `font-weight` |
+| fontSize | Number | The font size of the text. The corresponding property in CSS is `font-size` |
+| fontFamily | String | The font family of the text. The corresponding property in CSS is `font-family` |
+| lineHeight | Number | Line height of the text. The corresponding property in CSS is `line-height` |
 
 
 ### Usage
@@ -361,9 +368,9 @@ group.addShape('text', {
 
 ### Properties
 
-| Name | Description | Remark |
+| Name | Type | Description |
 | --- | --- | --- |
-| html | The html value for DOM shape |  |
+| html | String | The html value for DOM shape |
 
 ### Usage
 

@@ -590,7 +590,7 @@ graph.destroy();
 
 ### showItem(item)
 
-显示指定的元素。
+显示指定的元素。若 item 为节点，则相关边也会随之显示。而 [item.show()](/zh/docs/api/nodeEdge/Item#show) 则将只显示自身。
 
 **参数**
 
@@ -611,7 +611,7 @@ graph.showItem('nodeId');
 
 ### hideItem(item)
 
-隐藏指定元素。
+隐藏指定元素。若 item 为节点，则相关边也会随之隐藏。而 [item.hide()](/zh/docs/api/nodeEdge/Item#hide) 则将只隐藏自身。
 
 **参数**
 

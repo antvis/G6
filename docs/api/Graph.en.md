@@ -579,7 +579,7 @@ graph.destroy();
 
 ### showItem(item)
 
-Show the item.
+Show the item. If the item is a node, the related edges will be shown in the same time. Different from that, [item.show()](/en/docs/api/nodeEdge/Item#show) only show the node item itself.
 
 **Parameters**
 
@@ -600,7 +600,7 @@ graph.showItem('nodeId');
 
 ### hideItem(item)
 
-Hide the item.
+Hide the item. If the item is a node, the related edges will be hidden in the same time. Different from that, [item.hide()](/en/docs/api/nodeEdge/Item#hide) only hide the node item itself.
 
 **Parameters**
 
