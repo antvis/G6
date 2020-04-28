@@ -284,7 +284,7 @@ describe('force layout', () => {
     });
   });
 
-  it('preventOverlap with function nodeSpacing and number nodeSize', done => {
+  it.only('preventOverlap with function nodeSpacing and number nodeSize', done => {
     let isEnd = false;
     const nodeSize = 30;
 
@@ -304,8 +304,6 @@ describe('force layout', () => {
       width: 500,
       height: 500,
     });
-    graph.data(data);
-    graph.render();
 
     graph.on('afterlayout', () => {
       expect(isEnd === true).toEqual(true);
@@ -319,6 +317,9 @@ describe('force layout', () => {
       graph.destroy();
       done();
     });
+
+    graph.data(data);
+    graph.render();
   });
 
   it('force re-execute, isTicking', done => {
