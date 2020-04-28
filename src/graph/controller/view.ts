@@ -38,12 +38,12 @@ export default class ViewController {
     const padding = this.getFormatPadding();
     const width: number = graph.get('width');
     const height: number = graph.get('height');
-    const viewCenter = this.getViewCenter();
     const group: Group = graph.get('group');
     group.resetMatrix();
     const bbox = group.getCanvasBBox();
 
     if (bbox.width === 0 || bbox.height === 0) return;
+    const viewCenter = this.getViewCenter();
 
     const groupCenter: Point = {
       x: bbox.x + bbox.width / 2,
