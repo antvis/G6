@@ -237,7 +237,7 @@ export default class ItemController {
 
     item.update(cfg);
 
-    if (type === NODE) {
+    if (type === NODE || type === COMBO) {
       const edges: IEdge[] = (item as INode).getEdges();
       each(edges, (edge: IEdge) => {
         graph.refreshItem(edge);

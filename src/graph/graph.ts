@@ -1213,17 +1213,69 @@ export default class Graph extends EventEmitter implements IGraph {
   }
 
   /**
+   * 根据已经存在的节点或 combo 创建新的 combo
+   * @param combo combo ID 或 Combo 配置
+   * @param elements 添加到 Combo 中的元素，包括节点和 combo
+   */
+  public createCombo(combo: string | ComboConfig, elements: string[]): void  {
+    // step 1: 创建新的 Combo
+    let comboId = ''
+    if (isString(combo)) {
+      comboId = combo
+      this.addItem('combo', {
+        id: combo
+      })
+    } else {
+      comboId = combo.id
+      this.addItem('combo', combo)
+    }
+
+    const currentCombo = this.findById(comboId) as ICombo
+    
+    const trees = elements.map(elementId => {
+      const item = this.findById(elementId)
+
+      // step 2: 将元素添加到 Combo 中
+      currentCombo.addChild(item as INode | ICombo)
+
+      const model = item.getModel()
+      const type = item.getType()
+      if (type === 'combo') {
+        (model as ComboConfig).parentId = comboId
+      } else if (type === 'node') {
+        (model as NodeConfig).comboId = comboId
+      }
+
+      return {
+        depth: 1,
+        itemType: type,
+        ...model
+      }
+    })
+
+    // step3: 更新 comboTrees 结构
+    const comboTrees = this.get('comboTrees')
+    comboTrees.forEach(ctree => {
+      if (ctree.id === comboId) {
+        ctree.itemType = 'combo'
+        ctree.children = trees
+      }
+    })
+
+    this.updateCombos()
+  }
+
+  /**
    * 解散 combo
    * @param {String | INode | ICombo} item 需要被解散的 Combo item 或 id
    */
   public uncombo(combo: string | ICombo) {
     const self = this;
-    let comboItem: ICombo;
+    let comboItem: ICombo = combo as ICombo;
     if (isString(combo)) {
       comboItem = this.findById(combo) as ICombo;
-    } else {
-      comboItem = combo;
     }
+    
     if (!comboItem || comboItem.getType() !== 'combo') {
       console.warn('The item is not a combo!');
       return;
@@ -1328,7 +1380,9 @@ export default class Graph extends EventEmitter implements IGraph {
     // 当 combo 存在parentId 或 comboId 时，才将其移除
     if (model.parentId || model.comboId) {
       const combo = this.findById((model.parentId || model.comboId) as string) as ICombo
-      combo.removeChild(uItem)
+      if (combo) {
+        combo.removeChild(uItem)
+      }
     }
 
     const type = uItem.getType()
@@ -1342,12 +1396,16 @@ export default class Graph extends EventEmitter implements IGraph {
     // 只有当移入到指定 combo 时才添加
     if (parentId) {
       const parentCombo = this.findById(parentId) as ICombo
-      parentCombo.addChild(uItem as ICombo | INode)
+      if (parentCombo) {
+        parentCombo.addChild(uItem as ICombo | INode)
+      }
     }
     // 如果原先有父亲 combo，则从原父 combo 的子元素数组中删除
     if (oldParentId) {
       const parentCombo = this.findById(oldParentId) as ICombo
-      parentCombo.removeChild(uItem as ICombo | INode)
+      if (parentCombo) {
+        parentCombo.removeChild(uItem as ICombo | INode)
+      }
     }
 
     const newComboTrees = reconstructTree(this.get('comboTrees'), model.id, parentId);
