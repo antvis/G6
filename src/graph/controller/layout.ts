@@ -177,7 +177,7 @@ export default class LayoutController {
       }
       this.layoutMethod = layoutMethod;
     }
-    if (hasLayoutType || (!allHavePos && this.layoutType !== 'force')) {
+    if ((hasLayoutType && this.layoutType !== 'force') || (!allHavePos && this.layoutType !== 'force')) {
       graph.emit('afterlayout');
       this.refreshLayout();
     }
