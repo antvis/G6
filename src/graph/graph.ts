@@ -202,11 +202,6 @@ export default class Graph extends EventEmitter implements IGraph {
         className: Global.comboContainerClassName
       })
 
-      const delegateGroup: IGroup = group.addGroup({
-        id: `${id}-delegate`,
-        className: Global.delegateContainerClassName,
-      });
-
       // 用于存储自定义的群组
       const customGroup: IGroup = group.addGroup({
         id: `${id}-group`,
@@ -216,8 +211,13 @@ export default class Graph extends EventEmitter implements IGraph {
       customGroup.toBack();
       comboGroup.toBack();
 
-      this.set({ nodeGroup, edgeGroup, customGroup, delegateGroup, comboGroup });
+      this.set({ nodeGroup, edgeGroup, customGroup, comboGroup });
     }
+    const delegateGroup: IGroup = group.addGroup({
+      id: `${id}-delegate`,
+      className: Global.delegateContainerClassName,
+    });
+    this.set({ delegateGroup });
     this.set('group', group);
   }
 
