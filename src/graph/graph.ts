@@ -1280,6 +1280,7 @@ export default class Graph extends EventEmitter implements IGraph {
       console.warn('The item is not a combo!');
       return;
     }
+    
     const parentId = comboItem.getModel().parentId;
     const comboTrees = self.get('comboTrees');
     const itemMap = this.get('itemMap');
@@ -1287,6 +1288,8 @@ export default class Graph extends EventEmitter implements IGraph {
     let treeToBeUncombo;
     let brothers = [];
     const comboItems = this.get('combos');
+    const parentItem = this.findById(parentId as string) as ICombo
+          
     comboTrees.forEach(ctree => {
       if (treeToBeUncombo) return; // terminate the forEach
       traverseTreeUp<ComboTree>(ctree, subtree => {
@@ -1305,16 +1308,26 @@ export default class Graph extends EventEmitter implements IGraph {
         }
         // find the parent to remove the combo from the combo's brothers array and add the combo's children to the combo's brothers array in the tree
         if (parentId && treeToBeUncombo && subtree.id === parentId) {
+          parentItem.removeCombo(comboItem)
           brothers = subtree.children; // the combo's brothers
           // remove the combo from its brothers array
           const index = brothers.indexOf(treeToBeUncombo);
           brothers.splice(index, 1);
-          brothers.concat(treeToBeUncombo.children);
+          
           // append the combo's children to the combo's brothers array
           treeToBeUncombo.children && treeToBeUncombo.children.forEach(child => {
-            child.parentId = parentId;
-            const childModel = this.findById(child.id).getModel();
-            childModel.parentId = parentId; // update the parentId of the model
+            const item = this.findById(child.id) as ICombo | INode
+            const childModel = item.getModel();
+            if (item.getType() === 'combo') {
+              child.parentId = parentId;
+              delete child.comboId
+              childModel.parentId = parentId; // update the parentId of the model
+              delete childModel.comboId
+            } else if (item.getType() === 'node') {
+              child.comboId = parentId
+              childModel.comboId = parentId; // update the parentId of the model
+            }
+            parentItem.addChild(item)
             brothers.push(child);
           });
           return false;
@@ -1322,12 +1335,13 @@ export default class Graph extends EventEmitter implements IGraph {
         return true;
       });
     });
+    
     // if the parentId is not found, remove the combo from the roots
     if (!parentId && treeToBeUncombo) {
       const index = comboTrees.indexOf(treeToBeUncombo);
       comboTrees.splice(index, 1);
       // modify the parentId of the children
-      treeToBeUncombo.children.forEach(child => {
+      treeToBeUncombo.children && treeToBeUncombo.children.forEach(child => {
         child.parentId = undefined;
         const childModel = this.findById(child.id).getModel();
         childModel.parentId = undefined; // update the parentId of the model
