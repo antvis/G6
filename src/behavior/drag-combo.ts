@@ -36,11 +36,9 @@ export default {
   getDefaultCfg() {
     return {
       enableDelegate: false,
-      // 如果设置为true，则拖动 combo 过程中，combo 中的子元素不会跟随
-      optimization: false,
       delegateStyle: {},
-      delegateShapes: {},
-      delegateShapeBBoxs: {},
+      // 拖动过程中目标 combo 状态样式
+      activeState: ''
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -86,15 +84,17 @@ export default {
       this.targets = combos
     }
 
-    this.targets.map((combo: ICombo) => {
-      const model = combo.getModel() as ComboConfig
-      if (model.parentId) {
-        const parentCombo = graph.findById(model.parentId)
-        if (parentCombo) {
-          graph.setItemState(parentCombo, 'active', true)
+    if (this.activeState) {
+      this.targets.map((combo: ICombo) => {
+        const model = combo.getModel() as ComboConfig
+        if (model.parentId) {
+          const parentCombo = graph.findById(model.parentId)
+          if (parentCombo) {
+            graph.setItemState(parentCombo, this.activeState, true)
+          }
         }
-      }
-    })
+      })
+    }
 
     this.point = {};
     this.originPoint = {};
@@ -107,6 +107,9 @@ export default {
     this.currentItemChildCombos = []
 
     traverseCombo(item, (param) => {
+      if (param.destroyed) {
+        return false
+      }
       const model = param.getModel()
       this.currentItemChildCombos.push(model.id)
       return true
@@ -124,44 +127,46 @@ export default {
     if (this.enableDelegate) {
       this.updateDelegate(evt);
     } else {
-      const graph: IGraph = this.graph
-      const item: Item = evt.item
-      const model = item.getModel()
-      // 拖动过程中实时计算距离
-      const combos = graph.getCombos()
-      const sourceBBox = item.getBBox()
+      if (this.activeState) {
+        const graph: IGraph = this.graph
+        const item: Item = evt.item
+        const model = item.getModel()
+        // 拖动过程中实时计算距离
+        const combos = graph.getCombos()
+        const sourceBBox = item.getBBox()
 
-      const { centerX, centerY, width } = sourceBBox
+        const { centerX, centerY, width } = sourceBBox
 
-      // 参与计算的 Combo，需要排除掉：
-      // 1、拖动 combo 自己
-      // 2、拖动 combo 的 parent
-      // 3、拖动 Combo 的 children
+        // 参与计算的 Combo，需要排除掉：
+        // 1、拖动 combo 自己
+        // 2、拖动 combo 的 parent
+        // 3、拖动 Combo 的 children
 
-      const calcCombos = combos.filter(combo => {
-        const cmodel = combo.getModel() as ComboConfig
-        // 被拖动的是最外层的 Combo，无 parent，排除自身和子元素
-        if (!model.parentId) {
+        const calcCombos = combos.filter(combo => {
+          const cmodel = combo.getModel() as ComboConfig
+          // 被拖动的是最外层的 Combo，无 parent，排除自身和子元素
+          if (!model.parentId) {
+            return cmodel.id !== model.id && !this.currentItemChildCombos.includes(cmodel.id)
+          }
           return cmodel.id !== model.id && !this.currentItemChildCombos.includes(cmodel.id)
-        }
-        return cmodel.id !== model.id && !this.currentItemChildCombos.includes(cmodel.id)
-      })
+        })
 
-      calcCombos.map(combo => {
-        const { centerX: cx, centerY: cy, width: w } = combo.getBBox()
+        calcCombos.map(combo => {
+          const { centerX: cx, centerY: cy, width: w } = combo.getBBox()
 
-        // 拖动的 combo 和要进入的 combo 之间的距离
-        const disX = centerX - cx
-        const disY = centerY - cy
-        // 圆心距离
-        const distance = 2 * Math.sqrt(disX * disX + disY * disY)
+          // 拖动的 combo 和要进入的 combo 之间的距离
+          const disX = centerX - cx
+          const disY = centerY - cy
+          // 圆心距离
+          const distance = 2 * Math.sqrt(disX * disX + disY * disY)
 
-        if ((width + w) - distance > 0.8 * width) {
-          graph.setItemState(combo, 'active', true)
-        } else {
-          graph.setItemState(combo, 'active', false)
-        }
-      })
+          if ((width + w) - distance > 0.8 * width) {
+            graph.setItemState(combo, this.activeState, true)
+          } else {
+            graph.setItemState(combo, this.activeState, false)
+          }
+        })
+      }
 
       each(this.targets, item => {
         this.updateCombo(item, evt)
@@ -185,14 +190,12 @@ export default {
     this.targets.map((combo: ICombo) => {
       const model = combo.getModel()
       if (model.parentId !== targetModel.id) {
-        graph.setItemState(item, 'active', false)
+        if (this.activeState) {
+          graph.setItemState(item, this.activeState, false)
+        }
         graph.updateComboTree(combo, targetModel.id)
       }
     })
-
-    console.log(graph.findById('5'))
-
-    console.log(graph.get('comboTrees'));
 
     // 如果已经拖放下了，则不需要再通过距离判断了
     this.endComparison = true
@@ -206,7 +209,9 @@ export default {
 
     const { item } = evt
     const graph: IGraph = this.graph
-    graph.setItemState(item, 'active', true)
+    if (this.activeState) {
+      graph.setItemState(item, this.activeState, true)
+    }
   },
   onDragLeave(evt) {
     const item = evt.item as ICombo
@@ -215,7 +220,9 @@ export default {
     }
 
     const graph: IGraph = this.graph
-    graph.setItemState(item, 'active', false)
+    if (this.activeState) {
+      graph.setItemState(item, this.activeState, false)
+    }
   },
   onDragEnd(evt: IG6GraphEvent) {
     const graph: IGraph = this.graph;
@@ -262,7 +269,9 @@ export default {
         // 拖出了父 combo
         // 如果直接拖出到了 父 combo 周边，则不用计算距离圆心距离
         if (cx <= minX || cx >= maxX || cy <= minY || cy >= maxY) {
-          graph.setItemState(parentCombo, 'active', false)
+          if (this.activeState) {
+            graph.setItemState(parentCombo, this.activeState, false)
+          }
           isDragOut = true
           // 表示正在拖出操作
           graph.updateComboTree(item as ICombo)
@@ -275,8 +284,10 @@ export default {
 
           // 拖出的还在父 combo 包围盒范围内，但实际上已经拖出去了
           if ((width + w) - distance < 0.8 * width) {
+            if (this.activeState) {
+              graph.setItemState(parentCombo, this.activeState, false)
+            }
             isDragOut = true
-            graph.setItemState(parentCombo, 'active', false)
             graph.updateComboTree(item as ICombo)
           }
         }
@@ -315,7 +326,10 @@ export default {
           // 圆心距离
           const distance = 2 * Math.sqrt(disX * disX + disY * disY)
 
-          graph.setItemState(combo, 'active', false)
+          if (this.activeState) {
+            graph.setItemState(combo, this.activeState, false)
+          }
+
           if ((width + w) - distance > 0.8 * width) {
             graph.updateComboTree(item as ICombo, current.id)
           }
@@ -332,9 +346,8 @@ export default {
     }
 
     const parentCombo = this.getParentCombo(model.parentId)
-    console.log('parentCombo', parentCombo)
-    if (parentCombo) {
-      graph.setItemState(parentCombo, 'active', false)
+    if (parentCombo && this.activeState) {
+      graph.setItemState(parentCombo, this.activeState, false)
     }
 
     this.targets.length = 0
@@ -368,6 +381,9 @@ export default {
 
   updateCombo(item: ICombo, evt: IG6GraphEvent) {
     this.traverse(item, param => {
+      if (param.destroyed) {
+        return false
+      }
       this.updateSignleItem(param, evt)
       return true
     })
