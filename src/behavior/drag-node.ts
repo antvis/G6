@@ -7,9 +7,10 @@
  */
 import { Point } from '@antv/g-base/lib/types';
 import deepMix from '@antv/util/lib/deep-mix';
-import { INode } from '../interface/item';
+import { INode, ICombo } from '../interface/item';
 import { G6Event, IG6GraphEvent, Item, NodeConfig } from '../types';
 import Global from '../global';
+import { IGraph } from '../interface/graph';
 
 export default {
   getDefaultCfg(): object {
@@ -18,6 +19,8 @@ export default {
       delegateStyle: {},
       // 是否开启delegate
       enableDelegate: false,
+      // 拖动过程中目标 combo 状态样式
+      activeState: ''
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -107,12 +110,15 @@ export default {
       this.update(this.target, e, this.get('enableDelegate'));
     }
   },
-  onDragEnd(e: IG6GraphEvent) {
-    if (!this.origin || !this.shouldEnd.call(this, e)) {
+  onDragEnd(evt: IG6GraphEvent) {
+    if (!this.origin || !this.shouldEnd.call(this, evt)) {
       return;
     }
 
-    const { graph } = this;
+    // 拖动结束后，设置拖动元素 group 的 capture 为 true，允许拾取拖动元素
+    const item = evt.item as INode
+    const group = item.getContainer()
+    group.set('capture', true)
 
     if (this.delegateRect) {
       this.delegateRect.remove();
@@ -129,9 +135,9 @@ export default {
 
     if (this.targets.length > 0) {
       // 获取所有已经选中的节点
-      this.targets.forEach(node => this.update(node, e));
+      this.targets.forEach(node => this.update(node, evt));
     } else if (this.target) {
-      this.update(this.target, e);
+      this.update(this.target, evt);
     }
 
     this.point = {};
@@ -140,7 +146,54 @@ export default {
     this.targets.length = 0;
     this.target = null;
   },
-  update(item: Item, e: IG6GraphEvent, force: boolean) {
+  /**
+   * 拖动过程中将节点放置到 combo 上
+   * @param evt 
+   */
+  onDropCombo(evt: IG6GraphEvent) {
+    const item = evt.item as ICombo
+    this.validationCombo(item)
+
+    const graph: IGraph = this.graph
+
+    if (this.activeState) {
+      graph.setItemState(item, this.activeState, false)
+    }
+
+    this.targetCombo = item
+  },
+  /**
+   * 将节点拖入到 Combo 中
+   * @param evt 
+   */
+  onDragEnter(evt: IG6GraphEvent) {
+    const item = evt.item as ICombo
+    this.validationCombo(item)
+
+    const graph: IGraph = this.graph
+    if (this.activeState) {
+      graph.setItemState(item, this.activeState, true)
+    }
+  },
+  /**
+   * 将节点从 Combo 中拖出
+   * @param evt 
+   */
+  onDragLeave(evt: IG6GraphEvent) {
+    const item = evt.item as ICombo
+    this.validationCombo(item)
+
+    const graph: IGraph = this.graph
+    if (this.activeState) {
+      graph.setItemState(item, this.activeState, false)
+    }
+  },
+  /**
+   * 更新节点
+   * @param item 拖动的节点实例
+   * @param evt 
+   */
+  update(item: Item, evt: IG6GraphEvent) {
     const { origin } = this;
     const model: NodeConfig = item.get('model');
     const nodeId: string = item.get('id');
@@ -151,14 +204,8 @@ export default {
       };
     }
 
-    const x: number = e.x - origin.x + this.point[nodeId].x;
-    const y: number = e.y - origin.y + this.point[nodeId].y;
-
-    // 拖动单个未选中元素
-    if (force) {
-      this.updateDelegate(e, x, y);
-      return;
-    }
+    const x: number = evt.x - origin.x + this.point[nodeId].x;
+    const y: number = evt.y - origin.y + this.point[nodeId].y;
 
     const pos: Point = { x, y };
 
@@ -166,7 +213,6 @@ export default {
       this.graph.updateItem(item, pos);
     } else {
       item.updatePosition(pos);
-      // this.graph.paint();
     }
   },
   /**

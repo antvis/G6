@@ -118,6 +118,7 @@ export interface ModeOption {
   enableOptimize?: boolean;
   optimizeZoom?: number;
   multiple?: boolean;
+  activeState: string;
   selectedState?: string;
   includeEdges?: boolean;
   direction?: 'x' | 'y';
