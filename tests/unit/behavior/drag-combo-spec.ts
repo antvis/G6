@@ -6,6 +6,38 @@ const div = document.createElement('div');
 div.id = 'drag-combo-spec';
 document.body.appendChild(div);
 
+G6.registerCombo('custom-combo', {
+  draw: (cfg, group) => {
+    const style = cfg.style || {};
+    const keyShape = group.addShape('circle', {
+      attrs: style,
+      className: 'circle-combo',
+      name: 'circle-combo',
+      draggable: true,
+    });
+    group.addShape('marker', {
+      attrs: {
+        x: 0,//keyShape.attr('r') + 5,
+        y: 0,
+        r: 5,
+        stroke: 'blue',
+        symbol: 'triangle-down'
+      },
+      name: 'marker-shape'
+    })
+    return keyShape;
+  },
+  update: (cfg, item) => {
+    const group = item.get('group');
+    if (cfg.markerStyle) {
+      const marker = group.find(ele => ele.get('name') === 'marker-shape');
+      marker.attr(cfg.markerStyle);
+    }
+    const keyShape = group.get('children')[0];
+    keyShape.attr(cfg.style);
+  }
+}, 'circle-combo');
+
 describe('drag-combo', () => {
   it('drag combo', () => {
     const data = {
@@ -62,7 +94,6 @@ describe('drag-combo', () => {
         id: 'B',
         parentId: 'C',
         label: 'gorup B',
-        type: 'circle'
       }, {
         id: 'C',
         label: 'gorup C',
@@ -76,7 +107,7 @@ describe('drag-combo', () => {
         id: 'G',
         label: 'gorup G',
         // parentId: 'F'
-        type: 'circle'
+        type: 'custom-combo'
       }
     ]
     };
@@ -90,7 +121,7 @@ describe('drag-combo', () => {
       },
       defaultCombo: {
         // size: [100, 100],
-        type: 'circle',
+        type: 'custom-combo',
         style: {
           fill: '#b5f5ec'
         }
@@ -216,7 +247,8 @@ describe('drag-combo', () => {
         style: {
           stroke: 'red',
           fill: 'green'
-        }
+        },
+        // collapsed: true
       }, {
         id: 'B',
         label: 'gorup B',
@@ -230,11 +262,12 @@ describe('drag-combo', () => {
       }, 
       {
         id: 'E',
+        // collapsed: true
       },
       {
         id: 'FF',
         label: '空分组',
-        type: 'custom-combo',
+        // type: 'custom-combo',
         style: {
           stroke: 'green',
           lineWidth: 3
@@ -249,7 +282,10 @@ describe('drag-combo', () => {
       height: 800,
       groupByTypes: false,
       modes: {
-        default: [ 'drag-canvas', 'drag-combo', 'drag-node', 'collapse-expand-combo' ]
+        default: [ 'drag-canvas', {
+          type: 'drag-combo',
+          activeState: 'active'
+        }, 'drag-node', 'collapse-expand-combo' ]
       },
       defaultCombo: {
         // size: [100, 100],
@@ -284,6 +320,17 @@ describe('drag-combo', () => {
     
     graph.data(data);
     graph.render();
+
+    // 删错 combo
+    // graph.on('combo:click', evt => {
+    //   const { item } = evt
+    //   graph.removeItem(item)
+    // })
+
+    // graph.on('combo:click', evt => {
+    //   const { item } = evt
+    //   graph.uncombo(item)
+    // })
 
     // setTimeout(() => {
     //   graph.updateComboTree('D')

@@ -19,6 +19,8 @@ export default {
       delegateStyle: {},
       // 是否开启delegate
       enableDelegate: false,
+      // 拖动过程中目标 combo 状态样式
+      activeState: ''
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -148,7 +150,7 @@ export default {
     const item = evt.item as INode
     const group = item.getContainer()
     group.set('capture', true)
-
+    
     if (this.delegateRect) {
       this.delegateRect.remove();
       this.delegateRect = null;
@@ -195,7 +197,9 @@ export default {
 
     const graph: IGraph = this.graph
 
-    graph.setItemState(item, 'active', false)
+    if (this.activeState) {
+      graph.setItemState(item, this.activeState, false)
+    }
 
     this.targetCombo = item
   },
@@ -208,7 +212,9 @@ export default {
     this.validationCombo(item)
 
     const graph: IGraph = this.graph
-    graph.setItemState(item, 'active', true)
+    if (this.activeState) {
+      graph.setItemState(item, this.activeState, true)
+    }
   },
   /**
    * 将节点从 Combo 中拖出
@@ -219,7 +225,9 @@ export default {
     this.validationCombo(item)
 
     const graph: IGraph = this.graph
-    graph.setItemState(item, 'active', false)
+    if (this.activeState) {
+      graph.setItemState(item, this.activeState, false)
+    }
   },
   /**
    * 更新节点

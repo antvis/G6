@@ -6,6 +6,7 @@ import Shape from '../shape/shape';
 import { IBBox, IPoint, IShapeBase, ModelConfig, ShapeStyle, Indexable, NodeConfig, EdgeConfig, ComboConfig, ITEM_TYPE } from '../types';
 import { getBBox } from '../util/graphic';
 import { translate } from '../util/math';
+import { IGroup } from '@antv/g-base/lib/interfaces';
 
 const CACHE_BBOX = 'bboxCache';
 const CACHE_CANVAS_BBOX = 'bboxCanvasCache';
@@ -16,69 +17,69 @@ export default class ItemBase implements IItemBase {
   public _cfg: IItemBaseConfig & {
     [key: string]: unknown;
   } = {};
-  private defaultCfg: IItemBaseConfig = {
-    /**
-     * id
-     * @type {string}
-     */
-    id: undefined,
-
-    /**
-     * 类型
-     * @type {string}
-     */
-    type: 'item',
-
-    /**
-     * data model
-     * @type {object}
-     */
-    model: {} as ModelConfig,
-
-    /**
-     * g group
-     * @type {G.Group}
-     */
-    group: undefined,
-
-    /**
-     * is open animate
-     * @type {boolean}
-     */
-    animate: false,
-
-    /**
-     * visible - not group visible
-     * @type {boolean}
-     */
-    visible: true,
-
-    /**
-     * locked - lock node
-     * @type {boolean}
-     */
-    locked: false,
-    /**
-     * capture event
-     * @type {boolean}
-     */
-    event: true,
-    /**
-     * key shape to calculate item's bbox
-     * @type object
-     */
-    keyShape: undefined,
-    /**
-     * item's states, such as selected or active
-     * @type Array
-     */
-    states: [],
-  };
 
   public destroyed: boolean = false;
 
   constructor(cfg: IItemBaseConfig) {
-    this._cfg = Object.assign(this.defaultCfg, this.getDefaultCfg(), cfg);
+    const defaultCfg: IItemBaseConfig = {
+      /**
+       * id
+       * @type {string}
+       */
+      id: undefined,
+  
+      /**
+       * 类型
+       * @type {string}
+       */
+      type: 'item',
+  
+      /**
+       * data model
+       * @type {object}
+       */
+      model: {} as ModelConfig,
+  
+      /**
+       * g group
+       * @type {G.Group}
+       */
+      group: undefined,
+  
+      /**
+       * is open animate
+       * @type {boolean}
+       */
+      animate: false,
+  
+      /**
+       * visible - not group visible
+       * @type {boolean}
+       */
+      visible: true,
+  
+      /**
+       * locked - lock node
+       * @type {boolean}
+       */
+      locked: false,
+      /**
+       * capture event
+       * @type {boolean}
+       */
+      event: true,
+      /**
+       * key shape to calculate item's bbox
+       * @type object
+       */
+      keyShape: undefined,
+      /**
+       * item's states, such as selected or active
+       * @type Array
+       */
+      states: [],
+    };
+    this._cfg = Object.assign(defaultCfg, this.getDefaultCfg(), cfg);
     
     let { id } = this.get('model');
     
@@ -606,14 +607,16 @@ export default class ItemBase implements IItemBase {
    * 将元素放到最前面
    */
   public toFront() {
-    this.get('group').toFront();
+    const group: IGroup = this.get('group')
+    group.toFront();
   }
 
   /**
    * 将元素放到最后面
    */
   public toBack() {
-    this.get('group').toBack();
+    const group: IGroup = this.get('group')
+    group.toBack();
   }
 
   /**
