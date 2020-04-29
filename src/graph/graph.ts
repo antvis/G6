@@ -2026,6 +2026,10 @@ export default class Graph extends EventEmitter implements IGraph {
     }
     const comboModel = combo.getModel();
 
+    const itemController: ItemController = this.get('itemController');
+    itemController.expandCombo(combo);
+    comboModel.collapsed = false;
+
     // add virtual edges
     const edges = this.getEdges().concat(this.get('vedges'));
 
@@ -2107,7 +2111,6 @@ export default class Graph extends EventEmitter implements IGraph {
         }
         sourceId = sourceModel.id;
 
-
         if (targetId) {
           const vedgeId = `${sourceId}-${targetId}`;
           // update the width of the virtual edges, which is the sum of merged actual edges
@@ -2124,6 +2127,7 @@ export default class Graph extends EventEmitter implements IGraph {
             target: targetId,
             isVEdge: true
           });
+
           edgeWeightMap[vedgeId] = edge.getModel().size || 1;
           addedVEdges[vedgeId] = vedge;
         }
@@ -2164,7 +2168,6 @@ export default class Graph extends EventEmitter implements IGraph {
         }
         targetId = targetModel.id;
 
-
         if (sourceId) {
           const vedgeId = `${sourceId}-${targetId}`;
           // update the width of the virtual edges, which is the sum of merged actual edges
@@ -2186,10 +2189,6 @@ export default class Graph extends EventEmitter implements IGraph {
         }
       }
     });
-
-    const itemController: ItemController = this.get('itemController');
-    itemController.expandCombo(combo);
-    comboModel.collapsed = false;
   }
 
 
