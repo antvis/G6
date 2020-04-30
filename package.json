@@ -53,7 +53,9 @@
     "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/layout/force-spec.ts",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
     "watch": "father build -w",
-    "cdn": "antv-bin upload -n @antv/g6"
+    "cdn": "antv-bin upload -n @antv/g6",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "husky": {
     "hooks": {
@@ -83,7 +85,8 @@
     "d3-force": "^2.0.1",
     "dagre": "^0.8.5",
     "lodash": "^4.17.15",
-    "numericjs": "^1.2.6"
+    "numericjs": "^1.2.6",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {
     "@antv/gatsby-theme-antv": "^0.10.45",
@@ -124,5 +127,6 @@
     "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10",
     "worker-loader": "^2.0.0"
-  }
+  },
+  "snyk": true
 }
