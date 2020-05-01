@@ -98,17 +98,18 @@ export default class ItemController {
 
       if (source && isString(source)) {
         source = graph.findById(source);
-        if (source.getType() === 'combo') model.isComboEdge = true;
       }
       if (target && isString(target)) {
         target = graph.findById(target);
-        if (target.getType() === 'combo') model.isComboEdge = true;
       }
-
+      
       if (!source || !target) {
         console.warn(`The source or target node of edge ${model.id} does not exist!`);
         return;
       }
+
+      if ((source as Item).getType() === 'combo') model.isComboEdge = true;
+      if ((target as Item).getType() === 'combo') model.isComboEdge = true;
 
       item = new Edge({
         model,
