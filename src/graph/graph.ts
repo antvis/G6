@@ -1308,11 +1308,13 @@ export default class Graph extends EventEmitter implements IGraph {
         }
         // find the parent to remove the combo from the combo's brothers array and add the combo's children to the combo's brothers array in the tree
         if (parentId && treeToBeUncombo && subtree.id === parentId) {
-          parentItem.removeCombo(comboItem)
+          parentItem.removeCombo(comboItem);
           brothers = subtree.children; // the combo's brothers
           // remove the combo from its brothers array
           const index = brothers.indexOf(treeToBeUncombo);
-          brothers.splice(index, 1);
+          if (index !== -1) {
+            brothers.splice(index, 1);
+          }
           
           // append the combo's children to the combo's brothers array
           treeToBeUncombo.children && treeToBeUncombo.children.forEach(child => {
