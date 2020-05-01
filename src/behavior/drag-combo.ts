@@ -38,7 +38,8 @@ export default {
       enableDelegate: false,
       delegateStyle: {},
       // 拖动过程中目标 combo 状态样式
-      activeState: ''
+      activeState: '',
+      selectedState: 'selected'
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -69,7 +70,7 @@ export default {
     this.targets = []
 
     // 获取所有选中的 Combo
-    const combos = graph.findAllByState('combo', 'selected')
+    const combos = graph.findAllByState('combo', this.selectedState)
 
     const currentCombo = item.get('id')
 
@@ -98,6 +99,8 @@ export default {
 
     this.point = {};
     this.originPoint = {};
+
+    this.itemStates = {}
 
     this.origin = {
       x: evt.x,
@@ -178,7 +181,6 @@ export default {
   onDrop(evt: IG6GraphEvent) {
     // 拖动的目标 combo
     const { item } = evt
-    console.log('drop', item)
     if (!item || !this.targets) {
       return
     }
@@ -345,15 +347,22 @@ export default {
       this.delegateShape = null
     }
 
+    for (let itemId in this.itemStates) {
+      const states = this.itemStates[itemId]
+      each(states, state => graph.setItemState(item, state, true))
+    }
+
     const parentCombo = this.getParentCombo(model.parentId)
     if (parentCombo && this.activeState) {
       graph.setItemState(parentCombo, this.activeState, false)
     }
 
-    this.targets.length = 0
+
     this.point = []
     this.origin = null
     this.originPoint = null
+    this.targets.length = 0
+    this.itemStates = {}
   },
 
   /**
@@ -409,6 +418,12 @@ export default {
 
     const x: number = evt.x - origin.x + this.point[itemId].x;
     const y: number = evt.y - origin.y + this.point[itemId].y;
+
+    if (item.getStates().length > 0) {
+      const states = item.getStates()
+      this.itemStates[itemId] = [...states]
+      each(states, state => graph.setItemState(item, state, false))
+    }
 
     graph.updateItem(item, { x, y });
   },
