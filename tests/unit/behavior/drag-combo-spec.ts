@@ -238,32 +238,32 @@ describe('drag-combo', () => {
         }
       ],
       combos: [
-      {
-        id: 'A',
-        parentId: 'B',
-        label: 'gorup A',
-        padding: [50, 30, 10, 10],
-        type: 'rect',
-        style: {
-          stroke: 'red',
-          fill: 'green'
-        },
-        // collapsed: true
-      }, {
-        id: 'B',
-        label: 'gorup B',
-        padding: [50, 10, 10, 50],
-        // type: 'custom-combo'
-      },
-      {
-        id: 'D',
-        label: 'gorup D',
-        parentId: 'E',
-      }, 
-      {
-        id: 'E',
-        // collapsed: true
-      },
+      // {
+      //   id: 'A',
+      //   parentId: 'B',
+      //   label: 'gorup A',
+      //   padding: [50, 30, 10, 10],
+      //   type: 'rect',
+      //   style: {
+      //     stroke: 'red',
+      //     fill: 'green'
+      //   },
+      //   // collapsed: true
+      // }, {
+      //   id: 'B',
+      //   label: 'gorup B',
+      //   padding: [50, 10, 10, 50],
+      //   // type: 'custom-combo'
+      // },
+      // {
+      //   id: 'D',
+      //   label: 'gorup D',
+      //   parentId: 'E',
+      // }, 
+      // {
+      //   id: 'E',
+      //   // collapsed: true
+      // },
       {
         id: 'FF',
         label: '空分组',
@@ -285,7 +285,7 @@ describe('drag-combo', () => {
         default: [ 'drag-canvas', {
           type: 'drag-combo',
           activeState: 'active'
-        }, 'drag-node', 'collapse-expand-combo' ]
+        }, 'drag-node', 'collapse-expand-combo', 'click-select' ]
       },
       defaultCombo: {
         // size: [100, 100],
@@ -296,18 +296,24 @@ describe('drag-combo', () => {
         }
       },
       comboStateStyles: {
-        hover: {
-          'text-shape': {
-            fill: '#f00',
-            fontSize: 20
-          },
-          fill: '#f00'
+        selected: {
+          // 'text-shape': {
+          //   fill: '#f00',
+          //   fontSize: 20
+          // },
+          stroke: '#f00'
         },
         active: {
           stroke: 'red'
         },
         state2: {
           stroke: '#0f0'
+        }
+      },
+      nodeStateStyles: {
+        selected: {
+          stroke: 'green',
+          lineWidth: 2
         }
       },
       defaultEdge: {
@@ -320,6 +326,10 @@ describe('drag-combo', () => {
     
     graph.data(data);
     graph.render();
+
+    graph.on('nodeselectchange', evt => {
+      console.log(evt)
+    })
 
     // 删错 combo
     // graph.on('combo:click', evt => {

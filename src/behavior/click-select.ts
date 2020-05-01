@@ -1,5 +1,5 @@
 import each from '@antv/util/lib/each';
-import { G6Event, IG6GraphEvent } from '../types';
+import { G6Event, IG6GraphEvent, Item } from '../types';
 
 const DEFAULT_TRIGGER = 'shift';
 const ALLOW_EVENTS = ['shift', 'ctrl', 'alt', 'control']; 
@@ -9,6 +9,7 @@ export default {
     return {
       multiple: true,
       trigger: DEFAULT_TRIGGER,
+      selectedState: 'selected'
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -24,58 +25,79 @@ export default {
     if (!self.multiple) {
       return {
         'node:click': 'onClick',
+        'combo:click': 'onClick',
         'canvas:click': 'onCanvasClick',
       };
     }
     return {
       'node:click': 'onClick',
+      'combo:click': 'onClick',
       'canvas:click': 'onCanvasClick',
       keyup: 'onKeyUp',
       keydown: 'onKeyDown',
     };
   },
-  onClick(e: IG6GraphEvent) {
-    const { item } = e;
+  onClick(evt: IG6GraphEvent) {
+    const { item } = evt
+    if (!item) {
+      return
+    }
+
+    const type = item.getType()
     const { graph, keydown, multiple, shouldUpdate } = this;
 
     // allow to select multiple nodes but did not press a key || do not allow the select multiple nodes
     if (!keydown || !multiple) {
-      const selected = graph.findAllByState('node', 'selected');
-      each(selected, node => {
-        if (node !== item) {
-          graph.setItemState(node, 'selected', false);
+      const selected = graph.findAllByState(type, this.selectedState);
+      each(selected, combo => {
+        if (combo !== item) {
+          graph.setItemState(combo, this.selectedState, false);
         }
       });
     }
-    if (item.hasState('selected')) {
-      if (shouldUpdate.call(this, e)) {
-        graph.setItemState(item, 'selected', false);
+
+    if (item.hasState(this.selectedState)) {
+      if (shouldUpdate.call(this, evt)) {
+        graph.setItemState(item, this.selectedState, false);
       }
-      const selectedNodes = graph.findAllByState('node', 'selected');
+      const selectedNodes = graph.findAllByState('node', this.selectedState);
+      const selectedCombos = graph.findAllByState('combo', this.selectedState);
       graph.emit('nodeselectchange', {
         target: item,
-        selectedItems: { nodes: selectedNodes },
+        selectedItems: { 
+          nodes: selectedNodes,
+          combos: selectedCombos
+        },
         select: false,
       });
     } else {
-      if (shouldUpdate.call(this, e)) {
-        graph.setItemState(item, 'selected', true);
+      if (shouldUpdate.call(this, evt)) {
+        graph.setItemState(item, this.selectedState, true);
       }
-      const selectedNodes = graph.findAllByState('node', 'selected');
+      const selectedNodes = graph.findAllByState('node', this.selectedState);
+      const selectedCombos = graph.findAllByState('combo', this.selectedState);
       graph.emit('nodeselectchange', {
         target: item,
-        selectedItems: { nodes: selectedNodes },
+        selectedItems: { 
+          nodes: selectedNodes,
+          combos: selectedCombos
+        },
         select: true,
       });
     }
   },
   onCanvasClick() {
     const { graph } = this;
-    const selected = graph.findAllByState('node', 'selected');
+    const selected = graph.findAllByState('node', this.selectedState);
     each(selected, node => {
-      graph.setItemState(node, 'selected', false);
+      graph.setItemState(node, this.selectedState, false);
     });
-    graph.emit('nodeselectchange', { selectedItems: { nodes: [], edges: [] }, select: false });
+debugger
+    const selectedCombos = graph.findAllByState('combo', this.selectedState)
+    each(selectedCombos, combo => {
+      graph.setItemState(combo, this.selectedState, false);
+    });
+    graph.emit('nodeselectchange', { selectedItems: { nodes: [], edges: [], combos: [] }, select: false });
   },
   onKeyDown(e: IG6GraphEvent) {
     let code = e.key;
