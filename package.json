@@ -116,7 +116,7 @@
     "rimraf": "^3.0.0",
     "rollup-plugin-web-worker-loader": "^0.8.1",
     "ts-jest": "^24.1.0",
-    "ts-loader": "^6.2.1",
+    "ts-loader": "^7.0.2",
     "ttypescript": "^1.5.8",
     "typedoc": "^0.15.0",
     "typedoc-plugin-markdown": "^2.2.11",
