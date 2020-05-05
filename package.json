@@ -93,7 +93,7 @@
     "@storybook/addon-info": "^5.2.8",
     "@storybook/addon-knobs": "^5.2.8",
     "@storybook/react": "^5.2.8",
-    "@types/jest": "^24.0.18",
+    "@types/jest": "^25.2.1",
     "@types/node": "^12.12.22",
     "@umijs/fabric": "^2.0.0",
     "awesome-typescript-loader": "^5.2.1",
