@@ -94,7 +94,7 @@
     "@storybook/addon-knobs": "^5.2.8",
     "@storybook/react": "^5.2.8",
     "@types/jest": "^24.0.18",
-    "@types/node": "^12.12.22",
+    "@types/node": "^13.13.4",
     "@umijs/fabric": "^2.0.0",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
