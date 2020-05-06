@@ -117,7 +117,8 @@ export interface ModeOption {
   enableOptimize?: boolean;
   optimizeZoom?: number;
   multiple?: boolean;
-  activeState: string;
+  activeState?: string;
+  comboActiveState?: string;
   selectedState?: string;
   includeEdges?: boolean;
   direction?: 'x' | 'y';

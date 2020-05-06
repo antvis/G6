@@ -20,7 +20,8 @@ export default {
       // 是否开启delegate
       enableDelegate: false,
       // 拖动过程中目标 combo 状态样式
-      activeState: ''
+      comboActiveState: '',
+      selectedState: 'selected'
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -82,7 +83,7 @@ export default {
     this.targetCombo = null
 
     // 获取所有选中的元素
-    const nodes = graph.findAllByState('node', 'selected');
+    const nodes = graph.findAllByState('node', this.selectedState);
 
     const currentNodeId = item.get('id');
 
@@ -197,8 +198,8 @@ export default {
 
     const graph: IGraph = this.graph
 
-    if (this.activeState) {
-      graph.setItemState(item, this.activeState, false)
+    if (this.comboActiveState) {
+      graph.setItemState(item, this.comboActiveState, false)
     }
 
     this.targetCombo = item
@@ -212,8 +213,8 @@ export default {
     this.validationCombo(item)
 
     const graph: IGraph = this.graph
-    if (this.activeState) {
-      graph.setItemState(item, this.activeState, true)
+    if (this.comboActiveState) {
+      graph.setItemState(item, this.comboActiveState, true)
     }
   },
   /**
@@ -225,8 +226,8 @@ export default {
     this.validationCombo(item)
 
     const graph: IGraph = this.graph
-    if (this.activeState) {
-      graph.setItemState(item, this.activeState, false)
+    if (this.comboActiveState) {
+      graph.setItemState(item, this.comboActiveState, false)
     }
   },
   /**
@@ -299,7 +300,7 @@ export default {
   calculationGroupPosition(evt: IG6GraphEvent) {
     const { graph } = this;
 
-    const nodes = graph.findAllByState('node', 'selected');
+    const nodes = graph.findAllByState('node', this.selectedState);
     if (nodes.length === 0) {
       nodes.push(evt.item)
     }
