@@ -238,32 +238,32 @@ describe('drag-combo', () => {
         }
       ],
       combos: [
-      // {
-      //   id: 'A',
-      //   parentId: 'B',
-      //   label: 'gorup A',
-      //   padding: [50, 30, 10, 10],
-      //   type: 'rect',
-      //   style: {
-      //     stroke: 'red',
-      //     fill: 'green'
-      //   },
-      //   // collapsed: true
-      // }, {
-      //   id: 'B',
-      //   label: 'gorup B',
-      //   padding: [50, 10, 10, 50],
-      //   // type: 'custom-combo'
-      // },
-      // {
-      //   id: 'D',
-      //   label: 'gorup D',
-      //   parentId: 'E',
-      // }, 
-      // {
-      //   id: 'E',
-      //   // collapsed: true
-      // },
+      {
+        id: 'A',
+        parentId: 'B',
+        label: 'gorup A',
+        padding: [50, 30, 10, 10],
+        type: 'rect',
+        style: {
+          stroke: 'red',
+          fill: 'green'
+        },
+        // collapsed: true
+      }, {
+        id: 'B',
+        label: 'gorup B',
+        padding: [50, 10, 10, 50],
+        // type: 'custom-combo'
+      },
+      {
+        id: 'D',
+        label: 'gorup D',
+        parentId: 'E',
+      }, 
+      {
+        id: 'E',
+        // collapsed: true
+      },
       {
         id: 'FF',
         label: '空分组',
@@ -285,7 +285,10 @@ describe('drag-combo', () => {
         default: [ 'drag-canvas', {
           type: 'drag-combo',
           activeState: 'active'
-        }, 'drag-node', 'collapse-expand-combo', 'click-select' ]
+        }, {
+          type: 'drag-node',
+          comboActiveState: 'active'
+        }, 'collapse-expand-combo', 'click-select' ]
       },
       defaultCombo: {
         // size: [100, 100],
