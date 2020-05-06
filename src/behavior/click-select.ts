@@ -92,7 +92,7 @@ export default {
     each(selected, node => {
       graph.setItemState(node, this.selectedState, false);
     });
-debugger
+
     const selectedCombos = graph.findAllByState('combo', this.selectedState)
     each(selectedCombos, combo => {
       graph.setItemState(combo, this.selectedState, false);
