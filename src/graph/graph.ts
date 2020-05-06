@@ -944,7 +944,23 @@ export default class Graph extends EventEmitter implements IGraph {
    */
   public updateItem(item: Item | string, cfg: Partial<NodeConfig> | EdgeConfig): void {
     const itemController: ItemController = this.get('itemController');
-    itemController.updateItem(item, cfg);
+    let currentItem
+    if (isString(item)) {
+      currentItem = this.findById(item)
+    } else {
+      currentItem = item
+    }
+
+    const type = currentItem.getType()
+    const states = [...currentItem.getStates()]
+    if (type === 'combo') {
+      each(states, state => this.setItemState(currentItem, state, false))
+    }
+    itemController.updateItem(currentItem, cfg);
+
+    if (type === 'combo') {
+      each(states, state => this.setItemState(currentItem, state, true))
+    }
   }
 
   /**
@@ -1368,7 +1384,15 @@ export default class Graph extends EventEmitter implements IGraph {
         }
         const childItem = itemMap[child.id];
         if (childItem && childItem.getType() === 'combo') {
+          // 更新具体的 Combo 之前先清除所有的已有状态，以免将 state 中的样式更新为 Combo 的样式
+          const states = [...childItem.getStates()]
+          each(states, state => this.setItemState(childItem, state, false))
+
+          // 更新具体的 Combo
           itemController.updateCombo(childItem, child.children);
+          
+          // 更新 Combo 后，还原已有的状态
+          each(states, state => this.setItemState(childItem, state, true))
         }
         return true;
       });
@@ -1413,6 +1437,7 @@ export default class Graph extends EventEmitter implements IGraph {
     if (parentId) {
       const parentCombo = this.findById(parentId) as ICombo
       if (parentCombo) {
+        // 将元素添加到 parentCombo 中
         parentCombo.addChild(uItem as ICombo | INode)
       }
     }
@@ -1420,6 +1445,7 @@ export default class Graph extends EventEmitter implements IGraph {
     if (oldParentId) {
       const parentCombo = this.findById(oldParentId) as ICombo
       if (parentCombo) {
+        // 将元素从 parentCombo 中移除
         parentCombo.removeChild(uItem as ICombo | INode)
       }
     }
