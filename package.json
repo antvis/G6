@@ -102,7 +102,7 @@
     "father": "^2.29.1",
     "gatsby": "2.19.5",
     "gh-pages": "^2.1.1",
-    "husky": "^3.0.4",
+    "husky": "^4.2.5",
     "insert-css": "^2.0.0",
     "jest": "^26.0.1",
     "jest-electron": "^0.1.7",
