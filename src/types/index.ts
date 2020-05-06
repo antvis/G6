@@ -120,6 +120,7 @@ export interface ModeOption {
   activeState?: string;
   comboActiveState?: string;
   selectedState?: string;
+  onlyChangeComboSize?: boolean;
   includeEdges?: boolean;
   direction?: 'x' | 'y';
   shouldUpdate?: (e: IG6GraphEvent) => boolean;
