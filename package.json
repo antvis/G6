@@ -104,7 +104,7 @@
     "gh-pages": "^2.1.1",
     "husky": "^3.0.4",
     "insert-css": "^2.0.0",
-    "jest": "^24.9.0",
+    "jest": "^26.0.1",
     "jest-electron": "^0.1.7",
     "jest-extended": "^0.11.2",
     "lint-staged": "^9.2.3",
