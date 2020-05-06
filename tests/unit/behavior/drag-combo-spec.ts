@@ -169,7 +169,7 @@ describe('drag-combo', () => {
     
   })
 
-  it.only('combo example', () => {
+  it('combo example', () => {
     const data = {
       nodes: [
         {

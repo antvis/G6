@@ -36,6 +36,7 @@ G6 作为一款专业的图可视化引擎，具有以下特性：
 - 可控的交互：内置 10+ 交互行为，支持自定义交互；
 - 强大的布局：内置了 10+ 常用的图布局，支持自定义布局；
 - 便捷的组件：优化内置组件功能及性能；
+- 内置 DFS、Dijkstra、detect-cycle 等图算法，参考 [javascript-algorithms](https://github.com/trekhleb/javascript-algorithms)；
 - 友好的体验：根据用户需求分层梳理文档，支持 TypeScript 类型推断。
 
 除了默认好用、配置自由的内置功能，元素、交互、布局均具有高可扩展的自定义机制。

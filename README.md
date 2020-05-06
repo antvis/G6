@@ -37,6 +37,7 @@ Developers are able to build graph visualization **analysis** applications or gr
 - Steerable Interactions: More than 10 basic interaction behaviors ;
 - Powerful Layout: More than 10 layout algorithms;
 - Convenient Components: Outstanding ability and performance;
+- Support DFS、Dijkstra、detect-cycle and other graph algorithms，reference [javascript-algorithms](https://github.com/trekhleb/javascript-algorithms);
 - Friendly User Experience: Complete documents for different levels of user requirements. TypeScript supported.
 
 G6 concentrates on the principle of 'good by default'. In addition, the custom mechanism of the item, interation behavior, and layout satisfies the customazation requirements.
