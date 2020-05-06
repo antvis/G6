@@ -320,7 +320,7 @@ describe('drag-combo', () => {
           //   fill: '#f00',
           //   fontSize: 20
           // },
-          stroke: '#f00'
+          stroke: 'blue'
         },
         active: {
           stroke: 'red'
