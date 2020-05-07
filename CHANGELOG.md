@@ -1,5 +1,8 @@
 # ChangeLog
 
+#### 3.4.9
+- fix: transplie d3-force to support IE11.
+
 #### 3.4.8
 - feat: update the keyShape type minimap when the node or edge's style is updated;
 - fix: problem about switching to another applications or browser menu and then switch back, the drag-canvas does not take effect;

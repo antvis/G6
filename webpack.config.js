@@ -34,11 +34,13 @@ module.exports = {
         ],
       },
       {
-        test: /\.ts$/,
+        test: /\.js$/,
+        include: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
-            babelrc: true,
+            // babelrc: true,
+            presets: ['@babel/preset-env'],
           },
         },
       },
