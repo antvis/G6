@@ -1408,8 +1408,13 @@ graph.stopAnimate();
 **用法**
 
 ```javascript
-import miniMap from '@antv/g6/build/minimap';
-graph.Plugin(miniMap);
+import { Minimap } from '@antv/g6';
+const miniMap = new Minimap({
+  size: [200, 100],
+  className: 'minimap'
+})
+
+graph.addPlugin(miniMap);
 ```
 
 ### removePlugin(plugin)
@@ -1425,7 +1430,7 @@ graph.Plugin(miniMap);
 **用法**
 
 ```javascript
-import miniMap from '@antv/g6/build/minimap';
+// 使用 removePlugin 删除通过 addPlugin 添加的实例
 graph.removePlugin(miniMap);
 ```
 
