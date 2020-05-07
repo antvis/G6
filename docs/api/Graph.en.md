@@ -1406,8 +1406,13 @@ Add plugin to graph.
 **Usage**
 
 ```javascript
-import miniMap from '@antv/g6/build/minimap';
-graph.Plugin(miniMap);
+import { Minimap } from '@antv/g6';
+const miniMap = new Minimap({
+  size: [200, 100],
+  className: 'minimap'
+})
+
+graph.addPlugin(miniMap);
 ```
 
 ### removePlugin(plugin)
@@ -1423,7 +1428,7 @@ Remove the plugin from graph.
 **Usage**
 
 ```javascript
-import miniMap from '@antv/g6/build/minimap';
+// use removePlugin to remove plugin instance added by addPlugin
 graph.removePlugin(miniMap);
 ```
 
