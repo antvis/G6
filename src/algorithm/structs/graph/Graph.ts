@@ -45,14 +45,14 @@ export default class Graph {
   /**
    * 获取所有的节点
    */
-  getAllVertices() {
+  getAllVertices(): GraphVertex[] {
     return Object.values(this.vertices)
   }
 
   /**
    * 获取所有的边
    */
-  getAllEdges() {
+  getAllEdges(): GraphEdge[] {
     return Object.values(this.edges)
   }
 
