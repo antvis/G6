@@ -121,7 +121,7 @@ describe('drag-combo', () => {
       },
       defaultCombo: {
         // size: [100, 100],
-        type: 'custom-combo',
+        // type: 'custom-combo',
         style: {
           fill: '#b5f5ec'
         }
@@ -244,10 +244,10 @@ describe('drag-combo', () => {
         label: 'gorup A',
         padding: [50, 30, 10, 10],
         type: 'rect',
-        style: {
-          stroke: 'red',
-          fill: 'green'
-        },
+        // style: {
+        //   stroke: 'red',
+        //   fill: 'green'
+        // },
         // collapsed: true
       }, {
         id: 'B',
@@ -268,10 +268,10 @@ describe('drag-combo', () => {
         id: 'FF',
         label: '空分组',
         // type: 'custom-combo',
-        style: {
-          stroke: 'green',
-          lineWidth: 3
-        }
+        // style: {
+        //   stroke: 'green',
+        //   lineWidth: 3
+        // }
       }
       ]
     };
@@ -294,8 +294,8 @@ describe('drag-combo', () => {
         // size: [100, 100],
         type: 'circle',
         style: {
-          fill: '#ccc',
-          opacity: 0.9
+          fill: '#f0f0f0',
+          stroke: '#bfbfbf'
         }
       },
       comboStateStyles: {
@@ -304,10 +304,11 @@ describe('drag-combo', () => {
           //   fill: '#f00',
           //   fontSize: 20
           // },
-          stroke: 'blue'
+          stroke: '#8c8c8c'
         },
         active: {
-          stroke: 'red'
+          stroke: '#722ed1',
+          lineWidth: 2
         },
         state2: {
           stroke: '#0f0'
@@ -321,8 +322,9 @@ describe('drag-combo', () => {
       },
       defaultEdge: {
         style: {
-          stroke: '#f00',
-          lineWidth: 3
+          stroke: '#bfbfbf',
+          lineWidth: 2,
+          endArrow: true
         }
       }
     });
