@@ -27,8 +27,10 @@ Graph 的生命周期为：初始化—>加载数据—>渲染—>更新—>销�
 | modes | Object |  | 设置画布的模式。详情可见  [交互模式 Mode](/zh/docs/manual/middle/states/mode)  文档。 |
 | nodeStateStyles | Object | {} | 各个状态下节点的样式，例如 `hover`、`selected`，3.1 版本新增。 |
 | edgeStateStyles | Object | {} | 各个状态下边的样式，例如 `hover`、`selected`，3.1 版本新增。 |
+| comboStateStyles | Object | {} | 各个状态下 Combo 的样式，例如 `hover`、`selected`，3.5 版本新增。 |
 | defaultNode | Object | {} | 默认状态下节点的配置，比如 `type`, `size`, `color`。会被写入的 data 覆盖。 |
-| defaultEdge | Object | {} | 默认状态下边的配置，比如 `type`, `size`, `color`。会被写入的 data 覆盖。 |
+| defaultEdge | Object | {} | 默认状态下边的配置，比如 `type`, `size`, `color`。会被写入的 data 覆盖。  |
+| defaultCombo | Object | {} | 默认状态下 Combo 的配置，比如 `type`, `color`。会被写入的 data 覆盖。3.5 版本新增 |
 | plugins | Array | [] | 向 graph 注册插件。插件机制请见：[插件](/zh/docs/manual/tutorial/plugins#插件) |
 | animate | Boolean | false | 是否启用全局动画。 |
 | animateCfg | Object |  | 动画配置项，仅在 `animate` 为 `true` 时有效。 |
@@ -164,8 +166,6 @@ const data = {
 graph.renderCustomGroup(data, 'circle');
 ```
 
-###
-
 ### read(data)
 
 接收数据，并进行渲染，read 方法的功能相当于 data 和 render 方法的结合。
@@ -238,6 +238,48 @@ const data = {
 graph.changeData(data);
 ```
 
+### collapseCombo
+收起指定的 Combo。
+
+**参数**
+
+| 名称    | 类型   | 是否必选 | 描述    |
+| ------- | ------ | -------- | ------- |
+| combo | string | ICombo     | combo ID 或 combo 实例 |
+
+**用法**
+```
+graph.collapseCombo('combo1')
+```
+
+### expandCombo
+展开指定的 Combo。
+
+**参数**
+
+| 名称    | 类型   | 是否必选 | 描述    |
+| ------- | ------ | -------- | ------- |
+| combo | string | ICombo     | combo ID 或 combo 实例 |
+
+**用法**
+```
+graph.expandCombo('combo1')
+```
+
+### collapseExpandCombo
+展开或收缩指定的 Combo。
+
+**参数**
+
+| 名称    | 类型   | 是否必选 | 描述    |
+| ------- | ------ | -------- | ------- |
+| combo | string | ICombo     | combo ID 或 combo 实例 |
+
+**用法**
+```
+graph.collapseExpandCombo('combo1')
+```
+
 ### collapseGroup(groupId)
 
 收起分组，收起分组后，隐藏分组中的所有节点和边，分组外部与分组内节点有连线的则临时连接到分组上面。
@@ -269,6 +311,47 @@ graph.collapseGroup('groupId');
 ```javascript
 graph.expandGroup('groupId');
 ```
+
+### createCombo
+根据已经存在的节点或 combo 创建新的 combo。
+
+**参数**
+
+| 名称    | 类型   | 是否必选 | 描述    |
+| ------- | ------ | -------- | ------- |
+| combo | string | ComboConfig     | combo ID 或 Combo 配置 |
+| elements | string[]     | 添加到 Combo 中的元素 ID，包括节点和 combo |
+
+**用法**
+
+```
+// 第一个参数为 combo ID
+graph.createCombo('combo1', ['node1', 'node2', 'combo2'])
+
+// 第一个参数为 combo 配置
+graph.createCombo({
+  id: 'combo1',
+  style: {
+    fill: '#f00'
+  }
+}, ['node1', 'node2', 'combo2'])
+```
+
+### uncombo
+拆解 Combo，即拆分组。
+
+**参数**
+
+| 名称    | 类型   | 是否必选 | 描述    |
+| ------- | ------ | -------- | ------- |
+| item | string | ICombo    | 需要被拆解的 Combo item 或 id |
+
+**用法**
+
+```
+graph.uncombo('combo1')
+```
+
 
 ## 更新
 
@@ -369,6 +452,15 @@ const item = graph.findById('node');
 graph.removeItem(item);
 ```
 
+### updateCombos
+根据节点的 bbox 更新所有 combos 的绘制，包括 combos 的位置和范围。
+
+**用法**
+
+```
+graph.updateCombos()
+```
+
 ### remove(item)
 
 同 removeItem(item)。
@@ -459,6 +551,26 @@ graph.setItemState(item, 'selected', true);
 
 graph.paint();
 graph.setAutoPaint(autoPaint);
+```
+
+### updateComboTree
+更新 Combo 结构，例如移动子树等。
+
+**参数**
+
+| 名称 | 类型    | 是否必选 | 描述         |
+| ---- | ------- | -------- | ------------ |
+| item | string | INode | ICombo     | 需要被更新的 Combo 或 节点 id |
+| parentId | string | undefined     | 新的父 combo id，undefined 代表没有父 combo |
+
+**用法**
+
+```
+// 将 combo1 从父 combo 中移出，完成后同父 combo 平级
+graph.updateComboTree('combo1')
+
+// 将 combo1 移动到 Combo2 下面，作为 Combo2 的子元素
+graph.updateComboTree('combo1', 'combo2')
 ```
 
 ## 布局
@@ -723,6 +835,35 @@ graph.edge(edge => {
   return {
     id: edge.id,
     type: 'cubic-horizontal',
+    style: {
+      stroke: 'green',
+    },
+  };
+});
+
+graph.data(data);
+graph.render();
+```
+
+### combo(comboFn)
+
+设置各 combo 的样式。
+
+提示：该方法必须**在 render 之前调用**，否则不起作用。
+
+**参数**
+
+| 名称   | 类型     | 是否必选 | 描述             |
+| ------ | -------- | -------- | ---------------- |
+| comboFn | Function | true     | 指定每个 combo 的样式 |
+
+**用法**
+
+```javascript
+graph.combo(combo => {
+  return {
+    id: combo.id,
+    type: 'rect',
     style: {
       stroke: 'green',
     },
@@ -1271,6 +1412,37 @@ const nodes = graph.getNodes();
 
 ```javascript
 const edges = graph.getEdges();
+```
+
+### getCombos
+获取当前图中所有 combo 的实例。
+
+**用法**
+
+```javascript
+const combos = graph.getCombos();
+```
+
+### getComboChildren
+获取指定 combo 中所有的节点。
+
+**参数**
+
+| 名称    | 类型   | 是否必选 | 描述        |
+| ------- | ------ | -------- | ----------- |
+| combo | string | ICombo     | Combo ID 或 combo 实例 |
+
+**返回值**
+
+返回节点或 Combo 的集合：。
+
+**用法**
+
+```
+const elements: { 
+  nodes: INode[], 
+  combos: ICombo[] 
+} = graph.getComboChildren('combo1')
 ```
 
 ## 坐标转换
