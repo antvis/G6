@@ -9,6 +9,7 @@ import Image2 from './component/image2';
 import Quadratic from './component/quadratic';
 import HideItem from './component/hide-item';
 import Arc from './component/arc';
+import CustomCardNode from './component/card-node'
 
 export default { title: 'Shape' };
 
@@ -39,4 +40,5 @@ storiesOf('Shape', module)
   ))
   .add('hide item', () => (
     <HideItem />
-  ));
+  ))
+  .add('card-node', () => <CustomCardNode />)
