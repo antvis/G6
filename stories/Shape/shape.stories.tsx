@@ -5,6 +5,7 @@ import DefaultShape from './component/default-shape';
 import Image from './component/image';
 import CustomNode from './component/custom-node';
 import Polyline from './component/polyline';
+import CustomCardNode from './component/card-node'
 
 export default { title: 'Shape' };
 
@@ -23,3 +24,4 @@ storiesOf('Shape', module)
 .add('polyline', () => (
   <Polyline />
 ))
+.add('card-node', () => <CustomCardNode />)
