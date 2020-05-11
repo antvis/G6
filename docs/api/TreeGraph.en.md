@@ -196,7 +196,7 @@ Different results with different `direction` values.
 
 Add sub tree to the parent node.
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span>G6 will use the `data` object as the model of the newly added item, and the `data` might be modified. If you do not want it to be modified, use the deep cloned `data` instead.
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span> G6 will use the `data` object as the model of the newly added item, and the `data` might be modified. If you do not want it to be modified, use the deep cloned `data` instead.
 
 
 **Parameters**
