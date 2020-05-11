@@ -305,6 +305,18 @@ export interface TreeGraphData {
   side?: 'left' | 'right';
   depth?: number;
   collapsed?: boolean;
+  style?:
+  | ShapeStyle
+  | {
+    [key: string]: ShapeStyle;
+  };
+  stateStyles?: {
+    [key: string]:
+    | ShapeStyle
+    | {
+      [key: string]: ShapeStyle;
+    };
+  };
 }
 
 // Behavior type file
