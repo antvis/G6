@@ -17,7 +17,7 @@ Graph 的生命周期为：初始化—>加载数据—>渲染—>更新—>销�
 
 | 名称 | 类型 | 默认值 | 描述 |
 | --- | --- | --- | --- |
-| container | String | HTMLElement | 图的  DOM 容器，可以传入该 DOM 的 id 或者直接传入容器的 HTML 节点对象。 |
+| container | string | HTMLElement | 图的  DOM 容器，可以传入该 DOM 的 id 或者直接传入容器的 HTML 节点对象。 |
 | width | Number | undefined | 指定画布宽度，单位为 'px'。 |
 | height | Number | undefined | 指定画布高度，单位为 'px'。 |
 | fitView | Boolean | false | 是否开启画布自适应。开启后图自动适配画布大小。 |
@@ -30,19 +30,19 @@ Graph 的生命周期为：初始化—>加载数据—>渲染—>更新—>销�
 | comboStateStyles | Object | {} | 各个状态下 Combo 的样式，例如 `hover`、`selected`，3.5 版本新增。 |
 | defaultNode | Object | {} | 默认状态下节点的配置，比如 `type`, `size`, `color`。会被写入的 data 覆盖。 |
 | defaultEdge | Object | {} | 默认状态下边的配置，比如 `type`, `size`, `color`。会被写入的 data 覆盖。  |
-| defaultCombo | Object | {} | 默认状态下 Combo 的配置，比如 `type`, `color`。会被写入的 data 覆盖。3.5 版本新增 |
+| defaultCombo | Object | {} | 默认状态下 Combo 的配置，比如 `type`, `color`。会被写入的 data 覆盖。3.5 版本新增。 |
 | plugins | Array | [] | 向 graph 注册插件。插件机制请见：[插件](/zh/docs/manual/tutorial/plugins#插件) |
 | animate | Boolean | false | 是否启用全局动画。 |
 | animateCfg | Object |  | 动画配置项，仅在 `animate` 为 `true` 时有效。 |
 | animateCfg.<br />onFrame | Function | null | 回调函数，用于自定义节点运动路径，为空时线性运动。 |
 | animateCfg.<br />duration | Number | 500 | 动画时长，单位为毫秒。 |
-| animateCfg.<br />easing | String | easeLinear | 动画动效，可参见 d3 ease。 |
+| animateCfg.<br />easing | string | easeLinear | 动画动效，可参见 d3 ease。 |
 | minZoom | Number | 0.2 | 最小缩放比例 |
 | maxZoom | Number | 10 | 最大缩放比例 |
-| groupType | String | circle | 节点分组类型，支持 circle 和 rect |
+| groupType | string | circle | 节点分组类型，支持 circle 和 rect |
 | groupStyle | Object |  | groupStyle 用于指定分组的样式，详情参看 [节点分组 Group](/zh/docs/manual/middle/nodeGroup) 教程 |
 | layout | Object |  | 布局配置项，使用 type 字段指定使用的布局方式，type 可取以下值：random, radial, mds, circular, fruchterman, force, dagre，各布局详细的配置请参考  [Layout API 文档](/zh/docs/api/layout/Layout) |
-| renderer | String | 'canvas' / 'svg' | 渲染方式，该配置项除 V3.3.x 外其他版本均支持。 |
+| renderer | string | 'canvas' / 'svg' | 渲染方式，该配置项除 V3.3.x 外其他版本均支持。 |
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span>G6 3.1 版本中实例化 Graph 时，新增了 `nodeStateStyles` 及  `edgeStateStyles` 两个配置项，删除了 `nodeStyle` 和 `edgeStyle` ，使用 3.1 以下版本的同学，只需要将  `nodeStyle` 改成 `nodeStateStyles` ，将  `edgeStyle` 改成  `edgeStateStyles` ，配置内容保持不变。
 
@@ -240,89 +240,58 @@ graph.changeData(data);
 graph.changeData();
 ```
 
-### collapseCombo
+### collapseCombo(combo)
 收起指定的 Combo。
 
 **参数**
 
 | 名称    | 类型   | 是否必选 | 描述    |
 | ------- | ------ | -------- | ------- |
-| combo | string | ICombo     | combo ID 或 combo 实例 |
+| combo | string / ICombo | true     | combo ID 或 combo 实例 |
 
 **用法**
 ```
 graph.collapseCombo('combo1')
 ```
 
-### expandCombo
+### expandCombo(combo)
 展开指定的 Combo。
 
 **参数**
 
 | 名称    | 类型   | 是否必选 | 描述    |
 | ------- | ------ | -------- | ------- |
-| combo | string | ICombo     | combo ID 或 combo 实例 |
+| combo | string / ICombo | true     | combo ID 或 combo 实例 |
 
 **用法**
 ```
 graph.expandCombo('combo1')
 ```
 
-### collapseExpandCombo
+### collapseExpandCombo(combo)
 展开或收缩指定的 Combo。
 
 **参数**
 
 | 名称    | 类型   | 是否必选 | 描述    |
 | ------- | ------ | -------- | ------- |
-| combo | string | ICombo     | combo ID 或 combo 实例 |
+| combo | string / ICombo | true     | combo ID 或 combo 实例 |
 
 **用法**
 ```
 graph.collapseExpandCombo('combo1')
 ```
 
-### collapseGroup(groupId)
 
-收起分组，收起分组后，隐藏分组中的所有节点和边，分组外部与分组内节点有连线的则临时连接到分组上面。
-
-**参数**
-
-| 名称    | 类型   | 是否必选 | 描述    |
-| ------- | ------ | -------- | ------- |
-| groupId | String | true     | 分组 ID |
-
-**用法**
-
-```javascript
-graph.collapseGroup('groupId');
-```
-
-### expandGroup(groupId)
-
-展开分组，显示分组中的所有节点和边，恢复收起前的连接情况。
-
-**参数**
-
-| 名称    | 类型   | 是否必选 | 描述    |
-| ------- | ------ | -------- | ------- |
-| groupId | String | true     | 分组 ID |
-
-**用法**
-
-```javascript
-graph.expandGroup('groupId');
-```
-
-### createCombo
+### createCombo(combo, elements)
 根据已经存在的节点或 combo 创建新的 combo。
 
 **参数**
 
 | 名称    | 类型   | 是否必选 | 描述    |
 | ------- | ------ | -------- | ------- |
-| combo | string | ComboConfig     | combo ID 或 Combo 配置 |
-| elements | string[]     | 添加到 Combo 中的元素 ID，包括节点和 combo |
+| combo | string / ComboConfig | true    | combo ID 或 Combo 配置 |
+| elements | string[] | true    | 添加到 Combo 中的元素 ID，包括节点和 combo |
 
 **用法**
 
@@ -339,19 +308,53 @@ graph.createCombo({
 }, ['node1', 'node2', 'combo2'])
 ```
 
-### uncombo
-拆解 Combo，即拆分组。
+### uncombo(combo)
+拆解 Combo，即拆分组/解组。调用后，combo 本身将被删除，而该分组内部的子元素将会成为该分组父分组（若存在）的子元素。
 
 **参数**
 
 | 名称    | 类型   | 是否必选 | 描述    |
 | ------- | ------ | -------- | ------- |
-| item | string | ICombo    | 需要被拆解的 Combo item 或 id |
+| item | string / ICombo | true    | 需要被拆解的 Combo item 或 id |
 
 **用法**
 
 ```
 graph.uncombo('combo1')
+```
+
+
+
+### collapseGroup(groupId)
+
+收起分组，收起分组后，隐藏分组中的所有节点和边，分组外部与分组内节点有连线的则临时连接到分组上面。
+
+**参数**
+
+| 名称    | 类型   | 是否必选 | 描述    |
+| ------- | ------ | -------- | ------- |
+| groupId | string | true     | 分组 ID |
+
+**用法**
+
+```javascript
+graph.collapseGroup('groupId');
+```
+
+### expandGroup(groupId)
+
+展开分组，显示分组中的所有节点和边，恢复收起前的连接情况。
+
+**参数**
+
+| 名称    | 类型   | 是否必选 | 描述    |
+| ------- | ------ | -------- | ------- |
+| groupId | string | true     | 分组 ID |
+
+**用法**
+
+```javascript
+graph.expandGroup('groupId');
 ```
 
 
@@ -367,7 +370,7 @@ graph.uncombo('combo1')
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| type | String | true | 元素类型，可选值为 `'node'`、`'edge'` 和 `'group'` |
+| type | string | true | 元素类型，可选值为 `'node'`、`'edge'` 和 `'group'` |
 | model | Object | true | 元素的数据模型，`type: 'group'` 时，参看 [手动创建节点分组文档](/zh/docs/manual/advanced/create-node-group) |
 
 **用法**
@@ -412,7 +415,7 @@ graph.addItem('group', model);
 
 | 名称 | 类型            | 是否必选 | 描述               |
 | ---- | --------------- | -------- | ------------------ |
-| item | String / Object | true     | 元素 ID 或元素实例 |
+| item | string / Object | true     | 元素 ID 或元素实例 |
 | cfg  | Object          | false    | 需要更新的数据模型 |
 
 **用法**
@@ -438,6 +441,40 @@ graph.updateItem(item, model);
 
 同 updateItem(item, model)。
 
+
+### updateCombos()
+根据子元素（子节点与子 combo）的 bbox 更新所有 combos 的绘制，包括 combos 的位置和范围。
+
+**用法**
+
+```
+graph.updateCombos()
+```
+
+
+
+### updateComboTree(item, parentId)
+更新 Combo 结构，例如移动子树等。
+
+**参数**
+
+| 名称 | 类型    | 是否必选 | 描述         |
+| ---- | ------- | -------- | ------------ |
+| item | string / INode / ICombo  | true    | 需要被更新的 Combo 或 节点 ID |
+| parentId | string / undefined | false  | 新的父 combo ID，undefined 代表没有父 combo |
+
+**用法**
+
+```
+// 将 combo1 从父 combo 中移出，完成后同原父 combo 平级
+graph.updateComboTree('combo1')
+
+// 将 combo1 移动到 Combo2 下面，作为 Combo2 的子元素
+graph.updateComboTree('combo1', 'combo2')
+```
+
+
+
 ### removeItem(item)
 
 删除元素，当 item 为 group ID 时候，则删除分组。
@@ -446,7 +483,7 @@ graph.updateItem(item, model);
 
 | 名称 | 类型            | 是否必选 | 描述               |
 | ---- | --------------- | -------- | ------------------ |
-| item | String / Object | true     | 元素 ID 或元素实例 |
+| item | string / Object | true     | 元素 ID 或元素实例 |
 
 **用法**
 
@@ -454,15 +491,6 @@ graph.updateItem(item, model);
 // 通过 ID 查询节点实例
 const item = graph.findById('node');
 graph.removeItem(item);
-```
-
-### updateCombos
-根据节点的 bbox 更新所有 combos 的绘制，包括 combos 的位置和范围。
-
-**用法**
-
-```
-graph.updateCombos()
 ```
 
 ### remove(item)
@@ -491,7 +519,7 @@ graph.refresh();
 
 | 名称 | 类型            | 是否必选 | 描述               |
 | ---- | --------------- | -------- | ------------------ |
-| item | String / Object | true     | 元素 ID 或元素实例 |
+| item | string / Object | true     | 元素 ID 或元素实例 |
 
 **用法**
 
@@ -557,26 +585,6 @@ graph.setItemState(item, 'selected', true);
 
 graph.paint();
 graph.setAutoPaint(autoPaint);
-```
-
-### updateComboTree
-更新 Combo 结构，例如移动子树等。
-
-**参数**
-
-| 名称 | 类型    | 是否必选 | 描述         |
-| ---- | ------- | -------- | ------------ |
-| item | string | INode | ICombo     | 需要被更新的 Combo 或 节点 id |
-| parentId | string | undefined     | 新的父 combo id，undefined 代表没有父 combo |
-
-**用法**
-
-```
-// 将 combo1 从父 combo 中移出，完成后同父 combo 平级
-graph.updateComboTree('combo1')
-
-// 将 combo1 移动到 Combo2 下面，作为 Combo2 的子元素
-graph.updateComboTree('combo1', 'combo2')
 ```
 
 ## 布局
@@ -712,7 +720,7 @@ graph.destroy();
 
 | 名称 | 类型            | 是否必选 | 描述               |
 | ---- | --------------- | -------- | ------------------ |
-| item | String / Object | true     | 元素 ID 或元素实例 |
+| item | string / Object | true     | 元素 ID 或元素实例 |
 
 **用法**
 
@@ -733,7 +741,7 @@ graph.showItem('nodeId');
 
 | 名称 | 类型            | 是否必选 | 描述               |
 | ---- | --------------- | -------- | ------------------ |
-| item | String / Object | true     | 元素 ID 或元素实例 |
+| item | string / Object | true     | 元素 ID 或元素实例 |
 
 **用法**
 
@@ -757,9 +765,9 @@ graph.hideItem('nodeId');
 
 | 名称    | 类型            | 是否必选 | 描述                                                 |
 | ------- | --------------- | -------- | ----------- |
-| item    | String / Item | true     | 元素 ID 或元素实例 |
-| state   | String          | true     | 状态值，支持自定义，如 selected、hover、actived 等。 |
-| value | Boolean / String   | true     | 是否启用状态 |
+| item    | string / Item | true     | 元素 ID 或元素实例 |
+| state   | string          | true     | 状态值，支持自定义，如 selected、hover、actived 等。 |
+| value | Boolean / string   | true     | 是否启用状态 |
 
 **用法**
 
@@ -777,8 +785,8 @@ graph.setItemState('node1', 'body', 'health');
 
 | 名称   | 类型            | 是否必选 | 描述               |
 | ------ | --------------- | -------- | ------------------ |
-| item   | String / Object | true     | 元素 ID 或元素实例 |
-| states | String / Array  | null     | false              | 取值可以是单个状态值，也可以是状态值数组 |
+| item   | string / Object | true     | 元素 ID 或元素实例 |
+| states | string / Array  | null     | false              | 取值可以是单个状态值，也可以是状态值数组 |
 
 **用法**
 
@@ -795,15 +803,15 @@ graph.clearItemStates(node);
 
 ### node(nodeFn)
 
-设置各个节点样式，以及在各个状态下节点的 KeyShape 的样式。
+设置各个节点样式及其他配置，以及在各个状态下节点的 KeyShape 的样式。
 
-提示：该方法必须**在 render 之前调用**，否则不起作用。
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>提示:</strong></span> 该方法必须**在 render 之前调用**，否则不起作用。
 
 **参数**
 
 | 名称   | 类型     | 是否必选 | 描述             |
 | ------ | -------- | -------- | ---------------- |
-| nodeFn | Function | true     | 指定每个节点样式 |
+| nodeFn | Function | true     | 返回每个节点的配置 |
 
 **用法**
 
@@ -824,15 +832,15 @@ graph.render();
 
 ### edge(edgeFn)
 
-设置各条边的样式。
+设置各个边样式及其他配置，以及在各个状态下节点的 KeyShape 的样式。
 
-提示：该方法必须**在 render 之前调用**，否则不起作用。
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>提示:</strong></span> 该方法必须**在 render 之前调用**，否则不起作用。
 
 **参数**
 
 | 名称   | 类型     | 是否必选 | 描述             |
 | ------ | -------- | -------- | ---------------- |
-| edgeFn | Function | true     | 指定每条边的样式 |
+| edgeFn | Function | true     | 返回每条边的配置 |
 
 **用法**
 
@@ -853,15 +861,15 @@ graph.render();
 
 ### combo(comboFn)
 
-设置各 combo 的样式。
+设置各个 combo 样式及其他配置，以及在各个状态下节点的 KeyShape 的样式。
 
-提示：该方法必须**在 render 之前调用**，否则不起作用。
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>提示:</strong></span> 该方法必须**在 render 之前调用**，否则不起作用。
 
 **参数**
 
 | 名称   | 类型     | 是否必选 | 描述             |
 | ------ | -------- | -------- | ---------------- |
-| comboFn | Function | true     | 指定每个 combo 的样式 |
+| comboFn | Function | true     | 返回每个 combo 的配置 |
 
 **用法**
 
@@ -890,8 +898,8 @@ graph.render();
 
 | 名称      | 类型           | 是否必选 | 描述             |
 | --------- | -------------- | -------- | ---------------- |
-| behaviors | String / Array | true     | 添加的行为的名称 |
-| modes     | String / Array | true     | 模式的名称       |
+| behaviors | string / Array | true     | 添加的行为的名称 |
+| modes     | string / Array | true     | 模式的名称       |
 
 **用法**
 
@@ -917,8 +925,8 @@ graph.addBehaviors(['brush-select', 'click-select'], ['default', 'select']);
 
 | 名称      | 类型           | 是否必选 | 描述             |
 | --------- | -------------- | -------- | ---------------- |
-| behaviors | String / Array | true     | 删除的行为的名称 |
-| modes     | String / Array | true     | 模式的名称       |
+| behaviors | string / Array | true     | 删除的行为的名称 |
+| modes     | string / Array | true     | 模式的名称       |
 
 **用法**
 
@@ -944,7 +952,7 @@ graph.removeBehaviors(['brush-select', 'click-select'], ['default', 'select']);
 
 | 名称 | 类型   | 是否必选 | 描述       |
 | ---- | ------ | -------- | ---------- |
-| mode | String | true     | 模式的名称 |
+| mode | string | true     | 模式的名称 |
 
 **用法**
 
@@ -989,14 +997,14 @@ const mode = graph.getCurrentMode();
 
 | 名称 | 类型   | 是否必选 | 描述       |
 | ---- | ------ | -------- | ---------- |
-| eventName | String | true     | 事件名，可选事件名参见 [Event](/zh/docs/api/Event) |
+| eventName | string | true     | 事件名，可选事件名参见 [Event](/zh/docs/api/Event) |
 | handler | Function | true     | 监听函数 |
 
 这里对 `handler` 的参数 `evt` 中 `item` 和 `target` 参数进行解释：
 
 | 名称 | 类型   | 是否必选 | 描述       |
 | ---- | ------ | -------- | ---------- |
-| item | String | true     | 被操作的 item |
+| item | string | true     | 被操作的 item |
 | target | Function | true     | 被操作的具体[图形](/zh/docs/manual/middle/elements/shape-keyshape) |
 
 
@@ -1027,7 +1035,7 @@ graph.on('click', evt => {
 
 | 名称 | 类型   | 是否必选 | 描述       |
 | ---- | ------ | -------- | ---------- |
-| eventName | String | true     | 事件名，可选事件名参见 [Event](/zh/docs/api/Event) |
+| eventName | string | true     | 事件名，可选事件名参见 [Event](/zh/docs/api/Event) |
 | handler | Function | true     | 监听函数 |
 
 这里对 `handler` 的参数 `evt` 中 `item` 和 `target` 同 [`graph.on(eventName, handler)`](#oneventname-handler)。该 `handler` 必须与绑定该事件的 `handler` 是同一对象。
@@ -1061,7 +1069,7 @@ graph.off('node:click', fn);
 
 | 名称 | 类型   | 是否必选 | 描述       |
 | ---- | ------ | -------- | ---------- |
-| eventName | String | true     | 事件名，可选事件名参见 [Event](/zh/docs/api/Event) |
+| eventName | string | true     | 事件名，可选事件名参见 [Event](/zh/docs/api/Event) |
 
 
 
@@ -1180,7 +1188,7 @@ graph.zoomTo(0.5);
 
 | 名称 | 类型            | 是否必选 | 描述               |
 | ---- | --------------- | -------- | ------------------ |
-| item | String / Object | true     | 元素 ID 或元素实例 |
+| item | string / Object | true     | 元素 ID 或元素实例 |
 
 **用法**
 
@@ -1275,7 +1283,7 @@ graph.fitView([20, 10, 20, 15]);
 
 | 名称 | 类型     | 是否必选 | 描述                                  |
 | ---- | -------- | -------- | ------------------------------------- |
-| type | String   | true     | 元素类型，可选值为 `'node'`、`'edge'` |
+| type | string   | true     | 元素类型，可选值为 `'node'`、`'edge'` |
 | fn   | Function | true     | 查找的规则                            |
 
 **返回值**
@@ -1299,7 +1307,7 @@ const findNode = graph.find('node', node => {
 
 | 名称 | 类型   | 是否必选 | 描述    |
 | ---- | ------ | -------- | ------- |
-| id   | String | true     | 元素 ID |
+| id   | string | true     | 元素 ID |
 
 **返回值**
 
@@ -1320,7 +1328,7 @@ const node = graph.findById('node');
 
 | 名称 | 类型     | 是否必选 | 描述                                  |
 | ---- | -------- | -------- | ------------------------------------- |
-| type | String   | true     | 元素类型，可选值为 `'node'`、`'edge'` |
+| type | string   | true     | 元素类型，可选值为 `'node'`、`'edge'` |
 | fn   | Function | true     | 查找的规则                            |
 
 **返回值**
@@ -1344,8 +1352,8 @@ const nodes = graph.findAll('node', node => {
 
 | 名称  | 类型   | 是否必选 | 描述                                  |
 | ----- | ------ | -------- | ------------------------------------- |
-| type  | String | true     | 元素类型，可选值为 `'node'`、`'edge'` |
-| state | String | true     | 状态名称                              |
+| type  | string | true     | 元素类型，可选值为 `'node'`、`'edge'` |
+| state | string | true     | 状态名称                              |
 
 **返回值**
 
@@ -1420,8 +1428,13 @@ const nodes = graph.getNodes();
 const edges = graph.getEdges();
 ```
 
-### getCombos
+### getCombos()
 获取当前图中所有 combo 的实例。
+
+**返回值**
+
+- 返回值类型：Array；
+- 返回值表示图中所有 combo 的实例。
 
 **用法**
 
@@ -1429,18 +1442,26 @@ const edges = graph.getEdges();
 const combos = graph.getCombos();
 ```
 
-### getComboChildren
-获取指定 combo 中所有的节点。
+
+### getComboChildren(combo)
+获取指定 combo 中所有的子节点及子 combo。
 
 **参数**
 
 | 名称    | 类型   | 是否必选 | 描述        |
 | ------- | ------ | -------- | ----------- |
-| combo | string | ICombo     | Combo ID 或 combo 实例 |
+| combo | string / ICombo | true    | Combo ID 或 combo 实例 |
 
 **返回值**
 
-返回节点或 Combo 的集合：。
+- 返回值类型：Object，格式如下
+```javascript
+{
+    nodes: INode[],
+    edges: ICombo[]
+}
+```
+- 返回指定 combo 中的子元素（子节点及子 combo）。
 
 **用法**
 
@@ -1618,7 +1639,7 @@ graph.removePlugin(miniMap);
 
 | 名称 | 类型   | 是否必选 | 描述     |
 | ---- | ------ | -------- | -------- |
-| key  | String | true     | 属性的键 |
+| key  | string | true     | 属性的键 |
 
 **用法**
 
@@ -1641,8 +1662,8 @@ const autoPaint = graph.get('autoPaint');
 
 | 名称 | 类型                    | 是否必选 | 描述     |
 | ---- | ----------------------- | -------- | -------- |
-| key  | String                  | true     | 属性的键 |
-| val  | String / Object / Array | true     | 属性的值 |
+| key  | string                  | true     | 属性的键 |
+| val  | string / Object / Array | true     | 属性的值 |
 
 **用法**
 
