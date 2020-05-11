@@ -25,7 +25,8 @@ order: 7
 - [MDS Layout](#mds)：高维数据降维算法布局；
 - [Dagre Layout](#dagre)：层次布局；
 - [Concentric Layout](#concentric)：同心圆布局；
-- [Grid Layout](#grid)：网格布局。
+- [Grid Layout](#grid)：网格布局；
+- [Combo Force Layout](#combo-force)：*V3.5 新增。*适用于带有 combo 图的力导向布局，推荐有 combo 的图使用该布局。
 
 ### 树图 TreeGraph
 
@@ -86,8 +87,8 @@ const graph = new G6.Graph({
 | --- | --- | --- | --- | --- |
 | center | Array | [ 0, 0 ] | 图的中心 | 布局的中心 |
 | linkDistance | Number / Function | 示例 1: 50 <br />示例 2:<br />d => {<br />  // d 是一条边<br />  if (d.id === 'edge1') {<br />    return 100;<br />  }<br />  return 50;<br />} | 50 | 边长。可以使用回调函数的形式对不同对边定义不同边长（如示例 2） |
-| nodeStrength | Number / Function | 示例 1: -30 <br />示例 2:<br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return -100;<br />  }<br />  return -30;<br />} / null | 节点作用力，正数代表节点之间的引力作用，负数代表节点之间的斥力作用。可以使用回调函数的形式对不同对节点定义不同节点作用力（如示例 2） |
-| edgeStrength | Number | 示例 1: 1 <br />示例 2:<br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 10;<br />  }<br />  return 1;<br />} | null | 边的作用力，默认根据节点的出入度自适应。可以使用回调函数的形式对不同对节点定义不同边作用力（如示例 2） |
+| nodeStrength | Number / Function | 示例 1: -30 <br />示例 2:<br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return -100;<br />  }<br />  return -30;<br />} / null | -30 | 节点作用力，正数代表节点之间的引力作用，负数代表节点之间的斥力作用。可以使用回调函数的形式对不同对节点定义不同节点作用力（如示例 2） |
+| edgeStrength | Number / Function | 示例 1: 1 <br />示例 2:<br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 10;<br />  }<br />  return 1;<br />} | null | 边的作用力，默认根据节点的出入度自适应。可以使用回调函数的形式对不同对节点定义不同边作用力（如示例 2） |
 | preventOverlap | Boolean | false | false | 是否防止重叠，必须配合属性 `nodeSize` ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测。若未设置 `nodeSize` ，则根据节点数据中的 `size` 进行碰撞检测。若二者都未设置，则默认以 10 为节点大小进行碰撞检测 |
 | nodeSize | Array / Number | 20 | undefined | 节点大小（直径）。用于碰撞检测。<br />若不指定，则根据传入的数据节点中的 `size`  字段计算。若即不指定，节点中也没有 `size`，则默认大小为 10 |
 | nodeSpacing<br /><br /> | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150/><br />`preventOverlap` 为 `true` 时生效，防止重叠时节点边缘间距的最小值。可以是回调函数，为不同节点设置不同的最小间距，如示例 2 所示<br /> |
@@ -216,6 +217,43 @@ const graph = new G6.Graph({
 | cols | Number | 5 | undefined | 网格的列数，为 undefined 时算法根据节点数量、布局空间、`rows`（若指定）自动计算 |
 | sortBy | String | 'degree' / 'property1' / 'weight' / ... | 'degree' | 指定排序的依据（节点属性名），数值越高则该节点被放置得越中心。若为 undefined，则会计算节点的度数，度数越高，节点将被放置得越中心 |
 | workerEnabled | Boolean | true / false | false | 是否启用 web-worker 以防布局计算时间过长阻塞页面交互 |
+
+
+#### Combo Force
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AngFRpOo4SAAAAAAAAAAAABkARQnAQ' width=300 alt='' /><br />**API**：[Combo Force API](/zh/docs/api/layout/Graph/#combo-force)<br />**参数**：
+
+
+| 参数名 | 类型 | 示例 | 默认值 | 说明 |
+| --- | --- | --- | --- | --- |
+| center | Array | [ 0, 0 ] | 图的中心 | 布局的中心 |
+| maxIteration | Number | 100 | 100 | 最大迭代次数 |
+| linkDistance | Number / Function | 示例 1: 50 <br />示例 2:<br />d => {<br />  // d 是一条边<br />  if (d.id === 'edge1') {<br />    return 100;<br />  }<br />  return 50;<br />} | 10 | 边长。可以使用回调函数的形式对不同对边定义不同边长（如示例 2） |
+| nodeStrength | Number / Function | 示例 1: 10 <br />示例 2:<br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 10;<br />  }<br />  return 30;<br />} / null | 30 | 节点作用力 |
+| edgeStrength | Number / Function | 示例 1: 1 <br />示例 2:<br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 10;<br />  }<br />  return 1;<br />} | 0.2 | 边的作用力 |
+| preventOverlap | Boolean | false | false | 是否防止节点之间以及 combo 之间的重叠，若开启，则 `preventNodeOverlap` 与 `preventComboOverlap` 将均被开启。详见 `preventNodeOverlap` 与 `preventComboOverlap` 介绍 |
+| preventNodeOverlap | Boolean | false | true | 是否防止节点之间的重叠。必须配合下面属性 `nodeSize` 或节点数据中的 `size` 属性，只有在数据中设置了 `size` 或在该布局中配置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测 |
+| preventComboOverlap | Boolean | false | true | 是否防止 combo 之间的重叠 |
+| collideStrength | Number | 0.1 | undefined | 统一设置防止节点之间以及 combo 之间重叠的力强度，范围 [0, 1]。若 `collideStrength` 不为 `undefined`，则 `nodeCollideStrength` 与 `comboCollideStrength` 将均被设置为统一的值 |
+| collideNodeStrength | Number | 0.4 | 0.5 | 设置防止节点之间重叠的力强度，范围 [0, 1] |
+| collideComboStrength | Number | 0.4 | 0.5 | 防止 combo 之间重叠的力强度，范围 [0, 1] |
+| nodeSize | Array / Number | 10 | 10 | 节点大小（直径）。用于碰撞检测。若不指定，则根据传入的节点的 size 属性计算。若即不指定，节点中也没有 `size`，则默认大小为 `10` |
+| nodeSpacing<br /><br /> | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150/><br />`preventNodeOverlap` 或 `preventOverlap` 为 `true` 时生效, 防止重叠时节点边缘间距的最小值。可以是回调函数, 为不同节点设置不同的最小间距, 如示例 2 所示<br /> |
+| comboSpacing<br /><br /> | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | `preventComboOverlap` 或 `preventOverlap` 为 `true` 时生效, 防止重叠时 combo 边缘间距的最小值。可以是回调函数, 为不同节点设置不同的最小间距, 如示例 2 所示<br /> |
+| comboPadding<br /><br /> | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | Combo 内部的 padding 值，不用于渲染，仅用于计算力。推荐设置为与视图上 combo 内部 padding 值相同的值<br /> |
+| alphaDecay | Number | 0.03 | 0.028 | 迭代阈值的衰减率。范围 [0, 1]，0.028 对应迭代数为 300 |
+| alphaMin | Number | 0.03 | 0.001 | 停止迭代的阈值 |
+| alpha | Number | 0.1 | 1 | 当前阈值 |
+| onTick | Function |  | {} | 每一次迭代的回调函数 |
+| onLayoutEnd | Function |  | {} | 布局完成后的回调函数 |
+| gravity | Number |  | 10 | 重力的大小，影响布局的紧凑程度 |
+| comboGravity | Number |  | 30 | 每个 combo 内部的重力大小，影响聚类的紧凑程度 |
+| optimizeRangeFactor | Number |  | 1 | 优化计算性能，两节点间距超过 `optimizeRangeFactor * width` 则不再计算斥力和重叠斥力。通过合理设置该参数可以较少计算量 |
+| depthAttractiveForceScale | Number |  | 0.5 | 根据边两端节点层级差距的调整引力的系数的因子，取值范围 [0, 1]。层级差距越大，引力越小 |
+| depthRepulsiveForceScale | Number |  | 2 | 根据边两端节点层级差距的调整斥力系数的因子，取值范围 [1, Infinity]。层级差距越大，斥力越大 |
+| velocityDecay | Number | 0.4 | 0.6 | 每个迭代节点运动速度衰减参数 |
+| workerEnabled | Boolean | true / false | false | 是否启用 web-worker 以防布局计算时间过长阻塞页面交互 |
+
 
 ## 树图 TreeGraph
 

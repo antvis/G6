@@ -14,7 +14,9 @@ order: 3
 - Radial Layout：辐射状布局；
 - MDS Layout：高维数据降维算法布局；
 - Fruchterman Layout：Fruchterman 布局，一种力导布局；
-- Dagre Layout：层次布局。
+- Dagre Layout：层次布局；
+- Concentric Layout：同心圆布局，将重要（默认以度数为度量）的节点放置在布局中心；
+- Grid Layout：格子布局，将节点有序（默认是数据顺序）排列在格子上。
 
 **树图布局：**
 
@@ -175,4 +177,4 @@ const graph = new G6.Graph({
 </html>
 ```
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span><br />若需更换数据，请替换  `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'`  为新的数据文件地址。
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span><br /> 若需更换数据，请替换  `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'`  为新的数据文件地址。

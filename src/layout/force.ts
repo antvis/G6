@@ -47,11 +47,13 @@ export default class ForceLayout<Cfg = any> extends BaseLayout {
   /** 是否启用web worker。前提是在web worker里执行布局，否则无效	*/
   public workerEnabled: boolean = false;
 
-  public tick: () => void = () => {};
+  public tick: () => void = () => { };
 
-  public onLayoutEnd: () => void = () => {};
   /** 布局完成回调 */
-  public onTick: () => void = () => {};
+  public onLayoutEnd: () => void = () => { };
+
+  /** 布局每一次迭代完成的回调 */
+  public onTick: () => void = () => { };
 
   /** 是否正在布局 */
   private ticking: boolean | undefined = undefined;
@@ -70,9 +72,9 @@ export default class ForceLayout<Cfg = any> extends BaseLayout {
       alphaMin: 0.001,
       alpha: 0.3,
       collideStrength: 1,
-      tick() {},
-      onLayoutEnd() {}, // 布局完成回调
-      onTick() {}, // 每一迭代布局回调
+      tick() { },
+      onLayoutEnd() { }, // 布局完成回调
+      onTick() { }, // 每一迭代布局回调
       // 是否启用web worker。前提是在web worker里执行布局，否则无效
       workerEnabled: false,
     };
