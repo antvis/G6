@@ -1,5 +1,9 @@
 # ChangeLog
 
+#### 3.4.10
+- fix: TreeGraphData type with style and stateStyles;
+- fix: wrong controlpoint position for bezier curves with getControlPoint.
+
 #### 3.4.9
 - fix: transplie d3-force to support IE11.
 
