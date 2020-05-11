@@ -10,7 +10,7 @@ Combo 继承自 Node，具有 Node 的所有特性。
 
 **返回值**
 
-返回值为 node 和 combo 的集合：`{ nodes: INode[], combos: ICombo[] }`
+- 返回值为子 node 和 combo 的集合：`{ nodes: INode[], combos: ICombo[] }`
 
 
 **用法**
@@ -21,11 +21,11 @@ const elements = combo.getChildren()
 
 
 ### getNodes()
-获取 Combo 中所有节点。
+获取 Combo 中所有子节点。
 
 **返回值**
 
-返回值类型为 `INode[]`。
+- 返回值类型为 `INode[]`。
 
 
 ### getCombos()
@@ -33,23 +33,23 @@ const elements = combo.getChildren()
 
 **返回值**
 
-返回值类型为 `ICombo[]`。
+- 返回值类型为 `ICombo[]`。
 
 
 ### addChild(item: INode | ICombo)
-向 Combo 中添加 Node 或 Combo。
+向 Combo 中添加子 Node 或子 Combo。
 
 **参数**
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| item | INode | ICombo | 是 | 节点或Combo 的实例 |
+| item | INode / ICombo | 是 | 节点或Combo 的实例 |
 
 
 **返回值**
 
-类型： `boolean`；
-含义：返回 true 表示添加成功。
+- 类型： `boolean`；
+- 含义：返回 `true` 表示添加成功。
 
 
 **用法**
@@ -69,13 +69,13 @@ const result = combo.addChild(node)
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| node | string | INode | 是 | 节点 ID 或节点实例 |
+| node | string / INode | 是 | 节点 ID 或节点实例 |
 
 
 **返回值**
 
-类型： `boolean`；
-含义：返回 true 表示添加成功。
+- 类型： `boolean`；
+- 含义：返回 `true` 表示添加成功。
 
 
 ### addCombo(combo: ICombo)
@@ -90,28 +90,28 @@ const result = combo.addChild(node)
 
 **返回值**
 
-类型： `boolean`；
-含义：返回 true 表示添加成功。
+- 类型： `boolean`；
+- 含义：返回 `true` 表示添加成功。
 
 
 ### removeChild(item: ICombo | INode)
-从 Combo 中移除子元素。
+移除子元素（子节点或子 combo）。
 
 **参数**
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| item | INode | ICombo | 是 | 节点或Combo 的实例 |
+| item | INode / ICombo | 是 | 节点或Combo 的实例 |
 
 
 **返回值**
 
-类型： `boolean`；
-含义：返回 true 表示移除成功。
+- 类型： `boolean`；
+- 含义：返回 `true` 表示移除成功。
 
 
 ### removeCombo(combo: ICombo)
-从 Combo 中移除指定的 combo。
+移除指定的子 combo。
 
 **参数**
 
@@ -122,21 +122,21 @@ const result = combo.addChild(node)
 
 **返回值**
 
-类型： `boolean`；
-含义：返回 true 表示移除成功。
+- 类型： `boolean`；
+- 含义：返回 `true` 表示移除成功。
 
 
 ### removeNode(node: string | INode)
-从 Combo 中移除指定的 Node。
+移除指定的子 Node。
 
 **参数**
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| node | string | INode | 是 | 节点 ID 或节点实例 |
+| node | string / INode | 是 | 节点 ID 或节点实例 |
 
 
 **返回值**
 
-类型： `boolean`；
-含义：返回 true 表示移除成功。
+- 类型： `boolean`；
+- 含义：返回 `true` 表示移除成功。
