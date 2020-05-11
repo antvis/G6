@@ -522,7 +522,15 @@ export default class Graph extends EventEmitter implements IGraph {
    */
   public translate(dx: number, dy: number): void {
     const group: Group = this.get('group');
-    translate(group, { x: dx, y: dy });
+
+    let matrix: Matrix = clone(group.getMatrix());
+    if (!matrix) {
+      matrix = mat3.create();
+    }
+    mat3.translate(matrix, matrix, [dx, dy]);
+
+    group.setMatrix(matrix);
+
     this.emit('viewportchange', { action: 'translate', matrix: group.getMatrix() });
     this.autoPaint();
   }

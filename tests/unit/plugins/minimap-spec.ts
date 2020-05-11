@@ -107,7 +107,7 @@ describe('minimap', () => {
       height: 500,
       plugins: [minimap],
       modes: {
-        default: ['zoom-canvas']
+        default: ['zoom-canvas', 'drag-canvas']
       }
     });
     const data = {
@@ -119,6 +119,10 @@ describe('minimap', () => {
         id: '2',
         x: 140,
         y: 100
+      }, {
+        id: '3',
+        x: 250,
+        y: 250
       }],
       edges: [{
         source: '1',
@@ -132,13 +136,13 @@ describe('minimap', () => {
     const canvas = minimap.getCanvas();
 
     graph.zoom(2, { x: 250, y: 250 });
-    graph.translate(100, 100);
+    graph.translate(50, 50);
 
     setTimeout(() => {
-      expect(viewport.style.left).toEqual('71.028px');
-      expect(viewport.style.top).toEqual('59.4093px');
-      expect(viewport.style.width).toEqual('200px');
-      expect(viewport.style.height).toEqual('200px');
+      expect(viewport.style.left).toEqual('68.8474px');
+      expect(viewport.style.top).toEqual('59.5016px');
+      expect(viewport.style.width).toEqual('155.763px');
+      expect(viewport.style.height).toEqual('155.763px');
 
       const container = canvas.get('container');
 
@@ -149,51 +153,26 @@ describe('minimap', () => {
       });
 
       Simulate.simulate(container, 'mousemove', {
-        clientX: 120,
-        clientY: 120,
+        clientX: -50,
+        clientY: -50,
       });
 
       Simulate.simulate(container, 'mouseup', {
-        clientX: 120,
-        clientY: 120,
+        clientX: -50,
+        clientY: -50,
       });
 
       setTimeout(() => {
-        expect(viewport.style.left).toEqual('0px');
-        expect(viewport.style.top).toEqual('0px');
-        expect(viewport.style.width).toEqual('200px');
-        expect(viewport.style.height).toEqual('200px');
+
+        expect(viewport.style.left).toEqual('0.847352px');
+        expect(viewport.style.top).toEqual('0.501558px');
+        expect(viewport.style.width).toEqual('155.763px');
+        expect(viewport.style.height).toEqual('155.763px');
         const matrix = graph.get('group').getMatrix();
         expect(matrix[0]).toEqual(2);
         expect(matrix[4]).toEqual(2);
-
-        Simulate.simulate(viewport, 'mousedown', {
-          clientX: 200,
-          clientY: 200,
-          target: viewport
-        });
-        Simulate.simulate(container, 'mousemove', {
-          clientX: 0,
-          clientY: 0
-        });
-
-        setTimeout(() => {
-          expect(viewport.style.left).toEqual('0px');
-          expect(viewport.style.top).toEqual('0px');
-          expect(viewport.style.width).toEqual('200px');
-          expect(viewport.style.height).toEqual('200px');
-
-          const matrix2 = graph.get('group').getMatrix();
-          expect(matrix2[0]).toEqual(2);
-          expect(matrix2[4]).toEqual(2);
-
-          Simulate.simulate(container, 'mouseleave', {
-            clientX: -100,
-            clientY: -100
-          });
-          graph.destroy();
-          done()
-        }, 100);
+        graph.destroy();
+        done()
       }, 100);
 
     }, 100);
