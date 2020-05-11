@@ -58,11 +58,11 @@ describe('Path Util Test', () => {
 
     const controlPoint = getControlPoint(start, end, 0.5, 10);
 
-    expect(controlPoint.x).toEqual(42.928932188134524);
-    expect(controlPoint.y).toEqual(7.0710678118654755);
+    expect(controlPoint.x).toEqual(50);
+    expect(controlPoint.y).toEqual(10);
 
     const points = getControlPoint(start, end, 0.2, -2);
-    expect(points).toEqual({ x: 21.414213562373096, y: -1.4142135623730951 });
+    expect(points).toEqual({ x: 20, y: -2 });
   });
 
   it('getControlPoint vertical', () => {
@@ -73,7 +73,7 @@ describe('Path Util Test', () => {
     expect(point).toEqual({ x: 0, y: 50 });
 
     const point2 = getControlPoint(start, end, 0.2, -2);
-    expect(point2).toEqual({ x: 0, y: 20 });
+    expect(point2).toEqual({ x: 2, y: 20 });
   });
 
   it('getControlPoint 45', () => {
