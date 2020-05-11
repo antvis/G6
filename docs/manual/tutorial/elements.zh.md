@@ -75,7 +75,7 @@ order: 2
 - `defaultNode`：节点在默认状态下的**样式属性**（`style`）和**其他属性**；
 - `defaultEdge`：边在默认状态下的**样式属性**（`style`）和**其他属性**。
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span>由于是统一的配置，不能根据数据中的属性（如 `class`、`weight`）等值的不同进行个性化设置，因此只能满足 R1、R2、R3、R4 需求。达到如下效果：
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 由于是统一的配置，不能根据数据中的属性（如 `class`、`weight`）等值的不同进行个性化设置，因此只能满足 R1、R2、R3、R4 需求。达到如下效果：
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bufdS75wcmMAAAAAAAAAAABkARQnAQ' width=450 height=450 />
 
@@ -300,4 +300,4 @@ graph.render();
 </html>
 ```
 
-**⚠️ 注意** <br />若需更换数据，请替换  `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'`  为新的数据文件地址。
+**⚠️ 注意:** <br /> 若需更换数据，请替换  `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'`  为新的数据文件地址。

@@ -628,22 +628,22 @@ const testData = {
     },
   ],
   edges: [
-    {
-      source: 'a',
-      target: 'b',
-      size: 3,
-      style: {
-        stroke: 'red'
-      }
-    },
-    {
-      source: 'a',
-      target: '33',
-      size: 3,
-      style: {
-        stroke: 'blue'
-      }
-    },
+    // {
+    //   source: 'a',
+    //   target: 'b',
+    //   size: 3,
+    //   style: {
+    //     stroke: 'red'
+    //   }
+    // },
+    // {
+    //   source: 'a',
+    //   target: '33',
+    //   size: 3,
+    //   style: {
+    //     stroke: 'blue'
+    //   }
+    // },
     {
       source: '0',
       target: '1',
@@ -939,7 +939,7 @@ const testData2 = {
   }]
 }
 
-const testData_pos = {"nodes":[{"id":"0","x":519.9756011152062,"y":312.3748588848735,"comboId":"a","label":"0"},{"id":"1","x":516.9130868036522,"y":300.01298088318964,"comboId":"a","label":"1"},{"id":"2","x":532.135761126721,"y":292.4828444555691,"comboId":"a","label":"2"},{"id":"3","x":503.08139107396323,"y":274.4859385079485,"comboId":"a","label":"3"},{"id":"4","x":515.7858143951453,"y":288.9459640448524,"comboId":"a","label":"4"},{"id":"5","x":523.1699237148887,"y":271.80995614771984,"comboId":"a","label":"5"},{"id":"6","x":542.5161585695183,"y":269.44295161957444,"comboId":"a","label":"6"},{"id":"7","x":540.3068131495662,"y":312.3305908975899,"comboId":"a","label":"7"},{"id":"8","x":540.1624078071186,"y":332.7802388427267,"comboId":"a","label":"8"},{"id":"9","x":497.2349390488828,"y":294.6747309770873,"comboId":"a","label":"9"},{"id":"10","x":477.27853085824415,"y":310.52154966368073,"comboId":"a","label":"10"},{"id":"11","x":498.2935956770408,"y":315.7336916123234,"comboId":"a","label":"11"},{"id":"12","x":511.8111914629553,"y":331.4660202536512,"comboId":"a","label":"12"},{"id":"13","x":719.9144466443125,"y":657.5827638668379,"comboId":"b","label":"13"},{"id":"14","x":705.1704215932026,"y":623.1349052942683,"comboId":"b","label":"14"},{"id":"15","x":748.888997314242,"y":693.5395656445546,"comboId":"b","label":"15"},{"id":"16","x":691.790150377325,"y":647.2895235684261,"comboId":"b","label":"16"},{"id":"17","x":700.453909738154,"y":666.3168884837505,"comboId":"b","label":"17"},{"id":"18","x":377.3258580235555,"y":373.66554381437624,"comboId":"c","label":"18"},{"id":"19","x":361.8579868952546,"y":350.20312804345934,"comboId":"c","label":"19"},{"id":"20","x":380.71103876474103,"y":332.78105195763504,"comboId":"c","label":"20"},{"id":"21","x":369.1201243167846,"y":332.02692181101764,"comboId":"c","label":"21"},{"id":"22","x":377.8110758618865,"y":350.0158128077823,"comboId":"c","label":"22"},{"id":"23","x":359.4471586647803,"y":335.9621566320535,"comboId":"c","label":"23"},{"id":"24","x":372.74841352346505,"y":314.6483478876071,"comboId":"c","label":"24"},{"id":"25","x":352.7557971300988,"y":331.4794537088405,"comboId":"c","label":"25"},{"id":"26","x":344.9855032420906,"y":350.16490710174355,"comboId":"c","label":"26"},{"id":"27","x":347.46959717648184,"y":313.6154232044856,"comboId":"c","label":"27"},{"id":"28","x":361.4870734755764,"y":322.1957223205074,"comboId":"c","label":"28"},{"id":"29","x":329.63246460052113,"y":320.22474499903063,"comboId":"c","label":"29"},{"id":"30","x":339.92007768802193,"y":335.1429986552043,"comboId":"c","label":"30"},{"id":"31","x":680.1030572348665,"y":679.0745385883383,"comboId":"d","label":"31"},{"id":"32","x":701.6575625058663,"y":703.0463672244064,"comboId":"d","label":"32"},{"id":"33","x":658.0840704258677,"y":660.8269175948863,"comboId":"d","label":"33"}],"combos":[{"id":"a","label":"combo a"},{"id":"b","label":"combo b"},{"id":"c","label":"combo c"},{"id":"d","parentId":"b","label":"combo d"}]}
+const testData_pos = { "nodes": [{ "id": "0", "x": 519.9756011152062, "y": 312.3748588848735, "comboId": "a", "label": "0" }, { "id": "1", "x": 516.9130868036522, "y": 300.01298088318964, "comboId": "a", "label": "1" }, { "id": "2", "x": 532.135761126721, "y": 292.4828444555691, "comboId": "a", "label": "2" }, { "id": "3", "x": 503.08139107396323, "y": 274.4859385079485, "comboId": "a", "label": "3" }, { "id": "4", "x": 515.7858143951453, "y": 288.9459640448524, "comboId": "a", "label": "4" }, { "id": "5", "x": 523.1699237148887, "y": 271.80995614771984, "comboId": "a", "label": "5" }, { "id": "6", "x": 542.5161585695183, "y": 269.44295161957444, "comboId": "a", "label": "6" }, { "id": "7", "x": 540.3068131495662, "y": 312.3305908975899, "comboId": "a", "label": "7" }, { "id": "8", "x": 540.1624078071186, "y": 332.7802388427267, "comboId": "a", "label": "8" }, { "id": "9", "x": 497.2349390488828, "y": 294.6747309770873, "comboId": "a", "label": "9" }, { "id": "10", "x": 477.27853085824415, "y": 310.52154966368073, "comboId": "a", "label": "10" }, { "id": "11", "x": 498.2935956770408, "y": 315.7336916123234, "comboId": "a", "label": "11" }, { "id": "12", "x": 511.8111914629553, "y": 331.4660202536512, "comboId": "a", "label": "12" }, { "id": "13", "x": 719.9144466443125, "y": 657.5827638668379, "comboId": "b", "label": "13" }, { "id": "14", "x": 705.1704215932026, "y": 623.1349052942683, "comboId": "b", "label": "14" }, { "id": "15", "x": 748.888997314242, "y": 693.5395656445546, "comboId": "b", "label": "15" }, { "id": "16", "x": 691.790150377325, "y": 647.2895235684261, "comboId": "b", "label": "16" }, { "id": "17", "x": 700.453909738154, "y": 666.3168884837505, "comboId": "b", "label": "17" }, { "id": "18", "x": 377.3258580235555, "y": 373.66554381437624, "comboId": "c", "label": "18" }, { "id": "19", "x": 361.8579868952546, "y": 350.20312804345934, "comboId": "c", "label": "19" }, { "id": "20", "x": 380.71103876474103, "y": 332.78105195763504, "comboId": "c", "label": "20" }, { "id": "21", "x": 369.1201243167846, "y": 332.02692181101764, "comboId": "c", "label": "21" }, { "id": "22", "x": 377.8110758618865, "y": 350.0158128077823, "comboId": "c", "label": "22" }, { "id": "23", "x": 359.4471586647803, "y": 335.9621566320535, "comboId": "c", "label": "23" }, { "id": "24", "x": 372.74841352346505, "y": 314.6483478876071, "comboId": "c", "label": "24" }, { "id": "25", "x": 352.7557971300988, "y": 331.4794537088405, "comboId": "c", "label": "25" }, { "id": "26", "x": 344.9855032420906, "y": 350.16490710174355, "comboId": "c", "label": "26" }, { "id": "27", "x": 347.46959717648184, "y": 313.6154232044856, "comboId": "c", "label": "27" }, { "id": "28", "x": 361.4870734755764, "y": 322.1957223205074, "comboId": "c", "label": "28" }, { "id": "29", "x": 329.63246460052113, "y": 320.22474499903063, "comboId": "c", "label": "29" }, { "id": "30", "x": 339.92007768802193, "y": 335.1429986552043, "comboId": "c", "label": "30" }, { "id": "31", "x": 680.1030572348665, "y": 679.0745385883383, "comboId": "d", "label": "31" }, { "id": "32", "x": 701.6575625058663, "y": 703.0463672244064, "comboId": "d", "label": "32" }, { "id": "33", "x": 658.0840704258677, "y": 660.8269175948863, "comboId": "d", "label": "33" }], "combos": [{ "id": "a", "label": "combo a" }, { "id": "b", "label": "combo b" }, { "id": "c", "label": "combo c" }, { "id": "d", "parentId": "b", "label": "combo d" }] }
 const ComboLayoutCollapseExpand = () => {
   const container = React.useRef();
   useEffect(() => {
@@ -947,7 +947,7 @@ const ComboLayoutCollapseExpand = () => {
       graph = new G6.Graph({
         container: container.current as string | HTMLElement,
         width: 1000,
-        height: 500,
+        height: 800,
         // fitView: true,
         modes: {
           default: ['drag-canvas', 'drag-node', 'zoom-canvas', 'collapse-expand-combo', 'drag-combo'],  // , 'collapse-expand-combo'
@@ -957,7 +957,10 @@ const ComboLayoutCollapseExpand = () => {
         },
         defaultEdge: {
           size: 1,
-          color: '#666'
+          color: '#666',
+          style: {
+            opacity: 0.2
+          }
         },
         defaultCombo: {
           type: 'circle',
@@ -966,7 +969,7 @@ const ComboLayoutCollapseExpand = () => {
         groupByTypes: false,
         animate: true
       });
-      
+
       graph.node(node => {
         const color = colors[node.comboId as string];
         return {
@@ -1017,13 +1020,13 @@ const ComboLayoutCollapseExpand = () => {
       // console.log(JSON.stringify(outputData));
 
       // graph.on('combo:click', e => {
-        // graph.uncombo(e.item);
-        // graph.removeItem(e.item);
+      // graph.uncombo(e.item);
+      // graph.removeItem(e.item);
       // });
       graph.on('canvas:click', e => {
-      //   graph.getCombos().forEach(combo => {
-      //     if (!combo.isVisible()) graph.showItem(combo);
-      //   });
+        //   graph.getCombos().forEach(combo => {
+        //     if (!combo.isVisible()) graph.showItem(combo);
+        //   });
         graph.addItem('combo', {
           id: 'new combo'
         });
