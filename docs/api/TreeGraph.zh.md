@@ -196,6 +196,9 @@ layout 目前支持 dendrogram、compactBox、mindmap 和 indeted 四种布局�
 
 在指定的父节点下添加子树。
 
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span>将会直接使用 `data` 对象作为新增节点/边的数据模型，G6 内部可能会对其增加或修改一些必要的字段。若不希望原始参数被修改，建议在使用深拷贝后的 `data`。
+
+
 **参数**
 
 | 名称   | 类型   | 是否必选 | 描述       |
