@@ -59,7 +59,7 @@ Cubic edge has the [Common Edge Properties](/en/docs/manual/middle/elements/edge
 | label | The text of the label | String |  |
 | labelCfg | The configurations of the label | Object |  |
 | controlPoints | The array of the control points for the cubic curve | Array | If it is not assgined, the default control points on the 1/3 and 2/3 of the curve will take effect. e.g. `[{ x: 10, y: 20 }, { x: 15, y: 30 }]` |
-| curveOffset | The distances between the controlPoints to the line connecting the two endpoints. They control the degree of blending of the curve. When the type is Number, the two controlPoints are on different sides of the line and the distances are the same.  | Number / Number[] | It is a special configuration for 'cubic', 'horizontal', 'cubic-vertical', 'cubic-horizontal' type edge |
+| curveOffset | The distances between the controlPoints to the line connecting the two endpoints. They control the degree of bending of the curve. When the type is Number, the two controlPoints are on different sides of the line and the distances are the same. The sign of it controls the bending direction. | Number / Number[] | It is a special configuration for 'cubic', 'horizontal', 'cubic-vertical', 'cubic-horizontal' type edge |
 | curvePosition | The relative positions of the two controlPoints on the line connecting the two endpoints. Ranges from 0 to 1 | Number / Number[] | It is a special configuration for 'cubic', 'horizontal', 'cubic-vertical', 'cubic-horizontal' type edge |
 
 ### style
