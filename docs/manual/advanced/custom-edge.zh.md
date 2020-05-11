@@ -144,7 +144,7 @@ G6.registerEdge(
 <br />
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️注意:</strong></span>
 
-边如果过细点击时很难击中，可以设置  `lineAppendWidth`  来提升击中范围。
+ 边过细时点击很难被击中，可以设置  `lineAppendWidth`  来提升击中范围。
 
 ```javascript
 // 基于 line 扩展出新的边

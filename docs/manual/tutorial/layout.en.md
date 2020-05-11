@@ -16,7 +16,9 @@ When there is no node position information in the data, or the location informat
 - Radial Layout: Arranges the nodes radially;
 - MDS Layout: Multidimensional scaling;
 - Fruchterman Layout: A kind of force-directed layout;
-- Dagre Layout: Hierarchical layout.
+- Dagre Layout: Hierarchical layout;
+- Concentric Layout: Arranges the nodes on concentrics, while the more important (measure with degree by default), the more center the node will be；
+- Grid Layout: Arranges the nodes on the grid according with order (data order by default).
 
 **Layouts for TreeGraph:**
 
