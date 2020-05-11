@@ -39,7 +39,7 @@ function getWeightMatrix(M: Matrix[]) {
 
 function getIndexById(array: any[], id: string) {
   let index = -1;
-  array.forEach(function(a, i) {
+  array.forEach(function (a, i) {
     if (a.id === id) {
       index = i;
     }
@@ -60,7 +60,7 @@ export default class RadialLayout extends BaseLayout {
   /** 停止迭代的最大迭代数 */
   public maxIteration: number = 1000;
   /** 中心点，默认为数据中第一个点 */
-  public focusNode: String | Node | null = null;
+  public focusNode: string | Node | null = null;
   /** 每一圈半径 */
   public unitRadius: number | null = null;
   /** 默认边长度 */
