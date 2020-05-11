@@ -17,7 +17,7 @@ The life cycle of an instance of Graph is: Initialize -> Load data -> Render -> 
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| container | String | HTMLElement | The DOM container of graph, it can be the id of a DOM element or the an HTML node. |
+| container | string | HTMLElement | The DOM container of graph, it can be the id of a DOM element or the an HTML node. |
 | width | Number | undefined | The width of the canvas for graph with the unit 'px'. |
 | height | Number | undefined | The height of the canvas for graph with the unit 'px'. |
 | fitView | Boolean | false | Whether to fit the canvas to the view port. |
@@ -27,20 +27,22 @@ The life cycle of an instance of Graph is: Initialize -> Load data -> Render -> 
 | modes | Object |  | The interaction modes of this graph. Please refer to [Interaction Mode](/en/docs/manual/middle/states/mode) for detail。 |
 | nodeStateStyles | Object | {} | The node styles on different states, e.g. hover, selected. It is a new feature of G6 3.1. |
 | edgeStateStyles | Object | {} | The edge styles on different states, e.g. hover, selected. It is a new feature of G6 3.1. |
+| comboStateStyles | Object | {} | The combo styles on different states, e.g. hover, selected. It is a new feature of G6 3.5. |
 | defaultNode | Object | {} | Default node configurations in global, including type, size, color and so on. Its priority is lower than the configurations in data. |
 | defaultEdge | Object | {} | Default edge configurations in global, including type, size, color and so on. Its priority is lower than the configurations in data. |
+| defaultCombo | Object | {} | Default combo configurations in global, including type, size, color and so on. Its priority is lower than the configurations in data. It is a new feature of G6 3.5. |
 | plugins | Array | [] | Plugins for graph. Please refer to [Plugin](/en/docs/manual/tutorial/plugins##plugin) for detail. |
 | animate | Boolean | false | Wheter activate the global animation. Which will take effect while changing layouts, changing data, and other global operations. |
 | animateCfg | Object |  | The configurations for global animation. Takes effect only when `animate: true`. |
 | animateCfg.<br />onFrame | Function | null | The callback function for every frame of animation. The path of custom animation for node can be defined here. The nodes will move linearly when `onFrame` is null. |
 | animateCfg.<br />duration | Number | 500 | Duration of animation with unit millisecond. |
-| animateCfg.<br />easing | String | easeLinear | The easing function name of animation. Please refer to ease in d3. |
+| animateCfg.<br />easing | string | easeLinear | The easing function name of animation. Please refer to ease in d3. |
 | minZoom | Number | 0.2 | The minimum zoom ratio. |
 | maxZoom | Number | 10 | The maximum zoom ratio. |
-| groupType | String | circle | Group type for nodes. Options: `'circle'` or `'rect'`. |
+| groupType | string | circle | Group type for nodes. Options: `'circle'` or `'rect'`. |
 | groupStyle | Object |  | Group style for nodes, please refer to [Node Group](/en/docs/manual/middle/nodeGroup) for detail. |
 | layout | Object |  | Configurations for layout. The `type` in it is the name of layout method with the options: `'random'`, `'radial'`, `'mds'`, `'circular'`, `'fruchterman'`, `'force'`, `'dagre'`, `'concentric'`, `'grid'`. For more configurations for different layout methods, please refer to [Layout API](/en/docs/api/layout/Layout). |
-| renderer | String | 'canvas' / 'svg' | Render the graph with Canvas or SVG. It is supported expecting V3.3.x |
+| renderer | string | 'canvas' / 'svg' | Render the graph with Canvas or SVG. It is supported expecting V3.3.x |
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> In G6 3.1, we added two new configurations for graph: `nodeStateStyles` and `edgeStateStyles`. In the same time, we deleted `nodeStyle` and `edgeStyle` . To upgrate, replace `nodeStyle` with `nodeStateStyles`, and replace `edgeStyle` with `edgeStateStyles`, and keep the sub-configuration inside them.
 
@@ -123,7 +125,7 @@ Render a node group according to the data.
 | Name      | Type   | Required | Description                                         |
 | --------- | ------ | -------- | --------------------------------------------------- |
 | data      | Object | true     | The data to be rendered                             |
-| groupType | String | true     | Type of node group. Options: `'circle'` or `'rect'` |
+| groupType | string | true     | Type of node group. Options: `'circle'` or `'rect'` |
 
 **Usage**
 
@@ -239,6 +241,90 @@ graph.changeData(data);
 graph.changeData();
 ```
 
+
+### collapseCombo(combo)
+Collapse a Combo.
+
+**Parameters**
+
+| Name | Type | Required | Description |
+| ------- | ------ | -------- | ------- |
+| combo | string | ICombo     | The ID of the combo or the combo item to be collapsed |
+
+**Usage**
+```
+graph.collapseCombo('combo1')
+```
+
+### expandCombo(combo)
+Expand a Combo.
+
+**Parameters**
+
+| Name | Type | Required | Description |
+| ------- | ------ | -------- | ------- |
+| combo | string | ICombo     | The ID of the combo or the combo item to be expanded |
+
+**Usage**
+```
+graph.expandCombo('combo1')
+```
+
+### collapseExpandCombo(combo)
+Expand the `combo` if it is collapsed. Collapse the `combo` if it is expanded.
+
+**Parameters**
+
+| Name | Type | Required | Description |
+| ------- | ------ | -------- | ------- |
+| combo | string / ICombo  | true   | The ID of the combo or the combo item to be collapsed or expanded |
+
+**Usage**
+```
+graph.collapseExpandCombo('combo1')
+```
+
+### createCombo(combo, elements)
+Create a new combo with existing nodes or combos to be its children.
+
+**Parameters**
+
+| Name | Type | Required | Description |
+| ------- | ------ | -------- | ------- |
+| combo | string / ICombo  | true   | The ID or the configuration of the combo to be created |
+| elements | string[]     | The IDs of the existing nodes or combos to be the children of the newly created combo |
+
+**Usage**
+
+```
+// The first parameter is the id of the combo to be created
+graph.createCombo('combo1', ['node1', 'node2', 'combo2'])
+
+// The first parameter is the configuration of the combo to be created
+graph.createCombo({
+  id: 'combo1',
+  style: {
+    fill: '#f00'
+  }
+}, ['node1', 'node2', 'combo2'])
+```
+
+### uncombo(combo)
+Ungroup the combo, which deletes the combo itself, and appends the children of the combo to its parent(if it exists).
+
+**Parameters**
+
+| Name | Type | Required | Description |
+| ------- | ------ | -------- | ------- |
+| item | string / ICombo    | The ID of the item or the combo item to be ungrouped |
+
+**Usage**
+
+```
+graph.uncombo('combo1')
+```
+
+
 ### collapseGroup(groupId)
 
 Collapse the group with groupId. After collapsing, the nodes and edges inside the group will be hided, the edges linking inside nodes and outside nodes will be linked to the group.
@@ -247,7 +333,7 @@ Collapse the group with groupId. After collapsing, the nodes and edges inside th
 
 | Name    | Type   | Required | Description          |
 | ------- | ------ | -------- | -------------------- |
-| groupId | String | true     | The id of the group. |
+| groupId | string | true     | The id of the group. |
 
 **Usage**
 
@@ -263,7 +349,7 @@ Expand the group to show the inside nodes and edges, and the edges linking insid
 
 | Name    | Type   | Required | Description          |
 | ------- | ------ | -------- | -------------------- |
-| groupId | String | true     | The id of the group. |
+| groupId | string | true     | The id of the group. |
 
 **Usage**
 
@@ -283,7 +369,7 @@ Add item(node, edge, or group) to the graph.
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| type | String | true | The type of the item. Options: `'node'`, `'edge'`, and `'group'`. |
+| type | string | true | The type of the item. Options: `'node'`, `'edge'`, and `'group'`. |
 | model | Object | true | The data model of the item. When `type: 'group'`, refer to [Create Node Group](/en/docs/manual/advanced/create-node-group) |
 
 **Usage**
@@ -328,7 +414,7 @@ Update the item with new data model.
 
 | Name | Type            | Required | Description                         |
 | ---- | --------------- | -------- | ----------------------------------- |
-| item | String / Object | true     | The id or the instance of the item. |
+| item | string / Object | true     | The id or the instance of the item. |
 | cfg  | Object          | false    | New data model.                     |
 
 **Usage**
@@ -354,6 +440,40 @@ graph.updateItem(item, model);
 
 The same as updateItem(item, model).
 
+
+### updateCombos()
+Update the sizes and positions of all the combos according to the bboxes of its children.
+
+**Usage**
+
+```
+graph.updateCombos()
+```
+
+
+
+### updateComboTree(item, parentId)
+Update the hierarchy structure of the combo, such as move a combo into another one.
+
+**Parameters**
+
+| Name | Type            | Required | Description                         |
+| ---- | ------- | -------- | ------------ |
+| item | string / INode / ICombo     | The ID or the item of the node/combo to be updated |
+| parentId | string | undefined     | The ID of the new parent combo, undefined means updating the item with no parent |
+
+**Usage**
+
+```
+// move combo1 out of it's parent combo. combo1 will be in the same hierarchy level as it's old parent.
+graph.updateComboTree('combo1')
+
+// move combo1 into combo2. combo1 will be the child of combo2.
+graph.updateComboTree('combo1', 'combo2')
+```
+
+
+
 ### removeItem(item)
 
 Remove the item. When the item is the id of a group, this operation will delete the corresponding group.
@@ -362,7 +482,7 @@ Remove the item. When the item is the id of a group, this operation will delete 
 
 | Name | Type            | Required | Description                         |
 | ---- | --------------- | -------- | ----------------------------------- |
-| item | String / Object | true     | The id or the instance of the item. |
+| item | string / Object | true     | The id or the instance of the item. |
 
 **Usage**
 
@@ -396,7 +516,7 @@ Refresh the item.
 
 | Name | Type            | Required | Description                         |
 | ---- | --------------- | -------- | ----------------------------------- |
-| item | String / Object | true     | The id or the instance of the item. |
+| item | string / Object | true     | The id or the instance of the item. |
 
 **Usage**
 
@@ -589,7 +709,7 @@ Show the item. If the item is a node, the related edges will be shown in the sam
 
 | Name | Type            | Required | Description                         |
 | ---- | --------------- | -------- | ----------------------------------- |
-| item | String / Object | true     | The id or the instance of the item. |
+| item | string / Object | true     | The id or the instance of the item. |
 
 **Usage**
 
@@ -610,7 +730,7 @@ Hide the item. If the item is a node, the related edges will be hidden in the sa
 
 | Name | Type            | Required | Description                         |
 | ---- | --------------- | -------- | ----------------------------------- |
-| item | String / Object | true     | The id or the instance of the item. |
+| item | string / Object | true     | The id or the instance of the item. |
 
 **Usage**
 
@@ -633,8 +753,8 @@ This function will emit events `beforitemstatechange` and `afteritemstatechange`
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| item | String / Object | true | The id or the instance of the item. |
-| state | String | true | The value of state. State can be comstomized as selected, hover, actived, and so on. |
+| item | string / Object | true | The id or the instance of the item. |
+| state | string | true | The value of state. State can be comstomized as selected, hover, actived, and so on. |
 | enabled | Boolean | true | Whether to activate the state. |
 
 **Usage**
@@ -651,8 +771,8 @@ Clear the states of the item. This function could clear multiple states in the s
 
 | Name   | Type            | Required | Description                         |
 | ------ | --------------- | -------- | ----------------------------------- |
-| item   | String / Object | true     | The id or the instance of the item. |
-| states | String / Array  | null     | false                               | It can be a single state value, an array, or null. When it is null, this operation will clear all state of the item. |
+| item   | string / Object | true     | The id or the instance of the item. |
+| states | string / Array  | null     | false                               | It can be a single state value, an array, or null. When it is null, this operation will clear all state of the item. |
 
 **Usage**
 
@@ -725,6 +845,38 @@ graph.data(data);
 graph.render();
 ```
 
+
+
+### combo(comboFn)
+
+Set the style and other configurations for each combo.
+
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> this funcion must **be called before graph.render()**. It does not take effect otherwise.
+
+**Parameters**
+
+| Name   | Type     | Required | Description                              |
+| ------ | -------- | -------- | ---------------- |
+| comboFn | Function | true     | Return the configurations for each combo. |
+
+**Usage**
+
+```javascript
+graph.combo(combo => {
+  return {
+    id: combo.id,
+    type: 'rect',
+    style: {
+      stroke: 'green',
+    },
+  };
+});
+
+graph.data(data);
+graph.render();
+```
+
+
 ## Interaction
 
 ### addBehaviors(behaviors, modes)
@@ -735,8 +887,8 @@ Add interaction behaviors to a mode or multiple modes.
 
 | Name      | Type           | Required | Description                             |
 | --------- | -------------- | -------- | --------------------------------------- |
-| behaviors | String / Array | true     | The name(s) of behavior(s) to be added. |
-| modes     | String / Array | true     | The name(s) of mode(s)                  |
+| behaviors | string / Array | true     | The name(s) of behavior(s) to be added. |
+| modes     | string / Array | true     | The name(s) of mode(s)                  |
 
 **Usage**
 
@@ -762,8 +914,8 @@ Remove behavior(s) from mode(s).
 
 | Name      | Type           | Required | Description                               |
 | --------- | -------------- | -------- | ----------------------------------------- |
-| behaviors | String / Array | true     | The name(s) of behavior(s) to be removed. |
-| modes     | String / Array | true     | The name(s) of mode(s).                   |
+| behaviors | string / Array | true     | The name(s) of behavior(s) to be removed. |
+| modes     | string / Array | true     | The name(s) of mode(s).                   |
 
 **Usage**
 
@@ -789,7 +941,7 @@ Switch the interaction mode of graph. For example, switch from edit mode to read
 
 | Name | Type   | Required | Description           |
 | ---- | ------ | -------- | --------------------- |
-| mode | String | true     | The name of the mode. |
+| mode | string | true     | The name of the mode. |
 
 **Usage**
 
@@ -813,7 +965,7 @@ Get the current mode.
 
 **Return**
 
-- Type of return value: String;
+- Type of return value: string;
 - The return value indicates the current mode.
 
 **Usage**
@@ -833,14 +985,14 @@ Bind event listeners for graph.
 
 | Name | Type   | Required | Description       |
 | ---- | ------ | -------- | ---------- |
-| eventName | String | true     | Name of the event, options are in [Event](/en/docs/api/Event) |
+| eventName | string | true     | Name of the event, options are in [Event](/en/docs/api/Event) |
 | handler | Function | true     | The listener function |
 
 Here is the description for the objects `item` and `target` of the `handler`'s parameter `evt`:
 
 | Name | Type   | Required | Description       |
 | ---- | ------ | -------- | ---------- |
-| item | String | true     | The manipulated item |
+| item | string | true     | The manipulated item |
 | target | Function | true     | The manipulated [Graphics Shape](/en/docs/manual/middle/elements/shape-keyshape) |
 
 
@@ -876,7 +1028,7 @@ Unbind the specific listener.
 
 | Name | Type   | Required | Description       |
 | ---- | ------ | -------- | ---------- |
-| eventName | String | true     | Name of the event, options are in [Event](/en/docs/api/Event) |
+| eventName | string | true     | Name of the event, options are in [Event](/en/docs/api/Event) |
 | handler | Function | true     | The listener function |
 
 The objects `item` and `target` of the `handler`'s parameter `evt` are the same as the ones described in [`graph.on(eventName, handler)`](#oneventname-handler). The `handler` should be the same object of binded `handler`.
@@ -914,7 +1066,7 @@ Unbind all the listeners for the graph.
 
 | Name | Type   | Required | Description       |
 | ---- | ------ | -------- | ---------- |
-| eventName | String | true     | Name of the event, options are in [Event](/en/docs/api/Event) |
+| eventName | string | true     | Name of the event, options are in [Event](/en/docs/api/Event) |
 
 
 
@@ -1039,7 +1191,7 @@ Move the graph to center at the item. This operation can be used as easing anima
 
 | Name | Type            | Required | Description                         |
 | ---- | --------------- | -------- | ----------------------------------- |
-| item | String / Object | true     | The id or the instance of the item. |
+| item | string / Object | true     | The id or the instance of the item. |
 
 **Usage**
 
@@ -1134,7 +1286,7 @@ Find single item according to a rule.
 
 | Name | Type     | Required | Description                                    |
 | ---- | -------- | -------- | ---------------------------------------------- |
-| type | String   | true     | Type of the item. Options: `'node'`, `'edge'`. |
+| type | string   | true     | Type of the item. Options: `'node'`, `'edge'`. |
 | fn   | Function | true     | Rule for searching.                            |
 
 **Return**
@@ -1158,7 +1310,7 @@ Find an item by id.
 
 | Name | Type   | Required | Description |
 | ---- | ------ | -------- | ----------- |
-| id   | String | true     | 元素 ID     |
+| id   | string | true     | 元素 ID     |
 
 **Return**
 
@@ -1179,7 +1331,7 @@ Find all the items that match the rule.
 
 | Name | Type     | Required | Description                                        |
 | ---- | -------- | -------- | -------------------------------------------------- |
-| type | String   | true     | The type of the item. Options: `'node'`, `'edge'`. |
+| type | string   | true     | The type of the item. Options: `'node'`, `'edge'`. |
 | fn   | Function | true     | Rule for searching.                                |
 
 **Return**
@@ -1203,8 +1355,8 @@ Find all the items whose value of state is true.
 
 | Name  | Type   | Required | Description                                        |
 | ----- | ------ | -------- | -------------------------------------------------- |
-| type  | String | true     | The type of the item. Options: `'node'`, `'edge'`. |
-| state | String | true     | State for searching.                               |
+| type  | string | true     | The type of the item. Options: `'node'`, `'edge'`. |
+| state | string | true     | State for searching.                               |
 
 **Return**
 
@@ -1276,6 +1428,51 @@ Get all the edge items in the graph.
 ```javascript
 const edges = graph.getEdges();
 ```
+
+
+### getCombos()
+Get all the combo items in the graph.
+
+**Return**
+
+- Type of the return value: Array;
+- Return the combo items in the graph.
+
+**Usage**
+
+```javascript
+const combos = graph.getCombos();
+```
+
+### getComboChildren(combo)
+Get the children of the `combo`.
+
+**Parameters**
+
+| Name    | Type   | Required | Description   |
+| ------- | ------ | -------- | ----------- |
+| combo | string / ICombo | true     | The ID or of the combo or the combo item |
+
+**Return**
+
+- Type of the return value: Object. Formated as:
+```javascript
+{
+    nodes: INode[],
+    edges: ICombo[]
+}
+```
+- Return the children (sub nodes and combos) of the `combo`.
+
+**Usage**
+
+```
+const elements: { 
+  nodes: INode[], 
+  combos: ICombo[] 
+} = graph.getComboChildren('combo1')
+```
+
 
 ## Coordinate Transformation
 
@@ -1444,7 +1641,7 @@ Get an property of graph by key.
 
 | Name | Type   | Required | Description          |
 | ---- | ------ | -------- | -------------------- |
-| key  | String | true     | Key of the property. |
+| key  | string | true     | Key of the property. |
 
 **Usage**
 
@@ -1467,8 +1664,8 @@ Set the value to an property.
 
 | Name | Type                    | Required | Description                |
 | ---- | ----------------------- | -------- | -------------------------- |
-| key  | String                  | true     | The key of the property.   |
-| val  | String / Object / Array | true     | The value of the property. |
+| key  | string                  | true     | The key of the property.   |
+| val  | string / Object / Array | true     | The value of the property. |
 
 **Usage**
 
@@ -1542,7 +1739,7 @@ Generate url of a image of the canvas.
 
 **Return**
 
-- Type of the return value: String;
+- Type of the return value: string;
 - The return value is the image url.
 
 **Usage**
