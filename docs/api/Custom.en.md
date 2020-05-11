@@ -5,7 +5,7 @@ order: 7
 
 This document will introduce custom mechanism in G6, including custom node, custom edge, custom behavior, custom layout. All of them are mounted on global G6, called by `G6.registerXXX`.
 
-## G6.registerNode(nodeName, options, extendNodeName)
+## G6.registerNode(nodeName, options, extendedNodeName)
 
 When the built-in nodes cannot satisfy your requirments, custom a type of node by `G6.registerNode(nodeName, options, extendedNodeName)`.
 
@@ -15,7 +15,7 @@ When the built-in nodes cannot satisfy your requirments, custom a type of node b
 | --- | --- | --- | --- |
 | nodeName | String | true | The unique name of the custom node. |
 | options | Object | true | The configurations of custom node, include functions of complete life cycles. Please refer to [Shape API](/en/docs/api/Shape). |
-| extendNodeName | String | false | Specifies the inherited node type of the custom node. Declare this property if you want to extend a built-in node. [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) document. |
+| extendedNodeName | String | false | Specifies the inherited node type of the custom node. Declare this property if you want to extend a built-in node. [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) document. |
 
 ### Usage
 
@@ -68,7 +68,7 @@ G6.registerNode(
 );
 ```
 
-## G6.registerEdge(edgeName, options, extendEdgeName)
+## G6.registerEdge(edgeName, options, extendedEdgeName)
 
 When the built-in edges cannot satisfy your requirments, custom a type of edge by `G6.registerEdge(edgeName, options, extendedEdgeName)`.
 
@@ -78,7 +78,7 @@ When the built-in edges cannot satisfy your requirments, custom a type of edge b
 | --- | --- | --- | --- |
 | edgeName | String | true | The unique name of the custom edge. |
 | options | Object | true | The configurations of custom edge, include functions of complete life cycles. Please refer to [Shape API](/en/docs/api/Shape). |
-| extendEdgeName | String | false | Specifies the inherited node type of the custom node. Declare this property if you want to extend the a built-in edge. [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge) document. |
+| extendedEdgeName | String | false | Specifies the inherited node type of the custom node. Declare this property if you want to extend the a built-in edge. [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge) document. |
 
 ### Usage
 
@@ -122,6 +122,71 @@ G6.registerEdge(
     setState(name, value, edge) {},
   },
   'extendedEdgeName',
+);
+```
+
+
+
+## G6.registerCombo(comboName, options, extendedComboName)
+
+When the built-in combos cannot satisfy your requirments, custom a type of combo by `G6.registerCombo(comboName, options, extendedComboName)`.
+
+### Parameters
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| comboName | String | true | The unique name of the custom combo. |
+| options | Object | true | The configurations of custom combo, include functions of complete life cycles. Please refer to [Shape API](/en/docs/api/Shape). |
+| extendedComboName | String | false | Specifies the inherited combo type of the custom combo. Declare this property if you want to extend a built-in combo. [Built-in Combos](/en/docs/manual/middle/elements/combos/defaultCombo) document. |
+
+### Usage
+
+```javascript
+G6.registerCombo(
+  'comboName',
+  {
+    /**
+     * Draw this type of combo with label
+     * @param  {Object} cfg The configurations of this type of combo
+     * @param  {G.Group} group The container of this type of combo
+     * @return {G.Shape} The keyShape of the type of combo. The keyShape can be obtained by combo.get('keyShape')
+     */
+    draw(cfg, group) {},
+    /**
+     * Operations to be executed after drawing. No operation by default
+     * @param  {Object} cfg The configurations of this type of combo
+     * @param  {G.Group} group The container of this tyep of combo
+     */
+    afterDraw(cfg, group) {},
+    /**
+     * Update the combo with label
+     * @override
+     * @param  {Object} cfg The configurations of this type of combo
+     * @param  {Combo} combo The combo
+     */
+    update(cfg, combo) {},
+    /**
+     * Operations to be executed after updating.
+     * @override
+     * @param  {Object} cfg The configurations of this type of combo
+     * @param  {Combo} combo The combo
+     */
+    afterUpdate(cfg, combo) {},
+    /**
+     * After graph.setItemState(item, state, value) is called, this function will do some responses.
+     * @param  {String} name The name of state
+     * @param  {Object} value The value of the state
+     * @param  {Combo} combo The combo
+     */
+    setState(name, value, combo) {},
+    /**
+     * Get the anchor points
+     * @param  {Object} cfg The configurations of this type of combo
+     * @return {Array|null} The array of anchor points. There is no anchor points if it is null.
+     */
+    getAnchorPoints(cfg) {},
+  },
+  'extendedComboName',
 );
 ```
 
