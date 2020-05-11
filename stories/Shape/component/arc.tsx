@@ -29,9 +29,6 @@ const data = {
     {
       source: '1',
       target: '2',
-      type: 'quadratic',
-      curveOffset: -150,
-      curvePosition: 0.5
     },
     {
       source: '1',
@@ -39,7 +36,7 @@ const data = {
     },
   ],
 };
-const Quadratic = () => {
+const Arc = () => {
   const container = React.useRef();
 
   useEffect(() => {
@@ -48,23 +45,19 @@ const Quadratic = () => {
         container: container.current as string | HTMLElement,
         width: 1000,
         height: 800,
-        // layout: {
-        //   type: "dagre",
-        //   rankdir: "TB",
-        //   align: "UL",
-        //   nodesep: 25,
-        //   ranksep: 50,
-        //   controlPoints: true
-        // },
         defaultEdge: {
-          type: 'cubic-horizontal',
-          // curveOffset: [-50, 50],
-          // curvePosition: [9 / 10, 1 / 10]
-          // curveOffset: 100,
-          curvePosition: 0.9,
+          type: 'arc',
+          style: {
+            endArrow: true
+          }
+        },
+        defaultNode: {
+          style: {
+            opacity: 0
+          }
         },
         modes: {
-          default: ['drag-node'],
+          default: ['drag-node', 'drag-canvas'],
         },
       });
       graph.data(data);
@@ -75,4 +68,4 @@ const Quadratic = () => {
   return <div ref={container}></div>;
 };
 
-export default Quadratic;
+export default Arc;

@@ -61,7 +61,7 @@ export const getControlPoint = (
   };
 
   let tangent: number[] = [];
-  vec2.normalize(tangent, [endPoint.x - startPoint.x, endPoint.x - startPoint.y]);
+  vec2.normalize(tangent, [endPoint.x - startPoint.x, endPoint.y - startPoint.y]);
 
   if (tangent.length === 0) {
     tangent = [0, 0];

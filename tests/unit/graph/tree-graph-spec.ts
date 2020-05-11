@@ -521,9 +521,6 @@ describe('tree graph with animate', () => {
         },
       ],
     };
-    graph3.changeData(data3);
-
-    expect(graph3.save()).toEqual(data3);
 
     graph3.on('afteranimate', () => {
       expect(Object.keys(graph3.get('itemMap')).length).toEqual(13);
@@ -538,6 +535,10 @@ describe('tree graph with animate', () => {
       expect(edge.get('source')).toEqual(graph3.findById('SubTreeNode4'));
       expect(edge.get('target')).toEqual(graph3.findById('SubTreeNode4.1'));
     });
+    
+    graph3.changeData(data3);
+
+    expect(graph3.save()).toEqual(data3);
   });
   it('collapse & expand', () => {
     graph3.off();

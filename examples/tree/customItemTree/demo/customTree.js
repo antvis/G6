@@ -2,22 +2,22 @@ import G6 from '@antv/g6';
 
 const COLLAPSE_ICON = function COLLAPSE_ICON(x, y, r) {
   return [
-    ['M', x, y],
+    ['M', x - r, y - r],
     ['a', r, r, 0, 1, 0, r * 2, 0],
     ['a', r, r, 0, 1, 0, -r * 2, 0],
-    ['M', x + 2, y],
-    ['L', x + 2 * r - 2, y],
+    ['M', x + 2 - r, y - r],
+    ['L', x + r - 2, y - r],
   ];
 };
 const EXPAND_ICON = function EXPAND_ICON(x, y, r) {
   return [
-    ['M', x, y],
+    ['M', x - r, y - r],
     ['a', r, r, 0, 1, 0, r * 2, 0],
     ['a', r, r, 0, 1, 0, -r * 2, 0],
-    ['M', x + 2, y],
-    ['L', x + 2 * r - 2, y],
-    ['M', x + r, y - r + 2],
-    ['L', x + r, y + r - 2],
+    ['M', x + 2 - r, y - r],
+    ['L', x + r - 2, y - r],
+    ['M', x, y - 2 * r + 2],
+    ['L', x, y - 2],
   ];
 };
 G6.registerNode(
@@ -48,10 +48,10 @@ G6.registerNode(
       if (hasChildren) {
         group.addShape('marker', {
           attrs: {
-            x: bbox.maxX + 6,
-            y: bbox.minX + bbox.height / 2 - 6,
+            x: bbox.maxX + 12,
+            y: bbox.minX + bbox.height / 2,
             r: 6,
-            symbol: COLLAPSE_ICON,
+            symbol: cfg.collapsed ? EXPAND_ICON : COLLAPSE_ICON,
             stroke: '#666',
             lineWidth: 2,
           },

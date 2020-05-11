@@ -8,6 +8,7 @@ import Polyline from './component/polyline';
 import Image2 from './component/image2';
 import Quadratic from './component/quadratic';
 import HideItem from './component/hide-item';
+import Arc from './component/arc';
 
 export default { title: 'Shape' };
 
@@ -32,6 +33,9 @@ storiesOf('Shape', module)
   ))
   .add('quadratic', () => (
     <Quadratic />
+  ))
+  .add('arc', () => (
+    <Arc />
   ))
   .add('hide item', () => (
     <HideItem />
