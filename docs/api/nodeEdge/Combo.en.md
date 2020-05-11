@@ -3,14 +3,14 @@ title: Combo
 order: 3
 ---
 
-Combo inherits from Node，The functions of Node are also available for Combo.
+Combo inherits from Node. The functions of Node are also available for Combo.
 
 ### getChildren()
-Get all sub Item(Node or Combo).
+Get all children including sub nodes and sub combos.
 
 **Return**
 
-Return collection of Node & Combo: `{ nodes: INode[], combos: ICombo[] }`
+- Return the collection of Node and Combo: `{ nodes: INode[], combos: ICombo[] }`
 
 
 **Usage**
@@ -21,35 +21,35 @@ const elements = combo.getChildren()
 
 
 ### getNodes()
-Get nodes in Combo。
+Get sub nodes of the combo。
 
 **Return**
 
-The type of return value： `INode[]`。
+- The type of return value： `INode[]`.
 
 
 ### getCombos()
-Get combos in Combo。
+Get sub combos of the combo。
 
 **Return**
 
-The type of return value： `ICombo[]`。
+- The type of return value： `ICombo[]`.
 
 
 ### addChild(item: INode | ICombo)
-Add the Item(Node or Combo) to the Combo.
+Add the `item` (Node or Combo) into the Combo as its child.
 
 **Parameters**
 
 | Name | Type | Required | Description |
 | ---- | ---- | -------- | ----------- |
-| item | INode | ICombo | true | the item of node or combo |
+| item | INode / ICombo | true | The item of node or combo |
 
 
 **Return**
 
-The type of return value： `boolean`；
-Return true to indicate successful exec.
+- The type of return value: `boolean`;
+- Return `true` to indicate successful executed.
 
 
 **Usage**
@@ -57,7 +57,7 @@ Return true to indicate successful exec.
 ```javascript
 const node = graph.findById('node1')
 
-// Return true to indicate successful exec.
+// Return true to indicate successful executed.
 const result = combo.addChild(node)
 ```
 
@@ -69,74 +69,74 @@ Add the Node to the Combo.
 
 | Name | Type | Required | Description |
 | ---- | ---- | -------- | ----------- |
-| node | string | INode | true | node id or the item of node |
+| node | string / INode | true | Node ID or the item of the node |
 
 
 **Return**
 
-The type of return value： `boolean`；
-Return true to indicate successful exec.
+- The type of return value: `boolean`;
+- Return `true` to indicate successful executed.
 
 
 ### addCombo(combo: ICombo)
-Add the combo to the combo.
+Add a sub combo into the combo as the its child.
 
 **Parameters**
 
 | Name | Type | Required | Description |
 | ---- | ---- | -------- | ----------- |
-| combo | ICombo | true | the item of combo |
+| combo | ICombo | true | The item of the combo |
 
 
 **Return**
 
-The type of return value： `boolean`；
-Return true to indicate successful exec.
+- The type of return value: `boolean`;
+- Return `true` to indicate successful executed.
 
 
 ### removeChild(item: ICombo | INode)
-Remove the item(Node or Combo) to the Combo.
+Remove the child item (a Node or a Combo).
 
 **Parameters**
 
 | Name | Type | Required | Description |
 | ---- | ---- | -------- | ----------- |
-| item | INode | ICombo | true | the item of node or combo |
+| item | INode / ICombo | true | The item of node or combo |
 
 
 **Return**
 
-The type of return value： `boolean`；
-Return true to indicate successful exec.
+- The type of return value: `boolean`;
+- Return `true` to indicate successful executed.
 
 
 ### removeCombo(combo: ICombo)
-Remove the combo to the Combo.
+Remove a sub combo.
 
 **Parameters**
 
 | Name | Type | Required | Description |
 | ---- | ---- | -------- | ----------- |
-| combo | ICombo | true | the item of Combo |
+| combo | ICombo | true | The item of Combo |
 
 
 **Return**
 
-The type of return value： `boolean`；
-Return true to indicate successful exec.
+- The type of return value: `boolean`;
+- Return `true` to indicate successful executed.
 
 
 ### removeNode(node: string | INode)
-Remove the node to the Combo.
+Remove a child node.
 
 **Parameters**
 
 | Name | Type | Required | Description |
 | ---- | ---- | -------- | ----------- |
-| node | string | INode | true | node id or the item of Node |
+| node | string / INode | true | Node ID or the item of Node |
 
 
 **Return**
 
-The type of return value： `boolean`；
-Return true to indicate successful exec.
+- The type of return value: `boolean`;
+- Return `true` to indicate successful executed.
