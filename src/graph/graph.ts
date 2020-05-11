@@ -1219,7 +1219,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param combo combo ID 或 Combo 配置
    * @param elements 添加到 Combo 中的元素，包括节点和 combo
    */
-  public createCombo(combo: string | ComboConfig, elements: string[]): void  {
+  public createCombo(combo: string | ComboConfig, elements: string[]): void {
     // step 1: 创建新的 Combo
     let comboId = ''
     if (isString(combo)) {
@@ -1233,7 +1233,7 @@ export default class Graph extends EventEmitter implements IGraph {
     }
 
     const currentCombo = this.findById(comboId) as ICombo
-    
+
     const trees = elements.map(elementId => {
       const item = this.findById(elementId)
 
@@ -1277,12 +1277,12 @@ export default class Graph extends EventEmitter implements IGraph {
     if (isString(combo)) {
       comboItem = this.findById(combo) as ICombo;
     }
-    
+
     if (!comboItem || comboItem.getType() !== 'combo') {
       console.warn('The item is not a combo!');
       return;
     }
-    
+
     const parentId = comboItem.getModel().parentId;
     const comboTrees = self.get('comboTrees');
     const itemMap = this.get('itemMap');
@@ -1291,7 +1291,7 @@ export default class Graph extends EventEmitter implements IGraph {
     let brothers = [];
     const comboItems = this.get('combos');
     const parentItem = this.findById(parentId as string) as ICombo
-          
+
     comboTrees.forEach(ctree => {
       if (treeToBeUncombo) return; // terminate the forEach
       traverseTreeUp<ComboTree>(ctree, subtree => {
@@ -1317,7 +1317,7 @@ export default class Graph extends EventEmitter implements IGraph {
           if (index !== -1) {
             brothers.splice(index, 1);
           }
-          
+
           // append the combo's children to the combo's brothers array
           treeToBeUncombo.children && treeToBeUncombo.children.forEach(child => {
             const item = this.findById(child.id) as ICombo | INode
@@ -1339,7 +1339,7 @@ export default class Graph extends EventEmitter implements IGraph {
         return true;
       });
     });
-    
+
     // if the parentId is not found, remove the combo from the roots
     if (!parentId && treeToBeUncombo) {
       const index = comboTrees.indexOf(treeToBeUncombo);
@@ -1377,7 +1377,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
           // 更新具体的 Combo
           itemController.updateCombo(childItem, child.children);
-          
+
           // 更新 Combo 后，还原已有的状态
           each(states, state => this.setItemState(childItem, state, true))
         }
@@ -1392,7 +1392,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {String | INode | ICombo} item 需要被更新的 Combo 或 节点 id
    * @param {string | undefined} parentId 新的父 combo id，undefined 代表没有父 combo
    */
-  public updateComboTree(item: String | INode | ICombo, parentId?: string | undefined) {
+  public updateComboTree(item: string | INode | ICombo, parentId?: string | undefined) {
     const self = this;
     let uItem: INode | ICombo;
     if (isString(item)) {
