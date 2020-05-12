@@ -178,6 +178,14 @@ const DefaultCombo = () => {
             opacity: 0.9
           }
         },
+        // defaultCombo: {
+        //   // size: [100, 100],
+        //   type: 'circle',
+        //   style: {
+        //     fill: '#ccc',
+        //     opacity: 0.9
+        //   }
+        // },
         comboStateStyles: {
           selected: {
             'text-shape': {
@@ -251,7 +259,7 @@ const DefaultCombo = () => {
         // graph.remove('A');
         // graph.changeData(data2);
         // graph.changeData(graph.save());
-        
+
         // graph.render();
         // graph.addItem('combo', {
         //   id: 'M',

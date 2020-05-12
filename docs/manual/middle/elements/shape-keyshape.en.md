@@ -5,15 +5,15 @@ order: 6
 
 ## Graphics Shape
 
-Graphics Shape (hereinafter referred to as Shape) in G6 is the shape of items (nodes/edges), it can be a circle, a rect, path, and so on. **A node or an edge is made up of one or several Shapes. The configurations on a node, an edge, or a label will be writed onto corresponding graphics Shape.**
+Graphics Shape (hereinafter referred to as Shape) in G6 is the shape of items (nodes/edges/combos), it can be a circle, a rect, path, and so on. **A node / edge / combo is made up of one or several Shapes. The configurations on a node, an edge, or a label will be writed onto corresponding graphics Shape.**
 
 In the figure(Left) below, there is a node with a circle Shape; (Center) a node with a circle Shape and a text Shape; (right) a node with a text Shape and 5 circle Shapes including the main circle and four anchor points. Each node or edge has only one keyShape. The keyShape of each nodes in the figure below is the green circle. [keyShape](#keyshape) is the Shape that responses interactions and [State](/en/docs/manual/middle/states/state) changing. <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OcaaTIIu_4cAAAAAAAAAAABkARQnAQ' width=50/>     <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*r5M0Sowd1R8AAAAAAAAAAABkARQnAQ' width=50/>      <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*pHoETad75CIAAAAAAAAAAABkARQnAQ' width=50/>
 
 > (Left) A node with one circle Shape, the keyShape is the circle. (Center) A node with a text Shape and the circle Shape, the keyShape is the circle. (Right) A node with a text Shape and five circle Shapes including the main circle and four anchors, the keyShape is the green circle.
 
-G6 designs abundant built-in nodes and edges by combing different Shapes. Built-in nodes includes 'circle', 'rect', 'ellipse', ...(Refer to [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode)); Built-in edges includes 'line', 'polyline', 'cubic', ... (Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge)).
+G6 designs abundant built-in nodes / edges / combos by combing different Shapes. Built-in nodes includes 'circle', 'rect', 'ellipse', ...(Refer to [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode)); Built-in edges includes 'line', 'polyline', 'cubic', ... (Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge)); Built-in combos includes 'circle', 'rect' (Refer to [Built-in Combos](/en/docs/manual/middle/elements/combos/defaultCombo)).
 
-Besides, G6 allows users to define their own types of item by register a custom node or an custom edge. Refer to [Custom Node](/en/docs/manual/advanced/custom-node) and [Custom Edge](/en/docs/manual/advanced/custom-edge).
+Besides, G6 allows users to define their own types of item by register a custom node / edge / combo. Refer to [Custom Node](/en/docs/manual/advanced/custom-node), [Custom Edge](/en/docs/manual/advanced/custom-edge), and [Custom Combo](/en/docs/manual/advanced/custom-combo).
 
 ## KeyShape
 
@@ -21,9 +21,9 @@ As stated above, there is only one keyShape for each type of item. keyShape is r
 
 ### Response the Style
 
-The property `style` in built-in nodes/edges of G6 is only reponsed by keyShape. And the styles of different states (`nodeStateStyles` / `edgeStateStyles` on graph or `stateStyles` of itself) are only reflected on keyShape as well.
+The property `style` in built-in nodes / edges / combos of G6 is only reponsed by keyShape. And the way to define the styles for different states (`nodeStateStyles` / `edgeStateStyles` / `comboStateStyles` on graph or `stateStyles` of itself) on keyShape and other shapes are different, refer to [Configure Styles for State](/en/docs/manual/middle/states/state#configure-styles-for-state) .
 
-To break the rules above, you can register a type of [Custom Node](/en/docs/manual/advanced/custom-node) or [Custom Edge](/en/docs/manual/advanced/custom-edge).
+To break the rules above and achieve free definations, you can register a type of [Custom Node](/en/docs/manual/advanced/custom-node), [Custom Edge](/en/docs/manual/advanced/custom-edge), or [Custom Combo](/en/docs/manual/advanced/custom-combo).
 
 #### Example
 
@@ -62,7 +62,7 @@ const graph = new G6.Graph({
   width: 500,
   height: 300,
   nodeStateStyles: {
-    // The state styles taking effect on keyShape only
+    // The state styles defined as following will take effect on keyShape only. To define state styles on other shapes, refer to the link Configure Styles for State above
     hover: {
       fillOpacity: 0.1,
       lineWidth: 10,
@@ -87,7 +87,7 @@ graph.on('node:mouseleave', evt => {
 
 ### Bounding Box
 
-KeyShape is used for **defining the Bounding Box —— bbox（x, y, width, height)** of the node to do some transformations and calculate the link points. Different keyShape will lead to different result link points.
+KeyShape is used for **defining the Bounding Box —— bbox（x, y, width, height)** of the node / combo to do some transformations and calculate the link points. Different keyShape will lead to different result link points.
 
 ### Example 
 
@@ -103,7 +103,7 @@ There is a node with a rect Shape and a circle Shape in transparent filling and 
 
 ## The Life Cycle of Shape
 
-> You can skip this part if you are going to use the built-in items. For the users who have the requirements to [Custom Node](/en/docs/manual/advanced/custom-node) and [Custom Edge](/en/docs/manual/advanced/custom-edge), you'd better know the life cycle of Shape.
+> You can skip this part if you are going to use the built-in items. For the users who have the requirements to [Custom Node](/en/docs/manual/advanced/custom-node), [Custom Edge](/en/docs/manual/advanced/custom-edge), you'd better know the life cycle of Shape, and [Custom Combo](/en/docs/manual/advanced/custom-combo), you'd better know the life cycle of Shape.
 
 The life cycle of Shape:
 

@@ -28,17 +28,17 @@ G6 的内置节点包括 circle，rect，ellipse，diamond，triangle，star，i
 
 | 名称 | 是否必须 | 类型 | 备注 |
 | --- | --- | --- | --- |
-| id | true | String | 节点编号 |
+| id | true | String | 节点唯一 ID，**必须**是唯一的 string |
 | x | false | Number | x 坐标 |
 | y | false | Number | y 坐标 |
-| shape | false | String | 节点图形，默认为 `'circle'` |
+| type | false | String | 指定节点类型，内置节点类型名称或自定义节点的名称。默认为 `'circle'` |
 | size | false | Number / Array | 节点的大小 |
 | anchorPoints | false | Array | 指定边连入节点的连接点的位置（相对于该节点而言），可以为空。例如: `[0, 0]`，代表节点左上角的锚点，`[1, 1]`,代表节点右下角的锚点 |
 | style | false | Object | 节点的样式属性。 |
 | label | false | String | 文本文字 |
 | labelCfg | false | Object | 文本配置项 |
 
-### 样式属性  style
+### 样式属性 style
 
 Object 类型。通过 `style` 配置来修改节点的填充色、边框颜色、阴影等属性。下表是 `style` 对象中常用的配置项：
 
@@ -75,7 +75,7 @@ const graph = new G6.Graph({
 });
 ```
 
-### 标签文本 label 及其配置  labelCfg
+### 标签文本 label 及其配置 labelCfg
 
 `label` String 类型。标签文本的文字内容。<br />`labelCfg` Object 类型。配置标签文本。下面是 `labelCfg` 对象中的常用配置项：
 
@@ -128,7 +128,7 @@ const graph = new G6.Graph({
 
 ### 实例化图时全局配置
 
-用户在实例化 Graph 时候可以通过 `defaultNode`  配置节点，这里的配置是全局的配置，将会在所有节点上生效。
+用户在实例化 Graph 时候可以通过 `defaultNode` 配置节点，这里的配置是全局的配置，将会在所有节点上生效。
 
 ```javascript
 const graph = new G6.Graph({
@@ -136,7 +136,7 @@ const graph = new G6.Graph({
   width: 800,
   height: 600,
   defaultNode: {
-    shape: 'circle',
+    type: 'circle',
     // 其他配置
   },
 });
@@ -151,7 +151,7 @@ const data = {
   nodes: [{
     id: 'node0',
     size: 100,
-    shape: 'rect',
+    type: 'rect',
     ...    // 其他属性
     style: {
       ...  // 样式属性，每种节点的详细样式属性参见各节点文档
@@ -159,7 +159,7 @@ const data = {
   },{
     id: 'node1',
     size: [50, 100],
-    shape: 'ellipse',
+    type: 'ellipse',
     ...    // 其他属性
     style: {
       ...  // 样式属性，每种节点的详细样式属性参见各节点文档
@@ -189,7 +189,7 @@ const data = {
 graph.node(node => {
   return {
     id: node.id,
-    shape: 'rect',
+    type: 'rect',
     style: {
       fill: 'blue',
     },
@@ -206,29 +206,31 @@ graph.render();
 const data = {
   nodes: [
     {
+      id: 'node_circle',
       x: 100,
       y: 100,
-      shape: 'circle',
+      type: 'circle',
       label: 'circle',
     },
     {
+      id: 'node_rect',
       x: 200,
       y: 100,
-      shape: 'rect',
+      type: 'rect',
       label: 'rect',
     },
     {
       id: 'node-ellipse',
       x: 330,
       y: 100,
-      shape: 'ellipse',
+      type: 'ellipse',
       label: 'ellipse',
     },
     {
       id: 'node-diamond',
       x: 460,
       y: 100,
-      shape: 'diamond',
+      type: 'diamond',
       label: 'diamond',
     },
     {
@@ -236,7 +238,7 @@ const data = {
       x: 560,
       y: 100,
       //size: 80,
-      shape: 'triangle',
+      type: 'triangle',
       label: 'triangle',
     },
     {
@@ -244,14 +246,15 @@ const data = {
       x: 660,
       y: 100,
       //size: [60, 30],
-      shape: 'star',
+      type: 'star',
       label: 'star',
     },
     {
+      id: 'node-image',
       x: 760,
       y: 100,
       size: 50,
-      shape: 'image',
+      type: 'image',
       img: 'https://gw.alipayobjects.com/zos/rmsportal/XuVpGqBFxXplzvLjJBZB.svg',
       label: 'image',
     },
@@ -259,7 +262,7 @@ const data = {
       id: 'node-modelRect',
       x: 900,
       y: 100,
-      shape: 'modelRect',
+      type: 'modelRect',
       label: 'modelRect',
     },
   ],
@@ -287,7 +290,7 @@ graph.render();
   id: 'node-ellipse',
   x: 330,
   y: 100,
-  shape: 'ellipse',
+  type: 'ellipse',
   size: [60, 30],
   label: 'ellipse',
   labelCfg: {
@@ -312,7 +315,7 @@ graph.render();
   x: 900,
   y: 100,
   description: '描述文本xxxxxxxxxxx',
-  shape: 'modelRect',
+  type: 'modelRect',
   label: 'modelRect'
 }
 ```

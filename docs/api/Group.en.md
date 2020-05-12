@@ -1,6 +1,6 @@
 ---
 title: Graphics Group
-order: 9
+order: 11
 ---
 
 Graphics Group (hereinafter referred to as Group) in G6 is similar to <a href='https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g' target='_blank'> `<g>` tag in SVG </a>: Group a container of a group of graphics. The transformations on a Group such as clipping, rotating, zooming, and translating will be applied to all the children of the Group. The properties like color and position will also be inherited by its children. Besides, Group can be nested for complicated objects. For more information about Group, please refer to [Graphics Group](/en/docs/manual/advanced/keyconcept/graphics-group) document.

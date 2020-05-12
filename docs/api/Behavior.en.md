@@ -1,6 +1,6 @@
 ---
 title: Behavior
-order: 5
+order: 7
 ---
 
 Behavior is the compound interactions in G6. In general, a Behavior includes one or more event listeners and a set of item operations.
