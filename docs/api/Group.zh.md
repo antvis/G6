@@ -1,6 +1,6 @@
 ---
 title: Graphics Group
-order: 9
+order: 11
 ---
 
 图形分组 Graphics Group（下文简称 Group） 类似于 <a href='https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g' target='_blank'>SVG 中的 `<g>` 标签</a>：Group  是用来组合图形对象的容器。在 Group  上添加变换（例如剪裁、旋转、放缩、平移等）会应用到其所有的子元素上。在 Group  上添加属性（例如颜色、位置等）会被其所有的子元素继承。此外， Group 可以多层嵌套使用，因此可以用来定义复杂的对象。关于 Group 更详细的介绍请参考 [图形分组 Group](/zh/docs/manual/advanced/keyconcept/graphics-group) 文档。

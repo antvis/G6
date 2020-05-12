@@ -371,7 +371,7 @@ graph.expandGroup('groupId');
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | type | string | true | 元素类型，可选值为 `'node'`、`'edge'` 和 `'group'` |
-| model | Object | true | 元素的数据模型，`type: 'group'` 时，参看 [手动创建节点分组文档](/zh/docs/manual/advanced/create-node-group) |
+| model | Object | true | 元素的数据模型，具体内容参见[元素配置项](/zh/docs/api/itemProperties)。`type: 'group'` 时，参看 [手动创建节点分组文档](/zh/docs/manual/advanced/create-node-group) |
 
 **用法**
 
@@ -416,7 +416,7 @@ graph.addItem('group', model);
 | 名称 | 类型            | 是否必选 | 描述               |
 | ---- | --------------- | -------- | ------------------ |
 | item | string / Object | true     | 元素 ID 或元素实例 |
-| cfg  | Object          | false    | 需要更新的数据模型 |
+| cfg  | Object          | false    | 需要更新的数据模型，具体内容参见[元素配置项](/zh/docs/api/itemProperties)  |
 
 **用法**
 

@@ -1,6 +1,6 @@
 ---
 title: 使用 SVG 渲染
-order: 9
+order: 10
 ---
 
 使用 SVG 渲染 G6 的图，仅需要在实例化图是配置 `renderer` 为 `'svg'` 即可。如下示例：

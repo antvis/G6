@@ -61,6 +61,7 @@ Quadratic edge has the [Common Edge Properties](/en/docs/manual/middle/elements/
 | controlPoints | The array of the control points for the quadratic curve | Array | If it is not assgined, the default control point on the center of the curve will take effect. e.g. `[{ x: 10, y: 20 }]` |
 | curveOffset | The distance between the the controlPoint to the line connecting the two endpoints. It controls the degree of bending of the curve. The sign of it controls the bending direction. | Number / Number[] | It is a special configuration for 'cubic', 'horizontal', 'cubic-vertical', 'cubic-horizontal' type edge |
 | curvePosition | The relative position of the controlPoint on the line connecting the two endpoints. Ranges from 0 to 1 | Number / Number[] | It is a special configuration for 'cubic', 'horizontal', 'cubic-vertical', 'cubic-horizontal' type edge |
+| stateStyles | The styles in different states | Object | Refer to [Configure Styles for State](/en/docs/manual/middle/states/state#configure-styles-for-state) |
 
 ### style `style` is an object which is the same as the [Common Edge Style Properties](/en/docs/manual/middle/elements/edges/defaultEdge/#style). The following code shows how to configure the `style` globally when instantiating a Graph.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*TWjZRqKStFcAAAAAAAAAAABkARQnAQ' width=150/>
 

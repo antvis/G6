@@ -1,6 +1,6 @@
 ---
 title: Render with SVG
-order: 9
+order: 10
 ---
 
 If you want to render graph of G6 with SVG, assign `renderer` to `'svg'` for graph instance as below:

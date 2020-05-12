@@ -76,6 +76,8 @@ labelCfg: {
 | style | The default style of edge | Object | Correspond to the styles in Canvas |
 | label | The text of the label | String |  |
 | labelCfg | The configurations of the label | Object |  |
+| stateStyles | The styles in different states | Object | Refer to [Configure Styles for State](/en/docs/manual/middle/states/state#configure-styles-for-state) |
+
 
 ### Special Property: curveOffset
 
