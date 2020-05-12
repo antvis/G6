@@ -1,14 +1,9 @@
 import GraphVertex from "./structs/graph/GraphVertex";
 import Graph from './structs/graph/Graph'
+import { IAlgorithmCallbacks } from '../types'
 
-interface ICallback {
-  allowTraversal?: any;
-  enterVertex?: any;
-  leaveVertex?: any;
-}
-
-function initCallbacks(callbacks: ICallback = {} as ICallback) {
-  const initiatedCallback = callbacks as ICallback;
+function initCallbacks(callbacks: IAlgorithmCallbacks = {} as IAlgorithmCallbacks) {
+  const initiatedCallback = callbacks;
 
   const stubCallback = () => {};
 
@@ -38,7 +33,7 @@ function initCallbacks(callbacks: ICallback = {} as ICallback) {
  * @param {GraphVertex} previousVertex
  * @param {Callbacks} callbacks
  */
-function depthFirstSearchRecursive(graph: Graph, currentVertex: GraphVertex, previousVertex: GraphVertex, callbacks: ICallback) {
+function depthFirstSearchRecursive(graph: Graph, currentVertex: GraphVertex, previousVertex: GraphVertex, callbacks: IAlgorithmCallbacks) {
   callbacks.enterVertex({ currentVertex, previousVertex });
 
   graph.getNeighbors(currentVertex).forEach((nextVertex) => {
@@ -51,11 +46,12 @@ function depthFirstSearchRecursive(graph: Graph, currentVertex: GraphVertex, pre
 }
 
 /**
- * @param {Graph} graph
- * @param {GraphVertex} startVertex
- * @param {Callbacks} [callbacks]
+ * 深度优先遍历图
+ * @param graph Graph 图实例
+ * @param startVertex 开始遍历的节点
+ * @param originalCallbacks 回调
  */
-export default function depthFirstSearch(graph: Graph, startVertex: GraphVertex, callbacks: ICallback) {
+export default function depthFirstSearch(graph: Graph, startVertex: GraphVertex, callbacks?: IAlgorithmCallbacks) {
   const previousVertex = null;
   depthFirstSearchRecursive(graph, startVertex, previousVertex, initCallbacks(callbacks));
 }

@@ -184,7 +184,7 @@ export default class Graph {
     vertices.forEach((vertex: GraphVertex, vertexIndex: number) => {
       vertex.getNeighbors().forEach((neighbor: GraphVertex) => {
         const neighborIndex = verticesIndices[neighbor.getKey()]
-        adjacencyMatrix[vertexIndex][neighborIndex] = this.findEdge(vertex, neighbor).weight
+        adjacencyMatrix[vertexIndex][neighborIndex] = (this.findEdge(vertex, neighbor) as GraphEdge).weight
       })
     })
 

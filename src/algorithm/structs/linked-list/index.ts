@@ -1,11 +1,12 @@
 import Comparator from '../../comparator'
 import GraphEdge from '../graph/GraphEdge';
+import GraphVertex from '../graph/GraphVertex';
 
 /**
  * 链表中单个元素节点
  */
 export class LinkedListNode {
-  public value: GraphEdge
+  public value: GraphEdge | GraphVertex
   public next: LinkedListNode
   constructor(value: GraphEdge, next: LinkedListNode = null) {
     this.value = value

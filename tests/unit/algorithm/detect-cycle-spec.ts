@@ -11,6 +11,7 @@ describe('detectDirectedCycle', () => {
     const vertexD = new GraphVertex('D');
     const vertexE = new GraphVertex('E');
     const vertexF = new GraphVertex('F');
+    const vertexG = new GraphVertex('G')
 
     const edgeAB = new GraphEdge(vertexA, vertexB);
     const edgeBC = new GraphEdge(vertexB, vertexC);
@@ -27,7 +28,7 @@ describe('detectDirectedCycle', () => {
       .addEdge(edgeAC)
       .addEdge(edgeDA)
       .addEdge(edgeDE)
-      .addEdge(edgeEF);
+      .addEdge(edgeEF)
 
     let result = detectCycle(graph)
     

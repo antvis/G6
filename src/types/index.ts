@@ -6,6 +6,7 @@ import Node from '../item/node';
 import { IGraph } from '../interface/graph';
 import { IEdge, INode, ICombo } from '../interface/item';
 import { ILabelConfig } from '../interface/shape';
+import GraphVertex from '../algorithm/structs/graph/GraphVertex';
 
 // Math types
 export interface IPoint {
@@ -597,4 +598,11 @@ export interface ViewPortEventParam {
 
 export interface Indexable<T> {
   [key: string]: T;
+}
+
+// 图算法回调方法接口定义
+export interface IAlgorithmCallbacks {
+  enterVertex?: (param: { currentVertex: GraphVertex, previousVertex: GraphVertex }) => void;
+  leaveVertex?: (param: { currentVertex: GraphVertex, previousVertex?: GraphVertex  }) => void;
+  allowTraversal?: (param: { previousVertex?: GraphVertex, currentVertex?: GraphVertex, nextVertex: GraphVertex }) => boolean;
 }

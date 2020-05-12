@@ -1,12 +1,7 @@
 import dfs from './dfs'
 import Graph from './structs/graph/Graph'
 import GraphVertex from './structs/graph/GraphVertex'
-
-interface ICallbacks {
-  enterVertex: (param: { currentVertex: GraphVertex, previousVertex: GraphVertex }) => void;
-  leaveVertex: (param: { currentVertex: GraphVertex }) => void;
-  allowTraversal: (param: { nextVertex: GraphVertex }) => boolean;
-}
+import { IAlgorithmCallbacks } from '../types'
 
 const detectDirectedCycle = (graph: Graph) => {
   let cycle: {
@@ -29,7 +24,7 @@ const detectDirectedCycle = (graph: Graph) => {
     unvisitedSet[vertex.getKey()] = vertex
   })
 
-  const callbacks: ICallbacks = {
+  const callbacks: IAlgorithmCallbacks = {
     enterVertex: ({ currentVertex, previousVertex }) => {
       if (visitingSet[currentVertex.getKey()]) {
         // 如果当前节点正在访问中，则说明检测到环路了

@@ -51,7 +51,7 @@ export default class GraphVertex {
     const edges = this.edges.toArray()
 
     const neighhborsConverter = (node: LinkedListNode) => {
-      return node.value.startVertex === this ? node.value.endVertex : node.value.startVertex
+      return (node.value as GraphEdge).startVertex === this ? (node.value as GraphEdge).endVertex : (node.value as GraphEdge).startVertex
     }
 
     return edges.map(neighhborsConverter)
@@ -122,7 +122,7 @@ export default class GraphVertex {
    * 删除所有的边
    */
   deleteAllEdges() {
-    this.getEdges().forEach(edge => this.deleteEdge(edge))
+    this.getEdges().forEach((edge: GraphEdge) => this.deleteEdge(edge))
 
     return this
   }
