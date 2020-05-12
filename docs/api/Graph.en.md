@@ -365,7 +365,7 @@ Add item(node, edge, or group) to the graph.
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | type | string | true | The type of the item. Options: `'node'`, `'edge'`, and `'group'`. |
-| model | Object | true | The data model of the item. When `type: 'group'`, refer to [Create Node Group](/en/docs/manual/advanced/create-node-group) |
+| model | Object | true | The data model of the item, refer to [Item Model Properties](/en/docs/api/itemProperties). When `type: 'group'`, refer to [Create Node Group](/en/docs/manual/advanced/create-node-group) |
 
 **Usage**
 
@@ -410,7 +410,7 @@ Update the item with new data model.
 | Name | Type            | Required | Description                         |
 | ---- | --------------- | -------- | ----------------------------------- |
 | item | string / Object | true     | The id or the instance of the item. |
-| cfg  | Object          | false    | New data model.                     |
+| cfg  | Object          | false    | New data model, refer to [Item Model Properties](/en/docs/api/itemProperties) |
 
 **Usage**
 

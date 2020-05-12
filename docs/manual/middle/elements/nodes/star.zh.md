@@ -55,11 +55,11 @@ star 节点支持 [节点通用配置](/zh/docs/manual/middle/elements/nodes/def
 | style | 五角星的默认样式 | Object | Canvas 支持的属性 |
 | label | 标签文本内容 | String |  |
 | labelCfg | 标签文本配置项 | Object |  |
-| stateStyles | 各状态下的样式 | Object | 只对 keyShape 起作用 |
+| stateStyles | 各状态下的样式 | Object | 详见[配置状态样式](/zh/docs/manual/middle/states/state#配置-state-样式) |
 | linkPoints | **视觉上的**五个锚点 | Object | 默认不显示，应与 [anchorPoints](/zh/docs/manual/middle/elements/nodes/defaultNode/#节点的通用属性) 配合使用。二者区别请看 [linkPoints](#linkpoints) |
 | icon | 五角星上 icon 配置 | Object | 默认不显示 icon |
 
-### 样式属性  style
+### 样式属性 style
 
 Object 类型。支持 [节点通用样式](/zh/docs/manual/middle/elements/nodes/defaultNode#样式属性-style)。通过 `style` 配置来修改节点的填充色、描边等属性。下面代码演示在实例化图时全局配置方法中配置 `style`，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Hw05TKKFEtIAAAAAAAAAAABkARQnAQ' width=100/>
 
@@ -92,7 +92,7 @@ graph.data(data);
 graph.render();
 ```
 
-### 标签文本配置  labelCfg
+### 标签文本配置 labelCfg
 
 Object 类型。通过 `labelCfg` 配置标签文本。支持 [节点通用标签配置](/zh/docs/manual/middle/elements/nodes/defaultNode/#标签文本-label-及其配置-labelcfg)。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了  `labelCfg`  配置项进行文本的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-cSoRIyoykAAAAAAAAAAAABkARQnAQ' width=100/>
 

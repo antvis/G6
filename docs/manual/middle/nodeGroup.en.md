@@ -1,6 +1,6 @@
 ---
 title: Node Group
-order: 8
+order: 9
 ---
 
 > The title of Node Group is supported from G6 V3.1.2.

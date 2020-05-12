@@ -36,10 +36,10 @@ The table below shows the built-in edges and their special properties:
 
 | Name | Required | Type | Remark |
 | --- | --- | --- | --- |
-| id | false | String | The id of the node |
+| id | false | String | The id of the edge, **MUST** be a unique string |
 | source | true | String | Number | The id of the source node |
 | target | true | String | The id of the target node |
-| type | false | String | The type of the edge, `'line'` by default |
+| type | false | String | The type of the edge. It can be the type of a Built-in Edge, or a custom Edge. `'line'` by default |
 | sourceAnchor | false | Number | The index of link points on the source node. The link point is the intersection of the edge and related node |
 | targetAnchor | false | Number | The index of link points on the target node. The link point is the intersection of the edge and related node |
 | style | false | Object | The edge style |

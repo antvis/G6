@@ -5,7 +5,7 @@ order: 5
 
 ## Show/Hide a Node or an Edge
 
-Show and hide the node or the edge by the following four functions:
+Show and hide the node/edge/combo by the following six functions:
 
 ```javascript
 // Show the instance of the node nodeItem. The property `visible` of the node will be true after calling the following code
@@ -19,6 +19,12 @@ edgeItem.show();
 
 // Hide the instance of the edge edgeItem. The property `visible` of the node will be false after calling the following code
 edgeItem.hide();
+
+// Show the instance of the combo comboItem. The property `visible` of the node will be true after calling the following code
+comboItem.show();
+
+// Hide the instance of the combo comboItem. The property `visible` of the node will be false after calling the following code
+comboItem.hide();
 ```
 
 ## Example

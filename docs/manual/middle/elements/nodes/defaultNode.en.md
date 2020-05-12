@@ -5,7 +5,7 @@ order: 0
 
 The built-in nodes in G6 include circle, rect, ellipse, diamond, triangle, star, image, and modelRect. <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FY3RTbDCz_8AAAAAAAAAAABkARQnAQ' width='750' height='100'>
 
-In this document, we will briefly introduce the built-in nodes in G6, the common property, and the way to configure the node type. To knwon more about each type of built-in nodes in G6, please refer to the corresponding documents in this directory.
+In this document, we will briefly introduce the built-in nodes in G6, the common property, and the way to configure the node type. To know more about each type of built-in nodes in G6, please refer to the corresponding documents in this directory.
 
 ## Types of Default Nodes
 
@@ -26,10 +26,10 @@ The table below shows the built-in nodes and their special properties:
 
 | Name | Required | Type | Remark |
 | --- | --- | --- | --- |
-| id | true | String | The id of the node |
+| id | true | String | The ID of the node, **MUST** be a unique string |
 | x | false | Number | x coordinate |
 | y | false | Number | y coordinate |
-| shape | false | String | The shape of the node, `'circle'` by default |
+| type | false | String | The shape type of the node. It can be the type of built-in Node, or the custom Node. `'circle'` by default |
 | size | false | Number / Array | The size of the node |
 | anchorPoints | false | Array | The interactions of the node and related edges. It can be null. `[0, 0]` represents the anchor on the left top; `[1, 1]`represents the anchor ont he right bottom |
 | style | false | Object | The node style |
@@ -133,7 +133,7 @@ const graph = new G6.Graph({
   width: 800,
   height: 600,
   defaultNode: {
-    shape: 'circle',
+    type: 'circle',
     // Other properties for all the nodes
   },
 });
@@ -149,19 +149,19 @@ const data = {
     {
       id: 'node0',
       size: 100,
-      shape: 'rect',
+      type: 'rect',
       // ...    // Other properties for this node
       style: {
-        // ...  // Style properties for this node
+        // ...  // Style properties for this node. Different styles for different types of nodes can be refered to the subdocuments
       },
     },
     {
       id: 'node1',
       size: [50, 100],
-      shape: 'ellipse',
+      type: 'ellipse',
       // ...    // Other properties for this node
       style: {
-        // ...  // Style properties for this node
+        // ...  // Style properties for this node. Different styles for different types of nodes can be refered to the subdocuments
       },
     },
     // ... // Other nodes
@@ -188,7 +188,7 @@ By this way, we can configure different nodes with different properties.
 graph.node(node => {
   return {
     id: node.id,
-    shape: 'rect',
+    type: 'rect',
     style: {
       fill: 'blue',
     },
@@ -207,27 +207,27 @@ const data = {
     {
       x: 100,
       y: 100,
-      shape: 'circle',
+      type: 'circle',
       label: 'circle',
     },
     {
       x: 200,
       y: 100,
-      shape: 'rect',
+      type: 'rect',
       label: 'rect',
     },
     {
       id: 'node-ellipse',
       x: 330,
       y: 100,
-      shape: 'ellipse',
+      type: 'ellipse',
       label: 'ellipse',
     },
     {
       id: 'node-diamond',
       x: 460,
       y: 100,
-      shape: 'diamond',
+      type: 'diamond',
       label: 'diamond',
     },
     {
@@ -235,7 +235,7 @@ const data = {
       x: 560,
       y: 100,
       //size: 80,
-      shape: 'triangle',
+      type: 'triangle',
       label: 'triangle',
     },
     {
@@ -243,14 +243,14 @@ const data = {
       x: 660,
       y: 100,
       //size: [60, 30],
-      shape: 'star',
+      type: 'star',
       label: 'star',
     },
     {
       x: 760,
       y: 100,
       size: 50,
-      shape: 'image',
+      type: 'image',
       img: 'https://gw.alipayobjects.com/zos/rmsportal/XuVpGqBFxXplzvLjJBZB.svg',
       label: 'image',
     },
@@ -258,7 +258,7 @@ const data = {
       id: 'node-modelRect',
       x: 900,
       y: 100,
-      shape: 'modelRect',
+      type: 'modelRect',
       label: 'modelRect',
     },
   ],
@@ -286,7 +286,7 @@ By writing the properties into the data, we adjust the label position, color, an
   id: 'node-ellipse',
   x: 330,
   y: 100,
-  shape: 'ellipse',
+  type: 'ellipse',
   size: [60, 30],
   label: 'ellipse',
   labelCfg: {
@@ -311,7 +311,7 @@ Then, we add some description for the node with `'node-modelRect'` as its `id`:
   x: 900,
   y: 100,
   description: '描述文本xxxxxxxxxxx',
-  shape: 'modelRect',
+  type: 'modelRect',
   label: 'modelRect'
 }
 ```
