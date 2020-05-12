@@ -66,7 +66,7 @@ const singleCombo: ShapeOptions = {
     const size = this.getSize!(cfg as ModelConfig);
 
     const r = Math.max(cfgStyle.r, size[0] / 2) || size[0] / 2;
-    
+
     const dis = r + padding;
 
     let style: any;
@@ -89,7 +89,7 @@ const singleCombo: ShapeOptions = {
         break;
       case 'left':
         style = {
-          x: - dis - (refX as number),
+          x: - dis + (refX as number),
           y: 0,
           textAlign: 'left',
         };

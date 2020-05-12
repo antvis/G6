@@ -1,6 +1,6 @@
 ---
 title: Behavior
-order: 5
+order: 7
 ---
 
 Behavior 指 G6 中的复合交互，一般 Behavior 包含一个或多个事件的监听与处理以及一系列对图中元素的操作。

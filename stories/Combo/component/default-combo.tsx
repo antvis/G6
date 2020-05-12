@@ -56,33 +56,33 @@ const data = {
     },
   ],
   combos: [
-  {
-    id: 'A',
-    parentId: 'B',
-    label: 'gorup A',
-    padding: [50, 10, 10, 10]
-    // type: 'rect'
-  }, {
-    id: 'B',
-    // parentId: 'C',
-    label: 'gorup B',
-    // padding: [50, 10, 10, 50]
-    // type: 'rect'
-  },
-  // {
-  //   id: 'C',
-  //   label: 'gorup C',
-  //   // type: 'rect'
-  // },
-  {
-    id: 'D',
-    label: 'gorup D',
-    parentId: 'E',
-    // type: 'rect'
-  }, {
-    id: 'E',
-    // type: 'rect'
-  }]
+    {
+      id: 'A',
+      parentId: 'B',
+      label: 'gorup A',
+      padding: [50, 10, 10, 10]
+      // type: 'rect'
+    }, {
+      id: 'B',
+      // parentId: 'C',
+      label: 'gorup B',
+      // padding: [50, 10, 10, 50]
+      // type: 'rect'
+    },
+    // {
+    //   id: 'C',
+    //   label: 'gorup C',
+    //   // type: 'rect'
+    // },
+    {
+      id: 'D',
+      label: 'gorup D',
+      parentId: 'E',
+      // type: 'rect'
+    }, {
+      id: 'E',
+      // type: 'rect'
+    }]
 };
 
 const data2 = {
@@ -132,31 +132,80 @@ const data2 = {
     },
   ],
   combos: [
-  {
-    id: 'A',
-    parentId: 'C',
-    label: 'gorup A',
-    type: 'circle'
-  }, {
-    id: 'B',
-    parentId: 'C',
-    label: 'gorup B',
-    type: 'circle'
-  }, {
-    id: 'C',
-    label: 'gorup C',
-    // type: 'rect'
-  }, {
-    id: 'F',
-    label: 'gorup F',
-    // type: 'rect'
-  }, {
-    id: 'G',
-    label: 'gorup G',
-    // parentId: 'F'
-    type: 'circle'
-  }]
+    {
+      id: 'A',
+      parentId: 'C',
+      label: 'gorup A',
+      type: 'circle'
+    }, {
+      id: 'B',
+      parentId: 'C',
+      label: 'gorup B',
+      type: 'circle'
+    }, {
+      id: 'C',
+      label: 'gorup C',
+      // type: 'rect'
+    }, {
+      id: 'F',
+      label: 'gorup F',
+      // type: 'rect'
+    }, {
+      id: 'G',
+      label: 'gorup G',
+      // parentId: 'F'
+      type: 'circle'
+    }]
 };
+
+const combo = {
+  // nodes: [
+  //   {
+  //   id: 'node1',
+  //   label: 'Node1',
+  //   comboId: 'rect_combo'
+  // }, {
+  //   id: 'node2',
+  //   label: 'Node 2'
+  // }],
+  combos: [{
+    id: 'circle_combo',
+    label: 'Circle',
+    type: 'circle',
+    style: {
+      fill: '#eaff8f',
+      stroke: '#bae637',
+      lineWidth: 3,
+    },
+    labelCfg: {
+      position: 'left',
+      refX: 5,
+      style: {
+        fill: '#bae637',
+        fontSize: 15
+        // ... 其他文本样式的配置
+      },
+    }
+  }, {
+    id: 'rect_combo',
+    type: 'rect',
+    label: 'Rect',
+    style: {
+      fill: '#eaff8f',
+      stroke: '#bae637',
+      lineWidth: 3,
+    },
+    labelCfg: {
+      position: 'bottom',
+      refY: -12,
+      style: {
+        fill: '#bae637',
+        fontSize: 15
+        // ... 其他文本样式的配置
+      },
+    },
+  }]
+}
 
 const DefaultCombo = () => {
   const container = React.useRef();
@@ -168,16 +217,16 @@ const DefaultCombo = () => {
         height: 800,
         groupByTypes: false,
         modes: {
-          default: [ 'drag-canvas' ]
+          default: ['drag-canvas', 'drag-combo', 'drag-node']
         },
-        defaultCombo: {
-          // size: [100, 100],
-          type: 'circle',
-          style: {
-            fill: '#ccc',
-            opacity: 0.9
-          }
-        },
+        // defaultCombo: {
+        //   // size: [100, 100],
+        //   type: 'circle',
+        //   style: {
+        //     fill: '#ccc',
+        //     opacity: 0.9
+        //   }
+        // },
         comboStateStyles: {
           selected: {
             'text-shape': {
@@ -208,7 +257,7 @@ const DefaultCombo = () => {
       //     }
       //   }
       // });
-      graph.data(data);
+      graph.data(combo);
       graph.render();
       let selected = false;
       graph.on('node:click', e => {
@@ -251,13 +300,13 @@ const DefaultCombo = () => {
         // graph.remove('A');
         // graph.changeData(data2);
         // graph.changeData(graph.save());
-        
+
         // graph.render();
         // graph.addItem('combo', {
         //   id: 'M',
         //   parentId: 'B'
         // });
-        
+
         // graph.addItem('node', {
         //   id: 'M',
         //   comboId: 'A'

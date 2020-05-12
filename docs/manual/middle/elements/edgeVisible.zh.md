@@ -3,9 +3,9 @@ title: 显示与隐藏
 order: 5
 ---
 
-## 节点与边的显示/隐藏
+## 元素的显示/隐藏
 
-使用下面四个函数可以实现节点与边的显示/隐藏：
+使用下面六个函数可以实现节点、边、Combo 的显示/隐藏：
 
 ```javascript
 // 显示节点实例 nodeItem，该节点的 visible 属性值在该方法调用后被置为 true
@@ -19,6 +19,12 @@ edgeItem.show();
 
 // 隐藏边实例 edgeItem，该边的 visible 属性值在该方法调用后被置为 false
 edgeItem.hide();
+
+// 显示边实例 comboItem，该 Combo 的 visible 属性值在该方法调用后被置为 true
+comboItem.show();
+
+// 隐藏边实例 comboItem，该 Combo 的 visible 属性值在该方法调用后被置为 false
+comboItem.hide();
 ```
 
 ## 示例

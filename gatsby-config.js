@@ -78,23 +78,31 @@ module.exports = {
       {
         slug: 'manual/middle/elements',
         title: {
-          zh: '节点与边',
-          en: 'Graph Element',
+          zh: '节点/边/Combo',
+          en: 'Graph Elements',
         },
       },
       {
         slug: 'manual/middle/elements/nodes',
         title: {
           zh: '内置节点',
-          en: 'Default Node',
+          en: 'Built-in Node',
         },
-        order: 2,
+        order: 1,
       },
       {
         slug: 'manual/middle/elements/edges',
         title: {
           zh: '内置边',
-          en: 'Default Edge',
+          en: 'Built-in Edge',
+        },
+        order: 2,
+      },
+      {
+        slug: 'manual/middle/elements/combos',
+        title: {
+          zh: '内置 Combo',
+          en: 'Built-in Combo',
         },
         order: 3,
       },
@@ -115,19 +123,12 @@ module.exports = {
         order: 6,
       },
       {
-        slug: 'api',
-        title: {
-          zh: 'API 文档',
-          en: 'API Doc',
-        },
-      },
-      {
         slug: 'api/nodeEdge',
         title: {
           zh: '节点和边',
           en: 'Node & Edge',
         },
-        order: 4,
+        order: 3,
       },
       {
         slug: 'api/layout',
@@ -136,14 +137,6 @@ module.exports = {
           en: 'Layout',
         },
         order: 4,
-      },
-      {
-        slug: 'api/properties',
-        title: {
-          zh: '属性配置项',
-          en: 'Properties',
-        },
-        order: 10,
       },
     ],
     examples: [
