@@ -115,7 +115,7 @@
     "react-i18next": "^11.1.0",
     "rimraf": "^3.0.0",
     "rollup-plugin-web-worker-loader": "^0.8.1",
-    "ts-jest": "^24.1.0",
+    "ts-jest": "^25.5.1",
     "ts-loader": "^7.0.3",
     "ttypescript": "^1.5.8",
     "typedoc": "^0.17.6",
