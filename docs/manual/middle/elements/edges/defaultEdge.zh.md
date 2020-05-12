@@ -39,17 +39,17 @@ G6 提供了 9 种内置边：
 
 | 名称         | 是否必须 | 类型   | 备注                         |
 | ------------ | -------- | ------ | ---------------------------- |
-| id           | false    | String | 边编号                       |
+| id           | false    | String | 边唯一 ID，**必须**是唯一的 string                       |
 | source       | true     | String | Number                       | 起始点 id |
 | target       | true     | String | 结束点 id                    |
-| shape        | false    | String | 边图形，默认为 `'line'`      |
+| type        | false    | String | 指定边的类型，可以是内置边的类型名称，也可以是自定义边的名称。默认为 `'line'`      |
 | sourceAnchor | false    | Number | 边的起始节点上的锚点的索引值 |
 | targetAnchor | false    | Number | 边的终止节点上的锚点的索引值 |
 | style        | false    | Object | 边的样式属性                 |
 | label        | false    | String | 文本文字，如果没有则不会显示 |
 | labelCfg     | false    | Object | 文本配置项                   |
 
-### 样式属性  style
+### 样式属性 style
 
 Object 类型。通过 `style` 配置来修改边的颜色、线宽等属性。下表是 `style` 对象中常用的配置项：
 
@@ -86,7 +86,7 @@ const graph = new G6.Graph({
 });
 ```
 
-### 标签文本 label 及其配置  labelCfg
+### 标签文本 label 及其配置 labelCfg
 
 `label` String 类型。标签文本的文字内容。<br />`labelCfg` Object 类型。配置标签文本。下面是 `labelCfg` 对象中的常用配置项：
 
@@ -146,7 +146,7 @@ const graph = new G6.Graph({
   width: 800,
   height: 600,
   defaultEdge: {
-    shape: 'line',
+    type: 'line',
     // ... 其他配置
   },
 });
@@ -164,7 +164,7 @@ const data = {
   edges: [{
     source: 'node0',
     target: 'node1'
-    shape: 'polyline',
+    type: 'polyline',
     ... // 其他配置
     style: {
       ...  // 样式属性，每种边的详细样式属性参见各边文档
@@ -172,7 +172,7 @@ const data = {
   },{
     source: 'node1',
     target: 'node2'
-    shape: 'cubic',
+    type: 'cubic',
     ... // 其他配置
     style: {
       ...  // 样式属性，每种边的详细样式属性参见各边文档
@@ -197,7 +197,7 @@ const data = {
 graph.edge(edge => {
   return {
     id: edge.id,
-    shape: 'polyline',
+    type: 'polyline',
     style: {
       fill: 'steelblue',
     },
@@ -230,14 +230,14 @@ const data = {
     { id: '15', x: 1100, y: 50, size: 20 },
   ],
   edges: [
-    { source: '1', target: '2', shape: 'line', label: 'line' },
-    { source: '3', target: '4', shape: 'polyline', label: 'polyline' },
-    { source: '5', target: '6', shape: 'arc', label: 'arc' },
-    { source: '7', target: '8', shape: 'quadratic', label: 'quadratic' },
-    { source: '9', target: '10', shape: 'cubic', label: 'cubic' },
-    { source: '11', target: '12', shape: 'cubic-vertical', label: 'cubic-vertical' },
-    { source: '13', target: '14', shape: 'cubic-horizontal', label: 'cubic-horizontal' },
-    { source: '15', target: '15', shape: 'loop', label: 'loop' },
+    { source: '1', target: '2', type: 'line', label: 'line' },
+    { source: '3', target: '4', type: 'polyline', label: 'polyline' },
+    { source: '5', target: '6', type: 'arc', label: 'arc' },
+    { source: '7', target: '8', type: 'quadratic', label: 'quadratic' },
+    { source: '9', target: '10', type: 'cubic', label: 'cubic' },
+    { source: '11', target: '12', type: 'cubic-vertical', label: 'cubic-vertical' },
+    { source: '13', target: '14', type: 'cubic-horizontal', label: 'cubic-horizontal' },
+    { source: '15', target: '15', type: 'loop', label: 'loop' },
   ],
 };
 
@@ -262,7 +262,7 @@ graph.render();
 {
   source: '9',
   target: '10',
-  shape: 'cubic',
+  type: 'cubic',
   label: 'cubic',
   labelCfg: {
     refY: -15 // refY 默认是顺时针方向向下，所以需要设置负值
@@ -272,7 +272,7 @@ graph.render();
 {
   source: '11',
   target: '12',
-  shape: 'cubic-vertical',
+  type: 'cubic-vertical',
   color: '#722ed1',     // 边颜色
   size: 5,              // 边粗细
   style: {

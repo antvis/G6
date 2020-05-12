@@ -76,6 +76,7 @@ labelCfg: {
 | style | 边的样式 | Object | Canvas 支持的属性 |
 | label | 标签文本文字 | String |  |
 | labelCfg | 标签文本配置项 | Object |  |
+| stateStyles | 各状态下的样式 | Object | 详见[配置状态样式](/zh/docs/manual/middle/states/state#配置-state-样式) |
 
 ### 特殊属性：弧度  curveOffset
 
@@ -122,7 +123,7 @@ graph.render();
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span><br /> 上面代码使用了 graph 的配置项  `linkCenter: true` 以设置 arc 边连入节点的中心，保证美观性。
 
-### 样式属性  style
+### 样式属性 style
 
 Object 类型。配置项与 [边通用样式属性](/zh/docs/manual/middle/elements/edges/defaultEdge/#样式属性-style) 相同。基于上面 [特殊属性：弧度  curveOffset](#特殊属性：弧度-curveoffset) 中的代码，下面代码在 `defaultEdge` 中增加了  `style`  配置项进行边的样式的配置，使之达到如下图效果。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LH4lT64i304AAAAAAAAAAABkARQnAQ' width=150/>
 
@@ -143,7 +144,7 @@ const graph = new G6.Graph({
 // ...
 ```
 
-### 标签文本配置  labelCfg
+### 标签文本配置 labelCfg
 
 Object 类型。支持 [边通用标签配置](/zh/docs/manual/middle/elements/edges/defaultEdge/#标签文本-label-及其配置-labelcfg)。基于上面  [弧度 curveOffset](/zh/docs/manual/middle/elements/edges/arc/#特殊属性：弧度-curveoffset) 中的代码，下面代码在 `defaultEdge` 中增加了  `labelCfg`  配置项进行文本的配置，使之达到如下图效果。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*xu0FSKNxQNUAAAAAAAAAAABkARQnAQ' width=150/>
 

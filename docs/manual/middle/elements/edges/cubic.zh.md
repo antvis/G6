@@ -61,8 +61,9 @@ cubic 边支持 [边通用配置项](zh/docs/manual/middle/elements/edges/defaul
 | controlPoints | 控制点数组 | Array | 不指定时将会使用默认的控制点：曲线 1/3 和 2/3 处。示例：`[{ x: 10, y: 20 }, { x: 15, y: 30 }]` |
 | curveOffset | 两个控制点距离两端点连线的距离，可理解为控制边的弯曲程度。为 Number 类型时两个控制点分别在连线两侧且与连线距离相等 | Number / Number[] | cubic、horizontal、cubic-vertical、cubic-horizontal 等贝塞尔曲线特有 |
 | curvePosition | 两个控制点在两端点连线上的相对位置，范围 0～1 | Number / Number[] | cubic、horizontal、cubic-vertical、cubic-horizontal 等贝塞尔曲线特有 |
+| stateStyles | 各状态下的样式 | Object | 详见[配置状态样式](/zh/docs/manual/middle/states/state#配置-state-样式) |
 
-### 样式属性  style
+### 样式属性 style
 
 Object 类型。配置项与 [边通用样式属性](/zh/docs/manual/middle/elements/edges/defaultEdge/#样式属性-style) 相同。下面代码演示在实例化图时全局配置方法中配置 `style`，以达到下图效果。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Do6IQouIA9AAAAAAAAAAAABkARQnAQ' width=150/>
 
@@ -108,7 +109,7 @@ graph.data(data);
 graph.render();
 ```
 
-### 标签文本配置  labelCfg
+### 标签文本配置 labelCfg
 
 Object 类型。支持 [边通用标签配置](/zh/docs/manual/middle/elements/edges/defaultEdge/#标签文本-label-及其配置-labelcfg)。基于上面 [样式属性 style](/zh/docs/manual/middle/elements/edges/defaultEdge/#样式属性-style) 中的代码，下面代码在 `defaultEdge` 中增加了  `labelCfg`  配置项进行文本的配置，使之达到如下图效果。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ySTVQ7MrMtgAAAAAAAAAAABkARQnAQ' width=150/>
 

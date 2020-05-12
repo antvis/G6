@@ -1,6 +1,6 @@
 ---
 title: G6 in React
-order: 10
+order: 11
 ---
 
 ### Introduction

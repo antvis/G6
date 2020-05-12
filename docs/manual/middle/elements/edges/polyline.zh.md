@@ -79,8 +79,9 @@ labelCfg: {
 | controlPoints | 控制点数组 | Array | 不指定时根据 <a href='https://yuque.alibaba-inc.com/antv/blog/polyline-edges-with-border-radius' target='_blank'>A\* 算法</a>自动生成折线。若指定了，则按照 `controlPoints` 指定的位置进行弯折。示例：`[{ x: 10, y: 20 }, { x: 20, y: 25 }, ...]` |
 | label | 标签文本文字 | String |  |
 | labelCfg | 标签文本配置项 | Object |  |
+| stateStyles | 各状态下的样式 | Object | 详见[配置状态样式](/zh/docs/manual/middle/states/state#配置-state-样式) |
 
-### 样式属性  style
+### 样式属性 style
 
 Object 类型。支持 [边通用样式属性](/zh/docs/manual/middle/elements/edges/defaultEdge/#样式属性-style)。与其他类型的边不同的是，polyline 的 `style`  含有两个特殊属性：
 
@@ -132,7 +133,7 @@ graph.data(data);
 graph.render();
 ```
 
-### 标签文本配置  labelCfg
+### 标签文本配置 labelCfg
 
 Object 类型。支持 [边通用标签配置](/zh/docs/manual/middle/elements/edges/defaultEdge/#标签文本-label-及其配置-labelcfg)。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultEdge` 中增加了  `labelCfg`  配置项进行文本的配置，使之达到如下图效果。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HT4OTobglpoAAAAAAAAAAABkARQnAQ' width=150/>
 

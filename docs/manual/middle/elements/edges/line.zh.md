@@ -58,8 +58,9 @@ line 边支持 [边通用配置项](zh/docs/manual/middle/elements/edges/default
 | style    | 直线的样式     | Object | Canvas 支持的属性                |
 | label    | 标签文本文字   | String |                                  |
 | labelCfg | 标签文本配置项 | Object |                                  |
+| stateStyles | 各状态下的样式 | Object | 详见[配置状态样式](/zh/docs/manual/middle/states/state#配置-state-样式) |
 
-### 样式属性  style
+### 样式属性 style
 
 Object 类型。配置项与 [边通用样式属性](/zh/docs/manual/middle/elements/edges/defaultEdge/#样式属性-style) 相同。下面代码演示在实例化图时全局配置方法中配置 `style`，以达到下图效果。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cQprQJVY3c4AAAAAAAAAAABkARQnAQ' width=150/>
 
@@ -108,7 +109,7 @@ graph.data(data);
 graph.render();
 ```
 
-### 标签文本配置  labelCfg
+### 标签文本配置 labelCfg
 
 Object 类型。支持 [边通用标签配置](/zh/docs/manual/middle/elements/edges/defaultEdge/#标签文本-label-及其配置-labelcfg)。<br />基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultEdge` 中增加了  `labelCfg`  配置项进行文本的配置，使之达到如下图效果。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*myWoSa1ngjgAAAAAAAAAAABkARQnAQ' width=150/>
 

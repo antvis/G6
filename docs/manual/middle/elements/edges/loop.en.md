@@ -62,6 +62,7 @@ loop 边支持以下的配置项，对于 Object 类型的配置项将在后面�
 | style | The default style of edge | Object | Correspond to the styles in Canvas |
 | label | The text of the label | String |  |
 | labelCfg | The configurations of the label | Object |  |
+| stateStyles | The styles in different states | Object | Refer to [Configure Styles for State](/en/docs/manual/middle/states/state#configure-styles-for-state) |
 | **loopCfg** | **Special property for loop edge** | **Object** |  |
 
 ### style

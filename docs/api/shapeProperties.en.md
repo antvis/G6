@@ -1,6 +1,6 @@
 ---
-title: Shape Properties
-order: 4
+title: Shape Style Properties
+order: 6
 ---
 
 Shape is the basic element on an item (node/edge). The `style` of a node or an edge corresponds to the shape properties of its keyShape (key shape). The `style` in `labelCfg` of a label on a node or an edge corresponds to the properties of text shape.

@@ -78,15 +78,15 @@ module.exports = {
       {
         slug: 'manual/middle/elements',
         title: {
-          zh: '节点与边',
-          en: 'Graph Element',
+          zh: '节点/边/Combo',
+          en: 'Graph Elements',
         },
       },
       {
         slug: 'manual/middle/elements/nodes',
         title: {
           zh: '内置节点',
-          en: 'Default Node',
+          en: 'Built-in Node',
         },
         order: 1,
       },
@@ -94,7 +94,15 @@ module.exports = {
         slug: 'manual/middle/elements/edges',
         title: {
           zh: '内置边',
-          en: 'Default Edge',
+          en: 'Built-in Edge',
+        },
+        order: 2,
+      },
+      {
+        slug: 'manual/middle/elements/combos',
+        title: {
+          zh: '内置 Combo',
+          en: 'Built-in Combo',
         },
         order: 2,
       },
@@ -113,14 +121,6 @@ module.exports = {
           en: 'Concepts',
         },
         order: 0,
-      },
-      {
-        slug: 'manual/cases',
-        title: {
-          zh: '综合应用',
-          en: 'Cases',
-        },
-        order: 6,
       },
       {
         slug: 'api/nodeEdge',
