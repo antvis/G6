@@ -3,544 +3,330 @@ title: Custom Combo
 order: 3
 ---
 
-G6 provides abundant [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode), including [circle](/en/docs/manual/middle/elements/nodes/circle), [rect](/en/docs/manual/middle/elements/nodes/rect, [ellipse](/en/docs/manual/middle/elements/nodes/ellipse), [diamond](/en/docs/manual/middle/elements/nodes/diamond), [triangle](/en/docs/manual/middle/elements/nodes/triangle), [star](/en/docs/manual/middle/elements/nodes/star), [image](/en/docs/manual/middle/elements/nodes/image), [modelRect](/en/docs/manual/middle/elements/nodes/modelRect). Besides, the custom machanism allows the users to design their own type of nodes by `G6.registerNode('nodeName', options)`. A node with complex graphics shapes, complex interactions, fantastic animations can be implemented easily.
+G6 provides two types of [Built-in Combos](/en/docs/manual/middle/elements/combos/defaultCombo): [circle](/en/docs/manual/middle/elements/combos/circle), [rect](/en/docs/manual/middle/elements/combos/rect. Besides, the custom machanism allows the users to extend the built-in Combos to design their own type of nodes by `G6.registerCombo('comboName', options, expendedComboName)`. A combo with complex graphics shapes, complex interactions, fantastic animations can be implemented easily.
 
-In this document, we will introduce the custom enodeby five examples: <br />1. Register a bran-new edge; <br />2. Register an edge by extending a built-in edge; <br />3. Register an edge with interactions and styles; <br />4. Register an edge with custom arrow;<br /> 5. Custom Node with DOM.</strong>
-
+In this document, we will introduce the custom combo mechinism by two examples: 
 
 <br />
-<strong>1. Register a bran-new node: </strong>Draw the graphics; Optimize the performance.
+<strong>1. Extend the Rect Combo;</strong>
 <br />
-<strong>2. Register a node by extending a built-in node: </strong>Add extra graphics shape; Add animation.
+<strong>2. Extend the Circle Combo. </strong>
 <br />
-<strong>3. Adjust the anchorPoints(link points);</strong>
-<br />
-<strong>4. Register a node with state styles: </strong>Response the states change by styles and animations
 
-As stated in [Shape](/en/docs/manual/middle/keyconcept/shape-keyshape), there are two points should be satisfied when customize a node:
 
-- Controll the life cycle of the node;
+## The API of Register Combo
+
+As stated in [Shape](/en/docs/manual/middle/keyconcept/shape-keyshape), there are two points should be satisfied when customize a combo:
+
+- Controll the life cycle of the combo;
 - Analyze the input data and show it by graphics.
 
-The API of cumstom node:
+The API and the methods which can be rewritten when extending a built-in combo are shown below:
 
 ```javascript
-G6.registerNode(
-  'nodeName',
+G6.regitserCombo(
+  'comboName',
   {
-    options: {
-      style: {},
-      stateStyles: {
-        hover: {},
-        selected: {},
-      },
-    },
     /**
-     * Draw the node with label
-     * @param  {Object} cfg The configurations of the node
-     * @param  {G.Group} group The container of the node
-     * @return {G.Shape} The keyShape of the node. It can be obtained by node.get('keyShape')
+     * Draw the shapes of the Combo.
+     * Do not need the label shape, it will be added by the extended class
+     * @param  {Object} cfg The configurations of the combo
+     * @param  {G.Group} group The container of the combo
+     * @return {G.Shape} The keyShape of the combo. It can be obtained by combo.get('keyShape')
+     * More details about keyShape can be found in Middle-Graph Elements-Graphis Shape and keyShape
      */
-    draw(cfg, group) {},
+    drawShape(cfg, group) {},
     /**
-     * The extra operations after drawing the node. There is no operation in this function by default
-     * @param  {Object} cfg The configurations of the node
-     * @param  {G.Group} group The container of the node
+     * The extra operations after drawing the combo. There is no operation in this function by default
+     * @param  {Object} cfg The configurations of the combo
+     * @param  {G.Group} group The container of the combo
      */
     afterDraw(cfg, group) {},
     /**
-     * Update the node and its label
+     * The operations after updating the combo. 
+     * Control the update logic of the new graphic shapes expect keyShape here
      * @override
-     * @param  {Object} cfg The configurations of the node
-     * @param  {Node} node The node item
+     * @param  {Object} cfg The configurations of the combo
+     * @param  {Combo} combo The combo item
      */
-    update(cfg, node) {},
+    afterUpdate(cfg, combo) {},
     /**
-     * The operations after updating the node. It is combined with afterDraw generally
-     * @override
-     * @param  {Object} cfg The configurations of the node
-     * @param  {Node} node The node item
-     */
-    afterUpdate(cfg, node) {},
-    /**
-     * Response the node states change. Mainly the interaction states. The business states should be handled in the draw function
-     * The states 'selected' and 'active' will be responsed on keyShape by default. To response more states, implement this function.
+     * Response the combo states change. 
+     * Should be rewritten when you want to response the state changes by animation. 
+     * Responsing the state changes by styles can be configured, which is described in the document Middle-Behavior & Event-State
      * @param  {String} name The name of the state
      * @param  {Object} value The value of the state
-     * @param  {Node} node The node item
+     * @param  {Combo} combo The combo item
      */
-    setState(name, value, node) {},
-    /**
-     * Get the anchorPoints(link points for related edges)
-     * @param  {Object} cfg The configurations of the node
-     * @return {Array|null} The array of anchorPoints(link points for related edges). Null means there are no anchorPoints
-     */
-    getAnchorPoints(cfg) {},
+    setState(name, value, combo) {},
   },
-  extendNodeName,
+  // the type name of the extended Combo, options: 'circle' or 'rect'
+  extendComboName,
 );
 ```
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️Attention:</strong> </span>
+## Attention
 
-- `draw` is required if the custom node does not extend any parent;
-- `update` is not required. If it is undefined, the `draw` will be called when updating the node, which means all the graphics will be cleared and repaint;
-- `afterDraw` and `afterUpdate` are used for extending the exited nodes in general. e.g. adding extra image on rect node, adding animation on a circle node, ...;
-- In general, `setState` is not required;
-- `getAnchorPoints` is only required when you want to contrain the link points for nodes and their related edges. The anchorPoints can be assigned in the node data as well.
+Since the updating logic of Combo is special (upate the size and position according to the children automatically), registering a combo is kind of different from regitering a node or an edge:
+1. It is not recommended to customize a Combo without extending a built-in Combo, you should **extend the built-in 'circle' or 'rect' Combo**;
+2. Do not add text shape for label in `drawShape`, it will be added and updated automatically by the base class;
+3. Different from registering a node or an edge, it is not recommended to rewritten `update` and `draw`, or the updating logic will be abnormal;
+4. The rewirtten `drawShape` should return the same type of keyShape as the keyShape of the extended Combo. Means that return a circle shape if you are extending the circle Combo, rect shape if you are extending the rect Combo;
+5. The updating logic of new shapes expect the keyShape and the label should be defined in `afterUpdate`;
+6. `setState` should be rewrite when you want to response the state changes by animation. Responsing the state changes by simple styles can be achieved by [Configure Styles for State](/en/docs/manual/middle/states/state#configure-styles-for-state).
 
-## 1. Register a Bran-new Edge
+## 1. Extend the Rect Combo
 
-### Render the Node
+### Illustration of Built-in Rect Combo
 
-Now, we are going to register a diamond node:
+As shown in the figure below, the position logic of built-in rect Combo:
+- The area boxed by the grey dashed rectangle is the area of the Combo's children to be positioned. innerWidth and innerHeight are the width and the height of the area respectively;
+- The padding around the grey dashed area can be configured, and the real drawing width/height of the keyShape is equal to the innerWidth/innerHeight plus padding values;
+- The shapes inside the combo uses the self coordinate system with origin (0, 0) centered at the center of the dashed area;
+- The top and bottom padding, left and right padding are different, which leads to result that the (x, y) of the keyShape rect's left-top is not simply equal to (-width / 2, -height / 2), but calculated as shown in the figure;
+- The default label of the rect Combo is positioned on the left-top inside the keyShape rect with refY to the top border and refX to the left border. The `position`, `refX`, and `refY` can be configured while using the Combo.
 
-> Although there is a built-in diamond node in G6, we implement it here to rewrite it for demonstration.
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hNHlQ7647uYAAAAAAAAAAABkARQnAQ' width='500' alt='img'/>
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LqFCRaKyr0gAAAAAAAAAAABkARQnAQ' alt='img' width='80'/>
+> Illustration of Built-in Rect Combo
+
+### Render the Combo
+
+Now, we are going to register a Combo as shown below (the figure below shows an empty combo): 
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2-SWQKDHFygAAAAAAAAAAABkARQnAQ' width='120' alt='img'/>
+
+According to the [Illustration of Built-in Rect Combo](./custom-combo#illustration-of-built-in-rect-combo), please be caution about the `x`, `y`, `width`, `height` of the shapes when extending the rect Combo.
+
 
 ```javascript
-G6.registerNode('diamond', {
-  draw(cfg, group) {
-    // If there is style object in cfg, it should be mixed here
-    const keyShape = group.addShape('path', {
+
+G6.registerCombo('cRect', {
+  drawShape: function drawShape(cfg, group) {
+    const self = this;
+    // Get the padding from the configuration
+    cfg.padding = cfg.padding || [50, 20, 20, 20];
+    // Get the shape's style, where the style.width and style.height correspond to the width and height in the figure of Illustration of Built-in Rect Combo
+    const style = self.getShapeStyle(cfg);
+    // Add a rect shape as the keyShape which is the same as the extended rect Combo
+    const rect = group.addShape('rect', {
       attrs: {
-        path: this.getPath(cfg), // Get the path by cfg
-        stroke: cfg.color, // Apply the color to the stroke. For filling, use fill: cfg.color instead
+        ...style,
+        x: -style.width / 2 - (cfg.padding[3] - cfg.padding[1]) / 2,
+        y: -style.height / 2 - (cfg.padding[0] - cfg.padding[2]) / 2,
+        width: style.width,
+        height: style.height
       },
-      // must be assigned in G6 3.3 and later versions. it can be any value you want
-      name: 'path-shape',
-      // allow the shape to response the drag events
-      draggable: true
+      draggable: true,
+      name: 'combo-keyShape'
     });
-    if (cfg.label) {
-      // If the label exists
-      // The complex label configurations can be defined by labeCfg
-      // const style = (cfg.labelCfg && cfg.labelCfg.style) || {};
-      // style.text = cfg.label;
-      const label group.addShape('text', {
-        attrs: {
-          x: 0, // center
-          y: 0,
-          textAlign: 'center',
-          textBaseline: 'middle',
-          text: cfg.label,
-          fill: '#666',
-        },
-        // must be assigned in G6 3.3 and later versions. it can be any value you want
-        name: 'text-shape',
-        // allow the shape to response the drag events
-        draggable: true
-      });
-    }
-    return keyShape;
+    // Add the circle on the right
+    group.addShape('circle', {
+      attrs: {
+        ...style,
+        fill: '#fff',
+        opacity: 1,
+        // cfg.style.width and cfg.style.heigth correspond to the innerWidth and innerHeight in the figure of Illustration of Built-in Rect Combo
+        x: cfg.style.width / 2 + cfg.padding[1],
+        y: (cfg.padding[2] - cfg.padding[0]) / 2,
+        r: 5
+      },
+      draggable: true,
+      name: 'combo-circle-shape'
+    });
+    return rect;
   },
-  // Return the path of a diamond
-  getPath(cfg) {
-    const size = cfg.size || [40, 40];
-    const width = size[0];
-    const height = size[1];
-    //  / 1 \
-    // 4     2
-    //  \ 3 /
-    const path = [
-      ['M', 0, 0 - height / 2], // Top
-      ['L', width / 2, 0], // Right
-      ['L', 0, height / 2], // Bottom
-      ['L', -width / 2, 0], // Left
-      ['Z'], // Close the path
-    ];
-    return path;
-  },
-});
+  // Define the updating logic of the right circle
+  afterUpdate: function afterUpdate(cfg, combo) {
+    const group = combo.get('group');
+    // Find the circle shape in the graphics group of the Combo by name
+    const circle = group.find(ele => ele.get('name') === 'combo-circle-shape');
+    // Update the position of the right circle
+    circle.attr({
+        // cfg.style.width and cfg.style.heigth correspond to the innerWidth and innerHeight in the figure of Illustration of Built-in Rect Combo
+      x: cfg.style.width / 2 + cfg.padding[1],
+      y: (cfg.padding[2] - cfg.padding[0]) / 2
+    });
+  }
+}, 'rect');
 ```
 
-We have registered a dimond node. Attention: you need to assign `name` and `draggable` for the shapes added in the custom node, where the `name` can be not unique with any value you want. `draggable: true` means that the shape is allowed to response the drag events. Only when `draggable: true`, the interact behavior `'drag-node'` can be responsed on this shape. In the codes above, if you only assign `draggable: true` to the `keyShape` but not the `label`, the drag events will only be responsed on the `keyShape`.
+Attention: you need to assign `name` and `draggable` for the shapes added in the custom node, where the `name` can be not unique with any value you want. `draggable: true` means that the shape is allowed to response the drag events. Only when `draggable: true`, the interaction behavior `'drag-node'` can be responsed on this shape. In the codes above, if you only assign `draggable: true` to the `keyShape` but not the right circle shape, the drag events will only be responsed on the `keyShape`.
 
+### Use the Custom Combo
 
-The following code use the diamond node:
+The following code uses the `'cRect'` Combo:
 
 ```javascript
 const data = {
   nodes: [
-    { x: 50, y: 100, type: 'diamond' }, // The simplest form
-    { x: 150, y: 100, type: 'diamond', size: [50, 100] }, // Add the size
-    { x: 250, y: 100, color: 'red', type: 'diamond' }, // Add the color
-    { x: 350, y: 100, label: '菱形', type: 'diamond' }, // Add the label
+    { id: 'node1', x: 250, y: 100, comboId: 'combo1' },
+    { id: 'node2', x: 300, y: 100, comboId: 'combo1' }
   ],
+  combos: [
+    { id: 'combo1', label: 'Combo 1', parentId: 'combo2' },
+    { id: 'combo2', label: 'Combo 2' },
+    { id: 'combo3', label: 'Combo 3' },
+  ]
 };
 const graph = new G6.Graph({
   container: 'mountNode',
-  width: 500,
-  height: 500,
+  width: 800,
+  height: 800,
+  // Configure the combos globally
+  defaultCombo: {
+    // The type of the combos. You can also assign type in the data of combos
+    type: 'cRect',
+    // ... Other global configurations for combos
+  },
 });
 graph.data(data);
 graph.render();
 ```
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qv88SrrnmFAAAAAAAAAAAABkARQnAQ' alt='img' width='300'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HEtYR5OUgLcAAAAAAAAAAABkARQnAQ' width='400' alt='img'/>
 
-### Optimize the Performance
 
-When the nodes or edges are updated by `graph.update(item, cfg)`, the `draw` will be called for repainting. But in the situation with large amount of data (especially the text), repainting all the graphics shapes by `draw` has bad performance.
 
-Therefore, rewrite the `update` function when registering a node for partial repainting is necessary. We can repaint some of the graphics shapes instead of all the graphis by `update`. The `update` is not required if you have no performance problem.
+## 2. Extend the Circle Combo
 
-To update a few graphics shapes of a node in `update`, you need find the graphics shapes to be updated frist:
+### Illustration of Built-in Circle Combo
 
-- Find the [keyShape](/en/docs/manual/middle/keyconcept/shape-keyshape#keyshape) by `group.get('children')[0]`, which is the return value of `draw`;
-- Find the graphics shape of label by `group.get('children')[1]`.
+As shown in the figure below, the position logic of built-in circle Combo is much more simple thant rect Combo, where the (x, y) is the center of the circle， and the `padding` is a number:
+- The area boxed by the grey dashed circle is the area of the Combo's children to be positioned. innerR is the radius of the area;
+- The padding around the grey dashed area can be configured, and the real drawing radius of the keyShape R = innerR + padding;
+- The shapes inside the combo uses the self coordinate system with origin (0, 0) centered at the center of the circle;
+- The padding around the circle is even;
+- The default label of the circle Combo is positioned on the top outside the keyShape circle with refY to the top border. The `position`, `refX`, and `refY` can be configured while using the Combo.
 
-The code shown below update the path and the color of the keyShape of the diamond:
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NjJxRLYvCykAAAAAAAAAAABkARQnAQ' width='300' alt='img'/>
 
-```javascript
-G6.registerNode('diamond', {
-  draw(cfg, group) {
-    // ... // Same as the code above
-  },
-  getPath(cfg) {
-    // ... // Same as the code above
-  },
-  update(cfg, node) {
-    const group = node.getContainer(); // Get the container of the node
-    const shape = group.get('children')[0]; // Find the first graphics shape of the node. It is determined by the order of being added
-    const style = {
-      path: this.getPath(cfg),
-      stroke: cfg.color,
-    };
-    shape.attr(style); // Update
-  },
-});
-```
+> Illustration of Built-in Rect Combo
 
-## 2. Extend a Built-in Node
+### Render the Combo
 
-### Extend the Shape
+Now, we are going to register a Combo as shown below (the figure below shows an empty combo): 
 
-There are several [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) in G6. You can extend them to make some modification on them. It is similar to register the diamond node. single-node is the base class of all the node types, you can also extend it. (single-edge is the base class of all the edge types.)
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rMknSIUfjnkAAAAAAAAAAABkARQnAQ' width='120' alt='img'/>
 
-For example, we are going to extend the single-node. `draw`, `update`, and `setState` have been implemented in the single-node. Thus, we only rewrite the `getShapeStyle`, which returns the path and the styles of graphics shapes.
 
 ```javascript
-G6.registerNode(
-  'diamond',
-  {
-    shapeType: 'path', // It is required when the shape inherits from 'single-node', not required otherwise
-    getShapeStyle(cfg) {
-      const size = this.getSize(cfg); // translate to [width, height]
-      const color = cfg.color;
-      const width = size[0];
-      const height = size[1];
-      //  / 1 \
-      // 4     2
-      //  \ 3 /
-      const path = [
-        ['M', 0, 0 - height / 2], // Top
-        ['L', width / 2, 0], // Right
-        ['L', 0, height / 2], // Bottom
-        ['L', -width / 2, 0], // Left
-        ['Z'], // Close the path
-      ];
-      const style = Util.mix(
-        {},
-        {
-          path: path,
-          stroke: color,
-        },
-        cfg.style,
-      );
-      return style;
-    },
-  },
-  // Extend the 'single-node'
-  'single-node',
-);
-```
-
-### Add Animation
-
-We are going to add animation by `afterDraw` in this section. The result:<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ga7FQLdUYjkAAAAAAAAAAABkARQnAQ' alt='img' width='350'/>
-
-- Extend the built-in rect node, and add a graphics shape in the rect;
-- Execute the animation repeatly.
-
-```javascript
-// Register a type of custom node named inner-animate
-G6.registerNode(
-  'inner-animate',
-  {
-    afterDraw(cfg, group) {
-      const size = cfg.size;
-      const width = size[0] - 14;
-      const height = size[1] - 14;
-      // Add an image shape
-      const image = group.addShape('image', {
-        attrs: {
-          x: -width / 2,
-          y: -height / 2,
-          width: width,
-          height: height,
-          img: cfg.img,
-        },
-        // must be assigned in G6 3.3 and later versions. it can be any value you want
-        name: 'image-shape',
-      });
-      // Execute the animation
-      image.animate(
-        ratio => {
-          const matrix = Util.mat3.create();
-          const toMatrix = Util.transform(matrix, [['r', ratio * Math.PI * 2]]);
-          return {
-            matrix: toMatrix,
-          };
-        },
-        {
-          repeat: true,
-          duration: 3000,
-          easing: 'easeCubic',
-        },
-      );
-    },
-  },
-  // Extend the rect node
-  'rect',
-);
-```
-
-For more information about animation, please refer to [Basic Ainmation](/en/docs/manual/advanced/animation).
-
-<br />
-
-## 3. Adjust the anchorPoint
-
-The [anchorPoint](/en/docs/manual/middle/keyconcept/anchorpoint) of a node is **the intersection of the node and its related edges**.<br />
-
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mJ85Q5WRJLwAAAAAAAAAAABkARQnAQ' alt='img' width='200'/>
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*99aSR5zbd44AAAAAAAAAAABkARQnAQ' alt='img' width='200'/>
-
-> (Left) The diamond node has no anchorPoints. (Right) The diamond node has anchorPoints.
-
-There are two ways to adjust the anchorPoints of the node:
-
-- Configure the `anchorPoints` in the data.
-
-**Applicable Scene:** Assign different anchorPoints for different nodes.
-
-- Assign `getAnchorPoints` when registering a custom node.
-
-**Applicable Scene:** Configure the anchorPoints globally for this type of node.
-
-### Configure the anchorPoints in Data
-
-```javascript
-const data = {
-  nodes: [
-    {
-      id: 'node1',
-      x: 100,
-      y: 100,
-      anchorPoints: [
-        [0, 0.5], // The center of the left border
-        [1, 0.5], // The center of the right border
-      ],
-    },
-    //...       // Other nodes
-  ],
-  edges: [
-    //... // Other edges
-  ],
+// The symbols for the marker inside the combo
+const collapseIcon = (x, y, r) => {
+  return [
+    ['M', x - r, y],
+    ['a', r, r, 0, 1, 0, r * 2, 0],
+    ['a', r, r, 0, 1, 0, -r * 2, 0],
+    ['M', x - r + 4, y],
+    ['L', x - r + 2 * r - 4, y],
+  ];
 };
-```
+const expandIcon = (x, y, r) => {
+  return [
+    ['M', x - r, y],
+    ['a', r, r, 0, 1, 0, r * 2, 0],
+    ['a', r, r, 0, 1, 0, -r * 2, 0],
+    ['M', x - r + 4, y],
+    ['L', x - r + 2 * r - 4, y],
+    ['M', x - r + r, y - r + 4],
+    ['L', x, y + r - 4],
+  ];
+};
 
-### Assign anchorPoints When Registering Node
-
-```javascript
-G6.registerNode(
-  'diamond',
-  {
-    //... // Other functions
-    getAnchorPoints() {
-      return [
-        [0, 0.5], // The center of the left border
-        [1, 0.5], // The center of the right border
-      ];
-    },
-  },
-  'rect',
-);
-```
-
-## 4. Register Node with State Styles
-
-In general, nodes and edges should response the states change by styles chaging. For example, highlight the node or edge clicked/hovered by user. We can achieve it by two ways:
-
-1. Add a flag on the node data, control the style according to the flag in `draw` when registering a custom node;
-2. Separate the interactive states from source data and `draw`, update the node only.
-
-We recommend adjust the state styles by the second way, which can be achieved by:
-
-- Response the states in `setState` function when registering a node/edge;
-- Set/change the state by `graph.setItemState()`.
-
-Based on rect node, we extend a custom node with white filling. It will be turned to red when the mouse clicks it. Implement it by the code below:
-
-```javascript
-// Extend rect
-G6.registerNode(
-  'custom',
-  {
-    // Response the states
-    setState(name, value, item) {
-      const group = item.getContainer();
-      const shape = group.get('children')[0]; // Find the first graphics shape of the node. It is determined by the order of being added
-      if (name === 'selected') {
-        if (value) {
-          shape.attr('fill', 'red');
-        } else {
-          shape.attr('fill', 'white');
-        }
-      }
-    },
-  },
-  'rect',
-);
-
-// Click to select, cancel by clicking again
-graph.on('node:click', ev => {
-  const node = ev.item;
-  graph.setItemState(node, 'selected', !node.hasState('selected')); // Switch the selected state
-});
-```
-
-G6 does not limit the states for nodes/edges, you can assign any states to a node once you response it in the `setState` function. e.g. magnify the node by hovering:<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*JhhTSJ8PMbYAAAAAAAAAAABkARQnAQ' alt='img' width='350'/>
-
-```javascript
-G6.registerNode(
-  'custom',
-  {
-    // Response the states change
-    setState(name, value, item) {
-      const group = item.getContainer();
-      const shape = group.get('children')[0]; // Find the first graphics shape of the node. It is determined by the order of being added
-      if (name === 'running') {
-        if (value) {
-          shape.animate(
-            {
-              r: 20,
-            },
-            {
-              repeat: true,
-              duration: 1000,
-            },
-          );
-        } else {
-          shape.stopAnimate();
-          shape.attr('r', 10);
-        }
-      }
-    },
-  },
-  'circle',
-);
-
-// Activate 'running' by mouse entering. Turn it of by mouse leaving.
-graph.on('node:mouseenter', ev => {
-  const node = ev.item;
-  graph.setItemState(node, 'running', true);
-});
-
-graph.on('node:mouseleave', ev => {
-  const node = ev.item;
-  graph.setItemState(node, 'running', false);
-});
-```
-
-
-## 5. Custom Node with DOM
-
-> SVG and DOM shape are not supported in V3.3.x.
-
-Here, we demonstrate customing a node named `'dom-node'` with DOM. We add a `'dom'` type shape with `group.addShape` in `draw` function, and set the `html` of it to be the `html` value we want.
-
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VgQlQK1MdbIAAAAAAAAAAABkARQnAQ' alt='img' width='120'/>
-
-```javascript
-G6.registerNode('dom-node', {
-  draw: (cfg: ModelConfig, group: Group) => {
-    return group.addShape('dom', {
+G6.registerCombo('cCircle', {
+  drawShape: function draw(cfg, group) {
+    const self = this;
+    // Get the shape style, where the style.r corresponds to the R in the Illustration of Built-in Rect Combo
+    const style = self.getShapeStyle(cfg);
+    // Add a circle shape as keyShape which is the same as the extended 'circle' type Combo
+    const circle = group.addShape('circle', {
       attrs: {
-        width: cfg.size[0],
-        height: cfg.size[1],
-        // DOM's html
-        html: `
-        <div style="background-color: #fff; border: 2px solid #5B8FF9; border-radius: 5px; width: ${cfg.size[0]-5}px; height: ${cfg.size[1]-5}px; display: flex;">
-          <div style="height: 100%; width: 33%; background-color: #CDDDFD">
-            <img alt="" style="line-height: 100%; padding-top: 6px; padding-left: 8px;" src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q_FQT6nwEC8AAAAAAAAAAABkARQnAQ" width="20" height="20" />  
-          </div>
-          <span style="margin:auto; padding:auto; color: #5B8FF9">${cfg.label}</span>
-        </div>
-          `
+        ...style,
+        x: 0,
+        y: 0,
+        r: style.r
       },
-      draggable: true
+      draggable: true,
+      name: 'combo-keyShape'
     });
+    // Add the marker on the bottom
+    const marker = group.addShape('marker', {
+      attrs: {
+        ...style,
+        fill: '#fff',
+        opacity: 1,
+        x: 0,
+        y: style.r,
+        r: 10,
+        symbol: collapseIcon
+      },
+      draggable: true,
+      name: 'combo-marker-shape'
+    });
+
+    return circle;
   },
-}, 'single-node');
+  // Define the updating logic for the marker
+  afterUpdate: function afterUpdate(cfg, combo) {
+    const self = this;
+    // Get the shape style, where the style.r corresponds to the R in the Illustration of Built-in Rect Combo
+    const style = self.getShapeStyle(cfg);
+    const group = combo.get('group');
+    // Find the marker shape in the graphics group of the Combo
+    const marker = group.find(ele => ele.get('name') === 'combo-marker-shape');
+    // Update the marker shape
+    marker.attr({
+      x: 0,
+      y: style.r,
+      // The property 'collapsed' in the combo data represents the collapsing state of the Combo
+      // Update the symbol according to 'collapsed'
+      symbol: cfg.collapsed ? expandIcon : collapseIcon
+    });
+  }
+}, 'circle');
 ```
 
-Now, we have `'dom-node'` type of node with DOM. Be attention that you should assign `name` and `draggable` for the shapes you added after V3.3, where `name` is an ununique string. The shape is allowed to be dragged when `draggable` is `true`.
+Attention: you need to assign `name` and `draggable` for the shapes added in the custom node, where the `name` can be not unique with any value you want. `draggable: true` means that the shape is allowed to response the drag events. Only when `draggable: true`, the interaction behavior `'drag-node'` can be responsed on this shape. In the codes above, if you only assign `draggable: true` to the `keyShape` but not the bottom marker shape, the drag events will only be responsed on the `keyShape`.
 
-We render the graph with `'dom-node'` as following:
+### Use the Custom Combo
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*coxYTo3zEecAAAAAAAAAAABkARQnAQ' alt='img' width='300'/>
+The following code uses the `'cCircle'` Combo:
 
 ```javascript
 const data = {
   nodes: [
-    { id: 'node1', x: 50, y: 100 },
-    { id: 'node2', x: 150, y: 100 },
+    { id: 'node1', x: 250, y: 100, comboId: 'combo1' },
+    { id: 'node2', x: 300, y: 100, comboId: 'combo1' }
   ],
-  edges: [
-    source: 'node1',
-    target: 'node2'
+  combos: [
+    { id: 'combo1', label: 'Combo 1', parentId: 'combo2' },
+    { id: 'combo2', label: 'Combo 2' },
+    { id: 'combo3', label: 'Combo 3' },
   ]
 };
 const graph = new G6.Graph({
   container: 'mountNode',
-  width: 500,
-  height: 500,
-  defaultNode: {
-    type: 'dom-node',
-    size: [120, 40]
+  width: 800,
+  height: 800,
+  // Configure the combos globally
+  defaultCombo: {
+    // The type of the combos. You can also assign type in the data of combos
+    type: 'cCircle',
+    labelCfg: {
+      refY: 2
+    }
+    // ... Other global configurations for combos
+  },
+  modes: {
+    default: [
+      // The behavior to collapse/expand the Combo by double click
+      // It modifies the property 'collapsed' of the combo data
+      'collapse-expand-combo'
+      ]
   }
 });
 graph.data(data);
 graph.render();
 ```
 
-
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span> DOM Shape in G6 does not support the events on Node and Edge. You can bind events for DOM as the way in HTML. e.g.:
-```javascript
-G6.registerNode('dom-node', {
-  draw: (cfg: ModelConfig, group: Group) => {
-    return group.addShape('dom', {
-      attrs: {
-        width: cfg.size[0],
-        height: cfg.size[1],
-        // DOM's html with onclick event
-        html: `
-        <div onclick="handleClick('Hello')" style="background-color: #fff; border: 2px solid #5B8FF9; border-radius: 5px; width: ${cfg.size[0]-5}px; height: ${cfg.size[1]-5}px; display: flex;">
-          <div style="height: 100%; width: 33%; background-color: #CDDDFD">
-            <img alt="" style="line-height: 100%; padding-top: 6px; padding-left: 8px;" src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q_FQT6nwEC8AAAAAAAAAAABkARQnAQ" width="20" height="20" />  
-          </div>
-          <span style="margin:auto; padding:auto; color: #5B8FF9">${cfg.label}</span>
-        </div>
-          `
-      },
-      draggable: true
-    });
-  },
-}, 'single-node');
-const handleClick = msg => {
-  // ...
-}
-```
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1LelSq5TP9EAAAAAAAAAAABkARQnAQ' width='400' alt='img'/>

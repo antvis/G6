@@ -5,7 +5,7 @@ order: 2
 
 图的元素特指图上的**节点** `Node` 和**边** `Edge` 。在上一章节中，我们已经将 **Tutorial 案例**的图绘制了出来，但是各个元素及其 `label`  在视觉上很简陋。本文通过将上一章节中简陋的元素美化成如下效果，介绍元素的属性、配置方法。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*46GdQaNFiVIAAAAAAAAAAABkARQnAQ' width=450 height=450 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*46GdQaNFiVIAAAAAAAAAAABkARQnAQ' width=450 height=450  alt='img'/>
 
 > 图 1  元素属性配置后的 **Tutorial 案例**。
 
@@ -77,7 +77,7 @@ order: 2
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 由于是统一的配置，不能根据数据中的属性（如 `class`、`weight`）等值的不同进行个性化设置，因此只能满足 R1、R2、R3、R4 需求。达到如下效果：
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bufdS75wcmMAAAAAAAAAAABkARQnAQ' width=450 height=450 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bufdS75wcmMAAAAAAAAAAABkARQnAQ' width=450 height=450 alt='img' />
 
 > 图 2  全局配置元素属性后的 **Tutorial 案例**。
 
@@ -155,7 +155,7 @@ graph.data(remoteData);
 
 运行结果如下：
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*JU6xRZLKCjcAAAAAAAAAAABkARQnAQ' width=450 height=450 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*JU6xRZLKCjcAAAAAAAAAAABkARQnAQ' width=450 height=450 alt='img' />
 
 > 图 3
 
@@ -180,7 +180,7 @@ graph.data(remoteData);
 
 结果如下：
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*46GdQaNFiVIAAAAAAAAAAABkARQnAQ' width=450 height=450 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*46GdQaNFiVIAAAAAAAAAAABkARQnAQ' width=450 height=450 alt='img' />
 
 如图所示，边的粗细已经按照数据的比重成功渲染了出来，但是边原有的样式（透明度、颜色）却丢失了。这是因为我们提到过动态配置属性会覆盖全局配置属性，这里配置了 `style.lineWidth`，导致覆盖了全局的 `style` 对象。解决办法是将被覆盖的边的样式都移到动态配置里面来：
 

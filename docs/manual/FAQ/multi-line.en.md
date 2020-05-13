@@ -68,7 +68,7 @@ graph.render();
 
 The result:
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9u0BTpCAn-4AAAAAAAAAAABkARQnAQ' width=345 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9u0BTpCAn-4AAAAAAAAAAABkARQnAQ' width=345 alt='img'/>
 
 But what if we want to show 3 or more edges?
 
@@ -109,7 +109,7 @@ const data = {
 
 We found that the code above can not handle this situation any more. The result:
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9u0BTpCAn-4AAAAAAAAAAABkARQnAQ' width=345 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9u0BTpCAn-4AAAAAAAAAAABkARQnAQ' width=345 alt='img'/>
 
 ## Solution
 

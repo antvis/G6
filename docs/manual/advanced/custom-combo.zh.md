@@ -3,525 +3,325 @@ title: 自定义 Combo
 order: 3
 ---
 
-G6 提供了一系列[内置 Combo](/zh/docs/manual/middle/elements/combos/defaultCombo)，包括 [circle](/zh/docs/manual/middle/elements/combos/circle)、[rect](/zh/docs/manual/middle/elements/combos/rect)。若内置 Combo 无法满足需求，用户还可以通过 `G6.registerCombo ('nodeName', options)` 进行自定义 Combo，方便用户开发更加定制化的 Combo，包括含有复杂图形的 Combo、复杂交互的 Combo、带有动画的 Combo 等。
+G6 提供了一系列[内置 Combo](/zh/docs/manual/middle/elements/combos/defaultCombo)，包括 [circle](/zh/docs/manual/middle/elements/combos/circle)、[rect](/zh/docs/manual/middle/elements/combos/rect)。若内置 Combo 无法满足需求，用户还可以通过 `G6.registerCombo ('comboName', options, expendedComboName)` 进行**自定义扩展内置的 Combo**，方便用户开发更加定制化的 Combo，包括含有复杂图形的 Combo、复杂交互的 Combo、带有动画的 Combo 等。
 
-在本章中，我们通过两个案例，讲解从无到有自定义 Combo、扩展现有 Combo。
+在本章中，我们通过两个案例，讲解从自定义扩展现有 Combo。
+
+## Combo 接口
 
 通过 [图形 Shape](/zh/docs/manual/middle/keyconcept/shape-keyshape) 章节的学习，我们应该已经知道了自定义 Combo 时需要满足以下两点：
 
 - 控制 Combo 的生命周期；
 - 解析用户输入的数据，在图形上展示。
 
-G6 中自定义 Combo 的 API 与自定义节点相似，如下：
+在自定义扩展内置 'circle' 或 'rect' Combo 时，API 中可以复写的方法如下：
 
 ```javascript
 G6.registerCombo(
-  'nodeName',
+  'comboName',
   {
-    options: {
-      style: {},
-      stateStyles: {
-        hover: {},
-        selected: {},
-      },
-    },
     /**
-     * 绘制节点，包含文本
-     * @param  {Object} cfg 节点的配置项
-     * @param  {G.Group} group 节点的容器
-     * @return {G.Shape} 返回一个绘制的图形作为 keyShape，通过 node.get('keyShape') 可以获取到。关于 keyShape 可参考文档 核心概念-节点/边/Combo-图形 Shape 与 keyShape
+     * 绘制 Combo 中的图形。不需要为默认的 label 增加图形，父类方法会自动增加 label
+     * @param  {Object} cfg Combo 的配置项
+     * @param  {G.Group} group Combo 的容器
+     * @return {G.Shape} 返回一个绘制的图形作为 keyShape，通过 combo.get('keyShape') 可以获取。
+     * 关于 keyShape 可参考文档 核心概念-节点/边/Combo-图形 Shape 与 keyShape
      */
-    draw(cfg, group) {},
+    drawShape(cfg, group) {},
     /**
      * 绘制后的附加操作，默认没有任何操作
-     * @param  {Object} cfg 节点的配置项
-     * @param  {G.Group} group 节点的容器
+     * @param  {Object} cfg Combo 的配置项
+     * @param  {G.Group} group Combo 的容器
      */
     afterDraw(cfg, group) {},
     /**
-     * 更新节点，包含文本
+     * 更新节点后的操作，新增的图形需要在这里控制其更新逻辑
      * @override
      * @param  {Object} cfg 节点的配置项
-     * @param  {Node} node 节点
+     * @param  {Combo} combo 节点
      */
-    update(cfg, node) {},
+    afterUpdate(cfg, combo) {},
     /**
-     * 更新节点后的操作，一般同 afterDraw 配合使用
-     * @override
-     * @param  {Object} cfg 节点的配置项
-     * @param  {Node} node 节点
-     */
-    afterUpdate(cfg, node) {},
-    /**
-     * 响应节点的状态变化，主要是交互状态，业务状态请在 draw 方法中实现
-     * 默认情况下，节点的 keyShape 将会响应 selected、active 状态，有其他状态需求的用户自己复写这个方法
+     * 响应 Combo 的状态变化。
+     * 在需要使用动画来响应状态变化时需要被复写，其他样式的响应参见下文提及的 [配置状态样式] 文档
      * @param  {String} name 状态名称
      * @param  {Object} value 状态值
-     * @param  {Node} node 节点
+     * @param  {Combo} combo 节点
      */
-    setState(name, value, node) {}
+    setState(name, value, combo) {}
   },
+  // 被继承的 Combo 类型名，可选：'circle' 或 'rect'
   extendedComboName,
 );
 ```
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️ 注意:</strong></span>
 
-- 如果不从任何现有的节点扩展新节点时，`draw` 方法是必须的；
-- `update` 方法可以不定义：没有指定 `extendedComboName` 时 Combo 更新（`graph.updateItem`，`item.update`）会走 `draw` 方法，所有图形清除重绘；指定了 `extendedComboName` 时 Combo 更新会走被继承 Combo 类型的 `update` 方法，此时可能会与自定义的 `draw` 方法渲染逻辑不同；
-- `afterDraw`，`afterUpdate` 方法一般用于扩展已有的 Combo，例如：在 circle 类型的 Combo 上附加图片、增加动画等；
-- `setState` 方法一般也不需要复写，有全局的样式可以替换。
+## 注意事项(必读)
+
+因 Combo 更新逻辑的特殊性（需要根据其子元素信息自动更新自身位置和大小），自定义 Combo 时，与自定义节点/边有所不同：
+1. 不建议“从无到有”地自定义 Combo，**推荐使用继承的方式**扩展内置的 'circle' 或 'rect' Combo；
+2. 在 `drawShape` 方法中不需要为 label 增加图形，父类方法将会自动增加默认的 label，可以通过配置的方式指定 label 的位置和样式；
+3. 与自定义节点/边不同，这里**不建议复写 `update` 和 `draw` 方法**，否则会使 Combo 根据子元素更新的逻辑异常；
+4. 复写的 `drawShape` 方法返回值与推荐继承内置的 'circle'、'rect' 的 keyShape 一致。即继承 'circle' 时，`drawShape` 方法应该返回一个 circle 图形；继承 'rect' 时，`drawShape` 方法应该返回一个 rect 图形；
+5. 除 keyShape 外，自定义新增的图形需要**在 `afterUpdate` 中定义其位置更新逻辑**；
+6. `setState` 只有在需要使用动画来响应状态变化时需要被复写，一般的样式响应状态变化可以通过 [配置状态样式](/zh/docs/manual/middle/states/state#配置-state-样式) 实现。
 
 
-## 1. 从无到有定义 Combo
+## 1. 自定义扩展内置 Rect Combo
+
+### 内置 Rect Combo 位置逻辑详解
+
+首先，我们需要了解内置的 rect 类型的 Combo 内部的位置逻辑：
+- 下图灰色虚线框内部是子元素的分布范围，其宽高分别为 innerWidth 和 innerHeight；
+- 灰色虚线框上下左右可以配置 `padding` 值，该 Combo 的 keyShape 真实绘制大小 width 与 height 是 innerWidth 和 innerHeight 加上了 padding 后的值；
+- 一个 Combo 内部的图形以自身坐标系为参考，原点 (0, 0) 在灰色虚线框正中心；
+- padding 值的上与下、左与右可能不相等，这就导致了该矩形的左上角坐标不是简单的 (-width / 2, -height / 2)，而是通过如图标注的计算获得；
+- rect 类型 Combo 的 label 默认位于矩形内部左上角，上边距为 refY，左边距为 refX。label 的位置（`position`）、`refX`、`refY` 可以在使用该类型 Combo 时配置。
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hNHlQ7647uYAAAAAAAAAAABkARQnAQ' width='500' alt='img'/>
+
+> Rect Combo 位置说明图
+
 
 ### 绘制图形
 
-我们自己来实现一个如下图所示的 Combo 类型。
+现在，我们自己实现一个如下图所示的 Combo 类型（下图展示空 Combo）：
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LqFCRaKyr0gAAAAAAAAAAABkARQnAQ' alt='img' width='80'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2-SWQKDHFygAAAAAAAAAAABkARQnAQ' width='120' alt='img'/>
+
+
+
+
+根据上述 [内置 Rect Combo 位置逻辑详解](./custom-combo#内置-rect-combo-位置逻辑详解)，在扩展 rect 类型 Combo 时需要注意复写方法中 `x`、`y`、`width`、`height` 的设置
 
 ```javascript
-G6.registerNode('diamond', {
-  draw(cfg, group) {
-    // 如果 cfg 中定义了 style 需要同这里的属性进行融合
-    const keyShape = group.addShape('path', {
+
+G6.registerCombo('cRect', {
+  drawShape: function drawShape(cfg, group) {
+    const self = this;
+    // 获取配置中的 Combo 内边距
+    cfg.padding = cfg.padding || [50, 20, 20, 20];
+    // 获取样式配置，style.width 与 style.height 对应 rect Combo 位置说明图中的 width 与 height
+    const style = self.getShapeStyle(cfg);
+    // 绘制一个矩形作为 keyShape，与 'rect' Combo 的 keyShape 一致
+    const rect = group.addShape('rect', {
       attrs: {
-        path: this.getPath(cfg), // 根据配置获取路径
-        stroke: cfg.color, // 颜色应用到描边上，如果应用到填充，则使用 fill: cfg.color
+        ...style,
+        x: -style.width / 2 - (cfg.padding[3] - cfg.padding[1]) / 2,
+        y: -style.height / 2 - (cfg.padding[0] - cfg.padding[2]) / 2,
+        width: style.width,
+        height: style.height
       },
-      // must be assigned in G6 3.3 and later versions. it can be any value you want
-      name: 'path-shape',
-      // 设置 draggable 以允许响应鼠标的图拽事件
-      draggable: true
+      draggable: true,
+      name: 'combo-keyShape'
     });
-    if (cfg.label) {
-      // 如果有文本
-      // 如果需要复杂的文本配置项，可以通过 labeCfg 传入
-      // const style = (cfg.labelCfg && cfg.labelCfg.style) || {};
-      // style.text = cfg.label;
-      const label = group.addShape('text', {
-        // attrs: style
-        attrs: {
-          x: 0, // 居中
-          y: 0,
-          textAlign: 'center',
-          textBaseline: 'middle',
-          text: cfg.label,
-          fill: '#666',
-        },
-        // must be assigned in G6 3.3 and later versions. it can be any value you want
-        name: 'text-shape',
-        // 设置 draggable 以允许响应鼠标的图拽事件
-        draggable: true
-      });
-    }
-    return keyShape;
-  },
-  // 返回菱形的路径
-  getPath(cfg) {
-    const size = cfg.size || [40, 40]; // 如果没有 size 时的默认大小
-    const width = size[0];
-    const height = size[1];
-    //  / 1 \
-    // 4     2
-    //  \ 3 /
-    const path = [
-      ['M', 0, 0 - height / 2], // 上部顶点
-      ['L', width / 2, 0], // 右侧顶点
-      ['L', 0, height / 2], // 下部顶点
-      ['L', -width / 2, 0], // 左侧顶点
-      ['Z'], // 封闭
-    ];
-    return path;
-  },
-});
-```
-
-上面的代码自定义了一个菱形节点。值得注意的是，G6 3.3 需要用户为自定义节点中的图形设置 `name` 和 `draggable`。其中，`name` 可以是不唯一的任意值。`draggable` 为 `true` 是表示允许该图形响应鼠标的拖拽事件，只有 `draggable: true` 时，图上的交互行为 `'drag-node'` 才能在该图形上生效。若上面代码仅在 keyShape 上设置了 `draggable: true`，而 label 图形上没有设置，则鼠标拖拽只能在 keyShape 上响应。
-
-现在，我们使用下面的数据输入就会绘制出 diamond 这个节点。
-
-```javascript
-const data = {
-  nodes: [
-    { x: 50, y: 100, type: 'diamond' }, // 最简单的
-    { x: 150, y: 100, type: 'diamond', size: [50, 100] }, // 添加宽高
-    { x: 250, y: 100, color: 'red', type: 'diamond' }, // 添加颜色
-    { x: 350, y: 100, label: '菱形', type: 'diamond' }, // 附加文本
-  ],
-};
-const graph = new G6.Graph({
-  container: 'mountNode',
-  width: 500,
-  height: 500,
-});
-graph.data(data);
-graph.render();
-```
-
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qv88SrrnmFAAAAAAAAAAAABkARQnAQ' alt='img' width='300'/>
-
-### 优化性能
-
-当图中节点或边通过  `graph.update(item, cfg)` 重绘时，默认情况下会调用节点的 `draw` 方法进行重新绘制。在数据量大或节点上图形数量非常多（特别是文本多）的情况下，`draw` 方法中对所有图形、赋予样式将会非常消耗性能。
-
-在自定义节点时，重写  `update` 方法，在更新时将会调用该方法替代 `draw`。我们可以在该方法中指定需要更新的图形，从而避免频繁调用  `draw` 、全量更新节点上的所有图形。当然，`update` 方法是可选的，如果没有性能优化的需求可以不重写该方法。
-
-在实现 diamond 的过程中，重写  `update` 方法，找到需要更新的 shape 进行更新，从而优化性能。寻找需要更新的图形可以通过：
-
-- `group.get('children')[0]` 找到 [关键图形  keyShape](/zh/docs/manual/middle/keyconcept/shape-keyshape#keyshape)，也就是 `draw` 方法返回的 shape；
-- `group.get('children')[1]` 找到 label 图形。
-
-下面代码仅更新了 diamond 的关键图形的路径和颜色。
-
-```javascript
-G6.registerNode('diamond', {
-  draw(cfg, group) {
-    // ... // 见前面代码
-  },
-  getPath(cfg) {
-    // ... // 见前面代码
-  },
-  update(cfg, node) {
-    const group = node.getContainer(); // 获取容器
-    const shape = group.get('children')[0]; // 按照添加的顺序
-    const style = {
-      path: this.getPath(cfg),
-      stroke: cfg.color,
-    };
-    shape.attr(style); // 更新属性
-    // 更新文本的逻辑类似，但是需要考虑 cfg.label 是否存在的问题
-    // 通过 label.attr() 更新文本属性即可
-  },
-});
-```
-
-## 2. 扩展现有节点
-
-### 扩展 Shape
-
-G6 中已经[内置了一些节点](/zh/docs/manual/middle/elements/nodes/defaultNode)，如果用户仅仅想对现有节点进行调整，复用原有的代码，则可以基于现有的节点进行扩展。同样实现 diamond ，可以基于  circle、ellipse、rect 等内置节点的进行扩展。single-node 是这些内置节点类型的基类，也可以基于它进行扩展。（single-edge 是所有内置边类型的基类。）
-
-下面以基于 single-node 为例进行扩展。`draw`，`update`，`setState` 方法在  single-node 中都有实现，这里仅需要复写 `getShapeStyle` 方法即可。返回的对象中包含自定义图形的路径和其他样式。
-
-```javascript
-G6.registerNode(
-  'diamond',
-  {
-    getShapeStyle(cfg) {
-      const size = this.getSize(cfg); // 转换成 [width, height] 的模式
-      const color = cfg.color;
-      const width = size[0];
-      const height = size[1];
-      //  / 1 \
-      // 4     2
-      //  \ 3 /
-      const path = [
-        ['M', 0, 0 - height / 2], // 上部顶点
-        ['L', width / 2, 0], // 右侧顶点
-        ['L', 0, height / 2], // 下部顶点
-        ['L', -width / 2, 0], // 左侧顶点
-        ['Z'], // 封闭
-      ];
-      const style = Util.mix(
-        {},
-        {
-          path: path,
-          stroke: color,
-        },
-        cfg.style,
-      );
-      return style;
-    },
-  },
-  // 注意这里继承了 'single-edge'
-  'single-edge',
-);
-```
-
-### 添加动画
-
-通过 `afterDraw` 同样可以实现扩展，下面我们来看一个节点的动画场景，如下图所示。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ga7FQLdUYjkAAAAAAAAAAABkARQnAQ' alt='img' width='350'/>
-
-上面的动画效果，可以通过以下方式实现：
-
-- 扩展内置的 rect，在 rect 中添加一个图形；
-- 反复执行新添加图形的旋转动画。
-
-```javascript
-// 自定义一个名为 inner-animate 的节点
-G6.registerNode('inner-animate', {
-  afterDraw(cfg, group) {
-    const size = cfg.size;
-    const width = size[0] - 14;
-    const height = size[1] - 14;
-    // 添加图片
-    const image = group.addShape('image', {
+    // 增加右侧圆
+    group.addShape('circle', {
       attrs: {
-        x: - width / 2,
-        y: - height / 2,
-        width: width,
-        height: height,
-        img: cfg.img
+        ...style,
+        fill: '#fff',
+        opacity: 1,
+        // cfg.style.width 与 cfg.style.heigth 对应 rect Combo 位置说明图中的 innerWdth 与 innerHeight
+        x: cfg.style.width / 2 + cfg.padding[1],
+        y: (cfg.padding[2] - cfg.padding[0]) / 2,
+        r: 5
       },
-      // must be assigned in G6 3.3 and later versions. it can be any value you want
-      name: 'image-shape'
+      draggable: true,
+      name: 'combo-circle-shape'
     });
-    // 执行旋转动画
-    image.animate((ratio) => {
-      const matrix = Util.mat3.create();
-      const toMatrix = Util.transform(matrix, [
-        ['r', ratio * Math.PI * 2]
-      ]) ;
-      return {
-        matrix: toMatrix
-      };
-    }, {
-      repeat: true
-      duration: 3000,
-      easing: 'easeCubic'
+    return rect;
+  },
+  // 定义新增的右侧圆的位置更新逻辑
+  afterUpdate: function afterUpdate(cfg, combo) {
+    const group = combo.get('group');
+    // 在该 Combo 的图形分组根据 name 找到右侧圆图形
+    const circle = group.find(ele => ele.get('name') === 'combo-circle-shape');
+    // 更新右侧圆位置
+    circle.attr({
+        // cfg.style.width 与 cfg.style.heigth 对应 rect Combo 位置说明图中的 innerWdth 与 innerHeight
+      x: cfg.style.width / 2 + cfg.padding[1],
+      y: (cfg.padding[2] - cfg.padding[0]) / 2
     });
   }
-},
-// 继承了 rect 节点
-'rect');
+}, 'rect');
 ```
 
-更多关于动画的实现，请参考[基础动画](/zh/docs/manual/advanced/animation)章节。
+值得注意的是，G6 3.3 需要用户为自定义节点中的图形设置 `name` 和 `draggable`。其中，`name` 可以是不唯一的任意值。`draggable` 为 `true` 是表示允许该图形响应鼠标的拖拽事件，只有 `draggable: true` 时，图上的交互行为 `'drag-combo'` 才能在该图形上生效。若上面代码仅在 keyShape 上设置了 `draggable: true`，而右侧圆图形上没有设置，则鼠标拖拽只能在 keyShape 上响应。
 
-<br />
+### 使用自定义 Combo
 
-## 3. 调整锚点 anchorPoint
-
-节点上的[锚点 anchorPoint](/zh/docs/manual/middle/keyconcept/anchorpoint) 作用是**确定节点与边的相交的位置**，看下面的场景：<br />
-
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mJ85Q5WRJLwAAAAAAAAAAABkARQnAQ' alt='img' width='200'/>
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*99aSR5zbd44AAAAAAAAAAABkARQnAQ' alt='img' width='200'/>
-
-> （左）没有设置锚点时。（右）diamond 设置了锚点后。
-
-有两种方式来调整节点上的锚点：
-
-- 在数据里面指定 `anchorPoints`。
-
-**适用场景：**可以为不同节点配置不同的锚点，更定制化。
-
-- 自定义节点中通过 `getAnchorPoints` 方法指定锚点。
-
-**适用场景：**全局配置锚点，所有该自定义节点类型的节点都相同。
-
-### 数据中指定锚点
+现在，我们使用下面的代码使用 `'cRect'` 类型的 Combo：
 
 ```javascript
 const data = {
   nodes: [
-    {
-      id: 'node1',
-      x: 100,
-      y: 100,
-      anchorPoints: [
-        [0, 0.5], // 左侧中间
-        [1, 0.5], // 右侧中间
-      ],
-    },
-    //...       // 其他节点
+    { id: 'node1', x: 250, y: 100, comboId: 'combo1' },
+    { id: 'node2', x: 300, y: 100, comboId: 'combo1' }
   ],
-  edges: [
-    //... // 边
-  ],
-};
-```
-
-### 自定义时指定锚点
-
-```javascript
-G6.registerNode(
-  'diamond',
-  {
-    //... // 其他方法
-    getAnchorPoints() {
-      return [
-        [0, 0.5], // 左侧中间
-        [1, 0.5], // 右侧中间
-      ];
-    },
-  },
-  'rect',
-);
-```
-
-## 4. 调整状态样式
-
-常见的交互都需要节点和边通过样式变化做出反馈，例如鼠标移动到节点上、点击选中节点/边、通过交互激活边上的交互等，都需要改变节点和边的样式，有两种方式来实现这种效果：
-
-1. 在数据上添加标志字段，在自定义 shape 过程中根据约定进行渲染；
-2. 将交互状态同原始数据和绘制节点的逻辑分开，仅更新节点。
-
-我们推荐用户使用第二种方式来实现节点的状态调整，可以通过以下方式来实现：
-
-- 在 G6 中自定义节点/边时在 `setState` 方法中进行节点状态变化的响应；
-- 通过 `graph.setItemState()` 方法来设置状态。
-
-基于 rect 扩展出一个 custom 图形，默认填充色为白色，当鼠标点击时变成红色，实现这一效果的示例代码如下：
-
-```javascript
-// 基于 rect 扩展出新的图形
-G6.registerNode(
-  'custom',
-  {
-    // 响应状态变化
-    setState(name, value, item) {
-      const group = item.getContainer();
-      const shape = group.get('children')[0]; // 顺序根据 draw 时确定
-      if (name === 'selected') {
-        if (value) {
-          shape.attr('fill', 'red');
-        } else {
-          shape.attr('fill', 'white');
-        }
-      }
-    },
-  },
-  'rect',
-);
-
-// 点击时选中，再点击时取消
-graph.on('node:click', ev => {
-  const node = ev.item;
-  graph.setItemState(node, 'selected', !node.hasState('selected')); // 切换选中
-});
-```
-
-G6 并未限定节点的状态，只要你在 `setState` 方法中进行处理你可以实现任何交互，如实现鼠标放到节点上后节点逐渐变大的效果。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*JhhTSJ8PMbYAAAAAAAAAAABkARQnAQ' alt='img' width='350'/>
-
-```javascript
-G6.registerNode(
-  'custom',
-  {
-    // 响应状态变化
-    setState(name, value, item) {
-      const group = item.getContainer();
-      const shape = group.get('children')[0]; // 顺序根据 draw 时确定
-      if (name === 'running') {
-        if (value) {
-          shape.animate(
-            {
-              r: 20,
-            },
-            {
-              repeat: true,
-              duration: 1000,
-            },
-          );
-        } else {
-          shape.stopAnimate();
-          shape.attr('r', 10);
-        }
-      }
-    },
-  },
-  'circle',
-);
-
-// 鼠标移动到上面 running，移出结束
-graph.on('node:mouseenter', ev => {
-  const node = ev.item;
-  graph.setItemState(node, 'running', true);
-});
-
-graph.on('node:mouseleave', ev => {
-  const node = ev.item;
-  graph.setItemState(node, 'running', false);
-});
-```
-
-
-
-## 5. 使用 DOM 自定义节点
-
-> SVG 与 DOM 图形在 V3.3.x 中不支持。
-
-这里，我们演示使用 DOM 自定义一个名为 `'dom-node'` 的节点。在 `draw` 方法中使用 `group.addShape` 增加一个 `'dom'` 类型的图形，并设置其 `html` 为 DOM 的 `html` 值。
-
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VgQlQK1MdbIAAAAAAAAAAABkARQnAQ' alt='img' width='120'/>
-
-```javascript
-G6.registerNode('dom-node', {
-  draw: (cfg: ModelConfig, group: Group) => {
-    return group.addShape('dom', {
-      attrs: {
-        width: cfg.size[0],
-        height: cfg.size[1],
-        // 传入 DOM 的 html
-        html: `
-        <div style="background-color: #fff; border: 2px solid #5B8FF9; border-radius: 5px; width: ${cfg.size[0]-5}px; height: ${cfg.size[1]-5}px; display: flex;">
-          <div style="height: 100%; width: 33%; background-color: #CDDDFD">
-            <img alt="" style="line-height: 100%; padding-top: 6px; padding-left: 8px;" src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q_FQT6nwEC8AAAAAAAAAAABkARQnAQ" width="20" height="20" />  
-          </div>
-          <span style="margin:auto; padding:auto; color: #5B8FF9">${cfg.label}</span>
-        </div>
-          `
-      },
-      draggable: true
-    });
-  },
-}, 'single-node');
-```
-
-上面的代码自定义了一个名为 `'dom-node'` 的带有 DOM 的节点。值得注意的是，G6 3.3 需要用户为自定义节点中的图形设置 `name` 和 `draggable`。其中，`name` 可以是不唯一的任意值。`draggable` 为 `true` 是表示允许该图形响应鼠标的拖拽事件，只有 `draggable: true` 时，图上的交互行为 `'drag-node'` 才能在该图形上生效。
-
-现在，我们使用下面的数据输入就会绘制出带有 `'dom-node'` 节点的图。
-
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*coxYTo3zEecAAAAAAAAAAABkARQnAQ' alt='img' width='300'/>
-
-```javascript
-const data = {
-  nodes: [
-    { id: 'node1', x: 50, y: 100 },
-    { id: 'node2', x: 150, y: 100 },
-  ],
-  edges: [
-    source: 'node1',
-    target: 'node2'
+  combos: [
+    { id: 'combo1', label: 'Combo 1', parentId: 'combo2' },
+    { id: 'combo2', label: 'Combo 2' },
+    { id: 'combo3', label: 'Combo 3' },
   ]
 };
 const graph = new G6.Graph({
   container: 'mountNode',
-  width: 500,
-  height: 500,
-  defaultNode: {
-    type: 'dom-node',
-    size: [120, 40]
+  width: 800,
+  height: 800,
+  // 全局 Combo 配置
+  defaultCombo: {
+    // 指定 Combo 类型，也可以将 type 写到 combo 数据中
+    type: 'cRect',
+    // ... 此处可配置默认 Combo 的其他样式
+  },
+});
+graph.data(data);
+graph.render();
+```
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HEtYR5OUgLcAAAAAAAAAAABkARQnAQ' width='400' alt='img'/>
+
+
+
+## 2. 自定义扩展内置 Circle Combo
+
+### 内置 Circle Combo 位置逻辑详解
+
+如下面 Circle Combo 位置说明图所示，circle 类型的 Combo 内部的位置逻辑比 rect 类型简单，其 (x, y) 为圆心，`padding` 为一个数值：
+- 下图灰色虚线圈内部是子元素的分布范围，其半径为 innerR；
+- 与 rect 不同的是，灰色虚线圈的 `padding` 是一个数值，即灰色虚线圈外围的 padding 是均匀的，该 Combo 的 keyShape 真实绘制半径 R = innerR + padding；
+- 一个 Combo 内部的图形以自身坐标系为参考，原点 (0, 0) 在灰色虚线框正中心（由于 padding 是均匀的，所以原点也在 keyShape 正中心）；
+- circle 图形的 x 与 y 为其圆心 (0, 0)；
+- circle 类型 Combo 的 label 默认位于圆形外部正上方，距离圆形上边缘 refY。label 的位置（`position`）、`refX`、`refY` 可以在使用该类型 Combo 时配置。
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NjJxRLYvCykAAAAAAAAAAABkARQnAQ' alt='img' width='300'/>
+
+> Circle Combo 位置说明图
+
+
+### 绘制图形
+
+现在，我们自己实现一个如下图所示的 Combo 类型（下图展示空 Combo）：
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rMknSIUfjnkAAAAAAAAAAABkARQnAQ' width='120' alt='img'/>
+
+```javascript
+// 定义下面需要使用的 symbol
+const collapseIcon = (x, y, r) => {
+  return [
+    ['M', x - r, y],
+    ['a', r, r, 0, 1, 0, r * 2, 0],
+    ['a', r, r, 0, 1, 0, -r * 2, 0],
+    ['M', x - r + 4, y],
+    ['L', x - r + 2 * r - 4, y],
+  ];
+};
+const expandIcon = (x, y, r) => {
+  return [
+    ['M', x - r, y],
+    ['a', r, r, 0, 1, 0, r * 2, 0],
+    ['a', r, r, 0, 1, 0, -r * 2, 0],
+    ['M', x - r + 4, y],
+    ['L', x - r + 2 * r - 4, y],
+    ['M', x - r + r, y - r + 4],
+    ['L', x, y + r - 4],
+  ];
+};
+
+G6.registerCombo('cCircle', {
+  drawShape: function draw(cfg, group) {
+    const self = this;
+    // 获取样式配置，style.r 是加上了 padding 的半径
+    // 对应 Circle Combo 位置说明图中的 R
+    const style = self.getShapeStyle(cfg);
+    // 绘制一个 circle 作为 keyShape，与 'circle' Combo 的 keyShape 一致
+    const circle = group.addShape('circle', {
+      attrs: {
+        ...style,
+        x: 0,
+        y: 0,
+        r: style.r
+      },
+      draggable: true,
+      name: 'combo-keyShape'
+    });
+    // 增加下方 marker
+    const marker = group.addShape('marker', {
+      attrs: {
+        ...style,
+        fill: '#fff',
+        opacity: 1,
+        x: 0,
+        y: style.r,
+        r: 10,
+        symbol: collapseIcon
+      },
+      draggable: true,
+      name: 'combo-marker-shape'
+    });
+
+    return circle;
+  },
+  // 定义新增的下方 marker 的位置更新逻辑
+  afterUpdate: function afterUpdate(cfg, combo) {
+    const self = this;
+    // 获取样式配置，style.r 是加上了 padding 的半径
+    // 对应 Circle Combo 位置说明图中的 R    const style = self.getShapeStyle(cfg);
+    const group = combo.get('group');
+    // 在该 Combo 的图形分组根据 name 找到下方 marker
+    const marker = group.find(ele => ele.get('name') === 'combo-marker-shape');
+    // 更新 marker
+    marker.attr({
+      x: 0,
+      y: style.r,
+      // 数据中的 collapsed 代表该 Combo 是否是收缩状态，根据该字段更新 symbol
+      symbol: cfg.collapsed ? expandIcon : collapseIcon
+    });
+  }
+}, 'circle');
+```
+
+值得注意的是，G6 3.3 需要用户为自定义节点中的图形设置 `name` 和 `draggable`。其中，`name` 可以是不唯一的任意值。`draggable` 为 `true` 是表示允许该图形响应鼠标的拖拽事件，只有 `draggable: true` 时，图上的交互行为 `'drag-combo'` 才能在该图形上生效。若上面代码仅在 keyShape 上设置了 `draggable: true`，而右侧圆图形上没有设置，则鼠标拖拽只能在 keyShape 上响应。
+
+### 使用自定义 Combo
+
+现在，我们使用下面的代码使用 `'cCircle'` 类型的 Combo：
+
+```javascript
+const data = {
+  nodes: [
+    { id: 'node1', x: 250, y: 100, comboId: 'combo1' },
+    { id: 'node2', x: 300, y: 100, comboId: 'combo1' }
+  ],
+  combos: [
+    { id: 'combo1', label: 'Combo 1', parentId: 'combo2' },
+    { id: 'combo2', label: 'Combo 2' },
+    { id: 'combo3', label: 'Combo 3' },
+  ]
+};
+const graph = new G6.Graph({
+  container: 'mountNode',
+  width: 800,
+  height: 800,
+  // 全局 Combo 配置
+  defaultCombo: {
+    // 指定 Combo 类型，也可以将 type 写到 combo 数据中
+    type: 'cCircle',
+    labelCfg: {
+      refY: 2
+    }
+    // ... 此处可配置默认 Combo 的其他样式
+  },
+  modes: {
+    default: [
+      // 配置展开/收缩 Combo 交互，双击 Combo 可以触发
+      // 将会修改响应 Combo 数据中的 collapsed 字段，从而标识该 Combo 是否处于收缩状态
+      'collapse-expand-combo'
+      ]
   }
 });
 graph.data(data);
 graph.render();
 ```
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> G6 的节点/边事件不支持 DOM 类型的图形。如果需要为 DOM 节点绑定事件，请使用原生 DOM 事件。例如：
-```javascript
-G6.registerNode('dom-node', {
-  draw: (cfg: ModelConfig, group: Group) => {
-    return group.addShape('dom', {
-      attrs: {
-        width: cfg.size[0],
-        height: cfg.size[1],
-        // 传入 DOM 的 html，带有原生 onclick 事件
-        html: `
-        <div onclick="handleClick('Hello')" style="background-color: #fff; border: 2px solid #5B8FF9; border-radius: 5px; width: ${cfg.size[0]-5}px; height: ${cfg.size[1]-5}px; display: flex;">
-          <div style="height: 100%; width: 33%; background-color: #CDDDFD">
-            <img alt="" style="line-height: 100%; padding-top: 6px; padding-left: 8px;" src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q_FQT6nwEC8AAAAAAAAAAABkARQnAQ" width="20" height="20" />  
-          </div>
-          <span style="margin:auto; padding:auto; color: #5B8FF9">${cfg.label}</span>
-        </div>
-          `
-      },
-      draggable: true
-    });
-  },
-}, 'single-node');
-const handleClick = msg => {
-  // ...
-}
-```
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1LelSq5TP9EAAAAAAAAAAABkARQnAQ' alt='img' width='400'/>

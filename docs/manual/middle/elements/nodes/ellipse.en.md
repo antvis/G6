@@ -5,7 +5,7 @@ order: 3
 
 A built-in node Ellipse has the default style as below, the label is drawed on the center of it.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-K6wTriSnY8AAAAAAAAAAABkARQnAQ' width=100/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-K6wTriSnY8AAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
 
 ## Usage
 
@@ -63,7 +63,7 @@ The [Node Common Properties](/en/docs/manual/middle/elements/nodes/defaultNode/#
 
 ### style
 
-The [Node Common Styles](/en/docs/manual/middle/elements/nodes/defaultNode/#style) are available for Circle node.`style` is an object to configure the filling color, stroke, and other styles. The following code shows how to configure the `style` globally when instantiating a Graph.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5_yzRLNA81cAAAAAAAAAAABkARQnAQ' width=100/>
+The [Node Common Styles](/en/docs/manual/middle/elements/nodes/defaultNode/#style) are available for Circle node.`style` is an object to configure the filling color, stroke, and other styles. The following code shows how to configure the `style` globally when instantiating a Graph.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5_yzRLNA81cAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
 
 ```javascript
 const data = {
@@ -96,7 +96,7 @@ graph.render();
 
 ### labelCfg
 
-`labelCfg` is an object to configure the label of the node. The [Node Common Label Configurations](/en/docs/manual/middle/elements/nodes/defaultNode/#label-and-labelcfg) are available. Base on the code in [style](#style) section, we add `labelCfg` to `defaultNode`.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SxAlT7QGURwAAAAAAAAAAABkARQnAQ' width=100/>
+`labelCfg` is an object to configure the label of the node. The [Node Common Label Configurations](/en/docs/manual/middle/elements/nodes/defaultNode/#label-and-labelcfg) are available. Base on the code in [style](#style) section, we add `labelCfg` to `defaultNode`.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SxAlT7QGURwAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
 
 ```javascript
 const data = {
@@ -136,7 +136,7 @@ const graph = new G6.Graph({
 | stroke    | The stroke color of the small circles   | String  | `'#72CC4A'` by default |
 | lineWidth | The line width of the small circles     | Number  | `1` by default         |
 
-Base on the code in [style](#style) section, we add `linkPoints` to `defaultNode`.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*paBYRq0PNqgAAAAAAAAAAABkARQnAQ' width=100/>
+Base on the code in [style](#style) section, we add `linkPoints` to `defaultNode`.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*paBYRq0PNqgAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
 
 ```javascript
 const data = {
@@ -170,7 +170,7 @@ const graph = new G6.Graph({
 | height | The height of the icon    | Number  | `16` by default    |
 | img    | The image url of the icon | String  |                    |
 
-Base on the code in [style](#style) section, we add `icon` to `defaultNode`.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*992OSK65NaUAAAAAAAAAAABkARQnAQ' width=100/>
+Base on the code in [style](#style) section, we add `icon` to `defaultNode`.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*992OSK65NaUAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
 
 ```javascript
 const data = {

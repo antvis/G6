@@ -11,7 +11,7 @@ order: 0
 
 We will build a simple graph visualization during this tutorial. We call this demo **Tutorial Demo** in the following Tutorial. <a href='https://codepen.io/Yanyan-Wang/pen/mdbYZvZ' target='_blank'>Complete Code</a>.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YlTVS54xV3EAAAAAAAAAAABkARQnAQ'  width=500 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YlTVS54xV3EAAAAAAAAAAABkARQnAQ'  width=500 alt='img' />
 
 <div style="text-align: center;"><b>Tutorial Demo</b> result</div>
 

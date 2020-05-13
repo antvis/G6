@@ -94,11 +94,11 @@ layout 目前支持 dendrogram、compactBox、mindmap 和 indeted 四种布局�
 
 | LR | RL | H |
 | --- | --- | --- |
-| <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zX7tSLqBvwcAAAAAAAAAAABkARQnAQ' width='180' height='100'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qVbeR4oq4lYAAAAAAAAAAABkARQnAQ' width='180' height='100'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OHetRqedHOkAAAAAAAAAAABkARQnAQ' width='250' height='100'> |
+| <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zX7tSLqBvwcAAAAAAAAAAABkARQnAQ' width='180' height='100' alt='img'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qVbeR4oq4lYAAAAAAAAAAABkARQnAQ' width='180' height='100' alt='img'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OHetRqedHOkAAAAAAAAAAABkARQnAQ' width='250' height='100' alt='img'> |
 
 | TB | BT | V |
 | --- | --- | --- |
-| <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*P_OETZsj17cAAAAAAAAAAABkARQnAQ' width='100' height='150'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*n6sFS57g424AAAAAAAAAAABkARQnAQ' width='100' height='150'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*CyVbQ5q_0_cAAAAAAAAAAABkARQnAQ' width='100' height='180'> |
+| <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*P_OETZsj17cAAAAAAAAAAABkARQnAQ' width='100' height='150' alt='img'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*n6sFS57g424AAAAAAAAAAABkARQnAQ' width='100' height='150' alt='img'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*CyVbQ5q_0_cAAAAAAAAAAABkARQnAQ' width='100' height='180' alt='img'> |
 
 **dendrogram 配置项**
 
@@ -118,11 +118,11 @@ layout 目前支持 dendrogram、compactBox、mindmap 和 indeted 四种布局�
 
 | LR | RL | H |
 | --- | --- | --- |
-| <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z-ESRoHTpvIAAAAAAAAAAABkARQnAQ' width='230' height='100'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AHfiQ7IfWJwAAAAAAAAAAABkARQnAQ' width='230' height='100'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ygp0RaTxjp8AAAAAAAAAAABkARQnAQ' width='230' height='100'> |
+| <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z-ESRoHTpvIAAAAAAAAAAABkARQnAQ' width='230' height='100' alt='img'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AHfiQ7IfWJwAAAAAAAAAAABkARQnAQ' width='230' height='100' alt='img'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ygp0RaTxjp8AAAAAAAAAAABkARQnAQ' width='230' height='100' alt='img'> |
 
 | TB | BT | V |
 | --- | --- | --- |
-| <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sj6qSqrBvpIAAAAAAAAAAABkARQnAQ' width='230' height='100'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*4tDzSpYiq-cAAAAAAAAAAABkARQnAQ' width='230' height='100'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Mj0WSaTKzSsAAAAAAAAAAABkARQnAQ' width='230' height='100'> |
+| <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sj6qSqrBvpIAAAAAAAAAAABkARQnAQ' width='230' height='100' alt='img'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*4tDzSpYiq-cAAAAAAAAAAABkARQnAQ' width='230' height='100' alt='img'> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Mj0WSaTKzSsAAAAAAAAAAABkARQnAQ' width='230' height='100' alt='img'> |
 
 **compactBox 配置项**
 
@@ -162,7 +162,7 @@ layout 目前支持 dendrogram、compactBox、mindmap 和 indeted 四种布局�
 
 | LR | RL | H |
 | --- | --- | --- |
-| <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560910055783-3783faed-29f0-4e34-9076-df951aa6ea10.png#align=left&display=inline&percent=0&size=0&status=done' width='150' height='100'> | <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560910055615-54aaca32-7de4-471e-8600-611854094b90.png#align=left&display=inline&percent=0&size=0&status=done' width='150' height='100'> | <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560910055676-86d316d8-9487-4b3d-99a4-27b4a8c091c0.png#align=left&display=inline&percent=0&size=0&status=done' width='230' height='100'> |
+| <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560910055783-3783faed-29f0-4e34-9076-df951aa6ea10.png#align=left&display=inline&percent=0&size=0&status=done' width='150' height='100' alt='img'> | <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560910055615-54aaca32-7de4-471e-8600-611854094b90.png#align=left&display=inline&percent=0&size=0&status=done' width='150' height='100' alt='img'> | <img src='https://intranetproxy.alipay.com/skylark/lark/0/2019/png/178530/1560910055676-86d316d8-9487-4b3d-99a4-27b4a8c091c0.png#align=left&display=inline&percent=0&size=0&status=done' width='230' height='100' alt='img'> |
 
 **indented 配置项**
 
@@ -176,7 +176,7 @@ layout 目前支持 dendrogram、compactBox、mindmap 和 indeted 四种布局�
 
 **mindmap 示意图**
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*J1l5RofvbP0AAAAAAAAAAABkARQnAQ' width='350'>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*J1l5RofvbP0AAAAAAAAAAABkARQnAQ' width='350' alt='img'>
 
 **mindmap 配置项**
 

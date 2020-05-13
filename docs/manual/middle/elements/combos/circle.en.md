@@ -4,7 +4,7 @@ order: 1
 ---
 
 Built-in Circle Combo has the default style as below, the label is drawed on the center of it.
-<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ijeuQoiH0JUAAAAAAAAAAABkARQnAQ' width=150/>
+<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ijeuQoiH0JUAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 ## Usage
 
@@ -63,7 +63,7 @@ The [Combo Common Properties](/en/docs/manual/middle/elements/combos/defaultComb
 
 ### style
 
-The [Combo Common Styles](/en/docs/manual/middle/elements/nodes/defaultNode/#style) are available for Circle combo. `style` is an object to configure the filling color, stroke, and other styles. The following code shows how to configure the `style` globally when instantiating a Graph.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ydTKSqv-lh4AAAAAAAAAAABkARQnAQ' width=150/>
+The [Combo Common Styles](/en/docs/manual/middle/elements/nodes/defaultNode/#style) are available for Circle combo. `style` is an object to configure the filling color, stroke, and other styles. The following code shows how to configure the `style` globally when instantiating a Graph.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ydTKSqv-lh4AAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 ```javascript
 const data = {
@@ -94,7 +94,7 @@ graph.render();
 
 ### labelCfg
 
-`labelCfg` is an object to configure the label of the combo. The [Combo Common Label Configurations](/en/docs/manual/middle/elements/combos/defaultCombo/#label-and-labelcfg) are available. Base on the code in [style](#style) section, we add `labelCfg` to `defaultCombo`.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*oQnLQZ__8K0AAAAAAAAAAABkARQnAQ' width=150/>
+`labelCfg` is an object to configure the label of the combo. The [Combo Common Label Configurations](/en/docs/manual/middle/elements/combos/defaultCombo/#label-and-labelcfg) are available. Base on the code in [style](#style) section, we add `labelCfg` to `defaultCombo`.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*oQnLQZ__8K0AAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 ```javascript
 const data = {

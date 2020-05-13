@@ -15,19 +15,19 @@ redirect_from:
 
 <a href='https://github.com/antvis/g6' target='_blank'>G6</a> 是一个图可视化引擎。它提供了图的绘制、布局、分析、交互、动画等图可视化的基础能力。旨在让关系变得透明，简单。让用户获得关系数据的 Insight。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zTjwQaXokeQAAAAAAAAAAABkARQnAQ' width=550 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zTjwQaXokeQAAAAAAAAAAABkARQnAQ' width=550 alt='img'/>
 
 基于 G6，用户可以快速搭建自己的 **图分析** 或 **图编辑** 应用。
 
 如果您还没有使用过 G6， 建议通过 [快速上手](/zh/docs/manual/getting-started) 抢先体验 G6 的魅力。
 
-<img src="https://user-images.githubusercontent.com/6113694/44995293-02858600-afd5-11e8-840c-349e4730d63d.gif" height=150><img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*I9OdTbXJIi0AAAAAAAAAAABkARQnAQ" height=150><img src="https://user-images.githubusercontent.com/6113694/44995332-2ba61680-afd5-11e8-8cab-db0e9d08ceb7.gif" height=150>
+<img src="https://user-images.githubusercontent.com/6113694/44995293-02858600-afd5-11e8-840c-349e4730d63d.gif" height=150 alt='img' /><img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*I9OdTbXJIi0AAAAAAAAAAABkARQnAQ" height=150 alt='img' /><img src="https://user-images.githubusercontent.com/6113694/44995332-2ba61680-afd5-11e8-8cab-db0e9d08ceb7.gif" height=150 alt='img' />
 
-<img src="https://gw.alipayobjects.com/zos/rmsportal/HQxYguinFOMIXrGQOABY.gif" height=150><img src="https://gw.alipayobjects.com/zos/rmsportal/nAugyFgrbrUWPmDIDiQm.gif" height=150><img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*xoufSYcjK2AAAAAAAAAAAABkARQnAQ" height=150>
+<img src="https://gw.alipayobjects.com/zos/rmsportal/HQxYguinFOMIXrGQOABY.gif" height=150 alt='img' /><img src="https://gw.alipayobjects.com/zos/rmsportal/nAugyFgrbrUWPmDIDiQm.gif" height=150 alt='img' /><img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*xoufSYcjK2AAAAAAAAAAAABkARQnAQ" height=150 alt='img' />
 
 > 强大的布局
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dJT3SIVta6QAAAAAAAAAAABkARQnAQ' width=800 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dJT3SIVta6QAAAAAAAAAAABkARQnAQ' width=800 alt='img'/>
 
 > 强大的动画及交互
 
@@ -44,7 +44,7 @@ G6 作为一款专业的图可视化引擎，具有以下特性：
 
 除了默认好用、配置自由的内置功能，元素、交互、布局均具有高可扩展的自定义机制。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Y0c6S7cxjVkAAAAAAAAAAABkARQnAQ' width=800 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Y0c6S7cxjVkAAAAAAAAAAABkARQnAQ' width=800 alt='img'/>
 
 > 丰富的图元素
 
@@ -58,7 +58,7 @@ G6 作为一款专业的图可视化引擎，具有以下特性：
 
 ## 快速上手
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*srtDT5slbN8AAAAAAAAAAABkARQnAQ' width=400>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*srtDT5slbN8AAAAAAAAAAABkARQnAQ' width=400 alt='img' />
 
 ```javascript
 // 定义数据源
@@ -118,9 +118,9 @@ graph.render();
 
 > 由于值班同学的时间和精力有限，**G6 图可视化交流二群** 中的问题我们会不定期回复。欢迎对 G6 感兴趣的同学加入到答疑中来，非常感谢！
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hzfaSrAj0jkAAAAAAAAAAABkARQnAQ' width=400 alt="">
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hzfaSrAj0jkAAAAAAAAAAABkARQnAQ' width=400 alt="img">
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7uu-T7kp6uUAAAAAAAAAAABkARQnAQ' width=400 alt="">
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7uu-T7kp6uUAAAAAAAAAAABkARQnAQ' width=400 alt="img">
 
 ## 如何贡献
 

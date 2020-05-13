@@ -140,6 +140,7 @@ Shape.registerCombo(
       style.width = width + padding[1] + padding[3];
       style.height = height + padding[0] + padding[2];
 
+
       const styles = Object.assign(
         {},
         {
@@ -160,6 +161,7 @@ Shape.registerCombo(
       return styles;
     },
     update(cfg: ComboConfig, item: Item) {
+
       const size = (this as ShapeOptions).getSize!(cfg);
       let padding: number | number[] = cfg.padding || this.options.padding;
       if (isNumber(padding)) padding = [padding, padding, padding, padding]

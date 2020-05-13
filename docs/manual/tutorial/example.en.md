@@ -94,7 +94,7 @@ Load data and render are two separated steps.
 
 After calling `graph.render()` , G6 will render the graph according to the data.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YTfpQYVGhuEAAAAAAAAAAABkARQnAQ' width=400 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YTfpQYVGhuEAAAAAAAAAAABkARQnAQ' width=400 alt='img' />
 
 ## Load the Real Data
 
@@ -125,7 +125,7 @@ Modify index.html to load remote data asynchronously by `fetch`, and pass it to 
 
 We will get the following result with the code above:
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*KzQaSZKIsQoAAAAAAAAAAABkARQnAQ' width=550 height=350 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*KzQaSZKIsQoAAAAAAAAAAABkARQnAQ' width=550 height=350 alt='img' />
 
 The data has been loaded correctly. But the result is a little bit strange due to the large amount of nodes and edges. Limited by the size of canvas, part of the graph is arranged out of the view. We are going to solve all these problems now.
 
@@ -159,7 +159,7 @@ const graph = new G6.Graph({
 });
 ```
 
-The result from this code shows that the graph has been fitted to the canvas: <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wAXzRJaNTXUAAAAAAAAAAABkARQnAQ' width=850 />
+The result from this code shows that the graph has been fitted to the canvas: <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wAXzRJaNTXUAAAAAAAAAAABkARQnAQ' width=850 alt='img' />
 
 ## Common Configuration
 

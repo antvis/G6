@@ -3,9 +3,9 @@ title: Loop
 order: 6
 ---
 
-A built-in edge Line has the default style as below.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sPBIR40KLOkAAAAAAAAAAABkARQnAQ' width=100/>
+A built-in edge Line has the default style as below.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sPBIR40KLOkAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> <br />loop edge is appropriate for the self-loop edges whose target node and the source node are the same. In other words, a loop edge connect a node to itself. There will be a strange result if the loop edge is applied to the edge which is not a self-loop. <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*JgYrTabHWskAAAAAAAAAAABkARQnAQ' width='75' height='176' />
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> <br />loop edge is appropriate for the self-loop edges whose target node and the source node are the same. In other words, a loop edge connect a node to itself. There will be a strange result if the loop edge is applied to the edge which is not a self-loop. <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*JgYrTabHWskAAAAAAAAAAABkARQnAQ' width='75' height='176' alt='img'/>
 
 ## Usage
 
@@ -67,7 +67,7 @@ loop 边支持以下的配置项，对于 Object 类型的配置项将在后面�
 
 ### style
 
-`style` is an object which is the same as the [Common Edge Style Properties](/en/docs/manual/middle/elements/edges/defaultEdge/#style). The following code shows how to configure the `style` globally when instantiating a Graph.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dAV3QIY2ZxkAAAAAAAAAAABkARQnAQ' width=100/>
+`style` is an object which is the same as the [Common Edge Style Properties](/en/docs/manual/middle/elements/edges/defaultEdge/#style). The following code shows how to configure the `style` globally when instantiating a Graph.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dAV3QIY2ZxkAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
 
 ```javascript
 const data = {
@@ -107,7 +107,7 @@ graph.render();
 
 ### labelCfg
 
-`labelCfg` is an object which is the same as the [Common Edge Label Properties](/en/docs/manual/middle/elements/edges/defaultEdge/#label-and-labelcfg). Base on the code in [style](#style) section, we add `labelCfg` to `defaultEdge`.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6hcBSId1XzAAAAAAAAAAAABkARQnAQ' width=100/>
+`labelCfg` is an object which is the same as the [Common Edge Label Properties](/en/docs/manual/middle/elements/edges/defaultEdge/#label-and-labelcfg). Base on the code in [style](#style) section, we add `labelCfg` to `defaultEdge`.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6hcBSId1XzAAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
 
 ```javascript
 const data = {
@@ -134,7 +134,7 @@ const graph = new G6.Graph({
 - `dist`: The distance between the keyShape of the source/target node to the highest position of the loop. It is equal to the height of the source/target node by default.
 - `clockwise`: Whether to draw the loop clockwisely. `true` by default
 
-Base on the code in [style](#style) section, we add `loopCfg` to `defaultEdge`.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z9dwTZvACcEAAAAAAAAAAABkARQnAQ' width=100/>
+Base on the code in [style](#style) section, we add `loopCfg` to `defaultEdge`.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z9dwTZvACcEAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
 
 ```javascript
 const data = {

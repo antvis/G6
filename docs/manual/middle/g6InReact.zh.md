@@ -11,7 +11,7 @@ G6 是一个纯 JS 库，不与任何框架耦合，也就是可以在任何前�
 
 在 Demo 中，我们以一个简单的流程图为例，实现如下的效果。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*L8pRS5HCPXUAAAAAAAAAAABkARQnAQ' width=800/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*L8pRS5HCPXUAAAAAAAAAAABkARQnAQ' width=800 alt='img'/>
 
 ### 功能及实现
 

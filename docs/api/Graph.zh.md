@@ -1476,7 +1476,7 @@ const elements: {
 
 这部分主要是说明视口坐标、Canvas 坐标和页面坐标之前的相互转换。其中视口坐标和 Canvas 坐标的示意图如下所示。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*loahSq940hMAAAAAAAAAAABkARQnAQ' width=565 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*loahSq940hMAAAAAAAAAAABkARQnAQ' width=565 alt='img'/>
 
 ### getPointByClient(clientX, clientY)
 
