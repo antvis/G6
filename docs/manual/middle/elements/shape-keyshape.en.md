@@ -120,7 +120,7 @@ The life cycle of Shape:
 
 There are three key functions of custom node and edge which should be rewrited according to your requirements:
 
-- `draw(cfg, group)`: Draw the Shape with configurations and its container;
+- `draw(cfg, group)`: Draw the Shape with configurations and its container. **MUST** return a proper shape as the keyShape;
 - `update(cfg, n)`: Update the item according to the configurations and the item;
 - `setState(name, value, item)`: Response the states change for items.
 
