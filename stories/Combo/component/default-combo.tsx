@@ -5,45 +5,49 @@ import { IGraph } from '../../../src/interface/graph';
 let graph: IGraph = null;
 
 G6.registerCombo('rectCircleCombo', {
-  drawShape: (cfg, group) => {
-    const rect = group.addShape('rect', {
-      attrs: {
-        fill: '#f00',
-        x: -50,
-        y: -50,
-        width: 100,
-        height: 100
-      }
-    });
-    return rect;
-  },
-  afterUpdate: function afterUpdate(cfg, node) {
+  drawShape: function drawShape(cfg, group) {
     const self = this;
-    const padding = cfg.padding || self.options.padding || [10, 10, 10, 10];
-    const style = Object.assign({
+    cfg.padding = cfg.padding || [10, 10, 10, 10];
+    cfg.size = self.getSize(cfg);
+    cfg.style = Object.assign({
       fill: '#ccc',
       stroke: '#333',
       lineWidth: 2,
     }, cfg.style);
+    const keyShapeHeight = cfg.size[0] + cfg.padding[0] + cfg.padding[2];
+    const keyShapeWidth = cfg.size[1] + cfg.padding[1] + cfg.padding[3];
+    // 绘制一个矩形作为 keyShape，与 'rect' Combo 的 keyShape 一致
+    const rect = group.addShape('rect', {
+      attrs: {
+        ...cfg.style,
+        x: -cfg.size[0] / 2 - cfg.padding[3],
+        y: -cfg.size[1] / 2 - cfg.padding[0],
+        width: keyShapeWidth,
+        height: keyShapeHeight
+      }
+    });
+    // 增加右侧圆
+    group.addShape('circle', {
+      attrs: {
+        ...cfg.style,
+        fill: '#fff',
+        opacity: 1,
+        x: cfg.style.width / 2 + cfg.padding[3],
+        y: (cfg.padding[2] - cfg.padding[0]) / 2,
+        r: 5
+      },
+      draggable: true,
+      name: 'combo-circle-shape'
+    });
+    return rect;
+  },
+  afterUpdate: function afterUpdate(cfg, node) {
     const group = node.get('group');
     const circle = group.find(ele => ele.get('name') === 'combo-circle-shape');
-    if (!circle) {
-      group.addShape('circle', {
-        attrs: {
-          ...style,
-          fill: '#fff',
-          x: cfg.style.width / 2 + padding[1],
-          y: 0,
-          r: 5
-        },
-        draggable: true,
-        name: 'combo-circle-shape'
-      });
-    } else {
-      circle.attr({
-        x: cfg.style.width / 2 + padding[1],
-      })
-    }
+    circle.attr({
+      x: cfg.style.width / 2 + cfg.padding[3],
+      y: (cfg.padding[2] - cfg.padding[0]) / 2
+    });
   }
 }, 'rect');
 
@@ -274,8 +278,11 @@ const DefaultCombo = () => {
         modes: {
           default: ['drag-canvas', 'drag-combo', 'drag-node', 'collapse-expand-combo']
         },
+        defaultNode: {
+          shape: 'circle'
+        },
         defaultCombo: {
-          size: [100, 100],
+          // size: [100, 100],
           type: 'circle',
           style: {
             fill: '#ccc',
@@ -348,6 +355,11 @@ const DefaultCombo = () => {
         hidedCombos.forEach(combo => {
           graph.showItem(combo);
         })
+
+        graph.updateItem(graph.getNodes()[0], {
+          x: 100,
+          y: 100
+        });
         // console.log(graph.getCombos()[0]);
         // console.log(graph.getComboChildren(graph.getCombos()[0]));
         //graph.focusItem(graph.getCombos()[0]);

@@ -29,7 +29,7 @@ When there is no node position information in the data, or the location informat
 
 For more information about each layout algorithm, please refer to [Layout API](/en/docs/api/layout/Layout). We will utilize Force Layout in the tutorial.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qnUwSZVjYOMAAAAAAAAAAABkARQnAQ' width=550 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qnUwSZVjYOMAAAAAAAAAAABkARQnAQ' width=550  alt='img'/>
 
 ## Turnoff the fitView
 
@@ -67,7 +67,7 @@ const graph = new G6.Graph({
 
 The result:
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*w4ZfRJW3b5YAAAAAAAAAAABkARQnAQ' width=350 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*w4ZfRJW3b5YAAAAAAAAAAABkARQnAQ' width=350 alt='img' />
 
 The layout balances the forces by moving the nodes. But the nodes are too crowded to show the label clearly now. `linkDistance` in the configuration of force layout can be used to scale the edge length to keep a distance between two adjacent nodes:
 
@@ -84,7 +84,7 @@ const graph = new G6.Graph({
 
 The result:
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AXrdQIm3oCIAAAAAAAAAAABkARQnAQ' width=350 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AXrdQIm3oCIAAAAAAAAAAABkARQnAQ' width=350 alt='img' />
 <br />
 
 > Transformation between different layouts and configurations are described in: [Layout Transformation](/en/docs/manual/middle/layout/#layout-transformation-mechanism).

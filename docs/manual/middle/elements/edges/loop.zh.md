@@ -3,9 +3,9 @@ title: Loop
 order: 6
 ---
 
-G6 内置了折线 loop  边，其默认样式如下。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sPBIR40KLOkAAAAAAAAAAABkARQnAQ' width=100/>
+G6 内置了折线 loop  边，其默认样式如下。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sPBIR40KLOkAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span><br /> loop 边适用于自环边，即起始点与结束点为相同节点的边，在不同端点的边上适用 loop 边将会出现异常效果。 <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*JgYrTabHWskAAAAAAAAAAABkARQnAQ' width='75' height='176' />
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span><br /> loop 边适用于自环边，即起始点与结束点为相同节点的边，在不同端点的边上适用 loop 边将会出现异常效果。 <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*JgYrTabHWskAAAAAAAAAAABkARQnAQ' width='75' height='176' alt='img'/>
 
 ## 使用方法
 
@@ -67,7 +67,7 @@ loop 边支持以下的配置项，对于 Object 类型的配置项将在后面�
 
 ### 样式属性 style
 
-Object 类型。配置项与 [边通用样式属性](/zh/docs/manual/middle/elements/edges/defaultEdge/#样式属性-style) 相同。下面代码演示在实例化图时全局配置方法中配置 `style`，以达到下图效果。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dAV3QIY2ZxkAAAAAAAAAAABkARQnAQ' width=100/>
+Object 类型。配置项与 [边通用样式属性](/zh/docs/manual/middle/elements/edges/defaultEdge/#样式属性-style) 相同。下面代码演示在实例化图时全局配置方法中配置 `style`，以达到下图效果。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dAV3QIY2ZxkAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
 
 ```javascript
 const data = {
@@ -107,7 +107,7 @@ graph.render();
 
 ### 标签文本配置 labelCfg
 
-Object 类型。支持 [边通用标签配置](/zh/docs/manual/middle/elements/edges/defaultEdge/#标签文本-label-及其配置-labelcfg)。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultEdge` 中增加了  `labelCfg`  配置项进行文本的配置，使之达到如下图效果。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6hcBSId1XzAAAAAAAAAAAABkARQnAQ' width=100/>
+Object 类型。支持 [边通用标签配置](/zh/docs/manual/middle/elements/edges/defaultEdge/#标签文本-label-及其配置-labelcfg)。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultEdge` 中增加了  `labelCfg`  配置项进行文本的配置，使之达到如下图效果。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6hcBSId1XzAAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
 
 ```javascript
 const data = {
@@ -134,7 +134,7 @@ Object 类型。通过 `loopCfg`  配置自环的方位、高度、顺逆时针
 - `dist`: 从节点 keyShape 的边缘到自环最顶端的位置，用于指定自环的曲度，默认为节点的高度。
 - `clockwise`: 指定是否顺时针画环，默认为  `true`。
 
-基于上面 [样式属性 style](#XQFb2) 中的代码，下面代码在 `defaultEdge` 中增加了  `loopCfg`  配置项进行文本的配置，使之达到如下图效果。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z9dwTZvACcEAAAAAAAAAAABkARQnAQ' width=100/>
+基于上面 [样式属性 style](#XQFb2) 中的代码，下面代码在 `defaultEdge` 中增加了  `loopCfg`  配置项进行文本的配置，使之达到如下图效果。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z9dwTZvACcEAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
 
 ```javascript
 const data = {

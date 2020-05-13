@@ -3,7 +3,7 @@ title: Polyline
 order: 2
 ---
 
-A built-in edge Polyline has the default style as below.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aRHcQZStrPgAAAAAAAAAAABkARQnAQ' width=150/>
+A built-in edge Polyline has the default style as below.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aRHcQZStrPgAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 ## Usage
 
@@ -88,7 +88,7 @@ labelCfg: {
 - `radius`, he border radius of the bend;
 - `offset`, The minimum distance between the bend and the source/target node, `5` by default.
 
-The other style properties are the same as the common style property of edge. Refer to [Built-in Edges]. The following code shows how to configure the `style` globally when instantiating a Graph.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SzMGQ70SLwEAAAAAAAAAAABkARQnAQ' width=150/>
+The other style properties are the same as the common style property of edge. Refer to [Built-in Edges]. The following code shows how to configure the `style` globally when instantiating a Graph.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SzMGQ70SLwEAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 ```javascript
 const data = {
@@ -135,7 +135,7 @@ graph.render();
 
 ### labelCfg
 
-`labelCfg` is an object which is the same as the [Common Edge Label Properties](/en/docs/manual/middle/elements/edges/defaultEdge/#label-and-labelcfg). Base on the code in [style](#style) section, we add `labelCfg` to `defaultEdge`.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HT4OTobglpoAAAAAAAAAAABkARQnAQ' width=150/>
+`labelCfg` is an object which is the same as the [Common Edge Label Properties](/en/docs/manual/middle/elements/edges/defaultEdge/#label-and-labelcfg). Base on the code in [style](#style) section, we add `labelCfg` to `defaultEdge`.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HT4OTobglpoAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 ```javascript
 const data = {

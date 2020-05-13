@@ -5,7 +5,7 @@ order: 5
 
 ## Triangle
 
-G6 内置了三角形  Triangle 节点，其默认样式如下。标签文本位于三角形下方。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FY1XQZHEc6YAAAAAAAAAAABkARQnAQ' width=100/>
+G6 内置了三角形  Triangle 节点，其默认样式如下。标签文本位于三角形下方。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FY1XQZHEc6YAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
 
 ## 使用方法
 
@@ -77,16 +77,16 @@ const graph = new G6.Graph({
 });
 ```
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HuGHTrWfGYsAAAAAAAAAAABkARQnAQ' width=100/>
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hsOBSo1sFFAAAAAAAAAAAABkARQnAQ' width=100/>
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*irgPRrU3JdEAAAAAAAAAAABkARQnAQ' width=100/>
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*yxEXQK-P4nsAAAAAAAAAAABkARQnAQ' width=100/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HuGHTrWfGYsAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hsOBSo1sFFAAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*irgPRrU3JdEAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*yxEXQK-P4nsAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
 
 > 上图分别是将 `direction` 配置为 `'up'`，`'down'`，`'left'`，`'right'` 的结果
 
 ### 样式属性 style
 
-Object 类型。支持 [节点通用样式](/zh/docs/manual/middle/elements/nodes/defaultNode#样式属性-style)。通过 `style` 配置来修改节点的填充色、描边等属性。下面代码演示在实例化图时全局配置方法中配置 `style`，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6-qaTJkpsKYAAAAAAAAAAABkARQnAQ' width=100/>
+Object 类型。支持 [节点通用样式](/zh/docs/manual/middle/elements/nodes/defaultNode#样式属性-style)。通过 `style` 配置来修改节点的填充色、描边等属性。下面代码演示在实例化图时全局配置方法中配置 `style`，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6-qaTJkpsKYAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
 
 ```javascript
 const data = {
@@ -120,7 +120,7 @@ graph.render();
 
 ### 标签文本配置 labelCfg
 
-Object 类型。通过 `labelCfg` 配置标签文本。支持 [节点通用标签配置](/zh/docs/manual/middle/elements/nodes/defaultNode/#标签文本-label-及其配置-labelcfg)。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了  `labelCfg`  配置项进行文本的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5KkKRaDXqXgAAAAAAAAAAABkARQnAQ' width=100/>
+Object 类型。通过 `labelCfg` 配置标签文本。支持 [节点通用标签配置](/zh/docs/manual/middle/elements/nodes/defaultNode/#标签文本-label-及其配置-labelcfg)。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了  `labelCfg`  配置项进行文本的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5KkKRaDXqXgAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
 
 ```javascript
 const data = {
@@ -156,7 +156,7 @@ const graph = new G6.Graph({
 | stroke    | 圆点的边框颜色     | String  | 默认为 `'#72CC4A'` |
 | lineWidth | 圆点边框的宽度     | Number  | 默认为 `1`         |
 
-基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了  `linkPoints`  配置项进行连入点的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aB-PT4nzU_oAAAAAAAAAAABkARQnAQ' width=100/>
+基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了  `linkPoints`  配置项进行连入点的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aB-PT4nzU_oAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
 
 ```javascript
 const data = {
@@ -191,7 +191,7 @@ Object 类型。通过配置 `icon`，可以在圆上显示小图标。
 | img        | icon 的图片地址   | String     | 默认有一个如下图中的图片                      |
 | **offset** | **icon 的偏移量** | **Number** | **默认为 0，triangle 节点的 icon 特有的配置** |
 
-基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `icon`  配置项进行图标的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2w62R5ZYtVAAAAAAAAAAAABkARQnAQ' width=100/>
+基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `icon`  配置项进行图标的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2w62R5ZYtVAAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
 
 ```javascript
 const data = {

@@ -9,6 +9,8 @@ import CollapseExpandVEdge from './component/collapse-expand-vedge';
 import ComboCollapseExpandTree from './component/combo-collapse-expand-tree';
 import ComboExample from './component/combo-example'
 import ComboDragCollapseExpand from './component/combo-drag-collapse-expand';
+import RegisterRectCombo from './component/register-rect-combo';
+import RegisterCircleCombo from './component/register-circle-combo';
 
 export default { title: 'Combo' };
 
@@ -18,6 +20,12 @@ storiesOf('Combo', module)
   ))
   .add('register combo', () => (
     <RegisterCombo />
+  ))
+  .add('register rect combo', () => (
+    <RegisterRectCombo />
+  ))
+  .add('register circle combo', () => (
+    <RegisterCircleCombo />
   ))
   .add('collapse expand', () => (
     <CollapseExpand />

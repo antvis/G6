@@ -9,7 +9,7 @@ G6 提供描边的**线性渐变**和填充的**环形渐变**两种形式。
 
 #### 示例
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lX-fSbaOrn0AAAAAAAAAAABkARQnAQ' width='750' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lX-fSbaOrn0AAAAAAAAAAABkARQnAQ' width='750' alt='img'/>
 
 > 说明：`l` 表示使用线性渐变，绿色的字体为可变量，由用户自己填写。
 
@@ -27,7 +27,7 @@ stroke: 'l(0) 0:#ffffff 0.5:#7ec2f3 1:#1890ff'
 
 #### 示例
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*U68WTpjAqscAAAAAAAAAAABkARQnAQ' width='750' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*U68WTpjAqscAAAAAAAAAAABkARQnAQ' width='750' alt='img'/>
 
 > 说明：r 表示使用放射状渐变，绿色的字体为可变量，由用户自己填写，开始圆的 x y r 值均为相对值，0 至 1 范围。
 

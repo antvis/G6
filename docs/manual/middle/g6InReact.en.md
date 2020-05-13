@@ -11,7 +11,7 @@ The main difference between using G6 in React and HTML is that you need to guara
 
 In this demo, we will implement a simple flow diagram as the figure below:
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*L8pRS5HCPXUAAAAAAAAAAABkARQnAQ' width=800/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*L8pRS5HCPXUAAAAAAAAAAABkARQnAQ' width=800 alt='img'/>
 
 ### Implementation
 

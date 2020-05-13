@@ -29,7 +29,7 @@ comboItem.hide();
 
 ## Example
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*N96mRKpyYZIAAAAAAAAAAABkARQnAQ' width=150/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*N96mRKpyYZIAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 In this example, we bind the listeners to node clicking, edge clicking, and canvas clicking. And show/hide items in the inside the listeners:
 

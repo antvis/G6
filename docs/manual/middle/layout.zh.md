@@ -66,7 +66,7 @@ const graph = new G6.Graph({
 
 #### Random
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M5FySIdhX4oAAAAAAAAAAABkARQnAQ' width='400'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M5FySIdhX4oAAAAAAAAAAABkARQnAQ' width='400' alt='img'/>
 
 <br />**描述**：随机布局。 <br />**API**：[Random API](/zh/docs/api/layout/Graph#random) <br />**参数**：
 
@@ -79,7 +79,7 @@ const graph = new G6.Graph({
 
 #### Force
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*oDbHRJc5td8AAAAAAAAAAABkARQnAQ' width='500' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*oDbHRJc5td8AAAAAAAAAAABkARQnAQ' width='500'  alt='img'/>
 
 <br /> **描述**：经典力导向布局。 <br /> **API**：[Force API](/zh/docs/api/layout/Graph#force) <br /> **参数**：与 d3.js 的力导布局参数相对应。
 
@@ -91,7 +91,7 @@ const graph = new G6.Graph({
 | edgeStrength | Number / Function | 示例 1: 1 <br />示例 2:<br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 10;<br />  }<br />  return 1;<br />} | null | 边的作用力，默认根据节点的出入度自适应。可以使用回调函数的形式对不同对节点定义不同边作用力（如示例 2） |
 | preventOverlap | Boolean | false | false | 是否防止重叠，必须配合属性 `nodeSize` ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测。若未设置 `nodeSize` ，则根据节点数据中的 `size` 进行碰撞检测。若二者都未设置，则默认以 10 为节点大小进行碰撞检测 |
 | nodeSize | Array / Number | 20 | undefined | 节点大小（直径）。用于碰撞检测。<br />若不指定，则根据传入的数据节点中的 `size`  字段计算。若即不指定，节点中也没有 `size`，则默认大小为 10 |
-| nodeSpacing<br /><br /> | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150/><br />`preventOverlap` 为 `true` 时生效，防止重叠时节点边缘间距的最小值。可以是回调函数，为不同节点设置不同的最小间距，如示例 2 所示<br /> |
+| nodeSpacing<br /><br /> | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />`preventOverlap` 为 `true` 时生效，防止重叠时节点边缘间距的最小值。可以是回调函数，为不同节点设置不同的最小间距，如示例 2 所示<br /> |
 | alphaDecay | Number | 0.03 | 0.028 | 迭代阈值的衰减率。范围 [0, 1]，0.028 对应迭代数为 300 |
 | alphaMin | Number | 0.03 | 0.001 | 停止迭代的阈值 |
 | alpha | Number | 0.1 | 0.3 | 当前阈值 |
@@ -103,7 +103,7 @@ const graph = new G6.Graph({
 
 #### Fruchterman
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*DibyQYaI2qYAAAAAAAAAAABkARQnAQ' width='400' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*DibyQYaI2qYAAAAAAAAAAABkARQnAQ' width='400'  alt='img'/>
 
 <br />**描述**：Fruchterman 布局，一种力导布局。 <br />**API**：[Fruchterman API](/zh/docs/api/layout/Graph/#fruchterman) <br />**参数**：
 
@@ -119,9 +119,9 @@ const graph = new G6.Graph({
 
 #### Circular
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*s_29Rbja9lkAAAAAAAAAAABkARQnAQ' width='200' />
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qw1ES7nYvr8AAAAAAAAAAABkARQnAQ' width='200' />
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mCXwQYRV8IkAAAAAAAAAAABkARQnAQ' width='200' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*s_29Rbja9lkAAAAAAAAAAABkARQnAQ' width='200' alt='img' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qw1ES7nYvr8AAAAAAAAAAABkARQnAQ' width='200'  alt='img'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mCXwQYRV8IkAAAAAAAAAAABkARQnAQ' width='200'  alt='img'/>
 
 <br />**描述**：环形布局。 <br />**API**：[Circular API](/zh/docs/api/layout/Graph/#circular) <br />**参数**：
 
@@ -139,7 +139,7 @@ const graph = new G6.Graph({
 
 #### Radial
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FZIpRKpJo_MAAAAAAAAAAABkARQnAQ' width='200' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FZIpRKpJo_MAAAAAAAAAAABkARQnAQ' width='200' alt='img' />
 
 <br />**描述**：辐射状布局。 <br />**API**：[Radial API](/zh/docs/api/layout/Graph/#radial) <br />**参数**：
 
@@ -153,7 +153,7 @@ const graph = new G6.Graph({
 | preventOverlap | Boolean | false | false | 是否防止重叠，必须配合属性 `nodeSize` ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测。<br />：<br />若未设置 `nodeSize`，则将会根据数据中节点的 `size` 字段数值进行碰撞检测计算。若二者皆未设置，则以节点大小为 `10` 进行计算。 |
 | maxPreventOverlapIteration | Number | 500 | 200 | 防止重叠步骤的最大迭代次数 |
 | nodeSize | Number | 10 | 10 | 节点大小（直径）。用于防止节点重叠时的碰撞检测。<br />：<br />若未设置则使用数据中节点的 `size` 字段数值进行碰撞检测计算。若二者皆未设置，则以节点大小为 `10` 进行计算。 |
-| nodeSpacing<br /> | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cFq4QbXVx7sAAAAAAAAAAABkARQnAQ' width=150/><br />`preventOverlap` 为 `true` 时生效，防止重叠时节点边缘间距的最小值。可以是回调函数，为不同节点设置不同的最小间距，如示例 2 所示<br /> |
+| nodeSpacing<br /> | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cFq4QbXVx7sAAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />`preventOverlap` 为 `true` 时生效，防止重叠时节点边缘间距的最小值。可以是回调函数，为不同节点设置不同的最小间距，如示例 2 所示<br /> |
 | strictRadial | Boolean | true | false | 是否必须是严格的 radial 布局，即每一层的节点严格布局在一个环上。`preventOverlap` 为 `true` 时生效。详见 [Radial-strictRadial API](/zh/docs/api/layout/Graph/#strictradial)<br />- 当 `preventOverlap` 为 `true`，且 `strictRadial` 为 `false` 时，有重叠的节点严格沿着所在的环展开，但在一个环上若节点过多，可能无法完全避免节点重叠。<br />- 当 `preventOverlap` 为 `true`，且 `strictRadial` 为 `true`  时，允许同环上重叠的节点不严格沿着该环布局，可以在该环的前后偏移以避免重叠。<br /> |
 | sortBy | String | 'data' / 'cluster' | undefined | 同层节点布局后相距远近的依据。默认 `undefined` ，表示根据数据的拓扑结构（节点间最短路径）排布，即关系越近/点对间最短路径越小的节点将会被尽可能排列在一起；`'data'` 表示按照节点在数据中的顺序排列，即在数据顺序上靠近的节点将会尽可能排列在一起；也可以指定为节点数据中的某个字段名，例如 `'cluster'`、`'name'` 等（必须在数据中存在） |
 | sortStrength | Number | 10 | 10 | 同层节点根据 `sortBy` 排列的强度，数值越大，`sortBy` 指定的方式计算出距离越小的越靠近。`sortBy` 不为 `undefined` 时生效 |
@@ -161,7 +161,7 @@ const graph = new G6.Graph({
 
 #### MDS
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6OPTT7bz5sUAAAAAAAAAAABkARQnAQ' width=400/><br />**描述**：高维数据降维算法布局。<br />**API**：[MDS API](/zh/docs/api/layout/Graph/#mds)<br />**参数**：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6OPTT7bz5sUAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**描述**：高维数据降维算法布局。<br />**API**：[MDS API](/zh/docs/api/layout/Graph/#mds)<br />**参数**：
 
 | 参数名 | 类型 | 示例 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -171,7 +171,7 @@ const graph = new G6.Graph({
 
 #### Dagre
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RQEORY5A_LoAAAAAAAAAAABkARQnAQ' width=250/><br />**描述**：层次布局。<br />**API**：[Dagre API](/zh/docs/api/layout/Graph/#dagre)<br />**参数**：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RQEORY5A_LoAAAAAAAAAAABkARQnAQ' width=250 alt='img'/><br />**描述**：层次布局。<br />**API**：[Dagre API](/zh/docs/api/layout/Graph/#dagre)<br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -186,7 +186,7 @@ const graph = new G6.Graph({
 
 #### Concentric
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ux0-SYBy6Y8AAAAAAAAAAABkARQnAQ' width=300/><br />注：该算法参考 <a href='https://github.com/cytoscape/cytoscape.js' target='_blank'>cytoscape.js</a>，遵守 MIT 开源协议。<br />**描述**：同心圆布局。<br />**API**：[Concentric API](/zh/docs/api/layout/Graph/#concentric)<br />**参数**：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ux0-SYBy6Y8AAAAAAAAAAABkARQnAQ' width=300 alt='img'/><br />注：该算法参考 <a href='https://github.com/cytoscape/cytoscape.js' target='_blank'>cytoscape.js</a>，遵守 MIT 开源协议。<br />**描述**：同心圆布局。<br />**API**：[Concentric API](/zh/docs/api/layout/Graph/#concentric)<br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -204,7 +204,7 @@ const graph = new G6.Graph({
 
 #### Grid
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5U3_TZVolpEAAAAAAAAAAABkARQnAQ' width=300/><br />注：该算法参考 <a href='https://github.com/cytoscape/cytoscape.js' target='_blank'>cytoscape.js</a>，遵守 MIT 开源协议。<br />**描述**：网格布局。<br />**API**：[Grid API](/zh/docs/api/layout/Graph/#grid)<br />**参数**：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5U3_TZVolpEAAAAAAAAAAABkARQnAQ' width=300 alt='img'/><br />注：该算法参考 <a href='https://github.com/cytoscape/cytoscape.js' target='_blank'>cytoscape.js</a>，遵守 MIT 开源协议。<br />**描述**：网格布局。<br />**API**：[Grid API](/zh/docs/api/layout/Graph/#grid)<br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -221,7 +221,7 @@ const graph = new G6.Graph({
 
 #### Combo Force
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AngFRpOo4SAAAAAAAAAAAABkARQnAQ' width=300 alt='' /><br />**API**：[Combo Force API](/zh/docs/api/layout/Graph/#combo-force)<br />**参数**：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AngFRpOo4SAAAAAAAAAAAABkARQnAQ' width=300 alt='img' /><br />**API**：[Combo Force API](/zh/docs/api/layout/Graph/#combo-force)<br />**参数**：
 
 
 | 参数名 | 类型 | 示例 | 默认值 | 说明 |
@@ -238,7 +238,7 @@ const graph = new G6.Graph({
 | collideNodeStrength | Number | 0.4 | 0.5 | 设置防止节点之间重叠的力强度，范围 [0, 1] |
 | collideComboStrength | Number | 0.4 | 0.5 | 防止 combo 之间重叠的力强度，范围 [0, 1] |
 | nodeSize | Array / Number | 10 | 10 | 节点大小（直径）。用于碰撞检测。若不指定，则根据传入的节点的 size 属性计算。若即不指定，节点中也没有 `size`，则默认大小为 `10` |
-| nodeSpacing<br /><br /> | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150/><br />`preventNodeOverlap` 或 `preventOverlap` 为 `true` 时生效, 防止重叠时节点边缘间距的最小值。可以是回调函数, 为不同节点设置不同的最小间距, 如示例 2 所示<br /> |
+| nodeSpacing<br /><br /> | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />`preventNodeOverlap` 或 `preventOverlap` 为 `true` 时生效, 防止重叠时节点边缘间距的最小值。可以是回调函数, 为不同节点设置不同的最小间距, 如示例 2 所示<br /> |
 | comboSpacing<br /><br /> | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | `preventComboOverlap` 或 `preventOverlap` 为 `true` 时生效, 防止重叠时 combo 边缘间距的最小值。可以是回调函数, 为不同节点设置不同的最小间距, 如示例 2 所示<br /> |
 | comboPadding<br /><br /> | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | Combo 内部的 padding 值，不用于渲染，仅用于计算力。推荐设置为与视图上 combo 内部 padding 值相同的值<br /> |
 | alphaDecay | Number | 0.03 | 0.028 | 迭代阈值的衰减率。范围 [0, 1]，0.028 对应迭代数为 300 |
@@ -289,32 +289,32 @@ const graph = new G6.TreeGraph({
 
 #### compactBox
 
-**描述**：紧凑树布局。从根节点开始，同一深度的节点在同一层，并且布局时会将节点大小考虑进去。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FltbQZAa-nMAAAAAAAAAAABkARQnAQ' width=400/><br />**API**：[CompactBox API](/zh/docs/api/layout/TreeGraph/#compactbox-紧凑树布局)<br />**参数**：
+**描述**：紧凑树布局。从根节点开始，同一深度的节点在同一层，并且布局时会将节点大小考虑进去。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FltbQZAa-nMAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**API**：[CompactBox API](/zh/docs/api/layout/TreeGraph/#compactbox-紧凑树布局)<br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
-| direction | String | 'TB' / 'BT' / 'LR' / 'RL' / 'H' / 'V' | 'LR' | layout 的方向。<br />- TB —— 根节点在上，往下布局<br />- BT —— 根节点在下，往上布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SuygR5RZRH0AAAAAAAAAAABkARQnAQ' width=150/>     <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iJPBTJkTqssAAAAAAAAAAABkARQnAQ' width=150/><br />（左）TB。（右）BT。<br />- LR —— 根节点在左，往右布局<br />- RL —— 根节点在右，往左布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YrtaQIKLC4IAAAAAAAAAAABkARQnAQ' width=150/>             <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*3fJsTYzHRHcAAAAAAAAAAABkARQnAQ' width=150/> <br />（左）LR。（右）RL。<br />- H —— 根节点在中间，水平对称布局<br />- V —— 根节点在中间，垂直对称布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*812BT4Ep15MAAAAAAAAAAABkARQnAQ' width=150/>          <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GXdZSIBOllsAAAAAAAAAAABkARQnAQ' width=150/><br />> （左）H。（右）V。 |
+| direction | String | 'TB' / 'BT' / 'LR' / 'RL' / 'H' / 'V' | 'LR' | layout 的方向。<br />- TB —— 根节点在上，往下布局<br />- BT —— 根节点在下，往上布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SuygR5RZRH0AAAAAAAAAAABkARQnAQ' width=150 alt='img'/>     <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iJPBTJkTqssAAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />（左）TB。（右）BT。<br />- LR —— 根节点在左，往右布局<br />- RL —— 根节点在右，往左布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YrtaQIKLC4IAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>             <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*3fJsTYzHRHcAAAAAAAAAAABkARQnAQ' width=150 alt='img'/> <br />（左）LR。（右）RL。<br />- H —— 根节点在中间，水平对称布局<br />- V —— 根节点在中间，垂直对称布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*812BT4Ep15MAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>          <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GXdZSIBOllsAAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />> （左）H。（右）V。 |
 | getId | Function | (d) => {<br />  // d 是一个节点<br />  return d.id + 'node';<br />} | undefined | 节点 id 的回调函数 |
 | getHeight | Function | (d) => {<br />  // d 是一个节点<br />  return 10;<br />} | undefined | 节点高度的回调函数 |
 | getWidth | Function | (d) => {<br />  // d 是一个节点<br />  return 20;<br />} | undefined | 节点宽度的回调函数 |
 | getVGap | Function | (d) => {<br />  // d 是一个节点<br />  return 100;<br />} | undefined | 节点纵向间距的回调函数 |
 | getHGap | Function | (d) => {<br />// d 是一个节点<br />  return 50;<br />} | undefined | 节点横向间距的回调函数 |
-| radial | Boolean | true | false | 是否按照辐射状布局。若 `radial` 为 `true`，建议 `direction` 设置为 `'LR'` 或 `'RL'`：<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0plfTrg12FkAAAAAAAAAAABkARQnAQ' width=150/> |
+| radial | Boolean | true | false | 是否按照辐射状布局。若 `radial` 为 `true`，建议 `direction` 设置为 `'LR'` 或 `'RL'`：<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0plfTrg12FkAAAAAAAAAAABkARQnAQ' width=150 alt='img'/> |
 
 #### dendrogram
 
-**描述**：生态树布局。不管数据的深度多少，总是叶节点对齐。不考虑节点大小，布局时将节点视为 1 个像素点。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XehWSKAWdrwAAAAAAAAAAABkARQnAQ' width=300/><br />**API**：[Dendrogram API](/zh/docs/api/layout/TreeGraph/#dendrogram-生态树布局)<br />**参数**：
+**描述**：生态树布局。不管数据的深度多少，总是叶节点对齐。不考虑节点大小，布局时将节点视为 1 个像素点。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XehWSKAWdrwAAAAAAAAAAABkARQnAQ' width=300 alt='img'/><br />**API**：[Dendrogram API](/zh/docs/api/layout/TreeGraph/#dendrogram-生态树布局)<br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
-| direction | String | 'TB' / 'BT' / 'LR' / 'RL' / 'H' / 'V' | 'LR' | layout 的方向。<br />- TB —— 根节点在上，往下布局<br />- BT —— 根节点在下，往上布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*CN4JRZ-ws8EAAAAAAAAAAABkARQnAQ' width=150/><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*r0c_ToY56xkAAAAAAAAAAABkARQnAQ' width=150/><br />> （左）TB。（右）BT。<br />- LR —— 根节点在左，往右布局<br />- RL —— 根节点在右，往左布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*fvNVS73Mk40AAAAAAAAAAABkARQnAQ' width=70/><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZfGGSoyO6UoAAAAAAAAAAABkARQnAQ' width=70/><br />> （左）LR。（右）RL。<br />- H —— 根节点在中间，水平对称布局<br />- V —— 根节点在中间，垂直对称布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lVDyTKOI8o4AAAAAAAAAAABkARQnAQ' width=150/><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*N_MmT7ZT1PIAAAAAAAAAAABkARQnAQ' width=150/><br />> （左）H。（右）V。 |
+| direction | String | 'TB' / 'BT' / 'LR' / 'RL' / 'H' / 'V' | 'LR' | layout 的方向。<br />- TB —— 根节点在上，往下布局<br />- BT —— 根节点在下，往上布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*CN4JRZ-ws8EAAAAAAAAAAABkARQnAQ' width=150 alt='img'/><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*r0c_ToY56xkAAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />> （左）TB。（右）BT。<br />- LR —— 根节点在左，往右布局<br />- RL —— 根节点在右，往左布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*fvNVS73Mk40AAAAAAAAAAABkARQnAQ' width=70 alt='img'/><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZfGGSoyO6UoAAAAAAAAAAABkARQnAQ' width=70 alt='img'/><br />> （左）LR。（右）RL。<br />- H —— 根节点在中间，水平对称布局<br />- V —— 根节点在中间，垂直对称布局<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lVDyTKOI8o4AAAAAAAAAAABkARQnAQ' width=150 alt='img'/><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*N_MmT7ZT1PIAAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />> （左）H。（右）V。 |
 | nodeSep | Number | 50 | 0 | 节点间距 |
 | rankSep | Number | 100 | 0 | 层与层之间的间距 |
-| radial | Boolean | true | false | 是否按照辐射状布局。若 `radial` 为 `true`，建议 `direction` 设置为 `'LR'` 或 `'RL'`：<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2WUNTb6kp3MAAAAAAAAAAABkARQnAQ' width=150/> |
+| radial | Boolean | true | false | 是否按照辐射状布局。若 `radial` 为 `true`，建议 `direction` 设置为 `'LR'` 或 `'RL'`：<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2WUNTb6kp3MAAAAAAAAAAABkARQnAQ' width=150 alt='img'/> |
 
 #### indented
 
-**描述**：缩进树布局。每个元素会占一行/一列。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zuBlR4oBIE0AAAAAAAAAAABkARQnAQ' width=150/>
+**描述**：缩进树布局。每个元素会占一行/一列。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zuBlR4oBIE0AAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 **API**：[Indented API](/zh/docs/api/layout/TreeGraph/#indented-缩进树布局)<br />**参数**：
 
@@ -328,11 +328,11 @@ const graph = new G6.TreeGraph({
 
 #### mindmap
 
-**描述**：脑图布局。深度相同的节点将会被放置在同一层，与 compactBox 不同的是，布局不会考虑节点的大小。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sRi6Q6Qrm-oAAAAAAAAAAABkARQnAQ' width=400/><br />**API**：[Mindmap API](/zh/docs/api/layout/TreeGraph/#mindmap-脑图树布局)<br />**参数**：
+**描述**：脑图布局。深度相同的节点将会被放置在同一层，与 compactBox 不同的是，布局不会考虑节点的大小。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sRi6Q6Qrm-oAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**API**：[Mindmap API](/zh/docs/api/layout/TreeGraph/#mindmap-脑图树布局)<br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
-| direction | String | 'H' / 'V' | 'H' | layout 的方向。<br />- H：horizontal（水平）—— 根节点的子节点分成两部分横向放置在根节点左右两侧<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EXdUT4xCVV4AAAAAAAAAAABkARQnAQ' width=150/><br />- V：vertical （竖直）—— 将根节点的所有孩子纵向排列<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*yOpETr8s_-kAAAAAAAAAAABkARQnAQ' width=150/> |
+| direction | String | 'H' / 'V' | 'H' | layout 的方向。<br />- H：horizontal（水平）—— 根节点的子节点分成两部分横向放置在根节点左右两侧<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EXdUT4xCVV4AAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />- V：vertical （竖直）—— 将根节点的所有孩子纵向排列<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*yOpETr8s_-kAAAAAAAAAAABkARQnAQ' width=150 alt='img'/> |
 | getHeight | Function | (d) => {<br />  // d 是一个节点<br />  return 10;<br />} | undefined | 节点高度的回调函数 |
 | getWidth | Function | (d) => {<br />  // d 是一个节点<br />  return 20;<br />} | undefined | 节点宽度的回调函数 |
 | getVGap | Function | (d) => {<br />  // d 是一个节点<br />  return 100;<br />} | 18 | 节点纵向间距的回调函数 |
@@ -381,7 +381,7 @@ changeData(data);
 
 #### 期待效果
 
-初始化时使用默认 random 布局，2000 ms 后更换为允许节点重叠的 force 布局，4000 ms 后更换为不允许节点重叠的 force 布局，6000 ms 后更换数据为 `data2`。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6k-iQ405hEEAAAAAAAAAAABkARQnAQ' width=600/>
+初始化时使用默认 random 布局，2000 ms 后更换为允许节点重叠的 force 布局，4000 ms 后更换为不允许节点重叠的 force 布局，6000 ms 后更换数据为 `data2`。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6k-iQ405hEEAAAAAAAAAAABkARQnAQ' width=600 alt='img'/>
 
 #### 完整代码
 

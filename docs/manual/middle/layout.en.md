@@ -68,7 +68,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 
 #### Random
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M5FySIdhX4oAAAAAAAAAAABkARQnAQ' width='400'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M5FySIdhX4oAAAAAAAAAAABkARQnAQ' width='400' alt='img'/>
 
 <br />**Description**: Randomizes the node positions. <br />**API**: [Random API](/en/docs/api/layout/Graph#random) <br />**Configuration**:
 
@@ -81,7 +81,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 
 #### Force
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*oDbHRJc5td8AAAAAAAAAAABkARQnAQ' width='500' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*oDbHRJc5td8AAAAAAAAAAABkARQnAQ' width='500' alt='img'/>
 
 <br /> **Description**: Classical force-directed layout algorithm. <br /> **API**: [Force API](/en/docs/api/layout/Graph#force) <br /> **Configuration**: Corresponds to the configurations in force-directed algorithm in d3.js
 
@@ -93,7 +93,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 | edgeStrength | Number | Example 1: 1 <br />Example 2:<br />d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 10;<br />  }<br />  return 1;<br />} | null | The strength of edge force. Calculated according to the degree of nodes by default (Example 2) |
 | preventOverlap | Boolean | false | false | Whether to prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. If the `nodeSize` and size in data are both undefiend, `nodeSize` will be assigned to 10 by default |
 | nodeSize | Array / Number | 20 | undefined | The diameter of the node. It is used for preventing node overlappings. If `nodeSize` is not assigned, the size property in node data will take effect. If the size in node data does not exist either, `nodeSize` is assigned to 10 by default |
-| nodeSpacing<br /><br /> | Number / Function | Example 1: 10<br />Example 2:  <br />d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150/><br />Takes effect when `preventOverlap` is `true`. It is the minimum distance between nodes to prevent node overlappings. It can be a function to define different distances for different nodes (example 2)<br /> |
+| nodeSpacing<br /><br /> | Number / Function | Example 1: 10<br />Example 2:  <br />d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />Takes effect when `preventOverlap` is `true`. It is the minimum distance between nodes to prevent node overlappings. It can be a function to define different distances for different nodes (example 2)<br /> |
 | alphaDecay | Number | 0.03 | 0.028 | The decay ratio of alpha for convergence. THe range is [0, 1]. 0.028 corresponds to 300 times iteration |
 | alphaMin | Number | 0.03 | 0.001 | The threshold to stop the iteration |
 | alpha | Number | 0.1 | 0.3 | The current alpha of convergence |
@@ -105,7 +105,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 
 #### Fruchterman
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*DibyQYaI2qYAAAAAAAAAAABkARQnAQ' width='400' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*DibyQYaI2qYAAAAAAAAAAABkARQnAQ' width='400' alt='img'/>
 
 <br />**Description**: Fruchterman is a kind of force-directed layout. <br />**API**: [Fruchterman API](/en/docs/api/layout/Graph#fruchterman) <br />**Configuration**:
 
@@ -121,9 +121,9 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 
 #### Circular
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*s_29Rbja9lkAAAAAAAAAAABkARQnAQ' width='200' />
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qw1ES7nYvr8AAAAAAAAAAABkARQnAQ' width='200' />
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mCXwQYRV8IkAAAAAAAAAAABkARQnAQ' width='200' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*s_29Rbja9lkAAAAAAAAAAABkARQnAQ' width='200'  alt='img'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qw1ES7nYvr8AAAAAAAAAAABkARQnAQ' width='200' alt='img' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mCXwQYRV8IkAAAAAAAAAAABkARQnAQ' width='200' alt='img' />
 
 <br />**Description**: Arranges the nodes on a circle. <br />**API**: [Circular API](/en/docs/api/layout/Graph#circular) <br />**Configuration**:
 
@@ -141,7 +141,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 
 #### Radial
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FZIpRKpJo_MAAAAAAAAAAABkARQnAQ' width='200' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FZIpRKpJo_MAAAAAAAAAAABkARQnAQ' width='200' alt='img' />
 
 <br />**Description**: Arranges the nodes to concentrics centered at a focus node according to their shortest path length to the focus node. <br />**API**: [Radial API](/en/docs/api/layout/Graph#radial) <br />**Configuration**:
 
@@ -155,7 +155,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 | preventOverlap | Boolean | false | false | Whether to prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. |
 | maxPreventOverlapIteration | Number | 500 | 200 | The maximum iteration number of preventing node overlappings |
 | nodeSize | Number | 10 | 10 | The diameter of the node. It is used for preventing node overlappings. <br />: <br />The size in the node data will take effect if `nodeSize` is not assigned. If the size in node data does not exist either, `nodeSize` is assigned to 10 by default |
-| nodeSpacing<br /> | Number / Function | Example 1: 10<br />Example 2:  <br />d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cFq4QbXVx7sAAAAAAAAAAABkARQnAQ' width=150/><br />Takes effect when `preventOverlap` is `true`. It is the minimum distance between nodes to prevent node overlappings. It can be a function to define different distances for different nodes (example 2)<br /> |
+| nodeSpacing<br /> | Number / Function | Example 1: 10<br />Example 2:  <br />d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cFq4QbXVx7sAAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />Takes effect when `preventOverlap` is `true`. It is the minimum distance between nodes to prevent node overlappings. It can be a function to define different distances for different nodes (example 2)<br /> |
 | strictRadial | Boolean | true | false | Whether to layout the graph as strict radial, which means the nodes will be arranged on each circle strictly. Takes effect only when `preventOverlap` is `true`. Refer to [Radial-strictRadial API](/en/docs/api/layout/Graph/#strictradial)<br />- When `preventOverlap` is `true`, and `strictRadial` is `false`, the overlapped nodes are arranged along their circles strictly. But for the situation that there are too many nodes on a circle to be arranged, the overlappings might not be eliminated completely <br />- When `preventOverlap` is `true`, and `strictRadial` is `true` , the overlapped nodes can be arranged around their circle with small offsets.<br /> |
 | sortBy | String | 'data' / 'cluster' | undefined | Sort the nodes of the same level. `undefined` by default, which means place the nodes with connections as close as possible; `'data'` means place the node according to the ordering in data, the closer the nodes in data ordering, the closer the nodes will be placed. `sortBy` also can be assigned to any name of property in nodes data, such as `'cluster'`, `'name'` and so on (make sure the property exists in the data) |
 | sortStrength | Number | 10 | 10 | The strength to sort the nodes in the same circle. Larger number means place the nodes with smaller distance of `sortBy` more closely. Takes effect only when `sortBy` is not `undefined` |
@@ -163,7 +163,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 
 #### MDS
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6OPTT7bz5sUAAAAAAAAAAABkARQnAQ' width=400/><br />**Description**: MDS (Multidimensional scaling) is used for project high dimensional data onto low dimensional space.<br />**API**: [MDS API](/en/docs/api/layout/Graph/#mds)<br />**Configuration**:
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6OPTT7bz5sUAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**Description**: MDS (Multidimensional scaling) is used for project high dimensional data onto low dimensional space.<br />**API**: [MDS API](/en/docs/api/layout/Graph/#mds)<br />**Configuration**:
 
 | Name | Type | Example | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -173,7 +173,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 
 #### Dagre
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RQEORY5A_LoAAAAAAAAAAABkARQnAQ' width=250/><br />**Description**: An hierarchical layout.<br />**API**: [Dagre API](/en/docs/api/layout/Graph#dagre)<br />**Configuration**:
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RQEORY5A_LoAAAAAAAAAAABkARQnAQ' width=250 alt='img'/><br />**Description**: An hierarchical layout.<br />**API**: [Dagre API](/en/docs/api/layout/Graph#dagre)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -188,7 +188,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 
 #### Concentric
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ux0-SYBy6Y8AAAAAAAAAAABkARQnAQ' width=300/><br />Tips: Concentric layout in G6 refers to <a href='https://github.com/cytoscape/cytoscape.js' target='_blank'>cytoscape.js</a>, we obey the MIT license <br />**Description**: Arranges the nodes on several concentric circles.<br />**API**: [Concentric API](/en/docs/api/layout/Graph#concentric)<br />**Configuration**:
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ux0-SYBy6Y8AAAAAAAAAAABkARQnAQ' width=300 alt='img'/><br />Tips: Concentric layout in G6 refers to <a href='https://github.com/cytoscape/cytoscape.js' target='_blank'>cytoscape.js</a>, we obey the MIT license <br />**Description**: Arranges the nodes on several concentric circles.<br />**API**: [Concentric API](/en/docs/api/layout/Graph#concentric)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -206,7 +206,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 
 #### Grid
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5U3_TZVolpEAAAAAAAAAAABkARQnAQ' width=300/><br />Tips: Concentric layout in G6 refers to <a href='https://github.com/cytoscape/cytoscape.js' target='_blank'>cytoscape.js</a>, we obey the MIT license.<br />**Description**: Orders the nodes according to the configurations and arranged them onto grid.<br />**API**: [Grid API](/en/docs/api/layout/Graph#grid)<br />**Configuration**:
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5U3_TZVolpEAAAAAAAAAAABkARQnAQ' width=300 alt='img'/><br />Tips: Concentric layout in G6 refers to <a href='https://github.com/cytoscape/cytoscape.js' target='_blank'>cytoscape.js</a>, we obey the MIT license.<br />**Description**: Orders the nodes according to the configurations and arranged them onto grid.<br />**API**: [Grid API](/en/docs/api/layout/Graph#grid)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -224,7 +224,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 
 #### Combo Force
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AngFRpOo4SAAAAAAAAAAAABkARQnAQ' width=300 alt='' /><br />**API**：[Combo Force API](/en/docs/api/layout/Graph/#combo-force)<br />**Parameters**：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AngFRpOo4SAAAAAAAAAAAABkARQnAQ' width=300 alt='img' /><br />**API**：[Combo Force API](/en/docs/api/layout/Graph/#combo-force)<br />**Parameters**：
 
 
 | Name | Type | Example/Options | Default | Description |
@@ -241,7 +241,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 | collideNodeStrength | Number | 0.4 | 0.5 | The strength of force for preventing node overlappings. The range is [0, 1] |
 | collideComboStrength | Number | 0.4 | 0.5 | The strength of force for preventing combo overlappings. The range is [0, 1] |
 | nodeSize | Array / Number | 10 | 10 | The diameter of the node. It is used for preventing node overlappings. If `nodeSize` is not assigned, the size property in node data will take effect. If the size in node data does not exist either, `nodeSize` is assigned to 10 by default |
-| nodeSpacing<br /><br /> | Number / Function | e.g. 1 : 10<br />e.g. 2 : <br />d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150/><br />Takes effect when `preventNodeOverlap` or `preventOverlap` is `true`. It is the minimum distance between nodes to prevent node overlappings. It can be a function to define different distances for different nodes (example 2)<br /> |
+| nodeSpacing<br /><br /> | Number / Function | e.g. 1 : 10<br />e.g. 2 : <br />d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />Takes effect when `preventNodeOverlap` or `preventOverlap` is `true`. It is the minimum distance between nodes to prevent node overlappings. It can be a function to define different distances for different nodes (example 2)<br /> |
 | comboSpacing<br /><br /> | Number / Function | e.g. 1 : 10<br />e.g. 2 : <br />d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | Takes effect when `preventComboOverlap` or `preventOverlap` is `true`. It is the minimum distance between combos to prevent combo overlappings. It can be a function to define different distances for different combos (example 2)<br /> |
 | comboPadding<br /><br /> | Number / Function | e.g. 1 : 10<br />e.g. 2 : <br />d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | The padding value inside each combo. It is not about rendering, only used for force calculation<br /> |
 | alphaDecay | Number | 0.03 | 0.028 | The decay ratio of alpha for convergence. The range is [0, 1]. 0.028 corresponds to 300 iterations |
@@ -292,32 +292,32 @@ const graph = new G6.TreeGraph({
 
 #### compactBox
 
-**Description**: CompactBox is the default layout for TreeGraph. It will consider the bounding box of each node when layout.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FltbQZAa-nMAAAAAAAAAAABkARQnAQ' width=400/><br />**API**: [CompactBox API](/en/docs/api/layout/TreeGraph/#compactbox)<br />**Configuration**:
+**Description**: CompactBox is the default layout for TreeGraph. It will consider the bounding box of each node when layout.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FltbQZAa-nMAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**API**: [CompactBox API](/en/docs/api/layout/TreeGraph/#compactbox)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
-| direction | String | 'TB' / 'BT' / 'LR' / 'RL' / 'H' / 'V' | 'LR' | The direction of layout. <br />- TB —— Root is on the top, layout from the top to the bottom<br />- BT —— Root is on the bottom, layout from the bottom to the top<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SuygR5RZRH0AAAAAAAAAAABkARQnAQ' width=150/>     <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iJPBTJkTqssAAAAAAAAAAABkARQnAQ' width=150/><br />(Left)TB. (Right)BT.<br />- LR —— Root is on the left, layout from the left to the right<br />- RL —— Root is on the right, layout from the right to the left<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YrtaQIKLC4IAAAAAAAAAAABkARQnAQ' width=150/>             <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*3fJsTYzHRHcAAAAAAAAAAABkARQnAQ' width=150/> <br />(Left)LR. (Right)RL. <br />- H —— Root is on the middle, layout in horizontal symmetry.<br />- V —— Root is on the middle, layout in vertical symmetry.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*812BT4Ep15MAAAAAAAAAAABkARQnAQ' width=150/>          <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GXdZSIBOllsAAAAAAAAAAABkARQnAQ' width=150/><br />> (Left)H. (Right)V. |
+| direction | String | 'TB' / 'BT' / 'LR' / 'RL' / 'H' / 'V' | 'LR' | The direction of layout. <br />- TB —— Root is on the top, layout from the top to the bottom<br />- BT —— Root is on the bottom, layout from the bottom to the top<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SuygR5RZRH0AAAAAAAAAAABkARQnAQ' width=150 alt='img'/>     <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iJPBTJkTqssAAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />(Left)TB. (Right)BT.<br />- LR —— Root is on the left, layout from the left to the right<br />- RL —— Root is on the right, layout from the right to the left<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YrtaQIKLC4IAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>             <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*3fJsTYzHRHcAAAAAAAAAAABkARQnAQ' width=150 alt='img'/> <br />(Left)LR. (Right)RL. <br />- H —— Root is on the middle, layout in horizontal symmetry.<br />- V —— Root is on the middle, layout in vertical symmetry.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*812BT4Ep15MAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>          <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GXdZSIBOllsAAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />> (Left)H. (Right)V. |
 | getId | Function | (d) => {<br />  // d is a node<br />  return d.id + 'node';<br />} | undefined | Sets the id for each node |
 | getHeight | Function | (d) => {<br />  // d is a node<br />  return 10;<br />} | undefined | The height of each node |
 | getWidth | Function | (d) => {<br />  // d is a node<br />  return 20;<br />} | undefined | he width of each node |
 | getVGap | Function | (d) => {<br />  // d is a node<br />  return 100;<br />} | undefined | The vertical separation of nodes |
 | getHGap | Function | (d) => {<br />// d is a node<br />  return 50;<br />} | undefined | The horizontal separation of nodes |
-| radial | Boolean | true | false | If layout the graph in radial style. If `radial` is `true`, we recommend to set `direction` to `'LR'` or `'RL'`: <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0plfTrg12FkAAAAAAAAAAABkARQnAQ' width=150/> |
+| radial | Boolean | true | false | If layout the graph in radial style. If `radial` is `true`, we recommend to set `direction` to `'LR'` or `'RL'`: <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0plfTrg12FkAAAAAAAAAAABkARQnAQ' width=150 alt='img'/> |
 
 #### dendrogram
 
-**Description**: Arranges all the leaves on the same level. It is appropriate for hierarchical clustering. It does not consider the node size, which will be regarded as 1 px.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XehWSKAWdrwAAAAAAAAAAABkARQnAQ' width=300/><br />**API**: [Dendrogram API](/en/docs/api/layout/TreeGraph/#dendrogram)<br />**Configuration**:
+**Description**: Arranges all the leaves on the same level. It is appropriate for hierarchical clustering. It does not consider the node size, which will be regarded as 1 px.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XehWSKAWdrwAAAAAAAAAAABkARQnAQ' width=300 alt='img'/><br />**API**: [Dendrogram API](/en/docs/api/layout/TreeGraph/#dendrogram)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
-| direction | String | 'TB' / 'BT' / 'LR' / 'RL' / 'H' / 'V' | 'LR' | The direction of layout. <br />- TB —— Root is on the top, layout from the top to the bottom<br />- BT —— Root is on the bottom, layout from the bottom to the top<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*CN4JRZ-ws8EAAAAAAAAAAABkARQnAQ' width=150/><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*r0c_ToY56xkAAAAAAAAAAABkARQnAQ' width=150/><br />> (Left)TB. (Right)BT. <br />- LR —— Root is on the left, layout from the left to the right<br />- RL —— Root is on the right, layout from the right to the left<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*fvNVS73Mk40AAAAAAAAAAABkARQnAQ' width=70/><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZfGGSoyO6UoAAAAAAAAAAABkARQnAQ' width=70/><br />> (Left)LR. (Right)RL. <br />- H —— Root is on the middle, layout in horizontal symmetry.<br />- V —— Root is on the middle, layout in vertical symmetry.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lVDyTKOI8o4AAAAAAAAAAABkARQnAQ' width=150/><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*N_MmT7ZT1PIAAAAAAAAAAABkARQnAQ' width=150/><br />> (Left)H. (Right)V. |
+| direction | String | 'TB' / 'BT' / 'LR' / 'RL' / 'H' / 'V' | 'LR' | The direction of layout. <br />- TB —— Root is on the top, layout from the top to the bottom<br />- BT —— Root is on the bottom, layout from the bottom to the top<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*CN4JRZ-ws8EAAAAAAAAAAABkARQnAQ' width=150 alt='img'/><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*r0c_ToY56xkAAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />> (Left)TB. (Right)BT. <br />- LR —— Root is on the left, layout from the left to the right<br />- RL —— Root is on the right, layout from the right to the left<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*fvNVS73Mk40AAAAAAAAAAABkARQnAQ' width=70 alt='img'/><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZfGGSoyO6UoAAAAAAAAAAABkARQnAQ' width=70 alt='img'/><br />> (Left)LR. (Right)RL. <br />- H —— Root is on the middle, layout in horizontal symmetry.<br />- V —— Root is on the middle, layout in vertical symmetry.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lVDyTKOI8o4AAAAAAAAAAABkARQnAQ' width=150 alt='img'/><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*N_MmT7ZT1PIAAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />> (Left)H. (Right)V. |
 | nodeSep | Number | 50 | 0 | Node separation |
 | rankSep | Number | 100 | 0 | Level separation |
-| radial | Boolean | true | false | Wheter layout the graph in radial style. If `radial` is `true`, we recommend to set `direction` to `'LR'` or `'RL'`: <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2WUNTb6kp3MAAAAAAAAAAABkARQnAQ' width=150/> |
+| radial | Boolean | true | false | Wheter layout the graph in radial style. If `radial` is `true`, we recommend to set `direction` to `'LR'` or `'RL'`: <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2WUNTb6kp3MAAAAAAAAAAABkARQnAQ' width=150 alt='img'/> |
 
 #### indented
 
-**Description**: Indented layout represents the hierarchy by indent between them. Each node will take a row/column. It is appropriate for file directory.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zuBlR4oBIE0AAAAAAAAAAABkARQnAQ' width=150/>
+**Description**: Indented layout represents the hierarchy by indent between them. Each node will take a row/column. It is appropriate for file directory.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zuBlR4oBIE0AAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 **API**: [Indented API](/en/docs/api/layout/TreeGraph/#indented)<br />**Configuration**:
 
@@ -331,11 +331,11 @@ const graph = new G6.TreeGraph({
 
 #### mindmap
 
-**Description**: Mindmap arranged the nodes with same depth on the same level. Different from compactBox, it does not consider the size of nodes while doing layout.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sRi6Q6Qrm-oAAAAAAAAAAABkARQnAQ' width=400/><br />**API**: [Mindmap API](/en/docs/api/layout/TreeGraph/#mindmap)<br />**Configuration**:
+**Description**: Mindmap arranged the nodes with same depth on the same level. Different from compactBox, it does not consider the size of nodes while doing layout.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sRi6Q6Qrm-oAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**API**: [Mindmap API](/en/docs/api/layout/TreeGraph/#mindmap)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
-| direction | String | 'H' / 'V' | 'H' | layout direction<br />- H: Root is on the middle, layout in horizontal symmetry.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EXdUT4xCVV4AAAAAAAAAAABkARQnAQ' width=150/><br />- V: Root is on the middle, layout in vertical symmetry.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*yOpETr8s_-kAAAAAAAAAAABkARQnAQ' width=150/> |
+| direction | String | 'H' / 'V' | 'H' | layout direction<br />- H: Root is on the middle, layout in horizontal symmetry.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EXdUT4xCVV4AAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />- V: Root is on the middle, layout in vertical symmetry.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*yOpETr8s_-kAAAAAAAAAAABkARQnAQ' width=150 alt='img'/> |
 | getHeight | Function | (d) => {<br />  // d is a node<br />  return 10;<br />} | undefined | The height of each node |
 | getWidth | Function | (d) => {<br />  // d is a node<br />  return 20;<br />} | undefined | The width of each node |
 | getVGap | Function | (d) => {<br />  // d is a node<br />  return 100;<br />} | 18 | The vertical separation of nodes |
@@ -384,7 +384,7 @@ changeData(data);
 
 #### Expected Effect
 
-In the first stage, the graph is arranged by random layout. Transform to force layout with node overlappings after 2000ms, force layout without node overlappings after 4000ms, change data to `data2` after 6000ms.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6k-iQ405hEEAAAAAAAAAAABkARQnAQ' width=600/>
+In the first stage, the graph is arranged by random layout. Transform to force layout with node overlappings after 2000ms, force layout without node overlappings after 4000ms, change data to `data2` after 6000ms.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6k-iQ405hEEAAAAAAAAAAABkARQnAQ' width=600 alt='img'/>
 
 #### Complete Code
 

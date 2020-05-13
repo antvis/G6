@@ -120,7 +120,7 @@ graph.render(); // 渲染图
 
 ### 最终的结果
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*srtDT5slbN8AAAAAAAAAAABkARQnAQ' width=400>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*srtDT5slbN8AAAAAAAAAAABkARQnAQ' width=400 alt='img' />
 
 ## 完整代码
 

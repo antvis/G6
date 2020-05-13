@@ -3,7 +3,7 @@ title: Quadratic
 order: 3
 ---
 
-A built-in edge Quadratic has the default style as below.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YUOlRZaDDZgAAAAAAAAAAABkARQnAQ' width=150/>
+A built-in edge Quadratic has the default style as below.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YUOlRZaDDZgAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 ## Usage
 
@@ -61,7 +61,9 @@ Quadratic edge has the [Common Edge Properties](/en/docs/manual/middle/elements/
 | controlPoints | The array of the control points for the quadratic curve | Array | If it is not assgined, the default control point on the center of the curve will take effect. e.g. `[{ x: 10, y: 20 }]` |
 | stateStyles | The styles in different states | Object | Refer to [Configure Styles for State](/en/docs/manual/middle/states/state#configure-styles-for-state) |
 
-### style `style` is an object which is the same as the [Common Edge Style Properties](/en/docs/manual/middle/elements/edges/defaultEdge/#style). The following code shows how to configure the `style` globally when instantiating a Graph.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*TWjZRqKStFcAAAAAAAAAAABkARQnAQ' width=150/>
+### style
+
+`style` is an object which is the same as the [Common Edge Style Properties](/en/docs/manual/middle/elements/edges/defaultEdge/#style). The following code shows how to configure the `style` globally when instantiating a Graph.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*TWjZRqKStFcAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 ```javascript
 const data = {
@@ -107,7 +109,7 @@ graph.render();
 
 ### labelCfg
 
-`labelCfg` is an object which is the same as the [Common Edge Label Properties](/en/docs/manual/middle/elements/edges/defaultEdge/#label-and-labelcfg). Base on the code in [style](#style) section, we add `labelCfg` to `defaultEdge`. <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*E4ZYQ7xM0IsAAAAAAAAAAABkARQnAQ' width=150/>
+`labelCfg` is an object which is the same as the [Common Edge Label Properties](/en/docs/manual/middle/elements/edges/defaultEdge/#label-and-labelcfg). Base on the code in [style](#style) section, we add `labelCfg` to `defaultEdge`. <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*E4ZYQ7xM0IsAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 ```javascript
 const data = {

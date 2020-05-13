@@ -9,7 +9,7 @@ In [Graphics Group](/en/docs/manual/advanced/keyconcept/graphics-group), we stat
 
 Sometimes, we want to draw the edges on the top. For example, highlighting a node and its related edges. In this situation, you can configure `groupByTypes` of the graph to false and call `toFront()` and `toBack()` to order the nodes or edges.
 
-The expected effect is: the related nodes and edges are drawed on the top of others when the mouse enters a node; Restore the visual levels (zIndex) when the mouse moves out of the node. <a href='https://codepen.io/Yanyan-Wang/pen/GRRNzGN' target='_blank'>Complete Code of the Demo</a>. <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*uWGAR5-w-TcAAAAAAAAAAABkARQnAQ' width=150/>
+The expected effect is: the related nodes and edges are drawed on the top of others when the mouse enters a node; Restore the visual levels (zIndex) when the mouse moves out of the node. <a href='https://codepen.io/Yanyan-Wang/pen/GRRNzGN' target='_blank'>Complete Code of the Demo</a>. <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*uWGAR5-w-TcAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 There are 3 steps to implement the expected effect:
 
@@ -110,7 +110,7 @@ const graph = new G6.Graph({
 });
 ```
 
-We obtain this result now:<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cbiwTZ5dwP0AAAAAAAAAAABkARQnAQ' width=150/>
+We obtain this result now:<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cbiwTZ5dwP0AAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 ## Step 2 Place the Nodes on the Top
 
@@ -145,7 +145,7 @@ nodes.forEach(node => {
 graph.paint();
 ```
 
-<br />Now, all the nodes are drawed on the top of edges:<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*8TnuS7pkUfwAAAAAAAAAAABkARQnAQ' width=150/>
+<br />Now, all the nodes are drawed on the top of edges:<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*8TnuS7pkUfwAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 ## Step 3 Change the Visual Levels in the Listener Function of Mouse Entering
 

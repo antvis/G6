@@ -5,17 +5,17 @@ order: 1
 
 G6 provides abundant [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode), including [circle](/en/docs/manual/middle/elements/nodes/circle), [rect](/en/docs/manual/middle/elements/nodes/rect, [ellipse](/en/docs/manual/middle/elements/nodes/ellipse), [diamond](/en/docs/manual/middle/elements/nodes/diamond), [triangle](/en/docs/manual/middle/elements/nodes/triangle), [star](/en/docs/manual/middle/elements/nodes/star), [image](/en/docs/manual/middle/elements/nodes/image), [modelRect](/en/docs/manual/middle/elements/nodes/modelRect). Besides, the custom machanism allows the users to design their own type of nodes by `G6.registerNode('nodeName', options)`. A node with complex graphics shapes, complex interactions, fantastic animations can be implemented easily.
 
-In this document, we will introduce the custom enodeby five examples: <br />1. Register a bran-new edge; <br />2. Register an edge by extending a built-in edge; <br />3. Register an edge with interactions and styles; <br />4. Register an edge with custom arrow;<br /> 5. Custom Node with DOM.</strong>
-
-
+In this document, we will introduce the custom node mechinism by five examples: 
 <br />
-<strong>1. Register a bran-new node: </strong>Draw the graphics; Optimize the performance.
+<strong>1. Register a brand new node: </strong>Draw the graphics; Optimize the performance.
 <br />
 <strong>2. Register a node by extending a built-in node: </strong>Add extra graphics shape; Add animation.
 <br />
 <strong>3. Adjust the anchorPoints(link points);</strong>
 <br />
 <strong>4. Register a node with state styles: </strong>Response the states change by styles and animations
+<strong>5. Custom Node with DOM </strong>
+
 
 As stated in [Shape](/en/docs/manual/middle/keyconcept/shape-keyshape), there are two points should be satisfied when customize a node:
 
@@ -63,8 +63,8 @@ G6.registerNode(
      */
     afterUpdate(cfg, node) {},
     /**
-     * Response the node states change. Mainly the interaction states. The business states should be handled in the draw function
-     * The states 'selected' and 'active' will be responsed on keyShape by default. To response more states, implement this function.
+     * Should be rewritten when you want to response the state changes by animation. 
+     * Responsing the state changes by styles can be configured, which is described in the document Middle-Behavior & Event-State
      * @param  {String} name The name of the state
      * @param  {Object} value The value of the state
      * @param  {Node} node The node item
@@ -86,10 +86,10 @@ G6.registerNode(
 - `draw` is required if the custom node does not extend any parent;
 - `update` is not required. If it is undefined, the `draw` will be called when updating the node, which means all the graphics will be cleared and repaint;
 - `afterDraw` and `afterUpdate` are used for extending the exited nodes in general. e.g. adding extra image on rect node, adding animation on a circle node, ...;
-- In general, `setState` is not required;
+- `setState` should be rewrite when you want to response the state changes by animation. Responsing the state changes by simple styles can be achieved by [Configure Styles for State](/en/docs/manual/middle/states/state#configure-styles-for-state);
 - `getAnchorPoints` is only required when you want to contrain the link points for nodes and their related edges. The anchorPoints can be assigned in the node data as well.
 
-## 1. Register a Bran-new Edge
+## 1. Register a Brand New Node
 
 ### Render the Node
 
@@ -158,15 +158,15 @@ G6.registerNode('diamond', {
 We have registered a dimond node. Attention: you need to assign `name` and `draggable` for the shapes added in the custom node, where the `name` can be not unique with any value you want. `draggable: true` means that the shape is allowed to response the drag events. Only when `draggable: true`, the interact behavior `'drag-node'` can be responsed on this shape. In the codes above, if you only assign `draggable: true` to the `keyShape` but not the `label`, the drag events will only be responsed on the `keyShape`.
 
 
-The following code use the diamond node:
+The following code uses the diamond node:
 
 ```javascript
 const data = {
   nodes: [
-    { x: 50, y: 100, type: 'diamond' }, // The simplest form
-    { x: 150, y: 100, type: 'diamond', size: [50, 100] }, // Add the size
-    { x: 250, y: 100, color: 'red', type: 'diamond' }, // Add the color
-    { x: 350, y: 100, label: '菱形', type: 'diamond' }, // Add the label
+    { id: 'node1', x: 50, y: 100, type: 'diamond' }, // The simplest form
+    { id: 'node2', x: 150, y: 100, type: 'diamond', size: [50, 100] }, // Add the size
+    { id: 'node3', x: 250, y: 100, color: 'red', type: 'diamond' }, // Add the color
+    { id: 'node4', x: 350, y: 100, label: '菱形', type: 'diamond' }, // Add the label
   ],
 };
 const graph = new G6.Graph({
@@ -475,7 +475,7 @@ G6.registerNode('dom-node', {
         html: `
         <div style="background-color: #fff; border: 2px solid #5B8FF9; border-radius: 5px; width: ${cfg.size[0]-5}px; height: ${cfg.size[1]-5}px; display: flex;">
           <div style="height: 100%; width: 33%; background-color: #CDDDFD">
-            <img alt="" style="line-height: 100%; padding-top: 6px; padding-left: 8px;" src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q_FQT6nwEC8AAAAAAAAAAABkARQnAQ" width="20" height="20" />  
+            <img alt="img" style="line-height: 100%; padding-top: 6px; padding-left: 8px;" src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q_FQT6nwEC8AAAAAAAAAAABkARQnAQ" width="20" height="20" />  
           </div>
           <span style="margin:auto; padding:auto; color: #5B8FF9">${cfg.label}</span>
         </div>
@@ -530,7 +530,7 @@ G6.registerNode('dom-node', {
         html: `
         <div onclick="handleClick('Hello')" style="background-color: #fff; border: 2px solid #5B8FF9; border-radius: 5px; width: ${cfg.size[0]-5}px; height: ${cfg.size[1]-5}px; display: flex;">
           <div style="height: 100%; width: 33%; background-color: #CDDDFD">
-            <img alt="" style="line-height: 100%; padding-top: 6px; padding-left: 8px;" src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q_FQT6nwEC8AAAAAAAAAAABkARQnAQ" width="20" height="20" />  
+            <img alt="img" style="line-height: 100%; padding-top: 6px; padding-left: 8px;" src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q_FQT6nwEC8AAAAAAAAAAABkARQnAQ" width="20" height="20" />  
           </div>
           <span style="margin:auto; padding:auto; color: #5B8FF9">${cfg.label}</span>
         </div>
