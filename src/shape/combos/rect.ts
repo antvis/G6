@@ -7,27 +7,6 @@ import Shape from '../shape';
 import { ILabelConfig, ShapeOptions } from '../../interface/shape';
 import { isNil } from '@antv/util';
 
-const collapseIcon = (x, y, r) => {
-  return [
-    ['M', x - r, y],
-    ['a', r, r, 0, 1, 0, r * 2, 0],
-    ['a', r, r, 0, 1, 0, -r * 2, 0],
-    ['M', x - r + 4, y],
-    ['L', x - r + 2 * r - 4, y],
-  ];
-};
-const expandIcon = (x, y, r) => {
-  return [
-    ['M', x - r, y],
-    ['a', r, r, 0, 1, 0, r * 2, 0],
-    ['a', r, r, 0, 1, 0, -r * 2, 0],
-    ['M', x - r + 4, y],
-    ['L', x - r + 2 * r - 4, y],
-    ['M', x - r + r, y - r + 4],
-    ['L', x, y + r - 4],
-  ];
-};
-
 Shape.registerCombo(
   'rect',
   {
@@ -53,17 +32,7 @@ Shape.registerCombo(
       anchorPoints: [
         [0, 0.5],
         [1, 0.5],
-      ],
-      collapseIcon: {
-        show: true,
-        collapseSymbol: collapseIcon,
-        expandSymbol: expandIcon,
-        r: 6,
-        lineWidth: 1,
-        stroke: '#595959',
-        offsetX: 10,
-        offsetY: 10
-      }
+      ]
     },
     shapeType: 'rect',
     labelPosition: 'top',
@@ -75,7 +44,6 @@ Shape.registerCombo(
         name: 'rect-combo',
         draggable: true,
       });
-      (this as any).drawCollapseIcon(cfg, group, style);
       return keyShape;
     },
     // 私有方法，不希望扩展的 Combo 复写这个方法
@@ -83,7 +51,7 @@ Shape.registerCombo(
       const labelPosition = labelCfg.position || this.labelPosition;
       const { style: cfgStyle } = cfg;
       let padding = cfg.padding || this.options.padding;
-      if (isNumber(padding)) padding = [ padding, padding, padding, padding ];
+      if (isNumber(padding)) padding = [padding, padding, padding, padding];
 
       let { refX, refY } = labelCfg;
       // 考虑 refX 和 refY = 0 的场景，不用用 labelCfg.refX || Global.nodeLabel.refY
@@ -93,10 +61,10 @@ Shape.registerCombo(
       if (isNil(refY)) {
         refY = this.refY as number; // 不居中时的偏移量
       }
-  
+
       const leftDis = cfgStyle.width / 2 + padding[3];
       const topDis = cfgStyle.height / 2 + padding[0];
-  
+
       let style: any;
       switch (labelPosition) {
         case 'top':
@@ -191,83 +159,6 @@ Shape.registerCombo(
       }
       return styles;
     },
-    /**
-     * 绘制节点上的LinkPoints
-     * @param {Object} cfg data数据配置项
-     * @param {Group} group Group实例
-     */
-    drawCollapseIcon(cfg: ComboConfig, group: GGroup, style: any) {
-      const { collapseIcon: defaultCollapseIcon } = this.options as ComboConfig;
-      const collapseIcon = mix({}, defaultCollapseIcon, cfg.collapseIcon);
-      let padding: number | number[] = cfg.padding || this.options.padding;
-      if (isNumber(padding)) padding = [padding, padding, padding, padding];
-
-      const { show, collapseSymbol, expandSymbol, offsetX, offsetY } = collapseIcon;
-      delete collapseIcon.collapseSymbol;
-      delete collapseIcon.expandSymbol;
-      const r = collapseIcon.r;
-      delete collapseIcon.r;
-  
-      const rightDis = cfg.style.width / 2 + padding[1];
-      const topDis = cfg.style.height / 2 + padding[0];
-
-      if (show) {
-        // left circle
-        const attrs = {
-          r,
-          x: rightDis - r - offsetX,
-          y: -topDis + r + offsetY,
-          ...collapseIcon,
-          symbol: collapseSymbol,
-        };
-
-        group.addShape('marker', {
-          attrs,
-          className: 'collapse-icon',
-          name: 'collapse-icon'
-        });
-      }
-    },
-    /**
-     * 更新 rect combo 的 collapse/expand icon
-     * @param {Object} cfg data数据配置项
-     * @param {Group} group Group实例
-     */
-    updateCollapseIcon(cfg: ComboConfig, item: Item, style: any) {
-      const { collapseIcon: defaultCollapseIcon } = this.options as ComboConfig;
-      const collapseIcon = mix({}, defaultCollapseIcon, cfg.collapseIcon);
-      let padding: number | number[] = cfg.padding || this.options.padding;
-      if (isNumber(padding)) padding = [padding, padding, padding, padding]
-
-      const { show, collapseSymbol, expandSymbol, offsetX, offsetY } = collapseIcon;
-      delete collapseIcon.collapseSymbol;
-      delete collapseIcon.expandSymbol;
-      const r = collapseIcon.r;
-      delete collapseIcon.r;
-  
-      const rightDis = cfg.style.width / 2 + padding[1];
-      const topDis = cfg.style.height / 2 + padding[0];
-
-      const group = item.getContainer();
-      const icon = group.find(element => element.get('name') === 'collapse-icon');
-      const attrs = {
-        r,
-        x: rightDis - r - offsetX,
-        y: -topDis + r + offsetY,
-        ...collapseIcon,
-        symbol: collapseSymbol,
-      }
-      if (!icon && show) {
-        // left circle
-        group.addShape('marker', {
-          attrs,
-          className: 'collapse-icon',
-          name: 'collapse-icon'
-        });
-      } else if (show) {
-        icon.attr({ ...attrs });
-      }
-    },
     update(cfg: ComboConfig, item: Item) {
       const size = (this as ShapeOptions).getSize!(cfg);
       let padding: number | number[] = cfg.padding || this.options.padding;
@@ -317,9 +208,8 @@ Shape.registerCombo(
           ...keyShapeStyle,
         });
       }
-  
+
       (this as any).updateLabel(cfg, item);
-      (this as any).updateCollapseIcon(cfg, item, keyShapeStyle)
     }
   },
   'single-combo',

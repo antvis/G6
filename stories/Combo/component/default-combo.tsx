@@ -4,6 +4,49 @@ import { IGraph } from '../../../src/interface/graph';
 
 let graph: IGraph = null;
 
+G6.registerCombo('rectCircleCombo', {
+  drawShape: (cfg, group) => {
+    const rect = group.addShape('rect', {
+      attrs: {
+        fill: '#f00',
+        x: -50,
+        y: -50,
+        width: 100,
+        height: 100
+      }
+    });
+    return rect;
+  },
+  afterUpdate: function afterUpdate(cfg, node) {
+    const self = this;
+    const padding = cfg.padding || self.options.padding || [10, 10, 10, 10];
+    const style = Object.assign({
+      fill: '#ccc',
+      stroke: '#333',
+      lineWidth: 2,
+    }, cfg.style);
+    const group = node.get('group');
+    const circle = group.find(ele => ele.get('name') === 'combo-circle-shape');
+    if (!circle) {
+      group.addShape('circle', {
+        attrs: {
+          ...style,
+          fill: '#fff',
+          x: cfg.style.width / 2 + padding[1],
+          y: 0,
+          r: 5
+        },
+        draggable: true,
+        name: 'combo-circle-shape'
+      });
+    } else {
+      circle.attr({
+        x: cfg.style.width / 2 + padding[1],
+      })
+    }
+  }
+}, 'rect');
+
 const data = {
   nodes: [
     {
@@ -178,14 +221,6 @@ const DefaultCombo = () => {
             opacity: 0.9
           }
         },
-        // defaultCombo: {
-        //   // size: [100, 100],
-        //   type: 'circle',
-        //   style: {
-        //     fill: '#ccc',
-        //     opacity: 0.9
-        //   }
-        // },
         comboStateStyles: {
           selected: {
             'text-shape': {
