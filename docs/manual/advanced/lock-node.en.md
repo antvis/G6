@@ -1,6 +1,6 @@
 ---
 title: Lock Node
-order: 10
+order: 11
 ---
 
 The functions for locking a node `lock()`, `unlock()`, and `hasLocked()` are supported by the versions from G6 V3.1.4. The locked node will not response the drag event any more. But it still can be moved while dragging and zooming the canvas. You can register a [Custom Behavior](/en/docs/manual/advanced/custom-behavior) to fix the node when dragging and zooming.

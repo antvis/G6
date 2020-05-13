@@ -1,26 +1,21 @@
 ---
-title: 自定义节点
-order: 1
+title: 自定义 Combo
+order: 3
 ---
 
-G6 提供了一系列[内置节点](/zh/docs/manual/middle/elements/nodes/defaultNode)，包括 [circle](/zh/docs/manual/middle/elements/nodes/circle)、[rect](/zh/docs/manual/middle/elements/nodes/rect)、[diamond](/zh/docs/manual/middle/elements/nodes/diamond)、[triangle](/zh/docs/manual/middle/elements/nodes/triangle)、[star](/zh/docs/manual/middle/elements/nodes/star)、[image](/zh/docs/manual/middle/elements/nodes/image)、[modelRect](/zh/docs/manual/middle/elements/nodes/modelRect)。若内置节点无法满足需求，用户还可以通过 `G6.registerNode('nodeName', options)` 进行自定义节点，方便用户开发更加定制化的节点，包括含有复杂图形的节点、复杂交互的节点、带有动画的节点等。
+G6 提供了一系列[内置 Combo](/zh/docs/manual/middle/elements/combos/defaultCombo)，包括 [circle](/zh/docs/manual/middle/elements/combos/circle)、[rect](/zh/docs/manual/middle/elements/combos/rect)。若内置 Combo 无法满足需求，用户还可以通过 `G6.registerCombo ('nodeName', options)` 进行自定义 Combo，方便用户开发更加定制化的 Combo，包括含有复杂图形的 Combo、复杂交互的 Combo、带有动画的 Combo 等。
 
-在本章中我们会通过五个案例，从简单到复杂讲解节点的自定义。这五个案例是：
- <br /> <strong>1. 从无到有的定义节点：</strong>绘制图形；优化性能。 
-<br /> <strong>2. 扩展现有的节点：</strong>附加图形；增加动画。
- <br /> <strong>3. 调整节点的锚点；</strong>
- <br /> <strong>4. 调整节点的鼠标选中/悬浮样式：</strong>样式变化响应；动画响应；
- <br /> <strong>5. 使用 DOM 自定义节点。</strong>
+在本章中，我们通过两个案例，讲解从无到有自定义 Combo、扩展现有 Combo。
 
-通过 [图形 Shape](/zh/docs/manual/middle/keyconcept/shape-keyshape) 章节的学习，我们应该已经知道了自定义节点时需要满足以下两点：
+通过 [图形 Shape](/zh/docs/manual/middle/keyconcept/shape-keyshape) 章节的学习，我们应该已经知道了自定义 Combo 时需要满足以下两点：
 
-- 控制节点的生命周期；
+- 控制 Combo 的生命周期；
 - 解析用户输入的数据，在图形上展示。
 
-G6 中自定义节点的 API 如下：
+G6 中自定义 Combo 的 API 与自定义节点相似，如下：
 
 ```javascript
-G6.registerNode(
+G6.registerCombo(
   'nodeName',
   {
     options: {
@@ -64,33 +59,25 @@ G6.registerNode(
      * @param  {Object} value 状态值
      * @param  {Node} node 节点
      */
-    setState(name, value, node) {},
-    /**
-     * 获取锚点（相关边的连入点）
-     * @param  {Object} cfg 节点的配置项
-     * @return {Array|null} 锚点（相关边的连入点）的数组,如果为 null，则没有控制点
-     */
-    getAnchorPoints(cfg) {},
+    setState(name, value, node) {}
   },
-  extendedNodeName,
+  extendedComboName,
 );
 ```
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️ 注意:</strong></span>
 
 - 如果不从任何现有的节点扩展新节点时，`draw` 方法是必须的；
-- `update` 方法可以不定义：没有指定第三个参数 `extendedNodeName` 时节点更新（`graph.updateItem`，`item.update`）会走 `draw` 方法，所有图形清除重绘；指定了 `extendedNodeName` 时节点更新会走被继承节点类型的 `update` 方法，此时可能会与自定义的 `draw` 方法渲染逻辑不同；
-- `afterDraw`，`afterUpdate` 方法一般用于扩展已有的节点，例如：在矩形节点上附加图片，圆节点增加动画等；
-- `setState` 方法一般也不需要复写，有全局的样式可以替换；
-- `getAnchorPoints` 方法仅在需要限制与边的连接点时才需要复写，也可以在数据中直接指定。
+- `update` 方法可以不定义：没有指定 `extendedComboName` 时 Combo 更新（`graph.updateItem`，`item.update`）会走 `draw` 方法，所有图形清除重绘；指定了 `extendedComboName` 时 Combo 更新会走被继承 Combo 类型的 `update` 方法，此时可能会与自定义的 `draw` 方法渲染逻辑不同；
+- `afterDraw`，`afterUpdate` 方法一般用于扩展已有的 Combo，例如：在 circle 类型的 Combo 上附加图片、增加动画等；
+- `setState` 方法一般也不需要复写，有全局的样式可以替换。
 
-## 1. 从无到有定义节点
+
+## 1. 从无到有定义 Combo
 
 ### 绘制图形
 
-我们自己来实现一个菱形的节点，如下图所示。
-
-> G6 有内置的菱形节点 diamond。为了演示，这里实现了一个自定义的菱形，相当于复写了内置的 diamond。
+我们自己来实现一个如下图所示的 Combo 类型。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LqFCRaKyr0gAAAAAAAAAAABkARQnAQ' alt='img' width='80'/>
 
