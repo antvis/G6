@@ -125,7 +125,7 @@ describe('combo node test', () => {
       const shape = group.get('children')[0];
       expect(shape.attr('fill')).toBe('red');
       expect(shape.attr('width')).toBe(80);
-      expect(group.getCount()).toBe(2);
+      expect(group.getCount()).toBe(1);
       factory.baseUpdate(
         'rect',
         {
@@ -136,8 +136,8 @@ describe('combo node test', () => {
         },
         item,
       );
-      expect(group.getCount()).toBe(3);
-      const label = group.get('children')[2];
+      expect(group.getCount()).toBe(2);
+      const label = group.get('children')[1];
       expect(label.attr('text')).toBe('new rect');
       factory.baseUpdate(
         'rect',
@@ -160,7 +160,7 @@ describe('combo node test', () => {
       setTimeout(() => {
         expect(shape.attr('fill')).toBe('steelblue');
       }, 300);
-      
+
     });
 
     it('active', () => {

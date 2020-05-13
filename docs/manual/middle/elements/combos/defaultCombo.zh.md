@@ -31,7 +31,7 @@ G6 的内置 Combo 包括 circle 和 rect 两种类型，分别如下图所示�
 | label | string | false | 'Combo A' | 该 Combo 的文本标签 |
 | labelCfg | Object | false |  | 该 Combo 的文本标签样式配置项 |
 
-### 样式属性  style
+### 样式属性 style
 
 Object 类型。通过 `style` 配置来修改 Combo 的填充色、边框颜色、阴影等属性。下表是 `style` 对象中常用的配置项：
 
@@ -67,7 +67,7 @@ const graph = new G6.Graph({
 });
 ```
 
-### 标签文本 label 及其配置  labelCfg
+### 标签文本 label 及其配置 labelCfg
 
 `label` String 类型。标签文本的文字内容。<br />`labelCfg` Object 类型。配置标签文本。下面是 `labelCfg` 对象中的常用配置项：
 
