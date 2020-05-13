@@ -68,7 +68,7 @@ graph.render();
 
 结果如下：
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9u0BTpCAn-4AAAAAAAAAAABkARQnAQ' width=345 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9u0BTpCAn-4AAAAAAAAAAABkARQnAQ' width=345 alt='img'/>
 
 如果两个节点之间需要显示 3 条、4 条甚至更多条边，该怎么做呢？
 
@@ -109,7 +109,7 @@ const data = {
 
 结果发现并不对。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9u0BTpCAn-4AAAAAAAAAAABkARQnAQ' width=345 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9u0BTpCAn-4AAAAAAAAAAABkARQnAQ' width=345 alt='img'/>
 
 ## 解决方案
 

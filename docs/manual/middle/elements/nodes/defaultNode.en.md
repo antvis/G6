@@ -3,7 +3,7 @@ title: Built-in Nodes
 order: 0
 ---
 
-The built-in nodes in G6 include circle, rect, ellipse, diamond, triangle, star, image, and modelRect. <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FY3RTbDCz_8AAAAAAAAAAABkARQnAQ' width='750' height='100'>
+The built-in nodes in G6 include circle, rect, ellipse, diamond, triangle, star, image, and modelRect. <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FY3RTbDCz_8AAAAAAAAAAABkARQnAQ' width='750' height='100' alt='img'/>
 
 In this document, we will briefly introduce the built-in nodes in G6, the common property, and the way to configure the node type. To know more about each type of built-in nodes in G6, please refer to the corresponding documents in this directory.
 
@@ -13,14 +13,14 @@ The table below shows the built-in nodes and their special properties:
 
 | Name | Description | Default |
 | --- | --- | --- |
-| circle | Circle node: <br />- `size` is a number representing the diameter<br />- The circle is centered at the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />- More properties are described in [circle](/en/docs/manual/middle/elements/nodes/circle)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*H9TrTIiUEegAAAAAAAAAAABkARQnAQ' width=50/> |
-| rect | Rect node: <br />- `size` is an array, e.g. [100, 50]<br />- The rect in centered at the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />- More properties are described in [rect](/zh/docs/manual/middle/elements/nodes/rect)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SrlHQ5dcCoMAAAAAAAAAAABkARQnAQ' width=50/> |
-| ellipse | Ellipse node: <br />- `size` is an array, representing the lengths of major diameter and minor diameter<br />- The ellipse is centered at the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />- More properties are described in [ellipse](/zh/docs/manual/middle/elements/nodes/ellipse)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RjdlRbuocDIAAAAAAAAAAABkARQnAQ' width=50/> |
-| diamond | Diamond node: <br />- `size` is an array, representing the width and height of the diamond<br />- The diamond is centered on the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />- More properties are described in [diamond](/zh/docs/manual/middle/elements/nodes/diamond)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EjiPRJacFTEAAAAAAAAAAABkARQnAQ' width=50/> |
-| triangle | Triangle node: <br />- `size` is an array, representing the length of the base and the height of the triangle<br />- The triangle is centered on the node position<br />- `color` takes effect on the stroke<br />- he label lays on the bottom of the node by default<br />- More properties are described in [triangle](/zh/docs/manual/middle/elements/nodes/triangle)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_HqXTadbhzAAAAAAAAAAAABkARQnAQ' width=50/> |
-| star | Star node: <br />- `size` is a number, representing the size of the star<br />- The star is centered on the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />- More properties are described in [star](/zh/docs/manual/middle/elements/nodes/star)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_euwQpARvhMAAAAAAAAAAABkARQnAQ' width=50/> |
-| image | Image node: <br />- `size` is an array, representing the width and the height of the image<br />- The image is centered on the node position<br />- `img` The url of the image. It can be assigned in `style` as well<br />- `color` does not take effect<br />- The label lays on the bottom of the node by default<br />- More properties are described in [image](/zh/docs/manual/middle/elements/nodes/image)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*gtNxQY2RvMwAAAAAAAAAAABkARQnAQ' width=50/> |
-| modelRect | Card node: <br />- `size` is an array, representing the width and the height of the card<br />- The modelRect is centered on the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />- If `description` exists, it will lay below the label<br />- More properties are described in [modelRect](/zh/docs/manual/middle/elements/nodes/modelRect)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*MqR9QKfimxUAAAAAAAAAAABkARQnAQ' width=100/><br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9HKrSKtmNGQAAAAAAAAAAABkARQnAQ' width=100/> |
+| circle | Circle node: <br />- `size` is a number representing the diameter<br />- The circle is centered at the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />- More properties are described in [circle](/en/docs/manual/middle/elements/nodes/circle)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*H9TrTIiUEegAAAAAAAAAAABkARQnAQ' width=50 alt='img'/> |
+| rect | Rect node: <br />- `size` is an array, e.g. [100, 50]<br />- The rect in centered at the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />- More properties are described in [rect](/zh/docs/manual/middle/elements/nodes/rect)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SrlHQ5dcCoMAAAAAAAAAAABkARQnAQ' width=50 alt='img'/> |
+| ellipse | Ellipse node: <br />- `size` is an array, representing the lengths of major diameter and minor diameter<br />- The ellipse is centered at the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />- More properties are described in [ellipse](/zh/docs/manual/middle/elements/nodes/ellipse)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RjdlRbuocDIAAAAAAAAAAABkARQnAQ' width=50 alt='img'/> |
+| diamond | Diamond node: <br />- `size` is an array, representing the width and height of the diamond<br />- The diamond is centered on the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />- More properties are described in [diamond](/zh/docs/manual/middle/elements/nodes/diamond)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EjiPRJacFTEAAAAAAAAAAABkARQnAQ' width=50 alt='img'/> |
+| triangle | Triangle node: <br />- `size` is an array, representing the length of the base and the height of the triangle<br />- The triangle is centered on the node position<br />- `color` takes effect on the stroke<br />- he label lays on the bottom of the node by default<br />- More properties are described in [triangle](/zh/docs/manual/middle/elements/nodes/triangle)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_HqXTadbhzAAAAAAAAAAAABkARQnAQ' width=50 alt='img'/> |
+| star | Star node: <br />- `size` is a number, representing the size of the star<br />- The star is centered on the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />- More properties are described in [star](/zh/docs/manual/middle/elements/nodes/star)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_euwQpARvhMAAAAAAAAAAABkARQnAQ' width=50 alt='img'/> |
+| image | Image node: <br />- `size` is an array, representing the width and the height of the image<br />- The image is centered on the node position<br />- `img` The url of the image. It can be assigned in `style` as well<br />- `color` does not take effect<br />- The label lays on the bottom of the node by default<br />- More properties are described in [image](/zh/docs/manual/middle/elements/nodes/image)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*gtNxQY2RvMwAAAAAAAAAAABkARQnAQ' width=50 alt='img'/> |
+| modelRect | Card node: <br />- `size` is an array, representing the width and the height of the card<br />- The modelRect is centered on the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />- If `description` exists, it will lay below the label<br />- More properties are described in [modelRect](/zh/docs/manual/middle/elements/nodes/modelRect)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*MqR9QKfimxUAAAAAAAAAAABkARQnAQ' width=100 alt='img'/><br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9HKrSKtmNGQAAAAAAAAAAABkARQnAQ' width=100 alt='img'/> |
 
 ## Common Property
 
@@ -274,7 +274,7 @@ graph.data(data);
 graph.render();
 ```
 
-The result: <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6FzARrXBsUEAAAAAAAAAAABkARQnAQ' width='750' height='100'>
+The result: <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6FzARrXBsUEAAAAAAAAAAABkARQnAQ' width='750' height='100' alt='img'/>
 
 - The label of the triangle and image node are layed on the bottom, and the others are layed on the center by default.
 
@@ -302,7 +302,7 @@ By writing the properties into the data, we adjust the label position, color, an
 }
 ```
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*fQ9yRYlo6zwAAAAAAAAAAABkARQnAQ' width='750' height='100'>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*fQ9yRYlo6zwAAAAAAAAAAABkARQnAQ' width='750' height='100' alt='img'/>
 
 Then, we add some description for the node with `'node-modelRect'` as its `id`:
 
@@ -317,7 +317,7 @@ Then, we add some description for the node with `'node-modelRect'` as its `id`:
 }
 ```
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OnuCTYqfXKgAAAAAAAAAAABkARQnAQ' width='750' height='100'>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OnuCTYqfXKgAAAAAAAAAAABkARQnAQ' width='750' height='100' alt='img'/>
 
 ## Related Reading
 

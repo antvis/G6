@@ -3,7 +3,7 @@ title: Built-in Combos
 order: 0
 ---
 
-The built-in Combos in G6 include circle and rect types. <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*roGET6COTs4AAAAAAAAAAABkARQnAQ' width='250'>
+The built-in Combos in G6 include circle and rect types. <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*roGET6COTs4AAAAAAAAAAABkARQnAQ' width='250' alt='img'/>
 
 In this document, we will briefly introduce the built-in Combos in G6, the common property, and the way to configure the combo type. To know more about each type of built-in combos in G6, please refer to the corresponding documents in this directory.
 
@@ -13,8 +13,8 @@ The table below shows the built-in Combos and their special properties:
 
 | Name | Description | Default |
 | --- | --- | --- |
-| circle | Circle Combo: <br />- `size` is a number representing the diameter<br />- The circle is centered at the combo position<br />- `color` takes effect on the stroke<br />- The label is placed on the top of the circle by default<br />- More properties are described in [circle](/en/docs/manual/middle/elements/combos/circle)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ijeuQoiH0JUAAAAAAAAAAABkARQnAQ' width=150/> |
-| rect | Rect Combo: <br />- `size` is an array, e.g. [100, 50]<br />- The rect in centered at the combo position<br />- `color` takes effect on the stroke<br />- The label is placed on the left top of the circle by default<br />- More properties are described in [rect](/zh/docs/manual/middle/elements/combos/rect)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Fh2TT6Wh5t4AAAAAAAAAAABkARQnAQ' width=150/>  |
+| circle | Circle Combo: <br />- `size` is a number representing the diameter<br />- The circle is centered at the combo position<br />- `color` takes effect on the stroke<br />- The label is placed on the top of the circle by default<br />- More properties are described in [circle](/en/docs/manual/middle/elements/combos/circle)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ijeuQoiH0JUAAAAAAAAAAABkARQnAQ' width=150 alt='img'/> |
+| rect | Rect Combo: <br />- `size` is an array, e.g. [100, 50]<br />- The rect in centered at the combo position<br />- `color` takes effect on the stroke<br />- The label is placed on the left top of the circle by default<br />- More properties are described in [rect](/zh/docs/manual/middle/elements/combos/rect)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Fh2TT6Wh5t4AAAAAAAAAAABkARQnAQ' width=150 alt='img'/>  |
 
 ## Common Property
 
@@ -228,7 +228,7 @@ graph.data(data);
 graph.render();
 ```
 
-The result: <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*R0OhTrMuXiAAAAAAAAAAAABkARQnAQ' width='750' height='100'>
+The result: <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*R0OhTrMuXiAAAAAAAAAAAABkARQnAQ' width='750' height='100' alt='img'/>
 
 
 ### Adjust the Properties
@@ -256,7 +256,7 @@ By writing the properties into the data, we adjust the label position, color, an
 }
 ```
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*BvyLR4OLOpEAAAAAAAAAAABkARQnAQ' width='750' height='100'>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*BvyLR4OLOpEAAAAAAAAAAABkARQnAQ' width='750' height='100' alt='img'/>
 
 
 ## Related Reading

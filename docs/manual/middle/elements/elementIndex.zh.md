@@ -7,7 +7,7 @@ order: 4
 
 在 [图形分组 Group](/zh/docs/manual/advanced/keyconcept/graphics-group) 中我们提到：在 G6 中，Graph 的一个实例中的所有节点属于同一个变量名为 `nodeGroup` 的 group，所有的边属于同一个变量名为 `edgeGroup` 的 group。节点 group 在视觉上的层级（zIndex）高于边 group，即所有节点会绘制在所有边的上层。
 
-但有时，我们需要让边在视觉上在节点上层。例如，高亮节点及其相关边和邻居、高亮一条边等。可以通过配合图实例的配置项  `groupByTypes` 以及节点和边的 `toFront()` 与 `toBack()` 函数实现。为实现如下效果：鼠标进入节点时，提升相关边以及邻居节点的层级；离开节点时恢复；鼠标进入边时，提升边及其两端点的层级；离开边时恢复。<a href='https://codepen.io/Yanyan-Wang/pen/GRRNzGN' target='_blank'>Demo 完整代码</a>。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*uWGAR5-w-TcAAAAAAAAAAABkARQnAQ' width=150/>
+但有时，我们需要让边在视觉上在节点上层。例如，高亮节点及其相关边和邻居、高亮一条边等。可以通过配合图实例的配置项  `groupByTypes` 以及节点和边的 `toFront()` 与 `toBack()` 函数实现。为实现如下效果：鼠标进入节点时，提升相关边以及邻居节点的层级；离开节点时恢复；鼠标进入边时，提升边及其两端点的层级；离开边时恢复。<a href='https://codepen.io/Yanyan-Wang/pen/GRRNzGN' target='_blank'>Demo 完整代码</a>。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*uWGAR5-w-TcAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 要实现上图效果，需要以下步骤：
 
@@ -108,7 +108,7 @@ const graph = new G6.Graph({
 });
 ```
 
-此时，将会得到如下效果：<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cbiwTZ5dwP0AAAAAAAAAAABkARQnAQ' width=150/>
+此时，将会得到如下效果：<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cbiwTZ5dwP0AAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 ## Step 2 将节点放置在边上层
 
@@ -143,7 +143,7 @@ nodes.forEach(node => {
 graph.paint();
 ```
 
-<br />这样，所有节点被绘制在边上层：<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*8TnuS7pkUfwAAAAAAAAAAABkARQnAQ' width=150/>
+<br />这样，所有节点被绘制在边上层：<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*8TnuS7pkUfwAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 ## Step 3 监听鼠标事件并改变目标元素层级
 

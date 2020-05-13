@@ -34,7 +34,8 @@ G6.registerNode(
      * 绘制节点，包含文本
      * @param  {Object} cfg 节点的配置项
      * @param  {G.Group} group 节点的容器
-     * @return {G.Shape} 返回一个绘制的图形作为 keyShape，通过 node.get('keyShape') 可以获取到。关于 keyShape 可参考文档 核心概念-节点/边/Combo-图形 Shape 与 keyShape
+     * @return {G.Shape} 返回一个绘制的图形作为 keyShape，通过 node.get('keyShape') 可以获取。
+     * 关于 keyShape 可参考文档 核心概念-节点/边/Combo-图形 Shape 与 keyShape
      */
     draw(cfg, group) {},
     /**
@@ -58,8 +59,8 @@ G6.registerNode(
      */
     afterUpdate(cfg, node) {},
     /**
-     * 响应节点的状态变化，主要是交互状态，业务状态请在 draw 方法中实现
-     * 默认情况下，节点的 keyShape 将会响应 selected、active 状态，有其他状态需求的用户自己复写这个方法
+     * 响应节点的状态变化。
+     * 在需要使用动画来响应状态变化时需要被复写，其他样式的响应参见下文提及的 [配置状态样式] 文档
      * @param  {String} name 状态名称
      * @param  {Object} value 状态值
      * @param  {Node} node 节点
@@ -86,7 +87,7 @@ G6.registerNode(
   - 当 `update` 未定义：若指定了 `registerNode` 的第三个参数 `extendedNodeName`（即代表继承指定的内置节点类型），则节点更新时将执行被继承的内置节点类型的 `update` 逻辑；若未指定 `registerNode` 的第三个参数，则节点更新时会执行 `draw` 方法，所有图形清除重绘；
   - 当定义了 `update` 方法，则不论是否指定 `registerNode` 的第三个参数，在节点更新时都会执行复写的 `update` 函数逻辑。
 - `afterDraw`，`afterUpdate` 方法一般用于扩展已有的节点，例如：在矩形节点上附加图片，圆节点增加动画等；
-- `setState` 方法一般也不需要复写，有全局的样式可以替换；
+- `setState` 只有在需要使用动画的方式来响应状态变化时需要复写，一般的样式响应状态变化可以通过 [配置状态样式](/zh/docs/manual/middle/states/state#配置-state-样式) 实现；
 - `getAnchorPoints` 方法仅在需要限制与边的连接点时才需要复写，也可以在数据中直接指定。
 
 ## 1. 从无到有定义节点
@@ -165,10 +166,10 @@ G6.registerNode('diamond', {
 ```javascript
 const data = {
   nodes: [
-    { x: 50, y: 100, type: 'diamond' }, // 最简单的
-    { x: 150, y: 100, type: 'diamond', size: [50, 100] }, // 添加宽高
-    { x: 250, y: 100, color: 'red', type: 'diamond' }, // 添加颜色
-    { x: 350, y: 100, label: '菱形', type: 'diamond' }, // 附加文本
+    { id: 'node1', x: 50, y: 100, type: 'diamond' }, // 最简单的
+    { id: 'node2', x: 150, y: 100, type: 'diamond', size: [50, 100] }, // 添加宽高
+    { id: 'node3', x: 250, y: 100, color: 'red', type: 'diamond' }, // 添加颜色
+    { id: 'node4', x: 350, y: 100, label: '菱形', type: 'diamond' }, // 附加文本
   ],
 };
 const graph = new G6.Graph({
@@ -477,7 +478,7 @@ G6.registerNode('dom-node', {
         html: `
         <div style="background-color: #fff; border: 2px solid #5B8FF9; border-radius: 5px; width: ${cfg.size[0]-5}px; height: ${cfg.size[1]-5}px; display: flex;">
           <div style="height: 100%; width: 33%; background-color: #CDDDFD">
-            <img alt="" style="line-height: 100%; padding-top: 6px; padding-left: 8px;" src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q_FQT6nwEC8AAAAAAAAAAABkARQnAQ" width="20" height="20" />  
+            <img alt="img" style="line-height: 100%; padding-top: 6px; padding-left: 8px;" src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q_FQT6nwEC8AAAAAAAAAAABkARQnAQ" width="20" height="20" />  
           </div>
           <span style="margin:auto; padding:auto; color: #5B8FF9">${cfg.label}</span>
         </div>
@@ -531,7 +532,7 @@ G6.registerNode('dom-node', {
         html: `
         <div onclick="alert('Hi')" style="background-color: #fff; border: 2px solid #5B8FF9; border-radius: 5px; width: ${cfg.size[0]-5}px; height: ${cfg.size[1]-5}px; display: flex;">
           <div style="height: 100%; width: 33%; background-color: #CDDDFD">
-            <img alt="" style="line-height: 100%; padding-top: 6px; padding-left: 8px;" src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q_FQT6nwEC8AAAAAAAAAAABkARQnAQ" width="20" height="20" />  
+            <img alt="img" style="line-height: 100%; padding-top: 6px; padding-left: 8px;" src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q_FQT6nwEC8AAAAAAAAAAABkARQnAQ" width="20" height="20" />  
           </div>
           <span style="margin:auto; padding:auto; color: #5B8FF9">${cfg.label}</span>
         </div>

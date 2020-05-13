@@ -28,7 +28,7 @@ const graph = new G6.Graph({
 
 Grid draw grids on the canvas.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*y8u6Rrc78uIAAAAAAAAAAABkARQnAQ' width=300 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*y8u6Rrc78uIAAAAAAAAAAABkARQnAQ' width=300 alt='img'/>
 
 Use the code in [Configure to Graph](#configure-to-graph) to instantiate grid plugin with the following configurations.
 
@@ -43,7 +43,7 @@ Use the code in [Configure to Graph](#configure-to-graph) to instantiate grid pl
 
 Minimap is a tool for quick preview and exploration on large graph.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v1svQLkEPrUAAAAAAAAAAABkARQnAQ' width=300 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v1svQLkEPrUAAAAAAAAAAABkARQnAQ' width=300 alt='img'/>
 
 It can be configured to adjust the styles and functions.
 
@@ -72,7 +72,7 @@ The `delegateStyle` has the properties:
 
 In complex graph with large number of edges, edge bundling can help you to improve the visual clutter.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z9iXQq_kcrYAAAAAAAAAAABkARQnAQ' width=600 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z9iXQq_kcrYAAAAAAAAAAABkARQnAQ' width=600 alt='img'/>
 
 > Edge bundling on American airline graph. <a href='http://antv-2018.alipay.com/zh-cn/g6/3.x/demo/case/american-migration-bundling.html' target='_blank'>Demo Link</a>. <a href='https://g6.antv.vision/zh/docs/manual/cases/edgeBundling' target='_blank'>Demo Document</a>.
 

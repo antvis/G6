@@ -5,7 +5,7 @@ order: 5
 
 G6 支持用特定的纹理填充图形。G6 支持的纹理内容可以直接是**图片**或者 **Data URL**。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cPgYSJ2ZfwYAAAAAAAAAAABkARQnAQ' width='750' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cPgYSJ2ZfwYAAAAAAAAAAABkARQnAQ' width='750' alt='img'/>
 
 > 说明：`p` 表示使用纹理；绿色的字体为可变量，您可以修改它们以满足您的需求；`a` 表示纹理的重复方式，可选值如下：
 

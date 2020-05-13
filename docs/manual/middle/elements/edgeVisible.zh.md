@@ -29,7 +29,7 @@ comboItem.hide();
 
 ## 示例
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*N96mRKpyYZIAAAAAAAAAAABkARQnAQ' width=150/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*N96mRKpyYZIAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 该示例摘取了元素显示/隐藏的相关操作部分，通过鼠标监听对节点、边、画布的点击事件，显示和隐藏元素：
 

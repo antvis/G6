@@ -15,7 +15,7 @@ order: 1
 
 ## 前提代码
 
-本文的讲解将会基于下面这份内嵌 JavaScript 的 HTML 代码。该代码通过定义数据、实例化图、读取数据、渲染图等操作中完成了下图中简单的图：<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Lo6lT7SrhB8AAAAAAAAAAABkARQnAQ' width='200' />
+本文的讲解将会基于下面这份内嵌 JavaScript 的 HTML 代码。该代码通过定义数据、实例化图、读取数据、渲染图等操作中完成了下图中简单的图：<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Lo6lT7SrhB8AAAAAAAAAAABkARQnAQ' width='200' alt='img'/>
 
 ```html
 <!DOCTYPE html>

@@ -107,7 +107,7 @@ const graph = new G6.Graph({
 });
 ```
 
-The code above defines the styles of interaction state `hover` and bussiness state `running` by `nodeStateStyles`, which means when the mouse `hover` a node, the filling color of the node will be changed into `'#d3adf7'`. When the `running` of a node is activated, the stroke color of the node will be changed into `'steelblue'`.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Beu6QY_ETOgAAAAAAAAAAABkARQnAQ' width=150/>
+The code above defines the styles of interaction state `hover` and bussiness state `running` by `nodeStateStyles`, which means when the mouse `hover` a node, the filling color of the node will be changed into `'#d3adf7'`. When the `running` of a node is activated, the stroke color of the node will be changed into `'steelblue'`.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Beu6QY_ETOgAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 Similarly, the `style` of `defaultEdge` defines the styles of the node on the default state. And `edgeStateStyles` can be used for defined the styles on other states.
 
@@ -137,7 +137,7 @@ G6.registerNode('customShape', {
 }
 ```
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1DFnTKfmfLcAAAAAAAAAAABkARQnAQ' width=150/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1DFnTKfmfLcAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 ## Conclusion
 

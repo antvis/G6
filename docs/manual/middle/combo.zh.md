@@ -6,7 +6,7 @@ order: 8
 > V3.5 后支持的全新节点分组 Combo 机制。[原节点分组](/zh/docs/manual/middle/nodeGroup)仍可使用。
 
 对于熟悉图可视化类库的用户来说，节点分组是非常实用的一个功能。此前，G6 已经存在一个节点分组 Node Group 功能，但它的机制无法支持一些较复杂的功能，例如：带有节点分组的图布局、自定义 Combo、嵌套节点分组的均匀 padding、节点与分组的边、分组与分组的边、空的节点分组等。V3.5 推出了全新的节点分组 Combo 机制，能够支持所有常用功能，参考 <a href='' target='_blank'>Demo</a>。
-<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AngFRpOo4SAAAAAAAAAAAABkARQnAQ' width=600/>
+<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AngFRpOo4SAAAAAAAAAAAABkARQnAQ' width=600 alt='img'/>
 
 
 ### 数据结构
@@ -179,7 +179,7 @@ graph.data(data);
 graph.render();
 ```
 
-渲染的效果如下图所示：<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iftmRrdqR7cAAAAAAAAAAABkARQnAQ' width=400/><br />此时，不能对分组中的节点及分组进行任何操作，接下来，我们介绍可以对分组进行的各种操作。
+渲染的效果如下图所示：<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iftmRrdqR7cAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />此时，不能对分组中的节点及分组进行任何操作，接下来，我们介绍可以对分组进行的各种操作。
 
 ### 操作分组
 
@@ -231,7 +231,7 @@ const graph = new G6.Graph({
 
 将这三个内置提供的 Behavior 加入到 `modes` 中以后的效果如下图所示。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VsMbRqOJe2sAAAAAAAAAAABkARQnAQ' width=400/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VsMbRqOJe2sAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
 ### 适用场景
 

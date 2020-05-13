@@ -27,7 +27,7 @@ const graph = new G6.Graph({
 
 Grid 插件在画布上绘制了网格。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*y8u6Rrc78uIAAAAAAAAAAABkARQnAQ' width=300 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*y8u6Rrc78uIAAAAAAAAAAABkARQnAQ' width=300 alt='img'/>
 
 使用 [配置方法](#配置方法) 中代码实例化时可以通过配置项调整 Grid 的图片。
 
@@ -41,7 +41,7 @@ Grid 插件在画布上绘制了网格。
 
 Minimap 是用于快速预览和探索图的工具。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v1svQLkEPrUAAAAAAAAAAABkARQnAQ' width=300 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v1svQLkEPrUAAAAAAAAAAABkARQnAQ' width=300 alt='img'/>
 
 实例化时可以通过配置项调整 Minimap 的样式和功能。
 
@@ -70,7 +70,7 @@ Minimap 是用于快速预览和探索图的工具。
 
 在关系复杂、繁多的大规模图上，通过边绑定可以降低视觉复杂度。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z9iXQq_kcrYAAAAAAAAAAABkARQnAQ' width=600 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z9iXQq_kcrYAAAAAAAAAAABkARQnAQ' width=600 alt='img'/>
 
 > 美国航线图边绑定。<a href='http://antv-2018.alipay.com/zh-cn/g6/3.x/demo/case/american-migration-bundling.html' target='_blank'>Demo 链接</a>。该 <a href='https://g6.antv.vision/zh/docs/manual/cases/edgeBundling' target='_blank'>Demo 教程</a>。
 
