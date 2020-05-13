@@ -1,6 +1,6 @@
 ---
-title: Custom Node
-order: 1
+title: Custom Combo
+order: 3
 ---
 
 G6 provides abundant [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode), including [circle](/en/docs/manual/middle/elements/nodes/circle), [rect](/en/docs/manual/middle/elements/nodes/rect, [ellipse](/en/docs/manual/middle/elements/nodes/ellipse), [diamond](/en/docs/manual/middle/elements/nodes/diamond), [triangle](/en/docs/manual/middle/elements/nodes/triangle), [star](/en/docs/manual/middle/elements/nodes/star), [image](/en/docs/manual/middle/elements/nodes/image), [modelRect](/en/docs/manual/middle/elements/nodes/modelRect). Besides, the custom machanism allows the users to design their own type of nodes by `G6.registerNode('nodeName', options)`. A node with complex graphics shapes, complex interactions, fantastic animations can be implemented easily.
@@ -17,7 +17,7 @@ In this document, we will introduce the custom enodeby five examples: <br />1. R
 <br />
 <strong>4. Register a node with state styles: </strong>Response the states change by styles and animations
 
-As stated in [Shape](/en/docs/manual/middle/elements/shape-keyshape), there are two points should be satisfied when customize a node:
+As stated in [Shape](/en/docs/manual/middle/keyconcept/shape-keyshape), there are two points should be satisfied when customize a node:
 
 - Controll the life cycle of the node;
 - Analyze the input data and show it by graphics.
@@ -77,22 +77,19 @@ G6.registerNode(
      */
     getAnchorPoints(cfg) {},
   },
-  extendedNodeName,
+  extendNodeName,
 );
 ```
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️Attention:</strong> </span>
 
-- `draw`: it is required if the custom node does not extend any parent;
-- Coordinate system: The coordinate system of the shapes inside the custom node is a **sub coordinate system relating to itself**, which means the `(0, 0)` is the center of the node. And the coordinates of the node is related to the whole canvas, which is controled by the group contains it and users have no need to use it when customing a node type. When adding a `rect` shape into a custom node, be caution that its x and y should be minused half of its width and height. See the detail in [Register a Bran-new Node](#1-register-a-bran-new-edge);
-- `update`:
-  - When the `update` function is not undefined: If user has defined the third parameter `extendedNodeName` of `registerNode`, which means extending a built-in node type, the `update` function of the extended node type of the custom node will be executed once the node is updated; If the third parameter of `registerNode` is not assigned, the `draw` function of the custom node will be executed instead;
-  - When the `update` function is defined, whether the third parameter of `registerNode` is defined, the `update` function will be executed when the node is updated.
-- `afterDraw` and `afterUpdate`: they are used for extending the exited nodes in general. e.g. adding extra image on rect node, adding animation on a circle node, ...;
+- `draw` is required if the custom node does not extend any parent;
+- `update` is not required. If it is undefined, the `draw` will be called when updating the node, which means all the graphics will be cleared and repaint;
+- `afterDraw` and `afterUpdate` are used for extending the exited nodes in general. e.g. adding extra image on rect node, adding animation on a circle node, ...;
 - In general, `setState` is not required;
-- `getAnchorPoints`: it is only required when you want to contrain the link points for nodes and their related edges. The anchorPoints can be assigned in the node data as well.
+- `getAnchorPoints` is only required when you want to contrain the link points for nodes and their related edges. The anchorPoints can be assigned in the node data as well.
 
-## 1. Register a Bran-new Node
+## 1. Register a Bran-new Edge
 
 ### Render the Node
 
@@ -101,8 +98,6 @@ Now, we are going to register a diamond node:
 > Although there is a built-in diamond node in G6, we implement it here to rewrite it for demonstration.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LqFCRaKyr0gAAAAAAAAAAABkARQnAQ' alt='img' width='80'/>
-
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️ Attention:</strong></span> From the following code, you will understand that the coordinates of the sub shapes of the custom node is related to itself, which means the `(0, 0)` is the center of the node. E.g. the `x` and `y` of the `'text'` shape are both 0, which means the shape is on the center of the node; The `path` attribute of `'path'` is also defined with the origin `(0, 0)`. In the other words, users do not need to control the sub shapes' coordinates according to the nodes' coordinate which is controlled by the matrix of the parent group of the node.
 
 ```javascript
 G6.registerNode('diamond', {
@@ -193,7 +188,7 @@ Therefore, rewrite the `update` function when registering a node for partial rep
 
 To update a few graphics shapes of a node in `update`, you need find the graphics shapes to be updated frist:
 
-- Find the [keyShape](/en/docs/manual/middle/elements/shape-keyshape#keyshape) by `group.get('children')[0]`, which is the return value of `draw`;
+- Find the [keyShape](/en/docs/manual/middle/keyconcept/shape-keyshape#keyshape) by `group.get('children')[0]`, which is the return value of `draw`;
 - Find the graphics shape of label by `group.get('children')[1]`.
 
 The code shown below update the path and the color of the keyShape of the diamond:
@@ -318,7 +313,7 @@ For more information about animation, please refer to [Basic Ainmation](/en/docs
 
 ## 3. Adjust the anchorPoint
 
-The [anchorPoint](/en/docs/manual/middle/elements/anchorpoint) of a node is **the intersection of the node and its related edges**.<br />
+The [anchorPoint](/en/docs/manual/middle/keyconcept/anchorpoint) of a node is **the intersection of the node and its related edges**.<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mJ85Q5WRJLwAAAAAAAAAAABkARQnAQ' alt='img' width='200'/>
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*99aSR5zbd44AAAAAAAAAAABkARQnAQ' alt='img' width='200'/>
@@ -533,7 +528,7 @@ G6.registerNode('dom-node', {
         height: cfg.size[1],
         // DOM's html with onclick event
         html: `
-        <div onclick="alert('Hi')" style="background-color: #fff; border: 2px solid #5B8FF9; border-radius: 5px; width: ${cfg.size[0]-5}px; height: ${cfg.size[1]-5}px; display: flex;">
+        <div onclick="handleClick('Hello')" style="background-color: #fff; border: 2px solid #5B8FF9; border-radius: 5px; width: ${cfg.size[0]-5}px; height: ${cfg.size[1]-5}px; display: flex;">
           <div style="height: 100%; width: 33%; background-color: #CDDDFD">
             <img alt="" style="line-height: 100%; padding-top: 6px; padding-left: 8px;" src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q_FQT6nwEC8AAAAAAAAAAABkARQnAQ" width="20" height="20" />  
           </div>
@@ -545,4 +540,7 @@ G6.registerNode('dom-node', {
     });
   },
 }, 'single-node');
+const handleClick = msg => {
+  // ...
+}
 ```
