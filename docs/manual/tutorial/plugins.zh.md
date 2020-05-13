@@ -15,13 +15,13 @@ order: 5
 
 缩略图 (Minimap) 是一种常见的用于快速预览和探索图的工具，可作为导航辅助用户探索大规模图。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*kGesRLgy1CsAAAAAAAAAAABkARQnAQ' width=520  />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*kGesRLgy1CsAAAAAAAAAAABkARQnAQ' width=520 alt='img' />
 
 现在，我们为 **Tutorial 案例** 配置一个 Minimap：
 
 **预期效果**
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SI8ZSpcqecgAAAAAAAAAAABkARQnAQ' width=350 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SI8ZSpcqecgAAAAAAAAAAABkARQnAQ' width=350 alt='img' />
 
 **使用方法**
 
@@ -48,7 +48,7 @@ const graph = new G6.Graph({
 
 **预期效果**
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*y8u6Rrc78uIAAAAAAAAAAABkARQnAQ' width=300 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*y8u6Rrc78uIAAAAAAAAAAABkARQnAQ' width=300 alt='img' />
 
 **使用方法** 实例化插件和配置插件到图上：
 
@@ -75,7 +75,7 @@ const graph = new G6.Graph({
 
 **预期效果**
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v1svQLkEPrUAAAAAAAAAAABkARQnAQ' width=300 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v1svQLkEPrUAAAAAAAAAAABkARQnAQ' width=300 alt='img' />
 
 **使用方法**
 
@@ -125,7 +125,7 @@ const graph = new G6.Graph({
 
 边提示框可以用在边的详细信息的展示。当鼠标滑过边时，显示一个浮层告知边的详细信息。 **预期效果**
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Uk10SYFNNi8AAAAAAAAAAABkARQnAQ' width=300 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Uk10SYFNNi8AAAAAAAAAAABkARQnAQ' width=300 alt='img' />
 
 **使用方法**
 

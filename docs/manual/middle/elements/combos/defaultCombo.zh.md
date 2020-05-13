@@ -3,7 +3,7 @@ title: 内置 Combo 总览
 order: 0
 ---
 
-G6 的内置 Combo 包括 circle 和 rect 两种类型，分别如下图所示。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*roGET6COTs4AAAAAAAAAAABkARQnAQ' width='250'>
+G6 的内置 Combo 包括 circle 和 rect 两种类型，分别如下图所示。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*roGET6COTs4AAAAAAAAAAABkARQnAQ' width='250' alt='img'/>
 
 本文将概述 G6 中的各个内置 Combo 类型、内置 Combo 的通用属性、配置方法。各类型 Combo 详细配置项及配置方法见本目录下相应文档。
 
@@ -13,8 +13,8 @@ G6 的内置 Combo 包括 circle 和 rect 两种类型，分别如下图所示�
 
 | 名称 | 描述 | 默认示例 |
 | --- | --- | --- |
-| circle | 圆形：<br />- `size` 是单个数字，表示直径<br />- 圆心位置对应 Combo 的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在 Combo 正上方<br />- 更多字段见 [Circle](/zh/docs/manual/middle/elements/combos/circle) Combo 教程<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ijeuQoiH0JUAAAAAAAAAAABkARQnAQ' width=150/> |
-| rect | 矩形：<br />- `size` 是数组，例如：[100, 50]<br />- 矩形的中心位置是 COmbo 的位置，而不是左上角<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在 Combo 左上角<br />- 更多字段见 [Rect](/zh/docs/manual/middle/elements/combos/rect) Combo 教程<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Fh2TT6Wh5t4AAAAAAAAAAABkARQnAQ' width=150/> |
+| circle | 圆形：<br />- `size` 是单个数字，表示直径<br />- 圆心位置对应 Combo 的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在 Combo 正上方<br />- 更多字段见 [Circle](/zh/docs/manual/middle/elements/combos/circle) Combo 教程<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ijeuQoiH0JUAAAAAAAAAAABkARQnAQ' width=150 alt='img'/> |
+| rect | 矩形：<br />- `size` 是数组，例如：[100, 50]<br />- 矩形的中心位置是 COmbo 的位置，而不是左上角<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在 Combo 左上角<br />- 更多字段见 [Rect](/zh/docs/manual/middle/elements/combos/rect) Combo 教程<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Fh2TT6Wh5t4AAAAAAAAAAABkARQnAQ' width=150 alt='img'/> |
 
 ## Combo 的通用属性
 
@@ -230,7 +230,7 @@ graph.data(data);
 graph.render();
 ```
 
-显示结果： <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*R0OhTrMuXiAAAAAAAAAAAABkARQnAQ' width='250'>
+显示结果： <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*R0OhTrMuXiAAAAAAAAAAAABkARQnAQ' width='250' alt='img'/>
 
 
 ### 调整 Combo 配置
@@ -258,7 +258,7 @@ graph.render();
 }
 ```
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*BvyLR4OLOpEAAAAAAAAAAABkARQnAQ' width='250'>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*BvyLR4OLOpEAAAAAAAAAAABkARQnAQ' width='250' alt='img'/>
 
 ## 相关阅读
 

@@ -5,9 +5,9 @@ order: 2
 
 G6 provides abundant [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge). Besides, the custom machanism allows the users to design their own type of edges. An edge with complex graphics shapes, complex interactions, fantastic animations can be implemented easily.
 
-In this document, we will introduce the custom edge by four examples: <br />1. Register a bran-new edge; <br />2. Register an edge by extending a built-in edge; <br />3. Register an edge with interactions and styles; <br />4. Register an edge with custom arrow.
+In this document, we will introduce the custom edge by four examples: <br />1. Register a brand new edge; <br />2. Register an edge by extending a built-in edge; <br />3. Register an edge with interactions and styles; <br />4. Register an edge with custom arrow.
 
-## 1. Register a Bran-new Edge
+## 1. Register a Brand New Edge
 
 Now, we are goint to register a perpendicular polyline:<br />
 
@@ -206,7 +206,7 @@ The default end arrows might not meet the requirements sometimes. You can regist
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span> The coordinate system of custom arrow is changed by G6 3.4.1. In the figure below, the left one is the demonstration of the custom arrow before v3.4.1, and the right one illustates v3.4.1 and its later versions. The pointed direction is changed from negative direction to positive direction of x-axis. In the same time, the dirrection of the offset `d` is changed. In both versions, the origin of the self coordinate system of the custom arrow is on the end point of the corresponding edge or path, and the slope of the arrow is the same as the slope of edge or path at the end point.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*gN_NSqjLRo0AAAAAAAAAAABkARQnAQ' width=565 alt=""/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*gN_NSqjLRo0AAAAAAAAAAABkARQnAQ' width=565 alt='img'/>
 
 > (Left) Illustration for the coordinate system of custom arrow before v3.4.1. (Right) Illustration for v3.4.1 and its later versions.
 

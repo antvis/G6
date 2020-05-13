@@ -5,12 +5,12 @@ order: 2
 
 ## 背景
 
-大多数图数据在可视化时被展示成点-线图（Node-link Diagram）的形式。点-线图特别适用于如交通网络图一类的关系数据的展示，这种数据的节点通常带有地理位置信息，例如迁徙图、移民图、航线图等。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Vzp9Q7ZA0rcAAAAAAAAAAABkARQnAQ' width=400 /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GRE6SrrAWnoAAAAAAAAAAABkARQnAQ' width=400 />
+大多数图数据在可视化时被展示成点-线图（Node-link Diagram）的形式。点-线图特别适用于如交通网络图一类的关系数据的展示，这种数据的节点通常带有地理位置信息，例如迁徙图、移民图、航线图等。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Vzp9Q7ZA0rcAAAAAAAAAAABkARQnAQ' width=400 alt='img'/> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GRE6SrrAWnoAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
 > （左）图 1. 法国航线图。（右）图 2. 美国航线图。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rC66Raf7OWwAAAAAAAAAAABkARQnAQ' width=400 />
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AwQbT7WotYwAAAAAAAAAAABkARQnAQ' width=400 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rC66Raf7OWwAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AwQbT7WotYwAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
 > （左）图 3. 世界网络 IXP 对等图。（右）图 4. 美国移民图。
 
@@ -55,7 +55,7 @@ order: 2
 }
 ```
 
-如果使用 G6 简单地将节点和边渲染出来，将会得到如下结果： <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zYUrQqDGslMAAAAAAAAAAABkARQnAQ'  width=850 />
+如果使用 G6 简单地将节点和边渲染出来，将会得到如下结果： <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zYUrQqDGslMAAAAAAAAAAABkARQnAQ'  width=850 alt='img'/>
 
 > 图 5. G6 渲染原始数据结果
 
@@ -63,7 +63,7 @@ order: 2
 
 ## 期待效果
 
-我们希望可以通过边绑定的方法降低图 5 的视觉混乱，从而清晰图的整体走势、结构，突出航线频繁的城市，它们可能是重要的交通枢纽，并展示更多的统计信息，以便观察者进行分析。借助 G6，我们可以实现如下效果。通过边绑定，边的交错混乱情况被降低，颜色映射航班的飞行方向（出发（橙红色）与降落（青色））。节点大小表示到达与离开该城市的航班总数量，每个节点使用了饼图展示达到（橙红色）和离开（青色）航班的比例。并增加 hover 的交互，使用 tooltip 展示每个城市的经纬度。 <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*BC4AQbOd6HIAAAAAAAAAAABkARQnAQ' width=850 />
+我们希望可以通过边绑定的方法降低图 5 的视觉混乱，从而清晰图的整体走势、结构，突出航线频繁的城市，它们可能是重要的交通枢纽，并展示更多的统计信息，以便观察者进行分析。借助 G6，我们可以实现如下效果。通过边绑定，边的交错混乱情况被降低，颜色映射航班的飞行方向（出发（橙红色）与降落（青色））。节点大小表示到达与离开该城市的航班总数量，每个节点使用了饼图展示达到（橙红色）和离开（青色）航班的比例。并增加 hover 的交互，使用 tooltip 展示每个城市的经纬度。 <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*BC4AQbOd6HIAAAAAAAAAAABkARQnAQ' width=850 alt='img'/>
 
 > 期待效果图及 tooltip 效果。
 
@@ -143,7 +143,7 @@ const edgeBundling = new Bundling({
 
 ### 自定义饼图节点
 
-在第一步中，我们已经为节点大小 size 映射了每个节点的总度数。为了更详细展示每个城市飞出和飞入航班的比例，我们希望在每个节点上显示一个类似于饼图的效果。例如<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*stNMRLlBLMUAAAAAAAAAAABkARQnAQ' width=60 /> ，桔红色扇形代表飞入该城市的航班比例，青色代表飞出该城市的航班比例。G6 内置的 circle 、rect 等节点形状不能满足这一需求，但 G6 提供了节点的扩展机制，通过下面的代码片段，可以在 G6 中注册一个自定义的节点：
+在第一步中，我们已经为节点大小 size 映射了每个节点的总度数。为了更详细展示每个城市飞出和飞入航班的比例，我们希望在每个节点上显示一个类似于饼图的效果。例如<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*stNMRLlBLMUAAAAAAAAAAABkARQnAQ' width=60 alt='img'/> ，桔红色扇形代表飞入该城市的航班比例，青色代表飞出该城市的航班比例。G6 内置的 circle 、rect 等节点形状不能满足这一需求，但 G6 提供了节点的扩展机制，通过下面的代码片段，可以在 G6 中注册一个自定义的节点：
 
 ```javascript
 const lightBlue = 'rgb(119, 243, 252)';
@@ -303,17 +303,17 @@ graph.render();
  }
 ```
 
-这样，当鼠标移动到节点上时，带有经纬度信息的 `tooltip` 将会出现：<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*d3mSS6mETf8AAAAAAAAAAABkARQnAQ' width=850 />
+这样，当鼠标移动到节点上时，带有经纬度信息的 `tooltip` 将会出现：<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*d3mSS6mETf8AAAAAAAAAAABkARQnAQ' width=850 alt='img'/>
 
 > tooltip
 
-同时，可以拖拽和放缩画布： <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5h5tR5eDM6UAAAAAAAAAAABkARQnAQ' width=550 height=350 />
+同时，可以拖拽和放缩画布： <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5h5tR5eDM6UAAAAAAAAAAABkARQnAQ' width=550 height=350 alt='img'/>
 
 > 缩放和拖动画布
 
 ## 分析
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ePUIQZaDVecAAAAAAAAAAABkARQnAQ' width=850 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ePUIQZaDVecAAAAAAAAAAABkARQnAQ' width=850 alt='img'/>
 
 > 最终效果图。节点大小代表飞入及飞出该城市航线总数。节点饼图展示飞出与飞入航线比例统计信息（橙红色为飞入，青色为飞出）。边的渐变色代表航班的飞行方向。起始端：青色；结束端：橙红色。
 

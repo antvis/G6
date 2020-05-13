@@ -3,7 +3,7 @@ title: Arc
 order: 5
 ---
 
-G6 内置了圆弧  arc  边，其默认样式如下。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9JBjS6bdrHMAAAAAAAAAAABkARQnAQ' width=150/>
+G6 内置了圆弧  arc  边，其默认样式如下。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9JBjS6bdrHMAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 ## 使用方法
 
@@ -80,7 +80,7 @@ labelCfg: {
 
 ### 特殊属性：弧度  curveOffset
 
-`curveOffset` 属性是 `arc` 特有的属性，它控制了圆弧的大小以及弯曲的方向。下面代码演示在实例化图时全局配置方法中配置 `curveOffset`。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*63NxRppr3tUAAAAAAAAAAABkARQnAQ' width=150/>
+`curveOffset` 属性是 `arc` 特有的属性，它控制了圆弧的大小以及弯曲的方向。下面代码演示在实例化图时全局配置方法中配置 `curveOffset`。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*63NxRppr3tUAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 ```javascript
 const data = {
@@ -125,7 +125,7 @@ graph.render();
 
 ### 样式属性 style
 
-Object 类型。配置项与 [边通用样式属性](/zh/docs/manual/middle/elements/edges/defaultEdge/#样式属性-style) 相同。基于上面 [特殊属性：弧度  curveOffset](#特殊属性：弧度-curveoffset) 中的代码，下面代码在 `defaultEdge` 中增加了  `style`  配置项进行边的样式的配置，使之达到如下图效果。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LH4lT64i304AAAAAAAAAAABkARQnAQ' width=150/>
+Object 类型。配置项与 [边通用样式属性](/zh/docs/manual/middle/elements/edges/defaultEdge/#样式属性-style) 相同。基于上面 [特殊属性：弧度  curveOffset](#特殊属性：弧度-curveoffset) 中的代码，下面代码在 `defaultEdge` 中增加了  `style`  配置项进行边的样式的配置，使之达到如下图效果。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LH4lT64i304AAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 ```javascript
 const data = {
@@ -146,7 +146,7 @@ const graph = new G6.Graph({
 
 ### 标签文本配置 labelCfg
 
-Object 类型。支持 [边通用标签配置](/zh/docs/manual/middle/elements/edges/defaultEdge/#标签文本-label-及其配置-labelcfg)。基于上面  [弧度 curveOffset](/zh/docs/manual/middle/elements/edges/arc/#特殊属性：弧度-curveoffset) 中的代码，下面代码在 `defaultEdge` 中增加了  `labelCfg`  配置项进行文本的配置，使之达到如下图效果。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*xu0FSKNxQNUAAAAAAAAAAABkARQnAQ' width=150/>
+Object 类型。支持 [边通用标签配置](/zh/docs/manual/middle/elements/edges/defaultEdge/#标签文本-label-及其配置-labelcfg)。基于上面  [弧度 curveOffset](/zh/docs/manual/middle/elements/edges/arc/#特殊属性：弧度-curveoffset) 中的代码，下面代码在 `defaultEdge` 中增加了  `labelCfg`  配置项进行文本的配置，使之达到如下图效果。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*xu0FSKNxQNUAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 ```javascript
 const data = {

@@ -9,7 +9,7 @@ In G6, you can set **Linear Gradient** for stroke and **Circular Gradient** for 
 
 #### Demonstration
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lX-fSbaOrn0AAAAAAAAAAABkARQnAQ' width='750' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lX-fSbaOrn0AAAAAAAAAAABkARQnAQ' width='750' alt='img'/>
 
 > `l` is the flag for linear gradient, the text in green can be modified to satisfy your requirements.
 
@@ -26,7 +26,7 @@ stroke: 'l(0) 0:#ffffff 0.5:#7ec2f3 1:#1890ff'
 
 #### Demonstration
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*U68WTpjAqscAAAAAAAAAAABkARQnAQ' width='750' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*U68WTpjAqscAAAAAAAAAAABkARQnAQ' width='750' alt='img'/>
 
 > `r` is the flag for circular gradient, the text in green can be modified to satisfy your requirements. The `x` `y` and `r` are the relative values and range from 0 to 1.
 

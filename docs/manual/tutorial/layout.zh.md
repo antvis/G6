@@ -27,7 +27,7 @@ order: 3
 
 各种布局方法的具体介绍及其配置参见 [Layout API](/zh/docs/api/layout/Layout)。本教程中，我们使用的是力导向布局 (Force Layout)。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qnUwSZVjYOMAAAAAAAAAAABkARQnAQ' width=550 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qnUwSZVjYOMAAAAAAAAAAABkARQnAQ' width=550 alt='img' />
 
 ## 取消自动适配画布
 
@@ -65,7 +65,7 @@ const graph = new G6.Graph({
 
 结果如下：
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*w4ZfRJW3b5YAAAAAAAAAAABkARQnAQ' width=350 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*w4ZfRJW3b5YAAAAAAAAAAABkARQnAQ' width=350 alt='img' />
 
 如图所示，节点按照力导向布局自动平衡。但是图中的节点过于拥挤，边上的文字信息被挤占，无法看清。我们希望布局计算边的距离可以更长一些。G6 的力导向布局提供了  `linkDistance` 属性用来指定布局的时候边的距离长度：
 
@@ -82,7 +82,7 @@ const graph = new G6.Graph({
 
 结果如下：
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AXrdQIm3oCIAAAAAAAAAAABkARQnAQ' width=350 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AXrdQIm3oCIAAAAAAAAAAABkARQnAQ' width=350 alt='img' />
 <br />
 
 > 不同布局之间、相同布局不同参数允许动态切换和过渡，具体参见：[布局切换](/zh/docs/manual/middle/layout/#布局的切换机制)。

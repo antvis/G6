@@ -44,7 +44,7 @@ const graph = new G6.Graph({
 });
 ```
 
-此时只能在 x 方向上面拖动，y 方向上不允许拖动。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*54yxRrW1A7sAAAAAAAAAAABkARQnAQ' width=400/>
+此时只能在 x 方向上面拖动，y 方向上不允许拖动。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*54yxRrW1A7sAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
 ### zoom-canvas
 
@@ -76,7 +76,7 @@ const graph = new G6.Graph({
 });
 ```
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hre9Qa7yCfQAAAAAAAAAAABkARQnAQ' width=400/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hre9Qa7yCfQAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
 **启用** `delegate`
 
@@ -93,7 +93,7 @@ const graph = new G6.Graph({
 });
 ```
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*BN83QJQpU40AAAAAAAAAAABkARQnAQ' width=400/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*BN83QJQpU40AAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
 ### click-select
 
@@ -195,7 +195,7 @@ const graph = new G6.Graph({
 });
 ```
 
-默认情况下，选中的节点状态，在操作完以后仍然会保持选中状态。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bG31RqbM4JMAAAAAAAAAAABkARQnAQ' width=400/>
+默认情况下，选中的节点状态，在操作完以后仍然会保持选中状态。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bG31RqbM4JMAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
 **配置参数**
 
@@ -214,7 +214,7 @@ const graph = new G6.Graph({
 
 配置 `resetSelected` 参数为 `true` 后，交互后会重置节点的选择状态。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VQDrT5Qpq_sAAAAAAAAAAABkARQnAQ' width=400/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VQDrT5Qpq_sAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
 ### brush-select
 
@@ -242,7 +242,7 @@ const graph = new G6.Graph({
 });
 ```
 
-默认情况下，按住 Shift 键进行框选，选中节点的同时，也会选中边。 <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IJizQonX75wAAAAAAAAAAABkARQnAQ' width=400/>
+默认情况下，按住 Shift 键进行框选，选中节点的同时，也会选中边。 <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IJizQonX75wAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
 **配置参数**
 
@@ -260,7 +260,7 @@ const graph = new G6.Graph({
 });
 ```
 
-上面的配置，按住 Ctrl 键，进行框选，框选过程中不会选中边。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1xNZT7mPFK4AAAAAAAAAAABkARQnAQ' width=400/>
+上面的配置，按住 Ctrl 键，进行框选，框选过程中不会选中边。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1xNZT7mPFK4AAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
 **冲突的配置：**
 
@@ -278,7 +278,7 @@ const graph = new G6.Graph({
 });
 ```
 
-当用户配置 `brush-select` 的 `trigger` 为 `drag`，同时又配置了 `drag-canvas` 时，在交互上面会出现冲突的情况。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*umffRa8rHtUAAAAAAAAAAABkARQnAQ' width=400/>
+当用户配置 `brush-select` 的 `trigger` 为 `drag`，同时又配置了 `drag-canvas` 时，在交互上面会出现冲突的情况。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*umffRa8rHtUAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
 可以看到，在拖动过程中也出现了框选的情况，这种情况很显然不是我们期望的效果，除过使用 `brush-select` 的 `trigger` 参数避免这种冲突外，我们还可以通过下面的方式来实现：
 
@@ -360,7 +360,7 @@ const graph = new G6.Graph({
 });
 ```
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*znCaS48_BpgAAAAAAAAAAABkARQnAQ' width=400/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*znCaS48_BpgAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
 ### drag-group
 

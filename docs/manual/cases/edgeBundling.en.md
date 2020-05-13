@@ -5,7 +5,7 @@ order: 2
 
 ## Background
 
-Most graphs are visualized as node-link diagram, which is appropriate for traffic network with geographical information on nodes, e.g. migration graph and ariline network.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Vzp9Q7ZA0rcAAAAAAAAAAABkARQnAQ' width=400 /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GRE6SrrAWnoAAAAAAAAAAABkARQnAQ' width=400 />
+Most graphs are visualized as node-link diagram, which is appropriate for traffic network with geographical information on nodes, e.g. migration graph and ariline network.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Vzp9Q7ZA0rcAAAAAAAAAAABkARQnAQ' width=400 alt='img'/> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GRE6SrrAWnoAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
 > (Left) Figure 1. The airlines of France. (Right) Figure 2. The airlines of United States.
 
@@ -55,7 +55,7 @@ Here goes a example with complicated American flights data, where the nodes repr
 }
 ```
 
-Render the nodes and edges by G6 directly, we will obtain the result: <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zYUrQqDGslMAAAAAAAAAAABkARQnAQ'  width=850 />
+Render the nodes and edges by G6 directly, we will obtain the result: <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zYUrQqDGslMAAAAAAAAAAABkARQnAQ'  width=850 alt='img'/>
 
 > Figure 5. Render the source data by G6.
 
@@ -66,7 +66,7 @@ Figure 5 shows the result with chaotic crossings which is hard for users to figu
 We wish to improve the visual clutter of Figure 5 by edge bundling to show the global trends and structures and highlight the important cities with many flights. These cities might be the important traffic pivots. We also try to illustrate some statistical informations for analysis. Powered by G6, we are able to achive the result with: Bundling the edges, Mapping the edge directions to gradient colors(departure-orange, arrival-cyan) of the edge; Mapping the total number of flights about the cities to the size of the node; Adding interactions of hover; Utilizing the tooltip to show the longitute and latitute.
 
 <br />
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*BC4AQbOd6HIAAAAAAAAAAABkARQnAQ' width=850 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*BC4AQbOd6HIAAAAAAAAAAABkARQnAQ' width=850 alt='img'/>
 
 > The expected effect and the tooltip.
 
@@ -145,7 +145,7 @@ const edgeBundling = new Bundling({
 
 ### Custom Pie Node
 
-In the first step, we have mapped the degrees of nodes onto their size. To demonstrate the ratio of leaving and arriving flights, we design a pie-chart node for each city. For example, <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*stNMRLlBLMUAAAAAAAAAAABkARQnAQ' width=60 />, the orange fan represents the number of arriving flights, and the cyan fan represents the number of leaving flights. The built-in nodes in G6 do not meet such requirement. Thus, we now register a custom node by the custom mechanism of G6:
+In the first step, we have mapped the degrees of nodes onto their size. To demonstrate the ratio of leaving and arriving flights, we design a pie-chart node for each city. For example, <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*stNMRLlBLMUAAAAAAAAAAABkARQnAQ' width=60 alt='img'/>, the orange fan represents the number of arriving flights, and the cyan fan represents the number of leaving flights. The built-in nodes in G6 do not meet such requirement. Thus, we now register a custom node by the custom mechanism of G6:
 
 ```javascript
 const lightBlue = 'rgb(119, 243, 252)';
@@ -305,17 +305,17 @@ Then, we add a configuration `modes` onto the graph in the code about instantiat
  }
 ```
 
-After these configurations, the `tooltip` with longitude and latitude will show up when mouse hovers a node:<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*d3mSS6mETf8AAAAAAAAAAABkARQnAQ' width=850 />
+After these configurations, the `tooltip` with longitude and latitude will show up when mouse hovers a node:<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*d3mSS6mETf8AAAAAAAAAAABkARQnAQ' width=850 alt='img'/>
 
 > tooltip
 
-In the same time, the canvas is draggable and zoomable: <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5h5tR5eDM6UAAAAAAAAAAABkARQnAQ' width=550 height=350 />
+In the same time, the canvas is draggable and zoomable: <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5h5tR5eDM6UAAAAAAAAAAABkARQnAQ' width=550 height=350 alt='img'/>
 
 > Drag and zoom the canvas
 
 ## Analysis
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ePUIQZaDVecAAAAAAAAAAABkARQnAQ' width=850 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ePUIQZaDVecAAAAAAAAAAABkARQnAQ' width=850 alt='img'/>
 
 > The final result. The size of the node indicates the total flights about the city. The pie node indicates the ratio of leaving flights and arriving flights (orange for arriving, cyan for leaving). The gradient color of an edge indicates its direction (cyan for start, orange for end).
 

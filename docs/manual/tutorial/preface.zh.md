@@ -11,7 +11,7 @@ G6 是一个图可视化引擎。它提供了图的绘制、布局、分析、�
 
 我们在本入门教程中将会完成一个如下图所示简单的图可视化，我们将在后文中称其为 **Tutorial 案例**，<a href='https://codepen.io/Yanyan-Wang/pen/mdbYZvZ' target='_blank'>完整代码</a>。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YlTVS54xV3EAAAAAAAAAAABkARQnAQ'  width=500 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YlTVS54xV3EAAAAAAAAAAABkARQnAQ'  width=500 alt='img' />
 
 <div style="text-align: center;"><b>Tutorial 案例</b> 效果图</div>
 
