@@ -266,6 +266,94 @@ const combo = {
   }]
 }
 
+
+const data_doc = {
+  nodes: [
+    {
+      id: 'node6',
+      comboId: 'comboC',
+      label: 'node6',
+      x: 482.0068696961372,
+      y: 446.38541741056656,
+    },
+    {
+      id: 'node1',
+      label: 'node1',
+      comboId: 'comboA',
+      x: 416.9572439461195,
+      y: 349.9241603364356
+    },
+    {
+      id: 'node9',
+      label: 'node9',
+      comboId: 'comboB',
+      x: 644.4622901073748,
+      y: 268.15932193994286
+    },
+    {
+      id: 'node2',
+      label: 'node2',
+      comboId: 'comboA',
+      x: 381.2959078558995,
+      y: 328.1513601730224
+    },
+    {
+      id: 'node3',
+      label: 'node3',
+      comboId: 'comboA',
+      x: 414.9970473480873,
+      y: 305.8553704166942
+    },
+    {
+      id: 'node7',
+      comboId: 'comboB',
+      label: 'node7',
+      x: 685.4462242685507,
+      y: 275.68847246280853
+    },
+    {
+      id: 'node10',
+      label: 'node10',
+      comboId: 'comboC',
+      x: 585.0912351575695,
+      y: 427.8580074917479
+    },
+  ],
+  edges: [
+    {
+      source: 'node1',
+      target: 'node2',
+    },
+    {
+      source: 'node2',
+      target: 'node3',
+    },
+  ],
+  combos: [
+    {
+      id: 'comboA',
+      label: 'Combo A',
+      parentId: 'comboC',
+    },
+    {
+      id: 'comboB',
+      label: 'Combo B',
+      parentId: 'comboC',
+    },
+    {
+      id: 'comboC',
+      label: 'Combo C',
+    },
+    {
+      id: 'comboD',
+      label: 'Combo D',
+      x: 131.7741514943344,
+      y: 307.05617206639687
+    },
+  ],
+};
+
+
 const DefaultCombo = () => {
   const container = React.useRef();
   useEffect(() => {
@@ -278,35 +366,38 @@ const DefaultCombo = () => {
         modes: {
           default: ['drag-canvas', 'drag-combo', 'drag-node', 'collapse-expand-combo']
         },
-        defaultNode: {
-          shape: 'circle'
-        },
-        defaultCombo: {
-          // size: [100, 100],
-          type: 'circle',
-          style: {
-            fill: '#ccc',
-            opacity: 0.9
-          }
-        },
-        comboStateStyles: {
-          selected: {
-            'text-shape': {
-              fill: '#f00',
-              fontSize: 20
-            },
-            fill: '#f00'
-          },
-          state2: {
-            stroke: '#0f0'
-          }
-        },
-        defaultEdge: {
-          style: {
-            stroke: '#f00',
-            lineWidth: 3
-          }
-        }
+        // layout: {
+        //   type: 'comboForce'
+        // },
+        // defaultNode: {
+        //   shape: 'circle'
+        // },
+        // defaultCombo: {
+        //   // size: [100, 100],
+        //   type: 'circle',
+        //   style: {
+        //     fill: '#ccc',
+        //     opacity: 0.9
+        //   }
+        // },
+        // comboStateStyles: {
+        //   selected: {
+        //     'text-shape': {
+        //       fill: '#f00',
+        //       fontSize: 20
+        //     },
+        //     fill: '#f00'
+        //   },
+        //   state2: {
+        //     stroke: '#0f0'
+        //   }
+        // },
+        // defaultEdge: {
+        //   style: {
+        //     stroke: '#f00',
+        //     lineWidth: 3
+        //   }
+        // }
       });
       // graph.combo(combo => {
       //   return {
@@ -319,73 +410,79 @@ const DefaultCombo = () => {
       //     }
       //   }
       // });
-      graph.data(combo);
+      graph.data(data_doc);
       graph.render();
-      let selected = false;
-      graph.on('node:click', e => {
-        graph.hideItem(e.item);
-      })
-      graph.on('combo:click', e => {
-        // selected = !selected;
-        // graph.setItemState(e.item, 'selected', selected);
-        // graph.setItemState(e.item, 'state2', selected);
-        // graph.getNodes().forEach(node => {
-        //   node.hide();
-        // });
-        // graph.hideItem(e.item);
-        // graph.updateItem(e.item, {
-        //   // type: 'rect',
-        //   style: {
-        //     fill: '#f00'
-        //   },
-        //   // label: 'new Label',
-        //   // labelCfg: {
-        //   //   position: 'bottom'
-        //   // }
-        // });
-        // graph.uncombo(e.item);
-      });
+      // let selected = false;
+      // graph.on('node:click', e => {
+      //   graph.hideItem(e.item);
+      // })
+      // graph.on('combo:click', e => {
+      // selected = !selected;
+      // graph.setItemState(e.item, 'selected', selected);
+      // graph.setItemState(e.item, 'state2', selected);
+      // graph.getNodes().forEach(node => {
+      //   node.hide();
+      // });
+      // graph.hideItem(e.item);
+      // graph.updateItem(e.item, {
+      //   // type: 'rect',
+      //   style: {
+      //     fill: '#f00'
+      //   },
+      //   // label: 'new Label',
+      //   // labelCfg: {
+      //   //   position: 'bottom'
+      //   // }
+      // });
+      // graph.uncombo(e.item);
+      // });
+      // graph.on('canvas:click', e => {
+      //   // graph.setItemState(graph.findById('A'), 'selected', true);
+      //   // console.log( graph.findAllByState('combo', 'selected'))
+      //   const hidedCombos = graph.findAll('combo', combo => {
+      //     if (!combo.isVisible()) return true;
+      //     return false;
+      //   });
+      //   hidedCombos.forEach(combo => {
+      //     graph.showItem(combo);
+      //   })
+
+      //   graph.updateItem(graph.getNodes()[0], {
+      //     x: 100,
+      //     y: 100
+      //   });
+      // console.log(graph.getCombos()[0]);
+      // console.log(graph.getComboChildren(graph.getCombos()[0]));
+      //graph.focusItem(graph.getCombos()[0]);
+      // graph.remove('B');
+      // graph.remove('A');
+      // graph.changeData(data2);
+      // graph.changeData(graph.save());
+
+      // graph.render();
+      // graph.addItem('combo', {
+      //   id: 'M',
+      //   parentId: 'B'
+      // });
+
+      // graph.addItem('node', {
+      //   id: 'M',
+      //   comboId: 'A'
+      // });
+
+      // graph.updateItem('A', {
+      //   parentId: 'B'
+      // });
+
+      // console.log(graph.save());
+
+      //   graph.updateComboTree('A', 'M');
+      // });
       graph.on('canvas:click', e => {
-        // graph.setItemState(graph.findById('A'), 'selected', true);
-        // console.log( graph.findAllByState('combo', 'selected'))
-        const hidedCombos = graph.findAll('combo', combo => {
-          if (!combo.isVisible()) return true;
-          return false;
+        graph.getCombos().forEach(node => {
+          const model = node.getModel();
+          console.log(model.id, model.x, model.y);
         });
-        hidedCombos.forEach(combo => {
-          graph.showItem(combo);
-        })
-
-        graph.updateItem(graph.getNodes()[0], {
-          x: 100,
-          y: 100
-        });
-        // console.log(graph.getCombos()[0]);
-        // console.log(graph.getComboChildren(graph.getCombos()[0]));
-        //graph.focusItem(graph.getCombos()[0]);
-        // graph.remove('B');
-        // graph.remove('A');
-        // graph.changeData(data2);
-        // graph.changeData(graph.save());
-
-        // graph.render();
-        // graph.addItem('combo', {
-        //   id: 'M',
-        //   parentId: 'B'
-        // });
-
-        // graph.addItem('node', {
-        //   id: 'M',
-        //   comboId: 'A'
-        // });
-
-        // graph.updateItem('A', {
-        //   parentId: 'B'
-        // });
-
-        // console.log(graph.save());
-
-        graph.updateComboTree('A', 'M');
       });
     }
   });

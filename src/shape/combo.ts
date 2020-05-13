@@ -4,7 +4,7 @@
  */
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
-import { isArray, isNil, clone, isNumber } from '@antv/util';
+import { isArray, isNil, clone } from '@antv/util';
 import { ILabelConfig, ShapeOptions } from '../interface/shape';
 import { Item, LabelStyle, NodeConfig, ModelConfig, ShapeStyle } from '../types';
 import Global from '../global';
