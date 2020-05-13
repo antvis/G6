@@ -176,7 +176,7 @@ const graph = new G6.Graph({
     default: ['drag-canvas'],
   },
   defaultNode: {
-    type: 'circleNode',
+    type: 'circle',
   },
   defaultEdge: {
     color: '#bae7ff',
@@ -225,7 +225,7 @@ const graph = new G6.Graph({
   width: 800,
   height: 600,
   modes: {
-    default: ['drag-group', 'collapse-expand-group', 'drag- node-with-group'],
+    default: ['drag-group', 'collapse-expand-group', 'drag-node-with-group'],
   },
   defaultNode: {
     type: 'circleNode',
