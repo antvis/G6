@@ -20,10 +20,9 @@ order: 8
 | parentId | string | false | 'comboB' | 该 Combo 的父 Combo 的 ID |
 | padding | Number / Number[] | false | 10 或 [ 10, 20, 10, 20 ] | 该 Combo 内边距 |
 | label | string | false | 'combo A' | 该 Combo 的文本标签 |
-| style | Object | false |  | 该 Combo 的样式配置项，详见[内置 Combo 配置文档](/zh/docs/manual/middle/elements/combos/defaultCombo#样式属性-style)及各类型 Combo 的文档 |
-| labelCfg | Object | false |  | 该 Combo 的文本标签样式配置项，详见[内置 Combo 配置文档](/zh/docs/manual/middle/elements/combos/defaultCombo#标签文本-label-及其配置-labelcfg)及各类型 Combo 的文档 |
+| style | Object | false | 与节点样式配置相同，见 | 该 Combo 的样式配置项 |
+| labelCfg | Object | false | 与节点的文本标签样式配置相同，见 | 该 Combo 的文本标签样式配置项 |
 
-`combos` 数组中一个数据项的示例：
 ```javascript
 {
   id: 'comboA',
