@@ -44,7 +44,7 @@ const graph = new G6.Graph({
 });
 ```
 
-The canvas can be dragged along x direction only.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*54yxRrW1A7sAAAAAAAAAAABkARQnAQ' width=400/>
+The canvas can be dragged along x direction only.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*54yxRrW1A7sAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
 ### zoom-canvas
 
@@ -72,7 +72,7 @@ const graph = new G6.Graph({
 });
 ```
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hre9Qa7yCfQAAAAAAAAAAABkARQnAQ' width=400/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hre9Qa7yCfQAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
 **Activate** `delegate`
 
@@ -89,7 +89,7 @@ const graph = new G6.Graph({
 });
 ```
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*BN83QJQpU40AAAAAAAAAAABkARQnAQ' width=400/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*BN83QJQpU40AAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
 ### click-select
 
@@ -108,7 +108,7 @@ const graph = new G6.Graph({
 });
 ```
 
-Press **`Shift`** button to select more items.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mOiIQqBof8sAAAAAAAAAAABkARQnAQ' width=400/>
+Press **`Shift`** button to select more items.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mOiIQqBof8sAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
 **Configuration**
 
@@ -194,7 +194,7 @@ const graph = new G6.Graph({
 });
 ```
 
-The selected state of the selected node will be maintained after the `activate-relations` operation by default.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bG31RqbM4JMAAAAAAAAAAABkARQnAQ' width=400/>
+The selected state of the selected node will be maintained after the `activate-relations` operation by default.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bG31RqbM4JMAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
 **Configuration**
 
@@ -213,7 +213,7 @@ const graph = new G6.Graph({
 
 Assign `true` to `resetSelected` to reset the selected states for nodes after the `activate-relations` operation.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VQDrT5Qpq_sAAAAAAAAAAABkARQnAQ' width=400/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VQDrT5Qpq_sAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
 ### brush-select
 
@@ -241,7 +241,7 @@ const graph = new G6.Graph({
 });
 ```
 
-Select by brushing when the Shift button is pressed by default. And the edges are selectable as well.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IJizQonX75wAAAAAAAAAAABkARQnAQ' width=400/>
+Select by brushing when the Shift button is pressed by default. And the edges are selectable as well.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IJizQonX75wAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
 **Configuration**
 
@@ -259,7 +259,7 @@ const graph = new G6.Graph({
 });
 ```
 
-By the configurations above, the operation is activated when the Ctrl button is pressed, and the edges will not be selected during the process.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1xNZT7mPFK4AAAAAAAAAAABkARQnAQ' width=400/>
+By the configurations above, the operation is activated when the Ctrl button is pressed, and the edges will not be selected during the process.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1xNZT7mPFK4AAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
 **Conflict Configuration：**
 
@@ -277,7 +277,7 @@ const graph = new G6.Graph({
 });
 ```
 
-When the `trigger` in `brush-select` is assigned to `drag`, an the `drag-canvas` exists in this mode, their operation will conflict.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*umffRa8rHtUAAAAAAAAAAABkARQnAQ' width=400/>
+When the `trigger` in `brush-select` is assigned to `drag`, an the `drag-canvas` exists in this mode, their operation will conflict.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*umffRa8rHtUAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
 It is obvious that the selecting by brushing is activated while dragging the canvas. To avoid this situation, we can assign other values for `trigger` in `brush-select`. Besides, the following solution also works:
 
@@ -360,7 +360,7 @@ const graph = new G6.Graph({
 });
 ```
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*znCaS48_BpgAAAAAAAAAAABkARQnAQ' width=400/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*znCaS48_BpgAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
 ### drag-group
 

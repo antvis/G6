@@ -5,7 +5,7 @@ order: 4
 
 G6 封装了一系列交互方法，方便用户直接使用。本文将为 **Tutorial 案例** 增加简单的交互：hover 节点、点击节点、点击边、放缩画布、拖拽画布。本节目标效果如下：
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dijtQ6nB5Y4AAAAAAAAAAABkARQnAQ' width=500 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dijtQ6nB5Y4AAAAAAAAAAABkARQnAQ' width=500 alt='img' />
 
 > 图 1 Tutorial 案例的交互效果。
 

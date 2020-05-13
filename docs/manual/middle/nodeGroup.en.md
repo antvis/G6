@@ -5,7 +5,7 @@ order: 9
 
 > The title of Node Group is supported from G6 V3.1.2.
 
-Node Group is a practical function for graph visualization. It is supported from G6 V3.0.5. Refer to the demo <a href='/zh/examples/interaction/nodeGroup' target='_blank'>Demo</a>. <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*G1OBSJf672QAAAAAAAAAAABkARQnAQ' width=400/>
+Node Group is a practical function for graph visualization. It is supported from G6 V3.0.5. Refer to the demo <a href='/zh/examples/interaction/nodeGroup' target='_blank'>Demo</a>. <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*G1OBSJf672QAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
 ### Data Structure
 
@@ -187,7 +187,7 @@ graph.data(data);
 graph.render();
 ```
 
-The result: <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iftmRrdqR7cAAAAAAAAAAABkARQnAQ' width=400/>
+The result: <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iftmRrdqR7cAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
 <br />To controll the nodes and the groups, we now assign the behaviors to them.
 
@@ -238,4 +238,4 @@ const graph = new G6.Graph({
 
 Assigning the three built-in Behavior into `modes` of the graph instance results in:
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VsMbRqOJe2sAAAAAAAAAAABkARQnAQ' width=400/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VsMbRqOJe2sAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>

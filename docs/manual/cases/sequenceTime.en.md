@@ -39,19 +39,19 @@ There are some extensions in the detail view of the app: <br />1）Log demonstra
 
 The demonstration of emergency is an architecture graph with states, which aims to visualize and analyze the relationships between systems and showing the abnormal states for operation and maintenance. Users can find the abnormal nodes easily by viewing the demonstration of emergency. <br />We provide two views for the demonstration of emergency: flow and path.<br />
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cilcQ7Z1_OYAAAAAAAAAAABkARQnAQ' width=425 height=250 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cilcQ7Z1_OYAAAAAAAAAAABkARQnAQ' width=425 height=250 alt='img'/>
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zOJzTL-l89cAAAAAAAAAAABkARQnAQ' width=425 height=250 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zOJzTL-l89cAAAAAAAAAAABkARQnAQ' width=425 height=250 alt='img'/>
 
 <br />The flow view looks fantastic at first glance, but there are lots of redundant information in actual emergency works. It is not helpful for handling the key problem quickly. Therefore, we use the path view on the emergency workbench to show the graph more clearly. The core data of these two views are the same. The path view bundles the flow paths.<br />
 
 ### Time Series Analysis
 
-Actually, a graph can only map the state profile of the actual system at a moment. The problem does not occur instantaneously, but more like the undulating waters of a lake. To understand the state of the system at any time, we need to use the ability of timing analysis. It can be achieved by the time series analysis tool:<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hPxRT6SbgskAAAAAAAAAAABkARQnAQ' width=850 height=200 />
+Actually, a graph can only map the state profile of the actual system at a moment. The problem does not occur instantaneously, but more like the undulating waters of a lake. To understand the state of the system at any time, we need to use the ability of timing analysis. It can be achieved by the time series analysis tool:<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hPxRT6SbgskAAAAAAAAAAABkARQnAQ' width=850 height=200 alt='img'/>
 
 This tool has three levels of time control: minutes -> hour -> day. The user switches between different days through the date selection control, analyzes the 24-hour fluctuation trend through the time axis throughout the day, and selects the specific time period to determine the minute-level analysis to be performed. Finally, the analysis is performed by selecting the specific aspect.<br />
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*pD71SJOp69YAAAAAAAAAAABkARQnAQ' width=850 height=350 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*pD71SJOp69YAAAAAAAAAAABkARQnAQ' width=850 height=350 alt='img'/>
 
 The timing analysis module has added a time axis. By default, a bar chart of the total number of errors per hour in the last hour is displayed. Clicking the bar chart indicates that a certain time point is selected. After selection, all function request interfaces are triggered to refresh all functions.<br />After selecting a specific time point, all functions in the page need to be refreshed again. Therefore, the data model layer of the selection time is relatively global in this page module, and all submodules that need to be changed based on this data should listen to this data during the life cycle. The demonstration also needs to be updated after new data is requested. After handling the above details, our demonstration has a very powerful timing analysis capability.
 
@@ -59,11 +59,11 @@ The timing analysis module has added a time axis. By default, a bar chart of the
 
 From the perspective of experience, when we deal with emergency work, what we want to do most is that users do not rely on other applications, and can directly find the most fundamental cause of the problem on our demonstation. However, due to the limitations of the current graph visualization, all the information currently converges to a "node" color block, and the information that can be mapped is very limited. Therefore, a natural idea is to expand the node expression ability.<br />Thanks to G6's rendering capabilities, we can easily expand the expressions we want on the nodes. Through the following example, you can see that the node extension capability of G6 is very powerful.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*vV8UR50p1ZIAAAAAAAAAAABkARQnAQ' width=850 height=400/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*vV8UR50p1ZIAAAAAAAAAAABkARQnAQ' width=850 height=400 alt='img'/>
 
 <br />The abilities after extend:
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v3MhT61nn1YAAAAAAAAAAABkARQnAQ' width=850 height=300 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v3MhT61nn1YAAAAAAAAAAABkARQnAQ' width=850 height=300 alt='img'/>
 
 We achieve these features by G6:
 
@@ -71,12 +71,12 @@ We achieve these features by G6:
 
 <br />With such a foundation, node styles are not limited to simple geometric shapes, but instead map representative information to nodes so that the shape of a node can roughly reflect the characteristics of a node at a glance. This is also meaningful in some scenarios where multiple nodes need to be compared.<br /> <br /> In this emergency workbench, the error data within one hour is selected to expand the node information. The specific solution is to distribute these time series information on the circumference of the original node, and the size of the information value is mapped with a radial histogram.<br />
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*PEFPSZwgqScAAAAAAAAAAABkARQnAQ' width=850 height=550 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*PEFPSZwgqScAAAAAAAAAAABkARQnAQ' width=850 height=550 alt='img'/>
 
 ### Complete Demo
 
 <video src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/file/A*7W5ZQa3KUKIAAAAAAAAAAABkARQnAQ' width=850 height=400 controls>
-  <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9NAiSJrAlYMAAAAAAAAAAABkARQnAQ' width=850 height=400 />
+  <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9NAiSJrAlYMAAAAAAAAAAABkARQnAQ' width=850 height=400 alt='img'/>
 </video>
 
 ## Conclusion & Future Work

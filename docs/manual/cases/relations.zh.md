@@ -22,7 +22,7 @@ order: 1
   - 隐藏 / 显示 Label；
   - 隐藏 / 显示节点。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rPWURa-ft2QAAAAAAAAAAABkARQnAQ' width=850 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rPWURa-ft2QAAAAAAAAAAABkARQnAQ' width=850 alt='img'/>
 
 ## 关系扩散
 
@@ -30,17 +30,17 @@ order: 1
 
 适用场景：在社交网络中，通过 A 的一度关系可以查询到他的所有朋友，通过二度关系，可以查询到他的朋友的朋友，通过分析相关动态，可以了解到关于 A 的更多的信息。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HxQMR5kqVJcAAAAAAAAAAABkARQnAQ' width=850 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HxQMR5kqVJcAAAAAAAAAAABkARQnAQ' width=850 alt='img'/>
 
 ## 关系预判
 
 在海量数据的社交网络中，人与人、人与组织之间会存在多种类型的关系。假设已知，如 A 是 B 的朋友，B 属于 og 组织。未知：C 与 D 是否也属于 og 组织；如果加入 C 和 D 点到当前图上，网络会如何变化；为 C 和 D 增加“预测”类型的关系，网络会如何变化。为了解这些未知的信息，我们使用关系预判功能。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*nWzDSKyUjUQAAAAAAAAAAABkARQnAQ' width=450 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*nWzDSKyUjUQAAAAAAAAAAABkARQnAQ' width=450 alt='img'/>
 
 适用场景：在社交网络中，为两个原本不相关的节点增加预测边，查看网络发生的变化，以确定该操作对图产生的效果。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*O22IRIJs4FMAAAAAAAAAAABkARQnAQ' width=850 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*O22IRIJs4FMAAAAAAAAAAABkARQnAQ' width=850 alt='img'/>
 
 ## 关系聚合
 
@@ -55,7 +55,7 @@ A 和 B 之间可能会存在多个同事关系，如 A 和 B 在 company1 公�
 
 适用场景：检测用户是否存在于已知的朋友圈中。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z895QL8sBWQAAAAAAAAAAABkARQnAQ' width=850 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z895QL8sBWQAAAAAAAAAAABkARQnAQ' width=850 alt='img'/>
 
 ## 圈查询
 
@@ -63,7 +63,7 @@ A 和 B 之间可能会存在多个同事关系，如 A 和 B 在 company1 公�
 
 适用场景：查询指定朋友圈中所有的用户以及用户之间的关系。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZFytR6C3uYIAAAAAAAAAAABkARQnAQ' width=850 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZFytR6C3uYIAAAAAAAAAAABkARQnAQ' width=850 alt='img'/>
 
 ## 高效分析
 
@@ -73,29 +73,29 @@ A 和 B 之间可能会存在多个同事关系，如 A 和 B 在 company1 公�
 
 当画布上存在大量的节点及边时，想要进行高效分析是件很困难的事情，我们可以通过过滤的功能，将暂时不需要关注的类型的节点和边先隐藏起来，以便我们将精力放在重点的节点和边上面。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*MydBT7sgPHIAAAAAAAAAAABkARQnAQ' width=850 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*MydBT7sgPHIAAAAAAAAAAABkARQnAQ' width=850 alt='img'/>
 
 ### 标记节点及边
 
 在分析过程中，将重点需要关注的节点和边进行标记，可以在复杂的网络关系中很清晰地呈现出我们需要重点关注的内容。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7V_-TJv9ZgQAAAAAAAAAAABkARQnAQ' width=850 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7V_-TJv9ZgQAAAAAAAAAAABkARQnAQ' width=850 alt='img'/>
 
 该功能尤其适用于探索特别复杂的网络中。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cYv4RocCh34AAAAAAAAAAABkARQnAQ' width=850 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cYv4RocCh34AAAAAAAAAAABkARQnAQ' width=850 alt='img'/>
 
 ### 隐藏 / 显示节点
 
 在分析过程中，我们可以选择性地隐藏不重要的节点及其相关边，方便我们将注意力集中在重点的节点上面。当分析完成以后，可以选择将隐藏的节点全部显示出来。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2L89QI_u16AAAAAAAAAAAABkARQnAQ' width=850 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2L89QI_u16AAAAAAAAAAAABkARQnAQ' width=850 alt='img'/>
 
 ### 隐藏 / 显示 Label
 
 当边的数量特别大时，边上的 label 相互重叠，影响我们进一步的分析。此时，可以选择将边上的 label 隐藏。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YXxGQIrYgxMAAAAAAAAAAABkARQnAQ' width=850 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YXxGQIrYgxMAAAAAAAAAAABkARQnAQ' width=850 alt='img'/>
 
 ## 总结
 

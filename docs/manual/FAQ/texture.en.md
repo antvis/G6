@@ -5,7 +5,7 @@ order: 5
 
 G6 support filling a shape with texture with **Image** or **Data URL**.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cPgYSJ2ZfwYAAAAAAAAAAABkARQnAQ' width='750' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cPgYSJ2ZfwYAAAAAAAAAAABkARQnAQ' width='750' alt='img'/>
 
 > `p` is the flag for using texture; the text in green can be modified to satisfy your requirements; `a` is a way of repeating of the texture, which can be changed into:
 

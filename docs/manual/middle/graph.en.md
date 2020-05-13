@@ -17,7 +17,7 @@ In [Getting Started](/en/docs/manual/getting-started), we introduce the process 
 
 ## Prerequisite Code
 
-The code for interpretation of this chapter will base on the following JavaScript code embedded in HTML. By defining the data, instantiating the graph, loading the data, and rendering the graph, the code below results in the graph in the figure:<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Lo6lT7SrhB8AAAAAAAAAAABkARQnAQ' width='200' />
+The code for interpretation of this chapter will base on the following JavaScript code embedded in HTML. By defining the data, instantiating the graph, loading the data, and rendering the graph, the code below results in the graph in the figure:<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Lo6lT7SrhB8AAAAAAAAAAABkARQnAQ' width='200' alt='img'/>
 
 ```html
 <!DOCTYPE html>

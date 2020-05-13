@@ -5,7 +5,7 @@ order: 9
 
 > New Feature：自 G6 3.1.2 开始支持自定义节点分组的标题了，可以渲染带有标题的分组。
 
-对于熟悉图可视化类库的用户来说，节点分组可能是比较实用的一个功能。自 G6 3.0.5 版本开始，G6 加入了节点分组的功能，详情参考 <a href='/zh/examples/interaction/nodeGroup' target='_blank'>Demo</a>。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*G1OBSJf672QAAAAAAAAAAABkARQnAQ' width=400/>
+对于熟悉图可视化类库的用户来说，节点分组可能是比较实用的一个功能。自 G6 3.0.5 版本开始，G6 加入了节点分组的功能，详情参考 <a href='/zh/examples/interaction/nodeGroup' target='_blank'>Demo</a>。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*G1OBSJf672QAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
 ### 数据结构
 
@@ -187,7 +187,7 @@ graph.data(data);
 graph.render();
 ```
 
-渲染的效果如下图所示：<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iftmRrdqR7cAAAAAAAAAAABkARQnAQ' width=400/><br />此时，不能对分组中的节点及分组进行任何操作，接下来，我们介绍可以对分组进行的各种操作。
+渲染的效果如下图所示：<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iftmRrdqR7cAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />此时，不能对分组中的节点及分组进行任何操作，接下来，我们介绍可以对分组进行的各种操作。
 
 ### 操作分组
 
@@ -239,7 +239,7 @@ const graph = new G6.Graph({
 
 将这三个内置提供的 Behavior 加入到 `modes` 中以后的效果如下图所示。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VsMbRqOJe2sAAAAAAAAAAABkARQnAQ' width=400/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VsMbRqOJe2sAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
 ### 适用场景
 

@@ -1478,7 +1478,7 @@ const elements: {
 
 In this part, we will describe the methods about transformation between view port, canvas, and client coordinates. The relationships between them are shown below:
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M_xPSqLZYawAAAAAAAAAAABkARQnAQ' width=565 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M_xPSqLZYawAAAAAAAAAAABkARQnAQ' width=565 alt='img'/>
 
 ### getPointByClient(clientX, clientY)
 

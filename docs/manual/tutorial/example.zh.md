@@ -94,7 +94,7 @@ order: 1
 
 调用 `graph.render()` 方法之后，G6 引擎会根据加载的数据进行图的绘制。结果如下：
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YTfpQYVGhuEAAAAAAAAAAABkARQnAQ' width=400 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YTfpQYVGhuEAAAAAAAAAAABkARQnAQ' width=400 alt='img' />
 
 ## 真实数据加载
 
@@ -125,7 +125,7 @@ order: 1
 
 运行后，我们得到了下图结果：
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*KzQaSZKIsQoAAAAAAAAAAABkARQnAQ' width=550 height=350 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*KzQaSZKIsQoAAAAAAAAAAABkARQnAQ' width=550 height=350 alt='img' />
 
 乍看之下，图像有点奇怪，实际上数据已经正确的加载了进来。由于数据量比较大，节点和边都非常的多，显得内容比较杂乱。另外由于画布大小的限制，实际的图被画布截断了，目前只能看见部分内容，这个问题后文会继续解决。
 
@@ -159,7 +159,7 @@ const graph = new G6.Graph({
 });
 ```
 
-上述代码将会生成如下图： <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wAXzRJaNTXUAAAAAAAAAAABkARQnAQ' width=850 />
+上述代码将会生成如下图： <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wAXzRJaNTXUAAAAAAAAAAABkARQnAQ' width=850 alt='img' />
 
 可以看到，图像已经可以自动适配画布的大小，完整的显示了出来。
 

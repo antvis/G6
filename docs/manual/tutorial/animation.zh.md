@@ -29,8 +29,8 @@ const graph = new G6.Graph({
 
 ## 元素动画
 
-G6 允许用户通过自定义节点/边的方式，给元素增加动画效果，如下：<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hYJSQaneVmgAAAAAAAAAAABkARQnAQ' width=330 />
+G6 允许用户通过自定义节点/边的方式，给元素增加动画效果，如下：<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hYJSQaneVmgAAAAAAAAAAABkARQnAQ' width=330  alt='img'/>
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-90pSrm4hkUAAAAAAAAAAABkARQnAQ' width=330 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-90pSrm4hkUAAAAAAAAAAABkARQnAQ' width=330 alt='img' />
 
 更多关于动画的案例请参考 [G6 中的动画案例](/zh/examples/scatter/node)。

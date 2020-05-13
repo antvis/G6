@@ -15,13 +15,13 @@ Apply plugins with three steps:<br />  Step 1: Import the plugin;<br />  Step 
 
 Minimap is a tool for quick preview and exploration on large graph.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*kGesRLgy1CsAAAAAAAAAAABkARQnAQ' width=520  />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*kGesRLgy1CsAAAAAAAAAAABkARQnAQ' width=520 alt='img'/>
 
 Now, we are goint to configure a minimap to **Tutorial Demo**.
 
 **Expected Effect**
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SI8ZSpcqecgAAAAAAAAAAABkARQnAQ' width=350 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SI8ZSpcqecgAAAAAAAAAAABkARQnAQ' width=350 alt='img' />
 
 **Usage**
 
@@ -48,7 +48,7 @@ Grid helps to align the node while user drags it.
 
 **Expected Effect**
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*y8u6Rrc78uIAAAAAAAAAAABkARQnAQ' width=300 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*y8u6Rrc78uIAAAAAAAAAAABkARQnAQ' width=300 alt='img' />
 
 **Usage** Configure it onto the graph:
 
@@ -75,7 +75,7 @@ Node tooltip shows the detail information when mouse enters a node. More configu
 
 **Expected Effect**
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v1svQLkEPrUAAAAAAAAAAABkARQnAQ' width=300 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v1svQLkEPrUAAAAAAAAAAABkARQnAQ' width=300 alt='img' />
 
 **Usage**
 
@@ -127,7 +127,7 @@ Edge tooltip shows the detail information when mouse enters a edge. More configu
 
 **Expected Effect**
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Uk10SYFNNi8AAAAAAAAAAABkARQnAQ' width=300 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Uk10SYFNNi8AAAAAAAAAAABkARQnAQ' width=300 alt='img' />
 
 **Usage**
 

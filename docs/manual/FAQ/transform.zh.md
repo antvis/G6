@@ -29,7 +29,7 @@ const rect = group.addShape('rect', {
 });
 ```
 
-得到的结果如下图所示： <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lkUoTp5xXmoAAAAAAAAAAABkARQnAQ' width='200' />
+得到的结果如下图所示： <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lkUoTp5xXmoAAAAAAAAAAABkARQnAQ' width='200' alt='img'/>
 
 对其进行如下操作：
 
