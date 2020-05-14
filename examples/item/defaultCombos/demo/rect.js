@@ -27,6 +27,8 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
+  // Set groupByTypes to false to get rendering result with reasonable visual zIndex for combos
+  groupByTypes: false,
   defaultCombo: {
     type: 'rect',
     size: [50, 50], // Combo 的最小大小

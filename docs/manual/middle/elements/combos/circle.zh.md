@@ -11,6 +11,8 @@ G6 内置了圆  Circle Combo，其默认样式如下。标签文本位于圆�
 
 如 [内置 Combo](/zh/docs/manual/middle/elements/combos/defaultCombo) 一节所示，配置 Combo 的方式有两种：实例化图时全局配置，在数据中动态配置。
 
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 使用 Combo 时，必须在示例化图时配置 `groupByTypes` 设置为 `false`，图中元素的视觉层级才能合理。
+
 ### 1 实例化图时全局配置
 
 用户在实例化 Graph 时候可以通过 `defaultCombo` 指定 `type` 为 `'circle'`，即可使用 `circle` Combo。
@@ -20,6 +22,8 @@ const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
+  // 必须将 groupByTypes 设置为 false，带有 combo 的图中元素的视觉层级才能合理
+  groupByTypes: false,
   defaultCombo: {
     type: 'circle', // Combo 类型
     // ... 其他配置
@@ -81,6 +85,8 @@ const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
+  // 必须将 groupByTypes 设置为 false，带有 combo 的图中元素的视觉层级才能合理
+  groupByTypes: false,
   defaultCombo: {
     // type: 'circle',  // 在数据中已经指定 type，这里无需再次指定
     style: {
@@ -104,6 +110,8 @@ const data = {
 };
 const graph = new G6.Graph({
   // ... 图的其他属性
+  // 必须将 groupByTypes 设置为 false，带有 combo 的图中元素的视觉层级才能合理
+  groupByTypes: false,
   defaultCombo: {
     // ... Combo 其他属性
     labelCfg: {

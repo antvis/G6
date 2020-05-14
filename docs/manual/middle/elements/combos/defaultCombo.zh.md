@@ -7,6 +7,9 @@ G6 的内置 Combo 包括 circle 和 rect 两种类型，分别如下图所示�
 
 本文将概述 G6 中的各个内置 Combo 类型、内置 Combo 的通用属性、配置方法。各类型 Combo 详细配置项及配置方法见本目录下相应文档。
 
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 使用 Combo 时，必须在示例化图时配置 `groupByTypes` 设置为 `false`，图中元素的视觉层级才能合理。
+
+
 ## 内置 Combo 类型说明
 
 下面表格中显示了内置的各类 Combo，同时对一些特殊的字段进行了说明：
@@ -55,6 +58,8 @@ const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
+  // 必须将 groupByTypes 设置为 false，带有 combo 的图中元素的视觉层级才能合理
+  groupByTypes: false,
   defaultCombo: {
     // ... 其他属性
     style: {
@@ -97,6 +102,8 @@ const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
+  // 必须将 groupByTypes 设置为 false，带有 combo 的图中元素的视觉层级才能合理
+  groupByTypes: false,
   defaultCombo: {
     // ... 其他属性
     labelCfg: {
@@ -127,6 +134,8 @@ const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
+  // 必须将 groupByTypes 设置为 false，带有 combo 的图中元素的视觉层级才能合理
+  groupByTypes: false,
   defaultCombo: {
     type: 'circle',
     // 其他配置
@@ -225,6 +234,8 @@ const graph = new G6.Graph({
   container: 'mountNode',
   width: 1500,
   height: 300,
+  // 必须将 groupByTypes 设置为 false，带有 combo 的图中元素的视觉层级才能合理
+  groupByTypes: false,
 });
 graph.data(data);
 graph.render();

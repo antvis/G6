@@ -1,6 +1,6 @@
 ---
 title: Change Mode to Add items
-order: 6
+order: 7
 ---
 
 You can change to different modes with the selector on the left top. Dragging node, adding node, adding edge are enabled in different modes. This mechanism help developers to avoid the conflict of same events in different behaviors.
