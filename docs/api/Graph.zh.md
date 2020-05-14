@@ -410,6 +410,7 @@ graph.addItem('group', model);
 ### updateItem(item, model)
 
 更新元素，包括更新数据、样式等。
+若图上有 combo，使用该函数更新一个节点位置后，需要调用 [updateCombo(combo)](/zh/docs/api/Graph#updatecombocombo) 以更新相关 combo 的位置。
 
 **参数**
 
