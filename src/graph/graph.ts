@@ -1283,7 +1283,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
   /**
    * 解散 combo
-   * @param {String | INode | ICombo} item 需要被解散的 Combo item 或 id
+   * @param {String | INode | ICombo} combo 需要被解散的 Combo item 或 id
    */
   public uncombo(combo: string | ICombo) {
     const self = this;
@@ -1392,12 +1392,60 @@ export default class Graph extends EventEmitter implements IGraph {
           itemController.updateCombo(childItem, child.children);
 
           // 更新 Combo 后，还原已有的状态
-          each(states, state => this.setItemState(childItem, state, true))
+          each(states, state => this.setItemState(childItem, state, true));
+
         }
         return true;
       });
     });
     self.sortCombos();
+  }
+
+
+  /**
+   * 根据节点的 bbox 更新 combo 及其祖先 combos 的绘制，包括 combos 的位置和范围
+   * @param {String | ICombo} combo 需要被更新的 Combo 或 id，若指定，则该 Combo 及所有祖先 Combod 都会被更新
+   */
+  public updateCombo(combo: string | ICombo) {
+    const self = this;
+
+    let comboItem: ICombo = combo as ICombo;
+    let comboId;
+    if (isString(combo)) {
+      comboItem = this.findById(combo) as ICombo;
+    }
+    if (!comboItem || comboItem.getType() !== 'combo') {
+      console.warn('The item to be updated is not a combo!');
+      return;
+    }
+    comboId = comboItem.get('id');
+
+    const comboTrees = this.get('comboTrees');
+    const itemController: ItemController = self.get('itemController');
+
+    const itemMap = self.get('itemMap');
+    comboTrees && comboTrees.forEach((ctree: ComboTree) => {
+      traverseTreeUp<ComboTree>(ctree, child => {
+        if (!child) {
+          return true;
+        }
+        const childItem = itemMap[child.id];
+        if (comboId === child.id && childItem && childItem.getType() === 'combo') {
+          // 更新具体的 Combo 之前先清除所有的已有状态，以免将 state 中的样式更新为 Combo 的样式
+          const states = [...childItem.getStates()]
+          each(states, state => this.setItemState(childItem, state, false))
+
+          // 更新具体的 Combo
+          itemController.updateCombo(childItem, child.children);
+
+          // 更新 Combo 后，还原已有的状态
+          each(states, state => this.setItemState(childItem, state, true));
+
+          if (comboId) comboId = child.parentId;
+        }
+        return true;
+      });
+    });
   }
 
   /**
