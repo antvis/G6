@@ -7,6 +7,8 @@ The built-in Combos in G6 include circle and rect types. <br /> <img src='https:
 
 In this document, we will briefly introduce the built-in Combos in G6, the common property, and the way to configure the combo type. To know more about each type of built-in combos in G6, please refer to the corresponding documents in this directory.
 
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span> Must set the `groupByTypes` to `false` when instantiating the graph, which will result in rendering result with reasonable visual zIndex for combos.
+
 ## Types of Default Combos
 
 The table below shows the built-in Combos and their special properties:
@@ -53,6 +55,8 @@ const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
+  // Set groupByTypes to false to get rendering result with reasonable visual zIndex for combos
+  groupByTypes: false,
   defaultCombo: {
     // ... Other properties for combos
     style: {
@@ -95,6 +99,8 @@ const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
+  // Set groupByTypes to false to get rendering result with reasonable visual zIndex for combos
+  groupByTypes: false,
   defaultCombo: {
     // ... Other properties for combos
     labelCfg: {
@@ -125,6 +131,8 @@ const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
+  // Set groupByTypes to false to get rendering result with reasonable visual zIndex for combos
+  groupByTypes: false,
   defaultCombo: {
     type: 'circle',
     // Other properties for all the combos
@@ -223,6 +231,8 @@ const graph = new G6.Graph({
   container: 'mountNode',
   width: 1500,
   height: 300,
+  // Set groupByTypes to false to get rendering result with reasonable visual zIndex for combos
+  groupByTypes: false,
 });
 graph.data(data);
 graph.render();

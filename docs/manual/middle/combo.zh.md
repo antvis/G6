@@ -77,6 +77,9 @@ order: 8
 - 当没有使用任何布局时，需要在 `nodes` 数组中指定各个节点的坐标信息，即节点的 `x` 和 `y` 属性值，否则会使用随机的位置；
 - 空的 combo 将使用随机位置。
 
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 必须在示例化图时配置 `groupByTypes` 设置为 `false`，带有 combo 的图中元素的视觉层级才能合理。
+
+
 ```javascript
 const data = {
   nodes: [
@@ -167,6 +170,8 @@ const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
+  // 必须将 groupByTypes 设置为 false，带有 combo 的图中元素的视觉层级才能合理
+  groupByTypes: false,
 });
 
 graph.data(data);
@@ -215,6 +220,8 @@ const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
+  // 必须将 groupByTypes 设置为 false，带有 combo 的图中元素的视觉层级才能合理
+  groupByTypes: false,
   modes: {
     default: ['drag-combo', 'collapse-expand-combo', 'drag-node'],
   }
