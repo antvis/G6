@@ -32,21 +32,21 @@ order: 8
 },
 ```
 
-2. 在 nodes 数组中的数据项内加入 comboId 属性，表示该节点与某个 Combo 的从属关系。
+2. 在 nodes 数组中的数据项内加入 `comboId` 属性，表示该节点与某个 Combo 的从属关系。
 
 ```javascript
 {
   nodes: [
     {
       id: 'node1',
-      comboId: 'comboA'
+      comboId: 'comboA' // node1 属于 comboA
     },
     {
       id: 'node2',
-      comboId: 'comboB'
+      comboId: 'comboB' // node2 属于 comboB
     },
     {
-      id: 'node3'
+      id: 'node3' // node3 不属于任何 combo
     },
     // ...
   ],
@@ -54,16 +54,16 @@ order: 8
     // ...
   ],
   combos: [
-    {
+    { // 定义 comboA
       id: 'comboA',
       label: 'A',
       parentId: 'comboC'
     },
-    {
+    { // 定义 comboB
       id: 'comboB',
       parentId: 'comboB'
     },
-    {
+    { // 定义 comboC，这是一个空的 combo
       id: 'comboC'
     },
     // ...
@@ -73,7 +73,9 @@ order: 8
 
 ### 渲染 Combo
 
-当 nodes 中存在 `comboId` 属性字段时，在渲染过程中，G6 就会自动去渲染分组。当存在 combos 属性时，G6 就会判断各分组之间的层级关系，并渲染出嵌套的分组。但当没有使用任何布局的时候，需要在 nodes 中指定各个节点的坐标信息，即节点的 `x` 和 `y` 属性值。
+- 当存在 `combos` 数组、 `nodes` 数组中的节点数据项中存在 `comboId` 时，G6 将根据数据及 `parentId` 或 `comboId` 判断各 Combo 及节点之间的层级关系，并渲染出嵌套的 Combo；
+- 当没有使用任何布局时，需要在 `nodes` 数组中指定各个节点的坐标信息，即节点的 `x` 和 `y` 属性值，否则会使用随机的位置；
+- 空的 combo 将使用随机位置。
 
 ```javascript
 const data = {
@@ -165,9 +167,6 @@ const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
-  modes: {
-    default: ['drag-canvas'],
-  },
 });
 
 graph.data(data);
@@ -185,16 +184,7 @@ graph.render();
 
 只是简单地将 Combo 渲染出来，并没有多大的实用价值，只有支持一系列的交互操作后，才能最大程度地体现 Combo 的价值。
 
-在 G6 中，我们内置了 `drag-combo`、`collapse-expand-combo`、`drag-node` 两个 [Behavior](/zh/docs/manual/middle/states/defaultBehavior)，共支持以下的交互行为：
-
-- 拖动 Combo；
-- 通过拖拽，动态改变 Combo 中的节点数量及 Combo 大小；
-- 将一个 Combo 从父 Combo 中拖拽出来，并取消 Combo 直接的关联关系，动态改变父 Combo 的大小；
-- 双击 Combo，收起和展开 Combo：
-  - 当收起 Combo 后，与 Combo 节点中的连线会自动连到 Combo 上；
-  - 展开 Combo 后，恢复之前的连接和位置。
-- 拖动节点，所在的 Combo 高亮，当拖到其他 Combo 时，其他 Combo 高亮；
-- 将 Combo 拖入到另外个 Combo ，并改变 Combo 层级的所属关系。
+在 G6 中，我们内置了 `drag-combo`、`collapse-expand-combo`、`drag-node` 三个 [Behavior](/zh/docs/manual/middle/states/defaultBehavior)。
 
 #### drag-combo
 
@@ -214,6 +204,9 @@ graph.render();
 拖拽节点过程中，动态改变节点与父 Combo 的从属关系。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*E8MCQr5OywgAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
+
+
+#### 配置交互
 
 通过下面代码在实例化图时将三个 behavior 配置到图上即可使用上述交互：
 
