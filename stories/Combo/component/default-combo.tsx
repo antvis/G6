@@ -502,10 +502,12 @@ const DefaultCombo = () => {
       //   graph.updateComboTree('A', 'M');
       // });
       graph.on('canvas:click', e => {
-        graph.getCombos().forEach(node => {
-          const model = node.getModel();
-          console.log(model.id, model.x, model.y);
+        const node1 = graph.findById('node1');
+        graph.updateItem(node1, {
+          x: 100,
+          y: 100
         });
+        graph.updateCombo(node1.getModel().comboId as string)
       });
     }
   });
