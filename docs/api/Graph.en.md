@@ -404,6 +404,7 @@ The same as addItem(type, model).
 ### updateItem(item, model)
 
 Update the item with new data model.
+If there are combos in the graph, after calling updateItem to update the position of a node, call [updateCombo(combo)](/en/docs/api/Graph#updatecombocombo) to update the sizes and positions of the related combos.
 
 **Parameters**
 
