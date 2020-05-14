@@ -7,4 +7,4 @@ The custom node mechanism in G6 allows users to design their own node when there
 
 ## Usage
 
-For more information, please refer to [Custom Node](/en/docs/manual/advanced/custom-node)。
+For more information, please refer to [Custom Node](/en/docs/manual/advanced/custom-node).
