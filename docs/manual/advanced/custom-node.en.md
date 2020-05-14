@@ -5,7 +5,7 @@ order: 1
 
 G6 provides abundant [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode), including [circle](/en/docs/manual/middle/elements/nodes/circle), [rect](/en/docs/manual/middle/elements/nodes/rect, [ellipse](/en/docs/manual/middle/elements/nodes/ellipse), [diamond](/en/docs/manual/middle/elements/nodes/diamond), [triangle](/en/docs/manual/middle/elements/nodes/triangle), [star](/en/docs/manual/middle/elements/nodes/star), [image](/en/docs/manual/middle/elements/nodes/image), [modelRect](/en/docs/manual/middle/elements/nodes/modelRect). Besides, the custom machanism allows the users to design their own type of nodes by `G6.registerNode('nodeName', options)`. A node with complex graphics shapes, complex interactions, fantastic animations can be implemented easily.
 
-In this document, we will introduce the custom node mechinism by five examples: 
+In this document, we will introduce the custom node mechanism by five examples: 
 <br />
 <strong>1. Register a brand new node: </strong>Draw the graphics; Optimize the performance.
 <br />
