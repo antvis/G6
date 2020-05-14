@@ -9,7 +9,7 @@ Node Group is a practical function for graph visualization. It is supported from
 
 ### Data Structure
 
-In data, Node Group are defined as array `group`, and each node data has a property `groupId`.
+In data, Node Group are defined as array `groups`, and each node data has a property `groupId`.
 
 The `title` for a group can be a string or an object:
 
