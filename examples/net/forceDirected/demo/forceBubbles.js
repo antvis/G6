@@ -121,8 +121,14 @@ const data = {
   edges: [],
 };
 
+const tipDiv = document.createElement('div');
+tipDiv.innerHTML = 'Try to click or drag a bubble!';
+const graphDiv = document.getElementById('container');
+graphDiv.appendChild(tipDiv)
+
 const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
+const height = (document.getElementById('container').scrollHeight || 500) - 20;
+
 const graph = new G6.Graph({
   container: 'container',
   width,
@@ -163,7 +169,7 @@ nodes.forEach(node => {
 // map the value to node size
 let maxNodeValue = -9999,
   minNodeValue = 9999;
-nodes.forEach(function(n) {
+nodes.forEach(function (n) {
   if (maxNodeValue < n.value) maxNodeValue = n.value;
   if (minNodeValue > n.value) minNodeValue = n.value;
 });
@@ -171,40 +177,35 @@ const nodeSizeRange = [10, 30];
 const nodeSizeDataRange = [minNodeValue, maxNodeValue];
 scaleNodeProp(nodes, 'size', 'value', nodeSizeDataRange, nodeSizeRange);
 
-nodes.forEach(function(node) {
+nodes.forEach(function (node) {
   node.oriSize = node.size;
   node.oriLabel = node.label;
 });
-
-const tipDiv = document.createElement('div');
-tipDiv.innerHTML = 'Try to click or drag a bubble!';
-const graphDiv = document.getElementById('mountNode');
-document.body.insertBefore(tipDiv, graphDiv);
 
 function refreshDragedNodePosition(e) {
   const model = e.item.get('model');
   model.fx = e.x;
   model.fy = e.y;
 }
-graph.on('node:dragstart', function(e) {
+graph.on('node:dragstart', function (e) {
   graph.layout();
   refreshDragedNodePosition(e);
 });
-graph.on('node:drag', function(e) {
+graph.on('node:drag', function (e) {
   refreshDragedNodePosition(e);
 });
-graph.on('node:dragend', function(e) {
+graph.on('node:dragend', function (e) {
   e.item.get('model').fx = null;
   e.item.get('model').fy = null;
 });
-graph.on('node:click', function(e) {
+graph.on('node:click', function (e) {
   const node = e.item;
   const states = node.getStates();
   let clicked = false;
   const model = node.getModel();
   let size = 200;
   let labelText = 'NODE: ' + model.id + '\n' + model.description;
-  states.forEach(function(state) {
+  states.forEach(function (state) {
     if (state === 'click') {
       clicked = true;
       size = model.oriSize;
@@ -225,7 +226,7 @@ graph.render();
 function scaleNodeProp(elements, propName, refPropName, dataRange, outRange) {
   const outLength = outRange[1] - outRange[0];
   const dataLength = dataRange[1] - dataRange[0];
-  elements.forEach(function(n) {
+  elements.forEach(function (n) {
     if (propName.split('.')[0] === 'style') {
       if (n.style) {
         n.style[propName.split('.')[1]] =

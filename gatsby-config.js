@@ -165,11 +165,11 @@ module.exports = {
         },
       },
       {
-        slug: 'shape',
+        slug: 'item',
         icon: 'shape',
         title: {
           zh: '元素',
-          en: 'Shape',
+          en: 'Item',
         },
       },
       {

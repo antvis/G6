@@ -5,7 +5,7 @@ order: 3
 
 G6 提供了一系列[内置 Combo](/zh/docs/manual/middle/elements/combos/defaultCombo)，包括 [circle](/zh/docs/manual/middle/elements/combos/circle)、[rect](/zh/docs/manual/middle/elements/combos/rect)。若内置 Combo 无法满足需求，用户还可以通过 `G6.registerCombo ('comboName', options, expendedComboName)` 进行**自定义扩展内置的 Combo**，方便用户开发更加定制化的 Combo，包括含有复杂图形的 Combo、复杂交互的 Combo、带有动画的 Combo 等。
 
-在本章中，我们通过两个案例，讲解从自定义扩展现有 Combo。
+在本章中，我们通过两个案例，讲解通过自定义扩展现有 Combo。
 
 ## Combo 接口
 
@@ -69,6 +69,8 @@ G6.registerCombo(
 
 ## 1. 自定义扩展内置 Rect Combo
 
+<a href='/zh/examples/item/customCombo#cRect' target='_blank'>Demo</a>。
+
 ### 内置 Rect Combo 位置逻辑详解
 
 首先，我们需要了解内置的 rect 类型的 Combo 内部的位置逻辑：
@@ -88,8 +90,6 @@ G6.registerCombo(
 现在，我们自己实现一个如下图所示的 Combo 类型（下图展示空 Combo）：
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2-SWQKDHFygAAAAAAAAAAABkARQnAQ' width='120' alt='img'/>
-
-
 
 
 根据上述 [内置 Rect Combo 位置逻辑详解](./custom-combo#内置-rect-combo-位置逻辑详解)，在扩展 rect 类型 Combo 时需要注意复写方法中 `x`、`y`、`width`、`height` 的设置
@@ -184,6 +184,8 @@ graph.render();
 
 
 ## 2. 自定义扩展内置 Circle Combo
+
+<a href='/zh/examples/item/customCombo#cCircle' target='_blank'>Demo</a>。
 
 ### 内置 Circle Combo 位置逻辑详解
 
@@ -325,3 +327,21 @@ graph.render();
 ```
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1LelSq5TP9EAAAAAAAAAAABkARQnAQ' alt='img' width='400'/>
+
+
+### 自定义交互
+
+在上面代码中，实例化图时为图配置了 `'collapse-expand-combo'` 交互，即双击 Combo 可以展开和收起。若我们希望在单击 Combo 下方的 marker 时，展开/收起 Combo，则可以去掉 `'collapse-expand-combo'` 配置，并添加如下监听代码：
+
+```javascript
+// collapse/expand when click the marker
+graph.on('combo:click', e => {
+  if (e.target.get('name') === 'combo-marker-shape') {
+    // Collapse or expand the combo
+    graph.collapseExpandCombo(e.item);
+    
+    if (graph.get('layout')) graph.layout(); // If there is a layout configured on the graph, relayout
+    else graph.refreshPositions(); // Refresh positions for items otherwise
+  }
+});
+```
