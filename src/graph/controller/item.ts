@@ -102,7 +102,7 @@ export default class ItemController {
       if (target && isString(target)) {
         target = graph.findById(target);
       }
-      
+
       if (!source || !target) {
         console.warn(`The source or target node of edge ${model.id} does not exist!`);
         return;
@@ -244,6 +244,9 @@ export default class ItemController {
         graph.refreshItem(edge);
       });
     }
+    // if (type === NODE) {
+    //   graph.updateCombo((item.getModel() as NodeConfig).comboId);
+    // }
     graph.emit('afterupdateitem', { item, cfg });
   }
 
