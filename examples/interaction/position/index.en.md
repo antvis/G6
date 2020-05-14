@@ -1,6 +1,6 @@
 ---
 title: Move Nodes
-order: 5
+order: 6
 ---
 
 Move the graph by interaction.
