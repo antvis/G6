@@ -214,55 +214,78 @@ const combo = {
     }, {
       id: 'node2',
       label: 'Node 2'
-    }, {
-      id: 'node3',
-      label: 'Node 3',
-      comboId: 'custom_combo'
-    }, {
-      id: 'node4',
-      label: 'Node 4',
-      comboId: 'custom_combo'
-    }],
+    },
+    // {
+    //   id: 'node3',
+    //   label: 'Node 3',
+    //   comboId: 'custom_combo'
+    // }, {
+    //   id: 'node4',
+    //   label: 'Node 4',
+    //   comboId: 'custom_combo'
+    // }
+  ],
   combos: [{
     id: 'circle_combo',
     label: 'Circle',
     type: 'circle',
-    style: {
-      fill: '#eaff8f',
-      stroke: '#bae637',
-      lineWidth: 3,
-    },
-    labelCfg: {
-      position: 'left',
-      refX: 5,
-      style: {
-        fill: '#bae637',
-        fontSize: 15
-        // ... 其他文本样式的配置
-      },
-    }
+    // style: {
+    //   fill: '#eaff8f',
+    //   stroke: '#bae637',
+    //   lineWidth: 3,
+    // },
+    // labelCfg: {
+    //   position: 'left',
+    //   refX: 5,
+    //   style: {
+    //     fill: '#bae637',
+    //     fontSize: 15
+    //     // ... 其他文本样式的配置
+    //   },
+    // }
   }, {
     id: 'rect_combo',
     type: 'rect',
     label: 'Rect',
-    style: {
-      fill: '#eaff8f',
-      stroke: '#bae637',
-      lineWidth: 3,
-    },
+    // style: {
+    //   fill: '#eaff8f',
+    //   stroke: '#bae637',
+    //   lineWidth: 3,
+    // },
+    // labelCfg: {
+    //   position: 'bottom',
+    //   refY: -12,
+    //   style: {
+    //     fill: '#bae637',
+    //     fontSize: 15
+    //     // ... 其他文本样式的配置
+    //   },
+    // },
     labelCfg: {
       position: 'bottom',
+      refX: 5,
       refY: -12,
       style: {
-        fill: '#bae637',
-        fontSize: 15
-        // ... 其他文本样式的配置
-      },
+        fill: '#fff'
+      }
     },
+    style: {
+      fill: '#fa8c16',
+      stroke: '#000',
+      lineWidth: 2
+    }
   }, {
     id: 'custom_combo',
     type: 'rectCircleCombo',
     label: 'Custom'
+  }, {
+    id: 'rect combo',
+    type: 'rect',
+    label: 'Rect'
+  }, {
+    id: 'circle combo',
+    type: 'circle',
+    label: 'Circle'
   }]
 }
 
@@ -410,7 +433,7 @@ const DefaultCombo = () => {
       //     }
       //   }
       // });
-      graph.data(data_doc);
+      graph.data(combo);
       graph.render();
       // let selected = false;
       // graph.on('node:click', e => {

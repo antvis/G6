@@ -3,7 +3,10 @@ title: Rect
 order: 1
 ---
 
-G6 内置了矩形 Rect Combo，其默认样式如下。标签文本位于矩形内部左上方。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Fh2TT6Wh5t4AAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
+G6 内置了矩形 Rect Combo，其默认样式如下。标签文本位于矩形内部左上方。<a href='/zh/examples/item/defaultCombos#rect' target='_blank'>Demo</a>
+<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Khp4QpxXVlQAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
+
+
 
 ## 使用方法
 
@@ -63,7 +66,7 @@ Rect Combo 支持 [Combo 通用配置](/zh/docs/manual/middle/elements/combos/de
 
 ### 样式属性 style
 
-Object 类型。支持 [Combo 通用样式](/zh/docs/manual/middle/elements/combos/defaultCombo#样式属性-style)。通过 `style` 配置来修改 Combo 的填充色、描边等属性。下面代码演示在实例化图时全局配置方法中配置 `style`，使之达到如下图效果。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*MP2QQ6nw24QAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
+Object 类型。支持 [Combo 通用样式](/zh/docs/manual/middle/elements/combos/defaultCombo#样式属性-style)。通过 `style` 配置来修改 Combo 的填充色、描边等属性。下面代码演示在实例化图时全局配置方法中配置 `style`，使之达到如下图效果。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VwLDQrjV9PkAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 ```javascript
 const data = {
@@ -94,7 +97,7 @@ graph.render();
 
 ### 标签文本配置 labelCfg
 
-Object 类型。通过 `labelCfg` 配置标签文本。支持 [Combo 通用标签配置](/zh/docs/manual/middle/elements/combos/defaultCombo/#标签文本-label-及其配置-labelcfg)。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultCombo` 中增加了  `labelCfg`  配置项进行文本的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*J02tTJYUqhAAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
+Object 类型。通过 `labelCfg` 配置标签文本。支持 [Combo 通用标签配置](/zh/docs/manual/middle/elements/combos/defaultCombo/#标签文本-label-及其配置-labelcfg)。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultCombo` 中增加了  `labelCfg`  配置项进行文本的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qAqbSLqTWSoAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 ```javascript
 const data = {

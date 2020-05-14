@@ -77,6 +77,8 @@ Since the updating logic of Combo is special (upate the size and position accord
 
 ## 1. Extend the Rect Combo
 
+<a href='/en/examples/item/customCombo#cRect' target='_blank'>Demo</a>.
+
 ### Illustration of Built-in Rect Combo
 
 As shown in the figure below, the position logic of built-in rect Combo:
@@ -189,6 +191,8 @@ graph.render();
 
 
 ## 2. Extend the Circle Combo
+
+<a href='/en/examples/item/customCombo#cCircle' target='_blank'>Demo</a>.
 
 ### Illustration of Built-in Circle Combo
 
@@ -330,3 +334,21 @@ graph.render();
 ```
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1LelSq5TP9EAAAAAAAAAAABkARQnAQ' width='400' alt='img'/>
+
+
+### Custom Behavior
+
+In the code above, we configured `'collapse-expand-combo'` for the graph, which means allowing user to double click a combo to make it collapsed or expanded. To expand/collapse the combo when clicking the marker instead of double clicking the combo, remove `'collapse-expand-combo'` configuration, and append the following code:
+
+```javascript
+// collapse/expand when click the marker
+graph.on('combo:click', e => {
+  if (e.target.get('name') === 'combo-marker-shape') {
+    // Collapse or expand the combo
+    graph.collapseExpandCombo(e.item);
+    
+    if (graph.get('layout')) graph.layout(); // If there is a layout configured on the graph, relayout
+    else graph.refreshPositions(); // Refresh positions for items otherwise
+  }
+});
+```

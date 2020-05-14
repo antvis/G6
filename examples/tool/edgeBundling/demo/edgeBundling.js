@@ -394,13 +394,13 @@ const graph = new G6.Graph({
   linkCenter: true,
   layout: {
     type: 'circular',
-    center: [ width / 2, height / 2 ],
+    center: [width / 2, height / 2],
     radius: height / 2.5,
     ordering: null
   },
-  plugins: [ edgeBundling ],
+  plugins: [edgeBundling],
   defaultNode: {
-    size: [ 20, 20 ],
+    size: [20, 20],
     color: 'steelblue'
   },
   defaultEdge: {
@@ -413,5 +413,4 @@ graph.render();
 
 setTimeout(() => {
   edgeBundling.bundling(data);
-  const tipDiv = document.getElementById('tip').innerHTML = '边绑定完成！';
-}, 3000);
+}, 1000);
