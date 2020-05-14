@@ -1,0 +1,18 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "cCircle.js",
+      "title": "带有 Marker 的 Circle",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1LelSq5TP9EAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "cRect.js",
+      "title": "带有 Marker 的 Rect",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rQGaT4kiaYoAAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}

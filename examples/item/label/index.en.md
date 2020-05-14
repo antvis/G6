@@ -1,6 +1,6 @@
 ---
 title: Long Label
-order: 4
+order: 6
 ---
 
 Proccess the long label in G6.
