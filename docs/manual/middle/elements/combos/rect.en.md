@@ -11,6 +11,9 @@ Built-in Rect Combo has the default style as below, the label is drawed on the l
 
 As stated in [Built-in Combos](/en/docs/manual/middle/elements/combos/defaultCombo) , there are two ways to configure the combo: Configure it when instantiating a Graph globally; Configure it in the data.
 
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span> Must set the `groupByTypes` to `false` when instantiating the graph, which will result in rendering result with reasonable visual zIndex for combos.
+
+
 ### 1 Global Configure When Instantiating a Graph
 
 Assign `type` to `'rect'` in the `defaultCombo` object when instantiating a Graph:
@@ -20,6 +23,8 @@ const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
+  // Set groupByTypes to false to get rendering result with reasonable visual zIndex for combos
+  groupByTypes: false,
   defaultCombo: {
     type: 'rect', // The type of the combo
     // ... Other configuraltions
@@ -80,6 +85,8 @@ const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
+  // Set groupByTypes to false to get rendering result with reasonable visual zIndex for combos
+  groupByTypes: false,
   defaultCombo: {
     // type: 'rect',  // The type has been assigned in the data, we do not have to define it any more
     style: {
@@ -103,6 +110,8 @@ const data = {
 };
 const graph = new G6.Graph({
   // ... Other configurations for graph
+  // Set groupByTypes to false to get rendering result with reasonable visual zIndex for combos
+  groupByTypes: false,
   defaultCombo: {
     // ... Other properties for combos
     labelCfg: {

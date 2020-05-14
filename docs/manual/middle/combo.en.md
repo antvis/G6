@@ -77,6 +77,9 @@ An example for the data item for a combo
 - When there is no layout configured in the graph, you'd better assign `x` and `y` in the data items of `nodes`, or they will be placed at random positions;
 - Empty combo will be placed randomly.
 
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span> Must set the `groupByTypes` to `false` when instantiating the graph, which will result in rendering result with reasonable visual zIndex for combos.
+
+
 ```javascript
 const data = {
   nodes: [
@@ -167,6 +170,8 @@ const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
+  // Set groupByTypes to false to get rendering result with reasonable visual zIndex for combos
+  groupByTypes: false,
 });
 
 graph.data(data);
@@ -212,6 +217,8 @@ const graph = new G6.Graph({
   container: 'mountNode',
   width: 800,
   height: 600,
+  // Set groupByTypes to false to get rendering result with reasonable visual zIndex for combos
+  groupByTypes: false,
   modes: {
     default: ['drag-combo', 'collapse-expand-combo', 'drag-node'],
   }
