@@ -383,8 +383,15 @@ const data = {
   ],
 };
 
+const descriptionDiv = document.createElement('div');
+descriptionDiv.innerHTML =
+  'Radial layout, focusNode =  = 0, unitRadius = 50, preventOverlap: false';
+const graphDiv = document.getElementById('container');
+graphDiv.appendChild(descriptionDiv)
+
 const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
+const height = (document.getElementById('container').scrollHeight || 500) - 20;
+
 const graph = new G6.Graph({
   container: 'container',
   width,
@@ -419,20 +426,14 @@ const graph = new G6.Graph({
 graph.data(data);
 graph.render();
 
-const descriptionDiv = document.createElement('div');
-descriptionDiv.innerHTML =
-  'Radial layout, focusNode =  = 0, unitRadius = 50, preventOverlap: false';
-const graphDiv = document.getElementById('mountNode');
-document.body.insertBefore(descriptionDiv, graphDiv);
-
 layoutConfigTranslation();
 
-setInterval(function() {
+setInterval(function () {
   layoutConfigTranslation();
 }, 7000);
 
 function layoutConfigTranslation() {
-  setTimeout(function() {
+  setTimeout(function () {
     descriptionDiv.innerHTML =
       'Radial layout, focusNode =  = 0, unitRadius = 50, preventOverlap: true';
     graph.updateLayout({
@@ -441,7 +442,7 @@ function layoutConfigTranslation() {
     });
   }, 1000);
 
-  setTimeout(function() {
+  setTimeout(function () {
     descriptionDiv.innerHTML =
       'Radial layout, focusNode =  = 0, unitRadius = 80, preventOverlap: true';
     graph.updateLayout({
@@ -449,7 +450,7 @@ function layoutConfigTranslation() {
     });
   }, 2500);
 
-  setTimeout(function() {
+  setTimeout(function () {
     descriptionDiv.innerHTML =
       'Radial layout, focusNode =  = 10, unitRadius = 80, preventOverlap: true';
     graph.updateLayout({
@@ -457,7 +458,7 @@ function layoutConfigTranslation() {
     });
   }, 4000);
 
-  setTimeout(function() {
+  setTimeout(function () {
     descriptionDiv.innerHTML =
       'Radial layout, focusNode =  = 20, unitRadius = 80, preventOverlap: true';
     graph.updateLayout({
@@ -465,7 +466,7 @@ function layoutConfigTranslation() {
     });
   }, 5500);
 
-  setTimeout(function() {
+  setTimeout(function () {
     descriptionDiv.innerHTML =
       'Radial layout, focusNode =  = 0, unitRadius = 50, preventOverlap: false';
     graph.updateLayout({

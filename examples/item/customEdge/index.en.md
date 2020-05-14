@@ -1,6 +1,6 @@
 ---
 title: Custom Edge
-order: 3
+order: 4
 ---
 
 The custom edge mechanism in G6 allows users to design their own edge when there are no appropriate built-in edges for their scenario.
@@ -16,4 +16,4 @@ Updating the control points of polyline while dragging the end nodes is an impor
 
 The third demo shows how to customize an edge with multiple labels.
 
-For more information, please refer to the document [Custom Edge](/zh/docs/manual/advanced/custom-edge).
+For more information, please refer to the document [Custom Edge](/en/docs/manual/advanced/custom-edge).

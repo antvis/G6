@@ -3,7 +3,7 @@ title: Node Combo
 order: 8
 ---
 
-Node Combo is a new feature for V3.5. The [node group](/zh/docs/manual/middle/nodeGroup) is also available. We recommend to use Combo for node grouping. <a href='' target='_blank'>Demo</a>. 
+Node Combo is a new feature for V3.5. The [node group](/zh/docs/manual/middle/nodeGroup) is also available. We recommend to use Combo for node grouping. <a href='/en/examples/item/defaultCombos' target='_blank'>Demo</a>. 
 <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AngFRpOo4SAAAAAAAAAAAABkARQnAQ' width=600 alt='img'/>
 
 
@@ -176,7 +176,7 @@ graph.render();
 The result:
 <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ltsuTbIkG48AAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
-The example above uses the default [Circle Combo](/en/docs/manual/middle/elements/combos/circle), G6 also has [Rect Combo](/en/docs/manual/middle/elements/combos/rect). The configurations can be found in their docs. You can also customize a type of combo by [Custom Combo](/en/docs/manual/advanced/custom-combo) mechanism.
+The example above uses the default [Circle Combo](/en/docs/manual/middle/elements/combos/circle), G6 also has [Rect Combo](/en/docs/manual/middle/elements/combos/rect). The configurations can be found in their docs. You can also customize a type of combo by [Custom Combo](/en/docs/manual/advanced/custom-combo) mechanism. <a href='/zh/examples/item/customCombo' target='_blank'>Custom Combo Demo</a>。
 
 <br />此时，不能对分组中的节点及 Combo 进行任何操作，接下来，我们介绍可以对 Combo 进行的各种操作。
 
