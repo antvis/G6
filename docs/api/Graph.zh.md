@@ -315,7 +315,7 @@ graph.createCombo({
 
 | 名称    | 类型   | 是否必选 | 描述    |
 | ------- | ------ | -------- | ------- |
-| item | string / ICombo | true    | 需要被拆解的 Combo item 或 id |
+| combo | string / ICombo | true    | 需要被拆解的 Combo item 或 id |
 
 **用法**
 
@@ -447,10 +447,36 @@ graph.updateItem(item, model);
 
 **用法**
 
-```
-graph.updateCombos()
+```javascript
+// 更新所有 combos
+graph.updateCombos();
 ```
 
+
+### updateCombo(combo)
+仅更新 combo 及其所有祖先 combo。建议在使用 graph.updateItem 来更新节点位置时，调用该方法以更新节点的祖先 combos。
+
+**参数**
+
+| 名称 | 类型            | 是否必选 | 描述               |
+| ---- | --------------- | -------- | ----------------------------------- |
+| combo | string / ICombo | true    | Combo ID 或 Combo 实例 |
+
+**用法**
+
+```javascript
+
+// 更新了某个节点的位置
+const node1 = graph.findById('node1');
+graph.updateItem(node1, {
+  x: 100,
+  y: 100
+});
+const comboId = node1.getModel().comboId;
+
+// 更新 node1 所属的 combo 及其所有祖先 combo 的大小和位置
+graph.updateCombo(comboId);
+```
 
 
 ### updateComboTree(item, parentId)
