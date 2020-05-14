@@ -261,7 +261,11 @@ const DefaultCombo = () => {
       //     }
       //   }
       // });
+<<<<<<< HEAD
       graph.data(data);
+=======
+      graph.data(combo);
+>>>>>>> docs: add combo and custom combo demos for site.
       graph.render();
       // let selected = false;
       // graph.on('node:click', e => {

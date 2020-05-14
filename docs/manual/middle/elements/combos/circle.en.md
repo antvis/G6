@@ -4,6 +4,7 @@ order: 1
 ---
 
 Built-in Circle Combo has the default style as below, the label is drawed on the center of it.
+<a href='/en/examples/item/defaultCombos#circle' target='_blank'>Demo</a>
 <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ijeuQoiH0JUAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 ## Usage

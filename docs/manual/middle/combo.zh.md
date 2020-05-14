@@ -5,7 +5,7 @@ order: 8
 
 > V3.5 后支持的全新节点分组 Combo 机制。[原节点分组](/zh/docs/manual/middle/nodeGroup)仍可使用。
 
-对于熟悉图可视化类库的用户来说，节点分组是非常实用的一个功能。此前，G6 已经存在一个节点分组 Node Group 功能，但它的机制无法支持一些较复杂的功能，例如：带有节点分组的图布局、自定义 Combo、嵌套节点分组的均匀 padding、节点与分组的边、分组与分组的边、空的节点分组等。V3.5 推出了全新的节点分组 Combo 机制，能够支持所有常用功能，参考 <a href='' target='_blank'>Demo</a>。
+对于熟悉图可视化类库的用户来说，节点分组是非常实用的一个功能。此前，G6 已经存在一个节点分组 Node Group 功能，但它的机制无法支持一些较复杂的功能，例如：带有节点分组的图布局、自定义 Combo、嵌套节点分组的均匀 padding、节点与分组的边、分组与分组的边、空的节点分组等。V3.5 推出了全新的节点分组 Combo 机制，能够支持所有常用功能，参考 <a href='/zh/examples/item/defaultCombos' target='_blank'>Demo</a>。
 <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AngFRpOo4SAAAAAAAAAAAABkARQnAQ' width=600 alt='img'/>
 
 
@@ -176,7 +176,7 @@ graph.render();
 渲染的效果如下图所示：
 <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ltsuTbIkG48AAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
-上面例子演示了最简单的默认 [Circle Combo](/zh/docs/manual/middle/elements/combos/circle)，G6 还内置了 [Rect Combo](/zh/docs/manual/middle/elements/combos/rect)。可在各自文档中查看如何配置样式。如果这两种类型的 Combo 还不能满足要求，可以使用 [自定义 Combo](/zh/docs/manual/advanced/custom-combo) 机制。
+上面例子演示了最简单的默认 [Circle Combo](/zh/docs/manual/middle/elements/combos/circle)，G6 还内置了 [Rect Combo](/zh/docs/manual/middle/elements/combos/rect)。可在各自文档中查看如何配置样式。如果这两种类型的 Combo 还不能满足要求，可以使用 [自定义 Combo](/zh/docs/manual/advanced/custom-combo) 机制，<a href='/zh/examples/item/customCombo' target='_blank'>自定义 Combo Demo</a>。
 
 <br />此时，不能对分组中的节点及 Combo 进行任何操作，接下来，我们介绍可以对 Combo 进行的各种操作。
 
