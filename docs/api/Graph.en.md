@@ -313,7 +313,7 @@ Ungroup the combo, which deletes the combo itself, and appends the children of t
 
 | Name | Type | Required | Description |
 | ------- | ------ | -------- | ------- |
-| item | string / ICombo    | The ID of the item or the combo item to be ungrouped |
+| combo | string / ICombo | true | The ID of the item or the combo item to be updated |
 
 **Usage**
 
@@ -409,7 +409,7 @@ Update the item with new data model.
 
 | Name | Type            | Required | Description                         |
 | ---- | --------------- | -------- | ----------------------------------- |
-| item | string / Object | true     | The id or the instance of the item. |
+| item | string / Object | true     | The ID or the instance of the item |
 | cfg  | Object          | false    | New data model, refer to [Item Model Properties](/en/docs/api/itemProperties) |
 
 **Usage**
@@ -439,10 +439,41 @@ The same as updateItem(item, model).
 ### updateCombos()
 Update the sizes and positions of all the combos according to the bboxes of its children.
 
+
 **Usage**
 
+```javascript
+// Update all the combos
+graph.updateCombos();
 ```
-graph.updateCombos()
+
+
+
+### updateCombo(combo)
+Update the positions and sizes of the combo and all of its ancestors.
+
+**Parameters**
+
+| Name | Type            | Required | Description                         |
+| ---- | --------------- | -------- | ----------------------------------- |
+| combo | string / ICombo | true    | The ID or the instance of the combo |
+
+**Usage**
+
+```javascript
+
+// Update a node's position
+const node1 = graph.findById('node1');
+graph.updateItem(node1, {
+  x: 100,
+  y: 100
+});
+
+// the combo who contains the node
+const comboId = node1.getModel().comboId;
+
+// Update the combo and all its ancestors who contains node1
+graph.updateCombo(comboId);
 ```
 
 

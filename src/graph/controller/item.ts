@@ -102,7 +102,7 @@ export default class ItemController {
       if (target && isString(target)) {
         target = graph.findById(target);
       }
-      
+
       if (!source || !target) {
         console.warn(`The source or target node of edge ${model.id} does not exist!`);
         return;
@@ -175,7 +175,7 @@ export default class ItemController {
    */
   public updateItem(item: Item | string, cfg: Partial<NodeConfig> | EdgeConfig) {
     const { graph } = this;
-    
+
     if (isString(item)) {
       item = graph.findById(item) as Item;
     }
@@ -244,6 +244,9 @@ export default class ItemController {
         graph.refreshItem(edge);
       });
     }
+    // if (type === NODE) {
+    //   graph.updateCombo((item.getModel() as NodeConfig).comboId);
+    // }
     graph.emit('afterupdateitem', { item, cfg });
   }
 
@@ -257,7 +260,7 @@ export default class ItemController {
    */
   public updateCombo(combo: ICombo | string, children: ComboTree[]) {
     const { graph } = this;
-    
+
     if (isString(combo)) {
       combo = graph.findById(combo) as ICombo;
     }
@@ -266,7 +269,7 @@ export default class ItemController {
       return;
     }
     const comboBBox = getComboBBox(children, graph);
-    
+
     combo.set('bbox', comboBBox);
     combo.update({
       x: comboBBox.x,
@@ -358,7 +361,7 @@ export default class ItemController {
         comboTrees.forEach(ctree => {
           if (found) return;
           traverseTree<ComboTree>(ctree, combo => {
-            if (combo.id === id && brothers)  {
+            if (combo.id === id && brothers) {
               const index = brothers.indexOf(combo);
               brothers.splice(index, 1);
               found = true;
@@ -382,7 +385,7 @@ export default class ItemController {
       comboTrees.forEach(ctree => {
         if (found) return;
         traverseTree<ComboTree>(ctree, combo => {
-          if (combo.id === id)  {
+          if (combo.id === id) {
             comboInTree = combo;
             found = true;
             return false; // terminate the traverse
@@ -420,7 +423,7 @@ export default class ItemController {
     const { graph } = this;
 
     let stateName = state
-    if(isString(value)) {
+    if (isString(value)) {
       stateName = `${state}:${value}`
     }
 
@@ -477,7 +480,7 @@ export default class ItemController {
 
     graph.emit('afteritemrefresh', { item });
   }
-  
+
   /**
    * 根据 graph 上用 combos 数据生成的 comboTree 来增加所有 combos
    *
@@ -496,7 +499,7 @@ export default class ItemController {
             comboModel = model;
           }
         });
-        if (comboModel){
+        if (comboModel) {
           this.addItem('combo', comboModel);
         }
         return true;
