@@ -1,5 +1,5 @@
-import Numeric from 'numericjs';
 import { IPointTuple, Matrix } from '../../types';
+import { Matrix as MLMatrix, SingularValueDecomposition } from 'ml-matrix';
 
 export default class MDS {
   /** distance matrix */
@@ -19,41 +19,31 @@ export default class MDS {
     const self = this;
     const { dimension, distances, linkDistance } = self;
 
-    // square distances
-    const M = Numeric.mul(-0.5, Numeric.pow(distances, 2));
-
-    // double centre the rows/columns
-    function mean(A: any) {
-      return Numeric.div(Numeric.add.apply(null, A), A.length);
-    }
-    const rowMeans = mean(M);
-    const colMeans = mean(Numeric.transpose(M));
-    const totalMean = mean(rowMeans);
-
-    for (let i = 0; i < M.length; ++i) {
-      for (let j = 0; j < M[0].length; ++j) {
-        M[i][j] += totalMean - rowMeans[i] - colMeans[j];
-      }
-    }
-
-    // take the SVD of the double centred matrix, and return the
-    // points from it
-    let ret;
-    let res: IPointTuple[] = [];
     try {
-      ret = Numeric.svd(M);
-    } catch (e) {
-      const length = distances.length;
-      for (let i = 0; i < length; i++) {
+      // square distances
+      const M = MLMatrix.mul(MLMatrix.pow(distances, 2), -0.5);
+
+      // double centre the rows/columns
+      const rowMeans = M.mean('row');
+      const colMeans = M.mean('column');
+      const totalMean = M.mean();
+      M.add(totalMean).subRowVector(rowMeans).subColumnVector(colMeans);
+
+      // take the SVD of the double centred matrix, and return the
+      // points from it
+      const ret = new SingularValueDecomposition(M);
+      const eigenValues = MLMatrix.sqrt(ret.diagonalMatrix).diagonal();
+      return ret.leftSingularVectors.toJSON().map((row: number[]) => {
+        return MLMatrix.mul([row], [eigenValues]).toJSON()[0].splice(0, dimension) as IPointTuple;
+      });
+    } catch {
+      const res: IPointTuple[] = [];
+      for (let i = 0; i < distances.length; i++) {
         const x = Math.random() * linkDistance;
         const y = Math.random() * linkDistance;
         res.push([x, y]);
       }
+      return res;
     }
-    if (res.length === 0) {
-      const eigenValues = Numeric.sqrt(ret.S);
-      res = ret.U.map((row: any) => Numeric.mul(row, eigenValues).splice(0, dimension));
-    }
-    return res;
   }
 }

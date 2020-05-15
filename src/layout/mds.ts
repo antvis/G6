@@ -5,7 +5,8 @@
 
 import { IPointTuple, Matrix } from '../types';
 
-import Numeric from 'numericjs';
+import { Matrix as MLMatrix, SingularValueDecomposition } from 'ml-matrix';
+
 import { floydWarshall, getAdjMatrix, scaleMatrix } from '../util/math';
 import { BaseLayout } from './layout';
 
@@ -63,30 +64,26 @@ export default class MDSLayout extends BaseLayout {
    * mds 算法
    * @return {array} positions 计算后的节点位置数组
    */
-  public runMDS() {
+  public runMDS(): IPointTuple[] {
     const self = this;
     const dimension = 2;
     const distances = self.scaledDistances;
+
     // square distances
-    const M = Numeric.mul(-0.5, Numeric.pow(distances, 2));
+    const M = MLMatrix.mul(MLMatrix.pow(distances, 2), -0.5);
+
     // double centre the rows/columns
-    function mean(A: any) {
-      return Numeric.div(Numeric.add.apply(null, A), A.length);
-    }
-    const rowMeans = mean(M);
-    const colMeans = mean(Numeric.transpose(M));
-    const totalMean = mean(rowMeans);
-    for (let i = 0; i < M.length; ++i) {
-      for (let j = 0; j < M[0].length; ++j) {
-        M[i][j] += totalMean - rowMeans[i] - colMeans[j];
-      }
-    }
+    const rowMeans = M.mean('row');
+    const colMeans = M.mean('column');
+    const totalMean = M.mean();
+    M.add(totalMean).subRowVector(rowMeans).subColumnVector(colMeans);
+
     // take the SVD of the double centred matrix, and return the
     // points from it
-    const ret = Numeric.svd(M);
-    const eigenValues = Numeric.sqrt(ret.S);
-    return ret.U.map(function(row: any) {
-      return Numeric.mul(row, eigenValues).splice(0, dimension);
+    const ret = new SingularValueDecomposition(M);
+    const eigenValues = MLMatrix.sqrt(ret.diagonalMatrix).diagonal();
+    return ret.leftSingularVectors.toJSON().map((row: number[]) => {
+      return MLMatrix.mul([row], [eigenValues]).toJSON()[0].splice(0, dimension) as IPointTuple;
     });
   }
 
