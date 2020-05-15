@@ -83,7 +83,7 @@
     "d3-force": "^2.0.1",
     "dagre": "^0.8.5",
     "lodash": "^4.17.15",
-    "numericjs": "^1.2.6"
+    "ml-matrix": "^6.5.0"
   },
   "devDependencies": {
     "@antv/gatsby-theme-antv": "^0.10.59",

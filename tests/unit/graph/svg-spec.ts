@@ -1588,8 +1588,8 @@ describe('layouts', () => {
     graph.data(data);
     graph.render();
     const item = graph.getNodes()[0];
-    expect(item.getModel().x).toBe(238.07642639877923);
-    expect(item.getModel().y).toBe(250);
+    expect(item.getModel().x).toBe(261.9235736012207);
+    expect(item.getModel().y).toBe(249.99999999999997);
     graph.destroy();
   });
   it('with dagre layout', () => {
