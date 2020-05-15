@@ -364,13 +364,15 @@ group.addShape('text', {
 
 > This shape is available only when the `renderer` is assgined to `'svg'` for graph instance.
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span> If you custom a Node type or an Edge type with dom shape, please use the original DOM events instead of events of G6.
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span> 
+- Only support native HTML DOM, but not react or other components;
+- If you custom a Node type or an Edge type with dom shape, please use the original DOM events instead of events of G6.
 
 ### Properties
 
 | Name | Type | Description |
 | --- | --- | --- |
-| html | String | The html value for DOM shape |
+| html | String | The HTML value for DOM shape |
 
 ### Usage
 

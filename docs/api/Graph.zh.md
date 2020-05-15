@@ -379,7 +379,9 @@ graph.removeItem(item);
 
 ### refresh()
 
-当源数据发生变更时，根据新数据刷新视图。
+当源数据中**现有**节点/边/ Combo 的数据项发生配置的变更时，根据新数据刷新视图。
+
+注意：节点/边/ Combo 数据的增删需要使用 [graph.addItem](./Graph#additemtype-model) / [graph.removeItem](./Graph#removeitemitem) 或 [graph.changeData](./Graph#changedatadata)。
 
 该方法无参数。
 
