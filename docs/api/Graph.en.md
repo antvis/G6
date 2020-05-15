@@ -378,7 +378,9 @@ The same as removeItem(item)。
 
 ### refresh()
 
-Refresh the canvas when the data is changed.
+Refresh the canvas when the **existing** data items' configurations is changed in the source data.
+
+Attention: If there are some new nodes/edges/combos to be added or some nodes/edges/combos to be removed, use [graph.addItem](./Graph#additemtype-model) / [graph.removeItem](./Graph#removeitemitem) or [graph.changeData](./Graph#changedatadata) instead.
 
 **Usage**
 

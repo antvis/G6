@@ -334,7 +334,9 @@ group.addShape('text', {
 
 > 仅在 Graph 的 `renderer` 为 `'svg'` 时可以使用。
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 使用 dom 进行自定义的节点或边，不支持 G6 的交互事件，请使用原生 DOM 的交互事件。
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 
+- 只支持原生 HTML DOM，不支持各类 react、vue 组件；
+- 使用 dom 进行自定义的节点或边，不支持 G6 的交互事件，请使用原生 DOM 的交互事件。
 
 ### 特殊属性
 
