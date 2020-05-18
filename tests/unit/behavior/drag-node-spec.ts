@@ -280,11 +280,12 @@ describe('drag-node', () => {
     expect(dragMatrix[6]).toEqual(150);
     expect(dragMatrix[7]).toEqual(150);
 
+    // if the enableDelegate is false, dragend will not change the node position
     graph.emit('node:dragend', { x: 200, y: 200, item: node0 });
     const matrix = node0.get('group').getMatrix();
     expect(matrix[0]).toEqual(1);
-    expect(matrix[6]).toEqual(200);
-    expect(matrix[7]).toEqual(200);
+    expect(matrix[6]).toEqual(150);
+    expect(matrix[7]).toEqual(150);
     graph.destroy();
   });
   it('delegate drag node with edge', () => {
@@ -322,7 +323,7 @@ describe('drag-node', () => {
       style: { lineWidth: 2, fill: '#666', opacity: 0.1 },
     });
     const edge = graph.addItem('edge', { source, target });
-    graph.paint();
+
     let path = edge
       .get('group')
       .get('children')[0]
@@ -341,8 +342,6 @@ describe('drag-node', () => {
     expect(path[0][2]).toEqual(57.77817459305202);
     expect(path[1][1]).toEqual(289);
     expect(path[1][2]).toEqual(300);
-    const delegateShape = source.get('delegateShape');
-    expect(delegateShape).not.toBe(undefined);
     graph.emit('node:dragend', { x: 140, y: 140, item: source });
     path = edge
       .get('group')
@@ -352,7 +351,6 @@ describe('drag-node', () => {
     expect(path[0][2]).toEqual(97.77817459305203);
     expect(path[1][1]).toEqual(289);
     expect(path[1][2]).toEqual(300);
-    expect(!!source.get('delegateShape')).toBe(false);
     graph.destroy();
   });
   it('drag node without size', () => {
@@ -382,13 +380,8 @@ describe('drag-node', () => {
     });
     graph.emit('node:dragstart', { x: 100, y: 100, item: node });
     graph.emit('node:drag', { x: 120, y: 120, item: node });
-    const delegateShape = node.get('delegateShape');
-    const bbox = delegateShape.getBBox();
-    expect(bbox.width).toEqual(23);
-    expect(bbox.height).toEqual(23);
     graph.emit('node:dragend', { x: 120, y: 120, item: node });
     expect(clicked).toBe(false);
-    expect(node.get('delegateShape')).toBe(null);
     graph.destroy();
   });
 
@@ -442,10 +435,10 @@ describe('drag-node', () => {
     graph.emit('node:drag', { x: 120, y: 120, item: target });
     graph.emit('node:dragend', { x: 80, y: 120, item: target });
     matrix = label.getMatrix();
-    expect(matrix[0]).toEqual(0.5490462406023208);
-    expect(matrix[1]).toEqual(0.835791975123271);
-    expect(matrix[3]).toEqual(-0.835791975123271);
-    expect(matrix[4]).toEqual(0.5490462406023208);
+    expect(matrix[0]).toEqual(0.627307162629268);
+    expect(matrix[1]).toEqual(0.7787719330548688);
+    expect(matrix[3]).toEqual(-0.7787719330548688);
+    expect(matrix[4]).toEqual(0.627307162629268);
     graph.destroy();
   });
 

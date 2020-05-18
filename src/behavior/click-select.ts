@@ -1,8 +1,8 @@
 import each from '@antv/util/lib/each';
-import { G6Event, IG6GraphEvent, Item } from '../types';
+import { G6Event, IG6GraphEvent } from '../types';
 
 const DEFAULT_TRIGGER = 'shift';
-const ALLOW_EVENTS = ['shift', 'ctrl', 'alt', 'control']; 
+const ALLOW_EVENTS = ['shift', 'ctrl', 'alt', 'control'];
 
 export default {
   getDefaultCfg(): object {
@@ -64,7 +64,7 @@ export default {
       const selectedCombos = graph.findAllByState('combo', this.selectedState);
       graph.emit('nodeselectchange', {
         target: item,
-        selectedItems: { 
+        selectedItems: {
           nodes: selectedNodes,
           combos: selectedCombos
         },
@@ -78,7 +78,7 @@ export default {
       const selectedCombos = graph.findAllByState('combo', this.selectedState);
       graph.emit('nodeselectchange', {
         target: item,
-        selectedItems: { 
+        selectedItems: {
           nodes: selectedNodes,
           combos: selectedCombos
         },

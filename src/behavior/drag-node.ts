@@ -31,20 +31,45 @@ export default {
       'node:dragstart': 'onDragStart',
       'node:drag': 'onDrag',
       'node:dragend': 'onDragEnd',
+      'combo:dragenter': 'onDragEnter',
+      'combo:dragleave': 'onDragLeave',
+      'combo:drop': 'onDropCombo',
     };
   },
-  onDragStart(e: IG6GraphEvent) {
-    if (!this.shouldBegin.call(this, e)) {
+  validationCombo(item: ICombo) {
+    if (!this.origin) {
       return;
     }
 
-    const item: INode = e.item as INode;
-    if (item && item.hasLocked()) {
+    if (!item) {
+      return
+    }
+
+    const type = item.getType()
+    if (type !== 'combo') {
+      return
+    }
+  },
+  /**
+   * 开始拖动节点
+   * @param evt 
+   */
+  onDragStart(evt: IG6GraphEvent) {
+    if (!this.shouldBegin.call(this, evt)) {
       return;
     }
+
+    const item: INode = evt.item as INode;
+    if (!item || item.hasLocked()) {
+      return;
+    }
+
+    // 拖动时，设置拖动元素的 capture 为false，则不拾取拖动的元素
+    const group = item.getContainer()
+    group.set('capture', false)
 
     // 如果拖动的target 是linkPoints / anchorPoints 则不允许拖动
-    const { target } = e;
+    const { target } = evt;
     if (target) {
       const isAnchorPoint = target.get('isAnchorPoint');
       if (isAnchorPoint) {
@@ -55,6 +80,9 @@ export default {
     const { graph } = this;
 
     this.targets = [];
+
+    // 将节点拖入到指定的 Combo
+    this.targetCombo = null
 
     // 获取所有选中的元素
     const nodes = graph.findAllByState('node', this.selectedState);
@@ -69,7 +97,7 @@ export default {
 
     // 只拖动当前节点
     if (dragNodes.length === 0) {
-      this.target = item;
+      this.targets.push(item)
     } else if (nodes.length > 1) {
       // 拖动多个节点
       nodes.forEach(node => {
@@ -83,36 +111,39 @@ export default {
     }
 
     this.origin = {
-      x: e.x,
-      y: e.y,
+      x: evt.x,
+      y: evt.y,
     };
 
     this.point = {};
     this.originPoint = {};
   },
-  onDrag(e: IG6GraphEvent) {
+
+  /**
+   * 持续拖动节点
+   * @param evt 
+   */
+  onDrag(evt: IG6GraphEvent) {
     if (!this.origin) {
       return;
     }
-    if (!this.shouldUpdate(this, e)) {
+
+    if (!this.shouldUpdate(this, evt)) {
       return;
     }
-    const { graph } = this;
 
-    // 当targets中元素时，则说明拖动的是多个选中的元素
-    if (this.targets.length > 0) {
-      if (this.get('enableDelegate')) {
-        this.updateDelegate(e);
-      } else {
-        this.targets.forEach(target => {
-          this.update(target, e, this.get('enableDelegate'));
-        });
-      }
+    if (this.get('enableDelegate')) {
+      this.updateDelegate(evt);
     } else {
-      // 只拖动单个元素
-      this.update(this.target, e, this.get('enableDelegate'));
+      this.targets.map(target => {
+        this.update(target, evt);
+      });
     }
   },
+  /**
+   * 拖动结束，设置拖动元素capture为true，更新元素位置，如果是拖动涉及到 combo，则更新 combo 结构
+   * @param evt 
+   */
   onDragEnd(evt: IG6GraphEvent) {
     if (!this.origin || !this.shouldEnd.call(this, evt)) {
       return;
@@ -241,58 +272,34 @@ export default {
    * @param {number} x 拖动单个元素时候的x坐标
    * @param {number} y 拖动单个元素时候的y坐标
    */
-  updateDelegate(e, x, y) {
-    const bbox = e.item.get('keyShape').getBBox();
+  updateDelegate(e) {
     if (!this.delegateRect) {
       // 拖动多个
       const parent = this.graph.get('group');
       const attrs = deepMix({}, Global.delegateStyle, this.delegateStyle);
-      if (this.targets.length > 0) {
-        const { x: cx, y: cy, width, height, minX, minY } = this.calculationGroupPosition();
-        this.originPoint = { x: cx, y: cy, width, height, minX, minY };
-        // model上的x, y是相对于图形中心的，delegateShape是g实例，x,y是绝对坐标
-        this.delegateRect = parent.addShape('rect', {
-          attrs: {
-            width,
-            height,
-            x: cx,
-            y: cy,
-            ...attrs,
-          },
-          name: 'rect-delegate-shape',
-        });
-      } else if (this.target) {
-        this.delegateRect = parent.addShape('rect', {
-          attrs: {
-            width: bbox.width,
-            height: bbox.height,
-            x: x + bbox.x,
-            y: y + bbox.y,
-            ...attrs,
-          },
-          name: 'rect-delegate-shape',
-        });
-      }
+
+      const { x: cx, y: cy, width, height, minX, minY } = this.calculationGroupPosition(e);
+      this.originPoint = { x: cx, y: cy, width, height, minX, minY };
+      // model上的x, y是相对于图形中心的，delegateShape是g实例，x,y是绝对坐标
+      this.delegateRect = parent.addShape('rect', {
+        attrs: {
+          width,
+          height,
+          x: cx,
+          y: cy,
+          ...attrs,
+        },
+        name: 'rect-delegate-shape',
+      });
       this.delegateRect.set('capture', false);
-    } else if (this.targets.length > 0) {
+    } else {
       const clientX = e.x - this.origin.x + this.originPoint.minX;
       const clientY = e.y - this.origin.y + this.originPoint.minY;
       this.delegateRect.attr({
         x: clientX,
         y: clientY,
       });
-    } else if (this.target) {
-      this.delegateRect.attr({
-        x: x + bbox.x,
-        y: y + bbox.y,
-      });
     }
-
-    if (this.target) {
-      this.target.set('delegateShape', this.delegateRect);
-    }
-
-    // this.graph.paint();
   },
   /**
    * 计算delegate位置，包括左上角左边及宽度和高度

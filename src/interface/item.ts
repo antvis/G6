@@ -26,7 +26,7 @@ export type IItemBaseConfig = Partial<{
   /**
    * 类型
    */
-  type: 'item' | 'node' | 'edge';
+  type: 'item' | 'node' | 'edge' | 'combo' | 'vedge';
 
   /**
    * data model
@@ -344,10 +344,10 @@ export interface ICombo extends INode {
    */
   removeCombo: (combo: ICombo) => boolean;
 
-   /**
-   * 向 Combo 中移除指定的节点
-   * @param node 节点实例
-   * @return boolean 移除成功返回 true，否则返回 false
-   */
+  /**
+  * 向 Combo 中移除指定的节点
+  * @param node 节点实例
+  * @return boolean 移除成功返回 true，否则返回 false
+  */
   removeNode: (node: string | INode) => boolean;
 }
