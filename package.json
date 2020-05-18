@@ -93,6 +93,7 @@
     "@storybook/addon-info": "^5.2.8",
     "@storybook/addon-knobs": "^5.2.8",
     "@storybook/react": "^5.2.8",
+    "@turf/turf": "^5.1.6",
     "@types/node": "13.11.1",
     "@umijs/fabric": "^2.0.0",
     "awesome-typescript-loader": "^5.2.1",
@@ -120,7 +121,6 @@
     "typedoc": "^0.15.0",
     "typedoc-plugin-markdown": "^2.2.11",
     "typescript": "^3.5.3",
-    "@turf/turf": "^5.1.6",
     "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10",
     "worker-loader": "^2.0.0"
