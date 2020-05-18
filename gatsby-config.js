@@ -88,7 +88,7 @@ module.exports = {
           zh: '内置节点',
           en: 'Default Node',
         },
-        order: 2,
+        order: 1,
       },
       {
         slug: 'manual/middle/elements/edges',
@@ -96,7 +96,7 @@ module.exports = {
           zh: '内置边',
           en: 'Default Edge',
         },
-        order: 3,
+        order: 2,
       },
       {
         slug: 'manual/advanced',
@@ -123,19 +123,12 @@ module.exports = {
         order: 6,
       },
       {
-        slug: 'api',
-        title: {
-          zh: 'API 文档',
-          en: 'API Doc',
-        },
-      },
-      {
         slug: 'api/nodeEdge',
         title: {
           zh: '节点和边',
           en: 'Node & Edge',
         },
-        order: 4,
+        order: 3,
       },
       {
         slug: 'api/layout',
@@ -144,14 +137,6 @@ module.exports = {
           en: 'Layout',
         },
         order: 4,
-      },
-      {
-        slug: 'api/properties',
-        title: {
-          zh: '属性配置项',
-          en: 'Properties',
-        },
-        order: 10,
       },
     ],
     examples: [

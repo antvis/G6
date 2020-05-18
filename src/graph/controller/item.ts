@@ -12,7 +12,6 @@ import { EdgeConfig, Item, ITEM_TYPE, ModelConfig, NodeConfig, NodeMap } from '.
 import Graph from '../graph';
 
 import { IEdge, INode } from '../../interface/item';
-import { mix } from '@antv/util';
 
 const NODE = 'node';
 const EDGE = 'edge';
@@ -139,7 +138,7 @@ export default class ItemController {
    */
   public updateItem(item: Item | string, cfg: EdgeConfig | NodeConfig) {
     const { graph } = this;
-    
+
     if (isString(item)) {
       item = graph.findById(item) as Item;
     }
@@ -264,7 +263,7 @@ export default class ItemController {
     const { graph } = this;
 
     let stateName = state
-    if(isString(value)) {
+    if (isString(value)) {
       stateName = `${state}:${value}`
     }
 
