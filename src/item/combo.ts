@@ -89,7 +89,7 @@ export default class Combo extends Node implements ICombo {
   /**
    * 获取 Combo 中所有的子元素，包括 Combo、Node 及 Edge
    */
-  public getChildren(): { nodes: INode[], combos: ICombo[]} {
+  public getChildren(): { nodes: INode[], combos: ICombo[] } {
     const self = this;
     return {
       nodes: self.getNodes(),
@@ -121,20 +121,20 @@ export default class Combo extends Node implements ICombo {
   addChild(item: ICombo | INode): boolean {
     const self = this;
     const itemType = item.getType();
-    switch(itemType) {
+    switch (itemType) {
       case 'node':
         self.addNode(item);
         break;
       case 'combo':
         self.addCombo(item as ICombo);
         break;
-      default: 
+      default:
         console.warn('Only node or combo items are allowed to be added into a combo');
         return false;
     }
     return true;
   }
-  
+
 
   /**
    * 向 Combo 中增加 combo
@@ -166,14 +166,14 @@ export default class Combo extends Node implements ICombo {
   removeChild(item: ICombo | INode): boolean {
     const self = this;
     const itemType = item.getType();
-    switch(itemType) {
+    switch (itemType) {
       case 'node':
         self.removeNode(item);
         break;
       case 'combo':
         self.removeCombo(item as ICombo);
         break;
-      default: 
+      default:
         console.warn('Only node or combo items are allowed to be added into a combo');
         return false;
     }
@@ -196,11 +196,11 @@ export default class Combo extends Node implements ICombo {
     return false;
   }
 
-   /**
-   * 向 Combo 中移除指定的节点
-   * @param node 节点实例
-   * @return boolean 移除成功返回 true，否则返回 false
-   */
+  /**
+  * 向 Combo 中移除指定的节点
+  * @param node 节点实例
+  * @return boolean 移除成功返回 true，否则返回 false
+  */
   removeNode(node: INode): boolean {
     const nodes = this.getNodes();
     const index = nodes.indexOf(node);
@@ -211,7 +211,7 @@ export default class Combo extends Node implements ICombo {
     return false;
   }
 
-  public isOnlyMove(cfg?: ComboConfig): boolean {
+  public isOnlyMove(cfg?: any): boolean {
     return false;
   }
 

@@ -30,7 +30,7 @@ const graph = new G6.Graph({
 
 ### easing 函数
 
-easing 函数是指动画的函数。例如线性插值、先快后慢等。<br />G6 支持所有 d3.js 中的动画函数。因此，上面代码中 `animateCfg` 配置中的 String 类型的 `easing` 可以取值有：<br />`'easeLinear'` ，<br />`'easePolyIn'` ，`'easePolyOut'` ， `'easePolyInOut'` ，<br />` '``easeQuad``' ` ，`'easeQuadIn'` ，`'easeQuadOut'` ， `'easeQuadInOut'` 。
+easing 函数是指动画的函数。例如线性插值、先快后慢等。<br />G6 支持所有 d3.js 中的动画函数。因此，上面代码中 `animateCfg` 配置中的 String 类型的 `easing` 可以取值有：<br />`'easeLinear'` ，<br />`'easePolyIn'` ，`'easePolyOut'` ， `'easePolyInOut'` ，<br />`'easeQuad'` ，`'easeQuadIn'` ，`'easeQuadOut'` ， `'easeQuadInOut'` 。
 
 更多取值及所有取值含义参见：<a href='https://github.com/d3/d3/blob/master/API.md#easings-d3-ease' target='_blank'>d3 Easings</a>。
 

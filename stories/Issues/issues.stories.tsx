@@ -11,7 +11,6 @@ import GGEditorNode from './ggeditorNode'
 export default { title: 'Issues' };
 
 storiesOf('Issues', module)
-<<<<<<< HEAD
   .add('drag canvas and shift tab', () => (
     <DragCanvas />
   ))
@@ -27,21 +26,5 @@ storiesOf('Issues', module)
   .add('dom click', () => (
     <DomClick />
   ))
-
   .add('forcelayout', () => <ForceLayout />)
-=======
-.add('drag canvas and shift tab', () => (
-  <DragCanvas />
-))
-.add('dagre polyline arrow', () => (
-  <DagreArrow />
-))
-.add('change data', () => (
-  <ChageData />
-))
-.add('change attr', () => (
-  <ChangeAttr />
-))
-.add('forcelayout', () => <ForceLayout />)
-.add('ggeditor node issue', () => <GGEditorNode />)
->>>>>>> fix: add flow demo
+  .add('ggeditor node issue', () => <GGEditorNode />)

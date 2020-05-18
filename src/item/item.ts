@@ -1,6 +1,8 @@
 import Group from '@antv/g-canvas/lib/group';
-import { each, isNil, isPlainObject,
-  isString, isBoolean, uniqueId, mix } from '@antv/util'
+import {
+  each, isNil, isPlainObject,
+  isString, isBoolean, uniqueId, mix, deepMix
+} from '@antv/util'
 import { IItemBase, IItemBaseConfig } from '../interface/item';
 import Shape from '../shape/shape';
 import { IBBox, IPoint, IShapeBase, ModelConfig, ShapeStyle, Indexable, NodeConfig, EdgeConfig, ComboConfig, ITEM_TYPE } from '../types';
@@ -27,37 +29,37 @@ export default class ItemBase implements IItemBase {
        * @type {string}
        */
       id: undefined,
-  
+
       /**
        * 类型
        * @type {string}
        */
       type: 'item',
-  
+
       /**
        * data model
        * @type {object}
        */
       model: {} as ModelConfig,
-  
+
       /**
        * g group
        * @type {G.Group}
        */
       group: undefined,
-  
+
       /**
        * is open animate
        * @type {boolean}
        */
       animate: false,
-  
+
       /**
        * visible - not group visible
        * @type {boolean}
        */
       visible: true,
-  
+
       /**
        * locked - lock node
        * @type {boolean}
@@ -80,14 +82,14 @@ export default class ItemBase implements IItemBase {
       states: [],
     };
     this._cfg = Object.assign(defaultCfg, this.getDefaultCfg(), cfg);
-    
+
     let { id } = this.get('model');
-    
+
     if (!id) {
       id = uniqueId(this.get('type'));
       this.get('model').id = id
     }
-    
+
     this.set('id', id);
 
     const { group } = cfg;
@@ -151,9 +153,9 @@ export default class ItemBase implements IItemBase {
     self.updatePosition(model);
     const cfg = self.getShapeCfg(model); // 可能会附加额外信息
     const shapeType = (cfg.shape as string) || (cfg.type as string);
-    
+
     const keyShape: IShapeBase = shapeFactory.draw(shapeType, cfg, group);
-    
+
     if (keyShape) {
       self.set('keyShape', keyShape);
       keyShape.set('isKeyShape', true);
@@ -182,12 +184,12 @@ export default class ItemBase implements IItemBase {
 
     each(children, child => {
       const name = child.get('name')
-      if(name) {
+      if (name) {
         originStyles[name] = self.getShapeStyleByName(name)
       } else {
         const keyShapeName = keyShape.get('name')
         const keyShapeStyle = self.getShapeStyleByName()
-        if(!keyShapeName) {
+        if (!keyShapeName) {
           Object.assign(originStyles, keyShapeStyle)
         } else {
           originStyles[keyShapeName] = keyShapeStyle
@@ -265,17 +267,17 @@ export default class ItemBase implements IItemBase {
   /**
    * 渲染前的逻辑，提供给子类复写
    */
-  protected beforeDraw() {}
+  protected beforeDraw() { }
 
   /**
    * 渲染后的逻辑，提供给子类复写
    */
-  protected afterDraw() {}
+  protected afterDraw() { }
 
   /**
    * 更新后做一些工作
    */
-  protected afterUpdate() {}
+  protected afterUpdate() { }
 
   /**
    * draw shape
@@ -290,7 +292,7 @@ export default class ItemBase implements IItemBase {
     const group: Group = this.get('group');
     let currentShape: IShapeBase = this.getKeyShape();
 
-    if(name) {
+    if (name) {
       currentShape = group.find(element => element.get('name') === name) as IShapeBase
     }
 
@@ -373,14 +375,14 @@ export default class ItemBase implements IItemBase {
     const shapeFactory = this.get('shapeFactory');
     let stateName = state
     let filterStateName = state
-    if(isString(value)) {
+    if (isString(value)) {
       stateName = `${state}:${value}`
       filterStateName = `${state}:`
     }
-    
+
     let newStates = states
 
-    if(isBoolean(value)) {
+    if (isBoolean(value)) {
       const index = states.indexOf(filterStateName);
       if (value) {
         if (index > -1) {
@@ -390,11 +392,11 @@ export default class ItemBase implements IItemBase {
       } else if (index > -1) {
         states.splice(index, 1);
       }
-    } else if(isString(value)) {
+    } else if (isString(value)) {
       // 过滤掉 states 中 filterStateName 相关的状态
       const filterStates = states.filter(name => name.includes(filterStateName))
-      
-      if(filterStates.length > 0) {
+
+      if (filterStates.length > 0) {
         this.clearStates(filterStates)
       }
       newStates = newStates.filter(name => !name.includes(filterStateName))
@@ -406,7 +408,7 @@ export default class ItemBase implements IItemBase {
     if (shapeFactory) {
       const model: ModelConfig = this.get('model');
       const type = model.shape || model.type;
-      
+
       // 调用 shape/shape.ts 中的 setState
       shapeFactory.setState(type, state, value, this);
     }
