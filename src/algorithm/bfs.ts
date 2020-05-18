@@ -1,7 +1,7 @@
 import Queue from './structs/queue'
-import GraphVertex from "./structs/graph/GraphVertex";
-import Graph from './structs/graph/Graph'
 import { IAlgorithmCallbacks } from '../types'
+import { IGraph } from '../interface/graph';
+import { INode } from '../interface/item';
 
 /**
  * 
@@ -18,9 +18,10 @@ function initCallbacks(callbacks: IAlgorithmCallbacks = {} as IAlgorithmCallback
   const allowTraversalCallback = (
     () => {
       const seen = {};
-      return ({ nextVertex }) => {
-        if (!seen[nextVertex.getKey()]) {
-          seen[nextVertex.getKey()] = true;
+      return ({ next }) => {
+        const id = next.get('id')
+        if (!seen[id]) {
+          seen[id] = true;
           return true;
         }
         return false;
@@ -29,8 +30,8 @@ function initCallbacks(callbacks: IAlgorithmCallbacks = {} as IAlgorithmCallback
   )();
 
   initiatedCallback.allowTraversal = callbacks.allowTraversal || allowTraversalCallback;
-  initiatedCallback.enterVertex = callbacks.enterVertex || stubCallback;
-  initiatedCallback.leaveVertex = callbacks.leaveVertex || stubCallback;
+  initiatedCallback.enter = callbacks.enter || stubCallback;
+  initiatedCallback.leave = callbacks.leave || stubCallback;
 
   return initiatedCallback;
 }
@@ -41,10 +42,11 @@ function initCallbacks(callbacks: IAlgorithmCallbacks = {} as IAlgorithmCallback
  * @param startVertex 开始遍历的节点
  * @param originalCallbacks 回调
  */
-const breadthFirstSearch = (graph: Graph, startVertex: GraphVertex, originalCallbacks?: IAlgorithmCallbacks) => {
+const breadthFirstSearch = (graph: IGraph, startVertexId: string, originalCallbacks?: IAlgorithmCallbacks) => {
   const callbacks = initCallbacks(originalCallbacks)
   const vertexQueue = new Queue()
 
+  const startVertex = graph.findById(startVertexId)
   // 初始化队列元素
   vertexQueue.enqueue(startVertex)
 
@@ -52,22 +54,25 @@ const breadthFirstSearch = (graph: Graph, startVertex: GraphVertex, originalCall
 
   // 遍历队列中的所有顶点
   while (!vertexQueue.isEmpty()) {
-    const currentVertex = vertexQueue.dequeue() as GraphVertex
-    callbacks.enterVertex({
-      currentVertex,
-      previousVertex
+    const currentVertex = vertexQueue.dequeue() as INode
+    callbacks.enter({
+      current: currentVertex,
+      previous: previousVertex
     })
 
     // 将所有邻居添加到队列中以便遍历
-    graph.getNeighbors(currentVertex).forEach((nextVertex: GraphVertex) => {
-      if (callbacks.allowTraversal({ previousVertex, currentVertex, nextVertex })) {
+    graph.getSourceNeighbors(currentVertex).forEach((nextVertex: INode) => {
+      if (callbacks.allowTraversal({ 
+        previous: previousVertex, 
+        current: currentVertex, 
+        next: nextVertex })) {
         vertexQueue.enqueue(nextVertex)
       }
     })
 
-    callbacks.leaveVertex({
-      currentVertex,
-      previousVertex
+    callbacks.leave({
+      current: currentVertex,
+      previous: previousVertex
     })
 
     // 下一次循环之前存储当前顶点

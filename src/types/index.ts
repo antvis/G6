@@ -602,7 +602,7 @@ export interface Indexable<T> {
 
 // 图算法回调方法接口定义
 export interface IAlgorithmCallbacks {
-  enterVertex?: (param: { currentVertex: GraphVertex, previousVertex: GraphVertex }) => void;
-  leaveVertex?: (param: { currentVertex: GraphVertex, previousVertex?: GraphVertex  }) => void;
-  allowTraversal?: (param: { previousVertex?: GraphVertex, currentVertex?: GraphVertex, nextVertex: GraphVertex }) => boolean;
+  enter?: (param: { current: INode, previous: INode }) => void;
+  leave?: (param: { current: INode, previous?: INode  }) => void;
+  allowTraversal?: (param: { previous?: INode, current?: INode, next: INode }) => boolean;
 }

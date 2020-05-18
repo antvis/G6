@@ -1,43 +1,92 @@
-import GraphVertex from '../../../src/algorithm/structs/graph/GraphVertex'
-import GraphEdge from '../../../src/algorithm/structs/graph/GraphEdge'
-import Graph from '../../../src/algorithm/structs/graph/Graph'
 import detectCycle from '../../../src/algorithm/detect-cycle'
+import G6 from '../../../src';
 
+const div = document.createElement('div');
+div.id = 'container';
+document.body.appendChild(div);
+
+const data = {
+  nodes: [
+    {
+      id: 'A'
+    },
+    {
+      id: 'B'
+    },
+    {
+      id: 'C'
+    },
+    {
+      id: 'D'
+    },
+    {
+      id: 'E'
+    },
+    {
+      id: 'F'
+    },
+    {
+      id: 'G'
+    },
+  ],
+  edges: [
+    {
+      source: 'A',
+      target: 'B'
+    },
+    {
+      source: 'B',
+      target: 'C'
+    },
+    {
+      source: 'A',
+      target: 'C'
+    },
+    {
+      source: 'D',
+      target: 'A'
+    },
+    {
+      source: 'D',
+      target: 'E'
+    },
+    {
+      source: 'E',
+      target: 'F'
+    },
+  ]
+}
 describe('detectDirectedCycle', () => {
   it('should detect directed cycle', () => {
-    const vertexA = new GraphVertex('A');
-    const vertexB = new GraphVertex('B');
-    const vertexC = new GraphVertex('C');
-    const vertexD = new GraphVertex('D');
-    const vertexE = new GraphVertex('E');
-    const vertexF = new GraphVertex('F');
-    const vertexG = new GraphVertex('G')
+    const graph = new G6.Graph({
+      container: 'container',
+      width: 500,
+      height: 500,
+      // layout
+    })
 
-    const edgeAB = new GraphEdge(vertexA, vertexB);
-    const edgeBC = new GraphEdge(vertexB, vertexC);
-    const edgeAC = new GraphEdge(vertexA, vertexC);
-    const edgeDA = new GraphEdge(vertexD, vertexA);
-    const edgeDE = new GraphEdge(vertexD, vertexE);
-    const edgeEF = new GraphEdge(vertexE, vertexF);
-    const edgeFD = new GraphEdge(vertexF, vertexD);
-
-    const graph = new Graph(true);
-    graph
-      .addEdge(edgeAB)
-      .addEdge(edgeBC)
-      .addEdge(edgeAC)
-      .addEdge(edgeDA)
-      .addEdge(edgeDE)
-      .addEdge(edgeEF)
+    graph.data(data)
+    graph.render()
 
     let result = detectCycle(graph)
-    
+    debugger
     expect(result).toBeNull();
 
-    graph.addEdge(edgeFD);
+    data.edges.push(
+      {
+        source: 'F',
+        target: 'D'
+      }
+    )
 
+    graph.changeData(data)
+    // 返回格式：
+    // { currentNodeId: prevNode }
     result = detectCycle(graph)
 
+    const vertexF = graph.findById('F')
+    const vertexD = graph.findById('D')
+    const vertexE = graph.findById('E')
     expect(result).toEqual({
       D: vertexF,
       F: vertexE,

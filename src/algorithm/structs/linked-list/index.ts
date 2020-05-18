@@ -1,14 +1,12 @@
 import Comparator from '../../comparator'
-import GraphEdge from '../graph/GraphEdge';
-import GraphVertex from '../graph/GraphVertex';
 
 /**
  * 链表中单个元素节点
  */
 export class LinkedListNode {
-  public value: GraphEdge | GraphVertex
+  public value
   public next: LinkedListNode
-  constructor(value: GraphEdge, next: LinkedListNode = null) {
+  constructor(value, next: LinkedListNode = null) {
     this.value = value
     this.next = next
   }
@@ -33,7 +31,7 @@ export default class LinkedList {
    * 将指定元素添加到链表头部
    * @param value 
    */
-  prepend(value: GraphEdge) {
+  prepend(value) {
     // 在头部添加一个节点
     const newNode = new LinkedListNode(value, this.head)
     this.head = newNode
@@ -49,7 +47,7 @@ export default class LinkedList {
    * 将指定元素添加到链表中
    * @param value 
    */
-  append(value: GraphEdge) {
+  append(value) {
     const newNode = new LinkedListNode(value)
 
     // 如果不存在头节点，则将创建的新节点作为头节点
@@ -71,7 +69,7 @@ export default class LinkedList {
    * 删除指定元素
    * @param value 要删除的元素
    */
-  delete(value: GraphEdge): LinkedListNode {
+  delete(value): LinkedListNode {
     if (!this.head) {
       return null
     }
@@ -185,7 +183,7 @@ export default class LinkedList {
    * 将一组元素转成链表中的节点
    * @param values 链表中的元素
    */
-  fromArray(values: GraphEdge[]) {
+  fromArray(values) {
     values.forEach(value => this.append(value))
     return this
   }

@@ -1,6 +1,6 @@
-import GraphVertex from "./structs/graph/GraphVertex";
-import Graph from './structs/graph/Graph'
 import { IAlgorithmCallbacks } from '../types'
+import { IGraph } from '../interface/graph';
+import { INode } from '../interface/item';
 
 function initCallbacks(callbacks: IAlgorithmCallbacks = {} as IAlgorithmCallbacks) {
   const initiatedCallback = callbacks;
@@ -10,9 +10,9 @@ function initCallbacks(callbacks: IAlgorithmCallbacks = {} as IAlgorithmCallback
   const allowTraversalCallback = (
     () => {
       const seen = {};
-      return ({ nextVertex }) => {
-        if (!seen[nextVertex.getKey()]) {
-          seen[nextVertex.getKey()] = true;
+      return ({ next }) => {
+        if (!seen[next.get('id')]) {
+          seen[next.get('id')] = true;
           return true;
         }
         return false;
@@ -21,8 +21,8 @@ function initCallbacks(callbacks: IAlgorithmCallbacks = {} as IAlgorithmCallback
   )();
 
   initiatedCallback.allowTraversal = callbacks.allowTraversal || allowTraversalCallback;
-  initiatedCallback.enterVertex = callbacks.enterVertex || stubCallback;
-  initiatedCallback.leaveVertex = callbacks.leaveVertex || stubCallback;
+  initiatedCallback.enter = callbacks.enter || stubCallback;
+  initiatedCallback.leave = callbacks.leave || stubCallback;
 
   return initiatedCallback;
 }
@@ -33,25 +33,34 @@ function initCallbacks(callbacks: IAlgorithmCallbacks = {} as IAlgorithmCallback
  * @param {GraphVertex} previousVertex
  * @param {Callbacks} callbacks
  */
-function depthFirstSearchRecursive(graph: Graph, currentVertex: GraphVertex, previousVertex: GraphVertex, callbacks: IAlgorithmCallbacks) {
-  callbacks.enterVertex({ currentVertex, previousVertex });
+function depthFirstSearchRecursive(graph: IGraph, currentVertex: INode, previousVertex: INode, callbacks: IAlgorithmCallbacks) {
+  callbacks.enter({ 
+    current: currentVertex, 
+    previous: previousVertex });
 
-  graph.getNeighbors(currentVertex).forEach((nextVertex) => {
-    if (callbacks.allowTraversal({ previousVertex, currentVertex, nextVertex })) {
+  graph.getSourceNeighbors(currentVertex).forEach((nextVertex) => {
+    if (callbacks.allowTraversal({
+      previous: previousVertex, 
+      current: currentVertex, 
+      next: nextVertex })) {
       depthFirstSearchRecursive(graph, nextVertex, currentVertex, callbacks);
     }
   });
 
-  callbacks.leaveVertex({ currentVertex, previousVertex });
+  callbacks.leave({ 
+    current: currentVertex, 
+    previous: previousVertex 
+  });
 }
 
 /**
  * 深度优先遍历图
- * @param graph Graph 图实例
+ * @param data GraphData 图数据
  * @param startVertex 开始遍历的节点
  * @param originalCallbacks 回调
  */
-export default function depthFirstSearch(graph: Graph, startVertex: GraphVertex, callbacks?: IAlgorithmCallbacks) {
+export default function depthFirstSearch(graph: IGraph, startVertexId: string, callbacks?: IAlgorithmCallbacks) {
   const previousVertex = null;
+  const startVertex = graph.findById(startVertexId) as INode
   depthFirstSearchRecursive(graph, startVertex, previousVertex, initCallbacks(callbacks));
 }
