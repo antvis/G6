@@ -11,13 +11,11 @@ import each from '@antv/util/lib/each';
 import isPlainObject from '@antv/util/lib/is-plain-object';
 import isString from '@antv/util/lib/is-string';
 import isNumber from '@antv/util/lib/is-number';
+import { IGraph } from '../interface/graph';
+import { IEdge, INode, ICombo } from '../interface/item';
 import {
   GraphAnimateConfig,
   GraphOptions,
-  IGraph
-} from '../interface/graph';
-import { IEdge, INode, ICombo } from '../interface/item';
-import {
   EdgeConfig,
   GraphData,
   GroupConfig,
@@ -36,7 +34,7 @@ import {
   ComboTree
 } from '../types';
 import { getAllNodeInGroups } from '../util/group';
-import { move, translate } from '../util/math';
+import { move } from '../util/math';
 import { groupBy } from 'lodash';
 import Global from '../global';
 import {
@@ -902,10 +900,10 @@ export default class Graph extends EventEmitter implements IGraph {
           if (model.comboId === child.id && !foundNode) {
             // found the parent, add the item to the children of its parent in the tree
             foundParent = true;
-            const cloneCombo = clone(model);
-            cloneCombo.itemType = 'node';
-            if (child.children) child.children.push(cloneCombo as any);
-            else child.children = [cloneCombo as any];
+            const cloneNode = clone(model);
+            cloneNode.itemType = 'node';
+            if (child.children) child.children.push(cloneNode as any);
+            else child.children = [cloneNode as any];
             model.depth = child.depth + 1;
           }
           // update the size of all the ancestors

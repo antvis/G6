@@ -486,13 +486,7 @@ export interface TreeGraphData {
   | {
     [key: string]: ShapeStyle;
   };
-  stateStyles?: {
-    [key: string]:
-    | ShapeStyle
-    | {
-      [key: string]: ShapeStyle;
-    };
-  };
+  stateStyles?: StateStyles;
 }
 
 export interface ComboTree {
@@ -540,6 +534,9 @@ export enum G6Event {
   NODE_MOUSEENTER = 'node:mouseenter',
   NODE_MOUSELEAVE = 'node:mouseleave',
   NODE_MOUSEMOVE = 'node:mousemove',
+  NODE_DROP = 'node:drop',
+  NODE_DRAGENTER = 'node:dragenter',
+  NODE_DRAGLEAVE = 'node:dragleave',
 
   EDGE_CLICK = 'edge:click',
   EDGE_CONTEXTMENU = 'edge:contextmenu',

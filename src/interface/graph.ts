@@ -1,5 +1,5 @@
 import EventEmitter from '@antv/event-emitter';
-import { Point, AnimateCfg } from '@antv/g-base/lib/types';
+import { Point } from '@antv/g-base/lib/types';
 import Graph from '../graph/graph';
 import {
   EdgeConfig,
@@ -15,193 +15,11 @@ import {
   GraphOptions,
   ModeOption,
   ModeType,
-  ComboConfig,
-  IG6GraphEvent,
-  ModelStyle
+  ComboConfig
 } from '../types';
 import { IEdge, INode, ICombo } from './item';
 import PluginBase from '../plugins/base';
 
-export interface IModeOption {
-  type: string;
-  delegate?: boolean;
-  delegateStyle?: object;
-  updateEdge?: boolean;
-  trigger?: string;
-  enableDelegate?: boolean;
-  maxZoom?: number;
-  minZoom?: number;
-  enableOptimize?: boolean;
-  optimizeZoom?: number;
-  multiple?: boolean;
-  selectedState?: string;
-  includeEdges?: boolean;
-  direction?: 'x' | 'y';
-  shouldUpdate?: (e: IG6GraphEvent) => boolean;
-  shouldBegin?: (e: IG6GraphEvent) => boolean;
-  shouldEnd?: (e: IG6GraphEvent) => boolean;
-  onChange?: (item?: Item, judge?: boolean) => unknown;
-  onSelect?: (selectedNodes?: Item[], selectedEdges?: Item[]) => unknown;
-  onDeselect?: (selectedNodes?: Item[], selectedEdges?: Item[]) => unknown;
-  formatText?: (data: { [key: string]: unknown }) => string;
-}
-
-export type IModeType = string | IModeOption;
-
-export interface IMode {
-  default?: IModeType[];
-  [key: string]: IModeType[] | undefined;
-}
-
-export interface ILayoutOptions {
-  type: string;
-  // TODO 这里需要补充完善布局的配置
-  [key: string]: any;
-}
-
-export interface GraphAnimateConfig extends AnimateCfg {
-  /**
-   * 回调函数，用于自定义节点运动路径。
-   */
-  onFrame?: (item: Item, ratio: number, data?: GraphData, originAttrs?: ShapeStyle) => unknown;
-}
-export interface GraphOptions {
-  /**
-   * 图的 DOM 容器，可以传入该 DOM 的 id 或者直接传入容器的 HTML 节点对象
-   */
-  container: string | HTMLElement;
-  /**
-   * 指定画布宽度，单位为 'px'
-   */
-  width: number;
-  /**
-   * 指定画布高度，单位为 'px'
-   */
-  height: number;
-  /**
-   * renderer canvas or svg
-   */
-  renderer?: string,
-
-  fitView?: boolean;
-
-  layout?: ILayoutOptions;
-
-  /**
-   * 图适应画布时，指定四周的留白。
-   * 可以是一个值, 例如：fitViewPadding: 20
-   * 也可以是一个数组，例如：fitViewPadding: [20, 40, 50,20]
-   * 当指定一个值时，四边的边距都相等，当指定数组时，数组内数值依次对应 上，右，下，左四边的边距。
-   */
-  fitViewPadding?: Padding;
-  /**
-   * 各种元素是否在一个分组内，决定节点和边的层级问题，默认情况下所有的节点在一个分组中，所有的边在一个分组中，当这个参数为 false 时，节点和边的层级根据生成的顺序确定。
-   * 默认值：true
-   */
-  groupByTypes?: boolean;
-
-  // 是否有向图
-  directed?: boolean;
-
-  groupStyle?: {
-    [key: string]: ShapeStyle;
-  };
-
-  /**
-   * 当图中元素更新，或视口变换时，是否自动重绘。建议在批量操作节点时关闭，以提高性能，完成批量操作后再打开，参见后面的 setAutoPaint() 方法。
-   * 默认值：true
-   */
-  autoPaint?: boolean;
-
-  /**
-   * 设置画布的模式。详情可见G6中的Mode文档。
-   */
-  modes?: IMode;
-
-  /**
-   * 默认状态下节点的配置，比如 type, size, color。会被写入的 data 覆盖。
-   */
-  defaultNode?: {
-    shape?: string;
-    type?: string;
-    size?: number | number[];
-    color?: string;
-  } & ModelStyle;
-
-  /**
-   * 默认状态下边的配置，比如 type, size, color。会被写入的 data 覆盖。
-   */
-  defaultEdge?: {
-    shape?: string;
-    type?: string;
-    size?: number | number[];
-    color?: string;
-  } & ModelStyle;
-
-  /**
-   * Combo 默认配置
-   */
-  defaultCombo?: Partial<{
-    type: string;
-    size: number | number[];
-    color: string;
-  }> & ModelStyle;
-
-  nodeStateStyles?: {
-    [key: string]: ShapeStyle | {
-      [key: string]: ShapeStyle
-    }
-  };
-
-  edgeStateStyles?: {
-    [key: string]: ShapeStyle | {
-      [key: string]: ShapeStyle
-    }
-  };
-
-  // Combo 状态样式
-  comboStateStyles?: {
-    [key: string]: ShapeStyle | {
-      [key: string]: ShapeStyle
-    }
-  };
-
-  /**
-   * 向 graph 注册插件。插件机制请见：plugin
-   */
-  plugins?: any[];
-  /**
-   * 是否启用全局动画。
-   */
-  animate?: boolean;
-
-  /**
-   * 动画配置项，仅在animate为true时有效。
-   */
-  animateCfg?: GraphAnimateConfig;
-  /**
-   * 最小缩放比例
-   * 默认值 0.2
-   */
-  minZoom?: number;
-  /**
-   * 最大缩放比例
-   * 默认值 10
-   */
-  maxZoom?: number;
-
-  groupType?: string;
-
-  /**
-   * Edge 是否连接到节点中间
-   */
-  linkCenter?: boolean;
-}
-
-// Graph 配置项中 state 的类型
-export interface IStates {
-  [key: string]: INode[];
-}
 export interface IGraph extends EventEmitter {
   getDefaultCfg(): Partial<GraphOptions>;
   get<T = any>(key: string): T;
@@ -550,19 +368,13 @@ export interface IGraph extends EventEmitter {
   /**
    * 返回图表的 dataUrl 用于生成图片
    */
-  toDataURL(type?: string, backgroundColor?: string): string;
+  toDataURL(): string;
 
   /**
-   * 画布导出图片，图片仅包含画布可见区域部分内容
+   * 画布导出图片
    * @param {String} name 图片的名称
    */
-  downloadImage(name?: string, backgroundColor?: string): void;
-
-  /**
-   * 导出包含全图的图片
-   * @param {String} name 图片的名称
-   */
-  downloadFullImage(name?: string, imageConfig?: { backgroundColor?: string, padding?: number | number[] }): void;
+  downloadImage(name: string): void;
 
   // TODO 需要添加布局配置类型
   /**
@@ -591,28 +403,28 @@ export interface IGraph extends EventEmitter {
   removePlugin(plugin: PluginBase): void;
 
   /**
-   * 收起分组
-   * @param {string} groupId 分组ID
-   */
-  collapseGroup(groupId: string): void;
-
-  /**
    * 收起指定的 Combo
-   * @param combo combo ID 或实例
+   * @param comboId combo ID 或 combo 实例
    */
   collapseCombo(combo: string | ICombo): void;
 
   /**
    * 展开指定的 Combo
-   * @param combo combo ID 或实例
+   * @param combo combo ID 或 combo 实例
    */
   expandCombo(combo: string | ICombo): void;
 
   /**
-   * 收起/展开指定的 Combo
-   * @param combo combo ID 或实例
+   * 展开或收缩指定的 Combo
+   * @param comboId combo ID 或 combo 实例
    */
-  collapseExpandCombo(combo: string | ICombo)
+  collapseExpandCombo(combo: string | ICombo): void;
+
+  /**
+   * 收起分组
+   * @param {string} groupId 分组ID
+   */
+  collapseGroup(groupId: string): void;
 
   /**
    * 展开分组

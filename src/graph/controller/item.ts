@@ -244,9 +244,6 @@ export default class ItemController {
         graph.refreshItem(edge);
       });
     }
-    // if (type === NODE) {
-    //   graph.updateCombo((item.getModel() as NodeConfig).comboId);
-    // }
     graph.emit('afterupdateitem', { item, cfg });
   }
 

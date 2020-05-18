@@ -28,7 +28,7 @@ const graph = new G6.Graph({
 });
 ```
 
-G6 supports all the easing functions in d3.js. Thus, the options of `easing` in `animateCfg`: <br />`'easeLinear'`, <br />`'easePolyIn'`, `'easePolyOut'`, `'easePolyInOut'` , <br />` '``easeQuad``' `, `'easeQuadIn'`, `'easeQuadOut'`, `'easeQuadInOut'` .
+G6 supports all the easing functions in d3.js. Thus, the options of `easing` in `animateCfg`: <br />`'easeLinear'`, <br />`'easePolyIn'`, `'easePolyOut'`, `'easePolyInOut'` , <br />`'easeQuad'`, `'easeQuadIn'`, `'easeQuadOut'`, `'easeQuadInOut'` .
 
 For more detail of the easing functions, please refer to: <a href='https://github.com/d3/d3/blob/master/API.md#easings-d3-ease' target='_blank'>d3 Easings</a>.
 

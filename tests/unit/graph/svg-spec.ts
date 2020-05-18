@@ -2026,10 +2026,10 @@ describe('plugins', () => {
     graph.render();
     setTimeout(() => {
       const minimapGroup = minimap.get('canvas').get('children')[0];
-      expect(minimapGroup.get('children').length).toBe(4);
+      expect(minimapGroup.get('children').length).toBe(5);
       graph.zoom(2, { x: 250, y: 250 });
-      expect(minimapGroup.get('children')[1].get('children').length).toBe(5);
       expect(minimapGroup.get('children')[2].get('children').length).toBe(5);
+      expect(minimapGroup.get('children')[3].get('children').length).toBe(5);
       const viewport = minimap.get('viewport');
       expect(viewport.style.width).toBe('99.6678px');
       expect(viewport.style.height).toBe('99.6678px');
@@ -2093,7 +2093,6 @@ describe('plugins', () => {
     graph.data(data2);
     graph.render();
     graph.zoom(2, { x: 250, y: 250 });
-<<<<<<< HEAD
     setTimeout(() => {
       const minimapGroup = minimap.get('canvas').get('children')[0];
       expect(minimapGroup.get('children').length).toBe(10);
@@ -2108,14 +2107,6 @@ describe('plugins', () => {
 
     }, 100);
 
-=======
-    const viewport = minimap.get('viewport');
-    expect(viewport.style.width).toBe('40px');
-    expect(viewport.style.height).toBe('40px');
-    expect(viewport.style.left).toBe('30px');
-    expect(viewport.style.top).toBe('20px');
-    graph.destroy();
->>>>>>> test: add tests for collapse-expand combo behavior, uncombo, hide/show combo, addItem with combo, removeItem with combo.
   });
 
   it('edge bundling', () => {
