@@ -36,7 +36,7 @@ describe('shape node test', () => {
     });
   });
 
-  describe.only('nodes test', () => {
+  describe('nodes test', () => {
     const factory = Shape.getFactory('node');
     it('circle no label', () => {
       const group = canvas.addGroup();
@@ -54,7 +54,7 @@ describe('shape node test', () => {
       expect(group.getCount()).toBe(1);
     });
 
-    it.only('circle with label', () => {
+    it('circle with label', () => {
       const group = canvas.addGroup();
       translate(group, { x: 50, y: 100 });
       factory.draw(
@@ -165,7 +165,7 @@ describe('shape node test', () => {
         },
         group,
       });
-      factory.update(
+      factory.baseUpdate(
         'rect',
         {
           size: [100, 50],
@@ -180,7 +180,7 @@ describe('shape node test', () => {
       expect(shape.attr('y')).toBe(-25);
       expect(shape.attr('width')).toBe(100);
       expect(group.getCount()).toBe(1);
-      factory.update(
+      factory.baseUpdate(
         'rect',
         {
           size: [50, 30],
@@ -194,7 +194,7 @@ describe('shape node test', () => {
       expect(group.getCount()).toBe(2);
       const label = group.get('children')[1];
       expect(label.attr('text')).toBe('new rect');
-      factory.update(
+      factory.baseUpdate(
         'rect',
         {
           size: [50, 30],
@@ -290,7 +290,7 @@ describe('shape node test', () => {
       expect(label.attr('x')).toBe(0);
       expect(label.attr('y')).toBe(-10 - Global.nodeLabel.offset);
 
-      factory.update(
+      factory.baseUpdate(
         'ellipse',
         {
           size: [60, 20],
@@ -305,7 +305,7 @@ describe('shape node test', () => {
       expect(label.attr('y')).toBe(0);
       expect(label.attr('x')).toBe(-30 - Global.nodeLabel.offset);
 
-      factory.update(
+      factory.baseUpdate(
         'ellipse',
         {
           size: [60, 20],
@@ -320,7 +320,7 @@ describe('shape node test', () => {
       expect(label.attr('y')).toBe(0);
       expect(label.attr('x')).toBe(30 + Global.nodeLabel.offset);
 
-      factory.update(
+      factory.baseUpdate(
         'ellipse',
         {
           size: [60, 20],
@@ -336,7 +336,7 @@ describe('shape node test', () => {
       expect(label.attr('y')).toBe(0);
       expect(label.attr('x')).toBe(30 + 20);
 
-      factory.update(
+      factory.baseUpdate(
         'ellipse',
         {
           size: [60, 20],
