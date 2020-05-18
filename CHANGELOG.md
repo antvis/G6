@@ -1,5 +1,9 @@
 # ChangeLog
 
+#### 3.5.0
+- feat: combo and combo layout;
+- feat: graph algorithms: BFS and circle detection.
+
 #### 3.4.10
 - fix: TreeGraphData type with style and stateStyles;
 - fix: wrong controlpoint position for bezier curves with getControlPoint.
