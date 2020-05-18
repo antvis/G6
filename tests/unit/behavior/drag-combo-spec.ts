@@ -86,31 +86,31 @@ describe('drag-combo', () => {
         },
       ],
       combos: [
-      {
-        id: 'A',
-        parentId: 'C',
-        label: 'gorup A',
-        type: 'circle'
-      }, {
-        id: 'B',
-        parentId: 'C',
-        label: 'gorup B',
-      }, {
-        id: 'C',
-        label: 'gorup C',
-        // type: 'rect'
-      }, 
-      {
-        id: 'F',
-        label: 'gorup F'
-        // type: 'rect'
-      }, {
-        id: 'G',
-        label: 'gorup G',
-        // parentId: 'F'
-        type: 'custom-combo'
-      }
-    ]
+        {
+          id: 'A',
+          parentId: 'C',
+          label: 'gorup A',
+          type: 'circle'
+        }, {
+          id: 'B',
+          parentId: 'C',
+          label: 'gorup B',
+        }, {
+          id: 'C',
+          label: 'gorup C',
+          // type: 'rect'
+        },
+        {
+          id: 'F',
+          label: 'gorup F'
+          // type: 'rect'
+        }, {
+          id: 'G',
+          label: 'gorup G',
+          // parentId: 'F'
+          type: 'custom-combo'
+        }
+      ]
     };
 
     const graph = new G6.Graph({
@@ -118,7 +118,7 @@ describe('drag-combo', () => {
       width: 1000,
       height: 800,
       modes: {
-        default: [ 'drag-canvas', 'drag-combo' ]
+        default: ['drag-canvas', 'drag-combo']
       },
       defaultCombo: {
         // size: [100, 100],
@@ -143,7 +143,7 @@ describe('drag-combo', () => {
         }
       }
     });
-    
+
     graph.data(data);
     graph.render();
 
@@ -182,10 +182,10 @@ describe('drag-combo', () => {
         graph.clearItemStates(combo)
       })
     })
-    
+
   })
 
-  it.only('combo example', () => {
+  it('combo example', () => {
     const data = {
       nodes: [
         {
@@ -254,41 +254,41 @@ describe('drag-combo', () => {
         }
       ],
       combos: [
-      {
-        id: 'A',
-        parentId: 'B',
-        label: 'gorup A',
-        padding: [50, 30, 10, 10],
-        type: 'rect',
-        // style: {
-        //   stroke: 'red',
-        //   fill: 'green'
-        // },
-        // collapsed: true
-      }, {
-        id: 'B',
-        label: 'gorup B',
-        padding: [50, 10, 10, 50],
-        // type: 'custom-combo'
-      },
-      {
-        id: 'D',
-        label: 'gorup D',
-        parentId: 'E',
-      }, 
-      {
-        id: 'E',
-        // collapsed: true
-      },
-      {
-        id: 'FF',
-        label: '空分组',
-        // type: 'custom-combo',
-        // style: {
-        //   stroke: 'green',
-        //   lineWidth: 3
-        // }
-      }
+        {
+          id: 'A',
+          parentId: 'B',
+          label: 'gorup A',
+          padding: [50, 30, 10, 10],
+          type: 'rect',
+          // style: {
+          //   stroke: 'red',
+          //   fill: 'green'
+          // },
+          // collapsed: true
+        }, {
+          id: 'B',
+          label: 'gorup B',
+          padding: [50, 10, 10, 50],
+          // type: 'custom-combo'
+        },
+        {
+          id: 'D',
+          label: 'gorup D',
+          parentId: 'E',
+        },
+        {
+          id: 'E',
+          // collapsed: true
+        },
+        {
+          id: 'FF',
+          label: '空分组',
+          // type: 'custom-combo',
+          // style: {
+          //   stroke: 'green',
+          //   lineWidth: 3
+          // }
+        }
       ]
     };
 
@@ -298,13 +298,13 @@ describe('drag-combo', () => {
       height: 800,
       groupByTypes: false,
       modes: {
-        default: [ 'drag-canvas', {
+        default: ['drag-canvas', {
           type: 'drag-combo',
           activeState: 'active'
         }, {
-          type: 'drag-node',
-          comboActiveState: 'active'
-        }, 'collapse-expand-combo', 'click-select' ]
+            type: 'drag-node',
+            comboActiveState: 'active'
+          }, 'collapse-expand-combo', 'click-select']
       },
       defaultCombo: {
         // size: [100, 100],
@@ -344,7 +344,7 @@ describe('drag-combo', () => {
         }
       }
     });
-    
+
     graph.data(data);
     graph.render();
 
