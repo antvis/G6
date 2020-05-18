@@ -194,7 +194,7 @@ const singleEdge: ShapeOptions = {
   },
   getLabelBgStyleByPosition(
     label: IElement,
-    cfg: ModelConfig,
+    cfg: EdgeConfig,
     labelCfg?: ILabelConfig,
     group?: GGroup,
   ) {

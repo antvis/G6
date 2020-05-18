@@ -285,7 +285,7 @@ describe('force layout', () => {
     graph.render();
   });
 
-  it.only('preventOverlap with function nodeSpacing and number nodeSize', done => {
+  it('preventOverlap with function nodeSpacing and number nodeSize', done => {
     let isEnd = false;
     const nodeSize = 30;
 
