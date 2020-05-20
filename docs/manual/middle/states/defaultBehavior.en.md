@@ -59,7 +59,7 @@ Supported by V3.5 or later.
 - `type: 'collapse-expand-combo'`；
 - `trigger`：Specify which key to hold for collapse and expand combo. `dblclick` by default. Options: `'click'`, `'dblclick'`;。
 
-**默认配置**
+**Default Configuration**
 
 ```
 const graph = new G6.Graph({
