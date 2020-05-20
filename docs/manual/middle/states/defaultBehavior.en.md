@@ -9,7 +9,92 @@ Behavior is the interaction mechanism in G6. It is used with [Interaction Mode](
 
 ## Built-in Behavior
 
-All the basic graphics Shapes, Items(nodes/edges) can be interacted by events. To achieve it with versatility, there are 9 built-in Behaviors in G6.
+All the basic graphics Shapes, Items(nodes/edges) can be interacted by events. To achieve it with versatility, there are 14 built-in Behaviors in G6.
+
+### drag-combo
+Supported by V3.5 or later.
+
+- Description: Allows users drag combo;
+- `type: 'drag-combo'`;
+- `enableDelegate`: Whether activate `delegate` when dragging combos, which means whether to use a virtual rect moved with the dragging mouse instead of the combo. The effect is shown in the figures below. `false` by default;
+- `delegateStyle`: The style of the `delegate` when dragging the combo with delegate;
+- `onlyChangeComboSize`: Only Change the size of Combo When dragging combos, whici means not to change the struct of combo. `false` by default;
+- `activeState`: When dragging the combo, this state value of the parent combo or  entered combo,  that requires the use to configuration it in `comboStateStyles` when new Graph, which is empty by default;;
+- `selectedState`: state name when combo selected, `selected` by default.
+
+**Default Configuration**
+
+```
+const graph = new G6.Graph({
+  modes: {
+    default: ['drag-combo'],
+  },
+});
+```
+
+Set enableDelegate & activeState Configuration.
+
+```
+const graph = new G6.Graph({
+  modes: {
+    default: [{
+      type: 'drag-combo',
+      enableDelegate: true,
+      activeState: 'actived'
+    }],
+  },
+  comboStateStyles: {
+    actived: {
+      stroke: 'red',
+      lineWidth: 3
+    }
+  }
+});
+```
+
+### collapse-expand-combo
+Supported by V3.5 or later.
+
+- Description：collapse or expand Combo；
+- `type: 'collapse-expand-combo'`；
+- `trigger`：Specify which key to hold for collapse and expand combo. `dblclick` by default. Options: `'click'`, `'dblclick'`;。
+
+**默认配置**
+
+```
+const graph = new G6.Graph({
+  modes: {
+    default: ['collapse-expand-combo'],
+  },
+});
+```
+
+User can be configuration to click to collapse or expand：
+
+```
+const graph = new G6.Graph({
+  modes: {
+    default: [{
+      type: 'collapse-expand-combo',
+      trigger: 'click'
+    }],
+  },
+});
+```
+
+users can customize the interactive way of displaying or collapsing in the following ways:
+
+```
+// by ComboId
+graph.collapseExpandCombo(comboId);
+
+if (graph.get('layout')) {
+  graph.layout()
+} else {
+  graph.refreshPositions()
+}
+```
+
 
 ### drag-canvas
 
@@ -60,7 +145,10 @@ The canvas can be dragged along x direction only.<br /><img src='https://gw.alip
 - `type: 'drag-node'`;
 - `delegateStyle`: The drawing properties when the nodes are dragged. `{ strokeOpacity: 0.6, fillOpacity: 0.6 }` by default;
 - `updateEdge`: Whether to update all connected edges when dragging nodes. `true` by default.
-- `enableDelegate`: Whether activate `delegate` when dragging nodes, which means whether to use a virtual rect moved with the dragging mouse instead of the node. The effect is shown in the figures below. `false` by default.
+- `enableDelegate`: Whether activate `delegate` when dragging nodes, which means whether to use a virtual rect moved with the dragging mouse instead of the node. The effect is shown in the figures below. `false` by default;
+- `onlyChangeComboSize`: Supported by V3.5 or later. Only Change the size of Combo When dragging combos, whici means not to change the struct of combo. `false` by default;
+- `comboActiveState`: Supported by V3.5 or later. When dragging the combo, this state value of the parent combo or  entered combo,  that requires the use to configuration it in `comboStateStyles` when new Graph, which is empty by default;;
+- `selectedState`: Supported by V3.5 or later. state name when combo selected, `selected` by default.
 
 **Default Configuration**
 
