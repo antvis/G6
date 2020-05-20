@@ -2506,6 +2506,51 @@ export default class Graph extends EventEmitter implements IGraph {
   }
 
   /**
+   * 获取节点所有的邻居节点
+   *
+   * @param {(string | INode)} node 节点 ID 或实例
+   * @returns {INode[]}
+   * @memberof IGraph
+   */
+  public getNeighbors(node: string | INode): INode[] {
+    let item = node as INode
+    if (isString(node)) {
+      item = this.findById(node) as INode
+    }
+    return item.getNeighbors()
+  }
+
+  /**
+   * 获取以 node 为起点的所有邻居节点
+   *
+   * @param {(string | INode)} node 节点 ID 或实例
+   * @returns {INode[]}
+   * @memberof IGraph
+   */
+  public getSourceNeighbors(node: string | INode): INode[] {
+    let item = node as INode
+    if (isString(node)) {
+      item = this.findById(node) as INode
+    }
+    return item.getSourceNeighbors()
+  }
+
+  /**
+   * 获取以 node 为终点的所有邻居节点
+   *
+   * @param {(string | INode)} node 节点 ID 或实例
+   * @returns {INode[]}
+   * @memberof IGraph
+   */
+  public getTargetNeighbors(node: string | INode): INode[] {
+    let item = node as INode
+    if (isString(node)) {
+      item = this.findById(node) as INode
+    }
+    return item.getTargetNeighbors()
+  }
+
+  /**
    * 销毁画布
    */
   public destroy() {

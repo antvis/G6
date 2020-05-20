@@ -615,3 +615,10 @@ export interface ViewPortEventParam {
 export interface Indexable<T> {
   [key: string]: T;
 }
+
+// 图算法回调方法接口定义
+export interface IAlgorithmCallbacks {
+  enter?: (param: { current: INode, previous: INode }) => void;
+  leave?: (param: { current: INode, previous?: INode  }) => void;
+  allowTraversal?: (param: { previous?: INode, current?: INode, next: INode }) => boolean;
+}

@@ -473,6 +473,13 @@ export default class ItemBase implements IItemBase {
   }
 
   /**
+   * 获取 Item 的ID
+   */
+  public getID(): string {
+    return this.get('id')
+  }
+
+  /**
    * 是否是 Item 对象，悬空边情况下进行判定
    */
   public isItem(): boolean {
