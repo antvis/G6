@@ -7,6 +7,7 @@ import Layout from './layout';
 import Global from './global';
 import Util from './util';
 import Plugins from './plugins';
+import * as Algorithm from './algorithm'
 
 const registerNode = Shape.registerNode;
 const registerEdge = Shape.registerEdge;
@@ -33,6 +34,7 @@ export {
   Bundling,
   Menu,
   registerBehavior,
+  Algorithm
 };
 
 export default {
@@ -51,4 +53,5 @@ export default {
   Grid: Plugins.Grid,
   Bundling: Plugins.Bundling,
   Menu: Plugins.Menu,
+  Algorithm
 };

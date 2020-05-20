@@ -140,6 +140,11 @@ export interface IItemBase {
    */
   getType(): ITEM_TYPE;
 
+  /**
+   * 获取 Item 的ID
+   */
+  getID(): string;
+
   getShapeCfg(model: ModelConfig): ModelConfig;
 
   /**
@@ -289,6 +294,30 @@ export interface INode extends IItemBase {
   lock(): void;
 
   unlock(): void;
+
+  /**
+   * 获取节点所有的邻居节点
+   *
+   * @returns {INode[]}
+   * @memberof INode
+   */
+  getNeighbors(): INode[];
+
+  /**
+   * 获取以 node 为起点的所有邻居节点
+   *
+   * @returns {INode[]}
+   * @memberof INode
+   */
+  getSourceNeighbors(): INode[];
+
+  /**
+   * 获取以 node 为终点的所有邻居节点
+   *
+   * @returns {INode[]}
+   * @memberof INode
+   */
+  getTargetNeighbors(): INode[];
 }
 
 export interface ICombo extends INode {
