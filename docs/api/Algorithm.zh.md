@@ -11,7 +11,7 @@ G6 从 V3.5 版本开始加入了图算法，在以后版本更新中，我们�
 
 ### depthFirstSearch
 
-[深度优先搜索](https://pro.jiqizhixin.com/database/wiki_knowledge/2c1561ab-94b2-4da4-890a-7ffe704a55e0)（Depth First Search，简称 DFS）算法是一种用于遍历或搜索树或图的算法。沿着树的深度遍历树的节点，尽可能深的搜索树的分支。当节点v的所在边都己被探寻过，搜索将回溯到发现节点v的那条边的起始节点。这一过程一直进行到已发现从源节点可达的所有节点为止。
+[深度优先搜索](https://zh.wikipedia.org/wiki/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2)（Depth First Search，简称 DFS）算法是一种用于遍历或搜索树或图的算法。沿着树的深度遍历树的节点，尽可能深的搜索树的分支。当节点v的所在边都己被探寻过，搜索将回溯到发现节点v的那条边的起始节点。这一过程一直进行到已发现从源节点可达的所有节点为止。
 
 <img src='https://camo.githubusercontent.com/aaad9e39961daf34d967c616edeb50abf3bf1235/68747470733a2f2f75706c6f61642e77696b696d656469612e6f72672f77696b6970656469612f636f6d6d6f6e732f372f37662f44657074682d46697273742d5365617263682e676966'>
 
@@ -111,7 +111,7 @@ depthFirstSearch(graph, 'A', {
 ```
 
 ### breadthFirstSearch
-[广度优先搜索](https://pro.jiqizhixin.com/database/wiki_knowledge/0ba7404d-f83c-4b8c-8925-f728393abeea)算法（Breadth First Search，简称 BFS），又译作宽度优先搜索，或横向优先搜索，是一种图搜索算法。简单的说，BFS 是从根节点开始，沿着树的宽度遍历树的节点。如果所有节点均被访问，则算法中止。广度优先搜索的实现一般采用open-closed表。
+[广度优先搜索](https://zh.wikipedia.org/zh/%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2)算法（Breadth First Search，简称 BFS），又译作宽度优先搜索，或横向优先搜索，是一种图搜索算法。简单的说，BFS 是从根节点开始，沿着树的宽度遍历树的节点。如果所有节点均被访问，则算法中止。广度优先搜索的实现一般采用open-closed表。
 
 <img src='https://camo.githubusercontent.com/b8073f26dfdf1644e8a92312fff100341987a8f5/68747470733a2f2f75706c6f61642e77696b696d656469612e6f72672f77696b6970656469612f636f6d6d6f6e732f352f35642f427265616474682d46697273742d5365617263682d416c676f726974686d2e676966' />
 
