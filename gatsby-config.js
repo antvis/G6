@@ -104,7 +104,7 @@ module.exports = {
           zh: '内置 Combo',
           en: 'Built-in Combo',
         },
-        order: 2,
+        order: 3,
       },
       {
         slug: 'manual/advanced',
