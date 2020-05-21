@@ -6,7 +6,8 @@
 - feat: add `getNeighbors`、`getSourceNeighbors`、`getTargetNeighbors` methods on Graph and Node;
 - feat: add `getID` method on Item;
 - fix: All Configuration type declarations are migrated to types folder, refer [here](https://github.com/antvis/G6/commit/3691cb51264df8529f75222147ac3f248b71f2f6?diff=unified#diff-76cf0eb5e3d8032945f1ac79ffc5e815R6);
-- fix: Some configuration type declarations have removed the `I` prefix, refer [here](https://github.com/antvis/G6/commit/3691cb51264df8529f75222147ac3f248b71f2f6?diff=unified#diff-aa582974831cee2972b8c96cfcce503aR16).
+- fix: Some configuration type declarations have removed the `I` prefix, refer [here](https://github.com/antvis/G6/commit/3691cb51264df8529f75222147ac3f248b71f2f6?diff=unified#diff-aa582974831cee2972b8c96cfcce503aR16);
+- feat: Util.getLetterWidth and Util.getTextSize.
 
 #### 3.4.10
 - fix: TreeGraphData type with style and stateStyles;
