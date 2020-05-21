@@ -1,6 +1,6 @@
 ---
 title: Rect
-order: 1
+order: 2
 ---
 
 G6 内置了矩形 Rect Combo，其默认样式如下。标签文本位于矩形内部左上方。<a href='/zh/examples/item/defaultCombos#rect' target='_blank'>Demo</a>

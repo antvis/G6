@@ -1,6 +1,6 @@
 ---
 title: Rect
-order: 1
+order: 2
 ---
 
 Built-in Rect Combo has the default style as below, the label is drawed on the left top inside.
