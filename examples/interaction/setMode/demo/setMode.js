@@ -55,7 +55,7 @@ G6.registerBehavior('click-add-edge', {
       // Add anew edge, the end node is the current node user clicks
       self.edge = graph.addItem('edge', {
         source: model.id,
-        target: point,
+        target: model.id,
       });
       self.addingEdge = true;
     }
