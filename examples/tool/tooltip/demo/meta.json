@@ -11,6 +11,22 @@
         "en": "Tooltip"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*kjsSQ5pgVmoAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "tooltipLocal.js",
+      "title": {
+        "zh": "局部图形响应提示框",
+        "en": "Local Tooltip"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*kjsSQ5pgVmoAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "tooltipLocalCustom.js",
+      "title": {
+        "zh": "局部图形响应提示框-自定义节点",
+        "en": "Local Tooltip"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*kjsSQ5pgVmoAAAAAAAAAAABkARQnAQ"
     }
   ]
 }

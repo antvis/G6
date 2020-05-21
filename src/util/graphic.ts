@@ -5,6 +5,7 @@ import each from '@antv/util/lib/each';
 import Global from '../global';
 import { EdgeData, IBBox, IPoint, IShapeBase, LabelStyle, TreeGraphData } from '../types';
 import { applyMatrix } from './math';
+import letterAspectRatio from './letterAspectRatio';
 
 const { PI, sin, cos } = Math;
 
@@ -360,3 +361,29 @@ export const radialLayout = (
   });
   return data;
 };
+
+
+
+/**
+ *
+ * @param letter the letter
+ * @param fontSize
+ * @return the letter's width
+ */
+export const getLetterWidth = (letter, fontSize) => {
+  return fontSize * (letterAspectRatio[letter] || 1);
+};
+
+export const getTextSize = (text, fontSize) => {
+  let width = 0;
+  const pattern = new RegExp("[\u4E00-\u9FA5]+");
+  text.split('').forEach(letter => {
+    if (pattern.test(letter)) {
+      // 中文字符
+      width += fontSize;
+    } else {
+      width += getLetterWidth(letter, fontSize);
+    }
+  });
+  return [width, fontSize];
+}

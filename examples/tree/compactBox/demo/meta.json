@@ -19,6 +19,14 @@
         "en": "Top to Bottom CompactBox"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*KrAqTrFbNjMAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "compactBoxLeftAlign.js",
+      "title": {
+        "zh": "节点左对齐的紧凑书",
+        "en": "CompactBox with Left Align Nodes"
+      },
+      "screenshot": ""
     }
   ]
 }
