@@ -23,15 +23,15 @@ const data = {
       subdescription: 'This is subdescription of node-0.',
     },
     {
-      id: '2',
-      label: 'hover the label - node 1',
+      id: '1',
+      label: 'No Tooltip - node 1',
       x: 150,
       y: 310,
       description: 'This is node-1.',
       subdescription: 'This is subdescription of node-1.',
     },
     {
-      id: '3',
+      id: '2',
       label: 'hover the label - node 2',
       x: 320,
       y: 310,
@@ -41,22 +41,16 @@ const data = {
   ],
   edges: [
     {
-      id: 'e0',
+      id: 'e1',
       source: '0',
       target: '1',
       description: 'This is edge from node 0 to node 1.',
     },
     {
-      id: 'e1',
+      id: 'e2',
       source: '0',
       target: '2',
       description: 'This is edge from node 0 to node 2.',
-    },
-    {
-      id: 'e2',
-      source: '0',
-      target: '3',
-      description: 'This is edge from node 0 to node 3.',
     },
   ],
 };
@@ -95,8 +89,9 @@ const graph = new G6.Graph({
           const text = 'description: ' + model.description;
           return text;
         },
-        offset: 30,
+        offset: 20,
         shouldBegin: (e) => {
+          if (e.item.getModel().id === '1') return false;
           const div = document.getElementsByClassName('g6-tooltip')[0];
           if (div) div.style.display = 'none';
           return true;

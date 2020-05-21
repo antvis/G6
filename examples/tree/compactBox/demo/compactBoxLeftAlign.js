@@ -72,7 +72,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
     const graphDiv = document.getElementById('container');
     const descriptionDiv = document.createElement('div');
     descriptionDiv.innerHTML =
-      'The nodes of a subtree is align to the left.';
+      'The nodes of a subtree is aligned to the left.';
     graphDiv.appendChild(descriptionDiv);
 
     const width = graphDiv.scrollWidth;

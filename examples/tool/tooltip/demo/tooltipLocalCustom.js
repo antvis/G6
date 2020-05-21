@@ -1,6 +1,9 @@
 import G6 from '@antv/g6';
 import insertCss from 'insert-css';
 
+// 我们用 insert-css 演示引入自定义样式
+// 推荐将样式添加到自己的样式文件中
+// 若拷贝官方代码，别忘了 npm install insert-css
 insertCss(`
   .g6-tooltip {
     border: 1px solid #e2e2e2;
@@ -67,7 +70,7 @@ const data = {
     },
     {
       id: '2',
-      label: 'B',
+      label: 'No Tooltip',
       x: 150,
       y: 310,
       description: 'This is node B.',
@@ -134,6 +137,7 @@ const graph = new G6.Graph({
         },
         offset: 30,
         shouldBegin: (e) => {
+          if (e.item.getModel().id === '2') return false;
           const div = document.getElementsByClassName('g6-tooltip')[0];
           if (div) div.style.display = 'none';
           return true;
