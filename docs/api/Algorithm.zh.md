@@ -5,7 +5,7 @@ order: 6
 
 图算法提供了一种最有效的分析关联数据的方法，它们描述了如何处理图以发现一些定性或者定量的结论。图算法基于图论，利用节点之间的关系来推断复杂系统的结构和变化。我们可以使用这些算法来发现隐藏的信息，验证业务假设，并对行为进行预测。
 
-如果你对数据结构及算法感兴趣，可以通过 [javascript-algorithms] (https://github.com/trekhleb/javascript-algorithms) 来进一步学习。
+如果你对数据结构及算法感兴趣，可以通过 [javascript-algorithms](https://github.com/trekhleb/javascript-algorithms) 来进一步学习。
 
 G6 从 V3.5 版本开始加入了图算法，在以后版本更新中，我们会不断丰富内置的算法。
 
