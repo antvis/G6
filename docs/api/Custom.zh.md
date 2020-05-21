@@ -193,7 +193,7 @@ G6.registerNode(
 
 ## G6.registerBehavior(behaviorName, behavior)
 
-当内置的 Behavior 不能满足需求时，使用 `registerBehavior(behaviorName, behavior)` 方法注册自定义的交互行为。
+当 [内置 Behavior](/zh/docs/manual/middle/states/defaultBehavior) 不能满足需求时，使用 `registerBehavior(behaviorName, behavior)` 方法注册自定义的交互行为。详见 [Behavior API](/zh/docs/api/Behavior)。
 
 ### 参数
 

@@ -3,7 +3,7 @@ title: Combo
 order: 3
 ---
 
-Combo 继承自 Node，具有 Node 的所有特性。
+Combo 继承自 Node，具有 Node 的所有特性。本文仅介绍 Combo 类的通用方法，内置节点见 [内置 Combo 文档](/zh/docs/manual/middle/elements/combos/defaultCombo) 和 [demo](/zh/examples/item/defaultCombos)，自定义节点见 [自定义 Combo 文档](/zh/docs/manual/advanced/custom-combo) 和 [demo](/zh/examples/item/customCombo)。
 
 ### getChildren()
 获取 Combo 中所有的子元素，包括 Combo 和 Node。

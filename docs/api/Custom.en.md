@@ -192,7 +192,7 @@ G6.registerCombo(
 
 ## G6.registerBehavior(behaviorName, behavior)
 
-When the built-in Behaviors cannot satisfy your requirments, custom a type of Behavior by `G6.registerBehavior(behaviorName, behavior)`.
+When the [built-in Behaviors](/en/docs/manual/middle/states/defaultBehavior) cannot satisfy your requirments, custom a type of Behavior by `G6.registerBehavior(behaviorName, behavior)`. See [Behavior API](/en/docs/api/Behavior) for detail.
 
 ### Parameters
 

@@ -3,7 +3,7 @@ title: Node
 order: 1
 ---
 
-Node inherits from item. The functions of Item are also available for Node.
+Node inherits from item. The functions of Item are also available for Node. This document will only introduce the common functions for Node class. All the built-in nodes can be found in [Built-in Nodes Doc](/en/docs/manual/middle/elements/nodes/defaultNode) and [demo](/en/examples/item/defaultNodes), Custom Node can be found in [Custom Node Doc](/en/docs/manual/advanced/custom-node) and [demo](/en/examples/item/customNode).
 
 ## lock()
 
