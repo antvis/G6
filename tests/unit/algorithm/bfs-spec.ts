@@ -66,8 +66,8 @@ const data = {
 
 describe('breadthFirstSearch', () => {
   it('should perform BFS operation on graph', () => {
-    const enterVertexCallback = jest.fn();
-    const leaveVertexCallback = jest.fn();
+    const enterNodeCallback = jest.fn();
+    const leaveNodeCallback = jest.fn();
 
     const graph = new G6.Graph({
       container: 'container',
@@ -82,61 +82,61 @@ describe('breadthFirstSearch', () => {
     // Traverse graphs without callbacks first.
     breadthFirstSearch(graph, 'A');
 
-    // Traverse graph with enterVertex and leaveVertex callbacks.
+    // Traverse graph with enterNode and leaveNode callbacks.
     breadthFirstSearch(graph, 'A', {
-      enter: enterVertexCallback,
-      leave: leaveVertexCallback,
+      enter: enterNodeCallback,
+      leave: leaveNodeCallback,
     });
 
-    expect(enterVertexCallback).toHaveBeenCalledTimes(7);
-    expect(leaveVertexCallback).toHaveBeenCalledTimes(7);
+    expect(enterNodeCallback).toHaveBeenCalledTimes(7);
+    expect(leaveNodeCallback).toHaveBeenCalledTimes(7);
 
-    const vertexA = graph.findById('A')
-    const vertexB = graph.findById('B')
-    const vertexC = graph.findById('C')
-    const vertexD = graph.findById('D')
-    const vertexE = graph.findById('E')
-    const vertexF = graph.findById('F')
-    const vertexG = graph.findById('G')
+    const nodeA = graph.findById('A')
+    const nodeB = graph.findById('B')
+    const nodeC = graph.findById('C')
+    const nodeD = graph.findById('D')
+    const nodeE = graph.findById('E')
+    const nodeF = graph.findById('F')
+    const nodeG = graph.findById('G')
 
-    const enterVertexParamsMap = [
-      { currentVertex: vertexA, previousVertex: null },
-      { currentVertex: vertexB, previousVertex: vertexA },
-      { currentVertex: vertexD, previousVertex: vertexB },
-      { currentVertex: vertexE, previousVertex: vertexD },
-      { currentVertex: vertexC, previousVertex: vertexE },
-      { currentVertex: vertexF, previousVertex: vertexC },
-      { currentVertex: vertexG, previousVertex: vertexF },
+    const enterNodeParamsMap = [
+      { currentNode: nodeA, previousNode: null },
+      { currentNode: nodeB, previousNode: nodeA },
+      { currentNode: nodeD, previousNode: nodeB },
+      { currentNode: nodeE, previousNode: nodeD },
+      { currentNode: nodeC, previousNode: nodeE },
+      { currentNode: nodeF, previousNode: nodeC },
+      { currentNode: nodeG, previousNode: nodeF },
     ];
 
     for (let callIndex = 0; callIndex < 6; callIndex += 1) {
-      const params = enterVertexCallback.mock.calls[callIndex][0];
-      expect(params.current.get('id')).toEqual(enterVertexParamsMap[callIndex].currentVertex.get('id'));
+      const params = enterNodeCallback.mock.calls[callIndex][0];
+      expect(params.current.get('id')).toEqual(enterNodeParamsMap[callIndex].currentNode.get('id'));
       expect(params.previous && params.previous.get('id')).toEqual(
-        enterVertexParamsMap[callIndex].previousVertex && enterVertexParamsMap[callIndex].previousVertex.get('id'));
+        enterNodeParamsMap[callIndex].previousNode && enterNodeParamsMap[callIndex].previousNode.get('id'));
     }
 
-    const leaveVertexParamsMap = [
-      { currentVertex: vertexA, previousVertex: null },
-      { currentVertex: vertexB, previousVertex: vertexA },
-      { currentVertex: vertexD, previousVertex: vertexB },
-      { currentVertex: vertexE, previousVertex: vertexD },
-      { currentVertex: vertexC, previousVertex: vertexE },
-      { currentVertex: vertexF, previousVertex: vertexC },
-      { currentVertex: vertexG, previousVertex: vertexF },
+    const leaveNodeParamsMap = [
+      { currentNode: nodeA, previousNode: null },
+      { currentNode: nodeB, previousNode: nodeA },
+      { currentNode: nodeD, previousNode: nodeB },
+      { currentNode: nodeE, previousNode: nodeD },
+      { currentNode: nodeC, previousNode: nodeE },
+      { currentNode: nodeF, previousNode: nodeC },
+      { currentNode: nodeG, previousNode: nodeF },
     ];
 
     for (let callIndex = 0; callIndex < 6; callIndex += 1) {
-      const params = leaveVertexCallback.mock.calls[callIndex][0];
-      expect(params.current.get('id')).toEqual(leaveVertexParamsMap[callIndex].currentVertex.get('id'));
+      const params = leaveNodeCallback.mock.calls[callIndex][0];
+      expect(params.current.get('id')).toEqual(leaveNodeParamsMap[callIndex].currentNode.get('id'));
       expect(params.previous && params.previous.get('id')).toEqual(
-        leaveVertexParamsMap[callIndex].previousVertex && leaveVertexParamsMap[callIndex].previousVertex.get('id'));
+        leaveNodeParamsMap[callIndex].previousNode && leaveNodeParamsMap[callIndex].previousNode.get('id'));
     }
 
     graph.destroy()
   });
 
-  it('should allow to create custom vertex visiting logic', () => {
+  it('should allow to create custom node visiting logic', () => {
     const graph = new G6.Graph({
       container: 'container',
       width: 500,
@@ -147,47 +147,47 @@ describe('breadthFirstSearch', () => {
     graph.data(data)
     graph.render()
 
-    const enterVertexCallback = jest.fn();
-    const leaveVertexCallback = jest.fn();
-    
-    // Traverse graph with enterVertex and leaveVertex callbacks.
+    const enterNodeCallback = jest.fn();
+    const leaveNodeCallback = jest.fn();
+
+    // Traverse graph with enterNode and leaveNode callbacks.
     breadthFirstSearch(graph, 'A', {
-      enter: enterVertexCallback,
-      leave: leaveVertexCallback,
+      enter: enterNodeCallback,
+      leave: leaveNodeCallback,
       allowTraversal: ({ current, next }) => {
         return !(current.get('id') === 'A' && next.get('id') === 'B');
       },
     });
 
-    expect(enterVertexCallback).toHaveBeenCalledTimes(5);
-    expect(leaveVertexCallback).toHaveBeenCalledTimes(5);
+    expect(enterNodeCallback).toHaveBeenCalledTimes(5);
+    expect(leaveNodeCallback).toHaveBeenCalledTimes(5);
 
-    const enterVertexParamsMap = [
-      { currentVertex: 'A', previousVertex: null },
-      { currentVertex: 'D', previousVertex: 'A' },
-      { currentVertex: 'E', previousVertex: 'D' },
-      { currentVertex: 'F', previousVertex: 'E' },
-      { currentVertex: 'D', previousVertex: 'F' }
+    const enterNodeParamsMap = [
+      { currentNode: 'A', previousNode: null },
+      { currentNode: 'D', previousNode: 'A' },
+      { currentNode: 'E', previousNode: 'D' },
+      { currentNode: 'F', previousNode: 'E' },
+      { currentNode: 'D', previousNode: 'F' }
     ];
 
     for (let callIndex = 0; callIndex < 5; callIndex += 1) {
-      const params = enterVertexCallback.mock.calls[callIndex][0];
-      expect(params.current.get('id')).toEqual(enterVertexParamsMap[callIndex].currentVertex);
-      expect(params.previous && params.previous.get('id')).toEqual(enterVertexParamsMap[callIndex].previousVertex);
+      const params = enterNodeCallback.mock.calls[callIndex][0];
+      expect(params.current.get('id')).toEqual(enterNodeParamsMap[callIndex].currentNode);
+      expect(params.previous && params.previous.get('id')).toEqual(enterNodeParamsMap[callIndex].previousNode);
     }
 
-    const leaveVertexParamsMap = [
-      { currentVertex: 'A', previousVertex: null },
-      { currentVertex: 'D', previousVertex: 'A' },
-      { currentVertex: 'E', previousVertex: 'D' },
-      { currentVertex: 'F', previousVertex: 'E' },
-      { currentVertex: 'D', previousVertex: 'F' },
+    const leaveNodeParamsMap = [
+      { currentNode: 'A', previousNode: null },
+      { currentNode: 'D', previousNode: 'A' },
+      { currentNode: 'E', previousNode: 'D' },
+      { currentNode: 'F', previousNode: 'E' },
+      { currentNode: 'D', previousNode: 'F' },
     ];
 
     for (let callIndex = 0; callIndex < 5; callIndex += 1) {
-      const params = leaveVertexCallback.mock.calls[callIndex][0];
-      expect(params.current.get('id')).toEqual(leaveVertexParamsMap[callIndex].currentVertex);
-      expect(params.previous && params.previous.get('id')).toEqual(leaveVertexParamsMap[callIndex].previousVertex);
+      const params = leaveNodeCallback.mock.calls[callIndex][0];
+      expect(params.current.get('id')).toEqual(leaveNodeParamsMap[callIndex].currentNode);
+      expect(params.previous && params.previous.get('id')).toEqual(leaveNodeParamsMap[callIndex].previousNode);
     }
   });
 });

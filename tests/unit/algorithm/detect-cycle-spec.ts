@@ -84,13 +84,13 @@ describe('detectDirectedCycle', () => {
     // { currentNodeId: prevNode }
     result = detectDirectedCycle(graph)
 
-    const vertexF = graph.findById('F')
-    const vertexD = graph.findById('D')
-    const vertexE = graph.findById('E')
+    const nodeF = graph.findById('F')
+    const nodeD = graph.findById('D')
+    const nodeE = graph.findById('E')
     expect(result).toEqual({
-      D: vertexF,
-      F: vertexE,
-      E: vertexD,
+      D: nodeF,
+      F: nodeE,
+      E: nodeD,
     });
   });
 });

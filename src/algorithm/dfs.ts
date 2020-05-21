@@ -5,7 +5,7 @@ import { INode } from '../interface/item';
 function initCallbacks(callbacks: IAlgorithmCallbacks = {} as IAlgorithmCallbacks) {
   const initiatedCallback = callbacks;
 
-  const stubCallback = () => {};
+  const stubCallback = () => { };
 
   const allowTraversalCallback = (
     () => {
@@ -29,38 +29,40 @@ function initCallbacks(callbacks: IAlgorithmCallbacks = {} as IAlgorithmCallback
 
 /**
  * @param {Graph} graph
- * @param {GraphVertex} currentVertex
- * @param {GraphVertex} previousVertex
+ * @param {GraphNode} currentNode
+ * @param {GraphNode} previousNode
  * @param {Callbacks} callbacks
  */
-function depthFirstSearchRecursive(graph: IGraph, currentVertex: INode, previousVertex: INode, callbacks: IAlgorithmCallbacks) {
-  callbacks.enter({ 
-    current: currentVertex, 
-    previous: previousVertex });
+function depthFirstSearchRecursive(graph: IGraph, currentNode: INode, previousNode: INode, callbacks: IAlgorithmCallbacks) {
+  callbacks.enter({
+    current: currentNode,
+    previous: previousNode
+  });
 
-  graph.getSourceNeighbors(currentVertex).forEach((nextVertex) => {
+  graph.getSourceNeighbors(currentNode).forEach((nextNode) => {
     if (callbacks.allowTraversal({
-      previous: previousVertex, 
-      current: currentVertex, 
-      next: nextVertex })) {
-      depthFirstSearchRecursive(graph, nextVertex, currentVertex, callbacks);
+      previous: previousNode,
+      current: currentNode,
+      next: nextNode
+    })) {
+      depthFirstSearchRecursive(graph, nextNode, currentNode, callbacks);
     }
   });
 
-  callbacks.leave({ 
-    current: currentVertex, 
-    previous: previousVertex 
+  callbacks.leave({
+    current: currentNode,
+    previous: previousNode
   });
 }
 
 /**
  * 深度优先遍历图
  * @param data GraphData 图数据
- * @param startVertex 开始遍历的节点
+ * @param startNodeId 开始遍历的节点的 ID
  * @param originalCallbacks 回调
  */
-export default function depthFirstSearch(graph: IGraph, startVertexId: string, callbacks?: IAlgorithmCallbacks) {
-  const previousVertex = null;
-  const startVertex = graph.findById(startVertexId) as INode
-  depthFirstSearchRecursive(graph, startVertex, previousVertex, initCallbacks(callbacks));
+export default function depthFirstSearch(graph: IGraph, startNodeId: string, callbacks?: IAlgorithmCallbacks) {
+  const previousNode = null;
+  const startNode = graph.findById(startNodeId) as INode
+  depthFirstSearchRecursive(graph, startNode, previousNode, initCallbacks(callbacks));
 }
