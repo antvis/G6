@@ -114,11 +114,11 @@ Some implementations combined with front-end libraries from the third party:
 
 ## G6 Communication Group
 
-Users are welcome to join the **G6 Communication Group** or **G6 Communication Group-2** (They are DingTalk groups). We also welcome the github issues.
+Users are welcome to join the **G6 Communication Group** or **G6 Communication Group-2** (They are DingTalk groups). We also welcome the github issues.The Group is full, join Group-2 instead.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hzfaSrAj0jkAAAAAAAAAAABkARQnAQ' width=400 alt="img">
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LFppR6_BfdYAAAAAAAAAAABkARQnAQ' width=400 alt="">
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7uu-T7kp6uUAAAAAAAAAAABkARQnAQ' width=400 alt="img">
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hzfaSrAj0jkAAAAAAAAAAABkARQnAQ' width=400 alt="">
 
 ## How to Contribute
 

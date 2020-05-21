@@ -3,31 +3,33 @@ title: Graph Algorithm
 order: 5
 ---
 
-图算法提供了一种最有效的分析关联数据的方法，它们描述了如何处理图以发现一些定性或者定量的结论。图算法基于图论，利用节点之间的关系来推断复杂系统的结构和变化。我们可以使用这些算法来发现隐藏的信息，验证业务假设，并对行为进行预测。
+Graph algorithms provide one of the most effective methods for analyzing relational data. They describe how to process graphs to discover some qualitative or quantitative measures. Graph algorithms are based on graph theory and use the relationship between them to structure and change complex systems. We can use these algorithms to discover hidden information, verify business assumptions, and change behavior to make predictions.
 
-如果你对数据结构及算法感兴趣，可以通过 [javascript-algorithms] (https://github.com/trekhleb/javascript-algorithms) 来进一步学习。
 
-G6 从 V3.5 版本开始加入了图算法，在以后版本更新中，我们会不断丰富内置的算法。
+If you are interested in data structures and algorithms, you can learn from [javascript-algorithms](https://github.com/trekhleb/javascript-algorithms).
+
+G6 has added graph algorithms since V3.5. In future versions, we will continue to enrich the built-in algorithms.
+
 
 ### depthFirstSearch
 
-[Depth first search](https://pro.jiqizhixin.com/database/wiki_knowledge/2c1561ab-94b2-4da4-890a-7ffe704a55e0) (DFS) is an algorithm for traversing or searching tree or graph data structures. One starts at the root (selecting some arbitrary node as the root in the case of a graph) and explores as far as possible along each branch before backtracking.
+[Depth first search](https://en.wikipedia.org/wiki/Depth-first_search) (DFS) is an algorithm for traversing or searching tree or graph data structures. One starts at the root (selecting some arbitrary node as the root in the case of a graph) and explores as far as possible along each branch before backtracking.
 
 
-<img src='https://camo.githubusercontent.com/aaad9e39961daf34d967c616edeb50abf3bf1235/68747470733a2f2f75706c6f61642e77696b696d656469612e6f72672f77696b6970656469612f636f6d6d6f6e732f372f37662f44657074682d46697273742d5365617263682e676966'>
+<img src='https://camo.githubusercontent.com/aaad9e39961daf34d967c616edeb50abf3bf1235/68747470733a2f2f75706c6f61642e77696b696d656469612e6f72672f77696b6970656469612f636f6d6d6f6e732f372f37662f44657074682d46697273742d5365617263682e676966' alt="img">
 
-图片来源：https://github.com/trekhleb/javascript-algorithms/tree/master/src/algorithms/graph/depth-first-search
+[Image Source](https://github.com/trekhleb/javascript-algorithms/tree/master/src/algorithms/graph/depth-first-search)
 
-**参数**
+**Parameters**
 
-| 名称    | 类型   | 是否必选 | 描述    |
+| Name    | Type   | Required | Description    |
 | ------- | ------ | -------- | ------- |
-| graph | IGraph | true     | G6 Graph 实例 |
-| startVertexId | string | true     | 开始访问的节点的ID |
-| callbacks | IAlgorithmCallbacks | false     | 遍历的回调函数 |
+| graph | IGraph | true     | G6 Graph Instance |
+| startNodeId | string | true     | The ID of the node to be started |
+| callbacks | IAlgorithmCallbacks | false     | The callback function |
 
 
-**用法**
+**Usage**
 
 ```
 import G6, { Algorithm } from '@antv/g6'
@@ -103,33 +105,33 @@ graph.render()
 const { depthFirstSearch } = Algorithm
 depthFirstSearch(graph, 'A', {
   enter: ({ current, previous }) => {
-    // 开始遍历点的回调
+    // The callback function for the traversal's begining
   },
   leave: ({ current, previous }) => {
-    // 遍历完节点的回调
+    // The callback function for the traversal's ending
   },
 })
 ```
 
 ### breadthFirstSearch
-[Breadth-first search](https://pro.jiqizhixin.com/database/wiki_knowledge/0ba7404d-f83c-4b8c-8925-f728393abeea)(BFS) is an algorithm for traversing or searching tree or graph data structures. It starts at the tree root (or some arbitrary node of a graph, sometimes referred to as a 'search key') and explores the neighbor nodes first, before moving to the next level neighbors.
+[Breadth-first search](https://en.wikipedia.org/wiki/Breadth-first_search) (BFS) is an algorithm for traversing or searching tree or graph data structures. It starts at the tree root (or some arbitrary node of a graph, sometimes referred to as a 'search key') and explores the neighbor nodes first, before moving to the next level neighbors.
 
 
-<img src='https://camo.githubusercontent.com/b8073f26dfdf1644e8a92312fff100341987a8f5/68747470733a2f2f75706c6f61642e77696b696d656469612e6f72672f77696b6970656469612f636f6d6d6f6e732f352f35642f427265616474682d46697273742d5365617263682d416c676f726974686d2e676966' />
+<img src='https://camo.githubusercontent.com/b8073f26dfdf1644e8a92312fff100341987a8f5/68747470733a2f2f75706c6f61642e77696b696d656469612e6f72672f77696b6970656469612f636f6d6d6f6e732f352f35642f427265616474682d46697273742d5365617263682d416c676f726974686d2e676966'  alt="img"/>
 
-图片来源：https://camo.githubusercontent.com/b8073f26dfdf1644e8a92312fff100341987a8f5/68747470733a2f2f75706c6f61642e77696b696d656469612e6f72672f77696b6970656469612f636f6d6d6f6e732f352f35642f427265616474682d46697273742d5365617263682d416c676f726974686d2e676966
+[Image Source](https://camo.githubusercontent.com/b8073f26dfdf1644e8a92312fff100341987a8f5/68747470733a2f2f75706c6f61642e77696b696d656469612e6f72672f77696b6970656469612f636f6d6d6f6e732f352f35642f427265616474682d46697273742d5365617263682d416c676f726974686d2e676966)
 
 
-**参数**
+**Parameters**
 
-| 名称    | 类型   | 是否必选 | 描述    |
+| Name    | Type   | Required | Description    |
 | ------- | ------ | -------- | ------- |
-| graph | IGraph | true     | G6 Graph 实例 |
-| startVertexId | string | true     | 开始访问的节点的ID |
-| originalCallbacks | IAlgorithmCallbacks | false     | 遍历的回调函数 |
+| graph | IGraph | true     | G6 Graph Instance |
+| startNodeId | string | true     | The ID of the starting node |
+| originalCallbacks | IAlgorithmCallbacks | false     | The callback function |
 
 
-**用法**
+**Usage**
 
 ```
 import G6, { Algorithm } from '@antv/g6'
@@ -205,37 +207,38 @@ graph.render()
 const { breadthFirstSearch } = Algorithm
 breadthFirstSearch(graph, 'A', {
   enter: ({ current, previous }) => {
-    // 开始遍历点的回调
+    // The callback function for the traversal's begining
   },
   leave: ({ current, previous }) => {
-    // 遍历完节点的回调
+    // The callback function for the traversal's ending
   },
 })
 ```
 
 ### detectDirectedCycle
-在给定的有向图中，检查是否包括圈。如果给定的图中至少包括一个圈，则返回包括的第一个圈，否则返回 null。
 
-参考资料：
+In a given directed graph, check whether a ring is included. If at least one ring is included in the given graph, the first ring included is returned. Returns `null` if there is no cycle in the graph.
+
+References:
 - [detect-cycle-in-a-graph](https://www.geeksforgeeks.org/detect-cycle-in-a-graph/)
 
 - [detect-cycle](https://github.com/trekhleb/javascript-algorithms/tree/master/src/algorithms/graph/detect-cycle)
 
 
-**参数**
+**Parameters**
 
-| 名称    | 类型   | 是否必选 | 描述    |
+| Name    | Type   | Required | Description    |
 | ------- | ------ | -------- | ------- |
-| graph | IGraph | true     | G6 Graph 实例 |
+| graph | IGraph | true     | G6 Graph Instance |
 
-**返回值**
+**Return**
 
-返回检测到的圈，否则返回 null。
+Returns the detected cycle. Returns `null` if there is no cycle.
 
-**用法**
+**Usage**
 
 
-```
+```javascript
 import G6, { Algorithm } from '@antv/g6'
 const graph = new G6.Graph({
   container: 'container',
@@ -300,10 +303,10 @@ graph.render()
 
 const { detectDirectedCycle } = Algorithm
 
-// 此时图中没有环，result 为 null
+// There is no cycle in the graph, the result is null
 let result = detectDirectedCycle(graph)
 
-// 当数据中加入 F->D 这条边后，图中有一个环
+// There will be a cycle after adding edge F->D
 data.edges.push(
   {
     source: 'F',
@@ -313,7 +316,7 @@ data.edges.push(
 
 graph.changeData(data)
 
-// 返回数据
+// Returns:
 /**
 * {
     D: Node,

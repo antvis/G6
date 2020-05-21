@@ -116,11 +116,11 @@ graph.render();
 
 > **G6 图可视化交流群** 已满员，该群会不定期移除不活跃的成员。
 
-> 由于值班同学的时间和精力有限，**G6 图可视化交流二群** 中的问题我们会不定期回复。欢迎对 G6 感兴趣的同学加入到答疑中来，非常感谢！
+> 由于值班同学的时间和精力有限，**G6 图可视化交流二群** 中的问题我们会不定期回复。欢迎对 G6 感兴趣的同学加入到答疑中来，非常感谢！交流群-1 已满，请加交流群-2。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hzfaSrAj0jkAAAAAAAAAAABkARQnAQ' width=400 alt="img">
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LFppR6_BfdYAAAAAAAAAAABkARQnAQ' width=400 alt="">
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7uu-T7kp6uUAAAAAAAAAAABkARQnAQ' width=400 alt="img">
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hzfaSrAj0jkAAAAAAAAAAABkARQnAQ' width=400 alt="">
 
 ## 如何贡献
 

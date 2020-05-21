@@ -79,57 +79,57 @@ describe('depthFirstSearch', () => {
     graph.data(data)
     graph.render()
 
-    const enterVertexCallback = jest.fn();
-    const leaveVertexCallback = jest.fn();
+    const enterNodeCallback = jest.fn();
+    const leaveNodeCallback = jest.fn();
 
     // Traverse graphs without callbacks first to check default ones.
     depthFirstSearch(graph, 'A');
 
-    // Traverse graph with enterVertex and leaveVertex callbacks.
+    // Traverse graph with enterNode and leaveNode callbacks.
     depthFirstSearch(graph, 'A', {
-      enter: enterVertexCallback,
-      leave: leaveVertexCallback,
+      enter: enterNodeCallback,
+      leave: leaveNodeCallback,
     });
 
-    expect(enterVertexCallback).toHaveBeenCalledTimes(graph.getNodes().length);
-    expect(leaveVertexCallback).toHaveBeenCalledTimes(graph.getNodes().length);
+    expect(enterNodeCallback).toHaveBeenCalledTimes(graph.getNodes().length);
+    expect(leaveNodeCallback).toHaveBeenCalledTimes(graph.getNodes().length);
 
-    const enterVertexParamsMap = [
-      { currentVertex: 'A', previousVertex: null },
-      { currentVertex: 'B', previousVertex: 'A' },
-      { currentVertex: 'C', previousVertex: 'B' },
-      { currentVertex: 'G', previousVertex: 'C' },
-      { currentVertex: 'D', previousVertex: 'A' },
-      { currentVertex: 'E', previousVertex: 'A' },
-      { currentVertex: 'F', previousVertex: 'E' },
+    const enterNodeParamsMap = [
+      { currentNode: 'A', previousNode: null },
+      { currentNode: 'B', previousNode: 'A' },
+      { currentNode: 'C', previousNode: 'B' },
+      { currentNode: 'G', previousNode: 'C' },
+      { currentNode: 'D', previousNode: 'A' },
+      { currentNode: 'E', previousNode: 'A' },
+      { currentNode: 'F', previousNode: 'E' },
     ];
 
     for (let callIndex = 0; callIndex < graph.getNodes().length; callIndex += 1) {
-      const params = enterVertexCallback.mock.calls[callIndex][0];
-      expect(params.current.get('id')).toEqual(enterVertexParamsMap[callIndex].currentVertex);
-      expect(params.previous && params.previous.get('id')).toEqual(enterVertexParamsMap[callIndex].previousVertex);
+      const params = enterNodeCallback.mock.calls[callIndex][0];
+      expect(params.current.get('id')).toEqual(enterNodeParamsMap[callIndex].currentNode);
+      expect(params.previous && params.previous.get('id')).toEqual(enterNodeParamsMap[callIndex].previousNode);
     }
 
-    const leaveVertexParamsMap = [
-      { currentVertex: 'G', previousVertex: 'C' },
-      { currentVertex: 'C', previousVertex: 'B' },
-      { currentVertex: 'B', previousVertex: 'A' },
-      { currentVertex: 'D', previousVertex: 'A' },
-      { currentVertex: 'F', previousVertex: 'E' },
-      { currentVertex: 'E', previousVertex: 'A' },
-      { currentVertex: 'A', previousVertex: null },
+    const leaveNodeParamsMap = [
+      { currentNode: 'G', previousNode: 'C' },
+      { currentNode: 'C', previousNode: 'B' },
+      { currentNode: 'B', previousNode: 'A' },
+      { currentNode: 'D', previousNode: 'A' },
+      { currentNode: 'F', previousNode: 'E' },
+      { currentNode: 'E', previousNode: 'A' },
+      { currentNode: 'A', previousNode: null },
     ];
 
     for (let callIndex = 0; callIndex < graph.getNodes().length; callIndex += 1) {
-      const params = leaveVertexCallback.mock.calls[callIndex][0];
-      expect(params.current.get('id')).toEqual(leaveVertexParamsMap[callIndex].currentVertex);
-      expect(params.previous && params.previous.get('id')).toEqual(leaveVertexParamsMap[callIndex].previousVertex);
+      const params = leaveNodeCallback.mock.calls[callIndex][0];
+      expect(params.current.get('id')).toEqual(leaveNodeParamsMap[callIndex].currentNode);
+      expect(params.previous && params.previous.get('id')).toEqual(leaveNodeParamsMap[callIndex].previousNode);
     }
 
     graph.destroy()
   });
 
-  it('allow users to redefine vertex visiting logic', () => {
+  it('allow users to redefine node visiting logic', () => {
     const graph = new G6.Graph({
       container: 'container',
       width: 500,
@@ -140,52 +140,52 @@ describe('depthFirstSearch', () => {
     graph.data(data)
     graph.render()
 
-    const enterVertexCallback = jest.fn();
-    const leaveVertexCallback = jest.fn();
+    const enterNodeCallback = jest.fn();
+    const leaveNodeCallback = jest.fn();
 
     depthFirstSearch(graph, 'A', {
-      enter: enterVertexCallback,
-      leave: leaveVertexCallback,
-      allowTraversal: ({ 
-        current: currentVertex, 
-        next: nextVertex }) => {
-        return !(currentVertex.get('id') === 'A' && nextVertex.get('id') === 'B');
+      enter: enterNodeCallback,
+      leave: leaveNodeCallback,
+      allowTraversal: ({
+        current: currentNode,
+        next: nextNode }) => {
+        return !(currentNode.get('id') === 'A' && nextNode.get('id') === 'B');
       },
     });
 
-    expect(enterVertexCallback).toHaveBeenCalledTimes(7);
-    expect(leaveVertexCallback).toHaveBeenCalledTimes(7);
+    expect(enterNodeCallback).toHaveBeenCalledTimes(7);
+    expect(leaveNodeCallback).toHaveBeenCalledTimes(7);
 
-    const enterVertexParamsMap = [
-      { currentVertex: 'A', previousVertex: null },
-      { currentVertex: 'D', previousVertex: 'A' },
-      { currentVertex: 'G', previousVertex: 'D' },
-      { currentVertex: 'E', previousVertex: 'A' },
-      { currentVertex: 'F', previousVertex: 'E' },
-      { currentVertex: 'D', previousVertex: 'F' },
-      { currentVertex: 'G', previousVertex: 'D' },
+    const enterNodeParamsMap = [
+      { currentNode: 'A', previousNode: null },
+      { currentNode: 'D', previousNode: 'A' },
+      { currentNode: 'G', previousNode: 'D' },
+      { currentNode: 'E', previousNode: 'A' },
+      { currentNode: 'F', previousNode: 'E' },
+      { currentNode: 'D', previousNode: 'F' },
+      { currentNode: 'G', previousNode: 'D' },
     ];
 
     for (let callIndex = 0; callIndex < graph.getNodes().length; callIndex += 1) {
-      const params = enterVertexCallback.mock.calls[callIndex][0];
-      expect(params.current.get('id')).toEqual(enterVertexParamsMap[callIndex].currentVertex);
-      expect(params.previous && params.previous.get('id')).toEqual(enterVertexParamsMap[callIndex].previousVertex);
+      const params = enterNodeCallback.mock.calls[callIndex][0];
+      expect(params.current.get('id')).toEqual(enterNodeParamsMap[callIndex].currentNode);
+      expect(params.previous && params.previous.get('id')).toEqual(enterNodeParamsMap[callIndex].previousNode);
     }
 
-    const leaveVertexParamsMap = [
-      { currentVertex: 'G', previousVertex: 'D' },
-      { currentVertex: 'D', previousVertex: 'A' },
-      { currentVertex: 'G', previousVertex: 'D' },
-      { currentVertex: 'D', previousVertex: 'F' },
-      { currentVertex: 'F', previousVertex: 'E' },
-      { currentVertex: 'E', previousVertex: 'A' },
-      { currentVertex: 'A', previousVertex: null },
+    const leaveNodeParamsMap = [
+      { currentNode: 'G', previousNode: 'D' },
+      { currentNode: 'D', previousNode: 'A' },
+      { currentNode: 'G', previousNode: 'D' },
+      { currentNode: 'D', previousNode: 'F' },
+      { currentNode: 'F', previousNode: 'E' },
+      { currentNode: 'E', previousNode: 'A' },
+      { currentNode: 'A', previousNode: null },
     ];
 
     for (let callIndex = 0; callIndex < graph.getNodes().length; callIndex += 1) {
-      const params = leaveVertexCallback.mock.calls[callIndex][0];
-      expect(params.current.get('id')).toEqual(leaveVertexParamsMap[callIndex].currentVertex);
-      expect(params.previous && params.previous.get('id')).toEqual(leaveVertexParamsMap[callIndex].previousVertex);
+      const params = leaveNodeCallback.mock.calls[callIndex][0];
+      expect(params.current.get('id')).toEqual(leaveNodeParamsMap[callIndex].currentNode);
+      expect(params.previous && params.previous.get('id')).toEqual(leaveNodeParamsMap[callIndex].previousNode);
     }
 
     graph.destroy()
