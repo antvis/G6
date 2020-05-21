@@ -7,7 +7,9 @@ Behavior 指 G6 中的复合交互，一般 Behavior 包含一个或多个事件
 
 Behavior 默认包含 `shouldBegin`，`shouldUpdate`，`shouldEnd` 三个回调，代表是否开始行为，是否更新元素，是否进行结束行为，当返回值为 `false` 时阻止默认行为。
 
-## 用法
+本文将介绍如何自定义 Behavior。所有内置 Behavior 及其参数参见 [内置的 Behavior 教程](/zh/docs/manual/middle/states/defaultBehavior)。
+
+## 自定义 Behavior
 
 ```javascript
 G6.registerBehavior('behaviorName', {

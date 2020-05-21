@@ -7,6 +7,8 @@ Behavior is the compound interactions in G6. In general, a Behavior includes one
 
 By default, Behavior has three callbacks: `shouldBegin`, `shouldUpdate`, and `shouldEnd`, representing the beginning of the behavior, whether to update the items, the ending of the behavior respectively. If they return `false`, the default behavior will be prevented.
 
+This document is going to introduce how to customize a behavior. The infomation about the built-in behaviors can be found in the [Built-in Behaviors](/en/docs/manual/middle/states/defaultBehavior).
+
 ## Usage
 
 ```javascript

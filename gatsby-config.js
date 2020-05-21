@@ -125,8 +125,8 @@ module.exports = {
       {
         slug: 'api/nodeEdge',
         title: {
-          zh: '节点和边',
-          en: 'Node & Edge',
+          zh: '节点/边/Combo',
+          en: 'Node & Edge & Combo',
         },
         order: 3,
       },

@@ -15,16 +15,17 @@ Behavior 是 G6 提供的定义图上交互事件的机制。它与[交互模式
 V3.5 以上版本支持。
 
 - 含义：拖动 Combo；
-- `type: 'drag-combo'`；
-- `enableDelegate`：拖动 Combo 时候是否开启图形代理 delegate，即拖动 Combo 时候 Combo 不会实时跟随变动，拖动过程中有临时生成一个 delegate 图形，拖动结束后才更新 Combo 位置，默认为 false，不开启；
-- `delegateStyle`：delegate 的样式；
-- `onlyChangeComboSize`：拖动嵌套的 Combo 时，只改变父 Combo 的大小，不改变层级关系，默认为 false；
-- `activeState`：当拖动 Combo 时，父 Combo 或进入到的 Combo 的状态值，需要用户在实例化 Graph 时在 `comboStateStyles` 里面配置，默认为空；
-- `selectedState`：选中 Combo 的状态，默认为 selected，需要在 `comboStateStyles` 里面配置。
+- 配置项：
+  - `type: 'drag-combo'`；
+  - `enableDelegate`：拖动 Combo 时候是否开启图形代理 delegate，即拖动 Combo 时候 Combo 不会实时跟随变动，拖动过程中有临时生成一个 delegate 图形，拖动结束后才更新 Combo 位置，默认为 false，不开启；
+  - `delegateStyle`：delegate 的样式；
+  - `onlyChangeComboSize`：拖动嵌套的 Combo 时，只改变父 Combo 的大小，不改变层级关系，默认为 false；
+  - `activeState`：当拖动 Combo 时，父 Combo 或进入到的 Combo 的状态值，需要用户在实例化 Graph 时在 `comboStateStyles` 里面配置，默认为空；
+  - `selectedState`：选中 Combo 的状态，默认为 selected，需要在 `comboStateStyles` 里面配置。
 
 **默认配置**
 
-```
+```javascript
 const graph = new G6.Graph({
   modes: {
     default: ['drag-combo'],
@@ -32,9 +33,9 @@ const graph = new G6.Graph({
 });
 ```
 
-用户可根据实际需求，配置不同的参数。
+用户可根据实际需求，为 activeState 或 selectedState 配置样式：
 
-```
+```javascript
 const graph = new G6.Graph({
   modes: {
     default: [{
@@ -56,12 +57,13 @@ const graph = new G6.Graph({
 V3.5 以上版本支持。
 
 - 含义：收起和展开 Combo；
-- `type: 'collapse-expand-combo'`；
-- `trigger`：触发方式，默认为双击收起或展示，可配置 click 和 dblclick。
+- 配置项：
+  - `type: 'collapse-expand-combo'`；
+  - `trigger`：触发方式，默认为双击收起或展示，可配置 click 和 dblclick。
 
 **默认配置**
 
-```
+```javascript
 const graph = new G6.Graph({
   modes: {
     default: ['collapse-expand-combo'],
@@ -71,7 +73,7 @@ const graph = new G6.Graph({
 
 用户可以配置成单击展示或收起：
 
-```
+```javascript
 const graph = new G6.Graph({
   modes: {
     default: [{
@@ -82,25 +84,13 @@ const graph = new G6.Graph({
 });
 ```
 
-如果这两种方式都不能满足需求，用户可以通过以下方式自定义展示或收起的交互方式：
-
-```
-// 获取指定的 ComboId
-graph.collapseExpandCombo(comboId);
-
-if (graph.get('layout')) {
-  graph.layout()
-} else {
-  graph.refreshPositions()
-}
-```
-
 
 ### drag-canvas
 
 - 含义：拖拽画布；
-- `type: 'drag-canvas'`；
-- `direction`：允许拖拽方向，支持`'x'`，`'y'`，`'both'`，默认方向为 `'both'`。
+- 配置项：
+  - `type: 'drag-canvas'`；
+  - `direction`：允许拖拽方向，支持`'x'`，`'y'`，`'both'`，默认方向为 `'both'`。
 
 **默认配置**
 
@@ -135,11 +125,12 @@ const graph = new G6.Graph({
 
 - 含义：缩放画布；
 - `type: 'zoom-canvas'`；
-- `sensitivity`：缩放灵敏度，支持 1-10 的数值，默认灵敏度为 5；
-- `minZoom`：最小缩放比例；
-- `maxZoom`：最大缩放比例；
-- `enableOptimize`：是否开启性能优化，默认为 false，设置为 true 开启，开启后缩放比例小于 optimizeZoom 时自动隐藏非 keyShape；
-- `optimizeZoom`：当 enableOptimize 为 true 时起作用，默认值为 0.7，表示当缩放到哪个比例时开始隐藏非 keyShape。
+- 配置项：
+  - `sensitivity`：缩放灵敏度，支持 1-10 的数值，默认灵敏度为 5；
+  - `minZoom`：最小缩放比例；
+  - `maxZoom`：最大缩放比例；
+  - `enableOptimize`：是否开启性能优化，默认为 false，设置为 true 开启，开启后缩放比例小于 optimizeZoom 时自动隐藏非 keyShape；
+  - `optimizeZoom`：当 enableOptimize 为 true 时起作用，默认值为 0.7，表示当缩放到哪个比例时开始隐藏非 keyShape。
 
 **提示：若要限定缩放尺寸，请在 graph 上设置  `minZoom`  和  `maxZoom`。**
 
@@ -148,13 +139,14 @@ const graph = new G6.Graph({
 **说明：** V3.5 以上版本才支持拖动 Combo 中的节点。
 
 - 含义：拖拽节点，或拖动 Combo 中的节点；
-- `type: 'drag-node'`；
-- `delegateStyle`：节点拖拽时的绘图属性，默认为 `{ strokeOpacity: 0.6, fillOpacity: 0.6 }`；
-- `updateEdge`：是否在拖拽节点时更新所有与之相连的边，默认为 `true` 。
-- `enableDelegate`：拖动节点过程中是否启用 `delegate`，即在拖动过程中是否使用方框代替元素的直接移动，效果区别见下面两个动图。默认值为  `false`；
-- `onlyChangeComboSize`：V3.5 及以上版本支持，拖动节点过程中只改变 Combo 大小，不改变 Combo 结构，即不将节点从 Combo 中拖出或将节点拖入到 Combo 中，默认为 false；
-- `comboActiveState`：V3.5 及以上版本支持，拖动节点过程中，如果存在 Combo，节点所在 Combo 或节点进入的 Combo 的状态，需要在实例化 Graph 时候通过 `comboStateStyles` 进行配置，默认为空；
-- `selectedState`：V3.5 及以上版本支持，选中 Combo 的样式，需要在实例化 Graph 时候通过 `comboStateStyles` 进行配置,默认为 selected。
+- 配置项：
+  - `type: 'drag-node'`；
+  - `delegateStyle`：节点拖拽时的绘图属性，默认为 `{ strokeOpacity: 0.6, fillOpacity: 0.6 }`；
+  - `updateEdge`：是否在拖拽节点时更新所有与之相连的边，默认为 `true` 。
+  - `enableDelegate`：拖动节点过程中是否启用 `delegate`，即在拖动过程中是否使用方框代替元素的直接移动，效果区别见下面两个动图。默认值为  `false`；
+  - `onlyChangeComboSize`：V3.5 及以上版本支持，拖动节点过程中只改变 Combo 大小，不改变 Combo 结构，即不将节点从 Combo 中拖出或将节点拖入到 Combo 中，默认为 false；
+  - `comboActiveState`：V3.5 及以上版本支持，拖动节点过程中，如果存在 Combo，节点所在 Combo 或节点进入的 Combo 的状态，需要在实例化 Graph 时候通过 `comboStateStyles` 进行配置，默认为空；
+  - `selectedState`：V3.5 及以上版本支持，选中 Combo 的样式，需要在实例化 Graph 时候通过 `comboStateStyles` 进行配置,默认为 selected。
 
 **默认配置**
 
@@ -188,9 +180,10 @@ const graph = new G6.Graph({
 ### click-select
 
 - 含义：点击选中节点，再次点击节点或点击 Canvas 取消选中状态；
-- `type: 'click-select'`；
-- `multiple`：是否允许多选，默认为 `true`，当设置为 `false`，表示不允许多选，此时 `trigger` 参数无效。
-- `trigger`：指定按住哪个键进行多选，默认为 shift，按住 Shift 键多选，用户可配置 shift、ctrl、alt；
+- 配置项：
+  - `type: 'click-select'`；
+  - `multiple`：是否允许多选，默认为 `true`，当设置为 `false`，表示不允许多选，此时 `trigger` 参数无效。
+  - `trigger`：指定按住哪个键进行多选，默认为 shift，按住 Shift 键多选，用户可配置 shift、ctrl、alt；
 
 **默认配置**
 
@@ -224,9 +217,12 @@ const graph = new G6.Graph({
 ### tooltip
 
 - 含义：节点文本提示；
-- `type: 'tooltip'`；
-- `formatText(model)`：格式化函数，可以返回文本或者 HTML；
-- `offset`：tooltip 距离鼠标的偏移量。
+- 配置项：
+  - `type: 'tooltip'`；
+  - `formatText(model)`：格式化函数，可以返回文本或者 HTML；
+  - `offset`：tooltip 距离鼠标的偏移量；
+  - `shouldBegin(e)`：是否允许 toolip 出现；
+  - `shouldUpdate(e)`：是否允许 toolip 内容更新。
 
 ```javascript
 const graph = new G6.Graph({
@@ -264,9 +260,12 @@ const graph = new G6.Graph({
 使用方式基本与 tooltip 相同，但是移到边时触发。主要是为了将两个交互区分开，以满足用户边与节点的提示样式或 HTML 结构不同，以及不需要在事件中去区分是节点事件还是边事件等。
 
 - 含义：边文本提示；
-- `type: 'edge-tooltip'`；
-- `formatText(model)`：格式化函数，可以返回文本或者 HTML；
-- `offset`：tooltip 距离鼠标的偏移量。
+- 配置项：
+  - `type: 'edge-tooltip'`；
+  - `formatText(model)`：格式化函数，可以返回文本或者 HTML；
+  - `offset`：tooltip 距离鼠标的偏移量；
+  - `shouldBegin(e)`：是否允许 toolip 出现；
+  - `shouldUpdate(e)`：是否允许 toolip 内容更新。
 
 ### activate-relations
 
@@ -312,8 +311,8 @@ const graph = new G6.Graph({
 ### brush-select
 
 - 含义：拖动框选节点；
-- `type: 'brush-select'`；
-- 参数：
+- 配置项：
+  - `type: 'brush-select'`；
   - `brushStyle`：拖动框选框的样式，包括 `fill`、`fillOpacity`、`stroke` 和 `lineWidth` 四个属性;
   - `onSelect(nodes)`：选中节点时的回调，参数 `nodes` 表示选中的节点；
   - `onDeselect(nodes)`：取消选中节点时的回调，参数 `nodes` 表示取消选中的节点；
@@ -395,8 +394,8 @@ const graph = new G6.Graph({
 
 - 含义：只适用于树图，展开或收起子树；
 - 注意：若希望在首次布局时有默认收起的子树，则可以在数据中设置子树根节点的属性 `collapsed` 为 `true`。若希望使用代码控制子树的展开/收起，同样可以在数据中设置子树根节点的 `collapsed` 属性，并调用 `treeGraph.layout()` 使之生效；
-- `type: 'collapse-expand'`；
-- 参数：
+- 配置项：
+  - `type: 'collapse-expand'`；
   - `trigger`：收起和展开树图的方式，支持 `'click'` 和 `'dblclick'` 两种方式。默认为 `'click'`，即单击；
   - `onChange`：收起或展开的回调函数。警告：V3.1.2 版本中将移除。
 
@@ -425,9 +424,9 @@ const graph = new G6.TreeGraph({
 ### collapse-expand-group
 
 - 含义：收起和展开群组；
-- `type：'collapse-expand-group'`
-- 参数：
-  - trigger：收起和展开节点分组的方式。支持 `'click'` 和 `'dblclick'` 两种方式。默认为 `'dblclick'`，即双击。
+- 配置项：
+  - `type：'collapse-expand-group'`
+  - `trigger`：收起和展开节点分组的方式。支持 `'click'` 和 `'dblclick'` 两种方式。默认为 `'dblclick'`，即双击。
 
 **默认配置**
 
@@ -459,8 +458,8 @@ const graph = new G6.Graph({
 ### drag-group
 
 - 含义：拖动节点分组；
-- `type: 'drag-group'`；
-- 参数：
+- 配置项：
+  - `type: 'drag-group'`；
   - `delegateStyle`：拖动节点分组时 `delegate` 的样式。
 
 **默认配置**
@@ -476,8 +475,8 @@ const graph = new G6.Graph({
 ### drag-node-with-group
 
 - 含义：拖动节点分组中的节点；
-- `type：'drag-node-with-group'`；
-- 参数：
+- 配置项：
+  - `type：'drag-node-with-group'`；
   - `delegateStyle`：拖动节点时 `delegate` 的样式；
   - `maxMultiple`；
   - `minMultiple`。

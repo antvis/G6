@@ -12,19 +12,20 @@ Behavior is the interaction mechanism in G6. It is used with [Interaction Mode](
 All the basic graphics Shapes, Items(nodes/edges) can be interacted by events. To achieve it with versatility, there are 14 built-in Behaviors in G6.
 
 ### drag-combo
-Supported by V3.5 or later.
+Supported by V3.5 or later versions.
 
-- Description: Allows users drag combo;
-- `type: 'drag-combo'`;
-- `enableDelegate`: Whether activate `delegate` when dragging combos, which means whether to use a virtual rect moved with the dragging mouse instead of the combo. The effect is shown in the figures below. `false` by default;
-- `delegateStyle`: The style of the `delegate` when dragging the combo with delegate;
-- `onlyChangeComboSize`: Only Change the size of Combo When dragging combos, whici means not to change the struct of combo. `false` by default;
-- `activeState`: When dragging the combo, this state value of the parent combo or  entered combo,  that requires the use to configuration it in `comboStateStyles` when new Graph, which is empty by default;;
-- `selectedState`: state name when combo selected, `selected` by default.
+- Description: Allows users to drag combo;
+- Configurations: 
+  - `type: 'drag-combo'`;
+  - `enableDelegate`: Whether activate `delegate` when dragging combos, which means whether to use a virtual rect moved with the dragging mouse instead of the combo. The effect is shown in the figures below. `false` by default;
+  - `delegateStyle`: The style of the `delegate` when dragging the combo with delegate;
+  - `onlyChangeComboSize`: Supported by V3.5 or later vertions. Only Change the size of the prarent combo whose child combo to be dragged, which means do not change the hierarchy structures of combos and nodes. `false` by default;
+  - `activeState`: The state's name(string) of the entered combo to be dragged over, coordinating with the configuration in `comboStateStyles` to define the state styles when instantiating a graph. It is empty by default;
+  - `selectedState`: The state's name(string) when combo is selected, `'selected'` by default.
 
 **Default Configuration**
 
-```
+```javascript
 const graph = new G6.Graph({
   modes: {
     default: ['drag-combo'],
@@ -32,9 +33,9 @@ const graph = new G6.Graph({
 });
 ```
 
-Set enableDelegate & activeState Configuration.
+Configure the styles for enableDelegate or activeState:
 
-```
+```javascript
 const graph = new G6.Graph({
   modes: {
     default: [{
@@ -55,13 +56,14 @@ const graph = new G6.Graph({
 ### collapse-expand-combo
 Supported by V3.5 or later.
 
-- Description：collapse or expand Combo；
-- `type: 'collapse-expand-combo'`；
-- `trigger`：Specify which key to hold for collapse and expand combo. `dblclick` by default. Options: `'click'`, `'dblclick'`;。
+- Description: collapse or expand Combo;
+- Configurations: 
+  - `type: 'collapse-expand-combo'`;
+  - `trigger`: Specify which key to hold for collapse and expand combo. `dblclick` by default. Options: `'click'`, `'dblclick'`.
 
 **Default Configuration**
 
-```
+```javascript
 const graph = new G6.Graph({
   modes: {
     default: ['collapse-expand-combo'],
@@ -69,9 +71,9 @@ const graph = new G6.Graph({
 });
 ```
 
-User can be configuration to click to collapse or expand：
+Configure the trigger to be 'click':
 
-```
+```javascript
 const graph = new G6.Graph({
   modes: {
     default: [{
@@ -82,25 +84,13 @@ const graph = new G6.Graph({
 });
 ```
 
-users can customize the interactive way of displaying or collapsing in the following ways:
-
-```
-// by ComboId
-graph.collapseExpandCombo(comboId);
-
-if (graph.get('layout')) {
-  graph.layout()
-} else {
-  graph.refreshPositions()
-}
-```
-
 
 ### drag-canvas
 
 - Description: Allows users drag canvas;
-- `type: 'drag-canvas'`;
-- `direction`: The direction of dragging that is allowed. Options: `'x'`, `'y'`, `'both'`. `'both'` by default.
+- Configurations: 
+  - `type: 'drag-canvas'`;
+  - `direction`: The direction of dragging that is allowed. Options: `'x'`, `'y'`, `'both'`. `'both'` by default.
 
 **Default Configuration**
 
@@ -134,21 +124,23 @@ The canvas can be dragged along x direction only.<br /><img src='https://gw.alip
 ### zoom-canvas
 
 - Description: Zoom the canvas;
-- `type: 'zoom-canvas'`;
-- `sensitivity`: The sensitivity of the zooming, range from 1 to 10. `5` by default.
+- Configurations: 
+  - `type: 'zoom-canvas'`;
+  - `sensitivity`: The sensitivity of the zooming, range from 1 to 10. `5` by default.
 
 **Tips: Assign values for `minZoom` and  `maxZoom` on the graph to limit the zooming ratio.**
 
 ### drag-node
 
 - Description: Allows users drag nodes;
-- `type: 'drag-node'`;
-- `delegateStyle`: The drawing properties when the nodes are dragged. `{ strokeOpacity: 0.6, fillOpacity: 0.6 }` by default;
-- `updateEdge`: Whether to update all connected edges when dragging nodes. `true` by default.
-- `enableDelegate`: Whether activate `delegate` when dragging nodes, which means whether to use a virtual rect moved with the dragging mouse instead of the node. The effect is shown in the figures below. `false` by default;
-- `onlyChangeComboSize`: Supported by V3.5 or later. Only Change the size of Combo When dragging combos, whici means not to change the struct of combo. `false` by default;
-- `comboActiveState`: Supported by V3.5 or later. When dragging the combo, this state value of the parent combo or  entered combo,  that requires the use to configuration it in `comboStateStyles` when new Graph, which is empty by default;;
-- `selectedState`: Supported by V3.5 or later. state name when combo selected, `selected` by default.
+- Configurations: 
+  - `type: 'drag-node'`;
+  - `delegateStyle`: The drawing properties when the nodes are dragged. `{ strokeOpacity: 0.6, fillOpacity: 0.6 }` by default;
+  - `updateEdge`: Whether to update all connected edges when dragging nodes. `true` by default.
+  - `enableDelegate`: Whether activate `delegate` when dragging nodes, which means whether to use a virtual rect moved with the dragging mouse instead of the node. The effect is shown in the figures below. `false` by default;
+  - `onlyChangeComboSize`:Supported by V3.5 or later vertions. Only Change the size of the prarent combo whose child node to be dragged, which means do not change the hierarchy structures of combos and nodes. `false` by default;
+  - `comboActiveState`: Supported by V3.5 or later vertions. The state's name(string) of the entered combo to be dragged over, coordinating with the configuration in `comboStateStyles` to define the state styles when instantiating a graph. It is empty by default;
+  - `selectedState`: Supported by V3.5 or later vertions.  The state's name(string) when combo is selected, `'selected'` by default.
 
 **Default Configuration**
 
@@ -182,9 +174,10 @@ const graph = new G6.Graph({
 ### click-select
 
 - Description: Select a node by clicking. Cancel the selected state by clicking the node agian or clicking the canvas;
-- `type: 'click-select'`;
-- `multiple`: Whether to allow multiple selection. `true` by default. `false` means multiple selection is not allowed, and the `trigger` will not take effect.
-- `trigger`: Specify which key to hold for multiple selection. `shift` by default, which means multiple selection is activated when the shift button is pressed. Options: `'shift'`, `'ctrl'`, `'alt'`, and so on;
+- Configurations:
+  - `type: 'click-select'`;
+  - `multiple`: Whether to allow multiple selection. `true` by default. `false` means multiple selection is not allowed, and the `trigger` will not take effect.
+  - `trigger`: Specify which key to hold for multiple selection. `shift` by default, which means multiple selection is activated when the shift button is pressed. Options: `'shift'`, `'ctrl'`, `'alt'`, and so on.
 
 **Default Configuration**
 
@@ -218,9 +211,12 @@ With the configuration above, users are allowed to select more than one nodes wh
 ### tooltip
 
 - Description: The tooltip for node;
-- `type: 'tooltip'`;
-- `formatText(model)`: Format function, returns a text string or an HTML element;
-- `offset`：the offset of the tooltip to the mouse.
+- Configurations:
+  - `type: 'tooltip'`;
+  - `formatText(model)`: Format function, returns a text string or an HTML element;
+  - `offset`: the offset of the tooltip to the mouse.
+  - `shouldBegin(e)`: Whether allow the tooltip the show up;
+  - `shouldUpdate(e)`: Whether allow the tooltip to be updated.
 
 ```javascript
 const graph = new G6.Graph({
@@ -258,15 +254,18 @@ const graph = new G6.Graph({
 The usage of edge-tooltip is similar to tooltip. It will be activated when the user hover the mouse onto an edge.
 
 - Description: The tooltip for edge;
-- `type: 'edge-tooltip'`;
-- `formatText(model)`: Format function, returns a text string or an HTML element;
-- `offset`：the offset of the tooltip to the mouse.
+- Configurations:
+  - `type: 'edge-tooltip'`;
+  - `formatText(model)`: Format function, returns a text string or an HTML element;
+  - `offset`: the offset of the tooltip to the mouse;
+  - `shouldBegin(e)`: Whether allow the tooltip the show up;
+  - `shouldUpdate(e)`: Whether allow the tooltip to be updated.
 
 ### activate-relations
 
 - Description: Highlight the node and its related nodes and edges when the mouse enter the node;
-- `type: 'activate-relations'`;
 - Configurations:
+  - `type: 'activate-relations'`;
   - `trigger: 'mouseenter'`. `mousenter` means acitvating when the mouse enter a node; `click` means activating when the mouse click a node;
   - `activeState: 'active'`. The state name when the node is activated. When `activate-relations` is activated, the related nodes and edges will have this state. `active` by default. It can be combined with `nodeStyle` and `edgeStyle` of graph to enrich the visual effect;
   - `inactiveState: 'inactive'`. The state name when of the node is inactivated. All the nodes and edges which are not activated by `activate-relations` will have this state. `inactive` by default. It can be combined with `nodeStyle` and `edgeStyle` of graph to enrich the visual effect;
@@ -306,8 +305,8 @@ Assign `true` to `resetSelected` to reset the selected states for nodes after th
 ### brush-select
 
 - Description: Allows uers to select nodes by brushing;
-- `type: 'brush-select'`;
 - Configurations:
+  - `type: 'brush-select'`;
   - `brushStyle`: The styles of the marquee. It contains four configurations: `fill`、`fillOpacity`、`stroke` and `lineWidth`;
   - `onSelect(nodes)`: The callback function when selecting a node. `nodes` is the selected ndoes;
   - `onDeselect(nodes)`: The callback function when canceling selections. `nodes` is the selected ndoes;
@@ -349,7 +348,7 @@ const graph = new G6.Graph({
 
 By the configurations above, the operation is activated when the Ctrl button is pressed, and the edges will not be selected during the process.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1xNZT7mPFK4AAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
-**Conflict Configuration：**
+**Conflict Configuration: **
 
 ```javascript
 const graph = new G6.Graph({
@@ -389,8 +388,8 @@ It is a solution to put these two conflicting events into two mdoes. They will b
 
 - Description: Collapse or expand a subtree on a treeGraph;
 - Attension: If you want to collapse a subtree by default when render the Graph in the first time, you can assign `collapsed: true` to the root of the subtree in its data. If you want to control the subtree to collapse/expand by code, you can also assign the `collapsed` for the root of the subtree and call `treeGraph.layout()` to make it take effect;
-- `type: 'collapse-expand'`;
-- Configuration:
+- Configurations:
+  - `type: 'collapse-expand'`;
   - `trigger`: The operation for collapsing and expanding. Options: `click` and `dblclick`. `click` by default;
   - `onChange`: The callback function after collapsing or expanding. **Warining**: it will be removed from V3.1.2.
 
@@ -419,9 +418,9 @@ const graph = new G6.TreeGraph({
 ### collapse-expand-group
 
 - Description: Collapse or expand a node group;
-- `type: 'collapse-expand-group'`
 - Configurations:
-  - trigger: The operation for collapsing and expanding. Options: `click` and `dblclick`. `dblclick` by default, which means double click.
+  - `type: 'collapse-expand-group'`
+  - `trigger`: The operation for collapsing and expanding. Options: `click` and `dblclick`. `dblclick` by default, which means double click.
 
 **Default Configuration**
 
@@ -453,8 +452,8 @@ const graph = new G6.Graph({
 ### drag-group
 
 - Description: Allows users drag node group;
-- `type: 'drag-group'`;
-- Configuration:
+- Configurations:
+  - `type: 'drag-group'`;
   - `delegateStyle`: The style of the `delegate` when dragging the group.
 
 **Default Configuration**
@@ -470,8 +469,8 @@ const graph = new G6.Graph({
 ### drag-node-with-group
 
 - Description: Allow users to drag the nodes in the group;
-- `type: 'drag-node-with-group'`;
-- Configuration:
+- Configurations:
+  - `type: 'drag-node-with-group'`;
   - `delegateStyle`: The style of the `delegate` when dragging the node.
   - `maxMultiple`;
   - `minMultiple`.
