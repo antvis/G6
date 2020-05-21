@@ -68,7 +68,6 @@ const NetScience = () => {
       )
         .then(res => res.json())
         .then(data => {
-          // console.log(data);
           data.nodes.forEach(node => {
             node.label = node.olabel;
             node.degree = 0;
