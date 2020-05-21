@@ -1458,3 +1458,99 @@ describe('auto rotate label on edge', () => {
     });
   });
 });
+
+describe('node Neighbors', () => {
+  const graph = new Graph({
+    container: 'global-spec',
+    width: 500,
+    height: 500
+  })
+  const data = {
+    nodes: [
+      {
+        id: 'A'
+      },
+      {
+        id: 'B'
+      },
+      {
+        id: 'C'
+      },
+      {
+        id: 'D'
+      },
+      {
+        id: 'E'
+      },
+      {
+        id: 'F'
+      },
+      {
+        id: 'G'
+      },
+      {
+        id: 'H'
+      },
+    ],
+    edges: [
+      {
+        source: 'A',
+        target: 'B',
+      },
+      {
+        source: 'B',
+        target: 'C',
+      },
+      {
+        source: 'C',
+        target: 'G',
+      },
+      {
+        source: 'A',
+        target: 'D',
+      },
+      {
+        source: 'A',
+        target: 'E',
+      },
+      {
+        source: 'E',
+        target: 'F',
+      },
+      {
+        source: 'F',
+        target: 'D',
+      },
+    ]
+  }
+
+  graph.data(data)
+  graph.render()
+
+  it('getSourceNeighbors', () => {
+    const neighbors = graph.getSourceNeighbors('B')
+    expect(neighbors.length).toBe(1)
+    expect(neighbors[0].getID()).toEqual('C')
+    
+    const neighborE = graph.getSourceNeighbors('A')
+    expect(neighborE.length).toBe(3)
+    expect(neighborE[0].getID()).toEqual('B')
+  })
+
+  it('getTargetNeighbors', () => {
+    const neighbors = graph.getTargetNeighbors('B')
+    expect(neighbors.length).toBe(1)
+    expect(neighbors[0].getID()).toEqual('A')
+
+    const neighborE = graph.getTargetNeighbors('E')
+    expect(neighborE.length).toBe(1)
+    expect(neighborE[0].getID()).toEqual('A')
+  })
+
+  it('getNeighbors', () => {
+    const neighbors = graph.getNeighbors('B')
+    expect(neighbors.length).toBe(2)
+    expect(neighbors[0].getID()).toEqual('A')
+    expect(neighbors[1].getID()).toEqual('C')
+  })
+})
