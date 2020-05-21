@@ -147,8 +147,6 @@ describe('drag-combo', () => {
     graph.data(data);
     graph.render();
 
-    console.log(graph.getCombos())
-
     graph.on('node:click', e => {
       // graph.hideItem(e.item);
       // graph.render()

@@ -437,7 +437,7 @@ export const getTextSize = (text, fontSize) => {
  * @param nodes the nodes array
  * @return the tree
  */
-export const plainCombosToTrees = (array: ComboConfig[], nodes?: INode[]) => {
+export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) => {
   const result: ComboTree[] = [];
   const addedMap = {};
   const modelMap = {};
@@ -504,18 +504,17 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: INode[]) => {
   // proccess the nodes
   const nodeMap = {};
   nodes && nodes.forEach(node => {
-    const nodeModel = node.getModel();
-    nodeMap[nodeModel.id] = node;
-    const combo = addedMap[nodeModel.comboId as string];
+    nodeMap[node.id] = node;
+    const combo = addedMap[node.comboId as string];
     if (combo) {
       const cnode: NodeConfig = {
-        id: nodeModel.id,
-        comboId: nodeModel.comboId as string
+        id: node.id,
+        comboId: node.comboId as string
       };
       if (combo.children) combo.children.push(cnode);
       else combo.children = [cnode];
       cnode.itemType = 'node';
-      addedMap[nodeModel.id] = cnode;
+      addedMap[node.id] = cnode;
     }
   });
 
