@@ -77,94 +77,49 @@ order: 8
 - 当没有使用任何布局时，需要在 `nodes` 数组中指定各个节点的坐标信息，即节点的 `x` 和 `y` 属性值，否则会使用随机的位置；
 - 空的 combo 将使用随机位置。
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 必须在示例化图时配置 `groupByTypes` 设置为 `false`，带有 combo 的图中元素的视觉层级才能合理。
+<span style='background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)'><strong>⚠️ 注意:</strong></span> 必须在示例化图时配置 `groupByTypes` 设置为 `false`，带有 combo 的图中元素的视觉层级才能合理。
 
 
 ```javascript
 const data = {
-  nodes: [
-    {
-      id: 'node6',
-      comboId: 'comboC',
-      label: 'rect',
-      x: 100,
-      y: 300,
-    },
-    {
-      id: 'node1',
-      label: 'node1',
-      comboId: 'comboS',
-      x: 100,
-      y: 100,
-    },
-    {
-      id: 'node9',
-      label: 'node9',
-      comboId: 'comboB',
-      x: 300,
-      y: 210,
-    },
-    {
-      id: 'node2',
-      label: 'node2',
-      comboId: 'comboA',
-      x: 150,
-      y: 200,
-    },
-    {
-      id: 'node3',
-      label: 'node3',
-      comboId: 'comboB',
-      x: 300,
-      y: 100,
-    },
-    {
-      id: 'node7',
-      comboId: 'comboB',
-      label: 'node7',
-      x: 200,
-      y: 200,
-    },
-    {
-      id: 'node10',
-      label: 'node10',
-      comboId: 'comboC',
-      x: 300,
-      y: 210,
-    },
-  ],
-  edges: [
-    {
-      source: 'node1',
-      target: 'node2',
-    },
-    {
-      source: 'node2',
-      target: 'node3',
-    },
-  ],
-  combos: [
-    {
-      id: 'comboA',
-      label: 'combo A',
-      parentId: 'comboC',
-    },
-    {
-      id: 'comboB',
-      parentId: 'comboC',
-    },
-    {
-      id: 'combo3',
-      parentId: 'comboD',
-    },
-    {
-      id: 'comboC',
-    },
-    {
-      id: 'comboD',
-    },
-  ],
-};
+	nodes: [{
+		id: 'node6', comboId: 'comboC', label: 'rect',
+		x: 383, y: 240
+	}, {
+		id: 'node1', label: 'node1', comboId: 'comboA',
+		x: 316, y: 136
+	}, {
+		id: 'node9', label: 'node9', comboId: 'comboB',
+		x: 523,
+		y: 70
+	}, {
+		id: 'node2', label: 'node2', comboId: 'comboA',
+		x: 278, y: 121
+	}, {
+		id: 'node3', label: 'node3', comboId: 'comboA',
+		x: 308,	y: 78
+	}, {
+		id: 'node7', comboId: 'comboB', label: 'node7',
+		x: 512, y: 125
+	}, {
+		id: 'node10', label: 'node10', comboId: 'comboC',
+		x: 469, y: 211
+	}],
+	edges: [{
+		source: 'node1', target: 'node2'
+	}, {
+		source: 'node2', target: 'node3'
+	}],
+	combos: [{
+		id: 'comboA', label: 'combo A', parentId: 'comboC'
+	}, {
+		id: 'comboB', label: 'combo B', parentId: 'comboC'
+	}, {
+		id: 'comboC', label: 'combo C'
+	}, {
+		id: 'comboD', label: 'combo D'
+	}]
+}
 
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -177,6 +132,8 @@ const graph = new G6.Graph({
 graph.data(data);
 graph.render();
 ```
+
+此时，还未使用布局算法，combo 范围及位置是根据子节点数据中位置信息（`x`，`y`）确定的。需要自动布局配置专为 combo 设计的布局算法 `'comboForce'`，详见[Combo Force 教程](/zh/docs/manual/middle/layout#combo-force)。
 
 渲染的效果如下图所示：
 <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ltsuTbIkG48AAAAAAAAAAABkARQnAQ' width=400 alt='img'/>

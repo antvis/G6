@@ -82,89 +82,44 @@ An example for the data item for a combo
 
 ```javascript
 const data = {
-  nodes: [
-    {
-      id: 'node6',
-      comboId: 'comboC',
-      label: 'rect',
-      x: 100,
-      y: 300,
-    },
-    {
-      id: 'node1',
-      label: 'node1',
-      comboId: 'comboS',
-      x: 100,
-      y: 100,
-    },
-    {
-      id: 'node9',
-      label: 'node9',
-      comboId: 'comboB',
-      x: 300,
-      y: 210,
-    },
-    {
-      id: 'node2',
-      label: 'node2',
-      comboId: 'comboA',
-      x: 150,
-      y: 200,
-    },
-    {
-      id: 'node3',
-      label: 'node3',
-      comboId: 'comboB',
-      x: 300,
-      y: 100,
-    },
-    {
-      id: 'node7',
-      comboId: 'comboB',
-      label: 'node7',
-      x: 200,
-      y: 200,
-    },
-    {
-      id: 'node10',
-      label: 'node10',
-      comboId: 'comboC',
-      x: 300,
-      y: 210,
-    },
-  ],
-  edges: [
-    {
-      source: 'node1',
-      target: 'node2',
-    },
-    {
-      source: 'node2',
-      target: 'node3',
-    },
-  ],
-  combos: [
-    {
-      id: 'comboA',
-      label: 'combo A',
-      parentId: 'comboC',
-    },
-    {
-      id: 'comboB',
-      parentId: 'comboC',
-    },
-    {
-      id: 'combo3',
-      parentId: 'comboD',
-    },
-    {
-      id: 'comboC',
-    },
-    {
-      id: 'comboD',
-    },
-  ],
-};
+	nodes: [{
+		id: 'node6', comboId: 'comboC', label: 'rect',
+		x: 383, y: 240
+	}, {
+		id: 'node1', label: 'node1', comboId: 'comboA',
+		x: 316, y: 136
+	}, {
+		id: 'node9', label: 'node9', comboId: 'comboB',
+		x: 523,
+		y: 70
+	}, {
+		id: 'node2', label: 'node2', comboId: 'comboA',
+		x: 278, y: 121
+	}, {
+		id: 'node3', label: 'node3', comboId: 'comboA',
+		x: 308,	y: 78
+	}, {
+		id: 'node7', comboId: 'comboB', label: 'node7',
+		x: 512, y: 125
+	}, {
+		id: 'node10', label: 'node10', comboId: 'comboC',
+		x: 469, y: 211
+	}],
+	edges: [{
+		source: 'node1', target: 'node2'
+	}, {
+		source: 'node2', target: 'node3'
+	}],
+	combos: [{
+		id: 'comboA', label: 'combo A', parentId: 'comboC'
+	}, {
+		id: 'comboB', label: 'combo B', parentId: 'comboC'
+	}, {
+		id: 'comboC', label: 'combo C'
+	}, {
+		id: 'comboD', label: 'combo D'
+	}]
+}
 
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -178,12 +133,15 @@ graph.data(data);
 graph.render();
 ```
 
+There is no layout configuration in the code above, so the sizes and positions of combos are automatically calculate according the the child nodes' positions in their data. If you need auto layout, we suggest to configure the `'comboForce'` layout which is designed for combo graph. See [Combo Force Doc](/zh/docs/manual/middle/layout#combo-force) for detail.
+
+
 The result:
 <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ltsuTbIkG48AAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
 The example above uses the default [Circle Combo](/en/docs/manual/middle/elements/combos/circle), G6 also has [Rect Combo](/en/docs/manual/middle/elements/combos/rect). The configurations can be found in their docs. You can also customize a type of combo by [Custom Combo](/en/docs/manual/advanced/custom-combo) mechanism. <a href='/zh/examples/item/customCombo' target='_blank'>Custom Combo Demo</a>。
 
-<br />此时，不能对分组中的节点及 Combo 进行任何操作，接下来，我们介绍可以对 Combo 进行的各种操作。
+<br />Now, users are not able to interact with the combos and nodes. We are going to introduce how to enable the interactions on combos next.
 
 ### Combo Interaction
 
