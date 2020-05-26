@@ -45,7 +45,7 @@ The reuslt of **groupType: `'circle'`**<br />
 
 #### Common Property
 
-The common propertoes of the groups in the default, hover and collapse states are similar to nodes, which are introduced in [Shape Properties](/en/docs/api/shapeProperties). Besides, the group style in default and collapse states have some special properties below:
+The common propertoes of the groups in the default, hover and collapse states are similar to nodes, which are introduced in [Shape Properties](/en/docs/api/nodeEdge/shapeProperties). Besides, the group style in default and collapse states have some special properties below:
 
 #### default
 

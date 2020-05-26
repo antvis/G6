@@ -10,7 +10,7 @@ G6 图上的元素包括节点、边、节点分组 Combo。每一个元素是�
 | 属性名 | 类型    | 是否必须 | 说明                           |
 | ----- | ------ | ------- |------------------------------ |
 | id    | String | true    | 元素的标识 ID，**必须**是唯一的 string                     |
-| style | Object | false   | 元素 [keyShape](/zh/docs/manual/middle/elements/shape-keyshape) 的样式属性，可配置内容与该 keyShape 的图形类型相关，参见[各图形样式属性](/zh/docs/api/shapeProperties) |
+| style | Object | false   | 元素 [keyShape](/zh/docs/manual/middle/elements/shape-keyshape) 的样式属性，可配置内容与该 keyShape 的图形类型相关，参见[各图形样式属性](/zh/docs/api/nodeEdge/shapeProperties) |
 | type  | String | false   | 元素的类型，不传则使用默认值           |
 | label | String | false   | 元素的文本标签，有该字段时默认会渲染 label |
 | labelCfg | Object | false   | 元素文本标签的配置项，节点、Combo 与 边的配置不同，详见下文各模块内容 |
