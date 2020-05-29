@@ -15,52 +15,44 @@
 import G6 from '@antv/g6';
 
 /**
- * 计算字符串的长度
- * @param {string} str 指定的字符串
- * @return {number} 字符串长度
- */
-const calcStrLen = str => {
-  let len = 0;
-  for (let i = 0; i < str.length; i++) {
-    if (str.charCodeAt(i) > 0 && str.charCodeAt(i) < 128) {
-      len++;
-    } else {
-      len += 2;
-    }
-  }
-  return len;
-};
-
-/**
- * 计算显示的字符串
- * @param {string} str 要裁剪的字符串
- * @param {number} maxWidth 最大宽度
- * @param {number} fontSize 字体大小
- * @return {string} 处理后的字符串
+ * format the string
+ * @param {string} str The origin string
+ * @param {number} maxWidth max width
+ * @param {number} fontSize font size
+ * @return {string} the processed result
  */
 const fittingString = (str, maxWidth, fontSize) => {
-  const fontWidth = fontSize * 1.3; // 字号+边距
-  maxWidth = maxWidth * 2; // 需要根据自己项目调整
-  const width = calcStrLen(str) * fontWidth;
-  const ellipsis = '…';
-  if (width > maxWidth) {
-    const actualLen = Math.floor((maxWidth - 10) / fontWidth);
-    const result = str.substring(0, actualLen) + ellipsis;
-    return result;
-  }
-  return str;
+  const ellipsis = '...';
+  const ellipsisLength = G6.Util.getTextSize(ellipsis, fontSize)[0];
+  let currentWidth = 0;
+  let res = str;
+  const pattern = new RegExp("[\u4E00-\u9FA5]+"); // distinguish the Chinese charactors and letters
+  str.split('').forEach((letter, i) => {
+    if (currentWidth > maxWidth - ellipsisLength) return;
+    if (pattern.test(letter)) {
+      // Chinese charactors
+      currentWidth += fontSize;
+    } else {
+      // get the width of single letter according to the fontSize
+      currentWidth += G6.Util.getLetterWidth(letter, fontSize);
+    }
+    if (currentWidth > maxWidth - ellipsisLength) {
+      res = `${str.substr(0, i)}${ellipsis}`;
+    }
+  });
+  return res;
 };
+
+const globalFontSize = 12;
 
 const data = {
   nodes: [
     {
       x: 100,
       y: 100,
-      label: '这个文案有点长',
+      size: 40,
+      label: 'This label is too long to be displayed',
       id: 'node1',
-      labelCfg: {
-        position: 'bottom',
-      },
       anchorPoints: [
         [0, 0.5],
         [1, 0.5],
@@ -69,11 +61,9 @@ const data = {
     {
       x: 300,
       y: 100,
-      label: '这个文案也有点长',
+      size: 80,
+      label: 'This label is also too long to be displayed',
       id: 'node2',
-      labelCfg: {
-        position: 'bottom',
-      },
       anchorPoints: [
         [0, 0.5],
         [1, 0.5],
@@ -84,9 +74,12 @@ const data = {
     {
       source: 'node1',
       target: 'node2',
-      label: 'label上面这个文本太长了我需要换行',
+      label: 'This label is too long to be displayed',
       labelCfg: {
         refY: 20,
+        style: {
+          fontSize: globalFontSize
+        }
       },
       style: {
         endArrow: true,
@@ -106,18 +99,23 @@ const graph = new G6.Graph({
       fill: '#DEE9FF',
       stroke: '#5B8FF9',
     },
+    labelCfg: {
+      style: {
+        fontSize: globalFontSize
+      }
+    }
   },
   defaultEdge: {
-    color: '#F6BD16',
+    color: '#F6BD16'
   },
 });
 
 // 直接修改原生数据中的label字段
-data.nodes.forEach(function(node) {
-  node.label = fittingString(node.label, 25, 12);
+data.nodes.forEach(function (node) {
+  node.label = fittingString(node.label, node.size, globalFontSize);
 });
-data.edges.forEach(function(edge) {
-  edge.label = fittingString(edge.label, 100, 12);
+data.edges.forEach(function (edge) {
+  edge.label = fittingString(edge.label, 120, globalFontSize);
 });
 
 graph.data(data);

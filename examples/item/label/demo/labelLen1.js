@@ -4,12 +4,43 @@ import G6 from '@antv/g6';
  * by 镜曦。
  *
  */
+
+
+/**
+ * format the string
+ * @param {string} str The origin string
+ * @param {number} maxWidth max width
+ * @param {number} fontSize font size
+ * @return {string} the processed result
+ */
+const fittingString = (str, maxWidth, fontSize) => {
+  let currentWidth = 0;
+  let res = str;
+  const pattern = new RegExp("[\u4E00-\u9FA5]+"); // distinguish the Chinese charactors and letters
+  str.split('').forEach((letter, i) => {
+    if (currentWidth > maxWidth) return;
+    if (pattern.test(letter)) {
+      // Chinese charactors
+      currentWidth += fontSize;
+    } else {
+      // get the width of single letter according to the fontSize
+      currentWidth += G6.Util.getLetterWidth(letter, fontSize);
+    }
+    if (currentWidth > maxWidth) {
+      res = `${str.substr(0, i)}\n${str.substr(i)}`;
+    }
+  });
+  return res;
+};
+
+
+const globalFontSize = 12;
 const data = {
   nodes: [
     {
       x: 100,
       y: 100,
-      label: '这个文案\n有点长',
+      label: fittingString('Break the line if it is too long', 80, globalFontSize),
       id: 'node1',
       labelCfg: {
         position: 'bottom',
@@ -22,7 +53,7 @@ const data = {
     {
       x: 300,
       y: 100,
-      label: '这个文案\n也有点长',
+      label: fittingString('Break the line if it is too long', 80, globalFontSize),
       id: 'node2',
       labelCfg: {
         position: 'bottom',
@@ -37,7 +68,7 @@ const data = {
     {
       source: 'node1',
       target: 'node2',
-      label: 'label上面这个文本太长了\n我需要换行',
+      label: fittingString('Break the line if it is too long', 100, globalFontSize),
       labelCfg: {
         refY: 20,
       },
