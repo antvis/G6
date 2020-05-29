@@ -153,7 +153,7 @@ const data = {
     {
       id: 'group1',
       title: {
-        text: '我的群组1',
+        text: 'Group 1',
         stroke: '#444',
         offsetX: -20,
         offsetY: 30,

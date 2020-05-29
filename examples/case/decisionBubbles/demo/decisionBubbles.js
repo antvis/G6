@@ -659,7 +659,7 @@ graph.on('node:mouseleave', () => {
   }
 });
 
-fetch('https://gw.alipayobjects.com/os/basement_prod/8bb5334a-5dd1-4147-a90e-8dccec62685e.json')
+fetch('https://gw.alipayobjects.com/os/bmw-prod/fc6e64fc-be94-40fb-b9e2-2d13dd414f38.json')
   .then(res => res.json())
   .then(data => {
     loadData(data);

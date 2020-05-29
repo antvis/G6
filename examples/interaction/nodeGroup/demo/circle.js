@@ -78,7 +78,7 @@ const data = {
     {
       id: 'group1',
       title: {
-        text: '我的群组1',
+        text: 'Group 1',
         stroke: '#444',
         offsetX: -20,
         offsetY: 30,
@@ -87,7 +87,7 @@ const data = {
     {
       id: 'group2',
       title: {
-        text: '群组2',
+        text: 'Group 2',
         stroke: '#444',
         offsetX: -20,
         offsetY: 30,
@@ -96,7 +96,7 @@ const data = {
     },
     {
       id: 'p2',
-      title: '群组3',
+      title: 'Group 3',
     },
   ],
 };

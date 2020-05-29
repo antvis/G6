@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
 /**
- * 该示例演示自定义边和节点实现资金流转图效果
+ * Fund Transfer Demo
  * by 十吾
  */
 const colorMap = {
@@ -12,39 +12,39 @@ const data = {
   nodes: [
     {
       id: '1',
-      label: '公司1',
+      label: 'Company1',
     },
     {
       id: '2',
-      label: '公司2',
+      label: 'Company2',
     },
     {
       id: '3',
-      label: '公司3',
+      label: 'Company3',
     },
     {
       id: '4',
-      label: '公司4',
+      label: 'Company4',
     },
     {
       id: '5',
-      label: '公司5',
+      label: 'Company5',
     },
     {
       id: '6',
-      label: '公司6',
+      label: 'Company6',
     },
     {
       id: '7',
-      label: '公司7',
+      label: 'Company7',
     },
     {
       id: '8',
-      label: '公司8',
+      label: 'Company8',
     },
     {
       id: '9',
-      label: '公司9',
+      label: 'Company9',
     },
   ],
   edges: [
@@ -53,7 +53,7 @@ const data = {
       target: '2',
       data: {
         type: 'A',
-        amount: '100,000 元',
+        amount: '100,000 Yuan',
         date: '2019-08-03',
       },
     },
@@ -62,7 +62,7 @@ const data = {
       target: '3',
       data: {
         type: 'B',
-        amount: '100,000 元',
+        amount: '100,000 Yuan',
         date: '2019-08-03',
       },
     },
@@ -71,7 +71,7 @@ const data = {
       target: '5',
       data: {
         type: 'C',
-        amount: '100,000 元',
+        amount: '100,000 Yuan',
         date: '2019-08-03',
       },
     },
@@ -80,7 +80,7 @@ const data = {
       target: '6',
       data: {
         type: 'B',
-        amount: '100,000 元',
+        amount: '100,000 Yuan',
         date: '2019-08-03',
       },
     },
@@ -89,7 +89,7 @@ const data = {
       target: '4',
       data: {
         type: 'C',
-        amount: '100,000 元',
+        amount: '100,000 Yuan',
         date: '2019-08-03',
       },
     },
@@ -98,7 +98,7 @@ const data = {
       target: '7',
       data: {
         type: 'B',
-        amount: '100,000 元',
+        amount: '100,000 Yuan',
         date: '2019-08-03',
       },
     },
@@ -107,7 +107,7 @@ const data = {
       target: '8',
       data: {
         type: 'B',
-        amount: '100,000 元',
+        amount: '100,000 Yuan',
         date: '2019-08-03',
       },
     },
@@ -116,7 +116,7 @@ const data = {
       target: '9',
       data: {
         type: 'C',
-        amount: '100,000 元',
+        amount: '100,000 Yuan',
         date: '2019-08-03',
       },
     },
@@ -213,7 +213,7 @@ G6.registerEdge('polyline', {
     const controlPoint = {
       x:
         ((line1EndPoint.x - startPoint.x) * (endPoint.y - startPoint.y)) /
-          (line1EndPoint.y - startPoint.y) +
+        (line1EndPoint.y - startPoint.y) +
         startPoint.x,
       y: endPoint.y,
     };
@@ -325,7 +325,7 @@ graph.data(data);
 graph.render();
 
 const edges = graph.getEdges();
-edges.forEach(function(edge) {
+edges.forEach(function (edge) {
   const line = edge.getKeyShape();
   const stroke = line.attr('stroke');
   const targetNode = edge.getTarget();

@@ -32,7 +32,7 @@ const data = {
       id: 'node2',
       img: img.src,
       size: [120, 60],
-      label: '头像',
+      label: 'avatar',
       style: {
         cursor: 'pointer',
       },
@@ -53,7 +53,7 @@ const data = {
   ],
 };
 // 避免拖动过程中闪烁：使用加载已经LOAD好的图片
-img.onload = function() {
+img.onload = function () {
   const width = document.getElementById('container').scrollWidth;
   const height = document.getElementById('container').scrollHeight || 500;
   const graph = new G6.Graph({
@@ -81,7 +81,7 @@ img.onload = function() {
   graph.data(data);
   graph.render();
 
-  graph.on('node:click', function(evt) {
+  graph.on('node:click', function (evt) {
     const target = evt.target;
 
     const type = target.get('type');

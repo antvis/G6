@@ -28,33 +28,33 @@ interface GraphData {
 const mockData: ListItem[] = [
   {
     id: 'g1',
-    name: '名称1',
+    name: 'Name1',
     count: 123456,
-    label: 'xx元',
+    label: 'xx Yuan',
     rate: 0.97,
     status: 'S',
     childList: [
       {
         id: 'g12',
-        name: '显示不全，鼠标移上来试试',
+        name: 'Deal with Long label',
         count: 123456,
-        label: 'xx元',
+        label: 'xx Yuan',
         rate: 0.123,
         status: 'S',
         childList: [
           {
             id: 'g121',
-            name: '名称3',
+            name: 'Name3',
             count: 123456,
-            label: 'xx元',
+            label: 'xx Yuan',
             rate: 0.123,
             status: 'S',
             childList: [
               {
                 id: 'g1211',
-                name: '名称4',
+                name: 'Name4',
                 count: 123456,
-                label: 'xx元',
+                label: 'xx Yuan',
                 rate: 0.123,
                 status: 'I',
                 childList: [],
@@ -63,25 +63,25 @@ const mockData: ListItem[] = [
           },
           {
             id: 'g122',
-            name: '名称5',
+            name: 'Name5',
             count: 123456,
-            label: 'xx元',
+            label: 'xx Yuan',
             rate: 0.96,
             status: 'S',
             childList: [
               {
                 id: 'g1221',
-                name: '名称6',
+                name: 'Name6',
                 count: 123456,
-                label: 'xx元',
+                label: 'xx Yuan',
                 rate: 0.123,
                 status: 'S',
                 childList: [
                   {
                     id: 'g12211',
-                    name: '名称6-1',
+                    name: 'Name6-1',
                     count: 123456,
-                    label: 'xx元',
+                    label: 'xx Yuan',
                     rate: 0.123,
                     status: 'I',
                     childList: [],
@@ -90,9 +90,9 @@ const mockData: ListItem[] = [
               },
               {
                 id: 'g1222',
-                name: '名称7',
+                name: 'Name7',
                 count: 123456,
-                label: 'xx元',
+                label: 'xx Yuan',
                 rate: 0.123,
                 status: 'S',
                 childList: [],
@@ -101,17 +101,17 @@ const mockData: ListItem[] = [
           },
           {
             id: 'g123',
-            name: '名称8',
+            name: 'Name8',
             count: 123456,
-            label: 'xx元',
+            label: 'xx Yuan',
             rate: 0.23,
             status: 'S',
             childList: [
               {
                 id: 'g1231',
-                name: '名称8-1',
+                name: 'Name8-1',
                 count: 123456,
-                label: 'xx元',
+                label: 'xx Yuan',
                 rate: 0.123,
                 status: 'I',
                 childList: [],
@@ -122,26 +122,26 @@ const mockData: ListItem[] = [
       },
       {
         id: 'g13',
-        name: '名称9',
+        name: 'Name9',
         count: 123456,
-        label: 'xx元',
+        label: 'xx Yuan',
         rate: 0.123,
         status: 'S',
         childList: [
           {
             id: 'g131',
-            name: '名称10',
+            name: 'Name10',
             count: 123456,
-            label: 'xx元',
+            label: 'xx Yuan',
             rate: 0.123,
             status: 'I',
             childList: [],
           },
           {
             id: 'g132',
-            name: '名称11',
+            name: 'Name11',
             count: 123456,
-            label: 'xx元',
+            label: 'xx Yuan',
             rate: 0.123,
             status: 'I',
             childList: [],
@@ -150,9 +150,9 @@ const mockData: ListItem[] = [
       },
       {
         id: 'g14',
-        name: '名称12',
+        name: 'Name12',
         count: 123456,
-        label: 'xx元',
+        label: 'xx Yuan',
         rate: 0.123,
         status: 'I',
         childList: [],
@@ -199,7 +199,7 @@ const defaultConfig = {
  * @param {*} defaultValue 默认值
  */
 const get = (object: object, path: string, defaultValue?: any) => {
-  return object?.[path] || defaultValue;
+  return object ?.[path] || defaultValue;
 };
 
 // number to string
@@ -444,7 +444,7 @@ let isAnimating = false;
 let graph = null;
 
 const initGraph = (data?: ListItem[]) => {
-  if (!data?.length) {
+  if (!data ?.length) {
     return;
   }
   transformData(data);
@@ -462,7 +462,7 @@ const initGraph = (data?: ListItem[]) => {
   graph.data(getPosition(data, true));
   graph.render();
   graph.zoom(config.defaultZoom || 1);
-  if (data?.length) {
+  if (data ?.length) {
     graph.changeData(getPosition(backUpData));
   }
 };
@@ -587,7 +587,7 @@ const initEvent = () => {
 /**
  * 创建提示
  * @param {postion} 鼠标点击的位置
- * @param {name} string 节点名称
+ * @param {name} string 节点Name
  * @param {id} string 节点id
  */
 const createTooltip = (postion: { x: number; y: number }, name: string, id: string) => {

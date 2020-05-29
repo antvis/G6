@@ -3,7 +3,7 @@ import G6 from '@antv/g6';
 const nodes = [];
 const edges = [];
 
-// 中心节点
+// Center node
 const centerNode = {
   id: 'center',
   x: 500,
@@ -12,7 +12,7 @@ const centerNode = {
   size: 20,
 };
 nodes.push(centerNode);
-// 左侧添加 4 个节点
+// Add 4 nodes on the left
 for (let i = 0; i < 4; i++) {
   const id = 'left' + i;
   nodes.push({
@@ -23,7 +23,7 @@ for (let i = 0; i < 4; i++) {
   });
   edges.push({ source: id, target: 'center', type: 'can-running' });
 }
-// 右侧添加 6 个节点
+// Add 6 nodes on the right
 for (let i = 0; i < 6; i++) {
   const id = 'right' + i;
   nodes.push({
@@ -98,20 +98,8 @@ G6.registerNode(
   'circle',
 );
 
-// lineDash 的差值，可以在后面提供 util 方法自动计算
-const dashArray = [
-  [0, 1],
-  [0, 2],
-  [1, 2],
-  [0, 1, 1, 2],
-  [0, 2, 1, 2],
-  [1, 2, 1, 2],
-  [2, 2, 1, 2],
-  [3, 2, 1, 2],
-  [4, 2, 1, 2],
-];
+// lineDash array
 const lineDash = [4, 2, 1, 2];
-const interval = 9;
 
 G6.registerEdge(
   'can-running',
@@ -120,19 +108,19 @@ G6.registerEdge(
       const shape = item.get('keyShape');
       if (name === 'running') {
         if (value) {
-          const length = shape.getTotalLength(); // 后续 G 增加 totalLength 的接口
-          let totalArray = [];
-          for (let i = 0; i < length; i += interval) {
-            totalArray = totalArray.concat(lineDash);
-          }
           let index = 0;
           shape.animate(
             () => {
-              const cfg = {
-                lineDash: dashArray[index].concat(totalArray),
+              index++;
+              if (index > 9) {
+                index = 0;
+              }
+              const res = {
+                lineDash,
+                lineDashOffset: -index,
               };
-              index = (index + 1) % interval;
-              return cfg;
+              // return the params for this frame
+              return res;
             },
             {
               repeat: true,
@@ -171,7 +159,7 @@ graph.data({ nodes, edges });
 graph.render();
 graph.fitView();
 
-// 响应 hover 状态
+// set hover state
 graph.on('node:mouseenter', ev => {
   const node = ev.item;
   const edges = node.getEdges();

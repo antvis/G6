@@ -32,7 +32,7 @@ const data = {
       id: 'node1',
       x: 100,
       y: 100,
-      label: '节点1',
+      label: 'Node 1',
       labelCfg: {
         position: 'top',
       },
@@ -42,7 +42,7 @@ const data = {
       x: 300,
       y: 200,
       color: '#40a9ff',
-      label: '节点2',
+      label: 'Node 2',
       labelCfg: {
         position: 'left',
         offset: 10,

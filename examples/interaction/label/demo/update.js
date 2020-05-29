@@ -12,20 +12,20 @@ const data = {
       id: 'node1',
       x: 100,
       y: 100,
-      label: 'hover 前的\n节点文本 node1',
+      label: 'label before\nbeen hovered',
     },
     {
       id: 'node2',
       x: 400,
       y: 100,
-      label: 'hover 前的\n节点文本 node2',
+      label: 'label before\nbeen hovered',
     },
   ],
   edges: [
     {
       source: 'node1',
       target: 'node2',
-      label: 'hover 前的边文本',
+      label: 'label before\nbeen hovered',
       labelCfg: {
         refY: 10,
       },
@@ -49,28 +49,16 @@ const graph = new G6.Graph({
       stroke: '#5B8FF9',
     },
   },
-  nodeStateStyles: {
-    hover: {
-      lineWidth: 5,
-      fillOpacity: 1,
-    },
-  },
-  edgeStateStyles: {
-    hover: {
-      lineWidth: 3,
-    },
-  },
 });
 graph.data(data);
 graph.render();
 
-graph.on('node:mouseenter', function(evt) {
+graph.on('node:mouseenter', function (evt) {
   const node = evt.item;
   const model = node.getModel();
   model.oriLabel = model.label;
-  graph.setItemState(node, 'hover', true);
   graph.updateItem(node, {
-    label: 'hover 后 ' + model.id,
+    label: `after been hovered ${model.id}`,
     labelCfg: {
       style: {
         fill: '#003a8c',
@@ -79,10 +67,9 @@ graph.on('node:mouseenter', function(evt) {
   });
 });
 
-graph.on('node:mouseleave', function(evt) {
+graph.on('node:mouseleave', function (evt) {
   const node = evt.item;
   const model = node.getModel();
-  graph.setItemState(node, 'hover', false);
   graph.updateItem(node, {
     label: model.oriLabel,
     labelCfg: {
@@ -93,13 +80,12 @@ graph.on('node:mouseleave', function(evt) {
   });
 });
 
-graph.on('edge:mouseenter', function(evt) {
+graph.on('edge:mouseenter', function (evt) {
   const edge = evt.item;
   const model = edge.getModel();
   model.oriLabel = model.label;
-  graph.setItemState(edge, 'hover', true);
   graph.updateItem(edge, {
-    label: 'hover 后',
+    label: 'after been hovered',
     labelCfg: {
       style: {
         fill: '#003a8c',
@@ -108,11 +94,11 @@ graph.on('edge:mouseenter', function(evt) {
   });
 });
 
-graph.on('edge:mouseleave', function(evt) {
+graph.on('edge:mouseleave', function (evt) {
   const edge = evt.item;
   graph.setItemState(edge, 'hover', false);
   graph.updateItem(edge, {
-    label: 'hover 前的边文本',
+    label: 'label before \n been hovered',
     labelCfg: {
       style: {
         fill: '#555',

@@ -5,7 +5,7 @@ const data = {
     {
       id: 'rect1',
       label: 'rect1',
-      description: '描述信息，如果没有该字段则不展示',
+      description: 'description, hidden when undefined',
       x: 250,
       y: 150,
     },
