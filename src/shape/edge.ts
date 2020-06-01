@@ -16,7 +16,6 @@ import { getControlPoint, getSpline } from '../util/path';
 import Global from '../global';
 import Shape from './shape';
 import { shapeBase, CLS_LABEL_BG_SUFFIX } from './shapeBase';
-import { mat3, transform } from '@antv/matrix-util';
 import { Path } from '@antv/g-canvas/lib/shape';
 import isArray from '@antv/util/lib/is-array';
 import isNumber from '@antv/util/lib/is-number';
@@ -214,10 +213,11 @@ const singleEdge: ShapeOptions = {
       ...backgroundStyle,
       width: backgroundWidth,
       height: backgroundHeight,
-      x: 0,
-      y: 0,
+      x: bbox.minX - padding[2],
+      y: bbox.minY - padding[0],
       rotate: 0,
     };
+    const autoRotate = isNil(labelCfg.autoRotate) ? this.labelAutoRotate : labelCfg.autoRotate;
 
     const pathShape =
       group && (group.find(element => element.get('className') === CLS_SHAPE) as Path);
@@ -234,14 +234,13 @@ const singleEdge: ShapeOptions = {
     // 偏移量
     const offsetX = labelCfg.refX || (this.refX as number);
     const offsetY = labelCfg.refY || (this.refY as number);
-    // 如果两个节点重叠，线就变成了一个点，这时候label的位置，就是这个点 + 绝对偏移
+    // // 如果两个节点重叠，线就变成了一个点，这时候label的位置，就是这个点 + 绝对偏移
     if (cfg.startPoint!.x === cfg.endPoint!.x && cfg.startPoint!.y === cfg.endPoint!.y) {
       style.x = cfg.startPoint!.x + offsetX;
       style.y = cfg.startPoint!.y + offsetY;
       return style;
     }
 
-    const autoRotate = isNil(labelCfg.autoRotate) ? this.labelAutoRotate : labelCfg.autoRotate;
 
     let offsetStyle = getLabelPosition(
       pathShape,
@@ -263,8 +262,10 @@ const singleEdge: ShapeOptions = {
       );
     }
 
-    style.x = offsetStyle.x;
-    style.y = offsetStyle.y;
+    if (autoRotate) {
+      style.x = offsetStyle.x;
+      style.y = offsetStyle.y;
+    }
     style.rotate = offsetStyle.rotate;
     return style;
   },
@@ -348,8 +349,9 @@ const singleEdge: ShapeOptions = {
     const rotate = labelStyle.rotate;
 
     const style = this.getLabelBgStyleByPosition(label, cfg, labelCfg, group);
+    delete style.rotate;
     const rect = group.addShape('rect', { name: 'text-bg-shape', attrs: style });
-    rect.rotateAtStart(rotate);
+    if (rotate) rect.rotateAtStart(rotate);
     return rect;
   },
 };

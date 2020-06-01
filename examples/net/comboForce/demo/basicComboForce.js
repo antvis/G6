@@ -1,7 +1,5 @@
 import G6 from '@antv/g6';
 
-
-
 const data = {
   nodes: [
     {

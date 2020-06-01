@@ -409,7 +409,15 @@ export interface ComboConfig extends ModelConfig {
   parentId?: string;
   children?: ComboTree[];
   depth?: number;
-  padding?: number | number[]
+  padding?: number | number[];
+  startPoint: {
+    x: number,
+    y: number
+  },
+  endPoint: {
+    x: number,
+    y: number
+  },
   collapseIcon?: Partial<{
     show: boolean;
     collapseSymbol: any;
@@ -619,6 +627,6 @@ export interface Indexable<T> {
 // 图算法回调方法接口定义
 export interface IAlgorithmCallbacks {
   enter?: (param: { current: INode, previous: INode }) => void;
-  leave?: (param: { current: INode, previous?: INode  }) => void;
+  leave?: (param: { current: INode, previous?: INode }) => void;
   allowTraversal?: (param: { previous?: INode, current?: INode, next: INode }) => boolean;
 }
