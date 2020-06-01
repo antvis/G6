@@ -112,7 +112,7 @@ const graph = new G6.Graph({
 
 - `fitCenter`
 
-类型：Boolean；默认：'false'。是否平移图使其中心对齐到画布中心。
+类型：Boolean；默认：'false'。是否平移图使其中心对齐到画布中心。*v3.5.1 后支持。*
 
 #### 全局元素配置
 
