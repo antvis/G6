@@ -511,7 +511,6 @@ describe('update', () => {
     expect(text.attr('fontSize')).toBe(20)
     expect(text.attr('stroke')).toEqual('green')
 
-
     // 清除 hover 和 register:selected，则 update 后的属性生效
     graph.clearItemStates(item, ['register:selected', 'hover'])
     expect(item.hasState('register:selected')).toBe(false)
@@ -526,7 +525,7 @@ describe('update', () => {
     expect(keyShape.attr('opacity')).toEqual(0.1)
     expect(text.attr('stroke')).toEqual('blue')
 
-    graph.destroy()
-    expect(graph.destroyed).toBe(true)
+    // graph.destroy()
+    // expect(graph.destroyed).toBe(true)
   })
 })

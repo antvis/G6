@@ -50,7 +50,7 @@
     "site:deploy": "npm run site:build && gh-pages -d public",
     "start": "npm run site:develop",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/shape/node-spec.ts",
+    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/combo-issue-spec.ts",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
     "watch": "father build -w",
     "cdn": "antv-bin upload -n @antv/g6"
@@ -93,6 +93,7 @@
     "@storybook/addon-info": "^5.2.8",
     "@storybook/addon-knobs": "^5.2.8",
     "@storybook/react": "^5.2.8",
+    "@turf/turf": "^5.1.6",
     "@types/jest": "^25.2.1",
     "@types/node": "13.11.1",
     "@umijs/fabric": "^2.0.0",
@@ -121,7 +122,6 @@
     "typedoc": "^0.17.6",
     "typedoc-plugin-markdown": "^2.2.11",
     "typescript": "^3.5.3",
-    "@turf/turf": "^5.1.6",
     "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10",
     "worker-loader": "^2.0.0"
