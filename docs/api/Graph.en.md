@@ -22,7 +22,7 @@ The life cycle of an instance of Graph is: Initialize -> Load data -> Render -> 
 | height | Number | undefined | The height of the canvas for graph with the unit 'px'. |
 | fitView | Boolean | false | Whether to fit the canvas to the view port. |
 | fitViewPadding | Array | Number | Takes effect only when `fitView: true`. It is the padding between canvas and the border of view port.<br />- It can be a value, e.g. `fitViewPadding: 20`, which means the padding to the top, left, right, bottom are the same.<br />- Or an array, e.g. `fitViewPadding: [ 20, 40, 50, 20 ]`, the four values in the array indicate the padding to the top, right, bottom, left respectively. |
-| fitCenter | Boolean | false | Whether to translate the graph to align its center with the canvas. Its priority is lower than `fitView` |
+| fitCenter | Boolean | false | *Supported by v3.5.1.* Whether to translate the graph to align its center with the canvas. Its priority is lower than `fitView` |
 | groupByTypes | Boolean | true | Whether to group the nodes and edges separately. When it is false, all the items (including nodes and edges) are in the same group, and the order/zindex of them are determined according to the order of their generation. When you are using Combo, **MUST** set `groupByTypes` to `false` |
 | autoPaint | Boolean | true | Whether to paint the graph automatically while item updated or view port changed. In order to enhance the performance, we recommend to turn off `antoPaint` when you are doing bulk operation on nodes or edges. This can be refered to [`setAutoPaint()`](#setautopaintauto). |
 | modes | Object |  | The interaction modes of this graph. Please refer to [Interaction Mode](/en/docs/manual/middle/states/mode) for detail。 |
@@ -1312,7 +1312,7 @@ graph.fitView([20, 10, 20, 15]);
 
 ### fitCenter()
 
-Translate the graph to align its center with the canvas.
+*Supported by v3.5.1.* Translate the graph to align its center with the canvas.
 
 **Usage**
 
