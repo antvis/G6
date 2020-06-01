@@ -282,6 +282,8 @@ export const shapeBase: ShapeOptions = {
       return;
     }
 
+    const type = item.getType()
+
     const stateName = isBoolean(value) ? name : `${name}:${value}`;
     const shapeStateStyle = this.getStateStyle(stateName, true, item);
     const itemStateStyle = item.getStateStyle(stateName);
@@ -381,10 +383,18 @@ export const shapeBase: ShapeOptions = {
             subShape.attr(style);
           }
         } else {
-          // 非纯对象，则认为是设置到 keyShape 上面的
-          shape.attr({
-            [originKey]: style,
-          });
+          // 当更新 combo 状态时，当不存在 keyShapeName 时候，则认为是设置到 keyShape 上面的
+          if (type === 'combo') {
+            if (!keyShapeName) {
+              shape.attr({
+                [originKey]: style,
+              });
+            }
+          } else {
+            shape.attr({
+              [originKey]: style,
+            });
+          }
         }
       }
     }
