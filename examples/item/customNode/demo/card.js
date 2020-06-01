@@ -1,5 +1,8 @@
 import G6 from '@antv/g6';
 
+
+let graph;
+
 const ERROR_COLOR = '#F5222D';
 const getNodeConfig = node => {
   if (node.nodeError) {
@@ -52,21 +55,6 @@ const EXPAND_ICON = function EXPAND_ICON(x, y, r) {
     ['L', x, y + r - 4],
   ];
 };
-
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
-const graph = new G6.Graph({
-  container: 'container',
-  width,
-  height,
-  modes: {
-    default: ['drag-node'],
-  },
-  defaultNode: {
-    shape: 'card-node',
-  },
-});
-
 const nodeBasicMethod = {
   createNodeBox: (group, config, w, h, isRoot) => {
     /* 最外面的大矩形 */
@@ -194,7 +182,7 @@ const nodeBasicMethod = {
       ipCPBox.on('mouseleave', () => {
         onMouseLeave();
       });
-      ipCPBox.on('click', () => {});
+      ipCPBox.on('click', () => { });
     }
   },
   setState: (name, value, item) => {
@@ -235,11 +223,11 @@ G6.registerNode('card-node', {
     const config = getNodeConfig(cfg);
     const isRoot = cfg.dataType === 'root';
     const nodeError = cfg.nodeError;
-    /* 最外面的大矩形 */
+    /* the biggest rect */
     const container = nodeBasicMethod.createNodeBox(group, config, 243, 64, isRoot);
 
     if (cfg.dataType !== 'root') {
-      /* 上边的 type */
+      /* the type text */
       group.addShape('text', {
         attrs: {
           text: cfg.dataType,
@@ -283,7 +271,7 @@ G6.registerNode('card-node', {
       });
 
       const ipBBox = ipText.getBBox();
-      /* ip 的文字总是距离右边 12px */
+      /* the distance from the IP to the right is 12px */
       ipText.attr({
         x: 224 - 12 - ipBBox.width,
       });
@@ -295,7 +283,7 @@ G6.registerNode('card-node', {
         height: ipBBox.height + 10,
       });
 
-      /* 在 IP 元素上面覆盖一层透明层，方便监听 hover 事件 */
+      /* a transparent shape on the IP for click listener */
       group.addShape('rect', {
         attrs: {
           stroke: '',
@@ -348,7 +336,7 @@ G6.registerNode('card-node', {
         },
         name: 'ip-cp-icon',
       });
-      /* 放一个透明的矩形在 icon 区域上，方便监听点击 */
+      /* a transparent rect on the icon area for click listener */
       group.addShape('rect', {
         attrs: {
           x: 195,
@@ -360,7 +348,7 @@ G6.registerNode('card-node', {
           opacity: 0,
         },
         name: 'ip-cp-box',
-        tooltip: '复制IP',
+        tooltip: 'Copy the IP',
       });
 
       /* ip end */
@@ -382,7 +370,7 @@ G6.registerNode('card-node', {
       name: 'name-text-shape',
     });
 
-    // /* 下面的文字 */
+    /* the description text */
     group.addShape('text', {
       attrs: {
         text: cfg.keyInfo,
@@ -418,6 +406,23 @@ G6.registerNode('card-node', {
   },
   afterDraw: nodeBasicMethod.afterDraw,
   setState: nodeBasicMethod.setState,
+});
+
+
+const width = document.getElementById('container').scrollWidth;
+const height = document.getElementById('container').scrollHeight || 500;
+graph = new G6.Graph({
+  container: 'container',
+  width,
+  height,
+  // translate the graph to align the canvas's center, support by v3.5.1
+  fitCenter: true,
+  modes: {
+    default: ['drag-node'],
+  },
+  defaultNode: {
+    shape: 'card-node',
+  },
 });
 
 const data = {
@@ -459,7 +464,6 @@ const data = {
 };
 
 const canvas = graph.get('canvas');
-canvas.set('localRefresh', false);
 
 graph.data(data);
 graph.render();

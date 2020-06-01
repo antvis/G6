@@ -591,6 +591,15 @@ export default class Graph extends EventEmitter implements IGraph {
   }
 
   /**
+   * 调整视口适应视图，不缩放，仅将图 bbox 中心对齐到画布中心
+   */
+  public fitCenter(): void {
+    const viewController: ViewController = this.get('viewController');
+    viewController.fitCenter();
+    this.autoPaint();
+  }
+
+  /**
    * 新增行为
    * @param {string | ModeOption | ModeType[]} behaviors 添加的行为
    * @param {string | string[]} modes 添加到对应的模式
@@ -1047,6 +1056,8 @@ export default class Graph extends EventEmitter implements IGraph {
     function success() {
       if (self.get('fitView')) {
         self.fitView();
+      } else if (self.get('fitCenter')) {
+        self.fitCenter();
       }
       self.autoPaint();
       self.emit('afterrender');

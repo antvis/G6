@@ -1,8 +1,8 @@
 import G6 from '@antv/g6';
 
 /**
- * 该案例演示如何使用内置折线 polyline。
- * by 十吾
+ * The usage of built-in polyline
+ * by Shiwu
  */
 
 const data = {
@@ -19,7 +19,7 @@ const data = {
     },
   ],
   edges: [
-    // 内置折线
+    // Built-in polyline
     {
       source: '0',
       target: '1',
@@ -33,6 +33,8 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
+  // translate the graph to align the canvas's center, support by v3.5.1
+  fitCenter: true,
   defaultNode: {
     style: {
       fill: '#DEE9FF',
@@ -46,7 +48,7 @@ const graph = new G6.Graph({
     },
   },
   modes: {
-    // 支持的 behavior
+    // behavior
     default: ['drag-node'],
   },
 });

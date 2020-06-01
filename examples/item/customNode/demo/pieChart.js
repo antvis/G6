@@ -1,27 +1,27 @@
 import G6 from '@antv/g6';
 
 /**
- * 该实例演示如何使用G6自定义类似饼图的节点
- * by 十吾
+ * Custom a pie chart node
+ * by Shiwu
  *
  */
 const lightBlue = '#5b8ff9';
 const lightOrange = '#5ad8a6';
 
-// 注册自定义名为 pie-node 的节点类型
+// register a pie chart node
 G6.registerNode('pie-node', {
   draw: (cfg, group) => {
-    const radius = cfg.size / 2; // 节点半径
-    const inPercentage = cfg.inDegree / cfg.degree; // 入度占总度数的比例
-    const inAngle = inPercentage * Math.PI * 2; // 入度在饼图中的夹角大小
-    const inArcEnd = [radius * Math.cos(inAngle), radius * Math.sin(inAngle)]; // 入度饼图弧结束位置
+    const radius = cfg.size / 2; // node radius
+    const inPercentage = cfg.inDegree / cfg.degree; // the ratio of indegree to outdegree
+    const inAngle = inPercentage * Math.PI * 2; // the anble for the indegree fan
+    const inArcEnd = [radius * Math.cos(inAngle), radius * Math.sin(inAngle)]; // the end position for the in-degree fan
     let isInBigArc = 1,
       isOutBigArc = 0;
     if (inAngle > Math.PI) {
       isInBigArc = 0;
       isOutBigArc = 1;
     }
-    // 定义代表入度的扇形形状
+    // fan shape for the in degree
     const fanIn = group.addShape('path', {
       attrs: {
         path: [
@@ -35,7 +35,7 @@ G6.registerNode('pie-node', {
       },
       name: 'in-fan-shape',
     });
-    // 定义代表出度的扇形形状
+    // draw the fan shape
     group.addShape('path', {
       attrs: {
         path: [
@@ -86,6 +86,8 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
+  // translate the graph to align the canvas's center, support by v3.5.1
+  fitCenter: true,
   linkCenter: true,
   defaultNode: {
     type: 'pie-node',

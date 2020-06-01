@@ -1,8 +1,8 @@
 import G6 from '@antv/g6';
 
 /**
- * 该案例演示如何自定义一个堆叠柱状图节点
- * by 镜曦
+ * Custom stacked bar chart node
+ * by Jingxi
  *
  */
 
@@ -19,19 +19,19 @@ const getPath = (cx, cy, rs, re, startAngle, endAngle, clockwise) => {
   ];
 };
 
-// 自定义标注点节点
+// Custom stacked bar chart node
 G6.registerNode('stacked-bar-node', {
   draw(cfg, group) {
     /*
-      G：
+      G:
       Fan
-      x: 扇形圆心的 x 坐标
-      y: 扇形圆心的 y 坐标
-      rs: 内圈半径
-      re: 外圈半径
-      startAngle: 起点弧度
-      endAngle: 终点弧度
-      clockwise: 为true时顺时针渲染，为false时逆时针渲染
+      x: the circle center of the fan
+      y: the circle center of the fan
+      rs: inner radius
+      re: outer radius
+      startAngle: start angle
+      endAngle: end angle
+      clockwise: render clockwisely if it is true
     */
     const baseR = 30;
     let nowAngle = 0;
@@ -80,7 +80,7 @@ G6.registerNode('stacked-bar-node', {
 
     group.addShape('circle', {
       attrs: {
-        x: 0, // 居中
+        x: 0,
         y: 0,
         r: baseR,
         fill: cfg.centerColor,
@@ -91,7 +91,7 @@ G6.registerNode('stacked-bar-node', {
     if (cfg.label) {
       group.addShape('text', {
         attrs: {
-          x: 0, // 居中
+          x: 0,
           y: 0,
           textAlign: 'center',
           textBaseline: 'middle',
@@ -112,6 +112,8 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
+  // translate the graph to align the canvas's center, support by v3.5.1
+  fitCenter: true,
 });
 
 const data = {

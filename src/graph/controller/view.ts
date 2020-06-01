@@ -32,6 +32,23 @@ export default class ViewController {
     };
   }
 
+  public fitCenter() {
+    const { graph } = this;
+    const width: number = graph.get('width');
+    const height: number = graph.get('height');
+    const group: Group = graph.get('group');
+    group.resetMatrix();
+    const bbox = group.getCanvasBBox();
+    if (bbox.width === 0 || bbox.height === 0) return;
+    const viewCenter = this.getViewCenter();
+    const groupCenter: Point = {
+      x: bbox.x + bbox.width / 2,
+      y: bbox.y + bbox.height / 2,
+    };
+
+    graph.translate(viewCenter.x - groupCenter.x, viewCenter.y - groupCenter.y);
+  }
+
   // fit view graph
   public fitView() {
     const { graph } = this;

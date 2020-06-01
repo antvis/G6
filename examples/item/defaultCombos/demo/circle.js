@@ -27,6 +27,8 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
+  // translate the graph to align the canvas's center, support by v3.5.1
+  fitCenter: true,
   // Set groupByTypes to false to get rendering result with reasonable visual zIndex for combos
   groupByTypes: false,
   defaultCombo: {
@@ -46,13 +48,13 @@ const graph = new G6.Graph({
     default: ['drag-canvas', 'drag-node', 'drag-combo', 'collapse-expand-combo'],
   },
   comboStateStyles: {
-    // 鼠标 hover 状态下 combo 样式
+    // the style configurations for the hover state on the combo
     hover: {
       lineWidth: 3
     },
   },
   nodeStateStyles: {
-    // 鼠标 hover 状态下节点样式
+    // the hover configurations for the hover state on the node
     hover: {
       lineWidth: 3
     },

@@ -32,6 +32,8 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
+  // translate the graph to align the canvas's center
+  fitCenter: true,
   defaultNode: {
     style: {
       fill: '#DEE9FF',
