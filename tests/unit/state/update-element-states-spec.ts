@@ -525,7 +525,7 @@ describe('update', () => {
     expect(keyShape.attr('opacity')).toEqual(0.1)
     expect(text.attr('stroke')).toEqual('blue')
 
-    // graph.destroy()
-    // expect(graph.destroyed).toBe(true)
+    graph.destroy()
+    expect(graph.destroyed).toBe(true)
   })
 })
