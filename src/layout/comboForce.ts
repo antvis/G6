@@ -405,7 +405,7 @@ export default class ComboForce extends BaseLayout {
     const oriComboMap = self.oriComboMap;
     let comboMap: ComboMap = {};
 
-    comboTrees.forEach(ctree => {
+    comboTrees && comboTrees.forEach(ctree => {
       let treeChildren = [];
       traverseTreeUp<ComboTree>(ctree, treeNode => {
         if (treeNode.itemType === 'node') return true; // skip it
@@ -493,7 +493,7 @@ export default class ComboForce extends BaseLayout {
     const nodeIdxMap = self.nodeIdxMap;
     const nodeMap = self.nodeMap;
     const comboMap = self.comboMap;
-    comboTrees.forEach(ctree => {
+    comboTrees && comboTrees.forEach(ctree => {
       traverseTreeUp<ComboTree>(ctree, treeNode => {
         if (treeNode.itemType === 'node') return true; // skip it
         const combo = comboMap[treeNode.id];
@@ -574,7 +574,7 @@ export default class ComboForce extends BaseLayout {
     const nodeSize = self.nodeSize as ((d?: unknown) => number) | undefined;
     const comboSpacing = self.comboSpacing;
     const comboPadding = self.comboPadding;
-    comboTrees.forEach(ctree => {
+    comboTrees && comboTrees.forEach(ctree => {
       let treeChildren = [];
       traverseTreeUp<ComboTree>(ctree, treeNode => {
         if (treeNode.itemType === 'node') return true; // skip it

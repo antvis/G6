@@ -555,7 +555,7 @@ export const reconstructTree = (trees: ComboTree[], subtreeId?: string, newParen
   }
   let foundSubTree = false;
   let oldParentId = 'root';
-  trees.forEach(tree => {
+  trees && trees.forEach(tree => {
     if (foundSubTree) return;
     if (tree.id === subtreeId) {
       subtree = tree;
@@ -590,7 +590,7 @@ export const reconstructTree = (trees: ComboTree[], subtreeId?: string, newParen
   });
 
   brothers = comboChildsMap[oldParentId].children;
-  const index = brothers.indexOf(subtree);
+  const index = brothers ? brothers.indexOf(subtree) : -1;
   if (index > -1) brothers.splice(index, 1);
 
   // 如果遍历完整棵树还没有找到，说明之前就不在树中
@@ -612,7 +612,7 @@ export const reconstructTree = (trees: ComboTree[], subtreeId?: string, newParen
     // newParentId is undefined means the subtree will have no parent
     if (newParentId) {
       let newParentDepth = 0;
-      trees.forEach(tree => {
+      trees && trees.forEach(tree => {
         if (found) return; // terminate
         traverseTree<ComboTree>(tree, (child: any) => {
           // append subtree to the new parent ans assign the depth to the subtree

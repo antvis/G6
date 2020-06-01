@@ -108,8 +108,8 @@ export default class ItemController {
         return;
       }
 
-      if ((source as Item).getType() === 'combo') model.isComboEdge = true;
-      if ((target as Item).getType() === 'combo') model.isComboEdge = true;
+      if ((source as Item).getType && (source as Item).getType() === 'combo') model.isComboEdge = true;
+      if ((target as Item).getType && (target as Item).getType() === 'combo') model.isComboEdge = true;
 
       item = new Edge({
         model,
@@ -185,7 +185,8 @@ export default class ItemController {
     }
 
     // 更新的 item 的类型
-    const type = item.getType();
+    let type = '';
+    if (item.getType) type = item.getType();
 
     const mapper = graph.get(type + MAPPER_SUFFIX);
     const model = item.getModel();
@@ -334,7 +335,8 @@ export default class ItemController {
 
     graph.emit('beforeremoveitem', { item });
 
-    const type = item.getType();
+    let type = '';
+    if (item.getType) type = item.getType();
     const items = graph.get(`${type}s`);
     const index = items.indexOf(item);
     if (index > -1) items.splice(index, 1);
@@ -379,7 +381,7 @@ export default class ItemController {
       let comboInTree;
       // find the subtree rooted at the item to be removed
       let found = false; // the flag to terminate the forEach circulation
-      comboTrees.forEach(ctree => {
+      comboTrees && comboTrees.forEach(ctree => {
         if (found) return;
         traverseTree<ComboTree>(ctree, combo => {
           if (combo.id === id) {
@@ -486,7 +488,7 @@ export default class ItemController {
    * @memberof ItemController
    */
   public addCombos(comboTrees: ComboTree[], comboModels: ComboConfig[]) {
-    comboTrees.forEach((ctree: ComboTree) => {
+    comboTrees && comboTrees.forEach((ctree: ComboTree) => {
       traverseTreeUp<ComboTree>(ctree, child => {
         let comboModel;
         comboModels.forEach(model => {
@@ -529,7 +531,7 @@ export default class ItemController {
 
     item.changeVisibility(visible);
 
-    if (item.getType() === NODE) {
+    if (item.getType && item.getType() === NODE) {
       const edges = (item as INode).getEdges();
       each(edges, (edge: IEdge) => {
         // 若隐藏节点，则将与之关联的边也隐藏
@@ -540,12 +542,12 @@ export default class ItemController {
 
         this.changeItemVisibility(edge, visible);
       });
-    } else if (item.getType() === COMBO) {
+    } else if (item.getType && item.getType() === COMBO) {
       const comboTrees = graph.get('comboTrees');
       const id = item.get('id');
       let children = [];
       let found = false; // flag the terminate the forEach
-      comboTrees.forEach(ctree => {
+      comboTrees && comboTrees.forEach(ctree => {
         if (found) return;
         if (!ctree.children || ctree.children.length === 0) return;
         traverseTree<ComboTree>(ctree, combo => {

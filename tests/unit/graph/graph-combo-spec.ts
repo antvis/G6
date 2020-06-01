@@ -504,3 +504,41 @@ describe('graph with combo', () => {
   });
 
 });
+
+
+
+describe.only('empty combo', () => {
+  const data = {
+    nodes: [
+      {
+        id: 'node1',
+        x: 250,
+        y: 150
+      },
+      {
+        id: 'node2',
+        x: 350,
+        y: 150
+      },
+    ],
+    // combos: [{
+    //   id: 'combo',
+    //   label: 'Combo'
+    // }]
+  };
+  it('circle no label', () => {
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 600,
+      modes: {
+        default: ['drag-canvas', 'drag-node', 'drag-combo', 'collapse-expand-combo'],
+      },
+    });
+    graph.on('canvas:click', e => {
+      graph.createCombo('combo1', ['node1', 'node2']);
+    });
+    graph.data(data);
+    graph.render()
+  });
+});
