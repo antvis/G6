@@ -46,6 +46,8 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
+  // translate the graph to align the canvas's center, support by v3.5.1
+  fitCenter: true,
   defaultNode: {
     type: 'circle',
     size: [40],
@@ -79,11 +81,11 @@ const graph = new G6.Graph({
     default: ['drag-canvas', 'drag-node'],
   },
   nodeStateStyles: {
-    // 鼠标hover状态下的配置
+    // style configurations for hover state
     hover: {
       fillOpacity: 0.8,
     },
-    // 选中节点状态下的配置
+    // style configurations for selected state
     selected: {
       lineWidth: 5,
     },

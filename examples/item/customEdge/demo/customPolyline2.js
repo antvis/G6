@@ -1,10 +1,10 @@
 import G6 from '@antv/g6';
 
 /**
- * 该案例演示如何通过复写复写draw方法自定义折线。
- * by siogo 提供的 issue（https://github.com/antvis/g6/issues/814）
+ * Custom a new polyline
+ * by siogo's issue（https://github.com/antvis/g6/issues/814）
  *
- * 如果要适应所有拖动情况，则需要根据拖动的位置来动态改变锚点
+ * If you want to fit the dragging, you need to adjust the controlpoints while dragging
  */
 G6.registerEdge('line-arrow', {
   options: {
@@ -79,8 +79,10 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
+  // translate the graph to align the canvas's center, support by v3.5.1
+  fitCenter: true,
   modes: {
-    // 支持的 behavior
+    // behavior
     default: ['drag-node', 'drag-canvas'],
   },
   defaultNode: {

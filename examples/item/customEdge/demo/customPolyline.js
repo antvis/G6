@@ -1,12 +1,53 @@
 import G6 from '@antv/g6';
 
 /**
- * 该案例演示如何通过继承line，复写getPath和getShapeStyle方法自定义折线。
- * by siogo 提供的 issue（https://github.com/antvis/g6/issues/814）
+ * Extend the built-in line edge and rewrite getPath and getShapeStyle to custom a polyline edge
+ * by siogo's issue（https://github.com/antvis/g6/issues/814）
  *
- * 如果要适应所有拖动情况，则需要根据拖动的位置来动态改变锚点
+ * If you want to fit the dragging, you need to adjust the controlpoints while dragging
  *
  */
+
+G6.registerEdge(
+  'line-arrow',
+  {
+    getPath(points) {
+      const startPoint = points[0];
+      const endPoint = points[1];
+      return [
+        ['M', startPoint.x, startPoint.y],
+        ['L', endPoint.x / 3 + (2 / 3) * startPoint.x, startPoint.y],
+        ['L', endPoint.x / 3 + (2 / 3) * startPoint.x, endPoint.y],
+        ['L', endPoint.x, endPoint.y],
+      ];
+    },
+    getShapeStyle(cfg) {
+      const startPoint = cfg.startPoint;
+      const endPoint = cfg.endPoint;
+      const controlPoints = this.getControlPoints(cfg);
+      let points = [startPoint]; // the start point
+      // the control points
+      if (controlPoints) {
+        points = points.concat(controlPoints);
+      }
+      // the end point
+      points.push(endPoint);
+      const path = this.getPath(points);
+      const style = Object.assign(
+        {},
+        G6.Global.defaultEdge.style,
+        {
+          stroke: '#BBB',
+          lineWidth: 1,
+          path,
+        },
+        cfg.style,
+      );
+      return style;
+    },
+  },
+  'line',
+);
 
 const data = {
   nodes: [
@@ -47,8 +88,10 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
+  // translate the graph to align the canvas's center, support by v3.5.1
+  fitCenter: true,
   modes: {
-    // 支持的 behavior
+    // behavior
     default: ['drag-node', 'drag-canvas'],
   },
   defaultNode: {
@@ -81,46 +124,6 @@ const graph = new G6.Graph({
   },
 });
 
-G6.registerEdge(
-  'line-arrow',
-  {
-    getPath(points) {
-      const startPoint = points[0];
-      const endPoint = points[1];
-      return [
-        ['M', startPoint.x, startPoint.y],
-        ['L', endPoint.x / 3 + (2 / 3) * startPoint.x, startPoint.y],
-        ['L', endPoint.x / 3 + (2 / 3) * startPoint.x, endPoint.y],
-        ['L', endPoint.x, endPoint.y],
-      ];
-    },
-    getShapeStyle(cfg) {
-      const startPoint = cfg.startPoint;
-      const endPoint = cfg.endPoint;
-      const controlPoints = this.getControlPoints(cfg);
-      let points = [startPoint]; // 添加起始点
-      // 添加控制点
-      if (controlPoints) {
-        points = points.concat(controlPoints);
-      }
-      // 添加结束点
-      points.push(endPoint);
-      const path = this.getPath(points);
-      const style = Object.assign(
-        {},
-        G6.Global.defaultEdge.style,
-        {
-          stroke: '#BBB',
-          lineWidth: 1,
-          path,
-        },
-        cfg.style,
-      );
-      return style;
-    },
-  },
-  'line',
-);
 
 graph.data(data);
 graph.render();

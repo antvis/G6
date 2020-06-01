@@ -18,6 +18,8 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
+  // translate the graph to align the canvas's center, support by v3.5.1
+  fitCenter: true,
   defaultNode: {
     type: 'modelRect',
     size: [270, 80],
@@ -28,7 +30,7 @@ const graph = new G6.Graph({
       lineWidth: 1,
       fillOpacity: 1,
     },
-    // 文本样式配置
+    // label configurations
     labelCfg: {
       style: {
         fill: '#595959',
@@ -36,51 +38,51 @@ const graph = new G6.Graph({
       },
       offset: 30,
     },
-    // 左侧的小矩形
+    // left rect
     preRect: {
       show: true,
       width: 4,
       fill: '#40a9ff',
       radius: 2,
     },
-    // 节点上左右上下四个方向上的链接circle配置
+    // configurations for the four linkpoints
     linkPoints: {
       top: false,
       right: false,
       bottom: false,
       left: false,
-      // circle的大小
+      // the size of the linkpoints' circle
       size: 3,
       lineWidth: 1,
       fill: '#72CC4A',
       stroke: '#72CC4A',
     },
-    // 节点中icon配置
+    // configurations for the icon
     logoIcon: {
-      // 是否显示icon，值为 false 则不渲染icon
+      // whether to show the icon
       show: true,
       x: 0,
       y: 0,
-      // icon的地址，字符串类型
+      // the image url for the icon, string type
       img:
         'https://gw.alipayobjects.com/zos/basement_prod/4f81893c-1806-4de4-aff3-9a6b266bc8a2.svg',
       width: 16,
       height: 16,
-      // 用于调整图标的左右位置
+      // adjust the offset along x-axis for the icon
       offset: 0,
     },
-    // 节点中表示状态的icon配置
+    // configurations for state icon
     stateIcon: {
-      // 是否显示icon，值为 false 则不渲染icon
+      // whether to show the icon
       show: true,
       x: 0,
       y: 0,
-      // icon的地址，字符串类型
+      // the image url for the icon, string type
       img:
         'https://gw.alipayobjects.com/zos/basement_prod/300a2523-67e0-4cbf-9d4a-67c077b40395.svg',
       width: 16,
       height: 16,
-      // 用于调整图标的左右位置
+      // adjust hte offset along x-axis for the icon
       offset: -5,
     },
   },

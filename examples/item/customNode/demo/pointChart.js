@@ -1,11 +1,11 @@
 import G6 from '@antv/g6';
 /**
- * 该案例演示如何自定义一个标注点节点
- * by 镜曦
+ * Custom a mark node
+ * by Jingxi
  *
  */
 
-// 自定义标注点节点
+// Custom a mark node
 G6.registerNode('justPoints', {
   draw(cfg, group) {
     const baseR = 30;
@@ -17,7 +17,7 @@ G6.registerNode('justPoints', {
     for (let i = 0; i < 5; i++) {
       group.addShape('circle', {
         attrs: {
-          x: 0, // 居中
+          x: 0,
           y: 0,
           r: (refR += refInc),
           stroke: '#5ad8a6',
@@ -29,7 +29,7 @@ G6.registerNode('justPoints', {
     const everyIncAngle = (2 * Math.PI * (360 / 5 / 5)) / 360;
     nowAngle = nowAngle + everyIncAngle / 2;
     cfg.details.forEach(cat => {
-      // 计算一系列点的位置
+      // Calculate the positions for vertexes
       const postions = [];
       cat.values.forEach((item, index) => {
         const r = baseR + item;
@@ -45,12 +45,12 @@ G6.registerNode('justPoints', {
         }
       });
 
-      // 添加标注点
+      // add marks
       postions.forEach((pos, index) => {
         if (index !== 5) {
           group.addShape('circle', {
             attrs: {
-              x: pos[0], // 居中
+              x: pos[0],
               y: pos[1],
               r: 3,
               lineWidth: 2,
@@ -76,17 +76,16 @@ G6.registerNode('justPoints', {
             ['L', xPos, yPos],
           ],
           lineDash: [4, 4],
-          stroke: '#5ad8a6', // 颜色应用到边上，如果应用到填充，则使用 fill: cfg.color
+          stroke: '#5ad8a6',
         },
         name: 'path-shape',
       });
       nowAngle2 += everyIncAngleCat;
     }
-    // 添加一个和背景色相同的圆形
+    // add a circle with the same color with the background color
     group.addShape('circle', {
-      // attrs: style
       attrs: {
-        x: 0, // 居中
+        x: 0,
         y: 0,
         r: baseR,
         fill: cfg.centerColor,
@@ -98,7 +97,7 @@ G6.registerNode('justPoints', {
     if (cfg.label) {
       group.addShape('text', {
         attrs: {
-          x: 0, // 居中
+          x: 0,
           y: 0,
           textAlign: 'center',
           textBaseline: 'middle',
@@ -119,6 +118,8 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
+  // translate the graph to align the canvas's center, support by v3.5.1
+  fitCenter: true,
 });
 
 const data = {

@@ -1,13 +1,13 @@
 import G6 from '@antv/g6';
 
 /**
- *  该案例演示如何使用G6自定义面积图节点
- *  by 镜曦
+ *  Custom a area chart node
+ *  by Jingxi
  *
  */
 
 /**
- * 注册一个 面积图节点
+ * Register a area chart node
  */
 G6.registerNode('area', {
   draw(cfg, group) {
@@ -18,13 +18,11 @@ G6.registerNode('area', {
     const refInc = 10;
     for (let i = 0; i < 6; i++) {
       group.addShape('circle', {
-        // attrs: style
         attrs: {
-          x: 0, // 居中
+          x: 0,
           y: 0,
           r: (refR += refInc),
           stroke: '#bae7ff',
-          // stroke: 'rgba(255,255,255,0.4)',
           lineDash: [4, 4],
         },
         name: 'circle-shape',
@@ -77,7 +75,7 @@ G6.registerNode('area', {
         attrs: {
           path: [
             ...Ls,
-            ['Z'], // 封闭
+            ['Z'], // close the path
           ],
           stroke: strokeColors[index],
           fill: fillColors[index],
@@ -99,14 +97,14 @@ G6.registerNode('area', {
             ['L', xPos, yPos],
           ],
           lineDash: [4, 4],
-          stroke: 'darkgray', // 颜色应用到边上，如果应用到填充，则使用 fill: cfg.color
+          stroke: 'darkgray',
         },
         name: 'path-shape2',
       });
       nowAngle2 += everyIncAngleCat;
     }
 
-    // 添加一个和背景色相同的圆形
+    // add a circle with the same filling color with background
     group.addShape('circle', {
       // attrs: style
       attrs: {
@@ -123,7 +121,7 @@ G6.registerNode('area', {
       group.addShape('text', {
         // attrs: style
         attrs: {
-          x: 0, // 居中
+          x: 0,
           y: 0,
           textAlign: 'center',
           textBaseline: 'middle',
@@ -138,7 +136,7 @@ G6.registerNode('area', {
   },
 });
 
-/** 数据 */
+/** data */
 const data = {
   nodes: [
     {
@@ -194,6 +192,8 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
+  // translate the graph to align the canvas's center, support by v3.5.1
+  fitCenter: true,
 });
 
 graph.data(data);

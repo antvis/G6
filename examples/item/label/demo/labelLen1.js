@@ -1,7 +1,7 @@
 import G6 from '@antv/g6';
 /**
- * 该案例演示当label太长时候，如何换行显示。
- * by 镜曦。
+ * Process the long label by breaking the text
+ * by Jingxi
  *
  */
 
@@ -85,6 +85,8 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
+  // translate the graph to align the canvas's center, support by v3.5.1
+  fitCenter: true,
   defaultNode: {
     type: 'rect',
     style: {

@@ -1,8 +1,8 @@
 /**
- * 该案例演示当label太长时候，指定多少个字符后显示省略号。
- * 有两种方式进行处理：
- * 1、从数据中处理，处理完以后再进行渲染；
- * 2、自定义节点或边时，进行处理：
+ * When the label is too long to be displayed, hide the overflow characters and show a ellipsis instead
+ * There are two ways to process the long labels
+ * 1. Process in the data;
+ * 2. Process when custom the edge or node like this:
  *  group.addShape('text', {
  *     attrs: {
  *       text: fittingString(cfg.label, 50, 12),
@@ -94,6 +94,8 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
+  // translate the graph to align the canvas's center, support by v3.5.1
+  fitCenter: true,
   defaultNode: {
     style: {
       fill: '#DEE9FF',
@@ -110,7 +112,7 @@ const graph = new G6.Graph({
   },
 });
 
-// 直接修改原生数据中的label字段
+// Modify the label in the data
 data.nodes.forEach(function (node) {
   node.label = fittingString(node.label, node.size, globalFontSize);
 });

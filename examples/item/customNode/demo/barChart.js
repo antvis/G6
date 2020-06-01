@@ -1,12 +1,12 @@
 import G6 from '@antv/g6';
 
 /**
- * 该案例演示如何自定义一个类似南丁格尔玫瑰一样的节点
- * by 镜曦
+ * Custom a Nightingale char node
+ * by Jingxi
  */
 
 /**
- * 注册一个类似南丁格尔玫瑰一样的节点
+ * Custom a Nightingale char node
  */
 
 const getPath = (cx, cy, rs, re, startAngle, endAngle, clockwise) => {
@@ -24,15 +24,15 @@ const getPath = (cx, cy, rs, re, startAngle, endAngle, clockwise) => {
 G6.registerNode('circleBar', {
   draw(cfg, group) {
     /*
-      G：
+      G:
       Fan
-      x: 扇形圆心的 x 坐标
-      y: 扇形圆心的 y 坐标
-      rs: 内圈半径
-      re: 外圈半径
-      startAngle: 起点弧度
-      endAngle: 终点弧度
-      clockwise: 为true时顺时针渲染，为false时逆时针渲染
+      x: the circle center of the fan
+      y: the circle center of the fan
+      rs: inner radius
+      re: outer radius
+      startAngle: start angle
+      endAngle: end angle
+      clockwise: render clockwisely if it is true
     */
     const baseR = 30;
     let nowAngle = 0;
@@ -57,7 +57,7 @@ G6.registerNode('circleBar', {
           },
           name: 'path-shape',
         });
-        // 加上交互动画
+        // behavior animation
         fan.on('mouseenter', () => {
           fan.animate(
             {
@@ -80,13 +80,13 @@ G6.registerNode('circleBar', {
             },
           );
         });
-        // 设置class
-        fan.set('className', 'littleCircle');
+        // set the name
+        fan.set('name', 'littleCircle');
       });
     });
     group.addShape('circle', {
       attrs: {
-        x: 0, // 居中
+        x: 0,
         y: 0,
         r: baseR,
         fill: cfg.centerColor,
@@ -97,7 +97,7 @@ G6.registerNode('circleBar', {
     if (cfg.label) {
       group.addShape('text', {
         attrs: {
-          x: 0, // 居中
+          x: 0,
           y: 0,
           textAlign: 'center',
           textBaseline: 'middle',
@@ -118,6 +118,8 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
+  // translate the graph to align the canvas's center, support by v3.5.1
+  fitCenter: true,
 });
 
 const data = {

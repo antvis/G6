@@ -110,6 +110,10 @@ const graph = new G6.Graph({
 
 类型：Number | Array；默认：0。图自适应画布时的四周留白像素值。`fitView` 为 `true` 时生效。
 
+- `fitCenter`
+
+类型：Boolean；默认：'false'。是否平移图使其中心对齐到画布中心。
+
 #### 全局元素配置
 
 - `defaultNode`

@@ -1,8 +1,8 @@
 import G6 from '@antv/g6';
 
 /**
- * 该案例演示如何使用内置折线 arc
- * by 十吾
+ * The usage of arc edge
+ * by Shiwu
  */
 
 const data = {
@@ -19,7 +19,7 @@ const data = {
     },
   ],
   edges: [
-    // 内置弧线
+    // Built-in arc edges
     {
       id: 'edge0',
       source: '0',
@@ -27,20 +27,18 @@ const data = {
       label: 'curveOffset = 20',
       curveOffset: 20,
     },
-    // 配置内置折线的弯折弧度、端点最小距离
     {
       id: 'edge1',
       source: '0',
       target: '1',
-      label: 'curveOffset = 50',
+      label: 'curveOffset = 50', // the bending degree
       curveOffset: 50,
     },
-    // // 带有 controlPoints，则按照给定控制点弯折
     {
       id: 'edge2',
       source: '0',
       target: '1',
-      label: 'curveOffset = -50',
+      label: 'curveOffset = -50', // the bending degree
       curveOffset: -50,
     },
   ],
@@ -53,6 +51,8 @@ const graph = new G6.Graph({
   width,
   height,
   linkCenter: true,
+  // translate the graph to align the canvas's center, support by v3.5.1
+  fitCenter: true,
   defaultNode: {
     size: 45,
     style: {

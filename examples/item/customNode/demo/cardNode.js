@@ -23,7 +23,7 @@ const EXPAND_ICON = function EXPAND_ICON(x, y, r) {
 
 const ICON_MAP = {
   a: 'https://gw.alipayobjects.com/mdn/rms_8fd2eb/afts/img/A*0HC-SawWYUoAAAAAAAAAAABkARQnAQ',
-  b: 'https://gw.alipayobjects.com/mdn/rms_8fd2eb/afts/img/A*sxK0RJ1UhNkAAAAAAAAAAABkARQnAQ', 
+  b: 'https://gw.alipayobjects.com/mdn/rms_8fd2eb/afts/img/A*sxK0RJ1UhNkAAAAAAAAAAABkARQnAQ',
 }
 
 G6.registerNode(
@@ -44,8 +44,8 @@ G6.registerNode(
         name: 'main-box',
         draggable: true,
       });
-      
-      group.addShape('rect',  {
+
+      group.addShape('rect', {
         attrs: {
           x: 0,
           y: 0,
@@ -57,8 +57,8 @@ G6.registerNode(
         name: 'title-box',
         draggable: true,
       });
-      
-      // 左侧图标
+
+      // left icon
       group.addShape('image', {
         attrs: {
           x: 4,
@@ -71,8 +71,8 @@ G6.registerNode(
         name: 'node-icon',
       });
 
-      // 标题
-      group.addShape('text',  {
+      // title text
+      group.addShape('text', {
         attrs: {
           textBaseline: 'top',
           y: 2,
@@ -85,7 +85,7 @@ G6.registerNode(
       });
 
       if (cfg.nodeLevel > 0) {
-         group.addShape('marker', {
+        group.addShape('marker', {
           attrs: {
             x: 184,
             y: 30,
@@ -98,11 +98,11 @@ G6.registerNode(
           name: 'collapse-icon',
         });
       }
-     
-      // 卡片节点中的内容列表
-      cfg.panels.forEach((item,  index) => {
-        // 名称
-        group.addShape('text',  {
+
+      // The content list
+      cfg.panels.forEach((item, index) => {
+        // name text
+        group.addShape('text', {
           attrs: {
             textBaseline: 'top',
             y: 25,
@@ -114,8 +114,8 @@ G6.registerNode(
           name: `index-title-${index}`
         });
 
-        // 值
-        group.addShape('text',  {
+        // value text
+        group.addShape('text', {
           attrs: {
             textBaseline: 'top',
             y: 42,
@@ -126,7 +126,7 @@ G6.registerNode(
           },
           name: `index-title-${index}`
         });
-       
+
       });
       return shape;
     },
@@ -140,6 +140,8 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
+  // translate the graph to align the canvas's center, support by v3.5.1
+  fitCenter: true,
   modes: {
     default: ['drag-canvas', 'drag-node'],
   },
@@ -158,9 +160,9 @@ const data = {
       id: 'node1',
       nodeLevel: 2,
       panels: [
-        {title: '成功率', value: '11%' }, 
-        {title: '耗时',value: '111'}, 
-        {title:'错误数', value: '111'}
+        { title: '成功率', value: '11%' },
+        { title: '耗时', value: '111' },
+        { title: '错误数', value: '111' }
       ],
       x: 100,
       y: 100
@@ -172,9 +174,9 @@ const data = {
       id: 'node2',
       nodeLevel: 0,
       panels: [
-        {title: '成功率', value: '11%' }, 
-        {title: '耗时',value: '111'}, 
-        {title:'错误数', value: '111'}
+        { title: '成功率', value: '11%' },
+        { title: '耗时', value: '111' },
+        { title: '错误数', value: '111' }
       ],
       x: 100,
       y: 200
@@ -186,9 +188,9 @@ const data = {
       id: 'node3',
       nodeLevel: 3,
       panels: [
-        {title: '成功率', value: '11%' }, 
-        {title: '耗时',value: '111'}, 
-        {title:'错误数', value: '111'}
+        { title: '成功率', value: '11%' },
+        { title: '耗时', value: '111' },
+        { title: '错误数', value: '111' }
       ],
       collapse: true,
       x: 100,

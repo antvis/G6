@@ -1,7 +1,7 @@
 import G6 from '@antv/g6';
 
 /**
- * 该案例演示如何使用内置折线 polyline。
+ * Usage of built-in polyline edge with controlPoints
  * by 十吾
  */
 
@@ -19,10 +19,10 @@ const data = {
     },
   ],
   edges: [
-    // 带有 controlPoints，则按照给定控制点弯折
     {
       source: '4',
       target: '5',
+      // assign the control points to control the bending positions
       controlPoints: [
         {
           x: 260,
@@ -55,6 +55,8 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
+  // translate the graph to align the canvas's center, support by v3.5.1
+  fitCenter: true,
   defaultNode: {
     style: {
       fill: '#DEE9FF',
@@ -68,7 +70,7 @@ const graph = new G6.Graph({
     },
   },
   modes: {
-    // 支持的 behavior
+    // behavior
     default: ['drag-node'],
   },
 });

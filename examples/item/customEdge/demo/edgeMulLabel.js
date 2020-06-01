@@ -1,12 +1,11 @@
 import G6 from '@antv/g6';
 
 /**
- * 自定义边示例
- * 演示自定义边上绘制多个label
- * by 长哲
+ * Custom the edge with multiple labels
+ * by Changzhe
  */
 
-// 注册自定义边
+// custom the edge with multiple labels
 G6.registerEdge('multipleLabelsEdge', {
   options: {
     style: {
@@ -15,8 +14,8 @@ G6.registerEdge('multipleLabelsEdge', {
   },
   labelAutoRotate: true,
   draw(cfg, group) {
-    const startPoint = cfg.startPoint,
-      endPoint = cfg.endPoint;
+    const startPoint = cfg.startPoint;
+    const endPoint = cfg.endPoint;
     const stroke = (cfg.style && cfg.style.stroke) || this.options.style.stroke;
 
     const shape = group.addShape('path', {
@@ -30,7 +29,7 @@ G6.registerEdge('multipleLabelsEdge', {
       name: 'path-shape',
     });
     if (cfg.label && cfg.label.length) {
-      // 绘制左边的label
+      // the left label
       group.addShape('text', {
         attrs: {
           text: cfg.label[0],
@@ -43,7 +42,7 @@ G6.registerEdge('multipleLabelsEdge', {
         name: 'left-text-shape',
       });
       if (cfg.label.length > 1) {
-        // 绘制右边的label
+        // the right label
         group.addShape('text', {
           attrs: {
             text: cfg.label[1],
@@ -57,7 +56,7 @@ G6.registerEdge('multipleLabelsEdge', {
         });
       }
     }
-    // 返回边的keyShape
+    // return the keyShape
     return shape;
   },
 });
@@ -81,7 +80,7 @@ const data = {
     {
       source: 'node1',
       target: 'node2',
-      // 定义边左侧和右侧的label
+      // The left and right labels
       label: ['hello', 'world'],
     },
   ],
@@ -93,6 +92,8 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
+  // translate the graph to align the canvas's center, support by v3.5.1
+  fitCenter: true,
   modes: {
     default: [
       {

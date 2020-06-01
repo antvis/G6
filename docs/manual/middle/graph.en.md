@@ -112,6 +112,11 @@ Type: Boolean; Default: 'false'. Whether to fit the canvas to the view port auto
 
 Type: Number | Array; Default: 0. It is the padding between canvas and the border of view port. Takes effect only when `fitView: true`.
 
+- `fitCenter`
+
+Type: Boolean; Default: 'false'. Whether to translate the graph to align its center with the canvas.
+
+
 #### Global Item Configuration
 
 - `defaultNode`

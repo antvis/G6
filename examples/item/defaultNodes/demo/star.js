@@ -15,6 +15,8 @@ const graph = new G6.Graph({
   container: 'container',
   width: 500,
   height: 500,
+  // translate the graph to align the canvas's center, support by v3.5.1
+  fitCenter: true,
   defaultNode: {
     type: 'star',
     size: [120, 60],
@@ -31,24 +33,24 @@ const graph = new G6.Graph({
       position: 'bottom',
       offset: 50,
     },
-    // 节点上五个方向上的链接circle配置
+    // configurations for the five linkpoints
     linkPoints: {
       top: true,
       right: true,
       left: true,
       leftBottom: true,
       rightBottom: true,
-      // circle的大小
+      // the size of the linkpoints' circle
       size: 5,
       lineWidth: 1,
       fill: '#fff',
       stroke: '#1890FF',
     },
-    // 节点中icon配置
+    // configurations for the icon
     icon: {
-      // 是否显示icon，值为 false 则不渲染icon
+      // whether to show the icon
       show: true,
-      // icon的地址，字符串类型
+      // the image url for the icon, string type
       img:
         'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
       width: 60,
@@ -59,11 +61,11 @@ const graph = new G6.Graph({
     default: ['drag-canvas', 'drag-node'],
   },
   nodeStateStyles: {
-    // 鼠标hover状态下的配置
+    // the style configurations for the hover state
     hover: {
       fillOpacity: 0.8,
     },
-    // 选中节点状态下的配置
+    // the style configurations for the selected state
     selected: {
       lineWidth: 5,
     },

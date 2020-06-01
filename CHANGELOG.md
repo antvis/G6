@@ -1,6 +1,7 @@
 # ChangeLog
 
 #### 3.5.1
+- feat: graph.fitCenter to align the graph center to canvas center;
 - fix: getType is not a function error occurs when addItem with point;
 - fix: checking comboTrees avaiability;
 - fix: error occurs when createCombo into the graph without any combos;

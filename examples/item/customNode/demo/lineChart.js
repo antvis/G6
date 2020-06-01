@@ -1,12 +1,12 @@
 import G6 from '@antv/g6';
 
 /**
- * 该案例演示如何自定义一个折线图节点
- * by 镜曦
+ * Custom a line chart node
+ * by Jingxi
  *
  */
 
-// 自定义折线图节点
+// Custom a line chart node
 G6.registerNode('circleLine', {
   draw(cfg, group) {
     const baseR = 30;
@@ -18,11 +18,10 @@ G6.registerNode('circleLine', {
     for (let i = 0; i < 5; i++) {
       group.addShape('circle', {
         attrs: {
-          x: 0, // 居中
+          x: 0,
           y: 0,
           r: (refR += refInc),
           stroke: '#bae7ff',
-          // stroke: 'rgba(255,255,255,0.4)',
           lineDash: [4, 4],
         },
         name: 'circle-shape',
@@ -47,25 +46,25 @@ G6.registerNode('circleLine', {
         }
       });
       const pathArrayL = postions.map(item => ['L', ...item]);
-      // 添加连线
+      // add the connecting line
       group.addShape('path', {
         attrs: {
           path: [
-            ['M', 0, 0], // 上部顶点
+            ['M', 0, 0], // the top vertex
             ...pathArrayL,
-            ['Z'], // 封闭
+            ['Z'], // close the path
           ],
-          stroke: cat.color, // 颜色应用到边上，如果应用到填充，则使用 fill: cfg.color
+          stroke: cat.color,
         },
         name: 'path-shape',
       });
-      // 添加标注点
+
       postions.forEach((pos, index) => {
         if (index !== 5) {
           const littleCircle = group.addShape('circle', {
             // attrs: style
             attrs: {
-              x: pos[0], // 居中
+              x: pos[0],
               y: pos[1],
               r: 2,
               fill: 'black',
@@ -75,7 +74,7 @@ G6.registerNode('circleLine', {
             name: 'circle-shape',
           });
           // 加上交互动画
-          littleCircle.on('mouseenter', function() {
+          littleCircle.on('mouseenter', function () {
             littleCircle.animate(
               {
                 r: 5,
@@ -86,7 +85,7 @@ G6.registerNode('circleLine', {
               },
             );
           });
-          littleCircle.on('mouseleave', function() {
+          littleCircle.on('mouseleave', function () {
             littleCircle.animate(
               {
                 r: 2,
@@ -97,16 +96,16 @@ G6.registerNode('circleLine', {
               },
             );
           });
-          // 设置class
-          littleCircle.set('className', 'littleCircle');
+          // set the name
+          littleCircle.set('name', 'littleCircle');
         }
       });
     });
 
-    // 添加一个和背景色相同的圆形
+    // add a circle with the same color with the background color
     group.addShape('circle', {
       attrs: {
-        x: 0, // 居中
+        x: 0,
         y: 0,
         r: baseR,
         fill: cfg.centerColor,
@@ -138,6 +137,8 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
+  // translate the graph to align the canvas's center, support by v3.5.1
+  fitCenter: true,
 });
 
 const data = {

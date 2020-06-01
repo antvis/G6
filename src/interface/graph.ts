@@ -107,6 +107,11 @@ export interface IGraph extends EventEmitter {
   fitView(padding?: Padding): void;
 
   /**
+   * 调整视口适应视图，不缩放，仅将图 bbox 中心对齐到画布中心
+   */
+  fitCenter(): void;
+
+  /**
    * 伸缩视口到一固定比例
    * @param {number} toRatio 伸缩比例
    * @param {Point} center 以center的x, y坐标为中心缩放

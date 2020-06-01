@@ -1,8 +1,7 @@
 import G6 from '@antv/g6';
 
 /**
- * 演示贝塞尔曲线的用法
- *
+ * The usage of cubic edge
  *  **/
 
 G6.registerNode(
@@ -82,6 +81,8 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
+  // translate the graph to align the canvas's center, support by v3.5.1
+  fitCenter: true,
   modes: {
     default: ['drag-canvas'],
   },

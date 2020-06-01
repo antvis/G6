@@ -22,6 +22,7 @@ Graph 的生命周期为：初始化—>加载数据—>渲染—>更新—>销�
 | height | Number | undefined | 指定画布高度，单位为 'px'。 |
 | fitView | Boolean | false | 是否开启画布自适应。开启后图自动适配画布大小。 |
 | fitViewPadding | Array | Number | `fitView` 为 `true` 时生效。图适应画布时，指定四周的留白。<br />- 可以是一个值, 例如：`fitViewPadding: 20`<br />- 也可以是一个数组，例如：`fitViewPadding: [ 20, 40, 50, 20 ]`<br />当指定一个值时，四边的边距都相等，当指定数组时，数组内数值依次对应 上，右，下，左四边的边距。 |
+| fitCenter | Boolean | false | 开启后，图将会被平移，图的中心将对齐到画布中心，但不缩放。优先级低于 fitView |
 | groupByTypes | Boolean | true | 各种元素是否在一个分组内，决定节点和边的层级问题，默认情况下所有的节点在一个分组中，所有的边在一个分组中，当这个参数为 false 时，节点和边的层级根据生成的顺序确定。当使用 Combo 时，**必须**将其设置为 `false` |
 | autoPaint | Boolean | true | 当图中元素更新，或视口变换时，是否自动重绘。建议在批量操作节点时关闭，以提高性能，完成批量操作后再打开，参见后面的 setAutoPaint() 方法。 |
 | modes | Object |  | 设置画布的模式。详情可见  [交互模式 Mode](/zh/docs/manual/middle/states/mode)  文档。 |
@@ -1299,6 +1300,18 @@ graph.fitView([20, 10]);
 // padding 设置为数组，四个方向值都指定
 graph.fitView([20, 10, 20, 15]);
 ```
+
+### fitCenter()
+
+平移图到中心将对齐到画布中心，但不缩放。优先级低于 fitView
+
+**用法**
+
+```javascript
+// 在渲染和动画完成后调用
+graph.fitCenter();
+```
+
 
 ## 查找
 

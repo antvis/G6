@@ -36,14 +36,14 @@ const data = {
   nodes: [
     {
       id: 'node1',
-      x: 100,
-      y: 200,
+      x: 10,
+      y: 100,
       label: 'Homepage',
     },
     {
       id: 'node2',
-      x: 300,
-      y: 200,
+      x: 200,
+      y: 100,
       label: 'Subpage',
     },
   ],
@@ -61,6 +61,8 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
+  // translate the graph to align the canvas's center, support by v3.5.1
+  fitCenter: true,
   renderer: 'svg',
   linkCenter: true,
   defaultNode: {

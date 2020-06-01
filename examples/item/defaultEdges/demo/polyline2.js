@@ -1,7 +1,7 @@
 import G6 from '@antv/g6';
 
 /**
- * 该案例演示如何使用内置折线 polyline。
+ * Built-in polyline edge with configurations
  * by 十吾
  */
 
@@ -19,7 +19,6 @@ const data = {
     },
   ],
   edges: [
-    // 配置内置折线的弯折弧度、端点最小距离
     {
       source: '2',
       target: '3',
@@ -33,6 +32,8 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
+  // translate the graph to align the canvas's center, support by v3.5.1
+  fitCenter: true,
   defaultNode: {
     style: {
       fill: '#DEE9FF',
@@ -41,6 +42,7 @@ const graph = new G6.Graph({
   },
   defaultEdge: {
     type: 'polyline',
+    // configure the bending radius and min distance to the end nodes
     style: {
       radius: 10,
       offset: 30,
@@ -49,7 +51,7 @@ const graph = new G6.Graph({
     },
   },
   modes: {
-    // 支持的 behavior
+    // behavior
     default: ['drag-node'],
   },
 });

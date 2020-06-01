@@ -17,16 +17,18 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
+  // translate the graph to align the canvas's center, support by v3.5.1
+  fitCenter: true,
   defaultNode: {
     type: 'image',
     size: [260, 80],
     clipCfg: {
       show: false,
-      // 裁剪类型可以为：circle、ellipse、rect、path等
+      // Clip type options: circle, ellipse, rect, path
       type: 'circle',
       // circle
       r: 30,
-      // clip 的属性样式
+      // clip style
       style: {
         lineWidth: 1,
       },

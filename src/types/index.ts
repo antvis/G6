@@ -165,6 +165,8 @@ export interface GraphOptions {
 
   fitView?: boolean;
 
+  fitCenter?: boolean;
+
   layout?: LayoutConfig;
 
   /**
