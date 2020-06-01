@@ -131,17 +131,17 @@ const ShapeFramework = {
   /**
    * 绘制
    */
-  drawShape(/* cfg, group */) {},
+  drawShape(/* cfg, group */) { },
   /**
    * 绘制完成后的操作，便于用户继承现有的节点、边
    */
-  afterDraw(/* cfg, group */) {},
+  afterDraw(/* cfg, group */) { },
   // update(cfg, item) // 默认不定义
-  afterUpdate(/* cfg, item */) {},
+  afterUpdate(/* cfg, item */) { },
   /**
    * 设置节点、边状态
    */
-  setState(/* name, value, item */) {},
+  setState(/* name, value, item */) { },
   /**
    * 获取控制点
    * @param  {Object} cfg 节点、边的配置项

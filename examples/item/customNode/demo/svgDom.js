@@ -1,13 +1,13 @@
 import G6 from '@antv/g6';
 
 /**
- *  该案例演示如何使用 G6 自定义 DOM 节点
+ *  This demo shows how to register a custom node with SVG DOM shape
  *  by 十吾
  *
  */
 
 /**
- * 注册一个带有 DOM 的节点
+ * Register a node type with DOM
  */
 G6.registerNode('dom-node', {
   draw: (cfg, group) => {
