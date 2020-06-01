@@ -3,7 +3,9 @@
 #### 3.5.1
 - fix: getType is not a function error occurs when addItem with point;
 - fix: checking comboTrees avaiability;
-- fix: error occurs when createCombo into the graph without any combos.
+- fix: error occurs when createCombo into the graph without any combos;
+- fix: endPoint and startPoint are missing in modelConfig type;
+- fix: edge background leads to empty canvas when the autoRotate is false.
 
 #### 3.5.0
 - feat: combo and combo layout;
