@@ -6,7 +6,8 @@
 - fix: checking comboTrees avaiability;
 - fix: error occurs when createCombo into the graph without any combos;
 - fix: endPoint and startPoint are missing in modelConfig type;
-- fix: edge background leads to empty canvas when the autoRotate is false.
+- fix: edge background leads to empty canvas when the autoRotate is false;
+- fix: combo state style bug.
 
 #### 3.5.0
 - feat: combo and combo layout;
