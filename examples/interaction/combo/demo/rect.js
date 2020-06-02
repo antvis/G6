@@ -46,6 +46,12 @@ const graph = new G6.Graph({
       position: 'top',
     }
   },
+  comboStateStyles: {
+    dragenter: {
+      lineWidth: 4,
+      stroke: '#FE9797'
+    }
+  },
   modes: {
     default: ['drag-canvas', 'drag-node', 'drag-combo', 'collapse-expand-combo'],
   },
@@ -53,3 +59,22 @@ const graph = new G6.Graph({
 
 graph.data(data);
 graph.render();
+
+
+graph.on('combo:dragend', e => {
+  graph.getCombos().forEach(combo => {
+    graph.setItemState(combo, 'dragenter', false);
+  })
+});
+graph.on('node:dragend', e => {
+  graph.getCombos().forEach(combo => {
+    graph.setItemState(combo, 'dragenter', false);
+  })
+});
+
+graph.on('combo:dragenter', e => {
+  graph.setItemState(e.item, 'dragenter', true);
+});
+graph.on('combo:dragleave', e => {
+  graph.setItemState(e.item, 'dragenter', false);
+});

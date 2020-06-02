@@ -115,6 +115,12 @@ const graph = new G6.Graph({
     type: 'cRect',
     // ... Other global configurations for combos
   },
+  comboStateStyles: {
+    dragenter: {
+      lineWidth: 4,
+      stroke: '#FE9797'
+    }
+  },
   modes: {
     default: [
       'drag-combo',
@@ -134,4 +140,22 @@ graph.on('combo:click', e => {
     if (graph.get('layout')) graph.layout();
     else graph.refreshPositions();
   }
+});
+
+graph.on('combo:dragend', e => {
+  graph.getCombos().forEach(combo => {
+    graph.setItemState(combo, 'dragenter', false);
+  })
+});
+graph.on('node:dragend', e => {
+  graph.getCombos().forEach(combo => {
+    graph.setItemState(combo, 'dragenter', false);
+  })
+});
+
+graph.on('combo:dragenter', e => {
+  graph.setItemState(e.item, 'dragenter', true);
+});
+graph.on('combo:dragleave', e => {
+  graph.setItemState(e.item, 'dragenter', false);
 });
