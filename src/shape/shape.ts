@@ -8,6 +8,7 @@ import { IShape } from '@antv/g-canvas/lib/interfaces';
 import { upperFirst } from '@antv/util';
 import { ShapeOptions } from '../interface/shape';
 import { IPoint, Item, ModelConfig, NodeConfig, EdgeConfig } from '../types';
+import { createNodeFromXML } from './xml';
 
 const cache: {
   [key: string]: string;
@@ -228,6 +229,25 @@ export default class Shape {
     const shapeObj = { ...extendShape, ...comboDefinition };
     shapeObj.type = shapeType;
     shapeObj.itemType = 'combo';
+    shapeFactory[shapeType] = shapeObj;
+    return shapeObj;
+  }
+
+  public static registerNodeByXML(
+    shapeType: string,
+    xml: (cfg: NodeConfig) => string | string,
+    extendDefinition: ShapeOptions = {}
+  ) {
+    const shapeFactory = Shape.Node;
+    const autoNodeDefinition = createNodeFromXML(xml);
+    const nodeDefinition = {
+      ...extendDefinition,
+      ...autoNodeDefinition,
+    }
+
+    const shapeObj = Object.assign({}, ShapeFramework, nodeDefinition);
+    shapeObj.type = shapeType;
+    shapeObj.itemType = 'node';
     shapeFactory[shapeType] = shapeObj;
     return shapeObj;
   }
