@@ -6,7 +6,7 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
 import { upperFirst } from '@antv/util';
-import { ShapeOptions } from '../interface/shape';
+import { ShapeOptions, ShapeDefine } from '../interface/shape';
 import { IPoint, Item, ModelConfig, NodeConfig, EdgeConfig } from '../types';
 import { createNodeFromXML } from './xml';
 
@@ -191,13 +191,20 @@ export default class Shape {
 
   public static registerNode(
     shapeType: string,
-    nodeDefinition: ShapeOptions,
+    nodeDefinition: ShapeOptions | ShapeDefine,
     extendShapeType?: string,
   ) {
     const shapeFactory = Shape.Node;
-    const extendShape = extendShapeType ? shapeFactory.getShape(extendShapeType) : ShapeFramework;
+    let shapeObj;
 
-    const shapeObj = Object.assign({}, extendShape, nodeDefinition);
+    if (typeof nodeDefinition === 'string' || typeof nodeDefinition === 'function') {
+      const autoNodeDefinition = createNodeFromXML(nodeDefinition);
+      shapeObj = Object.assign({}, ShapeFramework, autoNodeDefinition);
+    } else {
+      const extendShape = extendShapeType ? shapeFactory.getShape(extendShapeType) : ShapeFramework;
+      shapeObj = Object.assign({}, extendShape, nodeDefinition);
+    }
+
     shapeObj.type = shapeType;
     shapeObj.itemType = 'node';
     shapeFactory[shapeType] = shapeObj;

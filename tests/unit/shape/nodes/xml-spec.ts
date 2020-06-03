@@ -15,7 +15,7 @@ const testXMLNode = cfg => `
 <group>
   <rect style="{
     width: 100, height: 20, fill: '#1890ff', stroke: '#1890ff', radius: [6, 6, 0, 0]
-  }" keyshape="true">
+  }" keyshape="true" class-name="rect">
     <text style="{ marginTop: 2, marginLeft: 50, textAlign: 'center', fontWeight: 'bold', fill: '#fff' }">${cfg.id}</text>
   </rect>
 <group>
@@ -36,7 +36,7 @@ describe('xml node test', () => {
 
   describe('registerTest', () => {
     it('register test', () => {
-      G6.registerNodeByXML('test', testXMLNode);
+      G6.registerNode('test', testXMLNode);
       const graph = new G6.Graph({
         container: div,
         width: 500,
@@ -64,6 +64,7 @@ describe('xml node test', () => {
       expect(group.getCount()).toEqual(2);
       const keyShape = node.getKeyShape();
       expect(keyShape.attr('fill')).toEqual('#1890ff');
+      expect(keyShape.get('className')).toBe('rect');
 
       graph.destroy();
       expect(graph.destroyed).toBe(true);
