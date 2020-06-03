@@ -202,15 +202,15 @@ describe('xml node test', () => {
           }
         }
       })
-  
+
       graph.data(data)
       graph.render()
       console.log(graph.getNodes())
-  
+
       graph.on('icon-circle:mouseenter', evt => {
         graph.setItemState(evt.item, 'hover', true)
       })
-  
+
       graph.on('icon-circle:mouseleave', evt => {
         graph.setItemState(evt.item, 'hover', false)
       })
