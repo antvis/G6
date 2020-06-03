@@ -1264,7 +1264,6 @@ export default class Graph extends EventEmitter implements IGraph {
     }
 
     const currentCombo = this.findById(comboId) as ICombo
-    console.log('currentCombo in create combo', currentCombo);
 
     const trees = elements.map(elementId => {
       const item = this.findById(elementId)
@@ -1287,19 +1286,15 @@ export default class Graph extends EventEmitter implements IGraph {
         ...model
       }
     })
-    console.log('trees in create combo', trees);
-
 
     // step3: 更新 comboTrees 结构
     const comboTrees = this.get('comboTrees')
-    console.log('comboTrees in create combo', comboTrees);
     comboTrees && comboTrees.forEach(ctree => {
       if (ctree.id === comboId) {
         ctree.itemType = 'combo'
         ctree.children = trees
       }
     })
-    console.log('comboTrees in create combo', comboTrees);
 
     this.updateCombos()
   }
@@ -1920,7 +1915,7 @@ export default class Graph extends EventEmitter implements IGraph {
     const height = bbox.height;
     const width = bbox.width;
     const renderer = this.get('renderer');
-    const vContainerDOM = createDom('<div id="test"></div>');
+    const vContainerDOM: HTMLDivElement = createDom('<id="virtual-image"></div>');
 
     let backgroundColor = imageConfig ? imageConfig.backgroundColor : undefined;
     let padding = imageConfig ? imageConfig.padding : undefined;
@@ -1939,7 +1934,7 @@ export default class Graph extends EventEmitter implements IGraph {
     const group = this.get('group');
     const vGroup = group.clone();
 
-    let matrix = vGroup.getMatrix();
+    let matrix = clone(vGroup.getMatrix());
     if (!matrix) matrix = mat3.create();
     const centerX = (bbox.maxX + bbox.minX) / 2;
     const centerY = (bbox.maxY + bbox.minY) / 2;
