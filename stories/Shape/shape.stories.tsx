@@ -13,11 +13,13 @@ import CustomCardNode from './component/card-node';
 import ExtendNode from './component/extend-node';
 import LostStateStyle from './component/loseStateStyle';
 import HideInData from './component/hide-in-data';
-import IntervalChart from './component/interval-chart';
-import LineChart from './component/line-chart';
-import PointChart from './component/point-chart';
-import PieChart from './component/pie-chart';
-import MultiChart from './component/multi-chart';
+import IntervalChart from './component/interval-chart'
+import LineChart from './component/line-chart'
+import PointChart from './component/point-chart'
+import PieChart from './component/pie-chart'
+import MultiChart from './component/multi-chart'
+
+import XML from './component/xml'
 
 export default { title: 'Shape' };
 
@@ -47,4 +49,7 @@ storiesOf('Shape', module)
   .add('LineChart', () => <LineChart />)
   .add('PointChart', () => <PointChart />)
   .add('PieChart', () => <PieChart />)
-  .add('MultiChart', () => <MultiChart />);
+  .add('MultiChart', () => <MultiChart />)
+  .add('xml node', () => (
+    <XML />
+  ))
