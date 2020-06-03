@@ -1,5 +1,8 @@
 # ChangeLog
 
+#### 3.5.2
+- fix: downloadFullImage changes the matrix of the graph problem.
+
 #### 3.5.1
 - feat: graph.fitCenter to align the graph center to canvas center;
 - fix: getType is not a function error occurs when addItem with point;
