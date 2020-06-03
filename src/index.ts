@@ -34,7 +34,7 @@ export {
   Bundling,
   Menu,
   registerBehavior,
-  Algorithm,
+  Algorithm
 };
 
 export default {
