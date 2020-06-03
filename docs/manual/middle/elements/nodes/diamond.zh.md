@@ -57,7 +57,7 @@ Diamond 节点支持 [节点通用配置](/zh/docs/manual/middle/elements/nodes/
 | label | 标签文本内容 | String |  |
 | labelCfg | 标签文本配置项 | Object |  |
 | stateStyles | 各状态下的样式 | Object | 详见[配置状态样式](/zh/docs/manual/middle/states/state#配置-state-样式) |
-| linkPoints | **视觉上的**四个锚点 | Object | 默认不显示，应与 [anchorPoints](/zh/docs/manual/middle/elements/nodes/defaultNode/#节点的通用属性) 配合使用。二者区别请看 [linkPoints](#linkpoints) |
+| linkPoints | **视觉上的**四个锚点 | Object | 默认不显示，应与 [anchorPoints](/zh/docs/manual/middle/elements/anchorpoint) 配合使用。二者区别请看 [linkPoints](#linkpoints) |
 | icon | 菱形上 icon 配置 | Object | 默认不显示 icon |
 
 ### 样式属性 style
@@ -121,7 +121,7 @@ const graph = new G6.Graph({
 
 Object 类型。通过配置 `linkPoints` ，可以指定菱形周围「上、下、左、右」四个小圆点。
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 区分于 `anchorPoints`： `anchorPoints` 是真正用于指定该节点相关边的连入位置的「**数组**」，见 [anchorPoints](/zh/docs/manual/middle/keyconcept/anchorpoint)；而 `linkPoints` 仅是指定是否「**绘制**」出四个圆点，不起实际的连接相关边的作用。二者常常配合使用。
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 区分于 `anchorPoints`： `anchorPoints` 是真正用于指定该节点相关边的连入位置的「**数组**」，见 [anchorPoints](/zh/docs/manual/middle/keyconcept/elements/anchorpoint)；而 `linkPoints` 仅是指定是否「**绘制**」出四个圆点，不起实际的连接相关边的作用。二者常常配合使用。
 
 | 名称      | 含义               | 类型    | 备注               |
 | --------- | ------------------ | ------- | ------------------ |
