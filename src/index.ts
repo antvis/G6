@@ -12,7 +12,6 @@ import * as Algorithm from './algorithm'
 const registerNode = Shape.registerNode;
 const registerEdge = Shape.registerEdge;
 const registerCombo = Shape.registerCombo;
-const registerNodeByXML = Shape.registerNodeByXML;
 const registerBehavior = Behaviors.registerBehavior;
 const registerLayout = Layout.registerLayout;
 const Minimap = Plugins.Minimap;
@@ -36,7 +35,6 @@ export {
   Menu,
   registerBehavior,
   Algorithm,
-  registerNodeByXML
 };
 
 export default {
@@ -49,7 +47,6 @@ export default {
   registerCombo: Shape.registerCombo,
   registerBehavior: Behaviors.registerBehavior,
   registerLayout: Layout.registerLayout,
-  registerNodeByXML: Shape.registerNodeByXML,
   Layout,
   Global,
   Minimap: Plugins.Minimap,

@@ -11,6 +11,8 @@ export type ILabelConfig = Partial<{
   style: LabelStyle;
 }>;
 
+export type ShapeDefine = string | ((cfg: ModelConfig) => string);
+
 export type ShapeOptions = Partial<{
   options: ModelConfig;
   /**
