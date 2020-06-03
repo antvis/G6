@@ -40,11 +40,7 @@ export {
   Menu,
   Fisheye,
   registerBehavior,
-  Algorithm,
-  ToolBar,
-  Tooltip,
-  TimeBar,
-  ImageMinimap,
+  Algorithm
 };
 
 export default {
