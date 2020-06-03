@@ -19,6 +19,7 @@ import PointChart from './component/point-chart'
 import PieChart from './component/pie-chart'
 import MultiChart from './component/multi-chart'
 
+import XML from './component/xml'
 
 export default { title: 'Shape' };
 
@@ -59,3 +60,6 @@ storiesOf('Shape', module)
   .add('PointChart', () => <PointChart />)
   .add('PieChart', () => <PieChart />)
   .add('MultiChart', () => <MultiChart />)
+  .add('xml node', () => (
+    <XML />
+  ))
