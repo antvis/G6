@@ -239,6 +239,25 @@ export default class Shape {
     shapeFactory[shapeType] = shapeObj;
     return shapeObj;
   }
+
+  public static registerNodeByXML(
+    shapeType: string,
+    xml: (cfg: NodeConfig) => string | string,
+    extendDefinition: ShapeOptions = {}
+  ) {
+    const shapeFactory = Shape.Node;
+    const autoNodeDefinition = createNodeFromXML(xml);
+    const nodeDefinition = {
+      ...extendDefinition,
+      ...autoNodeDefinition,
+    }
+
+    const shapeObj = Object.assign({}, ShapeFramework, nodeDefinition);
+    shapeObj.type = shapeType;
+    shapeObj.itemType = 'node';
+    shapeFactory[shapeType] = shapeObj;
+    return shapeObj;
+  }
 }
 
 
