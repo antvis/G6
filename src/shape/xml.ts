@@ -17,6 +17,8 @@ interface NodeInstructure {
   }
 }
 
+const keyConvert = str => str.split('-').reduce((a, b) => a + b.charAt(0).toUpperCase() + b.slice(1));
+
 /**
  * 解析XML，并转化为相应的JSON结构
  * @param xml xml解析后的节点
@@ -34,28 +36,28 @@ export function parseXML(xml: HTMLElement) {
 
   rst.type = tagName;
 
-  Array.from(keys).forEach(key => {
-    const val = xml.getAttribute(key);
+  Array.from(keys).forEach(k => {
+    const key = keyConvert(k)
+    const val = xml.getAttribute(k);
     try {
-      if (key === 'style') {
+      if (key === 'style' || key === 'attrs') {
         const style = JSON5.parse(val);
         attrs = {
           ...attrs,
           ...style,
         };
       } else {
-        attrs[key] = JSON5.parse(val);
+        rst[key] = JSON5.parse(val);
       }
     } catch (e) {
       if (key === 'style') {
         throw e;
       }
-      attrs[key] = val;
+      rst[key] = val;
     }
   });
 
   rst.attrs = attrs;
-
 
   if (children.length) {
     rst.children = children
@@ -269,12 +271,18 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
       const target = compileXML(cfg);
       let keyshape = group;
       const renderTarget = (target) => {
-        const { attrs = {} } = target;
+        const { attrs = {}, bbox, type, children, ...rest } = target;
         if (target.type !== 'group') {
           const shape = group.addShape(target.type, {
             attrs,
+            origin: {
+              bbox,
+              type,
+              children
+            },
+            ...rest
           });
-          if (attrs.keyshape) {
+          if (target.keyshape) {
             keyshape = shape;
           }
         }
