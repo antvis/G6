@@ -6,11 +6,12 @@
 import { EdgeConfig, IPointTuple, NodeConfig, NodeIdxMap } from '../types';
 import { BaseLayout } from './layout';
 import { getDegree } from '../util/math';
+import { clone } from '@antv/util';
 
 type Node = NodeConfig & {
   degree: number;
-  children: Node[];
-  parent: Node[];
+  children: string[];
+  parent: string[];
 };
 type Edge = EdgeConfig;
 
@@ -29,8 +30,8 @@ function initHierarchy(nodes: Node[], edges: Edge[], nodeMap: NodeIdxMap, direct
       if (e.target) {
         targetIdx = nodeMap[e.target];
       }
-      nodes[sourceIdx].children.push(nodes[targetIdx]);
-      nodes[targetIdx].parent.push(nodes[sourceIdx]);
+      nodes[sourceIdx].children.push(nodes[targetIdx].id);
+      nodes[targetIdx].parent.push(nodes[sourceIdx].id);
     });
   } else {
     edges.forEach(e => {
@@ -42,8 +43,8 @@ function initHierarchy(nodes: Node[], edges: Edge[], nodeMap: NodeIdxMap, direct
       if (e.target) {
         targetIdx = nodeMap[e.target];
       }
-      nodes[sourceIdx].children.push(nodes[targetIdx]);
-      nodes[targetIdx].children.push(nodes[sourceIdx]);
+      nodes[sourceIdx].children.push(nodes[targetIdx].id);
+      nodes[targetIdx].children.push(nodes[sourceIdx].id);
     });
   }
 }
@@ -216,29 +217,33 @@ export default class CircularLayout extends BaseLayout {
     const degrees = self.degrees;
     const edges = self.edges;
     const nodes = self.nodes;
+    const cnodes = clone(nodes);
     const nodeMap = self.nodeMap;
-    const orderedNodes = [nodes[0]];
+    const orderedCNodes = [cnodes[0]];
+    const resNodes = [nodes[0]];
     const pickFlags: boolean[] = [];
     const n = nodes.length;
     pickFlags[0] = true;
-    initHierarchy(nodes, edges, nodeMap, directed);
+    initHierarchy(cnodes, edges, nodeMap, directed);
     let k = 0;
-    nodes.forEach((node, i) => {
+    cnodes.forEach((cnode, i) => {
       if (i !== 0) {
         if (
-          (i === n - 1 || degrees[i] !== degrees[i + 1] || connect(orderedNodes[k], node, edges)) &&
+          (i === n - 1 || degrees[i] !== degrees[i + 1] || connect(orderedCNodes[k], cnode, edges)) &&
           pickFlags[i] !== true
         ) {
-          orderedNodes.push(node);
+          orderedCNodes.push(cnode);
+          resNodes.push(nodes[nodeMap[cnode.id]]);
           pickFlags[i] = true;
           k++;
         } else {
-          const children = orderedNodes[k].children;
+          const children = orderedCNodes[k].children;
           let foundChild = false;
           for (let j = 0; j < children.length; j++) {
-            const childIdx = nodeMap[children[j].id];
+            const childIdx = nodeMap[children[j]];
             if (degrees[childIdx] === degrees[i] && pickFlags[childIdx] !== true) {
-              orderedNodes.push(nodes[childIdx]);
+              orderedCNodes.push(cnodes[childIdx]);
+              resNodes.push(nodes[nodeMap[cnodes[childIdx].id]]);
               pickFlags[childIdx] = true;
               foundChild = true;
               break;
@@ -247,7 +252,8 @@ export default class CircularLayout extends BaseLayout {
           let ii = 0;
           while (!foundChild) {
             if (!pickFlags[ii]) {
-              orderedNodes.push(nodes[ii]);
+              orderedCNodes.push(cnodes[ii]);
+              resNodes.push(nodes[nodeMap[cnodes[ii].id]]);
               pickFlags[ii] = true;
               foundChild = true;
             }
@@ -259,7 +265,7 @@ export default class CircularLayout extends BaseLayout {
         }
       }
     });
-    return orderedNodes;
+    return resNodes;
   }
   /**
    * 根据节点度数大小排序
