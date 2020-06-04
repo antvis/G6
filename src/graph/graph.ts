@@ -45,6 +45,7 @@ import createDom from '@antv/dom-util/lib/create-dom';
 import { plainCombosToTrees, traverseTree, reconstructTree, traverseTreeUp } from '../util/graphic';
 import degree from '../algorithm/degree';
 import Stack from '../algorithm/structs/stack'
+import degree from '../algorithm/degree';
 
 const NODE = 'node';
 const SVG = 'svg';
