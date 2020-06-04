@@ -49,6 +49,7 @@ import {
 import PluginBase from '../plugins/base';
 import createDom from '@antv/dom-util/lib/create-dom';
 import { plainCombosToTrees, traverseTree, reconstructTree, traverseTreeUp } from '../util/graphic';
+import degree from '../algorithm/degree';
 
 const NODE = 'node';
 const SVG = 'svg';
@@ -2570,6 +2571,44 @@ export default class Graph extends EventEmitter implements IGraph {
       item = this.findById(node) as INode
     }
     return item.getTargetNeighbors()
+  }
+
+
+  /**
+   * 获取 node 的度数
+   *
+   * @param {(string | INode)} node 节点 ID 或实例
+   * @param {('in' | 'out' | 'total' | 'all' | undefined)} 度数类型，in 入度，out 出度，total 总度数，all 返回三种类型度数的对象
+   * @returns {Number | Object} 该节点的度数
+   * @memberof IGraph
+   */
+  public getNodeDegree(node: string | INode, type: 'in' | 'out' | 'total' | 'all' | undefined = undefined): Number | Object {
+    let item = node as INode
+    if (isString(node)) {
+      item = this.findById(node) as INode
+    }
+    let degrees = this.get('degrees');
+    if (!degrees) {
+      degrees = degree(this);
+    }
+    this.set('degees', degrees);
+    const nodeDegrees = degrees[item.getID()];
+    let res;
+    switch (type) {
+      case 'in':
+        res = nodeDegrees.inDegree;
+        break;
+      case 'out':
+        res = nodeDegrees.outDegree;
+        break;
+      case 'all':
+        res = nodeDegrees;
+        break;
+      default:
+        res = nodeDegrees.degree;
+        break;
+    }
+    return res;
   }
 
   /**

@@ -1,7 +1,10 @@
 # ChangeLog
 
 #### 3.5.2
-- fix: downloadFullImage changes the matrix of the graph problem.
+- feat: degree algorithm;
+- feat: graph.getNodeDegree;
+- fix: downloadFullImage changes the matrix of the graph problem;
+- fix: circular layout modifies the origin data with infinite hierarchy problem.
 
 #### 3.5.1
 - feat: graph.fitCenter to align the graph center to canvas center;
