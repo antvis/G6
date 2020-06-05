@@ -1275,7 +1275,7 @@ export default class Graph extends EventEmitter implements IGraph {
    */
   public changeData(data?: GraphData | TreeGraphData, stack: boolean = true): Graph {
     if (stack) {
-      this.pushStack()
+      this.pushStack('update', data)
     }
     const self = this;
     if (!data) {
