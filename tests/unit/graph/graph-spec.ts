@@ -1563,7 +1563,7 @@ describe('node Neighbors', () => {
   })
 })
 
-describe.only('redo stack & undo stack', () => {
+describe('redo stack & undo stack', () => {
   it('default stack is undefined', () => {
     const graph = new Graph({
       container: 'global-spec',
