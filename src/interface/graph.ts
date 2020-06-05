@@ -70,14 +70,16 @@ export interface IGraph extends EventEmitter {
   /**
    * 显示元素
    * @param {Item} item 指定元素
+   * @param {boolean} stack 本次操作是否入栈，默认为 true
    */
-  showItem(item: Item | string): void;
+  showItem(item: Item | string, stack?: boolean): void;
 
   /**
    * 隐藏元素
    * @param {Item} item 指定元素
+   * @param {boolean} stack 本次操作是否入栈，默认为 true
    */
-  hideItem(item: Item | string): void;
+  hideItem(item: Item | string, stack?: boolean): void;
 
   /**
    * 仅画布重新绘制
@@ -124,33 +126,37 @@ export interface IGraph extends EventEmitter {
   /**
    * 删除元素
    * @param {Item} item 元素id或元素实例
+   * @param {boolean} stack 本次操作是否入栈，默认为 true
    */
-  removeItem(item: Item | string): void;
+  removeItem(item: Item | string, stack?: boolean): void;
 
   /**
    * 删除元素
    * @param {Item} item 元素id或元素实例
+   * @param {boolean} stack 本次操作是否入栈，默认为 true
    */
-  remove(item: Item | string): void;
+  remove(item: Item | string, stack?: boolean): void;
 
   /**
    * 新增元素 或 节点分组
    * @param {string} type 元素类型(node | edge | group)
    * @param {ModelConfig} model 元素数据模型
+   * @param {boolean} stack 本次操作是否入栈，默认为 true
    * @return {Item} 元素实例
    */
-  addItem(type: ITEM_TYPE, model: ModelConfig): Item;
+  addItem(type: ITEM_TYPE, model: ModelConfig, stack?: boolean): Item;
 
-  add(type: ITEM_TYPE, model: ModelConfig): Item;
+  add(type: ITEM_TYPE, model: ModelConfig, stack?: boolean): Item;
 
   /**
    * 更新元素
    * @param {Item} item 元素id或元素实例
    * @param {EdgeConfig | NodeConfig} cfg 需要更新的数据
+   * @param {boolean} stack 本次操作是否入栈，默认为 true
    */
-  updateItem(item: Item | string, cfg: Partial<NodeConfig> | EdgeConfig): void;
+  updateItem(item: Item | string, cfg: Partial<NodeConfig> | EdgeConfig, stack?: boolean): void;
 
-  update(item: Item | string, cfg: Partial<NodeConfig> | EdgeConfig): void;
+  update(item: Item | string, cfg: Partial<NodeConfig> | EdgeConfig, stack?: boolean): void;
 
   /**
    * 更新 Combo 结构，例如移动子树等
@@ -471,6 +477,32 @@ export interface IGraph extends EventEmitter {
    * 根据节点的 bbox 更新所有 combos 的绘制，包括 combos 的位置和范围
    */
   updateCombos(): void;
+
+  /**
+   * 清空 undo stack & redo stack
+   */
+  clearStack(): void;
+
+  /**
+   * 将操作类型和操作数据入栈
+   * @param action 操作类型
+   * @param data 入栈的数据
+   */
+  pushStack(action?: string, data?: unknown): void;
+
+   /**
+   * undo 操作
+   * @param callback 用户自定义扩展方法
+   * @param isNotExtend 是否不基于 G6 默认提供的 undo 扩展，默认基于 G6 提供的 undo 操作扩展
+   */
+  undo(callback?: (type: string, data: unknown) => void, isNotExtend?: boolean): void;
+
+  /**
+   * redo 操作
+   * @param callback 用户自定义扩展方法
+   * @param isNotExtend 是否不基于 G6 默认提供的 redo 扩展，默认基于 G6 提供的 redo 操作扩展
+   */
+  redo(callback?: (type: string, data: unknown) => void, isNotExtend?: boolean): void;
 
   /**
    * 销毁画布
