@@ -785,7 +785,7 @@ graph.hideItem('nodeId');
 ### setItemState(item, state, value)
 
 设置元素状态。
-支持单个状态多值的情况，详情参考 [G6 状态管理最佳实践](https://g6.antv.vision/zh/docs/manual/middle/states/state-new)。
+支持单个状态多值的情况，详情参考 [G6 状态管理最佳实践](/zh/docs/manual/middle/states/state-new)。
 
 该方法在执行过程中会触发 `beforitemstatechange`，`afteritemstatechange` 事件。
 
@@ -800,9 +800,12 @@ graph.hideItem('nodeId');
 **用法**
 
 ```javascript
+// 布尔状态 'selected'
 graph.setItemState('node1', 'selected', true);
 
+// 多值状态 'body'
 graph.setItemState('node1', 'body', 'health');
+graph.setItemState('node2', 'body', 'ill');
 ```
 
 ### clearItemStates(item, states)
