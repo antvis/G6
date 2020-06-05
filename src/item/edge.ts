@@ -162,11 +162,13 @@ export default class Edge extends Item implements IEdge {
     const sourceItem = this.get(`source${ITEM_NAME_SUFFIX}`);
     const targetItem = this.get(`target${ITEM_NAME_SUFFIX}`);
     if (sourceItem) {
+      out.source = sourceItem.getID()
       delete out[`source${ITEM_NAME_SUFFIX}`];
     } else {
       out.source = this.get(`start${POINT_NAME_SUFFIX}`);
     }
     if (targetItem) {
+      out.target = targetItem.getID()
       delete out[`target${ITEM_NAME_SUFFIX}`];
     } else {
       out.target = this.get(`end${POINT_NAME_SUFFIX}`);

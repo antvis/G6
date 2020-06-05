@@ -374,7 +374,7 @@ export default class ItemController {
       // 若移除的是节点，需要将与之相连的边一同删除
       const edges = (item as INode).getEdges();
       for (let i = edges.length; i >= 0; i--) {
-        graph.removeItem(edges[i]);
+        graph.removeItem(edges[i], false);
       }
     }
     else if (type === COMBO) {
@@ -401,7 +401,7 @@ export default class ItemController {
       // 若移除的是 combo，需要将与之相连的边一同删除
       const edges = (item as ICombo).getEdges();
       for (let i = edges.length; i >= 0; i--) {
-        graph.removeItem(edges[i]);
+        graph.removeItem(edges[i], false);
       }
     }
 

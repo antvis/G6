@@ -1562,3 +1562,234 @@ describe('node Neighbors', () => {
     expect(neighbors[1].getID()).toEqual('C')
   })
 })
+
+describe('redo & undo', () => {
+  const graph = new Graph({
+    container: 'global-spec',
+    width: 500,
+    height: 500
+  })
+
+  const data = {
+    nodes: [
+      {
+        id: 'node1',
+        label: 'node1',
+        x: 100,
+        y: 100
+      },
+      {
+        id: 'node2',
+        label: 'node2',
+        x: 300,
+        y: 100
+      }
+    ]
+  }
+
+  graph.data(data)
+  graph.render()
+
+  it('fill undo stack', () => {
+
+    // redo 后，undo stack 有一条数据
+    let stackData = graph.getStackData()
+    let undoStack = stackData.undoStack
+    let redoStack = stackData.redoStack
+    expect(undoStack.length).toBe(1)
+    expect(undoStack[0].action).toEqual('render')
+    expect(undoStack[0].data.nodes.length).toEqual(2)
+    expect(redoStack.length).toBe(0)
+
+    // update 后，undo stack 中有 2 条数据，一条 render，一条 update
+    graph.update('node1', {
+      x: 120, 
+      y: 200
+    })
+
+    stackData = graph.getStackData()
+    undoStack = stackData.undoStack
+    expect(undoStack.length).toBe(2)
+
+    let firstStackData = undoStack[0]
+    expect(firstStackData.action).toEqual('update')
+    expect(firstStackData.data.nodes[0].id).toEqual('node1')
+    expect(firstStackData.data.nodes[0].x).toEqual(120)
+    expect(firstStackData.data.nodes[0].y).toEqual(200)
+
+    // 执行 update 后，undo stack 中有3条数据
+    graph.update('node2', {
+      x: 120, 
+      y: 350
+    })
+
+    stackData = graph.getStackData()
+    undoStack = stackData.undoStack
+    expect(undoStack.length).toBe(3)
+
+    firstStackData = undoStack[0]
+    expect(firstStackData.action).toEqual('update')
+    expect(firstStackData.data.nodes[1].id).toEqual('node2')
+    expect(firstStackData.data.nodes[1].x).toEqual(120)
+    expect(firstStackData.data.nodes[1].y).toEqual(350)
+
+    // addItem 后，undo 栈中有4条数据，1个render、2个update、1个add
+    graph.addItem('node', {
+      id: 'node3',
+      label: 'node3',
+      x: 150,
+      y: 150
+    })
+
+    stackData = graph.getStackData()
+    undoStack = stackData.undoStack
+    expect(undoStack.length).toBe(4)
+
+    firstStackData = undoStack[0]
+    expect(firstStackData.action).toEqual('add')
+    expect(firstStackData.data.id).toEqual('node3')
+    expect(firstStackData.data.x).toEqual(150)
+    expect(firstStackData.data.y).toEqual(150)
+
+    // hideItem 后，undo 栈中有5条数据，1个render、2个update、1个add、1个visible
+    graph.hideItem('node1')
+
+    stackData = graph.getStackData()
+    undoStack = stackData.undoStack
+    expect(undoStack.length).toBe(5)
+
+    firstStackData = undoStack[0]
+    expect(firstStackData.action).toEqual('visible')
+    expect(firstStackData.data).toEqual('node1')
+
+    // remove 后，undo 栈中有6条数据，1个render、2个update、1个add、1个visible、1个delete
+    graph.remove('node2')
+
+    stackData = graph.getStackData()
+    undoStack = stackData.undoStack
+    expect(undoStack.length).toBe(6)
+
+    firstStackData = undoStack[0]
+    expect(firstStackData.action).toEqual('delete')
+    expect(firstStackData.data.id).toEqual('node2')
+    expect(firstStackData.data.type).toEqual('node')
+  })
+
+  it('undo', () => {
+    // 第一次 undo 后，撤销 remove node2 操作
+    graph.undo()
+
+    let stackData = graph.getStackData()
+    let undoStack = stackData.undoStack
+    let redoStack = stackData.redoStack
+    expect(undoStack.length).toBe(5)
+    expect(redoStack.length).toBe(1)
+
+    let firstStackData = redoStack[0]
+    expect(firstStackData.action).toEqual('delete')
+    expect(firstStackData.data.id).toEqual('node2')
+    expect(firstStackData.data.type).toEqual('node')
+
+    // 此时 undo stack 中第一个元素应该是 visible node1 的数据
+    firstStackData = undoStack[0]
+    expect(firstStackData.action).toEqual('visible')
+    expect(firstStackData.data).toEqual('node1')
+
+    // 第二次 undo 后，撤销 hide node1 的操作
+    graph.undo()
+    stackData = graph.getStackData()
+    undoStack = stackData.undoStack
+    redoStack = stackData.redoStack
+    expect(undoStack.length).toBe(4)
+    expect(redoStack.length).toBe(2)
+
+    firstStackData = redoStack[0]
+    expect(firstStackData.action).toEqual('visible')
+    expect(firstStackData.data).toEqual('node1')
+  })
+
+  it('redo', () => {
+    let stackData = graph.getStackData()
+    let undoStack = stackData.undoStack
+    let redoStack = stackData.redoStack
+    expect(undoStack.length).toBe(4)
+    expect(redoStack.length).toBe(2)
+
+    let firstStackData = redoStack[0]
+    expect(firstStackData.action).toEqual('visible')
+    expect(firstStackData.data).toEqual('node1')
+
+    firstStackData = undoStack[0]
+    expect(firstStackData.action).toEqual('add')
+    expect(firstStackData.data.id).toEqual('node3')
+
+    // redo 后，undo stack 中数据增加一条，redostack 中减少一条
+    graph.redo()
+    stackData = graph.getStackData()
+    undoStack = stackData.undoStack
+    redoStack = stackData.redoStack
+    expect(undoStack.length).toBe(5)
+    expect(redoStack.length).toBe(1)
+
+    firstStackData = redoStack[0]
+    expect(firstStackData.action).toEqual('delete')
+    expect(firstStackData.data.id).toEqual('node2')
+
+    firstStackData = undoStack[0]
+    expect(firstStackData.action).toEqual('visible')
+    expect(firstStackData.data).toEqual('node1')
+
+    graph.redo()
+    stackData = graph.getStackData()
+    undoStack = stackData.undoStack
+    redoStack = stackData.redoStack
+    expect(undoStack.length).toBe(6)
+    expect(redoStack.length).toBe(0)
+    
+    firstStackData = undoStack[0]
+    expect(firstStackData.action).toEqual('delete')
+    expect(firstStackData.data.id).toEqual('node2')
+  })
+
+  it('clear stack', () => {
+    graph.undo()
+    let stackData = graph.getStackData()
+    let undoStack = stackData.undoStack
+    let redoStack = stackData.redoStack
+    expect(undoStack.length).toBe(5)
+    expect(redoStack.length).toBe(1)
+
+    graph.clearStack()
+    stackData = graph.getStackData()
+    undoStack = stackData.undoStack
+    redoStack = stackData.redoStack
+    expect(undoStack.length).toBe(0)
+    expect(redoStack.length).toBe(0)
+  })
+
+  it('add edge', () => {
+    const source = graph.addItem('node', {
+      id: 'source',
+      color: '#666',
+      x: 50,
+      y: 50,
+      style: { lineWidth: 2, fill: '#666' },
+    });
+    const target = graph.addItem('node', {
+      id: 'target',
+      color: '#666',
+      x: 300,
+      y: 300,
+      type: 'rect',
+      style: { lineWidth: 2, fill: '#666' },
+    });
+    graph.addItem('edge', {
+      source,
+      target,
+      label: 'test label',
+      labelCfg: { autoRotate: true },
+    });
+
+    graph.destroy()
+  })
+})

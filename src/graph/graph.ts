@@ -102,12 +102,22 @@ export default class Graph extends EventEmitter implements IGraph {
 
   public destroyed: boolean;
 
+  // undo 栈
+  protected undoStack: Stack
+
+  // redo 栈
+  protected redoStack: Stack
+
   constructor(cfg: GraphOptions) {
     super();
     this.cfg = deepMix(this.getDefaultCfg(), cfg);
     this.init();
     this.animating = false;
     this.destroyed = false;
+
+    // 实例化 undo 和 redo 栈
+    this.undoStack = new Stack(this.cfg.maxStep)
+    this.redoStack = new Stack(this.cfg.maxStep)
   }
 
   private init() {
@@ -398,6 +408,8 @@ export default class Graph extends EventEmitter implements IGraph {
        * group样式
        */
       groupStyle: {},
+
+      maxStep: 10
     };
   }
 
@@ -826,18 +838,32 @@ export default class Graph extends EventEmitter implements IGraph {
    * 显示元素
    * @param {Item} item 指定元素
    */
-  public showItem(item: Item | string): void {
+  public showItem(item: Item | string, stack: boolean = true): void {
     const itemController: ItemController = this.get('itemController');
     itemController.changeItemVisibility(item, true);
+    if (stack) {
+      if (isString(item)) {
+        this.pushStack('visible', item)
+      } else {
+        this.pushStack('visible', (item as Item).getID())
+      }
+    }
   }
 
   /**
    * 隐藏元素
    * @param {Item} item 指定元素
    */
-  public hideItem(item: Item | string): void {
+  public hideItem(item: Item | string, stack: boolean = true): void {
     const itemController: ItemController = this.get('itemController');
     itemController.changeItemVisibility(item, false);
+    if (stack) {
+      if (isString(item)) {
+        this.pushStack('visible', item)
+      } else {
+        this.pushStack('visible', (item as Item).getID())
+      }
+    }
   }
 
   /**
@@ -864,15 +890,15 @@ export default class Graph extends EventEmitter implements IGraph {
    * 删除元素
    * @param {Item} item 元素id或元素实例
    */
-  public remove(item: Item | string): void {
-    this.removeItem(item);
+  public remove(item: Item | string, stack: boolean = true): void {
+    this.removeItem(item, stack);
   }
 
   /**
    * 删除元素
    * @param {Item} item 元素id或元素实例
    */
-  public removeItem(item: Item | string): void {
+  public removeItem(item: Item | string, stack: boolean = true): void {
     // 如果item是字符串，且查询的节点实例不存在，则认为是删除group
     let nodeItem = item;
     if (isString(item)) nodeItem = this.findById(item);
@@ -884,6 +910,15 @@ export default class Graph extends EventEmitter implements IGraph {
     } else if (nodeItem) {
       let type = '';
       if ((nodeItem as Item).getType) type = (nodeItem as Item).getType();
+
+      // 将删除的元素入栈
+      if (stack) {
+        this.pushStack('delete', {
+          ...(nodeItem as Item).getModel(),
+          type
+        })
+      }
+
       const itemController: ItemController = this.get('itemController');
       itemController.removeItem(item);
       if (type === 'combo') {
@@ -899,7 +934,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {ModelConfig} model 元素数据模型
    * @return {Item} 元素实例
    */
-  public addItem(type: ITEM_TYPE, model: ModelConfig) {
+  public addItem(type: ITEM_TYPE, model: ModelConfig, stack: boolean = true) {
     const itemController: ItemController = this.get('itemController');
     if (type === 'group') {
       const { groupId, nodes, type: groupType, zIndex, title } = model;
@@ -1017,11 +1052,19 @@ export default class Graph extends EventEmitter implements IGraph {
       this.sortCombos();
     }
     this.autoPaint();
+
+    if (stack) {
+      this.pushStack('add', {
+        ...item.getModel(),
+        type
+      })
+    }
+
     return item;
   }
 
-  public add(type: ITEM_TYPE, model: ModelConfig): Item {
-    return this.addItem(type, model);
+  public add(type: ITEM_TYPE, model: ModelConfig, stack: boolean = true): Item {
+    return this.addItem(type, model, stack);
   }
 
   /**
@@ -1029,7 +1072,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {Item} item 元素id或元素实例
    * @param {Partial<NodeConfig> | EdgeConfig} cfg 需要更新的数据
    */
-  public updateItem(item: Item | string, cfg: Partial<NodeConfig> | EdgeConfig): void {
+  public updateItem(item: Item | string, cfg: Partial<NodeConfig> | EdgeConfig, stack: boolean = true): void {
     const itemController: ItemController = this.get('itemController');
     let currentItem
     if (isString(item)) {
@@ -1049,6 +1092,10 @@ export default class Graph extends EventEmitter implements IGraph {
     if (type === 'combo') {
       each(states, state => this.setItemState(currentItem, state, true))
     }
+
+    if (stack) {
+      this.pushStack()
+    }
   }
 
   /**
@@ -1056,8 +1103,8 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {Item} item 元素id或元素实例
    * @param {Partial<NodeConfig> | EdgeConfig} cfg 需要更新的数据
    */
-  public update(item: Item | string, cfg: Partial<NodeConfig> | EdgeConfig): void {
-    this.updateItem(item, cfg);
+  public update(item: Item | string, cfg: Partial<NodeConfig> | EdgeConfig, stack: boolean = true): void {
+    this.updateItem(item, cfg, stack);
   }
 
   /**
@@ -1098,6 +1145,9 @@ export default class Graph extends EventEmitter implements IGraph {
     const self = this;
     const data: GraphData = this.get('data');
 
+    // render 之前清空 redo 和 undo 栈
+    this.clearStack()
+
     if (!data) {
       throw new Error('data must be defined first');
     }
@@ -1109,7 +1159,7 @@ export default class Graph extends EventEmitter implements IGraph {
     this.emit('beforerender');
 
     each(nodes, (node: NodeConfig) => {
-      self.add('node', node);
+      self.add('node', node, false);
     });
 
 
@@ -1122,7 +1172,7 @@ export default class Graph extends EventEmitter implements IGraph {
     }
 
     each(edges, (edge: EdgeConfig) => {
-      self.add('edge', edge);
+      self.add('edge', edge, false);
     });
 
     // layout
@@ -1175,6 +1225,8 @@ export default class Graph extends EventEmitter implements IGraph {
         this.renderCustomGroup(data, groupType);
       }
     }
+
+    this.pushStack('render')
   }
 
   /**
@@ -1208,9 +1260,9 @@ export default class Graph extends EventEmitter implements IGraph {
           });
         }
 
-        self.updateItem(item, model);
+        self.updateItem(item, model, false);
       } else {
-        item = self.addItem(type, model);
+        item = self.addItem(type, model, false);
       }
       (items as { [key: string]: any[] })[`${type}s`].push(item);
     });
@@ -1221,9 +1273,11 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {object} data 源数据
    * @return {object} this
    */
-  public changeData(data?: GraphData | TreeGraphData): Graph {
+  public changeData(data?: GraphData | TreeGraphData, stack: boolean = true): Graph {
+    if (stack) {
+      this.pushStack()
+    }
     const self = this;
-
     if (!data) {
       return this;
     }
@@ -1267,7 +1321,7 @@ export default class Graph extends EventEmitter implements IGraph {
         item.destroy();
       } else if ((items.nodes.indexOf(item) < 0 && items.edges.indexOf(item) < 0)) {
         delete itemMap[id];
-        self.remove(item);
+        self.remove(item, false);
       }
     });
 
@@ -1330,14 +1384,14 @@ export default class Graph extends EventEmitter implements IGraph {
       comboId = combo
       this.addItem('combo', {
         id: combo
-      })
+      }, false)
     } else {
       comboId = combo.id
       if (!comboId) {
         console.warn('Create combo failed. Please assign a unique string id for the adding combo.');
         return;
       }
-      this.addItem('combo', combo)
+      this.addItem('combo', combo, false)
     }
 
     const currentCombo = this.findById(comboId) as ICombo
@@ -1411,7 +1465,7 @@ export default class Graph extends EventEmitter implements IGraph {
           // delete the related edges
           const edges = comboItem.getEdges();
           edges.forEach(edge => {
-            this.removeItem(edge);
+            this.removeItem(edge, false);
           });
           const index = comboItems.indexOf(combo);
           comboItems.splice(index, 1);
@@ -2347,7 +2401,7 @@ export default class Graph extends EventEmitter implements IGraph {
         || (source.getModel().id === comboModel.id)) {
         const edgeModel = edge.getModel();
         if (edgeModel.isVEdge) {
-          this.removeItem(edge);
+          this.removeItem(edge, false);
           return;
         }
 
@@ -2369,7 +2423,7 @@ export default class Graph extends EventEmitter implements IGraph {
           source: comboModel.id,
           target: targetId,
           isVEdge: true,
-        });
+        }, false);
         edgeWeightMap[`${comboModel.id}-${targetId}`] = edgeModel.size || 1;
         addedVEdges.push(vedge);
       } else if (((!cnodes.includes(source) && !ccombos.includes(source))
@@ -2377,7 +2431,7 @@ export default class Graph extends EventEmitter implements IGraph {
         || (target.getModel().id === comboModel.id)) {
         const edgeModel = edge.getModel();
         if (edgeModel.isVEdge) {
-          this.removeItem(edge);
+          this.removeItem(edge, false);
           return;
         }
         let sourceModel = source.getModel();
@@ -2396,7 +2450,7 @@ export default class Graph extends EventEmitter implements IGraph {
           target: comboModel.id,
           source: sourceId,
           isVEdge: true
-        });
+        }, false);
         edgeWeightMap[`${sourceId}-${comboModel.id}`] = edgeModel.size || 1;
         addedVEdges.push(vedge);
       }
@@ -2408,7 +2462,7 @@ export default class Graph extends EventEmitter implements IGraph {
       const vedgeModel = vedge.getModel();
       this.updateItem(vedge, {
         size: edgeWeightMap[`${vedgeModel.source}-${vedgeModel.target}`]
-      })
+      }, false)
     });
 
     const itemController: ItemController = this.get('itemController');
@@ -2485,7 +2539,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
         // ignore the virtual edges
         if (edge.getModel().isVEdge) {
-          this.removeItem(edge);
+          this.removeItem(edge, false);
           return;
         }
 
@@ -2523,14 +2577,14 @@ export default class Graph extends EventEmitter implements IGraph {
             edgeWeightMap[vedgeId] += (edge.getModel().size || 1);
             this.updateItem(addedVEdges[vedgeId], {
               size: edgeWeightMap[vedgeId]
-            })
+            }, false)
             return;
           }
           const vedge = this.addItem('vedge', {
             source: sourceId,
             target: targetId,
             isVEdge: true
-          });
+          }, false);
 
           edgeWeightMap[vedgeId] = edge.getModel().size || 1;
           addedVEdges[vedgeId] = vedge;
@@ -2542,7 +2596,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
         // ignore the virtual edges
         if (edge.getModel().isVEdge) {
-          this.removeItem(edge);
+          this.removeItem(edge, false);
           return;
         }
 
@@ -2580,14 +2634,14 @@ export default class Graph extends EventEmitter implements IGraph {
             edgeWeightMap[vedgeId] += (edge.getModel().size || 1);
             this.updateItem(addedVEdges[vedgeId], {
               size: edgeWeightMap[vedgeId]
-            })
+            }, false)
             return;
           }
           const vedge = this.addItem('vedge', {
             target: targetId,
             source: sourceId,
             isVEdge: true
-          });
+          }, false);
           edgeWeightMap[vedgeId] = edge.getModel().size || 1;
           addedVEdges[vedgeId] = vedge;
         }
@@ -2791,6 +2845,135 @@ export default class Graph extends EventEmitter implements IGraph {
   }
 
   /**
+   * 获取 undo 和 redo 栈的数据
+   */
+  public getStackData() {
+    return {
+      undoStack: this.undoStack.toArray(),
+      redoStack: this.redoStack.toArray()
+    }
+  }
+
+  /**
+   * 清空 undo stack & redo stack
+   */
+  public clearStack() {
+    this.undoStack.clear()
+    this.redoStack.clear()
+  }
+
+  /**
+   * 将操作类型和操作数据入栈
+   * @param action 操作类型
+   * @param data 入栈的数据
+   */
+  public pushStack(action: string = 'update', data?: unknown) {
+    const stackData = data ? clone(data) : clone(this.save())
+    this.undoStack.push({
+      action,
+      data: stackData
+    })
+  }
+
+  /**
+   * undo 操作
+   * @param callback 用户自定义扩展方法
+   * @param isNotExtend 是否不基于 G6 默认提供的 undo 扩展，默认基于 G6 提供的 undo 操作扩展
+   */
+  public undo(callback?: (type: string, data: unknown) => void, isNotExtend: boolean = false) {
+    if (!this.undoStack || this.undoStack.length === 0) {
+      return
+    }
+
+    const currentData = this.undoStack.pop()
+    if (currentData) {
+      const { action, data } = currentData
+      this.redoStack.push(clone({ action, data }))
+
+      if (isNotExtend) {
+        callback && callback(action, data)
+        return
+      }
+
+      switch (action) {
+        case 'visible':
+          let item = data
+          if (isString(data)) {
+            item = this.findById(data)
+          }
+          item.get('visible') ? this.hideItem(item, false) : this.showItem(item, false)
+          break;
+        case 'render':
+        case 'update':
+          this.changeData(data, false)
+          break;
+        case 'delete':
+          const { type, ...model } = data
+          this.addItem(type, model, false)
+          break;
+        case 'add':
+          this.removeItem(data.id, false)
+          break;
+        default:
+          callback && callback(action, data)
+          break;
+      }
+    }
+  }
+
+  /**
+   * redo 操作
+   * @param callback 用户自定义扩展方法
+   * @param isNotExtend 是否不基于 G6 默认提供的 redo 扩展，默认基于 G6 提供的 redo 操作扩展
+   */
+  public redo(callback?: (type: string, data: unknown) => void, isNotExtend: boolean = false) {
+    if (!this.redoStack || this.redoStack.length === 0) {
+      return
+    }
+
+    let currentData = this.redoStack.pop()
+    if (currentData) {
+      let { action, data } = currentData
+      this.pushStack(action, clone(data))
+      if (action === 'render') {
+        currentData = this.redoStack.pop()
+        action = currentData.action
+        data = currentData.data
+        this.pushStack(action, clone(data))
+      }
+
+      if (isNotExtend) {
+        callback && callback(action, data)
+        return
+      }
+
+      switch (action) {
+        case 'visible':
+          let item = data
+          if (isString(data)) {
+            item = this.findById(data)
+          }
+          item.get('visible') ? this.hideItem(item, false) : this.showItem(item, false)
+          break;
+        case 'render':
+        case 'update':
+          this.changeData(data, false)
+          break;
+        case 'delete':
+          this.removeItem(data.id, false)
+          break;
+        case 'add':
+          const { type, ...model } = data
+          this.addItem(type, model, false)
+          break;
+        default:
+          callback && callback(action, data)
+          break;
+      }
+    }
+  }
+
+  /**
    * 销毁画布
    */
   public destroy() {
@@ -2821,5 +3004,7 @@ export default class Graph extends EventEmitter implements IGraph {
     this.get('canvas').destroy();
     (this.cfg as any) = null;
     this.destroyed = true;
+    this.redoStack = null
+    this.undoStack = null
   }
 }
