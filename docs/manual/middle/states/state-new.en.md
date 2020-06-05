@@ -39,9 +39,11 @@ const graph = new G6.Graph({
   width,
   height,
   nodeStateStyles: {
-  	fill: 'red',
-    'keyShape-name': {
-    	fill: 'red'
+    hover: {
+      fill: 'red',
+      'keyShape-name': {
+        fill: 'red'
+      }
     }
   },
   edgeStateStyles: {}
