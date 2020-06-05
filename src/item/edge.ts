@@ -1,7 +1,6 @@
-import isNil from '@antv/util/lib/is-nil';
-import isPlainObject from '@antv/util/lib/is-plain-object';
+import { isString, isPlainObject, isNil } from '@antv/util'
 import { IEdge, INode, ICombo } from '../interface/item';
-import { EdgeConfig, IPoint, NodeConfig, SourceTarget, Indexable, ModelConfig } from '../types';
+import { EdgeConfig, IPoint, NodeConfig, SourceTarget, Indexable } from '../types';
 import Item from './item';
 import Node from './node';
 
@@ -162,17 +161,25 @@ export default class Edge extends Item implements IEdge {
     const sourceItem = this.get(`source${ITEM_NAME_SUFFIX}`);
     const targetItem = this.get(`target${ITEM_NAME_SUFFIX}`);
     if (sourceItem) {
-      out.source = sourceItem.getID()
       delete out[`source${ITEM_NAME_SUFFIX}`];
     } else {
       out.source = this.get(`start${POINT_NAME_SUFFIX}`);
     }
+
     if (targetItem) {
-      out.target = targetItem.getID()
       delete out[`target${ITEM_NAME_SUFFIX}`];
     } else {
       out.target = this.get(`end${POINT_NAME_SUFFIX}`);
     }
+
+    if (!isString(out.source) && !isPlainObject(out.source)) {
+      out.source = (out.source as any).getID()
+    }
+
+    if (!isString(out.target) && !isPlainObject(out.target)) {
+      out.target = (out.target as any).getID()
+    }
+
     return out;
   }
 
