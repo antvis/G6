@@ -46,6 +46,7 @@ import { plainCombosToTrees, traverseTree, reconstructTree, traverseTreeUp } fro
 import degree from '../algorithm/degree';
 import Stack from '../algorithm/structs/stack'
 import degree from '../algorithm/degree';
+import Stack from '../algorithm/structs/stack'
 
 const NODE = 'node';
 const SVG = 'svg';
