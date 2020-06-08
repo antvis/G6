@@ -48,6 +48,27 @@ describe('zoom-canvas', () => {
     expect(approximateEqual(matrix[7], -21)).toBe(true);
     graph.destroy();
   });
+  it('event not prevented', () => {
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: [
+          {
+            type: 'zoom-canvas',
+            shouldUpdate: e => {
+              expect(e.defaultPrevented).toBe(false);
+              return false;
+            },
+          },
+        ],
+      },
+    });
+    const e = createWheelEvent(graph.get('canvas').get('el'), 100, 100, 100);
+    graph.emit('wheel', e);
+    graph.destroy();
+  });
   it('prevent update', () => {
     const graph = new Graph({
       container: div,
@@ -190,7 +211,7 @@ describe('zoom-canvas', () => {
     container = node1.getContainer()
     expect(node1.getKeyShape().get('visible')).toBe(true)
     container.get('children').map(child => {
-      if(!child.get('isKeyShape')) {
+      if (!child.get('isKeyShape')) {
         expect(child.get('visible')).toBe(false)
       }
     })
