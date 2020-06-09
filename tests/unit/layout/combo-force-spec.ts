@@ -62,7 +62,7 @@ describe('combo force layout', () => {
       height: 500,
       defaultNode: { size: 10 },
     });
-    
+
     graph.on('afterlayout', () => {
       expect(node.x).not.toEqual(undefined);
       expect(node.y).not.toEqual(undefined);
@@ -145,7 +145,7 @@ describe('combo force layout', () => {
         type: 'comboForce',
         preventOverlap: true,
         nodeSpacing,
-        maxIteration: 200
+        maxIteration: 300
       },
       width: 500,
       height: 500,
@@ -214,7 +214,7 @@ describe('undefined configurations and update layout', () => {
         nodeCollideStrength: null,
         nodeSize: [10, 10],
         comboSpacing: null,
-        comboPadding: [20,20,10,10],
+        comboPadding: [20, 20, 10, 10],
         linkDistance: null,
         linkStrength: null,
         nodeStrength: null,
