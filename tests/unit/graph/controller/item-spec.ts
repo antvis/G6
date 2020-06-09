@@ -9,6 +9,10 @@ describe('item controller', () => {
     container: div,
     width: 500,
     height: 500,
+    nodeStateStyles: {
+      select: {},
+      hover: {}
+    }
   });
   it('init item controller', () => {
     const itemController = graph.get('itemController');

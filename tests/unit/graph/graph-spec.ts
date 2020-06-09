@@ -684,6 +684,14 @@ describe('all node link center', () => {
     width: 500,
     height: 500,
     linkCenter: true,
+    nodeStateStyles: {
+      a: {
+        fill: 'red'
+      },
+      b: {
+        stroke: 'red'
+      }
+    }
   });
 
   it('init', () => {

@@ -426,7 +426,10 @@ export default class ItemController {
       stateName = `${state}:${value}`
     }
 
-    if (item.hasState(stateName) === value || (isString(value) && item.hasState(stateName))) {
+    // 已经存在要设置的 state，或不存在 state 的样式为 undefined
+    if (item.hasState(stateName) === value 
+      || (isString(value) && item.hasState(stateName))
+      || !item.getStateStyle(stateName)) {
       return;
     }
 

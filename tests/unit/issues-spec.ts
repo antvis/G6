@@ -594,6 +594,11 @@ describe('changdata states', () => {
       layout: {
         type: "circular"
       },
+      nodeStateStyles: {
+        active: {
+          stroke: 'red'
+        }
+      },
       edgeStateStyles: {
         active: {
           stroke: '#000',
