@@ -15,6 +15,9 @@ describe('select-node', () => {
       modes: {
         default: ['click-select'],
       },
+      nodeStateStyles: {
+        selected: {}
+      }
     });
     const node = graph.addItem('node', {
       color: '#666',
@@ -44,6 +47,9 @@ describe('select-node', () => {
       modes: {
         default: ['click-select'],
       },
+      nodeStateStyles: {
+        selected: {}
+      }
     });
     const node1 = graph.addItem('node', {
       color: '#666',
@@ -118,6 +124,9 @@ describe('select-node', () => {
           },
         ],
       },
+      nodeStateStyles: {
+        selected: {}
+      }
     });
     const node = graph.addItem('node', {
       color: '#666',
@@ -171,6 +180,9 @@ describe('select-node', () => {
           },
         ],
       },
+      nodeStateStyles: {
+        selected: {}
+      }
     });
     const node1 = graph.addItem('node', {
       color: '#666',

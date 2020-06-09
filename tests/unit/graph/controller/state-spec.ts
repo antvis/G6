@@ -10,6 +10,9 @@ describe('graph state controller', () => {
     container: div,
     width: 500,
     height: 500,
+    nodeStateStyles: {
+      selected: {}
+    }
   });
   const data = {
     nodes: [

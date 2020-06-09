@@ -24,12 +24,18 @@ describe('activate-relations', () => {
       selected: {
         lineWidth: 5,
       },
+      inactive: {
+        lineWidth: 1,
+      }
     },
     edgeStateStyles: {
       active: {
         strokeOpacity: 0.8,
         lineWidth: 3,
       },
+      inactive: {
+        lineWidth: 1,
+      }
     },
   });
 
@@ -154,6 +160,16 @@ describe('activate-relations', () => {
       width: 500,
       height: 500,
       modes: { default: [] },
+      nodeStateStyles: {
+        highlight: {},
+        inactive: {},
+        active: {}
+      },
+      edgeStateStyles: {
+        highlight: {},
+        inactive: {},
+        active: {}
+      }
     });
     const g2node1 = graph2.addItem('node', { id: 'node1', x: 100, y: 100, label: 'node1' });
     const g2node2 = graph2.addItem('node', { id: 'node2', x: 200, y: 200, label: 'node2' });

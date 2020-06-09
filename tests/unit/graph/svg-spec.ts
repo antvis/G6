@@ -560,6 +560,14 @@ describe('all node link center', () => {
     height: 500,
     linkCenter: true,
     renderer: 'svg',
+    nodeStateStyles: {
+      a: {
+        fill: 'red'
+      },
+      b: {
+        stroke: 'red'
+      }
+    }
   });
 
   it('init', () => {

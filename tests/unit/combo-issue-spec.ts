@@ -59,13 +59,16 @@ describe('combo states', () => {
     graph.render();
     
     graph.on('combo:mouseenter', evt => {
-      
       graph.setItemState(evt.item, 'hover', true)
     })
     
     graph.on('combo:mouseleave', evt => {
-      
       graph.setItemState(evt.item, 'hover', false)
+    })
+
+    // combo 设置不存在的 state
+    graph.on('combo:click', evt => {
+      graph.setItemState(evt.item, 'notFound', true)
     })
 
     graph.on('node:mouseenter', evt => {
