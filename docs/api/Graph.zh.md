@@ -34,7 +34,7 @@ Graph 的生命周期为：初始化—>加载数据—>渲染—>更新—>销�
 | defaultCombo | Object | {} | 默认状态下 Combo 的配置，比如 `type`, `color`。会被写入的 data 覆盖。3.5 版本新增。 |
 | plugins | Array | [] | 向 graph 注册插件。插件机制请见：[插件](/zh/docs/manual/tutorial/plugins#插件) |
 | animate | Boolean | false | 是否启用全局动画。 |
-| animateCfg | Object |  | 动画配置项，仅在 `animate` 为 `true` 时有效。 |
+| animateCfg | Object |  | 动画配置项，仅在 `animate` 为 `true` 时有效。关于 `animateCfg` 的更多配置项参见[基础动画教程](/zh/docs/manual/advanced/animation#animatecfg)。 |
 | animateCfg.<br />onFrame | Function | null | 回调函数，用于自定义节点运动路径，为空时线性运动。 |
 | animateCfg.<br />duration | Number | 500 | 动画时长，单位为毫秒。 |
 | animateCfg.<br />easing | string | easeLinear | 动画动效，可参见 d3 ease。 |
@@ -1213,18 +1213,23 @@ graph.zoomTo(0.5);
 
 ### focusItem(item)
 
-将元素移动到视口中心，该方法可用于做搜索后的缓动动画。
+移动图，使得 item 对齐到视口中心，该方法可用于做搜索后的缓动动画。
 
 **参数**
 
 | 名称 | 类型            | 是否必选 | 描述               |
 | ---- | --------------- | -------- | ------------------ |
 | item | string / Object | true     | 元素 ID 或元素实例 |
+| animate | boolean | false     | 是否带有动画 |
+| animateCfg | Object | false     | 若带有动画，可配置动画，参见[基础动画教程](/zh/docs/manual/advanced/animation#animatecfg) |
 
 **用法**
 
 ```javascript
 graph.focusItem(item);
+
+// 动画地移动
+graph.focusItem(item, true);
 ```
 
 ### changeSize(width, height)

@@ -180,7 +180,7 @@ describe('ellipse test', () => {
         return g.get('className') === 'link-point-top';
       });
       expect(markTop).not.toBe(null);
-      expect(markTop.attr('r')).toEqual(5);
+      expect(markTop.attr('r')).toEqual(2.5);
       expect(markTop.attr('fill')).toEqual('#fff');
 
       const markBottom = group.find(g => {

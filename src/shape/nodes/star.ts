@@ -32,7 +32,7 @@ Shape.registerNode(
         leftBottom: false,
         rightBottom: false,
         // circle的大小
-        size: 3,
+        size: 10,
         lineWidth: 1,
         fill: '#fff',
         stroke: '#72CC4A',
@@ -97,6 +97,7 @@ Shape.registerNode(
         leftBottom,
         rightBottom,
         size: markSize,
+        r: markR,
         ...markStyle
       } = linkPoints;
       const size = (this as ShapeOptions).getSize!(cfg);
@@ -113,7 +114,7 @@ Shape.registerNode(
             ...markStyle,
             x: x1,
             y: -y1,
-            r: markSize,
+            r: markSize / 2 || markR || 5,
           },
           className: 'link-point-right',
           name: 'link-point-right',
@@ -131,7 +132,7 @@ Shape.registerNode(
             ...markStyle,
             x: x1,
             y: -y1,
-            r: markSize,
+            r: markSize / 2 || markR || 5,
           },
           className: 'link-point-top',
           name: 'link-point-top',
@@ -149,7 +150,7 @@ Shape.registerNode(
             ...markStyle,
             x: x1,
             y: -y1,
-            r: markSize,
+            r: markSize / 2 || markR || 5,
           },
           className: 'link-point-left',
           name: 'link-point-left',
@@ -167,7 +168,7 @@ Shape.registerNode(
             ...markStyle,
             x: x1,
             y: -y1,
-            r: markSize,
+            r: markSize / 2 || markR || 5,
           },
           className: 'link-point-left-bottom',
           name: 'link-point-left-bottom',
@@ -185,7 +186,7 @@ Shape.registerNode(
             ...markStyle,
             x: x1,
             y: -y1,
-            r: markSize,
+            r: markSize / 2 || markR || 5,
           },
           className: 'link-point-right-bottom',
           name: 'link-point-right-bottom',
@@ -277,17 +278,17 @@ Shape.registerNode(
       const linkPoints = mix({}, currentLinkPoints, cfg.linkPoints);
 
       const { fill: markFill, stroke: markStroke, lineWidth: borderWidth } = linkPoints;
-      let markSize = linkPoints.size;
+      let markSize = linkPoints.size / 2;
       if (!markSize) markSize = linkPoints.r;
       const { left, right, top, leftBottom, rightBottom } = cfg.linkPoints
         ? cfg.linkPoints
         : {
-            left: undefined,
-            right: undefined,
-            top: undefined,
-            leftBottom: undefined,
-            rightBottom: undefined,
-          };
+          left: undefined,
+          right: undefined,
+          top: undefined,
+          leftBottom: undefined,
+          rightBottom: undefined,
+        };
 
       const size = (this as ShapeOptions).getSize!(cfg);
       const outerR = size[0];

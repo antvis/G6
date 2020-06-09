@@ -34,7 +34,7 @@ The life cycle of an instance of Graph is: Initialize -> Load data -> Render -> 
 | defaultCombo | Object | {} | Default combo configurations in global, including type, size, color and so on. Its priority is lower than the configurations in data. It is a new feature of G6 3.5. |
 | plugins | Array | [] | Plugins for graph. Please refer to [Plugin](/en/docs/manual/tutorial/plugins##plugin) for detail. |
 | animate | Boolean | false | Wheter activate the global animation. Which will take effect while changing layouts, changing data, and other global operations. |
-| animateCfg | Object |  | The configurations for global animation. Takes effect only when `animate: true`. |
+| animateCfg | Object |  | The configurations for global animation. Takes effect only when `animate: true`. For more detail about animateCfg, see [Basic Animation Docs](/en/docs/manual/advanced/animation#animatecfg). |
 | animateCfg.<br />onFrame | Function | null | The callback function for every frame of animation. The path of custom animation for node can be defined here. The nodes will move linearly when `onFrame` is null. |
 | animateCfg.<br />duration | Number | 500 | Duration of animation with unit millisecond. |
 | animateCfg.<br />easing | string | easeLinear | The easing function name of animation. Please refer to ease in d3. |
@@ -1224,7 +1224,7 @@ graph.zoomTo(3, { x: 100, y: 100 });
 graph.zoomTo(0.5);
 ```
 
-### focusItem(item)
+### focusItem(item, animate)
 
 Move the graph to center at the item. This operation can be used as easing animation after searching a node.
 
@@ -1233,11 +1233,16 @@ Move the graph to center at the item. This operation can be used as easing anima
 | Name | Type            | Required | Description                         |
 | ---- | --------------- | -------- | ----------------------------------- |
 | item | string / Object | true     | The id or the instance of the item. |
+| animate | boolean | false     | Whether move the graph with animation. |
+| animateCfg | Object | false     | The animation's configuraiton. Its configurations can be found in [Basic Animation Docs](/en/docs/manual/advanced/animation#animatecfg) |
 
 **Usage**
 
 ```javascript
 graph.focusItem(item);
+
+// focus with animation
+graph.focusItem(item, true);
 ```
 
 ### changeSize(width, height)

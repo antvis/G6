@@ -9,13 +9,14 @@ There are two levels of animation in G6:
 - Item animation: The animation on a node or an edge.
 
 <br />
+
 ## Global Animation
 The global animation is controlled by Graph instance. It takes effect when some global changes happen, such as:
 
 - `graph.updateLayout(cfg)` change the layout;
 - `graph.changeData()` change the data.
 
-Configure `animate: true` when instantiating a graph to achieve it. <br />
+Configure `animate: true` when instantiating a graph to achieve it. And the `animateCfg` is the configurations for the animate, see [animateCfg](#animateCfg) for more detail.  <br />
 
 ```javascript
 const graph = new G6.Graph({
@@ -28,9 +29,6 @@ const graph = new G6.Graph({
 });
 ```
 
-G6 supports all the easing functions in d3.js. Thus, the options of `easing` in `animateCfg`: <br />`'easeLinear'`, <br />`'easePolyIn'`, `'easePolyOut'`, `'easePolyInOut'` , <br />`'easeQuad'`, `'easeQuadIn'`, `'easeQuadOut'`, `'easeQuadInOut'` .
-
-For more detail of the easing functions, please refer to: <a href='https://github.com/d3/d3/blob/master/API.md#easings-d3-ease' target='_blank'>d3 Easings</a>.
 
 ## Item Animation
 
@@ -57,7 +55,7 @@ In this example, we are going to magnify and shrink the node. <br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aAjWQ4n_OOEAAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
 
-We first find the graphics shape to be animated by `group.get('children')[0]`. Here we find the 0th graphics shape of this type of node. Then, we call `animate` for the node to define the properties for each frame(The first parameter is a function which returns the properties of each frame, the second parameter defines the configuration for animation).
+We first find the graphics shape to be animated by `group.get('children')[0]`. Here we find the 0th graphics shape of this type of node. Then, we call `animate` for the node to define the properties for each frame(The first parameter is a function which returns the properties of each frame; the second parameter defines the configuration for animation, see [animateCfg](#animateCfg)).
 
 ```javascript
 // Magnify and shrink animation
@@ -96,7 +94,7 @@ G6.registerNode(
 
 You can add extra shape with animation in `afterDraw`.<br />
 
-In `afterDraw` of this demo, we draw three background circle shape with different filling colors. And the `animate` is called for magnifying and fading out the three circles. We do not use set the first parameter as a function here, but assign the target style for each animation to the input paramter: magify the radius to 10 and reduce the opacity to 0.1. The second parameter defines the configuration for the animation.<br />
+In `afterDraw` of this demo, we draw three background circle shape with different filling colors. And the `animate` is called for magnifying and fading out the three circles. We do not use set the first parameter as a function here, but assign the target style for each animation to the input paramter: magify the radius to 10 and reduce the opacity to 0.1. The second parameter defines the configuration for the animation, see [animateCfg](#animateCfg).<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FxDJQ5eY-5oAAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
 
@@ -186,7 +184,7 @@ G6.registerNode('background-animate', {
 
 #### Partial Animation
 
-In this demo, we add extra graphics shape(an image) in `afterDraw`, and set a rotation animation for it. Note that the rotation animation is a little complicated, which should be manipulated by matrix.<br />
+In this demo, we add extra graphics shape(an image) in `afterDraw`, and set a rotation animation for it. Note that the rotation animation is a little complicated, which should be manipulated by matrix. The first parameter of `animate()` is a function which returns the properties of each frame; the second parameter defines the configuration for animation, see [animateCfg](#animateCfg)<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*uFQsQqxIa_QAAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
 
@@ -252,7 +250,7 @@ The code of the three demo can be found in: <a href='/en/examples/scatter/edge' 
 
 #### A Moving Circle
 
-In this demo, we add a circle shape with moving animation in `afterDraw`. In each frame, we return the relative position of the circle on the edge.<br />
+In this demo, we add a circle shape with moving animation in `afterDraw`. In each frame, we return the relative position of the circle on the edge. The first parameter of `animate()` is a function which returns the properties of each frame; the second parameter defines the configuration for animation, see [animateCfg](#animateCfg)<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OAGPRZbYpw4AAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
 
@@ -303,58 +301,37 @@ G6.registerEdge(
 
 #### Running Dashed Line
 
-The running dashed line is achieved by modifying the `lineDash` in every frame.<br />
+The running dashed line is achieved by modifying the `lineDash` in every frame. The first parameter of `animate()` is a function which returns the properties of each frame; the second parameter defines the configuration for animation, see [animateCfg](#animateCfg)<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VUgETK6aMzcAAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
 
 ```javascript
-// The values of the lineDash. It can be calculated by util
-const dashArray = [
-  [0, 1],
-  [0, 2],
-  [1, 2],
-  [0, 1, 1, 2],
-  [0, 2, 1, 2],
-  [1, 2, 1, 2],
-  [2, 2, 1, 2],
-  [3, 2, 1, 2],
-  [4, 2, 1, 2],
-];
-
 const lineDash = [4, 2, 1, 2];
-const interval = 9; // The total length of the lineDash
+
 G6.registerEdge(
   'line-dash',
   {
     afterDraw(cfg, group) {
-      // Get the first graphics shape of this type of edge, which is the edge's path
-      const shape = group.get('children')[0];
-      // The start point of the edge's path
-      const length = shape.getTotalLength();
-      let totalArray = [];
-      // Calculate the lineDash for the whole line
-      for (var i = 0; i < length; i += interval) {
-        totalArray = totalArray.concat(lineDash);
-      }
-
       let index = 0;
       // Define the animation
       shape.animate(
-        ratio => {
-          // Returns the properties for each frame. The input parameter ratio is a number that range from 0 to 1. The return value is an object that defines the properties for this frame
-          const cfg = {
-            lineDash: dashArray[index].concat(totalArray),
+        () => {
+          index++;
+          if (index > 9) {
+            index = 0;
+          }
+          const res = {
+            lineDash,
+            lineDashOffset: -index,
           };
-          // Move 1 each frame
-          index = (index + 1) % interval;
-          // Return the properties of this frame, lineDash for this demo
-          return cfg;
+          // Returns the configurations to be modified in this frame. Here the return value contains lineDash and lineDashOffset
+          return res;
         },
         {
-          repeat: true, // Play the animation repeatly
-          duration: 3000, // The duration for one animation
+          repeat: true, // whether executed repeatly
+          duration: 3000, // animation's duration
         },
-      ); // The duration for one animation
+      );
     },
   },
   'cubic',
@@ -363,7 +340,7 @@ G6.registerEdge(
 
 #### A Growing Edge
 
-A growing edge can also be implemented by calculating the `lineDash`. <br />
+A growing edge can also be implemented by calculating the `lineDash`. The first parameter of `animate()` is a function which returns the properties of each frame; the second parameter defines the configuration for animation, see [animateCfg](#animateCfg) <br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-l9lQ7Ck1QcAAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
 
@@ -406,25 +383,13 @@ This kind of animation is related to the [State](/en/docs/manual/middle/states/s
 
 The code below is a part of the code in <a href='/en/examples/scatter/stateChange' target='_blank'>Animation of State Changing</a>. Please note that we have omit some code to emphasize the code related to the animation.
 
+The first parameter of `animate()` is a function which returns the properties of each frame; the second parameter defines the configuration for animation, see [animateCfg](#animateCfg)
+
 ```javascript
 // const data = ...
 // const graph = new G6.Graph({...});
 
-// The values of the lineDash. It can be calculated by util
-const dashArray = [
-  [0, 1],
-  [0, 2],
-  [1, 2],
-  [0, 1, 1, 2],
-  [0, 2, 1, 2],
-  [1, 2, 1, 2],
-  [2, 2, 1, 2],
-  [3, 2, 1, 2],
-  [4, 2, 1, 2],
-];
-
 const lineDash = [4, 2, 1, 2];
-const interval = 9; // The total length of the lineDash
 
 // Register a type of edge named 'can-running'
 G6.registerEdge(
@@ -437,24 +402,23 @@ G6.registerEdge(
       if (name === 'running') {
         // When the running state is turned to be true
         if (value) {
-          const length = shape.getTotalLength();
-          let totalArray = [];
-          for (var i = 0; i < length; i += interval) {
-            totalArray = totalArray.concat(lineDash);
-          }
           let index = 0;
           shape.animate(
-            ratio => {
-              // Returns the properties for each frame. The input parameter ratio is a number that range from 0 to 1. The return value is an object that defines the properties for this frame
-              const cfg = {
-                lineDash: dashArray[index].concat(totalArray),
+            () => {
+              index++;
+              if (index > 9) {
+                index = 0;
+              }
+              const res = {
+                lineDash,
+                lineDashOffset: -index,
               };
-              index = (index + 1) % interval;
-              return cfg;
+              // Returns the configurations to be modified in this frame. Here the return value contains lineDash and lineDashOffset
+              return res;
             },
             {
-              repeat: true, // Play the animation repeatly
-              duration: 3000, // The duration for one animation
+              repeat: true, // whether executed repeatly
+              duration: 3000, // animation's duration
             },
           );
         } else {
@@ -495,3 +459,23 @@ graph.on('node:mouseleave', ev => {
 ```
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️Attention:</strong></span> When `running` is turned to be `false`, the animation should be stopped and the `lineDash` should be cleared.
+
+
+## animateCfg
+
+| Configuration | Type            | Default Value | Description                         |
+| ---- | --------------- | -------- | ----------------------------------- |
+| duration | Number | 500     | The duration for animating once |
+| easing | boolean |  'linearEasing'    | The easing function for the animation, see [Easing Function](#easing-Function) for more detail |
+| delay | Number |  0     | Execute the animation with delay |
+| repeat | boolean | false     | Whether execute the animation repeatly |
+| callback | Function | undefined     | Callback function after the animation finish |
+| pauseCallback | Function | undefined     | Callback function after the animation is paused by shape.pause() |
+| resumeCallback | Function | undefined     | Callback function after the animation is resume by shape.resume() |
+
+
+### Easing Function
+
+G6 supports all the easing functions in d3.js. Thus, the options of `easing` in `animateCfg`: <br />`'easeLinear'`, <br />`'easePolyIn'`, `'easePolyOut'`, `'easePolyInOut'` , <br />`'easeQuad'`, `'easeQuadIn'`, `'easeQuadOut'`, `'easeQuadInOut'` .
+
+For more detail of the easing functions, please refer to: <a href='https://github.com/d3/d3/blob/master/API.md#easings-d3-ease' target='_blank'>d3 Easings</a>.

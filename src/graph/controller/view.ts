@@ -3,7 +3,7 @@ import { Point } from '@antv/g-base/lib/types';
 import Group from '@antv/g-canvas/lib/group';
 import isNumber from '@antv/util/lib/is-number';
 import isString from '@antv/util/lib/is-string';
-import { Item, Matrix, Padding } from '../../types';
+import { Item, Matrix, Padding, GraphAnimateConfig } from '../../types';
 import { formatPadding } from '../../util/base';
 import { applyMatrix, invertMatrix } from '../../util/math';
 import Graph from '../graph';
@@ -82,15 +82,41 @@ export default class ViewController {
     return formatPadding(padding);
   }
 
-  public focusPoint(point: Point) {
+  public focusPoint(point: Point, animate?: boolean, animateCfg?: GraphAnimateConfig) {
     const viewCenter = this.getViewCenter();
     const modelCenter = this.getPointByCanvas(viewCenter.x, viewCenter.y);
     let viewportMatrix: Matrix = this.graph.get('group').getMatrix();
     if (!viewportMatrix) viewportMatrix = mat3.create();
-    this.graph.translate(
-      (modelCenter.x - point.x) * viewportMatrix[0],
-      (modelCenter.y - point.y) * viewportMatrix[4],
-    );
+    if (animate) {
+      const dx = (modelCenter.x - point.x) * viewportMatrix[0];
+      const dy = (modelCenter.y - point.y) * viewportMatrix[4];
+      let lastX = 0;
+      let lastY = 0;
+      let newX = 0;
+      let newY = 0;
+      const cfg = Object.assign({}, {
+        duration: 300,
+        easing: 'easeCubic'
+      }, animateCfg)
+      // 动画每次平移一点，直到目标位置
+      this.graph.get('canvas').animate(
+        ratio => {
+          newX = dx * ratio;
+          newY = dy * ratio;
+          this.graph.translate(newX - lastX, newY - lastY);
+          lastX = newX;
+          lastY = newY;
+        },
+        {
+          ...cfg
+        },
+      );
+    } else {
+      this.graph.translate(
+        (modelCenter.x - point.x) * viewportMatrix[0],
+        (modelCenter.y - point.y) * viewportMatrix[4],
+      );
+    }
   }
 
   /**
@@ -147,21 +173,23 @@ export default class ViewController {
   /**
    * 将元素移动到画布中心
    * @param item Item 实例或 id
+   * @param {boolean} animate 是否带有动画地移动
+   * @param {GraphAnimateConfig} animateCfg 若带有动画，动画的配置项
    */
-  public focus(item: string | Item) {
+  public focus(item: string | Item, animate?: boolean, animateCfg?: GraphAnimateConfig) {
     if (isString(item)) {
       item = this.graph.findById(item);
     }
+    const group: Group = item.get('group');
+    let matrix: Matrix = group.getMatrix();
+    if (!matrix) matrix = mat3.create();
 
     if (item) {
-      const group: Group = item.get('group');
-      let matrix: Matrix = group.getMatrix();
-      if (!matrix) matrix = mat3.create();
       // 用实际位置而不是model中的x,y,防止由于拖拽等的交互导致model的x,y并不是当前的x,y
       this.focusPoint({
         x: matrix[6],
         y: matrix[7],
-      });
+      }, animate, animateCfg);
     }
   }
 

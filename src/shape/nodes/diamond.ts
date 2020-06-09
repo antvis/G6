@@ -30,7 +30,7 @@ Shape.registerNode(
         bottom: false,
         left: false,
         // circle的大小
-        size: 3,
+        size: 10,
         lineWidth: 1,
         fill: '#72CC4A',
         stroke: '#72CC4A',
@@ -88,7 +88,7 @@ Shape.registerNode(
       const { linkPoints: defaultLinkPoints } = this.options as ModelConfig;
       const linkPoints = mix({}, defaultLinkPoints, cfg.linkPoints);
 
-      const { top, left, right, bottom, size: markSize, ...markStyle } = linkPoints;
+      const { top, left, right, bottom, size: markSize, r: markR, ...markStyle } = linkPoints;
       const size = this.getSize!(cfg);
       const width = size[0];
       const height = size[1];
@@ -99,7 +99,7 @@ Shape.registerNode(
             ...markStyle,
             x: -width / 2,
             y: 0,
-            r: markSize,
+            r: markSize / 2 || markR || 5,
           },
           className: 'link-point-left',
           name: 'link-point-left',
@@ -114,7 +114,7 @@ Shape.registerNode(
             ...markStyle,
             x: width / 2,
             y: 0,
-            r: markSize,
+            r: markSize / 2 || markR || 5,
           },
           className: 'link-point-right',
           name: 'link-point-right',
@@ -129,7 +129,7 @@ Shape.registerNode(
             ...markStyle,
             x: 0,
             y: -height / 2,
-            r: markSize,
+            r: markSize / 2 || markR || 5,
           },
           className: 'link-point-top',
           name: 'link-point-top',
@@ -144,7 +144,7 @@ Shape.registerNode(
             ...markStyle,
             x: 0,
             y: height / 2,
-            r: markSize,
+            r: markSize / 2 || markR || 5,
           },
           className: 'link-point-bottom',
           name: 'link-point-bottom',

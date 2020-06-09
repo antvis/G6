@@ -459,7 +459,7 @@ describe('model rect test', () => {
         return g.get('className') === 'link-point-top';
       });
       expect(markTop).not.toBe(null);
-      expect(markTop.attr('r')).toEqual(3);
+      expect(markTop.attr('r')).toEqual(5);
       expect(markTop.attr('y')).toEqual(-35);
 
       const markBottom = group.find(g => {
@@ -506,7 +506,7 @@ describe('model rect test', () => {
         return g.get('className') === 'link-point-left';
       });
       expect(markLeft).not.toBe(null);
-      expect(markLeft.attr('r')).toEqual(3);
+      expect(markLeft.attr('r')).toEqual(5);
       expect(markLeft.attr('y')).toEqual(0);
 
       const markTop = group.find(g => {
