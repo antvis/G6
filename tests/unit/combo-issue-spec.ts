@@ -71,7 +71,6 @@ describe('combo states', () => {
 
     // combo 设置不存在的 state
     graph.on('combo:click', evt => {
-      debugger
       graph.setItemState(evt.item, 'notFound', true)
     })
 
