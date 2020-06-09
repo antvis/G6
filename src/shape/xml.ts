@@ -474,6 +474,18 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
 
       return keyshape;
     },
+    setState(name, value, node) {
+      const cfg = node.get('model') || {};
+      // 根据状态构造style
+      if (value && cfg.style && cfg.style[name]) {
+        cfg.originStyle = cfg.style;
+        cfg.style = { ...cfg.style, ...cfg.style[name] }
+      } else if (cfg.originStyle) {
+        cfg.style = cfg.originStyle;
+      }
+      // 根据上下文更新
+      this.update(cfg, node);
+    },
     update(cfg, node) {
       if (!structures[cfg.id]) {
         structures[cfg.id] = []
