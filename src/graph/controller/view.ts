@@ -94,10 +94,6 @@ export default class ViewController {
       let lastY = 0;
       let newX = 0;
       let newY = 0;
-      const cfg = Object.assign({}, {
-        duration: 300,
-        easing: 'easeCubic'
-      }, animateCfg)
       // 动画每次平移一点，直到目标位置
       this.graph.get('canvas').animate(
         ratio => {
@@ -108,7 +104,7 @@ export default class ViewController {
           lastY = newY;
         },
         {
-          ...cfg
+          ...animateCfg
         },
       );
     } else {

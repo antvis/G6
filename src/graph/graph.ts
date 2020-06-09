@@ -680,7 +680,14 @@ export default class Graph extends EventEmitter implements IGraph {
    */
   public focusItem(item: Item | string, animate?: boolean, animateCfg?: GraphAnimateConfig): void {
     const viewController: ViewController = this.get('viewController');
-    viewController.focus(item, animate, animateCfg);
+    let isAnimate = false;
+    if (animate) isAnimate = true;
+    else if (animate === undefined) isAnimate = this.get('animate');
+    let curAniamteCfg = {} as GraphAnimateConfig;
+    if (animateCfg) curAniamteCfg = animateCfg;
+    else if (animateCfg === undefined) curAniamteCfg = this.get('animateCfg');
+
+    viewController.focus(item, isAnimate, curAniamteCfg);
 
     this.autoPaint();
   }

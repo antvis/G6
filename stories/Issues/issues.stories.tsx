@@ -7,7 +7,6 @@ import ChangeAttr from './attrs'
 import DomClick from './component/dom-click'
 import ForceLayout from './forceLayout'
 import GGEditorNode from './ggeditorNode'
-import RegisterNodeState from './shapes/registerNodeState';
 
 export default { title: 'Issues' };
 
@@ -28,5 +27,4 @@ storiesOf('Issues', module)
     <DomClick />
   ))
   .add('forcelayout', () => <ForceLayout />)
-  .add('ggeditor node issue', () => <GGEditorNode />)
-  .add('register node state', () => <RegisterNodeState />)
+  .add('ggeditor node issue', () => <GGEditorNode />);
