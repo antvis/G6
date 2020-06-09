@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import G6 from '../../../src';
 import { IGraph } from '../../../src/interface/graph';
+import { GraphData } from '../../../src/types';
 
 let graph: IGraph = null;
 
@@ -52,7 +53,7 @@ G6.registerCombo('cRect', {
   }
 }, 'rect');
 
-const data = {
+const data: GraphData = {
   nodes: [
     { id: 'node1', x: 250, y: 100, comboId: 'combo1' },
     { id: 'node2', x: 300, y: 100, comboId: 'combo1' }

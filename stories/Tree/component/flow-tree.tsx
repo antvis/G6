@@ -243,7 +243,7 @@ G6.registerNode(
           x: cfg.x + 75,
           y: cfg.y + 14,
           position: 'center',
-          text: cfg._content ? cfg.label + cfg._content : cfg.label,
+          text: cfg._content ? `${cfg.label}${cfg._content}` : cfg.label,
           textAlign: 'center',
           textBaseline: 'middle',
           fill: '#666',

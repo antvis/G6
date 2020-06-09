@@ -336,6 +336,14 @@ export interface ModelConfig extends ModelStyle {
   size?: number | number[];
   color?: string;
   anchorPoints?: number[][];
+  startPoint?: {
+    x: number,
+    y: number
+  },
+  endPoint?: {
+    x: number,
+    y: number
+  },
 }
 
 export interface NodeConfig extends ModelConfig {
@@ -412,14 +420,6 @@ export interface ComboConfig extends ModelConfig {
   children?: ComboTree[];
   depth?: number;
   padding?: number | number[];
-  startPoint: {
-    x: number,
-    y: number
-  },
-  endPoint: {
-    x: number,
-    y: number
-  },
   collapseIcon?: Partial<{
     show: boolean;
     collapseSymbol: any;
