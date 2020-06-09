@@ -142,7 +142,7 @@ describe('circle test', () => {
             bottom: true,
             left: true,
             fill: '#fff',
-            size: 5,
+            size: 10,
           },
         },
       };

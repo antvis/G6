@@ -675,10 +675,12 @@ export default class Graph extends EventEmitter implements IGraph {
   /**
    * 将元素移动到视口中心
    * @param {Item} item 指定元素
+   * @param {boolean} animate 是否带有动画地移动
+   * @param {GraphAnimateConfig} animateCfg 若带有动画，动画的配置项
    */
-  public focusItem(item: Item | string): void {
+  public focusItem(item: Item | string, animate?: boolean, animateCfg?: GraphAnimateConfig): void {
     const viewController: ViewController = this.get('viewController');
-    viewController.focus(item);
+    viewController.focus(item, animate, animateCfg);
 
     this.autoPaint();
   }

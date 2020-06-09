@@ -15,7 +15,8 @@ import {
   GraphOptions,
   ModeOption,
   ModeType,
-  ComboConfig
+  ComboConfig,
+  GraphAnimateConfig
 } from '../types';
 import { IEdge, INode, ICombo } from './item';
 import PluginBase from '../plugins/base';
@@ -97,8 +98,10 @@ export interface IGraph extends EventEmitter {
   /**
    * 将元素移动到视口中心
    * @param {Item} item 指定元素
+   * @param {boolean} animate 是否带有动画地移动
+   * @param {GraphAnimateConfig} animateCfg 若带有动画，动画的配置项
    */
-  focusItem(item: Item | string): void;
+  focusItem(item: Item | string, animate?: boolean, animateCfg?: GraphAnimateConfig): void;
 
   /**
    * 调整视口适应视图

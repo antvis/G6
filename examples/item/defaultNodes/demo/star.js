@@ -41,7 +41,7 @@ const graph = new G6.Graph({
       leftBottom: true,
       rightBottom: true,
       // the size of the linkpoints' circle
-      size: 5,
+      size: 10,
       lineWidth: 1,
       fill: '#fff',
       stroke: '#1890FF',

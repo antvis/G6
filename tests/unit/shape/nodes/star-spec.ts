@@ -214,7 +214,7 @@ describe('star test', () => {
         return g.get('className') === 'link-point-right';
       });
       expect(rightPoint).not.toBe(null);
-      expect(rightPoint.attr('r')).toBe(10);
+      expect(rightPoint.attr('r')).toBe(5);
       expect(rightPoint.attr('fill')).toBe('#f00');
       expect(rightPoint.attr('stroke')).toBe('#0f0');
       expect(rightPoint.attr('lineWidth')).toBe(2);
@@ -227,7 +227,7 @@ describe('star test', () => {
         linkPoints: {
           left: false,
           top: true,
-          size: 10,
+          size: 20,
           fill: '#f00',
           stroke: '#0f0',
           lineWidth: 2,

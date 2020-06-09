@@ -44,10 +44,12 @@ export default {
     const width = this.graph.get('width');
     const height = this.graph.get('height');
     const graphCanvasBBox = this.graph.get('canvas').getCanvasBBox();
-    if (graphCanvasBBox.minX + dx > width || graphCanvasBBox.maxX + dx < 0) {
+    if ((graphCanvasBBox.minX <= width && graphCanvasBBox.minX + dx > width)
+      || (graphCanvasBBox.maxX >= 0 && graphCanvasBBox.maxX + dx < 0)) {
       dx = 0;
     }
-    if (graphCanvasBBox.minY + dy > height || graphCanvasBBox.maxY + dy < 0) {
+    if ((graphCanvasBBox.minY <= height && graphCanvasBBox.minY + dy > height)
+      || (graphCanvasBBox.maxY >= 0 && graphCanvasBBox.maxY + dy < 0)) {
       dy = 0;
     }
     this.graph.translate(dx, dy);

@@ -33,7 +33,7 @@ Shape.registerNode(
         bottom: false,
         left: false,
         // circle的大小
-        size: 5,
+        size: 10,
         lineWidth: 1,
         fill: '#fff',
         stroke: '#72CC4A',
@@ -105,7 +105,7 @@ Shape.registerNode(
 
       const direction = cfg.direction || defaultDirection;
 
-      const { top, left, right, bottom, size: markSize, ...markStyle } = linkPoints;
+      const { top, left, right, bottom, size: markSize, r: markR, ...markStyle } = linkPoints;
 
       const size = (this as ShapeOptions).getSize!(cfg);
       const len = size[0];
@@ -130,7 +130,7 @@ Shape.registerNode(
               ...markStyle,
               x: leftPos[0],
               y: leftPos[1],
-              r: markSize,
+              r: markSize / 2 || markR || 5,
             },
             className: 'link-point-left',
             name: 'link-point-left',
@@ -158,7 +158,7 @@ Shape.registerNode(
               ...markStyle,
               x: rightPos[0],
               y: rightPos[1],
-              r: markSize,
+              r: markSize / 2 || markR || 5,
             },
             className: 'link-point-right',
             name: 'link-point-right',
@@ -186,7 +186,7 @@ Shape.registerNode(
               ...markStyle,
               x: topPos[0],
               y: topPos[1],
-              r: markSize,
+              r: markSize / 2 || markR || 5,
             },
             className: 'link-point-top',
             name: 'link-point-top',
@@ -214,7 +214,7 @@ Shape.registerNode(
               ...markStyle,
               x: bottomPos[0],
               y: bottomPos[1],
-              r: markSize,
+              r: markSize / 2 || markR || 5,
             },
             className: 'link-point-bottom',
             name: 'link-point-bottom',
@@ -320,7 +320,7 @@ Shape.registerNode(
       const linkPoints = mix({}, currentLinkPoints, cfg.linkPoints);
 
       const { fill: markFill, stroke: markStroke, lineWidth: borderWidth } = linkPoints;
-      let markSize = linkPoints.size;
+      let markSize = linkPoints.size / 2;
       if (!markSize) markSize = linkPoints.r;
       const { left, right, top, bottom } = cfg.linkPoints
         ? cfg.linkPoints

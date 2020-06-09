@@ -289,7 +289,7 @@ describe('triangle test', () => {
         return g.get('className') === 'link-point-right';
       });
       expect(rightPoint).not.toBe(null);
-      expect(rightPoint.attr('r')).toBe(10);
+      expect(rightPoint.attr('r')).toBe(5);
       expect(rightPoint.attr('fill')).toBe('#f00');
       expect(rightPoint.attr('stroke')).toBe('#0f0');
       expect(rightPoint.attr('lineWidth')).toBe(2);

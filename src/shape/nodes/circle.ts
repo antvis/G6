@@ -5,6 +5,7 @@ import { Item, NodeConfig, ShapeStyle, ModelConfig } from '../../types';
 import Global from '../../global';
 import Shape from '../shape';
 import { ShapeOptions } from '../../interface/shape';
+import { isNumber, isArray } from '@antv/util';
 
 // 带有图标的圆，可用于拓扑图中
 Shape.registerNode(
@@ -32,7 +33,7 @@ Shape.registerNode(
         bottom: false,
         left: false,
         // circle的大小
-        size: 3,
+        size: 10,
         lineWidth: 1,
         fill: '#72CC4A',
         stroke: '#72CC4A',
@@ -88,9 +89,9 @@ Shape.registerNode(
       const { linkPoints: defaultLinkPoints } = this.options as ModelConfig;
       const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
 
-      const { top, left, right, bottom, size: markSize, ...markStyle } = linkPoints;
+      const { top, left, right, bottom, size: markSize, r: markR, ...markStyle } = linkPoints;
       const size = this.getSize!(cfg);
-      const r = size[0] / 2;
+      let r = size[0] / 2;
       if (left) {
         // left circle
         group.addShape('circle', {
@@ -98,7 +99,7 @@ Shape.registerNode(
             ...markStyle,
             x: -r,
             y: 0,
-            r: markSize,
+            r: markSize / 2 || markR || 5,
           },
           className: 'link-point-left',
           name: 'link-point-left',
@@ -113,7 +114,7 @@ Shape.registerNode(
             ...markStyle,
             x: r,
             y: 0,
-            r: markSize,
+            r: markSize / 2 || markR || 5,
           },
           className: 'link-point-right',
           name: 'link-point-right',
@@ -128,7 +129,7 @@ Shape.registerNode(
             ...markStyle,
             x: 0,
             y: -r,
-            r: markSize,
+            r: markSize / 2 || markR || 5,
           },
           className: 'link-point-top',
           name: 'link-point-top',
@@ -143,7 +144,7 @@ Shape.registerNode(
             ...markStyle,
             x: 0,
             y: r,
-            r: markSize,
+            r: markSize / 2 || markR || 5,
           },
           className: 'link-point-bottom',
           name: 'link-point-bottom',

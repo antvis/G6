@@ -419,7 +419,7 @@ export const getLetterWidth = (letter, fontSize) => {
  */
 export const getTextSize = (text, fontSize) => {
   let width = 0;
-  const pattern = new RegExp("[\u4E00-\u9FA5]+");
+  const pattern = new RegExp("[\u{4E00}-\u{9FA5}]+");
   text.split('').forEach(letter => {
     if (pattern.test(letter)) {
       // 中文字符

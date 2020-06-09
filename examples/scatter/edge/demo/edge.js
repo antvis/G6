@@ -5,10 +5,10 @@ G6.registerEdge(
   'line-dash',
   {
     afterDraw(cfg, group) {
-      // 获得该边的第一个图形，这里是边的 path
+      // get the first shape in the group, it is the edge's path here=
       const shape = group.get('children')[0];
       let index = 0;
-      // 边 path 图形的动画
+      // Define the animation
       shape.animate(
         () => {
           index++;
@@ -19,18 +19,18 @@ G6.registerEdge(
             lineDash,
             lineDashOffset: -index,
           };
-          // 返回需要修改的参数集，这里修改了 lineDash,lineDashOffset
+          // returns the modified configurations here, lineDash and lineDashOffset here
           return res;
         },
         {
-          repeat: true, // 动画重复
-          duration: 3000, // 一次动画的时长为 3000
+          repeat: true, // whether executes the animation repeatly
+          duration: 3000, // the duration for executing once
         },
       );
     },
   },
-  'cubic',
-); // 该自定义边继承了内置三阶贝塞尔曲线边 cubic
+  'cubic', // extend the built-in edge 'cubic'
+);
 
 const data = {
   nodes: [
