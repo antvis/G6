@@ -1,5 +1,13 @@
 # ChangeLog
 
+#### 3.5.3
+- feat: focusItem with animation;
+- fix: graph dispears after being dragged out of the canvas and back;
+- fix: the graph cannot be dragged back if it is already out of the view;
+- fix: size and radius of the linkPoints problem;
+- fix: combo graph with unused state name in comboStateStyles;
+- fix: preventDefault in drag-canvas behavior.
+
 #### 3.5.2
 - feat: degree algorithm;
 - feat: graph.getNodeDegree;

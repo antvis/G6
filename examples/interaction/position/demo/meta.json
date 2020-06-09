@@ -5,6 +5,14 @@
   },
   "demos": [
     {
+      "filename": "moveAnimate.js",
+      "title": {
+        "zh": "点击节点带有动画地移动到画布中心",
+        "en": "Click to Animately Focus a Node"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*yPb-SKNZ5YYAAAAAAAAAAABkARQnAQ"
+    },
+    {
       "filename": "move.js",
       "title": {
         "zh": "点击节点移动到画布中心",

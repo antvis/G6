@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
 /**
- * Focus a node
+ * Focus a node with Animation
  * by Changzhe
  */
 const data = {
@@ -58,6 +58,12 @@ const graph = new G6.Graph({
       stroke: '#b5b5b5',
     },
   },
+  // The global configuration for graph animation also takes effect on the focusItem
+  // animate: true,
+  // animateCfg: {
+  //   easing: 'easeCubic',
+  //   duration: 500
+  // }
 });
 graph.data(data);
 graph.render();
@@ -65,7 +71,11 @@ graph.render();
 function handleNodeClick(event) {
   const item = event.item;
   // animately move the graph to focus on the item.
-  graph.focusItem(item);
+  // the second parameter controlls whether move with animation, the third parameter is the animate configuration
+  graph.focusItem(item, true, {
+    easing: 'easeCubic',
+    duration: 500
+  });
 }
 
 // listen to the node click event
