@@ -17,6 +17,7 @@ import MDS from './mds';
 import Radial from './radial/radial';
 import Random from './random';
 import ComboForce from './comboForce';
+import FruchtermanGPU from './gpu/fruchterman';
 
 const layouts = {
   circular: Circular,
@@ -30,6 +31,7 @@ const layouts = {
   mds: MDS,
   radial: Radial,
   random: Random,
+  fruchtermanGPU: FruchtermanGPU
 };
 
 // 注册布局
