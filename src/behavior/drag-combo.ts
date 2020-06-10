@@ -57,24 +57,25 @@ export default {
   validationCombo(evt: IG6GraphEvent) {
     const { item } = evt
     if (!item) {
-      return
+      return false
     }
 
     if (!this.shouldUpdate(this, evt)) {
-      return
+      return false
     }
 
     const type = item.getType()
 
     if (type !== 'combo') {
-      return
+      return false;
     }
+    return true;
   },
   onDragStart(evt: IG6GraphEvent) {
     const graph: IGraph = this.graph;
     const { item } = evt;
 
-    this.validationCombo(item)
+    if (!this.validationCombo(item)) return;
 
     this.targets = []
 
@@ -130,7 +131,7 @@ export default {
       return;
     }
 
-    this.validationCombo(evt)
+    if (!this.validationCombo(evt.item)) return;
 
     if (this.enableDelegate) {
       this.updateDelegate(evt);
@@ -215,7 +216,7 @@ export default {
       return
     }
 
-    this.validationCombo(evt)
+    if (!this.validationCombo(evt.item)) return;
 
     const { item } = evt
     const graph: IGraph = this.graph
@@ -228,7 +229,7 @@ export default {
       return
     }
 
-    this.validationCombo(evt)
+    if (!this.validationCombo(evt.item)) return;
 
     const item = evt.item as ICombo
     const graph: IGraph = this.graph
@@ -239,7 +240,7 @@ export default {
   onDragEnd(evt: IG6GraphEvent) {
     const graph: IGraph = this.graph;
 
-    this.validationCombo(evt)
+    if (!this.validationCombo(evt.item)) return;
 
     // 当启用 delegate 时，拖动结束时需要更新 combo
     if (this.enableDelegate) {
@@ -278,7 +279,7 @@ export default {
           }
           const { x: cx, y: cy, centerX, centerY, width } = currentBBox;
 
-          //判断是否拖出了 combo，需要满足： 
+          // 判断是否拖出了 combo，需要满足： 
           // 1、有 parent；
           // 2、拿拖动的对象和它父parent比较
 

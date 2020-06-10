@@ -10,3 +10,8 @@ public
 bin
 esm/
 es/
+examples/
+tests/
+stories/
+gatsby-browser.js
+site/

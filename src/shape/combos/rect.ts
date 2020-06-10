@@ -1,11 +1,10 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
-import { mix, isNumber, clone } from '@antv/util';
+import { mix, isNumber, clone, isNil } from '@antv/util';
 import { LabelStyle, Item, ComboConfig, ShapeStyle } from '../../types';
 import Global from '../../global';
 import Shape from '../shape';
 import { ILabelConfig, ShapeOptions } from '../../interface/shape';
-import { isNil } from '@antv/util';
 
 Shape.registerCombo(
   'rect',
@@ -186,7 +185,7 @@ Shape.registerCombo(
       };
       // 与 getShapeStyle 不同在于，update 时需要获取到当前的 style 进行融合。即新传入的配置项中没有涉及的属性，保留当前的配置。 
       const keyShape = item.get('keyShape');
-      let style = mix({}, keyShape.attr(), strokeStyle, cfgStyle);
+      const style = mix({}, keyShape.attr(), strokeStyle, cfgStyle);
 
       if (cfg.style) {
         cfg.style.width = width;

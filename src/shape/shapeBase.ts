@@ -337,7 +337,7 @@ export const shapeBase: ShapeOptions = {
           if (subShape) {
             const subShapeStyles = subShape.attr();
             // const current = subShapeStyles[p]
-            each(style, (value, key) => {
+            each(style, (v, key) => {
               if (subShapeStyles[key]) {
                 delete subShapeStyles[key];
               }
@@ -392,11 +392,9 @@ export const shapeBase: ShapeOptions = {
         } else {
           // 当更新 combo 状态时，当不存在 keyShapeName 时候，则认为是设置到 keyShape 上面的
           if (type === 'combo') {
-            if (!keyShapeName) {
-              shape.attr({
-                [originKey]: style,
-              });
-            }
+            !keyShapeName && shape.attr({
+              [originKey]: style,
+            });
           } else {
             shape.attr({
               [originKey]: style,
