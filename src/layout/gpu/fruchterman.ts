@@ -3,10 +3,9 @@
  * @author shiwu.wyy@antfin.com
  */
 
-import { EdgeConfig, IPointTuple, NodeConfig, NodeIdxMap } from '../types';
-import { BaseLayout } from './layout';
+import { EdgeConfig, IPointTuple, NodeConfig, NodeIdxMap } from '../../types';
+import { BaseLayout } from '../layout';
 import { isNumber } from '@antv/util';
-import { Point } from '@antv/g-base';
 import { World } from '@antv/g-webgpu';
 
 const lineIndexBufferData = [];
@@ -56,6 +55,7 @@ const convertWebGLCoord2Canvas = (c: number, size: number) => {
   return ((c + 1) / 2) * size;
 }
 
+
 const gCode = `
 import { globalInvocationID } from 'g-webgpu';
 
@@ -73,6 +73,12 @@ class Fruchterman {
 
   @in
   u_K2: float;
+  
+  @in
+  u_CenterX: float;
+
+  @in
+  u_CenterY: float;
 
   @in
   u_Gravity: float;
@@ -86,15 +92,14 @@ class Fruchterman {
   calcRepulsive(i: int, currentNode: vec4): vec2 {
     let dx = 0, dy = 0;
     for (let j = 0; j < VERTEX_COUNT; j++) {
-      if (i != j + 1) {
+      if (i != j) {
         const nextNode = this.u_Data[j];
         const xDist = currentNode[0] - nextNode[0];
         const yDist = currentNode[1] - nextNode[1];
-        const dist = sqrt(xDist * xDist + yDist * yDist) + 0.01;
+        const dist = (xDist * xDist + yDist * yDist) + 0.01;
         if (dist > 0.0) {
-          const repulsiveF = this.u_K2 / dist;
-          dx += xDist / dist * repulsiveF;
-          dy += yDist / dist * repulsiveF;
+          dx += this.u_K2 * xDist / dist ;
+          dy += this.u_K2 * yDist / dist ;
         }
       }
     }
@@ -102,9 +107,10 @@ class Fruchterman {
   }
 
   calcGravity(currentNode: vec4): vec2 {
-    const d = sqrt(currentNode[0] * currentNode[0] + currentNode[1] * currentNode[1]);
-    const gf = 0.01 * this.u_K * this.u_Gravity * d;
-    return [gf * currentNode[0] / d, gf * currentNode[1] / d];
+    const vx = currentNode[0] - this.u_CenterX;
+    const vy = currentNode[1] - this.u_CenterY;
+    const gf = 0.01 * this.u_K * this.u_Gravity;
+    return [gf * vx, gf * vy];
   }
 
   calcAttractive(currentNode: vec4): vec2 {
@@ -128,10 +134,10 @@ class Fruchterman {
       const xDist = currentNode[0] - nextNode[0];
       const yDist = currentNode[1] - nextNode[1];
       const dist = sqrt(xDist * xDist + yDist * yDist) + 0.01;
-      const attractiveF = dist * dist / this.u_K;
+      const attractiveF = dist / this.u_K;
       if (dist > 0.0) {
-        dx -= xDist / dist * attractiveF;
-        dy -= yDist / dist * attractiveF;
+        dx -= xDist  * attractiveF;
+        dy -= yDist  * attractiveF;
       }
     }
     return [dx, dy];
@@ -180,6 +186,8 @@ class Fruchterman {
         currentNode[3]
       ];
     }
+//const currentDis = this.u_MaxDisplace;
+    //this.u_MaxDisplace = currentDis * 0.99;
   }
 }
 `;
@@ -207,7 +215,7 @@ export default class FruchtermanGPULayout extends BaseLayout {
   /** 重力大小，影响图的紧凑程度 */
   public gravity: number = 10;
   /** 速度 */
-  public speed: number = 1;
+  public speed: number = 0.1;
   /** 是否产生聚类力 */
   public clustering: boolean = false;
   /** 聚类力大小 */
@@ -230,7 +238,7 @@ export default class FruchtermanGPULayout extends BaseLayout {
       maxIteration: 1000,
       center: [0, 0],
       gravity: 10,
-      speed: 1,
+      speed: 0.1,
       clustering: false,
       clusterGravity: 10,
     };
@@ -277,8 +285,10 @@ export default class FruchtermanGPULayout extends BaseLayout {
       self.height = window.innerHeight;
     }
     const center = self.center;
-    const maxDisplace = self.width / 10;
-    const k = Math.sqrt((self.width * self.height) / (nodes.length + 1));
+    const area = self.height * self.width;
+    const maxDisplace = Math.sqrt(area) / 10;
+    const k2 = area / (nodes.length + 1);
+    const k = Math.sqrt(k2);
     const gravity = self.gravity;
     const speed = self.speed;
     const clustering = self.clustering;
@@ -332,13 +342,14 @@ export default class FruchtermanGPULayout extends BaseLayout {
     const compute = world.createComputePipeline({
       shader: gCode,
       dispatch: [numParticles, 1, 1],
-      maxIteration: self.maxIteration,
+      maxIteration,
       onCompleted: (finalParticleData) => {
+        console.log(maxIteration, gravity, center, k, k2, maxDisplace, speed)
         self.nodes.forEach((node, i) => {
           const x = finalParticleData[4 * i];
           const y = finalParticleData[4 * i + 1];
-          node.x = convertWebGLCoord2Canvas(x, self.width);
-          node.y = convertWebGLCoord2Canvas(y, self.height);
+          node.x = x; //convertWebGLCoord2Canvas(x, self.width);
+          node.y = y; //convertWebGLCoord2Canvas(y, self.height);
         });
         self.onLayoutEnd && self.onLayoutEnd();
         // setTimeElapsed(window.performance.now() - timeStart);
@@ -357,20 +368,32 @@ export default class FruchtermanGPULayout extends BaseLayout {
     world.setBinding(
       compute,
       'u_K',
-      Math.sqrt((numParticles * numParticles) / (numParticles + 1) / 300),
+      k,
     );
     world.setBinding(
       compute,
       'u_K2',
-      (numParticles * numParticles) / (numParticles + 1) / 300 / 300,
+      k2,
     );
-    world.setBinding(compute, 'u_Gravity', 50);
-    world.setBinding(compute, 'u_Speed', 0.1);
+    world.setBinding(
+      compute,
+      'u_CenterX',
+      self.width / 2,
+    );
+    world.setBinding(
+      compute,
+      'u_CenterY',
+      self.height / 2,
+    );
+    world.setBinding(compute, 'u_Gravity', gravity);
+    world.setBinding(compute, 'u_Speed', speed);
     world.setBinding(
       compute,
       'u_MaxDisplace',
-      Math.sqrt(numParticles * numParticles) / 10,
+      maxDisplace,
     );
+    world.setBinding(compute, 'u_CenterX', center[0]);
+    world.setBinding(compute, 'u_CenterY', center[1]);
     world.setBinding(compute, 'MAX_EDGE_PER_VERTEX', maxEdgePerVetex);
     world.setBinding(compute, 'VERTEX_COUNT', numParticles);
   }
