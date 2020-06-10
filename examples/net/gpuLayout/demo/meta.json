@@ -1,0 +1,40 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "basicFruchterman.js",
+      "title": {
+        "zh": "基本 Fruchterman 布局",
+        "en": "Basic Fruchterman Layout"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1KY7SLEXxqMAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "fruchtermanComplexData.js",
+      "title": {
+        "zh": "Fruchterman 复杂数据",
+        "en": "Fruchterman with Complex Data"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0sl9RZ7Cp28AAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "fruchtermanClustering.js",
+      "title": {
+        "zh": "Fruchterman 聚类布局",
+        "en": "Fruchterman with Clustering"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*WO1OTbNE_ugAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "fruchtermanConfigurationTranslate.js",
+      "title": {
+        "zh": "Fruchterman 布局参数动态变化",
+        "en": "Update the Configurations for Fruchterman"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*W9MoQoKaQbYAAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}
