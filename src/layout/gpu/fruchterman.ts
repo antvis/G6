@@ -344,20 +344,13 @@ export default class FruchtermanGPULayout extends BaseLayout {
       dispatch: [numParticles, 1, 1],
       maxIteration,
       onCompleted: (finalParticleData) => {
-        console.log(maxIteration, gravity, center, k, k2, maxDisplace, speed)
         self.nodes.forEach((node, i) => {
           const x = finalParticleData[4 * i];
           const y = finalParticleData[4 * i + 1];
-          node.x = x; //convertWebGLCoord2Canvas(x, self.width);
-          node.y = y; //convertWebGLCoord2Canvas(y, self.height);
+          node.x = x;
+          node.y = y;
         });
         self.onLayoutEnd && self.onLayoutEnd();
-        // setTimeElapsed(window.performance.now() - timeStart);
-        // // draw with G
-        // renderCircles(finalParticleData, numParticles);
-
-        // precompiled
-        // console.log(world.getPrecompiledBundle(compute));
 
         // 计算完成后销毁相关 GPU 资源
         world.destroy();
