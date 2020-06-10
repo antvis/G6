@@ -2,6 +2,7 @@
 
 #### 3.5.3
 - feat: focusItem with animation;
+- feat: generate the image url of the full graph by graph.toFullDataUrl;
 - fix: graph dispears after being dragged out of the canvas and back;
 - fix: the graph cannot be dragged back if it is already out of the view;
 - fix: size and radius of the linkPoints problem;
