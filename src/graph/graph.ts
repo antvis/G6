@@ -59,6 +59,8 @@ interface IGroupBBox {
   [key: string]: BBox;
 }
 
+type dataUrlType = 'image/png' | 'image/jpeg' | 'image/webp' | 'image/bmp';
+
 export interface PrivateGraphOption extends GraphOptions {
   data: GraphData;
 
@@ -1872,10 +1874,12 @@ export default class Graph extends EventEmitter implements IGraph {
   }
 
   /**
-   * 返回图表的 dataUrl 用于生成图片
+   * 返回可见区域的图的 dataUrl，用于生成图片
+   * @param {String} type 图片类型，可选值："image/png" | "image/jpeg" | "image/webp" | "image/bmp"
+   * @param {string} backgroundColor 图片背景色
    * @return {string} 图片 dataURL
    */
-  public toDataURL(type?: string, backgroundColor?: string): string {
+  public toDataURL(type?: dataUrlType, backgroundColor?: string): string {
     const canvas: GCanvas = this.get('canvas');
     const renderer = canvas.getRenderer();
     const canvasDom = canvas.get('el');
@@ -1917,10 +1921,12 @@ export default class Graph extends EventEmitter implements IGraph {
   }
 
   /**
-   * 导出包含全图的图片
-   * @param {String} name 图片的名称
+   * 返回整个图（包括超出可见区域的部分）的 dataUrl，用于生成图片
+   * @param {Function} callback 异步生成 dataUrl 完成后的回调函数，在这里处理生成的 dataUrl 字符串
+   * @param {String} type 图片类型，可选值："image/png" | "image/jpeg" | "image/webp" | "image/bmp"
+   * @param {Object} imageConfig 图片配置项，包括背景色和上下左右的 padding
    */
-  public downloadFullImage(name?: string, imageConfig?: { backgroundColor?: string, padding?: number | number[] }): void {
+  public toFullDataURL(callback: (res: string) => any, type?: dataUrlType, imageConfig?: { backgroundColor?: string, padding?: number | number[] }) {
     const bbox = this.get('group').getCanvasBBox();
     const height = bbox.height;
     const width = bbox.width;
@@ -1957,8 +1963,88 @@ export default class Graph extends EventEmitter implements IGraph {
 
     const vCanvasEl = vCanvas.get('el');
 
+    let dataURL = '';
+    if (!type) type = 'image/png';
+
     setTimeout(() => {
-      const type = 'image/png';
+      if (renderer === 'svg') {
+        const clone = vCanvasEl.cloneNode(true);
+        const svgDocType = document.implementation.createDocumentType(
+          'svg', '-//W3C//DTD SVG 1.1//EN', 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'
+        );
+        const svgDoc = document.implementation.createDocument('http://www.w3.org/2000/svg', 'svg', svgDocType);
+        svgDoc.replaceChild(clone, svgDoc.documentElement);
+        const svgData = (new XMLSerializer()).serializeToString(svgDoc);
+        dataURL = 'data:image/svg+xml;charset=utf8,' + encodeURIComponent(svgData);
+      } else {
+        let imageData;
+        const context = vCanvasEl.getContext('2d');
+        let compositeOperation;
+        if (backgroundColor) {
+          const pixelRatio = window.devicePixelRatio;
+          imageData = context.getImageData(0, 0, vWidth * pixelRatio, vHeight * pixelRatio);
+          compositeOperation = context.globalCompositeOperation;
+          context.globalCompositeOperation = "destination-over";
+          context.fillStyle = backgroundColor;
+          context.fillRect(0, 0, vWidth, vHeight);
+        }
+        dataURL = vCanvasEl.toDataURL(type);
+        if (backgroundColor) {
+          context.clearRect(0, 0, vWidth, vHeight);
+          context.putImageData(imageData, 0, 0);
+          context.globalCompositeOperation = compositeOperation;
+        }
+      }
+      callback && callback(dataURL);
+    }, 16);
+  }
+
+  /**
+   * 导出包含全图的图片
+   * @param {String} name 图片的名称
+   * @param {String} type 图片类型，可选值："image/png" | "image/jpeg" | "image/webp" | "image/bmp"
+   * @param {Object} imageConfig 图片配置项，包括背景色和上下左右的 padding
+   */
+  public downloadFullImage(name?: string, type?: dataUrlType, imageConfig?: { backgroundColor?: string, padding?: number | number[] }): void {
+
+    const bbox = this.get('group').getCanvasBBox();
+    const height = bbox.height;
+    const width = bbox.width;
+    const renderer = this.get('renderer');
+    const vContainerDOM: HTMLDivElement = createDom('<id="virtual-image"></div>');
+
+    let backgroundColor = imageConfig ? imageConfig.backgroundColor : undefined;
+    let padding = imageConfig ? imageConfig.padding : undefined;
+    if (!padding) padding = [0, 0, 0, 0];
+    else if (isNumber(padding)) padding = [padding, padding, padding, padding];
+
+    const vHeight = height + padding[0] + padding[2];
+    const vWidth = width + padding[1] + padding[3];
+    const canvasOptions = {
+      container: vContainerDOM,
+      height: vHeight,
+      width: vWidth
+    };
+    const vCanvas = renderer === 'svg' ? new GSVGCanvas(canvasOptions) : new GCanvas(canvasOptions);
+
+    const group = this.get('group');
+    const vGroup = group.clone();
+
+    let matrix = clone(vGroup.getMatrix());
+    if (!matrix) matrix = mat3.create();
+    const centerX = (bbox.maxX + bbox.minX) / 2;
+    const centerY = (bbox.maxY + bbox.minY) / 2;
+    mat3.translate(matrix, matrix, [-centerX, -centerY]);
+    mat3.translate(matrix, matrix, [width / 2 + padding[3], height / 2 + padding[0]]);
+
+    vGroup.resetMatrix();
+    vGroup.setMatrix(matrix);
+    vCanvas.add(vGroup);
+
+    const vCanvasEl = vCanvas.get('el');
+
+    if (!type) type = 'image/png';
+    setTimeout(() => {
       let dataURL = '';
       if (renderer === 'svg') {
         const clone = vCanvasEl.cloneNode(true);
@@ -1989,8 +2075,9 @@ export default class Graph extends EventEmitter implements IGraph {
         }
       }
 
+
       const link: HTMLAnchorElement = document.createElement('a');
-      const fileName: string = (name || 'graph') + (renderer === 'svg' ? '.svg' : '.png');
+      const fileName: string = (name || 'graph') + (renderer === 'svg' ? '.svg' : `.${type.split('/')[1]}`);
 
       this.dataURLToImage(dataURL, renderer, link, fileName);
 
@@ -2003,8 +2090,10 @@ export default class Graph extends EventEmitter implements IGraph {
   /**
    * 画布导出图片，图片仅包含画布可见区域部分内容
    * @param {String} name 图片的名称
+   * @param {String} type 图片类型，可选值："image/png" | "image/jpeg" | "image/webp" | "image/bmp"
+   * @param {string} backgroundColor 图片背景色
    */
-  public downloadImage(name?: string, backgroundColor?: string): void {
+  public downloadImage(name?: string, type?: dataUrlType, backgroundColor?: string): void {
     const self = this;
 
     if (self.isAnimating()) {
@@ -2013,10 +2102,11 @@ export default class Graph extends EventEmitter implements IGraph {
 
     const canvas = self.get('canvas');
     const renderer = canvas.getRenderer();
-    const fileName: string = (name || 'graph') + (renderer === 'svg' ? '.svg' : '.png');
+    if (!type) type = 'image/png';
+    const fileName: string = (name || 'graph') + (renderer === 'svg' ? '.svg' : type.split('/')[1]);
     const link: HTMLAnchorElement = document.createElement('a');
     setTimeout(() => {
-      const dataURL = self.toDataURL('image/png', backgroundColor);
+      const dataURL = self.toDataURL(type, backgroundColor);
       this.dataURLToImage(dataURL, renderer, link, fileName);
 
       const e = document.createEvent('MouseEvents');
