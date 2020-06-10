@@ -160,7 +160,7 @@ export const getEllipseIntersectByPoint = (ellipse: IEllipse, point: Point): Poi
  */
 export const applyMatrix = (point: Point, matrix: Matrix, tag: 0 | 1 = 1): Point => {
   const vector = [point.x, point.y, tag];
-  if (!matrix || matrix[0] === NaN) {
+  if (!matrix || isNaN(matrix[0])) {
     matrix = mat3.create();
   }
 
@@ -180,7 +180,7 @@ export const applyMatrix = (point: Point, matrix: Matrix, tag: 0 | 1 = 1): Point
  * @return {object} transformed point
  */
 export const invertMatrix = (point: Point, matrix: Matrix, tag: 0 | 1 = 1): Point => {
-  if (!matrix || matrix[0] === NaN) {
+  if (!matrix || isNaN(matrix[0])) {
     matrix = mat3.create();
   }
 

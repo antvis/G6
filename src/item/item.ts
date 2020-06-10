@@ -178,7 +178,7 @@ export default class ItemBase implements IItemBase {
     const originStyles = {}
     const group: Group = this.get('group');
     const children = group.get('children')
-    let keyShape: IShapeBase = this.getKeyShape();
+    const keyShape: IShapeBase = this.getKeyShape();
 
     const self = this
 
@@ -302,14 +302,14 @@ export default class ItemBase implements IItemBase {
       const states = this.get('states')
       states.map(state => {
         const style = this.getStateStyle(state)
-        for (let key in style) {
+        for (const key in style) {
           if (!isPlainObject(style[key])) {
             if (!RESERVED_STYLES.includes(key)) {
               RESERVED_STYLES.push(key)
             }
           } else {
             const subStyle = style[key]
-            for (let subKey in subStyle) {
+            for (const subKey in subStyle) {
               if (!RESERVED_STYLES.includes(subKey)) {
                 RESERVED_STYLES.push(subKey)
               }
@@ -359,7 +359,7 @@ export default class ItemBase implements IItemBase {
     const self = this;
     let styles = {}
     each(self.getStates(), state => {
-      Object.assign(styles, self.getStateStyle(state));
+      styles = Object.assign(styles, self.getStateStyle(state));
     });
     return styles;
   }
@@ -597,8 +597,8 @@ export default class ItemBase implements IItemBase {
   public updatePosition(cfg: ModelConfig) {
     const model: ModelConfig = this.get('model');
 
-    let x = isNil(cfg.x) ? model.x : cfg.x;
-    let y = isNil(cfg.y) ? model.y : cfg.y;
+    const x = isNil(cfg.x) ? model.x : cfg.x;
+    const y = isNil(cfg.y) ? model.y : cfg.y;
 
     const group: Group = this.get('group');
 

@@ -100,7 +100,7 @@ export default {
     graph.emit('nodeselectchange', { selectedItems: { nodes: [], edges: [], combos: [] }, select: false });
   },
   onKeyDown(e: IG6GraphEvent) {
-    let code = e.key;
+    const code = e.key;
     if (!code) {
       return;
     }

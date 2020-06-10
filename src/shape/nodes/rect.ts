@@ -164,7 +164,7 @@ Shape.registerNode(
     update(cfg: NodeConfig, item: Item) {
       const group = item.getContainer();
       const { style: defaultStyle } = this.options as ModelConfig;
-      let size = (this as ShapeOptions).getSize!(cfg);
+      const size = (this as ShapeOptions).getSize!(cfg);
       const keyShape = item.get('keyShape');
       if (!cfg.size) {
         size[0] = keyShape.attr('width') || defaultStyle.width;

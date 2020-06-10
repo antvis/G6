@@ -288,8 +288,8 @@ export default class ItemController {
     children.nodes.forEach(node => {
       graph.hideItem(node);
     });
-    children.combos.forEach(combo => {
-      graph.hideItem(combo);
+    children.combos.forEach(c => {
+      graph.hideItem(c);
     });
   }
 
@@ -306,11 +306,11 @@ export default class ItemController {
     children.nodes.forEach(node => {
       graph.showItem(node);
     });
-    children.combos.forEach(combo => {
-      if (combo.getModel().collapsed) {
-        combo.show();
+    children.combos.forEach(c => {
+      if (c.getModel().collapsed) {
+        c.show();
       } else {
-        graph.showItem(combo);
+        graph.showItem(c);
       }
     });
   }
@@ -361,8 +361,8 @@ export default class ItemController {
           if (found) return;
           traverseTree<ComboTree>(ctree, combo => {
             if (combo.id === id && brothers) {
-              const index = brothers.indexOf(combo);
-              brothers.splice(index, 1);
+              const bidx = brothers.indexOf(combo);
+              brothers.splice(bidx, 1);
               found = true;
               return false; // terminate the traverse
             }
@@ -427,7 +427,7 @@ export default class ItemController {
     }
 
     // 已经存在要设置的 state，或不存在 state 的样式为 undefined
-    if (item.hasState(stateName) === value 
+    if (item.hasState(stateName) === value
       || (isString(value) && item.hasState(stateName))) {
       return;
     }

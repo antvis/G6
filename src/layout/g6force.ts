@@ -37,7 +37,7 @@ export default class G6Force extends BaseLayout {
   /** 每次迭代位移的衰减相关参数 */
   public alpha: number = 1;
   public alphaMin: number = 0.001;
-  public alphaDecay: number = 1 - Math.pow(this.alphaMin, 1 / 300);
+  public alphaDecay: number = 1 - (this.alphaMin ** (1 / 300));
   public alphaTarget: number = 0;
   /** 节点运动速度衰减参数 */
   public velocityDecay: number = 0.6;
@@ -56,7 +56,7 @@ export default class G6Force extends BaseLayout {
   /** 优化计算斥力的速度，两节点间距超过 optimizeRangeFactor * width 则不再计算斥力和重叠斥力 */
   public optimizeRangeFactor: number = 1;
   /** 每次迭代的回调函数 */
-  public tick: () => void = () => {};
+  public tick: () => void = () => { };
 
   /** 内部计算参数 */
   public nodes: Node[] = [];
@@ -154,7 +154,7 @@ export default class G6Force extends BaseLayout {
     }
 
     // move to center
-    const meanCenter = [ 0, 0 ];
+    const meanCenter = [0, 0];
     nodes.forEach(n => {
       if (!isNumber(n.x) || !isNumber(n.y)) return;
       meanCenter[0] += n.x;
@@ -162,7 +162,7 @@ export default class G6Force extends BaseLayout {
     });
     meanCenter[0] /= nodes.length;
     meanCenter[1] /= nodes.length;
-    const centerOffset = [ center[0] - meanCenter[0], center[1] - meanCenter[1] ];
+    const centerOffset = [center[0] - meanCenter[0], center[1] - meanCenter[1]];
     nodes.forEach((n, j) => {
       if (!isNumber(n.x) || !isNumber(n.y)) return;
       n.x += centerOffset[0];
@@ -177,9 +177,9 @@ export default class G6Force extends BaseLayout {
 
     // get edge bias
     for (let i = 0; i < edges.length; ++i) {
-      if (count[edges[i].source]) count[edges[i].source] ++;
+      if (count[edges[i].source]) count[edges[i].source]++;
       else count[edges[i].source] = 1;
-      if (count[edges[i].target]) count[edges[i].target] ++;
+      if (count[edges[i].target]) count[edges[i].target]++;
       else count[edges[i].target] = 1;
     }
     const bias = [];
@@ -274,7 +274,7 @@ export default class G6Force extends BaseLayout {
   private getClusterMap() {
     const self = this;
     const nodes = self.nodes;
-    let clusterMap: {
+    const clusterMap: {
       [key: string]: {
         name: string | number;
         cx: number;
@@ -388,7 +388,7 @@ export default class G6Force extends BaseLayout {
           return;
         }
         if (!isNumber(v.x) || !isNumber(u.x) || !isNumber(v.y) || !isNumber(u.y)) return;
-        let { vl, vx, vy } = vecMap[`${v.id}-${u.id}`];
+        const { vl, vx, vy } = vecMap[`${v.id}-${u.id}`];
         if (vl > max) return;
         displacements[i].x += vx * nodeStrength(u) * alpha / vl;
         displacements[i].y += vy * nodeStrength(u) * alpha / vl;
@@ -430,7 +430,7 @@ export default class G6Force extends BaseLayout {
       const u = this.nodeMap[e.source];
       const v = this.nodeMap[e.target];
       if (!isNumber(v.x) || !isNumber(u.x) || !isNumber(v.y) || !isNumber(u.y)) return;
-      let { vl, vx, vy } = vecMap[`${e.target}-${e.source}`];
+      const { vl, vx, vy } = vecMap[`${e.target}-${e.source}`];
       const l = (vl - linkDistance(e)) / vl * alpha * linkStrength(e);
       const vecX = vx * l;
       const vecY = vy * l;
