@@ -287,10 +287,17 @@ export const shapeBase: ShapeOptions = {
     const stateName = isBoolean(value) ? name : `${name}:${value}`;
     const shapeStateStyle = this.getStateStyle(stateName, true, item);
     const itemStateStyle = item.getStateStyle(stateName);
-
+    
+    // 不允许设置一个不存在的状态
+    if (!itemStateStyle && !shapeStateStyle) {
+      return;
+    }
+    
     // 要设置或取消的状态的样式
     // 当没有 state 状态时，默认使用 model.stateStyles 中的样式
     const styles = mix({}, itemStateStyle || shapeStateStyle);
+
+
     const group = item.getContainer();
 
     if (value) {
@@ -410,11 +417,16 @@ export const shapeBase: ShapeOptions = {
    */
   getStateStyle(name: string, value: string | boolean, item: Item): ShapeStyle {
     const model = item.getModel();
+    const type = item.getType()
 
     if (value) {
       const modelStateStyle = model.stateStyles
         ? model.stateStyles[name]
         : this.options.stateStyles && this.options.stateStyles[name];
+      
+      if (type === 'combo') {
+        return mix({}, modelStateStyle)
+      }
       return mix({}, model.style, modelStateStyle);
     }
 
