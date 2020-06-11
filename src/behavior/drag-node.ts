@@ -11,6 +11,7 @@ import { INode, ICombo } from '../interface/item';
 import { G6Event, IG6GraphEvent, Item, NodeConfig } from '../types';
 import Global from '../global';
 import { IGraph } from '../interface/graph';
+import { clone } from '_@antv_util@2.0.9@@antv/util/lib';
 
 export default {
   getDefaultCfg(): object {
@@ -185,6 +186,9 @@ export default {
         })
       }
     }
+debugger
+    // 拖动结束后，入栈
+    graph.pushStack('update', clone(graph.save()))
 
     this.point = {};
     this.origin = null;
@@ -256,7 +260,7 @@ export default {
     const pos: Point = { x, y };
 
     if (this.get('updateEdge')) {
-      this.graph.updateItem(item, pos);
+      this.graph.updateItem(item, pos, true);
     } else {
       item.updatePosition(pos);
     }
