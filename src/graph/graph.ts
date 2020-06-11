@@ -1464,13 +1464,22 @@ export default class Graph extends EventEmitter implements IGraph {
         if (comboId === child.id && childItem && childItem.getType && childItem.getType() === 'combo') {
           // 更新具体的 Combo 之前先清除所有的已有状态，以免将 state 中的样式更新为 Combo 的样式
           const states = [...childItem.getStates()]
-          each(states, state => this.setItemState(childItem, state, false))
+          // || !item.getStateStyle(stateName)
+          each(states, state => {
+            if (childItem.getStateStyle(state)) {
+              this.setItemState(childItem, state, false)
+            }
+          })
 
           // 更新具体的 Combo
           itemController.updateCombo(childItem, child.children);
 
           // 更新 Combo 后，还原已有的状态
-          each(states, state => this.setItemState(childItem, state, true));
+          each(states, state => {
+            if (childItem.getStateStyle(state)) {
+              this.setItemState(childItem, state, true)
+            }
+          });
 
           if (comboId) comboId = child.parentId;
         }
