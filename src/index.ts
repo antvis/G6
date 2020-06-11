@@ -18,6 +18,7 @@ const Minimap = Plugins.Minimap;
 const Grid = Plugins.Grid;
 const Bundling = Plugins.Bundling;
 const Menu = Plugins.Menu;
+const ToolBar = Plugins.ToolBar
 
 export {
   registerNode,
@@ -34,7 +35,8 @@ export {
   Bundling,
   Menu,
   registerBehavior,
-  Algorithm
+  Algorithm,
+  ToolBar
 };
 
 export default {
@@ -53,5 +55,6 @@ export default {
   Grid: Plugins.Grid,
   Bundling: Plugins.Bundling,
   Menu: Plugins.Menu,
+  ToolBar: Plugins.ToolBar,
   Algorithm
 };
