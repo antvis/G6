@@ -4,14 +4,10 @@
  */
 
 import Shape from '../../../src/shape/shape';
-import Global from '../../../src/global';
 import Canvas from '@antv/g-canvas/lib/canvas';
-import Node from '../../../src/item/node';
 import { translate } from '../../../src/util/math';
-import Graph from '../../../src/graph/graph';
 import '../../../src/shape/combo';
 import '../../../src/shape/combos';
-import { IGroup } from '@antv/g-canvas/lib/interfaces';
 import Combo from '../../../src/item/combo';
 
 const div = document.createElement('div');
