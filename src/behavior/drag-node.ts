@@ -6,12 +6,11 @@
  * @Description: 拖动节点的Behavior
  */
 import { Point } from '@antv/g-base/lib/types';
-import deepMix from '@antv/util/lib/deep-mix';
+import { deepMix, clone } from '@antv/util/lib';
 import { INode, ICombo } from '../interface/item';
 import { G6Event, IG6GraphEvent, Item, NodeConfig } from '../types';
 import Global from '../global';
 import { IGraph } from '../interface/graph';
-import { clone } from '_@antv_util@2.0.9@@antv/util/lib';
 
 export default {
   getDefaultCfg(): object {
