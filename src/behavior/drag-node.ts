@@ -186,7 +186,7 @@ export default {
         })
       }
     }
-debugger
+    
     // 拖动结束后，入栈
     graph.pushStack('update', clone(graph.save()))
 
@@ -260,7 +260,7 @@ debugger
     const pos: Point = { x, y };
 
     if (this.get('updateEdge')) {
-      this.graph.updateItem(item, pos, true);
+      this.graph.updateItem(item, pos, false);
     } else {
       item.updatePosition(pos);
     }

@@ -1,8 +1,6 @@
 import modifyCSS from '@antv/dom-util/lib/modify-css';
 import createDOM from '@antv/dom-util/lib/create-dom';
 import isString from '@ANTV/util/lib/is-string'
-import Graph from '../../graph/graph';
-import { IG6GraphEvent, Item } from '../../types';
 import Base, { IPluginBaseConfig } from '../base';
 import { IGraph } from '../../interface/graph';
 import { Point } from '@antv/g-base';
@@ -56,6 +54,7 @@ export default class ToolBar extends Base {
       handleClick: undefined,
       // 指定菜单内容，function(e) {...}
       getContent: (e) => {
+        console.log(e)
         return `
           <ul class='g6-component-toolbar'>
             <li code='redo'>
@@ -95,13 +94,13 @@ export default class ToolBar extends Base {
   }
 
   public init() {
+    const graph: IGraph = this.get('graph')
     const getContent = this.get('getContent')
-    const toolBar = getContent()
+    const toolBar = getContent(graph)
     let toolBarDOM = toolBar
     if (isString(toolBar)) {
       toolBarDOM = createDOM(toolBar)
     }
-    
     
     let container: HTMLDivElement | null = this.get('container');
     if (!container) {
@@ -112,7 +111,6 @@ export default class ToolBar extends Base {
     this.set('toolBar', toolBarDOM)
 
     const handleClick = this.get('handleClick')
-    const graph: IGraph = this.get('graph')
 
     toolBarDOM.addEventListener('click', evt => {
       const current = evt.path.filter(p => p.nodeName === 'LI')
@@ -141,8 +139,51 @@ export default class ToolBar extends Base {
         left: `${pos.x}px`
       });
     }
+
+    this.bindUndoRedo()
   }
 
+  private bindUndoRedo() {
+    const graph = this.get('graph')
+    const undoDom = document.querySelector('.g6-component-toolbar li[code="undo"]')
+    const undoDomIcon = document.querySelector('.g6-component-toolbar li[code="undo"] svg')
+    const redoDom = document.querySelector('.g6-component-toolbar li[code="redo"]')
+    const redoDomIcon = document.querySelector('.g6-component-toolbar li[code="redo"] svg')
+    
+    if (!undoDom || !undoDomIcon || !redoDom || !redoDomIcon) {
+      return;
+    }
+
+    graph.on('stackchange', evt => {
+      const { undoStack, redoStack } = evt
+      console.log(undoStack, redoStack)
+      const undoStackLen = undoStack.length
+      const redoStackLen = redoStack.length
+      // undo 不可用
+      if (undoStackLen === 1) {
+        undoDom.setAttribute('style', 'cursor: not-allowed')
+        undoDomIcon.setAttribute('style', 'opacity: 0.4')
+      } else {
+        undoDom.removeAttribute('style')
+        undoDomIcon.removeAttribute('style')
+      }
+
+      // redo 不可用
+      if (redoStackLen === 0) {
+        redoDom.setAttribute('style', 'cursor: not-allowed')
+        redoDomIcon.setAttribute('style', 'opacity: 0.4')
+      } else {
+        redoDom.removeAttribute('style')
+        redoDomIcon.removeAttribute('style')
+      }
+    })
+  }
+
+  /**
+   * 根据 Toolbar 上不同类型对图进行操作
+   * @param code 操作类型编码
+   * @param graph Graph 实例
+   */
   private handleDefaultOperator(code: string, graph: IGraph) {
     const currentZoom = graph.getZoom()
     switch(code) {
@@ -153,14 +194,24 @@ export default class ToolBar extends Base {
         graph.undo()
         break;
       case 'zoomOut':
+        const ratioOut = 1 + 0.05 * 5;
+        if (ratioOut * currentZoom > 5) {
+          return;
+        }
         graph.zoomTo(currentZoom * 1.1)
         break;
       case 'zoomIn':
+        const ratioIn = 1 - 0.05 * 5;
+        if (ratioIn * currentZoom < 0.3) {
+          return;
+        }
         graph.zoomTo(currentZoom * 0.9)
         break;
       case 'realZoom':
+        graph.zoomTo(1)
         break;
       case 'autoZoom':
+        graph.fitView([20, 20])
         break;
     }
   }
