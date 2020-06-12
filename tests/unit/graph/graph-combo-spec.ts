@@ -507,7 +507,7 @@ describe('graph with combo', () => {
 
 
 
-describe.only('empty combo', () => {
+describe('empty combo', () => {
   const data = {
     nodes: [
       {
