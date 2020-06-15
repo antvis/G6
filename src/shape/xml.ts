@@ -4,6 +4,7 @@
  */
 
 import JSON5 from 'json5';
+import lodash from 'lodash';
 
 /**
  * 内部用于最终实际渲染的结构
@@ -18,6 +19,19 @@ interface NodeInstructure {
 }
 
 const keyConvert = str => str.split('-').reduce((a, b) => a + b.charAt(0).toUpperCase() + b.slice(1));
+
+/**
+ * 简单的一个{{}}模板渲染，不包含任何复杂语法
+ * @param xml 
+ */
+export const xmlDataRenderer = (xml: string) => data => {
+  return xml.split(/{{|}}/g).map(text => {
+    if (/^[\w.]+$/g.test(text.trim())) {
+      return lodash.get(data, text.trim(), text)
+    }
+    return text;
+  }).join('')
+}
 
 /**
  * 解析XML，并转化为相应的JSON结构
@@ -258,7 +272,7 @@ export function compareTwoTarget(nowTarget: NodeInstructure, formerTarget: NodeI
 export function createNodeFromXML(gen: string | ((node: any) => string)) {
   const structures = new Map();
   const compileXML = cfg => {
-    const target = typeof gen === 'function' ? gen(cfg) : gen;
+    const target = typeof gen === 'function' ? gen(cfg) : xmlDataRenderer(gen)(cfg);
     const xmlParser = document.createElement('div');
     xmlParser.innerHTML = target;
     const xml = xmlParser.children[0] as HTMLElement;
@@ -311,6 +325,9 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
       this.update(cfg, node);
     },
     update(cfg, node) {
+      if (!structures.get(cfg.id)) {
+        structures.set(cfg.id, [])
+      }
       const container = node.getContainer();
       const children = container.get('children');
       const target = compileXML(cfg);
