@@ -75,7 +75,7 @@ export default {
     const graph: IGraph = this.graph;
     const { item } = evt;
 
-    if (!this.validationCombo(item)) return;
+    if (!this.validationCombo(evt)) return;
 
     this.targets = []
 
@@ -131,7 +131,7 @@ export default {
       return;
     }
 
-    if (!this.validationCombo(evt.item)) return;
+    if (!this.validationCombo(evt)) return;
 
     if (this.enableDelegate) {
       this.updateDelegate(evt);
@@ -216,7 +216,7 @@ export default {
       return
     }
 
-    if (!this.validationCombo(evt.item)) return;
+    if (!this.validationCombo(evt)) return;
 
     const { item } = evt
     const graph: IGraph = this.graph
@@ -229,7 +229,7 @@ export default {
       return
     }
 
-    if (!this.validationCombo(evt.item)) return;
+    if (!this.validationCombo(evt)) return;
 
     const item = evt.item as ICombo
     const graph: IGraph = this.graph
@@ -240,7 +240,7 @@ export default {
   onDragEnd(evt: IG6GraphEvent) {
     const graph: IGraph = this.graph;
 
-    if (!this.validationCombo(evt.item)) return;
+    if (!this.validationCombo(evt)) return;
 
     // 当启用 delegate 时，拖动结束时需要更新 combo
     if (this.enableDelegate) {

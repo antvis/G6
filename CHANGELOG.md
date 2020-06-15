@@ -1,7 +1,8 @@
 # ChangeLog
 
 #### 3.5.5
-- fix: custom node with setState problem.
+- fix: custom node with setState problem;
+- fix: validationCombo in drag-combo and drag-node.
 
 #### 3.5.3
 - feat: focusItem with animation;
