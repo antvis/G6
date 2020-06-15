@@ -162,6 +162,7 @@ export default class LayoutController {
       layoutCfg.comboTrees = graph.get('comboTrees');
     }
 
+    let enableTick = false;
     if (this.layoutType !== undefined) {
       try {
         layoutMethod = new Layout[this.layoutType](layoutCfg);
@@ -171,6 +172,26 @@ export default class LayoutController {
         );
         return false;
       }
+
+      // 是否需要迭代的方式完成布局。这里是来自布局对象的实例属性，是由布局的定义者在布局类定义的。
+      enableTick = layoutMethod.enableTick;
+      if (enableTick) {
+        const { onTick, onLayoutEnd } = layoutCfg;
+        const tick = () => {
+          if (onTick) {
+            onTick();
+          }
+          graph.refreshPositions();
+        };
+        layoutMethod.tick = tick;
+        const onLayoutEndNew = () => {
+          if (onLayoutEnd) {
+            onLayoutEnd();
+          }
+          graph.emit('afterlayout');
+        };
+        layoutMethod.onLayoutEnd = onLayoutEndNew;
+      }
       layoutMethod.init(this.data);
       // 若存在节点没有位置信息，且没有设置 layout，在 initPositions 中 random 给出了所有节点的位置，不需要再次执行 random 布局
       // 所有节点都有位置信息，且指定了 layout，则执行布局（代表不是第一次进行布局）
@@ -179,7 +200,7 @@ export default class LayoutController {
       }
       this.layoutMethod = layoutMethod;
     }
-    if ((hasLayoutType && this.layoutType !== 'force') || (!allHavePos && this.layoutType !== 'force')) {
+    if ((hasLayoutType || !allHavePos) && (this.layoutType !== 'force' && !(enableTick))) {
       graph.emit('afterlayout');
       this.refreshLayout();
     }
@@ -322,7 +343,7 @@ export default class LayoutController {
     layoutMethod.updateCfg(cfg);
     graph.emit('beforelayout');
     layoutMethod.execute();
-    if (this.layoutType !== 'force') {
+    if (this.layoutType !== 'force' && !layoutMethod.enableTick) {
       graph.emit('afterlayout');
     }
     this.refreshLayout();
@@ -399,7 +420,7 @@ export default class LayoutController {
     }
     graph.emit('beforelayout');
     layoutMethod.execute();
-    if (this.layoutType !== 'force') {
+    if (this.layoutType !== 'force' && !layoutMethod.enableTick) {
       graph.emit('afterlayout');
     }
     this.refreshLayout();
