@@ -26,5 +26,12 @@ module.exports = {
     'prefer-spread': 0,
     '@typescript-eslint/camelcase': 0,
     'no-loop-func': 0,
+    'no-param-reassign': 0,
+    'import/no-extraneous-dependencies': 0,
+    'no-unused-expressions': 0,
+    'dot-notation': 0,
+    'array-callback-return': 0,
+    'one-var': 0,
+    'no-lonely-if': 0
   },
 };

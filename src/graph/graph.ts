@@ -1502,7 +1502,7 @@ export default class Graph extends EventEmitter implements IGraph {
       uItem = item as INode | ICombo;
     }
 
-    let model = uItem.getModel();
+    const model = uItem.getModel();
     const oldParentId = (model.comboId as string) || (model.parentId as string);
 
     // 当 combo 存在parentId 或 comboId 时，才将其移除
@@ -1897,14 +1897,14 @@ export default class Graph extends EventEmitter implements IGraph {
 
     let dataURL = '';
     if (renderer === 'svg') {
-      const clone = canvasDom.cloneNode(true);
+      const cloneNode = canvasDom.cloneNode(true);
       const svgDocType = document.implementation.createDocumentType(
         'svg', '-//W3C//DTD SVG 1.1//EN', 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'
       );
       const svgDoc = document.implementation.createDocument('http://www.w3.org/2000/svg', 'svg', svgDocType);
-      svgDoc.replaceChild(clone, svgDoc.documentElement);
+      svgDoc.replaceChild(cloneNode, svgDoc.documentElement);
       const svgData = (new XMLSerializer()).serializeToString(svgDoc);
-      dataURL = 'data:image/svg+xml;charset=utf8,' + encodeURIComponent(svgData);
+      dataURL = `data:image/svg+xml;charset=utf8,${encodeURIComponent(svgData)}`;
     } else {
       let imageData;
       const context = canvasDom.getContext('2d');
@@ -1942,7 +1942,7 @@ export default class Graph extends EventEmitter implements IGraph {
     const renderer = this.get('renderer');
     const vContainerDOM: HTMLDivElement = createDom('<id="virtual-image"></div>');
 
-    let backgroundColor = imageConfig ? imageConfig.backgroundColor : undefined;
+    const backgroundColor = imageConfig ? imageConfig.backgroundColor : undefined;
     let padding = imageConfig ? imageConfig.padding : undefined;
     if (!padding) padding = [0, 0, 0, 0];
     else if (isNumber(padding)) padding = [padding, padding, padding, padding];
@@ -1977,14 +1977,14 @@ export default class Graph extends EventEmitter implements IGraph {
 
     setTimeout(() => {
       if (renderer === 'svg') {
-        const clone = vCanvasEl.cloneNode(true);
+        const cloneNode = vCanvasEl.cloneNode(true);
         const svgDocType = document.implementation.createDocumentType(
           'svg', '-//W3C//DTD SVG 1.1//EN', 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'
         );
         const svgDoc = document.implementation.createDocument('http://www.w3.org/2000/svg', 'svg', svgDocType);
-        svgDoc.replaceChild(clone, svgDoc.documentElement);
+        svgDoc.replaceChild(cloneNode, svgDoc.documentElement);
         const svgData = (new XMLSerializer()).serializeToString(svgDoc);
-        dataURL = 'data:image/svg+xml;charset=utf8,' + encodeURIComponent(svgData);
+        dataURL = `data:image/svg+xml;charset=utf8,${encodeURIComponent(svgData)}`;
       } else {
         let imageData;
         const context = vCanvasEl.getContext('2d');
@@ -2022,7 +2022,7 @@ export default class Graph extends EventEmitter implements IGraph {
     const renderer = this.get('renderer');
     const vContainerDOM: HTMLDivElement = createDom('<id="virtual-image"></div>');
 
-    let backgroundColor = imageConfig ? imageConfig.backgroundColor : undefined;
+    const backgroundColor = imageConfig ? imageConfig.backgroundColor : undefined;
     let padding = imageConfig ? imageConfig.padding : undefined;
     if (!padding) padding = [0, 0, 0, 0];
     else if (isNumber(padding)) padding = [padding, padding, padding, padding];
@@ -2056,14 +2056,14 @@ export default class Graph extends EventEmitter implements IGraph {
     setTimeout(() => {
       let dataURL = '';
       if (renderer === 'svg') {
-        const clone = vCanvasEl.cloneNode(true);
+        const cloneNode = vCanvasEl.cloneNode(true);
         const svgDocType = document.implementation.createDocumentType(
           'svg', '-//W3C//DTD SVG 1.1//EN', 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'
         );
         const svgDoc = document.implementation.createDocument('http://www.w3.org/2000/svg', 'svg', svgDocType);
-        svgDoc.replaceChild(clone, svgDoc.documentElement);
+        svgDoc.replaceChild(cloneNode, svgDoc.documentElement);
         const svgData = (new XMLSerializer()).serializeToString(svgDoc);
-        dataURL = 'data:image/svg+xml;charset=utf8,' + encodeURIComponent(svgData);
+        dataURL = `data:image/svg+xml;charset=utf8,${encodeURIComponent(svgData)}`;
       } else {
         let imageData;
         const context = vCanvasEl.getContext('2d');

@@ -1,5 +1,9 @@
 # ChangeLog
 
+#### 3.5.5
+- fix: custom node with setState problem;
+- fix: validationCombo in drag-combo and drag-node.
+
 #### 3.5.3
 - feat: focusItem with animation;
 - feat: generate the image url of the full graph by graph.toFullDataUrl;

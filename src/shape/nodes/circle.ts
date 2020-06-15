@@ -91,7 +91,7 @@ Shape.registerNode(
 
       const { top, left, right, bottom, size: markSize, r: markR, ...markStyle } = linkPoints;
       const size = this.getSize!(cfg);
-      let r = size[0] / 2;
+      const r = size[0] / 2;
       if (left) {
         // left circle
         group.addShape('circle', {

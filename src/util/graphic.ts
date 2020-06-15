@@ -469,9 +469,7 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) =
       if (mappedParent) {
         if (mappedParent.children) mappedParent.children.push(cd);
         else mappedParent.children = [cd];
-        return;
-      }
-      else {
+      } else {
         const parent = {
           id: mappedObj.parentId,
           children: [mappedObj]

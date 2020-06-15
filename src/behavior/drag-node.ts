@@ -37,18 +37,15 @@ export default {
     };
   },
   validationCombo(item: ICombo) {
-    if (!this.origin) {
-      return;
-    }
-
-    if (!item) {
-      return
+    if (!this.origin || !item) {
+      return false;
     }
 
     const type = item.getType()
     if (type !== 'combo') {
-      return
+      return false;
     }
+    return true;
   },
   /**
    * 开始拖动节点
@@ -176,9 +173,7 @@ export default {
         this.targets.map((node: INode) => {
           // 拖动的节点有 comboId，即是从其他 combo 中拖出时才处理
           const model = node.getModel()
-          if (model.comboId) {
-            graph.updateComboTree(node)
-          }
+          model.comboId && graph.updateComboTree(node)
         })
       } else {
         const targetComboModel = this.targetCombo.getModel()
@@ -203,7 +198,7 @@ export default {
    */
   onDropCombo(evt: IG6GraphEvent) {
     const item = evt.item as ICombo
-    this.validationCombo(item)
+    if (!this.validationCombo(item)) return;
 
     const graph: IGraph = this.graph
 
@@ -219,7 +214,7 @@ export default {
    */
   onDragEnter(evt: IG6GraphEvent) {
     const item = evt.item as ICombo
-    this.validationCombo(item)
+    if (!this.validationCombo(item)) return;
 
     const graph: IGraph = this.graph
     if (this.comboActiveState) {
@@ -232,7 +227,7 @@ export default {
    */
   onDragLeave(evt: IG6GraphEvent) {
     const item = evt.item as ICombo
-    this.validationCombo(item)
+    if (!this.validationCombo(item)) return;
 
     const graph: IGraph = this.graph
     if (this.comboActiveState) {
