@@ -35,6 +35,22 @@
         "en": "Update the Configurations for Fruchterman"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*W9MoQoKaQbYAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "basicGraphinForce.js",
+      "title": {
+        "zh": "基础 Graphin Force",
+        "en": "Basic Graphin Force"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*W9MoQoKaQbYAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "graphinForceComplexData.js",
+      "title": {
+        "zh": "Graphin Force 复杂数据",
+        "en": "Grapohin Force with Complex Data"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0sl9RZ7Cp28AAAAAAAAAAABkARQnAQ"
     }
   ]
 }
