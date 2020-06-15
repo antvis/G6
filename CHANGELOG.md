@@ -1,5 +1,8 @@
 # ChangeLog
 
+#### 3.5.5
+- fix: custom node with setState problem.
+
 #### 3.5.3
 - feat: focusItem with animation;
 - feat: generate the image url of the full graph by graph.toFullDataUrl;
