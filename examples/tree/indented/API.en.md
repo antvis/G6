@@ -30,7 +30,7 @@ d => {
 };
 ```
 
-**Required**: false<br />**Explanation**: The width of node
+**Required**: false<br />**Explanation**: The width of node. Takes effect when `direction` is `'H'`
 
 ## getHeight
 
@@ -58,4 +58,15 @@ d => {
 };
 ```
 
-**Required**: false<br />**Explanation**: The callback function of node position(left or right of root node). Only affects the nodes which are connected to the root node directly. And the descendant nodes will be placed according to it.
+**Required**: false<br />**Explanation**: The callback function of node position(left or right of root node). Only affects the nodes which are connected to the root node directly. And the descendant nodes will be placed according to it
+
+
+## dropCap
+
+**Type**: Boolean 
+
+<br />**Required**: false
+
+<br />**Explanation**: Whether place the first child node at the next line. `true` by default
+
+

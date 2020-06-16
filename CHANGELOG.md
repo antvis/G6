@@ -1,5 +1,8 @@
 # ChangeLog
 
+#### 3.5.6
+- feat: dropCap for intended TreeGraph layout.
+
 #### 3.5.5
 - fix: custom node with setState problem;
 - fix: validationCombo in drag-combo and drag-node.
