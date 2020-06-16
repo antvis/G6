@@ -13,6 +13,14 @@
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*PJnfTKFRaCAAAAAAAAAAAABkARQnAQ"
     },
     {
+      "filename": "intendAlignTop.js",
+      "title": {
+        "zh": "缩进树-顶部对齐",
+        "en": "FileSystem-Align Top"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*kbzRRZk2t2cAAAAAAAAAAABkARQnAQ"
+    },
+    {
       "filename": "hIntended.js",
       "title": {
         "zh": "缩进树-子节点两侧分布",

@@ -200,7 +200,7 @@ d => {
 };
 ```
 
-**Required**: false<br />**Description**: The width of each node
+**Required**: false<br />**Description**: The width of each node. Takes effect only when `direction` is `'H'`
 
 #### getHeight
 
@@ -229,6 +229,15 @@ d => {
 ```
 
 **Required**: false<br />**Description**: The callback function of node position(left or right of root node). Only affects the nodes which are connected to the root node directly. And the descendant nodes will be placed according to it.
+
+#### dropCap
+
+**Type**: Boolean 
+
+<br />**Required**: false
+
+<br />**Explanation**: Whether place the first child node at the next line. `true` by default
+
 
 ## Mindmap
 
