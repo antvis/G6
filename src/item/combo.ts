@@ -185,6 +185,7 @@ export default class Combo extends Node implements ICombo {
    * @return boolean 移除成功返回 true，否则返回 false
    */
   removeCombo(combo: ICombo): boolean {
+    if (!combo) return;
     const combos = this.getCombos();
     const index = combos.indexOf(combo);
     if (index > -1) {
@@ -200,6 +201,7 @@ export default class Combo extends Node implements ICombo {
   * @return boolean 移除成功返回 true，否则返回 false
   */
   removeNode(node: INode): boolean {
+    if (!node) return;
     const nodes = this.getNodes();
     const index = nodes.indexOf(node);
     if (index > -1) {

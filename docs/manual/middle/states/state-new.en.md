@@ -245,7 +245,7 @@ G6 does not explicitly provide the state priority mechanism. But the `hasState` 
 graph.setItemState(item, 'active', true)
 
 // returns the value of 'active' state
-const hasActived = graph.hasState('active')
+const hasActived = item.hasState('active')
 
 // If the value of 'active' state is false, the 'hover' state can be set to true
 if(!hasActived) {
