@@ -1,5 +1,4 @@
 import { generateTarget, parseXML, compareTwoTarget, xmlDataRenderer } from "../../../../src/shape/xml";
-
 import G6 from "../../../../src";
 
 const testXML = `
