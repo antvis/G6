@@ -1,4 +1,4 @@
-import { generateTarget, parseXML, compareTwoTarget } from "../../../../src/shape/xml";
+import { generateTarget, parseXML, compareTwoTarget, xmlDataRenderer } from "../../../../src/shape/xml";
 import G6 from "../../../../src";
 
 const testXML = `
@@ -6,7 +6,7 @@ const testXML = `
   <rect style="{
     width: 100, height: 20, fill: '#1890ff', stroke: '#1890ff', radius: [6, 6, 0, 0]
   }">
-    <text style="{ marginTop: 2, marginLeft: 50, textAlign: 'center', fontWeight: 'bold', fill: '#fff' }">id</text>
+    <text style="{ marginTop: 2, marginLeft: 50, textAlign: 'center', fontWeight: 'bold', fill: '#fff' }">{{id}}</text>
   </rect>
 <group>
 `
@@ -74,11 +74,12 @@ describe('xml node test', () => {
 
   describe('parse test', () => {
     it('xml to object', () => {
-      const obj = parseXML(el);
+      const el2 = str2El(xmlDataRenderer(testXML)({ id: 'node' }));
+      const obj = parseXML(el2);
       expect(obj.type).toBe('group');
       expect(obj.children[0].type).toBe('rect');
       expect(obj.children[0].attrs.stroke).toBe('#1890ff');
-      expect(obj.children[0].children[0].attrs.text).toBe('id');
+      expect(obj.children[0].children[0].attrs.text).toBe('node');
     });
 
     it('object generate target', () => {
