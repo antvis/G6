@@ -317,7 +317,7 @@ graph.clearItemStates(item, ['bodyState:health', 'selected', 'active'])
 // 设置节点处于 active 状态
 graph.setItemState(item, 'active', true)
 // 鼠标 hover
-const hasActived = graph.hasState('active')
+const hasActived = item.hasState('active')
 // 当节点没有 active 时才设置 hover 状态
 if(!hasActived) {
     graph.setItemState(item, 'hover', true)
