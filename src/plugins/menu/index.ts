@@ -1,10 +1,29 @@
 import modifyCSS from '@antv/dom-util/lib/modify-css';
 import createDOM from '@antv/dom-util/lib/create-dom';
-import isString from '@ANTV/util/lib/is-string'
+import isString from '@antv/util/lib/is-string'
+import insertCss from 'insert-css';
 import Graph from '../../graph/graph';
 import { IG6GraphEvent, Item } from '../../types';
 import Base, { IPluginBaseConfig } from '../base';
 import { IGraph } from '../../interface/graph';
+
+insertCss(`
+  .g6-contextmenu {
+    border: 1px solid #e2e2e2;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #545454;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 10px 8px;
+    box-shadow: rgb(174, 174, 174) 0px 0px 10px;
+  }
+  .g6-contextmenu-ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+`)
 
 interface MenuConfig extends IPluginBaseConfig {
   handleMenuClick?: (target: HTMLElement, item: Item) => void;
@@ -12,14 +31,22 @@ interface MenuConfig extends IPluginBaseConfig {
 }
 
 export default class Menu extends Base {
-  constructor(cfg: MenuConfig) {
+  constructor(cfg?: MenuConfig) {
     super(cfg);
   }
 
   public getDefaultCfgs(): MenuConfig {
     return {
       handleMenuClick: undefined,
-      getContent: undefined, // 指定菜单内容，function(e) {...}
+      // 指定菜单内容，function(e) {...}
+      getContent: (graph) => {
+        return `
+          <ul class='g6-contextmenu-ul'>
+            <li>菜单项1</li>
+            <li>菜单项2</li>
+          </ul>
+        `
+      }, 
       // 菜单隐藏事件
       onHide() {
         return true;
@@ -35,32 +62,27 @@ export default class Menu extends Base {
   }
 
   public init() {
-    // const getContent = this.get('getContent')
-    // const menu = getContent(this.get('graph'))
-    // let menuDOM = menu
-    // if (isString(menu)) {
-    //   menuDOM = createDOM(menu)
-    // }
-    
-    // this.set('menu', menuDOM)
-    // document.body.appendChild(menuDOM)
+    const menu = createDOM(`<div class='g6-contextmenu'></div>`)
+    modifyCSS(menu, { position: 'absolute', visibility: 'hidden' });
+    document.body.appendChild(menu)
+    this.set('menu', menu)
   }
 
   protected onMenuShow(e: IG6GraphEvent) {
     const self = this;
     
+    const container = this.get('menu')
     const getContent = this.get('getContent')
     let menu = getContent(e)
     if (isString(menu)) {
-      menu = createDOM(menu)
+      container.innerHTML = menu
+    } else {
+      container.innerHTML = menu.outerHTML
     }
-    
-    this.set('menu', menu)
-    document.body.appendChild(menu)
 
     const handleMenuClick = this.get('handleMenuClick')
     if (handleMenuClick) {
-      menu.addEventListener('click', evt => {
+      container.addEventListener('click', evt => {
         handleMenuClick(evt.target, e.item)
       })
     }
@@ -69,7 +91,7 @@ export default class Menu extends Base {
     const width: number = graph.get('width');
     const height: number = graph.get('height');
 
-    const bbox = menu.getBoundingClientRect();
+    const bbox = container.getBoundingClientRect();
 
     let x = e.item.getModel().x;
     let y = e.item.getModel().y;
@@ -87,8 +109,7 @@ export default class Menu extends Base {
     e.canvasX = point.x;
     e.canvasY = point.y;
 
-    modifyCSS(menu, { 
-      position: 'absolute',
+    modifyCSS(container, {
       top: `${point.y}px`, 
       left: `${point.x}px`, 
       visibility: 'visible' 
@@ -104,10 +125,9 @@ export default class Menu extends Base {
   }
 
   private onMenuHide() {
-    const menu = this.get('menu')
-    if (menu) {
-      document.body.removeChild(menu);
-      // modifyCSS(menu, { visibility: 'hidden' });
+    const container = this.get('menu')
+    if (container) {
+      modifyCSS(container, { visibility: 'hidden' });
     }
 
     // 隐藏菜单后需要移除事件监听
@@ -115,16 +135,16 @@ export default class Menu extends Base {
     
     const handleMenuClick = this.get('handleMenuClick')
     if (handleMenuClick) {
-      menu.removeEventListener('click', handleMenuClick)
+      container.removeEventListener('click', handleMenuClick)
     }
   }
 
   public destroy() {
-    const menu = this.get('menu')
+    const container = this.get('menu')
     const handler = this.get('handler');
 
-    if (menu) {
-      document.body.removeChild(menu);
+    if (container) {
+      document.body.removeChild(container);
     }
 
     if (handler) {
@@ -133,7 +153,7 @@ export default class Menu extends Base {
 
     const handleMenuClick = this.get('handleMenuClick')
     if (handleMenuClick) {
-      menu.removeEventListener('click', handleMenuClick)
+      container.removeEventListener('click', handleMenuClick)
     }
   }
 }
