@@ -454,6 +454,7 @@ const gpuLayout = new G6.Layout['fruchtermanGPU']({
   canvasEl: graph.get('canvas').get('el'),
   width,
   height,
+  maxIteration: 300,
   onLayoutEnd: () => {
     graph.refreshPositions();
   }
