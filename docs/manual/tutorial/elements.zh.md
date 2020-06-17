@@ -208,8 +208,8 @@ edges.forEach(edge => {
   }
   edge.style.lineWidth = edge.weight; // 边的粗细映射边数据中的 weight 属性数值
   // 移到此处
-  opt.style.opacity = 0.6;
-  opt.style.stroke = 'grey';
+  edge.style.opacity = 0.6;
+  edge.style.stroke = 'grey';
 });
 
 graph.data(remoteData);
