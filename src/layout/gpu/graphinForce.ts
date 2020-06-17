@@ -7,62 +7,12 @@ import { EdgeConfig, IPointTuple, NodeConfig, NodeIdxMap } from '../../types';
 import { BaseLayout } from '../layout';
 import { isNumber } from '@antv/util';
 import { World } from '@antv/g-webgpu';
-
-// const lineIndexBufferData = [];
-let maxEdgePerVetex;
-const buildTextureData = (nodes, edges) => {
-  const dataArray = [];
-  const nodeDict = [];
-  const mapIdPos = {};
-  let i = 0;
-  for (i = 0; i < nodes.length; i++) {
-    const n = nodes[i];
-    mapIdPos[n.id] = i;
-    dataArray.push(n.x);
-    dataArray.push(n.y);
-    dataArray.push(0);
-    dataArray.push(0);
-    nodeDict.push([]);
-  }
-  for (i = 0; i < edges.length; i++) {
-    const e = edges[i];
-    nodeDict[mapIdPos[e.source]].push(mapIdPos[e.target]);
-    let length = 50;
-    if (e.source === '0' || e.source === '10') length = 1;
-    nodeDict[mapIdPos[e.source]].push(length); // 理想边长，后续可以改成每条边不同
-    nodeDict[mapIdPos[e.target]].push(mapIdPos[e.source]);
-    nodeDict[mapIdPos[e.target]].push(length); // 理想边长，后续可以改成每条边不同
-    // lineIndexBufferData.push(mapIdPos[e.source], mapIdPos[e.target]); // 似乎没用
-  }
-  console.log(nodeDict);
-
-  maxEdgePerVetex = 0;
-  for (i = 0; i < nodes.length; i++) {
-    const offset = dataArray.length;
-    const dests = nodeDict[i]; // dest 中节点 id 与边长间隔存储，即一位节点 id，一位边长……
-    const len = dests.length;
-    dataArray[i * 4 + 2] = offset;
-    dataArray[i * 4 + 3] = len / 2; // 第四位存储与该节点相关的所有节点个数
-    // dataArray[i * 4 + 3] = len;
-    maxEdgePerVetex = Math.max(maxEdgePerVetex, len / 2);
-    // maxEdgePerVetex = Math.max(maxEdgePerVetex, len);
-    for (let j = 0; j < len; ++j) {
-      const dest = dests[j];
-      dataArray.push(+dest);
-    }
-  }
-
-  // 不是 4 的倍数，填充 0
-  while (dataArray.length % 4 !== 0) {
-    dataArray.push(0);
-  }
-  console.log(nodes.length, dataArray);
-  return new Float32Array(dataArray);
-}
+import { proccessToFunc, buildTextureDataWithTwoEdgeAttr, buildTextureDataWithOneEdgeAttr, arrayToTextureData } from '../../util/layout'
+import { getDegree } from '../../util/math'
 
 
 const gCode = `
-import { globalInvocationID } from 'g-webgpu';
+import { globalInvocationID, debug } from 'g-webgpu';
 
 const MAX_EDGE_PER_VERTEX;
 const VERTEX_COUNT;
@@ -71,9 +21,6 @@ const VERTEX_COUNT;
 class GraphinForce {
   @in @out
   u_Data: vec4[];
-
-  @in
-  u_stiffness: float;
 
   @in
   u_damping: float;
@@ -88,9 +35,6 @@ class GraphinForce {
   u_coulombDisScale: float;
 
   @in
-  u_repulsion: float;
-
-  @in
   u_factor: float;
 
   @in
@@ -98,6 +42,30 @@ class GraphinForce {
 
   @in
   u_CenterY: float;
+
+  @in
+  u_gravity: float;
+
+  @in
+  u_NodeAttributeArray: vec4[];
+
+  @in
+  u_EdgeAttributeArray: vec4[];
+  
+  @in
+  u_GatherDiscreteCenterX: float;
+
+  @in
+  u_GatherDiscreteCenterY: float
+
+  @in
+  u_GatherDiscreteGravity: float
+
+  @in
+  u_gatherDiscrete: float
+
+  @in
+  u_interval: float
 
   calcRepulsive(i: int, currentNode: vec4): vec2 {
     let ax = 0, ay = 0;
@@ -110,7 +78,14 @@ class GraphinForce {
         const n_dist = dist * this.u_coulombDisScale;
         const direx = vx / dist;
         const direy = vy / dist;
-        const param = this.u_repulsion * this.u_factor / (n_dist * n_dist); // / mass
+        const attributesi = this.u_NodeAttributeArray[i];
+        const attributesj = this.u_NodeAttributeArray[j];
+        const massi = attributesi[0];
+        const nodeStrengthi = attributesi[2];
+        const nodeStrengthj = attributesj[2];
+        const nodeStrength = (nodeStrengthi + nodeStrengthj) / 2;
+        // const param = nodeStrength * this.u_factor / (n_dist * n_dist * massi);
+        const param = 1000 * this.u_factor / (n_dist * n_dist);
         ax += direx * param;
         ay += direy * param;
       }
@@ -118,38 +93,37 @@ class GraphinForce {
     return [ax, ay];
   }
 
-  // calcGravity(currentNode: vec4): vec2 {
-  //  const vx = currentNode[0] - this.u_CenterX;
-  //  const vy = currentNode[1] - this.u_CenterY;
-  //  const gf = 0.01 * this.u_K * this.u_Gravity;
-  //  return [gf * vx, gf * vy];
-  // }
+  calcGravity(i: int, currentNode: vec4): vec2 {
+    const vx = currentNode[0] - this.u_CenterX;
+    const vy = currentNode[1] - this.u_CenterY;
+    let ax = vx * this.u_gravity;
+    let ay = vy * this.u_gravity;
+    const attributes = this.u_NodeAttributeArray[i];
+    // 聚集离散点
+    if (this.u_gatherDiscrete == 1 && attributes[1] == 0) {
+      const vdx = currentNode[0] - this.u_GatherDiscreteCenterX;
+      const vdy = currentNode[1] - this.u_GatherDiscreteCenterY
+      ax += this.u_GatherDiscreteGravity * vdx;
+      ay += this.u_GatherDiscreteGravity * vdy;
+    }
+    return [ax, ay];
+  }
 
-  calcAttractive(currentNode: vec4): vec2 {
+  calcAttractive(i: int, currentNode: vec4, attributes: vec4): vec2 {
+    const mass = attributes[0];
     let ax = 0, ay = 0;
     const arr_offset = int(floor(currentNode[2] + 0.5));
     const length = int(floor(currentNode[3] + 0.5));
     const node_buffer: vec4;
     for (let p = 0; p < MAX_EDGE_PER_VERTEX; p++) {
       if (p >= length) break;
-      const arr_idx = arr_offset + 2 * p;
-      // const arr_idx = arr_offset + p;
-      // when arr_idx % 4 == 0 update currentNodedx_buffer
-      // %
-      // const buf_offset = arr_idx - arr_idx / 2 * 2;
+      const arr_idx = arr_offset + 4 * p; // i 节点的第 p 条边开始的小格子位置
       const buf_offset = arr_idx - arr_idx / 4 * 4;
       if (p == 0 || buf_offset == 0) {
-        // node_buffer = this.u_Data[int(arr_idx / 2)];
-        node_buffer = this.u_Data[int(arr_idx / 4)];
+        node_buffer = this.u_Data[int(arr_idx / 4)]; // 大格子，大格子位置=小个子位置 / 4，
       }
 
-      const float_j: float = buf_offset == 0 ? node_buffer[0] : node_buffer[2];
-
-      // const float_j = buf_offset == 0 ? node_buffer[0] :
-      //                 buf_offset == 1 ? node_buffer[1] :
-      //                 buf_offset == 2 ? node_buffer[2] :
-      //                                   node_buffer[3];
-                                        
+      let float_j: float = node_buffer[0];
 
       const nextNode = this.u_Data[int(float_j)];
       const vx = nextNode[0] - currentNode[0];
@@ -157,10 +131,11 @@ class GraphinForce {
       const dist = sqrt(vx * vx + vy * vy) + 0.01;
       const direx = vx / dist;
       const direy = vy / dist;
-      const length = buf_offset == 0 ? node_buffer[1] : node_buffer[3];
-      const diff: float = length - dist;
-      // const diff = 1 - dist;
-      const param = diff * this.u_stiffness; //  / mass
+      const edgeLength = node_buffer[1];
+      const edgeStrength = node_buffer[2];
+      const diff: float = edgeLength - dist;//edgeLength
+      const param = diff * this.u_stiffness / mass; //
+      const param = diff * edgeStrength / mass; // 
       ax -= direx * param;
       ay -= direy * param;
     }
@@ -179,27 +154,30 @@ class GraphinForce {
       return;
     }
 
+
+    const nodeAttributes = this.u_NodeAttributeArray[i];
+
     // repulsive
     const repulsive = this.calcRepulsive(i, currentNode);
     ax += repulsive[0];
     ay += repulsive[1];
 
     // attractive
-    const attractive = this.calcAttractive(currentNode);
+    const attractive = this.calcAttractive(i, currentNode, nodeAttributes);
     ax += attractive[0];
     ay += attractive[1];
 
     // gravity
-    // const gravity = this.calcGravity(currentNode);
-    // dx -= gravity[0];
-    // dy -= gravity[1];
+    // const gravity = this.calcGravity(i, currentNode);
+    // ax -= gravity[0];
+    // ay -= gravity[1];
 
     // speed
-    const interval = 0.02; // max(0.02, 0.22 - 0.002 * this.u_iter);
-    const param = interval * this.u_damping;
+    //const interval = 0.02; // max(0.02, 0.22 - 0.002 * this.u_iter);
+    const param = this.u_interval * this.u_damping;
     let vx = ax * param;
     let vy = ay * param;
-    const vlength = sqrt(vx * vx + vy * vy);
+    const vlength = sqrt(vx * vx + vy * vy) + 0.0001;
     if (vlength > this.u_maxSpeed) {
       const param2 = this.u_maxSpeed / vlength;
       vx = param2 * vx;
@@ -207,8 +185,8 @@ class GraphinForce {
     }
 
     // move
-    const distx = vx * interval;
-    const disty = vy * interval;
+    const distx = vx * this.u_interval;
+    const disty = vy * this.u_interval;
     // const distLength = sqrt(distx * distx + disty * disty);
 
     this.u_Data[i] = [
@@ -238,9 +216,9 @@ export default class GraphinForceGPULayout extends BaseLayout {
   /** 停止迭代的最大迭代数 */
   public maxIteration: number = 1000;
   /** 弹簧引力系数 */
-  public stiffness: number = 200;
+  public edgeStrength: number | ((d?: any) => number) | undefined = 200;
   /** 斥力系数 */
-  public repulsion: number = 1000;
+  public nodeStrength: number | ((d?: any) => number) | undefined = 1000;
   /** 库伦系数 */
   public coulombDisScale: number = 0.005;
   /** 阻尼系数 */
@@ -253,6 +231,18 @@ export default class GraphinForceGPULayout extends BaseLayout {
   public interval: number = 0.02;
   /** 斥力的一个系数 */
   public factor: number = 1;
+  /** 每个节点质量的回调函数，若不指定，则默认使用度数作为节点质量 */
+  public getMass: ((d?: any) => number) | undefined;
+  /** 理想边长 */
+  public linkDistance: number | ((d?: any) => number) | undefined = 1;
+  /** 重力大小 */
+  public gravity: number = 10;
+  /** 是否聚集离散点，即是否给所有离散点加一个重力 */
+  public gatherDiscrete: boolean = false;
+  /** 聚集离散点的位置，gatherDiscrete 为 true 时生效，默认为 [ w / 4, h / 4] */
+  public gatherDiscreteCenter: IPointTuple | undefined;
+  /** 聚集离散点的重力大小，gatherDiscrete 为 true 时生效 */
+  public gatherDiscreteGravity: number = 200;
 
   public nodes: NodeConfig[] = [];
   public edges: EdgeConfig[] = [];
@@ -265,6 +255,8 @@ export default class GraphinForceGPULayout extends BaseLayout {
 
   public canvasEl: HTMLCanvasElement;
   public onLayoutEnd: () => void;
+  /** 存储节点度数 */
+  private degrees: number[];
 
   public getDefaultCfg() {
     return {
@@ -294,13 +286,20 @@ export default class GraphinForceGPULayout extends BaseLayout {
     const nodeMap: NodeMap = {};
     const nodeIdxMap: NodeIdxMap = {};
     nodes.forEach((node, i) => {
-      if (!isNumber(node.x)) node.x = Math.random() * this.width;
-      if (!isNumber(node.y)) node.y = Math.random() * this.height;
+      if (!isNumber(node.x)) node.x = Math.random() * self.width;
+      if (!isNumber(node.y)) node.y = Math.random() * self.height;
       nodeMap[node.id] = node;
       nodeIdxMap[node.id] = i;
     });
     self.nodeMap = nodeMap;
     self.nodeIdxMap = nodeIdxMap;
+
+    self.nodeStrength = proccessToFunc(self.nodeStrength, 1);
+    self.edgeStrength = proccessToFunc(self.edgeStrength, 1);
+
+    if (!self.gatherDiscreteCenter) {
+      self.gatherDiscreteCenter = [self.width / 4, self.height / 4];
+    }
     // layout
     self.run();
   }
@@ -318,32 +317,34 @@ export default class GraphinForceGPULayout extends BaseLayout {
     }
 
     const numParticles = nodes.length;
-    const nodesEdgesArray = buildTextureData(nodes, edges);
+
 
     const canvas = self.canvasEl;
 
+    self.linkDistance = proccessToFunc(self.linkDistance) as ((d?: any) => number);
+    self.edgeStrength = proccessToFunc(self.edgeStrength) as ((d?: any) => number);
+    // const { maxEdgePerVetex, array: nodesEdgesArray } = buildTextureDataWithOneEdgeAttr(nodes, edges, self.linkDistance);
+    const { maxEdgePerVetex, array: nodesEdgesArray } = buildTextureDataWithTwoEdgeAttr(nodes, edges, self.linkDistance, self.edgeStrength);
+
+
     // init degree for mass
-    const degrees = [];
-    edges.forEach(edge => {
-      const sourceIdx = self.nodeIdxMap[edge.source];
-      const targetIdx = self.nodeIdxMap[edge.target];
-      degrees[sourceIdx] = degrees[sourceIdx] ? 1 : (degrees[sourceIdx] + 1);
-      degrees[targetIdx] = degrees[targetIdx] ? 1 : (degrees[targetIdx] + 1);
-    });
 
-    // init nodes' properties array
-    const nodeProperties = [];
+    self.degrees = getDegree(nodes.length, self.nodeIdxMap, edges);
+    const masses = [];
+    const nodeStrengths = [];
+    if (!self.getMass) {
+      self.getMass = (d) => {
+        return self.degrees[self.nodeIdxMap[d.id]] || 1;
+      }
+    }
     nodes.forEach((node, i) => {
-      // nodeProperties.push(0) // vx
-      // nodeProperties.push(0) // vy
-      // nodeProperties.push(0) // ax
-      // nodeProperties.push(0) // ay
+      masses.push(self.getMass(node));
+      nodeStrengths.push((self.nodeStrength as Function)(node));
+      if (!self.degrees[i]) self.degrees[i] = 0;
+    })
 
-      nodeProperties.push(degrees[i]) // m
-      nodeProperties.push(0) // 补位
-      nodeProperties.push(0) // 补位
-      nodeProperties.push(0) // 补位
-    });
+    const nodeAttributeArray = arrayToTextureData([masses, self.degrees, nodeStrengths]);
+
 
     const world = new World(canvas, {
       engineOptions: {
@@ -355,7 +356,16 @@ export default class GraphinForceGPULayout extends BaseLayout {
       shader: gCode,
       dispatch: [numParticles, 1, 1],
       maxIteration,
+      onIterationCompleted: (iter) => {
+        const stepInterval = Math.max(0.02, self.interval - iter * 0.002);
+        world.setBinding(
+          compute,
+          'u_interval',
+          stepInterval,
+        );
+      },
       onCompleted: (finalParticleData) => {
+        console.log(finalParticleData)
         self.nodes.forEach((node, i) => {
           const x = finalParticleData[4 * i];
           const y = finalParticleData[4 * i + 1];
@@ -375,15 +385,28 @@ export default class GraphinForceGPULayout extends BaseLayout {
     world.setBinding(compute, 'u_CenterX', self.center[0]);
     world.setBinding(compute, 'u_CenterY', self.center[1]);
 
+    // 中心力
+    world.setBinding(compute, 'u_gravity', self.gravity);
+    // 聚集离散点
+    world.setBinding(compute, 'u_gatherDiscrete', self.gatherDiscreteCenter ? 1 : 0);
+    world.setBinding(compute, 'u_GatherDiscreteCenterX', self.gatherDiscreteCenter[0]);
+    world.setBinding(compute, 'u_GatherDiscreteCenterY', self.gatherDiscreteCenter[1]);
+    world.setBinding(compute, 'u_GatherDiscreteGravity', self.gatherDiscreteGravity);
+
     // 常量
-    world.setBinding(compute, 'u_stiffness', self.stiffness);
+    // world.setBinding(compute, 'u_stiffness', self.stiffness);
     world.setBinding(compute, 'u_damping', self.damping);
     world.setBinding(compute, 'u_maxSpeed', self.maxSpeed);
     world.setBinding(compute, 'u_minMovement', self.minMovement);
     world.setBinding(compute, 'u_coulombDisScale', self.coulombDisScale);
-    world.setBinding(compute, 'u_repulsion', self.repulsion);
+    // world.setBinding(compute, 'u_repulsion', self.repulsion);
     world.setBinding(compute, 'u_factor', self.factor);
+    world.setBinding(compute, 'u_NodeAttributeArray', nodeAttributeArray);
     world.setBinding(compute, 'MAX_EDGE_PER_VERTEX', maxEdgePerVetex);
     world.setBinding(compute, 'VERTEX_COUNT', numParticles);
+
+    // 每次迭代更新，首次设置为 interval，在 onIterationCompleted 中更新
+    world.setBinding(compute, 'u_interval', self.interval);
+
   }
 }
