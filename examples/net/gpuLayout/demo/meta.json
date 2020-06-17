@@ -37,6 +37,14 @@
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*W9MoQoKaQbYAAAAAAAAAAABkARQnAQ"
     },
     {
+      "filename": "graphinForceCPU.js",
+      "title": {
+        "zh": "CPU Graphin Force",
+        "en": "CPU Graphin Force"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*W9MoQoKaQbYAAAAAAAAAAABkARQnAQ"
+    },
+    {
       "filename": "basicGraphinForce.js",
       "title": {
         "zh": "基础 Graphin Force",

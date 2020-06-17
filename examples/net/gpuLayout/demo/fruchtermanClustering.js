@@ -445,7 +445,7 @@ const strokes = [
 const nodes = data.nodes;
 const clusterMap = new Map();
 let clusterId = 0;
-nodes.forEach(function(node) {
+nodes.forEach(function (node) {
   // cluster
   if (node.cluster && clusterMap.get(node.cluster) === undefined) {
     clusterMap.set(node.cluster, clusterId);
@@ -468,12 +468,6 @@ const graph = new G6.Graph({
   modes: {
     default: ['drag-canvas', 'drag-node'],
   },
-  layout: {
-    type: 'fruchterman',
-    gravity: 10,
-    speed: 5,
-    clustering: true,
-  },
   animate: true,
   defaultNode: {
     size: 20,
@@ -494,3 +488,16 @@ const graph = new G6.Graph({
 });
 graph.data(data);
 graph.render();
+
+
+const layout = new G6.Layout['fruchtermanGPU']({
+  canvasEl: graph.get('canvas').get('el'),
+  width,
+  height,
+  clustering: true,
+  onLayoutEnd: () => {
+    graph.refreshPositions();
+  }
+});
+layout.init(data);
+layout.execute();

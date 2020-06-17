@@ -7,57 +7,10 @@ import { EdgeConfig, IPointTuple, NodeConfig, NodeIdxMap } from '../../types';
 import { BaseLayout } from '../layout';
 import { isNumber } from '@antv/util';
 import { World } from '@antv/g-webgpu';
-
-const lineIndexBufferData = [];
-let maxEdgePerVetex;
-const buildTextureData = (nodes, edges) => {
-  const dataArray = [];
-  const nodeDict = [];
-  const mapIdPos = {};
-  let i = 0;
-  for (i = 0; i < nodes.length; i++) {
-    const n = nodes[i];
-    mapIdPos[n.id] = i;
-    dataArray.push(n.x);
-    dataArray.push(n.y);
-    dataArray.push(0);
-    dataArray.push(0);
-    nodeDict.push([]);
-  }
-  for (i = 0; i < edges.length; i++) {
-    const e = edges[i];
-    nodeDict[mapIdPos[e.source]].push(mapIdPos[e.target]);
-    nodeDict[mapIdPos[e.target]].push(mapIdPos[e.source]);
-    lineIndexBufferData.push(mapIdPos[e.source], mapIdPos[e.target]);
-  }
-
-  maxEdgePerVetex = 0;
-  for (i = 0; i < nodes.length; i++) {
-    const offset = dataArray.length;
-    const dests = nodeDict[i];
-    const len = dests.length;
-    dataArray[i * 4 + 2] = offset;
-    dataArray[i * 4 + 3] = dests.length;
-    maxEdgePerVetex = Math.max(maxEdgePerVetex, dests.length);
-    for (let j = 0; j < len; ++j) {
-      const dest = dests[j];
-      dataArray.push(+dest);
-    }
-  }
-
-  while (dataArray.length % 4 !== 0) {
-    dataArray.push(0);
-  }
-  return new Float32Array(dataArray);
-}
-
-const convertWebGLCoord2Canvas = (c: number, size: number) => {
-  return ((c + 1) / 2) * size;
-}
-
+import { buildTextureData, attributesToTextureData } from '../../util/layout'
 
 const gCode = `
-import { globalInvocationID } from 'g-webgpu';
+import { globalInvocationID, debug } from 'g-webgpu';
 
 const SPEED_DIVISOR = 800;
 const MAX_EDGE_PER_VERTEX;
@@ -89,6 +42,12 @@ class Fruchterman {
   @in
   u_MaxDisplace: float;
 
+  @in
+  u_Clustering: float;
+
+  @in
+  u_AttributeArray: vec4[];
+
   calcRepulsive(i: int, currentNode: vec4): vec2 {
     let dx = 0, dy = 0;
     for (let j = 0; j < VERTEX_COUNT; j++) {
@@ -97,9 +56,23 @@ class Fruchterman {
         const xDist = currentNode[0] - nextNode[0];
         const yDist = currentNode[1] - nextNode[1];
         const dist = (xDist * xDist + yDist * yDist) + 0.01;
+
+        let param = this.u_K2 / dist;
+        if (this.u_Clustering == 1) {
+          const attributesi = this.u_AttributeArray[i];
+          const attributesj = this.u_AttributeArray[j];
+          const clusteri = attributesi[0];
+          const clusterj = attributesj[0]
+          if (clusteri != clusterj) {
+            param = param * 2;
+          } else {
+            param *= -1
+          }
+        }
+        
         if (dist > 0.0) {
-          dx += this.u_K2 * xDist / dist ;
-          dy += this.u_K2 * yDist / dist ;
+          dx += param * xDist ;
+          dy += param * yDist ;
         }
       }
     }
@@ -113,7 +86,7 @@ class Fruchterman {
     return [gf * vx, gf * vy];
   }
 
-  calcAttractive(currentNode: vec4): vec2 {
+  calcAttractive(i: int, currentNode: vec4): vec2 {
     let dx = 0, dy = 0;
     const arr_offset = int(floor(currentNode[2] + 0.5));
     const length = int(floor(currentNode[3] + 0.5));
@@ -134,10 +107,19 @@ class Fruchterman {
       const xDist = currentNode[0] - nextNode[0];
       const yDist = currentNode[1] - nextNode[1];
       const dist = sqrt(xDist * xDist + yDist * yDist) + 0.01;
-      const attractiveF = dist / this.u_K;
+      let attractiveF = dist / this.u_K;
+      if (this.u_Clustering == 1) {
+        const attributesi = this.u_AttributeArray[i];
+        const attributesj = this.u_AttributeArray[int(float_j)];
+        const clusteri = attributesi[0];
+        const clusterj = attributesj[0]
+        if (clusteri == clusterj) {
+          attractiveF = attractiveF * 3;
+        }
+      }
       if (dist > 0.0) {
-        dx -= xDist  * attractiveF;
-        dy -= yDist  * attractiveF;
+        dx -= xDist * attractiveF;
+        dy -= yDist * attractiveF;
       }
     }
     return [dx, dy];
@@ -161,7 +143,7 @@ class Fruchterman {
     dy += repulsive[1];
 
     // attractive
-    const attractive = this.calcAttractive(currentNode);
+    const attractive = this.calcAttractive(i, currentNode);
     dx += attractive[0];
     dy += attractive[1];
 
@@ -218,6 +200,8 @@ export default class FruchtermanGPULayout extends BaseLayout {
   public speed: number = 0.1;
   /** 是否产生聚类力 */
   public clustering: boolean = false;
+  /** 根据哪个字段聚类 */
+  public clusterField: string = 'cluster';
   /** 聚类力大小 */
   public clusterGravity: number = 10;
 
@@ -292,44 +276,46 @@ export default class FruchtermanGPULayout extends BaseLayout {
     const gravity = self.gravity;
     const speed = self.speed;
     const clustering = self.clustering;
-    const clusterMap: {
-      [key: string]: {
-        name: string | number;
-        cx: number;
-        cy: number;
-        count: number;
-      };
-    } = {};
-    if (clustering) {
-      nodes.forEach(n => {
-        if (clusterMap[n.cluster] === undefined) {
-          const cluster = {
-            name: n.cluster,
-            cx: 0,
-            cy: 0,
-            count: 0,
-          };
-          clusterMap[n.cluster] = cluster;
-        }
-        const c = clusterMap[n.cluster];
-        if (isNumber(n.x)) {
-          c.cx += n.x;
-        }
-        if (isNumber(n.y)) {
-          c.cy += n.y;
-        }
-        c.count++;
-      });
-      for (const key in clusterMap) {
-        clusterMap[key].cx /= clusterMap[key].count;
-        clusterMap[key].cy /= clusterMap[key].count;
-      }
-    }
+    let curMaxDisplace = maxDisplace;
 
+    const attributeArray = attributesToTextureData([self.clusterField], nodes);
 
+    // const clusterMap: {
+    //   [key: string]: {
+    //     name: string | number;
+    //     cx: number;
+    //     cy: number;
+    //     count: number;
+    //   };
+    // } = {};
+    // if (clustering) {
+    //   nodes.forEach(n => {
+    //     if (clusterMap[n.cluster] === undefined) {
+    //       const cluster = {
+    //         name: n.cluster,
+    //         cx: 0,
+    //         cy: 0,
+    //         count: 0,
+    //       };
+    //       clusterMap[n.cluster] = cluster;
+    //     }
+    //     const c = clusterMap[n.cluster];
+    //     if (isNumber(n.x)) {
+    //       c.cx += n.x;
+    //     }
+    //     if (isNumber(n.y)) {
+    //       c.cy += n.y;
+    //     }
+    //     c.count++;
+    //   });
+    //   for (const key in clusterMap) {
+    //     clusterMap[key].cx /= clusterMap[key].count;
+    //     clusterMap[key].cy /= clusterMap[key].count;
+    //   }
+    // }
 
     const numParticles = nodes.length;
-    const nodesEdgesArray = buildTextureData(nodes, edges);
+    const { maxEdgePerVetex, array: nodesEdgesArray } = buildTextureData(nodes, edges);
 
     const canvas = self.canvasEl;
 
@@ -355,6 +341,14 @@ export default class FruchtermanGPULayout extends BaseLayout {
         // 计算完成后销毁相关 GPU 资源
         world.destroy();
       },
+      onIterationCompleted: (iter) => {
+        curMaxDisplace *= 0.99;
+        world.setBinding(
+          compute,
+          'u_MaxDisplace',
+          curMaxDisplace,
+        );
+      }
     });
 
     world.setBinding(compute, 'u_Data', nodesEdgesArray);
@@ -385,6 +379,8 @@ export default class FruchtermanGPULayout extends BaseLayout {
       'u_MaxDisplace',
       maxDisplace,
     );
+    world.setBinding(compute, 'u_Clustering', clustering ? 1 : 0);
+    world.setBinding(compute, 'u_AttributeArray', attributeArray);
     world.setBinding(compute, 'u_CenterX', center[0]);
     world.setBinding(compute, 'u_CenterY', center[1]);
     world.setBinding(compute, 'MAX_EDGE_PER_VERTEX', maxEdgePerVetex);
