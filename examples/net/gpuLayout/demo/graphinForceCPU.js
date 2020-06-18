@@ -34,7 +34,7 @@ const graph = new G6.Graph({
   },
   layout: {
     type: 'graphinForce',
-    gravity: 500,
+    // gravity: 500,
     //preventOverlap: true,
     maxIteration: 500,
     gatherDiscrete: true,
