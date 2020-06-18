@@ -485,19 +485,12 @@ const graph = new G6.Graph({
       },
     },
   },
+  layout: {
+    type: 'fruchterman',
+    gpuEnabled: true,
+    clustering: true,
+    maxIteration: 300
+  }
 });
 graph.data(data);
 graph.render();
-
-
-const layout = new G6.Layout['fruchtermanGPU']({
-  canvasEl: graph.get('canvas').get('el'),
-  width,
-  height,
-  clustering: true,
-  onLayoutEnd: () => {
-    graph.refreshPositions();
-  }
-});
-layout.init(data);
-layout.execute();

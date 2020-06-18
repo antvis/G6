@@ -445,19 +445,12 @@ const graph = new G6.Graph({
       },
     },
   },
+  layout: {
+    type: 'fruchterman',
+    gpuEnabled: true,
+    maxIteration: 300
+  }
 });
 
 graph.data(data);
 graph.render();
-
-const gpuLayout = new G6.Layout['fruchtermanGPU']({
-  canvasEl: graph.get('canvas').get('el'),
-  width,
-  height,
-  maxIteration: 300,
-  onLayoutEnd: () => {
-    graph.refreshPositions();
-  }
-})
-gpuLayout.init(data);
-gpuLayout.execute();

@@ -1,7 +1,8 @@
 import Layout from '../../layout';
 import LayoutWorker from '../../layout/worker/layout.worker';
 import { LAYOUT_MESSAGE } from '../../layout/worker/layoutConst';
-import { isNaN } from '../../util/base';
+import { isNaN, gpuDetector } from '../../util/base';
+
 import { IGraph } from '../../interface/graph';
 
 // eslint-disable-next-line @typescript-eslint/no-implied-eval
@@ -20,6 +21,7 @@ const helper = {
   },
 };
 
+const GPULayoutNames = ['fruchterman', 'graphinForce'];
 export default class LayoutController {
   public graph: IGraph;
 
@@ -129,13 +131,44 @@ export default class LayoutController {
     graph.emit('beforelayout');
     const allHavePos = this.initPositions(layoutCfg.center, nodes);
 
+    let layoutType = this.layoutType;
+    let isGPU = false;
+
+    // 防止用户直接用 -gpu 结尾指定布局
+    if (layoutType && layoutType.split('-')[1] === 'gpu') {
+      layoutType = layoutType.split('-')[0];
+      layoutCfg.gpuEnabled = true;
+    }
+
+    // 若用户指定开启 gpu，且当前浏览器支持 webgl，且该算法存在 GPU 版本（目前仅支持 fruchterman 和 graphinForce），使用 gpu 版本的布局
+    if (layoutType && layoutCfg.gpuEnabled) {
+      let enableGPU = true;
+      if (!gpuDetector.webgl) {
+        console.warn(`Your browser does not support webGL or GPGPU. The layout will run in CPU.`);
+        enableGPU = false;
+      }
+      if (!this.hasGPUVersion(layoutType)) {
+        console.warn(`The '${layoutType}' layout does not support GPU calculation for now, it will run in CPU.`);
+        enableGPU = false;
+      }
+      if (enableGPU) {
+        layoutType = `${layoutType}-gpu`;
+        layoutCfg.canvasEl = this.graph.get('canvas').get('el');
+        isGPU = true;
+      }
+    }
+
+    console.log('layout', isGPU, layoutType);
+
     this.stopWorker();
     if (layoutCfg.workerEnabled && this.layoutWithWorker(this.data, success)) {
       // 如果启用布局web worker并且浏览器支持web worker，用web worker布局。否则回退到不用web worker布局。
-      return true;
+      if (!isGPU) return true;
+      // gpu 版本暂时不支持 worker
+      else console.warn('Web worker of G6 does not support layout with GPU.');
     }
 
-    if (this.layoutType === 'force' || this.layoutType === 'g6force') {
+    if (layoutType === 'force' || layoutType === 'g6force') {
       const { onTick } = layoutCfg;
       const tick = () => {
         if (onTick) {
@@ -151,17 +184,26 @@ export default class LayoutController {
         }
         graph.emit('afterlayout');
       };
-    } else if (this.layoutType === 'comboForce') {
+    } else if (layoutType === 'comboForce') {
       layoutCfg.comboTrees = graph.get('comboTrees');
+    } else if (isGPU) {
+      const { onLayoutEnd } = layoutCfg;
+      layoutCfg.onLayoutEnd = () => {
+        this.refreshLayout();
+        if (onLayoutEnd) {
+          onLayoutEnd();
+        }
+        graph.emit('afterlayout');
+      };
     }
 
     let enableTick = false;
-    if (this.layoutType !== undefined) {
+    if (layoutType !== undefined) {
       try {
-        layoutMethod = new Layout[this.layoutType](layoutCfg);
+        layoutMethod = new Layout[layoutType](layoutCfg);
       } catch (e) {
         console.warn(
-          `The layout method: ${this.layoutType} does not exist! Please specify it first.`,
+          `The layout method: '${layoutType}' does not exist! Please specify it first.`,
         );
         return false;
       }
@@ -305,6 +347,7 @@ export default class LayoutController {
   // 绘制
   public refreshLayout() {
     const { graph } = this;
+    console.log('refresh layout')
     if (graph.get('animate')) {
       graph.positionsAnimate();
     } else {
@@ -345,7 +388,10 @@ export default class LayoutController {
   public changeLayout(layoutType: string) {
     const { graph, layoutMethod } = this;
 
+    console.log('changelayout')
+
     this.layoutType = layoutType;
+
     this.layoutCfg = graph.get('layout') || {};
     this.layoutCfg.type = layoutType;
 
@@ -489,6 +535,14 @@ export default class LayoutController {
       }
     });
     return allHavePos;
+  }
+
+  public hasGPUVersion(layoutName: string): boolean {
+    const length = GPULayoutNames.length;
+    for (let i = 0; i < length; i++) {
+      if (GPULayoutNames[i] === layoutName) return true;
+    }
+    return false;
   }
 
   public destroy() {
