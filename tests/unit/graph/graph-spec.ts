@@ -1675,94 +1675,12 @@ describe('redo & undo', () => {
     expect(firstStackData.data.type).toEqual('node')
   })
 
-  it('undo', () => {
-    // 第一次 undo 后，撤销 remove node2 操作
-    graph.undo()
-
-    let stackData = graph.getStackData()
-    let undoStack = stackData.undoStack
-    let redoStack = stackData.redoStack
-    expect(undoStack.length).toBe(5)
-    expect(redoStack.length).toBe(1)
-
-    let firstStackData = redoStack[0]
-    expect(firstStackData.action).toEqual('delete')
-    expect(firstStackData.data.id).toEqual('node2')
-    expect(firstStackData.data.type).toEqual('node')
-
-    // 此时 undo stack 中第一个元素应该是 visible node1 的数据
-    firstStackData = undoStack[0]
-    expect(firstStackData.action).toEqual('visible')
-    expect(firstStackData.data).toEqual('node1')
-
-    // 第二次 undo 后，撤销 hide node1 的操作
-    graph.undo()
-    stackData = graph.getStackData()
-    undoStack = stackData.undoStack
-    redoStack = stackData.redoStack
-    expect(undoStack.length).toBe(4)
-    expect(redoStack.length).toBe(2)
-
-    firstStackData = redoStack[0]
-    expect(firstStackData.action).toEqual('visible')
-    expect(firstStackData.data).toEqual('node1')
-  })
-
-  it('redo', () => {
-    let stackData = graph.getStackData()
-    let undoStack = stackData.undoStack
-    let redoStack = stackData.redoStack
-    expect(undoStack.length).toBe(4)
-    expect(redoStack.length).toBe(2)
-
-    let firstStackData = redoStack[0]
-    expect(firstStackData.action).toEqual('visible')
-    expect(firstStackData.data).toEqual('node1')
-
-    firstStackData = undoStack[0]
-    expect(firstStackData.action).toEqual('add')
-    expect(firstStackData.data.id).toEqual('node3')
-
-    // redo 后，undo stack 中数据增加一条，redostack 中减少一条
-    graph.redo()
-    stackData = graph.getStackData()
-    undoStack = stackData.undoStack
-    redoStack = stackData.redoStack
-    expect(undoStack.length).toBe(5)
-    expect(redoStack.length).toBe(1)
-
-    firstStackData = redoStack[0]
-    expect(firstStackData.action).toEqual('delete')
-    expect(firstStackData.data.id).toEqual('node2')
-
-    firstStackData = undoStack[0]
-    expect(firstStackData.action).toEqual('visible')
-    expect(firstStackData.data).toEqual('node1')
-
-    graph.redo()
-    stackData = graph.getStackData()
-    undoStack = stackData.undoStack
-    redoStack = stackData.redoStack
-    expect(undoStack.length).toBe(6)
-    expect(redoStack.length).toBe(0)
-    
-    firstStackData = undoStack[0]
-    expect(firstStackData.action).toEqual('delete')
-    expect(firstStackData.data.id).toEqual('node2')
-  })
-
   it('clear stack', () => {
-    graph.undo()
+    graph.clearStack()
     let stackData = graph.getStackData()
     let undoStack = stackData.undoStack
     let redoStack = stackData.redoStack
-    expect(undoStack.length).toBe(5)
-    expect(redoStack.length).toBe(1)
-
-    graph.clearStack()
-    stackData = graph.getStackData()
-    undoStack = stackData.undoStack
-    redoStack = stackData.redoStack
+  
     expect(undoStack.length).toBe(0)
     expect(redoStack.length).toBe(0)
   })
