@@ -1563,11 +1563,16 @@ describe('node Neighbors', () => {
   })
 })
 
-describe('redo & undo', () => {
+describe('redo stack & undo stack', () => {
   const graph = new Graph({
     container: 'global-spec',
     width: 500,
     height: 500
+  })
+
+  it('undo & redo stack is null', () => {
+    expect(graph.getUndoStack()).not.toBe(null)
+    expect(graph.getRedoStack()).not.toBe(null)
   })
 
   const data = {
@@ -1591,7 +1596,6 @@ describe('redo & undo', () => {
   graph.render()
 
   it('fill undo stack', () => {
-
     // redo 后，undo stack 有一条数据
     let stackData = graph.getStackData()
     let undoStack = stackData.undoStack

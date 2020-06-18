@@ -318,10 +318,11 @@ export interface IGraph extends EventEmitter {
 
   /**
    * 更改源数据，根据新数据重新渲染视图
-   * @param {GraphData} data 源数据
+   * @param {GraphData | TreeGraphData} data 源数据
+   * @param {boolean} 是否入栈，默认为true
    * @return {object} this
    */
-  changeData(data?: GraphData | TreeGraphData): Graph;
+  changeData(data?: GraphData | TreeGraphData, stack?: boolean): Graph;
 
   /**
    * 导出图数据
@@ -478,6 +479,16 @@ export interface IGraph extends EventEmitter {
    * 根据节点的 bbox 更新所有 combos 的绘制，包括 combos 的位置和范围
    */
   updateCombos(): void;
+
+  /**
+   * 获取 undo stack
+   */
+  getUndoStack(): Stack;
+
+  /**
+   * 获取 redo stack
+   */
+  getRedoStack(): Stack;
 
   /**
    * 获取 undo 和 redo 栈的数据
