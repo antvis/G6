@@ -34,8 +34,8 @@ const layouts = {
   radial: Radial,
   random: Random,
   graphinForce: GraphinForce,
-  fruchtermanGPU: FruchtermanGPU,
-  graphinForceGPU: GraphinForceGPU
+  'fruchterman-gpu': FruchtermanGPU,
+  'graphinForce-gpu': GraphinForceGPU
 };
 
 // 注册布局

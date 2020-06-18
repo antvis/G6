@@ -105,7 +105,6 @@ export const buildTextureDataWithOneEdgeAttr = (nodes, edges, attrs: Function): 
         nodeDict[mapIdPos[e.target]].push(mapIdPos[e.source]);
         nodeDict[mapIdPos[e.target]].push(attrs(e)); // 理想边长，后续可以改成每条边不同
     }
-    console.log(nodeDict);
 
     let maxEdgePerVetex = 0;
     for (i = 0; i < nodes.length; i++) {
@@ -125,7 +124,6 @@ export const buildTextureDataWithOneEdgeAttr = (nodes, edges, attrs: Function): 
     while (dataArray.length % 4 !== 0) {
         dataArray.push(0);
     }
-    console.log(nodes.length, dataArray);
     return {
         array: new Float32Array(dataArray),
         maxEdgePerVetex
