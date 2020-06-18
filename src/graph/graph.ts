@@ -2874,7 +2874,7 @@ export default class Graph extends EventEmitter implements IGraph {
    */
   public destroy() {
     this.clear();
-    // destroy tooltip doms
+    // destroy tooltip doms, removed when upgrade G6 4.0
     const tooltipContainers = document.getElementsByClassName('g6-tooltip');
     if (tooltipContainers) {
       for (let i = 0; i < tooltipContainers.length; i++) {
@@ -2886,6 +2886,9 @@ export default class Graph extends EventEmitter implements IGraph {
       }
     }
 
+    // 清空栈数据
+    this.clearStack();
+    
     each(this.get('plugins'), plugin => {
       plugin.destroyPlugin();
     });
