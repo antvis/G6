@@ -134,7 +134,7 @@ class GraphinForce {
       const edgeLength = node_buffer[1];
       const edgeStrength = node_buffer[2];
       const diff: float = edgeLength - dist;//edgeLength
-      const param = diff * this.u_stiffness / mass; //
+      // const param = diff * this.u_stiffness / mass; //
       const param = diff * edgeStrength / mass; // 
       ax -= direx * param;
       ay -= direy * param;
@@ -168,9 +168,9 @@ class GraphinForce {
     ay += attractive[1];
 
     // gravity
-    // const gravity = this.calcGravity(i, currentNode);
-    // ax -= gravity[0];
-    // ay -= gravity[1];
+    const gravity = this.calcGravity(i, currentNode);
+    ax -= gravity[0];
+    ay -= gravity[1];
 
     // speed
     //const interval = 0.02; // max(0.02, 0.22 - 0.002 * this.u_iter);
@@ -344,6 +344,7 @@ export default class GraphinForceGPULayout extends BaseLayout {
     })
 
     const nodeAttributeArray = arrayToTextureData([masses, self.degrees, nodeStrengths]);
+    // console.log('nodeAttributeArray', nodeAttributeArray);
 
 
     const world = new World(canvas, {
@@ -365,7 +366,6 @@ export default class GraphinForceGPULayout extends BaseLayout {
         );
       },
       onCompleted: (finalParticleData) => {
-        console.log(finalParticleData)
         self.nodes.forEach((node, i) => {
           const x = finalParticleData[4 * i];
           const y = finalParticleData[4 * i + 1];

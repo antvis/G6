@@ -2557,8 +2557,9 @@ export default class Graph extends EventEmitter implements IGraph {
     const oriLayoutCfg = this.get('layout');
     const oriLayoutType = oriLayoutCfg ? oriLayoutCfg.type : undefined;
 
-    if (!newLayoutType || oriLayoutType === newLayoutType) {
-      // no type or same type, update layout
+    if ((!newLayoutType || oriLayoutType === newLayoutType)
+      && (cfg.gpuEnabled === undefined || cfg.gpuEnabled === oriLayoutCfg.gpuEnabled)) {
+      // no type or same type, or switch the gpu and cpu, update layout
       const layoutCfg: any = {};
       Object.assign(layoutCfg, oriLayoutCfg, cfg);
       layoutCfg.type = oriLayoutType || 'random';
@@ -2567,6 +2568,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
       layoutController.updateLayoutCfg(layoutCfg);
     } else {
+      if (!newLayoutType) newLayoutType = oriLayoutType;
       // has different type, change layout
       this.set('layout', cfg);
       layoutController.changeLayout(newLayoutType);

@@ -28,6 +28,11 @@ const graph = new G6.Graph({
       },
     },
   },
+  layout: {
+    type: 'graphinForce',
+    gpuEnabled: true,
+    maxIteration: 1000
+  }
 });
 
 
@@ -36,16 +41,4 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
   .then(data => {
     graph.data(data);
     graph.render();
-
-    const gpuLayout = new G6.Layout['graphinForceGPU']({
-      canvasEl: graph.get('canvas').get('el'),
-      width,
-      height,
-      maxIteration: 1000,
-      onLayoutEnd: () => {
-        graph.refreshPositions();
-      }
-    })
-    gpuLayout.init(data);
-    gpuLayout.execute();
   });
